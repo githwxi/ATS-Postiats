@@ -31,8 +31,8 @@ fun atsctrb_define (fname: string): atext = (
 
 #atscode_separator_for_C()
 
-\#ifndef ATSHOME_CONTRIB_CAIRO_CAIRO_CATS
-\#define ATSHOME_CONTRIB_CAIRO_CAIRO_CATS
+\#ifndef CAIRO_CAIRO_CATS
+\#define CAIRO_CAIRO_CATS
 
 #atscode_separator_for_C()
 
@@ -70,7 +70,7 @@ fun atsctrb_define (fname: string): atext = (
 
 #atscode_separator_for_C()
 
-\#endif // ifndef ATSHOME_CONTRIB_CAIRO_CAIRO_CATS
+\#endif // ifndef CAIRO_CAIRO_CATS
 
 #atscode_separator_for_C()
 

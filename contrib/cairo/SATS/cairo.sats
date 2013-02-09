@@ -48,7 +48,7 @@
 
 (* ****** ****** *)
 
-staload "./cairo_header.sats"
+#include "./cairo_header.sats"
 
 (* ****** ****** *)
 

@@ -39,6 +39,11 @@
 *)
 
 (* ****** ****** *)
+
+#ifndef CAIRO_CAIRO_HEADER_HATS
+#define CAIRO_CAIRO_HEADER_HATS
+
+(* ****** ****** *)
 //
 // HX: for convenience
 //
@@ -412,6 +417,10 @@ praxi
 cairo_device_acquire_v_free_none
   {l:addr}{i:int | i > 0} (pf: cairo_device_acquire_v (l, i)): void
 // end of [cairo_device_acquire_v_free_none]
+
+(* ****** ****** *)
+
+#endif // end of [CAIRO_CAIRO_HEADER_HATS]
 
 (* ****** ****** *)
 

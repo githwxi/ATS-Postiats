@@ -5,7 +5,7 @@
 (***********************************************************************)
 
 (*
-** Copyright (C) 2012 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2013 Hongwei Xi, ATS Trustful Software, Inc.
 **
 ** Permission is hereby granted, free of charge, to any person obtaining a
 ** copy of this software and associated documentation files (the "Software"),
@@ -21,40 +21,49 @@
 ** OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 ** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
 ** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM
-** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-** THE SOFTWARE.
-** 
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+** FROM OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
 *)
 
 (* ****** ****** *)
-
-(*
-** Functions for stringizing data
-*)
-
-(* ****** ****** *)
-
-staload "atshwxi/testing/SATS/tostring.sats"
-
-(* ****** ****** *)
-
-implement{a}
-tostring_with_fprint_val (x) = let
-  val str = tostrptr_with_fprint_val<a> (x)
-in
 //
-if strptr2ptr (str) > 0 then
-  stropt_some (string_of_strptr (str))
-else let
-  val () = strptr_free_null (str) in stropt_none ()
-end // end of [if]
+// HX-2013-02: an abstract drawing package
 //
-end // end of [tostring_with_fprint_val]
+(* ****** ****** *)
 
-implement{a}
-tostring_with_fprint_ref (x) = tostring_with_fprint_val<a> (x)
+staload "atshwxi/mydraw/SATS/mydraw.sats"
 
 (* ****** ****** *)
 
-(* end of [tostring.dats] *)
+implement
+dotprod (v1, v2) = v1.x * v2.x + v1.y * v2.y
+
+(* ****** ****** *)
+
+implement
+add_point_vector
+  (p1, v2) = point_make (p1.x + v2.x, p1.y + v2.y)
+implement
+sub_point_vector
+  (p1, v2) = point_make (p1.x - v2.x, p1.y - v2.y)
+
+(* ****** ****** *)
+
+implement
+add_vector_vector
+  (v1, v2) = vector_make (v1.x + v2.x, v1.y + v2.y)
+implement
+sub_vector_vector
+  (v1, v2) = vector_make (v1.x - v2.x, v1.y - v2.y)
+
+(* ****** ****** *)
+
+implement
+mul_scalar_vector (k, v) = vector_make (k * v.x, k * v.y)
+implement
+div_scalar_vector (k, v) = vector_make (v.x / k, v.y / k)
+
+(* ****** ****** *)
+
+(* end of [mydraw_basics.dats] *)
