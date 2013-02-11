@@ -831,17 +831,34 @@ s2hnf_tyleq_solve_rVar_err
 //
 val s2e1 = s2hnf2exp (s2f1)
 //
+// (*
+val () = (
+  println! ("s2hnf_tyleq_solve_rVar_err: s2e1 = ", s2e1);
+  println! ("s2hnf_equal_solve_rVar_err: s2V2 = ", s2V2);
+) // end of [val]
+// *)
+//
 val () = s2Var_s2exp_srtck_err (loc0, s2V2, s2e1, err)
 //
-val s2ze1 = s2zexp_make_s2exp (s2e1)
-val () = s2Var_merge_szexp_err (loc0, s2V2, s2ze1, err)
+val () = let
+  val s2ze1 = s2zexp_make_s2exp (s2e1)
+in
+  s2Var_merge_szexp_err (loc0, s2V2, s2ze1, err)
+end // end of [val]
 //
-val ubs = s2Var_get_ubs (s2V2)
-val () = s2hnf_tyleq_solve_ubs_err (loc0, s2f1, ubs, err)
+val () = let
+  val ubs = s2Var_get_ubs (s2V2)
+in
+  s2hnf_tyleq_solve_ubs_err (loc0, s2f1, ubs, err)
+end // end of [val]
 //
-val lb = s2VarBound_make (loc0, s2e1)
-val lbs = s2Var_get_lbs (s2V2)
-val () = s2Var_set_lbs (s2V2, list_cons (lb, lbs))
+val () = let
+  val lb =
+    s2VarBound_make (loc0, s2e1)
+  val lbs = s2Var_get_lbs (s2V2)
+in
+  s2Var_set_lbs (s2V2, list_cons (lb, lbs))
+end // end of [val]
 //
 in
   // nothing
@@ -874,13 +891,13 @@ val s2e10 = s2hnf2exp (s2f10)
 and s2e20 = s2hnf2exp (s2f20)
 val s2en10 = s2e10.s2exp_node and s2en20 = s2e20.s2exp_node
 //
-(*
+// (*
 val () = (
   println! ("s2hnf_tyleq_solve_err: err0 = ", err0);
   print ("s2hnf_tyleq_solve_err: s2e10 = "); pprint_s2exp (s2e10); print_newline ();
   print ("s2hnf_tyleq_solve_err: s2e20 = "); pprint_s2exp (s2e20); print_newline ();
 ) // end of [val]
-*)
+// *)
 //
 val () = case+
   (s2en10, s2en20) of

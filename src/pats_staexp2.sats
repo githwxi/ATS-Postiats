@@ -1227,7 +1227,9 @@ and
 labs2zexplst = List (labs2zexp)
 
 fun print_s2zexp (s2ze: s2zexp): void
+overload print with print_s2zexp
 fun prerr_s2zexp (s2ze: s2zexp): void
+overload prerr with prerr_s2zexp
 fun fprint_s2zexp : fprint_type (s2zexp)
 
 fun s2Var_get_szexp (s2V: s2Var): s2zexp

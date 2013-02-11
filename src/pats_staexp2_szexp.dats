@@ -114,6 +114,7 @@ case+ x of
 | S2ZEtyarr (_elt, _dim) => {
     val () = prstr "S2ZEtyarr("
     val () = fprint_s2zexp (out, _elt)
+    val () = prstr "; "
     val () = fprint_s2explst (out, _dim)
     val () = prstr ")"
   } // end of [S2ZEtyarr]
@@ -437,6 +438,11 @@ fn abort (): s2zexp = $raise S2ZEXPMERGEexn()
 //
 val s2ze1 = s2zexp_linkrem (x1)
 val s2ze2 = s2zexp_linkrem (x2)
+//
+// (*
+val () = println! ("s2zexp_merge_exn: s2ze1 = ", s2ze1)
+val () = println! ("s2zexp_merge_exn: s2ze2 = ", s2ze2)
+// *)
 //
 in
 //
