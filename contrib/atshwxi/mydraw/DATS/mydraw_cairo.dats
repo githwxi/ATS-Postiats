@@ -44,22 +44,35 @@ macdef PI = 3.1415926535898
 
 (* ****** ****** *)
 
-implement{}
-mydraw_move_to (p) = let
+implement{
+} mydraw_get1_cairo () = let
   val (
     fpf | cr
-  ) = mydraw_get_cairo<> ()
+  ) = mydraw_get0_cairo<> ()
+  val cr2 = cairo_reference (cr)
+  prval () = fpf (cr)
+in
+  cr2
+end // end of [mydraw_get1_cairo]
+
+(* ****** ****** *)
+
+implement{
+} mydraw_move_to (p) = let
+  val (
+    fpf | cr
+  ) = mydraw_get0_cairo<> ()
   val () = cairo_move_to (cr, p.x, p.y)
   prval () = fpf (cr)
 in
   // nothing
 end // end of [mydraw_move_to]
 
-implement{}
-mydraw_line_to (p) = let
+implement{
+} mydraw_line_to (p) = let
   val (
     fpf | cr
-  ) = mydraw_get_cairo<> ()
+  ) = mydraw_get0_cairo<> ()
   val () = cairo_line_to (cr, p.x, p.y)
   prval () = fpf (cr)
 in
@@ -68,11 +81,67 @@ end // end of [mydraw_line_to]
 
 (* ****** ****** *)
 
-implement{}
-mydraw_circle (pc, rad) = let
- val (
+implement{
+} mydraw_triangle
+  (p1, p2, p3) = let
+  val (
     fpf | cr
-  ) = mydraw_get_cairo<> ()
+  ) = mydraw_get0_cairo<> ()
+  val () = cairo_move_to (cr, p1.x, p1.y)
+  val () = cairo_line_to (cr, p2.x, p2.y)
+  val () = cairo_line_to (cr, p3.x, p3.y)
+  val () = cairo_close_path (cr)
+  prval () = fpf (cr)
+in
+  // nothing
+end // end of [mydraw_triangle]
+
+(* ****** ****** *)
+
+implement{
+} mydraw_rectangle
+  (pul, w, h) = let
+  val (
+    fpf | cr
+  ) = mydraw_get0_cairo<> ()
+  val () = cairo_rectangle (cr, pul.x, pul.y, w, h)
+  prval () = fpf (cr)
+in
+  // nothing
+end // end of [mydraw_rectangle]
+
+(* ****** ****** *)
+
+implement{
+} mydraw_arc
+  (pc, rad, ang1, ang2) = let
+  val (
+    fpf | cr
+  ) = mydraw_get0_cairo<> ()
+  val () = cairo_arc (cr, pc.x, pc.y, rad, ang1, ang2)
+  prval () = fpf (cr)
+in
+  // nothing
+end // end of [mydraw_arc]
+
+implement{
+} mydraw_arc_neg
+  (pc, rad, ang1, ang2) = let
+  val (
+    fpf | cr
+  ) = mydraw_get0_cairo<> ()
+  val () = cairo_arc_negative (cr, pc.x, pc.y, rad, ang1, ang2)
+  prval () = fpf (cr)
+in
+  // nothing
+end // end of [mydraw_arc_neg]
+
+implement{
+} mydraw_circle
+  (pc, rad) = let
+  val (
+    fpf | cr
+  ) = mydraw_get0_cairo<> ()
   val () = cairo_new_sub_path (cr)
   val () = cairo_arc (cr, pc.x, pc.y, rad, 0.0, PI)
   prval () = fpf (cr)

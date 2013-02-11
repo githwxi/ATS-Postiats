@@ -130,7 +130,8 @@ stadef cairo_ref1 = $XR.cairo_ref1
 
 (* ****** ****** *)
 
-fun{} mydraw_get_cairo (): [l:agz] vttakeout (void, cairo_ref (l))
+fun{} mydraw_get0_cairo (): [l:agz] vttakeout (void, cairo_ref (l))
+fun{} mydraw_get1_cairo (): cairo_ref1
 
 (* ****** ****** *)
 
@@ -142,6 +143,11 @@ fun{} mydraw_close_path (): void
 
 fun{} mydraw_move_to (p: point): void
 fun{} mydraw_line_to (p: point): void
+
+(* ****** ****** *)
+
+fun{
+} mydraw_triangle (p1: point, p2: point, p3: point): void
 
 (* ****** ****** *)
 
