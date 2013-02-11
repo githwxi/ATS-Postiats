@@ -97,6 +97,11 @@ case+ x of
     val () = prstr ")"
   }
 //
+| S2ZEtkname (name) => {
+    val () = prstr "S2ZEtkname("
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  }
 | S2ZEextype (name, _arg) => {
     val () = prstr "S2ZEextype("
     val () = fprint_string (out, name)
@@ -158,6 +163,8 @@ s2zexp_is_bot (x) =
 extern
 fun s2zexp_make_s2cst (s2c: s2cst): s2zexp
 implement s2zexp_make_s2cst (s2c) = S2ZEcst s2c
+
+(* ****** ****** *)
 
 local
 
@@ -242,6 +249,7 @@ case+ s2f0.s2exp_node of
 | S2Edatconptr _ => S2ZEptr () // boxed
 | S2Edatcontyp _ => S2ZEptr () // boxed
 *)
+| S2Etkname (name) => S2ZEtkname (name)
 | S2Eextype (name, _arg) =>
     S2ZEextype (name, aux_arglstlst (env, _arg))
 //
@@ -326,12 +334,19 @@ and aux_arglst (
   env: &env, s2es: s2explst
 ) : s2zexplst =
   case+ s2es of
-  | list_cons (s2e, s2es) =>
-      if s2rt_is_prgm (s2e.s2exp_srt) then
+  | list_cons
+      (s2e, s2es) => let
+      val s2t = s2e.s2exp_srt
+      val keep = (
+        if s2rt_is_prgm (s2t) then true else s2rt_is_tkind (s2t)
+      ) : bool // end of [val]
+    in
+      if keep then
         list_cons (aux_s2exp (env, s2e), aux_arglst (env, s2es))
       else
         aux_arglst (env, s2es) // HX: non-types are all discarded
       // end of [if]
+    end // end of [list_cons]
   | list_nil () => list_nil ()
 // end of [aux_arglst]
 
@@ -439,10 +454,10 @@ fn abort (): s2zexp = $raise S2ZEXPMERGEexn()
 val s2ze1 = s2zexp_linkrem (x1)
 val s2ze2 = s2zexp_linkrem (x2)
 //
-// (*
+(*
 val () = println! ("s2zexp_merge_exn: s2ze1 = ", s2ze1)
 val () = println! ("s2zexp_merge_exn: s2ze2 = ", s2ze2)
-// *)
+*)
 //
 in
 //
@@ -465,6 +480,10 @@ case+ (s2ze1, s2ze2) of
 | (_, S2ZEVar s2V2) => let
     val () = s2Var_set_szexp (s2V2, s2ze1) in s2ze1
   end // end of [_, S2ZEVar]
+//
+| (S2ZEtkname (name1),
+   S2ZEtkname (name2)) =>
+    if name1 != name2 then abort () else S2ZEtkname (name1)
 //
 | (S2ZEextype (name1, _arg1),
    S2ZEextype (name2, _arg2)) =>

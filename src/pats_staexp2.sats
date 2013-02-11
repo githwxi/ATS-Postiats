@@ -1206,7 +1206,10 @@ datatype s2zexp =
   | S2ZEcst of s2cst
   | S2ZEvar of s2var
   | S2ZEVar of s2Var
+//
+  | S2ZEtkname of (string (*name*))
   | S2ZEextype of (string (*name*), s2zexplstlst)
+//
   | S2ZEapp of (s2zexp, s2zexplst)
   | S2ZEtyarr of // array size
       (s2zexp (*element*), s2explst (*dimension*))

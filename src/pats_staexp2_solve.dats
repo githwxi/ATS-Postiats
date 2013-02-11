@@ -831,12 +831,12 @@ s2hnf_tyleq_solve_rVar_err
 //
 val s2e1 = s2hnf2exp (s2f1)
 //
-// (*
+(*
 val () = (
   println! ("s2hnf_tyleq_solve_rVar_err: s2e1 = ", s2e1);
   println! ("s2hnf_equal_solve_rVar_err: s2V2 = ", s2V2);
 ) // end of [val]
-// *)
+*)
 //
 val () = s2Var_s2exp_srtck_err (loc0, s2V2, s2e1, err)
 //
@@ -891,13 +891,13 @@ val s2e10 = s2hnf2exp (s2f10)
 and s2e20 = s2hnf2exp (s2f20)
 val s2en10 = s2e10.s2exp_node and s2en20 = s2e20.s2exp_node
 //
-// (*
+(*
 val () = (
   println! ("s2hnf_tyleq_solve_err: err0 = ", err0);
   print ("s2hnf_tyleq_solve_err: s2e10 = "); pprint_s2exp (s2e10); print_newline ();
   print ("s2hnf_tyleq_solve_err: s2e20 = "); pprint_s2exp (s2e20); print_newline ();
 ) // end of [val]
-// *)
+*)
 //
 val () = case+
   (s2en10, s2en20) of

@@ -357,8 +357,8 @@ s2rt_is_tkind
   | S2RTbas s2tb => (
     case+ s2tb of
     | S2RTBASpre (sym) =>
-        sym = $SYM.symbol_TKIND
-    | _ => false
+        $SYM.eq_symbol_symbol (sym, $SYM.symbol_TKIND)
+    | _ => false // end of [_]
     ) // end of [S2ETbas]
   | _ => false
 ) // end of [s2rt_is_tkind]
