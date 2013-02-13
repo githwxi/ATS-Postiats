@@ -35,6 +35,10 @@
 
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSHOME.contrib.atshwxi.testing"
+
+(* ****** ****** *)
+
 fun{a:vt0p}
 tostring_with_fprint_val (x: !a): Stropt0
 fun{a:vt0p}

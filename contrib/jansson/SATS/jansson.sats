@@ -31,6 +31,10 @@
 
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSHOME.contrib.jansson"
+
+(* ****** ****** *)
+
 #define ATS_STALOADFLAG 0 // no need for staloading at run-time
 
 (* ****** ****** *)

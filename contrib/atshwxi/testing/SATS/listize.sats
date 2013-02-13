@@ -35,6 +35,10 @@
 
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSHOME.contrib.atshwxi.testing"
+
+(* ****** ****** *)
+
 sortdef t0p = t@ype and vt0p = viewt@ype
 
 (* ****** ****** *)

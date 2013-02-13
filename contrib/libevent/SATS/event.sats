@@ -25,6 +25,14 @@
 
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSHOME.contrib.libevent"
+
+(* ****** ****** *)
+
+#define ATS_STALOADFLAG 0 // no static loading at run-time
+
+(* ****** ****** *)
+
 typedef SHR(x:type) = x // for commenting purpose
 typedef NSH(x:type) = x // for commenting purpose
 

@@ -35,6 +35,10 @@
 
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSHOME.contrib.atshwxi.testing"
+
+(* ****** ****** *)
+
 fun{}
 foreach_int$fwork (i: int): void
 fun{} foreach_int (n: Nat): void

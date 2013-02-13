@@ -44,6 +44,10 @@
 
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSHOME.contrib.cairo"
+
+(* ****** ****** *)
+
 #define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)

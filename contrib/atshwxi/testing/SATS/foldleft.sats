@@ -35,6 +35,10 @@
 
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSHOME.contrib.atshwxi.testing"
+
+(* ****** ****** *)
+
 fun{res:vt0p}
 foldleft_int$fwork
   (acc: res, i: int): res
