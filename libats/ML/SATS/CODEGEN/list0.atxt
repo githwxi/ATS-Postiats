@@ -133,6 +133,8 @@ fun{a:t0p}
 list0_get_at_exn (xs: list0 (INV(a)), i: int):<!exn> a
 overload [] with list0_get_at_exn
 
+#atscode_separator()
+
 fun{a:t0p}
 list0_insert_at_exn (
   xs: SHR(list0 (INV(a))), i: int, x: a
