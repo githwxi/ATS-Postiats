@@ -46,6 +46,43 @@ staload "./pats_global.sats"
 
 local
 
+val the_PACKNAME = ref<Stropt> (stropt_none)
+
+in (* in of [local] *)
+
+implement the_PACKNAME_get () = !the_PACKNAME
+
+implement
+the_PACKNAME_set (ns) = let
+  val ns = string1_of_string (ns) in !the_PACKNAME := stropt_some (ns)
+end // end of [the_PACKNAME_set]
+
+implement
+the_PACKNAME_set_none () = !the_PACKNAME := stropt_none
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+val the_STALOADFLAG = ref<int> (1)
+val the_DYNLOADFLAG = ref<int> (1)
+
+in (* in of [local] *)
+
+implement the_STALOADFLAG_get () = !the_STALOADFLAG
+implement the_STALOADFLAG_set (flag) = !the_STALOADFLAG := flag
+
+implement the_DYNLOADFLAG_get () = !the_DYNLOADFLAG
+implement the_DYNLOADFLAG_set (flag) = !the_DYNLOADFLAG := flag
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
 typedef dirlst = List (string)
 
 val the_IATS_dirlst = ref<dirlst> (list_nil ())

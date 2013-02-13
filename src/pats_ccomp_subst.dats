@@ -52,7 +52,7 @@ implement prerr_FILENAME<> () = prerr "pats_ccomp_subst"
 (* ****** ****** *)
 
 staload ERR = "./pats_error.sats"
-staload GLO = "./pats_global.sats"
+staload GLOB = "./pats_global.sats"
 
 (* ****** ****** *)
 
@@ -529,7 +529,7 @@ case+
 | PMVtmpltcst
     (d2c, t2mas) => let
     val trd = ccompenv_get_tmprecdepth (env)
-    val mtrd = $GLO.the_CCOMPENV_maxtmprecdepth_get ()
+    val mtrd = $GLOB.the_CCOMPENV_maxtmprecdepth_get ()
   in
     if trd < mtrd then let
       val t2mas = t2mpmarglst_subst (loc0, sub, t2mas)

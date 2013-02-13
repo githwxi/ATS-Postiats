@@ -81,6 +81,7 @@ S2E = "./pats_staexp2.sats"
 typedef d2con = $S2E.d2con
 staload
 D2E = "./pats_dynexp2.sats"
+typedef d2cst = $D2E.d2cst
 
 (* ****** ****** *)
 
@@ -442,6 +443,34 @@ end // end of [emit_d2con]
 
 (* ****** ****** *)
 
+local
+
+fun
+aux_prfx (
+  out: FILEref, d2c: d2cst
+) : void = let
+//
+val pack =
+  $D2E.d2cst_get_pack (d2c)
+// end of [val]
+val issome = stropt_is_some (pack)
+//
+in
+//
+if issome then let
+  val pack = stropt_unsome (pack)
+in
+  emit_ident (out, pack)
+end else let
+  val fil = $D2E.d2cst_get_fil (d2c)
+in
+  emit_filename (out, fil)
+end // end of [if]
+//
+end // end of [aux_prfx]
+
+in (* in of [local] *)
+
 implement
 emit_d2cst
   (out, d2c) = let
@@ -452,10 +481,9 @@ in
 //
 case+ extdef of
 | $SYN.DCSTEXTDEFnone () => let
-    val fil = $D2E.d2cst_get_fil (d2c)
-    val name = $D2E.d2cst_get_name (d2c)
-    val () = emit_filename (out, fil)
+    val () = aux_prfx (out, d2c)
     val () = emit_text (out, "__")
+    val name = $D2E.d2cst_get_name (d2c)
     val () = emit_ident (out, name)
   in
     // nothing
@@ -486,6 +514,8 @@ case+ extdef of
   end // end of [DCSTEXTDEFsome_sta]
 //
 end // end of [emit_d2cst]
+
+end // end of [local]
 
 (* ****** ****** *)
 

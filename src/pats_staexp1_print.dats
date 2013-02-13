@@ -80,6 +80,9 @@ case+ v0 of
 //
 end // end of [fprint_v1al]
 
+implement print_v1al (x) = fprint_v1al (stdout_ref, x)
+implement prerr_v1al (x) = fprint_v1al (stderr_ref, x)
+
 (* ****** ****** *)
 
 implement

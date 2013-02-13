@@ -136,10 +136,12 @@ val symbol_ISCONS : symbol // iscons
 val symbol_ISNIL : symbol  // islist
 
 (* ****** ****** *)
-
+//
+val symbol_ATS_PACKNAME : symbol
+//
 val symbol_ATS_STALOADFLAG : symbol
 val symbol_ATS_DYNLOADFLAG : symbol
-
+//
 (* ****** ****** *)
 
 fun eq_symbol_symbol (x1: symbol, x2: symbol):<> bool

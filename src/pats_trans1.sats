@@ -237,4 +237,9 @@ fun d0eclist_tr_errck (d0cs: d0eclist): d1eclist
 
 (* ****** ****** *)
 
+fun trans1_finalize (
+) : void // for setting STALOADFLAG, DYNLOADFLAG, PACKNAME, etc.
+
+(* ****** ****** *)
+
 (* end of [pats_trans1.sats] *)

@@ -40,22 +40,26 @@ UN = "prelude/SATS/unsafe.sats"
 staload STDIO = "libc/SATS/stdio.sats"
 
 (* ****** ****** *)
+//
+staload "./pats_basics.sats"
+//
+macdef isdebug () = (debug_flag_get () > 0)
+//
+(* ****** ****** *)
 
 staload UT = "./pats_utils.sats"
 
 (* ****** ****** *)
 
 staload ERR = "./pats_error.sats"
+staload GLOB = "./pats_global.sats"
+
+(* ****** ****** *)
+
 staload FIL = "./pats_filename.sats"
 staload LOC = "./pats_location.sats"
 staload SYM = "./pats_symbol.sats"
 
-(* ****** ****** *)
-//
-staload "./pats_basics.sats"
-//
-macdef isdebug () = (debug_flag_get () > 0)
-//
 (* ****** ****** *)
 
 staload "./pats_lexing.sats"
@@ -516,7 +520,9 @@ fn fixity_load
   val d0cs = parse_from_filename_toplevel (0(*sta*), filename)
   val () = $FIL.the_filenamelst_pop (pffil | (*none*))
 //
-  val (pfenv | ()) = $TRENV1.the_fxtyenv_push_nil ()
+  val (
+    pfenv | ()
+  ) = $TRENV1.the_fxtyenv_push_nil ()
   val d1cs = $TRANS1.d0eclist_tr_errck (d0cs)
   val fxtymap = $TRENV1.the_fxtyenv_pop (pfenv | (*none*))
   val () = $TRENV1.the_fxtyenv_pervasive_joinwth (fxtymap)
@@ -547,13 +553,23 @@ pervasive_load (
   val d0cs = parse_from_filename_toplevel (0(*sta*), filename)
   val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
 //
-  val (pfenv | ()) = $TRENV1.the_trans1_env_push ()
+  val () =
+    $GLOB.the_PACKNAME_set ("ATSHOME.prelude")
+  // end of [val]
+//
+  val (
+    pfenv | ()
+  ) = $TRENV1.the_trans1_env_push ()
   val d1cs = $TRANS1.d0eclist_tr_errck (d0cs)
   val () = $TRENV1.the_trans1_env_pop (pfenv | (*none*))
 //
-  val (pfenv | ()) = $TRENV2.the_trans2_env_push ()
+  val (
+    pfenv | ()
+  ) = $TRENV2.the_trans2_env_push ()
   val d2cs = $TRANS2.d1eclist_tr_errck (d1cs)
   val () = $TRENV2.the_trans2_env_pervasive_joinwth (pfenv | (*none*))
+//
+  val () = $GLOB.the_PACKNAME_set_none ()
 //
 } // end of [pervasive_load]
 
@@ -669,7 +685,10 @@ do_trans12 (
   basename, d0cs
 ) = let
 //
-  val d1cs = $TRANS1.d0eclist_tr_errck (d0cs)
+  val d1cs =
+    $TRANS1.d0eclist_tr_errck (d0cs)
+  // end of [val]
+  val () = $TRANS1.trans1_finalize ()
 //
   val () = if isdebug() then {
     val () = print "The 1st translation (fixity) of ["

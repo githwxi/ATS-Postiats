@@ -83,6 +83,8 @@ typedef v1alist = List (v1al)
 
 val v1al_true : v1al and v1al_false : v1al
 
+fun print_v1al (x: v1al): void
+fun prerr_v1al (x: v1al): void
 fun fprint_v1al : fprint_type (v1al)
 
 (* ****** ****** *)

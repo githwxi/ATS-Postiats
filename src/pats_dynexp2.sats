@@ -180,6 +180,7 @@ fun d2cst_get_arylst (x: d2cst): List int
 fun d2cst_get_decarg (x: d2cst): s2qualst
 fun d2cst_set_decarg (x: d2cst, s2qs: s2qualst): void
 fun d2cst_get_type (x: d2cst): s2exp
+fun d2cst_get_pack (x: d2cst): Stropt
 fun d2cst_get_extdef (x: d2cst): dcstextdef
 fun d2cst_get_stamp (x: d2cst): stamp
 

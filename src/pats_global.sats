@@ -32,6 +32,20 @@
 //
 (* ****** ****** *)
 
+fun the_PACKNAME_get (): Stropt
+fun the_PACKNAME_set (ns: string): void
+fun the_PACKNAME_set_none (): void
+
+(* ****** ****** *)
+
+fun the_STALOADFLAG_get (): int
+fun the_STALOADFLAG_set (flag: int): void
+
+fun the_DYNLOADFLAG_get (): int
+fun the_DYNLOADFLAG_set (flag: int): void
+
+(* ****** ****** *)
+
 fun the_IATS_dirlst_get (): List (string)
 fun the_IATS_dirlst_ppush (dir: string):<!ref> void // permanent push
 

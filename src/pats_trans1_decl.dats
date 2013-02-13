@@ -32,20 +32,6 @@
 //
 (* ****** ****** *)
 
-staload ERR = "./pats_error.sats"
-
-staload SYM = "./pats_symbol.sats"
-overload = with $SYM.eq_symbol_symbol
-macdef ADD = $SYM.symbol_ADD
-macdef SUB = $SYM.symbol_SUB
-macdef ATS_STALOADFLAG = $SYM.symbol_ATS_STALOADFLAG
-
-staload FIL = "./pats_filename.sats"
-
-staload PAR = "./pats_parsing.sats"
-
-(* ****** ****** *)
-
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
@@ -53,6 +39,29 @@ staload "./pats_basics.sats"
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_trans1_decl"
+
+(* ****** ****** *)
+
+staload ERR = "./pats_error.sats"
+staload GLOB = "./pats_global.sats"
+
+(* ****** ****** *)
+
+staload SYM = "./pats_symbol.sats"
+overload = with $SYM.eq_symbol_symbol
+macdef ADD = $SYM.symbol_ADD
+macdef SUB = $SYM.symbol_SUB
+macdef ATS_PACKNAME = $SYM.symbol_ATS_PACKNAME
+macdef ATS_STALOADFLAG = $SYM.symbol_ATS_STALOADFLAG
+macdef ATS_DYNLOADFLAG = $SYM.symbol_ATS_DYNLOADFLAG
+
+(* ****** ****** *)
+
+staload FIL = "./pats_filename.sats"
+
+(* ****** ****** *)
+
+staload PAR = "./pats_parsing.sats"
 
 (* ****** ****** *)
 
@@ -934,6 +943,63 @@ d0eclist_tr_errck
   val d1cs = d0eclist_tr (d0cs)
   val () = the_trans1errlst_finalize ()
 } // end of [d0eclist_tr_errck]
+
+(* ****** ****** *)
+
+local
+
+fun aux_packname (): void = let
+  val opt = the_e1xpenv_find ($SYM.symbol_ATS_PACKNAME)
+in
+//
+case+ opt of
+| ~Some_vt (e) => let
+    val v = e1xp_valize (e) in (
+    case+ v of
+    | V1ALstring (x) => $GLOB.the_PACKNAME_set (x)
+    | _ => let
+        val () = prerr_error1_loc (e.e1xp_loc)
+        val () = prerr ": a string definition is required for [ATS_PACKNAME]."
+        val () = prerr_newline ()
+      in
+         $ERR.abort {void} ()
+      end // end of [_]
+  ) end // end of [Some_vt]
+| ~None_vt () => () // HX: using the absolute directory name 
+//
+end // end of [aux_packname]
+
+fun aux_dynloadflag (): void = let
+  val opt = the_e1xpenv_find ($SYM.symbol_ATS_DYNLOADFLAG)
+in
+//
+case+ opt of
+| ~Some_vt (e) => let
+    val v = e1xp_valize (e) in (
+    case+ v of
+    | V1ALint (x) => $GLOB.the_DYNLOADFLAG_set (x)
+    | _ => let
+        val () = prerr_error1_loc (e.e1xp_loc)
+        val () = prerr ": an integer definition is required for [ATS_DYNLOADFLAG]."
+        val () = prerr_newline ()
+      in
+         $ERR.abort {void} ()
+      end // end of [_]
+  ) end // end of [Some_vt]
+| ~None_vt () => () // HX: the dynloadflag is set to 1 by default
+//
+end // end of [aux_dynloadflag]
+
+in (* in of [local] *)
+
+implement
+trans1_finalize () = let
+  val () = aux_packname ()
+  val () = aux_dynloadflag ()
+in
+end // end of [trans1_finalize]
+
+end // end of [local]
 
 (* ****** ****** *)
 
