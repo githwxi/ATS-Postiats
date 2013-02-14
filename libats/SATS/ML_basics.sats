@@ -36,6 +36,11 @@
 //
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSLIB.libats"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
+
+(* ****** ****** *)
+
 typedef cfun0
   (b:t0p) = ((*void*)) -<cloref1> b
 typedef cfun1
