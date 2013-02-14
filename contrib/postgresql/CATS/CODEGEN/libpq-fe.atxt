@@ -5,9 +5,9 @@
 #endif // end of [ATSCCODEFORMAT]
 val _thisfilename = atext_strcst"libpq-fe.cats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
-fun atsctrb_define (fname: string): atext = (
-  atext_strptr (sprintf ("#define atsctrb_%s %s", @(fname, fname)))
-) // end of [atsctrb_define]
+fun atscntrb_define (fname: string): atext = (
+  atext_strptr (sprintf ("#define atscntrb_%s %s", @(fname, fname)))
+) // end of [atscntrb_define]
 %}\
 \
 #atscode_banner_for_C()
@@ -31,8 +31,8 @@ fun atsctrb_define (fname: string): atext = (
 
 #atscode_separator_for_C()
 
-\#ifndef ATSHOME_CONTRIB_POSTGRESQL_POSTGRESQL_CATS
-\#define ATSHOME_CONTRIB_POSTGRESQL_POSTGRESQL_CATS
+\#ifndef ATSHOME_CONTRIB_POSTGRESQL_LIBPQ_FE_CATS
+\#define ATSHOME_CONTRIB_POSTGRESQL_LIBPQ_FE_CATS
 
 #atscode_separator_for_C()
 
@@ -42,7 +42,7 @@ fun atsctrb_define (fname: string): atext = (
 
 #atscode_separator_for_C()
 
-\#endif // ifndef ATSHOME_CONTRIB_POSTGRESQL_POSTGRESQL_CATS
+\#endif // ifndef ATSHOME_CONTRIB_POSTGRESQL_LIBPQ_FE_CATS
 
 #atscode_separator_for_C()
 

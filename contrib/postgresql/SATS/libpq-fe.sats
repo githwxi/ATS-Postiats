@@ -40,6 +40,10 @@
 
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSCNTRB.postgresql"
+
+(* ****** ****** *)
+
 #define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
