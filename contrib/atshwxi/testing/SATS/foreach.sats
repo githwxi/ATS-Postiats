@@ -35,7 +35,7 @@
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSHOME.contrib.atshwxi.testing"
+#define ATS_PACKNAME "ATSCNTRB.atshwxi.testing"
 
 (* ****** ****** *)
 

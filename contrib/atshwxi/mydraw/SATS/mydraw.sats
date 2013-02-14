@@ -29,8 +29,12 @@
 (* ****** ****** *)
 //
 // HX-2013-02:
-// A simple 2-dimensional drawing package based on cairo
+// A simple drawing package based on cairo
 //
+(* ****** ****** *)
+
+#define ATS_PACKNAME "ATSCNTRB.atshwxi.mydraw"
+
 (* ****** ****** *)
 
 typedef real = double

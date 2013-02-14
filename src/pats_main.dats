@@ -554,7 +554,7 @@ pervasive_load (
   val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
 //
   val () =
-    $GLOB.the_PACKNAME_set ("ATSHOME.prelude")
+    $GLOB.the_PACKNAME_set ("ATSLIB.prelude")
   // end of [val]
 //
   val (

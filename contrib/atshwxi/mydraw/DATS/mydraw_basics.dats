@@ -28,7 +28,7 @@
 
 (* ****** ****** *)
 //
-// HX-2013-02: an abstract drawing package
+// HX-2013-02: a simple drawing package
 //
 (* ****** ****** *)
 

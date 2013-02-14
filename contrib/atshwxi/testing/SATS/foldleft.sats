@@ -35,13 +35,12 @@
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSHOME.contrib.atshwxi.testing"
+#define ATS_PACKNAME "ATSCNTRB.atshwxi.testing"
 
 (* ****** ****** *)
 
 fun{res:vt0p}
-foldleft_int$fwork
-  (acc: res, i: int): res
+foldleft_int$fwork (acc: res, i: int): res
 fun{res:vt0p}
 foldleft_int (n: Nat, ini: res): res
 
