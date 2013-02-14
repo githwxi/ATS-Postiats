@@ -11,7 +11,7 @@
 HX: how to compile:
 
 atscc -o test1 \
-  `pkg-config --cflags --libs cairo` $ATSHOME/contrib/cairo/atsctrb_cairo.o \
+  `pkg-config --cflags --libs cairo` $ATSHOME/contrib/cairo/atscntrb_cairo.o \
   test01.dats
 
 HX: how ot test the generated executable:

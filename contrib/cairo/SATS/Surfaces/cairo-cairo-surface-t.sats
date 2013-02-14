@@ -35,14 +35,14 @@ cairo_surface_reference
   {l:agz} (
   x: !xrsf l
 ) : xrsf (l)
-  = "mac#atsctrb_cairo_surface_reference"
+  = "mac#atscntrb_cairo_surface_reference"
 // end of [fun]
 
 /*
 void                cairo_surface_destroy               (cairo_surface_t *surface);
 */
 fun cairo_surface_destroy
-  (x: xrsf1): void = "mac#atsctrb_cairo_surface_destroy"
+  (x: xrsf1): void = "mac#atscntrb_cairo_surface_destroy"
 // end of [cairo_surface_destroy]
 
 (* ****** ****** *)

@@ -17,14 +17,14 @@ cairo_font_face_reference
   {l:agz} (
   x: !xrfontface l
 ) : xrfontface (l)
-  = "mac#atsctrb_cairo_font_face_reference"
+  = "mac#atscntrb_cairo_font_face_reference"
 // end of [cairo_font_face_reference]
 
 /*
 void                cairo_font_face_destroy             (cairo_font_face_t *font_face);
 */
 fun cairo_font_face_destroy
-  (x: xrdev1): void = "mac#atsctrb_cairo_font_face_destroy"
+  (x: xrdev1): void = "mac#atscntrb_cairo_font_face_destroy"
 // end of [cairo_font_face_destroy]
 
 (* ****** ****** *)
@@ -33,7 +33,7 @@ fun cairo_font_face_destroy
 cairo_status_t      cairo_font_face_status              (cairo_font_face_t *font_face);
 */
 fun cairo_font_face_status
-  (x: !xrfontface1): cairo_status_t = "mac#atsctrb_cairo_font_face_status"
+  (x: !xrfontface1): cairo_status_t = "mac#atscntrb_cairo_font_face_status"
 // end of [cairo_font_face_status]
 
 (* ****** ****** *)

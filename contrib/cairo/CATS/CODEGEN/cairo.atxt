@@ -5,9 +5,9 @@
 #endif // end of [ATSCCODEFORMAT]
 val _thisfilename = atext_strcst"cairo.cats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
-fun atsctrb_define (fname: string): atext = (
-  atext_strptr (sprintf ("#define atsctrb_%s %s", @(fname, fname)))
-) // end of [atsctrb_define]
+fun atscntrb_define (fname: string): atext = (
+  atext_strptr (sprintf ("#define atscntrb_%s %s", @(fname, fname)))
+) // end of [atscntrb_define]
 %}\
 \
 #atscode_banner_for_C()
@@ -40,33 +40,33 @@ fun atsctrb_define (fname: string): atext = (
 
 #atscode_separator_for_C()
 
-#atsctrb_define("CAIRO_VERSION_ENCODE")
+#atscntrb_define("CAIRO_VERSION_ENCODE")
 
-#atsctrb_define("cairo_version")
-#atsctrb_define("cairo_version_string")
-
-#atscode_separator_for_C()
-
-#atsctrb_define("cairo_reference")
-#atsctrb_define("cairo_destroy")
-
-#atsctrb_define("cairo_surface_reference")
-#atsctrb_define("cairo_surface_destroy")
-
-#atsctrb_define("cairo_device_reference")
-#atsctrb_define("cairo_device_destroy")
-
-#atsctrb_define("cairo_pattern_reference")
-#atsctrb_define("cairo_pattern_destroy")
+#atscntrb_define("cairo_version")
+#atscntrb_define("cairo_version_string")
 
 #atscode_separator_for_C()
 
-#atsctrb_define("cairo_create")
+#atscntrb_define("cairo_reference")
+#atscntrb_define("cairo_destroy")
+
+#atscntrb_define("cairo_surface_reference")
+#atscntrb_define("cairo_surface_destroy")
+
+#atscntrb_define("cairo_device_reference")
+#atscntrb_define("cairo_device_destroy")
+
+#atscntrb_define("cairo_pattern_reference")
+#atscntrb_define("cairo_pattern_destroy")
 
 #atscode_separator_for_C()
 
-#atsctrb_define("cairo_status")
-#atsctrb_define("cairo_status_to_string")
+#atscntrb_define("cairo_create")
+
+#atscode_separator_for_C()
+
+#atscntrb_define("cairo_status")
+#atscntrb_define("cairo_status_to_string")
 
 #atscode_separator_for_C()
 

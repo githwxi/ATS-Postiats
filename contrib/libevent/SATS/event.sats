@@ -149,16 +149,16 @@ fun eventp_config_isnot_null
 (* ****** ****** *)
 
 fun eventp_config_new
-  (): eventp_config0 = "mac#atsctrb_event_config_new"
+  (): eventp_config0 = "mac#atscntrb_event_config_new"
 // end of [eventp_config_new]
 
 fun eventp_config_free
-  (p: eventp_config0): void = "mac#atsctrb_event_config_free"
+  (p: eventp_config0): void = "mac#atscntrb_event_config_free"
 // end of [eventp_config_free]
 
 fun eventp_config_avoid_method (
   cfg: !event_config1, method: NSH(string)
-) : interr = "mac#atsctrb_event_config_avoid_method"
+) : interr = "mac#atscntrb_event_config_avoid_method"
 
 (* ****** ****** *)
 

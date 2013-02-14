@@ -5,9 +5,9 @@
 #endif // end of [ATSCCODEFORMAT]
 val _thisfilename = atext_strcst"mysql.cats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
-fun atsctrb_define (fname: string): atext = (
-  atext_strptr (sprintf ("#define atsctrb_%s %s", @(fname, fname)))
-) // end of [atsctrb_define]
+fun atscntrb_define (fname: string): atext = (
+  atext_strptr (sprintf ("#define atscntrb_%s %s", @(fname, fname)))
+) // end of [atscntrb_define]
 %}\
 \
 #atscode_banner_for_C()
@@ -47,119 +47,119 @@ typedef MYSQL_FIELD MYSQLFIELD_struct ;
 
 #atscode_separator_for_C()
 
-\#define atsctrb_mysql_init_0() mysql_init(NULL)
-\#define atsctrb_mysql_init_1(conn) mysql_init(conn)
+\#define atscntrb_mysql_init_0() mysql_init(NULL)
+\#define atscntrb_mysql_init_1(conn) mysql_init(conn)
 
 #atscode_separator_for_C()
 
-#atsctrb_define("mysql_close")
-#atsctrb_define("mysql_real_connect")
-#atsctrb_define("mysql_change_user")
+#atscntrb_define("mysql_close")
+#atscntrb_define("mysql_real_connect")
+#atscntrb_define("mysql_change_user")
 
 #atscode_separator_for_C()
 
-#atsctrb_define("mysql_ping")
-#atsctrb_define("mysql_commit")
+#atscntrb_define("mysql_ping")
+#atscntrb_define("mysql_commit")
 
 #atscode_separator_for_C()
 
-#atsctrb_define("mysql_query")
-#atsctrb_define("mysql_list_dbs")
-#atsctrb_define("mysql_list_fields")
+#atscntrb_define("mysql_query")
+#atscntrb_define("mysql_list_dbs")
+#atscntrb_define("mysql_list_fields")
 
 #atscode_separator_for_C()
 
-#atsctrb_define("mysql_field_count")
+#atscntrb_define("mysql_field_count")
 
 #atscode_separator_for_C()
 
-#atsctrb_define("mysql_num_rows")
-#atsctrb_define("mysql_num_fields")
+#atscntrb_define("mysql_num_rows")
+#atscntrb_define("mysql_num_fields")
 
 #atscode_separator_for_C()
 
-#atsctrb_define("mysql_field_tell")
-#atsctrb_define("mysql_field_seek")
+#atscntrb_define("mysql_field_tell")
+#atscntrb_define("mysql_field_seek")
 
 #atscode_separator_for_C()
 
-#atsctrb_define("mysql_affected_rows")
+#atscntrb_define("mysql_affected_rows")
 
 #atscode_separator_for_C()
 
-#atsctrb_define("mysql_use_result")
-#atsctrb_define("mysql_store_result")
+#atscntrb_define("mysql_use_result")
+#atscntrb_define("mysql_store_result")
 
 #atscode_separator_for_C()
 
-#atsctrb_define("mysql_free_result")
+#atscntrb_define("mysql_free_result")
 
 #atscode_separator_for_C()
 
-#atsctrb_define("mysql_data_seek")
+#atscntrb_define("mysql_data_seek")
 
 #atscode_separator_for_C()
 
-#atsctrb_define("mysql_fetch_row")
-#atsctrb_define("mysql_fetch_lengths")
+#atscntrb_define("mysql_fetch_row")
+#atscntrb_define("mysql_fetch_lengths")
 
 #atscode_separator_for_C()
 
-#atsctrb_define("mysql_fetch_field")
-#atsctrb_define("mysql_fetch_field_direct")
-#atsctrb_define("mysql_fetch_fields")
+#atscntrb_define("mysql_fetch_field")
+#atscntrb_define("mysql_fetch_field_direct")
+#atscntrb_define("mysql_fetch_fields")
 
 #atscode_separator_for_C()
 
 ATSinline()
 ats_ptr_type
-atsctrb_mysqlrow_get_at
+atscntrb_mysqlrow_get_at
   (ats_ptr_type row, ats_int_type i) { return ((ats_ptr_type*)row)[i] ; }
-// end of [atsctrb_mysqlrow_get_at]
+// end of [atscntrb_mysqlrow_get_at]
 
 ATSinline()
 ats_ulint_type
-atsctrb_mysqlrowlen_get_at
+atscntrb_mysqlrowlen_get_at
   (ats_ptr_type rowlen, ats_int_type i) { return ((ats_ulint_type*)rowlen)[i] ; }
-// end of [atsctrb_mysqlrowlen_get_at]
+// end of [atscntrb_mysqlrowlen_get_at]
 
 #atscode_separator_for_C()
 
 ATSinline()
 ats_ptr_type
-atsctrb_mysqlfield_get_name
+atscntrb_mysqlfield_get_name
   (ats_ptr_type fld) { return ((MYSQLFIELD_struct*)fld)->name ; }
-// end of [atsctrb_mysqlfield_get_name]
+// end of [atscntrb_mysqlfield_get_name]
 
 #atscode_separator_for_C()
 
-\#define atsctrb_mysql_info(conn) ((char*)(mysql_info(conn)))
-\#define atsctrb_mysql_stat(conn) ((char*)(mysql_stat(conn)))
-\#define atsctrb_mysql_sqlstate(conn) ((char*)(mysql_sqlstate(conn)))
+\#define atscntrb_mysql_info(conn) ((char*)(mysql_info(conn)))
+\#define atscntrb_mysql_stat(conn) ((char*)(mysql_stat(conn)))
+\#define atscntrb_mysql_sqlstate(conn) ((char*)(mysql_sqlstate(conn)))
 
 #atscode_separator_for_C()
 
-\#define atsctrb_mysql_get_host_info(conn) ((char*)(mysql_get_host_info(conn)))
-#atsctrb_define("mysql_get_proto_info")
-\#define atsctrb_mysql_get_client_info() ((char*)(mysql_get_client_info()))
-#atsctrb_define("mysql_get_client_version")
-\#define atsctrb_mysql_get_server_info(conn) ((char*)(mysql_get_server_info(conn)))
-#atsctrb_define("mysql_get_server_version")
+\#define atscntrb_mysql_get_host_info(conn) ((char*)(mysql_get_host_info(conn)))
+#atscntrb_define("mysql_get_proto_info")
+\#define atscntrb_mysql_get_client_info() ((char*)(mysql_get_client_info()))
+#atscntrb_define("mysql_get_client_version")
+\#define atscntrb_mysql_get_server_info(conn) ((char*)(mysql_get_server_info(conn)))
+#atscntrb_define("mysql_get_server_version")
 
 #atscode_separator_for_C()
 
-#atsctrb_define("mysql_errno")
-\#define atsctrb_mysql_error(x) ((char*)(mysql_error(x)))
+#atscntrb_define("mysql_errno")
+\#define atscntrb_mysql_error(x) ((char*)(mysql_error(x)))
 
 #atscode_separator_for_C()
 
-#atsctrb_define("mysql_hex_string")
-#atsctrb_define("mysql_escape_string")
-#atsctrb_define("mysql_real_escape_string")
+#atscntrb_define("mysql_hex_string")
+#atscntrb_define("mysql_escape_string")
+#atscntrb_define("mysql_real_escape_string")
 
 #atscode_separator_for_C()
 
-#atsctrb_define("mysql_warning_count")
+#atscntrb_define("mysql_warning_count")
 
 #atscode_separator_for_C()
 

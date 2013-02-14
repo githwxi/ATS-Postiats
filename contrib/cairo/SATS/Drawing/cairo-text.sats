@@ -30,7 +30,7 @@ void                cairo_select_font_face              (cairo_t *cr,
 */
 fun cairo_select_font_face (
   ctx: !xr1, family: string, slant: cairo_font_slant_t, weight: cairo_font_weight_t
-) : void = "mac#atsctrb_cairo_select_font_face" // end of [cairo_select_font_face]
+) : void = "mac#atscntrb_cairo_select_font_face" // end of [cairo_select_font_face]
 
 (* ****** ****** *)
 
@@ -39,7 +39,7 @@ void                cairo_set_font_size                 (cairo_t *cr,
                                                          double size);
 */
 fun cairo_set_font_size
-  (ctx: !xr1, size: double): void = "mac#atsctrb_cairo_set_font_size"
+  (ctx: !xr1, size: double): void = "mac#atscntrb_cairo_set_font_size"
 // end of [cairo_set_font_size]
 
 (* ****** ****** *)
@@ -91,7 +91,7 @@ cairo_scaled_font_t * cairo_get_scaled_font             (cairo_t *cr);
 void                cairo_show_text                     (cairo_t *cr, const char *utf8);
 */
 fun cairo_show_text
-  (ctx: !xr1, utf8: string): void = "mac#atsctrb_cairo_show_text"
+  (ctx: !xr1, utf8: string): void = "mac#atscntrb_cairo_show_text"
 // end of [cairo_show_text]
 
 (* ****** ****** *)

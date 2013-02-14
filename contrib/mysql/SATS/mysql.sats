@@ -40,7 +40,7 @@
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSHOME.contrib.mysql"
+#define ATS_PACKNAME "ATSCNTRB.mysql"
 
 (* ****** ****** *)
 
@@ -129,18 +129,18 @@ overload free_null with mysqlfield_free_null
 symintr mysql_init
 
 fun mysql_init_0
-  ((*null*)): MYSQLptr0 = "mac#atsctrb_mysql_init_0"
+  ((*null*)): MYSQLptr0 = "mac#atscntrb_mysql_init_0"
 overload mysql_init with mysql_init_0
 
 fun mysql_init_1
-  {l:agz} (x: !MYSQLptr l): ptr = "mac#atsctrb_mysql_init_1"
+  {l:agz} (x: !MYSQLptr l): ptr = "mac#atscntrb_mysql_init_1"
 overload mysql_init with mysql_init_1
 
 fun mysql_init_exn ((*null*)): MYSQLptr1
 
 (* ****** ****** *)
 
-fun mysql_close (x: MYSQLptr0): void = "mac#atsctrb_mysql_close"
+fun mysql_close (x: MYSQLptr0): void = "mac#atscntrb_mysql_close"
 
 (* ****** ****** *)
 
@@ -168,7 +168,7 @@ mysql_real_connect
 , socket: NSH(stropt)
 , clientflag: ulint
 ) : Ptrnull (l)
-  = "mac#atsctrb_mysql_real_connect"
+  = "mac#atscntrb_mysql_real_connect"
 // end of [mysql_real_connect]
 
 (* ****** ****** *)
@@ -184,7 +184,7 @@ mysql_change_user
 , user: NSH(string)
 , passwd: NSH(stropt)
 , dbname: NSH(stropt)
-) : int = "mac#atsctrb_mysql_change_user"
+) : int = "mac#atscntrb_mysql_change_user"
 
 (* ****** ****** *)
 
@@ -192,7 +192,7 @@ mysql_change_user
 int mysql_ping(MYSQL *mysql);
 */
 fun mysql_ping
-  {l:agz} (mysql: !MYSQLptr l): int = "mac#atsctrb_mysql_ping"
+  {l:agz} (mysql: !MYSQLptr l): int = "mac#atscntrb_mysql_ping"
 // end of [mysql_ping]
 
 (* ****** ****** *)
@@ -201,7 +201,7 @@ fun mysql_ping
 my_bool mysql_commit (MYSQL *mysql);
 */
 fun mysql_commit
-  {l:agz} (mysql: !MYSQLptr l): int = "mac#atsctrb_mysql_commit"
+  {l:agz} (mysql: !MYSQLptr l): int = "mac#atscntrb_mysql_commit"
 // end of [mysql_commit]
 
 (* ****** ****** *)
@@ -210,7 +210,7 @@ fun mysql_commit
 int mysql_query(MYSQL *mysql, const char *q);
 */
 fun mysql_query {l:agz}
-  (mysql: !MYSQLptr l, q: query): int(*err*) = "mac#atsctrb_mysql_query"
+  (mysql: !MYSQLptr l, q: query): int(*err*) = "mac#atscntrb_mysql_query"
 // end of [mysql_query]
 
 (* ****** ****** *)
@@ -239,7 +239,7 @@ mysql_list_dbs(MYSQL *mysql, const char *wild)
 fun mysql_list_dbs
   {l:agz} (
   mysql: !MYSQLptr l, wild: NSH(stropt)
-) : MYSQLRESptr0 = "mac#atsctrb_mysql_list_dbs"
+) : MYSQLRESptr0 = "mac#atscntrb_mysql_list_dbs"
 
 /*
 MYSQL_RES*
@@ -250,14 +250,14 @@ fun mysql_list_fields
   {l:agz} (
   mysql: !MYSQLptr l
 , table: NSH(string), wild: NSH(stropt)
-) : MYSQLRESptr0 = "mac#atsctrb_mysql_list_fields"
+) : MYSQLRESptr0 = "mac#atscntrb_mysql_list_fields"
 
 (* ****** ****** *)
 
 fun mysql_field_count
   {l:agz} (
   mysql: !MYSQLptr l
-) : uint = "mac#atsctrb_mysql_field_count"
+) : uint = "mac#atscntrb_mysql_field_count"
 
 (* ****** ****** *)
 
@@ -294,13 +294,13 @@ MYSQLRESnfield_isfun
 fun mysql_num_rows
   {l:agz} (
   res: !MYSQLRESptr l
-) : [n:nat] (MYSQLRESnrow (l, n) | ullint n) = "mac#atsctrb_mysql_num_rows"
+) : [n:nat] (MYSQLRESnrow (l, n) | ullint n) = "mac#atscntrb_mysql_num_rows"
 macdef mysqlres_get_nrow = mysql_num_rows
 
 fun mysql_num_fields
   {l:agz} (
   res: !MYSQLRESptr l
-) : [n:nat] (MYSQLRESnfield (l, n) | int n) = "mac#atsctrb_mysql_num_fields"
+) : [n:nat] (MYSQLRESnfield (l, n) | int n) = "mac#atscntrb_mysql_num_fields"
 macdef mysqlres_get_nfield = mysql_num_fields
 
 (* ****** ****** *)
@@ -316,7 +316,7 @@ mysql_field_tell (MYSQL_RES *result);
 fun mysql_field_tell
   {l:agz}{n:int} (
   pf: MYSQLRESnfield (l, n) | res: !MYSQLRESptr l
-) : natLte (n) = "mac#atsctrb_mysql_field_tell"
+) : natLte (n) = "mac#atscntrb_mysql_field_tell"
 
 /*
 MYSQL_FIELD_OFFSET
@@ -325,7 +325,7 @@ mysql_field_seek (MYSQL_RES *result, MYSQL_FIELD_OFFSET offset);
 fun mysql_field_seek
   {l:agz}{n:int} (
   pf: MYSQLRESnfield (l, n) | res: !MYSQLRESptr l, i: natLte (n)
-) : natLte (n) = "mac#atsctrb_mysql_field_seek"
+) : natLte (n) = "mac#atscntrb_mysql_field_seek"
 
 (* ****** ****** *)
 
@@ -333,7 +333,7 @@ fun mysql_field_seek
 my_ulonglong mysql_affected_rows(MYSQL *mysql)
 */
 fun mysql_affected_rows
-  {l:agz} (mysql: !MYSQLptr l): ullint = "mac#atsctrb_mysql_affected_rows"
+  {l:agz} (mysql: !MYSQLptr l): ullint = "mac#atscntrb_mysql_affected_rows"
 // end of [mysql_affected_rows]
 
 (* ****** ****** *)
@@ -344,7 +344,7 @@ MYSQL_RES *mysql_use_result(MYSQL *mysql);
 fun mysql_use_result
   {l:agz} (
   mysql: !MYSQLptr l
-) : MYSQLRESptr0 = "mac#atsctrb_mysql_use_result"
+) : MYSQLRESptr0 = "mac#atscntrb_mysql_use_result"
 
 /*
 MYSQL_RES *mysql_store_result(MYSQL *mysql);
@@ -352,7 +352,7 @@ MYSQL_RES *mysql_store_result(MYSQL *mysql);
 fun mysql_store_result
   {l:agz} (
   mysql: !MYSQLptr l
-) : MYSQLRESptr0 = "mac#atsctrb_mysql_store_result"
+) : MYSQLRESptr0 = "mac#atscntrb_mysql_store_result"
 
 (* ****** ****** *)
 
@@ -360,7 +360,7 @@ fun mysql_store_result
 void mysql_free_result(MYSQL_RES *result);
 */
 fun mysql_free_result
-  (result: MYSQLRESptr0): void = "mac#atsctrb_mysql_free_result"
+  (result: MYSQLRESptr0): void = "mac#atscntrb_mysql_free_result"
 // end of [mysql_free_result]
 
 (* ****** ****** *)
@@ -371,7 +371,7 @@ void mysql_data_seek (MYSQL_RES *result, my_ulonglong offset)
 fun mysql_data_seek
   {l:agz} (
   result: !MYSQLRESptr l, ofs: ullint
-) : void = "mac#atsctrb_mysql_data_seek"
+) : void = "mac#atscntrb_mysql_data_seek"
 
 (* ****** ****** *)
 
@@ -381,7 +381,7 @@ MYSQL_ROW mysql_fetch_row(MYSQL_RES *result);
 fun mysql_fetch_row
   {l:agz} (
   res: !MYSQLRESptr l
-) : MYSQLROW0 (l) = "mac#atsctrb_mysql_fetch_row"
+) : MYSQLROW0 (l) = "mac#atscntrb_mysql_fetch_row"
 macdef mysqlres_fetch_row = mysql_fetch_row
 
 prfun mysql_unfetch_row
@@ -399,7 +399,7 @@ mysql_fetch_lengths(MYSQL_RES *result);
 fun mysql_fetch_lengths
   {l:agz} (
   res: !MYSQLRESptr l
-) : MYSQLROWLEN0 (l) = "mac#atsctrb_mysql_fetch_lengths"
+) : MYSQLROWLEN0 (l) = "mac#atscntrb_mysql_fetch_lengths"
 macdef mysqlres_fetch_lengths = mysql_fetch_lengths
 
 prfun mysql_unfetch_lengths
@@ -413,14 +413,14 @@ macdef mysqlres_unfetch_lengths = mysql_unfetch_lengths
 fun mysqlrow_get_at
   {l1,l2:addr | l2 > null}{n:int} (
   pfrow: MYSQLRESnfield (l1, n) | row: !MYSQLROW (l1, l2), i: natLt n
-) : ptr = "mac#atsctrb_mysqlrow_get_at" // endfun
+) : ptr = "mac#atscntrb_mysqlrow_get_at" // endfun
 
 (* ****** ****** *)
 
 fun mysqlrowlen_get_at
   {l1,l2:addr | l2 > null}{n:int} (
   pfrow: MYSQLRESnfield (l1, n) | rowlen: !MYSQLROWLEN (l1, l2), i: natLt n
-) : ulint = "mac#atsctrb_mysqlrowlen_get_at" // endfun
+) : ulint = "mac#atscntrb_mysqlrowlen_get_at" // endfun
 
 (* ****** ****** *)
 
@@ -430,7 +430,7 @@ MYSQL_FIELD mysql_fetch_field(MYSQL_RES *result);
 fun mysql_fetch_field
   {l:agz} (
   res: !MYSQLRESptr l
-) : MYSQLFIELDptr0 (l) = "mac#atsctrb_mysql_fetch_field"
+) : MYSQLFIELDptr0 (l) = "mac#atscntrb_mysql_fetch_field"
 macdef mysqlres_fetch_field = mysql_fetch_field
 
 prfun mysql_unfetch_field
@@ -451,7 +451,7 @@ fun mysql_fetch_field_direct
   pf: MYSQLRESnfield (l, n)
 | res: !MYSQLRESptr l, i: natLt n
 ) : MYSQLFIELDptr1 (l)
-   = "mac#atsctrb_mysql_fetch_field_direct"
+   = "mac#atscntrb_mysql_fetch_field_direct"
 macdef mysqlres_fetch_field_at = mysql_fetch_field_direct
 
 (* ****** ****** *)
@@ -466,24 +466,24 @@ fun mysql_fetch_fields
   array_v (MYSQLROW1 (l), la, n)
 , minus (MYSQLRESptr l, array_v (MYSQLROW1 (l), la, n))
 | ptr la
-) = "mac#atsctrb_mysql_fetch_fields"
+) = "mac#atscntrb_mysql_fetch_fields"
 
 (* ****** ****** *)
 
 fun mysqlfield_get_name
   {l1,l2:addr | l2 > null}
   (fld: !MYSQLFIELDptr (l1, l2)) : ptr(*char*)
-  = "mac#atsctrb_mysqlfield_get_name" // endfun
+  = "mac#atscntrb_mysqlfield_get_name" // endfun
 
 fun mysqlfield_get_length
   {l1,l2:addr | l2 > null}
   (fld: !MYSQLFIELDptr (l1, l2)) : ulint
-  = "mac#atsctrb_mysqlfield_get_length" // endfun
+  = "mac#atscntrb_mysqlfield_get_length" // endfun
 
 fun mysqlfield_get_max_length
   {l1,l2:addr | l2 > null}
   (fld: !MYSQLFIELDptr (l1, l2)) : ulint
-  = "mac#atsctrb_mysqlfield_get_max_length" // endfun
+  = "mac#atscntrb_mysqlfield_get_max_length" // endfun
 
 (* ****** ****** *)
 
@@ -491,7 +491,7 @@ fun mysqlfield_get_max_length
 const char *mysql_info (MYSQL *mysql);
 */
 fun mysql_info
-  {l:agz} (mysql: !MYSQLptr l): string = "mac#atsctrb_mysql_info"
+  {l:agz} (mysql: !MYSQLptr l): string = "mac#atscntrb_mysql_info"
 // end of [mysql_info]  
 
 (* ****** ****** *)
@@ -500,7 +500,7 @@ fun mysql_info
 const char *mysql_stat (MYSQL *mysql);
 */
 fun mysql_stat
-  {l:agz} (mysql: !MYSQLptr l): string = "mac#atsctrb_mysql_stat"
+  {l:agz} (mysql: !MYSQLptr l): string = "mac#atscntrb_mysql_stat"
 // end of [mysql_stat]  
 
 (* ****** ****** *)
@@ -509,7 +509,7 @@ fun mysql_stat
 const char *mysql_sqlstate (MYSQL *mysql);
 */
 fun mysql_sqlstate
-  {l:agz} (mysql: !MYSQLptr l): string = "mac#atsctrb_mysql_sqlstate"
+  {l:agz} (mysql: !MYSQLptr l): string = "mac#atscntrb_mysql_sqlstate"
 // end of [mysql_sqlstate]  
 
 (* ****** ****** *)
@@ -520,7 +520,7 @@ const char *mysql_get_host_info (MYSQL *mysql);
 fun mysql_get_host_info
   {l:agz} (
   mysql: !MYSQLptr l
-) : string = "mac#atsctrb_mysql_get_host_info"
+) : string = "mac#atscntrb_mysql_get_host_info"
 // end of [mysql_get_host_info]  
 
 /*
@@ -529,7 +529,7 @@ unsigned int mysql_get_proto_info(MYSQL *mysql)
 fun mysql_get_proto_info
   {l:agz} (
   mysql: !MYSQLptr l
-) : uint = "mac#atsctrb_mysql_get_proto_info"
+) : uint = "mac#atscntrb_mysql_get_proto_info"
 // end of [mysql_get_proto_info]  
 
 (* ****** ****** *)
@@ -540,7 +540,7 @@ const char *mysql_get_server_info (MYSQL *mysql);
 fun mysql_get_server_info
   {l:agz} (
   mysql: !MYSQLptr l
-) : string = "mac#atsctrb_mysql_get_server_info"
+) : string = "mac#atscntrb_mysql_get_server_info"
 // end of [mysql_get_server_info]  
 
 /*
@@ -549,7 +549,7 @@ unsigned long int mysql_get_server_version(MYSQL *mysql)
 fun mysql_get_server_version
   {l:agz} (
   mysql: !MYSQLptr l
-) : ulint = "mac#atsctrb_mysql_get_server_version"
+) : ulint = "mac#atscntrb_mysql_get_server_version"
 // end of [mysql_get_server_version]
 
 (* ****** ****** *)
@@ -558,14 +558,14 @@ fun mysql_get_server_version
 const char* mysql_get_client_info(void);
 */
 fun mysql_get_client_info
-  (): string = "mac#atsctrb_mysql_get_client_info"
+  (): string = "mac#atscntrb_mysql_get_client_info"
 // end of [mysql_get_client_info]  
 
 /*
 unsigned long mysql_get_client_version(void);
 */
 fun mysql_get_client_version
-  (): ulint = "mac#atsctrb_mysql_get_client_version"
+  (): ulint = "mac#atscntrb_mysql_get_client_version"
 // end of [mysql_get_client_version]
 
 (* ****** ****** *)
@@ -584,7 +584,7 @@ unsigned int
 mysql_errno(MYSQL *mysql);
 */
 fun mysql_errno
-  {l:addr} (mysql: !MYSQLptr l): uint = "mac#atsctrb_mysql_errno"
+  {l:addr} (mysql: !MYSQLptr l): uint = "mac#atscntrb_mysql_errno"
 // end of [mysql_errno]
 
 /*
@@ -592,7 +592,7 @@ const char*
 mysql_error(MYSQL *mysql);
 */
 fun mysql_error
-  {l:addr} (mysql: !MYSQLptr l): string = "mac#atsctrb_mysql_error"
+  {l:addr} (mysql: !MYSQLptr l): string = "mac#atscntrb_mysql_error"
 // end of [mysql_errno]
 
 (* ****** ****** *)
@@ -607,7 +607,8 @@ fun mysql_hex_string
   {m,n:int | m >= 2*n+1} (
   pf: b0ytes(m) @ lb | pbuf: ptr lb, src: NSH(string(n)), n: size_t n
 ) : sizeLt (m)
-  = "mac#atsctrb_mysql_hex_string"
+  = "mac#atscntrb_mysql_hex_string"
+// end of [mysql_hex_string]
 
 /*
 unsigned long
@@ -619,7 +620,8 @@ fun mysql_escape_string
   {m,n:int | m >= 2*n+1} (
   pf: b0ytes(m) @ lb | pbuf: ptr lb, src: NSH(string(n)), n: size_t n
 ) : sizeLt (m)
-  = "mac#atsctrb_mysql_escape_string"
+  = "mac#atscntrb_mysql_escape_string"
+// end of [mysql_escape_string]
 
 /*
 unsigned long
@@ -632,7 +634,8 @@ fun mysql_real_escape_string
   pf: b0ytes(m) @ lb
 | mysql: !MYSQLptr l, pbuf: ptr lb, src: NSH(string(n)), n: size_t n
 ) : sizeLt (m)
-  = "mac#atsctrb_mysql_real_escape_string"
+  = "mac#atscntrb_mysql_real_escape_string"
+// end of [mysql_real_escape_string]
 
 (* ****** ****** *)
 
@@ -640,7 +643,7 @@ fun mysql_real_escape_string
 unsigned int mysql_warning_count(MYSQL *mysql);
 */
 fun mysql_warning_count
-  {l:agz} (mysql: !MYSQLptr l): uint = "mac#atsctrb_mysql_warning_count"
+  {l:agz} (mysql: !MYSQLptr l): uint = "mac#atscntrb_mysql_warning_count"
 // end of [mysql_warning_count]
 
 (* ****** ****** *)

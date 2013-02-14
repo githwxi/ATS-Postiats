@@ -145,14 +145,14 @@ cairo_pattern_reference
   {l:agz} (
   x: !xrpat l
 ) : xrpat (l)
-  = "mac#atsctrb_cairo_pattern_reference"
+  = "mac#atscntrb_cairo_pattern_reference"
 // end of [fun]
 
 /*
 void                cairo_pattern_destroy               (cairo_pattern_t *pattern);
 */
 fun cairo_pattern_destroy
-  (x: xrpat1): void = "mac#atsctrb_cairo_pattern_destroy"
+  (x: xrpat1): void = "mac#atscntrb_cairo_pattern_destroy"
 // end of [cairo_pattern_destroy]
 
 (* ****** ****** *)

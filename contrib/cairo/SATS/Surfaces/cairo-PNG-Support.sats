@@ -13,7 +13,7 @@
 cairo_surface_t *   cairo_image_surface_create_from_png (const char *filename);
 */
 fun cairo_image_surface_create_from_png
-  (filename: string): xrsf1 = "mac#atsctrb_cairo_image_surface_create_from_png"
+  (filename: string): xrsf1 = "mac#atscntrb_cairo_image_surface_create_from_png"
 // end of [cairo_image_surface_create_from_png]
 
 (* ****** ****** *)
@@ -35,7 +35,7 @@ cairo_status_t      cairo_surface_write_to_png          (cairo_surface_t *surfac
                                                          const char *filename);
 */
 fun cairo_surface_write_to_png
-  (xrsf: !xrsf1, filename: string): cairo_status_t = "mac#atsctrb_cairo_surface_write_to_png"
+  (xrsf: !xrsf1, filename: string): cairo_status_t = "mac#atscntrb_cairo_surface_write_to_png"
 // end of [cairo_surface_write_to_png]
 
 (* ****** ****** *)
