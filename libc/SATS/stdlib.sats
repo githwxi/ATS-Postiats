@@ -32,6 +32,11 @@
 //
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSLIB.libc"
+#define ATS_STALOADFLAG 0 // no need for staloading at run-time
+
+(* ****** ****** *)
+
 staload
 STDDEF = "libc/SATS/stddef.sats"
 typedef size_t = $STDDEF.size_t

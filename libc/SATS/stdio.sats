@@ -38,6 +38,11 @@
 
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSLIB.libc"
+#define ATS_STALOADFLAG 0 // no need for staloading at run-time
+
+(* ****** ****** *)
+
 typedef SHR(a:type) = a // for commenting purpose
 typedef NSH(a:type) = a // for commenting purpose
 

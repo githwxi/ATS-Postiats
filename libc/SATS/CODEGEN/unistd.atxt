@@ -26,6 +26,11 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+\#define ATS_PACKNAME "ATSLIB.libc"
+\#define ATS_STALOADFLAG 0 // no need for staloading at run-time
+
+#atscode_separator()
+
 \#define SHR(x) x // SHARED // HX: for commenting
 \#define NSH(x) x // NSHARED // HX: for commenting
 
