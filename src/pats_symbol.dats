@@ -317,6 +317,9 @@ symbol_ATS_STALOADFLAG = symbol_make_string "ATS_STALOADFLAG"
 implement
 symbol_ATS_DYNLOADFLAG = symbol_make_string "ATS_DYNLOADFLAG"
 
+implement
+symbol_ATS_MAINATSFLAG = symbol_make_string "ATS_MAINATSFLAG"
+
 (* ****** ****** *)
 
 implement

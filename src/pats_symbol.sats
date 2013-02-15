@@ -142,6 +142,8 @@ val symbol_ATS_PACKNAME : symbol
 val symbol_ATS_STALOADFLAG : symbol
 val symbol_ATS_DYNLOADFLAG : symbol
 //
+val symbol_ATS_MAINATSFLAG : symbol
+//
 (* ****** ****** *)
 
 fun eq_symbol_symbol (x1: symbol, x2: symbol):<> bool

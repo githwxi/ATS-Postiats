@@ -38,7 +38,6 @@ staload UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload UT = "./pats_utils.sats"
-macdef strcasecmp = $UT.strcasecmp
 
 (* ****** ****** *)
 
@@ -128,6 +127,15 @@ d2exp_trup_string
 in
   d3exp_string (loc0, s2f, str)
 end // end of [d2exp_trup_string]
+
+(* ****** ****** *)
+//
+// HX: implemented in [pats_utils.dats]
+//
+extern
+fun strcasecmp
+  (x1: string, x2: string):<> int = "ext#patsopt_strcasecmp"
+// end of [strcasecmp]
 
 (* ****** ****** *)
 

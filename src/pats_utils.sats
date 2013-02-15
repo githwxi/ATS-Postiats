@@ -36,12 +36,6 @@ fun eqref_type {a:type} (x1: a, x2: a):<> bool
 
 (* ****** ****** *)
 //
-// HX: case-insensitive string comparision
-//
-fun strcasecmp (x1: string, x2: string): int
-
-(* ****** ****** *)
-//
 // HX: the [base] of the representation is contained
 fun llint_make_string (rep: string): llint // in the [rep]
 //

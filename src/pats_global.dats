@@ -83,6 +83,19 @@ end // end of [local]
 
 local
 
+val the_MAINATSFLAG = ref<int> (0)
+
+in (* in of [local] *)
+
+implement the_MAINATSFLAG_get () = !the_MAINATSFLAG
+implement the_MAINATSFLAG_set (flag) = !the_MAINATSFLAG := flag
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
 typedef dirlst = List (string)
 
 val the_IATS_dirlst = ref<dirlst> (list_nil ())

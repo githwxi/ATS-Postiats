@@ -1180,6 +1180,26 @@ in '{
 (* ****** ****** *)
 
 implement
+dcstextdef_is_mainats (x) = let
+//
+extern
+fun test_prefix (
+  string: string, prfx: string
+) :<> bool
+  = "ext#patsopt_string_test_prefix"
+//
+in
+//
+case+ x of
+| DCSTEXTDEFsome_ext
+    (name) => test_prefix (name, "mainats")
+| _ => false
+//
+end // end of [dcstextdef_is_mainats]
+
+(* ****** ****** *)
+
+implement
 d0cstdec_make (
   id, arg, eff, res, extopt
 ) = let

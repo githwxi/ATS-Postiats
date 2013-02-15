@@ -60,6 +60,11 @@ typedef symbolopt = $SYM.symbolopt
 
 (* ****** ****** *)
 
+staload
+SYN = "./pats_syntax.sats"
+
+(* ****** ****** *)
+
 staload "./pats_staexp2.sats"
 staload "./pats_dynexp2.sats"
 
@@ -225,10 +230,17 @@ d2cst_is_nonprf (d2c) = let
   val s2e = d2cst_get_type (d2c) in s2exp_is_nonprf (s2e)
 end // end of [d2cst_is_nonprf]
 
+(* ****** ****** *)
+
 implement
 d2cst_is_castfn (d2c) =
   dcstkind_is_castfn (d2cst_get_kind (d2c))
 // end of [d2cst_is_castfn]
+
+implement
+d2cst_is_mainats (d2c) =
+  $SYN.dcstextdef_is_mainats (d2cst_get_extdef (d2c))
+// end of [d2cst_is_mainats]
 
 (* ****** ****** *)
 

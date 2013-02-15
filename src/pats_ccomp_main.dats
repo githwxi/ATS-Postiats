@@ -211,6 +211,12 @@ end // end of [emit_the_primdeclst]
 
 (* ****** ****** *)
 
+#define MAIN_VOID 0
+#define MAIN_ARGC_ARGV 2
+#define MAIN_ARGC_ARGV_ENVP 3
+
+(* ****** ****** *)
+
 local
 
 staload _ = "libc/SATS/fcntl.sats"
@@ -266,6 +272,9 @@ fun
 aux_main (
   out: FILEref, infil: $FIL.filename
 ) : void = let
+//
+  val mainknd = 0
+//
   val () = emit_text (out, "int\n")
   val () = emit_text (out, "main\n")
   val () = emit_text (out, "(\n")
@@ -276,7 +285,18 @@ aux_main (
     val () = emit_filename (out, infil)
     val () = emit_text (out, "__dynload() ; \n")
   } // end of [val]
-  val () = emit_text (out, "err = atspre_mainats(argc, argv, envp) ;\n")
+//
+  val () = (
+    case+ 0 of 
+    | _ when mainknd = MAIN_VOID =>
+        emit_text (out, "err = atspre_mainats() ;\n")
+    | _ when mainknd = MAIN_ARGC_ARGV =>
+        emit_text (out, "err = atspre_mainats(argc, argv) ;\n")
+    | _ when mainknd = MAIN_ARGC_ARGV_ENVP =>
+        emit_text (out, "err = atspre_mainats(argc, argv, envp) ;\n")
+    | _ => () // HX: this should be deadcode!
+  ) : void // end of [val]
+//
   val () = emit_text (out, "return (err) ;\n")
   val () = emit_text (out, "} /* end of [main] */")
   val () = emit_newline (out)

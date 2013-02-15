@@ -52,8 +52,13 @@ end // end of [eqref_type]
 
 (* ****** ****** *)
 //
-// HX-2011-11-17: unsafe implementation but ...
+// HX: case-insensitive string comparision
 //
+extern
+fun strcasecmp (
+  x1: string, x2: string
+) :<> int
+  = "ext#patsopt_strcasecmp"
 implement
 strcasecmp (x1, x2) = let
   fun loop (p1: Ptr1, p2: Ptr1): int = let
@@ -66,8 +71,39 @@ strcasecmp (x1, x2) = let
     else 0 // end of [if]
   end // end of [loop]
 in
-  loop ($UN.cast2Ptr1(x1), $UN.cast2Ptr1(x2))
+  $effmask_all (loop ($UN.cast2Ptr1(x1), $UN.cast2Ptr1(x2)))
 end // end of [strcasecmp]
+
+(* ****** ****** *)
+
+extern
+fun string_test_prefix (
+  string: string, prfx: string
+) :<> bool
+  = "ext#patsopt_string_test_prefix"
+implement
+string_test_prefix
+  (string, prfx) = let
+//
+#define NUL '\000'
+//
+fun loop (
+  p1: Ptr1, p2: Ptr1
+) : bool = let
+  val c1 = $UN.ptrget<char> (p1)
+in
+//
+if c1 > NUL then let
+  val c2 = $UN.ptrget<char> (p2)
+in
+  if c1 = c2 then loop (p1+1, p2+1) else false
+end else true
+//
+end // end of [loop]
+//
+in
+  $effmask_all (loop ($UN.cast2Ptr1(prfx), $UN.cast2Ptr1(string)))
+end // end of [patsopt_string_test_prefix]
 
 (* ****** ****** *)
 
@@ -120,18 +156,23 @@ in // in of [local]
 implement
 llint_make_string
   (rep) = let
-  var sgn: int = 1
-  val [n0:int] rep = string1_of_string (rep)
+//
+var sgn: int = 1
+val [n0:int] rep = string1_of_string (rep)
+val isnot = string_isnot_empty (rep)
+//
 in
-  if string_isnot_empty (rep) then let
-    val c0 = rep[0]
-  in
-    case+ c0 of
-    | '+' => llint_make_string_sgn ( 1(*sgn*), rep, 1)
-    | '-' => llint_make_string_sgn (~1(*sgn*), rep, 1)
-    | '~' => llint_make_string_sgn (~1(*sgn*), rep, 1) // HX: should it be supported?
-    | _ => llint_make_string_sgn (1(*sgn*), rep, 0)
-  end else 0ll // end of [if]
+//
+if isnot then let
+  val c0 = rep[0]
+in
+  case+ c0 of
+  | '+' => llint_make_string_sgn ( 1(*sgn*), rep, 1)
+  | '-' => llint_make_string_sgn (~1(*sgn*), rep, 1)
+  | '~' => llint_make_string_sgn (~1(*sgn*), rep, 1) // HX: should it be supported?
+  | _ => llint_make_string_sgn (1(*sgn*), rep, 0)
+end else 0ll // end of [if]
+//
 end // end of [llint_make_string]
 
 end // end of [local]
@@ -141,41 +182,56 @@ end // end of [local]
 implement
 intrep_get_base (rep) = let
   val rep = string1_of_string (rep)
+  val isnot = string_isnot_atend (rep, 0)
 in
-  if string_isnot_atend (rep, 0) then let
-    val c0 = rep[0]
+//
+if isnot then let
+  val c0 = rep[0]
+in
+//
+if c0 = '0' then let
+  val isnot = string_isnot_atend (rep, 1)
+in
+  if isnot then let
+    val c1 = rep[1]
+    val isxX = (if c1 = 'x' then true else c1 = 'X'): bool
   in
-    if c0 = '0' then (
-      if string_isnot_atend (rep, 1) then let
-        val c1 = rep[1]
-      in
-        if (c1 = 'x' || c1 = 'X') then 16
-        else (
-          if char_isdigit (c1) then 8 else 10
-        ) // end of [if]
-      end else 10 // end of [if]
-    ) else 10 // end of [if]
-  end else 10 // end of [if]
+    if isxX
+      then 16
+      else (
+        if char_isdigit (c1) then 8 else 10
+      )
+    // end of [if]
+  end
+    else 10
+  // end of [if]
+end else 10 // end of [if]
+//
+end else 10 // end of [if]
+//
 end // end of [intrep_get_base]
 
 implement
 intrep_get_nsfx (rep) = let
 //
 macdef test (c) =
-  string_contains ("lLuU", ,(c))
+  string_contains ("ulUL", ,(c))
 //
 val [n:int] rep = string1_of_string (rep)
+//
 fun loop
   {i:nat | i <= n} .<i>. (
   rep: string n, i: size_t i, k: uint
-) : uint =
+) : uint = let
+in
   if i > 0 then let
     val i1 = i - 1
     val c = rep[i1]
   in
     if test (c) then loop (rep, i1, k+1u) else k
   end else k
-// end of [loop]
+end // end of [loop]
+//
 val n = string_length (rep)
 //
 in
@@ -191,17 +247,20 @@ macdef test (c) =
   string_contains ("fFlL", ,(c))
 //
 val [n:int] rep = string1_of_string (rep)
+//
 fun loop
   {i:nat | i <= n} .<i>. (
   rep: string n, i: size_t i, k: uint
-) : uint =
+) : uint = let
+in
   if i > 0 then let
     val i1 = i - 1
     val c = rep[i1]
   in
     if test (c) then loop (rep, i1, k+1u) else k
   end else k
-// end of [loop]
+end // end of [loop]
+//
 val n = string_length (rep)
 //
 in

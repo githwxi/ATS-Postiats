@@ -948,8 +948,12 @@ datatype dcstextdef =
   | DCSTEXTDEFsome_sta of string // static
 // end of [dcstextdef]
 
+(*
 fun dcstextdef_is_mac (x: dcstextdef):<> bool
 fun dcstextdef_is_sta (x: dcstextdef):<> bool
+*)
+
+fun dcstextdef_is_mainats (x: dcstextdef):<> bool
 
 (* ****** ****** *)
 

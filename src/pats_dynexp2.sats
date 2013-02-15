@@ -191,6 +191,8 @@ fun d2cst_is_nonprf (d2c: d2cst): bool // a nonproof
 
 fun d2cst_is_castfn (d2c: d2cst): bool // a casting fun
 
+fun d2cst_is_mainats (d2c: d2cst): bool // a [mainats] fun
+
 (* ****** ****** *)
 
 fun lt_d2cst_d2cst (x1: d2cst, x2: d2cst):<> bool

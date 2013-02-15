@@ -54,6 +54,7 @@ macdef SUB = $SYM.symbol_SUB
 macdef ATS_PACKNAME = $SYM.symbol_ATS_PACKNAME
 macdef ATS_STALOADFLAG = $SYM.symbol_ATS_STALOADFLAG
 macdef ATS_DYNLOADFLAG = $SYM.symbol_ATS_DYNLOADFLAG
+macdef ATS_MAINATSFLAG = $SYM.symbol_ATS_MAINATSFLAG
 
 (* ****** ****** *)
 
@@ -980,15 +981,36 @@ case+ opt of
     | V1ALint (x) => $GLOB.the_DYNLOADFLAG_set (x)
     | _ => let
         val () = prerr_error1_loc (e.e1xp_loc)
-        val () = prerr ": an integer definition is required for [ATS_DYNLOADFLAG]."
+        val () = prerr ": only integer definition for [ATS_DYNLOADFLAG]."
         val () = prerr_newline ()
       in
          $ERR.abort {void} ()
       end // end of [_]
   ) end // end of [Some_vt]
-| ~None_vt () => () // HX: the dynloadflag is set to 1 by default
+| ~None_vt () => () // HX: the [ATS_DYNLOADFLAG] is set to 1 by default
 //
 end // end of [aux_dynloadflag]
+
+fun aux_mainatsflag (): void = let
+  val opt = the_e1xpenv_find ($SYM.symbol_ATS_MAINATSFLAG)
+in
+//
+case+ opt of
+| ~Some_vt (e) => let
+    val v = e1xp_valize (e) in (
+    case+ v of
+    | V1ALint (x) => $GLOB.the_MAINATSFLAG_set (x)
+    | _ => let
+        val () = prerr_error1_loc (e.e1xp_loc)
+        val () = prerr ": only integer definition for [ATS_MAINATSFLAG]."
+        val () = prerr_newline ()
+      in
+         $ERR.abort {void} ()
+      end // end of [_]
+  ) end // end of [Some_vt]
+| ~None_vt () => () // HX: the [ATS_MAINATSFLAG] is set to 0 by default
+//
+end // end of [aux_mainatsflag]
 
 in (* in of [local] *)
 
@@ -996,7 +1018,9 @@ implement
 trans1_finalize () = let
   val () = aux_packname ()
   val () = aux_dynloadflag ()
+  val () = aux_mainatsflag ()
 in
+  (*nothing*)
 end // end of [trans1_finalize]
 
 end // end of [local]

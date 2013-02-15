@@ -674,18 +674,18 @@ dcstextdef_tr (extopt) = let
 in
 //
 case+ extopt of
-| Some s0tr => let
-    val-$LEX.T_STRING (ext) = s0tr.token_node
+| Some (s0) => let
+    val-$LEX.T_STRING (ext) = s0.token_node
     var ext2: string = ext // removing mac#, ext#, sta#
   in
     case+ 0 of
-    | _ when ismac (ext, ext2) => DCSTEXTDEFsome_mac ext2
-    | _ when issta (ext, ext2) => DCSTEXTDEFsome_sta ext2
-    | _ when isext (ext, ext2) => DCSTEXTDEFsome_ext ext2
+    | _ when ismac (ext, ext2) => DCSTEXTDEFsome_mac (ext2)
+    | _ when issta (ext, ext2) => DCSTEXTDEFsome_sta (ext2)
+    | _ when isext (ext, ext2) => DCSTEXTDEFsome_ext (ext2)
     | _ => DCSTEXTDEFsome_ext (ext2) // no (recognized) prefix
   end // end of [_ when ...]
 | None () => DCSTEXTDEFnone ()
-// end of [case]
+//
 end // end of [dcstextdef_tr]
 
 end // end of [local]
