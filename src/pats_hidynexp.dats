@@ -638,6 +638,13 @@ hidecl_list (loc, hids) =
 (* ****** ****** *)
 
 implement
+hidecl_saspdec (loc, d2c) =
+  hidecl_make_node (loc, HIDsaspdec (d2c))
+// end of [hidecl_saspdec]
+
+(* ****** ****** *)
+
+implement
 hidecl_extcode
   (loc, knd, pos, code) =
   hidecl_make_node (loc, HIDextcode (knd, pos, code))

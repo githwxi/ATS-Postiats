@@ -728,6 +728,8 @@ fun hidecl_make_node
 fun hidecl_none (loc: location): hidecl
 fun hidecl_list (loc: location, hids: hideclist): hidecl
 
+fun hidecl_saspdec (loc: location, d2c: s2aspdec): hidecl
+
 fun hidecl_extcode
   (loc: location, knd: int, pos: int, code: string): hidecl
 // end of [hidecl_extcode]

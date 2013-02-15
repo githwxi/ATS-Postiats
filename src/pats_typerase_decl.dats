@@ -108,6 +108,8 @@ case+
     val hids = d3eclist_tyer (d3cs) in hidecl_list (loc0, hids)
   end // end of [D3Clist]
 //
+| D3Csaspdec (d2c) => hidecl_saspdec (loc0, d2c)
+//
 | D3Cextcode
     (knd, pos, code) => hidecl_extcode (loc0, knd, pos, code)
   // end of [D3Cextcode]
@@ -166,12 +168,14 @@ case+
     hidecl_local (loc0, head, body)
   end // end of [D3Clocal]
 //
+(*
 | _ => let
     val () = println! ("d3exp_tyer: loc0 = ", loc0)
     val () = println! ("d3ecl_tyer: d3c0 = ", d3c0)
   in
     exitloc (1)
   end // end of [_]
+*)
 //
 end // end of [d3ecl_tyer]
 
