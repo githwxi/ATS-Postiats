@@ -35,9 +35,9 @@ implement{a}
 option_vt_make_opt
   (b, x) = (
   if b then let
-    prval () = opt_unsome {a} (x) in Some_vt (x)
+    prval () = opt_unsome{a}(x) in Some_vt{a}(x)
   end else let
-    prval () = opt_unnone {a} (x) in None_vt ( )
+    prval () = opt_unnone{a}(x) in None_vt{a}( )
   end // end of [if]
 ) (* end of [option_vt_make_opt] *)
 

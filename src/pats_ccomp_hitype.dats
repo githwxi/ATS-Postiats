@@ -95,6 +95,8 @@ datatype hitype =
   | HITtyrec of (labhitypelst)
   | HITtysum of (int(*tagged*), labhitypelst)
 //
+  | HITtyvar of (s2var)
+//
   | HITrefarg of (int(*knd*), hitype)
 //
   | HITundef of (stamp, hisexp)
@@ -162,6 +164,12 @@ case+ hit of
 | HITtysum (tag, lhits) => {
     val () = prstr "HITtysum("
     val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+//
+| HITtyvar (s2v) => {
+    val () = prstr "HITtyvar("
+    val () = fprint_s2var (out, s2v)
     val () = prstr ")"
   }
 //
@@ -269,6 +277,12 @@ case+ x1 of
     // end of [HITtysum]
  | _ => abort ()
   ) // end of [HITtysum]
+//
+| HITtyvar (s2v1) => (
+  case+ x2 of
+  | HITtyvar (s2v2) => if s2v1 != s2v2 then abort ()
+  | _ => abort ()
+  )
 //
 | HITrefarg
     (knd1, hit1) => (
@@ -424,6 +438,12 @@ case+ hit0 of
   in
     auxstr (hval, "postiats_tysum")
   end // end of [HITtysum]
+//
+| HITtyvar (s2v) => let
+    val stamp = s2var_get_stamp (s2v)
+  in
+    auxint (hval, $STMP.stamp_get_int (stamp))
+  end // end of [HITtyvar]
 //
 | HITrefarg
     (knd, hit) => let
@@ -650,12 +670,26 @@ implement
 hitype_none () = HITnone ()
 
 implement
-hitype_tybox () = HITnmd ("atsbox_type")
+hitype_tybox () = HITnmd ("atstype_boxed")
 
 implement
 hitype_undef (hse) = let
   val s = $STMP.hitype_stamp_make () in HITundef (s, hse)
 end // end of [hitype_undef]
+
+(* ****** ****** *)
+
+extern
+fun emit_s2var
+  (out: FILEref, s2v: s2var): void
+implement
+emit_s2var
+  (out, s2v) = let
+  val sym = s2var_get_sym (s2v)
+  val name = $SYM.symbol_get_name (sym)
+in
+  emit_ident (out, name)
+end // end of [emit_s2var]
 
 (* ****** ****** *)
 
@@ -682,6 +716,15 @@ case+ hit of
     emit_text (out, "postiats_tyrec")
 | HITtysum _ =>
     emit_text (out, "postiats_tysum")
+| HITtyvar (s2v) => {
+    val () =
+      emit_text (
+      out, "atstyvar_type"
+    ) // end of [val]
+    val () = emit_lparen (out)
+    val () = emit_s2var (out, s2v)
+    val () = emit_rparen (out)
+  }
 | HITrefarg (knd, hit) => let
     val () = (
       if knd = 0
@@ -884,10 +927,11 @@ case+ hse0.hisexp_node of
   end // end of [HSErefarg]
 //
 | HSEs2exp (s2e) => let
-    val hit = s2exp_typize (s2e)
-  in
+    val hit = s2exp_typize (s2e) in
     case+ hit of HITnone () => hitype_undef (hse0) | _ => (hit)
   end // end of [HSEs2exp]
+//
+| HSEtyvar (s2v) => HITtyvar (s2v)
 //
 | _ => hitype_undef (hse0)
 //
