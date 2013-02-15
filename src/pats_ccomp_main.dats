@@ -37,6 +37,25 @@ staload _(*anon*) = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/reference.dats"
+
+(* ****** ****** *)
+
+staload
+GLOB = "./pats_global.sats"
+
+(* ****** ****** *)
+//
+staload
+S2E = "./pats_staexp2.sats"
+staload
+D2E = "./pats_dynexp2.sats"
+//
+typedef d2cst = $D2E.d2cst
+typedef d2cstopt = $D2E.d2cstopt
+//
+(* ****** ****** *)
+
 staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
@@ -108,8 +127,7 @@ extern
 fun emit_funlablst_ptype
   (out: FILEref, fls: funlablst): void
 implement
-emit_funlablst_ptype
-  (out, fls) = let
+emit_funlablst_ptype (out, fls) = let
 //
 fun loop (
   out: FILEref, fls: funlablst, i: int
@@ -186,10 +204,41 @@ end // end of [emit_the_tmpdeclst]
 
 (* ****** ****** *)
 
+extern fun the_funlablst_get2 (): funlablst
+
+local
+
+val the_fls0 = ref<Option(funlablst)> (None)
+
+in (* in of [local] *)
+
+implement
+the_funlablst_get2
+  ((*void*)) = let
+//
+val opt = !the_fls0
+//
+in
+//
+case+ opt of
+| Some (fls0) => fls0
+| None () => let
+    val fls0 = the_funlablst_get ()
+    val () = !the_fls0 := Some (fls0)
+  in
+    fls0
+  end // end of [None]
+//
+end // end of [the_fublablst_get2]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 implement
 emit_the_funlablst
   (out) = let
-  val fls0 = the_funlablst_get ()
+  val fls0 = the_funlablst_get2 ()
   val () = emit_funlablst_ptype (out, fls0)
   val () = emit_funlablst_implmnt (out, fls0)
 in
@@ -211,9 +260,118 @@ end // end of [emit_the_primdeclst]
 
 (* ****** ****** *)
 
-#define MAIN_VOID 0
-#define MAIN_ARGC_ARGV 2
-#define MAIN_ARGC_ARGV_ENVP 3
+(*
+#define MAIN_NONE 0
+#define MAIN_VOID 1 // main()
+#define MAIN_ARGC_ARGV 2 // main(argc, argv)
+#define MAIN_ARGC_ARGV_ENVP 3 // main(argc, argv, envp)
+*)
+
+(* ****** ****** *)
+
+extern
+fun the_mainats_initize (): void
+extern
+fun the_mainats_d2copt_get (): d2cstopt
+
+(* ****** ****** *)
+
+local
+
+val the_mainats_d2copt = ref<d2cstopt> (None)
+
+in (* in of [local] *)
+
+implement
+the_mainats_initize () = let
+//
+fun loop (fls: funlablst): void = let
+in
+//
+case+ fls of
+| list_cons
+    (fl, fls) => let
+    val opt = funlab_get_d2copt (fl)
+    val () = (
+      case+ opt of
+      | Some (d2c) =>
+          if $D2E.d2cst_is_mainats (d2c) then !the_mainats_d2copt := opt
+      | None () => ()
+    ) : void // end of [val]
+  in
+    loop (fls)        
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [loop]
+//
+in
+  loop (the_funlablst_get2 ())
+end // end of [the_mainats_initize]
+
+implement the_mainats_d2copt_get () = !the_mainats_d2copt
+
+end // end of [local]
+
+(* ****** ****** *)
+
+extern
+fun the_dynloadflag_get (): int
+
+implement
+the_dynloadflag_get () = let
+//
+val the_mainatsflag = $GLOB.the_MAINATSFLAG_get ()
+//
+in
+//
+if the_mainatsflag = 0 then let
+  val opt = the_mainats_d2copt_get ()
+in
+//
+case+ opt of
+| Some _ => 0 | None () => $GLOB.the_DYNLOADFLAG_get ()
+//
+end else 0 // HX: mainatsflag overrules dynloadflag
+//
+end // end of [the_dynloadflag_get]
+
+(* ****** ****** *)
+
+extern
+fun emit_main_arglst
+  (out: FILEref, arty: int): void
+implement
+emit_main_arglst
+  (out, arty) = let
+  val () = if arty >= 1 then emit_text (out, "argc")
+  val () = if arty >= 2 then emit_text (out, ", argv")
+  val () = if arty >= 3 then emit_text (out, ", envp")
+in
+  // nothing
+end // end of [emit_main_arglst]
+
+(* ****** ****** *)
+
+extern
+fun emit_dynload
+  (out: FILEref, infil: $FIL.filename): void
+implement
+emit_dynload
+  (out, infil) = {
+  val () = emit_filename (out, infil)
+  val () = emit_text (out, "__dynload")
+}
+
+extern
+fun emit_dynloadflag
+  (out: FILEref, infil: $FIL.filename): void
+implement
+emit_dynloadflag
+  (out, infil) = {
+  val () = emit_filename (out, infil)
+  val () = emit_text (out, "__dynloadflag")
+}
 
 (* ****** ****** *)
 
@@ -250,59 +408,95 @@ the_funlablst_stringize (
 
 fun
 aux_dynload (
-  out: FILEref, infil: $FIL.filename, fbody: string
+  out: FILEref
+, infil: $FIL.filename, fbody: string
 ) : void = let
-  val () =
-    emit_text (
-    out, "atsvoid_t0ype\n"
-  ) // end of [val]
-  val () =
-    emit_filename (out, infil)
-  val () =
-    emit_text (out, "__dynload ()\n")
-  val () = emit_text (out, "{\n")
-  val () = emit_text (out, fbody)
-  val () = emit_text (out, "return ;\n")
-  val () = emit_text (out, "}\n")
+//
+val flag = the_dynloadflag_get ()
+//
+val () = emit_text (out, "\n/*\n")
+val () = emit_text (out, "** for initialization(dynloading)")
+val () = emit_text (out, "\n*/\n")
+//
+val () = emit_text (out, "atsvoid_t0ype\n")
+val () = emit_dynload (out, infil)
+val () = emit_text (out, " ()\n{\n")
+val () = if flag = 0 then emit_text (out, "ATSdynload0(")
+val () = if flag > 0 then emit_text (out, "ATSdynload1(")
+val () = emit_dynloadflag (out, infil)
+val () = emit_text (out, ") ;\n")
+val () = emit_text (out, "if (\n0==")
+val () = emit_dynloadflag (out, infil)
+val () = emit_text (out, "\n) {\n")
+val () = emit_dynloadflag (out, infil)
+val () = emit_text (out, " = 1 ;\n")
+val () = emit_text (out, fbody)
+val () = emit_text (out, "} /* end of [if] */\n")
+val () = emit_text (out, "return ;\n")
+val () = emit_text (out, "}\n")
+//
 in
   // nothing
 end // end of [aux_dynload]
 
 fun
 aux_main (
-  out: FILEref, infil: $FIL.filename
+  out: FILEref
+, infil: $FIL.filename
+, d2cmain: d2cst
 ) : void = let
 //
-  val mainknd = 0
+val () = emit_text (out, "\n/*\n")
+val () = emit_text (out, "** the [main] implementation")
+val () = emit_text (out, "\n*/\n")
 //
-  val () = emit_text (out, "int\n")
-  val () = emit_text (out, "main\n")
-  val () = emit_text (out, "(\n")
-  val () = emit_text (out, "int argc, char **argv, char **envp")
-  val () = emit_text (out, "\n) {\n")
-  val () = emit_text (out, "int err ;\n")
-  val () = {
-    val () = emit_filename (out, infil)
-    val () = emit_text (out, "__dynload() ; \n")
-  } // end of [val]
+val () = emit_text (out, "int\n")
+val () = emit_text (out, "main\n")
+val () = emit_text (out, "(\n")
+val () = emit_text (out, "int argc, char **argv, char **envp")
+val () = emit_text (out, "\n) {\n")
+val () = emit_text (out, "int err ;\n")
+val () = {
+  val () = emit_filename (out, infil)
+  val () = emit_text (out, "__dynload() ;\n")
+} (* end of [val] *)
 //
-  val () = (
-    case+ 0 of 
-    | _ when mainknd = MAIN_VOID =>
-        emit_text (out, "err = atspre_mainats() ;\n")
-    | _ when mainknd = MAIN_ARGC_ARGV =>
-        emit_text (out, "err = atspre_mainats(argc, argv) ;\n")
-    | _ when mainknd = MAIN_ARGC_ARGV_ENVP =>
-        emit_text (out, "err = atspre_mainats(argc, argv, envp) ;\n")
-    | _ => () // HX: this should be deadcode!
-  ) : void // end of [val]
+val arty = let
+  val ns = $D2E.d2cst_get_artylst (d2cmain)
+in
+  case+ ns of
+  | list_cons (n, _) => n | list_nil () => 0
+end : int // end of [val]
 //
-  val () = emit_text (out, "return (err) ;\n")
-  val () = emit_text (out, "} /* end of [main] */")
-  val () = emit_newline (out)
+val () = emit_text (out, "err = ")
+val () = emit_d2cst (out, d2cmain)
+val () = emit_lparen (out)
+val () = emit_main_arglst (out, arty)
+val () = emit_rparen (out)
+val () = emit_text (out, " ;\n")
+//
+val () = emit_text (out, "return (err) ;\n")
+val () = emit_text (out, "} /* end of [main] */")
+val () = emit_newline (out)
+//
 in
   // nothing
 end // end of [aux_main]
+
+fun
+aux_main_ifopt (
+  out: FILEref, infil: $FIL.filename
+) : void = let
+//
+val opt = the_mainats_d2copt_get ()
+//
+in
+//
+case+ opt of
+| Some (d2c) => aux_main (out, infil, d2c)
+| None () => ()
+//
+end // end of [aux_main_ifopt]
 
 in (* in of [local] *)
 
@@ -352,9 +546,9 @@ val () =
   fprint_strptr (out, the_funlablst_rep)
 val () = strptr_free (the_funlablst_rep)
 //
-val () = emit_text (out, "\n/*\n")
-val () = emit_text (out, "** for initialization(dynloading)")
-val () = emit_text (out, "\n*/\n")
+val ( // HX: the call must be made before
+) = the_mainats_initize () // aux_dynload is called
+//
 val () = let
   val fbody =
     $UN.castvwtp1{string}(the_primdeclst_rep)
@@ -364,10 +558,7 @@ in
 end // end of [val]
 val () = strptr_free (the_primdeclst_rep)
 //
-val () = emit_text (out, "\n/*\n")
-val () = emit_text (out, "** the [main] implementation")
-val () = emit_text (out, "\n*/\n")
-val () = aux_main (out, infil)
+val () = aux_main_ifopt (out, infil)
 //
 val () = println! ("ccomp_main: leave")
 //

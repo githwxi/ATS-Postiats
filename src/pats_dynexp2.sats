@@ -157,7 +157,7 @@ fun d2cst_make (
 , fil: filename
 , dck: dcstkind
 , decarg: s2qualst
-, arylst: List int
+, artylst: List int
 , typ: s2exp // HX: there is no s2Var in it
 , extdef: dcstextdef
 ) : d2cst // end of [d2cst_make]
@@ -176,9 +176,9 @@ fun d2cst_get_fil (x: d2cst): filename
 fun d2cst_get_sym (x: d2cst): symbol
 fun d2cst_get_name (x: d2cst): string
 fun d2cst_get_kind (x: d2cst): dcstkind
-fun d2cst_get_arylst (x: d2cst): List int
 fun d2cst_get_decarg (x: d2cst): s2qualst
 fun d2cst_set_decarg (x: d2cst, s2qs: s2qualst): void
+fun d2cst_get_artylst (x: d2cst): List (int)
 fun d2cst_get_type (x: d2cst): s2exp
 fun d2cst_get_pack (x: d2cst): Stropt
 fun d2cst_get_extdef (x: d2cst): dcstextdef

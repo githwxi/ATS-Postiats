@@ -125,7 +125,7 @@ in // in of [local]
 
 implement
 d2cst_match_def (d2c, def) = let
-  val ns = d2cst_get_arylst (d2c) in aritest (def, ns)
+  val ns = d2cst_get_artylst (d2c) in aritest (def, ns)
 end // end of [d2cst_match_def]
 
 end // end of [local]

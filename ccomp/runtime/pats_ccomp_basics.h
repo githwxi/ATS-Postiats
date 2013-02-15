@@ -40,13 +40,21 @@
 
 /* ****** ****** */
 
-#define ATSglobaldec()
-#define ATSstaticdec() static
+#define ATSextfun() extern
 
 /* ****** ****** */
 
-#define ATSextfun() extern
+#define ATSdynload0(flag) int flag = 0
+#define ATSdynload1(flag) extern int flag
+
+/* ****** ****** */
+
 #define ATSinline() static inline
+
+/* ****** ****** */
+
+#define ATSglobaldec()
+#define ATSstaticdec() static
 
 /* ****** ****** */
 //

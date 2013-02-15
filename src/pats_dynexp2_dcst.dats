@@ -82,7 +82,7 @@ d2cst_struct = @{
 , d2cst_fil= filename
 , d2cst_kind= dcstkind
 , d2cst_decarg= s2qualst // template arg
-, d2cst_arylst= List int // arity
+, d2cst_artylst= List (int) // arity
 , d2cst_type= s2exp // assigned type
 (*
 , d2cst_skexp= s2kexp // skeleton of the assigned type
@@ -109,7 +109,7 @@ d2cst_make (
 , fil
 , dck
 , decarg
-, arylst
+, artylst
 , typ
 , extdef
 ) = let
@@ -124,7 +124,7 @@ val () = p->d2cst_loc := loc
 val () = p->d2cst_fil := fil
 val () = p->d2cst_kind := dck
 val () = p->d2cst_decarg := decarg
-val () = p->d2cst_arylst := arylst
+val () = p->d2cst_artylst := artylst
 val () = p->d2cst_type := typ
 (*
 val () = p->d2cst_skexp := s2kexp_make_s2exp (typ)
@@ -167,9 +167,9 @@ d2cst_get_decarg (d2c) = let
 end // end of [d2cst_get_decarg]
 
 implement
-d2cst_get_arylst (d2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_arylst
-end // end of [d2cst_get_arylst]
+d2cst_get_artylst (d2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_artylst
+end // end of [d2cst_get_artylst]
 
 implement
 d2cst_get_type (d2c) = let
