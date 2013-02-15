@@ -583,7 +583,9 @@ val the_hitypemaplst = ref<keyitmlst> (list_vt_nil)
 //
 (* ****** ****** *)
 
-in // in of [local]
+in (* in of [local] *)
+
+(* ****** ****** *)
 
 implement
 the_hitypemaplst_get () = let

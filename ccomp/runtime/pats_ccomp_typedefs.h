@@ -95,13 +95,19 @@ typedef void *atstype_ptrk ;
 ** HX: for references
 */
 typedef void *atstype_ref ;
+/*
+** HX: for boxed values
+*/
+typedef void* atstype_boxed ;
 
 /* ****** ****** */
-
+/*
+** HX: for pointers to arrays
+*/
 typedef void* atstype_arrptr ;
-
-/* ****** ****** */
-
+/*
+** HX: for arrays plus size info
+*/
 typedef
 struct {
   atstype_arrptr ptr ; atstype_size size ;
