@@ -344,16 +344,16 @@ overload [] with argv_get_at
 symintr main
 
 fun main_void
-  ((*void*)): int = "mainats"
+  ((*void*)): int = "ext#atspre_mainats"
 fun main_argc_argv
   {n:int | n >= 1}
-  (argc: int n, argv: !argv n): int = "mainats"
-fun main_argc_argv_env
+  (argc: int n, argv: !argv n): int = "ext#atspre_mainats"
+fun main_argc_argv_envp
   {n:int | n >= 1}
-  (argc: int n, argv: !argv n, env: ptr): int = "mainats"
+  (argc: int n, argv: !argv n, envp: ptr): int = "ext#atspre_mainats"
 overload main with main_void
 overload main with main_argc_argv
-overload main with main_argc_argv_env
+overload main with main_argc_argv_envp
 
 (* ****** ****** *)
 

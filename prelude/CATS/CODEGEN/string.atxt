@@ -60,7 +60,7 @@ atspre_fprint_string
 (
   atstype_ref out, atstype_string x
 ) {
-  int err ;
+  int err = 0 ;
   err += fprintf((FILE*)out, "%s", (char*)x) ;
   return ;
 } // end of [atspre_fprint_string]

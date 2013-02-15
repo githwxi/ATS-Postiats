@@ -46,6 +46,11 @@ fun the_DYNLOADFLAG_set (flag: int): void
 
 (* ****** ****** *)
 
+fun the_MAINATSFLAG_get (): int
+fun the_MAINATSFLAG_set (flag: int): void
+
+(* ****** ****** *)
+
 fun the_IATS_dirlst_get (): List (string)
 fun the_IATS_dirlst_ppush (dir: string):<!ref> void // permanent push
 

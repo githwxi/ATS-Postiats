@@ -242,6 +242,48 @@ the_funlablst_stringize (
   "postiats_funlablst_", lam (out, _) => emit_the_funlablst (out), 0
 ) // end of [the_funlablst_stringize]
 
+fun
+aux_dynload (
+  out: FILEref, infil: $FIL.filename, fbody: string
+) : void = let
+  val () =
+    emit_text (
+    out, "atsvoid_t0ype\n"
+  ) // end of [val]
+  val () =
+    emit_filename (out, infil)
+  val () =
+    emit_text (out, "__dynload ()\n")
+  val () = emit_text (out, "{\n")
+  val () = emit_text (out, fbody)
+  val () = emit_text (out, "return ;\n")
+  val () = emit_text (out, "}\n")
+in
+  // nothing
+end // end of [aux_dynload]
+
+fun
+aux_main (
+  out: FILEref, infil: $FIL.filename
+) : void = let
+  val () = emit_text (out, "int\n")
+  val () = emit_text (out, "main\n")
+  val () = emit_text (out, "(\n")
+  val () = emit_text (out, "int argc, char **argv, char **envp")
+  val () = emit_text (out, "\n) {\n")
+  val () = emit_text (out, "int err ;\n")
+  val () = {
+    val () = emit_filename (out, infil)
+    val () = emit_text (out, "__dynload() ; \n")
+  } // end of [val]
+  val () = emit_text (out, "err = atspre_mainats(argc, argv, envp) ;\n")
+  val () = emit_text (out, "return (err) ;\n")
+  val () = emit_text (out, "} /* end of [main] */")
+  val () = emit_newline (out)
+in
+  // nothing
+end // end of [aux_main]
+
 in (* in of [local] *)
 
 implement
@@ -290,13 +332,22 @@ val () =
   fprint_strptr (out, the_funlablst_rep)
 val () = strptr_free (the_funlablst_rep)
 //
-val () = emit_text (out, "/*\n")
-val () = emit_text (out, "** declaration initialization\n")
-val () = emit_text (out, "*/\n")
-//
-val () =
-  fprint_strptr (out, the_primdeclst_rep)
+val () = emit_text (out, "\n/*\n")
+val () = emit_text (out, "** for initialization(dynloading)")
+val () = emit_text (out, "\n*/\n")
+val () = let
+  val fbody =
+    $UN.castvwtp1{string}(the_primdeclst_rep)
+  // end of [val]
+in
+  aux_dynload (out, infil, fbody)
+end // end of [val]
 val () = strptr_free (the_primdeclst_rep)
+//
+val () = emit_text (out, "\n/*\n")
+val () = emit_text (out, "** the [main] implementation")
+val () = emit_text (out, "\n*/\n")
+val () = aux_main (out, infil)
 //
 val () = println! ("ccomp_main: leave")
 //
