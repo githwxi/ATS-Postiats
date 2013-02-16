@@ -46,21 +46,11 @@ extern void exit (int status) ; // in [stdlib.h]
 
 #atscode_separator_for_C()
 
-\#define atslib_fclose_err fclose
+\#define atslib_fopen_err fopen
 
-ATSinline()
-atstype_void
-atslib_fclose_exn
-  (atsptr_type filp) {
-  int err ;
-  err = atslib_close_err (filp) ;
-  if (err < 0) {
-    perror ("fclose") ;    
-    fprintf (stderr, "exit(ATS): [fclose] failed.\n") ;
-    exit (1) ;
-  } // end of [if]
-  return ;
-} // end of [atslib_fclose_exn]
+#atscode_separator_for_C()
+
+\#define atslib_fclose_err fclose
 
 /*
 \#define atslib_fclose_stdin() atslib_fclose_exn(stdin)

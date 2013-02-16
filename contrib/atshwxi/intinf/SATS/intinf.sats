@@ -45,13 +45,19 @@ vtypedef Intinf = [i:int] intinf_vtype (i)
 //
 (* ****** ****** *)
 
-fun intinf_make_int {i:int} (x: int i): intinf (i)
+fun intinf_free (x: Intinf): void
 
 (* ****** ****** *)
 
-fun intinf_free
-  (x: Intinf): void = "ext#atscntrb_atshwxi_intinf_free"
-// end of [intinf_free]
+fun intinf_make_int {i:int} (x: int (i)): intinf (i)
+fun intinf_make_lint {i:int} (x: lint (i)): intinf (i)
+fun intinf_make_llint {i:int} (x: llint (i)): intinf (i)
+
+(* ****** ****** *)
+
+fun intinf_make_uint {i:int} (x: uint (i)): intinf (i)
+fun intinf_make_ulint {i:int} (x: ulint (i)): intinf (i)
+fun intinf_make_ullint {i:int} (x: ullint (i)): intinf (i)
 
 (* ****** ****** *)
 

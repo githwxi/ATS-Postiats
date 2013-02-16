@@ -44,6 +44,7 @@ struct atstype_struct ; /* of indefinite size */
 
 /* ****** ****** */
 
+typedef void atstype_void ;
 typedef void atsvoid_t0ype ;
 
 /* ****** ****** */

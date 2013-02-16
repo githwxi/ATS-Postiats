@@ -33,14 +33,34 @@
 (* ****** ****** *)
 
 %{
-atstype_void
+atstype_ptr
+atslib_fopen_exn
+(
+  atstype_string path
+, atstype_string mode
+) {
+  FILE* filp ;
+  filp = atslib_fopen_err (filp) ;
+  if (!filp) {
+    perror ("fopen") ;    
+    fprintf (stderr, (atstype_string)"exit(ATSLIB): [fopen] failed.\n") ;
+    exit (1) ;
+  } // end of [if]
+  return filp ;
+} // end of [atslib_fopen_exn]
+%}
+
+(* ****** ****** *)
+
+%{
+atsvoid_t0ype
 atslib_fclose_exn
-  (atsptr_type filp) {
+  (atstype_ptr filp) {
   int err ;
-  err = atslib_close_err (filp) ;
+  err = atslib_fclose_err (filp) ;
   if (err < 0) {
     perror ("fclose") ;    
-    fprintf (stderr, (atstype_string)"exit(ATS): [fclose] failed.\n") ;
+    fprintf (stderr, (atstype_string)"exit(ATSLIB): [fclose] failed.\n") ;
     exit (1) ;
   } // end of [if]
   return ;
@@ -50,14 +70,15 @@ atslib_fclose_exn
 (* ****** ****** *)
 
 %{
-atstype_void
-atslib_fflush_exn(
-  atstype_ptr fil
+atsvoid_t0ype
+atslib_fflush_exn
+(
+  atstype_ptr filp
 ) {
-  int err = fflush((FILE*)fil) ;
+  int err = fflush((FILE*)filp) ;
   if (err < 0) {
     perror ("fflush") ;
-    ats_exit_errmsg (1, (atstype_string)"exit(ATS): [fflush] failed\n") ;
+    ats_exit_errmsg (1, (atstype_string)"exit(ATSLIB): [fflush] failed\n") ;
   } // end of [if]
   return ;
 } /* end of [atslib_fflush_exn] */
@@ -66,20 +87,20 @@ atslib_fflush_exn(
 (* ****** ****** *)
 
 %{
-atstype_void
+atsvoid_t0ype
 atslib_fgets_exn (
   atstype_ptr buf
 , ats_int_type n
-, atstype_ptr fil
+, atstype_ptr filp
 ) {
   atstype_ptr p ;
-  p = fgets((char*)buf, (int)n, (FILE*)fil) ;
+  p = fgets((char*)buf, (int)n, (FILE*)filp) ;
   if (!p) {
-    if (feof((FILE*)fil)) {
+    if (feof((FILE*)filp)) {
       *(char*)buf = '\000' ; // EOF is reached
     } else {
       perror ("fgets") ;
-      ats_exit_errmsg(1, (atstype_string)"exit(ATS): [fgets] failed\n") ;
+      ats_exit_errmsg(1, (atstype_string)"exit(ATSLIB): [fgets] failed\n") ;
     } // end of [if]
   } /* end of [if] */
   return ;  

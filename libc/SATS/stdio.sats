@@ -169,7 +169,7 @@ fun fopen_exn
 fun fopen_ref_exn
   {m:fm} (
   path: NSH(string), m: file_mode m
-) :<!exnwrt> FILEref (*none*) = "ext#atslib_fopen_exn"
+) :<!exnwrt> FILEref (*none*) = "ext#atslib_fopen_ref_exn"
 
 (* ****** ****** *)
 //
