@@ -52,16 +52,16 @@
 
 (* ****** ****** *)
 
+#define ATS_EXTERN_PREFIX "atscntrb" // prefix for external names
+
+(* ****** ****** *)
+
 #include "./cairo_header.sats"
 
 (* ****** ****** *)
 
-fun cairo_version
-  ((*void*)): int = "mac#atscntrb_cairo_version"
-// end of [cairo_version]
-fun cairo_version_string
-  ((*void*)): string = "mac#atscntrb_cairo_version_string"
-// end of [cairo_version_string]
+fun cairo_version ((*void*)): int = "mac#%"
+fun cairo_version_string ((*void*)): string = "mac#%"
 
 (* ****** ****** *)
 

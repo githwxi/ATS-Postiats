@@ -140,21 +140,15 @@ cairo_status_t      cairo_mesh_pattern_get_corner_color_rgba
 /*
 cairo_pattern_t *   cairo_pattern_reference             (cairo_pattern_t *pattern);
 */
-fun
-cairo_pattern_reference
-  {l:agz} (
-  x: !xrpat l
-) : xrpat (l)
-  = "mac#atscntrb_cairo_pattern_reference"
-// end of [fun]
+fun cairo_pattern_reference
+  {l:agz} (x: !xrpat (l)): xrpat (l) = "mac#%"
 
 /*
 void                cairo_pattern_destroy               (cairo_pattern_t *pattern);
 */
 fun cairo_pattern_destroy
-  (x: xrpat1): void = "mac#atscntrb_cairo_pattern_destroy"
-// end of [cairo_pattern_destroy]
-
+  (x: xrpat1): void = "mac#%" // end of [cairo_pattern_destroy]
+//
 (* ****** ****** *)
 
 /*

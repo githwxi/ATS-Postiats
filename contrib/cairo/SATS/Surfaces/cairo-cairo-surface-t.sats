@@ -31,19 +31,13 @@ cairo_surface_t *   cairo_surface_create_for_rectangle  (cairo_surface_t *target
 cairo_surface_t *   cairo_surface_reference             (cairo_surface_t *surface);
 */
 fun
-cairo_surface_reference
-  {l:agz} (
-  x: !xrsf l
-) : xrsf (l)
-  = "mac#atscntrb_cairo_surface_reference"
-// end of [fun]
+cairo_surface_reference {l:agz} (x: !xrsf l) : xrsf (l) = "mac#%"
+// endfun
 
 /*
 void                cairo_surface_destroy               (cairo_surface_t *surface);
 */
-fun cairo_surface_destroy
-  (x: xrsf1): void = "mac#atscntrb_cairo_surface_destroy"
-// end of [cairo_surface_destroy]
+fun cairo_surface_destroy (x: xrsf1): void = "mac#%"
 
 (* ****** ****** *)
 
