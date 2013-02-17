@@ -883,10 +883,9 @@ case+ arg of
 //
     val COMARGkey (_, basename) = arg
 //
-    val basename =
-      string1_of_string (basename)
-    val () =
-      theOutFilename_set (stropt_some (basename))
+    val opt = stropt_some (basename)
+    val () = theOutFilename_set (opt)
+//
     val _new = outchan_make_path (basename)
     val () = cmdstate_set_outchan (state, _new)
 //

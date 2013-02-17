@@ -489,29 +489,9 @@ case+ extdef of
     // nothing
   end // end of [DCSTEXTDEFnone]
 //
-| $SYN.DCSTEXTDEFsome_ext (name) => let
-    var name: string = name
-    val isemp = string_is_empty (name)
-    val () = if isemp then name := $D2E.d2cst_get_name (d2c)
-  in
-    emit_ident (out, name)
-  end // end of [DCSTEXTDEFsome_ext]
-//
-| $SYN.DCSTEXTDEFsome_mac (name) => let
-    var name: string = name
-    val isemp = string_is_empty (name)
-    val () = if isemp then name := $D2E.d2cst_get_name (d2c)
-  in
-    emit_ident (out, name)
-  end // end of [ // end of [DCSTEXTDEFsome_mac]
-//
-| $SYN.DCSTEXTDEFsome_sta (name) => let
-    var name: string = name
-    val isemp = string_is_empty (name)
-    val () = if isemp then name := $D2E.d2cst_get_name (d2c)
-  in
-    emit_ident (out, name)
-  end // end of [DCSTEXTDEFsome_sta]
+| $SYN.DCSTEXTDEFsome_ext (name) => emit_ident (out, name)
+| $SYN.DCSTEXTDEFsome_mac (name) => emit_ident (out, name)
+| $SYN.DCSTEXTDEFsome_sta (name) => emit_ident (out, name)
 //
 end // end of [emit_d2cst]
 

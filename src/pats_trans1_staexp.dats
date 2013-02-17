@@ -32,7 +32,20 @@
 //
 (* ****** ****** *)
 
+staload "./pats_basics.sats"
+
+(* ****** ****** *)
+
 staload ERR = "./pats_error.sats"
+
+(* ****** ****** *)
+
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_trans1_staexp"
+
+(* ****** ****** *)
+
 staload LOC = "./pats_location.sats"
 overload + with $LOC.location_combine
 
@@ -58,16 +71,8 @@ overload = with $SYM.eq_symbol_symbol
 //
 macdef fprint_symbol = $SYM.fprint_symbol
 //
-(* ****** ****** *)
-
-staload "./pats_basics.sats"
-
-(* ****** ****** *)
-
-staload "./pats_errmsg.sats"
-staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans1_staexp"
-
+macdef symbol_get_name = $SYM.symbol_get_name
+//
 (* ****** ****** *)
 
 staload "./pats_effect.sats"
@@ -79,6 +84,7 @@ staload "./pats_staexp1.sats"
 
 staload "./pats_trans1.sats"
 staload "./pats_trans1_env.sats"
+staload "./pats_e1xpval.sats"
 
 (* ****** ****** *)
 
@@ -655,6 +661,104 @@ end // end of [d0atcon_tr]
 
 (* ****** ****** *)
 
+extern fun the_extprfx_get (): Stropt
+
+(* ****** ****** *)
+
+implement
+the_extprfx_get () = let
+//
+macdef
+EXTPRFX =
+  $SYM.symbol_ATS_EXTERN_PREFIX
+//
+val opt = the_e1xpenv_find (EXTPRFX)
+//
+in
+//
+case+ opt of
+| ~Some_vt (e) => let
+    val v = e1xp_valize (e) in (
+  case+ v of
+  | V1ALstring (x) => stropt_some (x)
+  | _ => let
+      val () = prerr_warning1_loc (e.e1xp_loc)
+      val () = prerr ": a string definition is required for [ATS_EXTERN_PREFIX]."
+      val () = prerr_newline ()
+    in
+      stropt_none
+    end // end of [_]
+  ) end // end of [Some_vt]
+| ~None_vt () =>
+    stropt_none // HX: [%] is kept to indicated a likely error
+  // end of [None_vt]
+//
+end // end of [the_extprfx_get]
+
+(* ****** ****** *)
+
+extern
+fun proc_extdef (sym: symbol, ext: string): string
+
+(* ****** ****** *)
+
+local
+
+staload UN = "prelude/SATS/unsafe.sats"
+staload _(*anon*) = "prelude/DATS/unsafe.dats"
+
+fun extprfx_add (
+  sym: symbol, pext: Ptr1
+) : string = let
+//
+val ext2 = $UN.cast{string}(pext+1)
+val ext2 = (
+  if string_is_empty (ext2) then symbol_get_name (sym) else ext2
+) : string // end of [val]
+//
+val opt = the_extprfx_get ()
+val issome = stropt_is_some (opt)
+//
+in
+//
+if issome then let
+  val extprfx = stropt_unsome (opt)
+  val ext2 = sprintf ("%s%s", @(extprfx, ext2))
+in
+  string_of_strptr (ext2)
+end else
+  $UN.cast{string}(pext)
+// end of [if]
+//
+end // end of [extprfx_add]
+
+in (* in of [local] *)
+
+implement
+proc_extdef
+  (sym, ext) = let
+//
+#define NUL '\000'
+fun isemp
+  (p: Ptr1): bool = $UN.ptrget<char> (p) = NUL
+fun isperc
+  (p: Ptr1): bool = $UN.ptrget<char> (p) = '%'
+//
+val pext = $UN.cast2Ptr1 (ext)
+//
+in
+//
+case+ 0 of
+| _ when isemp (pext) => symbol_get_name (sym)
+| _ when isperc (pext) => extprfx_add (sym, pext)
+| _ => ext // HX: no processing
+//
+end // end of [proc_extdef]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 local
 
 extern fun ismac
@@ -667,22 +771,26 @@ extern fun isext
 in // in of [local]
 
 implement
-dcstextdef_tr (extopt) = let
+dcstextdef_tr (sym, extopt) = let
 (*
-  val () = print ("dcstextdef_tr: extopt = ...")
+val () = print ("dcstextdef_tr: sym = ...")
+val () = print ("dcstextdef_tr: extopt = ...")
 *)
+//
+macdef f (x) = proc_extdef (sym, ,(x))
+//
 in
 //
 case+ extopt of
 | Some (s0) => let
     val-$LEX.T_STRING (ext) = s0.token_node
-    var ext2: string = ext // removing mac#, ext#, sta#
+    var ext2: string = (ext) // removing mac#, ext#, sta#
   in
     case+ 0 of
-    | _ when ismac (ext, ext2) => DCSTEXTDEFsome_mac (ext2)
-    | _ when issta (ext, ext2) => DCSTEXTDEFsome_sta (ext2)
-    | _ when isext (ext, ext2) => DCSTEXTDEFsome_ext (ext2)
-    | _ => DCSTEXTDEFsome_ext (ext2) // no (recognized) prefix
+    | _ when ismac (ext, ext2) => DCSTEXTDEFsome_mac (f(ext2))
+    | _ when issta (ext, ext2) => DCSTEXTDEFsome_sta (f(ext2))
+    | _ when isext (ext, ext2) => DCSTEXTDEFsome_ext (f(ext2))
+    | _ => DCSTEXTDEFsome_ext (f(ext2)) // no (recognized) prefix
   end // end of [_ when ...]
 | None () => DCSTEXTDEFnone ()
 //
@@ -804,13 +912,14 @@ end // end of [aux2]
 fn d0cstdec_tr (
   isfun: bool, isprf: bool, d0c: d0cstdec
 ) : d1cstdec = let
-  val loc0 = d0c.d0cstdec_loc
+  val loc = d0c.d0cstdec_loc
+  val sym = d0c.d0cstdec_sym
   val s1e_res = s0exp_tr d0c.d0cstdec_res
   val arg = d0c.d0cstdec_arg and eff = d0c.d0cstdec_eff
   val s1e = aux2 (d0c, isfun, isprf, arg, eff, s1e_res)
-  val extdef = dcstextdef_tr (d0c.d0cstdec_extopt)
+  val extdef = dcstextdef_tr (sym, d0c.d0cstdec_extopt)
 in
-  d1cstdec_make (loc0, d0c.d0cstdec_fil, d0c.d0cstdec_sym, s1e, extdef)
+  d1cstdec_make (loc, d0c.d0cstdec_fil, sym, s1e, extdef)
 end // end of [d0cstdec_tr]
 //
 in // in of [local]

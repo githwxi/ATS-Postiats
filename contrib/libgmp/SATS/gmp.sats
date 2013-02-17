@@ -39,6 +39,12 @@
 %} // end of [%{#]
 
 (* ****** ****** *)
+
+#define ATS_PACKNAME "ATSCNTRB.libevent"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
+#define ATS_EXTERN_PREFIX "atscntrb_" // prefix for external names
+
+(* ****** ****** *)
 //
 // integral numbers
 //

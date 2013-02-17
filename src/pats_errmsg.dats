@@ -54,39 +54,44 @@ prerr_interror_loc (loc) = {
 
 implement{}
 prerr_error1_loc (loc) = (
-  $LOC.prerr_location loc; prerr ": error(1)"
+  $LOC.prerr_location (loc); prerr ": error(1)"
 ) // end of [prerr_error1_loc]
 
 implement{}
 prerr_error2_loc (loc) = (
-  $LOC.prerr_location loc; prerr ": error(2)"
+  $LOC.prerr_location (loc); prerr ": error(2)"
 ) // end of [prerr_error2_loc]
 
 implement{}
 prerr_errmac_loc (loc) = (
-  $LOC.prerr_location loc; prerr ": error(mac)"
+  $LOC.prerr_location (loc); prerr ": error(mac)"
 ) // end of [prerr_errmac_loc]
 
 implement{}
 prerr_error3_loc (loc) = (
-  $LOC.prerr_location loc; prerr ": error(3)"
+  $LOC.prerr_location (loc); prerr ": error(3)"
 ) // end of [prerr_error3_loc]
 
 implement{}
 prerr_error4_loc (loc) = (
-  $LOC.prerr_location loc; prerr ": error(4)"
+  $LOC.prerr_location (loc); prerr ": error(4)"
 ) // end of [prerr_error4_loc]
 
 (* ****** ****** *)
 
 implement{}
+prerr_warning1_loc (loc) = (
+  $LOC.prerr_location (loc); prerr ": warning(1)"
+) // end of [prerr_warning1_loc]
+
+implement{}
 prerr_warning2_loc (loc) = (
-  $LOC.prerr_location loc; prerr ": warning(2)"
+  $LOC.prerr_location (loc); prerr ": warning(2)"
 ) // end of [prerr_warning2_loc]
 
 implement{}
 prerr_warning3_loc (loc) = (
-  $LOC.prerr_location loc; prerr ": warning(3)"
+  $LOC.prerr_location (loc); prerr ": warning(3)"
 ) // end of [prerr_warning3_loc]
 
 (* ****** ****** *)

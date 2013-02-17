@@ -263,7 +263,9 @@ path_normalize (s0) = let
           pardir: string, npar: int i, res: list_vt (strptr1, j)
         ) : list_vt (strptr1, i+j) =
           if npar > 0 then let
-            val dir = string1_of_string (pardir)
+            val dir =
+              string1_of_string (pardir)
+            // end of [val]
             val n = string1_length (dir)
             val dir = string_make_substring (dir, 0, n)
             val dir = strptr_of_strbuf (dir)
@@ -633,11 +635,10 @@ filenameopt_make_relative
   val opt = (case+ 0 of
     | _ when
         filename_is_relative (basename) => aux_relative (basename)
-    | _ => (
-        if test_file_exists (basename) then let
-          val basename = string1_of_string (basename) in stropt_some basename
-        end else stropt_none
-      ) // end of [_]
+    | _ => let
+        val isexi = test_file_exists (basename) in
+        if isexi then stropt_some (basename) else stropt_none(*void*)
+      end // end of [_]
   ) : Stropt // end of [val]
 //
   val issome = stropt_is_some (opt)

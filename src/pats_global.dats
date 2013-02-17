@@ -53,12 +53,10 @@ in (* in of [local] *)
 implement the_PACKNAME_get () = !the_PACKNAME
 
 implement
-the_PACKNAME_set (ns) = let
-  val ns = string1_of_string (ns) in !the_PACKNAME := stropt_some (ns)
-end // end of [the_PACKNAME_set]
+the_PACKNAME_set (ns) = !the_PACKNAME := stropt_some (ns)
 
 implement
-the_PACKNAME_set_none () = !the_PACKNAME := stropt_none
+the_PACKNAME_set_none () = !the_PACKNAME := stropt_none(*void*)
 
 end // end of [local]
 

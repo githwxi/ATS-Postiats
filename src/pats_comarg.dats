@@ -137,7 +137,7 @@ in
   in
     stropt_some (sub)
   end else
-    stropt_none
+    stropt_none (*void*)
   // end of [if]
 end // [string_extract]
 
