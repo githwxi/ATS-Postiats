@@ -765,7 +765,7 @@ if pos1 < pos2 then (
 end // end of [take_main]
 
 fun
-include_declitemize
+i0nclude_declitemize
 (
   loc0: location, stadyn: int, path: string
 ) : d0eclreplst = let
@@ -793,9 +793,13 @@ val (
 val inp = char_list_vt_make_file ($UN.cast{FILEref}(filp))
 val () = $STDIO.fclose_exn (pffil | filp)
 //
+val (pfpush | ()) = $FIL.the_filenamelst_push (fil)
+val res(*d0eclreplst*) = charlst_declitemize (stadyn, inp)
+val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+//
 in
-  charlst_declitemize (stadyn, inp)
-end // end of [include_declitemize]
+  res
+end // end of [i0nclude_declitemize]
 
 in // in of [local]
 
@@ -825,7 +829,7 @@ case+ d0c.d0ecl_node of
     val (
       pfpush | ()
     ) = $FIL.the_filenamelst_push (pfil)
-    val replst = include_declitemize (d0c.d0ecl_loc, stadyn, path)
+    val replst = i0nclude_declitemize (d0c.d0ecl_loc, stadyn, path)
     val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
   in
     D0ECLREPinclude (d0c, cs, replst)
@@ -905,4 +909,4 @@ end // end of [d0eclreplst_find_synop]
 
 (* ****** ****** *)
 
-(* end of [libatsyntax_token.dats] *)
+(* end of [libatsyntax.dats] *)

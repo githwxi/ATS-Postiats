@@ -113,14 +113,18 @@ void                cairo_line_to                       (cairo_t *cr,
                                                          double x,
                                                          double y);
 */
-fun cairo_line_to (ctx: !xr1, x: double, y: double): void = "mac#%"
+fun cairo_line_to
+  (ctx: !xr1, x: double, y: double): void = "mac#%"
+// end of [cairo_line_to]
 
 /*
 void                cairo_move_to                       (cairo_t *cr,
                                                          double x,
                                                          double y);
 */
-fun cairo_move_to (ctx: !xr1, x: double, y: double): void = "mac#%"
+fun cairo_move_to
+  (ctx: !xr1, x: double, y: double): void = "mac#%"
+// end of [cairo_move_to]
 
 (* ****** ****** *)
 
@@ -134,7 +138,7 @@ void                cairo_rectangle                     (cairo_t *cr,
 fun cairo_rectangle
 (
   ctx: !xr1, x: double, y: double, width: double, height: double
-) : void = "mac#%" // end of [cairo_rectangle]
+) : void = "mac#%" // endfun
 
 (* ****** ****** *)
 
@@ -146,7 +150,7 @@ void                cairo_glyph_path                    (cairo_t *cr,
 fun cairo_glyph_path
   {n:int} (
   ctx: !xr1, glyphs: arrayref (cairo_glyph_t, n), n: int n
-) : void = "mac#%" // end of [cairo_glyph_path]
+) : void = "mac#%" // endfun
 
 (* ****** ****** *)
 
@@ -182,14 +186,18 @@ void                cairo_rel_line_to                   (cairo_t *cr,
                                                          double dx,
                                                          double dy);
 */
-fun cairo_rel_line_to (ctx: !xr1, dx: double, dy: double): void = "mac#%"
+fun cairo_rel_line_to
+  (ctx: !xr1, dx: double, dy: double): void = "mac#%"
+// end of [cairo_rel_line_to]
 
 /*
 void                cairo_rel_move_to                   (cairo_t *cr,
                                                          double dx,
                                                          double dy);
 */
-fun cairo_rel_move_to (ctx: !xr1, dx: double, dy: double): void = "mac#%"
+fun cairo_rel_move_to
+  (ctx: !xr1, dx: double, dy: double): void = "mac#%"
+// end of [cairo_rel_move_to]
 
 (* ****** ****** *)
 

@@ -56,7 +56,7 @@ fun cairo_get0_target
   {l1:agz} (ctx: !xr l1): [l2:agz] vtget0 (xr l1, xrsf l2) = "mac#%"
 // end of [cairo_get0_target]
 
-fun cairo_get1_target (ctx: !xr1): xrsf1 // for convenience
+fun cairo_get1_target (ctx: !xr1): xrsf1 = "ext#%" // for convenience
 
 (* ****** ****** *)
 
@@ -101,7 +101,7 @@ fun cairo_get0_group_target
   {l1:agz} (ctx: !xr l1): [l2:agz] vtget0 (xr l1, xrsf l2) = "mac#%"
 // end of [cairo_get0_group_target]
 
-fun cairo_get1_group_target (ctx: !xr1): xrsf1 // for convenience
+fun cairo_get1_group_target (ctx: !xr1): xrsf1 = "ext#%" // for convenience
 
 (* ****** ****** *)
 /*
@@ -110,9 +110,10 @@ void                cairo_set_source_rgb                (cairo_t *cr,
                                                          double green,
                                                          double blue);
 */
-fun cairo_set_source_rgb (
+fun cairo_set_source_rgb
+(
   ctx: !xr1, r: double, g: double, b: double
-) : void = "mac#%" // end of [cairo_set_source_rgb]
+) : void = "mac#%" // endfun
 
 fun cairo_set_source_rgb_arr
   {n:int|n >= 3} (ctx: !xr1, rgb: &(@[double][n])): void // for convenience
@@ -127,9 +128,10 @@ void                cairo_set_source_rgba               (cairo_t *cr,
                                                          double blue,
                                                          double alpha);
 */
-fun cairo_set_source_rgba (
+fun cairo_set_source_rgba
+(
   ctx: !xr1, r: double, g: double, b: double, alpha: double
-) : void = "mac#%" // end of [cairo_set_source_rgba]
+) : void = "mac#%" // endfun
 
 fun cairo_set_source_rgba_arr
   {n:int|n >= 4} (ctx: !xr1, rgb: &(@[double][n])): void // for convenience
@@ -166,7 +168,7 @@ fun cairo_get0_source
 ) : [l2:agz] vtget0 (xr l1, xrpat l2) = "mac#%"
 // end of [cairo_get0_source]
 
-fun cairo_get1_source (ctx: !xr1): xrpat1 // for convenience
+fun cairo_get1_source (ctx: !xr1): xrpat1 = "ext#%" // for convenience
 
 (* ****** ****** *)
 

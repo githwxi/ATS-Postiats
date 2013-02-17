@@ -89,22 +89,24 @@ end // end of [parse_from_tokbuf]
 implement
 parse_from_filename_toplevel
   (stadyn, fil) = let
-  var buf: tokbuf
-  prval pfmod = file_mode_lte_r_r
-  val fullname = $FIL.filename_get_full (fil)
-  val fullname = $SYM.symbol_get_name (fullname)
-  val (
-    pffil | filp
-  ) = $STDIO.fopen_exn (fullname, file_mode_r)
-  val () =
-    tokbuf_initialize_filp (pfmod, pffil | buf, filp)
-  // end of [val]
 //
-  val (pfpush | ()) = $FIL.the_filenamelst_push (fil)
-  val d0cs = parse_from_tokbuf_toplevel (stadyn, buf)
-  val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+var buf: tokbuf
+prval pfmod = file_mode_lte_r_r
+val fullname = $FIL.filename_get_full (fil)
+val fullname = $SYM.symbol_get_name (fullname)
+val (
+  pffil | filp
+) = $STDIO.fopen_exn (fullname, file_mode_r)
+val () =
+  tokbuf_initialize_filp (pfmod, pffil | buf, filp)
+// end of [val]
 //
-  val () = tokbuf_uninitialize (buf)
+val (pfpush | ()) = $FIL.the_filenamelst_push (fil)
+val d0cs = parse_from_tokbuf_toplevel (stadyn, buf)
+val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+//
+val () = tokbuf_uninitialize (buf)
+//
 in
   d0cs
 end // end of [parser_from_filename_toplevel]
