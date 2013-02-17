@@ -84,23 +84,13 @@ key:t0p;itm:vt0p
 // end of [linmap_size]
 
 (* ****** ****** *)
-//
-// HX: a linear map can be properly freed only if it is empty
-//
-fun{
-key:t0p;itm:vt0p
-} linmap_free_ifnil (
-  map: !map (key, INV(itm)) >> opt (map (key, itm), b)
-) :<!wrt> #[b:bool] bool b(*~freed*) // end of [linmap_free_ifnil]
-//
-(* ****** ****** *)
 
 fun{
 key:t0p;itm:t0p
 } linmap_search (
   map: !map (key, INV(itm))
 , k0: key, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool b // end of [linmap_search]
+) : #[b:bool] bool (b)(*found*) // end of [linmap_search]
 
 fun{
 key:t0p;itm:vt0p
@@ -212,6 +202,16 @@ fun{
 key:t0p;itm:vt0p
 } linmap_freelin (map: map (key, INV(itm))):<!wrt> void
 
+(* ****** ****** *)
+//
+// HX: a linear map can be properly freed only if it is empty
+//
+fun{
+key:t0p;itm:vt0p
+} linmap_free_ifnil (
+  map: !map (key, INV(itm)) >> opt (map (key, itm), b)
+) :<!wrt> #[b:bool] bool (b)(*~freed*) // end of [linmap_free_ifnil]
+//
 (* ****** ****** *)
 
 (*

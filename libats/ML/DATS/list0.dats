@@ -63,17 +63,17 @@ end // end of [list0_make_elt]
 (* ****** ****** *)
 
 implement
-list0_make_intrange_2
+list0_make_intrange_lr
   (l, r) = let
   val d = (
     if l <= r then 1 else ~1
   ) : int // end of [val]
 in
-  $effmask_exn (list0_make_intrange_3 (l, r, d))
-end // end of [list0_make_intrange_2]
+  $effmask_exn (list0_make_intrange_lrd (l, r, d))
+end // end of [list0_make_intrange_lr]
 
 implement
-list0_make_intrange_3
+list0_make_intrange_lrd
   (l, r, d) = let
 //
 typedef res = list0 (int)
@@ -118,11 +118,11 @@ if d > 0 then (
     val () = loop2 (l, r, d, res) in res
   end else list0_nil ()
 ) else (
-  $raise IllegalArgExn("list0_make_intrange_3:d")
+  $raise IllegalArgExn("list0_make_intrange_lrd:d")
 ) // end of [if]
 ) // end of [$effmask_all]
 //
-end // end of [list0_make_intrange_3]
+end // end of [list0_make_intrange_lrd]
 
 (* ****** ****** *)
 

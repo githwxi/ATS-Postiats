@@ -100,19 +100,19 @@ raises an exception (#dyncode("IllegalArgExn")).  ")
 #declsynop2("\
 #pats2xhtmls("\
 symintr list0_make_intrange
-overload list0_make_intrange with list0_make_intrange_2
-overload list0_make_intrange with list0_make_intrange_3
+overload list0_make_intrange with list0_make_intrange_lr
+overload list0_make_intrange with list0_make_intrange_lrd
 ")
 ")
 
-#declnamesynop("list0_make_intrange_2")
+#declnamesynop("list0_make_intrange_lr")
 #decldescrpt("\
 
 Given integers l and r, this function returns the list consisting of
 integers l, l+1, ..., and r-1, inclusive if l <= r holds. Otherwise, it
 returns the list l, l-1, ..., r+1, inclusive.  ")
 
-#declnamesynop("list0_make_intrange_3")
+#declnamesynop("list0_make_intrange_lrd")
 #decldescrpt("\
 
 Given integers l, r and d, if l < r and d > 0, then this function returns

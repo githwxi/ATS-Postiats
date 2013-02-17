@@ -54,8 +54,8 @@ This package contains an API for programming mysql in ATS.\
 (* ****** ****** *)
 
 #declnamesynop("mysql_init")
-#declnamesynop("mysql_init_0")
-#declnamesynop("mysql_init_1")
+#declnamesynop("mysql_init0")
+#declnamesynop("mysql_init1")
 
 (* ****** ****** *)
 

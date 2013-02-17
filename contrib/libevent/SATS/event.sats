@@ -26,10 +26,8 @@
 (* ****** ****** *)
 
 #define ATS_PACKNAME "ATSHOME.contrib.libevent"
-
-(* ****** ****** *)
-
 #define ATS_STALOADFLAG 0 // no static loading at run-time
+#define ATS_EXTERN_PREFIX "atscntrb" // prefix for external names
 
 (* ****** ****** *)
 
@@ -123,42 +121,45 @@ eventp_config_is_gtez
   {l:addr} (p: !eventp_config l):<> [l >= null] void
 // end of [eventp_config_is_gtez]
 
-fun eventp_config_null
-  ():<> eventp_config (null) = "mac#atspre_ptr_null"
+(* ****** ****** *)
+
+fun
+eventp_config_null (
+) :<> eventp_config (null) = "mac#atspre_ptr_null"
+
+(* ****** ****** *)
 
 prfun
-eventp_config_free_null {l:alez} (p: eventp_config l):<> void
+eventp_config_free_null
+  {l:addr | l <= null} (p: eventp_config l):<> void
+// end of [eventp_config_free_null]
+
+(* ****** ****** *)
 
 castfn
 eventp2ptr_config {l:addr} (p: eventp (l)):<> ptr (l)
 
-fun eventp_config_is_null
-  {l:addr}
-  (p: !eventp_config l):<> bool (l==null) = "mac#atspre_ptr_is_null"
-fun eventp_config_isnot_null
-  {l:addr}
-  (p: !eventp_config l):<> bool (l > null) = "mac#atspre_ptr_isnot_null"
+(* ****** ****** *)
 
 fun eventp_config_is_null
   {l:addr}
   (p: !eventp_config l):<> bool (l==null) = "mac#atspre_ptr_is_null"
+// end of [eventp_config_is_null]
+
 fun eventp_config_isnot_null
   {l:addr}
   (p: !eventp_config l):<> bool (l > null) = "mac#atspre_ptr_isnot_null"
+// end of [eventp_config_isnot_null]
 
 (* ****** ****** *)
 
-fun eventp_config_new
-  (): eventp_config0 = "mac#atscntrb_event_config_new"
-// end of [eventp_config_new]
+fun eventp_config_new (): eventp_config0 = "mac#%"
 
-fun eventp_config_free
-  (p: eventp_config0): void = "mac#atscntrb_event_config_free"
-// end of [eventp_config_free]
+fun eventp_config_free (p: eventp_config0): void = "mac#%"
 
-fun eventp_config_avoid_method (
-  cfg: !event_config1, method: NSH(string)
-) : interr = "mac#atscntrb_event_config_avoid_method"
+fun eventp_config_avoid_method
+  (cfg: !event_config1, method: NSH(string)): interr = "mac#%"
+// end of [eventp_config_avoid_method]
 
 (* ****** ****** *)
 

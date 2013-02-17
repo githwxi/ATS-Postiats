@@ -63,10 +63,10 @@ list0_make_elt (n: int, x: a):<!exn> list0 (a)
 //
 symintr list0_make_intrange
 //
-fun list0_make_intrange_2 (l: int, r: int):<> list0 (int)
-fun list0_make_intrange_3 (l: int, r: int, d: int):<!exn> list0 (int)
-overload list0_make_intrange with list0_make_intrange_2
-overload list0_make_intrange with list0_make_intrange_3
+fun list0_make_intrange_lr (l: int, r: int):<> list0 (int)
+fun list0_make_intrange_lrd (l: int, r: int, d: int):<!exn> list0 (int)
+overload list0_make_intrange with list0_make_intrange_lr
+overload list0_make_intrange with list0_make_intrange_lrd
 
 #atscode_separator()
 //
