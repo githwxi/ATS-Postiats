@@ -561,8 +561,9 @@ in
 if n > 0 then let
   val ismov = (
     case+ pmv0.primval_node of
-    | _ when d2var_is_mutabl (d2v) => false
-    | _ => primval_is_mutabl (pmv0)
+    | _ when
+        d2var_is_mutabl (d2v) => false
+    | _ => primval_is_nshared (pmv0)
   ) : bool // end of [val]
 in
   if ismov then let

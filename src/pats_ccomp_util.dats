@@ -67,19 +67,33 @@ primval_is_void
 // end of [primval_is_void]
 
 (* ****** ****** *)
-
+//
+// HX-2013-02:
+// [pmv] should not be assgined to a variable:
+// it is either a left-value or a field-section
+//
 implement
-primval_is_mutabl
+primval_is_nshared
   (pmv) = let
 in
 //
-case+ pmv.primval_node of
-| PMVtmpref _ => true
-| PMVargref _ => true
-| PMVcastfn (d2c, pmv) => primval_is_mutabl (pmv)
+case+
+  pmv.primval_node of
+| PMVtmpref _ => true // left-value
+| PMVargref _ => true // left-value
+//
+| PMVselcon _ => true // field-selection
+| PMVselect _ => true // field-selection
+| PMVselect2 _ => true // field-selection
+//
+| PMVsel_var _ => true // left-value
+| PMVsel_ptr _ => true // left-value
+//
+| PMVcastfn (d2c, pmv) => primval_is_nshared (pmv)
+//
 | _ => false
 //
-end // end of [primval_is_mutable]
+end // end of [primval_is_nshared]
 
 (* ****** ****** *)
 

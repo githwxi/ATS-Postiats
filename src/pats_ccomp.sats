@@ -552,7 +552,9 @@ fun tmpvar_is_void (tmp: tmpvar): bool
 
 fun primval_is_void (pmv: primval): bool
 
-fun primval_is_mutabl (pmv: primval): bool
+(* ****** ****** *)
+
+fun primval_is_nshared (pmv: primval): bool // left-val/field-sel
 
 (* ****** ****** *)
 
