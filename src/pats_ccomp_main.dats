@@ -379,17 +379,22 @@ end // end of [the_dynloadflag_get]
 (* ****** ****** *)
 
 extern
-fun emit_main_arglst
+fun emit_main_arglst_err
   (out: FILEref, arty: int): void
 implement
-emit_main_arglst
+emit_main_arglst_err
   (out, arty) = let
   val () = if arty >= 1 then emit_text (out, "argc")
   val () = if arty >= 2 then emit_text (out, ", argv")
   val () = if arty >= 3 then emit_text (out, ", envp")
+  val () = (
+    if arty <= 0
+      then emit_text (out, "err") else emit_text (out, ", err")
+    // end of [if]
+  ) : void // end of [val]
 in
   // nothing
-end // end of [emit_main_arglst]
+end // end of [emit_main_arglst_err]
 
 (* ****** ****** *)
 
@@ -495,7 +500,7 @@ val () = emit_text (out, "main\n")
 val () = emit_text (out, "(\n")
 val () = emit_text (out, "int argc, char **argv, char **envp")
 val () = emit_text (out, "\n) {\n")
-val () = emit_text (out, "int err ;\n")
+val () = emit_text (out, "int err = 0 ;\n")
 val () = {
   val () = emit_filename (out, infil)
   val () = emit_text (out, "__dynload() ;\n")
@@ -508,10 +513,10 @@ in
   | list_cons (n, _) => n | list_nil () => 0
 end : int // end of [val]
 //
-val () = emit_text (out, "err = ")
+val () = emit_text (out, "ATS")
 val () = emit_d2cst (out, d2cmain)
 val () = emit_lparen (out)
-val () = emit_main_arglst (out, arty)
+val () = emit_main_arglst_err (out, arty)
 val () = emit_rparen (out)
 val () = emit_text (out, " ;\n")
 //
@@ -572,11 +577,6 @@ val () = the_extcodelst_set2 (xs2)
 in
   // nothing
 end // end of [aux_extcodelst_if]
-
-fun
-aux_extcodelst_dynend
-  (out: FILEref) = aux_extcodelst_if (out, lam (pos) => pos <= DYNEND)
-// end of [aux_extcodelst_dynend]
 
 in (* in of [local] *)
 
@@ -649,7 +649,8 @@ val () = strptr_free (the_primdeclst_rep)
 //
 val () = aux_main_ifopt (out, infil)
 //
-val () = aux_extcodelst_dynend (out)
+val (
+) = aux_extcodelst_if (out, lam (pos) => pos <= DYNEND)
 //
 val () = println! ("ccomp_main: leave")
 //

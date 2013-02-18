@@ -340,21 +340,33 @@ argv_get_at {n:int}
 overload [] with argv_get_at
 
 (* ****** ****** *)
-
+//
+symintr main0
+//
+fun main_void_0
+  ((*void*)): void = "ext#mainats_void_0"
+fun main_argc_argv_0
+  {n:int | n >= 1}
+  (argc: int n, argv: !argv n): void = "ext#mainats_argc_argv_0"
+overload main0 with main_void_0
+overload main0 with main_argc_argv_0
+//
+(* ****** ****** *)
+//
 symintr main
-
-fun main_void
-  ((*void*)): int = "ext#mainats_void"
-fun main_argc_argv
+//
+fun main_void_int
+  ((*void*)): int = "ext#mainats_void_int"
+fun main_argc_argv_int
   {n:int | n >= 1}
-  (argc: int n, argv: !argv n): int = "ext#mainats_argc_argv"
-fun main_argc_argv_envp
+  (argc: int n, argv: !argv n): int = "ext#mainats_argc_argv_int"
+fun main_argc_argv_envp_int
   {n:int | n >= 1}
-  (argc: int n, argv: !argv n, envp: ptr): int = "ext#mainats_argc_argv_envp"
-overload main with main_void
-overload main with main_argc_argv
-overload main with main_argc_argv_envp
-
+  (argc: int n, argv: !argv n, envp: ptr): int = "ext#mainats_argc_argv_envp_int"
+overload main with main_void_int
+overload main with main_argc_argv_int
+overload main with main_argc_argv_envp_int
+//
 (* ****** ****** *)
 
 fun exit
