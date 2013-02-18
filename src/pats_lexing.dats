@@ -958,6 +958,25 @@ end // end of [lexing_COMMENT_rest]
 
 (* ****** ****** *)
 
+#define DYNBEG 1
+#define DYNMID 10
+#define DYNEND 99
+
+fun extcode_nskip
+  (knd: int): uint = let
+in
+  case+ 0 of
+  | _ when knd < 0 => 3u
+  | _ when knd = DYNBEG => 3u
+  | _ when knd < DYNMID => 4u
+  | _ when knd = DYNMID => 2u
+  | _ when knd < DYNEND => 4u
+  | _ when knd = DYNEND => 3u
+  | _ => 0u // HX: deadcode
+end // end of [extcode_nskip]
+
+(* ****** ****** *)
+
 implement
 lexing_EXTCODE_knd
   (buf, pos, knd) = let
@@ -974,7 +993,7 @@ if i >= 0 then let
     in
       if res >= 0 then let
         val loc = lexbufpos_get_location (buf, pos)
-        val nchr = (if knd = 1 then 2u else 3u): uint
+        val nchr = extcode_nskip (knd) // HX: number of skipped
         val len = lexbufpos_diff (buf, pos) - nchr - 2u // %}: 2u
 //
         val str = lexbuf_get_substrptr1 (buf, nchr, len)
@@ -998,19 +1017,45 @@ end // end of [lexing_EXTCODE_knd]
 implement
 lexing_EXTCODE
   (buf, pos) = let
-  val i = lexbufpos_get_char (buf, pos)
+//
+val i = lexbufpos_get_char (buf, pos)
+//
 in
 //
 if i >= 0 then let
   val c = (i2c)i
-  val knd = (case+ c of
-    | '^' =>  0 | '$' =>  2 | '#' => ~1 | _ => 1
+  val knd = (
+    case+ c of
+    | '#' => 0 // HX: sta
+    | '^' => DYNBEG // HX: dyn-beg
+    | '$' => DYNEND // HX: dyn-end
+    | _ (*dyn*) => DYNMID // HX: dyn-mid
   ) : int // end of [val]
-  val () = if knd <> 1 then posincby1 (pos)
+  var knd: int = knd
+//
+  val () =
+    if knd != DYNMID then posincby1 (pos)
+  // end of [val]
+//
+  val () =
+    if knd = DYNBEG then let // for ^2
+    val i2 = lexbufpos_get_char (buf, pos)
+    val c2 = (i2c)i2
+  in
+    if c2 = '2' then (knd := knd + 1; posincby1 (pos))
+  end // end of [val]
+  val () =
+    if knd = DYNEND then let // for $^2
+    val i2 = lexbufpos_get_char (buf, pos)
+    val c2 = (i2c)i2
+  in
+    if c2 = '2' then (knd := knd - 1; posincby1 (pos))
+  end // end of [val]
+//
 in
   lexing_EXTCODE_knd (buf, pos, knd)
 end else
-  lexing_EXTCODE_knd (buf, pos, 1(*default*))
+  lexing_EXTCODE_knd (buf, pos, DYNMID)
 // end of [if]
 end // end of [lexing_EXTCODE]
 

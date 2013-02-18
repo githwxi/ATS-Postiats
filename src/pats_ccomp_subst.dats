@@ -631,6 +631,8 @@ case+
 //
 | PMDnone () => pmd0
 //
+| PMDsaspdec _ => pmd0
+//
 | PMDdatdecs _ => pmd0
 | PMDexndecs _ => pmd0
 //

@@ -89,6 +89,13 @@ primdec_none (loc) =
 (* ****** ****** *)
 
 implement
+primdec_saspdec (loc, s2c) =
+  primdec_make_node (loc, PMDsaspdec (s2c))
+// end of [primdec_saspdec]
+
+(* ****** ****** *)
+
+implement
 primdec_datdecs (loc, s2cs) =
   primdec_make_node (loc, PMDdatdecs (s2cs))
 implement

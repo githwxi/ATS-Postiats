@@ -47,7 +47,8 @@ implement prerr_FILENAME<> () = prerr "pats_ccomp_emit"
 
 (* ****** ****** *)
 
-staload LAB = "./pats_label.sats"
+staload
+LAB = "./pats_label.sats"
 overload = with $LAB.eq_label_label
 
 (* ****** ****** *)
@@ -86,6 +87,7 @@ typedef d2cst = $D2E.d2cst
 (* ****** ****** *)
 
 staload "./pats_histaexp.sats"
+staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
 
@@ -109,6 +111,13 @@ emit_rparen (out) = emit_text (out, ")")
 
 implement
 emit_newline (out) = fprint_newline (out)
+
+(* ****** ****** *)
+
+implement
+emit_location
+  (out, loc) = $LOC.fprint_location (out, loc)
+// end of [emit_location]
 
 (* ****** ****** *)
 
@@ -404,6 +413,24 @@ case+ pmc of
   }
 //
 end // end of [emit_primcstsp]
+
+(* ****** ****** *)
+
+implement
+emit_extcode
+  (out, hid) = let
+//
+val loc0 = hid.hidecl_loc
+val-HIDextcode (knd, pos, code) = hid.hidecl_node
+//
+val () = emit_text (out, "/*\n")
+val () = emit_location (out, loc0)
+val () = emit_text (out, "\n*/")
+val () = emit_text (out, code)  
+//
+in
+  // nothing
+end // end of [emit_extcode]
 
 (* ****** ****** *)
 

@@ -214,7 +214,32 @@ d2cst_get_name (d2c) =
 implement
 fprint_d2cst (out, x) =
   $SYM.fprint_symbol (out, d2cst_get_sym (x))
-// end of [fprint_d2cst]
+implement
+fprint_d2cstlst (out, xs) = let
+//
+fun loop (
+  out: FILEref
+, xs: d2cstlst, sep: string, i: int
+) : void = let
+in
+  case+ xs of
+  | list_cons
+      (x, xs) => let
+      val () =
+        if i > 0 then fprint_string (out, sep)
+      val () = fprint_d2cst (out, x)
+    in
+      loop (out, xs, sep, i+1)
+    end // end of [list_cons]
+  | list_nil () => ()
+//
+end // end of [loop]
+//
+val sep = ", "
+//
+in
+  loop (out, xs, sep, 0)
+end // end of [fprint_d2cstlst]
 
 implement print_d2cst (x) = fprint_d2cst (stdout_ref, x)
 implement prerr_d2cst (x) = fprint_d2cst (stderr_ref, x)

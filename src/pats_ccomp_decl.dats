@@ -82,6 +82,16 @@ assume ccomp_instrlst_type = instrlst
 (* ****** ****** *)
 
 extern
+fun hisaspdec_ccomp
+  (env: !ccompenv, hid0: hidecl): primdec
+// end of [hidsaspdec_ccomp]
+
+extern
+fun hiextcode_ccomp
+  (env: !ccompenv, hid0: hidecl): primdec
+// end of [hidextcode_ccomp]
+
+extern
 fun hidatdecs_ccomp
   (env: !ccompenv, hid0: hidecl): primdec
 // end of [hidatdecs_ccomp]
@@ -120,12 +130,18 @@ fun hivardeclst_ccomp
 implement
 hidecl_ccomp
   (env, hid0) = let
-  val loc0 = hid0.hidecl_loc
+//
+val loc0 = hid0.hidecl_loc
+//
 in
 //
 case+ hid0.hidecl_node of
 //
 | HIDnone () => primdec_none (loc0)
+//
+| HIDsaspdec _ => hisaspdec_ccomp (env, hid0)
+//
+| HIDextcode _ => hiextcode_ccomp (env, hid0)
 //
 | HIDdatdecs _ => hidatdecs_ccomp (env, hid0)
 | HIDexndecs _ => hiexndecs_ccomp (env, hid0)
@@ -133,15 +149,6 @@ case+ hid0.hidecl_node of
 | HIDdcstdecs
     (knd, d2cs) => primdec_none (loc0)
   // end of [HIDdcstdecs]
-//
-| HIDimpdec
-    (knd, imp) => let
-    val d2c = imp.hiimpdec_cst
-    val l0 = the_d2varlev_get ()
-    val () = hiimpdec_ccomp (env, l0, imp)
-  in
-    primdec_impdec (loc0, imp)
-  end // end of [HIDimpdec]
 //
 | HIDfundecs
     (knd, decarg, hfds) => let
@@ -172,6 +179,15 @@ case+ hid0.hidecl_node of
   in
     primdec_vardecs (loc0, hvds, inss)
   end // end of [HIDvardecs]
+//
+| HIDimpdec
+    (knd, imp) => let
+    val d2c = imp.hiimpdec_cst
+    val l0 = the_d2varlev_get ()
+    val () = hiimpdec_ccomp (env, l0, imp)
+  in
+    primdec_impdec (loc0, imp)
+  end // end of [HIDimpdec]
 //
 | HIDstaload (
     fil, flag, fenv, loaded
@@ -245,6 +261,33 @@ end // end of [hideclist_ccomp0]
 (* ****** ****** *)
 
 implement
+hisaspdec_ccomp
+  (env, hid0) = let
+//
+val loc0 = hid0.hidecl_loc
+val-HIDsaspdec (d2c) = hid0.hidecl_node
+val s2c = d2c.s2aspdec_cst
+//
+in
+  primdec_saspdec (loc0, s2c)
+end // end of [hisaspdec_ccomp]
+
+(* ****** ****** *)
+
+implement
+hiextcode_ccomp
+  (env, hid0) = let
+//
+val loc0 = hid0.hidecl_loc
+val () = the_extcodelst_add (hid0)
+//
+in
+  primdec_none (loc0)
+end // end of [hiextcod_ccomp]
+
+(* ****** ****** *)
+
+implement
 hidatdecs_ccomp
   (env, hid0) = let
 //
@@ -254,12 +297,10 @@ val isprf = test_prfkind (knd)
 //
 in
 //
-if isprf then
-  primdec_none (loc0)
-else let
-in
-  primdec_datdecs (loc0, s2cs)
-end // end of [if]
+if isprf
+  then primdec_none (loc0)
+  else primdec_datdecs (loc0, s2cs)
+// end of [if]
 //
 end // end of [hidatdecs_ccomp]
 

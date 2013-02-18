@@ -56,6 +56,11 @@ typedef d2cstopt = $D2E.d2cstopt
 //
 (* ****** ****** *)
 
+staload "./pats_histaexp.sats"
+staload "./pats_hidynexp.sats"
+
+(* ****** ****** *)
+
 staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
@@ -204,11 +209,46 @@ end // end of [emit_the_tmpdeclst]
 
 (* ****** ****** *)
 
+extern fun the_extcodelst_get2 (): hideclist
+extern fun the_extcodelst_set2 (xs: hideclist): void
+
+local
+
+val the_extlst = ref<Option(hideclist)> (None)
+
+in (* in of [local] *)
+
+implement
+the_extcodelst_get2
+  ((*void*)) = let
+//
+val opt = !the_extlst
+//
+in
+//
+case+ opt of
+| Some (xs) => xs
+| None (  ) => let
+    val xs = the_extcodelst_get ()
+    val () = !the_extlst := Some (xs)
+  in
+    xs
+  end // end of [None]
+//
+end // end of [the_extcodelst_get2]
+
+implement
+the_extcodelst_set2 (xs) = !the_extlst := Some (xs)
+
+end // end of [local]
+
+(* ****** ****** *)
+
 extern fun the_funlablst_get2 (): funlablst
 
 local
 
-val the_fls0 = ref<Option(funlablst)> (None)
+val the_flablst = ref<Option(funlablst)> (None)
 
 in (* in of [local] *)
 
@@ -216,17 +256,17 @@ implement
 the_funlablst_get2
   ((*void*)) = let
 //
-val opt = !the_fls0
+val opt = !the_flablst
 //
 in
 //
 case+ opt of
-| Some (fls0) => fls0
-| None () => let
-    val fls0 = the_funlablst_get ()
-    val () = !the_fls0 := Some (fls0)
+| Some (xs) => xs
+| None (  ) => let
+    val xs = the_funlablst_get ()
+    val () = !the_flablst := Some (xs)
   in
-    fls0
+    xs
   end // end of [None]
 //
 end // end of [the_fublablst_get2]
@@ -498,6 +538,28 @@ case+ opt of
 //
 end // end of [aux_main_ifopt]
 
+fun
+aux_extcodelst_dynend
+  (out: FILEref) = let
+//
+fun loop (
+  out: FILEref, xs: hideclist
+) : void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = emit_extcode (out, x) in loop (out, xs)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [loop]
+//
+in
+  loop (out, the_extcodelst_get2 ())
+end // end of [aux_extcodelst_dynend]
+
 in (* in of [local] *)
 
 implement
@@ -559,6 +621,8 @@ end // end of [val]
 val () = strptr_free (the_primdeclst_rep)
 //
 val () = aux_main_ifopt (out, infil)
+//
+val () = aux_extcodelst_dynend (out)
 //
 val () = println! ("ccomp_main: leave")
 //

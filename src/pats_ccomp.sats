@@ -86,6 +86,11 @@ staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
 
+fun the_extcodelst_get (): hideclist
+fun the_extcodelst_add (hid: hidecl): void
+
+(* ****** ****** *)
+
 abstype tmplab_type
 typedef tmplab = tmplab_type
 
@@ -341,6 +346,8 @@ datatype
 primdec_node =
   | PMDnone of () 
 //
+  | PMDsaspdec of (s2cst)
+//
   | PMDdatdecs of (s2cstlst)
   | PMDexndecs of (d2conlst)
 //
@@ -465,6 +472,12 @@ fun fprint_primdeclst : fprint_type (primdeclst)
 (* ****** ****** *)
 
 fun primdec_none (loc: location): primdec
+
+(* ****** ****** *)
+
+fun primdec_saspdec
+  (loc: location, s2c: s2cst): primdec
+// end of [primdec_saspdec]
 
 (* ****** ****** *)
 
@@ -1261,6 +1274,10 @@ fun emit_newline (out: FILEref): void
 
 (* ****** ****** *)
 
+fun emit_location (out: FILEref, x: location): void
+
+(* ****** ****** *)
+
 fun emit_int (out: FILEref, x: int): void
 fun emit_bool (out: FILEref, x: bool): void
 fun emit_char (out: FILEref, x: char): void
@@ -1304,6 +1321,10 @@ fun emit_primcstsp (out: FILEref, pmc: primcstsp): void
 fun emit_d2con (out: FILEref, d2c: d2con): void
 fun emit_d2cst (out: FILEref, d2c: d2cst): void // HX: global
 fun emit2_d2cst (out: FILEref, d2c: d2cst): void // HX: local
+
+(* ****** ****** *)
+
+fun emit_extcode (out: FILEref, hid: hidecl): void
 
 (* ****** ****** *)
 

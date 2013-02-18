@@ -604,18 +604,34 @@ case+ hid.hidecl_node of
     val () = prstr "\n)"
   }
 //
-| HIDdatdecs (knd, s2cs) => {
+| HIDextcode
+    (knd, pos, code) => {
+    val () = prstr "HIDextcode("
+    val () = fprintf (out, "knd=%i, pos=%i, code=...", @(knd, pos))
+    val () = prstr ")"
+  }
+//
+| HIDdatdecs
+    (knd, s2cs) => {
     val () = prstr "HIDdatdecs("
     val () = fprint_int (out, knd)
     val () = prstr "; "
     val () = fprint_s2cstlst (out, s2cs)
     val () = prstr ")"
   }
+| HIDexndecs (d2cs) => {
+    val () = prstr "HIDexndecs("
+    val () = fprint_d2conlst (out, d2cs)
+    val () = prstr ")"
+  }
 //
-| HIDimpdec (knd, himpdec) => {
-    val () = prstr "HIDimpdec(\n"
-    val () = fprint_hiimpdec (out, himpdec)
-    val () = prstr "\n)"
+| HIDdcstdecs
+    (knd, d2cs) => {
+    val () = prstr "HIDdcstdecs("
+    val () = fprint_dcstkind (out, knd)
+    val () = prstr "; "
+    val () = fprint_d2cstlst (out, d2cs)
+    val () = prstr ")"
   }
 //
 | HIDfundecs (
@@ -640,6 +656,12 @@ case+ hid.hidecl_node of
     val () = $UT.fprintlst (out, hvds, "\n", fprint_hivardec)
     val () = prstr "\n)"
   } // end of [HIDvardec]
+//
+| HIDimpdec (knd, himpdec) => {
+    val () = prstr "HIDimpdec(\n"
+    val () = fprint_hiimpdec (out, himpdec)
+    val () = prstr "\n)"
+  }
 //
 | HIDstaload
     (fname, _, _, _) => {

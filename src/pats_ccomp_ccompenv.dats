@@ -63,7 +63,54 @@ staload "./pats_ccomp.sats"
 
 local
 
-viewtypedef funlablst_vt = List_vt (funlab)
+vtypedef
+extcodelst_vt = List_vt (hidecl)
+
+val the_extcodelst =
+  ref_make_elt<extcodelst_vt> (list_vt_nil ())
+// end of [val]
+
+in (* in of [local] *)
+
+implement
+the_extcodelst_add (x) = let
+  val (
+    vbox pf | p
+  ) = ref_get_view_ptr (the_extcodelst)
+in
+  !p := list_vt_cons (x, !p)
+end // end of [the_extcodelst_add]
+
+implement
+the_extcodelst_get () = let
+  val (
+    vbox pf | p
+  ) = ref_get_view_ptr (the_extcodelst)
+  val xs = !p
+  val () = !p := list_vt_nil ()
+  var !p_cmp =
+    @lam (
+    x1: &hidecl, x2: &hidecl
+  ) : int =<clo>
+    $effmask_exn let
+      val-HIDextcode (knd1, pos1, _) = x1.hidecl_node
+      val-HIDextcode (knd2, pos2, _) = x2.hidecl_node
+    in
+      pos1 - pos2
+    end // end of [let]
+  // end of [var]
+  val xs = list_vt_mergesort<hidecl> (xs, !p_cmp)
+in
+  list_of_list_vt (xs)
+end // end of [the_extcodelst_get]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+vtypedef funlablst_vt = List_vt (funlab)
 
 val the_funlablst = ref_make_elt<funlablst_vt> (list_vt_nil ())
 

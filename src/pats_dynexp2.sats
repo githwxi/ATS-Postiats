@@ -167,7 +167,7 @@ overload print with print_d2cst
 fun prerr_d2cst (x: d2cst): void
 overload prerr with prerr_d2cst
 fun fprint_d2cst : fprint_type (d2cst)
-overload fprint with fprint_d2cst
+fun fprint_d2cstlst : fprint_type (d2cstlst)
 
 (* ****** ****** *)
 

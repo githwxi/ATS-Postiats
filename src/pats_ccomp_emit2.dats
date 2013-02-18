@@ -525,6 +525,8 @@ case+ pmd.primdec_node of
 //
 | PMDnone () => ()
 //
+| PMDsaspdec _ => ()
+//
 | PMDdatdecs _ => ()
 | PMDexndecs _ => ()
 //
