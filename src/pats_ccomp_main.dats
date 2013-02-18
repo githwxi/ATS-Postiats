@@ -538,27 +538,45 @@ case+ opt of
 //
 end // end of [aux_main_ifopt]
 
+#define DYNBEG 1
+#define DYNMID 10
+#define DYNEND 99
+
 fun
-aux_extcodelst_dynend
-  (out: FILEref) = let
+aux_extcodelst_if (
+  out: FILEref, test: (int) -> bool
+) : void = let
 //
 fun loop (
-  out: FILEref, xs: hideclist
-) : void = let
+  out: FILEref, test: (int) -> bool, xs: hideclist
+) : hideclist = let
 in
 //
 case+ xs of
 | list_cons
-    (x, xs) => let
-    val () = emit_extcode (out, x) in loop (out, xs)
-  end // end of [list_cons]
-| list_nil () => ()
+    (x, xs1) => let
+    val-HIDextcode (knd, pos, _) = x.hidecl_node
+  in
+    if test (pos) then let
+      val () = emit_extcode (out, x) in loop (out, test, xs1)
+    end else xs // end of [if]
+  end // end of [if]
+| list_nil () => list_nil ()
 //
 end // end of [loop]
 //
+val xs = the_extcodelst_get2 ()
+val xs2 = loop (out, test, xs)
+val () = the_extcodelst_set2 (xs2)
+//
 in
-  loop (out, the_extcodelst_get2 ())
-end // end of [aux_extcodelst_dynend]
+  // nothing
+end // end of [aux_extcodelst_if]
+
+fun
+aux_extcodelst_dynend
+  (out: FILEref) = aux_extcodelst_if (out, lam (pos) => pos <= DYNEND)
+// end of [aux_extcodelst_dynend]
 
 in (* in of [local] *)
 
@@ -598,11 +616,20 @@ val the_tmpdeclst_rep = the_tmpdeclst_stringize ()
 val the_primdeclst_rep = the_primdeclst_stringize ()
 val the_funlablst_rep = the_funlablst_stringize ()
 //
+val (
+) = aux_extcodelst_if (out, lam (pos) => pos = DYNBEG)
+//
 val () = emit_the_typedeflst (out)
+//
+val (
+) = aux_extcodelst_if (out, lam (pos) => pos < DYNMID)
 //
 val () =
   fprint_strptr (out, the_tmpdeclst_rep)
 val () = strptr_free (the_tmpdeclst_rep)
+//
+val (
+) = aux_extcodelst_if (out, lam (pos) => pos <= DYNMID)
 //
 val () =
   fprint_strptr (out, the_funlablst_rep)
