@@ -43,9 +43,17 @@ staload _(*anon*) = "./pats_utils.dats"
 (* ****** ****** *)
 
 staload
+GLOB = "./pats_global.sats"
+
+(* ****** ****** *)
+
+staload
 STMP = "./pats_stamp.sats"
 typedef stamp = $STMP.stamp
 overload compare with $STMP.compare_stamp_stamp
+
+staload
+LOC = "./pats_location.sats"
 
 staload
 SYM = "./pats_symbol.sats"
@@ -79,6 +87,7 @@ s2cst_struct = @{
 , s2cst_srt= s2rt // the sort
 //
 , s2cst_def= s2expopt // definition
+, s2cst_pack= Stropt // for ATS_PACKNAME
 //
 , s2cst_isabs= Option (s2expopt) // is abstract?
 , s2cst_iscon= bool // constructor?
@@ -134,6 +143,7 @@ s2cst_make (
 , argsrtss, def
 ) = let
 //
+val pack = $GLOB.the_PACKNAME_get ()
 val stamp = $STMP.s2cst_stamp_make ()
 val (pfgc, pfat | p) = ptr_alloc<s2cst_struct> ()
 prval () = free_gc_elim {s2cst_struct?} (pfgc)
@@ -141,7 +151,10 @@ prval () = free_gc_elim {s2cst_struct?} (pfgc)
 val () = p->s2cst_sym := id
 val () = p->s2cst_loc := loc
 val () = p->s2cst_srt := s2t
+//
 val () = p->s2cst_def := def
+val () = p->s2cst_pack := pack
+//
 val () = p->s2cst_isabs := isabs
 val () = p->s2cst_iscon := iscon
 val () = p->s2cst_isrec := isrec
@@ -166,6 +179,11 @@ end // end of [s2cst_make]
 (* ****** ****** *)
 
 implement
+s2cst_get_loc (s2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_loc
+end // end of [s2cst_get_loc]
+
+implement
 s2cst_get_sym (s2c) = let
   val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_sym
 end // end of [s2cst_get_sym]
@@ -183,6 +201,11 @@ implement
 s2cst_set_def (s2c, opt) = let
   val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_def := opt
 end // end of [s2cst_def_set]
+
+implement
+s2cst_get_pack (s2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_pack
+end // end of [s2cst_get_pack]
 
 implement
 s2cst_get_isabs (s2c) = let
@@ -280,6 +303,18 @@ s2cst_get_stamp (s2c) = let
 end // end of [s2cst_get_stamp]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+s2cst_get_fil (s2c) = let
+  val loc = s2cst_get_loc (s2c) in $LOC.location_get_filename (loc)
+end // end of [s2cst_get_fil]
+
+implement
+s2cst_get_name (s2c) = let
+  val sym = s2cst_get_sym (s2c) in $SYM.symbol_get_name (sym)
+end // end of [s2cst_get_name]
 
 (* ****** ****** *)
 

@@ -578,6 +578,28 @@ in
   // nothing
 end // end of [aux_extcodelst_if]
 
+fun
+aux_saspdeclst
+  (out: FILEref): void = let
+//
+fun loop (
+  out: FILEref, xs: hideclist
+) : void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = emit_saspdec (out, x) in loop (out, xs)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [loop]
+//
+in
+  loop (out, the_saspdeclst_get ())
+end // end of [aux_saspdeclst]
+
 in (* in of [local] *)
 
 implement
@@ -651,6 +673,8 @@ val () = aux_main_ifopt (out, infil)
 //
 val (
 ) = aux_extcodelst_if (out, lam (pos) => pos <= DYNEND)
+//
+val () = aux_saspdeclst (out)
 //
 val () = println! ("ccomp_main: leave")
 //

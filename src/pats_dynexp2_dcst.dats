@@ -87,9 +87,9 @@ d2cst_struct = @{
 (*
 , d2cst_skexp= s2kexp // skeleton of the assigned type
 *)
+, d2cst_def= d2expopt // definition
 , d2cst_pack= Stropt // for ATS_PACKNAME
 , d2cst_extdef= dcstextdef // external dcst definition
-, d2cst_def= d2expopt // definition
 , d2cst_stamp= stamp // unique stamp
 , d2cst_hityp= hitypnul // type erasure
 } // end of [d2cst_struct]
@@ -129,9 +129,9 @@ val () = p->d2cst_type := typ
 (*
 val () = p->d2cst_skexp := s2kexp_make_s2exp (typ)
 *)
+val () = p->d2cst_def := None ()
 val () = p->d2cst_pack := pack
 val () = p->d2cst_extdef := extdef
-val () = p->d2cst_def := None ()
 val () = p->d2cst_stamp := stamp
 val () = p->d2cst_hityp := hitypnul_none (null)
 //
@@ -177,6 +177,15 @@ d2cst_get_type (d2c) = let
 end // end of [d2cst_get_type]
 
 implement
+d2cst_get_def (d2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_def
+end // end of [d2cst_get_def]
+implement
+d2cst_set_def (d2c, def) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_def := def
+end // end of [d2cst_set_def]
+
+implement
 d2cst_get_pack (d2c) = let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_pack
 end // end of [d2cst_get_pack]
@@ -185,15 +194,6 @@ implement
 d2cst_get_extdef (d2c) = let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_extdef
 end // end of [d2cst_get_extdef]
-
-implement
-d2cst_get_def (d2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_def
-end // end of [d2cst_get_def]
-implement
-d2cst_set_def (d2c, def) = let
-  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_def := def
-end // end of [d2cst_set_def]
 
 implement
 d2cst_get_stamp (d2c) = let

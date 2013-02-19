@@ -266,10 +266,10 @@ hisaspdec_ccomp
 //
 val loc0 = hid0.hidecl_loc
 val-HIDsaspdec (d2c) = hid0.hidecl_node
-val s2c = d2c.s2aspdec_cst
+val () = the_saspdeclst_add (hid0)
 //
 in
-  primdec_saspdec (loc0, s2c)
+  primdec_saspdec (loc0, d2c)
 end // end of [hisaspdec_ccomp]
 
 (* ****** ****** *)

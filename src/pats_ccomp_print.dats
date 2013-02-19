@@ -107,9 +107,9 @@ case+ x.primdec_node of
 //
 | PMDnone () => prstr "PMDnone()"
 //
-| PMDsaspdec (s2c) => {
+| PMDsaspdec (d2c) => {
     val () = prstr "PMDsaspdec("
-    val () = fprint_s2cst (out, s2c)
+    val () = fprint_s2cst (out, d2c.s2aspdec_cst)
     val () = prstr ")"
   }
 //

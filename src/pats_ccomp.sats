@@ -86,6 +86,11 @@ staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
 
+fun the_saspdeclst_get (): hideclist
+fun the_saspdeclst_add (hid: hidecl): void
+
+(* ****** ****** *)
+
 fun the_extcodelst_get (): hideclist
 fun the_extcodelst_add (hid: hidecl): void
 
@@ -346,7 +351,7 @@ datatype
 primdec_node =
   | PMDnone of () 
 //
-  | PMDsaspdec of (s2cst)
+  | PMDsaspdec of (s2aspdec)
 //
   | PMDdatdecs of (s2cstlst)
   | PMDexndecs of (d2conlst)
@@ -476,7 +481,7 @@ fun primdec_none (loc: location): primdec
 (* ****** ****** *)
 
 fun primdec_saspdec
-  (loc: location, s2c: s2cst): primdec
+  (loc: location, d2c: s2aspdec): primdec
 // end of [primdec_saspdec]
 
 (* ****** ****** *)
@@ -1320,9 +1325,18 @@ fun emit_primcstsp (out: FILEref, pmc: primcstsp): void
 
 (* ****** ****** *)
 
+fun emit_s2cst (out: FILEref, d2c: s2cst): void // HX: global
+fun emit2_s2cst (out: FILEref, d2c: s2cst): void // HX: local
+
+(* ****** ****** *)
+
 fun emit_d2con (out: FILEref, d2c: d2con): void
 fun emit_d2cst (out: FILEref, d2c: d2cst): void // HX: global
 fun emit2_d2cst (out: FILEref, d2c: d2cst): void // HX: local
+
+(* ****** ****** *)
+
+fun emit_saspdec (out: FILEref, hid: hidecl): void
 
 (* ****** ****** *)
 

@@ -270,40 +270,44 @@ fn d1atsrtdec_tr (
   res: s2rt, d1c: d1atsrtdec
 ) : s2cstlst = let
 //
-  fn aux (
-    i: int, res: s2rt, d1c: d1atsrtcon
-  ) : s2cst = let
-    val id = d1c.d1atsrtcon_sym
-    val loc = d1c.d1atsrtcon_loc
-    val arg = s1rtlst_tr (d1c.d1atsrtcon_arg)
-    val s2t = s2rt_fun (arg, res)
-    val s2c = s2cst_make (
-      id // sym
-    , loc // location
-    , s2t // srt
-    , None () // isabs
-    , true // iscon
-    , false // isrec
-    , false // isasp
-    , None () // islst
-    , list_nil () // argvarlst
-    , None () // def
-    ) // end of [s2cst_make]
-    val () = s2cst_set_tag (s2c, i)
-    val () = the_s2expenv_add_scst (s2c)
-  in
-    s2c
-  end // end of [aux]
+fn aux (
+  i: int, res: s2rt, d1c: d1atsrtcon
+) : s2cst = let
+  val id = d1c.d1atsrtcon_sym
+  val loc = d1c.d1atsrtcon_loc
+  val arg = s1rtlst_tr (d1c.d1atsrtcon_arg)
+  val s2t = s2rt_fun (arg, res)
+  val s2c = s2cst_make (
+    id // sym
+  , loc // location
+  , s2t // srt
+  , None () // isabs
+  , true // iscon
+  , false // isrec
+  , false // isasp
+  , None () // islst
+  , list_nil () // argvarlst
+  , None () // def
+  ) // end of [s2cst_make]
+  val () = s2cst_set_tag (s2c, i)
+  val () = the_s2expenv_add_scst (s2c)
+in
+  s2c
+end // end of [aux]
 //
-  fun auxlst (
-    i: int, res: s2rt, d1cs: d1atsrtconlst
-  ) : s2cstlst =
-    case+ d1cs of
-    | list_cons (d1c, d1cs) => begin
-        list_cons (aux (i, res, d1c), auxlst (i+1, res, d1cs))
-      end // end of [cons]
-    | list_nil () => list_nil ()
-  // end of [auxlst]
+fun auxlst (
+  i: int, res: s2rt, d1cs: d1atsrtconlst
+) : s2cstlst = let
+in
+//
+case+ d1cs of
+| list_cons
+    (d1c, d1cs) => (
+    list_cons (aux (i, res, d1c), auxlst (i+1, res, d1cs))
+  ) // end of [cons]
+| list_nil () => list_nil ()
+//
+end // end of [auxlst]
 //
 in
   auxlst (0, res, d1c.d1atsrtdec_con)
@@ -312,50 +316,56 @@ end // end of [d1atsrtdec_tr]
 fn d1atsrtdeclst_tr
   (d1cs: d1atsrtdeclst) = let
 //
-  typedef T = (d1atsrtdec, s2rtdat, s2rt)
+typedef T = (d1atsrtdec, s2rtdat, s2rt)
 //
-  fun loop1 (xs0: List_vt (T)): void =
-    case+ xs0 of
-    | ~list_vt_cons (x, xs) => let
-        val s2cs = d1atsrtdec_tr (x.2, x.0)
-        val () = s2rtdat_set_sconlst (x.1, s2cs)
-      in
-        loop1 (xs)
-      end // end of [list_vt_cons]
-    | ~list_vt_nil () => ()
-  // end of [loop1]
+fun loop1 (
+  xs0: List_vt (T)
+) : void = let
+in
+  case+ xs0 of
+  | ~list_vt_cons (x, xs) => let
+      val s2cs = d1atsrtdec_tr (x.2, x.0)
+      val () = s2rtdat_set_sconlst (x.1, s2cs)
+    in
+      loop1 (xs)
+    end // end of [list_vt_cons]
+  | ~list_vt_nil () => ()
+end // end of [loop1]
 //
-  fun loop2 (
-    d1cs: d1atsrtdeclst, res: List_vt (T)
-  ) : void =
-    case+ d1cs of
-    | list_cons (d1c, d1cs) => let
-        val id = d1c.d1atsrtdec_sym
-        val s2td = s2rtdat_make (id)
-        val s2t = S2RTbas (S2RTBASdef s2td)
+fun loop2 (
+  d1cs: d1atsrtdeclst, res: List_vt (T)
+) : void = let
+in
+  case+ d1cs of
+  | list_cons
+      (d1c, d1cs) => let
+      val loc = d1c.d1atsrtdec_loc
+      val sym = d1c.d1atsrtdec_sym
+      val s2td = s2rtdat_make (sym)
+      val s2t = S2RTbas (S2RTBASdef s2td)
 //
-        val s2ts_arg = '[s2t, s2t]
-        val s2t_eqeq = s2rt_fun (s2ts_arg, s2rt_bool)
-        val s2c_eqeq = s2cst_make (
-          EQEQ // sym
-        , d1c.d1atsrtdec_loc // location
-        , s2t_eqeq // srt
-        , None () // isabs
-        , false // iscon
-        , false // isrec
-        , false // isasp
-        , None () // islst
-        , list_nil () // argvarlst
-        , None () // def
-        ) // end of [val]
-        val () = the_s2expenv_add_scst (s2c_eqeq)
+      val s2ts_arg = '[s2t, s2t]
+      val s2t_eqeq = s2rt_fun (s2ts_arg, s2rt_bool)
+      val s2c_eqeq = s2cst_make (
+        EQEQ // sym
+      , loc // location
+      , s2t_eqeq // srt
+      , None () // isabs
+      , false // iscon
+      , false // isrec
+      , false // isasp
+      , None () // islst
+      , list_nil () // argvarlst
+      , None () // def
+      ) // end of [val]
+      val () = the_s2expenv_add_scst (s2c_eqeq)
 //
-        val () = the_s2rtenv_add (id, S2TEsrt s2t)
-      in
-        loop2 (d1cs, list_vt_cons (@(d1c, s2td, s2t), res))
-      end // end of [list_cons]
-    | list_nil () => loop1 res
-  // end of [loop2]
+      val () = the_s2rtenv_add (sym, S2TEsrt s2t)
+    in
+      loop2 (d1cs, list_vt_cons ( @(d1c, s2td, s2t), res ))
+    end // end of [list_cons]
+  | list_nil () => loop1 (res)
+end // end of [loop2]
 //
 in
   loop2 (d1cs, list_vt_nil ())

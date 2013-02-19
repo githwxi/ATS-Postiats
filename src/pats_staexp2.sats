@@ -523,11 +523,17 @@ fun s2cst_make_dat (
 (* ****** ****** *)
 
 fun s2cst_get_loc (x: s2cst): location
+fun s2cst_get_fil (x: s2cst): filename
+
 fun s2cst_get_sym (x: s2cst): symbol
+fun s2cst_get_name (x: s2cst): string
+
 fun s2cst_get_srt (x: s2cst): s2rt
 
 fun s2cst_get_def (x: s2cst): s2expopt
 fun s2cst_set_def (x: s2cst, def: s2expopt): void
+
+fun s2cst_get_pack (x: s2cst): Stropt
 
 fun s2cst_get_isabs (x: s2cst): Option (s2expopt)
 

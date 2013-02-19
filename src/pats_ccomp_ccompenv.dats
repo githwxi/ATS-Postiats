@@ -64,6 +64,42 @@ staload "./pats_ccomp.sats"
 local
 
 vtypedef
+saspdeclst_vt = List_vt (hidecl)
+
+val the_saspdeclst =
+  ref_make_elt<saspdeclst_vt> (list_vt_nil ())
+// end of [val]
+
+in (* in of [local] *)
+
+implement
+the_saspdeclst_add (x) = let
+  val (
+    vbox pf | p
+  ) = ref_get_view_ptr (the_saspdeclst)
+in
+  !p := list_vt_cons (x, !p)
+end // end of [the_saspdeclst_add]
+
+implement
+the_saspdeclst_get () = let
+  val (
+    vbox pf | p
+  ) = ref_get_view_ptr (the_saspdeclst)
+  val xs = !p
+  val () = !p := list_vt_nil ()
+  val xs = list_vt_reverse<hidecl> (xs)
+in
+  list_of_list_vt (xs)
+end // end of [the_saspdeclst_get]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+vtypedef
 extcodelst_vt = List_vt (hidecl)
 
 val the_extcodelst =

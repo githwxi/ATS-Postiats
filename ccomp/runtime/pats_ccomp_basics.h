@@ -74,6 +74,10 @@
 
 /* ****** ****** */
 
+#define ATSassume(flag) void *flag = (void*)0
+
+/* ****** ****** */
+
 #define ATSmainats_void_0(err) mainats_void_0()
 #define ATSmainats_argc_argv_0(argc, argv, err) mainats_argc_argv_0(argc, argv)
 #define ATSmainats_argc_argv_envp_0(argc, argv, envp, err) mainats_argc_argv_envp_0(argc, argv, envp)

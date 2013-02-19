@@ -79,6 +79,7 @@ GLOB = "./pats_global.sats"
 
 staload
 S2E = "./pats_staexp2.sats"
+typedef s2cst = $S2E.s2cst
 typedef d2con = $S2E.d2con
 staload
 D2E = "./pats_dynexp2.sats"
@@ -417,6 +418,27 @@ end // end of [emit_primcstsp]
 (* ****** ****** *)
 
 implement
+emit_saspdec
+  (out, hid) = let
+//
+val loc0 = hid.hidecl_loc
+val-HIDsaspdec (d2c) = hid.hidecl_node
+//
+val () = emit_text (out, "/*\n")
+val () = emit_location (out, loc0)
+val () = emit_text (out, "\n*/\n")
+//
+val () = emit_text (out, "ATSassume(")
+val () = emit_s2cst (out, d2c.s2aspdec_cst)
+val () = emit_text (out, ") ;\n")
+//
+in
+  // nothing
+end // end of [emit_saspdec]
+
+(* ****** ****** *)
+
+implement
 emit_extcode
   (out, hid) = let
 //
@@ -445,6 +467,49 @@ val () = emit_rparen (out)
 //
 in
 end // end of [emit_sizeof]
+
+(* ****** ****** *)
+
+local
+
+fun
+aux_prfx (
+  out: FILEref, s2c: s2cst
+) : void = let
+//
+val pack =
+  $S2E.s2cst_get_pack (s2c)
+// end of [val]
+val issome = stropt_is_some (pack)
+//
+in
+//
+if issome then let
+  val pack = stropt_unsome (pack)
+in
+  emit_ident (out, pack)
+end else let
+  val fil = $S2E.s2cst_get_fil (s2c)
+in
+  emit_filename (out, fil)
+end // end of [if]
+//
+end // end of [aux_prfx]
+
+in (* in of [local] *)
+
+implement
+emit_s2cst
+  (out, s2c) = let
+  val () = aux_prfx (out, s2c)
+  val () = emit_text (out, "__")
+  val name = $S2E.s2cst_get_name (s2c)
+  val () = emit_ident (out, name)
+in
+  // nothing
+end // end of [emit_s2cst]
+
+end // end of [local]
 
 (* ****** ****** *)
 

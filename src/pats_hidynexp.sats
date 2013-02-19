@@ -176,7 +176,7 @@ hidecl_node =
   | HIDnone of ()
   | HIDlist of hideclist
 //
-  | HIDsaspdec of s2aspdec
+  | HIDsaspdec of (s2aspdec)
 //
   | HIDextcode of
       (int(*knd*), int(*pos*), string(*code*))
