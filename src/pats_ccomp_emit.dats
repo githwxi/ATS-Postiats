@@ -502,7 +502,7 @@ implement
 emit_s2cst
   (out, s2c) = let
   val () = aux_prfx (out, s2c)
-  val () = emit_text (out, "__")
+  val () = emit_text (out, "_")
   val name = $S2E.s2cst_get_name (s2c)
   val () = emit_ident (out, name)
 in
@@ -520,7 +520,7 @@ emit_d2con
   val sym = $S2E.d2con_get_sym (d2c)
   val name = $SYM.symbol_get_name (sym)
   val () = emit_filename (out, fil)
-  val () = emit_text (out, "__")
+  val () = emit_text (out, "_")
   val () = emit_ident (out, name)
   val tag = $S2E.d2con_get_tag (d2c)
   val () = if
@@ -574,7 +574,7 @@ in
 case+ extdef of
 | $SYN.DCSTEXTDEFnone () => let
     val () = aux_prfx (out, d2c)
-    val () = emit_text (out, "__")
+    val () = emit_text (out, "_")
     val name = $D2E.d2cst_get_name (d2c)
     val () = emit_ident (out, name)
   in

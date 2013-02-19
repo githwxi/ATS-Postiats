@@ -179,14 +179,14 @@ end // end of [s2cst_make]
 (* ****** ****** *)
 
 implement
-s2cst_get_loc (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_loc
-end // end of [s2cst_get_loc]
-
-implement
 s2cst_get_sym (s2c) = let
   val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_sym
 end // end of [s2cst_get_sym]
+
+implement
+s2cst_get_loc (s2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_loc
+end // end of [s2cst_get_loc]
 
 implement
 s2cst_get_srt (s2c) = let
@@ -307,14 +307,17 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-s2cst_get_fil (s2c) = let
-  val loc = s2cst_get_loc (s2c) in $LOC.location_get_filename (loc)
+s2cst_get_fil
+  (s2c) = let
+  val loc = s2cst_get_loc (s2c)
+in
+  $LOC.location_get_filename (loc)
 end // end of [s2cst_get_fil]
 
 implement
-s2cst_get_name (s2c) = let
-  val sym = s2cst_get_sym (s2c) in $SYM.symbol_get_name (sym)
-end // end of [s2cst_get_name]
+s2cst_get_name (s2c) =
+  $SYM.symbol_get_name (s2cst_get_sym (s2c))
+// end of [s2cst_get_name]
 
 (* ****** ****** *)
 

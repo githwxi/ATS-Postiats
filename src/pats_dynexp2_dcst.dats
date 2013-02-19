@@ -78,8 +78,8 @@ extern castfn hitypnul_none (x: ptr null): hitypnul
 typedef
 d2cst_struct = @{
   d2cst_sym= symbol
-, d2cst_loc= location
-, d2cst_fil= filename
+, d2cst_loc= location // the location of declaration
+, d2cst_fil= filename // the filename of declaration
 , d2cst_kind= dcstkind
 , d2cst_decarg= s2qualst // template arg
 , d2cst_artylst= List (int) // arity
@@ -129,7 +129,7 @@ val () = p->d2cst_type := typ
 (*
 val () = p->d2cst_skexp := s2kexp_make_s2exp (typ)
 *)
-val () = p->d2cst_def := None ()
+val () = p->d2cst_def := None
 val () = p->d2cst_pack := pack
 val () = p->d2cst_extdef := extdef
 val () = p->d2cst_stamp := stamp

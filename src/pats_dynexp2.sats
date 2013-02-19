@@ -153,8 +153,8 @@ typedef d2symopt = Option (d2sym)
 
 fun d2cst_make (
   id: symbol
-, loc: location
-, fil: filename
+, loc: location // location of declaration
+, fil: filename // filename of declaration
 , dck: dcstkind
 , decarg: s2qualst
 , artylst: List int
@@ -171,9 +171,9 @@ fun fprint_d2cstlst : fprint_type (d2cstlst)
 
 (* ****** ****** *)
 
+fun d2cst_get_sym (x: d2cst): symbol
 fun d2cst_get_loc (x: d2cst): location
 fun d2cst_get_fil (x: d2cst): filename
-fun d2cst_get_sym (x: d2cst): symbol
 fun d2cst_get_name (x: d2cst): string
 fun d2cst_get_kind (x: d2cst): dcstkind
 fun d2cst_get_decarg (x: d2cst): s2qualst
@@ -254,9 +254,9 @@ fun fprint_d2vfin : fprint_type (d2vfin)
 
 (* ****** ****** *)
 
-fun d2var_get_loc (x: d2var):<> location
-
 fun d2var_get_sym (x: d2var):<> symbol
+
+fun d2var_get_loc (x: d2var):<> location
 
 fun d2var_get_isfix (x: d2var):<> bool
 fun d2var_set_isfix (x: d2var, isfix: bool): void
@@ -361,9 +361,9 @@ fun fprint_m2acarglst : fprint_type (m2acarglst)
 
 (* ****** ****** *)
 
-fun d2mac_get_loc (x: d2mac): location
-
 fun d2mac_get_sym (x: d2mac): symbol
+
+fun d2mac_get_loc (x: d2mac): location
 
 fun d2mac_get_kind (x: d2mac): int (* 1/0: long/short form *)
 

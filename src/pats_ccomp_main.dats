@@ -669,12 +669,12 @@ in
 end // end of [val]
 val () = strptr_free (the_primdeclst_rep)
 //
+val () = aux_saspdeclst (out)
+//
 val () = aux_main_ifopt (out, infil)
 //
 val (
 ) = aux_extcodelst_if (out, lam (pos) => pos <= DYNEND)
-//
-val () = aux_saspdeclst (out)
 //
 val () = println! ("ccomp_main: leave")
 //

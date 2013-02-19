@@ -522,11 +522,11 @@ fun s2cst_make_dat (
 
 (* ****** ****** *)
 
-fun s2cst_get_loc (x: s2cst): location
-fun s2cst_get_fil (x: s2cst): filename
-
 fun s2cst_get_sym (x: s2cst): symbol
 fun s2cst_get_name (x: s2cst): string
+
+fun s2cst_get_loc (x: s2cst): location
+fun s2cst_get_fil (x: s2cst): filename
 
 fun s2cst_get_srt (x: s2cst): s2rt
 
@@ -853,8 +853,9 @@ fun d2con_make_list_cons (): d2con
 
 (* ****** ****** *)
 
-fun d2con_get_fil (x: d2con):<> filename
 fun d2con_get_sym (x: d2con):<> symbol
+fun d2con_get_loc (x: d2con):<> location
+fun d2con_get_fil (x: d2con):<> filename
 fun d2con_get_scst (x: d2con):<> s2cst
 fun d2con_get_npf (x: d2con):<> int
 fun d2con_get_vwtp (x: d2con):<> int

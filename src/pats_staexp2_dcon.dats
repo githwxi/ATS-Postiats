@@ -63,9 +63,9 @@ staload "./pats_staexp2.sats"
 
 typedef
 d2con_struct = @{
-  d2con_loc= location // location
+  d2con_sym= symbol // the name
+, d2con_loc= location // location
 , d2con_fil= filename // filename
-, d2con_sym= symbol // the name
 , d2con_scst= s2cst // datatype
 , d2con_npf= int // pfarity
 , d2con_vwtp= int // viewtype constructor
@@ -118,7 +118,10 @@ in
 end // end of [val]
 //
 val d2c_type = let
-  fun aux (s2f: s2exp, s2qs: s2qualst): s2exp =
+  fun aux (
+    s2f: s2exp, s2qs: s2qualst
+  ) : s2exp = let
+  in
     case+ s2qs of
     | list_cons (s2q, s2qs) => let
         val s2f = aux (s2f, s2qs)
@@ -129,8 +132,10 @@ val d2c_type = let
         s2f_uni
       end // end of [list_cons]
     | list_nil () => s2f
-  // end of [aux]
-  val s2e_res = (case+ ind of
+  end // end of [aux]
+  val s2e_res =
+  (
+    case+ ind of
     | Some s2es => s2exp_cstapp (s2c, s2es) | None () => s2exp_cst (s2c)
   ) : s2exp // end of [val]
   val s2f = s2exp_confun (npf, arg, s2e_res)
@@ -138,12 +143,14 @@ in
   aux (s2f, qua)
 end : s2exp // end of [val]
 //
-val (pf_gc, pfat | p) = ptr_alloc<d2con_struct> ()
-prval () = free_gc_elim (pf_gc)
+val (
+  pfgc, pfat | p
+) = ptr_alloc<d2con_struct> ()
+prval () = free_gc_elim (pfgc)
 //
+val () = p->d2con_sym := id
 val () = p->d2con_loc := loc
 val () = p->d2con_fil := fil
-val () = p->d2con_sym := id
 val () = p->d2con_scst := s2c
 val () = p->d2con_npf := npf
 val () = p->d2con_vwtp := vwtp
@@ -165,14 +172,19 @@ end // end of [d2con_make]
 (* ****** ****** *)
 
 implement
-d2con_get_fil (d2c) = $effmask_ref let
-  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_fil
-end // end of [d2con_get_fil]
-
-implement
 d2con_get_sym (d2c) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_sym
 end // end of [d2con_get_sym]
+
+implement
+d2con_get_loc (d2c) = $effmask_ref let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_loc
+end // end of [d2con_get_loc]
+
+implement
+d2con_get_fil (d2c) = $effmask_ref let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_fil
+end // end of [d2con_get_fil]
 
 implement
 d2con_get_scst (d2c) = $effmask_ref let
@@ -313,8 +325,10 @@ fprint_d2conlst
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_d2con)
 // end of [fprint_d2conlst]
 
-implement print_d2conlst (xs) = fprint_d2conlst (stdout_ref, xs)
-implement prerr_d2conlst (xs) = fprint_d2conlst (stderr_ref, xs)
+implement
+print_d2conlst (xs) = fprint_d2conlst (stdout_ref, xs)
+implement
+prerr_d2conlst (xs) = fprint_d2conlst (stderr_ref, xs)
 
 (* ****** ****** *)
 

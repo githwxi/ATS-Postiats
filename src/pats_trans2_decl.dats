@@ -1142,26 +1142,38 @@ fn d1cstdec_tr (
   dck: dcstkind
 , s2qs: s2qualst
 , d1c: d1cstdec
-) : d2cst = d2c where {
+) : d2cst = let
   val loc = d1c.d1cstdec_loc
   val fil = d1c.d1cstdec_fil
   val sym = d1c.d1cstdec_sym
 //
-// HX: it must be a prop or a t@ype; it cannot be linear
+// HX-2012:
+// it is either prop or t@ype; it cannot be linear
 //
-  val s2t_cst = (
-    if dcstkind_is_proof (dck) then s2rt_prop else s2rt_t0ype
-  ) : s2rt // end of [val]
-  var s2e_cst = s1exp_trdn (d1c.d1cstdec_type, s2t_cst)
+  val isprf =
+    dcstkind_is_proof (dck)
+  val s2t_cst =
+    (if isprf then s2rt_prop else s2rt_t0ype): s2rt
+//
+  val s1e_cst = d1c.d1cstdec_type
+  var s2e_cst =
+    s1exp_trdn (s1e_cst, s2t_cst)
   val arylst = s2exp_get_arylst (s2e_cst)
   val extdef = d1c.d1cstdec_extdef
-  val d2c = d2cst_make (sym, loc, fil, dck, s2qs, arylst, s2e_cst, extdef)
+  val d2c =
+    d2cst_make (sym, loc, fil, dck, s2qs, arylst, s2e_cst, extdef)
+  // end of [val]
+//
   val () = the_d2expenv_add_dcst (d2c)
-} // end of [d1cstdec_tr]
+//
+in
+  d2c
+end // end of [d1cstdec_tr]
 
 end // end of [local]
 
-fun d1cstdeclst_tr (
+fun d1cstdeclst_tr
+(
   dck: dcstkind, s2qs: s2qualst, d1cs: d1cstdeclst
 ) : d2cstlst = let
 in
