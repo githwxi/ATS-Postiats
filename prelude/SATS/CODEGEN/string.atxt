@@ -342,20 +342,24 @@ env:vt0p
 (*
 ** HX: [stropt_none] is just the null pointer
 *)
+fun{} stropt_none (): stropt (~1)
 
 #atscode_separator()
 
-fun{} stropt_none (): stropt (~1)
-castfn stropt_some {n:int} (x: SHR(string n)): stropt (n)
+symintr stropt_some
+castfn stropt0_some {n:int} (x: SHR(string n)): Stropt1
+overload stropt_some with stropt0_some
+castfn stropt1_some {n:int} (x: SHR(string n)): stropt (n)
+overload stropt_some with stropt1_some
 
-fun stropt_is_none {n:int} (x: stropt n): bool (n < 0)
-fun stropt_is_some {n:int} (x: stropt n): bool (n >= 0)
+#atscode_separator()
 
-castfn stropt_unsome {n:nat} (x: stropt n): string (n)
+castfn
+stropt_unsome {n:nat} (x: stropt n): string (n)
 
-fun stropt_length
-  {n:int} (x: stropt (n)): ssize_t (n)
-// end of [stropt_length]
+#atscode_separator()
+
+fun stropt_length {n:int} (x: stropt (n)): ssize_t (n)
 
 #atscode_separator()
 
