@@ -5,6 +5,10 @@
 //
 
 (* ****** ****** *)
+
+staload "prelude/DATS/integer.dats"
+
+(* ****** ****** *)
 //
 (*
 [isevn] and [isodd] are defined mutually
@@ -21,8 +25,9 @@ and isodd (x: int): bool =
 implement
 main (
 ) = 0 where {
-  val () = assertloc (isevn (1000000))
-  val () = assertloc (isodd (1000001))
+  val N = 1000000
+  val () = assertloc (isevn (N))
+  val () = assertloc (isodd (N+1))
 } // end of [main]
 
 (* ****** ****** *)

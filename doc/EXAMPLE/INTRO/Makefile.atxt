@@ -71,6 +71,8 @@ all::
 
 #make_entry("fact1")
 #make_entry("fact2")
+#make_entry("fact3")
+#make_entry("mutailrec")
 
 ######
 

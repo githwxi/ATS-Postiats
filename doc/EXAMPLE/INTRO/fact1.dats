@@ -14,9 +14,6 @@
 
 staload "prelude/DATS/integer.dats"
 
-implement
-g0int_of_string<intknd> (str) = atoi (str)
-
 (* ****** ****** *)
 //
 // HX: [fun] declares a recursive function

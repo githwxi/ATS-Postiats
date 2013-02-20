@@ -168,7 +168,7 @@ val gua = gm2atlst_trup (c2l.c2lau_gua)
 //
 val () = d3lvalist_set_pat_type_left (d3es, p3ts)
 val s2e_res = (
-  if neg > 0 then s2exp_bottom_vt0ype_exi () else s2e_res
+  if neg > 0 then s2exp_bottom_t0ype_exi () else s2e_res
 ) : s2exp // end of [val]
 val d3e_body = d2exp_trdn (c2l.c2lau_body, s2e_res)
 //

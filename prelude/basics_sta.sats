@@ -512,9 +512,9 @@ vtypedef vttakeout
 
 (* ****** ****** *)
 
-vtypedef
+typedef
 bottom_t0ype_uni = {a:t@ype} (a)
-vtypedef
+typedef
 bottom_t0ype_exi = [a:t@ype | false] (a)
 
 (* ****** ****** *)

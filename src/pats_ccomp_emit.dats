@@ -1623,12 +1623,12 @@ emit_instr_funcall
 val loc0 = ins.instr_loc
 val-INSfuncall
   (tmp, pmv_fun, hse_fun, pmvs_arg) = ins.instr_node
-// (*
+(*
 val () = (
   println! ("emit_instr_funcall: pmv_fun = ", pmv_fun);
   println! ("emit_instr_funcall: hse_fun = ", hse_fun);
 ) // end of [val]
-// *)
+*)
 val noret = tmpvar_is_void (tmp)
 val noret = (
   if noret then true else primval_fun_isbot (pmv_fun)

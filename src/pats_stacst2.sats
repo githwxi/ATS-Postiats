@@ -193,8 +193,8 @@ val the_invar_vt0ype_vt0ype: s2cstref
 //
 (* ****** ****** *)
 
-val the_bottom_vt0ype_uni: s2cstref // = {a:viewt@ype} a
-val the_bottom_vt0ype_exi: s2cstref // = [a:viewt@ype | false] a
+val the_bottom_t0ype_uni: s2cstref // = {a:t@ype} (a)
+val the_bottom_t0ype_exi: s2cstref // = [a:t@ype | false] (a)
 
 (* ****** ****** *)
 
@@ -350,8 +350,8 @@ fun un_s2exp_lazy_vt0ype_vtype (s2f: s2hnf): Option_vt (s2exp)
 
 (* ****** ****** *)
 
-fun s2exp_bottom_vt0ype_uni (): s2exp // = {a:viewt@ype} a
-fun s2exp_bottom_vt0ype_exi (): s2exp // = [a:viewt@ype | false] a
+fun s2exp_bottom_t0ype_uni (): s2exp // = {a:t@ype} (a)
+fun s2exp_bottom_t0ype_exi (): s2exp // = [a:t@ype | false] (a)
 
 (* ****** ****** *)
 

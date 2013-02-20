@@ -1111,20 +1111,20 @@ end // end of [un_s2exp_lazy_vt0ype_vtype]
 (* ****** ****** *)
 
 implement
-the_bottom_vt0ype_uni =
-  s2cstref_make "bottom_vt0ype_uni"
+the_bottom_t0ype_uni =
+  s2cstref_make "bottom_t0ype_uni"
 implement
-s2exp_bottom_vt0ype_uni () =
-  s2exp_cst (s2cstref_get_cst (the_bottom_vt0ype_uni))
-// end of [s2exp_bottom_vt0ype_uni]
+s2exp_bottom_t0ype_uni () =
+  s2exp_cst (s2cstref_get_cst (the_bottom_t0ype_uni))
+// end of [s2exp_bottom_t0ype_uni]
 
 implement
-the_bottom_vt0ype_exi =
-  s2cstref_make "bottom_vt0ype_exi"
+the_bottom_t0ype_exi =
+  s2cstref_make "bottom_t0ype_exi"
 implement
-s2exp_bottom_vt0ype_exi () =
-  s2exp_cst (s2cstref_get_cst (the_bottom_vt0ype_exi))
-// end of [s2exp_bottom_vt0ype_exi]
+s2exp_bottom_t0ype_exi () =
+  s2exp_cst (s2cstref_get_cst (the_bottom_t0ype_exi))
+// end of [s2exp_bottom_t0ype_exi]
 
 (* ****** ****** *)
 

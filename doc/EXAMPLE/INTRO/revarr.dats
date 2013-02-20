@@ -9,12 +9,9 @@
 
 (* ****** ****** *)
 
-sortdef vt0p = viewt@ype
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-revarr {n:nat} .<>. (
+fun{
+a:vt@ype
+} revarr {n:nat} .<>. (
   A: &array (a, n), n: size_t n
 ) :<!wrt> void = let
 //
@@ -33,7 +30,7 @@ end // end of [revarr]
 
 (* ****** ****** *)
 
-staload "contrib/atshwxi/testing/SATS/randgen.sats"
+staload "atshwxi/testing/SATS/randgen.sats"
 
 (* ****** ****** *)
 

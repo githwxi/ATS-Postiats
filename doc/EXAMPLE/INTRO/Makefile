@@ -46,6 +46,22 @@ clean:: ; $(RMF) fact2_dats.o
 clean:: ; $(RMF) fact2_dats.c
 cleanall:: ; $(RMF) fact2.exe
 
+all:: fact3
+fact3: fact3.exe
+fact3.exe: fact3_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+fact3_dats.c: fact3.dats ;   $(PATSOPT) --output fact3_dats.c --dynamic fact3.dats
+clean:: ; $(RMF) fact3_dats.o
+clean:: ; $(RMF) fact3_dats.c
+cleanall:: ; $(RMF) fact3.exe
+
+all:: mutailrec
+mutailrec: mutailrec.exe
+mutailrec.exe: mutailrec_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+mutailrec_dats.c: mutailrec.dats ;   $(PATSOPT) --output mutailrec_dats.c --dynamic mutailrec.dats
+clean:: ; $(RMF) mutailrec_dats.o
+clean:: ; $(RMF) mutailrec_dats.c
+cleanall:: ; $(RMF) mutailrec.exe
+
 
 ######
 
