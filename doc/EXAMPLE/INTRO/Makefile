@@ -54,6 +54,14 @@ clean:: ; $(RMF) fact3_dats.o
 clean:: ; $(RMF) fact3_dats.c
 cleanall:: ; $(RMF) fact3.exe
 
+all:: fcopy
+fcopy: fcopy.exe
+fcopy.exe: fcopy_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+fcopy_dats.c: fcopy.dats ;   $(PATSOPT) --output fcopy_dats.c --dynamic fcopy.dats
+clean:: ; $(RMF) fcopy_dats.o
+clean:: ; $(RMF) fcopy_dats.c
+cleanall:: ; $(RMF) fcopy.exe
+
 all:: mutailrec
 mutailrec: mutailrec.exe
 mutailrec.exe: mutailrec_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
@@ -73,6 +81,7 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o *_?ats.c
 clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
+clean:: ; $(RMF) Makefile.exe
 
 cleanall:: clean
 
