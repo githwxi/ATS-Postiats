@@ -513,15 +513,17 @@ vtypedef vttakeout
 (* ****** ****** *)
 
 vtypedef
-bottom_vt0ype_uni = {a:vt@ype} a
+bottom_t0ype_uni = {a:t@ype} (a)
 vtypedef
-bottom_vt0ype_exi = [a:vt@ype | false] a
+bottom_t0ype_exi = [a:t@ype | false] (a)
 
 (* ****** ****** *)
 
-typedef cmpval_fun
+typedef
+cmpval_fun
   (a: t@ype) = (a, a) -<fun> int
-typedef cmpval_funenv
+typedef
+cmpval_funenv
   (a: t@ype, vt: t@ype) = (a, a, !vt) -<fun> int
 stadef cmpval = cmpval_fun
 stadef cmpval = cmpval_funenv

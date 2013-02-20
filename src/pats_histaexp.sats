@@ -145,13 +145,17 @@ fun hisexp_get_extknd (hse: hisexp): int
 
 (* ****** ****** *)
 
-fun hisexp_varetize (hse: hisexp): hisexp
+fun hisexp_is_boxed (hse: hisexp): bool
 
 (* ****** ****** *)
 
-fun hisexp_is_box (hse: hisexp): bool
 fun hisexp_is_void (hse: hisexp): bool
 fun hisexp_fun_is_void (hse: hisexp): bool
+
+(* ****** ****** *)
+
+fun hisexp_is_noret (hse: hisexp): bool
+fun hisexp_fun_is_noret (hse: hisexp): bool
 
 (* ****** ****** *)
 

@@ -52,11 +52,162 @@ typedef d2con = $S2E.d2con
 
 (* ****** ****** *)
 
+staload
+D2E = "./pats_dynexp2.sats"
+typedef d2ecl = $D2E.d2ecl
+typedef d2eclist = $D2E.d2eclist
+
+(* ****** ****** *)
+
+staload
+TR2ENV = "./pats_trans2_env.sats"
+
+(* ****** ****** *)
+
 staload "./pats_histaexp.sats"
+staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
 
 staload "./pats_ccomp.sats"
+
+(* ****** ****** *)
+
+implement
+emit_saspdec
+  (out, hid) = let
+//
+val loc0 = hid.hidecl_loc
+val-HIDsaspdec (d2c) = hid.hidecl_node
+//
+val () = emit_text (out, "/*\n")
+val () = emit_location (out, loc0)
+val () = emit_text (out, "\n*/\n")
+//
+val () = emit_text (out, "ATSassume(")
+val () = emit_s2cst (out, d2c.s2aspdec_cst)
+val () = emit_text (out, ") ;\n")
+//
+in
+  // nothing
+end // end of [emit_saspdec]
+
+(* ****** ****** *)
+
+implement
+emit_extcode
+  (out, hid) = let
+//
+val loc0 = hid.hidecl_loc
+val-HIDextcode (knd, pos, code) = hid.hidecl_node
+//
+val () = emit_text (out, "/*\n")
+val () = emit_location (out, loc0)
+val () = emit_text (out, "\n*/")
+val () = emit_text (out, code)  
+//
+in
+  // nothing
+end // end of [emit_extcode]
+
+(* ****** ****** *)
+
+local
+
+fun auxloc (
+  out: FILEref, loc: location
+) : void = let
+  val () = emit_text (out, "/*\n")
+  val () = emit_location (out, loc)
+  val () = emit_text (out, "\n*/\n")
+in
+  // nothing
+end // end of [auxloc]
+
+fun auxsta (
+  out: FILEref, d2cs: d2eclist
+) : void = let
+in
+//
+case+ d2cs of
+| list_cons
+    (d2c, d2cs) => let
+    val () = (
+    case+
+      d2c.d2ecl_node of
+    | $D2E.D2Cextcode
+        (knd, pos, code) => let
+        val () =
+          auxloc (out, d2c.d2ecl_loc) in emit_text (out, code)
+        // end of [val]
+      end // end of [D2Cextcode]
+    | _ => ()
+    ) : void // end of [val]
+  in
+    auxsta (out, d2cs)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [auxsta]
+
+fun auxdyn (
+  out: FILEref, d2cs: d2eclist
+) : void = let
+in
+//
+case+ d2cs of
+| list_cons
+    (d2c, d2cs) => let
+    val (
+    ) = (
+    case+
+      d2c.d2ecl_node of
+    | $D2E.D2Cstaload
+      (
+        idopt, fil, flag, fenv, loaded
+      ) => let
+        val () =
+          auxloc (out, d2c.d2ecl_loc)
+        val d2cs =
+          $TR2ENV.filenv_get_d2eclist (fenv)
+      in
+        if flag = 0
+          then auxsta (out, d2cs) else auxdyn (out, d2cs)
+        // end of [if]
+      end // end of [D2Cstaload]
+    | $D2E.D2Clocal
+      (
+        d2cs_head, d2cs_body
+      ) => let
+        val () = auxdyn (out, d2cs_head)
+        val () = auxdyn (out, d2cs_body) in (*nothing*)
+      end // end of [D2Clocal]
+    | _ => ()
+    ) : void // end of [val]
+  in
+    auxdyn (out, d2cs)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [auxdyn]
+
+in (* in of [local] *)
+
+implement
+emit_staload
+  (out, hid) = let
+//
+val-HIDstaload (
+  fil, flag, fenv, loaded
+) = hid.hidecl_node
+//
+val d2cs = $TR2ENV.filenv_get_d2eclist (fenv)
+//
+in
+  if flag = 0 then auxsta (out, d2cs) else auxdyn (out, d2cs)
+end // end of [emit_staload]
+
+end // end of [local]
 
 (* ****** ****** *)
 

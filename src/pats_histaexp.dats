@@ -141,9 +141,9 @@ end // end of [hisexp_get_extknd]
 (* ****** ****** *)
 
 implement
-hisexp_is_box (hse0) = let
+hisexp_is_boxed (hse0) = let
   val HITNAM (knd, _, _) = hse0.hisexp_name in knd > 0
-end // end of [hisexp_is_box]
+end // end of [hisexp_is_boxed]
 
 (* ****** ****** *)
 
@@ -173,6 +173,40 @@ case+ hse_fun.hisexp_node of
 | HSEfun (
     fc, hses_arg, hse_res
   ) => hisexp_is_void (hse_res)
+| _ => false
+//
+end // end of [hisexp_fun_is_void]
+
+(* ****** ****** *)
+
+implement
+hisexp_is_noret
+  (hse0) = let
+in
+//
+case+ hse0.hisexp_node of
+| HSEcst (s2c) =>
+    $S2C.s2cstref_equ_cst ($S2C.the_atsvoid_t0ype, s2c)
+  // end of [HSEcst]
+| HSEtyvar (s2v) => true
+//
+| HSEtyrecsin (lhse) => let
+    val HSLABELED (_, _, hse) = lhse in hisexp_is_noret (hse)
+  end // end of [HSEtyrecsin]
+//
+| _ => false
+//
+end // end of [hisexp_is_noret]
+
+implement
+hisexp_fun_is_noret
+  (hse_fun) = let
+in
+//
+case+ hse_fun.hisexp_node of
+| HSEfun (
+    fc, hses_arg, hse_res
+  ) => hisexp_is_noret (hse_res)
 | _ => false
 //
 end // end of [hisexp_fun_is_void]
@@ -272,21 +306,6 @@ implement
 hisexp_tyabs (sym) =
   hisexp_make_node (HITNAM_TYABS, HSEtyabs (sym))
 // end of [hisexp_tyabs]
-
-(* ****** ****** *)
-
-implement
-hisexp_varetize
-  (hse) = let
-  val node = hse.hisexp_node
-in
-//
-case+ node of
-| HSEtyvar (s2v) =>
-    hisexp_make_node (hse.hisexp_name, node)
-| _ => hse // end of [_]
-//
-end // end of [hityp_varetize]
 
 (* ****** ****** *)
 

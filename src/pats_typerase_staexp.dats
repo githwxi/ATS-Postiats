@@ -344,7 +344,6 @@ if flag > 0 then let
   val hses_arg =
     s2explst_npf_tyer (loc0, npf, s2es_arg)
   val hse_res = s2exp_tyer_shallow (loc0, s2e_res)
-  val hse_res = hisexp_varetize (hse_res)
 in
   hisexp_fun (fc, hses_arg, hse_res)
 end else (

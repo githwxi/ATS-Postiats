@@ -239,4 +239,9 @@ fun s2Var_occurcheck_s2exp
 
 (* ****** ****** *)
 
+fun s2exp_isbot (s2e: s2exp): bool
+fun s2exp_fun_isbot (s2e: s2exp): bool
+
+(* ****** ****** *)
+
 (* end of [pats_staexp2_util.sats] *)
