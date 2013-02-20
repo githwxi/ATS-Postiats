@@ -192,7 +192,14 @@ case+ hid0.hidecl_node of
 | HIDstaload (
     fil, flag, fenv, loaded
   ) => let
-    val () = ccompenv_add_staload (env, fenv)
+
+    val () = println! ("hidecl_ccomp: staload: loc0 = ", loc0)
+    val () = println! ("hidecl_ccomp: staload: hid0 = ", hid0)
+
+    val () = the_staloadlst_add (hid0)
+    val () =
+      if flag > 0 then ccompenv_add_staload (env, fenv)
+    // end of [val]
   in
     primdec_staload (loc0, fenv)
   end // end of [HIDstaload]

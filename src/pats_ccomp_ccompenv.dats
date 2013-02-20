@@ -146,6 +146,42 @@ end // end of [local]
 
 local
 
+vtypedef
+staloadlst_vt = List_vt (hidecl)
+
+val the_staloadlst =
+  ref_make_elt<staloadlst_vt> (list_vt_nil ())
+// end of [val]
+
+in (* in of [local] *)
+
+implement
+the_staloadlst_add (x) = let
+  val (
+    vbox pf | p
+  ) = ref_get_view_ptr (the_staloadlst)
+in
+  !p := list_vt_cons (x, !p)
+end // end of [the_staloadlst_add]
+
+implement
+the_staloadlst_get () = let
+  val (
+    vbox pf | p
+  ) = ref_get_view_ptr (the_staloadlst)
+  val xs = !p
+  val () = !p := list_vt_nil ()
+  val xs = list_vt_reverse<hidecl> (xs)
+in
+  list_of_list_vt (xs)
+end // end of [the_staloadlst_get]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
 vtypedef funlablst_vt = List_vt (funlab)
 
 val the_funlablst = ref_make_elt<funlablst_vt> (list_vt_nil ())

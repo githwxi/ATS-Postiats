@@ -89,10 +89,11 @@ staload "./pats_hidynexp.sats"
 fun the_saspdeclst_get (): hideclist
 fun the_saspdeclst_add (hid: hidecl): void
 
-(* ****** ****** *)
-
 fun the_extcodelst_get (): hideclist
 fun the_extcodelst_add (hid: hidecl): void
+
+fun the_staloadlst_get (): hideclist
+fun the_staloadlst_add (hid: hidecl): void
 
 (* ****** ****** *)
 
@@ -1337,10 +1338,8 @@ fun emit2_d2cst (out: FILEref, d2c: d2cst): void // HX: local
 (* ****** ****** *)
 
 fun emit_saspdec (out: FILEref, hid: hidecl): void
-
-(* ****** ****** *)
-
 fun emit_extcode (out: FILEref, hid: hidecl): void
+fun emit_staload (out: FILEref, hid: hidecl): void
 
 (* ****** ****** *)
 

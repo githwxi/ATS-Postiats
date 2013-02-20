@@ -451,6 +451,39 @@ the_funlablst_stringize (
   "postiats_funlablst_", lam (out, _) => emit_the_funlablst (out), 0
 ) // end of [the_funlablst_stringize]
 
+fun aux_staload
+  (out: FILEref): void = let
+//
+fun loop (
+  out: FILEref, xs: hideclist
+) : void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () =
+      emit_staload (out, x) in loop (out, xs)
+    // end of [val]
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [loop]
+//
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "staload-prologues(beg)\n")
+val () = emit_text (out, "*/\n")
+//
+val () = loop (out, the_staloadlst_get ())
+//
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "staload-prologues(end)\n")
+val () = emit_text (out, "*/\n")
+//
+in
+  // nothing
+end // end of [aux_staload]
+
 fun
 aux_dynload (
   out: FILEref
@@ -637,6 +670,8 @@ val () = emit_the_funlablst (out)
 val the_tmpdeclst_rep = the_tmpdeclst_stringize ()
 val the_primdeclst_rep = the_primdeclst_stringize ()
 val the_funlablst_rep = the_funlablst_stringize ()
+//
+val () = aux_staload (out)
 //
 val (
 ) = aux_extcodelst_if (out, lam (pos) => pos = DYNBEG)

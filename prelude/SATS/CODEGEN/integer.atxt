@@ -677,6 +677,11 @@ fun g1uint2uint_size_size
 //
 #atscode_separator()
 
+fun{tk:tk}
+g1uint_of_string (str: NSH(string)):<> g1uint (tk)
+
+#atscode_separator()
+
 prfun g1uint_get_index
   {tk:tk} {i1:int} (x: g1uint (tk, i1)): [i2:int] INTEQ (i1, i2)
 // end of [g1uint_get_index]

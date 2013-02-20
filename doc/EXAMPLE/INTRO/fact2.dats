@@ -6,6 +6,10 @@
 //
 
 (* ****** ****** *)
+
+staload _(*anon*) = "prelude/DATS/integer.dats"
+
+(* ****** ****** *)
 //
 // HX: an encoding of the factorial function:
 // FACT (n, r) means that r equals the factorial of n

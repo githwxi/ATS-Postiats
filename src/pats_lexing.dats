@@ -966,7 +966,7 @@ fun extcode_nskip
   (knd: int): uint = let
 in
   case+ 0 of
-  | _ when knd < 0 => 3u
+  | _ when knd = 0 => 3u
   | _ when knd = DYNBEG => 3u
   | _ when knd < DYNMID => 4u
   | _ when knd = DYNMID => 2u
@@ -976,43 +976,6 @@ in
 end // end of [extcode_nskip]
 
 (* ****** ****** *)
-
-implement
-lexing_EXTCODE_knd
-  (buf, pos, knd) = let
-  val i = lexbufpos_get_char (buf, pos)
-in
-//
-if i >= 0 then let
-  val c = (i2c)i in
-  case+ c of
-  | '%' when // HX: '%}' closes
-      // external code only if it initiates a newline
-      $LOC.position_get_ncol (pos) = 0 => let
-      val res = testing_literal (buf, pos, "%}")
-    in
-      if res >= 0 then let
-        val loc = lexbufpos_get_location (buf, pos)
-        val nchr = extcode_nskip (knd) // HX: number of skipped
-        val len = lexbufpos_diff (buf, pos) - nchr - 2u // %}: 2u
-//
-        val str = lexbuf_get_substrptr1 (buf, nchr, len)
-        val str = string_of_strptr (str)
-//
-        val () = lexbuf_reset_position (buf, pos)
-      in
-        token_make (loc, T_EXTCODE (knd, str))
-      end else let
-        val () = posincby1 (pos) in lexing_EXTCODE_knd (buf, pos, knd)
-      end // end of [if]
-    end // end of ['%' when ...]
-  | _ => let
-      val () = posincbyc (pos, i) in lexing_EXTCODE_knd (buf, pos, knd)
-    end // end of [_]
-end else
-  lexbufpos_lexerr_reset (buf, pos, LE_EXTCODE_unclose)
-// end of [if]
-end // end of [lexing_EXTCODE_knd]
 
 implement
 lexing_EXTCODE
@@ -1058,6 +1021,45 @@ end else
   lexing_EXTCODE_knd (buf, pos, DYNMID)
 // end of [if]
 end // end of [lexing_EXTCODE]
+
+(* ****** ****** *)
+
+implement
+lexing_EXTCODE_knd
+  (buf, pos, knd) = let
+  val i = lexbufpos_get_char (buf, pos)
+in
+//
+if i >= 0 then let
+  val c = (i2c)i in
+  case+ c of
+  | '%' when // HX: '%}' closes
+      // external code only if it initiates a newline
+      $LOC.position_get_ncol (pos) = 0 => let
+      val res = testing_literal (buf, pos, "%}")
+    in
+      if res >= 0 then let
+        val loc = lexbufpos_get_location (buf, pos)
+        val nchr = extcode_nskip (knd) // HX: number of skipped
+        val len = lexbufpos_diff (buf, pos) - nchr - 2u // %}: 2u
+//
+        val str = lexbuf_get_substrptr1 (buf, nchr, len)
+        val str = string_of_strptr (str)
+//
+        val () = lexbuf_reset_position (buf, pos)
+      in
+        token_make (loc, T_EXTCODE (knd, str))
+      end else let
+        val () = posincby1 (pos) in lexing_EXTCODE_knd (buf, pos, knd)
+      end // end of [if]
+    end // end of ['%' when ...]
+  | _ => let
+      val () = posincbyc (pos, i) in lexing_EXTCODE_knd (buf, pos, knd)
+    end // end of [_]
+end else
+  lexbufpos_lexerr_reset (buf, pos, LE_EXTCODE_unclose)
+// end of [if]
+end // end of [lexing_EXTCODE_knd]
 
 (* ****** ****** *)
 

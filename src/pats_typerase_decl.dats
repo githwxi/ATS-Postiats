@@ -418,6 +418,10 @@ case+ xs of
             end // end of [list_cons]
           | _ => ()
         end // end of [HIDimpdec]
+      | HIDlocal
+          (_, xs_body) => let
+          val () = loop (map, xs_body) in loop (map, xs)
+        end // end of [HIDlocal]
       | _ => ()
     ) : void // end of [val]
   in

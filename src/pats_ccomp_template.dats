@@ -407,6 +407,7 @@ in
       impenv2tmpsub (env)
     val tsub01 =
       tmpsub_append (tsub0, tsub1)
+    // end of [val]
   in
     TMPCSTMATsome (imp, tsub01)
   end else let
