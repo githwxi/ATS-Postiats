@@ -11,18 +11,23 @@ staload "libatsdoc/SATS/libatsdoc_atext.sats"
 %}\
 %{
 
+fun comment
+  (x: string): atext = atext_nil ()
+// end of [comment]
+
 fun make_entry
   (nm: string): atext = let
 //
 val ent = sprintf ("\
-all:: %s.cats\n\
-%s.cats: %s_atxt.exe ; ./$< > $@\n\
-%s_atxt.exe: %s_atxt.dats\n\
-	$(ATSCC) $(ATSGCFLAG) -o $@ %s_atxt.dats -latsdoc\n\
-%s_atxt.dats: %s.atxt\n\
-	$(ATSDOC) --outcode $@ -i %s.atxt > %s_atxt.txt\n\
-clean:: ; $(RMF) %s_atxt.exe\n\
-cleanall:: ; $(RMF) %s.cats\n\
+all:: %s\n\
+%s: %s.exe
+%s.exe: %s_dats.c ; \
+  $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<\n\
+%s_dats.c: %s.dats ; \
+  $(PATSOPT) --output %s_dats.c --dynamic %s.dats\n\
+clean:: ; $(RMF) %s_dats.o\n\
+clean:: ; $(RMF) %s_dats.c\n\
+cleanall:: ; $(RMF) %s.exe\n\
 ", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
 ) // end of [val]
 //
@@ -34,7 +39,10 @@ end // end of [make_entry]
 %}\
 #
 #
-# A simple Makefile
+# This Makefile is automatically generated
+# from executing the following command-line:
+#
+# make -f Makefile.gen
 #
 #
 
@@ -47,13 +55,22 @@ ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 
 ######
 
+GCC=gcc
+PATSHOMEQ="$(PATSHOME)"
+PATSOPT=$(PATSHOMEQ)/src/patsopt
+
+######
+
+ATSGCFLAG=-D_ATS_GCATS
+
+######
+
 all::
 
 ######
 
-#make_entry("stdio")
-#make_entry("stdlib")
-#make_entry("unistd")
+#make_entry("fact1")
+#make_entry("fact2")
 
 ######
 

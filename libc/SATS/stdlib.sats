@@ -32,8 +32,15 @@
 //
 (* ****** ****** *)
 
+%{#
+#include "libc/CATS/stdlib.cats"
+%} // end of [%{#]
+
+(* ****** ****** *)
+
 #define ATS_PACKNAME "ATSLIB.libc"
 #define ATS_STALOADFLAG 0 // no need for staloading at run-time
+#define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 (* ****** ****** *)
 
@@ -136,22 +143,22 @@ fun l64a
 /*
 int atoi(const char *);
 */
-fun atoi (x: NSH(string)):<> int
+fun atoi (x: NSH(string)):<> int = "mac#%"
 
 /*
 long atol(const char *);
 */
-fun atol (x: NSH(string)):<> lint
+fun atol (x: NSH(string)):<> lint = "mac#%"
 
 /*
 long long atoll(const char *);
 */
-fun atoll (x: NSH(string)):<> llint
+fun atoll (x: NSH(string)):<> llint = "mac#%"
                                           
 /*
 double atof(const char *);
 */
-fun atof (x: NSH(string)):<> double
+fun atof (x: NSH(string)):<> double = "mac#%"
 
 (* ****** ****** *)
 

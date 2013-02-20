@@ -90,9 +90,11 @@ viewtypedef s3explst_vt = List_vt (s3exp)
 (* ****** ****** *)
 
 fun s3exp_get_srt (s3e: s3exp): s2rt
-(*
-** HX: compute the freevar set of [s3e]
-*)
+
+(* ****** ****** *)
+//
+// HX: compute the freevar set of [s3e]
+//
 fun s3exp_get_fvs (s3e: s3exp): s2varset_vt
 
 (* ****** ****** *)

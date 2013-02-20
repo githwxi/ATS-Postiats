@@ -5,17 +5,24 @@
 
 (* ****** ****** *)
 //
-// How to compile:
-//   atscc -o fact1 fact1.dats
 // How to test:
 //   ./fact1
+// How to compile:
+//   atscc -o fact1 fact1.dats
 //
+(* ****** ****** *)
+
+staload "prelude/DATS/integer.dats"
+
+implement
+g0int_of_string<intknd> (str) = atoi (str)
+
 (* ****** ****** *)
 //
 // HX: [fun] declares a recursive function
 //
 fun fact (x: int): int = if x > 0 then x * fact (x-1) else 1
-
+//
 (* ****** ****** *)
 //
 // [fn] declares a non-recursive function
@@ -36,12 +43,12 @@ main (
 in
 //
 if argc >= 2 then let
-  val n = g0int_of_string
-    (argv[1]) // turning string into integer
-  val r = fact (n)
-  val () = println! ("factorial of ", n, " = ", r)
+  val n =
+    g0int_of_string (argv[1])
+  val res = fact (n)
+  val () = println! ("factorial of ", n, " = ", res)
 in
-  0 (*normal*)
+  0 (*normalexit*)
 end else let
   val () = fact_usage (argv[0]) in exit (1)
 end // end of [if]

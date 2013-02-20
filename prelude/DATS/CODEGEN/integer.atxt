@@ -467,6 +467,13 @@ end // end of [local]
 #atscode_separator()
 
 implement{tk}
+g1int_of_string (str) = g1ofg0_int (g0int_of_string<tk> (str))
+implement{tk}
+g1uint_of_string (str) = g1ofg0_uint (g0uint_of_string<tk> (str))
+
+#atscode_separator()
+
+implement{tk}
 lt_g0int_int (x, y) = g0int_lt<tk> (x, g0int2int (y))
 implement{tk}
 lte_g0int_int (x, y) = g0int_lte<tk> (x, g0int2int (y))

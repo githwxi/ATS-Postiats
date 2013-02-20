@@ -1,6 +1,6 @@
 //
 // Two verified implementations of the factorial function:
-// the first one is not tail-recursive whereas the second is
+// the first one is not tail-recursive whereas the second one is
 //
 // Author: Hongwei Xi (February 2012)
 //
@@ -10,7 +10,8 @@
 // HX: an encoding of the factorial function:
 // FACT (n, r) means that r equals the factorial of n
 //
-dataprop FACT (int, int) =
+dataprop
+FACT (int, int) =
   | FACTbas (0, 1) of ()
   | {n:pos}{r:int} FACTind (n, n*r) of FACT (n-1, r)
 // end of [FACT]
@@ -79,9 +80,9 @@ main (
   val () = assert (n >= 0)
   val pfr = fact (n)
   and pfr2 = fact2 (n)
-  val () = assert (pfr.1 = pfr2.1)
+  val () = assertloc (pfr.1 = pfr2.1)
 in
-  0 (* normal exit *)
+  0(*normalexit*)
 end // end of [main]
 
 (* ****** ****** *)

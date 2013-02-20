@@ -370,9 +370,9 @@ overload main with main_argc_argv_envp_int
 (* ****** ****** *)
 
 fun exit
-  {a:vt0p} (ecode: int):<> a = "mac#ats_exit"
+  {a:vt0p} (ecode: int):<> a = "mac#atspre_exit"
 fun exit_errmsg
-  {a:vt0p} (ecode: int, msg: string):<> a = "mac#ats_exit_errmsg"
+  {a:vt0p} (ecode: int, msg: string):<> a = "mac#atspre_exit_errmsg"
 (*
 fun exit_fprintf
   {a:vt0p} {ts:types} (

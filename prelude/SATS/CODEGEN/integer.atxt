@@ -70,7 +70,9 @@ fun g0int2int_int_ssize
 #atscode_separator()
 
 fun{tk:tk}
-g0int_of_string (str: NSH(string)):<> g0int (tk)
+g0int_of_string
+  (str: NSH(string)):<> g0int (tk)
+// end of [g0int_of_string]
 
 #atscode_separator()
 

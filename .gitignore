@@ -144,6 +144,14 @@ contrib/cairo/cairo-1.12.*
 libatsyntax/libatsyntax.a
 
 #
+# ATSHOME/doc/EXAMPLE
+#
+
+doc/EXAMPLE/INTRO/*_atxt.txt
+doc/EXAMPLE/INTRO/*_atxt.dats
+doc/EXAMPLE/INTRO/Makefile.exe
+
+#
 # INT2PROGINATS
 #
 

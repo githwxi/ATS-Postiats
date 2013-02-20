@@ -1,0 +1,55 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"stdio.cats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_LGPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/libc/CATS/CODEGEN/stdio.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("February, 2013")
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSHOME_LIBC_STDLIB_CATS
+\#define ATSHOME_LIBC_STDLIB_CATS
+
+#atscode_separator_for_C()
+
+\#include <stdlib.h>
+
+#atscode_separator_for_C()
+
+\#define atslib_atoi atoi
+\#define atslib_atol atol
+\#define atslib_atoll atoll
+\#define atslib_atof atof
+
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSHOME_LIBC_STDLIB_CATS
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "stdlib_atxt.txt")
+%}\

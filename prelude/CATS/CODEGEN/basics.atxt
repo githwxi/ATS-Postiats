@@ -52,6 +52,30 @@ atspre_argv_get_at
 
 ATSinline()
 atsvoid_t0ype
+atspre_exit
+(
+  atstype_int status
+)
+{
+  exit(status) ; return ;
+} /* endfun */
+
+ATSinline()
+atsvoid_t0ype
+atspre_exit_errmsg
+(
+  atstype_int status, atstype_string msg
+)
+{
+  fprintf(
+    stderr, "exit(ATS): %s", (char*)msg
+  ) ; exit(status) ; return ; // deadcode
+} /* endfun */
+
+#atscode_separator_for_C()
+
+ATSinline()
+atsvoid_t0ype
 atspre_assert_bool
   (atstype_bool b)
 {

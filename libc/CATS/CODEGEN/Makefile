@@ -26,6 +26,15 @@ stdio_atxt.dats: stdio.atxt
 clean:: ; $(RMF) stdio_atxt.exe
 cleanall:: ; $(RMF) stdio.cats
 
+all:: stdlib.cats
+stdlib.cats: stdlib_atxt.exe ; ./$< > $@
+stdlib_atxt.exe: stdlib_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ stdlib_atxt.dats -latsdoc
+stdlib_atxt.dats: stdlib.atxt
+	$(ATSDOC) --outcode $@ -i stdlib.atxt > stdlib_atxt.txt
+clean:: ; $(RMF) stdlib_atxt.exe
+cleanall:: ; $(RMF) stdlib.cats
+
 all:: unistd.cats
 unistd.cats: unistd_atxt.exe ; ./$< > $@
 unistd_atxt.exe: unistd_atxt.dats
