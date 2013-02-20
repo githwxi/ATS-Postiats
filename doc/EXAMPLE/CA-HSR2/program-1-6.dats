@@ -31,7 +31,9 @@ end // end of [Sum]
 
 (* ****** ****** *)
 
-staload "contrib/atshwxi/testing/SATS/randgen.sats"
+staload "atshwxi/testing/SATS/randgen.sats"
+
+(* ****** ****** *)
 
 implement
 main () = 0 where {

@@ -15,12 +15,13 @@ dataprop FIB (int, int) =
 (* ****** ****** *)
 
 fun fibver
-  {n:nat} (n: int n)
-  : [r:int] (FIB (n, r) | int r) = let
-  fun loop {i:nat | i <= n} {r0,r1:int} (
-    pf0: FIB (i, r0), pf1: FIB (i+1, r1) | ni: int (n-i), r0: int r0, r1:
-  int r1
-  ) : [r:int] (FIB (n, r) | int r) =
+  {n:nat} (n: int n) .<>.
+  :<> [r:int] (FIB (n, r) | int r) = let
+//
+fun loop
+  {i:nat | i <= n} {r0,r1:int} .<n-i>. (
+  pf0: FIB (i, r0), pf1: FIB (i+1, r1) | ni: int (n-i), r0: int r0, r1: int r1
+) :<> [r:int] (FIB (n, r) | int r) =
     if ni > 0 then
       loop {i+1} (pf1, FIB2 (pf0, pf1) | ni - 1, r1, r0 + r1)
     else (pf0 | r0)

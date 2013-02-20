@@ -46,7 +46,7 @@ main (
   #define M 0
   #define N 10
   val xs = intrange (M, N)
-  val () = assertloc (list_length (xs) = N)
+  val () = assertloc (list_length (xs) = N-M)
   val out = stdout_ref
   val () = fprint_list_sep<int> (out, xs, ", ")
   val () = fprint_newline (out)
