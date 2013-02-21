@@ -32,6 +32,12 @@
 //
 (* ****** ****** *)
 
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_trans1_staexp"
+
+(* ****** ****** *)
+
 staload
 FIL = "./pats_filename.sats"
 staload FIX = "./pats_fixity.sats"
@@ -131,6 +137,54 @@ fun the_e1xpenv_restore (
 } // end of [the_e1xpenv_restore]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+the_EXTERN_PREFIX_get () = let
+//
+macdef
+EXTPRFX =
+  $SYM.symbol_ATS_EXTERN_PREFIX
+//
+val opt = the_e1xpenv_find (EXTPRFX)
+//
+in
+//
+case+ opt of
+| ~Some_vt (e) => (
+  case+ e.e1xp_node of
+  | E1XPnone () => stropt_none
+  | E1XPstring (x) => stropt_some (x)
+  | _ => let
+      val () = prerr_warning1_loc (e.e1xp_loc)
+      val () = prerr ": a string definition is required for [ATS_EXTERN_PREFIX]."
+      val () = prerr_newline ()
+    in
+      stropt_none
+    end // end of [_]
+  ) // end of [Some_vt]
+| ~None_vt () =>
+    stropt_none // HX: [%] is kept to indicated a likely error
+  // end of [None_vt]
+//
+end // end of [the_EXTERN_PREFIX_get]
+
+implement
+the_EXTERN_PREFIX_set (prfx) = let
+  val e1xp = e1xp_string ($LOC.location_dummy, prfx)
+  val () = the_e1xpenv_add ($SYM.symbol_ATS_EXTERN_PREFIX, e1xp)
+in
+  // nothing
+end // end of [the_EXTERN_PREFIX_set]
+
+implement
+the_EXTERN_PREFIX_set_none () = let
+  val e1xp = e1xp_none ($LOC.location_dummy)
+  val () = the_e1xpenv_add ($SYM.symbol_ATS_EXTERN_PREFIX, e1xp)
+in
+  // nothing
+end // end of [the_EXTERN_PREFIX_set_none]
 
 (* ****** ****** *)
 

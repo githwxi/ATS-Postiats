@@ -206,6 +206,9 @@ case+ x.instr_node of
 | INSstore_varofs _ => ()
 | INSstore_ptrofs _ => ()
 //
+| INSxstore_varofs _ => ()
+| INSxstore_ptrofs _ => ()
+//
 | INSmove_list_nil (tmp) => tmpadd (tmp)
 | INSpmove_list_nil (tmp) => tmpadd (tmp)
 | INSpmove_list_cons (tmp, _) => tmpadd (tmp)

@@ -196,10 +196,14 @@ contrib_atshwxi:: ; \
 
 ######
 
+ICONTRIB=-IATS${PATSHOME}/contrib
+
+######
+
 fact2: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/fact2.dats
 revarr: ; \
-  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/revarr.dats
+  $(PATSOPT) ${ICONTRIB} -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/revarr.dats
 bintree: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/bintree.dats
 intrange: ; \
@@ -264,20 +268,20 @@ irrationality-of-sqrt2: ; \
 ######
 
 CA-HSR2:: ; \
-  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-2.dats
+  $(PATSOPT) ${ICONTRIB} -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-2.dats
 CA-HSR2:: ; \
-  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-2-test.dats
+  $(PATSOPT) ${ICONTRIB} -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-2-test.dats
 CA-HSR2:: ; \
-  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-3.dats
+  $(PATSOPT) ${ICONTRIB} -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-3.dats
 CA-HSR2:: ; \
-  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-4.dats
+  $(PATSOPT) ${ICONTRIB} -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-4.dats
 CA-HSR2:: ; \
-  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-5.dats
+  $(PATSOPT) ${ICONTRIB} -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-5.dats
 CA-HSR2:: ; \
-  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-6.dats
+  $(PATSOPT) ${ICONTRIB} -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-6.dats
 CA-HSR2:: ; \
-  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-7.dats
+  $(PATSOPT) ${ICONTRIB} -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-7.dats
 CA-HSR2:: ; \
-  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-14.dats
+  $(PATSOPT) ${ICONTRIB} -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-14.dats
 
 ###### end of [Makefile_test] ######

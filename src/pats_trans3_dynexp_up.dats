@@ -376,7 +376,7 @@ case+ d2e0.d2exp_node of
     ) // end of [if] // end of [val]
     val s2e_exn = s2exp_exception_vtype ()
     val d3e_exn = d2exp_trdn (d2e_exn, s2e_exn)
-    val s2e_raise = s2exp_bottom_t0ype_uni ()
+    val s2e_raise = s2exp_bottom_vt0ype_uni ()
   in
     d3exp_raise (loc0, s2e_raise, d3e_exn)
   end // end of [D2Eraise]

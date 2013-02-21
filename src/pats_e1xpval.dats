@@ -440,7 +440,8 @@ case+ e0.e1xp_node of
 //
 | E1XPv1al (v) => v
 //
-| E1XPnone () => V1ALint 0
+| E1XPnone () => V1ALint (0)
+//
 | E1XPundef () => V1ALerr () where {
     val () = the_valerrlst_add (VE_E1XPundef (e0))
   }

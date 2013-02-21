@@ -355,7 +355,7 @@ val ent = sprintf ("\
 symintr %s
 fun %s_int (c: int):<> bool = \"mac#%%\"
 overload %s with %s_int of 0
-fun %s_char (c: char):<> bool = \"mac\#%%\"
+fun %s_char (c: char):<> bool = \"mac#%%\"
 overload %s with %s_char of 0\
 ", @(
  isX, isX, isX, isX, isX, isX, isX

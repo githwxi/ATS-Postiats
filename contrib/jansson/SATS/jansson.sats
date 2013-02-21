@@ -352,7 +352,7 @@ fun json_object_set_new
 
 fun json_object_set_new_nocheck
 (
-  json: !JSONptr1, key: NSH(string), value: JSONptr l2 /*consumed*/
+  json: !JSONptr1, key: NSH(string), value: JSONptr0 /*consumed*/
 ) : int(*err*) = "mac#%"
 
 fun json_object_del

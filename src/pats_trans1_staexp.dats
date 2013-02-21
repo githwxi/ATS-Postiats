@@ -661,42 +661,6 @@ end // end of [d0atcon_tr]
 
 (* ****** ****** *)
 
-extern fun the_extprfx_get (): Stropt
-
-(* ****** ****** *)
-
-implement
-the_extprfx_get () = let
-//
-macdef
-EXTPRFX =
-  $SYM.symbol_ATS_EXTERN_PREFIX
-//
-val opt = the_e1xpenv_find (EXTPRFX)
-//
-in
-//
-case+ opt of
-| ~Some_vt (e) => let
-    val v = e1xp_valize (e) in (
-  case+ v of
-  | V1ALstring (x) => stropt_some (x)
-  | _ => let
-      val () = prerr_warning1_loc (e.e1xp_loc)
-      val () = prerr ": a string definition is required for [ATS_EXTERN_PREFIX]."
-      val () = prerr_newline ()
-    in
-      stropt_none
-    end // end of [_]
-  ) end // end of [Some_vt]
-| ~None_vt () =>
-    stropt_none // HX: [%] is kept to indicated a likely error
-  // end of [None_vt]
-//
-end // end of [the_extprfx_get]
-
-(* ****** ****** *)
-
 extern
 fun proc_extdef (sym: symbol, ext: string): string
 
@@ -716,7 +680,9 @@ val ext2 = (
   if string_is_empty (ext2) then symbol_get_name (sym) else ext2
 ) : string // end of [val]
 //
-val opt = the_extprfx_get ()
+val opt =
+  the_EXTERN_PREFIX_get ()
+// end of [val]
 val issome = stropt_is_some (opt)
 //
 in

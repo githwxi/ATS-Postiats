@@ -1129,6 +1129,24 @@ s2exp_bottom_t0ype_exi () =
 (* ****** ****** *)
 
 implement
+the_bottom_vt0ype_uni =
+  s2cstref_make "bottom_vt0ype_uni"
+implement
+s2exp_bottom_vt0ype_uni () =
+  s2exp_cst (s2cstref_get_cst (the_bottom_vt0ype_uni))
+// end of [s2exp_bottom_vt0ype_uni]
+
+implement
+the_bottom_vt0ype_exi =
+  s2cstref_make "bottom_vt0ype_exi"
+implement
+s2exp_bottom_vt0ype_exi () =
+  s2exp_cst (s2cstref_get_cst (the_bottom_vt0ype_exi))
+// end of [s2exp_bottom_vt0ype_exi]
+
+(* ****** ****** *)
+
+implement
 the_effnil = s2cstref_make "effnil"
 implement
 the_effall = s2cstref_make "effall"

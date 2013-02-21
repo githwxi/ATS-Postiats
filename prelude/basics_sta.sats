@@ -517,6 +517,11 @@ bottom_t0ype_uni = {a:t@ype} (a)
 typedef
 bottom_t0ype_exi = [a:t@ype | false] (a)
 
+vtypedef
+bottom_vt0ype_uni = {a:vt@ype} (a)
+vtypedef
+bottom_vt0ype_exi = [a:vt@ype | false] (a)
+
 (* ****** ****** *)
 
 typedef

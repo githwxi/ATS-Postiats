@@ -954,18 +954,17 @@ fun aux_packname (): void = let
 in
 //
 case+ opt of
-| ~Some_vt (e) => let
-    val v = e1xp_valize (e) in (
-    case+ v of
-    | V1ALstring (x) => $GLOB.the_PACKNAME_set (x)
-    | _ => let
-        val () = prerr_error1_loc (e.e1xp_loc)
-        val () = prerr ": a string definition is required for [ATS_PACKNAME]."
-        val () = prerr_newline ()
-      in
-         $ERR.abort {void} ()
-      end // end of [_]
-  ) end // end of [Some_vt]
+| ~Some_vt (e) => (
+  case+ e.e1xp_node of
+  | E1XPstring (x) => $GLOB.the_PACKNAME_set (x)
+  | _ => let
+      val () = prerr_error1_loc (e.e1xp_loc)
+      val () = prerr ": a string definition is required for [ATS_PACKNAME]."
+      val () = prerr_newline ()
+    in
+       $ERR.abort {void} ()
+    end // end of [_]
+  ) // end of [Some_vt]
 | ~None_vt () => () // HX: using the absolute directory name 
 //
 end // end of [aux_packname]
@@ -975,18 +974,17 @@ fun aux_dynloadflag (): void = let
 in
 //
 case+ opt of
-| ~Some_vt (e) => let
-    val v = e1xp_valize (e) in (
-    case+ v of
-    | V1ALint (x) => $GLOB.the_DYNLOADFLAG_set (x)
-    | _ => let
-        val () = prerr_error1_loc (e.e1xp_loc)
-        val () = prerr ": only integer definition for [ATS_DYNLOADFLAG]."
-        val () = prerr_newline ()
-      in
-         $ERR.abort {void} ()
-      end // end of [_]
-  ) end // end of [Some_vt]
+| ~Some_vt (e) => (
+  case+ e.e1xp_node of
+  | E1XPint (x) => $GLOB.the_DYNLOADFLAG_set (x)
+  | _ => let
+      val () = prerr_error1_loc (e.e1xp_loc)
+      val () = prerr ": only integer definition for [ATS_DYNLOADFLAG]."
+      val () = prerr_newline ()
+    in
+       $ERR.abort {void} ()
+    end // end of [_]
+  ) // end of [Some_vt]
 | ~None_vt () => () // HX: the [ATS_DYNLOADFLAG] is set to 1 by default
 //
 end // end of [aux_dynloadflag]
@@ -996,10 +994,9 @@ fun aux_mainatsflag (): void = let
 in
 //
 case+ opt of
-| ~Some_vt (e) => let
-    val v = e1xp_valize (e) in (
-  case+ v of
-  | V1ALint (x) => $GLOB.the_MAINATSFLAG_set (x)
+| ~Some_vt (e) => (
+  case+ e.e1xp_node of
+  | E1XPint (x) => $GLOB.the_MAINATSFLAG_set (x)
   | _ => let
       val () = prerr_error1_loc (e.e1xp_loc)
       val () = prerr ": only integer definition for [ATS_MAINATSFLAG]."
@@ -1007,7 +1004,7 @@ case+ opt of
     in
        $ERR.abort {void} ()
     end // end of [_]
-  ) end // end of [Some_vt]
+  ) // end of [Some_vt]
 | ~None_vt () => () // HX: the [ATS_MAINATSFLAG] is set to 0 by default
 //
 end // end of [aux_mainatsflag]

@@ -166,7 +166,7 @@ overload + with add_bool1_bool1 of 20
 
 fun
 mul_bool1_bool0 {b1:bool}
-  (b1: bool b1, b2: bool):<> bootLte (b1) = "mac\#%"
+  (b1: bool b1, b2: bool):<> boolLte (b1) = "mac\#%"
 overload * with mul_bool1_bool0 of 10
 
 fun

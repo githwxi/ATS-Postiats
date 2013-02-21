@@ -5,34 +5,22 @@
 //
 
 (* ****** ****** *)
-
+//
 staload "prelude/DATS/integer.dats"
 staload "prelude/DATS/pointer.dats"
 staload "prelude/DATS/array.dats"
 staload "prelude/DATS/arrayptr.dats"
 staload "prelude/DATS/arrayref.dats"
-
-(*
-staload
-"prelude/DATS/basics.dats"
-staload
-"prelude/DATS/float.dats"
-staload
-"prelude/DATS/filebas.dats"
 //
-staload
-UN = "prelude/SATS/unsafe.sats"
-staload
-_(*anon*) = "prelude/DATS/unsafe.dats"
-*)
-
+staload _UN = "prelude/DATS/unsafe.dats"
+//
 (* ****** ****** *)
 
 fun fact
   {n:nat}
   (n: int n): int = let
 //
-val A = arrayptr_make_intrange (0, n)
+val A = arrayptr_make_intrange<> (0, n)
 //
 typedef a = int
 typedef tenv = int
@@ -55,7 +43,10 @@ implement
 main (
 ) = 0 where {
   val N = 12
+(*
   val () = println! ("fact(", N, ") = ", fact(N))
+*)
+  val () = assertloc (fact(N) = 1*1*2*3*4*5*6*7*8*9*10*11*12)
 } // end of [main]
 
 (* ****** ****** *)

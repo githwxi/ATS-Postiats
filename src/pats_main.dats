@@ -553,12 +553,8 @@ pervasive_load (
   val d0cs = parse_from_filename_toplevel (0(*sta*), filename)
   val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
 //
-  val () =
-    $GLOB.the_PACKNAME_set ("ATSLIB.prelude")
-  // end of [val]
-  val () =
-    $GLOB.the_EXTERN_PREFIX_set ("atspre_")
-  // end of [val]
+  val () = $GLOB.the_PACKNAME_set ("ATSLIB.prelude")
+  val () = $TRENV1.the_EXTERN_PREFIX_set ("atspre_")
 //
   val (
     pfenv | ()
@@ -573,6 +569,7 @@ pervasive_load (
   val () = $TRENV2.the_trans2_env_pervasive_joinwth (pfenv | (*none*))
 //
   val () = $GLOB.the_PACKNAME_set_none ()
+  val () = $TRENV1.the_EXTERN_PREFIX_set_none ()
 //
 } // end of [pervasive_load]
 

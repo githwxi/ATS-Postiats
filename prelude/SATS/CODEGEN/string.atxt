@@ -354,6 +354,11 @@ overload stropt_some with stropt1_some
 
 #atscode_separator()
 
+fun stropt_is_none {n:int} (x: stropt n): bool (n < 0)
+fun stropt_is_some {n:int} (x: stropt n): bool (n >= 0)
+
+#atscode_separator()
+
 castfn
 stropt_unsome {n:nat} (x: stropt n): string (n)
 
