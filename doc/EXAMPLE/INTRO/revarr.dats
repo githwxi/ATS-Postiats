@@ -61,7 +61,7 @@ main (
   val () = arrayptr_free (A)
 //
 in
-  0 (*normalexit*)
+  0(*normalexit*)
 end // end of [main]
 
 (* ****** ****** *)

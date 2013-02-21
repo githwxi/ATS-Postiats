@@ -555,7 +555,7 @@ fun loop
 ) : void =
   if n > 0 then let
     prval (pf1, pf2) = array_v_uncons (pf)
-    val () = array_initize$init (i, !p)
+    val () = array_initize$init<a> (i, !p)
     val () = loop (pf2 | ptr1_succ<a> (p), pred(n), succ(i))
     prval () = pf := array_v_cons {a} (pf1, pf2)
   in
@@ -580,7 +580,7 @@ implement
 array_initize$init<a> (i, xi) = xi := elt
 //
 in
-  $effmask_all (array_initize (A, asz))
+  $effmask_all (array_initize<a> (A, asz))
 end // end of [array_initize_elt]
 
 #atscode_separator()

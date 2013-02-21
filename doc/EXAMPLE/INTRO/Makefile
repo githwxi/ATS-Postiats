@@ -54,6 +54,14 @@ clean:: ; $(RMF) fact3_dats.o
 clean:: ; $(RMF) fact3_dats.c
 cleanall:: ; $(RMF) fact3.exe
 
+all:: fibmem
+fibmem: fibmem.exe
+fibmem.exe: fibmem_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+fibmem_dats.c: fibmem.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fibmem_dats.c --dynamic fibmem.dats
+clean:: ; $(RMF) fibmem_dats.o
+clean:: ; $(RMF) fibmem_dats.c
+cleanall:: ; $(RMF) fibmem.exe
+
 all:: fcopy
 fcopy: fcopy.exe
 fcopy.exe: fcopy_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

@@ -139,8 +139,10 @@
 
 #define ATSselrecsin(pmv, tyrec, lab) (pmv)
 #define ATSselfltrec(pmv, tyrec, lab) ((pmv).lab)
-#define ATSselarrind(pmv, tyarr, lab) (((tyarr)pmv)lab)
 #define ATSselboxrec(pmv, tyrec, lab) (((tyrec*)pmv)->lab)
+/*
+#define ATSselarrind(pmv, tyarr, lab) (((tyarr)pmv).lab)
+*/
 #define ATSselarrptrind(pmv, tyelt, lab) (((tyelt*)pmv)lab)
 
 /* ****** ****** */

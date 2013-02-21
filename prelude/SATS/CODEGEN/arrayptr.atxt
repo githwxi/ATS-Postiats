@@ -89,6 +89,14 @@ arrayptr_addback
 #atscode_separator()
 
 castfn
+arrayptr_takeout_viewptr
+  {a:vt0p}{l:addr}{n:int} (
+  A: !arrayptr (INV(a), l, n) >> arrayptrout (a?, l, n)
+) : (array_v (a, l, n) | ptr l) // endfun
+
+#atscode_separator()
+
+castfn
 arrpsz_encode :
   {a:vt0p}{n:int}
   @(arrayptr (INV(a), n), size_t n) -<0> arrpsz (a, n)

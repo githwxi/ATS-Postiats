@@ -695,10 +695,10 @@ end // end of [emit_s2var]
 
 implement
 emit_hitype
-  (out, hit) = let
+  (out, hit0) = let
 in
 //
-case+ hit of
+case+ hit0 of
 | HITnmd
     (name) => emit_text (out, name)
 | HITapp
@@ -710,12 +710,20 @@ case+ hit of
   in
     // nothing
   end // end of [HITapp]
-| HITtyarr _ =>
-    emit_text (out, "postiats_tyarr")
-| HITtyrec _ =>
-    emit_text (out, "postiats_tyrec")
-| HITtysum _ =>
-    emit_text (out, "postiats_tysum")
+//
+| HITtyarr
+    (hit, _) => {
+    val () =
+      emit_text (
+      out, "atstype_tyarr("
+    )
+    val () = emit_hitype (out, hit)
+    val () = emit_text (out, ")")
+  } // end of [HITtyarr]
+//
+| HITtyrec _ => emit_text (out, "atstype_tyrec(*ERROR*)")
+| HITtysum _ => emit_text (out, "atstype_tysum(*ERROR*)")
+//
 | HITtyvar (s2v) => {
     val () =
       emit_text (
