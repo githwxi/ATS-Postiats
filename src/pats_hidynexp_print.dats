@@ -238,6 +238,11 @@ case+
     val () = prstr ")"
   }
 //
+| HDEint (i) => {
+    val () = prstr "HDEint("
+    val () = fprint_int (out, i)
+    val () = prstr ")"
+  }
 | HDEbool (b) => {
     val () = prstr "HDEbool("
     val () = fprint_bool (out, b)
@@ -502,6 +507,37 @@ case+
     val () = prstr ")"
   }
 //
+| HDExchng_var (
+    d2v_l, hse_rt, hils, hde_r
+  ) => {
+    val () = prstr "HDExchng_var("
+    val () = fprint_d2var (out, d2v_l)
+    val () = prstr "("
+    val () = fprint_hisexp (out, hse_rt)
+    val () = prstr ")"
+    val () = prstr "["
+    val () = fprint_hilablst (out, hils)
+    val () = prstr "]"
+    val () = prstr " := "
+    val () = fprint_hidexp (out, hde_r)
+    val () = prstr ")"
+  }
+| HDExchng_ptr (
+    hde_l, hse_rt, hils, hde_r
+  ) => {
+    val () = prstr "HDExchng_ptr("
+    val () = fprint_hidexp (out, hde_l)
+    val () = prstr "("
+    val () = fprint_hisexp (out, hse_rt)
+    val () = prstr ")"
+    val () = prstr "["
+    val () = fprint_hilablst (out, hils)
+    val () = prstr "]"
+    val () = prstr " := "
+    val () = fprint_hidexp (out, hde_r)
+    val () = prstr ")"
+  }
+//
 | HDEarrpsz (
     hse_elt, hdes_elt, asz
   ) => {
@@ -511,6 +547,17 @@ case+
     val () = fprint_hidexplst (out, hdes_elt)
     val () = prstr "; "
     val () = fprint_int (out, asz)
+    val () = prstr ")"
+  }
+| HDEarrinit (
+    hse_elt, hde_asz, hdes_elt
+  ) => {
+    val () = prstr "HDEarrinit("
+    val () = fprint_hisexp (out, hse_elt)
+    val () = prstr "; "
+    val () = fprint_hidexp (out, hde_asz)
+    val () = prstr "; "
+    val () = fprint_hidexplst (out, hdes_elt)
     val () = prstr ")"
   }
 //
@@ -528,11 +575,22 @@ case+
     val () = prstr ")"
   } // end of [DDElam]
 //
+| HDEloop _ => {
+    val () = prstr "HDEloop(...)"
+  }
+| HDEloopexn (knd) => {
+    val () = prstr "HDEloopexn("
+    val () = fprint_int (out, knd)
+    val () = prstr ")"
+  }
+//
 | HDEerr () => prstr "HDEerr()"
 //
+(*
 | _ => {
     val () = fprint_string (out, "HDE...(...)")
   } // end of [_]
+*)
 //
 end // end of [fprint_hidexp]
 

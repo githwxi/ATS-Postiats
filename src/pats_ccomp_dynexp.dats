@@ -106,6 +106,9 @@ extern fun hidexp_ccomp_refarg : hidexp_ccomp_funtype
 extern fun hidexp_ccomp_assgn_var : hidexp_ccomp_funtype
 extern fun hidexp_ccomp_assgn_ptr : hidexp_ccomp_funtype
 
+extern fun hidexp_ccomp_xchng_var : hidexp_ccomp_funtype
+extern fun hidexp_ccomp_xchng_ptr : hidexp_ccomp_funtype
+
 extern fun hidexp_ccomp_lam : hidexp_ccomp_funtype
 
 (* ****** ****** *)
@@ -254,6 +257,9 @@ case+ hde0.hidexp_node of
 //
 | HDEassgn_var _ => hidexp_ccomp_assgn_var (env, res, hde0)
 | HDEassgn_ptr _ => hidexp_ccomp_assgn_ptr (env, res, hde0)
+//
+| HDExchng_var _ => hidexp_ccomp_xchng_var (env, res, hde0)
+| HDExchng_ptr _ => hidexp_ccomp_xchng_ptr (env, res, hde0)
 //
 | HDEarrpsz _ => auxret (env, res, hde0)
 //
@@ -460,6 +466,9 @@ case+ hde0.hidexp_node of
 //
 | HDEassgn_var _ => auxval (env, res, tmpret, hde0)
 | HDEassgn_ptr _ => auxval (env, res, tmpret, hde0)
+//
+| HDExchng_var _ => auxval (env, res, tmpret, hde0)
+| HDExchng_ptr _ => auxval (env, res, tmpret, hde0)
 //
 | HDEarrpsz _ => hidexp_ccomp_ret_arrpsz (env, res, tmpret, hde0)
 //
@@ -807,6 +816,47 @@ val () = instrseq_add (res, ins)
 in
   primval_empty (loc0, hse0)
 end // end of [hidexp_ccomp_assgn_ptr]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_xchng_var
+  (env, res, hde0) = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val-HDExchng_var
+  (d2v_l, hse_rt, hils, hde_r) = hde0.hidexp_node
+// end of [val]
+val pmv_l =
+  d2var_ccomp (env, loc0, hse_rt, d2v_l)
+val pmls = hilablst_ccomp (env, res, hils)
+val pmv_r = hidexp_ccomp (env, res, hde_r)
+val ins = instr_store_varofs (loc0, pmv_l, hse_rt, pmls, pmv_r)
+val () = instrseq_add (res, ins)
+//
+in
+  primval_empty (loc0, hse0)
+end // end of [hidexp_ccomp_xchng_var]
+
+implement
+hidexp_ccomp_xchng_ptr
+  (env, res, hde0) = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val-HDExchng_ptr
+  (hde_l, hse_rt, hils, hde_r) = hde0.hidexp_node
+// end of [val]
+val pmv1 = hidexp_ccomp (env, res, hde_l)
+val pmls = hilablst_ccomp (env, res, hils)
+val pmv2 = hidexp_ccomp (env, res, hde_r)
+val ins = instr_store_ptrofs (loc0, pmv1, hse_rt, pmls, pmv2)
+val () = instrseq_add (res, ins)
+//
+in
+  primval_empty (loc0, hse0)
+end // end of [hidexp_ccomp_xchng_ptr]
 
 (* ****** ****** *)
 
