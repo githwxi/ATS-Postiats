@@ -9,6 +9,10 @@
 
 (* ****** ****** *)
 
+staload "prelude/DATS/integer.dats"
+
+(* ****** ****** *)
+
 fun{
 a:vt@ype
 } revarr {n:nat} .<>. (
@@ -57,7 +61,7 @@ main (
   val () = arrayptr_free (A)
 //
 in
-  0 (*normal*)
+  0 (*normalexit*)
 end // end of [main]
 
 (* ****** ****** *)

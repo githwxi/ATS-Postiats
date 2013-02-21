@@ -832,7 +832,7 @@ val pmv_l =
   d2var_ccomp (env, loc0, hse_rt, d2v_l)
 val pmls = hilablst_ccomp (env, res, hils)
 val pmv_r = hidexp_ccomp (env, res, hde_r)
-val ins = instr_store_varofs (loc0, pmv_l, hse_rt, pmls, pmv_r)
+val ins = instr_xstore_varofs (loc0, pmv_l, hse_rt, pmls, pmv_r)
 val () = instrseq_add (res, ins)
 //
 in
@@ -851,7 +851,7 @@ val-HDExchng_ptr
 val pmv1 = hidexp_ccomp (env, res, hde_l)
 val pmls = hilablst_ccomp (env, res, hils)
 val pmv2 = hidexp_ccomp (env, res, hde_r)
-val ins = instr_store_ptrofs (loc0, pmv1, hse_rt, pmls, pmv2)
+val ins = instr_xstore_ptrofs (loc0, pmv1, hse_rt, pmls, pmv2)
 val () = instrseq_add (res, ins)
 //
 in

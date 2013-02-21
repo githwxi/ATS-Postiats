@@ -1108,7 +1108,10 @@ extern fun emit_instr_load_ptrofs : emit_instr_type
 *)
 extern fun emit_instr_store_varofs : emit_instr_type
 extern fun emit_instr_store_ptrofs : emit_instr_type
-
+//
+extern fun emit_instr_xstore_varofs : emit_instr_type
+extern fun emit_instr_xstore_ptrofs : emit_instr_type
+//
 (* ****** ****** *)
 
 extern
@@ -1272,13 +1275,11 @@ case+ ins.instr_node of
 //
 | INSpatck (pmv, patck, fail) => emit_instr_patck (out, ins)
 //
-(*
-| INSload_varofs _ => emit_instr_load_varofs (out, ins)
-| INSload_ptrofs _ => emit_instr_load_ptrofs (out, ins)
-*)
-//
 | INSstore_varofs _ => emit_instr_store_varofs (out, ins)
 | INSstore_ptrofs _ => emit_instr_store_ptrofs (out, ins)
+//
+| INSxstore_varofs _ => emit_instr_xstore_varofs (out, ins)
+| INSxstore_ptrofs _ => emit_instr_xstore_ptrofs (out, ins)
 //
 | INSmove_list_nil (tmp) => {
     val () = emit_text (out, "ATSINSmove_list_nil(")
@@ -1839,8 +1840,23 @@ in
 case+ xys of
 | ~list_vt_cons
     (xy, xys) => let
+//
     val hse = xy.0
     val pml = xy.1
+//
+    var hse: hisexp = hse
+    var pmv: primval = pmv
+    val () = (
+      case+
+        hse.hisexp_node of
+      | HSEtyarr
+         (hse_elt, _) => {
+         val () = hse := hse_elt
+         val () = pmv := primval_make_ptrof (pmv.primval_loc, pmv)
+       } // end of [HSEtyarr]
+      | _ => () // end of [_]
+    ) : void // end of [val]
+//
     var issin: bool = false
     val boxknd = hisexp_get_boxknd (hse)
     val () = (
@@ -1854,7 +1870,7 @@ case+ xys of
           else (
             if boxknd >= 0 // HX: it is a rec
               then emit_text (out, "ATSselfltrec(")
-              else emit_text (out, "ATSselarrind(")
+              else emit_text (out, "ATSselarrptrind(")
             // end of [if]
           ) // end of [if]
         // end of [if]
@@ -1862,7 +1878,9 @@ case+ xys of
         emit_text (out, "ATSselboxrec(")
       // end of [if]
     ) : void // end of [val]
+//
     val () = auxmain (out, knd, pmv, hse_rt, xys, i + 1)
+//
     val () = emit_text (out, ", ")
     val () = emit_hisexp (out, hse)
     val () = emit_text (out, ", ")
@@ -1977,50 +1995,6 @@ end // end of [emit_primval_ptrofsel]
 
 (* ****** ****** *)
 
-(*
-implement
-emit_instr_load_varofs
-  (out, ins) = let
-//
-val-INSload_varofs
-  (tmp, pmv, hse_rt, pmls) = ins.instr_node
-//
-val xys = auxselist (hse_rt, pmls)
-val () = emit_text (out, "ATSINSload(")
-val () = emit_tmpvar (out, tmp)
-val () = emit_text (out, ", ")
-val () = auxmain (out, 0(*non*), pmv, hse_rt, xys, 0)
-val () = emit_text (out, ") ; ")
-//
-in
-  // nothing
-end // end of [emit_instr_load_ptrofs]
-*)
-
-(* ****** ****** *)
-
-(*
-implement
-emit_instr_load_ptrofs
-  (out, ins) = let
-//
-val-INSload_ptrofs
-  (tmp, pmv, hse_rt, pmls) = ins.instr_node
-//
-val xys = auxselist (hse_rt, pmls)
-val () = emit_text (out, "ATSINSload(")
-val () = emit_tmpvar (out, tmp)
-val () = emit_text (out, ", ")
-val () = auxmain (out, 1(*ptr*), pmv, hse_rt, xys, 0)
-val () = emit_text (out, ") ; ")
-//
-in
-  // nothing
-end // end of [emit_instr_load_ptrofs]
-*)
-
-(* ****** ****** *)
-
 implement
 emit_instr_store_varofs
   (out, ins) = let
@@ -2058,6 +2032,46 @@ val () = emit_text (out, ") ; ")
 in
   // nothing
 end // end of [emit_instr_store_ptrofs]
+
+(* ****** ****** *)
+
+implement
+emit_instr_xstore_varofs
+  (out, ins) = let
+//
+val-INSxstore_varofs
+  (pmv_l, hse_rt, pmls, pmv_r) = ins.instr_node
+//
+val xys = auxselist (hse_rt, pmls)
+val () = emit_text (out, "ATSINSxstore(")
+val () = auxmain (out, 0(*non*), pmv_l, hse_rt, xys, 0)
+val () = emit_text (out, ", ")
+val () = emit_primval (out, pmv_r)
+val () = emit_text (out, ") ; ")
+//
+in
+  // nothing
+end // end of [emit_instr_xstore_varofs]
+
+(* ****** ****** *)
+
+implement
+emit_instr_xstore_ptrofs
+  (out, ins) = let
+//
+val-INSxstore_ptrofs
+  (pmv_l, hse_rt, pmls, pmv_r) = ins.instr_node
+//
+val xys = auxselist (hse_rt, pmls)
+val () = emit_text (out, "ATSINSxstore(")
+val () = auxmain (out, 1(*non*), pmv_l, hse_rt, xys, 0)
+val () = emit_text (out, ", ")
+val () = emit_primval (out, pmv_r)
+val () = emit_text (out, ") ; ")
+//
+in
+  // nothing
+end // end of [emit_instr_xstore_ptrofs]
 
 (* ****** ****** *)
 

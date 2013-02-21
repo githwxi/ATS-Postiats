@@ -666,6 +666,20 @@ instr_store_ptrofs
 (* ****** ****** *)
 
 implement
+instr_xstore_varofs
+  (loc, pmv_l, hse_rt, ofs, pmv_r) =
+  instr_make_node (loc, INSxstore_varofs (pmv_l, hse_rt, ofs, pmv_r))
+// end of [instr_xstore_varofs]
+
+implement
+instr_xstore_ptrofs
+  (loc, pmv_l, hse_rt, ofs, pmv_r) =
+  instr_make_node (loc, INSxstore_ptrofs (pmv_l, hse_rt, ofs, pmv_r))
+// end of [instr_xstore_ptrofs]
+
+(* ****** ****** *)
+
+implement
 instr_move_list_nil
   (loc, tmp) = instr_make_node (loc, INSmove_list_nil (tmp))
 // end of [instr_move_list_nil]
