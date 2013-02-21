@@ -57,18 +57,23 @@ macdef && (b1, b2) = (if ,(b1) then ,(b2) else false): bool
 
 #atscode_separator()
 
+typedef boolLte (b: bool) = [a: bool | a <= b] bool (a)
+typedef boolGte (b: bool) = [a: bool | a >= b] bool (a)
+
+#atscode_separator()
+
 fun neg_bool0
-  (b: bool):<> bool = "mac\#atspre_neg_bool"
+  (b: bool):<> bool = "mac\#%"
 overload ~ with neg_bool0 of 0
 overload not with neg_bool0 of 0
 
 #atscode_separator()
 
 fun add_bool0_bool0
-  (b1: bool, b2: bool):<> bool = "mac\#atspre_add_bool_bool"
+  (b1: bool, b2: bool):<> bool = "mac\#%"
 overload + with add_bool0_bool0 of 0
 fun mul_bool0_bool0
-  (b1: bool, b2: bool):<> bool = "mac\#atspre_mul_bool_bool"
+  (b1: bool, b2: bool):<> bool = "mac\#%"
 overload * with mul_bool0_bool0 of 0
 
 #atscode_separator()
@@ -89,10 +94,10 @@ val fopr_d = (
 //
 val ent = sprintf ("\
 fun %s_bool0_bool0
-  (b1: bool, b2: bool):<> bool = \"mac#atspre_%s_bool_bool\"
+  (b1: bool, b2: bool):<> bool = \"mac#%%\"
 overload %s with %s_bool0_bool0 of 0\
 ", @(
- opr, opr, fopr_d, opr
+ opr, fopr_d, opr
 )
 ) // end of [sprintf] // end of [val]
 //
@@ -111,17 +116,17 @@ end // end of [fun_bool_cmp0_decl]
 #fun_bool_cmp0_decl("neq")
 overload <> with neq_bool0_bool0 of 0
 
-fun compare_bool0_bool0 // HX: this one is a function
-  (b1: bool, b2: bool):<> Sgn = "atspre_compare_bool_bool"
+fun compare_bool0_bool0
+  (b1: bool, b2: bool):<> Sgn = "mac\#%"
 overload compare with compare_bool0_bool0
 
 #atscode_separator()
 
 fun fprint_bool
-  (out: FILEref, x: bool): void = "atspre_fprint_bool"
+  (out: FILEref, x: bool): void = "mac\#%"
 overload fprint with fprint_bool
-fun print_bool (x: bool): void = "mac\#atspre_fprint_bool"
-and prerr_bool (x: bool): void = "mac\#atspre_fprint_bool"
+fun print_bool (x: bool): void = "mac\#%"
+and prerr_bool (x: bool): void = "mac\#%"
 overload print with print_bool
 overload prerr with prerr_bool
 
@@ -130,48 +135,48 @@ overload prerr with prerr_bool
 // HX: the return is statically allocated
 //
 fun tostring_bool
-  (b: bool):<> string = "atspre_tostring_bool"
+  (b: bool):<> string = "mac\#%"
 overload tostring with tostring_bool
 
 #atscode_separator()
 
 fun neg_bool1 {b:bool}
-  (b: bool b):<> bool (~b) = "mac\#atspre_neg_bool1"
+  (b: bool b):<> bool (~b) = "mac\#%"
 overload ~ with neg_bool1 of 10
 overload not with neg_bool1 of 10
 
 #atscode_separator()
 
-fun add_bool1_bool0 {b1:bool}
-  (b1: bool b1, b2: bool):<> [b:bool | b1 <= b] bool (b)
-  = "mac\#atspre_add_bool1_bool0"
+fun
+add_bool1_bool0 {b1:bool}
+  (b1: bool b1, b2: bool):<> boolGte (b1) = "mac\#%"
 overload + with add_bool1_bool0 of 10
 
-fun add_bool0_bool1 {b2:bool}
-  (b1: bool, b2: bool b2):<> [b:bool | b2 <= b] bool (b)
-  = "mac\#atspre_add_bool0_bool1"
+fun
+add_bool0_bool1 {b2:bool}
+  (b1: bool, b2: bool b2):<> boolGte (b2) = "mac\#%"
 overload + with add_bool0_bool1 of 10
 
-fun add_bool1_bool1 {b1,b2:bool}
-  (b1: bool b1, b2: bool b2):<> bool (b1 || b2)
-  = "mac\#atspre_add_bool1_bool1"
+fun
+add_bool1_bool1 {b1,b2:bool}
+  (b1: bool b1, b2: bool b2):<> bool (b1 || b2) = "mac\#%"
 overload + with add_bool1_bool1 of 20
 
 #atscode_separator()
 
-fun mul_bool1_bool0 {b1:bool}
-  (b1: bool b1, b2: bool):<> [b:bool | b <= b1] bool (b)
-  = "mac\#atspre_mul_bool1_bool0"
+fun
+mul_bool1_bool0 {b1:bool}
+  (b1: bool b1, b2: bool):<> bootLte (b1) = "mac\#%"
 overload * with mul_bool1_bool0 of 10
 
-fun mul_bool0_bool1 {b2:bool}
-  (b1: bool, b2: bool b2):<> [b:bool | b <= b2] bool (b)
-  = "mac\#atspre_mul_bool0_bool1"
+fun
+mul_bool0_bool1 {b2:bool}
+  (b1: bool, b2: bool b2):<> boolLte (b2) = "mac\#%"
 overload * with mul_bool0_bool1 of 10
 
-fun mul_bool1_bool1 {b1,b2:bool}
-  (b1: bool b1, b2: bool b2):<> bool (b1 && b2)
-  = "mac\#atspre_mul_bool1_bool1"
+fun
+mul_bool1_bool1 {b1,b2:bool}
+  (b1: bool b1, b2: bool b2):<> bool (b1 && b2) = "mac\#%"
 overload * with mul_bool1_bool1 of 20
 
 #atscode_separator()
@@ -198,13 +203,12 @@ val fopr_d = (
 ) : string // end of [val]
 //
 val ent = sprintf ("\
-fun %s_bool1_bool1
-  {b1,b2:bool} (
-  b1: bool (b1), b2: bool (b2)
-) :<> bool (b1 %s b2) = \"mac#atspre_%s_bool1_bool1\"
+fun
+%s_bool1_bool1 {b1,b2:bool}
+  (b1: bool (b1), b2: bool (b2)) :<> bool (b1 %s b2) = \"mac#%%\"
 overload %s with %s_bool1_bool1 of 20\
 ", @(
- opr, fopr_s, opr, fopr_d, opr
+ opr, fopr_s, fopr_d, opr
 )
 ) // end of [sprintf] // end of [val]
 //
@@ -214,6 +218,8 @@ end // end of [fun_bool_cmp1_decl]
 %}\
 \
 //
+
+
 // (b1 < b2) == (~b1 && b2)
 //
 #fun_bool_cmp1_decl("lt")
@@ -235,10 +241,12 @@ end // end of [fun_bool_cmp1_decl]
 #fun_bool_cmp1_decl("neq")
 overload <> with neq_bool1_bool1 of 20
 
-fun compare_bool1_bool1
+fun
+compare_bool1_bool1
   {b1,b2:bool} // HX: this one is a function
-  (b1: bool b1, b2: bool b2):<> int (int_of_bool b1 - int_of_bool b2)
-  = "atspre_compare_bool1_bool1"
+(
+ b1: bool b1, b2: bool b2
+) :<> int (int_of_bool b1 - int_of_bool b2) = "mac\#%"
 overload compare with compare_bool1_bool1 of 20
 
 #atscode_separator()

@@ -147,13 +147,13 @@ list0_pair (x1, x2) = list0_cons (x1, list0_cons (x2, list0_nil))
 
 (* ****** ****** *)
 
-implement{}
+implement{a}
 list0_is_nil (xs) = (
   case+ xs of
   | list0_cons _ => false | list0_nil () => true
 ) // end of [list0_is_nil]
 
-implement{}
+implement{a}
 list0_is_cons (xs) = (
   case+ xs of
   | list0_cons _ => true | list0_nil () => false
@@ -161,11 +161,11 @@ list0_is_cons (xs) = (
 
 (* ****** ****** *)
 
-implement{}
-list0_is_empty (xs) = list0_is_nil<> (xs)
+implement{a}
+list0_is_empty (xs) = list0_is_nil<a> (xs)
 
-implement{}
-list0_isnot_empty (xs) = list0_is_cons<> (xs)
+implement{a}
+list0_isnot_empty (xs) = list0_is_cons<a> (xs)
 
 (* ****** ****** *)
 

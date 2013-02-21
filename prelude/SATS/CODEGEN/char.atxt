@@ -12,14 +12,14 @@ fprint_print_prerr_decl
 //
 val ent = sprintf ("\
 fun fprint_%s
-  : fprint_type (%s) = \"mac#atspre_fprint_%s\"
+  : fprint_type (%s) = \"mac#%%\"
 overload fprint with fprint_%s
 fun print_%s (x: %s): void
 and prerr_%s (x: %s): void
 overload print with print_%s
 overload prerr with prerr_%s\
 ", @(
- tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm
+ tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm
 )
 ) // end of [sprintf] // end of [val]
 //
@@ -52,30 +52,30 @@ sortdef t0p = t@ype
 
 #atscode_separator()
 
-fun int2char0 (i: int):<> char = "mac\#atspre_int2char"
-fun int2schar0 (i: int):<> schar = "mac\#atspre_int2schar"
-fun int2uchar0 (u: uint):<> uchar = "mac\#atspre_int2uchar"
+fun int2char0 (i: int):<> char = "mac\#%"
+fun int2schar0 (i: int):<> schar = "mac\#%"
+fun int2uchar0 (u: uint):<> uchar = "mac\#%"
 
 #atscode_separator()
 
-fun char2int0 (c: char):<> int = "mac\#atspre_char2int"
-fun schar2int0 (c: schar):<> int = "mac\#atspre_schar2int"
-fun uchar2int0 (c: uchar):<> int = "mac\#atspre_uchar2int"
+fun char2int0 (c: char):<> int = "mac\#%"
+fun schar2int0 (c: schar):<> int = "mac\#%"
+fun uchar2int0 (c: uchar):<> int = "mac\#%"
 
-fun char2uint0 (c: char):<> int = "mac\#atspre_char2uint"
-fun schar2uint0 (c: schar):<> int = "mac\#atspre_schar2uint"
-fun uchar2uint0 (c: uchar):<> int = "mac\#atspre_uchar2uint"
+fun char2uint0 (c: char):<> int = "mac\#%"
+fun schar2uint0 (c: schar):<> int = "mac\#%"
+fun uchar2uint0 (c: uchar):<> int = "mac\#%"
 
 #atscode_separator()
 
 fun add_char0_int0
-  (c1: char, i2: int):<> char = "mac\#atspre_add_char_int"
+  (c1: char, i2: int):<> char = "mac\#%"
 overload + with add_char0_int0
 fun sub_char0_int0
-  (c1: char, i2: int):<> char = "mac\#atspre_sub_char_int"
+  (c1: char, i2: int):<> char = "mac\#%"
 overload - with sub_char0_int0
 fun sub_char0_char0
-  (c1: char, c2: char):<> int = "mac\#atspre_sub_char_char"
+  (c1: char, c2: char):<> int = "mac\#%"
 overload - with sub_char0_char0
 
 #atscode_separator()
@@ -96,10 +96,10 @@ val fopr_d = (
 //
 val ent = sprintf ("\
 fun %s_char0_char0
-  (c1: char, c2: char):<> bool = \"mac#atspre_%s_char_char\"
+  (c1: char, c2: char):<> bool = \"mac#%%\"
 overload %s with %s_char0_char0 of 0\
 ", @(
- opr, opr, fopr_d, opr
+ opr, fopr_d, opr
 )
 ) // end of [sprintf] // end of [val]
 //
@@ -119,7 +119,7 @@ end // end of [fun_char_cmp0_decl]
 overload <> with neq_char0_char0 of 0
 
 fun compare_char0_char0
-  (c1: char, c2: char):<> int = "atspre_compare_char_char"
+  (c1: char, c2: char):<> int = "mac\#%"
 overload compare with compare_char0_char0 of 0
 
 #atscode_separator()
@@ -128,7 +128,7 @@ overload compare with compare_char0_char0 of 0
 // HX: the return is dynamically allocated
 //
 fun tostring_char
-  (c: char):<> strnptr(1) = "atspre_tostring_char"
+  (c: char):<> strnptr(1) = "mac\#%"
 overload tostring with tostring_char
 ')\
 
@@ -168,13 +168,12 @@ val fopr_d = (
 ) : string // end of [val]
 //
 val ent = sprintf ("\
-fun %s_char1_char1
-  {c1,c2:int} (
-  c1: char (c1), c2: char (c2)
-) :<> bool (c1 %s c2) = \"mac#atspre_%s_char_char\"
+fun
+%s_char1_char1 {c1,c2:int}
+  (c1: char (c1), c2: char (c2)):<> bool (c1 %s c2) = \"mac#%%\"
 overload %s with %s_char1_char1 of 20\
 ", @(
- opr, fopr_s, opr, fopr_d, opr
+ opr, fopr_s, fopr_d, opr
 )
 ) // end of [sprintf] // end of [val]
 //
@@ -195,10 +194,8 @@ overload <> with neq_char1_char1 of 20
 
 #atscode_decl_strcst('\
 fun compare_char1_char1
-  {c1,c2:int} (
-  c1: char c2, c2: char c2
-) :<> int (c1-c2)
-  = "mac\#atspre_compare_char_char"
+  {c1,c2:int}
+  (c1: char c2, c2: char c2) :<> int (c1-c2) = "mac\#%"
 overload compare with compare_char1_char1 of 20
 ')\
 
@@ -216,10 +213,10 @@ fun_uchar_cmp0_decl (
 //
 val ent = sprintf ("\
 fun %s_uchar0_uchar0
-  (c1: uchar, c2: uchar):<> bool = \"mac#atspre_%s_uchar_uchar\"
+  (c1: uchar, c2: uchar):<> bool = \"mac#%%\"
 overload %s with %s_uchar0_uchar0 of 0\
 ", @(
- opr, opr, fopr, opr
+ opr, fopr, opr
 )
 ) // end of [sprintf] // end of [val]
 //
@@ -240,7 +237,7 @@ overload <> with neq_uchar0_uchar0 of 0
 
 #atscode_decl_strcst('\
 fun compare_uchar0_uchar0
-  (c1: uchar, c2: uchar):<> int = "mac\#atspre_compare_uchar_uchar"
+  (c1: uchar, c2: uchar):<> int = "mac\#%"
 overload compare with compare_uchar0_uchar0 of 0
 ')\
 
@@ -268,13 +265,12 @@ val fopr_d = (
 ) : string // end of [val]
 //
 val ent = sprintf ("\
-fun %s_uchar1_uchar1
-  {c1,c2:int} (
-  c1: uchar (c1), c2: uchar (c2)
-) :<> bool (c1 %s c2) = \"mac#atspre_%s_uchar1_uchar1\"
+fun
+%s_uchar1_uchar1 {c1,c2:int}
+  (c1: uchar (c1), c2: uchar (c2)) :<> bool (c1 %s c2) = \"mac#%%\"
 overload %s with %s_uchar1_uchar1 of 20\
 ", @(
- opr, fopr_s, opr, fopr_d, opr
+ opr, fopr_s, fopr_d, opr
 )
 ) // end of [sprintf] // end of [val]
 //
@@ -295,10 +291,8 @@ overload <> with neq_uchar1_uchar1 of 20
 
 #atscode_decl_strcst('\
 fun compare_uchar1_uchar1
-  {c1,c2:int} (
-  c1: uchar c2, c2: uchar c2
-) :<> int (c1-c2)
-  = "mac\#atspre_compare_uchar1_uchar1"
+  {c1,c2:int}
+  (c1: uchar c2, c2: uchar c2) :<> int (c1-c2) = "mac\#%"
 overload compare with compare_uchar1_uchar1 of 20
 ')\
 
@@ -359,12 +353,12 @@ fun_isX_decl (
 //
 val ent = sprintf ("\
 symintr %s
-fun %s_int (c: int):<> bool = \"atspre_%s_int\"
+fun %s_int (c: int):<> bool = \"mac#%%\"
 overload %s with %s_int of 0
-fun %s_char (c: char):<> bool = \"atspre_%s_char\"
+fun %s_char (c: char):<> bool = \"mac\#%%\"
 overload %s with %s_char of 0\
 ", @(
- isX, isX, isX, isX, isX, isX, isX, isX, isX
+ isX, isX, isX, isX, isX, isX, isX
 )
 ) // end of [sprintf] // end of [val]
 //
@@ -395,12 +389,12 @@ end // end of [fun_isX_decl]
 
 #atscode_separator()
 
-fun toascii_int (c: int):<> int = "atspre_toascii_int"
-fun toascii_char (c: char):<> char = "atspre_toascii_char"
-fun tolower_int (c: int):<> int = "atspre_tolower_int"
-fun tolower_char (c: char):<> char = "atspre_tolower_char"
-fun toupper_int (c: int):<> int = "atspre_toupper_int"
-fun toupper_char (c: char):<> char = "atspre_toupper_char"
+fun toascii_int (c: int):<> int = "mac\#%"
+fun toascii_char (c: char):<> char = "mac\#%"
+fun tolower_int (c: int):<> int = "mac\#%"
+fun tolower_char (c: char):<> char = "mac\#%"
+fun toupper_int (c: int):<> int = "mac\#%"
+fun toupper_char (c: char):<> char = "mac\#%"
 
 #atscode_separator()
 

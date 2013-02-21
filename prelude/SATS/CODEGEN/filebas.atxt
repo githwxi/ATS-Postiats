@@ -35,9 +35,9 @@ typedef NSH(a:type) = a // for commenting purpose
 
 #atscode_separator()
 
-val stdin_ref : FILEref = "mac\#atspre_FILE_stdin"
-val stdout_ref : FILEref = "mac\#atspre_FILE_stdout"
-val stderr_ref : FILEref = "mac\#atspre_FILE_stderr"
+val stdin_ref : FILEref = "mac\#%FILE_stdin"
+val stdout_ref : FILEref = "mac\#%FILE_stdout"
+val stderr_ref : FILEref = "mac\#%FILE_stderr"
 
 #atscode_separator()
 
@@ -53,9 +53,7 @@ val file_mode_aa : file_mode (rw()) // = "a+"
 (*
 ** HX: [stat] is called
 *)
-fun test_file_exists
-  (path: NSH(string)): bool = "mac\#atspre_test_file_exists"
-// end of [test_file_exists]
+fun test_file_exists (path: NSH(string)): bool = "mac\#%"
 
 #atscode_separator()
 //
@@ -67,26 +65,20 @@ fun test_file_mode (path: NSH(string), f: uint -> bool): int
 //
 // HX: [stat] is called // ~1/0/1: error/false/true
 //
-fun test_file_isblk
-  (path: NSH(string)): int = "mac\#atspre_test_file_isblk"
-fun test_file_ischr
-  (path: NSH(string)): int = "mac\#atspre_test_file_ischr"
-fun test_file_isdir
-  (path: NSH(string)): int = "mac\#atspre_test_file_isdir"
-fun test_file_isfifo
-  (path: NSH(string)): int = "mac\#atspre_test_file_isfifo"
-fun test_file_isreg
-  (path: NSH(string)): int = "mac\#atspre_test_file_isreg"
+fun test_file_isblk (path: NSH(string)): int = "mac\#%"
+fun test_file_ischr (path: NSH(string)): int = "mac\#%"
+fun test_file_isdir (path: NSH(string)): int = "mac\#%"
+fun test_file_isfifo (path: NSH(string)): int = "mac\#%"
+fun test_file_isreg (path: NSH(string)): int = "mac\#%"
 //
 // HX: [lstat] is called // ~1/0/1: error/false/true
 //
-fun test_file_islnk
-  (path: NSH(string)): int = "mac\#atspre_test_file_islnk"
+fun test_file_islnk (path: NSH(string)): int = "mac\#%"
 //
 #atscode_separator()
 
 fun fileref_open_exn
-  (path: NSH(string), fm: file_mode): FILEref = "mac\#atspre_fileref_open_exn"
+  (path: NSH(string), fm: file_mode): FILEref = "mac\#%"
 // end of [fileref_open_exn]
 
 fun fileref_open_opt
@@ -95,17 +87,17 @@ fun fileref_open_opt
 
 #atscode_separator()
 
-fun fileref_close (r: FILEref): void = "mac\#atspre_fileref_close"
+fun fileref_close (r: FILEref): void = "mac\#%"
 
 #atscode_separator()
 
-fun fileref_flush (r: FILEref): void = "mac\#atspre_fileref_flush"
+fun fileref_flush (r: FILEref): void = "mac\#%"
 
 #atscode_separator()
 //
 // HX: error indication: EOF
 //
-fun fileref_getc (r: FILEref): int = "mac\#atspre_fileref_getc"
+fun fileref_getc (r: FILEref): int = "mac\#%"
 //
 #atscode_separator()
 //
@@ -114,10 +106,10 @@ fun fileref_getc (r: FILEref): int = "mac\#atspre_fileref_getc"
 symintr fileref_putc
 //
 fun fileref_putc_int
-  (r: FILEref, c: int): void = "mac\#atspre_fileref_putc_int"
+  (r: FILEref, c: int): void = "mac\#%"
 overload fileref_putc with fileref_putc_int
 fun fileref_putc_char
-  (r: FILEref, c: char): void = "mac\#atspre_fileref_putc_char"
+  (r: FILEref, c: char): void = "mac\#%"
 overload fileref_putc with fileref_putc_char
 //
 #atscode_separator()
@@ -125,13 +117,11 @@ overload fileref_putc with fileref_putc_char
 // HX: no error reporting
 //
 fun fileref_puts
-  (r: FILEref, s: NSH(string)): void = "mac\#atspre_fileref_puts"
+  (r: FILEref, s: NSH(string)): void = "mac\#%"
 //
 #atscode_separator()
 
-fun fileref_is_eof
-  (r: FILEref): bool = "mac\#atspre_fileref_is_eof"
-// end of [fileref_is_eof]
+fun fileref_is_eof (r: FILEref): bool = "mac\#%"
 
 macdef fileref_isnot_eof (r) = ~fileref_is_eof (,(r))
 
@@ -145,19 +135,13 @@ fileref_load_type (a:t@ype) =
 fun{a:t0p}
 fileref_load : fileref_load_type (a)
 
-fun fileref_load_int
-  : fileref_load_type (int) = "mac\#atspre_fileref_load_int"
-fun fileref_load_lint
-  : fileref_load_type (lint) = "mac\#atspre_fileref_load_lint"
-fun fileref_load_uint
-  : fileref_load_type (uint) = "mac\#atspre_fileref_load_uint"
-fun fileref_load_ulint
-  : fileref_load_type (ulint) = "mac\#atspre_fileref_load_ulint"
+fun fileref_load_int : fileref_load_type (int) = "mac\#%"
+fun fileref_load_lint : fileref_load_type (lint) = "mac\#%"
+fun fileref_load_uint : fileref_load_type (uint) = "mac\#%"
+fun fileref_load_ulint : fileref_load_type (ulint) = "mac\#%"
 
-fun fileref_load_float
-  : fileref_load_type (float) = "mac\#atspre_fileref_load_float"
-fun fileref_load_double
-  : fileref_load_type (double) = "mac\#atspre_fileref_load_double"
+fun fileref_load_float : fileref_load_type (float) = "mac\#%"
+fun fileref_load_double : fileref_load_type (double) = "mac\#%"
 
 #atscode_separator()
 

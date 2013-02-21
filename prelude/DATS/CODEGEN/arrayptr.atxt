@@ -61,7 +61,7 @@ end // end of [arrayptr_make_elt]
 
 #atscode_separator()
 
-implement
+implement{}
 arrayptr_make_intrange
   {l,r} (l, r) = let
 //

@@ -113,10 +113,8 @@ arrpsz_decode :
 fun
 arrpsz_get_ptrsize
   {a:vt0p}{n:int} (
-  psz: arrpsz (INV(a), n)
-, asz: &size_t? >> size_t (n)
-) :<!wrt> arrayptr (a, n) = "mac\#atspre_arrpsz_get_ptrsize"
-// end of [arrpsz_get_ptrsize]
+  psz: arrpsz (INV(a), n), asz: &size_t? >> size_t (n)
+) :<!wrt> arrayptr (a, n) = "mac\#%" // endfun
 
 #atscode_separator()
 
@@ -124,15 +122,16 @@ symintr arrayptr
 
 #atscode_separator()
 
-fun{a:t0p}
-arrayptr_make_elt
+fun{
+a:t0p
+} arrayptr_make_elt
   {n:int} (asz: size_t n, x: a):<!wrt> arrayptr (a, n)
 // end of [arrayptr_make_elt]
 
 #atscode_separator()
 
-fun
-arrayptr_make_intrange
+fun{
+} arrayptr_make_intrange
   {l,r:int | l <= r}
   (l: int l, r: int r):<!wrt> arrayptr (intBtw(l, r), r-l)
 // end of [arrayptr_make_intrange]
@@ -142,7 +141,7 @@ arrayptr_make_intrange
 fun
 arrayptr_make_arrpsz
   {a:vt0p}{n:int}
-  (psz: arrpsz (INV(a), n)):<> arrayptr (a, n) = "mac\#arrayptr_make_arrpsz"
+  (psz: arrpsz (INV(a), n)):<> arrayptr (a, n) = "mac\#%"
 overload arrayptr with arrayptr_make_arrpsz
 
 #atscode_separator()
@@ -170,7 +169,7 @@ arrayptr_make_uninitized
 
 fun arrayptr_free
   {a:t0p}{l:addr}{n:int}
-  (A: arrayptr (INV(a), l, n)):<!wrt> void = "mac\#atspre_arrayptr_free"
+  (A: arrayptr (INV(a), l, n)):<!wrt> void = "mac\#%"
 // end of [arrayptr_free]
 
 #atscode_separator()

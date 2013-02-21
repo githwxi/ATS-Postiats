@@ -58,14 +58,10 @@ stadef sizeknd = size_kind
 fun{k1,k2:tk}
 g0int2int (x: g0int (k1)):<> g0int (k2)
 //
-fun g0int2int_int_int
-  (x: int):<> int = "mac\#atspre_g0int2int_int_int"
-fun g0int2int_int_lint
-  (x: int):<> lint = "mac\#atspre_g0int2int_int_lint"
-fun g0int2int_int_llint
-  (x: int):<> llint = "mac\#atspre_g0int2int_int_llint"
-fun g0int2int_int_ssize
-  (x: int):<> ssize_t = "mac\#atspre_g0int2int_int_ssize"
+fun g0int2int_int_int (x: int):<> int = "mac\#%"
+fun g0int2int_int_lint (x: int):<> lint = "mac\#%"
+fun g0int2int_int_llint (x: int):<> llint = "mac\#%"
+fun g0int2int_int_ssize (x: int):<> ssize_t = "mac\#%"
 //
 #atscode_separator()
 
@@ -203,14 +199,10 @@ fun{k1,k2:tk}
 g1int2int // i2i
   {i:int} (x: g1int (k1, i)):<> g1int (k2, i)
 //
-fun g1int2int_int_int
-  {i:int} (x: int i):<> int (i) = "mac\#atspre_g1int2int_int_int"
-fun g1int2int_int_lint
-  {i:int} (x: int i):<> lint (i) = "mac\#atspre_g1int2int_int_lint"
-fun g1int2int_int_llint
-  {i:int} (x: int i):<> llint (i) = "mac\#atspre_g1int2int_int_llint"
-fun g1int2int_int_ssize
-  {i:int} (x: int i):<> ssize_t (i) = "mac\#atspre_g1int2int_int_ssize"
+fun g1int2int_int_int {i:int} (x: int i):<> int (i) = "mac\#%"
+fun g1int2int_int_lint {i:int} (x: int i):<> lint (i) = "mac\#%"
+fun g1int2int_int_llint {i:int} (x: int i):<> llint (i) = "mac\#%"
+fun g1int2int_int_ssize {i:int} (x: int i):<> ssize_t (i) = "mac\#%"
 //
 #atscode_separator()
 
@@ -474,14 +466,10 @@ g1int_sgn {i:int} (x: g1int (tk, i)): int(sgn(i))
 fun{k1,k2:tk}
 g0int2uint (x: g0int (k1)):<> g0uint (k2)
 //
-fun g0int2uint_int_uint
-  (x: int):<> uint = "mac\#atspre_g0int2uint_int_uint"
-fun g0int2uint_int_ulint
-  (x: int):<> ulint = "mac\#atspre_g0int2uint_int_ulint"
-fun g0int2uint_int_ullint
-  (x: int):<> ullint = "mac\#atspre_g0int2uint_int_ullint"
-fun g0int2uint_int_size
-  (x: int):<> size_t = "mac\#atspre_g0int2uint_int_size"
+fun g0int2uint_int_uint (x: int):<> uint = "mac\#%"
+fun g0int2uint_int_ulint (x: int):<> ulint = "mac\#%"
+fun g0int2uint_int_ullint (x: int):<> ullint = "mac\#%"
+fun g0int2uint_int_size (x: int):<> size_t = "mac\#%"
 //
 #atscode_separator()
 
@@ -493,21 +481,14 @@ g0uint2int (x: g0uint (k1)):<> g0int (k2)
 fun{k1,k2:tk}
 g0uint2uint (x: g0uint (k1)):<> g0uint (k2)
 //
-fun g0uint2uint_uint_uint
-  (x: uint):<> uint = "mac\#atspre_g0uint2uint_uint_uint"
-fun g0uint2uint_uint_ulint
-  (x: uint):<> ulint = "mac\#atspre_g0uint2uint_uint_ulint"
-fun g0uint2uint_uint_ullint
-  (x: uint):<> ullint = "mac\#atspre_g0uint2uint_uint_ullint"
-fun g0uint2uint_uint_size
-  (x: uint):<> size_t = "mac\#atspre_g0uint2uint_uint_size"
+fun g0uint2uint_uint_uint (x: uint):<> uint = "mac\#%"
+fun g0uint2uint_uint_ulint (x: uint):<> ulint = "mac\#%"
+fun g0uint2uint_uint_ullint (x: uint):<> ullint = "mac\#%"
+fun g0uint2uint_uint_size (x: uint):<> size_t = "mac\#%"
 //
-fun g0uint2uint_size_ulint
-  (x: size_t):<> ulint = "mac\#atspre_g0uint2uint_size_ulint"
-fun g0uint2uint_size_ullint
-  (x: size_t):<> ullint = "mac\#atspre_g0uint2uint_size_ullint"
-fun g0uint2uint_size_size
-  (x: size_t):<> size_t = "mac\#atspre_g0uint2uint_size_size"
+fun g0uint2uint_size_ulint (x: size_t):<> ulint = "mac\#%"
+fun g0uint2uint_size_ullint (x: size_t):<> ullint = "mac\#%"
+fun g0uint2uint_size_size (x: size_t):<> size_t = "mac\#%"
 //
 #atscode_separator()
 
@@ -638,14 +619,10 @@ fun{k1,k2:tk}
 g1int2uint // i2u
   {i:nat} (x: g1int (k1, i)):<> g1uint (k2, i)
 //
-fun g1int2uint_int_uint
-  {i:nat} (x: int i):<> uint (i) = "mac\#atspre_g1int2uint_int_uint"
-fun g1int2uint_int_ulint
-  {i:nat} (x: int i):<> ulint (i) = "mac\#atspre_g1int2uint_int_ulint"
-fun g1int2uint_int_ullint
-  {i:nat} (x: int i):<> ullint (i) = "mac\#atspre_g1int2uint_int_ullint"
-fun g1int2uint_int_size
-  {i:nat} (x: int i):<> size_t (i) = "mac\#atspre_g1int2uint_int_size"
+fun g1int2uint_int_uint {i:nat} (x: int i):<> uint (i) = "mac\#%"
+fun g1int2uint_int_ulint {i:nat} (x: int i):<> ulint (i) = "mac\#%"
+fun g1int2uint_int_ullint {i:nat} (x: int i):<> ullint (i) = "mac\#%"
+fun g1int2uint_int_size {i:nat} (x: int i):<> size_t (i) = "mac\#%"
 //
 #atscode_separator()
 
@@ -659,21 +636,14 @@ fun{k1,k2:tk}
 g1uint2uint // u2u
   {u:int} (x: g1uint (k1, u)):<> g1uint (k2, u)
 //
-fun g1uint2uint_uint_uint
-  {u:int} (x: uint u):<> uint (u) = "mac\#atspre_g1uint2uint_uint_uint"
-fun g1uint2uint_uint_ulint
-  {u:int} (x: uint u):<> ulint (u) = "mac\#atspre_g1uint2uint_uint_ulint"
-fun g1uint2uint_uint_ullint
-  {u:int} (x: uint u):<> ullint (u) = "mac\#atspre_g1uint2uint_uint_ullint"
-fun g1uint2uint_uint_size
-  {u:int} (x: uint u):<> size_t (u) = "mac\#atspre_g1uint2uint_uint_size"
+fun g1uint2uint_uint_uint {u:int} (x: uint u):<> uint (u) = "mac\#%"
+fun g1uint2uint_uint_ulint {u:int} (x: uint u):<> ulint (u) = "mac\#%"
+fun g1uint2uint_uint_ullint {u:int} (x: uint u):<> ullint (u) = "mac\#%"
+fun g1uint2uint_uint_size {u:int} (x: uint u):<> size_t (u) = "mac\#%"
 //
-fun g1uint2uint_size_ulint
-  {u:int} (x: size_t u):<> ulint (u) = "mac\#atspre_g1uint2uint_size_ulint"
-fun g1uint2uint_size_ullint
-  {u:int} (x: size_t u):<> ullint (u) = "mac\#atspre_g1uint2uint_size_ullint"
-fun g1uint2uint_size_size
-  {u:int} (x: size_t u):<> size_t (u) = "mac\#atspre_g1uint2uint_size_size"
+fun g1uint2uint_size_ulint {u:int} (x: size_t u):<> ulint (u) = "mac\#%"
+fun g1uint2uint_size_ullint {u:int} (x: size_t u):<> ullint (u) = "mac\#%"
+fun g1uint2uint_size_size {u:int} (x: size_t u):<> size_t (u) = "mac\#%"
 //
 #atscode_separator()
 

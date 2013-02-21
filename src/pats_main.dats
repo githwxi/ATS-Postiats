@@ -556,6 +556,9 @@ pervasive_load (
   val () =
     $GLOB.the_PACKNAME_set ("ATSLIB.prelude")
   // end of [val]
+  val () =
+    $GLOB.the_EXTERN_PREFIX_set ("atspre_")
+  // end of [val]
 //
   val (
     pfenv | ()

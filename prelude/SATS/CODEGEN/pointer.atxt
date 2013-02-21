@@ -64,12 +64,9 @@ symintr ptr_add ptr_sub
 //
 #atscode_separator()
 
-fun ptr0_is_null
-  (p: ptr):<> bool = "mac\#atspre_ptr_is_null"
+fun ptr0_is_null (p: ptr):<> bool = "mac\#%"
 overload ptr_is_null with ptr0_is_null of 0
-
-fun ptr0_isnot_null
-  (p: ptr):<> bool = "mac\#atspre_ptr_isnot_null"
+fun ptr0_isnot_null (p: ptr):<> bool = "mac\#%"
 overload ptr_isnot_null with ptr0_isnot_null of 0
 
 #atscode_separator()
@@ -85,19 +82,15 @@ overload ptr_pred with ptr0_pred of 0
 
 #atscode_separator()
 
-fun ptr0_add_bytesize
-  (p: ptr, ofs: size_t):<> ptr = "mac\#atspre_ptr0_add_bytesize"
-fun ptr0_sub_bytesize
-  (p: ptr, ofs: size_t):<> ptr = "mac\#atspre_ptr0_sub_bytesize"
+fun ptr0_add_bytesize (p: ptr, ofs: size_t):<> ptr = "mac\#%"
+fun ptr0_sub_bytesize (p: ptr, ofs: size_t):<> ptr = "mac\#%"
 
 #atscode_separator()
 
 fun ptr1_add_bytesize
-  {l:addr}{i:int}
-  (p: ptr l, ofs: size_t (i)):<> ptr (l+i) = "mac\#atspre_ptr1_add_bytesize"
+  {l:addr}{i:int} (p: ptr l, ofs: size_t (i)):<> ptr (l+i) = "mac\#%"
 fun ptr1_sub_bytesize
-  {l:addr}{i:int}
-  (p: ptr l, ofs: size_t (i)):<> ptr (l-i) = "mac\#atspre_ptr1_sub_bytesize"
+  {l:addr}{i:int} (p: ptr l, ofs: size_t (i)):<> ptr (l-i) = "mac\#%"
 
 #atscode_separator()
 //
@@ -125,8 +118,8 @@ overload ptr_sub with ptr0_sub_guint of 0
 #atscode_separator()
 
 fun sub_ptr0_ptr0
-  (p1: ptr, p2: ptr):<> ssize_t = "mac\#atspre_sub_ptr0_ptr0"
-overload - with sub_ptr0_ptr0 of 0 // end of [overload]
+  (p1: ptr, p2: ptr):<> ssize_t = "mac\#%"
+overload - with sub_ptr0_ptr0 of 0
 
 #atscode_separator()
 
@@ -146,10 +139,10 @@ val fopr_d = (
 //
 val ent = sprintf ("\
 fun %s_ptr0_ptr0
-  (p1: ptr, p2: ptr):<> bool = \"mac#atspre_%s_ptr0_ptr0\"
+  (p1: ptr, p2: ptr):<> bool = \"mac#%%\"
 overload %s with %s_ptr0_ptr0 of 0\
 ", @(
- opr, opr, fopr_d, opr
+ opr, fopr_d, opr
 )
 ) // end of [sprintf] // end of [val]
 //
@@ -166,10 +159,8 @@ end // end of [fun_ptr_cmp0_decl]
 #fun_ptr_cmp0_decl("neq")
 overload <> with neq_ptr0_ptr0 of 0
 
-fun
-compare_ptr0_ptr0 (
-  p1: ptr, p2: ptr
-) :<> int = "mac\#atspre_compare_ptr0_ptr0"
+fun compare_ptr0_ptr0
+  (p1: ptr, p2: ptr) :<> int = "mac\#%"
 overload compare with compare_ptr0_ptr0 of 0
 
 #atscode_separator()
@@ -217,7 +208,7 @@ ptr0_sub_size (p: ptr, u: size): ptr
 #atscode_separator()
 
 fun fprint_ptr
-  (out: FILEref, p: ptr): void = "mac\#atspre_fprint_ptr"
+  (out: FILEref, p: ptr): void = "mac\#%"
 // end of [fprint_ptr]
 
 #atscode_separator()
@@ -227,10 +218,10 @@ praxi ptr1_is_gtez
 
 #atscode_separator()
 
-fun ptr1_is_null {l:addr}
-  (p: ptr l):<> bool (l==null) = "atspre_ptr_is_null"
-fun ptr1_isnot_null {l:addr}
-  (p: ptr l):<> bool (l > null) = "atspre_ptr_isnot_null"
+fun ptr1_is_null
+  {l:addr} (p: ptr l):<> bool (l==null) = "mac\#%"
+fun ptr1_isnot_null
+  {l:addr} (p: ptr l):<> bool (l > null) = "mac\#%"
 
 #atscode_separator()
 
@@ -303,10 +294,10 @@ val ent = sprintf ("\
 fun %s_ptr1_ptr1
   {l1,l2:addr} (
   p1: ptr (l1), p2: ptr (l2)
-) :<> bool (l1 %s l2) = \"mac#atspre_%s_ptr1_ptr1\"
+) :<> bool (l1 %s l2) = \"mac#%%\"
 overload %s with %s_ptr1_ptr1 of 20\
 ", @(
- opr, fopr_s, opr, fopr_d, opr
+ opr, fopr_s, fopr_d, opr
 )
 ) // end of [sprintf] // end of [val]
 //
@@ -325,9 +316,7 @@ overload <> with neq_ptr1_ptr1 of 20
 
 fun
 compare_ptr1_ptr1
-  {l1,l2:addr} (
-  p1: ptr l1, p2: ptr l2
-) :<> int = "mac\#atspre_compare_ptr1_ptr1"
+  {l1,l2:addr} (p1: ptr l1, p2: ptr l2) :<> int = "mac\#%"
 overload compare with compare_ptr1_ptr1 of 20
 
 #atscode_separator()
@@ -400,12 +389,12 @@ ptr_alloc ()
 
 fun ptr_alloc_tsz
   {a:vt0p} (tsz: sizeof_t a)
-  :<> [l:agz] (a? @ l, free_gc_v (l) | ptr l) = "atspre_ptr_alloc_tsz"
+  :<> [l:agz] (a? @ l, free_gc_v (l) | ptr l) = "mac\#%"
 // end of [ptr_alloc_tsz]
 
 fun ptr_free
   {a:t@ype}{l:addr}
-  (pfgc: free_gc_v (l), pfat: a @ l | p: ptr l):<> void = "atspre_ptr_free"
+  (pfgc: free_gc_v (l), pfat: a @ l | p: ptr l):<> void = "mac\#%"
 // end of [ptr_free]
 
 #atscode_separator()

@@ -48,7 +48,7 @@ end // end of [list_make_elt]
 
 #atscode_separator()
 
-implement
+implement{}
 list_make_intrange
   {l0,r} (l0, r) = let
 //

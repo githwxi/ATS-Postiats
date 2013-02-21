@@ -181,10 +181,10 @@ val fopr_d = (
 //
 val ent = sprintf ("\
 fun %s_string_string
-  (x1: string, x2: string):<> bool = \"mac#atspre_%s_string_string\"
+  (x1: string, x2: string):<> bool = \"mac#%%\"
 overload %s with %s_string_string\
 ", @(
- opr, opr, fopr_d, opr
+  opr, fopr_d, opr
 )
 ) // end of [sprintf] // end of [val]
 //
@@ -204,7 +204,7 @@ end // end of [fun_string_cmp_decl]
 overload <> with neq_string_string
 
 fun compare_string_string
-  (x1: string, x2: string):<> Sgn = "mac\#atspre_compare_string_string"
+  (x1: string, x2: string):<> Sgn = "mac\#%"
 overload compare with compare_string_string
 
 #atscode_separator()
@@ -224,10 +224,10 @@ fun strlencmp
 #atscode_separator()
 
 fun fprint_string
-  (out: FILEref, x: string): void = "mac\#atspre_fprint_string"
+  (out: FILEref, x: string): void = "mac\#%"
 overload fprint with fprint_string
-fun print_string (x: string): void = "mac\#atspre_print_string"
-fun prerr_string (x: string): void = "mac\#atspre_prerr_string"
+fun print_string (x: string): void = "mac\#%"
+fun prerr_string (x: string): void = "mac\#%"
 overload print with print_string
 overload prerr with prerr_string
 

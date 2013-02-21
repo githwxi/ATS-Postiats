@@ -159,31 +159,31 @@ overload / with div_int_g0float of 0
 #atscode_separator()
 
 fun g0float_add_float
-  : g0float_aop_type (fltknd) = "mac\#atspre_g0float_add_float"
+  : g0float_aop_type (fltknd) = "mac\#%"
 fun g0float_sub_float
-  : g0float_aop_type (fltknd) = "mac\#atspre_g0float_sub_float"
+  : g0float_aop_type (fltknd) = "mac\#%"
 fun g0float_mul_float
-  : g0float_aop_type (fltknd) = "mac\#atspre_g0float_mul_float"
+  : g0float_aop_type (fltknd) = "mac\#%"
 fun g0float_div_float
-  : g0float_aop_type (fltknd) = "mac\#atspre_g0float_div_float"
+  : g0float_aop_type (fltknd) = "mac\#%"
 
 fun g0float_add_double
-  : g0float_aop_type (dblknd) = "mac\#atspre_g0float_add_double"
+  : g0float_aop_type (dblknd) = "mac\#%"
 fun g0float_sub_double
-  : g0float_aop_type (dblknd) = "mac\#atspre_g0float_sub_double"
+  : g0float_aop_type (dblknd) = "mac\#%"
 fun g0float_mul_double
-  : g0float_aop_type (dblknd) = "mac\#atspre_g0float_mul_double"
+  : g0float_aop_type (dblknd) = "mac\#%"
 fun g0float_div_double
-  : g0float_aop_type (dblknd) = "mac\#atspre_g0float_div_double"
+  : g0float_aop_type (dblknd) = "mac\#%"
 
 fun g0float_add_ldouble
-  : g0float_aop_type (ldblknd) = "mac\#atspre_g0float_add_ldouble"
+  : g0float_aop_type (ldblknd) = "mac\#%"
 fun g0float_sub_ldouble
-  : g0float_aop_type (ldblknd) = "mac\#atspre_g0float_sub_ldouble"
+  : g0float_aop_type (ldblknd) = "mac\#%"
 fun g0float_mul_ldouble
-  : g0float_aop_type (ldblknd) = "mac\#atspre_g0float_mul_ldouble"
+  : g0float_aop_type (ldblknd) = "mac\#%"
 fun g0float_div_ldouble
-  : g0float_aop_type (ldblknd) = "mac\#atspre_g0float_div_ldouble"
+  : g0float_aop_type (ldblknd) = "mac\#%"
 
 #atscode_separator()
 

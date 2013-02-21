@@ -126,10 +126,10 @@ val fopr_d = (
 //
 val ent = sprintf ("\
 fun %s_strptr_strptr
-  (x1: !Strptr0, x2: !Strptr0):<> bool = \"mac#atspre_%s_strptr_strptr\"
+  (x1: !Strptr0, x2: !Strptr0):<> bool = \"mac#%%\"
 overload %s with %s_strptr_strptr\
 ", @(
- opr, opr, fopr_d, opr
+ opr, fopr_d, opr
 )
 ) // end of [sprintf] // end of [val]
 //
@@ -149,7 +149,7 @@ end // end of [fun_strptr_cmp_decl]
 overload <> with neq_strptr_strptr
 
 fun compare_strptr_strptr
-  (x1: !Strptr0, x2: !Strptr0):<> Sgn = "mac\#atspre_compare_strptr_strptr"
+  (x1: !Strptr0, x2: !Strptr0):<> Sgn = "mac\#%"
 overload compare with compare_strptr_strptr
 
 #atscode_separator()
@@ -172,14 +172,16 @@ fun strnptr_length {n:int} (x: !strnptr n): ssize_t (n)
 
 #atscode_separator()
 
-fun strptr_append (
-  x1: !Strptr0, x2: !Strptr0
-) :<> Strptr0 = "atspre_strptr_append"
+fun
+strptr_append
+  (x1: !Strptr0, x2: !Strptr0) :<> Strptr0 = "mac\#%"
+// end of [strnptr_append]
 
-fun strnptr_append
-  {n1,n2:nat} (
-  x1: !strnptr n1, x2: !strnptr n2
-) :<> strnptr (n1+n2) = "atspre_strnptr_append"
+fun
+strnptr_append
+  {n1,n2:nat}
+  (x1: !strnptr n1, x2: !strnptr n2):<> strnptr (n1+n2) = "mac\#%"
+// end of [strnptr_append]
 
 #atscode_separator()
 

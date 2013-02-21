@@ -23,14 +23,14 @@ fprint_print_prerr_decl
 //
 val ent = sprintf ("\
 fun fprint_%s
-  : fprint_type (%s) = \"mac#atspre_fprint_%s\"
+  : fprint_type (%s) = \"mac#%%\"
 overload fprint with fprint_%s
-fun print_%s (x: %s): void = \"mac#atspre_print_%s\"
-fun prerr_%s (x: %s): void = \"mac#atspre_prerr_%s\"
+fun print_%s (x: %s): void = \"mac#%%\"
+fun prerr_%s (x: %s): void = \"mac#%%\"
 overload print with print_%s
 overload prerr with prerr_%s
 ", @(
- tnm1, tnm2, tnm1, tnm1, tnm1, tnm2, tnm1, tnm1, tnm2, tnm1, tnm1, tnm1
+ tnm1, tnm2, tnm1, tnm1, tnm2, tnm1, tnm2, tnm1, tnm1
 )
 ) // end of [sprintf] // end of [val]
 //
@@ -171,8 +171,10 @@ fun f_int_int (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
 val ent = sprintf ("\
-fun g0int_%s_%s (x: %s):<> %s = \"mac#atspre_g0int_%s_%s\"\n\
-", @(fnm, tnm1, tnm2, tnm2, fnm, tnm1)
+fun g0int_%s_%s (x: %s):<> %s = \"mac#%%\"\n\
+", @(
+  fnm, tnm1, tnm2, tnm2
+)
 ) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
@@ -182,8 +184,10 @@ fun f_int_bool (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
 val ent = sprintf ("\
-fun g0int_%s_%s (x: %s):<> bool = \"mac#atspre_g0int_%s_%s\"\n\
-", @(fnm, tnm1, tnm2, fnm, tnm1)
+fun g0int_%s_%s (x: %s):<> bool = \"mac#%%\"\n\
+", @(
+  fnm, tnm1, tnm2
+)
 ) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
@@ -193,8 +197,10 @@ fun f_int2_int (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
 val ent = sprintf ("\
-fun g0int_%s_%s (x: %s, y: %s):<> %s = \"mac#atspre_g0int_%s_%s\"\n\
-", @(fnm, tnm1, tnm2, tnm2, tnm2, fnm, tnm1)
+fun g0int_%s_%s (x: %s, y: %s):<> %s = \"mac#%%\"\n\
+", @(
+  fnm, tnm1, tnm2, tnm2, tnm2
+)
 ) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
@@ -204,8 +210,10 @@ fun f_int2_bool (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
 val ent = sprintf ("\
-fun g0int_%s_%s (x: %s, y: %s):<> bool = \"mac#atspre_g0int_%s_%s\"\n\
-", @(fnm, tnm1, tnm2, tnm2, fnm, tnm1)
+fun g0int_%s_%s (x: %s, y: %s):<> bool = \"mac#%%\"\n\
+", @(
+  fnm, tnm1, tnm2, tnm2
+)
 ) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
@@ -215,8 +223,10 @@ fun f_compare (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
 val ent = sprintf ("\
-fun g0int_%s_%s (x: %s, y: %s):<> int = \"mac#atspre_g0int_%s_%s\"\n\
-", @(fnm, tnm1, tnm2, tnm2, fnm, tnm1)
+fun g0int_%s_%s (x: %s, y: %s):<> int = \"mac#%%\"\n\
+", @(
+  fnm, tnm1, tnm2, tnm2
+)
 ) // end of [sprintf] // end of [val]
 //
 in
@@ -280,9 +290,11 @@ fun f_uintofstr (
 ) : atext = let
 val ent = sprintf ("\
 fun g0uint_of_string_%s
-  (str: NSH(string)):<> %s = \"mac#atspre_g0uint_of_string_%s\"\n\
+  (str: NSH(string)):<> %s = \"mac#%%\"\n\
 // end of [g0uint_of_string_%s]
-", @(tnm1, tnm2, tnm1, tnm1)
+", @(
+  tnm1, tnm2, tnm1
+)
 ) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
@@ -292,8 +304,10 @@ fun f_uint_uint (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
 val ent = sprintf ("\
-fun g0uint_%s_%s (x: %s):<> %s = \"mac#atspre_g0uint_%s_%s\"\n\
-", @(fnm, tnm1, tnm2, tnm2, fnm, tnm1)
+fun g0uint_%s_%s (x: %s):<> %s = \"mac#%%\"\n\
+", @(
+  fnm, tnm1, tnm2, tnm2
+)
 ) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
@@ -303,8 +317,10 @@ fun f_uint_bool (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
 val ent = sprintf ("\
-fun g0uint_%s_%s (x: %s):<> bool = \"mac#atspre_g0uint_%s_%s\"\n\
-" , @(fnm, tnm1, tnm2, fnm, tnm1)
+fun g0uint_%s_%s (x: %s):<> bool = \"mac#%%\"\n\
+" , @(
+  fnm, tnm1, tnm2
+)
 ) // end of [sprintf] // end of [val]
 //
 in
@@ -315,8 +331,10 @@ fun f_uint2_uint (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
 val ent = sprintf ("\
-fun g0uint_%s_%s (x: %s, y: %s):<> %s = \"mac#atspre_g0uint_%s_%s\"\n\
-", @(fnm, tnm1, tnm2, tnm2, tnm2, fnm, tnm1)
+fun g0uint_%s_%s (x: %s, y: %s):<> %s = \"mac#%%\"\n\
+", @(
+  fnm, tnm1, tnm2, tnm2, tnm2
+)
 ) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
@@ -326,8 +344,10 @@ fun f_uint2_bool (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
 val ent = sprintf ("\
-fun g0uint_%s_%s (x: %s, y: %s):<> bool = \"mac#atspre_g0uint_%s_%s\"\n\
-", @(fnm, tnm1, tnm2, tnm2, fnm, tnm1)
+fun g0uint_%s_%s (x: %s, y: %s):<> bool = \"mac#%%\"\n\
+", @(
+  fnm, tnm1, tnm2, tnm2
+)
 ) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
@@ -337,8 +357,10 @@ fun f_compare (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
 val ent = sprintf ("\
-fun g0uint_%s_%s (x: %s, y: %s):<> int = \"mac#atspre_g0uint_%s_%s\"\n\
-", @(fnm, tnm1, tnm2, tnm2, fnm, tnm1)
+fun g0uint_%s_%s (x: %s, y: %s):<> int = \"mac#%%\"\n\
+", @(
+  fnm, tnm1, tnm2, tnm2
+)
 ) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
@@ -398,8 +420,10 @@ fun f (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
 val ent = sprintf ("\
-fun g1int_%s_%s : g1int_%s_type (%sknd) = \"mac#atspre_g1int_%s_%s\"\n\
-", @(fnm, tnm1, fnm, tnm1, fnm, tnm1)
+fun g1int_%s_%s : g1int_%s_type (%sknd) = \"mac#%%\"\n\
+", @(
+  fnm, tnm1, fnm, tnm1
+)
 ) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
@@ -454,8 +478,10 @@ fun f (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
 val ent = sprintf ("\
-fun g1uint_%s_%s : g1uint_%s_type (%sknd) = \"mac#atspre_g1uint_%s_%s\"\n\
-", @(fnm, tnm1, fnm, tnm1, fnm, tnm1)
+fun g1uint_%s_%s : g1uint_%s_type (%sknd) = \"mac#%%\"\n\
+", @(
+  fnm, tnm1, fnm, tnm1
+)
 ) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)

@@ -32,7 +32,7 @@ prelude_cats:
 
 libc:: libc_sats
 #libc:: libc_dats
-#libc:: libc_cats
+libc:: libc_cats
 
 libc_sats:
 	make -C libc/SATS/CODEGEN -f Makefile.gen

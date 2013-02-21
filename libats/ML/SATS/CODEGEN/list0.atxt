@@ -95,15 +95,15 @@ list0_pair (x1: a, x2: a):<> list0 (a)
 
 #atscode_separator()
 
-fun{}
-list0_is_nil {a:t0p} (xs: list0 a):<> bool
-fun{}
-list0_is_cons {a:t0p} (xs: list0 a):<> bool
+fun{a:t0p}
+list0_is_nil (xs: list0 a):<> bool
+fun{a:t0p}
+list0_is_cons (xs: list0 a):<> bool
 
-fun{}
-list0_is_empty {a:t0p} (xs: list0 a):<> bool
-fun{}
-list0_isnot_empty {a:t0p} (xs: list0 a):<> bool
+fun{a:t0p}
+list0_is_empty (xs: list0 a):<> bool
+fun{a:t0p}
+list0_isnot_empty (xs: list0 a):<> bool
 
 #atscode_separator()
 

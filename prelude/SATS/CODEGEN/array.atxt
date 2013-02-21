@@ -303,8 +303,7 @@ array_foreach_funenv_tsz
 , tsz: sizeof_t a
 , f: (!v | &a, !vt) -<fun,fe> void
 , env: !vt
-) :<fe> void
-  = "atspre_array_foreach_funenv_tsz"
+) :<fe> void = "ext\#%"
 // end of [array_foreach_funenv_tsz]
 
 #atscode_separator()
