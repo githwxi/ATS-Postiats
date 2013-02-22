@@ -63,8 +63,8 @@ list0_make_elt (n: int, x: a):<!exn> list0 (a)
 //
 symintr list0_make_intrange
 //
-fun list0_make_intrange_lr (l: int, r: int):<> list0 (int)
-fun list0_make_intrange_lrd (l: int, r: int, d: int):<!exn> list0 (int)
+fun{} list0_make_intrange_lr (l: int, r: int):<> list0 (int)
+fun{} list0_make_intrange_lrd (l: int, r: int, d: int):<!exn> list0 (int)
 overload list0_make_intrange with list0_make_intrange_lr
 overload list0_make_intrange with list0_make_intrange_lrd
 
@@ -144,6 +144,11 @@ fun{a:t0p}
 list0_remove_at_exn
   (xs: SHR(list0 (INV(a))), i: int):<!exn> list0 (a)
 // end of [list0_remove_at_exn]
+
+fun{a:t0p}
+list0_takeout_at_exn
+  (xs: SHR(list0 (INV(a))), i: int, x: &a? >> a):<!exnwrt> list0 (a)
+// end of [list0_takeout_at_exn]
 
 #atscode_separator()
 

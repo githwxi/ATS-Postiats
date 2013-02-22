@@ -137,12 +137,13 @@ The following code builds a list of digits and then prints them out:
 //
 staload "libats/ML/SATS/list0.sats"
 //
-implement main () = let
+implement
+main () = let
   val xs = (list0)$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
   val () = list0_foreach<int> (xs, lam (x) => print_int (x))
   val () = print_newline ()
 in
-  0(*normal*)
+  0(*normalexit*)
 end // end of [main]
 ')
 ")
@@ -242,7 +243,7 @@ element i in the returned list must be x. ")
 #decldescrpt("\
 
 Given a list xs of length n, an integer i and an element x, this function
-builds a list xs1 by removing element i in if i is between 0 and n-1,
+builds a list xs1 by removing element i in xs if i is between 0 and n-1,
 inclusive.  Otherwise, the function raises an exception
 (#dyncode("IllegalArgExn")). ")
 
@@ -264,11 +265,22 @@ main () = let
   val i = randint (N) // 0 <= i < N
   val xs = list0_of_list_vt (randgen_list<int> (N))
   val ys = list0_insert_at_exn (list0_remove_at_exn (xs, i), i, xs[i])
-  val () = assert (list0_equal<int> (xs, ys, lam (x, y) => x = y))
+  val iseq = list0_equal<int> (xs, ys, lam (x, y) => x = y)
+  val () = assertloc (iseq)
 in
-  0(*normal*)
+  0(*normalexit*)
 end // end of [main]
 ')
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_takeout_at_exn")
+#decldescrpt("\
+
+This function is similar to #dyncode("list0_remove_at_exn") except that it
+also stores the removed element (in its third call-by-reference argument).
+
 ")
 
 (* ****** ****** *)
@@ -304,9 +316,9 @@ main () = let
   \#define length list0_length
   val xs = list0_make_elt<char> (M, 'a')
   val ys = list0_make_elt<char> (N, 'b')
-  val () = assert (length (xs) + length (ys) = length (xs + ys))
+  val () = assertloc (length (xs) + length (ys) = length (xs + ys))
 in
-  0(*normal*)
+  0(*normalexit*)
 end // end of [main]
 ")
 ")
@@ -560,9 +572,11 @@ all even:
 staload "libats/ML/SATS/list0.sats"
 //
 implement
-main () = 0 where {
+main (
+) = 0 where {
   val xs = list0_of_list ($lst{int}(0, 2, 4, 6, 8))
-  val () = assert (list0_forall<int> (xs, lam (x) => x mod 2 = 0))
+  val isevn = list0_forall<int> (xs, lam (x) => x mod 2 = 0)
+  val () = assertloc (isevn)
 } // end of [main] 
 ')
 ')

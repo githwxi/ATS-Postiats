@@ -32,13 +32,7 @@
 //
 (* ****** ****** *)
 
-staload "./pats_basics.sats"
-
-(* ****** ****** *)
-
-staload "./pats_errmsg.sats"
-staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans1_decl"
+staload UT = "./pats_utils.sats"
 
 (* ****** ****** *)
 
@@ -63,6 +57,16 @@ staload FIL = "./pats_filename.sats"
 (* ****** ****** *)
 
 staload PAR = "./pats_parsing.sats"
+
+(* ****** ****** *)
+
+staload "./pats_basics.sats"
+
+(* ****** ****** *)
+
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_trans1_decl"
 
 (* ****** ****** *)
 
@@ -949,6 +953,11 @@ d0eclist_tr_errck
 
 local
 
+fn intrep2int
+  (rep: string): int = let
+  val x = $UT.llint_make_string (rep) in int_of_llint (x)
+end // end of [intrep2int]
+
 fun aux_packname (): void = let
   val opt = the_e1xpenv_find (ATS_PACKNAME)
 in
@@ -977,6 +986,7 @@ case+ opt of
 | ~Some_vt (e) => (
   case+ e.e1xp_node of
   | E1XPint (x) => $GLOB.the_DYNLOADFLAG_set (x)
+  | E1XPintrep (rep) => $GLOB.the_DYNLOADFLAG_set (intrep2int(rep))
   | _ => let
       val () = prerr_error1_loc (e.e1xp_loc)
       val () = prerr ": only integer definition for [ATS_DYNLOADFLAG]."
@@ -997,6 +1007,7 @@ case+ opt of
 | ~Some_vt (e) => (
   case+ e.e1xp_node of
   | E1XPint (x) => $GLOB.the_MAINATSFLAG_set (x)
+  | E1XPintrep (rep) => $GLOB.the_MAINATSFLAG_set (intrep2int(rep))
   | _ => let
       val () = prerr_error1_loc (e.e1xp_loc)
       val () = prerr ": only integer definition for [ATS_MAINATSFLAG]."
