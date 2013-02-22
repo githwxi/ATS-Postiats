@@ -411,7 +411,7 @@ typedef String = [n:int] string_int_type (n)
 (* ****** ****** *)
 
 abstype
-stropt_int_type (n:int)
+stropt_int_type (n:int) = ptr
 stadef stropt = stropt_int_type
 typedef Stropt0 = [n:int] stropt_int_type (n)
 typedef Stropt1 = [n:int | n >= 0] stropt_int_type (n)
@@ -423,14 +423,14 @@ stadef stropt = Stropt0
 ** HX: linear mutable strings
 *)
 absvtype
-strptr_addr_vtype (l:addr)
+strptr_addr_vtype (l:addr) = ptr
 stadef strptr = strptr_addr_vtype
 vtypedef Strptr0 = [l:addr] strptr (l)
 vtypedef Strptr1 = [l:addr | l > null] strptr (l)
 stadef strptr = Strptr0
 
 absvtype
-strnptr_addr_int_vtype (l:addr, n:int)
+strnptr_addr_int_vtype (l:addr, n:int) = ptr
 stadef strnptr = strnptr_addr_int_vtype
 vtypedef strnptr (n:int) = [l:addr] strnptr (l, n)
 vtypedef Strnptr0 = [l:addr;n:int] strnptr (l, n)
@@ -442,7 +442,7 @@ vtypedef Strnptr1 = [l:addr;n:int | n >= 0] strnptr (l, n)
 ** HX: persistent mutable strings
 *)
 abstype
-strref_addr_type (l:addr)
+strref_addr_type (l:addr) = ptr
 stadef strref = strref_addr_type
 typedef Strref0 = [l:addr] strref (l)
 typedef Strref1 = [l:addr | l > null] strref (l)
