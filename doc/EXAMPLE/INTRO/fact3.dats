@@ -40,12 +40,8 @@ end // end of [fact]
 (* ****** ****** *)
 
 implement
-main (
-) = 0 where {
+main0 () = {
   val N = 12
-(*
-  val () = println! ("fact(", N, ") = ", fact(N))
-*)
   val () = assertloc (fact(N) = 1*1*2*3*4*5*6*7*8*9*10*11*12)
 } // end of [main]
 
