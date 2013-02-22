@@ -35,19 +35,18 @@ implement
 main (
   argc, argv
 ) = 0 where {
-  val (
-  ) = assertloc (argc >= 2)
-  val spath = argv[1]
-  val filr =
-    fileref_open_exn (spath, $UN.cast{fmode}("r")
-  ) // end of [filr]
+  val filr = (
+    if argc >= 2 then
+      fileref_open_exn (argv[1], $UN.cast{fmode}("r"))
+    else stdin_ref
+  ) : FILEref // end of [filr]
   val filr2 = (
     if argc >= 3 then
       fileref_open_exn (argv[2], $UN.cast{fmode}("w"))
     else stdout_ref
   ) : FILEref // end of [val]
   val () = fcopy (filr, filr2)
-  val () = fileref_close (filr)
+  val () = if argc >= 2 then fileref_close (filr)
   val () = if argc >= 3 then fileref_close (filr2)
 } // end of [main]
 
