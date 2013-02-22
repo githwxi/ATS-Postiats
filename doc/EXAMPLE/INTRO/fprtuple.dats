@@ -4,13 +4,11 @@
 
 (* ****** ****** *)
 
-staload
-"prelude/DATS/basics.dats"
-
-(* ****** ****** *)
-
-staload "prelude/DATS/char.dats"
+staload "prelude/DATS/basics.dats"
 staload "prelude/DATS/integer.dats"
+staload "prelude/DATS/bool.dats"
+staload "prelude/DATS/char.dats"
+staload "prelude/DATS/float.dats"
 
 (* ****** ****** *)
 
@@ -24,6 +22,8 @@ implement
 fprint_tup$end<> (out) = fprint_string (out, "]")
 implement
 fprint_tup$sep<> (out) = fprint_string (out, "; ")
+
+(* ****** ****** *)
 
 implement
 main0 () = let
