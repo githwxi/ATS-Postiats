@@ -1,5 +1,6 @@
 //
-// Author: Hongwei Xi (February 2013)
+// Implementing Ackermann's function
+// Author: Hongwei Xi (February 21, 2013)
 //
 
 (* ****** ****** *)

@@ -82,6 +82,9 @@ all::
 
 #make_entry("fcopy")
 #make_entry("mutailrec")
+
+#make_entry("strprefix")
+
 #make_entry("revarr")
 
 ######

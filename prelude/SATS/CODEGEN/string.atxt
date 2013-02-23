@@ -134,7 +134,7 @@ string_isnot_atend
 
 #atscode_separator()
 
-fun
+fun{}
 string_get_at_size
   {n:int}{i:nat | i < n}
   (s: string (n), i: size_t (i)):<> charNZ
@@ -153,7 +153,7 @@ overload [] with string_get_at_guint of 0
 //
 symintr string_test_at
 //
-fun{tk:tk}
+fun{}
 string_test_at_size
   {n:int}{i:nat | i <= n}
   (s: string (n), i: size_t (i)):<> [c:int] (string_index_p (n, i, c) | char (c))
@@ -238,65 +238,87 @@ overload prerr with prerr_string
 
 #atscode_separator()
 
-fun strchr {n:int}
+fun{
+} strchr {n:int}
   (str: string (n), c0: char):<> ssizeBtw (~1, n)
 // end of [strchr]
 
-fun strrchr {n:int}
+fun{
+} strrchr {n:int}
   (str: string (n), c0: char):<> ssizeBtw (~1, n)
 // end of [strrchr]
 
-fun strstr {n:int}
+fun{
+} strstr {n:int}
   (haystack: string (n), needle: string):<> ssizeBtw (~1, n)
 // end of [strstr]
 
 #atscode_separator()
 
-fun strspn {n:int} // spanning
+fun{
+} strspn {n:int} // spanning
   (str: string (n), accept: string):<> sizeLte (n)
 // end of [strspn]
-fun strcspn {n:int} // complement spanning
+fun{
+} strcspn {n:int} // complement spanning
   (str: string (n), accept: string):<> sizeLte (n)
 // end of [strcspn]
 
 #atscode_separator()
 
-fun string_index {n:int}
+fun{
+} string_index {n:int}
   (str: string (n), c0: charNZ):<> ssizeBtw (~1, n)
 // end of [string_index]
-fun string_rindex {n:int}
+
+fun{
+} string_rindex {n:int}
   (str: string (n), c0: charNZ):<> ssizeBtw (~1, n)
 // end of [string_rindex]
 
 #atscode_separator()
-
+//
 symintr string_length
-fun string0_length (x: string):<> size_t
+//
+fun{
+} string0_length (x: string):<> size_t
 overload string_length with string0_length of 0
-fun string1_length {n:int} (x: string n):<> size_t (n)
+//
+fun{
+} string1_length {n:int} (x: string n):<> size_t (n)
 overload string_length with string1_length of 10
-
+//
 #atscode_separator()
-
-fun string0_copy
+//
+symintr string_copy
+//
+fun{
+} string0_copy
   {n:int} (xs: NSH(string)):<> Strptr1
-// end of [string0_copy]
-
-fun string1_copy
+overload string_copy with string0_copy of 0
+//
+fun{
+} string1_copy
   {n:int} (xs: NSH(string(n))):<> strnptr (n)
-// end of [string1_copy]
-
+overload string_copy with string1_copy of 10
+//
 #atscode_separator()
-
-fun string0_append (
+//
+symintr string_append
+//
+fun{
+} string0_append (
   x1: NSH(string), x2: NSH(string)
 ) :<> Strptr1 // end of [string0_append]
-
-fun string1_append
+overload string_append with string0_append
+//
+fun{
+} string1_append
   {n1,n2:int} (
   x1: NSH(string(n1)), x2: NSH(string(n2))
 ) :<> strnptr (n1+n2) // end of [string1_append]
-
+overload string_append with string1_append
+//
 #atscode_separator()
 
 fun stringlst_concat (xs: List(string)):<> Strptr1
@@ -359,8 +381,10 @@ overload stropt_some with stropt1_some
 
 #atscode_separator()
 
-fun stropt_is_none {n:int} (x: stropt n): bool (n < 0)
-fun stropt_is_some {n:int} (x: stropt n): bool (n >= 0)
+fun{
+} stropt_is_none {n:int} (x: stropt n): bool (n < 0)
+fun{
+} stropt_is_some {n:int} (x: stropt n): bool (n >= 0)
 
 #atscode_separator()
 
@@ -369,7 +393,8 @@ stropt_unsome {n:nat} (x: stropt n): string (n)
 
 #atscode_separator()
 
-fun stropt_length {n:int} (x: stropt (n)): ssize_t (n)
+fun{
+} stropt_length {n:int} (x: stropt (n)): ssize_t (n)
 
 #atscode_separator()
 

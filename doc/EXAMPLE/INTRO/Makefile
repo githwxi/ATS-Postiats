@@ -106,6 +106,16 @@ clean:: ; $(RMF) mutailrec_dats.o
 clean:: ; $(RMF) mutailrec_dats.c
 cleanall:: ; $(RMF) mutailrec.exe
 
+
+all:: strprefix
+strprefix: strprefix.exe
+strprefix.exe: strprefix_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+strprefix_dats.c: strprefix.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output strprefix_dats.c --dynamic strprefix.dats
+clean:: ; $(RMF) strprefix_dats.o
+clean:: ; $(RMF) strprefix_dats.c
+cleanall:: ; $(RMF) strprefix.exe
+
+
 all:: revarr
 revarr: revarr.exe
 revarr.exe: revarr_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

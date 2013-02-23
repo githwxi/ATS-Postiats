@@ -308,10 +308,10 @@ ATSinline()
 atsvoid_t0ype
 atspre_fprint_int
 (
-  atstype_ref r, atstype_int x
+  atstype_ref out, atstype_int x
 ) {
   int err ;
-  err = fprintf((FILE*)r, "%i", x) ;
+  err = fprintf((FILE*)out, "%i", x) ;
   return ;
 } // end [atspre_fprint_int]
 
@@ -322,10 +322,10 @@ ATSinline()
 atsvoid_t0ype
 atspre_fprint_lint
 (
-  atstype_ref r, atstype_lint x
+  atstype_ref out, atstype_lint x
 ) {
   int err ;
-  err = fprintf((FILE*)r, "%li", x) ;
+  err = fprintf((FILE*)out, "%li", x) ;
   return ;
 } // end [atspre_fprint_lint]
 
@@ -336,10 +336,10 @@ ATSinline()
 atsvoid_t0ype
 atspre_fprint_llint
 (
-  atstype_ref r, atstype_llint x
+  atstype_ref out, atstype_llint x
 ) {
   int err ;
-  err = fprintf((FILE*)r, "%lli", x) ;
+  err = fprintf((FILE*)out, "%lli", x) ;
   return ;
 } // end [atspre_fprint_llint]
 
@@ -571,10 +571,10 @@ ATSinline()
 atsvoid_t0ype
 atspre_fprint_uint
 (
-  atstype_ref r, atstype_uint x
+  atstype_ref out, atstype_uint x
 ) {
   int err ;
-  err = fprintf((FILE*)r, "%u", x) ;
+  err = fprintf((FILE*)out, "%u", x) ;
   return ;
 } // end [atspre_fprint_uint]
 
@@ -585,10 +585,10 @@ ATSinline()
 atsvoid_t0ype
 atspre_fprint_ulint
 (
-  atstype_ref r, atstype_ulint x
+  atstype_ref out, atstype_ulint x
 ) {
   int err ;
-  err = fprintf((FILE*)r, "%lu", x) ;
+  err = fprintf((FILE*)out, "%lu", x) ;
   return ;
 } // end [atspre_fprint_ulint]
 
@@ -599,15 +599,32 @@ ATSinline()
 atsvoid_t0ype
 atspre_fprint_ullint
 (
-  atstype_ref r, atstype_ullint x
+  atstype_ref out, atstype_ullint x
 ) {
   int err ;
-  err = fprintf((FILE*)r, "%llu", x) ;
+  err = fprintf((FILE*)out, "%llu", x) ;
   return ;
 } // end [atspre_fprint_ullint]
 
 \#define atspre_print_ullint(x) atspre_fprint_ullint(stdout, (x))
 \#define atspre_prerr_ullint(x) atspre_fprint_ullint(stderr, (x))
+
+#atscode_separator_for_C()
+
+ATSinline()
+atsvoid_t0ype
+atspre_fprint_size
+(
+  atstype_ref out, atstype_size x
+) {
+  int err ;
+  atstype_ulint x2 = x ;
+  err = fprintf((FILE*)out, "%lu", x2) ;
+  return ;
+} // end [atspre_fprint_size]
+
+\#define atspre_print_size(x) atspre_fprint_size(stdout, (x))
+\#define atspre_prerr_size(x) atspre_fprint_size(stderr, (x))
 
 #atscode_separator_for_C()
 

@@ -1,5 +1,6 @@
 //
-// Author: Hongwei Xi (February 2013)
+// Implementing MacCarthy's 91-function
+// Author: Hongwei Xi (February 21, 2013)
 //
 
 (* ****** ****** *)
