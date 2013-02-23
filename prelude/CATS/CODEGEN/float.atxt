@@ -81,7 +81,7 @@ atspre_g0float2float_double_double (atstype_double x) { return (x) ; }
 
 %{
 fun
-fun_f0loat_aop_decl (
+fun_g0float_aop_decl (
   opr: string, knd: string
 ) : atext = let
 //
@@ -99,35 +99,35 @@ atspre_g0float_%s_%s
   (atstype_%s f1, atstype_%s f2) { return (f1 %s f2) ; }
 // end of [atspre_g0float_%s_%s]\
 ", @(
- knd, opr, knd, knd, knd, fopr, opr, knd
+  knd, opr, knd, knd, knd, fopr, opr, knd
 )
 ) // end of [sprintf] // end of [val]
 //
 in
   atext_strptr (ent)
-end // end of [fun_f0loat_aop_decl]
+end // end of [fun_g0float_aop_decl]
 %}\
 \
-#fun_f0loat_aop_decl("add", "float")
-#fun_f0loat_aop_decl("sub", "float"))
-#fun_f0loat_aop_decl("mul", "float"))
-#fun_f0loat_aop_decl("div", "float"))
+#fun_g0float_aop_decl("add", "float")
+#fun_g0float_aop_decl("sub", "float"))
+#fun_g0float_aop_decl("mul", "float"))
+#fun_g0float_aop_decl("div", "float"))
 //
-#fun_f0loat_aop_decl("add", "double")
-#fun_f0loat_aop_decl("sub", "double"))
-#fun_f0loat_aop_decl("mul", "double"))
-#fun_f0loat_aop_decl("div", "double"))
+#fun_g0float_aop_decl("add", "double")
+#fun_g0float_aop_decl("sub", "double"))
+#fun_g0float_aop_decl("mul", "double"))
+#fun_g0float_aop_decl("div", "double"))
 //
-#fun_f0loat_aop_decl("add", "ldouble")
-#fun_f0loat_aop_decl("sub", "ldouble"))
-#fun_f0loat_aop_decl("mul", "ldouble"))
-#fun_f0loat_aop_decl("div", "ldouble"))
+#fun_g0float_aop_decl("add", "ldouble")
+#fun_g0float_aop_decl("sub", "ldouble"))
+#fun_g0float_aop_decl("mul", "ldouble"))
+#fun_g0float_aop_decl("div", "ldouble"))
 //
 #atscode_separator_for_C()
 
 %{
 fun
-fun_f0loat_cmp_decl (
+fun_g0float_cmp_decl (
   opr: string, knd: string
 ) : atext = let
 //
@@ -147,35 +147,35 @@ atspre_g0float_%s_%s
   return (f1 %s f2 ? atsbool_true : atsbool_false) ;
 } // end of [atspre_g0float_%s_%s]\
 ", @(
- opr, knd, knd, knd, fopr, opr, knd
+  opr, knd, knd, knd, fopr, opr, knd
 )
 ) // end of [sprintf] // end of [val]
 //
 in
   atext_strptr (ent)
-end // end of [fun_f0loat_cmp_decl]
+end // end of [fun_g0float_cmp_decl]
 %}\
 \
-#fun_f0loat_cmp_decl("lt", "float")
-#fun_f0loat_cmp_decl("lte", "float"))
-#fun_f0loat_cmp_decl("gt", "float"))
-#fun_f0loat_cmp_decl("gte", "float"))
-#fun_f0loat_cmp_decl("eq", "float"))
-#fun_f0loat_cmp_decl("neq", "float"))
+#fun_g0float_cmp_decl("lt", "float")
+#fun_g0float_cmp_decl("lte", "float"))
+#fun_g0float_cmp_decl("gt", "float"))
+#fun_g0float_cmp_decl("gte", "float"))
+#fun_g0float_cmp_decl("eq", "float"))
+#fun_g0float_cmp_decl("neq", "float"))
 //
-#fun_f0loat_cmp_decl("lt", "double")
-#fun_f0loat_cmp_decl("lte", "double"))
-#fun_f0loat_cmp_decl("gt", "double"))
-#fun_f0loat_cmp_decl("gte", "double"))
-#fun_f0loat_cmp_decl("eq", "double"))
-#fun_f0loat_cmp_decl("neq", "double"))
+#fun_g0float_cmp_decl("lt", "double")
+#fun_g0float_cmp_decl("lte", "double"))
+#fun_g0float_cmp_decl("gt", "double"))
+#fun_g0float_cmp_decl("gte", "double"))
+#fun_g0float_cmp_decl("eq", "double"))
+#fun_g0float_cmp_decl("neq", "double"))
 //
-#fun_f0loat_cmp_decl("lt", "ldouble")
-#fun_f0loat_cmp_decl("lte", "ldouble"))
-#fun_f0loat_cmp_decl("gt", "ldouble"))
-#fun_f0loat_cmp_decl("gte", "ldouble"))
-#fun_f0loat_cmp_decl("eq", "ldouble"))
-#fun_f0loat_cmp_decl("neq", "ldouble"))
+#fun_g0float_cmp_decl("lt", "ldouble")
+#fun_g0float_cmp_decl("lte", "ldouble"))
+#fun_g0float_cmp_decl("gt", "ldouble"))
+#fun_g0float_cmp_decl("gte", "ldouble"))
+#fun_g0float_cmp_decl("eq", "ldouble"))
+#fun_g0float_cmp_decl("neq", "ldouble"))
 //
 #atscode_separator_for_C()
 
@@ -220,79 +220,97 @@ atspre_fprint_ldouble (
 
 #atscode_separator_for_C()
 
+%{
+fun
+fun_aop_int_g0float_decl (
+  opr: string, knd: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "add" => "+" | "sub" => "-"
+  | "mul" => "*" | "div" => "/"
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
 ATSinline()
-atstype_float
-atspre_mul_int_float
-(
-  atstype_int x, atstype_float y
-) {
-  return ((atstype_float)x * y) ;
-}
-ATSinline()
-atstype_double
-atspre_mul_int_double
-(
-  atstype_int x, atstype_double y
-) {
-  return ((atstype_double)x * y) ;
-}
+atstype_bool
+atspre_%s_int_%s
+  (atstype_int i1, atstype_%s f2) { return (((atstype_%s)i1) %s f2) ; }
+// end of [atspre_%s_int_%s]\
+", @(
+  opr, knd, knd, knd, fopr, opr, knd
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_aop_int_g0float_decl]
+%}\
+\
+#fun_aop_int_g0float_decl("add", "float")
+#fun_aop_int_g0float_decl("add", "double")
+#fun_aop_int_g0float_decl("add", "ldouble")
+
+#fun_aop_int_g0float_decl("sub", "float")
+#fun_aop_int_g0float_decl("sub", "double")
+#fun_aop_int_g0float_decl("sub", "ldouble")
+
+#fun_aop_int_g0float_decl("mul", "float")
+#fun_aop_int_g0float_decl("mul", "double")
+#fun_aop_int_g0float_decl("mul", "ldouble")
+
+#fun_aop_int_g0float_decl("div", "float")
+#fun_aop_int_g0float_decl("div", "double")
+#fun_aop_int_g0float_decl("div", "ldouble")
 
 #atscode_separator_for_C()
 
+%{
+fun
+fun_aop_g0float_int_decl (
+  opr: string, knd: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "add" => "+" | "sub" => "-"
+  | "mul" => "*" | "div" => "/"
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
 ATSinline()
-atstype_float
-atspre_mul_float_int
-(
-  atstype_float x, atstype_int y
-) {
-  return (x * (atstype_float)y) ;
-}
-ATSinline()
-atstype_double
-atspre_mul_double_int
-(
-  atstype_double x, atstype_int y
-) {
-  return (x * (atstype_double)y) ;
-}
+atstype_bool
+atspre_%s_%s_int
+  (atstype_int f1, atstype_%s i2) { return (f1 %s ((atstype_%s)i2)) ; }
+// end of [atspre_%s_%s_int]\
+", @(
+  opr, knd, knd, fopr, knd, opr, knd
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_aop_g0float_int_decl]
+%}\
+\
+#fun_aop_g0float_int_decl("add", "float")
+#fun_aop_g0float_int_decl("add", "double")
+#fun_aop_g0float_int_decl("add", "ldouble")
 
-#atscode_separator_for_C()
+#fun_aop_g0float_int_decl("sub", "float")
+#fun_aop_g0float_int_decl("sub", "double")
+#fun_aop_g0float_int_decl("sub", "ldouble")
 
-ATSinline()
-atstype_float
-atspre_div_int_float
-(
-  atstype_int x, atstype_float y
-) {
-  return ((atstype_float)x / y) ;
-}
-ATSinline()
-atstype_double
-atspre_div_int_double
-(
-  atstype_int x, atstype_double y
-) {
-  return ((atstype_double)x / y) ;
-}
+#fun_aop_g0float_int_decl("mul", "float")
+#fun_aop_g0float_int_decl("mul", "double")
+#fun_aop_g0float_int_decl("mul", "ldouble")
 
-#atscode_separator_for_C()
-
-ATSinline()
-atstype_float
-atspre_div_float_int
-(
-  atstype_float x, atstype_int y
-) {
-  return (x / (atstype_float)y) ;
-}
-ATSinline()
-atstype_double
-atspre_div_double_int
-(
-  atstype_double x, atstype_int y
-) {
-  return (x / (atstype_double)y) ;
-}
+#fun_aop_g0float_int_decl("div", "float")
+#fun_aop_g0float_int_decl("div", "double")
+#fun_aop_g0float_int_decl("div", "ldouble")
 
 #atscode_separator_for_C()
 

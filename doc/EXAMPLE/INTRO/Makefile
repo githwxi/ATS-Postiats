@@ -110,6 +110,14 @@ clean:: ; $(RMF) fprtuple_dats.o
 clean:: ; $(RMF) fprtuple_dats.c
 cleanall:: ; $(RMF) fprtuple.exe
 
+all:: intecho
+intecho: intecho.exe
+intecho.exe: intecho_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+intecho_dats.c: intecho.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output intecho_dats.c --dynamic intecho.dats
+clean:: ; $(RMF) intecho_dats.o
+clean:: ; $(RMF) intecho_dats.c
+cleanall:: ; $(RMF) intecho.exe
+
 all:: mutailrec
 mutailrec: mutailrec.exe
 mutailrec.exe: mutailrec_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

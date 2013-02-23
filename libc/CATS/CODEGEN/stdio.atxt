@@ -18,7 +18,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 ** Time of generation: #timestamp()
 */
 
-#atscode_separator()
+#atscode_separator_for_C()
 
 /*
 #atscode_author("Hongwei Xi")

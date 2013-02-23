@@ -79,6 +79,7 @@ all::
 #make_entry("fcopy")
 #make_entry("fibmem")
 #make_entry("fprtuple")
+#make_entry("intecho")
 #make_entry("mutailrec")
 #make_entry("revarr")
 #make_entry("strprefix")
