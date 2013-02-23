@@ -33,7 +33,7 @@ val () = fprint_tupval2<int,char> (out, @(0, 'a'))
 val () = fprint_tupval2<int,tup(bool,char)> (out, @(0, (true, 'a')))
 //
 in
-end // end of [main]
+end // end of [main0]
 
 (* ****** ****** *)
 

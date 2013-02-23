@@ -30,6 +30,23 @@ all::
 
 ######
 
+all:: f91
+f91: f91.exe
+f91.exe: f91_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+f91_dats.c: f91.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output f91_dats.c --dynamic f91.dats
+clean:: ; $(RMF) f91_dats.o
+clean:: ; $(RMF) f91_dats.c
+cleanall:: ; $(RMF) f91.exe
+
+all:: acker
+acker: acker.exe
+acker.exe: acker_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+acker_dats.c: acker.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output acker_dats.c --dynamic acker.dats
+clean:: ; $(RMF) acker_dats.o
+clean:: ; $(RMF) acker_dats.c
+cleanall:: ; $(RMF) acker.exe
+
+
 all:: fact1
 fact1: fact1.exe
 fact1.exe: fact1_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
@@ -53,6 +70,7 @@ fact3_dats.c: fact3.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fact3
 clean:: ; $(RMF) fact3_dats.o
 clean:: ; $(RMF) fact3_dats.c
 cleanall:: ; $(RMF) fact3.exe
+
 
 all:: fibmem
 fibmem: fibmem.exe
