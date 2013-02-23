@@ -73,12 +73,10 @@ overload ptr_isnot_null with ptr0_isnot_null of 0
 
 fun{a:vt0p}
 ptr0_succ (p: ptr):<> ptr
+overload ptr_succ with ptr0_succ of 0
 fun{a:vt0p}
 ptr0_pred (p: ptr):<> ptr
-(*
-overload ptr_succ with ptr0_succ of 0
 overload ptr_pred with ptr0_pred of 0
-*)
 
 #atscode_separator()
 
@@ -227,12 +225,10 @@ fun ptr1_isnot_null
 
 fun{a:vt0p}
 ptr1_succ {l:addr} (p: ptr l):<> ptr (l+sizeof(a))
+overload ptr_succ with ptr1_succ of 10
 fun{a:vt0p}
 ptr1_pred {l:addr} (p: ptr l):<> ptr (l-sizeof(a))
-(*
-overload ptr_succ with ptr1_succ of 10
 overload ptr_pred with ptr1_pred of 10
-*)
 
 #atscode_separator()
 

@@ -38,6 +38,14 @@ clean:: ; $(RMF) acker_dats.o
 clean:: ; $(RMF) acker_dats.c
 cleanall:: ; $(RMF) acker.exe
 
+all:: atof
+atof: atof.exe
+atof.exe: atof_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+atof_dats.c: atof.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output atof_dats.c --dynamic atof.dats
+clean:: ; $(RMF) atof_dats.o
+clean:: ; $(RMF) atof_dats.c
+cleanall:: ; $(RMF) atof.exe
+
 all:: atoi
 atoi: atoi.exe
 atoi.exe: atoi_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

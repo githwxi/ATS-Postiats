@@ -39,6 +39,46 @@ int fprintf (FILE *stream, const char *format, ...) ;
 
 #atscode_separator_for_C()
 
+ATSinline()
+atstype_float
+atspre_g0int2float_int_float
+  (atstype_int x) { return ((atstype_float)x) ; }
+// end of [atspre_g0int2float_int_float]
+
+ATSinline()
+atstype_double
+atspre_g0int2float_int_double
+  (atstype_int x) { return ((atstype_double)x) ; }
+// end of [atspre_g0int2float_int_double]
+
+ATSinline()
+atstype_double
+atspre_g0int2float_lint_double
+  (atstype_lint x) { return ((atstype_double)x) ; }
+// end of [atspre_g0int2float_lint_double]
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_float
+atspre_g0float2float_float_float (atstype_float x) { return (x) ; }
+
+ATSinline()
+atstype_double
+atspre_g0float2float_float_double
+(
+atstype_float x
+)
+{
+ return ((atstype_double)x) ;
+}
+
+ATSinline()
+atstype_double
+atspre_g0float2float_double_double (atstype_double x) { return (x) ; }
+
+#atscode_separator_for_C()
+
 %{
 fun
 fun_f0loat_aop_decl (
@@ -177,6 +217,82 @@ atspre_fprint_ldouble (
 
 \#define atspre_print_ldouble(x) atspre_fprint_ldouble(stdout, (x))
 \#define atspre_prerr_ldouble(x) atspre_fprint_ldouble(stderr, (x))
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_float
+atspre_mul_int_float
+(
+  atstype_int x, atstype_float y
+) {
+  return ((atstype_float)x * y) ;
+}
+ATSinline()
+atstype_double
+atspre_mul_int_double
+(
+  atstype_int x, atstype_double y
+) {
+  return ((atstype_double)x * y) ;
+}
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_float
+atspre_mul_float_int
+(
+  atstype_float x, atstype_int y
+) {
+  return (x * (atstype_float)y) ;
+}
+ATSinline()
+atstype_double
+atspre_mul_double_int
+(
+  atstype_double x, atstype_int y
+) {
+  return (x * (atstype_double)y) ;
+}
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_float
+atspre_div_int_float
+(
+  atstype_int x, atstype_float y
+) {
+  return ((atstype_float)x / y) ;
+}
+ATSinline()
+atstype_double
+atspre_div_int_double
+(
+  atstype_int x, atstype_double y
+) {
+  return ((atstype_double)x / y) ;
+}
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_float
+atspre_div_float_int
+(
+  atstype_float x, atstype_int y
+) {
+  return (x / (atstype_float)y) ;
+}
+ATSinline()
+atstype_double
+atspre_div_double_int
+(
+  atstype_double x, atstype_int y
+) {
+  return (x / (atstype_double)y) ;
+}
 
 #atscode_separator_for_C()
 

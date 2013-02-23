@@ -25,7 +25,8 @@ string_foreach$cont (c, env) = isdigit (c)
 implement
 string_foreach$fwork<int>
   (c, env) = env := 10 * env + (c - '0')
-  val _ = string_foreach_env<int> (str, env)
+//
+val _ = string_foreach_env<int> (str, env)
 //
 in
   env

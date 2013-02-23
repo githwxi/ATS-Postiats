@@ -66,7 +66,26 @@ val res = list_reverse (res)
 in
   atext_concatxt (list_of_list_vt (res))
 end // end of [g0float_implist]
-%}\
+%}
+#atscode_separator()
+
+implement
+g0int2float<intknd,fltknd> = g0int2float_int_float
+implement
+g0int2float<intknd,dblknd> = g0int2float_int_double
+implement
+g0int2float<lintknd,dblknd> = g0int2float_lint_double
+
+#atscode_separator()
+
+implement
+g0float2float<fltknd,fltknd> = g0float2float_float_float
+implement
+g0float2float<fltknd,dblknd> = g0float2float_float_double
+implement
+g0float2float<dblknd,dblknd> = g0float2float_double_double
+
+#atscode_separator()
 
 #g0float_implist("fltknd", "float")
 
