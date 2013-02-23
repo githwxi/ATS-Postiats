@@ -30,14 +30,6 @@ all::
 
 ######
 
-all:: f91
-f91: f91.exe
-f91.exe: f91_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-f91_dats.c: f91.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output f91_dats.c --dynamic f91.dats
-clean:: ; $(RMF) f91_dats.o
-clean:: ; $(RMF) f91_dats.c
-cleanall:: ; $(RMF) f91.exe
-
 all:: acker
 acker: acker.exe
 acker.exe: acker_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
@@ -46,6 +38,21 @@ clean:: ; $(RMF) acker_dats.o
 clean:: ; $(RMF) acker_dats.c
 cleanall:: ; $(RMF) acker.exe
 
+all:: atoi
+atoi: atoi.exe
+atoi.exe: atoi_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+atoi_dats.c: atoi.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output atoi_dats.c --dynamic atoi.dats
+clean:: ; $(RMF) atoi_dats.o
+clean:: ; $(RMF) atoi_dats.c
+cleanall:: ; $(RMF) atoi.exe
+
+all:: f91
+f91: f91.exe
+f91.exe: f91_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+f91_dats.c: f91.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output f91_dats.c --dynamic f91.dats
+clean:: ; $(RMF) f91_dats.o
+clean:: ; $(RMF) f91_dats.c
+cleanall:: ; $(RMF) f91.exe
 
 all:: fact1
 fact1: fact1.exe
@@ -71,6 +78,13 @@ clean:: ; $(RMF) fact3_dats.o
 clean:: ; $(RMF) fact3_dats.c
 cleanall:: ; $(RMF) fact3.exe
 
+all:: fcopy
+fcopy: fcopy.exe
+fcopy.exe: fcopy_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+fcopy_dats.c: fcopy.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fcopy_dats.c --dynamic fcopy.dats
+clean:: ; $(RMF) fcopy_dats.o
+clean:: ; $(RMF) fcopy_dats.c
+cleanall:: ; $(RMF) fcopy.exe
 
 all:: fibmem
 fibmem: fibmem.exe
@@ -80,7 +94,6 @@ clean:: ; $(RMF) fibmem_dats.o
 clean:: ; $(RMF) fibmem_dats.c
 cleanall:: ; $(RMF) fibmem.exe
 
-
 all:: fprtuple
 fprtuple: fprtuple.exe
 fprtuple.exe: fprtuple_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
@@ -88,15 +101,6 @@ fprtuple_dats.c: fprtuple.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output
 clean:: ; $(RMF) fprtuple_dats.o
 clean:: ; $(RMF) fprtuple_dats.c
 cleanall:: ; $(RMF) fprtuple.exe
-
-
-all:: fcopy
-fcopy: fcopy.exe
-fcopy.exe: fcopy_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-fcopy_dats.c: fcopy.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fcopy_dats.c --dynamic fcopy.dats
-clean:: ; $(RMF) fcopy_dats.o
-clean:: ; $(RMF) fcopy_dats.c
-cleanall:: ; $(RMF) fcopy.exe
 
 all:: mutailrec
 mutailrec: mutailrec.exe
@@ -106,6 +110,13 @@ clean:: ; $(RMF) mutailrec_dats.o
 clean:: ; $(RMF) mutailrec_dats.c
 cleanall:: ; $(RMF) mutailrec.exe
 
+all:: revarr
+revarr: revarr.exe
+revarr.exe: revarr_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+revarr_dats.c: revarr.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output revarr_dats.c --dynamic revarr.dats
+clean:: ; $(RMF) revarr_dats.o
+clean:: ; $(RMF) revarr_dats.c
+cleanall:: ; $(RMF) revarr.exe
 
 all:: strprefix
 strprefix: strprefix.exe
@@ -114,15 +125,6 @@ strprefix_dats.c: strprefix.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --outp
 clean:: ; $(RMF) strprefix_dats.o
 clean:: ; $(RMF) strprefix_dats.c
 cleanall:: ; $(RMF) strprefix.exe
-
-
-all:: revarr
-revarr: revarr.exe
-revarr.exe: revarr_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-revarr_dats.c: revarr.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output revarr_dats.c --dynamic revarr.dats
-clean:: ; $(RMF) revarr_dats.o
-clean:: ; $(RMF) revarr_dats.c
-cleanall:: ; $(RMF) revarr.exe
 
 
 ######

@@ -69,23 +69,18 @@ all::
 
 ######
 
-#make_entry("f91")
 #make_entry("acker")
-
+#make_entry("atoi")
+#make_entry("f91")
 #make_entry("fact1")
 #make_entry("fact2")
 #make_entry("fact3")
-
-#make_entry("fibmem")
-
-#make_entry("fprtuple")
-
 #make_entry("fcopy")
+#make_entry("fibmem")
+#make_entry("fprtuple")
 #make_entry("mutailrec")
-
-#make_entry("strprefix")
-
 #make_entry("revarr")
+#make_entry("strprefix")
 
 ######
 

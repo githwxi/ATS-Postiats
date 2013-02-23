@@ -43,6 +43,15 @@ int fprintf (FILE *stream, const char *format, ...) ;
 
 #atscode_separator_for_C()
 
+ATSinline()
+atstype_int
+atspre_sub_char_char
+  (atstype_char c1, atstype_char c2) { return (c1 - c2) ; }
+// end of [sub_char0_char0]
+\#define atspre_sub_char0_char0 atspre_sub_char_char
+
+#atscode_separator_for_C()
+
 %{
 fun
 fun_char_cmp0_decl (
@@ -63,9 +72,11 @@ atstype_bool
 atspre_%s_char_char
   (atstype_char c1, atstype_char c2) {
   return (c1 %s c2 ? atsbool_true : atsbool_false) ;
-} // end of [atspre_%s_char_char]\
+} // end of [atspre_%s_char_char]
+#define atspre_%s_char0_char0 atspre_%s_char_char
+#define atspre_%s_char1_char1 atspre_%s_char_char
 ", @(
- opr, fopr, opr
+ opr, fopr, opr, opr, opr, opr, opr
 )
 ) // end of [sprintf] // end of [val]
 //
@@ -76,10 +87,8 @@ end // end of [fun_char_cmp0_decl]
 \
 #fun_char_cmp0_decl("lt")
 #fun_char_cmp0_decl("lte")
-
 #fun_char_cmp0_decl("gt")
 #fun_char_cmp0_decl("gte")
-
 #fun_char_cmp0_decl("eq")
 #fun_char_cmp0_decl("neq")
 
@@ -92,6 +101,8 @@ atspre_compare_char_char
 {
   return ((atstype_int)c1) - ((atstype_int)c2) ;
 } // end of [atspre_compare_char_char]
+\#define atspre_compare_char0_char0 atspre_compare_char_char
+\#define atspre_compare_char1_char1 atspre_compare_char_char
 
 #atscode_separator_for_C()
 
@@ -105,16 +116,6 @@ atspre_fprint_char (
 
 \#define atspre_print_char(c) atspre_fprint_char(stdout, (c))
 \#define atspre_prerr_char(c) atspre_fprint_char(stderr, (c))
-
-#atscode_separator_for_C()
-
-\#define atspre_lt_char1_char1 atspre_lt_char_char
-\#define atspre_lte_char1_char1 atspre_lte_char_char
-\#define atspre_gt_char1_char1 atspre_gt_char_char
-\#define atspre_gte_char1_char1 atspre_gte_char_char
-\#define atspre_eq_char1_char1 atspre_eq_char_char
-\#define atspre_neq_char1_char1 atspre_neq_char_char
-\#define atspre_compare_char1_char1 atspre_compare_char_char
 
 #atscode_separator_for_C()
 //
@@ -142,9 +143,11 @@ atstype_bool
 atspre_%s_uchar_uchar
   (atstype_uchar c1, atstype_uchar c2) {
   return (c1 %s c2 ? atsbool_true : atsbool_false) ;
-} // end of [atspre_%s_uchar_uchar]\
+} // end of [atspre_%s_uchar_uchar]
+#define atspre_%s_uchar0_uchar0 atspre_%s_uchar_uchar
+#define atspre_%s_uchar1_uchar1 atspre_%s_uchar_uchar
 ", @(
- opr, fopr, opr
+ opr, fopr, opr, opr, opr, opr, opr
 )
 ) // end of [sprintf] // end of [val]
 //
@@ -155,10 +158,8 @@ end // end of [fun_uchar_cmp0_decl]
 \
 #fun_uchar_cmp0_decl("lt")
 #fun_uchar_cmp0_decl("lte")
-
 #fun_uchar_cmp0_decl("gt")
 #fun_uchar_cmp0_decl("gte")
-
 #fun_uchar_cmp0_decl("eq")
 #fun_uchar_cmp0_decl("neq")
 
@@ -168,16 +169,8 @@ atspre_compare_uchar_uchar
   (atstype_uchar c1, atstype_uchar c2) {
   return ((atstype_int)c1 - (atstype_int)c2) ;
 } // end of [atspre_compare_uchar_uchar]
-
-#atscode_separator_for_C()
-
-\#define atspre_lt_uchar1_uchar1 atspre_lt_uchar_uchar
-\#define atspre_lte_uchar1_uchar1 atspre_lte_uchar_uchar
-\#define atspre_gt_uchar1_uchar1 atspre_gt_uchar_uchar
-\#define atspre_gte_uchar1_uchar1 atspre_gte_uchar_uchar
-\#define atspre_eq_uchar1_uchar1 atspre_eq_uchar_uchar
-\#define atspre_neq_uchar1_uchar1 atspre_neq_uchar_uchar
-\#define atspre_compare_uchar1_uchar1 atspre_compare_uchar_char
+\#define atspre_compare_uchar0_uchar0 atspre_compare_uchar_uchar
+\#define atspre_compare_uchar1_uchar1 atspre_compare_uchar_uchar
 
 #atscode_separator_for_C()
 
