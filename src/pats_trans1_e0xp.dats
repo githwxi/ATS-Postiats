@@ -48,10 +48,6 @@ overload = with $SYM.eq_symbol_symbol
 //
 (* ****** ****** *)
 
-staload "./pats_lexing.sats"
-
-(* ****** ****** *)
-
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
@@ -59,6 +55,10 @@ staload "./pats_basics.sats"
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_trans1_e0xp"
+
+(* ****** ****** *)
+
+staload "./pats_lexing.sats"
 
 (* ****** ****** *)
 

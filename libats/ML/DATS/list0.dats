@@ -62,7 +62,7 @@ end // end of [list0_make_elt]
 
 (* ****** ****** *)
 
-implement
+implement{}
 list0_make_intrange_lr
   (l, r) = let
   val d = (
@@ -72,7 +72,7 @@ in
   $effmask_exn (list0_make_intrange_lrd (l, r, d))
 end // end of [list0_make_intrange_lr]
 
-implement
+implement{}
 list0_make_intrange_lrd
   (l, r, d) = let
 //
@@ -296,6 +296,73 @@ in
     $raise IllegalArgExn("list0_insert_at_exn:i")
   // end of [if]
 end // end of [list0_insert_at_exn]
+
+(* ****** ****** *)
+
+local
+
+fun{
+a:t0p
+} aux {i:nat} .<i>. (
+  xs: list0 a, i: int i, x0: &a? >> a
+) :<!exnwrt> list0 a = let
+//
+extern praxi __assert : (&a? >> a) -<prf> void
+//
+in
+//
+case+ xs of
+| list0_cons
+    (x, xs) => let
+  in
+    if i > 0 then
+      list0_cons (x, aux (xs, i-1, x0))
+    else let
+      val () = x0 := x in xs
+    end (* end of [if] *)
+  end // end of [list0_cons]
+| list0_nil () => let
+    prval () = __assert (x0) in $raise ListSubscriptExn()
+  end // end of [list0_nil]
+//
+end // end of [aux]
+
+in (* in of [local] *)
+
+implement{a}
+list0_remove_at_exn
+  (xs, i) = let
+//
+var x0: a?
+val i = g1ofg0_int (i)
+//
+in
+  if i >= 0 then
+    $effmask_wrt (aux (xs, i, x0))
+  else (
+    $raise IllegalArgExn("list0_remove_at_exn:i")
+  ) // end of [if]
+end // end of [list0_remove_at_exn]
+
+implement{a}
+list0_takeout_at_exn
+  (xs, i, x0) = let
+//
+val i = g1ofg0_int (i)
+//
+extern praxi __assert : (&a? >> a) -<prf> void
+//
+in
+  if i >= 0 then
+    aux (xs, i, x0)
+  else let
+    prval () = __assert (x0)
+  in
+    $raise IllegalArgExn("list0_takeout_at_exn:i")
+  end // end of [if]
+end // end of [list0_takeout_at_exn]
+
+end // end of [local]
 
 (* ****** ****** *)
 
