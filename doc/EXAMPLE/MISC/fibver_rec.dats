@@ -7,6 +7,10 @@
 
 (* ****** ****** *)
 
+staload "prelude/DATS/integer.dats"
+
+(* ****** ****** *)
+
 dataprop FIB (int, int) =
   | FIB0 (0, 0) | FIB1 (1, 1)
   | {n:nat} {r0,r1:int} FIB2 (n+2, r0+r1) of (FIB (n, r0), FIB (n+1, r1))

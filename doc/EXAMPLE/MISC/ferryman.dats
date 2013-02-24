@@ -131,4 +131,8 @@ end // end of [solvePuzzle]
 
 (* ****** ****** *)
 
+implement main0 () = ()
+
+(* ****** ****** *)
+
 (* end of [ferryman.dats] *)

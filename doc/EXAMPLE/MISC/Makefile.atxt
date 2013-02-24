@@ -74,8 +74,10 @@ RMF=rm -f
 
 ######
 
+#make_entry("fibver_rec")
 #make_entry("hanoi")
 #make_entry("isqrt")
+#make_entry("passwdgen")
 
 ######
 

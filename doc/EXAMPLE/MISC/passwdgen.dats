@@ -14,6 +14,16 @@
 //
 (* ****** ****** *)
 
+staload "prelude/DATS/char.dats"
+staload "prelude/DATS/integer.dats"
+staload "prelude/DATS/pointer.dats"
+staload _ = "prelude/DATS/array.dats"
+staload _ = "prelude/DATS/arrayptr.dats"
+staload _ = "prelude/DATS/arrayref.dats"
+staload _ = "prelude/DATS/unsafe.dats"
+
+(* ****** ****** *)
+
 staload STDLIB = "libc/SATS/stdlib.sats"
 staload RANDGEN = "atshwxi/testing/SATS/randgen.sats"
 
