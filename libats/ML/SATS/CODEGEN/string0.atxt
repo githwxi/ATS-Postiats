@@ -51,8 +51,8 @@ castfn string2array0 (cs: string0):<> array0 (char)
 
 #atscode_separator()
 
-fun string0_get_ref (str: string0): Ptr1
-fun string0_get_size (str: string0): size_t
+fun string0_get_ref (str: string0):<> Ptr1
+fun string0_get_size (str: string0):<> size_t
 
 fun string0_get_refsize
   (A: string0):<> [n:nat] (arrayref (char, n), size_t (n))
@@ -61,11 +61,12 @@ fun string0_get_refsize
 #atscode_separator()
 
 symintr string0
+fun string0_make_string (str: string):<!wrt> string0
+overload string0 with string0_make_string
 
 #atscode_separator()
 
-fun string0_make_string (str: NSH(string)):<!wrt> string0
-overload string0 with string0_make_string
+fun string0_imake_string (str: string0):<!wrt> string
 
 #atscode_separator()
 

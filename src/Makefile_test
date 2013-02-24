@@ -224,7 +224,7 @@ isqrt: ; \
 morse_enum: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/morse_enum.dats
 passwdgen: ; \
-  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/passwdgen.dats
+  $(PATSOPT) ${ICONTRIB} -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/passwdgen.dats
 queens_loop: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/queens_loop.dats
 strmat: ; \

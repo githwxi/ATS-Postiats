@@ -79,11 +79,36 @@ in
 end // end of [val]
 //
 typedef A = arrayref (char, n)
+//
 val A = $UN.castvwtp0 {A} @(pfarr, pfgc | p)
 //
 in
   array2string0 (array0_make_arrayref (A, n))
 end // end of [string0_make_string]
+
+(* ****** ****** *)
+
+implement
+string0_imake_string
+  (str) = let
+//
+val p = string0_get_ref (str)
+val sz = g1ofg0_uint (string0_get_size (str))
+val (pfgc, pfarr | p2) = malloc_gc (succ (sz))
+//
+val _(*ptr*) = let
+  extern fun memcpy
+    : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_memcpy"
+  // end of [extern]
+in
+  memcpy (p2, p, sz)
+end // end of [val]
+//
+val () = $UN.ptr0_set<char> (ptr_add<char> (p2, sz), '\000')
+//
+in
+  $UN.castvwtp0 {string} @(pfgc, pfarr | p2)
+end // end of [string0_imake_string]
 
 (* ****** ****** *)
 
