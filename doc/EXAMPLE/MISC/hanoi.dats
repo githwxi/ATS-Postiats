@@ -8,14 +8,24 @@
 *)
 
 (* ****** ****** *)
+
+staload "prelude/DATS/integer.dats"
+
+(* ****** ****** *)
 //
-abstype post (n:int) // for posts
+abstype
+post_type (n:int) = ptr // for posts
+typedef post (n:int) = post_type (n)
 //
+(* ****** ****** *)
+
 extern
 fun post_make {sz:pos} (sz: int sz): post (sz)
 extern
 fun post_initize {sz:nat} (p: post (sz), sz: int sz): void
-//
+
+(* ****** ****** *)
+
 extern
 fun post_get_at
   {sz:int} (p: post (sz), i: natLt sz): natLte (sz)
@@ -34,7 +44,7 @@ fun showpiece
   fun loop {
     i:nat | i <= 2*sz
   } .<2*sz-i>.
-    (i: int i):<cloref1> void =
+    (i: int (i)):<cloref1> void =
     if i < (sz-n) then (
       print ' '; loop (i + 1)
     ) else if i < (sz+n-1) then (
@@ -127,8 +137,10 @@ end // end of [play]
 (* ****** ****** *)
 
 implement
-main (argc, argv) = let
-  val () = play (4) in 0(*normal*)
+main (
+  argc, argv
+) = let
+  val () = play (4) in 0(*normalexit*)
 end // end of [main]
 
 (* ****** ****** *)
@@ -138,7 +150,7 @@ local
 typedef
 T (n:int) = natLte n
 assume
-post (n:int) = arrayref (T(n), n)
+post_type (n:int) = arrayref (T(n), n)
 
 in // in of [local]
 

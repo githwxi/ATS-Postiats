@@ -192,10 +192,10 @@ case+ hid0.hidecl_node of
 | HIDstaload (
     fil, flag, fenv, loaded
   ) => let
-
+(*
     val () = println! ("hidecl_ccomp: staload: loc0 = ", loc0)
     val () = println! ("hidecl_ccomp: staload: hid0 = ", hid0)
-
+*)
     val () = the_staloadlst_add (hid0)
     val () =
       if flag > 0 then ccompenv_add_staload (env, fenv)
@@ -203,6 +203,15 @@ case+ hid0.hidecl_node of
   in
     primdec_staload (loc0, fenv)
   end // end of [HIDstaload]
+//
+| HIDlocal (
+    hids_head, hids_body
+  ) => let
+    val pmds_head = hideclist_ccomp (env, hids_head)
+    val pmds_body = hideclist_ccomp (env, hids_body)
+  in
+    primdec_local (loc0, pmds_head, pmds_body)
+  end // end of [HIDlocal]
 //
 | _ => let
     val () = println! ("hidecl_ccomp: loc0 = ", loc0)

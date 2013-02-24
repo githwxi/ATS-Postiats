@@ -74,21 +74,8 @@ RMF=rm -f
 
 ######
 
-#make_entry("acker")
-#make_entry("atof")
-#make_entry("atoi")
-#make_entry("f91")
-#make_entry("fact1")
-#make_entry("fact2")
-#make_entry("fact3")
-#make_entry("fcopy")
-#make_entry("fibmem")
-#make_entry("fprtuple")
-#make_entry("intecho")
+#make_entry("hanoi")
 #make_entry("isqrt")
-#make_entry("mutailrec")
-#make_entry("revarr")
-#make_entry("strprefix")
 
 ######
 

@@ -123,6 +123,14 @@ clean:: ; $(RMF) intecho_dats.o
 clean:: ; $(RMF) intecho_dats.c
 cleanall:: ; $(RMF) intecho intecho.exe
 
+all:: isqrt
+isqrt: isqrt.exe ; $(LNS) isqrt.exe isqrt
+isqrt.exe: isqrt_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+isqrt_dats.c: isqrt.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output isqrt_dats.c --dynamic isqrt.dats
+clean:: ; $(RMF) isqrt_dats.o
+clean:: ; $(RMF) isqrt_dats.c
+cleanall:: ; $(RMF) isqrt isqrt.exe
+
 all:: mutailrec
 mutailrec: mutailrec.exe ; $(LNS) mutailrec.exe mutailrec
 mutailrec.exe: mutailrec_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

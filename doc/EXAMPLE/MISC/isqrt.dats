@@ -12,7 +12,12 @@
 //
 (* ****** ****** *)
 
-propdef ISQRT (x: int, n: int) =
+staload "prelude/DATS/integer.dats"
+
+(* ****** ****** *)
+
+propdef
+ISQRT (x: int, n: int) =
   [x0,x1:nat | x0 <= x; x < x1] (MUL (n, n, x0), MUL (n+1, n+1, x1))
 // end of [SQRT]
 

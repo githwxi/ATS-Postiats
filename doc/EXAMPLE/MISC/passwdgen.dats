@@ -9,19 +9,13 @@
 
 (* ****** ****** *)
 //
-// HX: ported to Postiats on November 22, 2012 // Happy Thanksgiving!
+// HX: Happy Thanksgiving!
+// HX: ported to Postiats on November 22, 2012
 //
 (* ****** ****** *)
 
-staload RAND =
-  "contrib/atshwxi/testing/SATS/randgen.sats"
-// end of [staload]
-
-macdef randint = $RAND.randint
-
-(* ****** ****** *)
-
-extern fun string2int (str: string): int
+staload STDLIB = "libc/SATS/stdlib.sats"
+staload RANDGEN = "atshwxi/testing/SATS/randgen.sats"
 
 (* ****** ****** *)
 
@@ -31,7 +25,7 @@ main (
 ) = 0 where {
   var n: int = 8
   val () =
-    if argc >= 2 then n := string2int (argv[1])
+    if argc >= 2 then n := $STDLIB.atoi (argv[1])
   // end of [val]
   val [n:int] n = g1ofg0_int (n)
   val () = assert (n >= 0)
@@ -45,7 +39,7 @@ main (
     fun loop {i:nat | i <= n} .<n-i>.
       (n: int n, i: int i):<cloref1> void =
       if (i < n) then let
-        val () = passwd[i] := int2char0 (randint (94) + 33)
+        val () = passwd[i] := int2char0 ($RANDGEN.randint (94) + 33)
       in
         loop (n, i+1)
       end else () // end of [if]
