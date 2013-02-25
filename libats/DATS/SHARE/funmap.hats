@@ -33,6 +33,13 @@
 
 (* ****** ****** *)
 
+implement{}
+funmap_isnot_nil
+  (xs) = not (funmap_is_nil<> (xs))
+// end of [funmap_isnot_nil]
+
+(* ****** ****** *)
+
 implement
 {key,itm}
 funmap_search_opt

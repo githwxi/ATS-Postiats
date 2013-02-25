@@ -58,13 +58,17 @@ compare_key_key (x1: key, x2: key):<> int
 
 (* ****** ****** *)
 
-fun{key,itm:t0p} funmap_nil ():<> map (key, itm)
-fun{key,itm:t0p} funmap_make_nil ():<> map (key, itm)
+fun{
+} funmap_nil {key,itm:t0p} ():<> map (key, itm)
+fun{
+} funmap_make_nil {key,itm:t0p} ():<> map (key, itm)
 
 (* ****** ****** *)
 
-fun{key,itm:t0p} funmap_is_nil (map: map (key, itm)):<> bool
-fun{key,itm:t0p} funmap_isnot_nil (map: map (key, itm)):<> bool
+fun{
+} funmap_is_nil {key,itm:t0p} (map: map (key, itm)):<> bool
+fun{
+} funmap_isnot_nil {key,itm:t0p} (map: map (key, itm)):<> bool
 
 (* ****** ****** *)
 //

@@ -111,6 +111,7 @@ all_html::
 #make_entry("gflist_vt")
 #make_entry("gfarray")
 #make_entry("ilist_prf")
+#make_entry("dlist_vt")
 #make_entry("funmap_list")
 #make_entry("funmap_avltree")
 #make_entry("funset_avltree")

@@ -100,6 +100,14 @@ typedef void *atstype_ref ;
 ** HX: for boxed values
 */
 typedef void* atstype_boxed ;
+/*
+** HX: for [datconptr]
+*/
+typedef void* atstype_conptr ;
+/*
+** HX: for [datcontyp]
+*/
+typedef void* atstype_contyp ;
 
 /* ****** ****** */
 /*

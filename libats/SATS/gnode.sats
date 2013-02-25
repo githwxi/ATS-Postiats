@@ -45,7 +45,7 @@ sortdef t0p = t@ype and vt0p = vt@ype
 
 (* ****** ****** *)
 //
-abstype gnode (a:vt@ype+, l:addr)
+abstype gnode (a:vt@ype+, l:addr) = ptr
 //
 typedef gnode (a:vt0p) = [l:addr] gnode (a, l)
 typedef gnode0 (a:vt0p) = [l:addr | l >= null] gnode (a, l)
@@ -59,129 +59,149 @@ praxi lemma_gnode
 
 (* ****** ****** *)
 
-castfn gnode2ptr {a:vt0p}{l:addr} (nx: gnode (a, l)):<> ptr (l)
+castfn
+gnode2ptr {a:vt0p}{l:addr} (nx: gnode (a, l)):<> ptr (l)
 
 (* ****** ****** *)
 
-fun{a:vt0p}
-gnode_null ():<> gnode (a, null)
+fun{
+} gnode_null
+  {a:vt0p} ():<> gnode (a, null)
+// end of [gnode_null]
+
+(* ****** ****** *)
 
 fun{a:vt0p}
 gnode_make_elt (x: a):<> gnode1 (a)
 
-fun{a:t0p}
-gnode_free (nx: gnode1 (a)):<!wrt> void
+(* ****** ****** *)
+
+fun{a:t0p} // [a] is nonlinear
+gnode_free (nx: gnode1 (INV(a))):<!wrt> void
 
 fun{a:vt0p}
 gnode_free_elt
-  (nx: gnode1 (a), res: &(a?) >> a):<!wrt> void
+  (nx: gnode1 (INV(a)), res: &(a?) >> a):<!wrt> void
 // end of [gnode_free_elt]
 
 (* ****** ****** *)
 
-fun{a:vt0p}
-gnode_is_null
-  {l:addr} (nx: gnode (a, l)):<> bool (l==null)
+fun{
+} gnode_is_null
+  {a:vt0p}{l:addr} (nx: gnode (INV(a), l)):<> bool (l==null)
 // end of [gnode_is_null]
 
-fun{a:vt0p}
-gnode_isnot_null
-  {l:addr} (nx: gnode (a, l)):<> bool (l > null)
+fun{
+} gnode_isnot_null
+  {a:vt0p}{l:addr} (nx: gnode (INV(a), l)):<> bool (l > null)
 // end of [gnode_isnot_null]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-gnode_getref_elt (nx: gnode1 (a)):<> Ptr1
+gnode_getref_elt (nx: gnode1 (INV(a))):<> Ptr1
+
+fun{a:vt0p}
+gnode_getfree_elt (nx: gnode1 (INV(a))):<> (a) // [nx] is freed
+
+(* ****** ****** *)
+
+fun{a:vt0p} // implemented
+gnode_get_next (nx: gnode1 (INV(a))):<> gnode0 (a)
+fun{a:vt0p} // implemented
+gnode_set_next (nx: gnode1 (INV(a)), nx2: gnode (a)):<!wrt> void
+fun{a:vt0p} // implemented
+gnode0_set_next (nx: gnode0 (INV(a)), nx2: gnode (a)):<!wrt> void
+
+fun{a:vt0p}
+gnode_getref_next (nx: gnode1 (INV(a))):<> Ptr1
+
+fun{a:vt0p}
+gnode_set_next_null (nx: gnode1 (INV(a))):<!wrt> void
+fun{a:vt0p}
+gnode0_set_next_null (nx: gnode0 (INV(a))):<!wrt> void
+
+(* ****** ****** *)
+
+fun{a:vt0p} // implemented
+gnode_get_prev (nx: gnode1 (INV(a))):<> gnode0 (a)
+fun{a:vt0p} // implemented
+gnode_set_prev (nx: gnode1 (INV(a)), nx2: gnode (a)):<!wrt> void
+fun{a:vt0p} // implemented
+gnode0_set_prev (nx: gnode0 (INV(a)), nx2: gnode (a)):<!wrt> void
+
+fun{a:vt0p}
+gnode_getref_prev (nx: gnode1 (INV(a))):<> Ptr1
+
+fun{a:vt0p}
+gnode_set_prev_null (nx: gnode1 (INV(a))):<!wrt> void
+fun{a:vt0p}
+gnode0_set_prev_null (nx: gnode0 (INV(a))):<!wrt> void
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-gnode_getref_prev (nx: gnode1 (a)):<> Ptr1
+gnode_getref_parent (nx: gnode1 (INV(a))):<> Ptr1
 
 fun{a:vt0p} // implemented
-gnode_get_prev (nx: gnode1 (a)):<> gnode0 (a)
+gnode_get_parent (nx: gnode1 (INV(a))):<> gnode0 (a)
 fun{a:vt0p} // implemented
-gnode_set_prev (nx: gnode1 (a), nx2: gnode (a)):<!wrt> void
-fun{a:vt0p}
-gnode_set_prev_null (nx: gnode1 (a)):<!wrt> void
+gnode_set_parent (nx: gnode1 (INV(a)), nx2: gnode (a)):<!wrt> void
+
+fun{a:vt0p} // implemented
+gnode_set_parent_null (nx: gnode1 (INV(a))):<!wrt> void
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-gnode_getref_next (nx: gnode1 (a)):<> Ptr1
+gnode_getref_children (nx: gnode1 (INV(a))):<> Ptr1
 
-fun{a:vt0p} // implemented
-gnode_get_next (nx: gnode1 (a)):<> gnode0 (a)
-fun{a:vt0p} // implemented
-gnode_set_next (nx: gnode1 (a), nx2: gnode (a)):<!wrt> void
 fun{a:vt0p}
-gnode_set_next_null (nx: gnode1 (a)):<!wrt> void
+gnode_get_children (nx: gnode1 (INV(a))):<> gnode0 (a)
+fun{a:vt0p}
+gnode_set_children (nx: gnode1 (INV(a)), nx2: gnode (a)):<!wrt> void
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-gnode_getref_parent (nx: gnode1 (a)):<> Ptr1
-
-fun{a:vt0p} // implemented
-gnode_get_parent (nx: gnode1 (a)):<> gnode0 (a)
-fun{a:vt0p} // implemented
-gnode_set_parent (nx: gnode1 (a), nx2: gnode (a)):<!wrt> void
-
-fun{a:vt0p} // implemented
-gnode_set_parent_null (nx: gnode1 (a)):<!wrt> void
-
-(* ****** ****** *)
-
+gnode_link (nx1: gnode1 (INV(a)), nx2: gnode1 (a)):<!wrt> void
 fun{a:vt0p}
-gnode_getref_children (nx: gnode1 (a)):<> Ptr1
-
+gnode_link00 (nx1: gnode0 (INV(a)), nx2: gnode0 (a)):<!wrt> void
 fun{a:vt0p}
-gnode_get_children (nx: gnode1 (a)):<> gnode0 (a)
+gnode_link01 (nx1: gnode0 (INV(a)), nx2: gnode1 (a)):<!wrt> void
 fun{a:vt0p}
-gnode_set_children (nx: gnode1 (a), nx2: gnode (a)):<!wrt> void
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-gnode_link (nx1: gnode1 (a), nx2: gnode1 (a)):<!wrt> void
-fun{a:vt0p}
-gnode_link00 (nx1: gnode0 (a), nx2: gnode0 (a)):<!wrt> void
-fun{a:vt0p}
-gnode_link01 (nx1: gnode0 (a), nx2: gnode1 (a)):<!wrt> void
-fun{a:vt0p}
-gnode_link10 (nx1: gnode1 (a), nx2: gnode0 (a)):<!wrt> void
+gnode_link10 (nx1: gnode1 (INV(a)), nx2: gnode0 (a)):<!wrt> void
 
 (* ****** ****** *)
 
 fun{a:vt0p}
 gnode_cons {l:agz}
-  (nx1: gnode (a, l), nx2: gnode0 (a)):<!wrt> gnode (a, l)
+  (nx1: gnode (INV(a), l), nx2: gnode0 (a)):<!wrt> gnode (a, l)
 // end of [gnode_cons]
 
 fun{a:vt0p}
 gnode_snoc {l:agz}
-  (nx1: gnode0 (a), nx2: gnode (a, l)):<!wrt> gnode (a, l)
+  (nx1: gnode0 (a), nx2: gnode (INV(a), l)):<!wrt> gnode (a, l)
 // end of [gnode_snoc]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
 gnode_insert_next
-  (nx1: gnode1 (a), nx2: gnode1 (a)):<!wrt> void
+  (nx1: gnode1 (INV(a)), nx2: gnode1 (a)):<!wrt> void
 // end of [gnode_insert_next]
 
 fun{a:vt0p}
 gnode_insert_prev
-  (nx1: gnode1 (a), nx2: gnode1 (a)):<!wrt> void
+  (nx1: gnode1 (INV(a)), nx2: gnode1 (a)):<!wrt> void
 // end of [gnode_insert_prev]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-gnode_remove_next (nx: gnode1 (a)):<!wrt> gnode0 (a)
+gnode_remove_next (nx: gnode1 (INV(a))):<!wrt> gnode0 (a)
 fun{a:vt0p}
-gnode_remove_prev (nx: gnode1 (a)):<!wrt> gnode0 (a)
+gnode_remove_prev (nx: gnode1 (INV(a))):<!wrt> gnode0 (a)
 
 (* ****** ****** *)
 
@@ -192,11 +212,18 @@ gnodelst_is_cons (nxs) = gnode_isnot_null (,(nxs))
 
 (* ****** ****** *)
 
-fun{a:vt0p}
-gnodelst_length (nxs: gnode1 (a)):<!wrt> intGte(0)
+fun{a:t0p}
+gnodelst_free (nxs: gnode0 (INV(a))):<!wrt> void
+
+(* ****** ****** *)
 
 fun{a:vt0p}
-gnodelst_reverse (nxs: gnode1 (a)):<!wrt> gnode1 (a)
+gnodelst_length (nxs: gnode0 (INV(a))):<> intGte(0)
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+gnodelst_reverse (nxs: gnode1 (INV(a))):<!wrt> gnode1 (a)
 
 (* ****** ****** *)
 

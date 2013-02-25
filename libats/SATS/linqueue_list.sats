@@ -75,8 +75,9 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 fun{a:vt0p}
 queue_takeout_list
-  {n:int} (q: !queue (INV(a), n) >> queue (a, 0)):<!wrt> list_vt (a, n)
-// end of [queue_takeout_list]
+  {n:int} (
+  q: !queue (INV(a), n) >> queue (a, 0)
+) :<!wrt> list_vt (a, n) // endfun
 
 (* ****** ****** *)
 //

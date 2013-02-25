@@ -992,7 +992,7 @@ in
   emit_primval (out, pmv_ptr)
 end else let
   val () = emit_text (out, "ATSPMVptrof(")
-  val () = emit_primval (out, pmv)
+  val () = emit_primval (out, pmv(*lvalue*))
   val () = emit_rparen (out)
 in
   // nothing
@@ -1489,6 +1489,10 @@ case+ lxs of
 | list_cons
     (lx, lxs) => let
     val+LABPRIMVAL (l, x) = lx
+    val istop = primval_is_top (x)
+    val () =
+      if istop then emit_text (out, "#if(0)\n")
+    // end of [val]
     val () = emit_text (out, "ATSINSstore_con_ofs(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
@@ -1498,6 +1502,9 @@ case+ lxs of
     val () = emit_text (out, ", ")
     val () = emit_primval (out, x)
     val () = emit_text (out, ") ;\n")
+    val () =
+      if istop then emit_text (out, "#endif\n")
+    // end of [val]
   in
     auxarg (out, tmp, hit_con, lxs)
   end // end of [list_cons]

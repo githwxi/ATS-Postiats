@@ -107,17 +107,20 @@ fundeque_unsnoc{n:pos}
 
 (* ****** ****** *)
 
-fun{a:t0p} fundeque_is_nil
-  {n:nat} (xt: deque (INV(a), n)): bool (n==0)
+fun{
+} fundeque_is_nil
+  {a:t0p}{n:nat} (xt: deque (INV(a), n)): bool (n==0)
 // end of [fundeque_is_nil]
 
-fun{a:t0p} fundeque_is_cons
-  {n:nat} (xt: deque (INV(a), n)): bool (n > 0)
+fun{
+} fundeque_is_cons
+  {a:t0p}{n:nat} (xt: deque (INV(a), n)): bool (n > 0)
 // end of [fundeque_is_cons]
 
 (* ****** ****** *)
 
-fun fundeque_size
+fun{
+} fundeque_size
   {a:t0p}{n:nat} (xt: deque (INV(a), n)):<> size_t (n)
 // end of [fundeque_size]
 

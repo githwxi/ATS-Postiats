@@ -560,6 +560,11 @@ fun primval_is_void (pmv: primval): bool
 
 (* ****** ****** *)
 
+fun primval_is_top (pmv: primval): bool (* uninitiated *)
+fun primval_is_empty (pmv: primval): bool (* value of size(0) *)
+
+(* ****** ****** *)
+
 fun primval_is_nshared (pmv: primval): bool // left-val/field-sel
 
 (* ****** ****** *)

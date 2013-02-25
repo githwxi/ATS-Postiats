@@ -194,12 +194,12 @@ end // end of [fprint_listlist_sep]
 
 #atscode_separator()
 
-implement{x}
+implement{}
 list_is_nil (xs) =
   case+ xs of list_nil () => true | _ =>> false
 // end of [list_is_nil]
 
-implement{x}
+implement{}
 list_is_cons (xs) =
   case+ xs of list_cons _ => true | _ =>> false
 // end of [list_is_cons]

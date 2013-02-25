@@ -91,19 +91,20 @@ funralist_uncons {n:pos}
 
 (* ****** ****** *)
 
-fun{a:t0p}
-funralist_is_nil
-  {n:int} (xs: ralist (INV(a), n)):<> bool (n==0)
+fun{
+} funralist_is_nil
+  {a:t0p}{n:int} (xs: ralist (INV(a), n)):<> bool (n==0)
 // end of [funralist_is_nil]
 
-fun{a:t0p}
-funralist_is_cons
-  {n:int} (xs: ralist (INV(a), n)):<> bool (n > 0)
+fun{
+} funralist_is_cons
+  {a:t0p}{n:int} (xs: ralist (INV(a), n)):<> bool (n > 0)
 // end of [funralist_is_cons]
 
 (* ****** ****** *)
 
-fun funralist_length
+fun{
+} funralist_length
   {a:t0p}{n:nat} (xs: ralist (INV(a), n)):<> int (n)
 // end of [funralist_length]
 

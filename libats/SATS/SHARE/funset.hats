@@ -43,25 +43,26 @@ compare_elt_elt (x1: a, x2: a):<> int
 
 (* ****** ****** *)
 
-fun{a:t0p}
-funset_nil ():<> set (a)
+fun{}
+funset_nil {a:t0p} ():<> set (a)
+
 fun{a:t0p}
 funset_sing (x0: a):<> set (a) // singleton set
 
 (* ****** ****** *)
 
-fun{a:t0p}
-funset_make_nil ():<> set (a)
+fun{}
+funset_make_nil {a:t0p} ():<> set (a)
 
 fun{a:t0p}
 funset_make_list (xs: List a):<> set (a)
 
 (* ****** ****** *)
 
-fun{a:t0p}
-funset_is_empty (xs: set (a)):<> bool
-fun{a:t0p}
-funset_isnot_empty (xs: set (a)):<> bool
+fun{}
+funset_is_empty {a:t0p} (xs: set (a)):<> bool
+fun{}
+funset_isnot_empty {a:t0p} (xs: set (a)):<> bool
 
 (* ****** ****** *)
 

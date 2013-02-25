@@ -525,7 +525,7 @@ fundeque_unsnoc
 
 (* ****** ****** *)
 
-implement{a}
+implement{}
 fundeque_is_nil (xt) =
   case+ xt of
   | FTemp () => true
@@ -537,14 +537,14 @@ fundeque_is_nil (xt) =
     end // end of [FTdeep]
 // end of [fundeque_is_nil]
 
-implement{a}
+implement{}
 fundeque_is_cons (xt) = let
-  prval () = lemma_deque_param (xt) in ~fundeque_is_nil<a> (xt)
+  prval () = lemma_deque_param (xt) in ~fundeque_is_nil<> (xt)
 end // end of [fundeque_is_cons]
 
 (* ****** ****** *)
 
-implement
+implement{}
 fundeque_size
   {a} (xt) = let
 //

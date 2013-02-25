@@ -448,12 +448,12 @@ heap_vtype
 
 (* ****** ****** *)
 
-implement{a}
-linheap_nil () = bheap_nil {a}{0} ()
+implement{}
+linheap_nil {a} () = bheap_nil{a}{0}()
 
 (* ****** ****** *)
 
-implement{a}
+implement{}
 linheap_is_nil (hp) = let
 in
 //
@@ -462,7 +462,7 @@ case+ hp of
 //
 end // end of [linheap_is_nil]
 
-implement{a}
+implement{}
 linheap_isnot_nil (hp) = let
 in
 //

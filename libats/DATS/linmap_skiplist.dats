@@ -428,22 +428,19 @@ map_vtype
 
 (* ****** ****** *)
 
-implement
-{key,itm}
+implement{}
 linmap_make_nil () =
   SKIPLIST (i2sz(0), 0, nodearr_make (lgMAX))
 // end of [linmap_make_nil]
 
 (* ****** ****** *)
 
-implement
-{key,itm}
+implement{}
 linmap_is_nil (map) = let
   val SKIPLIST (N, _, _) = map in N = i2sz(0)
 end // end of [linmap_is_nil]
 
-implement
-{key,itm}
+implement{}
 linmap_isnot_nil (map) = let
   val SKIPLIST (N, _, _) = map in N > i2sz(0)
 end // end of [linmap_isnot_nil]

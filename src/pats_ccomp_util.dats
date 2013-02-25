@@ -67,6 +67,13 @@ primval_is_void
 // end of [primval_is_void]
 
 (* ****** ****** *)
+
+implement
+primval_is_top (pmv) = (
+  case+ pmv.primval_node of PMVtop () => true | _ => false
+) // end of [primval_is_top]
+
+(* ****** ****** *)
 //
 // HX-2013-02:
 // [pmv] should not be assgined to a variable:

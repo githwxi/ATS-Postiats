@@ -33,9 +33,9 @@
 
 (* ****** ****** *)
 
-implement{a}
+implement{}
 funset_isnot_empty
-  (xs) = not (funset_is_empty<a> (xs))
+  (xs) = not (funset_is_empty<> (xs))
 // end of [funset_isnot_empty]
 
 (* ****** ****** *)

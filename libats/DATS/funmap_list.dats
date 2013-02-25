@@ -56,18 +56,16 @@ map_type
 
 (* ****** ****** *)
 
-implement{key,itm} funmap_nil () = list_nil ()
+implement{} funmap_nil () = list_nil ()
 
 (* ****** ****** *)
 
-implement
-{key,itm}
+implement{}
 funmap_is_nil (map) =
   case+ map of list_nil _ => true | list_cons _ => false
 // end of [funmap_is_nil]
 
-implement
-{key,itm}
+implement{}
 funmap_isnot_nil (map) =
   case+ map of list_nil _ => false | list_cons _ => true
 // end of [funmap_isnot_nil]

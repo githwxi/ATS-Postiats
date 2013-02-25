@@ -60,18 +60,16 @@ map_vtype
 
 (* ****** ****** *)
 
-implement{key,itm} linmap_nil () = list_vt_nil ()
+implement{} linmap_nil () = list_vt_nil ()
 
 (* ****** ****** *)
 
-implement
-{key,itm}
+implement{}
 linmap_is_nil (map) =
   case+ map of list_vt_nil _ => true | list_vt_cons _ => false
 // end of [linmap_is_nil]
 
-implement
-{key,itm}
+implement{}
 linmap_isnot_nil (map) =
   case+ map of list_vt_nil _ => false | list_vt_cons _ => true
 // end of [linmap_isnot_nil]

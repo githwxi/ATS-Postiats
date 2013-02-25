@@ -170,13 +170,7 @@ case+
 | S2Evar (s2v) => hisexp_tyvar (s2v)
 //
 | S2Edatconptr _ => hisexp_conptr
-| S2Edatcontyp
-    (d2c, s2es) => let
-    val npf = d2con_get_npf (d2c)
-    val lhses = s2explst_npf_tyer_labize (loc0, npf, s2es)
-  in
-    hisexp_tysum (d2c, lhses)
-  end // end of [S2Edatcontyp]
+| S2Edatcontyp _ => hisexp_contyp
 //
 | S2Eapp (
     s2e_fun, s2es_arg

@@ -98,7 +98,7 @@ assume heap_vtype (a:vt0p) = fibheap (a)
 
 (* ****** ****** *)
 
-implement{a}
+implement{}
 linheap_is_nil (hp) = let
 in
 case+ hp of
@@ -106,7 +106,7 @@ case+ hp of
 //
 end // end of [linheap_is_nil]
 
-implement{a}
+implement{}
 linheap_isnot_nil (hp) = let
 in
 case+ hp of
@@ -168,7 +168,7 @@ val @FIBHEAP (nx0, N) = hp
 var x0: a = x0
 val sgn = compare_elt_gnode<a> (x0, nx0)
 //
-val nx2 = gnode_make_elt (x0)
+val nx2 = gnode_make_elt<a> (x0)
 val () =
   if gnode2ptr (nx0) > 0 then
     gnode_insert_next (nx0, nx2) else gnode_link (nx2, nx2)

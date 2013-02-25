@@ -49,15 +49,20 @@ staload "libats/SATS/gnode.sats"
 
 (* ****** ****** *)
 
-implement{a}
+implement{}
+gnode_null {a} () = $UN.cast{gnode(a,null)} (the_null_ptr)
+
+(* ****** ****** *)
+
+implement{}
 gnode_is_null
-  {l} (nx) = let
+  {a} {l} (nx) = let
   val p = $UN.cast{ptr} (nx) in $UN.cast{bool(l==null)} (p = nullp)
 end // end of [gnode_is_null]
 
-implement{a}
+implement{}
 gnode_isnot_null
-  {l} (nx) = let
+  {a} {l} (nx) = let
   val p = $UN.cast{ptr} (nx) in $UN.cast{bool(l > null)} (p > nullp)
 end // end of [gnode_isnot_null]
 
@@ -78,9 +83,24 @@ gnode_set_next
 } // end of [gnode_set_next]
 
 implement{a}
+gnode0_set_next
+  (nx, nx2) = let
+in
+  if gnode_isnot_null (nx) then gnode_set_next (nx, nx2)
+end // end of [gnode0_set_next]
+
+(* ****** ****** *)
+
+implement{a}
 gnode_set_next_null
   (nx) = gnode_set_next (nx, gnode_null ())
 // end of [gnode_set_next_null]
+
+implement{a}
+gnode0_set_next_null (nx) = let
+in
+  if gnode_isnot_null (nx) then gnode_set_next_null (nx)
+end // end of [gnode0_set_next_null]
 
 (* ****** ****** *)
 
@@ -99,9 +119,24 @@ gnode_set_prev
 } // end of [gnode_set_prev]
 
 implement{a}
+gnode0_set_prev
+  (nx, nx2) = let
+in
+  if gnode_isnot_null (nx) then gnode_set_prev (nx, nx2)
+end // end of [gnode0_set_prev]
+
+(* ****** ****** *)
+
+implement{a}
 gnode_set_prev_null
   (nx) = gnode_set_prev (nx, gnode_null ())
 // end of [gnode_set_prev_null]
+
+implement{a}
+gnode0_set_prev_null (nx) = let
+in
+  if gnode_isnot_null (nx) then gnode_set_prev_null (nx)
+end // end of [gnode0_set_prev_null]
 
 (* ****** ****** *)
 
@@ -138,11 +173,8 @@ end // end of [gnode_link]
 implement{a}
 gnode_link00
   (nx1, nx2) = let
-  val () =
-    if gnode_isnot_null (nx1) then gnode_set_next (nx1, nx2)
-  val () =
-    if gnode_isnot_null (nx2) then gnode_set_prev (nx2, nx1)
-  // end of [val]
+  val () = gnode0_set_next (nx1, nx2)
+  val () = gnode0_set_next (nx2, nx1)
 in
   // nothing
 end // end of [gnode_link00]
@@ -151,7 +183,7 @@ implement{a}
 gnode_link01
   (nx1, nx2) = let
   val () =
-    if gnode_isnot_null (nx1) then gnode_set_next (nx1, nx2)
+    gnode0_set_next (nx1, nx2)
   // end of [val]
   val () = gnode_set_prev (nx2, nx1)
 in
@@ -162,8 +194,7 @@ implement{a}
 gnode_link10
   (nx1, nx2) = let
   val () = gnode_set_next (nx1, nx2)
-  val () =
-    if gnode_isnot_null (nx2) then gnode_set_prev (nx2, nx1)
+  val () = gnode0_set_prev (nx2, nx1)
   // end of [val]
 in
   // nothing
@@ -173,12 +204,14 @@ end // end of [gnode_link10]
 
 implement{a}
 gnode_cons (nx1, nx2) = let
-  val () = gnode_link10 (nx1, nx2) in nx1
+  val () = gnode_link10 (nx1, nx2) in (nx1)
 end // end of [gnode_cons]
+
+(* ****** ****** *)
 
 implement{a}
 gnode_snoc (nx1, nx2) = let
-  val () = gnode_link01 (nx1, nx2) in nx2
+  val () = gnode_link01 (nx1, nx2) in (nx2)
 end // end of [gnode_snoc]
 
 (* ****** ****** *)
@@ -236,6 +269,25 @@ end // end of [gnode_remove_prev]
 (* ****** ****** *)
 
 implement{a}
+gnodelst_free (nxs) = let
+//
+val iscons = gnodelst_is_cons (nxs)
+//
+in
+//
+if iscons then let
+  val nxs2 =
+    gnode_get_next (nxs)
+  val () = gnode_free (nxs)
+in
+  gnodelst_free (nxs2)
+end // end of [if]
+//
+end // end of [gnodelst_free]
+
+(* ****** ****** *)
+
+implement{a}
 gnodelst_length (nxs) = let
 //
 fun loop (
@@ -245,11 +297,11 @@ fun loop (
 in
 //
 if iscons then let
-  val nx = nxs
-  val nxs = gnode_get_next (nxs)
+  val nx0 = nxs
+  val nxs = gnode_get_next (nx0)
 in
   loop (nxs, succ (n))
-end else n // end of [if]
+end else (n) // end of [if]
 //
 end // end of [loop]
 //

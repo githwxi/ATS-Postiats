@@ -261,13 +261,13 @@ assume heap_vtype (a: vt0p) = gnode0 (a)
 
 (* ****** ****** *)
 
-implement{a} linheap_nil () = gnode_null<a> ()
+implement{} linheap_nil () = gnode_null ()
 
 (* ****** ****** *)
 
-implement{a}
+implement{}
 linheap_is_nil (hp) = gnodelst_is_nil (hp)
-implement{a}
+implement{}
 linheap_isnot_nil (hp) = gnodelst_is_cons (hp)
 
 (* ****** ****** *)

@@ -131,7 +131,9 @@ val hisexp_funptr : hisexp
 val hisexp_cloptr : hisexp
 //
 val hisexp_arrptr : hisexp
+//
 val hisexp_conptr : hisexp
+val hisexp_contyp : hisexp
 //
 (* ****** ****** *)
 

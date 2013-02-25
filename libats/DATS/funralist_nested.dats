@@ -118,12 +118,12 @@ end // end of [local]
 
 (* ****** ****** *)
 
-implement{a}
+implement{}
 funralist_is_nil (xs) =
   case+ xs of RAnil () => true | _ =>> false
 // end of [funralist_is_nil]
 
-implement{a}
+implement{}
 funralist_is_cons (xs) =
   case+ xs of RAnil () => false | _ =>> true
 // end of [funralist_is_cons]
@@ -154,7 +154,7 @@ end // end of [length]
 
 in (* in of [local] *)
 
-implement
+implement{}
 funralist_length {a} (xs) = let
 //
 prval () = lemma_ralist_param (xs)

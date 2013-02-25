@@ -69,7 +69,7 @@ set_t0ype_type (a: t0p) = List0 (a)
 //
 (* ****** ****** *)
 
-implement{a} funset_nil () = list_nil ()
+implement{} funset_nil () = list_nil ()
 implement{a} funset_sing (x) = list_sing (x)
 
 (* ****** ****** *)
@@ -143,9 +143,9 @@ end // end of [funset_make_list]
 
 (* ****** ****** *)
 
-implement{a}
+implement{}
 funset_is_empty (xs) = list_is_nil (xs)
-implement{a}
+implement{}
 funset_isnot_empty (xs) = list_is_cons (xs)
 
 (* ****** ****** *)

@@ -137,18 +137,16 @@ key:t0p;itm:vt0p
 
 (* ****** ****** *)
 
-implement{key,itm} linmap_nil () = BSTnil ()
+implement{} linmap_nil () = BSTnil ()
 
 (* ****** ****** *)
 
-implement
-{key,itm}
+implement{}
 linmap_is_nil (map) =
   case+ map of BSTnil _ => true | BSTcons _ => false
 // end of [linmap_is_nil]
 
-implement
-{key,itm}
+implement{}
 linmap_isnot_nil (map) =
   case+ map of BSTnil _ => false | BSTcons _ => true
 // end of [linmap_isnot_nil]

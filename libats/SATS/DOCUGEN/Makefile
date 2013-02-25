@@ -103,6 +103,14 @@ upload_ilist_prf:: ;   scp HTML/ilist_prf.html ats-hwxi,ats-lang@web.sourceforge
 clean:: ; $(RMF) ilist_prf_atxt.exe
 cleanall:: ; $(RMF) HTML/ilist_prf.html
 
+all_html:: HTML/dlist_vt.html
+HTML/dlist_vt.html:   dlist_vt_atxt.exe ; ./$< > $@
+dlist_vt_atxt.txt: dlist_vt.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+dlist_vt_atxt.exe: htmlgendecl_atxt.dats   dlist_vt_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_dlist_vt:: ;   scp HTML/dlist_vt.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) dlist_vt_atxt.exe
+cleanall:: ; $(RMF) HTML/dlist_vt.html
+
 all_html:: HTML/funmap_list.html
 HTML/funmap_list.html:   funmap_list_atxt.exe ; ./$< > $@
 funmap_list_atxt.txt: funmap_list.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@

@@ -55,23 +55,23 @@ compare_key_key (x1: key, x2: key):<> int
 
 (* ****** ****** *)
 
-fun{
-key:t0p;itm:vt0p
-} linmap_nil ():<> map (key, itm)
+fun{}
+linmap_nil {key:t0p;itm:vt0p} ():<> map (key, itm)
 
-fun{
-key:t0p;itm:vt0p
-} linmap_make_nil ():<!wrt> map (key, itm)
+fun{}
+linmap_make_nil {key:t0p;itm:vt0p} ():<!wrt> map (key, itm)
 
 (* ****** ****** *)
 
 fun{
-key:t0p;itm:vt0p
-} linmap_is_nil (map: !map (key, INV(itm))):<> bool
+} linmap_is_nil
+  {key:t0p;itm:vt0p} (map: !map (key, INV(itm))):<> bool
+// end of [listmap_is_nil]
 
 fun{
-key:t0p;itm:vt0p
-} linmap_isnot_nil (map: !map (key, INV(itm))):<> bool
+} linmap_isnot_nil
+  {key:t0p;itm:vt0p} (map: !map (key, INV(itm))):<> bool
+// end of [listmap_isnot_nil]
 
 (* ****** ****** *)
 //
