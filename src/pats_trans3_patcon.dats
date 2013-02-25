@@ -222,7 +222,7 @@ end // end of [local]
 extern
 fun p3at_free_update (
   p3t0: p3at, d2c: d2con, p3ts_arg: p3atlst
-) : void // end of [p3at_unfold_update]
+) : void // end of [p3at_free_update]
 
 local
 
@@ -343,18 +343,13 @@ implement
 p3at_unfold_update
   (p3t0, d2c, p3ts_arg) = let
 (*
-val () = begin
-(*
-  print "p3at_unfold_update: p3t0 = "; print_p3at p3t0; print_newline ();
+val () =
+   println! ("p3at_unfold_update: p3t0 = ", p3t0);
+val () = (
+   println! ("p3at_unfold_update: d2c = ", d2c);
+   fprintln! (stdout_ref, "p3at_unfold_update: p3ts_arg = ", p3ts_arg);
+) (* end of [val] *)
 *)
-  print "p3at_unfold_update: d2c = "; print_d2con d2c; print_newline ();
-end // end of [val]
-*)
-//
-fun s2addr_get
-  (d2vw: d2var): s2exp = let
-  val-Some (s2l) = d2var_get_addr (d2vw) in s2l
-end // end of [s2addr_get]
 //
 val s2ls =
   list_map_fun<p3at> (p3ts_arg, auxpat2)

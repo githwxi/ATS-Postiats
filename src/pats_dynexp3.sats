@@ -105,12 +105,14 @@ and labp3atlst = List (labp3at)
 
 (* ****** ****** *)
 
-fun print_p3at (p3t: p3at): void
+fun print_p3at (x: p3at): void
 overload print with print_p3at
-fun prerr_p3at (p3t: p3at): void
+fun prerr_p3at (x: p3at): void
 overload prerr with prerr_p3at
 fun fprint_p3at : fprint_type (p3at)
+overload fprint with fprint_p3at
 fun fprint_p3atlst : fprint_type (p3atlst)
+overload fprint with fprint_p3atlst
 
 (* ****** ****** *)
 

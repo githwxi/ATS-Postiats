@@ -374,7 +374,7 @@ if gnodelst_is_cons (nxs) then let
 in
   auxlink (r0)
 end else
-  gnode_null<a> () // end of [if]
+  gnode_null () // end of [if]
 // end of [if]
 //
 end // end of [gnodelst_consolidate]
