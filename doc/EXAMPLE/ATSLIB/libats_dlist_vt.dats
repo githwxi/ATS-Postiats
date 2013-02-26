@@ -14,6 +14,10 @@ staload "libats/SATS/dlist_vt.sats"
 
 (* ****** ****** *)
 
+staload "prelude/DATS/basics.dats"
+
+(* ****** ****** *)
+
 staload "prelude/DATS/integer.dats"
 
 (* ****** ****** *)
@@ -27,17 +31,35 @@ staload _ = "libats/DATS/dlist_vt.dats"
 
 (* ****** ****** *)
 
+val out = stdout_ref
+
 val () = {
 //
 typedef T = int
 val xs = dlist_vt_nil {T} ()
 val xs = dlist_vt_cons (1, xs)
 val xs = dlist_vt_cons (2, xs)
+val xs = dlist_vt_cons (3, xs)
 //
-val len = dlist_vt_length (xs)
-val () = println! ("len = ", len)
-val () = assertloc (len = 2)
+val () = fprint_dlist_vt<T> (out, xs)
+val () = fprint_newline (out)
 //
+val xs = dlist_vt_move (xs)
+val xs = dlist_vt_move (xs)
+val () = fprint_dlist_vt<T> (out, xs)
+val () = fprint_newline (out)
+val () = fprint_rdlist_vt<T> (out, xs)
+val () = fprint_newline (out)
+//
+val xs = rdlist_vt_move (xs)
+val () = fprint_dlist_vt<T> (out, xs)
+val () = fprint_newline (out)
+//
+val xs = dlist_vt_reverse (xs)
+val () = fprint_dlist_vt<T> (out, xs)
+val () = fprint_newline (out)
+//
+val xs = rdlist_vt_move (xs)
 val () = dlist_vt_free (xs)
 //
 } // end of [val]

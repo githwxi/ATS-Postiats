@@ -311,45 +311,4 @@ end // end of [gnodelst_length]
 
 (* ****** ****** *)
 
-implement{a}
-gnodelst_reverse (nxs) = let
-//
-fun loop (
-  nxs: gnode (a), res: gnode1 (a)
-) : gnode1 (a) = let
-  val iscons = gnodelst_is_cons (nxs)
-in
-//
-if iscons then let
-  val nx = nxs
-  val nxs = gnode_get_next (nx)
-  val () = gnode_link (nx, res)
-in
-  loop (nxs, nx)
-end else let
-  val () = gnode_set_prev_null (res) in res
-end // end of [if]
-//
-end // end of [loop]
-//
-val iscons = gnodelst_is_cons (nxs)
-//
-in
-//
-if iscons then let
-  val nx = nxs
-  val nxs =
-    gnode_get_next (nx)
-  val () =
-    gnode_set_next_null (nx)
-in
-  $effmask_all (loop (nxs, nx))
-end else
-  gnode_null () // nx = null
-// end of [if]
-//
-end // end of [gnodelst_reverse]
-
-(* ****** ****** *)
-
 (* end of [gnode.dats] *)

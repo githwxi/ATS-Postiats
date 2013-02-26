@@ -222,11 +222,6 @@ gnodelst_length (nxs: gnode0 (INV(a))):<> intGte(0)
 
 (* ****** ****** *)
 
-fun{a:vt0p}
-gnodelst_reverse (nxs: gnode1 (INV(a))):<!wrt> gnode1 (a)
-
-(* ****** ****** *)
-
 fun{
 a:vt0p}{env:vt0p
 } gnodelst_foreach$fwork (x: &a, env: &env >> _): void

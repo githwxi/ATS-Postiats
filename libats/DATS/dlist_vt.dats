@@ -68,31 +68,46 @@ dlist_vt_nil () = gnode_null ()
 (* ****** ****** *)
 
 implement{a}
-dlist_vt_sing (x) =
+dlist_vt_sing (x) = let
+in
   dlist_vt_cons<a> (x, dlist_vt_nil ())
-// end of [dlist_vt_sing]
+end // end of [dlist_vt_sing]
 
 (* ****** ****** *)
 
 implement{a}
-dlist_vt_cons
-  (x, xs) = let
+dlist_vt_cons (x, xs) = let
 in
   gnode_cons (gnode_make_elt<a> (x), xs)
 end // end of [dlist_vt_cons]
 
-(* ****** ****** *)
-
 implement{a}
-dist_vt_uncons
-  (xs) = let
+dlist_vt_uncons
+  {r} (xs) = let
   val nx = $UN.cast{gnode1(a)} (xs)
   val nx_next = gnode_get_next (nx)
   val () = gnode0_set_prev_null (nx_next)
   val () = xs := nx_next
 in
   gnode_getfree_elt (nx)
-end // end of [dist_vt_uncons]
+end // end of [dlist_vt_uncons]
+
+(* ****** ****** *)
+
+implement{a}
+dlist_vt_snoc (xs, x) = let
+in
+  gnode_snoc (xs, gnode_make_elt<a> (x))
+end // end of [dlist_vt_snoc]
+
+(* ****** ****** *)
+
+implement
+dlist_vt_make_list (xs) = let
+in
+//
+//
+end // end of [dlist_vt_make_list]
 
 (* ****** ****** *)
 
@@ -106,7 +121,163 @@ end // end of [dlist_vt_length]
 (* ****** ****** *)
 
 implement{a}
+dlist_vt_move (xs) = let
+  val nx = $UN.cast{gnode1(a)} (xs) in gnode_get_next (nx)
+end // end of [dlist_vt_move]
+
+implement{a}
+rdlist_vt_move (xs) = let
+  val nx = $UN.cast{gnode1(a)} (xs) in gnode_get_prev (nx)
+end // end of [rdlist_vt_move]
+
+(* ****** ****** *)
+
+implement{a}
+dlist_vt_append
+  (xs1, xs2) = let
+//
+val nxs1 = xs1 and nxs2 = xs2
+//
+fun loop (
+  nxs1: gnode1 (a), nxs2: gnode0 (a)
+) : void = let
+  val nxs1_next = gnode_get_next (nxs1)
+  val iscons = gnodelst_is_cons (nxs1_next)
+in
+//
+if iscons then loop (nxs1_next, nxs2) else gnode_link10 (nxs1, nxs2)
+//
+end // end of [loop]
+//
+val iscons = gnodelst_is_cons (nxs1)
+//
+in
+//
+if iscons then let
+  val () = $effmask_all (loop (nxs1, nxs2)) in nxs1
+end else nxs2 // end of [if]
+//
+end // end of [dlist_vt_append]
+
+(* ****** ****** *)
+
+implement{a}
+dlist_vt_reverse (xs) = let
+//
+fun loop (
+  nxs: gnode (a), res: gnode1 (a)
+) : gnode1 (a) = let
+  val iscons = gnodelst_is_cons (nxs)
+in
+//
+if iscons then let
+  val nx = nxs
+  val nxs = gnode_get_next (nx)
+  val ( ) = gnode_link (nx, res)
+in
+  loop (nxs, nx)
+end else res // end of [if]
+//
+end // end of [loop]
+//
+val nxs = xs
+val iscons = gnodelst_is_cons (nxs)
+//
+in
+//
+if iscons then let
+  val nx = nxs
+  val nxs = gnode_get_next (nx)
+  val nxp = gnode_get_prev (nx)
+  val ( ) = gnode_set_next_null (nx)
+  val res = $effmask_all (loop (nxs, nx))
+  val ( ) = gnode_link01 (nxp, res)
+in
+  res
+end else
+  nxs
+// end of [if]
+//
+end // end of [dlist_vt_reverse]
+
+(* ****** ****** *)
+
+implement{a}
 dlist_vt_free (xs) = gnodelst_free<a> (xs)
+
+(* ****** ****** *)
+
+implement{}
+fprint_dlist_vt$sep
+  (out) = fprint_string (out, "->")
+implement{a}
+fprint_dlist_vt (out, xs) = let
+//
+val nxs = xs
+//
+fun loop (
+  out: FILEref, nxs: gnode0 (a), i: int
+) : void = let
+  val iscons = gnodelst_is_cons (nxs)
+in
+//
+if iscons then let
+  val nx0 = nxs
+  val nxs = gnode_get_next (nx0)
+  val () =
+    if i > 0 then fprint_dlist_vt$sep (out)
+  // end of [val]
+  val [l:addr] p = gnode_getref_elt<a> (nx0)
+  prval (pf, fpf) = $UN.ptr_vtake {a}{l} (p)
+  val () = fprint_ref (out, !p)
+  prval () = fpf (pf)
+in
+  loop (out, nxs, i+1)
+end // end of [if]
+//
+end // end of [loop]
+//
+in
+  loop (out, nxs, 0)
+end // end of [fprint_dlist_vt]
+
+(* ****** ****** *)
+
+implement{}
+fprint_rdlist_vt$sep
+  (out) = fprint_string (out, "<-")
+implement{a}
+fprint_rdlist_vt (out, xs) = let
+//
+val nxs = xs
+//
+fun loop (
+  out: FILEref, nxs: gnode0 (a), i: int
+) : void = let
+  val iscons = gnodelst_is_cons (nxs)
+in
+//
+if iscons then let
+  val nx0 = nxs
+  val nxs = gnode_get_prev (nx0)
+  val () =
+    if i > 0 then fprint_rdlist_vt$sep (out)
+  // end of [val]
+  val [l:addr] p = gnode_getref_elt<a> (nx0)
+  prval (pf, fpf) = $UN.ptr_vtake {a}{l} (p)
+  val () = fprint_ref (out, !p)
+  prval () = fpf (pf)
+in
+  loop (out, nxs, i+1)
+end // end of [if]
+//
+end // end of [loop]
+//
+val iscons = gnodelst_is_cons (nxs)
+//
+in
+  if iscons then loop (out, gnode_get_prev (nxs), 0) else ()
+end // end of [fprint_rdlist_vt]
 
 (* ****** ****** *)
 
@@ -147,6 +318,23 @@ gnode_free_elt
   val nx = gnode_decode (nx)
   val~GNODE2 (x, _, _) = (nx); val () = res := x in (*nothing*)
 end // end of [gnode_free_elt]
+
+(* ****** ****** *)
+
+implement{a}
+gnode_getref_elt
+  (nx) = let
+//
+val nx = gnode_decode (nx)
+//
+val @GNODE2 (elt, _, _) = nx
+val p_elt = addr@ (elt)
+prval () = fold@ (nx)
+prval () = gnode2_vfree (nx)
+//
+in
+  p_elt
+end // end of [gnode_getref_elt]
 
 (* ****** ****** *)
 

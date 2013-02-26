@@ -300,6 +300,12 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
+| PMVsizeof (hselt) => {
+    val () = prstr "PMVsizeof("
+    val () = fprint_hisexp (out, hselt)
+    val () = prstr ")"
+  }
+//
 | PMVcstsp (x) => {
     val () = fprint_primcstsp (out, x)
   }
@@ -318,12 +324,6 @@ case+ x.primval_node of
     val () = fprint_d2cst (out, d2c)
     val () = prstr ", "
     val () = fprint_primval (out, arg)
-    val () = prstr ")"
-  }
-//
-| PMVsizeof (hselt) => {
-    val () = prstr "PMVsizeof("
-    val () = fprint_hisexp (out, hselt)
     val () = prstr ")"
   }
 //

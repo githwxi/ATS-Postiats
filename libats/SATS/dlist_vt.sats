@@ -95,10 +95,9 @@ dlist_vt_cons {r:int}
 // end of [dlist_vt_cons]
 
 fun{a:vt0p}
-dist_vt_uncons
-  {r:int | r > 0}
+dlist_vt_uncons {r:int | r > 0}
   (xs: &dlist_vt (INV(a), 0, r) >> dlist_vt (a, 0, r-1)):<!wrt> (a)
-// end of [dist_vt_uncons]
+// end of [dlist_vt_uncons]
 
 (* ****** ****** *)
 
@@ -108,10 +107,16 @@ dlist_vt_snoc {f:int}
 // end of [dlist_vt_snoc]
 
 fun{a:vt0p}
-dist_vt_unsnoc
-  {f:int | f > 0}
+dlist_vt_unsnoc {f:int | f > 0}
   (xs: &dlist_vt (INV(a), f, 1) >> dlist_vt (a, f-1, 1)):<!wrt> (a)
-// end of [dist_vt_unsnoc]
+// end of [dlist_vt_unsnoc]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+dlist_vt_make_list
+  {n:int} (xs: list (INV(a), n)):<!wrt> dlist_vt (a, 0, n)
+// end of [dlist_vt_make_list]
 
 (* ****** ****** *)
 
@@ -208,7 +213,7 @@ rdlist_vt_move
 fun{a:vt0p}
 rdlist_vt_move_all
   {f,r:int | r >= 0}
-  (xs: dlist_vt (INV(a), f, r)):<> dlist_vt (a, 0, f+r)
+  (xs: dlist_vt (INV(a), f, r)):<> dlist_vt (a, 0(*front*), f+r)
 // end of [rdlist_vt_move_all]
 
 (* ****** ****** *)
@@ -261,6 +266,18 @@ rdlist_vt_append
 
 (* ****** ****** *)
 
+fun{a:vt0p}
+dlist_vt_reverse
+  {f,r:int} (xs: dlist_vt (INV(a), f, r)):<!wrt> dlist_vt (INV(a), f, r)
+// end of [dlist_vt_reverse]
+
+fun{a:vt0p}
+rdlist_vt_reverse
+  {f,r:int} (xs: dlist_vt (INV(a), f, r)):<!wrt> dlist_vt (INV(a), f, r)
+// end of [rdlist_vt_reverse]
+
+(* ****** ****** *)
+
 fun{a:t0p}
 dlist_vt_free {r:int} (xs: dlist_vt (INV(a), 0, r)):<!wrt> void
 
@@ -302,6 +319,22 @@ a:vt0p}{env:vt0p
 } rdlist_vt_foreach_env
   {f,r:int} (xs: !dlist_vt (INV(a), f, r), env: &env): void
 // end of [rdlist_vt_foreach_env]
+
+(* ****** ****** *)
+
+fun{}
+fprint_dlist_vt$sep (out: FILEref): void
+fun{a:vt0p}
+fprint_dlist_vt
+  {f,r:int} (out: FILEref, xs: !dlist_vt (INV(a), f, r)): void
+// end of [fprint_dlist_vt]
+
+fun{}
+fprint_rdlist_vt$sep (out: FILEref): void
+fun{a:vt0p}
+fprint_rdlist_vt
+  {f,r:int} (out: FILEref, xs: !dlist_vt (INV(a), f, r)): void
+// end of [fprint_rdlist_vt]
 
 (* ****** ****** *)
 

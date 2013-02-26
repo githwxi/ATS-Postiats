@@ -397,6 +397,8 @@ and primval_node =
   | PMVi0nt of (i0nt)
   | PMVf0loat of (f0loat)
 //
+  | PMVsizeof of (hisexp)
+//
   | PMVcstsp of (primcstsp)
 //
   | PMVtop of ()
@@ -405,8 +407,6 @@ and primval_node =
   | PMVextval of (string(*name*))
 //
   | PMVcastfn of (d2cst, primval)
-//
-  | PMVsizeof of (hisexp)
 //
   | PMVselcon of (primval, hisexp(*tysum*), label)
   | PMVselect of (primval, hisexp(*tyroot*), primlab)
@@ -417,6 +417,7 @@ and primval_node =
 //
   | PMVptrof of (primval)
   | PMVptrofsel of (primval, hisexp(*tyroot*), primlablst)
+//
   | PMVrefarg of (int(*knd*), primval)
 //
   | PMVfunlab of (funlab)
@@ -618,8 +619,15 @@ fun primval_f0loat
 
 (* ****** ****** *)
 
+fun primval_sizeof
+  (loc: location, hse: hisexp, hselt: hisexp): primval
+// end of [primval_sizeof]
+
+(* ****** ****** *)
+
 fun primval_cstsp
-  (loc: location, hse: hisexp, x: primcstsp): primval
+  (loc: location, hse: hisexp, cstsp: primcstsp): primval
+// end of [primval_cstsp]
 
 (* ****** ****** *)
 
@@ -637,12 +645,6 @@ fun primval_extval
 fun primval_castfn (
   loc: location, hse: hisexp, d2c: d2cst, arg: primval
 ) : primval // end of [primval_castfn]
-
-(* ****** ****** *)
-
-fun primval_sizeof
-  (loc: location, hse: hisexp, hselt: hisexp): primval
-// end of [primval_sizeof]
 
 (* ****** ****** *)
 

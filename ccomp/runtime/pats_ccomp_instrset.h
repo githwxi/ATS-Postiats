@@ -100,10 +100,13 @@
 #define ATSPMVextval(id) (id)
 
 /* ****** ****** */
-/*
-** HX: castfn application
-*/
-#define ATSPMVcastfn(d2c, hit, arg) ((hit)arg)
+
+#define ATSPMVptrof(lval) (&(lval))
+
+/* ****** ****** */
+
+#define ATSPMVrefarg0(val) (val)
+#define ATSPMVrefarg1(ref) (ref)
 
 /* ****** ****** */
 
@@ -111,16 +114,15 @@
 
 /* ****** ****** */
 
-#define ATSPMVptrof(lval) (&(lval))
-
-#define ATSPMVrefarg0(val) (val)
-#define ATSPMVrefarg1(ref) (ref)
-
-/* ****** ****** */
-
 #define ATSPMFnot(x) (0 == (x))
 #define ATSPMFptriscons(x) (0 != (void*)(x))
 #define ATSPMFptrisnull(x) (0 == (void*)(x))
+
+/* ****** ****** */
+/*
+** HX: castfn application
+*/
+#define ATSPMVcastfn(d2c, hit, arg) ((hit)arg)
 
 /* ****** ****** */
 

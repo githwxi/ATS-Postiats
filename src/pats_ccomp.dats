@@ -199,42 +199,57 @@ primval_var
 (* ****** ****** *)
 
 implement
-primval_int (loc, hse, i) =
+primval_int
+  (loc, hse, i) =
   primval_make_node (loc, hse, PMVint (i))
 // end of [primval_int]
 
 implement
-primval_bool (loc, hse, b) =
+primval_bool
+  (loc, hse, b) =
   primval_make_node (loc, hse, PMVbool (b))
 // end of [primval_bool]
 
 implement
-primval_char (loc, hse, c) =
+primval_char
+  (loc, hse, c) =
   primval_make_node (loc, hse, PMVchar (c))
 // end of [primval_char]
 
 implement
-primval_string (loc, hse, str) =
+primval_string
+  (loc, hse, str) =
   primval_make_node (loc, hse, PMVstring (str))
 // end of [primval_string]
 
 (* ****** ****** *)
 
 implement
-primval_i0nt (loc, hse, x) =
+primval_i0nt
+  (loc, hse, x) =
   primval_make_node (loc, hse, PMVi0nt (x))
 // end of [primval_i0nt]
 
 implement
-primval_f0loat (loc, hse, x) =
+primval_f0loat
+  (loc, hse, x) =
   primval_make_node (loc, hse, PMVf0loat (x))
 // end of [primval_f0loat]
 
 (* ****** ****** *)
 
 implement
-primval_cstsp (loc, hse, x) =
-  primval_make_node (loc, hse, PMVcstsp (x))
+primval_sizeof
+  (loc, hse, hselt) =
+  primval_make_node (loc, hse, PMVsizeof (hselt))
+// end of [primval_sizeof]
+
+(* ****** ****** *)
+
+implement
+primval_cstsp
+  (loc, hse, cstsp) =
+  primval_make_node (loc, hse, PMVcstsp (cstsp))
 // end of [primval_cstsp]
 
 (* ****** ****** *)
@@ -263,13 +278,6 @@ primval_castfn
   (loc, hse, d2c, arg) =
   primval_make_node (loc, hse, PMVcastfn (d2c, arg))
 // end of [primval_castfn]
-
-(* ****** ****** *)
-
-implement
-primval_sizeof (loc, hse, hselt) =
-  primval_make_node (loc, hse, PMVsizeof (hselt))
-// end of [primval_sizeof]
 
 (* ****** ****** *)
 
@@ -310,7 +318,8 @@ primval_sel_ptr
 (* ****** ****** *)
 
 implement
-primval_ptrof (loc, hse, pmv) =
+primval_ptrof
+  (loc, hse, pmv) =
   primval_make_node (loc, hse, PMVptrof (pmv))
 // end of [primval_ptrof]
 
@@ -324,19 +333,22 @@ primval_ptrofsel (
 (* ****** ****** *)
 
 implement
-primval_refarg (loc, hse, knd, pmv) =
+primval_refarg
+  (loc, hse, knd, pmv) =
   primval_make_node (loc, hse, PMVrefarg (knd, pmv))
 // end of [primval_refarg]
 
 (* ****** ****** *)
 
 implement
-primval_funlab (loc, hse, fl) =
+primval_funlab
+  (loc, hse, fl) =
   primval_make_node (loc, hse, PMVfunlab (fl))
 // end of [primval_funlab]
 
 implement
-primval_funlab2 (loc, hse, d2v, fl) =
+primval_funlab2
+  (loc, hse, d2v, fl) =
   primval_make_node (loc, hse, PMVfunlab2 (d2v, fl))
 // end of [primval_funlab2]
 

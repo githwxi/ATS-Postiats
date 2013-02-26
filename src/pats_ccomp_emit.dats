@@ -170,6 +170,28 @@ case+ c of
 //
 end // end of [auxch]
 
+fun auxch2 (
+  out: FILEref, c: char
+) : void = let
+in
+//
+case+ c of
+| '"' => emit_text (out, "\\\"")
+| '\n' => emit_text (out, "\\n")
+| '\t' => emit_text (out, "\\t")
+| '\\' => emit_text (out, "\\\\")
+| _ => (
+    if char_isprint (c)
+      then fprint_char (out, c)
+      else let
+        val uc = uchar_of_char (c) in
+        fprintf (out, "\\%.3o", @($UN.cast2uint(uc)))
+      end // end of [else]
+    // end of [if]
+  ) // end of [_]
+//
+end // end of [auxch2]
+
 in (* in of [local] *)
 
 implement
@@ -178,16 +200,6 @@ emit_char (out, c) = auxch (out, c)
 implement
 emit_string
   (out, str) = let
-//
-fun auxch2 (
-  out: FILEref, c: char
-) : void = let
-in
-//
-if (c = '"') then
-  emit_text (out, "\\\"") else auxch (out, c)
-// end of [if]
-end // end of [auxch2]
 //
 fun auxstr (
   out: FILEref, str: string

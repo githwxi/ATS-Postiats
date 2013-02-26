@@ -253,12 +253,12 @@ hipatck_ccomp_sum (
 //
 val loc0 = hip0.hipat_loc
 //
-(*
+// (*
 val () = (
   println! ("hipatck_ccomp_sum: loc0 = ", loc0);
   println! ("hipatck_ccomp_sum: hip0 = ", hip0);
 ) // end of [val]
-*)
+// *)
 val-HIPcon (pck, d2c, hse_sum, lhips) = hip0.hipat_node
 val () = hipatck_ccomp_con (env, res, fail, loc0, d2c, pmv0)
 //
@@ -458,8 +458,15 @@ fun auxvar (
 in
 //
 case+ 0 of
+| _ when utimes = 0 => ()
 | _ when
-    utimes = 0 => () // HX: [d2v] is unused
+    d2var_is_mutabl (d2v) => let
+    val hse = hipat_get_type (hip)
+    val pmv = primval_selcon (loc, hse, pmv0, hse_sum, lab)
+    val () = ccompenv_add_varbind (env, d2v, pmv)
+  in
+    // nothing
+  end // end of [_]
 | _ => let
     val hse = hipat_get_type (hip)
     val tmp = tmpvar_make (loc, hse)
@@ -530,7 +537,12 @@ implement
 himatch_ccomp_sum (
   env, res, lev0, hip0, pmv0
 ) = let
-  val-HIPcon (pck, d2c, hse_sum, lhips) = hip0.hipat_node
+//
+val (
+) = println! ("himatch_ccomp_sum: hip0 = ", hip0)
+//
+val-HIPcon (pck, d2c, hse_sum, lhips) = hip0.hipat_node
+//
 in
   auxpatlst (env, res, lev0, 0(*narg*), lhips, pmv0, hse_sum)
 end // end of [himatch_ccomp_sum]
@@ -549,12 +561,12 @@ fun auxvar (
 //
 val n = d2var_get_utimes (d2v)
 val () = d2var_set_level (d2v, lev0)
-(*
+// (*
 val () = (
   println! ("himatch_ccomp: auxvar: n = ", n);
   println! ("himatch_ccomp: auxvar: d2v = ", d2v);
 ) // end of [val]
-*)
+// *)
 //
 in
 //
@@ -570,7 +582,7 @@ in
     val loc_d2v = d2var_get_loc (d2v)
     val hse_pmv = pmv0.primval_type
     val tmp = tmpvar_make (loc_d2v, hse_pmv)
-    val () = instrseq_add (res, instr_move_val (loc_d2v, tmp, pmv0))
+    val ( ) = instrseq_add (res, instr_move_val (loc_d2v, tmp, pmv0))
     val pmv1 = primval_make_tmp (loc_d2v, tmp)
   in
     ccompenv_add_varbind (env, d2v, pmv1)
@@ -590,13 +602,13 @@ himatch_ccomp (
   env, res, lev0, hip0, pmv0
 ) = let
 //
-(*
+// (*
 val () = begin
   println! ("ccomp_match: lev0 = ", lev0);
   println! ("ccomp_match: hip0 = ", hip0);
   println! ("ccomp_match: pmv0 = ", pmv0);
 end // end [val]
-*)
+// *)
 //
 val loc0 = hip0.hipat_loc
 //
@@ -604,9 +616,8 @@ in
 //
 case+ hip0.hipat_node of
 | HIPany _ => ()
-| HIPvar (d2v) => auxvar (env, res, lev0, d2v, pmv0)
 //
-| HIPcon_any (pck, d2c) => ()
+| HIPvar (d2v) => auxvar (env, res, lev0, d2v, pmv0)
 //
 | HIPint _ => ()
 | HIPbool _ => ()
@@ -617,6 +628,8 @@ case+ hip0.hipat_node of
 | HIPf0loat _ => ()
 //
 | HIPempty () => ()
+//
+| HIPcon_any (pck, d2c) => ()
 //
 | HIPcon _ => himatch_ccomp_sum (env, res, lev0, hip0, pmv0)
 //
