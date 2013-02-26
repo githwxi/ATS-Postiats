@@ -108,20 +108,23 @@ tostring_val (x) =
 #atscode_separator()
 
 implement{a}
-print_val (x) = fprint_val<a> (stdout_ref, x)
-implement{a}
-prerr_val (x) = fprint_val<a> (stderr_ref, x)
-
-implement{a}
 fprint_val (out, x) = let
   val str = tostrptr_val<a> (x)
-  val () = fprint_strptr (out, str)
-  val () = strptr_free (str)
+  val ( ) = fprint_strptr (out, str)
+  val ( ) = strptr_free (str)
 in
   // nothing
 end // end of [fprint_val]
 
+implement{a}
+print_val (x) = fprint_val<a> (stdout_ref, x)
+implement{a}
+prerr_val (x) = fprint_val<a> (stderr_ref, x)
+
 #atscode_separator()
+
+implement(a:t0p)
+fprint_ref<a> (out, x) = fprint_val<a> (out, x)
 
 implement{a}
 print_ref (x) = fprint_ref<a> (stdout_ref, x)
