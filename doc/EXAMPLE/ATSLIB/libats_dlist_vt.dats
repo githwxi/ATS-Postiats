@@ -36,30 +36,24 @@ val out = stdout_ref
 val () = {
 //
 typedef T = int
+//
 val xs = dlist_vt_nil {T} ()
 val xs = dlist_vt_cons (1, xs)
 val xs = dlist_vt_cons (2, xs)
 val xs = dlist_vt_cons (3, xs)
+val xs = dlist_vt_cons (4, xs)
+val xs = dlist_vt_cons (5, xs)
 //
-val () = fprint_dlist_vt<T> (out, xs)
+val (
+) = fprint_dlist_vt<T> (out, xs)
 val () = fprint_newline (out)
 //
-val xs = dlist_vt_move (xs)
-val xs = dlist_vt_move (xs)
-val () = fprint_dlist_vt<T> (out, xs)
-val () = fprint_newline (out)
-val () = fprint_rdlist_vt<T> (out, xs)
-val () = fprint_newline (out)
-//
-val xs = rdlist_vt_move (xs)
-val () = fprint_dlist_vt<T> (out, xs)
+implement{}
+fprint_dlist_vt$sep (out) = fprint_string (out, "<->")
+val (
+) = fprint_dlist_vt<T> (out, xs)
 val () = fprint_newline (out)
 //
-val xs = dlist_vt_reverse (xs)
-val () = fprint_dlist_vt<T> (out, xs)
-val () = fprint_newline (out)
-//
-val xs = rdlist_vt_move (xs)
 val () = dlist_vt_free (xs)
 //
 } // end of [val]

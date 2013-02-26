@@ -102,10 +102,43 @@ end // end of [dlist_vt_snoc]
 
 (* ****** ****** *)
 
-implement
-dlist_vt_make_list (xs) = let
+implement{a}
+dlist_vt_make_list
+  (xs) = let
+//
+fun loop (
+  nx0: gnode1 (a), xs: List (a)
+) : void = let
 in
 //
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val nx1 =
+      gnode_make_elt<a> (x)
+    val () = gnode_link (nx0, nx1)
+  in
+    loop (nx1, xs)
+  end // end of [loop]
+| list_nil () => let
+    val () = gnode_set_next_null (nx0)
+  in
+    // nothing
+  end // end of [list_nil]
+//
+end // end of [loop]
+//
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val nx0 = gnode_make_elt<a> (x)
+    val () = $effmask_all (loop (nx0, xs))
+  in
+    nx0 (*first-node*)
+  end // end of [list_cons]
+| list_nil () => dlist_vt_nil ()
 //
 end // end of [dlist_vt_make_list]
 
