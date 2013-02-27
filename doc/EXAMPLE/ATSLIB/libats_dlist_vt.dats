@@ -48,11 +48,16 @@ val (
 ) = fprint_dlist_vt<T> (out, xs)
 val () = fprint_newline (out)
 //
-implement{}
-fprint_dlist_vt$sep (out) = fprint_string (out, "<->")
+val xs = dlist_vt_move_all (xs)
+//
 val (
 ) = fprint_dlist_vt<T> (out, xs)
 val () = fprint_newline (out)
+val (
+) = fprint_rdlist_vt<T> (out, xs)
+val () = fprint_newline (out)
+//
+val xs = rdlist_vt_move_all (xs)
 //
 val () = dlist_vt_free (xs)
 //
