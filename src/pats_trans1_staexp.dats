@@ -217,6 +217,12 @@ in
   s1exp_err (loc0)
 end // end of [s0exp_tr_errmsg_opr]
 
+fn aux_extarg
+  (s0e: s0exp): s1explst = let
+  val s1e = s0exp_tr (s0e) in case+ s1e.s1exp_node of
+  | S1Elist (_(*npf*), s1es) => s1es | _ => list_sing (s1e)
+end // end of [aux_extarg]
+
 in // in of [local]
 
 implement
@@ -234,20 +240,19 @@ aux_item (
   | S0Eint (int) => FXITMatm (s1exp_i0nt (loc0, int))
   | S0Echar (char) => FXITMatm (s1exp_c0har (loc0, char))
 //
-  | S0Etkname (name) => FXITMatm (s1exp_tkname (loc0, name))
-//
-  | S0Eextype (name, s0es) => let
-      fun f (
-        s0e: s0exp
-      ) : s1explst = let
-        val s1e = s0exp_tr (s0e) in
-        case+ s1e.s1exp_node of
-        | S1Elist (_(*npf*), s1es) => s1es | _ => list_sing (s1e)
-      end // end of [f]
-      val s1ess = l2l (list_map_fun (s0es, f))
+  | S0Eextype
+      (name, s0es) => let
+      val s1ess = list_map_fun (s0es, aux_extarg)
     in
-      FXITMatm (s1exp_extype (loc0, name, s1ess))
+      FXITMatm (s1exp_extype (loc0, name, (l2l)s1ess))
     end // end of [S0Eextype]
+//
+  | S0Eextkind
+      (name, s0es) => let
+      val s1ess = list_map_fun (s0es, aux_extarg)
+    in
+      FXITMatm (s1exp_extkind (loc0, name, (l2l)s1ess))
+    end // end of [S0Eextkind]
 //
   | S0Eide id when id = AMPERSAND => let
       fn f (

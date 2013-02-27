@@ -1598,12 +1598,20 @@ case+ s1e0.s1exp_node of
 //
 | S1Echar (char) => s2exp_int_char (char) // HX: it is signed!
 //
-| S1Etkname (name) => s2exp_tkname (name)
-| S1Eextype (name, s1ess) => let
-    val s2ess = list_map_fun (s1ess, s1explst_trdn_vt0ype)
+| S1Eextype
+    (name, s1ess) => let
+    val s2ess =
+      list_map_fun (s1ess, s1explst_trdn_vt0ype)
   in
     s2exp_extype_srt (s2rt_vt0ype, name, (l2l)s2ess)
   end // end of [S1Eextype]
+| S1Eextkind
+    (name, s1ess) => let
+    val s2ess =
+      list_map_fun (s1ess, s1explst_trdn_vt0ype)
+  in
+    s2exp_extkind_srt (s2rt_tkind, name, (l2l)s2ess)
+  end // end of [S1Eextkind]
 //
 | S1Eapp _ => let
     typedef T = locs1explst

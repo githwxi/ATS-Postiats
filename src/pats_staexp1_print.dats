@@ -354,13 +354,17 @@ case+ x.s1exp_node of
     val () = prstr ")"
   }
 //
-| S1Etkname (name) => {
-    val () = prstr "S1Etkname("
+| S1Eextype
+    (name, arg) => {
+    val () = prstr "S1Eextype("
     val () = fprint_string (out, name)
+    val () = prstr "; "
+    val () = $UT.fprintlst (out, arg, "; ", fprint_s1explst)
     val () = prstr ")"
   }
-| S1Eextype (name, arg) => {
-    val () = prstr "S1Eextype("
+| S1Eextkind
+    (name, arg) => {
+    val () = prstr "S1Eextkind("
     val () = fprint_string (out, name)
     val () = prstr "; "
     val () = $UT.fprintlst (out, arg, "; ", fprint_s1explst)

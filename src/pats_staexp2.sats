@@ -367,8 +367,8 @@ s2exp_node =
 //
   | S2Ecst of s2cst // constant
 //
-  | S2Etkname of (string(*name*)) // primitive tkind
   | S2Eextype of (string(*name*), s2explstlst) // external type
+  | S2Eextkind of (string(*name*), s2explstlst) // external tkind
 //
   | S2Evar of s2var // variable
   | S2EVar of s2Var // existential variable
@@ -928,11 +928,12 @@ fun s2exp_hole (x: s2hole): s2exp // HX: static context hole
 *)
 fun s2exp_var_srt (s2t: s2rt, s2v: s2var): s2exp
 
-fun s2exp_tkname (name: string): s2exp
-
 fun s2exp_extype_srt
   (s2t: s2rt, name: string, arg: s2explstlst): s2exp
 // end of [s2exp_extype_srt]
+fun s2exp_extkind_srt
+  (s2t: s2rt, name: string, arg: s2explstlst): s2exp
+// end of [s2exp_extkind_srt]
 
 (* ****** ****** *)
 
@@ -1175,8 +1176,8 @@ datatype s2kexp =
   | S2KEany of ()
   | S2KEcst of s2cst
   | S2KEvar of s2var
-  | S2KEtkname of (string(*name*))
   | S2KEextype of (string(*name*), s2kexplstlst)
+  | S2KEextkind of (string(*name*), s2kexplstlst)
   | S2KEfun of (s2kexplst(*arg*), s2kexp(*res*))
   | S2KEapp of (s2kexp, s2kexplst)
   | S2KEtyarr of (s2kexp)
@@ -1214,8 +1215,8 @@ datatype s2zexp =
   | S2ZEvar of s2var
   | S2ZEVar of s2Var
 //
-  | S2ZEtkname of (string (*name*))
   | S2ZEextype of (string (*name*), s2zexplstlst)
+  | S2ZEextkind of (string (*name*), s2zexplstlst)
 //
   | S2ZEapp of (s2zexp, s2zexplst)
   | S2ZEtyarr of // array size

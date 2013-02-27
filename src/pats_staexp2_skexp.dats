@@ -76,16 +76,18 @@ case+ s2ke of
     val () = fprint_s2var (out, s2v)
     val () = prstr ")"
   }
-| S2KEtkname (name) => {
-    val () = prstr "S2KEtkname("
-    val () = fprint_string (out, name)
-    val () = prstr ")"
-  }
+//
 | S2KEextype (name, _arg) => {
     val () = prstr "S2KEextype("
     val () = fprint_string (out, name)
     val () = prstr ")"
   }
+| S2KEextkind (name, _arg) => {
+    val () = prstr "S2KEextkind("
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  }
+//
 | S2KEfun (_arg, _res) => {
     val () = prstr "S2KEfun("
     val () = fprint_s2kexplst (out, _arg)
@@ -207,12 +209,14 @@ case s2f0.s2exp_node of
     if isexi then S2KEany () else S2KEvar (s2v)
   end
 //
-| S2EVar (s2V) => S2KEany () // HX: some info can be gathered from s2zexp
+| S2EVar (s2V) => S2KEany () // see s2zexp for info
 //
-| S2Etkname (name) => S2KEtkname (name)
-| S2Eextype (name, _arg) =>
-    S2KEextype (name, aux_arglstlst (env, _arg))
-  (* end of [S2Eextype] *)
+| S2Eextype (
+    name, _arg
+  ) => S2KEextype (name, aux_arglstlst (env, _arg))
+| S2Eextkind (
+    name, _arg
+  ) => S2KEextkind (name, aux_arglstlst (env, _arg))
 //
 | S2Efun (
     _(*fc*), _(*lin*), _(*s2fe*), npf, _arg, _res
@@ -397,12 +401,24 @@ case+ (x1, x2) of
     if s2cst_subeq (s2c1, s2c2) then () else abort ()
 | (S2KEvar s2v1, S2KEvar s2v2) =>
     if s2v1 = s2v2 then () else abort ()
-| (S2KEtkname (name1),
-   S2KEtkname (name2)) => if name1 != name2 then abort ()
-| (S2KEextype (name1, _arg1),
-   S2KEextype (name2, _arg2)) => if name1 = name2
-    then s2kexplstlst_ismat_exn (_arg1, _arg2) else abort ()
-  // end of [if]
+//
+| (
+   S2KEextype (name1, _arg1),
+   S2KEextype (name2, _arg2)
+  ) => (
+    if name1 = name2
+      then s2kexplstlst_ismat_exn (_arg1, _arg2) else abort ()
+    // end of [if]
+  ) (* S2KEextype *)
+| (
+   S2KEextkind (name1, _arg1),
+   S2KEextkind (name2, _arg2)
+  ) => (
+    if name1 = name2
+      then s2kexplstlst_ismat_exn (_arg1, _arg2) else abort ()
+    // end of [if]
+  ) (* S2KEextkind *)
+//
 | (S2KEfun (_arg1, _res1),
    S2KEfun (_arg2, _res2)) => let
     val () =

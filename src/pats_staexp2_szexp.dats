@@ -97,16 +97,18 @@ case+ x of
     val () = prstr ")"
   }
 //
-| S2ZEtkname (name) => {
-    val () = prstr "S2ZEtkname("
-    val () = fprint_string (out, name)
-    val () = prstr ")"
-  }
-| S2ZEextype (name, _arg) => {
+| S2ZEextype
+    (name, _arg) => {
     val () = prstr "S2ZEextype("
     val () = fprint_string (out, name)
     val () = prstr ")"
   } // end of [S2ZEextype]
+| S2ZEextkind
+    (name, _arg) => {
+    val () = prstr "S2ZEextkind("
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  } // end of [S2ZEextkind]
 //
 | S2ZEapp (_fun, _arg) => {
     val () = prstr "S2ZEapp("
@@ -249,9 +251,10 @@ case+ s2f0.s2exp_node of
 | S2Edatconptr _ => S2ZEptr () // boxed
 | S2Edatcontyp _ => S2ZEptr () // boxed
 *)
-| S2Etkname (name) => S2ZEtkname (name)
 | S2Eextype (name, _arg) =>
     S2ZEextype (name, aux_arglstlst (env, _arg))
+| S2Eextkind (name, _arg) =>
+    S2ZEextkind (name, aux_arglstlst (env, _arg))
 //
 | S2Eapp (s2e_fun, s2es_arg) =>
     aux_s2exp_app (env, s2f0.s2exp_srt, s2e_fun, s2es_arg)
@@ -481,17 +484,24 @@ case+ (s2ze1, s2ze2) of
     val () = s2Var_set_szexp (s2V2, s2ze1) in s2ze1
   end // end of [_, S2ZEVar]
 //
-| (S2ZEtkname (name1),
-   S2ZEtkname (name2)) =>
-    if name1 != name2 then abort () else S2ZEtkname (name1)
-//
-| (S2ZEextype (name1, _arg1),
-   S2ZEextype (name2, _arg2)) =>
+| (
+   S2ZEextype (name1, _arg1),
+   S2ZEextype (name2, _arg2)
+  ) =>
     if name1 = name2 then let
       val _arg = s2zexplstlst_merge_exn (_arg1, _arg2)
     in
       S2ZEextype (name1, _arg)
-    end else abort ()
+    end else abort () // end of [if]
+| (
+   S2ZEextkind (name1, _arg1),
+   S2ZEextkind (name2, _arg2)
+  ) =>
+    if name1 = name2 then let
+      val _arg = s2zexplstlst_merge_exn (_arg1, _arg2)
+    in
+      S2ZEextkind (name1, _arg)
+    end else abort () // end of [if]
 //
 | (S2ZEapp (s2ze11, s2zes12),
    S2ZEapp (s2ze21, s2zes22)) => let

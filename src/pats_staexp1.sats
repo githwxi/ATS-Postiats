@@ -406,8 +406,8 @@ datatype s1exp_node =
 //
   | S1Echar of char // character constant
 //
-  | S1Etkname of (string(*name*)) // primitive tkind
   | S1Eextype of (string(*name*), s1explstlst) // extern type
+  | S1Eextkind of (string(*name*), s1explstlst) // extern tkind
 //
   | S1Eapp of (s1exp, location(*arg*), s1explst) // application
   | S1Elam of (s1marg, s1rtopt, s1exp(*body*)) // lambda-abstraction
@@ -490,11 +490,12 @@ fun s1exp_intrep
 fun s1exp_i0nt
   (loc: location, x: i0nt): s1exp
 
-fun s1exp_tkname
-  (loc: location, name: string): s1exp
 fun s1exp_extype (
   loc: location, name: string, arg: s1explstlst
 ) : s1exp // end of [s1exp_extype]
+fun s1exp_extkind (
+  loc: location, name: string, arg: s1explstlst
+) : s1exp // end of [s1exp_extkind]
 
 fun s1exp_ide (loc: location, id: symbol): s1exp
 fun s1exp_sqid (loc: location, sq: s0taq, id: symbol): s1exp

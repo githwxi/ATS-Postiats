@@ -254,20 +254,24 @@ case+ x.s2exp_node of
     val () = prstr ")"
   }
 //
-| S2Etkname (name) => {
-    val () = prstr "S2Etkname("
-    val () = fprint_string (out, name)
-    val () = prstr ")"
-  } // end of [S2Etkname]
 | S2Eextype (name, s2ess) => {
     val () = prstr "S2Eextype("
     val () = fprint_string (out, name)
     val () = (
       case+ s2ess of
-      | list_nil () => ()
-      | list_cons _ => let
-          val () = prstr ("; ") in
-          $UT.fprintlst (out, s2ess, "; ", fprint_s2explst)
+      | list_nil () => () | list_cons _ => let
+          val () = prstr ("; ") in fprint_s2explstlst (out, s2ess)
+        end // end of [list_cons]
+    ) // end of [val]
+    val () = prstr ")"
+  } // end of [S2Eextype]
+| S2Eextkind (name, s2ess) => {
+    val () = prstr "S2Eextkind("
+    val () = fprint_string (out, name)
+    val () = (
+      case+ s2ess of
+      | list_nil () => () | list_cons _ => let
+          val () = prstr ("; ") in fprint_s2explstlst (out, s2ess)
         end // end of [list_cons]
     ) // end of [val]
     val () = prstr ")"

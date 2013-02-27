@@ -498,18 +498,24 @@ case+ x.s0exp_node of
     val () = fprint_c0har (out, x)
     val () = prstr ")"
   }
-| S0Etkname (name) => {
-    val () = prstr "S0Etkname("
-    val () = fprint_string (out, name)
-    val () = prstr ")"
-  }
-| S0Eextype (name, s0es) => {
+//
+| S0Eextype
+    (name, s0es) => {
     val () = prstr "S0Eextype("
     val () = fprint_string (out, name)
     val () = prstr "; "
     val () = fprint_s0explst (out, s0es)
     val () = prstr ")"
   }
+| S0Eextkind
+    (name, s0es) => {
+    val () = prstr "S0Eextkind("
+    val () = fprint_string (out, name)
+    val () = prstr "; "
+    val () = fprint_s0explst (out, s0es)
+    val () = prstr ")"
+  }
+//
 | S0Eapp (s0e1, s0e2) => {
     val () = prstr "S0Eapp("
     val () = fprint_s0exp (out, s0e1)

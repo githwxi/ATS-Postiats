@@ -51,8 +51,8 @@ case+ s2e0.s2exp_node of
 //
 | S2Ecst _ => ()
 //
-| S2Etkname _ => ()
 | S2Eextype (_(*name*), s2ess) => aux_s2explstlst (s2ess, fvs)
+| S2Eextkind (_(*name*), s2ess) => aux_s2explstlst (s2ess, fvs)
 //
 | S2Evar s2v => {
     val () = fvs := s2varset_vt_add (fvs, s2v)
@@ -448,8 +448,8 @@ case+ s2e.s2exp_node of
 //
 | S2Ecst s2c => f_s2cst (s2c)
 //
-| S2Etkname _ => ()
 | S2Eextype (_(*name*), s2ess) => f_s2explstlst (s2ess)
+| S2Eextkind (_(*name*), s2ess) => f_s2explstlst (s2ess)
 //
 | S2Evar s2v => f_s2var (s2v)
 | S2EVar s2V => f_s2Var (s2V)

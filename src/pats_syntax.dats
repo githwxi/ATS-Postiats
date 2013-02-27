@@ -731,16 +731,8 @@ s0exp_tkname (str) = let
   val loc = str.token_loc
   val-T_STRING (name) = str.token_node
 in '{
-  s0exp_loc= loc, s0exp_node= S0Etkname (name)
+  s0exp_loc= loc, s0exp_node= S0Eextkind (name, list_nil ())
 } end // end of [s0exp_tkname]
-
-implement
-s0exp_extkind (tok, str) = let
-  val loc = tok.token_loc + str.token_loc
-  val-T_STRING (name) = str.token_node
-in '{
-  s0exp_loc= loc, s0exp_node= S0Etkname (name)
-} end // end of [s0exp_extkind]
 
 (* ****** ****** *)
 
@@ -767,6 +759,18 @@ s0exp_extype
 in '{
   s0exp_loc= loc, s0exp_node= S0Eextype (name, xs)
 } end // end of [s0exp_extype]
+//
+implement
+s0exp_extkind
+  (tok1, tok2, xs) = let
+  val-T_STRING (name) = tok2.token_node
+  val loc = (case+ xs of
+    | list_nil () => tok1.token_loc + tok2.token_loc
+    | list_cons (x, xs) => loop (tok1, x, xs)
+  ) : location // end of [val]
+in '{
+  s0exp_loc= loc, s0exp_node= S0Eextkind (name, xs)
+} end // end of [s0exp_extkind]
 //
 end // end of [local]
 

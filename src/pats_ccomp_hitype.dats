@@ -873,8 +873,9 @@ in
 case+
   s2e0.s2exp_node of
 //
-| S2Etkname (name) => HITnmd (name)
 | S2Eextype (name, _) => HITnmd (name)
+| S2Eextkind (name, _) => HITnmd (name)
+//
 | S2EVar (s2V) => hitype_none ()
 | _ => let
     val hse0 = $TYER.s2exp_tyer_shallow ($LOC.location_dummy, s2e0)

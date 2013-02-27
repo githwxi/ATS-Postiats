@@ -303,8 +303,8 @@ case+ s2e0.s2exp_node of
 //
 | S2Ecst _ => s2e0
 //
-| S2Etkname _ => s2e0
 | S2Eextype _ => s2e0
+| S2Eextkind _ => s2e0
 //
 | S2Evar (s2v) =>
     s2exp_hnfize_flag_svar (s2e0, s2v, flag)
@@ -658,20 +658,26 @@ case s2en10 of
   | _ => $raise (SYNEQexn)
   ) // end of [S2Ecst]
 //
-| S2Etkname (name1) => (
+| S2Eextype
+  (name1, s2ess1) => (
   case+ s2en20 of
-  | S2Etkname (name2) =>
-      if name1 != name2 then $raise (SYNEQexn)
-  | _ => $raise (SYNEQexn)
-  )
-| S2Eextype (name1, s2ess1) => (
-  case+ s2en20 of
-  | S2Eextype (name2, s2ess2) =>
+  | S2Eextype
+      (name2, s2ess2) =>
       if name1 = name2 then
         s2explstlst_syneq_exn (s2ess1, s2ess2) else $raise (SYNEQexn)
       // end of [if]
   | _ => $raise (SYNEQexn)
   ) // end of [S2Eextype]
+| S2Eextkind
+  (name1, s2ess1) => (
+  case+ s2en20 of
+  | S2Eextkind
+      (name2, s2ess2) =>
+      if name1 = name2 then
+        s2explstlst_syneq_exn (s2ess1, s2ess2) else $raise (SYNEQexn)
+      // end of [if]
+  | _ => $raise (SYNEQexn)
+  ) // end of [S2Eextkind]
 //
 | S2Evar (s2v1) => (
   case+ s2en20 of

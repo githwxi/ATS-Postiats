@@ -83,12 +83,8 @@ case+ s2e0.s2exp_node of
     val () = prstr ")"
   }
 //
-| S2Etkname (name) => {
-    val () = prstr "S2Etkname("
-    val () = fprint_string (out, name)
-    val () = prstr ")"
-  } // end of [S2Etkname]
-| S2Eextype (name, s2ess) => {
+| S2Eextype
+    (name, s2ess) => {
     val () = prstr "S2Eextype("
     val () = fprint_string (out, name)
     val () = (
@@ -100,6 +96,19 @@ case+ s2e0.s2exp_node of
     ) // end of [val]
     val () = prstr ")"
   } // end of [S2Eextype]
+| S2Eextkind
+    (name, s2ess) => {
+    val () = prstr "S2Eextkind("
+    val () = fprint_string (out, name)
+    val () = (
+      case+ s2ess of
+      | list_nil () => ()
+      | list_cons _ => let
+          val () = prstr ("; ") in aux_s2explstlst (out, n, s2ess)
+        end // end of [list_cons]
+    ) // end of [val]
+    val () = prstr ")"
+  } // end of [S2Eextkind]
 //
 | S2Evar (x) => {
     val () = prstr "S2Evar("

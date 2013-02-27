@@ -67,7 +67,7 @@ typedef filename = $FIL.filename
 abstype synent // a boxed union
 //
 castfn synent_encode {a:type} (x: a): synent
-castfn synent_decode {a:type} (x: synent): a
+castfn synent_decode {a:type} (x: synent): (a)
 //
 fun synent_null {a:type} (): a // = null
 fun synent_is_null {a:type} (x: a):<> bool
@@ -541,8 +541,8 @@ s0exp_node =
   | S0Eint of i0nt
   | S0Echar of c0har
 //
-  | S0Etkname of (string(*name*))
   | S0Eextype of (string(*name*), s0explst(*arg*))
+  | S0Eextkind of (string(*name*), s0explst(*arg*))
 //
   | S0Eapp of (s0exp, s0exp)
   | S0Elam of (s0marg, s0rtopt, s0exp)
@@ -642,9 +642,8 @@ fun s0exp_imp
 fun s0exp_imp_nil (t: token): s0exp
 
 fun s0exp_tkname (str: token): s0exp
-fun s0exp_extkind (_1: token, str: token): s0exp
-
-fun s0exp_extype (_1: token, _2: token, xs: List s0exp): s0exp
+fun s0exp_extype (_1: token, _2: token, xs: s0explst): s0exp
+fun s0exp_extkind (_1: token, _2: token, xs: s0explst): s0exp
 
 fun s0exp_lams (
   _1: token, _2: s0marglst, _3: s0rtopt, _4: s0exp

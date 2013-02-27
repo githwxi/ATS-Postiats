@@ -781,8 +781,8 @@ case+ s2e0.s2exp_node of
 //
 | S2Ecst _ => s2e0
 //
-| S2Etkname _ => s2e0
-| S2Eextype (name, s2ess) => let
+| S2Eextype
+    (name, s2ess) => let
     val f0 = flag
     val s2ess = s2explstlst_subst_flag (sub, s2ess, flag)
   in
@@ -790,6 +790,15 @@ case+ s2e0.s2exp_node of
       val s2e_res = s2exp_extype_srt (s2t0, name, s2ess) in s2e_res
     end else s2e0 // end of [if]
   end // end of [S2Eextype]
+| S2Eextkind
+    (name, s2ess) => let
+    val f0 = flag
+    val s2ess = s2explstlst_subst_flag (sub, s2ess, flag)
+  in
+    if flag > f0 then let
+      val s2e_res = s2exp_extkind_srt (s2t0, name, s2ess) in s2e_res
+    end else s2e0 // end of [if]
+  end // end of [S2Eextkind]
 //
 | S2Evar (s2v) => s2var_subst_flag (sub, s2e0, flag, s2v)
 | S2EVar (s2V) => s2Var_subst_flag (sub, s2e0, flag, s2V)

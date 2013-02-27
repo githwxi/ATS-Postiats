@@ -665,10 +665,8 @@ end // end of [p_apps0exp]
 
 (*
 exts0exp :=
-  | DLREXTYPE // eg: $extype"list" (int)
-    LITERAL_string {atms0exp}*
-  | DLREXTKIND // eg: $extkind"atstype_int64"
-    LITERAL_string
+  | DLREXTYPE LITERAL_string {atms0exp}* // eg: $extype"list" (int)
+  | DLREXTKIND LITERAL_string {atms0exp}* // eg: $extkind"atstype_int64"
 *)
 
 fun
@@ -691,7 +689,7 @@ tok.token_node of
   in
     if err = err0 then let
       val arg = pstar_fun (buf, bt, p_atms0exp)
-      val arg = list_of_list_vt (arg) // funization
+      val arg = list_of_list_vt (arg) // nonlinization
     in
       s0exp_extype (tok, str, arg)
     end else tokbuf_set_ntok_null (buf, n0) // endif
@@ -701,9 +699,12 @@ tok.token_node of
     val () = incby1 ()
     val str = p_s0tring (buf, bt, err)
   in
-    if err = err0 then
-      s0exp_extkind (tok, str) else tokbuf_set_ntok_null (buf, n0)
-    // end of [if]
+    if err = err0 then let
+      val arg = pstar_fun (buf, bt, p_atms0exp)
+      val arg = list_of_list_vt (arg) // nonlinization
+    in
+      s0exp_extkind (tok, str, arg)
+    end else tokbuf_set_ntok_null (buf, n0) // endif
   end // end of [T_DLREXTKIND]
 | _ => let
     val () = err := err + 1

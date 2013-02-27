@@ -343,14 +343,16 @@ in '{
 (* ****** ****** *)
 
 implement
-s1exp_tkname (loc, name) = '{
-  s1exp_loc= loc, s1exp_node= S1Etkname (name)
-}
-
-implement
 s1exp_extype (loc, name, arg) = '{
   s1exp_loc= loc, s1exp_node= S1Eextype (name, arg)
 }
+
+implement
+s1exp_extkind (loc, name, arg) = '{
+  s1exp_loc= loc, s1exp_node= S1Eextkind (name, arg)
+}
+
+(* ****** ****** *)
 
 implement
 s1exp_ide (loc, id) = '{
