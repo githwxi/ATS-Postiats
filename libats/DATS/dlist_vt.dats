@@ -55,9 +55,9 @@ staload "libats/SATS/gnode.sats"
 
 (* ****** ****** *)
 
-tkindef
-dlist_kind = "atslib_dlist_kind"
-stadef dlknd = dlist_kind
+stadef
+dlist_kind = $extkind"atslib_dlist_kind"
+stadef dlknd = dlist_kind // abbreviation
 
 (* ****** ****** *)
 
@@ -70,7 +70,7 @@ gnode1 (a:vt0p) = gnode1 (dlist_kind, a)
 
 assume
 dlist_vtype
-  (a:vt@ype, f: int, r: int) = gnode0 (a)
+  (a: vt@ype, f: int, r: int) = gnode0 (a)
 // end of [dlist_vtype]
 
 (* ****** ****** *)
@@ -382,7 +382,7 @@ end // end of [dlist_vt_reverse]
 (* ****** ****** *)
 
 implement{a}
-dlist_vt_free (xs) = gnodelst_free<dlknd><a> (xs)
+dlist_vt_free (xs) = gnodelst_free (xs)
 
 (* ****** ****** *)
 
@@ -406,9 +406,9 @@ if iscons then let
   val () =
     if i > 0 then fprint_dlist_vt$sep (out)
   // end of [val]
-  val [l:addr] p = gnode_getref_elt<dlknd><a> (nx0)
-  prval (pf, fpf) = $UN.ptr_vtake {a}{l} (p)
-  val () = fprint_ref (out, !p)
+  val [l:addr] p_elt = gnode_getref_elt (nx0)
+  prval (pf, fpf) = $UN.ptr_vtake {a}{l} (p_elt)
+  val () = fprint_ref (out, !p_elt)
   prval () = fpf (pf)
 in
   loop (out, nxs, i+1)
@@ -442,8 +442,8 @@ if iscons then let
   val () =
     if i > 0 then fprint_rdlist_vt$sep (out)
   // end of [val]
-  val p_elt = gnode_getref_elt<dlknd><a> (nx0)
-  prval (pf, fpf) = $UN.ptr_vtake {a} (p_elt)
+  val [l:addr] p_elt = gnode_getref_elt (nx0)
+  prval (pf, fpf) = $UN.ptr_vtake {a}{l} (p_elt)
   val () = fprint_ref (out, !p_elt)
   prval () = fpf (pf)
 in
