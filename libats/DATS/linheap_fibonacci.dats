@@ -69,14 +69,29 @@ macdef SZ (i) = g1int2uint<int_kind,size_kind> (,(i))
 //
 (* ****** ****** *)
 
+stadef
+mykind = $extkind"atslib_linheap_fibonacci"
+
+(* ****** ****** *)
+
+typedef gnode
+  (a:vt0p, l:addr) = gnode (mykind, a, l)
+// end of [gnode]
+typedef gnode0 (a:vt0p) = gnode0 (mykind, a)
+typedef gnode1 (a:vt0p) = gnode1 (mykind, a)
+
+(* ****** ****** *)
+
+extern
+fun{a:vt0p}
+gnode_make_elt (x: a):<!wrt> gnode1 (a)
+
 extern
 fun{a:vt0p}
 gnode_get_rank (nx: gnode1 (INV(a))):<> int
 extern
 fun{a:vt0p}
 gnode_set_rank (nx: gnode1 (INV(a)), d: int):<!wrt> void
-
-(* ****** ****** *)
 
 extern
 fun{a:vt0p}

@@ -79,6 +79,23 @@ macdef assertloc_debug (x) = ()
 
 (* ****** ****** *)
 
+stadef
+mykind = $extkind"atslib_linheap_binomial2"
+
+(* ****** ****** *)
+
+typedef gnode
+  (a:vt0p, l:addr) = gnode (mykind, a, l)
+// end of [gnode]
+typedef gnode0 (a:vt0p) = gnode0 (mykind, a)
+typedef gnode1 (a:vt0p) = gnode1 (mykind, a)
+
+(* ****** ****** *)
+
+extern
+fun{a:vt0p}
+gnode_make_elt (x: a):<!wrt> gnode1 (a)
+
 extern
 fun{a:vt0p}
 gnode_get_rank (nx: gnode1 (a)):<> int
@@ -186,7 +203,7 @@ in
     merge_gnode_gnodelst (nx1, r1+1, nxs2)
   end // end of [if]
 end else
-  gnode_cons (nx1, gnode_null<a> ())
+  gnode_cons (nx1, gnode_null ())
 // end of [if]
 //
 end // end of [merge_gnode_gnodelst]
@@ -305,7 +322,7 @@ end // end of [loop]
 //
 var nxs =
   $UN.castvwtp1{gnode0(a)} (hp0)
-val nx_min = loop (nxs, gnode_null<a> ())
+val nx_min = loop (nxs, gnode_null ())
 //
 in
   gnode2ptr (nx_min)
@@ -317,11 +334,11 @@ local
 
 fun{a:vt0p}
 auxrev (
-  nxs: gnode (a)
+  nxs: gnode0 (a)
 ) : gnode0 (a) = let
 //
 fun loop (
-  nxs: gnode (a), res: gnode0 (a)
+  nxs: gnode0 (a), res: gnode0 (a)
 ) : gnode0 (a) = let
   val isnot = gnode_isnot_null (nxs)
 in
@@ -337,7 +354,7 @@ end else res // end of [if]
 end // end of [loop]
 //
 in
-  $effmask_all (loop (nxs, gnode_null<a> ()))
+  $effmask_all (loop (nxs, gnode_null ()))
 end // end of [auxrev]
 
 in // end of [local]

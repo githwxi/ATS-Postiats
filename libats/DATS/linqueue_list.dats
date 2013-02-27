@@ -113,6 +113,19 @@ staload "libats/SATS/gnode.sats"
 
 (* ****** ****** *)
 
+stadef
+mykind = $extkind"atslib_libqueue_list"
+
+(* ****** ****** *)
+
+typedef gnode
+  (a:vt0p, l:addr) = gnode (mykind, a, l)
+// end of [gnode]
+typedef gnode0 (a:vt0p) = gnode0 (mykind, a)
+typedef gnode1 (a:vt0p) = gnode1 (mykind, a)
+
+(* ****** ****** *)
+
 datavtype
 myqueue (
   a:vt@ype+
