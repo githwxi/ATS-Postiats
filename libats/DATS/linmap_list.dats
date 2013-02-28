@@ -33,6 +33,11 @@
 
 (* ****** ****** *)
 
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "libats/SATS/linmap.sats"
 
 (* ****** ****** *)
@@ -165,17 +170,16 @@ implement(k,i)
 linmap_listize_free<mytkind><k,i> (map) = map_decode (map)
 
 (* ****** ****** *)
-////
-implement
-{key,itm}
-linmap_search_ngc
+
+implement(k,i)
+linmap_search_ngc<mytkind><k,i>
   (map, k0) = let
 //
-vtypedef keyitm = @(key, itm)
+vtypedef ki = @(k, i)
 //
 fun loop
   {n:nat} .<n>. (
-  kxs: !list_vt (keyitm, n), k0: key
+  kxs: !list_vt (ki, n), k0: k
 ) :<> Ptr0 = let
 in
 //
@@ -183,7 +187,7 @@ case+ kxs of
 | @list_vt_cons
     (kx, kxs1) => let
     val iseq =
-      equal_key_key<key> (kx.0, k0)
+      equal_key_key<k> (kx.0, k0)
     // end of [val]
   in
     if iseq then let
@@ -201,25 +205,28 @@ case+ kxs of
 //
 end // end of [loop]
 //
+prval () = map_unfold (map)
+val res = loop (map, k0) // : Ptr1
+prval () = map_foldin (map)
+//
 in
-  loop (map, k0)
+  res
 end // end of [linmap_search_ngc]
 
 (* ****** ****** *)
 
-implement
-{key,itm}
-linmap_takeout_ngc
+implement(k,i)
+linmap_takeout_ngc<mytkind><k,i>
   (map, k0) = let
 //
-vtypedef tki = @(key, itm)
+vtypedef ki = @(k, i)
 //
 fun loop (
-  kxs: &List0_vt (tki) >> _, k0: key
-) : mynode0 (key, itm) = let
+  kxs: &List0_vt (ki) >> _, k0: k
+) : mynode0 (mytkind, k, i) = let
 //
-vtypedef tkis = List0_vt (tki)
-vtypedef mynode1 = mynode1 (key, itm)
+vtypedef kis = List0_vt (ki)
+vtypedef mynode1 = mynode1 (mytkind, k, i)
 //
 in
 //
@@ -227,14 +234,14 @@ case+ kxs of
 | @list_vt_cons
     (kx, kxs1) => let
     val iseq =
-      equal_key_key<key> (kx.0, k0)
+      equal_key_key<k> (kx.0, k0)
     // end of [val]
   in
     if iseq then let
       val p1 = addr@ (kxs1)
       prval () = fold@ (kxs)
       val res = $UN.castvwtp0{mynode1} (kxs)
-      val () = kxs := $UN.castvwtp0{tkis} (p1)
+      val () = kxs := $UN.castvwtp0{kis} (p1)
     in
       res
     end else let
@@ -243,13 +250,17 @@ case+ kxs of
     end // end of [if]
   end // end of [list_vt_cons]
 | @list_vt_nil () => let
-    prval () = fold@ (kxs) in mynode_null<key,itm> ()
+    prval () = fold@ (kxs) in mynode_null ()
   end // end of [list_vt_cons]
 //
 end // end of [loop]
 //
+prval () = map_unfold (map)
+val res = loop (map, k0) // : mynode0
+prval () = map_foldin (map)
+//
 in
-  loop (map, k0)
+  res
 end // end of [linmap_takeout_ngc]
 
 (* ****** ****** *)

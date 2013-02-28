@@ -46,7 +46,6 @@ stadef map = map_vtype
 
 fun{key:t0p}
 equal_key_key (x1: key, x2: key):<> bool
-
 fun{key:t0p}
 compare_key_key (x1: key, x2: key):<> int
 
@@ -57,6 +56,8 @@ tk:tk
 } linmap_nil
    {key:t0p;itm:vt0p} ():<> map (tk, key, itm)
 // end of [linmap_nil]
+
+(* ****** ****** *)
 
 fun{
 tk:tk
@@ -71,7 +72,6 @@ tk:tk
 } linmap_is_nil
   {key:t0p;itm:vt0p} (map: !map (tk, key, INV(itm))):<> bool
 // end of [listmap_is_nil]
-
 fun{
 tk:tk
 } linmap_isnot_nil
@@ -95,8 +95,6 @@ fun
 linmap_search (
   map: !map (tk, key, INV(itm)), k0: key, res: &itm? >> opt (itm, b)
 ) : #[b:bool] bool (b)(*found*) // endfun
-
-(* ****** ****** *)
 
 fun
 {tk:tk}
@@ -123,9 +121,8 @@ fun
 {tk:tk}
 {key:t0p;itm:vt0p}
 linmap_insert (
-  map: &map (tk, key, INV(itm)) >> _
-, k0: key, x0: itm, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool (b) // endfun
+  map: &map (tk, key, INV(itm)) >> _, k0: key, x0: itm, res: &itm? >> opt (itm, b)
+) : #[b:bool] bool (b)(*replaced*) // endfun
 
 fun
 {tk:tk}
@@ -228,13 +225,12 @@ linmap_free_ifnil (
 ) :<!wrt> #[b:bool] bool (b)(*~freed*) // end of [linmap_free_ifnil]
 //
 (* ****** ****** *)
-
 (*
 //
 // HX: listization is done in the in-order fashion
 //
 *)
-//
+
 fun
 {tk:tk}
 {key:t0p;itm:t0p}
@@ -251,4 +247,107 @@ linmap_listize_free
 
 (* ****** ****** *)
 
-(* end of [linmap.hats] *)
+absvtype
+linmap_node_vtype
+  (tk:tkind, key:t@ype, itm:vt@ype+, l:addr)
+// end of [linmap_node_vtype]
+
+(* ****** ****** *)
+//
+stadef mynode = linmap_node_vtype
+//
+vtypedef
+mynode (tk:tkind, key:t0p, itm:vt0p) = [l:addr] mynode (tk, key, itm, l)
+vtypedef
+mynode0 (tk: tkind, key:t0p, itm:vt0p) = [l:addr | l >= null] mynode (tk, key, itm, l)
+vtypedef
+mynode1 (tk: tkind, key:t0p, itm:vt0p) = [l:addr | l >  null] mynode (tk, key, itm, l)
+//
+(* ****** ****** *)
+
+castfn
+mynode2ptr
+  {tk:tk}
+  {key:t0p;itm:vt0p}
+  {l:addr}
+  (nx: !mynode (tk, key, INV(itm), l)):<> ptr (l)
+// end of [mynode2ptr]
+
+(* ****** ****** *)
+//
+fun{}
+mynode_null
+  {tk:tk}{key:t0p;itm:vt0p} ():<> mynode (tk, key, itm, null)
+// end of [mynode_null]
+
+(* ****** ****** *)
+//
+praxi
+mynode_free_null
+  {tk:tk}{key:t0p;itm:vt0p} (nx: mynode (tk, key, itm, null)): void
+//
+(* ****** ****** *)
+
+fun
+{tk:tk}
+{key:t0p;itm:vt0p}
+mynode_make_keyitm (k: key, x: itm):<!wrt> mynode1 (tk, key, itm)
+
+fun
+{tk:tk}
+{key:t0p;itm:vt0p}
+mynode_get_key (nx: !mynode1 (tk, key, itm)):<> key
+
+fun
+{tk:tk}
+{key:t0p;itm:vt0p}
+mynode_getref_itm (nx: !mynode1 (tk, key, itm)):<> Ptr1
+fun
+{tk:tk}
+{key:t0p;itm:vt0p}
+mynode_getfree_itm (nx: mynode1 (tk, key, itm)):<> itm
+
+fun
+{tk:tk}
+{key:t0p;itm:vt0p}
+mynode_free_keyitm
+  (nx: !mynode1 (tk, key, itm), res: &(key, itm)):<> void
+// end of [mynode_free_keyitm]
+
+(* ****** ****** *)
+
+fun
+{tk:tk}
+{key:t0p;itm:vt0p}
+linmap_search_ngc
+  (map: !map (tk, key, INV(itm)), k0: key): Ptr0
+// end of [linmap_search_ngc]
+
+(* ****** ****** *)
+
+fun
+{tk:tk}
+{key:t0p;itm:vt0p}
+linmap_insert_ngc (
+  map: &map (tk, key, INV(itm)) >> _, nx: mynode1 (tk, key, itm)
+) : mynode0 (tk, key, itm) // endfun
+
+fun
+{tk:tk}
+{key:t0p;itm:vt0p}
+linmap_insert_any_ngc (
+  map: &map (tk, key, INV(itm)) >> _, nx: mynode1 (tk, key, itm)
+) : void // end of [linmap_insert_any_ngc]
+
+(* ****** ****** *)
+
+fun
+{tk:tk}
+{key:t0p;itm:vt0p}
+linmap_takeout_ngc
+  (map: &map (tk, key, INV(itm)) >> _, k0: key): mynode0 (tk, key, itm)
+// end of [linmap_takeout_ngc]
+
+(* ****** ****** *)
+
+(* end of [linmap.sats] *)
