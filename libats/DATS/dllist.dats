@@ -55,12 +55,12 @@ staload "libats/SATS/gnode.sats"
 
 (* ****** ****** *)
 
-stadef mykind = $extkind"atslib_dllist"
+stadef mytkind = $extkind"atslib_dllist"
 
 (* ****** ****** *)
 
-typedef gnode0 (a:vt0p) = gnode0 (mykind, a)
-typedef gnode1 (a:vt0p) = gnode1 (mykind, a)
+typedef gnode0 (a:vt0p) = gnode0 (mytkind, a)
+typedef gnode1 (a:vt0p) = gnode1 (mytkind, a)
 
 (* ****** ****** *)
 
@@ -68,7 +68,7 @@ extern
 fun{a:vt0p}
 mynode_make_elt (x: a):<!wrt> gnode1 (a)
 implement{a}
-mynode_make_elt (x) = gnode_make_elt<mykind><a> (x)
+mynode_make_elt (x) = gnode_make_elt<mytkind><a> (x)
 
 (* ****** ****** *)
 
@@ -464,9 +464,8 @@ end // end of [fprint_rdllist]
 
 (* ****** ****** *)
 
-datavtype
-mynode (a:vt@ype+) =
-  | MYNODE of (a, ptr(*next*), ptr(*prev*))
+datavtype mynode
+  (a:vt@ype+) = MYNODE of (a, ptr(*next*), ptr(*prev*))
 // end of [mynode]
 
 (* ****** ****** *)
@@ -483,7 +482,7 @@ gnode_encode {a:vt0p} (nx: mynode (INV(a))):<> gnode1 (a)
 (* ****** ****** *)
 
 implement(a)
-gnode_make_elt<mykind><a>
+gnode_make_elt<mytkind><a>
   (x) = let
 in
   $UN.castvwtp0{gnode1(a)}(MYNODE{a}(x, _, _))
@@ -492,14 +491,14 @@ end // end of [gnode_make_elt]
 (* ****** ****** *)
 
 implement(a)
-gnode_free<mykind><a>
+gnode_free<mytkind><a>
   (nx) = let
   val nx = gnode_decode (nx)
   val~MYNODE (_, _, _) = (nx) in (*nothing*)
 end // end of [gnode_free]
 
 implement(a)
-gnode_free_elt<mykind><a>
+gnode_free_elt<mytkind><a>
   (nx, res) = let
   val nx = gnode_decode (nx)
   val~MYNODE (x, _, _) = (nx); val () = res := x in (*nothing*)
@@ -508,7 +507,7 @@ end // end of [gnode_free_elt]
 (* ****** ****** *)
 
 implement(a)
-gnode_getref_elt<mykind><a>
+gnode_getref_elt<mytkind><a>
   (nx) = let
 //
 val nx = gnode_decode (nx)
@@ -525,7 +524,7 @@ end // end of [gnode_getref_elt]
 (* ****** ****** *)
 
 implement(a)
-gnode_getref_next<mykind><a>
+gnode_getref_next<mytkind><a>
   (nx) = let
 //
 val nx = gnode_decode (nx)
@@ -542,7 +541,7 @@ end // end of [gnode_getref_next]
 (* ****** ****** *)
 
 implement(a)
-gnode_getref_prev<mykind><a>
+gnode_getref_prev<mytkind><a>
   (nx) = let
 //
 val nx = gnode_decode (nx)

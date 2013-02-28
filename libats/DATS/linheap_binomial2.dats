@@ -80,15 +80,15 @@ macdef assertloc_debug (x) = ()
 (* ****** ****** *)
 
 stadef
-mykind = $extkind"atslib_linheap_binomial2"
+mytkind = $extkind"atslib_linheap_binomial2"
 
 (* ****** ****** *)
 
 typedef gnode
-  (a:vt0p, l:addr) = gnode (mykind, a, l)
+  (a:vt0p, l:addr) = gnode (mytkind, a, l)
 // end of [gnode]
-typedef gnode0 (a:vt0p) = gnode0 (mykind, a)
-typedef gnode1 (a:vt0p) = gnode1 (mykind, a)
+typedef gnode0 (a:vt0p) = gnode0 (mytkind, a)
+typedef gnode1 (a:vt0p) = gnode1 (mytkind, a)
 
 (* ****** ****** *)
 

@@ -70,15 +70,15 @@ macdef SZ (i) = g1int2uint<int_kind,size_kind> (,(i))
 (* ****** ****** *)
 
 stadef
-mykind = $extkind"atslib_linheap_fibonacci"
+mytkind = $extkind"atslib_linheap_fibonacci"
 
 (* ****** ****** *)
 
 typedef gnode
-  (a:vt0p, l:addr) = gnode (mykind, a, l)
+  (a:vt0p, l:addr) = gnode (mytkind, a, l)
 // end of [gnode]
-typedef gnode0 (a:vt0p) = gnode0 (mykind, a)
-typedef gnode1 (a:vt0p) = gnode1 (mykind, a)
+typedef gnode0 (a:vt0p) = gnode0 (mytkind, a)
+typedef gnode1 (a:vt0p) = gnode1 (mytkind, a)
 
 (* ****** ****** *)
 

@@ -107,9 +107,9 @@ end // end of [fprint_s2rtbas]
 implement
 fprint_s2rt (out, x) = let
 //
-  val x = s2rt_delink (x)
+val x = s2rt_delink (x)
+macdef prstr (s) = fprint_string (out, ,(s))
 //
-  macdef prstr (s) = fprint_string (out, ,(s))
 in
 //
 case+ x of

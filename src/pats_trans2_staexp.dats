@@ -731,8 +731,11 @@ case+ e0.e1xp_node of
     val () = xs := xs1
 //
     prval pfu = unit_v ()
-    val es = list_map_vclo<s1exp> {unit_v} (pfu | x.1, !p_clo) where {
-      var !p_clo = @lam (pf: !unit_v | s1e: s1exp): e1xp => e1xp_make_s1exp (loc0, s1e)
+    val es =
+      list_map_vclo<s1exp> {unit_v} (pfu | x.1, !p_clo) where {
+      var !p_clo =
+        @lam (pf: !unit_v | s1e: s1exp): e1xp => e1xp_make_s1exp (loc0, s1e)
+      // end of [var]
     } // end of [val]
     prval unit_v () = pfu
 //
@@ -973,11 +976,12 @@ fn auxerr3 (
   s1e0: s1exp, s1e: s1exp, s2t: s2rt
 ) : s2exp = let
   val () = prerr_error2_loc (s1e.s1exp_loc)
-  val () = filprerr_ifdebug  "s1exp_trup_arrow"
-  val () = prerr ": the static expression needs to be impredicative"
-  val () = prerr " but it is assigned the sort ["
-  val () = prerr_s2rt (s2t)
-  val () = prerr "]."
+  val () = filprerr_ifdebug "s1exp_trup_arrow"
+  val () =
+    prerr ": the static expression needs to be impredicative"
+  val () = (
+    prerr " but is assigned the sort ["; prerr_s2rt (s2t); prerr "]."
+  ) // end of [val]
   val () = prerr_newline ()
   val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
 in
@@ -1883,16 +1887,21 @@ s1exp_trdn_vt0ype (s1e) = s1exp_trdn (s1e, s2rt_vt0ype)
 
 implement
 s1exp_trdn_impredicative (s1e) = let
-  val s2e = s1exp_trup (s1e); val s2t = s2e.s2exp_srt
+//
+  val s2e = s1exp_trup (s1e)
+  val s2t = s2rt_delink (s2e.s2exp_srt)
+  val isimp = s2rt_is_impredicative (s2t)
+//
 in
 //
-if s2rt_is_impredicative (s2t) then s2e else let
+if isimp then s2e else let
   val () = prerr_error2_loc (s1e.s1exp_loc)
   val () = filprerr_ifdebug "s1exp_trdn_impredicative"
-  val () = prerr ": the static expression needs to be impredicative"
-  val () = prerr " but it is assigned the sort ["
-  val () = prerr_s2rt (s2t)
-  val () = prerr "]."
+  val () =
+    prerr ": the static expression needs to be impredicative"
+  val () = (
+    prerr " but is assigned the sort ["; prerr_s2rt (s2t); prerr "]."
+  ) // end of [val]
   val () = prerr_newline ()
   val () = the_trans2errlst_add (T2E_s1exp_trdn_impredicative (s1e))
 in

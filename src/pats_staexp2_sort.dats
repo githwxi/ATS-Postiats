@@ -340,13 +340,13 @@ s2rt_is_boxed (s2t) = (
 ) // end of [s2rt_is_boxed]
 
 implement
-s2rt_is_impredicative
-  (s2t) = case+ s2t of
+s2rt_is_impredicative (s2t) = (
+  case+ s2t of
   | S2RTbas s2tb => (
       case+ s2tb of S2RTBASimp _ => true | _ => false
     ) // end of [S2RTbas]
   | _ => false
-// end of [s2rt_is_impredicative]
+) // end of [s2rt_is_impredicative]
 
 (* ****** ****** *)
 
