@@ -1,0 +1,58 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../linset.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_linset_avltree")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/linset_avltree\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+#para("\
+
+This package implements linear maps based on the AVL-tree structure.  Note
+that such maps are particularly efficient for supporting search operations.
+
+")
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("set")
+#decldescrpt("\
+
+The type constructor #stacode("set") is a shorthand for
+#stacode("set_vtype").  ")
+
+#declnamesynop("set_vtype")
+#decldescrpt("\
+
+Given a kind tk and a type T, the abstract viewtype
+#stacode("set_vtype(tk, T)") is for a set storing elements
+of the type T. Note that #stacode("set_vtype") is co-variant
+in its second type argument.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("compare_elt_elt")
+#decldescrpt("This function is for comparing set elements.")
+
+(* ****** ****** *)
+
+(* end of [linset_avltree.atxt] *)

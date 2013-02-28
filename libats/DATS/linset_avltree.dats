@@ -27,19 +27,16 @@
 
 (* ****** ****** *)
 
-sortdef t0p = t@ype and vt0p = vt@ype
+(* Author: Hongwei Xi *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Start time: February, 2013 *)
 
 (* ****** ****** *)
 
-absviewtype
-set_t0ype_vtype (elt: t@ype+)
-stadef set = set_t0ype_vtype
+staload "libats/SATS/linset.sats"
 
 (* ****** ****** *)
 
-fun{elt:t0p}
-compare_elt_elt (x1: elt, x2: elt):<> int
-
 (* ****** ****** *)
 
-(* end of [linset.hats] *)
+(* end of [linset_avltree.dats] *)

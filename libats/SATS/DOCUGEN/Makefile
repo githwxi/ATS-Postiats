@@ -103,13 +103,13 @@ upload_ilist_prf:: ;   scp HTML/ilist_prf.html ats-hwxi,ats-lang@web.sourceforge
 clean:: ; $(RMF) ilist_prf_atxt.exe
 cleanall:: ; $(RMF) HTML/ilist_prf.html
 
-all_html:: HTML/dlist_vt.html
-HTML/dlist_vt.html:   dlist_vt_atxt.exe ; ./$< > $@
-dlist_vt_atxt.txt: dlist_vt.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
-dlist_vt_atxt.exe: htmlgendecl_atxt.dats   dlist_vt_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
-upload_dlist_vt:: ;   scp HTML/dlist_vt.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
-clean:: ; $(RMF) dlist_vt_atxt.exe
-cleanall:: ; $(RMF) HTML/dlist_vt.html
+all_html:: HTML/dllist.html
+HTML/dllist.html:   dllist_atxt.exe ; ./$< > $@
+dllist_atxt.txt: dllist.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+dllist_atxt.exe: htmlgendecl_atxt.dats   dllist_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_dllist:: ;   scp HTML/dllist.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) dllist_atxt.exe
+cleanall:: ; $(RMF) HTML/dllist.html
 
 all_html:: HTML/funmap_list.html
 HTML/funmap_list.html:   funmap_list_atxt.exe ; ./$< > $@
@@ -190,6 +190,14 @@ linmap_skiplist_atxt.exe: htmlgendecl_atxt.dats   linmap_skiplist_atxt.txt $(DEC
 upload_linmap_skiplist:: ;   scp HTML/linmap_skiplist.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
 clean:: ; $(RMF) linmap_skiplist_atxt.exe
 cleanall:: ; $(RMF) HTML/linmap_skiplist.html
+
+all_html:: HTML/linset_avltree.html
+HTML/linset_avltree.html:   linset_avltree_atxt.exe ; ./$< > $@
+linset_avltree_atxt.txt: linset_avltree.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+linset_avltree_atxt.exe: htmlgendecl_atxt.dats   linset_avltree_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_linset_avltree:: ;   scp HTML/linset_avltree.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) linset_avltree_atxt.exe
+cleanall:: ; $(RMF) HTML/linset_avltree.html
 
 all_html:: HTML/linhashtbl_chain.html
 HTML/linhashtbl_chain.html:   linhashtbl_chain_atxt.exe ; ./$< > $@

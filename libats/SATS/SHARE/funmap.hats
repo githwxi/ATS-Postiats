@@ -83,7 +83,7 @@ key,itm:t0p
 } funmap_search (
   map: map (key, INV(itm))
 , k0: key, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool b // end of [funmap_search]
+) : #[b:bool] bool (b) // endfun
 
 fun{
 key,itm:t0p

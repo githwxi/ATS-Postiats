@@ -8,13 +8,13 @@ implement srcfilename_get () = "../linmap_avltree.sats"
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/libats_linmap_randbst")
+val () = patscode_prefix_set("TRYIT/libats_linmap_avltree")
 %}
 
 (* ****** ****** *)
 
 #decltitle("\
-ATSLIB/libats/linmap_randbst\
+ATSLIB/libats/linmap_avltree\
 ")
 
 (* ****** ****** *)
