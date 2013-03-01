@@ -63,13 +63,29 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ;   $(ATSDOC) --outcode $@ -i $< > htmlg
 
 all_html::
 
-all_html:: HTML/gnode.html
-HTML/gnode.html:   gnode_atxt.exe ; ./$< > $@
-gnode_atxt.txt: gnode.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
-gnode_atxt.exe: htmlgendecl_atxt.dats   gnode_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
-upload_gnode:: ;   scp HTML/gnode.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
-clean:: ; $(RMF) gnode_atxt.exe
-cleanall:: ; $(RMF) HTML/gnode.html
+all_html:: HTML/qlist.html
+HTML/qlist.html:   qlist_atxt.exe ; ./$< > $@
+qlist_atxt.txt: qlist.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+qlist_atxt.exe: htmlgendecl_atxt.dats   qlist_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_qlist:: ;   scp HTML/qlist.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) qlist_atxt.exe
+cleanall:: ; $(RMF) HTML/qlist.html
+
+all_html:: HTML/dllist.html
+HTML/dllist.html:   dllist_atxt.exe ; ./$< > $@
+dllist_atxt.txt: dllist.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+dllist_atxt.exe: htmlgendecl_atxt.dats   dllist_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_dllist:: ;   scp HTML/dllist.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) dllist_atxt.exe
+cleanall:: ; $(RMF) HTML/dllist.html
+
+all_html:: HTML/ilist_prf.html
+HTML/ilist_prf.html:   ilist_prf_atxt.exe ; ./$< > $@
+ilist_prf_atxt.txt: ilist_prf.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+ilist_prf_atxt.exe: htmlgendecl_atxt.dats   ilist_prf_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_ilist_prf:: ;   scp HTML/ilist_prf.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) ilist_prf_atxt.exe
+cleanall:: ; $(RMF) HTML/ilist_prf.html
 
 all_html:: HTML/gflist.html
 HTML/gflist.html:   gflist_atxt.exe ; ./$< > $@
@@ -95,21 +111,13 @@ upload_gfarray:: ;   scp HTML/gfarray.html ats-hwxi,ats-lang@web.sourceforge.net
 clean:: ; $(RMF) gfarray_atxt.exe
 cleanall:: ; $(RMF) HTML/gfarray.html
 
-all_html:: HTML/ilist_prf.html
-HTML/ilist_prf.html:   ilist_prf_atxt.exe ; ./$< > $@
-ilist_prf_atxt.txt: ilist_prf.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
-ilist_prf_atxt.exe: htmlgendecl_atxt.dats   ilist_prf_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
-upload_ilist_prf:: ;   scp HTML/ilist_prf.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
-clean:: ; $(RMF) ilist_prf_atxt.exe
-cleanall:: ; $(RMF) HTML/ilist_prf.html
-
-all_html:: HTML/dllist.html
-HTML/dllist.html:   dllist_atxt.exe ; ./$< > $@
-dllist_atxt.txt: dllist.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
-dllist_atxt.exe: htmlgendecl_atxt.dats   dllist_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
-upload_dllist:: ;   scp HTML/dllist.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
-clean:: ; $(RMF) dllist_atxt.exe
-cleanall:: ; $(RMF) HTML/dllist.html
+all_html:: HTML/gnode.html
+HTML/gnode.html:   gnode_atxt.exe ; ./$< > $@
+gnode_atxt.txt: gnode.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+gnode_atxt.exe: htmlgendecl_atxt.dats   gnode_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_gnode:: ;   scp HTML/gnode.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) gnode_atxt.exe
+cleanall:: ; $(RMF) HTML/gnode.html
 
 all_html:: HTML/funmap_list.html
 HTML/funmap_list.html:   funmap_list_atxt.exe ; ./$< > $@
@@ -222,14 +230,6 @@ linheap_fibonacci_atxt.exe: htmlgendecl_atxt.dats   linheap_fibonacci_atxt.txt $
 upload_linheap_fibonacci:: ;   scp HTML/linheap_fibonacci.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
 clean:: ; $(RMF) linheap_fibonacci_atxt.exe
 cleanall:: ; $(RMF) HTML/linheap_fibonacci.html
-
-all_html:: HTML/linqueue_list.html
-HTML/linqueue_list.html:   linqueue_list_atxt.exe ; ./$< > $@
-linqueue_list_atxt.txt: linqueue_list.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
-linqueue_list_atxt.exe: htmlgendecl_atxt.dats   linqueue_list_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
-upload_linqueue_list:: ;   scp HTML/linqueue_list.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
-clean:: ; $(RMF) linqueue_list_atxt.exe
-cleanall:: ; $(RMF) HTML/linqueue_list.html
 
 all_html:: HTML/linralist_nested.html
 HTML/linralist_nested.html:   linralist_nested_atxt.exe ; ./$< > $@

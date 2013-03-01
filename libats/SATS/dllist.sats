@@ -62,6 +62,13 @@ stadef dllist = dllist_vtype
 
 (* ****** ****** *)
 
+castfn
+dllist2ptr {a:vt0p}{f,r:int} (xs: !dllist (INV(a), f, r)): Ptr0
+castfn
+dllist2ptr1 {a:vt0p}{f,r:int | r > 0} (xs: !dllist (INV(a), f, r)): Ptr1
+
+(* ****** ****** *)
+
 praxi
 lemma1_dllist_param {a:vt0p}
   {f,r:int} (xs: !dllist (INV(a), f, r)): [f >= 0;r >= 0] void
@@ -219,16 +226,16 @@ rdllist_move_all
 (* ****** ****** *)
 
 fun{a:vt0p}
-dllist_insert
+dllist_insert_next
+  {f,r:int | r > 0}
+  (xs: dllist (INV(a), f, r), x0: a):<!wrt> dllist (a, f, r+1)
+// end of [dllist_insert_next]
+
+fun{a:vt0p}
+dllist_insert_prev
   {f,r:int | r > 0}
   (xs: dllist (INV(a), f, r), x0: a):<!wrt> dllist (a, f, r+1)
 // end of [dllist_insert]
-
-fun{a:vt0p}
-dllist_insert_next
-  {f,r:int | r > 0}
-  (xs: dllist (INV(a), f, r), x0: a):<!wrt> dllist (a, f+1, r)
-// end of [dllist_insert_next]
 
 fun{a:vt0p}
 dllist_remove

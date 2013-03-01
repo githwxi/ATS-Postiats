@@ -1,20 +1,20 @@
 (* ****** ****** *)
 
 %{
-implement srcfilename_get () = "../linqueue_list.sats"
+implement srcfilename_get () = "../qlist.sats"
 %}
 
 (* ****** ****** *)
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/libats_linqueue_list")
+val () = patscode_prefix_set("TRYIT/libats_dlist")
 %}
 
 (* ****** ****** *)
 
 #decltitle("\
-ATSLIB/libats/linqueue_list\
+ATSLIB/libats/qlist\
 ")
 
 (* ****** ****** *)
@@ -32,28 +32,28 @@ structure.
 
 (* ****** ****** *)
 
-#declnamesynop("queue")
-#declnamesynop("queue_vtype")
+#declnamesynop("qlist")
+#declnamesynop("qlist_vtype")
 
 (* ****** ****** *)
 
-#declnamesynop("queue_is_empty")
-#declnamesynop("queue_isnot_empty")
+#declnamesynop("qlist_is_nil")
+#declnamesynop("qlist_isnot_nil")
 
 (* ****** ****** *)
 
-#declnamesynop("queue_size")
+#declnamesynop("qlist_size")
 
 (* ****** ****** *)
 
-#declnamesynop("queue_insert")
+#declnamesynop("qlist_insert")
 #decldescrpt("\
 
 This function inserts an element at the end of a given queue.")
 
 (* ****** ****** *)
 
-#declnamesynop("queue_takeout")
+#declnamesynop("qlist_takeout")
 #decldescrpt("\
 
 This function takes out the element at the front of a given queue if the
@@ -61,7 +61,7 @@ queue is not empty, and returns true. Otherwise, it returns false. ")
 
 (* ****** ****** *)
 
-#declnamesynop("queue_takeout_list")
+#declnamesynop("qlist_takeout_list")
 #decldescrpt("\
 
 This function takes out all of the elements in a given queue. Note
@@ -71,31 +71,10 @@ that the complexity of the funtion is O(1).
 
 (* ****** ****** *)
 
-#declnamesynop("queue_foreach$cont")
-#declnamesynop("queue_foreach$fwork")
-#declnamesynop("queue_foreach")
-#declnamesynop("queue_foreach_env")
-
-(* ****** ****** *)
-
-#declnamesynop("mynode")
-#declnamesynop("mynode_vtype")
-
-(* ****** ****** *)
-
-#declnamesynop("mynode2ptr")
-#declnamesynop("mynode_free_null")
-
-(* ****** ****** *)
-
-#declnamesynop("mynode_make_elt")
-#declnamesynop("mynode_getref_elt")
-#declnamesynop("mynode_free_elt")
-
-(* ****** ****** *)
-
-#declnamesynop("queue_insert_ngc")
-#declnamesynop("queue_takeout_ngc")
+#declnamesynop("qlist_foreach$cont")
+#declnamesynop("qlist_foreach$fwork")
+#declnamesynop("qlist_foreach")
+#declnamesynop("qlist_foreach_env")
 
 (* ****** ****** *)
 
@@ -105,7 +84,7 @@ that the complexity of the funtion is O(1).
 #pats2xhtmls('\
 abst@ype
 qstruct_tsz =
-  $extype "atslib_linqueue_list_qstruct"
+  $extype "atslib_qlist_qstruct"
 stadef qstruct = qstruct_tsz
 absvt@ype
 qstruct_vt0ype (a:vt@ype+, n:int) = qstruct_tsz
@@ -148,4 +127,25 @@ for an unboxed queue containing N elements of type T.
 
 (* ****** ****** *)
 
-(* end of [linqueue_list.atxt] *)
+#declnamesynop("mynode")
+#declnamesynop("mynode_vtype")
+
+(* ****** ****** *)
+
+#declnamesynop("mynode2ptr")
+#declnamesynop("mynode_free_null")
+
+(* ****** ****** *)
+
+#declnamesynop("mynode_make_elt")
+#declnamesynop("mynode_getref_elt")
+#declnamesynop("mynode_free_elt")
+
+(* ****** ****** *)
+
+#declnamesynop("qlist_insert_ngc")
+#declnamesynop("qlist_takeout_ngc")
+
+(* ****** ****** *)
+
+(* end of [qlist.atxt] *)

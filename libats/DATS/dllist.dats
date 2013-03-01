@@ -133,7 +133,7 @@ case+ xs of
     (x, xs) => let
     val nx1 =
       mynode_make_elt<a> (x)
-    val () = gnode_link (nx0, nx1)
+    val () = gnode_link11 (nx0, nx1)
   in
     loop (nx1, xs)
   end // end of [loop]
@@ -265,6 +265,12 @@ end // end of [dllist_length]
 
 (* ****** ****** *)
 
+(*
+fun{a:vt0p}
+dllist_move
+  {f,r:int | r > 1}
+  (xs: dllist (INV(a), f, r)):<> dllist (a, f+1, r-1)
+*)
 implement{a}
 dllist_move (xs) = let
   val nx = $UN.cast{gnode1(a)}(xs) in gnode_get_next (nx)
@@ -290,6 +296,12 @@ end // end of [dllist_move_all]
 
 (* ****** ****** *)
 
+(*
+fun{a:vt0p}
+rdllist_move
+  {f,r:int | f > 0}
+  (xs: dllist (INV(a), f, r)):<> dllist (a, f-1, r+1)
+*)
 implement{a}
 rdllist_move (xs) = let
   val nx = $UN.cast{gnode1(a)}(xs) in gnode_get_prev (nx)
@@ -312,6 +324,57 @@ val nxs = $UN.cast{gnode1(a)}(xs)
 in
   $effmask_all (loop (nxs))
 end // end of [dllist_move_all]
+
+(* ****** ****** *)
+
+(*
+fun{a:vt0p}
+dllist_insert_next
+  {f,r:int | r > 0}
+  (xs: dllist (INV(a), f, r), x0: a):<!wrt> dllist (a, f, r+1)
+*)
+implement{a}
+dllist_insert_next
+  (xs, x0) = nx where {
+  val nx = $UN.cast{gnode1(a)}(xs)
+  val nx2 = mynode_make_elt<a> (x0)
+  val () = gnode_insert_next (nx, nx2)
+} // end of [dllist_insert_next]
+
+(*
+fun{a:vt0p}
+dllist_insert_prev
+  {f,r:int | r > 0}
+  (xs: dllist (INV(a), f, r), x0: a):<!wrt> dllist (a, f, r+1)
+*)
+implement{a}
+dllist_insert_prev
+  (xs, x0) = nx2 where {
+  val nx = $UN.cast{gnode1(a)}(xs)
+  val nx2 = mynode_make_elt<a> (x0)
+  val () = gnode_insert_prev (nx, nx2)
+} // end of [dllist_insert_prev]
+
+(* ****** ****** *)
+
+(*
+fun{a:vt0p}
+dllist_remove
+  {f,r:int | r > 1}
+  (xs: &dllist (INV(a), f, r) >> dllist (a, f, r-1)):<!wrt> (a)
+*)
+implement{a}
+dllist_remove
+  (xs) = let
+  val nx = $UN.cast{gnode1(a)}(xs)
+  val nx_prev = gnode_get_prev (nx)
+  val nx_next = gnode_get_next (nx)
+  val nx_next = $UN.cast{gnode1(a)}(nx_next)
+  val () = gnode_link01 (nx_prev, nx_next)
+  val () = (xs := nx_next)
+in
+  gnode_getfree_elt (nx)
+end // end of [dllist_remove]
 
 (* ****** ****** *)
 
@@ -356,7 +419,7 @@ in
 if iscons then let
   val nx = nxs
   val nxs = gnode_get_next (nx)
-  val () = gnode_link (nx, res)
+  val () = gnode_link11 (nx, res)
 in
   loop (nxs, nx)
 end else res // end of [if]

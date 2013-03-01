@@ -178,13 +178,7 @@ gnode_set_parent_null
 
 implement
 {tk}{elt}
-gnode_link
-  (nx1, nx2) = let
-  val () = gnode_set_next (nx1, nx2)
-  val () = gnode_set_prev (nx2, nx1)
-in
-  // nothing
-end // end of [gnode_link]
+gnode_link = gnode_link11
 
 implement
 {tk}{elt}
@@ -219,6 +213,16 @@ in
   // nothing
 end // end of [gnode_link10]
 
+implement
+{tk}{elt}
+gnode_link11
+  (nx1, nx2) = let
+  val () = gnode_set_next (nx1, nx2)
+  val () = gnode_set_prev (nx2, nx1)
+in
+  // nothing
+end // end of [gnode_link11]
+
 (* ****** ****** *)
 
 implement
@@ -242,7 +246,7 @@ implement
 gnode_insert_next
   (nx1, nx2) = let
   val nx1_next = gnode_get_next (nx1)
-  val () = gnode_link (nx1, nx2)
+  val () = gnode_link11 (nx1, nx2)
   val () = gnode_link10 (nx2, nx1_next)
 in
   // nothing
@@ -253,13 +257,25 @@ implement
 gnode_insert_prev
   (nx1, nx2) = let
   val nx1_prev = gnode_get_prev (nx1)
-  val () = gnode_link (nx2, nx1)
+  val () = gnode_link11 (nx2, nx1)
   val () = gnode_link01 (nx1_prev, nx2)
 in
   // nothing
 end // end of [gnode_insert_prev]
 
 (* ****** ****** *)
+
+implement
+{tk}{elt}
+gnode_remove
+  (nx) = nx where {
+//
+val nx_prev = gnode_get_prev (nx)
+val nx_next = gnode_get_next (nx)
+//
+val () = gnode_link00 (nx_prev, nx_next)
+//
+} // end of [gnode_remove]
 
 implement
 {tk}{elt}

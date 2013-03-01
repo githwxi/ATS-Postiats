@@ -205,6 +205,9 @@ tk:tk}{a:vt0p
 fun{
 tk:tk}{a:vt0p
 } gnode_link10 (nx1: gnode1 (tk, INV(a)), nx2: gnode0 (tk, a)):<!wrt> void
+fun{
+tk:tk}{a:vt0p
+} gnode_link11 (nx1: gnode1 (tk, INV(a)), nx2: gnode1 (tk, a)):<!wrt> void
 
 (* ****** ****** *)
 
@@ -236,6 +239,9 @@ tk:tk}{a:vt0p
 
 (* ****** ****** *)
 
+fun{
+tk:tk}{a:vt0p
+} gnode_remove (nx: gnode1 (tk, INV(a))):<!wrt> gnode1 (tk, a)
 fun{
 tk:tk}{a:vt0p
 } gnode_remove_next (nx: gnode1 (tk, INV(a))):<!wrt> gnode0 (tk, a)

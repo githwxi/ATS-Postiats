@@ -31,33 +31,72 @@ staload _ = "libats/DATS/dllist.dats"
 
 (* ****** ****** *)
 
-val out = stdout_ref
+#define :: dllist_cons
+#define cons dllist_cons
+
+(* ****** ****** *)
 
 val () = {
 //
 typedef T = int
+val out = stdout_ref
 //
 val xs = dllist_nil {T} ()
-val xs = dllist_cons (1, xs)
-val xs = dllist_cons (2, xs)
-val xs = dllist_cons (3, xs)
-val xs = dllist_cons (4, xs)
-val xs = dllist_cons (5, xs)
+val xs = 1 :: 2 :: 3 :: 4 :: 5 :: xs
 //
-val (
-) = fprint_dllist<T> (out, xs)
-val () = fprint_newline (out)
+val xs_beg = xs
+val p_beg = dllist2ptr (xs_beg)
+val xs_end = dllist_move_all (xs_beg)
+val xs2_beg = rdllist_move_all (xs_end)
+val p2_beg = dllist2ptr (xs2_beg)
 //
-val xs = dllist_move_all (xs)
+val () = dllist_free (xs2_beg)
 //
-val (
-) = fprint_dllist<T> (out, xs)
-val () = fprint_newline (out)
-val (
-) = fprint_rdllist<T> (out, xs)
-val () = fprint_newline (out)
+val () = assertloc (p_beg = p2_beg)
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () = {
+//
+typedef T = int
+val out = stdout_ref
+//
+val xs = dllist_sing<T> (1)
+val xs = dllist_insert_next (xs, 2)
+val xs = dllist_move (xs)
+val xs = dllist_insert_next (xs, 3)
+val xs = dllist_move (xs)
+val xs = dllist_insert_next (xs, 4)
+val xs = dllist_move (xs)
+val xs = dllist_insert_next (xs, 5)
+val xs = dllist_move (xs)
 //
 val xs = rdllist_move_all (xs)
+//
+val () = fprint_dllist (out, xs)
+val () = fprint_newline (out)
+//
+val () = dllist_free (xs)
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () = {
+//
+typedef T = int
+val out = stdout_ref
+//
+val xs = dllist_sing<T> (1)
+val xs = dllist_insert_prev (xs, 2)
+val xs = dllist_insert_prev (xs, 3)
+val xs = dllist_insert_prev (xs, 4)
+val xs = dllist_insert_prev (xs, 5)
+//
+val () = fprint_dllist (out, xs)
+val () = fprint_newline (out)
 //
 val () = dllist_free (xs)
 //
