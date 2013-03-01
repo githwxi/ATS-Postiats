@@ -47,20 +47,16 @@
 // License: LGPL 3.0 (available at http://www.gnu.org/licenses/lgpl.txt)
 //
 (* ****** ****** *)
-//
-// HX: no need for staloading at
-#define ATS_STALOADFLAG 0 // run-time
-//
-(* ****** ****** *)
 
 %{#
-#include "libats/CATS/linqueue_list.cats"
+#include "libats/CATS/qlist.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
 
 #define ATS_PACKNAME "ATSLIB.libats"
 #define ATS_STALOADFLAG 0 // no static loading at run-time
+#define ATS_EXTERN_PREFIX "atslib_"
 
 (* ****** ****** *)
 
@@ -68,22 +64,81 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 (* ****** ****** *)
 
-#include "./SHARE/linqueue.hats"
-#include "./SHARE/linqueue_node.hats"
+absvtype
+qlist_vtype (a:vt@ype+, n:int)
+stadef qlist = qlist_vtype // local shorthand
+
+(* ****** ****** *)
+
+praxi lemma_qlist_param
+  {a:vt0p}{n:int} (q: !qlist (INV(a), n)): [n>=0] void
+// end of [lemma_qlist_param]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-queue_takeout_list
+qlist_make (): qlist (a, 0)
+
+fun{a:vt0p}
+qlist_free (q: qlist (a, 0)):<!wrt> void
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+qlist_is_nil
+  {n:int} (q: !qlist (a, n)):<> bool (n == 0)
+// end of [qlist_is_nil]
+
+fun{a:vt0p}
+qlist_isnot_nil
+  {n:nat} (q: !qlist (INV(a), n)):<> bool (n > 0)
+// end of [qlist_isnot_nil]
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+qlist_size {n:int} (q: !qlist (INV(a), n)):<> size_t (n)
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+qlist_insert (*last*)
   {n:int} (
-  q: !queue (INV(a), n) >> queue (a, 0)
-) :<!wrt> list_vt (a, n) // endfun
+  q: !qlist (INV(a), n) >> qlist (a, n+1), x: a
+) :<!wrt> void // end of [qlist_insert]
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+qlist_takeout (*first*)
+  {n:int | n > 0} (q: !qlist (INV(a), n) >> qlist (a, n-1)):<!wrt> (a)
+// end of [qlist_takeout]
+
+fun{a:vt0p}
+qlist_takeout_list
+  {n:int} (q: !qlist (INV(a), n) >> qlist (a, 0)):<!wrt> list_vt (a, n)
+// end of [qlist_takeout_list]
+
+(* ****** ****** *)
+
+fun{
+a:vt0p}{env:vt0p
+} qlist_foreach$cont (x: &a, env: &env): void
+fun{
+a:vt0p}{env:vt0p
+} qlist_foreach$fwork (x: &a, env: &(env) >> _): void
+fun{
+a:vt0p
+} qlist_foreach {n:int} (q: !qlist (INV(a), n)): void
+fun{
+a:vt0p}{env:vt0p
+} qlist_foreach_env {n:int} (q: !qlist (INV(a), n), env: &(env) >> _): void
 
 (* ****** ****** *)
 //
 abst@ype
 qstruct_tsz =
-  $extype "atslib_linqueue_list_qstruct"
+  $extype "atslib_qlist_qstruct"
 absviewt@ype
 qstruct_vt0ype (a:viewt@ype+, n:int) = qstruct_tsz
 //
@@ -107,13 +162,13 @@ qstruct_uninitize
 praxi
 qstruct_objfize
   {a:vt0p}{l:addr}{n:int} (
-  pf: qstruct (INV(a), n) @ l | p: !ptrlin l >> queue (a, n)
+  pf: qstruct (INV(a), n) @ l | p: !ptrlin l >> qlist (a, n)
 ) :<> free_ngc_v (l) // endfun
 
 praxi
 qstruct_unobjfize
   {a:vt0p}{l:addr}{n:int} (
-  pf: free_ngc_v l | p: ptr l, q: !queue (INV(a), n) >> ptrlin l
+  pf: free_ngc_v l | p: ptr l, q: !qlist (INV(a), n) >> ptrlin l
 ) :<> qstruct (a, n) @ l // endfun
 
 (* ****** ****** *)
@@ -134,5 +189,60 @@ qstruct_takeout_list
 // end of [qstruct_takeout_list]
 
 (* ****** ****** *)
+//
+// HX: ngc-functions do not make use of malloc/free
+//
+(* ****** ****** *)
 
-(* end of [linqueue_list.sats] *)
+absvtype qlist_node_vtype (a:vt@ype+, l:addr)
+
+(* ****** ****** *)
+
+stadef mynode = qlist_node_vtype
+vtypedef mynode (a) = [l:addr] mynode (a, l)
+vtypedef mynode0 (a) = [l:addr | l >= null] mynode (a, l)
+vtypedef mynode1 (a) = [l:addr | l >  null] mynode (a, l)
+
+(* ****** ****** *)
+
+castfn
+mynode2ptr
+  {a:vt0p}{l:addr} (nx: !mynode (INV(a), l)):<> ptr (l)
+// end of [mynode2ptr]
+
+(* ****** ****** *)
+//
+fun{a:vt0p}
+mynode_null (): mynode (a, null)
+//
+praxi
+mynode_free_null {a:vt0p} (nx: mynode (a, null)): void
+//
+(* ****** ****** *)
+
+fun{a:vt0p}
+mynode_make_elt (x: a):<!wrt> mynode1 (a)
+fun{a:vt0p}
+mynode_getref_elt (nx: mynode1 (INV(a))):<> Ptr1
+fun{a:vt0p}
+mynode_free_elt (nx: mynode1 (INV(a)), res: &(a?) >> a):<!wrt> void
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+qlist_insert_ngc (*last*)
+  {n:int} (
+  q: !qlist (INV(a), n) >> qlist (a, n+1), nx: mynode1 (a)
+) :<!wrt> void // end of [qlist_insert_ngc]
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+qlist_takeout_ngc (*first*)
+  {n:int | n > 0}
+  (q: !qlist (INV(a), n) >> qlist (a, n-1)):<!wrt> mynode1 (a)
+// end of [qlist_takeout_ngc]
+
+(* ****** ****** *)
+
+(* end of [qlist.sats] *)

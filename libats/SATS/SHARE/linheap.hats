@@ -35,13 +35,8 @@
 
 (* ****** ****** *)
 
-sortdef t0p = t@ype and vt0p = vt@ype
-
-(* ****** ****** *)
-
-absvtype
-heap_vtype (a:vt@ype+)
-stadef heap = heap_vtype
+absvtype heap_vtype (a:vt@ype+)
+vtypedef heap (a:vt0p) = heap_vtype (a)
 
 (* ****** ****** *)
 

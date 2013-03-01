@@ -33,60 +33,18 @@
 
 (* ****** ****** *)
 
-absvtype
-mynode_vtype (a:vt@ype+, l:addr)
-stadef mynode = mynode_vtype
-vtypedef mynode (a) = [l:addr] mynode (a, l)
-vtypedef mynode0 (a) = [l:addr | l >= null] mynode (a, l)
-vtypedef mynode1 (a) = [l:addr | l >  null] mynode (a, l)
+#define ATS_PACKNAME "ATSLIB.libats"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 
-(*
-praxi lemma_mynode_param
-  {a:vt0p}{l:addr} (nx: !mynode (INV(a), l)): [l >= null] void
-// end of [lemma_mynode_param]
-*)
+#include "./SHARE/linmap.hats"
+#include "./SHARE/linmap_node.hats"
 
 (* ****** ****** *)
 
-castfn
-mynode2ptr
-  {a:vt0p}{l:addr} (nx: !mynode (INV(a), l)):<> ptr (l)
-// end of [mynode2ptr]
-
-(* ****** ****** *)
-//
-fun{a:vt0p} mynode_null (): mynode (a, null)
-//
-praxi
-mynode_free_null {a:vt0p} (nx: mynode (a, null)): void
-//
-(* ****** ****** *)
-
-fun{a:vt0p}
-mynode_make_elt (x: a):<!wrt> mynode1 (a)
-fun{a:vt0p}
-mynode_getref_elt (nx: mynode1 (INV(a))):<> Ptr1
-fun{a:vt0p}
-mynode_free_elt (nx: mynode1 (INV(a)), res: &(a?) >> a):<!wrt> void
+fun{} linmap_randbst_initize (): void
 
 (* ****** ****** *)
 
-fun{a:vt0p}
-queue_insert_ngc (*last*)
-  {n:int} (
-  q: !queue (INV(a), n) >> queue (a, n+1), nx: mynode1 (a)
-) :<!wrt> void // end of [queue_insert_ngc]
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-queue_takeout_ngc (*first*)
-  {n:int | n > 0}
-  (q: !queue (INV(a), n) >> queue (a, n-1)):<!wrt> mynode1 (a)
-// end of [queue_takeout_ngc]
-
-(* ****** ****** *)
-
-(* end of [linqueue_node.hats] *)
+(* end of [linmap_randbst.sats] *)

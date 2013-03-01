@@ -145,7 +145,7 @@ end // end of [funmap_listize]
 
 local
 
-staload Q = "libats/SATS/linqueue_list.sats"
+staload Q = "libats/SATS/qlist.sats"
 
 in // in of [local]
 

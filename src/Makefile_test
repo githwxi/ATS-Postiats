@@ -101,6 +101,12 @@ libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/unistd.sats
 
 ######
 
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/qlist.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/qlist.dats
+
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/dlist.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/dlist.dats
+
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/ilist_prf.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/ilist_prf.dats
 
@@ -139,9 +145,6 @@ libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linheap_binomial.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linheap_binomial.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linheap_fibonacci.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linheap_fibonacci.dats
-
-libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linqueue_list.sats
-libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linqueue_list.dats
 
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linralist_nested.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linralist_nested.dats

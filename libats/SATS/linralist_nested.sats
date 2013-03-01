@@ -35,6 +35,7 @@
 
 #define ATS_PACKNAME "ATSLIB.libats"
 #define ATS_STALOADFLAG 0 // no static loading at run-time
+#define ATS_EXTERN_PREFIX "atslib_"
 
 (* ****** ****** *)
 //
@@ -59,11 +60,11 @@ sortdef t0p = t@ype and vt0p = vt@ype
 // HX: indexed by list length
 //
 absvtype
-ralist_vt0ype_int_vtype (a:vt@ype+, n:int)
+ralist_vtype (a:vt@ype+, n:int)
 //
-stadef ralist = ralist_vt0ype_int_vtype
+stadef ralist = ralist_vtype
+//
 vtypedef ralist (a:vt0p) = [n:int] ralist (a, n)
-//
 vtypedef Ralist (a:vt0p) = [n:int] ralist (a, n)
 //
 (* ****** ****** *)

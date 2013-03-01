@@ -49,19 +49,15 @@
 //
 (* ****** ****** *)
 
-%{#
-#include "libats/CATS/linhashtbl_chain.cats"
-%} // end of [%{#]
-
-(* ****** ****** *)
-
 #define ATS_PACKNAME "ATSLIB.libats"
 #define ATS_STALOADFLAG 0 // no static loading at run-time
+#define ATS_EXTERN_PREFIX "atslib_"
 
 (* ****** ****** *)
 
-sortdef t0p = t@ype and vt0p = viewt@ype
+sortdef tk = tkind
+sortdef t0p = t@ype and vt0p = vt@ype
 
 (* ****** ****** *)
 
-(* end of [linhashtbl_chain.sats] *)
+(* end of [linhashtbl.sats] *)

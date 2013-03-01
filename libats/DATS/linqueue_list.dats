@@ -33,9 +33,7 @@
 
 (* ****** ****** *)
 
-staload
-UN = "prelude/SATS/unsafe.sats"
-// staload
+staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -141,7 +139,7 @@ queue_vtype (a:vt0p, n:int) = myqueue (a)
 implement{a}
 queue_is_empty
   {n} (q) = let
-  val+ @MYQUEUE (nxf, p_nxr) = q
+  val+@MYQUEUE (nxf, p_nxr) = q
   val isemp = (addr@ (nxf) = p_nxr)
   prval () = fold@ (q)
 in
@@ -151,7 +149,7 @@ end // end of [queue_is_empty]
 implement{a}
 queue_isnot_empty
   {n} (q) = let
-  val+ @MYQUEUE (nxf, p_nxr) = q
+  val+@MYQUEUE (nxf, p_nxr) = q
   val isnot = (addr@ (nxf) != p_nxr)
   prval () = fold@ (q)
 in
@@ -170,7 +168,7 @@ queue_insert_ngc
   {n} (q, nx0) = let
 //
 //
-val @MYQUEUE (nxf, p_nxr) = q
+val+@MYQUEUE (nxf, p_nxr) = q
 val nx0 = $UN.castvwtp0{gnode1(a)} (nx0)
 val () = $UN.ptr0_set<gnode1(a)> (p_nxr, nx0)
 val () = p_nxr := gnode_getref_next (nx0)
@@ -186,8 +184,9 @@ implement{a}
 queue_takeout_ngc
   {n} (q) = nx0 where {
 //
-val @MYQUEUE (nxf, p_nxr) = q
+val+@MYQUEUE (nxf, p_nxr) = q
 val nx0 = $UN.cast{gnode1(a)}(nxf)
+val () = nxf := gnode_get_next (nx0)
 val iseq = (p_nxr = gnode_getref_next (nx0))
 val () = if iseq then p_nxr := addr@ (nxf)
 prval () = fold@ (q)
@@ -200,8 +199,8 @@ implement{a}
 queue_takeout_list
   {n} (q) = let
 //
-val @MYQUEUE (nxf, p_nxr) = q
-val () = $UN.ptr0_set<List_vt(a)> (p_nxr, list_vt_nil)
+val+@MYQUEUE (nxf, p_nxr) = q
+val () = $UN.ptr0_set<gnode0(a)> (p_nxr, gnode_null ())
 val nx0 = nxf
 val () = p_nxr := addr@ (nxf)
 prval () = fold@ (q)

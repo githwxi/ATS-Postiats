@@ -32,6 +32,13 @@
 (* Start time: December, 2012 *)
 
 (* ****** ****** *)
+//
+// HX: shared by linmap_avltree
+// HX: shared by linmap_list (* unordered list *)
+// HX: shared by linmap_randbst
+// HX: shared by linmap_skiplst
+//
+(* ****** ****** *)
 
 absvtype
 map_vtype (key:t@ype, itm:vt@ype+)
@@ -43,15 +50,10 @@ sortdef t0p = t@ype and vt0p = vt@ype
 
 (* ****** ****** *)
 
-#ifdef EQUAL_KEY_KEY
 fun{key:t0p}
 equal_key_key (x1: key, x2: key):<> bool
-#endif // end of [EQUAL_KEY_KEY]
-
-#ifdef COMPARE_KEY_KEY
 fun{key:t0p}
 compare_key_key (x1: key, x2: key):<> int
-#endif // end of [COMPARE_KEY_KEY]
 
 (* ****** ****** *)
 

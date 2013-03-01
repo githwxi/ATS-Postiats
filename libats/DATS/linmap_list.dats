@@ -38,89 +38,61 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "libats/SATS/linmap.sats"
+staload "libats/SATS/linmap_list.sats"
 
 (* ****** ****** *)
 
-stadef mytkind = $extkind"atslib_linmap_list"
+#include "./SHARE/linmap.hats" // code reuse
 
 (* ****** ****** *)
 
-vtypedef
-map (key:t0p, itm:vt0p) = map (mytkind, key, itm)
+stadef
+mytkind = $extkind"atslib_linmap_list"
+assume
+map_vtype (k:t0p, i:vt0p) = List0_vt @(k, i)
 
 (* ****** ****** *)
 
-extern
-praxi
-map_foldin
-  {k:t0p;i:vt0p} (x: !List0_vt @(k, i) >> map (k, i)): void
-// end of [map_foldin]
-extern
-praxi
-map_unfold
-  {k:t0p;i:vt0p} (x: !map (k, i) >> List0_vt @(k, i)): void
-// end of [map_unfold]
-
-extern
-castfn
-map_encode {k:t0p;i:vt0p} (x: List0_vt @(k, i)):<> map (k, i)
-extern
-castfn
-map_decode {k:t0p;i:vt0p} (x: map (k, i)):<> List0_vt @(k, i)
+implement{}
+linmap_nil () = list_vt_nil ()
 
 (* ****** ****** *)
 
-implement
-linmap_nil<mytkind> () = map_encode (list_vt_nil ())
-
-(* ****** ****** *)
-
-implement
-linmap_is_nil<mytkind>
+implement{}
+linmap_is_nil
   (map) = ans where {
-  prval () = map_unfold (map)
   val ans = (
     case+ map of list_vt_nil _ => true | list_vt_cons _ => false
   ) : bool // end of [val]
-  prval () = map_foldin (map)
 } // end of [linmap_is_nil]
 
-implement
-linmap_isnot_nil<mytkind>
+implement{}
+linmap_isnot_nil
   (map) = ans where {
-  prval () = map_unfold (map)
   val ans = (
     case+ map of list_vt_nil _ => false | list_vt_cons _ => true
   ) : bool // end of [val]
-  prval () = map_foldin (map)
 } // end of [linmap_isnot_nil]
 
 (* ****** ****** *)
 
-implement(k,i)
-linmap_size<mytkind><k,i>
-  (map) = res where {
-  prval () = map_unfold (map)
-  val res = g1int2uint (list_vt_length (map))
-  prval () = map_foldin (map)  
-} // end of [linmap_size]
+implement
+{key,itm}
+linmap_size (map) = g1int2uint (list_vt_length (map))
 
 (* ****** ****** *)
 
-implement(k,i)
-linmap_free<mytkind><k,i>
-   (map) = list_vt_free<(k,i)> (map_decode (map))
-// end of [linmap_free]
+implement
+{key,itm}
+linmap_free (map) = list_vt_free<(key,itm)> (map)
 
 (* ****** ****** *)
 
-implement(k,i)
-linmap_insert_any<mytkind><k,i>
+implement
+{key,itm}
+linmap_insert_any
   (map, k0, x0) = let
-  prval () = map_unfold (map)
   val () = map := list_vt_cons ( @(k0, x0), map )
-  prval () = map_foldin (map)
 in
   // nothing
 end // end of [linmap_insert_any]
@@ -128,49 +100,47 @@ end // end of [linmap_insert_any]
 (* ****** ****** *)
 
 implement
-(k,i,env)
-linmap_foreach_env<mytkind><k,i><env>
+{key,itm}{env}
+linmap_foreach_env
   (map, env) = let
 //
-vtypedef ki = @(k, i)
+vtypedef ki = @(key, itm)
 //
 implement
 list_vt_foreach$cont<ki><env> (kx, env) = linmap_foreach$cont (kx.0, kx.1, env)
 implement
 list_vt_foreach$fwork<ki><env> (kx, env) = linmap_foreach$fwork (kx.0, kx.1, env)
 //
-prval () = map_unfold (map)
-val () = list_vt_foreach_env (map, env)
-prval () = map_foldin (map)
-//
 in
-  // nothing
+  list_vt_foreach_env (map, env)
 end // end of [linmap_foreach_env]
 
 (* ****** ****** *)
 
-implement(k,i)
-linmap_listize<mytkind><k,i>
-  (map) = res where {
-  prval () = map_unfold (map)  
-  val res = list_vt_copy<(k,i)> (map)
-  prval () = map_foldin (map)
-} // end of [linmap_listize]
+implement
+{key,itm}
+linmap_listize (map) = list_vt_copy<(key,itm)> (map)
 
-implement(k,i)
-linmap_listize_free<mytkind><k,i> (map) = map_decode (map)
+implement
+{key,itm}
+linmap_listize_free (map) = map // [map] is just a list
 
 (* ****** ****** *)
+//
+// HX: ngc-functions make no use of malloc/free!
+//
+(* ****** ****** *)
 
-implement(k,i)
-linmap_search_ngc<mytkind><k,i>
+implement
+{key,itm}
+linmap_search_ngc
   (map, k0) = let
 //
-vtypedef ki = @(k, i)
+vtypedef ki = @(key, itm)
 //
 fun loop
   {n:nat} .<n>. (
-  kxs: !list_vt (ki, n), k0: k
+  kxs: !list_vt (ki, n), k0: key
 ) :<> Ptr0 = let
 in
 //
@@ -178,7 +148,7 @@ case+ kxs of
 | @list_vt_cons
     (kx, kxs1) => let
     val iseq =
-      equal_key_key<k> (kx.0, k0)
+      equal_key_key<key> (kx.0, k0)
     // end of [val]
   in
     if iseq then let
@@ -196,26 +166,23 @@ case+ kxs of
 //
 end // end of [loop]
 //
-prval () = map_unfold (map)
-val res = loop (map, k0) // HX: Ptr1
-prval () = map_foldin (map)
-//
 in
-  res
+  loop (map, k0) // HX: Ptr1
 end // end of [linmap_search_ngc]
 
 (* ****** ****** *)
 
-implement(k,i)
-linmap_takeout_ngc<mytkind><k,i>
+implement
+{key,itm}
+linmap_takeout_ngc
   (map, k0) = let
 //
-vtypedef ki = @(k, i)
-vtypedef mynode0 = mynode0 (mytkind, k, i)
-vtypedef mynode1 = mynode1 (mytkind, k, i)
+vtypedef ki = @(key, itm)
+vtypedef mynode0 = mynode0 (key, itm)
+vtypedef mynode1 = mynode1 (key, itm)
 //
 fun loop (
-  kxs: &List0_vt (ki) >> _, k0: k
+  kxs: &List0_vt (ki) >> _, k0: key
 ) : mynode0 = let
 //
 vtypedef kis = List0_vt (ki)
@@ -226,7 +193,7 @@ case+ kxs of
 | @list_vt_cons
     (kx, kxs1) => let
     val iseq =
-      equal_key_key<k> (kx.0, k0)
+      equal_key_key<key> (kx.0, k0)
     // end of [val]
   in
     if iseq then let
@@ -247,12 +214,8 @@ case+ kxs of
 //
 end // end of [loop]
 //
-prval () = map_unfold (map)
-val res = loop (map, k0) // HX: mynode0
-prval () = map_foldin (map)
-//
 in
-  res
+  loop (map, k0) // HX: mynode0
 end // end of [linmap_takeout_ngc]
 
 (* ****** ****** *)

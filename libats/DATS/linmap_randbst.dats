@@ -38,23 +38,29 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "libats/SATS/linmap.sats"
+staload "libats/SATS/linmap_randbst.sats"
 
 (* ****** ****** *)
 
-stadef mytkind = $extkind"atslib_linmap_randbst"
+#include "./SHARE/linmap.hats" // code reuse
 
 (* ****** ****** *)
 
-vtypedef
-map (key:t0p, itm:vt0p) = map (mytkind, key, itm)
+stadef
+mytkind = $extkind"atslib_linmap_randbst"
 
 (* ****** ****** *)
 
 implement{}
-linmap_randbst_initize () = ftmp () where {
-  extern fun ftmp : () -> void = "atslib_srand48_with_time"
-} // end of [linmap_random_initize]
+linmap_randbst_initize () = let
+//
+val (
+) = ftmp () where {
+  extern fun ftmp : () -> void = "mac#atslib_srand48_with_time"
+} (* end of [val] *)
+//
+in
+end // end of [linmap_randbst_initize]
 
 (* ****** ****** *)
 
@@ -111,27 +117,7 @@ bstree0 (key:t0p, itm:vt0p) = [n:nat] bstree (key, itm, n)
 
 (* ****** ****** *)
 
-(*
-assume
-map_vtype (mytkind, key:t0p, itm: vt0p) = bstree0 (key, itm)
-*)
-extern
-praxi
-map_foldin
-  {k:t0p;i:vt0p} (x: !bstree0 (k, i) >> map (k, i)): void
-// end of [map_foldin]
-extern
-praxi
-map_unfold
-  {k:t0p;i:vt0p} (x: !map (k, i) >> bstree0 (k, i)): void
-// end of [map_unfold]
-
-extern
-castfn
-map_encode {k:t0p;i:vt0p} (x: bstree0 (k, i)):<> map (k, i)
-extern
-castfn
-map_decode {k:t0p;i:vt0p} (x: map (k, i)):<> bstree0 (k, i)
+assume map_vtype (key:t0p, itm:vt0p) = bstree0 (key, itm)
 
 (* ****** ****** *)
 
@@ -146,40 +132,32 @@ key:t0p;itm:vt0p
 
 (* ****** ****** *)
 
-implement
-linmap_nil<mytkind> () = map_encode (BSTnil ())
+implement{
+} linmap_nil () = BSTnil ()
 
 (* ****** ****** *)
 
-implement
-linmap_is_nil<mytkind>
+implement{
+} linmap_is_nil
   (map) = ans where {
-  prval () = map_unfold (map)
   val ans = (
     case+ map of BSTnil _ => true | BSTcons _ => false
   ) : bool // end of [val]
-  prval () = map_foldin (map)
 } // end of [linmap_is_nil]
 
-implement
-linmap_isnot_nil<mytkind>
+implement{
+} linmap_isnot_nil
   (map) = ans where {
-  prval () = map_unfold (map)
   val ans = (
     case+ map of BSTnil _ => false | BSTcons _ => true
   ) : bool // end of [val]
-  prval () = map_foldin (map)
 } // end of [linmap_isnot_nil]
 
 (* ****** ****** *)
 
-implement(k,i)
-linmap_size<mytkind><k,i>
-  (map) = res where {
-  prval () = map_unfold (map)
-  val res = g1int2uint (bstree_size<k,i> (map))
-  prval () = map_foldin (map)
-} // end of [linmap_size]
+implement
+{key,itm}
+linmap_size (map) = g1int2uint (bstree_size<key,itm> (map))
 
 (* ****** ****** *)
 
@@ -206,8 +184,9 @@ end // end of [auxfree]
 
 in // in of [local]
 
-implement(k,i)
-linmap_free<mytkind><k,i> (map) = auxfree<k,i> (map_decode (map))
+implement
+{key,itm}
+linmap_free (map) = auxfree<key,itm> (map)
 
 end // end of [local]
 
@@ -244,13 +223,11 @@ end // end of [bstree_search_ref]
 
 (* ****** ****** *)
 
-implement(k,i)
-linmap_search_ref<mytkind><k,i>
-  (map, k0) = res where {
-  prval () = map_unfold (map)
-  val res = bstree_search_ref<k,i> (map, k0)
-  prval () = map_foldin (map)
-} // end of [linmap_search_ref]
+implement
+{key,itm}
+linmap_search_ref
+  (map, k0) = bstree_search_ref<key,itm> (map, k0)
+// end of [linmap_search_ref]
 
 (* ****** ****** *)
 
@@ -377,14 +354,13 @@ end (* end of [bstree_insert_random] *)
 
 (* ****** ****** *)
 
-implement(k,i)
-linmap_insert<mytkind><k,i> (
+implement
+{key,itm}
+linmap_insert (
   map, k0, x0, res
 ) = let
   val () = res := x0
-  prval () = map_unfold (map)
-  val i = bstree_insert_random<k,i> (map, k0, res)
-  prval () = map_foldin (map)
+  val i = bstree_insert_random<key,itm> (map, k0, res)
 in
   if i > 0 then true else false
 end // end of [linmap_insert]
@@ -481,27 +457,27 @@ end // end of [bstree_takeout_random]
 
 (* ****** ****** *)
 
-implement(k,i)
-linmap_takeout<mytkind><k,i>
+implement
+{key,itm}
+linmap_takeout
   (map, k0, res) = let
-  prval () = map_unfold (map)
-  val i = bstree_takeout_random<k,i> (map, k0, res)
-  prval () = map_foldin (map)
+  val i = bstree_takeout_random<key,itm> (map, k0, res)
 in
   if i > 0 then true else false
 end // end of [linmap_takeout]
 
 (* ****** ****** *)
 
-implement(k,i,env)
-linmap_foreach_env<mytkind><k,i><env>
+implement
+{key,itm}{env}
+linmap_foreach_env
   (map, env) = let
 //
 exception DISCONT of ()
 //
 fun aux
   {n:nat} .<n>. (
-  t: !bstree (k, i, n), env: &(env) >> _
+  t: !bstree (key, itm, n), env: &(env) >> _
 ) : void = let
 in
 //
@@ -526,7 +502,7 @@ end // end of [aux]
 fun aux2 (
   t: ptr, env: &(env) >> _
 ) : void = let
-  stadef bst = bstree0(k,i)
+  stadef bst = bstree0 (key,itm)
   val t = $UN.castvwtp0 {bst} (t)
   val () = aux (t, env)
   val t = $UN.castvwtp0 {ptr} (t)
@@ -542,13 +518,14 @@ end // end of [linmap_foreach_env]
 
 (* ****** ****** *)
 
-implement(k,i)
-linmap_freelin<mytkind><k,i>
+implement
+{key,itm}
+linmap_freelin
   (map) = let
 //
 fun aux
   {n:nat} .<n>. (
-  t: bstree (k, i, n)
+  t: bstree (key, itm, n)
 ) : void = let
 in
 //
@@ -568,35 +545,33 @@ case+ t of
 end // end of [aux]
 //
 in
-  $effmask_all (aux (map_decode (map)))
+  $effmask_all (aux (map))
 end // end of [linmap_freelin]
 
 (* ****** ****** *)
 
-implement(k,i)
-linmap_free_ifnil<mytkind><k,i>
+implement
+{key,itm}
+linmap_free_ifnil
   (map) = let
 //
-vtypedef map = map (k, i)
+vtypedef map = map (key, itm)
 //
-val map1 =
+val map2 =
   __cast (map) where {
   extern castfn __cast : (!map >> map?) -<> map
-} (* end of [val] *)
-//
-val map1 = map_decode (map1)
+} // end of [where] // end of [val]
 //
 in
 //
-case+ map1 of
+case+ map2 of
 | ~BSTnil () => let
     prval () = opt_none {map} (map) in false
   end // end of [BSTnil]
 | @BSTcons _ => let
-    prval () = fold@ (map1)
-    prval () = map_foldin (map1)
+    prval () = fold@ (map2)
     prval () =
-      __assert (map, map1) where {
+      __assert (map, map2) where {
       extern praxi __assert : (!map? >> map, map) -<prf> void
     } // end of [val]
     prval () = opt_some {map} (map) in true
@@ -606,15 +581,16 @@ end // end of [linmap_free_ifnil]
 
 (* ****** ****** *)
 
-implement(k,i)
-linmap_listize<mytkind><k,i>
+implement
+{key,itm}
+linmap_listize
   (map) = let
 //
-typedef ki = @(k, i)
+typedef ki = @(key, itm)
 //
 fun aux
   {m,n:nat} .<n>. (
-  t: !bstree (k, i, n), res: list_vt (ki, m)
+  t: !bstree (key, itm, n), res: list_vt (ki, m)
 ) :<> list_vt (ki, m+n) = let
 in
 //
@@ -630,23 +606,20 @@ case+ t of
 //
 end // end of [aux]
 //
-prval () = map_unfold (map)
-val res = aux (map, list_vt_nil ())
-prval () = map_foldin (map)
-//
 in
-  res(*list_vt(ki)*)
+  aux (map, list_vt_nil ())
 end // end of [linmap_listize]
 
-implement(k,i)
-linmap_listize_free<mytkind><k,i>
+implement
+{key,itm}
+linmap_listize_free
   (map) = let
 //
-vtypedef ki = @(k, i)
+vtypedef ki = @(key, itm)
 //
 fun aux
   {m,n:nat} .<n>. (
-  t: bstree (k, i, n), res: list_vt (ki, m)
+  t: bstree (key, itm, n), res: list_vt (ki, m)
 ) :<!wrt> list_vt (ki, m+n) = let
 in
 //
@@ -663,7 +636,7 @@ case+ t of
 end // end of [aux]
 //
 in
-  aux (map_decode (map), list_vt_nil ())
+  aux (map, list_vt_nil ())
 end // end of [linmap_listize_free]
 
 (* ****** ****** *)

@@ -474,7 +474,7 @@ end // end of [local]
 
 local
 
-staload Q = "libats/SATS/linqueue_list.sats"
+staload Q = "libats/SATS/qlist.sats"
 
 in // in of [local]
 

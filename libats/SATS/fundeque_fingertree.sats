@@ -26,27 +26,6 @@
 *)
 
 (* ****** ****** *)
-
-(*
-**
-** A functional concatenable deque implementation based on fingertrees.
-** Please see the JFP paper by Hinze and Paterson on fingertrees for more
-** details on this interesting data structure.
-**
-** Contributed by
-**   Robbie Harwood (rharwood AT cs DOT bu DOT edu)
-** Contributed by Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-**
-** Time: November, 2010
-**
-*)
-
-(*
-** Ported to ATS2 by Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-** Time: May, 2012
-*)
-
-(* ****** ****** *)
 //
 // License: LGPL 3.0 (available at http://www.gnu.org/licenses/lgpl.txt)
 //

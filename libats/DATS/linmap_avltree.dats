@@ -38,16 +38,15 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "libats/SATS/linmap.sats"
+staload "libats/SATS/linmap_avltree.sats"
+
+(* ****** ****** *)
+
+#include "./SHARE/linmap.hats" // code reuse
 
 (* ****** ****** *)
 
 stadef mytkind = $extkind"atslib_linmap_avltree"
-
-(* ****** ****** *)
-
-vtypedef
-map (key:t0p, itm:vt0p) = map (mytkind, key, itm)
 
 (* ****** ****** *)
 

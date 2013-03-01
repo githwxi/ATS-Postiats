@@ -27,31 +27,18 @@
 
 (* ****** ****** *)
 
-(*
-**
-** A linear set implementation based on AVL trees
-**
-** Contributed by Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-** Time: October, 2011
-**
-*)
-
-(* ****** ****** *)
-//
-// License: LGPL 3.0 (available at http://www.gnu.org/licenses/lgpl.txt)
-//
-(* ****** ****** *)
-//
-// HX-2012-12: ported to ATS/Postitats from ATS/Anairiats
-//
-(* ****** ****** *)
-
 #define ATS_PACKNAME "ATSLIB.libats"
 #define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 
+sortdef tk = tkind
+sortdef t0p = t@ype and vt0p = vt@ype
+
+(* ****** ****** *)
+
 #include "./SHARE/linset.hats"
+#include "./SHARE/linset_node.hats"
 
 (* ****** ****** *)
 

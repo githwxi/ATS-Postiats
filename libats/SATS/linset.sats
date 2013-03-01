@@ -31,29 +31,9 @@ sortdef tk = tkind
 sortdef t0p = t@ype and vt0p = vt@ype
 
 (* ****** ****** *)
-//
-// HX-2013-02:
-// for sets of nonlinear elements
-//
-absvtype set_vtype (tk:tkind, a:t@ype+)
 
-(* ****** ****** *)
-
-stadef set = set_vtype // end of [stadef]
-
-(* ****** ****** *)
-
-fun{a:t0p}
-compare_elt_elt (x1: &a, x2: &a):<> int
-
-(* ****** ****** *)
-
-fun{
-tk:tk}{a:t0p
-} linset_is_member (xs: !set (tk, a), x0: a):<> bool
-fun{
-tk:tk}{a:t0p
-} linset_isnot_member (xs: !set (tk, a), x0: a):<> bool
+#include "./SHARE/linset.hats"
+#include "./SHARE/linset_node.hats"
 
 (* ****** ****** *)
 

@@ -1,7 +1,7 @@
 (* ****** ****** *)
 
 %{
-implement srcfilename_get () = "../linmap.sats"
+implement srcfilename_get () = "../linmap_list.sats"
 %}
 
 (* ****** ****** *)

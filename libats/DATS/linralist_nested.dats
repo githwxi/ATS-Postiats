@@ -33,7 +33,8 @@
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -69,7 +70,9 @@ datavtype myralist
 (* ****** ****** *)
 
 assume
-ralist_vt0ype_int_vtype (a:vt0p, n:int) = myralist (a, 0, n)
+ralist_vtype
+  (a:vt0p, n:int) = myralist (a, 0, n)
+// end of [ralist_vtype]
 
 (* ****** ****** *)
 

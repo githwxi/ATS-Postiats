@@ -1,7 +1,7 @@
 (* ****** ****** *)
 
 %{
-implement srcfilename_get () = "../linralist_nested.sats"
+implement srcfilename_get () = "../linralist.sats"
 %}
 
 (* ****** ****** *)

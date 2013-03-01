@@ -52,9 +52,6 @@ UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload "libats/SATS/gnode.sats"
-
-(* ****** ****** *)
-
 staload "libats/SATS/linheap_fibonacci.sats"
 
 (* ****** ****** *)

@@ -32,18 +32,25 @@
 (* Start time: December, 2012 *)
 
 (* ****** ****** *)
+//
+// HX: shared by linmap_list
+//
+(* ****** ****** *)
 
 absvtype
-mynode_vtype
-  (key: t@ype, itm:vt@ype+, l:addr)
-stadef mynode = mynode_vtype
+linmap_node_vtype (key: t@ype, itm:vt@ype+, l:addr)
+
+(* ****** ****** *)
+//
+stadef mynode = linmap_node_vtype // HX: local shorthand
+//
 vtypedef
 mynode (key:t0p, itm:vt0p) = [l:addr] mynode (key, itm, l)
 vtypedef
 mynode0 (key:t0p, itm:vt0p) = [l:addr | l >= null] mynode (key, itm, l)
 vtypedef
 mynode1 (key:t0p, itm:vt0p) = [l:addr | l >  null] mynode (key, itm, l)
-
+//
 (* ****** ****** *)
 
 castfn

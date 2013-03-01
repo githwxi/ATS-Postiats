@@ -57,4 +57,4 @@ sortdef t0p = t@ype and vt0p = vt@ype
 
 (* ****** ****** *)
 
-(* end of [linheap_binomial.sats] *)
+(* end of [linheap.sats] *)

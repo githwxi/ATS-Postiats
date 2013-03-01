@@ -32,8 +32,19 @@
 (* Start time: December, 2012 *)
 
 (* ****** ****** *)
+//
+// HX: shared by linmap_list
+//
+(* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+implement{key}
+equal_key_key (k1, k2) = gequal_val<key> (k1, k2)
+implement{key}
+compare_key_key (k1, k2) = gcompare_val<key> (k1, k2)
 
 (* ****** ****** *)
 
@@ -48,7 +59,7 @@ if p > 0 then let
   prval (
     pf, fpf
   ) = __assert () where {
-    extern praxi __assert (): (itm @ l, itm @ l -<prf> void)
+    extern praxi __assert (): vtakeout (void, itm @ l)
   } // end of [prval]
   val () = res := !p
   prval () = fpf (pf)
@@ -202,48 +213,9 @@ implement
 {key,itm}
 linmap_foreach
   (map) = let
-//
-var env: void = () in linmap_foreach_env<key,itm><void> (map, env)
-//
+  var env: void = () in
+  linmap_foreach_env<key,itm><void> (map, env)
 end // end of [linmap_foreach]
-
-(* ****** ****** *)
-
-local
-
-staload Q = "libats/SATS/linqueue_list.sats"
-
-in // in of [local]
-
-implement
-{key,itm}
-linmap_listize
-  (map) = let
-//
-viewtypedef tki = @(key, itm)
-//
-viewtypedef tenv = $Q.Qstruct (tki)
-//
-implement
-linmap_foreach$fwork<key,itm><tenv>
-  (k, x, env) = $Q.qstruct_insert<tki> (env, @(k, x))
-// end of [linmap_foreach$fwork]
-//
-var env: $Q.qstruct
-//
-val () = $Q.qstruct_initize<tki> (env)
-//
-val () = $effmask_all (linmap_foreach_env (map, env))
-//
-val res = $Q.qstruct_takeout_list (env)
-//
-val () = $Q.qstruct_uninitize<tki> (env)
-//
-in
-  res
-end // end of [linmap_listize]
-
-end // end of [local]
 
 (* ****** ****** *)
 
