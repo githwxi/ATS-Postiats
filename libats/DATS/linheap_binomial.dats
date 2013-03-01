@@ -55,6 +55,11 @@
 
 (* ****** ****** *)
 
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "libats/SATS/linheap_binomial.sats"
 
 (* ****** ****** *)
@@ -248,51 +253,53 @@ bheap_bheap_merge
   {n1,n2:nat}
   {sz1,sz2:nat} .<sz1+sz2>. (
   hp1: bheap (a, n1, sz1), hp2: bheap (a, n2, sz2)
-) :<!wrt> [n:int | n >= min(n1, n2)] bheap (a, n, sz1+sz2) =
-  case+ hp1 of
-  | ~bheap_nil () => hp2
-  | @bheap_cons (pf1 | bt1, hp11) => (
-    case+ hp2 of
-    | ~bheap_nil () => (fold@ (hp1); hp1)
-    | @bheap_cons (pf2 | bt2, hp21) => let
+) :<!wrt>
+  [n:int | n >= min(n1, n2)] bheap (a, n, sz1+sz2) = let
+in
 //
-        prval pf1 = pf1 and pf2 = pf2
-        prval () = exp2_ispos (pf1) and () = exp2_ispos (pf2)
+case+ hp1 of
+| ~bheap_nil () => hp2
+| @bheap_cons (pf1 | bt1, hp11) => (
+  case+ hp2 of
+  | ~bheap_nil () => (fold@ (hp1); hp1)
+  | @bheap_cons (pf2 | bt2, hp21) => let
 //
-        val n1 = btree_rank<a> (bt1)
-        and n2 = btree_rank<a> (bt2)
+      prval pf1 = pf1 and pf2 = pf2
+      prval () = exp2_ispos (pf1) and () = exp2_ispos (pf2)
+//
+      val n1 = btree_rank<a> (bt1)
+      and n2 = btree_rank<a> (bt2)
+    in
+      if n1 < n2 then let
+        prval () = fold@ (hp2)
+        val () = hp11 := bheap_bheap_merge (hp11, hp2)
+        prval () = fold@ (hp1)
       in
-        if n1 < n2 then let
-          prval () = fold@ (hp2)
-          val () = hp11 := bheap_bheap_merge (hp11, hp2)
-          prval () = fold@ (hp1)
-        in
-          hp1
-        end else if n1 > n2 then let
-          prval () = fold@ (hp1)
-          val () = hp21 := bheap_bheap_merge (hp1, hp21)
-          prval () = fold@ (hp2)
-        in
-          hp2
-        end else let
-          prval () = exp2_isfun (pf1, pf2)
-          val bt12 = btree_btree_merge (bt1, bt2)
-          val hp11 = hp11 and hp21 = hp21
-          val () = free@ {a}{0}{0}{0}{1} (hp1)
-          val () = free@ {a}{0}{0}{0}{1} (hp2)
-        in
-          btree_bheap_merge (EXP2ind (pf1) | bt12, n1+1, bheap_bheap_merge (hp11, hp21))
-        end // end of [if]
-      end (* end of [bheap_cons] *)
-    ) // end of [bheap_cons]
-// end of [bheap_bheap_merge]
+        hp1
+      end else if n1 > n2 then let
+        prval () = fold@ (hp1)
+        val () = hp21 := bheap_bheap_merge (hp1, hp21)
+        prval () = fold@ (hp2)
+      in
+        hp2
+      end else let
+        prval () = exp2_isfun (pf1, pf2)
+        val bt12 = btree_btree_merge (bt1, bt2)
+        val hp11 = hp11 and hp21 = hp21
+        val () = free@ {a}{0}{0}{0}{1} (hp1)
+        val () = free@ {a}{0}{0}{0}{1} (hp2)
+      in
+        btree_bheap_merge (EXP2ind (pf1) | bt12, n1+1, bheap_bheap_merge (hp11, hp21))
+      end // end of [if]
+    end (* end of [bheap_cons] *)
+  ) // end of [bheap_cons]
+end // end of [bheap_bheap_merge]
 
 (* ****** ****** *)
 
 local
 
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/unsafe.dats"
+staload _ = "prelude/DATS/unsafe.dats"
 
 in // in of [local]
 
@@ -353,85 +360,89 @@ bheap_remove
 //
 // HX: [search] and [remove] can be merged into one
 //
-  fun search
-    {n:nat}{sz:nat} .<sz>. (
-    hp0: !bheap (a, n, sz), x0: &a, pos: &Nat >> _
-  ) :<!wrt> void = let
+fun search
+  {n:nat}{sz:nat} .<sz>. (
+  hp0: !bheap (a, n, sz), x0: &a, pos: &Nat >> _
+) :<!wrt> void = let
+in
+//
+case+ hp0 of
+| @bheap_cons
+    (pf | bt, hp) => let
+    prval () = exp2_ispos (pf)
+    val+ @btnode (_, x, _) = bt
+    val sgn = compare_elt_elt<a> (x0, x)
+    val () =
+      if sgn > 0 then let
+      val p_x0 = addr@ (x0) and p_x = addr@ (x)
+      val () = $UN.ptr0_set<a> (p_x0, $UN.ptr0_get<a>(p_x))
+      val () = pos := pos + 1
+    in
+      // nothing
+    end // end of [val]
+    prval () = fold@ (bt)
+    val () = search (hp, x0, pos)
+    prval () = fold@ (hp0)
   in
-    case+ hp0 of
-    | @bheap_cons
-        (pf | bt, hp) => let
-        prval () = exp2_ispos (pf)
-        val+ @btnode (_, x, _) = bt
-        val sgn = compare_elt_elt<a> (x0, x)
-        val () =
-          if sgn > 0 then let
-          val p_x0 = addr@ (x0) and p_x = addr@ (x)
-          val () = $UN.ptr0_set<a> (p_x0, $UN.ptr0_get<a>(p_x))
-          val () = pos := pos + 1
-        in
-          // nothing
-        end // end of [val]
-        prval () = fold@ (bt)
-        val () = search (hp, x0, pos)
-        prval () = fold@ (hp0)
-      in
-        // nothing
-      end // [bheap_cons]
-    | bheap_nil () => ()
-  end // end of [search]
+    // nothing
+  end // [bheap_cons]
+| bheap_nil () => ()
+//
+end // end of [search]
+//
+val+ @bheap_cons
+  (pf0 | bt0, hp1) = hp0
+val+ @btnode (_, x, _) = bt0
+val p_x = addr@ (x); prval () = fold@ {a} (bt0)
+var x0: a = $UN.ptr0_get<a> (p_x) and pos: Nat = 0
+val () = search (hp1, x0, pos)
+prval () =
+  __clear (x0) where {
+  extern praxi __clear (x: &a >> a?): void
+} (* end of [prval] *)
+prval () = fold@ {a} (hp0)
+//
+fun remove
+  {n:nat}{sz:nat}
+  {pos:nat} .<pos>. (
+  hp0: &bheap (a, n, sz) >> bheap (a, n1, sz-p)
+, pos: int (pos)
+, btmin: &btree(a, 0)? >> btree (a, n2)
+) :<!wrt> #[
+  n1,n2,p:int | n1 >= n; n2 >= n; sz >= p
+] (
+  EXP2 (n2, p) | void
+) = let
+//
+  prval () = __assert () where {
+    extern praxi __assert (): [sz > 0] void
+  } // end of [prval]
 //
   val+ @bheap_cons
-    (pf0 | bt0, hp1) = hp0
-  val+ @btnode (_, x, _) = bt0
-  val p_x = addr@ (x); prval () = fold@ {a} (bt0)
-  var x0: a = $UN.ptr0_get<a> (p_x) and pos: Nat = 0
-  val () = search (hp1, x0, pos)
-  prval () =
-    __clear (x0) where {
-    extern praxi __clear (x: &a >> a?): void
-  } // end of [prval]
-  prval () = fold@ {a} (hp0)
+    (pf | bt, hp) = hp0
+  // end of [val]
+  prval pf = pf
+  prval () = exp2_ispos (pf)
+in
 //
-  fun remove
-    {n:nat}{sz:nat}
-    {pos:nat} .<pos>. (
-    hp0: &bheap (a, n, sz) >> bheap (a, n1, sz-p)
-  , pos: int (pos)
-  , btmin: &btree(a, 0)? >> btree (a, n2)
-  ) :<!wrt> #[
-    n1,n2,p:int | n1 >= n; n2 >= n; sz >= p
-  ] (
-    EXP2 (n2, p) | void
-  ) = let
+if pos > 0 then let
+  val (pfmin | ()) = remove (hp, pos-1, btmin)
+  prval () = fold@ (hp0)
+in
+  (pfmin | ())
+end else let
+  val () = btmin := bt
+  val hp = hp
+  val () = free@ {a}{0}{0}{0}{1} (hp0)
+  val () = hp0 := hp
+in
+  (pf | ())
+end // end of [if]
 //
-    prval () = __assert () where {
-      extern praxi __assert (): [sz > 0] void
-    } // end of [prval]
+end (* end of [remove] *)
 //
-    val+ @bheap_cons
-      (pf | bt, hp) = hp0
-    // end of [val]
-    prval pf = pf
-    prval () = exp2_ispos (pf)
-  in
-    if pos > 0 then let
-      val (pfmin | ()) = remove (hp, pos-1, btmin)
-      prval () = fold@ (hp0)
-    in
-      (pfmin | ())
-    end else let
-      val () = btmin := bt
-      val hp = hp
-      val () = free@ {a}{0}{0}{0}{1} (hp0)
-      val () = hp0 := hp
-    in
-      (pf | ())
-    end // end of [if]
-  end (* end of [remove] *)
-//
-  var btmin: btree (a, 0)?
-  val (pf | ()) = remove (hp0, pos, btmin)
+var btmin: btree (a, 0)?
+val (pf | ()) = remove (hp0, pos, btmin)
 //
 in
   (pf | btmin)

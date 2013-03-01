@@ -1014,33 +1014,5 @@ setvbuf1
 overload setvbuf with setvbuf1
 
 (* ****** ****** *)
-//
-// HX-2012-05: functions for creating iterators
-//
-(* ****** ****** *)
-
-staload IT = "prelude/SATS/giterator.sats"
-
-stacst giter_fileptr_charlst_kind : tkind
-stacst giter_fileptr_charlst_param : (addr, fm) -> tkind
-
-(*
-** HX-2012:
-** this one is a fun-iterator
-*)
-fun giter_make_fileptr_charlst
-  {l:addr}{m:fm} (
-  pf: fmlte (m, r()) | filp: FILEptr (l, m)
-) : $IT.giter (
-  giter_fileptr_charlst_kind, giter_fileptr_charlst_param(l,m), char
-) // end of [giter_make_fileptr_charlst]
-
-fun giter_free_fileptr_charlst
-  {l:addr}{m:fm} (
-  itr: $IT.giter
-    (giter_fileptr_charlst_kind, giter_fileptr_charlst_param(l,m), char)
-) : FILEptr (l, m) // end of [giter_free_fileptr_charlst]
-
-(* ****** ****** *)
 
 (* end of [stdio.sats] *)

@@ -204,6 +204,19 @@ end // end of [linmap_remove]
 (* ****** ****** *)
 
 implement
+{key,itm}
+linmap_free (map) = let
+//
+implement
+linmap_freelin$clear<itm> (x) = ()
+//
+in
+  linmap_freelin<key,itm> (map)
+end // end of [linmap_free]
+
+(* ****** ****** *)
+
+implement
 {key,itm}{env}
 linmap_foreach$cont (k, x, env) = true
 
@@ -219,16 +232,37 @@ end // end of [linmap_foreach]
 
 (* ****** ****** *)
 
+local
+
+staload Q = "libats/SATS/qlist.sats"
+
+in // in of [local]
+
 implement
 {key,itm}
-linmap_free (map) = let
+linmap_listize
+  (map) = let
+//
+typedef tki = @(key, itm)
+//
+vtypedef tenv = $Q.Qstruct (tki)
 //
 implement
-linmap_freelin$clear<itm> (x) = ()
+linmap_foreach$fwork<key,itm><tenv>
+  (k, x, env) = $Q.qstruct_insert<tki> (env, @(k, x))
+// end of [linmap_foreach$fwork]
+//
+var env: $Q.qstruct
+val () = $Q.qstruct_initize<tki> (env)
+val () = $effmask_all (linmap_foreach_env (map, env))
+val res = $Q.qstruct_takeout_list (env)
+val () = $Q.qstruct_uninitize<tki> (env)
 //
 in
-  linmap_freelin<key,itm> (map)
-end // end of [linmap_free]
+  res
+end // end of [linmap_listize]
+
+end // end of [local]
 
 (* ****** ****** *)
 

@@ -33,16 +33,17 @@
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "libats/SATS/linqueue_list.sats"
+staload "libats/SATS/qlist.sats"
 
 (* ****** ****** *)
 
 implement{a}
-queue_make (
+qlist_make (
 ) = que where {
   val (
     pf, pfgc | p
@@ -51,17 +52,17 @@ queue_make (
   val () = qstruct_initize (!p)
   prval pfngc = qstruct_objfize (pf | que)
   prval () = free_gcngc_v_nullify (pfgc, pfngc)
-} // end of [queue_make]
+} // end of [qlist_make]
 
 (* ****** ****** *)
 
 implement{a}
-queue_insert
+qlist_insert
   {n} (q, x) = let
   val nx = mynode_make_elt (x)
 in
-  queue_insert_ngc {n} (q, nx)
-end // end of [queue_insert]
+  qlist_insert_ngc {n} (q, nx)
+end // end of [qlist_insert]
 
 implement{a}
 qstruct_insert
@@ -71,7 +72,7 @@ val pq = addr@(q)
 val q2 = ptr2ptrlin (pq)
 prval pfngc =
   qstruct_objfize (view@(q) | q2)
-val () = queue_insert<a> (q2, x)
+val () = qlist_insert<a> (q2, x)
 prval pfat = qstruct_unobjfize (pfngc | pq, q2)
 prval () = view@(q) := pfat
 prval () = ptrlin_free (q2)
@@ -83,12 +84,12 @@ end // end of [qstruct_insert]
 (* ****** ****** *)
 
 implement{a}
-queue_takeout
+qlist_takeout
   {n} (q) = res where {
   var res: a
-  val nx = queue_takeout_ngc {n} (q)
+  val nx = qlist_takeout_ngc {n} (q)
   val () = mynode_free_elt (nx, res)
-} // end of [queue_takeout]
+} // end of [qlist_takeout]
 
 implement{a}
 qstruct_takeout
@@ -98,7 +99,7 @@ val pq = addr@(q)
 val q2 = ptr2ptrlin (pq)
 prval pfngc =
   qstruct_objfize (view@(q) | q2)
-val res = queue_takeout<a> (q2)
+val res = qlist_takeout<a> (q2)
 prval pfat = qstruct_unobjfize (pfngc | pq, q2)
 prval () = view@(q) := pfat
 prval () = ptrlin_free (q2)
@@ -112,7 +113,7 @@ staload "libats/SATS/gnode.sats"
 (* ****** ****** *)
 
 stadef
-mykind = $extkind"atslib_libqueue_list"
+mykind = $extkind"atslib_qlist"
 
 (* ****** ****** *)
 
@@ -125,50 +126,50 @@ typedef gnode1 (a:vt0p) = gnode1 (mykind, a)
 (* ****** ****** *)
 
 datavtype
-myqueue (
+myqlist (
   a:vt@ype+
 ) =
-  MYQUEUE of (gnode0(a), ptr)
+  MYQLIST of (gnode0(a), ptr)
 // end of [datavtype]
 
 assume
-queue_vtype (a:vt0p, n:int) = myqueue (a)
+qlist_vtype (a:vt0p, n:int) = myqlist (a)
 
 (* ****** ****** *)
 
 implement{a}
-queue_is_empty
+qlist_is_nil
   {n} (q) = let
-  val+@MYQUEUE (nxf, p_nxr) = q
+  val+@MYQLIST (nxf, p_nxr) = q
   val isemp = (addr@ (nxf) = p_nxr)
   prval () = fold@ (q)
 in
   $UN.cast{bool(n==0)} (isemp)
-end // end of [queue_is_empty]
+end // end of [qlist_is_nil]
 
 implement{a}
-queue_isnot_empty
+qlist_isnot_nil
   {n} (q) = let
-  val+@MYQUEUE (nxf, p_nxr) = q
+  val+@MYQLIST (nxf, p_nxr) = q
   val isnot = (addr@ (nxf) != p_nxr)
   prval () = fold@ (q)
 in
   $UN.cast{bool(n > 0)} (isnot)
-end // end of [queue_isnot_empty]
+end // end of [qlist_isnot_nil]
 
 (* ****** ****** *)
 
 assume
-mynode_vtype (a:vt0p, l:addr) = gnode (a, l)
+qlist_node_vtype (a:vt0p, l:addr) = gnode (a, l)
 
 (* ****** ****** *)
 
 implement{a}
-queue_insert_ngc
+qlist_insert_ngc
   {n} (q, nx0) = let
 //
 //
-val+@MYQUEUE (nxf, p_nxr) = q
+val+@MYQLIST (nxf, p_nxr) = q
 val nx0 = $UN.castvwtp0{gnode1(a)} (nx0)
 val () = $UN.ptr0_set<gnode1(a)> (p_nxr, nx0)
 val () = p_nxr := gnode_getref_next (nx0)
@@ -176,30 +177,30 @@ prval () = fold@ (q)
 //  
 in
   // nothing
-end // end of [queue_insert_ngc]
+end // end of [qlist_insert_ngc]
 
 (* ****** ****** *)
 
 implement{a}
-queue_takeout_ngc
+qlist_takeout_ngc
   {n} (q) = nx0 where {
 //
-val+@MYQUEUE (nxf, p_nxr) = q
+val+@MYQLIST (nxf, p_nxr) = q
 val nx0 = $UN.cast{gnode1(a)}(nxf)
 val () = nxf := gnode_get_next (nx0)
 val iseq = (p_nxr = gnode_getref_next (nx0))
 val () = if iseq then p_nxr := addr@ (nxf)
 prval () = fold@ (q)
 //
-} // end of [queue_takeout_ngc]
+} // end of [qlist_takeout_ngc]
 
 (* ****** ****** *)
 
 implement{a}
-queue_takeout_list
+qlist_takeout_list
   {n} (q) = let
 //
-val+@MYQUEUE (nxf, p_nxr) = q
+val+@MYQLIST (nxf, p_nxr) = q
 val () = $UN.ptr0_set<gnode0(a)> (p_nxr, gnode_null ())
 val nx0 = nxf
 val () = p_nxr := addr@ (nxf)
@@ -207,8 +208,8 @@ prval () = fold@ (q)
 //
 in
   $UN.castvwtp0{list_vt(a,n)} (nx0)
-end // end of [queue_takeout_list]
+end // end of [qlist_takeout_list]
 
 (* ****** ****** *)
 
-(* end of [linqueue_list.dats] *)
+(* end of [qlist.dats] *)

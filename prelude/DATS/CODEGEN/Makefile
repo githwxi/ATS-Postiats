@@ -191,14 +191,6 @@ list_vt_atxt.dats: list_vt.atxt
 clean:: ; $(RMF) list_vt_atxt.exe
 cleanall:: ; $(RMF) list_vt.dats
 
-all:: dlist_vt.dats
-dlist_vt.dats: dlist_vt_atxt.exe ; ./$< > $@
-dlist_vt_atxt.exe: dlist_vt_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ dlist_vt_atxt.dats -latsdoc
-dlist_vt_atxt.dats: dlist_vt.atxt
-	$(ATSDOC) --outcode $@ -i dlist_vt.atxt > dlist_vt_atxt.txt
-clean:: ; $(RMF) dlist_vt_atxt.exe
-cleanall:: ; $(RMF) dlist_vt.dats
 
 all:: option.dats
 option.dats: option_atxt.exe ; ./$< > $@

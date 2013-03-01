@@ -65,14 +65,13 @@ prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/memory.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/pointer.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/reference.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/string.dats
-prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/tfprint.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/gprint.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/unsafe.dats
 
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/basics.dats
 
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/list.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/list_vt.dats
-prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/dlist_vt.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/option.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/option_vt.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/array.dats
@@ -82,7 +81,7 @@ prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/arrayref.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/lazy.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/lazy_vt.dats
 
-prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/giter.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/giterator.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/giter_list.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/giter_list_vt.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/giter_array.dats
@@ -95,7 +94,6 @@ prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/fcontainer_foreach.dats
 libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/stddef.sats
 libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/stdio.sats
 libc:: ; $(PATSOPT) -tc -d $(PATSHOME)/libc/DATS/stdio.dats
-libc:: ; $(PATSOPT) -tc -d $(PATSHOME)/libc/DATS/stdio_giter.dats
 libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/stdlib.sats
 libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/unistd.sats
 
@@ -271,9 +269,9 @@ irrationality-of-sqrt2: ; \
 ######
 
 CA-HSR2:: ; \
-  $(PATSOPT) ${ICONTRIB} -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-2.dats
+  $(PATSOPT) ${ICONTRIB} -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-2/program-1-2.dats
 CA-HSR2:: ; \
-  $(PATSOPT) ${ICONTRIB} -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-2-test.dats
+  $(PATSOPT) ${ICONTRIB} -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-2/program-1-2-test.dats
 CA-HSR2:: ; \
   $(PATSOPT) ${ICONTRIB} -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-3.dats
 CA-HSR2:: ; \
