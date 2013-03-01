@@ -33,6 +33,12 @@
 
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSLIB.libats"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
+#define ATS_EXTERN_PREFIX "atslib_"
+
+(* ****** ****** *)
+
 sortdef tk = tkind
 sortdef t0p = t@ype and vt0p = vt@ype
 
@@ -225,25 +231,32 @@ linmap_free_ifnil (
 ) :<!wrt> #[b:bool] bool (b)(*~freed*) // end of [linmap_free_ifnil]
 //
 (* ****** ****** *)
-(*
 //
 // HX: listization is done in the in-order fashion
 //
-*)
-
 fun
 {tk:tk}
 {key:t0p;itm:t0p}
 linmap_listize
   (map: !map (tk, key, INV(itm))):<!wrt> List_vt @(key, itm)
 // end of [linmap_listize]
-
+//
 fun
 {tk:tk}
 {key:t0p;itm:vt0p}
 linmap_listize_free
   (map: map (tk, key, INV(itm))):<!wrt> List_vt @(key, itm)
 // end of [linmap_listize_free]
+//
+(* ****** ****** *)
+
+fun
+{tk:tk}
+{key:t0p;itm:vt0p}
+linmap_avltree_height (map: !map (tk, key, itm)):<> intGte (0)
+
+fun{} linmap_randbst_initize (): void
+fun{} linmap_skiplist_initize (): void
 
 (* ****** ****** *)
 

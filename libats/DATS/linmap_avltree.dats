@@ -33,19 +33,22 @@
 
 (* ****** ****** *)
 
-staload "libats/SATS/linmap_avltree.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-implement{key}
-compare_key_key
-  (k1, k2) = gcompare_val<key> (k1, k2)
-// end of [compare_key_key]
+staload "libats/SATS/linmap.sats"
 
 (* ****** ****** *)
-//
-#include "./SHARE/linmap.hats" // code reuse
-//
+
+stadef mytkind = $extkind"atslib_linmap_avltree"
+
+(* ****** ****** *)
+
+vtypedef
+map (key:t0p, itm:vt0p) = map (mytkind, key, itm)
+
 (* ****** ****** *)
 
 (* end of [linmap_avltree.dats] *)

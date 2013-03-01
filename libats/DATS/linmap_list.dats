@@ -46,11 +46,6 @@ stadef mytkind = $extkind"atslib_linmap_list"
 
 (* ****** ****** *)
 
-implement{key}
-equal_key_key (k1, k2) = gequal_val<key> (k1, k2)
-
-(* ****** ****** *)
-
 vtypedef
 map (key:t0p, itm:vt0p) = map (mytkind, key, itm)
 
@@ -69,14 +64,10 @@ map_unfold
 
 extern
 castfn
-map_encode
-  {k:t0p;i:vt0p} (x: List0_vt @(k, i)):<> map (k, i)
-// end of [map_encode]
+map_encode {k:t0p;i:vt0p} (x: List0_vt @(k, i)):<> map (k, i)
 extern
 castfn
-map_decode
-  {k:t0p;i:vt0p} (x: map (k, i)):<> List0_vt @(k, i)
-// end of [map_decode]
+map_decode {k:t0p;i:vt0p} (x: map (k, i)):<> List0_vt @(k, i)
 
 (* ****** ****** *)
 
@@ -206,7 +197,7 @@ case+ kxs of
 end // end of [loop]
 //
 prval () = map_unfold (map)
-val res = loop (map, k0) // : Ptr1
+val res = loop (map, k0) // HX: Ptr1
 prval () = map_foldin (map)
 //
 in
@@ -220,13 +211,14 @@ linmap_takeout_ngc<mytkind><k,i>
   (map, k0) = let
 //
 vtypedef ki = @(k, i)
+vtypedef mynode0 = mynode0 (mytkind, k, i)
+vtypedef mynode1 = mynode1 (mytkind, k, i)
 //
 fun loop (
   kxs: &List0_vt (ki) >> _, k0: k
-) : mynode0 (mytkind, k, i) = let
+) : mynode0 = let
 //
 vtypedef kis = List0_vt (ki)
-vtypedef mynode1 = mynode1 (mytkind, k, i)
 //
 in
 //
@@ -256,7 +248,7 @@ case+ kxs of
 end // end of [loop]
 //
 prval () = map_unfold (map)
-val res = loop (map, k0) // : mynode0
+val res = loop (map, k0) // HX: mynode0
 prval () = map_foldin (map)
 //
 in

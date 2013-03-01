@@ -56,6 +56,11 @@ co-variant in its second argument.\
 
 (* ****** ****** *)
 
+#declnamesynop("compare_key_key")
+#decldescrpt("This function is not avaiable.")
+
+(* ****** ****** *)
+
 #declnamesynop("linmap_nil")
 #decldescrpt("This function creates an empty map.")
 
@@ -79,22 +84,9 @@ co-variant in its second argument.\
 (* ****** ****** *)
 
 #declnamesynop("linmap_insert")
-#decldescrpt("\
-
-This function inserts a link from [k0] to [x0] into a given map [map].
-In the case where the key [k0] is already associated with some item in
-the given map, this function replaces the item with [x0] and then stores
-the item into [res]. The returned value indicates wether replacement is
-actually performed.
-
-")
-
+#decldescrpt("This function is not avaiable.")
 #declnamesynop("linmap_insert_opt")
-#decldescrpt("\
-
-This function is the optional version of #dyncode("linmap_insert").\
-
-")
+#decldescrpt("This function is not avaiable.")
 
 (* ****** ****** *)
 
@@ -102,8 +94,8 @@ This function is the optional version of #dyncode("linmap_insert").\
 #decldescrpt("\
 
 This function inserts a link from [k0] to [x0] into a given map [map].
-Note that it carries out insertion regardless whether the key [k0] is
-already associated with some item in the given map.\
+In the case where the key [k0] is already associated with some item in
+the given map, the original link is shadowed by the newly inserted link.
 
 ")
 
