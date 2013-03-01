@@ -35,13 +35,13 @@ RMF=rm -f
 
 ######
 
-all:: libats_dlist_vt
-libats_dlist_vt: libats_dlist_vt.exe
-libats_dlist_vt.exe: libats_dlist_vt_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-libats_dlist_vt_dats.c: libats_dlist_vt.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_dlist_vt_dats.c --dynamic libats_dlist_vt.dats
-clean:: ; $(RMF) libats_dlist_vt_dats.o
-clean:: ; $(RMF) libats_dlist_vt_dats.c
-cleanall:: ; $(RMF) libats_dlist_vt.exe
+all:: libats_dllist
+libats_dllist: libats_dllist.exe
+libats_dllist.exe: libats_dllist_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+libats_dllist_dats.c: libats_dllist.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_dllist_dats.c --dynamic libats_dllist.dats
+clean:: ; $(RMF) libats_dllist_dats.o
+clean:: ; $(RMF) libats_dllist_dats.c
+cleanall:: ; $(RMF) libats_dllist.exe
 
 
 ######

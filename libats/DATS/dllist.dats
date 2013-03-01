@@ -474,10 +474,10 @@ extern
 praxi mynode_vfree {a:vt0p} (nx: mynode (a)): void
 extern
 castfn
-gnode_decode {a:vt0p} (nx: gnode1 (INV(a))):<> mynode (a)
+mynode_encode {a:vt0p} (nx: gnode1 (INV(a))):<> mynode (a)
 extern
 castfn
-gnode_encode {a:vt0p} (nx: mynode (INV(a))):<> gnode1 (a)
+mynode_decode {a:vt0p} (nx: mynode (INV(a))):<> gnode1 (a)
 
 (* ****** ****** *)
 
@@ -493,14 +493,14 @@ end // end of [gnode_make_elt]
 implement(a)
 gnode_free<mytkind><a>
   (nx) = let
-  val nx = gnode_decode (nx)
+  val nx = mynode_encode (nx)
   val~MYNODE (_, _, _) = (nx) in (*nothing*)
 end // end of [gnode_free]
 
 implement(a)
 gnode_free_elt<mytkind><a>
   (nx, res) = let
-  val nx = gnode_decode (nx)
+  val nx = mynode_encode (nx)
   val~MYNODE (x, _, _) = (nx); val () = res := x in (*nothing*)
 end // end of [gnode_free_elt]
 
@@ -510,7 +510,7 @@ implement(a)
 gnode_getref_elt<mytkind><a>
   (nx) = let
 //
-val nx = gnode_decode (nx)
+val nx = mynode_encode (nx)
 //
 val @MYNODE (elt, _, _) = nx
 val p_elt = addr@ (elt)
@@ -527,7 +527,7 @@ implement(a)
 gnode_getref_next<mytkind><a>
   (nx) = let
 //
-val nx = gnode_decode (nx)
+val nx = mynode_encode (nx)
 //
 val @MYNODE (_, next, _) = nx
 val p_next = addr@ (next)
@@ -544,7 +544,7 @@ implement(a)
 gnode_getref_prev<mytkind><a>
   (nx) = let
 //
-val nx = gnode_decode (nx)
+val nx = mynode_encode (nx)
 //
 val @MYNODE (_, _, prev) = nx
 val p_prev = addr@ (prev)
