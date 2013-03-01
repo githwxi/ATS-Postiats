@@ -583,35 +583,6 @@ end // end of [linmap_free_ifnil]
 
 implement
 {key,itm}
-linmap_listize
-  (map) = let
-//
-typedef ki = @(key, itm)
-//
-fun aux
-  {m,n:nat} .<n>. (
-  t: !bstree (key, itm, n), res: list_vt (ki, m)
-) :<> list_vt (ki, m+n) = let
-in
-//
-case+ t of
-| BSTcons (
-    _, k, i, tl, tr
-  ) => res where {
-    val res = aux (tr, res)
-    val res = list_vt_cons ((k, i), res)
-    val res = aux (tl, res)
-  } // end of [BSTcons]
-| BSTnil () => res
-//
-end // end of [aux]
-//
-in
-  aux (map, list_vt_nil ())
-end // end of [linmap_listize]
-
-implement
-{key,itm}
 linmap_listize_free
   (map) = let
 //
@@ -638,6 +609,39 @@ end // end of [aux]
 in
   aux (map, list_vt_nil ())
 end // end of [linmap_listize_free]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_listize_copy
+  (map) = let
+//
+vtypedef ki = @(key, itm)
+//
+fun aux
+  {m,n:nat} .<n>. (
+  t0: !bstree (key, itm, n), res: list_vt (ki, m)
+) :<!wrt> list_vt (ki, m+n) = let
+in
+//
+case+ t0 of
+| @BSTcons (
+    _, k, i, tl, tr
+  ) => res where {
+    val res = aux (tr, res)
+    val i2 = linmap_listize$copy<itm> (i)
+    val res = list_vt_cons ((k, i2), res)
+    val res = aux (tl, res)
+    prval () = fold@ (t0)
+  } // end of [BSTcons]
+| BSTnil () => (res)
+//
+end // end of [aux]
+//
+in
+  aux (map, list_vt_nil ())
+end // end of [linmap_listize_copy]
 
 (* ****** ****** *)
 

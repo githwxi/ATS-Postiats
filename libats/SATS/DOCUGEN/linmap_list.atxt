@@ -134,7 +134,7 @@ Otherwise, the function keeps the map and returns true. ")
 
 (* ****** ****** *)
 
-#declnamesynop("linmap_listize")
+#declnamesynop("linmap_listize_copy")
 #declnamesynop("linmap_listize_free")
 
 (* ****** ****** *)

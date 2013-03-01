@@ -66,7 +66,7 @@ co-variant in its second argument.\
 
 (* ****** ****** *)
 
-#declnamesynop("linmap_random_initize")
+#declnamesynop("linmap_skiplist_initize")
 #decldescrpt("\
 
 This function is called to initialize the random number generator employed
@@ -208,17 +208,17 @@ Otherwise, the function keeps the map and returns true. ")
 
 (* ****** ****** *)
 
-#declnamesynop("linmap_listize")
-#decldescrpt("\
-
-This function returns a linear list of pairs consisting of keys and
-their associated items in a given map while keeping the map. ")
-
 #declnamesynop("linmap_listize_free")
 #decldescrpt("\
 
 This function returns a linear list of pairs consisting of keys and
 their associated items in a given map while freeing the map. ")
+
+#declnamesynop("linmap_listize_copy")
+#decldescrpt("\
+
+This function returns a linear list of pairs consisting of keys and
+their associated items in a given map while keeping the map. ")
 
 (* ****** ****** *)
 

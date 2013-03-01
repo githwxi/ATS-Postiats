@@ -119,10 +119,6 @@ end // end of [linmap_foreach_env]
 
 implement
 {key,itm}
-linmap_listize (map) = list_vt_copy<(key,itm)> (map)
-
-implement
-{key,itm}
 linmap_listize_free (map) = map // [map] is just a list
 
 (* ****** ****** *)

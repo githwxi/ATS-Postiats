@@ -232,6 +232,28 @@ end // end of [linmap_foreach]
 
 (* ****** ****** *)
 
+implement
+{key,itm}
+linmap_listize_free
+  (map) = kxs where {
+//
+extern praxi __assert1 (x: &itm? >> itm): void
+extern praxi __assert2 (x: &(itm) >> itm?): void
+//
+implement
+linmap_listize$copy<itm> (x) =
+  let val x2 = x; prval () = __assert1 (x) in x2 end
+val kxs = linmap_listize_copy (map)
+//
+implement
+linmap_freelin$clear<itm> (x) =
+  let prval () = __assert2 (x) in (* DoNothing *) end
+val () = linmap_freelin<key,itm> (map)
+//
+} // end of [linmap_listize_free]
+
+(* ****** ****** *)
+
 local
 
 staload Q = "libats/SATS/qlist.sats"
@@ -240,27 +262,29 @@ in // in of [local]
 
 implement
 {key,itm}
-linmap_listize
+linmap_listize_copy
   (map) = let
 //
-typedef tki = @(key, itm)
-//
+vtypedef tki = @(key, itm)
 vtypedef tenv = $Q.Qstruct (tki)
 //
 implement
 linmap_foreach$fwork<key,itm><tenv>
-  (k, x, env) = $Q.qstruct_insert<tki> (env, @(k, x))
-// end of [linmap_foreach$fwork]
+  (k, x, env) = let
+  val x2 = linmap_listize$copy (x)
+in
+  $Q.qstruct_insert<tki> (env, @(k, x2))
+end // end of [linmap_foreach$fwork]
 //
 var env: $Q.qstruct
 val () = $Q.qstruct_initize<tki> (env)
-val () = $effmask_all (linmap_foreach_env (map, env))
+val () = $effmask_all (linmap_foreach_env<key,itm><tenv> (map, env))
 val res = $Q.qstruct_takeout_list (env)
 val () = $Q.qstruct_uninitize<tki> (env)
 //
 in
   res
-end // end of [linmap_listize]
+end // end of [linmap_listize_copy]
 
 end // end of [local]
 

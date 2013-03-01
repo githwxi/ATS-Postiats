@@ -102,8 +102,8 @@ libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/unistd.sats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/qlist.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/qlist.dats
 
-libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/dlist.sats
-libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/dlist.dats
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/dllist.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/dllist.dats
 
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/ilist_prf.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/ilist_prf.dats

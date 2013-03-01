@@ -60,6 +60,8 @@ compare_key_key (x1: key, x2: key):<> int
 fun{}
 linmap_nil {key:t0p;itm:vt0p} ():<> map (key, itm)
 
+(* ****** ****** *)
+
 fun{}
 linmap_make_nil {key:t0p;itm:vt0p} ():<!wrt> map (key, itm)
 
@@ -223,16 +225,18 @@ key:t0p;itm:vt0p
 *)
 //
 fun{
-key:t0p;itm:t0p
-} linmap_listize
-  (map: !map (key, INV(itm))):<!wrt> List_vt @(key, itm)
-// end of [linmap_listize]
-
-fun{
 key:t0p;itm:vt0p
 } linmap_listize_free
   (map: map (key, INV(itm))):<!wrt> List_vt @(key, itm)
 // end of [linmap_listize_free]
+
+fun{itm:vt0p}
+linmap_listize$copy (x: &itm):<!wrt> itm
+fun{
+key:t0p;itm:vt0p
+} linmap_listize_copy
+  (map: !map (key, INV(itm))):<!wrt> List_vt @(key, itm)
+// end of [linmap_listize_copy]
 
 (* ****** ****** *)
 
