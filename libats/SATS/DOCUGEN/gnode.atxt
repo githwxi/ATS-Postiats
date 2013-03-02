@@ -37,6 +37,7 @@ This package contains various functions for manipulating generic nodes.
 (* ****** ****** *)
 
 #declnamesynop("gnode_getref_elt")
+#declnamesynop("gnode_getfree_elt")
 
 (* ****** ****** *)
 
@@ -54,21 +55,18 @@ This package contains various functions for manipulating generic nodes.
 #declnamesynop("gnode_getref_parent")
 #declnamesynop("gnode_set_parent")
 
+(* ****** ****** *)
+
 #declnamesynop("gnode_get_children")
 #declnamesynop("gnode_getref_children")
 #declnamesynop("gnode_set_children")
 
 (* ****** ****** *)
 
-#declnamesynop("gnode_link")
 #declnamesynop("gnode_link00")
 #declnamesynop("gnode_link01")
 #declnamesynop("gnode_link10")
-
-(* ****** ****** *)
-
-#declnamesynop("gnode_cons")
-#declnamesynop("gnode_snoc")
+#declnamesynop("gnode_link11")
 
 (* ****** ****** *)
 
@@ -83,22 +81,7 @@ This package contains various functions for manipulating generic nodes.
 (* ****** ****** *)
 
 #declnamesynop("gnodelst_length")
-
-(* ****** ****** *)
-
-#declnamesynop("gnodelst_reverse")
-
-(* ****** ****** *)
-
-#declnamesynop("gnodelst_foreach$fwork")
-#declnamesynop("gnodelst_foreach")
-#declnamesynop("gnodelst_foreach_env")
-
-(* ****** ****** *)
-
-#declnamesynop("gnodelst_rforeach$fwork")
-#declnamesynop("gnodelst_rforeach")
-#declnamesynop("gnodelst_rforeach_env")
+#declnamesynop("gnodelst_rlength")
 
 (* ****** ****** *)
 

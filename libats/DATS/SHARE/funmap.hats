@@ -164,10 +164,10 @@ funmap_foreach$fwork<key,itm><tenv>
 // end of [funmap_foreach$fwork]
 //
 var env: $Q.qstruct
-val () = $Q.qstruct_initize<tki> (env)
+val () = $Q.qstruct_initize {tki} (env)
 val () = $effmask_all (funmap_foreach_env (map, env))
 val res = $Q.qstruct_takeout_list (env)
-val () = $Q.qstruct_uninitize<tki> (env)
+prval () = $Q.qstruct_uninitize {tki} (env)
 //
 in
   res

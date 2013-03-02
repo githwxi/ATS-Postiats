@@ -277,10 +277,10 @@ in
 end // end of [linmap_foreach$fwork]
 //
 var env: $Q.qstruct
-val () = $Q.qstruct_initize<tki> (env)
+val () = $Q.qstruct_initize {tki} (env)
 val () = $effmask_all (linmap_foreach_env<key,itm><tenv> (map, env))
 val res = $Q.qstruct_takeout_list (env)
-val () = $Q.qstruct_uninitize<tki> (env)
+prval () = $Q.qstruct_uninitize {tki} (env)
 //
 in
   res

@@ -59,23 +59,23 @@ stadef mytkind = $extkind"atslib_dllist"
 
 (* ****** ****** *)
 
-typedef gnode0 (a:vt0p) = gnode0 (mytkind, a)
-typedef gnode1 (a:vt0p) = gnode1 (mytkind, a)
+typedef mynode0 (a:vt0p) = gnode0 (mytkind, a)
+typedef mynode1 (a:vt0p) = gnode1 (mytkind, a)
 
 (* ****** ****** *)
 
 extern
 fun{a:vt0p}
-mynode_make_elt (x: a):<!wrt> gnode1 (a)
+mynode_make_elt (x: a):<!wrt> mynode1 (a)
 implement{a}
 mynode_make_elt (x) = gnode_make_elt<mytkind><a> (x)
 
 (* ****** ****** *)
 
 assume
-dllist_vtype
-  (a:vt0p, f:int(*front*), r:int(*rear*)) = gnode0 (a)
-// end of [dllist_vtype]
+dllist_vtype (
+  a:vt0p, f:int(*front*), r:int(*rear*)
+) = mynode0 (a) // end of [dllist_vtype]
 
 (* ****** ****** *)
 
@@ -93,15 +93,17 @@ end // end of [dllist_sing]
 (* ****** ****** *)
 
 implement{a}
-dllist_cons (x, xs) = let
-in
-  gnode_cons (mynode_make_elt<a> (x), xs)
-end // end of [dllist_cons]
+dllist_cons
+  (x, xs) = nx where {
+  val nx = mynode_make_elt<a> (x)
+  val () = gnode_set_prev_null (nx)
+  val () = gnode_link10 (nx, xs)
+} // end of [dllist_cons]
 
 implement{a}
 dllist_uncons
-  {r} (xs) = let
-  val nx = $UN.cast{gnode1(a)}(xs)
+  (xs) = let
+  val nx = $UN.cast{mynode1(a)}(xs)
   val nx2 = gnode_get_next (nx)
   val () = gnode0_set_prev_null (nx2)
   val () = xs := nx2
@@ -112,10 +114,12 @@ end // end of [dllist_uncons]
 (* ****** ****** *)
 
 implement{a}
-dllist_snoc (xs, x) = let
-in
-  gnode_snoc (xs, mynode_make_elt<a> (x))
-end // end of [dllist_snoc]
+dllist_snoc
+  (xs, x) = nx where {
+  val nx = mynode_make_elt<a> (x)
+  val () = gnode_set_next_null (nx)
+  val () = gnode_link01 (xs, nx)
+} // end of [dllist_snoc]
 
 (* ****** ****** *)
 
@@ -124,7 +128,7 @@ dllist_make_list
   (xs) = let
 //
 fun loop (
-  nx0: gnode1 (a), xs: List (a)
+  nx0: mynode1 (a), xs: List (a)
 ) : void = let
 in
 //
@@ -198,7 +202,7 @@ implement{a}
 dllist_is_atend
   {f,r} (xs) = let
 //
-val nxs = $UN.cast{gnode1(a)}(xs)
+val nxs = $UN.cast{mynode1(a)}(xs)
 //
 in
   $UN.cast
@@ -223,17 +227,17 @@ rdllist_is_atend
 
 implement{a}
 dllist_getref_elt (xs) = let
-  val nxs = $UN.cast{gnode1(a)}(xs) in gnode_getref_elt (nxs)
+  val nxs = $UN.cast{mynode1(a)}(xs) in gnode_getref_elt (nxs)
 end // end of [dllist_getref_elt]
 
 implement{a}
 dllist_getref_next (xs) = let
-  val nxs = $UN.cast{gnode1(a)}(xs) in gnode_getref_next (nxs)
+  val nxs = $UN.cast{mynode1(a)}(xs) in gnode_getref_next (nxs)
 end // end of [dllist_getref_next]
 
 implement{a}
 dllist_getref_prev (xs) = let
-  val nxs = $UN.cast{gnode1(a)}(xs) in gnode_getref_prev (nxs)
+  val nxs = $UN.cast{mynode1(a)}(xs) in gnode_getref_prev (nxs)
 end // end of [dllist_getref_prev]
 
 (* ****** ****** *)
@@ -273,22 +277,28 @@ dllist_move
 *)
 implement{a}
 dllist_move (xs) = let
-  val nx = $UN.cast{gnode1(a)}(xs) in gnode_get_next (nx)
+  val nx = $UN.cast{mynode1(a)}(xs) in gnode_get_next (nx)
 end // end of [dllist_move]
 
+(*
+fun{a:vt0p}
+dllist_move_all
+  {f,r:int | r > 0}
+  (xs: dllist (INV(a), f, r)):<> dllist (a, f+r-1, 1)
+*)
 implement{a}
 dllist_move_all
   {f,r} (xs) = let
 //
 fun loop (
-  nxs: gnode1 (a)
-) : gnode1 (a) = let
+  nxs: mynode1 (a)
+) : mynode1 (a) = let
   val nxs_next = gnode_get_next (nxs)
 in
   if gnodelst_is_cons (nxs_next) then loop (nxs_next) else nxs
 end // end of [loop]
 //
-val nxs = $UN.cast{gnode1(a)}(xs)
+val nxs = $UN.cast{mynode1(a)}(xs)
 //
 in
   $effmask_all (loop (nxs))
@@ -304,26 +314,32 @@ rdllist_move
 *)
 implement{a}
 rdllist_move (xs) = let
-  val nx = $UN.cast{gnode1(a)}(xs) in gnode_get_prev (nx)
+  val nx = $UN.cast{mynode1(a)}(xs) in gnode_get_prev (nx)
 end // end of [rdllist_move]
 
+(*
+fun{a:vt0p}
+rdllist_move_all
+  {f,r:int | r >= 0}
+  (xs: dllist (INV(a), f, r)):<> dllist (a, 0(*front*), f+r)
+*)
 implement{a}
 rdllist_move_all
   {f,r} (xs) = let
 //
 fun loop (
-  nxs: gnode1 (a)
-) : gnode1 (a) = let
+  nxs: mynode1 (a)
+) : mynode1 (a) = let
   val nxs_prev = gnode_get_prev (nxs)
 in
   if gnodelst_is_cons (nxs_prev) then loop (nxs_prev) else nxs
 end // end of [loop]
 //
-val nxs = $UN.cast{gnode1(a)}(xs)
+val nxs = xs
 //
 in
-  $effmask_all (loop (nxs))
-end // end of [dllist_move_all]
+  if gnodelst_is_cons (nxs) then $effmask_all (loop (nxs)) else nxs
+end // end of [rdllist_move_all]
 
 (* ****** ****** *)
 
@@ -336,7 +352,7 @@ dllist_insert_next
 implement{a}
 dllist_insert_next
   (xs, x0) = nx where {
-  val nx = $UN.cast{gnode1(a)}(xs)
+  val nx = $UN.cast{mynode1(a)}(xs)
   val nx2 = mynode_make_elt<a> (x0)
   val () = gnode_insert_next (nx, nx2)
 } // end of [dllist_insert_next]
@@ -350,7 +366,7 @@ dllist_insert_prev
 implement{a}
 dllist_insert_prev
   (xs, x0) = nx2 where {
-  val nx = $UN.cast{gnode1(a)}(xs)
+  val nx = $UN.cast{mynode1(a)}(xs)
   val nx2 = mynode_make_elt<a> (x0)
   val () = gnode_insert_prev (nx, nx2)
 } // end of [dllist_insert_prev]
@@ -366,10 +382,10 @@ dllist_remove
 implement{a}
 dllist_remove
   (xs) = let
-  val nx = $UN.cast{gnode1(a)}(xs)
+  val nx = $UN.cast{mynode1(a)}(xs)
   val nx_prev = gnode_get_prev (nx)
   val nx_next = gnode_get_next (nx)
-  val nx_next = $UN.cast{gnode1(a)}(nx_next)
+  val nx_next = $UN.cast{mynode1(a)}(nx_next)
   val () = gnode_link01 (nx_prev, nx_next)
   val () = (xs := nx_next)
 in
@@ -385,7 +401,7 @@ dllist_append
 val nxs1 = xs1 and nxs2 = xs2
 //
 fun loop (
-  nxs1: gnode1 (a), nxs2: gnode0 (a)
+  nxs1: mynode1 (a), nxs2: mynode0 (a)
 ) : void = let
   val nxs1_next = gnode_get_next (nxs1)
   val iscons = gnodelst_is_cons (nxs1_next)
@@ -411,8 +427,8 @@ implement{a}
 dllist_reverse (xs) = let
 //
 fun loop (
-  nxs: gnode0 (a), res: gnode1 (a)
-) : gnode1 (a) = let
+  nxs: mynode0 (a), res: mynode1 (a)
+) : mynode1 (a) = let
   val iscons = gnodelst_is_cons (nxs)
 in
 //
@@ -449,7 +465,30 @@ end // end of [dllist_reverse]
 (* ****** ****** *)
 
 implement{a}
-dllist_free (xs) = gnodelst_free (xs)
+dllist_free (xs) = let
+//
+val nxs = xs
+//
+fun loop (
+  nxs: mynode0 (a)
+) : void = let
+//
+val iscons = gnodelst_is_cons (nxs)
+//
+in
+//
+if iscons then let
+  val nxs2 = gnode_get_next (nxs)
+  val () = gnode_free (nxs)
+in
+  loop (nxs2)
+end else () // end of [if]
+//
+end // end of [loop]
+//
+in
+  $effmask_all (loop (nxs))
+end // end of [dllist_free]
 
 (* ****** ****** *)
 
@@ -462,7 +501,7 @@ fprint_dllist (out, xs) = let
 val nxs = xs
 //
 fun loop (
-  out: FILEref, nxs: gnode0 (a), i: int
+  out: FILEref, nxs: mynode0 (a), i: int
 ) : void = let
   val iscons = gnodelst_is_cons (nxs)
 in
@@ -498,7 +537,7 @@ fprint_rdllist (out, xs) = let
 val nxs = xs
 //
 fun loop (
-  out: FILEref, nxs: gnode0 (a), i: int
+  out: FILEref, nxs: mynode0 (a), i: int
 ) : void = let
   val iscons = gnodelst_is_cons (nxs)
 in
@@ -527,20 +566,21 @@ end // end of [fprint_rdllist]
 
 (* ****** ****** *)
 
-datavtype mynode
-  (a:vt@ype+) = MYNODE of (a, ptr(*next*), ptr(*prev*))
-// end of [mynode]
+datavtype
+dlnode (a:vt@ype+) =
+  | DLNODE of (a, ptr(*next*), ptr(*prev*))
+// end of [dlnode]
 
 (* ****** ****** *)
 
 extern
-praxi mynode_vfree {a:vt0p} (nx: mynode (a)): void
+praxi dlnode_vfree {a:vt0p} (nx: dlnode (a)): void
 extern
 castfn
-mynode_encode {a:vt0p} (nx: gnode1 (INV(a))):<> mynode (a)
+mynode_decode {a:vt0p} (nx: mynode1 (INV(a))):<> dlnode (a)
 extern
 castfn
-mynode_decode {a:vt0p} (nx: mynode (INV(a))):<> gnode1 (a)
+mynode_encode {a:vt0p} (nx: dlnode (INV(a))):<> mynode1 (a)
 
 (* ****** ****** *)
 
@@ -548,7 +588,7 @@ implement(a)
 gnode_make_elt<mytkind><a>
   (x) = let
 in
-  $UN.castvwtp0{gnode1(a)}(MYNODE{a}(x, _, _))
+  $UN.castvwtp0{mynode1(a)}(DLNODE{a}(x, _, _))
 end // end of [gnode_make_elt]
 
 (* ****** ****** *)
@@ -556,15 +596,15 @@ end // end of [gnode_make_elt]
 implement(a)
 gnode_free<mytkind><a>
   (nx) = let
-  val nx = mynode_encode (nx)
-  val~MYNODE (_, _, _) = (nx) in (*nothing*)
+  val nx = mynode_decode (nx)
+  val~DLNODE (_, _, _) = (nx) in (*nothing*)
 end // end of [gnode_free]
 
 implement(a)
 gnode_free_elt<mytkind><a>
   (nx, res) = let
-  val nx = mynode_encode (nx)
-  val~MYNODE (x, _, _) = (nx); val () = res := x in (*nothing*)
+  val nx = mynode_decode (nx)
+  val~DLNODE (x, _, _) = (nx); val () = res := x in (*nothing*)
 end // end of [gnode_free_elt]
 
 (* ****** ****** *)
@@ -573,12 +613,12 @@ implement(a)
 gnode_getref_elt<mytkind><a>
   (nx) = let
 //
-val nx = mynode_encode (nx)
+val nx = mynode_decode (nx)
 //
-val @MYNODE (elt, _, _) = nx
+val+@DLNODE (elt, _, _) = nx
 val p_elt = addr@ (elt)
 prval () = fold@ (nx)
-prval () = mynode_vfree (nx)
+prval () = dlnode_vfree (nx)
 //
 in
   p_elt
@@ -590,12 +630,12 @@ implement(a)
 gnode_getref_next<mytkind><a>
   (nx) = let
 //
-val nx = mynode_encode (nx)
+val nx = mynode_decode (nx)
 //
-val @MYNODE (_, next, _) = nx
+val+@DLNODE (_, next, _) = nx
 val p_next = addr@ (next)
 prval () = fold@ (nx)
-prval () = mynode_vfree (nx)
+prval () = dlnode_vfree (nx)
 //
 in
   p_next
@@ -607,12 +647,12 @@ implement(a)
 gnode_getref_prev<mytkind><a>
   (nx) = let
 //
-val nx = mynode_encode (nx)
+val nx = mynode_decode (nx)
 //
-val @MYNODE (_, _, prev) = nx
+val+@DLNODE (_, _, prev) = nx
 val p_prev = addr@ (prev)
 prval () = fold@ (nx)
-prval () = mynode_vfree (nx)
+prval () = dlnode_vfree (nx)
 //
 in
   p_prev

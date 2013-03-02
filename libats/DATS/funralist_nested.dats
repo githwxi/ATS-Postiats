@@ -490,14 +490,10 @@ implement
 funralist_foreach$fwork<a><tenv> (x, env) = $Q.qstruct_insert<a> (env, x)
 //
 var env: $Q.qstruct
-//
-val () = $Q.qstruct_initize<a> (env)
-//
+val () = $Q.qstruct_initize {a} (env)
 val () = $effmask_all (funralist_foreach_env (xs, env))
-//
 val res = $Q.qstruct_takeout_list (env)
-//
-val () = $Q.qstruct_uninitize<a> (env)
+val () = $Q.qstruct_uninitize {a} (env)
 //
 in
   $UN.castvwtp0{list_vt(a,n)}(res)

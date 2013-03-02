@@ -176,9 +176,11 @@ gnode_set_parent_null
 
 (* ****** ****** *)
 
+(*
 implement
 {tk}{elt}
 gnode_link = gnode_link11
+*)
 
 implement
 {tk}{elt}
@@ -222,22 +224,6 @@ gnode_link11
 in
   // nothing
 end // end of [gnode_link11]
-
-(* ****** ****** *)
-
-implement
-{tk}{elt}
-gnode_cons (nx1, nx2) = let
-  val () = gnode_link10 (nx1, nx2) in (nx1)
-end // end of [gnode_cons]
-
-(* ****** ****** *)
-
-implement
-{tk}{elt}
-gnode_snoc (nx1, nx2) = let
-  val () = gnode_link01 (nx1, nx2) in (nx2)
-end // end of [gnode_snoc]
 
 (* ****** ****** *)
 
@@ -311,26 +297,6 @@ end // end of [gnode_remove_prev]
 
 implement
 {tk}{elt}
-gnodelst_free (nxs) = let
-//
-val iscons = gnodelst_is_cons (nxs)
-//
-in
-//
-if iscons then let
-  val nxs2 =
-    gnode_get_next (nxs)
-  val () = gnode_free (nxs)
-in
-  gnodelst_free (nxs2)
-end // end of [if]
-//
-end // end of [gnodelst_free]
-
-(* ****** ****** *)
-
-implement
-{tk}{elt}
 gnodelst_length (nxs) = let
 //
 typedef gnode0 = gnode0 (tk, elt)
@@ -342,8 +308,7 @@ fun loop (
 in
 //
 if iscons then let
-  val nx0 = nxs
-  val nxs = gnode_get_next (nx0)
+  val nxs = gnode_get_next (nxs)
 in
   loop (nxs, succ (len))
 end else (len) // end of [if]
@@ -353,6 +318,29 @@ end // end of [loop]
 in
   $effmask_all (loop (nxs, 0))
 end // end of [gnodelst_length]
+
+(* ****** ****** *)
+
+implement
+{tk}{elt}
+gnodelst_rlength (nxs) = let
+//
+typedef gnode1 = gnode1 (tk, elt)
+//
+fun loop (
+  nxs: gnode1, len: intGte(0)
+) : intGte(0) = let
+  val nxs2 = gnode_get_prev (nxs)
+  val iscons = gnodelst_is_cons (nxs2)
+in
+//
+if iscons then loop (nxs2, succ (len)) else len
+//
+end // end of [loop]
+//
+in
+  $effmask_all (loop (nxs, 0))
+end // end of [gnodelst_rlength]
 
 (* ****** ****** *)
 

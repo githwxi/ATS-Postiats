@@ -193,9 +193,11 @@ tk:tk}{a:vt0p
 
 (* ****** ****** *)
 
+(*
 fun{
 tk:tk}{a:vt0p
 } gnode_link (nx1: gnode1 (tk, INV(a)), nx2: gnode1 (tk, a)):<!wrt> void
+*)
 fun{
 tk:tk}{a:vt0p
 } gnode_link00 (nx1: gnode0 (tk, INV(a)), nx2: gnode0 (tk, a)):<!wrt> void
@@ -208,20 +210,6 @@ tk:tk}{a:vt0p
 fun{
 tk:tk}{a:vt0p
 } gnode_link11 (nx1: gnode1 (tk, INV(a)), nx2: gnode1 (tk, a)):<!wrt> void
-
-(* ****** ****** *)
-
-fun{
-tk:tk}{a:vt0p
-} gnode_cons {l:agz}
-  (nx1: gnode (tk, INV(a), l), nx2: gnode0 (tk, a)):<!wrt> gnode (tk, a, l)
-// end of [gnode_cons]
-
-fun{
-tk:tk}{a:vt0p
-} gnode_snoc {l:agz}
-  (nx1: gnode0 (tk, a), nx2: gnode (tk, INV(a), l)):<!wrt> gnode (tk, a, l)
-// end of [gnode_snoc]
 
 (* ****** ****** *)
 
@@ -259,26 +247,12 @@ gnodelst_is_cons (nxs) = gnode_isnot_null (,(nxs))
 (* ****** ****** *)
 
 fun{
-tk:tk}{a:t0p
-} gnodelst_free (nxs: gnode0 (tk, INV(a))):<!wrt> void
-
-(* ****** ****** *)
-
-fun{
 tk:tk}{a:vt0p
 } gnodelst_length (nxs: gnode0 (tk, INV(a))):<> intGte(0)
 
-(* ****** ****** *)
-
-fun{
-tk:tk}{a:vt0p}{env:vt0p
-} gnodelst_foreach$fwork (x: &a, env: &env >> _): void
 fun{
 tk:tk}{a:vt0p
-} gnodelst_foreach (nx: gnode0 (tk, INV(a))): void
-fun{
-tk:tk}{a:vt0p}{env:vt0p
-} gnodelst_foreach_env (nx: gnode0 (tk, INV(a)), env: &env >> _): void
+} gnodelst_rlength (nxs: gnode1 (tk, INV(a))):<> intGte(0)
 
 (* ****** ****** *)
 
