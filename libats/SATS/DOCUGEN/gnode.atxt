@@ -75,6 +75,7 @@ This package contains various functions for manipulating generic nodes.
 
 (* ****** ****** *)
 
+#declnamesynop("gnode_remove")
 #declnamesynop("gnode_remove_next")
 #declnamesynop("gnode_remove_prev")
 

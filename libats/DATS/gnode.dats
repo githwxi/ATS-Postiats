@@ -51,7 +51,7 @@ staload "libats/SATS/gnode.sats"
 
 implement{
 } gnode_null
-  {tk}{a}() = $UN.cast{gnode(tk,a,null)} (the_null_ptr)
+  {tk}{a}() = $UN.cast{gnode(tk,a,null)}(nullp)
 // end of [gnode_null]
 
 (* ****** ****** *)
@@ -59,13 +59,13 @@ implement{
 implement{
 } gnode_is_null
   {tk}{a}{l}(nx) = let
-  val p = $UN.cast{ptr} (nx) in $UN.cast{bool(l==null)} (p = nullp)
+  val p = $UN.cast{ptr}(nx) in $UN.cast{bool(l==null)}(p = nullp)
 end // end of [gnode_is_null]
 
 implement{}
 gnode_isnot_null
   {tk}{a}{l}(nx) = let
-  val p = $UN.cast{ptr} (nx) in $UN.cast{bool(l > null)} (p > nullp)
+  val p = $UN.cast{ptr}(nx) in $UN.cast{bool(l > null)}(p > nullp)
 end // end of [gnode_isnot_null]
 
 (* ****** ****** *)
