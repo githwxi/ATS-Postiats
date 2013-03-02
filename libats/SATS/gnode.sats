@@ -27,11 +27,13 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Time: December, 2012
+// Author: Hongwei Xi
+// AuthorEmail: hwxi AT cs DOT bu DOT edu
+// Start time: December, 2012
 //
 (* ****** ****** *)
 //
+// HX: there is no involvement of malloc/free
 // HX: generic nodes: singly-linked, doubly-linked, parental
 //
 (* ****** ****** *)
@@ -78,24 +80,6 @@ fun{
 (* ****** ****** *)
 
 fun{
-tk:tk}{a:vt0p
-} gnode_make_elt (x: a):<> gnode1 (tk, a)
-
-(* ****** ****** *)
-
-fun{
-tk:tk}{a:t0p // [a] is nonlinear
-} gnode_free (nx: gnode1 (tk, INV(a))):<!wrt> void
-
-fun{
-tk:tk}{a:vt0p
-} gnode_free_elt
-  (nx: gnode1 (tk, INV(a)), res: &(a?) >> a):<!wrt> void
-// end of [gnode_free_elt]
-
-(* ****** ****** *)
-
-fun{
 } gnode_is_null
   {tk:tk}{a:vt0p}{l:addr} (nx: gnode (tk, INV(a), l)):<> bool (l==null)
 // end of [gnode_is_null]
@@ -110,10 +94,6 @@ fun{
 fun{
 tk:tk}{a:vt0p
 } gnode_getref_elt (nx: gnode1 (tk, INV(a))):<> Ptr1
-
-fun{
-tk:tk}{a:vt0p
-} gnode_getfree_elt (nx: gnode1 (tk, INV(a))):<> (a) // [nx] is freed
 
 (* ****** ****** *)
 

@@ -83,15 +83,16 @@ key:t0p;itm:vt0p
 fun{
 key:t0p;itm:vt0p
 } mynode_getref_itm (nx: !mynode1 (key, itm)):<> Ptr1
-fun{
-key:t0p;itm:vt0p
-} mynode_getfree_itm (nx: mynode1 (key, itm)):<> itm
 
 fun{
 key:t0p;itm:vt0p
-} mynode_free_keyitm
-  (nx: !mynode1 (key, itm), res: &(key, itm)):<> void
-// end of [mynode_free_keyitm]
+} mynode_free_keyitm (
+  nx: mynode1 (key, itm), k0: &key? >> key, x0: &itm? >> itm
+) :<!wrt> void // end of [mynode_free_keyitm]
+
+fun{
+key:t0p;itm:vt0p
+} mynode_getfree_itm (nx: mynode1 (key, itm)):<!wrt> itm
 
 (* ****** ****** *)
 

@@ -82,8 +82,6 @@ typedef mynode1 (a:vt0p) = gnode1 (mytkind, a)
 extern
 fun{a:vt0p}
 mynode_make_elt (x: a):<!wrt> mynode1 (a)
-implement{a}
-mynode_make_elt (x) = gnode_make_elt<mytkind><a> (x)
 
 extern
 fun{a:vt0p}

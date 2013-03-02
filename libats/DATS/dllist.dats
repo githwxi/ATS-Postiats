@@ -63,13 +63,23 @@ typedef mynode0 (a:vt0p) = gnode0 (mytkind, a)
 typedef mynode1 (a:vt0p) = gnode1 (mytkind, a)
 
 (* ****** ****** *)
-
+//
 extern
 fun{a:vt0p}
 mynode_make_elt (x: a):<!wrt> mynode1 (a)
-implement{a}
-mynode_make_elt (x) = gnode_make_elt<mytkind><a> (x)
-
+//
+extern
+fun{a:t0p} // [a] is nonlinear
+mynode_free (nx: mynode1 (INV(a))):<!wrt> void
+extern
+fun{a:vt0p}
+mynode_free_elt
+  (nx: mynode1 (INV(a)), res: &(a?) >> a):<!wrt> void
+//
+extern
+fun{a:vt0p}
+mynode_getfree_elt (nx: mynode1 (INV(a))):<!wrt> (a)
+//
 (* ****** ****** *)
 
 assume
@@ -108,7 +118,7 @@ dllist_uncons
   val () = gnode0_set_prev_null (nx2)
   val () = xs := nx2
 in
-  gnode_getfree_elt (nx)
+  mynode_getfree_elt (nx)
 end // end of [dllist_uncons]
 
 (* ****** ****** *)
@@ -137,6 +147,7 @@ case+ xs of
     (x, xs) => let
     val nx1 =
       mynode_make_elt<a> (x)
+    // end of [val]
     val () = gnode_link11 (nx0, nx1)
   in
     loop (nx1, xs)
@@ -260,12 +271,31 @@ end // end of [dllist_set]
 
 (* ****** ****** *)
 
+(*
+fun{a:vt0p}
+dllist_length
+  {f,r:int} (xs: !dllist (INV(a), f, r)):<> int (r)
+*)
 implement{a}
 dllist_length
   {f,r} (xs) = let
+  val nxs = $UN.cast{mynode0(a)}(xs)
 in
-  $UN.cast{int(r)}(gnodelst_length (xs))
+  $UN.cast{int(r)}(gnodelst_length (nxs))
 end // end of [dllist_length]
+
+(*
+fun{a:vt0p}
+rdllist_length
+  {f,r:int} (xs: !dllist (INV(a), f, r)):<> int (f)
+*)
+implement{a}
+rdllist_length
+  {f,r} (xs) = let
+  val nxs = $UN.cast{mynode1(a)}(xs)
+in
+  $UN.cast{int(f)}(gnodelst_rlength (nxs))
+end // end of [rdllist_length]
 
 (* ****** ****** *)
 
@@ -389,7 +419,7 @@ dllist_remove
   val () = gnode_link01 (nx_prev, nx_next)
   val () = (xs := nx_next)
 in
-  gnode_getfree_elt (nx)
+  mynode_getfree_elt (nx)
 end // end of [dllist_remove]
 
 (* ****** ****** *)
@@ -479,7 +509,7 @@ in
 //
 if iscons then let
   val nxs2 = gnode_get_next (nxs)
-  val () = gnode_free (nxs)
+  val () = mynode_free (nxs)
 in
   loop (nxs2)
 end else () // end of [if]
@@ -567,9 +597,9 @@ end // end of [fprint_rdllist]
 (* ****** ****** *)
 
 datavtype
-dlnode (a:vt@ype+) =
+dlnode_vtype (a:vt@ype+) =
   | DLNODE of (a, ptr(*next*), ptr(*prev*))
-// end of [dlnode]
+vtypedef dlnode (a:vt0p) = dlnode_vtype (a)
 
 (* ****** ****** *)
 
@@ -584,28 +614,32 @@ mynode_encode {a:vt0p} (nx: dlnode (INV(a))):<> mynode1 (a)
 
 (* ****** ****** *)
 
-implement(a)
-gnode_make_elt<mytkind><a>
+implement{a}
+mynode_make_elt
   (x) = let
 in
   $UN.castvwtp0{mynode1(a)}(DLNODE{a}(x, _, _))
-end // end of [gnode_make_elt]
+end // end of [mynode_make_elt]
 
-(* ****** ****** *)
-
-implement(a)
-gnode_free<mytkind><a>
-  (nx) = let
+implement{a}
+mynode_free (nx) = let
   val nx = mynode_decode (nx)
   val~DLNODE (_, _, _) = (nx) in (*nothing*)
-end // end of [gnode_free]
+end // end of [mynode_free]
 
-implement(a)
-gnode_free_elt<mytkind><a>
+implement{a}
+mynode_free_elt
   (nx, res) = let
   val nx = mynode_decode (nx)
   val~DLNODE (x, _, _) = (nx); val () = res := x in (*nothing*)
-end // end of [gnode_free_elt]
+end // end of [mynode_free_elt]
+
+implement{a}
+mynode_getfree_elt
+  (nx) = let
+  val nx = mynode_decode (nx)
+  val~DLNODE (x, _, _) = (nx) in x
+end // end of [mynode_getfree_elt]
 
 (* ****** ****** *)
 

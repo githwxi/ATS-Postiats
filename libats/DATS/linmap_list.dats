@@ -48,6 +48,9 @@ staload "libats/SATS/linmap_list.sats"
 
 stadef
 mytkind = $extkind"atslib_linmap_list"
+
+(* ****** ****** *)
+
 assume
 map_vtype (k:t0p, i:vt0p) = List0_vt @(k, i)
 
@@ -129,6 +132,100 @@ linmap_listize_free (map) = map // [map] is just a list
 
 implement
 {key,itm}
+mynode_make_keyitm
+  (k, x) = let
+//
+vtypedef ki = @(key, itm)
+val nx = list_vt_cons {ki}{0} ( @(k, x), _ )
+//
+in
+  $UN.castvwtp0{mynode1(key,itm)}(nx)
+end // end of [mynode_make_keyitm]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+mynode_get_key
+  (nx) = k where {
+//
+vtypedef ki = @(key, itm)
+//
+val nx2 = $UN.castvwtp1{List1_vt(ki)}(nx)
+//
+val+@list_vt_cons (kx, _) = nx2
+//
+val k = kx.0
+//
+prval () = fold@ (nx2)
+prval () = __assert (nx2) where {
+  extern praxi __assert : List1_vt(ki) -<prf> void
+} // end of [where] // end of [prval]
+//
+} // end of [mynode_get_key]
+
+implement
+{key,itm}
+mynode_getref_itm
+  (nx) = p_x where {
+//
+vtypedef ki = @(key, itm)
+//
+val nx2 = $UN.castvwtp1{List1_vt(ki)}(nx)
+//
+val+@list_vt_cons (kx, _) = nx2
+//
+val p_x = addr@ (kx.1)
+val p_x = $UN.cast{Ptr1}(p_x)
+//
+prval () = fold@ (nx2)
+prval () = __assert (nx2) where {
+  extern praxi __assert : List1_vt(ki) -<prf> void
+} // end of [where] // end of [prval]
+//
+} // end of [mynode_getref_itm]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+mynode_free_keyitm
+  (nx, k0, x0) = () where {
+//
+vtypedef ki = @(key, itm)
+//
+val nx = $UN.castvwtp0{List1_vt(ki)}(nx)
+//
+val+~list_vt_cons (kx, nx2) = nx
+val () = k0 := kx.0 and () = x0 := kx.1
+prval () = __assert (nx2) where {
+  extern praxi __assert : List0_vt(ki) -<prf> void
+} // end of [where] // end of [prval]
+//
+} // end of [mynode_free_keyitm]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+mynode_getfree_itm
+  (nx) = kx.1 where {
+//
+vtypedef ki = @(key, itm)
+//
+val nx = $UN.castvwtp0{List1_vt(ki)}(nx)
+//
+val+~list_vt_cons (kx,  nx2) = nx
+prval () = __assert (nx2) where {
+  extern praxi __assert : List0_vt(ki) -<prf> void
+} // end of [where] // end of [prval]
+//
+} // end of [mynode_getfree_itm]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
 linmap_search_ngc
   (map, k0) = let
 //
@@ -143,9 +240,7 @@ in
 case+ kxs of
 | @list_vt_cons
     (kx, kxs1) => let
-    val iseq =
-      equal_key_key<key> (kx.0, k0)
-    // end of [val]
+    val iseq = equal_key_key<key> (kx.0, k0)
   in
     if iseq then let
       prval () = fold@ (kxs)
@@ -165,6 +260,26 @@ end // end of [loop]
 in
   loop (map, k0) // HX: Ptr1
 end // end of [linmap_search_ngc]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_insert_any_ngc
+  (map, nx0) = let
+//
+vtypedef ki = @(key, itm)
+//
+val nx0 = $UN.castvwtp0{List1_vt(ki)}(nx0)
+//
+val+@list_vt_cons (_, kxs) = nx0
+prval () = __assert (kxs) where {
+  extern praxi __assert : List0_vt(ki) -<prf> void
+} // end of [where] // end of [prval]
+//
+in
+  kxs := map; fold@ (nx0); map := nx0
+end // end of [linmap_insert_any_ngc]
 
 (* ****** ****** *)
 

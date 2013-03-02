@@ -575,6 +575,8 @@ fprint_stropt
 
 #atscode_separator()
 
+implement fprint_val<string> = fprint_string
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

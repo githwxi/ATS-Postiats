@@ -16,15 +16,12 @@ staload "libats/SATS/dllist.sats"
 
 staload "prelude/DATS/basics.dats"
 
-(* ****** ****** *)
-
 staload "prelude/DATS/integer.dats"
-
-(* ****** ****** *)
+staload "prelude/DATS/char.dats"
+staload "prelude/DATS/float.dats"
+staload "prelude/DATS/string.dats"
 
 staload _ = "prelude/DATS/unsafe.dats"
-
-(* ****** ****** *)
 
 staload _ = "libats/DATS/gnode.dats"
 staload _ = "libats/DATS/dllist.dats"
@@ -68,10 +65,10 @@ val xs = dllist_insert_next (xs, 2)
 val xs = dllist_move (xs)
 val xs = dllist_insert_next (xs, 3)
 val xs = dllist_move (xs)
-val xs = dllist_insert_next (xs, 4)
-val xs = dllist_move (xs)
-val xs = dllist_insert_next (xs, 5)
-val xs = dllist_move (xs)
+//
+val nr = dllist_length (xs)
+val nf = rdllist_length (xs)
+val () = assertloc (nf + nr = 3)
 //
 val xs = rdllist_move_all (xs)
 //
@@ -86,14 +83,16 @@ val () = dllist_free (xs)
 
 val () = {
 //
-typedef T = int
+typedef T = string
 val out = stdout_ref
 //
-val xs = dllist_sing<T> (1)
-val xs = dllist_insert_prev (xs, 2)
-val xs = dllist_insert_prev (xs, 3)
-val xs = dllist_insert_prev (xs, 4)
-val xs = dllist_insert_prev (xs, 5)
+val xs = dllist_sing<T> ("A")
+val xs = dllist_insert_prev (xs, "B")
+val xs = dllist_insert_prev (xs, "C")
+//
+val nr = dllist_length (xs)
+val nf = rdllist_length (xs)
+val () = assertloc (nf + nr = 3)
 //
 val () = fprint_dllist (out, xs)
 val () = fprint_newline (out)
