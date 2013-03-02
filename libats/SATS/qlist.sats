@@ -137,25 +137,27 @@ a:vt0p}{env:vt0p
 (* ****** ****** *)
 //
 abst@ype
-qstruct_tsz =
-  $extype "atslib_qlist_qstruct"
-absviewt@ype
-qstruct_vt0ype (a:viewt@ype+, n:int) = qstruct_tsz
+qstruct_tsize = $extype"atslib_qlist_qstruct"
+absvt@ype
+qstruct_vt0ype (a:vt@ype+, n:int) = qstruct_tsize
 //
 stadef qstruct = qstruct_vt0ype
-stadef qstruct = qstruct_tsz // HX: order significant
+stadef qstruct = qstruct_tsize // HX: order significant
 //
 viewtypedef
 Qstruct (a:vt0p) = [n:nat] qstruct (a, n)
 //
 (* ****** ****** *)
 
-fun{a:vt0p}
-qstruct_initize
-  (q: &qstruct? >> qstruct (a, 0)):<!wrt> void
-fun{a:vt0p}
+fun{
+} qstruct_initize
+  {a:vt0p} (q: &qstruct? >> qstruct (a, 0)):<!wrt> void
+// end of [qstruct_initize]
+
+praxi
 qstruct_uninitize
-  (q: &qstruct (a, 0) >> qstruct?):<!wrt> void
+  {a:vt0p} (q: &qstruct (a, 0) >> qstruct?):<!wrt> void
+// end of [qstruct_uninitize]
 
 (* ****** ****** *)
 

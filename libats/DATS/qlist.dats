@@ -126,14 +126,14 @@ typedef gnode1 (a:vt0p) = gnode1 (mykind, a)
 (* ****** ****** *)
 
 datavtype
-myqlist (
-  a:vt@ype+
-) =
-  MYQLIST of (gnode0(a), ptr)
-// end of [datavtype]
+myqlist_vt
+  (a:vt@ype+) = MYQLIST of (gnode0(a), ptr)
+// end of [myqlist_vt]
+
+(* ****** ****** *)
 
 assume
-qlist_vtype (a:vt0p, n:int) = myqlist (a)
+qlist_vtype (a:vt0p, n:int) = myqlist_vt (a)
 
 (* ****** ****** *)
 
@@ -141,10 +141,10 @@ implement{a}
 qlist_is_nil
   {n} (q) = let
   val+@MYQLIST (nxf, p_nxr) = q
-  val isemp = (addr@ (nxf) = p_nxr)
+  val isnil = (addr@ (nxf) = p_nxr)
   prval () = fold@ (q)
 in
-  $UN.cast{bool(n==0)} (isemp)
+  $UN.cast{bool(n==0)}(isnil)
 end // end of [qlist_is_nil]
 
 implement{a}
@@ -154,8 +154,25 @@ qlist_isnot_nil
   val isnot = (addr@ (nxf) != p_nxr)
   prval () = fold@ (q)
 in
-  $UN.cast{bool(n > 0)} (isnot)
+  $UN.cast{bool(n > 0)}(isnot)
 end // end of [qlist_isnot_nil]
+
+(* ****** ****** *)
+
+implement{
+} qstruct_initize {a} (q) = let
+  val q2 =
+    $UN.castvwtp0{qlist(a,0)}(addr@ (q))
+  // end of [val]
+  val+@MYQLIST (nxf, p_nxr) = q2
+  val () = (p_nxr := addr@ (nxf))
+  prval () = fold@ (q2)
+  prval () = __assert (q, q2) where {
+    extern praxi __assert (q: &qstruct? >> qstruct (a, 0), q2: qlist (a, 0)): void
+  } // end of [where] // end of [prval]
+in
+  (* DoNothing *)
+end // end of [qstruct_initize]
 
 (* ****** ****** *)
 
