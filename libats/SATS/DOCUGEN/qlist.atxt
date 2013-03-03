@@ -130,8 +130,13 @@ for an unboxed queue containing N elements of type T.
 
 (* ****** ****** *)
 
+#declnamesynop("qlist_node_vtype")
+
+(* ****** ****** *)
+
 #declnamesynop("mynode")
-#declnamesynop("mynode_vtype")
+#declnamesynop("mynode0")
+#declnamesynop("mynode1")
 
 (* ****** ****** *)
 
@@ -142,7 +147,9 @@ for an unboxed queue containing N elements of type T.
 
 #declnamesynop("mynode_make_elt")
 #declnamesynop("mynode_getref_elt")
+
 #declnamesynop("mynode_free_elt")
+#declnamesynop("mynode_getfree_elt")
 
 (* ****** ****** *)
 

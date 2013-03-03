@@ -66,8 +66,16 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 //
 absvtype
 qlist_vtype (a:vt@ype+, n:int) = ptr
+//
 vtypedef
 qlist (a:vt0p, n:int) = qlist_vtype (a, n)
+//
+vtypedef
+qlist (a:vt0p) = [n:int] qlist (a, n)
+vtypedef
+qlist0 (a:vt0p) = [n:int | n >= 0] qlist (a, n)
+vtypedef
+qlist1 (a:vt0p) = [n:int | n >= 1] qlist (a, n)
 //
 (* ****** ****** *)
 
@@ -123,16 +131,16 @@ qlist_takeout_list
 
 fun{
 a:vt0p}{env:vt0p
-} qlist_foreach$cont (x: &a, env: &env): void
+} qlist_foreach$cont (x: &a, env: &env): bool
 fun{
 a:vt0p}{env:vt0p
 } qlist_foreach$fwork (x: &a, env: &(env) >> _): void
 fun{
 a:vt0p
-} qlist_foreach {n:int} (q: !qlist (INV(a), n)): void
+} qlist_foreach (q: !qlist (INV(a))): void
 fun{
 a:vt0p}{env:vt0p
-} qlist_foreach_env {n:int} (q: !qlist (INV(a), n), env: &(env) >> _): void
+} qlist_foreach_env (q: !qlist (INV(a)), env: &(env) >> _): void
 
 (* ****** ****** *)
 //
@@ -145,7 +153,7 @@ stadef qstruct = qstruct_vt0ype
 stadef qstruct = qstruct_tsize // HX: order significant
 //
 viewtypedef
-Qstruct (a:vt0p) = [n:nat] qstruct (a, n)
+qstruct (a:vt0p) = [n:nat] qstruct (a, n)
 //
 (* ****** ****** *)
 
