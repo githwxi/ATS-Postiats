@@ -91,6 +91,13 @@ dllist_nil {a:vt0p} ():<> dllist (a, 0, 0)
 
 (* ****** ****** *)
 
+praxi
+dllist_free_nil
+  {a:vt0p}{f:int} (xs: dllist (INV(a), f, 0)): void
+// end of [dllist_free_nil]
+
+(* ****** ****** *)
+
 fun{a:vt0p}
 dllist_sing (x: a):<!wrt> dllist (a, 0, 1)
 
@@ -222,7 +229,7 @@ rdllist_move
   (xs: dllist (INV(a), f, r)):<> dllist (a, f-1, r+1)
 fun{a:vt0p}
 rdllist_move_all
-  {f,r:int | r > 0}
+  {f,r:int | r >= 0}
   (xs: dllist (INV(a), f, r)):<> dllist (a, 0(*front*), f+r)
 // end of [rdllist_move_all]
 
