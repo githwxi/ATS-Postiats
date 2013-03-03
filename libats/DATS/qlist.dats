@@ -42,31 +42,43 @@ staload "libats/SATS/qlist.sats"
 
 (* ****** ****** *)
 
-implement{a}
-qlist_make (
-) = que where {
+implement{}
+qlist_make_nil (
+) = pq where {
   val (
     pf, pfgc | p
   ) = ptr_alloc<qstruct> ()
-  val que = ptr2ptrlin (p)
+  val pq = ptr2ptrlin (p)
   val () = qstruct_initize (!p)
-  prval pfngc = qstruct_objfize (pf | que)
+  prval pfngc = qstruct_objfize (pf | pq)
   prval () = free_gcngc_v_nullify (pfgc, pfngc)
 } // end of [qlist_make]
+
+implement{}
+qlist_free_nil
+  {a} (pq) = () where {
+  val () =
+    __mfree (pq) where {
+    extern fun __mfree
+      : qlist (a, 0) -<0,!wrt> void = "mac#atspre_mfree_gc"
+  } // end of [where] // end of [val]
+} (* end of [qlist_free_nil] *)
 
 (* ****** ****** *)
 
 implement{a}
 qlist_insert
-  {n} (q, x) = let
-  val nx = mynode_make_elt (x)
+  (q, x) = let
+//
+val nx = mynode_make_elt<a> (x)
+//
 in
-  qlist_insert_ngc {n} (q, nx)
+  qlist_insert_ngc<a> (q, nx)
 end // end of [qlist_insert]
 
 implement{a}
 qstruct_insert
-  {n} (q, x) = let
+  (q, x) = let
 //
 val pq = addr@(q)
 val q2 = ptr2ptrlin (pq)
@@ -85,15 +97,14 @@ end // end of [qstruct_insert]
 
 implement{a}
 qlist_takeout
-  {n} (q) = res where {
-  var res: a
-  val nx = qlist_takeout_ngc {n} (q)
-  val () = mynode_free_elt (nx, res)
+  (q) = res where {
+  val nx0 = qlist_takeout_ngc<a> (q)
+  val res = mynode_getfree_elt (nx0)
 } // end of [qlist_takeout]
 
 implement{a}
 qstruct_takeout
-  {n} (q) = res where {
+  (q) = res where {
 //
 val pq = addr@(q)
 val q2 = ptr2ptrlin (pq)
@@ -108,39 +119,24 @@ prval () = ptrlin_free (q2)
 
 (* ****** ****** *)
 
-staload "libats/SATS/gnode.sats"
-
-(* ****** ****** *)
-
-stadef
-mykind = $extkind"atslib_qlist"
-
-(* ****** ****** *)
-
-typedef gnode
-  (a:vt0p, l:addr) = gnode (mykind, a, l)
-// end of [gnode]
-typedef gnode0 (a:vt0p) = gnode0 (mykind, a)
-typedef gnode1 (a:vt0p) = gnode1 (mykind, a)
+stadef mykind = $extkind"atslib_qlist"
 
 (* ****** ****** *)
 
 datavtype
-myqlist_vt
-  (a:vt@ype+) = MYQLIST of (gnode0(a), ptr)
-// end of [myqlist_vt]
+qlist_data (a:vt@ype+) = QLIST of (ptr, ptr)
 
 (* ****** ****** *)
 
 assume
-qlist_vtype (a:vt0p, n:int) = myqlist_vt (a)
+qlist_vtype (a:vt0p, n:int) = qlist_data (a)
 
 (* ****** ****** *)
 
 implement{a}
 qlist_is_nil
   {n} (q) = let
-  val+@MYQLIST (nxf, p_nxr) = q
+  val+@QLIST (nxf, p_nxr) = q
   val isnil = (addr@ (nxf) = p_nxr)
   prval () = fold@ (q)
 in
@@ -150,7 +146,7 @@ end // end of [qlist_is_nil]
 implement{a}
 qlist_isnot_nil
   {n} (q) = let
-  val+@MYQLIST (nxf, p_nxr) = q
+  val+@QLIST (nxf, p_nxr) = q
   val isnot = (addr@ (nxf) != p_nxr)
   prval () = fold@ (q)
 in
@@ -161,36 +157,84 @@ end // end of [qlist_isnot_nil]
 
 implement{
 } qstruct_initize {a} (q) = let
-  val q2 =
-    $UN.castvwtp0{qlist(a,0)}(addr@ (q))
-  // end of [val]
-  val+@MYQLIST (nxf, p_nxr) = q2
-  val () = (p_nxr := addr@ (nxf))
-  prval () = fold@ (q2)
-  prval () = __assert (q, q2) where {
-    extern praxi __assert (q: &qstruct? >> qstruct (a, 0), q2: qlist (a, 0)): void
-  } // end of [where] // end of [prval]
+//
+val q2 =
+  $UN.castvwtp0{qlist(a,0)}(addr@ (q))
+// end of [val]
+val+@QLIST (nxf, p_nxr) = q2
+val () = (p_nxr := addr@ (nxf))
+prval () = fold@ (q2)
+prval () = __assert (q, q2) where {
+  extern praxi __assert (q: &qstruct? >> qstruct (a, 0), q2: qlist (a, 0)): void
+} // end of [where] // end of [prval]
+//
 in
   (* DoNothing *)
 end // end of [qstruct_initize]
 
 (* ****** ****** *)
 
-assume
-qlist_node_vtype (a:vt0p, l:addr) = gnode (a, l)
+extern
+castfn
+mynode1_encode
+  {a:vt0p} (xs: List1_vt (INV(a))):<> mynode1 (a)
+// end of [mynode1_encode]
+extern
+castfn
+mynode1_decode
+  {a:vt0p} (nx: mynode1 (INV(a))):<> List1_vt (a)
+// end of [mynode1_decode]
+
+(* ****** ****** *)
+
+implement{a}
+mynode_make_elt (x) =
+  $UN.castvwtp0{mynode1(a)}(list_vt_cons{a}{0}(x, _))
+// end of [mynode_make_elt]
+
+implement{a}
+mynode_free_elt
+  (nx, res) = () where {
+//
+val xs = mynode1_decode (nx)
+val+~list_vt_cons (x, xs2) = xs
+val () = res := x
+prval () = __assert (xs2) where {
+  extern praxi __assert : {vt:vtype} (vt) -<prf> void
+} // end of [where] // end of [prval]
+//
+} // end of [mynode_free_elt]
+
+implement{a}
+mynode_getfree_elt
+  (nx) = (x) where {
+//
+val xs = mynode1_decode (nx)
+val+~list_vt_cons (x, xs2) = xs
+prval () = __assert (xs2) where {
+  extern praxi __assert : {vt:vtype} (vt) -<prf> void
+} // end of [where] // end of [prval]
+//
+} // end of [mynode_getfree_elt]
 
 (* ****** ****** *)
 
 implement{a}
 qlist_insert_ngc
-  {n} (q, nx0) = let
+  (q, nx0) = let
 //
+val+@QLIST (nxf, p_nxr) = q
 //
-val+@MYQLIST (nxf, p_nxr) = q
-val nx0 = $UN.castvwtp0{gnode1(a)} (nx0)
-val () = $UN.ptr0_set<gnode1(a)> (p_nxr, nx0)
-val () = p_nxr := gnode_getref_next (nx0)
-prval () = fold@ (q)
+val xs = mynode1_decode (nx0)
+val+@list_vt_cons (_, xs2) = xs
+val p2_nxr = addr@ (xs2)
+prval ((*prf*)) = fold@ (xs)
+val nx0 = mynode1_encode (xs)
+//
+val () = $UN.ptr0_set<mynode1(a)> (p_nxr, nx0)
+val () = p_nxr := p2_nxr
+//
+prval ((*prf*)) = fold@ (q)
 //  
 in
   // nothing
@@ -200,14 +244,25 @@ end // end of [qlist_insert_ngc]
 
 implement{a}
 qlist_takeout_ngc
-  {n} (q) = nx0 where {
+  (q) = nx0 where {
 //
-val+@MYQLIST (nxf, p_nxr) = q
-val nx0 = $UN.cast{gnode1(a)}(nxf)
-val () = nxf := gnode_get_next (nx0)
-val iseq = (p_nxr = gnode_getref_next (nx0))
-val () = if iseq then p_nxr := addr@ (nxf)
-prval () = fold@ (q)
+val+@QLIST (nxf, p_nxr) = q
+val nx0 = $UN.castvwtp0{mynode1(a)}(nxf)
+//
+val xs = mynode1_decode (nx0)
+val+@list_vt_cons (_, xs2) = xs
+val p2_nxr = addr@ (xs2)
+prval ((*prf*)) = fold@ (xs)
+val nx0 = mynode1_encode (xs)
+//
+val () = (
+  if (p_nxr != p2_nxr)
+    then nxf := $UN.ptr0_get<ptr> (p2_nxr)
+    else p_nxr := addr@ (nxf)
+  // end of [if]
+) : void // end of [val]
+//
+prval ((*prf*)) = fold@ (q)
 //
 } // end of [qlist_takeout_ngc]
 
@@ -217,8 +272,8 @@ implement{a}
 qlist_takeout_list
   {n} (q) = let
 //
-val+@MYQLIST (nxf, p_nxr) = q
-val () = $UN.ptr0_set<gnode0(a)> (p_nxr, gnode_null ())
+val+@QLIST (nxf, p_nxr) = q
+val () = $UN.ptr0_set<ptr> (p_nxr, the_null_ptr)
 val nx0 = nxf
 val () = p_nxr := addr@ (nxf)
 prval () = fold@ (q)

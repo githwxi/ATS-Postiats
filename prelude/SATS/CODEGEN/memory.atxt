@@ -28,7 +28,7 @@ typedef b0ytes (n:int) = @[byte?][n]
 fun malloc_gc
   {n:int} (n: size_t n)
   :<> [l:agz] (b0ytes n @ l, free_gc_v (l) | ptr l)
-  = "ext\#ats_malloc_gc"
+  = "ext\#atspre_malloc_gc"
 // end of [malloc_gc]
 
 #atscode_separator()
@@ -36,7 +36,7 @@ fun malloc_gc
 fun mfree_gc
   {l:addr}{n:int} (
   pf: b0ytes n @ l, pfgc: free_gc_v (l) | ptr l
-) :<!wrt> void = "ext\#ats_mfree_gc" // endfun
+) :<!wrt> void = "ext\#atspre_mfree_gc" // endfun
 
 #atscode_separator()
 

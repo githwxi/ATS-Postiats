@@ -395,7 +395,7 @@ fun ptr_free
 
 #atscode_separator()
 //
-absviewtype ptrlin (l:addr)
+absvtype ptrlin (l:addr) = ptr
 //
 praxi ptrlin_free {l:addr} (p: ptrlin (l)): void
 //

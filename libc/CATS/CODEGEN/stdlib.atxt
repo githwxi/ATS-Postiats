@@ -3,7 +3,7 @@
 #if (ATSCODEFORMAT == "txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"stdio.cats"
+val _thisfilename = atext_strcst"stdlib.cats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
@@ -14,7 +14,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 /*
 ** Source:
-** $PATSHOME/libc/CATS/CODEGEN/stdio.atxt
+** $PATSHOME/libc/CATS/CODEGEN/stdlib.atxt
 ** Time of generation: #timestamp()
 */
 

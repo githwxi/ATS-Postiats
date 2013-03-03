@@ -399,9 +399,7 @@ case+
   d3e0.d3exp_node of
 //
 | D3Evar (d2v) => let
-    val () =
-      d2var_inc_utimes (d2v)
-    // end of [val]
+    val () = d2var_inc_utimes (d2v)
   in
     hidexp_var (loc0, hse0, d2v)
   end // end of [D3Evar]
@@ -567,9 +565,7 @@ case+
 //
 | D3Esel_var
     (d2v, s2rt, d3ls) => let
-    val () =
-      d2var_inc_utimes (d2v)
-    // end of [val]
+    val () = d2var_inc_utimes (d2v)
     val hse_rt = s2exp_tyer_deep (loc0, s2rt)
     val hils = d3lablst_tyer (d3ls)
   in
@@ -588,8 +584,8 @@ case+
 | D3Eassgn_var (
     d2v_l, s2rt, d3ls, d3e_r
   ) => let
-    val hse_rt =
-      s2exp_tyer_deep (loc0, s2rt)
+    val () = d2var_inc_utimes (d2v_l)
+    val hse_rt = s2exp_tyer_deep (loc0, s2rt)
     val hils = d3lablst_tyer (d3ls)
     val hde_r = d3exp_tyer (d3e_r)
   in
@@ -609,9 +605,7 @@ case+
 | D3Exchng_var (
     d2v_l, s2rt, d3ls, d3e_r
   ) => let
-    val () =
-      d2var_inc_utimes (d2v_l)
-    // end of [val]
+    val () = d2var_inc_utimes (d2v_l)
     val hse_rt = s2exp_tyer_deep (loc0, s2rt)
     val hils = d3lablst_tyer (d3ls)
     val hde_r = d3exp_tyer (d3e_r)

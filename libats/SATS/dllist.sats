@@ -181,23 +181,26 @@ dllist_getref_next
 (* ****** ****** *)
 
 fun{a:t0p}
-dllist_get
+dllist_get_elt
   {f,r:int | r > 0} (xs: !dllist (INV(a), f, r)): a
-// end of [dllist_get]
+// end of [dllist_get_elt]
 
 fun{a:t0p}
-dllist_set
+dllist_set_elt
   {f,r:int | r > 0} (xs: !dllist (INV(a), f, r), x0: a): void
-// end of [dllist_set]
+// end of [dllist_set_elt]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
 dllist_length
   {f,r:int} (xs: !dllist (INV(a), f, r)):<> int (r)
+// end of [dllist_length]
+
 fun{a:vt0p}
 rdllist_length
   {f,r:int} (xs: !dllist (INV(a), f, r)):<> int (f)
+// end of [rdllist_length]
 
 (* ****** ****** *)
 
@@ -297,52 +300,55 @@ dllist_freelin {r:int} (xs: dllist (INV(a), 0, r)):<!wrt> void
 
 fun{
 a:vt0p}{env:vt0p
-} dllist_foreach$fwork (x: &a, env: &env): void
+} dllist_foreach$cont (x: &a, env: &env): bool
+fun{
+a:vt0p}{env:vt0p
+} dllist_foreach$fwork (x: &a, env: &env >> _): void
 
 fun{a:vt0p}
 dllist_foreach
   {f,r:int} (xs: !dllist (INV(a), f, r)): void
-// end of [dllist_foreach]
-
 fun{
 a:vt0p}{env:vt0p
 } dllist_foreach_env
-  {f,r:int} (xs: !dllist (INV(a), f, r), env: &env): void
+  {f,r:int} (xs: !dllist (INV(a), f, r), env: &env >> _): void
 // end of [dllist_foreach_env]
 
 (* ****** ****** *)
 
 fun{
 a:vt0p}{env:vt0p
-} rdllist_foreach$fwork (x: &a, env: &env): void
+} rdllist_foreach$cont (x: &a, env: &env): bool
+fun{
+a:vt0p}{env:vt0p
+} rdllist_foreach$fwork (x: &a, env: &env >> _): void
 
 fun{a:vt0p}
 rdllist_foreach
   {f,r:int} (xs: !dllist (INV(a), f, r)): void
-// end of [rdllist_foreach]
-
 fun{
 a:vt0p}{env:vt0p
 } rdllist_foreach_env
-  {f,r:int} (xs: !dllist (INV(a), f, r), env: &env): void
+  {f,r:int} (xs: !dllist (INV(a), f, r), env: &env >> _): void
 // end of [rdllist_foreach_env]
 
 (* ****** ****** *)
-
+//
 fun{}
 fprint_dllist$sep (out: FILEref): void
+//
 fun{a:vt0p}
 fprint_dllist
   {f,r:int} (out: FILEref, xs: !dllist (INV(a), f, r)): void
 // end of [fprint_dllist]
-
+//
 fun{}
 fprint_rdllist$sep (out: FILEref): void
 fun{a:vt0p}
 fprint_rdllist
   {f,r:int} (out: FILEref, xs: !dllist (INV(a), f, r)): void
 // end of [fprint_rdllist]
-
+//
 (* ****** ****** *)
 
 (* end of [dllist.sats] *)

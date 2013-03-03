@@ -63,11 +63,12 @@
 sortdef t0p = t@ype and vt0p = viewt@ype
 
 (* ****** ****** *)
-
+//
 absvtype
-qlist_vtype (a:vt@ype+, n:int)
-stadef qlist = qlist_vtype // local shorthand
-
+qlist_vtype (a:vt@ype+, n:int) = ptr
+vtypedef
+qlist (a:vt0p, n:int) = qlist_vtype (a, n)
+//
 (* ****** ****** *)
 
 praxi lemma_qlist_param
@@ -76,11 +77,10 @@ praxi lemma_qlist_param
 
 (* ****** ****** *)
 
-fun{a:vt0p}
-qlist_make (): qlist (a, 0)
-
-fun{a:vt0p}
-qlist_free (q: qlist (a, 0)):<!wrt> void
+fun{}
+qlist_make_nil {a:vt0p} (): qlist (a, 0)
+fun{}
+qlist_free_nil {a:vt0p} (q: qlist (a, 0)):<!wrt> void
 
 (* ****** ****** *)
 
@@ -196,7 +196,7 @@ qstruct_takeout_list
 //
 (* ****** ****** *)
 
-absvtype qlist_node_vtype (a:vt@ype+, l:addr)
+absvtype qlist_node_vtype (a:vt@ype+, l:addr) = ptr
 
 (* ****** ****** *)
 
@@ -224,10 +224,17 @@ mynode_free_null {a:vt0p} (nx: mynode (a, null)): void
 
 fun{a:vt0p}
 mynode_make_elt (x: a):<!wrt> mynode1 (a)
+
 fun{a:vt0p}
-mynode_getref_elt (nx: mynode1 (INV(a))):<> Ptr1
+mynode_getref_elt (nx: !mynode1 (INV(a))):<> Ptr1
+
 fun{a:vt0p}
-mynode_free_elt (nx: mynode1 (INV(a)), res: &(a?) >> a):<!wrt> void
+mynode_free_elt
+  (nx: mynode1 (INV(a)), res: &(a?) >> a):<!wrt> void
+// end of [mynode_free_elt]
+
+fun{a:vt0p}
+mynode_getfree_elt (nx: mynode1 (INV(a))):<!wrt> a
 
 (* ****** ****** *)
 
