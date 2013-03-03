@@ -68,16 +68,19 @@ castfn cast2sint {a:t0p} (x: a):<> sint
 castfn cast2usint {a:t0p} (x: a):<> usint
 //
 #atscode_separator()
+
+praxi cast2void {a:vt0p} (x: a):<prf> void
+
+#atscode_separator()
 //
 // HX: these are popular ones:
 //
-castfn
-linlst2lst {a:t0p}{n:int}
-  (xs: !list_vt (INV(a), n)):<> list (a, n)
-// end of [linlst2lst]
+castfn list_vt2t
+  {a:t0p}{n:int} (xs: !list_vt (INV(a), n)):<> list (a, n)
+// end of [list_vt2t]
 
-castfn
-linstr2str {l:agz} (x: !strptr l):<> String
+castfn strptr2string {l:agz} (x: !strptr l):<> String
+castfn strptr2stropt {l:addr} (x: !strptr l):<> Stropt0
 
 #atscode_separator()
 //
@@ -92,7 +95,7 @@ praxi ptr_vtake
 praxi
 vtakeout_void {v:view} (pf: !v): vtakeout (void, v)
 castfn
-vttakeout_void {vt:vt0p} (x: !vt):<> vttakeout (void, vt)
+vttakeout_void {a:vt0p} (x: !a):<> vttakeout (void, a)
 
 #atscode_separator()
 //
@@ -143,6 +146,8 @@ fun{a:vt0p} cptr_get (p: cPtr1 (INV(a))):<> a
 fun{a:vt0p} cptr_set (p: cPtr1 (INV(a)), x: a):<!wrt> void
 fun{a:vt0p} cptr_exch (p: cPtr1 (INV(a)), x: &a >> a):<!wrt> void
 //
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

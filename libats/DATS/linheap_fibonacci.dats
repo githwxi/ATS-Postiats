@@ -71,37 +71,40 @@ mytkind = $extkind"atslib_linheap_fibonacci"
 
 (* ****** ****** *)
 
-typedef mynode
-  (a:vt0p, l:addr) = gnode (mytkind, a, l)
-// end of [mynode]
-typedef mynode0 (a:vt0p) = gnode0 (mytkind, a)
-typedef mynode1 (a:vt0p) = gnode1 (mytkind, a)
+typedef
+g2node (a:vt0p, l:addr) = gnode (mytkind, a, l)
+typedef g2node0 (a:vt0p) = gnode0 (mytkind, a)
+typedef g2node1 (a:vt0p) = gnode1 (mytkind, a)
 
 (* ****** ****** *)
 
 extern
 fun{a:vt0p}
-mynode_make_elt (x: a):<!wrt> mynode1 (a)
+g2node_make_elt (x: a):<!wrt> g2node1 (a)
+extern
+fun{a:vt0p}
+g2node_free_elt
+  (nx: g2node1 (INV(a)), res: &a? >> a):<!wrt> void
+// end of [g2node_free_elt]
+extern
+fun{a:vt0p}
+g2node_get_rank (nx: g2node1 (INV(a))):<> int
+extern
+fun{a:vt0p}
+g2node_set_rank (nx: g2node1 (INV(a)), d: int):<!wrt> void
 
 extern
 fun{a:vt0p}
-mynode_get_rank (nx: mynode1 (INV(a))):<> int
+g2node_get_marked (nx: g2node1 (INV(a))):<> bool
 extern
 fun{a:vt0p}
-mynode_set_rank (nx: mynode1 (INV(a)), d: int):<!wrt> void
-
-extern
-fun{a:vt0p}
-mynode_get_marked (nx: mynode1 (INV(a))):<> bool
-extern
-fun{a:vt0p}
-mynode_set_marked (nx: mynode1 (INV(a)), mark: bool):<!wrt> void
+g2node_set_marked (nx: g2node1 (INV(a)), mark: bool):<!wrt> void
 
 (* ****** ****** *)
 
 datavtype
 fibheap (a:vt@ype+) =
-  | FIBHEAP (a) of (mynode0 (a), size_t(*size*))
+  | FIBHEAP (a) of (g2node0 (a), size_t(*size*))
 // end of [fibheap]
 
 (* ****** ****** *)
@@ -141,10 +144,10 @@ linheap_size (hp) =
 
 extern
 fun{a:vt0p}
-compare_elt_mynode
-  (x1: &a, nx2: mynode0 (a)):<> int
+compare_elt_g2node
+  (x1: &a, nx2: g2node0 (a)):<> int
 implement{a}
-compare_elt_mynode
+compare_elt_g2node
   (x1, nx2) = let
 in
 //
@@ -161,13 +164,13 @@ in
   sgn
 end else ~1 // end of [if]
 //
-end // end of [compare_elt_mynode]
+end // end of [compare_elt_g2node]
 
 extern
 fun{a:vt0p}
-compare_mynode_mynode
-  (nx1: mynode0 (a), nx2: mynode0 (a)):<> int
-// end of [compare_mynode_mynode]
+compare_g2node_g2node
+  (nx1: g2node0 (a), nx2: g2node0 (a)):<> int
+// end of [compare_g2node_g2node]
 
 (* ****** ****** *)
 
@@ -178,15 +181,15 @@ linheap_insert
 val @FIBHEAP (nx0, N) = hp
 //
 var x0: a = x0
-val sgn = compare_elt_mynode<a> (x0, nx0)
+val sgn = compare_elt_g2node<a> (x0, nx0)
 //
-val nx2 = mynode_make_elt<a> (x0)
+val nx2 = g2node_make_elt<a> (x0)
 val () =
   if gnode2ptr (nx0) > 0 then
     gnode_insert_next (nx0, nx2) else gnode_link11 (nx2, nx2)
   // end of [if]
 //
-val () = if :(nx0: mynode0 (a)) => sgn < 0 then nx0 := nx2
+val () = if :(nx0: g2node0 (a)) => sgn < 0 then nx0 := nx2
 val () = N := succ (N)
 //
 prval () = fold@ (hp)
@@ -206,15 +209,15 @@ linheap_getmin_ref (hp) =
 
 extern
 fun{a:vt0p}
-mynode_insert_next_circlst
-  (nx1: mynode1 (a), nxs2: mynode0 (a)): void
-// end of [mynode_insert_prev_circlst]
+g2node_insert_next_circlst
+  (nx1: g2node1 (a), nxs2: g2node0 (a)): void
+// end of [g2node_insert_prev_circlst]
 
 extern
 fun{a:vt0p}
-mynode_insert_prev_circlst
-  (nx1: mynode1 (a), nxs2: mynode0 (a)): void
-// end of [mynode_insert_prev_circlst]
+g2node_insert_prev_circlst
+  (nx1: g2node1 (a), nxs2: g2node0 (a)): void
+// end of [g2node_insert_prev_circlst]
 
 (* ****** ****** *)
 
@@ -225,13 +228,13 @@ linheap_merge
 val @FIBHEAP (nx1, N1) = hp1
 val ~FIBHEAP (nx2, N2) = hp2
 //
-val sgn = compare_mynode_mynode<a> (nx1, nx2)
+val sgn = compare_g2node_g2node<a> (nx1, nx2)
 val () =
   if gnode2ptr (nx1) > 0 then
-    mynode_insert_next_circlst (nx1, nx2) else ()
+    g2node_insert_next_circlst (nx1, nx2) else ()
   // end of [if]
 //
-val () = if :(nx1: mynode0 (a)) => (sgn > 0) then nx1 := nx2
+val () = if :(nx1: g2node0 (a)) => (sgn > 0) then nx1 := nx2
 val () = N1 := N1 + N2
 //
 prval () = fold@ (hp1)
@@ -242,45 +245,45 @@ prval () = fold@ (hp1)
 
 extern
 fun{a:vt0p}
-mynodelst_set_parent_null (nxs: mynode0 (a)): void
+g2nodelst_set_parent_null (nxs: g2node0 (a)): void
 
 (* ****** ****** *)
 
 extern
 fun{a:vt0p}
-mynodelst_consolidate (nxs: mynode0 (a)): mynode0 (a)
+g2nodelst_consolidate (nxs: g2node0 (a)): g2node0 (a)
 
 (* ****** ****** *)
 
 extern
 fun{a:vt0p}
-join_mynode_mynode
-  (nx1: mynode1 (a), nx2: mynode1 (a)):<!wrt> void
+join_g2node_g2node
+  (nx1: g2node1 (a), nx2: g2node1 (a)):<!wrt> void
 implement{a}
-join_mynode_mynode
+join_g2node_g2node
   (nx1, nx2) = let
-  val r = mynode_get_rank (nx1)
+  val r = g2node_get_rank (nx1)
 (*
-  val () = assertloc_debug (r = mynode_get_rank (nx2))
+  val () = assertloc_debug (r = g2node_get_rank (nx2))
 *)
-  val () = mynode_set_rank (nx1, r+1)
+  val () = g2node_set_rank (nx1, r+1)
   val () = gnode_set_parent (nx2, nx1)
-  val () = mynode_set_marked (nx2, false)
+  val () = g2node_set_marked (nx2, false)
   val () = gnode_link10 (nx2, gnode_get_children (nx1))
   val () = gnode_set_children (nx1, nx2)
 in
   // nothing
-end // end of [join_mynode_mynode]
+end // end of [join_g2node_g2node]
 
 extern
 fun{a:vt0p}
-merge_mynode_mynode
-  (nx1: mynode1 (a), nx2: mynode1 (a)):<!wrt> mynode1 (a)
+merge_g2node_g2node
+  (nx1: g2node1 (a), nx2: g2node1 (a)):<!wrt> g2node1 (a)
 implement{a}
-merge_mynode_mynode
+merge_g2node_g2node
   (nx1, nx2) = let
 //
-val sgn = compare_mynode_mynode (nx1, nx2)
+val sgn = compare_g2node_g2node (nx1, nx2)
 //
 in
   if sgn < 0 then let
@@ -288,7 +291,7 @@ in
   end else let
     val () = gnode_link11 (nx2, nx1) in nx2
   end // end of [if]
-end // end of [merge_mynode_mynode]
+end // end of [merge_g2node_g2node]
 
 (* ****** ****** *)
 
@@ -296,33 +299,33 @@ local
 
 extern
 fun{a:vt0p}
-rank2mynode_takeout (r: int): mynode0 (a)
+rank2g2node_takeout (r: int): g2node0 (a)
 
 extern
 fun{a:vt0p}
-rank2mynode_putinto (r: int, nx: mynode0 (a)): void
+rank2g2node_putinto (r: int, nx: g2node0 (a)): void
 
 in // in of [local]
 
 implement{a}
-mynodelst_consolidate (nxs) = let
+g2nodelst_consolidate (nxs) = let
 //
 fun aux (
-  nx: mynode1 (a), r: int
+  nx: g2node1 (a), r: int
 ) : int = let
-  val nx2 = rank2mynode_takeout (r)
+  val nx2 = rank2g2node_takeout (r)
 in
   if gnode2ptr (nx2) > 0 then let
-    val nx = merge_mynode_mynode (nx, nx2)
+    val nx = merge_g2node_g2node (nx, nx2)
   in
     aux (nx, r+1)
   end else let
-    val () = rank2mynode_putinto (r, nx) in r
+    val () = rank2g2node_putinto (r, nx) in r
   end // end of [if]
 end // end of [aux]
 //
 fun auxlst (
-  nxs: mynode0 (a), r0: int
+  nxs: g2node0 (a), r0: int
 ) : int = let
   val iscons = gnodelst_is_cons (nxs)
 in
@@ -332,7 +335,7 @@ if iscons then let
   val nxs =
     gnode_get_next (nxs)
   // end of [val]
-  val r = mynode_get_rank (nx)
+  val r = g2node_get_rank (nx)
   val r = aux (nx, r)
   val r0 = (if r > r0 then r else r0): int
 in
@@ -341,12 +344,12 @@ end else r0 // end of [if]
 //
 end // end of [auxlst]
 //
-fun auxlink (r0: int): mynode1 (a) = let
+fun auxlink (r0: int): g2node1 (a) = let
 //
 fun loop (
   r0: int, r: int
-) : mynode1 (a) = let
-  val nx = rank2mynode_takeout (r)
+) : g2node1 (a) = let
+  val nx = rank2g2node_takeout (r)
   val isnot = gnode_isnot_null (nx)
 in
   if isnot 
@@ -356,23 +359,23 @@ end // end of [loop]
 
 and loop2 (
   r0: int, r: int
-, nx1: mynode1 (a), nx2: mynode1 (a), nx_min: mynode1 (a)
-) : mynode1 (a) = let
+, nx1: g2node1 (a), nx2: g2node1 (a), nx_min: g2node1 (a)
+) : g2node1 (a) = let
 in
   if r > r0 then let
     val () = gnode_link11 (nx2, nx1)
   in
     nx_min
   end else let
-    val nx21 = rank2mynode_takeout (r)
+    val nx21 = rank2g2node_takeout (r)
     val isnot = gnode_isnot_null (nx21)
   in
     if isnot then let
       val sgn =
-        compare_mynode_mynode (nx21, nx_min)
+        compare_g2node_g2node (nx21, nx_min)
       // end of [val]
       val nx_min =
-        (if sgn < 0 then nx21 else nx_min): mynode1 (a)
+        (if sgn < 0 then nx21 else nx_min): g2node1 (a)
       // end of [val]
     in
       loop2 (r0, r, nx1, nx21, nx_min)
@@ -393,7 +396,7 @@ in
 if iscons then let
   val nx = nxs
   val nx_prev = gnode_get_prev (nx)
-  val nx_prev = $UN.cast{mynode1(a)}(nx_prev)
+  val nx_prev = $UN.cast{g2node1(a)}(nx_prev)
   val () = gnode_set_next_null (nx_prev)
   val r0 = auxlst (nxs, 0)
 in
@@ -402,7 +405,7 @@ end else
   gnode_null ()
 // end of [if]
 //
-end // end of [mynodelst_consolidate]
+end // end of [g2nodelst_consolidate]
 
 end // end of [local]
 
@@ -418,15 +421,15 @@ in
 //
 if N > 0SZ then let
   val nx0 = nx0_ref
-  val nx0 = $UN.cast{mynode1(a)}(nx0)
+  val nx0 = $UN.cast{g2node1(a)}(nx0)
   val nxs2 = gnode_get_children (nx0)
-  val () = mynodelst_set_parent_null (nxs2)
+  val () = g2nodelst_set_parent_null (nxs2)
 //
-  val () = mynode_insert_next_circlst (nx0, nxs2)
+  val () = g2node_insert_next_circlst (nx0, nxs2)
 //
   val nx1 = gnode_get_next (nx0)
-  val () = gnode_free_elt (nx0, res)
-  val nx1 = mynodelst_consolidate (nx1)
+  val () = g2node_free_elt (nx0, res)
+  val nx1 = g2nodelst_consolidate (nx1)
 //
   val () = N := pred (N)
   val () = nx0_ref := nx1

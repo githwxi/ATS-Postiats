@@ -382,13 +382,23 @@ stringlst_concat
 //
 prval () = lemma_list_param (xs)
 //
+val ns = let
+//
 implement
-list_map$fwork<string><size_t> (x) = string0_length x
-val ns = list_map<string><size_t> (xs)
+list_map$fwork<string><size_t> (x) = string0_length (x)
+//
+in
+  list_map<string><size_t> (xs)
+end // end of [ns]
+//
+val ntot = let
 //
 implement
 list_foldleft$fwork<size_t><size_t> (acc, n) = acc + n
-val ntot = list_foldleft ($UN.linlst2lst (ns), (i2sz)0)
+//
+in
+  list_foldleft ($UN.list_vt2t (ns), (i2sz)0)
+end // end of [ntot]
 //
 fun loop {n:nat} .<n>. (
   p: ptr, xs: list (string, n), ns: list_vt (size_t, n)

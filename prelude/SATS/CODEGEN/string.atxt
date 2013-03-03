@@ -374,7 +374,7 @@ fun{} stropt_none (): stropt (~1)
 #atscode_separator()
 
 symintr stropt_some
-castfn stropt0_some {n:int} (x: SHR(string n)): Stropt1
+castfn stropt0_some (x: SHR(string)): Stropt1
 overload stropt_some with stropt0_some
 castfn stropt1_some {n:int} (x: SHR(string n)): stropt (n)
 overload stropt_some with stropt1_some
