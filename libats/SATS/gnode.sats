@@ -232,7 +232,7 @@ tk:tk}{a:vt0p
 
 fun{
 tk:tk}{a:vt0p
-} gnodelst_rlength (nxs: gnode1 (tk, INV(a))):<> intGte(0)
+} gnodelst_rlength (nxs: gnode0 (tk, INV(a))):<> intGte(0)
 
 (* ****** ****** *)
 

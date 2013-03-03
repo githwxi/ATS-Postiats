@@ -92,11 +92,9 @@ end // end of [qstruct_insert]
 (* ****** ****** *)
 
 implement{a}
-qlist_takeout
-  (pq) = res where {
-  val nx0 = qlist_takeout_ngc (pq)
-  val res = mynode_getfree_elt (nx0)
-} // end of [qlist_takeout]
+qlist_takeout (pq) = let
+  val nx0 = qlist_takeout_ngc (pq) in mynode_getfree_elt (nx0)
+end // end of [qlist_takeout]
 
 implement{a}
 qstruct_takeout
@@ -158,15 +156,17 @@ implement{a}
 qlist_length
   {n} (pq) = let
 //
-implement(env)
-qlist_foreach$cont<a><env> (x, env) = true
-//
 typedef tenv = int
+//
+implement
+qlist_foreach$cont<a><tenv> (x, env) = true
 implement
 qlist_foreach$fwork<a><tenv> (x, env) = env := env+1
-var env: tenv = (0)
-val () = $effmask_all (qlist_foreach_env<a><tenv> (pq, env))
 //
+var env: tenv = (0)
+val () =
+  $effmask_all (qlist_foreach_env<a><tenv> (pq, env))
+// end of [val]
 in
   $UN.cast{int(n)}(env)
 end // end of [qlist_length]

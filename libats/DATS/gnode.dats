@@ -333,13 +333,13 @@ fun loop (
   val nxs2 = gnode_get_prev (nxs)
   val iscons = gnodelst_is_cons (nxs2)
 in
-//
-if iscons then loop (nxs2, succ (len)) else len
-//
+  if iscons then loop (nxs2, succ (len)) else len
 end // end of [loop]
 //
+val iscons = gnodelst_is_cons (nxs)
+//
 in
-  $effmask_all (loop (nxs, 0))
+  if iscons then $effmask_all (loop (nxs, 0)) else 0
 end // end of [gnodelst_rlength]
 
 (* ****** ****** *)

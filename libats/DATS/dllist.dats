@@ -281,9 +281,7 @@ dllist_length
 implement{a}
 dllist_length
   {f,r} (xs) = let
-  val nxs = $UN.cast{g2node0(a)}(xs)
-in
-  $UN.cast{int(r)}(gnodelst_length (nxs))
+  val nxs = xs in $UN.cast{int(r)}(gnodelst_length (nxs))
 end // end of [dllist_length]
 
 (*
@@ -294,9 +292,7 @@ rdllist_length
 implement{a}
 rdllist_length
   {f,r} (xs) = let
-  val nxs = $UN.cast{g2node1(a)}(xs)
-in
-  $UN.cast{int(f)}(gnodelst_rlength (nxs))
+  val nxs = xs in $UN.cast{int(f)}(gnodelst_rlength (nxs))
 end // end of [rdllist_length]
 
 (* ****** ****** *)
@@ -352,7 +348,7 @@ end // end of [rdllist_move]
 (*
 fun{a:vt0p}
 rdllist_move_all
-  {f,r:int | r >= 0}
+  {f,r:int | r > 0}
   (xs: dllist (INV(a), f, r)):<> dllist (a, 0(*front*), f+r)
 *)
 implement{a}
@@ -367,10 +363,10 @@ in
   if gnodelst_is_cons (nxs_prev) then loop (nxs_prev) else nxs
 end // end of [loop]
 //
-val nxs = xs
+val nxs = $UN.cast{g2node1(a)}(xs)
 //
 in
-  if gnodelst_is_cons (nxs) then $effmask_all (loop (nxs)) else nxs
+  $effmask_all (loop (nxs))
 end // end of [rdllist_move_all]
 
 (* ****** ****** *)
@@ -524,6 +520,98 @@ end // end of [dllist_free]
 
 (* ****** ****** *)
 
+(*
+fun{
+a:vt0p}{env:vt0p
+} dllist_foreach_env
+  {f,r:int} (xs: !dllist (INV(a), f, r), env: &env >> _): void
+*)
+implement
+{a}{env}
+dllist_foreach_env
+  (xs, env) = let
+//
+fun loop (
+  nxs: g2node0 (a), env: &env
+) : void = let
+  val iscons = gnodelst_is_cons (nxs)
+in
+//
+if iscons then let
+  val nx0 = nxs
+  val nxs = gnode_get_next (nxs)
+  val p_elt = gnode_getref_elt (nx0)
+  prval (pf, fpf) = $UN.ptr_vtake {a} (p_elt)
+  val test = dllist_foreach$cont (!p_elt, env)
+in
+  if test then let
+    val () = dllist_foreach$fwork (!p_elt, env)
+    prval () = fpf (pf)
+  in
+    loop (nxs, env)
+  end else let
+    prval () = fpf (pf)
+  in
+    // nothing
+  end // end of [if]
+end else () // end of [if]
+//
+end // end of [loop]
+//
+val nxs = xs
+//
+in
+  loop (nxs, env)
+end // end of [dllist_foreach_env]
+
+(* ****** ****** *)
+
+(*
+fun{
+a:vt0p}{env:vt0p
+} rdllist_foreach_env
+  {f,r:int} (xs: !dllist (INV(a), f, r), env: &env >> _): void
+*)
+implement
+{a}{env}
+rdllist_foreach_env
+  (xs, env) = let
+//
+fun loop (
+  nxs: g2node1 (a), env: &env
+) : void = let
+  val nxs2 = gnode_get_prev (nxs)
+  val iscons = gnodelst_is_cons (nxs2)
+in
+//
+if iscons then let
+  val nx0 = nxs2
+  val p_elt = gnode_getref_elt (nx0)
+  prval (pf, fpf) = $UN.ptr_vtake {a} (p_elt)
+  val test = rdllist_foreach$cont (!p_elt, env)
+in
+  if test then let
+    val () = rdllist_foreach$fwork (!p_elt, env)
+    prval () = fpf (pf)
+  in
+    loop (nxs2, env)
+  end else let
+    prval () = fpf (pf)
+  in
+    // nothing
+  end // end of [if]
+end else () // end of [if]
+//
+end // end of [loop]
+//
+val nxs = xs
+//
+in
+  if gnodelst_is_cons (nxs) then loop (nxs, env) else ()
+end // end of [rdllist_foreach_env]
+
+(* ****** ****** *)
+
 implement{}
 fprint_dllist$sep
   (out) = fprint_string (out, "->")
@@ -542,8 +630,8 @@ if iscons then let
   val () =
     if i > 0 then fprint_dllist$sep (out)
   // end of [val]
-  val [l:addr] p_elt = gnode_getref_elt (nx0)
-  prval (pf, fpf) = $UN.ptr_vtake {a}{l} (p_elt)
+  val p_elt = gnode_getref_elt (nx0)
+  prval (pf, fpf) = $UN.ptr_vtake {a} (p_elt)
   val () = fprint_ref (out, !p_elt)
   prval () = fpf (pf)
 in
@@ -621,6 +709,8 @@ g2node_make_elt
 in
   $UN.castvwtp0{g2node1(a)}(DLNODE{a}(x, _, _))
 end // end of [g2node_make_elt]
+
+(* ****** ****** *)
 
 implement{a}
 g2node_free (nx) = let

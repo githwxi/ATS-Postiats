@@ -222,7 +222,7 @@ rdllist_move
   (xs: dllist (INV(a), f, r)):<> dllist (a, f-1, r+1)
 fun{a:vt0p}
 rdllist_move_all
-  {f,r:int | r >= 0}
+  {f,r:int | r > 0}
   (xs: dllist (INV(a), f, r)):<> dllist (a, 0(*front*), f+r)
 // end of [rdllist_move_all]
 
@@ -307,11 +307,13 @@ a:vt0p}{env:vt0p
 
 fun{a:vt0p}
 dllist_foreach
-  {f,r:int} (xs: !dllist (INV(a), f, r)): void
+  {f,r:int}
+  (xs: !dllist (INV(a), f, r)): void
 fun{
 a:vt0p}{env:vt0p
 } dllist_foreach_env
-  {f,r:int} (xs: !dllist (INV(a), f, r), env: &env >> _): void
+  {f,r:int}
+  (xs: !dllist (INV(a), f, r), env: &env >> _): void
 // end of [dllist_foreach_env]
 
 (* ****** ****** *)
@@ -325,11 +327,13 @@ a:vt0p}{env:vt0p
 
 fun{a:vt0p}
 rdllist_foreach
-  {f,r:int} (xs: !dllist (INV(a), f, r)): void
+  {f,r:int | r > 0}
+  (xs: !dllist (INV(a), f, r)): void
 fun{
 a:vt0p}{env:vt0p
 } rdllist_foreach_env
-  {f,r:int} (xs: !dllist (INV(a), f, r), env: &env >> _): void
+  {f,r:int | r > 0}
+  (xs: !dllist (INV(a), f, r), env: &env >> _): void
 // end of [rdllist_foreach_env]
 
 (* ****** ****** *)
