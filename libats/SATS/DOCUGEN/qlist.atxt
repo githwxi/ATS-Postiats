@@ -42,7 +42,10 @@ structure.
 
 (* ****** ****** *)
 
-#declnamesynop("qlist_size")
+#declnamesynop("qlist_length")
+#decldescrpt("
+
+This function computes the length of a given queue.")
 
 (* ****** ****** *)
 

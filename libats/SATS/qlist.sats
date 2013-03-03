@@ -97,7 +97,7 @@ qlist_isnot_nil
 (* ****** ****** *)
 
 fun{a:vt0p}
-qlist_size {n:int} (q: !qlist (INV(a), n)):<> size_t (n)
+qlist_length {n:int} (q: !qlist (INV(a), n)):<> int (n)
 
 (* ****** ****** *)
 

@@ -136,9 +136,11 @@ qlist_vtype (a:vt0p, n:int) = qlist_data (a)
 implement{a}
 qlist_is_nil
   {n} (q) = let
-  val+@QLIST (nxf, p_nxr) = q
-  val isnil = (addr@ (nxf) = p_nxr)
-  prval () = fold@ (q)
+//
+val+@QLIST (nxf, p_nxr) = q
+val isnil = (addr@ (nxf) = p_nxr)
+prval () = fold@ (q)
+//
 in
   $UN.cast{bool(n==0)}(isnil)
 end // end of [qlist_is_nil]
@@ -146,12 +148,47 @@ end // end of [qlist_is_nil]
 implement{a}
 qlist_isnot_nil
   {n} (q) = let
-  val+@QLIST (nxf, p_nxr) = q
-  val isnot = (addr@ (nxf) != p_nxr)
-  prval () = fold@ (q)
+//
+val+@QLIST (nxf, p_nxr) = q
+val isnot = (addr@ (nxf) != p_nxr)
+prval () = fold@ (q)
+//
 in
   $UN.cast{bool(n > 0)}(isnot)
 end // end of [qlist_isnot_nil]
+
+(* ****** ****** *)
+
+implement{a}
+qlist_length
+  {n} (q) = let
+//
+fun loop (
+  p_nxf: ptr, p_nxr: ptr, len: int
+) : int = let
+in
+//
+if p_nxf != p_nxr then let
+  val xs =
+    $UN.ptr0_get<List1_vt(a)> (p_nxf)
+  // end of [val]
+  val+@list_vt_cons (_, xs2) = xs
+  val p2_nxf = addr@ (xs2)
+  prval ((*prf*)) = fold@ (xs)
+  prval ((*prf*)) = $UN.cast2void (xs)
+in
+  loop (p2_nxf, p_nxr, succ (len))
+end else (len) // end of [if]
+//
+end // end of [loop]
+//
+val+@QLIST (nxf, p_nxr) = q
+val res = $effmask_all (loop (addr@ (nxf), p_nxr, 0))
+prval () = fold@ (q)
+//
+in
+  $UN.cast{int(n)}(res)
+end // end of [qlist_length]
 
 (* ****** ****** *)
 
