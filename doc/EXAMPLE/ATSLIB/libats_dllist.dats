@@ -106,6 +106,28 @@ val () = dllist_free (xs)
 
 (* ****** ****** *)
 
+val () = {
+//
+typedef T = int
+val out = stdout_ref
+//
+val xs = dllist_nil {T} ()
+val xs = 1 :: 2 :: 3 :: xs
+//
+val xs2 = dllist_nil {T} ()
+val xs2 = 4 :: 5 :: xs2
+//
+val xs_xs2 = dllist_append (xs, xs2)
+//
+val () = fprint_dllist (out, xs_xs2)
+val () = fprint_newline (out)
+//
+val () = dllist_free (xs_xs2)
+//
+} // end of [val]
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

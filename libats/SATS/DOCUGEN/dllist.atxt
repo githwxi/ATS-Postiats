@@ -8,13 +8,13 @@ implement srcfilename_get () = "../dllist.sats"
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/libats_dlist_vt")
+val () = patscode_prefix_set("TRYIT/libats_dllist")
 %}
 
 (* ****** ****** *)
 
 #decltitle("\
-ATSLIB/libats/dlist_vt\
+ATSLIB/libats/dllist\
 ")
 
 (* ****** ****** *)
@@ -24,121 +24,130 @@ ATSLIB/libats/dlist_vt\
 #para('\
 
 This package contains a variety of common functions for creating/freeing
-and manipulating linear lists.  ')
+and manipulating doubly-linked linear lists.  ')
 
 #para('\
 
 The type for a doubly-linked linear list containing N elements of type T is
-denoted by #stacode("dlist_vt(T, F, R)"), where T can be linear, and F and
-R (satisfying F+R=N) indicate that there F and R elements before and after
-the current pointer, respectively. The suffix \"vt\" in the name dlist_vt
-stands for viewtype, which is the formal name for linear type in ATS.  Note
-that the type constructor #stacode("dlist_vt") is co-variant in its first
-argument, that is, #stacode("dlist_vt(T1, F, R)") is a subtype of
-#stacode("dlist_vt(T2, F, R)") if T1 is a subtype of T2. The low-level
-representation for dlist_vt is the same as that for a standard
-doubly-linked list in C, and it is fairly straightforward to implement
-functions in C that can directly manipulate doubly linked linear lists in
-ATS and vice versa.  ')
+denoted by #stacode("dllist(T, F, R)"), where T can be linear, and F and R
+(satisfying F+R=N) indicate that there F and R elements before and after
+the current pointer, respectively. Note that the type constructor
+#stacode("dllist") is co-variant in its first argument, that is,
+#stacode("dllist(T1, F, R)") is a subtype of #stacode("dllist(T2, F, R)")
+if T1 is a subtype of T2. The low-level representation for dllist is the
+same as that for a standard doubly-linked list in C, and it is fairly
+straightforward to implement functions in C that can directly manipulate
+doubly linked linear lists in ATS and vice versa.  ')
 
 ')#comment("declpreamble")
 
 (* ****** ****** *)
 
-#declnamesynop("dlist_vt")
+#declnamesynop("dllist")
+#declnamesynop("dllist_vtype")
 
 (* ****** ****** *)
 
-#declnamesynop("lemma1_dlist_vt_param")
-#declnamesynop("lemma2_dlist_vt_param")
-#declnamesynop("lemma3_dlist_vt_param")
+#declnamesynop("lemma1_dllist_param")
+#declnamesynop("lemma2_dllist_param")
+#declnamesynop("lemma3_dllist_param")
 
 (* ****** ****** *)
 
-#declnamesynop("dlist_vt_nil")
-#declnamesynop("dlist_vt_sing")
+#declnamesynop("dllist_nil")
+#declnamesynop("dllist_free_nil")
 
 (* ****** ****** *)
 
-#declnamesynop("dlist_vt_cons")
-#declnamesynop("dist_vt_uncons")
+#declnamesynop("dllist_sing")
 
 (* ****** ****** *)
 
-#declnamesynop("dlist_vt_snoc")
-#declnamesynop("dist_vt_unsnoc")
+#declnamesynop("dllist_cons")
+#declnamesynop("dllist_uncons")
 
 (* ****** ****** *)
 
-#declnamesynop("dlist_vt_is_nil")
-#declnamesynop("dlist_vt_is_cons")
+#declnamesynop("dllist_snoc")
+#declnamesynop("dllist_unsnoc")
 
 (* ****** ****** *)
 
-#declnamesynop("dlist_vt_is_atbeg")
-#declnamesynop("dlist_vt_is_atend")
-
-#declnamesynop("rdlist_vt_is_atbeg")
-#declnamesynop("rdlist_vt_is_atend")
+#declnamesynop("dllist_is_nil")
+#declnamesynop("dllist_is_cons")
 
 (* ****** ****** *)
 
-#declnamesynop("dlist_vt_getref_elt")
-#declnamesynop("dlist_vt_getref_prev")
-#declnamesynop("dlist_vt_getref_next")
+#declnamesynop("dllist_is_atbeg")
+#declnamesynop("dllist_is_atend")
+
+#declnamesynop("rdllist_is_atbeg")
+#declnamesynop("rdllist_is_atend")
 
 (* ****** ****** *)
 
-#declnamesynop("dlist_vt_get")
-#declnamesynop("dlist_vt_set")
+#declnamesynop("dllist_getref_elt")
+#declnamesynop("dllist_getref_prev")
+#declnamesynop("dllist_getref_next")
 
 (* ****** ****** *)
 
-#declnamesynop("dlist_vt_length")
-#declnamesynop("rdlist_vt_length")
+#declnamesynop("dllist_get_elt")
+#declnamesynop("dllist_set_elt")
 
 (* ****** ****** *)
 
-#declnamesynop("dlist_vt_move")
-#declnamesynop("dlist_vt_move_all")
+#declnamesynop("dllist_length")
+#declnamesynop("rdllist_length")
 
 (* ****** ****** *)
 
-#declnamesynop("rdlist_vt_move")
-#declnamesynop("rdlist_vt_move_all")
+#declnamesynop("dllist_move")
+#declnamesynop("dllist_move_all")
+#declnamesynop("rdllist_move")
+#declnamesynop("rdllist_move_all")
 
 (* ****** ****** *)
 
-#declnamesynop("dlist_vt_insert")
-#declnamesynop("dlist_vt_insert_next")
-#declnamesynop("dlist_vt_remove")
+#declnamesynop("dllist_insert_next")
+#declnamesynop("dllist_insert_prev")
 
 (* ****** ****** *)
 
-#declnamesynop("rdlist_vt_insert")
-#declnamesynop("rdlist_vt_remove")
+#declnamesynop("dllist_remove")
+#declnamesynop("dllist_remove_next")
 
 (* ****** ****** *)
 
-#declnamesynop("dlist_vt_append")
-#declnamesynop("rdlist_vt_append")
+#declnamesynop("rdllist_insert")
+#declnamesynop("rdllist_remove")
 
 (* ****** ****** *)
 
-#declnamesynop("dlist_vt_free")
-#declnamesynop("dlist_vt_freelin$clear")
-#declnamesynop("dlist_vt_freelin")
+#declnamesynop("dllist_append")
+#declnamesynop("rdllist_append")
 
 (* ****** ****** *)
 
-#declnamesynop("dlist_vt_foreach")
-#declnamesynop("dlist_vt_foreach_env")
+#declnamesynop("dllist_reverse")
+#declnamesynop("rdllist_reverse")
 
 (* ****** ****** *)
 
-#declnamesynop("rdlist_vt_foreach")
-#declnamesynop("rdlist_vt_foreach_env")
+#declnamesynop("dllist_free")
+#declnamesynop("dllist_freelin$clear")
+#declnamesynop("dllist_freelin")
 
 (* ****** ****** *)
 
-(* end of [dlist_vt.atxt] *)
+#declnamesynop("dllist_foreach")
+#declnamesynop("dllist_foreach_env")
+
+(* ****** ****** *)
+
+#declnamesynop("rdllist_foreach")
+#declnamesynop("rdllist_foreach_env")
+
+(* ****** ****** *)
+
+(* end of [dllist.atxt] *)

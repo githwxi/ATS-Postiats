@@ -86,11 +86,11 @@ that the complexity of the funtion is O(1).
 #para('
 #pats2xhtmls('\
 abst@ype
-qstruct_tsz =
-  $extype "atslib_qlist_qstruct"
-stadef qstruct = qstruct_tsz
+qstruct_tsize =
+  $extype"atslib_qlist_qstruct"
+stadef qstruct = qstruct_tsize
 absvt@ype
-qstruct_vt0ype (a:vt@ype+, n:int) = qstruct_tsz
+qstruct_vt0ype (a:vt@ype+, n:int) = qstruct_tsize
 stadef qstruct = qstruct_vt0ype
 ')
 ')
@@ -99,9 +99,9 @@ stadef qstruct = qstruct_vt0ype
 #decldescrpt('\
 #para('\
 
-The abstract type #stacode("qstruct_tsz") is primarily
-needed for allocating a variable in a function frame for
-storing a qstruct-value.
+The abstract type #stacode("qstruct_tsize") is primarily needed for
+allocating a variable in the calling frame of a function to store a
+qstruct-value.
 
 ')
 
@@ -125,12 +125,26 @@ for an unboxed queue containing N elements of type T.
 (* ****** ****** *)
 
 #declnamesynop("qstruct_insert")
+#decldescrpt('\
+This function is a variant of #dyncode("qlist_insert").
+')
 #declnamesynop("qstruct_takeout")
+#decldescrpt('\
+This function is a variant of #dyncode("qlist_takeout").
+')
 #declnamesynop("qstruct_takeout_list")
+#decldescrpt('\
+This function is a variant of #dyncode("qlist_takeout_list").
+')
 
 (* ****** ****** *)
 
 #declnamesynop("qlist_node_vtype")
+#decldescrpt('\
+
+This abstract viewtype is for the list-nodes in a qlist-object.
+
+')
 
 (* ****** ****** *)
 

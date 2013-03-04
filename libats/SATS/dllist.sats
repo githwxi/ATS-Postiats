@@ -81,7 +81,7 @@ lemma2_dllist_param
 
 praxi
 lemma3_dllist_param
-  {a:vt0p} {f:int} (xs: !dllist (INV(a), f, 0)): [f == 0] void
+  {a:vt0p} {f,r:int | r <= 0} (xs: !dllist (INV(a), f, r)): [f == 0] void
 // end of [lemma3_dllist_param]
 
 (* ****** ****** *)
@@ -136,12 +136,12 @@ dllist_make_list
 
 fun{
 } dllist_is_nil
-  {a:vt0p}{f,r:int} (xs: !dllist (a, f, r)):<> bool (r==0)
+  {a:vt0p}{f,r:int} (xs: !dllist (INV(a), f, r)):<> bool (r==0)
 // end of [dllist_is_nil]
 
 fun{
 } dllist_is_cons
-  {a:vt0p}{f,r:int} (xs: !dllist (a, f, r)):<> bool (r > 0)
+  {a:vt0p}{f,r:int} (xs: !dllist (INV(a), f, r)):<> bool (r > 0)
 // end of [dllist_is_cons]
 
 (* ****** ****** *)
@@ -253,6 +253,12 @@ dllist_remove
   (xs: &dllist (INV(a), f, r) >> dllist (a, f, r-1)):<!wrt> (a)
 // end of [dllist_remove]
 
+fun{a:vt0p}
+dllist_remove_next
+  {f,r:int | r > 1}
+  (xs: &dllist (INV(a), f, r) >> dllist (a, f, r-1)):<!wrt> (a)
+// end of [dllist_remove_next]
+
 (* ****** ****** *)
 
 fun{a:vt0p}
@@ -285,12 +291,12 @@ rdllist_append
 
 fun{a:vt0p}
 dllist_reverse
-  {f,r:int} (xs: dllist (INV(a), f, r)):<!wrt> dllist (INV(a), f, r)
+  {f,r:int} (xs: dllist (INV(a), f, r)):<!wrt> dllist (a, f, r)
 // end of [dllist_reverse]
 
 fun{a:vt0p}
 rdllist_reverse
-  {f,r:int} (xs: dllist (INV(a), f, r)):<!wrt> dllist (INV(a), f, r)
+  {f,r:int} (xs: dllist (INV(a), f, r)):<!wrt> dllist (a, f, r)
 // end of [rdllist_reverse]
 
 (* ****** ****** *)
