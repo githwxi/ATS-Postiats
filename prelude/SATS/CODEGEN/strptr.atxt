@@ -47,21 +47,23 @@ lemma_strnptr_param
 
 #atscode_separator()
 
-castfn strptr2ptr {l:addr} (x: !strptr l):<> ptr l
-castfn strnptr2ptr {l:addr}{n:int} (x: !strnptr (l, n)):<> ptr l
+castfn strptr2ptr {l:addr} (x: !strptr l):<> ptr (l)
+castfn strnptr2ptr {l:addr}{n:int} (x: !strnptr (l, n)):<> ptr (l)
 
 #atscode_separator()
-
+//
 castfn
 strptr_of_strnptr
   {l:addr}{n:int} (x: strnptr (l, n)):<> strptr l
-// end of [strptr_of_strnptr]
-
 castfn
 strnptr_of_strptr
   {l:addr} (x: strptr l):<> [n:int] strnptr (l, n)
-// end of [strnptr_of_strptr]
-
+//
+#atscode_separator()
+//
+symintr strptr2opt
+symintr strnptr2opt
+//
 castfn
 stropt_of_strptr
   {l:addr} (
@@ -69,19 +71,30 @@ stropt_of_strptr
 ) :<> [n:int|(l==null&&n < 0)||(l>null&&n>=0)] stropt (n)
 castfn stropt0_of_strptr0 (x: Strptr0):<> Stropt0
 castfn stropt1_of_strptr1 (x: Strptr1):<> Stropt1
-
+//
 castfn
 stropt_of_strnptr
   {l:addr}{n:int} (x: strnptr (l, n)):<> stropt (n)
-// end of [stropt_of_strnptr]
-
+//
+overload strptr2opt with stropt_of_strptr
+overload strptr2opt with stropt_of_strnptr
+overload strnptr2opt with stropt_of_strnptr
+//
+#atscode_separator()
+//
+symintr strptr2str
+symintr strnptr2str
+//
 castfn
 string_of_strptr (x: Strptr1):<> String
 castfn
 string_of_strnptr
   {l:addr}{n:nat} (x: strnptr (l, n)):<> string (n)
-// end of [string_of_strnptr]
-
+//
+overload strptr2str with string_of_strptr of 0
+overload strptr2str with string_of_strnptr of 10
+overload strnptr2str with string_of_strnptr of 10
+//
 #atscode_separator()
 
 fun{}

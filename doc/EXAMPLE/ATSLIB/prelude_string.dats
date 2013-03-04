@@ -96,8 +96,15 @@ in
   $UN.cast{charNZ}(c) // HX: [c] cannot be NUL
 end // end of [string_tabulate$fwork]
 //
-val ab2 = string_tabulate (i2sz(26))
-val () = assertloc (ab = string_of_strnptr (ab2))
+val () = assertloc (ab = strptr2str (string_tabulate (i2sz(26))))
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () = {
+//
+val () = assertloc (stropt_length (stropt_none ()) = ~1)
 //
 } // end of [val]
 

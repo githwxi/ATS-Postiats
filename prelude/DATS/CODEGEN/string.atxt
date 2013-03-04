@@ -627,8 +627,13 @@ end // end of [string_rforeach_env]
 
 #atscode_separator()
 
-implement{}
+(*
+//
+// HX-2013-03: it is now defined as a macro
+//
+implement
 stropt_none () = $UN.cast{stropt(~1)} (the_null_ptr)
+*)
 
 #atscode_separator()
 

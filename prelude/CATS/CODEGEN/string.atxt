@@ -66,6 +66,10 @@ fprintf (FILE *stream, const char *format, ...) ;
 
 #atscode_separator_for_C()
 
+\#define atspre_stropt_none() atsptr_null
+
+#atscode_separator_for_C()
+
 ATSinline()
 atstype_bool
 atspre_lt_string_string (

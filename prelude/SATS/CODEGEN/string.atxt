@@ -73,7 +73,15 @@ string_index_p (
 #atscode_separator()
 
 castfn string2ptr (x: string):<> Ptr1
+
+#atscode_separator()
+//
+// HX: [string2str] = [string1_of_string0]
+//
+castfn string2str (x: string):<> [n:nat] string (n)
 castfn string1_of_string0 (x: string):<> [n:nat] string (n)
+//
+(* ****** ****** *)
 
 #atscode_separator()
 
@@ -374,7 +382,7 @@ env:vt0p
 (*
 ** HX: [stropt_none] is just the null pointer
 *)
-fun{} stropt_none (): stropt (~1)
+fun stropt_none (): stropt (~1) = "mac\#%"
 
 #atscode_separator()
 
