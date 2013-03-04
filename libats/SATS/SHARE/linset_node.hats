@@ -33,8 +33,8 @@
 
 (* ****** ****** *)
 //
-// HX: shared by linset_avltree
 // HX: shared by linset_listord (* ordered list *)
+// HX: shared by linset_avltree (* AVL-tree-based *)
 //
 (* ****** ****** *)
 

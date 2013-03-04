@@ -103,13 +103,13 @@ g2node_set_marked (nx: g2node1 (INV(a)), mark: bool):<!wrt> void
 (* ****** ****** *)
 
 datavtype
-fibheap (a:vt@ype+) =
+fibheap_vt (a:vt@ype+) =
   | FIBHEAP (a) of (g2node0 (a), size_t(*size*))
 // end of [fibheap]
 
 (* ****** ****** *)
 
-assume heap_vtype (a:vt0p) = fibheap (a)
+assume heap_vtype (a:vt0p) = fibheap_vt (a)
 
 (* ****** ****** *)
 

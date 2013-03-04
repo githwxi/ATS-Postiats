@@ -24,7 +24,9 @@ ATSLIB/libats/qlist\
 #para("\
 
 This package implements linear queues based on the singly-linked list
-structure.
+structure. Such queues, often referred to as qlist-objects, can be employed
+to accumulate items that need to be returned in a list in which the items
+appear in the same order as they are accumulated.
 
 ")
 
