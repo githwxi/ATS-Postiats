@@ -45,6 +45,23 @@ int fprintf (FILE *stream, const char *format, ...) ;
 
 ATSinline()
 atstype_int
+atspre_char2int (atstype_char c) { return ((atstype_int)c) ; }
+\#define atspre_char2int0 atspre_char2int
+
+ATSinline()
+atstype_int
+atspre_schar2int (atstype_schar c) { return ((atstype_int)c) ; }
+\#define atspre_schar2int0 atspre_schar2int
+
+ATSinline()
+atstype_int
+atspre_uchar2int (atstype_uchar c) { return ((atstype_int)c) ; }
+\#define atspre_uchar2int0 atspre_uchar2int
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_int
 atspre_sub_char_char
   (atstype_char c1, atstype_char c2) { return (c1 - c2) ; }
 // end of [sub_char0_char0]

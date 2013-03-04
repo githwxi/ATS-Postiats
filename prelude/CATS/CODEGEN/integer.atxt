@@ -374,6 +374,32 @@ atspre_fprint_llint
 
 #atscode_separator_for_C()
 
+\#define atspre_g1int_neg_ssize atspre_g0int_neg_ssize
+\#define atspre_g1int_succ_ssize atspre_g0int_succ_ssize
+\#define atspre_g1int_pred_ssize atspre_g0int_pred_ssize
+\#define atspre_g1int_half_ssize atspre_g0int_half_ssize
+\#define atspre_g1int_add_ssize atspre_g0int_add_ssize
+\#define atspre_g1int_sub_ssize atspre_g0int_sub_ssize
+\#define atspre_g1int_mul_ssize atspre_g0int_mul_ssize
+\#define atspre_g1int_div_ssize atspre_g0int_div_ssize
+\#define atspre_g1int_isltz_ssize atspre_g0int_isltz_ssize
+\#define atspre_g1int_isltez_ssize atspre_g0int_isltez_ssize
+\#define atspre_g1int_isgtz_ssize atspre_g0int_isgtz_ssize
+\#define atspre_g1int_isgtez_ssize atspre_g0int_isgtez_ssize
+\#define atspre_g1int_iseqz_ssize atspre_g0int_iseqz_ssize
+\#define atspre_g1int_isneqz_ssize atspre_g0int_isneqz_ssize
+\#define atspre_g1int_lt_ssize atspre_g0int_lt_ssize
+\#define atspre_g1int_lte_ssize atspre_g0int_lte_ssize
+\#define atspre_g1int_gt_ssize atspre_g0int_gt_ssize
+\#define atspre_g1int_gte_ssize atspre_g0int_gte_ssize
+\#define atspre_g1int_eq_ssize atspre_g0int_eq_ssize
+\#define atspre_g1int_neq_ssize atspre_g0int_neq_ssize
+\#define atspre_g1int_compare_ssize atspre_g0int_compare_ssize
+\#define atspre_g1int_max_ssize atspre_g0int_max_ssize
+\#define atspre_g1int_min_ssize atspre_g0int_min_ssize
+
+#atscode_separator_for_C()
+
 %{
 local
 //

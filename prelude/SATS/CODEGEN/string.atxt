@@ -278,14 +278,17 @@ fun{
 
 #atscode_separator()
 //
+symintr strlen
 symintr string_length
 //
 fun{
 } string0_length (x: string):<> size_t
+overload strlen with string0_length of 0
 overload string_length with string0_length of 0
 //
 fun{
 } string1_length {n:int} (x: string n):<> size_t (n)
+overload strlen with string1_length of 10
 overload string_length with string1_length of 10
 //
 #atscode_separator()

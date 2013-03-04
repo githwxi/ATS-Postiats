@@ -32,14 +32,33 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 \#define ATSHOME_PRELUDE_STRING_CATS
 
 #atscode_separator_for_C()
+//
+// [string.h]
+//
+extern
+size_t strlen (const char *str) ;
+extern
+int // (sign)
+strcmp (const char *x1, const char *x2) ;
 
 extern
-int strcmp (const char *x1, const char *x2) ;
-// in [string.h]
-
+char *strchr(const char *str1, int c2) ;
 extern
-int fprintf (FILE *stream, const char *format, ...) ;
-// in [stdio.h]
+char *strrchr(const char *str1, int c2) ;
+extern
+char *strstr(const char *str1, const char *str2) ;
+extern
+size_t strspn(const char *str1, const char *acc2) ;
+extern
+size_t strcspn(const char *str1, const char *rej2) ;
+
+#atscode_separator_for_C()
+//
+// [stdio.h]
+//
+extern
+int // (errcode)
+fprintf (FILE *stream, const char *format, ...) ;
 
 #atscode_separator_for_C()
 
@@ -67,6 +86,15 @@ atspre_fprint_string
 
 \#define atspre_print_string(x) atspre_fprint_string(stdout, (x))
 \#define atspre_prerr_string(x) atspre_fprint_string(stderr, (x))
+
+#atscode_separator_for_C()
+
+\#define atspre_strlen strlen
+\#define atspre_strchr strchr
+\#define atspre_strrchr strrchr
+\#define atspre_strstr strstr
+\#define atspre_strspn strspn
+\#define atspre_strcspn strcspn
 
 #atscode_separator_for_C()
 

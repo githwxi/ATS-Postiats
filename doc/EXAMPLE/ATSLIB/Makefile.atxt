@@ -74,6 +74,10 @@ RMF=rm -f
 
 ######
 
+#make_entry("prelude_string")
+
+######
+
 #make_entry("libats_qlist")
 #make_entry("libats_dllist")
 

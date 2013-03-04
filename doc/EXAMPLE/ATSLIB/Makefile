@@ -35,6 +35,17 @@ RMF=rm -f
 
 ######
 
+all:: prelude_string
+prelude_string: prelude_string.exe
+prelude_string.exe: prelude_string_dats.c ;   $(GCC) -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+prelude_string_dats.c: prelude_string.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_string_dats.c --dynamic prelude_string.dats
+clean:: ; $(RMF) prelude_string_dats.o
+clean:: ; $(RMF) prelude_string_dats.c
+cleanall:: ; $(RMF) prelude_string.exe
+
+
+######
+
 all:: libats_qlist
 libats_qlist: libats_qlist.exe
 libats_qlist.exe: libats_qlist_dats.c ;   $(GCC) -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
