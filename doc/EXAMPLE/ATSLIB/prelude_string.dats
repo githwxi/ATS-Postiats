@@ -19,6 +19,10 @@ staload _ = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 val alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 (* ****** ****** *)
@@ -40,15 +44,32 @@ val () = {
 
 val () = {
   val ab = alphabet
-  val () = assertloc (strchr (ab, 'm') < 0)
-  val () = assertloc (strrchr (ab, 'm') < 0)
+//
+  val () = assertloc (strchr (ab, 'a') < 0)
+  val () = assertloc (strrchr (ab, 'a') < 0)
   val () = assertloc (strchr (ab, 'A') = 0)
   val () = assertloc (strrchr (ab, 'A') = 0)
   val () = assertloc (strchr (ab, 'Z') = 25)
   val () = assertloc (strrchr (ab, 'Z') = 25)
+  val () = assertloc (strchr (ab, '\0') = 26)
+  val () = assertloc (strrchr (ab, '\0') = 26)
+//
   val () = assertloc (strstr (ab, "PQR") = strchr (ab, 'P'))
   val () = assertloc (strspn (ab, "ABC") = 3)
   val () = assertloc (strcspn (ab, "XYZ") = 23)
+//
+  val () = assertloc (string_index (ab, 'P') = 15)
+  val () = assertloc (string_rindex (ab, 'P') = 15)
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () = {
+  val ab = alphabet
+  val ab2 = string0_copy (ab)
+  val () = assertloc (ab = $UN.strptr2string (ab2))
+  val () = strptr_free (ab2)
 } // end of [val]
 
 (* ****** ****** *)

@@ -314,7 +314,6 @@ atspre_fprint_int
   err = fprintf((FILE*)out, "%i", x) ;
   return ;
 } // end [atspre_fprint_int]
-
 \#define atspre_print_int(x) atspre_fprint_int(stdout, (x))
 \#define atspre_prerr_int(x) atspre_fprint_int(stderr, (x))
 
@@ -328,7 +327,6 @@ atspre_fprint_lint
   err = fprintf((FILE*)out, "%li", x) ;
   return ;
 } // end [atspre_fprint_lint]
-
 \#define atspre_print_lint(x) atspre_fprint_lint(stdout, (x))
 \#define atspre_prerr_lint(x) atspre_fprint_lint(stderr, (x))
 
@@ -342,9 +340,21 @@ atspre_fprint_llint
   err = fprintf((FILE*)out, "%lli", x) ;
   return ;
 } // end [atspre_fprint_llint]
-
 \#define atspre_print_llint(x) atspre_fprint_llint(stdout, (x))
 \#define atspre_prerr_llint(x) atspre_fprint_llint(stderr, (x))
+
+ATSinline()
+atsvoid_t0ype
+atspre_fprint_ssize
+(
+  atstype_ref out, atstype_ssize x
+) {
+  int err ;
+  err = fprintf((FILE*)out, "%li", x) ;
+  return ;
+} // end [atspre_fprint_ssize]
+\#define atspre_print_ssize(x) atspre_fprint_ssize(stdout, (x))
+\#define atspre_prerr_ssize(x) atspre_fprint_ssize(stderr, (x))
 
 #atscode_separator_for_C()
 

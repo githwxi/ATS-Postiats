@@ -38,7 +38,7 @@ macdef castvwtp_trans = $UN.castvwtp0 // former name
 
 extern
 fun memcpy
-  (d:ptr, s:ptr, n:size_t):<!wrt> ptr = "mac\#atslib_memcpy"
+  (d:ptr, s:ptr, n:size_t):<!wrt> ptr = "mac\#atspre_string_memcpy"
 // end of [memcpy]
 
 #atscode_separator()
@@ -76,10 +76,14 @@ string_get_at_guint (str, i) =
 #atscode_separator()
 
 implement{}
-string_test_at_size {n}{i} (str, i) = let
-  val p_i =
-    ptr0_add_bytesize (string2ptr (str), i)
-  extern castfn __cast : (char) -<> [c:int] (string_index_p (n, i, c) | char (c))
+string_test_at_size
+  {n}{i} (str, i) = let
+//
+val p_i =
+  ptr0_add_bytesize (string2ptr (str), i)
+extern castfn __cast 
+  : (char) -<> [c:int] (string_index_p (n, i, c) | char (c))
+//
 in
   __cast ($UN.ptr0_get<char> (p_i))
 end // end of [string_test_at_size]
@@ -359,7 +363,8 @@ end // end of [strstr]
 #atscode_separator()
 
 implement{
-} strspn {n} (str, accept) = let
+} strspn {n}
+  (str, accept) = let
   prval () = lemma_string_param (str)
   extern fun __strspn (string, string):<> sizeLte (n) = "mac\#atspre_strspn"
 in
@@ -367,12 +372,25 @@ in
 end // end of [strspn]
 
 implement{
-} strcspn {n} (str, reject) = let
+} strcspn {n}
+  (str, reject) = let
   prval () = lemma_string_param (str)
   extern fun __strcspn (string, string):<> sizeLte (n) = "mac\#atspre_strcspn"
 in
   __strcspn (str, reject)
 end // end of [strcspn]
+
+#atscode_separator()
+
+implement{}
+string_index {n}
+  (str, c) = $UN.cast{ssizeBtw(~1,n)}(strchr (str, c))
+// end of [string_index]
+
+implement{}
+string_rindex {n}
+  (str, c) = $UN.cast{ssizeBtw(~1,n)}(strrchr (str, c))
+// end of [string_rindex]
 
 #atscode_separator()
 

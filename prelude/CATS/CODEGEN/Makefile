@@ -84,6 +84,15 @@ char_atxt.dats: char.atxt
 clean:: ; $(RMF) char_atxt.exe
 cleanall:: ; $(RMF) char.cats
 
+all:: float.cats
+float.cats: float_atxt.exe ; ./$< > $@
+float_atxt.exe: float_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ float_atxt.dats -latsdoc
+float_atxt.dats: float.atxt
+	$(ATSDOC) --outcode $@ -i float.atxt > float_atxt.txt
+clean:: ; $(RMF) float_atxt.exe
+cleanall:: ; $(RMF) float.cats
+
 all:: string.cats
 string.cats: string_atxt.exe ; ./$< > $@
 string_atxt.exe: string_atxt.dats
@@ -93,14 +102,14 @@ string_atxt.dats: string.atxt
 clean:: ; $(RMF) string_atxt.exe
 cleanall:: ; $(RMF) string.cats
 
-all:: float.cats
-float.cats: float_atxt.exe ; ./$< > $@
-float_atxt.exe: float_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ float_atxt.dats -latsdoc
-float_atxt.dats: float.atxt
-	$(ATSDOC) --outcode $@ -i float.atxt > float_atxt.txt
-clean:: ; $(RMF) float_atxt.exe
-cleanall:: ; $(RMF) float.cats
+all:: strptr.cats
+strptr.cats: strptr_atxt.exe ; ./$< > $@
+strptr_atxt.exe: strptr_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ strptr_atxt.dats -latsdoc
+strptr_atxt.dats: strptr.atxt
+	$(ATSDOC) --outcode $@ -i strptr.atxt > strptr_atxt.txt
+clean:: ; $(RMF) strptr_atxt.exe
+cleanall:: ; $(RMF) strptr.cats
 
 
 all:: filebas.cats

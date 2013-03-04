@@ -240,12 +240,12 @@ overload prerr with prerr_string
 
 fun{
 } strchr {n:int}
-  (str: string (n), c0: char):<> ssizeBtw (~1, n)
+  (str: string (n), c0: char):<> ssizeBtwe (~1, n)
 // end of [strchr]
 
 fun{
 } strrchr {n:int}
-  (str: string (n), c0: char):<> ssizeBtw (~1, n)
+  (str: string (n), c0: char):<> ssizeBtwe (~1, n)
 // end of [strrchr]
 
 fun{

@@ -62,8 +62,9 @@ all::
 #make_entry("pointer")
 #make_entry("bool")
 #make_entry("char")
-#make_entry("string")
 #make_entry("float")
+#make_entry("string")
+#make_entry("strptr")
 
 #make_entry("filebas")
 
