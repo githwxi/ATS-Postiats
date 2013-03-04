@@ -79,6 +79,7 @@ typedef unsigned char atstype_uchar ;
 /* ****** ****** */
 
 typedef char *atstype_string ;
+typedef char *atstype_strptr ;
 
 /* ****** ****** */
 

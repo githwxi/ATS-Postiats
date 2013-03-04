@@ -52,4 +52,12 @@ linset_isnot_member (xs: !set (a), x0: a):<> bool
 
 (* ****** ****** *)
 
+fun{a:t0p}
+linset_free (xs: set (a)):<!wrt> void
+
+fun{a:t0p}
+linset_copy (xs: !set (a)):<!wrt> set (a)
+
+(* ****** ****** *)
+
 (* end of [linset.hats] *)

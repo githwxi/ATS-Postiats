@@ -83,6 +83,10 @@ RMF=rm -f
 
 ######
 
+#make_entry("libats_ML_string0")
+
+######
+
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o *_?ats.c
 clean:: ; $(RMF) *_atxt.txt

@@ -348,12 +348,12 @@ fun{
 } string_tabulate {n:int} (n: size_t n): strnptr (n)
 
 #atscode_separator()
-
+//
 fun{env:vt0p}
 string_foreach$cont (c: char, env: &env): bool
 fun{env:vt0p}
 string_foreach$fwork (c: char, env: &(env) >> _): void
-
+//
 fun{
 } string_foreach {n:int} (str: string(n)): sizeLte(n)
 fun{
@@ -361,14 +361,14 @@ env:vt0p
 } string_foreach_env
   {n:int} (str: string(n), env: &(env) >> _): sizeLte(n)
 // end of [string_foreach_env]
-
+//
 #atscode_separator()
-
+//
 fun{env:vt0p}
 string_rforeach$cont (c: char, env: &env): bool
 fun{env:vt0p}
 string_rforeach$fwork (c: char, env: &(env) >> _): void
-
+//
 fun{
 } string_rforeach {n:int} (str: string(n)): sizeLte(n)
 fun{
@@ -376,7 +376,7 @@ env:vt0p
 } string_rforeach_env
   {n:int} (str: string(n), env: &(env) >> _): sizeLte(n)
 // end of [string_rforeach_env]
-
+//
 #atscode_separator()
 
 (*

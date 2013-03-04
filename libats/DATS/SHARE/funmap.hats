@@ -156,7 +156,7 @@ funmap_listize_vt
 //
 typedef tki = @(key, itm)
 //
-vtypedef tenv = $Q.Qstruct (tki)
+vtypedef tenv = $Q.qstruct (tki)
 //
 implement
 funmap_foreach$fwork<key,itm><tenv>

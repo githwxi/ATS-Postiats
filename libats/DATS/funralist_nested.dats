@@ -482,7 +482,7 @@ implement{a}
 funralist_listize
   {n} (xs) = let
 //
-viewtypedef tenv = $Q.Qstruct (a)
+viewtypedef tenv = $Q.qstruct (a)
 //
 implement
 funralist_foreach$cont<a><tenv> (x, env) = true

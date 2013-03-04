@@ -266,7 +266,7 @@ linmap_listize_copy
   (map) = let
 //
 vtypedef tki = @(key, itm)
-vtypedef tenv = $Q.Qstruct (tki)
+vtypedef tenv = $Q.qstruct (tki)
 //
 implement
 linmap_foreach$fwork<key,itm><tenv>
