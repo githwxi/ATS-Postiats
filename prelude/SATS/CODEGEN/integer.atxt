@@ -475,7 +475,17 @@ fun g0int2uint_int_size (x: int):<> size_t = "mac\#%"
 
 fun{k1,k2:tk}
 g0uint2int (x: g0uint (k1)):<> g0int (k2)
-
+//
+fun g0uint2int_uint_int (x: uint):<> int = "mac\#%"
+fun g0uint2int_uint_lint (x: uint):<> lint = "mac\#%"
+fun g0uint2int_uint_llint (x: uint):<> llint = "mac\#%"
+fun g0uint2int_uint_ssize (x: uint):<> ssize_t = "mac\#%"
+//
+fun g0uint2int_size_int (x: size_t):<> int = "mac\#%"
+fun g0uint2int_size_lint (x: size_t):<> lint = "mac\#%"
+fun g0uint2int_size_llint (x: size_t):<> llint = "mac\#%"
+fun g0uint2int_size_ssize (x: size_t):<> ssize_t = "mac\#%"
+//
 #atscode_separator()
 
 fun{k1,k2:tk}
@@ -486,6 +496,7 @@ fun g0uint2uint_uint_ulint (x: uint):<> ulint = "mac\#%"
 fun g0uint2uint_uint_ullint (x: uint):<> ullint = "mac\#%"
 fun g0uint2uint_uint_size (x: uint):<> size_t = "mac\#%"
 //
+fun g0uint2uint_size_uint (x: size_t):<> uint = "mac\#%"
 fun g0uint2uint_size_ulint (x: size_t):<> ulint = "mac\#%"
 fun g0uint2uint_size_ullint (x: size_t):<> ullint = "mac\#%"
 fun g0uint2uint_size_size (x: size_t):<> size_t = "mac\#%"
@@ -626,24 +637,41 @@ fun g1int2uint_int_size {i:nat} (x: int i):<> size_t (i) = "mac\#%"
 //
 #atscode_separator()
 
-fun{k1,k2:tk}
-g1uint2int // u2i
-  {u:int} (x: g1uint (k1, u)):<> [u>=0] g1int (k2, u)
+typedef
+g1uint2int_type
+  (k1:tk, k2:tk) = 
+  {u:int} (g1uint (k1, u)) -<> [u>=0] g1int (k2, u)
+//
+fun{k1,k2:tk} g1uint2int : g1uint2int_type (k1, k2)
+//
+fun g1uint2int_uint_int : g1uint2int_type (uintknd, intknd) = "mac\#%"
+fun g1uint2int_uint_lint : g1uint2int_type (uintknd, lintknd) = "mac\#%"
+fun g1uint2int_uint_llint : g1uint2int_type (uintknd, llintknd) = "mac\#%"
+fun g1uint2int_uint_ssize : g1uint2int_type (uintknd, ssizeknd) = "mac\#%"
+//
+fun g1uint2int_size_int : g1uint2int_type (sizeknd, intknd) = "mac\#%"
+fun g1uint2int_size_lint : g1uint2int_type (sizeknd, lintknd) = "mac\#%"
+fun g1uint2int_size_llint : g1uint2int_type (sizeknd, llintknd) = "mac\#%"
+fun g1uint2int_size_ssize : g1uint2int_type (sizeknd, ssizeknd) = "mac\#%"
 //
 #atscode_separator()
 //
-fun{k1,k2:tk}
-g1uint2uint // u2u
-  {u:int} (x: g1uint (k1, u)):<> g1uint (k2, u)
+typedef
+g1uint2uint_type
+  (k1:tk, k2:tk) =
+  {u:int} (g1uint (k1, u)) -<> g1uint (k2, u)
 //
-fun g1uint2uint_uint_uint {u:int} (x: uint u):<> uint (u) = "mac\#%"
-fun g1uint2uint_uint_ulint {u:int} (x: uint u):<> ulint (u) = "mac\#%"
-fun g1uint2uint_uint_ullint {u:int} (x: uint u):<> ullint (u) = "mac\#%"
-fun g1uint2uint_uint_size {u:int} (x: uint u):<> size_t (u) = "mac\#%"
+fun{k1,k2:tk} g1uint2uint : g1uint2uint_type (k1, k2)
 //
-fun g1uint2uint_size_ulint {u:int} (x: size_t u):<> ulint (u) = "mac\#%"
-fun g1uint2uint_size_ullint {u:int} (x: size_t u):<> ullint (u) = "mac\#%"
-fun g1uint2uint_size_size {u:int} (x: size_t u):<> size_t (u) = "mac\#%"
+fun g1uint2uint_uint_uint : g1uint2uint_type (uintknd, uintknd) = "mac\#%"
+fun g1uint2uint_uint_ulint : g1uint2uint_type (uintknd, ulintknd) = "mac\#%"
+fun g1uint2uint_uint_ullint : g1uint2uint_type (uintknd, ullintknd) = "mac\#%"
+fun g1uint2uint_uint_size : g1uint2uint_type (uintknd, sizeknd) = "mac\#%"
+//
+fun g1uint2uint_size_uint : g1uint2uint_type (sizeknd, uintknd) = "mac\#%"
+fun g1uint2uint_size_ulint : g1uint2uint_type (sizeknd, ulintknd) = "mac\#%"
+fun g1uint2uint_size_ullint : g1uint2uint_type (sizeknd, ullintknd) = "mac\#%"
+fun g1uint2uint_size_size : g1uint2uint_type (sizeknd, sizeknd) = "mac\#%"
 //
 #atscode_separator()
 
@@ -895,11 +923,27 @@ overload != with neq_g1uint_int of 21
 //
 #atscode_separator()
 //
+macdef g0i2i (x) = g0int2int (,(x))
+macdef g1i2i (x) = g1int2int (,(x))
+//
+macdef g0i2u (x) = g0int2uint (,(x))
+macdef g1i2u (x) = g1int2uint (,(x))
+//
+macdef g0u2i (x) = g0uint2int (,(x))
+macdef g1u2i (x) = g1uint2int (,(x))
+//
+macdef g0u2u (x) = g0uint2uint (,(x))
+macdef g1u2u (x) = g1uint2uint (,(x))
+//
 macdef i2u (x) = g1int2uint_int_uint (,(x))
 macdef i2sz (x) = g1int2uint_int_size (,(x))
 macdef i2ssz (x) = g1int2int_int_ssize (,(x))
 //
+macdef u2i (x) = g1uint2int_uint_int (,(x))
 macdef u2sz (x) = g1uint2uint_uint_size (,(x))
+//
+macdef sz2i (x) = g1uint2int_size_int (,(x))
+macdef sz2u (x) = g1uint2uint_size_uint (,(x))
 //
 #atscode_separator()
 

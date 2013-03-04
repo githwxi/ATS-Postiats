@@ -44,6 +44,23 @@ int fprintf (FILE *stream, const char *format, ...) ;
 #atscode_separator_for_C()
 
 ATSinline()
+atstype_char
+atspre_int2char (atstype_int i) { return ((atstype_char)i) ; }
+\#define atspre_int2char0 atspre_int2char
+
+ATSinline()
+atstype_schar
+atspre_int2schar (atstype_int i) { return ((atstype_schar)i) ; }
+\#define atspre_int2schar0 atspre_int2schar
+
+ATSinline()
+atstype_uchar
+atspre_int2uchar (atstype_int i) { return ((atstype_uchar)i) ; }
+\#define atspre_int2uchar0 atspre_int2uchar
+
+#atscode_separator_for_C()
+
+ATSinline()
 atstype_int
 atspre_char2int (atstype_char c) { return ((atstype_int)c) ; }
 \#define atspre_char2int0 atspre_char2int

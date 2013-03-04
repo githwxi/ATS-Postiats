@@ -63,6 +63,30 @@ int fprintf (FILE *stream, const char *format, ...) ;
 //
 #atscode_separator_for_C()
 //
+\#define atspre_g0uint2int_uint_int(x) ((atstype_int)(x))
+\#define atspre_g0uint2int_uint_lint(x) ((atstype_lint)(x))
+\#define atspre_g0uint2int_uint_llint(x) ((atstype_llint)(x))
+\#define atspre_g0uint2int_uint_ssize(x) ((atstype_ssize)(x))
+//
+\#define atspre_g1uint2int_uint_int atspre_g0uint2int_uint_int
+\#define atspre_g1uint2int_uint_lint atspre_g0uint2int_uint_lint
+\#define atspre_g1uint2int_uint_llint atspre_g0uint2int_uint_llint
+\#define atspre_g1uint2int_uint_ssize atspre_g0uint2int_uint_ssize
+//
+#atscode_separator_for_C()
+//
+\#define atspre_g0uint2int_size_int(x) ((atstype_int)(x))
+\#define atspre_g0uint2int_size_lint(x) ((atstype_lint)(x))
+\#define atspre_g0uint2int_size_llint(x) ((atstype_llint)(x))
+\#define atspre_g0uint2int_size_ssize(x) ((atstype_ssize)(x))
+//
+\#define atspre_g1uint2int_size_int atspre_g0uint2int_size_int
+\#define atspre_g1uint2int_size_lint atspre_g0uint2int_size_lint
+\#define atspre_g1uint2int_size_llint atspre_g0uint2int_size_llint
+\#define atspre_g1uint2int_size_ssize atspre_g0uint2int_size_ssize
+//
+#atscode_separator_for_C()
+//
 \#define atspre_g0uint2uint_uint_uint(x) (x)
 \#define atspre_g0uint2uint_uint_ulint(x) ((atstype_ulint)(x))
 \#define atspre_g0uint2uint_uint_ullint(x) ((atstype_ullint)(x))

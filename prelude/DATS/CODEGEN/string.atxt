@@ -305,11 +305,10 @@ implement{
 implement{
 } string0_copy (str) = let
   val str = string1_of_string0 (str)
-  val str1 = string1_copy (str)
-  prval () = lemma_string_param (str)
-  prval () = lemma_strnptr_param (str1)
+  val str2 = string1_copy (str)
+  prval () = lemma_strnptr_param (str2)
 in
-  strptr_of_strnptr (str1)
+  strptr_of_strnptr (str2)
 end // end of [string0_copy]
 
 implement{
@@ -391,6 +390,38 @@ implement{}
 string_rindex {n}
   (str, c) = $UN.cast{ssizeBtw(~1,n)}(strrchr (str, c))
 // end of [string_rindex]
+
+#atscode_separator()
+
+implement{}
+string0_append
+  (x1, x2) = let
+//
+val x1 = string1_of_string0 (x1)
+val x2 = string1_of_string0 (x2)
+val x12 = string1_append (x1, x2)
+prval () = lemma_strnptr_param (x12)
+//
+in
+  strptr_of_strnptr (x12)
+end // end of [string0_append]
+
+implement{}
+string1_append
+  {n1,n2} (x1, x2) = let
+//
+val n1 = strlen (x1) and n2 = strlen (x2)
+//
+val n12 = n1 + n2
+val (pf, fpf | p) = malloc_gc (succ(n12))
+//
+val p = memcpy (p, string2ptr (x1), n1)
+val p2 = ptr_add<char> (p, n1)
+val p2 = memcpy (p2, string2ptr (x2), succ(n2))
+//
+in
+  castvwtp_trans{strnptr(n1+n2)}((pf, fpf | p))
+end // end of [string1_append]
 
 #atscode_separator()
 
@@ -486,6 +517,37 @@ val () = $effmask_wrt (loop (x, res))
 in
   res
 end // end of [string_explode]
+
+#atscode_separator()
+
+implement{}
+string_tabulate {n} (n) = let
+//
+prval () = lemma_g1uint_param (n)
+//
+fun loop (
+  p: ptr, n: size_t, i: size_t
+) : void = let
+in
+//
+if i < n then let
+  val c = string_tabulate$fwork (i)
+  val () = $UN.ptr0_set<char> (p, c)
+in
+  loop (ptr_succ<char> (p), n, succ (i))
+end else
+  $UN.ptr0_set<char> (p, CNUL)
+// end of [if]
+//
+end // end of [loop]
+//
+val n1 = succ(n)
+val (pf, fpf | p0) = malloc_gc (n1)
+val () = loop (p0, n, g1int2uint (0))
+//
+in
+  castvwtp_trans{strnptr(n)}((pf, fpf | p0))
+end // end of [string_tabulate]
 
 #atscode_separator()
 

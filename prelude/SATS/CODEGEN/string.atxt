@@ -312,15 +312,15 @@ symintr string_append
 fun{
 } string0_append (
   x1: NSH(string), x2: NSH(string)
-) :<> Strptr1 // end of [string0_append]
-overload string_append with string0_append
+) :<!wrt> Strptr1 // end of [string0_append]
+overload string_append with string0_append of 0
 //
 fun{
 } string1_append
   {n1,n2:int} (
   x1: NSH(string(n1)), x2: NSH(string(n2))
-) :<> strnptr (n1+n2) // end of [string1_append]
-overload string_append with string1_append
+) :<!wrt> strnptr (n1+n2) // end of [string1_append]
+overload string_append with string1_append of 20
 //
 #atscode_separator()
 
@@ -334,8 +334,10 @@ fun string_explode
 
 #atscode_separator()
 
-fun string_tabulate$fwork (size_t): charNZ
-fun string_tabulate {n:int} (n: size_t n): strnptr (n)
+fun{
+} string_tabulate$fwork (size_t): charNZ
+fun{
+} string_tabulate {n:int} (n: size_t n): strnptr (n)
 
 #atscode_separator()
 

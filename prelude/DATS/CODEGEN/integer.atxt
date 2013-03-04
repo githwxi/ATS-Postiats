@@ -228,7 +228,9 @@ end // end of [g1int_implist]
 #g1int_implist("ssizeknd", "ssize")\
 //
 #atscode_separator()
-
+//
+// HX: int -> uint
+//
 implement
 g0int2uint<intknd,uintknd> = g0int2uint_int_uint
 implement
@@ -237,6 +239,41 @@ implement
 g0int2uint<intknd,ullintknd> = g0int2uint_int_ullint
 implement
 g0int2uint<intknd,sizeknd> = g0int2uint_int_size
+
+#atscode_separator()
+//
+// HX: uint -> int
+//
+implement
+g0uint2int<uintknd,intknd> = g0uint2int_uint_int
+implement
+g0uint2int<uintknd,lintknd> = g0uint2int_uint_lint
+implement
+g0uint2int<uintknd,llintknd> = g0uint2int_uint_llint
+implement
+g0uint2int<uintknd,ssizeknd> = g0uint2int_uint_ssize
+//
+implement
+g0uint2int<sizeknd,intknd> = g0uint2int_size_int
+implement
+g0uint2int<sizeknd,lintknd> = g0uint2int_size_lint
+implement
+g0uint2int<sizeknd,llintknd> = g0uint2int_size_llint
+implement
+g0uint2int<sizeknd,ssizeknd> = g0uint2int_size_ssize
+//
+#atscode_separator()
+//
+// HX: uint -> uint
+//
+implement
+g0uint2uint<uintknd,uintknd> = g0uint2uint_uint_uint
+implement
+g0uint2uint<uintknd,ulintknd> = g0uint2uint_uint_ulint
+implement
+g0uint2uint<uintknd,ullintknd> = g0uint2uint_uint_ullint
+implement
+g0uint2uint<uintknd,sizeknd> = g0uint2uint_uint_size
 
 #atscode_separator()
 
@@ -344,7 +381,9 @@ implement{tk}
 neq_g0uint_int (x, y) = g0uint_neq (x, g0int2uint (y))
 
 #atscode_separator()
-
+//
+// HX: int -> uint
+//
 implement
 g1int2uint<intknd,uintknd> = g1int2uint_int_uint
 implement
@@ -353,6 +392,50 @@ implement
 g1int2uint<intknd,ullintknd> = g1int2uint_int_ullint
 implement
 g1int2uint<intknd,sizeknd> = g1int2uint_int_size
+
+#atscode_separator()
+//
+// HX: uint -> int
+//
+implement
+g1uint2int<uintknd,intknd> = g1uint2int_uint_int
+implement
+g1uint2int<uintknd,lintknd> = g1uint2int_uint_lint
+implement
+g1uint2int<uintknd,llintknd> = g1uint2int_uint_llint
+implement
+g1uint2int<uintknd,ssizeknd> = g1uint2int_uint_ssize
+//
+implement
+g1uint2int<sizeknd,intknd> = g1uint2int_size_int
+implement
+g1uint2int<sizeknd,lintknd> = g1uint2int_size_lint
+implement
+g1uint2int<sizeknd,llintknd> = g1uint2int_size_llint
+implement
+g1uint2int<sizeknd,ssizeknd> = g1uint2int_size_ssize
+
+#atscode_separator()
+//
+// HX: uint -> uint
+//
+implement
+g1uint2uint<uintknd,uintknd> = g1uint2uint_uint_uint
+implement
+g1uint2uint<uintknd,ulintknd> = g1uint2uint_uint_ulint
+implement
+g1uint2uint<uintknd,ullintknd> = g1uint2uint_uint_ullint
+implement
+g1uint2uint<uintknd,sizeknd> = g1uint2uint_uint_size
+//
+implement
+g1uint2uint<sizeknd,uintknd> = g1uint2uint_size_uint
+implement
+g1uint2uint<sizeknd,ulintknd> = g1uint2uint_size_ulint
+implement
+g1uint2uint<sizeknd,ullintknd> = g1uint2uint_size_ullint
+implement
+g1uint2uint<sizeknd,sizeknd> = g1uint2uint_size_size
 
 #atscode_separator()
 
