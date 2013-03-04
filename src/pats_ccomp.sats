@@ -86,6 +86,11 @@ staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
 
+fun the_dyncstlst_get (): d2cstlst
+fun the_dyncstlst_add (d2c: d2cst): void
+
+(* ****** ****** *)
+
 fun the_saspdeclst_get (): hideclist
 fun the_saspdeclst_add (hid: hidecl): void
 

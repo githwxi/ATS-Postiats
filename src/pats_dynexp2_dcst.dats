@@ -299,6 +299,41 @@ compare_d2cst_d2cst (x1, x2) =
 local
 
 staload
+FS = "libats/SATS/funset_avltree.sats"
+staload _ = "libats/DATS/funset_avltree.dats"
+
+val cmp = lam (
+  d2c1: d2cst, d2c2: d2cst
+) : int =<cloref>
+  compare_d2cst_d2cst (d2c1, d2c2)
+// end of [val]
+
+assume d2cstset_type = $FS.set (d2cst)
+
+in // in of [local]
+
+implement
+d2cstset_nil () = $FS.funset_make_nil ()
+
+implement
+d2cstset_is_member
+  (xs, x) = $FS.funset_is_member (xs, x, cmp)
+// end of [d2cstset_is_member]
+
+implement
+d2cstset_add
+  (xs, x) = xs where {
+  var xs = xs
+  val _(*replaced*) = $FS.funset_insert (xs, x, cmp)
+} // end of [d2cstset_add]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+staload
 FM = "libats/SATS/funmap_avltree.sats"
 staload _ = "libats/DATS/funmap_avltree.dats"
 

@@ -184,6 +184,7 @@ hidecl_node =
 //
   | HIDdatdecs of (int(*knd*), s2cstlst)
   | HIDexndecs of (d2conlst) // HX: exception decls
+//
   | HIDdcstdecs of (dcstkind, d2cstlst)
 //
   | HIDfundecs of

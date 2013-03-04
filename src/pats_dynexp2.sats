@@ -86,6 +86,13 @@ typedef d2cst = d2cst_type
 typedef d2cstlst = List (d2cst)
 typedef d2cstopt = Option (d2cst)
 //
+vtypedef d2cstlst_vt = List_vt (d2cst)
+vtypedef d2cstopt_vt = Option_vt (d2cst)
+//
+abstype
+d2cstset_type // assumed in [pats_dynexp2_dcst.dats]
+typedef d2cstset = d2cstset_type
+//
 abstype
 d2cstmap_type (a:type) // assumed in [pats_dynexp2_dcst.dats]
 typedef d2cstmap (a:type) = d2cstmap_type (a)
@@ -208,6 +215,12 @@ overload != with neq_d2cst_d2cst
 
 fun compare_d2cst_d2cst (x1: d2cst, x2: d2cst):<> Sgn
 overload compare with compare_d2cst_d2cst
+
+(* ****** ****** *)
+
+fun d2cstset_nil ():<> d2cstset
+fun d2cstset_is_member (xs: d2cstset, x: d2cst):<> bool
+fun d2cstset_add (xs: d2cstset, x: d2cst):<> d2cstset
 
 (* ****** ****** *)
 
