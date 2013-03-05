@@ -734,4 +734,64 @@ end // end of [local]
 
 (* ****** ****** *)
 
+implement
+emit_d2cst_exdec
+  (out, d2c) = let
+//
+macdef
+ismac = $SYN.dcstextdef_is_mac
+macdef
+iscastfn = $D2E.d2cst_is_castfn
+//
+val extdef = $D2E.d2cst_get_extdef (d2c)
+//
+in
+//
+case+ 0 of
+| _ when
+    ismac (extdef) => let
+    val () = emit_text (out, "ATSdyncst_mac(")
+    val () = emit_d2cst (out, d2c)
+    val () = emit_text (out, ") ;\n")
+  in
+    // nothing
+  end // end of [mac#]
+| _ when
+    iscastfn (d2c) => let
+    val () = emit_text (out, "ATSdyncst_castfn(")
+    val () = emit_d2cst (out, d2c)
+    val () = emit_text (out, ") ;\n")
+  in
+    // nothing
+  end // end of [castfn]
+| _ => let
+    val () = emit_text (out, "ATSdyncst_ext(")
+    val () = emit_d2cst (out, d2c)
+    val () = emit_text (out, ") ;\n")
+  in
+    // nothing
+  end // end of [castfn]
+//
+end // end of [emit_d2cst_exdec]
+
+implement
+emit_d2cstlst_exdec
+  (out, d2cs) = let
+in
+//
+case+ d2cs of
+| list_cons
+    (d2c, d2cs) => let
+    val () =
+      emit_d2cst_exdec (out, d2c)
+    // end of [val]
+  in
+    emit_d2cstlst_exdec (out, d2cs)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [emit_d2cstlst_exdec]
+
+(* ****** ****** *)
+
 (* end of [pats_ccomp_emit2.dats] *)

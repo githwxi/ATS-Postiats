@@ -1184,6 +1184,21 @@ in '{
 (* ****** ****** *)
 
 implement
+dcstextdef_is_ext (x) = (
+  case+ x of DCSTEXTDEFsome_ext _ => true | _ => false
+) // end of [dcstextdef_is_ext]
+implement
+dcstextdef_is_mac (x) = (
+  case+ x of DCSTEXTDEFsome_mac _ => true | _ => false
+) // end of [dcstextdef_is_mac]
+implement
+dcstextdef_is_sta (x) = (
+  case+ x of DCSTEXTDEFsome_sta _ => true | _ => false
+) // end of [dcstextdef_is_sta]
+
+(* ****** ****** *)
+
+implement
 dcstextdef_is_mainats (x) = let
 //
 extern

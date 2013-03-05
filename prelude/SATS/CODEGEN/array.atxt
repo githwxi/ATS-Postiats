@@ -195,7 +195,7 @@ fun{a:vt0p}
 array_ptr_alloc
   {n:int} (
   asz: size_t n
-) :<> [l:agz] (
+) :<!wrt> [l:agz] (
   array_v (a?, l, n), free_gc_v (l) | ptr l
 ) // end of [array_ptr_alloc]
 

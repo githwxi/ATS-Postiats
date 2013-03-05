@@ -868,20 +868,51 @@ end // end of [d3lablst_tyer]
 
 (* ****** ****** *)
 
+local
+
+fun aux_tyer
+  (d2c: d2cst) = let
+  val opt = d2cst_get_tyer2 (d2c)
+in
+//
+case+ opt of
+| Some _ => ()
+| None _ => let
+    val loc = d2cst_get_loc (d2c)
+    val s2e = d2cst_get_type (d2c)
+    val hse = s2exp_tyer_deep (loc, s2e)
+  in
+    d2cst_set_tyer2 (d2c, Some (hse))
+  end // end of [None]
+//
+end // end of [aux_tyer]
+
+in (* in of [local] *)
+
 implement
 d3exp_tyer_cst
   (loc0, hse0, d2c) = let
-  val sym = d2cst_get_sym (d2c)
+//
+val sym = d2cst_get_sym (d2c)
+//
 in
 //
 case+ sym of
 | _ when sym =
-    $SYM.symbol_TRUE_BOOL => hidexp_bool (loc0, hse0, true)
+    $SYM.symbol_TRUE_BOOL =>
+    hidexp_bool (loc0, hse0, true)
 | _ when sym =
-    $SYM.symbol_FALSE_BOOL => hidexp_bool (loc0, hse0, false)
-| _ => hidexp_cst (loc0, hse0, d2c)
+    $SYM.symbol_FALSE_BOOL =>
+    hidexp_bool (loc0, hse0, false)
+| _ => let
+    val () = aux_tyer (d2c)
+  in
+    hidexp_cst (loc0, hse0, d2c)
+  end // end of [_]
 //
 end // end of [d3exp_tyer_cst]
+
+end // end of [local]
 
 (* ****** ****** *)
 

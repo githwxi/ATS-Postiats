@@ -93,15 +93,17 @@ end // end of [the_dyncstlst_add]
 
 implement
 the_dyncstlst_get () = let
-  val d2cs = let
-    val (
-      vbox pf | p
-    ) = ref_get_view_ptr (the_dyncstlst)
-    val d2cs = !p
-    val () = !p := list_vt_nil ()
-  in
-    list_vt_reverse (d2cs)
-  end // end of [val]
+//
+val d2cs = let
+  val (
+    vbox pf | p
+  ) = ref_get_view_ptr (the_dyncstlst)
+  val d2cs = !p
+  val () = !p := list_vt_nil ()
+in
+  list_vt_reverse (d2cs)
+end // end of [val]
+//
 in
   list_of_list_vt (d2cs)
 end // end of [the_dyncstlst_get]

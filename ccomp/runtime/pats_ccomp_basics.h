@@ -41,15 +41,18 @@
 /* ****** ****** */
 
 #define ATSextfun() extern
+#define ATSinline() static inline
+
+/* ****** ****** */
+
+#define ATSdyncst_mac(d2c)
+#define ATSdyncst_castfn(d2c)
+#define ATSdyncst_extfun(d2c, args, res) ATSextfun() res(*d2c)args
 
 /* ****** ****** */
 
 #define ATSdynload0(flag) int flag = 0
 #define ATSdynload1(flag) extern int flag
-
-/* ****** ****** */
-
-#define ATSinline() static inline
 
 /* ****** ****** */
 

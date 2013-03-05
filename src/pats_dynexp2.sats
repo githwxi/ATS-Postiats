@@ -57,6 +57,7 @@ typedef filename = $FIL.filename
 staload
 SYM = "./pats_symbol.sats"
 typedef symbol = $SYM.symbol
+typedef symbolopt = $SYM.symbolopt
 
 staload SYN = "./pats_syntax.sats"
 typedef i0nt = $SYN.i0nt
@@ -70,14 +71,25 @@ typedef macsynkind = $SYN.macsynkind
 
 (* ****** ****** *)
 
-staload "./pats_staexp1.sats"
-typedef s1exp = s1exp
-staload "./pats_dynexp1.sats"
-typedef d1exp = d1exp
+staload
+S1E = "./pats_staexp1.sats"
+typedef e1xp = $S1E.e1xp
+typedef s1exp = $S1E.s1exp
+staload
+D1E = "./pats_dynexp1.sats"
+typedef d1exp = $D1E.d1exp
 
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
+
+(* ****** ****** *)
+//
+// A place holder for [hisexp]
+//
+abstype dynexp2_hisexp_type
+typedef hisexp = dynexp2_hisexp_type
+typedef hisexpopt = Option (hisexp)
 
 (* ****** ****** *)
 //
@@ -130,7 +142,7 @@ typedef d2maclst = List (d2mac)
 datatype d2itm =
   | D2ITMcon of d2conlst
   | D2ITMcst of d2cst
-  | D2ITMe1xp of e1xp
+  | D2ITMe1xp of (e1xp)
   | D2ITMmacdef of d2mac
   | D2ITMmacvar of d2var
   | D2ITMsymdef of (symbol, d2pitmlst) (* overloaded symbol *)
@@ -181,25 +193,33 @@ fun fprint_d2cstlst : fprint_type (d2cstlst)
 fun d2cst_get_sym (x: d2cst): symbol
 fun d2cst_get_loc (x: d2cst): location
 fun d2cst_get_fil (x: d2cst): filename
+//
 fun d2cst_get_name (x: d2cst): string
 fun d2cst_get_kind (x: d2cst): dcstkind
+//
 fun d2cst_get_decarg (x: d2cst): s2qualst
 fun d2cst_set_decarg (x: d2cst, s2qs: s2qualst): void
+//
 fun d2cst_get_artylst (x: d2cst): List (int)
+//
 fun d2cst_get_type (x: d2cst): s2exp
+fun d2cst_get_tyer (x: d2cst): hisexpopt
+fun d2cst_set_tyer (x: d2cst, opt: hisexpopt): void
+//
 fun d2cst_get_pack (x: d2cst): Stropt
 fun d2cst_get_extdef (x: d2cst): dcstextdef
+//
 fun d2cst_get_stamp (x: d2cst): stamp
 
 (* ****** ****** *)
-
+//
 fun d2cst_is_prf (d2c: d2cst): bool // a proof
 fun d2cst_is_nonprf (d2c: d2cst): bool // a nonproof
-
+//
 fun d2cst_is_castfn (d2c: d2cst): bool // a casting fun
-
+//
 fun d2cst_is_mainats (d2c: d2cst): bool // a [mainats] fun
-
+//
 (* ****** ****** *)
 
 fun lt_d2cst_d2cst (x1: d2cst, x2: d2cst):<> bool

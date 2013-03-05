@@ -49,6 +49,11 @@ staload "./pats_histaexp.sats"
 
 (* ****** ****** *)
 
+fun d2cst_get_tyer2 (d2c: d2cst): hisexpopt
+fun d2cst_set_tyer2 (d2c: d2cst, opt: hisexpopt): void
+
+(* ****** ****** *)
+
 datatype
 hipat_node =
   | HIPany of () // wildcard

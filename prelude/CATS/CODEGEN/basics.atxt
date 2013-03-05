@@ -81,6 +81,10 @@ atspre_assert_bool
 {
   if (!b) exit(1) ; return ;
 } /* endfun */
+\#define atspre_assert_bool0 atspre_assert_bool
+\#define atspre_assert_bool1 atspre_assert_bool
+
+#atscode_separator_for_C()
 
 ATSinline()
 atsvoid_t0ype
@@ -94,6 +98,8 @@ atspre_assert_errmsg_bool
   } // end of [if]
   return ;
 } /* endfun */
+\#define atspre_assert_errmsg_bool0 atspre_assert_errmsg_bool
+\#define atspre_assert_errmsg_bool1 atspre_assert_errmsg_bool
 
 #atscode_separator_for_C()
 

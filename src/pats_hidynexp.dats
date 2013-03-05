@@ -32,18 +32,32 @@
 //
 (* ****** ****** *)
 
+staload UN = "./prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload "./pats_staexp2.sats"
-staload "./pats_dynexp2.sats"
-staload "./pats_dynexp3.sats"
+staload
+D2E = "./pats_dynexp2.sats"
+typedef d2cst = $D2E.d2cst
 
 (* ****** ****** *)
 
 staload "./pats_histaexp.sats"
 staload "./pats_hidynexp.sats"
+
+(* ****** ****** *)
+//
+implement
+d2cst_get_tyer2 (d2c) =
+  $UN.cast{hisexpopt}($D2E.d2cst_get_tyer(d2c))
+implement
+d2cst_set_tyer2 (d2c, opt) =
+  $D2E.d2cst_set_tyer (d2c, $UN.cast{$D2E.hisexpopt}(opt))
+// end of [d2cst_set_tyer2]
 
 (* ****** ****** *)
 
@@ -349,7 +363,7 @@ hidexp_app2 (
 val opt = (
   case+ _fun.hidexp_node of
   | HDEcst (d2c) =>
-      if d2cst_is_castfn (d2c) then Some_vt (d2c) else None_vt
+      if $D2E.d2cst_is_castfn (d2c) then Some_vt (d2c) else None_vt
   | _ => None_vt ()
 ) : Option_vt (d2cst)
 //
@@ -746,7 +760,7 @@ end // end of [local]
 implement
 tmpcstdecmap_find
   (map, d2c) = let
-  val opt = d2cstmap_search (map, d2c)
+  val opt = $D2E.d2cstmap_search (map, d2c)
 in
 //
 case+ opt of
@@ -758,7 +772,7 @@ implement
 tmpcstdecmap_insert
   (map, d2c, x) = let
   val xs = tmpcstdecmap_find (map, d2c)
-  val _(*found*) = d2cstmap_insert (map, d2c, list_cons (x, xs))
+  val _(*found*) = $D2E.d2cstmap_insert (map, d2c, list_cons (x, xs))
 in
   // nothing
 end // end of [tmpcstdecmap_insert]

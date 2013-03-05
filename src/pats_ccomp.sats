@@ -1365,6 +1365,11 @@ fun emit_staload (out: FILEref, hid: hidecl): void
 
 (* ****** ****** *)
 
+fun emit_d2cst_exdec (out: FILEref, d2c: d2cst): void
+fun emit_d2cstlst_exdec (out: FILEref, d2cs: d2cstlst): void
+
+(* ****** ****** *)
+
 fun emit_sizeof (out: FILEref, hselt: hisexp): void
 
 (* ****** ****** *)
@@ -1455,6 +1460,7 @@ fun emit_the_tmpdeclst (out: FILEref): void
 fun emit_the_funlablst (out: FILEref): void
 fun emit_the_primdeclst (out: FILEref): void
 fun emit_the_typedeflst (out: FILEref): void
+fun emit_the_dyncstlst_exdec (out: FILEref): void
 
 (* ****** ****** *)
 //

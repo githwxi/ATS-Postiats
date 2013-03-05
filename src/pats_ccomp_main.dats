@@ -52,6 +52,7 @@ staload
 D2E = "./pats_dynexp2.sats"
 //
 typedef d2cst = $D2E.d2cst
+typedef d2cstlst = $D2E.d2cstlst
 typedef d2cstopt = $D2E.d2cstopt
 //
 (* ****** ****** *)
@@ -207,6 +208,61 @@ emit_the_tmpdeclst
 in
   emit_tmpdeclst (out, tmplst)
 end // end of [emit_the_tmpdeclst]
+
+(* ****** ****** *)
+
+extern fun the_dyncstlst_get2 (): d2cstlst
+extern fun the_dyncstlst_set2 (xs: d2cstlst): void
+
+local
+
+val the_d2cstlst = ref<Option(d2cstlst)> (None)
+
+in (* in of [local] *)
+
+implement
+the_dyncstlst_get2
+  ((*void*)) = let
+//
+val opt = !the_d2cstlst
+//
+in
+//
+case+ opt of
+| Some (xs) => xs
+| None (  ) => let
+    val xs = the_dyncstlst_get ()
+    val () = !the_d2cstlst := Some (xs)
+  in
+    xs
+  end // end of [None]
+//
+end // end of [the_dyncstlst_get2]
+
+implement
+the_dyncstlst_set2 (xs) = !the_d2cstlst := Some (xs)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+emit_the_dyncstlst_exdec (out) = let
+//
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "dyncstlst-declaration(beg)\n")
+val () = emit_text (out, "*/\n")
+//
+val d2cs = the_dyncstlst_get2 ()
+val () = emit_d2cstlst_exdec (out, d2cs)
+//
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "dyncstlst-declaration(end)\n")
+val () = emit_text (out, "*/\n")
+//
+in
+  // nothing
+end // end of [emit_the_dyncstlst_exdec]
 
 (* ****** ****** *)
 
@@ -678,6 +734,8 @@ val (
 ) = aux_extcodelst_if (out, lam (pos) => pos = DYNBEG)
 //
 val () = emit_the_typedeflst (out)
+//
+val () = emit_the_dyncstlst_exdec (out)
 //
 val (
 ) = aux_extcodelst_if (out, lam (pos) => pos < DYNMID)

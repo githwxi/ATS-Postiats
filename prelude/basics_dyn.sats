@@ -108,14 +108,17 @@ castfn dataget {a:vt@ype} (x: !INV(a) >> a): a?!
 
 (* ****** ****** *)
 
-praxi free_gcngc_v_nullify
-  {l:addr} (pf1: free_gc_v (l), pf1: free_ngc_v (l)): void
-// en dof [free_gcngc_nullify_v]
+praxi
+free_gcngc_v_nullify
+  {l:addr} (
+  pf1: free_gc_v (l), pf1: free_ngc_v (l)
+) : void // end of [free_gcngc_nullify_v]
 
 (* ****** ****** *)
 
-fun cloptr_free
-  {a:t@ype} (p: cloptr a):<!wrt> void = "atspre_cloptr_free"
+fun
+cloptr_free
+  {a:t@ype} (p: cloptr a):<!wrt> void = "mac#%"
 // end of [cloptr_free]
 
 (* ****** ****** *)
@@ -369,10 +372,13 @@ overload main with main_argc_argv_envp_int
 //
 (* ****** ****** *)
 
-fun exit
-  (ecode: int):<> {a:t0p}(a) = "mac#atspre_exit"
+fun exit (
+  ecode: int
+) :<!exn> {a:t0p}(a) = "mac#atspre_exit"
 fun exit_errmsg
-  {a:vt0p} (ecode: int, msg: string):<> {a:t0p}(a) = "mac#atspre_exit_errmsg"
+  {a:vt0p} (
+  ecode: int, msg: string
+) :<!exn> {a:t0p}(a) = "mac#atspre_exit_errmsg"
 (*
 fun exit_fprintf
   {a:vt0p} {ts:types} (
@@ -385,24 +391,27 @@ fun exit_fprintf
 
 (* ****** ****** *)
 
-fun assert_bool0
-  (x: bool):<!exn> void = "atspre_assert_bool"
+fun
+assert_bool0
+  (x: bool):<!exn> void = "mac#%"
 overload assert with assert_bool0 of 0
-fun assert_errmsg_bool0 (
-  x: bool, msg: string
-) :<!exn> void = "atspre_assert_errmsg_bool"
+fun
+assert_errmsg_bool0
+  (x: bool, msg: string) :<!exn> void = "mac#%"
 overload assert_errmsg with assert_errmsg_bool0 of 0
 
-fun assert_bool1
+fun
+assert_bool1
   {b:bool} (
   x: bool (b)
-) :<!exn> [b] void = "atspre_assert_bool"
-overload assert with assert_bool1 of 1
-fun assert_errmsg_bool1
+) :<!exn> [b] void = "mac#%"
+overload assert with assert_bool1 of 10
+fun
+assert_errmsg_bool1
   {b:bool} (
   x: bool b, msg: string
-) :<!exn> [b] void = "atspre_assert_errmsg_bool"
-overload assert_errmsg with assert_errmsg_bool1 of 1
+) :<!exn> [b] void = "mac#%"
+overload assert_errmsg with assert_errmsg_bool1 of 10
 
 (* ****** ****** *)
 

@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload _(*anon*) = "prelude/DATS/pointer.dats"
 staload _(*anon*) = "prelude/DATS/reference.dats"
 
@@ -70,11 +74,6 @@ staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-abstype hitypnul // HX: this is just a place holder
-extern castfn hitypnul_none (x: ptr null): hitypnul
-
-(* ****** ****** *)
-
 typedef
 d2cst_struct = @{
   d2cst_sym= symbol
@@ -84,6 +83,7 @@ d2cst_struct = @{
 , d2cst_decarg= s2qualst // template arg
 , d2cst_artylst= List (int) // arity
 , d2cst_type= s2exp // assigned type
+, d2cst_tyer= hisexpopt // type erasure
 (*
 , d2cst_skexp= s2kexp // skeleton of the assigned type
 *)
@@ -91,7 +91,6 @@ d2cst_struct = @{
 , d2cst_pack= Stropt // for ATS_PACKNAME
 , d2cst_extdef= dcstextdef // external dcst definition
 , d2cst_stamp= stamp // unique stamp
-, d2cst_hityp= hitypnul // type erasure
 } // end of [d2cst_struct]
 
 (* ****** ****** *)
@@ -126,6 +125,7 @@ val () = p->d2cst_kind := dck
 val () = p->d2cst_decarg := decarg
 val () = p->d2cst_artylst := artylst
 val () = p->d2cst_type := typ
+val () = p->d2cst_tyer := None(*void*)
 (*
 val () = p->d2cst_skexp := s2kexp_make_s2exp (typ)
 *)
@@ -133,7 +133,6 @@ val () = p->d2cst_def := None
 val () = p->d2cst_pack := pack
 val () = p->d2cst_extdef := extdef
 val () = p->d2cst_stamp := stamp
-val () = p->d2cst_hityp := hitypnul_none (null)
 //
 in // in of [let]
 //
@@ -175,6 +174,15 @@ implement
 d2cst_get_type (d2c) = let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_type
 end // end of [d2cst_get_type]
+
+implement
+d2cst_get_tyer (d2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_tyer
+end // end of [d2cst_get_tyer]
+implement
+d2cst_set_tyer (d2c, opt) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_tyer := opt
+end // end of [d2cst_set_tyer]
 
 implement
 d2cst_get_def (d2c) = let
