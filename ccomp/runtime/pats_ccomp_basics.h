@@ -39,9 +39,25 @@
 #define PATS_CCOMP_BASICS_H
 
 /* ****** ****** */
+//
+// HX: boolean values
+//
+#define atsbool_true 1
+#define atsbool_false 0
+//
+#define atsptr_null ((void*)0)
+//
+#define ATSextval(name) name
+//
+/* ****** ****** */
 
 #define ATSextfun() extern
 #define ATSinline() static inline
+
+/* ****** ****** */
+
+#define ATSglobaldec() extern
+#define ATSstaticdec() static
 
 /* ****** ****** */
 
@@ -53,22 +69,6 @@
 
 #define ATSdynload0(flag) int flag = 0
 #define ATSdynload1(flag) extern int flag
-
-/* ****** ****** */
-
-#define ATSglobaldec() extern
-#define ATSstaticdec() static
-
-/* ****** ****** */
-//
-// HX: boolean values
-//
-#define atsbool_true 1
-#define atsbool_false 0
-//
-/* ****** ****** */
-
-#define atsptr_null ((void*)0)
 
 /* ****** ****** */
 

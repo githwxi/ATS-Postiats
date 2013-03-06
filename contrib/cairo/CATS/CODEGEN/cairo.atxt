@@ -69,6 +69,50 @@ fun atscntrb_define (fname: string): atext = (
 #atscntrb_define("cairo_status_to_string")
 
 #atscode_separator_for_C()
+//
+// Drawing: cairo-cairo-t
+//
+#atscntrb_define("cairo_set_source")
+#atscntrb_define("cairo_set_source_rgb")
+#atscntrb_define("cairo_set_source_rgba")
+#atscntrb_define("cairo_set_source_surface")
+#atscntrb_define("cairo_stroke")
+#atscntrb_define("cairo_stroke_preserve")
+#atscntrb_define("cairo_stroke_extents")
+//
+// Drawing: cairo-text
+//
+#atscntrb_define("cairo_select_font_face")
+#atscntrb_define("cairo_set_font_size")
+#atscntrb_define("cairo_set_font_matrix")
+#atscntrb_define("cairo_set_font_options")
+#atscntrb_define("cairo_set_font_face")
+//
+// Drawing: cairo-Paths
+#atscntrb_define("cairo_move_to")
+#atscntrb_define("cairo_line_to")
+#atscntrb_define("cairo_curve_to")
+//
+#atscode_separator_for_C()
+//
+// Surfaces: cairo-Image-Surfaces
+//
+#atscntrb_define("cairo_image_surface_create")
+#atscntrb_define("cairo_image_surface_get_format")
+#atscntrb_define("cairo_image_surface_get_width")
+#atscntrb_define("cairo_image_surface_get_height")
+#atscntrb_define("cairo_image_surface_get_stride")
+
+#atscode_separator_for_C()
+//
+// Surfaces: cairo-PNG-Support
+//
+#atscntrb_define("cairo_image_surface_create_from_png")
+#atscntrb_define("cairo_image_surface_create_from_png_stream")
+#atscntrb_define("cairo_surface_write_to_png")
+#atscntrb_define("cairo_surface_write_to_png_stream")
+
+#atscode_separator_for_C()
 
 \#endif // ifndef CAIRO_CAIRO_CATS
 

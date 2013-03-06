@@ -23,6 +23,11 @@ HX: please use 'gthumb' or 'eog' to view the generated image file 'test02.png'
 
 (* ****** ****** *)
 
+staload
+_ = "prelude/DATS/float.dats"
+
+(* ****** ****** *)
+
 staload "cairo/SATS/cairo.sats"
 
 (* ****** ****** *)
@@ -68,11 +73,13 @@ val () = cairo_surface_destroy (sf)
 val () = cairo_destroy (xr)
 //
 val () =
+(
   if status = CAIRO_STATUS_SUCCESS then (
   println! "The image is written to the file [test02.png]."
 ) else (
   println! "exit(ATS): [cairo_surface_write_to_png] failed";
 ) // end of [if]
+) : void // end of [val]
 } // end of [main]
 
 (* ****** ****** *)

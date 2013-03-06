@@ -39,6 +39,18 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator_for_C()
 
 ATSinline()
+atstype_bool
+atspre_eq_int_int
+(
+  atstype_int x, atstype_int y
+)
+{
+  return (x==y ? atsbool_true : atsbool_false) ;
+} /* end of [atspre_eq_int_int] */
+
+#atscode_separator_for_C()
+
+ATSinline()
 atstype_string
 atspre_argv_get_at
 (
