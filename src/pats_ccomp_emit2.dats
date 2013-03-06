@@ -494,42 +494,47 @@ fun auxfun (
 ) : void = let
 //
 val flab = funent_get_lab (fent)
-val tmpknd = funlab_get_tmpknd (flab)
+val istmp = (funlab_get_tmpknd (flab) > 0)
 val qopt = funlab_get_d2copt (flab)
-val isqua = (
+val isqua =
+(
   case+ qopt of Some _ => true | None _ => false
 ) : bool // end of [val]
 val flopt = funlab_get_origin (flab)
-val isext = (
+val isext =
+(
   case+ flopt of Some _ => false | None () => isqua
 ) : bool // end of [val]
 val issta = not (isext)
 //
-val () =
-  if tmpknd > 0 then emit_text (out, "#if(0)\n")
-// end of [val]
-//
+val () = if istmp then emit_text (out, "#if(0)\n")
+val () = if isext then emit_text (out, "#if(0)\n")
 val () = if isext then emit_text (out, "ATSglobaldec()\n")
 val () = if issta then emit_text (out, "ATSstaticdec()\n")
 //
-val () =
-  emit_hisexp (out, hse_res) where {
-  val hse_res = funlab_get_type_res (flab)
-} // end of [val]
+val () = let
+  val hse =
+    funlab_get_type_res (flab) in emit_hisexp (out, hse)
+  // end of [val]
+end // end of [val]
 //
 val () = emit_text (out, "\n")
 val () = emit_funlab (out, flab)
-val () = emit_text (out, " (")
+val () = emit_text (out, "(")
 //
-val () =
-  emit_funarglst (out, hses_arg) where {
-  val hses_arg = funlab_get_type_arg (flab)
-} // end of [val]
+val () = let
+  val hses =
+    funlab_get_type_arg (flab) in emit_hisexplst_sep (out, hses, ", ")
+  // end of [val]
+end // end of [val]
 //
 val () = emit_text (out, ") ;\n")
 //
 val () =
-  if tmpknd > 0 then emit_text (out, "#endif // end of [TEMPLATE]\n")
+  if isext then emit_text (out, "#endif // end of [EXTERN]\n")
+// end of [val]
+val () =
+  if istmp then emit_text (out, "#endif // end of [TEMPLATE]\n")
 // end of [val]
 //
 val () = emit_newline (out)
@@ -597,10 +602,7 @@ val tmpret = funent_get_tmpret (fent)
 //
 // function header
 //
-val knd =
-  funlab_get_tmpknd (flab)
-val qopt =
-  funlab_get_d2copt (flab)
+val qopt = funlab_get_d2copt (flab)
 val isqua =
   (case+ qopt of Some _ => true | None _ => false): bool
 // end of [val]
@@ -742,6 +744,8 @@ macdef
 ismac = $SYN.dcstextdef_is_mac
 macdef
 iscastfn = $D2E.d2cst_is_castfn
+macdef
+isextfun = $D2E.d2cst_is_extfun
 //
 val extdef = $D2E.d2cst_get_extdef (d2c)
 //
@@ -764,13 +768,33 @@ case+ 0 of
   in
     // nothing
   end // end of [castfn]
+| _ when
+    isextfun (d2c) => let
+    val () = emit_text (out, "ATSdyncst_extfun(")
+    val () = emit_d2cst (out, d2c)
+    val () = {
+      val () = emit_text (out, ", (")
+      val hses = d2cst_get2_type_arg (d2c)
+      val () = emit_hisexplst_sep (out, hses, ", ")
+      val () = emit_text (out, "), ")
+    } // end of [val]
+    val () = let
+      val hse =
+        d2cst_get2_type_res (d2c) in emit_hisexp (out, hse)
+      // end of [val]
+    end // end of [val]
+    val () = emit_text (out, ") ;\n")
+  in
+    // nothing
+  end // end of [extfun]
+//
 | _ => let
-    val () = emit_text (out, "ATSdyncst_ext(")
+    val () = emit_text (out, "ATSdyncst_unknown(")
     val () = emit_d2cst (out, d2c)
     val () = emit_text (out, ") ;\n")
   in
     // nothing
-  end // end of [castfn]
+  end // end of [_]
 //
 end // end of [emit_d2cst_exdec]
 

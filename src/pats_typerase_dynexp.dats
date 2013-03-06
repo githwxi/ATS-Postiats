@@ -871,8 +871,8 @@ end // end of [d3lablst_tyer]
 local
 
 fun aux_tyer
-  (d2c: d2cst) = let
-  val opt = d2cst_get_tyer2 (d2c)
+  (d2c: d2cst): void = let
+  val opt = d2cst_get2_tyer (d2c)
 in
 //
 case+ opt of
@@ -882,7 +882,7 @@ case+ opt of
     val s2e = d2cst_get_type (d2c)
     val hse = s2exp_tyer_deep (loc, s2e)
   in
-    d2cst_set_tyer2 (d2c, Some (hse))
+    d2cst_set2_tyer (d2c, Some (hse))
   end // end of [None]
 //
 end // end of [aux_tyer]

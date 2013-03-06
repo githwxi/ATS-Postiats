@@ -39,16 +39,6 @@
 #define PATS_CCOMP_INSTRSET_H
 
 /* ****** ****** */
-
-#define ATSglobaldec()
-#define ATSstaticdec() static
-
-/* ****** ****** */
-
-#define ATSextfun() extern
-#define ATSinline() static inline
-
-/* ****** ****** */
 //
 // HX: boolean values
 //

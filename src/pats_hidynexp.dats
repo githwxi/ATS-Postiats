@@ -32,14 +32,12 @@
 //
 (* ****** ****** *)
 
-staload UN = "./prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
+staload
+S2E = "./pats_staexp2.sats"
 staload
 D2E = "./pats_dynexp2.sats"
 typedef d2cst = $D2E.d2cst
@@ -48,16 +46,6 @@ typedef d2cst = $D2E.d2cst
 
 staload "./pats_histaexp.sats"
 staload "./pats_hidynexp.sats"
-
-(* ****** ****** *)
-//
-implement
-d2cst_get_tyer2 (d2c) =
-  $UN.cast{hisexpopt}($D2E.d2cst_get_tyer(d2c))
-implement
-d2cst_set_tyer2 (d2c, opt) =
-  $D2E.d2cst_set_tyer (d2c, $UN.cast{$D2E.hisexpopt}(opt))
-// end of [d2cst_set_tyer2]
 
 (* ****** ****** *)
 

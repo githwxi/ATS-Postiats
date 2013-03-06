@@ -32,8 +32,104 @@
 //
 (* ****** ****** *)
 
+staload
+UN = "./prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_hidynexp_util"
+
+(* ****** ****** *)
+
+staload "./pats_basics.sats"
+
+(* ****** ****** *)
+
+staload D2E = "./pats_dynexp2.sats"
+
+(* ****** ****** *)
+
 staload "./pats_histaexp.sats"
 staload "./pats_hidynexp.sats"
+
+(* ****** ****** *)
+//
+implement
+d2cst_get2_tyer (d2c) =
+  $UN.cast{hisexpopt}($D2E.d2cst_get_tyer(d2c))
+implement
+d2cst_set2_tyer (d2c, opt) =
+  $D2E.d2cst_set_tyer (d2c, $UN.cast{$D2E.hisexpopt}(opt))
+//
+(* ****** ****** *)
+
+implement
+$D2E.d2cst_is_extfun
+  (d2c) = let
+//
+val-Some (hse) = d2cst_get2_tyer (d2c)
+//
+in
+//
+case+ hse.hisexp_node of
+| HSEfun (fc, _arg, _res) => (
+    case+ fc of FUNCLOfun () => true | _ => false
+  ) // end of [HSEfun]
+| _ => false // end of [_]
+//
+end // end of [$D2E.d2cst_is_extfun]
+
+(* ****** ****** *)
+
+implement
+d2cst_get2_type_arg
+  (d2c) = let
+//
+val-Some (hse) = d2cst_get2_tyer (d2c)
+//
+in
+//
+case+ hse.hisexp_node of
+| HSEfun (
+    _(*fc*), _arg, _(*res*)
+  ) => _arg
+| _ => let
+    val () = prerr_interror ()
+    val () = (
+      prerrln! (": d2cst_get_type_arg: hse = ", hse)
+    ) // end of [val]
+    val () = assertloc (false)
+  in
+    exit (1) // HX: this is deadcode
+  end (* end of [_] *)
+//
+end // end of [d2cst_get2_type_arg]
+
+implement
+d2cst_get2_type_res
+  (d2c) = let
+//
+val-Some (hse) = d2cst_get2_tyer (d2c)
+//
+in
+//
+case+ hse.hisexp_node of
+| HSEfun (
+    _(*fc*), _(*arg*), _res
+  ) => _res
+| _ => let
+    val () = prerr_interror ()
+    val () = (
+      prerrln! (": d2cst_get_type_arg: hse = ", hse)
+    ) // end of [val]
+    val () = assertloc (false)
+  in
+    exit (1) // HX: this is deadcode
+  end (* end of [_] *)
+//
+end // end of [d2cst_get_type_res]
 
 (* ****** ****** *)
 

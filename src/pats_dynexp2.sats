@@ -217,6 +217,7 @@ fun d2cst_is_prf (d2c: d2cst): bool // a proof
 fun d2cst_is_nonprf (d2c: d2cst): bool // a nonproof
 //
 fun d2cst_is_castfn (d2c: d2cst): bool // a casting fun
+fun d2cst_is_extfun (d2c: d2cst): bool // a external fun
 //
 fun d2cst_is_mainats (d2c: d2cst): bool // a [mainats] fun
 //

@@ -47,7 +47,7 @@
 
 #define ATSdyncst_mac(d2c)
 #define ATSdyncst_castfn(d2c)
-#define ATSdyncst_extfun(d2c, args, res) ATSextfun() res(*d2c)args
+#define ATSdyncst_extfun(d2c, args, res) ATSextfun() res d2c args
 
 /* ****** ****** */
 
@@ -56,7 +56,7 @@
 
 /* ****** ****** */
 
-#define ATSglobaldec()
+#define ATSglobaldec() extern
 #define ATSstaticdec() static
 
 /* ****** ****** */
