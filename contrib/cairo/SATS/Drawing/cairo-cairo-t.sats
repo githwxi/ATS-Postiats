@@ -10,38 +10,38 @@
 (* ****** ****** *)
 
 /*
-cairo_t *           cairo_create                        (cairo_surface_t *target);
+cairo_t *cairo_create (cairo_surface_t *target);
 */
 fun cairo_create (target: !xrsf1): xr1 = "mac#%"
 
 /*
-cairo_t *           cairo_reference                     (cairo_t *cr);
+cairo_t *cairo_reference (cairo_t *cr);
 */
 fun cairo_reference {l:agz} (x: !xr l): xr (l) = "mac#%"
 
 /*
-void                cairo_destroy                       (cairo_t *cr);
+void cairo_destroy (cairo_t *cr);
 */
 fun cairo_destroy (x: xr1): void = "mac#%"
 
 (* ****** ****** *)
 
 /*
-cairo_status_t      cairo_status                        (cairo_t *cr);
+cairo_status_t cairo_status (cairo_t *cr);
 */
 fun cairo_status (ctx: !xr1): cairo_status_t = "mac#%"
 
 (* ****** ****** *)
 
 /*
-void                cairo_save                          (cairo_t *cr);
+void cairo_save (cairo_t *cr);
 */
 fun cairo_save
   {l:agz} (ctx: !xr l): (cairo_save_v l | void) = "mac#%"
 // end of [cairo_save]
 
 /*
-void                cairo_restore                       (cairo_t *cr);
+void cairo_restore (cairo_t *cr);
 */
 fun cairo_restore
   {l:agz} (pf: cairo_save_v l | ctx: !xr l): void = "mac#%"
@@ -50,7 +50,7 @@ fun cairo_restore
 (* ****** ****** *)
 
 /*
-cairo_surface_t *   cairo_get_target                    (cairo_t *cr);
+cairo_surface_t *cairo_get_target (cairo_t *cr);
 */
 fun cairo_get_target
   {l1:agz} (ctx: !xr l1): [l2:agz] vtget0 (xr l1, xrsf l2) = "mac#%"
@@ -68,9 +68,11 @@ fun cairo_push_group
 // end of [cairo_push_group]
 
 /*
-void                cairo_push_group_with_content       (cairo_t *cr,
-                                                         cairo_content_t
-							 content);
+void
+cairo_push_group_with_content
+(
+cairo_t *cr, cairo_content_t content
+) ;
 */
 fun cairo_push_group_with_content
   {l:agz} (ctx: !xr l, content: cairo_content_t): (cairo_push_group_v l | void) = "mac#%"
@@ -79,14 +81,14 @@ fun cairo_push_group_with_content
 (* ****** ****** *)
 
 /*
-cairo_pattern_t *   cairo_pop_group                     (cairo_t *cr);
+cairo_pattern_t *cairo_pop_group (cairo_t *cr);
 */
 fun cairo_pop_group
   {l:agz} (pf: cairo_push_group_v l | ctx: !xr l): void = "mac#%"
 // end of [cairo_pop_group]
 
 /*
-void                cairo_pop_group_to_source           (cairo_t *cr);
+void cairo_pop_group_to_source (cairo_t *cr);
 */
 fun cairo_pop_group_to_source
   {l:agz} (pf: cairo_push_group_v l | ctx: !xr l): void = "mac#%"
@@ -95,7 +97,7 @@ fun cairo_pop_group_to_source
 (* ****** ****** *)
 
 /*
-cairo_surface_t *   cairo_get_group_target              (cairo_t *cr);
+cairo_surface_t *cairo_get_group_target (cairo_t *cr);
 */
 fun cairo_get0_group_target
   {l1:agz} (ctx: !xr l1): [l2:agz] vtget0 (xr l1, xrsf l2) = "mac#%"
@@ -105,10 +107,11 @@ fun cairo_get1_group_target (ctx: !xr1): xrsf1 = "ext#%" // for convenience
 
 (* ****** ****** *)
 /*
-void                cairo_set_source_rgb                (cairo_t *cr,
-                                                         double red,
-                                                         double green,
-                                                         double blue);
+void
+cairo_set_source_rgb
+(
+cairo_t *cr,double red,double green,double blue
+) ;
 */
 fun cairo_set_source_rgb
 (
@@ -122,11 +125,12 @@ fun cairo_set_source_rgb_vec (ctx: !xr1, rgb: &rgb): void // for convenience
 (* ****** ****** *)
 
 /*
-void                cairo_set_source_rgba               (cairo_t *cr,
-                                                         double red,
-                                                         double green,
-                                                         double blue,
-                                                         double alpha);
+void
+cairo_set_source_rgba
+(
+cairo_t *cr,
+double red, double green, double blue, double alpha
+) ;
 */
 fun cairo_set_source_rgba
 (
@@ -140,27 +144,31 @@ fun cairo_set_source_rgba_vec (ctx: !xr1, rgba: &rgba): void // for convenience
 (* ****** ****** *)
 
 /*
-void                cairo_set_source                    (cairo_t *cr,
-                                                         cairo_pattern_t
-							 *source);
+void
+cairo_set_source
+(
+cairo_t *cr, cairo_pattern_t *source
+) ;
 */
 fun cairo_set_source (ctx: !xr1, src: !xrpat1): void = "mac#%"
 
 (* ****** ****** *)
 
 /*
-void                cairo_set_source_surface            (cairo_t *cr,
-                                                         cairo_surface_t
-							 *surface,
-                                                         double x,
-                                                         double y);
+void
+cairo_set_source_surface
+(
+cairo_t *cr,
+cairo_surface_t *surface,
+double x, double y
+) ;
 */
 fun cairo_set_source_surface
   (ctx: !xr1, xrsf: !xrsf1, x: double, y: double): void = "mac#%"
 // end of [cairo_set_source_surface]
 
 /*
-cairo_pattern_t *   cairo_get_source                    (cairo_t *cr);
+cairo_pattern_t *cairo_get_source (cairo_t *cr);
 */
 fun cairo_get_source
   {l1:agz} (
@@ -173,34 +181,41 @@ fun cairo_get1_source (ctx: !xr1): xrpat1 = "ext#%" // for convenience
 (* ****** ****** *)
 
 /*
-void                cairo_set_antialias                 (cairo_t *cr,
-                                                         cairo_antialias_t
-							 antialias);
+void
+cairo_set_antialias
+(
+cairo_t *cr,
+cairo_antialias_t antialias
+) ;
 */
 fun cairo_set_antialias
-  (ctx: !xr1, aa: cairo_antialias_t): void = "mac#%"
-// end of [cairo_set_antialias]
+(
+  ctx: !xr1, aa: cairo_antialias_t
+) : void = "mac#%" // endfun
 
 /*
-cairo_antialias_t   cairo_get_antialias                 (cairo_t *cr);
+cairo_antialias_t cairo_get_antialias (cairo_t *cr);
 */
-fun cairo_get_antialias (ctx: !xr1): double = "mac#%"
+fun cairo_get_antialias (ctx: !xr1): cairo_antialias_t = "mac#%"
 
 (* ****** ****** *)
 
 /*
-void                cairo_set_dash                      (cairo_t *cr,
-                                                         const double
-							 *dashes,
-                                                         int num_dashes,
-                                                         double offset);
+void
+cairo_set_dash
+(
+cairo_t *cr,
+const double *dashes,
+int num_dashes,
+double offset
+) ;
 */
-fun cairo_set_dash
-  (ctx: !xr1, dashes: &double, ndashes: int, offset: double): void = "mac#%"
-// end of [cairo_set_dash]
+fun cairo_set_dash (
+  ctx: !xr1, dashes: &double, ndashes: int, offset: double
+) : void = "mac#%" // end of [cairo_set_dash]
 
 /*
-int                 cairo_get_dash_count                (cairo_t *cr);
+int cairo_get_dash_count (cairo_t *cr);
 */
 
 fun cairo_get_dash_count (ctx: !xr1): int = "mac#%"
@@ -208,24 +223,32 @@ fun cairo_get_dash_count (ctx: !xr1): int = "mac#%"
 (* ****** ****** *)
 
 /*
-void                cairo_get_dash                      (cairo_t *cr,
-                                                         double *dashes,
-                                                         double *offset);
+void
+cairo_get_dash
+(
+cairo_t *cr,
+double *dashes,
+double *offset
+) ;
 */
 
 (* ****** ****** *)
 
 /*
-void                cairo_set_fill_rule                 (cairo_t *cr,
-                                                         cairo_fill_rule_t
-							 fill_rule);
+void
+cairo_set_fill_rule
+(
+cairo_t *cr,
+cairo_fill_rule_t
+fill_rule
+) ;
 */
 fun cairo_set_fill_rule
   (ctx: !xr1, fr: cairo_fill_rule_t): void = "mac#%"
 // end of [cairo_set_fill_rule]
 
 /*
-cairo_fill_rule_t   cairo_get_fill_rule                 (cairo_t *cr);
+cairo_fill_rule_t cairo_get_fill_rule (cairo_t *cr);
 */
 fun cairo_get_fill_rule (ctx: !xr1): cairo_fill_rule_t = "mac#%"
 
@@ -248,102 +271,119 @@ fun cairo_get_line_cap (ctx: !xr1): cairo_line_cap_t = "mac#%"
 (* ****** ****** *)
 
 /*
-void                cairo_set_line_join                 (cairo_t *cr,
-                                                         cairo_line_join_t
-							 line_join);
+void
+cairo_set_line_join
+(
+cairo_t *cr,
+cairo_line_join_t
+line_join
+) ;
 */
 fun cairo_set_line_join
   (ctx: !xr1, lj: cairo_line_join_t): void = "mac#%"
 // end of [cairo_set_line_join]
 
 /*
-cairo_line_join_t   cairo_get_line_join                 (cairo_t *cr);
+cairo_line_join_t cairo_get_line_join (cairo_t *cr);
 */
 fun cairo_get_line_join (ctx: !xr1): cairo_line_join_t = "mac#%"
 
 (* ****** ****** *)
 
 /*
-void                cairo_set_line_width                (cairo_t *cr,
-                                                         double width);
+void
+cairo_set_line_width
+(
+cairo_t *cr, double width
+) ;
 */
 fun cairo_set_line_width
   (ctx: !xr1, width: double): void = "mac#%"
 // end of [cairo_set_line_width]
 
 /*
-double              cairo_get_line_width                (cairo_t *cr);
+double cairo_get_line_width (cairo_t *cr);
 */
 fun cairo_get_line_width (ctx: !xr1): double = "mac#%"
 
 (* ****** ****** *)
 
 /*
-void                cairo_set_miter_limit               (cairo_t *cr,
-                                                         double limit);
+void
+cairo_set_miter_limit
+(
+cairo_t *cr,
+double limit
+) ;
 */
 fun cairo_set_miter_limit
   (ctx: !xr1, limit: double): void = "mac#%"
 // end of [cairo_set_miter_limit]
 
 /*
-double              cairo_get_miter_limit               (cairo_t *cr);
+double cairo_get_miter_limit (cairo_t *cr);
 */
 (*
-cairo_public double
-cairo_get_miter_limit (cairo_t *cr);
+double cairo_get_miter_limit (cairo_t *cr);
 *)
 fun cairo_get_miter_limit (ctx: !xr1): double = "mac#%"
 
 (* ****** ****** *)
 
 /*
-void                cairo_set_operator                  (cairo_t *cr,
-                                                         cairo_operator_t
-							 op);
+void
+cairo_set_operator
+(
+cairo_t *cr, cairo_operator_t op
+) ;
 */
 fun cairo_set_operator
   (ctx: !xr1, opr: cairo_operator_t): void = "mac#%"
 // end of [cairo_set_operator]
 
 /*
-cairo_operator_t    cairo_get_operator                  (cairo_t *cr);
+cairo_operator_t cairo_get_operator (cairo_t *cr);
 */
 fun cairo_get_operator (ctx: !xr1): cairo_operator_t = "mac#%"
 
 (* ****** ****** *)
 
 /*
-void                cairo_set_tolerance                 (cairo_t *cr,
-                                                         double tolerance);
+void
+cairo_set_tolerance
+(
+cairo_t *cr, double tolerance
+) ;
 */
 fun cairo_set_tolerance
   (ctx: !xr1, tolerance: double): void = "mac#%"
 // end of [cairo_set_tolerance]
 
 /*
-double              cairo_get_tolerance                 (cairo_t *cr);
+double cairo_get_tolerance (cairo_t *cr);
 */
 fun cairo_get_tolerance (ctx: !xr1): double = "mac#%"
 
 (* ****** ****** *)
 
 /*
-void                cairo_clip                          (cairo_t *cr);
+void cairo_clip (cairo_t *cr);
 */
 fun cairo_clip (ctx: !xr1): void = "mac#%"
 
 /*
-void                cairo_clip_preserve                 (cairo_t *cr);
+void cairo_clip_preserve (cairo_t *cr);
 */
 fun cairo_clip_preserve (ctx: !xr1): void = "mac#%"
 
 /*
-void                cairo_clip_extents                  (cairo_t *cr,
-                                                         double *x1,
-                                                         double *y1,
-                                                         double *x2,
-                                                         double *y2);
+void
+cairo_clip_extents
+(
+cairo_t *cr,
+double *x1, double *y1,
+double *x2, double *y2
+) ;
 */
 fun cairo_clip_extents
 (
@@ -415,7 +455,11 @@ fun cairo_in_fill (ctx: !xr1): bool = "mac#%"
 (* ****** ****** *)
 
 /*
-void cairo_mask (cairo_t *cr, cairo_pattern_t *pattern);
+void
+cairo_mask
+(
+cairo_t *cr, cairo_pattern_t *pattern
+) ;
 */
 /*
 void
@@ -437,7 +481,10 @@ fun cairo_paint (ctx: !xr1): void = "mac#%"
 
 /*
 void
-cairo_paint_with_alpha (cairo_t *cr, double alpha);
+cairo_paint_with_alpha
+(
+cairo_t *cr, double alpha
+) ;
 */
 fun cairo_paint_with_alpha
   (ctx: !xr1, alpha: double): void = "mac#%"
