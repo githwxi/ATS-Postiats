@@ -88,9 +88,9 @@ macdef CAIRO_MIME_TYPE_UNIQUE_ID = $extval (string, "CAIRO_MIME_TYPE_UNIQUE_ID")
 //
 // [cairo_ref] is reference-counted
 //
-absviewtype
-cairo_ref (l:addr) // cairo_t*
-viewtypedef
+absvtype
+cairo_ref (l:addr) = ptr // cairo_t*
+vtypedef
 cairo_ref1 = [l:addr | l > null] cairo_ref (l)
 stadef xr = cairo_ref
 stadef xr1 = cairo_ref1
@@ -99,9 +99,9 @@ stadef xr1 = cairo_ref1
 //
 // [cairo_surface_ref] is reference-counted
 //
-absviewtype
-cairo_surface_ref (l:addr) // cairo_surface_t*
-viewtypedef
+absvtype
+cairo_surface_ref (l:addr) = ptr // cairo_surface_t*
+vtypedef
 cairo_surface_ref1 = [l:addr | l > null] cairo_surface_ref (l)
 stadef xrsf = cairo_surface_ref
 stadef xrsf1 = cairo_surface_ref1
@@ -110,9 +110,9 @@ stadef xrsf1 = cairo_surface_ref1
 //
 // [cairo_device_ref] is reference-counted
 //
-absviewtype
-cairo_device_ref (l:addr) // cairo_device_t*
-viewtypedef
+absvtype
+cairo_device_ref (l:addr) = ptr // cairo_device_t*
+vtypedef
 cairo_device_ref1 = [l:addr | l > null] cairo_device_ref (l)
 stadef xrdev = cairo_device_ref
 stadef xrdev1 = cairo_device_ref1
@@ -121,9 +121,9 @@ stadef xrdev1 = cairo_device_ref1
 //
 // [cairo_pattern_ref] is reference-counted
 //
-absviewtype
-cairo_pattern_ref (l:addr) // cairo_pattern_t*
-viewtypedef
+absvtype
+cairo_pattern_ref (l:addr) = ptr // cairo_pattern_t*
+vtypedef
 cairo_pattern_ref1 = [l:addr | l > null] cairo_pattern_ref (l)
 stadef xrpat = cairo_pattern_ref
 stadef xrpat1 = cairo_pattern_ref1
@@ -132,9 +132,9 @@ stadef xrpat1 = cairo_pattern_ref1
 //
 // [cairo_region_ref] is reference-counted
 //
-absviewtype
-cairo_region_ref (l:addr) // cairo_region_t*
-viewtypedef
+absvtype
+cairo_region_ref (l:addr) = ptr // cairo_region_t*
+vtypedef
 cairo_region_ref1 = [l:addr | l > null] cairo_region_ref (l)
 stadef xrrgn = cairo_region_ref
 stadef xrrgn1 = cairo_region_ref1
@@ -143,9 +143,9 @@ stadef xrrgn1 = cairo_region_ref1
 //
 // cairo_font_face_ref // cairo_font_fact_t*
 //
-absviewtype
-cairo_font_face_ref (l:addr) // cairo_font_face_t*
-viewtypedef
+absvtype
+cairo_font_face_ref (l:addr) = ptr // cairo_font_face_t*
+vtypedef
 cairo_font_face_ref1 = [l:addr | l > null] cairo_font_face_ref (l)
 stadef xrfontface = cairo_font_face_ref
 stadef xrfontface1 = cairo_font_face_ref1

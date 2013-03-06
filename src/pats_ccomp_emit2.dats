@@ -658,6 +658,7 @@ val () =
   emit_text (out, " /* end of [")
 val () = emit_funlab (out, flab)
 val () = emit_text (out, "] */\n")
+val () = emit_newline (out)
 //
 in
 end // end of [emit_funent_implmnt]

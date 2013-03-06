@@ -29,6 +29,17 @@ val alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 val () = {
 //
+val () = assertloc ("AB" < "ABC")
+val () = assertloc ("BC" > "ABC")
+val () = assertloc ("XYZ" > "XY")
+val () = assertloc ("XYZ" < "YZ")
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () = {
+//
 val ab = alphabet
 val () = assertloc (ab[0] = 'A')
 val () = assertloc (ab[1] = 'B')
