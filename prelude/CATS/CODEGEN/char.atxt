@@ -35,6 +35,18 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 \#include <ctype.h>
 
+\#ifndef isascii
+extern int isascii (int c) ; // _XOPEN_SOURCE
+\#endif // end of [isascii]
+
+\#ifndef isblank
+extern int isblank (int c) ; // _XOPEN_SOURCE >= 600
+\#endif // end of [isblank]
+
+\#ifndef toascii
+extern int toascii (int c) ; // _XOPEN_SOURCE
+\#endif // end of [toascii]
+
 #atscode_separator_for_C()
 
 extern

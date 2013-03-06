@@ -115,7 +115,7 @@ val xs = dllist_nil {T} ()
 val xs = 1 :: 2 :: 3 :: xs
 //
 val xs2 = dllist_nil {T} ()
-val xs2 = 4 :: 5 :: xs2
+val xs2 = 4 :: 5 :: 6 :: xs2
 //
 val xs_xs2 = dllist_append (xs, xs2)
 //
