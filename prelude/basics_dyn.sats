@@ -187,6 +187,11 @@ macdef NULL = the_null_ptr // end of [macdef]
 (* ****** ****** *)
 
 praxi
+lemma_addr_param {l:addr} (): [l >= null] void
+
+(* ****** ****** *)
+
+praxi
 lemma_string_param
   {n:int} (x: string(n)): [n >= 0] void
 // end of [lemma_string_param]

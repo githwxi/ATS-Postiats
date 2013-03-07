@@ -31,6 +31,13 @@ staload UN = "prelude/SATS/unsafe.sats"
 #atscode_separator()
 
 primplmnt
+lemma_ptr_param
+  {l} (p) = lemma_addr_param {l} ()
+// end of [lemma_ptr_param]
+
+#atscode_separator()
+
+primplmnt
 ptr_get_index {l} (p) = addreq_make {l, l} ()
 
 #atscode_separator()

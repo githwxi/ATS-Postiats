@@ -104,7 +104,7 @@ staload "jansson/SATS/jansson.sats"
 (* ****** ****** *)
 
 extern
-fun request (url: string): strptr0 = "mac#request"
+fun request (url: string): Strptr0 = "mac#request"
 
 (* ****** ****** *)
 
@@ -120,12 +120,15 @@ fun process_root_array {l:agz} (root: !JSONptr l): void
 implement
 process_root
   {l} (root, err) = let
-  prval () = addr_is_gtez {l} ()
+//
+prval () =
+  lemma_addr_param {l} ()
+//
   val isnz =
     JSONptr_isnot_null (root)
   val () = if ~isnz then let
     val () =
-      fprintf (stderr_ref,
+      fprerrln (stderr_ref,
       "error: on line %d: %s\n", @(err.line, $UN.cast{string}(err.text))
     ) // end of [val]
   in

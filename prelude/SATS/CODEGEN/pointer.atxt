@@ -42,6 +42,10 @@ castfn ptr1_of_ptr0 (p: ptr):<> [l:addr] ptr (l)
 
 #atscode_separator()
 
+prfun lemma_ptr_param (p: ptr l): [l >= null] void
+
+#atscode_separator()
+
 prfun ptr_get_index
   {l1:addr} (p: ptr l1): [l2:addr] ADDREQ (l1, l2)
 // end of [ptr_get_index]
