@@ -57,7 +57,7 @@ atspre_argv_get_at
   atstype_arrptr argv, atstype_int i
 )
 {
-  return ((atstype_string*)argv)[i] ;
+  return (((atstype_string*)argv)[i]) ;
 } /* end of [atspre_argv_get_at] */
 
 #atscode_separator_for_C()
@@ -65,24 +65,22 @@ atspre_argv_get_at
 ATSinline()
 atsvoid_t0ype
 atspre_exit
-(
-  atstype_int status
-)
-{
-  exit(status) ; return ;
-} /* endfun */
+ (atstype_int ecode) { exit(ecode) ; return ; }
+// end of [atspre_exit]
 
 ATSinline()
 atsvoid_t0ype
 atspre_exit_errmsg
 (
-  atstype_int status, atstype_string msg
+  atstype_int ecode, atstype_string msg
 )
 {
-  fprintf(
-    stderr, "exit(ATS): %s", (char*)msg
-  ) ; exit(status) ; return ; // deadcode
-} /* endfun */
+  fprintf(stderr, "exit(ATS): %s", (char*)msg); exit(ecode); return;
+} // end of [atspre_exit_errmsg]
+
+#atscode_separator_for_C()
+
+\#define atspre_exit_void atspre_exit
 
 #atscode_separator_for_C()
 
@@ -121,10 +119,15 @@ atspre_fprint_newline
   (atstype_ref out)
 {
   int err = 0 ;
-  err += fprintf((FILE*)out, "\n") ; err += fflush((FILE*)out) ;
+  if (err==0) {
+    err = fprintf((FILE*)out, "\n") ;
+  } // end of [if]
+  if (err==0) err = fflush((FILE*)out) ;
+  if (err!=0) {
+    fprintf(stderr, "exit(ATS): [fprint_newline] failed.") ; exit(1) ;
+  } // end of [if]
   return ;
-} // end [atspre_fprint_newline]
-
+} /* endfun */
 \#define atspre_print_newline() atspre_fprint_newline(stdout)
 \#define atspre_prerr_newline() atspre_fprint_newline(stderr)
 

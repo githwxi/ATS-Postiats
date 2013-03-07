@@ -31,7 +31,7 @@ staload "jansson/SATS/jansson.sats"
 (* ****** ****** *)
 
 implement
-main () = let
+main0 () = let
 //
   val a =
     json_string("this is a string")
@@ -41,15 +41,15 @@ main () = let
   val (
     fpf | s
   ) = json_string_value(a)
-  val s2 = strptr_dup(s)
+  val s2 = string_copy ($UN.strptr2string(s))
   prval () = minus_addback (fpf, s | a)
 //
   val err =
-    json_string_set(a, $UN.castvwtp1{string}(s2))
+    json_string_set(a, $UN.strnptr2string(s2))
   val () = print_string("Value is: ")
-  val () = print_strptr(s2)
+  val () = print_string($UN.strnptr2string(s2))
   val () = print_newline()
-  val () = strptr_free(s2)
+  val () = strnptr_free (s2)
   val () = json_decref(a)
 in
   // nothing

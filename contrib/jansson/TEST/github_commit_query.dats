@@ -1,7 +1,9 @@
+(*
 //
 // For testing the ATS API for jansson
 // Only the ATS code here is written by Hongwei Xi
 //
+*)
 
 %{^
 
@@ -30,7 +32,8 @@ struct write_result
 
 static
 size_t
-write_response (
+write_response
+(
   void *ptr, size_t size, size_t nmemb, void *stream
 ) {
   struct write_result *result = (struct write_result *)stream;
@@ -48,7 +51,7 @@ write_response (
 }
 
 static
-char *request(const char *url)
+char *request (const char *url)
 {
     CURL *curl;
     CURLcode status;
@@ -99,6 +102,9 @@ char *request(const char *url)
 
 staload
 UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "jansson/SATS/jansson.sats"
 
 (* ****** ****** *)
@@ -107,41 +113,47 @@ extern
 fun request (url: string): Strptr0 = "mac#request"
 
 (* ****** ****** *)
-
+//
 extern
 fun process_root
-  {l:addr}
-  (root: !JSONptr l, err: &json_err): void
-// end of [process_root]
-
+  {l:addr} (root: !JSONptr l, err: &json_err): void
+//
 extern
 fun process_root_array {l:agz} (root: !JSONptr l): void
+//
+(* ****** ****** *)
 
 implement
 process_root
   {l} (root, err) = let
 //
-prval () =
-  lemma_addr_param {l} ()
+prval (
+) = lemma_addr_param {l} ()
 //
-  val isnz =
-    JSONptr_isnot_null (root)
-  val () = if ~isnz then let
-    val () =
-      fprerrln (stderr_ref,
-      "error: on line %d: %s\n", @(err.line, $UN.cast{string}(err.text))
-    ) // end of [val]
-  in
-    exit (1)
-  end
-  val () = assert (isnz)
-  val isa =
-    json_is_array (root)
-  val () = if ~isa then let
-    val () = fprintf (stderr_ref, "error: root is not an array\n", @())
-  in
-    exit (1)
-  end
+val isnz =
+  JSONptr_isnot_null (root)
+val () =
+(
+if ~isnz then let
+  val () =
+    prerrln! ("ERROR: on line ", err.line, ": ", $UN.cast{string}(err.text))
+  val () = exit_void (1)
+in
+  // nothing
+end else () // end of [if]
+)
+val () = assert (isnz)
+//
+val isa = json_is_array (root)
+val () =
+(
+if ~isa then let
+  val () = prerrln! ("ERROR: root is not an array")
+  val () = exit_void (1)
+in
+  // nothing
+end else () // end of [if]
+)
 in
   process_root_array {l} (root)
 end // end of [process_root]
@@ -187,10 +199,10 @@ if i < n then let
   val (fpf1 | sha_value) = json_string_value (sha)
   val (fpf2 | message_value) = json_string_value (message)
 //
-  val () = fprintf (stdout_ref, "%s\n", @($UN.linstr2str(sha_value)))
-  val () = fprint_newline (stdout_ref)
-  val () = fprintf (stdout_ref, "%s\n", @($UN.linstr2str(message_value)))
-  val () = fprint_newline (stdout_ref)
+  val () = println! ($UN.strptr2string(sha_value))
+  val () = println! ()
+  val () = println! ($UN.strptr2string(message_value))
+  val () = println! ()
 //
   prval () = minus_addback (fpf1, sha_value | sha)
   prval () = minus_addback (fpf2, message_value | message)
@@ -200,60 +212,73 @@ if i < n then let
   val () = json_decref (data)
 //
 in
-  loop (root, n, i+1)
+  loop (root, n, succ(i))
 end else () // end of [if]
 //
 end // end of [loop]
 //
 in
-  loop (root, n, 0)
+  loop (root, n, g1int2uint(0))
 end // end of [process_root_array]
 
 (* ****** ****** *)
 
-#define URL_FORMAT "https://api.github.com/repos/%s/%s/commits"
+%{^
+static
+char *auxurl
+(
+  char *urlfmt, char *USER, char *REPO
+)
+{
+  char *res ;
+  int bsz = 1024 ;
+  int err = 0 ;
+  res = atspre_malloc_gc (bsz) ;
+  err = snprintf (res, bsz, urlfmt, USER, REPO) ;
+  return res ;
+}
+%}
+extern
+fun auxurl : (string, string, string) -> Strptr1 = "sta#auxurl"
+
+(* ****** ****** *)
 
 implement
-main (argc, argv) = let
+main0 (argc, argv) = let
 //
-  val cmd = argv.[0]
-  var arg1: string = "githwxi"
-  var arg2: string = "ATS-Postiats"
+// Usage: argv[0] USER REPO
 //
-(*
-  val () = if (argc < 3) then let
-    val () = fprintf(stderr_ref, "usage: %s USER REPOSITORY\n\n", @(cmd))
-    val () = fprintf(stderr_ref, "List commits at USER's REPOSITORY.\n\n", @())
-  in
-    exit (2)
-  end // end of [val]
-*)
+val cmd = argv[0]
+var arg1: string = "githwxi"
+var arg2: string = "ATS-Postiats"
 //
-  val () = if argc >= 2 then arg1 := argv.[1]
-  val () = if argc >= 3 then arg2 := argv.[2]
+val () = if argc >= 2 then arg1 := argv[1]
+val () = if argc >= 3 then arg2 := argv[2]
 //
-  val url =
-    sprintf (URL_FORMAT, @(arg1, arg2))
-  val text = request($UN.castvwtp1{string}(url))
-  val () = strptr_free (url)
+val FMT = "https://api.github.com/repos/%s/%s/commits"
+val url = auxurl (FMT, arg1, arg2)
+val text = request ($UN.strptr2string (url))
+val () = strptr_free (url)
 //
-  val isnz = strptr_isnot_null (text)
+val isnz = strptr_isnot_null (text)
 //
 in
 //
 if isnz then let
   var err: json_err
-  val root = json_loads ($UN.linstr2str(text), 0, err)
+  val root = json_loads ($UN.strptr2string(text), 0, err)
   val () = strptr_free (text)
   val () = process_root (root, err)
   val () = json_decref(root)
 in
-  exit (0)
+  // nothing
 end else let
-  prval () = strptr_free_null (text) in (*nothing*)
+  prval () = strptr_free_null (text)
+in
+  // nothing
 end // end of [if]
 //
-end // end of [main]
+end // end of [main0]
 
 (* ****** ****** *)
 

@@ -47,17 +47,24 @@ lemma_strnptr_param
 
 #atscode_separator()
 
-castfn strptr2ptr {l:addr} (x: !strptr l):<> ptr (l)
-castfn strnptr2ptr {l:addr}{n:int} (x: !strnptr (l, n)):<> ptr (l)
+castfn
+strptr2ptr {l:addr} (x: !strptr l):<> ptr (l)
+castfn
+strnptr2ptr
+  {l:addr}{n:int} (x: !strnptr (l, n)):<> ptr (l)
+// end of [strnptr2ptr]
 
 #atscode_separator()
 //
 castfn
-strptr_of_strnptr
-  {l:addr}{n:int} (x: strnptr (l, n)):<> strptr l
+strnptr2strptr
+  {l:addr}{n:int} (x: strnptr (l, n)):<> strptr (l)
+// end of [strnptr2strptr]
+
 castfn
-strnptr_of_strptr
-  {l:addr} (x: strptr l):<> [n:int] strnptr (l, n)
+strptr2strnptr
+  {l:addr} (x: strptr (l)):<> [n:int] strnptr (l, n)
+// end of [strptr2strnptr]
 //
 #atscode_separator()
 //
@@ -172,35 +179,37 @@ overload compare with compare_strptr_strptr
 
 #atscode_separator()
 
-fun fprint_strptr (out: FILEref, x: !Strptr0): void
+fun fprint_strptr
+(
+  out: FILEref, x: !Strptr0
+) : void = "mac\#%"
 overload fprint with fprint_strptr
-fun print_strptr (x: !Strptr0): void // fprint_strptr (stdout_ref, x)
+fun print_strptr (x: !Strptr0): void = "mac\#%"
+fun prerr_strptr (x: !Strptr0): void = "mac\#%"
 overload print with print_strptr
-fun prerr_strptr (x: !Strptr0): void // fprint_strptr (stderr_ref, x)
 overload prerr with prerr_strptr
 
 #atscode_separator()
 
 fun strptr_free (x: Strptr0):<!wrt> void = "mac\#%"
+fun strnptr_free (x: Strnptr0):<!wrt> void = "mac\#%"
 
 #atscode_separator()
 
-fun strptr_length (x: !Strptr0): ssize_t
-fun strnptr_length {n:int} (x: !strnptr n): ssize_t (n)
+fun strptr_length (x: !Strptr0): ssize_t = "mac\#%"
+fun strnptr_length {n:int} (x: !strnptr n): ssize_t (n) = "mac\#%"
 
 #atscode_separator()
-
-fun
-strptr_append
-  (x1: !Strptr0, x2: !Strptr0) :<> Strptr0 = "mac\#%"
-// end of [strnptr_append]
-
-fun
-strnptr_append
-  {n1,n2:nat}
-  (x1: !strnptr n1, x2: !strnptr n2):<> strnptr (n1+n2) = "mac\#%"
-// end of [strnptr_append]
-
+//
+fun strptr_append
+(
+  x1: !Strptr0, x2: !Strptr0
+) :<> Strptr0 = "mac\#%"
+fun strnptr_append {n1,n2:nat}
+(
+  x1: !strnptr n1, x2: !strnptr n2
+) :<> strnptr (n1+n2) = "mac\#%"
+//
 #atscode_separator()
 
 fun strptrlst_concat (xs: List_vt (Strptr0)):<!wrt> Strptr0
@@ -210,7 +219,7 @@ fun strptrlst_concat (xs: List_vt (Strptr0)):<!wrt> Strptr0
 fun{env:vt0p}
 strnptr_foreach$cont (c: &charNZ, env: &env): bool
 fun{env:vt0p}
-strnptr_foreach$fwork (c: &charNZ>>charNZ, env: &env): void
+strnptr_foreach$fwork (c: &charNZ >> _, env: &env): void
 fun{}
 strnptr_foreach {n:nat} (str: !strnptr n): sizeLte(n)
 fun{env:vt0p}

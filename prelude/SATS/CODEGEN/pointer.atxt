@@ -42,7 +42,8 @@ castfn ptr1_of_ptr0 (p: ptr):<> [l:addr] ptr (l)
 
 #atscode_separator()
 
-prfun lemma_ptr_param (p: ptr l): [l >= null] void
+prfun
+lemma_ptr_param {l:addr} (p: ptr l): [l >= null] void
 
 #atscode_separator()
 

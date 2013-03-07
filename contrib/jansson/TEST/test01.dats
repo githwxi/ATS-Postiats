@@ -30,7 +30,7 @@ staload "jansson/SATS/jansson.sats"
 (* ****** ****** *)
 
 implement
-main () = let
+main0 () = let
 //
   var err: json_err? 
 //
@@ -38,7 +38,7 @@ main () = let
   val () = assertloc (JSONptr_isnot_null (rt))
   val (fpf | one) = json_object_get_exnloc (rt, "one")
   val ji = json_integer_value (one)
-  val () = printf ("int = %i\n", @($UN.cast2int(ji)))
+  val () = println! ("int = ", $UN.cast2int(ji))
   prval () = minus_addback (fpf, one | rt) 
 //
   val _(*err*) =
