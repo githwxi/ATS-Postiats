@@ -71,6 +71,7 @@
 #define ATSPMVbool_true() atsbool_true
 #define ATSPMVbool_false() atsbool_false
 #define ATSPMVchar(c) c
+#define ATSPMVfloat(rep) rep
 #define ATSPMVstring(str) str
 #define ATSPMVi0nt(x) x
 #define ATSPMVf0loat(x) x

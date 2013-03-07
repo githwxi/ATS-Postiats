@@ -568,7 +568,8 @@ val fopr_d = (
 //
 val ent = sprintf ("\
 fun{tk:tk}
-g0float_%s : g0float_cmp_type (tk)
+g0float_%s
+  : g0float_cmp_type (tk) = \"mac#%%\"
 overload %s with g0float_%s of 0\
 ", @(
  opr, fopr_d, opr
@@ -589,8 +590,13 @@ fun f (
   opknd: string, opnam: string
 ) :<cloref1> atext = let
 //
-val x = sprintf (
-"fun g0float_%s_%s: g0float_%s_type(%s)\n", @(opnam, tname, opknd, kname)
+val x = sprintf
+ ("\
+fun g0float_%s_%s
+  : g0float_%s_type(%s) = \"mac#%%\"\n\
+", @(
+  opnam, tname, opknd, kname
+)
 ) (* end of [val] *)
 //
 in
@@ -599,23 +605,36 @@ end // end of [f]
 //
 var res: atextlst = list_nil
 //
+val () = res := list_cons (f ("neg", "neg"), res)
+val () = res := list_cons (atext_newline(), res)
+//
+val () = res := list_cons (f ("succ", "succ"), res)
+val () = res := list_cons (f ("pred", "pred"), res)
+val () = res := list_cons (atext_newline(), res)
+//
 val () = res := list_cons (f ("aop", "add"), res)
 val () = res := list_cons (f ("aop", "sub"), res)
 val () = res := list_cons (f ("aop", "mul"), res)
 val () = res := list_cons (f ("aop", "div"), res)
 val () = res := list_cons (f ("aop", "mod"), res)
 val () = res := list_cons (atext_newline(), res)
+//
 val () = res := list_cons (f ("cmp", "lt"), res)
 val () = res := list_cons (f ("cmp", "lte"), res)
 val () = res := list_cons (f ("cmp", "gt"), res)
 val () = res := list_cons (f ("cmp", "gte"), res)
 val () = res := list_cons (f ("cmp", "eq"), res)
 val () = res := list_cons (f ("cmp", "neq"), res)
+val () = res := list_cons (atext_newline(), res)
+//
 val () = res := list_cons (f ("compare", "compare"), res)
 val () = res := list_cons (atext_newline(), res)
+//
 val () = res := list_cons (f ("aop", "max"), res)
 val () = res := list_cons (f ("aop", "min"), res)
+//
 val res = list_reverse (res)
+//
 in
   atext_concatxt (list_of_list_vt (res))
 end // end of [g0float_declist]

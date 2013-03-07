@@ -62,53 +62,25 @@ fun g0float2float_double_double (x: double):<> double = "mac\#%"
 typedef
 g0float_neg_type
   (tk:tk) = g0float (tk) -<fun0> g0float (tk)
-// end of [g0float_neg_type]
-
 fun{tk:tk}
 g0float_neg
   : g0float_neg_type (tk)
 overload ~ with g0float_neg of 0
-fun g0float_neg_float
-  : g0float_neg_type (fltknd) = "mac\#%"
-fun g0float_neg_double
-  : g0float_neg_type (dblknd) = "mac\#%"
-fun g0float_neg_ldouble
-  : g0float_neg_type (ldblknd) = "mac\#%"
 
 #atscode_separator()
 
 typedef
 g0float_succ_type
   (tk:tk) = g0float (tk) -<fun0> g0float (tk)
-
 fun{tk:tk}
-g0float_succ
-  : g0float_succ_type (tk)
+g0float_succ : g0float_succ_type (tk)
 overload succ with g0float_succ of 0
-fun g0float_succ_float
-  : g0float_succ_type (fltknd) = "mac\#%"
-fun g0float_succ_double
-  : g0float_succ_type (dblknd) = "mac\#%"
-fun g0float_succ_ldouble
-  : g0float_succ_type (ldblknd) = "mac\#%"
-
-#atscode_separator()
-
 typedef
 g0float_pred_type
   (tk:tk) = g0float (tk) -<fun0> g0float (tk)
-// end of [g0float_prec_type]
-
 fun{tk:tk}
-g0float_pred
-  : g0float_pred_type (tk)
+g0float_pred : g0float_pred_type (tk)
 overload pred with g0float_pred of 0
-fun g0float_pred_float
-  : g0float_pred_type (fltknd) = "mac\#%"
-fun g0float_pred_double
-  : g0float_pred_type (dblknd) = "mac\#%"
-fun g0float_pred_ldouble
-  : g0float_pred_type (ldblknd) = "mac\#%"
 
 #atscode_separator()
 
@@ -122,23 +94,6 @@ g0float_aop_type (tk:tk) =
 #fun_g0float_aop_decl("mul")
 #fun_g0float_aop_decl("div")
 #fun_g0float_aop_decl("mod")
-
-#atscode_separator()
-
-fun g0float_add_float : g0float_aop_type (fltknd) = "mac\#%"
-fun g0float_sub_float : g0float_aop_type (fltknd) = "mac\#%"
-fun g0float_mul_float : g0float_aop_type (fltknd) = "mac\#%"
-fun g0float_div_float : g0float_aop_type (fltknd) = "mac\#%"
-
-fun g0float_add_double : g0float_aop_type (dblknd) = "mac\#%"
-fun g0float_sub_double : g0float_aop_type (dblknd) = "mac\#%"
-fun g0float_mul_double : g0float_aop_type (dblknd) = "mac\#%"
-fun g0float_div_double : g0float_aop_type (dblknd) = "mac\#%"
-
-fun g0float_add_ldouble : g0float_aop_type (ldblknd) = "mac\#%"
-fun g0float_sub_ldouble : g0float_aop_type (ldblknd) = "mac\#%"
-fun g0float_mul_ldouble : g0float_aop_type (ldblknd) = "mac\#%"
-fun g0float_div_ldouble : g0float_aop_type (ldblknd) = "mac\#%"
 
 #atscode_separator()
 
@@ -176,104 +131,77 @@ g0float_cmp_type (tk:tk) =
 #fun_g0float_cmp_decl("neq")
 overload <> with g0float_neq of 0
 
+#atscode_separator()
+
 typedef
-g0float_compare_type
-  (tk:tk) = (g0float (tk), g0float (tk)) -<> int
-// end of [typedef]
+g0float_compare_type (tk:tk) =
+  (g0float (tk), g0float (tk)) -<fun0> (int)
+// end of [g0float_compare_type]
 
 fun{tk:tk}
 g0float_compare : g0float_compare_type (tk)
-overload compare with g0float_compare
+overload compare with g0float_compare of 0
 
 #atscode_separator()
 
 fun{tk:tk}
 g0float_max : g0float_aop_type (tk)
-overload max with g0float_max
+overload max with g0float_max of 0
 fun{tk:tk}
 g0float_min : g0float_aop_type (tk)
-overload min with g0float_min
+overload min with g0float_min of 0
 
 #atscode_separator()
 
-#g0float_declist("fltknd", "float")
+#g0float_declist("fltknd", "float")\
 
 #atscode_separator()
 
-#g0float_declist("dblknd", "double")
+#g0float_declist("dblknd", "double")\
 
 #atscode_separator()
 
-#g0float_declist("ldblknd", "ldouble")
+#g0float_declist("ldblknd", "ldouble")\
 
 #atscode_separator()
 //
-#fprint_print_prerr_decl("float", "float")
+#fprint_print_prerr_decl("float", "float")\
 //
-#fprint_print_prerr_decl("double", "double")
+#fprint_print_prerr_decl("double", "double")\
 //
-#fprint_print_prerr_decl("ldouble", "ldouble")
+#fprint_print_prerr_decl("ldouble", "ldouble")\
 //
-#atscode_separator()
-
-fun g0float_add_float
-  : g0float_aop_type (fltknd) = "mac\#%"
-fun g0float_sub_float
-  : g0float_aop_type (fltknd) = "mac\#%"
-fun g0float_mul_float
-  : g0float_aop_type (fltknd) = "mac\#%"
-fun g0float_div_float
-  : g0float_aop_type (fltknd) = "mac\#%"
-
-fun g0float_add_double
-  : g0float_aop_type (dblknd) = "mac\#%"
-fun g0float_sub_double
-  : g0float_aop_type (dblknd) = "mac\#%"
-fun g0float_mul_double
-  : g0float_aop_type (dblknd) = "mac\#%"
-fun g0float_div_double
-  : g0float_aop_type (dblknd) = "mac\#%"
-
-fun g0float_add_ldouble
-  : g0float_aop_type (ldblknd) = "mac\#%"
-fun g0float_sub_ldouble
-  : g0float_aop_type (ldblknd) = "mac\#%"
-fun g0float_mul_ldouble
-  : g0float_aop_type (ldblknd) = "mac\#%"
-fun g0float_div_ldouble
-  : g0float_aop_type (ldblknd) = "mac\#%"
-
 #atscode_separator()
 
 fun add_int_float (x: int, y: float): float = "mac\#%"
-overload + with add_int_float of 20
-fun add_int_double (x: int, y: double): double = "mac\#%"
-overload + with add_int_double of 20
 fun add_float_int (x: float, y: int): float = "mac\#%"
+overload + with add_int_float of 20
 overload + with add_float_int of 20
+fun add_int_double (x: int, y: double): double = "mac\#%"
 fun add_double_int (x: double, y: int): double = "mac\#%"
+overload + with add_int_double of 20
 overload + with add_double_int of 20
 
 #atscode_separator()
 
 fun sub_int_float (x: int, y: float): float = "mac\#%"
-overload - with sub_int_float of 20
-fun sub_int_double (x: int, y: double): double = "mac\#%"
-overload - with sub_int_double of 20
 fun sub_float_int (x: float, y: int): float = "mac\#%"
+overload - with sub_int_float of 20
 overload - with sub_float_int of 20
+fun sub_int_double (x: int, y: double): double = "mac\#%"
 fun sub_double_int (x: double, y: int): double = "mac\#%"
+overload - with sub_int_double of 20
 overload - with sub_double_int of 20
 
 #atscode_separator()
 
 fun mul_int_float (x: int, y: float): float = "mac\#%"
-overload * with mul_int_float of 20
-fun mul_int_double (x: int, y: double): double = "mac\#%"
-overload * with mul_int_double of 20
 fun mul_float_int (x: float, y: int): float = "mac\#%"
+overload * with mul_int_float of 20
 overload * with mul_float_int of 20
+fun mul_int_double (x: int, y: double): double = "mac\#%"
 fun mul_double_int (x: double, y: int): double = "mac\#%"
+overload * with mul_int_double of 20
 overload * with mul_double_int of 20
 
 #atscode_separator()

@@ -267,12 +267,12 @@ val fopr = (
 //
 val ent = sprintf ("\
 ATSinline()
-atstype_bool
+atstype_%s
 atspre_%s_int_%s
   (atstype_int i1, atstype_%s f2) { return (((atstype_%s)i1) %s f2) ; }
 // end of [atspre_%s_int_%s]\
 ", @(
-  opr, knd, knd, knd, fopr, opr, knd
+  knd, opr, knd, knd, knd, fopr, opr, knd
 )
 ) // end of [sprintf] // end of [val]
 //
@@ -282,21 +282,20 @@ end // end of [fun_aop_int_g0float_decl]
 %}\
 \
 #fun_aop_int_g0float_decl("add", "float")
-#fun_aop_int_g0float_decl("add", "double")
-#fun_aop_int_g0float_decl("add", "ldouble")
-
 #fun_aop_int_g0float_decl("sub", "float")
-#fun_aop_int_g0float_decl("sub", "double")
-#fun_aop_int_g0float_decl("sub", "ldouble")
-
 #fun_aop_int_g0float_decl("mul", "float")
-#fun_aop_int_g0float_decl("mul", "double")
-#fun_aop_int_g0float_decl("mul", "ldouble")
-
 #fun_aop_int_g0float_decl("div", "float")
+//
+#fun_aop_int_g0float_decl("add", "double")
+#fun_aop_int_g0float_decl("sub", "double")
+#fun_aop_int_g0float_decl("mul", "double")
 #fun_aop_int_g0float_decl("div", "double")
+//
+#fun_aop_int_g0float_decl("add", "ldouble")
+#fun_aop_int_g0float_decl("sub", "ldouble")
+#fun_aop_int_g0float_decl("mul", "ldouble")
 #fun_aop_int_g0float_decl("div", "ldouble")
-
+//
 #atscode_separator_for_C()
 
 %{
@@ -314,12 +313,12 @@ val fopr = (
 //
 val ent = sprintf ("\
 ATSinline()
-atstype_bool
+atstype_%s
 atspre_%s_%s_int
-  (atstype_int f1, atstype_%s i2) { return (f1 %s ((atstype_%s)i2)) ; }
+  (atstype_%s f1, atstype_int i2) { return (f1 %s ((atstype_%s)i2)) ; }
 // end of [atspre_%s_%s_int]\
 ", @(
-  opr, knd, knd, fopr, knd, opr, knd
+  knd, opr, knd, knd, fopr, knd, opr, knd
 )
 ) // end of [sprintf] // end of [val]
 //
@@ -329,21 +328,20 @@ end // end of [fun_aop_g0float_int_decl]
 %}\
 \
 #fun_aop_g0float_int_decl("add", "float")
-#fun_aop_g0float_int_decl("add", "double")
-#fun_aop_g0float_int_decl("add", "ldouble")
-
 #fun_aop_g0float_int_decl("sub", "float")
-#fun_aop_g0float_int_decl("sub", "double")
-#fun_aop_g0float_int_decl("sub", "ldouble")
-
 #fun_aop_g0float_int_decl("mul", "float")
-#fun_aop_g0float_int_decl("mul", "double")
-#fun_aop_g0float_int_decl("mul", "ldouble")
-
 #fun_aop_g0float_int_decl("div", "float")
+//
+#fun_aop_g0float_int_decl("add", "double")
+#fun_aop_g0float_int_decl("sub", "double")
+#fun_aop_g0float_int_decl("mul", "double")
 #fun_aop_g0float_int_decl("div", "double")
+//
+#fun_aop_g0float_int_decl("add", "ldouble")
+#fun_aop_g0float_int_decl("sub", "ldouble")
+#fun_aop_g0float_int_decl("mul", "ldouble")
 #fun_aop_g0float_int_decl("div", "ldouble")
-
+//
 #atscode_separator_for_C()
 
 \#endif // ifndef ATSHOME_PRELUDE_FLOAT_CATS

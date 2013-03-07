@@ -51,8 +51,6 @@ fun draw_reg_polygon
   {n:nat | n >= 3}
   (xr: !xr1, n: int n): void = let
 //
-val da = 2.0 * M_PI / n
-//
 fun loop
   {i:nat | i <= n} .<n-i>.
 (
@@ -61,7 +59,7 @@ fun loop
 ) : void = let
 in
 //
-if i < n - 1 then let
+if i < n then let
   val angl1 = angl0 + da
   val () = cairo_line_to (xr, cos angl1, sin angl1)
 in
@@ -74,9 +72,9 @@ end // end of [if]
 //
 end // end of [loop]
 //
-val () =
-  cairo_move_to (xr, 1.0, 0.0)
-val () = loop (xr, n, da, 0.0, 0)
+val da = 2.0 * M_PI / n
+val () = cairo_move_to (xr, 1.0, 0.0)
+val () = loop (xr, n, da, 0.0, 1)
 //
 in
   // nothing
@@ -115,6 +113,8 @@ end // end of [draw_circle]
 implement
 main () = (0) where {
 //
+val NSIDE = 6
+//
 val sf =
   cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 200, 200)
 //
@@ -125,11 +125,13 @@ val () = cairo_rotate (xr, ~(M_PI) / 2)
 val (pf_save | ()) = cairo_save (xr)
 val sx = ALPHA * 100.0 and sy = ALPHA * 100.0
 val () = cairo_scale (xr, sx, sy)
-val () = draw_reg_polygon (xr, 5)
+val () = draw_reg_polygon (xr, NSIDE)
 val () = cairo_fill (xr)
 val () = cairo_restore (pf_save | xr)
+(*
 val () = draw_circle (xr, ALPHA * 100.0, x, y)
 val () = cairo_stroke (xr)
+*)
 //
 val status = cairo_surface_write_to_png (sf, "test03.png")
 val () = cairo_surface_destroy (sf)
