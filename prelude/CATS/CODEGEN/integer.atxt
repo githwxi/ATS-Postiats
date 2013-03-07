@@ -184,7 +184,8 @@ in
 end // end of [fun_half_decl]
 //
 fun
-fun_aop_decl (
+fun_aop_decl
+(
   opr: string, knd: string
 ) : atext = let
 //
@@ -213,7 +214,8 @@ in
 end // end of [fun_aop_decl]
 //
 fun
-fun_cmpz_decl (
+fun_cmpz_decl
+(
   opr: string, knd: string
 ) : atext = let
 //
@@ -245,15 +247,19 @@ in
 end // end of [fun_cmpz_decl]
 //
 fun
-fun_cmp_decl (
+fun_cmp_decl
+(
   opr: string, knd: string
 ) : atext = let
 //
 val fopr = (
   case+ opr of
-  | "lt" => "<" | "lte" => "<="
-  | "gt" => ">" | "gte" => ">="
-  | "eq" => "==" | "neq" => "!="
+  | "lt" => "<"
+  | "lte" => "<="
+  | "gt" => ">"
+  | "gte" => ">="
+  | "eq" => "=="
+  | "neq" => "!="
   | _ => opr
 ) : string // end of [val]
 //
@@ -274,6 +280,54 @@ atspre_g0int_%s_%s
 in
   atext_strptr (ent)
 end // end of [fun_cmp_decl]
+//
+fun
+fun_compare_decl
+  (knd: string): atext = let
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_int
+atspre_g0int_compare_%s
+(
+  atstype_%s x1, atstype_%s x2
+) {
+  if (x1 < x2) return -1 ; else if (x1 > x2) return 1 ; else return 0 ;
+} // end of [atspre_g0int_compare_%s]\n\
+", @(
+  knd, knd, knd, knd
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_compare_decl]
+//
+fun
+fun_maxmin_decl
+(
+  opr: string, knd: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "min" => "<=" | "max" => ">=" | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_%s
+atspre_g0int_%s_%s
+  (atstype_%s x1, atstype_%s x2) { return (x1 %s x2 ? x1 : x2) ; }
+// end of [atspre_g0int_%s_%s]\n\
+", @(
+  knd, opr, knd, knd, knd, fopr, opr, knd
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_maxmin_decl]
 //
 in // in of [local]
 //
@@ -307,6 +361,11 @@ val () = res := list_cons (fun_cmp_decl("gt", tnm), res)
 val () = res := list_cons (fun_cmp_decl("gte", tnm), res)
 val () = res := list_cons (fun_cmp_decl("eq", tnm), res)
 val () = res := list_cons (fun_cmp_decl("neq", tnm), res)
+//
+val () = res := list_cons (fun_compare_decl(tnm), res)
+//
+val () = res := list_cons (fun_maxmin_decl("max", tnm), res)
+val () = res := list_cons (fun_maxmin_decl("min", tnm), res)
 //
 val res = list_reverse (res)
 //
@@ -556,9 +615,12 @@ fun_cmp_decl (
 //
 val fopr = (
   case+ opr of
-  | "lt" => "<" | "lte" => "<="
-  | "gt" => ">" | "gte" => ">="
-  | "eq" => "==" | "neq" => "!="
+  | "lt" => "<"
+  | "lte" => "<="
+  | "gt" => ">"
+  | "gte" => ">="
+  | "eq" => "=="
+  | "neq" => "!="
   | _ => opr
 ) : string // end of [val]
 //
@@ -579,6 +641,54 @@ atspre_g0uint_%s_%s
 in
   atext_strptr (ent)
 end // end of [fun_cmp_decl]
+//
+fun
+fun_compare_decl
+  (knd: string): atext = let
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_int
+atspre_g0uint_compare_%s
+(
+  atstype_%s x1, atstype_%s x2
+) {
+  if (x1 < x2) return -1 ; else if (x1 > x2) return 1 ; else return 0 ;
+} // end of [atspre_g0uint_compare_%s]\n\
+", @(
+  knd, knd, knd, knd
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_compare_decl]
+//
+fun
+fun_maxmin_decl
+(
+  opr: string, knd: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "min" => "<=" | "max" => ">=" | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_%s
+atspre_g0uint_%s_%s
+  (atstype_%s x1, atstype_%s x2) { return (x1 %s x2 ? x1 : x2) ; }
+// end of [atspre_g0uint_%s_%s]\n\
+", @(
+  knd, opr, knd, knd, knd, fopr, opr, knd
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_maxmin_decl]
 //
 in // in of [local]
 //
@@ -607,6 +717,11 @@ val () = res := list_cons (fun_cmp_decl("gt", tnm), res)
 val () = res := list_cons (fun_cmp_decl("gte", tnm), res)
 val () = res := list_cons (fun_cmp_decl("eq", tnm), res)
 val () = res := list_cons (fun_cmp_decl("neq", tnm), res)
+//
+val () = res := list_cons (fun_compare_decl(tnm), res)
+//
+val () = res := list_cons (fun_maxmin_decl("max", tnm), res)
+val () = res := list_cons (fun_maxmin_decl("min", tnm), res)
 //
 val res = list_reverse (res)
 //
