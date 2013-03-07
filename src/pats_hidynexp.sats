@@ -160,6 +160,10 @@ fun hipat_rec (
   loc: location
 , hse: hisexp, knd: int, lhips: labhipatlst, hse_rec: hisexp
 ) : hipat // end of [hipat_rec]
+fun hipat_rec2 (
+  loc: location
+, hse: hisexp, knd: int, lhips: labhipatlst, hse_rec: hisexp
+) : hipat // end of [hipat_rec2]
 
 fun hipat_lst (
   loc: location, hse: hisexp, hse_elt: hisexp, hips: hipatlst

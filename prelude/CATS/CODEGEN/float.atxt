@@ -212,6 +212,72 @@ end // end of [fun_g0float_cmp_decl]
 #atscode_separator_for_C()
 
 ATSinline()
+atstype_int
+atspre_g0float_compare_float
+(
+  atstype_float f1, atstype_float f2
+)
+{
+  if (f1 > f2) return 1 ; else if (f1 < f2) return -1 ; else return 0 ;
+} // end of [atspre_g0float_compare_float])
+
+ATSinline()
+atstype_int
+atspre_g0float_compare_double
+(
+  atstype_double f1, atstype_double f2
+)
+{
+  if (f1 > f2) return 1 ; else if (f1 < f2) return -1 ; else return 0 ;
+} // end of [atspre_g0float_compare_double])
+
+ATSinline()
+atstype_int
+atspre_g0float_compare_ldouble
+(
+  atstype_ldouble f1, atstype_ldouble f2
+)
+{
+  if (f1 > f2) return 1 ; else if (f1 < f2) return -1 ; else return 0 ;
+} // end of [atspre_g0float_compare_ldouble])
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_float
+atspre_g0float_min_float
+  (atstype_float f1, atstype_float f2) { return (f1 <= f2 ? f1 : f2) ; }
+// end of [atspre_g0float_min_float]
+ATSinline()
+atstype_double
+atspre_g0float_min_double
+  (atstype_double f1, atstype_double f2) { return (f1 <= f2 ? f1 : f2) ; }
+// end of [atspre_g0float_min_double]
+ATSinline()
+atstype_ldouble
+atspre_g0float_min_ldouble
+  (atstype_ldouble f1, atstype_ldouble f2) { return (f1 <= f2 ? f1 : f2) ; }
+// end of [atspre_g0float_min_ldouble]
+
+ATSinline()
+atstype_float
+atspre_g0float_max_float
+  (atstype_float f1, atstype_float f2) { return (f1 >= f2 ? f1 : f2) ; }
+// end of [atspre_g0float_max_float]
+ATSinline()
+atstype_double
+atspre_g0float_max_double
+  (atstype_double f1, atstype_double f2) { return (f1 >= f2 ? f1 : f2) ; }
+// end of [atspre_g0float_max_double]
+ATSinline()
+atstype_ldouble
+atspre_g0float_max_ldouble
+  (atstype_ldouble f1, atstype_ldouble f2) { return (f1 >= f2 ? f1 : f2) ; }
+// end of [atspre_g0float_max_ldouble]
+
+#atscode_separator_for_C()
+
+ATSinline()
 atsvoid_t0ype
 atspre_fprint_float (
   atstype_ref r, atstype_float x

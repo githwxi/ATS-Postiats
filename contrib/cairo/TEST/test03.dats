@@ -45,7 +45,9 @@ extern fun cos : double -> double = "mac#cos"
 
 (* ****** ****** *)
 
-stadef dbl = double
+typedef dbl = double
+
+(* ****** ****** *)
 
 fun draw_reg_polygon
   {n:nat | n >= 3}
@@ -82,60 +84,45 @@ end // end of [draw_reg_polygon]
 
 (* ****** ****** *)
 
-fun draw_circle
-(
-  xr: !xr1, rad: dbl, x0: dbl, y0: dbl
-) : void = let
-  val n0 = 8
-  val angl0 = 2 * M_PI / n0
-  val n = loop (rad, n0, angl0) where {
-    fun loop
-      {n:int | n >= 8} (
-      rad: dbl, n: int n, angl: dbl
-    ) : intGte 8 =
-      if (rad * angl > 1.0) then
-        loop (rad, 2 * n, angl / 2) else n // loop exits
-      // end of [if]
-    // end of [loop]
-  } // end of [val]
-  val (pf_save | ()) = cairo_save (xr)
-  val () = cairo_scale (xr, rad, rad)
-  val () = draw_reg_polygon (xr, n)
-  val () = cairo_restore (pf_save | xr)
-in
-  // nothing
-end // end of [draw_circle]
+macdef ALPHA = 7/8.0
 
 (* ****** ****** *)
 
-#define ALPHA 0.90
-
 implement
-main () = (0) where {
+main0 () = {
 //
-val NSIDE = 6
+val NSIDE = 5
+//
+val W = 250 and H = 250
 //
 val sf =
-  cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 200, 200)
-//
+  cairo_image_surface_create (CAIRO_FORMAT_ARGB32, W, H)
 val xr = cairo_create (sf)
-val x = 100.0 and y = 100.0
-val () = cairo_translate (xr, x, y)
+//
+val W = 1.0*W and H = 1.0*H
+//
+val W2 = W/2 and H2 = H/2
+val () = cairo_translate (xr, W2, H2)
 val () = cairo_rotate (xr, ~(M_PI) / 2)
-val (pf_save | ()) = cairo_save (xr)
-val sx = ALPHA * 100.0 and sy = ALPHA * 100.0
-val () = cairo_scale (xr, sx, sy)
+//
+val ax = ALPHA*H2 and ay = ALPHA*W2 // switching due to rotation
+//
+val (pf | ()) = cairo_save (xr)
+val () = cairo_scale (xr, ax, ay)
 val () = draw_reg_polygon (xr, NSIDE)
+val () = cairo_restore (pf | xr)
 val () = cairo_fill (xr)
-val () = cairo_restore (pf_save | xr)
-(*
-val () = draw_circle (xr, ALPHA * 100.0, x, y)
+//
+val (pf | ()) = cairo_save (xr)
+val () = cairo_scale (xr, ax, ay)
+val () = draw_reg_polygon (xr, 64*NSIDE)
+val () = cairo_restore (pf | xr)
 val () = cairo_stroke (xr)
-*)
 //
 val status = cairo_surface_write_to_png (sf, "test03.png")
-val () = cairo_surface_destroy (sf)
+//
 val () = cairo_destroy (xr)
+val () = cairo_surface_destroy (sf)
 //
 val () =
 (
@@ -146,7 +133,7 @@ val () =
 ) // end of [if]
 ) : void // end of [val]
 //
-} // end of [main]
+} // end of [main0]
 
 (* ****** ****** *)
 

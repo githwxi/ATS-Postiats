@@ -575,21 +575,24 @@ instr_move_ref
 (* ****** ****** *)
 
 implement
-instr_move_boxrec (
+instr_move_boxrec
+(
   loc, tmpret, lpmvs, hse_rec
 ) = instr_make_node
   (loc, INSmove_boxrec (tmpret, lpmvs, hse_rec))
 // end of [instr_move_boxrec]
 
 implement
-instr_move_fltrec (
+instr_move_fltrec
+(
   loc, tmpret, lpmvs, hse_rec
 ) = instr_make_node
   (loc, INSmove_fltrec (tmpret, lpmvs, hse_rec))
 // end of [instr_move_fltrec]
 
 implement
-instr_move_fltrec2 (
+instr_move_fltrec2
+(
   loc, tmpret, lpmvs, hse_rec
 ) = let
 in

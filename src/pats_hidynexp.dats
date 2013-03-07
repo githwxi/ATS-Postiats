@@ -171,6 +171,35 @@ hipat_rec (
 // end of [hipat_rec]
 
 implement
+hipat_rec2 (
+  loc, hse, knd, lhips, hse_rec
+) = let
+//
+val isflt =
+(
+  if knd = 0 then true else false
+) : bool // end of [val]
+//
+in
+//
+if isflt then
+(
+case lhips of
+| list_cons
+    (lx, list_nil ()) =>
+    let val+LABHIPAT (l, x) = lx in x end
+  // end of [list_cons]
+| _ (*notsing*) =>
+    hipat_rec (loc, hse, knd, lhips, hse_rec)
+) else (
+  hipat_rec (loc, hse, knd, lhips, hse_rec)
+) (* end of [if] *)
+//
+end // end of [hipat_rec2]
+
+(* ****** ****** *)
+
+implement
 hipat_lst
   (loc, hse, hse_elt, hips) =
   hipat_make_node (loc, hse, HIPlst (hse_elt, hips))

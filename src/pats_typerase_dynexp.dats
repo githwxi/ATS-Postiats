@@ -166,7 +166,7 @@ case+ p3t0.p3at_node of
     ) : tyreckind
     val hse_rec = hisexp_tyrec2 (recknd, lhses)
   in
-    hipat_rec (loc0, hse0, knd, lhips, hse_rec)
+    hipat_rec2 (loc0, hse0, knd, lhips, hse_rec)
   end // end of [P3Trec]
 | P3Tlst (
     lin, s2e_elt, p3ts
