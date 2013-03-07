@@ -128,13 +128,18 @@ fun p1at_tr_app_sta_dyn (
 (* ****** ****** *)
 
 fun p1atconarg_is_omit
-  (arg: p1atlst): bool = (
-  case+ arg of
-  | list_cons (p1t, list_nil ()) => (
-      case+ p1t.p1at_node of P1Tany _ => true | _ => false
-    ) // end of [list_cons]
-  | _ => false // end of [_]
-) // end of [p1atconarg_is_omit]
+  (arg: p1atlst): bool = let
+in
+//
+case+ arg of
+| list_cons (
+    p1t, list_nil ()
+  ) => (
+    case+ p1t.p1at_node of P1Tany _ => true | _ => false
+  ) // end of [list_cons]
+| _ => false // end of [_]
+//
+end // end of [p1atconarg_is_omit]
 
 fun
 p1at_tr_con_sapp1 (
@@ -269,7 +274,8 @@ fun p1at_tr_con (
 ) : p2at = let
 //
 val isargomit = p1atconarg_is_omit (darg)
-val d2cs = (
+val d2cs =
+(
   if isargomit then d2cs else let
     val n = list_length (darg) in d2con_select_arity (d2cs, n)
   end // end of [if]
@@ -660,6 +666,7 @@ in
 //
 case+ p1t0.p1at_node of
 | P1Tany _ => p2at_any (loc0)
+| P1Tany2 _ => p2at_any (loc0)
 | P1Tide (id) => p1at_tr_ide (p1t0, id)
 | P1Tdqid (dq, id) => let
     val npf = ~1; val darg = list_nil ()

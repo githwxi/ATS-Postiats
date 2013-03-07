@@ -198,8 +198,7 @@ case+ p0t0.p0at_node of
   end // end of [P0Tapp]
 //
 | P0Tlist (npf, p0ts) => let
-    val p1ts = p0atlst_tr p0ts in
-    FXITMatm (p1at_list (loc0, npf, p1ts))
+    val p1ts = p0atlst_tr p0ts in FXITMatm (p1at_list (loc0, npf, p1ts))
   end // end of [[P0Tlist]
 //
 | P0Tlst (lin, p0ts) => let

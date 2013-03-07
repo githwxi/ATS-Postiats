@@ -418,6 +418,9 @@ case+
 | D3Ef0loat (tok) =>
     hidexp_f0loat (loc0, hse0, tok)
 //
+| D3Efloat (rep) =>
+    hidexp_float (loc0, hse0, rep)
+//
 | D3Ecstsp (x) => hidexp_cstsp (loc0, hse0, x)
 //
 | D3Etop () => hidexp_top (loc0, hse0)

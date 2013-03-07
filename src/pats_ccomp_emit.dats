@@ -149,6 +149,14 @@ emit_ATSPMVbool
 
 (* ****** ****** *)
 
+implement
+emit_ATSPMVfloat
+  (out, x) = (
+  emit_text (out, "ATSPMVfloat("); emit_text (out, x); emit_text (out, ")")
+) // end of [emit_ATSPMVfloat]
+
+(* ****** ****** *)
+
 local
 
 fun auxch (
@@ -815,6 +823,7 @@ case+ pmv0.primval_node of
 | PMVint (i) => emit_ATSPMVint (out, i)
 | PMVbool (b) => emit_ATSPMVbool (out, b)
 | PMVchar (c) => emit_ATSPMVchar (out, c)
+| PMVfloat (rep) => emit_ATSPMVfloat (out, rep)
 | PMVstring (str) => emit_ATSPMVstring (out, str)
 //
 | PMVi0nt (tok) => emit_ATSPMVi0nt (out, tok)

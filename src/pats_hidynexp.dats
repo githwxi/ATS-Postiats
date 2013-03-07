@@ -128,16 +128,16 @@ hipat_char
 // end of [hipat_char]
 
 implement
-hipat_string
-  (loc, hse, str) =
-  hipat_make_node (loc, hse, HIPstring (str))
-// end of [hipat_string]
-
-implement
 hipat_float
   (loc, hse, rep) =
   hipat_make_node (loc, hse, HIPfloat (rep))
 // end of [hipat_float]
+
+implement
+hipat_string
+  (loc, hse, str) =
+  hipat_make_node (loc, hse, HIPstring (str))
+// end of [hipat_string]
 
 (* ****** ****** *)
 
@@ -238,6 +238,12 @@ hidexp_char
   (loc, hse, c) =
   hidexp_make_node (loc, hse, HDEchar (c))
 // end of [hidexp_char]
+
+implement
+hidexp_float
+  (loc, hse, rep) =
+  hidexp_make_node (loc, hse, HDEfloat (rep))
+// end of [hidexp_float]
 
 implement
 hidexp_string

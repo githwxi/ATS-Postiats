@@ -253,6 +253,11 @@ case+
     val () = fprint_char (out, c)
     val () = prstr ")"
   }
+| HDEfloat (rep) => {
+    val () = prstr "HDEfloat("
+    val () = fprint_string (out, rep)
+    val () = prstr ")"
+  }
 | HDEstring (str) => {
     val () = prstr "HDEstring("
     val () = fprint_string (out, str)

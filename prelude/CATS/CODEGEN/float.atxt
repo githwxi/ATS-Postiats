@@ -79,6 +79,38 @@ atspre_g0float2float_double_double (atstype_double x) { return (x) ; }
 
 #atscode_separator_for_C()
 
+ATSinline()
+atstype_float
+atspre_g0float_neg_float (atstype_float f) { return (-f) ; }
+ATSinline()
+atstype_double
+atspre_g0float_neg_double (atstype_double f) { return (-f) ; }
+ATSinline()
+atstype_ldouble
+atspre_g0float_neg_ldouble (atstype_ldouble f) { return (-f) ; }
+
+ATSinline()
+atstype_float
+atspre_g0float_succ_float (atstype_float f) { return (f+1) ; }
+ATSinline()
+atstype_double
+atspre_g0float_succ_double (atstype_double f) { return (f+1) ; }
+ATSinline()
+atstype_ldouble
+atspre_g0float_succ_ldouble (atstype_ldouble f) { return (f+1) ; }
+
+ATSinline()
+atstype_float
+atspre_g0float_prev_float (atstype_float f) { return (f-1) ; }
+ATSinline()
+atstype_double
+atspre_g0float_prev_double (atstype_double f) { return (f-1) ; }
+ATSinline()
+atstype_ldouble
+atspre_g0float_prev_ldouble (atstype_ldouble f) { return (f-1) ; }
+
+#atscode_separator_for_C()
+
 %{
 fun
 fun_g0float_aop_decl (

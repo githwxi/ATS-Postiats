@@ -69,8 +69,8 @@ hipat_node =
   | HIPint of int
   | HIPbool of bool
   | HIPchar of char
+  | HIPfloat of string
   | HIPstring of string
-  | HIPfloat of string (* float point pattern *)
 //
   | HIPi0nt of $SYN.i0nt
   | HIPf0loat of $SYN.f0loat
@@ -148,8 +148,8 @@ fun hipat_con_any (
 fun hipat_int (loc: location, hse: hisexp, i: int): hipat
 fun hipat_bool (loc: location, hse: hisexp, b: bool): hipat
 fun hipat_char (loc: location, hse: hisexp, c: char): hipat
-fun hipat_string (loc: location, hse: hisexp, str: string): hipat
 fun hipat_float (loc: location, hse: hisexp, rep: string): hipat
+fun hipat_string (loc: location, hse: hisexp, str: string): hipat
 
 fun hipat_i0nt (loc: location, hse: hisexp, tok: i0nt): hipat
 fun hipat_f0loat (loc: location, hse: hisexp, tok: f0loat): hipat
@@ -221,6 +221,7 @@ and hidexp_node =
   | HDEint of int // integer constants
   | HDEbool of bool // boolean constants
   | HDEchar of char // constant characters
+  | HDEfloat of string // constant floats
   | HDEstring of string // constant strings
 //
   | HDEi0nt of i0nt // integer constants
@@ -474,6 +475,8 @@ fun hidexp_bool
   (loc: location, hse: hisexp, b: bool): hidexp
 fun hidexp_char
   (loc: location, hse: hisexp, c: char): hidexp
+fun hidexp_float
+  (loc: location, hse: hisexp, rep: string): hidexp
 fun hidexp_string
   (loc: location, hse: hisexp, str: string): hidexp
 

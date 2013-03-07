@@ -40,7 +40,9 @@ staload "./pats_staexp1.sats"
 
 datatype p1at_node =
 //
-  | P1Tany of () // wildcard: (_)
+  | P1Tany of () // wildcard: (_) // expandable
+  | P1Tany2 of () // wildcard: (_) // non-expandable
+//
   | P1Tide of symbol // variable
   | P1Tdqid of // constructor (qualified) / variable (unqualified)
       (d0ynq, symbol)
@@ -98,12 +100,15 @@ and labp1atlst = List (labp1at)
 
 (* ****** ****** *)
 
-fun p1at_make (loc: location, node: p1at_node): p1at
+fun p1at_make
+  (loc: location, node: p1at_node): p1at
+// end of [p1at_make]
+
+(* ****** ****** *)
 
 fun p1at_any (loc: location): p1at
-(*
-fun p1at_anys (loc: location): p1at
-*)
+fun p1at_any2 (loc: location): p1at
+//
 fun p1at_ide (_: location, id: symbol): p1at
 fun p1at_dqid (loc: location, dq: d0ynq, id: symbol): p1at
 //

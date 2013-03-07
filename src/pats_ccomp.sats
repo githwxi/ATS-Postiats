@@ -397,6 +397,7 @@ and primval_node =
   | PMVint of (int)
   | PMVbool of (bool)
   | PMVchar of (char)
+  | PMVfloat of (string)
   | PMVstring of (string)
 //
   | PMVi0nt of (i0nt)
@@ -612,6 +613,8 @@ fun primval_bool
   (loc: location, hse: hisexp, b: bool): primval
 fun primval_char
   (loc: location, hse: hisexp, c: char): primval
+fun primval_float
+  (loc: location, hse: hisexp, rep: string): primval
 fun primval_string
   (loc: location, hse: hisexp, str: string): primval
 
@@ -1318,7 +1321,8 @@ fun emit_string (out: FILEref, x: string): void
 fun emit_ATSPMVint (out: FILEref, x: int): void
 fun emit_ATSPMVbool (out: FILEref, x: bool): void
 fun emit_ATSPMVchar (out: FILEref, x: char): void
-fun emit_ATSPMVstring (out: FILEref, x: string): void
+fun emit_ATSPMVfloat (out: FILEref, rep: string): void
+fun emit_ATSPMVstring (out: FILEref, str: string): void
 fun emit_ATSPMVi0nt (out: FILEref, tok: $SYN.i0nt): void
 fun emit_ATSPMVf0loat (out: FILEref, tok: $SYN.f0loat): void
 

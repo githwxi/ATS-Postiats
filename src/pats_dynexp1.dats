@@ -61,12 +61,10 @@ implement
 p1at_any (loc) = '{
   p1at_loc= loc, p1at_node= P1Tany ()
 }
-(*
 implement
-p1at_anys (loc) = '{
-  p1at_loc= loc, p1at_node= P1Tanys ()
+p1at_any2 (loc) = '{
+  p1at_loc= loc, p1at_node= P1Tany2 ()
 }
-*)
 
 (* ****** ****** *)
 
@@ -150,15 +148,56 @@ p1at_app_sta
   p1at_loc= loc, p1at_node= P1Tapp_sta (_fun, _arg)
 } // end of [p1at_app_sta]
 
+(* ****** ****** *)
+
+(*
 implement
-p1at_list (loc, npf, p1ts) =
-  if npf >= 0 then
-    p1at_make (loc, P1Tlist (npf, p1ts))
-  else (case+ p1ts of
-    | list_cons (p1t, list_nil ()) => p1t
-    | _ => p1at_make (loc, P1Tlist (npf, p1ts))
-  ) // end of [if]
-(* end of [p1at_list] *)
+p1at_list (
+  loc, npf, p1ts
+) = let
+in
+//
+if npf >= 0 then
+  p1at_make (loc, P1Tlist (npf, p1ts))
+else (case+ p1ts of
+  | list_cons (p1t, list_nil ()) => p1t
+  | _ => p1at_make (loc, P1Tlist (npf, p1ts))
+) // end of [if]
+//
+end // end of [p1at_list]
+*)
+implement
+p1at_list
+  (loc, npf, p1ts) = let
+//
+fun aux_ifany
+  (p1t: p1at): p1at = let
+in
+//
+case+ p1t.p1at_node of
+| P1Tany () => p1at_any2 (p1t.p1at_loc) | _ => p1t
+end // end of [aux_ifany]
+//
+in
+//
+if npf >= 0 then
+  p1at_make (loc, P1Tlist (npf, p1ts))
+else (case+ p1ts of
+  | list_cons (
+      p1t, list_nil ()
+    ) => (
+    case+ p1t.p1at_node of
+    | P1Tlist (npf, d1es) => let
+        val knd = TYTUPKIND_flt in p1at_tup (loc, knd, npf, p1ts)
+      end // end of [P1Tlist]
+    | _ => aux_ifany (p1t)
+    ) // end of [list_cons]
+  | _ => p1at_make (loc, P1Tlist (npf, p1ts))
+) // end of [if]
+//
+end // end of [p1at_list]
+
+(* ****** ****** *)
 
 implement
 p1at_tup (loc, knd, npf, p1ts) = '{

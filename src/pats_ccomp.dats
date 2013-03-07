@@ -217,6 +217,12 @@ primval_char
 // end of [primval_char]
 
 implement
+primval_float
+  (loc, hse, rep) =
+  primval_make_node (loc, hse, PMVfloat (rep))
+// end of [primval_float]
+
+implement
 primval_string
   (loc, hse, str) =
   primval_make_node (loc, hse, PMVstring (str))

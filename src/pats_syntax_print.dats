@@ -625,8 +625,8 @@ fprint_s0exparg
   macdef prstr (str) = fprint_string (out, ,(str))
 in
   case+ s0a of
-  | S0EXPARGone (_) => prstr "{..}"
-  | S0EXPARGall (_) => prstr "{...}"
+  | S0EXPARGone _ => prstr "{..}"
+  | S0EXPARGall _ => prstr "{...}"
   | S0EXPARGseq (s0es) => {
       val () = prstr "{"
       val () = fprint_s0explst (out, s0es)

@@ -179,6 +179,7 @@ case+ hde0.hidexp_node of
 | HDEint (i) => primval_int (loc0, hse0, i)
 | HDEbool (b) => primval_bool (loc0, hse0, b)
 | HDEchar (c) => primval_char (loc0, hse0, c)
+| HDEfloat (rep) => primval_float (loc0, hse0, rep)
 | HDEstring (str) => primval_string (loc0, hse0, str)
 //
 | HDEi0nt (tok) => primval_i0nt (loc0, hse0, tok)

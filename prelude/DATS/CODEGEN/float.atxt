@@ -46,12 +46,18 @@ end // end of [f]
 //
 var res: atextlst = list_nil
 //
+val () = res := list_cons (f "neg", res)
+val () = res := list_cons (f "succ", res)
+val () = res := list_cons (f "pred", res)
+val () = res := list_cons (atext_newline(), res)
+//
 val () = res := list_cons (f "add", res)
 val () = res := list_cons (f "sub", res)
 val () = res := list_cons (f "mul", res)
 val () = res := list_cons (f "div", res)
 val () = res := list_cons (f "mod", res)
 val () = res := list_cons (atext_newline(), res)
+//
 val () = res := list_cons (f "lt", res)
 val () = res := list_cons (f "lte", res)
 val () = res := list_cons (f "gt", res)
@@ -60,9 +66,12 @@ val () = res := list_cons (f "eq", res)
 val () = res := list_cons (f "neq", res)
 val () = res := list_cons (f "compare", res)
 val () = res := list_cons (atext_newline(), res)
+//
 val () = res := list_cons (f "max", res)
 val () = res := list_cons (f "min", res)
+//
 val res = list_reverse (res)
+//
 in
   atext_concatxt (list_of_list_vt (res))
 end // end of [g0float_implist]
@@ -87,15 +96,15 @@ g0float2float<dblknd,dblknd> = g0float2float_double_double
 
 #atscode_separator()
 
-#g0float_implist("fltknd", "float")
+#g0float_implist("fltknd", "float")\
 
 #atscode_separator()
 
-#g0float_implist("dblknd", "double")
+#g0float_implist("dblknd", "double")\
 
 #atscode_separator()
 
-#g0float_implist("ldblknd", "ldouble")
+#g0float_implist("ldblknd", "ldouble")\
 
 #atscode_separator()
 //

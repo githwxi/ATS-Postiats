@@ -283,6 +283,11 @@ case+ x.primval_node of
     val () = fprint_char (out, c)
     val () = prstr ")"
   }
+| PMVfloat (rep) => {
+    val () = prstr "PMVfloat("
+    val () = fprint_string (out, rep)
+    val () = prstr ")"
+  }
 | PMVstring (str) => {
     val () = prstr "PMVstring("
     val () = fprint_string (out, str)

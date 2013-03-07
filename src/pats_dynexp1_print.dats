@@ -59,9 +59,8 @@ in
 case+ p1t0.p1at_node of
 //
 | P1Tany () => prstr "P1Tany()"
-(*
-| P1Tanys () => prstr "P1Tanys()"
-*)
+| P1Tany2 () => prstr "P1Tany2()"
+//
 | P1Tide (id) => {
     val () = prstr "P1Tide("
     val () = fprint_symbol (out, id)
