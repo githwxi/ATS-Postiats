@@ -39,19 +39,20 @@
 #define PATS_CCOMP_MEMALLOC_H
 
 /* ****** ****** */
-
+//
 #include <stdio.h>
+//
 extern
 int fprintf (FILE *stream, const char *format, ...) ;
-// in [stdio.h]
-
+//
 /* ****** ****** */
-
+//
 #include <stdlib.h>
+//
 extern void exit (int code) ;
 extern void *malloc (size_t bsz) ;
 extern void free (void *ptr) ;
-
+//
 /* ****** ****** */
 
 ATSinline()

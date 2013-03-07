@@ -22,12 +22,12 @@ val ent = sprintf ("\
 all:: %s\n\
 %s: %s.exe\n\
 %s.exe: %s_dats.c ; \\\n\
-  $(GCC) \\\n\
+  $(GCC) $(CCFLAGS) \\\n\
     -I$(PATSHOMEQ) \\\n\
     -I$(PATSHOMEQ)/ccomp/runtime \\\n\
     -I$(PATSHOMEQ)/contrib \\\n\
-    $(XRFLAGS) \\\n\
-    -o $@ $< -lm \n\
+    $(MYSQLFLAGS) \\\n\
+    -o $@ $< \n\
 %s_dats.c: %s.dats ; \\\n\
   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output %s_dats.c --dynamic %s.dats\n\
 clean:: ; $(RMF) %s_dats.o\n\
@@ -70,7 +70,8 @@ ATSGCFLAG=-D_ATS_GCATS
 
 ######
 
-XRFLAGS=`pkg-config cairo --cflags --libs`
+CCFLAGS=-O2
+MYSQLFLAGS=`mysql_config --cflags --libs`
 
 ######
 
@@ -87,6 +88,8 @@ RMF=rm -f
 #make_entry("test02")
 #make_entry("test03")
 #make_entry("test04")
+#make_entry("test05")
+#make_entry("test06")
 
 ######
 

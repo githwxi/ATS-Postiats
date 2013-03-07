@@ -388,9 +388,9 @@ fun stropt_none (): stropt (~1) = "mac\#%"
 
 symintr stropt_some
 castfn stropt0_some (x: SHR(string)): Stropt1
-overload stropt_some with stropt0_some
+overload stropt_some with stropt0_some of 0
 castfn stropt1_some {n:int} (x: SHR(string n)): stropt (n)
-overload stropt_some with stropt1_some
+overload stropt_some with stropt1_some of 10
 
 #atscode_separator()
 

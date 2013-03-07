@@ -51,42 +51,42 @@ typedef NSH(x:type) = x // for commenting purpose
 
 (* ****** ****** *)
 
-absviewt@ype MYSQL = $extype "MYSQL_struct"
-absviewt@ype MYSQLRES = $extype "MYSQLRES_struct"
-absviewt@ype MYSQLFIELD = $extype "MYSQLFIELD_struct"
+absvt@ype MYSQL = $extype "MYSQL_struct"
+absvt@ype MYSQLRES = $extype "MYSQLRES_struct"
+absvt@ype MYSQLFIELD = $extype "MYSQLFIELD_struct"
 
 (* ****** ****** *)
 
-absviewtype MYSQLptr (l:addr)
-viewtypedef MYSQLptr0 = [l:addr] MYSQLptr (l)
-viewtypedef MYSQLptr1 = [l:addr| l > null] MYSQLptr (l)
+absvtype MYSQLptr (l:addr) = ptr
+vtypedef MYSQLptr0 = [l:addr] MYSQLptr (l)
+vtypedef MYSQLptr1 = [l:addr| l > null] MYSQLptr (l)
 
 (* ****** ****** *)
 
-absviewtype MYSQLRESptr (l:addr)
-viewtypedef MYSQLRESptr0 = [l:addr] MYSQLRESptr (l)
-viewtypedef MYSQLRESptr1 = [l:addr| l > null] MYSQLRESptr (l)
+absvtype MYSQLRESptr (l:addr) = ptr
+vtypedef MYSQLRESptr0 = [l:addr] MYSQLRESptr (l)
+vtypedef MYSQLRESptr1 = [l:addr| l > null] MYSQLRESptr (l)
 
 (* ****** ****** *)
 
-absviewtype MYSQLFIELDptr (l1:addr, l2:addr)
-viewtypedef MYSQLFIELDptr0 (l1:addr) = [l2:addr] MYSQLFIELDptr (l1, l2)
-viewtypedef MYSQLFIELDptr1 (l1:addr) = [l2:addr| l2 > null] MYSQLFIELDptr (l1, l2)
+absvtype MYSQLFIELDptr (l1:addr, l2:addr) = ptr
+vtypedef MYSQLFIELDptr0 (l1:addr) = [l2:addr] MYSQLFIELDptr (l1, l2)
+vtypedef MYSQLFIELDptr1 (l1:addr) = [l2:addr| l2 > null] MYSQLFIELDptr (l1, l2)
 
 (* ****** ****** *)
 
 /*
 typedef char **MYSQLROW;
 */
-absviewtype MYSQLROW (l1:addr, l2:addr)
-viewtypedef MYSQLROW0 (l1:addr) = [l2:addr] MYSQLROW (l1, l2)
-viewtypedef MYSQLROW1 (l1:addr) = [l2:addr| l2 > null] MYSQLROW (l1, l2)
+absvtype MYSQLROW (l1:addr, l2:addr) = ptr
+vtypedef MYSQLROW0 (l1:addr) = [l2:addr] MYSQLROW (l1, l2)
+vtypedef MYSQLROW1 (l1:addr) = [l2:addr| l2 > null] MYSQLROW (l1, l2)
 
 (* ****** ****** *)
 
-absviewtype MYSQLROWLEN (l1:addr, l2:addr)
-viewtypedef MYSQLROWLEN0 (l1:addr) = [l2:addr] MYSQLROWLEN (l1, l2)
-viewtypedef MYSQLROWLEN1 (l1:addr) = [l2:addr| l2 > null] MYSQLROWLEN (l1, l2)
+absvtype MYSQLROWLEN (l1:addr, l2:addr) = ptr
+vtypedef MYSQLROWLEN0 (l1:addr) = [l2:addr] MYSQLROWLEN (l1, l2)
+vtypedef MYSQLROWLEN1 (l1:addr) = [l2:addr| l2 > null] MYSQLROWLEN (l1, l2)
 
 (* ****** ****** *)
 

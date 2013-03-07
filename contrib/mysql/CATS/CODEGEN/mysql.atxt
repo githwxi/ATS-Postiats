@@ -112,23 +112,23 @@ typedef MYSQL_FIELD MYSQLFIELD_struct ;
 #atscode_separator_for_C()
 
 ATSinline()
-ats_ptr_type
+atstype_ptr
 atscntrb_mysqlrow_get_at
-  (ats_ptr_type row, ats_int_type i) { return ((ats_ptr_type*)row)[i] ; }
+  (atstype_ptr row, atstype_int i) { return ((atstype_ptr*)row)[i] ; }
 // end of [atscntrb_mysqlrow_get_at]
 
 ATSinline()
-ats_ulint_type
+atstype_ulint
 atscntrb_mysqlrowlen_get_at
-  (ats_ptr_type rowlen, ats_int_type i) { return ((ats_ulint_type*)rowlen)[i] ; }
+  (atstype_ptr rowlen, atstype_int i) { return ((atstype_ulint*)rowlen)[i] ; }
 // end of [atscntrb_mysqlrowlen_get_at]
 
 #atscode_separator_for_C()
 
 ATSinline()
-ats_ptr_type
+atstype_ptr
 atscntrb_mysqlfield_get_name
-  (ats_ptr_type fld) { return ((MYSQLFIELD_struct*)fld)->name ; }
+  (atstype_ptr fld) { return ((MYSQLFIELD_struct*)fld)->name ; }
 // end of [atscntrb_mysqlfield_get_name]
 
 #atscode_separator_for_C()

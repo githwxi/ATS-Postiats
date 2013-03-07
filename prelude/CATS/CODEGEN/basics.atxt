@@ -118,12 +118,11 @@ atsvoid_t0ype
 atspre_fprint_newline
   (atstype_ref out)
 {
-  int err = 0 ;
-  if (err==0) {
-    err = fprintf((FILE*)out, "\n") ;
-  } // end of [if]
-  if (err==0) err = fflush((FILE*)out) ;
-  if (err!=0) {
+  int n ;
+  int err = -1 ;
+  n = fprintf((FILE*)out, "\n") ;
+  if (n > 0) err = fflush((FILE*)out) ;
+  if (err != 0) {
     fprintf(stderr, "exit(ATS): [fprint_newline] failed.") ; exit(1) ;
   } // end of [if]
   return ;

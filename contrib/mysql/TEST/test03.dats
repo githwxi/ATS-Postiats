@@ -7,6 +7,10 @@ staload
 UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
+
+staload _ = "prelude/DATS/integer.dats"
+
+(* ****** ****** *)
 //
 staload "mysql/SATS/mysql.sats"
 //
@@ -14,15 +18,14 @@ staload "mysql/SATS/mysql.sats"
 
 #define nullp the_null_ptr
 
-macdef none() = stropt_none()
-macdef some(x) = stropt_some(,(x))
+macdef strnone() = stropt_none()
+macdef strsome(x) = stropt_some(,(x))
 
 (* ****** ****** *)
 
 implement
 main () = let
-  val [l:addr]
-    conn = mysql_init ()
+  val conn = mysql_init0_exn ()
   val perr = MYSQLptr2ptr (conn)
   val () = fprint_mysql_error (stderr_ref, conn)
 //
@@ -30,18 +33,18 @@ main () = let
 //
 // mysql -h... -P... -umysqlats mysqlats -p mysqlats16712
 //
-  val host = some"instance25474.db.xeround.com"
-  val user = some"mysqlats"
-  val pass = some"mysqlats16712"
-  val dbname = none()
+  val host = strsome"instance25474.db.xeround.com"
+  val user = strsome"mysqlats"
+  val pass = strsome"mysqlats16712"
+  val dbname = strnone()
   val port = 16712U
-  val socket = none()
+  val socket = strnone()
   val perr = mysql_real_connect
     (conn, host, user, pass, dbname, port, socket, 0UL)
   val () = fprint_mysql_error (stderr_ref, conn)
   val () = assertloc (perr > nullp)
 //
-  val wild = none()
+  val wild = strnone()
   val res =
     mysql_list_dbs (conn, wild)
   val () = fprint_mysql_error (stderr_ref, conn)
