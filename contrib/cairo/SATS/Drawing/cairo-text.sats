@@ -121,13 +121,35 @@ cairo_text_cluster_flags_t cluster_flags
 (* ****** ****** *)
 
 /*
-void                cairo_font_extents                  (cairo_t *cr,
-                                                         cairo_font_extents_t
-							 *extents);
-void                cairo_text_extents                  (cairo_t *cr,
-                                                         const char *utf8,
-                                                         cairo_text_extents_t
-							 *extents);
+void cairo_font_extents
+(
+  cairo_t *cr, cairo_font_extents_t *extents
+) ;
+*/
+fun cairo_font_extents
+(
+  xr: !xr1
+, extents: &cairo_font_extents_t? >> cairo_font_extents_t  
+) : void = "mac#%" // end of [cairo_font_extents]
+
+(* ****** ****** *)
+
+/*
+void cairo_text_extents
+(
+  cairo_t *cr, const char *utf8, cairo_text_extents_t *extents
+) ;
+*/
+fun cairo_text_extents
+(
+ xr: !xr1, utf8: NSH(string)
+, extents: &cairo_text_extents_t? >> cairo_text_extents_t
+) : void = "mac#%" // end of [cairo_text_extents]
+
+(* ****** ****** *)
+
+/*
+
 void                cairo_glyph_extents                 (cairo_t *cr,
                                                          const
 							 cairo_glyph_t

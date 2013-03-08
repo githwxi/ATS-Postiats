@@ -87,14 +87,32 @@ tyreckind_is_ext (knd) =
 (* ****** ****** *)
 
 implement
+tyreckind_is_nameless (knd) = let
+in
+//
+case+ knd of
+| TYRECKINDbox () => true
+| TYRECKINDflt0 () => true
+| TYRECKINDflt1 (stmp) => false
+| TYRECKINDflt_ext (name) => false
+//
+end // end of [tyreckind_is_nameless]
+
+(* ****** ****** *)
+
+implement
 eq_tyreckind_tyreckind
-  (knd1, knd2) = case+ (knd1, knd2) of
-  | (TYRECKINDbox (), TYRECKINDbox ()) => true
-  | (TYRECKINDflt0 (), TYRECKINDflt0 ()) => true
-  | (TYRECKINDflt1 s1, TYRECKINDflt1 s2) => eq_stamp_stamp (s1, s2)
-  | (TYRECKINDflt_ext name1, TYRECKINDflt_ext name2) => name1 = name2
-  | (_, _) => false
-// end of [neq_tyreckind_tyreckind]
+  (knd1, knd2) = let
+in
+//
+case+ (knd1, knd2) of
+| (TYRECKINDbox (), TYRECKINDbox ()) => true
+| (TYRECKINDflt0 (), TYRECKINDflt0 ()) => true
+| (TYRECKINDflt1 s1, TYRECKINDflt1 s2) => eq_stamp_stamp (s1, s2)
+| (TYRECKINDflt_ext name1, TYRECKINDflt_ext name2) => name1 = name2
+| (_, _) => false
+//
+end // end of [eq_tyreckind_tyreckind]
 
 implement
 neq_tyreckind_tyreckind

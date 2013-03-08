@@ -372,6 +372,42 @@ $extype_struct"cairo_glyph_t" of
 
 (* ****** ****** *)
 
+typedef
+cairo_text_cluster_t =
+$extype_struct"cairo_text_cluster_t" of
+{
+  num_bytes= int, num_glyphs= int
+} // end of [cairo_text_cluster_t]
+
+(* ****** ****** *)
+
+typedef
+cairo_text_extents_t =
+$extype_struct"cairo_text_extents_t" of
+{
+  x_bearing= double
+, y_bearing= double
+, width= double
+, height= double
+, x_advance= double
+, y_advance= double
+} // end of [cairo_text_extents_t]
+
+(* ****** ****** *)
+
+typedef
+cairo_font_extents_t =
+$extype_struct"cairo_font_extents_t" of
+{
+  ascent= double
+, descent= double
+, height= double
+, max_x_advance= double
+, max_y_advance= double
+} // end of [cairo_font_extents_t]
+
+(* ****** ****** *)
+
 abst@ype
 cairo_path_data_t =
   $extype"cairo_path_data_t" // HX: union type

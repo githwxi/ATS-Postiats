@@ -610,12 +610,14 @@ val () = case+
 | (S2Etyrec (knd1, npf1, ls2es1), _) => (
   case+ s2en20 of
   | S2Etyrec (knd2, npf2, ls2es2) => let
-      val () =
-        tyreckind_equal_solve_err (loc0, knd1, knd2, err)
-      // end of [val]
+      val (
+      ) = tyreckind_equal_solve_err (loc0, knd1, knd2, err)
       val () = pfarity_equal_solve_err (loc0, npf1, npf2, err)
+      val isless = tyreckind_is_nameless (knd1)
     in
-      labs2explst_equal_solve_err (loc0, ls2es1, ls2es2, err)
+      if isless then
+        labs2explst_equal_solve_err (loc0, ls2es1, ls2es2, err)
+      // end of [if]
     end // end of [S2Etyrec]
   | _ => (err := err + 1)
   ) (* end of [S2Etyrec, _] *)

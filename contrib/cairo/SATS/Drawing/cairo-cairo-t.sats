@@ -537,7 +537,7 @@ void cairo_copy_page (cairo_t *cr);
 fun cairo_copy_page (ctx: !xr1): void = "mac#%"
 
 /*
-void                cairo_show_page                     (cairo_t *cr);
+void cairo_show_page (cairo_t *cr);
 */
 fun cairo_show_page (ctx: !xr1): void = "mac#%"
 

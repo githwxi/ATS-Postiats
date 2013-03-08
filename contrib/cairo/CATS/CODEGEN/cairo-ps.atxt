@@ -1,0 +1,62 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"cairo-ps.cats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+fun atscntrb_define (fname: string): atext = (
+  atext_strptr (sprintf ("#define atscntrb_%s %s", @(fname, fname)))
+) // end of [atscntrb_define]
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_LGPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/prelude/CATS/CODEGEN/cairo-ps.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator_for_C()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("March, 2013")
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef CAIRO_CAIRO_PS_CATS
+\#define CAIRO_CAIRO_PS_CATS
+
+#atscode_separator_for_C()
+
+\#include <cairo-ps.h>
+
+#atscode_separator_for_C()
+
+#atscntrb_define("cairo_ps_surface_create")
+
+#atscntrb_define("cairo_ps_surface_get_eps")
+#atscntrb_define("cairo_ps_surface_set_eps")
+#atscntrb_define("cairo_ps_surface_set_size")
+#atscntrb_define("cairo_ps_surface_dsc_comment")
+#atscntrb_define("cairo_ps_surface_dsc_begin_setup")
+#atscntrb_define("cairo_ps_surface_dsc_begin_page_setup")
+
+#atscode_separator_for_C()
+
+\#endif // ifndef CAIRO_CAIRO_CATS
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "cairo-ps_atxt.txt")
+%}\

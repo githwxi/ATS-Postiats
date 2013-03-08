@@ -30,7 +30,7 @@ atsctrb_zeromq.o: zeromq_dats.o ; ld -r -o $@ $^
 ######
 
 zeromq_dats.o: DATS/zmq.dats
-	$(ATSCC) -O2 -I$(ATSCTRB) -IATS$(ATSCTRB) -o $@ -c $< $(ZMQCLFLAGS)
+	$(ATSCC) -O2 -IIATS$(ATSCTRB) -o $@ -c $< $(ZMQCLFLAGS)
 
 ######
 

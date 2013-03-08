@@ -40,14 +40,14 @@ typedef interr = intLte (0)
 
 (* ****** ****** *)
 
-absviewt@ype
+absvt@ype
 event = $extype"event_struct"
 
 (* ****** ****** *)
 
-absviewtype eventp (l:addr) = ptr
-viewtypedef eventp0 = [l:addr] eventp (l)
-viewtypedef eventp1 = [l:addr | l > null] eventp (l)
+absvtype eventp (l:addr) = ptr
+vtypedef eventp0 = [l:addr] eventp (l)
+vtypedef eventp1 = [l:addr | l > null] eventp (l)
 
 (* ****** ****** *)
 
@@ -74,9 +74,9 @@ fun eventp_isnot_null
 
 (* ****** ****** *)
 
-absviewtype eventp_base (l:addr) = ptr
-viewtypedef eventp0_base = [l:addr] eventp_base (l)
-viewtypedef eventp1_base = [l:addr | l > null] eventp_base (l)
+absvtype eventp_base (l:addr) = ptr
+vtypedef eventp0_base = [l:addr] eventp_base (l)
+vtypedef eventp1_base = [l:addr | l > null] eventp_base (l)
 
 (* ****** ****** *)
 
@@ -110,9 +110,9 @@ fun eventp_base_isnot_null
 
 (* ****** ****** *)
 
-absviewtype eventp_config (l:addr) = ptr
-viewtypedef eventp0_config = [l:addr] eventp_config (l)
-viewtypedef eventp1_config = [l:addr | l > null] eventp_config (l)
+absvtype eventp_config (l:addr) = ptr
+vtypedef eventp0_config = [l:addr] eventp_config (l)
+vtypedef eventp1_config = [l:addr | l > null] eventp_config (l)
 
 (* ****** ****** *)
 
