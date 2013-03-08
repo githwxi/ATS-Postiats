@@ -40,10 +40,27 @@ fun atscntrb_define (fname: string): atext = (
 
 #atscode_separator_for_C()
 
+ATSinline()
+atstype_bool
+atscntrb_cairo_eq_int_int
+(
+  atstype_int x, atstype_int y
+) {
+  return (x==y ? atsbool_true : atsbool_false) ;
+} /* end of [atscntrb_cairo_eq_int_int] */
+
+#atscode_separator_for_C()
+
 #atscntrb_define("CAIRO_VERSION_ENCODE")
 
 #atscntrb_define("cairo_version")
-#atscntrb_define("cairo_version_string")
+
+ATSinline()
+atstype_string
+atscntrb_cairo_version_string()
+{
+  return (void*)(cairo_version_string()) ;
+} /* endfun */
 
 #atscode_separator_for_C()
 
@@ -123,8 +140,27 @@ fun atscntrb_define (fname: string): atext = (
 #atscntrb_define("cairo_select_font_face")
 #atscntrb_define("cairo_set_font_size")
 #atscntrb_define("cairo_set_font_matrix")
+#atscntrb_define("cairo_get_font_matrix")
 #atscntrb_define("cairo_set_font_options")
+#atscntrb_define("cairo_get_font_options")
 #atscntrb_define("cairo_set_font_face")
+#atscntrb_define("cairo_get_font_face")
+#atscntrb_define("cairo_set_scaled_font")
+#atscntrb_define("cairo_get_scaled_font")
+#atscntrb_define("cairo_show_text")
+#atscntrb_define("cairo_show_glyphs")
+#atscntrb_define("cairo_show_text_glyphs")
+#atscntrb_define("cairo_font_extents")
+#atscntrb_define("cairo_text_extents")
+#atscntrb_define("cairo_glyph_extents")
+#atscntrb_define("cairo_toy_font_face_create")
+#atscntrb_define("cairo_toy_font_face_get_family")
+#atscntrb_define("cairo_toy_font_face_get_slant")
+#atscntrb_define("cairo_toy_font_face_get_weight")
+#atscntrb_define("cairo_glyph_allocate")
+#atscntrb_define("cairo_glyph_free")
+#atscntrb_define("cairo_text_cluster_allocate")
+#atscntrb_define("cairo_text_cluster_free")
 //
 // Drawing: cairo-Paths
 //

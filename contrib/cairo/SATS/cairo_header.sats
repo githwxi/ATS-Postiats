@@ -199,7 +199,7 @@ macdef CAIRO_STATUS_DEVICE_FINISHED = $extval (cairo_status_t, "CAIRO_STATUS_DEV
 macdef CAIRO_STATUS_LAST_STATUS = $extval (cairo_status_t, "CAIRO_STATUS_LAST_STATUS")
 //
 fun eq_cairo_status_cairo_status
-  (x1: cairo_status_t, x2: cairo_status_t):<> bool = "mac#atspre_eq_int_int"
+  (x1: cairo_status_t, x2: cairo_status_t):<> bool = "mac#%cairo_eq_int_int"
 overload = with eq_cairo_status_cairo_status
 //
 (* ****** ****** *)
@@ -365,8 +365,10 @@ cairo_user_data_key_t = $extype"cairo_user_data_key_t"
 
 typedef
 cairo_glyph_t =
-  $extype_struct"cairo_glyph_t" of { index= ulint, x= double, y= double }
-// end of [cairo_glyph_t]
+$extype_struct"cairo_glyph_t" of
+{
+  index= ulint, x= double, y= double
+} // end of [cairo_glyph_t]
 
 (* ****** ****** *)
 
@@ -376,7 +378,9 @@ cairo_path_data_t =
 // end of [abst@ype]
 
 typedef
-cairo_path_t = $extype_struct"cairo_path_t" of {
+cairo_path_t =
+$extype_struct"cairo_path_t" of
+{
   status= cairo_status_t
 , data= ptr // HX: pointer to cairo_path_data_t[num_data]
 , num_data= int
@@ -385,15 +389,18 @@ cairo_path_t = $extype_struct"cairo_path_t" of {
 (* ****** ****** *)
 
 typedef
-cairo_rectangle_int_t = $extype_struct"cairo_rectangle_int_t" of {
-  x= int, y= int
-, width= int, height= int
+cairo_rectangle_int_t =
+$extype_struct"cairo_rectangle_int_t" of
+{
+  x= int, y= int, width= int, height= int
 } // end of [cairo_rectangle_int_t]
 
 (* ****** ****** *)
 
 typedef
-cairo_matrix_t = $extype_struct"cairo_matrix_t" of {
+cairo_matrix_t =
+$extype_struct"cairo_matrix_t" of
+{
   xx= double, yx= double
 , xy= double, yy= double
 , x0= double, y0= double
