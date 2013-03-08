@@ -26,8 +26,9 @@ all:: %s\n\
     -I$(PATSHOMEQ) \\\n\
     -I$(PATSHOMEQ)/ccomp/runtime \\\n\
     -I$(PATSHOMEQ)/contrib \\\n\
-    $(MYSQLFLAGS) \\\n\
-    -o $@ $< \n\
+    $(MYSQLCFLAGS) \\\n\
+    -o $@ $< \\\n\
+    $(MYSQLLIBS) \n\
 %s_dats.c: %s.dats ; \\\n\
   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output %s_dats.c --dynamic %s.dats\n\
 clean:: ; $(RMF) %s_dats.o\n\
@@ -71,7 +72,8 @@ ATSGCFLAG=-D_ATS_GCATS
 ######
 
 CCFLAGS=-O2
-MYSQLFLAGS=`mysql_config --cflags --libs`
+MYSQLLIBS=`mysql_config --libs`
+MYSQLCFLAGS=`mysql_config --cflags`
 
 ######
 

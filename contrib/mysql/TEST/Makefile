@@ -27,7 +27,8 @@ ATSGCFLAG=-D_ATS_GCATS
 ######
 
 CCFLAGS=-O2
-MYSQLFLAGS=`mysql_config --cflags --libs`
+MYSQLLIBS=`mysql_config --libs`
+MYSQLCFLAGS=`mysql_config --cflags`
 
 ######
 
@@ -47,8 +48,9 @@ test01.exe: test01_dats.c ; \
     -I$(PATSHOMEQ) \
     -I$(PATSHOMEQ)/ccomp/runtime \
     -I$(PATSHOMEQ)/contrib \
-    $(MYSQLFLAGS) \
-    -o $@ $< 
+    $(MYSQLCFLAGS) \
+    -o $@ $< \
+    $(MYSQLLIBS) 
 test01_dats.c: test01.dats ; \
   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test01_dats.c --dynamic test01.dats
 clean:: ; $(RMF) test01_dats.o
@@ -62,8 +64,9 @@ test02.exe: test02_dats.c ; \
     -I$(PATSHOMEQ) \
     -I$(PATSHOMEQ)/ccomp/runtime \
     -I$(PATSHOMEQ)/contrib \
-    $(MYSQLFLAGS) \
-    -o $@ $< 
+    $(MYSQLCFLAGS) \
+    -o $@ $< \
+    $(MYSQLLIBS) 
 test02_dats.c: test02.dats ; \
   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test02_dats.c --dynamic test02.dats
 clean:: ; $(RMF) test02_dats.o
@@ -77,8 +80,9 @@ test03.exe: test03_dats.c ; \
     -I$(PATSHOMEQ) \
     -I$(PATSHOMEQ)/ccomp/runtime \
     -I$(PATSHOMEQ)/contrib \
-    $(MYSQLFLAGS) \
-    -o $@ $< 
+    $(MYSQLCFLAGS) \
+    -o $@ $< \
+    $(MYSQLLIBS) 
 test03_dats.c: test03.dats ; \
   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test03_dats.c --dynamic test03.dats
 clean:: ; $(RMF) test03_dats.o
@@ -92,8 +96,9 @@ test04.exe: test04_dats.c ; \
     -I$(PATSHOMEQ) \
     -I$(PATSHOMEQ)/ccomp/runtime \
     -I$(PATSHOMEQ)/contrib \
-    $(MYSQLFLAGS) \
-    -o $@ $< 
+    $(MYSQLCFLAGS) \
+    -o $@ $< \
+    $(MYSQLLIBS) 
 test04_dats.c: test04.dats ; \
   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test04_dats.c --dynamic test04.dats
 clean:: ; $(RMF) test04_dats.o
@@ -107,8 +112,9 @@ test05.exe: test05_dats.c ; \
     -I$(PATSHOMEQ) \
     -I$(PATSHOMEQ)/ccomp/runtime \
     -I$(PATSHOMEQ)/contrib \
-    $(MYSQLFLAGS) \
-    -o $@ $< 
+    $(MYSQLCFLAGS) \
+    -o $@ $< \
+    $(MYSQLLIBS) 
 test05_dats.c: test05.dats ; \
   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test05_dats.c --dynamic test05.dats
 clean:: ; $(RMF) test05_dats.o
@@ -122,8 +128,9 @@ test06.exe: test06_dats.c ; \
     -I$(PATSHOMEQ) \
     -I$(PATSHOMEQ)/ccomp/runtime \
     -I$(PATSHOMEQ)/contrib \
-    $(MYSQLFLAGS) \
-    -o $@ $< 
+    $(MYSQLCFLAGS) \
+    -o $@ $< \
+    $(MYSQLLIBS) 
 test06_dats.c: test06.dats ; \
   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test06_dats.c --dynamic test06.dats
 clean:: ; $(RMF) test06_dats.o
