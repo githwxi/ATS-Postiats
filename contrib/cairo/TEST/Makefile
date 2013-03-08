@@ -97,6 +97,21 @@ clean:: ; $(RMF) test04_dats.c
 cleanall:: ; $(RMF) test04.exe
 
 
+all:: cairo-multable
+cairo-multable: cairo-multable.exe
+cairo-multable.exe: cairo-multable_dats.c ; \
+  $(GCC) \
+    -I$(PATSHOMEQ) \
+    -I$(PATSHOMEQ)/ccomp/runtime \
+    -I$(PATSHOMEQ)/contrib \
+    $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+cairo-multable_dats.c: cairo-multable.dats ; \
+  $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output cairo-multable_dats.c --dynamic cairo-multable.dats
+clean:: ; $(RMF) cairo-multable_dats.o
+clean:: ; $(RMF) cairo-multable_dats.c
+cleanall:: ; $(RMF) cairo-multable.exe
+
+
 ######
 
 clean:: ; $(RMF) *~
@@ -107,5 +122,6 @@ clean:: ; $(RMF) Makefile.exe
 
 cleanall:: clean
 cleanall:: ; $(RMF) *.png
+cleanall:: ; $(RMF) cairo-multable.ps
 
 ###### end of [Makefile] ######

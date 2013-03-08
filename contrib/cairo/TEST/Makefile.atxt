@@ -88,6 +88,8 @@ RMF=rm -f
 #make_entry("test03")
 #make_entry("test04")
 
+#make_entry("cairo-multable")
+
 ######
 
 clean:: ; $(RMF) *~
@@ -98,6 +100,7 @@ clean:: ; $(RMF) Makefile.exe
 
 cleanall:: clean
 cleanall:: ; $(RMF) *.png
+cleanall:: ; $(RMF) cairo-multable.ps
 
 ###### end of [Makefile] ######
 \

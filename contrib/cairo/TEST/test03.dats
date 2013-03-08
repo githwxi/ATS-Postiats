@@ -23,15 +23,13 @@ HX: please use 'gthumb' or 'eog' to view the generated image file 'test03.png'
 (* ****** ****** *)
 
 %{^
-
 #include <math.h>
-
 %} // end of [%{]
 
 (* ****** ****** *)
 
-staload "prelude/DATS/integer.dats"
-staload _ = "prelude/DATS/float.dats"
+staload INT = "prelude/DATS/integer.dats"
+staload FLOAT = "prelude/DATS/float.dats"
 
 (* ****** ****** *)
 
