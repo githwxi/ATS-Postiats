@@ -98,8 +98,8 @@ Surfaces
 cairo_device_t — interface to underlying rendering system
 cairo_surface_t — Base class for surfaces
 Image Surfaces — Rendering to memory buffers
-PDF Surfaces — Rendering PDF documents
 PNG Support — Reading and writing PNG images
+PDF Surfaces — Rendering PDF documents
 PostScript Surfaces — Rendering PostScript documents
 Recording Surfaces — Records all drawing operations
 Win32 Surfaces — Microsoft Windows surface support
@@ -114,6 +114,8 @@ Script Surfaces — Rendering to replayable scripts
 #include "./Surfaces/cairo-cairo-surface-t.sats"
 #include "./Surfaces/cairo-Image-Surfaces.sats"
 #include "./Surfaces/cairo-PNG-Support.sats"
+#include "./Surfaces/cairo-PDF-Surfaces.sats"
+#include "./Surfaces/cairo-PostScript-Surfaces.sats"
 
 (* ****** ****** *)
 

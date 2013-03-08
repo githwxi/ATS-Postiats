@@ -37,6 +37,12 @@ fun atscntrb_define (fname: string): atext = (
 #atscode_separator_for_C()
 
 \#include <cairo.h>
+\#ifdef CAIRO_HAS_PS_SURFACE
+\#include <cairo-ps.h>
+\#endif
+\#ifdef CAIRO_HAS_PDF_SURFACE
+\#include <cairo-pdf.h>
+\#endif
 
 #atscode_separator_for_C()
 
@@ -230,7 +236,29 @@ atscntrb_cairo_version_string()
 #atscntrb_define("cairo_image_surface_create_from_png_stream")
 #atscntrb_define("cairo_surface_write_to_png")
 #atscntrb_define("cairo_surface_write_to_png_stream")
-
+//
+// Surfaces: cairo-PDF-Surfaces
+//
+#atscntrb_define("cairo_pdf_surface_create")
+#atscntrb_define("cairo_pdf_surface_create_for_stream")
+#atscntrb_define("cairo_pdf_surface_restrict_to_version")
+#atscntrb_define("cairo_pdf_version_to_string")
+#atscntrb_define("cairo_pdf_surface_set_size")
+//
+// Surfaces: cairo-PostScript-Surfaces
+//
+#atscntrb_define("cairo_ps_surface_create")
+#atscntrb_define("cairo_ps_surface_create_for_stream")
+#atscntrb_define("cairo_ps_surface_restrict_to_level")
+#atscntrb_define("cairo_ps_get_levels")
+#atscntrb_define("cairo_ps_level_to_string")
+#atscntrb_define("cairo_ps_surface_get_eps")
+#atscntrb_define("cairo_ps_surface_set_eps")
+#atscntrb_define("cairo_ps_surface_set_size")
+#atscntrb_define("cairo_ps_surface_dsc_begin_setup")
+#atscntrb_define("cairo_ps_surface_dsc_begin_page_setup")
+#atscntrb_define("cairo_ps_surface_dsc_comment")
+//
 #atscode_separator_for_C()
 
 \#endif // ifndef CAIRO_CAIRO_CATS

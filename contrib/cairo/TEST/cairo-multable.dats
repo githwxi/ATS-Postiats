@@ -29,7 +29,6 @@ staload FLOAT = "prelude/DATS/float.dats"
 (* ****** ****** *)
 
 staload "contrib/cairo/SATS/cairo.sats"
-staload "contrib/cairo/SATS/cairo-ps.sats"
 
 (* ****** ****** *)
 

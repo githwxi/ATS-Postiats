@@ -26,15 +26,6 @@ cairo_atxt.dats: cairo.atxt
 clean:: ; $(RMF) cairo_atxt.exe
 cleanall:: ; $(RMF) cairo.cats
 
-all:: cairo-ps.cats
-cairo-ps.cats: cairo-ps_atxt.exe ; ./$< > $@
-cairo-ps_atxt.exe: cairo-ps_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ cairo-ps_atxt.dats -latsdoc
-cairo-ps_atxt.dats: cairo-ps.atxt
-	$(ATSDOC) --outcode $@ -i cairo-ps.atxt > cairo-ps_atxt.txt
-clean:: ; $(RMF) cairo-ps_atxt.exe
-cleanall:: ; $(RMF) cairo-ps.cats
-
 ######
 
 RMF=rm -f
