@@ -118,9 +118,9 @@ typedef const json_t *JSONconstptr ;
 #atscntrb_define("json_array_get")
 
 ATSinline()
-ats_ptr_type
+atstype_ptr
 atscntrb_json_array_get_exnmsg (
- ats_ptr_type json, ats_size_type ind, ats_ptr_type msg
+ atstype_ptr json, atstype_size ind, atstype_ptr msg
 ) {
   JSONptr itm ;
   itm = atscntrb_json_array_get (json, ind) ;
@@ -133,9 +133,9 @@ atscntrb_json_array_get_exnmsg (
 #atscode_separator_for_C()
 
 ATSinline()
-ats_ptr_type
+atstype_ptr
 atscntrb_json_array_get1 (
-  ats_ptr_type json, ats_size_type ind
+  atstype_ptr json, atstype_size ind
 ) {
   JSONptr itm ;
   itm = json_array_get((JSONptr)json, ind);
@@ -144,9 +144,9 @@ atscntrb_json_array_get1 (
 } // end of [atscntrb_json_array_get1]
 
 ATSinline()
-ats_ptr_type
+atstype_ptr
 atscntrb_json_array_get1_exnmsg (
-  ats_ptr_type json, ats_size_type ind, ats_ptr_type msg
+  atstype_ptr json, atstype_size ind, atstype_ptr msg
 ) {
   JSONptr itm ;
   itm = atscntrb_json_array_get1 (json, ind) ;
@@ -184,9 +184,9 @@ atscntrb_json_array_get1_exnmsg (
 #atscntrb_define("json_object_get")
 
 ATSinline()
-ats_ptr_type
+atstype_ptr
 atscntrb_json_object_get_exnmsg (
- ats_ptr_type json, ats_ptr_type key, ats_ptr_type msg
+ atstype_ptr json, atstype_ptr key, atstype_ptr msg
 ) {
   JSONptr itm ;
   itm = atscntrb_json_object_get (json, key) ;
@@ -199,9 +199,9 @@ atscntrb_json_object_get_exnmsg (
 #atscode_separator_for_C()
 
 ATSinline()
-ats_ptr_type
+atstype_ptr
 atscntrb_json_object_get1 (
-  ats_ptr_type json, ats_ptr_type key
+  atstype_ptr json, atstype_ptr key
 ) {
   JSONptr itm ;
   itm = atscntrb_json_object_get (json, key) ;
@@ -210,9 +210,9 @@ atscntrb_json_object_get1 (
 } // end of [atscntrb_json_object_get1]
 
 ATSinline()
-ats_ptr_type
+atstype_ptr
 atscntrb_json_object_get1_exnmsg (
-  ats_ptr_type json, ats_ptr_type key, ats_ptr_type msg
+  atstype_ptr json, atstype_ptr key, atstype_ptr msg
 ) {
   JSONptr itm ;
   itm = atscntrb_json_object_get1 (json, key) ;
