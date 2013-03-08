@@ -407,15 +407,18 @@ stadef string1 = string_int_type
 stadef string = string1 // 2nd-select
 stadef string = string0 // fst-select
 typedef String = [n:int] string_int_type (n)
+typedef String0 = [n:int | n >= 0] string_int_type (n)
+typedef String1 = [n:int | n >= 1] string_int_type (n)
 //
 (* ****** ****** *)
 
 abstype
 stropt_int_type (n:int) = ptr
 stadef stropt = stropt_int_type
+typedef Stropt = [n:int] stropt_int_type (n)
 typedef Stropt0 = [n:int] stropt_int_type (n)
 typedef Stropt1 = [n:int | n >= 0] stropt_int_type (n)
-stadef stropt = Stropt0
+stadef stropt = Stropt
 
 (* ****** ****** *)
 

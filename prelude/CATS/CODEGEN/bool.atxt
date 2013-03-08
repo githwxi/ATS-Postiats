@@ -45,6 +45,8 @@ atspre_neg_bool
   (atstype_bool b) {
   return (b) ? atsbool_false : atsbool_true ;
 } // end of [atspre_neg_bool]
+\#define atspre_neg_bool0 atspre_neg_bool
+\#define atspre_neg_bool1 atspre_neg_bool
 
 ATSinline()
 atstype_bool
@@ -53,6 +55,8 @@ atspre_add_bool_bool (
 ) {
   return (b1) ? atsbool_true : (b2) ;
 } // end of [atspre_add_bool_bool]
+\#define atspre_add_bool0_bool0 atspre_add_bool_bool
+\#define atspre_add_bool1_bool1 atspre_add_bool_bool
 
 ATSinline()
 atstype_bool
@@ -61,6 +65,8 @@ atspre_mul_bool_bool (
 ) {
   return (b1) ? (b2) : atsbool_false ;
 } // end of [atspre_add_bool_bool]
+\#define atspre_mul_bool0_bool0 atspre_mul_bool_bool
+\#define atspre_mul_bool1_bool1 atspre_mul_bool_bool
 
 #atscode_separator_for_C()
 
@@ -71,6 +77,8 @@ atspre_lt_bool_bool (
 ) {
   return (b1) ? atsbool_false : (b2) ;
 } // end of [atspre_lt_bool_bool]
+\#define atspre_lt_bool0_bool0 atspre_lt_bool_bool
+\#define atspre_lt_bool1_bool1 atspre_lt_bool_bool
 ATSinline()
 atstype_bool
 atspre_lte_bool_bool (
@@ -78,21 +86,27 @@ atspre_lte_bool_bool (
 ) {
   return (b1) ? (b2) : atsbool_true ;
 } // end of [atspre_lte_bool_bool]
+\#define atspre_lte_bool0_bool0 atspre_lte_bool_bool
+\#define atspre_lte_bool1_bool1 atspre_lte_bool_bool
 
 ATSinline()
 atstype_bool
 atspre_gt_bool_bool (
   atstype_bool b1, atstype_bool b2
 ) {
-  return atspre_lt_bool_bool (b2, b1) ;
+  return (b2) ? atsbool_false : (b1) ;
 } // end of [atspre_gt_bool_bool]
+\#define atspre_gt_bool0_bool0 atspre_gt_bool_bool
+\#define atspre_gt_bool1_bool1 atspre_gt_bool_bool
 ATSinline()
 atstype_bool
 atspre_gte_bool_bool (
   atstype_bool b1, atstype_bool b2
 ) {
-  return atspre_lte_bool_bool (b2, b1) ;
+  return (b2) ? (b1) : atsbool_true ;
 } // end of [atspre_gte_bool_bool]
+\#define atspre_gte_bool0_bool0 atspre_gte_bool_bool
+\#define atspre_gte_bool1_bool1 atspre_gte_bool_bool
 
 ATSinline()
 atstype_bool
@@ -101,6 +115,8 @@ atspre_eq_bool_bool (
 ) {
   return (b1 == b2) ;
 } // end of [atspre_eq_bool_bool]
+\#define atspre_eq_bool0_bool0 atspre_eq_bool_bool
+\#define atspre_eq_bool1_bool1 atspre_eq_bool_bool
 ATSinline()
 atstype_bool
 atspre_neq_bool_bool (
@@ -108,6 +124,8 @@ atspre_neq_bool_bool (
 ) {
   return (b1 != b2) ;
 } // end of [atspre_neq_bool_bool]
+\#define atspre_neq_bool0_bool0 atspre_neq_bool_bool
+\#define atspre_neq_bool1_bool1 atspre_neq_bool_bool
 
 #atscode_separator_for_C()
 
@@ -143,16 +161,6 @@ atspre_fprint_bool (
 
 \#define atspre_print_bool(x) atspre_fprint_bool(stdout, (x))
 \#define atspre_prerr_bool(x) atspre_fprint_bool(stderr, (x))
-
-#atscode_separator_for_C()
-
-\#define lt_bool1_bool1 lt_bool_bool
-\#define lte_bool1_bool1 lte_bool_bool
-\#define gt_bool1_bool1 gt_bool_bool
-\#define gte_bool1_bool1 gte_bool_bool
-\#define eq_bool1_bool1 eq_bool_bool
-\#define neq_bool1_bool1 neq_bool_bool
-\#define compare_bool1_bool1 compare_bool_bool
 
 #atscode_separator_for_C()
 

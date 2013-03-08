@@ -26,10 +26,18 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+#atscode_separator()
+
+\#define nullp the_null_ptr
+
+#atscode_separator()
+
 implement{}
-strptr_is_null (str) = (strptr2ptr (str) = null)
+strptr_is_null (str) = (strptr2ptr (str) = nullp)
 implement{}
-strptr_isnot_null (str) = (strptr2ptr (str) > null)
+strptr_isnot_null (str) = (strptr2ptr (str) > nullp)
 
 #atscode_separator()
 
@@ -77,16 +85,20 @@ prerr_strptr (x) = fprint_strptr (stderr_ref, x)
 implement
 strptrlst_concat (xs) = let
 //
-fun loop {n0:nat} .<n0>. (
-  xs: &list_vt(strptr0, n0)>>list_vt(strptr1, n1)
+prval () = lemma_list_vt_param (xs)
+//
+fun loop
+  {n0:nat} .<n0>.
+(
+  xs: &list_vt(Strptr0, n0)>>list_vt(Strptr1, n1)
 ) :<!wrt> #[n1:nat | n1 <= n0] void = let
 in
   case+ xs of
   | @list_vt_cons
       (x, xs1) => let
-      val notnull = strptr_isnot_null (x)
+      val isnot = strptr_isnot_null (x)
     in
-      if notnull then let
+      if isnot then let
         val () = loop (xs1)
       in
         fold@ (xs)
@@ -115,7 +127,7 @@ case+ xs of
       stringlst_concat ($UN.castvwtp1{List(string)}(xs))
     val () = loop (xs) where {
       fun loop {n:nat} .<n>.
-        (xs: list_vt (strptr1, n)):<!wrt> void =
+        (xs: list_vt (Strptr1, n)):<!wrt> void =
         case+ xs of
         | ~list_vt_cons (x, xs) => (strptr_free (x); loop (xs))
         | ~list_vt_nil () => ()

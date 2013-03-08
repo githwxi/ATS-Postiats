@@ -79,7 +79,7 @@ castfn list_vt2t
   {a:t0p}{n:int} (xs: !list_vt (INV(a), n)):<> list (a, n)
 // end of [list_vt2t]
 
-castfn strptr2string {l:agz} (x: !strptr l):<> String
+castfn strptr2string {l:agz} (x: !strptr l):<> String0
 castfn strptr2stropt {l:addr} (x: !strptr l):<> Stropt0
 castfn strnptr2string {l:addr}{n:nat} (x: !strnptr (l, n)): string (n)
 

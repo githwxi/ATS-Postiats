@@ -100,12 +100,20 @@ char *request (const char *url)
 
 (* ****** ****** *)
 
-staload
-UN = "prelude/SATS/unsafe.sats"
+staload "jansson/SATS/jansson.sats"
 
 (* ****** ****** *)
 
-staload "jansson/SATS/jansson.sats"
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload _ = "prelude/DATS/integer.dats"
+
+(* ****** ****** *)
+
+staload STRING = "prelude/DATS/string.dats"
+staload STRPTR = "prelude/DATS/strptr.dats"
 
 (* ****** ****** *)
 
@@ -140,7 +148,7 @@ if ~isnz then let
   val () = exit_void (1)
 in
   // nothing
-end else () // end of [if]
+end // end of [if]
 )
 val () = assert (isnz)
 //
@@ -152,7 +160,7 @@ if ~isa then let
   val () = exit_void (1)
 in
   // nothing
-end else () // end of [if]
+end // end of [if]
 )
 in
   process_root_array {l} (root)
@@ -239,7 +247,7 @@ char *auxurl
 }
 %}
 extern
-fun auxurl : (string, string, string) -> Strptr1 = "sta#auxurl"
+fun auxurl : (string, string, string) -> Strptr1 = "mac#auxurl"
 
 (* ****** ****** *)
 

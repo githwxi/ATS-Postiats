@@ -964,15 +964,23 @@ and aux_tyrec (
 //
 val-HSEtyrec
   (knd, lxs) = hse0.hisexp_node
-val isbox = (
-  if flag > 0 then tyreckind_is_box (knd) else false
-) : bool // end of [val]
-//
 in
 //
-if isbox
-  then hitype_tybox ()
-  else let
+case+ knd of
+| TYRECKINDbox () =>
+    if flag > 0 then
+      hitype_tybox () else aux_tyrec2 (flag, lxs)
+    // end of [if]
+| TYRECKINDflt0 () => aux_tyrec2 (flag, lxs)
+| TYRECKINDflt1 (stamp) => aux_tyrec2 (flag, lxs)
+| TYRECKINDflt_ext (name) => HITnmd (name)
+//
+end // end of [aux_tyrec]
+
+and aux_tyrec2
+(
+  flag: int, lxs: labhisexplst
+) : hitype = let
   val lys = auxlablst (flag, lxs)
   val hit0 = HITtyrec (lys)
   val opt = the_hitypemap_search (hit0)
@@ -983,11 +991,9 @@ in
       val () = the_hitypemap_insert (hit0, hit1)
     in
       hit1
-     end // end of [None_vt]
-   | ~Some_vt (hit0) => hit0
-end // end of [if]
-//
-end // end of [aux_tyrec]
+    end // end of [None_vt]
+  | ~Some_vt (hit0) => hit0
+end // end of [aux_tyrec2]
 
 and aux_tysum (
   flag: int, hse0: hisexp

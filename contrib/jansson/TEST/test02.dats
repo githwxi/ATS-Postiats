@@ -20,9 +20,16 @@
 
 (* ****** ****** *)
 
-staload
-UN = "prelude/SATS/unsafe.sats"
 staload "jansson/SATS/jansson.sats"
+
+(* ****** ****** *)
+
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload _ = "prelude/DATS/integer.dats"
+staload STR = "prelude/DATS/string.dats"
 
 (* ****** ****** *)
 
@@ -41,15 +48,15 @@ main0 () = let
   val (
     fpf | s
   ) = json_string_value(a)
-  val s2 = string_copy ($UN.strptr2string(s))
+  val s2 = string0_copy ($UN.strptr2string(s))
   prval () = minus_addback (fpf, s | a)
 //
   val err =
-    json_string_set(a, $UN.strnptr2string(s2))
+    json_string_set(a, $UN.strptr2string(s2))
   val () = print_string("Value is: ")
-  val () = print_string($UN.strnptr2string(s2))
+  val () = print_string($UN.strptr2string(s2))
   val () = print_newline()
-  val () = strnptr_free (s2)
+  val () = strptr_free (s2)
   val () = json_decref(a)
 in
   // nothing

@@ -288,13 +288,13 @@ end // end of [string_make_substring]
 
 #atscode_separator()
 
-implement{
-} string0_length
+implement{}
+string0_length
   (str) = string1_length ($UN.cast{String}(str))
 // end of [string0_length]
 
-implement{
-} string1_length
+implement{}
+string1_length
   {n} (str) =
   __strlen (str) where {
   extern fun __strlen (str: string n):<> size_t (n) = "mac\#atspre_strlen"
@@ -302,17 +302,18 @@ implement{
 
 #atscode_separator()
 
-implement{
-} string0_copy (str) = let
-  val str = string1_of_string0 (str)
+implement{}
+string0_copy
+  (str) = let
+  val str = string2str (str)
   val str2 = string1_copy (str)
   prval () = lemma_strnptr_param (str2)
 in
-  strptr_of_strnptr (str2)
+  strnptr2strptr (str2)
 end // end of [string0_copy]
 
-implement{
-} string1_copy
+implement{}
+string1_copy
   {n} (str) = let
   val n = string1_length (str)
   val n1 = succ(n)
@@ -403,7 +404,7 @@ val x12 = string1_append (x1, x2)
 prval () = lemma_strnptr_param (x12)
 //
 in
-  strptr_of_strnptr (x12)
+  strnptr2strptr (x12)
 end // end of [string0_append]
 
 implement{}

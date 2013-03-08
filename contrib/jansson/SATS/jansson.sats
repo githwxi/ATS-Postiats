@@ -41,6 +41,10 @@ typedef SHR(x:type) = x // for commenting purpose
 typedef NSH(x:type) = x // for commenting purpose
 
 (* ****** ****** *)
+
+typedef charptr = ptr
+
+(* ****** ****** *)
 //
 abst@ype json_type = $extype"json_type"
 //
@@ -53,34 +57,29 @@ macdef JSON_TRUE     = $extval (json_type, "JSON_TRUE")
 macdef JSON_FALSE    = $extval (json_type, "JSON_FALSE")
 macdef JSON_NULL     = $extval (json_type, "JSON_NULL")
 //
-abst@ype
-json_t = $extype"json_t" // json_type + refcount
+abst@ype json_t = $extype"json_t" // json_type + refcount
 //
 typedef
 json_error_t =
-$extype_struct
-  "json_error_t" of {
-  line= int
-, column= int
-, position= int
-, source= (*char*)ptr
-, text= (*char*)ptr
-} // end of [typedef]
+$extype_struct"json_error_t" of
+{
+  line= int, column= int, position= int, source= charptr, text= charptr
+} // end of [json_error_t]
 //
-abst@ype json_int_t =
-  $extype"json_int_t" // largest available int type
+abst@ype
+json_int_t = $extype"json_int_t" // largest available int type
 //
 (* ****** ****** *)
 
-absviewtype JSONptr (l:addr) // json_t*
-viewtypedef JSONptr0 = [l:addr] JSONptr (l)
-viewtypedef JSONptr1 = [l:addr | l > null] JSONptr (l)
+absvtype JSONptr (l:addr) = ptr // json_t*
+vtypedef JSONptr0 = [l:addr] JSONptr (l)
+vtypedef JSONptr1 = [l:addr | l > null] JSONptr (l)
 
 (* ****** ****** *)
 
-absviewtype JSONiter (l1:addr, l2:addr)
-viewtypedef JSONiter0 (l1:addr) = [l2:addr] JSONiter (l1, l2)
-viewtypedef JSONiter1 (l1:addr) = [l2:addr | l2 > null] JSONiter (l1, l2)
+absvtype JSONiter (l1:addr, l2:addr) = ptr
+vtypedef JSONiter0 (l1:addr) = [l2:addr] JSONiter (l1, l2)
+vtypedef JSONiter1 (l1:addr) = [l2:addr | l2 > null] JSONiter (l1, l2)
 
 (* ****** ****** *)
 
@@ -426,9 +425,9 @@ fun json_object_iter_nextret
 
 (* ****** ****** *)
 
-absviewtype
-objkey_addr_viewtype (l:addr) = ptr
-stadef objkey = objkey_addr_viewtype
+absvtype
+objkey_addr_vtype (l:addr) = ptr
+stadef objkey = objkey_addr_vtype
 
 praxi
 objkey_return

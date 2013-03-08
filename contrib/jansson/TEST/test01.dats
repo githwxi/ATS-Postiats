@@ -32,21 +32,19 @@ staload "jansson/SATS/jansson.sats"
 implement
 main0 () = let
 //
-  var err: json_err? 
+var err: json_err? 
 //
-  val rt = json_loads ("{\"one\":1}", 0, err)
-  val () = assertloc (JSONptr_isnot_null (rt))
-  val (fpf | one) = json_object_get_exnloc (rt, "one")
-  val ji = json_integer_value (one)
-  val () = println! ("int = ", $UN.cast2int(ji))
-  prval () = minus_addback (fpf, one | rt) 
+val rt = json_loads ("{\"one\":1}", 0, err)
+val () = assertloc (JSONptr_isnot_null (rt))
+val (fpf | one) = json_object_get_exnloc (rt, "one")
+val ji = json_integer_value (one)
+val () = println! ("int = ", $UN.cast2int(ji))
+prval () = minus_addback (fpf, one | rt) 
 //
-  val _(*err*) =
-    json_dumpf (rt, stdout_ref, 0)
-  // end of [val]
-  val () = fprint_newline (stdout_ref)
-//
-  val () = json_decref(rt)
+val out = stdout_ref
+val _(*err*) = json_dumpf (rt, out, 0)
+val () = fprint_newline (out)
+val () = json_decref(rt)
 in
   // nothing
 end // end of [main]

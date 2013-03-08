@@ -16,7 +16,7 @@ fun comment
 // end of [comment]
 
 fun make_entry
-  (nm: string): atext = let
+  (nm: string, lib: string): atext = let
 //
 val ent = sprintf ("\
 all:: %s\n\
@@ -26,13 +26,13 @@ all:: %s\n\
     -I$(PATSHOMEQ) \\\n\
     -I$(PATSHOMEQ)/ccomp/runtime \\\n\
     -I$(PATSHOMEQ)/contrib \\\n\
-    -o $@ $< -ljansson \n\
+    -o $@ $< %s \n\
 %s_dats.c: %s.dats ; \\\n\
   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output %s_dats.c --dynamic %s.dats\n\
 clean:: ; $(RMF) %s_dats.o\n\
 clean:: ; $(RMF) %s_dats.c\n\
 cleanall:: ; $(RMF) %s.exe\n\
-", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
+", @(nm, nm, nm, nm, nm, lib, nm, nm, nm, nm, nm, nm, nm)
 ) // end of [val]
 //
 val ent = string_of_strptr (ent)
@@ -78,9 +78,9 @@ RMF=rm -f
 
 ######
 
-#make_entry("test01")
-#make_entry("test02")
-#make_entry("github_commit_query")
+#make_entry("test01", "-ljansson")
+#make_entry("test02", "-ljansson")
+#make_entry("github_commit_query", "-lcurl -ljansson")
 
 ######
 

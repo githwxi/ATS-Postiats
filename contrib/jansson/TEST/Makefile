@@ -70,7 +70,7 @@ github_commit_query.exe: github_commit_query_dats.c ; \
     -I$(PATSHOMEQ) \
     -I$(PATSHOMEQ)/ccomp/runtime \
     -I$(PATSHOMEQ)/contrib \
-    -o $@ $< -ljansson 
+    -o $@ $< -lcurl -ljansson 
 github_commit_query_dats.c: github_commit_query.dats ; \
   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output github_commit_query_dats.c --dynamic github_commit_query.dats
 clean:: ; $(RMF) github_commit_query_dats.o

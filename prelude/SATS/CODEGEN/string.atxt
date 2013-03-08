@@ -310,7 +310,7 @@ overload string_copy with string0_copy of 0
 //
 fun{
 } string1_copy
-  {n:int} (xs: NSH(string(n))):<!wrt> [n >= 0] strnptr (n)
+  {n:int} (xs: NSH(string(n))):<!wrt> strnptr (n)
 overload string_copy with string1_copy of 10
 //
 #atscode_separator()
