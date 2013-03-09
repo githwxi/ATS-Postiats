@@ -79,7 +79,6 @@ O(n). ")
 (* ****** ****** *)
 
 #declnamesynop("funmap_listize")
-#declnamesynop("funmap_listize_vt")
 
 (* ****** ****** *)
 

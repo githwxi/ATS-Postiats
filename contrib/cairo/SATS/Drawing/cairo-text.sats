@@ -29,9 +29,11 @@ cairo_font_slant_t slant,
 cairo_font_weight_t weight
 ) ;
 */
-fun cairo_select_font_face (
-  ctx: !xr1, family: string, slant: cairo_font_slant_t, weight: cairo_font_weight_t
-) : void = "mac#%" // end of [cairo_select_font_face]
+fun cairo_select_font_face
+(
+  ctx: !xr1, family: NSH(string)
+, slant: cairo_font_slant_t, weight: cairo_font_weight_t
+) : void = "mac#%" // endfun
 
 (* ****** ****** *)
 
@@ -98,7 +100,7 @@ cairo_scaled_font_t *cairo_get_scaled_font (cairo_t *cr);
 /*
 void cairo_show_text (cairo_t *cr, const char *utf8);
 */
-fun cairo_show_text (ctx: !xr1, utf8: string): void = "mac#%"
+fun cairo_show_text (ctx: !xr1, utf8: NSH(string)): void = "mac#%"
 
 (* ****** ****** *)
 
@@ -168,18 +170,79 @@ cairo_toy_font_face_create
 const char *family,
 cairo_font_slant_t slant, cairo_font_weight_t weight
 ) ;
+*/
+fun cairo_toy_font_face_create
+(
+  family: NSH(string)
+, slant: cairo_font_slant_t, weight: cairo_font_weight_t
+) : xrfontface1 = "mac#%" // endfun
+
+(* ****** ****** *)
+/*
 const char*
-cairo_toy_font_face_get_family (cairo_font_face_t *font_face);
+cairo_toy_font_face_get_family
+(
+  cairo_font_face_t *font_face
+) ;
+*/
+fun cairo_toy_font_face_get_family
+  (font_face: xrfontface1): string(*const*) = "mac#%"
+//
+(* ****** ****** *)
+/*
 cairo_font_slant_t
-cairo_toy_font_face_get_slant (cairo_font_face_t *font_face);
+cairo_toy_font_face_get_slant
+(
+  cairo_font_face_t *font_face
+) ;
+*/
+fun cairo_toy_font_face_get_slant
+  (font_face: xrfontface1): cairo_font_slant_t = "mac#%"
+//
+(* ****** ****** *)
+/*
 cairo_font_weight_t
-cairo_toy_font_face_get_weight (cairo_font_face_t *font_face);
-cairo_glyph_t *cairo_glyph_allocate (int num_glyphs);
+cairo_toy_font_face_get_weight
+(
+  cairo_font_face_t *font_face
+) ;
+*/
+fun cairo_toy_font_face_get_weight
+  (font_face: xrfontface1): cairo_font_weight_t = "mac#%"
+//
+(* ****** ****** *)
+
+/*
+cairo_glyph_t*
+cairo_glyph_allocate (int num_glyphs);
+*/
+fun cairo_glyph_allocate
+  {n:nat} (n: int n): arrayptr (cairo_glyph_t, n) = "mac#%"
+// end of [cairo_glyph_allocate]
+
+/*
 void cairo_glyph_free (cairo_glyph_t *glyphs);
+*/
+fun cairo_glyph_free
+  {n:int} (glyphs: arrayptr (cairo_glyph_t, n)): void = "mac#%"
+// end of [cairo_glyph_free]
+
+(* ****** ****** *)
+
+/*
 cairo_text_cluster_t*
 cairo_text_cluster_allocate (int num_clusters);
+*/
+fun cairo_cluster_allocate
+  {n:nat} (n: int n): arrayptr (cairo_text_cluster_t, n) = "mac#%"
+// end of [cairo_cluster_allocate]
+
+/*
 void cairo_text_cluster_free (cairo_text_cluster_t *clusters);
 */
+fun cairo_cluster_free
+  {n:int} (clusters: arrayptr (cairo_text_cluster_t, n)): void = "mac#%"
+// end of [cairo_cluster_free]
 
 (* ****** ****** *)
 

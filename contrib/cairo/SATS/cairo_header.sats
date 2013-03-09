@@ -281,7 +281,7 @@ abst@ype cairo_line_cap_t = $extype"cairo_line_cap_t"
 //
 macdef CAIRO_LINE_CAP_BUTT = $extval (cairo_line_cap_t, "CAIRO_LINE_CAP_BUTT")
 macdef CAIRO_LINE_CAP_ROUND = $extval (cairo_line_cap_t, "CAIRO_LINE_CAP_ROUND")
-macdef CAIRO_LINE_CAP_SQUAR = $extval (cairo_line_cap_t, "CAIRO_LINE_CAP_SQUAR")
+macdef CAIRO_LINE_CAP_SQUARE = $extval (cairo_line_cap_t, "CAIRO_LINE_CAP_SQUARE")
 //
 (* ****** ****** *)
 //

@@ -175,11 +175,19 @@ O(|xs1|+|xs2|).  ")
 
 (* ****** ****** *)
 
-#declnamesynop("funset_listize_vt")
+#declnamesynop("funset_listize")
 #decldescrpt("\
 
 Given a set xs, this function returns a linear list consisting of all the
 elements in xs.  The time complexity of this function is O(|xs|).  ")
+
+(* ****** ****** *)
+
+#declnamesynop("list_of_funset")
+#decldescrpt("\
+
+This function casts a set into a list in which elements are ordered
+descendingly.  ")
 
 (* ****** ****** *)
 

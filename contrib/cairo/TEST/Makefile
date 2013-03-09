@@ -96,6 +96,20 @@ clean:: ; $(RMF) test04_dats.o
 clean:: ; $(RMF) test04_dats.c
 cleanall:: ; $(RMF) test04.exe
 
+all:: test05
+test05: test05.exe
+test05.exe: test05_dats.c ; \
+  $(GCC) \
+    -I$(PATSHOMEQ) \
+    -I$(PATSHOMEQ)/ccomp/runtime \
+    -I$(PATSHOMEQ)/contrib \
+    $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+test05_dats.c: test05.dats ; \
+  $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test05_dats.c --dynamic test05.dats
+clean:: ; $(RMF) test05_dats.o
+clean:: ; $(RMF) test05_dats.c
+cleanall:: ; $(RMF) test05.exe
+
 
 all:: cairo-multable
 cairo-multable: cairo-multable.exe

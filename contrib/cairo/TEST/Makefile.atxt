@@ -87,6 +87,7 @@ RMF=rm -f
 #make_entry("test02")
 #make_entry("test03")
 #make_entry("test04")
+#make_entry("test05")
 
 #make_entry("cairo-multable")
 

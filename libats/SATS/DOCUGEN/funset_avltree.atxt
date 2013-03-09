@@ -161,7 +161,7 @@ elements.  ")
 
 (* ****** ****** *)
 
-#declnamesynop("funset_listize_vt")
+#declnamesynop("funset_listize")
 #decldescrpt("\
 
 Given a set xs, this function returns a linear list consisting of all the

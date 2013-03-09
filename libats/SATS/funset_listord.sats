@@ -51,4 +51,9 @@
 
 (* ****** ****** *)
 
+castfn
+list_of_funset {a:t0p} (xs: set (INV(a))):<> list (a)
+
+(* ****** ****** *)
+
 (* end of [funset_listord.sats] *)
