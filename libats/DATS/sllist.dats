@@ -110,7 +110,6 @@ implement{a}
 sllist_cons
   (x, xs) = let
   val nx0 = g2node_make_elt<a> (x)
-  val () = gnode_set_prev_null (nx0)
   val nxs = sllist_decode (xs)
   val () = gnode_link10 (nx0, nxs)
 in
@@ -122,7 +121,6 @@ sllist_uncons
   (xs) = let
   val nxs = sllist1_decode (xs)
   val nxs2 = gnode_get_next (nxs)
-  val () = gnode0_set_prev_null (nxs2)
   val () = xs := sllist_encode (nxs2)
 in
   g2node_getfree_elt (nxs)
@@ -310,10 +308,8 @@ if iscons then let
   val nxs = sllist1_decode (xs)
   val nx0 = nxs
   val nxs = gnode_get_next (nx0)
-  val nxp = gnode_get_prev (nx0)
   val () = gnode_set_next_null (nx0)
   val res = $effmask_all (loop (nxs, nx0))
-  val () = gnode_link01 (nxp, res)
 in
   sllist_encode (res)
 end else (xs) // end of [if]
@@ -514,6 +510,18 @@ prval () = slnode_vfree (nx)
 in
   p_next
 end // end of [gnode_getref_next]
+
+(* ****** ****** *)
+
+implement(a)
+gnode_link10<mytkind><a>
+  (nx1, nx2) = gnode_set_next (nx1, nx2)
+// end of [gnode_link10]
+
+implement(a)
+gnode_link11<mytkind><a>
+  (nx1, nx2) = gnode_set_next (nx1, nx2)
+// end of [gnode_link11]
 
 (* ****** ****** *)
 

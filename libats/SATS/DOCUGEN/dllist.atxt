@@ -30,7 +30,7 @@ and manipulating doubly-linked linear lists.  ')
 
 The type for a doubly-linked linear list containing N elements of type T is
 denoted by #stacode("dllist(T, F, R)"), where T can be linear, and F and R
-(satisfying F+R=N) indicate that there F and R elements before and after
+(satisfying F+R=N) indicate that there are F and R elements before and after
 the current pointer, respectively. Note that the type constructor
 #stacode("dllist") is co-variant in its first argument, that is,
 #stacode("dllist(T1, F, R)") is a subtype of #stacode("dllist(T2, F, R)")
@@ -87,8 +87,8 @@ doubly linked linear lists in ATS and vice versa.  ')
 (* ****** ****** *)
 
 #declnamesynop("dllist_getref_elt")
-#declnamesynop("dllist_getref_prev")
 #declnamesynop("dllist_getref_next")
+#declnamesynop("dllist_getref_prev")
 
 (* ****** ****** *)
 

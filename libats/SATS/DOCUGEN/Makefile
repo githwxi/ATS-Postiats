@@ -71,6 +71,14 @@ upload_qlist:: ;   scp HTML/qlist.html ats-hwxi,ats-lang@web.sourceforge.net:htd
 clean:: ; $(RMF) qlist_atxt.exe
 cleanall:: ; $(RMF) HTML/qlist.html
 
+all_html:: HTML/sllist.html
+HTML/sllist.html:   sllist_atxt.exe ; ./$< > $@
+sllist_atxt.txt: sllist.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+sllist_atxt.exe: htmlgendecl_atxt.dats   sllist_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_sllist:: ;   scp HTML/sllist.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) sllist_atxt.exe
+cleanall:: ; $(RMF) HTML/sllist.html
+
 all_html:: HTML/dllist.html
 HTML/dllist.html:   dllist_atxt.exe ; ./$< > $@
 dllist_atxt.txt: dllist.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@

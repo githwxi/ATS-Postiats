@@ -79,6 +79,7 @@ RMF=rm -f
 ######
 
 #make_entry("libats_qlist")
+#make_entry("libats_sllist")
 #make_entry("libats_dllist")
 
 ######

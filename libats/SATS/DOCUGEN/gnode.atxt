@@ -86,4 +86,9 @@ This package contains various functions for manipulating generic nodes.
 
 (* ****** ****** *)
 
+#declnamesynop("gnodelst_next_all")
+#declnamesynop("gnodelst_prev_all")
+
+(* ****** ****** *)
+
 (* end of [gnode.atxt] *)

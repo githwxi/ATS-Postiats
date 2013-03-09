@@ -54,6 +54,14 @@ clean:: ; $(RMF) libats_qlist_dats.o
 clean:: ; $(RMF) libats_qlist_dats.c
 cleanall:: ; $(RMF) libats_qlist.exe
 
+all:: libats_sllist
+libats_sllist: libats_sllist.exe
+libats_sllist.exe: libats_sllist_dats.c ;   $(GCC) -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+libats_sllist_dats.c: libats_sllist.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_sllist_dats.c --dynamic libats_sllist.dats
+clean:: ; $(RMF) libats_sllist_dats.o
+clean:: ; $(RMF) libats_sllist_dats.c
+cleanall:: ; $(RMF) libats_sllist.exe
+
 all:: libats_dllist
 libats_dllist: libats_dllist.exe
 libats_dllist.exe: libats_dllist_dats.c ;   $(GCC) -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

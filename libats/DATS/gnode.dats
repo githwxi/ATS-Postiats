@@ -187,7 +187,7 @@ implement
 gnode_link00
   (nx1, nx2) = let
   val () = gnode0_set_next (nx1, nx2)
-  val () = gnode0_set_next (nx2, nx1)
+  val () = gnode0_set_prev (nx2, nx1)
 in
   // nothing
 end // end of [gnode_link00]
@@ -196,9 +196,7 @@ implement
 {tk}{elt}
 gnode_link01
   (nx1, nx2) = let
-  val () =
-    gnode0_set_next (nx1, nx2)
-  // end of [val]
+  val () = gnode0_set_next (nx1, nx2)
   val () = gnode_set_prev (nx2, nx1)
 in
   // nothing
