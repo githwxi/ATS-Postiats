@@ -63,9 +63,9 @@ stadef dllist = dllist_vtype
 (* ****** ****** *)
 
 castfn
-dllist2ptr {a:vt0p}{f,r:int} (xs: !dllist (INV(a), f, r)): Ptr0
+dllist2ptr {a:vt0p}{f,r:int} (xs: !dllist (INV(a), f, r)):<> Ptr0
 castfn
-dllist2ptr1 {a:vt0p}{f,r:int | r > 0} (xs: !dllist (INV(a), f, r)): Ptr1
+dllist2ptr1 {a:vt0p}{f,r:int | r > 0} (xs: !dllist (INV(a), f, r)):<> Ptr1
 
 (* ****** ****** *)
 
@@ -176,14 +176,14 @@ dllist_getref_elt
 // end of [dllist_getref_elt]
 
 fun{a:vt0p}
-dllist_getref_prev
-  {f,r:int | r > 0} (xs: !dllist (INV(a), f, r)):<> Ptr1
-// end of [dllist_getref_prev]
-
-fun{a:vt0p}
 dllist_getref_next
   {f,r:int | r > 0} (xs: !dllist (INV(a), f, r)):<> Ptr1
 // end of [dllist_getref_next]
+
+fun{a:vt0p}
+dllist_getref_prev
+  {f,r:int | r > 0} (xs: !dllist (INV(a), f, r)):<> Ptr1
+// end of [dllist_getref_prev]
 
 (* ****** ****** *)
 

@@ -344,4 +344,38 @@ end // end of [gnodelst_rlength]
 
 (* ****** ****** *)
 
+implement
+{tk}{elt}
+gnodelst_next_all (nxs) = let
+//
+fun loop (
+  nxs: gnode1 (tk, elt)
+) : gnode1 (tk, elt) = let
+  val nxs_next = gnode_get_next (nxs)
+in
+  if gnodelst_is_cons (nxs_next) then loop (nxs_next) else nxs
+end // end of [loop]
+//
+in
+  $effmask_all (loop (nxs))  
+end // end of [gnodelst_next_all]
+
+implement
+{tk}{elt}
+gnodelst_prev_all (nxs) = let
+//
+fun loop (
+  nxs: gnode1 (tk, elt)
+) : gnode1 (tk, elt) = let
+  val nxs_prev = gnode_get_prev (nxs)
+in
+  if gnodelst_is_cons (nxs_prev) then loop (nxs_prev) else nxs
+end // end of [loop]
+//
+in
+  $effmask_all (loop (nxs))
+end // end of [gnodelst_prev_all]
+
+(* ****** ****** *)
+
 (* end of [gnode.dats] *)

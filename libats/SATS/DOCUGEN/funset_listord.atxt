@@ -38,7 +38,7 @@ balanced trees may be considered.  ")
 The type constructor #stacode("set") is a shorthand for
 #stacode("set_t0ype_type").  ")
 
-#declnamesynop("set_t0ype_type")
+#declnamesynop("set_type")
 
 (* ****** ****** *)
 

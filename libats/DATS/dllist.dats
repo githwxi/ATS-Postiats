@@ -368,16 +368,8 @@ implement{a}
 dllist_move_all
   {f,r} (xs) = let
 //
-fun loop (
-  nxs: g2node1 (a)
-) : g2node1 (a) = let
-  val nxs_next = gnode_get_next (nxs)
-in
-  if gnodelst_is_cons (nxs_next) then loop (nxs_next) else nxs
-end // end of [loop]
-//
 val nxs = dllist1_decode (xs)
-val nxs_end = $effmask_all (loop (nxs))
+val nxs_end = gnodelst_next_all (nxs)
 //
 in
   dllist_encode (nxs_end)
@@ -413,18 +405,10 @@ implement{a}
 rdllist_move_all
   {f,r} (xs) = let
 //
-fun loop (
-  nxs: g2node1 (a)
-) : g2node1 (a) = let
-  val nxs_prev = gnode_get_prev (nxs)
-in
-  if gnodelst_is_cons (nxs_prev) then loop (nxs_prev) else nxs
-end // end of [loop]
-//
 val nxs = dllist_decode (xs)
 val iscons = gnodelst_is_cons (nxs)
 val nxs_beg = (
-  if iscons then $effmask_all (loop (nxs)) else nxs
+  if iscons then $effmask_all (gnodelst_prev_all (nxs)) else nxs
 ) : g2node0 (a) // end of [val]
 //
 in

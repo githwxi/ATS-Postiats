@@ -236,4 +236,13 @@ tk:tk}{a:vt0p
 
 (* ****** ****** *)
 
+fun{
+tk:tk}{a:vt0p
+} gnodelst_next_all (nxs: gnode1 (tk, INV(a))):<> gnode1 (tk, a)
+fun{
+tk:tk}{a:vt0p
+} gnodelst_prev_all (nxs: gnode1 (tk, INV(a))):<> gnode1 (tk, a)
+
+(* ****** ****** *)
+
 (* end of [gnode.sats] *)

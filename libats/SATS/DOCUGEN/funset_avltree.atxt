@@ -31,9 +31,9 @@ This package implements functional sets based on AVL-trees.
 #decldescrpt("\
 
 The type constructor #stacode("set") is a shorthand for
-#stacode("set_t0ype_type").  ")
+#stacode("set_type").  ")
 
-#declnamesynop("set_t0ype_type")
+#declnamesynop("set_type")
 
 (* ****** ****** *)
 
