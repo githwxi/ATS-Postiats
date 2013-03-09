@@ -188,19 +188,20 @@ end // end of [sllist_is_cons]
 
 (* ****** ****** *)
 
+(*
+fun{a:vt0p}
+sllist_length
+  {n:int} (xs: !sllist (INV(a), n)):<> int (n)
+*)
 implement{a}
-sllist_getref_elt (xs) = let
-  val nxs =
-    $UN.castvwtp1{g2node1(a)}(xs) in gnode_getref_elt (nxs)
-  // end of [val]
-end // end of [sllist_getref_elt]
-
-implement{a}
-sllist_getref_next (xs) = let
-  val nxs =
-    $UN.castvwtp1{g2node1(a)}(xs) in gnode_getref_next (nxs)
-  // end of [val]  
-end // end of [sllist_getref_next]
+sllist_length
+  {n} (xs) = let
+//
+val nxs = $UN.castvwtp1{g2node0(a)}(xs)
+//
+in
+  $UN.cast{int(n)}(gnodelst_length (nxs))
+end // end of [sllist_length]
 
 (* ****** ****** *)
 
@@ -220,24 +221,121 @@ sllist_set_elt
   // end of [val]
 end // end of [sllist_set_elt]
 
+implement{a}
+sllist_getref_elt (xs) = let
+  val nxs =
+    $UN.castvwtp1{g2node1(a)}(xs) in gnode_getref_elt (nxs)
+  // end of [val]
+end // end of [sllist_getref_elt]
+
 (* ****** ****** *)
 
-(*
-fun{a:vt0p}
-sllist_length
-  {n:int} (xs: !sllist (INV(a), n)):<> int (n)
-*)
 implement{a}
-sllist_length
-  {n} (xs) = let
+sllist_getref_next (xs) = let
+  val nxs =
+    $UN.castvwtp1{g2node1(a)}(xs) in gnode_getref_next (nxs)
+  // end of [val]  
+end // end of [sllist_getref_next]
+
+(* ****** ****** *)
+
+implement{a}
+sllist_get_elt_at
+  (xs, i) = let
+  val p_elt =
+    sllist_getref_elt_at (xs, i) in $UN.ptr_get<a> (p_elt)
+  // end of [val]
+end // end of [sllist_get_elt_at]
+
+implement{a}
+sllist_set_elt_at
+  (xs, i, x0) = let
+  val p_elt = 
+    sllist_getref_elt_at (xs, i) in $UN.ptr_set<a> (p_elt, x0)
+  // end of [val]
+end // end of [sllist_set_elt_at]
+
+implement{a}
+sllist_getref_elt_at
+  (xs, i) = let
 //
-val nxs = $UN.castvwtp1{g2node0(a)}(xs)
+fun loop
+(
+  nxs: g2node1 (a), i: int
+) : g2node1 (a) =
+  if i > 0 then let
+    val nxs = gnode_get_next (nxs)
+  in
+    loop ($UN.cast{g2node1(a)}(nxs), i-1)
+  end else nxs // end of [if]
+//
+val nxs0 = $UN.castvwtp1{g2node1(a)}(xs)
+val nxs_i = $effmask_all (loop (nxs0, i))
 //
 in
-  $UN.cast{int(n)}(gnodelst_length (nxs))
-end // end of [sllist_length]
+  gnode_getref_elt (nxs_i) 
+end // end of [sllist_getref_elt_at]
 
 (* ****** ****** *)
+
+implement{a}
+sllist_getref_at (xs, i) = let
+//
+fun loop (
+  p: Ptr1, i: int
+) : Ptr1 = let
+in
+  if i > 0 then let
+    val nx =
+      $UN.ptr_get<g2node1(a)> (p)
+    // end of [val]
+    val p2 = gnode_getref_next (nx)
+  in
+    loop (p2, i-1)
+  end else (p) // end of [if]
+end // end of [loop]
+//
+val p0 = $UN.cast{Ptr1}(addr@(xs))
+//
+in
+  $effmask_all (loop (p0, i))
+end // end of [sllist_getref_at]
+
+(* ****** ****** *)
+
+implement{a}
+sllist_insert_at
+  {n} (xs, i, x0) = let
+  var xs = xs
+  val p_i = sllist_getref_at (xs, i)
+  val nx0 = g2node_make_elt<a> (x0)
+  val nxs = $UN.ptr_get<g2node0(a)> (p_i)
+  val () = gnode_link10 (nx0, nxs)
+  val () = $UN.ptr_set<g2node1(a)> (p_i, nx0)
+in
+  $UN.castvwtp0{sllist(a, n+1)}(xs)
+end // end of [sllist_insert_at]
+
+(* ****** ****** *)
+
+implement{a}
+sllist_takeout_at
+  {n} (xs, i) = let
+  val p_i = sllist_getref_at (xs, i)
+  val nxs = $UN.ptr_get<g2node1(a)> (p_i)
+  val nx0 = nxs
+  val nxs = gnode_get_next (nx0)
+  val () = $UN.ptr_set<g2node0(a)> (p_i, nxs)
+  prval (
+  ) = __assert (xs) where {
+    extern praxi __assert (xs: &sllist (a, n) >> sllist (a, n-1)): void
+  } // end of [where] // end of [prval]
+in
+  g2node_getfree_elt (nx0)
+end // end of [sllist_takeout_at]
+
+(* ****** ****** *)
+
 (*
 fun{a:vt0p}
 sllist_append

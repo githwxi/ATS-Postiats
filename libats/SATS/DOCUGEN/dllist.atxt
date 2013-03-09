@@ -114,13 +114,13 @@ doubly linked linear lists in ATS and vice versa.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("dllist_remove")
-#declnamesynop("dllist_remove_next")
+#declnamesynop("dllist_takeout")
+#declnamesynop("dllist_takeout_next")
 
 (* ****** ****** *)
 
 #declnamesynop("rdllist_insert")
-#declnamesynop("rdllist_remove")
+#declnamesynop("rdllist_takeout")
 
 (* ****** ****** *)
 

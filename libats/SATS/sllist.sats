@@ -120,7 +120,20 @@ fun{
 (* ****** ****** *)
 
 fun{a:vt0p}
+sllist_length
+  {n:int} (xs: !sllist (INV(a), n)):<> int (n)
+// end of [sllist_length]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+sllist_get_elt (xs: !Sllist1 (INV(a))): (a)
+fun{a:t0p}
+sllist_set_elt (xs: !Sllist1 (INV(a)), x0: a): void
+fun{a:vt0p}
 sllist_getref_elt (xs: !Sllist1 (INV(a))):<> Ptr1
+
+(* ****** ****** *)
 
 fun{a:vt0p}
 sllist_getref_next (xs: !Sllist1 (INV(a))):<> Ptr1
@@ -128,17 +141,34 @@ sllist_getref_next (xs: !Sllist1 (INV(a))):<> Ptr1
 (* ****** ****** *)
 
 fun{a:t0p}
-sllist_get_elt (xs: !Sllist1 (INV(a))): a
-
+sllist_get_elt_at {n:int}
+  (xs: !sllist (INV(a), n), i: natLt(n)):<> (a)
+overload [] with sllist_get_elt_at
 fun{a:t0p}
-sllist_set_elt (xs: !Sllist1 (INV(a)), x0: a): void
+sllist_set_elt_at {n:int}
+  (xs: !sllist (INV(a), n), i: natLt(n), x0: a):<!wrt> void
+overload [] with sllist_set_elt_at
+fun{a:vt0p}
+sllist_getref_elt_at {n:int}
+  (xs: !sllist (INV(a), n), i: natLt(n)):<> Ptr1
+// end of [sllist_getref_elt_at]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-sllist_length
-  {n:int} (xs: !sllist (INV(a), n)):<> int (n)
-// end of [sllist_length]
+sllist_getref_at {n:int}
+  (xs: &sllist (INV(a), n), i: natLte(n)):<> Ptr1
+// end of [sllist_getref_at]
+
+fun{a:vt0p}
+sllist_insert_at {n:int}
+  (xs: sllist (INV(a), n), i: natLte(n), x0: a):<!wrt> sllist (a, n+1)
+// end of [sllist_insert_at]
+
+fun{a:vt0p}
+sllist_takeout_at {n:int}
+  (xs: &sllist (INV(a), n) >> sllist (a, n-1), i: natLt(n)):<!wrt> (a)
+// end of [sllist_takeout_at]
 
 (* ****** ****** *)
 

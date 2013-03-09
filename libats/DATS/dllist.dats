@@ -296,18 +296,16 @@ end // end of [dllist_getref_prev]
 (* ****** ****** *)
 
 implement{a}
-dllist_get_elt
-  {f,r} (xs) = let
+dllist_get_elt (xs) = let
   val p_elt =
-    dllist_getref_elt {f,r} (xs) in $UN.ptr_get<a> (p_elt)
+    dllist_getref_elt (xs) in $UN.ptr_get<a> (p_elt)
   // end of [val]
 end // end of [dllist_get_elt]
 
 implement{a}
-dllist_set_elt
-  {f,r} (xs, x0) = let
+dllist_set_elt (xs, x0) = let
   val p_elt = 
-    dllist_getref_elt {f,r} (xs) in $UN.ptr_set<a> (p_elt, x0)
+    dllist_getref_elt (xs) in $UN.ptr_set<a> (p_elt, x0)
   // end of [val]
 end // end of [dllist_set_elt]
 
@@ -453,12 +451,12 @@ end // end of [dllist_insert_prev]
 
 (*
 fun{a:vt0p}
-dllist_remove
+dllist_takeout
   {f,r:int | r > 1}
   (xs: &dllist (INV(a), f, r) >> dllist (a, f, r-1)):<!wrt> (a)
 *)
 implement{a}
-dllist_remove
+dllist_takeout
   (xs) = let
   val nxs = dllist1_decode (xs)
   val nxs_prev = gnode_get_prev (nxs)
@@ -468,7 +466,7 @@ dllist_remove
   val () = (xs := dllist_encode (nxs_next))
 in
   g2node_getfree_elt (nxs)
-end // end of [dllist_remove]
+end // end of [dllist_takeout]
 
 (* ****** ****** *)
 

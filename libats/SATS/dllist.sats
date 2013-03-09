@@ -59,13 +59,17 @@ absvtype
 dllist_vtype
   (a: viewt@ype+, f: int, r: int) = ptr // HX: f: front; r: rear
 stadef dllist = dllist_vtype
-
+//
+vtypedef Dllist (a) = [f,r:int] dllist (a, f, r)
+vtypedef Dllist0 (a) = [f,r:int | r >= 0] dllist (a, f, r)
+vtypedef Dllist1 (a) = [f,r:int | r >= 1] dllist (a, f, r)
+//
 (* ****** ****** *)
 
 castfn
-dllist2ptr {a:vt0p}{f,r:int} (xs: !dllist (INV(a), f, r)):<> Ptr0
+dllist2ptr {a:vt0p} (xs: !Dllist (INV(a))):<> Ptr0
 castfn
-dllist2ptr1 {a:vt0p}{f,r:int | r > 0} (xs: !dllist (INV(a), f, r)):<> Ptr1
+dllist2ptr1 {a:vt0p} (xs: !Dllist1 (INV(a))):<> Ptr1
 
 (* ****** ****** *)
 
@@ -171,31 +175,21 @@ rdllist_is_atend
 (* ****** ****** *)
 
 fun{a:vt0p}
-dllist_getref_elt
-  {f,r:int | r > 0} (xs: !dllist (INV(a), f, r)):<> Ptr1
-// end of [dllist_getref_elt]
+dllist_getref_elt (xs: !Dllist1 (INV(a))):<> Ptr1
 
 fun{a:vt0p}
-dllist_getref_next
-  {f,r:int | r > 0} (xs: !dllist (INV(a), f, r)):<> Ptr1
-// end of [dllist_getref_next]
+dllist_getref_next (xs: !Dllist1 (INV(a))):<> Ptr1
 
 fun{a:vt0p}
-dllist_getref_prev
-  {f,r:int | r > 0} (xs: !dllist (INV(a), f, r)):<> Ptr1
-// end of [dllist_getref_prev]
+dllist_getref_prev (xs: !Dllist1 (INV(a))):<> Ptr1
 
 (* ****** ****** *)
 
 fun{a:t0p}
-dllist_get_elt
-  {f,r:int | r > 0} (xs: !dllist (INV(a), f, r)): a
-// end of [dllist_get_elt]
+dllist_get_elt (xs: !Dllist1 (INV(a))): a
 
 fun{a:t0p}
-dllist_set_elt
-  {f,r:int | r > 0} (xs: !dllist (INV(a), f, r), x0: a): void
-// end of [dllist_set_elt]
+dllist_set_elt (xs: !Dllist1 (INV(a)), x0: a): void
 
 (* ****** ****** *)
 
@@ -248,16 +242,16 @@ dllist_insert_prev
 // end of [dllist_insert]
 
 fun{a:vt0p}
-dllist_remove
+dllist_takeout
   {f,r:int | r > 1}
   (xs: &dllist (INV(a), f, r) >> dllist (a, f, r-1)):<!wrt> (a)
-// end of [dllist_remove]
+// end of [dllist_takeout]
 
 fun{a:vt0p}
-dllist_remove_next
+dllist_takeout_next
   {f,r:int | r > 1}
   (xs: &dllist (INV(a), f, r) >> dllist (a, f, r-1)):<!wrt> (a)
-// end of [dllist_remove_next]
+// end of [dllist_takeout_next]
 
 (* ****** ****** *)
 
@@ -268,10 +262,10 @@ rdllist_insert
 // end of [rdllist_insert]
 
 fun{a:vt0p}
-rdllist_remove
+rdllist_takeout
   {f,r:int | f > 0}
   (xs: &dllist (INV(a), f, r) >> dllist (a, f-1, r)):<!wrt> (a)
-// end of [rdllist_remove]
+// end of [rdllist_takeout]
 
 (* ****** ****** *)
 
@@ -302,7 +296,9 @@ rdllist_reverse
 (* ****** ****** *)
 
 fun{a:t0p}
-dllist_free {r:int} (xs: dllist (INV(a), 0, r)):<!wrt> void
+dllist_free
+  {r:int} (xs: dllist (INV(a), 0, r)):<!wrt> void
+// end of [dllist_free]
 
 fun{a:vt0p}
 dllist_freelin$clear (x: &a >> a?):<!wrt> void
@@ -319,14 +315,11 @@ a:vt0p}{env:vt0p
 } dllist_foreach$fwork (x: &a, env: &env >> _): void
 
 fun{a:vt0p}
-dllist_foreach
-  {f,r:int}
-  (xs: !dllist (INV(a), f, r)): void
+dllist_foreach (xs: !Dllist (INV(a))): void
 fun{
 a:vt0p}{env:vt0p
 } dllist_foreach_env
-  {f,r:int}
-  (xs: !dllist (INV(a), f, r), env: &env >> _): void
+  (xs: !Dllist (INV(a)), env: &env >> _): void
 // end of [dllist_foreach_env]
 
 (* ****** ****** *)
@@ -339,14 +332,11 @@ a:vt0p}{env:vt0p
 } rdllist_foreach$fwork (x: &a, env: &env >> _): void
 
 fun{a:vt0p}
-rdllist_foreach
-  {f,r:int | r > 0}
-  (xs: !dllist (INV(a), f, r)): void
+rdllist_foreach (xs: !Dllist (INV(a))): void
 fun{
 a:vt0p}{env:vt0p
 } rdllist_foreach_env
-  {f,r:int | r > 0}
-  (xs: !dllist (INV(a), f, r), env: &env >> _): void
+  (xs: !Dllist (INV(a)), env: &env >> _): void
 // end of [rdllist_foreach_env]
 
 (* ****** ****** *)
@@ -356,14 +346,14 @@ fprint_dllist$sep (out: FILEref): void
 //
 fun{a:vt0p}
 fprint_dllist
-  {f,r:int} (out: FILEref, xs: !dllist (INV(a), f, r)): void
+  (out: FILEref, xs: !Dllist (INV(a))): void
 // end of [fprint_dllist]
 //
 fun{}
 fprint_rdllist$sep (out: FILEref): void
 fun{a:vt0p}
 fprint_rdllist
-  {f,r:int} (out: FILEref, xs: !dllist (INV(a), f, r)): void
+  (out: FILEref, xs: !Dllist (INV(a))): void
 // end of [fprint_rdllist]
 //
 (* ****** ****** *)
