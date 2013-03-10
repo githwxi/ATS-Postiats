@@ -99,6 +99,22 @@ clean:: ; $(RMF) fcopy_dats.o
 clean:: ; $(RMF) fcopy_dats.c
 cleanall:: ; $(RMF) fcopy.exe
 
+all:: fib1
+fib1: fib1.exe
+fib1.exe: fib1_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+fib1_dats.c: fib1.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fib1_dats.c --dynamic fib1.dats
+clean:: ; $(RMF) fib1_dats.o
+clean:: ; $(RMF) fib1_dats.c
+cleanall:: ; $(RMF) fib1.exe
+
+all:: fib2
+fib2: fib2.exe
+fib2.exe: fib2_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+fib2_dats.c: fib2.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fib2_dats.c --dynamic fib2.dats
+clean:: ; $(RMF) fib2_dats.o
+clean:: ; $(RMF) fib2_dats.c
+cleanall:: ; $(RMF) fib2.exe
+
 all:: fibmem
 fibmem: fibmem.exe
 fibmem.exe: fibmem_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

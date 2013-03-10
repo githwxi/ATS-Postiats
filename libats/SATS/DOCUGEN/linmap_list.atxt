@@ -134,13 +134,22 @@ Otherwise, the function keeps the map and returns true. ")
 
 (* ****** ****** *)
 
-#declnamesynop("linmap_listize_copy")
 #declnamesynop("linmap_listize_free")
 
 (* ****** ****** *)
 
+#declnamesynop("linmap_listize$copy")
+#declnamesynop("linmap_listize_copy")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_node_vtype")
+
+(* ****** ****** *)
+
 #declnamesynop("mynode")
-#declnamesynop("mynode_vtype")
+#declnamesynop("mynode0")
+#declnamesynop("mynode1")
 
 (* ****** ****** *)
 

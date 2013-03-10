@@ -82,6 +82,8 @@ RMF=rm -f
 #make_entry("fact2")
 #make_entry("fact3")
 #make_entry("fcopy")
+#make_entry("fib1")
+#make_entry("fib2")
 #make_entry("fibmem")
 #make_entry("fprtuple")
 #make_entry("hello")
