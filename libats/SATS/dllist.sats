@@ -175,11 +175,12 @@ rdllist_is_atend
 (* ****** ****** *)
 
 fun{a:vt0p}
-dllist_getref_elt (xs: !Dllist1 (INV(a))):<> Ptr1
+dllist_getref_elt (xs: !Dllist1 (INV(a))):<> cPtr1 (a)
+
+(* ****** ****** *)
 
 fun{a:vt0p}
 dllist_getref_next (xs: !Dllist1 (INV(a))):<> Ptr1
-
 fun{a:vt0p}
 dllist_getref_prev (xs: !Dllist1 (INV(a))):<> Ptr1
 

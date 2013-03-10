@@ -359,7 +359,7 @@ ptr_exch {l:addr}
 
 abstype
 cptr_viewt0ype_addr_type
-  (a:viewt@ype+, addr) // HX: for simulating C pointers
+  (a:viewt@ype+, addr) = ptr // HX: for simulating C pointers
 stadef cptr = cptr_viewt0ype_addr_type
 stadef cPtr0 (a:vt0p) = [l:addr] cptr (a, l)
 stadef cPtr1 (a:vt0p) = [l:addr | l > null] cptr (a, l)

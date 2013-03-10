@@ -85,7 +85,7 @@ string_implode
 val [n:int] cs = list_of_list0 (cs)
 val n = list_length (cs)
 val n1 = g1int2uint (n + 1)
-val (pf, pfgc | p) = malloc_gc (n1)
+val (pf, pfgc | p) = $effmask_wrt (malloc_gc (n1))
 //
 fun loop
   {n:nat} .<n>. (

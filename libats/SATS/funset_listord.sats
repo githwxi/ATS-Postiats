@@ -52,7 +52,7 @@
 (* ****** ****** *)
 
 castfn
-list_of_funset {a:t0p} (xs: set (INV(a))):<> list (a)
+list_of_funset {a:t0p} (xs: set (INV(a))):<> List0 (a)
 
 (* ****** ****** *)
 

@@ -131,7 +131,7 @@ sllist_get_elt (xs: !Sllist1 (INV(a))): (a)
 fun{a:t0p}
 sllist_set_elt (xs: !Sllist1 (INV(a)), x0: a): void
 fun{a:vt0p}
-sllist_getref_elt (xs: !Sllist1 (INV(a))):<> Ptr1
+sllist_getref_elt (xs: !Sllist1 (INV(a))):<> cPtr1 (a)
 
 (* ****** ****** *)
 
@@ -150,15 +150,16 @@ sllist_set_elt_at {n:int}
 overload [] with sllist_set_elt_at
 fun{a:vt0p}
 sllist_getref_elt_at {n:int}
-  (xs: !sllist (INV(a), n), i: natLt(n)):<> Ptr1
+  (xs: !sllist (INV(a), n), i: natLt(n)):<> cPtr1 (a)
 // end of [sllist_getref_elt_at]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-sllist_getref_at {n:int}
-  (xs: &sllist (INV(a), n), i: natLte(n)):<> Ptr1
-// end of [sllist_getref_at]
+sllist_getref_at
+  {n:int} (
+  xs: &sllist (INV(a), n), i: natLte(n)
+) :<> Ptr1 // end of [sllist_getref_at]
 
 fun{a:vt0p}
 sllist_insert_at {n:int}

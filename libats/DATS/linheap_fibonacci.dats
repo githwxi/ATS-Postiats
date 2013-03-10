@@ -86,12 +86,27 @@ fun{a:vt0p}
 g2node_free_elt
   (nx: g2node1 (INV(a)), res: &a? >> a):<!wrt> void
 // end of [g2node_free_elt]
+
 extern
 fun{a:vt0p}
 g2node_get_rank (nx: g2node1 (INV(a))):<> int
 extern
 fun{a:vt0p}
 g2node_set_rank (nx: g2node1 (INV(a)), d: int):<!wrt> void
+
+extern
+fun{a:vt0p}
+g2node_get_parent (nx: g2node1 (INV(a))):<> g2node0 (a)
+extern
+fun{a:vt0p}
+g2node_set_parent (nx: g2node1 (INV(a)), par: g2node0 (a)):<!wrt> void
+
+extern
+fun{a:vt0p}
+g2node_get_children (nx: g2node1 (INV(a))):<> g2node0 (a)
+extern
+fun{a:vt0p}
+g2node_set_children (nx: g2node1 (INV(a)), par: g2node0 (a)):<!wrt> void
 
 extern
 fun{a:vt0p}
@@ -154,10 +169,8 @@ in
 if gnode2ptr (nx2) > 0 then let
   val [l2:addr]
     p_x2 = gnode_getref_elt (nx2)
-  prval (pf, fpf) =
-    __assert (p_x2) where {
-    extern praxi __assert : ptr l2 -<prf> (a@l2, a@l2 -<lin,prf> void)
-  } // end of [prval]
+  prval (pf, fpf) = $UN.cptr_vtake {a} (p_x2)
+  val p_x2 = cptr2ptr (p_x2)
   val sgn = compare_elt_elt (x1, !p_x2)
   prval () = fpf (pf)
 in
@@ -267,10 +280,10 @@ join_g2node_g2node
   val () = assertloc_debug (r = g2node_get_rank (nx2))
 *)
   val () = g2node_set_rank (nx1, r+1)
-  val () = gnode_set_parent (nx2, nx1)
+  val () = g2node_set_parent (nx2, nx1)
   val () = g2node_set_marked (nx2, false)
-  val () = gnode_link10 (nx2, gnode_get_children (nx1))
-  val () = gnode_set_children (nx1, nx2)
+  val () = gnode_link10 (nx2, g2node_get_children (nx1))
+  val () = g2node_set_children (nx1, nx2)
 in
   // nothing
 end // end of [join_g2node_g2node]
@@ -422,7 +435,7 @@ in
 if N > 0SZ then let
   val nx0 = nx0_ref
   val nx0 = $UN.cast{g2node1(a)}(nx0)
-  val nxs2 = gnode_get_children (nx0)
+  val nxs2 = g2node_get_children (nx0)
   val () = g2nodelst_set_parent_null (nxs2)
 //
   val () = g2node_insert_next_circlst (nx0, nxs2)

@@ -190,7 +190,11 @@ end // end of [funset_compare]
 (* ****** ****** *)
 
 implement{a}
-funset_listize (xs) = list0_of_list ($FS.funset_listize (xs))
+funset_listize (xs) = let
+  val xs = $effmask_wrt ($FS.funset_listize (xs))
+in
+  list0_of_list_vt (xs)
+end // end of [funset_listize]
 
 (* ****** ****** *)
 

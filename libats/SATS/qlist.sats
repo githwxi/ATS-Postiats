@@ -234,7 +234,7 @@ fun{a:vt0p}
 mynode_make_elt (x: a):<!wrt> mynode1 (a)
 
 fun{a:vt0p}
-mynode_getref_elt (nx: !mynode1 (INV(a))):<> Ptr1
+mynode_getref_elt (nx: !mynode1 (INV(a))):<> cPtr1 (a)
 
 fun{a:vt0p}
 mynode_free_elt

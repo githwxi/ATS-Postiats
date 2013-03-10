@@ -34,7 +34,7 @@
 (* ****** ****** *)
 //
 // HX: there is no involvement of malloc/free
-// HX: generic nodes: singly-linked, doubly-linked, parental
+// HX: generic nodes: singly-linked, doubly-linked, ...
 //
 (* ****** ****** *)
 
@@ -93,13 +93,13 @@ fun{
 
 fun{
 tk:tk}{a:vt0p
-} gnode_getref_elt (nx: gnode1 (tk, INV(a))):<> Ptr1
+} gnode_getref_elt (nx: gnode1 (tk, INV(a))):<> cPtr1 (a)
 
 (* ****** ****** *)
 
 fun{
 tk:tk}{a:vt0p
-} gnode_getref_next (nx: gnode1 (tk, INV(a))):<> Ptr1
+} gnode_getref_next (nx: gnode1 (tk, INV(a))):<> cPtr1 (gnode0(tk, a))
 
 fun{
 tk:tk}{a:vt0p // implemented
@@ -121,7 +121,7 @@ tk:tk}{a:vt0p
 
 fun{
 tk:tk}{a:vt0p
-} gnode_getref_prev (nx: gnode1 (tk, INV(a))):<> Ptr1
+} gnode_getref_prev (nx: gnode1 (tk, INV(a))):<> cPtr1 (gnode0 (tk, a))
 
 fun{
 tk:tk}{a:vt0p
@@ -138,38 +138,6 @@ tk:tk}{a:vt0p
 fun{
 tk:tk}{a:vt0p
 } gnode0_set_prev_null (nx: gnode0 (tk, INV(a))):<!wrt> void
-
-(* ****** ****** *)
-
-fun{
-tk:tk}{a:vt0p
-} gnode_getref_parent (nx: gnode1 (tk, INV(a))):<> Ptr1
-
-fun{
-tk:tk}{a:vt0p
-} gnode_get_parent (nx: gnode1 (tk, INV(a))):<> gnode0 (tk, a)
-fun{
-tk:tk}{a:vt0p
-} gnode_set_parent (nx: gnode1 (tk, INV(a)), nx2: gnode (tk, a)):<!wrt> void
-fun{
-tk:tk}{a:vt0p
-} gnode_set_parent_null (nx: gnode1 (tk, INV(a))):<!wrt> void
-fun{
-tk:tk}{a:vt0p
-} gnode0_set_parent_null (nx: gnode0 (tk, INV(a))):<!wrt> void
-
-(* ****** ****** *)
-
-fun{
-tk:tk}{a:vt0p
-} gnode_getref_children (nx: gnode1 (tk, INV(a))):<> Ptr1
-
-fun{
-tk:tk}{a:vt0p
-} gnode_get_children (nx: gnode1 (tk, INV(a))):<> gnode0 (tk, a)
-fun{
-tk:tk}{a:vt0p
-} gnode_set_children (nx: gnode1 (tk, INV(a)), nx2: gnode (tk, a)):<!wrt> void
 
 (* ****** ****** *)
 

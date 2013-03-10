@@ -209,7 +209,7 @@ implement{a}
 sllist_get_elt
   (xs) = let
   val p_elt =
-    sllist_getref_elt (xs) in $UN.ptr_get<a> (p_elt)
+    sllist_getref_elt (xs) in $UN.cptr_get<a> (p_elt)
   // end of [val]
 end // end of [sllist_get_elt]
 
@@ -217,7 +217,7 @@ implement{a}
 sllist_set_elt
   (xs, x0) = let
   val p_elt = 
-    sllist_getref_elt (xs) in $UN.ptr_set<a> (p_elt, x0)
+    sllist_getref_elt (xs) in $UN.cptr_set<a> (p_elt, x0)
   // end of [val]
 end // end of [sllist_set_elt]
 
@@ -233,7 +233,7 @@ end // end of [sllist_getref_elt]
 implement{a}
 sllist_getref_next (xs) = let
   val nxs =
-    $UN.castvwtp1{g2node1(a)}(xs) in gnode_getref_next (nxs)
+    $UN.castvwtp1{g2node1(a)}(xs) in cptr2ptr (gnode_getref_next (nxs))
   // end of [val]  
 end // end of [sllist_getref_next]
 
@@ -243,7 +243,7 @@ implement{a}
 sllist_get_elt_at
   (xs, i) = let
   val p_elt =
-    sllist_getref_elt_at (xs, i) in $UN.ptr_get<a> (p_elt)
+    sllist_getref_elt_at (xs, i) in $UN.cptr_get<a> (p_elt)
   // end of [val]
 end // end of [sllist_get_elt_at]
 
@@ -251,7 +251,7 @@ implement{a}
 sllist_set_elt_at
   (xs, i, x0) = let
   val p_elt = 
-    sllist_getref_elt_at (xs, i) in $UN.ptr_set<a> (p_elt, x0)
+    sllist_getref_elt_at (xs, i) in $UN.cptr_set<a> (p_elt, x0)
   // end of [val]
 end // end of [sllist_set_elt_at]
 
@@ -291,7 +291,7 @@ in
     // end of [val]
     val p2 = gnode_getref_next (nx)
   in
-    loop (p2, i-1)
+    loop (cptr2ptr (p2), i-1)
   end else (p) // end of [if]
 end // end of [loop]
 //
@@ -465,7 +465,8 @@ if iscons then let
   val nx0 = nxs
   val nxs = gnode_get_next (nxs)
   val p_elt = gnode_getref_elt (nx0)
-  prval (pf, fpf) = $UN.ptr_vtake {a} (p_elt)
+  prval (pf, fpf) = $UN.cptr_vtake {a} (p_elt)
+  val p_elt = cptr2ptr (p_elt)
   val test = sllist_foreach$cont (!p_elt, env)
 in
   if test then let
@@ -509,7 +510,8 @@ if iscons then let
     if i > 0 then fprint_sllist$sep (out)
   // end of [val]
   val p_elt = gnode_getref_elt (nx0)
-  prval (pf, fpf) = $UN.ptr_vtake {a} (p_elt)
+  prval (pf, fpf) = $UN.cptr_vtake {a} (p_elt)
+  val p_elt = cptr2ptr (p_elt)
   val () = fprint_ref (out, !p_elt)
   prval () = fpf (pf)
 in
@@ -589,7 +591,7 @@ prval () = fold@ (nx)
 prval () = slnode_vfree (nx)
 //
 in
-  p_elt
+  $UN.cast{cPtr1(a)}(p_elt)
 end // end of [gnode_getref_elt]
 
 (* ****** ****** *)
@@ -606,7 +608,7 @@ prval () = fold@ (nx)
 prval () = slnode_vfree (nx)
 //
 in
-  p_next
+  $UN.cast{cPtr1(g2node0(a))}(p_next)
 end // end of [gnode_getref_next]
 
 (* ****** ****** *)

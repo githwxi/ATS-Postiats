@@ -59,7 +59,7 @@ staload "libats/SATS/funset_listord.sats"
 (* ****** ****** *)
 
 assume
-set_t0ype_type (a: t0p) = List0 (a)
+set_type (a: t0p) = List0 (a)
 
 (* ****** ****** *)
 //
@@ -418,7 +418,8 @@ end // end of [funset_compare]
 
 (* ****** ****** *)
 
-implement{a} funset_listize_vt (xs) = list_copy<a> (xs)
+implement{a}
+funset_listize (xs) = list_copy<a> (xs)
 
 (* ****** ****** *)
 

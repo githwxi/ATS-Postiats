@@ -32,7 +32,7 @@
 //
 (* ****** ****** *)
 //
-// HX: generic nodes: singly-linked, doubly-linked, parental
+// HX: generic nodes: singly-linked, doubly-linked, ...
 //
 (* ****** ****** *)
 
@@ -75,7 +75,7 @@ implement
 gnode_get_next
   (nx) = nx2 where {
   val p = gnode_getref_next (nx)
-  val nx2 = $UN.ptr0_get<gnode0(tk,elt)> (p)
+  val nx2 = $UN.cptr_get<gnode0(tk,elt)> (p)
 } // end of [gnode_get_next]
 
 implement
@@ -83,7 +83,7 @@ implement
 gnode_set_next
   (nx, nx2) = () where {
   val p = gnode_getref_next (nx)
-  val () = $UN.ptr0_set<gnode(tk,elt)> (p, nx2)
+  val () = $UN.cptr_set<gnode(tk,elt)> (p, nx2)
 } // end of [gnode_set_next]
 
 implement
@@ -116,7 +116,7 @@ implement
 gnode_get_prev
   (nx) = nx2 where {
   val p = gnode_getref_prev (nx)
-  val nx2 = $UN.ptr0_get<gnode0(tk,elt)> (p)
+  val nx2 = $UN.cptr_get<gnode0(tk,elt)> (p)
 } // end of [gnode_get_prev]
 
 implement
@@ -124,7 +124,7 @@ implement
 gnode_set_prev
   (nx, nx2) = () where {
   val p = gnode_getref_prev (nx)
-  val () = $UN.ptr0_set<gnode(tk,elt)> (p, nx2)
+  val () = $UN.cptr_set<gnode(tk,elt)> (p, nx2)
 } // end of [gnode_set_prev]
 
 implement
@@ -149,30 +149,6 @@ gnode0_set_prev_null (nx) = let
 in
   if gnode_isnot_null (nx) then gnode_set_prev_null (nx)
 end // end of [gnode0_set_prev_null]
-
-(* ****** ****** *)
-
-implement
-{tk}{elt}
-gnode_get_parent
-  (nx) = nx2 where {
-  val p = gnode_getref_parent (nx)
-  val nx2 = $UN.ptr0_get<gnode0(tk,elt)> (p)
-} // end of [gnode_get_parent]
-
-implement
-{tk}{elt}
-gnode_set_parent
-  (nx, nx2) = () where {
-  val p = gnode_getref_parent (nx)
-  val () = $UN.ptr0_set<gnode(tk,elt)> (p, nx2)
-} // end of [gnode_set_parent]
-
-implement
-{tk}{elt}
-gnode_set_parent_null
-  (nx) = gnode_set_parent (nx, gnode_null ())
-// end of [gnode_set_parent_null]
 
 (* ****** ****** *)
 

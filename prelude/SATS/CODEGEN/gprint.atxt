@@ -41,7 +41,7 @@ gprint_newline (): void
 #atscode_separator()
 
 fun{a:t0p}
-gprint (x: a): void
+gprint_val (x: a): void
 
 #atscode_separator()
 

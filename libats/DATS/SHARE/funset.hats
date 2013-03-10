@@ -87,11 +87,4 @@ end // end of [funset_equal]
 
 (* ****** ****** *)
 
-implement{a}
-funset_listize (xs) = let
-  val ys = $effmask_wrt (funset_listize_vt (xs)) in list_of_list_vt (ys)
-end // end of [funset_listize]
-
-(* ****** ****** *)
-
 (* end of [funset.hats] *)

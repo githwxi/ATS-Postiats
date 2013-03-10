@@ -1,0 +1,117 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../sllist.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_sllist")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/sllist\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+
+This package contains a variety of common functions for creating/freeing
+and manipulating singly-linked linear lists.  ')
+
+#para('\
+
+The type for a singly-linked linear list containing N elements of type T is
+denoted by #stacode("sllist(T, N)"), where T can be linear and N indicates
+that there are N elements in the list. Note that the type constructor
+#stacode("sllist") is co-variant in its first argument, that is,
+#stacode("sllist(T1, N)") is a subtype of #stacode("sllist(T2, N)") if T1
+is a subtype of T2. The low-level representation for sllist is the same as
+that for a standard singly-linked list in C, and it is fairly
+straightforward to implement functions in C that can directly manipulate
+singly-linked linear lists in ATS and vice versa.  ')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("sllist")
+#declnamesynop("sllist_vtype")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_sllist_param")
+
+(* ****** ****** *)
+
+#declnamesynop("sllist_nil")
+#declnamesynop("sllist_free_nil")
+
+(* ****** ****** *)
+
+#declnamesynop("sllist_sing")
+
+(* ****** ****** *)
+
+#declnamesynop("sllist_cons")
+#declnamesynop("sllist_uncons")
+
+(* ****** ****** *)
+
+#declnamesynop("sllist_is_nil")
+#declnamesynop("sllist_is_cons")
+
+(* ****** ****** *)
+
+#declnamesynop("sllist_length")
+
+(* ****** ****** *)
+
+#declnamesynop("sllist_get_elt")
+#declnamesynop("sllist_set_elt")
+#declnamesynop("sllist_getref_elt")
+
+(* ****** ****** *)
+
+#declnamesynop("sllist_getref_next")
+
+(* ****** ****** *)
+
+#declnamesynop("sllist_get_elt_at")
+#declnamesynop("sllist_set_elt_at")
+#declnamesynop("sllist_getref_elt_at")
+
+(* ****** ****** *)
+
+#declnamesynop("sllist_insert_at")
+#declnamesynop("sllist_takeout_at")
+
+(* ****** ****** *)
+
+#declnamesynop("sllist_append")
+
+(* ****** ****** *)
+
+#declnamesynop("sllist_reverse")
+
+(* ****** ****** *)
+
+#declnamesynop("sllist_free")
+#declnamesynop("sllist_freelin$clear")
+#declnamesynop("sllist_freelin")
+
+(* ****** ****** *)
+
+#declnamesynop("sllist_foreach")
+#declnamesynop("sllist_foreach_env")
+
+(* ****** ****** *)
+
+(* end of [sllist.atxt] *)

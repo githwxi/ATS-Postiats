@@ -33,7 +33,7 @@ implement{} gprint$out () = stdout_ref
 implement{a}
 gprint_val (x) = let
   val out = gprint$out () in fprint_val<a> (out, x)
-end // end of [gprint]
+end // end of [gprint_val]
 
 #atscode_separator()
 

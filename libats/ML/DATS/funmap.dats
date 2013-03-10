@@ -51,12 +51,17 @@ staload "libats/ML/SATS/funmap.sats"
 
 (* ****** ****** *)
 
-assume map_type (key:t0p, itm: t0p) = $FM.map (key, itm)
+assume
+map_type (key:t0p, itm: t0p) = $FM.map (key, itm)
 
 (* ****** ****** *)
 
 implement{key,itm}
-funmap_listize (xs) = list0_of_list ($FM.funmap_listize (xs))
+funmap_listize (xs) = let
+  val xs = $effmask_wrt ($FM.funmap_listize (xs))
+in
+  list0_of_list_vt (xs)
+end // end of [funmap_listize]
 
 (* ****** ****** *)
 

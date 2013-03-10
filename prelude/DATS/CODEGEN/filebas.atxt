@@ -164,7 +164,7 @@ in
   if yn then let
     prval () = opt_unsome (x) in x
   end else let
-    prval () = opt_unnone (x) in exit_errmsg {a} (1, msg)
+    prval () = opt_unnone (x) in exit_errmsg (1, msg)
   end (* end of [if] *)
 end // end of [fileref_get_exnmsg]
 
@@ -248,7 +248,7 @@ fileref_get_line_string
   val str = fileref_get_line_string_main (filr, n, ending)
   prval () = lemma_strnptr_param (str)
 in
-  strptr_of_strnptr (str)
+  strnptr2strptr (str)
 end // end of [fileref_get_line_string]
 
 implement
