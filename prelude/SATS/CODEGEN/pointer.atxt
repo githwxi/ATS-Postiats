@@ -163,16 +163,19 @@ end // end of [fun_ptr_cmp0_decl]
 overload <> with neq_ptr0_ptr0 of 0
 
 fun compare_ptr0_ptr0
-  (p1: ptr, p2: ptr) :<> int = "mac\#%"
+  (p1: ptr, p2: ptr):<> int = "mac\#%"
 overload compare with compare_ptr0_ptr0 of 0
 
 #atscode_separator()
 
-fun gt_ptr0_intz (p: ptr, i: int(0)):<> bool
+fun gt_ptr0_intz
+  (p: ptr, i: int(0)):<> bool = "mac\#%"
 overload > with gt_ptr0_intz of 0
-fun eq_ptr0_intz (p: ptr, i: int(0)):<> bool
+fun eq_ptr0_intz
+  (p: ptr, i: int(0)):<> bool = "mac\#%"
 overload = with eq_ptr0_intz of 0
-fun neq_ptr0_intz (p: ptr, i: int(0)):<> bool
+fun neq_ptr0_intz
+  (p: ptr, i: int(0)):<> bool = "mac\#%"
 overload != with neq_ptr0_intz of 0
 overload <> with neq_ptr0_intz of 0
 
@@ -315,21 +318,20 @@ end // end of [fun_ptr_cmp1_decl]
 #fun_ptr_cmp1_decl("neq")
 overload <> with neq_ptr1_ptr1 of 20
 
-fun
-compare_ptr1_ptr1
+fun compare_ptr1_ptr1
   {l1,l2:addr} (p1: ptr l1, p2: ptr l2) :<> int = "mac\#%"
 overload compare with compare_ptr1_ptr1 of 20
 
 #atscode_separator()
 
-fun gt_ptr1_intz
-  {l:addr} (p: ptr l, i: int(0)):<> bool(l > null)
+fun gt_ptr1_intz {l:addr}
+  (p: ptr l, i: int(0)):<> bool(l > null) = "mac\#%"
 overload > with gt_ptr1_intz of 10
-fun eq_ptr1_intz
-  {l:addr} (p: ptr l, i: int(0)):<> bool(l==null)
+fun eq_ptr1_intz {l:addr}
+  (p: ptr l, i: int(0)):<> bool(l == null) = "mac\#%"
 overload = with eq_ptr1_intz of 10
-fun neq_ptr1_intz
-  {l:addr} (p: ptr l, i: int(0)):<> bool(l > null)
+fun neq_ptr1_intz {l:addr}
+  (p: ptr l, i: int(0)):<> bool(l > null) = "mac\#%"
 overload != with neq_ptr1_intz of 10
 overload <> with neq_ptr1_intz of 10
 
@@ -365,12 +367,17 @@ stadef cPtr0 (a:vt0p) = [l:addr] cptr (a, l)
 stadef cPtr1 (a:vt0p) = [l:addr | l > null] cptr (a, l)
 
 castfn
-cptr2ptr
-  {a:vt0p}{l:addr} (p: cptr (a, l)):<> ptr (l)
-// end of [castfn]
+cptr2ptr {a:vt0p}{l:addr} (p: cptr (a, l)):<> ptr (l)
 
+#atscode_separator()
+//
 fun cptr_null {a:vt0p} ():<> cptr (a, null) = "mac\#%"
-
+//
+fun cptr_is_null
+  {a:vt0p}{l:addr} (p: cptr (a, l)):<> bool (l==null) = "mac\#%"
+fun cptr_isnot_null
+  {a:vt0p}{l:addr} (p: cptr (a, l)):<> bool (l > null) = "mac\#%"
+//
 #atscode_separator()
 
 typedef voidptr (l:addr) = cptr (void, l)
@@ -410,6 +417,19 @@ praxi ptrlin_free {l:addr} (p: ptrlin (l)): void
 //
 castfn ptr2ptrlin {l:addr} (p: ptr l):<> ptrlin (l)
 castfn ptrlin2ptr {l:addr} (p: ptrlin l):<> ptr (l)
+//
+#atscode_separator()
+//
+// overloading for certain symbols
+//
+overload iseqz with ptr0_is_null of 0
+overload isneqz with ptr0_isnot_null of 0
+//
+overload iseqz with ptr1_is_null of 10
+overload isneqz with ptr1_isnot_null of 10
+//
+overload iseqz with cptr_is_null of 10
+overload isneqz with cptr_isnot_null of 10
 //
 #atscode_separator()
 

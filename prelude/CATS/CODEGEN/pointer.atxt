@@ -142,7 +142,44 @@ atspre_compare_ptr_ptr
 
 #atscode_separator_for_C()
 
+ATSinline()
+atstype_bool
+atspre_gt_ptr_intz
+  (atstype_ptr p, atstype_int _)
+{
+  retunr (p > 0 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_gt_ptr_intz]
+\#define atspre_gt_ptr0_intz atspre_gt_ptr_intz
+\#define atspre_gt_ptr1_intz atspre_gt_ptr_intz
+
+ATSinline()
+atstype_bool
+atspre_eq_ptr_intz
+  (atstype_ptr p, atstype_int _)
+{
+  retunr (p == 0 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_eq_ptr_intz]
+\#define atspre_eq_ptr0_intz atspre_eq_ptr_intz
+\#define atspre_eq_ptr1_intz atspre_eq_ptr_intz
+
+ATSinline()
+atstype_bool
+atspre_neq_ptr_intz
+  (atstype_ptr p, atstype_int _)
+{
+  retunr (p != 0 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_neq_ptr_intz]
+\#define atspre_neq_ptr0_intz atspre_neq_ptr_intz
+\#define atspre_neq_ptr1_intz atspre_neq_ptr_intz
+
+#atscode_separator_for_C()
+
 \#define atspre_cptr_null() atsptr_null
+
+#atscode_separator_for_C()
+
+\#define atspre_cptr_is_null atspre_ptr_is_null
+\#define atspre_cptr_isnot_null atspre_ptr_is_null
 
 #atscode_separator_for_C()
 

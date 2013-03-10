@@ -236,13 +236,9 @@ fun strlencmp
 
 #atscode_separator()
 
-fun fprint_string
-  (out: FILEref, x: string): void = "mac\#%"
-overload fprint with fprint_string
 fun print_string (x: string): void = "mac\#%"
 fun prerr_string (x: string): void = "mac\#%"
-overload print with print_string
-overload prerr with prerr_string
+fun fprint_string (out: FILEref, x: string): void = "mac\#%"
 
 #atscode_separator()
 
@@ -409,12 +405,39 @@ stropt_unsome {n:nat} (x: stropt n): string (n)
 #atscode_separator()
 
 fun{
-} stropt_length {n:int} (x: stropt (n)): ssize_t (n)
+} stropt_length
+  {n:int} (x: stropt (n)): ssize_t (n)
+// end of [stropt_length]
 
 #atscode_separator()
 
-fun fprint_stropt (out: FILEref, x: Stropt0): void
+fun print_stropt (x: Stropt0): void = "mac\#%"
+fun prerr_stropt (x: Stropt0): void = "mac\#%"
+fun fprint_stropt (out: FILEref, x: Stropt0): void = "mac\#%"
 
+#atscode_separator()
+//
+// overloading for certain symbols
+//
+overload iseqz with string_is_empty of 0
+overload isneqz with string_isnot_empty of 0
+//
+overload iseqz with stropt_is_none of 10
+overload isneqz with stropt_is_some of 10
+//
+overload length with string0_length of 0
+overload length with string1_length of 10
+//
+overload length with stropt_length of 10
+//
+overload print with print_string of 0
+overload prerr with prerr_string of 0
+overload fprint with fprint_string of 0
+//
+overload print with print_stropt of 0
+overload prerr with prerr_stropt of 0
+overload fprint with fprint_stropt of 0
+//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

@@ -674,6 +674,15 @@ a:t0p
 ) :<!wrt> list_vt (a, n) // end of [list_quicksort_fun]
 
 #atscode_separator()
+//
+// overloading for certain symbols
+//
+overload iseqz with list_is_nil
+overload isneqz with list_is_cons
+//
+overload length with list_length
+//
+#atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
 
