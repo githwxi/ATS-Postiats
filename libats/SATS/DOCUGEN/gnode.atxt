@@ -31,35 +31,19 @@ This package contains various functions for manipulating generic nodes.
 
 (* ****** ****** *)
 
-#declnamesynop("gnode_make_elt")
-#declnamesynop("gnode_free_elt")
-
-(* ****** ****** *)
-
+#declnamesynop("gnode_get_elt")
+#declnamesynop("gnode_set_elt")
 #declnamesynop("gnode_getref_elt")
-#declnamesynop("gnode_getfree_elt")
 
 (* ****** ****** *)
 
 #declnamesynop("gnode_get_next")
-#declnamesynop("gnode_getref_next")
 #declnamesynop("gnode_set_next")
+#declnamesynop("gnode_getref_next")
 
 #declnamesynop("gnode_get_prev")
-#declnamesynop("gnode_getref_prev")
 #declnamesynop("gnode_set_prev")
-
-(* ****** ****** *)
-
-#declnamesynop("gnode_get_parent")
-#declnamesynop("gnode_getref_parent")
-#declnamesynop("gnode_set_parent")
-
-(* ****** ****** *)
-
-#declnamesynop("gnode_get_children")
-#declnamesynop("gnode_getref_children")
-#declnamesynop("gnode_set_children")
+#declnamesynop("gnode_getref_prev")
 
 (* ****** ****** *)
 

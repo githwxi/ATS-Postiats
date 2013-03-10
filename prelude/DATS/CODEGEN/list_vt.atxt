@@ -94,15 +94,22 @@ list_vt_is_pair (xs) =
 
 implement{a}
 list_vt_length (xs) = let
-  prval () = lemma_list_vt_param (xs)
-  fun loop
-    {i,j:nat} .<i>. (
-    xs: !list_vt (a, i), j: int j
-  ) :<> int (i+j) =
-    case+ xs of
-    | list_vt_cons (_, xs) => loop (xs, j + 1)
-    | list_vt_nil () => j
-  // end of [loop]
+//
+fun loop
+  {i,j:nat} .<i>.
+(
+  xs: !list_vt (a, i), j: int j
+) :<> int (i+j) = let
+in
+//
+case+ xs of
+| list_vt_cons (_, xs) => loop (xs, j + 1)
+| list_vt_nil () => j
+//
+end // end of [loop]
+//
+prval () = lemma_list_vt_param (xs)
+//
 in
   loop (xs, 0)
 end // end of [list_vt_length]
@@ -181,108 +188,134 @@ in
 end // end of [loop]
 //
 in
-  $UN.ptr2cptr {list_vt(a,n-i)} (loop (xs, i))
+  $UN.ptr2cptr{list_vt(a,n-i)}(loop (xs, i))
 end // end of [list_vt_getref_at]
 
 #atscode_separator()
 
 implement{a}
 list_vt_get_at
-  {n} (xs, i) = x where {
+  {n} (xs, i) = x where
+{
 //
-  var xs = __ref (xs) where {
-    extern castfn
-      __ref (xs: !list_vt (a, n)):<> list_vt (a, n)
-  } // end of [val]
+var xs = __ref (xs) where
+{
+  extern
+  castfn __ref
+    (xs: !list_vt (a, n)):<> list_vt (a, n)
+} // end of [val]
 //
-  val pi = list_vt_getref_at (xs, i)
-  val pi = cptr2ptr (pi) // HX: cptr is a bit unwieldy
-  val+ list_cons (x, _) = $UN.ptr_get<List1(a)> (pi)
+val pi = list_vt_getref_at (xs, i)
+val+ list_cons (x, _) = $UN.ptr_get<List1(a)> (cptr2ptr (pi))
 //
-  prval () = __unref (xs) where {
-    extern praxi __unref (xs: list_vt (a, n)): void
-  } // end of [val]
+prval () = __unref (xs) where
+{
+  extern praxi __unref (xs: list_vt (a, n)): void
+} // end of [prval]
 //
 } // end of [list_vt_get_at]
 
 implement{a}
 list_vt_set_at
-  {n} (xs, i, x) = () where {
+  {n} (xs, i, x0) = let
 //
-  var xs = __ref (xs) where {
-    extern castfn
-      __ref (xs: !list_vt (a, n)):<> list_vt (a, n)
-  } // end of [val]
+var xs = let
+  extern
+  castfn __ref
+    (xs: !list_vt (a, n)):<> list_vt (a, n)
+  // end of [__ref]
+in
+  __ref (xs)
+end // end of [val]
 //
-  val pi = list_vt_getref_at (xs, i)
-  prval (pf, fpf) = $UN.cptr_vtake (pi)
-  val pi = cptr2ptr (pi) // HX: cptr is a bit unwieldy
-  val+ @list_vt_cons (x1, xs1) = !pi
-  val () = x1 := x
-  prval () = fold@ (!pi)
-  prval () = fpf (pf)
+val pi = list_vt_getref_at (xs, i)
+val (pf, fpf | pi) = $UN.cptr_vtake (pi)
+val+ @list_vt_cons (x1, xs1) = !pi
+val () = x1 := x0
+prval () = fold@ (!pi)
+prval () = fpf (pf)
 //
-  prval () = __unref (xs) where {
-    extern praxi __unref (xs: list_vt (a, n)): void
-  } // end of [val]
+prval () = let
+  extern praxi __unref (xs: list_vt (a, n)): void
+in
+  __unref (xs)
+end // end of [prval]
 //
-} // end of [list_vt_set_at]
+in
+  // nothing
+end // end of [list_vt_set_at]
 
 #atscode_separator()
 
 implement{a}
 list_vt_exch_at
-  {n} (xs, i, x) = () where {
+  {n} (xs, i, x0) = let
 //
-  var xs = __ref (xs) where {
-    extern castfn
-      __ref (xs: !list_vt (a, n)):<> list_vt (a, n)
-  } // end of [val]
+var xs = __ref (xs) where
+{
+  extern
+  castfn __ref
+    (xs: !list_vt (a, n)):<> list_vt (a, n)
+} // end of [val]
 //
-  val pi = list_vt_getref_at (xs, i)
-  prval (pf, fpf) = $UN.cptr_vtake (pi)
-  val pi = cptr2ptr (pi) // HX: cptr is a bit unwieldy
-  val+ @list_vt_cons (x1, xs1) = !pi
+val pi = list_vt_getref_at (xs, i)
+val (pf, fpf | pi) = $UN.cptr_vtake (pi)
+val+ @list_vt_cons (x1, xs1) = !pi
 //
-  val t = x1
-  val () = x1 := x
-  val () = x := t
+val t = x1
+val () = x1 := x0
+val () = x0 := t
 //
-  prval () = fold@ (!pi); prval () = fpf (pf)
+prval () = fold@ (!pi)
+prval () = fpf (pf)
 //
-  prval () = __unref (xs) where {
-    extern praxi __unref (xs: list_vt (a, n)): void
-  } // end of [val]
+prval () = __unref (xs) where
+{
+  extern praxi __unref (xs: list_vt (a, n)): void
+} // end of [prval]
 //
-} // end of [list_vt_exch_at]
+in
+  // nothing
+end // end of [list_vt_exch_at]
 
 #atscode_separator()
 
 implement{a}
 list_vt_insert_at
   {n} (xs, i, x) = let
-  val pi = list_vt_getref_at (xs, i)
-  val xs_i = $UN.cptr_get (pi)
-  val pi = cptr2ptr (pi) // HX: cptr is a bit unwieldy
-  val () = $UN.ptr_set<List1_vt(a)> (pi, list_vt_cons (x, xs_i))
-  prval () = __assert (xs) where {
-    extern praxi __assert (xs: &list_vt (a, n) >> list_vt (a, n+1)): void
-  } // end of [prval]
+//
+val pi = list_vt_getref_at (xs, i)
+val xs_i = $UN.cptr_get (pi)
+val xs1_i = list_vt_cons (x, xs_i)
+val () = $UN.ptr_set<List1_vt(a)> (cptr2ptr(pi), xs1_i)
+//
+prval () = __assert (xs) where
+{
+  extern
+  praxi __assert (xs: &list_vt (a, n) >> list_vt (a, n+1)): void
+} // end of [prval]
 in
   // nothing
 end // end of [list_vt_insert_at]
 
+#atscode_separator()
+
 implement{a}
 list_vt_remove_at
-  {n} (xs, i) = x1 where {
-  val pi = list_vt_getref_at (xs, i)
-  val xs_i = $UN.cptr_get (pi)
-  val pi = cptr2ptr (pi) // HX: cptr is a bit unwieldy
-  val+ ~list_vt_cons (x1, xs1_i) = xs_i
-  val () = $UN.ptr_set<List0_vt(a)> (pi, xs1_i)
-  prval () = __assert (xs) where {
-    extern praxi __assert (xs: &list_vt (a, n) >> list_vt (a, n-1)): void
-  } // end of [prval]
+{n} (xs, i) = x1 where
+{
+//
+val pi = list_vt_getref_at (xs, i)
+val xs_i = $UN.cptr_get (pi)
+val+~list_vt_cons (x1, xs1_i) = xs_i
+val () = $UN.ptr_set<List0_vt(a)> (cptr2ptr(pi), xs1_i)
+//
+prval () = __assert (xs) where
+{
+  extern
+  praxi __assert (xs: &list_vt (a, n) >> list_vt (a, n-1)): void
+} // end of [prval]
+//
 } // end of [list_vt_remove_at]
 
 #atscode_separator()

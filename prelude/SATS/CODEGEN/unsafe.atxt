@@ -139,8 +139,10 @@ fun{a:t0p} ptr0_modby (p: ptr, x: a):<!wrt> void // !p %= x
 castfn
 ptr2cptr {a:vt0p}{l:addr} (p: ptr l):<> cptr (a, l)
 //
-praxi cptr_vtake
-  {a:vt0p}{l:addr} (p: cptr (INV(a), l)): vtakeout (void, a@l)
+castfn
+cptr_vtake
+  {a:vt0p}{l:agz}
+  (p: cptr (INV(a), l)):<> (a@l, a@l -<lin,prf> void | ptr l)
 // end of [cptr_vtake]
 //
 fun{a:vt0p} cptr_get (p: cPtr1 (INV(a))):<> a

@@ -92,14 +92,17 @@ fun{
 (* ****** ****** *)
 
 fun{
+tk:tk}{a:t0p
+} gnode_get_elt (nx: gnode1 (tk, INV(a))):<> (a)
+fun{
+tk:tk}{a:t0p
+} gnode_set_elt (nx: gnode1 (tk, INV(a)), x0: a):<!wrt> void
+
+fun{
 tk:tk}{a:vt0p
 } gnode_getref_elt (nx: gnode1 (tk, INV(a))):<> cPtr1 (a)
 
 (* ****** ****** *)
-
-fun{
-tk:tk}{a:vt0p
-} gnode_getref_next (nx: gnode1 (tk, INV(a))):<> cPtr1 (gnode0(tk, a))
 
 fun{
 tk:tk}{a:vt0p // implemented
@@ -117,11 +120,11 @@ fun{
 tk:tk}{a:vt0p
 } gnode0_set_next_null (nx: gnode0 (tk, INV(a))):<!wrt> void
 
-(* ****** ****** *)
-
 fun{
 tk:tk}{a:vt0p
-} gnode_getref_prev (nx: gnode1 (tk, INV(a))):<> cPtr1 (gnode0 (tk, a))
+} gnode_getref_next (nx: gnode1 (tk, INV(a))):<> cPtr1 (gnode0(tk, a))
+
+(* ****** ****** *)
 
 fun{
 tk:tk}{a:vt0p
@@ -138,6 +141,10 @@ tk:tk}{a:vt0p
 fun{
 tk:tk}{a:vt0p
 } gnode0_set_prev_null (nx: gnode0 (tk, INV(a))):<!wrt> void
+
+fun{
+tk:tk}{a:vt0p
+} gnode_getref_prev (nx: gnode1 (tk, INV(a))):<> cPtr1 (gnode0 (tk, a))
 
 (* ****** ****** *)
 

@@ -72,6 +72,22 @@ end // end of [gnode_isnot_null]
 
 implement
 {tk}{elt}
+gnode_get_elt
+  (nx) = let
+  val p = gnode_getref_elt (nx) in $UN.cptr_get<elt> (p)
+end // end of [gnode_get_elt]
+
+implement
+{tk}{elt}
+gnode_set_elt
+  (nx, x0) = let
+  val p = gnode_getref_elt (nx) in $UN.cptr_set<elt> (p, x0)
+end // end of [gnode_set_elt]
+
+(* ****** ****** *)
+
+implement
+{tk}{elt}
 gnode_get_next
   (nx) = nx2 where {
   val p = gnode_getref_next (nx)

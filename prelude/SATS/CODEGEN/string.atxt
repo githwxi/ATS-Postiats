@@ -290,13 +290,15 @@ symintr strlen
 symintr string_length
 //
 fun{
-} string0_length (x: string):<> size_t
-overload strlen with string0_length of 0
-overload string_length with string0_length of 0
-//
+} string0_length
+  (x: NSH(string)):<> size_t
 fun{
-} string1_length {n:int} (x: string n):<> size_t (n)
+} string1_length
+  {n:int} (x: NSH(string(n))):<> size_t (n)
+//
+overload strlen with string0_length of 0
 overload strlen with string1_length of 10
+overload string_length with string0_length of 0
 overload string_length with string1_length of 10
 //
 #atscode_separator()
@@ -305,12 +307,12 @@ symintr string_copy
 //
 fun{
 } string0_copy
-  {n:int} (xs: NSH(string)):<!wrt> Strptr1
-overload string_copy with string0_copy of 0
-//
+  (xs: NSH(string)):<!wrt> Strptr1
 fun{
 } string1_copy
   {n:int} (xs: NSH(string(n))):<!wrt> strnptr (n)
+//
+overload string_copy with string0_copy of 0
 overload string_copy with string1_copy of 10
 //
 #atscode_separator()
@@ -320,24 +322,24 @@ symintr string_append
 fun{
 } string0_append (
   x1: NSH(string), x2: NSH(string)
-) :<!wrt> Strptr1 // end of [string0_append]
-overload string_append with string0_append of 0
-//
+) :<!wrt> Strptr1 // endfun
 fun{
 } string1_append
   {n1,n2:int} (
   x1: NSH(string(n1)), x2: NSH(string(n2))
 ) :<!wrt> strnptr (n1+n2) // end of [string1_append]
+//
+overload string_append with string0_append of 0
 overload string_append with string1_append of 20
 //
 #atscode_separator()
 
-fun stringlst_concat (xs: List(string)):<> Strptr1
+fun stringlst_concat (xs: List(string)):<!wrt> Strptr1
 
 #atscode_separator()
 
 fun string_explode
-  {n:int} (x: string(n)):<> list_vt (charNZ, n)
+  {n:int} (x: string(n)):<!wrt> list_vt (charNZ, n)
 // end of [string_explode]
 
 #atscode_separator()

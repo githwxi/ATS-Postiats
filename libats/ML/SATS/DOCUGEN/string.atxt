@@ -28,6 +28,53 @@ C-style strings in functional programming.
 
 (* ****** ****** *)
 
+#declnamesynop("string_copy")
+#decldescrpt("Given a string, this function returns a copy of it.")
+#declexample("\
+
+The following code tests that #dyncode("string_copy") indeed returns a copy
+of a given string:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/string.sats"
+//
+implement
+main () = 0 where {
+  val str = "abcdefg"
+  val () = assertloc (str = string_copy (str))
+} // end of [main]
+')
+")
+
+#declnamesynop("substring_copy")
+#decldescrpt("\
+
+Given a string str of length n and integers ln and st, this function
+returns a string consisting of chars str[ln], str[ln+1], ...,
+str[ln+min(n-ln,st)-1] if ln is less than n. Otherwise, it returns the
+empty string.
+
+")
+#declexample("\
+
+The following code makes a simple use of #dyncode("substring_copy"):
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/string.sats"
+//
+implement
+main () = 0 where {
+  val str = "abcdefg"
+  val str2 = substring_copy (str, g1int2uint(0), string_length(str))
+  val () = assertloc (str = str2)
+} // end of [main]
+')
+")
+
+(* ****** ****** *)
+
 #declnamesynop("string_append")
 #decldescrpt("\
 
@@ -59,16 +106,6 @@ generates the following intermediate strings \"H\", \"He\", \"Hel\", and
 
 ")
 
-#declnamesynop("string_append_ref")
-#decldescrpt("\
-
-This function is like #dyncode("string_append") except that the
-concatenation of two given strings it returns is mutable.
-
-")
-
-(* ****** ****** *)
-
 #declnamesynop("stringlst_concat")
 #decldescrpt("\
 
@@ -98,50 +135,6 @@ main () = 0 where {
 
 Note that the call to #dyncode("stringlst_concat") constructs the string
 \"Hello\" #emph("without") generating any intermediate substrings.
-
-")
-
-#declnamesynop("stringlst_concat_ref")
-#decldescrpt("\
-
-This function is like #dyncode("stringlst_concat") except that the
-concatenation of a given list of strings it returns is mutable.
-
-")
-
-(* ****** ****** *)
-
-#declnamesynop("substring_copy")
-#decldescrpt("\
-
-Given a string str of length n and integers ln and st, this function
-returns a string consisting of chars str[ln], str[ln+1], ...,
-str[ln+min(n-ln,st)-1] if ln is less than n. Otherwise, it returns the
-empty string.
-
-")
-#declexample("\
-
-The following code makes a simple use of #dyncode("substring_copy"):
-
-#pats2xhtmld_tryit('\
-//
-staload "libats/ML/SATS/string.sats"
-//
-implement
-main () = 0 where {
-  val str = "abcdefg"
-  val str2 = substring_copy (str, g1int2uint(0), string_length(str))
-  val () = assertloc (str = str2)
-} // end of [main]
-')
-")
-
-#declnamesynop("substring_copy_ref")
-#decldescrpt("\
-
-This function is like #dyncode("substring_copy") except that the result
-it returns is a mutable string.
 
 ")
 

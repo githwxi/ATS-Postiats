@@ -52,12 +52,11 @@ implement
 {key,itm}
 linmap_search
   (t, k0, res) = let
-  val cp = linmap_search_ref (t, k0)
-  val p = cptr2ptr (cp)
+  val p = linmap_search_ref (t, k0)
 in
 //
-if p > 0 then let
-  prval (pf, fpf) = $UN.cptr_vtake {itm} (cp)
+if cptr2ptr(p) > 0 then let
+  prval (pf, fpf | p) = $UN.cptr_vtake (p)
   val () = res := !p
   prval () = fpf (pf)
   prval () = opt_some {itm} (res)

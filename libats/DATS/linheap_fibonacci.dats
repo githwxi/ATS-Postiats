@@ -166,11 +166,9 @@ compare_elt_g2node
   (x1, nx2) = let
 in
 //
-if gnode2ptr (nx2) > 0 then let
-  val [l2:addr]
-    p_x2 = gnode_getref_elt (nx2)
-  prval (pf, fpf) = $UN.cptr_vtake {a} (p_x2)
-  val p_x2 = cptr2ptr (p_x2)
+if gnode2ptr(nx2) > 0 then let
+  val p_x2 = gnode_getref_elt (nx2)
+  prval (pf, fpf | p_x2) = $UN.cptr_vtake {a} (p_x2)
   val sgn = compare_elt_elt (x1, !p_x2)
   prval () = fpf (pf)
 in

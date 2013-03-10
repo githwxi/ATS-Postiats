@@ -465,8 +465,7 @@ if iscons then let
   val nx0 = nxs
   val nxs = gnode_get_next (nxs)
   val p_elt = gnode_getref_elt (nx0)
-  prval (pf, fpf) = $UN.cptr_vtake {a} (p_elt)
-  val p_elt = cptr2ptr (p_elt)
+  val (pf, fpf | p_elt) = $UN.cptr_vtake {a} (p_elt)
   val test = sllist_foreach$cont (!p_elt, env)
 in
   if test then let
@@ -510,8 +509,7 @@ if iscons then let
     if i > 0 then fprint_sllist$sep (out)
   // end of [val]
   val p_elt = gnode_getref_elt (nx0)
-  prval (pf, fpf) = $UN.cptr_vtake {a} (p_elt)
-  val p_elt = cptr2ptr (p_elt)
+  val (pf, fpf | p_elt) = $UN.cptr_vtake {a} (p_elt)
   val () = fprint_ref (out, !p_elt)
   prval () = fpf (pf)
 in

@@ -147,13 +147,13 @@ clean:: ; $(RMF) intecho_dats.o
 clean:: ; $(RMF) intecho_dats.c
 cleanall:: ; $(RMF) intecho.exe
 
-all:: isqrt
-isqrt: isqrt.exe
-isqrt.exe: isqrt_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-isqrt_dats.c: isqrt.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output isqrt_dats.c --dynamic isqrt.dats
-clean:: ; $(RMF) isqrt_dats.o
-clean:: ; $(RMF) isqrt_dats.c
-cleanall:: ; $(RMF) isqrt.exe
+all:: intrange
+intrange: intrange.exe
+intrange.exe: intrange_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+intrange_dats.c: intrange.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output intrange_dats.c --dynamic intrange.dats
+clean:: ; $(RMF) intrange_dats.o
+clean:: ; $(RMF) intrange_dats.c
+cleanall:: ; $(RMF) intrange.exe
 
 all:: mutailrec
 mutailrec: mutailrec.exe

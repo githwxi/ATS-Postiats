@@ -668,16 +668,15 @@ implement
 linmap_insert
   (map, k0, x0, res) = let
 //
-val cp = linmap_search_ref (map, k0)
-val p_nx = cptr2ptr (cp)
+val p_itm = linmap_search_ref (map, k0)
 //
 in
 //
-if p_nx > nullp then let
-  prval (pf, fpf) = $UN.cptr_vtake {itm} (cp)
-  val () = res := !p_nx
+if cptr2ptr(p_itm) > 0 then let
+  prval (pf, fpf | p_itm) = $UN.cptr_vtake (p_itm)
+  val () = res := !p_itm
   prval () = opt_some {itm} (res)
-  val () = (!p_nx := x0)
+  val () = (!p_itm := x0)
   prval () = fpf (pf) // end of [prval]
 in
   true
@@ -869,9 +868,8 @@ if p_nx > nullp then let
   val p_i = sknode_getref_item (nx)
   val nx1 = sknode_get_next<key,itm> (nx, 0)
 //
-  prval (pf, fpf) = $UN.cptr_vtake {itm} (p_i)
+  prval (pf, fpf | p_i) = $UN.cptr_vtake {itm} (p_i)
 //
-  val p_i = cptr2ptr (p_i)
   val test = linmap_foreach$cont<key,itm><env> (k, !p_i, env)
 in
   if test then let

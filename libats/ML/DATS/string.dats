@@ -42,6 +42,10 @@ macdef
 prelude_string_explode = string_explode
 macdef
 prelude_string_foreach = string_foreach
+macdef
+prelude_string0_append = string0_append
+macdef
+prelude_stringlst_concat = stringlst_concat
 
 (* ****** ****** *)
 
@@ -56,31 +60,37 @@ macdef castvwtp_trans = $UN.castvwtp0 // former name
 
 implement
 string_append (s1, s2) = let
-  val res = string_append_ref (s1, s2) in $UN.cast{string}(res)
+  val res = $effmask_wrt (prelude_string0_append (s1, s2))
+in
+  strptr2str (res)
 end // end of [string_append]
 
 (* ****** ****** *)
 
 implement
 stringlst_concat (xs) = let
-  val res = stringlst_concat_ref (xs) in $UN.cast{string}(res)
+  val xs = list_of_list0 (xs)
+  val res = $effmask_wrt (prelude_stringlst_concat (xs))
+in
+  strptr2str (res)
 end // end of [stringlst_concat]
 
 (* ****** ****** *)
 
-(*
 implement
 string_explode (str) = let
   val str = string1_of_string0 (str)
-  val cs = prelude_string_explode (str) in list0_of_list_vt (cs)
+  val res = $effmask_wrt (prelude_string_explode (str))
+in
+  list0_of_list_vt (res)
 end // end of [string_explode]
-*)
 
-implement
-string_implode
-  (cs) = let
+(* ****** ****** *)
 //
 #define NUL '\000'
+//
+implement
+string_implode (cs) = let
 //
 val [n:int] cs = list_of_list0 (cs)
 val n = list_length (cs)
