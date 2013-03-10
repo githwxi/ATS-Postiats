@@ -358,9 +358,9 @@ ptr_exch {l:addr}
 #atscode_separator()
 
 abstype
-cptr_viewt0ype_addr_type
-  (a:viewt@ype+, addr) = ptr // HX: for simulating C pointers
-stadef cptr = cptr_viewt0ype_addr_type
+cptr_vt0ype_addr_type
+  (a:vt@ype+, addr) = ptr // HX: for simulating C pointers
+stadef cptr = cptr_vt0ype_addr_type
 stadef cPtr0 (a:vt0p) = [l:addr] cptr (a, l)
 stadef cPtr1 (a:vt0p) = [l:addr | l > null] cptr (a, l)
 
@@ -368,6 +368,10 @@ castfn
 cptr2ptr
   {a:vt0p}{l:addr} (p: cptr (a, l)):<> ptr (l)
 // end of [castfn]
+
+fun cptr_null {a:vt0p} ():<> cptr (a, null) = "mac\#%"
+
+#atscode_separator()
 
 typedef voidptr (l:addr) = cptr (void, l)
 typedef voidptr0 = [l:addr] voidptr (l)

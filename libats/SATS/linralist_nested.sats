@@ -126,7 +126,7 @@ fun{a:vt0p}
 linralist_getref_at
   {n:int} (
   xs: !ralist (INV(a), n), i: natLt n
-) :<> Ptr1 // endfun
+) :<> cPtr1 (a) // endfun
 
 (* ****** ****** *)
 

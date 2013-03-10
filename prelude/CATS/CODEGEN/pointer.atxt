@@ -142,6 +142,10 @@ atspre_compare_ptr_ptr
 
 #atscode_separator_for_C()
 
+\#define atspre_cptr_null() atsptr_null
+
+#atscode_separator_for_C()
+
 \#define atspre_ptr_alloc_tsz atspre_malloc_gc
 
 #atscode_separator_for_C()

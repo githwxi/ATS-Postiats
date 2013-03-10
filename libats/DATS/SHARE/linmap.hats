@@ -52,15 +52,12 @@ implement
 {key,itm}
 linmap_search
   (t, k0, res) = let
-  val [l:addr] p = linmap_search_ref (t, k0)
+  val cp = linmap_search_ref (t, k0)
+  val p = cptr2ptr (cp)
 in
 //
 if p > 0 then let
-  prval (
-    pf, fpf
-  ) = __assert () where {
-    extern praxi __assert (): vtakeout (void, itm @ l)
-  } // end of [prval]
+  prval (pf, fpf) = $UN.cptr_vtake {itm} (cp)
   val () = res := !p
   prval () = fpf (pf)
   prval () = opt_some {itm} (res)
@@ -115,7 +112,7 @@ if p0 > 0 then let
   val p0 = $UN.castvwtp0{ptr}{mynode1}(nx)
 in
   p_elt
-end else the_null_ptr // end of [if]
+end else cptr_null () // end of [if]
 //
 end // end of [linmap_search_ref]
 

@@ -82,7 +82,7 @@ key:t0p;itm:vt0p
 } mynode_get_key (nx: !mynode1 (key, itm)):<> key
 fun{
 key:t0p;itm:vt0p
-} mynode_getref_itm (nx: !mynode1 (key, itm)):<> Ptr1
+} mynode_getref_itm (nx: !mynode1 (key, itm)):<> cPtr1 (itm)
 
 fun{
 key:t0p;itm:vt0p
@@ -99,20 +99,22 @@ key:t0p;itm:vt0p
 fun{
 key:t0p;itm:vt0p
 } linmap_search_ngc
-  (map: !map (key, INV(itm)), k0: key): Ptr0
+  (map: !map (key, INV(itm)), k0: key): Ptr0(*mynode*)
 // end of [linmap_search_ngc]
 
 (* ****** ****** *)
 
 fun{
 key:t0p;itm:vt0p
-} linmap_insert_ngc (
+} linmap_insert_ngc
+(
   map: &map (key, INV(itm)) >> _, nx: mynode1 (key, itm)
 ) : mynode0 (key, itm) // endfun
 
 fun{
 key:t0p;itm:vt0p
-} linmap_insert_any_ngc (
+} linmap_insert_any_ngc
+(
   map: &map (key, INV(itm)) >> _, nx: mynode1 (key, itm)
 ) : void // end of [linmap_insert_any_ngc]
 

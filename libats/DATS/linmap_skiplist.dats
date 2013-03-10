@@ -196,7 +196,7 @@ key:t0p;itm:vt0p
 extern
 fun{
 key:t0p;itm:vt0p
-} sknode_getref_item (nx: sknode1 (key, itm)):<> Ptr1
+} sknode_getref_item (nx: sknode1 (key, itm)):<> cPtr1 (itm)
 
 (* ****** ****** *)
 
@@ -332,7 +332,7 @@ sknode_getref_item
   val p_item = addr@ (p->item)
   prval () = fpf (pf)
 in
-  $UN.cast2Ptr1 (p_item)
+  $UN.cast{cPtr1(itm)}(p_item)
 end // end of [sknode_getref_item]
 
 implement
@@ -552,13 +552,10 @@ case+ map of
     val nx =
       sknodelst_search (nxa, k0, lgN)
     val p_nx = sknode2ptr (nx)
-    val res = (
-      if p_nx > nullp
-        then sknode_getref_item (nx) else nullp
-      // end of [if]
-    ) : Ptr0 // end of [val]
   in
-    res
+    if p_nx > nullp
+      then sknode_getref_item (nx) else cptr_null ()
+    // end of [if]
   end // end of [SKIPLIST]
 //
 end // end of [linmap_search_ref]
@@ -671,18 +668,13 @@ implement
 linmap_insert
   (map, k0, x0, res) = let
 //
-val [l:addr]
-  p_nx = linmap_search_ref (map, k0)
-// end of [val]
+val cp = linmap_search_ref (map, k0)
+val p_nx = cptr2ptr (cp)
 //
 in
 //
 if p_nx > nullp then let
-  prval (
-    pf, fpf
-  ) = __assert () where {
-    extern praxi __assert : () -<prf> vtakeout (void, itm @ l)
-  } // end of [where] // end of [prval]
+  prval (pf, fpf) = $UN.cptr_vtake {itm} (cp)
   val () = res := !p_nx
   prval () = opt_some {itm} (res)
   val () = (!p_nx := x0)
@@ -874,16 +866,12 @@ in
 //
 if p_nx > nullp then let
   val k = sknode_get_key (nx)
-  val [l:addr]
-    p_i = sknode_getref_item (nx)
+  val p_i = sknode_getref_item (nx)
   val nx1 = sknode_get_next<key,itm> (nx, 0)
 //
-  prval (
-    pf, fpf
-  ) = __assert () where {
-    extern praxi __assert : () -<prf> vtakeout (void, itm @ l)
-  } // end of [prval]
+  prval (pf, fpf) = $UN.cptr_vtake {itm} (p_i)
 //
+  val p_i = cptr2ptr (p_i)
   val test = linmap_foreach$cont<key,itm><env> (k, !p_i, env)
 in
   if test then let
@@ -927,17 +915,22 @@ sknode_freelin
 in
 //
 if p_nx > nullp then let
-  val [l:addr]
-    p_i = sknode_getref_item (nx)
+  val cp = sknode_getref_item (nx)
   val nx1 = sknode_get_next<key,itm> (nx, 0)
-  prval (pf, fpf) = __assert () where {
-    extern praxi __assert : () -<prf> (itm @ l, itm? @ l -<lin,prf> void)
+  prval
+  (
+    pf, fpf
+  ) = __assert (cp) where
+  {
+    extern praxi __assert
+      : {l:addr} cptr (itm, l) -<prf> (itm @ l, itm? @ l -<lin,prf> void)
   } // end of [prval]
+  val p_i = cptr2ptr (cp)
   val () = linmap_freelin$clear<itm> (!p_i)
   prval () = fpf (pf)
   val () =
     __free (nx) where {
-    extern fun __free : sknode1 (key, itm) -<0,!wrt> void = "mac#ATS_MFREE"
+    extern fun __free : sknode1 (key, itm) -<0,!wrt> void = "mac#atspre_mfree"
   } // end of [where] // end of [val]
 in
   sknode_freelin (nx1)

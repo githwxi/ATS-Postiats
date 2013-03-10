@@ -176,7 +176,7 @@ val nx2 = $UN.castvwtp1{List1_vt(ki)}(nx)
 val+@list_vt_cons (kx, _) = nx2
 //
 val p_x = addr@ (kx.1)
-val p_x = $UN.cast{Ptr1}(p_x)
+val p_x = $UN.cast{cPtr1(itm)}(p_x)
 //
 prval () = fold@ (nx2)
 prval () = __assert (nx2) where {

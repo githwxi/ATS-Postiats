@@ -176,14 +176,13 @@ stamped_vt2t
 // end of [stamped_vt2t]
 
 (* ****** ****** *)
-
-/*
-** HX: the_null_ptr = (void*)0
-*/
+//
+// HX: the_null_ptr = (void*)0
+//
 val the_null_ptr
   : ptr (null) = "mac#atsptr_null" // macro
 macdef NULL = the_null_ptr // end of [macdef]
-
+//
 (* ****** ****** *)
 
 praxi
