@@ -169,8 +169,8 @@ case+
     s2cst_tyer (loc0, flag, s2c)
 | S2Evar (s2v) => hisexp_tyvar (s2v)
 //
-| S2Edatconptr _ => hisexp_conptr
-| S2Edatcontyp _ => hisexp_contyp
+| S2Edatconptr _ => hisexp_datconptr
+| S2Edatcontyp _ => hisexp_datcontyp
 //
 | S2Eapp (
     s2e_fun, s2es_arg

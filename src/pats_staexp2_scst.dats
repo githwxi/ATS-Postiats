@@ -398,6 +398,14 @@ s2cst_is_tkind (x) =
 (* ****** ****** *)
 
 implement
+s2cst_is_datype (s2c) =
+(
+  if s2cst_is_abstr (s2c) then false else s2cst_get_iscon (s2c)
+) // end of [s2cst_is_datype]
+
+(* ****** ****** *)
+
+implement
 s2cst_is_tagless (x) = (
   case+ 0 of
   | _ when s2cst_is_listlike (x) => true

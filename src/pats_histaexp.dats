@@ -75,10 +75,10 @@ val HITNAM_CLOPTR =
 val HITNAM_ARRPTR =
   HITNAM (1(*ptr*), 1(*fin*), "atstype_arrptr")
 //
-val HITNAM_CONPTR =
-  HITNAM (1(*ptr*), 1(*fin*), "atstype_conptr")
-val HITNAM_CONTYP =
-  HITNAM (1(*ptr*), 1(*fin*), "atstype_contyp")
+val HITNAM_DATCONPTR =
+  HITNAM (1(*ptr*), 1(*fin*), "atstype_datconptr")
+val HITNAM_DATCONTYP =
+  HITNAM (1(*ptr*), 1(*fin*), "atstype_datcontyp")
 //
 (* ****** ****** *)
 //
@@ -268,12 +268,12 @@ hisexp_arrptr = '{
 }
 
 implement
-hisexp_conptr = '{
-  hisexp_name= HITNAM_CONPTR, hisexp_node= HSEtybox ()
+hisexp_datconptr = '{
+  hisexp_name= HITNAM_DATCONPTR, hisexp_node= HSEtybox ()
 }
 implement
-hisexp_contyp = '{
-  hisexp_name= HITNAM_CONTYP, hisexp_node= HSEtybox ()
+hisexp_datcontyp = '{
+  hisexp_name= HITNAM_DATCONTYP, hisexp_node= HSEtybox ()
 }
 
 (* ****** ****** *)

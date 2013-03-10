@@ -95,7 +95,7 @@ datatype hitype =
   | HITtyrec of (labhitypelst)
   | HITtysum of (int(*tagged*), labhitypelst)
 //
-  | HITtyvar of (s2var)
+  | HITtyvar of (s2var) (* for substitution *)
 //
   | HITrefarg of (int(*knd*), hitype)
 //
@@ -900,16 +900,10 @@ val HITNAM (knd, fin, name) = hse0.hisexp_name
 in
 //
 case+ hse0.hisexp_node of
-| _ when (
-    fin > 0
-  ) => HITnmd (name)
+| _ when
+    (fin > 0) => HITnmd (name)
 //
-| HSEcst (s2c) => let
-    val sym = s2cst_get_sym (s2c)
-    val name =
-      $SYM.symbol_get_name (sym) in HITnmd (name)
-    // end of [val]
-  end // end of [HSEcst]
+| HSEcst (s2c) => aux_s2cst (s2c)
 //
 | HSEapp (_fun, _arg) =>
     HITapp (aux (flag, _fun), auxlst (flag, _arg))
@@ -945,6 +939,22 @@ case+ hse0.hisexp_node of
 | _ => hitype_undef (hse0)
 //
 end // end of [aux]
+
+and aux_s2cst
+  (s2c: s2cst): hitype = let
+in
+//
+case+ 0 of
+| _ when
+    s2cst_is_datype (s2c) => hitype_tybox ()
+| _ => let
+    val sym = s2cst_get_sym (s2c)
+    val name =
+      $SYM.symbol_get_name (sym) in HITnmd (name)
+    // end of [val]
+  end // end of [_]
+//
+end // end of [aux_s2cst]
 
 and aux_tyarr (
   flag: int, hse0: hisexp

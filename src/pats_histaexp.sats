@@ -132,8 +132,8 @@ val hisexp_cloptr : hisexp
 //
 val hisexp_arrptr : hisexp
 //
-val hisexp_conptr : hisexp
-val hisexp_contyp : hisexp
+val hisexp_datconptr : hisexp
+val hisexp_datcontyp : hisexp
 //
 (* ****** ****** *)
 

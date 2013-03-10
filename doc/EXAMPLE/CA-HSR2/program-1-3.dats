@@ -9,13 +9,16 @@
 //
 (* ****** ****** *)
 
-extern
-fun{a:t0p}
-fprint_infix
-  (out: FILEref, x: a): FILEref
-overload << with fprint_infix
+staload _ = "prelude/DATS/integer.dats"
+staload CHAR = "prelude/DATS/char.dats"
+staload STRING = "prelude/DATS/string.dats"
 
 (* ****** ****** *)
+
+extern
+fun{a:t0p}
+fprint_infix (out: FILEref, x: a): FILEref
+overload << with fprint_infix
 
 implement{a}
 fprint_infix (out, x) = let
@@ -26,14 +29,13 @@ end // end of [fprint_infix]
 
 datatype tower = A | B | C
 
-fn tower2char (x: tower): char =
+fn tower2char
+  (x: tower): char =
   case+ x of A () => 'A' | B () => 'B' | C () => 'C'
 // end of [tower2char]
 
 implement
-fprint_val<tower>
-  (out, x) = fprint_char (out, tower2char (x))
-// end of [fprint_val]
+fprint_val<tower> (out, x) = fprint_char (out, tower2char (x))
 
 (* ****** ****** *)
 

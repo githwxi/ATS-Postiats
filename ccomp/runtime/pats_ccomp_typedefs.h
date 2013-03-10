@@ -104,11 +104,11 @@ typedef void* atstype_boxed ;
 /*
 ** HX: for [datconptr]
 */
-typedef void* atstype_conptr ;
+typedef void* atstype_datconptr ;
 /*
 ** HX: for [datcontyp]
 */
-typedef void* atstype_contyp ;
+typedef void* atstype_datcontyp ;
 
 /* ****** ****** */
 /*
@@ -132,6 +132,10 @@ struct {
 
 typedef struct{} atstype_var ;
 #define atstyvar_type(a) atstype_var
+
+/* ****** ****** */
+
+#define atstybox_type(hit) atstype_boxed
 
 /* ****** ****** */
 

@@ -590,6 +590,8 @@ overload compare with compare_s2cst_s2cst
 fun s2cst_is_abstr (x: s2cst): bool
 fun s2cst_is_tkind (x: s2cst): bool
 
+fun s2cst_is_datype (s2c: s2cst): bool
+
 fun s2cst_is_tagless (x: s2cst): bool
 fun s2cst_is_listlike (x: s2cst): bool
 fun s2cst_is_singular (x: s2cst): bool

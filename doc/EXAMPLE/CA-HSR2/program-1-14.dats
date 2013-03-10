@@ -4,6 +4,10 @@
 
 (* ****** ****** *)
 
+staload INT = "prelude/DATS/integer.dats"
+
+(* ****** ****** *)
+
 fun Fibonacci
   {n:nat}
   (n: int n): int = let
@@ -25,11 +29,11 @@ end // end of [Fibonacci]
 (* ****** ****** *)
 
 implement
-main (
-) = 0 where {
+main0 (
+) = () where {
   val () = assertloc (Fibonacci (10) = 55)
   val () = assertloc (Fibonacci (20) = 6765)
-} // end of [main]
+} // end of [main0]
 
 (* ****** ****** *)
 

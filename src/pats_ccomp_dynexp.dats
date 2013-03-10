@@ -1000,8 +1000,8 @@ case+ hdes of
 | list_cons _ => let
     val pmv = primval_make_tmp (loc0, tmpret)
     val pmv_ptr = primval_make_ptrof (loc0, pmv)
-    val tmphd = tmpvar_make (loc0, hisexp_conptr)
-    val tmptl = tmpvar_make (loc0, hisexp_conptr)
+    val tmphd = tmpvar_make (loc0, hisexp_datconptr)
+    val tmptl = tmpvar_make (loc0, hisexp_datconptr)
     val ins = instr_move_val (loc0, tmptl, pmv_ptr)
     val () = instrseq_add (res, ins)
   in

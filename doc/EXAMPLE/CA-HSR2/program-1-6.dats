@@ -9,6 +9,22 @@
 // to as 'tail-recursive' in the literature.
 //
 (* ****** ****** *)
+//
+staload
+BAS = "prelude/DATS/basics.dats"
+staload
+INT = "prelude/DATS/integer.dats"
+staload
+PTR = "prelude/DATS/pointer.dats"
+staload
+FLOAT = "prelude/DATS/float.dats"
+//
+staload
+ARRAY = "prelude/DATS/array.dats"
+staload
+ARRAYPTR = "prelude/DATS/arrayptr.dats"
+//
+(* ****** ****** *)
 
 fun Sum
   {n:int} (
@@ -36,7 +52,7 @@ staload "atshwxi/testing/SATS/randgen.sats"
 (* ****** ****** *)
 
 implement
-main () = 0 where {
+main0 () = {
   #define N 10
   typedef T = float
   val asz = g1int2uint (N)
@@ -50,7 +66,7 @@ main () = 0 where {
   val () = (
     print "sum of the array = "; print sum; print_newline ()
   ) // end of [val]
-} // end of [main]
+} // end of [main0]
 
 (* ****** ****** *)
 
