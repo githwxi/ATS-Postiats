@@ -10,10 +10,10 @@
 (* ****** ****** *)
 
 fun{a:vt0p}
-SelectionSort__cmp (x1: &a, x2: &a):<> int
+SelectionSort$cmp (x1: &a, x2: &a):<> int
 
 fun{a:vt0p}
-SelectionSort {n:int} (A: &array(a, n), n: size_t n):<!wrt> void
+SelectionSort {n:int} (A: &array(INV(a), n), n: size_t n):<!wrt> void
 
 (* ****** ****** *)
 

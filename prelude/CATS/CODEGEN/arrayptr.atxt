@@ -54,9 +54,9 @@ atspre_arrayptr_free
 
 ATSinline()
 atstype_arrptr
-arrayptr_make_arrpsz
+atspre_arrayptr_make_arrpsz
   (atstype_arrpsz psz) { return (psz).ptr ; }
-// end of [arrayptr_make_arrpsz]
+// end of [atspre_arrayptr_make_arrpsz]
 
 #atscode_separator_for_C()
 

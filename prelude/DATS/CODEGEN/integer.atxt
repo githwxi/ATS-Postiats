@@ -616,6 +616,17 @@ neq_g1uint_int (x, y) = g1uint_neq<tk> (x, g1int2uint (y))
 
 #atscode_separator()
 
+implement
+gcompare_val<int> (x, y) = compare (x, y)
+implement
+gcompare_val<lint> (x, y) = compare (x, y)
+implement
+gcompare_val<uint> (x, y) = compare (x, y)
+implement
+gcompare_val<ulint> (x, y) = compare (x, y)
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
