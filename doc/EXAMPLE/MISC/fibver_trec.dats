@@ -23,7 +23,8 @@ fun fibver
   :<> [r:int] (FIB (n, r) | int r) = let
 //
 fun loop
-  {i:nat | i <= n} {r0,r1:int} .<n-i>. (
+  {i:nat | i <= n} {r0,r1:int} .<n-i>.
+(
   pf0: FIB (i, r0), pf1: FIB (i+1, r1) | ni: int (n-i), r0: int r0, r1: int r1
 ) :<> [r:int] (FIB (n, r) | int r) =
     if ni > 0 then
@@ -44,4 +45,4 @@ main () = 0 where {
 
 (* ****** ****** *)
 
-(* end of [fibver_rec.dats] *)
+(* end of [fibver_trec.dats] *)

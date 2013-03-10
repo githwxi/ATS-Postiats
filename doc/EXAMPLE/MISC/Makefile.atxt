@@ -20,7 +20,7 @@ fun make_entry
 //
 val ent = sprintf ("\
 all:: %s\n\
-%s: %s.exe ; $(LNS) %s.exe %s\n\
+%s: %s.exe\n\
 %s.exe: %s_dats.c ; \
   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<\n\
 %s_dats.c: %s.dats ; \
@@ -28,7 +28,7 @@ all:: %s\n\
 clean:: ; $(RMF) %s_dats.o\n\
 clean:: ; $(RMF) %s_dats.c\n\
 cleanall:: ; $(RMF) %s %s.exe\n\
-", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
+", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
 ) // end of [val]
 //
 val ent = string_of_strptr (ent)
@@ -75,7 +75,7 @@ RMF=rm -f
 ######
 
 #make_entry("ferryman")
-#make_entry("fibver_rec")
+#make_entry("fibver_trec")
 #make_entry("hanoi")
 #make_entry("isqrt")
 #make_entry("passwdgen")
