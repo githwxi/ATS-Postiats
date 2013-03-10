@@ -24,7 +24,7 @@ end // end of [tally]
 
 implement 
 main () = let
-  val N = 1000
+  #define N 1000
   val () = assertloc (tally (N) = N * (N+1) / 2)
 in
   0(*normalexit*)

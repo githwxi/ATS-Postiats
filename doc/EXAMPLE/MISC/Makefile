@@ -35,6 +35,14 @@ RMF=rm -f
 
 ######
 
+all:: ferryman
+ferryman: ferryman.exe ; $(LNS) ferryman.exe ferryman
+ferryman.exe: ferryman_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+ferryman_dats.c: ferryman.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output ferryman_dats.c --dynamic ferryman.dats
+clean:: ; $(RMF) ferryman_dats.o
+clean:: ; $(RMF) ferryman_dats.c
+cleanall:: ; $(RMF) ferryman ferryman.exe
+
 all:: fibver_rec
 fibver_rec: fibver_rec.exe ; $(LNS) fibver_rec.exe fibver_rec
 fibver_rec.exe: fibver_rec_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

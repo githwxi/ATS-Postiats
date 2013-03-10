@@ -55,19 +55,65 @@ praxi stateTrans10
 
 (* ****** ****** *)
 
-absvtype F (f:bool)
-absvtype C (c:bool)
-absvtype G (g:bool)
-absvtype W (w:bool)
+absvtype F (f:bool) = ptr
+absvtype C (c:bool) = ptr
+absvtype G (g:bool) = ptr
+absvtype W (w:bool) = ptr
 
 (* ****** ****** *)
+
+fun F (): F (false) = $extval (F (false), "0")
+fun C (): C (false) = $extval (C (false), "0")
+fun G (): G (false) = $extval (G (false), "0")
+fun W (): W (false) = $extval (W (false), "0")
+
+extern praxi nF (f: F (true)): void
+extern praxi nC (f: C (true)): void
+extern praxi nG (f: G (true)): void
+extern praxi nW (f: W (true)): void
+
+(* ****** ****** *)
+
+%{^
+
+extern
+atstype_int
+printf (const char *fmt, ...) ;
+
+atsvoid_t0ype
+move_f (atstype_ptr f)
+{
+  printf ("move_f: ferryman alone\n") ; return ;
+}
+atsvoid_t0ype
+move_fc (
+  atstype_ptr f, atstype_ptr c
+)
+{
+  printf ("move_fc: ferryman with cabbage\n") ; return ;
+}
+atsvoid_t0ype
+move_fg (
+  atstype_ptr f, atstype_ptr g
+)
+{
+  printf ("move_fg: ferryman with goat\n") ; return ;
+}
+atsvoid_t0ype
+move_fw (
+  atstype_ptr f, atstype_ptr w
+)
+{
+  printf ("move_fw: ferryman with wolf\n") ; return ;
+}
+%}
 
 extern
 fun move_f
   {f,c,g,w:bool} (
   pf: !STATE1 (f, c, g, w) >> STATE0 (~f, c, g, w)
 | f: !F(f) >> F(~f)
-) : void // end of [move_f]
+) : void = "mac#" // end of [move_f]
 
 extern
 fun move_fc
@@ -75,7 +121,7 @@ fun move_fc
   pf: !STATE1 (f, c, g, w) >> STATE0 (~f, ~c, g, w)
 | f: !F(f) >> F(~f)
 , c: !C(c) >> C(~c)
-) : void // end of [move_fc]
+) : void = "mac#" // end of [move_fc]
 
 extern
 fun move_fg
@@ -83,7 +129,7 @@ fun move_fg
   pf: !STATE1 (f, c, g, w) >> STATE0 (~f, c, ~g, w)
 | f: !F(f) >> F(~f)
 , g: !G(g) >> G(~g)
-) : void // end of [move_fg]
+) : void = "mac#" // end of [move_fg]
 
 extern
 fun move_fw
@@ -91,15 +137,13 @@ fun move_fw
   pf: !STATE1 (f, c, g, w) >> STATE0 (~f, c, g, ~w)
 | f: !F(f) >> F(~f)
 , w: !W(w) >> W(~w)
-) : void // end of [move_fw]
+) : void = "mac#" // end of [move_fw]
 
 (* ****** ****** *)
 
 extern
 fun solvePuzzle (
-  pf: !STATE0 (
-    false, false, false, false
-  ) >> STATE0 (true, true, true, true)
+  pf: !STATE0 (false, false, false, false) >> STATE0 (true, true, true, true)
 | f: !F (false) >> F (true)
 , c: !C (false) >> C (true)
 , g: !G (false) >> G (true)
@@ -131,7 +175,36 @@ end // end of [solvePuzzle]
 
 (* ****** ****** *)
 
-implement main0 () = ()
+implement
+main0 () = let
+//
+val f = F ()
+val c = C ()
+val g = G ()
+val w = W ()
+//
+prval (
+  pf, fpf
+) = __assert () where
+{
+  extern
+  praxi __assert : () -<prf>
+    (STATE0 (false, false, false, false),  STATE0 (true, true, true, true) -<lin> void)
+  // end of [extern]
+}
+//
+val () = solvePuzzle (pf | f, c, g, w)
+//
+prval () = nF (f)
+prval () = nC (c)
+prval () = nG (g)
+prval () = nW (w)
+//
+prval () = fpf (pf)
+//
+in
+  // nothing  
+end // end of [main0]
 
 (* ****** ****** *)
 
