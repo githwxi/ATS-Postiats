@@ -406,6 +406,10 @@ case+
 | D3Ecst (d2c) =>
     d3exp_tyer_cst (loc0, hse0, d2c)
 //
+| D3Eint (i) =>
+    hidexp_int (loc0, hse0, i)
+| D3Eintrep (rep) =>
+    hidexp_intrep (loc0, hse0, rep)
 | D3Ebool (b) =>
     hidexp_bool (loc0, hse0, b)
 | D3Echar (c) =>

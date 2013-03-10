@@ -136,6 +136,10 @@ implement
 emit_ATSPMVint (out, x) = (
   emit_text (out, "ATSPMVint("); emit_int (out, x); emit_rparen (out)
 ) // end of [emit_ATSPMVint]
+implement
+emit_ATSPMVintrep (out, x) = (
+  emit_text (out, "ATSPMVintrep("); emit_text (out, x); emit_rparen (out)
+) // end of [emit_ATSPMVintrep]
 
 (* ****** ****** *)
 
@@ -821,6 +825,8 @@ case+ pmv0.primval_node of
 | PMVcst _ => emit_primval_d2cst (out, pmv0)
 //
 | PMVint (i) => emit_ATSPMVint (out, i)
+| PMVintrep (rep) => emit_ATSPMVintrep (out, rep)
+//
 | PMVbool (b) => emit_ATSPMVbool (out, b)
 | PMVchar (c) => emit_ATSPMVchar (out, c)
 | PMVfloat (rep) => emit_ATSPMVfloat (out, rep)

@@ -243,6 +243,11 @@ case+
     val () = fprint_int (out, i)
     val () = prstr ")"
   }
+| HDEintrep (rep) => {
+    val () = prstr "HDEintrep("
+    val () = fprint_string (out, rep)
+    val () = prstr ")"
+  }
 | HDEbool (b) => {
     val () = prstr "HDEbool("
     val () = fprint_bool (out, b)

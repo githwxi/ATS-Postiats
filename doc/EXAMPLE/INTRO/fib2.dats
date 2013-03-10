@@ -36,9 +36,12 @@ end // end of [fib]
 
 implement
 main0 () = {
-  val ans = fib (10)
-  val () = println! ("ans = ", ans)
-} // end of [main]
+  #define N 10
+  val () = assertloc (fib(N) = 55)
+(*
+  val () = println! ("fib(", N, ") = ", fib (10))
+*)
+} // end of [main0]
 
 (* ****** ****** *)
 

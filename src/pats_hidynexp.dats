@@ -257,6 +257,18 @@ hidexp_var
 (* ****** ****** *)
 
 implement
+hidexp_int
+  (loc, hse, i) =
+  hidexp_make_node (loc, hse, HDEint (i))
+// end of [hidexp_int]
+
+implement
+hidexp_intrep
+  (loc, hse, rep) =
+  hidexp_make_node (loc, hse, HDEintrep (rep))
+// end of [hidexp_intrep]
+
+implement
 hidexp_bool
   (loc, hse, b) =
   hidexp_make_node (loc, hse, HDEbool (b))

@@ -273,6 +273,12 @@ case+ x.primval_node of
     val () = fprint_int (out, i)
     val () = prstr ")"
   }
+| PMVintrep (rep) => {
+    val () = prstr "PMVintrep("
+    val () = fprint_string (out, rep)
+    val () = prstr ")"
+  }
+//
 | PMVbool (b) => {
     val () = prstr "PMVbool("
     val () = fprint_bool (out, b)

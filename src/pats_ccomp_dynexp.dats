@@ -177,6 +177,8 @@ case+ hde0.hidexp_node of
 | HDEcst _ => hidexp_ccomp_cst (env, res, hde0)
 //
 | HDEint (i) => primval_int (loc0, hse0, i)
+| HDEintrep (rep) => primval_intrep (loc0, hse0, rep)
+//
 | HDEbool (b) => primval_bool (loc0, hse0, b)
 | HDEchar (c) => primval_char (loc0, hse0, c)
 | HDEfloat (rep) => primval_float (loc0, hse0, rep)

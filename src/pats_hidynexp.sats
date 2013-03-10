@@ -223,6 +223,7 @@ and hidexp_node =
   | HDEvar of (d2var) // dynamic variables
 //
   | HDEint of int // integer constants
+  | HDEintrep of string // integer constants
   | HDEbool of bool // boolean constants
   | HDEchar of char // constant characters
   | HDEfloat of string // constant floats
@@ -475,6 +476,10 @@ fun hidexp_cst
 
 (* ****** ****** *)
 
+fun hidexp_int
+  (loc: location, hse: hisexp, i: int): hidexp
+fun hidexp_intrep
+  (loc: location, hse: hisexp, rep: string): hidexp
 fun hidexp_bool
   (loc: location, hse: hisexp, b: bool): hidexp
 fun hidexp_char

@@ -205,6 +205,14 @@ primval_int
 // end of [primval_int]
 
 implement
+primval_intrep
+  (loc, hse, rep) =
+  primval_make_node (loc, hse, PMVintrep (rep))
+// end of [primval_intrep]
+
+(* ****** ****** *)
+
+implement
 primval_bool
   (loc, hse, b) =
   primval_make_node (loc, hse, PMVbool (b))

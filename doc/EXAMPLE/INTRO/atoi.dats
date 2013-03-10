@@ -47,7 +47,7 @@ main0 (
   val () =
     if (argc <= 1) then atoi_usage (argv[0])
   val () = assertloc (argc >= 2)
-  val () = println! ("atoi(", argv[1], ") = ", atoi(argv[1]))
+  val () = println! ("atoi(\"", argv[1], "\") = ", atoi(argv[1]))
 } // end of [main0]
 
 (* ****** ****** *)
