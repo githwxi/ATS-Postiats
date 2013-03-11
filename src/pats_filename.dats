@@ -181,14 +181,10 @@ filename_stdin = '{
 
 (* ****** ****** *)
 
-local
-
 staload UNISTD = "libc/SATS/unistd.sats"
 
-in // in of [local]
-
 implement
-path_normalize (s0) = let
+path_normalize_vt (s0) = let
   fun loop1
     {n0,i0:nat | i0 <= n0} (
     dirsep: char
@@ -214,7 +210,7 @@ path_normalize (s0) = let
         val dir = strptr_of_strbuf (sbp) // this is a no-op cast
 (*
         val () = begin
-          print "path_normalize: loop2: dir = "; print dir; print_newline ()
+          print "path_normalize_vt: loop2: dir = "; print dir; print_newline ()
         end // end of [val]
 *)
       in
@@ -225,7 +221,7 @@ path_normalize (s0) = let
       val dir = strptr_of_strbuf (sbp) // this is a no-op cast
 (*
       val () = begin
-        print "path_normalize: loop2: dir = "; print dir; print_newline ()
+        print "path_normalize_vt: loop2: dir = "; print dir; print_newline ()
       end // end of [val]
 *)
     in
@@ -290,8 +286,15 @@ path_normalize (s0) = let
   val () = list_vt_free_fun<strptr1> (dirs, lam x => strptr_free (x))
 //
 in
-  string_of_strptr (path)
-end // end of [path_normalize]
+  path(*strptr*)
+end // end of [path_normalize_vt]
+
+implement
+path_normalize (s0) =
+  string_of_strptr (path_normalize_vt (s0))
+// end of [path_normalize]
+
+(* ****** ****** *)
 
 fun partname_fullize
   (pname: string): string = let
@@ -304,14 +307,12 @@ in
       filename_append ((p2s)cwd, pname)
     // end of [val]
     val () = strptr_free (cwd)
-    val fname_norm = path_normalize ((p2s)fname)
+    val fname_nf = path_normalize ((p2s)fname)
     val () = strptr_free (fname)
   in
-    fname_norm
+    fname_nf
   end else pname // HX: it is absolute
 end // end of [partname_fullize]
-
-end // end of [local]
 
 (* ****** ****** *)
 
@@ -519,15 +520,17 @@ fun aux_local (
   val () = println! ("aux_local: pname = ", pname)
 *)
   val pname2 = filename_merge (pname, basename)
+  val pname2_nf = path_normalize_vt ((p2s)pname2)
+  val () = strptr_free (pname2)
 (*
-  val () = println! ("aux_local: pname2 = ", pname2)
+  val () = println! ("aux_local: pname2_nf = ", pname2_nf)
 *)
-  val isexi = test_file_exists ((p2s)pname2)
+  val isexi = test_file_exists ((p2s)pname2_nf)
 in
   if isexi then
-    stropt_of_strptr (pname2)
+    stropt_of_strptr (pname2_nf)
   else let
-    val () = strptr_free (pname2) in stropt_none
+    val () = strptr_free (pname2_nf) in stropt_none(*void*)
   end // end of [if]
 end // end of [aux_local]
 

@@ -30,9 +30,6 @@
 (* ****** ****** *)
 
 staload "./basics.sats"
-
-(* ****** ******)
-
 staload "./fibonacci.sats"
 
 (* ****** ******)
@@ -131,7 +128,8 @@ end // end of [fibeq1]
 // fib(n)*fib(n+2) + (-1)^n = (fib(n+1))^2
 //
 primplmnt
-fibeq2 (
+fibeq2 {n}{i}
+(
   pf0, pf1, pf2, pf3
 ) = let
 //
@@ -167,7 +165,7 @@ fibeq2
 // end of [fibeq2]
 //
 in
-  fibeq2 (pf0, pf1, pf2, pf3)
+  fibeq2 {n}{i} (pf0, pf1, pf2, pf3)
 end // end of [fibeq2]
 
 (* ****** ****** *)

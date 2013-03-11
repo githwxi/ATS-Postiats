@@ -28,6 +28,10 @@
 // Author: Hongwei Xi (2012-03)
 //
 (* ****** ****** *)
+
+staload "./basics.sats"
+
+(* ****** ****** *)
 //
 // HX: the defintion of fib function:
 // fib(0) = 0; fib(1) = 1; fib(n+2)=fib(n)+fib(n+1)

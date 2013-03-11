@@ -49,8 +49,8 @@ fun theDirSep_get
   (): char = "patsopt_filename_theDirSep_get"
 // end of [theDirSep_get]
 
-fun theCurDir_get (): string // current directory
 fun theParDir_get (): string // parent directory
+fun theCurDir_get (): string // current directory
 
 (* ****** ****** *)
 //
@@ -134,6 +134,7 @@ fun fprint_the_filenamelst (out: FILEref): void
 typedef path = string
 
 fun path_normalize (s0: NSHARED(path)): path
+fun path_normalize_vt (s0: NSHARED(path)): Strptr1
 
 (* ****** ****** *)
 
