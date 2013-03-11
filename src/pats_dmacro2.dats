@@ -114,13 +114,15 @@ alphenv_nil () = ALPHENVnil ()
 implement
 alphenv_free (env) = let
 in
-  case+ env of
-  | ~ALPHENVsadd
-      (_, _, env) => alphenv_free (env)
-  | ~ALPHENVdadd
-      (_, _, env) => alphenv_free (env)
-  | ~ALPHENVmark env => alphenv_free (env)
-  | ~ALPHENVnil () => ()
+//
+case+ env of
+| ~ALPHENVsadd
+    (_, _, env) => alphenv_free (env)
+| ~ALPHENVdadd
+    (_, _, env) => alphenv_free (env)
+| ~ALPHENVmark env => alphenv_free (env)
+| ~ALPHENVnil () => ()
+//
 end // end of [alphenv_free]
 
 implement

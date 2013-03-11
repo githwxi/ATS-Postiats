@@ -883,34 +883,35 @@ i2nvresstate_nil =
 
 implement
 i2nvresstate_make
-  (s2vs, s2ps, arg) = '{
+  (s2vs, s2ps, arg) =
+'{
   i2nvresstate_svs= s2vs
 , i2nvresstate_gua= s2ps
-, i2nvresstate_met= None ()
 , i2nvresstate_arg= arg
+, i2nvresstate_met= None ()
 } // end of [i2nvresstate_make]
 
 implement
-i2nvresstate_make_met (
-  s2vs, s2ps, arg, met
-) = '{
-  i2nvresstate_svs= s2vs
-, i2nvresstate_gua= s2ps
-, i2nvresstate_met= met
+i2nvresstate_make_met
+ (svs, gua, arg, met) =
+'{
+  i2nvresstate_svs= svs
+, i2nvresstate_gua= gua
 , i2nvresstate_arg= arg
+, i2nvresstate_met= met
 } // end of [i2nvresstate_make]
 
 (* ****** ****** *)
 
 implement
 loopi2nv_make (
-  loc, s2vs, s2ps, met, arg, res
+  loc, svs, gua, met, arg, res
 ) = '{
   loopi2nv_loc= loc
-, loopi2nv_svs= s2vs
-, loopi2nv_gua= s2ps
-, loopi2nv_met= met
+, loopi2nv_svs= svs
+, loopi2nv_gua= gua
 , loopi2nv_arg= arg
+, loopi2nv_met= met
 , loopi2nv_res= res
 } // end of [loopi2nv_make]
 

@@ -76,6 +76,16 @@ extern fun eval1_t2mpmarg : eval1_type (t2mpmarg)
 extern fun eval1_t2mpmarglst : eval1_type (t2mpmarglst)
 //
 (* ****** ****** *)
+
+extern fun eval1_d2var : eval1_type (d2var)
+
+(* ****** ****** *)
+
+extern fun eval1_i2nvarg : eval1_type (i2nvarg)
+extern fun eval1_i2nvarglst : eval1_type (i2nvarglst)
+extern fun eval1_i2nvresstate : eval1_type (i2nvresstate)
+
+(* ****** ****** *)
 //
 extern fun eval1_p2at : eval1_type (p2at)
 extern fun eval1_p2atlst : eval1_type (p2atlst)
@@ -84,8 +94,6 @@ extern fun eval1_labp2at : eval1_type (labp2at)
 extern fun eval1_labp2atlst : eval1_type (labp2atlst)
 //
 (* ****** ****** *)
-//
-extern fun eval1_d2var : eval1_type (d2var)
 //
 extern fun eval1_d2explst : eval1_type (d2explst)
 extern fun eval1_d2expopt : eval1_type (d2expopt)
@@ -205,6 +213,45 @@ eval1_t2mpmarglst
 (* ****** ****** *)
 
 implement
+eval1_d2var
+  (loc0, ctx, env, d2v) = let
+  val opt = alphenv_dfind (env, d2v)
+in
+  case+ opt of
+  | ~Some_vt (d2v) => d2v | ~None_vt () => d2v
+end // end of [eval1_d2var]
+
+(* ****** ****** *)
+
+implement
+eval1_i2nvarg
+(loc0, ctx, env, arg) = let
+  val d2v = eval1_d2var (loc0, ctx, env, arg.i2nvarg_var)
+  val opt = eval1_s2expopt (loc0, ctx, env, arg.i2nvarg_type)
+in
+  i2nvarg_make (d2v, opt)
+end // end of [eval1_i2nvarg]
+
+implement
+eval1_i2nvarglst
+  (loc0, ctx, env, args) =
+  eval1_listmap (loc0, ctx, env, args, eval1_i2nvarg)
+// end of [eval1_i2nvarglst]
+
+implement
+eval1_i2nvresstate
+  (loc0, ctx, env, inv) = let
+  val svs = inv.i2nvresstate_svs
+  val gua = inv.i2nvresstate_gua
+  val arg = eval1_i2nvarglst (loc0, ctx, env, inv.i2nvresstate_arg)
+  val met = inv.i2nvresstate_met
+in
+  i2nvresstate_make_met (svs, gua, arg, met)
+end // end of [eval1_i2nvresstate]
+
+(* ****** ****** *)
+
+implement
 eval1_p2at 
   (loc0, ctx, env, p2t0) = let
 (*
@@ -284,17 +331,6 @@ eval1_labp2atlst
   (loc0, ctx, env, lp2ts) =
   eval1_listmap (loc0, ctx, env, lp2ts, eval1_labp2at)
 // end of [eval1_labp2atlst]
-
-(* ****** ****** *)
-
-implement
-eval1_d2var
-  (loc0, ctx, env, d2v) = let
-  val opt = alphenv_dfind (env, d2v)
-in
-  case+ opt of
-  | ~Some_vt (d2v) => d2v | ~None_vt () => d2v
-end // end of [eval1_d2var]
 
 (* ****** ****** *)
 
@@ -512,6 +548,8 @@ macdef eval1labdexplst (x) = eval1_labd2explst (loc0, ctx, env, ,(x))
 //
 macdef eval1dlablst (x) = eval1_d2lablst (loc0, ctx, env, ,(x))
 //
+macdef eval1invres (x) = eval1_i2nvresstate (loc0, ctx, env, ,(x))
+//
 in
 //
 case+ d2en0 of
@@ -584,10 +622,18 @@ case+ d2en0 of
 | D2Eapplst _ =>
     eval1_d2exp_applst (loc0, ctx, env, d2e0)
   // end of [D2Eapplst]
-| D2Emac _ => reloc () // HX-2012-12: is this right?
-| D2Emacsyn _ =>
-    eval1_d2exp_macsyn (loc0, ctx, env, d2e0)
-  // end of [D2Emacsyn]
+//
+| D2Eifhead
+  (
+    inv, _test, _then, _else
+  ) => let
+    val inv = eval1invres (inv)
+    val _test = eval1dexp (_test)
+    val _then = eval1dexp (_then)
+    val _else = eval1dexpopt (_else)
+  in
+    d2exp_ifhead (loc0, inv, _test, _then, _else)
+  end // end of [D2Eifhead]
 //
 | D2Elst (lin, opt, d2es) =>
     d2exp_lst (loc0, lin, eval1sexpopt (opt), eval1dexplst (d2es))
@@ -633,9 +679,22 @@ case+ d2en0 of
   // end of [D2Eexist]
 //
 | D2Edelay (d2e) => d2exp_delay (loc0, eval1dexp (d2e))
-| D2Eldelay (_eval, _free) =>
-    d2exp_ldelay (loc0, eval1dexp (_eval), eval1dexpopt (_free))
+| D2Eldelay (d2e, opt) => // (eval, free)
+    d2exp_ldelay (loc0, eval1dexp (d2e), eval1dexpopt (opt))
   // end of [D2Eldelay]
+//
+| D2Emac _ => reloc () // HX-2012-12: right?
+| D2Emacsyn _ => eval1_d2exp_macsyn (loc0, ctx, env, d2e0)
+//
+| D2Eann_type (d2e, s2e) =>
+    d2exp_ann_type (loc0, eval1dexp (d2e), eval1sexp (s2e))
+  // end of [D2Eann_type]
+| D2Eann_seff (d2e, s2fe) =>
+    d2exp_ann_seff (loc0, eval1dexp (d2e), s2fe)
+  // end of [D2Eann_seff]
+| D2Eann_funclo (d2e, funclo) =>
+    d2exp_ann_funclo (loc0, eval1dexp (d2e), funclo)
+  // end of [D2Eann_funclo]
 //
 | _ => d2exp_err (loc0)
 //

@@ -152,6 +152,8 @@ atspre_compare_bool_bool (
 ) {
   return (b1 - b2) ;
 } // end of [atspre_compare_bool_bool]
+\#define atspre_compare_bool0_bool0 atspre_compare_bool_bool
+\#define atspre_compare_bool1_bool1 atspre_compare_bool_bool
 
 #atscode_separator_for_C()
 
