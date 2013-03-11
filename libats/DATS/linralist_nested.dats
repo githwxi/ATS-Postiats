@@ -249,7 +249,7 @@ in
 case+ xs of
 | RAevn (xxs) => let
     val p_x01 = getref_at (xxs, half i)
-    val x01 = $UN.ptr_get<node(a,d+1)>(p_x01)
+    val x01 = $UN.ptr1_get<node(a,d+1)>(p_x01)
   in
     if i mod 2 = 0 then let
       val+ @N2 (x0, _) = x01
@@ -277,7 +277,7 @@ case+ xs of
       val i1 = i - 1
       val p_x01 = getref_at (xxs, half i1)
       prval () = fold@ (xs)
-      val x01 = $UN.ptr_get<node(a,d+1)>(p_x01)
+      val x01 = $UN.ptr1_get<node(a,d+1)>(p_x01)
     in
       if i mod 2 = 0 then let
         val+ @N2 (_, x1) = x01

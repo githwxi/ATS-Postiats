@@ -7,29 +7,25 @@
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+#include "share/atspre_staload.hats"
 
 (* ****** ****** *)
 
-staload "prelude/DATS/integer.dats"
-staload "prelude/DATS/pointer.dats"
-
-staload _ = "prelude/DATS/string.dats"
-staload _ = "prelude/DATS/unsafe.dats"
+staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
 fun string_tail
   {n:int | n > 0}
   (str: string n): string (n-1) = 
-  $UN.cast{string(n-1)} (ptr0_succ<char> (string2ptr (str)))
+  $UN.cast{string(n-1)} (ptr_succ<char> (string2ptr (str)))
 // end of [string_tail]
 
 (* ****** ****** *)
 
 extern
 fun strprefix
-  {n1,n2:int} (str1: string n1, string n2): sizeLte (min(n1,n2))
+  {n1,n2:int} (string (n1), string (n2)): sizeLte (min(n1,n2))
 // end of [strprefix]
 
 (* ****** ****** *)

@@ -126,7 +126,7 @@ giter_get (itr) = x where {
 implement
 {knd}{x}
 giter_set (itr, x) =
-  $UN.ptr_set<x> (giter_getref<knd><x> (itr), x)
+  $UN.ptr1_set<x> (giter_getref<knd><x> (itr), x)
 // end of [giter_set]
 
 (* ****** ****** *)
@@ -162,12 +162,12 @@ giter_get_inc
 implement
 {knd}{x}
 giter_set_inc (itr, x) =
-  $UN.ptr_set<x> (giter_getref_inc<knd><x> (itr), x)
+  $UN.ptr1_set<x> (giter_getref_inc<knd><x> (itr), x)
 // end of [giter_set_inc]
 implement
 {knd}{x}
 giter_exch_inc (itr, x) =
-  $UN.ptr_exch<x> (giter_getref_inc<knd><x> (itr), x)
+  $UN.ptr1_exch<x> (giter_getref_inc<knd><x> (itr), x)
 // end of [giter_exch_inc]
 
 (* ****** ****** *)
@@ -207,12 +207,12 @@ giter_dec_get
 implement
 {knd}{x}
 giter_dec_set (itr, x) =
-  $UN.ptr_set<x> (giter_dec_getref<knd><x> (itr), x)
+  $UN.ptr1_set<x> (giter_dec_getref<knd><x> (itr), x)
 // end of [giter_dec_set]
 implement
 {knd}{x}
 giter_dec_exch (itr, x) =
-  $UN.ptr_exch<x> (giter_dec_getref<knd><x> (itr), x)
+  $UN.ptr1_exch<x> (giter_dec_getref<knd><x> (itr), x)
 // end of [giter_dec_exch]
 
 (* ****** ****** *)
@@ -222,17 +222,17 @@ giter_dec_exch (itr, x) =
 implement
 {knd}{x}
 giter_fget_at (itr, i) =
-  $UN.ptr_get<x> (giter_fgetref_at<knd><x> (itr, i))
+  $UN.ptr1_get<x> (giter_fgetref_at<knd><x> (itr, i))
 // end of [giter_fget_at]
 implement
 {knd}{x}
 giter_fset_at (itr, i, x) =
-  $UN.ptr_set<x> (giter_fgetref_at<knd><x> (itr, i), x)
+  $UN.ptr1_set<x> (giter_fgetref_at<knd><x> (itr, i), x)
 // end of [giter_fset_at]
 implement
 {knd}{x}
 giter_fexch_at (itr, i, x) =
-  $UN.ptr_exch<x> (giter_fgetref_at<knd><x> (itr, i), x)
+  $UN.ptr1_exch<x> (giter_fgetref_at<knd><x> (itr, i), x)
 // end of [giter_fexch_at]
 
 (* ****** ****** *)
@@ -242,17 +242,17 @@ giter_fexch_at (itr, i, x) =
 implement
 {knd}{x}
 giter_fbget_at (itr, i) =
-  $UN.ptr_get<x> (giter_fbgetref_at<knd><x> (itr, i))
+  $UN.ptr1_get<x> (giter_fbgetref_at<knd><x> (itr, i))
 // end of [giter_fbget_at]
 implement
 {knd}{x}
 giter_fbset_at (itr, i, x) =
-  $UN.ptr_set<x> (giter_fbgetref_at<knd><x> (itr, i), x)
+  $UN.ptr1_set<x> (giter_fbgetref_at<knd><x> (itr, i), x)
 // end of [giter_fbset_at]
 implement
 {knd}{x}
 giter_fbexch_at (itr, i, x) =
-  $UN.ptr_exch<x> (giter_fbgetref_at<knd><x> (itr, i), x)
+  $UN.ptr1_exch<x> (giter_fbgetref_at<knd><x> (itr, i), x)
 // end of [giter_fbexch_at]
 
 (* ****** ****** *)

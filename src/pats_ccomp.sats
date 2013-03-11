@@ -355,7 +355,9 @@ typedef instrlst = ccomp_instrlst_type
 
 datatype
 primdec_node =
+//
   | PMDnone of () 
+  | PMDlist of (primdeclst)
 //
   | PMDsaspdec of (s2aspdec)
 //
@@ -487,6 +489,10 @@ fun fprint_primdeclst : fprint_type (primdeclst)
 (* ****** ****** *)
 
 fun primdec_none (loc: location): primdec
+
+(* ****** ****** *)
+
+fun primdec_list (loc: location, pmds: primdeclst): primdec
 
 (* ****** ****** *)
 

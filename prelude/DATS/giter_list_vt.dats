@@ -137,7 +137,7 @@ giter_is_atend<itrknd><x>
   prval () = decode (itr)
   val+ ITR (_, p) = itr
   prval () = encode (itr)
-  val xs = $UN.ptr_get<vt> (p)
+  val xs = $UN.ptr1_get<vt> (p)
   val isnil = list_vt_is_nil (xs)
   prval () = __vfree (xs) where {
     extern praxi __vfree (xs: vt): void // returned back to [!p]
@@ -158,7 +158,7 @@ giter_getref<itrknd><x>
   val+ ITR (_, p) = itr
   prval () = encode (itr)
 //
-  val xs = $UN.ptr_get<vt> (p)
+  val xs = $UN.ptr1_get<vt> (p)
   val @list_vt_cons (x, _) = xs
   val p_x = addr@ (x)
   prval () = fold@ (xs)
@@ -179,7 +179,7 @@ giter_inc<itrknd><x>
 //
   prval () = decode (itr)
   val+ @ITR (_, p) = itr
-  val xs = $UN.ptr_get<vt> (p)
+  val xs = $UN.ptr1_get<vt> (p)
   val+ @list_vt_cons (_, xs1) = xs
   val () = p := $UN.cast2Ptr1 (addr@ (xs1))
   val () = fold@ (itr)
@@ -203,7 +203,7 @@ giter_getref_inc<itrknd><x>
 //
   prval () = decode (itr)
   val+ @ITR (_, p) = itr
-  val xs = $UN.ptr_get<vt> (p)
+  val xs = $UN.ptr1_get<vt> (p)
   val+ @list_vt_cons (x, xs1) = xs
   val p_x = addr@ (x)
   val () = p := $UN.cast2Ptr1 (addr@ (xs1))
@@ -232,8 +232,8 @@ giter_ins<itrknd><x>
   viewtypedef vt1 = list_vt (x, r+1)
   prval () = decode (itr)
   val+ @ITR (xs0, p) = itr
-  val xs = $UN.ptr_get<vt> (p)
-  val () = $UN.ptr_set<vt1> (p, list_vt_cons (x, xs))
+  val xs = $UN.ptr1_get<vt> (p)
+  val () = $UN.ptr1_set<vt1> (p, list_vt_cons (x, xs))
   prval () = let
     extern praxi __assert
       (xs0: !list_vt (x, f+r) >> list_vt (x, f+r+1)): void
@@ -258,9 +258,9 @@ giter_rmv<itrknd><x>
 //
   prval () = decode (itr)
   val+ @ITR (xs0, p) = itr
-  val xs = $UN.ptr_get<vt> (p)
+  val xs = $UN.ptr1_get<vt> (p)
   val+ ~list_vt_cons (x, xs1) = xs
-  val () = $UN.ptr_set<vt1> (p, xs1)
+  val () = $UN.ptr1_set<vt1> (p, xs1)
   prval () = let
     extern praxi __assert
       (xs0: !list_vt (x, f+r) >> list_vt (x, f+r-1)): void

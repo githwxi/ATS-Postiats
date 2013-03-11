@@ -139,6 +139,12 @@ case+ hid0.hidecl_node of
 //
 | HIDnone () => primdec_none (loc0)
 //
+| HIDlist (hids) => let
+    val pmds =
+      hideclist_ccomp (env, hids) in primdec_list (loc0, pmds)
+    // end of [val]
+  end // end of [HIDlist]
+//
 | HIDsaspdec _ => hisaspdec_ccomp (env, hid0)
 //
 | HIDextcode _ => hiextcode_ccomp (env, hid0)
@@ -213,12 +219,14 @@ case+ hid0.hidecl_node of
     primdec_local (loc0, pmds_head, pmds_body)
   end // end of [HIDlocal]
 //
+(*
 | _ => let
     val () = println! ("hidecl_ccomp: loc0 = ", loc0)
     val () = println! ("hidecl_ccomp: hid0 = ", hid0)
   in
     exitloc (1)
   end // end of [_]
+*)
 //
 end // end of [hidecl_ccomp]
 

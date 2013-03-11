@@ -10,24 +10,16 @@
 //
 (* ****** ****** *)
 
-staload "libats/SATS/dllist.sats"
-
-(* ****** ****** *)
-
-staload "prelude/DATS/basics.dats"
-
-staload "prelude/DATS/integer.dats"
-
-staload "prelude/DATS/char.dats"
-staload "prelude/DATS/float.dats"
-staload "prelude/DATS/string.dats"
-
-staload _ = "prelude/DATS/unsafe.dats"
+#include "share/atspre_staload.hats"
 
 (* ****** ****** *)
 
 staload _ = "libats/DATS/gnode.dats"
 staload _ = "libats/DATS/dllist.dats"
+
+(* ****** ****** *)
+
+staload "libats/SATS/dllist.sats"
 
 (* ****** ****** *)
 

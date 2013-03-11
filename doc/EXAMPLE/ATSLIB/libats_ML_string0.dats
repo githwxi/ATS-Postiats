@@ -4,18 +4,7 @@
 
 (* ****** ****** *)
 
-staload "prelude/DATS/basics.dats"
-
-staload "prelude/DATS/integer.dats"
-staload "prelude/DATS/pointer.dats"
-
-staload "prelude/DATS/char.dats"
-
-staload "prelude/DATS/string.dats"
-
-(* ****** ****** *)
-
-staload _ = "prelude/DATS/unsafe.dats"
+#include "share/atspre_staload.hats"
 
 (* ****** ****** *)
 

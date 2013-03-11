@@ -679,6 +679,8 @@ case+ pmd.primdec_node of
 //
 | PMDnone () => ()
 //
+| PMDlist (pmds) => emit_primdeclst (out, pmds)
+//
 | PMDsaspdec _ => ()
 //
 | PMDdatdecs _ => ()

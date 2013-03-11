@@ -6,17 +6,11 @@
 
 (* ****** ****** *)
 
-staload
-UN = "prelude/SATS/unsafe.sats"
+#include "share/atspre_staload.hats"
 
 (* ****** ****** *)
 
-staload "prelude/DATS/integer.dats"
-staload "prelude/DATS/pointer.dats"
-
-staload _ = "prelude/DATS/float.dats"
-staload _ = "prelude/DATS/string.dats"
-staload _ = "prelude/DATS/unsafe.dats"
+staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 

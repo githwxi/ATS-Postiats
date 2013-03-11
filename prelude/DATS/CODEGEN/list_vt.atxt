@@ -206,7 +206,7 @@ var xs = __ref (xs) where
 } // end of [val]
 //
 val pi = list_vt_getref_at (xs, i)
-val+ list_cons (x, _) = $UN.ptr_get<List1(a)> (cptr2ptr (pi))
+val+ list_cons (x, _) = $UN.ptr1_get<List1(a)> (cptr2ptr (pi))
 //
 prval () = __unref (xs) where
 {
@@ -287,7 +287,7 @@ list_vt_insert_at
 val pi = list_vt_getref_at (xs, i)
 val xs_i = $UN.cptr_get (pi)
 val xs1_i = list_vt_cons (x, xs_i)
-val () = $UN.ptr_set<List1_vt(a)> (cptr2ptr(pi), xs1_i)
+val () = $UN.ptr1_set<List1_vt(a)> (cptr2ptr(pi), xs1_i)
 //
 prval () = __assert (xs) where
 {
@@ -308,7 +308,7 @@ list_vt_remove_at
 val pi = list_vt_getref_at (xs, i)
 val xs_i = $UN.cptr_get (pi)
 val+~list_vt_cons (x1, xs1_i) = xs_i
-val () = $UN.ptr_set<List0_vt(a)> (cptr2ptr(pi), xs1_i)
+val () = $UN.ptr1_set<List0_vt(a)> (cptr2ptr(pi), xs1_i)
 //
 prval () = __assert (xs) where
 {
@@ -1013,7 +1013,7 @@ val () = let
           pf1, pf2
         ) = array_v_uncons (pf)
         val p_x = $UN.cast2Ptr1 (addr@(x))
-        val () = $UN.ptr_set<a2> (p_x, !p)
+        val () = $UN.ptr1_set<a2> (p_x, !p)
         val () = loop (pf2 | xs1, ptr1_succ<a2> (p))
         prval () = pf := array_v_cons (pf1, pf2)
         prval () = fold@ (xs)

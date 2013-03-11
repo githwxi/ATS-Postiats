@@ -102,14 +102,14 @@ vttakeout_void {a:vt0p} (x: !a):<> vttakeout (void, a)
 //
 // HX: only if you know what you are doing ...
 //
-fun{a:vt0p} ptr_get (p: Ptr1):<> a
 fun{a:vt0p} ptr0_get (p: ptr):<> a
+fun{a:vt0p} ptr1_get (p: Ptr1):<> a
 //
-fun{a:vt0p} ptr_set (p: Ptr1, x: INV(a)):<!wrt> void
 fun{a:vt0p} ptr0_set (p: ptr, x: INV(a)):<!wrt> void
+fun{a:vt0p} ptr1_set (p: Ptr1, x: INV(a)):<!wrt> void
 //
-fun{a:vt0p} ptr_exch (p: Ptr1, x: &INV(a) >> a):<!wrt> void
 fun{a:vt0p} ptr0_exch (p: ptr, x: &INV(a) >> a):<!wrt> void
+fun{a:vt0p} ptr1_exch (p: Ptr1, x: &INV(a) >> a):<!wrt> void
 //
 //
 #atscode_separator()
@@ -117,20 +117,20 @@ fun{a:vt0p} ptr0_exch (p: ptr, x: &INV(a) >> a):<!wrt> void
 // HX-2012-06:
 // generic ops on numbers: +=, -=, *=, /=, %=
 //
-fun{a:t0p} ptr_addby (p: Ptr1, x: a):<!wrt> void // !p += x
 fun{a:t0p} ptr0_addby (p: ptr, x: a):<!wrt> void // !p += x
+fun{a:t0p} ptr1_addby (p: Ptr1, x: a):<!wrt> void // !p += x
 //
-fun{a:t0p} ptr_subby (p: Ptr1, x: a):<!wrt> void // !p -= x
 fun{a:t0p} ptr0_subby (p: ptr, x: a):<!wrt> void // !p -= x
+fun{a:t0p} ptr1_subby (p: Ptr1, x: a):<!wrt> void // !p -= x
 //
-fun{a:t0p} ptr_mulby (p: Ptr1, x: a):<!wrt> void // !p *= x
 fun{a:t0p} ptr0_mulby (p: ptr, x: a):<!wrt> void // !p *= x
+fun{a:t0p} ptr1_mulby (p: Ptr1, x: a):<!wrt> void // !p *= x
 //
-fun{a:t0p} ptr_divby (p: Ptr1, x: a):<!wrt> void // !p /= x
 fun{a:t0p} ptr0_divby (p: ptr, x: a):<!wrt> void // !p /= x
+fun{a:t0p} ptr1_divby (p: Ptr1, x: a):<!wrt> void // !p /= x
 //
-fun{a:t0p} ptr_modby (p: Ptr1, x: a):<!wrt> void // !p %= x
 fun{a:t0p} ptr0_modby (p: ptr, x: a):<!wrt> void // !p %= x
+fun{a:t0p} ptr1_modby (p: Ptr1, x: a):<!wrt> void // !p %= x
 //
 #atscode_separator()
 //

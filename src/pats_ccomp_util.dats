@@ -256,6 +256,8 @@ in
 case+ pmd.primdec_node of
 | PMDnone () => ()
 //
+| PMDlist (pmds) => auxpmdlst (res, pmds)
+//
 | PMDsaspdec _ => ()
 //
 | PMDdatdecs _ => ()

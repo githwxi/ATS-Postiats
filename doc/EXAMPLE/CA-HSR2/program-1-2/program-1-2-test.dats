@@ -9,16 +9,7 @@
 //
 (* ****** ****** *)
 
-staload
-BAS = "prelude/DATS/basics.dats"
-staload
-INT = "prelude/DATS/integer.dats"
-staload
-PTR = "prelude/DATS/pointer.dats"
-staload
-ARRAY = "prelude/DATS/array.dats"
-staload
-ARRAYPTR = "prelude/DATS/arrayptr.dats"
+staload UN = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
 

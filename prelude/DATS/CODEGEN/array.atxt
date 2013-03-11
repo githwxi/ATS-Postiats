@@ -599,8 +599,8 @@ implement
 array_initize$init<a>
   (i, xi) = let
   val+ list_cons
-    (x, xs) = $UN.ptr_get<list1> (p_xs)
-  val () = $UN.ptr_set<list0> (p_xs, xs)
+    (x, xs) = $UN.ptr1_get<list1> (p_xs)
+  val () = $UN.ptr1_set<list0> (p_xs, xs)
 in
   xi := x
 end // end of [array_initize$init]
@@ -625,8 +625,8 @@ implement
 array_initize$init<a>
   (i, xi) = let
   val+ ~list_vt_cons
-    (x, xs) = $UN.ptr_get<list1> (p_xs)
-  val () = $UN.ptr_set<list0> (p_xs, xs)
+    (x, xs) = $UN.ptr1_get<list1> (p_xs)
+  val () = $UN.ptr1_set<list0> (p_xs, xs)
 in
   xi := x
 end // end of [array_initize$init]

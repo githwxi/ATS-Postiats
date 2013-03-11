@@ -631,6 +631,14 @@ case+
 //
 | PMDnone () => pmd0
 //
+| PMDlist (pmds) => let
+    val pmds =
+      primdeclst_subst (env, map, sub, pmds, sfx)
+    // end of [val]
+  in
+    primdec_list (loc0, pmds)
+  end // end of [PMDlist]
+//
 | PMDsaspdec _ => pmd0
 //
 | PMDdatdecs _ => pmd0

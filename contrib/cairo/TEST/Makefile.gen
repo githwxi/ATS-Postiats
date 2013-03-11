@@ -3,8 +3,10 @@
 # A Makefile for processing [Makefile.atxt]
 # to generate Makefiles that do the actual work
 #
+######
 #
-
+# Author: Hongwei Xi (gmhwxiATgmailCOM)
+#
 ######
 
 ATSHOMEQ="$(ATSHOME)"

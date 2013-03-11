@@ -13,14 +13,7 @@
 //
 (* ****** ****** *)
 
-staload "prelude/DATS/integer.dats"
-staload "prelude/DATS/pointer.dats"
-
-(* ****** ****** *)
-
-staload "prelude/DATS/array.dats"
-staload "prelude/DATS/arrayptr.dats"
-
+#include "share/atspre_staload.hats"
 
 (* ****** ****** *)
 
