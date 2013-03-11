@@ -1077,6 +1077,7 @@ in // in of [local]
 implement
 the_trans2_env_pop
   (pfenv | (*none*)) = {
+  val () = the_namespace_pop ()
   val () = the_s2rtenv_pop_free (pfenv.0 | (*none*))
   val () = the_s2expenv_pop_free (pfenv.1 | (*none*))
   val () = the_d2expenv_pop_free (pfenv.2 | (*none*))
@@ -1084,6 +1085,7 @@ the_trans2_env_pop
 
 implement
 the_trans2_env_push () = let
+  val () = the_namespace_push ()
   val (pf0 | ()) = the_s2rtenv_push_nil ()
   val (pf1 | ()) = the_s2expenv_push_nil ()
   val (pf2 | ()) = the_d2expenv_push_nil ()
@@ -1094,6 +1096,7 @@ end // end of [the_trans2_env_push]
 implement
 the_trans2_env_localjoin
   (pf1, pf2 | (*none*)) = {
+  val () = the_namespace_localjoin ()
   val () = the_s2rtenv_localjoin (pf1.0, pf2.0 | (*none*))
   val () = the_s2expenv_localjoin (pf1.1, pf2.1 | (*none*))
   val () = the_d2expenv_localjoin (pf1.2, pf2.2 | (*none*))
@@ -1125,6 +1128,7 @@ in // in of [local]
 
 implement
 the_trans2_env_save () = let
+  val () = the_namespace_save ()
   val (pf0 | ()) = the_s2rtenv_save ()
   val (pf1 | ()) = the_s2expenv_save ()
   val (pf2 | ()) = the_d2expenv_save ()
@@ -1136,6 +1140,7 @@ end // end of [the_trans1_env_save]
 implement
 the_trans2_env_restore
   (pfsave | (*none*)) = let
+  val () = the_namespace_restore ()
   val m0 = the_s2rtenv_restore (pfsave.0 | (*none*))
   val m1 = the_s2expenv_restore (pfsave.1 | (*none*))  
   val m2 = the_d2expenv_restore (pfsave.2 | (*none*))

@@ -9,12 +9,12 @@
 //
 (* ****** ****** *)
 
-staload UN = "prelude/DATS/unsafe.dats"
+#include "share/atspre_staload.hats"
 
 (* ****** ****** *)
 
 staload "./program-1-2.sats"
-staload _ = "./program-1-2.dats"
+staload _ = "./program-1-2.dats" // for templates
 
 (* ****** ****** *)
 

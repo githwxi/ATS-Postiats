@@ -1632,26 +1632,32 @@ end // end of [val]
 val filsym = $FIL.filename_get_full (fil)
 val (pflev | ()) = the_staload_level_push ()
 val ans = the_filenvmap_find (filsym)
-val fenv = (case+
-  :(loaded: int) => ans of
-  | ~Some_vt fenv => let
-      val () = loaded := 1 in fenv
-    end // end of [Some_vt]
-  | ~None_vt _ => let
-      val () = loaded := 0
-      val (pfsave | ()) = the_trans2_env_save ()
-      val d2cs = d1eclist_tr (d1cs)
-      val (m0, m1, m2) = the_trans2_env_restore (pfsave | (*none*))
-      val fenv = filenv_make (fil, m0, m1, m2, d2cs)
-      val () = the_filenvmap_add (filsym, fenv)
-    in
-      fenv
-    end // end of [None_vt]
+val fenv =
+(
+case+
+:(
+loaded: int
+) => ans of
+| ~Some_vt fenv => let
+    val () = loaded := 1 in fenv
+  end // end of [Some_vt]
+| ~None_vt _ => let
+    val () = loaded := 0
+    val (pfsave | ()) = the_trans2_env_save ()
+    val d2cs = d1eclist_tr (d1cs)
+    val (m0, m1, m2) = the_trans2_env_restore (pfsave | (*none*))
+    val fenv = filenv_make (fil, m0, m1, m2, d2cs)
+    val () = the_filenvmap_add (filsym, fenv)
+  in
+    fenv
+  end // end of [None_vt]
 ) : filenv // end of [val]
 //
-val () = (case+ idopt of
-  | Some id => the_s2expenv_add (id, S2ITMfil fenv)
-  | None () => $NS.the_namespace_add (fenv) // opened file
+val () =
+(
+case+ idopt of
+| Some id => the_s2expenv_add (id, S2ITMfil fenv)
+| None () => $NS.the_namespace_add (fenv) // opened file
 ) : void // end of [val]
 val () = the_staload_level_pop (pflev | (*none*))
 //
@@ -1850,7 +1856,9 @@ case+ d1c0.d1ecl_node of
   ) // end of [D1Cvardecs]
 //
 | D1Cimpdec
-    (knd, _arg, _dec) => let
+  (
+    knd, _arg, _dec
+  ) => let
     val d2copt = i1mpdec_tr (d1c0)
   in
     case+ d2copt of
@@ -1868,17 +1876,21 @@ case+ d1c0.d1ecl_node of
     val d2cs = d1eclist_tr (d1cs) in d2ecl_include (loc0, d2cs)
   end // end of [D1Cinclude]
 //
-| D1Cstaload (
+| D1Cstaload
+  (
     idopt, fil, loadflag, d1cs
   ) => let
     var loaded: int
-    val fenv = s1taload_tr (loc0, idopt, fil, loadflag, d1cs, loaded)
+    val fenv =
+      s1taload_tr (loc0, idopt, fil, loadflag, d1cs, loaded)
+    // end of [val]
   in
     d2ecl_staload (loc0, idopt, fil, loadflag, fenv, loaded)
   end // end of [D1Cstaload]
 | D1Cdynload (fil) => d2ecl_dynload (loc0, fil)
 //
-| D1Clocal (
+| D1Clocal
+  (
     d1cs_head, d1cs_body
   ) => let
     val (pf1env | ()) = the_trans2_env_push ()
