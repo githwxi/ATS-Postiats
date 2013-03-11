@@ -35,6 +35,14 @@ RMF=rm -f
 
 ######
 
+all:: prelude_bool
+prelude_bool: prelude_bool.exe
+prelude_bool.exe: prelude_bool_dats.c ;   $(GCC) -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+prelude_bool_dats.c: prelude_bool.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_bool_dats.c --dynamic prelude_bool.dats
+clean:: ; $(RMF) prelude_bool_dats.o
+clean:: ; $(RMF) prelude_bool_dats.c
+cleanall:: ; $(RMF) prelude_bool.exe
+
 all:: prelude_string
 prelude_string: prelude_string.exe
 prelude_string.exe: prelude_string_dats.c ;   $(GCC) -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

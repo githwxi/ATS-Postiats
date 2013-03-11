@@ -29,13 +29,16 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 castfn bool1_of_bool0 (x: bool):<> Bool
 
 #atscode_separator()
-
-fun int2bool0 (i: int):<> bool
-fun bool2int0 (b: bool):<> natLt(2) // that is, Two
-
-fun int2bool1 {i:int} (i: int i):<> bool (i != 0)
-fun bool2int1 {b:bool} (b: bool b):<> int (int_of_bool b)
-
+//
+fun int2bool0 (i: int):<> bool = "mac\#%"
+fun bool2int0
+  (b: bool):<> natLt(2) = "mac\#%" // that is, Two
+//
+fun int2bool1
+  {i:int} (i: int i):<> bool (i != 0) = "mac\#%"
+fun bool2int1
+  {b:bool} (b: bool b):<> int (int_of_bool b) = "mac\#%"
+//
 #atscode_separator()
 
 (*

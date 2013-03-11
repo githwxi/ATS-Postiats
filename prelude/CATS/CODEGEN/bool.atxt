@@ -41,6 +41,22 @@ int fprintf (FILE *stream, const char *format, ...) ;
 
 ATSinline()
 atstype_bool
+atspre_int2bool (atstype_int x)
+{
+  return (x != 0 ? atsbool_true : atsbool_false) ;
+}
+\#define atspre_int2bool0 atspre_int2bool
+\#define atspre_int2bool1 atspre_int2bool
+
+#atscode_separator_for_C()
+
+\#define atspre_bool2int0(x) x
+\#define atspre_bool2int1(x) x
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_bool
 atspre_neg_bool
   (atstype_bool b) {
   return (b) ? atsbool_false : atsbool_true ;
