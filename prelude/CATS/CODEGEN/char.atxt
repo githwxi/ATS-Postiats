@@ -266,24 +266,28 @@ end // end of [fun_isX_decl]
 
 #atscode_separator_for_C()
 
-ATSinline()
-atstype_int
-atspre_toascii
-  (atstype_int c) { return toascii(c) ; }
-// end of [atspre_toascii]
+\#define atspre_toascii toascii
+
+#atscode_separator_for_C()
 
 ATSinline()
 atstype_int
-atspre_tolower
+atspre_tolower_int
   (atstype_int c) { return tolower(c) ; }
-// end of [atspre_tolower]
-
+ATSinline()
+atstype_char
+atspre_tolower_char
+  (atstype_char c) { return tolower(c) ; }
+//
 ATSinline()
 atstype_int
-atspre_toupper
+atspre_toupper_int
   (atstype_int c) { return toupper(c) ; }
-// end of [atspre_toupper]
-
+ATSinline()
+atstype_char
+atspre_toupper_char
+  (atstype_char c) { return toupper(c) ; }
+//
 #atscode_separator_for_C()
 
 \#endif // ifndef ATSHOME_PRELUDE_CHAR_CATS

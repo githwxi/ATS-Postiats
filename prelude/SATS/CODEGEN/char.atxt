@@ -54,7 +54,9 @@ sortdef t0p = t@ype
 
 fun int2char0 (i: int):<> char = "mac\#%"
 fun int2schar0 (i: int):<> schar = "mac\#%"
-fun int2uchar0 (u: uint):<> uchar = "mac\#%"
+fun int2uchar0 (i: int):<> uchar = "mac\#%"
+
+fun uint2uchar0 (u: uint):<> uchar = "mac\#%"
 
 #atscode_separator()
 
@@ -62,9 +64,9 @@ fun char2int0 (c: char):<> int = "mac\#%"
 fun schar2int0 (c: schar):<> int = "mac\#%"
 fun uchar2int0 (c: uchar):<> int = "mac\#%"
 
-fun char2uint0 (c: char):<> int = "mac\#%"
-fun schar2uint0 (c: schar):<> int = "mac\#%"
-fun uchar2uint0 (c: uchar):<> int = "mac\#%"
+fun char2uint0 (c: char):<> uint = "mac\#%"
+fun schar2uint0 (c: schar):<> uint = "mac\#%"
+fun uchar2uint0 (c: uchar):<> uint = "mac\#%"
 
 #atscode_separator()
 
@@ -195,7 +197,7 @@ overload <> with neq_char1_char1 of 20
 #atscode_decl_strcst('\
 fun compare_char1_char1
   {c1,c2:int}
-  (c1: char c2, c2: char c2) :<> int (c1-c2) = "mac\#%"
+  (c1: char c1, c2: char c2) :<> int (c1-c2) = "mac\#%"
 overload compare with compare_char1_char1 of 20
 ')\
 
@@ -292,7 +294,7 @@ overload <> with neq_uchar1_uchar1 of 20
 #atscode_decl_strcst('\
 fun compare_uchar1_uchar1
   {c1,c2:int}
-  (c1: uchar c2, c2: uchar c2) :<> int (c1-c2) = "mac\#%"
+  (c1: uchar c1, c2: uchar c2) :<> int (c1-c2) = "mac\#%"
 overload compare with compare_uchar1_uchar1 of 20
 ')\
 
@@ -389,12 +391,21 @@ end // end of [fun_isX_decl]
 
 #atscode_separator()
 
-fun toascii_int (c: int):<> int = "mac\#%"
-fun toascii_char (c: char):<> char = "mac\#%"
+fun toascii (c: int):<> int = "mac\#%"
+
+#atscode_separator()
+
+symintr tolower
 fun tolower_int (c: int):<> int = "mac\#%"
 fun tolower_char (c: char):<> char = "mac\#%"
+overload tolower with tolower_int
+overload tolower with tolower_char
+
+symintr toupper
 fun toupper_int (c: int):<> int = "mac\#%"
 fun toupper_char (c: char):<> char = "mac\#%"
+overload toupper with toupper_int
+overload toupper with toupper_char
 
 #atscode_separator()
 
