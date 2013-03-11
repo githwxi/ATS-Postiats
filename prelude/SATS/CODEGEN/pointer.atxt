@@ -113,10 +113,9 @@ a:vt0p}{tk:tk
 fun{
 a:vt0p}{tk:tk
 } ptr0_sub_guint (p: ptr, ofs: g0uint (tk)):<> ptr
-(*
+//
 overload ptr_sub with ptr0_sub_gint of 0
 overload ptr_sub with ptr0_sub_guint of 0
-*)
 //
 #atscode_separator()
 
@@ -266,11 +265,10 @@ a:vt0p}{tk:tk
 } ptr1_sub_guint
   {l:addr}{i:int}
   (p: ptr l, ofs: g1uint (tk, i)):<> ptr(l-i*sizeof(a))
-(*
+//
 overload ptr_sub with ptr1_sub_gint of 20
 overload ptr_sub with ptr1_sub_guint of 20
-*)
-
+//
 #atscode_separator()
 
 %{

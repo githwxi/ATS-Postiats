@@ -287,7 +287,7 @@ fun loop (
 in
   if i > 0 then let
     val nx =
-      $UN.ptr_get<g2node1(a)> (p)
+      $UN.ptr1_get<g2node1(a)> (p)
     // end of [val]
     val p2 = gnode_getref_next (nx)
   in
@@ -309,9 +309,9 @@ sllist_insert_at
   var xs = xs
   val p_i = sllist_getref_at (xs, i)
   val nx0 = g2node_make_elt<a> (x0)
-  val nxs = $UN.ptr_get<g2node0(a)> (p_i)
+  val nxs = $UN.ptr1_get<g2node0(a)> (p_i)
   val () = gnode_link10 (nx0, nxs)
-  val () = $UN.ptr_set<g2node1(a)> (p_i, nx0)
+  val () = $UN.ptr1_set<g2node1(a)> (p_i, nx0)
 in
   $UN.castvwtp0{sllist(a, n+1)}(xs)
 end // end of [sllist_insert_at]
@@ -322,10 +322,10 @@ implement{a}
 sllist_takeout_at
   {n} (xs, i) = let
   val p_i = sllist_getref_at (xs, i)
-  val nxs = $UN.ptr_get<g2node1(a)> (p_i)
+  val nxs = $UN.ptr1_get<g2node1(a)> (p_i)
   val nx0 = nxs
   val nxs = gnode_get_next (nx0)
-  val () = $UN.ptr_set<g2node0(a)> (p_i, nxs)
+  val () = $UN.ptr1_set<g2node0(a)> (p_i, nxs)
   prval (
   ) = __assert (xs) where {
     extern praxi __assert (xs: &sllist (a, n) >> sllist (a, n-1)): void

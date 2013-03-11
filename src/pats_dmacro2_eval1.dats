@@ -634,6 +634,17 @@ case+ d2en0 of
   in
     d2exp_ifhead (loc0, inv, _test, _then, _else)
   end // end of [D2Eifhead]
+| D2Esifhead
+  (
+    inv, _test, _then, _else
+  ) => let
+    val inv = eval1invres (inv)
+    val _test = eval1sexp (_test)
+    val _then = eval1dexp (_then)
+    val _else = eval1dexp (_else)
+  in
+    d2exp_sifhead (loc0, inv, _test, _then, _else)
+  end // end of [D2Esifhead]
 //
 | D2Elst (lin, opt, d2es) =>
     d2exp_lst (loc0, lin, eval1sexpopt (opt), eval1dexplst (d2es))
