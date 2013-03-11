@@ -190,6 +190,7 @@
 
 #define ATSINSload(tmp, pmv) (tmp = pmv)
 #define ATSINSstore(pmv1, pmv2) (pmv1 = pmv2)
+#define ATSINSxstore(tmp, pmv1, pmv2) (tmp = pmv1, pmv1 = pmv2, pmv2 = tmp)
 
 /* ****** ****** */
 //

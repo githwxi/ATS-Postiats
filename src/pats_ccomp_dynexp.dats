@@ -845,11 +845,13 @@ val hse0 = hde0.hidexp_type
 val-HDExchng_var
   (d2v_l, hse_rt, hils, hde_r) = hde0.hidexp_node
 // end of [val]
+val hse_r = hde_r.hidexp_type
+val tmp = tmpvar_make (loc0, hse_r)
 val pmv_l =
   d2var_ccomp (env, loc0, hse_rt, d2v_l)
 val pmls = hilablst_ccomp (env, res, hils)
 val pmv_r = hidexp_ccomp (env, res, hde_r)
-val ins = instr_xstore_varofs (loc0, pmv_l, hse_rt, pmls, pmv_r)
+val ins = instr_xstore_varofs (loc0, tmp, pmv_l, hse_rt, pmls, pmv_r)
 val () = instrseq_add (res, ins)
 //
 in
@@ -865,10 +867,12 @@ val hse0 = hde0.hidexp_type
 val-HDExchng_ptr
   (hde_l, hse_rt, hils, hde_r) = hde0.hidexp_node
 // end of [val]
+val hse_r = hde_r.hidexp_type
+val tmp = tmpvar_make (loc0, hse_r)
 val pmv1 = hidexp_ccomp (env, res, hde_l)
 val pmls = hilablst_ccomp (env, res, hils)
 val pmv2 = hidexp_ccomp (env, res, hde_r)
-val ins = instr_xstore_ptrofs (loc0, pmv1, hse_rt, pmls, pmv2)
+val ins = instr_xstore_ptrofs (loc0, tmp, pmv1, hse_rt, pmls, pmv2)
 val () = instrseq_add (res, ins)
 //
 in

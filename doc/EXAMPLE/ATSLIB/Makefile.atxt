@@ -75,6 +75,7 @@ RMF=rm -f
 ######
 
 #make_entry("prelude_string")
+#make_entry("prelude_reference")
 
 ######
 

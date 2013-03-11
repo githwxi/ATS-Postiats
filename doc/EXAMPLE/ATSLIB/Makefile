@@ -43,6 +43,14 @@ clean:: ; $(RMF) prelude_string_dats.o
 clean:: ; $(RMF) prelude_string_dats.c
 cleanall:: ; $(RMF) prelude_string.exe
 
+all:: prelude_reference
+prelude_reference: prelude_reference.exe
+prelude_reference.exe: prelude_reference_dats.c ;   $(GCC) -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+prelude_reference_dats.c: prelude_reference.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_reference_dats.c --dynamic prelude_reference.dats
+clean:: ; $(RMF) prelude_reference_dats.o
+clean:: ; $(RMF) prelude_reference_dats.c
+cleanall:: ; $(RMF) prelude_reference.exe
+
 
 ######
 

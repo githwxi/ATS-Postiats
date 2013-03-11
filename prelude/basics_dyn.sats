@@ -107,6 +107,15 @@ praxi topize {a:t@ype} (x: !INV(a) >> a?): void
 castfn dataget {a:vt@ype} (x: !INV(a) >> a): a?!
 
 (* ****** ****** *)
+//
+// HX: returning the pf to GC
+//
+praxi
+free_gc_v_elim
+  {l:addr} (pf: free_gc_v l): void
+// end of [free_gc_v_elim]
+
+(* ****** ****** *)
 
 praxi
 free_gcngc_v_nullify
@@ -116,8 +125,7 @@ free_gcngc_v_nullify
 
 (* ****** ****** *)
 
-fun
-cloptr_free
+fun cloptr_free
   {a:t@ype} (p: cloptr a):<!wrt> void = "mac#%"
 // end of [cloptr_free]
 
@@ -341,8 +349,7 @@ stadef argv = argv_int_vtype
 [argv_takeout_parrnull] is declared in prelude/SATS/extern.sats
 *)
 
-fun
-argv_get_at {n:int}
+fun argv_get_at {n:int}
   (argv: !argv (n), i: natLt n):<> string = "mac#atspre_argv_get_at"
 overload [] with argv_get_at
 

@@ -2074,10 +2074,12 @@ emit_instr_xstore_varofs
   (out, ins) = let
 //
 val-INSxstore_varofs
-  (pmv_l, hse_rt, pmls, pmv_r) = ins.instr_node
+  (tmp, pmv_l, hse_rt, pmls, pmv_r) = ins.instr_node
 //
 val xys = auxselist (hse_rt, pmls)
 val () = emit_text (out, "ATSINSxstore(")
+val () = emit_tmpvar (out, tmp)
+val () = emit_text (out, ", ")
 val () = auxmain (out, 0(*non*), pmv_l, hse_rt, xys, 0)
 val () = emit_text (out, ", ")
 val () = emit_primval (out, pmv_r)
@@ -2094,10 +2096,12 @@ emit_instr_xstore_ptrofs
   (out, ins) = let
 //
 val-INSxstore_ptrofs
-  (pmv_l, hse_rt, pmls, pmv_r) = ins.instr_node
+  (tmp, pmv_l, hse_rt, pmls, pmv_r) = ins.instr_node
 //
 val xys = auxselist (hse_rt, pmls)
 val () = emit_text (out, "ATSINSxstore(")
+val () = emit_tmpvar (out, tmp)
+val () = emit_text (out, ", ")
 val () = auxmain (out, 1(*non*), pmv_l, hse_rt, xys, 0)
 val () = emit_text (out, ", ")
 val () = emit_primval (out, pmv_r)

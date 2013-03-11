@@ -26,6 +26,19 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+implement{a} ref = ref_make_elt<a>
+
+implement{a}
+ref_make_elt (x0) = let
+  val (pfat, pfgc | p) = ptr_alloc<a> ()
+  prval () = free_gc_v_elim (pfgc)
+  val () = !p := x0 // initialization
+in
+  ref_make_viewptr (pfat | p)
+end // end of [ref_make_elt]
+
+#atscode_separator()
+
 implement{a}
 ref_get_elt
   (r) = !p where {

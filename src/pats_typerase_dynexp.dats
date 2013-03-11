@@ -587,6 +587,15 @@ case+
   in
     hidexp_sel_ptr (loc0, hse0, hde, hse_rt, hils)
   end // end of [D3Esel_ptr]
+| D3Esel_ref
+    (d3e, s2rt, d3ls) => let
+    val hde = d3exp_tyer (d3e)
+    val hse_rt =
+      s2exp_tyer_deep (loc0, s2rt)
+    val hils = d3lablst_tyer (d3ls)
+  in
+    hidexp_sel_ptr (loc0, hse0, hde, hse_rt, hils)
+  end // end of [D3Esel_ref]
 //
 | D3Eassgn_var (
     d2v_l, s2rt, d3ls, d3e_r
@@ -598,7 +607,8 @@ case+
   in
     hidexp_assgn_var (loc0, hse0, d2v_l, hse_rt, hils, hde_r)
   end // end of [D3Eassgn_var]
-| D3Eassgn_ptr (
+| D3Eassgn_ptr
+  (
     d3e_l, s2rt, d3ls, d3e_r
   ) => let
     val hde_l = d3exp_tyer (d3e_l)
@@ -608,8 +618,20 @@ case+
   in
     hidexp_assgn_ptr (loc0, hse0, hde_l, hse_rt, hils, hde_r)
   end // end of [D3Eassgn_ptr]
+| D3Eassgn_ref
+  (
+    d3e_l, s2rt, d3ls, d3e_r
+  ) => let
+    val hde_l = d3exp_tyer (d3e_l)
+    val hse_rt = s2exp_tyer_deep (loc0, s2rt)
+    val hils = d3lablst_tyer (d3ls)
+    val hde_r = d3exp_tyer (d3e_r)
+  in
+    hidexp_assgn_ptr (loc0, hse0, hde_l, hse_rt, hils, hde_r)
+  end // end of [D3Eassgn_ref]
 //
-| D3Exchng_var (
+| D3Exchng_var
+  (
     d2v_l, s2rt, d3ls, d3e_r
   ) => let
     val () = d2var_inc_utimes (d2v_l)
@@ -619,7 +641,8 @@ case+
   in
     hidexp_xchng_var (loc0, hse0, d2v_l, hse_rt, hils, hde_r)
   end // end of [D3Exchng_var]
-| D3Exchng_ptr (
+| D3Exchng_ptr
+  (
     d3e_l, s2rt, d3ls, d3e_r
   ) => let
     val hde_l = d3exp_tyer (d3e_l)
@@ -630,6 +653,18 @@ case+
   in
     hidexp_xchng_ptr (loc0, hse0, hde_l, hse_rt, hils, hde_r)
   end // end of [D3Exchng_ptr]
+| D3Exchng_ref
+  (
+    d3e_l, s2rt, d3ls, d3e_r
+  ) => let
+    val hde_l = d3exp_tyer (d3e_l)
+    val hse_rt =
+      s2exp_tyer_deep (loc0, s2rt)
+    val hils = d3lablst_tyer (d3ls)
+    val hde_r = d3exp_tyer (d3e_r)
+  in
+    hidexp_xchng_ptr (loc0, hse0, hde_l, hse_rt, hils, hde_r)
+  end // end of [D3Exchng_ref]
 //
 | D3Eviewat_assgn _ => hidexp_empty (loc0, hse0)
 //

@@ -703,14 +703,14 @@ instr_store_ptrofs
 
 implement
 instr_xstore_varofs
-  (loc, pmv_l, hse_rt, ofs, pmv_r) =
-  instr_make_node (loc, INSxstore_varofs (pmv_l, hse_rt, ofs, pmv_r))
+  (loc, tmp, pmv_l, hse_rt, ofs, pmv_r) =
+  instr_make_node (loc, INSxstore_varofs (tmp, pmv_l, hse_rt, ofs, pmv_r))
 // end of [instr_xstore_varofs]
 
 implement
 instr_xstore_ptrofs
-  (loc, pmv_l, hse_rt, ofs, pmv_r) =
-  instr_make_node (loc, INSxstore_ptrofs (pmv_l, hse_rt, ofs, pmv_r))
+  (loc, tmp, pmv_l, hse_rt, ofs, pmv_r) =
+  instr_make_node (loc, INSxstore_ptrofs (tmp, pmv_l, hse_rt, ofs, pmv_r))
 // end of [instr_xstore_ptrofs]
 
 (* ****** ****** *)

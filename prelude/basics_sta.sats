@@ -499,11 +499,11 @@ stadef arrpsz = arrpsz_vt0ype_int_vt0ype
 
 absprop // invariance
 vbox_view_prop (v:view)
-stadef vbox = vbox_view_prop
+propdef vbox (v:view) = vbox_view_prop (v)
 
 abstype // invariance
-ref_vt0ype_type (a:vt@ype)
-stadef ref = ref_vt0ype_type
+ref_vt0ype_type (a:vt@ype) = ptr
+typedef ref (a:vt@ype) = ref_vt0ype_type (a)
 
 (* ****** ****** *)
 

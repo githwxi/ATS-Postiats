@@ -875,7 +875,8 @@ case+
   end // end of [INSload_ptrofs]
 *)
 //
-| INSstore_varofs (
+| INSstore_varofs
+  (
     pmv_l, hse_rt, pmls, pmv_r
   ) => let
     val pmv_l = fpmv (pmv_l)
@@ -884,7 +885,8 @@ case+
   in
     instr_store_varofs (loc0, pmv_l, hse_rt, pmls, pmv_r)
   end // end of [INSstore_varofs]
-| INSstore_ptrofs (
+| INSstore_ptrofs
+  (
     pmv_l, hse_rt, pmls, pmv_r
   ) => let
     val pmv_l = fpmv (pmv_l)
@@ -893,6 +895,29 @@ case+
   in
     instr_store_ptrofs (loc0, pmv_l, hse_rt, pmls, pmv_r)
   end // end of [INSstore_ptrofs]
+//
+| INSxstore_varofs
+  (
+    tmp, pmv_l, hse_rt, pmls, pmv_r
+  ) => let
+    val tmp = ftmp (tmp)
+    val pmv_l = fpmv (pmv_l)
+    val hse_rt = hisexp_subst (sub, hse_rt)
+    val pmv_r = fpmv (pmv_r)
+  in
+    instr_xstore_varofs (loc0, tmp, pmv_l, hse_rt, pmls, pmv_r)
+  end // end of [INSxstore_ptrofs]
+| INSxstore_ptrofs
+  (
+    tmp, pmv_l, hse_rt, pmls, pmv_r
+  ) => let
+    val tmp = ftmp (tmp)
+    val pmv_l = fpmv (pmv_l)
+    val hse_rt = hisexp_subst (sub, hse_rt)
+    val pmv_r = fpmv (pmv_r)
+  in
+    instr_xstore_ptrofs (loc0, tmp, pmv_l, hse_rt, pmls, pmv_r)
+  end // end of [INSxstore_ptrofs]
 //
 (*
 //
