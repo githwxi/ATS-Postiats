@@ -500,15 +500,11 @@ s2exp_wth (s2e, wths2es) = '{
 
 (* ****** ****** *)
 
-(*
-implement
-s2hnf_err (s2t) = hnf (s2exp_err (s2t))
-*)
-
 implement
 s2exp_err (s2t) = '{
   s2exp_srt= s2t, s2exp_node= S2Eerr ()
-}
+} // end of [s2exp_err]
+
 implement
 s2exp_s2rt_err () = s2exp_err (s2rt_err ())
 implement
@@ -539,19 +535,21 @@ implement
 s2exp_is_nonlin (s2e) = ~s2exp_is_lin (s2e)
 
 implement
+s2exp_is_boxed
+  (s2e) = s2rt_is_boxed (s2e.s2exp_srt)
+// end of [s2exp_is_boxed]
+
+(* ****** ****** *)
+
+implement
 s2exp_is_prgm
   (s2e) = s2rt_is_prgm (s2e.s2exp_srt)
 // end of [s2exp_is_prgm]
 
 implement
-s2exp_is_boxed
-  (s2e) = s2rt_is_boxed (s2e.s2exp_srt)
-// end of [s2exp_is_boxed]
-
-implement
-s2exp_is_impredicative
-  (s2e) = s2rt_is_impredicative (s2e.s2exp_srt)
-// end of [s2exp_is_impredicative]
+s2exp_is_impred
+  (s2e) = s2rt_is_impred (s2e.s2exp_srt)
+// end of [s2exp_is_impred]
 
 (* ****** ****** *)
 

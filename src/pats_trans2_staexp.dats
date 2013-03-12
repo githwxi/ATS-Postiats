@@ -866,7 +866,7 @@ end // end of [s1exp_trup_arg]
 (* ****** ****** *)
 
 implement
-s1exp_trdn_res_impredicative
+s1exp_trdn_res_impred
   (s1e0, ws1es) = let
 //
   fun auxwth (
@@ -917,16 +917,16 @@ s1exp_trdn_res_impredicative
         s2exp_exi (s2q.s2qua_svs, s2q.s2qua_sps, s2e_scope)
       end // end of [S1Eexi]
     | _ => let
-        val s2e = s1exp_trdn_impredicative (s1e)
+        val s2e = s1exp_trdn_impred (s1e)
         val ws2es = auxwth (ws1es) in s2exp_wth (s2e, ws2es)
       end // end of [_]
   (* end of [auxres] *)
 //
 in
   if wths1explst_is_none (ws1es) then
-    s1exp_trdn_impredicative (s1e0) else auxres (s1e0, ws1es)
+    s1exp_trdn_impred (s1e0) else auxres (s1e0, ws1es)
   // end of [if]
-end // end of [s1exp_trdn_res_impredicative]
+end // end of [s1exp_trdn_res_impred]
 
 (* ****** ****** *)
 
@@ -1018,11 +1018,10 @@ val s2es_arg = let
           case+ s2t of
           | S2RTbas s2tb => (
             case+ s2tb of
-            | S2RTBASimp (_, name) => {
+            | S2RTBASimp (_, name) =>
+              {
                 val () = imp := 1 // impredicative
-                val () =
-                  if name = $SYM.symbol_TYPES then types := 1
-                // end of [val]
+                val () = if name = $SYM.symbol_TYPES then types := 1
               } // end of [S2RTBASimp]
             | _ => () // end of [_]
             ) // end of [S2RTbas]
@@ -1043,7 +1042,7 @@ in
 end // end of [val]
 //
 val () = ws1es := wths1explst_reverse (ws1es)
-val s2e_res = s1exp_trdn_res_impredicative (s1e_res, ws1es)
+val s2e_res = s1exp_trdn_res_impred (s1e_res, ws1es)
 val s2t_res = s2e_res.s2exp_srt
 //
 val loc0 = s1e0.s1exp_loc
@@ -1335,7 +1334,7 @@ end // end of [s1exp_trup_app_sqid_itm]
 fn s1exp_trup_top (
   knd: int, s1e: s1exp
 ) : s2exp = let
-  val s2e = s1exp_trdn_impredicative (s1e)
+  val s2e = s1exp_trdn_impred (s1e)
 in
   s2exp_top (knd, s2e)
 end // end of [s1exp_trup_top]
@@ -1353,7 +1352,7 @@ fun aux01 ( // flt/box: 0/1
 ) : labs2explst = begin case+ s1es of
   | list_cons (s1e, s1es) => let
       val lab = $LAB.label_make_int (i)
-      val s2e = s1exp_trdn_impredicative (s1e)
+      val s2e = s1exp_trdn_impred (s1e)
       val ls2e = SLABELED (lab, None(), s2e)
       val s2t = s2e.s2exp_srt
       val () = if s2rt_is_lin (s2t) then (lin := lin+1)
@@ -1468,7 +1467,7 @@ fun aux01 ( // flt/box: 0/1
           end // end of [Some]
         | None () => None
       ) : Option (string)
-      val s2e = s1exp_trdn_impredicative (s1e)
+      val s2e = s1exp_trdn_impred (s1e)
       val ls2e = SLABELED (lab, name, s2e)
       val s2t = s2e.s2exp_srt
       val () = if s2rt_is_lin (s2t) then (lin := lin+1)
@@ -1713,7 +1712,7 @@ case+ s1e0.s1exp_node of
 //
     val (pfenv | ()) = the_s2expenv_push_nil ()
     val s2q = s1qualst_tr (s1qs)
-    val s2e_scope = s1exp_trdn_impredicative (s1e_scope)
+    val s2e_scope = s1exp_trdn_impred (s1e_scope)
     val () = the_s2expenv_pop_free (pfenv | (*none*))
   in
     s2exp_exi (s2q.s2qua_svs, s2q.s2qua_sps, s2e_scope)
@@ -1723,7 +1722,7 @@ case+ s1e0.s1exp_node of
     and s2ps: s2explst = list_nil ()
     val (pfenv | ()) = the_s2expenv_push_nil ()
     val s2q = s1qualst_tr (s1qs)
-    val s2e_scope = s1exp_trdn_impredicative s1e_scope
+    val s2e_scope = s1exp_trdn_impred s1e_scope
     val () = the_s2expenv_pop_free (pfenv | (*none*))
   in
     s2exp_uni (s2q.s2qua_svs, s2q.s2qua_sps, s2e_scope)
@@ -1881,34 +1880,36 @@ s1exp_trdn_addr (s1e) = s1exp_trdn (s1e, s2rt_addr)
 implement
 s1exp_trdn_bool (s1e) = s1exp_trdn (s1e, s2rt_bool)
 implement
+s1exp_trdn_t0ype (s1e) = s1exp_trdn (s1e, s2rt_t0ype)
+implement
 s1exp_trdn_vt0ype (s1e) = s1exp_trdn (s1e, s2rt_vt0ype)
 
 (* ****** ****** *)
 
 implement
-s1exp_trdn_impredicative (s1e) = let
+s1exp_trdn_impred (s1e) = let
 //
   val s2e = s1exp_trup (s1e)
   val s2t = s2rt_delink (s2e.s2exp_srt)
-  val isimp = s2rt_is_impredicative (s2t)
+  val isimp = s2rt_is_impred (s2t)
 //
 in
 //
 if isimp then s2e else let
   val () = prerr_error2_loc (s1e.s1exp_loc)
-  val () = filprerr_ifdebug "s1exp_trdn_impredicative"
+  val () = filprerr_ifdebug "s1exp_trdn_impred"
   val () =
     prerr ": the static expression needs to be impredicative"
   val () = (
     prerr " but is assigned the sort ["; prerr_s2rt (s2t); prerr "]."
   ) // end of [val]
   val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_s1exp_trdn_impredicative (s1e))
+  val () = the_trans2errlst_add (T2E_s1exp_trdn_impred (s1e))
 in
   s2exp_err (s2t)
 end (* end of [if] *)
 //
-end // end of [s1exp_trdn_impredicative]
+end // end of [s1exp_trdn_impred]
 
 (* ****** ****** *)
 
@@ -1962,34 +1963,36 @@ end // end of [s1explst_trdn_err]
 (* ****** ****** *)
 
 implement
-s1exp_trdn_arg_impredicative
+s1exp_trdn_arg_impred
   (s1e, w1ts) = s2e where {
   val s2e = s1exp_trup_arg (s1e, w1ts)
   val s2t = s2e.s2exp_srt
   val s2t = s2rt_delink (s2t)
-  val isimp = s2rt_is_impredicative (s2t)
+  val isimp = s2rt_is_impred (s2t)
   val () = if not(isimp) then let
     val () = prerr_error2_loc (s1e.s1exp_loc)
-    val () = filprerr_ifdebug ("s1exp_trdn_arg_impredicative")
+    val () = filprerr_ifdebug ("s1exp_trdn_arg_impred")
     val () = prerr ": the static expression needs to be impredicative"
     val () = prerr " but it is assigned the sort ["
     val () = prerr_s2rt (s2t)
     val () = prerr "]."
     val () = prerr_newline ()
   in
-    the_trans2errlst_add (T2E_s1exp_trdn_impredicative (s1e))
+    the_trans2errlst_add (T2E_s1exp_trdn_impred (s1e))
   end // end of [val]
-} // end of [s1exp_trdn_arg_impredicative]
+} // end of [s1exp_trdn_arg_impred]
 
 (* ****** ****** *)
 
 implement
-witht1ype_tr
-  (w1t) = (case+ w1t of
-  | WITHT1YPEsome (knd, s1e) => let
-      val s2t = s2rt_impredicative (knd) in Some (s1exp_trdn (s1e, s2t))
-    end // end of [WiTHT1YPEsome]
-  | WITHT1YPEnone () => None ()
+witht1ype_tr (w1t) =
+(
+case+ w1t of
+| WITHT1YPEsome
+    (knd, s1e) => let
+    val s2t = s2rt_impred (knd) in Some (s1exp_trdn (s1e, s2t))
+  end // end of [WiTHT1YPEsome]
+| WITHT1YPEnone () => None ()
 ) // end of [witht1ype_tr]
 
 (* ****** ****** *)

@@ -208,8 +208,7 @@ implement s2rt_vt0ype_neg = S2RTbas (s2tb_vt0ype_neg)
 implement s2rt_types = S2RTbas s2tb_types
 
 implement
-s2rt_impredicative
-  (knd) = let
+s2rt_impred (knd) = let
 in
 //
 case+ knd of
@@ -237,130 +236,160 @@ case+ knd of
 | _ => let
 //
     val () = prerr_interror ()
-    val () = prerr ": s2rt_impredicative: knd = "
+    val () = prerr ": s2rt_impred: knd = "
     val () = prerr_int (knd)
     val () = prerr_newline ()
     val () = assertloc (false)
   in
-    s2rt_t0ype // HX: this is deadcode
-  end // end of [s2rt_impredicative]
+    s2rt_t0ype // HX: this should be deadcode!
+  end // end of [_]
 //
-end // end of [s2rt_impredicative]
+end // end of [s2rt_impred]
 
 end // end of [local]
 
 (* ****** ****** *)
 
 implement
-s2rt_is_int (s2t) = (case+ s2t of
-  | S2RTbas s2tb => (case+ s2tb of
-    | S2RTBASpre (sym) => sym = $SYM.symbol_INT | _ => false
-    ) // end of [S2RTbas]
+s2rt_is_int (s2t) =
+(
+case+ s2t of
+| S2RTbas s2tb => (
+  case+ s2tb of
+  | S2RTBASpre (sym) => sym = $SYM.symbol_INT | _ => false
+  ) // end of [S2RTbas]
   | _ => false
 ) // end of [s2rt_is_int]
+
 implement
-s2rt_is_addr (s2t) = (case+ s2t of
-  | S2RTbas s2tb => (case+ s2tb of
-    | S2RTBASpre (sym) => sym = $SYM.symbol_ADDR | _ => false
-    ) // end of [S2RTbas]
+s2rt_is_addr (s2t) =
+(
+case+ s2t of
+| S2RTbas s2tb => (
+  case+ s2tb of
+  | S2RTBASpre (sym) => sym = $SYM.symbol_ADDR | _ => false
+  ) // end of [S2RTbas]
   | _ => false
 ) // end of [s2rt_is_addr]
 implement
-s2rt_is_bool (s2t) = (case+ s2t of
-  | S2RTbas s2tb => (case+ s2tb of
-    | S2RTBASpre (sym) => sym = $SYM.symbol_BOOL | _ => false
-    ) // end of [S2RTbas]
+s2rt_is_bool (s2t) =
+(
+case+ s2t of
+| S2RTbas s2tb => (
+  case+ s2tb of
+  | S2RTBASpre (sym) => sym = $SYM.symbol_BOOL | _ => false
+  ) // end of [S2RTbas]
+| _ => false
+) // end of [s2rt_is_int]
+
+implement
+s2rt_is_char (s2t) =
+(
+case+ s2t of
+| S2RTbas s2tb => (
+  case+ s2tb of
+  | S2RTBASpre (sym) => sym = $SYM.symbol_CHAR | _ => false
+  ) // end of [S2RTbas]
   | _ => false
 ) // end of [s2rt_is_int]
 
 implement
-s2rt_is_char (s2t) = (case+ s2t of
-  | S2RTbas s2tb => (case+ s2tb of
-    | S2RTBASpre (sym) => sym = $SYM.symbol_CHAR | _ => false
-    ) // end of [S2RTbas]
-  | _ => false
-) // end of [s2rt_is_int]
-
-implement
-s2rt_is_dat (s2t) = (case+ s2t of
-  | S2RTbas s2tb => (
-      case+ s2tb of S2RTBASdef _ => true | _ => false
-    ) // end of [S2RTbas]
-  | _ => false // end of [S2RTbas]
+s2rt_is_dat (s2t) =
+(
+case+ s2t of
+| S2RTbas s2tb => (
+  case+ s2tb of S2RTBASdef _ => true | _ => false
+  ) // end of [S2RTbas]
+| _ => false // end of [S2RTbas]
 ) // end of [s2rt_is_dat]
 
 (* ****** ****** *)
 
 implement
 s2rt_is_fun (s2t) =
+(
   case+ s2t of S2RTfun _ => true | _ => false
-// end of [s2rt_is_fun]
+) // end of [s2rt_is_fun]
 
 implement
-s2rt_is_prf (s2t) = (case+ s2t of
-  | S2RTbas s2tb => (case+ s2tb of
-    | S2RTBASimp (knd, _) => test_prfkind (knd) | _ => false
-    ) // end of [S2RTbas]
-  | _ => false // end of [_]
+s2rt_is_prf (s2t) =
+(
+case+ s2t of
+| S2RTbas s2tb => (
+  case+ s2tb of
+  | S2RTBASimp (knd, _) => test_prfkind (knd) | _ => false
+  ) // end of [S2RTbas]
+| _ => false // end of [_]
 ) // end of [s2rt_is_prf]
 
 implement
-s2rt_is_prgm (s2t) = (case+ s2t of
-  | S2RTbas s2tb => (case+ s2tb of
-    | S2RTBASimp (knd, _) => test_prgmkind (knd) | _ => false
-    ) // end of [S2RTbas]
-  | _ => false // end of [_]
-) // end of [s2rt_is_prgm]
-
-implement
-s2rt_is_lin (s2t) = (
-  case+ s2t of
-  | S2RTbas s2tb => (case+ s2tb of
-    | S2RTBASimp (knd, _) => test_linkind (knd) | _ => false
-    ) // end of [S2RTbas]
-  | _ => false // end of [_]
+s2rt_is_lin (s2t) =
+(
+case+ s2t of
+| S2RTbas s2tb => (
+  case+ s2tb of
+  | S2RTBASimp (knd, _) => test_linkind (knd) | _ => false
+  ) // end of [S2RTbas]
+| _ => false // end of [_]
 ) // end of [s2rt_is_lin]
 
 implement
-s2rt_is_flat (s2t) = (
-  case+ s2t of
-  | S2RTbas s2tb => (case+ s2tb of
-    | S2RTBASimp (knd, _) => test_fltkind (knd) | _ => false
-    ) // end of [S2RTbas]
-  | _ => false // end of [_]
+s2rt_is_flat (s2t) =
+(
+case+ s2t of
+| S2RTbas s2tb => (
+  case+ s2tb of
+  | S2RTBASimp (knd, _) => test_fltkind (knd) | _ => false
+  ) // end of [S2RTbas]
+| _ => false // end of [_]
 ) // end of [s2rt_is_flat]
 
 implement
-s2rt_is_boxed (s2t) = (
-  case+ s2t of
-  | S2RTbas s2tb => (case+ s2tb of
-    | S2RTBASimp (knd, _) => test_boxkind (knd) | _ => false
-    ) // end of [S2RTbas]
-  | _ => false // end of [_]
+s2rt_is_boxed (s2t) =
+(
+case+ s2t of
+| S2RTbas s2tb => (
+  case+ s2tb of
+  | S2RTBASimp (knd, _) => test_boxkind (knd) | _ => false
+  ) // end of [S2RTbas]
+| _ => false // end of [_]
 ) // end of [s2rt_is_boxed]
 
 implement
-s2rt_is_impredicative (s2t) = (
-  case+ s2t of
-  | S2RTbas s2tb => (
-      case+ s2tb of S2RTBASimp _ => true | _ => false
-    ) // end of [S2RTbas]
-  | _ => false
-) // end of [s2rt_is_impredicative]
+s2rt_is_prgm (s2t) =
+(
+case+ s2t of
+| S2RTbas s2tb => (
+  case+ s2tb of
+  | S2RTBASimp (knd, _) => test_prgmkind (knd) | _ => false
+  ) // end of [S2RTbas]
+| _ => false // end of [_]
+) // end of [s2rt_is_prgm]
+
+implement
+s2rt_is_impred (s2t) =
+(
+case+ s2t of
+| S2RTbas s2tb => (
+  case+ s2tb of S2RTBASimp _ => true | _ => false
+  ) // end of [S2RTbas]
+| _ => false // end of [_]
+) // end of [s2rt_is_impred]
 
 (* ****** ****** *)
 
 implement
-s2rt_is_tkind
-  (s2t) = (
-  case+ s2t of
-  | S2RTbas s2tb => (
-    case+ s2tb of
-    | S2RTBASpre (sym) =>
-        $SYM.eq_symbol_symbol (sym, $SYM.symbol_TKIND)
-    | _ => false // end of [_]
-    ) // end of [S2ETbas]
+s2rt_is_tkind (s2t) =
+(
+case+ s2t of
+| S2RTbas s2tb => (
+  case+ s2tb of
+  | S2RTBASpre (sym) => (
+      $SYM.eq_symbol_symbol (sym, $SYM.symbol_TKIND)
+    )
   | _ => false
+  ) // end of [S2ETbas]
+| _ => false // end of [_]
 ) // end of [s2rt_is_tkind]
 
 (* ****** ****** *)

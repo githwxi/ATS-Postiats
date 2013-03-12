@@ -32,7 +32,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 //
 #atscode_separator()
 
-staload "libats/SATS/ML_basics.sats"
+staload "libats/SATS/ML_basis.sats"
 
 #atscode_separator()
 

@@ -242,10 +242,11 @@ val s2rt_types : s2rt
 //
 (* ****** ****** *)
 
-fun s2rt_impredicative (knd: int): s2rt
+fun s2rt_impred (knd: int): s2rt // selecting impredicative sorts
 
-fun s2rt_fun (_arg: s2rtlst, _res: s2rt): s2rt
-fun s2rt_tup (s2ts: s2rtlst): s2rt // HX: tuple sorts are not yet supported
+fun s2rt_fun (_arg: s2rtlst, _res: s2rt): s2rt // forming function sorts
+fun s2rt_tup (s2ts: s2rtlst): s2rt (* HX: tuple sorts are not yet supported *)
+
 fun s2rt_err (): s2rt // HX: a placeholder indicating error
 
 fun s2rt_is_int (x: s2rt): bool
@@ -256,11 +257,11 @@ fun s2rt_is_dat (x: s2rt): bool
 
 fun s2rt_is_fun (x: s2rt): bool
 fun s2rt_is_prf (x: s2rt): bool // is proof?
-fun s2rt_is_prgm (x: s2rt): bool // is program?
 fun s2rt_is_lin (x: s2rt): bool
 fun s2rt_is_flat (x: s2rt): bool // is flat?
 fun s2rt_is_boxed (x: s2rt): bool // is boxed?
-fun s2rt_is_impredicative (x: s2rt): bool
+fun s2rt_is_prgm (x: s2rt): bool // is program?
+fun s2rt_is_impred (x: s2rt): bool // is impredicative?
 fun s2rt_is_tkind (x: s2rt): bool // is tkind?
 
 fun s2rt_is_boxed_fun (x: s2rt): bool // is (... ->) boxed?
@@ -1147,9 +1148,9 @@ fun s2exp_is_prf (x: s2exp): bool
 fun s2exp_is_nonprf (x: s2exp): bool
 fun s2exp_is_lin (x: s2exp): bool
 fun s2exp_is_nonlin (x: s2exp): bool
-fun s2exp_is_prgm (x: s2exp): bool
 fun s2exp_is_boxed (x: s2exp): bool
-fun s2exp_is_impredicative (x: s2exp): bool
+fun s2exp_is_prgm (x: s2exp): bool
+fun s2exp_is_impred (x: s2exp): bool
 
 (* ****** ****** *)
 

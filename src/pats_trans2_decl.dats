@@ -517,17 +517,21 @@ in
   the_s2expenv_add_scst (s2c)
 end // end of [s1tacon_tr]
 
-fn s1taconlst_tr (
+fn s1taconlst_tr
+(
   knd: int, ds: s1taconlst
 ) : void = let
-  fun aux (s2t: s2rt, ds: s1taconlst): void =
+  fun aux
+  (
+    s2t: s2rt, ds: s1taconlst
+  ): void =
     case+ ds of
     | list_cons (d, ds) => let
         val () = s1tacon_tr (s2t, d) in aux (s2t, ds)
       end // end of [list_cons]
     | list_nil () => ()
   // end of [aux]
-  val s2t_res = s2rt_impredicative (knd)
+  val s2t_res = s2rt_impred (knd)
 in
   aux (s2t_res, ds)
 end // end of [s1taconlst_tr]
@@ -667,27 +671,42 @@ end // end of [s1expdef_tr]
 
 fn s1expdeflst_tr
   (knd: int, ds: s1expdeflst): void = let
-  val res = (
-    if knd >= 0 then Some (s2rt_impredicative knd) else None ()
-  ) : s2rtopt
-  val s2cs = aux (ds) where {
-    fun aux (ds: s1expdeflst):<cloref1> List_vt (s2cst) =
-      case+ ds of
-      | list_cons (d, ds) => let
-          val s2c = s1expdef_tr (res, d) in list_vt_cons (s2c, aux ds)
-        end // end of [list_cons]
-      | list_nil () => list_vt_nil ()
-    // end of [aux]
-  } // end of [val]
-  val () = aux (s2cs) where {
-    fun aux (s2cs: List_vt (s2cst)): void =
-      case+ s2cs of
-      | ~list_vt_cons (s2c, s2cs) => let
-          val () = the_s2expenv_add_scst (s2c) in aux (s2cs)
-        end // end of [list_vt_cons]
-      | ~list_vt_nil () => ()
-    // end of [aux]
-  } // end of [val]
+//
+val res =
+(
+  if knd >= 0 then Some (s2rt_impred (knd)) else None ()
+) : s2rtopt
+//
+val s2cs = let
+  fun aux (
+    ds: s1expdeflst
+  ) :<cloref1> List_vt (s2cst) =
+  (
+    case+ ds of
+    | list_cons (d, ds) => let
+        val s2c = s1expdef_tr (res, d) in list_vt_cons (s2c, aux ds)
+      end // end of [list_cons]
+    | list_nil () => list_vt_nil ()
+  ) // end of [aux]
+in
+  aux (ds)
+end // end of [val]
+//
+val () = let
+  fun loop
+  (
+    s2cs: List_vt (s2cst)
+  ) : void =
+    case+ s2cs of
+    | ~list_vt_cons (s2c, s2cs) => let
+        val () = the_s2expenv_add_scst (s2c) in loop (s2cs)
+      end // end of [list_vt_cons]
+    | ~list_vt_nil () => ()
+  // end of [loop]
+in
+  loop (s2cs)
+end // end of [val]
+//
 in
   // nothing
 end // end of [s1expdeflst_tr]
@@ -942,8 +961,10 @@ d1atdeclst_tr (
   datknd, d1cs_dat, d1cs_def
 ) = let
 //
-typedef T = (d1atdec, s2cst, s2varlstlst)
-val s2t_res = s2rt_impredicative (datknd)
+typedef
+T = (d1atdec, s2cst, s2varlstlst)
+//
+val s2t_res = s2rt_impred (datknd)
 //
 val d1cs2cs2vsslst = let
 //
@@ -1470,7 +1491,7 @@ fn v1ardec_tr (
   val s2eopt = (
     case+ v1d.v1ardec_type of
     | Some s1e => let
-        val s2e = s1exp_trdn_impredicative (s1e) in Some (s2e)
+        val s2e = s1exp_trdn_impred (s1e) in Some (s2e)
       end // end of [Some]
     | None () => None ()
   ) : s2expopt // end of [val]
@@ -1574,7 +1595,7 @@ val d2v = d2var_make (loc_sym, sym)
 val s2eopt = (
   case+ v1d.v1ardec_type of
   | Some s1e => let
-      val s2e = s1exp_trdn_impredicative (s1e) in Some (s2e)
+      val s2e = s1exp_trdn_impred (s1e) in Some (s2e)
     end // end of [Some]
   | None () => None ()
 ) : s2expopt // end of [val]
@@ -1769,7 +1790,10 @@ case+ d1c0.d1ecl_node of
     // end of [case]
   end // end of [D1Csaspdec]
 //
-| D1Cdatdecs (knd, d1cs_dat, d1cs_def) => let
+| D1Cdatdecs
+  (
+    knd, d1cs_dat, d1cs_def
+  ) => let
     val s2cs = d1atdeclst_tr (knd, d1cs_dat, d1cs_def)
   in
     d2ecl_datdecs (loc0, knd, s2cs)
@@ -1781,13 +1805,19 @@ case+ d1c0.d1ecl_node of
 | D1Cclassdec (id, sup) => let
     val () = c1lassdec_tr (id, sup) in d2ecl_none (loc0)
   end // end of [D1Cclassdec]
-| D1Cextype (name, s1e_def) => let
-    val s2e_def = s1exp_trdn_impredicative (s1e_def)
+| D1Cextype
+  (
+    name, s1e_def
+  ) => let
+    val s2e_def = s1exp_trdn_impred (s1e_def)
   in
     d2ecl_extype (loc0, name, s2e_def)
   end // end of [D1Cextype]
-| D1Cextype (knd, name, s1e_def) => let
-    val s2t_def = s2rt_impredicative (knd)
+| D1Cextype
+  (
+    knd, name, s1e_def
+  ) => let
+    val s2t_def = s2rt_impred (knd)
     val s2e_def = s1exp_trdn (s1e_def, s2t_def)
   in
     d2ecl_extype (loc0, name, s2e_def)
@@ -1797,7 +1827,8 @@ case+ d1c0.d1ecl_node of
   end // end of [D1Cextval]
 | D1Cextcode (knd, pos, code) => d2ecl_extcode (loc0, knd, pos, code)
 //
-| D1Cdcstdecs (
+| D1Cdcstdecs
+  (
     dck, decarg, d1cs
   ) => let
     val (pfenv | ()) = the_s2expenv_push_nil ()
@@ -1808,7 +1839,8 @@ case+ d1c0.d1ecl_node of
     d2ecl_dcstdecs (loc0, dck, d2cs)
   end // end of [D1Cdcstdecs]
 //
-| D1Cmacdefs (
+| D1Cmacdefs
+  (
     knd, isrec, d1cs
   ) => let
     val knd = (
@@ -1818,7 +1850,9 @@ case+ d1c0.d1ecl_node of
   end // end of [D1Cmacdefs]
 //
 | D1Cfundecs
-    (funknd, decarg, f1ds) => let
+  (
+    funknd, decarg, f1ds
+  ) => let
     val (pfenv | ()) = the_s2expenv_push_nil ()
     val () = (case+ decarg of
       | list_cons _ => the_tmplev_inc () | list_nil _ => ()
@@ -1836,7 +1870,8 @@ case+ d1c0.d1ecl_node of
   in
     d2ecl_fundecs (loc0, funknd, s2qs, f2ds)
   end // end of [D1Cfundecs]
-| D1Cvaldecs (
+| D1Cvaldecs
+  (
     knd, isrec, v1ds
   ) => let
     val v2ds = v1aldeclst_tr (isrec, v1ds)
@@ -1847,7 +1882,8 @@ case+ d1c0.d1ecl_node of
       d2ecl_valdecs_rec (loc0, knd, v2ds)
     // end of [if]
   end // end of [D1Cvaldecs]
-| D1Cvardecs (knd, v1ds) => (
+| D1Cvardecs
+    (knd, v1ds) => (
     if knd = 0 then let
       val v2ds = v1ardeclst_tr (v1ds) in d2ecl_vardecs (loc0, v2ds)
     end else let // knd = 1

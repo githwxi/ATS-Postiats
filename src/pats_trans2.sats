@@ -58,7 +58,7 @@ datatype trans2err =
   | T2E_s1exp_trup of (s1exp)
   | T2E_s1exp_trup_app of (s1exp)
   | T2E_s1exp_trdn of (s1exp, s2rt)
-  | T2E_s1exp_trdn_impredicative of (s1exp)
+  | T2E_s1exp_trdn_impred of (s1exp)
   | T2E_s2exp_trdn of (location, s2exp, s2rt)
   | T2E_s1arg_trdn of (s1arg, s2rt)
   | T2E_s1marg_trdn of (s1marg, s2rtlst)
@@ -156,8 +156,9 @@ fun s1exp_trdn (s1e: s1exp, s2t: s2rt): s2exp
 fun s1exp_trdn_int (s1e: s1exp): s2exp
 fun s1exp_trdn_addr (s1e: s1exp): s2exp
 fun s1exp_trdn_bool (s1e: s1exp): s2exp
+fun s1exp_trdn_t0ype (s1e: s1exp): s2exp
 fun s1exp_trdn_vt0ype (s1e: s1exp): s2exp
-fun s1exp_trdn_impredicative (s1e: s1exp): s2exp
+fun s1exp_trdn_impred (s1e: s1exp): s2exp
 
 fun s1explst_trdn_int (s1es: s1explst): s2explst
 fun s1explst_trdn_addr (s1es: s1explst): s2explst
@@ -171,9 +172,8 @@ fun s1explst_trdn_err
 (* ****** ****** *)
 
 fun s1exp_trup_arg (s1e: s1exp, wths1es: &wths1explst): s2exp
-fun s1exp_trdn_arg_impredicative (s1e: s1exp, wths1es: &wths1explst): s2exp
-
-fun s1exp_trdn_res_impredicative (s1e: s1exp, wths1es: wths1explst): s2exp
+fun s1exp_trdn_arg_impred (s1e: s1exp, wths1es: &wths1explst): s2exp
+fun s1exp_trdn_res_impred (s1e: s1exp, wths1es: wths1explst): s2exp
 
 (* ****** ****** *)
 

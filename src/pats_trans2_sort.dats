@@ -169,12 +169,13 @@ s1rt_tr (s1t0) = let
 in
 //
 case+ s1t0.s1rt_node of
-| S1RTapp (s1t, s1ts) =>
-    s1rt_tr_app (s1t0, s1t, s1ts)
-  // end of [S1RTapp]
-| S1RTlist (s1ts) => S2RTtup (s1rtlst_tr s1ts) 
+| S1RTapp
+  (
+    s1t, s1ts
+  ) => s1rt_tr_app (s1t0, s1t, s1ts)
+| S1RTtype (impknd) => s2rt_impred (impknd)
 | S1RTqid (q, id) => s1rt_tr_qid (s1t0, q, id)
-| S1RTtype (impknd) => s2rt_impredicative (impknd)
+| S1RTlist (s1ts) => S2RTtup (s1rtlst_tr s1ts) 
 | S1RTerr () => s2rt_err ()
 //
 end // end of [s1rt_tr]

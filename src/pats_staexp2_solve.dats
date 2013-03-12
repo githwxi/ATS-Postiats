@@ -311,11 +311,10 @@ s2hnf_equal_solve_lVar_err_nck
   (loc0, s2f1, s2f2, s2V1, err) = let
 //
 val s2e2 = s2hnf2exp (s2f2)
-//
 val () = s2Var_s2exp_srtck_err (loc0, s2V1, s2e2, err)
 //
 val isimp =
-  s2exp_is_impredicative (s2e2)
+  s2exp_is_impred (s2e2)
 val () = if isimp then {
   val s2ze2 = s2zexp_make_s2exp (s2e2)
   val () = s2Var_merge_szexp_err (loc0, s2V1, s2ze2, err)
@@ -388,11 +387,10 @@ s2hnf_equal_solve_rVar_err_nck
   (loc0, s2f1, s2f2, s2V2, err) = let
 //
 val s2e1 = s2hnf2exp (s2f1)
-//
 val () = s2Var_s2exp_srtck_err (loc0, s2V2, s2e1, err)
 //
 val isimp =
-  s2exp_is_impredicative (s2e1)
+  s2exp_is_impred (s2e1)
 val () = if isimp then {
   val s2ze1 = s2zexp_make_s2exp (s2e1)
   val () = s2Var_merge_szexp_err (loc0, s2V2, s2ze1, err)
