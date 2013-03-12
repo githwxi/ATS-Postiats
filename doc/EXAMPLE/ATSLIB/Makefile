@@ -86,6 +86,17 @@ cleanall:: ; $(RMF) prelude_reference.exe
 
 ######
 
+all:: libc_stdio
+libc_stdio: libc_stdio.exe
+libc_stdio.exe: libc_stdio_dats.c ;   $(GCC) -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+libc_stdio_dats.c: libc_stdio.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_stdio_dats.c --dynamic libc_stdio.dats
+clean:: ; $(RMF) libc_stdio_dats.o
+clean:: ; $(RMF) libc_stdio_dats.c
+cleanall:: ; $(RMF) libc_stdio.exe
+
+
+######
+
 all:: libats_qlist
 libats_qlist: libats_qlist.exe
 libats_qlist.exe: libats_qlist_dats.c ;   $(GCC) -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

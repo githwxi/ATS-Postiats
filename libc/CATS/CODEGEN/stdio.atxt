@@ -51,12 +51,46 @@ extern void exit (int status) ; // in [stdlib.h]
 #atscode_separator_for_C()
 
 \#define atslib_fclose_err fclose
+\#define atslib_fclose0_err atslib_fclose_err
+\#define atslib_fclose1_err atslib_fclose_err
+
+ATSinline()
+atsvoid_t0ype
+atslib_fclose_exn(
+  atstype_ptr filp
+) {
+  int err = fclose((FILE*)filp) ;
+  if (err < 0) {
+    perror ("fclose") ;
+    fprintf (stderr, "exit(ATS): [fclose] failed\n") ; exit(1) ;
+  } // end of [if]
+  return ; // [fclose] succed
+} // end of [atslib_fclose_exn]
+\#define atslib_fclose0_exn atslib_fclose_exn
+\#define atslib_fclose1_exn atslib_fclose_exn
 
 /*
 \#define atslib_fclose_stdin() atslib_fclose_exn(stdin)
 \#define atslib_fclose_stdout() atslib_fclose_exn(stdout)
 \#define atslib_fclose_stderr() atslib_fclose_exn(stderr)
 */
+
+#atscode_separator_for_C()
+
+\#define atslib_tmpfile_err tmpfile
+
+ATSinline()
+atstype_ptr
+atslib_tmpfile_exn(
+) {
+  FILE* filp = tmpfile() ;
+  if (!filp) {
+    perror ("tmpfile") ;
+    fprintf (stderr, "exit(ATS): [tmpfile] failed\n") ; exit(1) ;
+  } // end of [if]
+  return (filp) ; // [tmpfile] succed
+} // end of [atslib_tmpfile_exn]
+\#define atslib_tmpfile_ref_exn atslib_tmpfile_exn
 
 #atscode_separator_for_C()
 

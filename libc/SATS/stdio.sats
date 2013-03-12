@@ -49,6 +49,10 @@ typedef NSH(a:type) = a // for commenting purpose
 
 (* ****** ****** *)
 
+sortdef fm = file_mode
+
+(* ****** ****** *)
+
 (*
 abstype FILEref = ptr // declared in [prelude/basic_dyn.sats]
 *)
@@ -57,25 +61,24 @@ abstype FILEref = ptr // declared in [prelude/basic_dyn.sats]
 //
 // HX-2011-04-02:
 //
-absview
-FILE_v (l:addr, m:file_mode)
+absview FILE_v (l:addr, m:fm)
 
-absviewtype
-FILEptr_viewtype (addr, file_mode) = ptr
-stadef FILEptr = FILEptr_viewtype
+absvtype
+FILEptr_vtype (addr, fm) = ptr
+vtypedef FILEptr (l:addr, m: fm) = FILEptr_vtype (l, m)
 
 (* ****** ****** *)
 //
-sortdef fm = file_mode
-//
-viewtypedef
+vtypedef
 FILEptr0 (m:fm) = [l:addr | l >= null] FILEptr (l, m)
 //
-viewtypedef FILEptr1 (m:fm) = [l:agz] FILEptr (l, m)
-viewtypedef FILEptr1 (*none*) = [l:agz;m:fm] FILEptr (l, m)
+vtypedef FILEptr1 (m:fm) = [l:agz] FILEptr (l, m)
+vtypedef FILEptr1 (*none*) = [l:agz;m:fm] FILEptr (l, m)
 //
+(* ****** ****** *)
+
 stadef fmlte = file_mode_lte
-//
+
 (* ****** ****** *)
 
 castfn FILEptr2ptr {l:addr}{m:fm} (p: !FILEptr (l, m)): ptr (l)
@@ -98,7 +101,7 @@ overload decode with FILEptr_decode
 
 (* ****** ****** *)
 
-prfun
+praxi
 FILEptr_free_null
   {l:alez}{m:fm} (p: FILEptr (l, m)):<prf> void
 // end of [FILEptr_free_null]
@@ -107,10 +110,11 @@ FILEptr_free_null
 
 castfn
 FILEptr_refize (filp: FILEptr1):<> FILEref
+
 castfn
-FILEref_get_ptr // a lock is associated with each FILEref-value
+FILEref_vttakeout // a lock is associated with each FILEref-value
   (filr: FILEref):<> [l:agz;m:fm] vttakeout (void, FILEptr (l, m))
-// end of [FILEref_get_ptr]
+// end of [FILEref_vttakeout]
 
 (* ****** ****** *)
 
