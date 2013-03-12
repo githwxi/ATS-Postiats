@@ -77,6 +77,33 @@ atslib_fclose_exn(
 
 #atscode_separator_for_C()
 
+\#define atslib_fileno0 fileno
+\#define atslib_fileno1 fileno
+
+#atscode_separator_for_C()
+
+\#define atslib_feof0 feof
+\#define atslib_feof1 feof
+
+#atscode_separator_for_C()
+
+\#define atslib_ferror0 ferror
+\#define atslib_ferror1 ferror
+
+#atscode_separator_for_C()
+
+\#define atslib_fgetc0_err fgetc
+\#define atslib_fgetc1_err fgetc
+
+#atscode_separator_for_C()
+
+\#define atslib_fputc0_err_int fputc
+\#define atslib_fputc0_err_char(c, fp) fputc((int)c, fp)
+\#define atslib_fputc1_err_int fputc
+\#define atslib_fputc1_err_char(c, fp) fputc((int)c, fp)
+
+#atscode_separator_for_C()
+
 \#define atslib_tmpfile_err tmpfile
 
 ATSinline()

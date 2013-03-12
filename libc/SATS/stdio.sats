@@ -423,22 +423,17 @@ fun fflush_stdout ():<!exnwrt> void = "ext#%"
 // int fgetc (FILE *stream)
 //
 [fgetc] reads the next character from stream and returns it as an
-unsigned char cast to an int, or EOF on end of file or error.
+unsigned char cast to an int, or EOF on end of file or error. Note
+that EOF must be a negative number!
 //
 *)
 //
 symintr fgetc_err
 //
-fun
-fgetc0_err
-  (filr: FILEref):<!wrt> int = "mac#%"
+fun fgetc0_err (filr: FILEref):<!wrt> int = "mac#%"
+fun fgetc1_err {m:fm}
+  (pf: fmlte (m, r) | filp: !FILEptr1 (m)):<!wrt> intLte (UCHAR_MAX) = "mac#%"
 overload fgetc_err with fgetc0_err
-fun
-fgetc1_err // [EOF] must be a negative number!
-  {m:fm}
-(
-  pf: fmlte (m, r) | filp: !FILEptr1 (m)
-) :<!wrt> [i:int | i <= UCHAR_MAX] int (i) = "mac#%"
 overload fgetc_err with fgetc1_err
 
 (* ****** ****** *)
@@ -531,33 +526,35 @@ which case the return value is EOF.
 //
 symintr fputc_err
 //
-fun
-fputc0_err
-  (c: int, filr: FILEref) :<!wrt> int = "mac#%"
-overload fputc_err with fputc0_err
-fun
-fputc1_err
-  {m:fm}
+typedef
+fputc0_err_type
+  (a:t0p) = (a, FILEref) -<0,!wrt> int
+fun fputc0_err_int : fputc0_err_type (int) = "mac#%" 
+fun fputc0_err_char : fputc0_err_type (char) = "mac#%" 
+overload fputc_err with fputc0_err_int of 0
+overload fputc_err with fputc0_err_char of 0
+//
+typedef
+fputc1_err_type
+  (a:t0p) = {m:fm}
 (
-  pf: fmlte (m, w) | c: int, filp: !FILEptr1 (m)
-) :<!wrt> [i:int | i <= UCHAR_MAX] int (i) = "mac#%"
-overload fputc_err with fputc1_err
+  fmlte (m, w) | a, !FILEptr1 (m)
+) -<0,!wrt> intLte (UCHAR_MAX)
+fun fputc1_err_int : fputc1_err_type (int) = "mac#%"
+fun fputc1_err_char : fputc1_err_type (char) = "mac#%"
+overload fputc_err with fputc1_err_int of 10
+overload fputc_err with fputc1_err_char of 10
 //
 symintr fputc_exn
 //
-fun fputc0_exn
-  (c: int, filr: FILEref):<!exnwrt> void = "ext#%"
-overload fputc_exn with fputc0_exn
-(*
-fun
-fputc1_exn
-  {m:fm}
-(
-  pf: fmlte (m, w) | c: int, filp: !FILEptr1 (m)
-) :<!exnwrt> void = "ext#%"
-overload fputc_exn with fputc1_exn
-*)
-
+typedef
+fputc0_exn_type
+  (a:t0p) = (a, FILEref) -<0,!exnwrt> void
+fun fputc0_exn_int : fputc0_exn_type (int) = "ext#%"
+fun fputc0_exn_char : fputc0_exn_type (char) = "ext#%"
+overload fputc_exn with fputc0_exn_int of 0
+overload fputc_exn with fputc0_exn_char of 0
+//
 (* ****** ****** *)
 
 macdef putc = fputc_err
