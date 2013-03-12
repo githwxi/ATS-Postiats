@@ -60,26 +60,27 @@ fun g0float2float_double_double (x: double):<> double = "mac\#%"
 #atscode_separator()
 
 typedef
-g0float_neg_type
+g0float_uop_type
   (tk:tk) = g0float (tk) -<fun0> g0float (tk)
-fun{tk:tk}
-g0float_neg
-  : g0float_neg_type (tk)
-overload ~ with g0float_neg of 0
 
 #atscode_separator()
 
-typedef
-g0float_succ_type
-  (tk:tk) = g0float (tk) -<fun0> g0float (tk)
 fun{tk:tk}
-g0float_succ : g0float_succ_type (tk)
+g0float_neg : g0float_uop_type (tk)
+overload ~ with g0float_neg of 0 // ~ for uminus
+overload neg with g0float_neg of 0
+
+fun{tk:tk}
+g0float_abs : g0float_uop_type (tk)
+overload abs with g0float_abs of 0
+
+#atscode_separator()
+
+fun{tk:tk}
+g0float_succ : g0float_uop_type (tk)
 overload succ with g0float_succ of 0
-typedef
-g0float_pred_type
-  (tk:tk) = g0float (tk) -<fun0> g0float (tk)
 fun{tk:tk}
-g0float_pred : g0float_pred_type (tk)
+g0float_pred : g0float_uop_type (tk)
 overload pred with g0float_pred of 0
 
 #atscode_separator()

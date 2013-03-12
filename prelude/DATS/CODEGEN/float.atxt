@@ -47,6 +47,7 @@ end // end of [f]
 var res: atextlst = list_nil
 //
 val () = res := list_cons (f "neg", res)
+val () = res := list_cons (f "abs", res)
 val () = res := list_cons (f "succ", res)
 val () = res := list_cons (f "pred", res)
 val () = res := list_cons (atext_newline(), res)

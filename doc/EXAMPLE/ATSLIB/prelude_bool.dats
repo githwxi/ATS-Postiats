@@ -70,4 +70,4 @@ implement main0 () = ()
 
 (* ****** ****** *)
 
-(* end of [prelude_reference.dats] *)
+(* end of [prelude_bool.dats] *)

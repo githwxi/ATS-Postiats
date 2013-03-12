@@ -91,6 +91,16 @@ atspre_g0float_neg_ldouble (atstype_ldouble f) { return (-f) ; }
 
 ATSinline()
 atstype_float
+atspre_g0float_abs_float (atstype_float f) { return (f >= 0 ? f : -f) ; }
+ATSinline()
+atstype_double
+atspre_g0float_abs_double (atstype_double f) { return (f >= 0 ? f : -f) ; }
+ATSinline()
+atstype_ldouble
+atspre_g0float_abs_ldouble (atstype_ldouble f) { return (f >= 0 ? f : -f) ; }
+
+ATSinline()
+atstype_float
 atspre_g0float_succ_float (atstype_float f) { return (f+1) ; }
 ATSinline()
 atstype_double
@@ -101,13 +111,13 @@ atspre_g0float_succ_ldouble (atstype_ldouble f) { return (f+1) ; }
 
 ATSinline()
 atstype_float
-atspre_g0float_prev_float (atstype_float f) { return (f-1) ; }
+atspre_g0float_pred_float (atstype_float f) { return (f-1) ; }
 ATSinline()
 atstype_double
-atspre_g0float_prev_double (atstype_double f) { return (f-1) ; }
+atspre_g0float_pred_double (atstype_double f) { return (f-1) ; }
 ATSinline()
 atstype_ldouble
-atspre_g0float_prev_ldouble (atstype_ldouble f) { return (f-1) ; }
+atspre_g0float_pred_ldouble (atstype_ldouble f) { return (f-1) ; }
 
 #atscode_separator_for_C()
 

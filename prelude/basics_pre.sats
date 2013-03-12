@@ -313,13 +313,14 @@ stadef - = add_eff_eff // difference of effsets
 // HX: some overloaded symbols
 //
 symintr ~ not
-symintr && || << >> land lor lxor
+symintr && || << >>
+symintr land lor lxor
 symintr + - * / mod gcd
-symintr < <= > >= = != <>
-symintr succ pred half double
+symintr < <= > >= = != <> compare
 symintr isltz isltez isgtz isgtez iseqz isneqz
-symintr compare abs max min pow
-symintr square sqrt cube cbrt
+symintr neg abs max min
+symintr succ pred half double
+symintr square sqrt cube cbrt pow
 //
 symintr [] // for subscripting
 //

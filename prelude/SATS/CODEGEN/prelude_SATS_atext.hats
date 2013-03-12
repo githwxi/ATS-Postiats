@@ -605,11 +605,12 @@ end // end of [f]
 //
 var res: atextlst = list_nil
 //
-val () = res := list_cons (f ("neg", "neg"), res)
+val () = res := list_cons (f ("uop", "neg"), res)
+val () = res := list_cons (f ("uop", "abs"), res)
 val () = res := list_cons (atext_newline(), res)
 //
-val () = res := list_cons (f ("succ", "succ"), res)
-val () = res := list_cons (f ("pred", "pred"), res)
+val () = res := list_cons (f ("uop", "succ"), res)
+val () = res := list_cons (f ("uop", "pred"), res)
 val () = res := list_cons (atext_newline(), res)
 //
 val () = res := list_cons (f ("aop", "add"), res)
