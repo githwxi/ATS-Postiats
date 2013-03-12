@@ -77,6 +77,7 @@ end // end of [fpr]
 var res: atextlst = list_nil
 //
 val () = res := list_cons (f "neg", res)
+val () = res := list_cons (f "abs", res)
 //
 val () = res := list_cons (f "succ", res)
 val () = res := list_cons (f "pred", res)
@@ -131,24 +132,12 @@ end // end of [g0int_implist]
 #atscode_separator()
 
 implement{tk}
-lt_g0int_int (x, y) = g0int_lt (x, g0int2int (y))
-implement{tk}
-lte_g0int_int (x, y) = g0int_lte (x, g0int2int (y))
-implement{tk}
-gt_g0int_int (x, y) = g0int_gt (x, g0int2int (y))
-implement{tk}
-gte_g0int_int (x, y) = g0int_gte (x, g0int2int (y))
-implement{tk}
-eq_g0int_int (x, y) = g0int_eq (x, g0int2int (y))
-implement{tk}
-neq_g0int_int (x, y) = g0int_neq (x, g0int2int (y))
-
-#atscode_separator()
+g1int_mul2 {i,j} (x, y) = let
+  prval pf = mul_make {i,j} () in (pf | g1int_mul<tk> (x, y))
+end // end of [let] // end of [g1int_mul2]
 
 implement{tk}
-g1int_mul2 {i,j} (x, y) = (
-  mul_make {i,j} () | g1int_mul<tk> (x, y)
-) // end of [g1int_mul2]
+g1int_sgn (x) = compare_g1int_int<tk> (x, 0)
 
 #atscode_separator()
 
@@ -181,6 +170,7 @@ end // end of [f]
 var res: atextlst = list_nil
 //
 val () = res := list_cons (f "neg", res)
+val () = res := list_cons (f "abs", res)
 //
 val () = res := list_cons (f "succ", res)
 val () = res := list_cons (f "pred", res)
@@ -366,21 +356,6 @@ end // end of [g0uint_implist]
 #g0uint_implist("sizeknd", "size", "size_t")
 //
 #atscode_separator()
-
-implement{tk}
-lt_g0uint_int (x, y) = g0uint_lt (x, g0int2uint (y))
-implement{tk}
-lte_g0uint_int (x, y) = g0uint_lte (x, g0int2uint (y))
-implement{tk}
-gt_g0uint_int (x, y) = g0uint_gt (x, g0int2uint (y))
-implement{tk}
-gte_g0uint_int (x, y) = g0uint_gte (x, g0int2uint (y))
-implement{tk}
-eq_g0uint_int (x, y) = g0uint_eq (x, g0int2uint (y))
-implement{tk}
-neq_g0uint_int (x, y) = g0uint_neq (x, g0int2uint (y))
-
-#atscode_separator()
 //
 // HX: int -> uint
 //
@@ -499,21 +474,6 @@ end // end of [g1uint_implist]
 //
 #atscode_separator()
 
-implement{tk}
-lt_g1uint_int (x, y) = g1uint_lt (x, g1int2uint (y))
-implement{tk}
-lte_g1uint_int (x, y) = g1uint_lte (x, g1int2uint (y))
-implement{tk}
-gt_g1uint_int (x, y) = g1uint_gt (x, g1int2uint (y))
-implement{tk}
-gte_g1uint_int (x, y) = g1uint_gte (x, g1int2uint (y))
-implement{tk}
-eq_g1uint_int (x, y) = g1uint_eq (x, g1int2uint (y))
-implement{tk}
-neq_g1uint_int (x, y) = g1uint_neq (x, g1int2uint (y))
-
-#atscode_separator()
-
 local
 
 staload "libc/SATS/stdlib.sats"
@@ -569,6 +529,9 @@ eq_g0int_int (x, y) = g0int_eq<tk> (x, g0int2int (y))
 implement{tk}
 neq_g0int_int (x, y) = g0int_neq<tk> (x, g0int2int (y))
 
+implement{tk}
+compare_g0int_int (x, y) = g0int_compare<tk> (x, g0int2int (y))
+
 #atscode_separator()
 
 implement{tk}
@@ -583,6 +546,9 @@ implement{tk}
 eq_g1int_int (x, y) = g1int_eq<tk> (x, g1int2int (y))
 implement{tk}
 neq_g1int_int (x, y) = g1int_neq<tk> (x, g1int2int (y))
+
+implement{tk}
+compare_g1int_int (x, y) = g1int_compare<tk> (x, g1int2int (y))
 
 #atscode_separator()
 
@@ -621,9 +587,18 @@ gcompare_val<int> (x, y) = compare (x, y)
 implement
 gcompare_val<lint> (x, y) = compare (x, y)
 implement
+gcompare_val<llint> (x, y) = compare (x, y)
+implement
+gcompare_val<ssize_t> (x, y) = compare (x, y)
+
+implement
 gcompare_val<uint> (x, y) = compare (x, y)
 implement
 gcompare_val<ulint> (x, y) = compare (x, y)
+implement
+gcompare_val<ullint> (x, y) = compare (x, y)
+implement
+gcompare_val<size_t> (x, y) = compare (x, y)
 
 #atscode_separator()
 

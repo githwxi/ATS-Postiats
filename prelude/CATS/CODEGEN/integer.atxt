@@ -133,6 +133,23 @@ in
 end // end of [fun_neg_decl]
 //
 fun
+fun_abs_decl
+  (knd: string): atext = let
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_%s
+atspre_g0int_abs_%s
+  (atstype_%s x) { return (x >= 0 ? x : -x) ; }
+// end of [atspre_g0int_abs_%s]
+", @(knd, knd, knd, knd)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_abs_decl]
+//
+fun
 fun_succ_decl
   (knd: string): atext = let
 //
@@ -195,6 +212,7 @@ val fopr = (
   | "sub" => "-"
   | "mul" => "*"
   | "div" => "/"
+  | "mod" => "%"
   | _ => opr
 ) : string // end of [val]
 //
@@ -337,6 +355,7 @@ fun g0int_implist
 var res: atextlst = list_nil
 //
 val () = res := list_cons (fun_neg_decl(tnm), res)
+val () = res := list_cons (fun_abs_decl(tnm), res)
 //
 val () = res := list_cons (fun_succ_decl(tnm), res)
 val () = res := list_cons (fun_pred_decl(tnm), res)
@@ -347,6 +366,7 @@ val () = res := list_cons (fun_aop_decl("add", tnm), res)
 val () = res := list_cons (fun_aop_decl("sub", tnm), res)
 val () = res := list_cons (fun_aop_decl("mul", tnm), res)
 val () = res := list_cons (fun_aop_decl("div", tnm), res)
+val () = res := list_cons (fun_aop_decl("mod", tnm), res)
 //
 val () = res := list_cons (fun_cmpz_decl("isltz", tnm), res)
 val () = res := list_cons (fun_cmpz_decl("isltez", tnm), res)
@@ -442,6 +462,7 @@ atspre_fprint_ssize
 #atscode_separator_for_C()
 
 \#define atspre_g1int_neg_int atspre_g0int_neg_int
+\#define atspre_g1int_abs_int atspre_g0int_abs_int
 \#define atspre_g1int_succ_int atspre_g0int_succ_int
 \#define atspre_g1int_pred_int atspre_g0int_pred_int
 \#define atspre_g1int_half_int atspre_g0int_half_int
@@ -561,6 +582,7 @@ val fopr = (
   | "sub" => "-"
   | "mul" => "*"
   | "div" => "/"
+  | "mod" => "/"
   | _ => opr
 ) : string // end of [val]
 //
@@ -706,6 +728,7 @@ val () = res := list_cons (fun_aop_decl("add", tnm), res)
 val () = res := list_cons (fun_aop_decl("sub", tnm), res)
 val () = res := list_cons (fun_aop_decl("mul", tnm), res)
 val () = res := list_cons (fun_aop_decl("div", tnm), res)
+val () = res := list_cons (fun_aop_decl("mod", tnm), res)
 //
 val () = res := list_cons (fun_cmpz_decl("isgtz", tnm), res)
 val () = res := list_cons (fun_cmpz_decl("iseqz", tnm), res)

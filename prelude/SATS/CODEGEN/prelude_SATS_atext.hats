@@ -244,6 +244,7 @@ var res: atextlst = list_nil
 val () = res := list_cons (f_intofstr (tnm1, tnm2), res)
 *)
 val () = res := list_cons (f_int_int ("neg", tnm1, tnm2), res)
+val () = res := list_cons (f_int_int ("abs", tnm1, tnm2), res)
 //
 val () = res := list_cons (f_int_int ("succ", tnm1, tnm2), res)
 val () = res := list_cons (f_int_int ("pred", tnm1, tnm2), res)
@@ -432,6 +433,7 @@ end // end of [f]
 var res: atextlst = list_nil
 //
 val () = res := list_cons (f ("neg", tnm1, tnm2), res)
+val () = res := list_cons (f ("abs", tnm1, tnm2), res)
 //
 val () = res := list_cons (f ("succ", tnm1, tnm2), res)
 val () = res := list_cons (f ("pred", tnm1, tnm2), res)
@@ -607,10 +609,12 @@ var res: atextlst = list_nil
 //
 val () = res := list_cons (f ("uop", "neg"), res)
 val () = res := list_cons (f ("uop", "abs"), res)
+//
 val () = res := list_cons (atext_newline(), res)
 //
 val () = res := list_cons (f ("uop", "succ"), res)
 val () = res := list_cons (f ("uop", "pred"), res)
+//
 val () = res := list_cons (atext_newline(), res)
 //
 val () = res := list_cons (f ("aop", "add"), res)
@@ -618,6 +622,7 @@ val () = res := list_cons (f ("aop", "sub"), res)
 val () = res := list_cons (f ("aop", "mul"), res)
 val () = res := list_cons (f ("aop", "div"), res)
 val () = res := list_cons (f ("aop", "mod"), res)
+//
 val () = res := list_cons (atext_newline(), res)
 //
 val () = res := list_cons (f ("cmp", "lt"), res)
@@ -626,9 +631,11 @@ val () = res := list_cons (f ("cmp", "gt"), res)
 val () = res := list_cons (f ("cmp", "gte"), res)
 val () = res := list_cons (f ("cmp", "eq"), res)
 val () = res := list_cons (f ("cmp", "neq"), res)
+//
 val () = res := list_cons (atext_newline(), res)
 //
 val () = res := list_cons (f ("compare", "compare"), res)
+//
 val () = res := list_cons (atext_newline(), res)
 //
 val () = res := list_cons (f ("aop", "max"), res)

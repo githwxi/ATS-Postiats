@@ -72,24 +72,41 @@ g0int_of_string
 
 #atscode_separator()
 
-fun{tk:tk}
-g0int_neg (x: g0int (tk)):<> g0int (tk)
-overload ~ with g0int_neg of 0
+typedef
+g0int_uop_type
+  (tk: tkind) = (g0int (tk)) -<fun0> g0int (tk)
+// end of [g0int_uop_type]
+
+#atscode_separator()
 
 fun{tk:tk}
-g0int_succ (x: g0int (tk)):<> g0int (tk)
-overload succ with g0int_succ of 0
+g0int_neg : g0int_uop_type (tk)
+overload ~ with g0int_neg of 0 // ~ for uminus
+overload neg with g0int_neg of 0
+
 fun{tk:tk}
-g0int_pred (x: g0int (tk)):<> g0int (tk)
+g0int_abs : g0int_uop_type (tk)
+overload abs with g0int_abs of 0
+
+#atscode_separator()
+
+fun{tk:tk}
+g0int_succ : g0int_uop_type (tk)
+overload succ with g0int_succ of 0
+
+fun{tk:tk}
+g0int_pred : g0int_uop_type (tk)
 overload pred with g0int_pred of 0
 
+#atscode_separator()
+
 fun{tk:tk}
-g0int_half (x: g0int (tk)):<> g0int (tk)
+g0int_half : g0int_uop_type (tk)
 overload half with g0int_half of 0
 
 (*
 fun{tk:tk}
-g0int_double (x: g0int (tk)):<> g0int (tk)
+g0int_double : g0int_uop_type (tk)
 overload double with g0int_double of 0
 *)
 
@@ -144,6 +161,8 @@ g0int_cmp_type (tk:tk) =
 #fun_g0int_cmp_decl("neq")
 overload <> with g0int_neq of 0
 
+#atscode_separator()
+
 fun{tk:tk}
 g0int_compare
   (x: g0int (tk), y: g0int (tk)):<> int
@@ -152,12 +171,10 @@ overload compare with g0int_compare of 0
 #atscode_separator()
 
 fun{tk:tk}
-g0int_max
-  (x: g0int (tk), y: g0int (tk)):<> g0int (tk)
+g0int_max : g0int_aop_type (tk)
 overload max with g0int_max of 0
 fun{tk:tk}
-g0int_min
-  (x: g0int (tk), y: g0int (tk)):<> g0int (tk)
+g0int_min : g0int_aop_type (tk)
 overload min with g0int_min of 0
 
 #atscode_separator()
@@ -168,14 +185,14 @@ overload < with lt_g0int_int of 11
 fun{tk:tk}
 lte_g0int_int (x: g0int (tk), y: int):<> bool
 overload <= with lte_g0int_int of 11
-
+//
 fun{tk:tk}
 gt_g0int_int (x: g0int (tk), y: int):<> bool
 overload > with gt_g0int_int of 11
 fun{tk:tk}
 gte_g0int_int (x: g0int (tk), y: int):<> bool
 overload >= with gte_g0int_int of 11
-
+//
 fun{tk:tk}
 eq_g0int_int (x: g0int (tk), y: int):<> bool
 overload = with eq_g0int_int of 11
@@ -183,6 +200,10 @@ fun{tk:tk}
 neq_g0int_int (x: g0int (tk), y: int):<> bool
 overload != with neq_g0int_int of 11
 overload <> with neq_g0int_int of 11
+//
+fun{tk:tk}
+compare_g0int_int (x: g0int (tk), y: int):<> int
+overload compare with compare_g0int_int of 11
 
 #atscode_separator()
 //
@@ -222,7 +243,15 @@ g1int_neg_type (tk:tk) =
   {i:int} g1int (tk, i) -<> g1int (tk, ~i)
 fun{tk:tk}
 g1int_neg : g1int_neg_type (tk)
-overload ~ with g1int_neg of 10
+overload ~ with g1int_neg of 10 // ~ for uminus
+overload neg with g1int_neg of 10
+
+typedef
+g1int_abs_type (tk:tk) =
+  {i:int} g1int (tk, i) -<> g1int (tk, abs(i))
+fun{tk:tk}
+g1int_abs : g1int_abs_type (tk)
+overload abs with g1int_abs of 10
 
 #atscode_separator()
 
@@ -396,7 +425,7 @@ overload <> with g1int_neq of 20
 
 typedef
 g1int_compare_type (tk:tk) =
-  {i,j:int} (g1int (tk, i), g1int (tk, j)) -<> int (i-j)
+  {i,j:int} (g1int (tk, i), g1int (tk, j)) -<> int (sgn(i-j))
 fun{tk:tk}
 g1int_compare : g1int_compare_type (tk)
 overload compare with g1int_compare of 20
@@ -418,7 +447,7 @@ g1int_min : g1int_min_type (tk)
 overload min with g1int_min of 20
 
 #atscode_separator()
-//
+
 fun{tk:tk}
 lt_g1int_int {i,j:int}
   (x: g1int (tk, i), y: int (j)):<> bool (i < j)
@@ -449,9 +478,9 @@ overload <> with neq_g1int_int of 21
 //
 fun{tk:tk}
 compare_g1int_int {i,j:int}
-  (x: g1int (tk, i), y: int (j)):<> int (i-j)
+  (x: g1int (tk, i), y: int (j)):<> int (sgn(i-j))
 overload compare with compare_g1int_int of 21
-//
+
 #atscode_separator()
 
 fun{tk:tk}
@@ -817,7 +846,7 @@ overload <> with g1uint_neq of 20
 
 typedef
 g1uint_compare_type (tk:tk) =
-  {i,j:int} (g1uint (tk, i), g1uint (tk, j)) -<> int (i-j)
+  {i,j:int} (g1uint (tk, i), g1uint (tk, j)) -<> int (sgn(i-j))
 fun{tk:tk}
 g1uint_compare : g1uint_compare_type (tk)
 overload compare with g1uint_compare of 20
@@ -910,15 +939,21 @@ overload != with neq_g1uint_int of 21
 #atscode_separator()
 //
 #fun_g1int_type_aop_cmp_decl("int", "int")\
+//
 #fun_g1int_type_aop_cmp_decl("lint", "lint")\
+//
 #fun_g1int_type_aop_cmp_decl("llint", "llint")\
+//
 #fun_g1int_type_aop_cmp_decl("ssize", "ssize_t")\
 //
 #atscode_separator()
 //
 #fun_g1uint_type_aop_cmp_decl("uint", "uint")\
+//
 #fun_g1uint_type_aop_cmp_decl("ulint", "ulint")\
+//
 #fun_g1uint_type_aop_cmp_decl("ullint", "ullint")\
+//
 #fun_g1uint_type_aop_cmp_decl("size", "size_t")\
 //
 #atscode_separator()

@@ -51,6 +51,14 @@ clean:: ; $(RMF) prelude_char_dats.o
 clean:: ; $(RMF) prelude_char_dats.c
 cleanall:: ; $(RMF) prelude_char.exe
 
+all:: prelude_integer
+prelude_integer: prelude_integer.exe
+prelude_integer.exe: prelude_integer_dats.c ;   $(GCC) -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+prelude_integer_dats.c: prelude_integer.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_integer_dats.c --dynamic prelude_integer.dats
+clean:: ; $(RMF) prelude_integer_dats.o
+clean:: ; $(RMF) prelude_integer_dats.c
+cleanall:: ; $(RMF) prelude_integer.exe
+
 all:: prelude_float
 prelude_float: prelude_float.exe
 prelude_float.exe: prelude_float_dats.c ;   $(GCC) -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
