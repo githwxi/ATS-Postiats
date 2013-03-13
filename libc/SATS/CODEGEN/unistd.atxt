@@ -46,7 +46,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 /*
 int close (int);
 */
-fun close_err (fd: int): int = "mac#%"
+fun close (fd: int): int = "mac#%"
 fun close_exn (fd: int): void = "mac#%"
 
 #atscode_separator()
@@ -91,7 +91,8 @@ fun encrypt (
 /*
 int unlink(const char *pathname);
 */
-fun unlink_err (path: NSH(string)): int(*err*) = "mac#%"
+fun unlink (path: NSH(string)): int(*err*) = "mac#%"
+fun unlink_exn (path: NSH(string)): int(*err*) = "mac#%"
 
 #atscode_separator()
 

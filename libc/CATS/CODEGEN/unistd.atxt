@@ -37,7 +37,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#define atslib_close_err close
+\#define atslib_close close
 
 #atscode_separator_for_C()
 
@@ -46,7 +46,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#define atslib_unlink_err unlink
+\#define atslib_unlink unlink
 
 #atscode_separator_for_C()
 

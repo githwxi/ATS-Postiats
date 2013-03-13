@@ -160,7 +160,7 @@ ing sequences (Additional characters may follow these sequences.):
 
 *)
 
-fun fopen_err
+fun fopen
   {m:fm} (
   path: NSH(string), m: file_mode m
 ) :<!wrt> FILEptr0 (m) = "mac#%"
@@ -177,12 +177,12 @@ fun fopen_ref_exn
 
 (* ****** ****** *)
 //
-symintr fclose_err
+symintr fclose
+symintr fclose_exn
 //
-fun fclose0_err
+fun fclose0
   (filr: FILEref):<!wrt> int = "mac#%"
-overload fclose_err with fclose0_err
-fun fclose1_err
+fun fclose1
   {l:addr}{m:fm}
 (
   filp: FILEptr (l, m)
@@ -190,17 +190,20 @@ fun fclose1_err
   i:int | i <= 0
 ] (
   option_v (FILE_v (l, m), i==0) | int i
-) = "mac#%" // end of [fclose1_err]
-overload fclose_err with fclose1_err
+) = "mac#%" // endfun
 //
-symintr fclose_exn
+overload fclose with fclose0
+overload fclose with fclose1
 //
 fun fclose0_exn
   (filr: FILEref):<!exnwrt> void = "ext#%"
-overload fclose_exn with fclose0_exn
 fun fclose1_exn
   (filp: FILEptr1(*none*)):<!exnwrt> void = "ext#%"
+//
+overload fclose_exn with fclose0_exn
 overload fclose_exn with fclose1_exn
+//
+(* ****** ****** *)
 
 (*
 fun fclose_stdin ():<!exnwrt> void = "ext#%"
@@ -221,28 +224,29 @@ associated with a standard text stream (stderr, stdin, or stdout).
 //
 *)
 //
-symintr freopen_err
+symintr freopen
+symintr freopen_exn
 //
-fun freopen0_err
-  {m2:fm} (
+fun freopen0 {m2:fm}
+(
   path: NSH(string), m2: file_mode m2, filr: FILEref
 ) :<!wrt> Ptr0 = "mac#%"
-overload freopen_err with freopen0_err
 //
 // HX-2012-07:
 // the original stream is closed even if [freopen] fails.
 //
-fun freopen1_err
-  {m1,m2:fm}{l0:addr} (
+fun freopen1
+  {m1,m2:fm}{l0:addr}
+(
   path: NSH(string), m2: file_mode m2, filp: FILEptr (l0, m1)
 ) :<!wrt> [
   l:addr | l==null || l==l0
 ] (
   option_v (FILE_v (l, m2), l > null) | ptr l
-) = "mac#%" // end of [freopen1_err]
-overload freopen_err with freopen1_err
+) = "mac#%" // end of [freopen1]
 //
-symintr freopen_exn
+overload freopen with freopen0
+overload freopen with freopen1
 //
 fun
 freopen0_exn
@@ -251,17 +255,8 @@ freopen0_exn
   path: NSH(string), m2: file_mode m2, filr: FILEref
 ) :<!exnwrt> void = "ext#%" // end of [freopen0_exn]
 overload freopen_exn with freopen0_exn
-(*
-fun
-freopen1_exn
-  {m1,m2:fm}{l0:addr}
-(
-  path: NSH(string)
-, m2: file_mode (m2)
-, filp: !FILEptr (l0, m1) >> FILEptr (l0, m2)
-) :<!exnwrt> void = "ext#%" // end of [freopen1_exn]
-overload freopen_exn with freopen1_exn
-*)
+//
+(* ****** ****** *)
 
 (*
 fun freopen_stdin
@@ -309,11 +304,13 @@ fdopen_v (
   | fdopen_v_fail (fd, null, m) of fildes_v (fd)
 // end of [fdopen_v]
 
-fun fdopen_err {fd:int} {m:file_mode} (
+fun fdopen {fd:int} {m:fm}
+(
   pf: fildes_v (fd) | fd: int (fd), m: file_mode m
 ) : [l:agez] (fdopen_v (fd, l, m) | ptr l)
 
-fun fdopen_exn {fd:int} {m:file_mode} (
+fun fdopen_exn {fd:int} {m:fm}
+(
   pf: fildes_v (fd) | fd: int (fd), m: file_mode m
 ) : FILEptr1 (m) // end of [fdopen_exn]
 
@@ -384,38 +381,25 @@ Upon successful completion 0 is returned.  Otherwise, EOF is returned and
 the global variable errno is set to indicate the error.
 *)
 //
-symintr fflush_err
+symintr fflush
+symintr fflush_exn
 //
-fun
-fflush0_err
+fun fflush0
   (filr: FILEref):<!wrt> int = "mac#%"
-overload fflush_err with fflush0_err
-fun
-fflush1_err
-  {m:fm}
+fun fflush1 {m:fm}
 (
   pf: fmlte (m, w) | filp: !FILEptr1 (m)
 ) :<!wrt> [i:int | i <= 0] int (i) = "mac#%"
-overload fflush_err with fflush1_err
 //
-symintr fflush_exn
+overload fflush with fflush0
+overload fflush with fflush1
 //
-fun
-fflush0_exn
+fun fflush0_exn
   (filr: FILEref):<!exnwrt> void = "ext#%"
 overload fflush_exn with fflush0_exn
-(*
-fun
-fflush1_exn
-  {m:fm}
-(
-  pf: fmlte (m, w) | filp: !FILEptr1 (m)
-) :<!exnwrt> void = "ext#%"
-overload fflush_exn with fflush1_exn
-*)
-
+//
 fun fflush_stdout ():<!exnwrt> void = "ext#%"
-
+//
 (* ****** ****** *)
 (*
 //
@@ -427,17 +411,23 @@ that EOF must be a negative number!
 //
 *)
 //
-symintr fgetc_err
+symintr fgetc
 //
-fun fgetc0_err (filr: FILEref):<!wrt> int = "mac#%"
-fun fgetc1_err {m:fm}
-  (pf: fmlte (m, r) | filp: !FILEptr1 (m)):<!wrt> intLte (UCHAR_MAX) = "mac#%"
-overload fgetc_err with fgetc0_err
-overload fgetc_err with fgetc1_err
-
+fun fgetc0
+  (filr: FILEref):<!wrt> int = "mac#%"
+fun fgetc1 {m:fm}
+(
+  pf: fmlte (m, r) | filp: !FILEptr1 (m)
+) :<!wrt> intLte (UCHAR_MAX) = "mac#%"
+//
+overload fgetc with fgetc0
+overload fgetc with fgetc1
+//
 (* ****** ****** *)
 
-macdef getc = fgetc_err
+macdef getc = fgetc
+
+(* ****** ****** *)
 
 fun getchar0 ():<!wrt> int = "mac#%"
 fun getchar1 (
@@ -456,27 +446,30 @@ fgets_v (
 // end of [fgets_v]
 *)
 //
-symintr fgets_err
+symintr fgets
 //
-fun fgets0_err
+fun fgets0
   {sz:int}
-  {n0:pos | n0 <= sz} (
+  {n0:pos | n0 <= sz}
+(
   buf: &bytes(sz)? >> _
 , n0: int n0
 , filr: FILEref
 ) :<!wrt> Ptr0 // = addr@(buf) or NULL
-// end of [fgets0_err]
-fun fgets1_err
+fun fgets1
   {sz:int}
   {n0:pos | n0 <= sz}
-  {m:fm} (
+  {m:fm}
+(
   pf_mod: fmlte (m, r)
 | buf: &bytes(sz)? >> _
 , n0: int n0
 , filp: !FILEptr1 (m)
 ) :<!wrt> Ptr0 // = addr@(buf) or NULL
-// end of [fgets1_err]
-
+//
+overload fgets with fgets0
+overload fgets with fgets1
+//
 (* ****** ****** *)
 (*
 //
@@ -490,21 +483,21 @@ non-zero value upon failure.
 //
 *)
 //
-symintr fgetpos_err
+symintr fgetpos
 //
 abst@ype fpos_t = $extype"ats_fpos_type"
 //
-fun
-fgetpos0_err
+fun fgetpos0
 (
   filp: FILEref, pos: &fpos_t? >> opt (fpos_t, i==0)
 ) :<!wrt> #[i:int | i <= 0] int (i) = "mac#%"
-overload fgetpos_err with fgetpos0_err
-fun fgetpos1_err
+fun fgetpos1
 (
   filp: !FILEptr1, pos: &fpos_t? >> opt (fpos_t, i==0)
 ) :<!wrt> #[i:int | i <= 0] int (i) = "mac#%"
-overload fgetpos_err with fgetpos1_err
+//
+overload fgetpos with fgetpos0
+overload fgetpos with fgetpos1
 //
 symintr fgetpos_exn
 //
@@ -523,26 +516,26 @@ which case the return value is EOF.
 //
 *)
 //
-symintr fputc_err
+symintr fputc
 //
 typedef
-fputc0_err_type
+fputc0_type
   (a:t0p) = (a, FILEref) -<0,!wrt> int
-fun fputc0_err_int : fputc0_err_type (int) = "mac#%" 
-fun fputc0_err_char : fputc0_err_type (char) = "mac#%" 
-overload fputc_err with fputc0_err_int of 0
-overload fputc_err with fputc0_err_char of 0
+fun fputc0_int : fputc0_type (int) = "mac#%" 
+fun fputc0_char : fputc0_type (char) = "mac#%" 
+overload fputc with fputc0_int of 0
+overload fputc with fputc0_char of 0
 //
 typedef
-fputc1_err_type
+fputc1_type
   (a:t0p) = {m:fm}
 (
   fmlte (m, w) | a, !FILEptr1 (m)
 ) -<0,!wrt> intLte (UCHAR_MAX)
-fun fputc1_err_int : fputc1_err_type (int) = "mac#%"
-fun fputc1_err_char : fputc1_err_type (char) = "mac#%"
-overload fputc_err with fputc1_err_int of 10
-overload fputc_err with fputc1_err_char of 10
+fun fputc1_int : fputc1_type (int) = "mac#%"
+fun fputc1_char : fputc1_type (char) = "mac#%"
+overload fputc with fputc1_int of 10
+overload fputc with fputc1_char of 10
 //
 symintr fputc_exn
 //
@@ -556,7 +549,9 @@ overload fputc_exn with fputc0_exn_char of 0
 //
 (* ****** ****** *)
 
-macdef putc = fputc_err
+macdef putc = fputc
+
+(* ****** ****** *)
 
 fun putchar0 (c: int):<!wrt> int = "mac#%"
 fun putchar1
@@ -573,44 +568,35 @@ number on success, or EOF on error.
 
 *)
 //
-symintr fputs_err
+symintr fputs
+symintr fputs_exn
 //
-fun
-fputs0_err
+fun fputs0
 (
   str: NSH(string), fil: FILEref
 ) :<!wrt> int = "mac#%"
-overload fputs_err with fputs0_err
-fun
-fputs1_err
-  {m:fm} (
+fun fputs1 {m:fm}
+(
   pf: fmlte (m, w) | str: NSH(string), filp: !FILEptr1 (m)
 ) :<!wrt> int = "mac#%"
-overload fputs_err with fputs1_err
 //
-symintr fputs_exn
+overload fputs with fputs0
+overload fputs with fputs1
 //
-fun
-fputs0_exn (
+fun fputs0_exn
+(
   str: NSH(string), fil: FILEref
 ) :<!exnwrt> void = "ext#%"
+//
 overload fputs_exn with fputs0_exn
-(*
-fun
-fputs1_exn
-  {m:fm} (
-  pf: fmlte (m, w) | str: NSH(string), filp: !FILEptr1 (m)
-) :<!exnwrt> void = "ext#%"
-overload fputs_exn with fputs1_exn
-*)
-
+//
 (* ****** ****** *)
 //
 // [puts] puts a newline at the end
 //
-fun puts_err
+fun puts
   (inp: NSH(string)):<!wrt> int = "mac#%"
-// end of [puts_err]
+// end of [puts]
 fun puts_exn
   (inp: NSH(string)):<!exnwrt> void = "ext#%"
 // end of [puts_exn]
@@ -630,10 +616,10 @@ must use [feof] and [ferror] to determine which occurred.
 //
 *)
 //
-symintr fread_err
+symintr fread
 //
 fun
-fread0_err // [isz]: the size of each item
+fread0 // [isz]: the size of each item
   {isz:pos}
   {nbf:int}
   {n:int | n*isz <= nbf}
@@ -642,9 +628,8 @@ fread0_err // [isz]: the size of each item
 , isz: size_t isz, n: size_t n
 , filr: FILEref(*none*)
 ) :<!wrt> sizeLte n = "mac#%"
-overload fread_err with fread0_err
 fun
-fread1_err // [isz]: the size of each item
+fread1 // [isz]: the size of each item
   {isz:pos}
   {nbf:int}
   {n:int | n*isz <= nbf}
@@ -655,7 +640,9 @@ fread1_err // [isz]: the size of each item
 , isz: size_t isz, n: size_t n
 , filp: !FILEptr1 (m)
 ) :<!wrt> sizeLte n = "mac#%"
-overload fread_err with fread1_err
+//
+overload fread with fread0
+overload fread with fread1
 //
 symintr fread_exn
 //
@@ -663,7 +650,8 @@ fun
 fread0_exn // [isz]: the size of each item
   {isz:pos}
   {nbf:int}
-  {n:int | n*isz <= nbf} (
+  {n:int | n*isz <= nbf}
+(
   buf: &bytes(nbf)? >> _
 , isz: size_t isz, n: size_t n, filr: FILEref
 ) :<!exnwrt> sizeLte n = "ext#%"
@@ -683,10 +671,10 @@ written.
 //
 *)
 //
-symintr fwrite_err
+symintr fwrite
 //
 fun
-fwrite0_err // [isz]: the size of each item
+fwrite0 // [isz]: the size of each item
   {isz:pos}
   {nbf:int}
   {n:int | n*isz <= nbf}
@@ -695,9 +683,8 @@ fwrite0_err // [isz]: the size of each item
 , isz: size_t isz, n: size_t n
 , filr: FILEref
 ) :<!wrt> sizeLte (n) = "mac#%"
-overload fwrite_err with fwrite0_err
 fun
-fwrite1_err // [isz]: the size of each item
+fwrite1 // [isz]: the size of each item
   {isz:pos}
   {nbf:int}
   {n:int | n*isz <= nbf}
@@ -708,7 +695,9 @@ fwrite1_err // [isz]: the size of each item
 , isz: size_t isz, n: size_t n
 , filp: !FILEptr1 (m)
 ) :<!wrt> sizeLte (n) = "mac#%"
-overload fwrite_err with fwrite1_err
+//
+overload fwrite with fwrite0
+overload fwrite with fwrite1
 //
 symintr fwrite_exn
 //
@@ -741,30 +730,27 @@ it returns -1.
 //
 *)
 //
-symintr fseek_err
+symintr fseek
+symintr fseek_exn
 //
-fun fseek0_err (
+fun fseek0
+(
   filr: FILEref, offset: lint, whence: whence
 ) :<!wrt> int = "mac#%"
-overload fseek_err with fseek0_err
-fun fseek1_err (
+fun fseek1
+(
   f: !FILEptr1(*none*), offset: lint, whence: whence
 ) :<!wrt> int = "mac#%"
-overload fseek_err with fseek1_err
 //
-symintr fseek_exn
+overload fseek with fseek0
+overload fseek with fseek1
 //
 fun fseek0_exn (
   filr: FILEref, offset: lint, whence: whence
 ) :<!exnwrt> void = "ext#%"
+//
 overload fseek_exn with fseek0_exn
-(*
-fun fseek1_exn (
-  f: !FILEptr1(*none*), offset: lint, whence: whence
-) :<!exnwrt> void = "ext#%"
-overload fseek_exn with fseek1_exn
-*)
-
+//
 (* ****** ****** *)
 (*
 //
@@ -777,21 +763,22 @@ non-zero on failure.
 //
 *)
 //
-symintr fsetpos_err
-//
-fun fsetpos0_err
-  (filp: FILEref(*none*), pos: &fpos_t):<!wrt> int = "mac#%"
-overload fsetpos_err with fsetpos0_err
-fun fsetpos1_err
-  (filp: !FILEptr1(*none*), pos: &fpos_t):<!wrt> int = "mac#%"
-overload fsetpos_err with fsetpos1_err
-//
+symintr fsetpos
 symintr fsetpos_exn
+//
+fun fsetpos0
+  (filp: FILEref(*none*), pos: &fpos_t):<!wrt> int = "mac#%"
+fun fsetpos1
+  (filp: !FILEptr1(*none*), pos: &fpos_t):<!wrt> int = "mac#%"
+//
+overload fsetpos with fsetpos0
+overload fsetpos with fsetpos1
 //
 fun fsetpos0_exn
   (filp: FILEref(*none*), pos: &fpos_t):<!wrt> void = "ext#%"
+//
 overload fsetpos_exn with fsetpos0_exn
-
+//
 (* ****** ****** *)
 
 (*
@@ -804,26 +791,21 @@ indicate the error.
 //
 *)
 //
-symintr ftell_err
-//
-fun ftell0_err
-  (filr: FILEref):<!wrt> lint = "mac#%"
-overload ftell_err with ftell0_err
-fun ftell1_err
-  (filp: !FILEptr1(*none*)):<!wrt> lint = "mac#%"
-overload ftell_err with ftell1_err
-//
+symintr ftell
 symintr ftell_exn
+//
+fun ftell0
+  (filr: FILEref):<!wrt> lint = "mac#%"
+fun ftell1
+  (filp: !FILEptr1(*none*)):<!wrt> lint = "mac#%"
+overload ftell with ftell0
+overload ftell with ftell1
 //
 fun ftell0_exn
   (filr: FILEref):<!exnwrt> lint = "ext#%"
+//
 overload ftell_exn with ftell0_exn
-(*
-fun ftell1_exn
-  (filp: !FILEptr1(*none*)):<!exnwrt> lint = "ext#%"
-overload ftell_exn with ftell1_exn
-*)
-
+//
 (* ****** ****** *)
 
 (*
@@ -844,14 +826,14 @@ fun perror
 
 (* ****** ****** *)
 
-fun remove_err
+fun remove
   (inp: NSH(string)):<!wrt> int = "mac#%"
 fun remove_exn
   (inp: NSH(string)):<!exnwrt> void = "ext#%"
 
 (* ****** ****** *)
 
-fun rename_err (
+fun rename (
   oldpath: NSH(string), newpath: NSH(string)
 ) :<!wrt> int = "mac#%" // end of [fun]
 
@@ -875,7 +857,7 @@ overload rewind with rewind1
 
 (* ****** ****** *)
 
-fun tmpfile_err (
+fun tmpfile (
 ) :<!wrt> FILEptr0 (rw) = "mac#%"
 fun tmpfile_exn (
 ) :<!exnwrt> FILEptr1 (rw) = "ext#%"
@@ -894,36 +876,28 @@ returned in reverse order; only one pushback is guaranteed.
 //
 *)
 //
-symintr ungetc_err
+symintr ungetc
 //
 fun
-ungetc0_err
+ungetc0
   (c: char, f: FILEref):<!wrt> int = "mac#%"
-overload ungetc_err with ungetc0_err
 fun
-ungetc1_err
+ungetc1
   {l:agz}{m:fm}
 (
   pf_mod: fmlte (m, rw) | c: char, f: !FILEptr (l, m)
 ) :<!wrt> [i:int | i <= UCHAR_MAX] int (i) = "mac#%"
-overload ungetc_err with ungetc1_err
+//
+overload ungetc with ungetc0
+overload ungetc with ungetc1
 //
 symintr ungetc_exn
 //
-fun ungetc0_exn (
-  c: char, f: FILEref
-) :<!exnwrt> void = "ext#%"
+fun ungetc0_exn
+  (c: char, f: FILEref) :<!exnwrt> void = "ext#%"
+//
 overload ungetc_exn with ungetc0_exn
-(*
-fun
-ungetc1_exn
-  {l:agz}{m:fm}
-(
-  pf_mod: fmlte (m, rw) | c: char, f: !FILEptr (l, m)
-) :<!exnwrt> void = "ext#%"
-overload ungetc_exn with ungetc1_exn
-*)
-
+//
 (* ****** ****** *)
 
 stacst BUFSIZ : int

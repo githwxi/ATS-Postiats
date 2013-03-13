@@ -46,13 +46,13 @@ extern void exit (int status) ; // in [stdlib.h]
 
 #atscode_separator_for_C()
 
-\#define atslib_fopen_err fopen
+\#define atslib_fopen fopen
 
 #atscode_separator_for_C()
 
-\#define atslib_fclose_err fclose
-\#define atslib_fclose0_err atslib_fclose_err
-\#define atslib_fclose1_err atslib_fclose_err
+\#define atslib_fclose fclose
+\#define atslib_fclose0 atslib_fclose
+\#define atslib_fclose1 atslib_fclose
 
 ATSinline()
 atsvoid_t0ype
@@ -92,30 +92,30 @@ atslib_fclose_exn(
 
 #atscode_separator_for_C()
 
-\#define atslib_fgetc0_err fgetc
-\#define atslib_fgetc1_err fgetc
+\#define atslib_fgetc0 fgetc
+\#define atslib_fgetc1 fgetc
 
 #atscode_separator_for_C()
 
-\#define atslib_fputc0_err_int fputc
-\#define atslib_fputc0_err_char(c, fp) fputc((int)c, fp)
-\#define atslib_fputc1_err_int fputc
-\#define atslib_fputc1_err_char(c, fp) fputc((int)c, fp)
+\#define atslib_fputc0_int fputc
+\#define atslib_fputc0_char(c, fp) fputc((int)c, fp)
+\#define atslib_fputc1_int fputc
+\#define atslib_fputc1_char(c, fp) fputc((int)c, fp)
 
 #atscode_separator_for_C()
 
-\#define atslib_fputs0_err fputs
-\#define atslib_fputs1_err fputs
+\#define atslib_fputs0 fputs
+\#define atslib_fputs1 fputs
 
 #atscode_separator_for_C()
 
-\#define atslib_fseek0_err fseek
-\#define atslib_fseek1_err fseek
+\#define atslib_fseek0 fseek
+\#define atslib_fseek1 fseek
 
 #atscode_separator_for_C()
 
-\#define atslib_ftell0_err ftell
-\#define atslib_ftell1_err ftell
+\#define atslib_ftell0 ftell
+\#define atslib_ftell1 ftell
 
 #atscode_separator_for_C()
 
@@ -124,7 +124,7 @@ atslib_fclose_exn(
 
 #atscode_separator_for_C()
 
-\#define atslib_tmpfile_err tmpfile
+\#define atslib_tmpfile tmpfile
 
 ATSinline()
 atstype_ptr

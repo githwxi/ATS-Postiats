@@ -84,8 +84,8 @@ val str = "scratch-XXXXXX"
 val str2 = string_copy (str)
 val fdes = mkstemp (str2)
 val () = assertloc (fdes >= 0)
-val () = assertloc ($UNI.close_err (fdes) = 0)
-val () = assertloc ($UNI.unlink_err ($UNSAFE.strnptr2string(str2)) = 0)
+val () = assertloc ($UNI.close (fdes) = 0)
+val () = assertloc ($UNI.unlink ($UNSAFE.strnptr2string(str2)) = 0)
 val () = strnptr_free (str2)
 //
 } // end of [val]
