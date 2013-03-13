@@ -190,7 +190,8 @@ end // end of [local]
 
 local
 
-fun aux_s2exp (
+fun aux_s2exp
+(
   env: &env, s2e0: s2exp
 ) : s2kexp = let
 (*
@@ -221,12 +222,8 @@ case s2f0.s2exp_node of
 | S2Efun (
     _(*fc*), _(*lin*), _(*s2fe*), npf, _arg, _res
   ) => let
-    val _arg =
-      aux_s2explst (env, npf, _arg)
-    // end of [val]
-    val _res = aux_s2exp (env, _res)
   in
-    S2KEfun (_arg, _res)
+    S2KEfun (aux_s2explst (env, _arg), aux_s2exp (env, _res))
   end // end of [S2Efun]
 //
 | S2Eapp (_fun, _arg) => let
@@ -240,7 +237,7 @@ case s2f0.s2exp_node of
     val _elt = aux_s2exp (env, _elt) in S2KEtyarr (_elt)
   end // end of [S2Etyarr]
 | S2Etyrec (knd, npf, ls2es) => let
-    val ls2kes = aux_labs2explst (env, npf, ls2es) in S2KEtyrec (knd, ls2kes)
+    val ls2kes = aux_labs2explst (env, ls2es) in S2KEtyrec (knd, ls2kes)
   end // end of [S2Etyrec]
 //
 | S2Eexi (
@@ -269,7 +266,8 @@ case s2f0.s2exp_node of
 //
 end // end of [aux_s2exp]
 
-and aux_arglst (
+and aux_arglst
+(
   env: &env, s2es: s2explst
 ) : s2kexplst =
   case+ s2es of
@@ -289,52 +287,49 @@ and aux_arglst (
   | list_nil () => list_nil ()
 // end of [aux_arglst]
 
-and aux_arglstlst (
+and aux_arglstlst
+(
   env: &env, s2ess: s2explstlst
 ) : s2kexplstlst =
   case+ s2ess of
-  | list_cons (s2es, s2ess) =>
+  | list_cons
+      (s2es, s2ess) =>
       list_cons (aux_arglst (env, s2es), aux_arglstlst (env, s2ess))
     // end of [list_cons]
   | list_nil () => list_nil ()
 // end of [aux_arglstlst]
 
-and aux_s2explst (
-  env: &env, npf: int, s2es: s2explst
+and aux_s2explst
+(
+  env: &env, s2es: s2explst
 ) : s2kexplst =
   case+ s2es of
-  | list_cons (s2e, s2es) =>
-      if npf > 0 then
-        aux_s2explst (env, npf-1, s2es)
-      else let
-        val s2ke = aux_s2exp (env, s2e)
-      in
-        list_cons (s2ke, aux_s2explst (env, npf, s2es))
-      end (* end of [if] *)
+  | list_cons
+      (s2e, s2es) =>
+      list_cons (aux_s2exp (env, s2e), aux_s2explst (env, s2es))
     // end of [list_cons]
   | list_nil () => list_nil ()
 // end of [aux_s2explst]
 
-and aux_labs2explst (
-  env: &env, npf: int, ls2es: labs2explst
+and aux_labs2explst
+(
+  env: &env, ls2es: labs2explst
 ) : labs2kexplst =
   case+ ls2es of
-  | list_cons (ls2e, ls2es) =>
-      if npf > 0 then
-        aux_labs2explst (env, npf-1, ls2es)
-      else let
-        val SLABELED
-          (l, _(*named*), s2e) = ls2e
-        val s2ke = aux_s2exp (env, s2e)
-        val ls2ke = SKLABELED (l, s2ke)
-      in
-        list_cons (ls2ke, aux_labs2explst (env, npf, ls2es))
-      end (* end of [if] *)
-    // end of [list_cons]
+  | list_cons
+      (ls2e, ls2es) => let
+      val SLABELED
+        (l, _(*named*), s2e) = ls2e
+      val s2ke = aux_s2exp (env, s2e)
+      val ls2ke = SKLABELED (l, s2ke)
+      val ls2kes = aux_labs2explst (env, ls2es)
+    in
+      list_cons (ls2ke, ls2kes)
+    end // end of [list_cons]
   | list_nil () => list_nil ()
 // end of [aux_labs2explst]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s2kexp_make_s2exp
