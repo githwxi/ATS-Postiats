@@ -117,16 +117,15 @@ FILEref_vttakeout // a lock is associated with each FILEref-value
 // end of [FILEref_vttakeout]
 
 (* ****** ****** *)
-
-(*
-staload
-TYPES = "libc/sys/SATS/types.sats"
-typedef whence_t = $TYPES.whence_t
-macdef SEEK_SET = $TYPES.SEEK_SET
-macdef SEEK_CUR = $TYPES.SEEK_CUR
-macdef SEEK_END = $TYPES.SEEK_END
-*)
-
+//
+abst@ype whence_type = int
+//
+typedef whence = whence_type
+//
+macdef SEEK_SET = $extval (whence, "SEEK_SET")
+macdef SEEK_CUR = $extval (whence, "SEEK_CUR")
+macdef SEEK_END = $extval (whence, "SEEK_END")
+//
 (* ****** ****** *)
 (*
 //
@@ -741,32 +740,29 @@ function on the same stream. Upon success, [fseek] returns 0. Otherwise,
 it returns -1.
 //
 *)
-
-(*
 //
 symintr fseek_err
 //
 fun fseek0_err (
-  filr: FILEref, offset: lint, whence: whence_t
+  filr: FILEref, offset: lint, whence: whence
 ) :<!wrt> int = "mac#%"
 overload fseek_err with fseek0_err
 fun fseek1_err (
-  f: !FILEptr1(*none*), offset: lint, whence: whence_t
+  f: !FILEptr1(*none*), offset: lint, whence: whence
 ) :<!wrt> int = "mac#%"
 overload fseek_err with fseek1_err
 //
 symintr fseek_exn
 //
 fun fseek0_exn (
-  filr: FILEref, offset: lint, whence: whence_t
+  filr: FILEref, offset: lint, whence: whence
 ) :<!exnwrt> void = "ext#%"
 overload fseek_exn with fseek0_exn
 (*
 fun fseek1_exn (
-  f: !FILEptr1(*none*), offset: lint, whence: whence_t
+  f: !FILEptr1(*none*), offset: lint, whence: whence
 ) :<!exnwrt> void = "ext#%"
 overload fseek_exn with fseek1_exn
-*)
 *)
 
 (* ****** ****** *)
@@ -874,7 +870,7 @@ fun rewind0 {m:fm}
   (fil: FILEref):<!wrt> void = "mac#%"
 overload rewind with rewind0
 fun rewind1
-  (fil: !FILEptr1(*none*)):<!wrt> void = "ext#%"
+  (fil: !FILEptr1(*none*)):<!wrt> void = "mac#%"
 overload rewind with rewind1
 
 (* ****** ****** *)
