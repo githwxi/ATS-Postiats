@@ -460,7 +460,8 @@ fun emit_dynload
   (out: FILEref, infil: $FIL.filename): void
 implement
 emit_dynload
-  (out, infil) = {
+  (out, infil) =
+{
   val () = emit_filename (out, infil)
   val () = emit_text (out, "__dynload")
 }
@@ -470,7 +471,8 @@ fun emit_dynloadflag
   (out: FILEref, infil: $FIL.filename): void
 implement
 emit_dynloadflag
-  (out, infil) = {
+  (out, infil) =
+{
   val () = emit_filename (out, infil)
   val () = emit_text (out, "__dynloadflag")
 }
@@ -555,20 +557,21 @@ val () = emit_text (out, "\n*/\n")
 //
 val () = emit_text (out, "atsvoid_t0ype\n")
 val () = emit_dynload (out, infil)
-val () = emit_text (out, " ()\n{\n")
-val () = if flag = 0 then emit_text (out, "ATSdynload0(")
-val () = if flag > 0 then emit_text (out, "ATSdynload1(")
+val () = emit_text (out, "()\n{\n")
+val () = if flag = 0 then emit_text (out, "ATSdynload0(\n")
+val () = if flag > 0 then emit_text (out, "ATSdynload1(\n")
 val () = emit_dynloadflag (out, infil)
-val () = emit_text (out, ") ;\n")
-val () = emit_text (out, "if (\n0==")
+val () = emit_text (out, "\n) ;\n")
+val () = emit_text (out, "if (\n")
+val () = emit_text (out, "ATSCKiseqz(\n")
 val () = emit_dynloadflag (out, infil)
-val () = emit_text (out, "\n) {\n")
+val () = emit_text (out, "\n)\n) {\n")
 val () = emit_dynloadflag (out, infil)
 val () = emit_text (out, " = 1 ;\n")
 val () = emit_text (out, fbody)
 val () = emit_text (out, "} /* end of [if] */\n")
 val () = emit_text (out, "return ;\n")
-val () = emit_text (out, "}\n")
+val () = emit_text (out, "} /* end of [*_dynload] */\n")
 //
 in
   // nothing

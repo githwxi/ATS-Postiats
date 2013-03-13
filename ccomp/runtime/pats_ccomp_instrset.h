@@ -107,17 +107,11 @@
 #define ATSPMVsizeof(hit) (sizeof(hit))
 
 /* ****** ****** */
-
-#define ATSPMFnot(x) (0 == (x))
-#define ATSPMFptriscons(x) (0 != (void*)(x))
-#define ATSPMFptrisnull(x) (0 == (void*)(x))
-
-/* ****** ****** */
-/*
-** HX: castfn application
-*/
+//
+// HX: castfn application
+//
 #define ATSPMVcastfn(d2c, hit, arg) ((hit)arg)
-
+//
 /* ****** ****** */
 
 #define ATStmpdec(tmp, hit) hit tmp
@@ -128,32 +122,37 @@
 #define ATSderef(pmv, hit) (*(hit*)pmv)
 
 /* ****** ****** */
-/*
-** HX: [ATSselcon] is the same as [ATSselboxrec]
-*/
+//
+// HX: [ATSselcon] is the same as [ATSselboxrec]
+//
 #define ATSselcon(pmv, tysum, lab) (((tysum*)pmv)->lab)
-
+//
 #define ATSselrecsin(pmv, tyrec, lab) (pmv)
 #define ATSselfltrec(pmv, tyrec, lab) ((pmv).lab)
 #define ATSselboxrec(pmv, tyrec, lab) (((tyrec*)pmv)->lab)
-/*
 #define ATSselarrind(pmv, tyarr, lab) (((tyarr)pmv).lab)
-*/
 #define ATSselarrptrind(pmv, tyelt, lab) (((tyelt*)pmv)lab)
-
+//
 /* ****** ****** */
-
+//
+#define ATSCKnot(x) ((x)==0)
+#define ATSCKiseqz(x) ((x)==0)
+#define ATSCKptriscons(x) (0 != (void*)(x))
+#define ATSCKptrisnull(x) (0 == (void*)(x))
+//
+/* ****** ****** */
+//
 #define ATSPATCKint(pmv, pat) ((pmv)==pat)
 #define ATSPATCKbool(pmv, pat) ((pmv)==pat)
 #define ATSPATCKchar(pmv, pat) ((pmv)==pat)
 #define ATSPATCKfloat(pmv, pat) ((pmv)==pat)
 #define ATSPATCKstring(pmv, pat) (atspre_string_equal(pmv, pat))
-
+//
 #define ATSPATCKcon(pmv, tag) (((ATStysum()*)(pmv))->contag==tag)
-
+//
 #define ATSPATCKexn0(pmv, d2c) (((ATStysum()*)(pmv))->contag==&(d2c))
 #define ATSPATCKexn1(pmv, d2c) (((ATStysum()*)(pmv))->contag==(d2c).exntag)
-
+//
 /* ****** ****** */
 
 #define ATSINSmove(tmp, val) (tmp = val)
