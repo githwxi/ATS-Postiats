@@ -102,6 +102,14 @@ clean:: ; $(RMF) libc_stdlib_dats.o
 clean:: ; $(RMF) libc_stdlib_dats.c
 cleanall:: ; $(RMF) libc_stdlib.exe
 
+all:: libc_unistd
+libc_unistd: libc_unistd.exe
+libc_unistd.exe: libc_unistd_dats.c ;   $(GCC) -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+libc_unistd_dats.c: libc_unistd.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_unistd_dats.c --dynamic libc_unistd.dats
+clean:: ; $(RMF) libc_unistd_dats.o
+clean:: ; $(RMF) libc_unistd_dats.c
+cleanall:: ; $(RMF) libc_unistd.exe
+
 
 ######
 

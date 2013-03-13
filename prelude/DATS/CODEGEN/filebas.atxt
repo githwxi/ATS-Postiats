@@ -92,7 +92,7 @@ fileref_flush (filr) = $STDIO.fflush0_exn (filr)
 //
 *)
 implement
-fileref_getc (filr) = $STDIO.fgetc0_err (filr)
+fileref_getc (filr) = $STDIO.fgetc0 (filr)
 
 #atscode_separator()
 
@@ -103,7 +103,7 @@ fileref_getc (filr) = $STDIO.fgetc0_err (filr)
 //
 implement
 fileref_putc_int (filr, c) = let
-  val _(*ignored*) = $STDIO.fputc0_err (c, filr) in (*nothing*)
+  val _(*ignored*) = $STDIO.fputc0 (c, filr) in (*nothing*)
 end // end of [fileref_putc_int]
 implement
 fileref_putc_char (filr, c) = fileref_putc_int (filr, (c2i)c)
@@ -117,7 +117,7 @@ fileref_putc_char (filr, c) = fileref_putc_int (filr, (c2i)c)
 //
 implement
 fileref_puts (filr, s) = let
-  val _(*ignored*) = $STDIO.fputs0_err (s, filr) in (*nothing*)
+  val _(*ignored*) = $STDIO.fputs0 (s, filr) in (*nothing*)
 end // end of [fileref_puts]
 *)
 

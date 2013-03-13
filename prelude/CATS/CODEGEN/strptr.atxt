@@ -61,6 +61,18 @@ atspre_compare_strptr_strptr
 
 #atscode_separator_for_C()
 
+ATSinline()
+atsvoid_t0ype
+atspre_fprint_strptr
+(
+  atstype_ref out, atstype_strptr x
+) {
+  int err = 0 ;
+  err += fprintf((FILE*)out, "%s", (char*)x) ; return ;
+} // end of [atspre_fprint_strptr]
+
+#atscode_separator_for_C()
+
 \#endif // ifndef ATSHOME_PRELUDE_STRPTR_CATS
 
 #atscode_separator_for_C()

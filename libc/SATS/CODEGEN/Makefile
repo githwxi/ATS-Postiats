@@ -21,18 +21,6 @@ all::
 
 ######
 
-all:: unistd.sats
-unistd.sats: unistd_atxt.exe ; ./$< > $@
-unistd_atxt.exe: unistd_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ unistd_atxt.dats -latsdoc
-unistd_atxt.dats: unistd.atxt
-	$(ATSDOC) --outcode $@ -i unistd.atxt > unistd_atxt.txt
-clean:: ; $(RMF) unistd_atxt.exe
-cleanall:: ; $(RMF) unistd.sats
-
-
-######
-
 RMF=rm -f
 
 ######

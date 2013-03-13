@@ -34,6 +34,12 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+absview
+strbuf_view (l:addr, m:int, n:int)
+stadef strbuf = strbuf_view
+
+#atscode_separator()
+
 praxi
 lemma_strptr_param
   {l:addr} (x: !strptr l): [l>=null] void
@@ -42,8 +48,17 @@ lemma_strptr_param
 praxi
 lemma_strnptr_param
   {l:addr}{n:int}
-  (x: !strnptr (l, n)): [(l>null&&n>=0) || (l==null&&n==(~1))] void
+(
+  x: !strnptr (l, n)
+) : [(l>null&&n>=0) || (l==null&&n==(~1))] void
 // end of [lemma_strnptr_param]
+
+#atscode_separator()
+
+praxi
+lemma_strbuf_param
+  {l:addr}{m,n:int} (pf: !strbuf (l, m, n)): [l>null;m>n] void
+// end of [lemma_strbuf_param]
 
 #atscode_separator()
 

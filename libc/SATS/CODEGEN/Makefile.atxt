@@ -55,10 +55,6 @@ all::
 
 ######
 
-#make_entry("unistd")
-
-######
-
 RMF=rm -f
 
 ######

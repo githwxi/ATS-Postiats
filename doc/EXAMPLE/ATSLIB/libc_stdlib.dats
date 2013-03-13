@@ -1,5 +1,5 @@
 (*
-** for testing [libc/stdio]
+** for testing [libc/stdlib]
 *)
 
 (* ****** ****** *)
