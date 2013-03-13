@@ -471,9 +471,14 @@ case+ d0e0.d0exp_node of
 //
 | D0Ecstsp x => FXITMatm (d1exp_cstsp (loc0, x))
 //
-| D0Eextval (_type, _code) =>
-    FXITMatm (d1exp_extval (loc0, s0exp_tr (_type), _code))
-  (* end of [D0Eextval] *)
+| D0Eextval (s0e, name) =>
+    FXITMatm (
+    d1exp_extval (loc0, s0exp_tr (s0e), name)
+  ) // end of [D0Eextval]
+| D0Eextfcall (s0e, _fun, _arg) =>
+    FXITMatm (
+    d1exp_extfcall (loc0, s0exp_tr (s0e), _fun, d0explst_tr (_arg))
+  ) // end of [D0Eextfcall]
 //
 (*
 | D0Elabel lab => d1exp_label (loc0, lab)

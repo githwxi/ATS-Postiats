@@ -473,12 +473,15 @@ implement
 d1exp_top (loc) = d1exp_make (loc, D1Etop ())
 
 (* ****** ****** *)
-
+//
 implement
-d1exp_extval (loc, _type, _code) =
-  d1exp_make (loc, D1Eextval (_type, _code))
-// end of [d1exp_extval]
-
+d1exp_extval (loc, _type, name) =
+  d1exp_make (loc, D1Eextval (_type, name))
+//
+implement
+d1exp_extfcall (loc, _type, _fun, _arg) =
+  d1exp_make (loc, D1Eextfcall (_type, _fun, _arg))
+//
 (* ****** ****** *)
 
 implement

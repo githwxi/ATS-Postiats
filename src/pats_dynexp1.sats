@@ -260,6 +260,7 @@ datatype d1ecl_node =
       (int(*knd*), string (*name*), s1exp (*definition*))
   | D1Cextval of (* external value *)
       (string (*name*), d1exp (*definition*))
+//
   | D1Cextcode of (
       int (*knd: 0/1*), int (*pos: 0/1/2 : top/?/end*), string (*code*)
     ) // end of [D1Cextcode]
@@ -307,9 +308,10 @@ and d1exp_node =
 //
   | D1Ecstsp of cstsp // special constants
 //
-  | D1Eextval of
-      (s1exp (*type*), string (*code*)) // external value
-    // end of [D1Eextval]
+  | D1Eextval of (s1exp (*type*), string (*name*))
+  | D1Eextfcall of // externally named fcall
+      (s1exp (*type*), string (*fun*), d1explst (*arg*))
+    // end of [D1Eextfcall]
 //
   | D1Eloopexn of int(*knd*)
 //
@@ -554,9 +556,14 @@ fun d1exp_cstsp (loc: location, x: cstsp): d1exp
 fun d1exp_empty (loc: location): d1exp
 fun d1exp_top (loc: location): d1exp
 
+(* ****** ****** *)
+
 fun d1exp_extval
-  (loc: location, _type: s1exp, _code: string): d1exp
-// end of [d1exp_extval]
+  (loc: location, _type: s1exp, name: string): d1exp
+fun d1exp_extfcall
+  (loc: location, _type: s1exp, _fun: string, _arg: d1explst): d1exp
+
+(* ****** ****** *)
 
 fun d1exp_loopexn (loc: location, knd: int): d1exp
 

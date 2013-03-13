@@ -1727,13 +1727,23 @@ d0exp_MYFUN (tok) = '{
 
 implement
 d0exp_extval (
-  t_beg, _type, _code, t_end
+  t_beg, _type, name, t_end
 ) = let
-  val-T_STRING (code) = _code.token_node
+  val-T_STRING (name) = name.token_node
   val loc = t_beg.token_loc + t_end.token_loc
 in '{
-  d0exp_loc= loc, d0exp_node= D0Eextval (_type, code)
+  d0exp_loc= loc, d0exp_node= D0Eextval (_type, name)
 } end // end of [d0exp_extval]
+
+implement
+d0exp_extfcall (
+  t_beg, _type, _fun, _arg, t_end
+) = let
+  val-T_STRING (_fun) = _fun.token_node
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Eextfcall (_type, _fun, _arg)
+} end // end of [d0exp_extfcall]
 
 (* ****** ****** *)
 
