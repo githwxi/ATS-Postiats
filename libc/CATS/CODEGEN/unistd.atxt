@@ -67,7 +67,35 @@ atslib_getcwd_gc (
 
 #atscode_separator_for_C()
 
+\#define atslib_pause pause
+
+#atscode_separator_for_C()
+
+\#define atslib_sleep_int sleep
+\#define atslib_sleep_uint sleep
+
+#atscode_separator_for_C()
+
+\#define atslib_usleep_int usleep
+\#define atslib_usleep_uint usleep
+
+#atscode_separator_for_C()
+
 \#define atslib_unlink unlink
+
+ATSinline()
+atslib_unlink_exn
+(
+  atstype_string path
+) {
+  int err ;
+  err = atslib_unlink(path) ;
+  if (0 > err) {
+    perror ("unlink") ;
+    fprintf (stderr, "exit(ATS): [unlink] failed.\n") ; exit(1) ;
+  } // end of [if]
+  return /*void*/ ;
+} /* end of [atslib_unlink_exn] */
 
 #atscode_separator_for_C()
 

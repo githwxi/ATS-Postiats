@@ -123,10 +123,42 @@ fun getcwd_gc (): Strptr1 = "mac#%" // HX: this is a convenient function
 
 (* ****** ****** *)
 
+fun pause (): int = "mac#%" // the return value is -1 if the call returns
+
+(* ****** ****** *)
+//
+// HX: [sleep] may be implemented using SIGARM
+//
+symintr sleep
+//
+fun sleep_int
+  {i:nat} (t: int i): [j:nat | j <= i] int j = "mac#%"
+fun sleep_uint
+  {i:int} (t: uint i): [j:nat | j <= i] uint j = "mac#%"
+//
+overload sleep with sleep_int
+overload sleep with sleep_uint
+//
+(* ****** ****** *)
+//
+// HX: some systems require that the argument <= 1 million
+//
+symintr usleep
+//
+fun usleep_int // succ/fail: 0/~1
+  {i:nat | i <= 1000000} (n: int i): intLte(0) = "mac#%"
+fun usleep_uint // succ/fail: 0/~1
+  {i:int | i <= 1000000} (n: uint i): intLte(0) = "mac#%"
+//
+overload usleep with usleep_int
+overload usleep with usleep_uint
+//
+(* ****** ****** *)
+
 /*
 int unlink(const char *pathname);
 */
-fun unlink (path: NSH(string)): interr = "mac#%"
+fun unlink (path: NSH(string)): intLte(0) = "mac#%"
 fun unlink_exn (path: NSH(string)): void = "mac#%"
 
 (* ****** ****** *)

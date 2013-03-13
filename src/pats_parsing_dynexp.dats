@@ -598,6 +598,7 @@ atmd0exp ::=
   | LABEL
 //
   | DLREXTVAL LPAREN s0exp COMMA s0tring RPAREN
+  | DLREXTFALL LPAREN s0exp COMMA s0tring commad0expseq RPAREN
 //
   | LPAREN d0exp SEMICOLON d0expsemiseq RPAREN
   | LPAREN d0expcommaseq [BAR d0expcommaseq] RPAREN
@@ -771,6 +772,26 @@ case+ tok.token_node of
       d0exp_extval (tok, ent3, ent5, ent6) else synent_null ()
     // end of [if]
   end
+//
+| T_DLREXTFCALL () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_LPAREN (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_s0exp, err0)
+    val ent4 = pif_fun (buf, bt, err, p_COMMA, err0)
+    val ent5 = pif_fun (buf, bt, err, p_s0tring, err0)
+    val ent6 = pstar_COMMA_fun {d0exp} (buf, bt, p_d0exp)
+    val ent7 = pif_fun (buf, bt, err, p_RPAREN, err0)
+    val okay = (if err = err0 then true else false): bool
+  in
+    if okay then let
+      val ent6 = (l2l)ent6
+    in
+      d0exp_extfcall (tok, ent3, ent5, ent6, ent7)
+    end else let // HX: err > err0
+      val () = list_vt_free (ent6) in synent_null ()
+    end (* end of [if] *)
+  end // end of [T_DLREXTFCALL]
 //
 | T_LPAREN () => let
     val () = incby1 ()

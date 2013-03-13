@@ -766,15 +766,15 @@ case+
     instr_move_arg_val (loc0, narg, pmv)
   end // end of [INSmove_arg_val]
 //
-| INSfuncall
+| INSfcall
     (tmp, _fun, hse, _arg) => let
     val tmp = ftmp (tmp)
     val _fun = fpmv (_fun)
     val hse = hisexp_subst (sub, hse)
     val _arg = fpmvlst (_arg)
   in
-    instr_funcall (loc0, tmp, _fun, hse, _arg)
-  end // end of [INSfuncall]
+    instr_fcall (loc0, tmp, _fun, hse, _arg)
+  end // end of [INSfcall]
 //
 | INScond (
     pmv, _then, _else

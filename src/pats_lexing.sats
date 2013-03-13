@@ -118,9 +118,11 @@ token_node =
   | T_ELSE of () // else
   | T_END of () // end
   | T_EXCEPTION of () // exception
+//
   | T_EXTERN of () // extern
-  | T_EXTYPE of () // extern type name
-  | T_EXTVAL of () // extern value name
+  | T_EXTYPE of () // externally named type
+  | T_EXTVAL of () // externally named value
+//
   | T_FIX of int // fix and fix@
   | T_FIXITY of
       (fxtykind) // infix, infixl, infixr, prefix, postfix
@@ -182,11 +184,14 @@ token_node =
   | T_DLREFFMASK of () // $effmask
   | T_DLREFFMASK_ARG of
       (int) // ntm(0), exn(1), ref(2), wrt(3), all(4)
+//
   | T_DLREXTERN of () // $extern
   | T_DLREXTKIND of () // $extkind
-  | T_DLREXTYPE of () // $extype // external type
-  | T_DLREXTYPE_STRUCT of () // $extype_struct
-  | T_DLREXTVAL of () // $extval // external value
+  | T_DLREXTYPE of () // externally named type
+  | T_DLREXTYPE_STRUCT of () // externally named struct
+  | T_DLREXTVAL of () // externally named value
+  | T_DLREXTFCALL of () // externally named fcall
+//
   | T_DLRRAISE of () // $raise // raising exceptions
 //
   | T_DLRLST of int // $lst and $lst_t and $lst_vt

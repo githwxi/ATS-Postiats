@@ -98,6 +98,7 @@ fprint_token
   | T_EXTERN () => fprintf (out, "EXTERN()", @())
   | T_EXTYPE () => fprintf (out, "EXTYPE()", @())
   | T_EXTVAL () => fprintf (out, "EXTVAL()", @())
+//
   | T_FIX (x) => fprintf (out, "FIX(%i)", @(x))
   | T_FIXITY (x) => fprintf (out, "FIXITY(...)", @())
   | T_FOR () => fprintf (out, "FOR()", @())
@@ -151,11 +152,14 @@ fprint_token
   | T_DLRDELAY (x) => fprintf (out, "DLRDELAY(%i)", @(x))
   | T_DLREFFMASK () => fprintf (out, "DLREFFMASK()", @())
   | T_DLREFFMASK_ARG (x) => fprintf (out, "DLREFFMASK(%i)", @(x))
+//
   | T_DLREXTERN () => fprintf (out, "DLREXTERN()", @())
   | T_DLREXTKIND () => fprintf (out, "DLREXTKIND()", @())
   | T_DLREXTYPE () => fprintf (out, "DLREXTYPE()", @())
   | T_DLREXTYPE_STRUCT () => fprintf (out, "DLREXTYPE_STRUCT()", @())
   | T_DLREXTVAL () => fprintf (out, "DLREXTVAL()", @())
+  | T_DLREXTFCALL () => fprintf (out, "DLREXTFCALL()", @())
+//
   | T_DLRRAISE () => fprintf (out, "DLRRAISE()", @())
   | T_DLRLST (x) => fprintf (out, "DLRLST(%i)", @(x))
   | T_DLRREC (x) => fprintf (out, "DLRREC(%i)", @(x))

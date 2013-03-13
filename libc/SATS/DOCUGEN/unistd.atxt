@@ -50,6 +50,27 @@ the corresponding libc-functions declared in [unistd.h].
 
 (* ****** ****** *)
 
+#declnamesynop("getcwd")
+#declnamesynop("getcwd_gc")
+
+(* ****** ****** *)
+
+#declnamesynop("pause")
+
+(* ****** ****** *)
+
+#declnamesynop("sleep")
+#declnamesynop("sleep_int")
+#declnamesynop("sleep_uint")
+
+(* ****** ****** *)
+
+#declnamesynop("usleep")
+#declnamesynop("usleep_int")
+#declnamesynop("usleep_uint")
+
+(* ****** ****** *)
+
 #declnamesynop("unlink")
 #declnamesynop("unlink_exn")
 

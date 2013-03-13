@@ -1255,9 +1255,9 @@ d0ecl_node =
 //
   | D0Cclassdec of (i0de, s0expopt) // class declaration
 //
-  | D0Cextype of (string, s0exp) // type to be used in C
-  | D0Cextype of (int(*knd*), string, s0exp) // type to be used in C
-  | D0Cextval of (string, d0exp) // value to be used in C
+  | D0Cextype of (string, s0exp) // externally named types
+  | D0Cextype of (int(*knd*), string, s0exp) // externally named structs
+  | D0Cextval of (string, d0exp) // externally named values
 //
   | D0Cextcode of
       (int(*knd*), int(*pos*), string(*code*)) // external code
@@ -1312,7 +1312,10 @@ and d0exp_node =
 //
   | D0Ecstsp of cstsp // special constants
 //
-  | D0Eextval of (s0exp (*type*), string (*code*)) // external val
+  | D0Eextval of (s0exp(*type*), string(*name*)) // external val
+  | D0Eextfcall of
+      (s0exp(*type*), string(*fun*), d0explst(*arg*)) // externally named fcalls
+    // end of [D0Eextfcall]
 //
   | D0Eloopexn of int(*break/continue: 0/1*)
 //
@@ -1579,9 +1582,17 @@ fun d0exp_MYFUN (tok: token): d0exp
 
 (* ****** ****** *)
 
-fun d0exp_extval (
-  t_beg: token, _type: s0exp, _code: token, t_end: token
+fun d0exp_extval
+(
+  t_beg: token, _type: s0exp, name: token, t_end: token
 ) : d0exp // end of [d0exp_extval]
+
+fun d0exp_extfcall
+(
+  t_beg: token, _type: s0exp, _fun: token, _arg: d0explst, t_end: token
+) : d0exp // end of [d0exp_extfcall]
+
+(* ****** ****** *)
 
 fun d0exp_label_int (t_dot: token, lab: token): d0exp
 fun d0exp_label_sym (t_dot: token, lab: token): d0exp

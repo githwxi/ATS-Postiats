@@ -688,10 +688,10 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
-| INSfuncall (
+| INSfcall (
     tmpret, _fun, hse_fun, _arg
   ) => {
-    val () = prstr "INSfuncall("
+    val () = prstr "INSfcall("
     val () = fprint_tmpvar (out, tmpret)
     val () = prstr " <- "
     val () = fprint_primval (out, _fun)
@@ -701,7 +701,7 @@ case+ x.instr_node of
     val () = fprint_primvalist (out, _arg)
     val () = prstr ")"
     val () = prstr ")"
-  } // end of [INSfuncall]
+  } // end of [INSfcall]
 //
 | INScond (
     pmv_cond, inss_then, inss_else

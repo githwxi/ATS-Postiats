@@ -1129,7 +1129,7 @@ end // end of [emit_primlab]
 typedef
 emit_instr_type = (FILEref, instr) -> void
 
-extern fun emit_instr_funcall : emit_instr_type
+extern fun emit_instr_fcall : emit_instr_type
 extern fun emit_instr_move_con : emit_instr_type
 extern fun emit_instr_move_rec : emit_instr_type
 (*
@@ -1256,7 +1256,7 @@ case+ ins.instr_node of
     (tmp, pmv) => emit_pmove_val (out, tmp, pmv)
   // end of [INSpmove_val]
 //
-| INSfuncall _ => emit_instr_funcall (out, ins)
+| INSfcall _ => emit_instr_fcall (out, ins)
 //
 | INScond (
     pmv_cond, inss_then, inss_else
@@ -1655,16 +1655,16 @@ end // end of [primval_fun_is_noret]
 in (* in of [local] *)
 
 implement
-emit_instr_funcall
+emit_instr_fcall
   (out, ins) = let
 //
 val loc0 = ins.instr_loc
-val-INSfuncall
+val-INSfcall
   (tmp, pmv_fun, hse_fun, pmvs_arg) = ins.instr_node
 (*
 val () = (
-  println! ("emit_instr_funcall: pmv_fun = ", pmv_fun);
-  println! ("emit_instr_funcall: hse_fun = ", hse_fun);
+  println! ("emit_instr_fcall: pmv_fun = ", pmv_fun);
+  println! ("emit_instr_fcall: hse_fun = ", hse_fun);
 ) // end of [val]
 *)
 val noret = tmpvar_is_void (tmp)
@@ -1744,7 +1744,7 @@ case+ pmv_fun.primval_node of
 | _ => let
     val () = prerr_interror_loc (loc0)
     val () = (
-      prerr ": emit_instr_funcall: hse_fun = "; prerr_hisexp (hse_fun); prerr_newline ()
+      prerr ": emit_instr_fcall: hse_fun = "; prerr_hisexp (hse_fun); prerr_newline ()
     ) // end of [val]
     val () = assertloc (false)
   in
@@ -1752,7 +1752,7 @@ case+ pmv_fun.primval_node of
   end // end of [_]
 *)
 //
-end // end of [emit_instr_funcall]
+end // end of [emit_instr_fcall]
 
 end // end of [local]
 

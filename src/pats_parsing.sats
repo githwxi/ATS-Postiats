@@ -373,6 +373,10 @@ fun pstar_sep_fun
   buf: &tokbuf, bt: int, sep: (&tokbuf) -> bool, f: parser (a)
 ) : List_vt (a) // end of [pstar_sep_fun]
 
+fun pstar_COMMA_fun
+  {a:type} (buf: &tokbuf, bt: int, f: parser (a)): List_vt (a)
+// end of [pstar_COMMA_fun]
+
 (* ****** ****** *)
 (*
 // HX: fun1_sep: fun sep_fun

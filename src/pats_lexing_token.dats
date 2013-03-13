@@ -501,6 +501,7 @@ val () = ins ("$extkind", T_DLREXTKIND)
 val () = ins ("$extype", T_DLREXTYPE)
 val () = ins ("$extype_struct", T_DLREXTYPE_STRUCT)
 val () = ins ("$extval", T_DLREXTVAL)
+val () = ins ("$extfcall", T_DLREXTFCALL)
 //
 val () = ins ("$lst", DLRLST)
 val () = ins ("$lst_t", DLRLST_T)

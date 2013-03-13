@@ -713,10 +713,7 @@ case+ hit0 of
 //
 | HITtyarr
     (hit, _) => {
-    val () =
-      emit_text (
-      out, "atstype_tyarr("
-    )
+    val () = emit_text (out, "atstype_tyarr(")
     val () = emit_hitype (out, hit)
     val () = emit_text (out, ")")
   } // end of [HITtyarr]
@@ -725,10 +722,7 @@ case+ hit0 of
 | HITtysum _ => emit_text (out, "atstype_tysum(*ERROR*)")
 //
 | HITtyvar (s2v) => {
-    val () =
-      emit_text (
-      out, "atstyvar_type"
-    ) // end of [val]
+    val () = emit_text (out, "atstyvar_type")
     val () = emit_lparen (out)
     val () = emit_s2var (out, s2v)
     val () = emit_rparen (out)
@@ -746,18 +740,14 @@ case+ hit0 of
     // nothing
   end // end of [HITrefarg]
 | HITundef (_, hse) => let
-    val () =
-      emit_text (
-        out, "postiats_undef("
-      ) // endfuncall
+    val () = emit_text (out, "postiats_undef(")
     val () = fprint_hisexp (out, hse)
     val () = emit_text (out, ")")
   in
     // nothing
   end // end of [HITundef]
-| HITnone () =>
-    emit_text (out, "postiats_none()")
-  // end of [HITnone]
+//
+| HITnone () => emit_text (out, "postiats_none()")
 //
 end // end of [emit_hitype]
 

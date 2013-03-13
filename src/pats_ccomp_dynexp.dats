@@ -892,7 +892,7 @@ val-HDEapp (hde_fun, hse_fun, hdes_arg) = hde0.hidexp_node
 val pmv_fun = hidexp_ccomp (env, res, hde_fun)
 val pmvs_arg = hidexplst_ccomp (env, res, hdes_arg)
 //
-val ins = instr_funcall (loc0, tmpret, pmv_fun, hse_fun, pmvs_arg)
+val ins = instr_fcall (loc0, tmpret, pmv_fun, hse_fun, pmvs_arg)
 //
 in
   instrseq_add (res, ins)

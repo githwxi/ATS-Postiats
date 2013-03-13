@@ -197,6 +197,14 @@ end // end of [pstar_sep_fun]
 (* ****** ****** *)
 
 implement
+pstar_COMMA_fun
+  (buf, bt, f) =
+  pstar_sep_fun (buf, bt, p_COMMA_test, f)
+// end of [pstar_COMMA_fun]
+
+(* ****** ****** *)
+
+implement
 pstar_fun0_sep
   (buf, bt, f, sep) = let
   var err: int = 0
