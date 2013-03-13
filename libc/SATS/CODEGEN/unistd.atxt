@@ -26,13 +26,28 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+\%{#
+\#include "libc/CATS/unistd.cats"
+\%} // end of [%{#]
+
+#atscode_separator()
+
 \#define ATS_PACKNAME "ATSLIB.libc"
 \#define ATS_STALOADFLAG 0 // no need for staloading at run-time
+\#define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 #atscode_separator()
 
 \#define SHR(x) x // SHARED // HX: for commenting
 \#define NSH(x) x // NSHARED // HX: for commenting
+
+#atscode_separator()
+
+/*
+int close (int);
+*/
+fun close_err (fd: int): int = "mac#%"
+fun close_exn (fd: int): void = "mac#%"
 
 #atscode_separator()
 
@@ -70,6 +85,13 @@ void encrypt(char block[64], int edflag);
 fun encrypt (
   block: &(@[char][64]), edflag: int
 ) :<!ref> void = "mac\#atslib_encrypt"
+
+#atscode_separator()
+
+/*
+int unlink(const char *pathname);
+*/
+fun unlink_err (path: NSH(string)): int(*err*) = "mac#%"
 
 #atscode_separator()
 

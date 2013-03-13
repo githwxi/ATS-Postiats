@@ -18,7 +18,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 ** Time of generation: #timestamp()
 */
 
-#atscode_separator()
+#atscode_separator_for_C()
 
 /*
 #atscode_author("Hongwei Xi")
@@ -37,8 +37,16 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+\#define atslib_close_err close
+
+#atscode_separator_for_C()
+
 \#define atslib_execv(path, argv) execv((char*)path, (char**)argv)
 \#define atslib_execvp(path, argv) execvp((char*)path, (char**)argv)
+
+#atscode_separator_for_C()
+
+\#define atslib_unlink_err unlink
 
 #atscode_separator_for_C()
 

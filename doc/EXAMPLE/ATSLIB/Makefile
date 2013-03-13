@@ -94,6 +94,14 @@ clean:: ; $(RMF) libc_stdio_dats.o
 clean:: ; $(RMF) libc_stdio_dats.c
 cleanall:: ; $(RMF) libc_stdio.exe
 
+all:: libc_stdlib
+libc_stdlib: libc_stdlib.exe
+libc_stdlib.exe: libc_stdlib_dats.c ;   $(GCC) -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+libc_stdlib_dats.c: libc_stdlib.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_stdlib_dats.c --dynamic libc_stdlib.dats
+clean:: ; $(RMF) libc_stdlib_dats.o
+clean:: ; $(RMF) libc_stdlib_dats.c
+cleanall:: ; $(RMF) libc_stdlib.exe
+
 
 ######
 

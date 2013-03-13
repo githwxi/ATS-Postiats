@@ -44,6 +44,43 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+\#define atslib_rand rand
+\#define atslib_srand srand
+\#define atslib_rand_r rand_r
+
+#atscode_separator_for_C()
+
+\#define atslib_random random
+\#define atslib_srandom srandom
+
+#atscode_separator_for_C()
+
+\#define atslib_drand48 drand48
+\#define atslib_erand48 erand48
+\#define atslib_lrand48 lrand48
+\#define atslib_nrand48 nrand48
+\#define atslib_mrand48 mrand48
+\#define atslib_jrand48 jrand48
+\#define atslib_srand48 srand48
+\#define atslib_seed48 seed48
+\#define atslib_lcong48 lcong48
+
+#atscode_separator_for_C()
+
+\#define atslib_bsearch bsearch
+\#define atslib_qsort qsort
+
+#atscode_separator_for_C()
+
+\#define atslib_mkstemp mkstemp
+\#define atslib_mkostemp mkostemp
+
+#atscode_separator_for_C()
+
+\#define atslib_system system
+
+#atscode_separator_for_C()
+
 \#endif // ifndef ATSHOME_LIBC_STDLIB_CATS
 
 #atscode_separator_for_C()
