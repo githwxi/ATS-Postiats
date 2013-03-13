@@ -41,7 +41,7 @@ typedef NSH(a:type) = a // for commenting purpose
 //
 #atscode_separator()
 
-abstype string0_type
+abstype string0_type = ptr
 typedef string0 = string0_type
 
 #atscode_separator()

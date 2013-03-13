@@ -35,28 +35,21 @@ typedef NSH(a:type) = a // for commenting purpose
 
 #atscode_separator()
 
+fun string_copy (s: NSH(string)):<> string
+
+fun substring_copy
+  (s: NSH(string), st: size_t, ln: size_t):<> string
+// end of [substring_copy]
+
+#atscode_separator()
+
 fun string_append
   (s1: NSH(string), s2: NSH(string)):<> string
 overload + with string_append
 
-fun string_append_ref
-  (s1: NSH(string), s2: NSH(string)):<> Strref1
-// end of [string_append_ref]
-
 #atscode_separator()
 
 fun stringlst_concat (xs: list0 (string)):<> string
-fun stringlst_concat_ref (xs: list0 (string)):<> Strref1
-
-#atscode_separator()
-
-fun substring_copy
-  (s: NSH(string), st: size_t, ln: size_t): string
-// end of [substring_copy]
-
-fun substring_copy_ref
-  (s: NSH(string), st: size_t, ln: size_t): Strref1
-// end of [substring_copy_ref]
 
 #atscode_separator()
 
