@@ -81,7 +81,7 @@ FILEptr-value of filr for temporary use.  ")
 
 (* ****** ****** *)
 
-#declnamesynop("fopen_err")
+#declnamesynop("fopen")
 #declexample("\
 
 The following code opens a file of the name \"foo.txt\", writes into it the
@@ -94,12 +94,12 @@ staload "libc/SATS/stdio.sats"
 implement
 main () = let
 //
-val filp = fopen_err ("foo.txt", file_mode_w)
+val filp = fopen ("foo.txt", file_mode_w)
 //
 in
 //
 if FILEptr2ptr(filp) != 0 then let
-  val _ = fputs_err (file_mode_lte_w_w | "Hello, world!", filp)
+  val _ = fputs (file_mode_lte_w_w | "Hello, world!", filp)
   val () = fclose_exn (filp)
 in
   0
@@ -119,18 +119,18 @@ end // end of [main]
 
 (* ****** ****** *)
 
-#declnamesynop("fclose0_err")
-#declnamesynop("fclose1_err")
+#declnamesynop("fclose0")
+#declnamesynop("fclose1")
 #declnamesynop("fclose0_exn")
 #declnamesynop("fclose1_exn")
 
 (* ****** ****** *)
 
-#declnamesynop("freopen0_err")
+#declnamesynop("freopen0")
 #decldescrpt("\
 This function directly corresponds to the libc-function of the name
 #dyncode("freopen").")
-#declnamesynop("freopen1_err")
+#declnamesynop("freopen1")
 #decldescrpt("\
 This function directly corresponds to the libc-function of the name
 #dyncode("freopen").")
@@ -199,7 +199,7 @@ This function directly corresponds to the libc-function of the name
 
 (* ****** ****** *)
 
-#declnamesynop("fdopen_err")
+#declnamesynop("fdopen")
 #declnamesynop("fdopen_exn")
 
 (* ****** ****** *)
@@ -242,13 +242,13 @@ ferror. ")
 
 (* ****** ****** *)
 
-#declnamesynop("fflush0_err")
-#declnamesynop("fflush1_err")
+#declnamesynop("fflush0")
+#declnamesynop("fflush1")
 #declnamesynop("fflush0_exn")
 
 (* ****** ****** *)
 
-#declnamesynop("fgetc0_err")
+#declnamesynop("fgetc0")
 #decldescrpt("\
 
 This function directly corresponds to the libc-function of the name
@@ -268,7 +268,7 @@ fun loop (
   inp: FILEref, out: FILEref
 ) : void =
   if feof0 (inp) = 0 then let
-    val _(*err*) = fputc0_err (fgetc0_err (inp), out) in loop (inp, out)
+    val _(*err*) = fputc0 (fgetc0 (inp), out) in loop (inp, out)
   end else () // end of [if]
 // end of [loop]
 
@@ -283,7 +283,7 @@ end // end of [local]
 ')
 ")
 
-#declnamesynop("fgetc1_err")
+#declnamesynop("fgetc1")
 #decldescrpt("\
 
 This function directly corresponds to the libc-function of the name
@@ -297,7 +297,7 @@ fgetc. ")
 
 (* ****** ****** *)
 
-#declnamesynop("fgets0_err")
+#declnamesynop("fgets0")
 #decldescrpt("\
 
 This function directly corresponds to the libc-function of the name
@@ -322,10 +322,10 @@ fun loop
 , buf: &bytes(sz)? >> _
 , sz: int sz
 ) : void = let
-  val p = fgets0_err (buf, sz, inp)
+  val p = fgets0 (buf, sz, inp)
 in
   if p > 0 then let // p=addr@(buf) or NULL
-    val _(*err*) = fputs0_err ($UN.cast{string}(p), out)
+    val _(*err*) = fputs0 ($UN.cast{string}(p), out)
   in
     loop (inp, out, buf, sz)
   end else () // end of [if]
@@ -344,7 +344,7 @@ end // end of [local]
 ')
 ")
 
-#declnamesynop("fgets1_err")
+#declnamesynop("fgets1")
 #decldescrpt("\
 
 This function directly corresponds to the libc-function of the name
@@ -352,8 +352,8 @@ fgets. ")
 
 (* ****** ****** *)
 
-#declnamesynop("fputc0_err")
-#declnamesynop("fputc1_err")
+#declnamesynop("fputc0")
+#declnamesynop("fputc1")
 #declnamesynop("fputc0_exn")
 
 (* ****** ****** *)
@@ -364,12 +364,12 @@ fgets. ")
 
 (* ****** ****** *)
 
-#declnamesynop("fputs0_err")
+#declnamesynop("fputs0")
 #decldescrpt("\
 
 This function directly corresponds to the libc-function of the name
 #dyncode("fputs").  ")
-#declnamesynop("fputs1_err")
+#declnamesynop("fputs1")
 #decldescrpt("\
 
 This function directly corresponds to the libc-function of the name
@@ -378,7 +378,7 @@ This function directly corresponds to the libc-function of the name
 
 (* ****** ****** *)
 
-#declnamesynop("puts_err")
+#declnamesynop("puts")
 #decldescrpt("\
 
 This function directly corresponds to the libc-function of the name
@@ -389,39 +389,39 @@ newline after its argument.
 #declnamesynop("puts_exn")
 #decldescrpt("\
 
-This function is a slight variant of #dyncode("puts_err"): It exits
+This function is a slight variant of #dyncode("puts"): It exits
 immediately if calling #dyncode("puts") leads to an error.  ")
 
 (* ****** ****** *)
 
-#declnamesynop("fread0_err")
-#declnamesynop("fread1_err")
+#declnamesynop("fread0")
+#declnamesynop("fread1")
 #declnamesynop("fread0_exn")
 
-#declnamesynop("fwrite0_err")
-#declnamesynop("fwrite1_err")
+#declnamesynop("fwrite0")
+#declnamesynop("fwrite1")
 #declnamesynop("fwrite0_exn")
 
 (* ****** ****** *)
 
-#declnamesynop("fgetpos0_err")
-#declnamesynop("fgetpos1_err")
+#declnamesynop("fgetpos0")
+#declnamesynop("fgetpos1")
 #declnamesynop("fgetpos0_exn")
 
-#declnamesynop("fsetpos0_err")
-#declnamesynop("fsetpos1_err")
+#declnamesynop("fsetpos0")
+#declnamesynop("fsetpos1")
 #declnamesynop("fsetpos0_exn")
 
 (* ****** ****** *)
 
-#declnamesynop("fseek0_err")
-#declnamesynop("fseek1_err")
+#declnamesynop("fseek0")
+#declnamesynop("fseek1")
 #declnamesynop("fseek0_exn")
 
 (* ****** ****** *)
 
-#declnamesynop("ftell0_err")
-#declnamesynop("ftell1_err")
+#declnamesynop("ftell0")
+#declnamesynop("ftell1")
 #declnamesynop("ftell0_exn")
 
 (* ****** ****** *)
@@ -434,7 +434,7 @@ This function directly corresponds to the libc-function of the same name.
 
 (* ****** ****** *)
 
-#declnamesynop("remove_err")
+#declnamesynop("remove")
 #decldescrpt("\
 
 This function directly corresponds to the libc-function of the name
@@ -443,12 +443,12 @@ This function directly corresponds to the libc-function of the name
 #declnamesynop("remove_exn")
 #decldescrpt("\
 
-This function is a slight variant of #dyncode("remove_err"): It exits
+This function is a slight variant of #dyncode("remove"): It exits
 immediately if calling #dyncode("remove") leads to an error.  ")
 
 (* ****** ****** *)
 
-#declnamesynop("rename_err")
+#declnamesynop("rename")
 #decldescrpt("\
 
 This function directly corresponds to the libc-function of the name
@@ -457,7 +457,7 @@ This function directly corresponds to the libc-function of the name
 #declnamesynop("rename_exn")
 #decldescrpt("\
 
-This function is a slight variant of #dyncode("rename_err"): It exits
+This function is a slight variant of #dyncode("rename"): It exits
 immediately if calling #dyncode("rename") leads to an error.  ")
 #declexample("\
 
@@ -487,14 +487,14 @@ main () = 0 where {
 
 (* ****** ****** *)
 
-#declnamesynop("tmpfile_err")
+#declnamesynop("tmpfile")
 #declnamesynop("tmpfile_exn")
 #declnamesynop("tmpfile_ref_exn")
 
 (* ****** ****** *)
 
-#declnamesynop("ungetc0_err")
-#declnamesynop("ungetc1_err")
+#declnamesynop("ungetc0")
+#declnamesynop("ungetc1")
 #declnamesynop("ungetc0_exn")
 
 (* ****** ****** *)

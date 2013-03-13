@@ -28,7 +28,7 @@ the corresponding libc-functions declared in [unistd.h].
 
 (* ****** ****** *)
 
-#declnamesynop("close_err")
+#declnamesynop("close")
 #declnamesynop("close_exn")
 
 (* ****** ****** *)
@@ -50,7 +50,7 @@ the corresponding libc-functions declared in [unistd.h].
 
 (* ****** ****** *)
 
-#declnamesynop("unlink_err")
+#declnamesynop("unlink")
 #declnamesynop("unlink_exn")
 
 (* ****** ****** *)
