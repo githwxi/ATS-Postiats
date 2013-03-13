@@ -28,6 +28,11 @@ the corresponding libc-functions declared in [unistd.h].
 
 (* ****** ****** *)
 
+#declnamesynop("close_err")
+#declnamesynop("close_exn")
+
+(* ****** ****** *)
+
 #declnamesynop("execv")
 #declnamesynop("execv_unsafe")
 
@@ -42,6 +47,11 @@ the corresponding libc-functions declared in [unistd.h].
 (* ****** ****** *)
 
 #declnamesynop("encrypt")
+
+(* ****** ****** *)
+
+#declnamesynop("unlink_err")
+#declnamesynop("unlink_exn")
 
 (* ****** ****** *)
 

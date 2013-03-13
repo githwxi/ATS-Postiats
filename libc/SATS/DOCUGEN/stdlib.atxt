@@ -232,10 +232,13 @@ UN = "prelude/SATS/unsafe.sats"
 staload "libc/SATS/stdlib.sats"
 
 %{^
-struct mi {
+typedef
+struct mi
+{
   int nr;
   char *name;
-} months[] = {
+} mi_t ;
+mi_t months[] = {
   { 1, "jan" }, { 2, "feb" }, { 3, "mar" }, { 4, "apr" },
   { 5, "may" }, { 6, "jun" }, { 7, "jul" }, { 8, "aug" },
   { 9, "sep" }, {10, "oct" }, {11, "nov" }, {12, "dec" }
@@ -245,7 +248,7 @@ struct mi {
 %}
 
 typedef mi =
-  $extype_struct "mi" of { nr= int, name= string }
+  $extype_struct "mi_t" of { nr= int, name= string }
 // end of [typedef]
 
 stacst N: int
@@ -278,17 +281,13 @@ end // end of [val]
 //
 in
   if pres > 0 then let
-    prval (pf, fpf) = $UN.ptr_vtake (pres)
-(*
-    val () = printf ("%s: month \#%i\\\n", @(pres->name, pres->nr))
-*)
+    prval (pf, fpf) = $UN.ptr_vtake {mi} (pres)
+    val () = println! (pres->name, ": month \#", pres->nr)
     prval () = fpf (pf)
   in
     // nothing
   end else let
-(*
-    val () = printf ("%s: unknown month\\\n", @(key))
-*)
+    val () = println! (key.name, ": unknown month")
   in
     // nothing
   end // end of [if]

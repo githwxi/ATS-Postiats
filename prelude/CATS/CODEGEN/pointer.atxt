@@ -147,7 +147,7 @@ atstype_bool
 atspre_gt_ptr_intz
   (atstype_ptr p, atstype_int _)
 {
-  retunr (p > 0 ? atsbool_true : atsbool_false) ;
+  return (p > 0 ? atsbool_true : atsbool_false) ;
 } // end of [atspre_gt_ptr_intz]
 \#define atspre_gt_ptr0_intz atspre_gt_ptr_intz
 \#define atspre_gt_ptr1_intz atspre_gt_ptr_intz
@@ -157,7 +157,7 @@ atstype_bool
 atspre_eq_ptr_intz
   (atstype_ptr p, atstype_int _)
 {
-  retunr (p == 0 ? atsbool_true : atsbool_false) ;
+  return (p == 0 ? atsbool_true : atsbool_false) ;
 } // end of [atspre_eq_ptr_intz]
 \#define atspre_eq_ptr0_intz atspre_eq_ptr_intz
 \#define atspre_eq_ptr1_intz atspre_eq_ptr_intz
@@ -167,7 +167,7 @@ atstype_bool
 atspre_neq_ptr_intz
   (atstype_ptr p, atstype_int _)
 {
-  retunr (p != 0 ? atsbool_true : atsbool_false) ;
+  return (p != 0 ? atsbool_true : atsbool_false) ;
 } // end of [atspre_neq_ptr_intz]
 \#define atspre_neq_ptr0_intz atspre_neq_ptr_intz
 \#define atspre_neq_ptr1_intz atspre_neq_ptr_intz
