@@ -1630,7 +1630,8 @@ case+ d1e0.d1exp_node of
 // (*
 | _ => let
     val () = prerr_interror_loc (loc0)
-    val () = prerr ": d1exp_tr: not yet implemented: d1e0 = "
+    val () = filprerr_ifdebug "d1exp_tr"
+    val () = prerr ": not yet implemented: d1e0 = "
     val () = (prerr ("["); prerr_d1exp (d1e0); prerr ("]"))
     val () = prerr_newline ()
   in

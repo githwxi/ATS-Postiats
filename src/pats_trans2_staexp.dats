@@ -109,7 +109,7 @@ macdef list_sing (x) = list_cons (,(x), list_nil)
 *)
 datatype staspecid = SPSIDarrow | SPSIDnone
 
-fn staspecid_of_sqid
+fun staspecid_of_sqid
   (sq: s0taq, id: symbol): staspecid = begin
 //
 case+ sq.s0taq_node of
@@ -122,7 +122,7 @@ end // end of [staspecid_of_sqid]
 
 (* ****** ****** *)
 
-fn effvar_tr
+fun effvar_tr
   (efv: effvar): s2exp = let
   val loc = efv.i0de_loc
   val sym = efv.i0de_sym
@@ -219,7 +219,8 @@ s1arglst_trup
 implement
 s1arg_trdn (s1a, s2t0) = let
 //
-fn auxerr (
+fun auxerr
+(
   s1a: s1arg, s2t: s2rt, s2t0: s2rt
 ) : void = let
   val () = prerr_error2_loc (s1a.s1arg_loc)
@@ -263,7 +264,7 @@ case+ (s1as, s2ts) of
     val s2vs = s1arglst_trdn_err (s1as, s2ts, serr)
   in
     list_cons (s2v, s2vs)
-  end
+  end // end of [::, ::]
 | (list_nil _, list_nil _) => list_nil
 | (list_cons _, list_nil _) => (serr := serr + 1; list_nil)
 | (list_nil _, list_cons _) => (serr := serr - 1; list_nil)
@@ -274,7 +275,8 @@ implement
 s1marg_trdn
   (s1ma, s2ts) = let
 //
-fn auxerr (
+fun auxerr
+(
   s1ma: s1marg, s2ts: s2rtlst, serr: int
 ) : void = let
   val loc0 = s1ma.s1marg_loc
@@ -304,27 +306,33 @@ local
 
 fun sp1at_get_dups
   (s2vs: s2varlst): s2varlst = let
-  typedef s2varset = $UT.lstord (s2var)
-  fn f (
-    svs: s2varset, s2v: s2var
-  ) : s2varset =
-    $UT.lstord_insert (svs, s2v, compare_s2vsym_s2vsym)
-  // end of [f]
-  val svs = 
-    list_fold_left_fun<s2varset><s2var> (f, $UT.lstord_nil (), s2vs)
-  // end of [val]
+//
+typedef s2varset = $UT.lstord (s2var)
+//
+fun f (
+  svs: s2varset, s2v: s2var
+) : s2varset =
+  $UT.lstord_insert (svs, s2v, compare_s2vsym_s2vsym)
+// end of [f]
+//
+val svs = 
+  list_fold_left_fun<s2varset><s2var> (f, $UT.lstord_nil (), s2vs)
+// end of [val]
+//
 in
   $UT.lstord_get_dups (svs, compare_s2vsym_s2vsym)
 end // end of [sp1at_get_dups]
 
-fun sp1at_trdn_arg (
+fun sp1at_trdn_arg
+(
   sp1t: sp1at
 , s2t_pat: s2rt
 , sq: s0taq, id: symbol
 , s1as: s1arglst, s2ts: s2rtlst
 ) : s2varlst = let
 //
-fn auxerr (
+fun auxerr
+(
   sp1t: sp1at, serr: int
 ) :<cloref1> void = let
   val () = prerr_error2_loc (sp1t.sp1at_loc)
@@ -353,9 +361,11 @@ in // in of [local]
 implement
 sp1at_trdn
   (sp1t, s2t_pat) = let
-  val loc0 = sp1t.sp1at_loc
 //
-fn auxerr1 (
+val loc0 = sp1t.sp1at_loc
+//
+fun auxerr1
+(
   sq: s0taq, id: symbol
 ) :<cloref1> void = let
   val () = prerr_error2_loc (loc0)
@@ -369,7 +379,8 @@ in
   the_trans2errlst_add (T2E_sp1at_trdn (sp1t, s2t_pat))
 end // end of [auxerr1]
 //
-fn auxerr2 (
+fun auxerr2
+(
   sq: s0taq, id: symbol
 ) :<cloref1> void = let
   val () = prerr_error2_loc (loc0)
@@ -382,7 +393,8 @@ in
   the_trans2errlst_add (T2E_sp1at_trdn (sp1t, s2t_pat))
 end // end of [auxerr2]
 //
-fn auxerr3 (
+fun auxerr3
+(
   sq: s0taq, id: symbol
 ) :<cloref1> void = let
   val () = prerr_error2_loc (loc0)
@@ -395,29 +407,36 @@ in
   the_trans2errlst_add (T2E_sp1at_trdn (sp1t, s2t_pat))
 end // end of [auxerr3]
 //
-fn auxcheck (
+fun auxcheck
+(
   sp1t: sp1at, s2vs: s2varlst
 ) :<cloref1> void = let
 //
-  fun proccurs (
+  fun procrepeat
+  (
     sp1t: sp1at, sym: symbol
   ) : void =
+  (
     case+ sp1t.sp1at_node of
-    | SP1Tcstr (_(*sq*), _(*id*), s1as) => loop (s1as, sym)
-  and loop (
+    | SP1Tcstr (_(*sq*), _(*id*), s1as) => procrepeat2 (s1as, sym)
+  )
+  and procrepeat2
+  (
     s1as: s1arglst, sym: symbol
   ) : void =
+  (
     case+ s1as of
-    | list_cons (s1a, s1as) => let
+    | list_cons
+        (s1a, s1as) => let
         val () = if
           s1a.s1arg_sym = sym then (
           $LOC.prerr_location (s1a.s1arg_loc); prerr_newline ()
         ) // end of [val]
       in
-        loop (s1as, sym)
+        procrepeat2 (s1as, sym)
       end // end of [list_cons]
     | list_nil () => ()
-  (* end of [loop] *)
+  ) // end of [procrepeat2]
 //
   val s2vs_dups = sp1at_get_dups (s2vs)
 //
@@ -430,7 +449,7 @@ in
       val () = $SYM.prerr_symbol (sym)
       val () = prerr "] is not allowed to occur repeatedly in a pattern:"
       val () = prerr_newline ()
-      val () = proccurs (sp1t, sym)
+      val () = procrepeat (sp1t, sym)
       val () = the_trans2errlst_add (T2E_sp1at_trdn (sp1t, s2t_pat))
     } // end of [list_cons]
   | list_nil () => ()
@@ -503,7 +522,8 @@ end // end of [local]
 
 (* ****** ****** *)
 
-fn s1exp_trup_sqid (
+fun s1exp_trup_sqid
+(
   s1e0: s1exp, sq: s0taq, id: symbol
 ) : s2exp = let
 //
@@ -756,8 +776,10 @@ end // end of [s1exp_app_unwind_e1xp]
 
 (* ****** ****** *)
 
-fn s1exp_trup_invar
-  (refval: int, s1e: s1exp): s2exp = let
+fun s1exp_trup_invar
+(
+  refval: int, s1e: s1exp
+) : s2exp = let
   val s2t = (
     if refval = 0 then s2rt_view (*val*) else s2rt_vt0ype (*ref*)
   ) : s2rt // end of [val]
@@ -776,28 +798,33 @@ end // end of [s1exp_trup_invar]
 ** T  >> _?! stands for T >> T?!
 ** T? >> _   stands for T? >> T
 *)
-fn s1exp_is_underscore
-  (s1e: s1exp): bool =
+fun
+s1exp_is_underscore
+  (s1e: s1exp): bool = let
+in
   case+ s1e.s1exp_node of
   | S1Eide (sym) =>
       if sym = $SYM.symbol_UNDERSCORE then true else false
   | _ => false // end of [_]
-// end of [s1exp_is_underscore]
+end // end of [s1exp_is_underscore]
 
-fn s1exp_test_top_underscore
-  (s1e: s1exp): int =
+fun
+s1exp_test_top_underscore
+  (s1e: s1exp): int = let
+in
   case+ s1e.s1exp_node of
   | S1Etop (knd, s1e) =>
       if s1exp_is_underscore (s1e) then knd else ~1
   | _ => ~1
-// end of [s1exp_is_top_underscore]
+end // end of [s1exp_is_top_underscore]
 
-fn s1exp_untop_if
+fun s1exp_untop_if
   (s1e: s1exp): s1exp = (
   case+ s1e.s1exp_node of S1Etop (knd, s1e) => s1e | _ => s1e
 ) // end of [s1exp_untop_if]
 
-fn s1exp_trans_syn_arg2 (
+fun s1exp_trans_syn_arg2
+(
   s1e1: s1exp, s1e2: s1exp
 ) : s1exp = let
   val isUS = s1exp_is_underscore (s1e2)
@@ -944,7 +971,8 @@ s1exp_trup_arrow ( // arrow is a special type constructor
 #define cons list_cons
 #define :: list_cons
 //
-fn auxerr1 (
+fun auxerr1
+(
   s1e0: s1exp, xs: !List_vt (locs1explst)
 ) : void = case+ xs of
   | list_vt_cons _ => fold@ (xs)
@@ -956,10 +984,14 @@ fn auxerr1 (
       val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
     } // end of [list_vt_nil]
 // end of [auxerr1]
-fn auxerr2 (
+fun auxerr2
+(
   s1e0: s1exp
 , xs: List_vt (locs1explst)
-) : void = case+ xs of
+) : void = let
+in
+//
+case+ xs of
   | list_vt_cons _ => let
       prval () = fold@ (xs)
       val () = list_vt_free (xs)
@@ -971,8 +1003,11 @@ fn auxerr2 (
       // nothing
     end // end of [~list_vt_cons]
   | ~list_vt_nil () => ()
-// end of [auxerr2]
-fn auxerr3 (
+//
+end // end of [auxerr2]
+//
+fun auxerr3
+(
   s1e0: s1exp, s1e: s1exp, s2t: s2rt
 ) : s2exp = let
   val () = prerr_error2_loc (s1e.s1exp_loc)
@@ -1066,13 +1101,14 @@ end // end of [s1exp_trup_arrow]
 
 (* ****** ****** *)
 
-fn s1exp_trup_app (
-  s1e0: s1exp
-, s1opr: s1exp
+fun s1exp_trup_app
+(
+  s1e0: s1exp, s1opr: s1exp
 , _fun: s2exp, _arg: List_vt (locs1explst)
 ) : s2exp = let
 //
-fn auxerr1 (
+fun auxerr1
+(
   s1e0: s1exp, loc: location, serr: int
 ) : void = {
   val () = prerr_error2_loc (loc)
@@ -1083,7 +1119,8 @@ fn auxerr1 (
   val () = prerr_newline ()
   val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
 } // end of [auxerr1]
-fn auxerr2 (
+fun auxerr2
+(
   s1e0: s1exp, loc: location, s2e: s2exp
 ) : void = {
   val () = prerr_error2_loc (loc)
@@ -1140,11 +1177,11 @@ end // end of [s1exp_trup_app]
 
 (* ****** ****** *)
 
-fn s1exp_trup_app_datconptr (
+fun s1exp_trup_app_datconptr
+(
   s1e0: s1exp
 , s1opr: s1exp
-, d2c: d2con
-, xs: List_vt (locs1explst)
+, d2c: d2con, xs: List_vt (locs1explst)
 ) : s2exp = let
 //
 fun auxck1 (
@@ -1276,9 +1313,9 @@ case+ s2i0 of
     typedef T1 = locs1explst // = (loc)s1explst
     typedef T2 = locs2explst // = (locs2exp)lst
     val ys = let
-      fn f (x: T1): T2 = l2l (
+      fun f (x: T1): T2 = l2l (
         list_map_fun<s1exp> (x.1, lam s1e =<1> (s1e.s1exp_loc, s1exp_trup s1e))
-      ) // end of [f]
+      ) // end of [f] // end of [fun]
     in
       list_map_fun<T1><T2> ($UN.castvwtp1 {List(T1)} (xs), f)
     end // end of [val]
@@ -1331,7 +1368,8 @@ end // end of [s1exp_trup_app_sqid_itm]
 
 (* ****** ****** *)
 
-fn s1exp_trup_top (
+fun s1exp_trup_top
+(
   knd: int, s1e: s1exp
 ) : s2exp = let
   val s2e = s1exp_trdn_impred (s1e)
@@ -1387,7 +1425,8 @@ end // end of [aux23]
 
 in // in of [local]
 
-fn s1exp_trup_tytup_flt (
+fun s1exp_trup_tytup_flt
+(
   s1e0: s1exp, npf: int, s1es: s1explst
 ) : s2exp = let
   var lin: int = 0
@@ -1401,13 +1440,15 @@ in
   s2exp_tyrec_srt (s2t_rec, TYRECKINDflt0 (), npf, ls2es)
 end // end of [s1exp_trup_tytup_flt]
 
-fn s1exp_trup_tytup (
+fun s1exp_trup_tytup
+(
   s1e0: s1exp, knd: int, npf: int, s1es: s1explst
 ) : s2exp = let
 (*
-  val () = begin
-    print "s1exp_trup_tytup: s1e0 = "; print_s1exp (s1e0); print_newline ()
-  end // end of [val]
+val () =
+(
+  print "s1exp_trup_tytup: s1e0 = "; print_s1exp (s1e0); print_newline ()
+) // end of [val]
 *)
 in
 //
@@ -1446,7 +1487,7 @@ end // end of [local]
 
 local
 
-fn string_of_s0tring
+fun string_of_s0tring
   (tok: token): string = let
   val-$LEX.T_STRING (str) = tok.token_node in str
 end // end of [string_of_s0tring]
@@ -1509,7 +1550,8 @@ end // end of [aux23]
 
 in // in of [local]
 
-fn s1exp_trup_tyrec (
+fun s1exp_trup_tyrec
+(
   s1e0: s1exp, knd: int, npf: int, ls1es: labs1explst
 ) : s2exp = let
 (*
@@ -1557,7 +1599,8 @@ case+ knd of
   end (* end of [_] *)
 end // end of [s1exp_trup_tyrec]
 
-fn s1exp_trup_tyrec_ext (
+fun s1exp_trup_tyrec_ext
+(
   s1e0: s1exp, name: string, npf: int, ls1es: labs1explst
 ) : s2exp = let
   var lin: int = 0
@@ -1771,11 +1814,13 @@ s1expopt_trup
 
 (* ****** ****** *)
 
-fn s1exp_trdn_lam (
+fun s1exp_trdn_lam
+(
   s1e_lam: s1exp, s2t_fun: s2rt
 ) : s2exp = let
 //
-fn auxerr (
+fun auxerr
+(
   s1e: s1exp, s2t1: s2rt, s2t2: s2rt
 ) :<cloref1> void = {
   val () = prerr_error2_loc (s1e.s1exp_loc)
@@ -1839,8 +1884,10 @@ end // end of [s2exp_trdn]
 implement
 s1exp_trdn (s1e, s2t) = let
 //
-fn auxerr // for S2Eextype
-  (s1e: s1exp, s2t: s2rt): void = {
+fun auxerr // for S2Eextype
+(
+  s1e: s1exp, s2t: s2rt
+) : void = {
   val () = prerr_error2_loc (s1e.s1exp_loc)
   val () = filprerr_ifdebug ("s1exp_trdn")
   val () = prerr ": the static term (extype) cannot be given the sort ["
@@ -2147,7 +2194,8 @@ val () = print "s1rtext_tr: s1te0 = "
 val () = fprint_s1rtext (stdout_ref, s1te0)
 val () = print_newline ()
 *)
-fn auxerr (
+fun auxerr
+(
   s1t: s1rt, q: s0rtq, id: symbol
 ) :<cloref1> void = let
   val () = prerr_error2_loc (s1t.s1rt_loc)
@@ -2258,7 +2306,8 @@ d1atcon_tr (
   s2c, islin, isprf, s2vss0, fil, d1c
 ) = let
 //
-fn auxerr1 (
+fun auxerr1
+(
   d1c: d1atcon, id: symbol, serr: int
 ) : void = {
   val () = prerr_error2_loc (d1c.d1atcon_loc)
@@ -2282,7 +2331,8 @@ fun auxerr2 (
   val () = the_trans2errlst_add (T2E_d1atcon_tr (d1c))
 } // end of [auxerr2]
 //
-fn auxerr3 (
+fun auxerr3
+(
   d1c: d1atcon, id: symbol
 ) : void = {
   val () = prerr_error2_loc (d1c.d1atcon_loc)
