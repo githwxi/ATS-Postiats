@@ -137,7 +137,6 @@ atspre_fprint_string
   int err = 0 ;
   err += fprintf((FILE*)out, "%s", (char*)x) ; return ;
 } // end of [atspre_fprint_string]
-
 \#define atspre_print_string(x) atspre_fprint_string(stdout, (x))
 \#define atspre_prerr_string(x) atspre_fprint_string(stderr, (x))
 

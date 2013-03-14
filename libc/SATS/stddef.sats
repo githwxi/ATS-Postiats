@@ -33,20 +33,21 @@
 (* ****** ****** *)
 
 typedef
-size_t = size0_t // = g0uint (size_kind)
-typedef size = size_t
+size_t0ype = g0uint(size_kind)
 
 (* ****** ****** *)
 
-abst@ype
-wchar_t = $extype"wchar_t"
-typedef wchar = wchar_t
+abst@ype wchar_t0ype = $extype"wchar_t"
+abst@ype ptrdiff_t0ype = $extype"ptrdiff_t"
 
 (* ****** ****** *)
 
-abst@ype
-ptrdiff_t = $extype"ptrdiff_t"
-typedef ptrdiff = ptrdiff_t
+typedef size = size_t0ype
+typedef size_t = size_t0ype
+typedef wchar = wchar_t0ype
+typedef wchar_t = wchar_t0ype
+typedef ptrdiff = ptrdiff_t0ype
+typedef ptrdiff_t = ptrdiff_t0ype
 
 (* ****** ****** *)
 

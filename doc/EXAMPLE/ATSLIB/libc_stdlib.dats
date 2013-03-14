@@ -18,6 +18,16 @@ staload UNI = "libc/SATS/unistd.sats"
 (* ****** ****** *)
 
 staload "libc/SATS/stdlib.sats"
+staload _ = "libc/DATS/stdlib.dats"
+
+(* ****** ****** *)
+
+val () =
+{
+  val str = getenv_gc ("USER")
+  val () = println! ("$USER = ", str)
+  val () = strptr_free (str)
+} // end of [val]
 
 (* ****** ****** *)
 

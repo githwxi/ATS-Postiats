@@ -55,6 +55,7 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o *_?ats.c
 clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
+clean:: ; $(RMF) Makefile.exe
 
 cleanall:: clean
 

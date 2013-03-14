@@ -272,7 +272,7 @@ fun getenv
   name: NSH(string)
 ) :<!ref> [l:addr] vttakeout (void, strptr l) = "mac#%"
 
-fun getenv_gc (name: NSH(string)):<!refwrt> Strptr0 = "mac#%"
+fun{} getenv_gc (name: NSH(string)):<!refwrt> Strptr0
 
 /*
 int putenv(char *);

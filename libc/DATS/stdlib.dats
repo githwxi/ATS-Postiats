@@ -36,8 +36,8 @@ staload "libc/SATS/stdlib.sats"
 
 (* ****** ****** *)
 
-implement
-getenv_gc
+implement{
+} getenv_gc
   (name) = let
   val fpfstr = getenv (name)
   val str2 = strptr0_copy (fpfstr.1)

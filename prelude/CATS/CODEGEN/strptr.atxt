@@ -41,6 +41,10 @@ strcmp (const char *x1, const char *x2) ;
 
 #atscode_separator_for_C()
 
+\#define atspre_strptr_null() atsptr_null
+
+#atscode_separator_for_C()
+
 \#define atspre_strptr_free atspre_mfree_gc
 \#define atspre_strnptr_free atspre_mfree_gc
 
@@ -70,6 +74,8 @@ atspre_fprint_strptr
   int err = 0 ;
   err += fprintf((FILE*)out, "%s", (char*)x) ; return ;
 } // end of [atspre_fprint_strptr]
+\#define atspre_print_strptr(x) atspre_fprint_strptr(stdout, (x))
+\#define atspre_prerr_strptr(x) atspre_fprint_strptr(stderr, (x))
 
 #atscode_separator_for_C()
 

@@ -44,6 +44,10 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+\#define atslib_getenv getenv
+
+#atscode_separator_for_C()
+
 \#define atslib_rand rand
 \#define atslib_srand srand
 \#define atslib_rand_r rand_r

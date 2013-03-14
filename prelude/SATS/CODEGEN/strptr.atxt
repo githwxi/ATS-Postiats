@@ -119,8 +119,7 @@ overload strnptr2str with string_of_strnptr of 10
 //
 #atscode_separator()
 
-fun{}
-strptr_null ():<> strptr (null)
+fun strptr_null ():<> strptr (null) = "mac\#%"
 
 #atscode_separator()
 
