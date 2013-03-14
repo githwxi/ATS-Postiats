@@ -570,7 +570,7 @@ val () = emit_dynloadflag (out, infil)
 val () = emit_text (out, " = 1 ;\n")
 val () = emit_text (out, fbody)
 val () = emit_text (out, "} /* end of [if] */\n")
-val () = emit_text (out, "return ;\n")
+val () = emit_text (out, "ATSreturn_void() ;\n")
 val () = emit_text (out, "} /* end of [*_dynload] */\n")
 //
 in
@@ -613,7 +613,7 @@ val () = emit_main_arglst_err (out, arty)
 val () = emit_rparen (out)
 val () = emit_text (out, " ;\n")
 //
-val () = emit_text (out, "return (err) ;\n")
+val () = emit_text (out, "ATSreturn(err) ;\n")
 val () = emit_text (out, "} /* end of [main] */")
 val () = emit_newline (out)
 //
