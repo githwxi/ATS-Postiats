@@ -82,6 +82,57 @@ prerr_strptr (x) = fprint_strptr (stderr_ref, x)
 
 #atscode_separator()
 
+implement{}
+strptr_length (x) = let
+  val isnot = ptr_isnot_null (strptr2ptr(x))
+in
+  if isnot
+    then g0u2i(string_length ($UN.strptr2string(x))) else g0i2i(~1)
+  // end of [if]
+end // end of [strptr_length]
+
+#atscode_separator()
+
+implement{}
+strptr0_copy (x) = let
+  val isnot = ptr_isnot_null (strptr2ptr(x))
+in
+  if isnot then string0_copy ($UN.strptr2string(x)) else strptr_null ()
+end // end of [strptr0_copy]
+
+implement{}
+strptr1_copy (x) = string0_copy ($UN.strptr2string(x))
+
+#atscode_separator()
+
+implement{}
+strptr_append
+  (x1, x2) = let
+//
+val isnot1 = ptr_isnot_null (strptr2ptr(x1))
+//
+in
+//
+if isnot1 then let
+//
+val isnot2 = ptr_isnot_null (strptr2ptr(x2))
+//
+in
+//
+if isnot2 then
+  strnptr2strptr(string_append ($UN.strptr2string(x1), $UN.strptr2string(x2)))
+else
+  strptr1_copy (x1)
+// end of [if]
+//
+end else
+  strptr0_copy (x2)
+// end of [if]
+//
+end // end of [strptr_append]
+
+#atscode_separator()
+
 implement
 strptrlst_concat (xs) = let
 //

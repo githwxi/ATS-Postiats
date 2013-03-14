@@ -225,8 +225,10 @@ praxi ptr1_is_gtez
 
 fun ptr1_is_null
   {l:addr} (p: ptr l):<> bool (l==null) = "mac\#%"
+overload ptr_is_null with ptr1_is_null of 10
 fun ptr1_isnot_null
   {l:addr} (p: ptr l):<> bool (l > null) = "mac\#%"
+overload ptr_isnot_null with ptr1_isnot_null of 10
 
 #atscode_separator()
 

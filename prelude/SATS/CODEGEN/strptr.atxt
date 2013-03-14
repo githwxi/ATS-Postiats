@@ -211,19 +211,28 @@ fun strnptr_free (x: Strnptr0):<!wrt> void = "mac\#%"
 
 #atscode_separator()
 
-fun strptr_length (x: !Strptr0): ssize_t = "mac\#%"
-fun strnptr_length {n:int} (x: !strnptr n): ssize_t (n) = "mac\#%"
+fun{
+} strptr_length (x: !Strptr0):<> ssize_t
+fun{
+} strnptr_length {n:int} (x: !strnptr n):<> ssize_t (n)
 
 #atscode_separator()
 //
-fun strptr_append
-(
-  x1: !Strptr0, x2: !Strptr0
-) :<> Strptr0 = "mac\#%"
-fun strnptr_append {n1,n2:nat}
-(
-  x1: !strnptr n1, x2: !strnptr n2
-) :<> strnptr (n1+n2) = "mac\#%"
+fun{
+} strptr0_copy (x: !Strptr0):<!wrt> Strptr0
+fun{
+} strptr1_copy (x: !Strptr1):<!wrt> Strptr1
+fun{
+} strnptr_copy
+  {n:int} (x: !strnptr (n)):<!wrt> strnptr (n)
+//
+#atscode_separator()
+//
+fun{
+} strptr_append (x1: !Strptr0, x2: !Strptr0):<!wrt> Strptr0
+fun{
+} strnptr_append {n1,n2:nat}
+  (x1: !strnptr n1, x2: !strnptr n2):<!wrt> strnptr (n1+n2)
 //
 #atscode_separator()
 

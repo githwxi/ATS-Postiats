@@ -257,6 +257,13 @@ fun strtold_unsafe
 // end of [strtold_unsafe]
 
 (* ****** ****** *)
+
+(*
+//
+// HX: these env-functions may not be reentrant!
+//
+*)
+
 /*
 char *getenv(char *);
 */
@@ -264,17 +271,22 @@ fun getenv
 (
   name: NSH(string)
 ) :<!ref> [l:addr] vttakeout (void, strptr l) = "mac#%"
-// end of [getenv]
+
+fun getenv_gc (name: NSH(string)):<!refwrt> Strptr0 = "mac#%"
 
 /*
 int putenv(char *);
 */
-fun putenv // HX: [nameval] is shared!
-  (nameval: SHR(string)):<!refwrt> int = "mac#%"
-// end of [putenv]
+//
+// HX: [nameval] is shared!
+//
+fun putenv (nameval: SHR(string)):<!refwrt> int = "mac#%"
 
 /*
-int setenv(const char *name, const char *value, int overwrite);
+int setenv
+(
+  const char *name, const char *value, int overwrite
+) ;
 */
 fun setenv (
   name: NSH(string), value: NSH(string), overwrite: int

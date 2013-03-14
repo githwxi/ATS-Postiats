@@ -32,83 +32,20 @@
 //
 (* ****** ****** *)
 
-%{
-atstype_ptr
-atslib_fopen_exn
-(
-  atstype_string path
-, atstype_string mode
-) {
-  FILE* filp ;
-  filp = atslib_fopen_err (filp) ;
-  if (!filp) ATSLIBfailexit("fopen") ;
-  return filp ;
-} // end of [atslib_fopen_exn]
-%}
+staload "libc/SATS/stdlib.sats"
 
 (* ****** ****** *)
 
-%{
-atsvoid_t0ype
-atslib_fclose_exn
-  (atstype_ptr filp) {
-  int err ;
-  err = atslib_fclose_err (filp) ;
-  if (0 > err) ATSLIBfailexit("fclose") ;
-  return ;
-} // end of [atslib_fclose_exn]
-%}
+implement
+getenv_gc
+  (name) = let
+  val fpfstr = getenv (name)
+  val str2 = strptr0_copy (fpfstr.1)
+  prval () = fpfstr.0 (fpfstr.1)
+in
+  str2
+end // end of [getenv_gc]
 
 (* ****** ****** *)
 
-%{
-atsvoid_t0ype
-atslib_fflush_exn
-(
-  atstype_ptr filp
-) {
-  int err = fflush((FILE*)filp) ;
-  if (0 > err) ATSLIBfailexit("fflush") ;
-  return ;
-} /* end of [atslib_fflush_exn] */
-%}
-
-(* ****** ****** *)
-
-%{
-atsvoid_t0ype
-atslib_fgets_exn (
-  atstype_ptr buf
-, ats_int_type n
-, atstype_ptr filp
-) {
-  atstype_ptr p ;
-  p = fgets((char*)buf, (int)n, (FILE*)filp) ;
-  if (!p) {
-    if (feof((FILE*)filp))
-    {
-      *(char*)buf = '\000' ; // EOF is reached
-    } else
-    {
-      ATSLIBfailexit("fgets") ; // abnormal exit
-    } // end of [if]
-  } /* end of [if] */
-  return ;  
-} /* end of [atslib_fgets_exn] */
-%}
-
-(* ****** ****** *)
-
-%{
-atstype_ptr
-atslib_tmpfile_exn(
-) {
-  FILE* filp = tmpfile() ;
-  if (!filp) ATSLIBfailexit("tmpfile") ;
-  return (filp) ;
-} // end of [atslib_tmpfile_exn]
-%}
-
-(* ****** ****** *)
-
-(* end of [stdio.dats] *)
+(* end of [stdlib.dats] *)
