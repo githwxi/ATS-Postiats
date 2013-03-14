@@ -59,6 +59,14 @@ clean:: ; $(RMF) atoi_dats.o
 clean:: ; $(RMF) atoi_dats.c
 cleanall:: ; $(RMF) atoi.exe
 
+all:: extfcall
+extfcall: extfcall.exe
+extfcall.exe: extfcall_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+extfcall_dats.c: extfcall.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output extfcall_dats.c --dynamic extfcall.dats
+clean:: ; $(RMF) extfcall_dats.o
+clean:: ; $(RMF) extfcall_dats.c
+cleanall:: ; $(RMF) extfcall.exe
+
 all:: f91
 f91: f91.exe
 f91.exe: f91_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
