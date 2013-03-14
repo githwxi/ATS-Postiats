@@ -85,7 +85,7 @@ fileref_get_lines_charlstlst (filr) =
 
 implement
 fileref_get_line_string (filr) =
-  string_of_strptr (prelude_fileref_get_line_string (filr))
+  strptr2string (prelude_fileref_get_line_string (filr))
 // end of [fileref_get_line_string]
 
 implement

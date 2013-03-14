@@ -25,8 +25,8 @@ staload _ = "libc/DATS/stdlib.dats"
 val () =
 {
   val str = getenv_gc ("USER")
-  val () = println! ("$USER = ", str)
-  val () = strptr_free (str)
+  val ( ) = println! ("$USER = ", str)
+  val ( ) = freelin (str)
 } // end of [val]
 
 (* ****** ****** *)

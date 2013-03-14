@@ -100,10 +100,13 @@ gneq_ref (x, y) = gcompare_ref<a> (x, y) != 0
 
 #atscode_separator()
 
+implement(a:t0p)
+gcompare_ref<a> (out, x) = gcompare_val<a> (out, x)
+
+#atscode_separator()
+
 implement{a}
-tostring_val (x) =
-  string_of_strptr (tostrptr_val<a> (x))
-// end of [tostring_val]
+tostring_val (x) = strptr2string (tostrptr_val<a> (x))
 
 #atscode_separator()
 

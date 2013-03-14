@@ -83,39 +83,29 @@ strptr2strnptr
 //
 #atscode_separator()
 //
-symintr strptr2opt
-symintr strnptr2opt
-//
 castfn
-stropt_of_strptr
-  {l:addr} (
+strptr2stropt
+  {l:addr}
+(
   x: strptr (l)
 ) :<> [n:int|(l==null&&n < 0)||(l>null&&n>=0)] stropt (n)
-castfn stropt0_of_strptr0 (x: Strptr0):<> Stropt0
-castfn stropt1_of_strptr1 (x: Strptr1):<> Stropt1
+castfn
+strptr2stropt0 (x: Strptr0):<> Stropt0
+castfn
+stropt2stropt1 (x: Strptr1):<> Stropt1
 //
 castfn
-stropt_of_strnptr
+strnptr2stropt
   {l:addr}{n:int} (x: strnptr (l, n)):<> stropt (n)
-//
-overload strptr2opt with stropt_of_strptr
-overload strptr2opt with stropt_of_strnptr
-overload strnptr2opt with stropt_of_strnptr
 //
 #atscode_separator()
 //
-symintr strptr2str
-symintr strnptr2str
+castfn
+strptr2string (x: Strptr1):<> String
 //
 castfn
-string_of_strptr (x: Strptr1):<> String
-castfn
-string_of_strnptr
+strnptr2string
   {l:addr}{n:nat} (x: strnptr (l, n)):<> string (n)
-//
-overload strptr2str with string_of_strptr of 0
-overload strptr2str with string_of_strnptr of 10
-overload strnptr2str with string_of_strnptr of 10
 //
 #atscode_separator()
 
@@ -134,6 +124,15 @@ fun{}
 strptr_is_null {l:addr} (x: !strptr l):<> bool (l==null)
 fun{}
 strptr_isnot_null {l:addr} (x: !strptr l):<> bool (l > null)
+
+#atscode_separator()
+
+fun{}
+strnptr_is_null
+  {l:addr}{n:int} (x: !strnptr (l, n)):<> bool (l==null)
+fun{}
+strnptr_isnot_null
+  {l:addr}{n:int} (x: !strnptr (l, n)):<> bool (l > null)
 
 #atscode_separator()
 
@@ -210,10 +209,10 @@ fun strnptr_free (x: Strnptr0):<!wrt> void = "mac\#%"
 
 #atscode_separator()
 
-fun{
-} strptr_length (x: !Strptr0):<> ssize_t
-fun{
-} strnptr_length {n:int} (x: !strnptr n):<> ssize_t (n)
+fun{}
+strptr_length (x: !Strptr0):<> ssize_t
+fun{}
+strnptr_length {n:int} (x: !strnptr n):<> ssize_t (n)
 
 #atscode_separator()
 //
@@ -263,6 +262,21 @@ strnptr_rforeach_env
   {n:nat} (str: !strnptr n, env: &(env) >> env): sizeLte(n)
 // end of [strnptr_rforeach_env]
 
+#atscode_separator()
+//
+// overloading for certain symbols
+//
+overload iseqz with strptr_is_null
+overload iseqz with strnptr_is_null
+overload isneqz with strptr_isnot_null
+overload isneqz with strnptr_isnot_null
+//
+overload freelin with strptr_free
+overload freelin with strnptr_free
+//
+overload length with strptr_length
+overload length with strnptr_length
+//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

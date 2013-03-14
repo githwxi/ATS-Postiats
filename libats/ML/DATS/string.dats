@@ -63,7 +63,7 @@ implement
 string_append (s1, s2) = let
   val res = $effmask_wrt (prelude_string0_append (s1, s2))
 in
-  strptr2str (res)
+  strptr2string (res)
 end // end of [string_append]
 
 (* ****** ****** *)
@@ -73,7 +73,7 @@ stringlst_concat (xs) = let
   val xs = list_of_list0 (xs)
   val res = $effmask_wrt (prelude_stringlst_concat (xs))
 in
-  strptr2str (res)
+  strptr2string (res)
 end // end of [stringlst_concat]
 
 (* ****** ****** *)

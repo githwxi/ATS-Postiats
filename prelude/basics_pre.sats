@@ -338,9 +338,12 @@ symintr =++ --= // setinc and decset
 //
 symintr assert assert_errmsg
 //
+symintr freelin (* strptr_free, strnptr_free, list_vt_freelin, ... *)
+//
 symintr fprint print prerr
 symintr length (* array_length, list_length, string_length, etc. *)
 symintr ptrcast (* for functions taking the address of a boxed val *)
+//
 symintr encode decode
 //
 symintr ofstring ofstrptr
