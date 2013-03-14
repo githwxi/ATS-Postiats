@@ -287,11 +287,26 @@ case+
 | HDEtop () => prstr "HDEtop()"
 | HDEempty () => prstr "HDEempty()"
 //
-| HDEextval (name) => {
+| HDEextval (name) =>
+  {
     val () = prstr "HDEextval("
+    val () = prstr "\""
     val () = fprint_string (out, name)
+    val () = prstr "\""
     val () = prstr ")"
   }
+| HDEextfcall
+    (_fun, _arg) =>
+  {
+    val () = prstr "HDEextfcall("
+    val () = prstr "\""
+    val () = fprint_string (out, _fun)
+    val () = prstr "\""
+    val () = prstr "; "
+    val () = fprint_hidexplst (out, _arg)
+    val () = prstr ")"
+  }
+//
 | HDEcastfn (d2c, arg) => {
     val () = prstr "HDEcastfn("
     val () = fprint_d2cst (out, d2c)

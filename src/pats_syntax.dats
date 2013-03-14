@@ -1748,15 +1748,6 @@ in '{
 (* ****** ****** *)
 
 implement
-d0exp_loopexn (tok) = let
-  val-T_BRKCONT (knd) = tok.token_node
-in '{
-  d0exp_loc= tok.token_loc, d0exp_node= D0Eloopexn (knd)
-} end // end of [d0exp_loopexn]
-
-(* ****** ****** *)
-
-implement
 d0exp_foldat
   (t_foldat, d0es) = let
   val loc = (
@@ -2149,6 +2140,15 @@ in '{
   d0exp_loc= loc
 , d0exp_node= D0Ewhile (inv, loc_inv, test, body)
 } end // end of [d0exp_whilehead]
+
+(* ****** ****** *)
+
+implement
+d0exp_loopexn (tok) = let
+  val-T_BRKCONT (knd) = tok.token_node
+in '{
+  d0exp_loc= tok.token_loc, d0exp_node= D0Eloopexn (knd)
+} end // end of [d0exp_loopexn]
 
 (* ****** ****** *)
 

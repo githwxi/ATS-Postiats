@@ -823,6 +823,7 @@ instr_node =
   | INSfcall of
       (tmpvar, primval(*fun*), hisexp, primvalist(*arg*))
     // end of [INSfcall]
+  | INSextfcall of (tmpvar, string(*fun*), primvalist(*arg*))
 //    
   | INScond of ( // conditinal instruction
       primval(*test*), instrlst(*then*), instrlst(*else*)
@@ -936,10 +937,15 @@ fun instr_move_arg_val
 
 (* ****** ****** *)
 
-fun instr_fcall (
+fun instr_fcall
+(
   loc: location
 , tmpret: tmpvar, _fun: primval, hse_fun: hisexp, _arg: primvalist
 ) : instr // end of [instr_fcall]
+
+fun instr_extfcall
+  (loc: location, tmpret: tmpvar, _fun: string, _arg: primvalist): instr
+// end of [instr_extfcall]
 
 (* ****** ****** *)
 

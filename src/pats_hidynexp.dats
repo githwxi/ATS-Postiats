@@ -333,13 +333,17 @@ hidexp_extval
   hidexp_make_node (loc, hse, HDEextval (name))
 // end of [hidexp_extval]
 
-(* ****** ****** *)
-
 implement
 hidexp_castfn
   (loc, hse, d2c, arg) =
   hidexp_make_node (loc, hse, HDEcastfn (d2c, arg))
 // end of [hidexp_castfn]
+
+implement
+hidexp_extfcall
+  (loc, hse, _fun, _arg) =
+  hidexp_make_node (loc, hse, HDEextfcall (_fun, _arg))
+// end of [hidexp_extfcall]
 
 (* ****** ****** *)
 

@@ -235,9 +235,18 @@ case+ d3e0.d3exp_node of
 | D3Etop () => prstr "D3Etop()"
 | D3Eempty () => prstr "D3Eempty()"
 //
-| D3Eextval (rep) => {
+| D3Eextval
+    (name) => {
     val () = prstr "D3Eextval("
-    val () = fprint_string (out, rep)
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  }
+| D3Eextfcall
+    (_fun, _arg) => {
+    val () = prstr "D3Eextfcall("
+    val () = fprint_string (out, _fun)
+    val () = prstr "; "
+    val () = fprint_d3explst (out, _arg)
     val () = prstr ")"
   }
 //

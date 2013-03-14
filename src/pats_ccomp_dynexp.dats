@@ -127,6 +127,8 @@ fun hilablst_ccomp
 
 extern
 fun hidexp_ccomp_ret_app : hidexp_ccomp_ret_funtype
+extern
+fun hidexp_ccomp_ret_extfcall : hidexp_ccomp_ret_funtype
 
 extern
 fun hidexp_ccomp_ret_if : hidexp_ccomp_ret_funtype
@@ -192,15 +194,18 @@ case+ hde0.hidexp_node of
 | HDEtop () => primval_top (loc0, hse0)
 | HDEempty () => primval_empty (loc0, hse0)
 //
-| HDEextval (name) => primval_extval (loc0, hse0, name)
+| HDEextval (name) =>
+    primval_extval (loc0, hse0, name)
 //
 | HDEcastfn (d2c, arg) => let
-    val arg =
+    val pmv_arg =
       hidexp_ccomp (env, res, arg)
     // end of [val]
   in
-    primval_castfn (loc0, hse0, d2c, arg)
+    primval_castfn (loc0, hse0, d2c, pmv_arg)
   end // end of [HDEcastfn]
+//
+| HDEextfcall _ => auxret (env, res, hde0)
 //
 | HDEcon _ => auxret (env, res, hde0)
 //
@@ -209,12 +214,9 @@ case+ hde0.hidexp_node of
 | HDEtmpvar (d2v, t2mas) =>
     hidexp_ccomp_tmpvar (env, res, hde0)
 //
-| HDElet (
-    hids, hde_scope
-  ) => let
-    val (
-      pfpush | ()
-    ) = ccompenv_push (env)
+| HDElet (hids, hde_scope) => let
+//
+    val (pfpush | ()) = ccompenv_push (env)
 //
     val pmds = hideclist_ccomp (env, hids)
     val ins_push = instr_letpush (loc0, pmds)
@@ -228,7 +230,9 @@ case+ hde0.hidexp_node of
 //
     val ins_pop = instr_letpop (loc0)
     val () = instrseq_add (res, ins_pop)
+//
     val () = ccompenv_pop (pfpush | env)
+//
   in
     pmv_scope
   end // end of [HDElet]
@@ -404,8 +408,10 @@ case+ hde0.hidexp_node of
 | HDEempty _ => auxval (env, res, tmpret, hde0)
 //
 | HDEextval _ => auxval (env, res, tmpret, hde0)
-//
 | HDEcastfn _ => auxval (env, res, tmpret, hde0)
+| HDEextfcall _ =>
+    hidexp_ccomp_ret_extfcall (env, res, tmpret, hde0)
+  (* end of [HDEextfcall] *)
 //
 | HDEcon (
     d2c, hse_sum, _arg
@@ -897,6 +903,24 @@ val ins = instr_fcall (loc0, tmpret, pmv_fun, hse_fun, pmvs_arg)
 in
   instrseq_add (res, ins)
 end // end of [hidexp_ccomp_ret_app]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_ret_extfcall
+  (env, res, tmpret, hde0) = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val-HDEextfcall (_fun, hdes_arg) = hde0.hidexp_node
+//
+val pmvs_arg = hidexplst_ccomp (env, res, hdes_arg)
+//
+val ins = instr_extfcall (loc0, tmpret, _fun, pmvs_arg)
+//
+in
+  instrseq_add (res, ins)
+end // end of [hidexp_ccomp_ret_extfcall]
 
 (* ****** ****** *)
 

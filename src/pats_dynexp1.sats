@@ -310,10 +310,8 @@ and d1exp_node =
 //
   | D1Eextval of (s1exp (*type*), string (*name*))
   | D1Eextfcall of // externally named fcall
-      (s1exp (*type*), string (*fun*), d1explst (*arg*))
+      (s1exp (*res*), string (*fun*), d1explst (*arg*))
     // end of [D1Eextfcall]
-//
-  | D1Eloopexn of int(*knd*)
 //
   | D1Efoldat of (* fold at a given address *)
       (s1exparglst, d1exp)
@@ -392,6 +390,8 @@ and d1exp_node =
     , d1exp(*body*)
     ) // end of [D1Efor]
   | D1Ewhile of (loopi1nv, d1exp, d1exp) // while-loop
+//
+  | D1Eloopexn of int(*knd*)
 //
   | D1Etrywith of (i1nvresstate, d1exp, c1laulst)
 //
@@ -564,8 +564,6 @@ fun d1exp_extfcall
   (loc: location, _type: s1exp, _fun: string, _arg: d1explst): d1exp
 
 (* ****** ****** *)
-
-fun d1exp_loopexn (loc: location, knd: int): d1exp
 
 fun d1exp_foldat
   (loc: location, arg: s1exparglst, d1e: d1exp): d1exp
@@ -740,6 +738,8 @@ fun d1exp_for (
 fun d1exp_while (
   loc: location, inv: loopi1nv, test: d1exp, body: d1exp
 ) : d1exp // end of [d1exp_while]
+
+fun d1exp_loopexn (loc: location, knd: int): d1exp
 
 (* ****** ****** *)
 

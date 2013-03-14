@@ -485,13 +485,6 @@ d1exp_extfcall (loc, _type, _fun, _arg) =
 (* ****** ****** *)
 
 implement
-d1exp_loopexn
-  (loc, knd) = d1exp_make (loc, D1Eloopexn (knd))
-// end of [d1exp_loopexn]
-
-(* ****** ****** *)
-
-implement
 d1exp_foldat (loc, s1as, d1e) =
   d1exp_make (loc, D1Efoldat (s1as, d1e))
 implement
@@ -708,12 +701,6 @@ d1exp_selab (loc, knd, d1e, d1l) =
 (* ****** ****** *)
 
 implement
-d1exp_trywith
-  (loc, inv, d1e, c1las) =
-  d1exp_make (loc, D1Etrywith (inv, d1e, c1las))
-// end of [d1exp_trywith]
-
-implement
 d1exp_for
   (loc, inv, ini, test, post, body) =
   d1exp_make (loc, D1Efor (inv, ini, test, post, body))
@@ -724,6 +711,19 @@ d1exp_while
   (loc, inv, test, body) =
   d1exp_make (loc, D1Ewhile (inv, test, body))
 // end of [d1exp_while]
+
+implement
+d1exp_loopexn
+  (loc, knd) = d1exp_make (loc, D1Eloopexn (knd))
+// end of [d1exp_loopexn]
+
+(* ****** ****** *)
+
+implement
+d1exp_trywith
+  (loc, inv, d1e, c1las) =
+  d1exp_make (loc, D1Etrywith (inv, d1e, c1las))
+// end of [d1exp_trywith]
 
 (* ****** ****** *)
 

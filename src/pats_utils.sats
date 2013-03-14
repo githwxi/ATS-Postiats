@@ -98,16 +98,16 @@ local
 
 staload
 Q = "libats/SATS/linqueue_arr.sats"
-// end of [staload]
+viewtypedef
+QUEUE (m:int, n:int) = $Q.QUEUE (uchar, m, n)
 
-stadef QUEUE = $Q.QUEUE
-
-in // in of [local]
+in (* in of [local] *)
 
 fun queue_get_strptr1
   {m,n:int}
-  {st,ln:nat | st+ln <= n} (
-  q: &QUEUE (uchar, m, n), st: size_t st, ln: size_t ln
+  {st,ln:nat | st+ln <= n}
+(
+  q: &QUEUE (m, n), st: size_t st, ln: size_t ln
 ) : strptr1 // end of [queue_get_strptr1]
 
 end // end of [local]

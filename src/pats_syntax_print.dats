@@ -1040,11 +1040,6 @@ case+ x.d0exp_node of
     val () = prstr ")"
   }
 //
-| D0Etrywith _ => {
-    val () = prstr "D0Etrywith("
-    val () = prstr "..."
-    val () = prstr ")"
-  }
 | D0Efor _ => {
     val () = prstr "D0Efor("
     val () = prstr "..."
@@ -1052,6 +1047,17 @@ case+ x.d0exp_node of
   }
 | D0Ewhile _ => {
     val () = prstr "D0Ewhile("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| D0Eloopexn (knd) => {
+    val () = prstr "D0Eloopexn("
+    val () = fprint_int (out, knd)
+    val () = prstr ")"
+  }
+//
+| D0Etrywith _ => {
+    val () = prstr "D0Etrywith("
     val () = prstr "..."
     val () = prstr ")"
   }

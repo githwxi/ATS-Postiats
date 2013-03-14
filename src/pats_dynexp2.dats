@@ -388,8 +388,15 @@ d2exp_cstsp
 
 implement
 d2exp_extval
-  (loc, typ, code) = d2exp_make_node (loc, D2Eextval (typ, code))
+  (loc, s2e, name) =
+  d2exp_make_node (loc, D2Eextval (s2e, name))
 // end of [d2exp_extval]
+
+implement
+d2exp_extfcall
+  (loc, s2e, _fun, _arg) =
+  d2exp_make_node (loc, D2Eextfcall (s2e, _fun, _arg))
+// end of [d2exp_extfcall]
 
 (* ****** ****** *)
 
@@ -401,11 +408,6 @@ d2exp_con
 
 implement
 d2exp_sym (loc, d2s) = d2exp_make_node (loc, D2Esym (d2s))
-
-(* ****** ****** *)
-
-implement
-d2exp_loopexn (loc, knd) = d2exp_make_node (loc, D2Eloopexn knd)
 
 (* ****** ****** *)
 
@@ -750,16 +752,25 @@ d2exp_ldelay_none
 (* ****** ****** *)
 
 implement
+d2exp_for
+(
+  loc, i2nv, init, test, post, body
+) =
+  d2exp_make_node (loc, D2Efor (i2nv, init, test, post, body))
+// end of [d2exp_for]
+
+implement
 d2exp_while
-  (loc, i2nv, test, body) =
+(
+  loc, i2nv, test, body
+) =
   d2exp_make_node (loc, D2Ewhile (i2nv, test, body))
 // end of [d2exp_while]
 
 implement
-d2exp_for
-  (loc, i2nv, init, test, post, body) =
-  d2exp_make_node (loc, D2Efor (i2nv, init, test, post, body))
-// end of [d2exp_for]
+d2exp_loopexn
+  (loc, knd) = d2exp_make_node (loc, D2Eloopexn knd)
+// end of [d2exp_loopexn]
 
 (* ****** ****** *)
 

@@ -92,6 +92,11 @@ staload "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 
+extern fun d2exp_trup_extval (d2e0: d2exp): d3exp
+extern fun d2exp_trup_extfcall (d2e0: d2exp): d3exp
+
+(* ****** ****** *)
+
 extern fun d2exp_trup_con (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
@@ -209,7 +214,8 @@ case+ d2e0.d2exp_node of
     val s2e = s2exp_void_t0ype () in d3exp_empty (loc0, s2e)
   end // end of [D2Eempty]
 //
-| D2Eextval (s2e, rep) => d3exp_extval (loc0, s2e, rep)
+| D2Eextval _ => d2exp_trup_extval (d2e0)
+| D2Eextfcall _ => d2exp_trup_extfcall (d2e0)
 //
 | D2Econ _ => d2exp_trup_con (d2e0)
 //
@@ -716,6 +722,68 @@ case+ s2qs of
 | list_nil () => d3exp_cst (loc0, s2e, d2c)
 //
 end // end of [d2cst_trup_cst]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_extval
+  (d2e0) = let
+  val loc0 = d2e0.d2exp_loc
+  val-D2Eextval (s2e, name) = d2e0.d2exp_node
+in
+  d3exp_extval (loc0, s2e, name)
+end // end of [d2exp_trup_extval]
+
+(* ****** ****** *)
+
+local
+
+fun auxerr
+(
+  loc0: location, d3e: d3exp
+) : void = let
+  val loc = d3e.d3exp_loc
+  val () = prerr_error3_loc (loc)
+  val () = filprerr_ifdebug "d2exp_trup_extfcall"
+  val () = prerr ": no linear argument is allowed for the extfcall."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_d3exp_extfcall_arg (loc0, d3e))
+end // end of [auxerr]
+
+fun auxcheck
+(
+  loc0: location, d3es: d3explst
+) : void = let
+in
+//
+case+ d3es of
+| list_cons
+    (d3e, d3es) => let
+    val s2e = d3exp_get_type (d3e)
+    val islin = s2exp_is_lin (s2e)
+    val () = if islin then auxerr (loc0, d3e)
+  in
+    auxcheck (loc0, d3es)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [auxcheck]
+
+in (* in of [local] *)
+
+implement
+d2exp_trup_extfcall
+  (d2e0) = let
+  val loc0 = d2e0.d2exp_loc
+  val-D2Eextfcall (s2e, _fun, _arg) = d2e0.d2exp_node
+  val d3es_arg = d2explst_trup (_arg)
+  val ((*void*)) = auxcheck (loc0, d3es_arg)
+in
+  d3exp_extfcall (loc0, s2e, _fun, d3es_arg)
+end // end of [d2exp_trup_extval]
+
+end // end of [local]
 
 (* ****** ****** *)
 

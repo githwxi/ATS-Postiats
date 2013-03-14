@@ -430,7 +430,14 @@ case+
 | D3Etop () => hidexp_top (loc0, hse0)
 | D3Eempty () => hidexp_empty (loc0, hse0)
 //
-| D3Eextval (name) => hidexp_extval (loc0, hse0, name)
+| D3Eextval (name) =>
+    hidexp_extval (loc0, hse0, name)
+| D3Eextfcall
+    (_fun, _arg) => let
+    val _arg = d3explst_tyer (_arg)
+  in
+    hidexp_extfcall (loc0, hse0, _fun, _arg)
+  end // end of [D3Eextfcal]
 //
 | D3Econ (d2c, npf, d3es) => let
     val lhdes =

@@ -667,12 +667,13 @@ and d2exp_node =
 //
   | D2Ecstsp of $SYN.cstsp // special constants
 //
-  | D2Eextval of (s2exp(*type*), string(*rep*))
+  | D2Eextval of (s2exp(*type*), string(*name*))
+  | D2Eextfcall of
+      (s2exp(*res*), string(*fun*), d2explst(*arg*))
 //
-  | D2Eloopexn of int(*knd*)
-//
-  | D2Econ of (
-      d2con, location(*fun*), s2exparglst, int(*npf*), location(*arg*), d2explst
+  | D2Econ of ( // HX: data-constructor
+      d2con, location(*fun*)
+    , s2exparglst, int(*npf*), location(*arg*), d2explst
     ) // end of [D2Econ]
 //
   | D2Esym of d2sym // overloaded dynamic symbol
@@ -751,6 +752,8 @@ and d2exp_node =
       loopi2nv, d2exp(*init*), d2exp(*test*), d2exp(*post*), d2exp(*body*)
     ) // end of [D2Efor]
   | D2Ewhile of (loopi2nv, d2exp(*test*), d2exp(*body*))
+//
+  | D2Eloopexn of int(*knd*)
 //
   | D2Etrywith of (i2nvresstate, d2exp, c2laulst)
 //
@@ -1014,13 +1017,18 @@ fun d2exp_empty (loc: location): d2exp
 
 fun d2exp_cstsp
   (loc: location, cst: $SYN.cstsp): d2exp
+
 fun d2exp_extval
-  (loc: location, typ: s2exp, rep: string): d2exp
-// end of [d2exp_extval]
+  (loc: location, s2e: s2exp, name: string): d2exp
+
+fun d2exp_extfcall (
+  loc: location, s2e: s2exp, _fun: string, _arg: d2explst
+) : d2exp // end of [d2exp_extfcall]
 
 fun d2exp_cst (loc: location, d2c: d2cst): d2exp
 
-fun d2exp_con (
+fun d2exp_con
+(
   loc: location
 , d2c: d2con
 , locfun: location // HX: for d2c+sarg

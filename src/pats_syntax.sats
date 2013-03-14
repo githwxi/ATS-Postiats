@@ -1312,12 +1312,10 @@ and d0exp_node =
 //
   | D0Ecstsp of cstsp // special constants
 //
-  | D0Eextval of (s0exp(*type*), string(*name*)) // external val
+  | D0Eextval of (s0exp(*type*), string(*name*)) // external values
   | D0Eextfcall of
-      (s0exp(*type*), string(*fun*), d0explst(*arg*)) // externally named fcalls
+      (s0exp(*res*), string(*fun*), d0explst(*arg*)) // external fcalls
     // end of [D0Eextfcall]
-//
-  | D0Eloopexn of int(*break/continue: 0/1*)
 //
   | D0Efoldat of d0explst (* folding at a given address *)
   | D0Efreeat of d0explst (* freeing at a given address *)
@@ -1375,14 +1373,15 @@ and d0exp_node =
 //
   | D0Edelay of (int(*knd*), d0exp(*body*)) // $delay and $ldelay
 //
-  | D0Etrywith of (tryhead, d0exp, c0laulst) (* try-expression *)
-//
   | D0Efor of (
       loopi0nvopt, location(*inv*), initestpost, d0exp(*body*)
     ) // end of [D0Efor]
   | D0Ewhile of (
       loopi0nvopt, location(*inv*), d0exp(*test*), d0exp(*body*)
     ) // end of [D0Ewhile]
+  | D0Eloopexn of int(*break/continue: 0/1*)
+//
+  | D0Etrywith of (tryhead, d0exp, c0laulst) (* try-expression *)
 //
   | D0Emacsyn of (macsynkind, d0exp) // macro syntax
 //
@@ -1597,10 +1596,12 @@ fun d0exp_extfcall
 fun d0exp_label_int (t_dot: token, lab: token): d0exp
 fun d0exp_label_sym (t_dot: token, lab: token): d0exp
 
-fun d0exp_loopexn (tok: token): d0exp // brk/cnt: 0/1
+(* ****** ****** *)
 
 fun d0exp_foldat (t_foldat: token, _: d0explst): d0exp
 fun d0exp_freeat (t_freeat: token, _: d0explst): d0exp
+
+(* ****** ****** *)
 
 fun d0exp_tmpid (qid: dqi0de, arg: t0mpmarglst, t_gt: token): d0exp
 
@@ -1754,12 +1755,6 @@ fun d0exp_delay (knd: int, tok: token, body: d0exp): d0exp
 
 (* ****** ****** *)
 
-fun d0exp_trywith_seq (
-  hd: tryhead, d0es: d0explst, t_with: token, c0ls: c0laulst
-) : d0exp // end of [d0exp_trywith_seq]
-
-(* ****** ****** *)
-
 fun d0exp_forhead (
   hd: loophead, itp: initestpost, body: d0exp
 ) : d0exp // end of [d0exp_forhead]
@@ -1767,6 +1762,14 @@ fun d0exp_forhead (
 fun d0exp_whilehead
   (hd: loophead, test: d0exp, body: d0exp): d0exp
 // end of [d0exp_whilehead]
+
+fun d0exp_loopexn (tok: token): d0exp // brk/cnt: 0/1
+
+(* ****** ****** *)
+
+fun d0exp_trywith_seq (
+  hd: tryhead, d0es: d0explst, t_with: token, c0ls: c0laulst
+) : d0exp // end of [d0exp_trywith_seq]
 
 (* ****** ****** *)
 

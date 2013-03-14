@@ -237,9 +237,11 @@ and hidexp_node =
   | HDEtop of () // for uninitialized
   | HDEempty of () // for the void value
 //
-  | HDEextval of (string(*name*)) // external values
-//
+  | HDEextval of (string(*name*)) // externally named values
   | HDEcastfn of (d2cst, hidexp(*arg*)) // castfn application
+  | HDEextfcall of
+      (string(*fun*), hidexplst(*arg*)) // externally named fcalls
+    // end of [HDEextfcall]
 //
   | HDEcon of (d2con, hisexp, labhidexplst(*arg*)) // constructors
 //
@@ -518,6 +520,10 @@ fun hidexp_extval
 fun hidexp_castfn (
   loc: location, hse: hisexp, d2c: d2cst, arg: hidexp
 ) : hidexp // end of [hidexp_castfn]
+
+fun hidexp_extfcall (
+  loc: location, hse: hisexp, _fun: string, _arg: hidexplst
+) : hidexp // end of [hidexp_extfcall]
 
 (* ****** ****** *)
 

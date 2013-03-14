@@ -184,6 +184,7 @@ case+ x.instr_node of
 | INSmove_arg_val _ => ()
 //
 | INSfcall (tmp, _, _, _) => tmpadd (tmp)
+| INSextfcall (tmp, _fun, _arg) => tmpadd (tmp)
 //    
 | INScond
     (_, _then, _else) => {

@@ -423,12 +423,30 @@ case+ d2e0.d2exp_node of
     val () = prstr "D2Eempty()"
   } // end of [D2Eempty]
 //
-| D2Eextval (s2e, name) => {
+| D2Eextval
+    (s2e, name) =>
+  {
     val () = prstr "D2Eextval("
     val () = fprint_s2exp (out, s2e)
     val () = prstr "; "
+    val () = prstr "\""
     val () = fprint_string (out, name)
+    val () = prstr "\""
+    val () = prstr ")"
   } // end of [D2Eextval]
+| D2Eextfcall
+    (s2e, _fun, _arg) =>
+  {
+    val () = prstr "D2Eextfcall("
+    val () = fprint_s2exp (out, s2e)
+    val () = prstr "; "
+    val () = prstr "\""
+    val () = fprint_string (out, _fun)
+    val () = prstr "\""
+    val () = prstr "; "
+    val () = fprint_d2explst (out, _arg)
+    val () = prstr ")"
+  } // end of [D2Eextfcall]
 //
 | D2Eloopexn (knd) => {
     val () = prstr "D2Eloopexn("

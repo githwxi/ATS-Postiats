@@ -1248,11 +1248,19 @@ case+ d1e0.d1exp_node of
 | D1Etop () => d2exp_top (loc0)
 | D1Eempty () => d2exp_empty (loc0)
 //
-| D1Eextval (s1e, code) => let
+| D1Eextval
+    (s1e, name) => let
     val s2e = s1exp_trdn_vt0ype (s1e)
   in
-    d2exp_extval (loc0, s2e, code)
+    d2exp_extval (loc0, s2e, name)
   end (* end of [D1Eextval] *)
+| D1Eextfcall
+    (s1e, _fun, _arg) => let
+    val s2e = s1exp_trdn_vt0ype (s1e)
+    val _arg = d1explst_tr (_arg)
+  in
+    d2exp_extfcall (loc0, s2e, _fun, _arg)
+  end (* end of [D1Eextfcall] *)
 //
 | D1Eloopexn (knd) => d2exp_loopexn (loc0, knd)
 //

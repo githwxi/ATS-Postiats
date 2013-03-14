@@ -1130,6 +1130,8 @@ typedef
 emit_instr_type = (FILEref, instr) -> void
 
 extern fun emit_instr_fcall : emit_instr_type
+extern fun emit_instr_extfcall : emit_instr_type
+//
 extern fun emit_instr_move_con : emit_instr_type
 extern fun emit_instr_move_rec : emit_instr_type
 (*
@@ -1257,6 +1259,7 @@ case+ ins.instr_node of
   // end of [INSpmove_val]
 //
 | INSfcall _ => emit_instr_fcall (out, ins)
+| INSextfcall _ => emit_instr_extfcall (out, ins)
 //
 | INScond (
     pmv_cond, inss_then, inss_else
@@ -1650,7 +1653,7 @@ case+
   // end of [PMVcst]
 | _ => false // end of [_]
 //
-end // end of [primval_fun_is_noret]
+end // end of [primval_fun_isbot]
 
 in (* in of [local] *)
 
@@ -1753,6 +1756,36 @@ case+ pmv_fun.primval_node of
 *)
 //
 end // end of [emit_instr_fcall]
+
+implement
+emit_instr_extfcall
+  (out, ins) = let
+//
+val loc0 = ins.instr_loc
+val-INSextfcall
+  (tmp, _fun, pmvs_arg) = ins.instr_node
+//
+val noret = tmpvar_is_void (tmp)
+//
+val () = (
+  if ~noret
+    then emit_text (out, "ATSINSmove(")
+    else emit_text (out, "ATSINSmove_void(")
+  // end of [if]
+) : void // end of [val]
+//
+val () =
+(
+  emit_tmpvar (out, tmp); emit_text (out, ", ")
+) (* end of [val] *)
+val () = emit_text (out, _fun)
+val () = emit_text (out, "(")
+val () = emit_primvalist (out, pmvs_arg)
+val () = emit_text (out, ")) ;")
+//
+in
+  // nothing
+end // end of [emit_instr_extfcall]
 
 end // end of [local]
 

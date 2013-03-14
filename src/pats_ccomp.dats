@@ -539,11 +539,18 @@ instr_move_arg_val (loc, arg, pmv) =
 (* ****** ****** *)
 
 implement
-instr_fcall (
-  loc, tmpret, _fun, hse_fun, _arg
+instr_fcall
+(
+  loc, tmpret, hde_fun, hse_fun, hdes_arg
 ) = instr_make_node
-  (loc, INSfcall (tmpret, _fun, hse_fun, _arg))
+  (loc, INSfcall (tmpret, hde_fun, hse_fun, hdes_arg))
 // end of [instr_fcall]
+
+implement
+instr_extfcall
+  (loc, tmpret, _fun, hdes_arg) =
+  instr_make_node(loc, INSextfcall (tmpret, _fun, hdes_arg))
+// end of [instr_extfcall]
 
 (* ****** ****** *)
 

@@ -271,7 +271,8 @@ and d3exp_node =
   | D3Etop of () // unspecified value
   | D3Eempty of () // the void-value of void-type
 //
-  | D3Eextval of (string(*rep*))
+  | D3Eextval of (string(*name*))
+  | D3Eextfcall of (string(*fun*), d3explst(*arg*))
 //
   | D3Econ of (d2con, int(*npf*), d3explst(*arg*))
 //
@@ -567,9 +568,15 @@ fun d3exp_cstsp
   (loc: location, s2f: s2exp, x: $SYN.cstsp): d3exp
 // end of [d3exp_cstsp]
 
+(* ****** ****** *)
+
 fun d3exp_extval
-  (loc: location, s2f: s2exp, rep: string): d3exp
+  (loc: location, s2f: s2exp, name: string): d3exp
 // end of [d3exp_extval]
+
+fun d3exp_extfcall
+  (loc: location, s2f: s2exp, _fun: string, _arg: d3explst): d3exp
+// end of [d3exp_extfcall]
 
 (* ****** ****** *)
 
@@ -785,14 +792,18 @@ fun d3exp_lam_met (
 fun d3exp_delay
   (loc: location, s2e: s2exp, _eval: d3exp): d3exp
 fun d3exp_ldelay
-  (loc: location, s2e: s2exp, _eval: d3exp, _free: d3expopt): d3exp
+(
+  loc: location, s2e: s2exp, _eval: d3exp, _free: d3expopt
+) : d3exp // end of [d3exp_ldelay]
 fun d3exp_lazy_force
-  (loc: location, s2e_res: s2exp, lin: int, delayed: d3exp): d3exp
-// end of [d3exp_lazy_force]
+(
+  loc: location, s2e_res: s2exp, lin: int, delayed: d3exp
+) : d3exp // end of [d3exp_lazy_force]
 
 (* ****** ****** *)
 
-fun d3exp_loop (
+fun d3exp_loop
+(
   loc: location
 , init: d3expopt, test: d3exp, post: d3expopt, body: d3exp
 ) : d3exp // end of [d3exp_loop]
