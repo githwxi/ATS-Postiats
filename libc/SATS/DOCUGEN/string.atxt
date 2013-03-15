@@ -1,0 +1,69 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../string.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libc_string")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libc/string\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are mostly the API for the
+corresponding libc-functions declared in [string.h], and many more details
+on these functions can often be found in the Linux Programmer's manual.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("strcmp")
+#declnamesynop("strncmp")
+
+(* ****** ****** *)
+
+#declnamesynop("strcoll")
+
+(* ****** ****** *)
+
+#declnamesynop("strspn")
+#declnamesynop("strcspn")
+
+(* ****** ****** *)
+
+#declnamesynop("strlen")
+#declnamesynop("strnlen")
+
+(* ****** ****** *)
+
+#declnamesynop("strcat")
+#declnamesynop("strcat_unsafe")
+#declnamesynop("strncat_unsafe")
+
+(* ****** ****** *)
+
+#declnamesynop("strdup")
+#declnamesynop("strndup")
+#declnamesynop("strdup_free")
+
+(* ****** ****** *)
+
+#declnamesynop("strdupa")
+#declnamesynop("strndupa")
+#declnamesynop("strdupa_free")
+
+(* ****** ****** *)
+
+(* end of [string.atxt] *)

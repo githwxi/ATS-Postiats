@@ -110,6 +110,14 @@ clean:: ; $(RMF) libc_string_dats.o
 clean:: ; $(RMF) libc_string_dats.c
 cleanall:: ; $(RMF) libc_string.exe
 
+all:: libc_strings
+libc_strings: libc_strings.exe
+libc_strings.exe: libc_strings_dats.c ;   $(GCC) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+libc_strings_dats.c: libc_strings.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_strings_dats.c --dynamic libc_strings.dats
+clean:: ; $(RMF) libc_strings_dats.o
+clean:: ; $(RMF) libc_strings_dats.c
+cleanall:: ; $(RMF) libc_strings.exe
+
 all:: libc_unistd
 libc_unistd: libc_unistd.exe
 libc_unistd.exe: libc_unistd_dats.c ;   $(GCC) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

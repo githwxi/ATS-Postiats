@@ -1,0 +1,55 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../strings.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libc_strings")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libc/strings\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are mostly the API for the
+corresponding libc-functions declared in [strings.h], and many more details
+on these functions can often be found in the Linux Programmer's manual.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("index")
+#decldescrpt("\
+
+This function returns a pointer to the first occurrence of a char in a
+given string if the char can be found.  Otherwise, it returns the null
+pointer.  Note that the null character is considered a part of the
+string. ")
+
+#declnamesynop("rindex")
+#decldescrpt("\
+
+This function returns a pointer to the last occurrence of a char in a
+given string if the char can be found.  Otherwise, it returns the null
+pointer.  Note that the null character is considered a part of the
+string. ")
+
+(* ****** ****** *)
+
+#declnamesynop("strcasecmp")
+#declnamesynop("strncasecmp")
+
+(* ****** ****** *)
+
+(* end of [strings.atxt] *)

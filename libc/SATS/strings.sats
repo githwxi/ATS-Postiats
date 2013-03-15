@@ -33,7 +33,7 @@
 (* ****** ****** *)
 
 %{#
-#include "libc/CATS/string.cats"
+#include "libc/CATS/strings.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
@@ -49,78 +49,14 @@
 
 (* ****** ****** *)
 
-fun strcmp (x1: string, x2: string):<> int = "mac#%"
-fun strncmp (x1: string, x2: string, n: size_t):<> int = "mac#%"
+fun index (s: string, c: int): Ptr0 = "mac#%"
+fun rindex (s: string, c: int): Ptr0 = "mac#%"
+
+(* ****** ****** *)
+                      
+fun strcasecmp (x1: string, x2: string):<> int = "mac#%"
+fun strncasecmp (x1: string, x2: string, n: size_t):<> int = "mac#%"
 
 (* ****** ****** *)
 
-fun strcoll (x1: string, x2: string):<> int = "mac#%"
-
-(* ****** ****** *)
-
-fun strspn (x1: string, x2: string):<> size_t = "mac#%"
-fun strcspn (x1: string, x2: string):<> size_t = "mac#%"
-
-(* ****** ****** *)
-//
-fun strlen
-  {n:int} (x: string n):<> size_t (n) = "mac#%"
-fun strnlen {m,n:int}
-  (x: string n, max: size_t m):<> size_t (min(m,n)) = "mac#%"
-//
-(* ****** ****** *)
-
-fun strcat
-  {l:addr}{m:int}{n1,n2:int | n1+n2 < m}
-(
-  !strbuf (l, m, n1) >> strbuf (l, m, n1+n2) | ptr (l), string (n2)
-) :<!wrt> ptr (l) = "mac%#" // end of [strcat]
-
-fun strcat_unsafe
-  {l:agz} (x1: ptr (l), x2: string):<!wrt> ptr (l) = "mac%#"
-fun strncat_unsafe
-  {l:agz} (x1: ptr (l), x2: string, n: size_t):<!wrt> ptr (l) = "mac%#"
-
-(* ****** ****** *)
-
-absview strdup_view (l:addr)
-viewdef strdup_v (l:addr) = strdup_view (l)
-
-fun strdup
-(
-  str: string
-) :<!wrt> [l:addr] (strdup_v (l) | strptr (l)) = "mac#%"
-fun strndup
-(
-  str: string
-) :<!wrt> [l:addr] (strdup_v (l) | strptr (l)) = "mac#%"
-
-fun strdup_free
-  {l:addr} (pf: strdup_v (l) | x: strptr l):<!wrt> void = "mac#%"
-// end of [strdup_free]
-
-(* ****** ****** *)
-//
-// HX-2013-03:
-// strdupa-functions are gcc-functions;
-// they use alloca for memory allocation
-//
-absview strdupa_view (l:addr)
-viewdef strdupa_v (l:addr) = strdupa_view (l)
-
-fun strdupa
-(
-  str: string
-) :<!wrt> [l:addr] (strdupa_v (l) | strptr (l)) = "mac#%"
-fun strndupa
-(
-  str: string
-) :<!wrt> [l:addr] (strdupa_v (l) | strptr (l)) = "mac#%"
-
-fun strdupa_free
-  {l:addr} (pf: strdupa_v (l) | x: strptr l):<!wrt> void = "mac#%"
-// end of [strdupa_free]
-
-(* ****** ****** *)
-
-(* end of [string.sats] *)
+(* end of [strings.sats] *)

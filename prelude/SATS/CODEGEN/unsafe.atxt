@@ -45,31 +45,31 @@ castfn castvwtp1 {to:vt0p}{from:vt0p} (x: !INV(from)>>from):<> to
 //
 #atscode_separator()
 //
-castfn cast2ptr {a:type} (x: a):<> ptr
-castfn cast2Ptr0 {a:type} (x: a):<> Ptr0
-castfn cast2Ptr1 {a:type} (x: a):<> Ptr1
+castfn cast2ptr {a:type} (x: INV(a)):<> ptr
+castfn cast2Ptr0 {a:type} (x: INV(a)):<> Ptr0
+castfn cast2Ptr1 {a:type} (x: INV(a)):<> Ptr1
 //
-castfn cast2int {a:t0p} (x: a):<> int
-castfn cast2uint {a:t0p} (x: a):<> uint
+castfn cast2int {a:t0p} (x: INV(a)):<> int
+castfn cast2uint {a:t0p} (x: INV(a)):<> uint
 //
-castfn cast2lint {a:t0p} (x: a):<> lint
-castfn cast2ulint {a:t0p} (x: a):<> ulint
+castfn cast2lint {a:t0p} (x: INV(a)):<> lint
+castfn cast2ulint {a:t0p} (x: INV(a)):<> ulint
 //
-castfn cast2llint {a:t0p} (x: a):<> llint
-castfn cast2ullint {a:t0p} (x: a):<> ullint
+castfn cast2llint {a:t0p} (x: INV(a)):<> llint
+castfn cast2ullint {a:t0p} (x: INV(a)):<> ullint
 //
-castfn cast2size {a:t0p} (x: a):<> size_t
-castfn cast2ssize {a:t0p} (x: a):<> ssize_t
+castfn cast2size {a:t0p} (x: INV(a)):<> size_t
+castfn cast2ssize {a:t0p} (x: INV(a)):<> ssize_t
 //
-castfn cast2intptr {a:t0p} (x: a):<> intptr
-castfn cast2uintptr {a:t0p} (x: a):<> uintptr
+castfn cast2sint {a:t0p} (x: INV(a)):<> sint
+castfn cast2usint {a:t0p} (x: INV(a)):<> usint
 //
-castfn cast2sint {a:t0p} (x: a):<> sint
-castfn cast2usint {a:t0p} (x: a):<> usint
+castfn cast2intptr {a:t0p} (x: INV(a)):<> intptr
+castfn cast2uintptr {a:t0p} (x: INV(a)):<> uintptr
 //
 #atscode_separator()
 
-praxi cast2void {a:vt0p} (x: a):<prf> void
+praxi cast2void {a:vt0p} (x: INV(a)):<prf> void
 
 #atscode_separator()
 //

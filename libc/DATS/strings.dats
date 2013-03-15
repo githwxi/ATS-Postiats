@@ -32,7 +32,7 @@
 //
 (* ****** ****** *)
 
-staload "libc/SATS/string.sats"
+staload "libc/SATS/strings.sats"
 
 (* ****** ****** *)
 //
@@ -40,4 +40,4 @@ staload "libc/SATS/string.sats"
 //
 (* ****** ****** *)
 
-(* end of [string.dats] *)
+(* end of [strings.dats] *)

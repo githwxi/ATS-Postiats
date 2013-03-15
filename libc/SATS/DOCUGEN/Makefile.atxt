@@ -109,6 +109,8 @@ all_html::
 
 #make_entry("stdio")
 #make_entry("stdlib")
+#make_entry("string")
+#make_entry("strings")
 #make_entry("unistd")
 
 ######
