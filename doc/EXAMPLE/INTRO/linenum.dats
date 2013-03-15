@@ -10,6 +10,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
 staload "libats/ML/SATS/filebas.sats"
 
@@ -18,13 +19,16 @@ staload "libats/ML/SATS/filebas.sats"
 implement
 main () = let
 //
-fun loop (
+fun loop
+(
   xs: list0 (string), n: int
 ) : void =
   case+ xs of
-  | list0_cons (x, xs) => let
+  | list0_cons
+      (x, xs) => let
       val islast = list0_is_nil (xs)
-      val hasmore = (
+      val hasmore =
+      (
         if islast then string_isnot_empty (x) else true
       ) : bool // end of [val]
       val () =
@@ -40,7 +44,7 @@ fun loop (
   | list0_nil () => ()
 //
 val lines =
-  fileref_get_lines_string (stdin_ref)
+  fileref_get_lines_stringlst (stdin_ref)
 val () = loop (lines, 0)
 //
 in

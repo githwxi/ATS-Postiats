@@ -117,6 +117,9 @@
 #define ATStmpdec(tmp, hit) hit tmp
 #define ATStmpdec_void(tmp, hit)
 
+#define ATSstatmpdec(tmp, hit) static hit tmp
+#define ATSstatmpdec_void(tmp, hit)
+
 /* ****** ****** */
 
 #define ATSderef(pmv, hit) (*(hit*)pmv)

@@ -753,12 +753,21 @@ emit_tmpdec
 //
 val hse = tmpvar_get_type (tmp)
 val isvoid = hisexp_is_void (hse)
-val () = (
-  if ~isvoid
-    then emit_text (out, "ATStmpdec(")
-    else emit_text (out, "ATStmpdec_void(")
+val knd = tmpvar_get_topknd (tmp)
+//
+val () =
+(
+  if knd = 0
+    then emit_text (out, "ATStmpdec")
+    else emit_text (out, "ATSstatmpdec")
   // end of [if]
 ) : void // end of [val]
+val () =
+(
+  if isvoid then emit_text (out, "_void")
+)
+//
+val () = emit_text (out, "(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
 val () = emit_hisexp (out, hse)
