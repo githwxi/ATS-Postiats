@@ -37,8 +37,11 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#define atslib_index index
-\#define atslib_rindex rindex
+\#define atslib_index_int index
+\#define atslib_index_char(c) index((int)c)
+
+\#define atslib_rindex_int rindex
+\#define atslib_rindex_char(c) rindex((int)c)
 
 #atscode_separator_for_C()
 

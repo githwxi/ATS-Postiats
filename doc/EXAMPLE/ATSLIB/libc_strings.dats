@@ -34,8 +34,8 @@ val () =
 {
   val str = "abcde"
   val p0 = string2ptr(str)
-  val p1 = index (str, 0)
-  val () = assertloc (strlen (str) = $UNSAFE.cast2size(p1 - p0))
+  val () = assertloc (strlen (str) = $UNSAFE.cast2size(index (str, 0) - p0))
+  val () = assertloc (strlen (str) = $UNSAFE.cast2size(rindex (str, 0) - p0))
 }
 
 (* ****** ****** *)

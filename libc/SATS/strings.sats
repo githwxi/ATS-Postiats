@@ -49,8 +49,17 @@
 
 (* ****** ****** *)
 
-fun index (s: string, c: int): Ptr0 = "mac#%"
-fun rindex (s: string, c: int): Ptr0 = "mac#%"
+symintr index
+fun index_int (s: string, c: int): Ptr0 = "mac#%"
+fun index_char (s: string, c: char): Ptr0 = "mac#%"
+overload index with index_int
+overload index with index_char
+
+symintr rindex
+fun rindex_int (s: string, c: int): Ptr0 = "mac#%"
+fun rindex_char (s: string, c: char): Ptr0 = "mac#%"
+overload rindex with rindex_int
+overload rindex with rindex_char
 
 (* ****** ****** *)
                       
