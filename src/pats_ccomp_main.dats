@@ -198,16 +198,44 @@ end // end of [emit_funlablst_implmnt]
 
 (* ****** ****** *)
 
+local
+
+extern
+fun tmpvar_set_topknd
+(
+  x: tmpvar, knd: int
+) : void = "ext#patsopt_tmpvar_set_topknd"
+
+fun
+auxlst_staticize
+  (xs: tmpvarlst): void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = tmpvar_set_topknd (x, 1(*static*))
+  in
+    auxlst_staticize (xs)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [auxlst]
+
+in (* in of [local] *)
+
 implement
 emit_the_tmpdeclst
   (out) = let
   val p =
     the_toplevel_getref_tmpvarlst ()
-  // end of [val]
   val tmplst = $UN.ptrget<tmpvarlst> (p)
+  val () = auxlst_staticize (tmplst)
 in
   emit_tmpdeclst (out, tmplst)
 end // end of [emit_the_tmpdeclst]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -613,7 +641,7 @@ val () = emit_main_arglst_err (out, arty)
 val () = emit_rparen (out)
 val () = emit_text (out, " ;\n")
 //
-val () = emit_text (out, "ATSreturn(err) ;\n")
+val () = emit_text (out, "return (err) ;\n")
 val () = emit_text (out, "} /* end of [main] */")
 val () = emit_newline (out)
 //

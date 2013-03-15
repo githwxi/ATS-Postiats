@@ -243,20 +243,34 @@ end // end of [local]
 %{$
 
 ats_void_type
+patsopt_tmpvar_set_topknd
+(
+  ats_ptr_type tmp, ats_int_type knd
+) {
+  ((tmpvar_t)tmp)->atslab_tmpvar_topknd = knd ; return ;
+} // end of [patsopt_tmpvar_set_topknd]
+
+ats_void_type
 patsopt_tmpvar_set_ret
-  (ats_ptr_type tmp, ats_int_type ret) {
+(
+  ats_ptr_type tmp, ats_int_type ret
+) {
   ((tmpvar_t)tmp)->atslab_tmpvar_ret = ret ; return ;
 } // end of [patsopt_tmpvar_set_ret]
 
 ats_void_type
 patsopt_tmpvar_set_origin
-  (ats_ptr_type tmp, ats_ptr_type opt) {
+(
+  ats_ptr_type tmp, ats_ptr_type opt
+) {
   ((tmpvar_t)tmp)->atslab_tmpvar_origin = opt ; return ;
 } // end of [patsopt_tmpvar_set_origin]
 
 ats_void_type
 patsopt_tmpvar_set_suffix
-  (ats_ptr_type tmp, ats_int_type sfx) {
+(
+  ats_ptr_type tmp, ats_int_type sfx
+) {
   ((tmpvar_t)tmp)->atslab_tmpvar_suffix = sfx ; return ;
 } // end of [patsopt_tmpvar_set_suffix]
 

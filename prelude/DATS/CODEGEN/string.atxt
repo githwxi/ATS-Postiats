@@ -572,7 +572,7 @@ fun loop (
 ) : ptr = let
   val c = $UN.ptr0_get<char> (p)
   val cont = (
-    if c != CNUL then string_foreach$cont (c, env) else false
+    if c != CNUL then string_foreach$cont<env> (c, env) else false
   ) : bool // end of [val]
 in
   if cont then let

@@ -622,7 +622,9 @@ fun auxtmp (
 val knd =
   tmpvar_get_topknd (tmp)
 //
-val () = (case+ 0 of
+val () =
+(
+  case+ 0 of
   | _ when knd = 0 => let
     in
       emit_text (out, "tmp") // local temporary variable
