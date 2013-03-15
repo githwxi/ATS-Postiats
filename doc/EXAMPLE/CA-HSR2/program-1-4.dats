@@ -51,12 +51,14 @@ if k < n then
 else let
   prval pf = array_v_unsplit (pf1, pf2)
   val () = Perm$fwork<a> (!p1, n)
-  prval (pf1_, pf2_) = array_v_split_at (pf | g1int2uint (k))
+  prval (pf1_, pf2_) = array_v_split_at (pf | (i2u)k)
 in
   pf1 := pf1_ ; pf2 := pf2_
 end // end of [if]
 //
 end // end of [Perm]
+
+(* ****** ****** *)
 
 implement{a}
 Perm_aux (

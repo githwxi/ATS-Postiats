@@ -28,6 +28,11 @@
 // Author: Hongwei Xi (2012-03)
 //
 (* ****** ****** *)
+//
+// This is a good example testing/demonstrating the ability of
+// handling multiplication terms in the constraint-solver of ATS2
+//
+(* ****** ****** *)
 
 staload "./tally.sats"
 

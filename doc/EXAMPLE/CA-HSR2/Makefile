@@ -43,6 +43,14 @@ clean:: ; $(RMF) program-1-3_dats.o
 clean:: ; $(RMF) program-1-3_dats.c
 cleanall:: ; $(RMF) program-1-3.exe
 
+all:: program-1-5
+program-1-5: program-1-5.exe
+program-1-5.exe: program-1-5_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+program-1-5_dats.c: program-1-5.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output program-1-5_dats.c --dynamic program-1-5.dats
+clean:: ; $(RMF) program-1-5_dats.o
+clean:: ; $(RMF) program-1-5_dats.c
+cleanall:: ; $(RMF) program-1-5.exe
+
 all:: program-1-6
 program-1-6: program-1-6.exe
 program-1-6.exe: program-1-6_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
