@@ -28,8 +28,8 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#ifndef ATSHOME_LIBC_STDIO_CATS
-\#define ATSHOME_LIBC_STDIO_CATS
+\#ifndef ATSLIB_LIBC_STDIO_CATS
+\#define ATSLIB_LIBC_STDIO_CATS
 
 #atscode_separator_for_C()
 
@@ -149,7 +149,7 @@ atslib_tmpfile_exn(
 
 #atscode_separator_for_C()
 
-\#endif // ifndef ATSHOME_LIBC_STDIO_CATS
+\#endif // ifndef ATSLIB_LIBC_STDIO_CATS
 
 #atscode_separator_for_C()
 

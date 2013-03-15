@@ -3,7 +3,7 @@
 #if (ATSCODEFORMAT == "txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"memory.cats"
+val _thisfilename = atext_strcst"string.cats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
@@ -14,7 +14,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 /*
 ** Source:
-** $PATSHOME/prelude/CATS/CODEGEN/memory.atxt
+** $PATSHOME/libc/CATS/CODEGEN/string.atxt
 ** Time of generation: #timestamp()
 */
 
@@ -23,35 +23,36 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 /*
 #atscode_author("Hongwei Xi")
 #atscode_authoremail("hwxi AT cs DOT bu DOT edu")
-#atscode_start_time("January, 2013")
+#atscode_start_time("February, 2013")
 */
 
 #atscode_separator_for_C()
 
-\#ifndef ATSLIB_PRELUDE_MEMORY_CATS
-\#define ATSLIB_PRELUDE_MEMORY_CATS
+\#ifndef ATSLIB_LIBC_STRING_CATS
+\#define ATSLIB_LIBC_STRING_CATS
 
 #atscode_separator_for_C()
 
-\#define atspre_malloc_gc ATS_MALLOC
+\#include <string.h>
 
 #atscode_separator_for_C()
 
-\#define atspre_mfree_gc ATS_MFREE
+\#define atslib_strdup strdup
+\#define atslib_strndup strndup
+\#define atslib_strdup_free atsruntime_mfree_libc
+
+\#define atslib_strdupa strdupa
+\#define atslib_strndupa strndupa
+\#define atslib_strdupa_free atsruntime_afree_libc
 
 #atscode_separator_for_C()
 
-\#define atspre_calloc_gc ATS_CALLOC
-\#define atspre_realloc_gc ATS_REALLOC
-
-#atscode_separator_for_C()
-
-\#endif // ifndef ATSLIB_PRELUDE_MEMORY_CATS
+\#endif // ifndef ATSLIB_LIBC_STRING_CATS
 
 #atscode_separator_for_C()
 
 #atscode_eof_strsub_for_C("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "memory_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "string_atxt.txt")
 %}\

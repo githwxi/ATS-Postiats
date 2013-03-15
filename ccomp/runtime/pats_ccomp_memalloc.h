@@ -50,42 +50,60 @@ int fprintf (FILE *stream, const char *format, ...) ;
 #include <stdlib.h>
 //
 extern void exit (int code) ;
-extern void *malloc (size_t bsz) ;
 extern void free (void *ptr) ;
+extern void *malloc (size_t bsz) ;
 //
 /* ****** ****** */
+//
+// HX: [afree] matches [alloca]
+//
+ATSinline()
+atsvoid_t0ype
+atsruntime_afree_libc
+  (atstype_ptr ptr) { return ; }
+// end of [atsruntime_afree_libc]
 
 ATSinline()
 atstype_ptr
-ats_malloc_ngc
-(atstype_size bsz) { return malloc(bsz) ; }
-
-ATSinline()
-atstype_ptr
-ats_malloc_ngc_exn
-(atstype_size bsz)
-{
-  atstype_ptr p ;
-  p = ats_malloc_ngc (bsz) ;
-  if (!p) {
-    fprintf(stderr, "ats_malloc_ngc_exn: [malloc] failed.\n") ;
-    exit(1) ;
-  } // end of [if]
-  return (p) ;
-} /* end of [ats_malloc_ngc_exn] */
-
-#ifndef ATS_MALLOC
-#define ATS_MALLOC ats_malloc_ngc_exn
-#endif // end of [ifndef]
+atsruntime_alloca_libc
+  (atstype_size bsz) { return alloca(bsz) ; }
+// end of [atsruntime_alloca_libc]
 
 /* ****** ****** */
 
 ATSinline()
 atsvoid_t0ype
-ats_mfree_ngc (atstype_ptr ptr) { free(ptr) ; return ; }
+atsruntime_mfree_libc
+  (atstype_ptr ptr) { free(ptr) ; return ; }
+// end of [atsruntime_mfree_libc]
+
+ATSinline()
+atstype_ptr
+atsruntime_malloc_libc
+  (atstype_size bsz) { return malloc(bsz) ; }
+// end of [atsruntime_malloc_libc]
+
+ATSinline()
+atstype_ptr
+atsruntime_malloc_libc_exn
+  (atstype_size bsz)
+{
+  atstype_ptr p ;
+  p = atsruntime_malloc_libc(bsz) ;
+  if (!p) {
+    fprintf(stderr, "atsruntime_malloc_libc_exn: [malloc] failed.\n") ;
+    exit(1) ;
+  } // end of [if]
+  return (p) ;
+} /* end of [atsruntime_malloc_libc_exn] */
+
+/* ****** ****** */
 
 #ifndef ATS_MFREE
-#define ATS_MFREE ats_mfree_ngc
+#define ATS_MFREE atsruntime_mfree_libc
+#endif // end of [ifndef]
+#ifndef ATS_MALLOC
+#define ATS_MALLOC atsruntime_malloc_libc_exn
 #endif // end of [ifndef]
 
 /* ****** ****** */

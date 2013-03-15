@@ -44,28 +44,19 @@
 
 (* ****** ****** *)
 
-staload
-STDDEF = "libc/SATS/stddef.sats"
-typedef size_t = $STDDEF.size_t
-typedef wchar_t = $STDDEF.wchar_t
-
-(* ****** ****** *)
-
-typedef wchar = $STDDEF.wchar_t // shorthand
-
-(* ****** ****** *)
-
 #define NSH (x) x // for commenting: no sharing
 #define SHR (x) x // for commenting: it is shared
 
 (* ****** ****** *)
 
-macdef EXIT_FAILURE = $extval (int, "EXIT_FAILURE")
-macdef EXIT_SUCCESS = $extval (int, "EXIT_SUCCESS")
+staload
+STDDEF = "libc/SATS/stddef.sats"
+typedef wchar_t = $STDDEF.wchar_t
 
 (* ****** ****** *)
 
-macdef NULL = $extval (ptr(null), "NULL")
+macdef EXIT_FAILURE = $extval (int, "EXIT_FAILURE")
+macdef EXIT_SUCCESS = $extval (int, "EXIT_SUCCESS")
 
 (* ****** ****** *)
 
@@ -448,11 +439,14 @@ fun wctomb_unsafe
 // end of [wctomb_unsafe]
 
 /*
-size_t wcstombs(char *dest, const wchar_t *src, size_t n);
+size_t wcstombs
+(
+  char *dest, const wchar_t *src, size_t n
+) ;
 */
 fun wcstombs_unsafe
 (
-  dest: cPtr0 (char), src: cPtr1 (wchar), n: size_t
+  dest: cPtr0 (char), src: cPtr1 (wchar_t), n: size_t
 ) :<!refwrt> ssize_t = "mac#%" // endfun
 
 (* ****** ****** *)

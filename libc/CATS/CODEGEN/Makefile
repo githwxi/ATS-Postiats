@@ -35,6 +35,15 @@ stdlib_atxt.dats: stdlib.atxt
 clean:: ; $(RMF) stdlib_atxt.exe
 cleanall:: ; $(RMF) stdlib.cats
 
+all:: string.cats
+string.cats: string_atxt.exe ; ./$< > $@
+string_atxt.exe: string_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ string_atxt.dats -latsdoc
+string_atxt.dats: string.atxt
+	$(ATSDOC) --outcode $@ -i string.atxt > string_atxt.txt
+clean:: ; $(RMF) string_atxt.exe
+cleanall:: ; $(RMF) string.cats
+
 all:: unistd.cats
 unistd.cats: unistd_atxt.exe ; ./$< > $@
 unistd_atxt.exe: unistd_atxt.dats

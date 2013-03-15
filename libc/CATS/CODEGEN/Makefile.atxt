@@ -53,6 +53,7 @@ all::
 
 #make_entry("stdio")
 #make_entry("stdlib")
+#make_entry("string")
 #make_entry("unistd")
 
 ######
