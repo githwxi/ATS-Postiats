@@ -14,7 +14,7 @@ val () = patscode_prefix_set("TRYIT/contrib_libevent_event")
 (* ****** ****** *)
 
 #decltitle("\
-ATSLIB/contrib/event/event\
+ATSLIB/contrib/libevent/event\
 ")
 
 (* ****** ****** *)
@@ -23,8 +23,9 @@ ATSLIB/contrib/event/event\
 
 #para('\
 
-This package contains an API in ATS for the <a
-href="http://libevent.org/">libevent</a> package.  ')
+This package contains an API in ATS for the <a href="http://libevent.org/">libevent</a> package.\
+
+')
 
 ')#comment("declpreamble")
 

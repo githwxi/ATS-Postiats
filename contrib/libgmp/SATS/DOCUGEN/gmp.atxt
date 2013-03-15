@@ -1,0 +1,108 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../gmp.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_libgmp_gmp")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/libgmp/gmp\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+
+This package contains an API in ATS for the <a href="http://gmplib.org/">libgmp</a> package.\
+
+')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("mpz_vt0ype")
+#declnamesynop("mpq_vt0ype")
+#declnamesynop("mpf_vt0ype")
+
+(* ****** ****** *)
+
+#declnamesynop("mp_base")
+
+(* ****** ****** *)
+
+#declnamesynop("mpz_init")
+#declnamesynop("mpz_init2")
+
+(* ****** ****** *)
+
+#declnamesynop("mpz_clear")
+#declnamesynop("mpz_realloc2")
+
+(* ****** ****** *)
+
+#declnamesynop("mpz_get_int")
+#declnamesynop("mpz_get_lint")
+#declnamesynop("mpz_get_uint")
+#declnamesynop("mpz_get_ulint")
+#declnamesynop("mpz_get_double")
+
+(* ****** ****** *)
+
+#declnamesynop("mpz_get_str")
+
+(* ****** ****** *)
+
+#declnamesynop("mpz_set_int")
+#declnamesynop("mpz_set_lint")
+#declnamesynop("mpz_set_uint")
+#declnamesynop("mpz_set_ulint")
+#declnamesynop("mpz_set_double")
+#declnamesynop("mpz_set_mpz")
+#declnamesynop("mpz_set_mpq")
+#declnamesynop("mpz_set_mpf")
+
+(* ****** ****** *)
+
+#declnamesynop("mpz_set_str")
+#declnamesynop("mpz_set_str_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("mpz_neg")
+#declnamesynop("mpz_neg1")
+#declnamesynop("mpz_neg2")
+
+(* ****** ****** *)
+
+#declnamesynop("mpz_abs")
+#declnamesynop("mpz_abs1")
+#declnamesynop("mpz_abs2")
+
+(* ****** ****** *)
+
+#declnamesynop("mpz_add")
+#declnamesynop("mpz_add2_int")
+#declnamesynop("mpz_add2_lint")
+#declnamesynop("mpz_add2_uint")
+#declnamesynop("mpz_add2_ulint")
+#declnamesynop("mpz_add2_mpz")
+#declnamesynop("mpz_add3_int")
+#declnamesynop("mpz_add3_lint")
+#declnamesynop("mpz_add3_uint")
+#declnamesynop("mpz_add3_ulint")
+#declnamesynop("mpz_add3_mpz")
+
+(* ****** ****** *)
+
+(* end of [gmp.atxt] *)
