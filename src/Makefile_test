@@ -95,7 +95,13 @@ libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/stddef.sats
 libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/stdio.sats
 libc:: ; $(PATSOPT) -tc -d $(PATSHOME)/libc/DATS/stdio.dats
 libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/stdlib.sats
+libc:: ; $(PATSOPT) -tc -d $(PATSHOME)/libc/DATS/stdlib.dats
+libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/string.sats
+libc:: ; $(PATSOPT) -tc -d $(PATSHOME)/libc/DATS/string.dats
+libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/strings.sats
+libc:: ; $(PATSOPT) -tc -d $(PATSHOME)/libc/DATS/strings.dats
 libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/unistd.sats
+libc:: ; $(PATSOPT) -tc -d $(PATSHOME)/libc/DATS/unistd.dats
 
 ######
 

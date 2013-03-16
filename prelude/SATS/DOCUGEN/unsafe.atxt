@@ -120,7 +120,7 @@ This function casts a value to an unsigned short short integer of unindexed type
 
 (* ****** ****** *)
 
-#declnamesynop("linlst2lst")
+#declnamesynop("list_vt2t")
 #decldescrpt("\
 This function casts a linear list to a nonlinear list (only for temporary use).
 ")
@@ -144,7 +144,7 @@ list_vt_copy {n:int}
 
 (* ****** ****** *)
 
-#declnamesynop("linstr2str")
+#declnamesynop("strptr2string")
 #decldescrpt("\
 
 This function casts a linear (non-null) string to a nonlinear string (only

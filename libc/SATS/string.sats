@@ -73,13 +73,26 @@ fun strnlen {m,n:int}
 fun strcat
   {l:addr}{m:int}{n1,n2:int | n1+n2 < m}
 (
-  !strbuf (l, m, n1) >> strbuf (l, m, n1+n2) | ptr (l), string (n2)
-) :<!wrt> ptr (l) = "mac%#" // end of [strcat]
+  !strbuf_v (l, m, n1) >> strbuf_v (l, m, n1+n2) | ptr (l), string (n2)
+) :<!wrt> ptr (l) = "mac#%" // end of [strcat]
 
 fun strcat_unsafe
-  {l:agz} (x1: ptr (l), x2: string):<!wrt> ptr (l) = "mac%#"
+  {l:agz} (x1: ptr (l), x2: string):<!wrt> ptr (l) = "mac#%"
 fun strncat_unsafe
-  {l:agz} (x1: ptr (l), x2: string, n: size_t):<!wrt> ptr (l) = "mac%#"
+  {l:agz} (x1: ptr (l), x2: string, n: size_t):<!wrt> ptr (l) = "mac#%"
+
+(* ****** ****** *)
+
+fun strcpy
+  {l:addr}{m:int}{n:int | n < m}
+(
+  !b0ytes(m) @ l >> strbuf_v (l, m, n) | ptr (l), string (n)
+) : ptr (l) = "mac#%" // endfun
+
+fun strcpy_unsafe
+  {l:agz} (dst: ptr (l), src: string): ptr (l) = "mac#%"
+fun strncpy_unsafe
+  {l:agz} (dst: ptr (l), src: string, n: size_t): ptr (l) = "mac#%"
 
 (* ****** ****** *)
 

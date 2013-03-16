@@ -109,7 +109,7 @@ getcwd_v
   m:int, l:addr, addr
 ) =
   | {l>null} {n:nat}
-    getcwd_v_succ (m, l, l) of strbuf (l, m, n)
+    getcwd_v_succ (m, l, l) of strbuf_v (l, m, n)
   | getcwd_v_fail (m, l, null) of b0ytes (m) @ (l)
 // end of [getcwd_v]
 

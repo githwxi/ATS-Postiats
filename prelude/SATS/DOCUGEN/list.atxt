@@ -200,7 +200,7 @@ main () = 0 where {
   typedef T = int
   val xs1 = list_make_intrange (0, 10)
   val xs2 = (list)$arrpsz{T}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
-  val () = assertloc (list_equal<T> ($UN.linlst2lst(xs1), $UN.linlst2lst(xs2)))
+  val () = assertloc (list_equal<T> ($UN.list_vt2t(xs1), $UN.list_vt2t(xs2)))
   val () = list_vt_free (xs1)
   val () = list_vt_free (xs2)
 } // end pf [main]
@@ -623,7 +623,7 @@ fun factorial
 val xs = list_make_intrange (0, n)
 implement
 list_foldleft$fwork<int><int> (acc, x) = acc * (x+1)
-val res = list_foldleft<int><int> ($UN.linlst2lst(xs), 1(*ini*))
+val res = list_foldleft<int><int> ($UN.list_vt2t(xs), 1(*ini*))
 val () = list_vt_free (xs)
 //
 in
@@ -664,7 +664,7 @@ list_remove_dup (
     | list_cons (x, xs) => let
         implement
         list_exists$pred<a> (y) = eq (x, y)
-        val found = list_exists<a> ($UN.linlst2lst(ys))
+        val found = list_exists<a> ($UN.list_vt2t(ys))
       in
         if found then loop (xs, ys) else loop (xs, list_vt_cons (x, ys))
       end // end of [list_cons]
@@ -946,7 +946,7 @@ list_crosswith$fwork<int,int><int> (x, y) = 10 * x + y
 val xys2 =
   list_crosswith<int,int><int> (xs, ys) // = 0, 1, 2, ..., 99
 //
-val iseq = list_equal ($UN.linlst2lst(xys), $UN.linlst2lst(xys2))
+val iseq = list_equal ($UN.list_vt2t(xys), $UN.list_vt2t(xys2))
 val () = assertloc (iseq) // [xys] and [xys2] contain the same elements
 //
 val () = list_vt_free<int> (xys)
