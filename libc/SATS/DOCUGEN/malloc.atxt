@@ -1,0 +1,39 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../malloc.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libc_malloc")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libc/malloc\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are mostly the API for the
+corresponding libc-functions declared in [malloc.h], and many more details
+on these functions can often be found in the Linux Programmer's manual.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("mallopt")
+#declnamesynop("malloc_trim")
+#declnamesynop("malloc_usable_size")
+#declnamesynop("malloc_stats")
+
+(* ****** ****** *)
+
+(* end of [malloc.atxt] *)

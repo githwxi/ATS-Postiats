@@ -17,6 +17,15 @@ all::
 
 ######
 
+all:: malloc.cats
+malloc.cats: malloc_atxt.exe ; ./$< > $@
+malloc_atxt.exe: malloc_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ malloc_atxt.dats -latsdoc
+malloc_atxt.dats: malloc.atxt
+	$(ATSDOC) --outcode $@ -i malloc.atxt > malloc_atxt.txt
+clean:: ; $(RMF) malloc_atxt.exe
+cleanall:: ; $(RMF) malloc.cats
+
 all:: stdio.cats
 stdio.cats: stdio_atxt.exe ; ./$< > $@
 stdio_atxt.exe: stdio_atxt.dats
