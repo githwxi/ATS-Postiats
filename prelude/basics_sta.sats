@@ -474,10 +474,6 @@ typedef bytes (n:int) = @[byte][n]
 typedef b0ytes (n:int) = @[byte?][n]
 
 (* ****** ****** *)
-
-abst@ype strbuf (m:int, n:int) // HX: [m] byte size
-
-(* ****** ****** *)
 //
 // HX: for memory deallocation (with/without GC)
 //

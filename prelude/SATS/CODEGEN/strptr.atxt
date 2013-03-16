@@ -34,10 +34,15 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+abst@ype
+strbuf_t0ype (m:int, n:int) // HX: [m] byte size
+
+(* ****** ****** *)
+
+stadef
+strbuf = strbuf_t0ype
 viewdef
-strbuf_v
-  (l:addr, m:int, n:int) = strbuf (m, n) @ l
-// end of [strbuf_v]
+strbuf_v (l:addr, m:int, n:int) = strbuf (m, n) @ l
 
 #atscode_separator()
 
@@ -55,6 +60,11 @@ lemma_strnptr_param
 // end of [lemma_strnptr_param]
 
 #atscode_separator()
+
+praxi
+lemma_strbuf_param
+  {l:addr}{m,n:int} (x: &strbuf (m, n)): [m>n] void
+// end of [lemma_strbuf_param]
 
 praxi
 lemma_strbuf_v_param

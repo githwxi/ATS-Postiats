@@ -82,6 +82,17 @@ val () = strdupa_free (pf | str2)
 
 (* ****** ****** *)
 
+val () = {
+  val str = "abcde"
+  val str2 = string0_copy (str)
+  val p2 = strfry (str2)
+  val () = assertloc (p2 = strptr2ptr(str2))
+  val () = println! ("strfry(", str, ") = ", str2)
+  val () = strptr_free (str2)
+} // end of [val]
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

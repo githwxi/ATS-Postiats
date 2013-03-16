@@ -22,7 +22,7 @@ val ent = sprintf ("\
 all:: %s\n\
 %s: %s.exe\n\
 %s.exe: %s_dats.c ; \
-  $(GCC) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<\n\
+  $(GCC) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $<\n\
 %s_dats.c: %s.dats ; \
   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output %s_dats.c --dynamic %s.dats\n\
 clean:: ; $(RMF) %s_dats.o\n\

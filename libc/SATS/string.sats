@@ -87,12 +87,12 @@ fun strcpy
   {l:addr}{m:int}{n:int | n < m}
 (
   !b0ytes(m) @ l >> strbuf_v (l, m, n) | ptr (l), string (n)
-) : ptr (l) = "mac#%" // endfun
+) :<!wrt> ptr (l) = "mac#%" // endfun
 
 fun strcpy_unsafe
-  {l:agz} (dst: ptr (l), src: string): ptr (l) = "mac#%"
+  {l:agz} (dst: ptr (l), src: string):<!wrt> ptr (l) = "mac#%"
 fun strncpy_unsafe
-  {l:agz} (dst: ptr (l), src: string, n: size_t): ptr (l) = "mac#%"
+  {l:agz} (dst: ptr (l), src: string, n: size_t):<!wrt> ptr (l) = "mac#%"
 
 (* ****** ****** *)
 
@@ -134,6 +134,48 @@ fun strdupa_free
   {l:addr} (pf: strdupa_v (l) | x: strptr l):<!wrt> void = "mac#%"
 // end of [strdupa_free]
 
+(* ****** ****** *)
+
+fun strfry {l:agz} (x: !strptr (l) >> _):<!wrt> ptr (l) = "mac#%"
+
+(* ****** ****** *)
+//
+fun memcpy
+  {l:addr}
+  {n1,n2:int}
+  {n:int | n <= n1; n <= n2}
+(
+  pf: !b0ytes(n1) @ l >> bytes(n1) @ l
+| dst: ptr (l), src: &(@[byte][n2]), n: size_t (n)
+) :<!wrt> ptr (l) = "mac#%" // end of [memcpy]
+//
+fun memcpy_unsafe {l:agz}
+  (dst: ptr (l), src: ptr, n: size_t):<!wrt> ptr (l) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun memmove_unsafe {l:agz}
+  (dst: ptr (l), src: ptr, n: size_t):<!wrt> ptr (l) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun memccpy_unsafe {l:agz}
+  (dst: ptr (l), src: ptr, c: int, n: size_t):<!wrt> Ptr0 = "mac#%"
+//
+(* ****** ****** *)
+//
+fun mempcpy
+  {l:addr}
+  {n1,n2:int}
+  {n:int | n <= n1; n <= n2}
+(
+  pf: !b0ytes(n1) @ l >> bytes(n1) @ l
+| dst: ptr (l), src: &(@[byte][n2]), n: size_t (n)
+) :<!wrt> ptr (l+n) = "mac#%" // end of [mempcpy]
+//
+fun mempcpy_unsafe {l:agz}{n:int}
+  (dst: ptr (l), src: ptr, n: size_t (n)):<!wrt> ptr (l+n) = "mac#%"
+//
 (* ****** ****** *)
 
 (* end of [string.sats] *)

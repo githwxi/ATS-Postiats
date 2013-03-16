@@ -78,6 +78,7 @@ emit_ats_ccomp_header (out) = let
   val () = emit_text (out, "#include \"pats_ccomp_instrset.h\"\n")
   val () = emit_text (out, "#include \"pats_ccomp_exception.h\"\n")
   val () = emit_text (out, "#include \"pats_ccomp_memalloc.h\"\n")
+  val () = emit_text (out, "#include \"pats_ccomp_memalloca.h\"\n")
   val () = emit_text (out, "#endif /* _ATS_CCOMP_HEADER_NONE */\n")
   val () = emit_newline (out)
 in

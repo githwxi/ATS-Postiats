@@ -30,61 +30,40 @@
 /*
 (* Author: Hongwei Xi *)
 (* Authoremail: hwxi AT cs DOT bu DOT edu *)
-(* Start time: October, 2012 *)
+(* Start time: March, 2013 *)
 */
 
 /* ****** ****** */
 
-#ifndef PATS_CCOMP_MEMALLOC_H
-#define PATS_CCOMP_MEMALLOC_H
+#ifndef PATS_CCOMP_MEMALLOCA_H
+#define PATS_CCOMP_MEMALLOCA_H
+
+/* ****** ****** */
+//
+// alloca.h
+//
+extern void *alloca (size_t bsz) ;
+//
+/* ****** ****** */
+//
+// HX: [afree] matches [alloca]
+//
+ATSinline()
+atsvoid_t0ype
+atsruntime_afree_libc
+  (atstype_ptr ptr) { return ; }
+// end of [atsruntime_afree_libc]
+
+ATSinline()
+atstype_ptr
+atsruntime_alloca_libc
+  (atstype_size bsz) { return alloca(bsz) ; }
+// end of [atsruntime_alloca_libc]
 
 /* ****** ****** */
 
-#undef ATS_MEMALLOC_FLAG
+#endif /* PATS_CCOMP_MEMALLOCA_H */
 
 /* ****** ****** */
 
-#ifdef ATS_MEMALLOC_LIBC
-//
-#define ATS_MEMALLOC_FLAG
-//
-#include "pats_ccomp_memalloc_libc.h"
-//
-#define ATS_MFREE atsruntime_mfree_libc
-#define ATS_MALLOC atsruntime_malloc_libc_exn
-//
-#endif // end of [ATS_MEMALLOC_LIBC]
-
-/* ****** ****** */
-
-#ifdef ATS_MEMALLOC_GCBDW
-//
-#define ATS_MEMALLOC_FLAG
-//
-#include "pats_ccomp_memalloc_gcbdw.h"
-//
-#define ATS_MFREE atsruntime_mfree_gcbdw
-#define ATS_MALLOC atsruntime_malloc_gcbdw_exn
-//
-#endif // end of [ATS_MEMALLOC_GCBDW]
-
-/* ****** ****** */
-
-#ifdef ATS_MEMALLOC_USER
-//
-#define ATS_MEMALLOC_FLAG
-//
-#include "pats_ccomp_memalloc_user.h"
-//
-#define ATS_MFREE atsruntime_mfree_user
-#define ATS_MALLOC atsruntime_malloc_user
-//
-#endif // end of [ATS_MEMALLOC_USER]
-
-/* ****** ****** */
-
-#endif /* PATS_CCOMP_MEMALLOC_H */
-
-/* ****** ****** */
-
-/* end of [pats_ccomp_memalloc.h] */
+/* end of [pats_ccomp_memalloca.h] */
