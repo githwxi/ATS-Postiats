@@ -65,15 +65,21 @@ fun array0_get_refsize{a:vt0p}
 // end of [array0_get_refsize]
 
 #atscode_separator()
-
+//
 symintr array0
-
+//
+fun
+array0_make_arrpsz
+  {a:vt0p}{n:int}
+  (psz: arrpsz (INV(a), n)):<!wrt> array0 (a)
+overload array0 with array0_make_arrpsz
+//
 fun
 array0_make_arrayref
   {a:vt0p}{n:int}
   (A: arrayref (a, n), n: size_t (n)):<!wrt> array0 (a)
 overload array0 with array0_make_arrayref
-
+//
 #atscode_separator()
 
 fun{a:t0p}
@@ -83,10 +89,6 @@ array0_make_elt
 fun{a:t0p}
 array0_make_list
   (xs: list0 (INV(a))):<!wrt> array0 (a)
-
-fun{a:t0p}
-array0_make_arrpsz
-  {n:int} (psz: arrpsz (a, n)):<!wrt> array0 (a)
 
 #atscode_separator()
 

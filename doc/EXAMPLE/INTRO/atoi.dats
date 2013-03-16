@@ -5,9 +5,10 @@
 //
 
 (* ****** ****** *)
-
-#include "share/atspre_staload.hats"
-
+//
+#include
+"share/atspre_tmpdef_staload.hats"
+//
 (* ****** ****** *)
 
 fun atoi

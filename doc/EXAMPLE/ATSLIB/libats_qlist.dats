@@ -9,9 +9,10 @@
 // Start time: March, 2013
 //
 (* ****** ****** *)
-
-#include "share/atspre_staload.hats"
-
+//
+#include
+"share/atspre_tmpdef_staload.hats"
+//
 (* ****** ****** *)
 
 staload _ = "libats/DATS/qlist.dats"

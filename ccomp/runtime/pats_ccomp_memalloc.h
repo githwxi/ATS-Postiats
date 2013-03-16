@@ -39,6 +39,12 @@
 #define PATS_CCOMP_MEMALLOC_H
 
 /* ****** ****** */
+//
+// HX: for size_t
+//
+#include <stddef.h>
+//
+/* ****** ****** */
 
 #undef ATS_MEMALLOC_FLAG
 

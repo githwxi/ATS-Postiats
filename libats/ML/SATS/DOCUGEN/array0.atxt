@@ -42,11 +42,6 @@ elements of the type T are stored.
 
 (* ****** ****** *)
 
-#declnamesynop("array0_make_elt")
-#declnamesynop("array0_make_list")
-
-(* ****** ****** *)
-
 #declnamesynop("array0_make_arrpsz")
 #declexample("\
 
@@ -65,6 +60,11 @@ in
 end // end of [main]
 ')
 ")
+
+(* ****** ****** *)
+
+#declnamesynop("array0_make_elt")
+#declnamesynop("array0_make_list")
 
 (* ****** ****** *)
 

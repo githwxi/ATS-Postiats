@@ -93,7 +93,7 @@ cleanall:: ; $(RMF) fact2.exe
 
 all:: fact3
 fact3: fact3.exe
-fact3.exe: fact3_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+fact3.exe: fact3_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $<
 fact3_dats.c: fact3.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fact3_dats.c --dynamic fact3.dats
 clean:: ; $(RMF) fact3_dats.o
 clean:: ; $(RMF) fact3_dats.c
@@ -181,7 +181,7 @@ cleanall:: ; $(RMF) revarr.exe
 
 all:: strprefix
 strprefix: strprefix.exe
-strprefix.exe: strprefix_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+strprefix.exe: strprefix_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $<
 strprefix_dats.c: strprefix.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output strprefix_dats.c --dynamic strprefix.dats
 clean:: ; $(RMF) strprefix_dats.o
 clean:: ; $(RMF) strprefix_dats.c
