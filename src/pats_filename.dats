@@ -154,7 +154,9 @@ end // end of [compare_filename_filename]
 (* ****** ****** *)
 
 local
-
+//
+// HX: implemented in [pats_utils.dats]
+//
 extern
 fun string_test_suffix
 (

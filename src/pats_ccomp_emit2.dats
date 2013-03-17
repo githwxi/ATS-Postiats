@@ -201,13 +201,14 @@ implement
 emit_staload
   (out, hid) = let
 //
-val-HIDstaload (
+val-HIDstaload
+(
   fil, flag, fenv, loaded
 ) = hid.hidecl_node
-//
+(*
 val () = 
   println! ("emit_staload: flag = ", flag)
-//
+*)
 val d2cs = $TR2ENV.filenv_get_d2eclist (fenv)
 //
 val issta = $FIL.filename_is_sats (fil)
