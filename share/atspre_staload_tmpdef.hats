@@ -54,4 +54,4 @@ staload _ = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
 
-(* end of [atspre_staload.hats] *)
+(* end of [atspre_tmpdef_staload.hats] *)

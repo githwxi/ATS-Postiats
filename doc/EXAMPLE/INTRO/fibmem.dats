@@ -14,7 +14,7 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_tmpdef_staload.hats"
+"share/atspre_staload_tmpdef.hats"
 //
 (* ****** ****** *)
 

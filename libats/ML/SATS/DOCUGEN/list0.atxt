@@ -135,6 +135,7 @@ The following code builds a list of digits and then prints them out:
 
 #pats2xhtmld_tryit('\
 //
+staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement
@@ -197,6 +198,7 @@ implementation of list concatenation:
 
 #pats2xhtmld_tryit('\
 //
+staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a}
@@ -256,6 +258,7 @@ position i:
 
 #pats2xhtmld_tryit('\
 //
+staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
 staload "contrib/atshwxi/testing/SATS/randgen.sats"
 //
@@ -307,6 +310,7 @@ equals the sum of their individual lengths:
 
 #pats2xhtmld_tryit("\
 //
+staload \"libats/SATS/ML_basis.sats\"
 staload \"libats/ML/SATS/list0.sats\"
 //
 implement
@@ -339,6 +343,7 @@ function by a beginner of functional programming:
 
 #pats2xhtmld_tryit('\
 //
+staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a}
@@ -426,6 +431,7 @@ The following code implements a function for printing out a given list:
 
 #pats2xhtmld_tryit('\
 //
+staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a}
@@ -484,6 +490,7 @@ function:
 
 #pats2xhtmld_tryit('\
 //
+staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a}
@@ -530,6 +537,7 @@ function:
 
 #pats2xhtmld_tryit('\
 //
+staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a}
@@ -569,6 +577,7 @@ all even:
 
 #pats2xhtmld_tryit('\
 //
+staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement
@@ -607,6 +616,7 @@ lists are equal based on a given equality funtion on list elements:
 
 #pats2xhtmld_tryit('\
 //
+staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a}
@@ -662,6 +672,7 @@ Following is a standard implementation of this function:
 
 #pats2xhtmld_tryit('\
 //
+staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a}{b}
@@ -694,6 +705,7 @@ Following is a standard implementation of this function:
 
 #pats2xhtmld_tryit('
 //
+staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a}{b}
@@ -731,6 +743,7 @@ Following is a standard implementation of this function:
 
 #pats2xhtmld_tryit('\
 //
+staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a1,a2}{b}
@@ -765,6 +778,7 @@ Following is a standard implementation of this function:
 
 #pats2xhtmld_tryit('\
 //
+staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a}
@@ -803,6 +817,7 @@ standard output channel:
 
 #pats2xhtmld_tryit('\
 //
+staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement
@@ -812,30 +827,34 @@ main () = 0 where {
 } // end of [main]
 ')
 
-As more elaborate example, the following code implements a function
+As a more elaborate example, the following code implements a function
 #dyncode("list0_permute") that returns a list consisting of all the
 permutations of a given list:
 
 #pats2xhtmld_tryit('\
 //
+staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 fun{a:t0p}
 list0_permute
-  (xs0: list0 (a)): list0 (list0 a) = let
+(
+  xs0: list0 (a)
+) : list0 (list0 a) = let
   val n = list0_length (xs0)
 in
 //
 case+ xs0 of
-| list0_cons (x0, xs1) => let
+| list0_cons
+    (x0, xs1) => let
     val yss = list0_permute (xs1)
     val f = lam (ys: list0 a) =<cloref1>
       list0_tabulate<list0(a)> (n, lam i => list0_insert_at_exn (ys, i, x0))
-    // end of [val]
+    // end of [lam] // end of [val]
   in
     list0_concat (list0_map (yss, f))
   end // end of [list0_cons]
-| list0_nil () => list0_sing (list0_nil)
+| list0_nil () => list0_sing (list0_nil ())
 //
 end // end of [list0_permute]
 ')
@@ -852,6 +871,7 @@ min(m,n)-1 and xs[i] (ys[i]) refers to element i in xs (ys).\
 
 #pats2xhtmld_tryit('\
 //
+staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement
@@ -898,6 +918,7 @@ The following code mergesorts a randomly generated list of integers:
 
 #pats2xhtmld_tryit('\
 //
+staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
 staload "contrib/atshwxi/testing/SATS/randgen.sats"
 //
@@ -938,6 +959,7 @@ The following code mergesorts a randomly generated list of integers:
 
 #pats2xhtmld_tryit('\
 //
+staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
 staload "contrib/atshwxi/testing/SATS/randgen.sats"
 //
