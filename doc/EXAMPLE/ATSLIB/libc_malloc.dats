@@ -33,6 +33,7 @@ val () = println! ("malloc_usable_size (", p ,") = ", nuse)
 val () = free_libc (pfat, pfgc | p)
 //
 val () = println! ("malloc_trim() = ", malloc_trim ((i2sz)0))
+val () = println! ("malloc_trim() = ", malloc_trim ((i2sz)0))
 //
 val () = malloc_stats ()
 //
