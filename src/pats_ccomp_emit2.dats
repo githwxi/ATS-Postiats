@@ -42,6 +42,11 @@ implement prerr_FILENAME<> () = prerr "pats_ccomp_emit2"
 
 (* ****** ****** *)
 
+staload
+FIL = "./pats_filename.sats"
+
+(* ****** ****** *)
+
 staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
@@ -170,10 +175,9 @@ case+ d2cs of
           auxloc (out, d2c.d2ecl_loc)
         val d2cs =
           $TR2ENV.filenv_get_d2eclist (fenv)
+        val issta = $FIL.filename_is_sats (fil)
       in
-        if flag = 0
-          then auxsta (out, d2cs) else auxdyn (out, d2cs)
-        // end of [if]
+        if issta then auxsta (out, d2cs) else auxdyn (out, d2cs)
       end // end of [D2Cstaload]
     | $D2E.D2Clocal
       (
@@ -201,10 +205,15 @@ val-HIDstaload (
   fil, flag, fenv, loaded
 ) = hid.hidecl_node
 //
+val () = 
+  println! ("emit_staload: flag = ", flag)
+//
 val d2cs = $TR2ENV.filenv_get_d2eclist (fenv)
 //
+val issta = $FIL.filename_is_sats (fil)
+//
 in
-  if flag = 0 then auxsta (out, d2cs) else auxdyn (out, d2cs)
+  if issta then auxsta (out, d2cs) else auxdyn (out, d2cs)
 end // end of [emit_staload]
 
 end // end of [local]

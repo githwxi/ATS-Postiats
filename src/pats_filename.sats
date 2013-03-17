@@ -103,7 +103,8 @@ val filename_stdin : filename (* STDIN *)
 
 (* ****** ****** *)
 
-fun filename_is_relative (name: string): bool
+fun filename_is_sats (fil: filename): bool
+fun filename_is_dats (fil: filename): bool
 
 (* ****** ****** *)
 

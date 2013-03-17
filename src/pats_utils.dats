@@ -77,13 +77,14 @@ end // end of [strcasecmp]
 (* ****** ****** *)
 
 extern
-fun string_test_prefix (
-  string: string, prfx: string
+fun string_test_prefix
+(
+  str: string, prfx: string
 ) :<> bool
   = "ext#patsopt_string_test_prefix"
 implement
 string_test_prefix
-  (string, prfx) = let
+  (str, prfx) = let
 //
 #define NUL '\000'
 //
@@ -97,13 +98,39 @@ if c1 > NUL then let
   val c2 = $UN.ptrget<char> (p2)
 in
   if c1 = c2 then loop (p1+1, p2+1) else false
-end else true
+end else true // end of [if]
 //
 end // end of [loop]
 //
 in
-  $effmask_all (loop ($UN.cast2Ptr1(prfx), $UN.cast2Ptr1(string)))
+  $effmask_all (loop ($UN.cast2Ptr1(prfx), $UN.cast2Ptr1(str)))
 end // end of [patsopt_string_test_prefix]
+
+(* ****** ****** *)
+
+extern
+fun string_test_sffx
+(
+  str: string, sffx: string
+) :<> bool
+  = "ext#patsopt_string_test_suffix"
+implement
+string_test_sffx
+  (str, sffx) = let
+//
+val n1 = string_length (str)
+val n2 = string_length (sffx)
+//
+in
+//
+if n1 >= n2 then let
+  val p1 = $UN.cast2Ptr1(str)
+  val str2 = $UN.cast{string}(p1 + (n1 - n2))
+in
+  str2 = sffx
+end else false // end of [if]
+//
+end // end of [string_test_sffx]
 
 (* ****** ****** *)
 

@@ -39,6 +39,11 @@ appear in the same order as they are accumulated.
 
 (* ****** ****** *)
 
+#declnamesynop("qlist_make_nil")
+#declnamesynop("qlist_free_nil")
+
+(* ****** ****** *)
+
 #declnamesynop("qlist_is_nil")
 #declnamesynop("qlist_isnot_nil")
 
@@ -71,6 +76,52 @@ queue is not empty, and returns true. Otherwise, it returns false. ")
 
 This function takes out all of the elements in a given queue. Note
 that the complexity of the funtion is O(1).
+
+")
+#declexample("
+
+The following code demonstrates a typical use of a qlist as a FIFO
+accumulator:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/SATS/qlist.sats"
+//
+fun{
+a:t0p
+} list_copy
+  {n:int}
+(
+  xs: list (a, n)
+) : list_vt (a, n) = let
+//
+fun loop
+  {i,j:int}
+(
+  xs: list (a, i), pq: qlist (a, j)
+) : list_vt (a, i+j) = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = qlist_insert (pq, x)
+  in
+    loop (xs, pq)
+  end // end of [list_cons]
+| list_nil () => let
+    val res = qlist_takeout_list (pq)
+    val () = qlist_free_nil (pq)
+  in
+     res
+  end // end of [list_nil]
+//
+end // end of [loop]
+//
+in
+  loop (xs, qlist_make_nil ())
+end // end of [list_copy]
+')
 
 ")
 
