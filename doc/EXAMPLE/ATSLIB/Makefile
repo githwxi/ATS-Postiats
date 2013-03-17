@@ -86,6 +86,14 @@ cleanall:: ; $(RMF) prelude_reference.exe
 
 ######
 
+all:: libc_malloc
+libc_malloc: libc_malloc.exe
+libc_malloc.exe: libc_malloc_dats.c ;   $(GCC) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $<
+libc_malloc_dats.c: libc_malloc.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_malloc_dats.c --dynamic libc_malloc.dats
+clean:: ; $(RMF) libc_malloc_dats.o
+clean:: ; $(RMF) libc_malloc_dats.c
+cleanall:: ; $(RMF) libc_malloc.exe
+
 all:: libc_stdio
 libc_stdio: libc_stdio.exe
 libc_stdio.exe: libc_stdio_dats.c ;   $(GCC) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $<

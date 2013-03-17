@@ -48,4 +48,21 @@ end // end of [getenv_gc]
 
 (* ****** ****** *)
 
+%{
+extern
+atstype_ptr
+atslib_malloc_libc_exn
+  (atstype_size bsz)
+{
+  void *p ;
+  p = atslib_malloc_libc(bsz) ;
+  if (!p) {
+    fprintf(stderr, "exit(ATSLIB): [malloc] failed\n") ; exit(1) ;
+  } // end of [if]
+  return p ;
+} /* end of [atslib_malloc_libc_exn]
+%}
+
+(* ****** ****** *)
+
 (* end of [stdlib.dats] *)

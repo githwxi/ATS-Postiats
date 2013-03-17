@@ -82,6 +82,7 @@ T_FORSTAR : 'for*'
 T_FUN : fn, fnx, fun, prfn, prfun, castfn
 T_IF : 'if'
 T_IMPLEMENT : implement, primplement, primplmnt
+T_IMPORT : import
 T_IN : 'in'
 T_LAM : lam, llam, lam@
 T_LET : 'let'

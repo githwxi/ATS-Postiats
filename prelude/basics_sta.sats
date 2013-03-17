@@ -478,11 +478,15 @@ typedef b0ytes (n:int) = @[byte?][n]
 // HX: for memory deallocation (with/without GC)
 //
 absview
-free_gc_addr_view (l:addr)
+free_gc_addr_view (addr)
 stadef free_gc_v = free_gc_addr_view
 absview
-free_ngc_addr_view (l:addr)
+free_ngc_addr_view (addr)
 stadef free_ngc_v = free_ngc_addr_view
+//
+absview
+free_libc_addr_view (addr) // libc-free
+stadef free_libc_v = free_libc_addr_view
 //
 (* ****** ****** *)
 

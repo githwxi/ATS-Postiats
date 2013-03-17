@@ -212,9 +212,12 @@ ptr0_sub_size (p: ptr, u: size): ptr
 
 #atscode_separator()
 
-fun fprint_ptr
-  (out: FILEref, p: ptr): void = "mac\#%"
-// end of [fprint_ptr]
+fun print_ptr (p: ptr): void = "mac\#%"
+fun prerr_ptr (p: ptr): void = "mac\#%"
+overload print with print_ptr
+overload prerr with prerr_ptr
+fun fprint_ptr : fprint_type (ptr) = "mac\#%"
+overload fprint with fprint_ptr
 
 #atscode_separator()
 

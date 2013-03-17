@@ -81,6 +81,11 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+\#define atslib_free_libc free
+\#define atslib_malloc_libc malloc
+
+#atscode_separator_for_C()
+
 \#define atslib_system system
 
 #atscode_separator_for_C()

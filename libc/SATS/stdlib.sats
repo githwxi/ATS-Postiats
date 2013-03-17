@@ -478,6 +478,47 @@ fun grantpt (fd: int): int = "mac#%"
 
 (* ****** ****** *)
 
+dataview
+malloc_libc_v (addr, int) =
+  | {l:agz}{n:int}
+    malloc_libc_v_succ (l, n) of (b0ytes (n) @ l, free_libc_v (l))
+  | {n:int} malloc_libc_v_fail (null, n)
+// end of [malloc_libc_v]
+
+(* ****** ****** *)
+
+fun
+malloc_libc
+  {n:int}
+(
+  bsz: size_t n
+) :<!wrt>
+[
+  l:addr
+] (
+  malloc_libc_v (l, n) | ptr l
+) = "mac#%" // end of [malloc]
+
+fun
+malloc_libc_exn
+  {n:int}
+(
+  bsz: size_t n
+) :<!wrt>
+[
+  l:addr | l > null
+] (
+  b0ytes(n) @ l, free_libc_v l | ptr l
+) = "mac#%" // end of [malloc_exn]
+
+fun free_libc
+  {l:addr}{n:int}
+(
+  b0ytes(n) @ l, free_libc_v l | ptr l
+) :<!wrt> void = "mac#%" // endfun
+
+(* ****** ****** *)
+
 /*
 int system(const char *command);
 */

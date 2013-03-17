@@ -14,10 +14,6 @@ UNSAFE = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload UNI = "libc/SATS/unistd.sats"
-
-(* ****** ****** *)
-
 staload "libc/SATS/unistd.sats"
 
 (* ****** ****** *)

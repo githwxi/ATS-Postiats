@@ -59,8 +59,8 @@ macdef M_CHECK_ACTION = $extval (mallopt_param, "M_CHECK_ACTION")
 
 fun mallopt
 (
-  param: malloc_param, value: int(*bsz*)
-) : int (*1/0:succ/fail*) = "mac#%"
+  param: mallopt_param, value: int(*bsz*)
+) : int = "mac#%" // endfun // succ/fail: 1/0
 
 (* ****** ****** *)
 
@@ -70,7 +70,8 @@ fun malloc_trim
 (* ****** ****** *)
 
 fun malloc_usable_size
-  (ptr: Ptr1): size_t = "mac#%" // [ptr] is alloccated
+  {l:addr} (!free_libc_v l | ptr l): size_t = "mac#%"
+// end of [malloc_usable_size]
 
 (* ****** ****** *)
 

@@ -125,13 +125,12 @@ overload compare with compare_bool0_bool0
 
 #atscode_separator()
 
-fun fprint_bool
-  (out: FILEref, x: bool): void = "mac\#%"
-overload fprint with fprint_bool
 fun print_bool (x: bool): void = "mac\#%"
-and prerr_bool (x: bool): void = "mac\#%"
+fun prerr_bool (x: bool): void = "mac\#%"
 overload print with print_bool
 overload prerr with prerr_bool
+fun fprint_bool : fprint_type (bool) = "mac\#%"
+overload fprint with fprint_bool
 
 #atscode_separator()
 //
