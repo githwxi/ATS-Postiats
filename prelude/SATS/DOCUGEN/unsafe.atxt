@@ -137,7 +137,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 //
 fun{a:t@ype}
 list_vt_copy {n:int}
-  (xs: !list_vt (a, n)): list_vt (a, n) = list_copy ($UN.linlst2lst (xs))
+  (xs: !list_vt (a, n)): list_vt (a, n) = list_copy ($UN.list_vt2t (xs))
 // end of [list_vt_copy]
 ')
 ')

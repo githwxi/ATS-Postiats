@@ -36,17 +36,15 @@ This package contains common functions for processing linear strings.\
 
 #declnamesynop("strptr2ptr")
 #declnamesynop("strnptr2ptr")
+#declnamesynop("strptr2strnptr")
+#declnamesynop("strnptr2strptr")
 
 (* ****** ****** *)
 
-#declnamesynop("strptr_of_strnptr")
-#declnamesynop("strnptr_of_strptr")
-
-#declnamesynop("stropt_of_strptr")
-#declnamesynop("stropt_of_strnptr")
-
-#declnamesynop("string_of_strptr")
-#declnamesynop("string_of_strnptr")
+#declnamesynop("strptr2string")
+#declnamesynop("strnptr2string")
+#declnamesynop("strptr2stropt")
+#declnamesynop("strnptr2stropt")
 
 (* ****** ****** *)
 
@@ -138,6 +136,7 @@ The following code implements a function that captializes each letter in a
 given linear string:
 
 #pats2xhtmld_tryit('\
+//
 staload UN = "prelude/SATS/unsafe.sats"
 //
 fun strnptr_upperize
