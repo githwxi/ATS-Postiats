@@ -74,6 +74,26 @@ libc/SATS/DOCUGEN/*_atxt.dats
 libc/SATS/DOCUGEN/HTML
 libc/SATS/DOCUGEN/TRYIT
 
+libc/sys/SATS/CODEGEN/*.exe
+libc/sys/SATS/CODEGEN/*.sats
+libc/sys/SATS/CODEGEN/*_atxt.txt
+libc/sys/SATS/CODEGEN/*_atxt.dats
+libc/sys/DATS/CODEGEN/*.exe
+libc/sys/DATS/CODEGEN/*.dats
+libc/sys/DATS/CODEGEN/*_atxt.txt
+libc/sys/DATS/CODEGEN/*_atxt.dats
+libc/sys/CATS/CODEGEN/*.exe
+libc/sys/CATS/CODEGEN/*.cats
+libc/sys/CATS/CODEGEN/*_atxt.txt
+libc/sys/CATS/CODEGEN/*_atxt.dats
+
+libc/sys/SATS/DOCUGEN/Makefile
+libc/sys/SATS/DOCUGEN/*.exe
+libc/sys/SATS/DOCUGEN/*_atxt.txt
+libc/sys/SATS/DOCUGEN/*_atxt.dats
+libc/sys/SATS/DOCUGEN/HTML
+libc/sys/SATS/DOCUGEN/TRYIT
+
 #
 # ATSLIB/libats
 #

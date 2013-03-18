@@ -48,33 +48,28 @@
 #define SHR (x) x // for commenting: it is shared
 
 (* ****** ****** *)
-
+//
 staload
 TYPES = "libc/sys/SATS/types.sats"
+//
 typedef time_t = $TYPES.time_t
-
-(* ****** ****** *)
+typedef clock_t = $TYPES.clock_t
+typedef clockid_t = $TYPES.clockid_t
 //
-fun lt_time_time (t1: time_t, t2: time_t):<> bool = "mac#%"
-fun lte_time_time (t1: time_t, t2: time_t):<> bool = "mac#%"
-overload < with lt_time_time
-overload <= with lte_time_time
+macdef
+CLOCKS_PER_SEC = $extval (clock_t, "CLOCKS_PER_SEC")
 //
-fun gt_time_time (t1: time_t, t2: time_t):<> bool = "mac#%"
-fun gte_time_time (t1: time_t, t2: time_t):<> bool = "mac#%"
-overload > with gt_time_time
-overload >= with gte_time_time
+macdef
+CLOCK_REALTIME = $extval (clockid_t, "CLOCK_REALTIME")
+macdef
+CLOCK_MONOTONIC = $extval (clockid_t, "CLOCK_MONOTONIC")
 //
-fun eq_time_time (t1: time_t, t2: time_t):<> bool = "mac#%"
-fun neq_time_time (t1: time_t, t2: time_t):<> bool = "mac#%"
-overload = with eq_time_time
-overload <> with neq_time_time
-overload != with neq_time_time
+macdef
+CLOCK_THREAD_CPUTIME_ID = $extval (clockid_t, "CLOCK_THREAD_CPUTIME_ID")
+macdef
+CLOCK_PROCESS_CPUTIME_ID = $extval (clockid_t, "CLOCK_PROCESS_CPUTIME_ID")
 //
 (* ****** ****** *)
-
-fun time2lint (t: time_t):<> lint = "mac#%"
-fun time2double (t: time_t):<> double = "mac#%"
 
 fun difftime
   (fi: time_t, st: time_t) :<> double = "mac#%"
@@ -184,6 +179,32 @@ fun localtime_r // reentrant-version
   &time_t
 , tm: &tm_struct? >> opt (tm_struct, l > null)
 ) :<> #[l:addr] ptr (l) = "mac#%" // endfun
+
+(* ****** ****** *)
+
+fun tzset ():<!ref> void = "mac#%"
+
+(* ****** ****** *)
+
+fun clock (): clock_t = "mac#%" // -1 for error
+
+(* ****** ****** *)
+
+typedef
+timespec =
+$extype_struct "atslib_timespec_type" of
+{
+  tv_sec= time_t (*secs*), tv_nsec= lint (*nanosecs*)
+} // end of [extype_struct] // end of [timespec]
+
+(* ****** ****** *)
+
+fun nanosleep
+(
+  tms: timespec, rem: &timespec? >> opt (timespec, i==0)
+) : #[i:int | i <= 0] int(i) = "mac#%" // endfun
+
+fun nanosleep_null (tms: &timespec): int = "mac#%" // endfun
 
 (* ****** ****** *)
 

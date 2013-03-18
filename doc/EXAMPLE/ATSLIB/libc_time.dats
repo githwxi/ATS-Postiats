@@ -13,6 +13,12 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload
+TYPES = "libc/sys/SATS/types.sats"
+overload = with $TYPES.eq_time_time
+
+(* ****** ****** *)
+
 staload "libc/SATS/time.sats"
 staload _ = "libc/DATS/time.dats"
 
@@ -150,6 +156,15 @@ val tval2 = mktime (!p)
 prval () = fpf (pfat)
 //
 val () = assertloc (tval = tval2)
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val ntick = clock ()
 //
 } // end of [val]
 

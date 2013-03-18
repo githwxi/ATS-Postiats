@@ -202,11 +202,13 @@ string_make_list (cs) =
 
 implement
 string_make_listlen
-  {n} (cs, n) = $effmask_wrt let
+  {n} (cs, n) = let
 //
 prval () = lemma_list_param (cs)
 //
-fun loop {n:nat} .<n>. (
+fun loop
+  {n:nat} .<n>.
+(
   cs: list (char, n), n: int n, p: ptr
 ) :<!wrt> ptr = let
 in
@@ -215,18 +217,18 @@ in
     val () = $UN.ptr0_set<char>(p, c)
   in
     loop (cs, n-1, ptr_succ<char>(p))
-  end else p // end of [val]
+  end else p // end of [if]
 end // end of [loop]
 //
 val n1 = n + 1
-val (
-  pf, pfgc | p0
-) = malloc_gc ((i2sz)n1)
-val p1 = loop (cs, n, p0)
-val () = $UN.ptr0_set<char>(p1, CNUL)
+val (pf, pfgc | p0) =
+  $effmask_wrt (malloc_gc ((i2sz)n1))
+val p1 = $effmask_wrt (loop (cs, n, p0))
+val () =
+  $effmask_wrt ($UN.ptr0_set<char>(p1, CNUL))
 //
 in
-  castvwtp_trans {strnptr(n)} @(pf, pfgc | p0)
+  castvwtp_trans{strnptr(n)}((pf, pfgc | p0))
 end // end of [string_make_listlen]
 
 #atscode_separator()
@@ -238,11 +240,13 @@ string_make_list_rev (cs) =
 
 implement
 string_make_listlen_rev
-  {n} (cs, n) = $effmask_wrt let
+  {n} (cs, n) = let
 //
 prval () = lemma_list_param (cs)
 //
-fun loop {n:nat} .<n>. (
+fun loop
+  {n:nat} .<n>.
+(
   cs: list (char, n), n: int n, p: ptr
 ) :<!wrt> ptr = let
 in
@@ -256,15 +260,15 @@ in
 end // end of [loop]
 //
 val n1 = n + 1
-val (
-  pf, pfgc | p0
-) = malloc_gc ((i2sz)n1)
+val (pf, pfgc | p0) =
+  $effmask_wrt (malloc_gc ((i2sz)n1))
 val p1 = ptr_add<char>(p0, n)
-val () = $UN.ptr0_set<char>(p1, CNUL)
-val p0 = loop (cs, n, p1)
+val () =
+  $effmask_wrt ($UN.ptr0_set<char>(p1, CNUL))
+val p0 = $effmask_wrt (loop (cs, n, p1))
 //
 in
-  castvwtp_trans {strnptr(n)} @(pf, pfgc | p0)
+  castvwtp_trans{strnptr(n)}((pf, pfgc | p0))
 end // end of [string_make_listlen_rev]
 
 #atscode_separator()
@@ -284,7 +288,7 @@ val p_dst_ln = ptr1_add_bytesize (p_dst, ln)
 val () = $UN.ptr0_set<char>(p_dst_ln, CNUL)
 //
 in
-  castvwtp_trans {strnptr(ln)} @(pf, pfgc | p_dst)
+  castvwtp_trans{strnptr(ln)}((pf, pfgc | p_dst))
 end // end of [string_make_substring]
 
 #atscode_separator()
@@ -321,7 +325,7 @@ string1_copy
   val (pf, pfgc | p) = malloc_gc (n1)
   val _(*p*) = $effmask_wrt (memcpy (p, string2ptr(str), n1))
 in
-  castvwtp_trans {strnptr(n)} @(pf, pfgc | p)
+  castvwtp_trans{strnptr(n)}((pf, pfgc | p))
 end // end of [string1_copy]
 
 #atscode_separator()
@@ -474,7 +478,7 @@ val (pf, pfgc | p) = malloc_gc (succ(ntot))
 val () = loop (p, xs, ns)
 //
 in
-  castvwtp_trans {Strptr1} @(pf, pfgc | p)
+  castvwtp_trans{Strptr1}((pf, pfgc | p))
 end // end of [stringlst_concat]
 
 #atscode_separator()

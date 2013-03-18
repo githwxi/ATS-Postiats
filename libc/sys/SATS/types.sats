@@ -55,4 +55,44 @@ typedef time_t = time_t0ype // = its C-counterpart
 
 (* ****** ****** *)
 
+fun time2lint (t: time_t):<> lint = "mac#%"
+fun time2double (t: time_t):<> double = "mac#%"
+
+(* ****** ****** *)
+//
+fun lt_time_time (t1: time_t, t2: time_t):<> bool = "mac#%"
+fun lte_time_time (t1: time_t, t2: time_t):<> bool = "mac#%"
+overload < with lt_time_time
+overload <= with lte_time_time
+//
+fun gt_time_time (t1: time_t, t2: time_t):<> bool = "mac#%"
+fun gte_time_time (t1: time_t, t2: time_t):<> bool = "mac#%"
+overload > with gt_time_time
+overload >= with gte_time_time
+//
+fun eq_time_time (t1: time_t, t2: time_t):<> bool = "mac#%"
+fun neq_time_time (t1: time_t, t2: time_t):<> bool = "mac#%"
+overload = with eq_time_time
+overload <> with neq_time_time
+overload != with neq_time_time
+//
+(* ****** ****** *)
+
+abst@ype
+clock_t0ype = $extype"atslib_clock_type"
+typedef clock_t = clock_t0ype // = its C-counterpart
+
+(* ****** ****** *)
+
+fun clock2lint (t: clock_t):<> lint = "mac#%"
+fun clock2double (t: clock_t):<> double = "mac#%"
+
+(* ****** ****** *)
+
+abst@ype
+clockid_t0ype = $extype"atslib_clockid_type"
+typedef clockid_t = clockid_t0ype // = its C-counterpart
+
+(* ****** ****** *)
+
 (* end of [types.sats] *)
