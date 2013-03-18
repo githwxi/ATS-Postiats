@@ -110,8 +110,6 @@ extern fun hidexp_ccomp_assgn_ptr : hidexp_ccomp_funtype
 extern fun hidexp_ccomp_xchng_var : hidexp_ccomp_funtype
 extern fun hidexp_ccomp_xchng_ptr : hidexp_ccomp_funtype
 
-extern fun hidexp_ccomp_lam : hidexp_ccomp_funtype
-
 (* ****** ****** *)
 
 extern
@@ -269,6 +267,8 @@ case+ hde0.hidexp_node of
 | HDEarrpsz _ => auxret (env, res, hde0)
 //
 | HDElam _ => hidexp_ccomp_lam (env, res, hde0)
+//
+| HDEloop _ => hidexp_ccomp_loop (env, res, hde0)
 //
 | _ => let
     val () = println! ("hidexp_ccomp: loc0 = ", loc0)
@@ -1258,9 +1258,7 @@ hidexp_ccomp_lam
 //
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
-val-HDElam (
-  hips_arg, hde_body
-) = hde0.hidexp_node
+val-HDElam (hips_arg, hde_body) = hde0.hidexp_node
 val flab = funlab_make_type (hse0)
 val fent = let
   val imparg = list_nil(*s2vs*)

@@ -14,9 +14,18 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload TM = "libc/SATS/time.sats"
+
+(* ****** ****** *)
+
 implement
 main0 () = let
 //
+var tval = $TM.time ()
+val TSTR =
+  $extfcall(Ptr0, "ctime", addr@(tval))
+val () = assert (TSTR > 0)
+val () = print! ($UN.cast{string}(TSTR))
 val USER =
   $extfcall(Ptr0, "getenv", "USER")
 in

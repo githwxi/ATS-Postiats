@@ -829,6 +829,16 @@ instr_node =
       primval(*test*), instrlst(*then*), instrlst(*else*)
     ) // end of [INScond]
 //
+  | INSloop of (
+      tmplab(*init*)
+    , tmplab(*fini*)
+    , tmplab(*cont*)
+    , instrlst(*init*)
+    , primval(*test*), instrlst(*test*)
+    , instrlst(*post*)
+    , instrlst(*body*)
+    ) // end of [INSloop]
+//
   | INSswitch of (ibranchlst) // switch statement
 //
   | INSletpop of ()
@@ -940,18 +950,35 @@ fun instr_move_arg_val
 fun instr_fcall
 (
   loc: location
-, tmpret: tmpvar, _fun: primval, hse_fun: hisexp, _arg: primvalist
+, tmpret: tmpvar
+, pmv_fun: primval, hse_fun: hisexp, pmvs_arg: primvalist
 ) : instr // end of [instr_fcall]
 
 fun instr_extfcall
-  (loc: location, tmpret: tmpvar, _fun: string, _arg: primvalist): instr
-// end of [instr_extfcall]
+(
+  loc: location, tmpret: tmpvar, _fun: string, _arg: primvalist
+) : instr // end of [instr_extfcall]
 
 (* ****** ****** *)
 
-fun instr_cond (
+fun instr_cond
+(
   loc: location, _cond: primval, _then: instrlst, _else: instrlst
 ) : instr // end of [instr_cond]
+
+(* ****** ****** *)
+
+fun instr_loop
+(
+  loc: location
+, tlab_init: tmplab
+, tlab_fini: tmplab
+, tlab_cont: tmplab
+, inss_init: instrlst
+, pmv_test: primval, inss_test: instrlst
+, inss_post: instrlst
+, inss_body: instrlst
+) : instr // end of [instr_loop]
 
 (* ****** ****** *)
 
@@ -1254,6 +1281,8 @@ typedef
 hidexp_ccomp_funtype =
   (!ccompenv, !instrseq, hidexp) -> primval
 fun hidexp_ccomp : hidexp_ccomp_funtype
+fun hidexp_ccomp_lam : hidexp_ccomp_funtype
+fun hidexp_ccomp_loop : hidexp_ccomp_funtype
 
 typedef
 hidexp_ccomp_ret_funtype =

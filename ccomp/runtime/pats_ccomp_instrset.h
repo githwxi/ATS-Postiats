@@ -140,8 +140,16 @@
 //
 #define ATSCKnot(x) ((x)==0)
 #define ATSCKiseqz(x) ((x)==0)
+#define ATSCKisneqz(x) ((x)!=0)
 #define ATSCKptriscons(x) (0 != (void*)(x))
 #define ATSCKptrisnull(x) (0 == (void*)(x))
+//
+/* ****** ****** */
+//
+// HX: handling for/while loops
+//
+#define ATSLOOPopen(init) while(atsbool_true) { init:
+#define ATSLOOPclose(init, fini) goto init ; fini: break ; }
 //
 /* ****** ****** */
 //

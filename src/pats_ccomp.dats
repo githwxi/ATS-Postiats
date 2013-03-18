@@ -560,6 +560,27 @@ instr_cond
   instr_make_node (loc, INScond (_cond, _then, _else))
 // end of [instr_cond]
 
+(* ****** ****** *)
+
+implement
+instr_loop
+(
+  loc, tlab_init, tlab_fini, tlab_cont
+, inss_init, pmv_test, inss_test, inss_post, inss_body
+) = let
+//
+val node = INSloop
+(
+  tlab_init, tlab_fini, tlab_cont
+, inss_init, pmv_test, inss_test, inss_post, inss_body
+)
+//
+in
+  instr_make_node (loc, node)
+end // end of [instr_loop]  
+
+(* ****** ****** *)
+
 implement
 instr_switch
   (loc, xs) = instr_make_node (loc, INSswitch (xs))

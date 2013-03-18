@@ -1275,7 +1275,8 @@ case+ ins.instr_node of
 | INSfcall _ => emit_instr_fcall (out, ins)
 | INSextfcall _ => emit_instr_extfcall (out, ins)
 //
-| INScond (
+| INScond
+  (
     pmv_cond, inss_then, inss_else
   ) => {
     val () = emit_text (out, "ATSif(")
@@ -1289,7 +1290,66 @@ case+ ins.instr_node of
     // end of [val]
   } // end of [INScond]
 //
-| INSswitch (xs) => {
+| INSloop
+  (
+    tlab_init, tlab_fini, tlab_cont
+  , inss_init, pmv_test, inss_test, inss_post, inss_body
+  ) => {
+    val () = emit_text (out, "/*\n")
+    val () = emit_text (out, "** loop-init(beg)\n")
+    val () = emit_text (out, "*/\n")
+    val () =
+    (
+      emit_instrlst (out, inss_init); emit_newline (out)
+    )
+    val () = emit_text (out, "/*\n")
+    val () = emit_text (out, "** loop-init(end)\n")
+    val () = emit_text (out, "*/\n")
+    val () = (
+      emit_text (out, "ATSLOOPopen(");
+      emit_tmplab (out, tlab_init); emit_text (out, ")\n")
+    ) // end of [val]
+//
+    val () =
+    (
+      emit_instrlst (out, inss_test); emit_newline (out)
+    )
+//
+    val () = emit_text (out, "ATSif( ")
+    val () = emit_text (out, "ATSCKnot(")
+    val () = emit_primval (out, pmv_test)
+    val () = emit_text (out, ")) break ;")
+    val () = emit_newline (out)
+//
+    val () =
+    (
+      emit_instrlst (out, inss_body); emit_newline (out)
+    )
+//
+    val ispost = list_is_cons (inss_post)
+//
+    val () = if ispost then
+    {
+      val () = emit_text (out, "/*\n")
+      val () = emit_text (out, "** continue after post-update\n")
+      val () = emit_text (out, "*/\n")
+      val () = emit_tmplab (out, tlab_cont)
+      val () = emit_text (out, ":\n")
+      val () = emit_instrlst (out, inss_post)
+      val () = emit_newline (out)
+    } // end of [if] // end of [val]
+//
+    val () = (
+      emit_text (out, "ATSLOOPclose(");
+      emit_tmplab (out, tlab_init); emit_text (out, ", ");
+      emit_tmplab (out, tlab_fini); emit_text (out, ") ;")
+    ) // end of [val]
+//
+    val () = emit_newline (out)
+  } // end of [INSloop]
+//
+| INSswitch (xs) =>
+  {
     val () = emit_text (out, "ATSdo() {\n")
     val () =
       emit_text (out, "\n} ATSwhile(0) ; /* end of [do] */")

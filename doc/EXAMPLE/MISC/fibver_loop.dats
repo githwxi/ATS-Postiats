@@ -9,6 +9,10 @@
 
 (* ****** ****** *)
 
+staload "prelude/DATS/integer.dats"
+
+(* ****** ****** *)
+
 dataprop
 FIB (int, int) =
   | FIB0 (0, 0) | FIB1 (1, 1)

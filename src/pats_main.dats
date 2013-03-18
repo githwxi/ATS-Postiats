@@ -305,19 +305,31 @@ dynload "pats_typerase_decl.dats"
 //
 dynload "pats_ccomp.dats"
 dynload "pats_ccomp_print.dats"
+//
 dynload "pats_ccomp_hitype.dats"
+//
 dynload "pats_ccomp_tmplab.dats"
 dynload "pats_ccomp_tmpvar.dats"
+//
 dynload "pats_ccomp_funlab.dats"
 dynload "pats_ccomp_funent.dats"
+//
 dynload "pats_ccomp_util.dats"
+//
 dynload "pats_ccomp_ccompenv.dats"
 dynload "pats_ccomp_instrseq.dats"
+//
 dynload "pats_ccomp_hipat.dats"
+//
 dynload "pats_ccomp_dynexp.dats"
-dynload "pats_ccomp_claulst.dats"
+//
+dynload "pats_ccomp_loop.dats"
+//
 dynload "pats_ccomp_caseof.dats"
+dynload "pats_ccomp_claulst.dats"
+//
 dynload "pats_ccomp_decl.dats"
+//
 dynload "pats_ccomp_subst.dats"
 dynload "pats_ccomp_template.dats"
 dynload "pats_ccomp_emit.dats"
