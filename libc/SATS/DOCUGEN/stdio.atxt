@@ -31,20 +31,21 @@ the corresponding libc-functions declared in [stdio.h].
 #declnamesynop("FILE_v")
 //
 #declname("FILEptr")
-#declsynopsis2("\
+#declsynop2("\
 #pats2xhtmls("\
-absviewtype
+absvtype
 FILEptr_viewtype (addr, file_mode) = ptr
-stadef FILEptr = FILEptr_viewtype
+vtypedef
+FILEptr (l:addr, fm:file_mode) = FILEptr_viewtype (l, fm)
 ")")
 //
 #declnamesynop("FILEptr0")
 //
 #declname("FILEptr1")
-#declsynopsis2("\
+#declsynop2("\
 #pats2xhtmls("\
-viewtypedef FILEptr1 (m:fm) = [l:agz] FILEptr (l, m)
-viewtypedef FILEptr1 (*none*) = [l:agz;m:fm] FILEptr (l, m)
+vtypedef FILEptr1 (m:fm) = [l:agz] FILEptr (l, m)
+vtypedef FILEptr1 (*none*) = [l:agz;m:fm] FILEptr (l, m)
 ")
 ")
 
@@ -70,14 +71,18 @@ viewtypedef FILEptr1 (*none*) = [l:agz;m:fm] FILEptr (l, m)
 (* ****** ****** *)
 
 #declnamesynop("FILEptr_refize")
+#decldescrpt("\
+
+This cast function is called to turn a linear FILEptr-value into a
+non-linear FILEref-value. ")
 
 (* ****** ****** *)
 
-#declnamesynop("FILEref_get_ptr")
+#declnamesynop("FILEref_vttakeout")
 #decldescrpt("\
 
 This cast function is called on a FILEref-value filr to get the linear
-FILEptr-value of filr for temporary use.  ")
+FILEptr-value of filr for temporary use. ")
 
 (* ****** ****** *)
 
@@ -148,7 +153,7 @@ string \"Hello, world!\" plus a newline:
 staload "libc/SATS/stdio.sats"
 //
 implement
-main () = 0 where {
+main0 () = {
   val () = freopen0_exn ("foo.txt", file_mode_w, stdout_ref)
   val () = puts_exn ("Hello, world!")
   val () = fclose0_exn (stdout_ref)
@@ -204,25 +209,20 @@ This function directly corresponds to the libc-function of the name
 
 (* ****** ****** *)
 
-#declnamesynop("clearerr0")
-#declnamesynop("clearerr1")
-
-(* ****** ****** *)
-
 #declnamesynop("feof0")
 #decldescrpt("\
 
 This function directly corresponds to the libc-function of the name
-feof. It returns a nonzero if and only if the end-of-file indicator for the
-stream associated with its argument is set.
+#dyncode("feof"). It returns a nonzero if and only if the end-of-file
+indicator for the stream associated with its argument is set.
 
 ")
 #declnamesynop("feof1")
 #decldescrpt("\
 
 This function directly corresponds to the libc-function of the name
-feof. It returns a nonzero if and only if the end-of-file indicator for the
-stream associated with its argument is set.
+#dyncode("feof"). It returns a nonzero if and only if the end-of-file
+indicator is set for the stream associated with its argument.
 
 ")
 
@@ -232,13 +232,33 @@ stream associated with its argument is set.
 #decldescrpt("\
 
 This function directly corresponds to the libc-function of the name
-ferror. ")
+#dyncode("ferror"). ")
 
 #declnamesynop("ferror1")
 #decldescrpt("\
 
 This function directly corresponds to the libc-function of the name
-ferror. ")
+#dyncode("ferror"). ")
+
+(* ****** ****** *)
+
+#declnamesynop("clearerr0")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("clearerr"). It clears the end-of-file and error indicators for the stream
+associated with its argument. \
+
+")
+
+#declnamesynop("clearerr1")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("clearerr"). It clears the end-of-file and error indicators for the stream
+associated with its argument. \
+
+")
 
 (* ****** ****** *)
 
@@ -252,7 +272,7 @@ ferror. ")
 #decldescrpt("\
 
 This function directly corresponds to the libc-function of the name
-fgetc. ")
+#dyncode("fgetc"). ")
 #declexample("\
 
 The following code copies chars read from the standard input channel to the
@@ -268,14 +288,14 @@ fun loop (
   inp: FILEref, out: FILEref
 ) : void =
   if feof0 (inp) = 0 then let
-    val _(*err*) = fputc0 (fgetc0 (inp), out) in loop (inp, out)
+    val _(*err*) = fputc0_int (fgetc0 (inp), out) in loop (inp, out)
   end else () // end of [if]
 // end of [loop]
 
 in // in of [local]
 
 implement
-main () = 0 where {
+main0 () = {
   val () = loop (stdin_ref, stdout_ref)
 } // end of [main]
 
@@ -287,7 +307,7 @@ end // end of [local]
 #decldescrpt("\
 
 This function directly corresponds to the libc-function of the name
-fgetc. ")
+#dyncode("fgetc"). ")
 
 (* ****** ****** *)
 
@@ -301,7 +321,7 @@ fgetc. ")
 #decldescrpt("\
 
 This function directly corresponds to the libc-function of the name
-fgets. ")
+#dyncode("fgets"). ")
 #declexample("\
 
 The following code copies lines read from the standard input channel to the
@@ -334,7 +354,7 @@ end // end of [loop]
 in // in of [local]
 
 implement
-main () = 0 where {
+main0 () = {
   \#define BUFSZ 1024
   var buf = @[byte][BUFSZ]()
   val () = loop (stdin_ref, stdout_ref, buf, BUFSZ)
@@ -348,13 +368,33 @@ end // end of [local]
 #decldescrpt("\
 
 This function directly corresponds to the libc-function of the name
-fgets. ")
+#dyncode("fgets"). ")
 
 (* ****** ****** *)
 
-#declnamesynop("fputc0")
-#declnamesynop("fputc1")
-#declnamesynop("fputc0_exn")
+#declname("fputc")
+#declsynop2('\
+#pats2xhtmls('\
+overload fputc with fputc0_int of 0
+overload fputc with fputc0_char of 0
+overload fputc with fputc1_int of 10
+overload fputc with fputc1_char of 10
+')
+')
+#declnamesynop("fputc0_int")
+#declnamesynop("fputc0_char")
+#declnamesynop("fputc1_int")
+#declnamesynop("fputc1_char")
+
+#declname("fputc_exn")
+#declsynop2('\
+#pats2xhtmls('\
+overload fputc_exn with fputc0_exn_int of 0
+overload fputc_exn with fputc0_exn_char of 0
+')
+')
+#declnamesynop("fputc0_exn_int")
+#declnamesynop("fputc0_exn_char")
 
 (* ****** ****** *)
 
@@ -470,7 +510,7 @@ and then renames the file as foo2.txt:
 staload "libc/SATS/stdio.sats"
 //
 implement
-main () = 0 where {
+main0 () = {
   val out =
     fopen_ref_exn ("foo.txt", file_mode_w)
   val () = fputs0_exn ("Hello, world!\\\n", out)

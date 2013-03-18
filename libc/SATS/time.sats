@@ -44,8 +44,9 @@
 
 (* ****** ****** *)
 
-#define NSH (x) x // for commenting: no sharing
-#define SHR (x) x // for commenting: it is shared
+#define RD(x) x // for commenting: read-only
+#define NSH(x) x // for commenting: no sharing
+#define SHR(x) x // for commenting: it is shared
 
 (* ****** ****** *)
 //
@@ -72,8 +73,9 @@ CLOCK_PROCESS_CPUTIME_ID = $extval (clockid_t, "CLOCK_PROCESS_CPUTIME_ID")
 (* ****** ****** *)
 
 fun difftime
-  (fi: time_t, st: time_t) :<> double = "mac#%"
-// end of [difftime]
+(
+  finish: time_t, start: time_t
+) :<> double = "mac#%" // endfun
 
 (* ****** ****** *)
 //
@@ -93,7 +95,7 @@ overload time with time_getset
 
 fun ctime // non-reentrant
 (
-  t: &time_t
+  t: &RD(time_t) // read-only
 ) :<!ref> [l:addr] vttakeout0 (strptr l) = "mac#%" // endfun
 
 (* ****** ****** *)
@@ -110,11 +112,11 @@ ctime_v (m:int, addr, addr) =
 fun ctime_r // reentrant-version
   {l:addr}{m:int | m >= CTIME_BUFSZ}
 (
-  !b0ytes_v (l, m) >> ctime_v (m, l, l1) | &time_t, ptr (l)
+  !b0ytes_v (l, m) >> ctime_v (m, l, l1) | &RD(time_t), ptr (l)
 ) :<!wrt> #[l1:addr] ptr (l1) = "mac#%" // end of [ctime_r]
 //
 fun{
-} ctime_r_gc (&time_t):<!wrt> Strptr0 // end of [ctime_r_gc]
+} ctime_r_gc (&RD(time_t)):<!wrt> Strptr0 // end of [ctime_r_gc]
 //
 (* ****** ****** *)
 
@@ -135,20 +137,20 @@ $extype_struct "atslib_tm_struct_type" of
 
 (* ****** ****** *)
 
-fun mktime (tm: &tm_struct):<> time_t = "mac#%"
+fun mktime (tm: &RD(tm_struct)):<> time_t = "mac#%"
 
 (* ****** ****** *)
 
 fun asctime
 (
-  tm: &tm_struct
+  tm: &RD(tm_struct)
 ) :<!ref> [l:addr] vttakeout0 (strptr l) = "mac#%"
 
 (* ****** ****** *)
 
 fun gmtime // non-reentrant
 (
-  tval: &time_t
+  tval: &RD(time_t)
 ) :<!ref>
 [
   l:addr
@@ -158,15 +160,14 @@ fun gmtime // non-reentrant
 
 fun gmtime_r // reentrant-version
 (
-  &time_t
-, tm: &tm_struct? >> opt (tm_struct, l > null)
+  tval: &RD(time_t), tm: &tm_struct? >> opt (tm_struct, l > null)
 ) :<> #[l:addr] ptr (l) = "mac#%" // endfun
 
 (* ****** ****** *)
 
 fun localtime // non-reentrant
 (
-  tval: &time_t
+  tval: &RD(time_t) // read-only
 ) :<!ref>
 [
   l:addr
@@ -176,8 +177,7 @@ fun localtime // non-reentrant
 
 fun localtime_r // reentrant-version
 (
-  &time_t
-, tm: &tm_struct? >> opt (tm_struct, l > null)
+  tval: &RD(time_t), tm: &tm_struct? >> opt (tm_struct, l > null)
 ) :<> #[l:addr] ptr (l) = "mac#%" // endfun
 
 (* ****** ****** *)
@@ -201,11 +201,29 @@ $extype_struct "atslib_timespec_type" of
 
 fun nanosleep
 (
-  tms: timespec, rem: &timespec? >> opt (timespec, i==0)
+  tms: &RD(timespec), rem: &timespec? >> opt (timespec, i==0)
 ) : #[i:int | i <= 0] int(i) = "mac#%" // endfun
 
-fun nanosleep_null (tms: &timespec): int = "mac#%" // endfun
+fun nanosleep_null (tms: &RD(timespec)): int = "mac#%" // endfun
 
+(* ****** ****** *)
+//
+// HX: linking with -lrt is needed for these functions
+//
+fun clock_getres
+(
+  id: clockid_t, res: &timespec? >> opt (timespec, i==0)
+) : #[i:int | i <= 0] int(i) = "mac#%" // endfun
+//
+fun clock_gettime
+(
+  id: clockid_t, tp: &timespec? >> opt (timespec, i==0)
+) : #[i:int | i <= 0] int(i) = "mac#%" // endfun
+//
+// HX: this one requires SUPERUSER previlege
+//
+fun clock_settime (id: clockid_t, tp: &RD(timespec)): int = "mac#%"
+//
 (* ****** ****** *)
 
 (* end of [time.sats] *)

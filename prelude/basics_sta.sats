@@ -41,6 +41,10 @@
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
+
+#define RD(x) x // for commenting: read-only
+
+(* ****** ****** *)
 (*
 //
 // HX-2012-05-24:
@@ -543,9 +547,9 @@ stadef cmpval = cmpval_funenv
 (* ****** ****** *)
 
 typedef cmpref_fun
-  (a: vt@ype) = (&a, &a) -<fun> int
+  (a: vt@ype) = (&RD(a), &RD(a)) -<fun> int
 typedef cmpref_funenv
-  (a: vt@ype, vt: vt@ype) = (&a, &a, !vt) -<fun> int
+  (a: vt@ype, vt: vt@ype) = (&RD(a), &RD(a), !vt) -<fun> int
 stadef cmpref = cmpref_fun
 stadef cmpref = cmpref_funenv
 

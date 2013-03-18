@@ -44,6 +44,8 @@
 
 (* ****** ****** *)
 
+vtypedef
+RD(a:vt0p) = a // for commenting: read-only
 #define NSH (x) x // for commenting: no sharing
 #define SHR (x) x // for commenting: it is shared
 
@@ -146,7 +148,7 @@ fun memcpy
   {n:int | n <= n1; n <= n2}
 (
   pf: !b0ytes(n1) @ l >> bytes(n1) @ l
-| dst: ptr (l), src: &(@[byte][n2]), n: size_t (n)
+| dst: ptr (l), src: &RD(@[byte][n2]), n: size_t (n)
 ) :<!wrt> ptr (l) = "mac#%" // end of [memcpy]
 //
 fun memcpy_unsafe {l:agz}
@@ -170,7 +172,7 @@ fun mempcpy
   {n:int | n <= n1; n <= n2}
 (
   pf: !b0ytes(n1) @ l >> bytes(n1) @ l
-| dst: ptr (l), src: &(@[byte][n2]), n: size_t (n)
+| dst: ptr (l), src: &RD(@[byte][n2]), n: size_t (n)
 ) :<!wrt> ptr (l+n) = "mac#%" // end of [mempcpy]
 //
 fun mempcpy_unsafe {l:agz}{n:int}

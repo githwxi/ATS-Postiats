@@ -88,6 +88,13 @@ atslib_time_getset
 
 \#define atslib_clock clock
 
+\#define atslib_clock_getres clock_getres
+
+#atscode_separator_for_C()
+
+\#define atslib_clock_gettime clock_gettime
+\#define atslib_clock_settime clock_settime
+
 #atscode_separator_for_C()
 
 \#endif // ifndef ATSLIB_LIBC_TIME_CATS

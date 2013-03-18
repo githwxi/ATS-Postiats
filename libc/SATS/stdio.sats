@@ -44,6 +44,7 @@
 
 (* ****** ****** *)
 
+#define RD(x) x // for commenting: read-only
 typedef SHR(a:type) = a // for commenting purpose
 typedef NSH(a:type) = a // for commenting purpose
 
@@ -173,7 +174,7 @@ fun fopen_exn
 fun fopen_ref_exn
   {m:fm} (
   path: NSH(string), m: file_mode m
-) :<!exnwrt> FILEref (*none*) = "ext#%"
+) :<!exnwrt> FILEref(*none*) = "ext#%"
 
 (* ****** ****** *)
 //
@@ -304,34 +305,17 @@ fdopen_v (
   | fdopen_v_fail (fd, null, m) of fildes_v (fd)
 // end of [fdopen_v]
 
-fun fdopen {fd:int} {m:fm}
+fun fdopen
+  {fd:int}{m:fm}
 (
-  pf: fildes_v (fd) | fd: int (fd), m: file_mode m
+  pf: fildes_v (fd) | fd: int (fd), m: file_mode (m)
 ) : [l:agez] (fdopen_v (fd, l, m) | ptr l)
 
-fun fdopen_exn {fd:int} {m:fm}
+fun fdopen_exn
+  {fd:int}{m:fm}
 (
-  pf: fildes_v (fd) | fd: int (fd), m: file_mode m
+  pf: fildes_v (fd) | fd: int (fd), m: file_mode (m)
 ) : FILEptr1 (m) // end of [fdopen_exn]
-
-(* ****** ****** *)
-(*
-//
-// void clearerr (FILE *stream);
-//
-The function [clearerr] clears the end-of-file and error indicators for
-the stream pointed to by stream.
-//
-*)
-//
-symintr clearerr
-//
-fun clearerr0
-  (filr: FILEref):<!wrt> void = "mac#%"
-overload clearerr with clearerr0
-fun clearerr1
-  (filp: !FILEptr1(*none*)):<!wrt> void = "mac#%"
-overload clearerr with clearerr1
 
 (* ****** ****** *)
 (*  
@@ -368,7 +352,25 @@ fun ferror1 (filp: !FILEptr1(*none*)):<> int = "mac#%"
 overload ferror with ferror1
 
 (* ****** ****** *)
+(*
+//
+// void clearerr (FILE *stream);
+//
+The function [clearerr] clears the end-of-file and error indicators for
+the stream pointed to by stream.
+//
+*)
+//
+symintr clearerr
+//
+fun clearerr0
+  (filr: FILEref):<!wrt> void = "mac#%"
+overload clearerr with clearerr0
+fun clearerr1
+  (filp: !FILEptr1(*none*)):<!wrt> void = "mac#%"
+overload clearerr with clearerr1
 
+(* ****** ****** *)
 (*
 //
 // int fflush (FILE *stream);
@@ -449,22 +451,15 @@ fgets_v (
 symintr fgets
 //
 fun fgets0
-  {sz:int}
-  {n0:pos | n0 <= sz}
+  {sz:int}{n0:pos | n0 <= sz}
 (
-  buf: &bytes(sz)? >> _
-, n0: int n0
-, filr: FILEref
+  buf: &bytes(sz) >> _, n0: int n0, filr: FILEref
 ) :<!wrt> Ptr0 // = addr@(buf) or NULL
 fun fgets1
-  {sz:int}
-  {n0:pos | n0 <= sz}
-  {m:fm}
+  {sz:int}{n0:pos | n0 <= sz}{m:fm}
 (
-  pf_mod: fmlte (m, r)
-| buf: &bytes(sz)? >> _
-, n0: int n0
-, filp: !FILEptr1 (m)
+  pfm: fmlte (m, r)
+| buf: &bytes(sz) >> _, n0: int n0, filp: !FILEptr1 (m)
 ) :<!wrt> Ptr0 // = addr@(buf) or NULL
 //
 overload fgets with fgets0
@@ -502,7 +497,7 @@ overload fgetpos with fgetpos1
 symintr fgetpos_exn
 //
 fun fgetpos0_exn 
-  (filp: FILEref, pos: &fpos_t? >> _) :<!wrt> void = "ext#%"
+  (filp: FILEref, pos: &fpos_t? >> _) :<!exnwrt> void = "ext#%"
 overload fgetpos_exn with fgetpos0_exn 
 //
 (* ****** ****** *)
@@ -624,7 +619,7 @@ fread0 // [isz]: the size of each item
   {nbf:int}
   {n:int | n*isz <= nbf}
 (
-  buf: &bytes(nbf)? >> _
+  buf: &bytes(nbf) >> _
 , isz: size_t isz, n: size_t n
 , filr: FILEref(*none*)
 ) :<!wrt> sizeLte n = "mac#%"
@@ -635,8 +630,8 @@ fread1 // [isz]: the size of each item
   {n:int | n*isz <= nbf}
   {m:fm}
 (
-  pf_mod: fmlte (m, r)
-| buf: &bytes(nbf)
+  pfm: fmlte (m, r)
+| buf: &bytes(nbf) >> _
 , isz: size_t isz, n: size_t n
 , filp: !FILEptr1 (m)
 ) :<!wrt> sizeLte n = "mac#%"
@@ -652,9 +647,8 @@ fread0_exn // [isz]: the size of each item
   {nbf:int}
   {n:int | n*isz <= nbf}
 (
-  buf: &bytes(nbf)? >> _
-, isz: size_t isz, n: size_t n, filr: FILEref
-) :<!exnwrt> sizeLte n = "ext#%"
+  buf: &bytes(nbf) >> _, isz: size_t isz, n: size_t n, filr: FILEref
+) :<!exnwrt> sizeLte n = "ext#%" // endfun
 overload fread_exn with fread0_exn
 
 (* ****** ****** *)
@@ -679,7 +673,7 @@ fwrite0 // [isz]: the size of each item
   {nbf:int}
   {n:int | n*isz <= nbf}
 (
-  buf: &bytes(nbf)
+  buf: &RD(bytes(nbf))
 , isz: size_t isz, n: size_t n
 , filr: FILEref
 ) :<!wrt> sizeLte (n) = "mac#%"
@@ -690,8 +684,8 @@ fwrite1 // [isz]: the size of each item
   {n:int | n*isz <= nbf}
   {m:fm}
 (
-  pf_mod: fmlte (m, w)
-| buf: &bytes(nbf)
+  pfm: fmlte (m, w)
+| buf: &RD(bytes(nbf))
 , isz: size_t isz, n: size_t n
 , filp: !FILEptr1 (m)
 ) :<!wrt> sizeLte (n) = "mac#%"
@@ -707,7 +701,7 @@ fwrite0_exn // [isz]: the size of each item
   {nbf:int}
   {n:int | n*isz <= nbf}
 (
-  buf: &bytes(nbf)
+  buf: &RD(bytes(nbf))
 , isz: size_t isz, n: size_t n
 , filr: FILEref(*none*)
 ) :<!exnwrt> sizeLte (n) = "ext#%"
@@ -745,7 +739,8 @@ fun fseek1
 overload fseek with fseek0
 overload fseek with fseek1
 //
-fun fseek0_exn (
+fun fseek0_exn
+(
   filr: FILEref, offset: lint, whence: whence
 ) :<!exnwrt> void = "ext#%"
 //
@@ -767,15 +762,15 @@ symintr fsetpos
 symintr fsetpos_exn
 //
 fun fsetpos0
-  (filp: FILEref(*none*), pos: &fpos_t):<!wrt> int = "mac#%"
+  (filp: FILEref(*none*), pos: &RD(fpos_t)):<!wrt> int = "mac#%"
 fun fsetpos1
-  (filp: !FILEptr1(*none*), pos: &fpos_t):<!wrt> int = "mac#%"
+  (filp: !FILEptr1(*none*), pos: &RD(fpos_t)):<!wrt> int = "mac#%"
 //
 overload fsetpos with fsetpos0
 overload fsetpos with fsetpos1
 //
 fun fsetpos0_exn
-  (filp: FILEref(*none*), pos: &fpos_t):<!wrt> void = "ext#%"
+  (filp: FILEref(*none*), pos: &RD(fpos_t)):<!exnwrt> void = "ext#%"
 //
 overload fsetpos_exn with fsetpos0_exn
 //
@@ -833,11 +828,13 @@ fun remove_exn
 
 (* ****** ****** *)
 
-fun rename (
+fun rename
+(
   oldpath: NSH(string), newpath: NSH(string)
 ) :<!wrt> int = "mac#%" // end of [fun]
 
-fun rename_exn (
+fun rename_exn
+(
   oldpath: NSH(string), newpath: NSH(string)
 ) :<!exnwrt> void = "ext#%" // end of [fun]
 
@@ -857,12 +854,12 @@ overload rewind with rewind1
 
 (* ****** ****** *)
 
-fun tmpfile (
-) :<!wrt> FILEptr0 (rw) = "mac#%"
-fun tmpfile_exn (
-) :<!exnwrt> FILEptr1 (rw) = "ext#%"
+fun tmpfile
+  () :<!wrt> FILEptr0 (rw) = "mac#%"
+fun tmpfile_exn
+  () :<!exnwrt> FILEptr1 (rw) = "ext#%"
 fun tmpfile_ref_exn
-  () :<!exnwrt> FILEref (*none*) = "ext#%"
+  () :<!exnwrt> FILEref(*none*) = "ext#%"
 // end of [tmpfile_ref_exn]
 
 (* ****** ****** *)
@@ -885,7 +882,7 @@ fun
 ungetc1
   {l:agz}{m:fm}
 (
-  pf_mod: fmlte (m, rw) | c: char, f: !FILEptr (l, m)
+  pfm: fmlte (m, rw) | c: char, f: !FILEptr (l, m)
 ) :<!wrt> [i:int | i <= UCHAR_MAX] int (i) = "mac#%"
 //
 overload ungetc with ungetc0
