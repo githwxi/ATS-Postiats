@@ -57,7 +57,7 @@ arrayptrout (a:t@ype, l: addr, n: int) = ptr
 castfn
 arrayptr_encode
   {a:vt0p}{l:addr}{n:int} (
-  pfarr: array_v (INV(a), l, n), pfgc: free_gc_v l | p: ptr l
+  pfarr: array_v (INV(a), l, n), pfgc: mfree_gc_v l | p: ptr l
 ) :<> arrayptr (a, l, n) // end of [arrayptr_encode]
 
 #atscode_separator()

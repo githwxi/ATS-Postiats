@@ -171,14 +171,16 @@ qstruct_uninitize
 
 praxi
 qstruct_objfize
-  {a:vt0p}{l:addr}{n:int} (
+  {a:vt0p}{l:addr}{n:int}
+(
   pf: qstruct (INV(a), n) @ l | p: !ptrlin l >> qlist (a, n)
-) :<prf> free_ngc_v (l) // endfun
+) :<prf> mfree_ngc_v (l) // endfun
 
 praxi
 qstruct_unobjfize
-  {a:vt0p}{l:addr}{n:int} (
-  pf: free_ngc_v l | p: ptr l, q: !qlist (INV(a), n) >> ptrlin l
+  {a:vt0p}{l:addr}{n:int}
+(
+  pf: mfree_ngc_v l | p: ptr l, q: !qlist (INV(a), n) >> ptrlin l
 ) :<prf> qstruct (a, n) @ l // endfun
 
 (* ****** ****** *)

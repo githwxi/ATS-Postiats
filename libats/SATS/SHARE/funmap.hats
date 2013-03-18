@@ -153,7 +153,7 @@ key,itm:t0p
 }{
 env:vt0p
 } funmap_foreach$cont
-  (k: key, x: &itm, env: &env): bool
+  (k: key, x: itm, env: &env): bool
 // end of [funmap_foreach$cont]
 
 fun{

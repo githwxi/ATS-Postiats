@@ -62,6 +62,15 @@ strings_atxt.dats: strings.atxt
 clean:: ; $(RMF) strings_atxt.exe
 cleanall:: ; $(RMF) strings.cats
 
+all:: time.cats
+time.cats: time_atxt.exe ; ./$< > $@
+time_atxt.exe: time_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ time_atxt.dats -latsdoc
+time_atxt.dats: time.atxt
+	$(ATSDOC) --outcode $@ -i time.atxt > time_atxt.txt
+clean:: ; $(RMF) time_atxt.exe
+cleanall:: ; $(RMF) time.cats
+
 all:: unistd.cats
 unistd.cats: unistd_atxt.exe ; ./$< > $@
 unistd_atxt.exe: unistd_atxt.dats

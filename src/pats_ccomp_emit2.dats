@@ -143,9 +143,24 @@ case+ d2cs of
     | $D2E.D2Cextcode
         (knd, pos, code) => let
         val () =
-          auxloc (out, d2c.d2ecl_loc) in emit_text (out, code)
+          auxloc (out, d2c.d2ecl_loc)
         // end of [val]
+      in
+        emit_text (out, code)
       end // end of [D2Cextcode]
+    | $D2E.D2Cstaload
+      (
+        idopt, fil, flag, fenv, loaded
+      ) => let
+        val () =
+          auxloc (out, d2c.d2ecl_loc)
+        val d2cs =
+          $TR2ENV.filenv_get_d2eclist (fenv)
+        val issta =
+          $FIL.filename_is_sats (fil)
+      in
+        if issta then auxsta (out, d2cs) else ()
+      end // end of [D2Cstaload]
     | _ => ()
     ) : void // end of [val]
   in
@@ -175,9 +190,12 @@ case+ d2cs of
           auxloc (out, d2c.d2ecl_loc)
         val d2cs =
           $TR2ENV.filenv_get_d2eclist (fenv)
-        val issta = $FIL.filename_is_sats (fil)
+        val issta =
+          $FIL.filename_is_sats (fil)
       in
-        if issta then auxsta (out, d2cs) else auxdyn (out, d2cs)
+        if issta
+          then auxsta (out, d2cs) else auxdyn (out, d2cs)
+        // end of [if]
       end // end of [D2Cstaload]
     | $D2E.D2Clocal
       (

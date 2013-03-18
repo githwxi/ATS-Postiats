@@ -32,7 +32,7 @@ fun malloc_gc
 ) :<!wrt>
   [l:agz]
 (
-  b0ytes n @ l, free_gc_v (l) | ptr l
+  b0ytes n @ l, mfree_gc_v (l) | ptr l
 ) = "mac\#%" // endfun
 
 #atscode_separator()
@@ -40,7 +40,7 @@ fun malloc_gc
 fun mfree_gc
   {l:addr}{n:int}
 (
-  pfat: b0ytes n @ l, pfgc: free_gc_v (l) | ptr l
+  pfat: b0ytes n @ l, pfgc: mfree_gc_v (l) | ptr l
 ) :<!wrt> void = "mac\#%" // endfun
 
 #atscode_separator()

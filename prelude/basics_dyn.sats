@@ -111,17 +111,17 @@ castfn dataget {a:vt@ype} (x: !INV(a) >> a): a?!
 // HX: returning the pf to GC
 //
 praxi
-free_gc_v_elim
-  {l:addr} (pf: free_gc_v l): void
-// end of [free_gc_v_elim]
+mfree_gc_v_elim
+  {l:addr} (pf: mfree_gc_v l): void
+// end of [mfree_gc_v_elim]
 
 (* ****** ****** *)
 
 praxi
-free_gcngc_v_nullify
+mfree_gcngc_v_nullify
   {l:addr} (
-  pf1: free_gc_v (l), pf1: free_ngc_v (l)
-) : void // end of [free_gcngc_nullify_v]
+  pf1: mfree_gc_v (l), pf1: mfree_ngc_v (l)
+) : void // end of [mfree_gcngc_nullify_v]
 
 (* ****** ****** *)
 

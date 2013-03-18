@@ -481,7 +481,7 @@ fun grantpt (fd: int): int = "mac#%"
 dataview
 malloc_libc_v (addr, int) =
   | {l:agz}{n:int}
-    malloc_libc_v_succ (l, n) of (b0ytes (n) @ l, free_libc_v (l))
+    malloc_libc_v_succ (l, n) of (b0ytes (n) @ l, mfree_libc_v (l))
   | {n:int} malloc_libc_v_fail (null, n)
 // end of [malloc_libc_v]
 
@@ -508,13 +508,13 @@ malloc_libc_exn
 [
   l:addr | l > null
 ] (
-  b0ytes(n) @ l, free_libc_v l | ptr l
+  b0ytes(n) @ l, mfree_libc_v l | ptr l
 ) = "mac#%" // end of [malloc_exn]
 
-fun free_libc
+fun mfree_libc
   {l:addr}{n:int}
 (
-  b0ytes(n) @ l, free_libc_v l | ptr l
+  b0ytes(n) @ l, mfree_libc_v l | ptr l
 ) :<!wrt> void = "mac#%" // endfun
 
 (* ****** ****** *)

@@ -274,25 +274,25 @@ implement
 sknode_free
   (nx, res) = let
 //
-  vtypedef VT = _sknode_struct (key, itm)
+vtypedef VT = _sknode_struct (key, itm)
 //
-  prval (
-    pfat, pfgc | p
-  ) = __cast (nx) where {
-    extern
-    castfn __cast (
-      nx: sknode1 (key, itm)
-    ) :<> [l:addr] (VT @ l, free_gc_v l | ptr l)
-  } // end of [prval]
+prval (
+  pfat, pfgc | p
+) = __cast (nx) where {
+  extern
+  castfn __cast (
+    nx: sknode1 (key, itm)
+  ) :<> [l:addr] (VT @ l, mfree_gc_v l | ptr l)
+} // end of [prval]
 //
-  val () = res := p->item
+val () = res := p->item
 //
-  val () =
-    __free (p->sknodelst) where {
-    extern fun __free : ptr -<0,!wrt> void = "ats_free_gc"
-  } // end of [val]
+val () =
+  __mfree (p->sknodelst) where {
+  extern fun __mfree : ptr -<0,!wrt> void = "atspre_mfree_gc"
+} // end of [val]
 //
-  val () = ptr_free {VT?} (pfgc, pfat | p)
+val () = ptr_free {VT?} (pfgc, pfat | p)
 //
 in
   // nothing
@@ -927,8 +927,8 @@ if p_nx > nullp then let
   val () = linmap_freelin$clear<itm> (!p_i)
   prval () = fpf (pf)
   val () =
-    __free (nx) where {
-    extern fun __free : sknode1 (key, itm) -<0,!wrt> void = "mac#atspre_mfree"
+    __mfree (nx) where {
+    extern fun __mfree : sknode1 (key, itm) -<0,!wrt> void = "mac#atspre_mfree"
   } // end of [where] // end of [val]
 in
   sknode_freelin (nx1)
@@ -970,8 +970,8 @@ case+ map2 of
       val () =
         free@ {..}{0}{0} (map2)
       val () =
-        __free_null (nxa_) where {
-        extern praxi __free_null : {n:int} sknodelst (key, itm, n) -<> void
+        __mfree_null (nxa_) where {
+        extern praxi __mfree_null : {n:int} sknodelst (key, itm, n) -<> void
       } // end of [where] // end of [val]
       prval () = opt_none {map} (map)
     in

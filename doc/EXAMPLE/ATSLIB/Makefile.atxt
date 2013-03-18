@@ -88,6 +88,7 @@ RMF=rm -f
 #make_entry("libc_stdlib")
 #make_entry("libc_string")
 #make_entry("libc_strings")
+#make_entry("libc_time")
 #make_entry("libc_unistd")
 
 ######

@@ -45,6 +45,16 @@ viewdef
 strbuf_v (l:addr, m:int, n:int) = strbuf (m, n) @ l
 
 #atscode_separator()
+//
+praxi
+strbuf2bytes
+  {m,n:int} (buf: &strbuf (m, n) >> b0ytes (m)): void
+//
+praxi
+strbuf2bytes_v
+  {l:addr}{m,n:int} (pf: strbuf_v (l, m, n)): b0ytes_v (l, m)
+//
+#atscode_separator()
 
 praxi
 lemma_strptr_param

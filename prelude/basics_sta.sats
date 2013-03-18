@@ -471,22 +471,24 @@ stadef opt = opt_vt0ype_bool_vt0ype
 (* ****** ****** *)
 
 typedef bytes (n:int) = @[byte][n]
+viewdef bytes_v (l:addr, n:int) = bytes (n) @ l
 typedef b0ytes (n:int) = @[byte?][n]
+viewdef b0ytes_v (l:addr, n:int) = b0ytes (n) @ l
 
 (* ****** ****** *)
 //
 // HX: for memory deallocation (with/without GC)
 //
 absview
-free_gc_addr_view (addr)
-stadef free_gc_v = free_gc_addr_view
+mfree_gc_addr_view (addr)
+stadef mfree_gc_v = mfree_gc_addr_view
 absview
-free_ngc_addr_view (addr)
-stadef free_ngc_v = free_ngc_addr_view
+mfree_ngc_addr_view (addr)
+stadef mfree_ngc_v = mfree_ngc_addr_view
 //
 absview
-free_libc_addr_view (addr) // libc-free
-stadef free_libc_v = free_libc_addr_view
+mfree_libc_addr_view (addr) // libc-mfree
+stadef mfree_libc_v = mfree_libc_addr_view
 //
 (* ****** ****** *)
 

@@ -70,7 +70,7 @@ fun malloc_trim
 (* ****** ****** *)
 
 fun malloc_usable_size
-  {l:addr} (!free_libc_v l | ptr l): size_t = "mac#%"
+  {l:addr} (!mfree_libc_v l | ptr l): size_t = "mac#%"
 // end of [malloc_usable_size]
 
 (* ****** ****** *)

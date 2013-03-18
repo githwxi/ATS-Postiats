@@ -196,12 +196,12 @@ array_ptr_alloc
   {n:int} (
   asz: size_t n
 ) :<!wrt> [l:agz] (
-  array_v (a?, l, n), free_gc_v (l) | ptr l
+  array_v (a?, l, n), mfree_gc_v (l) | ptr l
 ) // end of [array_ptr_alloc]
 
 fun array_ptr_free
   {a:vt0p}{l:addr}{n:int} (
-  array_v (a?, l, n), free_gc_v (l) | ptr l
+  array_v (a?, l, n), mfree_gc_v (l) | ptr l
 ) :<!wrt> void // end of [array_ptr_free]
 
 #atscode_separator()

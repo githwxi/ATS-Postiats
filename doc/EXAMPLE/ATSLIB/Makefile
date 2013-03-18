@@ -126,6 +126,14 @@ clean:: ; $(RMF) libc_strings_dats.o
 clean:: ; $(RMF) libc_strings_dats.c
 cleanall:: ; $(RMF) libc_strings.exe
 
+all:: libc_time
+libc_time: libc_time.exe
+libc_time.exe: libc_time_dats.c ;   $(GCC) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $<
+libc_time_dats.c: libc_time.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_time_dats.c --dynamic libc_time.dats
+clean:: ; $(RMF) libc_time_dats.o
+clean:: ; $(RMF) libc_time_dats.c
+cleanall:: ; $(RMF) libc_time.exe
+
 all:: libc_unistd
 libc_unistd: libc_unistd.exe
 libc_unistd.exe: libc_unistd_dats.c ;   $(GCC) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $<

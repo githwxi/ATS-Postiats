@@ -56,6 +56,7 @@ all::
 #make_entry("stdlib")
 #make_entry("string")
 #make_entry("strings")
+#make_entry("time")
 #make_entry("unistd")
 
 ######
