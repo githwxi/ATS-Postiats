@@ -56,7 +56,7 @@ in
   $UN.castvwtp0{Strptr1}((pf, pfgc | p))
 end else let
   prval ctime_v_fail (pf) = pf
-  val () = free_gc (pf, pfgc | p)
+  val () = mfree_gc (pf, pfgc | p)
 in
   strptr_null ()
 end // end of [if]

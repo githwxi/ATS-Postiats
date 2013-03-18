@@ -508,13 +508,15 @@ ref_vt0ype_type (a:vt@ype) = ptr
 typedef ref (a:vt@ype) = ref_vt0ype_type (a)
 
 (* ****** ****** *)
-
+//
 viewdef vtakeout
   (v1: view, v2: view) = (v2, v2 -<lin,prf> v1)
+viewdef vtakeout0 (v:view) = vtakeout (void, v)
+//
 vtypedef vttakeout
   (vt1: vt@ype, vt2: vt@ype) = (vt2 -<lin,prf> vt1 | vt2)
-// end of [vttakeout]
-
+viewdef vttakeout0 (vt:vt@ype) = vttakeout (void, vt)
+//
 (* ****** ****** *)
 
 typedef

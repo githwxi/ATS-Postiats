@@ -125,7 +125,7 @@ char *l64a(long value); // not defined for a negative value
 fun l64a
   {i:nat} (
   x: lint i
-) :<!refwrt> [l:agz] vttakeout (void, strptr l) = "mac#%"
+) :<!refwrt> [l:agz] vttakeout0 (strptr l) = "mac#%"
 // end of [l64a]
 
 (* ****** ****** *)
@@ -261,7 +261,7 @@ char *getenv(char *);
 fun getenv
 (
   name: NSH(string)
-) :<!ref> [l:addr] vttakeout (void, strptr l) = "mac#%"
+) :<!ref> [l:addr] vttakeout (strptr l) = "mac#%"
 
 fun{} getenv_gc (name: NSH(string)):<!refwrt> Strptr0
 

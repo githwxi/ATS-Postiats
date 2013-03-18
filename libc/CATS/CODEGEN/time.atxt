@@ -37,7 +37,51 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-typedef struct tm_struct atslib_tm_struct_type ;
+typedef time_t atslib_time_type ;
+typedef struct tm atslib_tm_struct_type ;
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_bool
+atslib_lt_time_time
+(
+  atslib_time_type t1, atslib_time_type t2
+)
+{
+  return (t1 < t2 ? atsbool_true : atsbool_false) ;
+} // end of [atslib_lt_time_time]
+ATSinline()
+atstype_bool
+atslib_lte_time_time
+(
+  atslib_time_type t1, atslib_time_type t2
+)
+{
+  return (t1 <= t2 ? atsbool_true : atsbool_false) ;
+} // end of [atslib_lte_time_time]
+
+\#define atslib_gt_time_time(t1, t2) atslib_lt_time_time(t2, t1)
+\#define atslib_gte_time_time(t1, t2) atslib_lte_time_time(t2, t1)
+
+ATSinline()
+atstype_bool
+atslib_eq_time_time
+(
+  atslib_time_type t1, atslib_time_type t2
+)
+{
+  return (t1 == t2 ? atsbool_true : atsbool_false) ;
+} // end of [atslib_eq_time_time]
+ATSinline()
+atstype_bool
+atslib_neq_time_time
+(
+  atslib_time_type t1, atslib_time_type t2
+)
+{
+  return (t1 != t2 ? atsbool_true : atsbool_false) ;
+} // end of [atslib_neq_time_time]
 
 #atscode_separator_for_C()
 
@@ -56,6 +100,24 @@ atslib_time_getset
 
 \#define atslib_ctime ctime
 \#define atslib_ctime_r ctime_r
+
+#atscode_separator_for_C()
+
+\#define atslib_mktime mktime
+
+#atscode_separator_for_C()
+
+\#define atslib_asctime asctime
+
+#atscode_separator_for_C()
+
+\#define atslib_gmtime gmtime
+\#define atslib_gmtime_r gmtime_r
+
+#atscode_separator_for_C()
+
+\#define atslib_localtime localtime
+\#define atslib_localtime_r localtime_r
 
 #atscode_separator_for_C()
 

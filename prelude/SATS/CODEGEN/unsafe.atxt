@@ -88,15 +88,15 @@ castfn strnptr2string {l:addr}{n:nat} (x: !strnptr (l, n)): string (n)
 // HX: only if you know what you are doing ...
 //
 praxi ptr_vtake
-  {a:vt0p}{l:addr} (p: ptr l): vtakeout (void, a@l)
+  {a:vt0p}{l:addr} (p: ptr l): vtakeout0 (a@l)
 // end of [ptr_vtake]
 
 #atscode_separator()
 
 praxi
-vtakeout_void {v:view} (pf: !v): vtakeout (void, v)
+vtakeout_void {v:view} (pf: !v): vtakeout0 (v)
 castfn
-vttakeout_void {a:vt0p} (x: !a):<> vttakeout (void, a)
+vttakeout_void {a:vt0p} (x: !a):<> vttakeout0 (a)
 
 #atscode_separator()
 //

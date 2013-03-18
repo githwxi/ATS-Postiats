@@ -54,6 +54,24 @@ TYPES = "libc/sys/SATS/types.sats"
 typedef time_t = $TYPES.time_t
 
 (* ****** ****** *)
+//
+fun lt_time_time (t1: time_t, t2: time_t):<> bool = "mac#%"
+fun lte_time_time (t1: time_t, t2: time_t):<> bool = "mac#%"
+overload < with lt_time_time
+overload <= with lte_time_time
+//
+fun gt_time_time (t1: time_t, t2: time_t):<> bool = "mac#%"
+fun gte_time_time (t1: time_t, t2: time_t):<> bool = "mac#%"
+overload > with gt_time_time
+overload >= with gte_time_time
+//
+fun eq_time_time (t1: time_t, t2: time_t):<> bool = "mac#%"
+fun neq_time_time (t1: time_t, t2: time_t):<> bool = "mac#%"
+overload = with eq_time_time
+overload <> with neq_time_time
+overload != with neq_time_time
+//
+(* ****** ****** *)
 
 fun time2lint (t: time_t):<> lint = "mac#%"
 fun time2double (t: time_t):<> double = "mac#%"
@@ -78,10 +96,10 @@ overload time with time_getset
 //
 (* ****** ****** *)
 
-fun ctime
+fun ctime // non-reentrant
 (
   t: &time_t
-) :<!ref> [l:addr] vttakeout (void, strptr l) = "mac#%" // endfun
+) :<!ref> [l:addr] vttakeout0 (strptr l) = "mac#%" // endfun
 
 (* ****** ****** *)
 //
@@ -94,7 +112,7 @@ ctime_v (m:int, addr, addr) =
   | {l:agz}
     ctime_v_succ (m, l, l) of strbuf_v (l, m, CTIME_BUFSZ-1)
 //
-fun ctime_r
+fun ctime_r // reentrant-version
   {l:addr}{m:int | m >= CTIME_BUFSZ}
 (
   !b0ytes_v (l, m) >> ctime_v (m, l, l1) | &time_t, ptr (l)
@@ -109,16 +127,63 @@ typedef
 tm_struct =
 $extype_struct "atslib_tm_struct_type" of
 {
-  tm_sec= int
-, tm_min= int
-, tm_hour= int
-, tm_mon= int (* month *)
-, tm_year= int (* year *)
-, tm_wday= int (* day of the week *)
+  tm_sec= int // natLt(60)
+, tm_min= int // natLt(60)
+, tm_hour= int // natLt(24)
+, tm_mon= int (* month *) // natLt(12)
+, tm_year= int (* year *) // starting from 1900
+, tm_wday= int (* day of the week *) // natLt(7)
 , tm_mday= int (* day of the month *)
 , tm_yday= int (* day in the year *)
-, tm_isdst= int (* daylight saving time *)
+, tm_isdst= int (* daylight saving time *) // yes/no: 1/0
 } // end of [tm_struct]
+
+(* ****** ****** *)
+
+fun mktime (tm: &tm_struct):<> time_t = "mac#%"
+
+(* ****** ****** *)
+
+fun asctime
+(
+  tm: &tm_struct
+) :<!ref> [l:addr] vttakeout0 (strptr l) = "mac#%"
+
+(* ****** ****** *)
+
+fun gmtime // non-reentrant
+(
+  tval: &time_t
+) :<!ref>
+[
+  l:addr
+] (
+  option_v (vtakeout0 (tm_struct@l), l > null) | ptr l
+) = "mac#%" // end of [gmtime]
+
+fun gmtime_r // reentrant-version
+(
+  &time_t
+, tm: &tm_struct? >> opt (tm_struct, l > null)
+) :<> #[l:addr] ptr (l) = "mac#%" // endfun
+
+(* ****** ****** *)
+
+fun localtime // non-reentrant
+(
+  tval: &time_t
+) :<!ref>
+[
+  l:addr
+] (
+  option_v (vtakeout0 (tm_struct@l), l > null) | ptr l
+) = "mac#%" // end of [localtime]
+
+fun localtime_r // reentrant-version
+(
+  &time_t
+, tm: &tm_struct? >> opt (tm_struct, l > null)
+) :<> #[l:addr] ptr (l) = "mac#%" // endfun
 
 (* ****** ****** *)
 
