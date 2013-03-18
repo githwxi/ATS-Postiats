@@ -98,6 +98,7 @@ RMF=rm -f
 #make_entry("acker")
 #make_entry("atof")
 #make_entry("atoi")
+#make_entry("bintree")
 #make_entry("extfcall")
 #make_entry("f91")
 #make_entry("fact1")

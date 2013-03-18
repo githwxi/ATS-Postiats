@@ -10,13 +10,29 @@
 
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 implement
-main0 () =
-{
-  val USER =
-    $extfcall(string, "getenv", "USER")
+main0 () = let
+//
+val USER =
+  $extfcall(Ptr0, "getenv", "USER")
+in
+//
+if USER > 0 then let
+  val USER = $UN.cast{string}(USER)
   val () = println! ("Hello from the user [", USER, "].")
-} // end of [main0]
+in
+  // nothign
+end else let
+  val () = println! ("Hello from an unknown user.")
+in
+  // nothign
+end // end of [if]
+//
+end // end of [main0]
 
 (* ****** ****** *)
 
