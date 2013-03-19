@@ -579,6 +579,11 @@ in
   instr_make_node (loc, node)
 end // end of [instr_loop]  
 
+implement
+instr_loopexn (
+  loc, knd, tlab
+) = instr_make_node (loc, INSloopexn (knd, tlab))
+
 (* ****** ****** *)
 
 implement

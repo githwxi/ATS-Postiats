@@ -80,6 +80,7 @@ RMF=rm -f
 #make_entry("hanoi")
 #make_entry("isqrt")
 #make_entry("passwdgen")
+#make_entry("queens_loop")
 
 ######
 

@@ -1318,7 +1318,7 @@ case+ ins.instr_node of
     val () = emit_text (out, "ATSif( ")
     val () = emit_text (out, "ATSCKnot(")
     val () = emit_primval (out, pmv_test)
-    val () = emit_text (out, ")) break ;")
+    val () = emit_text (out, ")) ATSbreak() ;")
     val () = emit_newline (out)
 //
     val () =
@@ -1347,6 +1347,19 @@ case+ ins.instr_node of
 //
     val () = emit_newline (out)
   } // end of [INSloop]
+//
+| INSloopexn
+    (knd, tlab) => let
+    val () =
+      emit_text (out, "ATSgoto2(")
+    val () =
+    (
+      emit_int (out, knd); emit_text (out, ", "); emit_tmplab (out, tlab)
+    )
+    val () = emit_text (out, ") ;")
+  in
+    // nothing
+  end // end of [INSloopexn]
 //
 | INSswitch (xs) =>
   {

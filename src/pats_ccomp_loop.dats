@@ -72,6 +72,10 @@ case+ post of
 | Some _ => tmplab_make () | None _ => tlab_init
 ) : tmplab // end of [val]
 //
+val (
+) = ccompenv_inc_loopexnenv
+  (env, tlab_init, tlab_fini, tlab_cont)
+//
 val res_test = instrseq_make_nil ()
 val pmv_test = hidexp_ccomp (env, res_test, test)
 val res_test = instrseq_get_free (res_test)
@@ -92,6 +96,8 @@ val res_body = instrseq_make_nil ()
 val pmv_body = hidexp_ccomp (env, res_body, body)
 val res_body = instrseq_get_free (res_body)
 //
+val () = ccompenv_dec_loopexnenv (env)
+//
 val
 ins_loop = instr_loop
 (
@@ -99,9 +105,36 @@ ins_loop = instr_loop
 , res_init, pmv_test, res_test, res_post, res_body
 ) // end of [instr_loop]
 val () = instrseq_add (res, ins_loop)
+//
 in
   primval_empty (loc0, hse0)
 end // end of [hidexp_ccomp_loop]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_loopexn
+  (env, res, hde0)  = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val-HDEloopexn (knd) =  hde0.hidexp_node
+//
+val tlab =
+(
+if knd = 0
+  then ccompenv_get_loopfini (env)
+  else ccompenv_get_loopcont (env)
+// end of [if]
+) : tmplab // end of [val]
+//
+val ins_lpxn = instr_loopexn (loc0, knd, tlab)
+//
+val () = instrseq_add (res, ins_lpxn)
+//
+in
+  primval_empty (loc0, hse0)
+end // end of [hidexp_ccomp_loopexn]
 
 (* ****** ****** *)
 

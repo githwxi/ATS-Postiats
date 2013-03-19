@@ -62,6 +62,10 @@
 #define ATSelse() else
 #define ATSdo() do
 #define ATSwhile(x) while (x)
+#define ATSbreak() break
+#define ATScontinue() continue
+#define ATSgoto(lab) goto lab
+#define ATSgoto2(knd, lab) goto lab
 #define ATSreturn(x) return (x)
 #define ATSreturn_void(x) return
 

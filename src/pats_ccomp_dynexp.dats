@@ -269,6 +269,7 @@ case+ hde0.hidexp_node of
 | HDElam _ => hidexp_ccomp_lam (env, res, hde0)
 //
 | HDEloop _ => hidexp_ccomp_loop (env, res, hde0)
+| HDEloopexn _ => hidexp_ccomp_loopexn (env, res, hde0)
 //
 | _ => let
     val () = println! ("hidexp_ccomp: loc0 = ", loc0)
@@ -480,6 +481,9 @@ case+ hde0.hidexp_node of
 | HDEarrpsz _ => hidexp_ccomp_ret_arrpsz (env, res, tmpret, hde0)
 //
 | HDElam _ => auxval (env, res, tmpret, hde0)
+//
+| HDEloop _ => auxval (env, res, tmpret, hde0)
+| HDEloopexn _ => auxval (env, res, tmpret, hde0)
 //
 | _ => let
     val () = println! ("hidexp_ccomp_ret: loc0 = ", loc0)

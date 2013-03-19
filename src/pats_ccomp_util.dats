@@ -200,6 +200,7 @@ case+ x.instr_node of
     val () = auxlst (res, _init) and () = auxlst (res, _test)
     and () = auxlst (res, _post) and () = auxlst (res, _body)
   } // end of [INSloop]
+| INSloopexn (knd, tlab) => () // HX: knd=0/1: break/continue
 //
 | INSswitch _ => ()
 //

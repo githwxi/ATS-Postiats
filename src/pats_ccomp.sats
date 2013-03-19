@@ -838,6 +838,7 @@ instr_node =
     , instrlst(*post*)
     , instrlst(*body*)
     ) // end of [INSloop]
+  | INSloopexn of (int(*knd*), tmplab) // knd=0/1: break/continue
 //
   | INSswitch of (ibranchlst) // switch statement
 //
@@ -979,6 +980,11 @@ fun instr_loop
 , inss_post: instrlst
 , inss_body: instrlst
 ) : instr // end of [instr_loop]
+
+fun instr_loopexn
+(
+  loc: location, knd: int, tlab: tmplab
+) : instr // end of [instr_loopexn]
 
 (* ****** ****** *)
 
@@ -1161,7 +1167,8 @@ fun instrseq_addlst (res: !instrseq, x: instrlst): void
 
 (* ****** ****** *)
 
-fun funent_make (
+fun funent_make
+(
   loc: location
 , level: int
 , flab: funlab
@@ -1173,7 +1180,8 @@ fun funent_make (
 , tmplst: tmpvarlst
 ) : funent // end of [funent_make]
 
-fun funent_make2 (
+fun funent_make2
+(
   loc: location
 , level: int
 , flab: funlab
@@ -1218,12 +1226,26 @@ fun ccompenv_dec_tmprecdepth (env: !ccompenv): void
 
 (* ****** ****** *)
 
+fun ccompenv_get_loopfini (env: !ccompenv): tmplab
+fun ccompenv_get_loopcont (env: !ccompenv): tmplab
+
+fun ccompenv_inc_loopexnenv
+(
+  env: !ccompenv, init: tmplab, fini: tmplab, cont: tmplab
+) : void // end of [ccompenv_push_loopexnenv]
+
+fun ccompenv_dec_loopexnenv (env: !ccompenv): void
+
+(* ****** ****** *)
+
 absview ccompenv_push_v
 
 fun ccompenv_push
   (env: !ccompenv): (ccompenv_push_v | void)
+
 fun ccompenv_pop
   (pfpush: ccompenv_push_v | env: !ccompenv): void
+
 fun ccompenv_localjoin
   (pf1: ccompenv_push_v, pf2: ccompenv_push_v | env: !ccompenv): void
 
@@ -1270,7 +1292,8 @@ fun himatch_ccomp (
 
 (* ****** ****** *)
 
-fun hifunarg_ccomp (
+fun hifunarg_ccomp
+(
   env: !ccompenv, res: !instrseq
 , flab: funlab, level: int, loc_fun: location, hips: hipatlst
 ) : void // end of [hifunarg_ccomp]
@@ -1283,6 +1306,7 @@ hidexp_ccomp_funtype =
 fun hidexp_ccomp : hidexp_ccomp_funtype
 fun hidexp_ccomp_lam : hidexp_ccomp_funtype
 fun hidexp_ccomp_loop : hidexp_ccomp_funtype
+fun hidexp_ccomp_loopexn : hidexp_ccomp_funtype
 
 typedef
 hidexp_ccomp_ret_funtype =
