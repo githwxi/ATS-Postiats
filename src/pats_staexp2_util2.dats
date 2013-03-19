@@ -74,22 +74,26 @@ fun s2exp_linkrem_flag (s2e: s2exp, flag: &int): s2exp
 implement
 s2exp_linkrem_flag (s2e0, flag) = let
 (*
-  val () = begin
-    print "s2exp_linkrem_flag: s2e0 = "; print_s2exp s2e0; print_newline ()
-  end // end of [val]
+val () =
+  println! ("s2exp_linkrem_flag: s2e0 = ", s2e0)
+// end of [val]
 *)
 in
 //
-case+ s2e0.s2exp_node of
-| S2Ecst s2c => begin
-    if s2cst_get_isrec s2c then s2e0
-    else (
-      case+ s2cst_get_def s2c of
+case+
+s2e0.s2exp_node of
+| S2Ecst s2c => let
+    val isr = s2cst_get_isrec (s2c)
+  in
+    if isr then s2e0 else let
+      val opt = s2cst_get_def (s2c)
+    in
+      case+ opt  of
       | Some s2e => let
           val () = flag := flag + 1 in s2exp_linkrem_flag (s2e, flag)
         end // end of [Some]
       | None () => s2e0
-    ) // end of [if]
+    end (* end of [if] *)
   end // end of [S2Ecst]
 //
 // HX: the link of s2V should not be updated!!!
@@ -111,20 +115,25 @@ end // end of [s2exp_linkrem]
 
 (* ****** ****** *)
 
-fun labs2explst_top (
+fun labs2explst_top
+(
   knd: int, ls2es0: labs2explst
-) : labs2explst = (
-  case+ ls2es0 of
-  | list_cons (ls2e, ls2es) => let
-      val SLABELED (l, name, s2e) = ls2e
-      val s2e = s2exp_top (knd, s2e)
-      val ls2e = SLABELED (l, name, s2e) 
-      val ls2es = labs2explst_top (knd, ls2es)
-    in
-      list_cons (ls2e, ls2es)
-    end // end of [list_cons]
-  | list_nil () => list_nil ()
-) // end of [labs2explst_top]
+) : labs2explst = let
+in
+//
+case+ ls2es0 of
+| list_cons
+    (ls2e, ls2es) => let
+    val SLABELED (l, name, s2e) = ls2e
+    val s2e = s2exp_top (knd, s2e)
+    val ls2e = SLABELED (l, name, s2e) 
+    val ls2es = labs2explst_top (knd, ls2es)
+  in
+    list_cons (ls2e, ls2es)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [labs2explst_top]
 
 (* ****** ****** *)
 

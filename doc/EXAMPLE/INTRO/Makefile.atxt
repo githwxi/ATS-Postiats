@@ -114,6 +114,7 @@ RMF=rm -f
 #make_entry("intrange")
 #make_entry("mutailrec")
 #make_entry("revarr")
+#make_entry("sumodd")
 #make_entry("strprefix")
 #make_entry("tally")
 

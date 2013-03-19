@@ -389,8 +389,10 @@ implement
 hidexp_ccomp_ret (
   env, res, tmpret, hde0
 ) = let
-  val loc0 = hde0.hidexp_loc
-  val hse0 = hde0.hidexp_type
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+//
 in
 //
 case+ hde0.hidexp_node of

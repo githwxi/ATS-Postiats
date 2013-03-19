@@ -1307,7 +1307,9 @@ case+ ins.instr_node of
     val () = emit_text (out, "*/\n")
     val () = (
       emit_text (out, "ATSLOOPopen(");
-      emit_tmplab (out, tlab_init); emit_text (out, ")\n")
+      emit_tmplab (out, tlab_init); emit_text (out, ", ");
+      emit_tmplab (out, tlab_fini); emit_text (out, ", ");
+      emit_tmplab (out, tlab_cont); emit_text (out, ")\n")
     ) // end of [val]
 //
     val () =
@@ -1315,7 +1317,7 @@ case+ ins.instr_node of
       emit_instrlst (out, inss_test); emit_newline (out)
     )
 //
-    val () = emit_text (out, "ATSif( ")
+    val () = emit_text (out, "ATSif(")
     val () = emit_text (out, "ATSCKnot(")
     val () = emit_primval (out, pmv_test)
     val () = emit_text (out, ")) ATSbreak() ;")
@@ -1342,7 +1344,8 @@ case+ ins.instr_node of
     val () = (
       emit_text (out, "ATSLOOPclose(");
       emit_tmplab (out, tlab_init); emit_text (out, ", ");
-      emit_tmplab (out, tlab_fini); emit_text (out, ") ;")
+      emit_tmplab (out, tlab_fini); emit_text (out, ", ");
+      emit_tmplab (out, tlab_cont); emit_text (out, ") ;")
     ) // end of [val]
 //
     val () = emit_newline (out)
@@ -1350,12 +1353,13 @@ case+ ins.instr_node of
 //
 | INSloopexn
     (knd, tlab) => let
-    val () =
-      emit_text (out, "ATSgoto2(")
-    val () =
-    (
-      emit_int (out, knd); emit_text (out, ", "); emit_tmplab (out, tlab)
-    )
+    val () = (
+      if knd = 0
+        then emit_text (out, "ATSbreak2(")
+        else emit_text (out, "ATScontinue2(")
+      // end of [if]
+    ) : void // end of [val]
+    val () = emit_tmplab (out, tlab)
     val () = emit_text (out, ") ;")
   in
     // nothing

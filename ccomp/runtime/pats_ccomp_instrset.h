@@ -65,7 +65,6 @@
 #define ATSbreak() break
 #define ATScontinue() continue
 #define ATSgoto(lab) goto lab
-#define ATSgoto2(knd, lab) goto lab
 #define ATSreturn(x) return (x)
 #define ATSreturn_void(x) return
 
@@ -152,8 +151,12 @@
 //
 // HX: handling for/while loops
 //
-#define ATSLOOPopen(init) while(atsbool_true) { init:
-#define ATSLOOPclose(init, fini) goto init ; fini: break ; }
+#define ATSbreak2(fini) goto fini
+#define ATScontinue2(cont) goto cont
+#define ATSLOOPopen(init, fini, cont) \
+  do { init:
+#define ATSLOOPclose(init, fini, cont) \
+  goto init ; fini: break ; } while(0)
 //
 /* ****** ****** */
 //

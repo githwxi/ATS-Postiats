@@ -101,7 +101,7 @@ cleanall:: ; $(RMF) fact2.exe
 
 all:: fact3
 fact3: fact3.exe
-fact3.exe: fact3_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_GCBDW -lgc -o $@ $<
+fact3.exe: fact3_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $<
 fact3_dats.c: fact3.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fact3_dats.c --dynamic fact3.dats
 clean:: ; $(RMF) fact3_dats.o
 clean:: ; $(RMF) fact3_dats.c
@@ -186,6 +186,14 @@ revarr_dats.c: revarr.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output rev
 clean:: ; $(RMF) revarr_dats.o
 clean:: ; $(RMF) revarr_dats.c
 cleanall:: ; $(RMF) revarr.exe
+
+all:: sumodd
+sumodd: sumodd.exe
+sumodd.exe: sumodd_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+sumodd_dats.c: sumodd.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output sumodd_dats.c --dynamic sumodd.dats
+clean:: ; $(RMF) sumodd_dats.o
+clean:: ; $(RMF) sumodd_dats.c
+cleanall:: ; $(RMF) sumodd.exe
 
 all:: strprefix
 strprefix: strprefix.exe
