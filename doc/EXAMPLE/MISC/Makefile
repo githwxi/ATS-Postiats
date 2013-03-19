@@ -85,11 +85,11 @@ cleanall:: ; $(RMF) passwdgen passwdgen.exe
 
 all:: queens_loop
 queens_loop: queens_loop.exe
-queens_loop.exe: queens_loop_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+queens_loop.exe: queens_loop_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $<
 queens_loop_dats.c: queens_loop.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output queens_loop_dats.c --dynamic queens_loop.dats
 clean:: ; $(RMF) queens_loop_dats.o
 clean:: ; $(RMF) queens_loop_dats.c
-cleanall:: ; $(RMF) queens_loop queens_loop.exe
+cleanall:: ; $(RMF) queens_loop.exe
 
 
 ######

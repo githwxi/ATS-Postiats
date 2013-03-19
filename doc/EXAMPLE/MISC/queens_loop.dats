@@ -9,12 +9,43 @@
 
 (* ****** ****** *)
 //
-#include "share/atspre_staload_tmpdef.hats"
+#include
+"share/atspre_staload_tmpdef.hats"
 //
+(* ****** ****** *)
+
+staload UN = "prelude/SATS/unsafe.sats"
+
 (* ****** ****** *)
 
 #define N 8
 #define N1 (N-1)
+
+(* ****** ****** *)
+
+implement{a}
+arrayref_make_elt
+  {n} (asz, x0) = let
+//
+val (pf, pfgc | p0) = array_ptr_alloc (asz)
+//
+var i: size_t
+var p: ptr = p0
+val () = $effmask_ntm
+(
+//
+for
+(
+  i := i2sz(0); i < asz; i := succ(i)
+) (
+  $UN.ptr0_set<a> (p, x0); p := ptr_succ<a>(p0)
+) // end of [for]
+//
+) // end of [val]
+//
+in
+  $UN.castvwtp0{arrayref(a,n)}((pf, pfgc | p))
+end // end of [arrayref_make_elt]
 
 (* ****** ****** *)
 

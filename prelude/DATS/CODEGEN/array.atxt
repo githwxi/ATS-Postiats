@@ -550,7 +550,8 @@ array_initize
 prval () = lemma_g1uint_param (asz)
 //
 fun loop
-  {l:addr}{n:nat} .<n>. (
+  {l:addr}{n:nat} .<n>.
+(
   pf: !array_v (a?, l, n) >> array_v (a, l, n) | p: ptr l, n: size_t n, i: size_t
 ) : void =
   if n > 0 then let
