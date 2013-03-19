@@ -481,8 +481,7 @@ local
 var theOutFilename
   : Stropt = stropt_none
 val (pf0 | ()) =
-  vbox_make_view_ptr {Stropt}
-  (view@ (theOutFilename) | &theOutFilename)
+  vbox_make_view_ptr{Stropt}(view@ (theOutFilename) | &theOutFilename)
 // end of [val]
 
 in // in of [local]
@@ -513,7 +512,6 @@ fn fixity_load
   val fullname = string_of_strptr (fullname)
   val filename =
     $FIL.filename_make (basename, fullname)
-  // end of [val]
 //
   val (pffil | ()) = 
     $FIL.the_filenamelst_push (filename)
@@ -546,7 +544,6 @@ pervasive_load (
   val fullname = string_of_strptr (fullname)
   val filename =
     $FIL.filename_make (basename, fullname)
-  // end of [val]
 //
   val (pfpush | ()) = 
     $FIL.the_filenamelst_push (filename)
