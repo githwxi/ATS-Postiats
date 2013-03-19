@@ -394,7 +394,7 @@ implement
 array_rforeach$fwork<a><tenv> (x, env) = env := f (x, env)
 //
 var res: tenv = snk
-val _ = arrayref_rforeach_env<a><tenv> (A, asz, snk)
+val _ = arrayref_rforeach_env<a><tenv> (A, asz, res)
 //
 in
   res

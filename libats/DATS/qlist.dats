@@ -51,15 +51,16 @@ qlist_make_nil (
   val pq = ptr2ptrlin (p)
   val () = qstruct_initize (!p)
   prval pfngc = qstruct_objfize (pf | pq)
-  prval () = free_gcngc_v_nullify (pfgc, pfngc)
+  prval () = mfree_gcngc_v_nullify (pfgc, pfngc)
 } // end of [qlist_make]
 
 implement{}
 qlist_free_nil
-  {a} (pq) = () where {
+  {a} (pq) = () where
+{
 //
-val () =
-  __mfree (pq) where {
+val () = __mfree (pq) where
+{
   extern fun __mfree
     : qlist (a, 0) -<0,!wrt> void = "mac#atspre_mfree_gc"
 } // end of [where] // end of [val]

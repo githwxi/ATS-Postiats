@@ -107,8 +107,11 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ; \
 
 all_html::
 
+#make_entry("malloc")
 #make_entry("stdio")
 #make_entry("stdlib")
+#make_entry("string")
+#make_entry("strings")
 #make_entry("unistd")
 
 ######

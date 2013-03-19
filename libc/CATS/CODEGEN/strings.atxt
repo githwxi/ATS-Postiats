@@ -1,0 +1,61 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"strings.cats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_LGPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/libc/CATS/CODEGEN/strings.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator_for_C()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("February, 2013")
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSLIB_LIBC_STRINGS_CATS
+\#define ATSLIB_LIBC_STRINGS_CATS
+
+#atscode_separator_for_C()
+
+\#include <strings.h>
+
+#atscode_separator_for_C()
+
+\#define atslib_index_int index
+\#define atslib_index_char(c) index((int)c)
+
+\#define atslib_rindex_int rindex
+\#define atslib_rindex_char(c) rindex((int)c)
+
+#atscode_separator_for_C()
+
+\#define atslib_strcasecmp strcasecmp
+\#define atslib_strncasecmp strncasecmp
+
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSLIB_LIBC_STRINGS_CATS
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "strings_atxt.txt")
+%}\

@@ -574,7 +574,8 @@ extern fun string_suffix_is_dats
   (s: string): bool = "patsopt_string_suffix_is_dats"
 // end of [string_suffix_is_dats]
 
-fn s0taload_tr_load (
+fn s0taload_tr_load
+(
   fil: filename, loadflag: &int >> int
 ) : d1eclist = let
   val pname = $FIL.filename_get_part (fil)
@@ -585,8 +586,10 @@ fn s0taload_tr_load (
 //
   val (pfsave | ()) = the_trans1_env_save ()
   val d1cs = d0eclist_tr (d0cs)
-  val () = (case+
-    the_e1xpenv_find (ATS_STALOADFLAG) of
+  val ans = the_e1xpenv_find (ATS_STALOADFLAG)
+  val () =
+  (
+    case+ ans of
     | ~Some_vt e1xp => let
         val v1al = e1xp_valize (e1xp) in if v1al_is_false v1al then loadflag := 0
       end // end of [Some_vt]

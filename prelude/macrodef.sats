@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -45,7 +45,7 @@ macdef andalso (x, y) = if ,(x) then ,(y) else false
 //
 (* ****** ****** *)
 
-macdef assign (lv, rv) = (,(lv) := ,(rv))
+macdef assign (lv, rv) = ,(lv) := ,(rv)
 
 (* ****** ****** *)
 
@@ -63,44 +63,6 @@ macdef foldret (x) = let val x = ,(x) in fold@ (x); x end
 (* ****** ****** *)
 
 macdef showlvaltype (x) = pridentity ($showtype ,(x))
-
-(* ****** ****** *)
-
-(*
-//
-// HX-2012-08:
-//
-// this example makes use of recursive macrodef
-//
-local
-
-macrodef
-rec
-auxlist
-  (xs, y) = (
-  if iscons! (xs) then
-    `(print ,(car! xs); ,(auxlist (cdr! xs, y)))
-  else y // end of [if]
-) // end of [auxlist]
-
-in // in of [local]
-
-macdef
-print_mac (x) = ,(
-  if islist! (x) then auxlist (x, `()) else `(print ,(x))
-) // end of [print_mac]
-
-macdef
-println_mac
-  (x) = ,(
-  if islist! (x)
-    then auxlist (x, `(print_newline())) else `(print ,(x))
-  // end of [if]
-) // end of [println_mac]
-
-end // end of [local]
-
-*)
 
 (* ****** ****** *)
 

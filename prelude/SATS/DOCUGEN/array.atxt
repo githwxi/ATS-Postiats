@@ -162,14 +162,26 @@ A typical use of
 staload UN = "prelude/SATS/unsafe.sats"
 //
 fun{a:t0p}
-array_get_at {n:nat} (
+array_get_at{n:int}
+(
   A: &(@[a][n]), i: sizeLt n
 ) : a = let
   val p = array_getref_at<a> (A, i) in $UN.cptr_get (p)
 end // end of [array_get_at]
+
+fun{a:t0p}
+array_set_at{n:int}
+(
+  A: &(@[a][n]), i: sizeLt n, x: a
+) : void = let
+  val p = array_getref_at<a> (A, i) in $UN.cptr_set (p, x)
+end // end of [array_set_at]
 ')
-Note that the unsafe version of #dyncode("cptr_get") is called
-here to read from the pointer p.
+
+Note that unsafe functions
+#dyncode("cptr_get") and #dyncode("cptr_set")
+are called here to read from and write through the pointer p.
+
 ')
 
 (* ****** ****** *)
@@ -190,21 +202,23 @@ stored in A is nonlinear.  ')
 
 #declexample("\
 
-The following code computes the sum of the integers stored in a given
-array:
+The following code computes the sum of the doubles stored in a given array:
 
 #pats2xhtmld_tryit('\
-fun tally {n:nat} 
-  (A: &(@[int][n]), n: int n): int = let
+fn tally{n:nat}
+(
+  A: &(@[double][n]), n: int n
+) :<(*none*)> double = let
 //
 fun loop
-  {i:nat | i <= n} .<n-i>. (
-  A: &(@[int][n]), n: int n, i: int i, res: int
-) : int =
+  {i:nat | i <= n} .<n-i>.
+(
+  A: &(@[double][n]), n: int n, i: int i, res: double
+) :<(*none*)> double =
   if n > i then loop (A, n, i+1, res + A[i]) else res
 //
 in
-  loop (A, n, 0, 0)
+  loop (A, n, 0(*i*), 0.0(*res*))
 end // end of [tally]
 ')
 ")
@@ -238,13 +252,16 @@ The following code doubles the integer value of each array-cell in a given
 array:
 
 #pats2xhtmld_tryit('\
-fun doubling {n:nat} 
-  (A: &(@[int][n]), n: int n): void = let
+fn doubling{n:nat}
+(
+  A: &(@[int][n]), n: int n
+) :<!wrt> void = let
 //
 fun loop
-  {i:nat | i <= n} .<n-i>. (
+  {i:nat | i <= n} .<n-i>.
+(
   A: &(@[int][n]), n: int n, i: int i
-) : void =
+) :<!wrt> void =
   if n > i then (A[i] := 2 * A[i]; loop (A, n, i+1)) else ()
 //
 in
@@ -252,6 +269,9 @@ in
 end // end of [doubling]
 ')
 ")
+
+(* ****** ****** *)
+
 #declnamesynop("array_set_at_guint")
 #decldescrpt('\
 
@@ -291,33 +311,39 @@ values can be linear.  ')
 
 The following code implements the standard insertion sort:
 #pats2xhtmld_tryit('\
-fun{a:t0p}
-insertion_sort {n:nat}
-  (A: &(@[a][n]), n: size_t n): void = let
+fn{a:t0p}
+insertion_sort
+  {n:int} (
+  A: &(@[a][n]), n: size_t n
+) :<!wrt> void = let
 //
 fun loop1
   {i:nat | i < n} .<i>.
-  (A: &(@[a][n]), i: size_t i): void =
+(
+  A: &(@[a][n]), i: size_t i
+) :<!wrt> void =
   if i > 0 then let
     val i1 = pred (i)
     val sgn = gcompare_ref<a> (A.[i1], A.[i])
   in
-    if sgn > 0 then let
-      val () = array_interchange (A, i1, i) in loop1 (A, i1)
-    end else ()
+    if sgn > 0 then
+    (
+      array_interchange (A, i1, i); loop1 (A, i1)
+    ) // end of [if]
   end else () // end of [if]
 //
 fun loop2
-  {i:nat | i <= n} .<n-i>. (
+  {i:nat | i <= n} .<n-i>.
+(
   A: &(@[a][n]), n: size_t n, i: size_t i
-) : void =
+) :<!wrt> void =
   if i < n then let
     val () = loop1 (A, i) in loop2 (A, n, succ(i))
   end else () // end of [if]
 //
 in
 //
-if n >= 2 then loop2 (A, n, g1int2uint(1)) else ()
+if n >= 2 then loop2 (A, n, g1i2u(1)) else ()
 //
 end // end of [insertion_sort]
 ')
@@ -375,7 +401,8 @@ predicate provided as the third argument of the function:
 
 #pats2xhtmld_tryit('\
 fun{a:t@ype}
-array_find {n:int} (
+array_find{n:int}
+(
   A: &(@[a][n]) >> @[a][n], n: size_t n, p: (a) -> bool
 ) : Option_vt (sizeLt(n)) = let
 //
@@ -402,22 +429,21 @@ except for taking an additional argument that serves as an environment.  ')
 The following code implements the standard fold-from-left operation on a
 given array:
 
-#pats2xhtmld_tryit('
+#pats2xhtmld_tryit('\
 fun{
 a:t0p}{res:t0p
-} array_foldleft
-  {n:int} (
+} array_foldleft{n:int}
+(
   A: &(@[a][n])
-, asz: size_t n
-, ini: res
-, f: (res, a) -> res
+, asz: size_t n, ini: res, f: (res, a) -> res
 ) : res = let
 //
 var env: res = ini
 //
 implement
 array_foreach$fwork<a><res> (x, env) = env := f (env, x)
-val _ = array_foreach_env (A, asz, env)
+//
+val _(*asz*) = array_foreach_env (A, asz, env)
 //
 in
   env
@@ -469,7 +495,8 @@ predicate provided as the third argument of the function:
 
 #pats2xhtmld_tryit('\
 fun{a:t@ype}
-array_rfind {n:int} (
+array_rfind{n:int}
+(
   A: &(@[a][n]) >> @[a][n], n: size_t n, p: (a) -> bool
 ) : Option_vt (sizeLt(n)) = let
 //
@@ -499,19 +526,17 @@ given array:
 #pats2xhtmld_tryit('
 fun{
 a:t0p}{res:t0p
-} array_foldright
-  {n:int} (
+} array_foldright{n:int}
+(
   A: &(@[a][n])
-, asz: size_t n
-, f: (a, res) -> res
-, snk: res
+, asz: size_t n, f: (a, res) -> res, snk: res
 ) : res = let
 //
 var env: res = snk
 //
 implement
 array_rforeach$fwork<a><res> (x, env) = env := f (x, env)
-val _ = array_rforeach_env (A, asz, env)
+val _(*asz*) = array_rforeach_env (A, asz, env)
 //
 in
   env
@@ -560,26 +585,24 @@ permutes the array contents to obtain an array of integers 5, 1, 2, 3, and
 
 #pats2xhtmld_tryit('\
 implement
-main () =
-  (0) where {
+main0 () = {
 //
 \#define N 5
-val asz = g1int2uint (N)
+val asz = g1i2u (N)
 //
 val (pf, pfgc | p) = array_ptr_alloc<int> (asz)
 //
 implement
-array_initize$init<int> (i, x) = x := g0uint2int(i)+1
+array_initize$init<int> (i, x) = x := g0u2i(i)+1
 val () = array_initize<int> (!p, asz) // array: 0, 1, 2, ..., N-1
 //
 implement
-array_permute$randint<>
-  (n) = pred(n) // this is not random
+array_permute$randint<> (n) = pred(n) // this is not random
 val () = array_permute<int> (!p, asz) // array: N-1, 0, 1, 2, ...
 //
 val () = array_ptr_free (pf, pfgc | p)
 //
-} // end of [main]
+} // end of [main0]
 ')\
 
 Note that the created array is properly freed before the code exits.  ')

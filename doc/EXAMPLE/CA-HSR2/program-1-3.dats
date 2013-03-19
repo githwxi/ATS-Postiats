@@ -9,7 +9,7 @@
 //
 (* ****** ****** *)
 
-staload _ = "prelude/DATS/integer.dats"
+staload INT = "prelude/DATS/integer.dats"
 staload CHAR = "prelude/DATS/char.dats"
 staload STRING = "prelude/DATS/string.dats"
 

@@ -212,9 +212,12 @@ ptr0_sub_size (p: ptr, u: size): ptr
 
 #atscode_separator()
 
-fun fprint_ptr
-  (out: FILEref, p: ptr): void = "mac\#%"
-// end of [fprint_ptr]
+fun print_ptr (p: ptr): void = "mac\#%"
+fun prerr_ptr (p: ptr): void = "mac\#%"
+overload print with print_ptr
+overload prerr with prerr_ptr
+fun fprint_ptr : fprint_type (ptr) = "mac\#%"
+overload fprint with fprint_ptr
 
 #atscode_separator()
 
@@ -396,17 +399,17 @@ typedef constcharptr1 = charptr1 // HX: for commenting purpose
 
 fun{a:vt0p}
 ptr_alloc ()
-  :<> [l:agz] (a? @ l, free_gc_v (l) | ptr l)
+  :<> [l:agz] (a? @ l, mfree_gc_v (l) | ptr l)
 // end of [ptr_alloc]
 
 fun ptr_alloc_tsz
   {a:vt0p} (tsz: sizeof_t a)
-  :<> [l:agz] (a? @ l, free_gc_v (l) | ptr l) = "mac\#%"
+  :<> [l:agz] (a? @ l, mfree_gc_v (l) | ptr l) = "mac\#%"
 // end of [ptr_alloc_tsz]
 
 fun ptr_free
   {a:t@ype}{l:addr}
-  (pfgc: free_gc_v (l), pfat: a @ l | p: ptr l):<> void = "mac\#%"
+  (pfgc: mfree_gc_v (l), pfat: a @ l | p: ptr l):<> void = "mac\#%"
 // end of [ptr_free]
 
 #atscode_separator()

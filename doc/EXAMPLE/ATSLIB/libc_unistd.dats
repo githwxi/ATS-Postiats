@@ -3,17 +3,14 @@
 *)
 
 (* ****** ****** *)
-
-#include "share/atspre_staload.hats"
-
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
 (* ****** ****** *)
 
 staload
 UNSAFE = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
-staload UNI = "libc/SATS/unistd.sats"
 
 (* ****** ****** *)
 

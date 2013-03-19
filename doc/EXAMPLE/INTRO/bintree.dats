@@ -67,4 +67,8 @@ end // end of [bintree_free]
 
 (* ****** ****** *)
 
+implement main0 () = ()
+
+(* ****** ****** *)
+
 (* end of [bintree.dats] *)

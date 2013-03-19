@@ -31,7 +31,7 @@ implement{a} ref = ref_make_elt<a>
 implement{a}
 ref_make_elt (x0) = let
   val (pfat, pfgc | p) = ptr_alloc<a> ()
-  prval () = free_gc_v_elim (pfgc)
+  prval () = mfree_gc_v_elim (pfgc)
   val () = !p := x0 // initialization
 in
   ref_make_viewptr (pfat | p)

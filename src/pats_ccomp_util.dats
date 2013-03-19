@@ -187,9 +187,20 @@ case+ x.instr_node of
 | INSextfcall (tmp, _fun, _arg) => tmpadd (tmp)
 //    
 | INScond
-    (_, _then, _else) => {
+  (
+    _, _then, _else
+  ) => {
     val () = auxlst (res, _then) and () = auxlst (res, _else)
   } // end of [INScond]
+//
+| INSloop
+  (
+    _, _, _, _init, _, _test, _post, _body
+  ) => {
+    val () = auxlst (res, _init) and () = auxlst (res, _test)
+    and () = auxlst (res, _post) and () = auxlst (res, _body)
+  } // end of [INSloop]
+| INSloopexn (knd, tlab) => () // HX: knd=0/1: break/continue
 //
 | INSswitch _ => ()
 //

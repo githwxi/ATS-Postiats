@@ -736,6 +736,8 @@ macdef flabpmvlst (lxs) = labprimvalist_subst (env, map, sub, ,(lxs), sfx)
 macdef fpmd (x) = primdec_subst (env, map, sub, ,(x), sfx)
 macdef fpmdlst (xs) = primdeclst_subst (env, map, sub, ,(xs), sfx)
 //
+macdef finstrlst (inss) = instrlst_subst (env, map, sub, ,(inss), sfx)
+//
 in
 //
 case+
@@ -776,15 +778,35 @@ case+
     instr_fcall (loc0, tmp, _fun, hse, _arg)
   end // end of [INSfcall]
 //
-| INScond (
+| INScond
+  (
     pmv, _then, _else
   ) => let
     val pmv = fpmv (pmv)
-    val _then = instrlst_subst (env, map, sub, _then, sfx)
-    val _else = instrlst_subst (env, map, sub, _else, sfx)
+    val _then = finstrlst (_then)
+    val _else = finstrlst (_else)
   in
     instr_cond (loc0, pmv, _then, _else)
   end // end of [INScond]
+//
+| INSloop
+  (
+    tlab_init, tlab_fini, tlab_cont
+  , inss_init, pmv_test, inss_test, inss_post, inss_body
+  ) => let
+    val inss_init = finstrlst (inss_init)
+    val pmv_test = fpmv (pmv_test)
+    val inss_test = finstrlst (inss_test)
+    val inss_post = finstrlst (inss_post)
+    val inss_body = finstrlst (inss_body)
+  in
+    instr_loop
+    (
+      loc0, tlab_init, tlab_fini, tlab_cont
+    , inss_init, pmv_test, inss_test, inss_post, inss_body
+    ) // endfun
+  end
+| INSloopexn _ => ins0
 //
 (*
 | INSswitch (x) => ...

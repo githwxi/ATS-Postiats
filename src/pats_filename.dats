@@ -153,8 +153,33 @@ end // end of [compare_filename_filename]
 
 (* ****** ****** *)
 
+local
+//
+// HX: implemented in [pats_utils.dats]
+//
+extern
+fun string_test_suffix
+(
+  str: string, sffx: string
+) : bool = "ext#patsopt_string_test_suffix"
+
+in (* in of [local] *)
+//
 implement
-filename_is_relative
+filename_is_sats (fil) =
+  string_test_suffix (fil.filename_part, ".sats")
+implement
+filename_is_dats (fil) =
+  string_test_suffix (fil.filename_part, ".dats")
+//
+end // end of [local]
+
+(* ****** ****** *)
+
+extern
+fun fname_is_relative (name: string): bool
+implement
+fname_is_relative
   (name) = let
   val name = string1_of_string (name)
   fn aux {n,i:nat | i <= n} (
@@ -165,7 +190,7 @@ filename_is_relative
   val dirsep = theDirSep_get ()
 in
   aux (name, 0, dirsep)
-end // [filename_is_relative]
+end // [fname_is_relative]
 
 (* ****** ****** *)
 
@@ -299,7 +324,7 @@ path_normalize (s0) =
 fun partname_fullize
   (pname: string): string = let
   extern castfn p2s {l:agz} (x: !strptr l):<> string
-  val isrel = filename_is_relative (pname)
+  val isrel = fname_is_relative (pname)
 in
   if isrel then let
     val cwd = $UNISTD.getcwd0 ()
@@ -632,19 +657,22 @@ in
 end // end of [filenameopt_make_local]
 
 implement
-filenameopt_make_relative
-  (basename) = let
+filenameopt_make_relative (basename) = let
 //
-  val opt = (case+ 0 of
-    | _ when
-        filename_is_relative (basename) => aux_relative (basename)
-    | _ => let
-        val isexi = test_file_exists (basename) in
-        if isexi then stropt_some (basename) else stropt_none(*void*)
-      end // end of [_]
-  ) : Stropt // end of [val]
+val opt =
+(
+case+ 0 of
+| _ when
+    fname_is_relative (basename) => aux_relative (basename)
+| _ => let
+    val isexi = test_file_exists (basename)
+  in
+    if isexi then stropt_some (basename) else stropt_none(*void*)
+  end // end of [_]
+) : Stropt // end of [val]
 //
-  val issome = stropt_is_some (opt)
+val issome = stropt_is_some (opt)
+//
 in
   if issome then let
     val partname = stropt_unsome (opt)

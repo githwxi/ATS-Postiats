@@ -3,9 +3,10 @@
 *)
 
 (* ****** ****** *)
-
-#include "share/atspre_staload.hats"
-
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
 (* ****** ****** *)
 
 #define EPSILON 1E-8

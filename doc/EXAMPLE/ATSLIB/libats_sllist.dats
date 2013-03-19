@@ -9,9 +9,10 @@
 // Start time: March, 2013
 //
 (* ****** ****** *)
-
-#include "share/atspre_staload.hats"
-
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
 (* ****** ****** *)
 
 staload _ = "libats/DATS/gnode.dats"

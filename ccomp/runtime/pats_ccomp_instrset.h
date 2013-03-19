@@ -62,6 +62,10 @@
 #define ATSelse() else
 #define ATSdo() do
 #define ATSwhile(x) while (x)
+#define ATSbreak() break
+#define ATScontinue() continue
+#define ATSgoto(lab) goto lab
+#define ATSgoto2(knd, lab) goto lab
 #define ATSreturn(x) return (x)
 #define ATSreturn_void(x) return
 
@@ -140,8 +144,16 @@
 //
 #define ATSCKnot(x) ((x)==0)
 #define ATSCKiseqz(x) ((x)==0)
+#define ATSCKisneqz(x) ((x)!=0)
 #define ATSCKptriscons(x) (0 != (void*)(x))
 #define ATSCKptrisnull(x) (0 == (void*)(x))
+//
+/* ****** ****** */
+//
+// HX: handling for/while loops
+//
+#define ATSLOOPopen(init) while(atsbool_true) { init:
+#define ATSLOOPclose(init, fini) goto init ; fini: break ; }
 //
 /* ****** ****** */
 //

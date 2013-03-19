@@ -8,9 +8,10 @@
 // A glorious implementation of selection-sort in ATS :)
 //
 (* ****** ****** *)
-
-#include "share/atspre_staload.hats"
-
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
 (* ****** ****** *)
 
 staload "./program-1-2.sats"

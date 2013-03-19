@@ -1,5 +1,6 @@
 (*
-** For staloading template code
+** For staloading
+** template code in ATSLIB/prelude
 *)
 
 (* ****** ****** *)
@@ -54,4 +55,4 @@ staload _ = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
 
-(* end of [atspre_staload.hats] *)
+(* end of [atspre_staload_tmpdef.hats] *)

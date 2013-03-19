@@ -15,8 +15,9 @@ staload "atshwxi/intinf/SATS/intinf.sats"
 
 (* ****** ****** *)
 
-fun fact
-  {i:nat} (
+fun
+fact {i:nat}
+(
   x: int (i)
 ) : Intinf = let
 in

@@ -73,7 +73,7 @@ fun string_reverse
 //
   val cs = string_explode (str)
   val cs = list_vt_reverse (cs)
-  val res = string_make_list ($UN.linlst2lst(cs))
+  val res = string_make_list ($UN.list_vt2t(cs))
   val () = list_vt_free (cs)
 in
   res

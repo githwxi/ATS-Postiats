@@ -44,28 +44,21 @@
 
 (* ****** ****** *)
 
+vtypedef
+RD(a:vt0p) = a // for commenting: read-only
+#define NSH(x) x // for commenting: no sharing
+#define SHR(x) x // for commenting: it is shared
+
+(* ****** ****** *)
+
 staload
 STDDEF = "libc/SATS/stddef.sats"
-typedef size_t = $STDDEF.size_t
 typedef wchar_t = $STDDEF.wchar_t
-
-(* ****** ****** *)
-
-typedef wchar = $STDDEF.wchar_t // shorthand
-
-(* ****** ****** *)
-
-#define NSH (x) x // for commenting: no sharing
-#define SHR (x) x // for commenting: it is shared
 
 (* ****** ****** *)
 
 macdef EXIT_FAILURE = $extval (int, "EXIT_FAILURE")
 macdef EXIT_SUCCESS = $extval (int, "EXIT_SUCCESS")
-
-(* ****** ****** *)
-
-macdef NULL = $extval (ptr(null), "NULL")
 
 (* ****** ****** *)
 
@@ -134,7 +127,7 @@ char *l64a(long value); // not defined for a negative value
 fun l64a
   {i:nat} (
   x: lint i
-) :<!refwrt> [l:agz] vttakeout (void, strptr l) = "mac#%"
+) :<!refwrt> [l:agz] vttakeout0 (strptr l) = "mac#%"
 // end of [l64a]
 
 (* ****** ****** *)
@@ -270,7 +263,7 @@ char *getenv(char *);
 fun getenv
 (
   name: NSH(string)
-) :<!ref> [l:addr] vttakeout (void, strptr l) = "mac#%"
+) :<!ref> [l:addr] vttakeout0 (strptr l) = "mac#%"
 
 fun{} getenv_gc (name: NSH(string)):<!refwrt> Strptr0
 
@@ -312,7 +305,7 @@ fun clearenv ((*void*)):<!refwrt> int = "mac#%"
 fun rand ((*void*)):<!ref> int = "mac#%"
 fun srand (seed: uint):<!ref> void = "mac#%"
 
-fun rand_r (seed: &uint):<> int = "mac#%"
+fun rand_r (seed: &uint >> _):<> int = "mac#%"
 
 (* ****** ****** *)
 /*
@@ -411,8 +404,9 @@ void
 fun bsearch
   {a:vt0p}{n:int}
 (
-  key: &a
-, A: &(@[INV(a)][n]), asz: size_t (n), tsz: sizeof_t (a)
+  key: &RD(a)
+, arr: &RD(@[INV(a)][n])
+, asz: size_t (n), tsz: sizeof_t (a)
 , cmp: cmpref (a)
 ) :<> Ptr0 = "mac#%" // end of [bsearch]
 
@@ -427,9 +421,7 @@ void qsort
 fun qsort
   {a:vt0p}{n:int}
 (
-  A: &(@[INV(a)][n])
-, asz: size_t (n), tsz: sizeof_t (a)
-, cmp: cmpref (a)
+  A: &(@[INV(a)][n]), asz: size_t (n), tsz: sizeof_t (a), cmp: cmpref (a)
 ) :<!wrt> void = "mac#%" // end of [qsort]
 
 (* ****** ****** *)
@@ -448,11 +440,14 @@ fun wctomb_unsafe
 // end of [wctomb_unsafe]
 
 /*
-size_t wcstombs(char *dest, const wchar_t *src, size_t n);
+size_t wcstombs
+(
+  char *dest, const wchar_t *src, size_t n
+) ;
 */
 fun wcstombs_unsafe
 (
-  dest: cPtr0 (char), src: cPtr1 (wchar), n: size_t
+  dest: cPtr0 (char), src: cPtr1 (wchar_t), n: size_t
 ) :<!refwrt> ssize_t = "mac#%" // endfun
 
 (* ****** ****** *)
@@ -481,6 +476,47 @@ fun mkostemp {n:int | n >= 6}
 int grantpt(int fd);
 */
 fun grantpt (fd: int): int = "mac#%"
+
+(* ****** ****** *)
+
+dataview
+malloc_libc_v (addr, int) =
+  | {l:agz}{n:int}
+    malloc_libc_v_succ (l, n) of (b0ytes (n) @ l, mfree_libc_v (l))
+  | {n:int} malloc_libc_v_fail (null, n)
+// end of [malloc_libc_v]
+
+(* ****** ****** *)
+
+fun
+malloc_libc
+  {n:int}
+(
+  bsz: size_t n
+) :<!wrt>
+[
+  l:addr
+] (
+  malloc_libc_v (l, n) | ptr l
+) = "mac#%" // end of [malloc]
+
+fun
+malloc_libc_exn
+  {n:int}
+(
+  bsz: size_t n
+) :<!wrt>
+[
+  l:addr | l > null
+] (
+  b0ytes(n) @ l, mfree_libc_v l | ptr l
+) = "mac#%" // end of [malloc_exn]
+
+fun mfree_libc
+  {l:addr}{n:int}
+(
+  b0ytes(n) @ l, mfree_libc_v l | ptr l
+) :<!wrt> void = "mac#%" // endfun
 
 (* ****** ****** *)
 

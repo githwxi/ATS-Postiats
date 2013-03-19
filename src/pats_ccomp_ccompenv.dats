@@ -450,10 +450,40 @@ end // end of [fprint_markenvlst]
 
 (* ****** ****** *)
 
+datavtype
+looptmplab3 =
+LOOPTMPLAB3 of
+(
+  tmplab(*init*), tmplab(*fini*), tmplab(*cont*)
+) // end of [looptmplab3]
+
+vtypedef loopexnenv = List_vt (looptmplab3)
+
+(* ****** ****** *)
+
+extern
+fun loopexnenv_free (xs: loopexnenv): void
+
+implement
+loopexnenv_free (xs) = let
+in
+//
+case+ xs of
+| ~list_vt_cons
+    (x, xs) => let
+    val+~LOOPTMPLAB3 (_, _, _) = x in loopexnenv_free (xs)
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => ()
+//
+end // end of [loopexnenv_free]
+
+(* ****** ****** *)
+
 viewtypedef
 ccompenv_struct = @{
   ccompenv_tmplevel = int
 , ccompenv_tmprecdepth = int
+, ccompenv_loopexnenv= loopexnenv
 , ccompenv_markenvlst = markenvlst_vt
 , ccompenv_varbindmap= d2varmap_vt (primval)
 } // end of [ccompenv_struct]
@@ -469,7 +499,7 @@ implement
 ccompenv_struct_uninitize (x) = let
   val () =
     markenvlst_vt_free (x.ccompenv_markenvlst)
-  // end of [val]
+  val () = loopexnenv_free (x.ccompenv_loopexnenv)
   val () = d2varmap_vt_free (x.ccompenv_varbindmap)
 in
   // end of [ccompenv_struct_uninitize]
@@ -477,12 +507,12 @@ end // end of [ccompenv_struct_uninitize]
 
 (* ****** ****** *)
 
-dataviewtype
-ccompenv = CCOMPENV of ccompenv_struct
+datavtype
+ccompenv_vt = CCOMPENV of ccompenv_struct
 
 (* ****** ****** *)
 
-assume ccompenv_vtype = ccompenv
+assume ccompenv_vtype = ccompenv_vt
 
 (* ****** ****** *)
 
@@ -494,6 +524,7 @@ ccompenv_make
 //
   val () = p->ccompenv_tmplevel := 0
   val () = p->ccompenv_tmprecdepth := 0
+  val () = p->ccompenv_loopexnenv := list_vt_nil ()
   val () = p->ccompenv_markenvlst := MARKENVLSTnil ()
   val () = p->ccompenv_varbindmap := d2varmap_vt_nil ()
 //
@@ -596,6 +627,57 @@ ccompenv_dec_tmprecdepth
 in
   // nothing
 end // end of [ccompenv_dec_tmprecdepth]
+
+(* ****** ****** *)
+
+implement
+ccompenv_inc_loopexnenv
+  (env, tl1, tl2, tl3) = let
+  val tlll = LOOPTMPLAB3 (tl1, tl2, tl3)
+  val CCOMPENV (!p) = env
+  val () = (p->ccompenv_loopexnenv := list_vt_cons (tlll, p->ccompenv_loopexnenv))
+  prval () = fold@ (env)
+in
+  // nothing
+end // end of [ccompenv_inc_loopexnenv]
+
+implement
+ccompenv_dec_loopexnenv
+  (env) = let
+  val CCOMPENV (!p) = env
+  val-~list_vt_cons (x, xs) = p->ccompenv_loopexnenv
+  val+~LOOPTMPLAB3 (_, _, _) = x
+  val () = (p->ccompenv_loopexnenv := xs)
+  prval () = fold@ (env)
+in
+  // nothing
+end // end of [ccompenv_dec_loopexnenv]
+
+implement
+ccompenv_get_loopfini
+  (env) = let
+  val CCOMPENV (!p) = env
+  val-list_vt_cons (!px, _) = p->ccompenv_loopexnenv
+  val+LOOPTMPLAB3 (_, tl_fini, _) = !px
+  prval () = fold@ (!px)
+  prval () = fold@ (p->ccompenv_loopexnenv)
+  prval () = fold@ (env)
+in
+  tl_fini
+end // end of [ccompenv_get_loopfini]
+
+implement
+ccompenv_get_loopcont
+  (env) = let
+  val CCOMPENV (!p) = env
+  val-list_vt_cons (!px, _) = p->ccompenv_loopexnenv
+  val+LOOPTMPLAB3 (_, _, tl_cont) = !px
+  prval () = fold@ (!px)
+  prval () = fold@ (p->ccompenv_loopexnenv)
+  prval () = fold@ (env)
+in
+  tl_cont
+end // end of [ccompenv_get_loopcont]
 
 (* ****** ****** *)
 

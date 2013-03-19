@@ -718,7 +718,8 @@ case+ x.instr_node of
     val () = prstr ")"
   } // end of [INSextfcall]
 //
-| INScond (
+| INScond
+  (
     pmv_cond, inss_then, inss_else
   ) => {
     val () = prstr "INScond(\n"
@@ -732,16 +733,32 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
-| INSswitch _ => {
+| INSloop _ =>
+  {
+    val () = prstr "INSloop(...)"
+  }
+| INSloopexn (knd, tlab) =>
+  {
+    val () = prstr "INSloopexn("
+    val () = fprint_int (out, knd)
+    val () = prstr ", "
+    val () = fprint_tmplab (out, tlab)
+    val () = prstr ")"
+  }
+//
+| INSswitch _ =>
+  {
     val () = prstr "INSswitch("
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }
 //
-| INSletpop () => {
+| INSletpop () =>
+  {
     val () = prstr "INSletpop()"
   }
-| INSletpush (pmds) => {
+| INSletpush (pmds) =>
+  {
     val () = prstr "INSletpush(\n"
     val () = fprint_primdeclst (out, pmds)
     val () = prstr ")"

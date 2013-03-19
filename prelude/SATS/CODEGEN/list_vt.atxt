@@ -26,8 +26,10 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-typedef SHR(a:type) = a // for commenting purpose
-typedef NSH(a:type) = a // for commenting purpose
+vtypedef
+RD(a:vt0p) = a // for commenting: read-only
+\#define NSH (x) x // for commenting: no sharing
+\#define SHR (x) x // for commenting: it is shared
 
 #atscode_separator()
 
@@ -104,7 +106,7 @@ list_vt_copy {n:int}
 // end of [list_vt_copy]
 
 fun{x:vt0p}
-list_vt_copylin$copy (x: &x): x
+list_vt_copylin$copy (x: &RD(x)): x
 fun{x:vt0p}
 list_vt_copylin {n:int} (xs: !list_vt (INV(x), n)): list_vt (x, n)
 
@@ -130,7 +132,7 @@ list_vt_set_at {n:int}
 
 fun{x:vt0p}
 list_vt_exch_at {n:int}
-  (xs: !list_vt (INV(x), n), i: natLt n, x: &x>>x):<!wrt> void
+  (xs: !list_vt (INV(x), n), i: natLt n, x: &x>>_):<!wrt> void
 // end of [list_vt_exch_at]
 
 #atscode_separator()
@@ -215,9 +217,10 @@ list_vt_concat
 #atscode_separator()
 
 fun{x:vt0p}
-list_vt_split$pred (x: &x): bool
+list_vt_split$pred (x: &RD(x)): bool
 fun{x:vt0p}
-list_vt_split {n:int} (
+list_vt_split {n:int}
+(
   xs: &list_vt (INV(x), n) >> list_vt (x, n1)
 ) : \#[n1:nat|n1 <= n] list_vt (x, n-n1)
 
@@ -228,7 +231,7 @@ x:vt0p}{env:vt0p
 } list_vt_foreach$cont (x: &x, env: &env): bool
 fun{
 x:vt0p}{env:vt0p
-} list_vt_foreach$fwork (x: &x, env: &(env) >> _): void
+} list_vt_foreach$fwork (x: &x >> _, env: &(env) >> _): void
 fun{
 x:vt0p
 } list_vt_foreach (xs: !List_vt (INV(x))): void
@@ -260,7 +263,7 @@ x:vt0p}{env:vt0p
 fun{
 x:vt0p}{env:vt0p
 } list_vt_iforeach$fwork
-  (i: int, x: &x, env: &(env) >> _): void
+  (i: int, x: &x >> _, env: &(env) >> _): void
 fun{
 x:vt0p
 } list_vt_iforeach
@@ -274,14 +277,14 @@ x:vt0p}{env:vt0p
 #atscode_separator()
 
 fun{x:t0p}
-list_vt_filter$pred (x: &x):<> bool
+list_vt_filter$pred (x: &RD(x)):<> bool
 fun{x:t0p}
 list_vt_filter
   {n:int} (x: list_vt (INV(x), n)):<!wrt> listLte_vt (x, n)
 // end of [list_vt_filter]
 
 fun{x:vt0p}
-list_vt_filterlin$pred (x: &x):<> bool
+list_vt_filterlin$pred (x: &RD(x)):<> bool
 fun{x:vt0p}
 list_vt_filterlin$clear (x: &x>>x?):<!wrt> void
 fun{x:vt0p}
@@ -293,7 +296,7 @@ list_vt_filterlin
 
 fun{
 x:vt0p
-} list_vt_app$fwork (x: &x): void
+} list_vt_app$fwork (x: &x >> _): void
 fun{x:vt0p} list_vt_app (xs: !List_vt (INV(x))): void
 
 fun{
@@ -305,7 +308,7 @@ fun{x:vt0p} list_vt_appfree (xs: List_vt (INV(x))): void
 
 fun{
 x:vt0p}{y:vt0p
-} list_vt_map$fwork (x: &x): y
+} list_vt_map$fwork (x: &x >> _): y
 fun{
 x:vt0p}{y:vt0p
 } list_vt_map {n:int} (xs: !list_vt (INV(x), n)): list_vt (y, n)
@@ -318,43 +321,43 @@ x:vt0p}{y:vt0p
 } list_vt_mapfree {n:int} (xs: list_vt (INV(x), n)): list_vt (y, n)
 
 #atscode_separator()
-
+//
 fun{
 a:vt0p
-} list_vt_mergesort$cmp (x1: &a, x2: &a):<> int
-
+} list_vt_mergesort$cmp
+  (x1: &RD(a), x2: &RD(a)):<> int
+//
 fun{
 a:vt0p
 } list_vt_mergesort
   {n:int} (xs: list_vt (INV(a), n)):<!wrt> list_vt (a, n)
-// end of [list_vt_mergesort]
-
+//
 fun{
 a:vt0p
 } list_vt_mergesort_fun
   {n:int} (
   xs: list_vt (INV(a), n), cmp: cmpref (a)
 ) :<!wrt> list_vt (a, n) // end of [list_vt_mergesort_fun]
-
+//
 #atscode_separator()
-
+//
 fun{
 a:vt0p
-} list_vt_quicksort$cmp (x1: &a, x2: &a):<> int
-
+} list_vt_quicksort$cmp
+  (x1: &RD(a), x2: &RD(a)):<> int
+//
 fun{
 a:vt0p
 } list_vt_quicksort
   {n:int} (xs: list_vt (INV(a), n)):<!wrt> list_vt (a, n)
-// end of [list_vt_quicksort]
-
+//
 fun{
 a:vt0p
 } list_vt_quicksort_fun
   {n:int} (
   xs: list_vt (INV(a), n), cmp: cmpref (a)
 ) :<!wrt> list_vt (a, n) // end of [list_vt_quicksort_fun]
-
+//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

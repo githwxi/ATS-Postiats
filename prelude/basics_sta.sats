@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -39,6 +39,10 @@
 #if VERBOSE_PRELUDE #then
 #print "Loading [basics_sta.sats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
+
+(* ****** ****** *)
+
+#define RD(x) x // for commenting: read-only
 
 (* ****** ****** *)
 (*
@@ -471,22 +475,24 @@ stadef opt = opt_vt0ype_bool_vt0ype
 (* ****** ****** *)
 
 typedef bytes (n:int) = @[byte][n]
+viewdef bytes_v (l:addr, n:int) = bytes (n) @ l
 typedef b0ytes (n:int) = @[byte?][n]
-
-(* ****** ****** *)
-
-abst@ype strbuf (m:int, n:int) // HX: [m] byte size
+viewdef b0ytes_v (l:addr, n:int) = b0ytes (n) @ l
 
 (* ****** ****** *)
 //
 // HX: for memory deallocation (with/without GC)
 //
 absview
-free_gc_addr_view (l:addr)
-stadef free_gc_v = free_gc_addr_view
+mfree_gc_addr_view (addr)
+stadef mfree_gc_v = mfree_gc_addr_view
 absview
-free_ngc_addr_view (l:addr)
-stadef free_ngc_v = free_ngc_addr_view
+mfree_ngc_addr_view (addr)
+stadef mfree_ngc_v = mfree_ngc_addr_view
+//
+absview
+mfree_libc_addr_view (addr) // libc-mfree
+stadef mfree_libc_v = mfree_libc_addr_view
 //
 (* ****** ****** *)
 
@@ -506,13 +512,15 @@ ref_vt0ype_type (a:vt@ype) = ptr
 typedef ref (a:vt@ype) = ref_vt0ype_type (a)
 
 (* ****** ****** *)
-
+//
 viewdef vtakeout
   (v1: view, v2: view) = (v2, v2 -<lin,prf> v1)
+viewdef vtakeout0 (v:view) = vtakeout (void, v)
+//
 vtypedef vttakeout
   (vt1: vt@ype, vt2: vt@ype) = (vt2 -<lin,prf> vt1 | vt2)
-// end of [vttakeout]
-
+viewdef vttakeout0 (vt:vt@ype) = vttakeout (void, vt)
+//
 (* ****** ****** *)
 
 typedef
@@ -539,9 +547,9 @@ stadef cmpval = cmpval_funenv
 (* ****** ****** *)
 
 typedef cmpref_fun
-  (a: vt@ype) = (&a, &a) -<fun> int
+  (a: vt@ype) = (&RD(a), &RD(a)) -<fun> int
 typedef cmpref_funenv
-  (a: vt@ype, vt: vt@ype) = (&a, &a, !vt) -<fun> int
+  (a: vt@ype, vt: vt@ype) = (&RD(a), &RD(a), !vt) -<fun> int
 stadef cmpref = cmpref_fun
 stadef cmpref = cmpref_funenv
 

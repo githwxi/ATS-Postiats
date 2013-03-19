@@ -5,9 +5,10 @@
 //
 
 (* ****** ****** *)
-
-#include "share/atspre_staload.hats"
-
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"

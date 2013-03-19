@@ -17,7 +17,7 @@ all:: test
 test: \
   program-1-2_dats.c \
   program-1-2-test_dats.c ; \
-  $(GCC) -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -O2 -o $@ $^
+  $(GCC) -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -DATS_MEMALLOC_GCBDW -O2 -o $@ $^ -lgc
 
 ######
 

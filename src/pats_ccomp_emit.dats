@@ -758,8 +758,8 @@ val knd = tmpvar_get_topknd (tmp)
 val () =
 (
   if knd = 0
-    then emit_text (out, "ATStmpdec")
-    else emit_text (out, "ATSstatmpdec")
+    then emit_text (out, "ATStmpdec") // local
+    else emit_text (out, "ATSstatmpdec") // toplevel
   // end of [if]
 ) : void // end of [val]
 val () =
@@ -1164,17 +1164,20 @@ fun emit_move_val (
 implement
 emit_move_val
   (out, tmp, pmv) = let
-  val isvoid = primval_is_void (pmv)
-  val () = (
-    if ~isvoid
-      then emit_text (out, "ATSINSmove(")
-      else emit_text (out, "ATSINSmove_void(")
-    // end of [if]
-  ) : void // end of [val]
-  val () = emit_tmpvar (out, tmp)
-  val () = emit_text (out, ", ")
-  val () = emit_primval (out, pmv)
-  val () = emit_text (out, ") ;")
+//
+val isvoid = primval_is_void (pmv)
+//
+val () = emit_text (out, "ATSINSmove")
+val () =
+(
+  if isvoid then emit_text (out, "_void")
+)
+val () = emit_text (out, "(")
+val () = emit_tmpvar (out, tmp)
+val () = emit_text (out, ", ")
+val () = emit_primval (out, pmv)
+val () = emit_text (out, ") ;")
+//
 in
   // nothing
 end // end of [emit_move_val]
@@ -1272,7 +1275,8 @@ case+ ins.instr_node of
 | INSfcall _ => emit_instr_fcall (out, ins)
 | INSextfcall _ => emit_instr_extfcall (out, ins)
 //
-| INScond (
+| INScond
+  (
     pmv_cond, inss_then, inss_else
   ) => {
     val () = emit_text (out, "ATSif(")
@@ -1286,7 +1290,79 @@ case+ ins.instr_node of
     // end of [val]
   } // end of [INScond]
 //
-| INSswitch (xs) => {
+| INSloop
+  (
+    tlab_init, tlab_fini, tlab_cont
+  , inss_init, pmv_test, inss_test, inss_post, inss_body
+  ) => {
+    val () = emit_text (out, "/*\n")
+    val () = emit_text (out, "** loop-init(beg)\n")
+    val () = emit_text (out, "*/\n")
+    val () =
+    (
+      emit_instrlst (out, inss_init); emit_newline (out)
+    )
+    val () = emit_text (out, "/*\n")
+    val () = emit_text (out, "** loop-init(end)\n")
+    val () = emit_text (out, "*/\n")
+    val () = (
+      emit_text (out, "ATSLOOPopen(");
+      emit_tmplab (out, tlab_init); emit_text (out, ")\n")
+    ) // end of [val]
+//
+    val () =
+    (
+      emit_instrlst (out, inss_test); emit_newline (out)
+    )
+//
+    val () = emit_text (out, "ATSif( ")
+    val () = emit_text (out, "ATSCKnot(")
+    val () = emit_primval (out, pmv_test)
+    val () = emit_text (out, ")) ATSbreak() ;")
+    val () = emit_newline (out)
+//
+    val () =
+    (
+      emit_instrlst (out, inss_body); emit_newline (out)
+    )
+//
+    val ispost = list_is_cons (inss_post)
+//
+    val () = if ispost then
+    {
+      val () = emit_text (out, "/*\n")
+      val () = emit_text (out, "** continue after post-update\n")
+      val () = emit_text (out, "*/\n")
+      val () = emit_tmplab (out, tlab_cont)
+      val () = emit_text (out, ":\n")
+      val () = emit_instrlst (out, inss_post)
+      val () = emit_newline (out)
+    } // end of [if] // end of [val]
+//
+    val () = (
+      emit_text (out, "ATSLOOPclose(");
+      emit_tmplab (out, tlab_init); emit_text (out, ", ");
+      emit_tmplab (out, tlab_fini); emit_text (out, ") ;")
+    ) // end of [val]
+//
+    val () = emit_newline (out)
+  } // end of [INSloop]
+//
+| INSloopexn
+    (knd, tlab) => let
+    val () =
+      emit_text (out, "ATSgoto2(")
+    val () =
+    (
+      emit_int (out, knd); emit_text (out, ", "); emit_tmplab (out, tlab)
+    )
+    val () = emit_text (out, ") ;")
+  in
+    // nothing
+  end // end of [INSloopexn]
+//
+| INSswitch (xs) =>
+  {
     val () = emit_text (out, "ATSdo() {\n")
     val () =
       emit_text (out, "\n} ATSwhile(0) ; /* end of [do] */")
@@ -1653,7 +1729,40 @@ end // end of [emit_instr_move_rec]
 
 local
 
-fun primval_fun_isbot
+fun emit_pmvfun
+(
+  out: FILEref, pmv: primval
+) : void = let
+in
+//
+case+ pmv.primval_node of
+//
+| PMVcst (d2c) => emit_d2cst (out, d2c)
+//
+| PMVfunlab (flab) => emit_funlab (out, flab)
+//
+| PMVtmpltcst _ => emit_primval (out, pmv)
+| PMVtmpltvar _ => emit_primval (out, pmv)
+//
+| PMVtmpltcstmat _ => emit_primval (out, pmv)
+//
+| _(*funvar*) => emit_primval (out, pmv)
+//
+(*
+| _ => let
+    val loc = pmv.primval_loc
+    val hse = pmv.primval_type
+    val () = prerr_interror_loc (loc)
+    val () = prerrln! (": emit_prmvfun: pmv = ", pmv)
+    val () = prerrln! (": emit_prmvfun: hse = ", hse)
+    val () = assertloc (false)
+  in
+    // nothing
+  end // end of [_]
+*)
+end // end of [emit_pmvfun]
+
+fun pmvfun_isbot
   (pmv: primval): bool = let
 in
 //
@@ -1664,7 +1773,7 @@ case+
   // end of [PMVcst]
 | _ => false // end of [_]
 //
-end // end of [primval_fun_isbot]
+end // end of [pmvfun_isbot]
 
 in (* in of [local] *)
 
@@ -1682,90 +1791,27 @@ val () = (
 ) // end of [val]
 *)
 val noret = tmpvar_is_void (tmp)
-val noret = (
-  if noret then true else primval_fun_isbot (pmv_fun)
+val noret =
+(
+  if noret then true else pmvfun_isbot (pmv_fun)
 ) : bool // end of [val]
 //
-val () = (
-  if ~noret
-    then emit_text (out, "ATSINSmove(")
-    else emit_text (out, "ATSINSmove_void(")
-  // end of [if]
-) : void // end of [val]
-//
-val () = (
-  emit_tmpvar (out, tmp); emit_text (out, ", ")
-) (* end of [val] *)
+val () = emit_text (out, "ATSINSmove")
+val () =
+(
+  if noret then emit_text (out, "_void")
+)
+val () = emit_text (out, "(")
+val () = emit_tmpvar (out, tmp)
+val () = emit_text (out, ", ")
+val () = emit_pmvfun (out, pmv_fun)
+val () = emit_text (out, "(")
+val () = emit_primvalist (out, pmvs_arg)
+val () = emit_text (out, ")")
+val () = emit_text (out, ") ;")
 //
 in
-//
-case+ pmv_fun.primval_node of
-//
-| PMVfunlab (flab) => let
-    val () = emit_funlab (out, flab)
-    val () = emit_text (out, "(")
-    val () = emit_primvalist (out, pmvs_arg)
-    val () = emit_text (out, ")) ;")
-  in
-    // nothing
-  end // end of [PMVfun]
-//
-| PMVcst (d2c) => let
-    val () = emit_d2cst (out, d2c)
-    val () = emit_text (out, "(")
-    val () = emit_primvalist (out, pmvs_arg)
-    val () = emit_text (out, ")) ;")
-  in
-    // nothing
-  end // end of [PMVcst]
-//
-| PMVtmpltcst _ => let
-    val () = emit_primval (out, pmv_fun)
-    val () = emit_text (out, "(")
-    val () = emit_primvalist (out, pmvs_arg)
-    val () = emit_text (out, ")) ;")
-  in
-    // nothing
-  end // end of [PMVtmpltcst]
-| PMVtmpltcstmat _ => let
-    val () = emit_primval (out, pmv_fun)
-    val () = emit_text (out, "(")
-    val () = emit_primvalist (out, pmvs_arg)
-    val () = emit_text (out, ")) ;")
-  in
-    // nothing
-  end // end of [PMVtmpltcstmat]
-//
-| PMVtmpltvar _ => let
-    val () = emit_primval (out, pmv_fun)
-    val () = emit_text (out, "(")
-    val () = emit_primvalist (out, pmvs_arg)
-    val () = emit_text (out, ")) ;")
-  in
-    // nothing
-  end // end of [PMVtmpltvar]
-//
-| _(*function variable*) => let
-    val () = emit_primval (out, pmv_fun)
-    val () = emit_text (out, "(")
-    val () = emit_primvalist (out, pmvs_arg)
-    val () = emit_text (out, ")) ;")
-  in
-    // nothing
-  end // end of [_]
-//
-(*
-| _ => let
-    val () = prerr_interror_loc (loc0)
-    val () = (
-      prerr ": emit_instr_fcall: hse_fun = "; prerr_hisexp (hse_fun); prerr_newline ()
-    ) // end of [val]
-    val () = assertloc (false)
-  in
-    // nothing
-  end // end of [_]
-*)
-//
+  // nothing
 end // end of [emit_instr_fcall]
 
 implement

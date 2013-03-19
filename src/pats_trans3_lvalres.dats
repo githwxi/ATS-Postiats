@@ -140,7 +140,8 @@ end // end of [auxmain]
 in // in of [local]
 
 implement
-s2addr_exch_type (
+s2addr_exch_type
+(
   loc0, s2l, d3ls, s2e_new
 ) = let
   val opt = pfobj_search_atview (s2l)
@@ -161,7 +162,8 @@ end // end of [local]
 
 local
 
-fun auxerr_linold (
+fun auxerr_linold
+(
   loc0: location
 , d3e: d3exp, d3ls: d3lablst, s2e_old: s2exp
 ) : void = let
@@ -173,7 +175,8 @@ in
   the_trans3errlst_add (T3E_d3lval_exch_type_linold (loc0, d3e, d3ls))
 end // end of [auxerr_linold]
 
-fun d2var_refval_check (
+fun d2var_refval_check
+(
   loc0: location, d2v: d2var, refval: int
 ) : void = 
   if refval > 0 then let
@@ -190,14 +193,16 @@ fun d2var_refval_check (
 in // in of [local]
 
 implement
-d3lval_set_type_err (
+d3lval_set_type_err
+(
   refval, d3e0, s2e_new, err
 ) = let
 //
 val loc0 = d3e0.d3exp_loc
 //
 (*
-val () = (
+val () =
+(
   println! ("d3lval_set_type_err: d3e0 = ", d3e0);
   println! ("d3lval_set_type_err: s2e_new = ", s2e_new);
 ) // end of [val]
@@ -347,7 +352,8 @@ end // end of [d3lval_set_pat_type_left]
 
 local
 
-fun loop (
+fun loop
+(
   d3es: d3explst, p3ts: p3atlst
 ) : void = let
 in
@@ -379,17 +385,32 @@ end // end of [local]
 
 local
 
-fn s2exp_fun_is_freeptr
-  (s2e: s2exp): bool = let
+fun
+auxerr
+(
+  d3e0: d3exp
+) : void = let
+  val loc0 = d3e0.d3exp_loc
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": the function argument needs to be a left-value."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_d3lval_funarg (d3e0))
+end // end of [_]
+
+fun
+s2exp_fun_is_freeptr
+  (s2e_fun: s2exp) : bool = let
 in
 //
-case+ s2e.s2exp_node of
-| S2Efun (
+case+ s2e_fun.s2exp_node of
+| S2Efun
+  (
     fc, lin, _(*s2fe*), _(*npf*), _(*arg*), _(*res*)
-  ) => (
+  ) => 
+  (
   case+ fc of
-  | FUNCLOclo (knd) when knd > 0 => if lin = 0 then true else false
-  | _ => false
+  | FUNCLOclo knd when knd > 0 => if lin = 0 then true else false | _ => false
   ) // end of [S2Efun]
 | _ => false
 //
@@ -409,19 +430,17 @@ val () = (
 var err: int = 0
 var freeknd: int = 0 // free [d3e0] if it is set to 1
 val () = d3lval_set_type_err (refval, d3e0, s2e_new, err)
-val () = (if err > 0 then begin
+val () =
+(
+if err > 0 then
+(
   case+ 0 of
-  | _ when s2exp_is_nonlin (s2e_new) => () // HX: safely discarded!
-  | _ when s2exp_fun_is_freeptr s2e_new => (freeknd := 1) // HX: leak if not freed
-  | _  => let
-      val loc0 = d3e0.d3exp_loc
-      val () = prerr_error3_loc (loc0)
-      val () = prerr ": the function argument needs to be a left-value."
-      val () = prerr_newline ()
-    in
-      the_trans3errlst_add (T3E_d3lval_funarg (d3e0))
-    end // end of [_]
-end) : void // end of [val]
+  | _ when refval > 0 => auxerr (d3e0)
+  | _ when s2exp_is_nonlin (s2e_new) => () // HX-2013-03: safely discarded
+  | _ when s2exp_fun_is_freeptr (s2e_new) => (freeknd := 1) // HX: leak if not freed
+  | _ (* refval = 0 *) => auxerr (d3e0)
+) // end of [if]
+) : void // end of [val]
 //
 in
   freeknd // a linear value must be freed (freeknd = 1) if it cannot be returned
@@ -439,10 +458,13 @@ fun auxres
 val loc0 = d3e0.d3exp_loc
 val s2fun = d3exp_get_type (d3e0)
 //
-val-S2Efun (
+val-S2Efun
+(
   fc0, lin, s2fe, npf, s2es_arg, s2e_res
-) = s2fun.s2exp_node // end of [val]
-val s2fun_new = (
+) = s2fun.s2exp_node
+//
+val s2fun_new =
+(
   case+ lin of
   | _ when lin = 0 => s2fun
   | _ when lin = 1 => s2exp_fun_srt (
@@ -458,7 +480,8 @@ val s2fun_new = (
     end // end of [_]
 ) : s2exp // end of [val]
 //
-val refval = (
+val refval =
+(
   case+ fc0 of
   | FUNCLOclo knd =>
      if knd = 0 then 1 else 0
@@ -477,16 +500,20 @@ in // in of [local]
 
 implement
 d3exp_fun_restore
-  (fc, d3e_fun) = (
-  case+ fc of
-  | FUNCLOclo (knd) => (
+  (fc, d3e_fun) = let
+in
+//
+case+ fc of
+| FUNCLOclo (knd) =>
+  (
 //
 // knd: 0/1/~1: clo/cloptr/cloref
 //
-      if knd >= CLO then auxres (d3e_fun) else d3e_fun
-    ) // end of [FUNCLOclo]
-  | FUNCLOfun () => d3e_fun
-) // end of [d3exp_fun_restore]
+    if knd >= CLO then auxres (d3e_fun) else d3e_fun
+  ) // end of [FUNCLOclo]
+| FUNCLOfun () => d3e_fun
+//
+end // end of [d3exp_fun_restore]
 
 end // end of [local]
 
@@ -494,7 +521,8 @@ end // end of [local]
 
 local
 
-fun aux1 (
+fun aux1
+(
   d3es: d3explst
 , s2es_arg: s2explst
 , wths2es: wths2explst
@@ -505,7 +533,8 @@ fun aux1 (
   | list_nil () => list_nil ()
 // end of [aux1]
 
-and aux2 (
+and aux2
+(
   d3es: d3explst
 , s2es_arg: s2explst
 , wths2es: wths2explst
@@ -513,6 +542,7 @@ and aux2 (
 in
 //
 case+ wths2es of
+//
 | WTHS2EXPLSTcons_invar
     (_, _, wths2es) => let
     val-list_cons (d3e, d3es) = d3es
@@ -526,9 +556,9 @@ case+ wths2es of
   in
     list_cons (d3e, d3es)
   end // end of [WTHS2EXPLSTcons_invar]
-| WTHS2EXPLSTcons_trans (
-    refval, s2e_res, wths2es
-  ) => let
+//
+| WTHS2EXPLSTcons_trans
+    (refval, s2e_res, wths2es) => let
     val-list_cons (d3e, d3es) = d3es
     val-list_cons (s2e_arg, s2es_arg) = s2es_arg
     val loc = d3e.d3exp_loc
@@ -548,6 +578,7 @@ case+ wths2es of
   in
     list_cons (d3e, d3es)
   end // end of [WTHS2EXPLSTcons_trans]
+//
 | WTHS2EXPLSTcons_none
     (wths2es) => let
     val-list_cons (d3e, d3es) = d3es
@@ -556,6 +587,7 @@ case+ wths2es of
   in
     list_cons (d3e, d3es)
   end // end of [WTHS2EXPLSTcons_none]
+//
 | WTHS2EXPLSTnil () => list_nil ()
 //
 end // end of [d3explst_arg_restore]
@@ -563,10 +595,7 @@ end // end of [d3explst_arg_restore]
 in // in of [local]
 
 implement
-d3explst_arg_restore
-  (d3es, s2es, wths2es) =
-  aux1 (d3es, s2es, wths2es)
-// end of [d3explst_arg_restore]
+d3explst_arg_restore (d3es, s2es, wths2es) = aux1 (d3es, s2es, wths2es)
 
 end // end of [local]
 

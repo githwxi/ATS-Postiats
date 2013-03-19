@@ -120,7 +120,7 @@ This function casts a value to an unsigned short short integer of unindexed type
 
 (* ****** ****** *)
 
-#declnamesynop("linlst2lst")
+#declnamesynop("list_vt2t")
 #decldescrpt("\
 This function casts a linear list to a nonlinear list (only for temporary use).
 ")
@@ -137,14 +137,14 @@ staload UN = "prelude/SATS/unsafe.sats"
 //
 fun{a:t@ype}
 list_vt_copy {n:int}
-  (xs: !list_vt (a, n)): list_vt (a, n) = list_copy ($UN.linlst2lst (xs))
+  (xs: !list_vt (a, n)): list_vt (a, n) = list_copy ($UN.list_vt2t (xs))
 // end of [list_vt_copy]
 ')
 ')
 
 (* ****** ****** *)
 
-#declnamesynop("linstr2str")
+#declnamesynop("strptr2string")
 #decldescrpt("\
 
 This function casts a linear (non-null) string to a nonlinear string (only

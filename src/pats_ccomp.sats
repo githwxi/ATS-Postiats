@@ -829,6 +829,17 @@ instr_node =
       primval(*test*), instrlst(*then*), instrlst(*else*)
     ) // end of [INScond]
 //
+  | INSloop of (
+      tmplab(*init*)
+    , tmplab(*fini*)
+    , tmplab(*cont*)
+    , instrlst(*init*)
+    , primval(*test*), instrlst(*test*)
+    , instrlst(*post*)
+    , instrlst(*body*)
+    ) // end of [INSloop]
+  | INSloopexn of (int(*knd*), tmplab) // knd=0/1: break/continue
+//
   | INSswitch of (ibranchlst) // switch statement
 //
   | INSletpop of ()
@@ -940,18 +951,40 @@ fun instr_move_arg_val
 fun instr_fcall
 (
   loc: location
-, tmpret: tmpvar, _fun: primval, hse_fun: hisexp, _arg: primvalist
+, tmpret: tmpvar
+, pmv_fun: primval, hse_fun: hisexp, pmvs_arg: primvalist
 ) : instr // end of [instr_fcall]
 
 fun instr_extfcall
-  (loc: location, tmpret: tmpvar, _fun: string, _arg: primvalist): instr
-// end of [instr_extfcall]
+(
+  loc: location, tmpret: tmpvar, _fun: string, _arg: primvalist
+) : instr // end of [instr_extfcall]
 
 (* ****** ****** *)
 
-fun instr_cond (
+fun instr_cond
+(
   loc: location, _cond: primval, _then: instrlst, _else: instrlst
 ) : instr // end of [instr_cond]
+
+(* ****** ****** *)
+
+fun instr_loop
+(
+  loc: location
+, tlab_init: tmplab
+, tlab_fini: tmplab
+, tlab_cont: tmplab
+, inss_init: instrlst
+, pmv_test: primval, inss_test: instrlst
+, inss_post: instrlst
+, inss_body: instrlst
+) : instr // end of [instr_loop]
+
+fun instr_loopexn
+(
+  loc: location, knd: int, tlab: tmplab
+) : instr // end of [instr_loopexn]
 
 (* ****** ****** *)
 
@@ -1134,7 +1167,8 @@ fun instrseq_addlst (res: !instrseq, x: instrlst): void
 
 (* ****** ****** *)
 
-fun funent_make (
+fun funent_make
+(
   loc: location
 , level: int
 , flab: funlab
@@ -1146,7 +1180,8 @@ fun funent_make (
 , tmplst: tmpvarlst
 ) : funent // end of [funent_make]
 
-fun funent_make2 (
+fun funent_make2
+(
   loc: location
 , level: int
 , flab: funlab
@@ -1191,12 +1226,26 @@ fun ccompenv_dec_tmprecdepth (env: !ccompenv): void
 
 (* ****** ****** *)
 
+fun ccompenv_get_loopfini (env: !ccompenv): tmplab
+fun ccompenv_get_loopcont (env: !ccompenv): tmplab
+
+fun ccompenv_inc_loopexnenv
+(
+  env: !ccompenv, init: tmplab, fini: tmplab, cont: tmplab
+) : void // end of [ccompenv_push_loopexnenv]
+
+fun ccompenv_dec_loopexnenv (env: !ccompenv): void
+
+(* ****** ****** *)
+
 absview ccompenv_push_v
 
 fun ccompenv_push
   (env: !ccompenv): (ccompenv_push_v | void)
+
 fun ccompenv_pop
   (pfpush: ccompenv_push_v | env: !ccompenv): void
+
 fun ccompenv_localjoin
   (pf1: ccompenv_push_v, pf2: ccompenv_push_v | env: !ccompenv): void
 
@@ -1243,7 +1292,8 @@ fun himatch_ccomp (
 
 (* ****** ****** *)
 
-fun hifunarg_ccomp (
+fun hifunarg_ccomp
+(
   env: !ccompenv, res: !instrseq
 , flab: funlab, level: int, loc_fun: location, hips: hipatlst
 ) : void // end of [hifunarg_ccomp]
@@ -1254,6 +1304,9 @@ typedef
 hidexp_ccomp_funtype =
   (!ccompenv, !instrseq, hidexp) -> primval
 fun hidexp_ccomp : hidexp_ccomp_funtype
+fun hidexp_ccomp_lam : hidexp_ccomp_funtype
+fun hidexp_ccomp_loop : hidexp_ccomp_funtype
+fun hidexp_ccomp_loopexn : hidexp_ccomp_funtype
 
 typedef
 hidexp_ccomp_ret_funtype =

@@ -1,0 +1,108 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"time.cats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_LGPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/libc/CATS/CODEGEN/time.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator_for_C()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("February, 2013")
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSLIB_LIBC_TIME_CATS
+\#define ATSLIB_LIBC_TIME_CATS
+
+#atscode_separator_for_C()
+
+\#include <time.h>
+
+#atscode_separator_for_C()
+
+typedef time_t atslib_time_type ;
+typedef struct tm atslib_tm_struct_type ;
+
+#atscode_separator_for_C()
+
+\#define atslib_difftime difftime
+
+#atscode_separator_for_C()
+
+\#define atslib_time_get() time((time_t*)0)
+
+ATSinline()
+atstype_bool
+atslib_time_getset
+(
+  atstype_ref tval
+) {
+  return (time((time_t*)tval) >= 0 ? atsbool_true : atsbool_false) ;
+} // end of [atslib_time_getset]
+
+#atscode_separator_for_C()
+
+\#define atslib_ctime ctime
+\#define atslib_ctime_r ctime_r
+
+#atscode_separator_for_C()
+
+\#define atslib_mktime mktime
+
+#atscode_separator_for_C()
+
+\#define atslib_asctime asctime
+
+#atscode_separator_for_C()
+
+\#define atslib_gmtime gmtime
+\#define atslib_gmtime_r gmtime_r
+
+#atscode_separator_for_C()
+
+\#define atslib_localtime localtime
+\#define atslib_localtime_r localtime_r
+
+#atscode_separator_for_C()
+
+\#define atslib_tzset tzset
+
+#atscode_separator_for_C()
+
+\#define atslib_clock clock
+
+\#define atslib_clock_getres clock_getres
+
+#atscode_separator_for_C()
+
+\#define atslib_clock_gettime clock_gettime
+\#define atslib_clock_settime clock_settime
+
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSLIB_LIBC_TIME_CATS
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "time_atxt.txt")
+%}\

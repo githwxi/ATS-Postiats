@@ -40,53 +40,52 @@
 
 /* ****** ****** */
 //
-#include <stdio.h>
+// HX: for size_t
 //
-extern
-int fprintf (FILE *stream, const char *format, ...) ;
-//
-/* ****** ****** */
-//
-#include <stdlib.h>
-//
-extern void exit (int code) ;
-extern void *malloc (size_t bsz) ;
-extern void free (void *ptr) ;
+#include <stddef.h>
 //
 /* ****** ****** */
 
-ATSinline()
-atstype_ptr
-ats_malloc_ngc
-(atstype_size bsz) { return malloc(bsz) ; }
-
-ATSinline()
-atstype_ptr
-ats_malloc_ngc_exn
-(atstype_size bsz)
-{
-  atstype_ptr p ;
-  p = ats_malloc_ngc (bsz) ;
-  if (!p) {
-    fprintf(stderr, "ats_malloc_ngc_exn: [malloc] failed.\n") ;
-    exit(1) ;
-  } // end of [if]
-  return (p) ;
-} /* end of [ats_malloc_ngc_exn] */
-
-#ifndef ATS_MALLOC
-#define ATS_MALLOC ats_malloc_ngc_exn
-#endif // end of [ifndef]
+#undef ATS_MEMALLOC_FLAG
 
 /* ****** ****** */
 
-ATSinline()
-atsvoid_t0ype
-ats_mfree_ngc (atstype_ptr ptr) { free(ptr) ; return ; }
+#ifdef ATS_MEMALLOC_LIBC
+//
+#define ATS_MEMALLOC_FLAG
+//
+#include "pats_ccomp_memalloc_libc.h"
+//
+#define ATS_MFREE atsruntime_mfree_libc
+#define ATS_MALLOC atsruntime_malloc_libc_exn
+//
+#endif // end of [ATS_MEMALLOC_LIBC]
 
-#ifndef ATS_MFREE
-#define ATS_MFREE ats_mfree_ngc
-#endif // end of [ifndef]
+/* ****** ****** */
+
+#ifdef ATS_MEMALLOC_GCBDW
+//
+#define ATS_MEMALLOC_FLAG
+//
+#include "pats_ccomp_memalloc_gcbdw.h"
+//
+#define ATS_MFREE atsruntime_mfree_gcbdw
+#define ATS_MALLOC atsruntime_malloc_gcbdw_exn
+//
+#endif // end of [ATS_MEMALLOC_GCBDW]
+
+/* ****** ****** */
+
+#ifdef ATS_MEMALLOC_USER
+//
+#define ATS_MEMALLOC_FLAG
+//
+#include "pats_ccomp_memalloc_user.h"
+//
+#define ATS_MFREE atsruntime_mfree_user
+#define ATS_MALLOC atsruntime_malloc_user
+//
+#endif // end of [ATS_MEMALLOC_USER]
 
 /* ****** ****** */
 

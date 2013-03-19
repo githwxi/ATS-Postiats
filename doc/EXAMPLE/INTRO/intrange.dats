@@ -7,6 +7,13 @@
 
 (* ****** ****** *)
 
+staload
+I = "prelude/DATS/integer.dats"
+staload
+LIST = "prelude/DATS/list.dats"
+
+(* ****** ****** *)
+
 fun intrange (
   m: int, n: int
 ) : List0(int) = let

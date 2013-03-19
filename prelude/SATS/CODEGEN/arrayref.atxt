@@ -26,8 +26,8 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-typedef SHR(a:type) = a // for commenting purpose
-typedef NSH(a:type) = a // for commenting purpose
+\#define NSH (x) x // for commenting: no sharing
+\#define SHR (x) x // for commenting: it is shared
 
 #atscode_separator()
 
@@ -81,24 +81,21 @@ arrayref_get_viewptr
 ) :<> [l:addr] (vbox (array_v (a, l, n)) | ptr l)
 
 #atscode_separator()
-
+//
 symintr arrayref
-
+//
+fun
+arrayref_make_arrpsz
+  {a:vt0p}{n:int}
+  (psz: arrpsz (INV(a), n)):<!wrt> arrayref (a, n) = "mac\#%"
+overload arrayref with arrayref_make_arrpsz
+//
 #atscode_separator()
 
 fun{a:t0p}
 arrayref_make_elt
   {n:int} (asz: size_t n, x: a):<!wrt> arrayref (a, n)
 // end of [arrayref_make_elt]
-
-#atscode_separator()
-
-fun
-arrayref_make_arrpsz
-  {a:vt0p}{n:int} (
-  psz: arrpsz (INV(a), n)
-) :<!wrt> arrayref (a, n) = "mac\#arrayref_make_arrpsz"
-overload arrayref with arrayref_make_arrpsz
 
 #atscode_separator()
 

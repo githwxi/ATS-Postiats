@@ -257,7 +257,7 @@ fileref_get_line_string
   val str = fileref_get_line_string_main (filr, n, ending)
   prval () = lemma_strnptr_param (str)
 in
-  strptr_of_strnptr (str)
+  strnptr2strptr (str)
 end // end of [fileref_get_line_string]
 ')
 ')
@@ -341,7 +341,8 @@ The following code removes every empty line in a given file:
 //
 staload UN = \"prelude/SATS/unsafe.sats\"
 //
-fun remove_empty_lines (
+fun remove_empty_lines
+(
   out: FILEref, inp: FILEref, isfst: bool
 ) : void = let
   val EOL = '\\\n'
@@ -356,7 +357,7 @@ if ~iseof then let
   val iscons = list_vt_is_cons (cs)
   val () = if iscons then {
     val () = if isfst then (isfst := false) else fileref_putc (out, EOL)
-    val () = fileref_put_charlst (out, $UN.linlst2lst (cs))
+    val () = fileref_put_charlst (out, $UN.list_vt2t (cs))
   } // end of [if] // end of [val]
   val () = list_vt_free (cs)
 in

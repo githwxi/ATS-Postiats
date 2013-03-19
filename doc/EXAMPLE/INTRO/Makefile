@@ -59,6 +59,14 @@ clean:: ; $(RMF) atoi_dats.o
 clean:: ; $(RMF) atoi_dats.c
 cleanall:: ; $(RMF) atoi.exe
 
+all:: bintree
+bintree: bintree.exe
+bintree.exe: bintree_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+bintree_dats.c: bintree.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output bintree_dats.c --dynamic bintree.dats
+clean:: ; $(RMF) bintree_dats.o
+clean:: ; $(RMF) bintree_dats.c
+cleanall:: ; $(RMF) bintree.exe
+
 all:: extfcall
 extfcall: extfcall.exe
 extfcall.exe: extfcall_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
@@ -93,7 +101,7 @@ cleanall:: ; $(RMF) fact2.exe
 
 all:: fact3
 fact3: fact3.exe
-fact3.exe: fact3_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+fact3.exe: fact3_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_GCBDW -lgc -o $@ $<
 fact3_dats.c: fact3.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fact3_dats.c --dynamic fact3.dats
 clean:: ; $(RMF) fact3_dats.o
 clean:: ; $(RMF) fact3_dats.c
@@ -125,7 +133,7 @@ cleanall:: ; $(RMF) fib2.exe
 
 all:: fibmem
 fibmem: fibmem.exe
-fibmem.exe: fibmem_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+fibmem.exe: fibmem_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $<
 fibmem_dats.c: fibmem.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fibmem_dats.c --dynamic fibmem.dats
 clean:: ; $(RMF) fibmem_dats.o
 clean:: ; $(RMF) fibmem_dats.c
