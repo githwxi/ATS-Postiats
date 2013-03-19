@@ -6,7 +6,8 @@
 
 (* ****** ****** *)
 
-staload "prelude/DATS/integer.dats"
+staload "prelude/lmacrodef.sats"
+staload INT = "prelude/DATS/integer.dats"
 
 (* ****** ****** *)
 
@@ -28,7 +29,7 @@ fun tally2
 var n: int = n
 var i: int // uninitialized
 var res: ullint = 0ULL
-val () = for (i := 1 ; i <= n ; i := i + 1) res := res + (g0i2u)i
+val () = for (i := 1 ; i <= n ; i :=+ 1) res :=+ (g0i2u)i
 //
 in
   res
@@ -45,7 +46,7 @@ var res: ullint = 0ULL
 //
 val () =
   while (true) (
-  if i > n then break; res := res + g0i2u(i); i := i+1
+  if i > n then break; res :=+ g0i2u(i); i :=+ 1
 ) // end of [val] 
 //
 in

@@ -592,21 +592,21 @@ fun prelude_load (
 ) : void = {
   val () = fixity_load (ATSHOME)
 //
-  val () = pervasive_load (ATSHOME, "prelude/basics_pre.sats")
-  val () = pervasive_load (ATSHOME, "prelude/basics_sta.sats")
-  val () = pervasive_load (ATSHOME, "prelude/basics_dyn.sats")
-  val () = pervasive_load (ATSHOME, "prelude/basics_gen.sats")
+  val (
+  ) = pervasive_load (ATSHOME, "prelude/basics_pre.sats")
+  val (
+  ) = pervasive_load (ATSHOME, "prelude/basics_sta.sats")
+  val (
+  ) = pervasive_load (ATSHOME, "prelude/basics_dyn.sats")
+  val (
+  ) = pervasive_load (ATSHOME, "prelude/basics_gen.sats")
 //
-  val () = pervasive_load
-    (ATSHOME, "prelude/macrodef.sats") // HX: [macdef] and [macrodef]
-  (* end of [val] *)
+  val () = pervasive_load (ATSHOME, "prelude/macrodef.sats")
 //
   val () = stacst2_initialize () // internalizing some static consts
   val () = $CNSTR3.constraint3_initialize () // internalizing some maps
 //
-  val () =
-    pervasive_load (ATSHOME, "prelude/SATS/arith_prf.sats")
-  // end of [val]
+  val () = pervasive_load (ATSHOME, "prelude/SATS/arith_prf.sats")
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/bool.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/char.sats")

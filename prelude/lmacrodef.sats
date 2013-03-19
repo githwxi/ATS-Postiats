@@ -27,43 +27,72 @@
 
 (* ****** ****** *)
 //
-// Author of the file: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: May, 2012
+// Author: Hongwei Xi
+// Authoremail: hwxi AT cs DOT bu DOT edu
+// Start Time: March, 2013
+//
+(* ****** ****** *)
+//
+// HX-2013-03:
+// lmacrodef: local macro definitions
+//
+(* ****** ****** *)
+//
+macdef :+= (x, a) = ,(x) := ,(a) + ,(x)
+macdef :-= (x, a) = ,(x) := ,(a) - ,(x)
+macdef :*= (x, a) = ,(x) := ,(a) * ,(x)
+macdef :/= (x, a) = ,(x) := ,(a) / ,(x)
+//
+(* ****** ****** *)
+//
+macdef :=+ (x, a) = ,(x) := ,(x) + ,(a)
+macdef :=- (x, a) = ,(x) := ,(x) - ,(a)
+macdef :=* (x, a) = ,(x) := ,(x) * ,(a)
+macdef :=/ (x, a) = ,(x) := ,(x) / ,(a)
 //
 (* ****** ****** *)
 
-#include "prelude/params.hats"
+(*
 
-(* ****** ****** *)
-
-(* macros in short form *)
 //
-// [orelse] and [andalso] are declared as infix ops
+// HX-2012-08:
 //
-macdef orelse (x, y) = if ,(x) then true else ,(y)
-macdef andalso (x, y) = if ,(x) then ,(y) else false
+// this example makes use of recursive macrodef
 //
+local
+
+macrodef
+rec
+auxlist
+  (xs, y) =
+(
+//
+if iscons! (xs) then
+  `(print ,(car! xs); ,(auxlist (cdr! xs, y)))
+else y // end of [if]
+//
+) // end of [auxlist]
+
+in // in of [local]
+
+macdef
+print_mac (x) =
+,(
+  if islist! (x) then auxlist (x, `()) else `(print ,(x))
+) // end of [print_mac]
+
+macdef
+println_mac (x) =
+,(
+  if islist! (x)
+    then auxlist (x, `(print_newline())) else `(print ,(x))
+  // end of [if]
+) // end of [println_mac]
+
+end // end of [local]
+
+*)
+
 (* ****** ****** *)
 
-macdef assign (lv, rv) = ,(lv) := ,(rv)
-
-(* ****** ****** *)
-
-macdef exitloc (x) = exit_errmsg (,(x), $mylocation)
-macdef assertloc (x) = assert_errmsg (,(x), $mylocation)
-
-(* ****** ****** *)
-
-macdef ignoret (x) = let val x = ,(x) in (*nothing*) end
-
-(* ****** ****** *)
-
-macdef foldret (x) = let val x = ,(x) in fold@ (x); x end
-
-(* ****** ****** *)
-
-macdef showlvaltype (x) = pridentity ($showtype ,(x))
-
-(* ****** ****** *)
-
-(* end of [macrodef.sats] *)
+(* end of [lmacrodef.sats] *)
