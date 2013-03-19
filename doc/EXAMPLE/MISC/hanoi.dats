@@ -8,10 +8,6 @@
 *)
 
 (* ****** ****** *)
-
-staload "prelude/DATS/integer.dats"
-
-(* ****** ****** *)
 //
 abstype
 post_type (n:int) = ptr // for posts
@@ -37,22 +33,34 @@ overload [] with post_set_at
 
 (* ****** ****** *)
 
-fun showpiece
-  {sz:int} (
+fun
+showpiece
+  {sz:int}
+(
   sz: int sz, n: natLte sz
 ) : void = let
-  fun loop {
-    i:nat | i <= 2*sz
-  } .<2*sz-i>.
-    (i: int (i)):<cloref1> void =
-    if i < (sz-n) then (
-      print ' '; loop (i + 1)
-    ) else if i < (sz+n-1) then (
-      print 'O'; loop (i + 1)
-    ) else if i < (sz + sz) then (
-      print ' '; loop (i + 1)
-    ) // end of [if]
-  // end of [loop]
+//
+fun loop {
+  i:nat | i <= 2*sz
+} .<2*sz-i>.
+(
+  i: int (i)
+) :<cloref1> void = let
+in
+//
+if i < (sz-n) then
+(
+  print ' '; loop (i + 1)
+) else if i < (sz+n-1) then
+(
+  print 'O'; loop (i + 1)
+) else if i < (sz + sz) then
+(
+  print ' '; loop (i + 1)
+) // end of [if]
+//
+end // end of [loop]
+//
 in
   loop (0)
 end // end of [showpost]
@@ -97,7 +105,8 @@ val () = post_initize (lp, sz)
 //
 viewtypedef post = post (sz)
 //
-fun move {
+fun move
+{
   n,s,p,p':nat
 | p <= sz &&
   p' <= sz &&
