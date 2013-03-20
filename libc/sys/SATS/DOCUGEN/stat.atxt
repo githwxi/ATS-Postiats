@@ -1,0 +1,35 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../stat.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libc_stat")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libc/sys/stat\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are mostly the API for
+the corresponding libc-functions declared in [sys/stat.h].
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("umask")
+
+(* ****** ****** *)
+
+(* end of [stat.atxt] *)

@@ -1,0 +1,52 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../types.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libc_types")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libc/sys/types\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are mostly the API for
+the corresponding libc-functions declared in [sys/types.h].
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("time2lint")
+#declnamesynop("time2double")
+(* ****** ****** *)
+
+#declnamesynop("clock2lint")
+#declnamesynop("clock2double")
+
+(* ****** ****** *)
+
+#declnamesynop("mode2int")
+#declnamesynop("mode2uint")
+
+(* ****** ****** *)
+
+#declnamesynop("lint2off")
+#declnamesynop("off2lint")
+#declnamesynop("size2off")
+#declnamesynop("off2size")
+
+(* ****** ****** *)
+
+(* end of [types.atxt] *)

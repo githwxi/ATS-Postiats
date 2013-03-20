@@ -866,7 +866,9 @@ case+
 | S2Eextype (name, _) => HITnmd (name)
 | S2Eextkind (name, _) => HITnmd (name)
 //
-| S2EVar (s2V) => hitype_none ()
+| S2Eat _ => hitype_none ()
+| S2EVar _ => hitype_none ()
+//
 | _ => let
     val hse0 = $TYER.s2exp_tyer_shallow ($LOC.location_dummy, s2e0)
   in
@@ -879,7 +881,8 @@ end // end of [s2exp_typize]
 
 local
 
-fun aux (
+fun aux
+(
   flag: int, hse0: hisexp
 ) : hitype = let
 (*

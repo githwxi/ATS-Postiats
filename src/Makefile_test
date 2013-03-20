@@ -10,6 +10,7 @@ PATSOPT=./patsopt
 
 test:: prelude
 test:: libc
+test:: libc_sys
 test:: libats
 test:: libats_ML
 
@@ -103,6 +104,11 @@ libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/strings.sats
 libc:: ; $(PATSOPT) -tc -d $(PATSHOME)/libc/DATS/strings.dats
 libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/unistd.sats
 libc:: ; $(PATSOPT) -tc -d $(PATSHOME)/libc/DATS/unistd.dats
+
+######
+
+libc_sys:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/sys/SATS/stat.sats
+libc_sys:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/sys/SATS/types.sats
 
 ######
 

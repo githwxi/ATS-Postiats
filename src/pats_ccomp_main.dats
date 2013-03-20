@@ -670,7 +670,8 @@ end // end of [aux_main_ifopt]
 #define DYNEND 99
 
 fun
-aux_extcodelst_if (
+aux_extcodelst_if
+(
   out: FILEref, test: (int) -> bool
 ) : void = let
 //
@@ -725,7 +726,8 @@ end // end of [aux_saspdeclst]
 in (* in of [local] *)
 
 implement
-ccomp_main (
+ccomp_main
+(
   out, flag, infil, hids
 ) = let
 //
