@@ -32,21 +32,26 @@ CAT=cat
 
 ######
 
-all:: all_html
-
-######
-
+all::
 all_html::
+all_script::
 
 ######
 
 all_html:: HTML/patsopt.html
-HTML/patsopt.html:   patsopt_atxt.exe ; ./$< > $@
+HTML/patsopt.html: patsopt_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/patsopt.bash
+SCRIPT/patsopt.bash: patsopt_atxt.exe ; ./$< > $@
 patsopt_atxt.dats: patsopt.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
 patsopt_atxt.exe: patsopt_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) patsopt_atxt.exe
 cleanall:: ; $(RMF) HTML/patsopt.html
+cleanall:: ; $(RMF) SCRIPT/patsopt.bash
 
+
+######
+
+srcgetall: SCRIPT/patsopt.bash ; bash $<
 
 ######
 

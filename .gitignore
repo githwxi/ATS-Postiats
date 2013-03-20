@@ -164,12 +164,25 @@ contrib/cairo/cairo-1.12.*
 libatsyntax/libatsyntax.a
 
 #
+# ATSHOME/doc/PACKAGE
+#
+
+doc/PACKAGE/PATSOPT/*.exe
+doc/PACKAGE/PATSOPT/*_atxt.txt
+doc/PACKAGE/PATSOPT/*_atxt.dats
+doc/PACKAGE/PATSOPT/HTML
+doc/PACKAGE/PATSOPT/SCRIPT
+doc/PACKAGE/PATSOPT/src/.depend
+doc/PACKAGE/PATSOPT/src/Makefile
+doc/PACKAGE/PATSOPT/src/pats_*.?ats
+
+#
 # ATSHOME/doc/EXAMPLE
 #
 
-doc/EXAMPLE/INTRO/*_atxt.txt
-doc/EXAMPLE/INTRO/*_atxt.dats
-doc/EXAMPLE/INTRO/Makefile.exe
+doc/EXAMPLE/*/*_atxt.txt
+doc/EXAMPLE/*/*_atxt.dats
+doc/EXAMPLE/*/Makefile.exe
 
 #
 # INT2PROGINATS
