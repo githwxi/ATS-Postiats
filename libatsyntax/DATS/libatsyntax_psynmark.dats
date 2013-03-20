@@ -435,9 +435,9 @@ case+ s0e0.s0exp_node of
     psynmark_ins_begend (SMstaexp, loc0, res)
 | $SYN.S0Echar _ =>
     psynmark_ins_begend (SMstaexp, loc0, res)
-| $SYN.S0Etkname _ =>
-    psynmark_ins_begend (SMstaexp, loc0, res)
 | $SYN.S0Eextype _ =>
+    psynmark_ins_begend (SMstaexp, loc0, res)
+| $SYN.S0Eextkind _ =>
     psynmark_ins_begend (SMstaexp, loc0, res)
 //
 | $SYN.S0Eapp

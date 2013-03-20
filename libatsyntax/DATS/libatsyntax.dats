@@ -126,7 +126,7 @@ token_is_comment (x) =
 implement
 token_is_extcode (x) =
   case+ x.token_node of
-  | T_EXTCODE (_) => true | _ => false
+  | T_EXTCODE _ => true | _ => false
 // end of [token_is_extcode]
 
 (* ****** ****** *)
@@ -315,7 +315,7 @@ case+
 | T_FLOAT _ => false
 | T_STRING (_) => false
 //
-| T_EXTCODE (_) => false
+| T_EXTCODE (_, _) => false
 //
 | T_COMMENT_line () => false
 | T_COMMENT_block () => false
