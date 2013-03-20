@@ -33,12 +33,15 @@ end // end of [sumodd]
 
 macdef square(x) = let val x = ,(x) in x * x end
 
+(* ****** ****** *)
+
 implement
 main0 () =
  {
   #define N 100
   val () = assertloc (sumodd (N) = square((N+1)/2))
-  val () = println! ("sumodd(", N, ") = ", sumodd(N))
+  #define N1 N+1
+  val () = assertloc (sumodd (N1) = square((N1+1)/2))
 } // end of [main0]
 
 (* ****** ****** *)

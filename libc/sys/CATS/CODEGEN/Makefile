@@ -17,6 +17,15 @@ all::
 
 ######
 
+all:: stat.cats
+stat.cats: stat_atxt.exe ; ./$< > $@
+stat_atxt.exe: stat_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ stat_atxt.dats -latsdoc
+stat_atxt.dats: stat.atxt
+	$(ATSDOC) --outcode $@ -i stat.atxt > stat_atxt.txt
+clean:: ; $(RMF) stat_atxt.exe
+cleanall:: ; $(RMF) stat.cats
+
 all:: types.cats
 types.cats: types_atxt.exe ; ./$< > $@
 types_atxt.exe: types_atxt.dats

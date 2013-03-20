@@ -95,4 +95,39 @@ typedef clockid_t = clockid_t0ype // = its C-counterpart
 
 (* ****** ****** *)
 
+abst@ype
+mode_t0ype = $extype"atslib_mode_type"
+typedef mode_t = mode_t0ype // = its C-counterpart
+
+(* ****** ****** *)
+
+fun mode2int (m: mode_t):<> int = "mac#%"
+fun mode2uint (m: mode_t):<> uint = "mac#%"
+
+fun eq_mode_mode (m1: mode_t, m2: mode_t):<> bool
+fun neq_mode_mode (m1: mode_t, m2: mode_t):<> bool
+overload = with eq_mode_mode
+overload != with neq_mode_mode
+overload <> with neq_mode_mode
+
+fun lor_mode_mode (m1: mode_t, m2: mode_t):<> mode_t
+fun land_mode_mode (m1: mode_t, m2: mode_t):<> mode_t
+overload lor with lor_mode_mode
+overload land with land_mode_mode
+
+(* ****** ****** *)
+
+abst@ype
+off_t0ype = $extype"atslib_off_type"
+typedef off_t = off_t0ype // = its C-counterpart
+
+(* ****** ****** *)
+
+fun lint2off (x: lint):<> off_t = "mac#%"
+fun off2lint (x: off_t):<> lint = "mac#%"
+fun size2off (x: size_t):<> off_t = "mac#%"
+fun off2size (x: off_t):<> size_t = "mac#%"
+
+(* ****** ****** *)
+
 (* end of [types.sats] *)
