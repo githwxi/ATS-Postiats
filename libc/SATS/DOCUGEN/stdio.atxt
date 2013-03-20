@@ -538,5 +538,33 @@ main0 () = {
 #declnamesynop("ungetc0_exn")
 
 (* ****** ****** *)
+//
+#declnamesynop("bufmode_t")
+//
+#declnamesynop("_IOFBF")
+#declnamesynop("_IOLBF")
+#declnamesynop("_IONBF")
+//
+(* ****** ****** *)
+
+#declnamesynop("setbuf0_null")
+#declnamesynop("setbuf1_null")
+
+(* ****** ****** *)
+
+#declnamesynop("setbuffer0")
+#declnamesynop("setbuffer1")
+
+(* ****** ****** *)
+
+#declnamesynop("setlinebuf0")
+#declnamesynop("setlinebuf1")
+
+(* ****** ****** *)
+
+#declnamesynop("setvbuf0")
+#declnamesynop("setvbuf1")
+
+(* ****** ****** *)
 
 (* end of [stdio.atxt] *)

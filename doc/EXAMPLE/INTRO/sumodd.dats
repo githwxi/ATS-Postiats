@@ -1,6 +1,7 @@
 //
 // A simple loop example
 // Author: Hongwei Xi (March 2013)
+// Authoremail: gmhwxiATgmailDOTcom
 //
 
 (* ****** ****** *)

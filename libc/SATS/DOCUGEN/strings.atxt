@@ -29,7 +29,17 @@ on these functions can often be found in the Linux Programmer's manual.
 
 (* ****** ****** *)
 
-#declnamesynop("index")
+#declname("index")
+#declsynop2("\
+
+#pats2xhtmls('\
+overload index with index_int
+overload index with index_char
+')
+
+")
+
+#declnamesynop("index_int")
 #decldescrpt("\
 
 This function returns a pointer to the first occurrence of a char in a
@@ -37,13 +47,38 @@ given string if the char can be found.  Otherwise, it returns the null
 pointer.  Note that the null character is considered a part of the
 string. ")
 
-#declnamesynop("rindex")
+#declnamesynop("index_char")
+#decldescrpt("\
+
+This function is like #dyncode("rindex_int") except its taking a
+#stacode("char") (instead of #stacode("int")) argument.  ")
+
+
+(* ****** ****** *)
+
+#declname("rindex")
+#declsynop2("\
+
+#pats2xhtmls('\
+overload rindex with rindex_int
+overload rindex with rindex_char
+')
+
+")
+
+#declnamesynop("rindex_int")
 #decldescrpt("\
 
 This function returns a pointer to the last occurrence of a char in a
 given string if the char can be found.  Otherwise, it returns the null
 pointer.  Note that the null character is considered a part of the
 string. ")
+
+#declnamesynop("rindex_char")
+#decldescrpt("\
+
+This function is like #dyncode("rindex_int") except its taking a
+#stacode("char") (instead of #stacode("int")) argument.  ")
 
 (* ****** ****** *)
 

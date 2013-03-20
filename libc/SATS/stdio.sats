@@ -845,7 +845,7 @@ fun rename_exn
 //
 symintr rewind
 //
-fun rewind0 {m:fm}
+fun rewind0
   (fil: FILEref):<!wrt> void = "mac#%"
 overload rewind with rewind0
 fun rewind1
@@ -901,10 +901,15 @@ stacst BUFSIZ : int
 praxi BUFSIZ_gtez (): [BUFSIZ >= 0] void
 macdef BUFSIZ = $extval (int(BUFSIZ), "BUFSIZ")
 
+(* ****** ****** *)
+//
 abst@ype bufmode_t = int
+//
 macdef _IOFBF = $extval (bufmode_t, "_IOFBF") // fully buffered
 macdef _IOLBF = $extval (bufmode_t, "_IOLBF") // line buffered
 macdef _IONBF = $extval (bufmode_t, "_IONBF") // no buffering
+//
+(* ****** ****** *)
 //
 symintr setbuf_null
 //
