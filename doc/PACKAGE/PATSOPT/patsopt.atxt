@@ -1,0 +1,96 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+staload "libatsdoc/SATS/libatsdoc_atext.sats"
+//
+extern
+fun packtitle (x: string): atext
+extern
+fun packfilename (x: string): atext
+extern
+fun packfilesynop (x: string): atext
+//
+%}
+
+(* ****** ****** *)
+
+%{
+
+implement
+packtitle (x) = atext_nil ()
+
+implement
+packfilename (x) = let
+  val out = stdout_ref
+  val () = fprint_string (out, x)
+  val () = fprint_newline (out)
+in
+  atext_nil ()
+end // end of [packfilename]
+
+implement
+packfilesynop (x) = atext_nil ()
+
+%}
+
+(* ****** ****** *)
+
+#packtitle("\
+The ATS/Postiats (ATS2) Compiler\
+")
+
+(* ****** ****** *)
+
+#packfilename("pats_main.dats")
+#packfilesynop("\
+")
+
+(* ****** ****** *)
+
+#packfilename("pats_lexing.sats")
+#packfilesynop("\
+")
+#packfilename("pats_lexing.cats")
+#packfilesynop("\
+")
+#packfilename("pats_lexing.dats")
+#packfilesynop("\
+")
+#packfilename("pats_lexing_error.dats")
+#packfilesynop("\
+")
+#packfilename("pats_lexing_print.dats")
+#packfilesynop("\
+")
+#packfilename("pats_lexing_token.dats")
+#packfilesynop("\
+")
+
+(* ****** ****** *)
+
+#packfilename("pats_parsing.sats")
+#packfilename("pats_parsing.dats")
+#packfilename("pats_parsing_util.dats")
+#packfilename("pats_parsing_error.dats")
+#packfilename("pats_parsing_base.dats")
+#packfilename("pats_parsing_kwds.dats")
+#packfilename("pats_parsing_e0xp.dats")
+#packfilename("pats_parsing_sort.dats")
+#packfilename("pats_parsing_staexp.dats")
+#packfilename("pats_parsing_p0at.dats")
+#packfilename("pats_parsing_dynexp.dats")
+#packfilename("pats_parsing_decl.dats")
+#packfilename("pats_parsing_toplevel.dats")
+
+(* ****** ****** *)
+
+%{
+
+implement main () = ()
+
+%}
+
+(* ****** ****** *)
+
+(* end of [patsopt.atxt] *)

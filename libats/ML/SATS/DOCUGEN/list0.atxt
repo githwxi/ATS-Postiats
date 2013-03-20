@@ -79,13 +79,37 @@ indexed type.  ")
 (* ****** ****** *)
 
 #declnamesynop("list0_sing")
+#decldescrpt("\
+This function constructs a singleton list.
+")
+
 #declnamesynop("list0_pair")
+#decldescrpt("\
+
+Given two elements x1 and x2, this function returns a list consisting of x1
+and x2 as its first and second element, respectively.  ")
+
+(* ****** ****** *)
 
 #declnamesynop("list0_is_nil")
+#decldescrpt("\
+This function returns true if and only if its list argument is empty.
+")
 #declnamesynop("list0_is_cons")
+#decldescrpt("\
+This function returns true if and only if its list argument is not empty.
+")
+
+(* ****** ****** *)
 
 #declnamesynop("list0_is_empty")
+#decldescrpt("\
+This function does the same as #dyncode("list0_is_nil").
+")
 #declnamesynop("list0_isnot_empty")
+#decldescrpt("\
+This function does the same as #dyncode("list0_is_cons").
+")
 
 (* ****** ****** *)
 
