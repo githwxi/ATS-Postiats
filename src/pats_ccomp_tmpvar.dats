@@ -63,6 +63,7 @@ local
 typedef tmpvar = '{
   tmpvar_loc= location
 , tmpvar_type= hisexp
+, tmpvar_ref= int (* 0/1 : val/ref *)
 , tmpvar_ret= int (* return status *)
 , tmpvar_topknd= int (* 0/1 : local/top(static) *)
 , tmpvar_origin= Option (ptr), tmpvar_suffix= int // copy indication
@@ -80,7 +81,8 @@ tmpvar_make
   val stamp = $STMP.tmpvar_stamp_make () in '{
   tmpvar_loc= loc
 , tmpvar_type= hse
-, tmpvar_ret= 0
+, tmpvar_ref= 0 (*value*)
+, tmpvar_ret= 0 (*noret*)
 , tmpvar_topknd= 0 (*local*)
 , tmpvar_origin= None (), tmpvar_suffix= 0 // HX: copy indication
 , tmpvar_stamp= stamp
@@ -93,6 +95,11 @@ tmpvar_get_loc (tmp) = tmp.tmpvar_loc
 
 implement
 tmpvar_get_type (tmp) = tmp.tmpvar_type
+
+implement
+tmpvar_isref (tmp) = tmp.tmpvar_ref > 0
+implement
+tmpvar_isret (tmp) = tmp.tmpvar_ret > 0
 
 implement
 tmpvar_get_topknd (tmp) = tmp.tmpvar_topknd
@@ -129,10 +136,13 @@ end // end of [local]
 implement
 fprint_tmpvar
   (out, tmp) = let
-  val stamp =
-    tmpvar_get_stamp (tmp)
-  // end of [val]
-  val () = fprint_string (out, "tmp(")
+  val isref = tmpvar_isref (tmp)
+  val isret = tmpvar_isret (tmp)
+  val stamp = tmpvar_get_stamp (tmp)
+  val () = fprint_string (out, "tmp")
+  val () = if isref then fprint_string (out, "ref")
+  val () = if isret then fprint_string (out, "ret")
+  val () = fprint_string (out, "(")
   val () = $STMP.fprint_stamp (out, stamp)
   val () = fprint_string (out, ")")
 in
@@ -149,11 +159,22 @@ prerr_tmpvar (tmp) = fprint_tmpvar (stderr_ref, tmp)
 local
 
 extern
+fun tmpvar_set_ref
+  (tmp: tmpvar, knd: int): void = "patsopt_tmpvar_set_ref"
+// end of [tmpvar_set_ref]
+extern
 fun tmpvar_set_ret
   (tmp: tmpvar, ret: int): void = "patsopt_tmpvar_set_ret"
 // end of [tmpvar_set_ret]
 
 in // in of [local]
+
+implement
+tmpvar_make_ref
+  (loc, hse) = tmp where {
+  val tmp = tmpvar_make (loc, hse)
+  val () = tmpvar_set_ref (tmp, 1(*ref*))
+} // end of [tmpvar_make_ref]
 
 implement
 tmpvar_make_ret
@@ -243,12 +264,12 @@ end // end of [local]
 %{$
 
 ats_void_type
-patsopt_tmpvar_set_topknd
+patsopt_tmpvar_set_ref
 (
-  ats_ptr_type tmp, ats_int_type knd
+  ats_ptr_type tmp, ats_int_type ref
 ) {
-  ((tmpvar_t)tmp)->atslab_tmpvar_topknd = knd ; return ;
-} // end of [patsopt_tmpvar_set_topknd]
+  ((tmpvar_t)tmp)->atslab_tmpvar_ref = ref ; return ;
+} // end of [patsopt_tmpvar_set_ref]
 
 ats_void_type
 patsopt_tmpvar_set_ret
@@ -257,6 +278,14 @@ patsopt_tmpvar_set_ret
 ) {
   ((tmpvar_t)tmp)->atslab_tmpvar_ret = ret ; return ;
 } // end of [patsopt_tmpvar_set_ret]
+
+ats_void_type
+patsopt_tmpvar_set_topknd
+(
+  ats_ptr_type tmp, ats_int_type knd
+) {
+  ((tmpvar_t)tmp)->atslab_tmpvar_topknd = knd ; return ;
+} // end of [patsopt_tmpvar_set_topknd]
 
 ats_void_type
 patsopt_tmpvar_set_origin

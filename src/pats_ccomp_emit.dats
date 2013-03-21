@@ -619,8 +619,7 @@ fun auxtmp (
   out: FILEref, tmp: tmpvar
 ) : void = let
 //
-val knd =
-  tmpvar_get_topknd (tmp)
+val knd = tmpvar_get_topknd (tmp)
 //
 val () =
 (
@@ -634,6 +633,11 @@ val () =
       emit_text (out, "statmp") // static toplevel temporary
     end // end of [knd = 1]
 ) : void // end of [val]
+//
+val isref = tmpvar_isref (tmp)
+val () = if isref then emit_text (out, "ref")
+val isret = tmpvar_isret (tmp)
+val () = if isret then emit_text (out, "ret")
 //
 val opt = tmpvar_get_origin (tmp)
 //

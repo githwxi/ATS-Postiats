@@ -138,12 +138,17 @@ vtypedef tmpvarmap_vt (a:type) = tmpvarmap_vtype (a)
 
 fun tmpvar_make
   (loc: location, hse: hisexp): tmpvar
+fun tmpvar_make_ref
+  (loc: location, hse: hisexp): tmpvar
 fun tmpvar_make_ret
   (loc: location, hse: hisexp): tmpvar
 
 fun tmpvar_get_loc (tmp: tmpvar): location
 
 fun tmpvar_get_type (tmp: tmpvar): hisexp
+
+fun tmpvar_isref (tmp: tmpvar): bool // tmpref?
+fun tmpvar_isret (tmp: tmpvar): bool // tmpret?
 
 fun tmpvar_get_topknd (tmp: tmpvar): int // 0/1: local/(static)top
 

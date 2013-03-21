@@ -596,7 +596,7 @@ val () = d2var_set_level (d2v, lev0)
 val s2at = d2var_get_type_some (loc_d2v, d2vw)
 val-S2Eat (s2e_elt, _) = s2at.s2exp_node
 val hse_elt = s2exp_tyer_shallow (loc_d2v, s2e_elt)
-val tmp = tmpvar_make (loc_d2v, hse_elt)
+val tmp = tmpvar_make_ref (loc_d2v, hse_elt)
 //
 val () = instrseq_add_tmpdec (res, loc_d2v, tmp)
 //
