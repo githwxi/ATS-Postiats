@@ -171,7 +171,7 @@ doc/DISTRIB/*.exe
 doc/DISTRIB/*_atxt.txt
 doc/DISTRIB/*_atxt.dats
 doc/DISTRIB/HTML
-doc/DISTRIB/SCRIPT
+doc/DISTRIB/SCRIPT/*.bash
 doc/DISTRIB/ATS-Postiats/bin/*
 doc/DISTRIB/ATS-Postiats/share/*
 doc/DISTRIB/ATS-Postiats/src/.depend
