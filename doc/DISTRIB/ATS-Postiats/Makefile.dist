@@ -25,6 +25,7 @@ clean:: ; $(RMF) libats/?ATS/*.?ats
 clean:: ; $(RMF) libats/?ATS/SHARE/*.?ats
 clean:: ; $(RMF) libats/ML/?ATS/*.?ats
 clean:: ; $(RMF) doc/EXAMPLE/INTRO/*
+clean:: ; $(RMF) doc/EXAMPLE/ATSLIB/*
 
 ######
 

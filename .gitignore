@@ -183,8 +183,14 @@ doc/DISTRIB/ATS-Postiats/prelude/*.ats
 doc/DISTRIB/ATS-Postiats/prelude/*.?ats
 doc/DISTRIB/ATS-Postiats/prelude/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libc/?ATS/*.?ats
+doc/DISTRIB/ATS-Postiats/libc/sys/?ATS/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/?ATS/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/?ATS/SHARE/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/ML/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/*.?ats
+doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/ATSLIB/Makefile
+doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/ATSLIB/*.?ats
 
 #
 # ATSHOME/doc/EXAMPLE

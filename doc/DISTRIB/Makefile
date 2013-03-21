@@ -107,6 +107,16 @@ clean:: ; $(RMF) doc_example_intro_atxt.exe
 cleanall:: ; $(RMF) HTML/doc_example_intro.html
 cleanall:: ; $(RMF) SCRIPT/doc_example_intro.bash
 
+all_html:: HTML/doc_example_atslib.html
+HTML/doc_example_atslib.html: doc_example_atslib_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/doc_example_atslib.bash
+SCRIPT/doc_example_atslib.bash: doc_example_atslib_atxt.exe ; ./$< > $@
+doc_example_atslib_atxt.dats: ATEXT/doc_example_atslib.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+doc_example_atslib_atxt.exe: doc_example_atslib_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) doc_example_atslib_atxt.exe
+cleanall:: ; $(RMF) HTML/doc_example_atslib.html
+cleanall:: ; $(RMF) SCRIPT/doc_example_atslib.bash
+
 
 ######
 
@@ -141,7 +151,9 @@ srcget_ccomp_runtime:: SCRIPT/ccomp_runtime.bash ; bash $<
 ######
 
 srcget_doc_example:: srcget_doc_example_intro
+srcget_doc_example:: srcget_doc_example_atslib
 srcget_doc_example_intro:: SCRIPT/doc_example_intro.bash ; bash $<
+srcget_doc_example_atslib:: SCRIPT/doc_example_atslib.bash ; bash $<
 
 ######
 

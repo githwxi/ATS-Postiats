@@ -43,8 +43,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=../../doc/EXAMPLE/INTRO/\n\
-TARGET=ATS-Postiats/doc/EXAMPLE/INTRO/\n\
+SOURCE=../../doc/EXAMPLE/ATSLIB/\n\
+TARGET=ATS-Postiats/doc/EXAMPLE/ATSLIB/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -62,7 +62,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The \${ATSHOME}/doc/EXAMPLE/INTRO files have been copied.\"\n\
+echo \"The \${ATSHOME}/doc/EXAMPLE/ATSLIB files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
@@ -105,18 +105,28 @@ The ATSLIB/prelude library\
 
 (* ****** ****** *)
 
-#packfilename("fact1.dats")
-#packfilename("fact2.dats")
-#packfilename("fact3.dats")
+#packfilename("prelude_char.dats")
+#packfilename("prelude_bool.dats")
+#packfilename("prelude_integer.dats")
+#packfilename("prelude_float.dats")
+#packfilename("prelude_string.dats")
+#packfilename("prelude_reference.dats")
 
 (* ****** ****** *)
 
-#packfilename("atoi.dats")
-#packfilename("atof.dats")
+#packfilename("libats_qlist.dats")
+#packfilename("libats_sllist.dats")
+#packfilename("libats_dllist.dats")
 
 (* ****** ****** *)
 
-#packfilename("strprefix.dats")
+#packfilename("libc_malloc.dats")
+#packfilename("libc_stdio.dats")
+#packfilename("libc_stdlib.dats")
+#packfilename("libc_string.dats")
+#packfilename("libc_strings.dats")
+#packfilename("libc_time.dats")
+#packfilename("libc_unistd.dats")
 
 (* ****** ****** *)
 
@@ -132,4 +142,4 @@ implement main () = ()
 
 (* ****** ****** *)
 
-(* end of [doc_example_intro.atxt] *)
+(* end of [doc_example_atslib.atxt] *)
