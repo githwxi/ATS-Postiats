@@ -29,6 +29,12 @@ ATSGCFLAG=-D_ATS_GCATS
 ######
 
 CAT=cat
+CPF=cp -f
+RMF=rm -f
+
+######
+
+ATSDIST=ATS-Postiats
 
 ######
 
@@ -104,7 +110,7 @@ cleanall:: ; $(RMF) SCRIPT/doc_example_intro.bash
 
 ######
 
-srcgetall:: Makefile_dist
+srcgetall:: srcget_share
 srcgetall:: srcget_patsrc
 srcgetall:: srcget_atslib
 srcgetall:: srcget_ccomp_runtime
@@ -112,8 +118,8 @@ srcgetall:: srcget_doc_example
 
 ######
 
-Makefile_dist:: ; \
-  $(CPF) Makefile.dist ATS-Postiats/Makefile
+srcget_share:: ; \
+  $(CPF) ../../share/atspre_staload_tmpdef.hats $(ATSDIST)/share/
 
 ######
 
@@ -136,11 +142,6 @@ srcget_ccomp_runtime:: SCRIPT/ccomp_runtime.bash ; bash $<
 
 srcget_doc_example:: srcget_doc_example_intro
 srcget_doc_example_intro:: SCRIPT/doc_example_intro.bash ; bash $<
-
-######
-
-CPF=cp -f
-RMF=rm -f
 
 ######
 

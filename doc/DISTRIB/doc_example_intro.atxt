@@ -101,13 +101,13 @@ The ATSLIB/prelude library\
 
 (* ****** ****** *)
 
-#packfilename("Makefile"")
+#packfilename("Makefile")
 
 (* ****** ****** *)
 
-#packfilename("fact1.dats"")
-#packfilename("fact2.dats"")
-#packfilename("fact3.dats"")
+#packfilename("fact1.dats")
+#packfilename("fact2.dats")
+#packfilename("fact3.dats")
 
 (* ****** ****** *)
 

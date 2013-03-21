@@ -4,10 +4,28 @@
 #
 ######
 
-src_patsopt:: ; make -C src patsopt
+src_patsopt: ; make -C src patsopt
 
 ######
 
-bin/patsopt: src/patsopt:: cp -f src/patsopt bin/patsopt
+bin/patsopt: src/patsopt ; cp -f src/patsopt bin/patsopt
+
+######
+
+RMF=rm -f
+
+clean:: ; $(RMF) src/*
+clean:: ; $(RMF) bin/*
+clean:: ; $(RMF) ccomp/runtime/*
+clean:: ; $(RMF) prelude/*.?ats
+clean:: ; $(RMF) prelude/?ATS/*.?ats
+clean:: ; $(RMF) libc/?ATS/*.?ats
+clean:: ; $(RMF) libc/sys/?ATS/*.?ats
+clean:: ; $(RMF) libats/?ATS/*.?ats
+clean:: ; $(RMF) libats/?ATS/SHARE/*.?ats
+clean:: ; $(RMF) libats/ML/?ATS/*.?ats
+clean:: ; $(RMF) doc/EXAMPLE/INTRO/*
+
+######
 
 ###### end of [Makefile.dist]

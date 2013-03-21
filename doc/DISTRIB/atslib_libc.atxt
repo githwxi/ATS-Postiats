@@ -62,7 +62,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The ATSLIB-prelude files have been copied.\"\n\
+echo \"The ATSLIB-libc files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
@@ -101,7 +101,7 @@ The ATSLIB/prelude library\
 
 (* ****** ****** *)
 
-#packfilename("SATS/malloc.sats"")
+#packfilename("SATS/malloc.sats")
 #packfilename("SATS/stddef.sats")
 #packfilename("SATS/stdio.sats")
 #packfilename("SATS/stdlib.sats")
@@ -110,15 +110,21 @@ The ATSLIB/prelude library\
 #packfilename("SATS/time.sats")
 #packfilename("SATS/unistd.sats")
 
+#packfilename("sys/SATS/stat.sats")
+#packfilename("sys/SATS/types.sats")
+
 (* ****** ****** *)
 
-#packfilename("CATS/malloc.cats"")
+#packfilename("CATS/malloc.cats")
 #packfilename("CATS/stdio.cats")
 #packfilename("CATS/stdlib.cats")
 #packfilename("CATS/string.cats")
 #packfilename("CATS/strings.cats")
 #packfilename("CATS/time.cats")
 #packfilename("CATS/unistd.cats")
+
+#packfilename("sys/CATS/stat.cats")
+#packfilename("sys/CATS/types.cats")
 
 (* ****** ****** *)
 
@@ -128,6 +134,13 @@ The ATSLIB/prelude library\
 #packfilename("DATS/strings.dats")
 #packfilename("DATS/time.dats")
 #packfilename("DATS/unistd.dats")
+
+%{
+(*
+#packfilename("sys/DATS/stat.dats")
+#packfilename("sys/DATS/types.dats")
+*)
+%}
 
 (* ****** ****** *)
 
@@ -143,4 +156,4 @@ implement main () = ()
 
 (* ****** ****** *)
 
-(* end of [atslib_prelude.atxt] *)
+(* end of [atslib_libc.atxt] *)
