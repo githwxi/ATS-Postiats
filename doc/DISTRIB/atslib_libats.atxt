@@ -1,0 +1,250 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+staload "libatsdoc/SATS/libatsdoc_atext.sats"
+//
+extern
+fun comment (x: string): atext
+//
+extern
+fun packpreamble (): atext
+extern
+fun packpostamble (): atext
+extern
+fun packtitle (x: string): atext
+extern
+fun packfilename (x: string): atext
+extern
+fun packfilesynop (x: string): atext
+//
+%}
+
+(* ****** ****** *)
+
+%{
+
+implement
+comment (x) = atext_nil ()
+
+%}
+
+(* ****** ****** *)
+
+%{
+
+implement
+packpreamble () = let
+//
+val out = stdout_ref
+val () = fprint_string (out, "\
+#!/bin/bash\n\
+#\n\
+# This script is automatically generated.\n\
+#\n\
+\n\
+SOURCE=../../libats/\n\
+TARGET=ATS-Postiats/libats/\n\
+\n\
+srcget ()\n\
+{\n\
+cp -f ${SOURCE}/$1 ${TARGET}/$1 ;\n\
+}\n\
+\n\
+") // end of [val]
+//
+in
+  atext_nil ()
+end // end of [packpreamble]
+
+implement
+packpostamble () = let
+val out = stdout_ref
+val () = fprint_string (out, "\
+#\n\
+echo \"The ATSLIB-libats files have been copied.\"\n\
+#\n\
+# end of the automatically generated script\n\
+#\n\
+")
+in
+  atext_nil ()
+end // end of [packpostamble]
+
+implement
+packtitle (x) = atext_nil ()
+
+implement
+packfilename (x) = let
+//
+val out = stdout_ref
+val () = fprintf (out, "srcget \"%s\" ;\n", @(x))
+//
+in
+  atext_nil ()
+end // end of [packfilename]
+
+implement
+packfilesynop (x) = atext_nil ()
+
+%}
+
+(* ****** ****** *)
+
+#packpreamble()
+
+(* ****** ****** *)
+
+#packtitle("\
+The ATSLIB/prelude library\
+")
+
+(* ****** ****** *)
+
+#packfilename("SATS/gnode.sats")
+#packfilename("SATS/qlist.sats")
+#packfilename("SATS/sllist.sats")
+#packfilename("SATS/dllist.sats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/ilist_prf.sats")
+#packfilename("SATS/gflist.sats")
+#packfilename("SATS/gflist_vt.sats")
+#packfilename("SATS/gfarray.sats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/funmap_list.sats")
+#packfilename("SATS/funmap_avltree.sats")
+#packfilename("SATS/funset_avltree.sats")
+#packfilename("SATS/funset_listord.sats")
+#packfilename("SATS/funralist_nested.sats")
+#packfilename("SATS/fundeque_fingertree.sats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/linmap.sats")
+#packfilename("SATS/linmap_list.sats")
+#packfilename("SATS/linmap_avltree.sats")
+#packfilename("SATS/linmap_randbst.sats")
+#packfilename("SATS/linmap_skiplist.sats")
+#packfilename("SATS/linset.sats")
+#packfilename("SATS/linset_listord.sats")
+#packfilename("SATS/linset_avltree.sats")
+#packfilename("SATS/linheap.sats")
+#packfilename("SATS/linheap_binomial.sats")
+#packfilename("SATS/linheap_fibonacci.sats")
+#packfilename("SATS/linhashtbl_chain.sats")
+#packfilename("SATS/linralist_nested.sats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/ML_basis.sats")
+#packfilename("ML/SATS/list0.sats")
+#packfilename("ML/SATS/option0.sats")
+#packfilename("ML/SATS/array0.sats")
+#packfilename("ML/SATS/string.sats")
+#packfilename("ML/SATS/string0.sats")
+#packfilename("ML/SATS/filebas.sats")
+#packfilename("ML/SATS/funmap.sats")
+#packfilename("ML/SATS/funset.sats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/SHARE/funmap.hats")
+#packfilename("SATS/SHARE/funset.hats")
+#packfilename("SATS/SHARE/linmap.hats")
+#packfilename("SATS/SHARE/linmap_node.hats")
+#packfilename("SATS/SHARE/linset.hats")
+#packfilename("SATS/SHARE/linset_node.hats")
+#packfilename("SATS/SHARE/linheap.hats")
+
+(* ****** ****** *)
+
+#packfilename("CATS/qlist.cats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/gnode.dats")
+#packfilename("DATS/qlist.dats")
+#packfilename("DATS/sllist.dats")
+#packfilename("DATS/dllist.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/funmap_list.dats")
+#packfilename("DATS/funmap_avltree.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/funset_listord.dats")
+#packfilename("DATS/funset_avltree.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/funralist_nested.dats")
+#packfilename("DATS/fundeque_fingertree.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/ilist_prf.dats")
+#packfilename("DATS/gflist.dats")
+#packfilename("DATS/gflist_vt.dats")
+#packfilename("DATS/gfarray.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/linmap.dats")
+#packfilename("DATS/linmap_list.dats")
+#packfilename("DATS/linmap_avltree.dats")
+#packfilename("DATS/linmap_randbst.dats")
+#packfilename("DATS/linmap_skiplist.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/linset_avltree.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/linheap_binomial.dats")
+#packfilename("DATS/linheap_binomial2.dats")
+#packfilename("DATS/linheap_fibonacci.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/linralist_nested.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/SHARE/funmap.hats")
+#packfilename("DATS/SHARE/funset.hats")
+#packfilename("DATS/SHARE/linmap.hats")
+#packfilename("DATS/SHARE/linheap.hats")
+
+(* ****** ****** *)
+
+#packfilename("ML/DATS/list0.dats")
+#packfilename("ML/DATS/option0.dats")
+#packfilename("ML/DATS/array0.dats")
+#packfilename("ML/DATS/string.dats")
+#packfilename("ML/DATS/string0.dats")
+#packfilename("ML/DATS/filebas.dats")
+#packfilename("ML/DATS/funmap.dats")
+#packfilename("ML/DATS/funset.dats")
+
+(* ****** ****** *)
+
+#packpostamble()
+
+(* ****** ****** *)
+
+%{
+
+implement main () = ()
+
+%}
+
+(* ****** ****** *)
+
+(* end of [atslib_libats.atxt] *)
