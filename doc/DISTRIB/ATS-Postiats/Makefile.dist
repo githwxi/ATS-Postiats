@@ -14,18 +14,25 @@ bin/patsopt: src/patsopt ; cp -f src/patsopt bin/patsopt
 
 RMF=rm -f
 
-clean:: ; $(RMF) src/*
-clean:: ; $(RMF) bin/*
-clean:: ; $(RMF) ccomp/runtime/*
-clean:: ; $(RMF) prelude/*.?ats
-clean:: ; $(RMF) prelude/?ATS/*.?ats
-clean:: ; $(RMF) libc/?ATS/*.?ats
-clean:: ; $(RMF) libc/sys/?ATS/*.?ats
-clean:: ; $(RMF) libats/?ATS/*.?ats
-clean:: ; $(RMF) libats/?ATS/SHARE/*.?ats
-clean:: ; $(RMF) libats/ML/?ATS/*.?ats
-clean:: ; $(RMF) doc/EXAMPLE/INTRO/*
-clean:: ; $(RMF) doc/EXAMPLE/ATSLIB/*
+######
+
+clean:: ; make -C src cleanall
+
+######
+
+cleanall:: clean
+cleanall:: ; $(RMF) src/*
+cleanall:: ; $(RMF) bin/*
+cleanall:: ; $(RMF) ccomp/runtime/*
+cleanall:: ; $(RMF) prelude/*.?ats
+cleanall:: ; $(RMF) prelude/?ATS/*.?ats
+cleanall:: ; $(RMF) libc/?ATS/*.?ats
+cleanall:: ; $(RMF) libc/sys/?ATS/*.?ats
+cleanall:: ; $(RMF) libats/?ATS/*.?ats
+cleanall:: ; $(RMF) libats/?ATS/SHARE/*.?ats
+cleanall:: ; $(RMF) libats/ML/?ATS/*.?ats
+cleanall:: ; $(RMF) doc/EXAMPLE/INTRO/*
+cleanall:: ; $(RMF) doc/EXAMPLE/ATSLIB/*
 
 ######
 
