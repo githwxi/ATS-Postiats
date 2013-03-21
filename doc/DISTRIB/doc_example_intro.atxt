@@ -5,6 +5,9 @@ dynload "libatsdoc/dynloadall.dats"
 staload "libatsdoc/SATS/libatsdoc_atext.sats"
 //
 extern
+fun comment (x: string): atext
+//
+extern
 fun packpreamble (): atext
 extern
 fun packpostamble (): atext
@@ -22,6 +25,15 @@ fun packfilesynop (x: string): atext
 %{
 
 implement
+comment (x) = atext_nil ()
+
+%}
+
+(* ****** ****** *)
+
+%{
+
+implement
 packpreamble () = let
 //
 val out = stdout_ref
@@ -31,8 +43,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-TARGET=src/\n\
-SOURCE=../../../src/\n\
+SOURCE=../../doc/EXAMPLE/INTRO/\n\
+TARGET=ATS-Postiats/doc/EXAMPLE/INTRO/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -50,7 +62,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The source files have been copied.\"\n\
+echo \"The ATSLIB-prelude files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
@@ -84,68 +96,27 @@ packfilesynop (x) = atext_nil ()
 (* ****** ****** *)
 
 #packtitle("\
-The ATS/Postiats (ATS2) Compiler\
+The ATSLIB/prelude library\
 ")
 
 (* ****** ****** *)
 
-#packfilename("Makefile")
-#packfilesynop("\
-")
+#packfilename("Makefile"")
 
 (* ****** ****** *)
 
-#packfilename("pats_main.dats")
-#packfilesynop("\
-")
+#packfilename("fact1.dats"")
+#packfilename("fact2.dats"")
+#packfilename("fact3.dats"")
 
 (* ****** ****** *)
 
-#packfilename("pats_basics.sats")
-#packfilename("pats_basics.hats")
-#packfilename("pats_basics.dats")
+#packfilename("atoi.dats")
+#packfilename("atof.dats")
 
 (* ****** ****** *)
 
-#packfilename("pats_utils.sats")
-#packfilename("pats_utils.dats")
-
-(* ****** ****** *)
-
-#packfilename("pats_lexing.sats")
-#packfilesynop("\
-")
-#packfilename("pats_lexing.cats")
-#packfilesynop("\
-")
-#packfilename("pats_lexing.dats")
-#packfilesynop("\
-")
-#packfilename("pats_lexing_error.dats")
-#packfilesynop("\
-")
-#packfilename("pats_lexing_print.dats")
-#packfilesynop("\
-")
-#packfilename("pats_lexing_token.dats")
-#packfilesynop("\
-")
-
-(* ****** ****** *)
-
-#packfilename("pats_parsing.sats")
-#packfilename("pats_parsing.dats")
-#packfilename("pats_parsing_util.dats")
-#packfilename("pats_parsing_error.dats")
-#packfilename("pats_parsing_base.dats")
-#packfilename("pats_parsing_kwds.dats")
-#packfilename("pats_parsing_e0xp.dats")
-#packfilename("pats_parsing_sort.dats")
-#packfilename("pats_parsing_staexp.dats")
-#packfilename("pats_parsing_p0at.dats")
-#packfilename("pats_parsing_dynexp.dats")
-#packfilename("pats_parsing_decl.dats")
-#packfilename("pats_parsing_toplevel.dats")
+#packfilename("strprefix.dats")
 
 (* ****** ****** *)
 
@@ -161,4 +132,4 @@ implement main () = ()
 
 (* ****** ****** *)
 
-(* end of [patsopt.atxt] *)
+(* end of [doc_example_intro.atxt] *)

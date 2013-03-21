@@ -77,19 +77,54 @@ all_script::
 
 ######
 
-#make_entry("patsopt")
+#make_entry("patsopt_src")
+
+#make_entry("atslib_prelude")
+#make_entry("atslib_libc")
+#make_entry("atslib_libats")
+
+#make_entry("ccomp_runtime")
+
+#make_entry("doc_example_intro")
 
 ######
 
-srcgetall: SCRIPT/patsopt.bash ; bash -v $<
+srcgetall:: Makefile_dist
+srcgetall:: srcget_patsrc
+srcgetall:: srcget_atslib
+srcgetall:: srcget_ccomp_runtime
+srcgetall:: srcget_doc_example
 
 ######
 
-uploadall:: ; \
-  scp HTML/*.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/PACKAGE/patsopt
+Makefile_dist:: ; \\
+  $(CPF) Makefile.dist ATS-Postiats/Makefile
 
 ######
 
+srcget_patsrc:: SCRIPT/patsopt_src.bash ; bash $<
+
+######
+
+srcget_atslib:: srcget_atslib_prelude
+srcget_atslib:: srcget_atslib_libc
+srcget_atslib:: srcget_atslib_libats
+srcget_atslib_prelude:: SCRIPT/atslib_prelude.bash ; bash $<
+srcget_atslib_libc:: SCRIPT/atslib_libc.bash ; bash $<
+srcget_atslib_libats:: SCRIPT/atslib_libats.bash ; bash $<
+
+######
+
+srcget_ccomp_runtime:: SCRIPT/ccomp_runtime.bash ; bash $<
+
+######
+
+srcget_doc_example:: srcget_doc_example_intro
+srcget_doc_example_intro:: SCRIPT/doc_example_intro.bash ; bash $<
+
+######
+
+CPF=cp -f
 RMF=rm -f
 
 ######

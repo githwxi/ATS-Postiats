@@ -27,7 +27,6 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 staload UN = "prelude/SATS/unsafe.sats"
-staload IT = "prelude/SATS/iterator.sats"
 
 #atscode_separator()
 

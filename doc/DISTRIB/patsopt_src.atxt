@@ -1,0 +1,504 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+staload "libatsdoc/SATS/libatsdoc_atext.sats"
+//
+extern
+fun packpreamble (): atext
+extern
+fun packpostamble (): atext
+extern
+fun packtitle (x: string): atext
+extern
+fun packfilename (x: string): atext
+extern
+fun packfilesynop (x: string): atext
+//
+%}
+
+(* ****** ****** *)
+
+%{
+
+implement
+packpreamble () = let
+//
+val out = stdout_ref
+val () = fprint_string (out, "\
+#!/bin/bash\n\
+#\n\
+# This script is automatically generated.\n\
+#\n\
+\n\
+SOURCE=../../src/\n\
+TARGET=ATS-Postiats/src/\n\
+\n\
+srcget ()\n\
+{\n\
+cp -f ${SOURCE}/$1 ${TARGET}/$1 ;\n\
+}\n\
+\n\
+") // end of [val]
+//
+in
+  atext_nil ()
+end // end of [packpreamble]
+
+implement
+packpostamble () = let
+val out = stdout_ref
+val () = fprint_string (out, "\
+#\n\
+echo \"The PATSOPT-source files have been copied.\"\n\
+#\n\
+# end of the automatically generated script\n\
+#\n\
+")
+in
+  atext_nil ()
+end // end of [packpostamble]
+
+implement
+packtitle (x) = atext_nil ()
+
+implement
+packfilename (x) = let
+//
+val out = stdout_ref
+val () = fprintf (out, "srcget \"%s\" ;\n", @(x))
+//
+in
+  atext_nil ()
+end // end of [packfilename]
+
+implement
+packfilesynop (x) = atext_nil ()
+
+%}
+
+(* ****** ****** *)
+
+#packpreamble()
+
+(* ****** ****** *)
+
+#packtitle("\
+The ATS/Postiats (ATS2) Compiler\
+")
+
+(* ****** ****** *)
+
+#packfilename("Makefile")
+#packfilesynop("\
+")
+
+(* ****** ****** *)
+
+#packfilename("pats_main.dats")
+#packfilesynop("\
+")
+
+(* ****** ****** *)
+
+#packfilename("pats_params.hats")
+
+(* ****** ****** *)
+
+#packfilename("pats_error.sats")
+#packfilename("pats_error.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_intinf.sats")
+#packfilename("pats_intinf.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_counter.sats")
+#packfilename("pats_counter.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_utils.sats")
+#packfilename("pats_utils.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_global.sats")
+#packfilename("pats_global.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_basics.sats")
+#packfilename("pats_basics.hats")
+#packfilename("pats_basics.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_stamp.sats")
+#packfilename("pats_stamp.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_symbol.sats")
+#packfilename("pats_symbol.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_filename.sats")
+#packfilename("pats_filename.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_location.sats")
+#packfilename("pats_location.cats")
+#packfilename("pats_location.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_errmsg.sats")
+#packfilename("pats_errmsg.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_reader.sats")
+#packfilename("pats_reader.cats")
+#packfilename("pats_reader.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_lexbuf.sats")
+#packfilename("pats_lexbuf.cats")
+#packfilename("pats_lexbuf.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_lexing.sats")
+#packfilesynop("\
+")
+#packfilename("pats_lexing.cats")
+#packfilesynop("\
+")
+#packfilename("pats_lexing.dats")
+#packfilesynop("\
+")
+#packfilename("pats_lexing_error.dats")
+#packfilesynop("\
+")
+#packfilename("pats_lexing_print.dats")
+#packfilesynop("\
+")
+#packfilename("pats_lexing_token.dats")
+#packfilesynop("\
+")
+
+(* ****** ****** *)
+
+#packfilename("pats_label.sats")
+#packfilename("pats_label.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_effect.sats")
+#packfilename("pats_effect.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_fixity.sats")
+#packfilename("pats_fixity_prec.dats")
+#packfilename("pats_fixity_fxty.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_syntax.sats")
+#packfilename("pats_syntax.dats")
+#packfilename("pats_syntax_print.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_depgen.sats")
+#packfilename("pats_depgen.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_tokbuf.sats")
+#packfilename("pats_tokbuf.cats")
+#packfilename("pats_tokbuf.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_parsing.sats")
+#packfilename("pats_parsing.dats")
+#packfilename("pats_parsing_util.dats")
+#packfilename("pats_parsing_error.dats")
+#packfilename("pats_parsing_base.dats")
+#packfilename("pats_parsing_kwds.dats")
+#packfilename("pats_parsing_e0xp.dats")
+#packfilename("pats_parsing_sort.dats")
+#packfilename("pats_parsing_staexp.dats")
+#packfilename("pats_parsing_p0at.dats")
+#packfilename("pats_parsing_dynexp.dats")
+#packfilename("pats_parsing_decl.dats")
+#packfilename("pats_parsing_toplevel.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_symmap.sats")
+#packfilename("pats_symmap.dats")
+#packfilename("pats_symmap_avltree.hats")
+#packfilename("pats_symmap_htlinprb.hats")
+
+(* ****** ****** *)
+
+#packfilename("pats_symenv.sats")
+#packfilename("pats_symenv.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_staexp1.sats")
+#packfilename("pats_staexp1.dats")
+#packfilename("pats_staexp1_print.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_dynexp1.sats")
+#packfilename("pats_dynexp1.dats")
+#packfilename("pats_dynexp1_print.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_trans1.sats")
+#packfilename("pats_trans1_env.sats")
+#packfilename("pats_trans1_env.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_e1xpval.sats")
+#packfilename("pats_e1xpval.dats")
+#packfilename("pats_e1xpval_error.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_trans1_error.dats")
+#packfilename("pats_trans1_e0xp.dats")
+#packfilename("pats_trans1_effect.dats")
+#packfilename("pats_trans1_sort.dats")
+#packfilename("pats_trans1_staexp.dats")
+#packfilename("pats_trans1_p0at.dats")
+#packfilename("pats_trans1_syndef.dats")
+#packfilename("pats_trans1_dynexp.dats")
+#packfilename("pats_trans1_decl.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_staexp2.sats")
+#packfilename("pats_staexp2.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_stacst2.sats")
+#packfilename("pats_stacst2.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_staexp2_print.dats")
+#packfilename("pats_staexp2_pprint.dats")
+#packfilename("pats_staexp2_sort.dats")
+#packfilename("pats_staexp2_scst.dats")
+#packfilename("pats_staexp2_svar.dats")
+#packfilename("pats_staexp2_sVar.dats")
+#packfilename("pats_staexp2_hole.dats")
+#packfilename("pats_staexp2_ctxt.dats")
+#packfilename("pats_staexp2_dcon.dats")
+#packfilename("pats_staexp2_skexp.dats")
+#packfilename("pats_staexp2_szexp.dats")
+#packfilename("pats_staexp2_util.sats")
+#packfilename("pats_staexp2_util1.dats")
+#packfilename("pats_staexp2_util2.dats")
+#packfilename("pats_staexp2_util3.dats")
+#packfilename("pats_staexp2_error.sats")
+#packfilename("pats_staexp2_error.dats")
+#packfilename("pats_staexp2_solve.sats")
+#packfilename("pats_staexp2_solve.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_patcst2.sats")
+#packfilename("pats_patcst2.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_dynexp2.sats")
+#packfilename("pats_dynexp2.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_dyncst2.sats")
+#packfilename("pats_dyncst2.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_dynexp2_print.dats")
+#packfilename("pats_dynexp2_dcst.dats")
+#packfilename("pats_dynexp2_dvar.dats")
+#packfilename("pats_dynexp2_dmac.dats")
+#packfilename("pats_dynexp2_util.sats")
+#packfilename("pats_dynexp2_util.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_trans2.sats")
+
+(* ****** ****** *)
+
+#packfilename("pats_namespace.sats")
+#packfilename("pats_namespace.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_trans2_env.sats")
+#packfilename("pats_trans2_env.dats")
+#packfilename("pats_trans2_error.dats")
+#packfilename("pats_trans2_sort.dats")
+#packfilename("pats_trans2_staexp.dats")
+#packfilename("pats_trans2_p1at.dats")
+#packfilename("pats_trans2_dynexp.dats")
+#packfilename("pats_trans2_impdec.dats")
+#packfilename("pats_trans2_decl.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_dynexp3.sats")
+#packfilename("pats_dynexp3.dats")
+#packfilename("pats_dynexp3_print.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_trans3.sats")
+#packfilename("pats_trans3_error.dats")
+#packfilename("pats_trans3_util.dats")
+#packfilename("pats_trans3_env.sats")
+#packfilename("pats_trans3_env.dats")
+#packfilename("pats_trans3_env_print.dats")
+#packfilename("pats_trans3_env_scst.dats")
+#packfilename("pats_trans3_env_svar.dats")
+#packfilename("pats_trans3_env_termet.dats")
+#packfilename("pats_trans3_env_effect.dats")
+#packfilename("pats_trans3_env_dvar.dats")
+#packfilename("pats_trans3_env_lamlp.dats")
+#packfilename("pats_trans3_env_pfman.dats")
+#packfilename("pats_trans3_env_lstate.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_dmacro2.sats")
+#packfilename("pats_dmacro2.dats")
+#packfilename("pats_dmacro2_print.dats")
+#packfilename("pats_dmacro2_eval0.dats")
+#packfilename("pats_dmacro2_eval1.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_trans3_p2at.dats")
+#packfilename("pats_trans3_patcon.dats")
+#packfilename("pats_trans3_syncst.dats")
+#packfilename("pats_trans3_dynexp_up.dats")
+#packfilename("pats_trans3_dynexp_dn.dats")
+#packfilename("pats_trans3_appsym.dats")
+#packfilename("pats_trans3_caseof.dats")
+#packfilename("pats_trans3_selab.dats")
+#packfilename("pats_trans3_ptrof.dats")
+#packfilename("pats_trans3_viewat.dats")
+#packfilename("pats_trans3_deref.dats")
+#packfilename("pats_trans3_assgn.dats")
+#packfilename("pats_trans3_xchng.dats")
+#packfilename("pats_trans3_lvalres.dats")
+#packfilename("pats_trans3_fldfrat.dats")
+#packfilename("pats_trans3_looping.dats")
+#packfilename("pats_trans3_decl.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_lintprgm.sats")
+#packfilename("pats_lintprgm.dats")
+#packfilename("pats_lintprgm_myint.cats")
+#packfilename("pats_lintprgm_print.dats")
+#packfilename("pats_lintprgm_myint_int.dats")
+#packfilename("pats_lintprgm_myint_intinf.dats")
+#packfilename("pats_lintprgm_solve.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_constraint3.sats")
+#packfilename("pats_constraint3.dats")
+#packfilename("pats_constraint3_init.dats")
+#packfilename("pats_constraint3_print.dats")
+#packfilename("pats_constraint3_simplify.dats")
+#packfilename("pats_constraint3_icnstr.dats")
+#packfilename("pats_constraint3_solve.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_histaexp.sats")
+#packfilename("pats_histaexp.dats")
+#packfilename("pats_histaexp_print.dats")
+#packfilename("pats_histaexp_funlab.dats")
+#packfilename("pats_hidynexp.sats")
+#packfilename("pats_hidynexp.dats")
+#packfilename("pats_hidynexp_print.dats")
+#packfilename("pats_hidynexp_util.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_typerase.sats")
+#packfilename("pats_typerase_error.dats")
+#packfilename("pats_typerase_staexp.dats")
+#packfilename("pats_typerase_dynexp.dats")
+#packfilename("pats_typerase_decl.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_ccomp.sats")
+#packfilename("pats_ccomp.dats")
+#packfilename("pats_ccomp_print.dats")
+#packfilename("pats_ccomp_hitype.dats")
+#packfilename("pats_ccomp_tmplab.dats")
+#packfilename("pats_ccomp_tmpvar.dats")
+#packfilename("pats_ccomp_funlab.dats")
+#packfilename("pats_ccomp_funent.dats")
+#packfilename("pats_ccomp_util.dats")
+#packfilename("pats_ccomp_ccompenv.dats")
+#packfilename("pats_ccomp_instrseq.dats")
+#packfilename("pats_ccomp_hipat.dats")
+#packfilename("pats_ccomp_dynexp.dats")
+#packfilename("pats_ccomp_loop.dats")
+#packfilename("pats_ccomp_caseof.dats")
+#packfilename("pats_ccomp_claulst.dats")
+#packfilename("pats_ccomp_decl.dats")
+#packfilename("pats_ccomp_subst.dats")
+#packfilename("pats_ccomp_template.dats")
+#packfilename("pats_ccomp_emit.dats")
+#packfilename("pats_ccomp_emit2.dats")
+#packfilename("pats_ccomp_main.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_comarg.sats")
+#packfilename("pats_comarg.dats")
+
+(* ****** ****** *)
+
+#packpostamble()
+
+(* ****** ****** *)
+
+%{
+
+implement main () = ()
+
+%}
+
+(* ****** ****** *)
+
+(* end of [patsopt.atxt] *)

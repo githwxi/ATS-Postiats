@@ -134,7 +134,7 @@ a:vt0p}{env:vt0p
 } qlist_foreach$cont (x: &a, env: &env): bool
 fun{
 a:vt0p}{env:vt0p
-} qlist_foreach$fwork (x: &a, env: &(env) >> _): void
+} qlist_foreach$fwork (x: &a >> _, env: &(env) >> _): void
 fun{
 a:vt0p
 } qlist_foreach (q: !qlist (INV(a))): void

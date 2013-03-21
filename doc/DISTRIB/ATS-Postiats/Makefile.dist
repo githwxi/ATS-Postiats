@@ -1,0 +1,13 @@
+######
+#
+# HX-2013-03: for compiling a distribution of ATS-Postiats
+#
+######
+
+src_patsopt:: ; make -C src patsopt
+
+######
+
+bin/patsopt: src/patsopt:: cp -f src/patsopt bin/patsopt
+
+###### end of [Makefile.dist]

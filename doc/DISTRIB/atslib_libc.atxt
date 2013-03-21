@@ -1,0 +1,146 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+staload "libatsdoc/SATS/libatsdoc_atext.sats"
+//
+extern
+fun comment (x: string): atext
+//
+extern
+fun packpreamble (): atext
+extern
+fun packpostamble (): atext
+extern
+fun packtitle (x: string): atext
+extern
+fun packfilename (x: string): atext
+extern
+fun packfilesynop (x: string): atext
+//
+%}
+
+(* ****** ****** *)
+
+%{
+
+implement
+comment (x) = atext_nil ()
+
+%}
+
+(* ****** ****** *)
+
+%{
+
+implement
+packpreamble () = let
+//
+val out = stdout_ref
+val () = fprint_string (out, "\
+#!/bin/bash\n\
+#\n\
+# This script is automatically generated.\n\
+#\n\
+\n\
+SOURCE=../../libc/\n\
+TARGET=ATS-Postiats/libc/\n\
+\n\
+srcget ()\n\
+{\n\
+cp -f ${SOURCE}/$1 ${TARGET}/$1 ;\n\
+}\n\
+\n\
+") // end of [val]
+//
+in
+  atext_nil ()
+end // end of [packpreamble]
+
+implement
+packpostamble () = let
+val out = stdout_ref
+val () = fprint_string (out, "\
+#\n\
+echo \"The ATSLIB-prelude files have been copied.\"\n\
+#\n\
+# end of the automatically generated script\n\
+#\n\
+")
+in
+  atext_nil ()
+end // end of [packpostamble]
+
+implement
+packtitle (x) = atext_nil ()
+
+implement
+packfilename (x) = let
+//
+val out = stdout_ref
+val () = fprintf (out, "srcget \"%s\" ;\n", @(x))
+//
+in
+  atext_nil ()
+end // end of [packfilename]
+
+implement
+packfilesynop (x) = atext_nil ()
+
+%}
+
+(* ****** ****** *)
+
+#packpreamble()
+
+(* ****** ****** *)
+
+#packtitle("\
+The ATSLIB/prelude library\
+")
+
+(* ****** ****** *)
+
+#packfilename("SATS/malloc.sats"")
+#packfilename("SATS/stddef.sats")
+#packfilename("SATS/stdio.sats")
+#packfilename("SATS/stdlib.sats")
+#packfilename("SATS/string.sats")
+#packfilename("SATS/strings.sats")
+#packfilename("SATS/time.sats")
+#packfilename("SATS/unistd.sats")
+
+(* ****** ****** *)
+
+#packfilename("CATS/malloc.cats"")
+#packfilename("CATS/stdio.cats")
+#packfilename("CATS/stdlib.cats")
+#packfilename("CATS/string.cats")
+#packfilename("CATS/strings.cats")
+#packfilename("CATS/time.cats")
+#packfilename("CATS/unistd.cats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/stdio.dats")
+#packfilename("DATS/stdlib.dats")
+#packfilename("DATS/string.dats")
+#packfilename("DATS/strings.dats")
+#packfilename("DATS/time.dats")
+#packfilename("DATS/unistd.dats")
+
+(* ****** ****** *)
+
+#packpostamble()
+
+(* ****** ****** *)
+
+%{
+
+implement main () = ()
+
+%}
+
+(* ****** ****** *)
+
+(* end of [atslib_prelude.atxt] *)

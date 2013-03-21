@@ -1,0 +1,258 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+staload "libatsdoc/SATS/libatsdoc_atext.sats"
+//
+extern
+fun comment (x: string): atext
+//
+extern
+fun packpreamble (): atext
+extern
+fun packpostamble (): atext
+extern
+fun packtitle (x: string): atext
+extern
+fun packfilename (x: string): atext
+extern
+fun packfilesynop (x: string): atext
+//
+%}
+
+(* ****** ****** *)
+
+%{
+
+implement
+comment (x) = atext_nil ()
+
+%}
+
+(* ****** ****** *)
+
+%{
+
+implement
+packpreamble () = let
+//
+val out = stdout_ref
+val () = fprint_string (out, "\
+#!/bin/bash\n\
+#\n\
+# This script is automatically generated.\n\
+#\n\
+\n\
+SOURCE=../../prelude/\n\
+TARGET=ATS-Postiats/prelude/\n\
+\n\
+srcget ()\n\
+{\n\
+cp -f ${SOURCE}/$1 ${TARGET}/$1 ;\n\
+}\n\
+\n\
+") // end of [val]
+//
+in
+  atext_nil ()
+end // end of [packpreamble]
+
+implement
+packpostamble () = let
+val out = stdout_ref
+val () = fprint_string (out, "\
+#\n\
+echo \"The ATSLIB-prelude files have been copied.\"\n\
+#\n\
+# end of the automatically generated script\n\
+#\n\
+")
+in
+  atext_nil ()
+end // end of [packpostamble]
+
+implement
+packtitle (x) = atext_nil ()
+
+implement
+packfilename (x) = let
+//
+val out = stdout_ref
+val () = fprintf (out, "srcget \"%s\" ;\n", @(x))
+//
+in
+  atext_nil ()
+end // end of [packfilename]
+
+implement
+packfilesynop (x) = atext_nil ()
+
+%}
+
+(* ****** ****** *)
+
+#packpreamble()
+
+(* ****** ****** *)
+
+#packtitle("\
+The ATSLIB/prelude library\
+")
+
+(* ****** ****** *)
+
+#packfilename("params.hats")
+#packfilename("fixity.ats")
+#packfilename("basics_pre.sats")
+#packfilename("basics_sta.sats")
+#packfilename("basics_dyn.sats")
+#packfilename("basics_gen.sats")
+#packfilename("macrodef.sats")
+#packfilename("lmacrodef.sats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/bool.sats")
+#packfilename("SATS/char.sats")
+#packfilename("SATS/integer.sats")
+#packfilename("SATS/integer_fixed.sats")
+#packfilename("SATS/arith_prf.sats")
+#packfilename("SATS/float.sats")
+#packfilename("SATS/string.sats")
+#packfilename("SATS/strptr.sats")
+
+#packfilename("SATS/tuple.sats")
+
+#packfilename("SATS/memory.sats")
+#packfilename("SATS/pointer.sats")
+#packfilename("SATS/reference.sats")
+
+#packfilename("SATS/filebas.sats")
+#packfilename("SATS/intrange.sats")
+
+#packfilename("SATS/lazy.sats")
+#packfilename("SATS/lazy_vt.sats")
+
+#packfilename("SATS/unsafe.sats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/list.sats")
+#packfilename("SATS/list_vt.sats")
+#packfilename("SATS/option.sats")
+#packfilename("SATS/option_vt.sats")
+#packfilename("SATS/array.sats")
+#packfilename("SATS/array_prf.sats")
+#packfilename("SATS/arrayptr.sats")
+#packfilename("SATS/arrayref.sats")
+#packfilename("SATS/matrix.sats")
+#packfilename("SATS/matrixptr.sats")
+
+#packfilename("SATS/gprint.sats")
+
+#packfilename("SATS/parray.sats")
+
+#packfilename("SATS/extern.sats")
+
+#packfilename("SATS/giterator.sats")
+#packfilename("SATS/fcontainer.sats")
+
+(* ****** ****** *)
+
+#packfilename("CATS/basics.cats")
+
+#packfilename("CATS/bool.cats")
+#packfilename("CATS/char.cats")
+#packfilename("CATS/integer.cats")
+#packfilename("CATS/integer_fixed.cats")
+#packfilename("CATS/float.cats")
+#packfilename("CATS/string.cats")
+#packfilename("CATS/strptr.cats")
+
+#packfilename("CATS/memory.cats")
+#packfilename("CATS/pointer.cats")
+
+#packfilename("CATS/filebas.cats")
+
+#packfilename("CATS/list.cats")
+#packfilename("CATS/option.cats")
+#packfilename("CATS/array.cats")
+#packfilename("CATS/arrayptr.cats")
+#packfilename("CATS/arrayref.cats")
+#packfilename("CATS/matrix.cats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/basics.dats")
+
+#packfilename("DATS/bool.dats")
+#packfilename("DATS/char.dats")
+#packfilename("DATS/integer.dats")
+#packfilename("DATS/arith_prf.dats")
+
+#comment('\
+\#packfilename("DATS/integer_fixed.dats")
+')
+
+#packfilename("DATS/float.dats")
+#packfilename("DATS/string.dats")
+#packfilename("DATS/strptr.dats")
+
+#packfilename("DATS/tuple.dats")
+
+#packfilename("DATS/memory.dats")
+#packfilename("DATS/pointer.dats")
+#packfilename("DATS/reference.dats")
+
+#packfilename("DATS/filebas.dats")
+#packfilename("DATS/intrange.dats")
+
+#packfilename("DATS/lazy.dats")
+#packfilename("DATS/lazy_vt.dats")
+
+#packfilename("DATS/unsafe.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/list.dats")
+#packfilename("DATS/list_vt.dats")
+#packfilename("DATS/option.dats")
+#packfilename("DATS/option_vt.dats")
+#packfilename("DATS/array.dats")
+#packfilename("DATS/array_prf.dats")
+#packfilename("DATS/arrayptr.dats")
+#packfilename("DATS/arrayref.dats")
+#packfilename("DATS/matrix.dats")
+#packfilename("DATS/matrixptr.dats")
+
+#packfilename("DATS/gprint.dats")
+
+#packfilename("DATS/parray.dats")
+
+#comment('\
+\#packfilename("DATS/extern.dats")
+')
+
+#packfilename("DATS/giterator.dats")
+#packfilename("DATS/giter_array.dats")
+#packfilename("DATS/giter_list.dats")
+#packfilename("DATS/giter_list_vt.dats")
+
+#packfilename("DATS/fcontainer.dats")
+#packfilename("DATS/fcontainer_foreach.dats")
+
+(* ****** ****** *)
+
+#packpostamble()
+
+(* ****** ****** *)
+
+%{
+
+implement main () = ()
+
+%}
+
+(* ****** ****** *)
+
+(* end of [atslib_prelude.atxt] *)

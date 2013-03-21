@@ -164,17 +164,27 @@ contrib/cairo/cairo-1.12.*
 libatsyntax/libatsyntax.a
 
 #
-# ATSHOME/doc/PACKAGE
+# ATSHOME/doc/DISTRIB
 #
 
-doc/PACKAGE/PATSOPT/*.exe
-doc/PACKAGE/PATSOPT/*_atxt.txt
-doc/PACKAGE/PATSOPT/*_atxt.dats
-doc/PACKAGE/PATSOPT/HTML
-doc/PACKAGE/PATSOPT/SCRIPT
-doc/PACKAGE/PATSOPT/src/.depend
-doc/PACKAGE/PATSOPT/src/Makefile
-doc/PACKAGE/PATSOPT/src/pats_*.?ats
+doc/DISTRIB/*.exe
+doc/DISTRIB/*_atxt.txt
+doc/DISTRIB/*_atxt.dats
+doc/DISTRIB/HTML
+doc/DISTRIB/SCRIPT
+doc/DISTRIB/ATS-Postiats/bin/*
+doc/DISTRIB/ATS-Postiats/share/*
+doc/DISTRIB/ATS-Postiats/src/.depend
+doc/DISTRIB/ATS-Postiats/src/Makefile
+doc/DISTRIB/ATS-Postiats/src/pats_*.?ats
+doc/DISTRIB/ATS-Postiats/src/patsopt
+doc/DISTRIB/ATS-Postiats/ccomp/runtime/*.h
+doc/DISTRIB/ATS-Postiats/prelude/*.ats
+doc/DISTRIB/ATS-Postiats/prelude/*.?ats
+doc/DISTRIB/ATS-Postiats/prelude/?ATS/*.?ats
+doc/DISTRIB/ATS-Postiats/libc/?ATS/*.?ats
+doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/Makefile
+doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/*.?ats
 
 #
 # ATSHOME/doc/EXAMPLE
