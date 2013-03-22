@@ -22,7 +22,7 @@ val ent = sprintf ("\
 all:: %s\n\
 %s: %s.exe\n\
 %s.exe: %s_dats.c ; \
-  $(GCC) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $<\n\
+  $(GCC) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<\n\
 %s_dats.c: %s.dats ; \
   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output %s_dats.c --dynamic %s.dats\n\
 clean:: ; $(RMF) %s_dats.o\n\
@@ -32,9 +32,33 @@ cleanall:: ; $(RMF) %s.exe\n\
 ) // end of [val]
 //
 val ent = string_of_strptr (ent)
+//
 in
   atext_strcst (ent)
 end // end of [make_entry]
+
+fun make2_entry
+  (nm: string, cflags: string, libs: string): atext = let
+//
+val ent = sprintf ("\
+all:: %s\n\
+%s: %s.exe\n\
+%s.exe: %s_dats.c ; \
+  $(GCC) -D_GNU_SOURCE -O2 \
+    -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime %s -o $@ $< %s\n\
+%s_dats.c: %s.dats ; \
+  $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output %s_dats.c --dynamic %s.dats\n\
+clean:: ; $(RMF) %s_dats.o\n\
+clean:: ; $(RMF) %s_dats.c\n\
+cleanall:: ; $(RMF) %s.exe\n\
+", @(nm, nm, nm, nm, nm, cflags, libs, nm, nm, nm, nm, nm, nm, nm)
+) // end of [val]
+//
+val ent = string_of_strptr (ent)
+//
+in
+  atext_strcst (ent)
+end // end of [make2_entry]
 
 %}\
 #
@@ -78,24 +102,24 @@ RMF=rm -f
 #make_entry("prelude_char")
 #make_entry("prelude_integer")
 #make_entry("prelude_float")
-#make_entry("prelude_string")
-#make_entry("prelude_reference")
+#make2_entry("prelude_string", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("prelude_reference", "-DATS_MEMALLOC_LIBC", "")
 
 ######
 
 #make_entry("libc_malloc")
 #make_entry("libc_stdio")
-#make_entry("libc_stdlib")
-#make_entry("libc_string")
-#make_entry("libc_strings")
-#make_entry("libc_time")
-#make_entry("libc_unistd")
+#make2_entry("libc_stdlib", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libc_string", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libc_strings", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libc_time", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libc_unistd", "-DATS_MEMALLOC_LIBC", "")
 
 ######
 
-#make_entry("libats_qlist")
-#make_entry("libats_sllist")
-#make_entry("libats_dllist")
+#make2_entry("libats_qlist", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_sllist", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_dllist", "-DATS_MEMALLOC_LIBC", "")
 
 ######
 

@@ -101,7 +101,7 @@ gneq_ref (x, y) = gcompare_ref<a> (x, y) != 0
 #atscode_separator()
 
 implement(a:t0p)
-gcompare_ref<a> (out, x) = gcompare_val<a> (out, x)
+gcompare_ref<a> (x, y) = gcompare_val<a> (x, y)
 
 #atscode_separator()
 

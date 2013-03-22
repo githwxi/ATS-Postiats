@@ -51,7 +51,7 @@ if n3 > 0 then let
   val sgn = SelectionSort$cmp<a> (!p2, !p3)
   prval pf2 = array_v_cons (pf21, pf22)
 in
-  if sgn < 0 then let
+  if sgn > 0 then let
     prval pf1 =
       array_v_unsplit (pf1, pf2)
     // end of [prval]

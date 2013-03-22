@@ -101,7 +101,7 @@ cleanall:: ; $(RMF) fact2.exe
 
 all:: fact3
 fact3: fact3.exe
-fact3.exe: fact3_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $<
+fact3.exe: fact3_dats.c ;   $(GCC) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
 fact3_dats.c: fact3.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fact3_dats.c --dynamic fact3.dats
 clean:: ; $(RMF) fact3_dats.o
 clean:: ; $(RMF) fact3_dats.c
@@ -133,7 +133,7 @@ cleanall:: ; $(RMF) fib2.exe
 
 all:: fibmem
 fibmem: fibmem.exe
-fibmem.exe: fibmem_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $<
+fibmem.exe: fibmem_dats.c ;   $(GCC) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
 fibmem_dats.c: fibmem.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fibmem_dats.c --dynamic fibmem.dats
 clean:: ; $(RMF) fibmem_dats.o
 clean:: ; $(RMF) fibmem_dats.c

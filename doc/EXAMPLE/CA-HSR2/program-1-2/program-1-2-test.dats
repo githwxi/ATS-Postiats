@@ -47,7 +47,25 @@ val () = fprint_newline (out)
 //
 val () = SelectionSort (!p, asz)
 //
-val () = fprint (out, "Array(aft) = ")
+val () = fprint (out, "Array(aft1) = ")
+val () = fprint_val<T> (out, p->[0])
+val () = fprint_val<T> (out, p->[1])
+val () = fprint_val<T> (out, p->[2])
+val () = fprint_val<T> (out, p->[3])
+val () = fprint_val<T> (out, p->[4])
+val () = fprint_val<T> (out, p->[5])
+val () = fprint_val<T> (out, p->[6])
+val () = fprint_val<T> (out, p->[7])
+val () = fprint_val<T> (out, p->[8])
+val () = fprint_val<T> (out, p->[9])
+val () = fprint_newline (out)
+//
+implement
+SelectionSort$cmp<int> (x1, x2) = x2 - x1
+//
+val () = SelectionSort (!p, asz)
+//
+val () = fprint (out, "Array(aft2) = ")
 val () = fprint_val<T> (out, p->[0])
 val () = fprint_val<T> (out, p->[1])
 val () = fprint_val<T> (out, p->[2])

@@ -4,7 +4,8 @@
 
 ######
 
-GCC=gcc
+CC=gcc
+CC=clang
 PATSHOMEQ="$(PATSHOME)"
 PATSOPT=$(PATSHOMEQ)/src/patsopt
 
@@ -13,11 +14,15 @@ PATSOPT=$(PATSHOMEQ)/src/patsopt
 all:: test
 
 ######
+#
+# HX: this example shows a straightforward way of using one's own malloc/free.
+#
+######
 
 test: \
   program-1-2_dats.c \
   program-1-2-test_dats.c ; \
-  $(GCC) -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -DATS_MEMALLOC_GCBDW -O2 -o $@ $^ -lgc
+  $(CC) -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -DATS_MEMALLOC_USER -O2 -o $@ myruntime.c $^
 
 ######
 
