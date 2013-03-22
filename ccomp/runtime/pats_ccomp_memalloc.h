@@ -46,6 +46,13 @@
 //
 /* ****** ****** */
 
+extern void atsruntime_mfree_undef (void *ptr) ;
+extern void *atsruntime_malloc_undef (size_t bsz) ;
+extern void *atsruntime_calloc_undef (size_t asz, size_t tsz) ;
+extern void *atsruntime_realloc_undef (void *ptr, size_t bsz) ;
+
+/* ****** ****** */
+
 #undef ATS_MEMALLOC_FLAG
 
 /* ****** ****** */
@@ -86,6 +93,16 @@
 #define ATS_MALLOC atsruntime_malloc_user
 //
 #endif // end of [ATS_MEMALLOC_USER]
+
+/* ****** ****** */
+
+#ifndef ATS_MEMALLOC_FLAG
+#define ATS_MEMALLOC_FLAG
+//
+#define ATS_MFREE atsruntime_mfree_undef
+#define ATS_MALLOC atsruntime_malloc_undef
+//
+#endif // end of [ATS_MEMALLOC_FLAG]
 
 /* ****** ****** */
 

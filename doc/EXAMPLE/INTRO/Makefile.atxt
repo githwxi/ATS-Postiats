@@ -22,7 +22,7 @@ val ent = sprintf ("\
 all:: %s\n\
 %s: %s.exe\n\
 %s.exe: %s_dats.c ; \
-  $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<\n\
+  $(CC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<\n\
 %s_dats.c: %s.dats ; \
   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output %s_dats.c --dynamic %s.dats\n\
 clean:: ; $(RMF) %s_dats.o\n\
@@ -43,7 +43,7 @@ val ent = sprintf ("\
 all:: %s\n\
 %s: %s.exe\n\
 %s.exe: %s_dats.c ; \
-  $(GCC) -D_GNU_SOURCE -O2 \
+  $(CC) -D_GNU_SOURCE -O2 \
     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime %s -o $@ $< %s\n\
 %s_dats.c: %s.dats ; \
   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output %s_dats.c --dynamic %s.dats\n\
@@ -71,20 +71,9 @@ end // end of [make2_entry]
 
 ######
 
-ATSHOMEQ="$(ATSHOME)"
-ATSCC=$(ATSHOMEQ)/bin/atscc
-ATSOPT=$(ATSHOMEQ)/bin/atsopt
-ATSDOC=$(ATSHOMEQ)/bin/atsdoc
-
-######
-
-GCC=gcc
+CC=gcc
 PATSHOMEQ="$(PATSHOME)"
 PATSOPT=$(PATSHOMEQ)/src/patsopt
-
-######
-
-ATSGCFLAG=-D_ATS_GCATS
 
 ######
 
