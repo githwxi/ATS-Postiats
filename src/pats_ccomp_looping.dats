@@ -138,4 +138,4 @@ end // end of [hidexp_ccomp_loopexn]
 
 (* ****** ****** *)
 
-(* end of [pats_ccomp_loop.dats] *)
+(* end of [pats_ccomp_looping.dats] *)

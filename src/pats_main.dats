@@ -323,10 +323,10 @@ dynload "pats_ccomp_hipat.dats"
 //
 dynload "pats_ccomp_dynexp.dats"
 //
-dynload "pats_ccomp_loop.dats"
-//
 dynload "pats_ccomp_caseof.dats"
 dynload "pats_ccomp_claulst.dats"
+//
+dynload "pats_ccomp_looping.dats"
 //
 dynload "pats_ccomp_decl.dats"
 //
