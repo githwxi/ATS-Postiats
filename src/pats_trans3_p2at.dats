@@ -1065,7 +1065,7 @@ in
 case+ s2e.s2exp_node of
 | S2Etyrec (knd1, npf1, ls2es) => let
     val isbox = (knd > 0)
-    val isbox1 = tyreckind_is_box (knd1)
+    val isbox1 = tyreckind_is_boxed (knd1)
     val () = if (isbox != isbox1) then {
       val () = prerr_error3_loc (loc0)
       val () = prerr ": the tuple/record pattern is "

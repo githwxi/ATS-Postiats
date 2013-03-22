@@ -213,30 +213,35 @@ end // end of [local]
 local
 
 fun d3lab_is_over
-  (d3l: d3lab): bool = (
+  (d3l: d3lab): bool =
+(
   case+ d3l.d3lab_over of Some _ => true | None _ => false
 ) // end of [d3lab_is_over]
 
-fun lincheck (
+fun lincheck
+(
   ls2es: labs2explst, linrest: &int
 ) : void = let
 in
 //
-if linrest = 0 then (
-  case+ ls2es of
-  | list_cons (ls2e, ls2es) => let
-      val SLABELED (_, _, s2e) = ls2e
-      val () = if s2exp_is_lin (s2e) then linrest := linrest + 1
-    in
-      lincheck (ls2es, linrest)
-    end // end of [list_cons]
-  | list_nil () => ()
+if linrest = 0 then
+(
+case+ ls2es of
+| list_cons
+    (ls2e, ls2es) => let
+    val SLABELED (_, _, s2e) = ls2e
+    val () = if s2exp_is_lin (s2e) then linrest := linrest + 1
+  in
+    lincheck (ls2es, linrest)
+  end // end of [list_cons]
+| list_nil () => ()
 ) else () // end of [if]
 //
 end // end of [lincheck]
 
 fun
-labfind_lincheck (
+labfind_lincheck
+(
   l0: label, ls2es: labs2explst, linrest: &int, err: &int
 ) : s2exp = let
 in
@@ -248,7 +253,8 @@ case+ ls2es of
     if l0 = l then let
       val () = lincheck (ls2es, linrest) in s2e
     end else let
-      val () = if linrest = 0 then (
+      val () = if linrest = 0 then
+      (
         if s2exp_is_lin (s2e) then linrest := linrest + 1
       ) // end of [val]
     in
@@ -262,18 +268,19 @@ case+ ls2es of
 end // end of [labfind_lincheck]
 
 fun
-auxlab_sexp (
+auxlab_sexp
+(
   loc0: location, s2e: s2exp
-, d3l: d3lab, l0: label, linrest: &int
+, d3l: d3lab, l0: label, linrest: &int, sharing: &int
 ) : s2exp = let
   val s2f = s2exp2hnf (s2e)
 in
-  auxlab_shnf (loc0, s2f, d3l, l0, linrest)
+  auxlab_shnf (loc0, s2f, d3l, l0, linrest, sharing)
 end // and [auxlab_sexp]
 
 and auxlab_shnf (
   loc0: location, s2f: s2hnf
-, d3l: d3lab, l0: label, linrest: &int
+, d3l: d3lab, l0: label, linrest: &int, sharing: &int
 ) : s2exp = let
   val s2e = s2hnf2exp (s2f)
 in
@@ -284,7 +291,8 @@ case+ s2e.s2exp_node of
     var err: int = 0
     val s2e1 =
       labfind_lincheck (l0, ls2es, linrest, err)
-    // end of [val]
+    val () =
+      if tyreckind_is_box (knd) then sharing := sharing + 1
     val () = if (err > 0) then let
       val () = prerr_error3_loc (loc0)
       val () = prerr ": the record-type ["
@@ -303,7 +311,7 @@ case+ s2e.s2exp_node of
     val s2f = s2exp2hnf (s2e)
     val s2e = s2hnf_opn1exi_and_add (loc0, s2f)
   in
-    auxlab_sexp (loc0, s2e, d3l, l0, linrest)
+    auxlab_sexp (loc0, s2e, d3l, l0, linrest, sharing)
   end // end of [S2Eexi]
 | _ when
     d3lab_is_over (d3l) => let
@@ -317,12 +325,8 @@ case+ s2e.s2exp_node of
     d3exp_get_type (d3e_sel)
   end // end of [_ when ...]
 | _ => let
-    val () =
-      prerr_error3_loc (loc0)
-    val () = prerr ": the type ["
-    val () = prerr_s2exp (s2e)
-    val () = prerr "] is expected to be a tyrec (record-type)."
-    val () = prerr_newline ()
+    val () = prerr_error3_loc (loc0)
+    val () = prerrln! (": the type [", s2e, "] is expected to be a tyrec (record-type).")
     val () = the_trans3errlst_add (T3E_s2exp_selab_tyrec (loc0, s2e))
   in
     s2exp_t0ype_err ()
@@ -369,8 +373,9 @@ case+ s2e.s2exp_node of
 //
 end // end of [auxind]
 
-fun auxsel (
-  s2e: s2exp, d3l: d3lab, linrest: &int
+fun auxsel
+(
+  s2e: s2exp, d3l: d3lab, linrest: &int, sharing: &int
 ) : (
   s2exp, s2explst_vt
 ) = let
@@ -380,7 +385,7 @@ in
 case+ d3l.d3lab_node of
 | D3LABlab (l0) => let
     val s2f = s2exp2hnf (s2e)
-    val s2e = auxlab_shnf (loc0, s2f, d3l, l0, linrest)
+    val s2e = auxlab_shnf (loc0, s2f, d3l, l0, linrest, sharing)
   in
     (s2e, list_vt_nil)
   end // end of [S3LABlab]
@@ -393,15 +398,17 @@ case+ d3l.d3lab_node of
 //
 end // end of [auxsel]
 
-and auxselist (
-  s2e: s2exp, d3ls: d3lablst, linrest: &int
+and auxselist
+(
+  s2e: s2exp, d3ls: d3lablst, linrest: &int, sharing: &int
 ) : (s2exp, s2explst_vt) = let
 in
 //
 case+ d3ls of
-| list_cons (d3l, d3ls) => let
-    val (s2e, s2ps1) = auxsel (s2e, d3l, linrest)
-    val (s2e, s2ps2) = auxselist (s2e, d3ls, linrest)
+| list_cons
+    (d3l, d3ls) => let
+    val (s2e, s2ps1) = auxsel (s2e, d3l, linrest, sharing)
+    val (s2e, s2ps2) = auxselist (s2e, d3ls, linrest, sharing)
   in
     (s2e, list_vt_append (s2ps1, s2ps2))
   end // end of [list_cons]
@@ -412,9 +419,12 @@ end // end of [auxselist]
 in // in of [local]
 
 implement
-s2exp_get_dlablst_linrest
-  (loc0, s2e, d3ls, linrest) = auxselist (s2e, d3ls, linrest)
-// end of [s2exp_get_dlablst_linrest]
+s2exp_get_dlablst_linrest_sharing
+(
+  loc0, s2e, d3ls, linrest, sharing
+) =
+  auxselist (s2e, d3ls, linrest, sharing)
+// end of [s2exp_get_dlablst_linrest_sharing]
 
 end // end of [local]
 
@@ -713,9 +723,9 @@ d2var_trup_selab_lin
     d2var_get_type_some (loc, d2v)
   val s2rt = s2e // HX: root type for selection
   val d3ls = d2lablst_trup (d2ls)
-  var linrest: int = 0
+  var linrest: int = 0 and sharing: int = 0
   val s2es2ps =
-    s2exp_get_dlablst_linrest (loc0, s2e, d3ls, linrest)
+    s2exp_get_dlablst_linrest_sharing (loc0, s2e, d3ls, linrest, sharing)
   // end of [val]
   val s2e_sel = s2exp_hnfize (s2es2ps.0)
   val () = trans3_env_add_proplst_vt (loc0, s2es2ps.1)
@@ -814,10 +824,9 @@ case+ d3ls of
 //
     val s2e = d3exp_get_type (d3e)
 //
-    var linrest: int = 0
+    var linrest: int = 0 and sharing: int = 0
     val (s2e_sel, s2ps) =
-      s2exp_get_dlablst_linrest (loc0, s2e, d3ls, linrest)
-    // end of [val]
+      s2exp_get_dlablst_linrest_sharing (loc0, s2e, d3ls, linrest, sharing)
     val s2e_sel = s2exp_hnfize (s2e_sel)
     val () = trans3_env_add_proplst_vt (loc0, s2ps)
     val () = if (linrest > 0) then auxerr_linrest (loc0, d3e, d3ls)

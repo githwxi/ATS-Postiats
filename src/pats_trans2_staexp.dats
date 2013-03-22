@@ -1381,7 +1381,8 @@ end // end of [s1exp_trup_top]
 
 local
 
-fun aux01 ( // flt/box: 0/1
+fun aux01 // flt/box: 0/1
+(
   i: int
 , npf: int, s1es: s1explst
 , lin: &int
@@ -1403,7 +1404,8 @@ fun aux01 ( // flt/box: 0/1
   | list_nil () => list_nil ()
 end // end of [aux01]
 
-fun aux23 ( // box_t/box_vt : 2/3
+fun aux23 // box_t/box_vt : 2/3
+(
   i: int
 , npf: int, s1es: s1explst
 , s2t_prf: s2rt
@@ -1460,11 +1462,16 @@ case+ knd of
     var prf: int = 0 and prgm: int = 0
     val ls2es = aux01 (0, npf, s1es, lin, prf, prgm)
     val boxed = 1
-    val s2t_rec = (
+    val s2t_rec =
+    (
       s2rt_npf_lin_prf_prgm_boxed_labs2explst (npf, lin, prf, prgm, boxed, ls2es)
     ) : s2rt // end of [val]
+    val knd =
+    (
+      if s2rt_is_nonlin (s2t_rec) then TYRECKINDbox () else TYRECKINDbox_lin ()
+    ) : tyreckind // end of [val]
   in
-    s2exp_tyrec_srt (s2t_rec, TYRECKINDbox (), npf, ls2es)
+    s2exp_tyrec_srt (s2t_rec, knd, npf, ls2es)
   end
 | TYTUPKIND_box_t => let
     val ls2es = aux23 (0, npf, s1es, s2rt_prop, s2rt_t0ype)
@@ -1474,7 +1481,7 @@ case+ knd of
 | TYTUPKIND_box_vt => let
     val ls2es = aux23 (0, npf, s1es, s2rt_view, s2rt_vt0ype)
   in
-    s2exp_tyrec_srt (s2rt_vtype, TYRECKINDbox (), npf, ls2es)
+    s2exp_tyrec_srt (s2rt_vtype, TYRECKINDbox_lin (), npf, ls2es)
   end
 | _ => let
     val () = assertloc (false) in s2exp_t0ype_err ()

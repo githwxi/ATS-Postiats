@@ -258,6 +258,7 @@ fun s2rt_is_dat (x: s2rt): bool
 fun s2rt_is_fun (x: s2rt): bool
 fun s2rt_is_prf (x: s2rt): bool // is proof?
 fun s2rt_is_lin (x: s2rt): bool
+fun s2rt_is_nonlin (x: s2rt): bool
 fun s2rt_is_flat (x: s2rt): bool // is flat?
 fun s2rt_is_boxed (x: s2rt): bool // is boxed?
 fun s2rt_is_prgm (x: s2rt): bool // is program?
@@ -319,14 +320,18 @@ fun fprint_s2itm : fprint_type (s2itm)
 datatype
 tyreckind =
   | TYRECKINDbox (* boxed *)
+  | TYRECKINDbox_lin (* boxed *)
   | TYRECKINDflt0 (* flat *)
   | TYRECKINDflt1 of stamp (* flat *)
   | TYRECKINDflt_ext of string  (* flat *)
 // end of [tyreckind]
 
 fun tyreckind_is_box (knd: tyreckind): bool
-fun tyreckind_is_flt (knd: tyreckind): bool
-fun tyreckind_is_ext (knd: tyreckind): bool
+fun tyreckind_is_boxlin (knd: tyreckind): bool
+fun tyreckind_is_boxed (knd: tyreckind): bool
+
+fun tyreckind_is_flted (knd: tyreckind): bool
+fun tyreckind_is_fltext (knd: tyreckind): bool
 fun tyreckind_is_nameless (knd: tyreckind): bool
 
 fun print_tyreckind (x: tyreckind): void
@@ -1077,6 +1082,7 @@ overload print with print_s2exp
 fun prerr_s2exp (x: s2exp): void
 overload prerr with prerr_s2exp
 fun fprint_s2exp : fprint_type (s2exp)
+overload fprint with fprint_s2exp
 
 fun print_s2explst (xs: s2explst): void
 overload print with print_s2explst

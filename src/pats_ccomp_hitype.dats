@@ -970,10 +970,16 @@ val-HSEtyrec
 in
 //
 case+ knd of
+//
 | TYRECKINDbox () =>
     if flag > 0 then
       hitype_tybox () else aux_tyrec2 (flag, lxs)
     // end of [if]
+| TYRECKINDbox_lin () =>
+    if flag > 0 then
+      hitype_tybox () else aux_tyrec2 (flag, lxs)
+    // end of [if]
+//
 | TYRECKINDflt0 () => aux_tyrec2 (flag, lxs)
 | TYRECKINDflt1 (stamp) => aux_tyrec2 (flag, lxs)
 | TYRECKINDflt_ext (name) => HITnmd (name)

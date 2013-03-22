@@ -75,14 +75,37 @@ tyreckind_is_box (knd) =
 // end of [tyreckind_is_box]
 
 implement
-tyreckind_is_flt (knd) =
-  case+ knd of TYRECKINDbox () => false | _ => true
-// end of [tyreckind_is_flt]
+tyreckind_is_boxlin (knd) =
+  case+ knd of TYRECKINDbox_lin () => true | _ => false
+// end of [tyreckind_is_boxlin]
 
 implement
-tyreckind_is_ext (knd) =
+tyreckind_is_boxed
+  (knd) = let
+in
+  case+ knd of
+  | TYRECKINDbox _ => true
+  | TYRECKINDbox_lin _ => true
+  | _ => false
+end // end of [tyreckind_is_boxed]
+
+(* ****** ****** *)
+
+implement
+tyreckind_is_flted
+  (knd) = let
+in
+  case+ knd of
+  | TYRECKINDflt0 _ => true
+  | TYRECKINDflt1 _ => true
+  | TYRECKINDflt_ext _ => true
+  | _ => false
+end // end of [tyreckind_is_flt]
+
+implement
+tyreckind_is_fltext (knd) =
   case+ knd of TYRECKINDflt_ext _ => true | _ => false
-// end of [tyreckind_is_ext]
+// end of [tyreckind_is_fltext]
 
 (* ****** ****** *)
 
@@ -92,6 +115,7 @@ in
 //
 case+ knd of
 | TYRECKINDbox () => true
+| TYRECKINDbox_lin () => true
 | TYRECKINDflt0 () => true
 | TYRECKINDflt1 (stmp) => false
 | TYRECKINDflt_ext (name) => false
@@ -107,8 +131,9 @@ in
 //
 case+ (knd1, knd2) of
 | (TYRECKINDbox (), TYRECKINDbox ()) => true
+| (TYRECKINDbox_lin (), TYRECKINDbox_lin ()) => true
 | (TYRECKINDflt0 (), TYRECKINDflt0 ()) => true
-| (TYRECKINDflt1 s1, TYRECKINDflt1 s2) => eq_stamp_stamp (s1, s2)
+| (TYRECKINDflt1 (s1), TYRECKINDflt1 (s2)) => eq_stamp_stamp (s1, s2)
 | (TYRECKINDflt_ext name1, TYRECKINDflt_ext name2) => name1 = name2
 | (_, _) => false
 //
@@ -116,7 +141,7 @@ end // end of [eq_tyreckind_tyreckind]
 
 implement
 neq_tyreckind_tyreckind
-  (knd1, knd2) = ~eq_tyreckind_tyreckind (knd1, knd2)
+  (knd1, knd2) = not (eq_tyreckind_tyreckind (knd1, knd2))
 // end of [neq_tyreckind_tyreckind]
 
 (* ****** ****** *)
@@ -525,14 +550,14 @@ s2exp_is_prf
   (s2e) = s2rt_is_prf (s2e.s2exp_srt)
 // end of [s2exp_is_prf]
 implement
-s2exp_is_nonprf (s2e) = ~s2exp_is_prf (s2e)
+s2exp_is_nonprf (s2e) = not (s2exp_is_prf (s2e))
 
 implement
 s2exp_is_lin
   (s2e) = s2rt_is_lin (s2e.s2exp_srt)
 // end of [s2exp_is_lin]
 implement
-s2exp_is_nonlin (s2e) = ~s2exp_is_lin (s2e)
+s2exp_is_nonlin (s2e) = not (s2exp_is_lin (s2e))
 
 implement
 s2exp_is_boxed

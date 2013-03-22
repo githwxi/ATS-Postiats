@@ -130,6 +130,7 @@ datatype trans3err =
 //
   | T3E_s2addr_deref_context of (location, s2exp, d3lablst)
   | T3E_s2addr_assgn_deref_linsel of (location, s2exp, d3lablst)
+  | T3E_s2addr_assgn_deref_sharing of (location, s2exp, d3lablst)
   | T3E_s2addr_assgn_deref_proof of (location, s2exp, d3lablst)
   | T3E_s2addr_assgn_deref_context of (location, s2exp, d3lablst)
 //
@@ -139,6 +140,7 @@ datatype trans3err =
   | T3E_d2var_selab_context of (location, d2var, d3lablst) // linsel
   | T3E_d3exp_deref_reflinsel of (d3exp, d3lablst) // ref linear selection
   | T3E_d3exp_assgn_deref_reflinsel of (d3exp, d3lablst) // linear selection
+  | T3E_d3exp_assgn_deref_refsharing of (d3exp, d3lablst) // boxed non-linear field-update
   | T3E_d3exp_trdn_xchng_deref of (d3exp, d3lablst, s2exp) // type mismatch
 //
   | T3E_s2addr_viewat_deref_context of (location, s2exp, d3lablst)
@@ -334,8 +336,9 @@ fun d2lablst_trup (d2ls: d2lablst) : d3lablst
 
 fun d3explst_get_ind (d3es: d3explst): s2explst
 
-fun s2exp_get_dlablst_linrest (
-  loc0: location, s2e: s2exp, d3ls: d3lablst, linrest: &int
+fun s2exp_get_dlablst_linrest_sharing
+(
+  loc0: location, s2e: s2exp, d3ls: d3lablst, linrest: &int, sharing: &int
 ) : (s2exp, s2explst_vt) // end of [fun]
 
 fun d2exp_trup_selab

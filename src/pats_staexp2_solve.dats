@@ -171,7 +171,7 @@ implement
 boxity_equal_solve_err
   (loc0, knd1, knd2, err) = let
   val i = (
-    if tyreckind_is_box (knd2) then 1-knd1 else knd1
+    if tyreckind_is_boxed (knd2) then 1-knd1 else knd1
   ) : int // end of [val]
 in
   if (i = 0) then () else let

@@ -124,7 +124,7 @@ in
 //
 case+ hse.hisexp_node of
 | HSEtyrec (knd, _) =>
-    if tyreckind_is_box (knd) then 1 else 0
+    if tyreckind_is_boxed (knd) then 1 else 0
 | _ => ~1 // HX: meaningless
 //
 end // end of [hisexp_get_boxknd]
@@ -136,7 +136,7 @@ in
 //
 case+ hse.hisexp_node of
 | HSEtyrec (knd, _) =>
-    if tyreckind_is_ext (knd) then 1 else 0
+    if tyreckind_is_fltext (knd) then 1 else 0
 | _ => ~1 // HX: meaningless
 //
 end // end of [hisexp_get_extknd]
@@ -402,7 +402,7 @@ hisexp_tyrecsin (lhse) =
 implement
 hisexp_tyrec2
   (knd, lhses) = let
-  val isflt = tyreckind_is_flt (knd)
+  val isflt = tyreckind_is_flted (knd)
 in
 //
 if isflt then let

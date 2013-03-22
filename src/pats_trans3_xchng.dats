@@ -114,10 +114,9 @@ case+ ctxtopt of
     s2e_sel
   end // end of [Some]
 | None () => let
-    var linrest: int = 0
+    var linrest: int = 0 and sharing: int = 0
     val (s2e_sel, s2ps) =
-      s2exp_get_dlablst_linrest (loc1, s2e_elt, d3ls, linrest)
-    // end of [val]
+      s2exp_get_dlablst_linrest_sharing (loc1, s2e_elt, d3ls, linrest, sharing)
     val s2f_sel = s2exp2hnf (s2e_sel)
     val () = trans3_env_add_proplst_vt (loc1, s2ps)
     val err = $SOL.s2hnf_tyleq_solve (loc1, s2f0_sel, s2f_sel)
@@ -245,10 +244,9 @@ in
 case+ opt of
 | ~Some_vt (s2e) => let
     val s2rt = s2e
-    var linrest: int = 0
+    var linrest: int = 0 and sharing: int = 0
     val (s2e_sel, s2ps) =
-      s2exp_get_dlablst_linrest (loc1, s2e, d3ls, linrest)
-    // end of [val]
+      s2exp_get_dlablst_linrest_sharing (loc1, s2e, d3ls, linrest, sharing)
     val s2f_sel = s2exp2hnf (s2e_sel)
     val () = trans3_env_add_proplst_vt (loc1, s2ps)
     val err = $SOL.s2hnf_tyleq_solve (loc1, s2f0_sel, s2f_sel)
@@ -355,10 +353,9 @@ fun auxmain .<>. (
     d2vw, s2e_ctx, s2e_elt, s2l
   ) = pfobj
   val () = s2rt := s2e_elt
-  var linrest: int = 0
+  var linrest: int = 0 and sharing: int = 0
   val (s2e_sel, s2ps) =
-    s2exp_get_dlablst_linrest (loc0, s2e_elt, d3ls, linrest)
-  // end of [val]
+    s2exp_get_dlablst_linrest_sharing (loc0, s2e_elt, d3ls, linrest, sharing)
   val s2f_sel = s2exp2hnf (s2e_sel)
   val () = trans3_env_add_proplst_vt (loc0, s2ps)
 in
@@ -426,9 +423,9 @@ in
 case+ opt of
 | ~Some_vt (s2e) => let
     val s2rt = s2e
-    var linrest: int = 0
+    var linrest: int = 0 and sharing: int = 0
     val (s2e_sel, s2ps) =
-      s2exp_get_dlablst_linrest (loc0, s2e, d3ls, linrest)
+      s2exp_get_dlablst_linrest_sharing (loc0, s2e, d3ls, linrest, sharing)
     // end of [val]
     val s2f_sel = s2exp2hnf (s2e_sel)
     val () = trans3_env_add_proplst_vt (loc0, s2ps)

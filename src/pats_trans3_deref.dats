@@ -92,9 +92,9 @@ fun auxmain .<>. (
     d2vw, s2e_ctx, s2e_elt, s2l
   ) = pfobj
   val () = s2rt := s2e_elt
-  var linrest: int = 0
+  var linrest: int = 0 and sharing: int = 0
   val (s2e_sel, s2ps) =
-    s2exp_get_dlablst_linrest (loc0, s2e_elt, d3ls, linrest)
+    s2exp_get_dlablst_linrest_sharing (loc0, s2e_elt, d3ls, linrest, sharing)
   val s2e_sel = s2exp_hnfize (s2e_sel)
   val () = trans3_env_add_proplst_vt (loc0, s2ps)
   val islin = s2exp_is_lin (s2e_sel)
@@ -177,8 +177,7 @@ fun auxerr_reflinsel (
 , d3e: d3exp, d3ls: d3lablst, s2e_sel: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
-  val () = prerr ": the linear component cannot taken out."
-  val () = prerr_newline ()
+  val () = prerrln! (": the linear component cannot taken out.")
 in
   the_trans3errlst_add (T3E_d3exp_deref_reflinsel (d3e, d3ls))
 end // end of [auxerr_reflinsel]
@@ -215,10 +214,9 @@ in
 case+ opt of
 | ~Some_vt (s2e) => let
     var s2rt = s2e
-    var linrest: int = 0
+    var linrest: int = 0 and sharing: int = 0
     val (s2e_sel, s2ps) =
-      s2exp_get_dlablst_linrest (loc0, s2e, d3ls, linrest)
-    // end of [val]
+      s2exp_get_dlablst_linrest_sharing (loc0, s2e, d3ls, linrest, sharing)
     val s2e_sel = s2exp_hnfize (s2e_sel)
     val () = trans3_env_add_proplst_vt (loc0, s2ps)
     val islin = s2exp_is_lin (s2e_sel)

@@ -203,13 +203,23 @@ in
   the_trans3errlst_add (T3E_pfobj_search_none (loc0, s2l))
 end // end of [auxerr_pfobj]
 
+fun auxerr_sharing
+(
+  loc0: location, s2e_elt: s2exp, d3ls: d3lablst
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerrln! (": a boxed non-linear record is selected for field-update.")
+in
+  the_trans3errlst_add (T3E_s2addr_assgn_deref_sharing (loc0, s2e_elt, d3ls))
+end // end of [auxerr_sharing]
+
 fun auxerr_linsel (
   loc0: location
 , s2e_elt: s2exp, d3ls: d3lablst, s2e_sel: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": a linear component of the following type is abandoned: "
-  val () = (prerr "["; prerr_s2exp (s2e_sel); prerr "].")
+  val () = prerr! ("[", s2e_sel, "].")
   val () = prerr_newline ()
 in
   the_trans3errlst_add (T3E_s2addr_assgn_deref_linsel (loc0, s2e_elt, d3ls))
@@ -248,9 +258,11 @@ fun auxmain .<>. (
   ) = pfobj
   val () = s2rt := s2e_elt
 //
-  var linrest: int = 0
+  var linrest: int = 0 and sharing: int = 0
   val (s2e_sel, s2ps) =
-    s2exp_get_dlablst_linrest (loc0, s2e_elt, d3ls, linrest)
+    s2exp_get_dlablst_linrest_sharing (loc0, s2e_elt, d3ls, linrest, sharing)
+  val () = if sharing > 0 then auxerr_sharing (loc0, s2e_elt, d3ls)
+//
   val s2e_sel = s2exp_hnfize (s2e_sel)
   val () = trans3_env_add_proplst_vt (loc0, s2ps)
 //
@@ -311,30 +323,39 @@ end // end of [local]
 
 local
 
-fun auxerr_nonderef (
-  d3e: d3exp
-) : void = let
+fun auxerr_nonderef
+  (d3e: d3exp): void = let
   val loc = d3e.d3exp_loc
   val () = prerr_error3_loc (loc)
-  val () = prerr ": the dynamic expression cannot be dereferenced."
-  val () = prerr_newline ()
+  val () = prerrln! (": the dynamic expression cannot be dereferenced.")
 in
   the_trans3errlst_add (T3E_d3exp_nonderef (d3e))
 end // end of [auxerr_nonderef]
 
-fun auxerr_reflinsel (
+fun auxerr_refsharing
+(
+  loc0: location, d3e_l: d3exp, d3ls: d3lablst
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerrln! (": a boxed non-linear record is selected for field-update.")
+in
+  the_trans3errlst_add (T3E_d3exp_assgn_deref_refsharing (d3e_l, d3ls))
+end // end of [auxerr_refsharing]
+
+fun auxerr_reflinsel
+(
   loc0: location
 , d3e_l: d3exp, d3ls: d3lablst, s2e_sel: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": a linear component of the following type is abandoned: "
-  val () = (prerr "["; prerr_s2exp (s2e_sel); prerr "]")
-  val () = prerr_newline ()
+  val () = prerrln! ("[", s2e_sel, "]")
 in
   the_trans3errlst_add (T3E_d3exp_assgn_deref_reflinsel (d3e_l, d3ls))
 end // end of [auxerr_reflinsel]
 
-fun aux1 (
+fun aux1
+(
   loc0: location
 , s2f0: s2hnf
 , d3e_l: d3exp
@@ -357,7 +378,8 @@ case+ opt of
 //
 end // end of [aux1]
 
-and aux2 (
+and aux2
+(
   loc0: location
 , s2f0: s2hnf
 , d3e_l: d3exp
@@ -369,11 +391,13 @@ in
 //
 case+ opt of
 | ~Some_vt (s2e) => let
-    val s2rt = s2e
-    var linrest: int = 0
+    val s2rt = s2e // HX: selection root
+//
+    var linrest: int = 0 and sharing: int = 0
     val (s2e_sel, s2ps) =
-      s2exp_get_dlablst_linrest (loc0, s2e, d3ls, linrest)
-    // end of [val]
+      s2exp_get_dlablst_linrest_sharing (loc0, s2e, d3ls, linrest, sharing)
+    val () = if sharing > 0 then auxerr_refsharing (loc0, d3e_l, d3ls)
+//
     val s2e_sel = s2exp_hnfize (s2e_sel)
     val () = trans3_env_add_proplst_vt (loc0, s2ps)
     val islin = s2exp_is_lin (s2e_sel)
@@ -446,11 +470,11 @@ val loc0 = d2e0.d2exp_loc
 val-D2Eassgn (d2e_l, d2e_r) = d2e0.d2exp_node
 val d2lv = d2exp_lvalize (d2e_l)
 //
-// (*
+(*
   val () = (
     print "d2exp_trup_assgn: d2lv = "; print_d2lval (d2lv); print_newline ()
   ) // end of [val]
-// *)
+*)
 //
 in
 //

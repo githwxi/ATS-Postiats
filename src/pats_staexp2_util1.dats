@@ -211,103 +211,136 @@ s2rt_npf_lin_prf_prgm_boxed_labs2explst
   val () = print_newline ()
 *)
 //
-fun aux ( // HX: only when prgm = 1
+fun aux // HX: only when prgm = 1
+(
   npf: int, lin: int, xs: labs2explst
-) : s2rt =
-  if npf > 0 then let
-    val-list_cons (_, xs) = xs
-  in
-    aux (npf-1, lin, xs)
-  end else let
-    val-list_cons (x, xs) = xs
-    val SLABELED (_, _, s2e) = x
-    val s2t = s2e.s2exp_srt
+) : s2rt = let
+in
+//
+if npf > 0 then let
+  val-list_cons (_, xs) = xs
+in
+  aux (npf-1, lin, xs)
+end else let
+  val-list_cons (x, xs) = xs
+  val SLABELED (_, _, s2e) = x
+  val s2t = s2e.s2exp_srt
 (*
-    val () = (print "aux: s2t = "; print_s2rt (s2t); print_newline ())
+  val () = (println! ("aux: s2t = ", s2t)
 *)
-  in
-    if s2rt_is_prf (s2t) then
-      aux (0(*npf*), lin, xs) // HX: [xs] cannot be nil
-    else (
-      if lin = 0 then s2t else s2rt_linearize (s2t)      
-    ) // end of [if]
-  end (* end of [if] *)
-(* end of [aux] *)
+in
+  if s2rt_is_prf (s2t) then
+    aux (0(*npf*), lin, xs) // HX: [xs] cannot be nil
+  else (
+    if lin = 0 then s2t else s2rt_linearize (s2t)      
+  ) // end of [if]
+end (* end of [if] *)
+//
+end // end of [aux]
 //
 in
-  if prgm = 0 then
-    s2rt_npf_lin_prf_boxed (npf, lin, prf, boxed)
-  else if prgm = 1 then (
-    if boxed > 0 then
-      if lin = 0 then s2rt_vtype else s2rt_type
-    else aux (npf, lin, ls2es)
-  ) else ( // HX: prgm >= 2
-    if lin = 0 then
-      if boxed > 0 then s2rt_type else s2rt_t0ype
-    else
-      if boxed > 0 then s2rt_vtype else s2rt_vt0ype
-    // end of [if]
-  ) // end of [if]
+//
+if prgm = 0 then
+  s2rt_npf_lin_prf_boxed (npf, lin, prf, boxed)
+else if prgm = 1 then
+(
+  if boxed > 0 then
+    if lin = 0 then s2rt_type else s2rt_vtype
+  else aux (npf, lin, ls2es)
+) else // HX: prgm >= 2
+(
+  if lin = 0 then
+    if boxed > 0 then s2rt_type else s2rt_t0ype
+  else
+    if boxed > 0 then s2rt_vtype else s2rt_vt0ype
+  // end of [if]
+) // end of [if]
+//
 end // end of [s2rt_npf_lin_prf_prgm_boxed_labs2explst]  
 
 (* ****** ****** *)
 
 implement
 s2exp_tytup
-  (knd, npf, s2es) = let
-  fun aux (
-    i: int, s2es: s2explst
-  ) : labs2explst =
-    case+ s2es of
-    | list_cons (s2e, s2es) => let
-        val lab = $LAB.label_make_int (i)
-        val ls2e = SLABELED (lab, None(*name*), s2e)
-        val ls2es = aux (i+1, s2es)
-      in
-        list_cons (ls2e, ls2es)
-      end
-    | list_nil () => list_nil ()
-  // end of [aux]
-  val ls2es = aux (0, s2es)
+(
+  knd, npf, s2es
+) = let
+//
+fun aux
+(
+  i: int, s2es: s2explst
+) : labs2explst = let
+in
+//
+case+ s2es of
+| list_cons
+    (s2e, s2es) => let
+    val lab = $LAB.label_make_int (i)
+    val ls2e = SLABELED (lab, None(*name*), s2e)
+    val ls2es = aux (i+1, s2es)
+  in
+    list_cons (ls2e, ls2es)
+  end
+| list_nil () => list_nil ()
+end // end of [aux]
+//
+val ls2es = aux (0, s2es)
+//
 in
   s2exp_tyrec (knd, npf, ls2es)
 end // end of [s2exp_tytup]
 
 implement
 s2exp_tyrec
-  (knd, npf, ls2es) = let
+(
+  knd, npf, ls2es
+) = let
 //
-  fun aux01 (
-    i: int
-  , npf: int, ls2es: labs2explst
-  , lin: &int
-  , prf: &int
-  , prgm: &int
-  ) : void =
-    case+ ls2es of
-    | list_cons (ls2e, ls2es) => let
-        val SLABELED (_, _, s2e) = ls2e
-        val s2t = s2e.s2exp_srt
-        val () = if s2rt_is_lin (s2t) then (lin := lin+1)
-        val () = if s2rt_is_prf (s2t)
-          then (prf := prf+1) else (if i >= npf then prgm := prgm+1)
-        // end of [if] // end of [val]
-      in
-        aux01 (i+1, npf, ls2es, lin, prf, prgm)
-      end // end of [list_cons]
-    | list_nil () => ()
-  // end of [aux01]
-  var lin: int = 0
-  var prf: int = 0 and prgm: int = 0
-  val () = aux01 (0, npf, ls2es, lin, prf, prgm)
-  val boxed = knd // 0/1
+fun aux01
+(
+  i: int
+, npf: int, ls2es: labs2explst
+, lin: &int
+, prf: &int
+, prgm: &int
+) : void = let
+in
 //
-  val s2t_rec =
+case+ ls2es of
+| list_cons
+    (ls2e, ls2es) => let
+    val SLABELED (_, _, s2e) = ls2e
+    val s2t = s2e.s2exp_srt
+    val () = if s2rt_is_lin (s2t) then (lin := lin+1)
+    val () = if s2rt_is_prf (s2t)
+      then (prf := prf+1) else (if i >= npf then prgm := prgm+1)
+    // end of [if] // end of [val]
+  in
+    aux01 (i+1, npf, ls2es, lin, prf, prgm)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [aux01]
+//
+var lin: int = 0
+var prf: int = 0 and prgm: int = 0
+val () = aux01 (0, npf, ls2es, lin, prf, prgm)
+val boxed = knd // 0/1
+val tyrecknd =
+(
+  case+ knd of
+  | 0 => TYRECKINDflt0 ()
+  | 1 => TYRECKINDbox () | 2 => TYRECKINDbox ()
+  | _ => TYRECKINDbox_lin ()
+) : tyreckind // end of [val]
+//
+val s2t_rec =
+(
+  if (knd >= 3) then s2rt_vtype else
     s2rt_npf_lin_prf_prgm_boxed_labs2explst (npf, lin, prf, prgm, boxed, ls2es)
-  // end of [val]
-  val tyrecknd = (
-    case+ knd of 0 => TYRECKINDflt0 () | _ => TYRECKINDbox ()
-  ) : tyreckind // end of [val]
+  // end of [if]
+) : s2rt // end of [val]
+//
 in
   s2exp_tyrec_srt (s2t_rec, tyrecknd, npf, ls2es)
 end // end of [s2exp_tyrec]
@@ -951,6 +984,7 @@ case+ s2e0.s2exp_node of
     if flag > f0 then let
       val s2e_res =
         s2exp_tyrec_srt (s2t0, knd, npf, ls2es) in s2e_res
+      // end of [val]
     end else s2e0 // end of [if]
   end // end of [S2Etyrec]
 //

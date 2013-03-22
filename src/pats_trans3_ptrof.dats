@@ -108,9 +108,9 @@ fun auxmain .<>. (
     d2vw, s2e_ctx, s2e_elt, s2l
   ) = pfobj
   val () = s2rt := s2e_elt
-  var linrest: int = 0
+  var linrest: int = 0 and sharing: int = 0
   val (s2e_sel, s2ps) =
-    s2exp_get_dlablst_linrest (loc0, s2e_elt, d3ls, linrest)
+    s2exp_get_dlablst_linrest_sharing (loc0, s2e_elt, d3ls, linrest, sharing)
   val s2e_sel = s2exp_hnfize (s2e_sel)
   val () = list_vt_free (s2ps) // HX: no need as this is only a probe
   val s2ls = auxlabs (d3ls)

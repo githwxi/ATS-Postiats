@@ -334,6 +334,9 @@ case+ s2t of
 ) // end of [s2rt_is_lin]
 
 implement
+s2rt_is_nonlin (s2t) = not (s2rt_is_lin (s2t))
+
+implement
 s2rt_is_flat (s2t) =
 (
 case+ s2t of

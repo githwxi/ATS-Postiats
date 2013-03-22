@@ -1194,20 +1194,29 @@ implement
 d2exp_trup_tup
   (d2e0) = let
 val loc0 = d2e0.d2exp_loc
-val-D2Etup (tupknd, npf, d2es) = d2e0.d2exp_node
+val-D2Etup (knd, npf, d2es) = d2e0.d2exp_node
 (*
-val () = (
-  fprintln! (stdout_ref, "d2exp_trup_tup: d2es = ", d2es)
-) // end of [val]
+val () =
+(
+  fprintln! (stdout_ref, "d2exp_trup_tup: knd = ", knd);
+  fprintln! (stdout_ref, "d2exp_trup_tup: d2es = ", d2es);
+)
 *)
 //
 val d3es = d2explst_trup (d2es)
 //
 val ls2es = d3explst_get_type (d3es)
-val s2e_tup = s2exp_tyrec (tupknd, npf, ls2es)
+val s2e_tup = s2exp_tyrec (knd, npf, ls2es)
+//
+(*
+val () =
+(
+  fprintln! (stdout_ref, "d2exp_trup_tup: s2e_tup = ", s2e_tup);
+)
+*)
 //
 in
-  d3exp_tup (loc0, s2e_tup, tupknd, npf, d3es)
+  d3exp_tup (loc0, s2e_tup, knd, npf, d3es)
 end // end of [d2exp_trup_tup]
 
 (* ****** ****** *)

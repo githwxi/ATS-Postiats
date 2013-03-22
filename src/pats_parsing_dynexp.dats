@@ -89,51 +89,61 @@ fun d0exp_list12_if (
 
 (* ****** ****** *)
 
-fun d0exp_tup12 (
+fun d0exp_tup12
+(
   knd: int
 , t_beg: token
 , ent2: d0explst12
 , t_end: token
-) : d0exp =
-  case+ ent2 of
-  | ~LIST12one (xs) =>
-      d0exp_tup (knd, t_beg, ~1, (l2l)xs, t_end)
-  | ~LIST12two (xs1, xs2) => let
-      val npf = list_vt_length (xs1)
-      val xs12 = list_vt_append (xs1, xs2)
-    in
-      d0exp_tup (knd, t_beg, npf, (l2l)xs12, t_end)
-    end (* end of [LIST12two] *)
-// end of [d0exp_tup12]
+) : d0exp = let
+in
+//
+case+ ent2 of
+| ~LIST12one (xs) =>
+    d0exp_tup (knd, t_beg, ~1, (l2l)xs, t_end)
+| ~LIST12two (xs1, xs2) => let
+    val npf = list_vt_length (xs1)
+    val xs12 = list_vt_append (xs1, xs2)
+  in
+    d0exp_tup (knd, t_beg, npf, (l2l)xs12, t_end)
+  end (* end of [LIST12two] *)
+//
+end // end of [d0exp_tup12]
 
 (* ****** ****** *)
 
-fun d0exp_rec12 (
+fun d0exp_rec12
+(
   knd: int
 , t_beg: token, ent2: labd0explst12, t_end: token
-) : d0exp =
-  case+ ent2 of
-  | ~LIST12one (xs) =>
-      d0exp_rec (knd, t_beg, ~1, (l2l)xs, t_end)
-  | ~LIST12two (xs1, xs2) => let
-      val npf = list_vt_length (xs1)
-      val xs12 = list_vt_append (xs1, xs2)
-    in
-      d0exp_rec (knd, t_beg, npf, (l2l)xs12, t_end)
-    end
-// end of [d0exp_rec12]
+) : d0exp = let
+in
+//
+case+ ent2 of
+| ~LIST12one (xs) =>
+    d0exp_rec (knd, t_beg, ~1, (l2l)xs, t_end)
+| ~LIST12two (xs1, xs2) => let
+    val npf = list_vt_length (xs1)
+    val xs12 = list_vt_append (xs1, xs2)
+  in
+    d0exp_rec (knd, t_beg, npf, (l2l)xs12, t_end)
+  end
+//
+end // end of [d0exp_rec12]
 
 (* ****** ****** *)
 
 fun
-p_d0expseq_BAR_d0expseq (
+p_d0expseq_BAR_d0expseq
+(
   buf: &tokbuf, bt: int, err: &int
 ) : d0explst12 =
   plist12_fun (buf, bt, p_d0exp)
 // end of [p_d0expseq_BAR_d0expseq]
 
 fun
-p1_d0expseq_BAR_d0expseq (
+p1_d0expseq_BAR_d0expseq
+(
   d0e: d0exp
 , buf: &tokbuf, bt: int, err: &int
 ) : d0explst12 =
@@ -143,7 +153,8 @@ p1_d0expseq_BAR_d0expseq (
 (* ****** ****** *)
 
 fun
-p_labd0expseq_BAR_labd0expseq (
+p_labd0expseq_BAR_labd0expseq
+(
   buf: &tokbuf, bt: int, err: &int
 ) : labd0explst12 = let
   val _ = p_COMMA_test (buf) in

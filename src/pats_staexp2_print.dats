@@ -199,17 +199,21 @@ implement prerr_s2itm (xs) = fprint_s2itm (stderr_ref, xs)
 implement
 fprint_tyreckind
   (out, knd) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
+//
+macdef prstr (s) = fprint_string (out, ,(s))
+//
 in
-  case+ knd of
-  | TYRECKINDbox () => fprint_string (out, "box")
-  | TYRECKINDflt0 () => fprint_string (out, "flt0")
-  | TYRECKINDflt1 (s) => {
-      val () = prstr "flt1("
-      val () = fprint_stamp (out, s)
-      val () = prstr ")"
-    } // end of [TYRECKINDflt1]
-  | TYRECKINDflt_ext (name) => fprintf (out, "flt_ext(%s)", @(name))
+//
+case+ knd of
+| TYRECKINDbox () => fprint_string (out, "box")
+| TYRECKINDbox_lin () => fprint_string (out, "boxlin")
+| TYRECKINDflt0 () => fprint_string (out, "flt0")
+| TYRECKINDflt1 (stmp) =>
+  (
+    prstr "flt1("; fprint_stamp (out, stmp); prstr ")"
+  ) // end of [TYRECKINDflt1]
+| TYRECKINDflt_ext (name) => fprintf (out, "fltext(%s)", @(name))
+//
 end // end of [fprint_tyreckind]
 
 implement
