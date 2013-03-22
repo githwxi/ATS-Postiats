@@ -192,6 +192,8 @@ doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/*.?ats
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/ATSLIB/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/ATSLIB/*.?ats
+doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/Makefile
+doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/*.?ats
 
 #
 # ATSHOME/doc/EXAMPLE

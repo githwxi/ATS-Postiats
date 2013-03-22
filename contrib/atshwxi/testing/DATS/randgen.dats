@@ -61,24 +61,31 @@ implement randgen_val<ldouble> () = 0.0l
 
 implement{a}
 randgen_list
-  (n) = res where {
-  fun loop
-    {n:nat} .<n>. (
-    n: int n
-  , res: &ptr? >> list_vt (a, n)
-  ) : void =
-    if n > 0 then let
-      val () = res :=
-        list_vt_cons{a}{0} (_, _)
-      val+ list_vt_cons (x, res1) = res
-      val () = randgen_ref<a> (x)
-      val () = loop (pred (n), res1)
-    in
-      fold@ (res)
-    end else (res := list_vt_nil)
-  // end of [loop]
-  var res: ptr // uninitialized
-  val () = loop (n, res)
+  (n) = res where
+{
+//
+fun loop
+  {n:nat} .<n>.
+(
+  n: int n, res: &ptr? >> list_vt (a, n)
+) : void = let
+in
+//
+if n > 0 then let
+  val () = res :=
+    list_vt_cons{a}{0} (_, _)
+  val+ list_vt_cons (x, res1) = res
+  val () = randgen_ref<a> (x)
+  val () = loop (pred (n), res1)
+in
+  fold@ (res)
+end else (res := list_vt_nil)
+//
+end // end of [loop]
+//
+var res: ptr // uninitialized
+val () = loop (n, res)
+//
 } // end of [randgen_list]
 
 (* ****** ****** *)

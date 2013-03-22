@@ -50,7 +50,8 @@ randgen_ref (x: &a? >> a): void // for randval initialization
 
 (* ****** ****** *)
 
-fun randint {n:pos} (n: int n): natLt (n)
+fun{}
+randint {n:pos} (n: int n): natLt (n)
 
 (* ****** ****** *)
 

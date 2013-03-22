@@ -43,8 +43,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=../../doc/EXAMPLE/ATSLIB/\n\
-TARGET=ATS-Postiats/doc/EXAMPLE/ATSLIB/\n\
+SOURCE=../../doc/EXAMPLE/MISC/\n\
+TARGET=ATS-Postiats/doc/EXAMPLE/MISC/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -62,7 +62,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The \${ATSHOME}/doc/EXAMPLE/ATSLIB files have been copied.\"\n\
+echo \"The \${ATSHOME}/doc/EXAMPLE/MISC files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
@@ -96,7 +96,7 @@ packfilesynop (x) = atext_nil ()
 (* ****** ****** *)
 
 #packtitle("\
-The ATSHOME/doc/EXAMPLE/ATSLIB\
+The ATSHOME/doc/EXAMPLE/MISC\
 ")
 
 (* ****** ****** *)
@@ -105,28 +105,24 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
-#packfilename("prelude_char.dats")
-#packfilename("prelude_bool.dats")
-#packfilename("prelude_integer.dats")
-#packfilename("prelude_float.dats")
-#packfilename("prelude_string.dats")
-#packfilename("prelude_reference.dats")
+#packfilename("ferryman.dats")
 
 (* ****** ****** *)
 
-#packfilename("libats_qlist.dats")
-#packfilename("libats_sllist.dats")
-#packfilename("libats_dllist.dats")
+#packfilename("fibver_trec.dats")
+#packfilename("fibver_loop.dats")
 
 (* ****** ****** *)
 
-#packfilename("libc_malloc.dats")
-#packfilename("libc_stdio.dats")
-#packfilename("libc_stdlib.dats")
-#packfilename("libc_string.dats")
-#packfilename("libc_strings.dats")
-#packfilename("libc_time.dats")
-#packfilename("libc_unistd.dats")
+#packfilename("isqrt.dats")
+
+(* ****** ****** *)
+
+#packfilename("queens_loop.dats")
+
+(* ****** ****** *)
+
+#packfilename("passwdgen.dats")
 
 (* ****** ****** *)
 
@@ -142,4 +138,4 @@ implement main () = ()
 
 (* ****** ****** *)
 
-(* end of [doc_example_atslib.atxt] *)
+(* end of [doc_example_misc.atxt] *)

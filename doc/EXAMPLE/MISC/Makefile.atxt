@@ -101,7 +101,7 @@ RMF=rm -f
 #make_entry("fibver_trec")
 #make_entry("hanoi")
 #make_entry("isqrt")
-#make_entry("passwdgen")
+#make2_entry("passwdgen", "-DATS_MEMALLOC_LIBC")
 #make2_entry("queens_loop", "-DATS_MEMALLOC_LIBC")
 
 ######
