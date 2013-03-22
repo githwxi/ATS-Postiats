@@ -42,7 +42,8 @@ end // end of [sieve]
 
 //
 
-val primes: llist = let
+val
+rec primes: llist = let
   fun aux (i: intGte 2): llist = i :: (lam () => aux (i + 1))
 in
   sieve (aux 2)
@@ -50,9 +51,8 @@ end // end of [primes]
 
 //
 
-fun print_ints (
-  xs: llist
-) : void = let
+fun print_ints
+  (xs: llist): void = let
   val+ x :: fxs = xs in
   print x; print_newline (); print_ints (fxs ())
 end // end of [print_ints]

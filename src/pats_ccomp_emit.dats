@@ -1290,7 +1290,7 @@ case+ ins.instr_node of
     val () = emit_text (out, "\n} ATSelse() {\n")
     val () = emit_instrlst (out, inss_else)
     val () =
-      emit_text (out, "\n} /* end of [if] */")
+      emit_text (out, "\n} /* ATSendif */")
     // end of [val]
   } // end of [INScond]
 //

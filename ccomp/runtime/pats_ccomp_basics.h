@@ -69,6 +69,7 @@
 
 #define ATSdynload0(flag) int flag = 0
 #define ATSdynload1(flag) extern int flag
+#define ATSdynloadset(flag) flag = 1
 
 /* ****** ****** */
 
