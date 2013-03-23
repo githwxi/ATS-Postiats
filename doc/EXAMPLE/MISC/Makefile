@@ -9,20 +9,9 @@
 
 ######
 
-ATSHOMEQ="$(ATSHOME)"
-ATSCC=$(ATSHOMEQ)/bin/atscc
-ATSOPT=$(ATSHOMEQ)/bin/atsopt
-ATSDOC=$(ATSHOMEQ)/bin/atsdoc
-
-######
-
-GCC=gcc
+GCC=gcc -std=c99
 PATSHOMEQ="$(PATSHOME)"
 PATSOPT=$(PATSHOMEQ)/src/patsopt
-
-######
-
-ATSGCFLAG=-D_ATS_GCATS
 
 ######
 
@@ -77,7 +66,7 @@ cleanall:: ; $(RMF) isqrt.exe
 
 all:: passwdgen
 passwdgen: passwdgen.exe
-passwdgen.exe: passwdgen_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $<
+passwdgen.exe: passwdgen_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
 passwdgen_dats.c: passwdgen.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output passwdgen_dats.c --dynamic passwdgen.dats
 clean:: ; $(RMF) passwdgen_dats.o
 clean:: ; $(RMF) passwdgen_dats.c
@@ -85,7 +74,7 @@ cleanall:: ; $(RMF) passwdgen.exe
 
 all:: queens_loop
 queens_loop: queens_loop.exe
-queens_loop.exe: queens_loop_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $<
+queens_loop.exe: queens_loop_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
 queens_loop_dats.c: queens_loop.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output queens_loop_dats.c --dynamic queens_loop.dats
 clean:: ; $(RMF) queens_loop_dats.o
 clean:: ; $(RMF) queens_loop_dats.c

@@ -29,10 +29,11 @@ end // end of [Fibonacci]
 (* ****** ****** *)
 
 implement
-main0 (
-) = () where {
-  val () = assertloc (Fibonacci (10) = 55)
-  val () = assertloc (Fibonacci (20) = 6765)
+main0 () = {
+//
+val () = assertloc (Fibonacci (10) = 55)
+val () = assertloc (Fibonacci (20) = 6765)
+//
 } // end of [main0]
 
 (* ****** ****** *)

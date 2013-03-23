@@ -60,8 +60,8 @@ end // end of [Perm]
 
 (* ****** ****** *)
 
-implement{a}
-Perm_aux (
+implement{a} Perm_aux
+(
   pf1, pf2 | p1, p2, k, n, k2
 ) = let
 //

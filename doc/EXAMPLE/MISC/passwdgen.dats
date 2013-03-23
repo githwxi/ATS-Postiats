@@ -32,7 +32,7 @@ implement{a}
 arrayref_make_elt
   {n} (asz, x0) = let
 //
-val (pf, pfgc | p0) = array_ptr_alloc (asz)
+val (pf, pfgc | p0) = array_ptr_alloc<a> (asz)
 //
 var i: size_t
 var p: ptr = p0

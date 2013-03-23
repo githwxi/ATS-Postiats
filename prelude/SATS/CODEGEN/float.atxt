@@ -55,6 +55,7 @@ tk1,tk2:tk
 
 fun g0float2float_float_float (x: float):<> float = "mac\#%"
 fun g0float2float_float_double (x: float):<> double = "mac\#%"
+fun g0float2float_double_float (x: double):<> float = "mac\#%"
 fun g0float2float_double_double (x: double):<> double = "mac\#%"
 
 #atscode_separator()

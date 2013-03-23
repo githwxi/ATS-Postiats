@@ -9,7 +9,7 @@
 
 ######
 
-CC=gcc
+CC=gcc -std=c99
 PATSHOMEQ="$(PATSHOME)"
 PATSOPT=$(PATSHOMEQ)/src/patsopt
 

@@ -4,8 +4,8 @@
 
 ######
 
-CC=gcc
-CC=clang
+CC=gcc -std=c99
+CC=clang -std=c99
 PATSHOMEQ="$(PATSHOME)"
 PATSOPT=$(PATSHOMEQ)/src/patsopt
 

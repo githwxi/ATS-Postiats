@@ -36,6 +36,27 @@ in
   atext_strcst (ent)
 end // end of [make_entry]
 
+fun make2_entry
+  (nm: string, cflgs: string, libs: string): atext = let
+//
+val ent = sprintf ("\
+all:: %s\n\
+%s: %s.exe\n\
+%s.exe: %s_dats.c ; \
+  $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime %s -o $@ $< %s\n\
+%s_dats.c: %s.dats ; \
+  $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output %s_dats.c --dynamic %s.dats\n\
+clean:: ; $(RMF) %s_dats.o\n\
+clean:: ; $(RMF) %s_dats.c\n\
+cleanall:: ; $(RMF) %s.exe\n\
+", @(nm, nm, nm, nm, nm, cflgs, libs, nm, nm, nm, nm, nm, nm, nm)
+) // end of [val]
+//
+val ent = string_of_strptr (ent)
+in
+  atext_strcst (ent)
+end // end of [make2_entry]
+
 %}\
 #
 #
@@ -48,14 +69,7 @@ end // end of [make_entry]
 
 ######
 
-ATSHOMEQ="$(ATSHOME)"
-ATSCC=$(ATSHOMEQ)/bin/atscc
-ATSOPT=$(ATSHOMEQ)/bin/atsopt
-ATSDOC=$(ATSHOMEQ)/bin/atsdoc
-
-######
-
-GCC=gcc
+GCC=gcc -std=c99
 PATSHOMEQ="$(PATSHOME)"
 PATSOPT=$(PATSHOMEQ)/src/patsopt
 
@@ -77,8 +91,8 @@ RMF=rm -f
 #make_entry("program-1-3")
 #make_entry("program-1-4")
 #make_entry("program-1-5")
-#make_entry("program-1-6")
-#make_entry("program-1-7")
+#make2_entry("program-1-6", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("program-1-7", "-DATS_MEMALLOC_LIBC", "")
 #make_entry("program-1-14")
 
 ######

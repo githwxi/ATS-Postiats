@@ -74,6 +74,16 @@ atstype_float x
 }
 
 ATSinline()
+atstype_float
+atspre_g0float2float_double_float
+(
+atstype_double x
+)
+{
+ return ((atstype_float)x) ;
+}
+
+ATSinline()
 atstype_double
 atspre_g0float2float_double_double (atstype_double x) { return (x) ; }
 

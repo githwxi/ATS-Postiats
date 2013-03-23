@@ -93,6 +93,8 @@ g0float2float<fltknd,fltknd> = g0float2float_float_float
 implement
 g0float2float<fltknd,dblknd> = g0float2float_float_double
 implement
+g0float2float<dblknd,fltknd> = g0float2float_double_float
+implement
 g0float2float<dblknd,dblknd> = g0float2float_double_double
 
 #atscode_separator()
