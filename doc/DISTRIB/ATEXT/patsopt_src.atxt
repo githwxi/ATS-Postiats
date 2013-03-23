@@ -307,7 +307,7 @@ The ATS/Postiats (ATS2) Compiler\
 #packfilename("pats_staexp2_sort.dats")
 #packfilename("pats_staexp2_scst.dats")
 #packfilename("pats_staexp2_svar.dats")
-#packfilename("pats_staexp2_sVar.dats")
+#packfilename("pats_staexp2_svvar.dats")
 #packfilename("pats_staexp2_hole.dats")
 #packfilename("pats_staexp2_ctxt.dats")
 #packfilename("pats_staexp2_dcon.dats")

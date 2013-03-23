@@ -11,19 +11,17 @@ staload "libatsdoc/SATS/libatsdoc_atext.sats"
 %}\
 %{
 
+fun comment
+  (x: string): atext = atext_nil ()
+// end of [comment]
+
 fun make_entry
   (nm: string): atext = let
 //
 val ent = sprintf ("\
-all:: %s.cats\n\
-%s.cats: %s_atxt.exe ; ./$< > $@\n\
-%s_atxt.exe: %s_atxt.dats\n\
-	$(ATSCC) $(ATSGCFLAG) -o $@ %s_atxt.dats -latsdoc\n\
-%s_atxt.dats: %s.atxt\n\
-	$(ATSDOC) --outcode $@ -i %s.atxt > %s_atxt.txt\n\
-clean:: ; $(RMF) %s_atxt.exe\n\
-cleanall:: ; $(RMF) %s.cats\n\
-", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
+all:: %s\n\
+%s: %s.dats ; $(PATSOPT) --typecheck --dynamic %s.dats\n\
+", @(nm, nm, nm, nm)
 ) // end of [val]
 //
 val ent = string_of_strptr (ent)
@@ -34,16 +32,18 @@ end // end of [make_entry]
 %}\
 #
 #
-# A simple Makefile
+# This Makefile is automatically generated
+# from executing the following command-line:
+#
+# make -f Makefile.gen
 #
 #
 
 ######
 
-ATSHOMEQ="$(ATSHOME)"
-ATSCC=$(ATSHOMEQ)/bin/atscc
-ATSOPT=$(ATSHOMEQ)/bin/atsopt
-ATSDOC=$(ATSHOMEQ)/bin/atsdoc
+CC=gcc
+PATSHOMEQ="$(PATSHOME)"
+PATSOPT=$(PATSHOMEQ)/src/patsopt
 
 ######
 
@@ -51,18 +51,13 @@ all::
 
 ######
 
-#make_entry("dirent")
-#make_entry("malloc")
-#make_entry("stdio")
-#make_entry("stdlib")
-#make_entry("string")
-#make_entry("strings")
-#make_entry("time")
-#make_entry("unistd")
+LNS=ln -s
+RMF=rm -f
 
 ######
 
-RMF=rm -f
+#make_entry("bsearch_arr")
+#make_entry("quicksort_lst")
 
 ######
 

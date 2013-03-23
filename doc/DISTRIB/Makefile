@@ -127,6 +127,16 @@ clean:: ; $(RMF) doc_example_misc_atxt.exe
 cleanall:: ; $(RMF) HTML/doc_example_misc.html
 cleanall:: ; $(RMF) SCRIPT/doc_example_misc.bash
 
+all_html:: HTML/doc_example_pcpv.html
+HTML/doc_example_pcpv.html: doc_example_pcpv_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/doc_example_pcpv.bash
+SCRIPT/doc_example_pcpv.bash: doc_example_pcpv_atxt.exe ; ./$< > $@
+doc_example_pcpv_atxt.dats: ATEXT/doc_example_pcpv.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+doc_example_pcpv_atxt.exe: doc_example_pcpv_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) doc_example_pcpv_atxt.exe
+cleanall:: ; $(RMF) HTML/doc_example_pcpv.html
+cleanall:: ; $(RMF) SCRIPT/doc_example_pcpv.bash
+
 
 ######
 
@@ -163,9 +173,11 @@ srcget_ccomp_runtime:: SCRIPT/ccomp_runtime.bash ; bash $<
 srcget_doc_example:: srcget_doc_example_intro
 srcget_doc_example:: srcget_doc_example_atslib
 srcget_doc_example:: srcget_doc_example_misc
+srcget_doc_example:: srcget_doc_example_pcpv
 srcget_doc_example_intro:: SCRIPT/doc_example_intro.bash ; bash $<
 srcget_doc_example_atslib:: SCRIPT/doc_example_atslib.bash ; bash $<
 srcget_doc_example_misc:: SCRIPT/doc_example_misc.bash ; bash $<
+srcget_doc_example_pcpv:: SCRIPT/doc_example_pcpv.bash ; bash $<
 
 ######
 

@@ -118,6 +118,12 @@ overload land with land_mode_mode
 (* ****** ****** *)
 
 abst@ype
+ino_t0ype = $extype"atslib_ino_type"
+typedef ino_t = ino_t0ype // = its C-counterpart
+
+(* ****** ****** *)
+
+abst@ype
 off_t0ype = $extype"atslib_off_type"
 typedef off_t = off_t0ype // = its C-counterpart
 

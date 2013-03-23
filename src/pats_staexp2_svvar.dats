@@ -415,4 +415,4 @@ prerr_s2Varset (xs) = fprint_s2Varset (stderr_ref, xs)
 
 (* ****** ****** *)
 
-(* end of [pats_staexp2_sVar.dats] *)
+(* end of [pats_staexp2_svvar.dats] *)

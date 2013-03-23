@@ -1,0 +1,71 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"dirent.cats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_LGPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/libc/CATS/CODEGEN/dirent.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator_for_C()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("March, 2013")
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSLIB_LIBC_DIRENT_CATS
+\#define ATSLIB_LIBC_DIRENT_CATS
+
+#atscode_separator_for_C()
+
+\#include <sys/types.h>
+\#include <dirent.h> // HX: it should be after sys/types.h
+
+#atscode_separator_for_C()
+
+\#define atslib_opendir opendir
+
+#atscode_separator_for_C()
+
+\#define atslib_closedir closedir
+
+#atscode_separator_for_C()
+
+\#define atslib_readdir readdir
+\#define atslib_readdir_r readdir_r
+
+#atscode_separator_for_C()
+
+\#define atslib_rewinddir rewinddir
+
+#atscode_separator_for_C()
+
+\#define atslib_seekdir seekdir
+\#define atslib_telldir telldir
+
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSLIB_LIBC_DIRENT_CATS
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "dirent_atxt.txt")
+%}\

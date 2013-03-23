@@ -125,7 +125,7 @@ SOURCES := \
   pats_staexp2_sort.dats \
   pats_staexp2_scst.dats \
   pats_staexp2_svar.dats \
-  pats_staexp2_sVar.dats \
+  pats_staexp2_svvar.dats \
   pats_staexp2_hole.dats \
   pats_staexp2_ctxt.dats \
   pats_staexp2_dcon.dats \
@@ -353,7 +353,7 @@ OBJECTS := \
   pats_staexp2_sort_dats.o \
   pats_staexp2_scst_dats.o \
   pats_staexp2_svar_dats.o \
-  pats_staexp2_sVar_dats.o \
+  pats_staexp2_svvar_dats.o \
   pats_staexp2_hole_dats.o \
   pats_staexp2_ctxt_dats.o \
   pats_staexp2_dcon_dats.o \
@@ -778,8 +778,8 @@ pats_staexp2_scst_dats.o: pats_staexp2_scst_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 pats_staexp2_svar_dats.c: pats_staexp2_svar.dats; $(ATSCC) -cc $<
 pats_staexp2_svar_dats.o: pats_staexp2_svar_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
-pats_staexp2_sVar_dats.c: pats_staexp2_sVar.dats; $(ATSCC) -cc $<
-pats_staexp2_sVar_dats.o: pats_staexp2_sVar_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+pats_staexp2_svvar_dats.c: pats_staexp2_svvar.dats; $(ATSCC) -cc $<
+pats_staexp2_svvar_dats.o: pats_staexp2_svvar_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_staexp2_hole_dats.c: pats_staexp2_hole.dats; $(ATSCC) -cc $<
 pats_staexp2_hole_dats.o: pats_staexp2_hole_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<

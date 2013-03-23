@@ -208,7 +208,7 @@ val SOURCES =
 //
 , "pats_staexp2_scst.dats"
 , "pats_staexp2_svar.dats"
-, "pats_staexp2_sVar.dats"
+, "pats_staexp2_svvar.dats"
 //
 , "pats_staexp2_hole.dats"
 , "pats_staexp2_ctxt.dats"

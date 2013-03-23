@@ -17,6 +17,15 @@ all::
 
 ######
 
+all:: dirent.cats
+dirent.cats: dirent_atxt.exe ; ./$< > $@
+dirent_atxt.exe: dirent_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ dirent_atxt.dats -latsdoc
+dirent_atxt.dats: dirent.atxt
+	$(ATSDOC) --outcode $@ -i dirent.atxt > dirent_atxt.txt
+clean:: ; $(RMF) dirent_atxt.exe
+cleanall:: ; $(RMF) dirent.cats
+
 all:: malloc.cats
 malloc.cats: malloc_atxt.exe ; ./$< > $@
 malloc_atxt.exe: malloc_atxt.dats
