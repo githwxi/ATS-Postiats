@@ -85,9 +85,15 @@ typedef dirent = dirent_t0ype
 
 fun dirent_get_d_ino (ent: &dirent):<> ino_t = "mac#%"
 
-fun dirent_get_d_name
-  (ent: &dirent):<> [l:addr] vttakeout0 (strptr l) = "mac#%"
+(* ****** ****** *)
+
+fun
+dirent_get_d_name
+  (ent: &dirent):<> [l:agz] vttakeout0 (strptr l) = "mac#%"
 // end of [dirent_get_d_name]
+
+fun{}
+dirent_get_d_name_gc (ent: &dirent):<!wrt> Strptr1
 
 (* ****** ****** *)
 
