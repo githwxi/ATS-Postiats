@@ -120,6 +120,7 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
+#packfilename("libc_dirent.dats")
 #packfilename("libc_malloc.dats")
 #packfilename("libc_stdio.dats")
 #packfilename("libc_stdlib.dats")

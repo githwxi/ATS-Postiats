@@ -135,6 +135,30 @@ fun readdir_r
 
 (* ****** ****** *)
 
+/*
+int scandir
+(
+  const char *dirp
+, struct dirent ***namelist
+, int (*filter)(const struct dirent *)
+, int (*compar)(const struct dirent **, const struct dirent**)
+) ;
+*/
+fun scandir
+(
+  dirp: !DIRptr1
+, namelst: &(ptr?) >> ptr(*direntpp*)
+, filter: (&dirent) -> int
+, compar: (&ptr(*direntp*), &ptr(*direntp*)) -> int
+) : int = "mac#%" // endfun
+
+fun alphasort // POSIX-2008
+  (entp1: &ptr, entp2: &ptr):<> int = "mac#%"
+fun versionsort // GNU-extension
+  (entp1: &ptr, entp2: &ptr):<> int = "mac#%"
+
+(* ****** ****** *)
+
 fun rewinddir (dirp: !DIRptr1): void = "mac#%"
 
 (* ****** ****** *)

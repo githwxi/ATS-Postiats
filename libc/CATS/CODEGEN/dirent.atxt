@@ -56,6 +56,11 @@ typedef struct dirent atslib_dirent_type ;
 
 #atscode_separator_for_C()
 
+\#define atslib_alphasort alphasort
+\#define atslib_versionsort versionsort
+
+#atscode_separator_for_C()
+
 \#define atslib_opendir opendir
 
 ATSinline()

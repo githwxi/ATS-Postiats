@@ -26,6 +26,15 @@ dirent_atxt.dats: dirent.atxt
 clean:: ; $(RMF) dirent_atxt.exe
 cleanall:: ; $(RMF) dirent.cats
 
+all:: fnmatch.cats
+fnmatch.cats: fnmatch_atxt.exe ; ./$< > $@
+fnmatch_atxt.exe: fnmatch_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ fnmatch_atxt.dats -latsdoc
+fnmatch_atxt.dats: fnmatch.atxt
+	$(ATSDOC) --outcode $@ -i fnmatch.atxt > fnmatch_atxt.txt
+clean:: ; $(RMF) fnmatch_atxt.exe
+cleanall:: ; $(RMF) fnmatch.cats
+
 all:: malloc.cats
 malloc.cats: malloc_atxt.exe ; ./$< > $@
 malloc_atxt.exe: malloc_atxt.dats
