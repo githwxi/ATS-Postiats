@@ -108,13 +108,14 @@ fun opendir_exn (dname: string): DIRptr1 = "mac#%"
 
 fun closedir{l:agz}
 (
-  dirp: DIRptr l
-) : [i:int | i <= 0]
+  dirp: !DIRptr l >> ptr l
+) :<!wrt>
+  [i:int | i <= 0]
 (
-  option_v (DIR_v (l), i==0) | int i
+  option_v (DIR_v (l), i < 0) | int i
 ) = "mac#%" // end of [closedir]
 
-fun closedir_exn (dirp: DIRptr1): void = "mac#%"
+fun closedir_exn (dirp: DIRptr1):<!exnwrt> void = "mac#%"
 
 (* ****** ****** *)
 

@@ -94,7 +94,12 @@ val () = println! ("rewinddir()")
 val () = seekdir (dirp, ofs)
 val () = println! ("seekdir() ")
 //
-val () = closedir_exn (dirp)
+val
+(
+  pfopt | err
+) = closedir (dirp)
+val () = assertloc (err = 0)
+prval None_v () = pfopt
 //
 } // end of [val]
 

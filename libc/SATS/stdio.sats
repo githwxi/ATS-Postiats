@@ -62,7 +62,9 @@ abstype FILEref = ptr // declared in [prelude/basic_dyn.sats]
 //
 // HX-2011-04-02:
 //
-absview FILE_v (l:addr, m:fm)
+absview
+FILE_view (l:addr, m:fm)
+viewdef FILE_v (l:addr, m:fm) = FILE_view (l, m)
 
 absvtype
 FILEptr_vtype (addr, fm) = ptr
@@ -186,11 +188,11 @@ fun fclose0
 fun fclose1
   {l:addr}{m:fm}
 (
-  filp: FILEptr (l, m)
-) :<!wrt> [
-  i:int | i <= 0
-] (
-  option_v (FILE_v (l, m), i==0) | int i
+  filp: !FILEptr (l, m) >> ptr l
+) :<!wrt>
+  [i:int | i <= 0]
+(
+  option_v (FILE_v (l, m), i < 0) | int i
 ) = "mac#%" // endfun
 //
 overload fclose with fclose0
