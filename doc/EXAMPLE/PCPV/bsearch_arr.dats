@@ -6,6 +6,12 @@
 
 (* ****** ****** *)
 
+(*
+** HX-2013-03-22: ported to ATS/Postiats
+*)
+
+(* ****** ****** *)
+
 staload "libats/SATS/ilist_prf.sats"
 stadef nil = ilist_nil and cons = ilist_cons
 
@@ -74,20 +80,20 @@ lemma_bsearch_right
 ) : BSEARCH (xs, x0, n1+1+i) // end of [lemma_bsearch_right]
 
 (* ****** ****** *)
-
+//
 extern
 prfun lemma1_isord_append {xs:ilist} {xs1,xs2:ilist}
   (pford: ISORD xs, pfapp: APPEND (xs1, xs2, xs)): ISORD (xs1)
 extern
 prfun lemma2_isord_append {xs:ilist} {xs1,xs2:ilist}
   (pford: ISORD xs, pfapp: APPEND (xs1, xs2, xs)): ISORD (xs2)
-
+//
 (* ****** ****** *)
 
 extern
 fun{a:t@ype}
-bsearch {xs:ilist}
-  {x0:int} {n:nat} {l:addr}
+bsearch
+  {l:addr}{xs:ilist}{x0:int}{n:nat} 
 (
   pford: ISORD (xs)
 , pflen: LENGTH (xs, n)
@@ -108,7 +114,7 @@ fun halfsize{n:nat}
 (* ****** ****** *)
 
 implement{a}
-bsearch{xs}{x0}{n}{l}
+bsearch{l}{xs}{x0}{n}
 (
   pford, pflen, pfarr | p, x0, n, cmp
 ) = let
