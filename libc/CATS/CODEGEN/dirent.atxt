@@ -38,11 +38,40 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+\#define ATSLIBfailexit(cmd) \\
+  do { \\
+    perror(cmd) ; \\
+    fprintf(stderr, "exit(ATSLIB): [%s] failed\n", cmd) ; exit(1) ; \\
+  } while (0) \\
+
+#atscode_separator_for_C()
+
+typedef DIR atslib_DIR_type ;
+typedef struct dirent atslib_dirent_type ;
+
+#atscode_separator_for_C()
+
+\#define atslib_dirent_get_d_ino(ent) (((atslib_dirent_type*)ent)->d_ino)
+\#define atslib_dirent_get_d_name(ent) (((atslib_dirent_type*)ent)->d_name)
+
+#atscode_separator_for_C()
+
 \#define atslib_opendir opendir
 
 #atscode_separator_for_C()
 
 \#define atslib_closedir closedir
+
+ATSinline()
+atsvoid_t0ype
+atslib_closedir_exn
+(
+  atstype_ptr dirp
+) {
+  int err = closedir((DIR*)dirp) ;
+  if (err < 0) ATSLIBfailexit("closedir") ;
+  return ; // [closedir] succeeded
+} // end of [atslib_closedir_exn]
 
 #atscode_separator_for_C()
 

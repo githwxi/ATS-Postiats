@@ -67,6 +67,9 @@ vtypedef DIRptr (l:addr) = DIRptr_vtype (l)
 vtypedef DIRptr0 = [l:addr | l >= null] DIRptr (l)
 vtypedef DIRptr1 = [l:addr | l >  null] DIRptr (l)
 
+absview DIR_view (l:addr)
+viewdef DIR_v (l:addr) = DIR_view (l)
+
 (* ****** ****** *)
 
 praxi DIRptr_free_null (dirp: DIRptr (null)): void
@@ -102,6 +105,14 @@ fun opendir_exn (dname: string): DIRptr1 = "mac#%"
 
 (* ****** ****** *)
 
+fun closedir{l:agz}
+(
+  dirp: DIRptr l
+) : [i:int | i <= 0]
+(
+  option_v (DIR_v (l), i==0) | int i
+) = "mac#%" // end of [closedir]
+
 fun closedir_exn (dirp: DIRptr1): void = "mac#%"
 
 (* ****** ****** *)
@@ -111,15 +122,15 @@ fun readdir
   dirp: !DIRptr1
 ) :<> [l:addr]
 (
-  option_v (dirent@l, l > null) | ptr (l)
-) = "mac#%s" // end of [readdir]
+  option_v (vtakeout0 (dirent@l), l > null) | ptr (l)
+) = "mac#%" // end of [readdir]
 
 fun readdir_r
 (
   dirp: !DIRptr1
 , ent: &dirent? >> opt (dirent, i==0)
 , result: &ptr? >> ptr
-) :<> #[i:int | i >= 0] int(i) = "mac#%s"
+) :<> #[i:int | i >= 0] int(i) = "mac#%"
 
 (* ****** ****** *)
 

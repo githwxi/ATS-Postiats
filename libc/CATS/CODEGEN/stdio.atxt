@@ -68,11 +68,8 @@ atslib_fclose_exn(
   atstype_ptr filp
 ) {
   int err = fclose((FILE*)filp) ;
-  if (err < 0) {
-    perror ("fclose") ;
-    fprintf (stderr, "exit(ATS): [fclose] failed\n") ; exit(1) ;
-  } // end of [if]
-  return ; // [fclose] succed
+  if (err < 0) ATSLIBfailexit("fclose") ;
+  return ; // [fclose] succeeded
 } // end of [atslib_fclose_exn]
 \#define atslib_fclose0_exn atslib_fclose_exn
 \#define atslib_fclose1_exn atslib_fclose_exn
@@ -139,12 +136,10 @@ atstype_ptr
 atslib_tmpfile_exn(
 ) {
   FILE* filp = tmpfile() ;
-  if (!filp) {
-    perror ("tmpfile") ;
-    fprintf (stderr, "exit(ATS): [tmpfile] failed\n") ; exit(1) ;
-  } // end of [if]
-  return (filp) ; // [tmpfile] succed
+  if (!filp) ATSLIBfailexit("tmpfile") ;
+  return (filp) ; // [tmpfile] succeeded
 } // end of [atslib_tmpfile_exn]
+
 \#define atslib_tmpfile_ref_exn atslib_tmpfile_exn
 
 #atscode_separator_for_C()
