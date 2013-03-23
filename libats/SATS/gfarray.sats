@@ -96,12 +96,12 @@ gfarray_v_split
   {l:addr}
   {xs:ilist}
   {n:int}
-  {i:nat | i <= n} (
+  {i:nat | i <= n}
+(
   pflen: LENGTH (xs, n)
 , pfarr: gfarray_v (a, l, xs)
-) : [
-  xs1,xs2:ilist
-] (
+) : [xs1,xs2:ilist]
+(
   LENGTH (xs1, i)
 , LENGTH (xs2, n-i)
 , APPEND (xs1, xs2, xs)
@@ -118,7 +118,8 @@ gfarray_v_unsplit
   pflen: LENGTH (xs1, n1)
 , pfarr1: gfarray_v (a, l, xs1)
 , pfarr2: gfarray_v (a, l+n1*sizeof(a), xs2)
-) : [xs:ilist] (
+) : [xs:ilist]
+(
   APPEND (xs1, xs2, xs), gfarray_v (a, l, xs)
 ) // end of [gfarray_v_unsplit]
 
@@ -129,23 +130,25 @@ gfarray_v_extend
   {a:vt0p}
   {l:addr}
   {xs:ilist}{x:int}{xsx:ilist}
-  {n:nat} (
+  {n:nat}
+(
   pflen: LENGTH (xs, n)
 , pfsnoc: SNOC (xs, x, xsx)
 , pfat: stamped_vt (a, x) @ l+n*sizeof(a)
 , pfarr: gfarray_v (a, l, xs)
-) : gfarray_v (a, l, xsx)
-// end of [gfarray_v_extend]
+) : gfarray_v (a, l, xsx) // endfun
 
 prfun
 gfarray_v_unextend
   {a:vt0p}
   {l:addr}
   {xs:ilist}
-  {n:int | n > 0} (
+  {n:int | n > 0}
+(
   pflen: LENGTH (xs, n)
 , pfarr: gfarray_v (a, l, xs)
-) : [xsf:ilist;x:int] ( // xsf: the front
+) : [xsf:ilist;x:int] // xsf: the front
+(
   SNOC (xsf, x, xs), stamped_vt (a, x) @ l+(n-1)*sizeof(a), gfarray_v (a, l, xsf)
 ) // end of [gfarray_v_unextend]
 
@@ -155,18 +158,22 @@ fun{a:t@ype}
 gfarray_get_at
   {l:addr}
   {x:int}{xs:ilist}
-  {i:int} (
+  {i:int}
+(
   pf1: NTH (x, xs, i)
 , pf2: gfarray_v (a, l, xs)
 | p: ptr l, i: size_t i
 ) :<> stamped_t (a, x)
 // end of [gfarray_get_at]
 
+(* ****** ****** *)
+
 fun{a:t@ype}
 gfarray_set_at
   {l:addr}
   {x:int}{xs1:ilist}{xs2:ilist}
-  {i:int} (
+  {i:int}
+(
   pf1: UPDATE (x, xs1, i, xs2)
 , pf2: !gfarray_v (a, l, xs1) >> gfarray_v (a, l, xs2)
 | p: ptr l, i: size_t i, x: stamped_t (a, x)
@@ -179,12 +186,11 @@ gfarray_exch_at
   {l:addr}
   {x0:int}{x1:int}
   {xs1:ilist}{xs2:ilist}
-  {i:int} (
-  pf1: NTH (x1, xs1, i)
-, pf2: UPDATE (x0, xs1, i, xs2)
+  {i:int}
+(
+  pf1: NTH (x1, xs1, i), pf2: UPDATE (x0, xs1, i, xs2)
 , pf3: !gfarray_v (a, l, xs1) >> gfarray_v (a, l, xs2)
-| p: ptr l, i: size_t i
-, x0: &stamped_vt (a, x0) >> stamped_vt (a, x1)
+| p: ptr l, i: size_t i, x0: &stamped_vt (a, x0) >> stamped_vt (a, x1)
 ) :<!wrt> void // end of [gfarray_exch_at]
 
 (* ****** ****** *)
