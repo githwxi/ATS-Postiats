@@ -30,6 +30,7 @@ on these functions can often be found in the Linux Programmer's manual.
 (* ****** ****** *)
 
 #declnamesynop("opendir")
+#declnamesynop("opendir_exn")
 
 (* ****** ****** *)
 

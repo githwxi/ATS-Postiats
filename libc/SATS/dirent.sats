@@ -33,7 +33,8 @@
 (* ****** ****** *)
 
 %{#
-#include "libc/CATS/dirent.cats"
+#include "libc/sys/CATS/types.cats"
+#include "libc/CATS/dirent.cats" // HX: after sys/types
 %} // end of [%{#]
 
 (* ****** ****** *)
@@ -120,7 +121,7 @@ fun closedir_exn (dirp: DIRptr1): void = "mac#%"
 fun readdir
 (
   dirp: !DIRptr1
-) :<> [l:addr]
+) :<!refwrt> [l:addr]
 (
   option_v (vtakeout0 (dirent@l), l > null) | ptr (l)
 ) = "mac#%" // end of [readdir]
@@ -130,7 +131,7 @@ fun readdir_r
   dirp: !DIRptr1
 , ent: &dirent? >> opt (dirent, i==0)
 , result: &ptr? >> ptr
-) :<> #[i:int | i >= 0] int(i) = "mac#%"
+) :<!wrt> #[i:int | i >= 0] int(i) = "mac#%"
 
 (* ****** ****** *)
 
