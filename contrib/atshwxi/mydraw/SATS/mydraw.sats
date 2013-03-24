@@ -134,7 +134,8 @@ stadef cairo_ref1 = $XR.cairo_ref1
 
 (* ****** ****** *)
 
-fun{} mydraw_get0_cairo (): [l:agz] vttakeout (void, cairo_ref (l))
+fun{} mydraw_get0_cairo (
+): [l:agz] vttakeout (void, cairo_ref (l))
 fun{} mydraw_get1_cairo (): cairo_ref1
 
 (* ****** ****** *)

@@ -639,6 +639,44 @@ end // end of [array_initize_list_vt]
 #atscode_separator()
 
 implement{a}
+array_uninitize
+  (A, asz) = let
+//
+fun loop
+  {l:addr}{n:nat} .<n>.
+(
+  pf: !array_v (a, l, n) >> array_v (a?, l, n) | p: ptr l, n: size_t n, i: size_t
+) : void = let
+in
+//
+if n > 0 then let
+  prval (pf1, pf2) = array_v_uncons (pf)
+  val () = array_uninitize$clear<a> (i, !p)
+  val () = loop (pf2 | ptr_succ<a> (p), pred (n), succ (i))
+  prval () = pf := array_v_cons (pf1, pf2)
+in
+  // nothing
+end else let
+  prval () = pf := array_v_unnil_nil {a,a?} (pf)
+in
+  // nothing
+end // end of [if]
+//
+end // end of [loop]
+//
+prval () = lemma_array_param (A)
+//
+prval pf = view@ (A)
+val () = loop (pf | addr@ (A), asz, i2sz(0))
+prval () = view@ (A) := pf
+//
+in
+  // nothing  
+end // end of [array_uninitize]
+
+#atscode_separator()
+
+implement{a}
 array_bsearch
   (A, n) = $effmask_all let
 //

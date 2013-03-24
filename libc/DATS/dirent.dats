@@ -32,6 +32,11 @@
 //
 (* ****** ****** *)
 
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "libc/SATS/dirent.sats"
 
 (* ****** ****** *)
@@ -50,6 +55,23 @@ prval () = fpf (str)
 in
   str2
 end // end of [dirent_get_d_name_gc]
+
+(* ****** ****** *)
+
+implement{}
+compare_dirent_string
+  (ent1, str2) = let
+//
+val
+(
+  fpf1 | str1
+) = dirent_get_d_name (ent1)
+val sgn = compare_string_string ($UN.strptr2string(str1), str2)
+prval () = fpf1 (str1)
+//
+in
+  sgn
+end // end of [compare_dirent_string]
 
 (* ****** ****** *)
 

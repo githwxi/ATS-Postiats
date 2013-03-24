@@ -33,7 +33,7 @@ if p > 0 then let
   prval Some_v @(pf, fpf) = pfopt
   val str = dirent_get_d_name_gc (!p)
   prval () = fpf (pf)
-  val () = println! (str)
+  val () = if (str != "." && str != "..") then println! (str)
   val () = strptr_free (str)
 in
   loop (dirp)
@@ -71,7 +71,7 @@ in
 //
 if res > 0 then let
   val str = dirent_get_d_name_gc (ent)
-  val () = println! (str)
+  val () = if (str != "." && str != "..") then println! (str)
   val () = strptr_free (str)
 in
   loop (dirp)
@@ -100,6 +100,32 @@ val
 ) = closedir (dirp)
 val () = assertloc (err = 0)
 prval None_v () = pfopt
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () =
+{
+//
+typedef filter = (&dirent) -> int
+typedef compar = (&ptr(*direntp*), &ptr(*direntp*)) -> int
+//
+val dirp = "."
+var namelst: ptr // uninitized
+val nitm = scandir (dirp, namelst, $UNSAFE.cast{filter}(0), $UNSAFE.cast{compar}(0))
+val () = assertloc (nitm >= 0)
+val () = println! ("scandir(...) = ", nitm)
+//
+extern fun direntp_free (x: ptr): void = "mac#atslib_mfree_libc"
+//
+implement
+array_uninitize$clear<ptr> (i, x) = direntp_free (x)
+val asz = g0i2u (nitm)
+val [n:int] asz = g1ofg0_uint (asz)
+val () = arrayptr_freelin ($UNSAFE.castvwtp0{arrayptr(ptr, n)}(namelst), asz)
+//
+val () = println! ("[namelst] is properly freed.")
 //
 } // end of [val]
 

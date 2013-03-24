@@ -30,22 +30,6 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
 
-implement{a}{tk}
-arrayptr_get_at_gint
-  (A, i) = let
-  val p = ptrcast (A) in
-  $UN.ptr0_get<a> (ptr1_add_gint<a><tk> (p, i))
-end // end of [arrayptr_get_at_gint]
-
-implement{a}{tk}
-arrayptr_get_at_guint
-  (A, i) = let
-  val p = ptrcast (A) in
-  $UN.ptr0_get<a> (ptr1_add_guint<a><tk> (p, i))
-end // end of [arrayptr_get_at_guint]
-
-#atscode_separator()
-
 implement{a}
 arrayptr_make_elt
   (asz, elt) = let
@@ -149,6 +133,22 @@ fprint_arrayptr_sep
 
 #atscode_separator()
 
+implement{a}{tk}
+arrayptr_get_at_gint
+  (A, i) = let
+  val p = ptrcast (A) in
+  $UN.ptr0_get<a> (ptr1_add_gint<a><tk> (p, i))
+end // end of [arrayptr_get_at_gint]
+
+implement{a}{tk}
+arrayptr_get_at_guint
+  (A, i) = let
+  val p = ptrcast (A) in
+  $UN.ptr0_get<a> (ptr1_add_guint<a><tk> (p, i))
+end // end of [arrayptr_get_at_guint]
+
+#atscode_separator()
+
 implement{a}
 arrayptr_foreach
   (A, asz) = res where {
@@ -217,6 +217,8 @@ arrayptr_initize
   prval () = arrayptr_addback (pfarr | A)
 } // end of [arrayptr_initize]
 
+#atscode_separator()
+
 implement{a}
 arrayptr_uninitize
   (A, asz) = () where {
@@ -225,6 +227,13 @@ arrayptr_uninitize
   val () = array_uninitize<a> (!p, asz)
   prval () = arrayptr_addback (pfarr | A)
 } // end of [arrayptr_uninitize]
+
+#atscode_separator()
+
+implement{a}
+arrayptr_freelin (A, n) = let
+  val () = arrayptr_uninitize<a> (A, n) in arrayptr_free {a?} (A)
+end // end of [arrayptr_freelin]
 
 #atscode_separator()
 

@@ -65,6 +65,12 @@ atspre_compare_strptr_strptr
 
 #atscode_separator_for_C()
 
+\#define atspre_eq_strptr_string atspre_eq_string_string 
+\#define atspre_neq_strptr_string atspre_neq_string_string 
+\#define atspre_compare_strptr_string atspre_compare_string_string 
+
+#atscode_separator_for_C()
+
 ATSinline()
 atsvoid_t0ype
 atspre_fprint_strptr

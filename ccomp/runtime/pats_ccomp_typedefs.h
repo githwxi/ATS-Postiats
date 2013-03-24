@@ -125,6 +125,10 @@ struct {
 
 /* ****** ****** */
 
+typedef void* atstype_funptr ;
+
+/* ****** ****** */
+
 #define atstkind_type(tk) tk
 #define atstkind_t0ype(tk) tk
 

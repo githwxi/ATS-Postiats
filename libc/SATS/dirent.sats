@@ -87,28 +87,33 @@ typedef dirent = dirent_t0ype
 
 (* ****** ****** *)
 
-fun dirent_get_d_ino (ent: &dirent):<> ino_t = "mac#%"
+fun dirent_get_d_ino (ent: &RD(dirent)):<> ino_t = "mac#%"
 
 (* ****** ****** *)
 
 fun
 dirent_get_d_name
-  (ent: &dirent):<> [l:agz] vttakeout0 (strptr l) = "mac#%"
+  (ent: &RD(dirent)):<> [l:agz] vttakeout0 (strptr l) = "mac#%"
 // end of [dirent_get_d_name]
 
 fun{}
-dirent_get_d_name_gc (ent: &dirent):<!wrt> Strptr1
+dirent_get_d_name_gc (ent: &RD(dirent)):<!wrt> Strptr1
 
 (* ****** ****** *)
 
-fun opendir (dname: string) : DIRptr0 = "mac#%"
-fun opendir_exn (dname: string): DIRptr1 = "mac#%"
+fun{}
+compare_dirent_string (ent: &RD(dirent), str: NSH(string)):<> int
+
+(* ****** ****** *)
+
+fun opendir (dname: NSH(string)): DIRptr0 = "mac#%"
+fun opendir_exn (dname: NSH(string)): DIRptr1 = "mac#%"
 
 (* ****** ****** *)
 
 fun closedir{l:agz}
 (
-  dirp: !DIRptr l >> ptr l
+  dirp: !DIRptr (l) >> ptr l
 ) :<!wrt>
   [i:int | i <= 0]
 (
@@ -147,7 +152,7 @@ int scandir
 */
 fun scandir
 (
-  dirp: !DIRptr1
+  dirp: NSH(string)
 , namelst: &(ptr?) >> ptr(*direntpp*)
 , filter: (&dirent) -> int
 , compar: (&ptr(*direntp*), &ptr(*direntp*)) -> int

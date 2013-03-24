@@ -98,6 +98,11 @@ atslib_closedir_exn
 
 #atscode_separator_for_C()
 
+\#define atslib_scandir(dirp, namelst, filter, compar) \\
+  scandir((char*)dirp, (atslib_dirent_type***)namelst, (void*)filter, (void*)compar)
+
+#atscode_separator_for_C()
+
 \#define atslib_rewinddir rewinddir
 
 #atscode_separator_for_C()

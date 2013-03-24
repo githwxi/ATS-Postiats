@@ -213,6 +213,21 @@ overload compare with compare_strptr_strptr
 
 #atscode_separator()
 
+fun eq_strptr_string
+  (x1: !Strptr1, x2: string):<> bool = "mac\#%"
+overload = with eq_strptr_string
+
+fun neq_strptr_string
+  (x1: !Strptr1, x2: string):<> bool = "mac\#%"
+overload != with neq_strptr_string
+overload <> with neq_strptr_string
+
+fun compare_strptr_string
+  (x1: !Strptr1, x2: string):<> Sgn = "mac\#%"
+overload compare with compare_strptr_string
+
+#atscode_separator()
+
 fun fprint_strptr
 (
   out: FILEref, x: !Strptr0
