@@ -55,22 +55,28 @@ arrayptrout (a:t@ype, l: addr, n: int) = ptr
 #atscode_separator()
 
 castfn
-arrayptr_encode
+arrayptr_encode :
   {a:vt0p}{l:addr}{n:int}
-(
-  pfarr: array_v (INV(a), l, n), pfgc: mfree_gc_v l | p: ptr l
-) :<> arrayptr (a, l, n) // end of [arrayptr_encode]
+  (array_v (INV(a), l, n), mfree_gc_v l | ptr l) -<0> arrayptr (a, l, n)
+// end of [arrayptr_encode]
+
+castfn
+arrayptr_encode2 :
+  {a:vt0p}{l:addr}{n:int}
+  @(array_v (INV(a), l, n), mfree_gc_v l | ptr l) -<0> arrayptr (a, l, n)
+// end of [arrayptr_encode2]
 
 #atscode_separator()
 
 castfn
 arrayptr2ptr
   {a:vt0p}
-  {l:addr}{n:int} (A: !arrayptr (INV(a), l, n)):<> ptr l
+  {l:addr}{n:int} (A: !arrayptr (INV(a), l, n)):<> ptr (l)
 overload ptrcast with arrayptr2ptr
+
 castfn
 arrayptrout2ptr
-  {a:t0p}{l:addr}{n:int} (A: !arrayptrout (INV(a), l, n)):<> ptr l
+  {a:t0p}{l:addr}{n:int} (A: !arrayptrout (INV(a), l, n)):<> ptr (l)
 overload ptrcast with arrayptrout2ptr
 
 #atscode_separator()
@@ -142,7 +148,9 @@ fun{
 // end of [arrayptr_make_intrange]
 
 #atscode_separator()
-
+//
+// HX: this one is a field-selection
+//
 fun
 arrayptr_make_arrpsz
   {a:vt0p}{n:int}
@@ -169,13 +177,6 @@ fun{a:vt0p}
 arrayptr_make_uninitized
   {n:int} (asz: size_t n):<!wrt> arrayptr (a?, n)
 // end of [arrayptr_make_uninitized]
-
-#atscode_separator()
-
-fun arrayptr_free
-  {a:t0p}{l:addr}{n:int}
-  (A: arrayptr (INV(a), l, n)):<!wrt> void = "mac\#%"
-// end of [arrayptr_free]
 
 #atscode_separator()
 
@@ -402,6 +403,11 @@ macdef arrayptr_uninitialize = arrayptr_uninitize
 
 #atscode_separator()
 
+fun arrayptr_free
+  {a:t0p}{l:addr}{n:int}
+  (A: arrayptr (INV(a), l, n)):<!wrt> void = "mac\#%"
+// end of [arrayptr_free]
+
 (*
 fun{a:vt0p}
 array_uninitize$clear (i: size_t, x: &a >> a?): void
@@ -409,9 +415,8 @@ array_uninitize$clear (i: size_t, x: &a >> a?): void
 fun{a:vt0p}
 arrayptr_freelin
   {l:addr}{n:int}
-(
-  A: arrayptr (INV(a), l, n), asz: size_t (n)
-) : void = "mac\#%" // end of [arrayptr_freelin]
+  (A: arrayptr (INV(a), l, n), asz: size_t (n)): void
+// end of [arrayptr_freelin]
 
 #atscode_separator()
 

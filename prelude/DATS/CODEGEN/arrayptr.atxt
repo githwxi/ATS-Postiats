@@ -34,9 +34,12 @@ implement{a}
 arrayptr_make_elt
   (asz, elt) = let
 //
-val (
+val
+(
   pf, pfgc | p
-) = array_ptr_alloc<a> (asz)
+) =
+  array_ptr_alloc<a> (asz)
+//
 val () = array_initize_elt<a> (!p, asz, elt)
 //
 in
@@ -104,9 +107,8 @@ end // end of [arrayptr_make_list_vt]
 implement{a}
 arrayptr_make_uninitized
   (asz) = let
-  val (pf, pfgc | p) = array_ptr_alloc<a> (asz)
 in
-  arrayptr_encode (pf, pfgc | p)
+  arrayptr_encode2 (array_ptr_alloc<a> (asz))
 end // end of [arrayptr_uninitize]
 
 #atscode_separator()
@@ -227,6 +229,12 @@ arrayptr_uninitize
   val () = array_uninitize<a> (!p, asz)
   prval () = arrayptr_addback (pfarr | A)
 } // end of [arrayptr_uninitize]
+
+#atscode_separator()
+
+(*
+implement arrayptr_free = ATS_MFREE
+*)
 
 #atscode_separator()
 

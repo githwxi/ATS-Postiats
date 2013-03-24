@@ -198,15 +198,6 @@ index is unsigned.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("arrayptr_free")
-#decldescrpt("\
-This function frees the memory occupied by a given arrayptr-value,
-which includes both the memory for the structure of this value and
-the memory for the array associated with it.
-")
-
-(* ****** ****** *)
-
 #declnamesynop("arrayptr_foreach")
 #decldescrpt("
 
@@ -280,6 +271,22 @@ except for taking an additional argument that serves as an environment.  ')
 (* ****** ****** *)
 
 #declnamesynop("arrayptr_uninitize")
+
+(* ****** ****** *)
+
+#declnamesynop("arrayptr_free")
+#decldescrpt("\
+This function frees the memory occupied by a given arrayptr-value.
+")
+
+(* ****** ****** *)
+
+#declnamesynop("arrayptr_freelin")
+#decldescrpt("\
+
+This function first uninitializes a given arrayptr-value and then frees the
+memory occupied by it. In other words, #dyncode("arrayptr_freelin")
+combines #dyncode("arrayptr_uninitize") with #dyncode("arrayptr_free").  ")
 
 (* ****** ****** *)
 
