@@ -81,15 +81,15 @@ verification.\
 
 #para('\
 
-ATS is also a feature-rich programming language. It can support a variety
-of programming paradigms, including functional programming, imperative
-programming, object-oriented programming, concurrent programming, modular
-programming, etc. However, the core of ATS, which is based on a
-call-by-value functional language, is surprisingly simple, and this is
-where the journey of programming in ATS starts. In this book, I will
-demonstrate primarily through examples how various programming features in
-ATS can be employed effectively to facilitate the construction of
-high-quality programs. I will focus on programming practice instead of
+As a programming language, ATS is both syntax-rich and feature-rich. It can
+support a variety of programming paradigms, including functional
+programming, imperative programming, object-oriented programming,
+concurrent programming, modular programming, etc. However, the core of ATS,
+which is based on a call-by-value functional language, is surprisingly
+simple, and this is where the journey of programming in ATS starts. In this
+book, I will demonstrate primarily through examples how various programming
+features in ATS can be employed effectively to facilitate the construction
+of high-quality programs. I will focus on programming practice instead of
 programming theory.  If you are primarily interested in the
 type-theoretical foundation of ATS, then you have to find it elsewhere.\
 

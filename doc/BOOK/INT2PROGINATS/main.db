@@ -12,6 +12,7 @@
 <!ENTITY bookinfo SYSTEM "bookinfo.db">
 <!ENTITY preface SYSTEM "preface.db">
 <!ENTITY chap_start SYSTEM "CHAP_START/main.db">
+<!ENTITY chap_progelem SYSTEM "CHAP_PROGELEM/main.db">
 ]>
 <book id="proginats" lang="en">
 &bookinfo;
@@ -34,6 +35,7 @@ id="basic_functional_programming"
 >
 <title>Basic Functional Programming</title>
 &chap_start;
+&chap_progelem;
 </part>
 <!--"basic_functional_programming"-->
 

@@ -30,7 +30,8 @@ html: main.db
 
 ######
 
-main.db: preface.db
+main.db:: allchap
+main.db:: preface.db
 
 ######
 
@@ -44,6 +45,7 @@ clean:: ; $(RMF) preface
 ######
 
 allchap:: CHAP_START
+allchap:: CHAP_PROGELEM
 
 CHAP_START:: ; \
   make -C CHAP_START -f ../Makefile.chap main.db
@@ -52,7 +54,15 @@ CHAP_START:: ; \
 
 ######
 
+CHAP_PROGELEM:: ; \
+  make -C CHAP_PROGELEM -f ../Makefile.chap main.db
+CHAP_PROGELEM:: ; \
+  make -C CHAP_PROGELEM -f ../Makefile.chap clean
+
+######
+
 CPRF=cp -rf
+SCPR=scp -r
 CHMOD=chmod
 
 ######
@@ -64,8 +74,7 @@ upload_pdf:
 	scp -r PDF ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/INT2PROGINATS/
 
 uploadloc:
-	$(CPRF) HTML $(HOME)/public_html/ATS/DOCUMENT/INT2PROGINATS
-	$(CHMOD) 644 $(HOME)/public_html/ATS/DOCUMENT/INT2PROGINATS/HTML/*.html
+	$(SCPR) HTML hwxi@csa2.bu.edu:public_html/ATS/DOCUMENT/INT2PROGINATS
 
 ######
 

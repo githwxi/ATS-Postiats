@@ -37,32 +37,34 @@ console) the string "Hello, world!" plus a newline before it terminates:
 
 #atscode('\
 val _ = print ("Hello, world!\\\n")
-implement main () = () // a dummy for [main]
+
+implement main0 () = () // a dummy for [main]
 ')
 
-The keyword #code("val") initiates a binding between the variable
-#code("_") and the function call #code('print ("Hello, world!\\\n")').
-However, this binding is never used after it is introduced; its sole purpose is
-for the call to the #code("print") function to get evaluated.
-')#comment("para")
+The keyword #dyncode("val") initiates a binding between the variable
+#dyncode("_") (underscore) and the function call #dyncode('print ("Hello,
+world!\\\n")').  However, this binding is never used after it is
+introduced; its sole purpose is for the call to the #dyncode("print")
+function to get evaluated.  ')#comment("para")
 
 #para("\
 
-The function #code("main") is of certain special meaning in ATS, which I
-will explain elsewhere. For a programmer who knows the C or Java
-programming language, I simply point out that the role of #code("main") is
-essentially the same as its counterpart of the same name in C or Java.  The
-keyword #code("implement") initiates the implementation of a function whose
+The function #dyncode("main0") is a slight variant of another function
+named #dyncode("main"), which is of certain special meaning in ATS. For a
+programmer who knows the C or Java programming language, I simply point out
+that the role of #dyncode("main") is essentially the same as its
+counterpart of the same name in C or Java.  The keyword
+#dyncode("implement") initiates the implementation of a function whose
 interface has already been declared elsewhere. Following is the declared
-interface for #code("main") in ATS:
+interface for #dyncode("main0") in ATS:
 
 #atscode("\
-fun main (): void
+fun main0 (): void
 ")
 
-which indicates that #code("main") is a nullary function, that is, a
-function that takes no arguments, and it returns no value (or it returns
-the void value). The double slash symbol (#code("//")) initiates a comment
+which indicates that #dyncode("main0") is a nullary function, that is, a
+function taking no arguments, and it returns no value (or it returns the
+void value). The double slash symbol (#dyncode("//")) initiates a comment
 that terminates at the end of the current line.\
 
 ")#comment("para")
@@ -77,10 +79,10 @@ named <filename>hello</filename> in the current working directory:
 </programlisting></informalexample>
 
 where <filename>hello.dats</filename> refers to a file containing the above
-program.  Note that the filename extension #emph(".dats") should not be
+program.  Note that the filename extension #emphasis(".dats") should not be
 altered as it has already been assigned a special meaning that the
 compilation command #command("atscc") recognizes. Another special filename
-extension is #emph(".sats"), which we will soon encounter.\
+extension is #emphasis(".sats"), which we will soon encounter.\
 
 ")#comment("para")
 
@@ -102,34 +104,13 @@ single-file program in ATS:
 #atscode('\
 (*
 **
-** This is a template for a single-file ATS program
+** A template for single-file ATS programs
 **
 *)
 
 (* ****** ****** *)
-
-(*
-** please do not change unless you know what you do
-*)
 //
-staload _(*anon*) = "libc/SATS/stdio.sats"
-//
-staload _(*anon*) = "prelude/DATS/array.dats"
-staload _(*anon*) = "prelude/DATS/array0.dats"
-//
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/list0.dats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
-//
-staload _(*anon*) = "prelude/DATS/matrix.dats"
-staload _(*anon*) = "prelude/DATS/matrix0.dats"
-//
-staload _(*anon*) = "prelude/DATS/option.dats"
-staload _(*anon*) = "prelude/DATS/option0.dats"
-//
-staload _(*anon*) = "prelude/DATS/pointer.dats"
-//
-staload _(*anon*) = "prelude/DATS/reference.dats"
+\#include "share/atspre_staload_tmpdef.hats"
 //
 (* ****** ****** *)
 
@@ -139,18 +120,18 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-implement main () = () // a dummy implementation for [main]
+implement main0 () = () // a dummy implementation for [main]
 
 ')#comment("atscode")
 
-Each line starting with the keyword #code("staload") essentially allows the
-ATS compiler #command("atsopt") to gain access to the definition of certain
+The line starting with the keyword #dyncode("\#include") enables the ATS
+compiler #command("atsopt") to gain access to the definition of certain
 library functions. I will cover elsewhere in the book the topic on
 programming with library functions in ATS.\
 
 ")#comment("para")
 
-</sect1><!--id="a_template_for_single-file programs"-->
+</sect1><!--id="a_template_for_single_file_programs"-->
 
 <!-- ****** ****** -->
 
@@ -176,15 +157,12 @@ resources on-line to help yourself learn it.
 
 \#\#\#\#\#\#
 
-ATSUSRQ="$(ATSHOME)"
-ifeq ($(ATSUSRQ),"")
-ATSUSRQ="/usr"
-endif \# end of [ifeq]
+ATSHOMEQ="$(ATSHOME)"
 
 \#\#\#\#\#\#
 
-ATSCC=$(ATSUSRQ)/bin/atscc
-ATSOPT=$(ATSUSRQ)/bin/atsopt
+ATSCC=$(ATSHOMEQ)/bin/atscc
+ATSOPT=$(ATSHOMEQ)/bin/atsopt
 
 \#\#\#\#\#\#
 
@@ -200,14 +178,6 @@ ATSCCFLAGS=
 
 \#\#\#\#\#\#
 
-\#
-\# HX: Please uncomment it if you need to run GC at run-time
-\#
-ATSGCFLAG=
-\#ATSGCFLAG=-D_ATS_GCBDW
-
-\#\#\#\#\#\#
-
 distclean::
 
 \#\#\#\#\#\#
@@ -217,8 +187,8 @@ distclean::
 \# with the name of the file you want to compile
 \#
 
-\# foo: foo.dats
-\# 	$(ATSCC) $(ATSGCFLAG) $(ATSCCFLAGS) -o $@ $< || touch $@
+\# foo: foo.dats ; \\\\
+\#   $(ATSCC) $(ATSCCFLAGS) -o $@ $< || echo $@ ": ERROR!"
 \# distclean:: ; $(RMF) foo
 
 \#\#\#\#\#\#
@@ -227,11 +197,8 @@ distclean::
 \# You may find these rules useful
 \#
 
-\# %_sats.o: %.sats
-\# 	$(ATSCC) $(ATSCCFLAGS) -c $< || touch $@
-
-\# %_dats.o: %.dats
-\# 	$(ATSCC) $(ATSCCFLAGS) -c $< || touch $@
+\# %_sats.o: %.sats ; $(ATSCC) $(ATSCCFLAGS) -c $< || echo $@ ": ERROR!"
+\# %_dats.o: %.dats ; $(ATSCC) $(ATSCCFLAGS) -c $< || echo $@ ": ERROR!"
 
 \#\#\#\#\#\#
 
@@ -239,10 +206,9 @@ RMF=rm -f
 
 \#\#\#\#\#\#
 
-clean:
-	$(RMF) *~
-	$(RMF) *_?ats.o
-	$(RMF) *_?ats.c
+clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_?ats.o
+clean:: ; $(RMF) *_?ats.c
 
 distclean:: clean
 

@@ -108,11 +108,13 @@ macdef H4 (x) = xmltagging ("h4", ,(x))
 (* ****** ****** *)
 
 macdef
-code (x) = xmltagging ("code", ,(x))
+dyncode (x) = xmltagging ("code", ,(x))
+macdef
+stacode (x) = xmltagging ("code", ,(x))
 macdef
 command (x) = xmltagging ("command", ,(x))
 macdef
-emph (x) = xmltagging ("emphasis", ,(x))
+emphasis (x) = xmltagging ("emphasis", ,(x))
 macdef
 filename (x) = xmltagging ("filename", ,(x))
 

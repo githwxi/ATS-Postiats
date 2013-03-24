@@ -11,8 +11,8 @@ fprint_print_prerr_decl
   (tnm: string): atext = let
 //
 val ent = sprintf ("\
-fun print_%s (x: %s): void
-fun prerr_%s (x: %s): void
+fun print_%s (x: %s): void = \"mac#%%\"
+fun prerr_%s (x: %s): void = \"mac#%%\"
 overload print with print_%s
 overload prerr with prerr_%s
 fun fprint_%s : fprint_type (%s) = \"mac#%%\"

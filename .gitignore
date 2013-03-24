@@ -209,6 +209,12 @@ doc/EXAMPLE/*/Makefile.exe
 # INT2PROGINATS
 #
 
+doc/BOOK/INT2PROGINATS/preface
+doc/BOOK/INT2PROGINATS/preface.db
+doc/BOOK/INT2PROGINATS/*_atxt.txt
+doc/BOOK/INT2PROGINATS/*_atxt.dats
 doc/BOOK/INT2PROGINATS/*/main.db
+doc/BOOK/INT2PROGINATS/HTML
+doc/BOOK/INT2PROGINATS/INTPROGINATS-2013-03-24/
 
 ###### end of [.gitignore] ######
