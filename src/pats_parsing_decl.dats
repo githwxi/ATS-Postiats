@@ -1136,18 +1136,18 @@ case+ tok.token_node of
   ) => let
     val bt = 0
     val ent1 = synent_decode {token} (ent)
-    val ent2 = pstar_fun {q0marg} (buf, bt, p_q0marg)
+    val ent2 = p_q0margseq (buf, bt, err)
     val ent3 = p_d0cstdecseq (buf, bt, err)
   in
     if err = err0 then
-      d0ecl_dcstdecs (ent1, (l2l)ent2, ent3)
-    else let
-      val () = list_vt_free (ent2) in synent_null ()
-    end // end of [if]
-  end
+      d0ecl_dcstdecs (ent1, ent2, ent3) else synent_null ()
+    // end of [if]
+  end // end of [_ when ...]
+//
 | T_EXTCODE _ => let
     val () = incby1 () in d0ecl_extcode (0(*sta*), tok)
-  end
+  end // end of [T_EXTCODE]
+//
 | T_SRPINCLUDE () => let
     val bt = 0
     val () = incby1 ()
@@ -1156,29 +1156,11 @@ case+ tok.token_node of
     if err = err0 then
       d0ecl_include (0(*sta*), tok, ent2) else synent_null ()
     // end of [if]
-  end
-| T_LOCAL () => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = p_d0eclseq_fun {d0ecl} (buf, bt, p_d0ecl_sta)
-    val ent3 = pif_fun (buf, bt, err, p_IN, err0)
-    val ent4 = (
-      if err = err0 then
-        p_d0eclseq_fun (buf, bt, p_d0ecl_sta) else list_vt_nil ()
-    ) : d0eclist_vt // end of [val]
-    val ent5 = pif_fun (buf, bt, err, p_END, err0)
-  in
-    if err = err0 then
-      d0ecl_local (tok, (l2l)ent2, (l2l)ent4, ent5)
-    else let
-      val () = list_vt_free (ent2)
-      val () = list_vt_free (ent4)
-    in
-      synent_null ()
-    end // end of [if]
-  end
+  end // end of [T_SRPINCLUDE]
+//
 | _ when
-    ptest_fun (
+    ptest_fun
+  (
     buf, p_srpifkind, ent
   ) => let
     val bt = 0
@@ -1188,10 +1170,32 @@ case+ tok.token_node of
     if err = err0 then
       d0ecl_guadecl (ent1, ent2) else synent_null ()
     // end of [if]
-  end
+  end // end of [_ when ...]
+//
+| T_LOCAL () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_d0eclseq_fun {d0ecl} (buf, bt, p_d0ecl_sta)
+    val ent3 = p_IN (buf, bt, err)
+    val ent4 =
+    (
+      if err = err0 then
+        p_d0eclseq_fun (buf, bt, p_d0ecl_sta) else list_vt_nil ()
+      // end of [if]
+    ) : d0eclist_vt // end of [val]
+    val ent5 = pif_fun (buf, bt, err, p_END, err0)
+  in
+    if err = err0 then
+      d0ecl_local (tok, (l2l)ent2, (l2l)ent4, ent5)
+    else let
+      val () = list_vt_free (ent2)
+      val () = list_vt_free (ent4) in synent_null ()
+    end // end of [if]
+  end // end of [T_LOCAL]
+//
 | _ => let
     val () = err := err + 1 in synent_null ()
-  end
+  end // end of [_]
 //
 end // end of [p_d0ecl_sta_tok]
 
@@ -1521,7 +1525,7 @@ case+ tok.token_node of
         val ent3 = pif_fun (buf, bt, err, p_d0cstdecseq, err0)
       in
         if err = err0 then
-          d0ecl_dcstdecs (ent1, ent2, ent3) else synent_null ()
+          d0ecl_dcstdecs_extern (ent1, ent2, ent3) else synent_null ()
         // end of [if]
       end // end of [...]
 //

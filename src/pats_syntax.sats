@@ -1270,7 +1270,7 @@ d0ecl_node =
   | D0Cextcode of
       (int(*knd*), int(*pos*), string(*code*)) // external code
 //
-  | D0Cdcstdecs of (token, q0marglst, d0cstdeclst)
+  | D0Cdcstdecs of (int(*knd*), token, q0marglst, d0cstdeclst)
 //
   | D0Cmacdefs of
       (int(*knd*), bool(*rec*), m0acdeflst) // macro definitions
@@ -1967,14 +1967,14 @@ fun d0ecl_staload_some (tok: token, ent2: i0de, ent4: token): d0ecl
 //
 fun d0ecl_dynload (tok: token, ent2: token): d0ecl
 //
-fun d0ecl_dcstdecs
-(
-  tok: token, ent2: q0marglst, ent3: d0cstdeclst
-) : d0ecl // end of [d0ecl_dcstdecs]
-fun d0ecl_dcstdecs_static
-(
-  tok: token, ent2: q0marglst, ent3: d0cstdeclst
-) : d0ecl // end of [d0ecl_dcstdecs_static]
+typedef
+d0ecl_dcstdecs_type =
+  (token, q0marglst, d0cstdeclst) -> d0ecl
+//
+fun d0ecl_dcstdecs : d0ecl_dcstdecs_type
+fun d0ecl_dcstdecs_extern : d0ecl_dcstdecs_type
+// HX: a static const is not exported
+fun d0ecl_dcstdecs_static : d0ecl_dcstdecs_type
 //
 fun d0ecl_local (
   t_local: token, ds_head: d0eclist, ds_body: d0eclist, t_end: token

@@ -58,8 +58,7 @@ fun fibmem
 (* ****** ****** *)
 
 implement
-fibmem
-  (tbl, n) = let
+fibmem (tbl, n) = let
 in
 //
 if n >= 2 then let

@@ -833,8 +833,9 @@ case+ d0c0.d0ecl_node of
   end
 | D0Cextcode (knd, pos, code) => d1ecl_extcode (loc0, knd, pos, code)
 //
-| D0Cdcstdecs (
-    tok, qarg, d0cs
+| D0Cdcstdecs
+  (
+    knd, tok, qarg, d0cs
   ) => let
     val dck = token_get_dcstkind (tok)
     val isfun = dcstkind_is_fun (dck)

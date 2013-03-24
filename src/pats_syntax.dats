@@ -2712,15 +2712,12 @@ in '{
 
 (* ****** ****** *)
 
-extern
-fun d0ecl_dcstdecs_flag
-(
-  flag: int, tok: token, ent2: q0marglst, ent3: d0cstdeclst
-) : d0ecl // end of [d0ecl_dcstdecs]
+local
 
-implement
-d0ecl_dcstdecs_flag
-  (flag, tok, ent2, ent3) = let
+fun auxmain
+(
+  knd: int, tok: token, ent2: q0marglst, ent3: d0cstdeclst
+) : d0ecl = let
 //
 val loc = tok.token_loc
 val loc =
@@ -2730,17 +2727,24 @@ case+ list_last_opt<d0cstdec> (ent3) of
 ) : location // end of [val]
 //
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cdcstdecs (tok, ent2, ent3)
-} end // end of [d0ecl_dcstdecs_flag]
+  d0ecl_loc= loc, d0ecl_node= D0Cdcstdecs (knd, tok, ent2, ent3)
+} end // end of [auxmain]
 
+in (* in of [local] *)
+//
 implement
 d0ecl_dcstdecs
-  (tok, ent2, ent3) = d0ecl_dcstdecs_flag (0, tok, ent2, ent3)
-// end of [d0ecl_dcstdecs]
+  (tok, ent2, ent3) = auxmain (0, tok, ent2, ent3)
+//
 implement
-d0ecl_dcstdecs_static
-  (tok, ent2, ent3) = d0ecl_dcstdecs_flag (1, tok, ent2, ent3)
-// end of [d0ecl_dcstdecs_static]
+d0ecl_dcstdecs_extern
+  (tok, ent2, ent3) = auxmain (0, tok, ent2, ent3)
+//
+implement
+d0ecl_dcstdecs_static // HX: a static const is not exported
+  (tok, ent2, ent3) = auxmain (1, tok, ent2, ent3)
+//
+end // end of [local]
 
 (* ****** ****** *)
 

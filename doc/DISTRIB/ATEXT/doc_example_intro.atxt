@@ -111,6 +111,12 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
+#packfilename("fib1.dats")
+#packfilename("fib2.dats")
+#packfilename("fibmem.dats")
+
+(* ****** ****** *)
+
 #packfilename("atoi.dats")
 #packfilename("atof.dats")
 
