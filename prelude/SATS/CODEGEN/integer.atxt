@@ -126,6 +126,15 @@ g0int_aop_type (tk: tkind) =
 #atscode_separator()
 
 fun{tk:tk}
+g0int_asl (x: g0int (tk), n: intGte(0)):<> g0int (tk)
+overload << with g0int_asl
+fun{tk:tk}
+g0int_asr (x: g0int (tk), n: intGte(0)):<> g0int (tk)
+overload >> with g0int_asr
+
+#atscode_separator()
+
+fun{tk:tk}
 g0int_isltz (x: g0int (tk)):<> bool
 overload isltz with g0int_isltz of 0
 fun{tk:tk}
@@ -564,6 +573,15 @@ overload double with g0uint_double of 0
 #fun_g0uint_aop_decl("mul")
 #fun_g0uint_aop_decl("div")
 #fun_g0uint_aop_decl("mod")
+
+#atscode_separator()
+
+fun{tk:tk}
+g0uint_lsl (x: g0uint (tk), n: intGte(0)):<> g0uint (tk)
+overload << with g0uint_lsl
+fun{tk:tk}
+g0uint_lsr (x: g0uint (tk), n: intGte(0)):<> g0uint (tk)
+overload >> with g0uint_lsr
 
 #atscode_separator()
 

@@ -18,12 +18,20 @@ ATSCCFLAGS=
 
 ######
 
-all:: hello
+all:: misc
+all:: bsearch
+all:: coinchange
 all:: queens
 
 ######
 
-hello: hello_dats.c ; \
+misc: misc_dats.c ; \
+  $(CC) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+
+bsearch: bsearch_dats.c ; \
+  $(CC) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+
+coinchange: coinchange_dats.c ; \
   $(CC) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 
 queens: queens_dats.c ; \
@@ -45,7 +53,9 @@ clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
-cleanall:: ; $(RMF) hello
+cleanall:: ; $(RMF) misc
+cleanall:: ; $(RMF) bsearch
+cleanall:: ; $(RMF) coinchange
 cleanall:: ; $(RMF) queens
 
 ######

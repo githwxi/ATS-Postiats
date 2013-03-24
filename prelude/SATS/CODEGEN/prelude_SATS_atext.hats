@@ -180,6 +180,21 @@ in
   atext_strptr (ent)
 end // end of [f_int_int]
 //
+fun f_int_X_int
+(
+  fnm: string
+, tnm1: string, tnm2: string, X: string
+) : atext = let
+val ent = sprintf ("\
+fun g0int_%s_%s (x: %s, n: %s):<> %s = \"mac#%%\"\n\
+", @(
+  fnm, tnm1, tnm2, X, tnm2
+)
+) // end of [sprintf] // end of [val]
+in
+  atext_strptr (ent)
+end // end of [f_int_X_int]
+//
 fun f_int_bool (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
@@ -251,6 +266,9 @@ val () = res := list_cons (f_int_int ("pred", tnm1, tnm2), res)
 //
 val () = res := list_cons (f_int_int ("half", tnm1, tnm2), res)
 //
+val () = res := list_cons (f_int_X_int ("asl", tnm1, tnm2, "intGte(0)"), res)
+val () = res := list_cons (f_int_X_int ("asr", tnm1, tnm2, "intGte(0)"), res)
+//
 val () = res := list_cons (f_int2_int ("add", tnm1, tnm2), res)
 val () = res := list_cons (f_int2_int ("sub", tnm1, tnm2), res)
 val () = res := list_cons (f_int2_int ("mul", tnm1, tnm2), res)
@@ -313,6 +331,21 @@ fun g0uint_%s_%s (x: %s):<> %s = \"mac#%%\"\n\
 in
   atext_strptr (ent)
 end // end of [f_uint_uint]
+//
+fun f_uint_X_uint
+(
+  fnm: string
+, tnm1: string, tnm2: string, X: string
+) : atext = let
+val ent = sprintf ("\
+fun g0uint_%s_%s (x: %s, n: %s):<> %s = \"mac#%%\"\n\
+", @(
+  fnm, tnm1, tnm2, X, tnm2
+)
+) // end of [sprintf] // end of [val]
+in
+  atext_strptr (ent)
+end // end of [f_int_X_int]
 //
 fun f_uint_bool (
   fnm: string, tnm1: string, tnm2: string
@@ -387,6 +420,9 @@ val () = res := list_cons (f_uint2_uint ("sub", tnm1, tnm2), res)
 val () = res := list_cons (f_uint2_uint ("mul", tnm1, tnm2), res)
 val () = res := list_cons (f_uint2_uint ("div", tnm1, tnm2), res)
 val () = res := list_cons (f_uint2_uint ("mod", tnm1, tnm2), res)
+//
+val () = res := list_cons (f_uint_X_uint ("lsl", tnm1, tnm2, "intGte(0)"), res)
+val () = res := list_cons (f_uint_X_uint ("lsr", tnm1, tnm2, "intGte(0)"), res)
 //
 val () = res := list_cons (f_uint_bool ("isgtz", tnm1, tnm2), res)
 val () = res := list_cons (f_uint_bool ("iseqz", tnm1, tnm2), res)

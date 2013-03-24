@@ -90,6 +90,9 @@ val () = res := list_cons (f "mul", res)
 val () = res := list_cons (f "div", res)
 val () = res := list_cons (f "mod", res)
 //
+val () = res := list_cons (f "asl", res)
+val () = res := list_cons (f "asr", res)
+//
 val () = res := list_cons (f "isltz", res)
 val () = res := list_cons (f "isltez", res)
 val () = res := list_cons (f "isgtz", res)
@@ -318,6 +321,9 @@ val () = res := list_cons (f "sub", res)
 val () = res := list_cons (f "mul", res)
 val () = res := list_cons (f "div", res)
 val () = res := list_cons (f "mod", res)
+//
+val () = res := list_cons (f "lsl", res)
+val () = res := list_cons (f "lsr", res)
 //
 val () = res := list_cons (f "isgtz", res)
 val () = res := list_cons (f "iseqz", res)

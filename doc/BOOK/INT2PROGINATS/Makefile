@@ -46,18 +46,22 @@ clean:: ; $(RMF) preface
 
 allchap:: CHAP_START
 allchap:: CHAP_PROGELEM
+allchap:: CHAP_FUNCTION
 
 CHAP_START:: ; \
   make -C CHAP_START -f ../Makefile.chap main.db
 CHAP_START:: ; \
   make -C CHAP_START -f ../Makefile.chap clean
 
-######
-
 CHAP_PROGELEM:: ; \
   make -C CHAP_PROGELEM -f ../Makefile.chap main.db
 CHAP_PROGELEM:: ; \
   make -C CHAP_PROGELEM -f ../Makefile.chap clean
+
+CHAP_FUNCTION:: ; \
+  make -C CHAP_FUNCTION -f ../Makefile.chap main.db
+CHAP_FUNCTION:: ; \
+  make -C CHAP_FUNCTION -f ../Makefile.chap clean
 
 ######
 

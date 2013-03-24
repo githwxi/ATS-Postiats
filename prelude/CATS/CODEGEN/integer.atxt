@@ -232,6 +232,31 @@ in
 end // end of [fun_aop_decl]
 //
 fun
+fun_asx_decl
+(
+  opr: string, knd: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "asl" => "<<" | "asr" => ">>" | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_%s
+atspre_g0int_%s_%s
+  (atstype_%s x, atstype_int n) { return (x %s n) ; }
+// end of [atspre_g0int_%s_%s]\
+", @(
+  knd, opr, knd, knd, fopr, opr, knd
+)
+) // end of [sprintf] // end of [val]
+in
+  atext_strptr (ent)
+end // end of [fun_asz_decl]
+//
+fun
 fun_cmpz_decl
 (
   opr: string, knd: string
@@ -347,7 +372,7 @@ in
   atext_strptr (ent)
 end // end of [fun_maxmin_decl]
 //
-in // in of [local]
+in (* in of [local] *)
 //
 fun g0int_implist
   (tnm: string): atext = let
@@ -367,6 +392,9 @@ val () = res := list_cons (fun_aop_decl("sub", tnm), res)
 val () = res := list_cons (fun_aop_decl("mul", tnm), res)
 val () = res := list_cons (fun_aop_decl("div", tnm), res)
 val () = res := list_cons (fun_aop_decl("mod", tnm), res)
+//
+val () = res := list_cons (fun_asx_decl("asl", tnm), res)
+val () = res := list_cons (fun_asx_decl("asr", tnm), res)
 //
 val () = res := list_cons (fun_cmpz_decl("isltz", tnm), res)
 val () = res := list_cons (fun_cmpz_decl("isltez", tnm), res)
@@ -602,6 +630,32 @@ in
 end // end of [fun_aop_decl]
 //
 fun
+fun_lsx_decl
+(
+  opr: string, knd: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "lsl" => "<<" | "lsr" => ">>" | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_%s
+atspre_g0uint_%s_%s
+  (atstype_%s x, atstype_int n) { return (x %s n) ; }
+// end of [atspre_g0uint_%s_%s]\
+", @(
+  knd, opr, knd, knd, fopr, opr, knd
+)
+) // end of [sprintf] // end of [val]
+in
+  atext_strptr (ent)
+end // end of [fun_lsz_decl]
+//
+//
+fun
 fun_cmpz_decl (
   opr: string, knd: string
 ) : atext = let
@@ -712,7 +766,7 @@ in
   atext_strptr (ent)
 end // end of [fun_maxmin_decl]
 //
-in // in of [local]
+in (* in of [local] *)
 //
 fun g0uint_implist
   (tnm: string): atext = let
@@ -729,6 +783,9 @@ val () = res := list_cons (fun_aop_decl("sub", tnm), res)
 val () = res := list_cons (fun_aop_decl("mul", tnm), res)
 val () = res := list_cons (fun_aop_decl("div", tnm), res)
 val () = res := list_cons (fun_aop_decl("mod", tnm), res)
+//
+val () = res := list_cons (fun_lsx_decl("lsl", tnm), res)
+val () = res := list_cons (fun_lsx_decl("lsr", tnm), res)
 //
 val () = res := list_cons (fun_cmpz_decl("isgtz", tnm), res)
 val () = res := list_cons (fun_cmpz_decl("iseqz", tnm), res)
