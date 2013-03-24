@@ -921,7 +921,7 @@ if i >= 0 then (
   | '*' when
       testing_literal
         (buf, pos, "*)") >= 0 => let
-      val ~list_vt_cons (_, xs) = xs
+      val+~list_vt_cons (_, xs) = xs
     in
       case+ xs of
       | list_vt_cons _ => let

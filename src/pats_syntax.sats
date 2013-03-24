@@ -75,7 +75,8 @@ fun synent_isnot_null {a:type} (x: a):<> bool
 //
 (* ****** ****** *)
 
-datatype srpifkind =
+datatype
+srpifkind =
   | SRPIFKINDif | SRPIFKINDifdef | SRPIFKINDifndef
 // end of [srpifkind]
 
@@ -187,7 +188,8 @@ fun e0fftag_var_fun (t_fun: token): e0fftag
 
 (* ****** ****** *)
 
-datatype s0rtq_node =
+datatype
+s0rtq_node =
   | S0RTQnone
   | S0RTQsymdot of symbol (* fileid *)
 /*
@@ -208,7 +210,8 @@ fun fprint_s0rtq : fprint_type (s0rtq)
 
 (* ****** ****** *)
 
-datatype s0taq_node =
+datatype
+s0taq_node =
   | S0TAQnone
   | S0TAQsymdot of symbol
   | S0TAQsymcolon of symbol
@@ -246,8 +249,9 @@ fun fprint_sqi0de : fprint_type (sqi0de)
 
 (* ****** ****** *)
 
-datatype d0ynq_node =
-  | D0YNQnone
+datatype
+d0ynq_node =
+  | D0YNQnone of ()
   | D0YNQsymdot of symbol
   | D0YNQsymcolon of symbol
   | D0YNQsymdotcolon of (symbol, symbol)
@@ -317,7 +321,8 @@ fun fprint_f0xty : fprint_type (f0xty)
 
 (* ****** ****** *)
 
-datatype e0xpactkind =
+datatype
+e0xpactkind =
   | E0XPACTassert | E0XPACTerror | E0XPACTprint
 // end of [e0xpactkind]
 
@@ -408,15 +413,17 @@ dl0abeled (a:type) = DL0ABELED (a) of (l0ab, a)
 
 (* ****** ****** *)
 
-datatype s0rt_node =
+datatype
+s0rt_node =
   | S0RTide of symbol (* sort identifier *)
   | S0RTqid of (s0rtq, symbol) (* qualified sort identifier *)
-  | S0RTapp of (s0rt, s0rt)
-  | S0RTlist of s0rtlst
+  | S0RTapp of (s0rt (*fun*), s0rt (*arg*)) // HX: unsupported
+  | S0RTlist of s0rtlst (* for temporary use *)
   | S0RTtype of int (* prop/view/type/t0ype/viewtype/viewt0ype *)
 // end of [s0rt_node]
 
-where s0rt: type = '{ 
+where
+s0rt: type = '{ 
   s0rt_loc= location, s0rt_node= s0rt_node
 } // end of [s0rt]
 
@@ -517,11 +524,13 @@ fun a0msrt_make (
 
 (* ****** ****** *)
 
-datatype sp0at_node =
+datatype
+sp0at_node =
   | SP0Tcstr of (sqi0de, s0arglst)
 // end of [sp0at_node]
 
-where sp0at: type = '{
+where
+sp0at: type = '{
   sp0at_loc= location, sp0at_node= sp0at_node
 } // end of [sp0at]
 
@@ -729,7 +738,8 @@ d0cstarg_node =
   | D0CSTARGdyn of (int(*npf*), a0typlst)
 // end of [d0cstarg_node]
 
-typedef d0cstarg = '{
+typedef
+d0cstarg = '{
   d0cstarg_loc= location, d0cstarg_node= d0cstarg_node
 } // end of [d0cstarg]
 typedef d0cstarglst = List (d0cstarg)
@@ -1100,10 +1110,8 @@ fun fprint_labp0at : fprint_type (labp0at)
 
 (* ****** ****** *)
 
-datatype
-i0mparg =
-  | I0MPARG_sarglst of s0arglst
-  | I0MPARG_svararglst of s0vararglst
+datatype i0mparg =
+  | I0MPARG_sarglst of s0arglst | I0MPARG_svararglst of s0vararglst
 // end of [i0mparg]
 
 fun i0mparg_sarglst_none (): i0mparg
@@ -1145,12 +1153,12 @@ fun impqi0de_make_some
 datatype
 f0arg_node =
   | F0ARGdyn of p0at
-  | F0ARGsta1 of s0qualst
-  | F0ARGsta2 of s0vararg
+  | F0ARGsta1 of s0qualst | F0ARGsta2 of s0vararg
   | F0ARGmet of s0explst
 // end of [f0arg_node]
 
-typedef f0arg = '{
+typedef
+f0arg = '{
   f0arg_loc= location, f0arg_node= f0arg_node
 } // end of [f0arg]
 
@@ -1959,9 +1967,14 @@ fun d0ecl_staload_some (tok: token, ent2: i0de, ent4: token): d0ecl
 //
 fun d0ecl_dynload (tok: token, ent2: token): d0ecl
 //
-fun d0ecl_dcstdecs (
+fun d0ecl_dcstdecs
+(
   tok: token, ent2: q0marglst, ent3: d0cstdeclst
 ) : d0ecl // end of [d0ecl_dcstdecs]
+fun d0ecl_dcstdecs_static
+(
+  tok: token, ent2: q0marglst, ent3: d0cstdeclst
+) : d0ecl // end of [d0ecl_dcstdecs_static]
 //
 fun d0ecl_local (
   t_local: token, ds_head: d0eclist, ds_body: d0eclist, t_end: token

@@ -66,7 +66,7 @@ d2cst_set2_tyer (d2c, opt) =
 (* ****** ****** *)
 
 implement
-$D2E.d2cst_is_extfun
+$D2E.d2cst_is_fun
   (d2c) = let
 //
 val-Some (hse) = d2cst_get2_tyer (d2c)
@@ -74,12 +74,13 @@ val-Some (hse) = d2cst_get2_tyer (d2c)
 in
 //
 case+ hse.hisexp_node of
-| HSEfun (fc, _arg, _res) => (
+| HSEfun (fc, _arg, _res) =>
+  (
     case+ fc of FUNCLOfun () => true | _ => false
   ) // end of [HSEfun]
 | _ => false // end of [_]
 //
-end // end of [$D2E.d2cst_is_extfun]
+end // end of [$D2E.d2cst_is_fun]
 
 (* ****** ****** *)
 

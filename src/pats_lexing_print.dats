@@ -124,6 +124,7 @@ fprint_token
   | T_STACST () => fprintf (out, "STACST()", @())
   | T_STADEF () => fprintf (out, "STADEF()", @())
   | T_STALOAD () => fprintf (out, "STALOAD()", @())
+  | T_STATIC () => fprintf (out, "STATIC()", @())
 (*
   | T_STAVAR () => fprintf (out, "STAVAR()", @())
 *)

@@ -1066,7 +1066,7 @@ val () = $TRENV1.the_trans1_env_initialize ()
 val () = $TRENV2.the_trans2_env_initialize ()
 //
 val arglst = comarglst_parse (argc, argv)
-val ~list_vt_cons (arg0, arglst) = arglst
+val+~list_vt_cons (arg0, arglst) = arglst
 //
 var
 state = @{

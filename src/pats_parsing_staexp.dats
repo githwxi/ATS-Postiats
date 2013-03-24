@@ -991,6 +991,13 @@ end // end of [p_q0marg]
 
 (* ****** ****** *)
 
+implement
+p_q0margseq
+  (buf, bt, err) = l2l (pstar_fun (buf, bt, p_q0marg))
+// end of [p_q0margseq]
+
+(* ****** ****** *)
+
 (*
 cona0rgopt ::= | /*(empty)*/ | OF s0exp
 *)

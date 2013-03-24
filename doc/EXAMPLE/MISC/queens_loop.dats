@@ -38,13 +38,13 @@ for
 (
   i := i2sz(0); i < asz; i := succ(i)
 ) (
-  $UN.ptr0_set<a> (p, x0); p := ptr_succ<a>(p0)
+  $UN.ptr0_set<a> (p, x0); p := ptr_succ<a>(p)
 ) // end of [for]
 //
 ) // end of [val]
 //
 in
-  $UN.castvwtp0{arrayref(a,n)}((pf, pfgc | p))
+  $UN.castvwtp0{arrayref(a,n)}((pf, pfgc | p0))
 end // end of [arrayref_make_elt]
 
 (* ****** ****** *)

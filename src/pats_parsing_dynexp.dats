@@ -503,9 +503,8 @@ fun p_arrdimopt (
 ) : d0expopt = let
   val bt = 1 // HX: this is optional
   val err0 = err
-  val ~SYNENT3 (ent1, ent2, ent3) =
-    pseq3_fun {token,d0exp,token}
-      (buf, bt, err, p_LBRACKET, p_d0exp, p_RBRACKET)
+  val+~SYNENT3 (ent1, ent2, ent3) =
+    pseq3_fun {token,d0exp,token} (buf, bt, err, p_LBRACKET, p_d0exp, p_RBRACKET)
   // end of [val]
 in
   if err = err0 then Some (ent2) else (err := err0; None ())
@@ -585,7 +584,7 @@ p_s0expdarg (
 ) : d0exp = let
   val err0 = err
   typedef a1 = token and a2 = s0exparg and a3 = token
-  val ~SYNENT3 (ent1, ent2, ent3) =
+  val+~SYNENT3 (ent1, ent2, ent3) =
     pseq3_fun {a1,a2,a3} (buf, bt, err, p_LBRACE, p_s0exparg, p_RBRACE)
   // end of [val]
 in
@@ -1297,7 +1296,7 @@ fun p_i0nvqua (
   val bt = 1 // HX: this is optional
   val err0 = err
   typedef a1 = token and a2 = s0qualst and a3 = token
-  val ~SYNENT3 (ent1, ent2, ent3) =
+  val+~SYNENT3 (ent1, ent2, ent3) =
     pseq3_fun {a1,a2,a3} (buf, bt, err, p_LBRACE, p_s0quaseq, p_RBRACE)
   // end of [val]
 in
@@ -1313,7 +1312,7 @@ fun p_i0nvresqua (
   val bt = 1 // HX: this is optional
   val err0 = err
   typedef a1 = token and a2 = s0qualst and a3 = token
-  val ~SYNENT3 (ent1, ent2, ent3) =
+  val+~SYNENT3 (ent1, ent2, ent3) =
     pseq3_fun {a1,a2,a3} (buf, bt, err, p_LBRACKET, p_s0quaseq, p_RBRACKET)
   // end of [val]
 in
@@ -1359,7 +1358,7 @@ fun p_i0nvargstate (
 ) : i0nvarglst = let
   val err0 = err
   typedef a1 = token and a2 = i0nvarglst and a3 = token
-  val ~SYNENT3 (ent1, ent2, ent3) =
+  val+~SYNENT3 (ent1, ent2, ent3) =
     pseq3_fun {a1,a2,a3} (buf, bt, err, p_LPAREN, p_i0nvargseq, p_RPAREN)
   // end of [val]
 in
@@ -1384,7 +1383,7 @@ case+ tok.token_node of
     val () = incby1 ()
     val ent2 = p_i0nvresqua (buf, bt, err)
     typedef a1 = token and a2 = i0nvarglst and a3 = token
-    val ~SYNENT3 (ent3, ent4, ent5) =
+    val+~SYNENT3 (ent3, ent4, ent5) =
       pseq3_fun {a1,a2,a3} (buf, bt, err, p_LPAREN, p_i0nvargseq, p_RPAREN)
     // end of [val]
   in
@@ -1492,7 +1491,7 @@ case+ tok.token_node of
     val bt = 0
     val () = incby1 ()
     typedef a1 = token and a2 = d0eclist and a3 = token
-    val ~SYNENT3 (ent2, ent3, ent4) =
+    val+~SYNENT3 (ent2, ent3, ent4) =
       pseq3_fun {a1,a2,a3} (buf, bt, err, p_LBRACE, p_d0eclseq_dyn, p_RBRACE)
     // end of [val]   
   in

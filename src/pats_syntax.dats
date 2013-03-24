@@ -2712,17 +2712,35 @@ in '{
 
 (* ****** ****** *)
 
+extern
+fun d0ecl_dcstdecs_flag
+(
+  flag: int, tok: token, ent2: q0marglst, ent3: d0cstdeclst
+) : d0ecl // end of [d0ecl_dcstdecs]
+
 implement
-d0ecl_dcstdecs
-  (tok, ent2, ent3) = let
-  val loc = tok.token_loc
-  val loc = (case+
-    list_last_opt<d0cstdec> (ent3) of
-    ~Some_vt x => loc + x.d0cstdec_loc | ~None_vt _ => loc (*dead*)
-  ) : location // end of [val]
+d0ecl_dcstdecs_flag
+  (flag, tok, ent2, ent3) = let
+//
+val loc = tok.token_loc
+val loc =
+(
+case+ list_last_opt<d0cstdec> (ent3) of
+| ~Some_vt x => loc + x.d0cstdec_loc | ~None_vt _ => loc (*dead*)
+) : location // end of [val]
+//
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cdcstdecs (tok, ent2, ent3)
-} end // end of [d0ecl_dcstdecs]
+} end // end of [d0ecl_dcstdecs_flag]
+
+implement
+d0ecl_dcstdecs
+  (tok, ent2, ent3) = d0ecl_dcstdecs_flag (0, tok, ent2, ent3)
+// end of [d0ecl_dcstdecs]
+implement
+d0ecl_dcstdecs_static
+  (tok, ent2, ent3) = d0ecl_dcstdecs_flag (1, tok, ent2, ent3)
+// end of [d0ecl_dcstdecs_static]
 
 (* ****** ****** *)
 

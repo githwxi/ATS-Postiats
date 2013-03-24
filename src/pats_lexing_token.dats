@@ -436,6 +436,7 @@ val () = ins ("sortdef", T_SORTDEF)
 val () = ins ("sta", T_STACST)
 val () = ins ("stacst", T_STACST)
 val () = ins ("stadef", T_STADEF)
+val () = ins ("static", T_STATIC)
 (*
 val () = ins ("stavar", T_STAVAR)
 *)

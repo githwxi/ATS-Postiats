@@ -453,7 +453,7 @@ val () = println! ("p2at_trdn_con: flag = ", flag)
 *)
 val p3t0 = (case+ 0 of
 | _ when flag = 0 => let
-    val ~PATCONTRUP
+    val+~PATCONTRUP
       (p2ts, s2es_arg, s2e_res) = p2at_trup_con (p2t0)
     val () = $SOL.s2exp_hypequal_solve (loc0, s2e_res, s2e)
     var serr: int = 0

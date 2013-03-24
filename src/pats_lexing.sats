@@ -150,6 +150,7 @@ token_node =
   | T_STACST of () // stacst
   | T_STADEF of () // stadef
   | T_STALOAD of () // staload
+  | T_STATIC of () // static
 (*
   | T_STAVAR of () // stavar // HX: a suspended hack
 *)

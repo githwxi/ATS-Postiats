@@ -116,9 +116,10 @@ case+ s2ls of
     val s2e_elt = (
       case+ opt of
       | ~Some_vt (pfobj) => let
-          val ~PFOBJ (
+          val+~PFOBJ
+          (
             d2v, s2e_ctx, s2e_elt, _(*s2l*)
-          ) = pfobj
+          ) = pfobj // end of [val]
 (*
 //
 // HX-2012-08-10:

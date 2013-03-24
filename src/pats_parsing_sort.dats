@@ -108,7 +108,7 @@ s0rtq ::= i0de_dlr DOT
 implement
 p_s0rtq (buf, bt, err) = let
   val err0 = err
-  val ~SYNENT2 (ent1, ent2) =
+  val+~SYNENT2 (ent1, ent2) =
     pseq2_fun {i0de,token} (buf, bt, err, p_i0de_dlr, p_DOT)
   // end of [val]
 in

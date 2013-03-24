@@ -64,7 +64,7 @@ p_d0atsrtdec (
   typedef a1 = i0de
   typedef a2 = token
   typedef a3 = d0atsrtconlst
-  val ~SYNENT3 (ent1, ent2, ent3) =
+  val+~SYNENT3 (ent1, ent2, ent3) =
     pseq3_fun {a1,a2,a3} (buf, bt, err, p_s0rtid, p_EQ, p_d0atsrtconseq)
   // end of [val]
 in
@@ -94,7 +94,7 @@ p_s0rtdef (
   typedef a1 = i0de
   typedef a2 = token
   typedef a3 = s0rtext
-  val ~SYNENT3 (ent1, ent2, ent3) =
+  val+~SYNENT3 (ent1, ent2, ent3) =
     pseq3_fun {a1,a2,a3} (buf, bt, err, p_s0rtid, p_EQ, p_s0rtext)
   // end of [val]
 in
@@ -1125,11 +1125,13 @@ in
 //
 case+ tok.token_node of
 | _ when
-    ptest_fun (
+    ptest_fun
+  (
     buf, p_d0ecl, ent
   ) => synent_decode (ent)
 | _ when
-    ptest_fun (
+    ptest_fun
+  (
     buf, p_dcstkind, ent
   ) => let
     val bt = 0
@@ -1239,13 +1241,13 @@ case+ 0 of
     val bt = 0
     val ent1 = synent_decode {i0de} (ent)
     val ent2 = pstar_fun {f0arg} (buf, bt, p_f0arg1)
-    val ~SYNENT2 (ent3, ent4) =
+    val+~SYNENT2 (ent3, ent4) =
       pseq2_fun {e0fftaglstopt,s0exp} (buf, 1(*bt*), err, p_colonwith, p_s0exp)
     // end of [val]
     val ent3 = (if (err = err0) then ent3 else None ()): e0fftaglstopt
     val ent4 = (if (err = err0) then Some (ent4) else None ()): s0expopt
     val () = if err > err0 then (err := err0) // anntationless
-    val ~SYNENT3 (ent5, ent6, ent7) =
+    val+~SYNENT3 (ent5, ent6, ent7) =
       pseq3_fun {token,d0exp,witht0ype} (buf, bt, err, p_EQ, p_d0exp, p_witht0ype)
     // end of [val]
   in
@@ -1305,7 +1307,7 @@ p_i0mpsvararg (
   typedef a1 = token
   typedef a2 = s0vararg
   typedef a3 = token
-  val ~SYNENT3 (ent1, ent2, ent3) =
+  val+~SYNENT3 (ent1, ent2, ent3) =
     pseq3_fun {a1,a2,a3} (buf, bt, err, p_LBRACE, p_s0vararg, p_RBRACE)
   // end of [val]
 in
@@ -1510,64 +1512,56 @@ case+ tok.token_node of
     case+ tok2.token_node of
 //
     | _ when
-        ptest_fun (
+        ptest_fun
+      (
         buf, p_dcstkind, ent
       ) => let
         val ent1 = synent_decode {token} (ent)
-        val ent2 = pstar_fun {q0marg} (buf, bt, p_q0marg)
-        val ent3 = p_d0cstdecseq (buf, bt, err)
+        val ent2 = pif_fun (buf, bt, err, p_q0margseq, err0)
+        val ent3 = pif_fun (buf, bt, err, p_d0cstdecseq, err0)
       in
         if err = err0 then
-          d0ecl_dcstdecs (ent1, (l2l)ent2, ent3)
-        else let
-          val () = list_vt_free (ent2) in synent_null ()
-        end // end of [if]
-      end
+          d0ecl_dcstdecs (ent1, ent2, ent3) else synent_null ()
+        // end of [if]
+      end // end of [...]
 //
     | T_TYPEDEF _ => let
         val () = incby1 ()
-        val ~SYNENT3 (ent1, ent2, ent3) =
+        val+~SYNENT3 (ent1, ent2, ent3) =
           pseq3_fun {s0tring,token,s0exp} (buf, bt, err, p_s0tring, p_EQ, p_s0exp)
         // end of [val]
       in
         if err = err0 then d0ecl_extype2 (tok2, ent1, ent3) else synent_null ()
-      end
+      end // end of [T_TYPEDEF]
 //
     | _ => let
         val () = err := err + 1 in synent_null ()
       end (* end of [_] *)
 //
   end // end of [T_EXTERN]
+//
 | T_EXTYPE () => let
     val () = incby1 ()
-    val ~SYNENT3 (ent1, ent2, ent3) =
+    val+~SYNENT3 (ent1, ent2, ent3) =
       pseq3_fun {s0tring,token,s0exp} (buf, bt, err, p_s0tring, p_EQ, p_s0exp)
     // end of [val]
   in
     if err = err0 then d0ecl_extype (tok, ent1, ent3) else synent_null ()
-  end
+   end // end of [T_EXTYPE]
 //
 | T_EXTVAL () => let
     val () = incby1 ()
-    val ~SYNENT3 (ent1, ent2, ent3) =
+    val+~SYNENT3 (ent1, ent2, ent3) =
       pseq3_fun {s0tring,token,d0exp} (buf, bt, err, p_s0tring, p_EQ, p_d0exp)
     // end of [val]
   in
     if err = err0 then d0ecl_extval (tok, ent1, ent3) else synent_null ()
-  end
+  end // end of [T_EXTVAL]
 //
 | T_EXTCODE _ => let
     val () = incby1 () in d0ecl_extcode (1(*dyn*), tok)
-  end
-| T_SRPINCLUDE () => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = p_s0tring (buf, bt, err)
-  in
-    if err = err0 then
-      d0ecl_include (1(*dyn*), tok, ent2) else synent_null ()
-    // end of [if]
-  end
+  end // end of [T_EXTCODE]
+//
 | T_DYNLOAD () => let
     val bt = 0
     val () = incby1 ()
@@ -1576,7 +1570,19 @@ case+ tok.token_node of
     if err = err0 then
       d0ecl_dynload (tok, ent2) else synent_null ()
     // end of [if]
-  end
+  end // end of [T_DYNLOAD]
+//
+| T_STATIC () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent1 = p_dcstkind (buf, bt, err)
+    val ent2 = pif_fun (buf, bt, err, p_q0margseq, err0)
+    val ent3 = pif_fun (buf, bt, err, p_d0cstdecseq, err0)
+  in
+    if err = err0 then
+      d0ecl_dcstdecs_static (ent1, ent2, ent3) else synent_null ()
+    // end of [if]
+  end (* end of [T_STATIC] *)
 //
 | T_LOCAL () => let
     val bt = 0
@@ -1599,6 +1605,17 @@ case+ tok.token_node of
       synent_null ()
     end // end of [if]
   end
+//
+| T_SRPINCLUDE () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_s0tring (buf, bt, err)
+  in
+    if err = err0 then
+      d0ecl_include (1(*dyn*), tok, ent2) else synent_null ()
+    // end of [if]
+  end
+//
 | _ when
     ptest_fun (
     buf, p_srpifkind, ent

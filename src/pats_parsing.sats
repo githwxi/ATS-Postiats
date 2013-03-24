@@ -575,7 +575,10 @@ fun p_eqs0expopt : parser (s0expopt) // EQ s0exp
 fun p_ofs0expopt : parser (s0expopt) // OF s0exp
 fun p_colons0expopt : parser (s0expopt) // OF s0exp
 //
-fun p_q0marg : parser (q0marg) // quantifier-like multi-argumet
+// quantifier-like multi-argument
+//
+fun p_q0marg : parser (q0marg)
+fun p_q0margseq : parser (q0marglst)
 //
 fun p_a0typ : parser (a0typ) // argument type
 //

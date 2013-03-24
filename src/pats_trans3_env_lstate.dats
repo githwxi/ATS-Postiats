@@ -301,7 +301,8 @@ fun lstaftitmlst_make
 implement
 lstaftitmlst_make (xs) = let
 //
-fun loop (
+fun loop
+(
   xs: lstbefitmlst
 , res: &lstaftitmlst? >> lstaftitmlst
 ) : void = let
@@ -336,20 +337,23 @@ end // end of [lstaftitmlst_make]
 extern
 fun lstaftitmlst_update (xs: !lstaftitmlst): void
 implement
-lstaftitmlst_update (xs) = (
-  case+ xs of
-  | list_vt_cons
-      (!p_x, !p_xs1) => let
-      val d2v = p_x->lstaftitm_var
-      val sait = d2var_get_type (d2v)
-      val saits = p_x->lstaftitm_saits
-      val () = p_x->lstaftitm_saits := list_vt_cons (sait, saits)
-      val () = lstaftitmlst_update (!p_xs1)
-      prval () = fold@ (xs)
-    in
-      // nothing
-    end // end of [list_vt_cons]
-  | list_vt_nil () => fold@ (xs)
+lstaftitmlst_update (xs) =
+(
+//
+case+ xs of
+| list_vt_cons
+    (!p_x, !p_xs1) => let
+    val d2v = p_x->lstaftitm_var
+    val sait = d2var_get_type (d2v)
+    val saits = p_x->lstaftitm_saits
+    val () = p_x->lstaftitm_saits := list_vt_cons (sait, saits)
+    val () = lstaftitmlst_update (!p_xs1)
+    prval () = fold@ (xs)
+  in
+    // nothing
+  end // end of [list_vt_cons]
+| list_vt_nil () => fold@ (xs)
+//
 ) // end of [lstaftitmlst_update]
 
 (* ****** ****** *)
@@ -360,17 +364,19 @@ fun lstaftitmlst_reverse
 implement
 lstaftitmlst_reverse
   (xs) = (
-  case+ xs of
-  | list_vt_cons
-      (!p_x, !p_xs1) => let
-      val saits = p_x->lstaftitm_saits
-      val () = p_x->lstaftitm_saits := list_vt_reverse (saits)
-      val () = lstaftitmlst_reverse (!p_xs1)
-      prval () = fold@ (xs)
-    in
-      // nothing
-    end // end of [list_vt_cons]
-  | list_vt_nil () => fold@ (xs)
+//
+case+ xs of
+| list_vt_cons
+    (!p_x, !p_xs1) => let
+    val saits = p_x->lstaftitm_saits
+    val () = p_x->lstaftitm_saits := list_vt_reverse (saits)
+    val () = lstaftitmlst_reverse (!p_xs1)
+    prval () = fold@ (xs)
+  in
+    // nothing
+  end // end of [list_vt_cons]
+| list_vt_nil () => fold@ (xs)
+//
 ) // end of [lstaftitmlst_reverse]
 
 (* ****** ****** *)
@@ -388,9 +394,11 @@ assume lstaftc3nstr_viewtype = lstaftc3nstr
 implement
 fprint_lstaftc3nstr
   (out, x) = let
-  val LSTAFTC3NSTR (!p_lsais, _) = x
-  val () = fprint_lstaftitmlst (out, !p_lsais)
-  prval () = fold@ (x)
+//
+val LSTAFTC3NSTR (!p_lsais, _) = x
+val () = fprint_lstaftitmlst (out, !p_lsais)
+prval () = fold@ (x)
+//
 in
   // nothing
 end // end of [fprint_lstaftc3nstr]
@@ -398,9 +406,12 @@ end // end of [fprint_lstaftc3nstr]
 (* ****** ****** *)
 
 implement
-lstaftc3nstr_initize (lsbis) = let
-  val lsais = lstaftitmlst_make (lsbis)
-  val ctrs = list_vt_nil {c3nstroptref} ()
+lstaftc3nstr_initize
+  (lsbis) = let
+//
+val lsais = lstaftitmlst_make (lsbis)
+val ctrs = list_vt_nil {c3nstroptref} ()
+//
 in
   LSTAFTC3NSTR (lsais, ctrs)
 end // end of [lstaftc3nstr_initize]
@@ -410,11 +421,12 @@ end // end of [lstaftc3nstr_initize]
 implement
 lstaftc3nstr_update
   (lsaft, ctr) = let
-  val LSTAFTC3NSTR
-    (!p1_lsais, !p2_ctrs) = lsaft
-  val () = lstaftitmlst_update (!p1_lsais)
-  val () = !p2_ctrs := list_vt_cons (ctr, !p2_ctrs)
-  prval () = fold@ (lsaft)
+//
+val+LSTAFTC3NSTR (!p1_lsais, !p2_ctrs) = lsaft
+val () = lstaftitmlst_update (!p1_lsais)
+val () = !p2_ctrs := list_vt_cons (ctr, !p2_ctrs)
+prval () = fold@ (lsaft)
+//
 in
   // nothing
 end // end of [lstaftc3nstr_update]
@@ -424,10 +436,11 @@ end // end of [lstaftc3nstr_update]
 implement
 lstaftc3nstr_finalize
   (lsaft) = let
-  val ~LSTAFTC3NSTR
-    (lsais, ctrs) = lsaft
-  val () = lstaftitmlst_free (lsais)
-  val-list_vt_nil () = ctrs
+//
+val+~LSTAFTC3NSTR (lsais, ctrs) = lsaft
+val () = lstaftitmlst_free (lsais)
+val-list_vt_nil () = ctrs // HX: [ctrs] should be nil!
+//
 in
   // nothing
 end // end of [lstaftc3nstr_finalize]
@@ -450,102 +463,122 @@ end // end of [d2var_is_done]
 
 fun aux1
   (xs: !lstaftitmlst): d2varlst_vt =
-  case+ xs of
-  | list_vt_cons
-      (!p_x, !p_xs1) => let
-      val d2v = p_x->lstaftitm_var
-      val ans = let
-        val isdone = d2var_is_done (d2v)
+(
+//
+case+ xs of
+| list_vt_cons
+    (!p_x, !p_xs1) => let
+    val d2v = p_x->lstaftitm_var
+    val ans = let
+      val isdone = d2var_is_done (d2v)
+    in
+      if isdone then 0 else let
+        val saits = $UN.castvwtp1{saityplst}(p_x->lstaftitm_saits)
       in
-        if isdone then 0 else let
-          val saits = $UN.castvwtp1{saityplst}(p_x->lstaftitm_saits)
-        in
-          saityplst_check (d2v, saits)
-        end // end of [if]
-      end : int // end of [val]
-      val d2vs = aux1 (!p_xs1)
-      prval () = fold@ (xs)
-    in
-      if ans(*merge*) > 0 then list_vt_cons (d2v, d2vs) else d2vs
-    end // end of [list_vt_cons]
-  | list_vt_nil () => let
-      prval () = fold@ (xs) in list_vt_nil ()
-    end // end of [list_vt_nil]
-// end of [aux1]
+        saityplst_check (d2v, saits)
+      end // end of [if]
+    end : int // end of [val]
+    val d2vs = aux1 (!p_xs1)
+    prval () = fold@ (xs)
+  in
+    if ans(*merge*) > 0 then list_vt_cons (d2v, d2vs) else d2vs
+  end // end of [list_vt_cons]
+| list_vt_nil () => let
+    prval () = fold@ (xs) in list_vt_nil ()
+  end // end of [list_vt_nil]
+//
+) // end of [aux1]
 
-fun aux2 (
+fun aux2
+(
   d2v0: d2var, d2vs: d2varlst, k: &int
-) : s2expopt = (
-  case+ d2vs of
-  | list_cons
-      (d2v, d2vs) => let
-      val sgn = compare (d2v0, d2v)
-    in
-      if sgn = 0 then let
-        val opt = d2var_get_mastype (d2v) in (k := 1; opt)
-      end else
-        aux2 (d2v0, d2vs, k)
-      // end of [if]
-    end // end of [list_cons]
-  | list_nil () => None ()
+) : s2expopt =
+(
+//
+case+ d2vs of
+| list_cons
+    (d2v, d2vs) => let
+    val sgn = compare (d2v0, d2v)
+  in
+    if sgn = 0 then let
+      val opt = d2var_get_mastype (d2v) in (k := 1; opt)
+    end else
+      aux2 (d2v0, d2vs, k)
+    // end of [if]
+  end // end of [list_cons]
+| list_nil () => None ()
+//
 ) // end of [aux2]
 
-fun aux3 (
+fun aux3
+(
   d2v0: d2var
 , args: i2nvarglst, d2vs: d2varlst, k: &int
-) : s2expopt = (
-  case+ args of
-  | list_cons
-      (arg, args) => let
-      val d2v =
-        i2nvarg_get_var (arg)
-      // end of [val]
-      val sgn = compare (d2v0, d2v)
-    in
-      if sgn = 0 then let
-        val () = k := 2 in i2nvarg_get_type (arg)
-      end else
-        aux3 (d2v0, args, d2vs, k)
-      // end of [if]
-    end // end of [list_cons]
-  | list_nil () => aux2 (d2v0, d2vs, k)
+) : s2expopt =
+(
+//
+case+ args of
+| list_cons
+    (arg, args) => let
+    val d2v =
+      i2nvarg_get_var (arg)
+    // end of [val]
+    val sgn = compare (d2v0, d2v)
+  in
+    if sgn = 0 then let
+      val () = k := 2 in i2nvarg_get_type (arg)
+    end else
+      aux3 (d2v0, args, d2vs, k)
+    // end of [if]
+  end // end of [list_cons]
+| list_nil () => aux2 (d2v0, d2vs, k)
+//
 ) // end of [aux3]
 
-fun auxlst (
+fun auxlst
+(
   xs: !lstaftitmlst, args: i2nvarglst, d2vs: d2varlst
-) : void = (
-  case+ xs of
-  | list_vt_cons
-      (!p_x, !p_xs1) => let
-      val d2v0 = p_x->lstaftitm_var
-      var knd: int = 0
-      val opt = aux3 (d2v0, args, d2vs, knd)
-      val () = p_x->lstaftitm_knd := knd
-      val () = p_x->lstaftitm_type := opt
-      val () = if knd > 0 then d2var_set_type (d2v0, opt)
-      val () = auxlst (!p_xs1, args, d2vs)
-    in
-      fold@ (xs)
-    end // end of [list_vt_cons]
-  | list_vt_nil () => fold@ (xs)
-) // end of [auxlst]
+) : void = let
+in
+//
+case+ xs of
+| list_vt_cons
+    (!p_x, !p_xs1) => let
+    val d2v0 = p_x->lstaftitm_var
+    var knd: int = 0
+    val opt = aux3 (d2v0, args, d2vs, knd)
+    val () = p_x->lstaftitm_knd := knd
+    val () = p_x->lstaftitm_type := opt
+    val () = if knd > 0 then d2var_set_type (d2v0, opt)
+    val () = auxlst (!p_xs1, args, d2vs)
+  in
+    fold@ (xs)
+  end // end of [list_vt_cons]
+| list_vt_nil () => fold@ (xs)
+//
+end // end of [auxlst]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 lstaftc3nstr_check
   (lsaft, invres) = let
-  val LSTAFTC3NSTR
-    (!p_lsais, _) = lsaft
-  val d2vs = aux1 (!p_lsais)
-  val () = let
-    val args = invres.i2nvresstate_arg
-    val d2vs = $UN.castvwtp1 {d2varlst} (d2vs)
-  in
-    auxlst (!p_lsais, args, d2vs)
-  end // end of [val]
-  val () = list_vt_free (d2vs)
-  prval () = fold@ (lsaft)
+//
+val+LSTAFTC3NSTR (!p_lsais, _) = lsaft
+//
+val d2vs = aux1 (!p_lsais)
+//
+val () = let
+  val args = invres.i2nvresstate_arg
+  val d2vs = $UN.castvwtp1 {d2varlst} (d2vs)
+in
+  auxlst (!p_lsais, args, d2vs)
+end // end of [val]
+//
+val () = list_vt_free (d2vs)
+//
+prval () = fold@ (lsaft)
+//
 in
   // nothing
 end // end of [lstaftc3nstr_check]
@@ -556,7 +589,8 @@ end // end of [local]
 
 local
 
-fun auxerr_some (
+fun auxerr_some
+(
   loc: location, d2v: d2var, s2e0: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc)
@@ -570,7 +604,8 @@ in
   the_trans3errlst_add (T3E_d2var_some (loc, d2v, s2e0))
 end // end of [auxerr_some]
 
-fun auxerr_none (
+fun auxerr_none
+(
   loc: location, d2v: d2var, s2e: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc)
@@ -584,7 +619,8 @@ in
   the_trans3errlst_add (T3E_d2var_some (loc, d2v, s2e))
 end // end of [auxerr_none]
 
-fun auxerr_some2 (
+fun auxerr_some2
+(
   loc: location, d2v: d2var, s2e0: s2exp, s2e: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc)
@@ -597,7 +633,8 @@ in
   the_trans3errlst_add (T3E_d2var_some2 (loc, d2v, s2e0, s2e))
 end // end of [auxerr_some2]
 
-fun auxsait (
+fun auxsait
+(
   loc: location
 , d2v: d2var (* perform merge for [d2v] *)
 , knd: int // HX: 0/1/2 : skip/merge/sub+merge
@@ -645,7 +682,8 @@ case+ sait0 of
 //
 end // end of [auxsait]
 
-fun auxmain (
+fun auxmain
+(
   xs: !lstaftitmlst
 , ctr: c3nstroptref, sub: !stasub
 ) : void = (
@@ -666,7 +704,8 @@ fun auxmain (
   | list_vt_nil () => fold@ (xs)
 ) // end of [auxmain]
 
-fun auxmainlst (
+fun auxmainlst
+(
   xs: !lstaftitmlst
 , ctrs: List_vt (c3nstroptref), invres: i2nvresstate
 ) : void = let

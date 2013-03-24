@@ -728,7 +728,7 @@ fun p_sc0lau (
   buf: &tokbuf, bt: int, err: &int
 ) : sc0lau = let
   val err0 = err
-  val ~SYNENT3 (ent1, ent2, ent3) =
+  val+~SYNENT3 (ent1, ent2, ent3) =
     pseq3_fun (buf, bt, err, p_sp0at, p_EQGT, p_d0exp)
   // end of [val]
 in

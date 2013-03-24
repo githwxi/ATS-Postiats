@@ -52,6 +52,10 @@
 /* ****** ****** */
 
 #define ATSextfun() extern
+#define ATSstafun() static
+
+/* ****** ****** */
+
 #define ATSinline() static inline
 
 /* ****** ****** */
@@ -64,6 +68,7 @@
 #define ATSdyncst_mac(d2c)
 #define ATSdyncst_castfn(d2c)
 #define ATSdyncst_extfun(d2c, args, res) ATSextfun() res d2c args
+#define ATSdyncst_stafun(d2c, args, res) ATSstafun() res d2c args
 
 /* ****** ****** */
 

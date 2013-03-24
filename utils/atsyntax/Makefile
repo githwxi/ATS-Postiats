@@ -23,12 +23,15 @@ CCFLAGS=-fPIC -O2
 ######
 
 OBJECTS := \
+  pats_utils_sats.o \
+  pats_utils_dats.o \
   pats_global_sats.o \
   pats_global_dats.o \
   pats_errmsg_sats.o \
   pats_errmsg_dats.o \
   pats_comarg_sats.o \
   pats_comarg_dats.o \
+  pats_symbol_dats.o \
   pats_filename_dats.o \
   pats_intinf_sats.o \
   pats_effect_sats.o \

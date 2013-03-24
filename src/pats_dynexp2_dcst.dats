@@ -266,9 +266,25 @@ end // end of [d2cst_is_nonprf]
 (* ****** ****** *)
 
 implement
+d2cst_is_mac (d2c) =
+  $SYN.dcstextdef_is_mac (d2cst_get_extdef (d2c))
+// end of [d2cst_is_mac]
+
+(* ****** ****** *)
+
+implement
+d2cst_is_static (d2c) =
+  $SYN.dcstextdef_is_sta (d2cst_get_extdef (d2c))
+// end of [d2cst_is_static]
+
+(* ****** ****** *)
+
+implement
 d2cst_is_castfn (d2c) =
   dcstkind_is_castfn (d2cst_get_kind (d2c))
 // end of [d2cst_is_castfn]
+
+(* ****** ****** *)
 
 implement
 d2cst_is_mainats (d2c) =
