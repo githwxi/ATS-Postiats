@@ -1262,10 +1262,11 @@ fun acker2 (m: int) (n: int): int =
 )
 ')
 
-The function #dyncode("acker2") is a curried version of
-#dyncode("acker1") while the function #dyncode("acker1") in an uncurried
-version of #dyncode("acker2"). Applying #dyncode("acker2") to an integer
-value generates a linear function closure, which I will explain elsewhere.
+The function #dyncode("acker2") is a curried version of #dyncode("acker1")
+while the function #dyncode("acker1") in an uncurried version of
+#dyncode("acker2"). Applying #dyncode("acker2") to an integer value
+generates a linear function closure, which I will explain elsewhere.\
+
 ")#comment("para")
 
 #para("\

@@ -51,7 +51,12 @@ the corresponding libc-functions declared in [unistd.h].
 (* ****** ****** *)
 
 #declnamesynop("getcwd")
+
 #declnamesynop("getcwd_gc")
+#decldescrpt("\
+
+This function is a variant of #dyncode("getcwd"), making a copy of
+the result returned by #dyncode("getcwd"). ")
 
 (* ****** ****** *)
 

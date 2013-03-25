@@ -188,7 +188,7 @@ distclean::
 \#
 
 \# foo: foo.dats ; \\\\
-\#   $(ATSCC) $(ATSCCFLAGS) -o $@ $< || echo $@ ": ERROR!"
+\#   $(ATSCC) $(ATSCCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 \# distclean:: ; $(RMF) foo
 
 \#\#\#\#\#\#
@@ -197,8 +197,8 @@ distclean::
 \# You may find these rules useful
 \#
 
-\# %_sats.o: %.sats ; $(ATSCC) $(ATSCCFLAGS) -c $< || echo $@ ": ERROR!"
-\# %_dats.o: %.dats ; $(ATSCC) $(ATSCCFLAGS) -c $< || echo $@ ": ERROR!"
+\# %_sats.o: %.sats ; $(ATSCC) $(ATSCCFLAGS) -c $< || echo $@ ": ERROR!!!"
+\# %_dats.o: %.dats ; $(ATSCC) $(ATSCCFLAGS) -c $< || echo $@ ": ERROR!!!"
 
 \#\#\#\#\#\#
 

@@ -158,8 +158,8 @@ overload usleep with usleep_uint
 /*
 int unlink(const char *pathname);
 */
-fun unlink (path: NSH(string)): intLte(0) = "mac#%"
-fun unlink_exn (path: NSH(string)): void = "mac#%"
+fun unlink (path: NSH(string)):<!ref> intLte(0) = "mac#%"
+fun unlink_exn (path: NSH(string)):<!exnref> void = "mac#%"
 
 (* ****** ****** *)
 

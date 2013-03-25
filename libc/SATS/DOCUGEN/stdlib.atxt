@@ -138,6 +138,12 @@ end // end of [main]
 ')
 ")
 
+#declnamesynop("getenv_gc")
+#decldescrpt("\
+
+This function is a variant of #dyncode("getenv"), making a copy of
+the result returned by #dyncode("getenv"). ")
+
 #declnamesynop("putenv")
 #decldescrpt("\
 

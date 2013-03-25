@@ -91,6 +91,18 @@ atslib_getcwd_gc (
 
 \#define atslib_unlink unlink
 
+ATSinline()
+atsvoid_t0ype
+atslib_unlink_exn
+(
+  atstype_string path
+) {
+  int err ;
+  err = unlink((char*)path) ;
+  if (err < 0) ATSLIBfailexit("unlink") ;
+  return ;
+} // end of [atslib_unlink_exn]
+
 \#endif // ifndef ATSLIB_LIBC_UNISTD_CATS
 
 #atscode_separator_for_C()
