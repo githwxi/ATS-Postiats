@@ -488,7 +488,7 @@ returns #dyncode("142511").
 
 #para("\
 Note that the entire code in this section plus some additional
-code for testing is available #mycodelink("CHAPTER_FUNCTION/coin.dats", "on-line").
+code for testing is available #mycodelink("CHAP_FUNCTION/coinchange.dats", "on-line").
 ")
 
 </sect1><!--id="example_coin_changes"-->
@@ -793,7 +793,7 @@ There are 92 distinct solutions in total.
 #para("\
 
 Note that the entire code in this section plus some additional code for
-testing is available #mycodelink("CHAPTER_FUNCTION/queens.dats", "on-line").\
+testing is available #mycodelink("CHAP_FUNCTION/queens.dats", "on-line").\
 
 ")
 
@@ -1224,7 +1224,7 @@ of its argument.\
 ")#comment("para")
 
 #para("\
-Please find #mycodelink("CHAPTER_FUNCTION/bsearch.dats", "on-line")
+Please find #mycodelink("CHAP_FUNCTION/bsearch.dats", "on-line")
 the entire code in this section plus some additional code for testing.
 ")
 
