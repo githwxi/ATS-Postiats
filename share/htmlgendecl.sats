@@ -11,6 +11,12 @@ typedef atext = $LDOC.atext
 
 (* ****** ****** *)
 
+fun myatscodelink
+  (codepath: string, linkname: string): atext
+// end of [myatscodelink]
+
+(* ****** ****** *)
+
 fun declname_find_synopsis (stadyn: int, x: string): strptr1
 
 (* ****** ****** *)

@@ -20,6 +20,24 @@ staload "htmlgendecl.sats"
 
 (* ****** ****** *)
 
+#define
+ATSCODEROOT "http://www.ats-lang.org/DOCUMENT/ATS-Postiats"
+
+implement
+myatscodelink
+  (codepath, linkname) = let
+//
+val res = sprintf
+(
+  "<a href=\"%s/%s\">%s</a>", @(ATSCODEROOT, codepath, linkname)
+) // end of [val]
+//
+in
+  $LDOC.atext_strptr (res)
+end // end of [myatscodelink]
+
+(* ****** ****** *)
+
 viewtypedef
 stringlst_vt = List_vt (string)
 viewtypedef

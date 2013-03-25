@@ -37,7 +37,8 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#define atslib_fnmatch fnmatch
+\#define atslib_fnmatch_null(pat, str) fnmatch((char*)pat, (char*)str, 0)
+\#define atslib_fnmatch_flags(pat, str, flags) fnmatch((char*)pat, (char*)str, flags)
 
 #atscode_separator_for_C()
 

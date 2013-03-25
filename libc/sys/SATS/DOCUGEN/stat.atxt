@@ -21,8 +21,11 @@ ATSLIB/libc/sys/stat\
 
 #declpreamble("\
 
-The functions declared in this package are mostly the API for
-the corresponding libc-functions declared in [sys/stat.h].
+The functions declared in this package are mostly the API for the
+corresponding libc-functions declared in [sys/stat.h],  and many more
+details on these functions can often be found in the Linux Programmer's
+manual.  See #myatscodelink("libc/sys/SATS/stat.sats", "sys/stat.sats") for
+the SATS file in ATSLIB where these functions are declared.
 
 ")
 

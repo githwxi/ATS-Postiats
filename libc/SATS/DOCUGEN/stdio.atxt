@@ -21,8 +21,11 @@ ATSLIB/libc/stdio\
 
 #declpreamble("\
 
-The functions declared in this package are mostly the API for
-the corresponding libc-functions declared in [stdio.h].
+The functions declared in this package are mostly the API for the
+corresponding libc-functions declared in [stdio.h], and many more details
+on these functions can often be found in the Linux Programmer's manual.
+See #myatscodelink("libc/SATS/stdio.sats", "stdio.sats") for the SATS
+file in ATSLIB where these functions are declared.
 
 ")
 

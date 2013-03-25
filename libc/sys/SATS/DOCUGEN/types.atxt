@@ -21,22 +21,32 @@ ATSLIB/libc/sys/types\
 
 #declpreamble("\
 
-The functions declared in this package are mostly the API for
-the corresponding libc-functions declared in [sys/types.h].
+The types and functions declared in this package are mostly the API for the
+libc counterparts declared in [sys/types.h], and many more details on these
+types and functions can often be found in the Linux Programmer's manual.
+See #myatscodelink("libc/sys/SATS/types.sats", "sys/types.sats") for the
+SATS file in ATSLIB where these types and functions are declared.
 
 ")
 
 (* ****** ****** *)
 
+#declnamesynop("time_t")
+#declnamesynop("time_t0ype")
 #declnamesynop("time2lint")
 #declnamesynop("time2double")
+
 (* ****** ****** *)
 
+#declnamesynop("clock_t")
+#declnamesynop("clock_t0ype")
 #declnamesynop("clock2lint")
 #declnamesynop("clock2double")
 
 (* ****** ****** *)
 
+#declnamesynop("mode_t")
+#declnamesynop("mode_t0ype")
 #declnamesynop("mode2int")
 #declnamesynop("mode2uint")
 

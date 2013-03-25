@@ -24,12 +24,37 @@ ATSLIB/libc/fnmatch\
 The functions declared in this package are mostly the API for the
 corresponding libc-functions declared in [fnmatch.h], and many more details
 on these functions can often be found in the Linux Programmer's manual.
+See #myatscodelink("libc/SATS/fnmatch.sats", "fnmatch.sats") for the SATS
+file in ATSLIB where these functions are declared.
 
 ")
 
 (* ****** ****** *)
 
+#declnamesynop("fnmflags")
+
+(* ****** ****** *)
+
+#declnamesynop("FNM_MATCH")
+#declnamesynop("FNM_NOMATCH")
+
+(* ****** ****** *)
+
+#declnamesynop("FNM_NOESCAPE")
+#declnamesynop("FNM_PATHNAME")
+#declnamesynop("FNM_PERIOD")
+#declnamesynop("FNM_FILE_NAME")
+#declnamesynop("FNM_LEADING_DIR")
+#declnamesynop("FNM_CASEFOLD")
+
+(* ****** ****** *)
+
 #declnamesynop("fnmatch")
+
+(* ****** ****** *)
+
+#declnamesynop("fnmatch_null")
+#declnamesynop("fnmatch_flags")
 
 (* ****** ****** *)
 

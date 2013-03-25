@@ -101,6 +101,8 @@ The ATSLIB/prelude library\
 
 (* ****** ****** *)
 
+#packfilename("SATS/dirent.sats")
+#packfilename("SATS/fnmatch.sats")
 #packfilename("SATS/malloc.sats")
 #packfilename("SATS/stddef.sats")
 #packfilename("SATS/stdio.sats")
@@ -115,6 +117,8 @@ The ATSLIB/prelude library\
 
 (* ****** ****** *)
 
+#packfilename("CATS/dirent.cats")
+#packfilename("CATS/fnmatch.cats")
 #packfilename("CATS/malloc.cats")
 #packfilename("CATS/stdio.cats")
 #packfilename("CATS/stdlib.cats")
@@ -128,6 +132,7 @@ The ATSLIB/prelude library\
 
 (* ****** ****** *)
 
+#packfilename("DATS/dirent.dats")
 #packfilename("DATS/stdio.dats")
 #packfilename("DATS/stdlib.dats")
 #packfilename("DATS/string.dats")

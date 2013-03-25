@@ -44,26 +44,14 @@ clean:: ; $(RMF) preface
 
 ######
 
-allchap:: CHAP_START
-allchap:: CHAP_PROGELEM
-allchap:: CHAP_FUNCTION
+allchap:: CHAP_SYNCLR
 
 ######
 
-CHAP_START:: ; \
-  make -C CHAP_START -f ../Makefile.chap main.db
-CHAP_START:: ; \
-  make -C CHAP_START -f ../Makefile.chap clean
-
-CHAP_PROGELEM:: ; \
-  make -C CHAP_PROGELEM -f ../Makefile.chap main.db
-CHAP_PROGELEM:: ; \
-  make -C CHAP_PROGELEM -f ../Makefile.chap clean
-
-CHAP_FUNCTION:: ; \
-  make -C CHAP_FUNCTION -f ../Makefile.chap main.db
-CHAP_FUNCTION:: ; \
-  make -C CHAP_FUNCTION -f ../Makefile.chap clean
+CHAP_SYNCLR:: ; \
+  make -C CHAP_SYNCLR -f ../Makefile.chap main.db
+CHAP_SYNCLR:: ; \
+  make -C CHAP_SYNCLR -f ../Makefile.chap clean
 
 ######
 
@@ -74,17 +62,17 @@ CHMOD=chmod
 ######
 
 upload:: ; \
-  scp -r HTML ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/INT2PROGINATS
+  scp -r HTML ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2TUTORIAL
 uploadloc:: ; \
-  $(SCPR) HTML hwxi@csa2.bu.edu:public_html/ATS/DOCUMENT/INT2PROGINATS
+  $(SCPR) HTML hwxi@csa2.bu.edu:public_html/ATS/DOCUMENT/ATS2TUTORIAL
 
 upload_pdf:: ; \
-  scp -r PDF ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/INT2PROGINATS/
+  scp -r PDF ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2TUTORIAL/
 
 ######
 
 upload_code:: ; \
-  scp -r CODE ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/INT2PROGINATS
+  scp -r CODE ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2TUTORIAL
 
 ######
 

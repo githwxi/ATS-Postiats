@@ -21,8 +21,11 @@ ATSLIB/libc/unistd\
 
 #declpreamble("\
 
-The functions declared in this package are mostly the API for
-the corresponding libc-functions declared in [unistd.h].
+The functions declared in this package are mostly the API for the
+corresponding libc-functions declared in [unistd.h], and many more details
+on these functions can often be found in the Linux Programmer's manual.
+See #myatscodelink("libc/SATS/unistd.sats", "unistd.sats") for the SATS
+file in ATSLIB where these functions are declared.
 
 ")
 
@@ -51,6 +54,9 @@ the corresponding libc-functions declared in [unistd.h].
 (* ****** ****** *)
 
 #declnamesynop("getcwd")
+#declnamesynop("getcwd_v")
+
+(* ****** ****** *)
 
 #declnamesynop("getcwd_gc")
 #decldescrpt("\
