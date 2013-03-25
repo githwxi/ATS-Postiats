@@ -45,6 +45,7 @@ clean:: ; $(RMF) preface
 ######
 
 allchap:: CHAP_SYNCLR
+allchap:: CHAP_FILENAME
 
 ######
 
@@ -52,6 +53,11 @@ CHAP_SYNCLR:: ; \
   make -C CHAP_SYNCLR -f ../Makefile.chap main.db
 CHAP_SYNCLR:: ; \
   make -C CHAP_SYNCLR -f ../Makefile.chap clean
+
+CHAP_FILENAME:: ; \
+  make -C CHAP_FILENAME -f ../Makefile.chap main.db
+CHAP_FILENAME:: ; \
+  make -C CHAP_FILENAME -f ../Makefile.chap clean
 
 ######
 

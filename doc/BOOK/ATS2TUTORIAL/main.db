@@ -12,6 +12,7 @@
 <!ENTITY bookinfo SYSTEM "bookinfo.db">
 <!ENTITY preface SYSTEM "preface.db">
 <!ENTITY chap_synclr SYSTEM "CHAP_SYNCLR/main.db">
+<!ENTITY chap_filename SYSTEM "CHAP_FILENAME/main.db">
 ]>
 <book id="proginats" lang="en">
 &bookinfo;
@@ -31,6 +32,7 @@ To my wife Jinning and daughter Zoe.
 <part id="basic_tutorial_topics">
 <title>Basic Tutorial Topics</title>
 &chap_synclr;
+&chap_filename;
 </part><!--"basic_tutorial_topics"-->
 
 </book>
