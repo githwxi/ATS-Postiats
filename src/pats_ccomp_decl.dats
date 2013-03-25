@@ -344,7 +344,8 @@ end // end of [hiexndecs_ccomp]
 local
 
 fun auxinit
-  {n:nat} .<n>. (
+  {n:nat} .<n>.
+(
   env: !ccompenv
 , lev0: int, decarg: s2qualst, hfds: list (hifundec, n)
 ) : list_vt (funlab, n) = let
@@ -362,7 +363,8 @@ case+ hfds of
     val tmplev = ccompenv_get_tmplevel (env)
 //
     val fl = funlab_make_dvar_type (d2v, hse)
-    val pmv = (
+    val pmv =
+    (
       if tmplev = 0
         then primval_make_funlab (loc, fl)
         else primval_make_funlab2 (loc, d2v, fl)
@@ -389,7 +391,8 @@ case+ hfds of
 end (* end of [auxinit] *)
 
 fun auxmain
-  {n:nat} .<n>. (
+  {n:nat} .<n>.
+(
   env: !ccompenv
 , knd: funkind, decarg: s2qualst
 , hfds: list (hifundec, n), flabs: list_vt (funlab, n)

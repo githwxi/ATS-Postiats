@@ -206,17 +206,16 @@ fun_aop_decl
   opr: string, knd: string
 ) : atext = let
 //
-val fopr = (
+val fopr =
+(
   case+ opr of
-  | "add" => "+"
-  | "sub" => "-"
-  | "mul" => "*"
-  | "div" => "/"
-  | "mod" => "%"
+  | "add" => "+" | "sub" => "-"
+  | "mul" => "*" | "div" => "/" | "mod" => "%"
   | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_%s
 atspre_g0int_%s_%s
@@ -237,12 +236,14 @@ fun_asx_decl
   opr: string, knd: string
 ) : atext = let
 //
-val fopr = (
+val fopr =
+(
   case+ opr of
   | "asl" => "<<" | "asr" => ">>" | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_%s
 atspre_g0int_%s_%s
@@ -262,18 +263,17 @@ fun_cmpz_decl
   opr: string, knd: string
 ) : atext = let
 //
-val fopr = (
+val fopr =
+(
   case+ opr of
-  | "isltz" => "<"
-  | "isltez" => "<="
-  | "isgtz" => ">"
-  | "isgtez" => ">="
-  | "iseqz" => "=="
-  | "isneqz" => "!="
+  | "isltz" => "<" | "isltez" => "<="
+  | "isgtz" => ">" | "isgtez" => ">="
+  | "iseqz" => "==" | "isneqz" => "!="
   | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_bool
 atspre_g0int_%s_%s (atstype_%s x)
@@ -295,18 +295,17 @@ fun_cmp_decl
   opr: string, knd: string
 ) : atext = let
 //
-val fopr = (
+val fopr =
+(
   case+ opr of
-  | "lt" => "<"
-  | "lte" => "<="
-  | "gt" => ">"
-  | "gte" => ">="
-  | "eq" => "=="
-  | "neq" => "!="
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "==" | "neq" => "!="
   | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_bool
 atspre_g0int_%s_%s
@@ -328,7 +327,8 @@ fun
 fun_compare_decl
   (knd: string): atext = let
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_int
 atspre_g0int_compare_%s
@@ -357,7 +357,8 @@ val fopr = (
   | "min" => "<=" | "max" => ">=" | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_%s
 atspre_g0int_%s_%s
@@ -371,9 +372,9 @@ atspre_g0int_%s_%s
 in
   atext_strptr (ent)
 end // end of [fun_maxmin_decl]
-//
+
 in (* in of [local] *)
-//
+
 fun g0int_implist
   (tnm: string): atext = let
 //
@@ -420,7 +421,7 @@ val res = list_reverse (res)
 in
   atext_concatxt (list_of_list_vt (res))
 end // end of [g0int_implist]
-//
+
 end // end of [local]
 //
 %}\
@@ -654,7 +655,6 @@ in
   atext_strptr (ent)
 end // end of [fun_lsz_decl]
 //
-//
 fun
 fun_cmpz_decl (
   opr: string, knd: string
@@ -765,9 +765,9 @@ atspre_g0uint_%s_%s
 in
   atext_strptr (ent)
 end // end of [fun_maxmin_decl]
-//
+
 in (* in of [local] *)
-//
+
 fun g0uint_implist
   (tnm: string): atext = let
 //
@@ -808,7 +808,7 @@ val res = list_reverse (res)
 in
   atext_concatxt (list_of_list_vt (res))
 end // end of [g0uint_implist]
-//
+
 end // end of [local]
 %}\
 \

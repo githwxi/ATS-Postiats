@@ -95,6 +95,7 @@
 /* ****** ****** */
 
 #define ATSPMVextval(id) (id)
+#define ATSPMVfunlab(id) (id)
 
 /* ****** ****** */
 
@@ -115,6 +116,10 @@
 //
 #define ATSPMVcastfn(d2c, hit, arg) ((hit)arg)
 //
+/* ****** ****** */
+
+#define ATSfunclo_fun(pmv, args, res) ((res(*)args)(pmv))
+
 /* ****** ****** */
 
 #define ATStmpdec(tmp, hit) hit tmp

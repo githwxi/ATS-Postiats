@@ -1277,7 +1277,10 @@ in
   // end of [hidexp_ccomp_funlab_arg_body]
 end // end of [val]
 //
-val () = println! ("hidexp_ccomp_lam: fent=", fent)
+val () = the_funlablst_add (flab)
+val () = funlab_set_funent (flab, Some (fent))
+//
+val () = println! ("hidexp_ccomp_lam: fent = ", fent)
 //
 in
   primval_make_funlab (loc0, flab)

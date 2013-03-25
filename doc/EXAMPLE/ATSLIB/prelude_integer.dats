@@ -55,11 +55,18 @@ val () = assertloc (compare (9, 1) = g1int_sgn(9-1))
 
 val () = {
 //
+val () = assertloc ((1 << 0) = 1)
+val () = assertloc ((1 >> 0) = 1)
 val () = assertloc ((1 << 10) = 1024)
 val () = assertloc ((1024 >> 10) = 1)
 //
+val () = assertloc ((1U << 0) = 1U)
+val () = assertloc ((1U >> 0) = 1U)
 val () = assertloc ((1U << 10) = 1024U)
 val () = assertloc ((1024U >> 10) = 1U)
+//
+val () = assertloc ((1L << 10) = 1024L)
+val () = assertloc ((1024L >> 10) = 1L)
 //
 } // end of [val]
 

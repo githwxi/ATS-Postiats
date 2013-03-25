@@ -33,13 +33,21 @@
 *)
 
 (* ****** ****** *)
+
+(*
+** Ported to ATS2 by Hongwei Xi (gmhwxiATgmailDOTcom)
+** Time: March 24, 2013
+*)
+
+(* ****** ****** *)
 //
 #include
 "share/atspre_staload_tmpdef.hats"
 //
 (* ****** ****** *)
 
-fun bsearch_fun (
+fun bsearch_fun
+(
   f: int -> uint
 , x0: uint, lb: int, ub: int
 ) : int =
@@ -57,14 +65,20 @@ fun bsearch_fun (
 
 (* ****** ****** *)
 
-macdef square (x) = let val x = ,(x) in x * x end
+macdef
+square (x) = let val x = ,(x) in x * x end
 
 (* ****** ****** *)
 
 val ISQRT_MAX = (1 << 16) - 1
-fun isqrt (x: uint): int =
+
+(* ****** ****** *)
+
+fun isqrt
+  (x: uint): int =
+(
   bsearch_fun (lam i => square ((g0i2u)i), x, 0, ISQRT_MAX)
-// end of [isqrt]
+) // end of [isqrt]
 
 (* ****** ****** *)
 
@@ -74,10 +88,7 @@ val () = assertloc (isqrt (1024U) = 32)
 
 (* ****** ****** *)
 
-implement
-main0 () = {
-  val () = println! ("[bsearch] is tested successfully.")
-} // end of [main0]
+implement main0 () = ()
 
 (* ****** ****** *)
 

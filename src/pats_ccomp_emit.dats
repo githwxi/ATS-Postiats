@@ -37,6 +37,10 @@ staload _(*anon*) = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
 
+staload "./pats_basics.sats"
+
+(* ****** ****** *)
+
 staload ERR = "./pats_error.sats"
 
 (* ****** ****** *)
@@ -823,6 +827,8 @@ extern fun emit_primval_ptrof : emit_primval_type
 extern fun emit_primval_ptrofsel : emit_primval_type
 //
 extern fun emit_primval_refarg : emit_primval_type
+//
+extern fun emit_primval_funlab : emit_primval_type
 
 (* ****** ****** *)
 
@@ -876,6 +882,8 @@ case+ pmv0.primval_node of
 | PMVptrofsel _ => emit_primval_ptrofsel (out, pmv0)
 //
 | PMVrefarg _ => emit_primval_refarg (out, pmv0)
+//
+| PMVfunlab _ => emit_primval_funlab (out, pmv0)
 //
 | _ => let
 (*
@@ -1069,6 +1077,22 @@ val () = emit_rparen (out)
 in
   // nothing
 end // end of [emit_primval_refarg]
+
+(* ****** ****** *)
+
+implement
+emit_primval_funlab
+  (out, pmv0) = let
+//
+val-PMVfunlab (flab) = pmv0.primval_node
+//
+val () = emit_text (out, "ATSPMVfunlab(")
+val () = emit_funlab (out, flab)
+val () = emit_rparen (out)
+//
+in
+  // nothing
+end // end of [emit_primval_funlab]
 
 (* ****** ****** *)
 
@@ -1737,39 +1761,6 @@ end // end of [emit_instr_move_rec]
 
 local
 
-fun emit_pmvfun
-(
-  out: FILEref, pmv: primval
-) : void = let
-in
-//
-case+ pmv.primval_node of
-//
-| PMVcst (d2c) => emit_d2cst (out, d2c)
-//
-| PMVfunlab (flab) => emit_funlab (out, flab)
-//
-| PMVtmpltcst _ => emit_primval (out, pmv)
-| PMVtmpltvar _ => emit_primval (out, pmv)
-//
-| PMVtmpltcstmat _ => emit_primval (out, pmv)
-//
-| _(*funvar*) => emit_primval (out, pmv)
-//
-(*
-| _ => let
-    val loc = pmv.primval_loc
-    val hse = pmv.primval_type
-    val () = prerr_interror_loc (loc)
-    val () = prerrln! (": emit_prmvfun: pmv = ", pmv)
-    val () = prerrln! (": emit_prmvfun: hse = ", hse)
-    val () = assertloc (false)
-  in
-    // nothing
-  end // end of [_]
-*)
-end // end of [emit_pmvfun]
-
 fun pmvfun_isbot
   (pmv: primval): bool = let
 in
@@ -1782,6 +1773,71 @@ case+
 | _ => false // end of [_]
 //
 end // end of [pmvfun_isbot]
+
+fun emit_pmvfun
+(
+  out: FILEref
+, pmv_fun: primval, hse_fun: hisexp
+) : void = let
+in
+//
+case+ pmv_fun.primval_node of
+//
+| PMVcst (d2c) => emit_d2cst (out, d2c)
+//
+| PMVfunlab (flab) => emit_funlab (out, flab)
+//
+| PMVtmpltcst _ => emit_primval (out, pmv_fun)
+| PMVtmpltvar _ => emit_primval (out, pmv_fun)
+//
+| PMVtmpltcstmat _ => emit_primval (out, pmv_fun)
+//
+| _(*funval*) => emit_pmvfun_val (out, pmv_fun, hse_fun)
+//
+(*
+| _ => let
+    val loc = pmv_fun.primval_loc
+    val () = prerr_interror_loc (loc)
+    val () = prerrln! (": emit_prmvfun: pmv_fun = ", pmv_fun)
+    val () = prerrln! (": emit_prmvfun: hse_fun = ", hse_fun)
+    val () = assertloc (false)
+  in
+    // nothing
+  end // end of [_]
+*)
+end // end of [emit_pmvfun]
+
+and emit_pmvfun_val
+(
+  out: FILEref
+, pmv_fun: primval, hse_fun: hisexp
+) : void = let
+//
+val-HSEfun
+(
+  fc, hses_arg, hse_res
+) = hse_fun.hisexp_node
+//
+val () = emit_text (out, "ATSfunclo")
+val () =
+(
+case+ fc of
+| FUNCLOfun _ => emit_text (out, "_fun")
+| FUNCLOclo _ => emit_text (out, "_clo")
+) : void // end of [val]
+val () = emit_lparen (out)
+val () = emit_primval (out, pmv_fun)
+val () = emit_text (out, ", ")
+val () = emit_lparen (out)
+val () = emit_hisexplst_sep (out, hses_arg, ", ")
+val () = emit_rparen (out)
+val () = emit_text (out, ", ")
+val () = emit_hisexp (out, hse_res)
+val () = emit_rparen (out)
+//
+in
+  // nothing
+end // end of [emit_pmvfun_val]
 
 in (* in of [local] *)
 
@@ -1812,7 +1868,7 @@ val () =
 val () = emit_text (out, "(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
-val () = emit_pmvfun (out, pmv_fun)
+val () = emit_pmvfun (out, pmv_fun, hse_fun)
 val () = emit_text (out, "(")
 val () = emit_primvalist (out, pmvs_arg)
 val () = emit_text (out, ")")
