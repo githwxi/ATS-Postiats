@@ -111,19 +111,19 @@ val () = assertloc (prod (10) = 10*9*8*7*6*5*4*3*2*1)
 
 fun print_multable () = let
 //
-  #define N 9
+#define N 9
 //
-  fnx loop1 (i: int): void =
-    if i <= N then loop2 (i, 1) else ()
-  and loop2 (i: int, j: int): void =
-    if j <= i then let
-      val () = if j >= 2 then print "  "
-      val () = $extfcall (void, "printf", "%dx%d = %2.2d", j, i, j*i)
-    in
-      loop2 (i, j+1) 
-    end else let
-      val () = print_newline () in loop1 (i+1)
-    end // end of [if]
+fnx loop1 (i: int): void =
+  if i <= N then loop2 (i, 1) else ()
+and loop2 (i: int, j: int): void =
+  if j <= i then let
+    val () = if j >= 2 then print "  "
+    val () = $extfcall (void, "printf", "%dx%d = %2.2d", j, i, j*i)
+  in
+    loop2 (i, j+1) 
+  end else let
+    val () = print_newline () in loop1 (i+1)
+  end // end of [if]
 //
 in
   loop1 (1)
@@ -134,24 +134,30 @@ val () = print_multable ()
 (* ****** ****** *)
 
 (*
-fun sum (n: int): int = let
-  fun loop (
-    i: int, res: int
-  ) :<cloref1> int =
-    if i <= n then loop (i+1, res+i) else res
-  // end of [loop]
+fun sum
+  (n: int): int = let
+//
+fun loop
+(
+  i: int, res: int
+) :<cloref1> int =
+  if i <= n then loop (i+1, res+i) else res
+//
 in
   loop (1(*i*), 0(*res*))
 end // end of [sum]
 val () = assertloc (sum (10) = 55)
 *)
 
-fun sum (n: int): int = let
-  fun loop (
-    n:int, i: int, res: int
-  ) : int =
-    if i <= n then loop (n, i+1, res+i) else res
-  // end of [loop]
+fun sum
+  (n: int): int = let
+//
+fun loop
+(
+  n:int, i: int, res: int
+) : int =
+  if i <= n then loop (n, i+1, res+i) else res
+//
 in
   loop (n, 1(*i*), 0(*res*))
 end // end of [sum]

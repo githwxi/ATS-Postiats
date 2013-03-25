@@ -23,7 +23,9 @@ language constructs for implementing for-loops and while-loops directly. I,
 however, strongly recommend that the programmer implement loops as
 recursive functions or more precisely, as tail-recursive functions. This is
 a programming style that matches well with more advanced programming
-features in ATS, which will be presented in this book later.  ")
+features in ATS, which will be presented in this book later.\
+
+")
 
 #para("\
 
@@ -68,8 +70,10 @@ accordingly to take advantage of it, and there is no other changes needed
 ")#comment("para")
 
 #para("\
+
 If #dyncode("square") is a name, what is the expression it refers to? It
-turns out that the above function definition can also be written as follows:
+turns out that the above function definition can also be written as
+follows:
 
 #atscode("\
 val square = lam (x: double): double => x * x
@@ -87,10 +91,13 @@ val square = lam (y: double): double => y * y
 ")
 
 This is called alpha-renaming (of function arguments), and the new
-lambda-expression is said to be alpha-equivalent to the original one.
+lambda-expression is said to be alpha-equivalent to the original one.\
+
 ")#comment("para")
 
-#para("A lambda-expression is a (function) value. Suppose we have a
+#para("\
+
+A lambda-expression is a (function) value. Suppose we have a
 lambda-expression representing a binary function, that is, a function
 taking two arguments. In order to assign a type of the form (T1, T2) -> T
 to the lambda-expression, we need to verify that the body of the function
@@ -99,17 +106,21 @@ have the types T1 and T2.  What is stated also applies, <emphasis>mutatis
 mutandis</emphasis>, to lambda-expressions representing functions of fewer
 or more arguments. For instance, the lambda-expression #dyncode("lam (x:
 double): double => x * x") can be assigned the function type
-#dyncode("(double) -> double"), which may also be written as #dyncode("double
--> double").
+#dyncode("(double) -> double"), which may also be written as
+#dyncode("double -> double").\
+
 ")#comment("para")
 
-#para("Assume that exp is an expression of some function type (T1, T2) ->
-T. Note that exp is not necessarily a name or a lambda-expression. If
-expressions exp<subscript>1</subscript> and exp<subscript>2</subscript> can
-be assigned the types T1 and T2, then the function application
+#para("\
+
+Assume that exp is an expression of some function type (T1, T2) -> T. Note
+that exp is not necessarily a name or a lambda-expression. If expressions
+exp<subscript>1</subscript> and exp<subscript>2</subscript> can be assigned
+the types T1 and T2, then the function application
 exp(exp<subscript>1</subscript>, exp<subscript>2</subscript>), which may
 also be referred to as a function call, can be assigned the type T.  Typing
-a function application of fewer or more arguments is handled similarly.
+a function application of fewer or more arguments is handled similarly.\
+
 ")#comment("para")
 
 #para("Let us now see an example that builds on the previously defined
@@ -128,7 +139,8 @@ Given that the subtraction and multiplication functions (on floating point
 numbers) are of the type #dyncode("(double, double) -> double") and
 #dyncode("square") is of the type #dyncode("(double) -> double"), it is a
 simple routine to verify that the body of #dyncode("area_of_ring") can be
-assigned the type #dyncode("double").
+assigned the type #dyncode("double").\
+
 ")#comment("para")
 
 </sect1><!--id="functions_as_a_simple_form_of_abstraction"-->
@@ -139,6 +151,7 @@ assigned the type #dyncode("double").
 #title("Function Arity")
 
 #para("\
+
 The arity of a function is the number of arguments the function
 takes.  Functions of arity 0, 1, 2 and 3 are often called nullary, unary,
 binary and ternary functions, respectively. For example, the following
@@ -152,25 +165,25 @@ fn sqrsum1 (x: int, y: int): int = x * x + y * y
 We can define a unary function #dyncode("sqrsum2") as follows:
 #atscode("\
 typedef int2 = (int, int)
-fn sqrsum2
-  (xy: int2): int =
+fn sqrsum2 (xy: int2): int =
   let val x = xy.0 and y = xy.1 in x * x + y * y end
-// end of [sqrsum2]
 ")
 
-The keyword #dyncode("typedef") introduces a binding between the name
-#dyncode("int2") and the tuple type #dyncode("(int, int)"). In other
-words, #dyncode("int2") is treated as an abbreviation or alias for
-#dyncode("(int, int)"). The function #dyncode("sqrsum2") is unary as it
-takes only one argument, which is a tuple of the type #dyncode("int2").
-When applying #dyncode("sqrsum2") to a tuple consisting of #dyncode("1")
-and #dyncode("~1"), we need to write #dyncode("sqrsum2 @(1, ~1)"). If we
-simply write #dyncode("sqrsum2 (1, ~1)"), then the typechecker is to
-report an error of arity mismatch as it assumes that #dyncode("sqrsum2")
-is applied to two arguments (instead of one that represents a pair).
+The keyword #stacode("typedef") introduces a binding between the name
+#stacode("int2") and the tuple type #stacode("(int, int)"). In other words,
+#stacode("int2") is treated as an abbreviation or alias for #stacode("(int,
+int)"). The function #dyncode("sqrsum2") is unary as it takes only one
+argument, which is a tuple of the type #stacode("int2").  When applying
+#dyncode("sqrsum2") to a tuple consisting of #dyncode("1") and
+#dyncode("~1"), we need to write #dyncode("sqrsum2 @(1, ~1)"). If we simply
+write #dyncode("sqrsum2 (1, ~1)"), then the typechecker is to report an
+error of function arity mismatch as it assumes that #dyncode("sqrsum2") is
+applied to two arguments (instead of one representing a pair).\
+
 ")#comment("para")
 
 #para("\
+
 Many functional languages (e.g., Haskell and ML) only allow unary
 functions. A function of multiple arguments is encoded in these languages
 as a unary function taking a tuple as its only argument or it is curried
@@ -178,7 +191,8 @@ into a function that takes these arguments sequentially. ATS, however,
 provides direct support for functions of multiple arguments. There is even
 some limited support in ATS for variadic functions, that is, functions of
 indefinite number of arguments (e.g., the famous #dyncode("printf")
-function in C). This is a topic I will cover elsewhere.
+function in C). This is a topic I will cover elsewhere.\
+
 ")#comment("para")
 
 </sect1><!--id="function_arity"-->
@@ -189,10 +203,10 @@ function in C). This is a topic I will cover elsewhere.
 #title("Function Interface")
 
 #para("\
+
 The interface for a function specifies the type assigned to the
-function.  It offers a means to describe a function that is both efficient
-and informative. Given a binary function foo of the type (T1, T2) -> T3,
-its interface can be written as follows:
+function. Given a binary function foo of the type (T1, T2) -> T3, its
+interface can be written as follows:
 
 #atscode("\
 fun foo (arg1: T1, arg2: T2): T3
@@ -234,7 +248,8 @@ For now, I mostly use function interfaces for the purpose of presenting
 functions.  I will show later how a function definition can be separated
 into two parts: a function interface and an implementation that implements
 the function interface. Note that separation as such is pivotal for
-constructing (large) programs in a modular style.
+constructing (large) programs in a modular style.\
+
 ")#comment("para")
 
 </sect1><!--id="function_interface"-->
@@ -245,10 +260,10 @@ constructing (large) programs in a modular style.
 #title("Evaluation of Function Calls")
 
 #para("\
+
 Evaluating a function call is straightforward. Assume that we are to
 evaluate the function call #dyncode("abs(0.0 - 1.0)") under some
-environment ENV0, where the function #dyncode("abs") is defined as
-follows:
+environment ENV0, where the function #dyncode("abs") is defined as follows:
 
 #atscode("\
 fn abs (x: double): double = if x >= 0 then x else ~x
@@ -257,11 +272,12 @@ fn abs (x: double): double = if x >= 0 then x else ~x
 We first evaluate the argument of the call to #dyncode("~1.0") under ENV0;
 we then extend ENV0 to ENV1 with a binding between #dyncode("x") and
 #dyncode("~1.0") and start to evaluate the body of #dyncode("abs") under
-ENV1; we evaluate the test #dyncode("x >= 0") to #dyncode("~1.0 >= 0")
-and then to #dyncode("false"), which indicates that we take the
-else-branch #dyncode("~x") to continue; we evaluate #dyncode("~x") to
+ENV1; we evaluate the test #dyncode("x >= 0") to #dyncode("~1.0 >= 0") and
+then to #dyncode("false"), which indicates that we take the else-branch
+#dyncode("~x") to continue; we evaluate #dyncode("~x") to
 #dyncode("~(~1.0)") and then to #dyncode("1.0"); so the evaluation of the
-function call #dyncode("abs(0.0 - 1.0)") returns #dyncode("1.0").
+function call #dyncode("abs(0.0 - 1.0)") returns #dyncode("1.0").\
+
 ")#comment("para")
 
 </sect1><!--id="evaluation_of_function_calls"-->
@@ -308,9 +324,7 @@ recursive function #dyncode("sum2") that sums up all the integers in a
 given range:
 
 #atscode("\
-fun sum2 (m: int, n: int): int =
-  if m <= n then m + sum2 (m+1, n) else 0
-// end of [sum2]
+fun sum2 (m: int, n: int): int = if m <= n then m + sum2 (m+1, n) else 0
 ")
 
 This time, we call #dyncode("sum2 (1, n)") in order to find out the sum of
@@ -332,7 +346,8 @@ following recursive function #dyncode("sum3") is implemented precisely
 according to this strategy:
 
 #atscode("\
-fun sum3 (m: int, n: int): int =
+fun sum3
+  (m: int, n: int): int =
   if m <= n then let
     val mn2 = (m+n)/2 in sum3 (m, mn2-1) + mn2 + sum3 (mn2+1, n)
   end else 0 // end of [if]
@@ -341,7 +356,8 @@ fun sum3 (m: int, n: int): int =
 
 It should be noted that the division involved in the expression
 #dyncode("(m+n)/2 ") is integer division for which rounding is done by
-truncation.
+truncation.\
+
 ")#comment("para")
 
 </sect1><!--id="recursive functions"-->
@@ -361,7 +377,6 @@ following defined function for computing the Fibonacci numbers:
 #atscode("\
 fun fib (n: int): int =
   if n >= 2 then fib(n-1) + fib(n-2) else n
-// end of [fib]
 ")
 
 Suppose that we are to evaluate #dyncode("fib(2)") under some environment
@@ -473,7 +488,7 @@ returns #dyncode("142511").
 
 #para("\
 Note that the entire code in this section plus some additional
-code for testing is available #mycodelink("CHAPTER_FUNCTIONS/coin.dats", "on-line").
+code for testing is available #mycodelink("CHAPTER_FUNCTION/coin.dats", "on-line").
 ")
 
 </sect1><!--id="example_coin_changes"-->
@@ -494,7 +509,6 @@ function #dyncode("f91") defined as follows:
 #atscode("\
 fun f91 (n: int): int =
   if n >= 101 then n - 10 else f91 (f91 (n+11))
-// end of [f91]
 ")
 
 where the outer recursive call is a self tail-call while the inner one is
@@ -507,7 +521,8 @@ then this function is a tail-recursive function. For instance, the
 following function #dyncode("sum_iter") is tail-recursive:
 
 #atscode("\
-fun sum_iter (n: int, res: int): int =
+fun sum_iter
+  (n: int, res: int): int =
   if n > 0 then sum_iter (n-1, n+res) else res
 // end of [sum_iter]
 ")
@@ -552,7 +567,8 @@ be replaced with 8. For representing board configurations, we define
 a type #dyncode("int8") as follows:
 
 #atscode("\
-typedef int8 = (
+typedef int8 =
+(
   int, int, int, int, int, int, int, int
 ) // end of [int8]
 ")
@@ -572,24 +588,28 @@ fun print_dots (i: int): void =
   if i > 0 then (print ". "; print_dots (i-1)) else ()
 // end of [print_dots]
 
-fun print_row (i: int): void = begin
+fun print_row (i: int): void =
+(
   print_dots (i); print "Q "; print_dots (N-i-1); print "\\\n";
-end // end of [print_row]
+) // end of [print_row]
 
-fun print_board (bd: int8): void = begin
+fun print_board (bd: int8): void =
+(
   print_row (bd.0); print_row (bd.1); print_row (bd.2); print_row (bd.3);
   print_row (bd.4); print_row (bd.5); print_row (bd.6); print_row (bd.7);
   print_newline ()
-end // end of [print_board]
+) // end of [print_board]
 ')
 
-The function #dyncode("print_newline") prints out a newline symbol and
-then flushes the buffer associated with the standard output. If the reader
-is unclear about what buffer flushing means, please feel free to ignore
-this aspect of #dyncode("print_newline").
+The function #dyncode("print_newline") prints out a newline symbol and then
+flushes the buffer associated with the standard output. If the reader is
+unclear about what buffer flushing means, please feel free to ignore this
+aspect of #dyncode("print_newline").\
+
 ")#comment("para")
 
 #para("\
+
 As an example, if #dyncode("print_board") is called on the board
 configuration represented by @(0, 1, 2, 3, 4, 5, 6, 7), then the following
 8 lines are printed out:
@@ -607,6 +627,7 @@ Q . . . . . . .
 ")#comment("para")
 
 #para("\
+
 Given a board and the row number of a queen piece on the board, the
 following function #dyncode("board_get") returns the column number of the piece:
 
@@ -627,10 +648,10 @@ fun board_get
 ")#comment("para")
 
 #para("\
-Given a board, a row number i and a column number j,
-the following function #dyncode("board_set") returns a new board
-that are the same as the original board except for j being the
-column number of the queen piece on row i:
+
+Given a board, a row number i and a column number j, the following function
+#dyncode("board_set") returns a new board that are the same as the original
+board except for j being the column number of the queen piece on row i:
 
 #atscode("\
 fun board_set
@@ -657,11 +678,13 @@ in
 end // end of [board_set]
 ")
 
-Clearly, the functions #dyncode("board_get") and #dyncode("board_set")
-are defined in a rather unwieldy fashion. This is entirely due to the use
-of tuples for representing board configurations. If we could use an array
-to represent a board configuration, then the implementation would be much
-simpler and cleaner. However, we have not yet covered arrays at this point.
+Clearly, the functions #dyncode("board_get") and #dyncode("board_set") are
+defined in a rather unwieldy fashion. This is entirely due to the use of
+tuples for representing board configurations. If we could use an array to
+represent a board configuration, then the implementation would be much
+simpler and cleaner. However, we have not yet covered arrays at this
+point.\
+
 ")#comment("para")
 
 #para("\
@@ -669,7 +692,8 @@ We now implement two testing functions #dyncode("safety_test1") and
 #dyncode("safety_test2") as follows:
 
 #atscode("\
-fun safety_test1 (
+fun safety_test1
+(
   i0: int, j0: int, i1: int, j1: int
 ) : bool =
 (*
@@ -678,7 +702,8 @@ fun safety_test1 (
   j0 <> j1 andalso abs (i0 - i1) <> abs (j0 - j1)
 // end of [safety_test1]
 
-fun safety_test2 (
+fun safety_test2
+(
   i0: int, j0: int, bd: int8, i: int
 ) : bool =
   if i >= 0 then
@@ -715,22 +740,32 @@ We are now ready to implement the following function
 #dyncode("search") based on a standard depth-first search (DFS) algorithm:
 
 #atscode('\
-fun search (
+fun search
+(
   bd: int8, i: int, j: int, nsol: int
 ) : int =
-  if j < N then
-    if safety_test2 (i, j, bd, i-1) then let
+  if j < N then let
+    val test = safety_test2 (i, j, bd, i-1)
+  in
+    if test then let
       val bd1 = board_set (bd, i, j)
     in
       if i+1 = N then let
-        val () = print!
-          ("This is solution no. ", nsol+1, ":\\\n\\\n")
-        val () = print_board (bd1) in search (bd, i, j+1, nsol+1)
-      end else search (bd1, i+1, 0, nsol)
-    end else search (bd, i, j+1, nsol)
-  else if i > 0 then
-    search (bd, i-1, board_get (bd, i-1) + 1, nsol)
-  else nsol // end of [if]
+        val () = print! ("Solution #", nsol+1, ":\\\n\\\n")
+        val () = print_board (bd1)
+      in
+        search (bd, i, j+1, nsol+1)
+      end else
+        search (bd1, i+1, 0(*j*), nsol) // positioning next piece
+      // end of [if]
+    end else
+      search (bd, i, j+1, nsol)
+  end else
+  (
+    if i > 0 then
+      search (bd, i-1, board_get (bd, i-1) + 1, nsol)
+    else nsol // end of [if]
+  )
 // end of [search]
 ')
 
@@ -756,8 +791,10 @@ There are 92 distinct solutions in total.
 ")#comment("para")
 
 #para("\
-Note that the entire code in this section plus some additional
-code for testing is available #mycodelink("CHAPTER_FUNCTIONS/queens.dats", "on-line").
+
+Note that the entire code in this section plus some additional code for
+testing is available #mycodelink("CHAPTER_FUNCTION/queens.dats", "on-line").\
+
 ")
 
 </sect1><!--id="example_solving_the_eight_queens_puzzle"-->
@@ -768,20 +805,21 @@ code for testing is available #mycodelink("CHAPTER_FUNCTIONS/queens.dats", "on-l
 #title("Mutually Recursive Functions")
 
 #para("\
-A collection of functions are defined mutually recursively if each
-function can make calls in its body to any functions in this collection.
-Mutually recursive functions are commonly encountered in practice.
+
+A collection of functions are defined mutually recursively if each function
+can make calls in its body to any functions in this collection.  Mutually
+recursive functions are commonly encountered in practice.
+
 ")
 
 #para("\
+
 As an example, let P be a function on natural numbers defined as follows:
+
 <itemizedlist>
 <listitem>
-#para("\
-P(0) = 1
-")
+#para("P(0) = 1")
 </listitem>
-
 <listitem>
 #para("\
 P(n+1) = 1 + the sum of the products of i and P(i) for i ranging from 1 to n
@@ -795,27 +833,17 @@ defined mutually recursively as follows:
 
 <itemizedlist>
 <listitem>
-#para("\
-P(0) = 1
-")
+#para("P(0) = 1")
+</listitem>
+<listitem>
+#para("P(n+1) = 1 + Q(n)")
 </listitem>
 
 <listitem>
-#para("\
-P(n+1) = 1 + Q(n)
-")
+#para("Q(0) = 0")
 </listitem>
-
 <listitem>
-#para("\
-Q(0) = 0
-")
-</listitem>
-
-<listitem>
-#para("\
-Q(n+1) = Q(n) + (n+1) * P(n+1)
-")
+#para("Q(n+1) = Q(n) + (n+1) * P(n+1)")
 </listitem>
 </itemizedlist>
 
@@ -828,7 +856,8 @@ and Q (n:int): int = if n > 0 then Q(n-1) + n * P(n) else 0
 ")
 
 Note that the keyword #dyncode("and") is used to combine function
-definitions.
+definitions.\
+
 ")#comment("para")
 
 </sect1><!--id="mutually-recursive_functions"-->
@@ -839,10 +868,11 @@ definitions.
 #title("Mutual Tail-Recursion")
 
 #para("\
-Suppose that foo and bar are two mutually defined recursive
-functions.  In the body of foo or bar, a tail-call to foo or bar is a
-mutually recursive tail-call. For instance, the following two functions
-#dyncode("isevn") and #dyncode("isodd") are mutually recursive:
+
+Suppose that foo and bar are two mutually defined recursive functions.  In
+the body of foo or bar, a tail-call to foo or bar is a mutually recursive
+tail-call. For instance, the following two functions #dyncode("isevn") and
+#dyncode("isodd") are mutually recursive:
 
 #atscode("\
 fun isevn (n: int): bool = if n > 0 then isodd (n-1) else true
@@ -851,20 +881,21 @@ and isodd (n: int): bool = if n > 0 then isevn (n-1) else false
 
 The mutually recursive call to #dyncode("isodd") in the body of
 #dyncode("isevn") is a tail-call, and the mutually recursive call to
-#dyncode("isevn") in the body of #dyncode("isodd") is also a tail-call.
-If we want that these two tail-calls be compiled into local jumps, we
-should replace the keyword #dyncode("fun") with the keyword
-#dyncode("fn*") as follows:
+#dyncode("isevn") in the body of #dyncode("isodd") is also a tail-call.  If
+we want that these two tail-calls be compiled into local jumps, we should
+replace the keyword #dyncode("fun") with the keyword #dyncode("fnx") as
+follows:
 
 #atscode("\
-fn* isevn (n: int): bool = if n > 0 then isodd (n-1) else true
+fnx isevn (n: int): bool = if n > 0 then isodd (n-1) else true
 and isodd (n: int): bool = if n > 0 then isevn (n-1) else false
 ")
 
 What the ATS compiler does in this case is to combine these two functions
 into a single one so that each mutually recursive tail-call in their bodies
-can be turned into a self tail-call, which is then ready to be compiled
-into a local jump.
+can be turned into a self tail-call in the body of the combined function,
+which is then ready to be compiled into a local jump.\
+
 ")#comment("para")
 
 #para("\
@@ -877,19 +908,20 @@ multiplication table for nonzero digits:
 #atscode('\
 fun print_multable () = let
 //
-  \#define N 9
+\#define N 9
 //
-  fn* loop1 (i: int): void =
-    if i <= N then loop2 (i, 1) else ()
-  and loop2 (i: int, j: int): void =
-    if j <= i then let
-      val () = if j >= 2 then print " "
-      val () = printf ("%dx%d=%2.2d", @(j, i, j*i))
-    in
-      loop2 (i, j+1) 
-    end else let
-      val () = print_newline () in loop1 (i+1)
-    end // end of [if]
+fnx loop1 (i: int): void =
+  if i <= N then loop2 (i, 1) else ()
+//
+and loop2 (i: int, j: int): void =
+  if j <= i then let
+    val () = if j >= 2 then print " "
+    val () = printf ("%dx%d=%2.2d", @(j, i, j*i))
+  in
+    loop2 (i, j+1) 
+  end else let
+    val () = print_newline () in loop1 (i+1)
+  end // end of [if]
 //
 in
   loop1 (1)
@@ -898,7 +930,7 @@ end // end of [print_multable]
 
 The functions #dyncode("loop1") and #dyncode("loop2") are defined
 mutually recursively, and the mutually recursive calls in their bodies are
-all tail-calls. The keyword #dyncode("fn*") indicates to the ATS compiler
+all tail-calls. The keyword #dyncode("fnx") indicates to the ATS compiler
 that the functions #dyncode("loop1") and #dyncode("loop2") should be
 combined so that these tail-calls can be compiled into local jumps. In a
 case where #dyncode("N") is a large number (e.g., 1,000,000), calling
@@ -907,6 +939,7 @@ are not compiled into local jumps.
 ")#comment("para")
 
 #para("\
+
 When called, the function #dyncode("print_multable") prints out the
 following multiplication table:
 
@@ -921,13 +954,16 @@ following multiplication table:
 1x8=08 2x8=16 3x8=24 4x8=32 5x8=40 6x8=48 7x8=56 8x8=64
 1x9=09 2x9=18 3x9=27 4x9=36 5x9=45 6x9=54 7x9=63 8x9=72 9x9=81
 ")
+
 ")#comment("para")
 
 #para("\
-In summary, the very ability to turn mutually recursive tail-calls
-into local jumps makes it possible to implement embedded loops as mutually
+
+In summary, the very ability to turn mutually recursive tail-calls into
+local jumps makes it possible to implement embedded loops as mutually
 tail-recursive functions. This ability is indispensable for advocating the
-practice of replacing loops with recursive functions in ATS.
+practice of replacing loops with recursive functions in ATS.\
+
 ")
 
 </sect1><!--id="mutual_tail-recursion"-->
@@ -938,30 +974,35 @@ practice of replacing loops with recursive functions in ATS.
 #title("Envless Functions and Closure Functions")
 
 #para("\
-I use <emphasis>envless</emphasis> as a shorthand for
-environmentless, which is not a legal word but I guess you have no problem
-figuring out what it means.
+
+I use <emphasis>envless</emphasis> as a shorthand for environmentless,
+which is not a legal word but I guess you have no problem figuring out what
+it means.\
+
 ")
 
 #para("\
-An envless function is represented by a pointer pointing to some
-place in a code segment where the object code for executing a call to this
-function is located. Every function in the programming language C is
-envless. A closure function is also represented by a pointer, but the
-pointer points to some place in a heap where a tuple is allocated (at
-run-time). Usually, the first component of this tuple is a pointer
-representing an envless function and the rest of the components represent
-some bindings. A tuple as such is often referred to as a closure, which can
-be thought of as an envless function paired with an environment. It is
-possible that the environment of a closure function is empty, but this does
-not equate a closure function with an envless function. Every function in
-functional languages such as ML and Haskell is a closure function.
+
+An envless function is represented by a pointer pointing to some place in a
+code segment where the object code for executing a call to this function is
+located. Every function in the programming language C is envless. A closure
+function is also represented by a pointer, but the pointer points to some
+place in a heap where a tuple is allocated (at run-time). Usually, the
+first component of this tuple is a pointer representing an envless function
+and the rest of the components represent some bindings. A tuple as such is
+often referred to as a closure, which can be thought of as an envless
+function paired with an environment. It is possible that the environment of
+a closure function is empty, but this does not equate a closure function
+with an envless function. Every function in functional languages such as ML
+and Haskell is a closure function.\
+
 ")#comment("para")
 
 #para("\
-In the following example, the function #dyncode("sum"), which is
-assigned the type #dyncode("(int) -> int"), sums up all the integers
-between 1 and a given natural number:
+
+In the following example, the function #dyncode("sum"), which is assigned
+the type #dyncode("(int) -> int"), sums up all the integers between 1 and a
+given natural number:
 
 #atscode("\
 fun sum (n: int): int = let
@@ -978,19 +1019,21 @@ end // end of [sum]
 The inner function #dyncode("loop") is a closure function as is indicated
 by the special syntax #dyncode(":&lt;cloref1&gt;"), and the type assigned
 to #dyncode("loop") is denoted by #dyncode("(int, int) -&lt;cloref1&gt;
-int"). Hence, envless functions and closure functions can be
-distinguished at the level of types.
+int"). Hence, envless functions and closure functions can be distinguished
+at the level of types.\
+
 ")#comment("para")
 
 #para("\
+
 If the syntax #dyncode(":&lt;cloref1&gt;") is replaced with the colon
 symbol #dyncode(":") alone, the code can still pass typechecking but its
 compilation eventually leads to an error indicating that #dyncode("loop")
 cannot be compiled into a toplevel function in C. The reason for this error
-is due to the body of #dyncode("loop") containing a variable #dyncode("n") that
-is neither at toplevel nor a part of the arguments of #dyncode("loop")
-itself. It is straightforward to make #dyncode("loop") an envless function by
-including #dyncode("n") as an argument in addition to the original ones:
+is due to the body of #dyncode("loop") containing a variable #dyncode("n")
+that is neither at toplevel nor a part of the arguments of #dyncode("loop")
+itself. It is straightforward to make #dyncode("loop") an envless function
+by including #dyncode("n") as an argument in addition to the original ones:
 
 #atscode("\
 fun sum (n: int): int = let
@@ -1007,15 +1050,17 @@ end // end of [sum]
 As a matter of fact, what happens during compilation is that the first
 implementation of #dyncode("sum") and #dyncode("loop") gets translated,
 more or less, into the second implementation, and there is no actual
-creation of closures (for representing closure functions) at run-time.
+creation of closures (for representing closure functions) at run-time.\
+
 ")#comment("para")
 
 #para("\
-The need for creating closures often appears when the return value
-of a function call is a function itself. For instance, the following
-defined function #dyncode("addx") returns another function when applied to
-a given integer #dyncode("x"), and the returned function is a closure
-function, which always adds the integer #dyncode("x") to its own argument:
+
+The need for creating closures often appears when the return value of a
+function call is a function itself. For instance, the following defined
+function #dyncode("addx") returns another function when applied to a given
+integer #dyncode("x"), and the returned function is a closure function,
+which always adds the integer #dyncode("x") to its own argument:
 
 
 #atscode("\
@@ -1026,24 +1071,27 @@ val plus2 = addx (2) // [plus2] is of the type int -<cloref1> int
 ")
 
 It should be clear that #dyncode("plus1(0)") and #dyncode("plus2(0)")
-return #dyncode("1") and #dyncode("2"), respectively.  The closure that
-is assigned the name #dyncode("plus1") consists of an envless function and
-an environment binding #dyncode("x") to #dyncode("1"). The envless
-function can essentially be described by the pseudo syntax #dyncode("lam (env,
-y) => env.x + y"), where #dyncode("env") and #dyncode("env.x") refer
-to an environment and the value to which #dyncode("x") is bound in that
+return #dyncode("1") and #dyncode("2"), respectively.  The closure that is
+assigned the name #dyncode("plus1") consists of an envless function and an
+environment binding #dyncode("x") to #dyncode("1"). The envless function
+can essentially be described by the pseudo syntax #dyncode("lam (env, y) =>
+env.x + y"), where #dyncode("env") and #dyncode("env.x") refer to an
+environment and the value to which #dyncode("x") is bound in that
 environment. When evaluating #dyncode("plus1(0)"), we can first bind
-#dyncode("env") and #dyncode("y") to the environment in
-#dyncode("plus1") and the argument #dyncode("0"), respectively, and then
-start to evaluate the body of the envless function in #dyncode("plus1"),
-which is #dyncode("env.x + y"). Clearly, this evaluation yields the value
-#dyncode("1") as is expected.
+#dyncode("env") and #dyncode("y") to the environment in #dyncode("plus1")
+and the argument #dyncode("0"), respectively, and then start to evaluate
+the body of the envless function in #dyncode("plus1"), which is
+#dyncode("env.x + y"). Clearly, this evaluation yields the value
+#dyncode("1") as is expected.\
+
 ")#comment("para")
 
 #para("\
+
 Closures are often passed as arguments to functions that are referred to as
 higher-order functions.  It is also fairly common for closures to be
 embedded in data structures.\
+
 ")
 
 </sect1><!--id="envless_functions_and_function_closures"-->
@@ -1136,7 +1184,8 @@ inclusively, and x0 < f(i) holds for i ranging from i+1 to ub, inclusively:
 //
 // The type [uint] is for unsigned integers
 //
-fun bsearch_fun (
+fun bsearch_fun
+(
   f: int -<cloref1> uint
 , x0: uint, lb: int, ub: int
 ) : int =
@@ -1162,18 +1211,20 @@ equal to the given natural number:
 // Assuming that [uint] is of 32 bits
 //
 val ISQRT_MAX = (1 << 16) - 1 // = 65535
-fun isqrt (x: uint): int =
-  bsearch_fun (lam i => square ((uint_of_int)i), x, 0, ISQRT_MAX)
+fun isqrt
+  (x: uint): int =
+  bsearch_fun (lam i => square ((g0i2u)i), x, 0, ISQRT_MAX)
 // end of [isqrt]
 ")
 
-Note that the function #dyncode("uint_of_int") is for casting a signed
-integer into an unsigned integer and the function #dyncode("square")
-returns the square of its argument.
+Note that the function #dyncode("g0i2u") is for casting a signed integer
+into an unsigned one and the function #dyncode("square") returns the square
+of its argument.\
+
 ")#comment("para")
 
 #para("\
-Please find #mycodelink("CHAPTER_FUNCTIONS/bsearch.dats", "on-line")
+Please find #mycodelink("CHAPTER_FUNCTION/bsearch.dats", "on-line")
 the entire code in this section plus some additional code for testing.
 ")
 
@@ -1197,14 +1248,18 @@ recursive):
 
 #atscode('\
 fun acker1 (m: int, n: int): int =
+(
   if m > 0 then
     if n > 0 then acker1 (m-1, acker1 (m, n-1)) else acker1 (m-1, 1)
-  else n+1
+  else n+1 // end of [if]
+)
 
 fun acker2 (m: int) (n: int): int =
+(
   if m > 0 then
     if n > 0 then acker2 (m-1) (acker2 m (n-1)) else acker2 (m-1) 1
-  else n+1
+  else n+1 // end of [if]
+)
 ')
 
 The function #dyncode("acker2") is a curried version of
@@ -1214,6 +1269,7 @@ value generates a linear function closure, which I will explain elsewhere.
 ")#comment("para")
 
 #para("\
+
 In functional languages such as ML and Haskell, a function of multiple
 arguments needs to be either curried or translated into a corresponding
 unary function of a single argument that itself is a tuple. In such
@@ -1224,7 +1280,8 @@ of the function is likely to perform less efficiently at run-time than the
 function itself (due to the treatment of curried functions by the ATS
 compiler <command>atsopt</command>).  Therefore, the need for currying in
 ATS is greatly diminished. Unless convincing reasons can be given, currying
-is in general not a recommended programming style in ATS.
+is in general #emphasis("not") a recommended programming style in ATS.\
+
 ")#comment("para")
 
 </sect1><!--id=""currying_and_uncurrying"-->

@@ -130,22 +130,32 @@ fun safety_test2 (
 
 (* ****** ****** *)
 
-fun search (
+fun search
+(
   bd: int8, i: int, j: int, nsol: int
 ) : int =
-  if j < N then
-    if safety_test2 (i, j, bd, i-1) then let
+  if j < N then let
+    val test = safety_test2 (i, j, bd, i-1)
+  in
+    if test then let
       val bd1 = board_set (bd, i, j)
     in
       if i+1 = N then let
-        val () = print!
-          ("This is solution no. ", nsol+1, ":\n\n")
-        val () = print_board (bd1) in search (bd, i, j+1, nsol+1)
-      end else search (bd1, i+1, 0, nsol)
-    end else search (bd, i, j+1, nsol)
-  else if i > 0 then
-    search (bd, i-1, board_get (bd, i-1) + 1, nsol)
-  else nsol // end of [if]
+        val () = print! ("Solution #", nsol+1, ":\n\n")
+        val () = print_board (bd1)
+      in
+        search (bd, i, j+1, nsol+1)
+      end else
+        search (bd1, i+1, 0(*j*), nsol) // positioning next piece
+      // end of [if]
+    end else
+      search (bd, i, j+1, nsol)
+  end else
+  (
+    if i > 0 then
+      search (bd, i-1, board_get (bd, i-1) + 1, nsol)
+    else nsol // end of [if]
+  )
 // end of [search]
 
 (* ****** ****** *)
