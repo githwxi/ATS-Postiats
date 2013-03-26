@@ -358,7 +358,7 @@ fun{
 a:vt0p}{env:vt0p
 } arrayptr_iforeach_env {n:int}
 (
-  A: !arrayptr (INV(a), n), asz: size_t (n), env: &(env)>>env
+  A: !arrayptr (INV(a), n), asz: size_t (n), env: &(env) >> _
 ) : sizeLte(n) // end of [arrayptr_iforeach_env]
 
 #atscode_separator()

@@ -1044,7 +1044,10 @@ if test then let
 in
   emit_primval (out, pmv_ptr)
 end else let
-  val () = emit_text (out, "ATSPMVptrof(")
+  val isvoid = primval_is_void (pmv)
+  val () = emit_text (out, "ATSPMVptrof")
+  val () = if isvoid then emit_text (out, "_void")
+  val () = emit_lparen (out)
   val () = emit_primval (out, pmv(*lvalue*))
   val () = emit_rparen (out)
 in

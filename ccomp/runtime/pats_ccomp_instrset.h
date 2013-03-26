@@ -100,6 +100,7 @@
 /* ****** ****** */
 
 #define ATSPMVptrof(lval) (&(lval))
+#define ATSPMVptrof_void(lval) ((void*)0)
 
 /* ****** ****** */
 

@@ -183,13 +183,9 @@ end // end of [arrayptr_interchange]
 #atscode_separator()
 
 implement{a}
-arrayptr_foreach
-  (A, asz) = res where {
-  val p = ptrcast (A)
-  prval pfarr = arrayptr_takeout (A)
-  val res = array_foreach<a> (!p, asz)
-  prval () = arrayptr_addback (pfarr | A)
-} // end of [arrayptr_foreach]
+arrayptr_foreach (A, asz) = let
+  var env: void = () in arrayptr_foreach_env<a><void> (A, asz, env)
+end // end of [arrayptr_foreach]
 
 implement
 {a}{env}
@@ -228,6 +224,28 @@ in
 end // end of [arrayptr_foreach_funenv]
 
 #atscode_separator()
+
+implement{a}
+arrayptr_iforeach (A, asz) = let
+  var env: void = () in arrayptr_iforeach_env<a><void> (A, asz, env)
+end // end of [arrayptr_iforeach]
+
+implement
+{a}{env}
+arrayptr_iforeach_env
+  (A, asz, env) = res where {
+  val p = ptrcast (A)
+  prval pfarr = arrayptr_takeout (A)
+  val res = array_iforeach_env<a><env> (!p, asz, env)
+  prval () = arrayptr_addback (pfarr | A)
+} // end of [arrayptr_iforeach_env]
+
+#atscode_separator()
+
+implement{a}
+arrayptr_rforeach (A, asz) = let
+  var env: void = () in arrayptr_rforeach_env<a><void> (A, asz, env)
+end // end of [arrayptr_rforeach]
 
 implement
 {a}{env}
