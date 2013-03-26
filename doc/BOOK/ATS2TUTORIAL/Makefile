@@ -35,12 +35,12 @@ main.db:: preface.db
 
 ######
 
-preface: preface_atxt.dats
+preface.exe: preface_atxt.dats
 	$(ATSCC) -D_ATS_GCATS -o $@ preface_atxt.dats -latsdoc
 preface_atxt.dats: preface.atxt
 	$(ATSDOC) --outcode $@ -i preface.atxt > preface_atxt.txt
-preface.db: preface ; ./preface > $@
-clean:: ; $(RMF) preface
+preface.db:: preface.exe ; ./$< > $@
+preface.db:: ; $(RMF) preface.exe preface_atxt_dats.c preface_atxt.dats preface_atxt.txt
 
 ######
 
