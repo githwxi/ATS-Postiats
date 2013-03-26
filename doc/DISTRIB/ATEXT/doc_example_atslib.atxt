@@ -109,6 +109,7 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 #packfilename("prelude_bool.dats")
 #packfilename("prelude_integer.dats")
 #packfilename("prelude_float.dats")
+#packfilename("prelude_pointer.dats")
 #packfilename("prelude_string.dats")
 #packfilename("prelude_reference.dats")
 
