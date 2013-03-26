@@ -462,14 +462,14 @@ int mkstemp(char *template);
 */
 fun mkstemp {n:int | n >= 6}
   (template: !strnptr (n)): int = "mac#%"
-// end of [mkstemp]
+// end of [mkstemp] // endfun
 
 /*
 int mkostemp (char *template, int flags);
 */
 fun mkostemp {n:int | n >= 6}
   (template: !strnptr (n), flags: int): int = "mac#%"
-// end of [mkostemp]
+// end of [mkostemp] // endfun
 
 (* ****** ****** *)
 /*

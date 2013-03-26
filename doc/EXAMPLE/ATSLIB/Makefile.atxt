@@ -98,6 +98,7 @@ RMF=rm -f
 ######
 
 #make2_entry("libc_dirent", "-DATS_MEMALLOC_LIBC", "")
+#make_entry("libc_fcntl")
 #make_entry("libc_fnmatch")
 #make2_entry("libc_malloc", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libc_stdio", "-DATS_MEMALLOC_LIBC", "")

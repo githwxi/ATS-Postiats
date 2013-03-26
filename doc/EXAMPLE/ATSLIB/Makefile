@@ -91,6 +91,14 @@ clean:: ; $(RMF) libc_dirent_dats.o
 clean:: ; $(RMF) libc_dirent_dats.c
 cleanall:: ; $(RMF) libc_dirent.exe
 
+all:: libc_fcntl
+libc_fcntl: libc_fcntl.exe
+libc_fcntl.exe: libc_fcntl_dats.c ;   $(CC) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+libc_fcntl_dats.c: libc_fcntl.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_fcntl_dats.c --dynamic libc_fcntl.dats
+clean:: ; $(RMF) libc_fcntl_dats.o
+clean:: ; $(RMF) libc_fcntl_dats.c
+cleanall:: ; $(RMF) libc_fcntl.exe
+
 all:: libc_fnmatch
 libc_fnmatch: libc_fnmatch.exe
 libc_fnmatch.exe: libc_fnmatch_dats.c ;   $(CC) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

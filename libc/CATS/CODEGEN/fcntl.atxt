@@ -1,0 +1,81 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"fcntl.cats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_LGPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/libc/CATS/CODEGEN/fcntl.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator_for_C()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("February, 2013")
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSLIB_LIBC_FCNTL_CATS
+\#define ATSLIB_LIBC_FCNTL_CATS
+
+#atscode_separator_for_C()
+
+\#include <sys/types.h>
+\#include <fcntl.h> // HX: after sys/types
+
+#atscode_separator_for_C()
+
+extern int close (int fd) ; // unistd.h
+
+#atscode_separator_for_C()
+
+\#define atslib_fildes_get_int(fd) (fd)
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_bool
+atslib_fildes_isgtez
+  (atstype_int fd)
+{
+  return (fd >= 0 ? atsbool_true : atsbool_false) ;
+} // end of [atslib_fildes_isgtez]
+
+#atscode_separator_for_C()
+
+\#define atslib_open_flags(path, flags) open((char*)path, flags)
+\#define atslib_open_flags_mode(path, flags, mode) open((char*)path, flags, mode)
+
+#atscode_separator_for_C()
+
+\#define atslib_close(fd) close(fd)
+
+#atscode_separator_for_C()
+
+\#define atslib_fcntl_getfl(fd) fcntl(fd, F_GETFL)
+\#define atslib_fcntl_setfl(fd, flags) fcntl(fd, F_SETFL, flags)
+
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSLIB_LIBC_FCNTL_CATS
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "fcntl_atxt.txt")
+%}\

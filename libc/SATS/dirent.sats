@@ -33,8 +33,7 @@
 (* ****** ****** *)
 
 %{#
-#include "libc/sys/CATS/types.cats"
-#include "libc/CATS/dirent.cats" // HX: after sys/types
+#include "libc/CATS/dirent.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
