@@ -88,6 +88,15 @@ arrayref_exch_at_guint (A, i, x) =
 #atscode_separator()
 
 implement{a}
+arrayref_interchange (A, i, j) = let
+  val (vbox pf | p) =
+    arrayref_get_viewptr (A) in array_interchange (!p, i, j)
+  // end of [val]
+end // end of [arrayref_interchange]
+
+#atscode_separator()
+
+implement{a}
 arrayref_make_elt (asz, x) = let
   val A = arrayptr_make_elt<a> (asz, x) in arrayptr_refize (A)
 end // end of [arrayref_make_elt]

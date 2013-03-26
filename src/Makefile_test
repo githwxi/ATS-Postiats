@@ -92,6 +92,9 @@ prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/fcontainer_foreach.dats
 
 ######
 
+libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/dirent.sats
+libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/fcntl.sats
+libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/fnmatch.sats
 libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/malloc.sats
 libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/stddef.sats
 libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/stdio.sats

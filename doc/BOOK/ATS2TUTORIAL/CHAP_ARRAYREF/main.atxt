@@ -18,8 +18,8 @@ Time of Generation: #timestamp()\
 
 A persistent array of size n is just n heap-allocated cells (or references)
 in a row.  It is persistent in the sense that the memory allocated for the
-array cannot be freed manually. Instead, it can only be reclaimed through
-garbage collection (GC).\
+array cannot be freed manually. Instead, it can only be safely reclaimed
+through garbage collection (GC).\
 
 ")
 
@@ -108,6 +108,7 @@ in
     A[i] := A[ni]; A[ni] := tmp; loop (A, n, succ(i))
   end else () // end of [if]
 end // end of [loop]
+//
 in
   loop (A, n, (i2sz)0)
 end // end of [arrayref_reverse]
@@ -178,11 +179,8 @@ arrayref_interchange{n:int}
 ')
 
 Note that #dyncode("arrayref_interchange") can not be implemented in terms
-of #dyncode("arrayref_get_at") and #dyncode("arrayref_set_at") (unless
-some form of type-unsafe coding is empolyed). The curious reader can find
-its type-safe implementation in
-#myatscodelink("prelude/DATS/arrayref.dats", "prelude/DATS/array.dats"),
-which is based on a corresponding operation for linear arrays.\
+of #dyncode("arrayref_get_at") and #dyncode("arrayref_set_at") (unless some
+form of type-unsafe coding is empolyed).\
 
 ")
 

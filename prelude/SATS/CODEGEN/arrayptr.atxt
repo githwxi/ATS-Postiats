@@ -288,6 +288,15 @@ overload arrayptr_exch_at with arrayptr_exch_at_guint
 
 #atscode_separator()
 
+fun{a:vt0p}
+arrayptr_interchange
+  {n:int}
+(
+  A: !arrayptr (INV(a), n), i: sizeLt n, j: sizeLt n
+) :<!wrt> void // end of [arrayptr_interchange]
+
+#atscode_separator()
+
 (*
 fun{a:vt0p}{env:vt0p}
 array_foreach$cont (x: &a, env: &env): void

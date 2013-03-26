@@ -89,6 +89,15 @@ clean:: ; $(RMF) prelude_reference_dats.c
 cleanall:: ; $(RMF) prelude_reference.exe
 
 
+all:: prelude_arrayptr
+prelude_arrayptr: prelude_arrayptr.exe
+prelude_arrayptr.exe: prelude_arrayptr_dats.c ;   $(CC) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+prelude_arrayptr_dats.c: prelude_arrayptr.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_arrayptr_dats.c --dynamic prelude_arrayptr.dats
+clean:: ; $(RMF) prelude_arrayptr_dats.o
+clean:: ; $(RMF) prelude_arrayptr_dats.c
+cleanall:: ; $(RMF) prelude_arrayptr.exe
+
+
 ######
 
 all:: libc_dirent
