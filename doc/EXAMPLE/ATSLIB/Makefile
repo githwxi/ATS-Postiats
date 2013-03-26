@@ -56,6 +56,14 @@ clean:: ; $(RMF) prelude_float_dats.o
 clean:: ; $(RMF) prelude_float_dats.c
 cleanall:: ; $(RMF) prelude_float.exe
 
+all:: prelude_memory
+prelude_memory: prelude_memory.exe
+prelude_memory.exe: prelude_memory_dats.c ;   $(CC) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+prelude_memory_dats.c: prelude_memory.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_memory_dats.c --dynamic prelude_memory.dats
+clean:: ; $(RMF) prelude_memory_dats.o
+clean:: ; $(RMF) prelude_memory_dats.c
+cleanall:: ; $(RMF) prelude_memory.exe
+
 all:: prelude_pointer
 prelude_pointer: prelude_pointer.exe
 prelude_pointer.exe: prelude_pointer_dats.c ;   $(CC) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
