@@ -48,6 +48,7 @@ allchap:: CHAP_SYNCLR
 allchap:: CHAP_FILENAME
 allchap:: CHAP_FILEINCL
 allchap:: CHAP_FIXITY
+allchap:: CHAP_REFERENCE
 allchap:: CHAP_ARRAYREF
 
 ######
@@ -73,6 +74,11 @@ CHAP_FIXITY:: ; \
   make -C CHAP_FIXITY -f ../Makefile.chap clean
 
 ######
+
+CHAP_REFERENCE:: ; \
+  make -C CHAP_REFERENCE -f ../Makefile.chap main.db
+CHAP_REFERENCE:: ; \
+  make -C CHAP_REFERENCE -f ../Makefile.chap clean
 
 CHAP_ARRAYREF:: ; \
   make -C CHAP_ARRAYREF -f ../Makefile.chap main.db

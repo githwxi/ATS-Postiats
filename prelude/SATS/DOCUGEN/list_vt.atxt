@@ -37,7 +37,16 @@ a subtype of #stacode("list_vt(T2, N)") if T1 is a subtype of T2. The
 low-level representation for list_vt is the same as that for a standard
 singly-linked list in C, and it is fairly straightforward to implement
 functions in C that can directly manipulate linear lists in ATS and vice
-versa.  ')
+versa.\
+
+')
+
+#para('\
+
+Please see #myatscodelink("prelude/SATS/list_vt.sats", "list_vt.sats") for
+the SATS file in ATSLIB where the functions in this package are declared.\
+
+')
 
 ')#comment("declpreamble")
 

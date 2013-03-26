@@ -129,6 +129,8 @@ the operators #dyncode("iadd"), #dyncode("fadd"), #dyncode("padd") and
 
 #atscode('nonfix iadd fadd padd uadd')
 
+Note that #dyncode("nonfix") is a keyword in ATS.
+
 ")#comment("para")
 
 #para("\

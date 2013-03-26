@@ -26,14 +26,23 @@ This package contains a variety of common functions for creating and
 manipulationg functional lists.
 ')
 
-#para('
+#para('\
+
 A functional data structure is one that is immutable after creation; the
 memory it occupies is heap-allocated, which can only be safely freed by a
 garbage collector (GC).  The type for a singly-linked functional list
 containing N elements of type T is denoted by #stacode("list(T, N)"), where
 T is nonlinear. Note that the type constructor #stacode("list") is
 co-variant in its first argument, that is, #stacode("list(T1, N)") is a
-subtype of #stacode("list(T2, N)") if T1 is a subtype of T2.
+subtype of #stacode("list(T2, N)") if T1 is a subtype of T2.\
+
+')
+
+#para('\
+
+Please see #myatscodelink("prelude/SATS/list.sats", "list.sats") for the
+SATS file in ATSLIB where the functions in this package are declared.\
+
 ')
 
 ')#comment("declpreamble")
