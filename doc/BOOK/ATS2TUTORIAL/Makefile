@@ -46,6 +46,9 @@ preface.db:: ; $(RMF) preface.exe preface_atxt_dats.c preface_atxt.dats preface_
 
 allchap:: CHAP_SYNCLR
 allchap:: CHAP_FILENAME
+allchap:: CHAP_FILEINCL
+allchap:: CHAP_FIXITY
+allchap:: CHAP_ARRAYREF
 
 ######
 
@@ -58,6 +61,23 @@ CHAP_FILENAME:: ; \
   make -C CHAP_FILENAME -f ../Makefile.chap main.db
 CHAP_FILENAME:: ; \
   make -C CHAP_FILENAME -f ../Makefile.chap clean
+
+CHAP_FILEINCL:: ; \
+  make -C CHAP_FILEINCL -f ../Makefile.chap main.db
+CHAP_FILEINCL:: ; \
+  make -C CHAP_FILEINCL -f ../Makefile.chap clean
+
+CHAP_FIXITY:: ; \
+  make -C CHAP_FIXITY -f ../Makefile.chap main.db
+CHAP_FIXITY:: ; \
+  make -C CHAP_FIXITY -f ../Makefile.chap clean
+
+######
+
+CHAP_ARRAYREF:: ; \
+  make -C CHAP_ARRAYREF -f ../Makefile.chap main.db
+CHAP_ARRAYREF:: ; \
+  make -C CHAP_ARRAYREF -f ../Makefile.chap clean
 
 ######
 

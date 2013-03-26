@@ -13,6 +13,9 @@
 <!ENTITY preface SYSTEM "preface.db">
 <!ENTITY chap_synclr SYSTEM "CHAP_SYNCLR/main.db">
 <!ENTITY chap_filename SYSTEM "CHAP_FILENAME/main.db">
+<!ENTITY chap_fileincl SYSTEM "CHAP_FILEINCL/main.db">
+<!ENTITY chap_fixity SYSTEM "CHAP_FIXITY/main.db">
+<!ENTITY chap_arrayref SYSTEM "CHAP_ARRAYREF/main.db">
 ]>
 <book id="proginats" lang="en">
 &bookinfo;
@@ -33,6 +36,9 @@ To my wife Jinning and daughter Zoe.
 <title>Basic Tutorial Topics</title>
 &chap_synclr;
 &chap_filename;
+&chap_fileincl;
+&chap_fixity;
+&chap_arrayref;
 </part><!--"basic_tutorial_topics"-->
 
 </book>

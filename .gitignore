@@ -228,5 +228,6 @@ doc/BOOK/ATS2TUTORIAL/*_atxt.dats
 doc/BOOK/ATS2TUTORIAL/*/main.db
 doc/BOOK/ATS2TUTORIAL/HTML
 doc/BOOK/ATS2TUTORIAL/CODE/*.html
+doc/BOOK/ATS2TUTORIAL/*/*_extracted.dats
 
 ###### end of [.gitignore] ######

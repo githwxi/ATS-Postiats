@@ -109,6 +109,7 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 #packfilename("prelude_bool.dats")
 #packfilename("prelude_integer.dats")
 #packfilename("prelude_float.dats")
+#packfilename("prelude_memory.dats")
 #packfilename("prelude_pointer.dats")
 #packfilename("prelude_string.dats")
 #packfilename("prelude_reference.dats")
@@ -122,6 +123,7 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 (* ****** ****** *)
 
 #packfilename("libc_dirent.dats")
+#packfilename("libc_fcntl.dats")
 #packfilename("libc_fnmatch.dats")
 #packfilename("libc_malloc.dats")
 #packfilename("libc_stdio.dats")

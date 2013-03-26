@@ -204,6 +204,13 @@ overload arrayref_exch_at with arrayref_exch_at_guint
 
 #atscode_separator()
 
+fun{a:vt0p}
+arrayref_interchange
+  {n:int} (A: arrayref (a, n), i: sizeLt n, j: sizeLt n):<!refwrt> void
+// end of [arrayref_interchange]
+
+#atscode_separator()
+
 (*
 fun{a:vt0p}{env:vt0p}
 array_foreach$cont (x: &a, env: &env): void

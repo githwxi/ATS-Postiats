@@ -11,6 +11,12 @@
 *)
 (* ****** ****** *)
 
+staload _ = "prelude/DATS/list.dats"
+staload _ = "prelude/DATS/list_vt.dats"
+staload _ = "prelude/DATS/reference.dats"
+
+(* ****** ****** *)
+
 staload UN = "prelude/SATS/unsafe.sats"
 staload _(*anon*) = "prelude/DATS/unsafe.dats"
 
@@ -204,6 +210,56 @@ fun myatscodelink (
 in
   atext_strcst (res)
 end // end of [myatscodelink]
+
+(* ****** ****** *)
+
+
+local
+
+val theCodeLst = ref<atextlst> (list_nil)
+
+in // in of [local]
+
+fun theCodeLst_add (x: atext) =
+  !theCodeLst := list_cons (x, !theCodeLst)
+
+fun theCodeLst_get (): atextlst = let
+  val xs = list_reverse (!theCodeLst) in list_of_list_vt (xs)
+end // end of [theCodeLst_get]
+
+fun fprint_theCodeLst
+  (out: FILEref): void = let
+//
+fun loop
+(
+   xs: atextlst, i: int
+) :<cloref1> void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = if i > 0 then fprint_newline (out)
+    val () = fprint_atext (out, x)
+  in
+    loop (xs, i+1)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [loop]
+//
+in
+  loop (theCodeLst_get (),  0)
+end // end of [fprint_theCodeLst]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+fn atscode_extract
+  (x: string): atext = let
+  val () = theCodeLst_add (atext_strcst (x)) in atscode (x)
+end // end of [atscode_extract]
 
 (* ****** ****** *)
 
