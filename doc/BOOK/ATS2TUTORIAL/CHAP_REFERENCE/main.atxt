@@ -43,8 +43,11 @@ For creating a reference, the function template #dyncode("ref_make_elt") of
 the following interface can be called:
 
 #atscode('\
-fun{a:viewt@ype} ref_make_elt (x: a):<> ref a
+fun{a:viewt@ype} ref_make_elt (x: a):<!wrt> ref a
 ')
+
+Note that the symbol #stacode("!wrt") indicates that the so-called
+#stacode("wrt")-effect may occur when #dyncode("ref_make_elt") is called.
 
 For reading from and writing to a reference, the function templates
 #dyncode("ref_get_elt") and #dyncode("ref_set_elt") can be used,

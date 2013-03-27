@@ -480,6 +480,10 @@ val () = res := list_cons (f ("add", tnm1, tnm2), res)
 val () = res := list_cons (f ("sub", tnm1, tnm2), res)
 val () = res := list_cons (f ("mul", tnm1, tnm2), res)
 val () = res := list_cons (f ("div", tnm1, tnm2), res)
+(*
+val () = res := list_cons (f ("mod", tnm1, tnm2), res) // HX: skipped
+*)
+val () = res := list_cons (f ("nmod", tnm1, tnm2), res)
 //
 val () = res := list_cons (f ("isltz", tnm1, tnm2), res)
 val () = res := list_cons (f ("isltez", tnm1, tnm2), res)
@@ -536,6 +540,8 @@ val () = res := list_cons (f ("add", tnm1, tnm2), res)
 val () = res := list_cons (f ("sub", tnm1, tnm2), res)
 val () = res := list_cons (f ("mul", tnm1, tnm2), res)
 val () = res := list_cons (f ("div", tnm1, tnm2), res)
+val () = res := list_cons (f ("mod", tnm1, tnm2), res)
+val () = res := list_cons (f ("nmod", tnm1, tnm2), res)
 //
 val () = res := list_cons (f ("isgtz", tnm1, tnm2), res)
 val () = res := list_cons (f ("iseqz", tnm1, tnm2), res)

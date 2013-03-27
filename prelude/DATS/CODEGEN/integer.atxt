@@ -446,6 +446,7 @@ val () = res := list_cons (f "add", res)
 val () = res := list_cons (f "sub", res)
 val () = res := list_cons (f "mul", res)
 val () = res := list_cons (f "div", res)
+val () = res := list_cons (f "mod", res)
 //
 val () = res := list_cons (f "isgtz", res)
 val () = res := list_cons (f "iseqz", res)

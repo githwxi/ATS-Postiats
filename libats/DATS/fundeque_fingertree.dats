@@ -121,7 +121,7 @@ prfun
 ftnode_prop_szpos
   {a:t0p}
   {d:int}
-  {n:int} .<d nsub 0>.
+  {n:int} .<d \nsub 0>.
   (xn: ftnode (a, d, n)): [n > 0] void =
   case+ xn of
   | FTN1 _ => ()
