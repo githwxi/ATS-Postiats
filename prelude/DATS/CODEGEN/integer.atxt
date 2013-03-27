@@ -184,6 +184,10 @@ val () = res := list_cons (f "add", res)
 val () = res := list_cons (f "sub", res)
 val () = res := list_cons (f "mul", res)
 val () = res := list_cons (f "div", res)
+(*
+val () = res := list_cons (f "mod", res) // HX: skipped
+*)
+val () = res := list_cons (f "nmod", res)
 //
 val () = res := list_cons (f "isltz", res)
 val () = res := list_cons (f "isltez", res)
@@ -321,6 +325,9 @@ val () = res := list_cons (f "sub", res)
 val () = res := list_cons (f "mul", res)
 val () = res := list_cons (f "div", res)
 val () = res := list_cons (f "mod", res)
+(*
+val () = res := list_cons (f "nmod", res) // HX: skipped
+*)
 //
 val () = res := list_cons (f "lsl", res)
 val () = res := list_cons (f "lsr", res)

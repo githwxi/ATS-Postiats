@@ -13,7 +13,8 @@
 
 (* ****** ****** *)
 
-val () = {
+val () =
+{
 //
 val () = assertloc (~(~(1)) = 1)
 val () = assertloc (neg(neg(~1)) = ~1)
@@ -30,8 +31,31 @@ val x = ~10
 val () = assertloc (abs(x) = max(x, 0) - min(x, 0))
 val () = assertloc (10 mod 2 = 0)
 val () = assertloc (10 mod 3 = 1)
-val () = assertloc (10 mod 5 = 0)
-val () = assertloc (10 mod 7 = 3)
+(*
+val () = assertloc (10 nmod 5 = 0)
+val () = assertloc (10 nmod 7 = 3)
+*)
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val () = assertloc (pred(succ(0u)) = 0)
+val () = assertloc (succ(pred(1u)) = 1)
+val () = assertloc (1u + 2u = 2u + 1u)
+val () = assertloc ((1u + 2u) + 3u = 1 + (2 + 3))
+val () = assertloc (1u * 2u = 2u * 1u)
+val () = assertloc ((1u * 2u) * 3u = 1 * (2 * 3))
+//
+val () = assertloc (10u mod 2u = 0)
+val () = assertloc (10u mod 3u = 1)
+(*
+val () = assertloc (10u nmod 5 = 0)
+val () = assertloc (10u nmod 7 = 3)
+*)
 //
 } // end of [val]
 
