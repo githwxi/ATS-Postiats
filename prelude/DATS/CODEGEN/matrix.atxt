@@ -30,17 +30,26 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
 
+implement{a}
+matrix_foreach (M, m, n) = let
+//
+var env: void = () in matrix_foreach_env (M, m, n, env)
+//
+end // end of [matrix_foreach]
+
+#atscode_separator()
+
 implement
 {a}{env}
 matrix_foreach_env
  (M, m, n, env) = let
 //
 implement(env)
-array_foreach__cont<a><env>
-  (x, env) = matrix_foreach__cont<a><env> (x, env)
+array_foreach$cont<a><env>
+  (x, env) = matrix_foreach$cont<a><env> (x, env)
 implement(env)
-array_foreach__fwork<a><env> 
-  (x, env) = matrix_foreach__fwork<a><env> (x, env)
+array_foreach$fwork<a><env> 
+  (x, env) = matrix_foreach$fwork<a><env> (x, env)
 //
 val p = addr@(M)
 prval pfarr = matrix2array_v (view@ (M))

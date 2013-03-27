@@ -101,7 +101,8 @@ fun{a:vt0p}
 matrix_ptr_takeout_row
   {l0:addr}
   {m,n:int}
-  {i:int | i < m} (
+  {i:int | i < m}
+(
   pfmat: matrix_v (INV(a), l0, m, n)
 | base: ptr l0, i: size_t i, n: size_t n
 ) :<> [l:addr] (
@@ -114,7 +115,8 @@ fun{a:vt0p}
 matrix_ptr_takeout_col
   {l0:addr}
   {m,n:int}
-  {i:int | i < m} (
+  {i:int | i < m}
+(
   pfmat: matrix_v (INV(a), l0, m, n)
 | base: ptr l0, i: size_t i, n: size_t n
 ) :<> [l:addr] (
@@ -122,6 +124,28 @@ matrix_ptr_takeout_col
 , matcol_v (a, l, m, n) -<lin,prf> matrix_v (a, l0, m, n)
 | ptr (l)
 ) // end of [matrix_ptr_takeout_col]
+
+#atscode_separator()
+
+fun{
+a:vt0p}{env:vt0p
+} matrix_foreach$cont (x: &a, env: &env): bool
+fun{
+a:vt0p}{env:vt0p
+} matrix_foreach$fwork (x: &a >> _, env: &(env) >> _): void
+
+fun{
+a:vt0p
+} matrix_foreach{m,n:int}
+(
+  A: &matrix(INV(a), m, n) >> _, m: size_t m, n: size_t n
+) : sizeLte (m*n) // end of [matrix_foreach]
+fun{
+a:vt0p}{env:vt0p
+} matrix_foreach_env{m,n:int}
+(
+  A: &matrix(INV(a), m, n) >> _, m: size_t m, n: size_t n, env: &(env) >> _
+) : sizeLte (m*n) // end of [matrix_foreach_env]
 
 #atscode_separator()
 
