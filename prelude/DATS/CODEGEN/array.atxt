@@ -303,27 +303,31 @@ prval () = lemma_array_param (A)
 //
 fun loop
   {l:addr}
-  {n:nat | n <= n0} .<n>. (
+  {n:nat | n <= n0} .<n>.
+(
   pf: !array_v (a, l, n)
 | p: ptr l, n: size_t n, env: &env
 ) : sizeLte (n0) = let
 in
-  if n > 0 then let
-    prval (
-      pf1, pf2
-    ) = array_v_uncons (pf)
-    val cont = array_foreach$cont<a><env> (!p, env)
+//
+if n > 0 then let
+  prval
+  (
+    pf1, pf2
+  ) = array_v_uncons (pf)
+  val cont = array_foreach$cont<a><env> (!p, env)
+in
+  if cont then let
+    val () = array_foreach$fwork<a><env> (!p, env)
+    val res = loop (pf2 | ptr1_succ<a> (p), pred(n), env)
+    prval () = pf := array_v_cons (pf1, pf2)
   in
-    if cont then let
-      val () = array_foreach$fwork<a><env> (!p, env)
-      val res = loop (pf2 | ptr1_succ<a> (p), pred(n), env)
-      prval () = pf := array_v_cons (pf1, pf2)
-    in
-      res
-    end else let
-      prval () = pf := array_v_cons (pf1, pf2) in n
-    end (* end of [if] *)
-  end else n(*0*)
+    res
+  end else let
+    prval () = pf := array_v_cons (pf1, pf2) in n
+  end (* end of [if] *)
+end else n(*0*)
+//
 end // end of [loop]
 //
 val p_beg = addr@(A)
@@ -508,35 +512,40 @@ array_rforeach_env
 prval () = lemma_array_param (A)
 //
 fun loop
-  {l:addr}{n:nat | n <= n0} .<n>. (
+  {l:addr}
+  {n:nat | n <= n0} .<n>.
+(
   pf: !array_v (a, l, n)
 | p: ptr (l+n*sizeof(a)), n: size_t n, env: &env
 ) : sizeLte (n0) = let
 in
-  if n > 0 then let
-    prval (
-      pf1, pf2
-    ) = array_v_unextend (pf)
-    val p = ptr1_pred<a> (p)
-    val n = pred (n) // HX: current index
-    val (pf2 | p) = viewptr_match (pf2 | p)
-    val cont = array_rforeach$cont<a><env> (!p, env)
+//
+if n > 0 then let
+  prval
+  (
+    pf1, pf2
+  ) = array_v_unextend (pf)
+  val p1 = ptr1_pred<a> (p)
+  val (pf2 | p1) = viewptr_match (pf2 | p1)
+  val cont = array_rforeach$cont<a><env> (!p1, env)
+in
+  if cont then let
+    val () = array_rforeach$fwork<a><env> (!p1, env)
+    val res = loop (pf1 | p1, pred(n), env)
+    prval () = pf := array_v_extend (pf1, pf2)
   in
-    if cont then let
-      val () = array_rforeach$fwork<a><env> (!p, env)
-      val res = loop (pf1 | p, n, env)
-      prval () = pf := array_v_extend (pf1, pf2)
-    in
-      res
-    end else let
-      prval () = pf := array_v_extend (pf1, pf2) in n
-    end (* end of [if] *)
-  end else n (*0*)
+    res
+  end else let
+    prval () = pf := array_v_extend (pf1, pf2) in n
+  end (* end of [if] *)
+end else n (*0*)
+//
 end // end of [loop]
 //
 val p_end =
   ptr1_add_guint<a> (addr@(A), asz)
 val n = loop (view@(A) | p_end, asz, env)
+//
 in
   asz - n
 end // end of [array_rforeach_env]
