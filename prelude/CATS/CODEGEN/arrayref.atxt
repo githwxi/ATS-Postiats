@@ -35,9 +35,9 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 ATSinline()
 atstype_arrptr
-arrayref_make_arrpsz
+atspre_arrayref_make_arrpsz
   (atstype_arrpsz psz) { return (psz).ptr ; }
-// end of [arrayref_make_arrpsz]
+// end of [atspre_arrayref_make_arrpsz]
 
 #atscode_separator_for_C()
 
