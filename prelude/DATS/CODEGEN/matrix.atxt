@@ -31,10 +31,33 @@ staload UN = "prelude/SATS/unsafe.sats"
 #atscode_separator()
 
 implement{a}
+matrix_getref_at
+  (M, i, n, j) =
+  $UN.cast{cPtr1(a)}(ptr_add<a> (addr@(M), i*n+j))
+// end of [matrix_getref_at]
+
+#atscode_separator()
+
+implement{a}
+matrix_get_at
+  (M, i, n, j) = $UN.cptr_get (matrix_getref_at (M, i, n, j))
+// end of [matrix_get_at]
+
+implement{a}
+matrix_set_at
+  (M, i, n, j, x) = $UN.cptr_set (matrix_getref_at (M, i, n, j), x)
+// end of [matrix_set_at]
+
+implement{a}
+matrix_exch_at
+  (M, i, n, j, x) = $UN.cptr_exch (matrix_getref_at (M, i, n, j), x)
+// end of [matrix_exch_at]
+
+#atscode_separator()
+
+implement{a}
 matrix_foreach (M, m, n) = let
-//
-var env: void = () in matrix_foreach_env (M, m, n, env)
-//
+  var env: void = () in matrix_foreach_env (M, m, n, env)
 end // end of [matrix_foreach]
 
 #atscode_separator()

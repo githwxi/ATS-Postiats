@@ -26,6 +26,13 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+vtypedef
+RD(a:vt0p) = a // for commenting: read-only
+\#define NSH (x) x // for commenting: no sharing
+\#define SHR (x) x // for commenting: it is shared
+
+#atscode_separator()
+
 sortdef t0p = t@ype
 sortdef vtp = viewtype
 sortdef vt0p = viewt@ype
@@ -67,20 +74,34 @@ stadef matcol_v = matcol_viewt0ype_addr_int_int
 //
 #atscode_separator()
 
-fun{a:t0p}
-matrix_get_at {m,n:int} (
-  M: &matrix (a, m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n)
-) :<> a // end of [matrix_get_at]
+fun{a:vt0p}
+matrix_getref_at
+  {m,n:int}
+(
+  M: &RD(matrix (INV(a), m, n)), i: sizeLt (m), n: size_t n, j: sizeLt (n)
+) :<> cPtr1 (a) // endfun
+
+#atscode_separator()
 
 fun{a:t0p}
-matrix_set_at {m,n:int} (
-  M: &matrix (a, m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n), x: a
+matrix_get_at{m,n:int}
+(
+  M: &RD(matrix (INV(a), m, n)), i: sizeLt (m), n: size_t n, j: sizeLt (n)
+) :<> (a) // end of [matrix_get_at]
+overload [] with matrix_get_at
+
+fun{a:t0p}
+matrix_set_at{m,n:int}
+(
+  M: &matrix (INV(a), m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n), x: a
 ) :<!wrt> void // end of [matrix_set_at]
+overload [] with matrix_set_at
 
 fun{a:vt0p}
-matrix_exch_at {m,n:int} (
-  M: &matrix (a, m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n), x: &a>>a
-) :<!wrt> void // end of [matrix_set_at]
+matrix_exch_at{m,n:int}
+(
+  M: &matrix (INV(a), m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n), x: &a>>a
+) :<!wrt> void // end of [matrix_exch_at]
 
 #atscode_separator()
 
