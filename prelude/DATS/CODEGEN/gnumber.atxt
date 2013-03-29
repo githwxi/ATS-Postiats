@@ -1,0 +1,51 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"gnumber.dats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/gnumber.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("March, 2013")
+
+#atscode_separator()
+//
+staload
+"prelude/SATS/gnumber.sats"
+//
+#atscode_separator()
+
+implement
+gadd_val<int> (x, y) = x + y
+implement
+gsub_val<int> (x, y) = x - y
+implement
+gmul_val<int> (x, y) = x * y
+implement
+gdiv_val<int> (x, y) = x / y
+implement
+gmod_val<int> (x, y) = x mod y
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "gnumber_atxt.txt")
+%}\

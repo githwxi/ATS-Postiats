@@ -153,16 +153,6 @@ clean:: ; $(RMF) strptr_atxt.exe
 cleanall:: ; $(RMF) strptr.dats
 
 
-all:: unsafe.dats
-unsafe.dats: unsafe_atxt.exe ; ./$< > $@
-unsafe_atxt.exe: unsafe_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ unsafe_atxt.dats -latsdoc
-unsafe_atxt.dats: unsafe.atxt
-	$(ATSDOC) --outcode $@ -i unsafe.atxt > unsafe_atxt.txt
-clean:: ; $(RMF) unsafe_atxt.exe
-cleanall:: ; $(RMF) unsafe.dats
-
-
 all:: basics.dats
 basics.dats: basics_atxt.exe ; ./$< > $@
 basics_atxt.exe: basics_atxt.dats
@@ -171,6 +161,34 @@ basics_atxt.dats: basics.atxt
 	$(ATSDOC) --outcode $@ -i basics.atxt > basics_atxt.txt
 clean:: ; $(RMF) basics_atxt.exe
 cleanall:: ; $(RMF) basics.dats
+
+all:: gorder.dats
+gorder.dats: gorder_atxt.exe ; ./$< > $@
+gorder_atxt.exe: gorder_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ gorder_atxt.dats -latsdoc
+gorder_atxt.dats: gorder.atxt
+	$(ATSDOC) --outcode $@ -i gorder.atxt > gorder_atxt.txt
+clean:: ; $(RMF) gorder_atxt.exe
+cleanall:: ; $(RMF) gorder.dats
+
+all:: gnumber.dats
+gnumber.dats: gnumber_atxt.exe ; ./$< > $@
+gnumber_atxt.exe: gnumber_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ gnumber_atxt.dats -latsdoc
+gnumber_atxt.dats: gnumber.atxt
+	$(ATSDOC) --outcode $@ -i gnumber.atxt > gnumber_atxt.txt
+clean:: ; $(RMF) gnumber_atxt.exe
+cleanall:: ; $(RMF) gnumber.dats
+
+
+all:: unsafe.dats
+unsafe.dats: unsafe_atxt.exe ; ./$< > $@
+unsafe_atxt.exe: unsafe_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ unsafe_atxt.dats -latsdoc
+unsafe_atxt.dats: unsafe.atxt
+	$(ATSDOC) --outcode $@ -i unsafe.atxt > unsafe_atxt.txt
+clean:: ; $(RMF) unsafe_atxt.exe
+cleanall:: ; $(RMF) unsafe.dats
 
 
 all:: list.dats

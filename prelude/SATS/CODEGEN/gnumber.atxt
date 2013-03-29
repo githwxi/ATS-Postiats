@@ -1,0 +1,73 @@
+%{
+//
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"gnumber.sats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+//
+#include "prelude_SATS_atext.hats"
+//
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/gnumber.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("September, 2011")
+
+#atscode_separator()
+//
+// HX: for unindexed gnumber types
+//
+#atscode_separator()
+
+sortdef tk = tkind
+
+#atscode_separator()
+
+typedef SHR(a:type) = a // for commenting purpose
+typedef NSH(a:type) = a // for commenting purpose
+
+#atscode_separator()
+//
+// HX: generic number operations
+//
+#atscode_separator()
+
+fun{a:t0p} gnum_int (x: int):<> a
+fun{a:t0p} gnum_double (x: double):<> a
+
+#atscode_separator()
+
+fun{a:t0p} gneg_val (x: a):<> a
+fun{a:t0p} gsucc_val (x: a):<> a
+fun{a:t0p} gpred_val (x: a):<> a
+
+#atscode_separator()
+
+fun{a:t0p} gadd_val (x: a, y: a):<> a
+fun{a:t0p} gsub_val (x: a, y: a):<> a
+fun{a:t0p} gmul_val (x: a, y: a):<> a
+fun{a:t0p} gdiv_val (x: a, y: a):<> a
+fun{a:t0p} gmod_val (x: a, y: a):<> a
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "gnumber_atxt.txt")
+%}\

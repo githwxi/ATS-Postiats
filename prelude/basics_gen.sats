@@ -69,55 +69,6 @@ gequal_ref (x: &INV(a), y: &a):<> bool
 
 (* ****** ****** *)
 
-fun{a:t0p}
-glt_val (x: a, y: a):<> bool
-fun{a:t0p}
-glte_val (x: a, y: a):<> bool
-fun{a:t0p}
-ggt_val (x: a, y: a):<> bool
-fun{a:t0p}
-ggte_val (x: a, y: a):<> bool
-fun{a:t0p}
-geq_val (x: a, y: a):<> bool
-fun{a:t0p}
-gneq_val (x: a, y: a):<> bool
-fun{a:t0p}
-gcompare_val (x: a, y: a):<> int
-
-fun{a:vt0p}
-glt_ref (x: &INV(a), y: &a):<> bool
-fun{a:vt0p}
-glte_ref (x: &INV(a), y: &a):<> bool
-fun{a:vt0p}
-ggt_ref (x: &INV(a), y: &a):<> bool
-fun{a:vt0p}
-ggte_ref (x: &INV(a), y: &a):<> bool
-fun{a:vt0p}
-geq_ref (x: &INV(a), y: &a):<> bool
-fun{a:vt0p}
-gneq_ref (x: &INV(a), y: &a):<> bool
-fun{a:vt0p}
-gcompare_ref (x: &INV(a), y: &a):<> int
-
-(* ****** ****** *)
-//
-// generic number operations
-//
-fun{a:t0p} gnum_int (x: int):<> a
-fun{a:t0p} gnum_double (x: double):<> a
-//
-fun{a:t0p} gneg_val (x: a):<> a
-fun{a:t0p} gsucc_val (x: a):<> a
-fun{a:t0p} gpred_val (x: a):<> a
-//
-fun{a:t0p} gadd_val (x: a, y: a):<> a
-fun{a:t0p} gsub_val (x: a, y: a):<> a
-fun{a:t0p} gmul_val (x: a, y: a):<> a
-fun{a:t0p} gdiv_val (x: a, y: a):<> a
-fun{a:t0p} gmod_val (x: a, y: a):<> a
-//
-(* ****** ****** *)
-
 fun{a:t0p} tostring_val (x: a):<> string
 fun{a:vt0p} tostring_ref (x: &INV(a)):<> string
 

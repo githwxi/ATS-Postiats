@@ -116,6 +116,12 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
+#packfilename("prelude_arrayptr.dats")
+#packfilename("prelude_arrayref.dats")
+#packfilename("prelude_matrixptr.dats")
+
+(* ****** ****** *)
+
 #packfilename("libats_qlist.dats")
 #packfilename("libats_sllist.dats")
 #packfilename("libats_dllist.dats")

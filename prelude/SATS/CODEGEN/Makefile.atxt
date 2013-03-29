@@ -85,6 +85,9 @@ all::
 #make_entry("filebas")
 #make_entry("intrange")
 
+#make_entry("gorder")
+#make_entry("gnumber")
+
 #make_entry("unsafe")
 
 #make_entry("list")
@@ -102,7 +105,6 @@ all::
 #make_entry("matrixptr")
 
 #make_entry("gprint")
-
 #make_entry("giterator")
 
 #make_entry("fcontainer")

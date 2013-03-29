@@ -175,6 +175,25 @@ clean:: ; $(RMF) intrange_atxt.exe
 cleanall:: ; $(RMF) intrange.sats
 
 
+all:: gorder.sats
+gorder.sats: gorder_atxt.exe ; ./$< > $@
+gorder_atxt.exe: gorder_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ gorder_atxt.dats -latsdoc
+gorder_atxt.dats: gorder.atxt
+	$(ATSDOC) --outcode $@ -i gorder.atxt > gorder_atxt.txt
+clean:: ; $(RMF) gorder_atxt.exe
+cleanall:: ; $(RMF) gorder.sats
+
+all:: gnumber.sats
+gnumber.sats: gnumber_atxt.exe ; ./$< > $@
+gnumber_atxt.exe: gnumber_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ gnumber_atxt.dats -latsdoc
+gnumber_atxt.dats: gnumber.atxt
+	$(ATSDOC) --outcode $@ -i gnumber.atxt > gnumber_atxt.txt
+clean:: ; $(RMF) gnumber_atxt.exe
+cleanall:: ; $(RMF) gnumber.sats
+
+
 all:: unsafe.sats
 unsafe.sats: unsafe_atxt.exe ; ./$< > $@
 unsafe_atxt.exe: unsafe_atxt.dats
@@ -287,7 +306,6 @@ gprint_atxt.dats: gprint.atxt
 	$(ATSDOC) --outcode $@ -i gprint.atxt > gprint_atxt.txt
 clean:: ; $(RMF) gprint_atxt.exe
 cleanall:: ; $(RMF) gprint.sats
-
 
 all:: giterator.sats
 giterator.sats: giterator_atxt.exe ; ./$< > $@

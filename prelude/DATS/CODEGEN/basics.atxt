@@ -66,46 +66,6 @@ argv_get_at
 #atscode_separator()
 
 implement{a}
-gequal_val (x, y) = geq_val<a> (x, y)
-
-#atscode_separator()
-
-implement{a}
-glt_val (x, y) = gcompare_val<a> (x, y) < 0
-implement{a}
-glte_val (x, y) = gcompare_val<a> (x, y) <= 0
-implement{a}
-ggt_val (x, y) = gcompare_val<a> (x, y) > 0
-implement{a}
-ggte_val (x, y) = gcompare_val<a> (x, y) >= 0
-implement{a}
-geq_val (x, y) = gcompare_val<a> (x, y) = 0
-implement{a}
-gneq_val (x, y) = gcompare_val<a> (x, y) != 0
-
-#atscode_separator()
-
-implement{a}
-glt_ref (x, y) = gcompare_ref<a> (x, y) < 0
-implement{a}
-glte_ref (x, y) = gcompare_ref<a> (x, y) <= 0
-implement{a}
-ggt_ref (x, y) = gcompare_ref<a> (x, y) > 0
-implement{a}
-ggte_ref (x, y) = gcompare_ref<a> (x, y) >= 0
-implement{a}
-geq_ref (x, y) = gcompare_ref<a> (x, y) = 0
-implement{a}
-gneq_ref (x, y) = gcompare_ref<a> (x, y) != 0
-
-#atscode_separator()
-
-implement(a:t0p)
-gcompare_ref<a> (x, y) = gcompare_val<a> (x, y)
-
-#atscode_separator()
-
-implement{a}
 tostring_val (x) = strptr2string (tostrptr_val<a> (x))
 
 #atscode_separator()

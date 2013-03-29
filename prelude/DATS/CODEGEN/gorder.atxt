@@ -1,0 +1,96 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"gorder.dats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/gorder.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("March, 2013")
+
+#atscode_separator()
+
+implement{a}
+glt_val (x, y) = gcompare_val<a> (x, y) < 0
+implement{a}
+glte_val (x, y) = gcompare_val<a> (x, y) <= 0
+implement{a}
+ggt_val (x, y) = gcompare_val<a> (x, y) > 0
+implement{a}
+ggte_val (x, y) = gcompare_val<a> (x, y) >= 0
+implement{a}
+geq_val (x, y) = gcompare_val<a> (x, y) = 0
+implement{a}
+gneq_val (x, y) = gcompare_val<a> (x, y) != 0
+
+#atscode_separator()
+
+implement{a}
+glt_ref (x, y) = gcompare_ref<a> (x, y) < 0
+implement{a}
+glte_ref (x, y) = gcompare_ref<a> (x, y) <= 0
+implement{a}
+ggt_ref (x, y) = gcompare_ref<a> (x, y) > 0
+implement{a}
+ggte_ref (x, y) = gcompare_ref<a> (x, y) >= 0
+implement{a}
+geq_ref (x, y) = gcompare_ref<a> (x, y) = 0
+implement{a}
+gneq_ref (x, y) = gcompare_ref<a> (x, y) != 0
+
+#atscode_separator()
+
+implement(a:t0p)
+gcompare_ref<a> (x, y) = gcompare_val<a> (x, y)
+
+#atscode_separator()
+//
+implement
+gcompare_val<int> = compare_int_int
+implement
+gcompare_val<lint> = compare_lint_lint
+implement
+gcompare_val<llint> = compare_llint_llint
+implement
+gcompare_val<ssize_t> = compare_ssize_ssize
+//
+implement
+gcompare_val<uint> = compare_uint_uint
+implement
+gcompare_val<ulint> = compare_ulint_ulint
+implement
+gcompare_val<ullint> = compare_ullint_ullint
+implement
+gcompare_val<size_t> = compare_size_size
+//
+#atscode_separator()
+
+implement
+gcompare_val<bool> = compare_bool0_bool0
+
+implement
+gcompare_val<char> = compare_char0_char0
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "gorder_atxt.txt")
+%}\

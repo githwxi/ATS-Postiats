@@ -624,6 +624,9 @@ fun prelude_load (
   val () = pervasive_load (ATSHOME, "prelude/SATS/lazy.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/lazy_vt.sats")
 //
+  val () = pervasive_load (ATSHOME, "prelude/SATS/gorder.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/gnumber.sats")
+//
 (*
   val () = pervasive_load (ATSHOME, "prelude/SATS/unsafe.sats") // manual loading
 *)
