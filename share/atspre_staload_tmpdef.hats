@@ -48,6 +48,11 @@ staload _ = "prelude/DATS/option_vt.dats"
 staload _ = "prelude/DATS/array.dats"
 staload _ = "prelude/DATS/arrayptr.dats"
 staload _ = "prelude/DATS/arrayref.dats"
+staload _ = "prelude/DATS/matrix.dats"
+staload _ = "prelude/DATS/matrixptr.dats"
+(*
+staload _ = "prelude/DATS/matrixref.dats"
+*)
 //
 (* ****** ****** *)
 

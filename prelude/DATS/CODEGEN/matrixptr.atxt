@@ -30,6 +30,60 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
 
+implement{a}
+matrixptr_make_elt_int
+  {m, n} (m, n, x0) = let
+  val mn = $UN.cast{Size}(m * n)
+in
+  $UN.castvwtp0{matrixptr(a,m,n)}(arrayptr_make_elt<a> (mn, x0))
+end // end of [matrixptr_make_elt_int]
+
+implement{a}
+matrixptr_make_elt_size
+  {m, n} (m, n, x0) = let
+  val mn = $UN.cast{Size}(m * n)
+in
+  $UN.castvwtp0{matrixptr(a,m,n)}(arrayptr_make_elt<a> (mn, x0))
+end // end of [matrixptr_make_elt_size]
+
+#atscode_separator()
+
+implement{a}
+matrixptr_get_at_int
+  (A, i, n, j) = let
+  val ij = $UN.cast{Size}(i * n + j)
+in
+  $UN.ptr0_get<a> (ptr_add<a> (ptrcast(A), ij))
+end // end of [matrixptr_get_at_int]
+
+implement{a}
+matrixptr_get_at_size
+  (A, i, n, j) = let
+  val ij = $UN.cast{Size}(i * n + j)
+in
+  $UN.ptr0_get<a> (ptr_add<a> (ptrcast(A), ij))
+end // end of [matrixptr_get_at_size]
+
+#atscode_separator()
+
+implement{a}
+matrixptr_set_at_int
+  (A, i, n, j, x) = let
+  val ij = $UN.cast{Size}(i * n + j)
+in
+  $UN.ptr0_set<a> (ptr_add<a> (ptrcast(A), ij), x)
+end // end of [matrixptr_set_at_int]
+
+implement{a}
+matrixptr_set_at_size
+  (A, i, n, j, x) = let
+  val ij = $UN.cast{Size}(i * n + j)
+in
+  $UN.ptr0_set<a> (ptr_add<a> (ptrcast(A), ij), x)
+end // end of [matrixptr_set_at_size]
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
