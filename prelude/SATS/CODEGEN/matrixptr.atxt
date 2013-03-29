@@ -63,6 +63,22 @@ overload ptrcast with matrixptr2ptr
 
 #atscode_separator()
 
+symintr arrayptr2matrixptr
+
+fun{
+} arrayptr2matrixptr_int
+  {a:vt0p}{l:addr}{m,n:nat}
+  (A: arrayptr (INV(a), l, m*n), m: int m, n: int n):<> matrixptr (a, l, m, n)
+overload arrayptr2matrixptr with arrayptr2matrixptr_int
+
+fun{
+} arrayptr2matrixptr_size
+  {a:vt0p}{l:addr}{m,n:int}
+  (A: arrayptr (INV(a), l, m*n), m: size_t m, n: size_t n):<> matrixptr (a, l, m, n)
+overload arrayptr2matrixptr with arrayptr2matrixptr_size
+
+#atscode_separator()
+
 symintr matrixptr_make_elt
 
 fun{

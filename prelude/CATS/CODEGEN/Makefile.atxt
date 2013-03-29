@@ -74,6 +74,7 @@ all::
 #make_entry("arrayptr")
 #make_entry("arrayref")
 #make_entry("matrix")
+#make_entry("matrixptr")
 
 ######
 

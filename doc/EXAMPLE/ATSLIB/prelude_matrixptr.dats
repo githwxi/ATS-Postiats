@@ -23,7 +23,8 @@ val () =
 {
 //
 val m = 2 and n = 5
-val M = matrixptr_make_elt<int> (m, n, 0)
+val A = (arrayptr)$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+val M = arrayptr2matrixptr (A, m, n)
 //
 val () = M[0, n, 0] := 0*n + 0
 val () = M[0, n, 1] := 0*n + 1

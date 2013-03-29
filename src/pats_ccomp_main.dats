@@ -121,6 +121,7 @@ val () = emit_text (out, "#include \"prelude/CATS/array.cats\"\n")
 val () = emit_text (out, "#include \"prelude/CATS/arrayptr.cats\"\n")
 val () = emit_text (out, "#include \"prelude/CATS/arrayref.cats\"\n")
 val () = emit_text (out, "#include \"prelude/CATS/matrix.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/matrixptr.cats\"\n")
 //
 val () = emit_text (out, "//\n")
 val () = emit_text (out, "#endif /* _ATS_CCOMP_PRELUDE_NONE */\n")

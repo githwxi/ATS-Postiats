@@ -30,6 +30,13 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
 
+implement{}
+arrayptr2matrixptr_int (A, m, n) = $UN.castvwtp0 (A)
+implement{}
+arrayptr2matrixptr_size (A, m, n) = $UN.castvwtp0 (A)
+
+#atscode_separator()
+
 implement{a}
 matrixptr_make_elt_int
   {m, n} (m, n, x0) = let
@@ -81,6 +88,12 @@ matrixptr_set_at_size
 in
   $UN.ptr0_set<a> (ptr_add<a> (ptrcast(A), ij), x)
 end // end of [matrixptr_set_at_size]
+
+#atscode_separator()
+
+(*
+implement matrixptr_free = ATS_MFREE
+*)
 
 #atscode_separator()
 
