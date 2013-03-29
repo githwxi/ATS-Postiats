@@ -55,6 +55,76 @@ matrixptrout (a:t@ype, l: addr, m: int, n: int) = ptr
 
 #atscode_separator()
 
+fun{
+a:t0p
+} matrixptr_make_elt
+  {m,n:int} (m: size_t m, n: size_t n, x: a):<!wrt> matrixptr (a, m, n)
+// end of [matrixptr_make_elt]
+
+#atscode_separator()
+
+fun{a:t0p}
+matrixptr_get_at_int
+  {m,n:int}
+(
+  A: !matrixptr (INV(a), m, n)
+, i: intBtw (0, m), n: int n, j: intBtw (0, n)
+) :<> (a) // end of [matrixptr_get_at_int]
+
+fun{a:t0p}
+matrixptr_get_at_size
+  {m,n:int}
+(
+  A: !matrixptr (INV(a), m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n)
+) :<> (a) // end of [matrixptr_get_at_size]
+
+#atscode_separator()
+
+fun{a:t0p}
+matrixptr_set_at_int
+  {m,n:int}
+(
+  A: !matrixptr (INV(a)
+, m, n), i: intBtw (0, m), n: int n, j: intBtw (0, n), x: a
+) :<> (a) // end of [matrixptr_set_at_int]
+
+fun{a:t0p}
+matrixptr_set_at_size
+  {m,n:int}
+(
+  A: !matrixptr (INV(a), m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n), x: a
+) :<> void // end of [matrixptr_set_at_size]
+
+#atscode_separator()
+
+fun{a:vt0p}
+matrixptr_exch_at_size
+  {m,n:int}
+(
+  A: !matrixptr (INV(a), m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n), x: &a>>a
+) :<> void // end of [matrixptr_exch_at_size]
+
+#atscode_separator()
+
+fun matrixptr_free
+  {a:t0p}{l:addr}{m,n:int}
+  (A: matrixptr (INV(a), l, m, n)):<!wrt> void = "mac\#%"
+// end of [matrixptr_free]
+
+(*
+fun{a:vt0p}
+matrix_uninitize$clear
+  (i: size_t, j: size_t, x: &a >> a?): void
+*)
+fun{
+a:vt0p
+} matrixptr_freelin
+  {l:addr}{m,n:int}
+  (A: matrixptr (INV(a), l, m, n)):<!wrt> void = "mac\#%"
+// end of [matrixptr_freelin]
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
