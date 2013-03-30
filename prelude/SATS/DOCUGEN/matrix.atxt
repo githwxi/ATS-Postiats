@@ -54,12 +54,30 @@ stadef matrix = matrix_viewt0ype_int_int_viewt0ype
 (* ****** ****** *)
 
 #declnamesynop("fprint_matrix")
+#declnamesynop("fprint_matrix$sep1")
+#declnamesynop("fprint_matrix$sep2")
 #declnamesynop("fprint_matrix_sep")
 
 (* ****** ****** *)
 
-#declnamesynop("matrix_foreach")
-#declnamesynop("matrix_foreach_env")
+#declnamesynop("matrix_foreachrow")
+#declnamesynop("matrix_foreachrow_env")
+#declnamesynop("matrix_foreachrow$fwork")
+
+(* ****** ****** *)
+
+#declnamesynop("matrix_foreachcol")
+#declnamesynop("matrix_foreachcol_env")
+#declnamesynop("matrix_foreachcol$fwork")
+
+(* ****** ****** *)
+
+#declnamesynop("matrix_add")
+#declnamesynop("matrix_add$fop")
+
+(* ****** ****** *)
+
+#declnamesynop("matrix_mul")
 
 (* ****** ****** *)
 

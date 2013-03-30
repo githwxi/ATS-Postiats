@@ -224,23 +224,70 @@ matrix_ptr_takeout_col
 
 fun{
 a:vt0p}{env:vt0p
-} matrix_foreach$cont (x: &a, env: &env): bool
-fun{
-a:vt0p}{env:vt0p
-} matrix_foreach$fwork (x: &a >> _, env: &(env) >> _): void
+} matrix_foreachrow$fwork{n:int}
+  (x: &array (a, n) >> _, n: size_t n, env: &(env) >> _): void
+// end of [matrix_foreachrow$fwork]
 
 fun{
 a:vt0p
-} matrix_foreach{m,n:int}
+} matrix_foreachrow{m,n:int}
 (
   A: &matrix(INV(a), m, n) >> _, m: size_t m, n: size_t n
-) : sizeLte (m*n) // end of [matrix_foreach]
+) : void // end of [matrix_foreachrow]
 fun{
 a:vt0p}{env:vt0p
-} matrix_foreach_env{m,n:int}
+} matrix_foreachrow_env{m,n:int}
 (
   A: &matrix(INV(a), m, n) >> _, m: size_t m, n: size_t n, env: &(env) >> _
-) : sizeLte (m*n) // end of [matrix_foreach_env]
+) : void // end of [matrix_foreachrow_env]
+
+#atscode_separator()
+
+fun{
+a:vt0p}{env:vt0p
+} matrix_foreachcol$fwork{m:int}
+  (x: &array (a, m) >> _, m: size_t m, env: &(env) >> _): void
+// end of [matrix_foreachcol$fwork]
+
+fun{
+a:vt0p
+} matrix_foreachcol{m,n:int}
+(
+  A: &matrix(INV(a), m, n) >> _, m: size_t m, n: size_t n
+) : void // end of [matrix_foreachcol]
+fun{
+a:vt0p}{env:vt0p
+} matrix_foreachcol_env{m,n:int}
+(
+  A: &matrix(INV(a), m, n) >> _, m: size_t m, n: size_t n, env: &(env) >> _
+) : void // end of [matrix_foreachcol_env]
+
+#atscode_separator()
+
+fun{
+a:t0p
+} matrix_add$fop (x: a, y: a): a
+
+fun{
+a:t0p
+} matrix_add
+  {m,n:int}
+(
+  A: &matrix (INV(a), m, n), B: &matrix (a, m, n), C: &matrix (a?, m, n) >> matrix (a, m, n)
+) : void // end of [matrix_add]
+
+#atscode_separator()
+
+fun{
+a:t0p
+} matrix_mul
+  {p,q,r:int}
+(
+  A: &matrix (INV(a), p, q), B: &matrix (a, q, r), C: &matrix (a?, p, r) >> matrix (a, p, r)
+) : void // end of [mul_matrix_matrix]
+
+overload + with matrix_add
+overload * with matrix_mul
 
 #atscode_separator()
 

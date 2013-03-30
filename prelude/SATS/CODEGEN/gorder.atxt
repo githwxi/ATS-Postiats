@@ -66,8 +66,18 @@ fun{a:t0p}
 geq_val (x: a, y: a):<> bool
 fun{a:t0p}
 gneq_val (x: a, y: a):<> bool
+
+#atscode_separator()
+
 fun{a:t0p}
 gcompare_val (x: a, y: a):<> int
+
+#atscode_separator()
+
+fun{a:t0p}
+gmax_val (x: a, y: a):<> (a)
+fun{a:t0p}
+gmin_val (x: a, y: a):<> (a)
 
 #atscode_separator()
 
@@ -83,15 +93,11 @@ fun{a:vt0p}
 geq_ref (x: &INV(a), y: &a):<> bool
 fun{a:vt0p}
 gneq_ref (x: &INV(a), y: &a):<> bool
-fun{a:vt0p}
-gcompare_ref (x: &INV(a), y: &a):<> int
 
 #atscode_separator()
 
-fun{a:t0p}
-gmax_val (x: a, y: a):<> (a)
-fun{a:t0p}
-gmin_val (x: a, y: a):<> (a)
+fun{a:vt0p}
+gcompare_ref (x: &INV(a), y: &a):<> int
 
 #atscode_separator()
 

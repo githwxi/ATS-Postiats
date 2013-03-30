@@ -1,8 +1,10 @@
 //
-// A naive implementation of the factorial function
-// Author: Hongwei Xi (March 2013)
+// A gnumber-based implementation
 //
-
+// Author: Hongwei Xi
+// Authoremail: gmhwxiATgmailDOTcom
+// Time: the 30th of March, 2013
+//
 (* ****** ****** *)
 
 staload
