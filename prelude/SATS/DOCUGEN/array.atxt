@@ -381,9 +381,6 @@ handled by calling the function #dyncode("fprint_ref").
 
 (* ****** ****** *)
 
-#declnamesynop("array_foreach$cont")
-#declnamesynop("array_foreach$fwork")
-
 #declnamesynop("array_foreach")
 #decldescrpt('\
 
@@ -417,6 +414,13 @@ in
 end // end of [array_find]
 ')
 ')
+
+(* ****** ****** *)
+
+#declnamesynop("array_foreach$cont")
+#declnamesynop("array_foreach$fwork")
+
+(* ****** ****** *)
 
 #declnamesynop("array_foreach_env")
 #decldescrpt('\

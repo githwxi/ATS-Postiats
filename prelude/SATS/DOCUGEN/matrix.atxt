@@ -66,12 +66,6 @@ stadef matrix = matrix_viewt0ype_int_int_viewt0ype
 
 (* ****** ****** *)
 
-#declnamesynop("matrix_foreachcol")
-#declnamesynop("matrix_foreachcol_env")
-#declnamesynop("matrix_foreachcol$fwork")
-
-(* ****** ****** *)
-
 #declnamesynop("matrix_add")
 #declnamesynop("matrix_add$fop")
 
