@@ -47,8 +47,8 @@ typedef NSH(a:type) = a // for commenting purpose
 //
 #atscode_separator()
 
-fun{a:t0p} gnum_int (x: int):<> a
-fun{a:t0p} gnum_double (x: double):<> a
+fun{a:t0p} gnumint (x: int):<> a
+fun{a:t0p} gnumdouble (x: double):<> a
 
 #atscode_separator()
 

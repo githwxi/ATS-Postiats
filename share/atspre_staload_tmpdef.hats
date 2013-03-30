@@ -30,8 +30,8 @@ staload _ = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-staload _ = "prelude/SATS/filebas.sats"
-staload _ = "prelude/SATS/intrange.sats"
+staload _ = "prelude/DATS/filebas.dats"
+staload _ = "prelude/DATS/intrange.dats"
 
 (* ****** ****** *)
 //

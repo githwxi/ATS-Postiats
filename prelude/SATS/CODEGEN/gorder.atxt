@@ -40,6 +40,21 @@ typedef NSH(a:type) = a // for commenting purpose
 #atscode_separator()
 
 fun{a:t0p}
+gisltz_val (x: a):<> bool
+fun{a:t0p}
+gisltez_val (x: a):<> bool
+fun{a:t0p}
+gisgtz_val (x: a):<> bool
+fun{a:t0p}
+gisgtez_val (x: a):<> bool
+fun{a:t0p}
+giseqz_val (x: a):<> bool
+fun{a:t0p}
+gisneqz_val (x: a):<> bool
+
+(* ****** ****** *)
+
+fun{a:t0p}
 glt_val (x: a, y: a):<> bool
 fun{a:t0p}
 glte_val (x: a, y: a):<> bool

@@ -62,30 +62,39 @@ gcompare_ref<a> (x, y) = gcompare_val<a> (x, y)
 #atscode_separator()
 //
 implement
-gcompare_val<int> = compare_int_int
+gcompare_val<int> = g0int_compare_int
 implement
-gcompare_val<lint> = compare_lint_lint
+gcompare_val<lint> = g0int_compare_lint
 implement
-gcompare_val<llint> = compare_llint_llint
+gcompare_val<llint> = g0int_compare_llint
 implement
-gcompare_val<ssize_t> = compare_ssize_ssize
+gcompare_val<ssize_t> = g0int_compare_ssize
 //
 implement
-gcompare_val<uint> = compare_uint_uint
+gcompare_val<uint> = g0uint_compare_uint
 implement
-gcompare_val<ulint> = compare_ulint_ulint
+gcompare_val<ulint> = g0uint_compare_ulint
 implement
-gcompare_val<ullint> = compare_ullint_ullint
+gcompare_val<ullint> = g0uint_compare_ullint
 implement
-gcompare_val<size_t> = compare_size_size
+gcompare_val<size_t> = g0uint_compare_size
 //
 #atscode_separator()
 
 implement
 gcompare_val<bool> = compare_bool0_bool0
 
+#atscode_separator()
+
 implement
 gcompare_val<char> = compare_char0_char0
+
+#atscode_separator()
+
+implement
+gcompare_val<float> = g0float_compare_float
+implement
+gcompare_val<double> = g0float_compare_double
 
 #atscode_separator()
 

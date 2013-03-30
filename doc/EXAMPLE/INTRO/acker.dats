@@ -9,7 +9,8 @@ staload "prelude/DATS/integer.dats"
 
 (* ****** ****** *)
 
-fun acker (
+fun acker
+(
   m: int, n: int
 ) : int = let
 in

@@ -100,6 +100,7 @@ RMF=rm -f
 #make_entry("fib2")
 #make2_entry("fibmem", "-DATS_MEMALLOC_LIBC", "")
 #make_entry("fprtuple")
+#make_entry("gfact")
 #make_entry("hello")
 #make_entry("intecho")
 #make_entry("intrange")

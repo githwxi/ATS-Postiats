@@ -26,9 +26,20 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 //
-staload
-"prelude/SATS/gnumber.sats"
+// HX: (default) integers
 //
+#atscode_separator()
+
+implement
+gnumint<int> (x) = g0int2int_int_int (x)
+
+#atscode_separator()
+
+implement
+gsucc_val<int> (x) = succ (x)
+implement
+gpred_val<int> (x) = pred (x)
+
 #atscode_separator()
 
 implement
@@ -41,6 +52,37 @@ implement
 gdiv_val<int> (x, y) = x / y
 implement
 gmod_val<int> (x, y) = x mod y
+
+#atscode_separator()
+//
+// HX: double-precision floating point numbers
+//
+#atscode_separator()
+
+implement
+gnumint<double> (x) = g0int2float_int_double (x)
+implement
+gnumdouble<double> (x) = g0float2float_double_double (x)
+
+#atscode_separator()
+
+implement
+gsucc_val<double> (x) = succ (x)
+implement
+gpred_val<double> (x) = pred (x)
+
+#atscode_separator()
+
+implement
+gadd_val<double> (x, y) = x + y
+implement
+gsub_val<double> (x, y) = x - y
+implement
+gmul_val<double> (x, y) = x * y
+implement
+gdiv_val<double> (x, y) = x / y
+implement
+gmod_val<double> (x, y) = x mod y
 
 #atscode_separator()
 

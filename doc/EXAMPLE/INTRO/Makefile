@@ -136,6 +136,14 @@ clean:: ; $(RMF) fprtuple_dats.o
 clean:: ; $(RMF) fprtuple_dats.c
 cleanall:: ; $(RMF) fprtuple.exe
 
+all:: gfact
+gfact: gfact.exe
+gfact.exe: gfact_dats.c ;   $(CC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+gfact_dats.c: gfact.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output gfact_dats.c --dynamic gfact.dats
+clean:: ; $(RMF) gfact_dats.o
+clean:: ; $(RMF) gfact_dats.c
+cleanall:: ; $(RMF) gfact.exe
+
 all:: hello
 hello: hello.exe
 hello.exe: hello_dats.c ;   $(CC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
