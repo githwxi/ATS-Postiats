@@ -38,17 +38,17 @@
 //
 (* ****** ****** *)
 //
-macdef :+= (x, a) = ,(x) := ,(a) + ,(x)
-macdef :-= (x, a) = ,(x) := ,(a) - ,(x)
-macdef :*= (x, a) = ,(x) := ,(a) * ,(x)
-macdef :/= (x, a) = ,(x) := ,(a) / ,(x)
+macdef :+= (x, a) = let val v = ,(x) in ,(x) := ,(a) + v end
+macdef :-= (x, a) = let val v = ,(x) in ,(x) := ,(a) - v end
+macdef :*= (x, a) = let val v = ,(x) in ,(x) := ,(a) * v end
+macdef :/= (x, a) = let val v = ,(x) in ,(x) := ,(a) / v end
 //
 (* ****** ****** *)
 //
-macdef :=+ (x, a) = ,(x) := ,(x) + ,(a)
-macdef :=- (x, a) = ,(x) := ,(x) - ,(a)
-macdef :=* (x, a) = ,(x) := ,(x) * ,(a)
-macdef :=/ (x, a) = ,(x) := ,(x) / ,(a)
+macdef :=+ (x, a) = let val v = ,(x) in ,(x) := v + ,(a) end
+macdef :=- (x, a) = let val v = ,(x) in ,(x) := v - ,(a) end
+macdef :=* (x, a) = let val v = ,(x) in ,(x) := v * ,(a) end
+macdef :=/ (x, a) = let val v = ,(x) in ,(x) := v / ,(a) end
 //
 (* ****** ****** *)
 

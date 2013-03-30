@@ -99,8 +99,7 @@ fun{a:t0p}
 matrixptr_get_at_int
   {m,n:int}
 (
-  A: !matrixptr (INV(a), m, n)
-, i: intBtw (0, m), n: int n, j: intBtw (0, n)
+  A: !matrixptr (INV(a), m, n), i: natLt (m), n: int n, j: natLt (n)
 ) :<> (a) // end of [matrixptr_get_at_int]
 
 fun{a:t0p}
@@ -110,8 +109,8 @@ matrixptr_get_at_size
   A: !matrixptr (INV(a), m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n)
 ) :<> (a) // end of [matrixptr_get_at_size]
 
-overload []  with matrixptr_get_at_int
-overload []  with matrixptr_get_at_size
+overload [] with matrixptr_get_at_int
+overload [] with matrixptr_get_at_size
 
 #atscode_separator()
 
@@ -119,8 +118,7 @@ fun{a:t0p}
 matrixptr_set_at_int
   {m,n:int}
 (
-  A: !matrixptr (INV(a)
-, m, n), i: intBtw (0, m), n: int n, j: intBtw (0, n), x: a
+  A: !matrixptr (INV(a), m, n), i: natLt (m), n: int n, j: natLt (n), x: a
 ) :<!wrt> void // end of [matrixptr_set_at_int]
 
 fun{a:t0p}
@@ -130,17 +128,52 @@ matrixptr_set_at_size
   A: !matrixptr (INV(a), m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n), x: a
 ) :<!wrt> void // end of [matrixptr_set_at_size]
 
-overload []  with matrixptr_set_at_int
-overload []  with matrixptr_set_at_size
+overload [] with matrixptr_set_at_int
+overload [] with matrixptr_set_at_size
 
 #atscode_separator()
+
+symintr matrixptr_exch_at
+
+fun{a:vt0p}
+matrixptr_exch_at_int
+  {m,n:int}
+(
+  A: !matrixptr (INV(a), m, n)
+, i: natLt (m), n: int n, j: natLt (n), x: &a>>a
+) :<!wrt> void // end of [matrixptr_exch_at_int]
 
 fun{a:vt0p}
 matrixptr_exch_at_size
   {m,n:int}
 (
-  A: !matrixptr (INV(a), m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n), x: &a>>a
+  A: !matrixptr (INV(a), m, n)
+, i: sizeLt (m), n: size_t n, j: sizeLt (n), x: &a>>a
 ) :<!wrt> void // end of [matrixptr_exch_at_size]
+
+overload matrixptr_exch_at with matrixptr_exch_at_int
+overload matrixptr_exch_at with matrixptr_exch_at_size
+
+#atscode_separator()
+
+(*
+fprint_matrix$sep1 // col separation
+fprint_matrix$sep2 // row separation
+*)
+fun{a:vt0p}
+fprint_matrixptr{m,n:int}
+(
+  out: FILEref
+, M: !matrixptr (INV(a), m, n), m: size_t m, n: size_t n
+) : void // end of [fprint_matrixptr]
+
+fun{a:vt0p}
+fprint_matrixptr_sep{m,n:int}
+(
+  out: FILEref
+, M: !matrixptr (INV(a), m, n), m: size_t (m), n: size_t (n)
+, sep1: NSH(string), sep2: NSH(string)
+) : void // end of [fprint_matrixptr_sep]
 
 #atscode_separator()
 

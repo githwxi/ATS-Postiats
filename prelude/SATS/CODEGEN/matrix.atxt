@@ -58,50 +58,124 @@ praxi array2matrix_v
 
 #atscode_separator()
 //
-// The representation of a matrix in ATS is of the row-major style
-//
-(*
-absview
-matrow_viewt0ype_addr_int_int (a:viewt@ype+, l:addr, m:int, n:int)
-stadef matrow_v = matrow_viewt0ype_addr_int_int
-*)
-viewdef
-matrow_v (a:vt0p, l:addr, m:int, n:int) = array_v (a, l, n)
+// HX: ATS matrices is of row-major style
 //
 absview
-matcol_viewt0ype_addr_int_int (a:viewt@ype+, l:addr, m:int, n:int)
-stadef matcol_v = matcol_viewt0ype_addr_int_int
+matrow_view (a:viewt@ype+, l:addr, m:int, n:int)
+stadef matrow_v = matrow_view
+absview
+matcol_view (a:viewt@ype+, l:addr, m:int, n:int)
+stadef matcol_v = matcol_view
 //
 #atscode_separator()
 
+symintr matrix_getref_at
+
 fun{a:vt0p}
-matrix_getref_at
+matrix_getref_at_int
   {m,n:int}
 (
-  M: &RD(matrix (INV(a), m, n)), i: sizeLt (m), n: size_t n, j: sizeLt (n)
+  M: &RD(matrix (INV(a), m, n))
+, i: natLt (m), n: int n, j: natLt (n)
 ) :<> cPtr1 (a) // endfun
+
+fun{a:vt0p}
+matrix_getref_at_size
+  {m,n:int}
+(
+  M: &RD(matrix (INV(a), m, n))
+, i: sizeLt (m), n: size_t n, j: sizeLt (n)
+) :<> cPtr1 (a) // endfun
+
+overload matrix_getref_at with matrix_getref_at_int
+overload matrix_getref_at with matrix_getref_at_size
 
 #atscode_separator()
 
 fun{a:t0p}
-matrix_get_at{m,n:int}
+matrix_get_at_int
+  {m,n:int}
 (
-  M: &RD(matrix (INV(a), m, n)), i: sizeLt (m), n: size_t n, j: sizeLt (n)
-) :<> (a) // end of [matrix_get_at]
-overload [] with matrix_get_at
+  M: &RD(matrix (INV(a), m, n))
+, i: natLt (m), n: int n, j: natLt (n)
+) :<> (a) // end of [matrix_get_at_int]
 
 fun{a:t0p}
-matrix_set_at{m,n:int}
+matrix_get_at_size
+  {m,n:int}
 (
-  M: &matrix (INV(a), m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n), x: a
-) :<!wrt> void // end of [matrix_set_at]
-overload [] with matrix_set_at
+  M: &RD(matrix (INV(a), m, n))
+, i: sizeLt (m), n: size_t n, j: sizeLt (n)
+) :<> (a) // end of [matrix_get_at_size]
+
+overload [] with matrix_get_at_int
+overload [] with matrix_get_at_size
+
+#atscode_separator()
+
+fun{a:t0p}
+matrix_set_at_int
+  {m,n:int}
+(
+  M: &matrix (INV(a), m, n)
+, i: natLt (m), n: int n, j: natLt (n), x: a
+) :<!wrt> void // end of [matrix_set_at_int]
+
+fun{a:t0p}
+matrix_set_at_size
+  {m,n:int}
+(
+  M: &matrix (INV(a), m, n)
+, i: sizeLt (m), n: size_t n, j: sizeLt (n), x: a
+) :<!wrt> void // end of [matrix_set_at_size]
+
+overload [] with matrix_set_at_int
+overload [] with matrix_set_at_size
+
+#atscode_separator()
+
+symintr matrix_exch_at
 
 fun{a:vt0p}
-matrix_exch_at{m,n:int}
+matrix_exch_at_int
+  {m,n:int}
 (
-  M: &matrix (INV(a), m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n), x: &a>>a
-) :<!wrt> void // end of [matrix_exch_at]
+  M: &matrix (INV(a), m, n)
+, i: natLt (m), n: int n, j: natLt (n), x: &a>>a
+) :<!wrt> void // end of [matrix_exch_at_int]
+
+fun{a:vt0p}
+matrix_exch_at_size
+  {m,n:int}
+(
+  M: &matrix (INV(a), m, n)
+, i: sizeLt (m), n: size_t n, j: sizeLt (n), x: &a>>a
+) :<!wrt> void // end of [matrix_exch_at_size]
+
+overload matrix_exch_at with matrix_exch_at_int
+overload matrix_exch_at with matrix_exch_at_size
+
+#atscode_separator()
+
+fun{
+} fprint_matrix$sep1 (out: FILEref): void // col separation
+fun{
+} fprint_matrix$sep2 (out: FILEref): void // row separation
+
+fun{a:vt0p}
+fprint_matrix{m,n:int}
+(
+  out: FILEref
+, M: &matrix (INV(a), m, n), m: size_t (m), n: size_t (n)
+) : void // end of [fprint_matrix]
+
+fun{a:vt0p}
+fprint_matrix_sep{m,n:int}
+(
+  out: FILEref
+, M: &matrix (INV(a), m, n), m: size_t (m), n: size_t (n)
+, sep1: NSH(string), sep2: NSH(string)
+) : void // end of [fprint_matrix_sep]
 
 #atscode_separator()
 

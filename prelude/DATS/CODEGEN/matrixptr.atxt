@@ -91,6 +91,59 @@ end // end of [matrixptr_set_at_size]
 
 #atscode_separator()
 
+implement{a}
+matrixptr_exch_at_int
+  (A, i, n, j, x) = let
+  val ij = $UN.cast{Size}(i * n + j)
+in
+  $UN.ptr0_exch<a> (ptr_add<a> (ptrcast(A), ij), x)
+end // end of [matrixptr_exch_at_int]
+
+implement{a}
+matrixptr_exch_at_size
+  (A, i, n, j, x) = let
+  val ij = $UN.cast{Size}(i * n + j)
+in
+  $UN.ptr0_exch<a> (ptr_add<a> (ptrcast(A), ij), x)
+end // end of [matrixptr_exch_at_size]
+
+#atscode_separator()
+
+implement{a}
+fprint_matrixptr
+  {m,n} (out, M, m, n) = let
+//
+val p0 = ptrcast (M)
+//
+prval (
+  pf, fpf
+) = $UN.ptr_vtake {matrix(a,m,n)} (p0)
+val () = fprint_matrix<a> (out, !p0, m, n)
+prval () = fpf (pf)
+//
+in
+  // nothing
+end // end of [fprint_matrixptr]
+
+#atscode_separator()
+
+implement{a}
+fprint_matrixptr_sep
+(
+  out, M, m, n, sep1, sep2
+) = let
+//
+implement
+fprint_matrix$sep1<> (out) = fprint_string (out, sep1)
+implement
+fprint_matrix$sep2<> (out) = fprint_string (out, sep2)
+//
+in
+  fprint_matrixptr<a> (out, M, m, n)
+end // end of [fprint_matrixptr_sep]
+
+#atscode_separator()
+
 (*
 implement matrixptr_free = ATS_MFREE
 *)

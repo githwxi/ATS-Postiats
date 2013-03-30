@@ -53,4 +53,14 @@ stadef matrix = matrix_viewt0ype_int_int_viewt0ype
 
 (* ****** ****** *)
 
+#declnamesynop("fprint_matrix")
+#declnamesynop("fprint_matrix_sep")
+
+(* ****** ****** *)
+
+#declnamesynop("matrix_foreach")
+#declnamesynop("matrix_foreach_env")
+
+(* ****** ****** *)
+
 (* end of [matrix.atxt] *)

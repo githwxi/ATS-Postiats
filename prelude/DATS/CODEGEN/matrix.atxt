@@ -31,27 +31,90 @@ staload UN = "prelude/SATS/unsafe.sats"
 #atscode_separator()
 
 implement{a}
-matrix_getref_at
+matrix_getref_at_int
   (M, i, n, j) =
   $UN.cast{cPtr1(a)}(ptr_add<a> (addr@(M), i*n+j))
-// end of [matrix_getref_at]
+// end of [matrix_getref_at_int]
+
+implement{a}
+matrix_getref_at_size
+  (M, i, n, j) =
+  $UN.cast{cPtr1(a)}(ptr_add<a> (addr@(M), i*n+j))
+// end of [matrix_getref_at_size]
 
 #atscode_separator()
 
 implement{a}
-matrix_get_at
+matrix_get_at_size
   (M, i, n, j) = $UN.cptr_get (matrix_getref_at (M, i, n, j))
-// end of [matrix_get_at]
+// end of [matrix_get_at_size]
 
 implement{a}
-matrix_set_at
+matrix_set_at_size
   (M, i, n, j, x) = $UN.cptr_set (matrix_getref_at (M, i, n, j), x)
-// end of [matrix_set_at]
+// end of [matrix_set_at_size]
 
 implement{a}
-matrix_exch_at
+matrix_exch_at_size
   (M, i, n, j, x) = $UN.cptr_exch (matrix_getref_at (M, i, n, j), x)
-// end of [matrix_exch_at]
+// end of [matrix_exch_at_size]
+
+#atscode_separator()
+
+implement{}
+fprint_matrix$sep1 (out) = fprint_string (out, ", ")
+implement{}
+fprint_matrix$sep2 (out) = fprint_string (out, "\n")
+
+implement{a}
+fprint_matrix
+  {m,n} (out, M, m, n) = let
+//
+implement
+fprint_array$sep<> (out) = fprint_matrix$sep1 (out)
+//
+fun loop {l:addr}
+(
+  out: FILEref, p0: ptr l, m: size_t m, n: size_t n, i: size_t
+) : void = let
+in
+//
+if i < m then let
+  val () =
+  (
+    if i > 0 then fprint_matrix$sep2 (out)
+  ) : void // end of [val]
+  prval (
+    pf, fpf
+  ) = $UN.ptr_vtake {array(a,n)} (p0)
+  val () = fprint_array (out, !p0, n)
+  prval () = fpf (pf)
+in
+  loop (out, ptr_add<a> (p0, n), m, n, succ(i))
+end else () // end of [if]
+//
+end // end of [loop]
+//
+in
+  loop (out, addr@ (M), m, n, i2sz(0))
+end // end of [fprint_matrix]
+
+#atscode_separator()
+
+implement{a}
+fprint_matrix_sep
+(
+  out, M, m, n, sep1, sep2
+) = let
+//
+implement
+fprint_matrix$sep1<> (out) = fprint_string (out, sep1)
+implement
+fprint_matrix$sep2<> (out) = fprint_string (out, sep2)
+//
+in
+  fprint_matrix (out, M, m, n)
+end // end of [fprint_matrix_sep]
 
 #atscode_separator()
 
