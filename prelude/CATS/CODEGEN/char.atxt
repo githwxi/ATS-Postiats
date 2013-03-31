@@ -112,13 +112,14 @@ val fopr = (
   | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_bool
 atspre_%s_char_char
   (atstype_char c1, atstype_char c2) {
   return (c1 %s c2 ? atsbool_true : atsbool_false) ;
-} // end of [atspre_%s_char_char]
+} // end of [atspre_%s_char_char]\n\
 #define atspre_%s_char0_char0 atspre_%s_char_char
 #define atspre_%s_char1_char1 atspre_%s_char_char
 ", @(
@@ -183,13 +184,14 @@ val fopr = (
   | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_bool
 atspre_%s_uchar_uchar
   (atstype_uchar c1, atstype_uchar c2) {
   return (c1 %s c2 ? atsbool_true : atsbool_false) ;
-} // end of [atspre_%s_uchar_uchar]
+} // end of [atspre_%s_uchar_uchar]\n\
 #define atspre_%s_uchar0_uchar0 atspre_%s_uchar_uchar
 #define atspre_%s_uchar1_uchar1 atspre_%s_uchar_uchar
 ", @(
@@ -226,13 +228,14 @@ fun_isX_decl (
   isX: string
 ) : atext = let
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_bool
 atspre_%s_int
   (atstype_int c) {
   return (%s(c) ? atsbool_true : atsbool_false) ;
-} // end of [atspre_%s_int]
+} // end of [atspre_%s_int]\n\
 #define atspre_%s_char(c) atspre_%s_int((atstype_int)(c))\
 ", @(
  isX, isX, isX, isX, isX

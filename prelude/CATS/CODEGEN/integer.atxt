@@ -119,12 +119,13 @@ fun
 fun_neg_decl
   (knd: string): atext = let
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_%s
 atspre_g0int_neg_%s
   (atstype_%s x) { return (-x) ; }
-// end of [atspre_g0int_neg_%s]
+// end of [atspre_g0int_neg_%s]\n\
 ", @(knd, knd, knd, knd)
 ) // end of [sprintf] // end of [val]
 //
@@ -136,12 +137,13 @@ fun
 fun_abs_decl
   (knd: string): atext = let
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_%s
 atspre_g0int_abs_%s
   (atstype_%s x) { return (x >= 0 ? x : -x) ; }
-// end of [atspre_g0int_abs_%s]
+// end of [atspre_g0int_abs_%s]\n\
 ", @(knd, knd, knd, knd)
 ) // end of [sprintf] // end of [val]
 //
@@ -153,12 +155,13 @@ fun
 fun_succ_decl
   (knd: string): atext = let
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_%s
 atspre_g0int_succ_%s
   (atstype_%s x) { return (x + 1) ; }
-// end of [atspre_g0int_succ_%s]
+// end of [atspre_g0int_succ_%s]\n\
 ", @(knd, knd, knd, knd)
 ) // end of [sprintf] // end of [val]
 //
@@ -170,12 +173,13 @@ fun
 fun_pred_decl
   (knd: string): atext = let
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_%s
 atspre_g0int_pred_%s
   (atstype_%s x) { return (x - 1) ; }
-// end of [atspre_g0int_pred_%s]
+// end of [atspre_g0int_pred_%s]\n\
 ", @(knd, knd, knd, knd)
 ) // end of [sprintf] // end of [val]
 //
@@ -187,12 +191,13 @@ fun
 fun_half_decl
   (knd: string): atext = let
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_%s
 atspre_g0int_half_%s
   (atstype_%s x) { return (x / 2) ; }
-// end of [atspre_g0int_half_%s]
+// end of [atspre_g0int_half_%s]\n\
 ", @(knd, knd, knd, knd)
 ) // end of [sprintf] // end of [val]
 //
@@ -220,7 +225,7 @@ ATSinline()
 atstype_%s
 atspre_g0int_%s_%s
   (atstype_%s x1, atstype_%s x2) { return (x1 %s x2) ; }
-// end of [atspre_g0int_%s_%s]
+// end of [atspre_g0int_%s_%s]\n\
 ", @(
  knd, opr, knd, knd, knd, fopr, opr, knd
 )
@@ -248,7 +253,7 @@ ATSinline()
 atstype_%s
 atspre_g0int_%s_%s
   (atstype_%s x, atstype_int n) { return (x %s n) ; }
-// end of [atspre_g0int_%s_%s]\
+// end of [atspre_g0int_%s_%s]\n\
 ", @(
   knd, opr, knd, knd, fopr, opr, knd
 )
@@ -279,7 +284,7 @@ atstype_bool
 atspre_g0int_%s_%s (atstype_%s x)
 {
   return (x %s 0 ? atsbool_true : atsbool_false) ;
-} // end of [atspre_g0int_%s_%s]
+} // end of [atspre_g0int_%s_%s]\n\
 ", @(
   opr, knd, knd, fopr, opr, knd
 )
@@ -313,7 +318,7 @@ atspre_g0int_%s_%s
   atstype_%s x1, atstype_%s x2
 ) {
   return (x1 %s x2 ? atsbool_true : atsbool_false) ;
-} // end of [atspre_g0int_%s_%s]
+} // end of [atspre_g0int_%s_%s]\n\
 ", @(
   opr, knd, knd, knd, fopr, opr, knd
 )
@@ -553,12 +558,13 @@ fun
 fun_succ_decl
   (knd: string): atext = let
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_%s
 atspre_g0uint_succ_%s
   (atstype_%s x) { return (x + 1) ; }
-// end of [atspre_g0uint_succ_%s]
+// end of [atspre_g0uint_succ_%s]\n\
 ", @(knd, knd, knd, knd)
 ) // end of [sprintf] // end of [val]
 //
@@ -570,12 +576,13 @@ fun
 fun_pred_decl
   (knd: string): atext = let
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_%s
 atspre_g0uint_pred_%s
   (atstype_%s x) { return (x - 1) ; }
-// end of [atspre_g0uint_pred_%s]
+// end of [atspre_g0uint_pred_%s]\n\
 ", @(knd, knd, knd, knd)
 ) // end of [sprintf] // end of [val]
 //
@@ -587,12 +594,13 @@ fun
 fun_half_decl
   (knd: string): atext = let
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_%s
 atspre_g0uint_half_%s
   (atstype_%s x) { return (x >> 1) ; }
-// end of [atspre_g0uint_pred_%s]
+// end of [atspre_g0uint_pred_%s]\n\
 ", @(knd, knd, knd, knd)
 ) // end of [sprintf] // end of [val]
 //
@@ -612,12 +620,13 @@ val fopr = (
   | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_%s
 atspre_g0uint_%s_%s
   (atstype_%s x1, atstype_%s x2) { return (x1 %s x2) ; }
-// end of [atspre_g0uint_%s_%s]
+// end of [atspre_g0uint_%s_%s]\n\
 ", @(
  knd, opr, knd, knd, knd, fopr, opr, knd
 )
@@ -638,12 +647,13 @@ val fopr = (
   | "lsl" => "<<" | "lsr" => ">>" | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_%s
 atspre_g0uint_%s_%s
   (atstype_%s x, atstype_int n) { return (x %s n) ; }
-// end of [atspre_g0uint_%s_%s]\
+// end of [atspre_g0uint_%s_%s]\n\
 ", @(
   knd, opr, knd, knd, fopr, opr, knd
 )
@@ -665,13 +675,14 @@ val fopr = (
   | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_bool
 atspre_g0uint_%s_%s (atstype_%s x)
 {
   return (x %s 0 ? atsbool_true : atsbool_false) ;
-} // end of [atspre_g0uint_%s_%s]
+} // end of [atspre_g0uint_%s_%s]\n\
 ", @(
   opr, knd, knd, fopr, opr, knd
 )
@@ -697,7 +708,8 @@ val fopr = (
   | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_bool
 atspre_g0uint_%s_%s
@@ -705,7 +717,7 @@ atspre_g0uint_%s_%s
   atstype_%s x1, atstype_%s x2
 ) {
   return (x1 %s x2 ? atsbool_true : atsbool_false) ;
-} // end of [atspre_g0uint_%s_%s]
+} // end of [atspre_g0uint_%s_%s]\n\
 ", @(
   opr, knd, knd, knd, fopr, opr, knd
 )
@@ -719,7 +731,8 @@ fun
 fun_compare_decl
   (knd: string): atext = let
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_int
 atspre_g0uint_compare_%s
@@ -748,7 +761,8 @@ val fopr = (
   | "min" => "<=" | "max" => ">=" | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_%s
 atspre_g0uint_%s_%s

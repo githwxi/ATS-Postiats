@@ -144,12 +144,13 @@ val fopr = (
   | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_%s
 atspre_g0float_%s_%s
   (atstype_%s f1, atstype_%s f2) { return (f1 %s f2) ; }
-// end of [atspre_g0float_%s_%s]\
+// end of [atspre_g0float_%s_%s]\n\
 ", @(
   knd, opr, knd, knd, knd, fopr, opr, knd
 )
@@ -159,21 +160,21 @@ in
   atext_strptr (ent)
 end // end of [fun_g0float_aop_decl]
 %}\
-\
-#fun_g0float_aop_decl("add", "float")
-#fun_g0float_aop_decl("sub", "float"))
-#fun_g0float_aop_decl("mul", "float"))
-#fun_g0float_aop_decl("div", "float"))
 //
-#fun_g0float_aop_decl("add", "double")
-#fun_g0float_aop_decl("sub", "double"))
-#fun_g0float_aop_decl("mul", "double"))
-#fun_g0float_aop_decl("div", "double"))
+#fun_g0float_aop_decl("add", "float")\
+#fun_g0float_aop_decl("sub", "float")\
+#fun_g0float_aop_decl("mul", "float")\
+#fun_g0float_aop_decl("div", "float")\
 //
-#fun_g0float_aop_decl("add", "ldouble")
-#fun_g0float_aop_decl("sub", "ldouble"))
-#fun_g0float_aop_decl("mul", "ldouble"))
-#fun_g0float_aop_decl("div", "ldouble"))
+#fun_g0float_aop_decl("add", "double")\
+#fun_g0float_aop_decl("sub", "double")\
+#fun_g0float_aop_decl("mul", "double")\
+#fun_g0float_aop_decl("div", "double")\
+//
+#fun_g0float_aop_decl("add", "ldouble")\
+#fun_g0float_aop_decl("sub", "ldouble")\
+#fun_g0float_aop_decl("mul", "ldouble")\
+#fun_g0float_aop_decl("div", "ldouble")\
 //
 #atscode_separator_for_C()
 
@@ -191,13 +192,14 @@ val fopr = (
   | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_bool
 atspre_g0float_%s_%s
   (atstype_%s f1, atstype_%s f2) {
   return (f1 %s f2 ? atsbool_true : atsbool_false) ;
-} // end of [atspre_g0float_%s_%s]\
+} // end of [atspre_g0float_%s_%s]\n\
 ", @(
   opr, knd, knd, knd, fopr, opr, knd
 )
@@ -207,27 +209,27 @@ in
   atext_strptr (ent)
 end // end of [fun_g0float_cmp_decl]
 %}\
-\
-#fun_g0float_cmp_decl("lt", "float")
-#fun_g0float_cmp_decl("lte", "float"))
-#fun_g0float_cmp_decl("gt", "float"))
-#fun_g0float_cmp_decl("gte", "float"))
-#fun_g0float_cmp_decl("eq", "float"))
-#fun_g0float_cmp_decl("neq", "float"))
 //
-#fun_g0float_cmp_decl("lt", "double")
-#fun_g0float_cmp_decl("lte", "double"))
-#fun_g0float_cmp_decl("gt", "double"))
-#fun_g0float_cmp_decl("gte", "double"))
-#fun_g0float_cmp_decl("eq", "double"))
-#fun_g0float_cmp_decl("neq", "double"))
+#fun_g0float_cmp_decl("lt", "float")\
+#fun_g0float_cmp_decl("lte", "float")\
+#fun_g0float_cmp_decl("gt", "float")\
+#fun_g0float_cmp_decl("gte", "float")\
+#fun_g0float_cmp_decl("eq", "float")\
+#fun_g0float_cmp_decl("neq", "float")\
 //
-#fun_g0float_cmp_decl("lt", "ldouble")
-#fun_g0float_cmp_decl("lte", "ldouble"))
-#fun_g0float_cmp_decl("gt", "ldouble"))
-#fun_g0float_cmp_decl("gte", "ldouble"))
-#fun_g0float_cmp_decl("eq", "ldouble"))
-#fun_g0float_cmp_decl("neq", "ldouble"))
+#fun_g0float_cmp_decl("lt", "double")\
+#fun_g0float_cmp_decl("lte", "double")\
+#fun_g0float_cmp_decl("gt", "double")\
+#fun_g0float_cmp_decl("gte", "double")\
+#fun_g0float_cmp_decl("eq", "double")\
+#fun_g0float_cmp_decl("neq", "double")\
+//
+#fun_g0float_cmp_decl("lt", "ldouble")\
+#fun_g0float_cmp_decl("lte", "ldouble")\
+#fun_g0float_cmp_decl("gt", "ldouble")\
+#fun_g0float_cmp_decl("gte", "ldouble")\
+#fun_g0float_cmp_decl("eq", "ldouble")\
+#fun_g0float_cmp_decl("neq", "ldouble")\
 //
 #atscode_separator_for_C()
 
@@ -239,7 +241,7 @@ atspre_g0float_compare_float
 )
 {
   if (f1 > f2) return 1 ; else if (f1 < f2) return -1 ; else return 0 ;
-} // end of [atspre_g0float_compare_float])
+} // end of [atspre_g0float_compare_float]
 
 ATSinline()
 atstype_int
@@ -249,7 +251,7 @@ atspre_g0float_compare_double
 )
 {
   if (f1 > f2) return 1 ; else if (f1 < f2) return -1 ; else return 0 ;
-} // end of [atspre_g0float_compare_double])
+} // end of [atspre_g0float_compare_double]
 
 ATSinline()
 atstype_int
@@ -259,7 +261,7 @@ atspre_g0float_compare_ldouble
 )
 {
   if (f1 > f2) return 1 ; else if (f1 < f2) return -1 ; else return 0 ;
-} // end of [atspre_g0float_compare_ldouble])
+} // end of [atspre_g0float_compare_ldouble]
 
 #atscode_separator_for_C()
 
@@ -351,12 +353,13 @@ val fopr = (
   | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_%s
 atspre_%s_int_%s
   (atstype_int i1, atstype_%s f2) { return (((atstype_%s)i1) %s f2) ; }
-// end of [atspre_%s_int_%s]\
+// end of [atspre_%s_int_%s]\n\
 ", @(
   knd, opr, knd, knd, knd, fopr, opr, knd
 )
@@ -366,21 +369,21 @@ in
   atext_strptr (ent)
 end // end of [fun_aop_int_g0float_decl]
 %}\
-\
-#fun_aop_int_g0float_decl("add", "float")
-#fun_aop_int_g0float_decl("sub", "float")
-#fun_aop_int_g0float_decl("mul", "float")
-#fun_aop_int_g0float_decl("div", "float")
 //
-#fun_aop_int_g0float_decl("add", "double")
-#fun_aop_int_g0float_decl("sub", "double")
-#fun_aop_int_g0float_decl("mul", "double")
-#fun_aop_int_g0float_decl("div", "double")
+#fun_aop_int_g0float_decl("add", "float")\
+#fun_aop_int_g0float_decl("sub", "float")\
+#fun_aop_int_g0float_decl("mul", "float")\
+#fun_aop_int_g0float_decl("div", "float")\
 //
-#fun_aop_int_g0float_decl("add", "ldouble")
-#fun_aop_int_g0float_decl("sub", "ldouble")
-#fun_aop_int_g0float_decl("mul", "ldouble")
-#fun_aop_int_g0float_decl("div", "ldouble")
+#fun_aop_int_g0float_decl("add", "double")\
+#fun_aop_int_g0float_decl("sub", "double")\
+#fun_aop_int_g0float_decl("mul", "double")\
+#fun_aop_int_g0float_decl("div", "double")\
+//
+#fun_aop_int_g0float_decl("add", "ldouble")\
+#fun_aop_int_g0float_decl("sub", "ldouble")\
+#fun_aop_int_g0float_decl("mul", "ldouble")\
+#fun_aop_int_g0float_decl("div", "ldouble")\
 //
 #atscode_separator_for_C()
 
@@ -397,12 +400,13 @@ val fopr = (
   | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 ATSinline()
 atstype_%s
 atspre_%s_%s_int
   (atstype_%s f1, atstype_int i2) { return (f1 %s ((atstype_%s)i2)) ; }
-// end of [atspre_%s_%s_int]\
+// end of [atspre_%s_%s_int]\n\
 ", @(
   knd, opr, knd, knd, fopr, knd, opr, knd
 )
@@ -412,21 +416,21 @@ in
   atext_strptr (ent)
 end // end of [fun_aop_g0float_int_decl]
 %}\
-\
-#fun_aop_g0float_int_decl("add", "float")
-#fun_aop_g0float_int_decl("sub", "float")
-#fun_aop_g0float_int_decl("mul", "float")
-#fun_aop_g0float_int_decl("div", "float")
 //
-#fun_aop_g0float_int_decl("add", "double")
-#fun_aop_g0float_int_decl("sub", "double")
-#fun_aop_g0float_int_decl("mul", "double")
-#fun_aop_g0float_int_decl("div", "double")
+#fun_aop_g0float_int_decl("add", "float")\
+#fun_aop_g0float_int_decl("sub", "float")\
+#fun_aop_g0float_int_decl("mul", "float")\
+#fun_aop_g0float_int_decl("div", "float")\
 //
-#fun_aop_g0float_int_decl("add", "ldouble")
-#fun_aop_g0float_int_decl("sub", "ldouble")
-#fun_aop_g0float_int_decl("mul", "ldouble")
-#fun_aop_g0float_int_decl("div", "ldouble")
+#fun_aop_g0float_int_decl("add", "double")\
+#fun_aop_g0float_int_decl("sub", "double")\
+#fun_aop_g0float_int_decl("mul", "double")\
+#fun_aop_g0float_int_decl("div", "double")\
+//
+#fun_aop_g0float_int_decl("add", "ldouble")\
+#fun_aop_g0float_int_decl("sub", "ldouble")\
+#fun_aop_g0float_int_decl("mul", "ldouble")\
+#fun_aop_g0float_int_decl("div", "ldouble")\
 //
 #atscode_separator_for_C()
 
@@ -434,7 +438,7 @@ end // end of [fun_aop_g0float_int_decl]
 
 #atscode_separator_for_C()
 
-#atscode_eof_strsub_for_C("\#thisfilename$")\
+#atscode_eof_strsub_for_C("\#thisfilename$")
 
 %{
 implement main () = fprint_filsub (stdout_ref, "float_atxt.txt")
