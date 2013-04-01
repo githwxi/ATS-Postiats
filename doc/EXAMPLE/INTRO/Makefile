@@ -178,7 +178,7 @@ cleanall:: ; $(RMF) mutailrec.exe
 
 all:: revarr
 revarr: revarr.exe
-revarr.exe: revarr_dats.c ;   $(CC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+revarr.exe: revarr_dats.c ;   $(CC) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
 revarr_dats.c: revarr.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output revarr_dats.c --dynamic revarr.dats
 clean:: ; $(RMF) revarr_dats.o
 clean:: ; $(RMF) revarr_dats.c

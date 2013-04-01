@@ -56,6 +56,10 @@ staload _ = "prelude/DATS/matrixref.dats"
 //
 (* ****** ****** *)
 
+staload _ = "prelude/DATS/gprint.dats"
+
+(* ****** ****** *)
+
 staload _ = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)

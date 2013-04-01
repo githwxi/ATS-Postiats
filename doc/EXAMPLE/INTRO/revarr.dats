@@ -8,9 +8,10 @@
 //
 
 (* ****** ****** *)
-
-staload "prelude/DATS/integer.dats"
-
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
 (* ****** ****** *)
 
 fun{
@@ -31,12 +32,37 @@ fun loop
   end // end of [if]
 //
 in
-  if n > 0 then loop (A, g1int2uint(0), pred (n))
+  if n > 0 then loop (A, g1i2u(0), pred (n))
 end // end of [revarr]
 
 (* ****** ****** *)
+//
+staload UN = "prelude/SATS/unsafe.sats"
+staload STDLIB = "libc/SATS/stdlib.sats"
+staload RG = "atshwxi/testing/SATS/randgen.sats"
+staload _ = "atshwxi/testing/DATS/randgen.dats"
+//
+(* ****** ****** *)
 
-staload "atshwxi/testing/SATS/randgen.sats"
+%{^
+#include <time.h>
+#include <stdlib.h>
+atsvoid_t0ype
+srand48_with_time ()
+{
+  srand48(time(0)) ; return ;
+}
+%}
+extern fun srand48_with_time (): void = "ext#"
+
+(* ****** ****** *)
+
+typedef T = double
+
+(* ****** ****** *)
+
+#define N 10
+implement $RG.randgen_val<T> () = $STDLIB.drand48()
 
 (* ****** ****** *)
 
@@ -44,23 +70,26 @@ implement
 main (
   argc, argv
 ) = let
-  val asz = g1int2uint (10)
-  val A = randgen_arrayptr<int> (asz)
 //
-  val () = gprint_string "A = "
-  val () = gprint_arrayptr<int> (A, asz)
-  val () = gprint_newline ()
+val asz = g1i2u (N)
 //
-  val p = ptrcast (A)
-  prval pfarr = arrayptr_takeout (A)
-  val () = revarr (!p, asz)
-  prval () = arrayptr_addback (pfarr | A)
+val () = srand48_with_time ()
+val A = $RG.randgen_arrayptr<T> (asz)
 //
-  val () = gprint_string "A = "
-  val () = gprint_arrayptr<int> (A, asz)
-  val () = gprint_newline ()
+val () = gprint_string "A = "
+val () = gprint_arrayptr (A, asz)
+val () = gprint_newline ()
 //
-  val () = arrayptr_free (A)
+val p = ptrcast (A)
+prval pfarr = arrayptr_takeout (A)
+val () = revarr (!p, asz)
+prval () = arrayptr_addback (pfarr | A)
+//
+val () = gprint_string "A = "
+val () = gprint_arrayptr (A, asz)
+val () = gprint_newline ()
+//
+val () = arrayptr_free (A)
 //
 in
   0(*normalexit*)

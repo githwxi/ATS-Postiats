@@ -161,20 +161,18 @@ gprint_array (A, n) = let
 //
 typedef tenv = size_t
 //
-implement
-array_foreach$fwork<a><tenv>
-  (x, env) = let
-  val () =
-    if env > 0 then gprint_list$sep ()
-  val () = env := succ (env)
+implement(env)
+array_iforeach$fwork<a><env>
+  (i, x, env) = let
+  val () = if i > 0 then gprint_array$sep ()
 in
-  gprint_val (x)
-end // end of [array_foreach$fwork]
+  gprint_val<a> (x)
+end // end of [array_iforeach$fwork]
 //
-var env: tenv = (i2sz)0
-val () = gprint_list$beg ()
-val _(*n*) = array_foreach_env<a><tenv> (A, n, env)
-val () = gprint_list$end ()
+var env: void = ()
+val () = gprint_array$beg ()
+val _(*n*) = array_iforeach<a> (A, n)
+val () = gprint_array$end ()
 //
 in
   // nothing
