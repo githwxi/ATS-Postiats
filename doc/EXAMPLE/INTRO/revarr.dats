@@ -38,9 +38,11 @@ end // end of [revarr]
 (* ****** ****** *)
 //
 staload UN = "prelude/SATS/unsafe.sats"
+//
 staload STDLIB = "libc/SATS/stdlib.sats"
+//
 staload RG = "atshwxi/testing/SATS/randgen.sats"
-staload _ = "atshwxi/testing/DATS/randgen.dats"
+staload _(*anon*) = "atshwxi/testing/DATS/randgen.dats"
 //
 (* ****** ****** *)
 
@@ -76,7 +78,7 @@ val asz = g1i2u (N)
 val () = srand48_with_time ()
 val A = $RG.randgen_arrayptr<T> (asz)
 //
-val () = gprint_string "A = "
+val () = gprint_string "A(bef) = "
 val () = gprint_arrayptr (A, asz)
 val () = gprint_newline ()
 //
@@ -85,7 +87,7 @@ prval pfarr = arrayptr_takeout (A)
 val () = revarr (!p, asz)
 prval () = arrayptr_addback (pfarr | A)
 //
-val () = gprint_string "A = "
+val () = gprint_string "A(aft) = "
 val () = gprint_arrayptr (A, asz)
 val () = gprint_newline ()
 //
