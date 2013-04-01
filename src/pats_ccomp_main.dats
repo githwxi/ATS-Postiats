@@ -187,6 +187,7 @@ case+ fls of
     val () =
       if tmpknd > 0 then fprint_string (out, "#endif // end of [TEMPLATE]\n")
     // end of [val]
+    val () = emit_newline (out)
   in
     loop (out, fls, i+1)
   end // end of [list_cons]

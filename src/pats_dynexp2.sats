@@ -1335,7 +1335,8 @@ fun d2cst_set_def (d2c: d2cst, def: d2expopt): void
 
 (* ****** ****** *)
 
-fun d2mac_make (
+fun d2mac_make
+(
   loc: location
 , sym: symbol, knd: int, args: m2acarglst, def: d2exp
 ) : d2mac // end of [d2mac_make]
@@ -1345,19 +1346,22 @@ fun d2mac_set_def (x: d2mac, def: d2exp): void
 
 (* ****** ****** *)
 
-fun f2undec_make (
+fun f2undec_make
+(
   loc: location, d2v_fun: d2var, def: d2exp, ann: s2expopt
 ) : f2undec // end of [f2undec_make]
 
 (* ****** ****** *)
 
-fun v2aldec_make (
+fun v2aldec_make
+(
   loc: location, p2t: p2at, def: d2exp, ann: s2expopt
 ) : v2aldec // end of [v2aldec_make]
 
 (* ****** ****** *)
 
-fun v2ardec_make (
+fun v2ardec_make
+(
   loc: location
 , knd: int
 , d2v: d2var
@@ -1367,13 +1371,15 @@ fun v2ardec_make (
 , ini: d2expopt
 ) : v2ardec // end of [v2ardec_make]
 
-fun prv2ardec_make (
+fun prv2ardec_make
+(
   loc: location, d2v: d2var, type: s2expopt, ini: d2expopt
 ) : prv2ardec // end of [prv2ardec_make]
 
 (* ****** ****** *)
 
-fun i2mpdec_make (
+fun i2mpdec_make
+(
   loc: location
 , locid: location
 , d2c: d2cst
@@ -1414,28 +1420,33 @@ fun d2ecl_extcode
   (loc: location, knd: int, pos: int, code: string): d2ecl
 // end of [d2ecl_extcode]
 
-fun d2ecl_datdecs (
+fun d2ecl_datdecs
+(
   loc: location, knd: int, s2cs: s2cstlst
 ) : d2ecl // end of [d2ecl_datdecs]
 fun d2ecl_exndecs (loc: location, d2cs: d2conlst): d2ecl
 
-fun d2ecl_dcstdecs (
+fun d2ecl_dcstdecs
+(
   loc: location, knd: dcstkind, d2cs: d2cstlst
 ) : d2ecl // end of [d2ecl_dcstdecs]
 
 (* ****** ****** *)
 
-fun d2ecl_fundecs (
+fun d2ecl_fundecs
+(
   loc: location, knd: funkind, decarg: s2qualst, f2ds: f2undeclst
 ) : d2ecl // end of [d2ecl_fundecs]
 
 (* ****** ****** *)
 
-fun d2ecl_valdecs (
+fun d2ecl_valdecs
+(
   loc: location, knd: valkind, v2ds: v2aldeclst
 ) : d2ecl // end of [d2ecl_valdecs]
 
-fun d2ecl_valdecs_rec (
+fun d2ecl_valdecs_rec
+(
   loc: location, knd: valkind, v2ds: v2aldeclst
 ) : d2ecl // end of [d2ecl_valdecs_rec]
 
@@ -1454,7 +1465,8 @@ fun d2ecl_impdec
 
 fun d2ecl_include (loc: location, d2cs: d2eclist): d2ecl
 
-fun d2ecl_staload (
+fun d2ecl_staload
+(
   loc: location
 , idopt: symbolopt
 , fil: filename, loadflag: int, fenv: filenv, loaded: int

@@ -236,7 +236,8 @@ end // end of [decarg2imparg]
 
 local
 
-fun f3undec_tyer (
+fun f3undec_tyer
+(
   imparg: s2varlst, f3d: f3undec
 ) : hifundec = let
   val loc = f3d.f3undec_loc
@@ -255,7 +256,8 @@ in
   hifundec_make (loc, d2v_fun, imparg, hde_def)
 end // end of [f3undec_tyer]
 
-fun f3undeclst_tyer (
+fun f3undeclst_tyer
+(
   knd: funkind, decarg: s2qualst, f3ds: f3undeclst
 ) : hifundeclst = let
   val isprf = funkind_is_proof (knd)

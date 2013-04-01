@@ -653,8 +653,36 @@ val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 val-HDEtmpvar (d2v, t2mas) = hde0.hidexp_node
 //
+val tmplev = ccompenv_get_tmplevel (env)
+//
 in
-  primval_tmpltvar (loc0, hse0, d2v, t2mas)
+//
+case+ 0 of
+| _ when
+    tmplev > 0 => let
+  in
+    primval_tmpltvar (loc0, hse0, d2v, t2mas)
+  end // end of [_ when ...]
+| _ => let
+    val tmpmat =
+      ccompenv_tmpvar_match (env, d2v, t2mas)
+    // end of [val]
+// (*
+    val () = print (
+      "hidexp_ccomp_tmpvar:\n"
+    ) // end of [val]
+    val () = println! ("d2v = ", d2v)
+    val () = print ("t2mas = ")
+    val () = fpprint_t2mpmarglst (stdout_ref, t2mas)
+    val () = print_newline ()
+    val () = print ("mat = ")
+    val () = fprint_tmpvarmat (stdout_ref, tmpmat)
+    val () = print_newline ()
+// *)
+  in
+    ccomp_tmpvarmat (env, loc0, hse0, d2v, t2mas, tmpmat)
+  end // end of [if]
+//
 end // end of [hidexp_ccomp_tmpvar]
 
 (* ****** ****** *)

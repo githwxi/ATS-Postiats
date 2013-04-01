@@ -160,7 +160,17 @@ val area = PI * radius * radius
 Note that it is unspecified in ATS as to which of the first two bindings
 (connected by the keyword #dyncode("and")) is finalized ahead of the other
 at run-time. However, it is guaranteed that the third binding is finalized
-after the first two are done.\
+after the first two are done. To see this issue from a different angle, we
+can try to typecheck the following code:
+
+<informalexample><programlisting>
+val x = 0 and y = x + 1
+</programlisting></informalexample>
+
+The error message reported in this case indicates that the name (or dynamic
+identifier) #dyncode("x") in the expression #dyncode("x + 1") is unbound.
+In particular, the two occurrences of #dyncode("x") in the above code are
+unrelated.
 
 ")
 

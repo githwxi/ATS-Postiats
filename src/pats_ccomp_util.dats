@@ -126,18 +126,6 @@ patckont_is_none (fail) =
 (* ****** ****** *)
 
 implement
-tmpsub_append
-  (xs1, xs2) = let
-in
-  case+ xs1 of
-  | TMPSUBcons (s2v, s2f, xs1) =>
-      TMPSUBcons (s2v, s2f, tmpsub_append (xs1, xs2))
-  | TMPSUBnil () => xs2
-end // end of [tmpsub_append]
-
-(* ****** ****** *)
-
-implement
 tmpsub2stasub (tsub) = let
 //
 fun loop
@@ -160,6 +148,18 @@ val () = loop (sub, tsub)
 in
   sub
 end // end of [tmpsub2stasub]
+
+(* ****** ****** *)
+
+implement
+tmpsub_append
+  (xs1, xs2) = let
+in
+  case+ xs1 of
+  | TMPSUBcons (s2v, s2f, xs1) =>
+      TMPSUBcons (s2v, s2f, tmpsub_append (xs1, xs2))
+  | TMPSUBnil () => xs2
+end // end of [tmpsub_append]
 
 (* ****** ****** *)
 

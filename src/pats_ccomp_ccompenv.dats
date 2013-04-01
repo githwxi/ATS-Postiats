@@ -288,17 +288,18 @@ end // end of [local]
 
 (* ****** ****** *)
 
-dataviewtype
+datavtype
 markenvlst_vt =
   | MARKENVLSTnil of ()
   | MARKENVLSTmark of (markenvlst_vt)
   | MARKENVLSTcons_var of (d2var, markenvlst_vt)
   | MARKENVLSTcons_fundec of (hifundec, markenvlst_vt)
   | MARKENVLSTcons_impdec of (hiimpdec, markenvlst_vt)
+  | MARKENVLSTcons_impdec2 of (hiimpdec2, markenvlst_vt)
   | MARKENVLSTcons_staload of (filenv, markenvlst_vt)
   | MARKENVLSTcons_tmpsub of (tmpsub, markenvlst_vt)
-  | MARKENVLSTcons_impdec2 of (hiimpdec2, markenvlst_vt)
   | MARKENVLSTcons_tmpcstmat of (tmpcstmat, markenvlst_vt) 
+  | MARKENVLSTcons_tmpvarmat of (tmpvarmat, markenvlst_vt) 
 // end of [markenvlst]
 
 (* ****** ****** *)
@@ -315,10 +316,11 @@ in
   | ~MARKENVLSTcons_var (_, xs) => markenvlst_vt_free (xs)
   | ~MARKENVLSTcons_fundec (_, xs) => markenvlst_vt_free (xs)
   | ~MARKENVLSTcons_impdec (_, xs) => markenvlst_vt_free (xs)
+  | ~MARKENVLSTcons_impdec2 (_, xs) => markenvlst_vt_free (xs)
   | ~MARKENVLSTcons_staload (_, xs) => markenvlst_vt_free (xs)
   | ~MARKENVLSTcons_tmpsub (_, xs) => markenvlst_vt_free (xs)
-  | ~MARKENVLSTcons_impdec2 (_, xs) => markenvlst_vt_free (xs)
   | ~MARKENVLSTcons_tmpcstmat (_, xs) => markenvlst_vt_free (xs)
+  | ~MARKENVLSTcons_tmpvarmat (_, xs) => markenvlst_vt_free (xs)
 end // end of [markenvlst_vt_free]
 
 (* ****** ****** *)
@@ -339,9 +341,9 @@ case+ xs of
 | MARKENVLSTnil () => fold@ (xs)
 | MARKENVLSTmark (!p_xs) => let
     val () =
-      if i > 0 then
-        fprint_string (out, ", ")
-      // end of [if]
+    (
+      if i > 0 then fprint_string (out, ", ")
+    )
     val () = fprint_string (out, "||")
     val () = loop (out, !p_xs, i+1)
     prval () = fold@ (xs)
@@ -351,9 +353,9 @@ case+ xs of
 | MARKENVLSTcons_var
     (!p_x, !p_xs) => let
     val () =
-      if i > 0 then
-        fprint_string (out, ", ")
-      // end of [if]
+    (
+       if i > 0 then fprint_string (out, ", ")
+    )
     val () = fprint_d2var (out, !p_x)
     val () = loop (out, !p_xs, i+1)
     prval () = fold@ (xs)
@@ -364,9 +366,9 @@ case+ xs of
 | MARKENVLSTcons_fundec
     (!p_x, !p_xs) => let
     val () =
-      if i > 0 then
-        fprint_string (out, ", ")
-      // end of [if]
+    (
+      if i > 0 then fprint_string (out, ", ")
+    )
     val hfd = !p_x
     val () = fprint_d2var (out, hfd.hifundec_var)
     val () = loop (out, !p_xs, i+1)
@@ -378,9 +380,9 @@ case+ xs of
 | MARKENVLSTcons_impdec
     (!p_x, !p_xs) => let
     val () =
-      if i > 0 then
-        fprint_string (out, ", ")
-      // end of [if]
+    (
+      if i > 0 then fprint_string (out, ", ")
+    )
     val imp = !p_x
     val () = fprint_d2cst (out, imp.hiimpdec_cst)
     val () = loop (out, !p_xs, i+1)
@@ -388,13 +390,25 @@ case+ xs of
   in
     // nothing
   end // end of [MARKENVLSTcons_impdec]
+| MARKENVLSTcons_impdec2
+    (!p_x, !p_xs) => let
+    val () =
+    (
+      if i > 0 then fprint_string (out, ", ")
+    )
+    val () = fprint_hiimpdec2 (out, !p_x)
+    val () = loop (out, !p_xs, i+1)
+    prval () = fold@ (xs)
+  in
+    // nothing
+  end // end of [MARKENVLSTcons_impdec2]
 //
 | MARKENVLSTcons_staload
     (!p_x, !p_xs) => let
     val () =
-      if i > 0 then
-        fprint_string (out, ", ")
-      // end of [if]
+    (
+      if i > 0 then fprint_string (out, ", ")
+    )
     val fname = filenv_get_name (!p_x)
     val () = $FIL.fprint_filename (out, fname)
     val () = loop (out, !p_xs, i+1)
@@ -406,9 +420,9 @@ case+ xs of
 | MARKENVLSTcons_tmpsub
     (!p_x, !p_xs) => let
     val () =
-      if i > 0 then
-        fprint_string (out, ", ")
-      // end of [if]
+    (
+      if i > 0 then fprint_string (out, ", ")
+    )
     val () = fprint_tmpsub (out, !p_x)
     val () = loop (out, !p_xs, i+1)
     prval () = fold@ (xs)
@@ -416,31 +430,31 @@ case+ xs of
     // nothing
   end // end of [MARKENVLSTcons_tmpsub]
 //
-| MARKENVLSTcons_impdec2
-    (!p_x, !p_xs) => let
-    val () =
-      if i > 0 then
-        fprint_string (out, ", ")
-      // end of [if]
-    val () = fprint_hiimpdec2 (out, !p_x)
-    val () = loop (out, !p_xs, i+1)
-    prval () = fold@ (xs)
-  in
-    // nothing
-  end // end of [MARKENVLSTcons_impdec2]
-//
 | MARKENVLSTcons_tmpcstmat
     (!p_x, !p_xs) => let
     val () =
-      if i > 0 then
-        fprint_string (out, ", ")
-      // end of [if]
+    (
+      if i > 0 then fprint_string (out, ", ")
+    )
     val () = fprint_tmpcstmat (out, !p_x)
     val () = loop (out, !p_xs, i+1)
     prval () = fold@ (xs)
   in
     // nothing
   end // end of [MARKENVLSTcons_tmpcstmat]
+//
+| MARKENVLSTcons_tmpvarmat
+    (!p_x, !p_xs) => let
+    val () =
+    (
+      if i > 0 then fprint_string (out, ", ")
+    )
+    val () = fprint_tmpvarmat (out, !p_x)
+    val () = loop (out, !p_xs, i+1)
+    prval () = fold@ (xs)
+  in
+    // nothing
+  end // end of [MARKENVLSTcons_tmpvarmat]
 //
 end // end of [loop]
 //
@@ -702,10 +716,11 @@ case+ xs of
   end // end of [MENVLSTcons]
 | ~MARKENVLSTcons_fundec (_, xs) => auxpop (map, xs)
 | ~MARKENVLSTcons_impdec (_, xs) => auxpop (map, xs)
+| ~MARKENVLSTcons_impdec2 (_, xs) => auxpop (map, xs)
 | ~MARKENVLSTcons_staload (_, xs) => auxpop (map, xs)
 | ~MARKENVLSTcons_tmpsub (_, xs) => auxpop (map, xs)
-| ~MARKENVLSTcons_impdec2 (_, xs) => auxpop (map, xs)
 | ~MARKENVLSTcons_tmpcstmat (_, xs) => auxpop (map, xs)
+| ~MARKENVLSTcons_tmpvarmat (_, xs) => auxpop (map, xs)
 //
 end // end of [auxpop]
 
@@ -725,24 +740,33 @@ case+ xs of
 | MARKENVLSTcons_var (_, !p_xs) => let
     val () = auxjoin (map, !p_xs); prval () = fold@ (xs) in (*nothing*)
   end // end of [MENVLSTcons_var]
+//
 | MARKENVLSTcons_fundec (_, !p_xs) => let
     val () = auxjoin (map, !p_xs); prval () = fold@ (xs) in (*nothing*)
   end // end of [MENVLSTcons_fundec]
+//
 | MARKENVLSTcons_impdec (_, !p_xs) => let
     val () = auxjoin (map, !p_xs); prval () = fold@ (xs) in (*nothing*)
   end // end of [MENVLSTcons_impdec]
-| MARKENVLSTcons_staload (_, !p_xs) => let
-    val () = auxjoin (map, !p_xs); prval () = fold@ (xs) in (*nothing*)
-  end // end of [MENVLSTcons_staload]
-| MARKENVLSTcons_tmpsub (_, !p_xs) => let
-    val () = auxjoin (map, !p_xs); prval () = fold@ (xs) in (*nothing*)
-  end // end of [MENVLSTcons_tmpsub]
 | MARKENVLSTcons_impdec2 (_, !p_xs) => let
     val () = auxjoin (map, !p_xs); prval () = fold@ (xs) in (*nothing*)
   end // end of [MENVLSTcons_impdec2]
+//
+| MARKENVLSTcons_staload (_, !p_xs) => let
+    val () = auxjoin (map, !p_xs); prval () = fold@ (xs) in (*nothing*)
+  end // end of [MENVLSTcons_staload]
+//
+| MARKENVLSTcons_tmpsub (_, !p_xs) => let
+    val () = auxjoin (map, !p_xs); prval () = fold@ (xs) in (*nothing*)
+  end // end of [MENVLSTcons_tmpsub]
+//
 | MARKENVLSTcons_tmpcstmat (_, !p_xs) => let
     val () = auxjoin (map, !p_xs); prval () = fold@ (xs) in (*nothing*)
   end // end of [MENVLSTcons_tmpcstmat]
+//
+| MARKENVLSTcons_tmpvarmat (_, !p_xs) => let
+    val () = auxjoin (map, !p_xs); prval () = fold@ (xs) in (*nothing*)
+  end // end of [MENVLSTcons_tmpvarmat]
 //
 end // end of [auxjoin]
 
@@ -908,21 +932,28 @@ case+ xs of
 | MARKENVLSTcons_var (_, !p_xs) => let
     val res = loop (!p_xs); prval () = fold@ (xs) in res
   end // end of [MARKENVLSTcons_var]
+//
 | MARKENVLSTcons_fundec (_, !p_xs) => let
     val res = loop (!p_xs); prval () = fold@ (xs) in res
   end // end of [MARKENVLSTcons_fundec]
+//
 | MARKENVLSTcons_impdec (_, !p_xs) => let
     val res = loop (!p_xs); prval () = fold@ (xs) in res
   end // end of [MARKENVLSTcons_impdec]
-| MARKENVLSTcons_staload (_, !p_xs) => let
-    val res = loop (!p_xs); prval () = fold@ (xs) in res
-  end // end of [MARKENVLSTcons_staload]
 | MARKENVLSTcons_impdec2 (_, !p_xs) => let
     val res = loop (!p_xs); prval () = fold@ (xs) in res
   end // end of [MARKENVLSTcons_impdec2]
+//
+| MARKENVLSTcons_staload (_, !p_xs) => let
+    val res = loop (!p_xs); prval () = fold@ (xs) in res
+  end // end of [MARKENVLSTcons_staload]
+//
 | MARKENVLSTcons_tmpcstmat (_, !p_xs) => let
     val res = loop (!p_xs); prval () = fold@ (xs) in res
   end // end of [MARKENVLSTcons_tmpcstmat]
+| MARKENVLSTcons_tmpvarmat (_, !p_xs) => let
+    val res = loop (!p_xs); prval () = fold@ (xs) in res
+  end // end of [MARKENVLSTcons_tmpvarmat]
 //
 | MARKENVLSTmark (!p_xs) => let
     val res = loop (!p_xs); prval () = fold@ (xs) in res
@@ -943,18 +974,14 @@ end // end of [ccompenv_find_tmpsub]
 
 (* ****** ****** *)
 
-extern
-fun ccompenv_add_impdec2
-  (env: !ccompenv, imp2: hiimpdec2): void
 implement
-ccompenv_add_impdec2
-  (env, imp2) = let
+ccompenv_add_impdec2 (env, imp2) = let
 //
-  val CCOMPENV (!p) = env
-  val xs = p->ccompenv_markenvlst
-  val () = p->ccompenv_markenvlst := MARKENVLSTcons_impdec2 (imp2, xs)
+val CCOMPENV (!p) = env
+val xs = p->ccompenv_markenvlst
+val () = p->ccompenv_markenvlst := MARKENVLSTcons_impdec2 (imp2, xs)
 //
-  prval () = fold@ (env)
+prval () = fold@ (env)
 //
 in
   // nothing
@@ -988,11 +1015,26 @@ in
   // nothing
 end // end of [ccompenv_add_tmpcstmat]
 
+implement
+ccompenv_add_tmpvarmat
+  (env, tmpmat) = let
+//
+  val CCOMPENV (!p) = env
+  val xs = p->ccompenv_markenvlst
+  val () = p->ccompenv_markenvlst := MARKENVLSTcons_tmpvarmat (tmpmat, xs)
+//
+  prval () = fold@ (env)
+//
+in
+  // nothing
+end // end of [ccompenv_add_tmpvarmat]
+
 (* ****** ****** *)
 
 local
 
-fun auxlst (
+fun auxlst
+(
   env: !ccompenv, hfds: hifundeclst
 ) : void = let
 in
@@ -1001,10 +1043,8 @@ case+ hfds of
 | list_cons
     (hfd, hfds) => let
     val () =
-      ccompenv_add_fundec (env, hfd)
+      ccompenv_add_fundec (env, hfd) in auxlst (env, hfds)
     // end of [val]
-  in
-    auxlst (env, hfds)
   end // end of [list_cons]
 | list_nil () => ()
 //
@@ -1026,11 +1066,10 @@ end // end of [local]
 
 (* ****** ****** *)
 
-implement
-ccompenv_tmpcst_match
-  (env, d2c0, t2mas) = let
-//
-fun auxlst (
+local
+
+fun auxlst
+(
   xs: !markenvlst_vt
 , d2c0: d2cst
 , t2mas: t2mpmarglst
@@ -1038,33 +1077,22 @@ fun auxlst (
 in
 //
 case+ xs of
+//
 | MARKENVLSTnil () => let
     prval () = fold@ (xs) in TMPCSTMATnone ()
   end // end of [MARKENVLSTnil]
 //
-| MARKENVLSTmark
-    (!p_xs) => let
-    val opt = auxlst (!p_xs, d2c0, t2mas)
-    prval () = fold@ (xs)
-  in
-    opt
-  end // end of [MARKENVLSTmark]
+| MARKENVLSTmark (!p_xs) => let
+    val opt = auxlst (!p_xs, d2c0, t2mas) in fold@ (xs); opt
+  end (* end of [MARKENVLSTmark] *)
 //
-| MARKENVLSTcons_var
-    (_, !p_xs) => let
-    val opt = auxlst (!p_xs, d2c0, t2mas)
-    prval () = fold@ (xs)
-  in
-    opt
-  end // end of [MARKENVLSTcons_var]
+| MARKENVLSTcons_var (_, !p_xs) => let
+    val opt = auxlst (!p_xs, d2c0, t2mas) in fold@ (xs); opt
+  end (* end of [MARKENVLSTcons_var] *)
 //
-| MARKENVLSTcons_fundec
-    (fdc, !p_xs) => let
-    val opt = auxlst (!p_xs, d2c0, t2mas)
-    prval () = fold@ (xs)
-  in
-    opt
-  end // end of [MARKENVLSTcons_fundec]
+| MARKENVLSTcons_fundec (_, !p_xs) => let
+    val opt = auxlst (!p_xs, d2c0, t2mas) in fold@ (xs); opt
+  end (* end of [MARKENVLSTcons_fundec] *)
 //
 | MARKENVLSTcons_impdec
     (imp, !p_xs) => let
@@ -1089,38 +1117,36 @@ case+ xs of
     res
   end // end of [MARKENVLSTcons_fundec]
 //
-| MARKENVLSTcons_tmpsub
-    (tsub, !p_xs) => let
-    val opt = auxlst (!p_xs, d2c0, t2mas)
-    prval () = fold@ (xs)
-  in
-    opt
-  end // end of [MARKENVLSTcons_tmpsub]
+| MARKENVLSTcons_tmpsub (_, !p_xs) => let
+    val opt = auxlst (!p_xs, d2c0, t2mas) in fold@ (xs); opt
+  end (* end of [MARKENVLSTcons_tmpsub] *)
 //
 | MARKENVLSTcons_impdec2
     (imp2, !p_xs) => let
-    val opt =
-      hiimpdec2_tmpcst_match (imp2, d2c0, t2mas)
+    val opt = hiimpdec2_tmpcst_match (imp2, d2c0, t2mas)
     val res = auxcont (opt, !p_xs, d2c0, t2mas)
     prval () = fold@ (xs)
   in
     res
-  end // end of [MARKENVLSTcons_impdec]
+  end // end of [MARKENVLSTcons_impdec2]
 //
 | MARKENVLSTcons_tmpcstmat
     (tmpmat, !p_xs) => let
-    val opt =
-      tmpcstmat_tmpcst_match (tmpmat, d2c0, t2mas)
-    // end of [val]
+    val opt = tmpcstmat_tmpcst_match (tmpmat, d2c0, t2mas)
     val res = auxcont (opt, !p_xs, d2c0, t2mas)
     prval () = fold@ (xs)
   in
     res
   end // end of [MARKENVLSTcons_tmpcstmat]
 //
-end // end of [auxlst]
+| MARKENVLSTcons_tmpvarmat (_, !p_xs) => let
+    val opt = auxlst (!p_xs, d2c0, t2mas) in fold@ (xs); opt
+  end (* end of [MARKENVLSTcons_tmpvarmat] *)
 //
-and auxcont (
+end (* end of [auxlst] *)
+
+and auxcont
+(
   opt: tmpcstmat
 , xs: !markenvlst_vt
 , d2c0: d2cst
@@ -1134,6 +1160,12 @@ case+ opt of
 | TMPCSTMATnone _ => auxlst (xs, d2c0, t2mas)
 //
 end // end of [auxcont]
+
+in (* in of [local] *)
+
+implement
+ccompenv_tmpcst_match
+  (env, d2c0, t2mas) = let
 //
 val CCOMPENV (!p) = env
 val opt = auxlst (p->ccompenv_markenvlst, d2c0, t2mas)
@@ -1142,6 +1174,106 @@ prval () = fold@ (env)
 in
   opt
 end // end of [ccompenv_tmpcst_match]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fun auxlst
+(
+  xs: !markenvlst_vt
+, d2v0: d2var
+, t2mas: t2mpmarglst
+) : tmpvarmat = let
+in
+//
+case+ xs of
+| MARKENVLSTnil () => let
+    prval () = fold@ (xs) in TMPVARMATnone ()
+  end // end of [MARKENVLSTnil]
+//
+| MARKENVLSTmark (!p_xs) => let
+    val opt = auxlst (!p_xs, d2v0, t2mas) in fold@ (xs); opt
+  end // end of [MARKENVLSTmark]
+//
+| MARKENVLSTcons_var (_, !p_xs) => let
+    val opt = auxlst (!p_xs, d2v0, t2mas) in fold@ (xs); opt
+  end (* end of [MARKENVLSTcons_var] *)
+//
+| MARKENVLSTcons_fundec
+    (hfd, !p_xs) => let
+    val opt =
+      hifundec_tmpvar_match (hfd, d2v0, t2mas)
+    val res = auxcont (opt, !p_xs, d2v0, t2mas)
+    prval () = fold@ (xs)
+  in
+    res
+  end // end of [MARKENVLSTcons_fundec]
+//
+| MARKENVLSTcons_impdec (_, !p_xs) => let
+    val opt = auxlst (!p_xs, d2v0, t2mas) in fold@ (xs); opt
+  end (* end of [MARKENVLSTcons_impdec] *)
+//
+| MARKENVLSTcons_staload (_, !p_xs) => let
+    val opt = auxlst (!p_xs, d2v0, t2mas) in fold@ (xs); opt
+  end (* end of [MARKENVLSTcons_staload] *)
+//
+| MARKENVLSTcons_tmpsub (_, !p_xs) => let
+    val opt = auxlst (!p_xs, d2v0, t2mas) in fold@ (xs); opt
+  end (* end of [MARKENVLSTcons_tmpsub] *)
+//
+| MARKENVLSTcons_impdec2 (_, !p_xs) => let
+    val opt = auxlst (!p_xs, d2v0, t2mas) in fold@ (xs); opt
+  end (* end of [MARKENVLSTcons_impdec2] *)
+//
+| MARKENVLSTcons_tmpcstmat (_, !p_xs) => let
+    val opt = auxlst (!p_xs, d2v0, t2mas) in fold@ (xs); opt
+  end (* end of [MARKENVLSTcons_tmpcstmat] *)
+//
+| MARKENVLSTcons_tmpvarmat
+    (tmpmat, !p_xs) => let
+    val opt = tmpvarmat_tmpvar_match (tmpmat, d2v0, t2mas)
+    val res = auxcont (opt, !p_xs, d2v0, t2mas)
+    prval () = fold@ (xs)
+  in
+    res
+  end // end of [MARKENVLSTcons_tmpvarmat]
+//
+end // end of [auxlst]
+
+and auxcont
+(
+  opt: tmpvarmat
+, xs: !markenvlst_vt
+, d2v0: d2var
+, t2mas: t2mpmarglst
+) : tmpvarmat = let
+in
+//
+case+ opt of
+| TMPVARMATsome _ => opt
+| TMPVARMATsome2 _ => opt
+| TMPVARMATnone _ => auxlst (xs, d2v0, t2mas)
+//
+end // end of [auxcont]
+
+in (* in of [local] *)
+
+implement
+ccompenv_tmpvar_match
+  (env, d2v0, t2mas) = let
+//
+val CCOMPENV (!p) = env
+val opt = auxlst (p->ccompenv_markenvlst, d2v0, t2mas)
+prval () = fold@ (env)
+//
+in
+  opt
+end // end of [ccompenv_tmpvar_match]
+
+end // end of [local]
 
 (* ****** ****** *)
 

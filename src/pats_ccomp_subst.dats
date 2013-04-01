@@ -249,11 +249,12 @@ val hse = funlab_get_type (flab)
 val hse2 = hisexp_subst (sub, hse)
 val () = println! ("funlab_subst: hse2 = ", hse2)
 val qopt = funlab_get_d2copt (flab)
+val sopt = funlab_get_d2vopt (flab)
 val t2mas = funlab_get_tmparg (flab)
 val stamp = $STMP.funlab_stamp_make ()
 //
 val flab2 =
-  funlab_make (name, level, hse2, qopt, t2mas, stamp)
+  funlab_make (name, level, hse2, qopt, sopt, t2mas, stamp)
 val () = funlab_set_origin (flab2, Some (flab))
 //
 } // end of [funlab_subst]
@@ -384,9 +385,18 @@ in
 //
 case+ opt of
 | Some (d2c) =>
-    ccompenv_add_tmpcstmat (
-    env, TMPCSTMATsome2 (d2c, tmparg2, flab2)
-  ) // end of [Some]
+    ccompenv_add_tmpcstmat (env, TMPCSTMATsome2 (d2c, tmparg2, flab2))
+| None () => ()
+//
+end // end of [val]
+//
+val () = let
+  val opt = funlab_get_d2vopt (flab)
+in
+//
+case+ opt of
+| Some (d2v) =>
+    ccompenv_add_tmpvarmat (env, TMPVARMATsome2 (d2v, tmparg2, flab2))
 | None () => ()
 //
 end // end of [val]
@@ -540,6 +550,21 @@ case+
       pmv0 // HX-2013-01: maximal tmprecdepth is reached!
     // end of [if]
   end // end of [PMVtmpltcst]
+//
+| PMVtmpltvar
+    (d2v, t2mas) => let
+    val trd = ccompenv_get_tmprecdepth (env)
+    val mtrd = $GLOB.the_CCOMPENV_maxtmprecdepth_get ()
+  in
+    if trd < mtrd then let
+      val t2mas = t2mpmarglst_subst (loc0, sub, t2mas)
+      val tmpmat = ccompenv_tmpvar_match (env, d2v, t2mas)
+    in
+      ccomp_tmpvarmat (env, loc0, hse0, d2v, t2mas, tmpmat)
+    end else
+      pmv0 // HX-2013-01: maximal tmprecdepth is reached!
+    // end of [if]    
+  end // end of [PMVtmpltvar]
 //
 | _ => pmv0
 //

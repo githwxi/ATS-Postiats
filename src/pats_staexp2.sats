@@ -490,7 +490,8 @@ typedef syms2rtlst = List (syms2rt)
 //
 // HX: there is no [s2qua]
 //
-typedef s2qua = @{
+typedef
+s2qua = @{
   s2qua_svs= s2varlst, s2qua_sps= s2explst
 } // end of [s2qua]
 typedef s2qualst = List (s2qua)

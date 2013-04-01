@@ -85,7 +85,8 @@ funlab_struct = @{
 //
 , funlab_tmpknd= int (* 0/1 : temp use/def *)
 //
-, funlab_d2copt= d2cstopt (* local or global *)
+, funlab_d2copt= d2cstopt (* global *)
+, funlab_d2vopt= d2varopt (* static *)
 //
 , funlab_ncopy= int
 //
@@ -109,8 +110,9 @@ assume ccomp_funlab_type = ref (funlab_struct)
 in // in of [local]
 
 implement
-funlab_make (
-  name, level, hse, qopt, t2mas, stamp
+funlab_make
+(
+  name, level, hse, qopt, sopt, t2mas, stamp
 ) = let
 //
 val (
@@ -124,7 +126,8 @@ val () = p->funlab_level := level
 val () = p->funlab_type := hse
 //
 val () = p->funlab_tmpknd := ~1
-val () = p->funlab_d2copt := qopt
+val () = p->funlab_d2copt := qopt // global
+val () = p->funlab_d2vopt := sopt // static
 //
 val () = p->funlab_ncopy := 0
 //
@@ -172,6 +175,10 @@ implement
 funlab_get_d2copt (flab) = let
   val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_d2copt
 end // end of [funlab_get_d2copt]
+implement
+funlab_get_d2vopt (flab) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_d2vopt
+end // end of [funlab_get_d2vopt]
 
 implement
 funlab_get_tmparg (flab) = let
@@ -301,9 +308,10 @@ funlab_make_type
   val stamp = $STMP.funlab_stamp_make ()
   val flname = $STMP.tostring_prefix_stamp ("__patsfun_", stamp)
   val qopt = None ()
+  val sopt = None ()
   val t2mas = list_nil ()
 in
-  funlab_make (flname, lev0, hse, qopt, t2mas, stamp)
+  funlab_make (flname, lev0, hse, qopt, sopt, t2mas, stamp)
 end // end of [funlab_make_type]
 
 (* ****** ****** *)
@@ -324,58 +332,88 @@ in
   | $SYN.DCSTEXTDEFsome_mac (name) => name
   | $SYN.DCSTEXTDEFsome_sta (name) => name
 //
-end // end of [global_cst_name_make]
+end // end of [d2cst_get_gname]
 
-in // in of [local]
+fun flname_make
+(
+  d2c: d2cst, stamp: stamp
+) : string = let
+  val d2c2 = d2cst_get_gname (d2c)
+  val stamp2 = $STMP.tostring_stamp (stamp)
+  val flname = sprintf ("%s_%s", @(d2c2, stamp2))
+in
+  string_of_strptr (flname)
+end // end of [flname_make]
+
+in (* in of [local] *)
 
 implement
 funlab_make_dcst_type
   (d2c, hse) = let
   val lev0 = the_d2varlev_get ()
-  val d2c2 = d2cst_get_gname (d2c)
   val qopt = Some (d2c)
   val t2mas = list_nil ()
   val stamp = $STMP.funlab_stamp_make ()
-  val stamp2 = $STMP.tostring_stamp (stamp)
-  val flname = sprintf ("%s_%s", @(d2c2, stamp2))
-  val flname = string_of_strptr (flname)
+  val flname = flname_make (d2c, stamp)
 in
-  funlab_make (flname, lev0, hse, qopt, t2mas, stamp)
+  funlab_make (flname, lev0, hse, qopt, None (*sopt*), t2mas, stamp)
 end // end of [funlab_make_dcst_type]
 
 implement
 funlab_make_tmpcst_type
   (d2c, t2mas, hse) = let
   val lev0 = the_d2varlev_get ()
-  val d2c2 = d2cst_get_gname (d2c)
   val qopt = Some (d2c)
   val stamp = $STMP.funlab_stamp_make ()
-  val stamp2 = $STMP.tostring_stamp (stamp)
-  val flname = sprintf ("%s_%s", @(d2c2, stamp2))
-  val flname = string_of_strptr (flname)
+  val flname = flname_make (d2c, stamp)
 in
-  funlab_make (flname, lev0, hse, qopt, t2mas, stamp)
+  funlab_make (flname, lev0, hse, qopt, None (*sopt*), t2mas, stamp)
 end // end of [funlab_make_tmpcst_type]
 
 end // end of [local]
 
 (* ****** ****** *)
 
+local
+
+fun flname_make
+(
+  d2v: d2var, stamp: stamp
+) : string = let
+  val d2v2 =
+    $SYM.symbol_get_name (d2var_get_sym (d2v))
+  val stamp2 = $STMP.tostring_stamp (stamp)
+  val flname = sprintf ("%s_%s", @(d2v2, stamp2))
+in
+  string_of_strptr (flname)
+end // end of [flname_make]
+
+in (* in of [local] *)
+
 implement
 funlab_make_dvar_type
   (d2v, hse) = let
   val lev0 = the_d2varlev_get ()
-  val d2v2 =
-    $SYM.symbol_get_name (d2var_get_sym (d2v))
-  val qopt = None ()
+  val sopt = Some (d2v)
   val t2mas = list_nil ()
   val stamp = $STMP.funlab_stamp_make ()
-  val stamp2 = $STMP.tostring_stamp (stamp)
-  val flname = sprintf ("%s_%s", @(d2v2, stamp2))
-  val flname = string_of_strptr (flname)
+  val flname = flname_make (d2v, stamp)
 in
-  funlab_make (flname, lev0, hse, qopt, t2mas, stamp)
+  funlab_make (flname, lev0, hse, None(*qopt*), sopt, t2mas, stamp)
 end // end of [funlab_make_dvar_type]
+
+implement
+funlab_make_tmpvar_type
+  (d2v, t2mas, hse) = let
+  val lev0 = the_d2varlev_get ()
+  val sopt = Some (d2v)
+  val stamp = $STMP.funlab_stamp_make ()
+  val flname = flname_make (d2v, stamp)
+in
+  funlab_make (flname, lev0, hse, None(*qopt*), sopt, t2mas, stamp)
+end // end of [funlab_make_tmpvar_type]
+
+end // end of [local]
 
 (* ****** ****** *)
 

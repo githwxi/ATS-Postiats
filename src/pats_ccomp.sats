@@ -207,24 +207,26 @@ overload prerr with prerr_funlab
 fun fprint_funlab : fprint_type (funlab)
 //
 fun
-funlab_make (
+funlab_make
+(
   name: string
 , level: int
 , hse0: hisexp
 , qopt: d2cstopt
+, sopt: d2varopt
 , t2mas: t2mpmarglst
 , stamp: stamp
 ) : funlab // end of [funlab_make]
 //
 fun funlab_make_type (hse: hisexp): funlab
+//
 fun funlab_make_dcst_type (d2c: d2cst, hse: hisexp): funlab
 fun funlab_make_dvar_type (d2v: d2var, hse: hisexp): funlab
+//
 fun funlab_make_tmpcst_type
    (d2c: d2cst, t2ms: t2mpmarglst, hse: hisexp): funlab
-// end of [funlab_make_tmpcst_typ]
-//
-fun funlab_get_d2copt
-  (flab: funlab): d2cstopt // qualifier
+fun funlab_make_tmpvar_type
+   (d2v: d2var, t2ms: t2mpmarglst, hse: hisexp): funlab
 //
 fun funlab_get_name (flab: funlab): string
 //
@@ -232,6 +234,9 @@ fun funlab_get_level (flab: funlab): int
 //
 fun funlab_get_tmpknd (flab: funlab): int
 fun funlab_set_tmpknd (flab: funlab, knd: int): void
+//
+fun funlab_get_d2copt (flab: funlab): d2cstopt // global
+fun funlab_get_d2vopt (flab: funlab): d2varopt // static
 //
 fun funlab_get_type (flab: funlab): hisexp
 fun funlab_get_funclo (flab: funlab): funclo
@@ -324,11 +329,8 @@ fun fprint_tmpsubopt : fprint_type (tmpsubopt)
 
 (* ****** ****** *)
 
-fun tmpsub_append (xs1: tmpsub, xs2: tmpsub): tmpsub
-
-(* ****** ****** *)
-
 fun tmpsub2stasub (xs: tmpsub): stasub
+fun tmpsub_append (xs1: tmpsub, xs2: tmpsub): tmpsub
 
 (* ****** ****** *)
 
@@ -341,6 +343,18 @@ tmpcstmat =
 
 fun fprint_tmpcstmat : fprint_type (tmpcstmat)
 fun fprint_tmpcstmat_kind : fprint_type (tmpcstmat) // 1/0:found/not
+
+(* ****** ****** *)
+
+datatype
+tmpvarmat =
+  | TMPVARMATsome of (hifundec, tmpsub)
+  | TMPVARMATsome2 of (d2var, s2explstlst, funlab)
+  | TMPVARMATnone of ()
+// end of [tmpvarmat]
+
+fun fprint_tmpvarmat : fprint_type (tmpvarmat)
+fun fprint_tmpvarmat_kind : fprint_type (tmpvarmat) // 1/0:found/not
 
 (* ****** ****** *)
 
@@ -441,6 +455,7 @@ and primval_node =
   | PMVtmpltcst of (d2cst, t2mpmarglst) // for template constants
   | PMVtmpltcstmat of (d2cst, t2mpmarglst, tmpcstmat) // for matched template constants
   | PMVtmpltvar of (d2var, t2mpmarglst) // for template variables
+  | PMVtmpltvarmat of (d2var, t2mpmarglst, tmpvarmat) // for matched template variables
 //
   | PMVerr of ()
 // end of [primval_node]
@@ -722,18 +737,27 @@ fun primval_funlab2
 
 (* ****** ****** *)
 
-fun primval_tmpltcst (
+fun primval_tmpltcst
+(
   loc: location, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst
 ) : primval // end of [primval_tmpltcst]
 
-fun primval_tmpltvar (
+fun primval_tmpltcstmat
+(
+  loc: location, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst, mat: tmpcstmat
+) : primval // end of [primval_tmpltcstmat]
+
+(* ****** ****** *)
+
+fun primval_tmpltvar
+(
   loc: location, hse: hisexp, d2v: d2var, t2mas: t2mpmarglst
 ) : primval // end of [primval_tmpltvar]
 
-fun primval_tmpltcstmat (
-  loc: location
-, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst, mat: tmpcstmat
-) : primval // end of [primval_tmpltcstmat]
+fun primval_tmpltvarmat
+(
+  loc: location, hse: hisexp, d2v: d2var, t2mas: t2mpmarglst, mat: tmpvarmat
+) : primval // end of [primval_tmpltvarmat]
 
 (* ****** ****** *)
 
@@ -1206,6 +1230,14 @@ fun funent_set_tmpsub
 fun funent_get_instrlst (fent: funent): instrlst
 
 (* ****** ****** *)
+//
+datatype
+hiimpdec2 =
+HIIMPDEC2 of (hiimpdec, tmpsub, s2explstlst)
+//
+fun fprint_hiimpdec2 (out: FILEref, imp2: hiimpdec2): void
+//
+(* ****** ****** *)
 
 absvtype ccompenv_vtype
 vtypedef ccompenv = ccompenv_vtype
@@ -1265,32 +1297,38 @@ fun ccompenv_find_varbind
 // end of [ccompenv_find_varbind]
 
 (* ****** ****** *)
-
+//
 fun ccompenv_add_fundec (env: !ccompenv, hfd: hifundec): void
+//
 fun ccompenv_add_impdec (env: !ccompenv, imp: hiimpdec): void
+fun ccompenv_add_impdec2 (env: !ccompenv, imp2: hiimpdec2): void
+//
 fun ccompenv_add_staload (env: !ccompenv, fenv: filenv): void
-
+//
 (* ****** ****** *)
-
+//
 fun ccompenv_add_tmpsub (env: !ccompenv, tsub: tmpsub): void
+//
 fun ccompenv_add_impdecloc (env: !ccompenv, imp: hiimpdec): void
-fun ccompenv_add_tmpcstmat (env: !ccompenv, tmpmat: tmpcstmat): void
-
-(* ****** ****** *)
-
-fun ccompenv_add_fundecsloc (
-  env: !ccompenv
-, knd: funkind, decarg: s2qualst, hfds: hifundeclst
+//
+fun ccompenv_add_fundecsloc
+(
+  env: !ccompenv, knd: funkind, decarg: s2qualst, hfds: hifundeclst
 ) : void // end of [ccompenv_add_fundecsloc]
-
+//
+fun ccompenv_add_tmpcstmat (env: !ccompenv, tmpmat: tmpcstmat): void
+fun ccompenv_add_tmpvarmat (env: !ccompenv, tmpmat: tmpvarmat): void
+//
 (* ****** ****** *)
 
-fun hipatck_ccomp (
+fun hipatck_ccomp
+(
   env: !ccompenv, res: !instrseq
 , fail: patckont, hip: hipat, pmv: primval
 ) : void // end of [hipatck_ccomp]
 
-fun himatch_ccomp (
+fun himatch_ccomp
+(
   env: !ccompenv, res: !instrseq
 , level: int, hip: hipat, pmv: primval // HX: [pmv] matches [hip]
 ) : void // end of [himatch_ccomp]
@@ -1331,7 +1369,8 @@ fun labhidexplst_ccomp
 
 (* ****** ****** *)
 
-fun hidexp_ccomp_funlab_arg_body (
+fun hidexp_ccomp_funlab_arg_body
+(
   env: !ccompenv
 , flab: funlab // HX: needed for recursion
 , imparg: s2varlst
@@ -1344,7 +1383,8 @@ fun hidexp_ccomp_funlab_arg_body (
 
 (* ****** ****** *)
 
-fun hiclaulst_ccomp (
+fun hiclaulst_ccomp
+(
   env: !ccompenv
 , pmvs: primvalist
 , hicls: hiclaulst
@@ -1361,11 +1401,13 @@ fun hilablst_ccomp
 
 (* ****** ****** *)
 
-fun hiimpdec_ccomp (
+fun hiimpdec_ccomp
+(
   env: !ccompenv, level: int, imp: hiimpdec
 ) : void // end of [hiimpdec_ccomp]
 
-fun hiimpdec_ccomp_if (
+fun hiimpdec_ccomp_if
+(
   env: !ccompenv, level: int, imp: hiimpdec
 ) : void // end of [hiimpdec_ccomp_if]
 
@@ -1575,17 +1617,15 @@ fun hiimpdeclst_tmpcst_match
   (imps: hiimpdeclst, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
 // end of [hiimpdeclst_tmpcst_match]
 
-(* ****** ****** *)
-
-datatype
-hiimpdec2 =
-HIIMPDEC2 of (hiimpdec, tmpsub, s2explstlst)
-
-fun fprint_hiimpdec2 (out: FILEref, imp2: !hiimpdec2): void
-
 fun hiimpdec2_tmpcst_match
   (imp2: hiimpdec2, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
 // end of [hiimpdec2_tmpcst_match]
+
+(* ****** ****** *)
+
+fun hifundec_tmpvar_match
+  (hfd: hifundec, d2v: d2var, t2mas: t2mpmarglst): tmpvarmat
+// end of [hiimpdec_tmpvar_match]
 
 (* ****** ****** *)
 
@@ -1593,18 +1633,31 @@ fun tmpcstmat_tmpcst_match
   (mat: tmpcstmat, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
 // end of [tmpcstmat_tmpcst_match]
 
-(* ****** ****** *)
-
 fun ccompenv_tmpcst_match
   (env: !ccompenv, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
 // end of [ccompenv_tmpcst_match]
 
-(* ****** ****** *)
-
-fun ccomp_tmpcstmat (
+fun ccomp_tmpcstmat
+(
   env: !ccompenv, loc0: location, hse0: hisexp
 , d2c: d2cst, t2ms: t2mpmarglst, tmpmat: tmpcstmat
 ) : primval // end of [ccomp_tmpcstmat]
+
+(* ****** ****** *)
+
+fun tmpvarmat_tmpvar_match
+  (mat: tmpvarmat, d2v: d2var, t2mas: t2mpmarglst): tmpvarmat
+// end of [tmpvarmat_tmpvar_match]
+
+fun ccompenv_tmpvar_match
+  (env: !ccompenv, d2v: d2var, t2mas: t2mpmarglst): tmpvarmat
+// end of [ccompenv_tmpvar_match]
+
+fun ccomp_tmpvarmat
+(
+  env: !ccompenv, loc0: location, hse0: hisexp
+, d2v: d2var, t2ms: t2mpmarglst, tmpmat: tmpvarmat
+) : primval // end of [ccomp_tmpvarmat]
 
 (* ****** ****** *)
 

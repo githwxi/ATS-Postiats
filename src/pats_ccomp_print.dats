@@ -443,7 +443,8 @@ case+ x.primval_node of
   }
 //
 | PMVtmpltcst
-    (d2c, t2mas) => {
+    (d2c, t2mas) =>
+  {
     val () = prstr "PMVtmpltcst("
     val () = fprint_d2cst (out, d2c)
     val () = prstr "<"
@@ -452,7 +453,8 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 | PMVtmpltcstmat
-    (d2c, t2mas, mat) => {
+    (d2c, t2mas, mat) =>
+  {
     val () = prstr "PMVtmpltcstmat["
     val () = fprint_tmpcstmat_kind (out, mat)
     val () = prstr "]("
@@ -462,10 +464,24 @@ case+ x.primval_node of
     val () = prstr ">"
     val () = prstr ")"
   }
+//
 | PMVtmpltvar
-    (d2v, t2mas) => {
+    (d2v, t2mas) =>
+  {
     val () = prstr "PMVtmpltvar("
     val () = fprint_d2var (out, d2v)
+    val () = prstr "<"
+    val () = fpprint_t2mpmarglst (out, t2mas)
+    val () = prstr ">"
+    val () = prstr ")"
+  }
+| PMVtmpltvarmat
+    (d2c, t2mas, mat) =>
+  {
+    val () = prstr "PMVtmpltvarmat["
+    val () = fprint_tmpvarmat_kind (out, mat)
+    val () = prstr "]("
+    val () = fprint_d2var (out, d2c)
     val () = prstr "<"
     val () = fpprint_t2mpmarglst (out, t2mas)
     val () = prstr ">"
@@ -1051,11 +1067,8 @@ implement
 fprint_hiimpdec2
   (out, imp2) = let
 //
-val HIIMPDEC2
-  (imp, tsub, s2ess) = imp2
-//
-val () =
-  fprint_string (out, "HIIMPDEC2(")
+val HIIMPDEC2 (imp, tsub, s2ess) = imp2
+val () = fprint_string (out, "HIIMPDEC2(")
 val () = fprint_hiimpdec (out, imp)
 val () = fprint_string (out, "; ")
 val () = fprint_tmpsub (out, tsub)
@@ -1104,17 +1117,66 @@ case+ opt of
 end // end of [fprint_tmpcstmat]
 
 implement
-fprint_tmpcstmat_kind
-  (out, opt) = let
-  val knd = (
-    case+ opt of
-    | TMPCSTMATnone _ => 0
-    | TMPCSTMATsome _ => 1
-    | TMPCSTMATsome2 _ => 2
-  ) : int // end of [val]
+fprint_tmpcstmat_kind (out, opt) = let
+//
+val knd =
+(
+  case+ opt of
+  | TMPCSTMATnone _ => 0 | TMPCSTMATsome _ => 1 | TMPCSTMATsome2 _ => 2
+) : int // end of [val]
+//
 in
   fprint_int (out, knd)
 end // end of [fprint_tmpcstmat_kind]
+
+(* ****** ****** *)
+
+implement
+fprint_tmpvarmat
+  (out, opt) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+//
+case+ opt of
+| TMPVARMATnone (
+  ) => prstr "TMPVARMATnone()"
+| TMPVARMATsome
+    (hfd, tmpsub) => let
+    val () = prstr "TMPVARMATsome("
+    val () = fprint_d2var (out, hfd.hifundec_var)
+    val () = prstr "; "
+    val () = fprint_s2varlst (out, hfd.hifundec_imparg)
+    val () = prstr "; "
+    val () = fprint_tmpsub (out, tmpsub)
+    val () = prstr ")"
+  in
+    // nothing
+  end // end of [TMPVARMATnone]
+| TMPVARMATsome2
+    (d2v, s2ess, flab) => let
+    val () = prstr "TMPVARMATsome2("
+    val () = fprint_funlab (out, flab)
+    val () = prstr "; "
+    val () = fprint_s2explstlst (out, s2ess)
+    val () = prstr ")"
+  in
+    // nothing
+  end // end of [TMPVARMATsome2]
+//
+end // end of [fprint_tmpvarmat]
+
+implement
+fprint_tmpvarmat_kind (out, opt) = let
+//
+val knd =
+(
+  case+ opt of
+  | TMPVARMATnone _ => 0 | TMPVARMATsome _ => 1 | TMPVARMATsome2 _ => 2
+) : int // end of [val]
+//
+in
+  fprint_int (out, knd)
+end // end of [fprint_tmpvarmat_kind]
 
 (* ****** ****** *)
 
