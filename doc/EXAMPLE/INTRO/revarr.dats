@@ -14,12 +14,14 @@ staload "prelude/DATS/integer.dats"
 (* ****** ****** *)
 
 fun{
-a:vt@ype
-} revarr {n:nat} .<>. (
-  A: &array (a, n), n: size_t n
+a:t@ype
+} revarr {n:nat} .<>.
+(
+  A: &array (INV(a), n), n: size_t n
 ) :<!wrt> void = let
 //
-fun loop {
+fun loop
+{
   i,j:nat | i <= j+1; i+j==n-1
 } .<j>. (
   A: &array (a, n), i: size_t i, j: size_t j
@@ -43,7 +45,7 @@ main (
   argc, argv
 ) = let
   val asz = g1int2uint (10)
-  val A = randgen_arrayptr (asz)
+  val A = randgen_arrayptr<int> (asz)
 //
   val () = gprint_string "A = "
   val () = gprint_arrayptr<int> (A, asz)

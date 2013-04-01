@@ -383,6 +383,7 @@ in
 case+ s2es of
 | list_cons
     (s2e, s2es) => let
+    val s2e = s2exp_hnfize (s2e)
     val-list_cons (s2v, s2vs) = s2vs
     val tsub = auxbndlstlst2 (s2vs, s2es, t2mas)
   in
