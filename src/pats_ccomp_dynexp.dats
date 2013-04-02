@@ -66,21 +66,61 @@ staload "./pats_ccomp.sats"
 (* ****** ****** *)
 
 extern
-fun d2var_ccomp (
+fun d2var_ccomp
+(
   env: !ccompenv
 , loc0: location, hse0: hisexp, d2v: d2var
 ) : primval // end of [d2var_ccomp]
+extern
+fun d2var_ccomp_some
+(
+  env: !ccompenv
+, loc0: location, hse0: hisexp, d2v: d2var, pmv: primval
+) : primval // end of [d2var_ccomp_some]
+
 implement
-d2var_ccomp (env, loc0, hse0, d2v) = let
+d2var_ccomp
+  (env, loc0, hse0, d2v) = let
 //
 val opt = ccompenv_find_varbind (env, d2v)
 //
 in
 case+ opt of
-| ~Some_vt (pmv) => pmv
-| ~None_vt () => primval_var (loc0, hse0, d2v)
+| ~Some_vt (pmv) =>
+    d2var_ccomp_some (env, loc0, hse0, d2v, pmv)
+| ~None_vt () =>
+    primval_err (loc0, hse0) // HX-2013-04: deadcode?!
 //
 end // end of [d2var_ccomp]
+
+implement
+d2var_ccomp_some
+(
+  env, loc0, hse0, d2v, pmv
+) = let
+//
+val lev0 = the_d2varlev_get ()
+val lev1 = d2var_get_level (d2v)
+//
+in
+//
+case+ 0 of
+| _ when
+    lev1 = 0 => pmv (* toplevel *)
+| _ when
+    lev1 < lev0 => let (* environval *)
+(*
+    val () = println! ("d2var_ccomp_some: pmv = ", pmv)
+*)
+  in
+    case+ pmv.primval_node of
+    | PMVfunlab _ => pmv // HX: special
+    | PMVfunlab2 _ => pmv // HX: special
+    | _ => primval_env (loc0, hse0, d2v)
+  end // end of [environval]
+| _ => pmv (* [d2v] is at current-level *)
+//
+end // end of [d2var_ccomp_some]
 
 (* ****** ****** *)
 

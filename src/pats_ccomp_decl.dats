@@ -374,7 +374,8 @@ case+ hfds of
     ) : primval // end of [val]
     val () = ccompenv_add_varbind (env, d2v, pmv)
 //
-    val istmp = (
+    val istmp =
+    (
       if tmplev > 0 then true else list_is_cons (decarg)
     ) : bool // end of [val]
     val () = if istmp then funlab_set_tmpknd (fl, 1)

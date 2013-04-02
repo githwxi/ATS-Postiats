@@ -247,17 +247,6 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
-| PMVcst (d2c) => {
-    val () = prstr "PMVcst("
-    val () = fprint_d2cst (out, d2c)
-    val () = prstr ")"
-  }
-| PMVvar (d2v) => {
-    val () = prstr "PMVvar("
-    val () = fprint_d2var (out, d2v)
-    val () = prstr ")"
-  }
-//
 | PMVarg (n) => {
     val () = prstr "PMVarg("
     val () = fprint_int (out, n)
@@ -271,6 +260,17 @@ case+ x.primval_node of
 | PMVargtmpref (n) => {
     val () = prstr "PMVargtmpref("
     val () = fprint_int (out, n)
+    val () = prstr ")"
+  }
+//
+| PMVcst (d2c) => {
+    val () = prstr "PMVcst("
+    val () = fprint_d2cst (out, d2c)
+    val () = prstr ")"
+  }
+| PMVenv (d2v) => {
+    val () = prstr "PMVenv("
+    val () = fprint_d2var (out, d2v)
     val () = prstr ")"
   }
 //
@@ -488,9 +488,7 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
-| _ => {
-    val () = prstr "PMV...(...)"
-  }
+| PMVerr () => prstr "PMVerr()"
 //
 end // end of [fprint_primval]
 

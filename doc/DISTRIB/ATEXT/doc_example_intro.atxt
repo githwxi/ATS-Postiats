@@ -105,9 +105,30 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
+#packfilename("acker.dats")
+
+(* ****** ****** *)
+
+#packfilename("atoi.dats")
+#packfilename("atof.dats")
+
+(* ****** ****** *)
+
+#packfilename("extfcall.dats")
+
+(* ****** ****** *)
+
+#packfilename("f91.dats")
+
+(* ****** ****** *)
+
 #packfilename("fact1.dats")
 #packfilename("fact2.dats")
 #packfilename("fact3.dats")
+
+(* ****** ****** *)
+
+#packfilename("fcopy.dats")
 
 (* ****** ****** *)
 
@@ -117,8 +138,15 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
-#packfilename("atoi.dats")
-#packfilename("atof.dats")
+#packfilename("hello.dats")
+
+(* ****** ****** *)
+
+#packfilename("intecho.dats")
+
+(* ****** ****** *)
+
+#packfilename("revarr.dats")
 
 (* ****** ****** *)
 

@@ -413,7 +413,7 @@ and primval_node =
   | PMVargtmpref of (int) // call-by-reference but treated as tmpvar
 //
   | PMVcst of (d2cst) // for constants
-  | PMVvar of (d2var) // for temporaries
+  | PMVenv of (d2var) // for environvals
 //
   | PMVint of (int)
   | PMVintrep of (string)
@@ -450,7 +450,7 @@ and primval_node =
   | PMVrefarg of (int(*knd*), primval)
 //
   | PMVfunlab of (funlab)
-  | PMVfunlab2 of (d2var, funlab)
+  | PMVfunlab2 of (d2var, funlab) // for tmpltvar relocation
 //
   | PMVtmpltcst of (d2cst, t2mpmarglst) // for template constants
   | PMVtmpltcstmat of (d2cst, t2mpmarglst, tmpcstmat) // for matched template constants
@@ -629,9 +629,9 @@ fun primval_cst
   (loc: location, hse: hisexp, d2c: d2cst): primval
 // end of [primval_cst]
 
-fun primval_var
+fun primval_env
   (loc: location, hse: hisexp, d2v: d2var): primval
-// end of [primval_var]
+// end of [primval_env]
 
 (* ****** ****** *)
 

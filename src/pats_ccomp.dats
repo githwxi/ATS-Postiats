@@ -198,10 +198,10 @@ primval_cst
 // end of [primval_cst]
 
 implement
-primval_var
+primval_env
   (loc, hse, d2v) =
-  primval_make_node (loc, hse, PMVvar (d2v))
-// end of [primval_var]
+  primval_make_node (loc, hse, PMVenv (d2v))
+// end of [primval_env]
 
 (* ****** ****** *)
 
