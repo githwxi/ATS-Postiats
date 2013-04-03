@@ -176,7 +176,6 @@ atspre_fprint_bool (
   err = fprintf((FILE*)out, "%s", atspre_tostring_bool(x)) ;
   return ;
 } // end [atspre_fprint_bool]
-
 \#define atspre_print_bool(x) atspre_fprint_bool(stdout, (x))
 \#define atspre_prerr_bool(x) atspre_fprint_bool(stderr, (x))
 

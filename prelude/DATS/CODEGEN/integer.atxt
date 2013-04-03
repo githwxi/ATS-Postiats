@@ -54,7 +54,8 @@ fun g0int_implist (
 //
 fun f (opr: string):<cloref1> atext = let
 //
-val x = sprintf (
+val x = sprintf
+(
 "implement g0int_%s<%s> = g0int_%s_%s\n", @(opr, knm, opr, tnm)
 ) (* end of [val] *)
 //
@@ -64,12 +65,15 @@ end // end of [f]
 //
 fun fpr ():<cloref1> atext = let
 //
-val x = sprintf (
+val x = sprintf
+(
 "\
-implement print_%s (x) = fprint_%s (stdout_ref, x)\n\
-implement prerr_%s (x) = fprint_%s (stderr_ref, x)\n\
 implement fprint_val<%s> (out, x) = fprint_%s (out, x)\
-", @(tnm, tnm, tnm, tnm, tnm2, tnm))
+",
+@(
+tnm2, tnm
+)
+)
 in
   atext_strptr (x)
 end // end of [fpr]
@@ -162,7 +166,8 @@ fun g1int_implist (
 //
 fun f (opr: string):<cloref1> atext = let
 //
-val x = sprintf (
+val x = sprintf
+(
 "implement g1int_%s<%s> = g1int_%s_%s\n", @(opr, knm, opr, tnm)
 ) (* end of [val] *)
 //
@@ -291,7 +296,8 @@ fun g0uint_implist (
 //
 fun f (opr: string):<cloref1> atext = let
 //
-val x = sprintf (
+val x = sprintf
+(
 "implement g0uint_%s<%s> = g0uint_%s_%s\n", @(opr, knm, opr, tnm)
 ) // end of [val]
 //
@@ -302,11 +308,13 @@ end // end of [f]
 fun fpr (
 ):<cloref1> atext = let
 //
-val x = sprintf ("\
-implement print_%s (x) = fprint_%s (stdout_ref, x)\n\
-implement prerr_%s (x) = fprint_%s (stderr_ref, x)\n\
+val x = sprintf
+("\
 implement fprint_val<%s> (out, x) = fprint_%s (out, x)\
-", @(tnm, tnm, tnm, tnm, tnm2, tnm)
+", 
+@(
+tnm2, tnm
+)
 ) // end of [val]
 //
 in
@@ -434,7 +442,8 @@ fun g1uint_implist (
 //
 fun f (opr: string):<cloref1> atext = let
 //
-val x = sprintf (
+val x = sprintf
+(
 "implement g1uint_%s<%s> = g1uint_%s_%s\n", @(opr, knm, opr, tnm)
 ) (* end of [val] *)
 //

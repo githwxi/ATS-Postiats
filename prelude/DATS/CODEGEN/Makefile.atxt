@@ -18,7 +18,8 @@ fun comment
 fun make_entry
   (nm: string): atext = let
 //
-val ent = sprintf ("\
+val ent = sprintf
+("\
 all:: %s.dats\n\
 %s.dats: %s_atxt.exe ; ./$< > $@\n\
 %s_atxt.exe: %s_atxt.dats\n\
