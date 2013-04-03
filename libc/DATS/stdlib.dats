@@ -31,11 +31,6 @@
 // Start Time: May, 2012
 //
 (* ****** ****** *)
-//
-staload _ =
-"prelude/DATS/strptr.dats"
-//
-(* ****** ****** *)
 
 staload "libc/SATS/stdlib.sats"
 
@@ -65,7 +60,7 @@ atslib_malloc_libc_exn
     fprintf(stderr, "exit(ATSLIB): [malloc] failed\n") ; exit(1) ;
   } // end of [if]
   return p ;
-} /* end of [atslib_malloc_libc_exn]
+} /* end of [atslib_malloc_libc_exn] */
 %}
 
 (* ****** ****** *)
