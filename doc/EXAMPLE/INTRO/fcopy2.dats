@@ -24,7 +24,9 @@ staload "libc/SATS/stdio.sats"
 
 #define N 1024
 
-fun fcopy
+(* ****** ****** *)
+
+fun fcopy2
 (
   filr: FILEref, filr2: FILEref
 ) : void = let
@@ -46,14 +48,14 @@ end // end of [loop]
 //
 val
 (
-  pf, pfgc | p
+  pfat, pfgc | p
 ) = malloc_gc ((i2sz)N)
 val () = loop (!p, N, filr, filr2)
-val () = mfree_gc (pf, pfgc | p)
+val () = mfree_gc (pfat, pfgc | p)
 //
 in
   // nothing
-end (* end of [fcopy] *)
+end (* end of [fcopy2] *)
 
 (* ****** ****** *)
 
@@ -71,7 +73,7 @@ main (
       fileref_open_exn (argv[2], $UN.cast{fmode}("w"))
     else stdout_ref
   ) : FILEref // end of [val]
-  val () = fcopy (filr, filr2)
+  val () = fcopy2 (filr, filr2)
   val () = if argc >= 2 then fileref_close (filr)
   val () = if argc >= 3 then fileref_close (filr2)
 } // end of [main]

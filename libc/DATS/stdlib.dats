@@ -31,6 +31,11 @@
 // Start Time: May, 2012
 //
 (* ****** ****** *)
+//
+staload _ =
+"prelude/DATS/strptr.dats"
+//
+(* ****** ****** *)
 
 staload "libc/SATS/stdlib.sats"
 

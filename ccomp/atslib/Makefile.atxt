@@ -1,0 +1,92 @@
+%{
+//
+staload
+STDIO = "libc/SATS/stdio.sats"
+staload TIME = "libc/SATS/time.sats"
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+staload "libatsdoc/SATS/libatsdoc_atext.sats"
+//
+%}\
+%{
+
+fun comment
+  (x: string): atext = atext_nil ()
+// end of [comment]
+
+fun make_entry
+(
+  lib: string, fnm: string
+) : atext = let
+//
+val ent = sprintf
+("\
+atslib_%s_%s: output/atslib_%s_%s.o ; $(ARR) lib/libatslib.a $<
+output/atslib_%s_%s.c: ../../libc/DATS/%s ; $(PATSOPT) -o $@ --dynamic $<\n\
+output/atslib_%s_%s.o: output/atslib_%s_%s.c ; \\\n\
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<\n\
+clean:: ; $(RMF) output/atslib_%s_%s.c\n\
+clean:: ; $(RMF) output/atslib_%s_%s.o\n\
+", 
+@(
+  lib, fnm, lib, fnm, lib, fnm, fnm, lib, fnm, lib, fnm, lib, fnm, lib, fnm
+)
+) // end of [val]
+//
+val ent = string_of_strptr (ent)
+in
+  atext_strcst (ent)
+end // end of [make_entry]
+
+%}\
+#
+#
+# This Makefile is automatically generated
+# from executing the following command-line:
+#
+# make -f Makefile.gen
+#
+#
+
+######
+
+PATSOPT=$(PATSHOME)/bin/patsopt
+PATSRUNTIME=$(PATSHOME)/ccomp/runtime
+
+######
+
+CCOPT=gcc
+CCFLAGS=-O2
+DATSMEMALLOC=-D_ATS_MEMALLOC_LIBC
+
+######
+
+all::
+
+######
+
+#make_entry("libc", "stdio.dats")
+#make_entry("libc", "stdlib.dats")
+
+######
+
+ARR=ar -r
+RMF=rm -f
+
+######
+
+clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_?ats.o *_?ats.c
+clean:: ; $(RMF) *_atxt.txt
+clean:: ; $(RMF) *_atxt.dats
+
+cleanall:: clean
+cleanall:: ; $(RMF) Makefile.exe
+cleanall:: ; $(RMF) lib/libatslib.a
+
+###### end of [Makefile] ######
+\
+%{
+implement main () = fprint_filsub (stdout_ref, "Makefile_atxt.txt")
+%}\
