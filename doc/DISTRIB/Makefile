@@ -86,6 +86,16 @@ cleanall:: ; $(RMF) HTML/atslib_libats.html
 cleanall:: ; $(RMF) SCRIPT/atslib_libats.bash
 
 
+all_html:: HTML/ccomp_atslib.html
+HTML/ccomp_atslib.html: ccomp_atslib_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/ccomp_atslib.bash
+SCRIPT/ccomp_atslib.bash: ccomp_atslib_atxt.exe ; ./$< > $@
+ccomp_atslib_atxt.dats: ATEXT/ccomp_atslib.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+ccomp_atslib_atxt.exe: ccomp_atslib_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) ccomp_atslib_atxt.exe
+cleanall:: ; $(RMF) HTML/ccomp_atslib.html
+cleanall:: ; $(RMF) SCRIPT/ccomp_atslib.bash
+
 all_html:: HTML/ccomp_runtime.html
 HTML/ccomp_runtime.html: ccomp_runtime_atxt.exe ; ./$< > $@
 all_script:: SCRIPT/ccomp_runtime.bash
@@ -143,6 +153,7 @@ cleanall:: ; $(RMF) SCRIPT/doc_example_pcpv.bash
 srcgetall:: srcget_share
 srcgetall:: srcget_patsrc
 srcgetall:: srcget_atslib
+srcgetall:: srcget_ccomp_atslib
 srcgetall:: srcget_ccomp_runtime
 srcgetall:: srcget_doc_example
 
@@ -166,6 +177,7 @@ srcget_atslib_libats:: SCRIPT/atslib_libats.bash ; bash $<
 
 ######
 
+srcget_ccomp_atslib:: SCRIPT/ccomp_atslib.bash ; bash $<
 srcget_ccomp_runtime:: SCRIPT/ccomp_runtime.bash ; bash $<
 
 ######

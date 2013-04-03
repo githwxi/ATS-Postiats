@@ -16,13 +16,21 @@ RMF=rm -f
 
 ######
 
-clean:: ; make -C src cleanall
+clean::
 
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) src/*
 cleanall:: ; $(RMF) bin/*
+cleanall:: ; $(RMF) src/patopt
+cleanall:: ; $(RMF) src/*.?ats
+cleanall:: ; $(RMF) src/*_?ats.c
+cleanall:: ; $(RMF) src/*_?ats.o
+cleanall:: ; $(RMF) src/Makefile
+cleanall:: ; $(RMF) ccomp/atslib/lib/*
+cleanall:: ; $(RMF) ccomp/atslib/lib64/*
+cleanall:: ; $(RMF) ccomp/atslib/output/*
+cleanall:: ; $(RMF) ccomp/atslib/Makefile
 cleanall:: ; $(RMF) ccomp/runtime/*
 cleanall:: ; $(RMF) prelude/*.?ats
 cleanall:: ; $(RMF) prelude/?ATS/*.?ats

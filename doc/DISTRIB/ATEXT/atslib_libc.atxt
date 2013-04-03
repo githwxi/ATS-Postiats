@@ -96,7 +96,7 @@ packfilesynop (x) = atext_nil ()
 (* ****** ****** *)
 
 #packtitle("\
-The ATSLIB/prelude library\
+The ATSLIB/libc library\
 ")
 
 (* ****** ****** *)
