@@ -78,4 +78,4 @@ main (
 
 (* ****** ****** *)
 
-(* end of [fcopy.dats] *)
+(* end of [fcopy2.dats] *)

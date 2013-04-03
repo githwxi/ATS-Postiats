@@ -107,6 +107,8 @@ extern void exit (int status) ; // in [stdlib.h]
 
 \#define atslib_fputs0 fputs
 \#define atslib_fputs1 fputs
+\#define atslib_fputs0_exn atslib_fputs_exn
+\#define atslib_fputs1_exn atslib_fputs_exn
 
 #atscode_separator_for_C()
 

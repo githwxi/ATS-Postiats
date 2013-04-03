@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+#define ATS_DYNLOADFLAG 0
+
+(* ****** ****** *)
+
 staload "libc/SATS/stdio.sats"
 
 (* ****** ****** *)
