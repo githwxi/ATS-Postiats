@@ -85,17 +85,21 @@ d2sym_make (
 
 typedef s2varset = $UT.lstord (s2var)
 
+(* ****** ****** *)
+
 val p2at_svs_nil : lstord (s2var) = $UT.lstord_nil ()
 val p2at_dvs_nil : lstord (d2var) = $UT.lstord_nil ()
 
-fun p2at_svs_add_svar (
+fun p2at_svs_add_svar
+(
   svs: s2varset, s2v: s2var
 ) : s2varset = let
 in
   $UT.lstord_insert (svs, s2v, compare_s2vsym_s2vsym)
 end // end of [p2at_svs_add_svar]
 
-fun p2at_svs_add_svarlst (
+fun p2at_svs_add_svarlst
+(
   svs: s2varset, s2vs: s2varlst
 ) : s2varset = let
   typedef svs = lstord (s2var)
@@ -139,7 +143,8 @@ eq_pckind_pckind
 (* ****** ****** *)
 
 implement
-p2at_make_node (
+p2at_make_node
+(
   loc, svs, dvs, node
 ) = '{
   p2at_loc= loc

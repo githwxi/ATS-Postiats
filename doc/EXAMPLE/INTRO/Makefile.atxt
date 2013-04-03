@@ -96,6 +96,7 @@ RMF=rm -f
 #make_entry("fact2")
 #make2_entry("fact3", "-DATS_MEMALLOC_LIBC", "")
 #make_entry("fcopy")
+#make2_entry("fcopy2", "-DATS_MEMALLOC_LIBC", "")
 #make_entry("fib1")
 #make_entry("fib2")
 #make2_entry("fibmem", "-DATS_MEMALLOC_LIBC", "")

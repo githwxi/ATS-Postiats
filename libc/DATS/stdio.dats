@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload "libc/SATS/stdio.sats"
+
+(* ****** ****** *)
+
 %{
 atstype_ptr
 atslib_fopen_exn
@@ -40,8 +44,8 @@ atslib_fopen_exn
 , atstype_string mode
 ) {
   FILE* filp ;
-  filp = atslib_fopen_err (filp) ;
-  if (!filp) ATSLIBfailexit("fopen") ;
+  filp = fopen ((char*)path, (char*)mode) ;
+  if (!filp) ATSLIBfailexit("fopen") ; // HX: failure
   return filp ;
 } // end of [atslib_fopen_exn]
 %}
@@ -53,7 +57,7 @@ atsvoid_t0ype
 atslib_fclose_exn
   (atstype_ptr filp) {
   int err ;
-  err = atslib_fclose_err (filp) ;
+  err = fclose ((FILE*)filp) ;
   if (0 > err) ATSLIBfailexit("fclose") ;
   return ;
 } // end of [atslib_fclose_exn]
@@ -77,24 +81,42 @@ atslib_fflush_exn
 
 %{
 atsvoid_t0ype
-atslib_fgets_exn (
+atslib_fgets_exn
+(
   atstype_ptr buf
-, ats_int_type n
+, atstype_int bsz
 , atstype_ptr filp
 ) {
   atstype_ptr p ;
-  p = fgets((char*)buf, (int)n, (FILE*)filp) ;
-  if (!p) {
+  p = fgets((char*)buf, (int)bsz, (FILE*)filp) ;
+  if (!p)
+  {
     if (feof((FILE*)filp))
     {
       *(char*)buf = '\000' ; // EOF is reached
-    } else
-    {
+    } else {
       ATSLIBfailexit("fgets") ; // abnormal exit
     } // end of [if]
   } /* end of [if] */
   return ;  
 } /* end of [atslib_fgets_exn] */
+%}
+
+(* ****** ****** *)
+
+%{
+atsvoid_t0ype
+atslib_fputs_exn
+(
+  atstype_string str, atstype_ptr filp
+) {
+  int err ;
+  err = fputs((char*)str, (FILE*)filp) ;
+  if (0 > err) {
+    ATSLIBfailexit("fputs") ; // abnormal exit
+  } /* end of [if] */
+  return ;  
+} /* end of [atslib_fputs_exn] */
 %}
 
 (* ****** ****** *)

@@ -438,34 +438,43 @@ fun getchar1 (
 ) :<!wrt> [i:int | i <= UCHAR_MAX] int i = "mac#%"
 
 (* ****** ****** *)
-(*
-dataview
-fgets_v (
-  sz:int, n0: int, addr, addr
-) =
-  | {lbf:addr}
-    fgets_v_fail (sz, n0, lbf, null) of b0ytes(sz) @ lbf
-  | {n:nat | n < n0} {lbf:agz}
-    fgets_v_succ (sz, n0, lbf, lbf) of strbuf(sz, n) @ lbf
-// end of [fgets_v]
-*)
 //
 symintr fgets
 //
 fun fgets0
   {sz:int}{n0:pos | n0 <= sz}
 (
-  buf: &bytes(sz) >> _, n0: int n0, filr: FILEref
-) :<!wrt> Ptr0 // = addr@(buf) or NULL
+  buf: &b0ytes(sz) >> bytes(sz), n0: int n0, filr: FILEref
+) :<!wrt> Ptr0 = "mac#%" // = addr@(buf) or NULL
 fun fgets1
   {sz:int}{n0:pos | n0 <= sz}{m:fm}
 (
   pfm: fmlte (m, r)
-| buf: &bytes(sz) >> _, n0: int n0, filp: !FILEptr1 (m)
-) :<!wrt> Ptr0 // = addr@(buf) or NULL
+| buf: &b0ytes(sz) >> bytes(sz), n0: int n0, filp: !FILEptr1 (m)
+) :<!wrt> Ptr0 = "mac#%" // = addr@(buf) or NULL
 //
 overload fgets with fgets0
 overload fgets with fgets1
+//
+dataview
+fgets_v (
+  sz:int, n0: int, addr, addr
+) =
+  | {l0:addr}
+    fgets_v_fail (sz, n0, l0, null) of b0ytes(sz) @ l0
+  | {n:nat | n < n0} {l0:agz}
+    fgets_v_succ (sz, n0, l0, l0) of strbuf(sz, n) @ l0
+// end of [fgets_v]
+//
+fun fgets1_err
+  {sz,n0:int | sz >= n0; n0 > 0}{l0:addr}{m:fm}
+(
+  pf_mod: fmlte (m, r), pf_buf: b0ytes (sz) @ l0
+| p0: ptr (l0), n0: int (n0), filp: !FILEptr1 (m)
+) :<> [l1:addr] (fgets_v (sz, n0, l0, l1) | ptr l1) = "mac#%"
+// end of [fgets_err]
+//
+overload fgets with fgets1_err
 //
 (* ****** ****** *)
 (*

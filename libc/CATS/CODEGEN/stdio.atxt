@@ -61,16 +61,6 @@ extern void exit (int status) ; // in [stdlib.h]
 \#define atslib_fclose fclose
 \#define atslib_fclose0 atslib_fclose
 \#define atslib_fclose1 atslib_fclose
-
-ATSinline()
-atsvoid_t0ype
-atslib_fclose_exn(
-  atstype_ptr filp
-) {
-  int err = fclose((FILE*)filp) ;
-  if (err < 0) ATSLIBfailexit("fclose") ;
-  return ; // [fclose] succeeded
-} // end of [atslib_fclose_exn]
 \#define atslib_fclose0_exn atslib_fclose_exn
 \#define atslib_fclose1_exn atslib_fclose_exn
 
@@ -109,6 +99,12 @@ atslib_fclose_exn(
 
 #atscode_separator_for_C()
 
+\#define atslib_fgets0 fgets
+\#define atslib_fgets1 fgets
+\#define atslib_fgets1_err fgets
+
+#atscode_separator_for_C()
+
 \#define atslib_fputs0 fputs
 \#define atslib_fputs1 fputs
 
@@ -130,16 +126,6 @@ atslib_fclose_exn(
 #atscode_separator_for_C()
 
 \#define atslib_tmpfile tmpfile
-
-ATSinline()
-atstype_ptr
-atslib_tmpfile_exn(
-) {
-  FILE* filp = tmpfile() ;
-  if (!filp) ATSLIBfailexit("tmpfile") ;
-  return (filp) ; // [tmpfile] succeeded
-} // end of [atslib_tmpfile_exn]
-
 \#define atslib_tmpfile_ref_exn atslib_tmpfile_exn
 
 #atscode_separator_for_C()
