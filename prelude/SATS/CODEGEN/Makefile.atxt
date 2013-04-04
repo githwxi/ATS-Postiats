@@ -103,6 +103,7 @@ all::
 
 #make_entry("matrix")
 #make_entry("matrixptr")
+#make_entry("matrixref")
 
 #make_entry("gprint")
 #make_entry("giterator")

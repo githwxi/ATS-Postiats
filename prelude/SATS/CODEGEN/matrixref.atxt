@@ -1,0 +1,66 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"matrixref.sats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/matrixref.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("April, 2013")
+
+#atscode_separator()
+
+\#define NSH (x) x // for commenting: no sharing
+\#define SHR (x) x // for commenting: it is shared
+
+#atscode_separator()
+
+sortdef tk = tkind
+
+#atscode_separator()
+
+sortdef t0p = t@ype and vt0p = viewt@ype
+
+#atscode_separator()
+//
+// matrixref: reference to a matrix with no dimension info attached
+//
+#atscode_separator()
+
+abstype
+matrixref_vt0ype_int_int_type
+  (a:vt@ype(*invariant*), nrow: int, ncol:int) = ptr
+stadef matrixref = matrixref_vt0ype_int_int_type
+
+#atscode_separator()
+
+praxi
+lemma_matrixref_param
+  {a:vt0p}{m,n:int} (A: matrixref (a, m, n)): [m >= 0; n >= 0] void
+// end of [lemma_matrixref_param]
+
+#atscode_separator()
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "matrixref_atxt.txt")
+%}\

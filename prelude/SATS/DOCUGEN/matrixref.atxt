@@ -1,0 +1,62 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../matrixref.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/prelude_matrixref")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/prelude/matrixref\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+
+This package contains some common functions for creating/freeing and
+manipulating non-linear matrixref-values, which are just refereces to
+matrices without dimension information attached.
+
+')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_matrixref_param")
+
+(* ****** ****** *)
+
+#declnamesynop("matrixref_make_elt")
+#declnamesynop("matrixref_make_elt_int")
+#declnamesynop("matrixref_make_elt_size")
+
+(* ****** ****** *)
+
+#declnamesynop("matrixref_get_at_int")
+#declnamesynop("matrixref_get_at_size")
+
+(* ****** ****** *)
+
+#declnamesynop("matrixref_set_at_int")
+#declnamesynop("matrixref_set_at_size")
+
+(* ****** ****** *)
+
+#declnamesynop("matrixref_exch_at")
+#declnamesynop("matrixref_exch_at_int")
+#declnamesynop("matrixref_exch_at_size")
+
+(* ****** ****** *)
+
+(* end of [matrixref.atxt] *)

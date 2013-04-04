@@ -54,6 +54,13 @@ arrayptrout (a:t@ype, l: addr, n: int) = ptr
 
 #atscode_separator()
 
+praxi
+lemma_arrayptr_param{a:vt0p}
+  {l:addr}{n:int} (A: !arrayptr (a, l, n)): [n >= 0] void
+// end of [lemma_arrayptr_param]
+
+#atscode_separator()
+
 castfn
 arrayptr_encode :
   {a:vt0p}{l:addr}{n:int}

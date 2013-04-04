@@ -24,11 +24,16 @@ ATSLIB/prelude/matrixptr\
 #para('\
 
 This package contains some common functions for creating/freeing and
-manipulating matrixptr-values.
+manipulating linear matrixptr-values, which are just pointers to matrices
+without dimension information attached.
 
 ')
 
 ')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_matrixptr_param")
 
 (* ****** ****** *)
 

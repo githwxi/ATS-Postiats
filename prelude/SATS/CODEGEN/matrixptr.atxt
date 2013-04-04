@@ -36,14 +36,12 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 #atscode_separator()
 
 absviewtype
-matrixptr_4 (
-  a:viewt@ype+
-, l: addr, m: int, n: int
-) = ptr // end of [matrixptr]
+matrixptr_4
+  (a:vt@ype+, l: addr, m: int, n: int) = ptr
+//
 viewtypedef
-matrixptr_3 (
-  a:viewt@ype, m: int, n: int
-) = [l:addr] matrixptr_4 (a, l, m, n)
+matrixptr_3
+  (a:vt@ype, m: int, n: int) = [l:addr] matrixptr_4 (a, l, m, n)
 //
 stadef matrixptr = matrixptr_4
 stadef matrixptr = matrixptr_3
@@ -51,7 +49,14 @@ stadef matrixptr = matrixptr_3
 #atscode_separator()
 
 absviewtype
-matrixptrout (a:t@ype, l: addr, m: int, n: int) = ptr
+matrixptrout (a:vt@ype, l: addr, m: int, n: int) = ptr
+
+#atscode_separator()
+
+praxi
+lemma_matrixptr_param{a:vt0p}
+  {l:addr}{m,n:int} (A: !matrixptr (a, l, m, n)): [m >= 0; n >= 0] void
+// end of [lemma_matrixptr_param]
 
 #atscode_separator()
 

@@ -297,6 +297,15 @@ matrixptr_atxt.dats: matrixptr.atxt
 clean:: ; $(RMF) matrixptr_atxt.exe
 cleanall:: ; $(RMF) matrixptr.sats
 
+all:: matrixref.sats
+matrixref.sats: matrixref_atxt.exe ; ./$< > $@
+matrixref_atxt.exe: matrixref_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ matrixref_atxt.dats -latsdoc
+matrixref_atxt.dats: matrixref.atxt
+	$(ATSDOC) --outcode $@ -i matrixref.atxt > matrixref_atxt.txt
+clean:: ; $(RMF) matrixref_atxt.exe
+cleanall:: ; $(RMF) matrixref.sats
+
 
 all:: gprint.sats
 gprint.sats: gprint_atxt.exe ; ./$< > $@
