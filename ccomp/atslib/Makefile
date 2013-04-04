@@ -1,0 +1,138 @@
+#
+#
+# This Makefile is automatically generated
+# from executing the following command-line:
+#
+# make -f Makefile.gen
+#
+#
+
+######
+
+PATSOPT=$(PATSHOME)/bin/patsopt
+PATSRUNTIME=$(PATSHOME)/ccomp/runtime
+
+######
+
+CCOPT=gcc
+CCFLAGS=-O2
+DATSMEMALLOC=-D_ATS_MEMALLOC_LIBC
+
+######
+
+all::
+
+######
+
+all:: atslib_prelude
+atslib_prelude:: atslib_prelude_bool_dats
+atslib_prelude_bool_dats: output/atslib_prelude_bool_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_prelude_bool_dats.c: ../../prelude/DATS/bool.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_prelude_bool_dats.o: output/atslib_prelude_bool_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_prelude_bool_dats.c
+clean:: ; $(RMF) output/atslib_prelude_bool_dats.o
+
+atslib_prelude:: atslib_prelude_char_dats
+atslib_prelude_char_dats: output/atslib_prelude_char_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_prelude_char_dats.c: ../../prelude/DATS/char.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_prelude_char_dats.o: output/atslib_prelude_char_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_prelude_char_dats.c
+clean:: ; $(RMF) output/atslib_prelude_char_dats.o
+
+atslib_prelude:: atslib_prelude_integer_dats
+atslib_prelude_integer_dats: output/atslib_prelude_integer_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_prelude_integer_dats.c: ../../prelude/DATS/integer.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_prelude_integer_dats.o: output/atslib_prelude_integer_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_prelude_integer_dats.c
+clean:: ; $(RMF) output/atslib_prelude_integer_dats.o
+
+atslib_prelude:: atslib_prelude_float_dats
+atslib_prelude_float_dats: output/atslib_prelude_float_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_prelude_float_dats.c: ../../prelude/DATS/float.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_prelude_float_dats.o: output/atslib_prelude_float_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_prelude_float_dats.c
+clean:: ; $(RMF) output/atslib_prelude_float_dats.o
+
+
+
+######
+
+all:: atslib_libc
+atslib_libc:: atslib_libc_dirent_dats
+atslib_libc_dirent_dats: output/atslib_libc_dirent_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libc_dirent_dats.c: ../../libc/DATS/dirent.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libc_dirent_dats.o: output/atslib_libc_dirent_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libc_dirent_dats.c
+clean:: ; $(RMF) output/atslib_libc_dirent_dats.o
+
+atslib_libc:: atslib_libc_stdio_dats
+atslib_libc_stdio_dats: output/atslib_libc_stdio_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libc_stdio_dats.c: ../../libc/DATS/stdio.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libc_stdio_dats.o: output/atslib_libc_stdio_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libc_stdio_dats.c
+clean:: ; $(RMF) output/atslib_libc_stdio_dats.o
+
+atslib_libc:: atslib_libc_stdlib_dats
+atslib_libc_stdlib_dats: output/atslib_libc_stdlib_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libc_stdlib_dats.c: ../../libc/DATS/stdlib.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libc_stdlib_dats.o: output/atslib_libc_stdlib_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libc_stdlib_dats.c
+clean:: ; $(RMF) output/atslib_libc_stdlib_dats.o
+
+atslib_libc:: atslib_libc_string_dats
+atslib_libc_string_dats: output/atslib_libc_string_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libc_string_dats.c: ../../libc/DATS/string.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libc_string_dats.o: output/atslib_libc_string_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libc_string_dats.c
+clean:: ; $(RMF) output/atslib_libc_string_dats.o
+
+atslib_libc:: atslib_libc_strings_dats
+atslib_libc_strings_dats: output/atslib_libc_strings_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libc_strings_dats.c: ../../libc/DATS/strings.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libc_strings_dats.o: output/atslib_libc_strings_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libc_strings_dats.c
+clean:: ; $(RMF) output/atslib_libc_strings_dats.o
+
+atslib_libc:: atslib_libc_time_dats
+atslib_libc_time_dats: output/atslib_libc_time_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libc_time_dats.c: ../../libc/DATS/time.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libc_time_dats.o: output/atslib_libc_time_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libc_time_dats.c
+clean:: ; $(RMF) output/atslib_libc_time_dats.o
+
+atslib_libc:: atslib_libc_unistd_dats
+atslib_libc_unistd_dats: output/atslib_libc_unistd_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libc_unistd_dats.c: ../../libc/DATS/unistd.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libc_unistd_dats.o: output/atslib_libc_unistd_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libc_unistd_dats.c
+clean:: ; $(RMF) output/atslib_libc_unistd_dats.o
+
+
+######
+
+ARR=ar -r
+RMF=rm -f
+
+######
+
+clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_?ats.o *_?ats.c
+clean:: ; $(RMF) *_atxt.txt
+clean:: ; $(RMF) *_atxt.dats
+
+cleanall:: clean
+cleanall:: ; $(RMF) Makefile.exe
+cleanall:: ; $(RMF) lib/libatslib.a
+
+###### end of [Makefile] ######

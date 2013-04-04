@@ -139,6 +139,10 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
+#packfilename("gfact.dats")
+
+(* ****** ****** *)
+
 #packfilename("hello.dats")
 
 (* ****** ****** *)

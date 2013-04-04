@@ -1,6 +1,14 @@
 %{
 //
 staload
+UN = "prelude/SATS/unsafe.sats"
+//
+staload
+_(*anon*) = "prelude/DATS/list.dats"
+staload
+_(*anon*) = "prelude/DATS/list_vt.dats"
+//
+staload
 STDIO = "libc/SATS/stdio.sats"
 staload TIME = "libc/SATS/time.sats"
 //
@@ -11,26 +19,65 @@ staload "libatsdoc/SATS/libatsdoc_atext.sats"
 %}\
 %{
 
+#define DIRSEP '/'
+
 fun comment
   (x: string): atext = atext_nil ()
 // end of [comment]
+
+fun stringrepl
+  (str: string, c0: char, c1: char): string = let
+//
+fun loop {n:nat}
+(
+  str: string n, i: sizeLte n, res: List_vt (char)
+) :<cloref1> List_vt (char) = let
+in
+//
+if string_isnot_atend (str, i) then let
+  val c = str[i]
+in
+  if c != c0 then
+    loop (str, i+1, list_vt_cons (c, res))
+  else
+    loop (str, i+1, list_vt_cons (c1, res))
+  // end of [if]
+end else res // end of [if]
+//
+end // end of [loop]
+//
+val str = string1_of_string (str)
+val cs = loop (str, (size1_of_int1)0, list_vt_nil)
+val len = list_vt_length (cs)
+val sbuf = string_make_list_rev_int ($UN.linlst2lst(cs), len)
+val () = list_vt_free (cs)
+//
+in
+  $UN.castvwtp0{string}(sbuf)
+end // end of [stringrepl]
 
 fun make_entry
 (
   lib: string, fnm: string
 ) : atext = let
 //
+val lib2 = stringrepl (lib, '/', '_')
+val fnm2 = stringrepl (fnm, '.', '_')
+val libfnm2 = sprintf ("%s_%s", @(lib2, fnm2))
+val libfnm2 = string_of_strptr (libfnm2)
+//
 val ent = sprintf
 ("\
-atslib_%s_%s: output/atslib_%s_%s.o ; $(ARR) lib/libatslib.a $<
-output/atslib_%s_%s.c: ../../libc/DATS/%s ; $(PATSOPT) -o $@ --dynamic $<\n\
-output/atslib_%s_%s.o: output/atslib_%s_%s.c ; \\\n\
+atslib_%s:: atslib_%s\n\
+atslib_%s: output/atslib_%s.o ; $(ARR) lib/libatslib.a $<\n\
+output/atslib_%s.c: ../../%s/DATS/%s ; $(PATSOPT) -o $@ --dynamic $<\n\
+output/atslib_%s.o: output/atslib_%s.c ; \\\n\
   $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<\n\
-clean:: ; $(RMF) output/atslib_%s_%s.c\n\
-clean:: ; $(RMF) output/atslib_%s_%s.o\n\
+clean:: ; $(RMF) output/atslib_%s.c\n\
+clean:: ; $(RMF) output/atslib_%s.o\n\
 ", 
 @(
-  lib, fnm, lib, fnm, lib, fnm, fnm, lib, fnm, lib, fnm, lib, fnm, lib, fnm
+  lib2, libfnm2, libfnm2, libfnm2, libfnm2, lib, fnm, libfnm2, libfnm2, libfnm2, libfnm2
 )
 ) // end of [val]
 //
@@ -66,8 +113,25 @@ all::
 
 ######
 
+all:: atslib_prelude
+#make_entry("prelude", "bool.dats")
+#make_entry("prelude", "char.dats")
+#make_entry("prelude", "integer.dats")
+#make_entry("prelude", "float.dats")
+#comment('\
+\#make_entry("prelude", "string.dats")
+')
+
+######
+
+all:: atslib_libc
+#make_entry("libc", "dirent.dats")
 #make_entry("libc", "stdio.dats")
 #make_entry("libc", "stdlib.dats")
+#make_entry("libc", "string.dats")
+#make_entry("libc", "strings.dats")
+#make_entry("libc", "time.dats")
+#make_entry("libc", "unistd.dats")
 
 ######
 

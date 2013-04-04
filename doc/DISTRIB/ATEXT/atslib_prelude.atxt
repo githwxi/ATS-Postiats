@@ -133,6 +133,11 @@ The ATSLIB/prelude library\
 #packfilename("SATS/lazy.sats")
 #packfilename("SATS/lazy_vt.sats")
 
+#packfilename("SATS/gorder.sats")
+#packfilename("SATS/gnumber.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/unsafe.sats")
 
 (* ****** ****** *)
@@ -180,6 +185,7 @@ The ATSLIB/prelude library\
 #packfilename("CATS/arrayptr.cats")
 #packfilename("CATS/arrayref.cats")
 #packfilename("CATS/matrix.cats")
+#packfilename("CATS/matrixptr.cats")
 
 (* ****** ****** *)
 
@@ -209,6 +215,11 @@ The ATSLIB/prelude library\
 
 #packfilename("DATS/lazy.dats")
 #packfilename("DATS/lazy_vt.dats")
+
+#packfilename("DATS/gorder.dats")
+#packfilename("DATS/gnumber.dats")
+
+(* ****** ****** *)
 
 #packfilename("DATS/unsafe.dats")
 

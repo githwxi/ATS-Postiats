@@ -12,6 +12,7 @@
 CC=gcc -std=c99
 PATSHOMEQ="$(PATSHOME)"
 PATSOPT=$(PATSHOMEQ)/src/patsopt
+PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 
 ######
 
@@ -106,7 +107,7 @@ cleanall:: ; $(RMF) fcopy.exe
 
 all:: fcopy2
 fcopy2: fcopy2.exe
-fcopy2.exe: fcopy2_dats.c ;   $(CC) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+fcopy2.exe: fcopy2_dats.c ;   $(CC) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
 fcopy2_dats.c: fcopy2.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fcopy2_dats.c --dynamic fcopy2.dats
 clean:: ; $(RMF) fcopy2_dats.o
 clean:: ; $(RMF) fcopy2_dats.c

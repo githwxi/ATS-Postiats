@@ -43,8 +43,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=../../ccomp/runtime/\n\
-TARGET=ATS-Postiats/ccomp/runtime/\n\
+SOURCE=../../ccomp/atslib/\n\
+TARGET=ATS-Postiats/ccomp/atslib/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -62,7 +62,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The \${ATSHOME}/ccomp/runtime files have been copied.\"\n\
+echo \"The \${ATSHOME}/ccomp/atslib files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
@@ -96,23 +96,12 @@ packfilesynop (x) = atext_nil ()
 (* ****** ****** *)
 
 #packtitle("\
-ATS/ccomp/runtime
+ATS/ccomp/atslib
 ")
 
 (* ****** ****** *)
 //
-#packfilename("pats_ccomp_config.h")
-#packfilename("pats_ccomp_basics.h")
-#packfilename("pats_ccomp_typedefs.h")
-#packfilename("pats_ccomp_instrset.h")
-//
-#packfilename("pats_ccomp_memalloc.h")
-#packfilename("pats_ccomp_memalloc_libc.h")
-#packfilename("pats_ccomp_memalloc_gcbdw.h")
-//
-#packfilename("pats_ccomp_memalloca.h")
-//
-#packfilename("pats_ccomp_exception.h")
+#packfilename("Makefile")
 //
 (* ****** ****** *)
 

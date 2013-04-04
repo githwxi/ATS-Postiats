@@ -32,7 +32,8 @@
 //
 (* ****** ****** *)
 
-#define ATS_DYNLOADFLAG 0
+#define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
+#define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 (* ****** ****** *)
 
@@ -41,6 +42,7 @@ staload "libc/SATS/stdio.sats"
 (* ****** ****** *)
 
 %{
+extern
 atstype_ptr
 atslib_fopen_exn
 (
@@ -57,6 +59,7 @@ atslib_fopen_exn
 (* ****** ****** *)
 
 %{
+extern
 atsvoid_t0ype
 atslib_fclose_exn
   (atstype_ptr filp) {
@@ -70,6 +73,7 @@ atslib_fclose_exn
 (* ****** ****** *)
 
 %{
+extern
 atsvoid_t0ype
 atslib_fflush_exn
 (
@@ -84,6 +88,7 @@ atslib_fflush_exn
 (* ****** ****** *)
 
 %{
+extern
 atsvoid_t0ype
 atslib_fgets_exn
 (
@@ -109,6 +114,7 @@ atslib_fgets_exn
 (* ****** ****** *)
 
 %{
+extern
 atsvoid_t0ype
 atslib_fputs_exn
 (
@@ -126,6 +132,7 @@ atslib_fputs_exn
 (* ****** ****** *)
 
 %{
+extern
 atstype_ptr
 atslib_tmpfile_exn(
 ) {
