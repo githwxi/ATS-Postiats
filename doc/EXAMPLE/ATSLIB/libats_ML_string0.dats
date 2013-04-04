@@ -16,6 +16,11 @@ staload UN = "prelude/SATS/unsafe.sats"
 staload "libats/ML/SATS/string0.sats"
 
 (* ****** ****** *)
+//
+staload _(*anon*) = "libats/ML/DATS/array0.dats"
+staload _(*anon*) = "libats/ML/DATS/string0.dats"
+//
+(* ****** ****** *)
 
 val alphabet0 = (string0)"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 

@@ -63,10 +63,13 @@ castfn string2array0 (cs: string0):<> array0 (char)
 
 #atscode_separator()
 
-fun string0_get_ref (str: string0):<> Ptr1
-fun string0_get_size (str: string0):<> size_t
+fun{}
+string0_get_ref (str: string0):<> Ptr1
+fun{}
+string0_get_size (str: string0):<> size_t
 
-fun string0_get_refsize
+fun{}
+string0_get_refsize
   (A: string0):<> [n:nat] (arrayref (char, n), size_t (n))
 // end of [string0_get_refsize]
 

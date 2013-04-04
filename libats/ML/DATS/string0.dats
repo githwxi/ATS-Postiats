@@ -61,17 +61,17 @@ staload "libats/ML/SATS/string0.sats"
 
 (* ****** ****** *)
 
-implement
+implement{}
 string0_get_ref (str) =
   array0_get_ref (string2array0 (str))
 // end of [string0_get_ref]
 
-implement
+implement{}
 string0_get_size (str) =
   array0_get_size (string2array0 (str))
 // end of [string0_get_size]
 
-implement
+implement{}
 string0_get_refsize (str) =
   array0_get_refsize (string2array0 (str))
 // end of [string0_get_refsize]
