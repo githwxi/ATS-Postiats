@@ -22,7 +22,7 @@ val ent = sprintf ("\
 all:: %s\n\
 %s: %s.exe\n\
 %s.exe: %s_dats.c ; \
-  $(CC) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<\n\
+  $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<\n\
 %s_dats.c: %s.dats ; \
   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output %s_dats.c --dynamic %s.dats\n\
 clean:: ; $(RMF) %s_dats.o\n\
@@ -44,7 +44,7 @@ val ent = sprintf ("\
 all:: %s\n\
 %s: %s.exe\n\
 %s.exe: %s_dats.c ; \
-  $(CC) -D_GNU_SOURCE -O2 \
+  $(CCOPT) -D_GNU_SOURCE -O2 \
     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime %s -o $@ $< %s\n\
 %s_dats.c: %s.dats ; \
   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output %s_dats.c --dynamic %s.dats\n\
@@ -72,9 +72,10 @@ end // end of [make2_entry]
 
 ######
 
-CC=gcc -std=c99
+CCOPT=gcc -std=c99
 PATSHOMEQ="$(PATSHOME)"
 PATSOPT=$(PATSHOMEQ)/src/patsopt
+PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 
 ######
 
@@ -124,7 +125,7 @@ RMF=rm -f
 
 ######
 
-#make_entry("libats_ML_string0")
+#make2_entry("libats_ML_string0", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 
 ######
 

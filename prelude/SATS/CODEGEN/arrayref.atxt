@@ -45,11 +45,8 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 abstype
 arrayref_vt0ype_int_type
-  (a: vt@ype(*invariant*), n: int(*size*)) = ptr
+  (a: vt@ype(*elt*), n: int(*size*)) = ptr
 stadef arrayref = arrayref_vt0ype_int_type
-(*
-stadef array = arrayref // HX: backward compatibility?
-*)
 
 #atscode_separator()
 
@@ -273,12 +270,8 @@ a:vt0p}{env:vt0p
 #atscode_separator()
 
 abstype
-arrszref_vt0ype_type
-  (a: viewt@ype(*invariant*))
+arrszref_vt0ype_type (a: vt@ype) = ptr
 stadef arrszref = arrszref_vt0ype_type
-(*
-stadef array0 = arrszref // HX: backward compatibility?
-*)
 
 #atscode_separator()
 
@@ -286,7 +279,7 @@ symintr arrszref_make
 
 #atscode_separator()
 
-fun
+fun{}
 arrszref_make_arrayref
   {a:vt0p}{n:int}
   (A: arrayref (a, n), n: size_t n):<!wrt> arrszref (a)
@@ -294,12 +287,14 @@ overload arrszref_make with arrszref_make_arrayref
 
 #atscode_separator()
 
-fun arrszref_get_ref {a:vt0p} (A: arrszref (a)):<> Ptr1
-fun arrszref_get_size {a:vt0p} (A: arrszref (a)):<> size_t
+fun{}
+arrszref_get_ref {a:vt0p} (A: arrszref (a)):<> Ptr1
+fun{}
+arrszref_get_size {a:vt0p} (A: arrszref (a)):<> size_t
 
 #atscode_separator()
 
-fun
+fun{}
 arrszref_get_refsize{a:vt0p}
   (A: arrszref (a), asz: &size_t? >> size_t n):<!wrt> #[n:nat] arrayref (a, n)
 // end of [arrszref_get_refsize]

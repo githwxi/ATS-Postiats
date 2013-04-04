@@ -31,67 +31,91 @@ staload UN = "prelude/SATS/unsafe.sats"
 #atscode_separator()
 
 implement{a}
-arrayref_get_at_size (A, i) = let
-  val (vbox pf | p) = arrayref_get_viewptr (A)
+arrayref_get_at_size
+  (A, i) = let
+//
+val
+(
+vbox pf | p
+) = arrayref_get_viewptr (A)
+//
 in
   array_get_at_size (!p, i)
 end // end of [arrayref_get_at_size]
 
 implement{a}{tk}
-arrayref_get_at_gint (A, i) =
-  arrayref_get_at_size (A, g1int2uint (i))
-// end of [arrayref_get_at_gint]
+arrayref_get_at_gint
+  (A, i) =
+(
+  arrayref_get_at_size (A, g1i2u(i))
+) // end of [arrayref_get_at_gint]
 
 implement{a}{tk}
-arrayref_get_at_guint (A, i) =
-  arrayref_get_at_size (A, g1uint2uint (i))
-// end of [arrayref_get_at_guint]
+arrayref_get_at_guint
+  (A, i) =
+(
+  arrayref_get_at_size (A, g1u2u(i))
+) // end of [arrayref_get_at_guint]
 
 #atscode_separator()
 
 implement{a}
-arrayref_set_at_size (A, i, x) = let
-  val (vbox pf | p) =
-    arrayref_get_viewptr (A) in array_set_at_size (!p, i, x)
-  // end of [val]
+arrayref_set_at_size
+  (A, i, x) = let
+//
+val (vbox pf | p) =
+  arrayref_get_viewptr (A) in array_set_at_size (!p, i, x)
+//
 end // end of [arrayref_set_at_size]
 
 implement{a}{tk}
-arrayref_set_at_gint (A, i, x) =
-  arrayref_set_at_size (A, g1int2uint (i), x)
-// end of [arrayref_set_at_gint]
+arrayref_set_at_gint
+  (A, i, x) =
+(
+  arrayref_set_at_size (A, g1i2u(i), x)
+) // end of [arrayref_set_at_gint]
 
 implement{a}{tk}
-arrayref_set_at_guint (A, i, x) =
-  arrayref_set_at_size (A, g1uint2uint (i), x)
-// end of [arrayref_set_at_guint]
+arrayref_set_at_guint
+  (A, i, x) =
+(
+  arrayref_set_at_size (A, g1u2u(i), x)
+) // end of [arrayref_set_at_guint]
 
 #atscode_separator()
 
 implement{a}
-arrayref_exch_at_size (A, i, x) = let
-  val (vbox pf | p) =
-    arrayref_get_viewptr (A) in array_exch_at_size (!p, i, x)
-  // end of [val]
+arrayref_exch_at_size
+  (A, i, x) = let
+//
+val (vbox pf | p) =
+  arrayref_get_viewptr (A) in array_exch_at_size (!p, i, x)
+//
 end // end of [arrayref_exch_at_size]
 
 implement{a}{tk}
-arrayref_exch_at_gint (A, i, x) =
-  arrayref_exch_at_size (A, g1int2uint (i), x)
-// end of [arrayref_exch_at_gint]
+arrayref_exch_at_gint
+  (A, i, x) =
+(
+  arrayref_exch_at_size (A, g1i2u(i), x)
+) // end of [arrayref_exch_at_gint]
 
 implement{a}{tk}
-arrayref_exch_at_guint (A, i, x) =
-  arrayref_exch_at_size (A, g1uint2uint (i), x)
-// end of [arrayref_exch_at_guint]
+arrayref_exch_at_guint
+  (A, i, x) =
+(
+  arrayref_exch_at_size (A, g1u2u(i), x)
+) // end of [arrayref_exch_at_guint]
 
 #atscode_separator()
 
 implement{a}
-arrayref_interchange (A, i, j) = let
-  val (vbox pf | p) =
-    arrayref_get_viewptr (A) in array_interchange (!p, i, j)
-  // end of [val]
+arrayref_interchange
+  (A, i, j) = let
+//
+val (vbox pf | p) =
+  arrayref_get_viewptr (A) in array_interchange (!p, i, j)
+//
 end // end of [arrayref_interchange]
 
 #atscode_separator()
@@ -176,22 +200,25 @@ end // end of [arrayref_rforeach_env]
 local
 
 datatype
-arrszref (
+arrszref
+(
   a:viewt@ype
 ) =
   {n:int}
   ARRSZREF of (arrayref (a, n), size_t (n))
 // end of [arrszref]
 
-assume arrszref_vt0ype_type = arrszref
+assume
+arrszref_vt0ype_type = arrszref
 
 in (* in of [local] *)
 
-implement
+implement{}
 arrszref_make_arrayref
   (A, asz) = ARRSZREF (A, asz)
+// end of [arrszref_make_...]
 
-implement
+implement{}
 arrszref_get_ref
   (ASZ) = let
   val+ARRSZREF
@@ -199,13 +226,13 @@ arrszref_get_ref
   // end of [val]
 end // end of [arrszref_get_ref]
 
-implement
+implement{}
 arrszref_get_size
   (ASZ) = let
   val+ARRSZREF (_(*A*), asz) = ASZ in asz
 end // end of [arrszref_get_size]
 
-implement
+implement{}
 arrszref_get_refsize
   (ASZ, aszr) = let
 //
@@ -278,8 +305,9 @@ arrszref_get_at_gint
 in
 //
 if i >= 0 then
-  arrszref_get_at_size (ASZ, g0int2uint (i))
-else $raise ArraySubscriptExn()
+  arrszref_get_at_size (ASZ, g0i2u(i))
+else
+  $raise ArraySubscriptExn() // neg index
 //
 end // end of [arrszref_get_at_gint]
 
@@ -288,7 +316,7 @@ implement
 arrszref_get_at_guint
   (ASZ, i) = let
 in
-  arrszref_get_at_size (ASZ, g0uint2uint (i))
+  arrszref_get_at_size (ASZ, g0u2u(i))
 end // end of [arrszref_get_at_guint]
 
 implement{a}
@@ -301,7 +329,10 @@ val i = g1ofg0_uint (i)
 //
 in
 //
-if n > i then arrayref_get_at_size (A, i) else $raise ArraySubscriptExn()
+if n > i then
+  arrayref_get_at_size (A, i)
+else
+  $raise ArraySubscriptExn((*fun*))
 //
 end // end of [arrszref_get_at_size]
 
@@ -314,8 +345,9 @@ arrszref_set_at_gint
 in
 //
 if i >= 0 then
-  arrszref_set_at_size (ASZ, g0int2uint (i), x)
-else $raise ArraySubscriptExn()
+  arrszref_set_at_size (ASZ, g0i2u(i), x)
+else
+  $raise ArraySubscriptExn() // neg index
 //
 end // end of [arrszref_set_at_gint]
 
@@ -324,7 +356,7 @@ implement
 arrszref_set_at_guint
   (ASZ, i, x) = let
 in
-  arrszref_set_at_size (ASZ, g0uint2uint (i), x)
+  arrszref_set_at_size (ASZ, g0u2u(i), x)
 end // end of [arrszref_set_at_guint]
 
 implement{a}
@@ -350,8 +382,9 @@ arrszref_exch_at_gint
 in
 //
 if i >= 0 then
-  arrszref_exch_at_size (ASZ, g0int2uint (i), x)
-else $raise ArraySubscriptExn()
+  arrszref_exch_at_size (ASZ, g0i2u(i), x)
+else
+  $raise ArraySubscriptExn() // neg index
 //
 end // end of [arrszref_exch_at_gint]
 
@@ -360,7 +393,7 @@ implement
 arrszref_exch_at_guint
   (ASZ, i, x) = let
 in
-  arrszref_exch_at_size (ASZ, g0uint2uint (i), x)
+  arrszref_exch_at_size (ASZ, g0u2u(i), x)
 end // end of [arrszref_exch_at_guint]
 
 implement{a}

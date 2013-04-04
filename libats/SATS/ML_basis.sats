@@ -96,12 +96,13 @@ option0_t0ype_type
 stadef option0 = option0_t0ype_type
 
 (* ****** ****** *)
-
+//
 abstype
-array0_viewt0ype_type
-  (a: viewt@ype(*invariant*)) // = arrszref (a)
-stadef array0 = array0_viewt0ype_type
-
+array0_vt0ype_type
+  (a: vt@ype(*invariant*)) = ptr // = arrszref (a)
+//
+stadef array0 = array0_vt0ype_type
+//
 (* ****** ****** *)
 
 (* end of [ML_basics.sats] *)

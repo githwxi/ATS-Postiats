@@ -32,16 +32,44 @@
 (* Start time: February, 2013 *)
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
+(* ****** ****** *)
 
-staload
-UN = "prelude/SATS/unsafe.sats"
+staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
 staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
+
+(* ****** ****** *)
+
 staload "libats/ML/SATS/array0.sats"
+staload _(*anon*) = "libats/ML/DATS/array0.dats"
+
+(* ****** ****** *)
+
 staload "libats/ML/SATS/string0.sats"
+
+(* ****** ****** *)
+
+%{^
+extern
+int
+strncmp
+(
+  const char *s1, const char *s2, size_t n
+) ; // end of [strncmp]
+extern
+void
+*memchr(const void *s, int c, size_t n);
+extern
+void
+*memcpy(void *dst, const void *src, size_t n);
+%} // end of [%{^]
 
 (* ****** ****** *)
 
@@ -72,13 +100,10 @@ val n = string1_length (str)
 val (
   pfarr, pfgc | p
 ) = array_ptr_alloc<char> (n)
-val () = let
-  extern fun memcpy
-    : (ptr(*dst*), ptr, size_t) -<0,!wrt> void = "mac#atslib_memcpy"
-  // end of [extern]
-in
-  memcpy (p, string2ptr (str), n)
-end // end of [val]
+//
+// [memcpy] declared in [string.h]
+//
+val _(*ptr*) = $extfcall (ptr, "memcpy", p, string2ptr(str), n)
 //
 typedef A = arrayref (char, n)
 //
@@ -98,13 +123,9 @@ val p = string0_get_ref (str)
 val sz = g1ofg0_uint (string0_get_size (str))
 val (pfgc, pfarr | p2) = malloc_gc (succ (sz))
 //
-val _(*ptr*) = let
-  extern fun memcpy
-    : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_memcpy"
-  // end of [extern]
-in
-  memcpy (p2, p, sz)
-end // end of [val]
+// [memcpy] declared in [string.h]
+//
+val _(*ptr*) = $extfcall (ptr, "memcpy", p2, p, sz)
 //
 val () = $UN.ptr0_set<char> (ptr_add<char> (p2, sz), '\000')
 //
@@ -162,10 +183,13 @@ and (A2, n2) = string0_get_refsize (str2)
 //
 extern
 fun strncmp
-  : (ptr, ptr, size_t) -<fun> int = "mac#atslib_strncmp"
+  : (ptr, ptr, size_t) -<fun> int = "strncmp"
 //
 val n = g0uint_min_size (n1, n2)
-val sgn = strncmp ($UN.cast2ptr(A1), $UN.cast2ptr(A2), n)
+//
+// [strncmp] declared in [string.h]
+//
+val sgn = $extfcall (int, "strncmp", $UN.cast2ptr(A1), $UN.cast2ptr(A2), n)
 //
 in
 //
@@ -183,11 +207,9 @@ string0_contains
 //
 val (A, asz) = string0_get_refsize (str)
 //
-extern
-fun memchr
-  : (ptr, int, size_t) -<fun> ptr = "mac#atslib_memchr"
+// [memcpy] declared in [string.h]
 //
-val p = memchr ($UN.cast2ptr (A), char2int0 (c0), asz)
+val p = $extfcall (ptr, "memchr", $UN.cast2ptr(A), char2int0(c0), asz)
 //
 in
   (p > the_null_ptr)
@@ -218,11 +240,14 @@ end // end of [string0_append]
 
 (* ****** ****** *)
 
+(*
+
 implement
 string0_foreach
   (str, f) = let
 //
-fun loop (
+fun loop
+(
   p: ptr, n: size_t, f: cfun (char, void)
 ) : void = let
 in
@@ -248,7 +273,8 @@ implement
 string0_rforeach
   (str, f) = let
 //
-fun loop (
+fun loop
+(
   p: ptr, n: size_t, f: cfun (char, void)
 ) : void = let
 in
@@ -266,6 +292,8 @@ val n0 = string0_get_size (str)
 in
   loop (ptr0_add_guint<char> (p0, n0), n0, f)
 end // end of [string0_rforeach]
+
+*)
 
 (* ****** ****** *)
 

@@ -126,6 +126,7 @@ struct {
 /* ****** ****** */
 
 typedef void* atstype_funptr ;
+typedef void* atstype_cloptr ;
 
 /* ****** ****** */
 

@@ -96,13 +96,14 @@ all::
 #make_entry("array_prf")
 #make_entry("arrayptr")
 #make_entry("arrayref")
-#comment("
+#comment('\
 for pointer arrays terminated with the null pointer
-")
+')
 #make_entry("parray")
 
 #make_entry("matrix")
 #make_entry("matrixptr")
+#make_entry("matrixref")
 
 #make_entry("gprint")
 

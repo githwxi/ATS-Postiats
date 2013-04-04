@@ -135,6 +135,14 @@ all:: atslib_libc
 
 ######
 
+all:: atslib_libats_ML
+#comment('\
+\#make_entry("libats/ML", "array0.dats")
+')
+#make_entry("libats/ML", "string0.dats")
+
+######
+
 ARR=ar -r
 RMF=rm -f
 
@@ -146,6 +154,7 @@ clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
 
 cleanall:: clean
+cleanall:: ; $(RMF) output/*
 cleanall:: ; $(RMF) Makefile.exe
 cleanall:: ; $(RMF) lib/libatslib.a
 

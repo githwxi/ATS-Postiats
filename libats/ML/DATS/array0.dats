@@ -85,21 +85,25 @@ end // end of [array0_make_list]
 
 (* ****** ****** *)
 
-implement{a}{tk}
+implement
+{a}{tk}
 array0_get_at_gint
   (A0, i) = let
 in
 //
 if i >= 0 then
-  array0_get_at_size (A0, g0int2uint(i))
-else $raise ArraySubscriptExn()
+  array0_get_at_size (A0, g0i2u(i))
+else
+  $raise ArraySubscriptExn() // neg index
 //
 end // end of [array0_get_at_gint]
 
 implement{a}{tk}
-array0_get_at_guint (A0, i) = (
-  array0_get_at_size (A0, g0uint2uint(i))
-) // end of [array0_get_at_guint]
+array0_get_at_guint
+  (A0, i) = let
+in
+  array0_get_at_size (A0, g0u2u(i))
+end // end of [array0_get_at_guint]
 
 implement{a}
 array0_get_at_size
@@ -117,15 +121,17 @@ array0_set_at_gint
 in
 //
 if i >= 0 then
-  array0_set_at_size (A0, g0int2uint(i), x)
-else $raise ArraySubscriptExn()
+  array0_set_at_size (A0, g0i2u(i), x)
+else
+  $raise ArraySubscriptExn() // neg index
 //
 end // end of [array0_set_at_gint]
 
 implement{a}{tk}
 array0_set_at_guint
-  (A0, i, x) = (
-  array0_set_at_size (A0, g0uint2uint(i), x)
+  (A0, i, x) =
+(
+  array0_set_at_size (A0, g0u2u(i), x)
 ) // end of [array0_set_at_guint]
 
 implement{a}
@@ -144,15 +150,17 @@ array0_exch_at_gint
 in
 //
 if i >= 0 then
-  array0_exch_at_size (A0, g0int2uint(i), x)
-else $raise ArraySubscriptExn()
+  array0_exch_at_size (A0, g0i2u(i), x)
+else
+  $raise ArraySubscriptExn() // neg index
 //
 end // end of [array0_exch_at_gint]
 
 implement{a}{tk}
 array0_exch_at_guint
-  (A0, i, x) = (
-  array0_exch_at_size (A0, g0uint2uint(i), x)
+  (A0, i, x) =
+(
+  array0_exch_at_size (A0, g0u2u(i), x)
 ) // end of [array0_exch_at_guint]
 
 implement{a}
@@ -317,10 +325,12 @@ in
   if idx < asz then idx else $raise NotFoundExn()
 end // end of [array0_find_exn]
 
+(*
 implement{a}
 array0_find_opt (A0, p) =
   try Some0 (array0_find_exn<a> (A0, p)) with ~NotFoundExn() => None0 ()
 // end of [array0_find_opt]
+*)
 
 (* ****** ****** *)
 
