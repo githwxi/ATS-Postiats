@@ -16,7 +16,7 @@ PATSRUNTIME=$(PATSHOME)/ccomp/runtime
 
 CCOPT=gcc
 CCFLAGS=-O2
-DATSMEMALLOC=-D_ATS_MEMALLOC_LIBC
+DATSMEMALLOC=-DATS_MEMALLOC_LIBC
 
 ######
 
@@ -145,6 +145,7 @@ clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
 
 cleanall:: clean
+cleanall:: ; $(RMF) output/*
 cleanall:: ; $(RMF) Makefile.exe
 cleanall:: ; $(RMF) lib/libatslib.a
 

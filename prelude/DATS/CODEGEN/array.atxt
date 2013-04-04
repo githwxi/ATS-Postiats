@@ -163,19 +163,23 @@ end // end of [fprint_array_sep]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 array_copy
   {n} (to, from, n) = let
-  val p_to = addr@(to) and p_from = addr@(to)
-  extern fun memcpy (
-    p1: ptr, p2: ptr, n: size_t
-  ) :<!wrt> void = "mac\#atslib_memcpy"
-  val () = memcpy (p_to, p_from, n*sizeof<a>)
-  extern praxi __assert {l1,l2:addr} (
-    pf1: !array_v (a?, l1, n) >> array_v (a  , l1, n)
-  , pf2: !array_v (a , l2, n) >> array_v (a?!, l2, n)
-  ) : void // end of [__assert]
-  prval () = __assert (view@ (to), view@ (from))
+//
+val p_to = addr@(to) and p_from = addr@(to)
+val _(*ptr*) = $extfcall (ptr, "memcpy", p_to, p_from, n*sizeof<a>)
+//
+extern
+praxi __assert {l1,l2:addr}
+(
+  pf1: !array_v (a?, l1, n) >> array_v (a  , l1, n)
+, pf2: !array_v (a , l2, n) >> array_v (a?!, l2, n)
+) : void // end of [__assert]
+//
+prval () = __assert (view@ (to), view@ (from))
+//
 in
   // nothing
 end // end of [array_copy]

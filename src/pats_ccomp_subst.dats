@@ -802,6 +802,13 @@ case+
   in
     instr_fcall (loc0, tmp, _fun, hse, _arg)
   end // end of [INSfcall]
+| INSextfcall
+    (tmp, fnm, args) => let
+    val tmp = ftmp (tmp)
+    val args = fpmvlst (args)
+  in
+    instr_extfcall (loc0, tmp, fnm, args)
+  end // end of [INSextfcall]
 //
 | INScond
   (

@@ -56,23 +56,6 @@ staload "libats/ML/SATS/string0.sats"
 
 (* ****** ****** *)
 
-%{^
-extern
-int
-strncmp
-(
-  const char *s1, const char *s2, size_t n
-) ; // end of [strncmp]
-extern
-void
-*memchr(const void *s, int c, size_t n);
-extern
-void
-*memcpy(void *dst, const void *src, size_t n);
-%} // end of [%{^]
-
-(* ****** ****** *)
-
 implement
 string0_get_ref (str) =
   array0_get_ref (string2array0 (str))

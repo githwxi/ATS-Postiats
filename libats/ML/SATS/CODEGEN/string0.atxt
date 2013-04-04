@@ -30,6 +30,12 @@ staload "libats/SATS/ML_basis.sats"
 
 #atscode_separator()
 
+\%{#
+\#include "libats/ML/CATS/string0.cats"
+\%} // end of [%{#]
+
+#atscode_separator()
+
 typedef SHR(a:type) = a // for commenting purpose
 typedef NSH(a:type) = a // for commenting purpose
 
