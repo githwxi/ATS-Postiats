@@ -42,22 +42,30 @@ staload "libats/ML/SATS/list0.sats"
 staload "libats/ML/SATS/array0.sats"
 
 (* ****** ****** *)
+//
+implement{}
+array0_of_arrszref {a} (A) = $UN.cast{array0(a)}(A)
+//
+implement{}
+arrszref_of_array0 {a} (A) = $UN.cast{arrszref(a)}(A)
+//
+(* ****** ****** *)
 
-implement
+implement{}
 array0_get_ref (A0) = let
   val ASZ =
     arrszref_of_array0 (A0) in arrszref_get_ref (ASZ)
   // end of [val]
 end // end of [array0_get_ref]
 
-implement
+implement{}
 array0_get_size (A0) = let
   val ASZ =
     arrszref_of_array0 (A0) in arrszref_get_size (ASZ)
   // end of [val]
 end // end of [array0_get_size]
 
-implement
+implement{}
 array0_get_refsize (A0) = let
   var asz: size_t
   val ASZ = arrszref_of_array0 (A0)
@@ -65,6 +73,18 @@ array0_get_refsize (A0) = let
 in
   @(A, asz)
 end // end of [array0_get_refsize]
+
+(* ****** ****** *)
+
+implement{}
+array0_make_arrpsz (psz) = let
+  val ASZ = arrszref_make_arrpsz (psz) in array0_of_arrszref (ASZ)
+end // end of [array0_make_arrpsz]
+
+implement{}
+array0_make_arrayref (A, n) = let
+  val ASZ = arrszref_make_arrayref (A, n) in array0_of_arrszref (ASZ)
+end // end of [array0_make_arrpsz]
 
 (* ****** ****** *)
 

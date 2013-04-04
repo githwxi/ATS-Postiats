@@ -32,6 +32,11 @@
 (* Start time: February, 2013 *)
 
 (* ****** ****** *)
+
+#define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
+#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
+
+(* ****** ****** *)
 //
 #include
 "share/atspre_staload_tmpdef.hats"

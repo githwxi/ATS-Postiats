@@ -19,6 +19,11 @@ staload "libats/ML/SATS/string0.sats"
 
 val alphabet0 = (string0)"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+val () =
+{
+val () = assert (string0_get_size (alphabet0) = 26)
+} // end of [val]
+
 (* ****** ****** *)
 
 implement main0 () = ()

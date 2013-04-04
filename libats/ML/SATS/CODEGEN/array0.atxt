@@ -26,6 +26,12 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+\#define ATS_PACKNAME "ATSLIB.libats.ML"
+\#define ATS_STALOADFLAG 0 // no need for staloading at run-time
+\#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
+
+#atscode_separator()
+
 staload "libats/SATS/ML_basis.sats"
 
 #atscode_separator()
@@ -44,23 +50,24 @@ typedef array0 (a: t@ype) = arrszref (a)
 sortdef t0p = t@ype and vt0p = viewt@ype
 
 #atscode_separator()
-
-castfn 
+//
+fun{}
 array0_of_arrszref
   {a:vt0p} (A: arrszref (a)):<> array0 (a)
-// end of [array0_of_arrszref]
-
-castfn 
+//
+fun{}
 arrszref_of_array0
   {a:vt0p} (A: array0 (a)):<> arrszref (a)
-// end of [arrszref_of_array0]
-
+//
 #atscode_separator()
 
-fun array0_get_ref {a:t0p} (A: array0 a):<> Ptr1
-fun array0_get_size {a:t0p} (A: array0 a):<> size_t
+fun{}
+array0_get_ref {a:t0p} (A: array0 a):<> Ptr1
+fun{}
+array0_get_size {a:t0p} (A: array0 a):<> size_t
 
-fun array0_get_refsize{a:vt0p}
+fun{}
+array0_get_refsize{a:vt0p}
   (A: array0 (a)):<> [n:nat] (arrayref (a, n), size_t (n))
 // end of [array0_get_refsize]
 
@@ -68,13 +75,13 @@ fun array0_get_refsize{a:vt0p}
 //
 symintr array0
 //
-fun
+fun{}
 array0_make_arrpsz
   {a:vt0p}{n:int}
   (psz: arrpsz (INV(a), n)):<!wrt> array0 (a)
 overload array0 with array0_make_arrpsz
 //
-fun
+fun{}
 array0_make_arrayref
   {a:vt0p}{n:int}
   (A: arrayref (a, n), n: size_t (n)):<!wrt> array0 (a)

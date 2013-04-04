@@ -32,6 +32,12 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 //
 #atscode_separator()
 
+\#define ATS_PACKNAME "ATSLIB.libats.ML"
+\#define ATS_STALOADFLAG 0 // no need for staloading at run-time
+\#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
+
+#atscode_separator()
+
 staload "libats/SATS/ML_basis.sats"
 
 #atscode_separator()

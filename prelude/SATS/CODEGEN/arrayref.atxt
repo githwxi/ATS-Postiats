@@ -275,7 +275,15 @@ stadef arrszref = arrszref_vt0ype_type
 
 #atscode_separator()
 
-symintr arrszref_make
+symintr arrszref
+
+#atscode_separator()
+
+fun{}
+arrszref_make_arrpsz
+  {a:vt0p}{n:int}
+  (psz: arrpsz (INV(a), n)):<!wrt> arrszref(a)
+overload arrszref with arrszref_make_arrpsz
 
 #atscode_separator()
 
@@ -283,7 +291,7 @@ fun{}
 arrszref_make_arrayref
   {a:vt0p}{n:int}
   (A: arrayref (a, n), n: size_t n):<!wrt> arrszref (a)
-overload arrszref_make with arrszref_make_arrayref
+// end of [arrszref_make_arrayref]
 
 #atscode_separator()
 
