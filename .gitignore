@@ -141,6 +141,16 @@ libats/ML/SATS/DOCUGEN/HTML
 libats/ML/SATS/DOCUGEN/TRYIT
 
 #
+# ATSLIB/libats
+#
+
+libatslex/SATS/DOCUGEN/*.exe
+libatslex/SATS/DOCUGEN/*_atxt.txt
+libatslex/SATS/DOCUGEN/*_atxt.dats
+libatslex/SATS/DOCUGEN/HTML
+libatslex/SATS/DOCUGEN/TRYIT
+
+#
 # ATSLIB/contrib
 #
 

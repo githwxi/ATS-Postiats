@@ -55,4 +55,21 @@ ustrptr2ptr {a:t@ype}{l:addr} (x: !ustrptr (a, l)):<> ptr (l)
 
 (* ****** ****** *)
 
+exception MalformedExn of ()
+exception InvalidCodepointExn of int
+
+(* ****** ****** *)
+
+#define CODEPOINT_MAX 0x10ffff
+
+(* ****** ****** *)
+
+datatype byte_order = BOlittle | BObig | BOmalformed
+
+(* ****** ****** *)
+
+fun char2_get_byte_order (c0: int, c1: int):<> byte_order
+
+(* ****** ****** *)
+
 (* end of [unicode.sats] *)

@@ -1,0 +1,48 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../unicode.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_libatslex_unicode")
+%}
+
+(* ****** ****** *)
+
+%{
+
+#ifdef DBOOK #then
+fun pcenter (x: string): atext =
+  atext_apptxt2 (atext_strsub (x), atext_strcst ".")
+// end of [pcenter]
+#endif // end of [#ifdef]
+
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/libatslex/unicode
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para("\
+This package contains some common functions for handling unicode.
+")
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("char2_get_byte_order")
+
+(* ****** ****** *)
+
+(* end of [unicode.atxt] *)

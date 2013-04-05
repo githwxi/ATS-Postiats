@@ -1,0 +1,1 @@
+../../../../share/declatext.sats
