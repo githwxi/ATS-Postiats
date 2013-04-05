@@ -39,12 +39,11 @@ int fprintf (FILE *stream, const char *format, ...) ;
 
 #atscode_separator_for_C()
 //
-\#define atspre_g0int2int_int_int(x) ((atstype_int)(x))
+\#define atspre_g0int2int_int_int(x) (x)
+\#define atspre_g1int2int_int_int atspre_g0int2int_int_int
 \#define atspre_g0int2int_int_lint(x) ((atstype_lint)(x))
 \#define atspre_g0int2int_int_llint(x) ((atstype_llint)(x))
 \#define atspre_g0int2int_int_ssize(x) ((atstype_ssize)(x))
-//
-\#define atspre_g1int2int_int_int atspre_g0int2int_int_int
 \#define atspre_g1int2int_int_lint atspre_g0int2int_int_lint
 \#define atspre_g1int2int_int_llint atspre_g0int2int_int_llint
 \#define atspre_g1int2int_int_ssize atspre_g0int2int_int_ssize
@@ -55,11 +54,20 @@ int fprintf (FILE *stream, const char *format, ...) ;
 \#define atspre_g0int2uint_int_ulint(x) ((atstype_ulint)(x))
 \#define atspre_g0int2uint_int_ullint(x) ((atstype_ullint)(x))
 \#define atspre_g0int2uint_int_size(x) ((atstype_size)(x))
-//
 \#define atspre_g1int2uint_int_uint atspre_g0int2uint_int_uint
 \#define atspre_g1int2uint_int_ulint atspre_g0int2uint_int_ulint
 \#define atspre_g1int2uint_int_ullint atspre_g0int2uint_int_ullint
 \#define atspre_g1int2uint_int_size atspre_g0int2uint_int_size
+//
+\#define atspre_g0int2uint_lint_ulint(x) ((atstype_ulint)(x))
+\#define atspre_g0int2uint_lint_ullint(x) ((atstype_ullint)(x))
+\#define atspre_g0int2uint_lint_size(x) ((atstype_size)(x))
+\#define atspre_g1int2uint_lint_ulint atspre_g0int2uint_lint_ulint
+\#define atspre_g1int2uint_lint_ullint atspre_g0int2uint_lint_ullint
+\#define atspre_g1int2uint_lint_size atspre_g0int2uint_lint_size
+//
+\#define atspre_g0int2uint_llint_ullint(x) ((atstype_ullint)(x))
+\#define atspre_g1int2uint_llint_ullint atspre_g0int2uint_llint_ullint
 //
 #atscode_separator_for_C()
 //
@@ -67,7 +75,6 @@ int fprintf (FILE *stream, const char *format, ...) ;
 \#define atspre_g0uint2int_uint_lint(x) ((atstype_lint)(x))
 \#define atspre_g0uint2int_uint_llint(x) ((atstype_llint)(x))
 \#define atspre_g0uint2int_uint_ssize(x) ((atstype_ssize)(x))
-//
 \#define atspre_g1uint2int_uint_int atspre_g0uint2int_uint_int
 \#define atspre_g1uint2int_uint_lint atspre_g0uint2int_uint_lint
 \#define atspre_g1uint2int_uint_llint atspre_g0uint2int_uint_llint
@@ -79,7 +86,6 @@ int fprintf (FILE *stream, const char *format, ...) ;
 \#define atspre_g0uint2int_size_lint(x) ((atstype_lint)(x))
 \#define atspre_g0uint2int_size_llint(x) ((atstype_llint)(x))
 \#define atspre_g0uint2int_size_ssize(x) ((atstype_ssize)(x))
-//
 \#define atspre_g1uint2int_size_int atspre_g0uint2int_size_int
 \#define atspre_g1uint2int_size_lint atspre_g0uint2int_size_lint
 \#define atspre_g1uint2int_size_llint atspre_g0uint2int_size_llint
@@ -88,24 +94,22 @@ int fprintf (FILE *stream, const char *format, ...) ;
 #atscode_separator_for_C()
 //
 \#define atspre_g0uint2uint_uint_uint(x) (x)
+\#define atspre_g1uint2uint_uint_uint atspre_g0uint2uint_uint_uint
 \#define atspre_g0uint2uint_uint_ulint(x) ((atstype_ulint)(x))
 \#define atspre_g0uint2uint_uint_ullint(x) ((atstype_ullint)(x))
 \#define atspre_g0uint2uint_uint_size(x) ((atstype_size)(x))
-//
-\#define atspre_g1uint2uint_uint_uint atspre_g0uint2uint_uint_uint
 \#define atspre_g1uint2uint_uint_ulint atspre_g0uint2uint_uint_ulint
 \#define atspre_g1uint2uint_uint_ullint atspre_g0uint2uint_uint_ullint
 \#define atspre_g1uint2uint_uint_size atspre_g0uint2uint_uint_size
 //
 #atscode_separator_for_C()
 //
+\#define atspre_g0uint2uint_size_size(x) (x)
+\#define atspre_g1uint2uint_size_size atspre_g0uint2uint_size_size
 \#define atspre_g0uint2uint_size_ulint(x) ((atstype_ulint)(x))
 \#define atspre_g0uint2uint_size_ullint(x) ((atstype_ullint)(x))
-\#define atspre_g0uint2uint_size_size(x) (x)
-//
 \#define atspre_g1uint2uint_size_ulint atspre_g0uint2uint_size_ulint
 \#define atspre_g1uint2uint_size_ullint atspre_g0uint2uint_size_ullint
-\#define atspre_g1uint2uint_size_size atspre_g0uint2uint_size_size
 //
 #atscode_separator_for_C()
 
@@ -522,6 +526,58 @@ atspre_fprint_ssize
 
 #atscode_separator_for_C()
 
+\#define atspre_g1int_neg_lint atspre_g0int_neg_lint
+\#define atspre_g1int_succ_lint atspre_g0int_succ_lint
+\#define atspre_g1int_pred_lint atspre_g0int_pred_lint
+\#define atspre_g1int_half_lint atspre_g0int_half_lint
+\#define atspre_g1int_add_lint atspre_g0int_add_lint
+\#define atspre_g1int_sub_lint atspre_g0int_sub_lint
+\#define atspre_g1int_mul_lint atspre_g0int_mul_lint
+\#define atspre_g1int_div_lint atspre_g0int_div_lint
+\#define atspre_g1int_isltz_lint atspre_g0int_isltz_lint
+\#define atspre_g1int_isltez_lint atspre_g0int_isltez_lint
+\#define atspre_g1int_isgtz_lint atspre_g0int_isgtz_lint
+\#define atspre_g1int_isgtez_lint atspre_g0int_isgtez_lint
+\#define atspre_g1int_iseqz_lint atspre_g0int_iseqz_lint
+\#define atspre_g1int_isneqz_lint atspre_g0int_isneqz_lint
+\#define atspre_g1int_lt_lint atspre_g0int_lt_lint
+\#define atspre_g1int_lte_lint atspre_g0int_lte_lint
+\#define atspre_g1int_gt_lint atspre_g0int_gt_lint
+\#define atspre_g1int_gte_lint atspre_g0int_gte_lint
+\#define atspre_g1int_eq_lint atspre_g0int_eq_lint
+\#define atspre_g1int_neq_lint atspre_g0int_neq_lint
+\#define atspre_g1int_compare_lint atspre_g0int_compare_lint
+\#define atspre_g1int_max_lint atspre_g0int_max_lint
+\#define atspre_g1int_min_lint atspre_g0int_min_lint
+
+#atscode_separator_for_C()
+
+\#define atspre_g1int_neg_llint atspre_g0int_neg_llint
+\#define atspre_g1int_succ_llint atspre_g0int_succ_llint
+\#define atspre_g1int_pred_llint atspre_g0int_pred_llint
+\#define atspre_g1int_half_llint atspre_g0int_half_llint
+\#define atspre_g1int_add_llint atspre_g0int_add_llint
+\#define atspre_g1int_sub_llint atspre_g0int_sub_llint
+\#define atspre_g1int_mul_llint atspre_g0int_mul_llint
+\#define atspre_g1int_div_llint atspre_g0int_div_llint
+\#define atspre_g1int_isltz_llint atspre_g0int_isltz_llint
+\#define atspre_g1int_isltez_llint atspre_g0int_isltez_llint
+\#define atspre_g1int_isgtz_llint atspre_g0int_isgtz_llint
+\#define atspre_g1int_isgtez_llint atspre_g0int_isgtez_llint
+\#define atspre_g1int_iseqz_llint atspre_g0int_iseqz_llint
+\#define atspre_g1int_isneqz_llint atspre_g0int_isneqz_llint
+\#define atspre_g1int_lt_llint atspre_g0int_lt_llint
+\#define atspre_g1int_lte_llint atspre_g0int_lte_llint
+\#define atspre_g1int_gt_llint atspre_g0int_gt_llint
+\#define atspre_g1int_gte_llint atspre_g0int_gte_llint
+\#define atspre_g1int_eq_llint atspre_g0int_eq_llint
+\#define atspre_g1int_neq_llint atspre_g0int_neq_llint
+\#define atspre_g1int_compare_llint atspre_g0int_compare_llint
+\#define atspre_g1int_max_llint atspre_g0int_max_llint
+\#define atspre_g1int_min_llint atspre_g0int_min_llint
+
+#atscode_separator_for_C()
+
 \#define atspre_g1int_neg_ssize atspre_g0int_neg_ssize
 \#define atspre_g1int_succ_ssize atspre_g0int_succ_ssize
 \#define atspre_g1int_pred_ssize atspre_g0int_pred_ssize
@@ -600,7 +656,7 @@ ATSinline()
 atstype_%s
 atspre_g0uint_half_%s
   (atstype_%s x) { return (x >> 1) ; }
-// end of [atspre_g0uint_pred_%s]\n\
+// end of [atspre_g0uint_half_%s]\n\
 ", @(knd, knd, knd, knd)
 ) // end of [sprintf] // end of [val]
 //
@@ -660,7 +716,51 @@ atspre_g0uint_%s_%s
 ) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
-end // end of [fun_lsz_decl]
+end // end of [fun_lsx_decl]
+//
+fun
+fun_lnot_decl
+  (knd: string): atext = let
+//
+val ent = sprintf
+("\
+ATSinline()
+atstype_%s
+atspre_g0uint_lnot_%s
+  (atstype_%s x) { return ~(x) ; }
+// end of [atspre_g0uint_lnot_%s]\n\
+", @(knd, knd, knd, knd)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_lnot_decl]
+//
+fun
+fun_bitop_decl
+(
+  opr: string, knd: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "lor" => "|" | "land" => "&" | "lxor" => "^" | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf
+("\
+ATSinline()
+atstype_%s
+atspre_g0uint_%s_%s
+  (atstype_%s x, atstype_%s y) { return (x %s y) ; }
+// end of [atspre_g0uint_%s_%s]\n\
+", @(
+  knd, opr, knd, knd, knd, fopr, knd, knd
+)
+) // end of [sprintf] // end of [val]
+in
+  atext_strptr (ent)
+end // end of [fun_bitop_decl]
 //
 fun
 fun_cmpz_decl (
@@ -797,6 +897,11 @@ val () = res := list_cons (fun_aop_decl("mod", tnm), res)
 //
 val () = res := list_cons (fun_lsx_decl("lsl", tnm), res)
 val () = res := list_cons (fun_lsx_decl("lsr", tnm), res)
+//
+val () = res := list_cons (fun_lnot_decl(tnm), res)
+val () = res := list_cons (fun_bitop_decl("lor", tnm), res)
+val () = res := list_cons (fun_bitop_decl("land", tnm), res)
+val () = res := list_cons (fun_bitop_decl("lxor", tnm), res)
 //
 val () = res := list_cons (fun_cmpz_decl("isgtz", tnm), res)
 val () = res := list_cons (fun_cmpz_decl("iseqz", tnm), res)

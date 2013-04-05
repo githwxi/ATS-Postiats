@@ -72,4 +72,24 @@ fun char2_get_byte_order (c0: int, c1: int):<> byte_order
 
 (* ****** ****** *)
 
+abst@ype intcpw (i:int, w:int) = int (w)
+
+fun utf8_get_cpw {i:int} (cp: int i): [w:int] intcpw (i, w)
+
+(* ****** ****** *)
+
+fun{}
+utf8_encode$fput (u: uint): void
+fun{}
+utf8_encode_err (cp: uint, err: &int? >> int): void
+
+(* ****** ****** *)
+
+fun{}
+utf8_decode$fget (): int
+fun{}
+utf8_decode_err (err: &int? >> int): void
+
+(* ****** ****** *)
+    
 (* end of [unicode.sats] *)

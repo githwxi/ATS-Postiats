@@ -536,6 +536,12 @@ fun g0int2uint_int_ulint (x: int):<> ulint = "mac\#%"
 fun g0int2uint_int_ullint (x: int):<> ullint = "mac\#%"
 fun g0int2uint_int_size (x: int):<> size_t = "mac\#%"
 //
+fun g0int2uint_lint_ulint (x: lint):<> ulint = "mac\#%"
+fun g0int2uint_lint_ullint (x: lint):<> ullint = "mac\#%"
+fun g0int2uint_lint_size (x: lint):<> size_t = "mac\#%"
+//
+fun g0int2uint_llint_ullint (x: llint):<> ullint = "mac\#%"
+//
 #atscode_separator()
 
 fun{k1,k2:tk}
@@ -606,6 +612,21 @@ overload << with g0uint_lsl
 fun{tk:tk}
 g0uint_lsr (x: g0uint (tk), n: intGte(0)):<> g0uint (tk)
 overload >> with g0uint_lsr
+
+#atscode_separator()
+
+fun{tk:tk}
+g0uint_lnot (x: g0uint (tk)):<> g0uint (tk)
+overload ~ with g0uint_lnot
+fun{tk:tk}
+g0uint_lor (x: g0uint (tk), y: g0uint (tk)):<> g0uint (tk)
+overload lor with g0uint_lor
+fun{tk:tk}
+g0uint_lxor (x: g0uint (tk), y: g0uint (tk)):<> g0uint (tk)
+overload lxor with g0uint_lxor
+fun{tk:tk}
+g0uint_land (x: g0uint (tk), y: g0uint (tk)):<> g0uint (tk)
+overload land with g0uint_land
 
 #atscode_separator()
 

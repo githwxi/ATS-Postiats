@@ -424,6 +424,11 @@ val () = res := list_cons (f_uint2_uint ("mod", tnm1, tnm2), res)
 val () = res := list_cons (f_uint_X_uint ("lsl", tnm1, tnm2, "intGte(0)"), res)
 val () = res := list_cons (f_uint_X_uint ("lsr", tnm1, tnm2, "intGte(0)"), res)
 //
+val () = res := list_cons (f_uint_uint ("lnot", tnm1, tnm2), res)
+val () = res := list_cons (f_uint2_uint ("lor", tnm1, tnm2), res)
+val () = res := list_cons (f_uint2_uint ("lxor", tnm1, tnm2), res)
+val () = res := list_cons (f_uint2_uint ("land", tnm1, tnm2), res)
+//
 val () = res := list_cons (f_uint_bool ("isgtz", tnm1, tnm2), res)
 val () = res := list_cons (f_uint_bool ("iseqz", tnm1, tnm2), res)
 val () = res := list_cons (f_uint_bool ("isneqz", tnm1, tnm2), res)

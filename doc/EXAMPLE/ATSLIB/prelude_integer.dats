@@ -92,6 +92,33 @@ val () = assertloc ((1024U >> 10) = 1U)
 val () = assertloc ((1L << 10) = 1024L)
 val () = assertloc ((1024L >> 10) = 1L)
 //
+val x = 0x1234U
+val () = assertloc ((x lor x) = x)
+val () = assertloc ((x lor ~x) = g0i2u(~1))
+val () = assertloc ((x land x) = x)
+val () = assertloc ((x land ~x) = 0U)
+val () = assertloc ((x lxor x) = 0U)
+val () = assertloc ((0x0000U lor x) = x)
+val () = assertloc ((0xFFFFU land x) = x)
+//
+val x = 0x123456UL
+val () = assertloc ((x lor x) = x)
+val () = assertloc ((x lor ~x) = g0i2u(~1L))
+val () = assertloc ((x land x) = x)
+val () = assertloc ((x land ~x) = 0UL)
+val () = assertloc ((x lxor x) = 0UL)
+val () = assertloc ((0x000000UL lor x) = x)
+val () = assertloc ((0xFFFFFFUL land x) = x)
+//
+val x = 0x12345678ULL
+val () = assertloc ((x lor x) = x)
+val () = assertloc ((x lor ~x) = g0i2u(~1LL))
+val () = assertloc ((x land x) = x)
+val () = assertloc ((x land ~x) = 0ULL)
+val () = assertloc ((x lxor x) = 0ULL)
+val () = assertloc ((0x00000000ULL lor x) = x)
+val () = assertloc ((0xFFFFFFFFULL land x) = x)
+//
 } // end of [val]
 
 (* ****** ****** *)
