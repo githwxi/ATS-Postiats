@@ -24,9 +24,12 @@ staload _(*anon*) = "libats/ML/DATS/string0.dats"
 
 val alphabet0 = (string0)"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+(* ****** ****** *)
+
 val () =
 {
 val () = assert (string0_get_size (alphabet0) = 26)
+val () = assert (string0_get_size (alphabet0 + alphabet0) = 2 * 26)
 } // end of [val]
 
 (* ****** ****** *)
