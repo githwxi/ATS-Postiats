@@ -78,8 +78,9 @@ if l < r then let
   val m = l + half (r - l)
 (*
 //
-// overflow may occur
+// HX: typechecking fails
 // if the next line replaces the above one
+// as arith overflow may potentially occur
 //
   val m = (l + r) / 2
 *)
@@ -99,4 +100,4 @@ end // end of [bsearch]
 
 (* ****** ****** *)
 
-(* end of [int_overflow.dats] *)
+(* end of [arith_overflow.dats] *)
