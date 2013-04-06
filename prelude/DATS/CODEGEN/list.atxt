@@ -63,7 +63,7 @@ fun loop {
   if l < r then let
     val () = res :=
       list_vt_cons{elt}{0} (l, _)
-    val+ list_vt_cons (_, res1) = res
+    val+list_vt_cons (_, res1) = res
     val () = loop (l+1, r, res1)
   in
     fold@ (res)
@@ -99,7 +99,7 @@ fun loop
     ) = array_v_uncons (pf)
     val () = res :=
       list_vt_cons {a}{0} (_, _)
-    val+ list_vt_cons (x, res1) = res
+    val+list_vt_cons (x, res1) = res
     val () = x := !p
     val () = loop (pf2 | ptr1_succ<a> (p), pred(n), res1)
     prval () = pf := array_v_cons (pf1, pf2)
@@ -218,11 +218,11 @@ list_is_pair (xs) =
 
 implement{x}
 list_head (xs) =
-  let val+ list_cons (x, _) = xs in x end
+  let val+list_cons (x, _) = xs in x end
 // end of [list_head]
 implement{x}
 list_tail (xs) =
-  let val+ list_cons (_, xs) = xs in xs end
+  let val+list_cons (_, xs) = xs in xs end
 // end of [list_tail]
 
 #atscode_separator()
@@ -235,7 +235,7 @@ fun loop
   xs: list (a, n), i: int i
 ) :<> a =
   if i > 0 then let
-    val+ list_cons (_, xs) = xs in loop (xs, pred(i))
+    val+list_cons (_, xs) = xs in loop (xs, pred(i))
   end else list_head<a> (xs)
 //
 in
@@ -258,9 +258,9 @@ fun loop
   xs: list (a, n), i: int i, x: a, res: &ptr? >> list (a, n+1)
 ) :<!wrt> void =
   if i > 0 then let
-    val+ list_cons (x1, xs1) = xs
+    val+list_cons (x1, xs1) = xs
     val () = res := list_cons {a}{0} (x1, _)
-    val+ list_cons (_, res1) = res
+    val+list_cons (_, res1) = res
     val () = loop (xs1, i-1, x, res1)
     prval () = fold@ (res)
   in
@@ -310,7 +310,7 @@ fun loop
   | list_cons (x, xs) => let
       val () = res :=
         list_vt_cons{x}{0} (x, _(*?*))
-      val+ list_vt_cons
+      val+list_vt_cons
         (_, res1) = res // res1 = res.1
       val () = loop (xs, res1)
       prval () = fold@ (res)
@@ -366,7 +366,7 @@ fun loop
       (x, xs) => let
       val () = res :=
         list_vt_cons{a}{0} (x, _(*?*))
-      val+ list_vt_cons
+      val+list_vt_cons
         (_, res1) = res // res1 = res.1
       val () = loop (xs, ys, res1)
       prval () = fold@ (res)
@@ -508,10 +508,10 @@ fun loop
 , res: &ptr? >> list_vt (a, i)
 ) :<!wrt> void =
   if i > 0 then let
-    val+ list_cons (x, xs) = xs
+    val+list_cons (x, xs) = xs
     val () = res :=
       list_vt_cons{a}{0} (x, _(*?*))
-    val+ list_vt_cons
+    val+list_vt_cons
       (_, res1) = res // res1 = res.1
     val () = loop (xs, i-1, res1)
     val () = fold@ (res)
@@ -548,7 +548,7 @@ in
         (x, xs1) => let
         val () = res :=
           list_vt_cons{a}{0} (x, _(*?*))
-        val+ list_vt_cons
+        val+list_vt_cons
           (_, res1) = res // res1 = res.1
         val ans = loop (xs1, i-1, res1)
         prval () = fold@ (res)
@@ -589,7 +589,7 @@ fun loop
   {i:nat | i <= n} .<i>.
   (xs: list (a, n), i: int i):<> list (a, n-i) =
   if i > 0 then let
-    val+ list_cons (_, xs) = xs in loop (xs, i-1)
+    val+list_cons (_, xs) = xs in loop (xs, i-1)
   end else xs // end of [if]
 //
 in
@@ -704,7 +704,7 @@ fun loop
       | true => let
           val () = res :=
             list_vt_cons{x}{0} (x, _(*?*))
-          val+ list_vt_cons
+          val+list_vt_cons
             (_, res1) = res // res1 = res.1
           val () = loop (xs, res1)
           prval () = fold@ (res)
@@ -1000,7 +1000,7 @@ in
       (x, xs) => let
       val () = res :=
         list_vt_cons{ix}{0} (_, _)
-      val+ list_vt_cons (ix, res1) = res
+      val+list_vt_cons (ix, res1) = res
       val () = ix.0 := i and () = ix.1 := x
       val () = loop (xs, i+1, res1)
     in
@@ -1031,7 +1031,7 @@ fun loop
         list_map$fwork<x><y> (x)
       val () = res :=
         list_vt_cons{y}{0} (y, _(*?*))
-      val+ list_vt_cons
+      val+list_vt_cons
         (_, res1) = res // res1 = res.1
       val () = loop (xs, res1)
       prval () = fold@ (res)
@@ -1075,7 +1075,7 @@ in
       val y = f (pfv | x, env)
       val () = res :=
         list_vt_cons{y}{0} (y, _(*?*))
-      val+ list_vt_cons
+      val+list_vt_cons
         (_, res1) = res // res1 = res.1
       val () = loop (pfv | xs, f, env, res1)
       prval () = fold@ (res)
@@ -1111,7 +1111,7 @@ fun loop
         list_imap$fwork<x><y> (i, x)
       val () = res :=
         list_vt_cons{y}{0} (y, _(*?*))
-      val+ list_vt_cons
+      val+list_vt_cons
         (_, res1) = res // res1 = res.1
       val () = loop (xs, i+1, res1)
       prval () = fold@ (res)
@@ -1149,7 +1149,7 @@ fun loop
       | ~Some_vt (y) => let
           val () = res :=
             list_vt_cons{y}{0} (y, _(*?*))
-          val+ list_vt_cons
+          val+list_vt_cons
             (_, res1) = res // res1 = res.1
           val () = loop (xs, res1)
           prval () = fold@ (res)
@@ -1198,7 +1198,7 @@ in
       | ~Some_vt (y) => let
           val () = res :=
             list_vt_cons{y}{0} (y, _(*?*))
-          val+ list_vt_cons
+          val+list_vt_cons
             (_, res1) = res // res1 = res.1
           val () = loop (pfv | xs, f, env, res1)
           prval () = fold@ (res)
@@ -1237,7 +1237,7 @@ fun loop
       list_tabulate$fwork<x> (i)
     val () = res :=
       list_vt_cons{x}{0} (x, _(*?*))
-    val+ list_vt_cons
+    val+list_vt_cons
       (_, res1) = res // res1 = res.1
     val () = loop (n, succ(i), res1)
     prval () = fold@ (res)
@@ -1289,7 +1289,7 @@ case+ xs of
         list_zipwith$fwork<x,y><xy> (x, y)
       // end of [val]
       val () = res := list_vt_cons{xy}{0} (xy, _)
-      val+ list_vt_cons (xy, res1) = res
+      val+list_vt_cons (xy, res1) = res
       val () = loop (xs, ys, res1)
     in
       fold@ (res)
@@ -1355,7 +1355,7 @@ in
         list_crosswith$fwork<x,y><xy> (x, y)
       // end of [val]
       val () = res := list_vt_cons{xy}{0} (xy, _)
-      val+ list_vt_cons (_, res1) = res
+      val+list_vt_cons (_, res1) = res
       val () = loop2 (xs, ys, x, ys2, res1)
       prval () = mul_gte_gte_gte {m,n} ()
     in

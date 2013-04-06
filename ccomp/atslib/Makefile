@@ -122,6 +122,13 @@ clean:: ; $(RMF) output/atslib_libc_unistd_dats.o
 ######
 
 all:: atslib_libats_ML
+atslib_libats_ML:: atslib_libats_ML_array0_dats
+atslib_libats_ML_array0_dats: output/atslib_libats_ML_array0_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_ML_array0_dats.c: ../../libats/ML/DATS/array0.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_ML_array0_dats.o: output/atslib_libats_ML_array0_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_ML_array0_dats.c
+clean:: ; $(RMF) output/atslib_libats_ML_array0_dats.o
 
 atslib_libats_ML:: atslib_libats_ML_string0_dats
 atslib_libats_ML_string0_dats: output/atslib_libats_ML_string0_dats.o ; $(ARR) lib/libatslib.a $<

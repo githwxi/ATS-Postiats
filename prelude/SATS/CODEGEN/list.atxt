@@ -38,8 +38,8 @@ typedef NSH(a:type) = a // for commenting purpose
 (*
 exception ListSubscriptExn of ()
 *)
-fun ListSubscriptExn ():<> exn = "mac\#ListSubscriptExn_make"
-fun isListSubscriptExn (x: !exn):<> bool = "mac\#isListSubscriptExn"
+fun ListSubscriptExn ():<> exn = "mac\#%ListSubscriptExn_make"
+fun isListSubscriptExn (x: !exn):<> bool = "mac\#%isListSubscriptExn"
 
 #atscode_separator()
 

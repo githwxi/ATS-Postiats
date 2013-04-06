@@ -757,6 +757,14 @@ instr_xstore_ptrofs
 (* ****** ****** *)
 
 implement
+instr_raise
+  (loc, tmp, pmv_exn) =
+  instr_make_node (loc, INSraise (tmp, pmv_exn))
+// end of [instr_raise]
+
+(* ****** ****** *)
+
+implement
 instr_move_list_nil
   (loc, tmp) = instr_make_node (loc, INSmove_list_nil (tmp))
 // end of [instr_move_list_nil]

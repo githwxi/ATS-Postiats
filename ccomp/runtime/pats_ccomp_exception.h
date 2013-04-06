@@ -40,9 +40,29 @@
 
 /* ****** ****** */
 //
-// HX-2013-01:
-// it is yet to be implemented
+extern
+atstype_exnconptr atspre_ListSubscriptExn_make () ;
+extern
+atstype_bool
+atspre_isListSubscriptExn (const atstype_exnconptr exn) ;
 //
+extern
+atstype_exnconptr atspre_ArraySubscriptExn_make () ;
+extern
+atstype_bool
+atspre_isArraySubscriptExn (const atstype_exnconptr exn) ;
+//
+extern
+atstype_exnconptr atspre_NotSomeExn_make () ;
+extern
+atstype_bool
+atspre_isNotSomeExn (const atstype_exnconptr exn) ;
+//
+/* ****** ****** */
+
+extern
+atsvoid_t0ype atsruntime_raise (const atstype_exnconptr exn) ;
+
 /* ****** ****** */
 
 #endif /* PATS_CCOMP_EXCEPTION_H */

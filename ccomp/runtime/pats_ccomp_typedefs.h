@@ -111,6 +111,16 @@ typedef void* atstype_datconptr ;
 typedef void* atstype_datcontyp ;
 
 /* ****** ****** */
+
+typedef
+struct
+{
+  int exntag ; char *exnname ;
+} atstype_exncon ;
+
+typedef atstype_exncon *atstype_exnconptr ;
+
+/* ****** ****** */
 /*
 ** HX: for pointers to arrays
 */

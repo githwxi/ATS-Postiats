@@ -34,6 +34,14 @@ val () = assert (string0_get_size (alphabet0 + alphabet0) = 2 * 26)
 
 (* ****** ****** *)
 
+val () =
+{
+val () = assert (alphabet0[0] = 'A')
+val () = assert (alphabet0[25] = 'Z')
+} // end of [val]
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

@@ -76,8 +76,6 @@ implement{}
 utf8_encode_err
   (cp, err) = let
 //
-val () = err := 0
-//
 macdef proc (x) = utf8_encode$fput (,(x))
 //
 in
@@ -183,7 +181,7 @@ end // end of [aux1]
 in (* in of [local] *)
 
 implement{}
-utf8_decode_err (err) = let val () = err := 0 in aux0 (err) end
+utf8_decode_err (err) = aux0 (err)
 
 end // end of [local]
 

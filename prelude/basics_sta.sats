@@ -461,11 +461,12 @@ atsvoid_t0ype
 typedef void = atsvoid_t0ype
 
 (* ****** ****** *)
-
+//
 absvtype
-exception_vtype = $extype"atstype_exception"
-vtypedef exn = exception_vtype
-
+exception_vtype = $extype"atstype_exnconptr"
+//
+vtypedef exn = exception_vtype // boxed vtype
+//
 (* ****** ****** *)
 
 absvt@ype // covariance

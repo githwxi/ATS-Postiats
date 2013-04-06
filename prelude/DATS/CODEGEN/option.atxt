@@ -45,7 +45,7 @@ option_is_none (opt) =
 
 implement{a}
 option_unsome
-  (opt) = x where { val+ Some (x) = opt }
+  (opt) = x where { val+Some (x) = opt }
 // end of [option_unsome]
 
 implement{a}

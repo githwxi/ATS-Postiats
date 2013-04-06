@@ -91,16 +91,19 @@ overload string0 with string0_make_string
 fun string0_imake_string (str: string0):<!wrt> string
 
 (* ****** ****** *)
-
+//
 symintr string0_get_at
-
+//
 fun{tk:tk}
 string0_get_at_gint (str: string0, i: g0int(tk)):<!exn> char
-overload string0_get_at with string0_get_at_gint of 0
 fun{tk:tk}
 string0_get_at_guint (str: string0, i: g0uint(tk)):<!exn> char
+//
+overload [] with string0_get_at_gint of 0
+overload string0_get_at with string0_get_at_gint of 0
+overload [] with string0_get_at_guint of 0
 overload string0_get_at with string0_get_at_guint of 0
-
+//
 (* ****** ****** *)
 
 fun lt_string0_string0

@@ -912,6 +912,8 @@ instr_node =
   | INSxstore_ptrofs of
       (tmpvar, primval(*left*), hisexp(*tyroot*), primlablst(*ofs*), primval(*right*))
 //
+  | INSraise of (tmpvar(*uninitized*), primval) // raising an exception
+//
   | INSmove_list_nil of (tmpvar)
   | INSpmove_list_nil of (tmpvar)
   | INSpmove_list_cons of (tmpvar, hisexp(*elt*))
@@ -1120,6 +1122,13 @@ fun instr_xstore_ptrofs
   loc: location, tmp: tmpvar
 , pmv_l: primval, hse_rt: hisexp, pmls: primlablst, pmv_r: primval
 ) : instr // end of [instr_xstore_ptrofs]
+
+(* ****** ****** *)
+
+fun instr_raise
+(
+  loc: location, tmp: tmpvar, pmv_exn: primval
+) : instr // end of [instr_raise]
 
 (* ****** ****** *)
 

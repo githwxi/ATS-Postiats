@@ -1186,6 +1186,8 @@ extern fun emit_instr_store_ptrofs : emit_instr_type
 extern fun emit_instr_xstore_varofs : emit_instr_type
 extern fun emit_instr_xstore_ptrofs : emit_instr_type
 //
+extern fun emit_instr_raise : emit_instr_type
+//
 (* ****** ****** *)
 
 extern
@@ -1310,9 +1312,9 @@ case+ ins.instr_node of
   (
     pmv_cond, inss_then, inss_else
   ) => {
-    val () = emit_text (out, "ATSif(")
+    val () = emit_text (out, "ATSif(\n")
     val () = emit_primval (out, pmv_cond)
-    val () = emit_text (out, ") ATSthen() {\n")
+    val () = emit_text (out, "\n) ATSthen() {\n")
     val () = emit_instrlst (out, inss_then)
     val () = emit_text (out, "\n} ATSelse() {\n")
     val () = emit_instrlst (out, inss_else)
@@ -1435,6 +1437,8 @@ case+ ins.instr_node of
 //
 | INSxstore_varofs _ => emit_instr_xstore_varofs (out, ins)
 | INSxstore_ptrofs _ => emit_instr_xstore_ptrofs (out, ins)
+//
+| INSraise _ => emit_instr_raise (out, ins)
 //
 | INSmove_list_nil (tmp) => {
     val () = emit_text (out, "ATSINSmove_list_nil(")
@@ -2201,7 +2205,7 @@ val () = emit_text (out, "ATSINSstore(")
 val () = auxmain (out, 0(*non*), pmv_l, hse_rt, xys, 0)
 val () = emit_text (out, ", ")
 val () = emit_primval (out, pmv_r)
-val () = emit_text (out, ") ; ")
+val () = emit_text (out, ") ;")
 //
 in
   // nothing
@@ -2221,7 +2225,7 @@ val () = emit_text (out, "ATSINSstore(")
 val () = auxmain (out, 1(*non*), pmv_l, hse_rt, xys, 0)
 val () = emit_text (out, ", ")
 val () = emit_primval (out, pmv_r)
-val () = emit_text (out, ") ; ")
+val () = emit_text (out, ") ;")
 //
 in
   // nothing
@@ -2243,7 +2247,7 @@ val () = emit_text (out, ", ")
 val () = auxmain (out, 0(*non*), pmv_l, hse_rt, xys, 0)
 val () = emit_text (out, ", ")
 val () = emit_primval (out, pmv_r)
-val () = emit_text (out, ") ; ")
+val () = emit_text (out, ") ;")
 //
 in
   // nothing
@@ -2265,7 +2269,7 @@ val () = emit_text (out, ", ")
 val () = auxmain (out, 1(*non*), pmv_l, hse_rt, xys, 0)
 val () = emit_text (out, ", ")
 val () = emit_primval (out, pmv_r)
-val () = emit_text (out, ") ; ")
+val () = emit_text (out, ") ;")
 //
 in
   // nothing
@@ -2274,6 +2278,25 @@ end // end of [emit_instr_xstore_ptrofs]
 (* ****** ****** *)
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+emit_instr_raise
+  (out, ins) = let
+//
+val-INSraise
+  (tmp, pmv_exn) = ins.instr_node
+//
+val () = emit_text (out, "ATSINSraise(")
+val () = emit_tmpvar (out, tmp)
+val () = emit_text (out, ", ")
+val () = emit_primval (out, pmv_exn)
+val () = emit_text (out, ") ;")
+//
+in
+  // nothing
+end // end of [emit_instr_raise]
 
 (* ****** ****** *)
 

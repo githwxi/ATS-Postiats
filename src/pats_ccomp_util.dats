@@ -228,6 +228,8 @@ case+ x.instr_node of
 | INSxstore_varofs (tmp, _, _, _, _) => tmpadd (tmp)
 | INSxstore_ptrofs (tmp, _, _, _, _) => tmpadd (tmp)
 //
+| INSraise _ => ()
+//
 | INSmove_list_nil (tmp) => tmpadd (tmp)
 | INSpmove_list_nil (tmp) => tmpadd (tmp)
 | INSpmove_list_cons (tmp, _) => tmpadd (tmp)

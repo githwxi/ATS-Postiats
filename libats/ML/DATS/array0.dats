@@ -346,10 +346,12 @@ in
 end // end of [array0_find_exn]
 
 (*
+/*
 implement{a}
 array0_find_opt (A0, p) =
   try Some0 (array0_find_exn<a> (A0, p)) with ~NotFoundExn() => None0 ()
 // end of [array0_find_opt]
+*/
 *)
 
 (* ****** ****** *)

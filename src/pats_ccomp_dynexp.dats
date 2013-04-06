@@ -181,6 +181,8 @@ extern fun hidexp_ccomp_ret_seq : hidexp_ccomp_ret_funtype
 
 extern fun hidexp_ccomp_ret_arrpsz : hidexp_ccomp_ret_funtype
 
+extern fun hidexp_ccomp_ret_raise : hidexp_ccomp_ret_funtype
+
 (* ****** ****** *)
 
 local
@@ -305,6 +307,8 @@ case+ hde0.hidexp_node of
 | HDExchng_ptr _ => hidexp_ccomp_xchng_ptr (env, res, hde0)
 //
 | HDEarrpsz _ => auxret (env, res, hde0)
+//
+| HDEraise (hde_exn) => auxret (env, res, hde0)
 //
 | HDElam _ => hidexp_ccomp_lam (env, res, hde0)
 //
@@ -521,6 +525,8 @@ case+ hde0.hidexp_node of
 | HDExchng_ptr _ => auxval (env, res, tmpret, hde0)
 //
 | HDEarrpsz _ => hidexp_ccomp_ret_arrpsz (env, res, tmpret, hde0)
+//
+| HDEraise (hde_exn) => hidexp_ccomp_ret_raise (env, res, tmpret, hde0)
 //
 | HDElam _ => auxval (env, res, tmpret, hde0)
 //
@@ -1284,7 +1290,25 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-hidexp_ccomp_funlab_arg_body (
+hidexp_ccomp_ret_raise
+  (env, res, tmpret, hde0) = let
+//
+val loc0 = hde0.hidexp_loc
+val-HDEraise (hde_exn) = hde0.hidexp_node
+val pmv_exn = hidexp_ccomp (env, res, hde_exn)
+//
+val ins = instr_raise (loc0, tmpret, pmv_exn)
+val () = instrseq_add (res, ins)
+//
+in
+  // nothing
+end // end of [hidexp_ccomp_ret_raise]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_funlab_arg_body
+(
   env
 , flab
 , imparg

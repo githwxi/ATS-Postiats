@@ -889,6 +889,18 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
+| INSxstore_varofs _ => prstr "INSxstore_ptrofs(...)"
+| INSxstore_ptrofs _ => prstr "INSxstore_ptrofs(...)"
+//
+| INSraise
+    (tmp, pmv_exn) => {
+    val () = prstr "INSraise("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr ", "
+    val () = fprint_primval (out, pmv_exn)
+    val () = prstr ")"
+  } // end of [INSraise]
+//
 | INSmove_list_nil (tmp) => {
     val () =
       prstr "INSmove_list_nil("

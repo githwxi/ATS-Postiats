@@ -32,7 +32,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 implement{a}
 list_vt_uncons (xs) = let
-  val+ ~list_vt_cons (x, xs1) = xs in xs := xs1; x
+  val+~list_vt_cons (x, xs1) = xs in xs := xs1; x
 end // end of [list_vt_uncons]
 
 #atscode_separator()
@@ -178,7 +178,7 @@ fun loop {
 ) :<> Ptr1 = let
 in
   if i > 0 then let
-    val+ @list_vt_cons (_, xs1) = xs
+    val+@list_vt_cons (_, xs1) = xs
     val res = loop{n-1,i-1}(xs1, pred(i))
   in
     fold@ (xs); res
@@ -206,7 +206,7 @@ var xs = __ref (xs) where
 } // end of [val]
 //
 val pi = list_vt_getref_at (xs, i)
-val+ list_cons (x, _) = $UN.ptr1_get<List1(a)> (cptr2ptr (pi))
+val+list_cons (x, _) = $UN.ptr1_get<List1(a)> (cptr2ptr (pi))
 //
 prval () = __unref (xs) where
 {
@@ -230,7 +230,7 @@ end // end of [val]
 //
 val pi = list_vt_getref_at (xs, i)
 val (pf, fpf | pi) = $UN.cptr_vtake (pi)
-val+ @list_vt_cons (x1, xs1) = !pi
+val+@list_vt_cons (x1, xs1) = !pi
 val () = x1 := x0
 prval () = fold@ (!pi)
 prval () = fpf (pf)
@@ -260,7 +260,7 @@ var xs = __ref (xs) where
 //
 val pi = list_vt_getref_at (xs, i)
 val (pf, fpf | pi) = $UN.cptr_vtake (pi)
-val+ @list_vt_cons (x1, xs1) = !pi
+val+@list_vt_cons (x1, xs1) = !pi
 //
 val t = x1
 val () = x1 := x0
@@ -813,7 +813,7 @@ in
         list_vt_map$fwork<a><b> (x)
       // end of [val]
       val () = res := list_vt_cons {b}{0} (y, _)
-      val+ list_vt_cons (_, res1) = res
+      val+list_vt_cons (_, res1) = res
       val () = loop (xs1, res1)
       val () = fold@ (xs)
       prval () = fold@ (res)
@@ -852,7 +852,7 @@ in
       // end of [val]
       val () = free@ {a}{0} (xs)
       val () = res := list_vt_cons {b}{0} (y, _)
-      val+ list_vt_cons (_, res1) = res
+      val+list_vt_cons (_, res1) = res
       val () = loop (xs1, res1)
       prval () = fold@ (res)
     in
@@ -888,7 +888,7 @@ fun split
 in
 //
 if n1 > 0 then let
-  val+ @list_vt_cons (_, xs1) = xs
+  val+@list_vt_cons (_, xs1) = xs
   val () = split (xs1, n1-1, res)
 in
   fold@ (xs)
@@ -944,7 +944,7 @@ val n = list_vt_length<a> (xs)
 in
 //
 if n >= 2 then let
-  val+ @list_vt_cons (_, xs1) = xs
+  val+@list_vt_cons (_, xs1) = xs
   var res: List_vt a? // uninitialized
   val () = split (xs1, (n-1)/2, res)
   prval () = fold@ (xs)

@@ -610,11 +610,17 @@ in
 end // end of [aux_dynload]
 
 fun
-aux_main (
+aux_main
+(
   out: FILEref
 , infil: $FIL.filename
 , d2cmain: d2cst
 ) : void = let
+//
+val () = emit_text (out, "\n/*\n")
+val () = emit_text (out, "** the ATS runtime")
+val () = emit_text (out, "\n*/\n")
+val () = emit_text (out, "#include \"pats_ccomp_runtime.h\"\n")
 //
 val () = emit_text (out, "\n/*\n")
 val () = emit_text (out, "** the [main] implementation")

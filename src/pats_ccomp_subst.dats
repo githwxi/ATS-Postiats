@@ -973,6 +973,14 @@ case+
     instr_xstore_ptrofs (loc0, tmp, pmv_l, hse_rt, pmls, pmv_r)
   end // end of [INSxstore_ptrofs]
 //
+| INSraise
+    (tmp, pmv_exn) => let
+    val tmp = ftmp (tmp)
+    val pmv_exn = fpmv (pmv_exn)
+  in
+    instr_raise (loc0, tmp, pmv_exn)
+  end // end of [INSraise]
+//
 (*
 //
 | INSmove_list_nil of (tmpvar) // tmp <- list_nil

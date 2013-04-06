@@ -216,6 +216,10 @@
 #define ATSINSxstore(tmp, pmv1, pmv2) (tmp = pmv1, pmv1 = pmv2, pmv2 = tmp)
 
 /* ****** ****** */
+
+#define ATSINSraise(tmp, pmv) atsruntime_raise(pmv)
+
+/* ****** ****** */
 //
 #define ATSINSmove_list_nil(tmp) (tmp = (void*)0)
 #define ATSINSmove_list_phead(tmp1, tmp2, tyelt) (tmp1 = &(((ATStylist(tyelt)*)(*(void**)tmp2))->head))

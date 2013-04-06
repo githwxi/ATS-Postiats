@@ -81,14 +81,14 @@ fun utf8_get_cpw {i:int} (cp: int i): [w:int] intcpw (i, w)
 fun{}
 utf8_encode$fput (u: uint): void
 fun{}
-utf8_encode_err (cp: uint, err: &int? >> int): void
+utf8_encode_err (cp: uint, err: &int >> _): void
 
 (* ****** ****** *)
 
 fun{}
 utf8_decode$fget (): int
 fun{}
-utf8_decode_err (err: &int? >> int): int
+utf8_decode_err (err: &int >> _): int
 
 (* ****** ****** *)
     
