@@ -33,17 +33,17 @@ staload "libatslex/SATS/unicode.sats"
 
 implement
 char2_get_byte_order
-  (c0, c1) = let
+  (c1, c2) = let
 in
 //
 case+ 0 of
-| _ when c0 = 0xFE =>
+| _ when c1 = 0xFE =>
   (
-    if c1 = 0xFF then BObig else BOmalformed
+    if c2 = 0xFF then BObig else BOmalformed
   )
-| _ when c0 = 0xFF =>
+| _ when c1 = 0xFF =>
   (
-    if c1 = 0xFE then BOlittle else BOmalformed
+    if c2 = 0xFE then BOlittle else BOmalformed
   )
 | _ => BOmalformed
 //
@@ -109,6 +109,83 @@ case+ 0 of
 | _ => (err := err + 1)
 //
 end // end of [utf8_encode]
+
+(* ****** ****** *)
+
+local
+
+macdef
+fget () = utf8_decode$fget ()
+macdef
+isvalid (x) = (,(x) >> 6) = 2
+
+fun{
+} aux0
+(
+  err: &int >> _
+) : int = let
+  val c1 = fget ()
+in
+  if c1 >= 0 then g0u2i (aux1 (c1, err)) else c1
+end // end of [aux0]
+
+and aux1
+(
+  c1: int, err: &int >> _
+) : uint = let
+in
+//
+case+ 0 of
+| _ when c1 < 128 => g0i2u(c1)
+| _ when (192 <= c1 && c1 < 224) => let
+    val c2 = fget ()
+//
+    val c1 = g0i2u(c1)
+    and c2 = g0i2u(c2)
+//
+    val test = isvalid (c2)
+    val () = if not(test) then err := err + 1
+  in
+    ((c1 land 0x1FU) << 6) lor (c2 land 0x3FU)
+  end // end of [...]
+| _ when (224 <= c1 && c1 < 240) => let
+    val c2 = fget ()
+    val c3 = (if c2 >= 0 then fget () else ~1): int
+//
+    val c1 = g0i2u(c1)
+    and c2 = g0i2u(c2)
+    and c3 = g0i2u(c3)
+//
+    val test = isvalid (c2) && isvalid (c3)
+    val () = if not(test) then err := err + 1
+  in
+    ((c1 land 0x0FU) << 12) lor ((c2 land 0x3FU) << 6) lor (c3 land 0x3FU)
+  end // end of [...]
+| _ when (240 <= c1 && c1 < 248) => let
+    val c2 = fget ()
+    val c3 = (if c2 >= 0 then fget () else ~1): int
+    val c4 = (if c3 >= 0 then fget () else ~1): int
+//
+    val c1 = g0i2u(c1)
+    and c2 = g0i2u(c2)
+    and c3 = g0i2u(c3)
+    and c4 = g0i2u(c4)
+//
+    val test = isvalid (c2) && isvalid (c3) && isvalid (c4)
+    val () = if not(test) then err := err + 1
+  in
+    ((c1 land 0x07U) << 18) lor ((c2 land 0x3FU) << 12) lor ((c3 land 0x3FU) << 6) lor (c4 land 0x3FU)
+  end // end of [...]
+| _ => (err := err + 1; g0i2u(c1))
+//
+end // end of [aux1]
+
+in (* in of [local] *)
+
+implement{}
+utf8_decode_err (err) = let val () = err := 0 in aux0 (err) end
+
+end // end of [local]
 
 (* ****** ****** *)
 

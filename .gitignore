@@ -25,6 +25,14 @@ utils/atsyntax/HTML
 utils/atsyntax/pats2xhtml
 
 #
+# ATSHOME/ccomp
+#
+
+ccomp/atslib/lib
+ccomp/atslib/lib64
+ccomp/atslib/output
+
+#
 # ATSLIB/prelude
 #
 

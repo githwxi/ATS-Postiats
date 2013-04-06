@@ -68,7 +68,7 @@ datatype byte_order = BOlittle | BObig | BOmalformed
 
 (* ****** ****** *)
 
-fun char2_get_byte_order (c0: int, c1: int):<> byte_order
+fun char2_get_byte_order (c1: int, c2: int):<> byte_order
 
 (* ****** ****** *)
 
@@ -88,7 +88,7 @@ utf8_encode_err (cp: uint, err: &int? >> int): void
 fun{}
 utf8_decode$fget (): int
 fun{}
-utf8_decode_err (err: &int? >> int): void
+utf8_decode_err (err: &int? >> int): int
 
 (* ****** ****** *)
     
