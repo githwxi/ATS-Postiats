@@ -43,8 +43,10 @@ versa.\
 
 #para('\
 
-Please see #myatscodelink("prelude/SATS/list_vt.sats", "list_vt.sats") for
-the SATS file in ATSLIB where the functions in this package are declared.\
+Please see #myatscodelink("prelude/SATS/list_vt.sats", "list_vt.sats") and
+#myatscodelink("prelude/DATS/list_vt.dats", "list_vt.dats") for the SATS file and
+DATS file in ATSLIB where the functions in this package are declared and
+implemented, respectively.\
 
 ')
 

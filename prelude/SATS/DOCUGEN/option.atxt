@@ -22,8 +22,19 @@ ATSLIB/prelude/option\
 #declpreamble('\
 
 #para('\
+
 This package contains some common functions for processing (functional)
-option-values.
+option-values.\
+
+')
+
+#para('\
+
+Please see #myatscodelink("prelude/SATS/option.sats", "option.sats") and
+#myatscodelink("prelude/DATS/option.dats", "option.dats") for the SATS file
+and DATS file in ATSLIB where the functions in this package are declared
+and implemented, respectively.\
+
 ')
 
 ')#comment("declpreamble")

@@ -22,6 +22,7 @@ ATSLIB/prelude/array\
 #declpreamble('\
 
 #para('\
+
 The type for a plain ungarnished array containing N elements of type T is
 denoted by the special syntax #stacode("@[T][N]"). The size of this
 array-type is N times the size of T and its linearity coincides with the
@@ -29,8 +30,18 @@ linearity of T, that is, the type #stacode("@[T][N]") is linear if and only
 if T is linear.  It should be noted that a value of this form of array-type
 can be passed to a function call only as a call-by-reference parameter
 (unless certain special arrangement is made for it to be passed as a
-call-by-value parameter).
+call-by-value parameter).\
+
 ')#comment("para")
+
+#para('\
+
+Please see #myatscodelink("prelude/SATS/array.sats", "array.sats") and
+#myatscodelink("prelude/DATS/array.dats", "array.dats") for the SATS file
+and DATS file in ATSLIB where the functions in this package are declared
+and implemented, respectively.\
+
+')
 
 ')#comment("declpreamble")
 

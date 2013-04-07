@@ -40,8 +40,10 @@ subtype of #stacode("list(T2, N)") if T1 is a subtype of T2.\
 
 #para('\
 
-Please see #myatscodelink("prelude/SATS/list.sats", "list.sats") for the
-SATS file in ATSLIB where the functions in this package are declared.\
+Please see #myatscodelink("prelude/SATS/list.sats", "list.sats") and
+#myatscodelink("prelude/DATS/list.dats", "list.dats") for the SATS file and
+DATS file in ATSLIB where the functions in this package are declared and
+implemented, respectively.\
 
 ')
 
