@@ -35,7 +35,7 @@ is used to refer to such a string.
 
 (* ****** ****** *)
 
-#declnamesynop("string2array0")
+#declnamesynop("strarr2array")
 #decldescrpt("\
 This cast function turns a strarr-value to an array of characters.\
 ")
@@ -55,6 +55,13 @@ a strarr-value corresponding to a given C-style string.\
 
 (* ****** ****** *)
 
+#declnamesynop("strarr_copy")
+#decldescrpt("\
+Given a strarr-value, this function returns a copy of it.
+")
+
+(* ****** ****** *)
+
 #declnamesynop("strarr_append")
 #decldescrpt("\
 
@@ -68,8 +75,11 @@ concatenation of two given strings.
 #declnamesynop("strarr_foreach")
 #decldescrpt("\
 
-This function traverses its first argument (a string) and applies to each
-encountered character its second argument (a closure-function).  ")
+This function traverses its first argument (a string) from the start to the
+end and applies to each encountered character its second argument (a
+closure-function).\
+
+")
 #declexample("\
 
 The following code prints a given string onto the standard output channel:
@@ -79,12 +89,23 @@ The following code prints a given string onto the standard output channel:
 staload "libats/ML/SATS/strarr.sats"
 //
 implement
-main () = 0 where {
-  val str = (strarr)"abcdefg"
-  val () = strarr_foreach (str, lam (c) => print_char (c))
+main0 () = {
+  val cs = (strarr)"abcdefg"
+  val () = strarr_foreach (cs, lam (c) => print_char (c))
   val () = print_newline ()
-} // end of [main]
+} // end of [main0]
 ')
+")
+
+(* ****** ****** *)
+
+#declnamesynop("strarr_rforeach")
+#decldescrpt("\
+
+This function traverses its first argument (a string) from the end to the
+start and applies to each encountered character its second argument (a
+closure-function).\
+
 ")
 
 (* ****** ****** *)
