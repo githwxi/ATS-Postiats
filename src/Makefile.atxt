@@ -510,8 +510,10 @@ all:: patsopt
 
 ######
 
+# AS-20130407: libats depends on libgmp (hence specified earlier);
+# link order matters to GNU ld
 patsopt: pats_main_dats.o $(OBJECTS) ; \\
-  $(ATSCC) $(ATSGCFLAG) $(ATSCCFLAGS) -o $@ pats_main_dats.o $(OBJECTS) -lgmp
+  $(ATSCC) $(ATSGCFLAG) $(ATSCCFLAGS) -o $@ pats_main_dats.o $(OBJECTS) -lats -lgmp
 cleanall:: ; $(RMF) patsopt
 
 ######
