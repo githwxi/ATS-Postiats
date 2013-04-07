@@ -36,8 +36,15 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
 staload _(*anon*) = "prelude/DATS/pointer.dats"
 staload _(*anon*) = "prelude/DATS/reference.dats"
+
+(* ****** ****** *)
+
+staload UT = "./pats_utils.sats"
+staload _(*anon*) = "./pats_utils.dats"
 
 (* ****** ****** *)
 
@@ -76,7 +83,8 @@ staload "./pats_ccomp.sats"
 (* ****** ****** *)
 
 typedef
-funlab_struct = @{
+funlab_struct =
+@{
   funlab_name= string
 //
 , funlab_level= int // top/inner level
@@ -228,9 +236,13 @@ funlab_set_suffix (flab, sfx) = let
 end // end of [funlab_set_suffix]
 
 implement
-funlab_get_stamp (flab) = let
+funlab_get_stamp
+  (flab) = $effmask_ref
+(
+let
   val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_stamp
 end // end of [funlab_get_stamp]
+) (* end of [funlab_get_stamp] *)
 
 end // end of [local]
 
@@ -429,6 +441,52 @@ implement
 print_funlab (flab) = fprint_funlab (stdout_ref, flab)
 implement
 prerr_funlab (flab) = fprint_funlab (stderr_ref, flab)
+
+(* ****** ****** *)
+
+local
+
+staload
+FS = "libats/SATS/funset_listord.sats"
+staload
+_(*anon*) = "libats/DATS/funset_listord.dats"
+
+assume funlabset = $FS.set (funlab)
+
+val cmp =
+lam (x: funlab, y: funlab) =<cloref>
+  $STMP.compare_stamp_stamp (funlab_get_stamp (x), funlab_get_stamp (y))
+// end of [val]
+
+in (* in of [local] *)
+
+implement
+funlabset_nil () = $FS.funset_make_nil ()
+
+implement
+funlabset_add
+  (fls, fl) = fls where
+{
+  var fls = fls
+  val _(*exists*) = $FS.funset_insert (fls, fl, cmp)
+} // end of [funlabset_add]
+
+implement
+funlabset_listize (fls) = $FS.funset_listize (fls)
+
+end // end of [local]
+
+implement
+fprint_funlabset
+  (out, fls) = let
+//
+val xs = funlabset_listize (fls)
+val () = $UT.fprintlst (out, $UN.linlst2lst(xs), ", ", fprint_funlab)
+val () = list_vt_free (xs)
+//
+in
+  // nothing
+end // end of [fprint_funlabset]
 
 (* ****** ****** *)
 

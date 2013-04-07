@@ -205,6 +205,7 @@ overload print with print_funlab
 fun prerr_funlab (x: funlab): void
 overload prerr with prerr_funlab
 fun fprint_funlab : fprint_type (funlab)
+fun fprint_funlablst : fprint_type (funlablst)
 //
 fun
 funlab_make
@@ -255,8 +256,19 @@ fun funlab_set_suffix (flab: funlab, sfx: int): void
 //
 fun funlab_get_tmparg (flab: funlab): t2mpmarglst
 //
-fun funlab_get_stamp (flab: funlab): stamp
+fun funlab_get_stamp (flab: funlab):<> stamp
 //
+(* ****** ****** *)
+
+abstype funlabset
+
+fun funlabset_nil (): funlabset
+fun funlabset_add (fls: funlabset, fl: funlab): funlabset
+fun funlabset_listize (fls: funlabset): List_vt (funlab)
+
+fun fprint_funlabset : fprint_type (funlabset)
+overload fprint with fprint_funlabset
+
 (* ****** ****** *)
 //
 // HX: function entry
@@ -289,6 +301,8 @@ fun funent_get_imparg (fent: funent): s2varlst
 fun funent_get_tmparg (fent: funent): s2explstlst
 //
 fun funent_get_tmpret (fent: funent): tmpvar // return value
+//
+fun funent_get_flabset (fent: funent): funlabset
 //
 fun funent_get_tmpvarlst (fent: funent): tmpvarlst
 //
@@ -1214,7 +1228,11 @@ fun funent_make
 , tmparg: s2explstlst
 , tmpsub: tmpsubopt
 , tmpret: tmpvar
-, inss: instrlst
+, flset: funlabset
+(*
+, d2vset: d2varset
+*)
+, inss_body: instrlst
 , tmplst: tmpvarlst
 ) : funent // end of [funent_make]
 
@@ -1226,7 +1244,8 @@ fun funent_make2
 , imparg: s2varlst
 , tmparg: s2explstlst
 , tmpret: tmpvar
-, inss: instrlst
+, flset: funlabset
+, inss_body: instrlst
 ) : funent // end of [funent_make2]
 
 (* ****** ****** *)
@@ -1282,6 +1301,15 @@ fun ccompenv_inc_loopexnenv
 
 fun ccompenv_dec_loopexnenv (env: !ccompenv): void
 
+(* ****** ****** *)
+//
+fun ccompenv_inc_flabsetenv (env: !ccompenv): void
+fun ccompenv_getdec_flabsetenv (env: !ccompenv): funlabset
+//
+fun ccompenv_add_flabsetenv (env: !ccompenv, fl: funlab): void
+//
+fun ccompenv_addset_flabsetenv_if (env: !ccompenv, lev0: int, fls: funlabset): void
+//
 (* ****** ****** *)
 
 absview ccompenv_push_v
@@ -1682,6 +1710,9 @@ fun t2mpmarglst_tsubst
 //
 fun funlab_subst
   (sub: !stasub, flab: funlab): funlab
+//
+fun funlabset_subst
+  (env: !ccompenv, flset: funlabset): funlabset
 //
 fun funent_subst
   (env: !ccompenv, sub: !stasub, flab2: funlab, fent: funent, sfx: int): funent

@@ -621,7 +621,7 @@ val () = emit_text (out, "\n/*\n")
 val () = emit_text (out, "** the ATS runtime")
 val () = emit_text (out, "\n*/\n")
 val () = emit_text (out, "#ifndef _ATS_RUNTIME_NONE\n")
-val () = emit_text (out, "#include \"pats_ccomp_runtime.h\"\n")
+val () = emit_text (out, "#include \"pats_ccomp_runtime.c\"\n")
 val () = emit_text (out, "#endif /* _ATS_RUNTIME_NONE */\n")
 //
 val () = emit_text (out, "\n/*\n")

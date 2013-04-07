@@ -353,6 +353,11 @@ end // end of [tmpvarlst_reset_alias]
 (* ****** ****** *)
 
 implement
+funlabset_subst (env, flset) = flset
+
+(* ****** ****** *)
+
+implement
 funent_subst
   (env, sub, flab2, fent, sfx) = let
 //
@@ -401,14 +406,19 @@ case+ opt of
 //
 end // end of [val]
 //
+val flset = funent_get_flabset (fent)
+val flset2 = funlabset_subst (env, flset)
+//
 val inss2 = instrlst_subst (env, tmpmap2, sub, inss, sfx)
 //
 val ((*void*)) = tmpvarmap_vt_free (tmpmap2)
 //
-val fent2 =
-  funent_make (
-  loc, level, flab2, imparg, tmparg, None(), tmpret2, inss2, tmplst2
-) // end of [val]
+val
+fent2 = funent_make
+(
+  loc, level, flab2
+, imparg, tmparg, None(), tmpret2, flset2, inss2, tmplst2
+) (* end of [val] *)
 //
 in
   fent2
@@ -1045,8 +1055,9 @@ end // end of [instrlst_subst]
 local
 
 extern
-fun auxinit
-  {n:nat} (
+fun
+auxinit{n:nat}
+(
   env: !ccompenv
 , map: !tmpmap, sub: !stasub, hfds: list (hifundec, n)
 ) : list_vt (funlab, n)
@@ -1082,8 +1093,9 @@ case+ hfds of
 end // end of [auxinit]
 
 extern
-fun auxmain
-  {n:nat} (
+fun
+auxmain{n:nat}
+(
   env: !ccompenv
 , map: !tmpmap, sub: !stasub
 , hfds: list (hifundec, n), flabs: list_vt (funlab, n)

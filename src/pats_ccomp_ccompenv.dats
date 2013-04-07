@@ -473,8 +473,6 @@ LOOPTMPLAB3 of
 
 vtypedef loopexnenv = List_vt (looptmplab3)
 
-(* ****** ****** *)
-
 extern
 fun loopexnenv_free (xs: loopexnenv): void
 
@@ -493,11 +491,21 @@ end // end of [loopexnenv_free]
 
 (* ****** ****** *)
 
+vtypedef flabsetenv = List_vt (funlabset)
+
+extern
+fun flabsetenv_free (xs: flabsetenv): void
+implement
+flabsetenv_free (xs) = list_vt_free (xs)
+
+(* ****** ****** *)
+
 viewtypedef
 ccompenv_struct = @{
   ccompenv_tmplevel = int
 , ccompenv_tmprecdepth = int
 , ccompenv_loopexnenv= loopexnenv
+, ccompenv_flabsetenv= flabsetenv
 , ccompenv_markenvlst = markenvlst_vt
 , ccompenv_varbindmap= d2varmap_vt (primval)
 } // end of [ccompenv_struct]
@@ -514,6 +522,7 @@ ccompenv_struct_uninitize (x) = let
   val () =
     markenvlst_vt_free (x.ccompenv_markenvlst)
   val () = loopexnenv_free (x.ccompenv_loopexnenv)
+  val () = flabsetenv_free (x.ccompenv_flabsetenv)
   val () = d2varmap_vt_free (x.ccompenv_varbindmap)
 in
   // end of [ccompenv_struct_uninitize]
@@ -539,6 +548,7 @@ ccompenv_make
   val () = p->ccompenv_tmplevel := 0
   val () = p->ccompenv_tmprecdepth := 0
   val () = p->ccompenv_loopexnenv := list_vt_nil ()
+  val () = p->ccompenv_flabsetenv := list_vt_nil ()
   val () = p->ccompenv_markenvlst := MARKENVLSTnil ()
   val () = p->ccompenv_varbindmap := d2varmap_vt_nil ()
 //
@@ -695,11 +705,88 @@ end // end of [ccompenv_get_loopcont]
 
 (* ****** ****** *)
 
+implement
+ccompenv_inc_flabsetenv
+  (env) = let
+  val fls = funlabset_nil ()
+  val CCOMPENV (!p) = env
+  val () = (p->ccompenv_flabsetenv := list_vt_cons (fls, p->ccompenv_flabsetenv))
+  prval () = fold@ (env)
+in
+  // nothing
+end // end of [ccompenv_inc_flabsetenv]
+
+implement
+ccompenv_getdec_flabsetenv
+  (env) = fls where
+{
+//
+val CCOMPENV (!p) = env
+val-~list_vt_cons (fls, flss) = p->ccompenv_flabsetenv
+val () = p->ccompenv_flabsetenv := flss
+prval () = fold@ (env)
+//
+} // end of [ccompenv_getdec_flabsetenv]
+
+implement
+ccompenv_add_flabsetenv
+  (env, fl) = () where
+{
+//
+val CCOMPENV (!p) = env
+val-list_vt_cons
+  (!p_fls, _) = p->ccompenv_flabsetenv
+val () = !p_fls := funlabset_add (!p_fls, fl)
+prval () = fold@ (p->ccompenv_flabsetenv)
+prval () = fold@ (env)
+//
+} // end of [ccompenv_add_flabsetenv]
+
+implement
+ccompenv_addset_flabsetenv_if
+  (env, lev0, fls) = () where
+{
+//
+val fls = funlabset_listize (fls)
+//
+fun addset_if
+(
+  lev0: int, fls: List_vt (funlab), fls0: funlabset
+) : funlabset = let
+in
+//
+case+ fls of
+| ~list_vt_cons
+    (fl, fls) => let
+    val lev = funlab_get_level (fl)
+    val fls0 =
+    (
+      if lev < lev0 then funlabset_add (fls0, fl) else fls0
+    ) : funlabset // end of [val]
+  in
+    addset_if (lev0, fls, fls0)
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => fls0
+//
+end // end of [addset_if]
+//
+val CCOMPENV (!p) = env
+val-list_vt_cons
+  (!p_fls0, _) = p->ccompenv_flabsetenv
+val () = !p_fls0 := addset_if (lev0, fls, !p_fls0)
+prval () = fold@ (p->ccompenv_flabsetenv)
+prval () = fold@ (env)
+//
+} // end of [ccompenv_addset_flabsetenv_if]
+
+(* ****** ****** *)
+
 local
 
 assume ccompenv_push_v = unit_v
 
-fun auxpop (
+fun auxpop
+(
   map: &d2varmap_vt (primval), xs: markenvlst_vt
 ) : markenvlst_vt = let
 in
@@ -724,7 +811,8 @@ case+ xs of
 //
 end // end of [auxpop]
 
-fun auxjoin (
+fun auxjoin
+(
   map: &d2varmap_vt (primval), xs: &markenvlst_vt
 ) : void = let
 in

@@ -55,7 +55,8 @@ staload "./pats_ccomp.sats"
 local
 
 typedef
-funent = '{
+funent =
+'{
   funent_loc= location
 //
 , funent_level= int // =0/>0 for top/inner fun
@@ -67,8 +68,13 @@ funent = '{
 , funent_tmpsub= tmpsubopt
 //
 , funent_tmpret= tmpvar // storing the return value
+//
+, funent_flabset= funlabset // funlabs in function body
+//
 , funent_instrlst= instrlst // instructions of function body
+//
 , funent_tmpvarlst= tmpvarlst // tmpvars in function body
+//
 } // end of [funent]
 
 assume funent_type = funent
@@ -77,9 +83,11 @@ extern typedef "funent_t" = funent
 in // in of [local]
 
 implement
-funent_make (
+funent_make
+(
   loc, level, flab
-, imparg, tmparg, tmpsub, tmpret, inss, tmplst
+, imparg, tmparg, tmpsub
+, tmpret, flset, inss, tmplst
 ) = let
 in '{
   funent_loc= loc
@@ -93,6 +101,8 @@ in '{
 , funent_tmpsub= tmpsub
 //
 , funent_tmpret= tmpret
+//
+, funent_flabset= flset
 //
 , funent_instrlst= inss
 , funent_tmpvarlst= tmplst
@@ -123,6 +133,9 @@ implement
 funent_get_tmpret (fent) = fent.funent_tmpret
 
 implement
+funent_get_flabset (fent) = fent.funent_flabset
+
+implement
 funent_get_instrlst (fent) = fent.funent_instrlst
 
 implement
@@ -135,9 +148,10 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-funent_make2 (
+funent_make2
+(
   loc, flab, level
-, imparg, tmparg, tmpret, inss
+, imparg, tmparg, tmpret, flset, inss
 ) = let
   val tmps = instrlst_get_tmpvarset (inss)
   val tmps = tmpvarset_vt_add (tmps, tmpret)
@@ -145,8 +159,10 @@ funent_make2 (
   val tmplst = list_of_list_vt (tmplst)
 in
 //
-funent_make (
-  loc, flab, level, imparg, tmparg, None(*tsub*), tmpret, inss, tmplst
+funent_make
+(
+  loc, flab, level
+, imparg, tmparg, None(*tsub*), tmpret, flset, inss, tmplst
 ) // end of [funent_make]
 //
 end // end of [funent_make2]

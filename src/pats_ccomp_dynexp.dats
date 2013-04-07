@@ -114,10 +114,15 @@ case+ 0 of
 *)
   in
     case+ pmv.primval_node of
-    | PMVfunlab _ => pmv // HX: special
-    | PMVfunlab2 _ => pmv // HX: special
+    | PMVfunlab (fl) => let
+        val () = ccompenv_add_flabsetenv (env, fl) in (pmv)
+      end // end of [PMVfunlab2]
+    | PMVfunlab2 (d2v, fl) => let
+        val () = ccompenv_add_flabsetenv (env, fl) in (pmv)
+      end // end of [PMVfunlab2]
     | _ => primval_env (loc0, hse0, d2v)
   end // end of [environval]
+//
 | _ => pmv (* [d2v] is at current-level *)
 //
 end // end of [d2var_ccomp_some]
@@ -1334,15 +1339,27 @@ val () = let
   val lev1 = the_d2varlev_get () in
   hifunarg_ccomp (env, res, flab, lev1, loc_fun, hips_arg)
 end // end of [val]
+//
+val () = ccompenv_inc_flabsetenv (env)
+//
 val loc_body = hde_body.hidexp_loc
 val hse_body = hde_body.hidexp_type
 val tmpret = tmpvar_make_ret (loc_body, hse_body)
 val () = hidexp_ccomp_ret (env, res, tmpret, hde_body)
+//
+val flset = ccompenv_getdec_flabsetenv (env)
+//
 val () = the_d2varlev_dec (pfinc | (*none*))
 //
 val inss = instrseq_get_free (res)
 //
-val fent = funent_make2 (loc_fun, lev0, flab, imparg, tmparg, tmpret, inss)
+val () = ccompenv_addset_flabsetenv_if (env, lev0, flset)
+//
+val
+fent = funent_make2
+(
+  loc_fun, lev0, flab, imparg, tmparg, tmpret, flset, inss
+) (* end of [val] *)
 //
 in
   fent
