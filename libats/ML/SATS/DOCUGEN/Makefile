@@ -95,13 +95,13 @@ upload_string:: ;   scp HTML/string.html ats-hwxi,ats-lang@web.sourceforge.net:h
 clean:: ; $(RMF) string_atxt.exe
 cleanall:: ; $(RMF) HTML/string.html
 
-all_html:: HTML/string0.html
-HTML/string0.html:   string0_atxt.exe ; ./$< > $@
-string0_atxt.txt: string0.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
-string0_atxt.exe: htmlgendecl_atxt.dats   string0_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
-upload_string0:: ;   scp HTML/string0.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
-clean:: ; $(RMF) string0_atxt.exe
-cleanall:: ; $(RMF) HTML/string0.html
+all_html:: HTML/strarr.html
+HTML/strarr.html:   strarr_atxt.exe ; ./$< > $@
+strarr_atxt.txt: strarr.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+strarr_atxt.exe: htmlgendecl_atxt.dats   strarr_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_strarr:: ;   scp HTML/strarr.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
+clean:: ; $(RMF) strarr_atxt.exe
+cleanall:: ; $(RMF) HTML/strarr.html
 
 
 all_html:: HTML/filebas.html

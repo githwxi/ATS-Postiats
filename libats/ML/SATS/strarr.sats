@@ -44,7 +44,7 @@ staload "libats/SATS/ML_basis.sats"
 (* ****** ****** *)
 
 %{#
-#include "libats/ML/CATS/string0.cats"
+#include "libats/ML/CATS/strarr.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
@@ -55,103 +55,103 @@ typedef NSH(a:type) = a // for commenting purpose
 (* ****** ****** *)
 //
 // HX-2013-02:
-// a string0-value is represented an array of character;
+// a strarr-value is represented an array of character;
 // in principle, this array should be treated as read-only.
 //
 (* ****** ****** *)
 
-abstype string0_type = ptr
-typedef string0 = string0_type
+abstype strarr_type = ptr
+typedef strarr = strarr_type
 
 (* ****** ****** *)
 
-castfn array2string0 (cs: array0 (char)):<> string0
-castfn string2array0 (cs: string0):<> array0 (char)
+castfn array2strarr (cs: array0 (char)):<> strarr
+castfn strarr2array (cs: strarr):<> array0 (char)
 
 (* ****** ****** *)
 
 fun{}
-string0_get_ref (str: string0):<> Ptr1
+strarr_get_ref (str: strarr):<> Ptr1
 fun{}
-string0_get_size (str: string0):<> size_t
+strarr_get_size (str: strarr):<> size_t
 
 fun{}
-string0_get_refsize
-  (A: string0):<> [n:nat] (arrayref (char, n), size_t (n))
-// end of [string0_get_refsize]
+strarr_get_refsize
+  (A: strarr):<> [n:nat] (arrayref (char, n), size_t (n))
+// end of [strarr_get_refsize]
 
 (* ****** ****** *)
 
-symintr string0
-fun string0_make_string (str: string):<!wrt> string0
-overload string0 with string0_make_string
+symintr strarr
+fun strarr_make_string (str: string):<!wrt> strarr
+overload strarr with strarr_make_string
 
 (* ****** ****** *)
 
-fun string0_imake_string (str: string0):<!wrt> string
+fun strarr_imake_string (str: strarr):<!wrt> string
 
 (* ****** ****** *)
 //
-symintr string0_get_at
+symintr strarr_get_at
 //
 fun{tk:tk}
-string0_get_at_gint (str: string0, i: g0int(tk)):<!exn> char
+strarr_get_at_gint (str: strarr, i: g0int(tk)):<!exn> char
 fun{tk:tk}
-string0_get_at_guint (str: string0, i: g0uint(tk)):<!exn> char
+strarr_get_at_guint (str: strarr, i: g0uint(tk)):<!exn> char
 //
-overload [] with string0_get_at_gint of 0
-overload string0_get_at with string0_get_at_gint of 0
-overload [] with string0_get_at_guint of 0
-overload string0_get_at with string0_get_at_guint of 0
+overload [] with strarr_get_at_gint of 0
+overload strarr_get_at with strarr_get_at_gint of 0
+overload [] with strarr_get_at_guint of 0
+overload strarr_get_at with strarr_get_at_guint of 0
 //
 (* ****** ****** *)
 
-fun lt_string0_string0
-  (str1: string0, str2: string0):<> bool
-overload < with lt_string0_string0
-fun lte_string0_string0
-  (str1: string0, str2: string0):<> bool
-overload <= with lte_string0_string0
+fun lt_strarr_strarr
+  (str1: strarr, str2: strarr):<> bool
+overload < with lt_strarr_strarr
+fun lte_strarr_strarr
+  (str1: strarr, str2: strarr):<> bool
+overload <= with lte_strarr_strarr
 
-fun gt_string0_string0
-  (str1: string0, str2: string0):<> bool
-overload > with gt_string0_string0
-fun gte_string0_string0
-  (str1: string0, str2: string0):<> bool
-overload >= with gte_string0_string0
+fun gt_strarr_strarr
+  (str1: strarr, str2: strarr):<> bool
+overload > with gt_strarr_strarr
+fun gte_strarr_strarr
+  (str1: strarr, str2: strarr):<> bool
+overload >= with gte_strarr_strarr
 
-fun eq_string0_string0
-  (str1: string0, str2: string0):<> bool
-overload = with eq_string0_string0
-fun neq_string0_string0
-  (str1: string0, str2: string0):<> bool
-overload != with neq_string0_string0
-overload <> with neq_string0_string0
-
-(* ****** ****** *)
-
-fun string0_compare
-  (str1: string0, str2: string0):<> int
-overload compare with string0_compare
+fun eq_strarr_strarr
+  (str1: strarr, str2: strarr):<> bool
+overload = with eq_strarr_strarr
+fun neq_strarr_strarr
+  (str1: strarr, str2: strarr):<> bool
+overload != with neq_strarr_strarr
+overload <> with neq_strarr_strarr
 
 (* ****** ****** *)
 
-fun string0_contains (str: string0, c: char):<> bool
+fun strarr_compare
+  (str1: strarr, str2: strarr):<> int
+overload compare with strarr_compare
 
 (* ****** ****** *)
 
-fun string0_copy (str: string0):<!wrt> string0
+fun strarr_contains (str: strarr, c: char):<> bool
 
 (* ****** ****** *)
 
-fun string0_append (str1: string0, str2: string0):<!wrt> string0
-overload + with string0_append
+fun strarr_copy (str: strarr):<!wrt> strarr
 
 (* ****** ****** *)
 
-fun string0_foreach (str: string0, f: cfun (char, void)): void
-fun string0_rforeach (str: string0, f: cfun (char, void)): void
+fun strarr_append (str1: strarr, str2: strarr):<!wrt> strarr
+overload + with strarr_append
 
 (* ****** ****** *)
 
-(* end of [string0.sats] *)
+fun strarr_foreach (str: strarr, f: cfun (char, void)): void
+fun strarr_rforeach (str: strarr, f: cfun (char, void)): void
+
+(* ****** ****** *)
+
+(* end of [strarr.sats] *)

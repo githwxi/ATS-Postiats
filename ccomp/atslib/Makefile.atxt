@@ -137,7 +137,8 @@ all:: atslib_libc
 
 all:: atslib_libats_ML
 #make_entry("libats/ML", "array0.dats")
-#make_entry("libats/ML", "string0.dats")
+#make_entry("libats/ML", "string.dats")
+#make_entry("libats/ML", "strarr.dats")
 
 ######
 

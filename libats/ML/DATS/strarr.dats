@@ -57,35 +57,38 @@ staload _(*anon*) = "libats/ML/DATS/array0.dats"
 
 (* ****** ****** *)
 
-staload "libats/ML/SATS/string0.sats"
+staload "libats/ML/SATS/strarr.sats"
 
 (* ****** ****** *)
 
 implement{}
-string0_get_ref (str) =
-  array0_get_ref (string2array0 (str))
-// end of [string0_get_ref]
+strarr_get_ref (str) =
+  array0_get_ref (strarr2array (str))
+// end of [strarr_get_ref]
 
 implement{}
-string0_get_size (str) =
-  array0_get_size (string2array0 (str))
-// end of [string0_get_size]
+strarr_get_size (str) =
+  array0_get_size (strarr2array (str))
+// end of [strarr_get_size]
 
 implement{}
-string0_get_refsize (str) =
-  array0_get_refsize (string2array0 (str))
-// end of [string0_get_refsize]
+strarr_get_refsize (str) =
+  array0_get_refsize (strarr2array (str))
+// end of [strarr_get_refsize]
 
 (* ****** ****** *)
 
 implement
-string0_make_string
+strarr_make_string
   (str) = let
 //
 val [n:int] str =
   string1_of_string0 (str)
+//
 val n = string1_length (str)
-val (
+//
+val
+(
   pfarr, pfgc | p
 ) = array_ptr_alloc<char> (n)
 //
@@ -98,17 +101,17 @@ typedef A = arrayref (char, n)
 val A = $UN.castvwtp0 {A} @(pfarr, pfgc | p)
 //
 in
-  array2string0 (array0_make_arrayref (A, n))
-end // end of [string0_make_string]
+  array2strarr (array0_make_arrayref (A, n))
+end // end of [strarr_make_string]
 
 (* ****** ****** *)
 
 implement
-string0_imake_string
+strarr_imake_string
   (str) = let
 //
-val p = string0_get_ref (str)
-val sz = g1ofg0_uint (string0_get_size (str))
+val p = strarr_get_ref (str)
+val sz = g1ofg0_uint (strarr_get_size (str))
 val (pfgc, pfarr | p2) = malloc_gc (succ (sz))
 //
 // [memcpy] declared in [string.h]
@@ -119,55 +122,55 @@ val () = $UN.ptr0_set<char> (ptr_add<char> (p2, sz), '\000')
 //
 in
   $UN.castvwtp0 {string} @(pfgc, pfarr | p2)
-end // end of [string0_imake_string]
+end // end of [strarr_imake_string]
 
 (* ****** ****** *)
 
 implement{tk}
-string0_get_at_gint
+strarr_get_at_gint
   (str, i) = let
-  val str = string2array0 (str) in
+  val str = strarr2array (str) in
   $effmask_ref (array0_get_at_gint<char> (str, i))
-end // end of [string0_get_at_gint]
+end // end of [strarr_get_at_gint]
 
 implement{tk}
-string0_get_at_guint
+strarr_get_at_guint
   (str, i) = let
-  val str = string2array0 (str) in
+  val str = strarr2array (str) in
   $effmask_ref (array0_get_at_guint<char> (str, i))
-end // end of [string0_get_at_guint]
+end // end of [strarr_get_at_guint]
 
 (* ****** ****** *)
 
 implement
-lt_string0_string0
-  (str1, str2) = (string0_compare (str1, str2) < 0)
+lt_strarr_strarr
+  (str1, str2) = (strarr_compare (str1, str2) < 0)
 implement
-lte_string0_string0
-  (str1, str2) = (string0_compare (str1, str2) <= 0)
+lte_strarr_strarr
+  (str1, str2) = (strarr_compare (str1, str2) <= 0)
 
 implement
-gt_string0_string0
-  (str1, str2) = (string0_compare (str1, str2) > 0)
+gt_strarr_strarr
+  (str1, str2) = (strarr_compare (str1, str2) > 0)
 implement
-gte_string0_string0
-  (str1, str2) = (string0_compare (str1, str2) >= 0)
+gte_strarr_strarr
+  (str1, str2) = (strarr_compare (str1, str2) >= 0)
 
 implement
-eq_string0_string0
-  (str1, str2) = (string0_compare (str1, str2) = 0)
+eq_strarr_strarr
+  (str1, str2) = (strarr_compare (str1, str2) = 0)
 implement
-neq_string0_string0
-  (str1, str2) = (string0_compare (str1, str2) != 0)
+neq_strarr_strarr
+  (str1, str2) = (strarr_compare (str1, str2) != 0)
 
 (* ****** ****** *)
 
 implement
-string0_compare
+strarr_compare
   (str1, str2) = let
 //
-val (A1, n1) = string0_get_refsize (str1)
-and (A2, n2) = string0_get_refsize (str2)
+val (A1, n1) = strarr_get_refsize (str1)
+and (A2, n2) = strarr_get_refsize (str2)
 //
 extern
 fun strncmp
@@ -185,15 +188,15 @@ if sgn = 0 then
   (if n1 < n2 then ~1 else if n1 > n2 then 1 else 0)
 else sgn // end of [if]
 //
-end // end of [string0_compare]
+end // end of [strarr_compare]
 
 (* ****** ****** *)
 
 implement
-string0_contains
+strarr_contains
   (str, c0) = $effmask_all let
 //
-val (A, asz) = string0_get_refsize (str)
+val (A, asz) = strarr_get_refsize (str)
 //
 // [memcpy] declared in [string.h]
 //
@@ -201,37 +204,37 @@ val p = $extfcall (ptr, "memchr", $UN.cast2ptr(A), char2int0(c0), asz)
 //
 in
   (p > the_null_ptr)
-end // end of [string0_contains]
+end // end of [strarr_contains]
 
 (* ****** ****** *)
 
 implement
-string0_copy
+strarr_copy
   (str) = let
-  val str = string2array0 (str)
+  val str = strarr2array (str)
   val str2 = $effmask_ref (array0_copy<char> (str))
 in
-  array2string0 (str2)
-end // end of [string0_copy]
+  array2strarr (str2)
+end // end of [strarr_copy]
 
 (* ****** ****** *)
 
 implement
-string0_append
+strarr_append
   (str1, str2) = let
-  val str1 = string2array0 (str1)
-  val str2 = string2array0 (str2)
+  val str1 = strarr2array (str1)
+  val str2 = strarr2array (str2)
   val str12 = $effmask_ref (array0_append<char> (str1, str2))
 in
-  array2string0 (str12)
-end // end of [string0_append]
+  array2strarr (str12)
+end // end of [strarr_append]
 
 (* ****** ****** *)
 
 (*
 
 implement
-string0_foreach
+strarr_foreach
   (str, f) = let
 //
 fun loop
@@ -248,17 +251,17 @@ end else () // end of [if]
 //
 end // end of [loop]
 //
-val p0 = string0_get_ref (str)
-val n0 = string0_get_size (str)
+val p0 = strarr_get_ref (str)
+val n0 = strarr_get_size (str)
 //
 in
   loop (p0, n0, f)
-end // end of [string0_foreach]
+end // end of [strarr_foreach]
 
 (* ****** ****** *)
 
 implement
-string0_rforeach
+strarr_rforeach
   (str, f) = let
 //
 fun loop
@@ -274,15 +277,15 @@ end else () // end of [if]
 //
 end // end of [loop]
 //
-val p0 = string0_get_ref (str)
-val n0 = string0_get_size (str)
+val p0 = strarr_get_ref (str)
+val n0 = strarr_get_size (str)
 //
 in
   loop (ptr0_add_guint<char> (p0, n0), n0, f)
-end // end of [string0_rforeach]
+end // end of [strarr_rforeach]
 
 *)
 
 (* ****** ****** *)
 
-(* end of [string0.dats] *)
+(* end of [strarr.dats] *)

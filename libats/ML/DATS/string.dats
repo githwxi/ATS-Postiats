@@ -32,20 +32,26 @@
 (* Start time: July, 2012 *)
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
+(* ****** ****** *)
 
-staload
-UN = "prelude/SATS/unsafe.sats"
+staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
 macdef
 prelude_string_explode = string_explode
 macdef
-prelude_string_foreach = string_foreach
+prelude_string0_copy = string0_copy
 macdef
 prelude_string0_append = string0_append
 macdef
 prelude_stringlst_concat = stringlst_concat
+macdef
+prelude_string_foreach = string_foreach
 
 (* ****** ****** *)
 
@@ -56,6 +62,15 @@ staload "libats/ML/SATS/string.sats"
 (* ****** ****** *)
 
 macdef castvwtp_trans = $UN.castvwtp0 // former name
+
+(* ****** ****** *)
+
+implement
+string_copy (str) = let
+  val res = $effmask_wrt (prelude_string0_copy (str))
+in
+  strptr2string (res)
+end // end of [string_copy]
 
 (* ****** ****** *)
 
@@ -87,28 +102,33 @@ in
 end // end of [string_explode]
 
 (* ****** ****** *)
+
+(*
+/*
 //
 #define NUL '\000'
 //
 implement
 string_implode (cs) = let
 //
-val [n:int] cs = list_of_list0 (cs)
-val n = list_length (cs)
-val n1 = g1int2uint (n + 1)
+val [n:int]
+  cs = list_of_list0 (cs)
+//
+val n = list_length<char> (cs)
+val n1 = g1i2u (n + 1)
 val (pf, pfgc | p) = $effmask_wrt (malloc_gc (n1))
 //
 fun loop
-  {n:nat} .<n>. (
+  {n:nat} .<n>.
+(
   p: ptr, cs: list (char, n)
 ) :<!wrt> void = let
 in
 //
 case+ cs of
-| list_cons (c, cs) => let
-    val () =
-      $UN.ptr0_set<char> (p, c)
-    // end of [val]
+| list_cons
+    (c, cs) => let
+    val () = $UN.ptr0_set<char> (p, c)
   in
     loop (ptr0_succ<char> (p), cs)
   end // end of [list_cons]
@@ -121,9 +141,13 @@ val () = $effmask_wrt (loop (p, cs))
 in
   castvwtp_trans {string} @(pf, pfgc | p)
 end // end of [string_implode]
+*/
+*)
 
 (* ****** ****** *)
 
+(*
+/*
 implement
 string_foreach (s, f) = let
 //
@@ -138,6 +162,8 @@ val _(*n*) = prelude_string_foreach (s)
 in
   // nothing
 end // end of [string_foreach]
+*/
+*)
 
 (* ****** ****** *)
 

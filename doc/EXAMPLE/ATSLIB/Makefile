@@ -244,13 +244,21 @@ cleanall:: ; $(RMF) libats_dllist.exe
 
 ######
 
-all:: libats_ML_string0
-libats_ML_string0: libats_ML_string0.exe
-libats_ML_string0.exe: libats_ML_string0_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
-libats_ML_string0_dats.c: libats_ML_string0.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_ML_string0_dats.c --dynamic libats_ML_string0.dats
-clean:: ; $(RMF) libats_ML_string0_dats.o
-clean:: ; $(RMF) libats_ML_string0_dats.c
-cleanall:: ; $(RMF) libats_ML_string0.exe
+all:: libats_ML_string
+libats_ML_string: libats_ML_string.exe
+libats_ML_string.exe: libats_ML_string_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_ML_string_dats.c: libats_ML_string.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_ML_string_dats.c --dynamic libats_ML_string.dats
+clean:: ; $(RMF) libats_ML_string_dats.o
+clean:: ; $(RMF) libats_ML_string_dats.c
+cleanall:: ; $(RMF) libats_ML_string.exe
+
+all:: libats_ML_strarr
+libats_ML_strarr: libats_ML_strarr.exe
+libats_ML_strarr.exe: libats_ML_strarr_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_ML_strarr_dats.c: libats_ML_strarr.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_ML_strarr_dats.c --dynamic libats_ML_strarr.dats
+clean:: ; $(RMF) libats_ML_strarr_dats.o
+clean:: ; $(RMF) libats_ML_strarr_dats.c
+cleanall:: ; $(RMF) libats_ML_strarr.exe
 
 
 ######

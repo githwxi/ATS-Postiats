@@ -60,4 +60,4 @@ void *memcpy(void *dst, const void *src, size_t n);
 
 /* ****** ****** */
 
-/* end of [string0.cats] */
+/* end of [strarr.cats] */

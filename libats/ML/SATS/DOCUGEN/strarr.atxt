@@ -1,20 +1,20 @@
 (* ****** ****** *)
 
 %{
-implement srcfilename_get () = "../string0.sats"
+implement srcfilename_get () = "../strarr.sats"
 %}
 
 (* ****** ****** *)
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/libats_ML_string0")
+val () = patscode_prefix_set("TRYIT/libats_ML_strarr")
 %}
 
 (* ****** ****** *)
 
 #decltitle("\
-ATSLIB/libats/ML/string0\
+ATSLIB/libats/ML/strarr\
 ")
 
 (* ****** ****** *)
@@ -23,39 +23,39 @@ ATSLIB/libats/ML/string0\
 
 The functions declared in this package are primarily for processing
 strings in functional programming, where a string are represented as
-an array of characters. Sometimes, the name #emph("string0-value")
+an array of characters. Sometimes, the name #emph("strarr-value")
 is used to refer to such a string.
 
 ")
 
 (* ****** ****** *)
 
-#declnamesynop("string0")
-#declnamesynop("string0_type")
+#declnamesynop("strarr")
+#declnamesynop("strarr_type")
 
 (* ****** ****** *)
 
 #declnamesynop("string2array0")
 #decldescrpt("\
-This cast function turns a string0-value to an array of characters.\
+This cast function turns a strarr-value to an array of characters.\
 ")
 
-#declnamesynop("array2string0")
+#declnamesynop("array2strarr")
 #decldescrpt("\
-This cast function turns an array of characters to a string0-value.\
+This cast function turns an array of characters to a strarr-value.\
 ")
 
 (* ****** ****** *)
 
-#declnamesynop("string0_make_string")
+#declnamesynop("strarr_make_string")
 #decldescrpt("\
-This function, which overloads the symbol #dyncode("string0"), builds
-a string0-value corresponding to a given C-style string.\
+This function, which overloads the symbol #dyncode("strarr"), builds
+a strarr-value corresponding to a given C-style string.\
 ")
 
 (* ****** ****** *)
 
-#declnamesynop("string0_append")
+#declnamesynop("strarr_append")
 #decldescrpt("\
 
 This function, which overload the symbol #dyncode("+"), returns the
@@ -65,7 +65,7 @@ concatenation of two given strings.
 
 (* ****** ****** *)
 
-#declnamesynop("string0_foreach")
+#declnamesynop("strarr_foreach")
 #decldescrpt("\
 
 This function traverses its first argument (a string) and applies to each
@@ -76,12 +76,12 @@ The following code prints a given string onto the standard output channel:
 
 #pats2xhtmld_tryit('\
 //
-staload "libats/ML/SATS/string0.sats"
+staload "libats/ML/SATS/strarr.sats"
 //
 implement
 main () = 0 where {
-  val str = (string0)"abcdefg"
-  val () = string0_foreach (str, lam (c) => print_char (c))
+  val str = (strarr)"abcdefg"
+  val () = strarr_foreach (str, lam (c) => print_char (c))
   val () = print_newline ()
 } // end of [main]
 ')
@@ -89,4 +89,4 @@ main () = 0 where {
 
 (* ****** ****** *)
 
-(* end of [string0.atxt] *)
+(* end of [strarr.atxt] *)
