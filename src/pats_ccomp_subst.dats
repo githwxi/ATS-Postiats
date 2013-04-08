@@ -409,6 +409,8 @@ end // end of [val]
 val flset = funent_get_flabset (fent)
 val flset2 = funlabset_subst (env, flset)
 //
+val d2vset = funent_get_d2varset (fent)
+//
 val inss2 = instrlst_subst (env, tmpmap2, sub, inss, sfx)
 //
 val ((*void*)) = tmpvarmap_vt_free (tmpmap2)
@@ -417,7 +419,7 @@ val
 fent2 = funent_make
 (
   loc, level, flab2
-, imparg, tmparg, None(), tmpret2, flset2, inss2, tmplst2
+, imparg, tmparg, None(), tmpret2, flset2, d2vset, inss2, tmplst2
 ) (* end of [val] *)
 //
 in

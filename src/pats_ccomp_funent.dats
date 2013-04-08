@@ -45,6 +45,7 @@ typedef location = $LOC.location
 
 staload "./pats_staexp2.sats"
 staload "./pats_staexp2_util.sats"
+staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
@@ -69,7 +70,9 @@ funent =
 //
 , funent_tmpret= tmpvar // storing the return value
 //
-, funent_flabset= funlabset // funlabs in function body
+, funent_flabset= funlabset // flabs in function body
+//
+, funent_d2varset= d2varset // d2vars in function body
 //
 , funent_instrlst= instrlst // instructions of function body
 //
@@ -87,7 +90,7 @@ funent_make
 (
   loc, level, flab
 , imparg, tmparg, tmpsub
-, tmpret, flset, inss, tmplst
+, tmpret, flset, d2vs, inss, tmplst
 ) = let
 in '{
   funent_loc= loc
@@ -103,6 +106,8 @@ in '{
 , funent_tmpret= tmpret
 //
 , funent_flabset= flset
+//
+, funent_d2varset= d2vs
 //
 , funent_instrlst= inss
 , funent_tmpvarlst= tmplst
@@ -136,6 +141,9 @@ implement
 funent_get_flabset (fent) = fent.funent_flabset
 
 implement
+funent_get_d2varset (fent) = fent.funent_d2varset
+
+implement
 funent_get_instrlst (fent) = fent.funent_instrlst
 
 implement
@@ -151,7 +159,7 @@ implement
 funent_make2
 (
   loc, flab, level
-, imparg, tmparg, tmpret, flset, inss
+, imparg, tmparg, tmpret, flset, d2vs, inss
 ) = let
   val tmps = instrlst_get_tmpvarset (inss)
   val tmps = tmpvarset_vt_add (tmps, tmpret)
@@ -162,7 +170,7 @@ in
 funent_make
 (
   loc, flab, level
-, imparg, tmparg, None(*tsub*), tmpret, flset, inss, tmplst
+, imparg, tmparg, None(*tsub*), tmpret, flset, d2vs, inss, tmplst
 ) // end of [funent_make]
 //
 end // end of [funent_make2]

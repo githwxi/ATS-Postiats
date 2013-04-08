@@ -267,7 +267,6 @@ fun funlabset_add (fls: funlabset, fl: funlab): funlabset
 fun funlabset_listize (fls: funlabset): List_vt (funlab)
 
 fun fprint_funlabset : fprint_type (funlabset)
-overload fprint with fprint_funlabset
 
 (* ****** ****** *)
 //
@@ -303,6 +302,7 @@ fun funent_get_tmparg (fent: funent): s2explstlst
 fun funent_get_tmpret (fent: funent): tmpvar // return value
 //
 fun funent_get_flabset (fent: funent): funlabset
+fun funent_get_d2varset (fent: funent): d2varset
 //
 fun funent_get_tmpvarlst (fent: funent): tmpvarlst
 //
@@ -1229,9 +1229,7 @@ fun funent_make
 , tmpsub: tmpsubopt
 , tmpret: tmpvar
 , flset: funlabset
-(*
 , d2vset: d2varset
-*)
 , inss_body: instrlst
 , tmplst: tmpvarlst
 ) : funent // end of [funent_make]
@@ -1245,6 +1243,7 @@ fun funent_make2
 , tmparg: s2explstlst
 , tmpret: tmpvar
 , flset: funlabset
+, d2vset: d2varset
 , inss_body: instrlst
 ) : funent // end of [funent_make2]
 
@@ -1307,8 +1306,15 @@ fun ccompenv_inc_flabsetenv (env: !ccompenv): void
 fun ccompenv_getdec_flabsetenv (env: !ccompenv): funlabset
 //
 fun ccompenv_add_flabsetenv (env: !ccompenv, fl: funlab): void
-//
 fun ccompenv_addset_flabsetenv_if (env: !ccompenv, lev0: int, fls: funlabset): void
+//
+(* ****** ****** *)
+//
+fun ccompenv_inc_d2varsetenv (env: !ccompenv): void
+fun ccompenv_getdec_d2varsetenv (env: !ccompenv): d2varset
+//
+fun ccompenv_add_d2varsetenv (env: !ccompenv, d2v: d2var): void
+fun ccompenv_addset_d2varsetenv_if (env: !ccompenv, lev0: int, d2vs: d2varset): void
 //
 (* ****** ****** *)
 

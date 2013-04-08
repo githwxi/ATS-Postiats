@@ -500,12 +500,24 @@ flabsetenv_free (xs) = list_vt_free (xs)
 
 (* ****** ****** *)
 
+vtypedef d2varsetenv = List_vt (d2varset)
+
+extern
+fun d2varsetenv_free (xs: d2varsetenv): void
+implement
+d2varsetenv_free (xs) = list_vt_free (xs)
+
+(* ****** ****** *)
+
 viewtypedef
 ccompenv_struct = @{
   ccompenv_tmplevel = int
 , ccompenv_tmprecdepth = int
 , ccompenv_loopexnenv= loopexnenv
+//
 , ccompenv_flabsetenv= flabsetenv
+, ccompenv_d2varsetenv= d2varsetenv
+//
 , ccompenv_markenvlst = markenvlst_vt
 , ccompenv_varbindmap= d2varmap_vt (primval)
 } // end of [ccompenv_struct]
@@ -523,6 +535,7 @@ ccompenv_struct_uninitize (x) = let
     markenvlst_vt_free (x.ccompenv_markenvlst)
   val () = loopexnenv_free (x.ccompenv_loopexnenv)
   val () = flabsetenv_free (x.ccompenv_flabsetenv)
+  val () = d2varsetenv_free (x.ccompenv_d2varsetenv)
   val () = d2varmap_vt_free (x.ccompenv_varbindmap)
 in
   // end of [ccompenv_struct_uninitize]
@@ -541,18 +554,23 @@ assume ccompenv_vtype = ccompenv_vt
 
 implement
 ccompenv_make
-  () = env where {
-  val env = CCOMPENV (?)
-  val CCOMPENV (!p) = env
+  () = env where
+{
+val env = CCOMPENV (?)
+val CCOMPENV (!p) = env
 //
-  val () = p->ccompenv_tmplevel := 0
-  val () = p->ccompenv_tmprecdepth := 0
-  val () = p->ccompenv_loopexnenv := list_vt_nil ()
-  val () = p->ccompenv_flabsetenv := list_vt_nil ()
-  val () = p->ccompenv_markenvlst := MARKENVLSTnil ()
-  val () = p->ccompenv_varbindmap := d2varmap_vt_nil ()
+val () = p->ccompenv_tmplevel := 0
+val () = p->ccompenv_tmprecdepth := 0
+val () = p->ccompenv_loopexnenv := list_vt_nil ()
 //
-  val () = fold@ (env)
+val () = p->ccompenv_flabsetenv := list_vt_nil ()
+val () = p->ccompenv_d2varsetenv := list_vt_nil ()
+//
+val () = p->ccompenv_markenvlst := MARKENVLSTnil ()
+val () = p->ccompenv_varbindmap := d2varmap_vt_nil ()
+//
+val () = fold@ (env)
+//
 } // end of [ccompenv_make]
 
 (* ****** ****** *)
@@ -744,40 +762,111 @@ prval () = fold@ (env)
 
 implement
 ccompenv_addset_flabsetenv_if
-  (env, lev0, fls) = () where
-{
+  (env, lev0, flset) = let
 //
-val fls = funlabset_listize (fls)
-//
-fun addset_if
+fun addlst_if
 (
-  lev0: int, fls: List_vt (funlab), fls0: funlabset
-) : funlabset = let
+  env: !ccompenv, lev0: int, fls: List_vt (funlab)
+) : void = let
 in
 //
 case+ fls of
 | ~list_vt_cons
     (fl, fls) => let
     val lev = funlab_get_level (fl)
-    val fls0 =
-    (
-      if lev < lev0 then funlabset_add (fls0, fl) else fls0
-    ) : funlabset // end of [val]
+    val () = 
+    ( // HX: no need for handling siblings (=lev0)
+      if lev < lev0 then ccompenv_add_flabsetenv (env, fl)
+    ) : void // end of [val]
   in
-    addset_if (lev0, fls, fls0)
+    addlst_if (env, lev0, fls)
   end // end of [list_vt_cons]
-| ~list_vt_nil () => fls0
+| ~list_vt_nil () => ()
 //
-end // end of [addset_if]
+end // end of [addlst_if]
+//
+in
+//
+if lev0 > 0 then let
+  val fls = funlabset_listize (flset) in addlst_if (env, lev0, fls)
+end (* end of [if] *)
+//
+end // end of [ccompenv_addset_flabsetenv_if]
+
+(* ****** ****** *)
+
+implement
+ccompenv_inc_d2varsetenv
+  (env) = let
+//
+val d2vs = d2varset_nil ()
+val CCOMPENV (!p) = env
+val d2vss = p->ccompenv_d2varsetenv
+val () = (p->ccompenv_d2varsetenv := list_vt_cons (d2vs, d2vss))
+prval () = fold@ (env)
+//
+in
+  // nothing
+end // end of [ccompenv_inc_d2varsetenv]
+
+implement
+ccompenv_getdec_d2varsetenv
+  (env) = d2vs where
+{
+//
+val CCOMPENV (!p) = env
+val-~list_vt_cons (d2vs, d2vss) = p->ccompenv_d2varsetenv
+val () = p->ccompenv_d2varsetenv := d2vss
+prval () = fold@ (env)
+//
+} // end of [ccompenv_getdec_d2varsetenv]
+
+implement
+ccompenv_add_d2varsetenv
+  (env, d2v) = () where
+{
 //
 val CCOMPENV (!p) = env
 val-list_vt_cons
-  (!p_fls0, _) = p->ccompenv_flabsetenv
-val () = !p_fls0 := addset_if (lev0, fls, !p_fls0)
-prval () = fold@ (p->ccompenv_flabsetenv)
+  (!p_d2vs, _) = p->ccompenv_d2varsetenv
+val () = !p_d2vs := d2varset_add (!p_d2vs, d2v)
+prval () = fold@ (p->ccompenv_d2varsetenv)
 prval () = fold@ (env)
 //
-} // end of [ccompenv_addset_flabsetenv_if]
+} // end of [ccompenv_add_d2varsetenv]
+
+implement
+ccompenv_addset_d2varsetenv_if
+  (env, lev0, d2vset) = let
+//
+fun addlst_if
+(
+  env: !ccompenv, lev0: int, d2vs: List_vt (d2var)
+) : void = let
+in
+//
+case+ d2vs of
+| ~list_vt_cons
+    (d2v, d2vs) => let
+    val lev = d2var_get_level (d2v)
+    val () = 
+    ( // HX: no need for handling siblings (=lev0)
+      if lev < lev0 then ccompenv_add_d2varsetenv (env, d2v)
+    ) : void // end of [val]
+  in
+    addlst_if (env, lev0, d2vs)
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => ()
+//
+end // end of [addlst_if]
+//
+in
+//
+if lev0 > 0 then let
+  val d2vs = d2varset_listize (d2vset) in addlst_if (env, lev0, d2vs)
+end (* end of [if] *)
+//
+end // end of [ccompenv_addset_d2varsetenv_if]
 
 (* ****** ****** *)
 

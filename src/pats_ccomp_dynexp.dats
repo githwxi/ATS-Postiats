@@ -65,6 +65,12 @@ staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 
+overload fprint with fprint_funlab
+overload fprint with fprint_d2varset
+overload fprint with fprint_funlabset
+
+(* ****** ****** *)
+
 extern
 fun d2var_ccomp
 (
@@ -115,12 +121,20 @@ case+ 0 of
   in
     case+ pmv.primval_node of
     | PMVfunlab (fl) => let
-        val () = ccompenv_add_flabsetenv (env, fl) in (pmv)
+        val () = ccompenv_add_flabsetenv (env, fl)
+      in
+        pmv
       end // end of [PMVfunlab2]
     | PMVfunlab2 (d2v, fl) => let
-        val () = ccompenv_add_flabsetenv (env, fl) in (pmv)
+        val () = ccompenv_add_flabsetenv (env, fl)
+      in
+        pmv
       end // end of [PMVfunlab2]
-    | _ => primval_env (loc0, hse0, d2v)
+    | _ => let
+        val () = ccompenv_add_d2varsetenv (env, d2v)
+      in
+        primval_env (loc0, hse0, d2v)
+      end (* end of [_] *)
   end // end of [environval]
 //
 | _ => pmv (* [d2v] is at current-level *)
@@ -1341,6 +1355,7 @@ val () = let
 end // end of [val]
 //
 val () = ccompenv_inc_flabsetenv (env)
+val () = ccompenv_inc_d2varsetenv (env)
 //
 val loc_body = hde_body.hidexp_loc
 val hse_body = hde_body.hidexp_type
@@ -1348,17 +1363,24 @@ val tmpret = tmpvar_make_ret (loc_body, hse_body)
 val () = hidexp_ccomp_ret (env, res, tmpret, hde_body)
 //
 val flset = ccompenv_getdec_flabsetenv (env)
+val d2vset = ccompenv_getdec_d2varsetenv (env)
 //
 val () = the_d2varlev_dec (pfinc | (*none*))
 //
 val inss = instrseq_get_free (res)
 //
 val () = ccompenv_addset_flabsetenv_if (env, lev0, flset)
+val () = ccompenv_addset_d2varsetenv_if (env, lev0, d2vset)
+//
+val out = stdout_ref
+val () = fprintln! (out, "hidexp_ccomp_funlab_arg_body: flab = ", flab)
+val () = fprintln! (out, "hidexp_ccomp_funlab_arg_body: flset = ", flset)
+val () = fprintln! (out, "hidexp_ccomp_funlab_arg_body: d2vset = ", d2vset)
 //
 val
 fent = funent_make2
 (
-  loc_fun, lev0, flab, imparg, tmparg, tmpret, flset, inss
+  loc_fun, lev0, flab, imparg, tmparg, tmpret, flset, d2vset, inss
 ) (* end of [val] *)
 //
 in

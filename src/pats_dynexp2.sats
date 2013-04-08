@@ -358,12 +358,17 @@ fun compare_d2vsym_d2vsym (x1: d2var, x2: d2var):<> Sgn
 fun d2varset_nil ():<> d2varset
 fun d2varset_is_member (xs: d2varset, x: d2var):<> bool
 fun d2varset_add (xs: d2varset, x: d2var):<> d2varset
+fun d2varset_listize (xs: !d2varset):<> List_vt (d2var)
+
+fun fprint_d2varset : fprint_type (d2varset)
+
+(* ****** ****** *)
 
 fun d2varset_vt_nil ():<> d2varset_vt
 fun d2varset_vt_free (xs: d2varset_vt):<> void
 fun d2varset_vt_is_member (xs: !d2varset_vt, x: d2var):<> bool
 fun d2varset_vt_add (xs: d2varset_vt, x: d2var):<> d2varset_vt
-fun d2varset_vt_listize (xs: !d2varset_vt):<> d2varlst_vt
+fun d2varset_vt_listize (xs: !d2varset_vt):<> List_vt (d2var)
 
 (* ****** ****** *)
 

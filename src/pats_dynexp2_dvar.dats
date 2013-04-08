@@ -32,6 +32,12 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
 staload _(*anon*) = "prelude/DATS/pointer.dats"
 staload _(*anon*) = "prelude/DATS/reference.dats"
 
@@ -444,6 +450,9 @@ d2varset_add
   val _(*replaced*) = $FS.funset_insert (xs, x, cmp)
 } // end of [d2varset_add]
 
+implement
+d2varset_listize (xs) = $FS.funset_listize (xs)
+
 (* ****** ****** *)
 
 implement
@@ -540,6 +549,19 @@ d2varmap_vt_remove
 // end of [d2varmap_vt_remove]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+fprint_d2varset
+  (out, d2vset) = {
+//
+val xs =
+  d2varset_listize (d2vset)
+val () = $UT.fprintlst (out, $UN.linlst2lst(xs), ", ", fprint_d2var)
+val () = list_vt_free (xs)
+//
+} // end of [fprint_d2varset]
 
 (* ****** ****** *)
 
