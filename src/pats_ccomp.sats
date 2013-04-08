@@ -1617,14 +1617,21 @@ fun emit_primval_deref
 fun emit_primlab (out: FILEref, extknd: int, pml: primlab): void
 
 (* ****** ****** *)
-
-fun emit_instr (out: FILEref, ins: instr): void
-fun emit_instrlst (out: FILEref, inss: instrlst): void
-fun emit_instrlst_ln (out: FILEref, inss: instrlst): void
-
+//
+typedef
+emit_instr_type = (FILEref, instr) -> void
+//
+fun emit_instr : emit_instr_type
+//
+fun emit_instr_fcall : emit_instr_type
+fun emit_instr_extfcall : emit_instr_type
+//
+fun emit_instr_patck : emit_instr_type
+//
 (* ****** ****** *)
 
-fun emit_instr_patck (out: FILEref, ins: instr): void
+fun emit_instrlst (out: FILEref, inss: instrlst): void
+fun emit_instrlst_ln (out: FILEref, inss: instrlst): void
 
 (* ****** ****** *)
 

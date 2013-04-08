@@ -112,8 +112,6 @@ in
 //
 case+ 0 of
 | _ when
-    lev1 = 0 => pmv (* toplevel *)
-| _ when
     lev1 < lev0 => let (* environval *)
 (*
     val () = println! ("d2var_ccomp_some: pmv = ", pmv)
@@ -133,7 +131,7 @@ case+ 0 of
     | _ => let
         val () = ccompenv_add_d2varsetenv (env, d2v)
       in
-        primval_env (loc0, hse0, d2v)
+        if lev1 > 0 then primval_env (loc0, hse0, d2v) else pmv(*toplevel*)
       end (* end of [_] *)
   end // end of [environval]
 //

@@ -71,8 +71,10 @@ funent =
 , funent_tmpret= tmpvar // storing the return value
 //
 , funent_flabset= funlabset // flabs in function body
+, funent_flabset_fin= Option (funlabset) // final value
 //
 , funent_d2varset= d2varset // d2vars in function body
+, funent_d2varset_fin= Option (d2varset) // final value
 //
 , funent_instrlst= instrlst // instructions of function body
 //
@@ -106,8 +108,10 @@ in '{
 , funent_tmpret= tmpret
 //
 , funent_flabset= flset
+, funent_flabset_fin= None ()
 //
 , funent_d2varset= d2vs
+, funent_d2varset_fin= None ()
 //
 , funent_instrlst= inss
 , funent_tmpvarlst= tmplst
@@ -250,13 +254,34 @@ prerr_funent (fent) = fprint_funent (stderr_ref, fent)
 
 %{$
 
+extern
 ats_void_type
 patsopt_funent_set_tmpsub
-  (ats_ptr_type fent, ats_ptr_type opt) {
+(
+  ats_ptr_type fent, ats_ptr_type opt
+) {
   ((funent_t)fent)->atslab_funent_tmpsub = opt ; return ;
 } // end of [patsopt_funent_set_tmpsub]
 
-%}
+extern
+ats_void_type
+patsopt_funent_set_flabset_fin
+(
+  ats_ptr_type fent, ats_ptr_type opt
+) {
+  ((funent_t)fent)->atslab_funent_flabset_fin = opt ; return ;
+} // end of [patsopt_funent_set_flabset_fin]
+
+extern
+ats_void_type
+patsopt_funent_set_d2varset_fin
+(
+  ats_ptr_type fent, ats_ptr_type opt
+) {
+  ((funent_t)fent)->atslab_funent_d2varset_fin = opt ; return ;
+} // end of [patsopt_funent_set_d2varset_fin]
+
+%} // end of [%{$]
 
 (* ****** ****** *)
 
