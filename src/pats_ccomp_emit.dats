@@ -815,6 +815,7 @@ extern fun emit_primval_tmpref : emit_primval_type
 //
 extern fun emit_primval_arg : emit_primval_type
 extern fun emit_primval_argref : emit_primval_type
+extern fun emit_primval_argenv : emit_primval_type
 //
 extern fun emit_primval_env : emit_primval_type
 //
@@ -851,6 +852,7 @@ case+ pmv0.primval_node of
 | PMVtmpref _ => emit_primval_tmpref (out, pmv0)
 | PMVarg _ => emit_primval_arg (out, pmv0)
 | PMVargref _ => emit_primval_argref (out, pmv0)
+| PMVargenv _ => emit_primval_argenv (out, pmv0)
 //
 | PMVenv _ => emit_primval_env (out, pmv0)
 //
@@ -988,6 +990,18 @@ val () = emit_rparen (out)
 in
   // nothing
 end // end of [emit_primval_argref]
+
+(* ****** ****** *)
+
+implement
+emit_primval_argenv
+  (out, pmv0) = let
+//
+val-PMVargenv (nenv) = pmv0.primval_node
+//
+in
+  fprintf (out, "env%i", @(nenv))
+end // end of [emit_primval_argenv]
 
 (* ****** ****** *)
 

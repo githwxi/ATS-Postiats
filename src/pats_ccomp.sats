@@ -259,6 +259,12 @@ fun funlab_get_tmparg (flab: funlab): t2mpmarglst
 fun funlab_get_stamp (flab: funlab):<> stamp
 //
 (* ****** ****** *)
+//
+// HX: obtaining env+arg-list
+//
+fun funlab_get_type_fullarg (flab: funlab): hisexplst
+
+(* ****** ****** *)
 
 abstype funlabset
 
@@ -309,6 +315,11 @@ fun funent_get_d2varlst_fin (fent: funent): Option (d2varlst)
 //
 fun funent_get_tmpvarlst (fent: funent): tmpvarlst
 //
+(* ****** ****** *)
+
+fun funent_eval_flablst (fent: funent): funlablst
+fun funent_eval_d2varlst (fent: funent): d2varlst
+
 (* ****** ****** *)
 
 fun funlab_get_funent (flab: funlab): funentopt
@@ -1675,6 +1686,8 @@ fun emit_instrlst_ln (out: FILEref, inss: instrlst): void
 
 (* ****** ****** *)
 //
+fun emit_funenvlst
+  (out: FILEref, d2vs: d2varlst): int
 fun emit_funarglst
   (out: FILEref, nenv: int, hses_arg: hisexplst): void
 //

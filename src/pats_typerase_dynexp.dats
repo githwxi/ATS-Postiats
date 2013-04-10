@@ -31,6 +31,11 @@
 // Start Time: September, 2012
 //
 (* ****** ****** *)
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
 
 staload "./pats_basics.sats"
 
@@ -106,7 +111,8 @@ end // end of [labhidexplst_get_type]
 (* ****** ****** *)
 
 extern
-fun p3at_tyer_con (
+fun p3at_tyer_con
+(
   loc0: location, hse0: hisexp
 , pck: pckind, d2c: d2con, npf: int, p3ts: p3atlst
 ) : hipat // end of [p3at_tyer_con]
@@ -117,6 +123,31 @@ extern
 fun p3atlst_npf_tyer_labize (npf: int, p3ts: p3atlst): labhipatlst
 extern
 fun labp3atlst_npf_tyer (npf: int, lp3ts: labp3atlst): labhipatlst
+
+(* ****** ****** *)
+
+implement
+d2var_tyer (d2v) = let
+//
+typedef
+hisexp0 = dynexp2_hisexp_type
+val opt = d2var_get_mastype (d2v)
+//
+in
+//
+case+ opt of
+| Some
+    (s2e) => let
+    val loc = d2var_get_loc (d2v)
+    val hse = s2exp_tyer_shallow (loc, s2e)
+    val hse = $UN.cast{hisexp0}(hse)
+    val ((*void*)) = d2var_set_hitype (d2v, Some (hse))
+  in
+    d2v
+  end (* end of [Some] *)
+| None () => d2v
+//
+end // end of [d2var_tyer]
 
 (* ****** ****** *)
 
@@ -138,7 +169,9 @@ in
 case+ p3t0.p3at_node of
 //
 | P3Tany (d2v) => hipat_any (loc0, hse0)
-| P3Tvar (d2v) => hipat_var (loc0, hse0, d2v)
+| P3Tvar (d2v) => let
+    val d2v = d2var_tyer (d2v) in hipat_var (loc0, hse0, d2v)
+  end (* end of [P3Tvar] *)
 //
 | P3Tcon (
     pck, d2c, npf, p3ts
@@ -155,7 +188,8 @@ case+ p3t0.p3at_node of
 //
 | P3Tempty () => hipat_empty (loc0, hse0)
 //
-| P3Trec (
+| P3Trec
+  (
     knd, npf, lp3ts
   ) => let
     val lhips =
@@ -168,7 +202,8 @@ case+ p3t0.p3at_node of
   in
     hipat_rec2 (loc0, hse0, knd, lhips, hse_rec)
   end // end of [P3Trec]
-| P3Tlst (
+| P3Tlst
+  (
     lin, s2e_elt, p3ts
   ) => let
     val hse_elt =

@@ -80,7 +80,8 @@ castfn d2varopt2_decode (x: d2varopt2):<> d2varopt
 (* ****** ****** *)
 
 typedef
-d2var_struct = @{
+d2var_struct =
+@{
   d2var_sym= symbol // name
 , d2var_loc= location // first location
 , d2var_level= int // toplevel: 0
@@ -93,6 +94,7 @@ d2var_struct = @{
 , d2var_finknd= d2vfin // the status at the end of scope
 , d2var_type= s2expopt // the (current) type of a variable
 , d2var_mastype= s2expopt // the master type of a variable
+, d2var_hitype= hisexpopt // the type erasure of [d2var_type]
 , d2var_utimes= int //
 , d2var_stamp= stamp // uniqueness stamp
 } // end of [d2var_struct]
@@ -124,6 +126,7 @@ val () = p->d2var_view := d2varopt2_encode (None(*d2v*))
 val () = p->d2var_finknd := D2VFINnone ()
 val () = p->d2var_type := None ()
 val () = p->d2var_mastype := None ()
+val () = p->d2var_hitype := None ()
 val () = p->d2var_utimes := 0
 val () = p->d2var_stamp := stamp
 //
@@ -236,6 +239,8 @@ d2var_set_finknd (d2v, knd) = let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_finknd := knd
 end // end of [d2var_set_finknd]
 
+(* ****** ****** *)
+
 implement
 d2var_get_type (d2v) =
   $effmask_ref let
@@ -246,6 +251,8 @@ d2var_set_type (d2v, opt) = let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_type := opt
 end // end of [d2var_set_type]
 
+(* ****** ****** *)
+
 implement
 d2var_get_mastype
   (d2v) = $effmask_ref let
@@ -255,6 +262,20 @@ implement
 d2var_set_mastype (d2v, opt) = let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_mastype := opt
 end // end of [d2var_set_mastype]
+
+(* ****** ****** *)
+
+implement
+d2var_get_hitype
+  (d2v) = $effmask_ref let
+  val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_hitype
+end // end of [d2var_get_hitype]
+implement
+d2var_set_hitype (d2v, opt) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_hitype := opt
+end // end of [d2var_set_hitype]
+
+(* ****** ****** *)
 
 implement
 d2var_get_utimes (d2v) = $effmask_ref let

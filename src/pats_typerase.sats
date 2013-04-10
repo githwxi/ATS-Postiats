@@ -89,6 +89,10 @@ fun t2mpmarglst_tyer (t2mas: t2mpmarglst): hisexplstlst
 
 (* ****** ****** *)
 
+fun d2var_tyer (d2v: d2var): d2var
+
+(* ****** ****** *)
+
 fun p3at_tyer (p3t: p3at): hipat
 fun p3atlst_tyer (p3ts: p3atlst): hipatlst
 

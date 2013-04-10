@@ -487,37 +487,6 @@ end // end of [local]
 
 (* ****** ****** *)
 
-implement
-emit_funarglst
-  (out, nenv, hits) = let
-//
-fun loop
-(
-  out: FILEref, n: int
-, hits: hisexplst, sep: string, i: int
-) : void = let
-in
-//
-case+ hits of
-| list_cons
-    (hit, hits) => let
-    val () =
-      if n > 0 then emit_text (out, sep)
-    val () = emit_hisexp (out, hit)
-    val () = fprintf (out, " arg%i", @(i))
-  in
-    loop (out, n+1, hits, sep, i+1)
-  end // end of [list_cons]
-| list_nil () => ()
-//
-end // end of [loop]
-//
-in
-  loop (out, nenv, hits, ", ", 0)
-end // end of [emit_funarglst]
-
-(* ****** ****** *)
-
 local
 
 fun auxfun (
@@ -557,9 +526,10 @@ val () = if isext then emit_text (out, "ATSglobaldec()\n")
 val () = if issta then emit_text (out, "ATSstaticdec()\n")
 //
 val () = let
-  val hse =
-    funlab_get_type_res (flab) in emit_hisexp (out, hse)
-  // end of [val]
+//
+val hse =
+  funlab_get_type_res (flab) in emit_hisexp (out, hse)
+//
 end // end of [val]
 //
 val () = emit_text (out, "\n")
@@ -567,9 +537,12 @@ val () = emit_funlab (out, flab)
 val () = emit_text (out, "(")
 //
 val () = let
-  val hses =
-    funlab_get_type_arg (flab) in emit_hisexplst_sep (out, hses, ", ")
-  // end of [val]
+//
+val hses =
+  funlab_get_type_fullarg (flab)
+//
+in
+  emit_hisexplst_sep (out, hses, ", ")
 end // end of [val]
 //
 val () = emit_text (out, ") ;\n")
@@ -605,7 +578,8 @@ end // end of [local]
 
 local
 
-fun auxtmp (
+fun auxtmp
+(
   out: FILEref, fent: funent
 ) : void = let
 //
@@ -637,9 +611,10 @@ emit_funent_implmnt
 //
 val loc0 = funent_get_loc (fent)
 val flab = funent_get_lab (fent)
+val d2vs = funent_eval_d2varlst (fent)
 //
 val funclo = funlab_get_funclo (flab)
-val hits_arg = funlab_get_type_arg (flab)
+val hses_arg = funlab_get_type_arg (flab)
 val hse_res = funlab_get_type_res (flab)
 //
 val tmpret = funent_get_tmpret (fent)
@@ -673,7 +648,8 @@ val () = emit_hisexp (out, hse_res)
 val () = emit_text (out, "\n")
 val () = emit_funlab (out, flab)
 val () = emit_text (out, "(")
-val () = emit_funarglst (out, 0(*nenv*), hits_arg)
+val nenv = emit_funenvlst (out, d2vs)
+val () = emit_funarglst (out, nenv, hses_arg)
 val () = emit_text (out, ")\n")
 //
 val () = funent_varbindmap_initize (fent)

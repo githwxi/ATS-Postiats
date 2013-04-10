@@ -78,13 +78,6 @@ staload "pats_ccomp.sats"
 
 (* ****** ****** *)
 
-extern
-fun funent_eval_flablst (fent: funent): funlablst
-extern
-fun funent_eval_d2varlst (fent: funent): d2varlst
-
-(* ****** ****** *)
-
 local
 
 extern
@@ -152,6 +145,43 @@ case+ opt of
 end // end of [funent_eval_d2varlst]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+funlab_get_type_fullarg (flab) = let
+//
+fun aux
+(
+  d2vs: d2varlst, hses: hisexplst
+) : hisexplst = let
+in
+//
+case+ d2vs of
+| list_cons
+    (d2v, d2vs) => let
+    val-Some (hse) =
+      $D2E.d2var_get_hitype (d2v)
+    val hse2 = $UN.cast{hisexp}(hse)
+  in
+    list_cons (hse2, aux (d2vs, hses))
+  end (* end of [list_cons] *)
+| list_nil () => hses
+//
+end (* end of [aux] *)
+//
+val opt = funlab_get_funent (flab)
+val d2vs =
+(
+case+ opt of
+| Some (fent) => funent_eval_d2varlst (fent) | None () => list_nil ()
+) : d2varlst // end of [val]
+//
+val hses = funlab_get_type_arg (flab)
+//
+in
+  aux (d2vs, hses)
+end // end of [funlab_get_type_fullarg]
 
 (* ****** ****** *)
 
@@ -273,7 +303,7 @@ case+
 //
 end // end of [funval_isbot]
 
-fun emit_funval
+fun aux_funval
 (
   out: FILEref
 , pmv_fun: primval, hse_fun: hisexp
@@ -291,7 +321,7 @@ case+ pmv_fun.primval_node of
 //
 | PMVtmpltcstmat _ => emit_primval (out, pmv_fun)
 //
-| _(*funval*) => emit_funval2 (out, pmv_fun, hse_fun)
+| _(*funval*) => aux_funval2 (out, pmv_fun, hse_fun)
 //
 (*
 | _ => let
@@ -304,9 +334,9 @@ case+ pmv_fun.primval_node of
     // nothing
   end // end of [_]
 *)
-end // end of [emit_funval]
+end // end of [aux_funval]
 
-and emit_funval2
+and aux_funval2
 (
   out: FILEref
 , pmv_fun: primval, hse_fun: hisexp
@@ -336,10 +366,9 @@ val () = emit_rparen (out)
 //
 in
   // nothing
-end // end of [emit_funval2]
+end // end of [aux_funval2]
 
-
-fun emit_funenv
+fun aux_funenv
 (
   out: FILEref, pmv_fun: primval
 ) : int(*nenv*) = let
@@ -384,7 +413,7 @@ pmv_fun.primval_node of
 //
 | _ => 0
 //
-end // end of [emit_funenv]
+end // end of [aux_funenv]
 
 fun emit_fparamlst
 (
@@ -434,9 +463,9 @@ val () =
 val () = emit_text (out, "(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
-val () = emit_funval (out, pmv_fun, hse_fun)
+val () = aux_funval (out, pmv_fun, hse_fun)
 val () = emit_lparen (out)
-val nenv = emit_funenv (out, pmv_fun)
+val nenv = aux_funenv (out, pmv_fun)
 val () = emit_fparamlst (out, nenv, pmvs_arg)
 val () = emit_rparen (out)
 val () = emit_text (out, ") ;")
@@ -444,6 +473,8 @@ val () = emit_text (out, ") ;")
 in
   // nothing
 end // end of [emit_instr_fcall]
+
+(* ****** ****** *)
 
 implement
 emit_instr_extfcall
@@ -477,6 +508,69 @@ in
 end // end of [emit_instr_extfcall]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+emit_funenvlst
+  (out, d2vs) = let
+//
+fun loop
+(
+  out: FILEref
+, d2vs: d2varlst, sep: string, i: int
+) : int = let
+in
+//
+case+ d2vs of
+| list_cons
+    (d2v, d2vs) => let
+    val () =
+      if i > 0 then emit_text (out, sep)
+    val-Some (hse) =
+      $D2E.d2var_get_hitype (d2v)
+    val hse2 = $UN.cast{hisexp}(hse)
+    val () = emit_hisexp (out, hse2)
+    val () = fprintf (out, " env%i", @(i))
+  in
+    loop (out, d2vs, sep, i+1)
+  end (* end of [list_cons] *)
+| list_nil () => (i)
+//
+end (* end of [loop] *)
+//
+in
+  loop (out, d2vs, ", ", 0)
+end // end of [emit_funenvlst]
+
+implement
+emit_funarglst
+  (out, nenv, hses) = let
+//
+fun loop
+(
+  out: FILEref, n: int
+, hses: hisexplst, sep: string, i: int
+) : void = let
+in
+//
+case+ hses of
+| list_cons
+    (hse, hses) => let
+    val () =
+      if n > 0 then emit_text (out, sep)
+    val () = emit_hisexp (out, hse)
+    val () = fprintf (out, " arg%i", @(i))
+  in
+    loop (out, n+1, hses, sep, i+1)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [loop]
+//
+in
+  loop (out, nenv, hses, ", ", 0)
+end // end of [emit_funarglst]
 
 (* ****** ****** *)
 

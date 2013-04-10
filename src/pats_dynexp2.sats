@@ -323,12 +323,14 @@ fun d2var_set_finknd (_: d2var, knd: d2vfin): void
 
 fun d2var_get_type (x: d2var):<> s2expopt
 fun d2var_set_type (x: d2var, opt: s2expopt): void
+//
 fun d2var_get_mastype (x: d2var):<> s2expopt
 fun d2var_set_mastype (x: d2var, opt: s2expopt): void
+//
+fun d2var_get_hitype (x: d2var):<> hisexpopt
+fun d2var_set_hitype (x: d2var, opt: hisexpopt): void
 
 fun d2var_exch_type (x: d2var, opt: s2expopt): s2expopt 
-
-fun d2var_get_hitype (x: d2var):<> hisexpopt
 
 fun d2var_get_utimes (x: d2var):<> int
 fun d2var_set_utimes (x: d2var, nused: int):<> void
