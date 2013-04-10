@@ -508,17 +508,39 @@ implement
 d2varsetenv_free (xs) = list_vt_free (xs)
 
 (* ****** ****** *)
+//
+vtypedef vbindlstenv = List_vt (vbindlst_vt)
+//
+extern
+fun vbindlstenv_free (xs: vbindlstenv): void
+implement
+vbindlstenv_free (vbss) = let
+in
+//
+case+ vbss of
+| ~list_vt_cons
+    (vbs, vbss) =>
+  (
+    list_vt_free (vbs); vbindlstenv_free (vbss)
+  )
+| ~list_vt_nil () => ()
+//
+end // end of [vbindlstenv_free]
+//
+(* ****** ****** *)
 
 viewtypedef
-ccompenv_struct = @{
-  ccompenv_tmplevel = int
-, ccompenv_tmprecdepth = int
+ccompenv_struct =
+@{
+  ccompenv_tmplevel= int
+, ccompenv_tmprecdepth= int
 , ccompenv_loopexnenv= loopexnenv
 //
 , ccompenv_flabsetenv= flabsetenv
 , ccompenv_d2varsetenv= d2varsetenv
+, ccompenv_vbindlstenv= vbindlstenv
 //
-, ccompenv_markenvlst = markenvlst_vt
+, ccompenv_markenvlst= markenvlst_vt
 , ccompenv_varbindmap= d2varmap_vt (primval)
 } // end of [ccompenv_struct]
 
@@ -531,12 +553,18 @@ fun ccompenv_struct_uninitize
 
 implement
 ccompenv_struct_uninitize (x) = let
+//
   val () =
     markenvlst_vt_free (x.ccompenv_markenvlst)
+//
   val () = loopexnenv_free (x.ccompenv_loopexnenv)
+//
   val () = flabsetenv_free (x.ccompenv_flabsetenv)
   val () = d2varsetenv_free (x.ccompenv_d2varsetenv)
+  val () = vbindlstenv_free (x.ccompenv_vbindlstenv)
+//
   val () = d2varmap_vt_free (x.ccompenv_varbindmap)
+//
 in
   // end of [ccompenv_struct_uninitize]
 end // end of [ccompenv_struct_uninitize]
@@ -565,6 +593,7 @@ val () = p->ccompenv_loopexnenv := list_vt_nil ()
 //
 val () = p->ccompenv_flabsetenv := list_vt_nil ()
 val () = p->ccompenv_d2varsetenv := list_vt_nil ()
+val () = p->ccompenv_vbindlstenv := list_vt_nil ()
 //
 val () = p->ccompenv_markenvlst := MARKENVLSTnil ()
 val () = p->ccompenv_varbindmap := d2varmap_vt_nil ()
@@ -736,7 +765,7 @@ end // end of [ccompenv_inc_flabsetenv]
 
 implement
 ccompenv_getdec_flabsetenv
-  (env) = fls where
+  (env) = (fls) where
 {
 //
 val CCOMPENV (!p) = env
@@ -748,7 +777,7 @@ prval () = fold@ (env)
 
 implement
 ccompenv_add_flabsetenv
-  (env, fl) = () where
+  (env, fl) = ((*void*)) where
 {
 //
 val CCOMPENV (!p) = env
@@ -811,7 +840,7 @@ end // end of [ccompenv_inc_d2varsetenv]
 
 implement
 ccompenv_getdec_d2varsetenv
-  (env) = d2vs where
+  (env) = (d2vs) where
 {
 //
 val CCOMPENV (!p) = env
@@ -823,7 +852,7 @@ prval () = fold@ (env)
 
 implement
 ccompenv_add_d2varsetenv
-  (env, d2v) = () where
+  (env, d2v) = ((*void*)) where
 {
 //
 val CCOMPENV (!p) = env
@@ -867,6 +896,38 @@ if lev0 > 0 then let
 end (* end of [if] *)
 //
 end // end of [ccompenv_addset_d2varsetenv_if]
+
+(* ****** ****** *)
+
+implement
+ccompenv_inc_vbindlstenv
+  (env) = let
+//
+val vbs = list_vt_nil ()
+val CCOMPENV (!p) = env
+val vbss = p->ccompenv_vbindlstenv
+val () = (p->ccompenv_vbindlstenv := list_vt_cons (vbs, vbss))
+prval () = fold@ (env)
+//
+in
+  // nothing
+end // end of [ccompenv_inc_vbindlstenv]
+
+implement
+ccompenv_getdec_vbindlstenv
+  (env) = let
+//
+val CCOMPENV (!p) = env
+val-~list_vt_cons
+  (vbs, vbss) = p->ccompenv_vbindlstenv
+val () = p->ccompenv_vbindlstenv := vbss
+prval () = fold@ (env)
+//
+val vbs = list_vt_reverse (vbs)
+//
+in
+  list_of_list_vt (vbs)
+end // end of [ccompenv_getdec_vbindlstenv]
 
 (* ****** ****** *)
 
@@ -1004,12 +1065,23 @@ implement
 ccompenv_add_varbind
   (env, d2v, pmv) = let
 //
-  val CCOMPENV (!p) = env
-  val xs = p->ccompenv_markenvlst
-  val () = p->ccompenv_markenvlst := MARKENVLSTcons_var (d2v, xs)
-  val _(*inserted*) = d2varmap_vt_insert (p->ccompenv_varbindmap, d2v, pmv)
+val CCOMPENV (!p) = env
 //
-  prval () = fold@ (env)
+val lev = d2var_get_level (d2v)
+val () =
+if (lev > 0) then
+{
+val-list_vt_cons
+  (!p_vbs, _) = p->ccompenv_vbindlstenv
+val () = !p_vbs := list_vt_cons ( @(d2v, pmv), !p_vbs )
+prval () = fold@ (p->ccompenv_vbindlstenv)
+} (* end of [val] *)
+//
+val xs = p->ccompenv_markenvlst
+val () = p->ccompenv_markenvlst := MARKENVLSTcons_var (d2v, xs)
+val _(*inserted*) = d2varmap_vt_insert (p->ccompenv_varbindmap, d2v, pmv)
+//
+prval () = fold@ (env)
 //
 in
   // nothing

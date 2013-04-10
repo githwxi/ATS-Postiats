@@ -480,6 +480,7 @@ The ATS/Postiats (ATS2) Compiler\
 #packfilename("pats_ccomp_template.dats")
 #packfilename("pats_ccomp_emit.dats")
 #packfilename("pats_ccomp_emit2.dats")
+#packfilename("pats_ccomp_emit3.dats")
 #packfilename("pats_ccomp_main.dats")
 
 (* ****** ****** *)

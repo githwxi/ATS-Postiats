@@ -1190,4 +1190,21 @@ end // end of [fprint_tmpvarmat_kind]
 
 (* ****** ****** *)
 
+implement
+fprint_vbindlst (out, vbs) = let
+//
+fun fpr
+(
+  out: FILEref, vb: @(d2var, primval)
+) : void =
+(
+  fprint_d2var (out, vb.0); fprint_string (out, "->"); fprint_primval (out, vb.1)
+) (* end of [fpr] *)
+//
+in
+  $UT.fprintlst (out, vbs, "; ", fpr)
+end // end of [fprint_vbindlst]
+
+(* ****** ****** *)
+
 (* end of [pats_ccomp_print.dats] *)

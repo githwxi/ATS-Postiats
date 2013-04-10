@@ -195,11 +195,13 @@ vtypedef tmpmap = tmpvarmap_vt (tmpvar)
 (* ****** ****** *)
 //
 extern
-fun primval_subst (
+fun primval_subst
+(
   env: !ccompenv, map: !tmpmap, sub: !stasub, pmv: primval, sfx: int
 ) : primval // end of [primval_subst]
 extern
-fun primvalist_subst (
+fun primvalist_subst
+(
   env: !ccompenv, map: !tmpmap, sub: !stasub, pmvs: primvalist, sfx: int
 ) : primvalist // end of [primvalist_subst]
 //
@@ -208,18 +210,27 @@ fun labprimval_subst (
   env: !ccompenv, map: !tmpmap, sub: !stasub, lpmv: labprimval, sfx: int
 ) : labprimval // end of [labprimval_subst]
 extern
-fun labprimvalist_subst (
+fun labprimvalist_subst
+(
   env: !ccompenv, map: !tmpmap, sub: !stasub, lpmvs: labprimvalist, sfx: int
 ) : labprimvalist // end of [labprimvalist_subst]
 //
 extern
-fun primdec_subst (
+fun primdec_subst
+(
   env: !ccompenv, map: !tmpmap, sub: !stasub, pmd: primdec, sfx: int
 ) : primdec // end of [primdec_subst]
 extern
-fun primdeclst_subst (
+fun primdeclst_subst
+(
   env: !ccompenv, map: !tmpmap, sub: !stasub, pmds: primdeclst, sfx: int
 ) : primdeclst // end of [primdeclst_subst]
+//
+extern
+fun vbindlst_subst
+(
+  env: !ccompenv, map: !tmpmap, sub: !stasub, vblst: vbindlst, sfx: int
+) : vbindlst // end of [vbindlst_subst]
 //
 extern
 fun instr_subst
@@ -375,7 +386,9 @@ val tmparg = funent_get_tmparg (fent)
 val tmparg2 = s2explstlst_subst (sub, tmparg)
 //
 val tmpret = funent_get_tmpret (fent)
-val inss = funent_get_instrlst (fent)
+//
+val vblst = funent_get_vbindlst (fent)
+val inss_body = funent_get_instrlst (fent)
 val tmplst = funent_get_tmpvarlst (fent)
 //
 val tmplst2 =
@@ -411,7 +424,9 @@ val flset2 = funlabset_subst (env, flset)
 //
 val d2vset = funent_get_d2varset (fent)
 //
-val inss2 = instrlst_subst (env, tmpmap2, sub, inss, sfx)
+val vblst2 = vbindlst_subst (env, tmpmap2, sub, vblst, sfx)
+//
+val inss2_body = instrlst_subst (env, tmpmap2, sub, inss_body, sfx)
 //
 val ((*void*)) = tmpvarmap_vt_free (tmpmap2)
 //
@@ -419,7 +434,7 @@ val
 fent2 = funent_make
 (
   loc, level, flab2
-, imparg, tmparg, None(), tmpret2, flset2, d2vset, inss2, tmplst2
+, imparg, tmparg, None(), tmpret2, flset2, d2vset, vblst2, inss2_body, tmplst2
 ) (* end of [val] *)
 //
 in
@@ -759,7 +774,29 @@ end // end of [primdeclst_subst]
 (* ****** ****** *)
 
 implement
-instr_subst (
+vbindlst_subst
+(
+  env, map, sub, vbs, sfx
+) = let
+in
+//
+case+ vbs of
+| list_cons
+    (vb, vbs) => let
+    val b2 = primval_subst (env, map, sub, vb.1, sfx)
+    val vbs2 = vbindlst_subst (env, map, sub, vbs, sfx)
+  in
+    list_cons ( @(vb.0, b2), vbs2 )
+  end (* end of [list_cons] *)
+| list_nil () => list_nil ()
+//
+end // end of [vbindlst_subst]
+
+(* ****** ****** *)
+
+implement
+instr_subst
+(
   env, map, sub, ins0, sfx
 ) = let
 //

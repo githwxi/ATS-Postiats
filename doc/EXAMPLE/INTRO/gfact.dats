@@ -24,7 +24,7 @@ extern fun{a:t@ype} gfact (x: a): a
 (* ****** ****** *)
 
 implement
-{a}
+{a}(*tmp*)
 gfact (x) = let
 //
 macdef ggt = ggt_val<a>

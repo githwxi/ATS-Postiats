@@ -68,6 +68,7 @@ staload "./pats_ccomp.sats"
 overload fprint with fprint_funlab
 overload fprint with fprint_d2varset
 overload fprint with fprint_funlabset
+overload fprint with fprint_vbindlst
 
 (* ****** ****** *)
 
@@ -1347,13 +1348,15 @@ val res = instrseq_make_nil ()
 val ((*void*)) = instrseq_addlst (res, prolog)
 //
 val (pfinc | ()) = the_d2varlev_inc ()
+//
+val () = ccompenv_inc_flabsetenv (env)
+val () = ccompenv_inc_d2varsetenv (env)
+val () = ccompenv_inc_vbindlstenv (env)
+//
 val () = let
   val lev1 = the_d2varlev_get () in
   hifunarg_ccomp (env, res, flab, lev1, loc_fun, hips_arg)
 end // end of [val]
-//
-val () = ccompenv_inc_flabsetenv (env)
-val () = ccompenv_inc_d2varsetenv (env)
 //
 val loc_body = hde_body.hidexp_loc
 val hse_body = hde_body.hidexp_type
@@ -1362,6 +1365,7 @@ val () = hidexp_ccomp_ret (env, res, tmpret, hde_body)
 //
 val flset = ccompenv_getdec_flabsetenv (env)
 val d2vset = ccompenv_getdec_d2varsetenv (env)
+val vblst = ccompenv_getdec_vbindlstenv (env)
 //
 val () = the_d2varlev_dec (pfinc | (*none*))
 //
@@ -1374,11 +1378,12 @@ val out = stdout_ref
 val () = fprintln! (out, "hidexp_ccomp_funlab_arg_body: flab = ", flab)
 val () = fprintln! (out, "hidexp_ccomp_funlab_arg_body: flset = ", flset)
 val () = fprintln! (out, "hidexp_ccomp_funlab_arg_body: d2vset = ", d2vset)
+val () = fprintln! (out, "hidexp_ccomp_funlab_arg_body: vblst = ", vblst)
 //
 val
 fent = funent_make2
 (
-  loc_fun, lev0, flab, imparg, tmparg, tmpret, flset, d2vset, inss
+  loc_fun, lev0, flab, imparg, tmparg, tmpret, flset, d2vset, vblst, inss
 ) (* end of [val] *)
 //
 in

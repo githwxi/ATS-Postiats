@@ -89,8 +89,9 @@ The following code prints a given string onto the standard output channel:
 staload "libats/ML/SATS/strarr.sats"
 //
 implement
-main0 () = {
-  val cs = (strarr)"abcdefg"
+main0 () =
+{
+  val cs = (strarr)"abcde"
   val () = strarr_foreach (cs, lam (c) => print_char (c))
   val () = print_newline ()
 } // end of [main0]

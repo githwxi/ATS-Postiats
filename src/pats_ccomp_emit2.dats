@@ -51,6 +51,9 @@ S2UT = "./pats_staexp2_util.sats"
 staload
 D2E = "./pats_dynexp2.sats"
 typedef d2cst = $D2E.d2cst
+typedef d2var = $D2E.d2var
+typedef d2varlst = $D2E.d2varlst
+typedef d2varset = $D2E.d2varset
 
 (* ****** ****** *)
 
@@ -60,6 +63,83 @@ staload "./pats_hidynexp.sats"
 (* ****** ****** *)
 
 staload "pats_ccomp.sats"
+
+(* ****** ****** *)
+
+extern
+fun funent_eval_flabset (fent: funent): funlablst
+extern
+fun funent_eval_d2varset (fent: funent): d2varlst
+
+(* ****** ****** *)
+
+local
+
+extern
+fun funent_set_flabset_fin
+(
+  fent: funent, opt: Option (funlablst)
+) : void = "ext#patsopt_funent_set_flabset_fin"
+
+in (* in of [local] *)
+
+implement
+funent_eval_flabset
+  (fent) = let
+//
+val opt = funent_get_flabset_fin (fent)
+//
+in
+//
+case+ opt of
+| Some (fls) => fls
+| None () => fls where
+  {
+    val fls =
+      funent_get_flabset (fent)
+    val fls = funlabset_listize (fls)
+    val fls = list_of_list_vt (fls)
+    val () = funent_set_flabset_fin (fent, Some (fls))
+  } // end of [None]
+//
+end // end of [funent_eval_d2varset]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+extern
+fun funent_set_d2varset_fin
+(
+  fent: funent, opt: Option (d2varlst)
+) : void = "ext#patsopt_funent_set_d2varset_fin"
+
+in (* in of [local] *)
+
+implement
+funent_eval_d2varset
+  (fent) = let
+//
+val opt = funent_get_d2varset_fin (fent)
+//
+in
+//
+case+ opt of
+| Some (d2vs) => d2vs
+| None () => d2vs where
+  {
+    val d2vs =
+      funent_get_d2varset (fent)
+    val d2vs = $D2E.d2varset_listize (d2vs)
+    val d2vs = list_of_list_vt (d2vs)
+    val () = funent_set_d2varset_fin (fent, Some (d2vs))
+  } // end of [None]
+//
+end // end of [funent_eval_d2varset]
+
+end // end of [local]
 
 (* ****** ****** *)
 

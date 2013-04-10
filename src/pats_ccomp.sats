@@ -302,7 +302,10 @@ fun funent_get_tmparg (fent: funent): s2explstlst
 fun funent_get_tmpret (fent: funent): tmpvar // return value
 //
 fun funent_get_flabset (fent: funent): funlabset
+fun funent_get_flabset_fin (fent: funent): Option (funlablst)
+//
 fun funent_get_d2varset (fent: funent): d2varset
+fun funent_get_d2varset_fin (fent: funent): Option (d2varlst)
 //
 fun funent_get_tmpvarlst (fent: funent): tmpvarlst
 //
@@ -1197,6 +1200,11 @@ fun primlab_ind (loc: location, ind: primvalist): primlab
 
 (* ****** ****** *)
 
+typedef vbindlst = List @(d2var, primval)
+vtypedef vbindlst_vt = List_vt @(d2var, primval)
+
+(* ****** ****** *)
+
 fun instrlst_get_tmpvarset (xs: instrlst): tmpvarset_vt
 fun primdeclst_get_tmpvarset (xs: primdeclst): tmpvarset_vt
 
@@ -1230,6 +1238,7 @@ fun funent_make
 , tmpret: tmpvar
 , flset: funlabset
 , d2vset: d2varset
+, vblst: vbindlst
 , inss_body: instrlst
 , tmplst: tmpvarlst
 ) : funent // end of [funent_make]
@@ -1244,6 +1253,7 @@ fun funent_make2
 , tmpret: tmpvar
 , flset: funlabset
 , d2vset: d2varset
+, vblst: vbindlst
 , inss_body: instrlst
 ) : funent // end of [funent_make2]
 
@@ -1253,6 +1263,8 @@ fun funent_get_tmpsub (fent: funent): tmpsubopt
 fun funent_set_tmpsub
   (fent: funent, opt: tmpsubopt): void = "patsopt_funent_set_tmpsub"
 // end of [funent_set_tmpsub]
+
+fun funent_get_vbindlst (fent: funent): vbindlst
 
 fun funent_get_instrlst (fent: funent): instrlst
 
@@ -1316,6 +1328,18 @@ fun ccompenv_getdec_d2varsetenv (env: !ccompenv): d2varset
 fun ccompenv_add_d2varsetenv (env: !ccompenv, d2v: d2var): void
 fun ccompenv_addset_d2varsetenv_if (env: !ccompenv, lev0: int, d2vs: d2varset): void
 //
+(* ****** ****** *)
+//
+fun fprint_vbindlst (out: FILEref, vbs: vbindlst): void
+//
+fun ccompenv_inc_vbindlstenv (env: !ccompenv): void
+fun ccompenv_getdec_vbindlstenv (env: !ccompenv): vbindlst
+(*
+//
+// HX: this one is merged with [ccompenv_add_varbind]:
+//
+fun ccompenv_add_vbindlstenv (env: !ccompenv, d2v: d2var, pmv: primval): void
+*)
 (* ****** ****** *)
 
 absview ccompenv_push_v
@@ -1463,6 +1487,14 @@ fun hideclist_ccomp
 
 fun hideclist_ccomp0 (hdcs: hideclist): primdeclst
 
+(* ****** ****** *)
+//
+// HX-2013-04: for handling environvals
+//
+fun funent_varbindmap_initize (fent: funent): void
+fun funent_varbindmap_uninitize (fent: funent): void
+fun the_funent_varbindmap_find (d2v: d2var): Option_vt (primval)
+//
 (* ****** ****** *)
 
 fun emit_text

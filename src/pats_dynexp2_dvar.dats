@@ -548,6 +548,11 @@ d2varmap_vt_remove
   $LM.linmap_remove (map, d2v, cmp)
 // end of [d2varmap_vt_remove]
 
+implement
+d2varmap_vt_listize
+  {a} (map) = $LM.linmap_listize (map)
+// end of [d2varmap_vt_listize]
+
 end // end of [local]
 
 (* ****** ****** *)

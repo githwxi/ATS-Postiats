@@ -71,10 +71,12 @@ funent =
 , funent_tmpret= tmpvar // storing the return value
 //
 , funent_flabset= funlabset // flabs in function body
-, funent_flabset_fin= Option (funlabset) // final value
+, funent_flabset_fin= Option (funlablst) // final value
 //
 , funent_d2varset= d2varset // d2vars in function body
-, funent_d2varset_fin= Option (d2varset) // final value
+, funent_d2varset_fin= Option (d2varlst) // final value
+//
+, funent_vbindlst= vbindlst // local varbind list
 //
 , funent_instrlst= instrlst // instructions of function body
 //
@@ -92,7 +94,7 @@ funent_make
 (
   loc, level, flab
 , imparg, tmparg, tmpsub
-, tmpret, flset, d2vs, inss, tmplst
+, tmpret, flset, d2vs, vblst, inss, tmplst
 ) = let
 in '{
   funent_loc= loc
@@ -113,7 +115,10 @@ in '{
 , funent_d2varset= d2vs
 , funent_d2varset_fin= None ()
 //
+, funent_vbindlst= vblst
+//
 , funent_instrlst= inss
+//
 , funent_tmpvarlst= tmplst
 //
 } end // end of [funent_make]
@@ -143,9 +148,16 @@ funent_get_tmpret (fent) = fent.funent_tmpret
 
 implement
 funent_get_flabset (fent) = fent.funent_flabset
+implement
+funent_get_flabset_fin (fent) = fent.funent_flabset_fin
 
 implement
 funent_get_d2varset (fent) = fent.funent_d2varset
+implement
+funent_get_d2varset_fin (fent) = fent.funent_d2varset_fin
+
+implement
+funent_get_vbindlst (fent) = fent.funent_vbindlst
 
 implement
 funent_get_instrlst (fent) = fent.funent_instrlst
@@ -163,7 +175,7 @@ implement
 funent_make2
 (
   loc, flab, level
-, imparg, tmparg, tmpret, flset, d2vs, inss
+, imparg, tmparg, tmpret, flset, d2vs, vblst, inss
 ) = let
   val tmps = instrlst_get_tmpvarset (inss)
   val tmps = tmpvarset_vt_add (tmps, tmpret)
@@ -174,7 +186,7 @@ in
 funent_make
 (
   loc, flab, level
-, imparg, tmparg, None(*tsub*), tmpret, flset, d2vs, inss, tmplst
+, imparg, tmparg, None(*tsub*), tmpret, flset, d2vs, vblst, inss, tmplst
 ) // end of [funent_make]
 //
 end // end of [funent_make2]

@@ -637,7 +637,7 @@ emit_funent_implmnt
 val loc0 = funent_get_loc (fent)
 val flab = funent_get_lab (fent)
 //
-val fc = funlab_get_funclo (flab)
+val funclo = funlab_get_funclo (flab)
 val hits_arg = funlab_get_type_arg (flab)
 val hse_res = funlab_get_type_res (flab)
 //
@@ -675,6 +675,8 @@ val () = emit_text (out, " (")
 val () = emit_funarglst (out, hits_arg)
 val () = emit_text (out, ")\n")
 //
+val () = funent_varbindmap_initize (fent)
+//
 // function body
 //
 val () = emit_text (out, "{\n")
@@ -706,6 +708,8 @@ val () =
   emit_text (out, " /* end of [")
 val () = emit_funlab (out, flab)
 val () = emit_text (out, "] */\n")
+//
+val () = funent_varbindmap_uninitize (fent)
 //
 in
 end // end of [emit_funent_implmnt]

@@ -276,9 +276,11 @@ end // end of [hideclist_ccomp]
 implement
 hideclist_ccomp0
   (hids) = let
-  val env = ccompenv_make ()
-  val pmds = hideclist_ccomp (env, hids)
-  val () = ccompenv_free (env)
+//
+val env = ccompenv_make ()
+val pmds = hideclist_ccomp (env, hids)
+val () = ccompenv_free (env)
+//
 in
   pmds
 end // end of [hideclist_ccomp0]

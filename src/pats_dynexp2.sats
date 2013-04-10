@@ -374,9 +374,9 @@ fun d2varset_vt_listize (xs: !d2varset_vt):<> List_vt (d2var)
 
 fun d2varmap_nil {a:type} ():<> d2varmap (a)
 fun d2varmap_search
-  {a:type} (map: d2varmap(a), d2v: d2var): Option_vt (a)
+  {a:type} (map: d2varmap(a), d2v: d2var):<> Option_vt (a)
 fun d2varmap_insert
-  {a:type} (map: &d2varmap(a), d2v: d2var, x: a): bool(*found*)
+  {a:type} (map: &d2varmap(a), d2v: d2var, x: a):<> bool(*found*)
 
 (* ****** ****** *)
 
@@ -384,11 +384,14 @@ fun d2varmap_vt_nil {a:type} ():<> d2varmap_vt (a)
 fun d2varmap_vt_free {a:type} (map: d2varmap_vt(a)):<> void
 
 fun d2varmap_vt_search
-  {a:type} (map: !d2varmap_vt(a), d2v: d2var): Option_vt a
+  {a:type} (map: !d2varmap_vt(a), d2v: d2var):<> Option_vt a
 fun d2varmap_vt_insert
-  {a:type} (map: &d2varmap_vt(a), d2v: d2var, x: a): bool(*found*)
+  {a:type} (map: &d2varmap_vt(a), d2v: d2var, x: a):<> bool(*found*)
 fun d2varmap_vt_remove
-  {a:type} (map: &d2varmap_vt(a), d2v: d2var): bool(*found*)
+  {a:type} (map: &d2varmap_vt(a), d2v: d2var):<> bool(*found*)
+
+fun d2varmap_vt_listize
+  {a:type} (map: !d2varmap_vt(a)):<> List_vt @(d2var, a)
 
 (* ****** ****** *)
 

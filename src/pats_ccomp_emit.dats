@@ -37,6 +37,10 @@ staload _(*anon*) = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/reference.dats"
+
+(* ****** ****** *)
+
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
@@ -105,6 +109,82 @@ staload "./pats_hidynexp.sats"
 (* ****** ****** *)
 
 staload "./pats_ccomp.sats"
+
+(* ****** ****** *)
+
+local
+
+(*
+fun funent_varbindmap_initize (fent: funent): void
+fun funent_varbindmap_uninitize (fent: funent): void
+fun the_funent_varbindmap_find (d2v: d2var): Option_vt (primval)
+*)
+
+vtypedef
+vbmap = $D2E.d2varmap_vt (primval)
+val the_vbmap = let
+  val map = $D2E.d2varmap_vt_nil () in ref<vbmap> (map)
+end // end of [val]
+
+in (* in of [local] *)
+
+implement
+funent_varbindmap_initize
+  (fent) = let
+//
+fun loop
+(
+  map: &vbmap, vbs: vbindlst
+) : void = let
+in
+//
+case+ vbs of
+| list_cons
+    (vb, vbs) => let
+    val _(*inserted*) = $D2E.d2varmap_vt_insert (map, vb.0, vb.1)
+  in
+    loop (map, vbs)
+  end (* end of [list_cons] *)
+| list_nil () => ()
+//
+end // end of [loop]
+//
+val
+(
+  vbox pf | p
+) = ref_get_view_ptr (the_vbmap)
+val () = $effmask_ref (loop (!p, funent_get_vbindlst (fent)))
+//
+in
+  (*nothing*)
+end // end of [funent_varbindmap_initize]
+
+implement
+funent_varbindmap_uninitize
+  (fent) = let
+//
+val
+(
+  vbox pf | p
+) = ref_get_view_ptr (the_vbmap)
+val () = $D2E.d2varmap_vt_free (!p)
+val () = !p := $D2E.d2varmap_vt_nil ()
+//
+in
+  // nothing
+end // end of [the_funent_varbindmap_uninitize]
+
+implement
+the_funent_varbindmap_find
+  (d2v) = let
+//
+val (vbox pf | p) = ref_get_view_ptr (the_vbmap)
+//
+in
+  $D2E.d2varmap_vt_search (!p, d2v)
+end // end of [the_funent_varbindmap_find]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -812,6 +892,8 @@ extern fun emit_primval_tmpref : emit_primval_type
 extern fun emit_primval_arg : emit_primval_type
 extern fun emit_primval_argref : emit_primval_type
 //
+extern fun emit_primval_env : emit_primval_type
+//
 extern fun emit_primval_d2cst : emit_primval_type
 //
 extern fun emit_primval_castfn : emit_primval_type
@@ -845,6 +927,8 @@ case+ pmv0.primval_node of
 | PMVtmpref _ => emit_primval_tmpref (out, pmv0)
 | PMVarg _ => emit_primval_arg (out, pmv0)
 | PMVargref _ => emit_primval_argref (out, pmv0)
+//
+| PMVenv _ => emit_primval_env (out, pmv0)
 //
 | PMVcst _ => emit_primval_d2cst (out, pmv0)
 //
@@ -984,6 +1068,31 @@ end // end of [emit_primval_argref]
 (* ****** ****** *)
 
 implement
+emit_primval_env
+  (out, pmv0) = let
+//
+val-PMVenv (d2v) = pmv0.primval_node
+val opt = the_funent_varbindmap_find (d2v)
+//
+in
+//
+case+ opt of
+| ~Some_vt (pmv) =>
+    emit_primval (out, pmv)
+| ~None_vt () => let
+    val () = emit_text (out, "ATSPMVenv")
+    val () = emit_lparen (out)
+    val () = emit_symbol (out, $D2E.d2var_get_sym (d2v))
+    val () = emit_rparen (out)
+  in
+    // nothing
+  end (* end of [None_vt] *)
+//
+end // end of [emit_primval_env]
+
+(* ****** ****** *)
+
+implement
 emit_primval_d2cst
   (out, pmv0) = let
 //
@@ -1101,7 +1210,8 @@ end // end of [emit_primval_funlab]
 
 local
 
-fun auxmain (
+fun auxmain
+(
   out: FILEref
 , pmv: primval, hse: hisexp
 ) : void = let
@@ -1134,7 +1244,8 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-emit_funtype_arg_res (
+emit_funtype_arg_res
+(
   out, hses_arg, hse_res
 ) = let
   val () = emit_hisexp (out, hse_res)
@@ -1185,7 +1296,8 @@ extern fun emit_instr_raise : emit_instr_type
 (* ****** ****** *)
 
 extern
-fun emit_move_val (
+fun emit_move_val
+(
   out: FILEref, tmp: tmpvar, pmv: primval
 ) : void // end of [emit_move_val]
 implement
@@ -1210,7 +1322,8 @@ in
 end // end of [emit_move_val]
 
 extern
-fun emit_pmove_val (
+fun emit_pmove_val
+(
   out: FILEref, tmp: tmpvar, pmv: primval
 ) : void // end of [emit_pmove_val]
 implement
@@ -1588,7 +1701,8 @@ end // end of [emit_instrlst_ln]
 
 local
 
-fun auxcon (
+fun auxcon
+(
   out: FILEref
 , tmp: tmpvar
 , hit_con: hitype
@@ -1604,12 +1718,14 @@ in
   // nothing
 end // end of [auxcon]
 
-fun auxtag (
+fun auxtag
+(
   out: FILEref
 , tmp: tmpvar, d2c: d2con
 ) : void = let
 //
-val flag = (
+val flag =
+(
   case+ 0 of
   | _ when $S2E.d2con_is_nullary (d2c) => 0
   | _ when $S2E.d2con_is_listlike (d2c) => 0
@@ -1630,7 +1746,8 @@ in
   // nothing
 end // end of [auxtag]
 
-fun auxarg (
+fun auxarg
+(
   out: FILEref
 , tmp: tmpvar
 , hit_con: hitype
@@ -1694,7 +1811,8 @@ end // end of [local]
 implement
 emit_instr_move_rec (out, ins) = let
 //
-fun loop (
+fun loop
+(
   boxknd: int
 , extknd: int
 , tmp: tmpvar
@@ -1732,7 +1850,8 @@ end // end of [loop]
 in
 //
 case- ins.instr_node of
-| INSmove_fltrec (
+| INSmove_fltrec
+  (
     tmp, lpmvs, hse_rec
   ) => let
     val hit_rec = hisexp_typize (hse_rec)
@@ -1740,7 +1859,8 @@ case- ins.instr_node of
   in
     loop (0(*boxknd*), extknd, tmp, hit_rec, lpmvs, 0)
   end // end of [INSmove_fltrec]
-| INSmove_boxrec (
+| INSmove_boxrec
+  (
     tmp, lpmvs, hse_rec
   ) => let
     val hit_rec = hisexp_typize (hse_rec)
@@ -1762,7 +1882,8 @@ end // end of [emit_instr_move_rec]
 
 local
 
-fun auxsel (
+fun auxsel
+(
   out: FILEref
 , pmv: primval
 , hse_sum: hisexp
@@ -1800,7 +1921,8 @@ end // end of [local]
 
 local
 
-fun auxfnd (
+fun auxfnd
+(
   l0: label, lxs: labhisexplst
 ) : hisexp = let
   val-list_cons (lx, lxs) = lxs
@@ -1843,7 +1965,8 @@ case+
 //
 end // end of [auxsel]
 
-fun auxselist (
+fun auxselist
+(
   hse0: hisexp, pmls: primlablst
 ) : List_vt @(hisexp, primlab) = let
 //
@@ -1866,7 +1989,8 @@ in
   loop (hse0, pmls, list_vt_nil ())
 end // end of [auxselist]
 
-fun auxmain (
+fun auxmain
+(
   out: FILEref
 , knd: int
 , pmv: primval
