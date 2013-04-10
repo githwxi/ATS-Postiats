@@ -67,27 +67,27 @@ staload "pats_ccomp.sats"
 (* ****** ****** *)
 
 extern
-fun funent_eval_flabset (fent: funent): funlablst
+fun funent_eval_flablst (fent: funent): funlablst
 extern
-fun funent_eval_d2varset (fent: funent): d2varlst
+fun funent_eval_d2varlst (fent: funent): d2varlst
 
 (* ****** ****** *)
 
 local
 
 extern
-fun funent_set_flabset_fin
+fun funent_set_flablst_fin
 (
   fent: funent, opt: Option (funlablst)
-) : void = "ext#patsopt_funent_set_flabset_fin"
+) : void = "ext#patsopt_funent_set_flablst_fin"
 
 in (* in of [local] *)
 
 implement
-funent_eval_flabset
+funent_eval_flablst
   (fent) = let
 //
-val opt = funent_get_flabset_fin (fent)
+val opt = funent_get_flablst_fin (fent)
 //
 in
 //
@@ -99,10 +99,10 @@ case+ opt of
       funent_get_flabset (fent)
     val fls = funlabset_listize (fls)
     val fls = list_of_list_vt (fls)
-    val () = funent_set_flabset_fin (fent, Some (fls))
+    val () = funent_set_flablst_fin (fent, Some (fls))
   } // end of [None]
 //
-end // end of [funent_eval_d2varset]
+end // end of [funent_eval_d2varlst]
 
 end // end of [local]
 
@@ -111,18 +111,18 @@ end // end of [local]
 local
 
 extern
-fun funent_set_d2varset_fin
+fun funent_set_d2varlst_fin
 (
   fent: funent, opt: Option (d2varlst)
-) : void = "ext#patsopt_funent_set_d2varset_fin"
+) : void = "ext#patsopt_funent_set_d2varlst_fin"
 
 in (* in of [local] *)
 
 implement
-funent_eval_d2varset
+funent_eval_d2varlst
   (fent) = let
 //
-val opt = funent_get_d2varset_fin (fent)
+val opt = funent_get_d2varlst_fin (fent)
 //
 in
 //
@@ -134,10 +134,10 @@ case+ opt of
       funent_get_d2varset (fent)
     val d2vs = $D2E.d2varset_listize (d2vs)
     val d2vs = list_of_list_vt (d2vs)
-    val () = funent_set_d2varset_fin (fent, Some (d2vs))
+    val () = funent_set_d2varlst_fin (fent, Some (d2vs))
   } // end of [None]
 //
-end // end of [funent_eval_d2varset]
+end // end of [funent_eval_d2varlst]
 
 end // end of [local]
 
@@ -145,7 +145,8 @@ end // end of [local]
 
 local
 
-fun pmvfun_isbot
+fun
+funval_isbot
   (pmv: primval): bool = let
 in
 //
@@ -156,9 +157,9 @@ case+
   // end of [PMVcst]
 | _ => false // end of [_]
 //
-end // end of [pmvfun_isbot]
+end // end of [funval_isbot]
 
-fun emit_pmvfun
+fun emit_funval
 (
   out: FILEref
 , pmv_fun: primval, hse_fun: hisexp
@@ -176,7 +177,7 @@ case+ pmv_fun.primval_node of
 //
 | PMVtmpltcstmat _ => emit_primval (out, pmv_fun)
 //
-| _(*funval*) => emit_pmvfun_val (out, pmv_fun, hse_fun)
+| _(*funval*) => emit_funval2 (out, pmv_fun, hse_fun)
 //
 (*
 | _ => let
@@ -189,9 +190,9 @@ case+ pmv_fun.primval_node of
     // nothing
   end // end of [_]
 *)
-end // end of [emit_pmvfun]
+end // end of [emit_funval]
 
-and emit_pmvfun_val
+and emit_funval2
 (
   out: FILEref
 , pmv_fun: primval, hse_fun: hisexp
@@ -221,7 +222,74 @@ val () = emit_rparen (out)
 //
 in
   // nothing
-end // end of [emit_pmvfun_val]
+end // end of [emit_funval2]
+
+
+fun emit_funenv
+(
+  out: FILEref, pmv_fun: primval
+) : int(*nenv*) = let
+//
+fun aux
+(
+  out: FILEref, d2vs: d2varlst, i: int
+) : int = let
+in
+//
+case+ d2vs of
+| list_cons
+    (d2v, d2vs) => let
+    val () =
+    (
+      if (i > 0) then emit_text (out, ", ")
+    )
+    val () = emit_d2var_env (out, d2v)
+  in
+    aux (out, d2vs, i+1)
+  end // end of [list_cons]
+| list_nil () => i // number of environvals
+//
+end (* end of [aux] *)
+//
+in
+//
+case+
+pmv_fun.primval_node of
+//
+| PMVfunlab (flab) => let
+    val opt = funlab_get_funent (flab)
+  in
+    case+ opt of
+    | Some (fent) => let
+        val d2vs = funent_eval_d2varlst (fent)
+      in
+        aux (out, d2vs, 0)
+      end (* end of [Some] *)
+    | None () => 0
+  end // end of [PMVfunlab]
+//
+| _ => 0
+//
+end // end of [emit_funenv]
+
+fun emit_funarglst
+(
+  out: FILEref, n: int, pmvs: primvalist
+) : void = let
+in
+//
+case+ pmvs of
+| list_cons _ => let
+    val () =
+    (
+      if n > 0 then emit_text (out, ", ")
+    )
+  in
+    emit_primvalist (out, pmvs)
+  end (* end of [list_cons] *)
+| list_nil () => ()
+//
+end // end of [emit_funarglst]
 
 in (* in of [local] *)
 
@@ -241,7 +309,7 @@ val () = (
 val noret = tmpvar_is_void (tmp)
 val noret =
 (
-  if noret then true else pmvfun_isbot (pmv_fun)
+  if noret then true else funval_isbot (pmv_fun)
 ) : bool // end of [val]
 //
 val () = emit_text (out, "ATSINSmove")
@@ -252,10 +320,11 @@ val () =
 val () = emit_text (out, "(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
-val () = emit_pmvfun (out, pmv_fun, hse_fun)
-val () = emit_text (out, "(")
-val () = emit_primvalist (out, pmvs_arg)
-val () = emit_text (out, ")")
+val () = emit_funval (out, pmv_fun, hse_fun)
+val () = emit_lparen (out)
+val nenv = emit_funenv (out, pmv_fun)
+val () = emit_funarglst (out, nenv, pmvs_arg)
+val () = emit_rparen (out)
 val () = emit_text (out, ") ;")
 //
 in
@@ -272,7 +341,8 @@ val-INSextfcall
 //
 val noret = tmpvar_is_void (tmp)
 //
-val () = (
+val () =
+(
   if ~noret
     then emit_text (out, "ATSINSmove(")
     else emit_text (out, "ATSINSmove_void(")

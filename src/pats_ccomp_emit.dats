@@ -1068,10 +1068,9 @@ end // end of [emit_primval_argref]
 (* ****** ****** *)
 
 implement
-emit_primval_env
-  (out, pmv0) = let
+emit_d2var_env
+  (out, d2v) = let
 //
-val-PMVenv (d2v) = pmv0.primval_node
 val opt = the_funent_varbindmap_find (d2v)
 //
 in
@@ -1088,7 +1087,17 @@ case+ opt of
     // nothing
   end (* end of [None_vt] *)
 //
-end // end of [emit_primval_env]
+end // end of [emit_d2var_env]
+
+implement
+emit_primval_env
+  (out, pmv0) = let
+//
+val-PMVenv (d2v) = pmv0.primval_node
+//
+in
+  emit_d2var_env (out, d2v)
+end (* end of [emit_primval_env] *)
 
 (* ****** ****** *)
 

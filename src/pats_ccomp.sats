@@ -302,10 +302,10 @@ fun funent_get_tmparg (fent: funent): s2explstlst
 fun funent_get_tmpret (fent: funent): tmpvar // return value
 //
 fun funent_get_flabset (fent: funent): funlabset
-fun funent_get_flabset_fin (fent: funent): Option (funlablst)
+fun funent_get_flablst_fin (fent: funent): Option (funlablst)
 //
 fun funent_get_d2varset (fent: funent): d2varset
-fun funent_get_d2varset_fin (fent: funent): Option (d2varlst)
+fun funent_get_d2varlst_fin (fent: funent): Option (d2varlst)
 //
 fun funent_get_tmpvarlst (fent: funent): tmpvarlst
 //
@@ -1564,6 +1564,10 @@ fun emit2_s2cst (out: FILEref, d2c: s2cst): void // HX: local
 fun emit_d2con (out: FILEref, d2c: d2con): void
 fun emit_d2cst (out: FILEref, d2c: d2cst): void // HX: global
 fun emit2_d2cst (out: FILEref, d2c: d2cst): void // HX: local
+
+(* ****** ****** *)
+
+fun emit_d2var_env (out: FILEref, d2v: d2var): void // HX: environ
 
 (* ****** ****** *)
 

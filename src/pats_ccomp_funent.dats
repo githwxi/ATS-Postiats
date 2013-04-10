@@ -71,10 +71,10 @@ funent =
 , funent_tmpret= tmpvar // storing the return value
 //
 , funent_flabset= funlabset // flabs in function body
-, funent_flabset_fin= Option (funlablst) // final value
+, funent_flablst_fin= Option (funlablst) // final value
 //
 , funent_d2varset= d2varset // d2vars in function body
-, funent_d2varset_fin= Option (d2varlst) // final value
+, funent_d2varlst_fin= Option (d2varlst) // final value
 //
 , funent_vbindlst= vbindlst // local varbind list
 //
@@ -110,10 +110,10 @@ in '{
 , funent_tmpret= tmpret
 //
 , funent_flabset= flset
-, funent_flabset_fin= None ()
+, funent_flablst_fin= None ()
 //
 , funent_d2varset= d2vs
-, funent_d2varset_fin= None ()
+, funent_d2varlst_fin= None ()
 //
 , funent_vbindlst= vblst
 //
@@ -149,12 +149,12 @@ funent_get_tmpret (fent) = fent.funent_tmpret
 implement
 funent_get_flabset (fent) = fent.funent_flabset
 implement
-funent_get_flabset_fin (fent) = fent.funent_flabset_fin
+funent_get_flablst_fin (fent) = fent.funent_flablst_fin
 
 implement
 funent_get_d2varset (fent) = fent.funent_d2varset
 implement
-funent_get_d2varset_fin (fent) = fent.funent_d2varset_fin
+funent_get_d2varlst_fin (fent) = fent.funent_d2varlst_fin
 
 implement
 funent_get_vbindlst (fent) = fent.funent_vbindlst
@@ -277,21 +277,21 @@ patsopt_funent_set_tmpsub
 
 extern
 ats_void_type
-patsopt_funent_set_flabset_fin
+patsopt_funent_set_flablst_fin
 (
   ats_ptr_type fent, ats_ptr_type opt
 ) {
-  ((funent_t)fent)->atslab_funent_flabset_fin = opt ; return ;
-} // end of [patsopt_funent_set_flabset_fin]
+  ((funent_t)fent)->atslab_funent_flablst_fin = opt ; return ;
+} // end of [patsopt_funent_set_flablst_fin]
 
 extern
 ats_void_type
-patsopt_funent_set_d2varset_fin
+patsopt_funent_set_d2varlst_fin
 (
   ats_ptr_type fent, ats_ptr_type opt
 ) {
-  ((funent_t)fent)->atslab_funent_d2varset_fin = opt ; return ;
-} // end of [patsopt_funent_set_d2varset_fin]
+  ((funent_t)fent)->atslab_funent_d2varlst_fin = opt ; return ;
+} // end of [patsopt_funent_set_d2varlst_fin]
 
 %} // end of [%{$]
 
