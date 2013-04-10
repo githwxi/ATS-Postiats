@@ -428,6 +428,7 @@ and primval_node =
   | PMVarg of (int)
   | PMVargref of (int) // call-by-reference
   | PMVargtmpref of (int) // call-by-reference but treated as tmpvar
+  | PMVargenv of (int) // arguments for environvals
 //
   | PMVcst of (d2cst) // for constants
   | PMVenv of (d2var) // for environvals
@@ -494,7 +495,8 @@ primdec = '{
 and primdeclst = List (primdec)
 and primdeclst_vt = List_vt (primdec)
 
-and primval = '{
+and primval =
+'{
   primval_loc= location
 , primval_type= hisexp
 , primval_node= primval_node
@@ -639,6 +641,8 @@ fun primval_argref
   (loc: location, hse: hisexp, narg: int): primval
 fun primval_argtmpref
   (loc: location, hse: hisexp, narg: int): primval
+fun primval_argenv
+  (loc: location, hse: hisexp, nenv: int): primval
 
 (* ****** ****** *)
 
@@ -1670,9 +1674,10 @@ fun emit_instrlst (out: FILEref, inss: instrlst): void
 fun emit_instrlst_ln (out: FILEref, inss: instrlst): void
 
 (* ****** ****** *)
-
-fun emit_funarglst (out: FILEref, _arg: hisexplst): void
-
+//
+fun emit_funarglst
+  (out: FILEref, nenv: int, hses_arg: hisexplst): void
+//
 (* ****** ****** *)
 
 fun emit_the_tmpdeclst (out: FILEref): void

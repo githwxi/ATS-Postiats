@@ -178,7 +178,7 @@ primval_tmpref (loc, hse, tmp) =
 // end of [primval_tmpref]
 
 (* ****** ****** *)
-
+//
 implement
 primval_arg (loc, hse, narg) =
   primval_make_node (loc, hse, PMVarg (narg))
@@ -188,7 +188,11 @@ primval_argref (loc, hse, narg) =
 implement
 primval_argtmpref (loc, hse, narg) =
   primval_make_node (loc, hse, PMVargtmpref (narg))
-
+//
+implement
+primval_argenv (loc, hse, nenv) =
+  primval_make_node (loc, hse, PMVargenv (nenv))
+//
 (* ****** ****** *)
 
 implement

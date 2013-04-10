@@ -37,10 +37,6 @@ staload _(*anon*) = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/reference.dats"
-
-(* ****** ****** *)
-
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
@@ -90,6 +86,8 @@ S2E = "./pats_staexp2.sats"
 typedef s2cst = $S2E.s2cst
 typedef d2con = $S2E.d2con
 
+(* ****** ****** *)
+
 staload
 S2UT = "./pats_staexp2_util.sats"
 
@@ -98,6 +96,8 @@ S2UT = "./pats_staexp2_util.sats"
 staload
 D2E = "./pats_dynexp2.sats"
 typedef d2cst = $D2E.d2cst
+typedef d2var = $D2E.d2var
+typedef d2varlst = $D2E.d2varlst
 typedef d2ecl = $D2E.d2ecl
 typedef d2eclist = $D2E.d2eclist
 
@@ -109,82 +109,6 @@ staload "./pats_hidynexp.sats"
 (* ****** ****** *)
 
 staload "./pats_ccomp.sats"
-
-(* ****** ****** *)
-
-local
-
-(*
-fun funent_varbindmap_initize (fent: funent): void
-fun funent_varbindmap_uninitize (fent: funent): void
-fun the_funent_varbindmap_find (d2v: d2var): Option_vt (primval)
-*)
-
-vtypedef
-vbmap = $D2E.d2varmap_vt (primval)
-val the_vbmap = let
-  val map = $D2E.d2varmap_vt_nil () in ref<vbmap> (map)
-end // end of [val]
-
-in (* in of [local] *)
-
-implement
-funent_varbindmap_initize
-  (fent) = let
-//
-fun loop
-(
-  map: &vbmap, vbs: vbindlst
-) : void = let
-in
-//
-case+ vbs of
-| list_cons
-    (vb, vbs) => let
-    val _(*inserted*) = $D2E.d2varmap_vt_insert (map, vb.0, vb.1)
-  in
-    loop (map, vbs)
-  end (* end of [list_cons] *)
-| list_nil () => ()
-//
-end // end of [loop]
-//
-val
-(
-  vbox pf | p
-) = ref_get_view_ptr (the_vbmap)
-val () = $effmask_ref (loop (!p, funent_get_vbindlst (fent)))
-//
-in
-  (*nothing*)
-end // end of [funent_varbindmap_initize]
-
-implement
-funent_varbindmap_uninitize
-  (fent) = let
-//
-val
-(
-  vbox pf | p
-) = ref_get_view_ptr (the_vbmap)
-val () = $D2E.d2varmap_vt_free (!p)
-val () = !p := $D2E.d2varmap_vt_nil ()
-//
-in
-  // nothing
-end // end of [the_funent_varbindmap_uninitize]
-
-implement
-the_funent_varbindmap_find
-  (d2v) = let
-//
-val (vbox pf | p) = ref_get_view_ptr (the_vbmap)
-//
-in
-  $D2E.d2varmap_vt_search (!p, d2v)
-end // end of [the_funent_varbindmap_find]
-
-end // end of [local]
 
 (* ****** ****** *)
 

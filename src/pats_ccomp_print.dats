@@ -236,30 +236,41 @@ in
 //
 case+ x.primval_node of
 //
-| PMVtmp (tmp) => {
+| PMVtmp (tmp) =>
+  {
     val () = prstr "PMVtmp("
     val () = fprint_tmpvar (out, tmp)
     val () = prstr ")"
   }
-| PMVtmpref (tmp) => {
+| PMVtmpref (tmp) =>
+  {
     val () = prstr "PMVtmpref("
     val () = fprint_tmpvar (out, tmp)
     val () = prstr ")"
   }
 //
-| PMVarg (n) => {
+| PMVarg (n) =>
+  {
     val () = prstr "PMVarg("
     val () = fprint_int (out, n)
     val () = prstr ")"
   }
-| PMVargref (n) => {
+| PMVargref (n) =>
+  {
     val () = prstr "PMVargref("
     val () = fprint_int (out, n)
     val () = prstr ")"
   }
-| PMVargtmpref (n) => {
+| PMVargtmpref (n) =>
+  {
     val () = prstr "PMVargtmpref("
     val () = fprint_int (out, n)
+    val () = prstr ")"
+  }
+| PMVargenv (nenv) =>
+  {
+    val () = prstr "PMVargenv("
+    val () = fprint_int (out, nenv)
     val () = prstr ")"
   }
 //

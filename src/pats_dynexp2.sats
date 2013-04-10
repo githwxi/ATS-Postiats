@@ -328,6 +328,8 @@ fun d2var_set_mastype (x: d2var, opt: s2expopt): void
 
 fun d2var_exch_type (x: d2var, opt: s2expopt): s2expopt 
 
+fun d2var_get_hitype (x: d2var):<> hisexpopt
+
 fun d2var_get_utimes (x: d2var):<> int
 fun d2var_set_utimes (x: d2var, nused: int):<> void
 fun d2var_inc_utimes (x: d2var):<> void

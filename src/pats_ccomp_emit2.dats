@@ -32,6 +32,18 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+(*
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+*)
+staload _(*anon*) = "prelude/DATS/reference.dats"
+
+(* ****** ****** *)
+
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
@@ -138,6 +150,108 @@ case+ opt of
   } // end of [None]
 //
 end // end of [funent_eval_d2varlst]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+(*
+fun funent_varbindmap_initize (fent: funent): void
+fun funent_varbindmap_uninitize (fent: funent): void
+fun the_funent_varbindmap_find (d2v: d2var): Option_vt (primval)
+*)
+
+vtypedef
+vbmap = $D2E.d2varmap_vt (primval)
+val the_vbmap = let
+  val map = $D2E.d2varmap_vt_nil () in ref<vbmap> (map)
+end // end of [val]
+
+in (* in of [local] *)
+
+implement
+funent_varbindmap_initize
+  (fent) = let
+//
+fun aux
+(
+  map: &vbmap, vbs: vbindlst
+) : void = let
+in
+//
+case+ vbs of
+| list_cons
+    (vb, vbs) => let
+    val _(*inserted*) = $D2E.d2varmap_vt_insert (map, vb.0, vb.1)
+  in
+    aux (map, vbs)
+  end (* end of [list_cons] *)
+| list_nil () => ()
+//
+end // end of [aux]
+//
+fun auxenv
+(
+  map: &vbmap, loc0: location, i: int, d2vs: d2varlst
+) : void = let
+in
+//
+case+ d2vs of
+| list_cons
+    (d2v, d2vs) => let
+//
+// HX: [d2v] musthave been given a hitype:
+//
+    val-Some (hse) = $D2E.d2var_get_hitype (d2v)
+    val argenv = primval_argenv (loc0, $UN.cast{hisexp}(hse), i)
+    val _(*inserted*) = $D2E.d2varmap_vt_insert (map, d2v, argenv)
+  in
+    auxenv (map, loc0, i+1, d2vs)
+  end (* end of [list_cons] *)
+| list_nil () => ()
+//
+end // end of [auxenv]
+//
+val loc0 = funent_get_loc (fent)
+//
+val
+(
+  vbox pf | p
+) = ref_get_view_ptr (the_vbmap)
+//
+val () = $effmask_ref (aux (!p, funent_get_vbindlst (fent)))
+val () = $effmask_ref (auxenv (!p, loc0, 0, funent_eval_d2varlst (fent)))
+//
+in
+  (*nothing*)
+end // end of [funent_varbindmap_initize]
+
+implement
+funent_varbindmap_uninitize
+  (fent) = let
+//
+val
+(
+  vbox pf | p
+) = ref_get_view_ptr (the_vbmap)
+val () = $D2E.d2varmap_vt_free (!p)
+val () = !p := $D2E.d2varmap_vt_nil ()
+//
+in
+  // nothing
+end // end of [the_funent_varbindmap_uninitize]
+
+implement
+the_funent_varbindmap_find
+  (d2v) = let
+//
+val (vbox pf | p) = ref_get_view_ptr (the_vbmap)
+//
+in
+  $D2E.d2varmap_vt_search (!p, d2v)
+end // end of [the_funent_varbindmap_find]
 
 end // end of [local]
 
@@ -272,7 +386,7 @@ pmv_fun.primval_node of
 //
 end // end of [emit_funenv]
 
-fun emit_funarglst
+fun emit_fparamlst
 (
   out: FILEref, n: int, pmvs: primvalist
 ) : void = let
@@ -289,7 +403,7 @@ case+ pmvs of
   end (* end of [list_cons] *)
 | list_nil () => ()
 //
-end // end of [emit_funarglst]
+end // end of [emit_fparamlst]
 
 in (* in of [local] *)
 
@@ -323,7 +437,7 @@ val () = emit_text (out, ", ")
 val () = emit_funval (out, pmv_fun, hse_fun)
 val () = emit_lparen (out)
 val nenv = emit_funenv (out, pmv_fun)
-val () = emit_funarglst (out, nenv, pmvs_arg)
+val () = emit_fparamlst (out, nenv, pmvs_arg)
 val () = emit_rparen (out)
 val () = emit_text (out, ") ;")
 //

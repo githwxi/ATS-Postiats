@@ -489,10 +489,11 @@ end // end of [local]
 
 implement
 emit_funarglst
-  (out, hits) = let
+  (out, nenv, hits) = let
 //
-fun loop (
-  out: FILEref
+fun loop
+(
+  out: FILEref, n: int
 , hits: hisexplst, sep: string, i: int
 ) : void = let
 in
@@ -501,18 +502,18 @@ case+ hits of
 | list_cons
     (hit, hits) => let
     val () =
-      if i > 0 then emit_text (out, sep)
+      if n > 0 then emit_text (out, sep)
     val () = emit_hisexp (out, hit)
     val () = fprintf (out, " arg%i", @(i))
   in
-    loop (out, hits, sep, i+1)
+    loop (out, n+1, hits, sep, i+1)
   end // end of [list_cons]
 | list_nil () => ()
 //
 end // end of [loop]
 //
 in
-  loop (out, hits, ", ", 0)
+  loop (out, nenv, hits, ", ", 0)
 end // end of [emit_funarglst]
 
 (* ****** ****** *)
@@ -671,8 +672,8 @@ val () = if istmp then auxtmp (out, fent)
 val () = emit_hisexp (out, hse_res)
 val () = emit_text (out, "\n")
 val () = emit_funlab (out, flab)
-val () = emit_text (out, " (")
-val () = emit_funarglst (out, hits_arg)
+val () = emit_text (out, "(")
+val () = emit_funarglst (out, 0(*nenv*), hits_arg)
 val () = emit_text (out, ")\n")
 //
 val () = funent_varbindmap_initize (fent)
