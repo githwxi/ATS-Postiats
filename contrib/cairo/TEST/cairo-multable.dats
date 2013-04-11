@@ -224,7 +224,7 @@ val () = cairo_show_page (cr)
 val () = cairo_destroy (cr)
 val () = cairo_surface_destroy (sf)
 //
-} // end of [main]
+} // end of [main0]
 
 (* ****** ****** *)
 

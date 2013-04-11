@@ -28,7 +28,7 @@ fun tally2
 //
 var n: int = n
 var i: int // uninitialized
-var res: ullint = 0ULL
+var res: ullint = 0ull
 val () = for (i := 1 ; i <= n ; i :=+ 1) res :=+ (g0i2u)i
 //
 in
@@ -42,7 +42,7 @@ fun tally3
 //
 var n: int = n
 var i: int = 1
-var res: ullint = 0ULL
+var res: ullint = 0ull
 //
 val () =
   while (true) (
@@ -54,6 +54,23 @@ in
 end // end of [tally3]
 
 (* ****** ****** *)
+//
+// HX: this one makes use of closure
+//
+fun tally4
+  (n: int): ullint = let
+//
+fun loop
+(
+  i: int, res: ullint
+) : ullint =
+  if i <= n then loop (i+1, res + g0i2u(i)) else res
+//
+in
+  loop (0, 0ull)
+end // end of [tally4]
+
+(* ****** ****** *)
 
 implement 
 main () = let
@@ -61,6 +78,7 @@ main () = let
   val () = assertloc (tally (N) = N * (N+1) / 2)
   val () = assertloc (tally2 (N) = N * (N+1) / 2)
   val () = assertloc (tally3 (N) = N * (N+1) / 2)
+  val () = assertloc (tally4 (N) = N * (N+1) / 2)
 in
   0(*normalexit*)
 end // end of [main]

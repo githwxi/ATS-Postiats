@@ -1339,7 +1339,7 @@ fun ccompenv_incwth_flabsetenv (env: !ccompenv, fls: funlabset): void
 fun ccompenv_getdec_flabsetenv (env: !ccompenv): funlabset
 //
 fun ccompenv_add_flabsetenv (env: !ccompenv, fl: funlab): void
-fun ccompenv_addset_flabsetenv_if (env: !ccompenv, lev0: int, fls: funlabset): void
+fun ccompenv_addset_flabsetenv (env: !ccompenv, lev0: int, fls: funlabset): void
 //
 (* ****** ****** *)
 //
@@ -1347,7 +1347,7 @@ fun ccompenv_inc_d2varsetenv (env: !ccompenv): void
 fun ccompenv_getdec_d2varsetenv (env: !ccompenv): d2varset
 //
 fun ccompenv_add_d2varsetenv (env: !ccompenv, d2v: d2var): void
-fun ccompenv_addset_d2varsetenv_if (env: !ccompenv, lev0: int, d2vs: d2varset): void
+fun ccompenv_addset_d2varsetenv (env: !ccompenv, lev0: int, d2vs: d2varset): void
 //
 (* ****** ****** *)
 //
