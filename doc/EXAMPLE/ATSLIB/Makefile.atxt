@@ -104,6 +104,8 @@ RMF=rm -f
 #make2_entry("prelude_matrixptr", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("prelude_matrixref", "-DATS_MEMALLOC_LIBC", "")
 
+#make_entry("prelude_gprint")
+
 ######
 
 #make2_entry("libc_dirent", "-DATS_MEMALLOC_LIBC", "")

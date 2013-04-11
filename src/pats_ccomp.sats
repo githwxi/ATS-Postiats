@@ -316,10 +316,15 @@ fun funent_get_d2varlst_fin (fent: funent): Option (d2varlst)
 fun funent_get_tmpvarlst (fent: funent): tmpvarlst
 //
 (* ****** ****** *)
-
+(*
+// HX: transitive closure of called functions
+*)
 fun funent_eval_flablst (fent: funent): funlablst
+(*
+// HX: environvals occurring in called functions
+*)
 fun funent_eval_d2varlst (fent: funent): d2varlst
-
+//
 (* ****** ****** *)
 
 fun funlab_get_funent (flab: funlab): funentopt
@@ -1330,6 +1335,7 @@ fun ccompenv_dec_loopexnenv (env: !ccompenv): void
 (* ****** ****** *)
 //
 fun ccompenv_inc_flabsetenv (env: !ccompenv): void
+fun ccompenv_incwth_flabsetenv (env: !ccompenv, fls: funlabset): void
 fun ccompenv_getdec_flabsetenv (env: !ccompenv): funlabset
 //
 fun ccompenv_add_flabsetenv (env: !ccompenv, fl: funlab): void

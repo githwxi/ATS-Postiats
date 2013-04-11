@@ -61,12 +61,23 @@ staload "./pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
+staload "./pats_dynexp2.sats"
+
+(* ****** ****** *)
+
 staload "./pats_histaexp.sats"
 staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
 
 staload "./pats_ccomp.sats"
+
+(* ****** ****** *)
+
+overload fprint with fprint_funlab
+overload fprint with fprint_d2varset
+overload fprint with fprint_funlabset
+overload fprint with fprint_vbindlst
 
 (* ****** ****** *)
 
@@ -252,7 +263,8 @@ fun ccompenv_add_fundecsloc_subst (
 
 implement
 funlab_subst
-  (sub, flab) = flab2 where {
+  (sub, flab) = flab2 where
+{
 //
 val name = funlab_get_name (flab)
 val level = funlab_get_level (flab)
@@ -421,12 +433,13 @@ end // end of [val]
 //
 val flset = funent_get_flabset (fent)
 val flset2 = funlabset_subst (env, flset)
-//
 val d2vset = funent_get_d2varset (fent)
-//
 val vblst2 = vbindlst_subst (env, tmpmap2, sub, vblst, sfx)
 //
+val (
+) = ccompenv_incwth_flabsetenv (env, flset2)
 val inss2_body = instrlst_subst (env, tmpmap2, sub, inss_body, sfx)
+val flset2 = ccompenv_getdec_flabsetenv (env)
 //
 val ((*void*)) = tmpvarmap_vt_free (tmpmap2)
 //
@@ -437,6 +450,12 @@ fent2 = funent_make
 , imparg, tmparg, None(), tmpret2, flset2, d2vset, vblst2, inss2_body, tmplst2
 ) (* end of [val] *)
 //
+val out = stdout_ref
+val () = fprintln! (out, "funent_subst: flab2 = ", flab2)
+val () = fprintln! (out, "funent_subst: flset2 = ", flset2)
+val () = fprintln! (out, "funent_subst: d2vset2 = ", d2vset)
+val () = fprintln! (out, "funent_subst: vblst2 = ", vblst2)
+//
 in
   fent2
 end // end of [funent_subst]
@@ -444,13 +463,15 @@ end // end of [funent_subst]
 (* ****** ****** *)
 
 implement
-primval_subst (
+primval_subst
+(
   env, map, sub, pmv0, sfx
 ) = let
 //
-val (
-) = println!
-  ("primval_subst: pmv0 = ", pmv0)
+(*
+val () =
+  println! ("primval_subst: pmv0 = ", pmv0)
+*)
 //
 val loc0 = pmv0.primval_loc
 val hse0 = pmv0.primval_type
@@ -600,7 +621,8 @@ end // end of [primval_subst]
 (* ****** ****** *)
 
 implement
-primvalist_subst (
+primvalist_subst
+(
   env, map, sub, pmvs, sfx
 ) = let
 in
@@ -620,7 +642,8 @@ end // end of [primvalist_subst]
 (* ****** ****** *)
 
 implement
-labprimval_subst (
+labprimval_subst
+(
   env, map, sub, lpmv, sfx
 ) = let
 //
@@ -634,7 +657,8 @@ end // end of [labprimval_subst]
 (* ****** ****** *)
 
 implement
-labprimvalist_subst (
+labprimvalist_subst
+(
   env, map, sub, lpmvs, sfx
 ) = let
 in
@@ -672,7 +696,8 @@ end // end of [instrlst0_subst]
 (* ****** ****** *)
 
 implement
-primdec_subst (
+primdec_subst
+(
   env, map, sub, pmd0, sfx
 ) = let
   val loc0 = pmd0.primdec_loc
@@ -754,7 +779,8 @@ end // end of [primdec_subst]
 (* ****** ****** *)
 
 implement
-primdeclst_subst (
+primdeclst_subst
+(
   env, map, sub, pmds, sfx
 ) = let
 in

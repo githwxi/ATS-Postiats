@@ -81,7 +81,8 @@ fun loop (
 in
 //
 case+ env of
-| IMPENVcons (
+| IMPENVcons
+  (
     s2v, s2f, !p_env
   ) => let
     val () =
@@ -552,7 +553,8 @@ extern
 fun ccomp_funlab_tmpsubst_none
   (env: !ccompenv, loc0: location, hse0: hisexp, fl: funlab, tsub: tmpsub): primval
 extern
-fun ccomp_funlab_tmpsubst_some (
+fun ccomp_funlab_tmpsubst_some
+(
   env: !ccompenv, loc0: location, hse0: hisexp, fl: funlab, tsub: tmpsub, fent: funent
 ) : primval // end of [ccomp_funlab_tmpsubst_some]
 //
@@ -677,6 +679,7 @@ val-TMPCSTMATsome (imp, tsub) = mat
 val l0 = the_d2varlev_get ()
 val () = hiimpdec_ccomp_if (env, l0, imp)
 val-Some (flab) = hiimpdec_get_funlabopt (imp)
+val () = ccompenv_add_flabsetenv (env, flab)
 //
 in
   ccomp_funlab_tmpsubst (env, loc0, hse0, flab, tsub)
@@ -725,6 +728,7 @@ ccomp_tmpvarmat_some
 val-TMPVARMATsome (hfd, tsub) = mat
 val l0 = the_d2varlev_get ()
 val-Some (flab) = hifundec_get_funlabopt (hfd)
+val () = ccompenv_add_flabsetenv (env, flab)
 //
 in
   ccomp_funlab_tmpsubst (env, loc0, hse0, flab, tsub)

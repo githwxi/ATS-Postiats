@@ -600,6 +600,9 @@ val () = p->ccompenv_varbindmap := d2varmap_vt_nil ()
 //
 val () = fold@ (env)
 //
+val () = ccompenv_inc_flabsetenv (env) // toplevel flabs
+val () = ccompenv_inc_d2varsetenv (env) // toplevel d2vars
+//
 } // end of [ccompenv_make]
 
 (* ****** ****** *)
@@ -753,9 +756,14 @@ end // end of [ccompenv_get_loopcont]
 (* ****** ****** *)
 
 implement
-ccompenv_inc_flabsetenv
-  (env) = let
-  val fls = funlabset_nil ()
+ccompenv_inc_flabsetenv (env) =
+(
+  ccompenv_incwth_flabsetenv (env, funlabset_nil ())
+) // end of [ccompenv_inc_flabsetenv]
+
+implement
+ccompenv_incwth_flabsetenv
+  (env, fls) = let
   val CCOMPENV (!p) = env
   val () = (p->ccompenv_flabsetenv := list_vt_cons (fls, p->ccompenv_flabsetenv))
   prval () = fold@ (env)
@@ -816,9 +824,7 @@ end // end of [addlst_if]
 //
 in
 //
-if lev0 > 0 then let
-  val fls = funlabset_listize (flset) in addlst_if (env, lev0, fls)
-end (* end of [if] *)
+addlst_if (env, lev0, funlabset_listize (flset))
 //
 end // end of [ccompenv_addset_flabsetenv_if]
 
@@ -891,9 +897,7 @@ end // end of [addlst_if]
 //
 in
 //
-if lev0 > 0 then let
-  val d2vs = d2varset_listize (d2vset) in addlst_if (env, lev0, d2vs)
-end (* end of [if] *)
+addlst_if (env, lev0, d2varset_listize (d2vset))
 //
 end // end of [ccompenv_addset_d2varsetenv_if]
 
