@@ -115,6 +115,10 @@ ATS/ccomp/runtime
 #packfilename("pats_ccomp_exception.h")
 //
 (* ****** ****** *)
+//
+#packfilename("pats_ccomp_runtime.c")
+//
+(* ****** ****** *)
 
 #packpostamble()
 

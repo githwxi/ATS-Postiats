@@ -100,7 +100,10 @@ implement
 main0 () =
 {
   val N = 20
+(*
   val () = println! ("fib(", N, ") = ", fib (N))
+*)
+  val () = assertloc (fib (N) = 6765)
 } // end of [main0]
 
 (* ****** ****** *)

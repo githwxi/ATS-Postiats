@@ -141,14 +141,6 @@ The ATSLIB/libats library\
 (* ****** ****** *)
 
 #packfilename("SATS/ML_basis.sats")
-#packfilename("ML/SATS/list0.sats")
-#packfilename("ML/SATS/option0.sats")
-#packfilename("ML/SATS/array0.sats")
-#packfilename("ML/SATS/string.sats")
-#packfilename("ML/SATS/string0.sats")
-#packfilename("ML/SATS/filebas.sats")
-#packfilename("ML/SATS/funmap.sats")
-#packfilename("ML/SATS/funset.sats")
 
 (* ****** ****** *)
 
