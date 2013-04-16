@@ -123,6 +123,10 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
+#packfilename("prelude_gprint.dats")
+
+(* ****** ****** *)
+
 #packfilename("libats_qlist.dats")
 #packfilename("libats_sllist.dats")
 #packfilename("libats_dllist.dats")

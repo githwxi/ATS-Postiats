@@ -1371,8 +1371,8 @@ val () = the_d2varlev_dec (pfinc | (*none*))
 //
 val inss = instrseq_get_free (res)
 //
-val () = ccompenv_addset_flabsetenv_if (env, lev0, flset)
-val () = ccompenv_addset_d2varsetenv_if (env, lev0, d2vset)
+val () = ccompenv_addset_flabsetenv (env, lev0, flset)
+val () = ccompenv_addset_d2varsetenv (env, lev0, d2vset)
 //
 val out = stdout_ref
 val () = fprintln! (out, "hidexp_ccomp_funlab_arg_body: flab = ", flab)

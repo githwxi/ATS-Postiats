@@ -9,6 +9,11 @@
 
 (* ****** ****** *)
 //
+#include
+"share/atspre_staload_tmpdef.hats"
+//
+(* ****** ****** *)
+//
 abstype
 post_type (n:int) = ptr // for posts
 typedef post (n:int) = post_type (n)
@@ -63,7 +68,7 @@ end // end of [loop]
 //
 in
   loop (0)
-end // end of [showpost]
+end // end of [showpiece]
 
 (* ****** ****** *)
 

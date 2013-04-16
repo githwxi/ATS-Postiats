@@ -40,7 +40,9 @@ extern
 fun atoi: string -> int = "ext#atslib_atoi"
 
 implement
-main (argc, argv) = let
+main (
+  argc, argv
+) = let
   val N = 10
   val N = (
     if argc >= 2 then atoi (argv[1]) else N

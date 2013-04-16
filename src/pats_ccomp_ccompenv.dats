@@ -798,7 +798,7 @@ prval () = fold@ (env)
 } // end of [ccompenv_add_flabsetenv]
 
 implement
-ccompenv_addset_flabsetenv_if
+ccompenv_addset_flabsetenv
   (env, lev0, flset) = let
 //
 fun addlst_if
@@ -826,7 +826,7 @@ in
 //
 addlst_if (env, lev0, funlabset_listize (flset))
 //
-end // end of [ccompenv_addset_flabsetenv_if]
+end // end of [ccompenv_addset_flabsetenv]
 
 (* ****** ****** *)
 
@@ -861,17 +861,23 @@ ccompenv_add_d2varsetenv
   (env, d2v) = ((*void*)) where
 {
 //
+val lev = d2var_get_level (d2v)
+//
+val () =
+if (lev > 0) then
+{
 val CCOMPENV (!p) = env
 val-list_vt_cons
   (!p_d2vs, _) = p->ccompenv_d2varsetenv
 val () = !p_d2vs := d2varset_add (!p_d2vs, d2v)
 prval () = fold@ (p->ccompenv_d2varsetenv)
 prval () = fold@ (env)
+} (* end of [if] *)
 //
 } // end of [ccompenv_add_d2varsetenv]
 
 implement
-ccompenv_addset_d2varsetenv_if
+ccompenv_addset_d2varsetenv
   (env, lev0, d2vset) = let
 //
 fun addlst_if
@@ -899,7 +905,7 @@ in
 //
 addlst_if (env, lev0, d2varset_listize (d2vset))
 //
-end // end of [ccompenv_addset_d2varsetenv_if]
+end // end of [ccompenv_addset_d2varsetenv]
 
 (* ****** ****** *)
 
