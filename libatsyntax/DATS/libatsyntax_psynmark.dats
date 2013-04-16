@@ -1428,7 +1428,7 @@ case+ d0c0.d0ecl_node of
     psynmark_ins_begend (SMextcode, loc0, res)
 //
 | $SYN.D0Cdcstdecs
-    (tok, qmas, decs) => let
+    (knd, tok, qmas, decs) => let
     val isprf = dcstkind_is_proof (tok)
     val sm = (
       if isprf then SMprfexp else SMdynexp
