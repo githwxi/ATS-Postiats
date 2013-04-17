@@ -548,7 +548,8 @@ end // end of [test_symbol_p0at]
 
 local
 
-fun s0taconlst_test (
+fun s0taconlst_test
+(
   sym: symbol, xs: $SYN.s0taconlst
 ) : bool = let
 in
@@ -566,7 +567,8 @@ case+ xs of
 //
 end // end of [s0taconlst_test]
 
-fun s0expdeflst_test (
+fun s0expdeflst_test
+(
   sym: symbol, xs: $SYN.s0expdeflst
 ) : bool = let
 in
@@ -584,7 +586,8 @@ case+ xs of
 //
 end // end of [s0expdeflst_test]
 
-fun e0xndeclst_test (
+fun e0xndeclst_test
+(
   sym: symbol, xs: $SYN.e0xndeclst
 ) : bool = let
 in
@@ -602,7 +605,8 @@ case+ xs of
 //
 end // end of [e0xndeclst_test]
 
-fun d0cstdeclst_test (
+fun d0cstdeclst_test
+(
   sym: symbol, xs: $SYN.d0cstdeclst
 ) : bool = let
 in
@@ -620,7 +624,8 @@ case+ xs of
 //
 end // end of [d0cstdeclst_test]
 
-fun m0acdeflst_test (
+fun m0acdeflst_test
+(
   sym: symbol, xs: $SYN.m0acdeflst
 ) : bool = let
 in
@@ -638,7 +643,8 @@ case+ xs of
 //
 end // end of [m0acdeflst_test]
 
-fun f0undeclst_test (
+fun f0undeclst_test
+(
   sym: symbol, xs: $SYN.f0undeclst
 ) : bool = let
 in
@@ -656,7 +662,8 @@ case+ xs of
 //
 end // end of [f0undeclst_test]
 
-fun v0aldeclst_test (
+fun v0aldeclst_test
+(
   sym: symbol, xs: $SYN.v0aldeclst
 ) : bool = let
 in
@@ -689,7 +696,7 @@ case+ d0c.d0ecl_node of
 | $SYN.D0Cexndecs
     (xs) => e0xndeclst_test (sym, xs)
 | $SYN.D0Cdcstdecs
-    (_, _, xs) => d0cstdeclst_test (sym, xs)
+    (_, _, _, xs) => d0cstdeclst_test (sym, xs)
 | $SYN.D0Cmacdefs
     (_, _, xs) => m0acdeflst_test (sym, xs)
 | $SYN.D0Cfundecs
