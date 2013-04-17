@@ -67,7 +67,7 @@ end // end of [fpr]
 val out = stderr_ref
 //
 in
-  fpr(out, 0); fpr(out, 1); fpr(out, 2); fpr(out, 3); gprint_newline ()
+  fpr(out, 0); fpr(out, 1); fpr(out, 2); fpr(out, 3); fprint_newline (out)
 end // end of [val]
 
 (* ****** ****** *)

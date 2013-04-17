@@ -32,6 +32,12 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+
+(* ****** ****** *)
+
 staload UT = "./pats_utils.sats"
 staload _ (*anon*) = "./pats_utils.dats"
 
@@ -1202,7 +1208,7 @@ end // end of [fprint_tmpvarmat_kind]
 (* ****** ****** *)
 
 implement
-fprint_vbindlst (out, vbs) = let
+fprint_vbindmap (out, vbmap) = let
 //
 fun fpr
 (
@@ -1212,8 +1218,12 @@ fun fpr
   fprint_d2var (out, vb.0); fprint_string (out, "->"); fprint_primval (out, vb.1)
 ) (* end of [fpr] *)
 //
+val vbs = d2varmap_listize (vbmap)
+val () = $UT.fprintlst (out, $UN.linlst2lst(vbs), "; ", fpr)
+val () = list_vt_free (vbs)
+//
 in
-  $UT.fprintlst (out, vbs, "; ", fpr)
+  // nothing
 end // end of [fprint_vbindlst]
 
 (* ****** ****** *)

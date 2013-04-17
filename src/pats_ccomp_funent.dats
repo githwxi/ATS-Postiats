@@ -60,8 +60,6 @@ funent =
 '{
   funent_loc= location
 //
-, funent_level= int // =0/>0 for top/inner fun
-//
 , funent_lab= funlab // attached function label
 //
 , funent_imparg= s2varlst
@@ -70,13 +68,23 @@ funent =
 //
 , funent_tmpret= tmpvar // storing the return value
 //
-, funent_flabset= funlabset // flabs in function body
+// HX-2013-04-12:
+// [flablst] may contain the following flabs:
+// 1. outer functions called internally
+// 2. sibling functions called internally
+//
+// [flablst_fin] may contain the following flabs:
+// 1. self
+// 1. outer functions called transitively
+// 2. sibling functions called transitively
+//
+, funent_flablst= funlablst // flabs in function body
 , funent_flablst_fin= Option (funlablst) // final value
 //
-, funent_d2varset= d2varset // d2vars in function body
-, funent_d2varlst_fin= Option (d2varlst) // final value
+, funent_d2envlst= d2envlst // d2vars in function body
+, funent_d2envlst_fin= Option (d2envlst) // final value
 //
-, funent_vbindlst= vbindlst // local varbind list
+, funent_vbindmap= vbindmap // local varbind map
 //
 , funent_instrlst= instrlst // instructions of function body
 //
@@ -92,14 +100,12 @@ in // in of [local]
 implement
 funent_make
 (
-  loc, level, flab
+  loc, flab
 , imparg, tmparg, tmpsub
-, tmpret, flset, d2vs, vblst, inss, tmplst
+, tmpret, fls0, d2es, vbmap, inss, tmplst
 ) = let
 in '{
   funent_loc= loc
-//
-, funent_level= level
 //
 , funent_lab= flab
 //
@@ -109,13 +115,13 @@ in '{
 //
 , funent_tmpret= tmpret
 //
-, funent_flabset= flset
+, funent_flablst= fls0
 , funent_flablst_fin= None ()
 //
-, funent_d2varset= d2vs
-, funent_d2varlst_fin= None ()
+, funent_d2envlst= d2es
+, funent_d2envlst_fin= None ()
 //
-, funent_vbindlst= vblst
+, funent_vbindmap= vbmap
 //
 , funent_instrlst= inss
 //
@@ -132,7 +138,9 @@ implement
 funent_get_lab (fent) = fent.funent_lab
 
 implement
-funent_get_level (fent) = fent.funent_level
+funent_get_level
+  (fent) = funlab_get_level (fent.funent_lab)
+// end of [funent_get_level]
 
 implement
 funent_get_imparg (fent) = fent.funent_imparg
@@ -147,17 +155,17 @@ implement
 funent_get_tmpret (fent) = fent.funent_tmpret
 
 implement
-funent_get_flabset (fent) = fent.funent_flabset
+funent_get_flablst (fent) = fent.funent_flablst
 implement
 funent_get_flablst_fin (fent) = fent.funent_flablst_fin
 
 implement
-funent_get_d2varset (fent) = fent.funent_d2varset
+funent_get_d2envlst (fent) = fent.funent_d2envlst
 implement
-funent_get_d2varlst_fin (fent) = fent.funent_d2varlst_fin
+funent_get_d2envlst_fin (fent) = fent.funent_d2envlst_fin
 
 implement
-funent_get_vbindlst (fent) = fent.funent_vbindlst
+funent_get_vbindmap (fent) = fent.funent_vbindmap
 
 implement
 funent_get_instrlst (fent) = fent.funent_instrlst
@@ -174,8 +182,8 @@ end // end of [local]
 implement
 funent_make2
 (
-  loc, flab, level
-, imparg, tmparg, tmpret, flset, d2vs, vblst, inss
+  loc, flab
+, imparg, tmparg, tmpret, fls0, d2es, vbmap, inss
 ) = let
   val tmps = instrlst_get_tmpvarset (inss)
   val tmps = tmpvarset_vt_add (tmps, tmpret)
@@ -185,8 +193,8 @@ in
 //
 funent_make
 (
-  loc, flab, level
-, imparg, tmparg, None(*tsub*), tmpret, flset, d2vs, vblst, inss, tmplst
+  loc, flab
+, imparg, tmparg, None(*tsub*), tmpret, fls0, d2es, vbmap, inss, tmplst
 ) // end of [funent_make]
 //
 end // end of [funent_make2]
@@ -200,7 +208,6 @@ fprint_funent
 macdef prstr (s) = fprint_string (out, ,(s))
 //
 val flab = funent_get_lab (fent)
-val level = funent_get_level (fent)
 //
 val imparg = funent_get_imparg (fent)
 val tmparg = funent_get_tmparg (fent)
@@ -214,10 +221,6 @@ val () = prstr "FUNENT(\n"
 //
 val () = prstr "lab="
 val () = fprint_funlab (out, flab)
-val () = prstr "\n"
-//
-val () = prstr "level="
-val () = fprint_int (out, level)
 val () = prstr "\n"
 //
 val () = prstr "imparg="
@@ -286,12 +289,12 @@ patsopt_funent_set_flablst_fin
 
 extern
 ats_void_type
-patsopt_funent_set_d2varlst_fin
+patsopt_funent_set_d2envlst_fin
 (
   ats_ptr_type fent, ats_ptr_type opt
 ) {
-  ((funent_t)fent)->atslab_funent_d2varlst_fin = opt ; return ;
-} // end of [patsopt_funent_set_d2varlst_fin]
+  ((funent_t)fent)->atslab_funent_d2envlst_fin = opt ; return ;
+} // end of [patsopt_funent_set_d2envlst_fin]
 
 %} // end of [%{$]
 

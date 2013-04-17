@@ -362,7 +362,7 @@ s2Varset_add
   (xs, x) = xs where {
   val x = of_s2Var (x)
   var xs = of_s2Varset (xs)
-  val _(*inserted*) = $SET.funset_insert<s2Var1> (xs, x, cmp)
+  val _(*replaced*) = $SET.funset_insert<s2Var1> (xs, x, cmp)
   val xs = to_s2Varset (xs)
 } // end of [s2Varset_add]
 

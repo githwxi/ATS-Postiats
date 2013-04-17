@@ -25,6 +25,18 @@ typedef b0ytes (n:int) = @[byte?][n]
 
 #atscode_separator()
 
+viewdef bytes_v (l:addr, n:int) = bytes (n) @ l
+viewdef b0ytes_v (l:addr, n:int) = b0ytes (n) @ l
+
+#atscode_separator()
+
+praxi
+b0ytes2bytes_v
+  {l:addr}{n:int} (pf: b0ytes_v (l, n)): bytes_v (l, n)
+// end of [b0ytes2bytes_v]
+
+#atscode_separator()
+
 fun malloc_gc
   {n:int}
 (

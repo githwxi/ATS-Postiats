@@ -308,8 +308,7 @@ fun loop (
     | _ => (fold@ (ld2vss); false)
     ) // end of [LD2VSlam]
   | LD2VSset (!p_d2vs, !p_ld2vss) => let
-      val ans =
-        d2varset_vt_is_member (!p_d2vs, d2v0)
+      val ans = d2varset_vt_ismem (!p_d2vs, d2v0)
       val ans = (
         if ans then true else loop (!p_ld2vss, d2v0)
       ) // end of [val]
@@ -320,9 +319,14 @@ fun loop (
 ) (* end of [loop] *)
 //
 val ans = let
-  val (vbox pf | p) = ref_get_view_ptr (the_ld2vs)
+//
+val
+(
+  vbox pf | p
+) = ref_get_view_ptr (the_ld2vs)
+//
 in
-  d2varset_vt_is_member (!p, d2v0)
+  d2varset_vt_ismem (!p, d2v0)
 end // end of [val]
 //
 in

@@ -311,6 +311,8 @@ dynload "pats_ccomp_hitype.dats"
 dynload "pats_ccomp_tmplab.dats"
 dynload "pats_ccomp_tmpvar.dats"
 //
+dynload "pats_ccomp_d2env.dats"
+//
 dynload "pats_ccomp_funlab.dats"
 dynload "pats_ccomp_funent.dats"
 //
@@ -331,7 +333,9 @@ dynload "pats_ccomp_looping.dats"
 dynload "pats_ccomp_decl.dats"
 //
 dynload "pats_ccomp_subst.dats"
+dynload "pats_ccomp_environ.dats"
 dynload "pats_ccomp_template.dats"
+//
 dynload "pats_ccomp_emit.dats"
 dynload "pats_ccomp_emit2.dats"
 dynload "pats_ccomp_emit3.dats"

@@ -340,9 +340,9 @@ implement
 d2cstset_nil () = $FS.funset_make_nil ()
 
 implement
-d2cstset_is_member
+d2cstset_ismem
   (xs, x) = $FS.funset_is_member (xs, x, cmp)
-// end of [d2cstset_is_member]
+// end of [d2cstset_ismem]
 
 implement
 d2cstset_add

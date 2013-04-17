@@ -192,12 +192,45 @@ fun tmpvarmap_vt_remove
   {a:type} (map: &tmpvarmap_vt(a), tmp: tmpvar): bool(*found*)
 
 (* ****** ****** *)
+
+abstype d2env_type
+typedef d2env = d2env_type
+typedef d2envlst = List (d2env)
+vtypedef d2envlst_vt = List_vt (d2env)
+
+fun d2var2env (d2v: d2var): d2env
+
+fun d2env_get_var (x: d2env):<> d2var
+fun d2env_get_type (x: d2env):<> hisexp
+fun d2env_make (d2v: d2var, hse: hisexp): d2env
+
+fun fprint_d2env : fprint_type (d2env)
+overload fprint with fprint_d2env
+fun fprint_d2envlst : fprint_type (d2envlst)
+overload fprint with fprint_d2envlst
+
+(* ****** ****** *)
+
+absvtype d2envset_vtype
+vtypedef d2envset_vt = d2envset_vtype
+
+fun d2envset_vt_nil ():<> d2envset_vt
+fun d2envset_vt_free (xs: d2envset_vt): void
+fun d2envset_vt_ismem (xs: !d2envset_vt, x: d2env):<> bool
+fun d2envset_vt_add (xs: d2envset_vt, x: d2env):<> d2envset_vt
+fun d2envset_vt_listize (xs: !d2envset_vt):<> List_vt (d2env)
+fun d2envset_vt_listize_free (xs: d2envset_vt):<> List_vt (d2env)
+
+fun d2envlst2set (d2es: d2envlst): d2envset_vt
+
+(* ****** ****** *)
 //
 // HX: function label
 //
 abstype ccomp_funlab_type
 typedef funlab = ccomp_funlab_type
 typedef funlablst = List (funlab)
+vtypedef funlablst_vt = List_vt (funlab)
 typedef funlabopt = Option (funlab)
 //
 fun print_funlab (x: funlab): void
@@ -205,7 +238,9 @@ overload print with print_funlab
 fun prerr_funlab (x: funlab): void
 overload prerr with prerr_funlab
 fun fprint_funlab : fprint_type (funlab)
+overload fprint with fprint_funlab
 fun fprint_funlablst : fprint_type (funlablst)
+overload fprint with fprint_funlablst
 //
 fun
 funlab_make
@@ -266,13 +301,17 @@ fun funlab_get_type_fullarg (flab: funlab): hisexplst
 
 (* ****** ****** *)
 
-abstype funlabset
+absvtype funlabset_vtype
+vtypedef funlabset_vt = funlabset_vtype
 
-fun funlabset_nil (): funlabset
-fun funlabset_add (fls: funlabset, fl: funlab): funlabset
-fun funlabset_listize (fls: funlabset): List_vt (funlab)
+fun funlabset_vt_nil (): funlabset_vt
+fun funlabset_vt_free (fls: funlabset_vt): void
+fun funlabset_vt_ismem (fls: !funlabset_vt, fl: funlab): bool
+fun funlabset_vt_add (fls: funlabset_vt, fl: funlab): funlabset_vt
+fun funlabset_vt_listize (fls: !funlabset_vt): List_vt (funlab)
+fun funlabset_vt_listize_free (fls: funlabset_vt): List_vt (funlab)
 
-fun fprint_funlabset : fprint_type (funlabset)
+fun funlablst2set (fls: funlablst): funlabset_vt
 
 (* ****** ****** *)
 //
@@ -289,6 +328,7 @@ overload print with print_funent
 fun prerr_funent (x: funent): void
 overload prerr with prerr_funent
 fun fprint_funent : fprint_type (funent)
+overload fprint with fprint_funent
 //
 (* ****** ****** *)
 
@@ -307,11 +347,11 @@ fun funent_get_tmparg (fent: funent): s2explstlst
 //
 fun funent_get_tmpret (fent: funent): tmpvar // return value
 //
-fun funent_get_flabset (fent: funent): funlabset
+fun funent_get_flablst (fent: funent): funlablst
 fun funent_get_flablst_fin (fent: funent): Option (funlablst)
 //
-fun funent_get_d2varset (fent: funent): d2varset
-fun funent_get_d2varlst_fin (fent: funent): Option (d2varlst)
+fun funent_get_d2envlst (fent: funent): d2envlst
+fun funent_get_d2envlst_fin (fent: funent): Option (d2envlst)
 //
 fun funent_get_tmpvarlst (fent: funent): tmpvarlst
 //
@@ -323,7 +363,7 @@ fun funent_eval_flablst (fent: funent): funlablst
 (*
 // HX: environvals occurring in called functions
 *)
-fun funent_eval_d2varlst (fent: funent): d2varlst
+fun funent_eval_d2envlst (fent: funent): d2envlst
 //
 (* ****** ****** *)
 
@@ -388,6 +428,11 @@ tmpvarmat =
 
 fun fprint_tmpvarmat : fprint_type (tmpvarmat)
 fun fprint_tmpvarmat_kind : fprint_type (tmpvarmat) // 1/0:found/not
+
+(* ****** ****** *)
+
+overload fprint with fprint_tmpcstmat
+overload fprint with fprint_tmpvarmat
 
 (* ****** ****** *)
 
@@ -1220,11 +1265,6 @@ fun primlab_ind (loc: location, ind: primvalist): primlab
 
 (* ****** ****** *)
 
-typedef vbindlst = List @(d2var, primval)
-vtypedef vbindlst_vt = List_vt @(d2var, primval)
-
-(* ****** ****** *)
-
 fun instrlst_get_tmpvarset (xs: instrlst): tmpvarset_vt
 fun primdeclst_get_tmpvarset (xs: primdeclst): tmpvarset_vt
 
@@ -1247,18 +1287,23 @@ fun instrseq_addlst (res: !instrseq, x: instrlst): void
 
 (* ****** ****** *)
 
+typedef
+vbindmap = d2varmap (primval)
+
+fun fprint_vbindmap (out: FILEref, vbmap: vbindmap): void
+
+(* ****** ****** *)
+
 fun funent_make
 (
   loc: location
-, level: int
 , flab: funlab
 , imparg: s2varlst
 , tmparg: s2explstlst
 , tmpsub: tmpsubopt
 , tmpret: tmpvar
-, flset: funlabset
-, d2vset: d2varset
-, vblst: vbindlst
+, fls0: funlablst, d2es: d2envlst
+, vbmap: vbindmap
 , inss_body: instrlst
 , tmplst: tmpvarlst
 ) : funent // end of [funent_make]
@@ -1266,14 +1311,12 @@ fun funent_make
 fun funent_make2
 (
   loc: location
-, level: int
 , flab: funlab
 , imparg: s2varlst
 , tmparg: s2explstlst
 , tmpret: tmpvar
-, flset: funlabset
-, d2vset: d2varset
-, vblst: vbindlst
+, fls0: funlablst, d2es: d2envlst
+, vbmap: vbindmap
 , inss_body: instrlst
 ) : funent // end of [funent_make2]
 
@@ -1284,7 +1327,7 @@ fun funent_set_tmpsub
   (fent: funent, opt: tmpsubopt): void = "patsopt_funent_set_tmpsub"
 // end of [funent_set_tmpsub]
 
-fun funent_get_vbindlst (fent: funent): vbindlst
+fun funent_get_vbindmap (fent: funent): vbindmap
 
 fun funent_get_instrlst (fent: funent): instrlst
 
@@ -1333,34 +1376,41 @@ fun ccompenv_inc_loopexnenv
 fun ccompenv_dec_loopexnenv (env: !ccompenv): void
 
 (* ****** ****** *)
+
+(*
+fun ccompenv_get_funlevel (env: !ccompenv): int (* function level *)
+*)
+
+(* ****** ****** *)
+//
+fun ccompenv_inc_dvarsetenv (env: !ccompenv): void
+fun ccompenv_incwth_dvarsetenv (env: !ccompenv, d2es: d2envlst): void
+fun ccompenv_getdec_dvarsetenv (env: !ccompenv): d2envset_vt
+//
+fun ccompenv_add_dvarsetenv_var (env: !ccompenv, d2v: d2var): void
+fun ccompenv_add_dvarsetenv_env (env: !ccompenv, d2e: d2env): void
+//
+(* ****** ****** *)
 //
 fun ccompenv_inc_flabsetenv (env: !ccompenv): void
-fun ccompenv_incwth_flabsetenv (env: !ccompenv, fls: funlabset): void
-fun ccompenv_getdec_flabsetenv (env: !ccompenv): funlabset
-//
+fun ccompenv_getdec_flabsetenv (env: !ccompenv): funlabset_vt
 fun ccompenv_add_flabsetenv (env: !ccompenv, fl: funlab): void
-fun ccompenv_addset_flabsetenv (env: !ccompenv, lev0: int, fls: funlabset): void
 //
 (* ****** ****** *)
 //
-fun ccompenv_inc_d2varsetenv (env: !ccompenv): void
-fun ccompenv_getdec_d2varsetenv (env: !ccompenv): d2varset
-//
-fun ccompenv_add_d2varsetenv (env: !ccompenv, d2v: d2var): void
-fun ccompenv_addset_d2varsetenv (env: !ccompenv, lev0: int, d2vs: d2varset): void
+fun ccompenv_addlst_dvarsetenv_if
+  (env: !ccompenv, flev0: int, d2es: d2envlst): void
+fun ccompenv_addlst_flabsetenv_ifmap
+  (env: !ccompenv, flev0: int, vbmap: vbindmap, fls0: funlablst_vt): funlablst_vt
 //
 (* ****** ****** *)
 //
-fun fprint_vbindlst (out: FILEref, vbs: vbindlst): void
+fun ccompenv_inc_vbindmapenv (env: !ccompenv): void
+fun ccompenv_getdec_vbindmapenv (env: !ccompenv): vbindmap
 //
-fun ccompenv_inc_vbindlstenv (env: !ccompenv): void
-fun ccompenv_getdec_vbindlstenv (env: !ccompenv): vbindlst
-(*
+fun ccompenv_add_vbindmapenv (env: !ccompenv, d2v: d2var, pmv: primval): void
+fun ccompenv_find_vbindmapenv (env: !ccompenv, d2v: d2var): Option_vt (primval)
 //
-// HX: this one is merged with [ccompenv_add_varbind]:
-//
-fun ccompenv_add_vbindlstenv (env: !ccompenv, d2v: d2var, pmv: primval): void
-*)
 (* ****** ****** *)
 
 absview ccompenv_push_v
@@ -1376,13 +1426,19 @@ fun ccompenv_localjoin
 
 (* ****** ****** *)
 
-fun ccompenv_add_varbind
+fun ccompenv_add_vbindmapall
   (env: !ccompenv, d2v: d2var, pmv: primval): void
-// end of [ccompenv_add_varbind]
-
-fun ccompenv_find_varbind
+// end of [ccompenv_add_vbindmapall]
+  
+fun ccompenv_find_vbindmapall
   (env: !ccompenv, d2v: d2var): Option_vt (primval)
-// end of [ccompenv_find_varbind]
+// end of [ccompenv_find_vbindmapall]
+
+(* ****** ****** *)
+
+fun ccompenv_add_vbindmapenvall
+  (env: !ccompenv, d2v: d2var, pmv: primval): void
+// end of [ccompenv_add_vbindmapenvall]
 
 (* ****** ****** *)
 //
@@ -1588,7 +1644,8 @@ fun emit2_d2cst (out: FILEref, d2c: d2cst): void // HX: local
 
 (* ****** ****** *)
 
-fun emit_d2var_env (out: FILEref, d2v: d2var): void // HX: environ
+fun emit_d2env (out: FILEref, d2e: d2env): void
+fun emit_d2var_env (out: FILEref, d2v: d2var): void
 
 (* ****** ****** *)
 
@@ -1693,7 +1750,7 @@ fun emit_instrlst_ln (out: FILEref, inss: instrlst): void
 (* ****** ****** *)
 //
 fun emit_funenvlst
-  (out: FILEref, d2vs: d2varlst): int
+  (out: FILEref, d2es: d2envlst): int
 fun emit_funarglst
   (out: FILEref, nenv: int, hses_arg: hisexplst): void
 //
@@ -1781,11 +1838,13 @@ fun t2mpmarglst_tsubst
 
 (* ****** ****** *)
 //
+fun d2envlst_subst
+  (sub: !stasub, d2vs: d2envlst): d2envlst_vt
+//
+(* ****** ****** *)
+//
 fun funlab_subst
   (sub: !stasub, flab: funlab): funlab
-//
-fun funlabset_subst
-  (env: !ccompenv, flset: funlabset): funlabset
 //
 fun funent_subst
   (env: !ccompenv, sub: !stasub, flab2: funlab, fent: funent, sfx: int): funent

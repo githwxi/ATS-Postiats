@@ -32,15 +32,8 @@
 //
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
-(*
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
-*)
-staload _(*anon*) = "prelude/DATS/reference.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -50,22 +43,12 @@ staload "./pats_basics.sats"
 
 staload
 S2E = "./pats_staexp2.sats"
-typedef s2cst = $S2E.s2cst
-typedef d2con = $S2E.d2con
-
-(* ****** ****** *)
-
 staload
 S2UT = "./pats_staexp2_util.sats"
-
-(* ****** ****** *)
-
 staload
 D2E = "./pats_dynexp2.sats"
-typedef d2cst = $D2E.d2cst
 typedef d2var = $D2E.d2var
 typedef d2varlst = $D2E.d2varlst
-typedef d2varset = $D2E.d2varset
 
 (* ****** ****** *)
 
@@ -75,215 +58,6 @@ staload "./pats_hidynexp.sats"
 (* ****** ****** *)
 
 staload "pats_ccomp.sats"
-
-(* ****** ****** *)
-
-local
-
-extern
-fun funent_set_flablst_fin
-(
-  fent: funent, opt: Option (funlablst)
-) : void = "ext#patsopt_funent_set_flablst_fin"
-
-in (* in of [local] *)
-
-implement
-funent_eval_flablst
-  (fent) = let
-//
-val opt = funent_get_flablst_fin (fent)
-//
-in
-//
-case+ opt of
-| Some (fls) => fls
-| None () => fls where
-  {
-    val fls =
-      funent_get_flabset (fent)
-    val fls = funlabset_listize (fls)
-    val fls = list_of_list_vt (fls)
-    val () = funent_set_flablst_fin (fent, Some (fls))
-  } // end of [None]
-//
-end // end of [funent_eval_d2varlst]
-
-end // end of [local]
-
-(* ****** ****** *)
-
-local
-
-extern
-fun funent_set_d2varlst_fin
-(
-  fent: funent, opt: Option (d2varlst)
-) : void = "ext#patsopt_funent_set_d2varlst_fin"
-
-in (* in of [local] *)
-
-implement
-funent_eval_d2varlst
-  (fent) = let
-//
-val opt = funent_get_d2varlst_fin (fent)
-//
-in
-//
-case+ opt of
-| Some (d2vs) => d2vs
-| None () => d2vs where
-  {
-    val d2vs =
-      funent_get_d2varset (fent)
-    val d2vs = $D2E.d2varset_listize (d2vs)
-    val d2vs = list_of_list_vt (d2vs)
-    val () = funent_set_d2varlst_fin (fent, Some (d2vs))
-  } // end of [None]
-//
-end // end of [funent_eval_d2varlst]
-
-end // end of [local]
-
-(* ****** ****** *)
-
-implement
-funlab_get_type_fullarg (flab) = let
-//
-fun aux
-(
-  d2vs: d2varlst, hses: hisexplst
-) : hisexplst = let
-in
-//
-case+ d2vs of
-| list_cons
-    (d2v, d2vs) => let
-    val-Some (hse) =
-      $D2E.d2var_get_hitype (d2v)
-    val hse2 = $UN.cast{hisexp}(hse)
-  in
-    list_cons (hse2, aux (d2vs, hses))
-  end (* end of [list_cons] *)
-| list_nil () => hses
-//
-end (* end of [aux] *)
-//
-val opt = funlab_get_funent (flab)
-val d2vs =
-(
-case+ opt of
-| Some (fent) => funent_eval_d2varlst (fent) | None () => list_nil ()
-) : d2varlst // end of [val]
-//
-val hses = funlab_get_type_arg (flab)
-//
-in
-  aux (d2vs, hses)
-end // end of [funlab_get_type_fullarg]
-
-(* ****** ****** *)
-
-local
-
-(*
-fun funent_varbindmap_initize (fent: funent): void
-fun funent_varbindmap_uninitize (fent: funent): void
-fun the_funent_varbindmap_find (d2v: d2var): Option_vt (primval)
-*)
-
-vtypedef
-vbmap = $D2E.d2varmap_vt (primval)
-val the_vbmap = let
-  val map = $D2E.d2varmap_vt_nil () in ref<vbmap> (map)
-end // end of [val]
-
-in (* in of [local] *)
-
-implement
-funent_varbindmap_initize
-  (fent) = let
-//
-fun aux
-(
-  map: &vbmap, vbs: vbindlst
-) : void = let
-in
-//
-case+ vbs of
-| list_cons
-    (vb, vbs) => let
-    val _(*inserted*) = $D2E.d2varmap_vt_insert (map, vb.0, vb.1)
-  in
-    aux (map, vbs)
-  end (* end of [list_cons] *)
-| list_nil () => ()
-//
-end // end of [aux]
-//
-fun auxenv
-(
-  map: &vbmap, loc0: location, i: int, d2vs: d2varlst
-) : void = let
-in
-//
-case+ d2vs of
-| list_cons
-    (d2v, d2vs) => let
-//
-// HX: [d2v] musthave been given a hitype:
-//
-    val-Some (hse) = $D2E.d2var_get_hitype (d2v)
-    val argenv = primval_argenv (loc0, $UN.cast{hisexp}(hse), i)
-    val _(*inserted*) = $D2E.d2varmap_vt_insert (map, d2v, argenv)
-  in
-    auxenv (map, loc0, i+1, d2vs)
-  end (* end of [list_cons] *)
-| list_nil () => ()
-//
-end // end of [auxenv]
-//
-val loc0 = funent_get_loc (fent)
-//
-val
-(
-  vbox pf | p
-) = ref_get_view_ptr (the_vbmap)
-//
-val () = $effmask_ref (aux (!p, funent_get_vbindlst (fent)))
-val () = $effmask_ref (auxenv (!p, loc0, 0, funent_eval_d2varlst (fent)))
-//
-in
-  (*nothing*)
-end // end of [funent_varbindmap_initize]
-
-implement
-funent_varbindmap_uninitize
-  (fent) = let
-//
-val
-(
-  vbox pf | p
-) = ref_get_view_ptr (the_vbmap)
-val () = $D2E.d2varmap_vt_free (!p)
-val () = !p := $D2E.d2varmap_vt_nil ()
-//
-in
-  // nothing
-end // end of [the_funent_varbindmap_uninitize]
-
-implement
-the_funent_varbindmap_find
-  (d2v) = let
-//
-val (vbox pf | p) = ref_get_view_ptr (the_vbmap)
-//
-in
-  $D2E.d2varmap_vt_search (!p, d2v)
-end // end of [the_funent_varbindmap_find]
-
-end // end of [local]
 
 (* ****** ****** *)
 
@@ -375,20 +149,20 @@ fun aux_funenv
 //
 fun aux
 (
-  out: FILEref, d2vs: d2varlst, i: int
+  out: FILEref, d2es: d2envlst, i: int
 ) : int = let
 in
 //
-case+ d2vs of
+case+ d2es of
 | list_cons
-    (d2v, d2vs) => let
+    (d2e, d2es) => let
     val () =
     (
       if (i > 0) then emit_text (out, ", ")
     )
-    val () = emit_d2var_env (out, d2v)
+    val () = emit_d2env (out, d2e)
   in
-    aux (out, d2vs, i+1)
+    aux (out, d2es, i+1)
   end // end of [list_cons]
 | list_nil () => i // number of environvals
 //
@@ -404,9 +178,9 @@ pmv_fun.primval_node of
   in
     case+ opt of
     | Some (fent) => let
-        val d2vs = funent_eval_d2varlst (fent)
+        val d2es = funent_eval_d2envlst (fent)
       in
-        aux (out, d2vs, 0)
+        aux (out, d2es, 0)
       end (* end of [Some] *)
     | None () => 0
   end // end of [PMVfunlab]
@@ -513,34 +287,32 @@ end // end of [local]
 
 implement
 emit_funenvlst
-  (out, d2vs) = let
+  (out, d2es) = let
 //
 fun loop
 (
   out: FILEref
-, d2vs: d2varlst, sep: string, i: int
+, d2es: d2envlst, sep: string, i: int
 ) : int = let
 in
 //
-case+ d2vs of
+case+ d2es of
 | list_cons
-    (d2v, d2vs) => let
+    (d2e, d2es) => let
+    val hse = d2env_get_type (d2e)
     val () =
       if i > 0 then emit_text (out, sep)
-    val-Some (hse) =
-      $D2E.d2var_get_hitype (d2v)
-    val hse2 = $UN.cast{hisexp}(hse)
-    val () = emit_hisexp (out, hse2)
+    val () = emit_hisexp (out, hse)
     val () = fprintf (out, " env%i", @(i))
   in
-    loop (out, d2vs, sep, i+1)
+    loop (out, d2es, sep, i+1)
   end (* end of [list_cons] *)
 | list_nil () => (i)
 //
 end (* end of [loop] *)
 //
 in
-  loop (out, d2vs, ", ", 0)
+  loop (out, d2es, ", ", 0)
 end // end of [emit_funenvlst]
 
 implement

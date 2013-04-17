@@ -235,6 +235,7 @@ SOURCES := \
   pats_ccomp_hitype.dats \
   pats_ccomp_tmplab.dats \
   pats_ccomp_tmpvar.dats \
+  pats_ccomp_d2env.dats \
   pats_ccomp_funlab.dats \
   pats_ccomp_funent.dats \
   pats_ccomp_util.dats \
@@ -247,6 +248,7 @@ SOURCES := \
   pats_ccomp_looping.dats \
   pats_ccomp_decl.dats \
   pats_ccomp_subst.dats \
+  pats_ccomp_environ.dats \
   pats_ccomp_template.dats \
   pats_ccomp_emit.dats \
   pats_ccomp_emit2.dats \
@@ -463,6 +465,7 @@ OBJECTS := \
   pats_ccomp_hitype_dats.o \
   pats_ccomp_tmplab_dats.o \
   pats_ccomp_tmpvar_dats.o \
+  pats_ccomp_d2env_dats.o \
   pats_ccomp_funlab_dats.o \
   pats_ccomp_funent_dats.o \
   pats_ccomp_util_dats.o \
@@ -475,6 +478,7 @@ OBJECTS := \
   pats_ccomp_looping_dats.o \
   pats_ccomp_decl_dats.o \
   pats_ccomp_subst_dats.o \
+  pats_ccomp_environ_dats.o \
   pats_ccomp_template_dats.o \
   pats_ccomp_emit_dats.o \
   pats_ccomp_emit2_dats.o \
@@ -1110,6 +1114,9 @@ pats_ccomp_tmplab_dats.o: pats_ccomp_tmplab_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 pats_ccomp_tmpvar_dats.c: pats_ccomp_tmpvar.dats; $(ATSCC) -cc $<
 pats_ccomp_tmpvar_dats.o: pats_ccomp_tmpvar_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
+pats_ccomp_d2env_dats.c: pats_ccomp_d2env.dats; $(ATSCC) -cc $<
+pats_ccomp_d2env_dats.o: pats_ccomp_d2env_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
 pats_ccomp_funlab_dats.c: pats_ccomp_funlab.dats; $(ATSCC) -cc $<
 pats_ccomp_funlab_dats.o: pats_ccomp_funlab_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
@@ -1145,6 +1152,9 @@ pats_ccomp_decl_dats.o: pats_ccomp_decl_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_ccomp_subst_dats.c: pats_ccomp_subst.dats; $(ATSCC) -cc $<
 pats_ccomp_subst_dats.o: pats_ccomp_subst_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_ccomp_environ_dats.c: pats_ccomp_environ.dats; $(ATSCC) -cc $<
+pats_ccomp_environ_dats.o: pats_ccomp_environ_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_ccomp_template_dats.c: pats_ccomp_template.dats; $(ATSCC) -cc $<
 pats_ccomp_template_dats.o: pats_ccomp_template_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<

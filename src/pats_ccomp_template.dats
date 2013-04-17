@@ -593,7 +593,7 @@ case+ t2mas of
     val tmpmat = ccompenv_tmpcst_match (env, d2c, t2mas)
   in
     ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, tmpmat)
-  end // end of [list_cons]
+  end (* end of [list_cons] *)
 | list_nil () => primval_funlab (loc0, hse0, flab)
 //
 end // end of [ccomp_funlab_tmpsubst_none]
@@ -602,7 +602,8 @@ implement
 ccomp_funlab_tmpsubst_some
   (env, loc0, hse0, flab, tsub, fent) = let
 //
-val () = (
+val () =
+(
   println! ("ccomp_funlab_tmpsubst_some: tsub = ");
   fprint_tmpsub (stdout_ref, tsub); print_newline ()
 ) // end of [val]
@@ -614,6 +615,8 @@ val sfx = funlab_incget_ncopy (flab)
 val flab2 = funlab_subst (sub, flab)
 val () = funlab_set_suffix (flab2, sfx)
 val () = the_funlablst_add (flab2)
+//
+val () = ccompenv_add_flabsetenv (env, flab2)
 //
 val (
   pfpush | ()
@@ -676,10 +679,12 @@ ccomp_tmpcstmat_some
   (env, loc0, hse0, d2c, t2mas, mat) = let
 //
 val-TMPCSTMATsome (imp, tsub) = mat
-val l0 = the_d2varlev_get ()
-val () = hiimpdec_ccomp_if (env, l0, imp)
+//
+val lev0 = the_d2varlev_save ()
+val () = hiimpdec_ccomp_if (env, 0(*level*), imp)
+val () = the_d2varlev_restore (lev0)
+//
 val-Some (flab) = hiimpdec_get_funlabopt (imp)
-val () = ccompenv_add_flabsetenv (env, flab)
 //
 in
   ccomp_funlab_tmpsubst (env, loc0, hse0, flab, tsub)
@@ -726,9 +731,7 @@ ccomp_tmpvarmat_some
   (env, loc0, hse0, d2v, t2mas, mat) = let
 //
 val-TMPVARMATsome (hfd, tsub) = mat
-val l0 = the_d2varlev_get ()
 val-Some (flab) = hifundec_get_funlabopt (hfd)
-val () = ccompenv_add_flabsetenv (env, flab)
 //
 in
   ccomp_funlab_tmpsubst (env, loc0, hse0, flab, tsub)

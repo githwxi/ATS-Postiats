@@ -22,6 +22,12 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+(*
+//
+// HX-2013-04:
+// this is needed before closure compilation
+// becomes fully functioning
+//
 implement{a}
 arrayptr_make_elt
   {n} (asz, x0) = let
@@ -45,6 +51,7 @@ for
 in
   $UN.castvwtp0{arrayptr(a,n)}((pf, pfgc | p0))
 end // end of [arrayptr_make_elt]
+*)
 
 (* ****** ****** *)
 

@@ -380,8 +380,12 @@ implement
 fprint_d2var (out, d2v) = let
   val () = $SYM.fprint_symbol (out, d2var_get_sym d2v)
 // (*
-  val () = fprint_string (out, "(")
+  val () = fprint_string (out, "$")
   val () = $STMP.fprint_stamp (out, d2var_get_stamp d2v)
+// *)
+// (*
+  val () = fprint_string (out, "(")
+  val () = fprint_int (out, d2var_get_level d2v)
   val () = fprint_string (out, ")")
 // *)
 in
@@ -460,9 +464,9 @@ implement
 d2varset_nil () = $FS.funset_make_nil ()
 
 implement
-d2varset_is_member
+d2varset_ismem
   (xs, x) = $FS.funset_is_member (xs, x, cmp)
-// end of [d2varset_is_member]
+// end of [d2varset_ismem]
 
 implement
 d2varset_add
@@ -483,9 +487,9 @@ implement
 d2varset_vt_free (xs) = $LS.linset_free (xs)
 
 implement
-d2varset_vt_is_member
+d2varset_vt_ismem
   (xs, x) = $LS.linset_is_member (xs, x, cmp)
-// end of [d2varset_vt_is_member]
+// end of [d2varset_vt_ismem]
 
 implement
 d2varset_vt_add
@@ -496,6 +500,8 @@ d2varset_vt_add
 
 implement
 d2varset_vt_listize (xs) = $LS.linset_listize (xs)
+implement
+d2varset_vt_listize_free (xs) = $LS.linset_listize_free (xs)
 
 end // end of [local]
 
@@ -538,6 +544,11 @@ d2varmap_insert
   {a} (map, d2v, x) =
   $FM.funmap_insert (map, d2v, x, cmp)
 // end of [d2varmap_insert]
+
+implement
+d2varmap_listize
+  {a} (map) = $FM.funmap_listize (map)
+// end of [d2varmap_listize]
 
 (* ****** ****** *)
 

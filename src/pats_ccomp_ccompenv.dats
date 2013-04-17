@@ -74,7 +74,7 @@ implement
 the_dyncstlst_add
   (d2c) = let
   val d2cs = !the_dyncstset
-  val found = d2cstset_is_member (d2cs, d2c)
+  val found = d2cstset_ismem (d2cs, d2c)
 in
 //
 if ~(found) then let
@@ -249,7 +249,9 @@ local
 
 vtypedef funlablst_vt = List_vt (funlab)
 
-val the_funlablst = ref_make_elt<funlablst_vt> (list_vt_nil ())
+val the_funlablst =
+  ref_make_elt<funlablst_vt> (list_vt_nil ())
+// end of [the_funlablst]
 
 in (* in of [local] *)
 
@@ -491,41 +493,61 @@ end // end of [loopexnenv_free]
 
 (* ****** ****** *)
 
-vtypedef flabsetenv = List_vt (funlabset)
+vtypedef
+flabsetenv = List_vt (funlabset_vt)
 
 extern
 fun flabsetenv_free (xs: flabsetenv): void
 implement
-flabsetenv_free (xs) = list_vt_free (xs)
-
-(* ****** ****** *)
-
-vtypedef d2varsetenv = List_vt (d2varset)
-
-extern
-fun d2varsetenv_free (xs: d2varsetenv): void
-implement
-d2varsetenv_free (xs) = list_vt_free (xs)
-
-(* ****** ****** *)
-//
-vtypedef vbindlstenv = List_vt (vbindlst_vt)
-//
-extern
-fun vbindlstenv_free (xs: vbindlstenv): void
-implement
-vbindlstenv_free (vbss) = let
-in
-//
-case+ vbss of
+flabsetenv_free (xs) =
+(
+case+ xs of
 | ~list_vt_cons
-    (vbs, vbss) =>
+    (x, xs) =>
   (
-    list_vt_free (vbs); vbindlstenv_free (vbss)
+    funlabset_vt_free (x); flabsetenv_free (xs)
   )
 | ~list_vt_nil () => ()
+) // end of [flabsetenv_free]
+
+(* ****** ****** *)
+
+vtypedef
+dvarsetenv = List_vt (d2envset_vt)
+
+extern
+fun dvarsetenv_free (xs: dvarsetenv): void
+implement
+dvarsetenv_free (xs) =
+(
+case+ xs of
+| ~list_vt_cons
+    (x, xs) =>
+  (
+    d2envset_vt_free (x); dvarsetenv_free (xs)
+  )
+| ~list_vt_nil () => ()
+) // end of [dvarsetenv_free]
+
+(* ****** ****** *)
 //
-end // end of [vbindlstenv_free]
+vtypedef vbindmapenv = List_vt (vbindmap)
+//
+(* ****** ****** *)
+//
+extern
+fun vbindmapenv_free (xs: vbindmapenv): void
+//
+implement
+vbindmapenv_free (vbms) = let
+in
+//
+case+ vbms of
+| ~list_vt_cons
+    (vbm, vbms) => vbindmapenv_free (vbms)
+| ~list_vt_nil () => ()
+//
+end // end of [vbindmapenv_free]
 //
 (* ****** ****** *)
 
@@ -537,11 +559,11 @@ ccompenv_struct =
 , ccompenv_loopexnenv= loopexnenv
 //
 , ccompenv_flabsetenv= flabsetenv
-, ccompenv_d2varsetenv= d2varsetenv
-, ccompenv_vbindlstenv= vbindlstenv
+, ccompenv_dvarsetenv= dvarsetenv
+, ccompenv_vbindmapenv= vbindmapenv
 //
 , ccompenv_markenvlst= markenvlst_vt
-, ccompenv_varbindmap= d2varmap_vt (primval)
+, ccompenv_vbindmapall= d2varmap_vt (primval)
 } // end of [ccompenv_struct]
 
 (* ****** ****** *)
@@ -560,10 +582,10 @@ ccompenv_struct_uninitize (x) = let
   val () = loopexnenv_free (x.ccompenv_loopexnenv)
 //
   val () = flabsetenv_free (x.ccompenv_flabsetenv)
-  val () = d2varsetenv_free (x.ccompenv_d2varsetenv)
-  val () = vbindlstenv_free (x.ccompenv_vbindlstenv)
+  val () = dvarsetenv_free (x.ccompenv_dvarsetenv)
+  val () = vbindmapenv_free (x.ccompenv_vbindmapenv)
 //
-  val () = d2varmap_vt_free (x.ccompenv_varbindmap)
+  val () = d2varmap_vt_free (x.ccompenv_vbindmapall)
 //
 in
   // end of [ccompenv_struct_uninitize]
@@ -592,16 +614,18 @@ val () = p->ccompenv_tmprecdepth := 0
 val () = p->ccompenv_loopexnenv := list_vt_nil ()
 //
 val () = p->ccompenv_flabsetenv := list_vt_nil ()
-val () = p->ccompenv_d2varsetenv := list_vt_nil ()
-val () = p->ccompenv_vbindlstenv := list_vt_nil ()
+val () = p->ccompenv_dvarsetenv := list_vt_nil ()
+val () = p->ccompenv_vbindmapenv := list_vt_nil ()
 //
 val () = p->ccompenv_markenvlst := MARKENVLSTnil ()
-val () = p->ccompenv_varbindmap := d2varmap_vt_nil ()
+//
+val () = p->ccompenv_vbindmapall := d2varmap_vt_nil ()
 //
 val () = fold@ (env)
 //
 val () = ccompenv_inc_flabsetenv (env) // toplevel flabs
-val () = ccompenv_inc_d2varsetenv (env) // toplevel d2vars
+val () = ccompenv_inc_dvarsetenv (env) // toplevel d2vars
+val () = ccompenv_inc_vbindmapenv (env) // toplevel vbinds
 //
 } // end of [ccompenv_make]
 
@@ -644,10 +668,10 @@ implement
 ccompenv_get_tmplevel
   (env) = let
   val CCOMPENV (!p) = env
-  val level = p->ccompenv_tmplevel
+  val tmplev = p->ccompenv_tmplevel
   prval () = fold@ (env)
 in
-  level
+  tmplev
 end // end of [ccompenv_get_tmplevel]
 
 implement
@@ -755,17 +779,123 @@ end // end of [ccompenv_get_loopcont]
 
 (* ****** ****** *)
 
+(*
 implement
-ccompenv_inc_flabsetenv (env) =
-(
-  ccompenv_incwth_flabsetenv (env, funlabset_nil ())
-) // end of [ccompenv_inc_flabsetenv]
+ccompenv_get_funlevel
+  (env) = n where
+{
+//
+val
+CCOMPENV (!p) = env
+val n = list_vt_length (p->ccompenv_flabsetenv)
+prval () = fold@ (env)
+//
+} // end of [ccompenv_get_funlevel]
+*)
+
+(* ****** ****** *)
 
 implement
-ccompenv_incwth_flabsetenv
-  (env, fls) = let
+ccompenv_inc_dvarsetenv
+  (env) = let
+//
+val CCOMPENV (!p) = env
+val d2es = d2envset_vt_nil ()
+val d2ess = p->ccompenv_dvarsetenv
+val () = (p->ccompenv_dvarsetenv := list_vt_cons (d2es, d2ess))
+prval () = fold@ (env)
+//
+in
+  // nothing
+end // end of [ccompenv_inc_dvarsetenv]
+
+implement
+ccompenv_incwth_dvarsetenv
+  (env, d2es) = let
+//
+val d2es = d2envlst2set (d2es)
+//
+val CCOMPENV (!p) = env
+val d2ess = p->ccompenv_dvarsetenv
+val () = (p->ccompenv_dvarsetenv := list_vt_cons (d2es, d2ess))
+prval () = fold@ (env)
+//
+in
+  // nothing
+end // end of [ccompenv_incwth_dvarsetenv]
+
+(* ****** ****** *)
+
+implement
+ccompenv_getdec_dvarsetenv
+  (env) = (d2vs) where
+{
+//
+val CCOMPENV (!p) = env
+val-~list_vt_cons (d2vs, d2vss) = p->ccompenv_dvarsetenv
+val () = p->ccompenv_dvarsetenv := d2vss
+prval () = fold@ (env)
+//
+} // end of [ccompenv_getdec_dvarsetenv]
+
+(* ****** ****** *)
+
+implement
+ccompenv_add_dvarsetenv_var
+  (env, d2v) = ((*void*)) where
+{
+//
+val lev = d2var_get_level (d2v)
+//
+val () =
+if (lev > 0) then
+{
+val CCOMPENV (!p) = env
+//
+val d2e = d2var2env (d2v)
+//
+val-list_vt_cons
+  (!p_d2es, _) = p->ccompenv_dvarsetenv
+val () = !p_d2es := d2envset_vt_add (!p_d2es, d2e)
+prval () = fold@ (p->ccompenv_dvarsetenv)
+//
+prval () = fold@ (env)
+} (* end of [if] *)
+//
+} // end of [ccompenv_add_dvarsetenv]
+
+implement
+ccompenv_add_dvarsetenv_env
+  (env, d2e) = ((*void*)) where
+{
+//
+val d2v = d2env_get_var (d2e)
+val lev = d2var_get_level (d2v)
+//
+val () =
+if (lev > 0) then
+{
+val CCOMPENV (!p) = env
+//
+val-list_vt_cons
+  (!p_d2es, _) = p->ccompenv_dvarsetenv
+val () = !p_d2es := d2envset_vt_add (!p_d2es, d2e)
+prval () = fold@ (p->ccompenv_dvarsetenv)
+//
+prval () = fold@ (env)
+} (* end of [if] *)
+//
+} // end of [ccompenv_add_dvarsetenv]
+
+implement
+ccompenv_inc_flabsetenv
+  (env) = let
   val CCOMPENV (!p) = env
-  val () = (p->ccompenv_flabsetenv := list_vt_cons (fls, p->ccompenv_flabsetenv))
+  val flset = funlabset_vt_nil ()
+  val () =
+  (
+    p->ccompenv_flabsetenv := list_vt_cons (flset, p->ccompenv_flabsetenv)
+  )
   prval () = fold@ (env)
 in
   // nothing
@@ -783,6 +913,8 @@ prval () = fold@ (env)
 //
 } // end of [ccompenv_getdec_flabsetenv]
 
+(* ****** ****** *)
+
 implement
 ccompenv_add_flabsetenv
   (env, fl) = ((*void*)) where
@@ -791,153 +923,178 @@ ccompenv_add_flabsetenv
 val CCOMPENV (!p) = env
 val-list_vt_cons
   (!p_fls, _) = p->ccompenv_flabsetenv
-val () = !p_fls := funlabset_add (!p_fls, fl)
+val () = !p_fls := funlabset_vt_add (!p_fls, fl)
 prval () = fold@ (p->ccompenv_flabsetenv)
 prval () = fold@ (env)
 //
 } // end of [ccompenv_add_flabsetenv]
 
+(* ****** ****** *)
+
 implement
-ccompenv_addset_flabsetenv
-  (env, lev0, flset) = let
+ccompenv_addlst_dvarsetenv_if
+  (env, flev0, d2es) = let
 //
 fun addlst_if
 (
-  env: !ccompenv, lev0: int, fls: List_vt (funlab)
+  env: !ccompenv
+, flev0: int, d2es: d2envlst
 ) : void = let
+in
+//
+case+ d2es of
+| list_cons
+    (d2e, d2es) => let
+    val d2v = d2env_get_var (d2e)
+    val lev = d2var_get_level (d2v)
+    val () = 
+    ( // HX: no need for handling siblings (=lev0)
+      if lev <= flev0 then ccompenv_add_dvarsetenv_env (env, d2e)
+    ) : void // end of [val]
+  in
+    addlst_if (env, flev0, d2es)
+  end (* end of [list_cons] *)
+| list_nil () => ()
+//
+end // end of [addlst_if]
+//
+in
+//
+addlst_if (env, flev0, d2es)
+//
+end // end of [ccompenv_addlst_dvarsetenv_if]
+
+(* ****** ****** *)
+
+implement
+ccompenv_addlst_flabsetenv_ifmap
+  (env, flev0, vbmap, fls0) = let
+//
+fun auxenv
+(
+  env: !ccompenv
+, vbmap: vbindmap, d2es: d2envlst
+) : void = let
+in
+//
+case+ d2es of
+| list_cons
+    (d2e, d2es) => let
+    val d2v = d2env_get_var (d2e)
+    val opt = d2varmap_search (vbmap, d2v)
+    val () =
+    (
+      case+ opt of
+      | ~Some_vt _ => ()
+      | ~None_vt _ => ccompenv_add_dvarsetenv_env (env, d2e)
+    ) : void // end of [val]
+  in
+    auxenv (env, vbmap, d2es)
+  end (* end of [list_cons] *)
+| list_nil () => ()
+//
+end (* end of [auxenv] *)
+//
+fun addlst_if
+(
+  env: !ccompenv
+, flev0: int, vbmap: vbindmap, fls: funlablst_vt
+) : funlablst_vt = let
 in
 //
 case+ fls of
 | ~list_vt_cons
     (fl, fls) => let
-    val lev = funlab_get_level (fl)
-    val () = 
-    ( // HX: no need for handling siblings (=lev0)
-      if lev < lev0 then ccompenv_add_flabsetenv (env, fl)
-    ) : void // end of [val]
+    val flev = funlab_get_level (fl)
   in
-    addlst_if (env, lev0, fls)
-  end // end of [list_vt_cons]
-| ~list_vt_nil () => ()
+    if flev > flev0 then let
+      val-Some (fent) = funlab_get_funent (fl)
+      val () = auxenv (env, vbmap, funent_get_d2envlst (fent))
+    in
+      addlst_if (env, flev0, vbmap, fls)
+    end else let
+      val () = ccompenv_add_flabsetenv (env, fl)
+      val fls = addlst_if (env, flev0, vbmap, fls)
+    in
+      list_vt_cons (fl, fls)
+    end (* end of [if] *)
+  end // end of [list_cons]
+| ~list_vt_nil () => list_vt_nil ()
 //
 end // end of [addlst_if]
 //
 in
 //
-addlst_if (env, lev0, funlabset_listize (flset))
+addlst_if (env, flev0, vbmap, fls0)
 //
-end // end of [ccompenv_addset_flabsetenv]
+end // end of [ccompenv_addlst_flabsetenv_if]
 
 (* ****** ****** *)
 
 implement
-ccompenv_inc_d2varsetenv
+ccompenv_inc_vbindmapenv
   (env) = let
 //
-val d2vs = d2varset_nil ()
 val CCOMPENV (!p) = env
-val d2vss = p->ccompenv_d2varsetenv
-val () = (p->ccompenv_d2varsetenv := list_vt_cons (d2vs, d2vss))
+val vbm = d2varmap_nil ()
+val vbms = p->ccompenv_vbindmapenv
+val () = (p->ccompenv_vbindmapenv := list_vt_cons (vbm, vbms))
 prval () = fold@ (env)
 //
 in
   // nothing
-end // end of [ccompenv_inc_d2varsetenv]
+end // end of [ccompenv_inc_vbindmapenv]
 
 implement
-ccompenv_getdec_d2varsetenv
-  (env) = (d2vs) where
+ccompenv_getdec_vbindmapenv
+  (env) = vbm where
 {
 //
 val CCOMPENV (!p) = env
-val-~list_vt_cons (d2vs, d2vss) = p->ccompenv_d2varsetenv
-val () = p->ccompenv_d2varsetenv := d2vss
-prval () = fold@ (env)
 //
-} // end of [ccompenv_getdec_d2varsetenv]
-
-implement
-ccompenv_add_d2varsetenv
-  (env, d2v) = ((*void*)) where
-{
-//
-val lev = d2var_get_level (d2v)
-//
-val () =
-if (lev > 0) then
-{
-val CCOMPENV (!p) = env
-val-list_vt_cons
-  (!p_d2vs, _) = p->ccompenv_d2varsetenv
-val () = !p_d2vs := d2varset_add (!p_d2vs, d2v)
-prval () = fold@ (p->ccompenv_d2varsetenv)
-prval () = fold@ (env)
-} (* end of [if] *)
-//
-} // end of [ccompenv_add_d2varsetenv]
-
-implement
-ccompenv_addset_d2varsetenv
-  (env, lev0, d2vset) = let
-//
-fun addlst_if
-(
-  env: !ccompenv, lev0: int, d2vs: List_vt (d2var)
-) : void = let
-in
-//
-case+ d2vs of
-| ~list_vt_cons
-    (d2v, d2vs) => let
-    val lev = d2var_get_level (d2v)
-    val () = 
-    ( // HX: no need for handling siblings (=lev0)
-      if lev < lev0 then ccompenv_add_d2varsetenv (env, d2v)
-    ) : void // end of [val]
-  in
-    addlst_if (env, lev0, d2vs)
-  end // end of [list_vt_cons]
-| ~list_vt_nil () => ()
-//
-end // end of [addlst_if]
-//
-in
-//
-addlst_if (env, lev0, d2varset_listize (d2vset))
-//
-end // end of [ccompenv_addset_d2varsetenv]
-
-(* ****** ****** *)
-
-implement
-ccompenv_inc_vbindlstenv
-  (env) = let
-//
-val vbs = list_vt_nil ()
-val CCOMPENV (!p) = env
-val vbss = p->ccompenv_vbindlstenv
-val () = (p->ccompenv_vbindlstenv := list_vt_cons (vbs, vbss))
-prval () = fold@ (env)
-//
-in
-  // nothing
-end // end of [ccompenv_inc_vbindlstenv]
-
-implement
-ccompenv_getdec_vbindlstenv
-  (env) = let
-//
-val CCOMPENV (!p) = env
 val-~list_vt_cons
-  (vbs, vbss) = p->ccompenv_vbindlstenv
-val () = p->ccompenv_vbindlstenv := vbss
+  (vbm, vbms) = p->ccompenv_vbindmapenv
+val () = p->ccompenv_vbindmapenv := vbms
+//
 prval () = fold@ (env)
 //
-val vbs = list_vt_reverse (vbs)
+} // end of [ccompenv_getdec_vbindmapenv]
+
+(* ****** ****** *)
+
+implement
+ccompenv_add_vbindmapenv
+  (env, d2v, pmv) = let
+//
+val CCOMPENV (!p) = env
+//
+val-list_vt_cons
+  (!p_vbm, _) = p->ccompenv_vbindmapenv
+val _(*replaced*) = d2varmap_insert (!p_vbm, d2v, pmv)
+prval () = fold@ (p->ccompenv_vbindmapenv)
+//
+prval () = fold@ (env)
 //
 in
-  list_of_list_vt (vbs)
-end // end of [ccompenv_getdec_vbindlstenv]
+  // nothing
+end (* end of [ccompenv_add_vbindmapenv] *)
+
+implement
+ccompenv_find_vbindmapenv
+  (env, d2v) = opt where
+{
+//
+val
+CCOMPENV (!p) = env
+//
+val-list_vt_cons
+  (!p_vbm, _) = p->ccompenv_vbindmapenv
+val opt = d2varmap_search (!p_vbm, d2v)
+prval () = fold@ (p->ccompenv_vbindmapenv)
+//
+prval () = fold@ (env)
+//
+} (* end of [ccompenv_find_vbindmapenv] *)
 
 (* ****** ****** *)
 
@@ -1042,7 +1199,7 @@ ccompenv_pop
   val CCOMPENV (!p) = env
 //
   val xs = p->ccompenv_markenvlst
-  val () = p->ccompenv_markenvlst := auxpop (p->ccompenv_varbindmap, xs)
+  val () = p->ccompenv_markenvlst := auxpop (p->ccompenv_vbindmapall, xs)
 //
   prval () = fold@ (env)
 //
@@ -1059,7 +1216,7 @@ ccompenv_localjoin
 //
   val CCOMPENV (!p) = env
 //
-  val () = auxjoin (p->ccompenv_varbindmap, p->ccompenv_markenvlst)
+  val () = auxjoin (p->ccompenv_vbindmapall, p->ccompenv_markenvlst)
 //
   prval () = fold@ (env)
 //
@@ -1072,39 +1229,48 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-ccompenv_add_varbind
+ccompenv_add_vbindmapall
   (env, d2v, pmv) = let
+//
+val () =
+(
+  println! ("ccompenv_add_vbindmapall: d2v = ", d2v);
+  println! ("ccompenv_add_vbindmapall: pmv = ", pmv);
+) : void // end of [val]
 //
 val CCOMPENV (!p) = env
 //
-val lev = d2var_get_level (d2v)
-val () =
-if (lev > 0) then
-{
-val-list_vt_cons
-  (!p_vbs, _) = p->ccompenv_vbindlstenv
-val () = !p_vbs := list_vt_cons ( @(d2v, pmv), !p_vbs )
-prval () = fold@ (p->ccompenv_vbindlstenv)
-} (* end of [val] *)
-//
 val xs = p->ccompenv_markenvlst
 val () = p->ccompenv_markenvlst := MARKENVLSTcons_var (d2v, xs)
-val _(*inserted*) = d2varmap_vt_insert (p->ccompenv_varbindmap, d2v, pmv)
+val _(*replaced*) = d2varmap_vt_insert (p->ccompenv_vbindmapall, d2v, pmv)
 //
 prval () = fold@ (env)
 //
 in
   // nothing
-end // end of [ccompenv_add_varbind]
+end // end of [ccompenv_add_vbindmapall]
 
 implement
-ccompenv_find_varbind
-  (env, d2v) = opt where {
+ccompenv_find_vbindmapall
+  (env, d2v) = opt where
+{
 //
   val CCOMPENV (!p) = env
-  val opt = d2varmap_vt_search (p->ccompenv_varbindmap, d2v)
+  val opt = d2varmap_vt_search (p->ccompenv_vbindmapall, d2v)
   prval () = fold@ (env)
-} // end of [ccompenv_add_varbind]
+//
+} // end of [ccompenv_add_vbindmapall]
+
+(* ****** ****** *)
+
+implement
+ccompenv_add_vbindmapenvall
+  (env, d2v, pmv) = () where {
+//
+val () = ccompenv_add_vbindmapenv (env, d2v, pmv)
+val () = ccompenv_add_vbindmapall (env, d2v, pmv)
+//
+} (* end of [ccompenv_add_vbindmapenvall] *)
 
 (* ****** ****** *)
 
@@ -1115,7 +1281,6 @@ ccompenv_add_fundec
   val CCOMPENV (!p) = env
   val xs = p->ccompenv_markenvlst
   val () = p->ccompenv_markenvlst := MARKENVLSTcons_fundec (hfd, xs)
-//
   prval () = fold@ (env)
 //
 in
@@ -1131,7 +1296,6 @@ ccompenv_add_impdec
   val CCOMPENV (!p) = env
   val xs = p->ccompenv_markenvlst
   val () = p->ccompenv_markenvlst := MARKENVLSTcons_impdec (imp, xs)
-//
   prval () = fold@ (env)
 //
 in
@@ -1163,7 +1327,6 @@ ccompenv_add_tmpsub
   val CCOMPENV (!p) = env
   val xs = p->ccompenv_markenvlst
   val () = p->ccompenv_markenvlst := MARKENVLSTcons_tmpsub (tsub, xs)
-//
   prval () = fold@ (env)
 //
 in
@@ -1176,7 +1339,8 @@ fun ccompenv_find_tmpsub
 implement
 ccompenv_find_tmpsub (env) = let
 //
-fun loop (
+fun loop
+(
   xs: !markenvlst_vt
 ) : tmpsubopt_vt = let
 in
@@ -1227,6 +1391,7 @@ end // end of [loop]
 val CCOMPENV (!p) = env
 val res = loop (p->ccompenv_markenvlst)
 prval () = fold@ (env)
+//
 in
   res
 end // end of [ccompenv_find_tmpsub]

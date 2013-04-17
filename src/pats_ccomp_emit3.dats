@@ -41,10 +41,12 @@ staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_ccomp_emit2"
 
 (* ****** ****** *)
-
+//
 staload
 FIL = "./pats_filename.sats"
-
+staload
+LOC = "./pats_location.sats"
+//
 (* ****** ****** *)
 
 staload SYN = "./pats_syntax.sats"
@@ -611,7 +613,32 @@ emit_funent_implmnt
 //
 val loc0 = funent_get_loc (fent)
 val flab = funent_get_lab (fent)
-val d2vs = funent_eval_d2varlst (fent)
+val d2es = funent_eval_d2envlst (fent)
+//
+val () = emit_text (out, "/*\n")
+val () = $LOC.fprint_location (out, loc0)
+val () = emit_text (out, "\n*/\n")
+//
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "local: ")
+val lfls0 = funent_get_flablst (fent)
+val () = fprint_funlablst (out, lfls0)
+val () = emit_newline (out)
+val () = emit_text (out, "global: ")
+val gfls0 = funent_eval_flablst (fent)
+val () = fprint_funlablst (out, gfls0)
+val () = emit_newline (out)
+//
+val () = emit_text (out, "local: ")
+val ld2es = funent_eval_d2envlst (fent)
+val () = fprint_d2envlst (out, ld2es)
+val () = emit_newline (out)
+val () = emit_text (out, "global: ")
+val gd2es = funent_eval_d2envlst (fent)
+val () = fprint_d2envlst (out, gd2es)
+val () = emit_newline (out)
+//
+val () = emit_text (out, "*/\n")
 //
 val funclo = funlab_get_funclo (flab)
 val hses_arg = funlab_get_type_arg (flab)
@@ -648,7 +675,7 @@ val () = emit_hisexp (out, hse_res)
 val () = emit_text (out, "\n")
 val () = emit_funlab (out, flab)
 val () = emit_text (out, "(")
-val nenv = emit_funenvlst (out, d2vs)
+val nenv = emit_funenvlst (out, d2es)
 val () = emit_funarglst (out, nenv, hses_arg)
 val () = emit_text (out, ")\n")
 //

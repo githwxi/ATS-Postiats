@@ -374,7 +374,7 @@ case+ hfds of
         then primval_make_funlab (loc, fl)
         else primval_make_funlab2 (loc, d2v, fl)
     ) : primval // end of [val]
-    val () = ccompenv_add_varbind (env, d2v, pmv)
+    val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
 //
     val istmp =
     (
@@ -609,15 +609,16 @@ val tmp = tmpvar_make_ref (loc_d2v, hse_elt)
 //
 val () = instrseq_add_tmpdec (res, loc_d2v, tmp)
 //
-val () = (
-  case+
-    hvd.hivardec_ini of
-  | Some (hde) => hidexp_ccomp_ret (env, res, tmp, hde)
-  | None ((*void*)) => ()
+val () = 
+(
+case+
+  hvd.hivardec_ini of
+| Some (hde) => hidexp_ccomp_ret (env, res, tmp, hde)
+| None ((*void*)) => ()
 ) : void // end of [val]
 //
 val pmv = primval_tmpref (loc, hse_elt, tmp)
-val ((*void*)) = ccompenv_add_varbind (env, d2v, pmv)
+val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
 //
 in
   // nothing

@@ -55,22 +55,23 @@ end // end of [arrayref_make_elt]
 (* ****** ****** *)
 
 implement(a:t0p)
-fprint_arrayref_sep<a> (out, A, asz, sep) = let
+fprint_arrayref_sep<a>
+  {n} (out, A, asz, sep) = let
 //
-fun loop {n:nat}
+fun loop
+  (i: sizeLte(n)): void =
 (
-  out: FILEref, A: arrayref(a, n), asz: size_t n, sep: string, i: sizeLte(n)
-) : void =
   if i < asz then
   (
     if i > 0 then fprint_string (out, sep);
-    fprint_val<a> (out, A[i]); loop (out, A, asz, sep, succ(i))
+    fprint_val<a> (out, A[i]); loop (succ(i))
   ) else () // end of [if]
+) (* end of [loop] *)
 //
 prval () = lemma_arrayref_param (A)
 //
 in
-  loop (out, A, asz, sep, i2sz(0))
+  loop (i2sz(0))
 end // end of [fprint_arrayref_sep]
 
 (* ****** ****** *)

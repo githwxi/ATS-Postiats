@@ -1006,6 +1006,17 @@ end // end of [emit_primval_argenv]
 (* ****** ****** *)
 
 implement
+emit_d2env
+  (out, d2e) = let
+//
+val d2v =
+  d2env_get_var (d2e)
+//
+in
+  emit_d2var_env (out, d2v)
+end (* end of [emit_d2env] *)
+
+implement
 emit_d2var_env
   (out, d2v) = let
 //

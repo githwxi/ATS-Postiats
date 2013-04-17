@@ -352,7 +352,7 @@ fun flname_make
 ) : string = let
   val d2c2 = d2cst_get_gname (d2c)
   val stamp2 = $STMP.tostring_stamp (stamp)
-  val flname = sprintf ("%s_%s", @(d2c2, stamp2))
+  val flname = sprintf ("%s$%s", @(d2c2, stamp2))
 in
   string_of_strptr (flname)
 end // end of [flname_make]
@@ -433,8 +433,13 @@ implement
 fprint_funlab
   (out, flab) = let
   val name = funlab_get_name (flab)
+  val () = fprint_string (out, name)
+  val sfx = funlab_get_suffix (flab)
+  val () = fprintf (out, "$%i", @(sfx))
+  val flev = funlab_get_level (flab)
+  val () = fprintf (out, "(%i)", @(flev))
 in
-  fprint_string (out, name)
+  // nothing
 end // end of [fprint_funlab]
 
 implement
@@ -444,14 +449,26 @@ prerr_funlab (flab) = fprint_funlab (stderr_ref, flab)
 
 (* ****** ****** *)
 
+implement
+fprint_funlablst
+  (out, fls) = let
+//
+val () = $UT.fprintlst (out, fls, ", ", fprint_funlab)
+//
+in
+  // nothing
+end // end of [fprint_funlabset]
+
+(* ****** ****** *)
+
 local
 
 staload
-FS = "libats/SATS/funset_listord.sats"
+LS = "libats/SATS/linset_listord.sats"
 staload
-_(*anon*) = "libats/DATS/funset_listord.dats"
+_(*anon*) = "libats/DATS/linset_listord.dats"
 
-assume funlabset = $FS.set (funlab)
+assume funlabset_vtype = $LS.set (funlab)
 
 val cmp =
 lam (x: funlab, y: funlab) =<cloref>
@@ -461,32 +478,52 @@ lam (x: funlab, y: funlab) =<cloref>
 in (* in of [local] *)
 
 implement
-funlabset_nil () = $FS.funset_make_nil ()
+funlabset_vt_nil () = $LS.linset_make_nil ()
 
 implement
-funlabset_add
+funlabset_vt_free (fls) = $LS.linset_free (fls)
+
+implement
+funlabset_vt_ismem
+  (fls, fl) = $LS.linset_is_member (fls, fl, cmp)
+// end of [funlabset_vt_ismem]
+
+implement
+funlabset_vt_add
   (fls, fl) = fls where
 {
   var fls = fls
-  val _(*exists*) = $FS.funset_insert (fls, fl, cmp)
-} // end of [funlabset_add]
+  val _(*exists*) = $LS.linset_insert (fls, fl, cmp)
+} // end of [funlabset_vt_add]
 
 implement
-funlabset_listize (fls) = $FS.funset_listize (fls)
+funlabset_vt_listize (fls) = $LS.linset_listize (fls)
+implement
+funlabset_vt_listize_free (fls) = $LS.linset_listize_free (fls)
 
 end // end of [local]
 
 implement
-fprint_funlabset
-  (out, fls) = let
+funlablst2set (fls) = let
 //
-val xs = funlabset_listize (fls)
-val () = $UT.fprintlst (out, $UN.linlst2lst(xs), ", ", fprint_funlab)
-val () = list_vt_free (xs)
+fun loop
+(
+  fls: funlablst, res: funlabset_vt
+) : funlabset_vt = let
+in
+//
+case+ fls of
+| list_cons
+    (fl, fls) => let
+    val res = funlabset_vt_add (res, fl) in loop (fls, res)
+  end (* end of [list_cons] *)
+| list_nil () => res
+//
+end (* end of [loop] *)
 //
 in
-  // nothing
-end // end of [fprint_funlabset]
+  loop (fls, funlabset_vt_nil ())
+end // end of [funlablst2set]
 
 (* ****** ****** *)
 

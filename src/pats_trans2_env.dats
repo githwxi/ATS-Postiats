@@ -768,6 +768,14 @@ in
   // nothing
 end // end of [the_d2varlev_dec]
 
+implement
+the_d2varlev_save () = let
+  val n = !the_d2varlev in !the_d2varlev := 0; n
+end (* end of [the_d2varlev_save] *)
+
+implement
+the_d2varlev_restore (lev0) = !the_d2varlev := lev0
+
 end // end of [local]
 
 (* ****** ****** *)

@@ -244,7 +244,7 @@ overload compare with compare_d2cst_d2cst
 (* ****** ****** *)
 
 fun d2cstset_nil ():<> d2cstset
-fun d2cstset_is_member (xs: d2cstset, x: d2cst):<> bool
+fun d2cstset_ismem (xs: d2cstset, x: d2cst):<> bool
 fun d2cstset_add (xs: d2cstset, x: d2cst):<> d2cstset
 
 (* ****** ****** *)
@@ -273,8 +273,8 @@ overload print with print_d2var
 overload prerr with prerr_d2var
 fun fprint_d2var : fprint_type (d2var)
 overload fprint with fprint_d2var
-
 fun fprint_d2varlst : fprint_type (d2varlst)
+overload fprint with fprint_d2varlst
 
 (* ****** ****** *)
 
@@ -360,7 +360,7 @@ fun compare_d2vsym_d2vsym (x1: d2var, x2: d2var):<> Sgn
 (* ****** ****** *)
 
 fun d2varset_nil ():<> d2varset
-fun d2varset_is_member (xs: d2varset, x: d2var):<> bool
+fun d2varset_ismem (xs: d2varset, x: d2var):<> bool
 fun d2varset_add (xs: d2varset, x: d2var):<> d2varset
 fun d2varset_listize (xs: !d2varset):<> List_vt (d2var)
 
@@ -370,9 +370,10 @@ fun fprint_d2varset : fprint_type (d2varset)
 
 fun d2varset_vt_nil ():<> d2varset_vt
 fun d2varset_vt_free (xs: d2varset_vt):<> void
-fun d2varset_vt_is_member (xs: !d2varset_vt, x: d2var):<> bool
+fun d2varset_vt_ismem (xs: !d2varset_vt, x: d2var):<> bool
 fun d2varset_vt_add (xs: d2varset_vt, x: d2var):<> d2varset_vt
-fun d2varset_vt_listize (xs: !d2varset_vt):<> List_vt (d2var)
+fun d2varset_vt_listize (xs: !d2varset_vt):<> d2varlst_vt
+fun d2varset_vt_listize_free (xs: d2varset_vt):<> d2varlst_vt
 
 (* ****** ****** *)
 
@@ -381,6 +382,9 @@ fun d2varmap_search
   {a:type} (map: d2varmap(a), d2v: d2var):<> Option_vt (a)
 fun d2varmap_insert
   {a:type} (map: &d2varmap(a), d2v: d2var, x: a):<> bool(*found*)
+
+fun d2varmap_listize
+  {a:type} (map: d2varmap(a)):<> List_vt @(d2var, a)
 
 (* ****** ****** *)
 

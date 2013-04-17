@@ -33,6 +33,16 @@
 (* ****** ****** *)
 
 staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+
+(* ****** ****** *)
+
+staload
 LOC = "./pats_location.sats"
 overload
 print with $LOC.print_location
@@ -65,10 +75,12 @@ staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 
-overload fprint with fprint_funlab
-overload fprint with fprint_d2varset
-overload fprint with fprint_funlabset
-overload fprint with fprint_vbindlst
+macdef l2l (xs) = list_of_list_vt (,(xs))
+macdef list_vt2t (xs) = $UN.linlst2lst (,(xs))
+
+(* ****** ****** *)
+
+overload fprint with fprint_vbindmap
 
 (* ****** ****** *)
 
@@ -89,7 +101,7 @@ implement
 d2var_ccomp
   (env, loc0, hse0, d2v) = let
 //
-val opt = ccompenv_find_varbind (env, d2v)
+val opt = ccompenv_find_vbindmapall (env, d2v)
 //
 in
 case+ opt of
@@ -118,7 +130,8 @@ case+ 0 of
     val () = println! ("d2var_ccomp_some: pmv = ", pmv)
 *)
   in
-    case+ pmv.primval_node of
+    case+
+      pmv.primval_node of
     | PMVfunlab (fl) => let
         val () = ccompenv_add_flabsetenv (env, fl)
       in
@@ -130,7 +143,7 @@ case+ 0 of
         pmv
       end // end of [PMVfunlab2]
     | _ => let
-        val () = ccompenv_add_d2varsetenv (env, d2v)
+        val () = ccompenv_add_dvarsetenv_var (env, d2v)
       in
         if lev1 > 0 then primval_env (loc0, hse0, d2v) else pmv(*toplevel*)
       end (* end of [_] *)
@@ -227,7 +240,10 @@ hidexp_ccomp
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 //
+(*
 val () = println! ("hidexp_ccomp: hde0 = ", hde0)
+val () = println! ("hidexp_ccomp: hse0 = ", hse0)
+*)
 //
 in
 //
@@ -279,10 +295,6 @@ case+ hde0.hidexp_node of
     val pmds = hideclist_ccomp (env, hids)
     val ins_push = instr_letpush (loc0, pmds)
     val () = instrseq_add (res, ins_push)
-//
-    val () =
-      println! ("hidexp_ccomp: HDElet: env =")
-    val () = fprint_ccompenv (stdout_ref, env)
 //
     val pmv_scope = hidexp_ccomp (env, res, hde_scope)
 //
@@ -497,10 +509,6 @@ case+ hde0.hidexp_node of
     val ins_push = instr_letpush (loc0, pmds)
     val () = instrseq_add (res, ins_push)
 //
-    val () =
-      println! ("hidexp_ccomp: HDElet: env =")
-    val () = fprint_ccompenv (stdout_ref, env)
-//
     val () = hidexp_ccomp_ret (env, res, tmpret, hde_scope)
 //
     val ins_pop = instr_letpop (loc0)
@@ -690,16 +698,15 @@ case+ 0 of
       ccompenv_tmpcst_match (env, d2c, t2mas)
     // end of [val]
 (*
-    val () = print (
-      "hidexp_ccomp_tmpcst:\n"
-    ) // end of [val]
-    val () = println! ("d2c = ", d2c)
-    val () = print ("t2mas = ")
-    val () = fpprint_t2mpmarglst (stdout_ref, t2mas)
-    val () = print_newline ()
-    val () = print ("mat = ")
-    val () = fprint_tmpcstmat (stdout_ref, tmpmat)
-    val () = print_newline ()
+    val out = stdout_ref
+    val () =
+      println! ("hidexp_ccomp_tmpcst: d2c = ", d2c)
+    val () = println! ("hidexp_ccomp_tmpcst: t2mas =")
+    val () =
+    (
+      fpprint_t2mpmarglst (out, t2mas); fprint_newline (out)
+    )
+    val () = fprintln! (out, "hidexp_ccomp_tmpcst: mat = ", tmpmat)
 *)
   in
     ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, tmpmat)
@@ -731,18 +738,17 @@ case+ 0 of
     val tmpmat =
       ccompenv_tmpvar_match (env, d2v, t2mas)
     // end of [val]
-// (*
-    val () = print (
-      "hidexp_ccomp_tmpvar:\n"
-    ) // end of [val]
-    val () = println! ("d2v = ", d2v)
-    val () = print ("t2mas = ")
-    val () = fpprint_t2mpmarglst (stdout_ref, t2mas)
-    val () = print_newline ()
-    val () = print ("mat = ")
-    val () = fprint_tmpvarmat (stdout_ref, tmpmat)
-    val () = print_newline ()
-// *)
+(*
+    val out = stdout_ref
+    val () =
+      println! ("hidexp_ccomp_tmpvar: d2v = ", d2v)
+    val () = println! ("hidexp_ccomp_tmpvar: t2mas =")
+    val () =
+    (
+      fpprint_t2mpmarglst (out, t2mas); fprint_newline (out)
+    )
+    val () = fprintln! (out, "hidexp_ccomp_tmpvar: mat = ", tmpmat)
+*)
   in
     ccomp_tmpvarmat (env, loc0, hse0, d2v, t2mas, tmpmat)
   end // end of [if]
@@ -821,7 +827,8 @@ val pmv =
   d2var_ccomp (env, loc0, hse_rt, d2v)
 //
 (*
-val () = (
+val () =
+(
   println! ("hidexp_ccomp_sel_var: d2v = ", d2v);
   println! ("hidexp_ccomp_sel_var: pmv = ", pmv);
 ) // end of [val]
@@ -1337,21 +1344,22 @@ hidexp_ccomp_funlab_arg_body
 , hde_body
 ) = let
 (*
-val () = begin
+val () =
+(
   println! ("hidexp_ccomp_funlab_arg_body: flab = ", flab)
-end // end of [val]
+) // end of [val]
 *)
-//
-val lev0 = the_d2varlev_get ()
 //
 val res = instrseq_make_nil ()
 val ((*void*)) = instrseq_addlst (res, prolog)
 //
+val flev0 = funlab_get_level (flab)
+//
 val (pfinc | ()) = the_d2varlev_inc ()
 //
 val () = ccompenv_inc_flabsetenv (env)
-val () = ccompenv_inc_d2varsetenv (env)
-val () = ccompenv_inc_vbindlstenv (env)
+val () = ccompenv_inc_dvarsetenv (env)
+val () = ccompenv_inc_vbindmapenv (env)
 //
 val () = let
   val lev1 = the_d2varlev_get () in
@@ -1363,27 +1371,26 @@ val hse_body = hde_body.hidexp_type
 val tmpret = tmpvar_make_ret (loc_body, hse_body)
 val () = hidexp_ccomp_ret (env, res, tmpret, hde_body)
 //
-val flset = ccompenv_getdec_flabsetenv (env)
-val d2vset = ccompenv_getdec_d2varsetenv (env)
-val vblst = ccompenv_getdec_vbindlstenv (env)
+val vbmap = ccompenv_getdec_vbindmapenv (env)
+//
+val flset =
+  ccompenv_getdec_flabsetenv (env)
+val fls0 = funlabset_vt_listize_free (flset)
+val fls0 = ccompenv_addlst_flabsetenv_ifmap (env, flev0, vbmap, fls0)
+//
+var d2eset =
+  ccompenv_getdec_dvarsetenv (env)
+val d2es = d2envset_vt_listize_free (d2eset)
 //
 val () = the_d2varlev_dec (pfinc | (*none*))
 //
 val inss = instrseq_get_free (res)
 //
-val () = ccompenv_addset_flabsetenv (env, lev0, flset)
-val () = ccompenv_addset_d2varsetenv (env, lev0, d2vset)
-//
-val out = stdout_ref
-val () = fprintln! (out, "hidexp_ccomp_funlab_arg_body: flab = ", flab)
-val () = fprintln! (out, "hidexp_ccomp_funlab_arg_body: flset = ", flset)
-val () = fprintln! (out, "hidexp_ccomp_funlab_arg_body: d2vset = ", d2vset)
-val () = fprintln! (out, "hidexp_ccomp_funlab_arg_body: vblst = ", vblst)
-//
-val
-fent = funent_make2
+val fent =
+funent_make2
 (
-  loc_fun, lev0, flab, imparg, tmparg, tmpret, flset, d2vset, vblst, inss
+  loc_fun, flab
+, imparg, tmparg, tmpret, (l2l)fls0, (l2l)d2es, vbmap, inss
 ) (* end of [val] *)
 //
 in
@@ -1414,7 +1421,14 @@ end // end of [val]
 val () = the_funlablst_add (flab)
 val () = funlab_set_funent (flab, Some (fent))
 //
-val () = println! ("hidexp_ccomp_lam: fent = ", fent)
+(*
+val out = stdout_ref
+val finfls = funent_eval_flablst (fent)
+val () = fprintln! (out, "hidexp_ccomp_lam: finfls = ", finfls)
+val find2es = funent_eval_d2envlst (fent)
+val () = fprintln! (out, "hidexp_ccomp_lam: find2es = ", find2es)
+val () = fprintln! (out, "hidexp_ccomp_lam: fent = ", fent)
+*)
 //
 in
   primval_make_funlab (loc0, flab)

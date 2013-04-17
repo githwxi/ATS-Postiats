@@ -560,13 +560,15 @@ implement{a}
 array_initize
   (A, asz) = let
 //
-prval () = lemma_g1uint_param (asz)
+stadef V = array_v
 //
 fun loop
   {l:addr}{n:nat} .<n>.
 (
-  pf: !array_v (a?, l, n) >> array_v (a, l, n) | p: ptr l, n: size_t n, i: size_t
+  pf: !V (a?, l, n) >> V (a, l, n)
+| p: ptr l, n: size_t n, i: size_t
 ) : void =
+(
   if n > 0 then let
     prval (pf1, pf2) = array_v_uncons (pf)
     val () = array_initize$init<a> (i, !p)
@@ -579,6 +581,9 @@ fun loop
   in
     // nothing
   end // end of [if]
+) (* end of [loop] *)
+//
+prval () = lemma_g1uint_param (asz)
 //
 in
   loop (view@ (A) | addr@ (A), asz, g0int2uint(0))
