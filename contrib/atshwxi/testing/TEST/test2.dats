@@ -7,8 +7,8 @@
 
 (* ****** ****** *)
 
-staload "atshwxi/testing/SATS/listize.sats"
-staload "atshwxi/testing/SATS/foldleft.sats"
+staload "./../SATS/listize.sats"
+staload "./../SATS/foldleft.sats"
 
 (* ****** ****** *)
 

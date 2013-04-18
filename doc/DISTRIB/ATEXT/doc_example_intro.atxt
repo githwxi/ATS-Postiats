@@ -109,6 +109,11 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
+#packfilename("apermute.dats")
+#packfilename("areverse.dats")
+
+(* ****** ****** *)
+
 #packfilename("atoi.dats")
 #packfilename("atof.dats")
 
@@ -148,10 +153,6 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 (* ****** ****** *)
 
 #packfilename("intecho.dats")
-
-(* ****** ****** *)
-
-#packfilename("revarr.dats")
 
 (* ****** ****** *)
 

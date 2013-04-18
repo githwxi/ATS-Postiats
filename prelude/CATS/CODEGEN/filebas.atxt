@@ -39,6 +39,15 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+\#define atspre_file_mode_r "r"
+\#define atspre_file_mode_rr "r+"
+\#define atspre_file_mode_w "w"
+\#define atspre_file_mode_ww "w+"
+\#define atspre_file_mode_a "a"
+\#define atspre_file_mode_aa "a+"
+
+#atscode_separator_for_C()
+
 ATSinline()
 atstype_ref
 atspre_fileref_open_exn

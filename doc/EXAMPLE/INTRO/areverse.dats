@@ -99,4 +99,4 @@ end // end of [main]
 
 (* ****** ****** *)
 
-(* end of [revarr.dats] *)
+(* end of [areverse.dats] *)

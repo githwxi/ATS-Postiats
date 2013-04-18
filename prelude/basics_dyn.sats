@@ -443,9 +443,16 @@ stadef rw() = file_mode_rw ()
 
 (* ****** ****** *)
 
-abstype file_mode (file_mode) = string
-typedef file_mode = [fm:file_mode] file_mode (fm)
-typedef fmode = file_mode // HX-2013-01: shorthand
+abstype
+file_mode (file_mode) = string
+typedef
+file_mode = [fm:file_mode] file_mode (fm)
+
+(* ****** ****** *)
+
+sortdef fmode = file_mode
+typedef fmode (fm:fmode) = file_mode (fm)
+typedef fmode = file_mode
 
 (* ****** ****** *)
 

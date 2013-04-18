@@ -198,11 +198,13 @@ array_ptr_alloc
   {n:int}
 (
   asz: size_t n
-) :<!wrt> [l:agz] (
+) :<!wrt> [l:agz]
+(
   array_v (a?, l, n), mfree_gc_v (l) | ptr l
 ) // end of [array_ptr_alloc]
 
-fun array_ptr_free
+fun{}
+array_ptr_free
   {a:vt0p}{l:addr}{n:int}
 (
   array_v (a?, l, n), mfree_gc_v (l) | ptr l
@@ -210,13 +212,15 @@ fun array_ptr_free
 
 #atscode_separator()
 
-fun{}
-fprint_array$sep (out: FILEref): void
 fun{a:vt0p}
 fprint_array{n:int}
 (
   out: FILEref, A: &RD(@[INV(a)][n]), n: size_t n
 ) : void // end of [fprint_array]
+fun{}
+fprint_array$sep (out: FILEref): void
+
+#atscode_separator()
 
 fun{a:vt0p}
 fprint_array_sep{n:int}
@@ -225,7 +229,7 @@ fprint_array_sep{n:int}
 , A: &RD(@[INV(a)][n]), n: size_t n, sep: NSH(string)
 ) : void // end of [fprint_array_sep]
 
-(* ****** ****** *)
+#atscode_separator()
 
 fun{a:vt0p}
 array_copy{n:int}

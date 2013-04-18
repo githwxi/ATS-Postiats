@@ -163,19 +163,19 @@ ing sequences (Additional characters may follow these sequences.):
 
 *)
 
-fun fopen
-  {m:fm} (
-  path: NSH(string), m: file_mode m
+fun fopen{m:fm}
+(
+  path: NSH(string), m: fmode m
 ) :<!wrt> FILEptr0 (m) = "mac#%"
 
-fun fopen_exn
-  {m:fm} (
-  path: NSH(string), m: file_mode m
+fun fopen_exn{m:fm}
+(
+  path: NSH(string), m: fmode m
 ) :<!exnwrt> FILEptr1 (m) = "ext#%"
 
-fun fopen_ref_exn
-  {m:fm} (
-  path: NSH(string), m: file_mode m
+fun fopen_ref_exn{m:fm}
+(
+  path: NSH(string), m: fmode m
 ) :<!exnwrt> FILEref(*none*) = "ext#%"
 
 (* ****** ****** *)
@@ -232,7 +232,7 @@ symintr freopen_exn
 //
 fun freopen0 {m2:fm}
 (
-  path: NSH(string), m2: file_mode m2, filr: FILEref
+  path: NSH(string), m2: fmode m2, filr: FILEref
 ) :<!wrt> Ptr0 = "mac#%"
 //
 // HX-2012-07:
@@ -241,7 +241,7 @@ fun freopen0 {m2:fm}
 fun freopen1
   {m1,m2:fm}{l0:addr}
 (
-  path: NSH(string), m2: file_mode m2, filp: FILEptr (l0, m1)
+  path: NSH(string), m2: fmode m2, filp: FILEptr (l0, m1)
 ) :<!wrt> [
   l:addr | l==null || l==l0
 ] (
@@ -255,7 +255,7 @@ fun
 freopen0_exn
   {m2:fm}
 (
-  path: NSH(string), m2: file_mode m2, filr: FILEref
+  path: NSH(string), m2: fmode m2, filr: FILEref
 ) :<!exnwrt> void = "ext#%" // end of [freopen0_exn]
 overload freopen_exn with freopen0_exn
 //
@@ -300,7 +300,7 @@ absview fildes_v (fd:int)
 
 dataview
 fdopen_v (
-  fd:int, addr, m: file_mode
+  fd:int, addr, m: fmode
 ) =
   | {l:agz}
     fdopen_v_succ (fd, l, m) of FILE_v (l, m)
@@ -310,13 +310,13 @@ fdopen_v (
 fun fdopen
   {fd:int}{m:fm}
 (
-  pf: fildes_v (fd) | fd: int (fd), m: file_mode (m)
+  pf: fildes_v (fd) | fd: int (fd), m: fmode (m)
 ) : [l:agez] (fdopen_v (fd, l, m) | ptr l)
 
 fun fdopen_exn
   {fd:int}{m:fm}
 (
-  pf: fildes_v (fd) | fd: int (fd), m: file_mode (m)
+  pf: fildes_v (fd) | fd: int (fd), m: fmode (m)
 ) : FILEptr1 (m) // end of [fdopen_exn]
 
 (* ****** ****** *)

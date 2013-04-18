@@ -370,7 +370,6 @@ end // end of [insertion_sort]
 
 (* ****** ****** *)
 
-#declnamesynop("fprint_array$sep")
 #declnamesynop("fprint_array")
 #decldescrpt("\
 
@@ -379,6 +378,10 @@ channel provided as its first argument, and it calls the function
 #dyncode("fprint_array$sep") before printing an element as long as the
 element is not the first one.  Note that printing each array element is
 handled by calling the function #dyncode("fprint_ref").  ")
+
+#declnamesynop("fprint_array$sep")
+
+(* ****** ****** *)
 
 #declnamesynop("fprint_array_sep")
 #decldescrpt("\
@@ -428,11 +431,6 @@ end // end of [array_find]
 
 (* ****** ****** *)
 
-#declnamesynop("array_foreach$cont")
-#declnamesynop("array_foreach$fwork")
-
-(* ****** ****** *)
-
 #declnamesynop("array_foreach_env")
 #decldescrpt('\
 
@@ -468,6 +466,11 @@ end // end of [array_foldleft]
 
 (* ****** ****** *)
 
+#declnamesynop("array_foreach$cont")
+#declnamesynop("array_foreach$fwork")
+
+(* ****** ****** *)
+
 #declnamesynop("array_foreach_funenv")
 #decldescrpt('\
 
@@ -482,16 +485,12 @@ the provided function does not take an argument as its environment.  ')
 
 (* ****** ****** *)
 
+#declnamesynop("array_foreach2")
+#declnamesynop("array_foreach2_env")
 #declnamesynop("array_foreach2$cont")
 #declnamesynop("array_foreach2$fwork")
 
-#declnamesynop("array_foreach2")
-#declnamesynop("array_foreach2_env")
-
 (* ****** ****** *)
-
-#declnamesynop("array_rforeach$cont")
-#declnamesynop("array_rforeach$fwork")
 
 #declnamesynop("array_rforeach")
 #decldescrpt('\
@@ -561,15 +560,21 @@ end // end of [array_foldright]
 
 (* ****** ****** *)
 
-#declnamesynop("array_initize$init")
-#declnamesynop("array_initize")
-
-#declnamesynop("array_uninitize$clear")
-#declnamesynop("array_uninitize")
+#declnamesynop("array_rforeach$cont")
+#declnamesynop("array_rforeach$fwork")
 
 (* ****** ****** *)
 
-#declnamesynop("array_quicksort$cmp")
+#declnamesynop("array_initize")
+#declnamesynop("array_initize$init")
+
+(* ****** ****** *)
+
+#declnamesynop("array_uninitize")
+#declnamesynop("array_uninitize$clear")
+
+(* ****** ****** *)
+
 #decldescrpt("\
 
 This function is called in the implementation of
@@ -582,10 +587,10 @@ array_quicksort$cmp (x, y) = gcompare_ref<a> (x, y)
 ")
 ")
 #declnamesynop("array_quicksort")
+#declnamesynop("array_quicksort$cmp")
 
 (* ****** ****** *)
 
-#declnamesynop("array_permute$randint")
 #declnamesynop("array_permute")
 #decldescrpt('\
 
@@ -604,16 +609,25 @@ main0 () = {
 //
 \#define N 5
 val asz = g1i2u (N)
+val out = stdout_ref
 //
 val (pf, pfgc | p) = array_ptr_alloc<int> (asz)
 //
 implement
 array_initize$init<int> (i, x) = x := g0u2i(i)+1
-val () = array_initize<int> (!p, asz) // array: 0, 1, 2, ..., N-1
+val () = array_initize<int> (!p, asz) // array: 1, 2, ..., N-1, N
+//
+val (
+) = fprint_array_sep (out, !p, asz, ",")
+val () = fprint_newline (out)
 //
 implement
 array_permute$randint<> (n) = pred(n) // this is not random
-val () = array_permute<int> (!p, asz) // array: N-1, 0, 1, 2, ...
+val () = array_permute<int> (!p, asz) // array: N, 1, 2, ..., N-1
+//
+val (
+) = fprint_array_sep (out, !p, asz, ",")
+val () = fprint_newline (out)
 //
 val () = array_ptr_free (pf, pfgc | p)
 //
@@ -621,6 +635,10 @@ val () = array_ptr_free (pf, pfgc | p)
 ')\
 
 Note that the created array is properly freed before the code exits.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("array_permute$randint")
 
 (* ****** ****** *)
 

@@ -185,13 +185,21 @@ clean:: ; $(RMF) mutailrec_dats.o
 clean:: ; $(RMF) mutailrec_dats.c
 cleanall:: ; $(RMF) mutailrec.exe
 
-all:: revarr
-revarr: revarr.exe
-revarr.exe: revarr_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-revarr_dats.c: revarr.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output revarr_dats.c --dynamic revarr.dats
-clean:: ; $(RMF) revarr_dats.o
-clean:: ; $(RMF) revarr_dats.c
-cleanall:: ; $(RMF) revarr.exe
+all:: apermute
+apermute: apermute.exe
+apermute.exe: apermute_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+apermute_dats.c: apermute.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output apermute_dats.c --dynamic apermute.dats
+clean:: ; $(RMF) apermute_dats.o
+clean:: ; $(RMF) apermute_dats.c
+cleanall:: ; $(RMF) apermute.exe
+
+all:: areverse
+areverse: areverse.exe
+areverse.exe: areverse_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+areverse_dats.c: areverse.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output areverse_dats.c --dynamic areverse.dats
+clean:: ; $(RMF) areverse_dats.o
+clean:: ; $(RMF) areverse_dats.c
+cleanall:: ; $(RMF) areverse.exe
 
 all:: sumodd
 sumodd: sumodd.exe

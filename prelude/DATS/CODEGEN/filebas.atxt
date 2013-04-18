@@ -40,6 +40,11 @@ viewtypedef FILEptr1 = $STDIO.FILEptr1
 
 #atscode_separator()
 
+(*
+//
+// HX-2013-04:
+// this is now implemented in [filebas.cats].
+//
 local
 
 extern
@@ -57,6 +62,7 @@ implement file_mode_a = file_mode ("a")
 implement file_mode_aa = file_mode ("a+")
 
 end // end of [local]
+*)
 
 #atscode_separator()
 

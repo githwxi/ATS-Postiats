@@ -108,9 +108,10 @@ end // end of [array_ptr_alloc]
 
 #atscode_separator()
 
-implement
+implement{}
 array_ptr_free
-  {a}{l}{n} (pf, pfgc | p) = let
+  {a}{l}{n}
+  (pf, pfgc | p) = let
   prval pf =
     __assert (pf) where {
     extern praxi __assert

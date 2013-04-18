@@ -7,13 +7,14 @@
 
 (* ****** ****** *)
 
-staload "atshwxi/testing/SATS/foreach.sats"
-staload "atshwxi/testing/SATS/foldleft.sats"
+staload "./../SATS/foreach.sats"
+staload "./../SATS/foldleft.sats"
 
 (* ****** ****** *)
 
 fun{a:t0p}
-fprint_list (
+fprint_list
+(
   out: FILEref, xs: List (a), sep: string
 ) : void = let
 //

@@ -3,7 +3,7 @@
 ** A fast approach to counting newlines
 **
 ** Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-** Time: April, 2013
+** Time: April 17, 2013
 **
 *)
 (* ****** ****** *)
@@ -49,7 +49,7 @@ fun rawmemchr
 
 (* ****** ****** *)
 
-#define BUFSZ 16384
+#define BUFSZ (16*1024)
 
 (* ****** ****** *)
 
@@ -137,7 +137,7 @@ var inp: FILEref = stdin_ref
 val () =
 (
 if argc >= 2 then
-  inp := fopen_ref_exn (argv[1], $UN.cast{file_mode}("r"))
+  inp := fopen_ref_exn (argv[1], file_mode_r)
 // end of [if]
 )
 //
@@ -148,10 +148,10 @@ prval () = pfat := b0ytes2bytes_v (pfat)
 val res = wclfil (pfat | inp, p, $UN.cast2int('\n'))
 val () = mfree_gc (pfat, pfgc | p)
 //
-val () = println! ("wclfil: res = ", res)
+val () = println! ("wclines: number of lines = ", res)
 //
 val () = if argc >= 2 then fclose_exn (inp)
-}
+} (* end of [main0] *)
 
 (* ****** ****** *)
 
