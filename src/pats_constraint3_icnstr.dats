@@ -351,11 +351,11 @@ myintvec_addby_s3explst
   | list_nil () => ()
 // end of [myintvec_addby_s3explst]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement{a}
-s3exp2myintvec
-  {n} (
+s3exp2myintvec{n}
+(
   vim, n, s3e0, err
 ) = let
   val iv = myintvec_make (n+1)
@@ -364,24 +364,24 @@ in
 case+ s3e0 of
 | S3Evar (s2v) => iv where {
     val cff = myint_make_int<a> (1)
-    val () = myintvec_addby_cffvar (iv, vim, cff, s2v, err)
+    val ( ) = myintvec_addby_cffvar (iv, vim, cff, s2v, err)
   } // end of [S3Evar]
 //
 | S3Enull () => iv
 | S3Eunit () => iv where {
     val cff = myint_make_int (1)
-    val () = myintvec_addby_const (iv, cff)
+    val ( ) = myintvec_addby_const (iv, cff)
   } // end of [S3Eunit]
 //
 | S3Eicff (cff, s3e) => (
   case+ s3e of
   | S3Evar (s2v) => iv where {
       val cff = myint_make_intinf (cff)
-      val () = myintvec_addby_cffvar (iv, vim, cff, s2v, err)
+      val ( ) = myintvec_addby_cffvar (iv, vim, cff, s2v, err)
     } // end of [S3Eunit]
   | S3Eunit () => iv where {
       val cff = myint_make_intinf (cff)
-      val () = myintvec_addby_const (iv, cff)
+      val ( ) = myintvec_addby_const (iv, cff)
     } // end of [S3Eunit]
   | _ => (err := err + 1; iv)
   ) // end of [S3Eicff]

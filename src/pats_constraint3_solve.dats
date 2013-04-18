@@ -112,8 +112,11 @@ in
   loop (s2vs, vim, indexset_nil ())
 end // end of [indexset_make_s3exp]
 
+(* ****** ****** *)
+
 fun{a:t@ype}
-auxsolve {n:nat} (
+auxsolve{n:nat}
+(
   loc0: location
 , vim: !s2varindmap (n), n: int n
 , s3ps_asmp: s3explst, s3p_conc: s3exp
@@ -151,7 +154,9 @@ end // end of [val]
 //
 val ic_conc =
   s3exp2icnstr<a> (loc0, vim, n, s3p_conc)
-val ic_conc = icnstr_negate<a> (ic_conc)
+//
+val ic_conc_neg = icnstr_negate<a> (ic_conc)
+//
 (*
 val () = (
   print ("auxsolve: ic_conc = ");
@@ -160,9 +165,13 @@ val () = (
 *)
 //
 val iset = indexset_make_s3exp (vim, s3p_conc)
+//
+// HX: this is the entire constraint matrix
 var ics_all
-  : icnstrlst (a, n+1) = list_vt_cons (ic_conc, ics_asmp)
-val ans = icnstrlst_solve<a> (iset, ics_all, n+1)
+  : icnstrlst (a, n+1) = list_vt_cons (ic_conc_neg, ics_asmp)
+//
+val ans =
+  icnstrlst_solve<a> (iset, ics_all, n+1)
 val () = icnstrlst_free<a> (ics_all, n+1)
 //
 (*
@@ -181,7 +190,8 @@ s3explst_solve_s2exp
   (loc0, env, s2p, err) = let
 //
 val s3p = s3exp_make (env, s2p)
-val s3p = (
+val s3p =
+(
   case+ s3p of
   | S3Eerr _ => let
       val () = prerr_warning3_loc (loc0)
@@ -504,7 +514,8 @@ end // end of [c3nstr_solve_prop]
 (* ****** ****** *)
 
 implement
-c3nstr_solve_itmlst (
+c3nstr_solve_itmlst
+(
   loc0, env, s3is, unsolved, err
 ) = let
 (*
@@ -565,7 +576,8 @@ end // end of [c3nstr_solve_itmlst]
 (* ****** ****** *)
 
 implement
-c3nstr_solve_itmlst_cnstr (
+c3nstr_solve_itmlst_cnstr
+(
   loc0, env, s3is, c3t, unsolved, err
 ) = let
   val (pf1 | ()) = s2vbcfenv_push (env)

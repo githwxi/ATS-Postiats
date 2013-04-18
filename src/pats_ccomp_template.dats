@@ -602,11 +602,14 @@ implement
 ccomp_funlab_tmpsubst_some
   (env, loc0, hse0, flab, tsub, fent) = let
 //
+(*
+val out = stdout_ref
 val () =
+  fprintln!
 (
-  println! ("ccomp_funlab_tmpsubst_some: tsub = ");
-  fprint_tmpsub (stdout_ref, tsub); print_newline ()
+  out, "ccomp_funlab_tmpsubst_some: tsub = ", tsub
 ) // end of [val]
+*)
 //
 val sub = tmpsub2stasub (tsub)
 //
@@ -650,15 +653,18 @@ implement
 ccomp_tmpcstmat
   (env, loc0, hse0, d2c, t2mas, mat) = let
 //
+(*
 val () =
 (
   print ("ccomp_tmpcstmat: d2c = ");
   print_d2cst (d2c); print_newline ();
   print ("ccomp_tmpcstmat: t2mas = ");
-  fpprint_t2mpmarglst (stdout_ref, t2mas); print_newline ();
+  fpprint_t2mpmarglst (stdout_ref, t2mas);
+  print_newline ();
   print ("ccomp_tmpcstmat: mat = ");
   fprint_tmpcstmat (stdout_ref, mat); print_newline ();
 ) // end of [val]
+*)
 //
 in
 //
@@ -695,22 +701,26 @@ end // end of [ccomp_tmpcstmat_some]
 extern
 fun ccomp_tmpvarmat_some
 (
-  env: !ccompenv, loc0: location, hse0: hisexp, d2v: d2var, t2mas: t2mpmarglst, mat: tmpvarmat
+  env: !ccompenv
+, loc0: location, hse0: hisexp, d2v: d2var, t2mas: t2mpmarglst, mat: tmpvarmat
 ) : primval // end of [ccomp_tmpvarmat_some]
 
 implement
 ccomp_tmpvarmat
   (env, loc0, hse0, d2v, t2mas, mat) = let
 //
+(*
 val () =
 (
   print ("ccomp_tmpvarmat: d2v = ");
   print_d2var (d2v); print_newline ();
   print ("ccomp_tmpvarmat: t2mas = ");
-  fpprint_t2mpmarglst (stdout_ref, t2mas); print_newline ();
+  fpprint_t2mpmarglst (stdout_ref, t2mas);
+  print_newline ();
   print ("ccomp_tmpvarmat: mat = ");
   fprint_tmpvarmat (stdout_ref, mat); print_newline ();
 ) // end of [val]
+*)
 //
 in
 //

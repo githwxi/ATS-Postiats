@@ -67,8 +67,14 @@ typedef atstype_lint atstype_ssize ;
 typedef atstype_ulint atstype_size ;
 
 /* ****** ****** */
+//
+// HX: true/false: 1/0
+//
+typedef int atstype_bool ;
+//
+/* ****** ****** */
 
-typedef int atstype_bool ; // true/false: 1/0
+typedef unsigned char atstype_byte ;
 
 /* ****** ****** */
 

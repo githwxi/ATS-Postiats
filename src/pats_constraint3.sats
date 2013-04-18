@@ -237,7 +237,8 @@ fun s3exp_make_h3ypo (env: &s2vbcfenv, h3p: h3ypo): s3exp
 //
 // HX: these are auxiliary functions
 //
-fun s3exp_make_s2cst_s2explst (
+fun s3exp_make_s2cst_s2explst
+(
   env: &s2vbcfenv, s2c: s2cst, s2es: s2explst
 ) : s3exp // end of [s3exp_make_s2cst_s2explst]
 //
@@ -247,7 +248,8 @@ fun s3exp_make_s2cst_s2explst (
 #define UNDECIDED (0)
 #define CONTRADICTION (~1)
 //
-fun s3explst_solve_s2exp (
+fun s3explst_solve_s2exp
+(
   loc0: location, env: &s2vbcfenv, s2p: s2exp, err: &int >> int
 ) : int(*status*)
 // end of [s3explst_solve_s2exp]
@@ -276,13 +278,15 @@ fun s2varindmap_find {n:nat}
 // end of [s2varindmap_find]
 
 fun{a:t@ype}
-s3exp2icnstr {n:nat} (
+s3exp2icnstr{n:nat}
+(
   loc: location
 , vim: !s2varindmap (n), n: int n, s3e: s3exp
 ) : icnstr (a, n+1) // end of [s3exp2icnstr]
 
 fun{a:t@ype}
-s3exp2myintvec {n:nat} (
+s3exp2myintvec{n:nat}
+(
   vim: !s2varindmap (n), n: int n, s3e: s3exp, err: &int
 ) : myintvec (a, n+1) // end of [s3exp2myintvec]
 

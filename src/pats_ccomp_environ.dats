@@ -143,9 +143,13 @@ case+ xs of
       ) else let
         val res = funlabset_vt_add (res, x)
         val xs_new = aux_funlab_get_flablst (x) 
+//
+(*
         val out = stdout_ref
         val () = fprintln! (out, "x = ", x)
         val () = fprintln! (out, "xs_new = ", xs_new)
+*)
+//
       in
         auxtrclo (flev0, xs_new, list_vt_cons (xs, xss), res)
       end (* end of [if] *)

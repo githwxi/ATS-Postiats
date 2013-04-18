@@ -402,6 +402,11 @@ fun fprint_tmpsubopt : fprint_type (tmpsubopt)
 
 (* ****** ****** *)
 
+overload fprint with fprint_tmpsub
+overload fprint with fprint_tmpsubopt
+
+(* ****** ****** *)
+
 fun tmpsub2stasub (xs: tmpsub): stasub
 fun tmpsub_append (xs1: tmpsub, xs2: tmpsub): tmpsub
 

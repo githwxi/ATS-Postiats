@@ -12,6 +12,7 @@
 GCC=gcc -std=c99
 PATSHOMEQ="$(PATSHOME)"
 PATSOPT=$(PATSHOMEQ)/src/patsopt
+PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 
 ######
 
@@ -79,6 +80,14 @@ queens_loop_dats.c: queens_loop.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --
 clean:: ; $(RMF) queens_loop_dats.o
 clean:: ; $(RMF) queens_loop_dats.c
 cleanall:: ; $(RMF) queens_loop.exe
+
+all:: wclines
+wclines: wclines.exe
+wclines.exe: wclines_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -O2 -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+wclines_dats.c: wclines.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output wclines_dats.c --dynamic wclines.dats
+clean:: ; $(RMF) wclines_dats.o
+clean:: ; $(RMF) wclines_dats.c
+cleanall:: ; $(RMF) wclines.exe
 
 
 ######
