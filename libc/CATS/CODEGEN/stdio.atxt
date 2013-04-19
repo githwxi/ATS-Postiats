@@ -55,6 +55,7 @@ extern void exit (int status) ; // in [stdlib.h]
 #atscode_separator_for_C()
 
 \#define atslib_fopen fopen
+\#define atslib_fopen_ref_exn atslib_fopen_exn
 
 #atscode_separator_for_C()
 
