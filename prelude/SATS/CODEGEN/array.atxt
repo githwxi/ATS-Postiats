@@ -529,6 +529,17 @@ array_permute{n:int}
 
 #atscode_separator()
 
+fun{a:vt0p}
+add3_array_array$fop (x: &a, y: &a, z: &a? >> a): void
+
+fun{a:vt0p}
+add3_array_array{n:int}
+(
+  A: &array(INV(a), n), B: &array(a, n), C: &array(a?, n) >> array (a, n), n: size_t n
+) : void // end of [add3_array_array]
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

@@ -93,7 +93,7 @@ in
 end else let
   prval () = pf := bytes_v_unsplit (pf1, pf2)
 in
-    res
+  res
 end // end of [if]
 //
 end (* end of [wcbuf] *)

@@ -126,6 +126,10 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
+#packfilename("wclines.dats")
+
+(* ****** ****** *)
+
 #packpostamble()
 
 (* ****** ****** *)

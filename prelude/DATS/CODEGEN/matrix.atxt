@@ -118,6 +118,40 @@ end // end of [fprint_matrix_sep]
 
 #atscode_separator()
 
+implement{a}
+add3_matrix_matrix
+  {m,n} (A, B, C, m, n) = let
+//
+val pA = addr@(A)
+val pB = addr@(B)
+val pC = addr@(C)
+//
+prval pfA = matrix2array_v (view@(A))
+prval pfB = matrix2array_v (view@(B))
+prval pfC = matrix2array_v (view@(C))
+//
+local
+//
+implement
+add3_array_array$fop<a>
+  (x, y, z) = add3_matrix_matrix$fop (x, y, z)
+//
+in(* in of [local] *)
+//
+val ((*void*)) = add3_array_array (!pA, !pB, !pC, m*n)
+//
+end // end of [local]
+//
+prval () = view@(A) := array2matrix_v {a}{..}{m,n} (pfA)
+prval () = view@(B) := array2matrix_v {a}{..}{m,n} (pfB)
+prval () = view@(C) := array2matrix_v {a}{..}{m,n} (pfC)
+//
+in
+  // nothing
+end (* end of [add3_matrix_matrix] *)
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

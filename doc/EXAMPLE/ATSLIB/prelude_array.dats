@@ -48,13 +48,36 @@ val (pfat | p) = arrayptr_takeout_viewptr (A)
 val out = stdout_ref
 //
 local
+//
 implement(te)
-array_foreach$fwork<T><te>
-  (x, env) = fprint (out, x)
+array_foreach$fwork<T><te> (x, env) = fprint (out, x)
+//
 in (* in of [local] *)
+//
 val _(*asz*) = array_foreach (!p, (i2sz)5)
 val () = fprint_newline (out)
+//
 end (* end of [local] *)
+//
+prval () = arrayptr_addback (pfat | A)
+//
+val () = arrayptr_free (A)
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () =
+{
+//
+typedef T = int
+//
+val A =
+  (arrayptr)$arrpsz{T}(0, 1, 2, 3, 4)
+//
+val (pfat | p) = arrayptr_takeout_viewptr (A)
+//
+val out = stdout_ref
 //
 local
 //
@@ -69,9 +92,31 @@ in
 end (* end of [array_iforeach$fwork] *)
 //
 in (* in of [local] *)
+//
 val _(*asz*) = array_iforeach (!p, (i2sz)5)
 val () = fprint_newline (out)
+//
 end (* end of [local] *)
+//
+prval () = arrayptr_addback (pfat | A)
+//
+val () = arrayptr_free (A)
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () =
+{
+//
+typedef T = int
+//
+val A =
+  (arrayptr)$arrpsz{T}(0, 1, 2, 3, 4)
+//
+val (pfat | p) = arrayptr_takeout_viewptr (A)
+//
+val out = stdout_ref
 //
 local
 //
@@ -80,18 +125,81 @@ array_foreach2$fwork<T,T><te>
   (x1, x2, env) = fprint! out "(" x1 ", " x2 ")"
 //
 in (* in of [local] *)
+//
 val _(*asz*) = array_foreach2 (!p, !p, (i2sz)5)
 val () = fprint_newline (out)
+//
 end (* end of [local] *)
 //
+prval () = arrayptr_addback (pfat | A)
+//
+val () = arrayptr_free (A)
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () =
+{
+//
+typedef T = int
+//
+val A =
+  (arrayptr)$arrpsz{T}(0, 1, 2, 3, 4)
+//
+val (pfat | p) = arrayptr_takeout_viewptr (A)
+//
+val out = stdout_ref
+//
 local
+//
 implement(te)
-array_rforeach$fwork<T><te>
-  (x, env) = fprint (out, x)
+array_rforeach$fwork<T><te> (x, env) = fprint (out, x)
+//
 in (* in of [local] *)
+//
 val _(*asz*) = array_rforeach (!p, (i2sz)5)
 val () = fprint_newline (out)
+//
 end (* end of [local] *)
+//
+prval () = arrayptr_addback (pfat | A)
+//
+val () = arrayptr_free (A)
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () =
+{
+//
+typedef T = int
+//
+val asz = (i2sz)5
+//
+val A =
+  (arrayptr)$arrpsz{T}(0, 1, 2, 3, 4)
+//
+val (pfat | p) = arrayptr_takeout_viewptr (A)
+//
+val out = stdout_ref
+//
+local
+//
+implement
+add3_array_array$fop<T>
+  (x, y, z) = z := (x * y)
+in
+//
+val (
+) = add3_array_array (!p, !p, !p, asz)
+//
+end (* end of [local] *)
+//
+val (
+) = fprint_array_sep (out, !p, asz, ", ")
+val () = fprint_newline (out)
 //
 prval () = arrayptr_addback (pfat | A)
 //
