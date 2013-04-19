@@ -87,6 +87,7 @@ main0 (
 ) = {
   val () =
     if (argc <= 1) then atof_usage (argv[0])
+  // end of [val]
   val () = assertloc (argc >= 2)
   val () = println! ("atof(\"", argv[1], "\") = ", atof(argv[1]))
 } // end of [main0]

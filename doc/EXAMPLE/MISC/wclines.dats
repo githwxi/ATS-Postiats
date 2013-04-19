@@ -79,20 +79,24 @@ fun wclbuf
 ) : int // end of [wclbuf]
 
 implement
-wclbuf (pf | p, pz, c, res) =
-(
-  if p < pz then let
-    val (pf1, pf2 | p2) = rawmemchr (pf | p, c)
-    prval (pf21, pf22) = array_v_uncons (pf2)
-    val res = wclbuf (pf22 | ptr_succ<byte>(p2), pz, c, res + 1)
-    prval () = pf2 := array_v_cons (pf21, pf22)
-    prval () = pf := bytes_v_unsplit (pf1, pf2)
-  in
+wclbuf (pf | p, pz, c, res) = let
+  val (pf1, pf2 | p2) = rawmemchr (pf | p, c)
+in
+//
+if p2 < pz then let
+  prval (pf21, pf22) = array_v_uncons (pf2)
+  val res = wclbuf (pf22 | ptr_succ<byte>(p2), pz, c, res + 1)
+  prval () = pf2 := array_v_cons (pf21, pf22)
+  prval () = pf := bytes_v_unsplit (pf1, pf2)
+in
+  res
+end else let
+  prval () = pf := bytes_v_unsplit (pf1, pf2)
+in
     res
-  end else
-    res
-  // end of [if]
-) // end of [wcbuf]
+end // end of [if]
+//
+end (* end of [wcbuf] *)
 
 (* ****** ****** *)
 

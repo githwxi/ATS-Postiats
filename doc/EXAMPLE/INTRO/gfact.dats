@@ -46,8 +46,9 @@ implement
 main0 () =
 {
 //
-val () = println! ("fact(12) = ", gfact<int> (12))
-val () = println! ("fact(12) = ", gfact<double> (12.0))
+val out = stdout_ref
+val () = fprintln! (out, "fact(12) = ", gfact<int> (12))
+val () = fprintln! (out, "fact(12) = ", gfact<double> (12.0))
 //
 } // end of [main0]
 

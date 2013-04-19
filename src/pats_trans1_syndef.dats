@@ -313,16 +313,65 @@ fun fsyndef_PRERRLN
 fun fsyndef_FPRINT
 (
   loc0: location, d1es: d1explst
-) : d1exp = auxfpr (loc0, d1es, symbol_FPRINT)
+) : d1exp = let
+//
+val sym = symbol_FPRINT
+//
+in
+//
+case+ d1es of
+| list_cons
+  (
+    d1e, list_nil ()
+  ) =>
+  (
+    case+
+      d1e.d1exp_node of
+    | D1Elist
+        (npf, d1es) => auxfpr (loc0, d1es, sym)
+      // end of [D1Elist]
+    | _ => d1exp_err (loc0)
+  ) (* end of [list_cons] *)
+//
+| list_cons _ => auxfpr (loc0, d1es, sym)
+//
+| list_nil () => d1exp_err (loc0)
+//
+end (* end of [fsyndef_FPRINT] *)
+
 fun fsyndef_FPRINTLN
 (
   loc0: location, d1es: d1explst
-) : d1exp =
-(
-  auxfprln (loc0, d1es, symbol_FPRINT, symbol_FPRINT_NEWLINE)
-) (* end of [fsyndef_FPRINTLN] *)
+) : d1exp = let
+//
+val sym = symbol_FPRINT
+val sym2 = symbol_FPRINT_NEWLINE
+//
+in
+//
+case+ d1es of
+| list_cons
+  (
+    d1e, list_nil ()
+  ) =>
+  (
+    case+
+      d1e.d1exp_node of
+    | D1Elist
+        (npf, d1es) => auxfprln (loc0, d1es, sym, sym2)
+      // end of [D1Elist]
+    | _ => d1exp_err (loc0)
+  ) (* end of [list_cons] *)
+//
+| list_cons _ => auxfprln (loc0, d1es, sym, sym2)
+//
+| list_nil () => d1exp_err (loc0)
+//
+end (* end of [fsyndef_FPRINTLN] *)
 
 end // end of [local]
+
+(* ****** ****** *)
 
 in (* in of [local] *)
 
