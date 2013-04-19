@@ -1,0 +1,62 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"array_quicksort.dats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/array.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("April, 2013")
+
+#atscode_separator()
+
+staload UN = "prelude/SATS/unsafe.sats"
+
+#atscode_separator()
+
+(*
+//
+// HX: [qsort] is in libc/stdlib
+//
+void qsort
+(
+  void *base, size_t nmemb, size_t size,
+  int(*compar)(const void *, const void *)
+) ; // end of [qsort]
+*)
+implement{a}
+array_quicksort_fun
+  (A, asz, cmp) = let
+//
+val tsz = sizeof<a>
+extern fun qsort (
+  base: ptr, asz: size_t, tsz: size_t, cmp: cmpref (a)
+) :<> void = "mac\#atslib_qsort"
+//
+in
+  qsort (addr@(A), asz, tsz, cmp)
+end // end of [array_quicksort_fun]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "array_quicksort_atxt.txt")
+%}\

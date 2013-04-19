@@ -88,6 +88,7 @@ RMF=rm -f
 
 ######
 
+#make_entry("prelude_basics")
 #make_entry("prelude_bool")
 #make_entry("prelude_char")
 #make_entry("prelude_integer")

@@ -105,7 +105,8 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
-#packfilename("acker.dats")
+#packfilename("acker1.dats")
+#packfilename("acker2.dats")
 
 (* ****** ****** *)
 

@@ -94,6 +94,9 @@ all::
 
 #make_entry("array")
 #make_entry("array_prf")
+#make_entry("array_bsearch")
+#make_entry("array_quicksort")
+
 #make_entry("arrayptr")
 #make_entry("arrayref")
 #comment('\

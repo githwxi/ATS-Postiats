@@ -87,7 +87,9 @@ RMF=rm -f
 
 ######
 
-#make_entry("acker")
+#make_entry("acker1")
+#make_entry("acker2")
+#make2_entry("areverse", "-DATS_MEMALLOC_LIBC", "")
 #make_entry("atof")
 #make_entry("atoi")
 #make_entry("bintree")
@@ -107,8 +109,6 @@ RMF=rm -f
 #make_entry("intecho")
 #make_entry("intrange")
 #make_entry("mutailrec")
-#make2_entry("apermute", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
-#make2_entry("areverse", "-DATS_MEMALLOC_LIBC", "")
 #make_entry("sumodd")
 #make_entry("strprefix")
 #make_entry("tally")

@@ -176,6 +176,101 @@ val () =
 //
 typedef T = int
 //
+#define N 5
+val asz = g1i2u (N)
+val out = stdout_ref
+//
+val (pfat, pfgc | p) = array_ptr_alloc<T> (asz)
+//
+implement
+array_initize$init<T> (i, x) = x := g0u2i(i)+1
+val () = array_initize<T> (!p, asz) // array: 1, 2, ..., N-1, N
+//
+val (
+) = fprint_array_sep (out, !p, asz, ",")
+val () = fprint_newline (out)
+//
+implement
+array_permute$randint<> (n) = pred(n) // this is not random
+val () = array_permute<T> (!p, asz) // array: N, 1, 2, ..., N-1
+//
+val (
+) = fprint_array_sep (out, !p, asz, ",")
+val () = fprintln! out "(permuted)"
+//
+val () = array_ptr_free (pfat, pfgc | p)
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () =
+{
+//
+typedef T = int
+//
+#define N 5
+val asz = g1i2u (N)
+val out = stdout_ref
+//
+val (pfat, pfgc | p) = array_ptr_alloc<T> (asz)
+//
+implement
+array_initize$init<T> (i, x) = x := g0u2i(i)+1
+val () = array_initize<T> (!p, asz) // array: 1, 2, ..., N-1, N
+//
+val (
+) = fprint_array_sep (out, !p, asz, ",")
+val () = fprint_newline (out)
+//
+// (*
+var key: T = 3
+val ind = array_bsearch_fun<T> (!p, asz, key, lam (x, y) => compare (y, x))
+val () = assertloc (ind = 2)
+// *)
+//
+val () = array_ptr_free (pfat, pfgc | p)
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () =
+{
+//
+typedef T = int
+//
+#define N 5
+val asz = g1i2u (N)
+val out = stdout_ref
+//
+val (pfat, pfgc | p) = array_ptr_alloc<T> (asz)
+//
+implement
+array_initize$init<T> (i, x) = x := g0u2i(i)+1
+val () = array_initize<T> (!p, asz) // array: 1, 2, ..., N-1, N
+//
+val (
+) = fprint_array_sep (out, !p, asz, ",")
+val () = fprint_newline (out)
+//
+val () = array_quicksort_fun<T> (!p, asz, lam (x, y) => compare (y, x))
+//
+val (
+) = fprint_array_sep (out, !p, asz, ",")
+val () = fprintln! out "(descendingly sorted)"
+//
+val () = array_ptr_free (pfat, pfgc | p)
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () =
+{
+//
+typedef T = int
+//
 val asz = (i2sz)5
 //
 val A =
@@ -198,7 +293,7 @@ val (
 end (* end of [local] *)
 //
 val (
-) = fprint_array_sep (out, !p, asz, ", ")
+) = fprint_array_sep (out, !p, asz, ",")
 val () = fprint_newline (out)
 //
 prval () = arrayptr_addback (pfat | A)

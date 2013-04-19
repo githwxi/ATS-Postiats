@@ -1,0 +1,125 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"array_bsearch.dats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/array.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("April, 2013")
+
+#atscode_separator()
+
+staload UN = "prelude/SATS/unsafe.sats"
+
+#atscode_separator()
+
+implement{a}
+array_bsearch
+  {n} (A, asz) = let
+//
+fun loop
+  {l,r:nat | l <= r; r <= n} .<r-l>.
+(
+  A: &array (a, n), l: size_t l, r: size_t r
+) :<> sizeLte (n) =
+(
+if l < r then let
+  val m = l + half (r-l)
+  val pm = addr@ (A.[m])
+  prval (
+    pf, fpf
+  ) = $UN.ptr_vtake{a}(pm)
+  val sgn = array_bsearch$ford<a> (!pm)
+  prval () = fpf (pf)
+in
+  if sgn <= 0 then loop (A, l, m) else loop (A, succ(m), r)
+end else l (* end of [if] *)
+)
+//
+prval () = lemma_array_param (A)
+//
+in
+  loop (A, g1i2u(0), asz)
+end (* end of [array_bsearch] *)
+
+#atscode_separator()
+
+implement{a}
+array_bsearch_fun
+  (A, asz, key, cmp) = let
+//
+val p0 = addr@(key)
+//
+implement
+array_bsearch$ford<a>
+  (x) = sgn where
+{
+//
+prval
+(
+  pf, fpf
+) = $UN.ptr_vtake (p0)
+val sgn = cmp (!p0, x)
+prval ((*void*)) = fpf (pf)
+//
+} (* endimp *)
+//
+in
+  array_bsearch<a> (A, asz)
+end (* end of [array_bsearch_fun] *)
+
+#atscode_separator()
+
+(*
+//
+// HX: [qsort] is in libc/stdlib
+//
+void *bsearch
+(
+  const void *key
+, const void *base
+, size_t nmemb, size_t size
+, int (*compar)(const void *, const void *)
+) ; // end of [bsearch]
+*)
+
+implement{a}
+array_bsearch_stdlib
+  (A, asz, key, cmp) = let
+//
+val tsz = sizeof<a>
+//
+// HX: [bsearch] is in libc/stdlib
+//
+extern fun bsearch (
+  key: ptr, base: ptr, asz: size_t, tsz: size_t, cmp: cmpref (a)
+) :<> Ptr0 = "mac\#atslib_bsearch"
+//
+in
+  bsearch (addr@(key), addr@(A), asz, tsz, cmp)
+end // end of [array_bsearch_stdlib]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "array_bsearch_atxt.txt")
+%}\

@@ -25,6 +25,14 @@ RMF=rm -f
 
 ######
 
+all:: prelude_basics
+prelude_basics: prelude_basics.exe
+prelude_basics.exe: prelude_basics_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+prelude_basics_dats.c: prelude_basics.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_basics_dats.c --dynamic prelude_basics.dats
+clean:: ; $(RMF) prelude_basics_dats.o
+clean:: ; $(RMF) prelude_basics_dats.c
+cleanall:: ; $(RMF) prelude_basics.exe
+
 all:: prelude_bool
 prelude_bool: prelude_bool.exe
 prelude_bool.exe: prelude_bool_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

@@ -46,6 +46,9 @@ staload _ = "prelude/DATS/option_vt.dats"
 *)
 //
 staload _ = "prelude/DATS/array.dats"
+staload _ = "prelude/DATS/array_bsearch.dats"
+staload _ = "prelude/DATS/array_quicksort.dats"
+//
 staload _ = "prelude/DATS/arrayptr.dats"
 staload _ = "prelude/DATS/arrayref.dats"
 //

@@ -247,6 +247,25 @@ array_prf_atxt.dats: array_prf.atxt
 clean:: ; $(RMF) array_prf_atxt.exe
 cleanall:: ; $(RMF) array_prf.dats
 
+all:: array_bsearch.dats
+array_bsearch.dats: array_bsearch_atxt.exe ; ./$< > $@
+array_bsearch_atxt.exe: array_bsearch_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ array_bsearch_atxt.dats -latsdoc
+array_bsearch_atxt.dats: array_bsearch.atxt
+	$(ATSDOC) --outcode $@ -i array_bsearch.atxt > array_bsearch_atxt.txt
+clean:: ; $(RMF) array_bsearch_atxt.exe
+cleanall:: ; $(RMF) array_bsearch.dats
+
+all:: array_quicksort.dats
+array_quicksort.dats: array_quicksort_atxt.exe ; ./$< > $@
+array_quicksort_atxt.exe: array_quicksort_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ array_quicksort_atxt.dats -latsdoc
+array_quicksort_atxt.dats: array_quicksort.atxt
+	$(ATSDOC) --outcode $@ -i array_quicksort.atxt > array_quicksort_atxt.txt
+clean:: ; $(RMF) array_quicksort_atxt.exe
+cleanall:: ; $(RMF) array_quicksort.dats
+
+
 all:: arrayptr.dats
 arrayptr.dats: arrayptr_atxt.exe ; ./$< > $@
 arrayptr_atxt.exe: arrayptr_atxt.dats

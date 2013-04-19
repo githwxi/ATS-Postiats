@@ -37,6 +37,30 @@ b0ytes2bytes_v
 
 #atscode_separator()
 
+prfun
+bytes_v_split
+  {l:addr}
+  {n:int}{i:nat | i <= n}
+  (pf: bytes_v (l, n)): (bytes_v (l, i), bytes_v (l+i, n-i))
+// end of [bytes_v_split]
+
+prfun
+bytes_v_split_at
+  {l:addr}
+  {n:int}{i:nat | i <= n}
+  (pf: bytes_v (l, n) | i: size_t i): (bytes_v (l, i), bytes_v (l+i, n-i))
+// end of [bytes_v_split_at]
+
+#atscode_separator()
+
+prfun
+bytes_v_unsplit
+  {l:addr}{n1,n2:int}
+  (pf1: bytes_v (l, n1), pf2: bytes_v (l+n1, n2)): bytes_v (l, n1+n2)
+// end of [bytes_v_unsplit]
+
+#atscode_separator()
+
 fun malloc_gc
   {n:int}
 (

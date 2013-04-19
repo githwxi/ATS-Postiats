@@ -13,7 +13,8 @@
 
 (* ****** ****** *)
 
-val () = {
+val () =
+{
   val () = assertloc (succ(1.0) = 2.0)
   val () = assertloc (pred(2.0) = 1.0)
   val () = assertloc (1.0 + 2.0 = 3.0)
@@ -26,7 +27,8 @@ val () = {
 
 (* ****** ****** *)
 
-val () = {
+val () =
+{
   val () = assertloc (1.0 < 2.0)
   val () = assertloc (1.0 <= 2.0)
   val () = assertloc (~1.0 > ~2.0)

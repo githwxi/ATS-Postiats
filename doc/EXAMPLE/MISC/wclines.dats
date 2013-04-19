@@ -22,15 +22,6 @@ staload "libc/SATS/stdio.sats"
 
 (* ****** ****** *)
 
-extern
-praxi
-bytes_v_unsplit
-  {l:addr}{n1,n2:int}
-  (pf: bytes_v (l, n1), bytes_v (l+n1, n2)): bytes_v (l, n1+n2)
-// end of [bytes_v_unsplit]
-
-(* ****** ****** *)
-
 %{^
 extern
 void

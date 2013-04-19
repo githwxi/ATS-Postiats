@@ -169,7 +169,6 @@ This proof function establishes that the integer n in any linear list type
 
 (* ****** ****** *)
 
-#declnamesynop("fprint_list_vt$sep")
 #declnamesynop("fprint_list_vt")
 #decldescrpt("\
 
@@ -178,6 +177,10 @@ channel provided as its first argument, and it calls the function
 #dyncode("fprint_list_vt$sep") before printing an element as long as the
 element is not the first one.  Note that printing each list element is
 handled by calling the function #dyncode("fprint_ref").  ")
+
+#declnamesynop("fprint_list_vt$sep")
+
+(* ****** ****** *)
 
 #declnamesynop("fprint_list_vt_sep")
 #decldescrpt("\
@@ -245,23 +248,23 @@ pointer requires great caution. ')
 This function frees the memory occupied by a given linear list.
 Note that the elements contained in the list must be nonlinear.
 ')
-#declnamesynop("list_vt_freelin$clear")
 #declnamesynop("list_vt_freelin")
 #decldescrpt('\
 This function frees the memory occupied by a given linear list.
 Note that the elements contained in the list are freed by calling the
 function #dyncode("list_vt_freelin$clear").
 ')
+#declnamesynop("list_vt_freelin$clear")
 
 (* ****** ****** *)
 
-#declnamesynop("list_vt_uninitize$clear")
 #declnamesynop("list_vt_uninitize")
 #declnamesynop("list_vt_uninitize_fun")
 #decldescrpt('\
 This function frees the elements in a given linear list (but keeps
 the list itself).
 ')
+#declnamesynop("list_vt_uninitize$clear")
 
 (* ****** ****** *)
 
@@ -311,10 +314,10 @@ implement
 main () = 0 where {
 //
   typedef T = int
-  val xs1 = $lst_vt{T}(1)
-  val xs2 = $lst_vt{T}(2)
-  val xs3 = $lst_vt{T}(3)
-  val xss = $lst_vt{List_vt(T)}(xs1, xs2, xs3)
+  val xs1 = $list_vt{T}(1)
+  val xs2 = $list_vt{T}(2)
+  val xs3 = $list_vt{T}(3)
+  val xss = $list_vt{List_vt(T)}(xs1, xs2, xs3)
   val xs123 = list_vt_concat (xss) // xs123 = [1, 2, 3]
 //
   val out = stdout_ref
@@ -328,7 +331,6 @@ main () = 0 where {
 
 (* ****** ****** *)
 
-#declnamesynop("list_vt_split$pred")
 #declnamesynop("list_vt_split")
 #decldescrpt('\
 
@@ -347,7 +349,8 @@ staload UN = "prelude/SATS/unsafe.sats"
 //
 fun{a:vt0p}
 list_vt_qsort
-  {n:nat} .<n>. (
+  {n:nat} .<n>.
+(
   xs: list_vt (a, n), cmp: cmpref(a)
 ) : list_vt (a, n) = let
 in
@@ -359,9 +362,8 @@ case+ xs of
 //
     implement
     list_vt_split$pred<a> (x) = let
-      prval (pf, fpf) =
-        $UN.ptr_vtake {a} (p_x0)
-      val ans = cmp (x, x0) <= 0
+      prval (pf, fpf) = $UN.ptr_vtake{a}(p_x0)
+      val ans = cmp (x, x0) <= 0 // ascending order
       prval () = fpf (pf)
     in
       ans
@@ -386,14 +388,13 @@ Note that there is no memory allocation/deallocation involved in this
 implementation. It is formally verified in the type system of ATS that the
 list returned by #dyncode("list_vt_qsort") is of the same length as its input.  On
 a meta-level, it is evident that the returned list must be a permutation of
-the input as linear elements cannot be ignored or duplicated.
+the input as linear elements cannot be either discarded or duplicated.
 
 ')
 
-(* ****** ****** *)
+#declnamesynop("list_vt_split$pred")
 
-#declnamesynop("list_vt_foreach$cont")
-#declnamesynop("list_vt_foreach$fwork")
+(* ****** ****** *)
 
 #declnamesynop("list_vt_foreach")
 #decldescrpt("\
@@ -406,10 +407,10 @@ by #dyncode("list_vt_foreach$cont") returns false.  ")
 
 #declnamesynop("list_vt_foreach_env")
 
-(* ****** ****** *)
+#declnamesynop("list_vt_foreach$cont")
+#declnamesynop("list_vt_foreach$fwork")
 
-#declnamesynop("list_vt_iforeach$cont")
-#declnamesynop("list_vt_iforeach$fwork")
+(* ****** ****** *)
 
 #declnamesynop("list_vt_iforeach")
 #decldescrpt("\
@@ -422,19 +423,19 @@ implemented by #dyncode("list_vt_foreach$cont") returns false.  ")
 
 #declnamesynop("list_vt_iforeach_env")
 
+#declnamesynop("list_vt_iforeach$cont")
+#declnamesynop("list_vt_iforeach$fwork")
+
 (* ****** ****** *)
 
-#declnamesynop("list_vt_filter$pred")
 #declnamesynop("list_vt_filter")
-#declnamesynop("list_vt_filterlin$clear")
 #declnamesynop("list_vt_filterlin")
+#declnamesynop("list_vt_filter$pred")
+#declnamesynop("list_vt_filterlin$clear")
 
 (* ****** ****** *)
 
-#declnamesynop("list_vt_app$fwork")
 #declnamesynop("list_vt_app")
-
-#declnamesynop("list_vt_appfree$fwork")
 #declnamesynop("list_vt_appfree")
 #decldescrpt("\
 
@@ -442,12 +443,12 @@ This function is similar to #dyncode("list_vt_app"). However, it frees each
 list node after applying to the node the function implemented by
 #dyncode("list_vt_appfree$fwork").  ")
 
+#declnamesynop("list_vt_app$fwork")
+#declnamesynop("list_vt_appfree$fwork")
+
 (* ****** ****** *)
 
-#declnamesynop("list_vt_map$fwork")
 #declnamesynop("list_vt_map")
-
-#declnamesynop("list_vt_mapfree$fwork")
 #declnamesynop("list_vt_mapfree")
 #decldescrpt("\
 
@@ -455,20 +456,11 @@ This function is similar to #dyncode("list_vt_map"). However, it frees each
 list node after applying to the node the function implemented by
 #dyncode("list_vt_mapfree$fwork"). ")
 
+#declnamesynop("list_vt_map$fwork")
+#declnamesynop("list_vt_mapfree$fwork")
+
 (* ****** ****** *)
 
-#declnamesynop("list_vt_mergesort$cmp")
-#decldescrpt("\
-
-This function is called in the implementation of
-#dyncode("list_vt_mergesort") to perform comparison test on list elements,
-and its default implementation is based on #dyncode("gcompare_ref"):
-
-#pats2xhtmld_tryit("\
-implement{a}
-list_vt_mergesort$cmp (x, y) = gcompare_ref<a> (x, y)
-")
-")
 #declnamesynop("list_vt_mergesort")
 #decldescrpt('\
 
@@ -495,7 +487,7 @@ val out = stdout_ref
 //
 typedef T = int
 val xs =
-  $lst_vt{T}(0, 9, 2, 7, 4, 5, 6, 3, 8, 1)
+  $list_vt{T}(0, 9, 2, 7, 4, 5, 6, 3, 8, 1)
 val () = fprint_list_vt_sep<T> (out, xs, "; ")
 val () = fprint_newline (out)
 //
@@ -514,6 +506,21 @@ end // end of [main]
 ')
 ')
 
+#declnamesynop("list_vt_mergesort$cmp")
+#decldescrpt("\
+
+This function is called in the implementation of
+#dyncode("list_vt_mergesort") to perform comparison test on list elements,
+and its default implementation is based on #dyncode("gcompare_ref"):
+
+#pats2xhtmld_tryit("\
+implement{a}
+list_vt_mergesort$cmp (x, y) = gcompare_ref<a> (x, y)
+")
+")
+
+(* ****** ****** *)
+
 #declnamesynop("list_vt_mergesort_fun")
 #decldescrpt('\
 This function does essentially the same as #dyncode("list_vt_mergesort")
@@ -522,18 +529,6 @@ except for allowing the comparison function to be provided as an argument.
 
 (* ****** ****** *)
 
-#declnamesynop("list_vt_quicksort$cmp")
-#decldescrpt("\
-
-This function is called in the implementation of
-#dyncode("list_vt_quicksort") to perform comparison test on list elements,
-and its default implementation is based on #dyncode("gcompare_ref"):
-
-#pats2xhtmld_tryit("\
-implement{a}
-list_vt_quicksort$cmp (x, y) = gcompare_ref<a> (x, y)
-")
-")
 #declnamesynop("list_vt_quicksort")
 #decldescrpt('\
 
@@ -561,7 +556,7 @@ val out = stdout_ref
 //
 typedef T = int
 val xs =
-  $lst_vt{T}(0, 9, 2, 7, 4, 5, 6, 3, 8, 1)
+  $list_vt{T}(0, 9, 2, 7, 4, 5, 6, 3, 8, 1)
 val () = fprint_list_vt_sep<T> (out, xs, "; ")
 val () = fprint_newline (out)
 //
@@ -579,6 +574,21 @@ in
 end // end of [main]
 ')
 ')
+
+#declnamesynop("list_vt_quicksort$cmp")
+#decldescrpt("\
+
+This function is called in the implementation of
+#dyncode("list_vt_quicksort") to perform comparison test on list elements,
+and its default implementation is based on #dyncode("gcompare_ref"):
+
+#pats2xhtmld_tryit("\
+implement{a}
+list_vt_quicksort$cmp (x, y) = gcompare_ref<a> (x, y)
+")
+")
+
+(* ****** ****** *)
 
 #declnamesynop("list_vt_quicksort_fun")
 #decldescrpt('\

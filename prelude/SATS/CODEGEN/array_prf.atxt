@@ -34,7 +34,8 @@ prfun
 array_v_split
   {a:vt0p}
   {l:addr}
-  {n:int} {i:nat | i <= n} (
+  {n:int} {i:nat | i <= n}
+(
   pfarr: array_v (INV(a), l, n)
 ) :<prf> @(
   array_v (a, l, i), array_v (a, l+i*sizeof(a), n-i)
@@ -44,7 +45,8 @@ prfun
 array_v_split_at
   {a:vt0p}
   {l:addr}
-  {n:int} {i:nat | i <= n} (
+  {n:int} {i:nat | i <= n}
+(
   pfarr: array_v (INV(a), l, n) | i: size_t i
 ) :<prf> @(
   array_v (a, l, i), array_v (a, l+i*sizeof(a), n-i)
@@ -54,7 +56,8 @@ prfun
 array_v_unsplit
   {a:vt0p}
   {l:addr}
-  {n1,n2:int} (
+  {n1,n2:int}
+(
   pf1arr: array_v (INV(a), l, n1)
 , pf2arr: array_v (a, l+n1*sizeof(a), n2)
 ) :<prf> array_v (a, l, n1+n2) // end of [array_v_unsplit]

@@ -492,11 +492,28 @@ macdef array_uninitialize = array_uninitize
 #atscode_separator()
 
 fun{a:vt0p}
-array_bsearch$ford (x: &RD(a)): int
+array_bsearch$ford (x: &RD(a)):<> int
 fun{a:vt0p}
 array_bsearch
   {n:int} (A: &RD(@[a][n]), n: size_t (n)):<> sizeLte (n)
 // end of [array_bsearch]
+
+fun{a:vt0p}
+array_bsearch_fun{n:int}
+(
+  A: &RD(@[a][n]), asz: size_t (n), key: &RD(a), cmp: cmpref (a)
+) :<> sizeLte (n) // end of [array_bsearch_fun]
+
+#atscode_separator()
+
+(*
+** HX: this one is based on [bsearch] in [stdlib]
+*)
+fun{a:vt0p}
+array_bsearch_stdlib{n:int}
+(
+  A: &RD(@[a][n]), asz: size_t (n), key: &RD(a), cmp: cmpref (a)
+) :<> Ptr0 (* found/~found : ~null/null *)
 
 #atscode_separator()
 
@@ -509,7 +526,7 @@ array_quicksort{n:int}
 // end of [array_quicksort]
 
 (*
-** HX: this is based on [qsort] in [stdlib]
+** HX: this one is based on [qsort] in [stdlib]
 *)
 fun{a:vt0p}
 array_quicksort_fun{n:int}
