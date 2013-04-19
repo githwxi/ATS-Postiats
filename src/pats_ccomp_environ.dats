@@ -233,7 +233,7 @@ in
   funent_get_d2envlst (fent)
 end // end of [aux_funlab_get_d2envlst]
 
-fun auxaddlst
+fun auxd2es
 (
   d2es: d2envlst
 , vbmap: vbindmap, res: d2envset_vt
@@ -241,8 +241,13 @@ fun auxaddlst
 in
 //
 case+ d2es of
+//
 | list_cons
     (d2e, d2es) => let
+(*
+//
+// HX-2013-04: [d2e] cannot be in [vbmap]
+//
     val d2v = d2env_get_var (d2e)
     val opt = $D2E.d2varmap_search (vbmap, d2v)
     val res =
@@ -250,13 +255,20 @@ case+ d2es of
       case+ opt of
       | ~None_vt _ => d2envset_vt_add (res, d2e) | ~Some_vt _ => res
     ) : d2envset_vt
+*)
+    val res = d2envset_vt_add (res, d2e)
   in
-    auxaddlst (d2es, vbmap, res)
+    auxd2es (d2es, vbmap, res)
   end (* end of [list_cons] *)
+//
 | list_nil () => res
 //
-end // end of [auxaddlst]
+end // end of [auxd2es]
 
+//
+// HX-2013:-04:
+// [vbmap] is not actually used.
+//
 fun auxtrclo
 (
   fls: funlablst
@@ -270,7 +282,7 @@ case+ fls of
     val d2es =
       aux_funlab_get_d2envlst (fl)
     // end of [val]
-    val res = auxaddlst (d2es, vbmap, res)
+    val res = auxd2es (d2es, vbmap, res)
   in
     auxtrclo (fls, vbmap, res)
   end (* end of [list_vt_cons] *)

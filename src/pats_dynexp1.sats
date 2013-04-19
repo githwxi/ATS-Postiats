@@ -773,6 +773,7 @@ overload print with print_d1exp
 fun prerr_d1exp (x: d1exp): void
 overload prerr with prerr_d1exp
 fun fprint_d1exp : fprint_type (d1exp)
+overload fprint with fprint_d1exp
 
 fun fprint_d1explst : fprint_type (d1explst)
 overload fprint with fprint_d1explst

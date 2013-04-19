@@ -111,14 +111,22 @@ val symbol_PRERRLN = $SYM.symbol_make_string "prerrln"
 //
 (* ****** ****** *)
 
-fun aux1 (
+val symbol_FPRINT = $SYM.symbol_make_string "fprint"
+val symbol_FPRINT_NEWLINE = $SYM.symbol_make_string "fprint_newline"
+val symbol_FPRINTLN = $SYM.symbol_make_string "fprintln"
+
+(* ****** ****** *)
+
+fun aux1
+(
   loc0: location, fid: d1exp, d1e: d1exp
 ) : d1exp = let
 in
   d1exp_app_dyn (loc0, fid, loc0, ~1(*npf*), list_sing (d1e))
 end // end of [aux1]
 
-fun aux1lst (
+fun aux1lst
+(
   loc0: location, fid: d1exp, d1es: d1explst
 ) : d1explst = let
   val d1es = list_map_cloptr (d1es, lam d1e =<1> aux1 (loc0, fid, d1e))
@@ -126,17 +134,22 @@ in
   list_of_list_vt (d1es)
 end // end of [aux1lst]
 
-fun aux2 (
+(* ****** ****** *)
+
+fun aux2
+(
   loc0: location, fid: d1exp, d1e: d1exp
 ) : d1exp = let
 in
   case+ d1e.d1exp_node of
-  | D1Elist (npf, d1es) =>
-      d1exp_seq (loc0, aux1lst (loc0, fid, d1es))
+  | D1Elist
+      (npf, d1es) => d1exp_seq (loc0, aux1lst (loc0, fid, d1es))
+    // end of [D1Elist]
   | _ => aux1 (loc0, fid, d1e)
 end // end of [aux2]
 
-fun aux2lst (
+fun aux2lst
+(
   loc0: location, fid: d1exp, d1es: d1explst
 ) : d1explst = let
   val d1es = list_map_cloptr (d1es, lam d1e =<1> aux2 (loc0, fid, d1e))
@@ -146,7 +159,27 @@ end // end of [aux2lst]
 
 (* ****** ****** *)
 
-fun fsyndef_TUPZ (
+fun aux3
+(
+  loc0: location, fid: d1exp, d1e1: d1exp, d1e2: d1exp
+) : d1exp = let
+in
+  d1exp_app_dyn (loc0, fid, loc0, ~1(*npf*), list_pair (d1e1, d1e2))
+end // end of [aux3]
+
+fun aux3lst
+(
+  loc0: location, fid: d1exp, d1e1: d1exp, d1es2: d1explst
+) : d1explst = let
+  val d1es = list_map_cloptr (d1es2, lam d1e2 =<1> aux3 (loc0, fid, d1e1, d1e2))
+in
+  list_of_list_vt (d1es)
+end // end of [aux3lst]
+
+(* ****** ****** *)
+
+fun fsyndef_TUPZ
+(
   loc0: location, d1es: d1explst
 ) : d1exp = d1exp_list (loc0, ~1(*npf*), d1es)
 
@@ -154,7 +187,8 @@ fun fsyndef_TUPZ (
 
 local
 
-fun auxpr (
+fun auxpr
+(
   loc0: location
 , d1es: d1explst, sym: symbol
 ) : d1exp = let
@@ -163,55 +197,134 @@ val () = println! ("auxpr: d1es = ", d1es)
 *)
 val dq = $SYN.d0ynq_none (loc0)
 val fid = d1exp_dqid (loc0, dq, sym)
+val d1e_res = aux2lst (loc0, fid, d1es)
 //
 in
-  d1exp_seq (loc0, aux2lst (loc0, fid, d1es))
-end // end of [auxpr]
+  d1exp_seq (loc0, d1e_res)
+end (* end of [auxpr] *)
 
-fun auxprln (
+fun auxprln
+(
   loc0: location
 , d1es: d1explst, sym: symbol, sym2: symbol
 ) : d1exp = let
 (*
 val () = println! ("auxprln: d1es = ", d1es)
 *)
-val d1e1 = auxpr (loc0, d1es, sym)
+val d1e1_res = auxpr (loc0, d1es, sym)
 //
 val dq = $SYN.d0ynq_none (loc0)
-val fid = d1exp_dqid (loc0, dq, sym2)
-val d1e2 = d1exp_app_dyn (loc0, fid, loc0, ~1(*npf*), list_nil)
+val fid2 = d1exp_dqid (loc0, dq, sym2)
+val d1e2_res = d1exp_app_dyn (loc0, fid2, loc0, ~1(*npf*), list_nil)
 //
 in
-  d1exp_seq (loc0, list_pair (d1e1, d1e2))
-end // end of [auxprln]
-
-in (* in of [local] *)
-
-fun fsyndef_PRINT (
-  loc0: location, d1es: d1explst
-) : d1exp = auxpr (loc0, d1es, symbol_PRINT)
-fun fsyndef_PRINTLN (
-  loc0: location, d1es: d1explst
-) : d1exp = let
-in
-  auxprln (loc0, d1es, symbol_PRINT, symbol_PRINT_NEWLINE)
-end // end of [fsyndef_PRINTLN]
-
-fun fsyndef_PRERR (
-  loc0: location, d1es: d1explst
-) : d1exp = auxpr (loc0, d1es, symbol_PRERR)
-fun fsyndef_PRERRLN (
-  loc0: location, d1es: d1explst
-) : d1exp = let
-in
-  auxprln (loc0, d1es, symbol_PRERR, symbol_PRERR_NEWLINE)
-end // end of [fsyndef_PRERRLN]
-
-end // end of [local]
+  d1exp_seq (loc0, list_pair (d1e1_res, d1e2_res))
+end (* end of [auxprln] *)
 
 (* ****** ****** *)
 
-in // in of [local]
+fun auxfpr
+(
+  loc0: location
+, d1es: d1explst, sym: symbol
+) : d1exp = let
+(*
+val () = println! ("auxfpr: d1es = ", d1es)
+*)
+in
+//
+case+ d1es of
+| list_cons
+    (d1e1, d1es2) => let
+    val dq = $SYN.d0ynq_none (loc0)
+    val fid = d1exp_dqid (loc0, dq, sym)
+    val d1es_res = aux3lst (loc0, fid, d1e1, d1es2)
+  in
+    d1exp_seq (loc0, d1es_res)
+  end (* end of [list_cons] *)
+| list_nil () => d1exp_err (loc0)
+//
+end (* end of [auxfpr] *)
+
+fun auxfprln
+(
+  loc0: location
+, d1es: d1explst, sym: symbol, sym2: symbol
+) : d1exp = let
+// (*
+val out = stdout_ref
+val () = fprintln! (out, "auxfprln: d1es = ", d1es)
+// *)
+in
+//
+case+ d1es of
+| list_cons
+    (d1e1, d1es2) => let
+    val dq = $SYN.d0ynq_none (loc0)
+    val fid = d1exp_dqid (loc0, dq, sym)
+    val d1e1_res = 
+      d1exp_seq (loc0, aux3lst (loc0, fid, d1e1, d1es2))
+    // end of [val]
+    val fid2 = d1exp_dqid (loc0, dq, sym2)
+    val d1e2_res =
+      d1exp_app_dyn (loc0, fid2, loc0, ~1(*npf*), list_sing (d1e1))
+    // end of [val]
+(*
+    val () = fprintln! (out, "auxfprln: d1e1_res = ", d1e1_res)
+    val () = fprintln! (out, "auxfprln: d1e2_res = ", d1e2_res)
+*)
+  in
+    d1exp_seq (loc0, list_pair (d1e1_res, d1e2_res))
+  end (* end of [list_cons] *)
+| list_nil () => d1exp_err (loc0)
+//
+end (* end of [auxfprln] *)
+
+in (* in of [local] *)
+
+fun fsyndef_PRINT
+(
+  loc0: location, d1es: d1explst
+) : d1exp = auxpr (loc0, d1es, symbol_PRINT)
+fun fsyndef_PRINTLN
+(
+  loc0: location, d1es: d1explst
+) : d1exp =
+(
+  auxprln (loc0, d1es, symbol_PRINT, symbol_PRINT_NEWLINE)
+) (* end of [fsyndef_PRINTLN] *)
+
+(* ****** ****** *)
+
+fun fsyndef_PRERR
+(
+  loc0: location, d1es: d1explst
+) : d1exp = auxpr (loc0, d1es, symbol_PRERR)
+fun fsyndef_PRERRLN
+(
+  loc0: location, d1es: d1explst
+) : d1exp =
+(
+  auxprln (loc0, d1es, symbol_PRERR, symbol_PRERR_NEWLINE)
+) (* end of [fsyndef_PRERRLN] *)
+
+(* ****** ****** *)
+
+fun fsyndef_FPRINT
+(
+  loc0: location, d1es: d1explst
+) : d1exp = auxfpr (loc0, d1es, symbol_FPRINT)
+fun fsyndef_FPRINTLN
+(
+  loc0: location, d1es: d1explst
+) : d1exp =
+(
+  auxfprln (loc0, d1es, symbol_FPRINT, symbol_FPRINT_NEWLINE)
+) (* end of [fsyndef_FPRINTLN] *)
+
+end // end of [local]
+
+in (* in of [local] *)
 
 implement
 syndef_search_all (id) = let
@@ -232,6 +345,9 @@ case+ 0 of
 | _ when id = symbol_PRINTLN => Some_vt (fsyndef_PRINTLN)
 | _ when id = symbol_PRERR => Some_vt (fsyndef_PRERR)
 | _ when id = symbol_PRERRLN => Some_vt (fsyndef_PRERRLN)
+//
+| _ when id = symbol_FPRINT => Some_vt (fsyndef_FPRINT)
+| _ when id = symbol_FPRINTLN => Some_vt (fsyndef_FPRINTLN)
 //
 | _ => None_vt ()
 //

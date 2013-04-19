@@ -408,6 +408,7 @@ a:vt0p}{env:vt0p
 fun{
 a:vt0p}{env:vt0p
 } array_iforeach$fwork (i: size_t, x: &a >> _, env: &(env) >> _): void
+
 fun{
 a:vt0p
 } array_iforeach{n:int}
@@ -429,6 +430,7 @@ a:vt0p}{env:vt0p
 fun{
 a:vt0p}{env:vt0p
 } array_rforeach$fwork (x: &a >> _, env: &(env) >> _): void
+
 fun{
 a:vt0p
 } array_rforeach{n:int}
@@ -445,13 +447,13 @@ a:vt0p}{env:vt0p
 #atscode_separator()
 
 fun{a:vt0p}
-array_initize$init
-  (i: size_t, x: &a? >> a): void
+array_initize$init (i: size_t, x: &a? >> a): void
+
 fun{a:vt0p}
 array_initize{n:int}
-(
-  A: &(@[a?][n]) >> @[a][n], asz: size_t n
-) : void // end of [array_initize]
+  (A: &(@[a?][n]) >> @[a][n], asz: size_t n) : void
+// end of [array_initize]
+
 macdef array_initialize = array_initize
 
 #atscode_separator()
