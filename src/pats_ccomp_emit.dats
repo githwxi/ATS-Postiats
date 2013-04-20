@@ -2011,15 +2011,18 @@ case+ xys of
   in
     // nothing
   end // end of [list_vt_cons]
-| ~list_vt_nil () => (
+| ~list_vt_nil () => let
+  in
     case+ knd of
     | 0 => emit_primval (out, pmv)
     | _ => emit_primval_deref (out, pmv, hse_rt)
-  ) // end of [list_vt_nil]
+  end // end of [list_vt_nil]
 //
 end // end of [auxmain]
-//
-in // in of [local]
+
+(* ****** ****** *)
+
+in (* in of [local] *)
 
 (* ****** ****** *)
 

@@ -240,10 +240,10 @@ hidexp_ccomp
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 //
-(*
+// (*
 val () = println! ("hidexp_ccomp: hde0 = ", hde0)
 val () = println! ("hidexp_ccomp: hse0 = ", hse0)
-*)
+// *)
 //
 in
 //
@@ -323,7 +323,8 @@ case+ hde0.hidexp_node of
 //
 | HDEptrofvar _ =>
     hidexp_ccomp_ptrofvar (env, res, hde0)
-| HDEptrofsel _ => auxret (env, res, hde0)
+| HDEptrofsel _ =>
+    hidexp_ccomp_ptrofsel (env, res, hde0)
 //
 | HDErefarg _ => hidexp_ccomp_refarg (env, res, hde0)
 //
@@ -884,6 +885,7 @@ val-HDEptrofsel
 //
 val pmv = hidexp_ccomp (env, res, hde)
 val pmls = hilablst_ccomp (env, res, hils)
+//
 in
   primval_make_ptrofsel (loc0, pmv, hse_rt, pmls)
 end // end of [hidexp_ccomp_ptrofsel]

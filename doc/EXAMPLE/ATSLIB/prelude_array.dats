@@ -223,11 +223,24 @@ val (
 ) = fprint_array_sep (out, !p, asz, ",")
 val () = fprint_newline (out)
 //
-// (*
 var key: T = 3
-val ind = array_bsearch_fun<T> (!p, asz, key, lam (x, y) => compare (y, x))
+val ind = array_bsearch_fun<T> (!p, asz, key, lam (x, y) => compare (x, y))
 val () = assertloc (ind = 2)
-// *)
+//
+val () = p->[1] := key
+val ind = array_bsearch_fun<T> (!p, asz, key, lam (x, y) => compare (x, y))
+val () = assertloc (ind = 1)
+//
+val () = p->[0] := key
+val ind = array_bsearch_fun<T> (!p, asz, key, lam (x, y) => compare (x, y))
+val () = assertloc (ind = 0)
+//
+var key: int = 0
+val indp = array_bsearch_stdlib<T> (!p, asz, key, lam (x, y) => compare (x, y))
+val () = assertloc (ptr_is_null (indp))
+var key: int = 5
+val indp = array_bsearch_stdlib<T> (!p, asz, key, lam (x, y) => compare (x, y))
+val () = assertloc (ptr_isnot_null (indp))
 //
 val () = array_ptr_free (pfat, pfgc | p)
 //

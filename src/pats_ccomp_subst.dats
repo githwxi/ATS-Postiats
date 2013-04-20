@@ -220,7 +220,19 @@ fun primvalist_subst
 ) : primvalist // end of [primvalist_subst]
 //
 extern
-fun labprimval_subst (
+fun primlab_subst
+(
+  env: !ccompenv, map: !tmpmap, sub: !stasub, pml: primlab, sfx: int
+) : primlab // end of [primlab_subst]
+extern
+fun primlablst_subst
+(
+  env: !ccompenv, map: !tmpmap, sub: !stasub, pmls: primlablst, sfx: int
+) : primlablst // end of [primlablst_subst]
+//
+extern
+fun labprimval_subst
+(
   env: !ccompenv, map: !tmpmap, sub: !stasub, lpmv: labprimval, sfx: int
 ) : labprimval // end of [labprimval_subst]
 extern
@@ -522,8 +534,12 @@ val hse0 = pmv0.primval_type
 val hse0 = hisexp_subst (sub, hse0)
 //
 macdef ftmp (x) = tmpvar2var (map, ,(x))
+//
 macdef fpmv (x) = primval_subst (env, map, sub, ,(x), sfx)
 macdef fpmvlst (xs) = primvalist_subst (env, map, sub, ,(xs), sfx)
+//
+macdef fpml (x) = primlab_subst (env, map, sub, ,(x), sfx)
+macdef fpmlist (x) = primlablst_subst (env, map, sub, ,(x), sfx)
 //
 in
 //
@@ -573,6 +589,7 @@ case+
     (pmv, hse_rt, pml) => let
     val pmv = fpmv (pmv)
     val hse_rt = hisexp_subst (sub, hse_rt)
+    val pml = fpml (pml)
   in
     primval_select (loc0, hse0, pmv, hse_rt, pml)
   end // end of [PMVselect]
@@ -580,6 +597,7 @@ case+
     (pmv, hse_rt, pmls) => let
     val pmv = fpmv (pmv)
     val hse_rt = hisexp_subst (sub, hse_rt)
+    val pmls = fpmlist (pmls)
   in
     primval_select2 (loc0, hse0, pmv, hse_rt, pmls)
   end // end of [PMVselect2]
@@ -588,6 +606,7 @@ case+
     (pmv, hse_rt, pmls) => let
     val pmv = fpmv (pmv)
     val hse_rt = hisexp_subst (sub, hse_rt)
+    val pmls = fpmlist (pmls)
   in
     primval_sel_var (loc0, hse0, pmv, hse_rt, pmls)
   end // end of [PMVsel_var]
@@ -595,6 +614,7 @@ case+
     (pmv, hse_rt, pmls) => let
     val pmv = fpmv (pmv)
     val hse_rt = hisexp_subst (sub, hse_rt)
+    val pmls = fpmlist (pmls)
   in
     primval_sel_ptr (loc0, hse0, pmv, hse_rt, pmls)
   end // end of [PMVsel_ptr]
@@ -606,6 +626,7 @@ case+
     (pmv, hse_rt, pmls) => let
     val pmv = fpmv (pmv)
     val hse_rt = hisexp_subst (sub, hse_rt)
+    val pmls = fpmlist (pmls)
   in
     primval_ptrofsel (loc0, hse0, pmv, hse_rt, pmls)
   end // end of [PMVptrof]
@@ -681,6 +702,50 @@ case+ pmvs of
 | list_nil () => list_nil ()
 //
 end // end of [primvalist_subst]
+
+(* ****** ****** *)
+
+implement
+primlab_subst
+(
+  env, map, sub, pml0, sfx
+) = let
+in
+//
+case+
+  pml0.primlab_node of
+| PMLlab (lab) => pml0
+| PMLind (pmvs) => let
+    val loc0 = pml0.primlab_loc
+    val pmvs =
+      primvalist_subst (env, map, sub, pmvs, sfx)
+    // end of [val]
+  in
+    primlab_ind (loc0, pmvs)
+  end (* end of [PMVind] *)
+//
+end (* end of [primlab_subst] *)
+
+(* ****** ****** *)
+
+implement
+primlablst_subst
+(
+  env, map, sub, pmls, sfx
+) = let
+in
+//
+case+ pmls of
+| list_cons
+    (pml, pmls) => let
+    val pml = primlab_subst (env, map, sub, pml, sfx)
+    val pmls = primlablst_subst (env, map, sub, pmls, sfx)
+  in
+    list_cons (pml, pmls)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [primlablst_subst]
 
 (* ****** ****** *)
 

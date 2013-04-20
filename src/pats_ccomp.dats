@@ -450,11 +450,14 @@ end // end of [primval_make_ptrof]
 
 implement
 primval_make_ptrofsel
-  (loc, pmv, hse_rt, pmls) = let
-  val hse = hisexp_typtr 
-  val pmv_sel = primval_select2 (loc, hse, pmv, hse_rt, pmls)
+(
+  loc, pmv, hse_rt, pmls
+) = let
+  val hse_ptr = hisexp_typtr
+  val hse_undef = hisexp_undefined // HX: a place holder
+  val pmv_sel = primval_sel_ptr (loc, hse_undef, pmv, hse_rt, pmls)
 in
-  primval_make_ptrof (loc, pmv_sel)
+  primval_ptrof (loc, hse_ptr, pmv_sel)
 end // end of [primval_make_ptrofsel]
 
 (* ****** ****** *)

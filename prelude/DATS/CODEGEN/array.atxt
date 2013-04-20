@@ -695,6 +695,7 @@ end // end of [array_uninitize]
 
 #atscode_separator()
 
+(*
 implement{a}
 array_bsearch
   (A, n) = $effmask_all let
@@ -713,7 +714,8 @@ prval () = view@ (A) := pf
 //
 in
   ofs
-end // end of [array_bsearch_funenv]
+end // end of [array_bsearch]
+*)
 
 #atscode_separator()
 

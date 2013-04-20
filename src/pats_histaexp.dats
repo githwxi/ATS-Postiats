@@ -81,6 +81,11 @@ val HITNAM_DATCONTYP =
   HITNAM (1(*ptr*), 1(*fin*), "atstype_datcontyp")
 //
 (* ****** ****** *)
+
+val HITNAM_UNDEFINED =
+  HITNAM (0(*non*), 1(*fin*), "atst0ype_undefined")
+
+(* ****** ****** *)
 //
 #define POSTIATS_TYABS "postiats_tyabs"
 #define POSTIATS_TYPTR "postiats_typtr"
@@ -265,16 +270,25 @@ hisexp_cloptr = '{
 implement
 hisexp_arrptr = '{
   hisexp_name= HITNAM_ARRPTR, hisexp_node= HSEtybox ()
-}
+} (* end of [hisexp_arrptr] *)
 
 implement
 hisexp_datconptr = '{
   hisexp_name= HITNAM_DATCONPTR, hisexp_node= HSEtybox ()
-}
+} (* end of [hisexp_datconptr] *)
 implement
 hisexp_datcontyp = '{
   hisexp_name= HITNAM_DATCONTYP, hisexp_node= HSEtybox ()
-}
+} (* end of [hisexp_datcontyp] *)
+
+(* ****** ****** *)
+
+implement
+hisexp_undefined = let
+  val sym = $SYM.symbol_empty
+in '{
+  hisexp_name= HITNAM_UNDEFINED, hisexp_node= HSEtyabs (sym)
+} end // end of [hisexp_undefined]
 
 (* ****** ****** *)
 

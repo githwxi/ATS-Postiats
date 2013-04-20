@@ -64,7 +64,8 @@ fun s2addr_ptrof (
 
 local
 
-fun auxerr_pfobj (
+fun auxerr_pfobj
+(
   loc0: location, s2l: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
@@ -77,7 +78,8 @@ in
   the_trans3errlst_add (T3E_pfobj_search_none (loc0, s2l))
 end // end of [auxerr_pfobj]
 
-fun auxlabs (
+fun auxlabs
+(
   d3ls: d3lablst
 ) : s2lablst = (
   case+ d3ls of
@@ -98,46 +100,66 @@ fun auxlabs (
   | list_nil () => list_nil ()
 ) // end of [auxlabs]
 
-fun auxmain .<>. (
+fun auxmain
+(
   loc0: location
 , pfobj: pfobj
 , d3ls: d3lablst
 , s2rt: &s2exp? >> s2exp
 ) : s2exp = let
-  val+~PFOBJ (
-    d2vw, s2e_ctx, s2e_elt, s2l
-  ) = pfobj
-  val () = s2rt := s2e_elt
-  var linrest: int = 0 and sharing: int = 0
-  val (s2e_sel, s2ps) =
-    s2exp_get_dlablst_linrest_sharing (loc0, s2e_elt, d3ls, linrest, sharing)
-  val s2e_sel = s2exp_hnfize (s2e_sel)
-  val () = list_vt_free (s2ps) // HX: no need as this is only a probe
-  val s2ls = auxlabs (d3ls)
-  val s2e_prj = s2exp_proj (s2l, s2e_elt, s2ls)
+//
+val+~PFOBJ
+(
+  d2vw, s2e_ctx, s2e_elt, s2l
+) = pfobj // end of [val]
+//
+val () = s2rt := s2e_elt
+var linrest: int = 0 and sharing: int = 0
+//
+val
+(
+  s2e_sel, s2ps
+) =
+s2exp_get_dlablst_linrest_sharing
+(
+  loc0, s2e_elt, d3ls, linrest, sharing
+) // endfcall // end of [val]
+//
+val s2e_sel =
+  s2exp_hnfize (s2e_sel)
+val () =
+  list_vt_free (s2ps) (*probing*)
+val s2ls = auxlabs (d3ls)
+//
+val s2e_prj = s2exp_proj (s2l, s2e_elt, s2ls)
+//
 in
   s2exp_ptr_addr_type (s2e_prj)
 end // end of [auxmain]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s2addr_ptrof
-  (loc0, s2l, d3ls, s2rt) = let
+(
+  loc0, s2l, d3ls, s2rt
+) = let
   val opt = pfobj_search_atview (s2l)
 in
-  case+ opt of
-  | ~Some_vt (pfobj) =>
-      auxmain (loc0, pfobj, d3ls, s2rt)
-  | ~None_vt () => let
-      val s2e_sel =
-        s2exp_t0ype_err ()
-      // end of [val]
-      val () = s2rt := s2e_sel
-      val () = auxerr_pfobj (loc0, s2l)
-    in
-      s2e_sel
-    end // end of [None]
+//
+case+ opt of
+| ~Some_vt (pfobj) =>
+    auxmain (loc0, pfobj, d3ls, s2rt)
+| ~None_vt () => let
+    val s2e_sel =
+      s2exp_t0ype_err ()
+    // end of [val]
+    val () = s2rt := s2e_sel
+    val () = auxerr_pfobj (loc0, s2l)
+  in
+    s2e_sel
+  end // end of [None]
+//
 end // end of [s2addr_ptrof]
 
 end // end of [local]
