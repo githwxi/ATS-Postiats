@@ -32,6 +32,258 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (*
 //
+// HX-2013-04:
+// Instead of employing advanced types, I happily
+// ventured into the typeless territory of unsafe
+// pointer arithmetic!
+//
+*)
+
+implement{a}
+array_quicksort
+  (A, asz) = let
+//
+overload + with ptr0_add_bytesize
+overload - with ptr0_sub_bytesize
+//
+(* ****** ****** *)
+
+fun ptrcmp
+(
+  p1: ptr, p2: ptr
+) : int = (sgn) where
+{
+//
+val p1 = ptr1_of_ptr0 (p1)
+val p2 = ptr1_of_ptr0 (p2)
+//
+prval
+(
+  pf1, fpf1
+) = $UN.ptr_vtake{a}(p1)
+prval
+(
+  pf2, fpf2
+) = $UN.ptr_vtake{a}(p2)
+//
+val sgn = array_quicksort$cmp<a> (!p1, !p2)
+//
+prval () = fpf1 (pf1)
+prval () = fpf2 (pf2)
+//
+} (* end of [ptrcmp] *)
+
+(* ****** ****** *)
+//
+// HX: move min to the start
+//
+fun auxmin
+(
+  pa: ptr, p: ptr, tsz: size_t
+) : void = let
+in
+//
+if pa < p then let
+  val p1 = p - tsz
+  val sgn = ptrcmp (p1, p)
+  val () =
+    if sgn > 0 then $UN.ptr0_intch<a> (p1, p)
+  // end of [val]
+in
+  auxmin (pa, p1, tsz)
+end (* end of [if] *)
+//
+end (* end of [auxmin] *)
+//
+// HX: one round of insertion
+//
+fun auxins
+(
+  p: ptr, tsz: size_t
+) : void = let
+  val p1 = p - tsz
+  val sgn = ptrcmp (p1, p)
+in
+  if sgn > 0 then let
+    val () = $UN.ptr0_intch<a> (p1, p) in auxins (p1, tsz)
+  end // end of [if]
+end (* end of [auxins] *)
+//
+// HX: all rounds of insertion
+//
+fun auxinss
+(
+  p: ptr, pz: ptr, tsz: size_t
+) : void = let
+in
+//
+if p < pz then let
+  val () = auxins (p, tsz)
+in
+  auxinss (p + tsz, pz, tsz)
+end // end of [if]
+//
+end (* end of [auxinss] *)
+
+(* ****** ****** *)
+//
+// HX: insertion sorting
+//
+fun auxinsort
+(
+  pa: ptr, asz: size_t, tsz: size_t
+) : void = let
+  val pz = pa + asz * tsz
+in
+//
+if pa < pz then let
+  val () = auxmin (pa, pz - tsz, tsz)
+  val () = auxinss (pa + tsz, pz, tsz)
+in
+  (* nothing *)
+end else () // end of [if]
+//
+end (* end of [auxinsort] *)
+
+(* ****** ****** *)
+//
+// HX: locate the middle of 3
+//
+fun auxmid
+(
+  p1: ptr, p2: ptr, p3: ptr
+) : ptr = let
+  val sgn12 = ptrcmp (p1, p2)
+in
+//
+if sgn12 <= 0 then (
+  if ptrcmp (p2, p3) <= 0
+    then p2 else (if ptrcmp (p1, p3) <= 0 then p3 else p1)
+) else (
+  if ptrcmp (p1, p3) <= 0
+    then p1 else (if ptrcmp (p2, p3) <= 0 then p3 else p2)
+) // end of [if]
+end (* end of [auxmid] *)
+//
+// HX: pivot to the start
+//
+fun auxpivot
+(
+  pa: ptr, asz: size_t, tsz: size_t
+) : void = let
+//
+val pm = auxmid
+(
+  pa, pa + half(asz) * tsz, pa + pred(asz) * tsz
+) (* end of [val]
+//
+in
+  $UN.ptr0_intch<a> (pa, pm)
+end (* end of [auxpivot] *)
+
+(* ****** ****** *)
+//
+// HX-2013-04:
+// Invariants:
+// 1. elements in [pa, pl) <= pivot
+// 2. elements in (pr, pz) >= pivot
+//
+fun auxsplit_l
+(
+  pa: ptr, pl: ptr, pr: ptr, tsz: size_t
+) : ptr =
+(
+if pl <= pr then let
+  val sgn = ptrcmp (pl, pa)
+in
+//
+if sgn <= 0 then auxsplit_l (pa, pl + tsz, pr, tsz) else pl
+//
+end else pl // end of [if]
+) (* end of [auxsplit_l] *)
+
+fun auxsplit_r
+(
+  pa: ptr, pl: ptr, pr: ptr, tsz: size_t
+) : ptr =
+(
+if pl <= pr then let
+  val sgn = ptrcmp (pa, pr)
+in
+//
+if sgn <= 0 then auxsplit_r (pa, pl, pr - tsz, tsz) else pr
+//
+end else pr // end of [if]
+) (* end of [auxsplit_r] *)
+
+fun auxsplit_lr
+(
+  pa: ptr, pl: ptr, pr: ptr, tsz: size_t
+) : ptr = let
+  val pl = auxsplit_l (pa, pl, pr, tsz)
+  val pr = auxsplit_r (pa, pl, pr, tsz)
+in
+//
+if pl < pr then let
+  val () = $UN.ptr0_intch<a> (pl, pr)
+in
+  auxsplit_lr (pa, pl + tsz, pr - tsz, tsz)
+end else pl (* end of [if] *)
+//
+end (* end of [auxsplit_lr] *)
+
+(* ****** ****** *)
+
+\#define CUTOFF 12
+
+(* ****** ****** *)
+//
+// HX: quick sorting
+//
+fun auxqsort
+(
+  pa: ptr, asz: size_t, tsz: size_t
+) : void = let
+in
+//
+if asz >= CUTOFF then let
+  val () = auxpivot (pa, asz, tsz)
+  val pz = pa + asz * tsz
+  val pm = auxsplit_lr (pa, pa + tsz, pz - tsz, tsz)
+  val pm1 = pm - tsz
+  val () = $UN.ptr0_intch<a> (pa, pm1)
+  val asz_f = $UN.cast2size(pm1-pa) / tsz
+  val asz_r = pred (asz - asz_f)
+in
+  if asz_f <= asz_r then let
+    val () = auxqsort (pa, asz_f, tsz)
+    val () = auxqsort (pm, asz_r, tsz)
+  in
+    // nothing
+  end else let
+    val () = auxqsort (pm, asz_r, tsz)
+    val () = auxqsort (pa, asz_f, tsz)
+  in
+    // nothing
+  end (* end of [if] *)
+end else
+  auxinsort (pa, asz, tsz)
+// end of [if]
+//
+end (* end of [auxqsort] *)
+
+(* ****** ****** *)
+
+in (* in of [let] *)
+//
+$effmask_all (auxqsort (addr@(A), asz, sizeof<a>))
+//
+end (* end of [array_quicksort] *)
+
+#atscode_separator()
+
+(*
+//
 // HX: [qsort] is in libc/stdlib
 //
 void qsort
@@ -44,13 +296,12 @@ implement{a}
 array_quicksort_fun
   (A, asz, cmp) = let
 //
-val tsz = sizeof<a>
 extern fun qsort (
   base: ptr, asz: size_t, tsz: size_t, cmp: cmpref (a)
 ) :<> void = "mac\#atslib_qsort"
 //
 in
-  qsort (addr@(A), asz, tsz, cmp)
+  qsort (addr@(A), asz, sizeof<a>, cmp)
 end // end of [array_quicksort_fun]
 
 #atscode_separator()

@@ -219,10 +219,6 @@ implement
 array_initize$init<T> (i, x) = x := g0u2i(i)+1
 val () = array_initize<T> (!p, asz) // array: 1, 2, ..., N-1, N
 //
-val (
-) = fprint_array_sep (out, !p, asz, ",")
-val () = fprint_newline (out)
-//
 var key: T = 3
 val ind = array_bsearch_fun<T> (!p, asz, key, lam (x, y) => compare (x, y))
 val () = assertloc (ind = 2)
@@ -260,12 +256,26 @@ val out = stdout_ref
 val (pfat, pfgc | p) = array_ptr_alloc<T> (asz)
 //
 implement
-array_initize$init<T> (i, x) = x := g0u2i(i)+1
+array_initize$init<T> (i, x) = x := 0
 val () = array_initize<T> (!p, asz) // array: 1, 2, ..., N-1, N
+//
+val () = p->[0] := 2
+val () = p->[1] := 4
+val () = p->[2] := 1
+val () = p->[3] := 5
+val () = p->[4] := 3
 //
 val (
 ) = fprint_array_sep (out, !p, asz, ",")
 val () = fprint_newline (out)
+//
+implement
+array_quicksort$cmp<T> (x, y) = compare (x, y)
+//
+val () = array_quicksort<T> (!p, asz)
+val (
+) = fprint_array_sep (out, !p, asz, ",")
+val () = fprintln! out "(ascendingly sorted)"
 //
 val () = array_quicksort_fun<T> (!p, asz, lam (x, y) => compare (y, x))
 //

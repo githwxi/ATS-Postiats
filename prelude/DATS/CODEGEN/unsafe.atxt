@@ -30,9 +30,12 @@ staload "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
 
-implement{a}
-ptr0_get (p) = x where {
-  val [l:addr] p = (ptr1_of_ptr0)p
+implement
+{a}(*tmp*)
+ptr0_get
+  (p) = x where {
+  val [l:addr]
+    p = (ptr1_of_ptr0)p
   prval (pf, fpf) = __assert () where {
     extern praxi __assert (): (a @ l, a? @ l -<lin,prf> void)
   } // end of [prval]
@@ -44,9 +47,12 @@ implement{a} ptr1_get = ptr0_get<a>
 
 #atscode_separator()
 
-implement{a}
-ptr0_set (p, x) = () where {
-  val [l:addr] p = (ptr1_of_ptr0)p
+implement
+{a}(*tmp*)
+ptr0_set
+  (p, x) = () where {
+  val [l:addr]
+    p = (ptr1_of_ptr0)p
   prval (pf, fpf) = __assert () where {
     extern praxi __assert (): (a? @ l, a @ l -<lin,prf> void)
   } // end of [prval]
@@ -58,19 +64,38 @@ implement{a} ptr1_set = ptr0_set<a>
 
 #atscode_separator()
 
-implement{a}
-ptr0_exch (p, x) = () where {
-  val [l:addr] p = (ptr1_of_ptr0)p
-  prval (pf, fpf) = __assert () where {
-    extern praxi __assert (): (a @ l, a @ l -<lin,prf> void)
-  } // end of [prval]
+implement
+{a}(*tmp*)
+ptr0_exch
+  (p, x) = () where {
+  val p = (ptr1_of_ptr0)p
+  prval (pf, fpf) = ptr_vtake{a}(p)
   val tmp = !p
-  val () = !p := x
-  val () = x := tmp
+  val ( ) = !p := x
+  val ( ) = x := tmp
   prval () = fpf (pf)
 } // end of [ptr0_exch]
 
 implement{a} ptr1_exch = ptr0_exch<a>
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+ptr0_intch
+  (p1, p2) = () where {
+  val p1 = (ptr1_of_ptr0)p1
+  val p2 = (ptr1_of_ptr0)p2
+  prval (pf1, fpf1) = ptr_vtake{a}(p1)
+  prval (pf2, fpf2) = ptr_vtake{a}(p2)
+  val tmp = !p1
+  val ( ) = !p1 := !p2
+  val ( ) = !p2 := tmp
+  prval () = fpf1 (pf1)
+  prval () = fpf2 (pf2)
+} (* end of [ptr0_intch] *)
+
+implement{a} ptr1_intch = ptr0_intch<a>
 
 #atscode_separator()
 
