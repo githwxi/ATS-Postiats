@@ -91,62 +91,119 @@ fprint_intinf_base
 (* ****** ****** *)
 
 fun{}
-neg_intinf {i:int} (x: !intinf i): intinf (i)
-overload ~ with neg_intinf
+neg_intinf0 {i:int} (x: intinf i): intinf (i)
+fun{}
+neg_intinf1 {i:int} (x: !intinf i): intinf (i)
+overload ~ with neg_intinf1
 
 (* ****** ****** *)
 
 fun{}
-succ_intinf {i:int} (x: !intinf i): intinf (i+1)
-overload succ with succ_intinf
+succ_intinf0 {i:int} (x: intinf i): intinf (i+1)
 fun{}
-pred_intinf {i:int} (x: !intinf i): intinf (i-1)
-overload pred with pred_intinf
+succ_intinf1 {i:int} (x: !intinf i): intinf (i+1)
+overload succ with succ_intinf1
 
 (* ****** ****** *)
 
 fun{}
-add_intinf_int
+pred_intinf0 {i:int} (x: intinf i): intinf (i-1)
+fun{}
+pred_intinf1 {i:int} (x: !intinf i): intinf (i-1)
+overload pred with pred_intinf1
+
+(* ****** ****** *)
+
+fun{}
+add_intinf0_int
+  {i,j:int} (x: intinf i, y: int j): intinf (i+j)
+fun{}
+add_intinf1_int
   {i,j:int} (x: !intinf i, y: int j): intinf (i+j)
+overload + with add_intinf1_int
+
+(* ****** ****** *)
+
 fun{}
-add_int_intinf
+add_int_intinf0
+  {i,j:int} (x: int i, y: intinf j): intinf (i+j)
+fun{}
+add_int_intinf1
   {i,j:int} (x: int i, y: !intinf j): intinf (i+j)
+overload + with add_int_intinf1
+
+(* ****** ****** *)
+
 fun{}
-add_intinf_intinf
+add_intinf0_intinf1
+  {i,j:int} (x: intinf i, y: !intinf j): intinf (i+j)
+fun{}
+add_intinf1_intinf0
+  {i,j:int} (x: !intinf i, y: intinf j): intinf (i+j)
+fun{}
+add_intinf1_intinf1
   {i,j:int} (x: !intinf i, y: !intinf j): intinf (i+j)
-overload + with add_intinf_int
-overload + with add_int_intinf
-overload + with add_intinf_intinf
+overload + with add_intinf1_intinf1
 
 (* ****** ****** *)
 
 fun{}
-sub_intinf_int
+sub_intinf0_int
+  {i,j:int} (x: intinf i, y: int j): intinf (i-j)
+fun{}
+sub_intinf1_int
   {i,j:int} (x: !intinf i, y: int j): intinf (i-j)
-fun{}
-sub_int_intinf
-  {i,j:int} (x: int i, y: !intinf j): intinf (i-j)
-fun{}
-sub_intinf_intinf
-  {i,j:int} (x: !intinf i, y: !intinf j): intinf (i-j)
-overload - with sub_intinf_int
-overload - with sub_int_intinf
-overload - with sub_intinf_intinf
+overload - with sub_intinf1_int
 
 (* ****** ****** *)
 
 fun{}
-mul_intinf_int
+sub_int_intinf0
+  {i,j:int} (x: int i, y: intinf j): intinf (i-j)
+fun{}
+sub_int_intinf1
+  {i,j:int} (x: int i, y: !intinf j): intinf (i-j)
+overload - with sub_int_intinf1
+
+(* ****** ****** *)
+
+fun{}
+sub_intinf1_intinf1
+  {i,j:int} (x: !intinf i, y: !intinf j): intinf (i-j)
+overload - with sub_intinf1_intinf1
+
+(* ****** ****** *)
+
+fun{}
+mul_intinf0_int
+  {i,j:int} (x: intinf i, y: int j): intinf (i*j)
+fun{}
+mul_intinf1_int
   {i,j:int} (x: !intinf i, y: int j): intinf (i*j)
+overload * with mul_intinf1_int
+
+(* ****** ****** *)
+
 fun{}
-mul_int_intinf
+mul_int_intinf0
+  {i,j:int} (x: int i, y: intinf j): intinf (i*j)
+fun{}
+mul_int_intinf1
   {i,j:int} (x: int i, y: !intinf j): intinf (i*j)
+overload * with mul_int_intinf1
+
+(* ****** ****** *)
+
 fun{}
-mul_intinf_intinf
+mul_intinf0_intinf1
+  {i,j:int} (x: intinf i, y: !intinf j): intinf (i*j)
+fun{}
+mul_intinf1_intinf0
+  {i,j:int} (x: !intinf i, y: intinf j): intinf (i*j)
+fun{}
+mul_intinf1_intinf1
   {i,j:int} (x: !intinf i, y: !intinf j): intinf (i*j)
-overload * with mul_intinf_int
-overload * with mul_int_intinf
-overload * with mul_intinf_int
+overload * with mul_intinf1_int
 
 (* ****** ****** *)
 

@@ -25,13 +25,21 @@ RMF=rm -f
 
 ######
 
-all:: test1
-test1: test1.exe
-test1.exe: test1_dats.c ; $(CCOPT)   -I$(PATSHOMEQ)   -I$(PATSHOMEQ)/ccomp/runtime   -I$(PATSHOME)/contrib   -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
-test1_dats.c: test1.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test1_dats.c --dynamic test1.dats
-clean:: ; $(RMF) test1_dats.o
-clean:: ; $(RMF) test1_dats.c
-cleanall:: ; $(RMF) test1.exe
+all:: test01
+test01: test01.exe
+test01.exe: test01_dats.c ;   $(CCOPT)   -I$(PATSHOMEQ)   -I$(PATSHOMEQ)/ccomp/runtime   -I$(PATSHOME)/contrib   -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
+test01_dats.c: test01.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test01_dats.c --dynamic test01.dats
+clean:: ; $(RMF) test01_dats.o
+clean:: ; $(RMF) test01_dats.c
+cleanall:: ; $(RMF) test01.exe
+
+all:: test02
+test02: test02.exe
+test02.exe: test02_dats.c ;   $(CCOPT)   -I$(PATSHOMEQ)   -I$(PATSHOMEQ)/ccomp/runtime   -I$(PATSHOME)/contrib   -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
+test02_dats.c: test02.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test02_dats.c --dynamic test02.dats
+clean:: ; $(RMF) test02_dats.o
+clean:: ; $(RMF) test02_dats.c
+cleanall:: ; $(RMF) test02.exe
 
 
 ######

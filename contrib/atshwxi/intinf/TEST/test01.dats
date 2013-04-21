@@ -30,10 +30,8 @@ in
 //
 if x > 0 then let
   val r1 = fact (x - 1)
-  val r0 = x * r1
-  val () = intinf_free (r1)
 in
-  r0
+  mul_int_intinf0 (x, r1)
 end else
   int2intinf (1)
 // end of [if]
@@ -66,4 +64,4 @@ end // end of [main]
 
 (* ****** ****** *)
 
-(* end of [test1.dats] *)
+(* end of [test01.dats] *)

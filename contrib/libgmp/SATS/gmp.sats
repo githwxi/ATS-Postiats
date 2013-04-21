@@ -83,20 +83,20 @@ mp_base = intBtw (2, 36+1) // for outputing MP numbers
 // [x] is initialized with 0
 //
 fun mpz_init
-  (x: &mpz? >> mpz):<> void = "mac#%"
+  (x: &mpz? >> mpz): void = "mac#%"
 //
 (* ****** ****** *)
 //
 // [x] is initialized with 0 while given [n]-bit space
 //
 fun mpz_init2
-  (x: &mpz? >> mpz, n: ulint) :<> void = "mac#%"
+  (x: &mpz? >> mpz, n: ulint): void = "mac#%"
 //
 (* ****** ****** *)
 //
 // [x] is cleared
 //
-fun mpz_clear (x: &mpz >> mpz?):<> void = "mac#%"
+fun mpz_clear (x: &mpz >> mpz?): void = "mac#%"
 //
 (* ****** ****** *)
 //
@@ -105,27 +105,23 @@ fun mpz_clear (x: &mpz >> mpz?):<> void = "mac#%"
 // is enough space, or 0 is assigned to [x] otherwise.
 //
 fun mpz_realloc2
-  (x: &mpz >> mpz, n: ulint):<> void = "mac#%"
+  (x: &mpz >> mpz, n: ulint): void = "mac#%"
 //
 (* ****** ****** *)
 //
-fun mpz_get_int
-  (x: &mpz):<> int = "mac#%"
-fun mpz_get_lint
-  (x: &mpz):<> lint = "mac#%"
+fun mpz_get_int (x: &mpz): int = "mac#%"
+fun mpz_get_lint (x: &mpz): lint = "mac#%"
 //
-fun mpz_get_uint
-  (x: &mpz):<> uint = "mac#%"
-fun mpz_get_ulint
-  (x: &mpz):<> ulint = "mac#%"
+fun mpz_get_uint (x: &mpz): uint = "mac#%"
+fun mpz_get_ulint (x: &mpz): ulint = "mac#%"
 //
-fun mpz_get_double
-  (x: &mpz):<> double = "mac#%"
+fun mpz_get_double (x: &mpz): double = "mac#%"
 //
-// HX: a special case of the original namesake in GMP
+// HX-2013:
+// a special case of the namesake in GMP
 //
 fun mpz_get_str
-  (base: mp_base, x: &mpz):<> Strptr1 = "ext#%"
+  (base: mp_base, x: &mpz): Strptr1 = "ext#%"
 // end of [mpz_get_str]
 
 (* ****** ****** *)
@@ -133,35 +129,35 @@ fun mpz_get_str
 // x := y
 //
 fun mpz_set_int
-  (x: &mpz >> _, y: int):<!wrt> void = "mac#%"
+  (x: &mpz >> _, y: int): void = "mac#%"
 fun mpz_set_lint
-  (x: &mpz >> _, y: lint):<!wrt> void = "mac#%"
+  (x: &mpz >> _, y: lint): void = "mac#%"
 //
 fun mpz_set_uint
-  (x: &mpz >> _, y: uint):<!wrt> void = "mac#%"
+  (x: &mpz >> _, y: uint): void = "mac#%"
 fun mpz_set_ulint
-  (x: &mpz >> _, y: ulint):<!wrt> void = "mac#%"
+  (x: &mpz >> _, y: ulint): void = "mac#%"
 //
 fun mpz_set_double
-  (x: &mpz >> _, y: double):<!wrt> void = "mac#%"
+  (x: &mpz >> _, y: double): void = "mac#%"
 //
 fun mpz_set_mpz
-  (x: &mpz >> _, y: &mpz):<!wrt> void = "mac#%"
+  (x: &mpz >> _, y: &mpz): void = "mac#%"
 fun mpz_set_mpq
-  (x: &mpz >> _, y: &mpq):<!wrt> void = "mac#%"
+  (x: &mpz >> _, y: &mpq): void = "mac#%"
 fun mpz_set_mpf
-  (x: &mpz >> _, y: &mpf):<!wrt> void = "mac#%"
+  (x: &mpz >> _, y: &mpf): void = "mac#%"
 //
 (* ****** ****** *)
 //
 // HX: the function returns 0/-1 if the string is valid/not
 //
 fun mpz_set_str
-  (x: &mpz >> _, inp: string, base: mp_base):<!wrt> int = "mac#%"
+  (x: &mpz >> _, inp: string, base: mp_base): int = "mac#%"
 // end of [mpz_set_str]
 //
 fun mpz_set_str_exn
-  (x: &mpz >> _, inp: string, base: mp_base):<!wrt> void = "mac#%"
+  (x: &mpz >> _, inp: string, base: mp_base): void = "mac#%"
 // end of [mpz_set_str_exn]
 
 (* ****** ****** *)
@@ -171,30 +167,39 @@ symintr mpz_init_set // (x, y) => x := y
 (* ****** ****** *)
 
 fun mpz_init_set_int
-  (x: &mpz? >> mpz, y: int):<> void = "mac#%"
+  (x: &mpz? >> mpz, y: int): void = "mac#%"
 overload mpz_init_set with mpz_init_set_int
 
 fun mpz_init_set_uint
-  (x: &mpz? >> mpz, y: uint):<> void = "mac#%"
+  (x: &mpz? >> mpz, y: uint): void = "mac#%"
 overload mpz_init_set with mpz_init_set_uint
 
 fun mpz_init_set_lint
-  (x: &mpz? >> mpz, y: lint):<> void = "mac#%"
+  (x: &mpz? >> mpz, y: lint): void = "mac#%"
 overload mpz_init_set with mpz_init_set_lint
 
 fun mpz_init_set_ulint
-  (x: &mpz? >> mpz, y: ulint):<> void = "mac#%"
+  (x: &mpz? >> mpz, y: ulint): void = "mac#%"
 overload mpz_init_set with mpz_init_set_ulint
 
 fun mpz_init_set_mpz
-  (x: &mpz? >> mpz, y: &mpz):<> void = "mac#%"
+  (x: &mpz? >> mpz, y: &mpz): void = "mac#%"
 overload mpz_init_set with mpz_init_set_mpz
 
 (* ****** ****** *)
 
+fun mpz_inp_str
+  (x: &mpz, inp: FILEref, base: mp_base): size_t = "mac#%"
+// end of [mpz_inp_str]
+
 fun mpz_out_str
   (out: FILEref, base: mp_base, x: &mpz): size_t = "mac#%"
 // end of [mpz_out_str]
+
+(* ****** ****** *)
+
+fun mpz_inp_raw (x: &mpz, out: FILEref): size_t = "mac#%"
+fun mpz_out_raw (out: FILEref, x: &mpz): size_t = "mac#%"
 
 (* ****** ****** *)
 //
@@ -205,13 +210,13 @@ symintr mpz_neg
 // x := -x
 //
 fun mpz_neg1
-  (x: &mpz >> _):<!wrt> void = "ext#%"
+  (x: &mpz >> _): void = "ext#%"
 overload mpz_neg with mpz_neg1
 //
 // x := -y
 //
 fun mpz_neg2
-  (x: &mpz >> _, y: &mpz):<!wrt> void = "mac#%"
+  (x: &mpz >> _, y: &mpz): void = "mac#%"
 overload mpz_neg with mpz_neg2
 
 (* ****** ****** *)
@@ -223,13 +228,13 @@ symintr mpz_abs
 // x := |x|
 //
 fun mpz_abs1
-  (x: &mpz >> _):<!wrt> void = "ext#%"
+  (x: &mpz >> _): void = "ext#%"
 overload mpz_abs with mpz_abs1
 //
 // x := |y|
 //
 fun mpz_abs2
-  (x: &mpz >> _, y: &mpz):<!wrt> void = "mac#%"
+  (x: &mpz >> _, y: &mpz): void = "mac#%"
 overload mpz_abs with mpz_abs2
 
 (* ****** ****** *)
@@ -238,45 +243,91 @@ overload mpz_abs with mpz_abs2
 //
 symintr mpz_add
 //
+fun mpz_add2_mpz
+  (x: &mpz >> _, y: &mpz): void = "mac#%"
+overload mpz_add with mpz_add2_mpz
+//
 fun mpz_add2_int
-  (x: &mpz >> _, y: int):<> void = "mac#%"
+  (x: &mpz >> _, y: int): void = "mac#%"
 overload mpz_add with mpz_add2_int
 //
 fun mpz_add2_lint
-  (x: &mpz >> _, y: lint):<> void = "mac#%"
+  (x: &mpz >> _, y: lint): void = "mac#%"
 overload mpz_add with mpz_add2_lint
 //
 fun mpz_add2_uint
-  (x: &mpz >> _, y: uint):<> void = "mac#%"
+  (x: &mpz >> _, y: uint): void = "mac#%"
 overload mpz_add with mpz_add2_uint
 //
 fun mpz_add2_ulint
-  (x: &mpz >> _, y: ulint):<> void = "mac#%"
+  (x: &mpz >> _, y: ulint): void = "mac#%"
 overload mpz_add with mpz_add2_ulint
 //
-fun mpz_add2_mpz
-  (x: &mpz >> _, y: &mpz):<> void = "mac#%"
-overload mpz_add with mpz_add2_mpz
-
+fun mpz_add3_mpz
+  (x: &mpz >> _, y: &mpz, z: &mpz): void = "mac#%"
+overload mpz_add with mpz_add3_mpz
+//
 fun mpz_add3_int
-  (x: &mpz >> _, y: &mpz, z: int):<> void = "mac#%"
+  (x: &mpz >> _, y: &mpz, z: int): void = "mac#%"
 overload mpz_add with mpz_add3_int
 //
 fun mpz_add3_lint
-  (x: &mpz >> _, y: &mpz, z: lint):<> void = "mac#%"
+  (x: &mpz >> _, y: &mpz, z: lint): void = "mac#%"
 overload mpz_add with mpz_add3_lint
 //
 fun mpz_add3_uint
-  (x: &mpz >> _, y: &mpz, z: uint):<> void = "mac#%"
+  (x: &mpz >> _, y: &mpz, z: uint): void = "mac#%"
 overload mpz_add with mpz_add3_uint
 //
 fun mpz_add3_ulint
-  (x: &mpz >> _, y: &mpz, z: ulint):<> void = "mac#%"
+  (x: &mpz >> _, y: &mpz, z: ulint): void = "mac#%"
 overload mpz_add with mpz_add3_ulint
 //
-fun mpz_add3_mpz
-  (x: &mpz >> _, y: &mpz, z: &mpz):<> void = "mac#%"
-overload mpz_add with mpz_add3_mpz
+(* ****** ****** *)
+//
+// subtraction
+//
+symintr mpz_sub
+//
+fun mpz_sub2_mpz
+  (x: &mpz >> _, y: &mpz): void = "mac#%"
+overload mpz_sub with mpz_sub2_mpz
+//
+fun mpz_sub2_int
+  (x: &mpz >> _, y: int): void = "mac#%"
+overload mpz_sub with mpz_sub2_int
+//
+fun mpz_sub2_lint
+  (x: &mpz >> _, y: lint): void = "mac#%"
+overload mpz_sub with mpz_sub2_lint
+//
+fun mpz_sub2_uint
+  (x: &mpz >> _, y: uint): void = "mac#%"
+overload mpz_sub with mpz_sub2_uint
+//
+fun mpz_sub2_ulint
+  (x: &mpz >> _, y: ulint): void = "mac#%"
+overload mpz_sub with mpz_sub2_ulint
+
+fun mpz_sub3_mpz
+  (x: &mpz >> _, y: &mpz, z: &mpz): void = "mac#%"
+overload mpz_sub with mpz_sub3_mpz
+//
+fun mpz_sub3_int
+  (x: &mpz >> _, y: &mpz, z: int): void = "mac#%"
+overload mpz_sub with mpz_sub3_int
+//
+fun mpz_sub3_lint
+  (x: &mpz >> _, y: &mpz, z: lint): void = "mac#%"
+overload mpz_sub with mpz_sub3_lint
+//
+fun mpz_sub3_uint
+  (x: &mpz >> _, y: &mpz, z: uint): void = "mac#%"
+overload mpz_sub with mpz_sub3_uint
+//
+fun mpz_sub3_ulint
+  (x: &mpz >> _, y: &mpz, z: ulint): void = "mac#%"
+overload mpz_sub with mpz_sub3_ulint
 
 (* ****** ****** *)
 //
@@ -284,45 +335,45 @@ overload mpz_add with mpz_add3_mpz
 //
 symintr mpz_mul
 //
+fun mpz_mul2_mpz
+  (x: &mpz >> _, y: &mpz): void = "mac#%"
+overload mpz_mul with mpz_mul2_mpz
+//
 fun mpz_mul2_int
-  (x: &mpz >> _, y: int):<> void = "mac#%"
+  (x: &mpz >> _, y: int): void = "mac#%"
 overload mpz_mul with mpz_mul2_int
 //
 fun mpz_mul2_lint
-  (x: &mpz >> _, y: lint):<> void = "mac#%"
+  (x: &mpz >> _, y: lint): void = "mac#%"
 overload mpz_mul with mpz_mul2_lint
 //
 fun mpz_mul2_uint
-  (x: &mpz >> _, y: uint):<> void = "mac#%"
+  (x: &mpz >> _, y: uint): void = "mac#%"
 overload mpz_mul with mpz_mul2_uint
 //
 fun mpz_mul2_ulint
-  (x: &mpz >> _, y: ulint):<> void = "mac#%"
+  (x: &mpz >> _, y: ulint): void = "mac#%"
 overload mpz_mul with mpz_mul2_ulint
-//
-fun mpz_mul2_mpz
-  (x: &mpz >> _, y: &mpz):<> void = "mac#%"
-overload mpz_mul with mpz_mul2_mpz
 
+fun mpz_mul3_mpz
+  (x: &mpz >> _, y: &mpz, z: &mpz): void = "mac#%"
+overload mpz_mul with mpz_mul3_mpz
+//
 fun mpz_mul3_int
-  (x: &mpz >> _, y: &mpz, z: int):<> void = "mac#%"
+  (x: &mpz >> _, y: &mpz, z: int): void = "mac#%"
 overload mpz_mul with mpz_mul3_int
 //
 fun mpz_mul3_lint
-  (x: &mpz >> _, y: &mpz, z: lint):<> void = "mac#%"
+  (x: &mpz >> _, y: &mpz, z: lint): void = "mac#%"
 overload mpz_mul with mpz_mul3_lint
 //
 fun mpz_mul3_uint
-  (x: &mpz >> _, y: &mpz, z: uint):<> void = "mac#%"
+  (x: &mpz >> _, y: &mpz, z: uint): void = "mac#%"
 overload mpz_mul with mpz_mul3_uint
 //
 fun mpz_mul3_ulint
-  (x: &mpz >> _, y: &mpz, z: ulint):<> void = "mac#%"
+  (x: &mpz >> _, y: &mpz, z: ulint): void = "mac#%"
 overload mpz_mul with mpz_mul3_ulint
-//
-fun mpz_mul3_mpz
-  (x: &mpz >> _, y: &mpz, z: &mpz):<> void = "mac#%"
-overload mpz_mul with mpz_mul3_mpz
 
 (* ****** ****** *)
 
