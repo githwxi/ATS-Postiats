@@ -67,6 +67,22 @@ upload_intinf:: ;   scp HTML/intinf.html ats-hwxi,ats-lang@web.sourceforge.net:h
 clean:: ; $(RMF) intinf_atxt.exe
 cleanall:: ; $(RMF) HTML/intinf.html
 
+all_html:: HTML/intinf_t.html
+HTML/intinf_t.html:   intinf_t_atxt.exe ; ./$< > $@
+intinf_t_atxt.txt: intinf_t.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+intinf_t_atxt.exe: htmlgendecl_atxt.dats   intinf_t_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_intinf_t:: ;   scp HTML/intinf_t.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/contrib/atshwxi
+clean:: ; $(RMF) intinf_t_atxt.exe
+cleanall:: ; $(RMF) HTML/intinf_t.html
+
+all_html:: HTML/intinf_vt.html
+HTML/intinf_vt.html:   intinf_vt_atxt.exe ; ./$< > $@
+intinf_vt_atxt.txt: intinf_vt.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+intinf_vt_atxt.exe: htmlgendecl_atxt.dats   intinf_vt_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_intinf_vt:: ;   scp HTML/intinf_vt.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/contrib/atshwxi
+clean:: ; $(RMF) intinf_vt_atxt.exe
+cleanall:: ; $(RMF) HTML/intinf_vt.html
+
 
 ######
 

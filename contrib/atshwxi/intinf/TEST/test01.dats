@@ -15,24 +15,57 @@
 //
 (* ****** ****** *)
 
-staload "atshwxi/intinf/SATS/intinf.sats"
-staload _ = "atshwxi/intinf/DATS/intinf.dats"
+staload
+T = "atshwxi/intinf/SATS/intinf_t.sats"
+staload
+VT = "atshwxi/intinf/SATS/intinf_vt.sats"
+
+(* ****** ****** *)
+
+overload print with $T.print_intinf
+overload print with $VT.print_intinf
+
+(* ****** ****** *)
+
+staload
+_(*anon*) = "atshwxi/intinf/DATS/intinf_t.dats"
+staload
+_(*anon*) = "atshwxi/intinf/DATS/intinf_vt.dats"
 
 (* ****** ****** *)
 
 fun
-fact {i:nat}
+fact_t{i:nat}
 (
   x: int (i)
-) : Intinf = let
+) : $T.Intinf = let
 in
 //
 if x > 0 then let
-  val r1 = fact (x - 1)
+  val r1 = fact_t (x - 1)
 in
-  mul_int_intinf0 (x, r1)
+  $T.mul_int_intinf (x, r1)
 end else
-  int2intinf (1)
+  $T.int2intinf (1)
+// end of [if]
+//
+end // end of [fact_t]
+
+(* ****** ****** *)
+
+fun
+fact_vt{i:nat}
+(
+  x: int (i)
+) : $VT.Intinf = let
+in
+//
+if x > 0 then let
+  val r1 = fact_vt (x - 1)
+in
+  $VT.mul_int_intinf0 (x, r1)
+end else
+  $VT.int2intinf (1)
 // end of [if]
 //
 end // end of [fact]
@@ -54,9 +87,14 @@ main (
   ) : int // end of [val]
   val N = g1ofg0_int (N)
   val () = assertloc (N >= 0)
-  val res = fact (N)
-  val () = println! ("fact(", N, ") = ", res)
-  val () = intinf_free (res)
+//
+  val res = fact_t (N)
+  val () = println! ("fact_t(", N, ") = ", res)
+//
+  val res = fact_vt (N)
+  val () = println! ("fact_vt(", N, ") = ", res)
+  val () = $VT.intinf_free (res)
+//
 in
   0(*normalexit*)
 end // end of [main]

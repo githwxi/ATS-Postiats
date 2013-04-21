@@ -34,6 +34,11 @@
 (* ****** ****** *)
 
 staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload
 GMP = "libgmp/SATS/gmp.sats"
 stadef mpz = $GMP.mpz_vt0ype
 
@@ -41,6 +46,11 @@ stadef mpz = $GMP.mpz_vt0ype
 //
 staload
 "atshwxi/intinf/SATS/intinf.sats"
+//
+(* ****** ****** *)
+//
+staload
+"atshwxi/intinf/SATS/intinf_vt.sats"
 //
 (* ****** ****** *)
 
@@ -137,6 +147,28 @@ val () = $GMP.mpz_init (!(y.2))
 val () = $GMP.mpz_neg (!(y.2), !(x.2))
 //
 } (* end of [neg_intinf1] *)
+
+(* ****** ****** *)
+
+implement{
+} abs_intinf0
+  (x) = (x) where
+{
+//
+val () = $GMP.mpz_abs (!(x.2))
+//
+} (* end of [abs_intinf0] *)
+
+implement{
+} abs_intinf1
+  (x) = (y) where
+{
+//
+val y = ptr_alloc<mpz> ()
+val () = $GMP.mpz_init (!(y.2))
+val () = $GMP.mpz_abs (!(y.2), !(x.2))
+//
+} (* end of [abs_intinf1] *)
 
 (* ****** ****** *)
 
@@ -239,11 +271,30 @@ val () = $GMP.mpz_sub3_int (!(z.2), !(x.2), y)
 (* ****** ****** *)
 
 implement{}
-sub_int_intinf0 (x, y) = sub_intinf0_int (y, x)
+sub_int_intinf0 (x, y) = let
+  val z = sub_intinf0_int (y, x) in neg_intinf0 (z)
+end (* end of [sub_int_intinf0] *)
+
 implement{}
-sub_int_intinf1 (x, y) = sub_intinf1_int (y, x)
+sub_int_intinf1 (x, y) = let
+  val z = sub_intinf1_int (y, x) in neg_intinf0 (z)
+end (* end of [sub_int_intinf1] *)
 
 (* ****** ****** *)
+
+implement{}
+sub_intinf0_intinf1
+  (x, y) = (x) where
+{
+//
+val () = $GMP.mpz_sub2_mpz (!(x.2), !(y.2))
+//
+} (* end of [sub_intinf0_intinf1] *)
+
+implement{}
+sub_intinf1_intinf0
+  (x, y) = neg_intinf0 (sub_intinf0_intinf1 (y, x))
+// end of [sub_intinf1_intinf0]
 
 implement{}
 sub_intinf1_intinf1
@@ -320,6 +371,19 @@ val () = $GMP.mpz_mul3_mpz (!(z.2), !(x.2), !(y.2))
 
 (* ****** ****** *)
 
+implement{}
+compare_intinf_intinf
+  {i,j} (x, y) = let
+//
+val sgn = $GMP.mpz_cmp (!(x.2), !(y.2))
+val sgn = (if sgn < 0 then ~1 else (if sgn > 0 then 1 else 0)): int
+//
+in
+  $UN.cast{int(sgn(i-j))}(sgn)
+end // end of [compare_intinf_intinf]
+
+(* ****** ****** *)
+
 end // end of [local]
 
 (* ****** ****** *)
@@ -333,4 +397,4 @@ fprint_intinf (out, x) = fprint_intinf_base (out, x, 10(*base*))
 
 (* ****** ****** *)
 
-(* end of [intinf.dats] *)
+(* end of [intinf_vt.dats] *)

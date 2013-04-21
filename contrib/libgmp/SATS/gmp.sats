@@ -376,5 +376,23 @@ fun mpz_mul3_ulint
 overload mpz_mul with mpz_mul3_ulint
 
 (* ****** ****** *)
+//
+// comparison-functions
+//
+symintr mpz_cmp
+//
+fun mpz_cmp_mpz (x: &mpz, y: &mpz):<> int = "mac%#"
+fun mpz_cmp_int (x: &mpz, y: int):<> int = "mac%#"
+fun mpz_cmp_uint (x: &mpz, y: uint):<> int = "mac%#"
+fun mpz_cmp_lint (x: &mpz, y: lint):<> int = "mac%#"
+fun mpz_cmp_ulint (x: &mpz, y: ulint):<> int = "mac%#"
+//
+overload mpz_cmp with mpz_cmp_mpz
+overload mpz_cmp with mpz_cmp_int
+overload mpz_cmp with mpz_cmp_uint
+overload mpz_cmp with mpz_cmp_lint
+overload mpz_cmp with mpz_cmp_ulint
+//
+(* ****** ****** *)
 
 (* end of [gmp.sats] *)
