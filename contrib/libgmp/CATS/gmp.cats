@@ -1,0 +1,193 @@
+/************************************************************************/
+/*                                                                      */
+/*                         Applied Type System                          */
+/*                                                                      */
+/*                              Hongwei Xi                              */
+/*                                                                      */
+/************************************************************************/
+
+/*
+** ATS - Unleashing the Potential of Types!
+**
+** Copyright (C) 2002-2008 Hongwei Xi.
+**
+** ATS is  free software;  you can redistribute it and/or modify it under
+** the  terms of the  GNU General Public License as published by the Free
+** Software Foundation; either version 2.1, or (at your option) any later
+** version.
+** 
+** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
+** WARRANTY; without  even  the  implied  warranty  of MERCHANTABILITY or
+** FITNESS FOR A PARTICULAR PURPOSE.  See the  GNU General Public License
+** for more details.
+** 
+** You  should  have  received  a  copy of the GNU General Public License
+** along  with  ATS;  see the  file COPYING.  If not, please write to the
+** Free Software Foundation,  51 Franklin Street, Fifth Floor, Boston, MA
+** 02110-1301, USA.
+*/
+
+/* ****** ****** */
+
+/* author: Hongwei Xi (hwxi AT cs DOT bu DOT edu) */
+
+/* ****** ****** */
+
+#ifndef LIBGMP_GMP_CATS
+#define LIBGMP_GMP_CATS
+
+/* ****** ****** */
+
+#include <gmp.h>
+
+/* ****** ****** */
+
+typedef __mpz_struct atscntrb_libgmp_mpz ;
+
+/* ****** ****** */
+//
+// init/clear/realloc
+//
+#define atscntrb_libgmp_mpz_init mpz_init
+#define atscntrb_libgmp_mpz_init2 mpz_init2
+#define atscntrb_libgmp_mpz_clear mpz_clear
+#define atscntrb_libgmp_mpz_realloc2 mpz_realloc2
+//
+/* ****** ****** */
+//
+// get-functions
+//
+#define atscntrb_libgmp_mpz_get_int mpz_get_si
+#define atscntrb_libgmp_mpz_get_uint mpz_get_ui
+#define atscntrb_libgmp_mpz_get_lint mpz_get_si
+#define atscntrb_libgmp_mpz_get_ulint mpz_get_ui
+#define atscntrb_libgmp_mpz_get_double mpz_get_d
+//
+/* ****** ****** */
+//
+// set-functions
+//
+#define atscntrb_libgmp_mpz_set_int mpz_set_si
+#define atscntrb_libgmp_mpz_set_uint mpz_set_ui
+#define atscntrb_libgmp_mpz_set_lint mpz_set_si
+#define atscntrb_libgmp_mpz_set_ulint mpz_set_ui
+#define atscntrb_libgmp_mpz_set_mpz mpz_set
+//
+/* ****** ****** */
+//
+// init-set functions
+//
+#define atscntrb_libgmp_mpz_init_set_mpz mpz_init_set
+#define atscntrb_libgmp_mpz_init_set_int mpz_init_set_si
+#define atscntrb_libgmp_mpz_init_set_uint mpz_init_set_ui
+#define atscntrb_libgmp_mpz_init_set_lint mpz_init_set_si
+#define atscntrb_libgmp_mpz_init_set_ulint mpz_init_set_ui
+//
+/* ****** ****** */
+//
+// input-output-functions
+//
+#define atscntrb_libgmp_mpz_inp_str mpz_inp_str
+#define atscntrb_libgmp_mpz_out_str mpz_out_str
+//
+#define atscntrb_libgmp_mpz_inp_raw mpz_inp_raw
+#define atscntrb_libgmp_mpz_out_raw mpz_out_raw
+//
+/* ****** ****** */
+
+#define atscntrb_libgmp_mpz_neg1(x, y) mpz_neg(x, x)
+#define atscntrb_libgmp_mpz_neg2(x, y) mpz_neg(x, y)
+
+/* ****** ****** */
+
+#define atscntrb_libgmp_mpz_abs1(x, y) mpz_abs(x, x)
+#define atscntrb_libgmp_mpz_abs2(x, y) mpz_abs(x, y)
+
+/* ****** ****** */
+//
+// addition-functions
+//
+ATSinline()
+atsvoid_t0ype
+mpz_add_si
+(
+  mpz_t rop
+, mpz_t op1, atstype_lint op2
+)
+{
+  if (op2 >= 0)
+    mpz_add_ui (rop, op1,  op2) ;
+  else
+    mpz_add_ui (rop, op1, -op2) ;
+  // end of [if]
+} /* end of [mpz_add_si] */
+//
+// HX: x := x + y
+//
+#define atscntrb_libgmp_mpz_add2_mpz(x, y) mpz_add(x, x, y)
+#define atscntrb_libgmp_mpz_add2_int(x, y) mpz_add_si(x, x, y)
+#define atscntrb_libgmp_mpz_add2_uint(x, y) mpz_add_ui(x, x, y)
+#define atscntrb_libgmp_mpz_add2_lint(x, y) mpz_add_si(x, x, y)
+#define atscntrb_libgmp_mpz_add2_ulint(x, y) mpz_add_ui(x, x, y)
+//
+// HX: x := y +z
+//
+#define atscntrb_libgmp_mpz_add3_mpz(x, y, z) mpz_add(x, y, z)
+#define atscntrb_libgmp_mpz_add3_int(x, y, z) mpz_add_si(x, y, z)
+#define atscntrb_libgmp_mpz_add3_uint(x, y, z) mpz_add_ui(x, y, z)
+#define atscntrb_libgmp_mpz_add3_lint(x, y, z) mpz_add_si(x, y, z)
+#define atscntrb_libgmp_mpz_add3_ulint(x, y, z) mpz_add_ui(x, y, z)
+//
+/* ****** ****** */
+//
+// subtraction-functions
+//
+ATSinline()
+atsvoid_t0ype
+mpz_sub_si
+(
+  mpz_t rop
+, mpz_t op1, atstype_lint op2
+)
+{
+  if (op2 >= 0)
+    mpz_sub_ui (rop, op1,  op2) ;
+  else
+    mpz_sub_ui (rop, op1, -op2) ;
+  // end of [if]
+} /* end of [mpz_sub_si] */
+//
+#define atscntrb_libgmp_mpz_sub3_mpz(x, y, z) mpz_sub(x, y, z)
+#define atscntrb_libgmp_mpz_sub3_int(x, y, z) mpz_sub_si(x, y, z)
+#define atscntrb_libgmp_mpz_sub3_uint(x, y, z) mpz_sub_ui(x, y, z)
+#define atscntrb_libgmp_mpz_sub3_lint(x, y, z) mpz_sub_si(x, y, z)
+#define atscntrb_libgmp_mpz_sub3_ulint(x, y, z) mpz_sub_ui(x, y, z)
+//
+/* ****** ****** */
+//
+// multiplication-functions
+//
+//
+// HX: x := x * y
+//
+#define atscntrb_libgmp_mpz_mul2_mpz(x, y) mpz_mul(x, x, y)
+#define atscntrb_libgmp_mpz_mul2_int(x, y) mpz_mul_si(x, x, y)
+#define atscntrb_libgmp_mpz_mul2_uint(x, y) mpz_mul_ui(x, x, y)
+#define atscntrb_libgmp_mpz_mul2_lint(x, y) mpz_mul_si(x, x, y)
+#define atscntrb_libgmp_mpz_mul2_ulint(x, y) mpz_mul_ui(x, x, y)
+//
+// HX: x := y * z
+//
+#define atscntrb_libgmp_mpz_mul3_mpz(x, y, z) mpz_mul(x, y, z)
+#define atscntrb_libgmp_mpz_mul3_int(x, y, z) mpz_mul_si(x, y, z)
+#define atscntrb_libgmp_mpz_mul3_uint(x, y, z) mpz_mul_ui(x, y, z)
+#define atscntrb_libgmp_mpz_mul3_lint(x, y, z) mpz_mul_si(x, y, z)
+#define atscntrb_libgmp_mpz_mul3_ulint(x, y, z) mpz_mul_ui(x, y, z)
+//
+/* ****** ****** */
+
+#endif // ifndef LIBGMP_GMP_CATS
+
+/* ****** ****** */
+
+/* end of [gmp.cats] */

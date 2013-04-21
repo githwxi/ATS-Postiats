@@ -335,12 +335,12 @@ p2at_trdn_arg
 //
 val s2f0 = s2exp2hnf (s2e0)
 val s2e0 = s2hnf2exp (s2f0)
-//
+(*
 val () =
 (
   println! ("p2at_trdn_arg: s2e0 = ", s2e0);
 )
-//
+*)
 in
 //
 case+ s2e0.s2exp_node of
