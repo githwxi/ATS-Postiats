@@ -87,7 +87,10 @@ all::
 #make_entry("unsafe")
 
 #make_entry("list")
+
 #make_entry("list_vt")
+#make_entry("list_vt_mergesort")
+#make_entry("list_vt_quicksort")
 
 #make_entry("option")
 #make_entry("option_vt")

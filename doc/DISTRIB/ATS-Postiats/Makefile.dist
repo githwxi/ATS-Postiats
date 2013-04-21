@@ -4,11 +4,15 @@
 #
 ######
 
+all:: bin/patsopt
+
+######
+
 src_patsopt: ; make -C src patsopt
 
 ######
 
-bin/patsopt: src/patsopt ; cp -f src/patsopt bin/patsopt
+bin/patsopt: src_patsopt ; cp -f src/patsopt bin/patsopt
 
 ######
 

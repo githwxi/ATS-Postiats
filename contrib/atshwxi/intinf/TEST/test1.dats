@@ -6,8 +6,14 @@
 *)
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
+(* ****** ****** *)
 
 staload "atshwxi/intinf/SATS/intinf.sats"
+staload _ = "atshwxi/intinf/DATS/intinf.dats"
 
 (* ****** ****** *)
 
@@ -37,7 +43,9 @@ end // end of [fact]
 (* ****** ****** *)
 
 extern
-fun atoi: string -> int = "ext#atslib_atoi"
+fun atoi: string -> int = "mac#atslib_atoi"
+
+(* ****** ****** *)
 
 implement
 main (

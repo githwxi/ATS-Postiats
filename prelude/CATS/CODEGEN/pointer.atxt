@@ -187,6 +187,10 @@ atspre_neq_ptr_intz
 
 #atscode_separator_for_C()
 
+\#define atspre_ptr_free(p) atspre_mfree_gc(p)
+
+#atscode_separator_for_C()
+
 ATSinline()
 atsvoid_t0ype
 atspre_fprint_ptr (

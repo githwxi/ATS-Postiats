@@ -1490,22 +1490,22 @@ s2hnf_opnexi_and_add
   (loc0, s2f0) = let
   val s2e0 = s2hnf2exp (s2f0)
 (*
-  val () = begin
-    print "s2hnf_opnexi_and_add: before: s2e0 = "; print_s2exp s2e0;
-    print_newline ()
-  end // end of [val]
+  val () =
+  (
+    println! ("s2hnf_opnexi_and_add: before: s2e0 = ", s2e0);
+  ) // end of [val]
 *)
   val s2es2vss2ps = s2exp_opnexi (s2e0)
 (*
-  val () = begin
-    print "s2exp_opnexi: after: s2e = "; print_s2exp s2es2vss2ps.0;
-    print_newline ()
-  end // end of [val]
+  val () =
+  (
+    println! ("s2exp_opnexi_and_add: after: s2e = ", s2es2vss2ps.0);
+  ) // end of [val]
 *)
   val s2vs = s2es2vss2ps.1
   val () = let
     val s2vs =
-      $UN.castvwtp1 {s2varlst} (s2vs)
+      $UN.castvwtp1{s2varlst}(s2vs)
     // end of [val]
     val s2Vs = the_s2Varset_env_get ()
     val () = s2varlst_set_sVarset (s2vs, s2Vs)

@@ -354,24 +354,22 @@ case+ s2e0.s2exp_node of
 //
 | S2Einvar _ => s2exp_invar_flag (s2e0, flag)
 //
-(*
-| S2Eexi (s2vs, s2ps, s2e) => let
-    val flag0 = flag
-    val s2ps = s2explst_hnfize_flag (s2ps, flag)
-    val s2e = s2exp_hnfize_flag (s2e, flag)
-  in
-    if flag > flag0 then s2exp_exi (s2vs, s2ps, s2e) else s2e0
-  end // end of [S2Euni]
-| S2Euni (s2vs, s2ps, s2e) => let
-    val flag0 = flag
-    val s2ps = s2explst_hnfize_flag (s2ps, flag)
-    val s2e = s2exp_hnfize_flag (s2e, flag)
-  in
-    if flag > flag0 then s2exp_uni (s2vs, s2ps, s2e) else s2e0
-  end // end of [S2Euni]
-*)
 | S2Eexi _=> s2e0
 | S2Euni _=> s2e0
+(*
+| S2Eexi (s2vs, s2ps, s2e_scope) => let
+    val flag0 = flag
+    val s2e_scope = s2exp_hnfize_flag (s2e_scope, flag)
+  in
+    if flag > flag0 then s2exp_exi (s2vs, s2ps, s2e_scope) else s2e0
+  end // end of [S2Euni]
+| S2Euni (s2vs, s2ps, s2e_scope) => let
+    val flag0 = flag
+    val s2e_scope = s2exp_hnfize_flag (s2e_scope, flag)
+  in
+    if flag > flag0 then s2exp_uni (s2vs, s2ps, s2e_scope) else s2e0
+  end // end of [S2Euni]
+*)
 //
 | S2Evararg _ => s2e0
 | S2Erefarg _ => s2e0
@@ -381,7 +379,8 @@ case+ s2e0.s2exp_node of
 //
 (*
 | _ => let
-    val () = (
+    val () =
+    (
       print "s2exp_hnfize_flag: s2e0 = "; print_s2exp (s2e0); print_newline ()
     ) // end of [val]
     val () = assertloc (false)
@@ -833,7 +832,9 @@ fun s2exp_prenexize (
 , s2ps_res: &s2explst_vt
 , flag: &int
 ) : s2exp = let
-  val s2e0 = s2exp_hnfize s2e0
+//
+val s2e0 = s2exp_hnfize s2e0
+//
 in
 //
 case+ s2e0.s2exp_node of
@@ -842,7 +843,8 @@ case+ s2e0.s2exp_node of
     s2vs, s2ps, s2e_body
   ) => (
     if knd = 0 then
-      s2exp_prenexize_work (
+    s2exp_prenexize_work
+    (
       knd, s2vs, s2ps, s2e_body, s2vs_res, s2ps_res, flag
     ) else s2e0 // end of [if]
   ) // end of [S2Eexi]
@@ -850,7 +852,8 @@ case+ s2e0.s2exp_node of
     s2vs, s2ps, s2e_body
   ) => (
     if knd > 0 then
-      s2exp_prenexize_work (
+    s2exp_prenexize_work
+    (
       knd, s2vs, s2ps, s2e_body, s2vs_res, s2ps_res, flag
     ) else s2e0 // end of [if]
   ) // end of [S2Euni]

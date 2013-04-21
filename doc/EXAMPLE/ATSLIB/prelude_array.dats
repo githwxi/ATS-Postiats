@@ -277,7 +277,7 @@ val (
 ) = fprint_array_sep (out, !p, asz, ",")
 val () = fprintln! out "(ascendingly sorted)"
 //
-val () = array_quicksort_fun<T> (!p, asz, lam (x, y) => compare (y, x))
+val () = array_quicksort_stdlib<T> (!p, asz, lam (x, y) => compare (y, x))
 //
 val (
 ) = fprint_array_sep (out, !p, asz, ",")

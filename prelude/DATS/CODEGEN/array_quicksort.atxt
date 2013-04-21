@@ -175,7 +175,7 @@ fun auxpivot
 val pm = auxmid
 (
   pa, pa + half(asz) * tsz, pa + pred(asz) * tsz
-) (* end of [val]
+) (* end of [val] *)
 //
 in
   $UN.ptr0_intch<a> (pa, pm)
@@ -293,16 +293,17 @@ void qsort
 ) ; // end of [qsort]
 *)
 implement{a}
-array_quicksort_fun
+array_quicksort_stdlib
   (A, asz, cmp) = let
 //
-extern fun qsort (
+extern fun qsort
+(
   base: ptr, asz: size_t, tsz: size_t, cmp: cmpref (a)
 ) :<> void = "mac\#atslib_qsort"
 //
 in
   qsort (addr@(A), asz, sizeof<a>, cmp)
-end // end of [array_quicksort_fun]
+end (* end of [array_quicksort_stdlib] *)
 
 #atscode_separator()
 

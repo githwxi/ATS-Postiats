@@ -37,9 +37,13 @@ call-by-value parameter).\
 #para('\
 
 Please see #myatscodelink("prelude/SATS/array.sats", "array.sats") and
-#myatscodelink("prelude/DATS/array.dats", "array.dats") for the SATS file
-and DATS file in ATSLIB where the functions in this package are declared
-and implemented, respectively.\
+#myatscodelink("prelude/DATS/array.dats", "array.dats")
+(plus
+#myatscodelink("prelude/DATS/array_bsearch.dats", "array_bsearch.dats"),
+#myatscodelink("prelude/DATS/array_quicksort.dats", "array_quicksort.dats"))
+for the SATS file
+and DATS files in ATSLIB where the functions in this package are declared
+and implemented.\
 
 ')
 
@@ -575,6 +579,24 @@ end // end of [array_foldright]
 
 (* ****** ****** *)
 
+#declnamesynop("array_bsearch")
+#declnamesynop("array_bsearch$ford")
+
+(* ****** ****** *)
+
+#declnamesynop("array_bsearch_stdlib")
+#decldescrpt("\
+
+This function is a wrapper around the function #dyncode("bsearch") declared
+in stdlib.h of libc.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("array_quicksort")
+
+#declnamesynop("array_quicksort$cmp")
 #decldescrpt("\
 
 This function is called in the implementation of
@@ -586,8 +608,16 @@ implement{a}
 array_quicksort$cmp (x, y) = gcompare_ref<a> (x, y)
 ")
 ")
-#declnamesynop("array_quicksort")
-#declnamesynop("array_quicksort$cmp")
+
+(* ****** ****** *)
+
+#declnamesynop("array_quicksort_stdlib")
+#decldescrpt("\
+
+This function is a wrapper around the function #dyncode("qsort") declared
+in stdlib.h of libc.\
+
+")
 
 (* ****** ****** *)
 

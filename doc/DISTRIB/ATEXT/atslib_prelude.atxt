@@ -226,13 +226,22 @@ The ATSLIB/prelude library\
 (* ****** ****** *)
 
 #packfilename("DATS/list.dats")
+
 #packfilename("DATS/list_vt.dats")
+#packfilename("DATS/list_vt_mergesort.dats")
+#packfilename("DATS/list_vt_quicksort.dats")
+
 #packfilename("DATS/option.dats")
 #packfilename("DATS/option_vt.dats")
+
 #packfilename("DATS/array.dats")
 #packfilename("DATS/array_prf.dats")
+#packfilename("DATS/array_bsearch.dats")
+#packfilename("DATS/array_quicksort.dats")
+
 #packfilename("DATS/arrayptr.dats")
 #packfilename("DATS/arrayref.dats")
+
 #packfilename("DATS/matrix.dats")
 #packfilename("DATS/matrixptr.dats")
 

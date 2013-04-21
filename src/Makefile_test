@@ -72,15 +72,22 @@ prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/unsafe.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/basics.dats
 
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/list.dats
+
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/list_vt.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/list_vt_mergesort.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/list_vt_quicksort.dats
+
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/option.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/option_vt.dats
+
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/array.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/array_prf.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/array_bsearch.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/array_quicksort.dats
+
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/arrayptr.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/arrayref.dats
+
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/lazy.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/lazy_vt.dats
 

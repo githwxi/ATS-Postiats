@@ -200,6 +200,7 @@ list_atxt.dats: list.atxt
 clean:: ; $(RMF) list_atxt.exe
 cleanall:: ; $(RMF) list.dats
 
+
 all:: list_vt.dats
 list_vt.dats: list_vt_atxt.exe ; ./$< > $@
 list_vt_atxt.exe: list_vt_atxt.dats
@@ -208,6 +209,24 @@ list_vt_atxt.dats: list_vt.atxt
 	$(ATSDOC) --outcode $@ -i list_vt.atxt > list_vt_atxt.txt
 clean:: ; $(RMF) list_vt_atxt.exe
 cleanall:: ; $(RMF) list_vt.dats
+
+all:: list_vt_mergesort.dats
+list_vt_mergesort.dats: list_vt_mergesort_atxt.exe ; ./$< > $@
+list_vt_mergesort_atxt.exe: list_vt_mergesort_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ list_vt_mergesort_atxt.dats -latsdoc
+list_vt_mergesort_atxt.dats: list_vt_mergesort.atxt
+	$(ATSDOC) --outcode $@ -i list_vt_mergesort.atxt > list_vt_mergesort_atxt.txt
+clean:: ; $(RMF) list_vt_mergesort_atxt.exe
+cleanall:: ; $(RMF) list_vt_mergesort.dats
+
+all:: list_vt_quicksort.dats
+list_vt_quicksort.dats: list_vt_quicksort_atxt.exe ; ./$< > $@
+list_vt_quicksort_atxt.exe: list_vt_quicksort_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ list_vt_quicksort_atxt.dats -latsdoc
+list_vt_quicksort_atxt.dats: list_vt_quicksort.atxt
+	$(ATSDOC) --outcode $@ -i list_vt_quicksort.atxt > list_vt_quicksort_atxt.txt
+clean:: ; $(RMF) list_vt_quicksort_atxt.exe
+cleanall:: ; $(RMF) list_vt_quicksort.dats
 
 
 all:: option.dats

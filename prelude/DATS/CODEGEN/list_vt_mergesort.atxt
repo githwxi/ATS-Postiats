@@ -1,0 +1,137 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"list_vt_mergesort.dats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/list_vt_mergesort.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("Feburary, 2012")
+
+#atscode_separator()
+
+staload UN = "prelude/SATS/unsafe.sats"
+
+#atscode_separator()
+
+implement{a}
+list_vt_mergesort$cmp
+  (x1, x2) = gcompare_ref<a> (x1, x2)
+// end of [list_vt_mergesort$cmp]
+
+implement{a}
+list_vt_mergesort
+  {n} (xs) = let
+//
+fun split
+  {n,n1:nat | n >= n1} .<n1>.
+(
+  xs: &list_vt (a, n) >> list_vt (a, n1)
+, n1: int n1, res: &List_vt a? >> list_vt (a, n-n1)
+) :<!wrt> void = let
+in
+//
+if n1 > 0 then let
+  val+@list_vt_cons (_, xs1) = xs
+  val () = split (xs1, n1-1, res)
+in
+  fold@ (xs)
+end else let
+  val () = res := xs
+  val () = xs := list_vt_nil ()
+in
+  // nothing
+end // end of [if]
+//
+end // end of [split]
+//
+fun merge {n1,n2:nat} .<n1+n2>.
+(
+  xs1: list_vt (a, n1)
+, xs2: list_vt (a, n2)
+, res: &List_vt a? >> list_vt (a, n1+n2)
+) :<!wrt> void = let
+in
+//
+case+ xs1 of
+| @list_vt_cons
+    (x1, xs11) => (
+    case+ xs2 of
+    | @list_vt_cons
+        (x2, xs21) => let
+        val sgn =
+          list_vt_mergesort$cmp (x1, x2)
+        // end of [val]
+      in
+        if sgn <= 0 then let
+          prval () = fold@ {a} (xs2)
+          val () = merge (xs11, xs2, xs11)
+          prval () = fold@ {a} (xs1)
+        in
+          res := xs1
+        end else let
+          prval () = fold@ {a} (xs1)
+          val () = merge (xs1, xs21, xs21)
+          prval () = fold@ {a} (xs2)
+        in
+          res := xs2
+        end // end of [if]
+      end // end of [list_vt_cons]
+    | ~list_vt_nil () => (fold@ (xs1); res := xs1)
+  ) // end of [list_vt_cons]
+| ~list_vt_nil () => (res := xs2)
+//
+end // end of [merge]
+//
+val n = list_vt_length<a> (xs)
+//
+in
+//
+if n >= 2 then let
+  val+@list_vt_cons (_, xs1) = xs
+  var res: List_vt a? // uninitialized
+  val () = split (xs1, (n-1)/2, res)
+  prval () = fold@ (xs)
+  val xs1 = list_vt_mergesort<a> (xs)
+  val xs2 = list_vt_mergesort<a> (res)
+  val () = merge (xs1, xs2, res)
+in
+  res
+end else xs // end of [if]
+//
+end // end of [list_vt_mergesort]
+
+implement{a}
+list_vt_mergesort_fun
+  (xs, cmp) = let
+//
+implement
+list_vt_mergesort$cmp<a> (x1, x2) = cmp (x1, x2)
+//
+in
+  list_vt_mergesort (xs)
+end // end of [list_vt_mergesort_fun]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "list_vt_mergesort_atxt.txt")
+%}\

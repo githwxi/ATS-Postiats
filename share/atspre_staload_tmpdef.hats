@@ -37,7 +37,12 @@ staload _ = "prelude/DATS/intrange.dats"
 //
 (*
 staload _ = "prelude/DATS/list.dats"
+*)
+//
+(*
 staload _ = "prelude/DATS/list_vt.dats"
+staload _ = "prelude/DATS/list_vt_mergesort.dats"
+staload _ = "prelude/DATS/list_vt_quicksort.dats"
 *)
 //
 (*
