@@ -47,7 +47,7 @@ overload + with ptr0_add_bytesize
 overload - with ptr0_sub_bytesize
 //
 (* ****** ****** *)
-
+//
 fun ptrcmp
 (
   p1: ptr, p2: ptr
@@ -74,8 +74,13 @@ prval () = fpf2 (pf2)
 } (* end of [ptrcmp] *)
 
 (* ****** ****** *)
+(*
 //
-// HX: move min to the start
+// HX-2013-04:
+// move min to the start
+// HX-2013-04:
+// this is not a safe approach
+// in case [cmp] is not transitive!
 //
 fun auxmin
 (
@@ -94,33 +99,39 @@ in
 end (* end of [if] *)
 //
 end (* end of [auxmin] *)
+*)
 //
 // HX: one round of insertion
 //
 fun auxins
 (
-  p: ptr, tsz: size_t
+  pa: ptr, p: ptr, tsz: size_t
 ) : void = let
+in
+//
+if pa < p then let
   val p1 = p - tsz
   val sgn = ptrcmp (p1, p)
 in
   if sgn > 0 then let
-    val () = $UN.ptr0_intch<a> (p1, p) in auxins (p1, tsz)
+    val () = $UN.ptr0_intch<a> (p1, p) in auxins (pa, p1, tsz)
   end // end of [if]
+end else () // end of [if]
+//
 end (* end of [auxins] *)
 //
 // HX: all rounds of insertion
 //
 fun auxinss
 (
-  p: ptr, pz: ptr, tsz: size_t
+  pa: ptr, pz: ptr, p: ptr, tsz: size_t
 ) : void = let
 in
 //
 if p < pz then let
-  val () = auxins (p, tsz)
+  val () = auxins (pa, p, tsz)
 in
-  auxinss (p + tsz, pz, tsz)
+  auxinss (pa, pz, p + tsz, tsz)
 end // end of [if]
 //
 end (* end of [auxinss] *)
@@ -137,8 +148,7 @@ fun auxinsort
 in
 //
 if pa < pz then let
-  val () = auxmin (pa, pz - tsz, tsz)
-  val () = auxinss (pa + tsz, pz, tsz)
+  val () = auxinss (pa, pz, pa + tsz, tsz)
 in
   (* nothing *)
 end else () // end of [if]

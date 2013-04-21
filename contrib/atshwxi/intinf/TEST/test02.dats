@@ -20,10 +20,6 @@ staload _ = "atshwxi/intinf/DATS/intinf.dats"
 
 (* ****** ****** *)
 
-#define int2intinf (x) intinf_make_int (x)
-
-(* ****** ****** *)
-
 fun
 fib {n:nat}
 (

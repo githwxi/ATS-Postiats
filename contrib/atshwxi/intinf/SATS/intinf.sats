@@ -52,6 +52,11 @@ intinf_base = intBtwe (2, 36) // for outputing intinf numbers
 
 fun{}
 intinf_make_int {i:int} (x: int (i)): intinf (i)
+
+#define int2intinf (x) intinf_make_int (x)
+
+(* ****** ****** *)
+
 fun{}
 intinf_make_lint {i:int} (x: lint (i)): intinf (i)
 fun{}
@@ -88,6 +93,14 @@ fun{}
 fprint_intinf_base
   (out: FILEref, x: !Intinf, base: intinf_base): void
 //
+(* ****** ****** *)
+
+fun{}
+abs_intinf0 {i:int} (x: intinf i): intinf (i)
+fun{}
+abs_intinf1 {i:int} (x: !intinf i): intinf (i)
+overload abs with abs_intinf1
+
 (* ****** ****** *)
 
 fun{}
