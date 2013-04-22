@@ -81,7 +81,7 @@ local
 
 staload "libc/SATS/stdlib.sats"
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 linmap_random_lgN
@@ -386,7 +386,7 @@ sknodelst_type
   (key:t0p, itm:vt0p, n:int) = arrayref (ptr, n)
 // end of [sknodelst_type]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement{}
 sknodelst_make (n) = let
@@ -707,7 +707,7 @@ val p_itm = linmap_search_ref (map, k0)
 in
 //
 if cptr2ptr(p_itm) > 0 then let
-  prval (pf, fpf | p_itm) = $UN.cptr_vtake (p_itm)
+  val (pf, fpf | p_itm) = $UN.cptr_vtake (p_itm)
   val () = res := !p_itm
   prval () = opt_some {itm} (res)
   val () = (!p_itm := x0)

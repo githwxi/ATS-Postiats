@@ -25,7 +25,14 @@ val () =
 //
 typedef key = int
 typedef itm = string
-val map = linmap_make_nil {key,itm} ()
+vtypedef map = map (key, itm)
+//
+var map = linmap_make_nil {key,itm} ()
+//
+var res: itm?
+val ans = linmap_insert (map, 0, "a", res)
+prval () = opt_clear (res)
+//
 val () = linmap_free (map)
 //
 } (* end of [val] *)

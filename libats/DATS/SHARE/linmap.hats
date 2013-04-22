@@ -106,9 +106,11 @@ viewtypedef mynode1 = mynode1 (key,itm)
 in
 //
 if p0 > 0 then let
-  val nx = $UN.castvwtp0{mynode1}{ptr}(p0)
-  val p_elt = mynode_getref_itm<key,itm> (nx)
-  val p0 = $UN.castvwtp0{ptr}{mynode1}(nx)
+//
+val nx = $UN.castvwtp0{mynode1}{ptr}(p0)
+val p_elt = mynode_getref_itm<key,itm> (nx)
+val p0 = $UN.castvwtp0{ptr}{mynode1}(nx)
+//
 in
   p_elt
 end else cptr_null () // end of [if]
