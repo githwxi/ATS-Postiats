@@ -54,7 +54,7 @@ intinfGt (i0:int) = [i:int | i > i0] intinf (i)
 vtypedef
 intinfGte (i0:int) = [i:int | i >= i0] intinf (i)
 vtypedef
-intinfBtwe (i1:int, i2:int) = [i:int | i1 <= i; i < i2] intinf (i)
+intinfBtw (i1:int, i2:int) = [i:int | i1 <= i; i < i2] intinf (i)
 vtypedef
 intinfBtwe (i1:int, i2:int) = [i:int | i1 <= i; i <= i2] intinf (i)
 //
@@ -108,19 +108,23 @@ fprint_intinf_base
   (out: FILEref, x: !Intinf, base: intinf_base): void
 //
 (* ****** ****** *)
+//
+// arithmetic-functions
+//
+(* ****** ****** *)
 
 fun{}
-neg_intinf0 {i:int} (x: intinf i): intinf (i)
+neg_intinf0 {i:int} (x: intinf i): intinf (~i)
 fun{}
-neg_intinf1 {i:int} (x: !intinf i): intinf (i)
+neg_intinf1 {i:int} (x: !intinf i): intinf (~i)
 overload ~ with neg_intinf1
 
 (* ****** ****** *)
 
 fun{}
-abs_intinf0 {i:int} (x: intinf i): intinf (i)
+abs_intinf0 {i:int} (x: intinf i): intinf (abs(i))
 fun{}
-abs_intinf1 {i:int} (x: !intinf i): intinf (i)
+abs_intinf1 {i:int} (x: !intinf i): intinf (abs(i))
 overload abs with abs_intinf1
 
 (* ****** ****** *)
@@ -241,14 +245,120 @@ overload * with mul_intinf1_intinf1
 (* ****** ****** *)
 
 fun{}
-compare_int_intinf
-  {i,j:int} (x: int i, y: !intinf j):<> int (sgn(i-j))
-overload compare with compare_int_intinf
+div_intinf0_int
+  {i,j:int | j != 0} (x: intinf i, y: int j): Intinf
+fun{}
+div_intinf1_int
+  {i,j:int | j != 0} (x: !intinf i, y: int j): Intinf
+overload / with div_intinf1_int
+
+(* ****** ****** *)
+//
+fun{}
+ndiv_intinf0_int
+  {i,j:int | i >= 0; j > 0} (x: intinf i, y: int j): intinf (ndiv(i,j))
+fun{}
+ndiv_intinf1_int
+  {i,j:int | i >= 0; j > 0} (x: !intinf i, y: int j): intinf (ndiv(i,j))
+overload ndiv with ndiv_intinf1_int
+//
+(* ****** ****** *)
+//
+fun{}
+nmod_intinf0_int
+  {i,j:int | i >= 0; j > 0} (x: intinf i, y: int j): [r:nat | r < j] int (r)
+fun{}
+nmod_intinf1_int
+  {i,j:int | i >= 0; j > 0} (x: !intinf i, y: int j): [r:nat | r < j] int (r)
+overload nmod with nmod_intinf1_int
+//
+(* ****** ****** *)
+//
+// comparison-functions
+//
+(* ****** ****** *)
+
+fun{}
+lt_intinf_int
+  {i,j:int} (x: !intinf i, y: int j):<> bool (i < j)
+overload < with lt_intinf_int
+
+fun{}
+lt_intinf_intinf
+  {i,j:int} (x: !intinf i, y: !intinf j):<> bool (i < j)
+overload < with lt_intinf_intinf
+
+(* ****** ****** *)
+
+fun{}
+lte_intinf_int
+  {i,j:int} (x: !intinf i, y: int j):<> bool (i <= j)
+overload <= with lte_intinf_int
+
+fun{}
+lte_intinf_intinf
+  {i,j:int} (x: !intinf i, y: !intinf j):<> bool (i <= j)
+overload <= with lte_intinf_intinf
+
+(* ****** ****** *)
+
+fun{}
+gt_intinf_int
+  {i,j:int} (x: !intinf i, y: int j):<> bool (i > j)
+overload > with gt_intinf_int
+
+fun{}
+gt_intinf_intinf
+  {i,j:int} (x: !intinf i, y: !intinf j):<> bool (i > j)
+overload > with gt_intinf_intinf
+
+(* ****** ****** *)
+
+fun{}
+gte_intinf_int
+  {i,j:int} (x: !intinf i, y: int j):<> bool (i >= j)
+overload >= with gte_intinf_int
+
+fun{}
+gte_intinf_intinf
+  {i,j:int} (x: !intinf i, y: !intinf j):<> bool (i >= j)
+overload >= with gte_intinf_intinf
+
+(* ****** ****** *)
+
+fun{}
+eq_intinf_int
+  {i,j:int} (x: !intinf i, y: int j):<> bool (i == j)
+overload = with eq_intinf_int
+
+fun{}
+eq_intinf_intinf
+  {i,j:int} (x: !intinf i, y: !intinf j):<> bool (i == j)
+overload = with eq_intinf_intinf
+
+(* ****** ****** *)
+
+fun{}
+neq_intinf_int
+  {i,j:int} (x: !intinf i, y: int j):<> bool (i != j)
+overload != with neq_intinf_int
+
+fun{}
+neq_intinf_intinf
+  {i,j:int} (x: !intinf i, y: !intinf j):<> bool (i != j)
+overload != with neq_intinf_intinf
+
+(* ****** ****** *)
 
 fun{}
 compare_intinf_int
   {i,j:int} (x: !intinf i, y: int j):<> int (sgn(i-j))
 overload compare with compare_intinf_int
+
+fun{}
+compare_int_intinf
+  {i,j:int} (x: int i, y: !intinf j):<> int (sgn(i-j))
+overload compare with compare_int_intinf
 
 fun{}
 compare_intinf_intinf
@@ -257,4 +367,4 @@ overload compare with compare_intinf_intinf
 
 (* ****** ****** *)
 
-(* end of [intinf.sats] *)
+(* end of [intinf_vt.sats] *)

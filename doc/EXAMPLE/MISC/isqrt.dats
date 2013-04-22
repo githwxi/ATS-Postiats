@@ -55,7 +55,7 @@ implement isqrt (x) = let
 fun aux {x:nat}.<x>. // non-tail-recursive
   (x: int x):<> [n:nat] (ISQRT (x, n) | int n) =
   if x > 0 then let
-    val x4 = x / 4
+    val x4 = x \ndiv 4
     val [n2:int] (pf4 | n2) = aux (x4)
     prval [n:int] pf = ISQRT_4_lemma {x} {n2} (pf4)
     val n_1 = n2 + n2

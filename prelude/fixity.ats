@@ -63,9 +63,10 @@ postfix 69 ?
 
 prefix  61 ~
 
-infixl 60 * /
-
-infixl 60 mod nmod
+infixl 60 * / mod
+(*
+infixl 60 ndiv nmod
+*)
 
 infixl 50 + -
 

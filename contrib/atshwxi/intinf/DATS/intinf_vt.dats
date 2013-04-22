@@ -54,6 +54,10 @@ staload
 //
 (* ****** ****** *)
 
+macdef i2u (x) = g1int2uint_int_uint (,(x))
+
+(* ****** ****** *)
+
 local
 
 assume
@@ -372,10 +376,243 @@ val () = $GMP.mpz_mul3_mpz (!(z.2), !(x.2), !(y.2))
 (* ****** ****** *)
 
 implement{}
+div_intinf0_int
+  {i,j} (x, y) = let
+in
+//
+if y >= 0 then let
+  val () = $GMP.mpz_tdiv2_q_uint (!(x.2), i2u(y)) in x
+end else let
+  val () = $GMP.mpz_tdiv2_q_uint (!(x.2), i2u(~y)) in neg_intinf0 (x)
+end // end of [if]
+//
+end (* end of [div_intinf0_int] *)
+
+implement{}
+div_intinf1_int
+  {i,j} (x, y) = let
+//
+val z = ptr_alloc<mpz> ()
+val () = $GMP.mpz_init (!(z.2))
+//
+in
+//
+if y >= 0 then let
+  val () = $GMP.mpz_tdiv3_q_uint (!(z.2), !(x.2), i2u(y)) in z
+end else let
+  val () = $GMP.mpz_tdiv3_q_uint (!(z.2), !(x.2), i2u(~y)) in neg_intinf0 (z)
+end // end of [if]
+//
+end (* end of [div_intinf1_int] *)
+
+(* ****** ****** *)
+
+implement{}
+ndiv_intinf0_int (x, y) = div_intinf0_int (x, y)
+implement{}
+ndiv_intinf1_int (x, y) = div_intinf1_int (x, y)
+
+(* ****** ****** *)
+
+implement{}
+nmod_intinf0_int
+  {i,j} (x, y) = let
+//
+val r =
+  $GMP.mpz_fdiv_uint (!(x.2), i2u(y))
+val () = intinf_free (x)
+//
+in
+  $UN.cast{intBtw(0,j)}(r)
+end (* end of [nmod_intinf0_int] *)
+
+implement{}
+nmod_intinf1_int
+  {i,j} (x, y) = let
+//
+val r = $GMP.mpz_fdiv_uint (!(x.2), i2u(y))
+//
+in
+  $UN.cast{intBtw(0,j)}(r)
+end (* end of [nmod_intinf1_int] *)
+
+(* ****** ****** *)
+//
+// comparison-functions
+//
+(* ****** ****** *)
+
+implement{}
+lt_intinf_int
+  {i,j} (x, y) = let
+//
+val sgn = $GMP.mpz_cmp_int (!(x.2), y)
+val ans = (if sgn < 0 then true else false): bool
+//
+in
+  $UN.cast{bool(i < j)}(sgn)
+end // end of [lt_intinf_int]
+
+implement{}
+lt_intinf_intinf
+  {i,j} (x, y) = let
+//
+val sgn = $GMP.mpz_cmp_mpz (!(x.2), !(y.2))
+val ans = (if sgn < 0 then true else false): bool
+//
+in
+  $UN.cast{bool(i < j)}(sgn)
+end // end of [lt_intinf_intinf]
+
+(* ****** ****** *)
+
+implement{}
+lte_intinf_int
+  {i,j} (x, y) = let
+//
+val sgn = $GMP.mpz_cmp_int (!(x.2), y)
+val ans = (if sgn <= 0 then true else false): bool
+//
+in
+  $UN.cast{bool(i <= j)}(sgn)
+end // end of [lte_intinf_int]
+
+implement{}
+lte_intinf_intinf
+  {i,j} (x, y) = let
+//
+val sgn = $GMP.mpz_cmp_mpz (!(x.2), !(y.2))
+val ans = (if sgn <= 0 then true else false): bool
+//
+in
+  $UN.cast{bool(i <= j)}(sgn)
+end // end of [lte_intinf_intinf]
+
+(* ****** ****** *)
+
+implement{}
+gt_intinf_int
+  {i,j} (x, y) = let
+//
+val sgn = $GMP.mpz_cmp_int (!(x.2), y)
+val ans = (if sgn > 0 then true else false): bool
+//
+in
+  $UN.cast{bool(i > j)}(sgn)
+end // end of [gt_intinf_int]
+
+implement{}
+gt_intinf_intinf
+  {i,j} (x, y) = let
+//
+val sgn = $GMP.mpz_cmp_mpz (!(x.2), !(y.2))
+val ans = (if sgn > 0 then true else false): bool
+//
+in
+  $UN.cast{bool(i > j)}(sgn)
+end // end of [gt_intinf_intinf]
+
+(* ****** ****** *)
+
+implement{}
+gte_intinf_int
+  {i,j} (x, y) = let
+//
+val sgn = $GMP.mpz_cmp_int (!(x.2), y)
+val ans = (if sgn >= 0 then true else false): bool
+//
+in
+  $UN.cast{bool(i >= j)}(sgn)
+end // end of [gte_intinf_int]
+
+implement{}
+gte_intinf_intinf
+  {i,j} (x, y) = let
+//
+val sgn = $GMP.mpz_cmp_mpz (!(x.2), !(y.2))
+val ans = (if sgn >= 0 then true else false): bool
+//
+in
+  $UN.cast{bool(i >= j)}(sgn)
+end // end of [gte_intinf_intinf]
+
+(* ****** ****** *)
+
+implement{}
+eq_intinf_int
+  {i,j} (x, y) = let
+//
+val sgn = $GMP.mpz_cmp_int (!(x.2), y)
+val ans = (if sgn = 0 then true else false): bool
+//
+in
+  $UN.cast{bool(i == j)}(sgn)
+end // end of [eq_intinf_int]
+
+implement{}
+eq_intinf_intinf
+  {i,j} (x, y) = let
+//
+val sgn = $GMP.mpz_cmp_mpz (!(x.2), !(y.2))
+val ans = (if sgn = 0 then true else false): bool
+//
+in
+  $UN.cast{bool(i == j)}(sgn)
+end // end of [eq_intinf_intinf]
+
+(* ****** ****** *)
+
+implement{}
+neq_intinf_int
+  {i,j} (x, y) = let
+//
+val sgn = $GMP.mpz_cmp_int (!(x.2), y)
+val ans = (if sgn != 0 then true else false): bool
+//
+in
+  $UN.cast{bool(i != j)}(sgn)
+end // end of [neq_intinf_int]
+
+implement{}
+neq_intinf_intinf
+  {i,j} (x, y) = let
+//
+val sgn = $GMP.mpz_cmp_mpz (!(x.2), !(y.2))
+val ans = (if sgn != 0 then true else false): bool
+//
+in
+  $UN.cast{bool(i != j)}(sgn)
+end // end of [neq_intinf_intinf]
+
+(* ****** ****** *)
+
+implement{}
+compare_intinf_int
+  {i,j} (x, y) = let
+//
+val sgn = $GMP.mpz_cmp_int (!(x.2), y)
+val sgn = (if sgn < 0 then ~1 else (if sgn > 0 then 1 else 0)): int
+//
+in
+  $UN.cast{int(sgn(i-j))}(sgn)
+end // end of [compare_intinf_int]
+
+implement{}
+compare_int_intinf
+  {i,j} (x, y) = let
+//
+val sgn = $GMP.mpz_cmp_int (!(y.2), x)
+val sgn = (if sgn > 0 then ~1 else (if sgn < 0 then 1 else 0)): int
+//
+in
+  $UN.cast{int(sgn(i-j))}(sgn)
+end // end of [compare_int_intinf]
+
+implement{}
 compare_intinf_intinf
   {i,j} (x, y) = let
 //
-val sgn = $GMP.mpz_cmp (!(x.2), !(y.2))
+val sgn = $GMP.mpz_cmp_mpz (!(x.2), !(y.2))
 val sgn = (if sgn < 0 then ~1 else (if sgn > 0 then 1 else 0)): int
 //
 in

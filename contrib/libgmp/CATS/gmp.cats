@@ -42,7 +42,9 @@
 
 /* ****** ****** */
 
-typedef __mpz_struct atscntrb_libgmp_mpz ;
+typedef
+__mpz_struct atscntrb_libgmp_mpz ;
+typedef atscntrb_libgmp_mpz *ptrmpz;
 
 /* ****** ****** */
 //
@@ -95,12 +97,12 @@ typedef __mpz_struct atscntrb_libgmp_mpz ;
 //
 /* ****** ****** */
 
-#define atscntrb_libgmp_mpz_neg1(x, y) mpz_neg(x, x)
+#define atscntrb_libgmp_mpz_neg1(x) mpz_neg(x, x)
 #define atscntrb_libgmp_mpz_neg2(x, y) mpz_neg(x, y)
 
 /* ****** ****** */
 
-#define atscntrb_libgmp_mpz_abs1(x, y) mpz_abs(x, x)
+#define atscntrb_libgmp_mpz_abs1(x) mpz_abs(x, x)
 #define atscntrb_libgmp_mpz_abs2(x, y) mpz_abs(x, y)
 
 /* ****** ****** */
@@ -122,16 +124,13 @@ mpz_add_si
   // end of [if]
 } /* end of [mpz_add_si] */
 //
-// HX: x := x + y
+// x := x+y // y+z
 //
 #define atscntrb_libgmp_mpz_add2_mpz(x, y) mpz_add(x, x, y)
 #define atscntrb_libgmp_mpz_add2_int(x, y) mpz_add_si(x, x, y)
 #define atscntrb_libgmp_mpz_add2_uint(x, y) mpz_add_ui(x, x, y)
 #define atscntrb_libgmp_mpz_add2_lint(x, y) mpz_add_si(x, x, y)
 #define atscntrb_libgmp_mpz_add2_ulint(x, y) mpz_add_ui(x, x, y)
-//
-// HX: x := y +z
-//
 #define atscntrb_libgmp_mpz_add3_mpz(x, y, z) mpz_add(x, y, z)
 #define atscntrb_libgmp_mpz_add3_int(x, y, z) mpz_add_si(x, y, z)
 #define atscntrb_libgmp_mpz_add3_uint(x, y, z) mpz_add_ui(x, y, z)
@@ -162,7 +161,6 @@ mpz_sub_si
 #define atscntrb_libgmp_mpz_sub2_uint(x, y) mpz_sub_ui(x, x, y)
 #define atscntrb_libgmp_mpz_sub2_lint(x, y) mpz_sub_si(x, x, y)
 #define atscntrb_libgmp_mpz_sub2_ulint(x, y) mpz_sub_ui(x, x, y)
-//
 #define atscntrb_libgmp_mpz_sub3_mpz(x, y, z) mpz_sub(x, y, z)
 #define atscntrb_libgmp_mpz_sub3_int(x, y, z) mpz_sub_si(x, y, z)
 #define atscntrb_libgmp_mpz_sub3_uint(x, y, z) mpz_sub_ui(x, y, z)
@@ -173,17 +171,13 @@ mpz_sub_si
 //
 // multiplication-functions
 //
-//
-// HX: x := x * y
+// x := x * y // y * z
 //
 #define atscntrb_libgmp_mpz_mul2_mpz(x, y) mpz_mul(x, x, y)
 #define atscntrb_libgmp_mpz_mul2_int(x, y) mpz_mul_si(x, x, y)
 #define atscntrb_libgmp_mpz_mul2_uint(x, y) mpz_mul_ui(x, x, y)
 #define atscntrb_libgmp_mpz_mul2_lint(x, y) mpz_mul_si(x, x, y)
 #define atscntrb_libgmp_mpz_mul2_ulint(x, y) mpz_mul_ui(x, x, y)
-//
-// HX: x := y * z
-//
 #define atscntrb_libgmp_mpz_mul3_mpz(x, y, z) mpz_mul(x, y, z)
 #define atscntrb_libgmp_mpz_mul3_int(x, y, z) mpz_mul_si(x, y, z)
 #define atscntrb_libgmp_mpz_mul3_uint(x, y, z) mpz_mul_ui(x, y, z)
@@ -192,13 +186,61 @@ mpz_sub_si
 //
 /* ****** ****** */
 //
+// trunc-division-functions
+//
+#define atscntrb_libgmp_mpz_tdiv2_q_mpz(x, y) mpz_tdiv_q(x, x, y)
+#define atscntrb_libgmp_mpz_tdiv2_q_uint(x, y) mpz_tdiv_q_ui(x, x, y)
+#define atscntrb_libgmp_mpz_tdiv2_q_ulint(x, y) mpz_tdiv_q_ui(x, x, y)
+#define atscntrb_libgmp_mpz_tdiv3_q_mpz(x, y, z) mpz_tdiv_q(x, y, z)
+#define atscntrb_libgmp_mpz_tdiv3_q_uint(x, y, z) mpz_tdiv_q_ui(x, y, z)
+#define atscntrb_libgmp_mpz_tdiv3_q_ulint(x, y, z) mpz_tdiv_q_ui(x, y, z)
+//
+#define atscntrb_libgmp_mpz_tdiv2_r_mpz(x, y) mpz_tdiv_r(x, x, y)
+#define atscntrb_libgmp_mpz_tdiv2_r_uint(x, y) mpz_tdiv_r_ui(x, x, y)
+#define atscntrb_libgmp_mpz_tdiv2_r_ulint(x, y) mpz_tdiv_r_ui(x, x, y)
+#define atscntrb_libgmp_mpz_tdiv3_r_mpz(x, y, z) mpz_tdiv_r(x, y, z)
+#define atscntrb_libgmp_mpz_tdiv3_r_uint(x, y, z) mpz_tdiv_r_ui(x, y, z)
+#define atscntrb_libgmp_mpz_tdiv3_r_ulint(x, y, z) mpz_tdiv_r_ui(x, y, z)
+//
+#define atscntrb_libgmp_mpz_tdiv3_qr_mpz(xq, xr, y) mpz_tdiv_qr(xq, xr, xq, y)
+#define atscntrb_libgmp_mpz_tdiv3_qr_uint(xq, xr, y) mpz_tdiv_qr_ui(xq, xr, xq, y)
+#define atscntrb_libgmp_mpz_tdiv3_qr_ulint(xq, xr, y) mpz_tdiv_qr_ui(xq, xr, xq, y)
+#define atscntrb_libgmp_mpz_tdiv4_qr_mpz(xq, xr, y, z) mpz_tdiv_qr(xq, xr, y, z)
+#define atscntrb_libgmp_mpz_tdiv4_qr_uint(xq, xr, y, z) mpz_tdiv_qr_ui(xq, xr, y, z)
+#define atscntrb_libgmp_mpz_tdiv4_qr_ulint(xq, xr, y, z) mpz_tdiv_qr_ui(xq, xr, y, z)
+//
+// floor-division-functions
+//
+#define atscntrb_libgmp_mpz_fdiv_uint(x, y) mpz_fdiv_ui(x, y)
+#define atscntrb_libgmp_mpz_fdiv_ulint(x, y) mpz_fdiv_ui(x, y)
+//
+// ceiling-division-functions
+//
+#define atscntrb_libgmp_mpz_cdiv_uint(x, y) mpz_cdiv_ui(x, y)
+#define atscntrb_libgmp_mpz_cdiv_ulint(x, y) mpz_cdiv_ui(x, y)
+//
+/* ****** ****** */
+//
+// modulo-functions
+//
+// x := x mod y // y mod z
+//
+#define atscntrb_libgmp_mpz_mod2_mpz(x, y) mpz_mod(x, x, y)
+#define atscntrb_libgmp_mpz_mod2_uint(x, y) mpz_mod_ui(x, x, y)
+#define atscntrb_libgmp_mpz_mod2_ulint(x, y) mpz_mod_ui(x, x, y)
+#define atscntrb_libgmp_mpz_mod3_mpz(x, y, z) mpz_mod(x, y, z)
+#define atscntrb_libgmp_mpz_mod3_uint(x, y, z) mpz_mod_ui(x, y, z)
+#define atscntrb_libgmp_mpz_mod3_ulint(x, y, z) mpz_mod_ui(x, y, z)
+//
+/* ****** ****** */
+//
 // comparison-functions
 //
-#define atscntrb_libgmp_mpz_cmp(x, y) mpz_cmp(x, y)
-#define atscntrb_libgmp_mpz_cmp_int(x, y) mpz_cmp_si(x, y)
-#define atscntrb_libgmp_mpz_cmp_uint(x, y) mpz_cmp_ui(x, y)
-#define atscntrb_libgmp_mpz_cmp_lint(x, y) mpz_cmp_si(x, y)
-#define atscntrb_libgmp_mpz_cmp_ulint(x, y) mpz_cmp_ui(x, y)
+#define atscntrb_libgmp_mpz_cmp(x, y) mpz_cmp((ptrmpz)x, y)
+#define atscntrb_libgmp_mpz_cmp_int(x, y) mpz_cmp_si((ptrmpz)x, y)
+#define atscntrb_libgmp_mpz_cmp_uint(x, y) mpz_cmp_ui((ptrmpz)x, y)
+#define atscntrb_libgmp_mpz_cmp_lint(x, y) mpz_cmp_si((ptrmpz)x, y)
+#define atscntrb_libgmp_mpz_cmp_ulint(x, y) mpz_cmp_ui((ptrmpz)x, y)
 //
 /* ****** ****** */
 

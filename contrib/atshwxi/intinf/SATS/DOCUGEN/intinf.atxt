@@ -44,4 +44,9 @@ approach to programming with large integers.\
 
 (* ****** ****** *)
 
+#declname2("intinf_t.sats", "intinf_t.html")
+#declname2("intinf_vt.sats", "intinf_vt.html")
+
+(* ****** ****** *)
+
 (* end of [intinf.atxt] *)

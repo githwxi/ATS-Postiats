@@ -54,7 +54,7 @@ intinfGt (i0:int) = [i:int | i > i0] intinf (i)
 vtypedef
 intinfGte (i0:int) = [i:int | i >= i0] intinf (i)
 vtypedef
-intinfBtwe (i1:int, i2:int) = [i:int | i1 <= i; i < i2] intinf (i)
+intinfBtw (i1:int, i2:int) = [i:int | i1 <= i; i < i2] intinf (i)
 vtypedef
 intinfBtwe (i1:int, i2:int) = [i:int | i1 <= i; i <= i2] intinf (i)
 //

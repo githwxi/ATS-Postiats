@@ -315,7 +315,6 @@ overload - with g1int_sub of 20
 typedef
 g1int_mul_type (tk:tk) =
   {i,j:int} (g1int (tk, i), g1int (tk, j)) -<fun0> g1int (tk, i*j)
-
 fun{tk:tk}
 g1int_mul : g1int_mul_type (tk)
 overload * with g1int_mul of 20
@@ -330,21 +329,34 @@ g1int_mul2
   (MUL (i, j, ij) | g1int (tk, ij))
 // end of [g1int_mul2]
 
+#atscode_separator()
+
 typedef
 g1int_div_type (tk:tk) =
-  {i,j:int} (g1int (tk, i), g1int (tk, j)) -<fun0> g1int (tk, i/j)
+  {i,j:int | j != 0} (g1int (tk, i), g1int (tk, j)) -<fun0> g1int (tk)
 fun{tk:tk}
 g1int_div : g1int_div_type (tk)
 overload / with g1int_div of 20
 
+typedef
+g1int_ndiv_type (tk:tk) =
+  {i,j:int | i >= 0; j > 0}
+  (g1int (tk, i), g1int (tk, j)) -<fun0> g1int (tk, ndiv_int_int (i, j))
 fun{tk:tk}
-g1int_ndiv {i,j:int | j > 0}
-  (x: g1int (tk, i), y: g1int (tk, j)):<> g1int (tk)
+g1int_ndiv : g1int_ndiv_type (tk)
+overload ndiv with g1int_ndiv of 20
+
 fun{tk:tk}
-g1int_ndiv2 {i,j:int | j > 0}
+g1int_ndiv2
+  {i,j:int | i >= 0; j > 0}
 (
   x: g1int (tk, i), y: g1int (tk, j)
-) :<> [q,r:int | 0 <= r; r < j] (DIVMOD (i, j, q, r) | g1int (tk, q))
+) :<>
+[
+  q,r:int | 0 <= r; r < j
+] (
+  DIVMOD (i, j, q, r) | g1int (tk, q)
+) // end of [g1int_ndiv2]
 
 #atscode_separator()
 
@@ -352,10 +364,12 @@ g1int_ndiv2 {i,j:int | j > 0}
 ** HX: [g1int_mod] is intentionally skipped
 *)
 
+#atscode_separator()
+
 typedef
 g1int_nmod_type
   (tk:tk) =
-  {i,j:int | j > 0}
+  {i,j:int | i >= 0; j > 0}
   (g1int (tk, i), g1int (tk, j)) -<fun0> [r:nat | r < j] g1int (tk, r)
 // end of [g1int_nmod_type]
 
@@ -364,7 +378,8 @@ g1int_nmod : g1int_nmod_type (tk)
 overload nmod with g1int_nmod of 20
 
 fun{tk:tk}
-g1int_nmod2 {i,j:int | j > 0}
+g1int_nmod2
+  {i,j:int | i >= 0; j > 0}
 (
   x: g1int (tk, i), y: g1int (tk, j)
 ) :<> [q,r:int | 0 <= r; r < j] (DIVMOD (i, j, q, r) | g1int (tk, r))
@@ -373,7 +388,7 @@ g1int_nmod2 {i,j:int | j > 0}
 
 fun{tk:tk}
 nmod_g1int_int
-  {i,j:int | j > 0} (x: g1int (tk, i), y: int (j)) :<> natLt (j)
+  {i,j:int | i >= 0; j > 0} (x: g1int (tk, i), y: int (j)) :<> natLt (j)
 overload nmod with nmod_g1int_int of 21
 
 #atscode_separator()
@@ -830,12 +845,8 @@ overload - with g1uint_sub of 20
 #atscode_separator()
 
 typedef
-g1uint_mul_type
-  (tk:tk) =
-  {i,j:int}
-  (g1uint (tk, i), g1uint (tk, j)) -<fun0> g1uint (tk, i*j)
-// end of [g1uint_mul_type]
-
+g1uint_mul_type (tk:tk) =
+  {i,j:int} (g1uint (tk, i), g1uint (tk, j)) -<fun0> g1uint (tk, i*j)
 fun{tk:tk}
 g1uint_mul : g1uint_mul_type (tk)
 overload * with g1uint_mul of 20
@@ -849,12 +860,8 @@ g1uint_mul2 {i,j:int}
 #atscode_separator()
 
 typedef
-g1uint_div_type
-  (tk:tk) =
-  {i,j:int | j > 0}
-  (g1uint (tk, i), g1uint (tk, j)) -<fun0> g1uint (tk, i/j)
-// end of [g1uint_div_type]
-
+g1uint_div_type (tk:tk) =
+  {i,j:int | j > 0} (g1uint (tk, i), g1uint (tk, j)) -<fun0> g1uint (tk)
 fun{tk:tk}
 g1uint_div : g1uint_div_type (tk)
 overload / with g1uint_div of 20
@@ -871,10 +878,7 @@ typedef
 g1uint_mod_type
   (tk:tk) =
   {i,j:int | j > 0}
-(
-  g1uint (tk, i), g1uint (tk, j)
-) -<fun0>
-  [r:nat | r < j] g1uint (tk, r)
+  (g1uint (tk, i), g1uint (tk, j)) -<fun0> [r:nat | r < j] g1uint (tk, r)
 // end of [g1uint_mod_type]
 
 fun{tk:tk}
@@ -886,7 +890,8 @@ g1uint_mod2
   {i,j:int | j > 0}
 (
   x: g1uint (tk, i), y: g1uint (tk, j)
-) :<> [
+) :<>
+[
   q,r:int | 0 <= r; r < j
 ] (
   DIVMOD (i, j, q, r) | g1uint (tk, r)

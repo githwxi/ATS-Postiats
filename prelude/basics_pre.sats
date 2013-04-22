@@ -315,7 +315,7 @@ stadef - = add_eff_eff // difference of effsets
 symintr ~ not
 symintr && || << >>
 symintr lor lxor land
-symintr + - * / mod nmod
+symintr + - * / mod ndiv nmod
 symintr < <= > >= = != <> compare
 symintr isltz isltez isgtz isgtez iseqz isneqz
 symintr neg abs max min

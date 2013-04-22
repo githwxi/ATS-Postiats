@@ -343,7 +343,7 @@ in
       let val+ N2 (x0, x1) = xx in N2 (f x0, x1) end
     // end of [val]
     val xxs =
-      fset_at (xxs, i / 2, f1)
+      fset_at (xxs, half(i), f1)
     val () = $effmask_wrt (__free ($UN.cast2ptr(f1)))
   in
     xxs
@@ -353,7 +353,7 @@ in
       let val+ N2 (x0, x1) = xx in N2 (x0, f x1) end
     // end of [val]
     val xxs =
-      fset_at (xxs, i / 2, f1)
+      fset_at (xxs, half(i), f1)
     val () = $effmask_wrt (__free ($UN.cast2ptr(f1)))
   in
     xxs

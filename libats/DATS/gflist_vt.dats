@@ -296,7 +296,7 @@ in
 //
 if n >= 2 then let
   var xs = xs
-  val n2 = n/2
+  val n2 = half(n)
   val (pfapp, pf1len | xs2) = split (pflen | xs, n2)
   val xs1 = xs
   prval pf2len = length_istot ()

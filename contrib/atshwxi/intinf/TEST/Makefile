@@ -41,6 +41,14 @@ clean:: ; $(RMF) test02_dats.o
 clean:: ; $(RMF) test02_dats.c
 cleanall:: ; $(RMF) test02.exe
 
+all:: test03
+test03: test03.exe
+test03.exe: test03_dats.c ;   $(CCOPT)   -I$(PATSHOMEQ)   -I$(PATSHOMEQ)/ccomp/runtime   -I$(PATSHOME)/contrib   -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
+test03_dats.c: test03.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test03_dats.c --dynamic test03.dats
+clean:: ; $(RMF) test03_dats.o
+clean:: ; $(RMF) test03_dats.c
+cleanall:: ; $(RMF) test03.exe
+
 
 ######
 

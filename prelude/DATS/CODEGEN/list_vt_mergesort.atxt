@@ -106,7 +106,7 @@ in
 if n >= 2 then let
   val+@list_vt_cons (_, xs1) = xs
   var res: List_vt a? // uninitialized
-  val () = split (xs1, (n-1)/2, res)
+  val () = split (xs1, half(n-1), res)
   prval () = fold@ (xs)
   val xs1 = list_vt_mergesort<a> (xs)
   val xs2 = list_vt_mergesort<a> (res)
