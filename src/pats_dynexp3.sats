@@ -244,6 +244,8 @@ d3ecl_node =
       (prv3ardeclst) // local proof variable declarations
     // end of [D3Cprvardecs]
 //
+  | D3Cinclude of d3eclist (* file inclusion *)
+//
   | D3Cstaload of (
       filename, int(*flag*), filenv, int(*loaded*)
     ) // end of [D3Cstaload]
@@ -950,7 +952,12 @@ fun d3ecl_prvardecs (loc: location, v3ds: prv3ardeclst): d3ecl
 
 (* ****** ****** *)
 
-fun d3ecl_staload (
+fun d3ecl_include (loc: location, d3cs: d3eclist): d3ecl
+
+(* ****** ****** *)
+
+fun d3ecl_staload
+(
   loc: location
 , fil: filename, loadflag: int, fenv: filenv, loaded: int
 ) : d3ecl // end of [d2ecl_staload]

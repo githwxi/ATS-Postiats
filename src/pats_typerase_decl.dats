@@ -104,6 +104,7 @@ case+
   d3c0.d3ecl_node of
 //
 | D3Cnone () => hidecl_none (loc0)
+//
 | D3Clist (d3cs) => let
     val hids = d3eclist_tyer (d3cs) in hidecl_list (loc0, hids)
   end // end of [D3Clist]
@@ -133,6 +134,10 @@ case+
 | D3Cvardecs _ => d3ecl_tyer_vardecs (d3c0)
 //
 | D3Cprvardecs _ => hidecl_none (loc0) // proof vars
+//
+| D3Cinclude (d3cs) => let
+    val hids = d3eclist_tyer (d3cs) in hidecl_include (loc0, hids)
+  end // end of [D3Cinclude]
 //
 | D3Cstaload (
     fname, flag, fenv, loaded
@@ -390,7 +395,48 @@ end // end of [local]
 implement
 tmpcstdecmap_make_hideclist (xs) = let
 //
-fun loop (
+fun aux
+(
+  map: &tmpcstdecmap, x: hidecl
+) : void = let
+in
+//
+case+ x.hidecl_node of
+| HIDimpdec
+    (knd, impdec) => let
+    val tmparg = impdec.hiimpdec_tmparg
+  in
+    case+ tmparg of
+    | list_cons _ => let
+        val d2c = impdec.hiimpdec_cst
+(*
+        val () = print ("tmpcstdecmap_make_hideclist: ")
+        val () = print_d2cst (d2c)
+        val () = print_string ("<")
+        val () = fpprint_s2explstlst (stdout_ref, impdec.hiimpdec_tmparg)
+        val () = print_string (">")
+        val () = print_newline ()
+*)
+      in
+        tmpcstdecmap_insert (map, d2c, impdec)
+      end // end of [list_cons]
+    | _ => ()
+  end // end of [HIDimpdec]
+//
+| HIDinclude
+    (xs_incl) => auxlst (map, xs_incl)
+  (* end of [HIDinclude] *)
+//
+| HIDlocal
+    (_, xs_body) => auxlst (map, xs_body)
+  (* end of [HIDlocal] *)
+//
+| _ => ()
+//
+end (* end of [aux] *)
+//
+and auxlst
+(
   map: &tmpcstdecmap, xs: hideclist
 ) : void = let
 in
@@ -398,44 +444,15 @@ in
 case+ xs of
 | list_cons
     (x, xs) => let
-    val () = (
-      case+ x.hidecl_node of
-      | HIDimpdec
-          (knd, impdec) => let
-          val tmparg = impdec.hiimpdec_tmparg
-        in
-          case+ tmparg of
-          | list_cons _ => let
-              val d2c = impdec.hiimpdec_cst
-(*
-              val () = print ("tmpcstdecmap_make_hideclist: ")
-              val () = print_d2cst (d2c)
-              val () = print_string ("<")
-              val () = fpprint_s2explstlst (stdout_ref, impdec.hiimpdec_tmparg)
-              val () = print_string (">")
-              val () = print_newline ()
-*)
-            in
-              tmpcstdecmap_insert (map, d2c, impdec)
-            end // end of [list_cons]
-          | _ => ()
-        end // end of [HIDimpdec]
-      | HIDlocal
-          (_, xs_body) => let
-          val () = loop (map, xs_body) in loop (map, xs)
-        end // end of [HIDlocal]
-      | _ => ()
-    ) : void // end of [val]
-  in
-    loop (map, xs)
-  end // end of [list_cons]
+    val () = aux (map, x) in auxlst (map, xs)
+  end (* end of [list_cons] *)
 | list_nil () => ()
 //
-end // end of [loop]
+end (* end of [auxlst] *)
 //
 var map
   : tmpcstdecmap = d2cstmap_make_nil ()
-val () = loop (map, xs)
+val () = auxlst (map, xs)
 //
 in
   map

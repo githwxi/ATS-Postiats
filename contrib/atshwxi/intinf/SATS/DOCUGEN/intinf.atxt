@@ -41,6 +41,7 @@ approach to programming with large integers.\
 
 #declnamesynop("intinf_vt2t")
 #declnamesynop("intinf_takeout")
+#declnamesynop("intinf_vcopy")
 
 (* ****** ****** *)
 

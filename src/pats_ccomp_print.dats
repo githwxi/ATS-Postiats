@@ -136,6 +136,19 @@ case+ x.primdec_node of
     val () = prstr ")"
   }
 //
+| PMDimpdec (imp) => {
+    val d2c = imp.hiimpdec_cst
+    val imparg = imp.hiimpdec_imparg
+    val tmparg = imp.hiimpdec_tmparg
+    val () = prstr "PMDimpdec("
+    val () = fprint_d2cst (out, d2c)
+    val () = prstr "; imparg="
+    val () = fprint_s2varlst (out, imparg)
+    val () = prstr "; tmparg="
+    val () = $UT.fprintlst (out, tmparg, "; ", fprint_s2explst)
+    val () = prstr ")"
+  }
+//
 | PMDfundecs (
     knd, decarg, hfds
   ) => {
@@ -184,16 +197,9 @@ case+ x.primdec_node of
     val () = prstr ")"
   }
 //
-| PMDimpdec (imp) => {
-    val d2c = imp.hiimpdec_cst
-    val imparg = imp.hiimpdec_imparg
-    val tmparg = imp.hiimpdec_tmparg
-    val () = prstr "PMDimpdec("
-    val () = fprint_d2cst (out, d2c)
-    val () = prstr "; imparg="
-    val () = fprint_s2varlst (out, imparg)
-    val () = prstr "; tmparg="
-    val () = $UT.fprintlst (out, tmparg, "; ", fprint_s2explst)
+| PMDinclude (pmds) => {
+    val () = prstr "PMDinclude(\n"
+    val () = fprint_primdeclst (out, pmds)
     val () = prstr ")"
   }
 //

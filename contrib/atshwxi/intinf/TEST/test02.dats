@@ -3,7 +3,8 @@
 //
 // Fibonaccis via GMP
 //
-** Author: Hongwei Xi (hwxi AT gmail DOT com)
+** Author: Hongwei Xi
+** Authoremail: hwxi AT gmail DOT com
 ** Start Time: February, 2013
 **
 *)

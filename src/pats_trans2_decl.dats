@@ -418,7 +418,8 @@ end // end of [s1tacst_tr]
 
 (* ****** ****** *)
 
-fn s1tacon_tr (
+fn s1tacon_tr
+(
   s2t_res: s2rt, d: s1tacon
 ) : void = let
   val id = d.s1tacon_sym
@@ -1905,7 +1906,10 @@ case+ d1c0.d1ecl_node of
       in
         d2ecl_impdec (loc0, knd, impdec)
       end // end of [Some_vt]
-    | ~None_vt () => d2ecl_none (loc0) // HX: error is reported
+//
+// HX: the error is already reported
+//
+    | ~None_vt () => d2ecl_none (loc0)
   end // end of [D1Cimpdec]
 //
 | D1Cinclude (d1cs) => let
@@ -1923,6 +1927,7 @@ case+ d1c0.d1ecl_node of
   in
     d2ecl_staload (loc0, idopt, fil, loadflag, fenv, loaded)
   end // end of [D1Cstaload]
+//
 | D1Cdynload (fil) => d2ecl_dynload (loc0, fil)
 //
 | D1Clocal

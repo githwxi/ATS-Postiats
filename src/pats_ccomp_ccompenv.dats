@@ -1175,7 +1175,7 @@ case+ xs of
 //
 end // end of [auxjoin]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 ccompenv_push (env) = let
@@ -1528,6 +1528,15 @@ case+ xs of
     res
   end // end of [MARKENVLSTcons_impdec]
 //
+| MARKENVLSTcons_impdec2
+    (imp2, !p_xs) => let
+    val opt = hiimpdec2_tmpcst_match (imp2, d2c0, t2mas)
+    val res = auxcont (opt, !p_xs, d2c0, t2mas)
+    prval () = fold@ (xs)
+  in
+    res
+  end // end of [MARKENVLSTcons_impdec2]
+//
 | MARKENVLSTcons_staload
     (fenv, !p_xs) => let
     val-Some (map) =
@@ -1544,15 +1553,6 @@ case+ xs of
 | MARKENVLSTcons_tmpsub (_, !p_xs) => let
     val opt = auxlst (!p_xs, d2c0, t2mas) in fold@ (xs); opt
   end (* end of [MARKENVLSTcons_tmpsub] *)
-//
-| MARKENVLSTcons_impdec2
-    (imp2, !p_xs) => let
-    val opt = hiimpdec2_tmpcst_match (imp2, d2c0, t2mas)
-    val res = auxcont (opt, !p_xs, d2c0, t2mas)
-    prval () = fold@ (xs)
-  in
-    res
-  end // end of [MARKENVLSTcons_impdec2]
 //
 | MARKENVLSTcons_tmpcstmat
     (tmpmat, !p_xs) => let

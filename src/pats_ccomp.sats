@@ -455,6 +455,8 @@ fun fprint_primcstsp : fprint_type (primcstsp)
 abstype ccomp_instrlst_type
 typedef instrlst = ccomp_instrlst_type
 
+(* ****** ****** *)
+
 datatype
 primdec_node =
 //
@@ -480,6 +482,8 @@ primdec_node =
   | PMDvardecs of (hivardeclst, instrlst)
 //
   | PMDimpdec of (hiimpdec)
+//
+  | PMDinclude of (primdeclst)
 //
   | PMDstaload of (filenv) // HX: staloading
 //
@@ -641,6 +645,10 @@ fun primdec_vardecs
 fun primdec_impdec
   (loc: location, imp: hiimpdec): primdec
 // end of [primdec_impdec]
+
+(* ****** ****** *)
+
+fun primdec_include (loc: location, pmds: primdeclst): primdec
 
 (* ****** ****** *)
 

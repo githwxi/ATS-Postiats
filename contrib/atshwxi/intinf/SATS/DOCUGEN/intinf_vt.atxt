@@ -144,4 +144,8 @@ approach to programming with large integers that is also memory-efficient.\
 
 (* ****** ****** *)
 
+#declnamesynop("pow_intinf_int")
+
+(* ****** ****** *)
+
 (* end of [intinf_vt.atxt] *)

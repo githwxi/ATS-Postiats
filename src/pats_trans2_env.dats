@@ -72,7 +72,8 @@ staload "./pats_trans2_env.sats"
 local
 
 viewtypedef
-filenv_struct = @{
+filenv_struct =
+@{
   name= filename
 , sort= s2temap
 , sexp= s2itmmap

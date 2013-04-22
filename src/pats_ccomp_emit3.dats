@@ -754,6 +754,8 @@ case+ pmd.primdec_node of
 //
 | PMDimpdec _ => ()
 //
+| PMDinclude (pmds) => emit_primdeclst (out, pmds)
+//
 | PMDstaload _ => ()
 //
 | PMDlocal (

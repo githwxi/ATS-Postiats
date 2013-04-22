@@ -864,6 +864,14 @@ case+
     primdec_vardecs (loc0, hvds, inss)
   end // end of [PMDvardecs]
 //
+| PMDinclude (pmds) => let
+    val pmds =
+      primdeclst_subst (env, map, sub, pmds, sfx)
+    // end of [val]
+  in
+    primdec_include (loc0, pmds)
+  end // end of [PMDinclude]
+//
 | PMDstaload (fenv) => let
     val () = ccompenv_add_staload (env, fenv) in pmd0
   end // end of [PMDstaload]

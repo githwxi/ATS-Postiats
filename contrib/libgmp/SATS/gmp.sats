@@ -107,13 +107,13 @@ fun mpz_realloc2
 //
 (* ****** ****** *)
 //
-fun mpz_get_int (x: &mpz): int = "mac#%"
-fun mpz_get_lint (x: &mpz): lint = "mac#%"
+fun mpz_get_int (x: &RD(mpz)): int = "mac#%"
+fun mpz_get_lint (x: &RD(mpz)): lint = "mac#%"
 //
-fun mpz_get_uint (x: &mpz): uint = "mac#%"
-fun mpz_get_ulint (x: &mpz): ulint = "mac#%"
+fun mpz_get_uint (x: &RD(mpz)): uint = "mac#%"
+fun mpz_get_ulint (x: &RD(mpz)): ulint = "mac#%"
 //
-fun mpz_get_double (x: &mpz): double = "mac#%"
+fun mpz_get_double (x: &RD(mpz)): double = "mac#%"
 //
 (* ****** ****** *)
 //
@@ -123,10 +123,10 @@ fun mpz_get_double (x: &mpz): double = "mac#%"
 fun mpz_get_str
 (
   res: ptr
-, base: mp_base, x: &mpz
+, base: mp_base, x: &RD(mpz)
 ) : Strptr1 = "mac#%"
 fun mpz_get_str_null
-   (base: mp_base, x: &mpz) : Strptr1 = "mac#%"
+   (base: mp_base, x: &RD(mpz)) : Strptr1 = "mac#%"
 //
 (* ****** ****** *)
 //
@@ -146,11 +146,11 @@ fun mpz_set_double
   (x: &mpz >> _, y: double): void = "mac#%"
 //
 fun mpz_set_mpz
-  (x: &mpz >> _, y: &mpz): void = "mac#%"
+  (x: &mpz >> _, y: &RD(mpz)): void = "mac#%"
 fun mpz_set_mpq
-  (x: &mpz >> _, y: &mpq): void = "mac#%"
+  (x: &mpz >> _, y: &RD(mpq)): void = "mac#%"
 fun mpz_set_mpf
-  (x: &mpz >> _, y: &mpf): void = "mac#%"
+  (x: &mpz >> _, y: &RD(mpf)): void = "mac#%"
 //
 (* ****** ****** *)
 //
@@ -187,18 +187,22 @@ overload mpz_init_set with mpz_init_set_mpz
 //
 (* ****** ****** *)
 
-fun mpz_inp_str
-  (x: &mpz, inp: FILEref, base: mp_base): size_t = "mac#%"
-// end of [mpz_inp_str]
-
-fun mpz_out_str
-  (out: FILEref, base: mp_base, x: &mpz): size_t = "mac#%"
-// end of [mpz_out_str]
+fun mpz_size (x: &RD(mpz)): size_t = "mac#%"
 
 (* ****** ****** *)
 
-fun mpz_inp_raw (x: &mpz, out: FILEref): size_t = "mac#%"
-fun mpz_out_raw (out: FILEref, x: &mpz): size_t = "mac#%"
+fun mpz_out_str
+  (out: FILEref, base: mp_base, x: &RD(mpz)): size_t = "mac#%"
+// end of [mpz_out_str]
+
+fun mpz_inp_str
+  (x: &mpz >> _, inp: FILEref, base: mp_base): size_t = "mac#%"
+// end of [mpz_inp_str]
+
+(* ****** ****** *)
+
+fun mpz_out_raw (out: FILEref, x: &RD(mpz)): size_t = "mac#%"
+fun mpz_inp_raw (x: &mpz >> _, out: FILEref): size_t = "mac#%"
 
 (* ****** ****** *)
 //

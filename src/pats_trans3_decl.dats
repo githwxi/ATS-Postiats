@@ -197,9 +197,9 @@ case+ d2c0.d2ecl_node of
     val v3ds = prv2ardeclst_tr (v2ds) in d3ecl_prvardecs (loc0, v3ds)
   end // end of [D2Cprvardecs]
 //
-| D2Cinclude d2cs => (
-    d3ecl_list (loc0, d2eclist_tr d2cs)
-  ) // end of [D2Cinclude]
+| D2Cinclude (d2cs) => let
+    val d3cs = d2eclist_tr (d2cs) in d3ecl_include (loc0, d3cs)
+  end // end of [D2Cinclude]
 //
 | D2Cstaload _ => d2ecl_tr_staload (d2c0)
 //

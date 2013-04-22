@@ -746,6 +746,12 @@ case+ hid.hidecl_node of
     val () = prstr "\n)"
   }
 //
+| HIDinclude (hids) => {
+    val () = prstr "HIDinclude(\n"
+    val () = $UT.fprintlst (out, hids, "\n", fprint_hidecl)
+    val () = prstr "\n)"
+  }
+//
 | HIDstaload
     (fname, _, _, _) => {
     val () = prstr "HIDstaload("

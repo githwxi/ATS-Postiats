@@ -199,6 +199,8 @@ hidecl_node =
 //
   | HIDdcstdecs of (dcstkind, d2cstlst)
 //
+  | HIDimpdec of (int(*knd*), hiimpdec)
+//
   | HIDfundecs of
       (funkind, s2qualst(*decarg*), hifundeclst)
     // end of [HIDfundecs]
@@ -208,7 +210,7 @@ hidecl_node =
 //
   | HIDvardecs of (hivardeclst) // variable declarations
 //
-  | HIDimpdec of (int(*knd*), hiimpdec)
+  | HIDinclude of (hideclist)
 //
   | HIDstaload of (
       filename, int(*flag*), filenv, int(*loaded*)
@@ -788,6 +790,10 @@ fun hidecl_valdecs_rec
 // end of [hidecl_valdecs_rec]
 
 fun hidecl_vardecs (loc: location, hvds: hivardeclst): hidecl
+
+(* ****** ****** *)
+
+fun hidecl_include (loc: location, hids: hideclist): hidecl
 
 (* ****** ****** *)
 

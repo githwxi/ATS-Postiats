@@ -85,11 +85,17 @@ implement
 main0 (
   argc, argv
 ) = {
-  val () =
-    if (argc <= 1) then atof_usage (argv[0])
-  // end of [val]
-  val () = assertloc (argc >= 2)
-  val () = println! ("atof(\"", argv[1], "\") = ", atof(argv[1]))
+(*
+val () =
+  if (argc <= 1) then atof_usage (argv[0])
+// end of [val]
+val () = assertloc (argc >= 2)
+*)
+val rep =
+  (if argc >= 2 then argv[1] else "3.1416"): string
+// end of [va
+val () = println! ("atof(\"", rep, "\") = ", atof(rep))
+//
 } // end of [main0]
 
 (* ****** ****** *)

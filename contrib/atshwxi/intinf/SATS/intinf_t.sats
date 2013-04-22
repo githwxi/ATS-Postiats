@@ -28,6 +28,12 @@
 
 (* ****** ****** *)
 //
+// Author: Hongwei Xi
+// Authoremail: hwxi AT gmail DOT com
+// Start Time: February, 2013
+//
+(* ****** ****** *)
+//
 // HX-2013-02:
 // A package for multiple-precision integers
 //
@@ -213,6 +219,13 @@ fun{}
 compare_intinf_intinf
   {i,j:int} (x: intinf i, y: intinf j):<> int (sgn(i-j))
 overload compare with compare_intinf_intinf
+
+(* ****** ****** *)
+
+fun{}
+pow_intinf_int
+  {i:nat} (base: Intinf, exp: int i): Intinf
+// end of [pow_intinf_int]
 
 (* ****** ****** *)
 

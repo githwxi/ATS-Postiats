@@ -109,4 +109,8 @@ approach to programming with large integers.\
 
 (* ****** ****** *)
 
+#declnamesynop("pow_intinf_int")
+
+(* ****** ****** *)
+
 (* end of [intinf_t.atxt] *)

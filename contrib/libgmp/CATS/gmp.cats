@@ -88,6 +88,10 @@ typedef atscntrb_libgmp_mpz *ptrmpz;
 #define atscntrb_libgmp_mpz_init_set_ulint mpz_init_set_ui
 //
 /* ****** ****** */
+
+#define atscntrb_libgmp_mpz_size mpz_size
+
+/* ****** ****** */
 //
 // input-output-functions
 //

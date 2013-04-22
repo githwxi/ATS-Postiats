@@ -28,8 +28,9 @@
 
 (* ****** ****** *)
 //
-// HX-2013-02:
-// A package for multiple-precision integers
+// Author: Hongwei Xi
+// Authoremail: hwxi AT gmail DOT com
+// Start Time: April, 2013
 //
 (* ****** ****** *)
 

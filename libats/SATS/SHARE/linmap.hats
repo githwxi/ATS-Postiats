@@ -41,7 +41,7 @@
 (* ****** ****** *)
 
 absvtype
-map_vtype (key:t@ype, itm:vt@ype+)
+map_vtype (key:t@ype, itm:vt@ype+) = ptr
 stadef map = map_vtype
 
 (* ****** ****** *)

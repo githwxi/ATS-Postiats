@@ -3,7 +3,8 @@
 //
 // fast power computation
 //
-** Author: Hongwei Xi (hwxi AT gmail DOT com)
+** Author: Hongwei Xi
+** Authoremail: hwxi AT gmail DOT com
 ** Start Time: April, 2013
 **
 *)

@@ -27,9 +27,6 @@
 
 (* ****** ****** *)
 
-(* Author: Adam Udi *)
-(* Authoremail: adamudi AT bu DOT edu *)
-
 (* Author: Hongwei Xi *)
 (* Authoremail: hwxi AT cs DOT bu DOT edu *)
 
@@ -113,31 +110,35 @@ end // end of [local]
 
 abstype
 sknode_type
-  (key:t@ype, itm:vt@ype+, l:addr, n:int)
+  (key:t@ype, itm:vt@ype+, l:addr, n:int) = ptr
 stadef sknode = sknode_type
 
 (* ****** ****** *)
 
 typedef
-sknode0 (
+sknode0
+(
   key:t0p
 , itm:vt0p
 , n:int
 ) = [l:addr] sknode (key, itm, l, n)
 typedef
-sknode0 (
+sknode0
+(
   key:t0p
 , itm:vt0p
 ) = [l:addr;n:nat] sknode (key, itm, l, n)
 
 typedef
-sknode1 (
+sknode1
+(
   key:t0p
 , itm:vt0p
 , n:int
 ) = [l:agz] sknode (key, itm, l, n)
 typedef
-sknode1 (
+sknode1
+(
   key:t0p
 , itm:vt0p
 ) = [l:agz;n:nat] sknode (key, itm, l, n)
@@ -145,7 +146,8 @@ sknode1 (
 (* ****** ****** *)
 
 typedef
-sknodeGt0 (
+sknodeGt0
+(
   key:t0p, itm:vt0p, ni:int
 ) = [n:int | n > ni] sknode0 (key, itm, n)
 
@@ -155,7 +157,7 @@ extern
 castfn
 sknode2ptr
   {key:t0p;itm:vt0p}
-  {l:addr}{n:int} (nx: sknode (key, itm, l, n)):<> ptr (l)
+  {l:addr}{n:int} (nx: sknode (key, INV(itm), l, n)):<> ptr (l)
 // end of [sknode2ptr]
 
 (* ****** ****** *)
@@ -185,42 +187,46 @@ fun{
 key:t0p;itm:vt0p
 } sknode_free
   {lgN:int | lgN > 0}
-  (nx: sknode1 (key, itm, lgN), res: &itm? >> itm): void
+  (nx: sknode1 (key, INV(itm), lgN), res: &itm? >> itm): void
 // end of [sknode_free]
 
 extern
 fun{
 key:t0p;itm:vt0p
-} sknode_get_key (nx: sknode1 (key, itm)):<> key
+} sknode_get_key (nx: sknode1 (key, INV(itm))):<> key
 
 extern
 fun{
 key:t0p;itm:vt0p
-} sknode_getref_item (nx: sknode1 (key, itm)):<> cPtr1 (itm)
+} sknode_getref_item (nx: sknode1 (key, INV(itm))):<> cPtr1 (itm)
 
 (* ****** ****** *)
 
 abstype
 sknodelst_type
-  (key:t@ype, itm:vt@ype+, int(*size*))
+  (key:t@ype, itm:vt@ype+, int(*size*)) = ptr
 stadef sknodelst = sknodelst_type
 
 extern
 fun sknodelst_get_at
   {key:t0p;itm:vt0p}
   {n:int}{i:nat | i < n}
-  (nxa: sknodelst (key, itm, n), i: int i):<> sknodeGt0 (key, itm, i)
+(
+  nxa: sknodelst (key, INV(itm), n), i: int i
+) :<> sknodeGt0 (key, itm, i)
 // end of [sknodelst_get_at]
 
 extern
 fun sknodelst_set_at
   {key:t0p;itm:vt0p}
   {n:int}{i:nat | i < n}
-  (nxa: sknodelst (key, itm, n), i: int i, nx0: sknodeGt0 (key, itm, i)): void
-// end of [sknodelst_set_at]
+(
+  nxa: sknodelst (key, INV(itm), n), i: int i, nx0: sknodeGt0 (key, itm, i)
+) :<!wrt> void // end of [sknodelst_set_at]
 
 extern
-fun sknodelst_make // HX: initized with nulls
+fun{}
+sknodelst_make // HX: initized with nulls
   {key:t0p;itm:vt0p}{n:nat} (n: int n):<!wrt> sknodelst (key, itm, n)
 // end of [sknodelst_make]
 
@@ -230,20 +236,21 @@ extern
 fun{
 key:t0p;itm:vt0p
 } sknode_get_sknodelst
-  {n:nat} (nx: sknode1 (key, itm, n)):<> sknodelst (key, itm, n)
+  {n:nat} (nx: sknode1 (key, INV(itm), n)):<> sknodelst (key, itm, n)
 // end of [sknode_get_sknodelst]
 
 extern
 fun{
 key:t0p;itm:vt0p
-} sknode_get_sknodelen {n:nat} (nx: sknode1 (key, itm, n)):<> int (n)
+} sknode_get_sknodelen {n:nat} (nx: sknode1 (key, INV(itm), n)):<> int (n)
 
 (* ****** ****** *)
 //
 // HX: internal representation of a sknode
 //
 vtypedef
-_sknode_struct (
+_sknode_struct
+(
   key: t0p, itm: vt0p
 ) = @{
   key= key, item=itm, sknodelst=ptr, sknodelen= int
@@ -278,9 +285,11 @@ vtypedef VT = _sknode_struct (key, itm)
 //
 prval (
   pfat, pfgc | p
-) = __cast (nx) where {
+) = __cast (nx) where
+{
   extern
-  castfn __cast (
+  castfn __cast
+  (
     nx: sknode1 (key, itm)
   ) :<> [l:addr] (VT @ l, mfree_gc_v l | ptr l)
 } // end of [prval]
@@ -288,7 +297,8 @@ prval (
 val () = res := p->item
 //
 val () =
-  __mfree (p->sknodelst) where {
+  __mfree (p->sknodelst) where
+{
   extern fun __mfree : ptr -<0,!wrt> void = "atspre_mfree_gc"
 } // end of [val]
 //
@@ -303,9 +313,11 @@ end // end of [sknode_free]
 extern
 castfn
 __cast_sknode
-  {key:t0p;itm:vt0p} (
-  nx: sknode1 (key, itm)
-) :<> [l:addr] (
+  {key:t0p;itm:vt0p}
+(
+  nx: sknode1 (key, INV(itm))
+) :<> [l:addr]
+(
   _sknode_struct (key, itm) @ l
 , _sknode_struct (key, itm) @ l -<lin,prf> void
 | ptr l
@@ -317,9 +329,11 @@ implement
 {key,itm}
 sknode_get_key
   (nx) = let
-  val (pf, fpf | p) = __cast_sknode (nx)
-  val key = p->key
-  prval () = fpf (pf)
+//
+val (pf, fpf | p) = __cast_sknode (nx)
+val key = p->key
+prval () = fpf (pf)
+//
 in
   key
 end // end of [sknode_get_key]
@@ -328,9 +342,11 @@ implement
 {key,itm}
 sknode_getref_item
   (nx) = let
-  val (pf, fpf | p) = __cast_sknode (nx)
-  val p_item = addr@ (p->item)
-  prval () = fpf (pf)
+//
+val (pf, fpf | p) = __cast_sknode (nx)
+val p_item = addr@ (p->item)
+prval () = fpf (pf)
+//
 in
   $UN.cast{cPtr1(itm)}(p_item)
 end // end of [sknode_getref_item]
@@ -339,20 +355,24 @@ implement
 {key,itm}
 sknode_get_sknodelst
   {n} (nx) = let
-  val (pf, fpf | p) = __cast_sknode (nx)
-  val nxa = p->sknodelst
-  prval () = fpf (pf)
+//
+val (pf, fpf | p) = __cast_sknode (nx)
+val nxa = p->sknodelst
+prval () = fpf (pf)
+//
 in
-  $UN.cast {sknodelst(key, itm, n)} (nxa)
+  $UN.cast {sknodelst(key,itm,n)} (nxa)
 end // end of [sknode_get_sknodelst]
 
 implement
 {key,itm}
 sknode_get_sknodelen
   {n} (nx) = let
-  val (pf, fpf | p) = __cast_sknode (nx)
-  val len = p->sknodelen
-  prval () = fpf (pf)
+//
+val (pf, fpf | p) = __cast_sknode (nx)
+val len = p->sknodelen
+prval () = fpf (pf)
+//
 in
   $UN.cast {int(n)} (len)
 end // end of [sknode_get_sknodelen]
@@ -368,7 +388,7 @@ sknodelst_type
 
 in // in of [local]
 
-implement
+implement{}
 sknodelst_make (n) = let
   val asz = i2sz(n) in arrayref_make_elt<ptr> (asz, nullp)
 end // end of [sknodelst]
@@ -406,7 +426,21 @@ key:t0p;itm:vt0p
 } sknode_set_next
   {n,n1:int}{ni:nat | ni < n} (
   nx: sknode1 (key, itm, n), ni: int ni, nx0: sknodeGt0 (key, itm, ni)
-) :<> void // end of [sknode_set_next]
+) :<!wrt> void // end of [sknode_set_next]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+sknode_get_next (nx, ni) = let
+  val nxa = sknode_get_sknodelst (nx) in sknodelst_get_at (nxa, ni)
+end // end of [sknode_get_next]
+
+implement
+{key,itm}
+sknode_set_next (nx, ni, nx0) = let
+  val nxa = sknode_get_sknodelst (nx) in sknodelst_set_at (nxa, ni, nx0)
+end // end of [sknode_set_next]
 
 (* ****** ****** *)
 
@@ -926,9 +960,10 @@ if p_nx > nullp then let
   val p_i = cptr2ptr (cp)
   val () = linmap_freelin$clear<itm> (!p_i)
   prval () = fpf (pf)
-  val () =
-    __mfree (nx) where {
-    extern fun __mfree : sknode1 (key, itm) -<0,!wrt> void = "mac#atspre_mfree"
+  val (
+  ) = __mfree (nx) where
+  {
+    extern fun __mfree : sknode1 (key, itm) -<0,!wrt> void = "mac#atspre_mfree_gc"
   } // end of [where] // end of [val]
 in
   sknode_freelin (nx1)
@@ -955,7 +990,8 @@ linmap_free_ifnil
 //
 vtypedef map = map (key, itm)
 val map2 =
-  __cast (map) where {
+  __cast (map) where
+{
   extern castfn __cast : (!map >> map?) -<> map
 } // end of [where] // end of [val]
 //

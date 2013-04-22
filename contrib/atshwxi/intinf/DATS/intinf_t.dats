@@ -28,8 +28,9 @@
 
 (* ****** ****** *)
 //
-// HX-2013-02:
-// A package for multiple-precision integers
+// Author: Hongwei Xi
+// Authoremail: hwxi AT gmail DOT com
+// Start Time: April, 2013
 //
 (* ****** ****** *)
 
@@ -328,6 +329,23 @@ prval () = fpf2 (y)
 in
   sgn (* HX: -1/0/1 *)
 end (* end of [compare_intinf_intinf] *)
+
+(* ****** ****** *)
+
+implement{}
+pow_intinf_int
+  (base, exp) = let
+//
+val
+(
+  fpf | base
+) = intinf_takeout (base)
+val y = $VT.pow_intinf_int (base, exp)
+prval () = fpf (base)
+//
+in
+  intinf_vt2t (y)
+end (* end of [pow_intinf] *)
 
 (* ****** ****** *)
 

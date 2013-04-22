@@ -763,6 +763,13 @@ hidecl_vardecs (loc, hvds) =
 (* ****** ****** *)
 
 implement
+hidecl_include (loc, hids) =
+  hidecl_make_node (loc, HIDinclude (hids))
+// end of [hidecl_include]
+
+(* ****** ****** *)
+
+implement
 hidecl_staload (
   loc, fname, flag, loaded, fenv
 ) = hidecl_make_node (

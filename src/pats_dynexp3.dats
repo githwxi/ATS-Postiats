@@ -1125,6 +1125,13 @@ d3ecl_prvardecs
 (* ****** ****** *)
 
 implement
+d3ecl_include (loc, d3cs) =
+  d3ecl_make_node (loc, D3Cinclude (d3cs))
+// end of [d3ecl_include]
+
+(* ****** ****** *)
+
+implement
 d3ecl_staload
   (loc, fil, flag, loaded, opt) =
   d3ecl_make_node (loc, D3Cstaload (fil, flag, loaded, opt))

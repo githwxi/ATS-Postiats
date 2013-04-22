@@ -15,11 +15,8 @@
 //
 (* ****** ****** *)
 
-staload _ = "libats/DATS/qlist.dats"
-
-(* ****** ****** *)
-
 staload "libats/SATS/qlist.sats"
+staload _(*anon*) = "libats/DATS/qlist.dats"
 
 (* ****** ****** *)
 

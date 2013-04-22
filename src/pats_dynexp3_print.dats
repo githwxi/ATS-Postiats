@@ -635,6 +635,8 @@ case+ d3c0.d3ecl_node of
 | D3Cvardecs _ => prstr "D3Cvardecs(...)"
 | D3Cprvardecs _ => prstr "D3Cprvardecs(...)"
 //
+| D3Cinclude _ => prstr "D3Cinclude(...)"
+//
 | D3Cstaload _ => prstr "D3Cstaload(...)"
 //
 | D3Clocal _ => prstr "D3Clocal(...)"

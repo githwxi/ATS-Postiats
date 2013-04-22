@@ -277,6 +277,8 @@ case+ pmd.primdec_node of
 | PMDdatdecs _ => ()
 | PMDexndecs _ => ()
 //
+| PMDimpdec _ => ()
+//
 | PMDfundecs _ => ()
 //
 | PMDvaldecs
@@ -292,7 +294,7 @@ case+ pmd.primdec_node of
     val inss = $UN.cast{instrlst} (inss) in auxlst (res, inss)
   end // end of [PMDvardecs]
 //
-| PMDimpdec _ => ()
+| PMDinclude (pmds) => auxpmdlst (res, pmds)
 //
 | PMDstaload _ => ()
 //
