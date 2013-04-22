@@ -120,6 +120,24 @@ approach to programming with large integers that is also memory-efficient.\
 
 (* ****** ****** *)
 
+#declnamesynop("div_intinf0_int")
+#declnamesynop("div_intinf1_int")
+#declnamesynop("div_intinf0_intinf1")
+#declnamesynop("div_intinf1_intinf0")
+#declnamesynop("div_intinf1_intinf1")
+
+(* ****** ****** *)
+
+#declnamesynop("ndiv_intinf0_int")
+#declnamesynop("ndiv_intinf1_int")
+
+(* ****** ****** *)
+
+#declnamesynop("nmod_intinf0_int")
+#declnamesynop("nmod_intinf1_int")
+
+(* ****** ****** *)
+
 #declnamesynop("compare_int_intinf")
 #declnamesynop("compare_intinf_int")
 #declnamesynop("compare_intinf_intinf")

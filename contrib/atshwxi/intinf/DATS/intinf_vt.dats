@@ -119,6 +119,13 @@ end (* end of [intinf_free] *)
 (* ****** ****** *)
 
 implement{}
+intinf_get_strptr
+  (x, base) = $GMP.mpz_get_str_null (base, !(x.2))
+// end of [intinf_get_strptr]
+
+(* ****** ****** *)
+
+implement{}
 fprint_intinf_base
   (out, x, base) = let
   val nsz = $GMP.mpz_out_str (out, base, !(x.2))
@@ -408,6 +415,30 @@ end (* end of [div_intinf1_int] *)
 (* ****** ****** *)
 
 implement{}
+div_intinf0_intinf1
+  (x, y) = (x) where
+{
+//
+val () = $GMP.mpz_tdiv2_q_mpz (!(x.2), !(y.2))
+//
+} (* end of [div_intinf0_intinf1] *)
+
+(* ****** ****** *)
+
+implement{}
+div_intinf1_intinf1
+  (x, y) = (z) where
+{
+//
+val z = ptr_alloc<mpz> ()
+val () = $GMP.mpz_init (!(z.2))
+val () = $GMP.mpz_tdiv3_q_mpz (!(z.2), !(x.2), !(y.2))
+//
+} (* end of [div_intinf1_intinf1] *)
+
+(* ****** ****** *)
+
+implement{}
 ndiv_intinf0_int (x, y) = div_intinf0_int (x, y)
 implement{}
 ndiv_intinf1_int (x, y) = div_intinf1_int (x, y)
@@ -618,6 +649,19 @@ val sgn = (if sgn < 0 then ~1 else (if sgn > 0 then 1 else 0)): int
 in
   $UN.cast{int(sgn(i-j))}(sgn)
 end // end of [compare_intinf_intinf]
+
+(* ****** ****** *)
+
+implement{}
+pow_intinf_int
+  (base, exp) = r where
+{
+//
+val r = ptr_alloc<mpz> ()
+val () = $GMP.mpz_init (!(r.2))
+val () = $GMP.mpz_pow_uint (!(r.2), !(base.2), i2u(exp))
+//
+} (* end of [pow_intinf_int] *)
 
 (* ****** ****** *)
 

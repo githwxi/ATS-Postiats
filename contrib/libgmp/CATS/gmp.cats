@@ -64,6 +64,8 @@ typedef atscntrb_libgmp_mpz *ptrmpz;
 #define atscntrb_libgmp_mpz_get_lint mpz_get_si
 #define atscntrb_libgmp_mpz_get_ulint mpz_get_ui
 #define atscntrb_libgmp_mpz_get_double mpz_get_d
+#define atscntrb_libgmp_mpz_get_str mpz_get_str
+#define atscntrb_libgmp_mpz_get_str_null(base, mpz) mpz_get_str((char*)0, base, mpz)
 //
 /* ****** ****** */
 //
@@ -236,11 +238,20 @@ mpz_sub_si
 //
 // comparison-functions
 //
-#define atscntrb_libgmp_mpz_cmp(x, y) mpz_cmp((ptrmpz)x, y)
+#define atscntrb_libgmp_mpz_cmp_mpz(x, y) mpz_cmp((ptrmpz)x, y)
 #define atscntrb_libgmp_mpz_cmp_int(x, y) mpz_cmp_si((ptrmpz)x, y)
 #define atscntrb_libgmp_mpz_cmp_uint(x, y) mpz_cmp_ui((ptrmpz)x, y)
 #define atscntrb_libgmp_mpz_cmp_lint(x, y) mpz_cmp_si((ptrmpz)x, y)
 #define atscntrb_libgmp_mpz_cmp_ulint(x, y) mpz_cmp_ui((ptrmpz)x, y)
+//
+/* ****** ****** */
+//
+// power-functions
+//
+#define atscntrb_libgmp_mpz_pow_uint(pow, base, exp) mpz_pow_ui(pow, base, exp)
+#define atscntrb_libgmp_mpz_pow_ulint(pow, base, exp) mpz_pow_ui(pow, base, exp)
+//
+#define atscntrb_libgmp_mpz_ui_pow_ui(pow, base, exp) mpz_ui_pow_ui(pow, base, exp)
 //
 /* ****** ****** */
 

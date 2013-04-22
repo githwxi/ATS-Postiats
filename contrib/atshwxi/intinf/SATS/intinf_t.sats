@@ -86,6 +86,14 @@ fun{}
 intinf_make_ullint {i:int} (x: ullint (i)): intinf (i)
 
 (* ****** ****** *)
+
+fun{}
+intinf_get_string
+  (x: Intinf, base: intinf_base): string
+// end of [intinf_get_string]
+
+(* ****** ****** *)
+
 //
 fun{}
 print_intinf (x: Intinf): void
@@ -105,13 +113,13 @@ fprint_intinf_base
 (* ****** ****** *)
 
 fun{}
-neg_intinf {i:int} (x: intinf i): intinf (i)
+neg_intinf {i:int} (x: intinf i): intinf (~i)
 overload ~ with neg_intinf
 
 (* ****** ****** *)
 
 fun{}
-abs_intinf {i:int} (x: intinf i): intinf (i)
+abs_intinf {i:int} (x: intinf i): intinf (abs(i))
 overload abs with abs_intinf
 
 (* ****** ****** *)

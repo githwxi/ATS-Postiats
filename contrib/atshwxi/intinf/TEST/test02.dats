@@ -80,7 +80,7 @@ in
 //
 if n >= 2 then let
   val f2 =
-    $VT.sub_intinf0_intinf1 (f0, f1)
+    $VT.add_intinf0_intinf1 (f0, f1)
   // end of [val]
 in
   loop (f1, f2, n-1)

@@ -91,6 +91,13 @@ fun{}
 intinf_free (x: Intinf): void
 
 (* ****** ****** *)
+
+fun{}
+intinf_get_strptr
+  (x: !Intinf, base: intinf_base): Strptr1
+// end of [intinf_get_strptr]
+
+(* ****** ****** *)
 //
 fun{}
 print_intinf (x: !Intinf): void
@@ -253,6 +260,20 @@ div_intinf1_int
 overload / with div_intinf1_int
 
 (* ****** ****** *)
+
+fun{}
+div_intinf0_intinf1
+  {i,j:int} (x: intinf i, y: !intinf j): Intinf
+fun{}
+div_intinf1_intinf0
+  {i,j:int} (x: !intinf i, y: intinf j): Intinf
+fun{}
+div_intinf1_intinf1
+  {i,j:int} (x: !intinf i, y: !intinf j): Intinf
+overload / with div_intinf1_intinf1
+
+(* ****** ****** *)
+
 //
 fun{}
 ndiv_intinf0_int
@@ -364,6 +385,11 @@ fun{}
 compare_intinf_intinf
   {i,j:int} (x: !intinf i, y: !intinf j):<> int (sgn(i-j))
 overload compare with compare_intinf_intinf
+
+(* ****** ****** *)
+
+fun{}
+pow_intinf_int {i:nat} (base: !Intinf, exp: int i): Intinf
 
 (* ****** ****** *)
 

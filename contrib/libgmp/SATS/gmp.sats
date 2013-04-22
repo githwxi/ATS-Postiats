@@ -73,8 +73,6 @@ typedef
 mp_base = intBtw (2, 36+1) // for outputing MP numbers
 
 (* ****** ****** *)
-
-(* ****** ****** *)
 //
 // integral number operations
 //
@@ -117,13 +115,19 @@ fun mpz_get_ulint (x: &mpz): ulint = "mac#%"
 //
 fun mpz_get_double (x: &mpz): double = "mac#%"
 //
-// HX-2013:
-// a special case of the namesake in GMP
+(* ****** ****** *)
+//
+// HX-2013-04:
+// [res] should hold enough memory for output
 //
 fun mpz_get_str
-  (base: mp_base, x: &mpz): Strptr1 = "ext#%"
-// end of [mpz_get_str]
-
+(
+  res: ptr
+, base: mp_base, x: &mpz
+) : Strptr1 = "mac#%"
+fun mpz_get_str_null
+   (base: mp_base, x: &mpz) : Strptr1 = "mac#%"
+//
 (* ****** ****** *)
 //
 // x := y
@@ -515,6 +519,21 @@ overload mpz_cmp with mpz_cmp_int
 overload mpz_cmp with mpz_cmp_uint
 overload mpz_cmp with mpz_cmp_lint
 overload mpz_cmp with mpz_cmp_ulint
+//
+(* ****** ****** *)
+
+symintr mpz_pow
+//
+fun mpz_pow_uint
+  (pw: &mpz >> _, base: &mpz, exp: uint): void = "mac#%"
+fun mpz_pow_ulint
+  (pw: &mpz >> _, base: &mpz, exp: ulint): void = "mac#%"
+//
+overload mpz_pow with mpz_cmp_uint
+overload mpz_pow with mpz_cmp_ulint
+//
+fun mpz_ui_pow_ui
+  (pw: &mpz >> _, base: ulint, exp: ulint): void = "mac#%"
 //
 (* ****** ****** *)
 

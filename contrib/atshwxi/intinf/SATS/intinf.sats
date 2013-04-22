@@ -56,4 +56,11 @@ intinf_takeout
 
 (* ****** ****** *)
 
+castfn
+intinf_vcopy
+  {i:int} (x: !intinf_vtype (i)):<> vttakeout0 (intinf_vtype (i))
+// end of [intinf_vcopy]
+
+(* ****** ****** *)
+
 (* end of [intinf.sats] *)

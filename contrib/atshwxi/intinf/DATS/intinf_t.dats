@@ -73,6 +73,23 @@ intinf_make_ulint
 (* ****** ****** *)
 
 implement{}
+intinf_get_string
+  (x, base) = let
+//
+val
+(
+  fpf | x
+) = intinf_takeout (x)
+val str = $VT.intinf_get_strptr (x, base)
+prval () = fpf (x)
+//
+in
+  strptr2string (str)
+end (* end of [intinf_get_string] *)
+
+(* ****** ****** *)
+
+implement{}
 fprint_intinf_base
   (out, x, base) =
 {
@@ -109,6 +126,23 @@ prval () = fpf (x)
 in
   intinf_vt2t (y)
 end (* end of [neg_intinf] *)
+
+(* ****** ****** *)
+
+implement{
+} abs_intinf
+  (x) = let
+//
+val
+(
+  fpf | x
+) = intinf_takeout (x)
+val y = $VT.abs_intinf1 (x)
+prval () = fpf (x)
+//
+in
+  intinf_vt2t (y)
+end (* end of [abs_intinf] *)
 
 (* ****** ****** *)
 
