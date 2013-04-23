@@ -135,6 +135,11 @@ all:: atslib_libc
 
 ######
 
+all:: atslib_libats
+#make_entry("libats", "linmap_skiplist.dats")
+
+######
+
 all:: atslib_libats_ML
 #make_entry("libats/ML", "array0.dats")
 #make_entry("libats/ML", "string.dats")

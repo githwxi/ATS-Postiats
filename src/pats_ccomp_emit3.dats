@@ -254,8 +254,9 @@ in
 case+ fail of
 | PTCKNTnone () => {
     val () =
-      emit_text (
-      out, "ATSdeadcode_failure_handle()"
+      emit_text
+    (
+      out, "ATSINSdeadcode_fail()"
     ) // end of [val]
   }
 | PTCKNTtmplab (tlab) => {
@@ -274,16 +275,18 @@ case+ fail of
   }
 | PTCKNTcaseof_fail (loc) => {
     val () =
-      emit_text (
-      out, "ATScaseof_failure_handle(\""
+      emit_text
+    (
+      out, "ATSINScaseof_fail(\""
     ) // end of [val]
     val () = $LOC.fprint_location (out, loc)
     val () = emit_text (out, "\")")
   }
 | PTCKNTfunarg_fail (loc, fl) => {
     val () =
-      emit_text (
-      out, "ATSfunarg_failure_handle(\""
+      emit_text
+    (
+      out, "ATSINSfunarg_fail(\""
     ) // end of [val]
     val () = $LOC.fprint_location (out, loc)
     val () = emit_text (out, "\")")
@@ -330,10 +333,11 @@ case+ 0 of
       | None () => false (* deadcode *)
     ) : bool // end of [val]
     val () = emit_text (out, "if (")
-    val () = (
+    val () =
+    (
       if (isnil)
-        then emit_text (out, "ATSiscons(")
-        else emit_text (out, "ATSisnull(")
+        then emit_text (out, "ATSCKptriscons(")
+        else emit_text (out, "ATSCKptrisnull(")
       // end of [if]
     ) : void // end of [val]
     val () = emit_primval (out, pmv)

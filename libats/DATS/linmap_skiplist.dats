@@ -34,6 +34,12 @@
 
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSLIB.libats.linmap_skiplist"
+#define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
+#define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
+
+(* ****** ****** *)
+
 staload
 UN = "prelude/SATS/unsafe.sats"
 
@@ -55,20 +61,23 @@ macdef i2sz (i) = g1int2uint (,(i))
 //
 (* ****** ****** *)
 
-implement{}
+%{^
+typedef long int lint ;
+extern lint time (void*) ; // time.h
+extern void srand48 (lint) ; // stdlib.h
+%}
+implement
 linmap_skiplist_initize () = let
 //
-val (
-) = ftmp () where {
-  extern fun ftmp : () -> void = "mac#atslib_srand48_with_time"
-} (* end of [val] *)
+val seed = $extfcall (lint, "time", 0)
 //
 in
+  $extfcall (void, "srand48", seed)
 end // end of [linmap_skiplist_initize]
 
 (* ****** ****** *)
 
-#define lgMAX 40 // HX: it should be enough: 2^40 >= 10^12 :)
+#define lgMAX 40 // HX: 2^40 >= 10^12
 
 (* ****** ****** *)
 
@@ -78,9 +87,11 @@ fun linmap_random_lgN
 // end of [linmap_random_lgN]
 
 local
-
+//
 staload "libc/SATS/stdlib.sats"
-
+staload _ = "prelude/DATS/integer.dats"
+staload _ = "prelude/DATS/float.dats"
+//
 in (* in of [local] *)
 
 implement
@@ -208,7 +219,14 @@ sknodelst_type
 stadef sknodelst = sknodelst_type
 
 extern
-fun sknodelst_get_at
+fun{}
+sknodelst_make // HX: initized with nulls
+  {key:t0p;itm:vt0p}{n:nat} (n: int n):<!wrt> sknodelst (key, itm, n)
+// end of [sknodelst_make]
+
+extern
+fun{}
+sknodelst_get_at
   {key:t0p;itm:vt0p}
   {n:int}{i:nat | i < n}
 (
@@ -217,18 +235,13 @@ fun sknodelst_get_at
 // end of [sknodelst_get_at]
 
 extern
-fun sknodelst_set_at
+fun{}
+sknodelst_set_at
   {key:t0p;itm:vt0p}
   {n:int}{i:nat | i < n}
 (
   nxa: sknodelst (key, INV(itm), n), i: int i, nx0: sknodeGt0 (key, itm, i)
 ) :<!wrt> void // end of [sknodelst_set_at]
-
-extern
-fun{}
-sknodelst_make // HX: initized with nulls
-  {key:t0p;itm:vt0p}{n:nat} (n: int n):<!wrt> sknodelst (key, itm, n)
-// end of [sknodelst_make]
 
 (* ****** ****** *)
 
@@ -393,7 +406,7 @@ sknodelst_make (n) = let
   val asz = i2sz(n) in arrayref_make_elt<ptr> (asz, nullp)
 end // end of [sknodelst]
 
-implement
+implement{}
 sknodelst_get_at
   {key,itm}{i}
   (nxa, i) = let
@@ -401,7 +414,7 @@ sknodelst_get_at
   val nx0 = $effmask_ref (arrayref_get_at (nxa, i)) in $UN.cast{T}(nx0)
 end // end of [sknodelst_get_at]
 
-implement
+implement{}
 sknodelst_set_at
   {key,itm}{i}
   (nxa, i, nx0) = let
@@ -730,11 +743,8 @@ implement
 linmap_insert_any
   (map, k0, x0) = let
 //
-val lgN0 =
-  linmap_random_lgN (lgMAX)
-// end of [val]
-//
-val nx0 = sknode_make<key,itm> (k0, x0, lgN0)
+val lgN0 = linmap_random_lgN (lgMAX)
+val nx_new = sknode_make<key,itm> (k0, x0, lgN0)
 //
 in
 //
@@ -743,15 +753,16 @@ case+ map of
     (N, lgN, nxa) => let
     val () = N := succ (N)
     val () =
+    (
       if :(
         lgN: natLte (lgMAX)
       ) =>
         (lgN < lgN0) then lgN := lgN0
       // end of [if]
-    val () = sknodelst_insert (nxa, k0, lgN0, nx0)
-    prval () =
-      pridentity (lgN) // opening the type of [lgN]
-    // end of [prval]
+    ) : void // end of [val]
+    val () = sknodelst_insert (nxa, k0, lgN0, nx_new)
+    prval (
+    ) = pridentity (lgN) // opening the type of [lgN]
     prval () = fold@ (map)
   in
     // nothing

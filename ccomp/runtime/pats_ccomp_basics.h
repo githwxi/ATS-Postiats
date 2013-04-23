@@ -97,6 +97,13 @@
 
 /* ****** ****** */
 
+extern
+void atsruntime_handle_uncaughtexn (void *exn0) ;
+extern
+void atsruntime_handle_unmatchedval (char *msg0) ;
+
+/* ****** ****** */
+
 #endif /* PATS_CCOMP_BASICS_H */
 
 /* ****** ****** */

@@ -126,7 +126,7 @@ RMF=rm -f
 #make2_entry("libats_sllist", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libats_dllist", "-DATS_MEMALLOC_LIBC", "")
 
-#make2_entry("libats_linmap_skiplist", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_linmap_skiplist", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 
 ######
 

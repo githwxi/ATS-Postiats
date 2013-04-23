@@ -32,6 +32,7 @@
 //
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSLIB.libc"
 #define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
 #define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 

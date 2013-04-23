@@ -216,10 +216,6 @@
 #define ATSINSxstore(tmp, pmv1, pmv2) (tmp = pmv1, pmv1 = pmv2, pmv2 = tmp)
 
 /* ****** ****** */
-
-#define ATSINSraise(tmp, pmv) atsruntime_raise(pmv)
-
-/* ****** ****** */
 //
 #define ATSINSmove_list_nil(tmp) (tmp = (void*)0)
 #define ATSINSmove_list_phead(tmp1, tmp2, tyelt) (tmp1 = &(((ATStylist(tyelt)*)(*(void**)tmp2))->head))
@@ -237,6 +233,14 @@
 #define ATSINSupdate_ptrinc(tmp, tyelt) (tmp = (tyelt*)(tmp) + 1)
 #define ATSINSupdate_ptrdec(tmp, tyelt) (tmp = (tyelt*)(tmp) - 1)
 //
+/* ****** ****** */
+
+#define ATSINSraise(tmp, pmv) atsruntime_raise(pmv)
+#define ATSINScaseof_fail(msg) atsruntime_handle_unmatchedval(msg)
+/*
+#define ATSINSfunarg_fail(msg) ...
+*/
+
 /* ****** ****** */
 
 #endif /* PATS_CCOMP_INSTRSET_H */

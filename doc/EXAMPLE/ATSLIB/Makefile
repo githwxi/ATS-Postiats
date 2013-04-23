@@ -261,7 +261,7 @@ cleanall:: ; $(RMF) libats_dllist.exe
 
 all:: libats_linmap_skiplist
 libats_linmap_skiplist: libats_linmap_skiplist.exe
-libats_linmap_skiplist.exe: libats_linmap_skiplist_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_linmap_skiplist.exe: libats_linmap_skiplist_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
 libats_linmap_skiplist_dats.c: libats_linmap_skiplist.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_linmap_skiplist_dats.c --dynamic libats_linmap_skiplist.dats
 clean:: ; $(RMF) libats_linmap_skiplist_dats.o
 clean:: ; $(RMF) libats_linmap_skiplist_dats.c

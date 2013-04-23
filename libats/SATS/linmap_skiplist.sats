@@ -43,7 +43,7 @@
 
 (* ****** ****** *)
 
-fun{} linmap_skiplist_initize (): void
+fun linmap_skiplist_initize (): void
 
 (* ****** ****** *)
 

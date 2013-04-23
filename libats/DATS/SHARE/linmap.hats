@@ -83,11 +83,11 @@ in
 if ans then let
   prval () = opt_unsome {itm} (res)
 in
-  Some_vt (res)
+  Some_vt {itm} (res)
 end else let
   prval () = opt_unnone {itm} (res)
 in
-  None_vt (*void*)
+  None_vt {itm} ((*void*))
 end // end of [if]
 //
 end // end of [linmap_search_opt]
@@ -130,11 +130,11 @@ in
 if ans then let
   prval () = opt_unsome {itm} (res)
 in
-  Some_vt (res)
+  Some_vt {itm} (res)
 end else let
   prval () = opt_unnone {itm} (res)
 in
-  None_vt (*void*)
+  None_vt {itm} ((*void*))
 end // end of [if]
 //
 end // end of [linmap_insert_opt]
@@ -177,11 +177,11 @@ in
 if ans then let
   prval () = opt_unsome {itm} (res)
 in
-  Some_vt (res)
+  Some_vt {itm} (res)
 end else let
   prval () = opt_unnone {itm} (res)
 in
-  None_vt (*void*)
+  None_vt {itm} ((*void*))
 end // end of [if]
 //
 end // end of [linmap_takeout_opt]

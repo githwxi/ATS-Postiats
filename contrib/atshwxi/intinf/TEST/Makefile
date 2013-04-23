@@ -58,6 +58,15 @@ clean:: ; $(RMF) test04_dats.c
 cleanall:: ; $(RMF) test04.exe
 
 
+all:: fact
+fact: fact.exe
+fact.exe: fact_dats.c ;   $(CCOPT)   -I$(PATSHOMEQ)   -I$(PATSHOMEQ)/ccomp/runtime   -I$(PATSHOME)/contrib   -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
+fact_dats.c: fact.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fact_dats.c --dynamic fact.dats
+clean:: ; $(RMF) fact_dats.o
+clean:: ; $(RMF) fact_dats.c
+cleanall:: ; $(RMF) fact.exe
+
+
 ######
 
 clean:: ; $(RMF) *~

@@ -137,19 +137,6 @@ atspre_isNotSomeExn
 
 extern
 atsvoid_t0ype
-atsruntime_handle_uncaughtexn
-  (const atstype_exnconptr exn)
-{
-  fprintf(
-    stderr, "exit(ATS): uncaught exception: %s(%d)\n", exn->exnname, exn->exntag
-  ) ; exit(1) ;
-  return ; // deadcode
-} /* end of [atsruntime_handle_uncaughtexn] */
-
-/* ****** ****** */
-
-extern
-atsvoid_t0ype
 atsruntime_raise
 (
   const atstype_exnconptr exn
@@ -157,6 +144,36 @@ atsruntime_raise
 {
   atsruntime_handle_uncaughtexn(exn) ; return ;
 } /* end of [atsruntime_raise] */
+
+/* ****** ****** */
+
+extern
+void
+atsruntime_handle_uncaughtexn
+  (void *exn0)
+{
+  atstype_exnconptr exn = exn0 ;
+  fprintf(
+    stderr
+  , "exit(ATS): uncaught exception at run-time: %s(%d)\n"
+  , exn->exnname, exn->exntag
+  ) ; exit(1) ;
+  return ; // deadcode
+} /* end of [atsruntime_handle_uncaughtexn] */
+
+/* ****** ****** */
+
+extern
+void
+atsruntime_handle_unmatchedval
+  (char *msg0)
+{
+  fprintf(
+    stderr
+  , "exit(ATS): unmatched value at run-time:\n%s\n", msg0
+  ) ; exit(1) ;
+  return ; // deadcode
+} /* end of [atsruntime_handle_unmatchedval] */
 
 /* ****** ****** */
 
