@@ -197,6 +197,15 @@ fun{a:vt0p}
 sllist_freelin (xs: Sllist (INV(a))):<!wrt> void
 
 (* ****** ****** *)
+
+fun{
+a:vt0p}{b:vt0p
+} sllist_map$fwork (x: &a): b
+fun{
+a:vt0p}{b:vt0p
+} sllist_map {n:int} (xs: !sllist (a, n)): sllist (b, n)
+
+(* ****** ****** *)
 //
 fun{
 a:vt0p}{env:vt0p

@@ -35,9 +35,9 @@ typedef T = int
 //
 val out = stdout_ref
 //
-val xs1 = sllist_nil {T} ()
+val xs1 = sllist_nil{T}()
 val xs1 = 1 :: 2 :: xs1
-val xs2 = sllist_nil {T} ()
+val xs2 = sllist_nil{T}()
 val xs2 = 3 :: 4 :: 5 :: xs2
 //
 val xs = sllist_append (xs1, xs2)
@@ -48,14 +48,12 @@ val () = assertloc (3 = xs[2])
 val () = assertloc (4 = xs[3])
 val () = assertloc (5 = xs[4])
 //
-val () = fprint_sllist (out, xs)
-val () = fprint_newline (out)
+val () = fprintln! (out, xs)
 val () = assertloc (sllist_length (xs) = 5)
 //
 val rxs = sllist_reverse (xs)
 //
-val () = fprint_sllist (out, rxs)
-val () = fprint_newline (out)
+val () = fprintln! (out, rxs)
 val () = assertloc (sllist_length (rxs) = 5)
 //
 val () = sllist_free (rxs)
@@ -70,7 +68,28 @@ typedef T = int
 //
 val out = stdout_ref
 //
-val xs = sllist_nil {T} ()
+val xs = sllist_nil{T}()
+val xs = 1 :: 2 ::  3 :: 4 :: 5 :: xs
+val () = fprintln! (out, "xs = ", xs)
+//
+implement
+sllist_map$fwork<T><T> (x) = 2 * x
+val ys = sllist_map<T><T> (xs)
+val () = fprintln! (out, "ys = ", ys)
+//
+val () = sllist_free (xs)
+val () = sllist_free (ys)
+//
+}
+(* ****** ****** *)
+
+val () = {
+//
+typedef T = int
+//
+val out = stdout_ref
+//
+val xs = sllist_nil{T}()
 val xs = sllist_insert_at (xs, 0, 0)
 val xs = sllist_insert_at (xs, 1, 1)
 val xs = sllist_insert_at (xs, 2, 2)

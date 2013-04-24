@@ -444,6 +444,44 @@ end // end of [sllist_free]
 
 (* ****** ****** *)
 
+implement
+{a}{b}
+sllist_map {n} (xs) = let
+//
+fun loop
+(
+  nxs: g2node0 (a), p_res: ptr
+) : void = let
+//
+val iscons = gnodelst_is_cons (nxs)
+//
+in
+//
+if iscons then let
+  val nx = nxs
+  val nxs = gnode_get_next (nx)
+  val p_x = gnode_getref_elt (nx)
+  val (pf, fpf | p_x) = $UN.cptr_vtake{a}(p_x)
+  val y = sllist_map$fwork<a><b> (!p_x)
+  prval () = fpf (pf)
+  val ny = g2node_make_elt<b> (y)
+  val () = $UN.ptr0_set<g2node1(b)> (p_res, ny)
+  val p_res = gnode_getref_next (ny)
+in
+  loop (nxs, cptr2ptr(p_res))
+end else () // end of [if]
+//
+end (* end of [loop] *)
+//
+var res: ptr
+val () = loop ($UN.castvwtp1{g2node0(a)}(xs), addr@(res))
+//
+in
+  $UN.castvwtp0{sllist(b,n)}(res)
+end (* end of [sllist_map] *)
+
+(* ****** ****** *)
+
 (*
 fun{
 a:vt0p}{env:vt0p
