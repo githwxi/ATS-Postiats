@@ -53,12 +53,18 @@ in (* in of [local] *)
 implement the_PACKNAME_get () = !the_PACKNAME
 
 implement
-the_PACKNAME_set (ns) = !the_PACKNAME := stropt_some (ns)
-
-implement
-the_PACKNAME_set_none () = !the_PACKNAME := stropt_none(*void*)
+the_PACKNAME_set (opt) = !the_PACKNAME := opt
 
 end // end of [local]
+
+implement
+the_PACKNAME_set_name
+  (ns) = the_PACKNAME_set (stropt_some (ns))
+// end of [the_PACKNAME_set]
+implement
+the_PACKNAME_set_none
+  ((*none*)) = the_PACKNAME_set (stropt_none)
+// end of [the_PACKNAME_set_none]
 
 (* ****** ****** *)
 

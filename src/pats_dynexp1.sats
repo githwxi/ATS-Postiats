@@ -226,8 +226,10 @@ typedef intlst = List (int)
 (* ****** ****** *)
 
 datatype d1ecl_node =
-  | D1Cnone
+  | D1Cnone of ()
   | D1Clist of d1eclist
+//
+  | D1Cpackname of (Stropt) // HX: #define ATS_PACKNAME ...
 //
   | D1Csymintr of (* overloaded symbol intr *)
       i0delst
@@ -855,8 +857,9 @@ fun i1mpdec_make (
 (* ****** ****** *)
 
 fun d1ecl_none (loc: location): d1ecl
-
 fun d1ecl_list (loc: location, ds: d1eclist): d1ecl
+
+fun d1ecl_packname (opt: Stropt): d1ecl
 
 fun d1ecl_symintr (loc: location, ids: i0delst): d1ecl
 fun d1ecl_symelim (loc: location, ids: i0delst): d1ecl

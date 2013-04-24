@@ -41,6 +41,7 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 (* ****** ****** *)
 
 staload ERR = "./pats_error.sats"
+staload GLOB = "./pats_global.sats"
 
 (* ****** ****** *)
 
@@ -1160,7 +1161,8 @@ fun s2exp_get_arylst
 
 in // in of [local]
 
-fn d1cstdec_tr (
+fun d1cstdec_tr
+(
   dck: dcstkind
 , s2qs: s2qualst
 , d1c: d1cstdec
@@ -1651,9 +1653,11 @@ val () = begin
   print "s1taload_tr: filename = "; $FIL.print_filename fil; print_newline ()
 end // end of [val]
 *)
+//
 val filsym = $FIL.filename_get_full (fil)
 val (pflev | ()) = the_staload_level_push ()
 val ans = the_filenvmap_find (filsym)
+//
 val fenv =
 (
 case+
@@ -1666,7 +1670,9 @@ loaded: int
 | ~None_vt _ => let
     val () = loaded := 0
     val (pfsave | ()) = the_trans2_env_save ()
+    val opt = $GLOB.the_PACKNAME_get ()
     val d2cs = d1eclist_tr (d1cs)
+    val () =  $GLOB.the_PACKNAME_set (opt)
     val (m0, m1, m2) = the_trans2_env_restore (pfsave | (*none*))
     val fenv = filenv_make (fil, m0, m1, m2, d2cs)
     val () = the_filenvmap_add (filsym, fenv)
@@ -1729,6 +1735,13 @@ case+ d1c0.d1ecl_node of
   in
     d2ecl_list (loc0, ds)
   end // end of [D1Clist]
+//
+| D1Cpackname (opt) => let
+    val (
+    ) = $GLOB.the_PACKNAME_set (opt)
+  in
+    d2ecl_none (loc0)
+  end (* end of [D1Cpackname] *)
 //
 | D1Csymintr (ids) => let
     val () = symintr_tr (ids) in d2ecl_symintr (loc0, ids)

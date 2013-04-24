@@ -567,18 +567,16 @@ pervasive_load (
   val d0cs = parse_from_filename_toplevel (0(*sta*), filename)
   val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
 //
-  val () = $GLOB.the_PACKNAME_set ("ATSLIB.prelude")
   val () = $TRENV1.the_EXTERN_PREFIX_set ("atspre_")
+  val () = $GLOB.the_PACKNAME_set_name ("ATSLIB.prelude")
 //
-  val (
-    pfenv | ()
-  ) = $TRENV1.the_trans1_env_push ()
+  val (pfenv | ()) =
+    $TRENV1.the_trans1_env_push ((*void*))
   val d1cs = $TRANS1.d0eclist_tr_errck (d0cs)
   val () = $TRENV1.the_trans1_env_pop (pfenv | (*none*))
 //
-  val (
-    pfenv | ()
-  ) = $TRENV2.the_trans2_env_push ()
+  val (pfenv | ()) =
+    $TRENV2.the_trans2_env_push ((*void*))
   val d2cs = $TRANS2.d1eclist_tr_errck (d1cs)
   val () = $TRENV2.the_trans2_env_pervasive_joinwth (pfenv | (*none*))
 //

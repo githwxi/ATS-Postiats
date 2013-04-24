@@ -383,6 +383,21 @@ end // end of [local]
 
 (* ****** ****** *)
 
+implement
+fprint_stropt
+ (out, opt) = let
+in
+//
+if stropt_is_some (opt) then
+  fprint_string (out, stropt_unsome (opt))
+else
+  fprint_string (out, "(none)")
+// end of [if]
+//
+end (* end of [fprint_stropt] *)
+
+(* ****** ****** *)
+
 implement{a}
 fprintlst (
   out, xs, sep, fprint

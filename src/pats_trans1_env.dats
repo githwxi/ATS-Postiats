@@ -165,7 +165,7 @@ case+ opt of
     end // end of [_]
   ) // end of [Some_vt]
 | ~None_vt () =>
-    stropt_none // HX: [%] is kept to indicated a likely error
+    stropt_none // HX: [%] is kept to indicate a likely error
   // end of [None_vt]
 //
 end // end of [the_EXTERN_PREFIX_get]

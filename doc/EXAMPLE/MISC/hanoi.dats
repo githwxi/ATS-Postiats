@@ -45,7 +45,8 @@ showpiece
   sz: int sz, n: natLte sz
 ) : void = let
 //
-fun loop {
+fun loop
+{
   i:nat | i <= 2*sz
 } .<2*sz-i>.
 (

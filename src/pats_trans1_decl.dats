@@ -556,6 +556,27 @@ fn i0nclude_tr (
 
 (* ****** ****** *)
 
+fun ats_packname_get (): Stropt = let
+  val opt = the_e1xpenv_find (ATS_PACKNAME)
+in
+//
+case+ opt of
+| ~Some_vt (e) => (
+  case+ e.e1xp_node of
+  | E1XPstring (ns) => stropt_some (ns)
+  | _ => let
+      val () = prerr_warning1_loc (e.e1xp_loc)
+      val () = prerrln! ": a string definition is required for [ATS_PACKNAME]."
+    in
+      stropt_none (*void*)
+    end // end of [_]
+  ) // end of [Some_vt]
+| ~None_vt () => stropt_none (*void*)
+//
+end // end of [ats_packname_get]
+
+(* ****** ****** *)
+
 %{^
 //
 static
@@ -586,6 +607,8 @@ fn s0taload_tr_load
 //
   val (pfsave | ()) = the_trans1_env_save ()
   val d1cs = d0eclist_tr (d0cs)
+  val d1c_packname = d1ecl_packname (ats_packname_get ())
+  val d1cs = list_cons (d1c_packname, d1cs)
   val ans = the_e1xpenv_find (ATS_STALOADFLAG)
   val () =
   (
@@ -878,7 +901,8 @@ case+ d0c0.d0ecl_node of
 //
 | D0Cinclude
     (pfil, stadyn, path) => let
-    val (
+    val
+    (
       pfpush | ()
     ) = $FIL.the_filenamelst_push (pfil)
     val d1cs = i0nclude_tr (d0c0, stadyn, path)
@@ -891,7 +915,8 @@ case+ d0c0.d0ecl_node of
     var loadflag: int // unitialized
     var fil: filename // unitialized
 //
-    val (
+    val
+    (
       pfpush | ()
     ) = $FIL.the_filenamelst_push (pfil)
     val d1cs = s0taload_tr (d0c0, idopt, path, loadflag, fil)
@@ -901,7 +926,8 @@ case+ d0c0.d0ecl_node of
     d1ecl_staload (loc0, idopt, fil, loadflag, d1cs)
   end // end of [D0Cstaload]
 | D0Cdynload (pfil, path) => let
-    val (
+    val
+    (
       pfpush | ()
     ) = $FIL.the_filenamelst_push (pfil)
     val cfil = d0ynload_tr (d0c0, path)
@@ -910,13 +936,14 @@ case+ d0c0.d0ecl_node of
     d1ecl_dynload (loc0, cfil)
   end // end of [D0Cdynload]
 //
-| D0Clocal (
+| D0Clocal
+  (
     d0cs_head, d0cs_body
   ) => let
     val (pfenv1 | ()) = the_trans1_env_push ()
-    val (pflev | ()) = the_trans1_level_inc ()
+    val (pflev0 | ()) = the_trans1_level_inc ()
     val d1cs_head = d0eclist_tr (d0cs_head)
-    val () = the_trans1_level_dec (pflev | (*none*))
+    val () = the_trans1_level_dec (pflev0 | (*none*))
     val (pfenv2 | ()) = the_trans1_env_push ((*none*))
     val d1cs_body = d0eclist_tr (d0cs_body)
     val () = the_trans1_env_localjoin (pfenv1, pfenv2 | (*none*))
@@ -931,9 +958,7 @@ case+ d0c0.d0ecl_node of
 (*
 | _ => let
     val () = $LOC.prerr_location (loc0)
-    val () = prerr ": NYI: d0ecl_tr: d0c0 = "
-    val () = fprint_d0ecl (stderr_ref, d0c0)
-    val () = prerr_newline ()
+    val () = fprintln! (stderr_ref, ": Not yet implemented: d0ecl_tr: d0c0 = ", d0c0)
   in
     d1ecl_none (loc0)
   end // end of [_]
@@ -942,14 +967,19 @@ case+ d0c0.d0ecl_node of
 end // end of [d0ecl_tr]
 
 implement
-d0eclist_tr (d0cs) = l2l (list_map_fun (d0cs, d0ecl_tr))
+d0eclist_tr (d0cs) =
+  list_of_list_vt (list_map_fun (d0cs, d0ecl_tr))
+// end of [d0eclist_tr]
 
 (* ****** ****** *)
 
 implement
 d0eclist_tr_errck
-  (d0cs) = d1cs where {
+  (d0cs) = d1cs where
+{
   val d1cs = d0eclist_tr (d0cs)
+  val d1c_packname = d1ecl_packname (ats_packname_get ())
+  val d1cs = list_cons (d1c_packname, d1cs)
   val () = the_trans1errlst_finalize ()
 } // end of [d0eclist_tr_errck]
 
@@ -961,26 +991,6 @@ fn intrep2int
   (rep: string): int = let
   val x = $UT.llint_make_string (rep) in int_of_llint (x)
 end // end of [intrep2int]
-
-fun aux_packname (): void = let
-  val opt = the_e1xpenv_find (ATS_PACKNAME)
-in
-//
-case+ opt of
-| ~Some_vt (e) => (
-  case+ e.e1xp_node of
-  | E1XPstring (x) => $GLOB.the_PACKNAME_set (x)
-  | _ => let
-      val () = prerr_error1_loc (e.e1xp_loc)
-      val () = prerr ": a string definition is required for [ATS_PACKNAME]."
-      val () = prerr_newline ()
-    in
-       $ERR.abort {void} ()
-    end // end of [_]
-  ) // end of [Some_vt]
-| ~None_vt () => () // HX: using the absolute directory name 
-//
-end // end of [aux_packname]
 
 fun aux_dynloadflag (): void = let
   val opt = the_e1xpenv_find (ATS_DYNLOADFLAG)
@@ -1028,7 +1038,6 @@ in (* in of [local] *)
 
 implement
 trans1_finalize () = let
-  val () = aux_packname ()
   val () = aux_dynloadflag ()
   val () = aux_mainatsflag ()
 in

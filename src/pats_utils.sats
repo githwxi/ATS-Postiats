@@ -55,16 +55,24 @@ fun float_get_nsfx (rep: string): uint // in the [rep]
 //
 (* ****** ****** *)
 
-fun{a:t@ype}
-fprintlst (
+fun fprint_stropt (out: FILEref, opt: Stropt): void
+
+(* ****** ****** *)
+
+fun{
+a:t@ype
+} fprintlst
+(
   out: FILEref
 , xs: List a
 , sep: string
 , fprint: (FILEref, a) -> void
 ) : void // end of [fprintlst]
 
-fun{a:t@ype}
-fprintopt (
+fun{
+a:t@ype
+} fprintopt
+(
   out: FILEref
 , opt: Option a
 , fprint: (FILEref, a) -> void

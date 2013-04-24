@@ -33,8 +33,9 @@
 (* ****** ****** *)
 
 fun the_PACKNAME_get (): Stropt
-fun the_PACKNAME_set (ns: string): void
+fun the_PACKNAME_set (opt: Stropt): void
 fun the_PACKNAME_set_none (): void
+fun the_PACKNAME_set_name (ns: string): void
 
 (* ****** ****** *)
 

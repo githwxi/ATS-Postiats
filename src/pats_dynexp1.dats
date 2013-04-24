@@ -961,6 +961,13 @@ d1ecl_list (loc, ds) =
 (* ****** ****** *)
 
 implement
+d1ecl_packname (opt) =
+  d1ecl_make_node ($LOC.location_dummy, D1Cpackname (opt))
+// end of [d1ecl_packname]
+
+(* ****** ****** *)
+
+implement
 d1ecl_symintr (loc, ids) =
   d1ecl_make_node (loc, D1Csymintr (ids))
 
