@@ -90,6 +90,15 @@ clean:: ; $(RMF) wclines_dats.c
 cleanall:: ; $(RMF) wclines.exe
 
 
+all:: sllist_mapfree
+sllist_mapfree: sllist_mapfree.exe
+sllist_mapfree.exe: sllist_mapfree_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+sllist_mapfree_dats.c: sllist_mapfree.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output sllist_mapfree_dats.c --dynamic sllist_mapfree.dats
+clean:: ; $(RMF) sllist_mapfree_dats.o
+clean:: ; $(RMF) sllist_mapfree_dats.c
+cleanall:: ; $(RMF) sllist_mapfree.exe
+
+
 ######
 
 clean:: ; $(RMF) *~

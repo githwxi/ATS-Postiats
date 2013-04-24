@@ -9,7 +9,9 @@
 // Authoremail: hwxi AT cs DOT bu DOT edu
 // Time: August, 2010
 //
-// Ported to ATS2 by Hongwei Xi (April, 2013)
+(* ****** ****** *)
+//
+// HX-2013-04: this one is ported from ATS to ATS2
 //
 (* ****** ****** *)
 //

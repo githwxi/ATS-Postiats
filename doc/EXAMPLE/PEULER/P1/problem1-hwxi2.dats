@@ -7,12 +7,16 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi
-// AuthorEmail: hwxi AT cs DOT bu DOT edu
+// Authoremail: hwxi AT cs DOT bu DOT edu
 // Time: August, 2010
 //
 (* ****** ****** *)
 //
 // HX-2010-08: this is a fully verified solution!
+//
+(* ****** ****** *)
+//
+// HX-2013-04: this one is ported from ATS to ATS2
 //
 (* ****** ****** *)
 //

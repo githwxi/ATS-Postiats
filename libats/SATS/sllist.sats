@@ -197,14 +197,14 @@ fun{a:vt0p}
 sllist_freelin (xs: Sllist (INV(a))):<!wrt> void
 
 (* ****** ****** *)
-
+//
 fun{
 a:vt0p}{env:vt0p
 } sllist_foreach$cont (x: &a, env: &env): bool
 fun{
 a:vt0p}{env:vt0p
 } sllist_foreach$fwork (x: &a, env: &env >> _): void
-
+//
 fun{a:vt0p}
 sllist_foreach (xs: !Sllist (INV(a))): void
 fun{
@@ -212,7 +212,7 @@ a:vt0p}{env:vt0p
 } sllist_foreach_env
   (xs: !Sllist (INV(a)), env: &env >> _): void
 // end of [sllist_foreach_env]
-
+//
 (* ****** ****** *)
 //
 fun{}
@@ -222,6 +222,8 @@ fun{a:vt0p}
 fprint_sllist
   (out: FILEref, xs: !Sllist (INV(a))): void
 // end of [fprint_sllist]
+//
+overload fprint with fprint_sllist
 //
 (* ****** ****** *)
 
