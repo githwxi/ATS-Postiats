@@ -7,8 +7,10 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi
-// AuthorEmail: hwxi AT cs DOT bu DOT edu
+// Authoremail: hwxi AT cs DOT bu DOT edu
 // Time: December, 2010
+//
+// Ported to ATS2 by Hongwei Xi (April, 2012)
 //
 (* ****** ****** *)
 //

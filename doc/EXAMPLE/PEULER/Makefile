@@ -9,6 +9,7 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 all::
 all:: P1
+all:: P16
 
 ######
 
@@ -29,6 +30,17 @@ problem1-hwxi2:: \
 problem1-hwxi2:: problem1-hwxi2_dats.c ; \
   $(CCOPT) -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -o $@.exe $@_dats.c
 problem1-hwxi2:: problem1-hwxi2.exe ; ./$<
+
+######
+
+P16:: problem16-hwxi
+problem16-hwxi:: \
+  P16/problem16-hwxi.dats ; $(PATSOPT) -IATS${PATSHOME}/contrib -o $@_dats.c -d $<
+problem16-hwxi:: \
+  problem16-hwxi_dats.c ; \
+  $(CCOPT) -DATS_MEMALLOC_LIBC \
+  -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -I${PATSHOME}/contrib -o $@.exe $@_dats.c -lgmp
+problem16-hwxi:: problem16-hwxi.exe ; ./$<
 
 ######
 

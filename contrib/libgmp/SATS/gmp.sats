@@ -529,9 +529,9 @@ overload mpz_cmp with mpz_cmp_ulint
 symintr mpz_pow
 //
 fun mpz_pow_uint
-  (pw: &mpz >> _, base: &mpz, exp: uint): void = "mac#%"
+  (pwr: &mpz >> _, base: &mpz, exp: uint): void = "mac#%"
 fun mpz_pow_ulint
-  (pw: &mpz >> _, base: &mpz, exp: ulint): void = "mac#%"
+  (pwr: &mpz >> _, base: &mpz, exp: ulint): void = "mac#%"
 //
 overload mpz_pow with mpz_cmp_uint
 overload mpz_pow with mpz_cmp_ulint
