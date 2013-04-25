@@ -1,0 +1,62 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../math.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libc_math")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libc/math\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are mostly the API for the
+corresponding libc-functions declared in [math.h], and many more details
+on these functions can often be found in the Linux Programmer's manual.
+See #myatscodelink("libc/SATS/math.sats", "math.sats") for the SATS
+file in ATSLIB where these functions are declared.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("ceil")
+#declnamesynop("ceil_float")
+#declnamesynop("ceil_double")
+#declnamesynop("ceil_ldouble")
+
+(* ****** ****** *)
+
+#declnamesynop("floor")
+#declnamesynop("floor_float")
+#declnamesynop("floor_double")
+#declnamesynop("floor_ldouble")
+
+(* ****** ****** *)
+
+#declnamesynop("round")
+#declnamesynop("round_float")
+#declnamesynop("round_double")
+#declnamesynop("round_ldouble")
+
+(* ****** ****** *)
+
+#declnamesynop("trunc")
+#declnamesynop("trunc_float")
+#declnamesynop("trunc_double")
+#declnamesynop("trunc_ldouble")
+
+(* ****** ****** *)
+
+(* end of [math.atxt] *)

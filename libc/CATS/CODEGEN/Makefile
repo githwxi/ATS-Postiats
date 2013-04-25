@@ -53,6 +53,15 @@ malloc_atxt.dats: malloc.atxt
 clean:: ; $(RMF) malloc_atxt.exe
 cleanall:: ; $(RMF) malloc.cats
 
+all:: math.cats
+math.cats: math_atxt.exe ; ./$< > $@
+math_atxt.exe: math_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ math_atxt.dats -latsdoc
+math_atxt.dats: math.atxt
+	$(ATSDOC) --outcode $@ -i math.atxt > math_atxt.txt
+clean:: ; $(RMF) math_atxt.exe
+cleanall:: ; $(RMF) math.cats
+
 all:: stdio.cats
 stdio.cats: stdio_atxt.exe ; ./$< > $@
 stdio_atxt.exe: stdio_atxt.dats

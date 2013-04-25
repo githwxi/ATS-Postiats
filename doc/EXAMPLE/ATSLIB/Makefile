@@ -183,6 +183,14 @@ clean:: ; $(RMF) libc_malloc_dats.o
 clean:: ; $(RMF) libc_malloc_dats.c
 cleanall:: ; $(RMF) libc_malloc.exe
 
+all:: libc_math
+libc_math: libc_math.exe
+libc_math.exe: libc_math_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+libc_math_dats.c: libc_math.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_math_dats.c --dynamic libc_math.dats
+clean:: ; $(RMF) libc_math_dats.o
+clean:: ; $(RMF) libc_math_dats.c
+cleanall:: ; $(RMF) libc_math.exe
+
 all:: libc_stdio
 libc_stdio: libc_stdio.exe
 libc_stdio.exe: libc_stdio_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 

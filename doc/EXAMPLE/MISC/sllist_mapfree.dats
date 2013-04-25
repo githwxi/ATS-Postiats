@@ -1,8 +1,9 @@
-(* ****** ****** *)
+(*
 //
 // HX-2013-04:
 // some code for use in Matt's HCSS talk in May
 //
+*)
 (* ****** ****** *)
 //
 #include
@@ -27,6 +28,12 @@ a:t0p}{b:t0p
 
 (* ****** ****** *)
 
+#define nil sllist_nil
+#define cons sllist_cons
+#define :: sllist_cons
+
+(* ****** ****** *)
+
 implement{a}{b}
 sllist_mapfree (xs) =
 (
@@ -35,19 +42,13 @@ if sllist_is_cons (xs) then let
   val x0 = sllist_uncons (xs)
   val y0 = sllist_mapfree$fwork<a><b> (x0)
 in
-  sllist_cons (y0, sllist_mapfree<a><b> (xs))
+  y0 :: sllist_mapfree<a><b> (xs)
 end else let
   prval () = sllist_free_nil (xs)
 in
   sllist_nil ()
 end (* end of [if] *)
 )
-
-(* ****** ****** *)
-
-#define nil sllist_nil
-#define cons sllist_cons
-#define :: sllist_cons
 
 (* ****** ****** *)
 

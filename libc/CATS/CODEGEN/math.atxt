@@ -1,0 +1,72 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"math.cats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_LGPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/libc/CATS/CODEGEN/math.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator_for_C()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("March, 2013")
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSLIB_LIBC_MATH_CATS
+\#define ATSLIB_LIBC_MATH_CATS
+
+#atscode_separator_for_C()
+
+\#include <math.h>
+
+#atscode_separator_for_C()
+
+\#define atslib_ceil_float ceilf
+\#define atslib_ceil_double ceil
+\#define atslib_ceil_ldouble ceill
+
+#atscode_separator_for_C()
+
+\#define atslib_floor_float floorf
+\#define atslib_floor_double floor
+\#define atslib_floor_ldouble floorl
+
+#atscode_separator_for_C()
+
+\#define atslib_round_float roundf
+\#define atslib_round_double round
+\#define atslib_round_ldouble roundl
+
+#atscode_separator_for_C()
+
+\#define atslib_trunc_float truncf
+\#define atslib_trunc_double trunc
+\#define atslib_trunc_ldouble truncl
+
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSLIB_LIBC_MATH_CATS
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "math_atxt.txt")
+%}\

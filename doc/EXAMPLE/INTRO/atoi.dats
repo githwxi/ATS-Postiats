@@ -41,10 +41,15 @@ implement
 main0 (
   argc, argv
 ) = {
-  val () =
-    if (argc <= 1) then atoi_usage (argv[0])
-  val () = assertloc (argc >= 2)
-  val () = println! ("atoi(\"", argv[1], "\") = ", atoi(argv[1]))
+//
+(*
+val () =
+  if (argc <= 1) then atoi_usage (argv[0])
+*)
+val rep =
+  (if argc >= 2 then argv[1] else "123456789"): string
+val () = println! ("atoi(\"", rep, "\") = ", atoi(rep))
+//
 } // end of [main0]
 
 (* ****** ****** *)
