@@ -110,7 +110,6 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
-#packfilename("apermute.dats")
 #packfilename("areverse.dats")
 
 (* ****** ****** *)

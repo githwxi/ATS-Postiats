@@ -41,22 +41,6 @@ clean:: ; $(RMF) acker2_dats.o
 clean:: ; $(RMF) acker2_dats.c
 cleanall:: ; $(RMF) acker2.exe
 
-all:: aqsort
-aqsort: aqsort.exe
-aqsort.exe: aqsort_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-aqsort_dats.c: aqsort.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output aqsort_dats.c --dynamic aqsort.dats
-clean:: ; $(RMF) aqsort_dats.o
-clean:: ; $(RMF) aqsort_dats.c
-cleanall:: ; $(RMF) aqsort.exe
-
-all:: apermute
-apermute: apermute.exe
-apermute.exe: apermute_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
-apermute_dats.c: apermute.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output apermute_dats.c --dynamic apermute.dats
-clean:: ; $(RMF) apermute_dats.o
-clean:: ; $(RMF) apermute_dats.c
-cleanall:: ; $(RMF) apermute.exe
-
 all:: areverse
 areverse: areverse.exe
 areverse.exe: areverse_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 

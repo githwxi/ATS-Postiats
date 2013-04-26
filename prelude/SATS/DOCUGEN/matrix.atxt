@@ -41,9 +41,18 @@ stadef matrix = matrix_viewt0ype_int_int_viewt0ype
 
 (* ****** ****** *)
 
-#declnamesynop("matrix_get_at")
-#declnamesynop("matrix_set_at")
-#declnamesynop("matrix_exch_at")
+#declnamesynop("matrix_get_at_int")
+#declnamesynop("matrix_get_at_size")
+
+(* ****** ****** *)
+
+#declnamesynop("matrix_set_at_int")
+#declnamesynop("matrix_set_at_size")
+
+(* ****** ****** *)
+
+#declnamesynop("matrix_exch_at_int")
+#declnamesynop("matrix_exch_at_size")
 
 (* ****** ****** *)
 
@@ -66,12 +75,12 @@ stadef matrix = matrix_viewt0ype_int_int_viewt0ype
 
 (* ****** ****** *)
 
-#declnamesynop("matrix_add")
-#declnamesynop("matrix_add$fop")
+#declnamesynop("add3_matrix_matrix")
+#declnamesynop("add3_matrix_matrix$fop")
 
 (* ****** ****** *)
 
-#declnamesynop("matrix_mul")
+#declnamesynop("mul_matrix_matrix")
 
 (* ****** ****** *)
 

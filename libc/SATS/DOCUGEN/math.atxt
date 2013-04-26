@@ -31,6 +31,24 @@ file in ATSLIB where these functions are declared.
 
 (* ****** ****** *)
 
+#declnamesynop("isfinite")
+#declnamesynop("isnormal")
+#declnamesynop("fpclassify")
+
+(* ****** ****** *)
+
+#declnamesynop("isnan")
+#declnamesynop("isnan_float")
+#declnamesynop("isnan_double")
+#declnamesynop("isnan_ldouble")
+
+#declnamesynop("isinf")
+#declnamesynop("isinf_float")
+#declnamesynop("isinf_double")
+#declnamesynop("isinf_ldouble")
+
+(* ****** ****** *)
+
 #declnamesynop("ceil")
 #declnamesynop("ceil_float")
 #declnamesynop("ceil_double")
@@ -56,6 +74,149 @@ file in ATSLIB where these functions are declared.
 #declnamesynop("trunc_float")
 #declnamesynop("trunc_double")
 #declnamesynop("trunc_ldouble")
+
+(* ****** ****** *)
+
+#declnamesynop("fmod")
+#declnamesynop("fmod_float")
+#declnamesynop("fmod_double")
+#declnamesynop("fmod_ldouble")
+
+(* ****** ****** *)
+
+#declnamesynop("fmax")
+#declnamesynop("fmax_float")
+#declnamesynop("fmax_double")
+#declnamesynop("fmax_ldouble")
+#declnamesynop("fmin")
+#declnamesynop("fmin_float")
+#declnamesynop("fmin_double")
+#declnamesynop("fmin_ldouble")
+
+(* ****** ****** *)
+
+#declnamesynop("fdim")
+#declnamesynop("fdim_float")
+#declnamesynop("fdim_double")
+#declnamesynop("fdim_ldouble")
+
+(* ****** ****** *)
+
+#declnamesynop("fma")
+#declnamesynop("fma_float")
+#declnamesynop("fma_double")
+#declnamesynop("fma_ldouble")
+
+(* ****** ****** *)
+
+#declnamesynop("sqrt")
+#declnamesynop("sqrt_float")
+#declnamesynop("sqrt_double")
+#declnamesynop("sqrt_ldouble")
+#declnamesynop("cbrt")
+#declnamesynop("cbrt_float")
+#declnamesynop("cbrt_double")
+#declnamesynop("cbrt_ldouble")
+
+(* ****** ****** *)
+
+#declnamesynop("pow")
+#declnamesynop("pow_float")
+#declnamesynop("pow_double")
+#declnamesynop("pow_ldouble")
+
+(* ****** ****** *)
+
+#declnamesynop("exp")
+#declnamesynop("exp_float")
+#declnamesynop("exp_double")
+#declnamesynop("exp_ldouble")
+
+(* ****** ****** *)
+
+#declnamesynop("log")
+#declnamesynop("log_float")
+#declnamesynop("log_double")
+#declnamesynop("log_ldouble")
+#declnamesynop("log")
+#declnamesynop("log_float")
+#declnamesynop("log_double")
+#declnamesynop("log_ldouble")
+
+(* ****** ****** *)
+
+#declnamesynop("log")
+#declnamesynop("log_float")
+#declnamesynop("log_double")
+#declnamesynop("log_ldouble")
+#declnamesynop("log10")
+#declnamesynop("log10_float")
+#declnamesynop("log10_double")
+#declnamesynop("log10_ldouble")
+
+(* ****** ****** *)
+
+#declnamesynop("sin")
+#declnamesynop("sin_float")
+#declnamesynop("sin_double")
+#declnamesynop("sin_ldouble")
+#declnamesynop("cos")
+#declnamesynop("cos_float")
+#declnamesynop("cos_double")
+#declnamesynop("cos_ldouble")
+#declnamesynop("tan")
+#declnamesynop("tan_float")
+#declnamesynop("tan_double")
+#declnamesynop("tan_ldouble")
+
+(* ****** ****** *)
+
+#declnamesynop("asin")
+#declnamesynop("asin_float")
+#declnamesynop("asin_double")
+#declnamesynop("asin_ldouble")
+#declnamesynop("acos")
+#declnamesynop("acos_float")
+#declnamesynop("acos_double")
+#declnamesynop("acos_ldouble")
+#declnamesynop("atan")
+#declnamesynop("atan_float")
+#declnamesynop("atan_double")
+#declnamesynop("atan_ldouble")
+#declnamesynop("atan2")
+#declnamesynop("atan2_float")
+#declnamesynop("atan2_double")
+#declnamesynop("atan2_ldouble")
+
+(* ****** ****** *)
+
+#declnamesynop("sinh")
+#declnamesynop("sinh_float")
+#declnamesynop("sinh_double")
+#declnamesynop("sinh_ldouble")
+#declnamesynop("cosh")
+#declnamesynop("cosh_float")
+#declnamesynop("cosh_double")
+#declnamesynop("cosh_ldouble")
+#declnamesynop("tanh")
+#declnamesynop("tanh_float")
+#declnamesynop("tanh_double")
+#declnamesynop("tanh_ldouble")
+
+(* ****** ****** *)
+
+#declnamesynop("asinh")
+#declnamesynop("asinh_float")
+#declnamesynop("asinh_double")
+#declnamesynop("asinh_ldouble")
+#declnamesynop("acosh")
+#declnamesynop("acosh_float")
+#declnamesynop("acosh_double")
+#declnamesynop("acosh_ldouble")
+#declnamesynop("atanh")
+#declnamesynop("atanh_float")
+#declnamesynop("atanh_double")
+#declnamesynop("atanh_ldouble")
 
 (* ****** ****** *)
 
