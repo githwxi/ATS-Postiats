@@ -864,8 +864,10 @@ end // end of [process_cmdline]
 
 and
 process_cmdline2
-  {i:nat} .<i,2>. (
-  state: &cmdstate, arg: comarg, arglst: comarglst (i)
+  {i:nat} .<i,2>.
+(
+  state: &cmdstate
+, arg: comarg, arglst: comarglst (i)
 ) :<fun1> void = let
 in
 //
@@ -879,11 +881,14 @@ case+ arg of
     val nif = state.ninputfile
   in
     case+ arg of
-    | COMARGkey (1, key) when nif > 0 =>
+    | COMARGkey
+        (1, key) when nif > 0 =>
         process_cmdline2_COMARGkey1 (state, arglst, key)
-    | COMARGkey (2, key) when nif > 0 =>
+    | COMARGkey
+        (2, key) when nif > 0 =>
         process_cmdline2_COMARGkey2 (state, arglst, key)
-    | COMARGkey (_, basename) => let
+    | COMARGkey
+        (_, basename) => let
         val ATSHOME = state.ATSHOME
         val () = state.ninputfile := state.ninputfile + 1
         val () = prelude_load_if (ATSHOME, state.preludeflg)
@@ -963,104 +968,117 @@ end // end of [process_cmdline2]
 
 and
 process_cmdline2_COMARGkey1
-  {i:nat} .<i,1>. (
+  {i:nat} .<i,1>.
+(
   state: &cmdstate
 , arglst: comarglst (i)
 , key: string // [key]: the string following [-]
 ) :<fun1> void = let
-  val () = state.waitkind := WTKnone ()
-  val () = (
-    case+ key of
 //
-    | "-o" => let
-        val () = state.waitkind := WTKoutput
-      in
-      end // end of [-o]
-    | "-s" => let
-        val () = state.ninputfile := 0
-        val () = state.waitkind := WTKinput_sta
-      in
-      end // end of [-s]
-    | "-d" => let
-        val () = state.ninputfile := 0
-        val () = state.waitkind := WTKinput_dyn
-      in
-      end // end of [-d]
+val () = state.waitkind := WTKnone ()
+val () =
+(
+case+ key of
 //
-    | "-dep" => {
-        val () = state.depgenflag := 1
-      }
+| "-o" => let
+    val () = state.waitkind := WTKoutput
+  in
+  end // end of [-o]
+| "-s" => let
+    val () = state.ninputfile := 0
+    val () = state.waitkind := WTKinput_sta
+  in
+  end // end of [-s]
+| "-d" => let
+    val () = state.ninputfile := 0
+    val () = state.waitkind := WTKinput_dyn
+  in
+  end // end of [-d]
 //
-    | "-tc" => {
-        val () = state.typecheckonly := true
-      } // end of [-tc]
+| "-dep" => {
+    val () = state.depgenflag := 1
+  }
 //
-    | _ when
-        is_DATS_flag (key) => let
-        val def = DATS_extract (key)
-        val issome = stropt_is_some (def)
-      in
-        if issome then let
-          val def = stropt_unsome (def)
-        in
-          process_DATS_def (def)
-        end else let
-          val () = state.waitkind := WTKdefine ()
-        in
-          // nothing
-        end // end of [if]
-      end
-    | _ when
-        is_IATS_flag (key) => let
-        val dir = IATS_extract (key)
-        val issome = stropt_is_some (dir)
-      in
-        if issome then let
-          val dir = stropt_unsome (dir)
-        in
-          process_IATS_dir (dir)
-        end else let
-          val () = state.waitkind := WTKinclude ()
-        in
-          // nothing
-        end // end of [if]
-      end
-    | "-v" => patsopt_version (stdout_ref)
-    | _ => comarg_warning (key)
-  ) : void // end of [val]
+| "-tc" => {
+    val () = state.typecheckonly := true
+  } // end of [-tc]
+//
+| _ when
+    is_DATS_flag (key) => let
+    val def = DATS_extract (key)
+    val issome = stropt_is_some (def)
+  in
+    if issome then let
+      val def = stropt_unsome (def)
+    in
+      process_DATS_def (def)
+    end else let
+      val () = state.waitkind := WTKdefine ()
+    in
+      // nothing
+    end // end of [if]
+  end
+| _ when
+    is_IATS_flag (key) => let
+    val dir = IATS_extract (key)
+    val issome = stropt_is_some (dir)
+  in
+    if issome then let
+      val dir = stropt_unsome (dir)
+    in
+      process_IATS_dir (dir)
+    end else let
+      val () = state.waitkind := WTKinclude ()
+    in
+      // nothing
+    end // end of [if]
+  end
+//
+| "-v" => patsopt_version (stdout_ref)
+//
+| _ => comarg_warning (key) // unrecognized key
+//
+) : void // end of [val]
+//
 in
   process_cmdline (state, arglst)
 end // end of [process_cmdline2_COMARGkey1]
 
 and
 process_cmdline2_COMARGkey2
-  {i:nat} .<i,1>. (
+  {i:nat} .<i,1>.
+(
   state: &cmdstate
 , arglst: comarglst (i)
 , key: string // [key]: the string following [--]
 ) :<fun1> void = let
-  val () = state.waitkind := WTKnone ()
-  val () = (
-    case+ key of
-    | "--output" =>
-        state.waitkind := WTKoutput ()
 //
-    | "--static" =>
-        state.waitkind := WTKinput_sta
-    | "--dynamic" =>
-        state.waitkind := WTKinput_dyn
+val () = state.waitkind := WTKnone ()
+val () =
+(
+case+ key of
+| "--output" =>
+    state.waitkind := WTKoutput ()
 //
-    | "--typecheck" => {
-        val () = state.typecheckonly := true
-      } // end of [--typecheck]
+| "--static" =>
+    state.waitkind := WTKinput_sta
+| "--dynamic" =>
+    state.waitkind := WTKinput_dyn
 //
-    | "--depgen" => {
-        val () = state.depgenflag := 1
-      } // end of [--depgen]
+| "--typecheck" => {
+    val () = state.typecheckonly := true
+  } // end of [--typecheck]
 //
-    | "--version" => patsopt_version (stdout_ref)
-    | _ => comarg_warning (key) // unrecognized
-  ) : void // end of [val]
+| "--depgen" => {
+    val () = state.depgenflag := 1
+  } // end of [--depgen]
+//
+| "--version" => patsopt_version (stdout_ref)
+//
+| _ => comarg_warning (key) // unrecognized key
+//
+) : void // end of [val]
+//
 in
   process_cmdline (state, arglst)
 end // end of [process_cmdline2_COMARGkey2]
