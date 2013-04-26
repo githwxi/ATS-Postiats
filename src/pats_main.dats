@@ -833,15 +833,28 @@ case+ arglst of
 //
         val d0cs = parse_from_stdin_toplevel (stadyn)
 //
-        val () =
-          if state.depgenflag > 0 then let
-          val filr = outchan_get_filr (state.outchan)
-          val ps = $DPGEN.depgen_eval (d0cs)
-        in
-          $DPGEN.fprint_entry (filr, "<stdin>", ps)
-        end // end of [val]
+        val isdepgen = state.depgenflag > 0
 //
-        val () = do_transfinal (state, "<STDIN>", d0cs)
+        val () =
+        (
+        if isdepgen then let
+          val filr =
+            outchan_get_filr (state.outchan)
+          // end of [val]
+          val ents = $DPGEN.depgen_eval (d0cs)
+        in
+          $DPGEN.fprint_entry (filr, "<stdin>", ents)
+        end // end of [if]
+        ) (* end of [val] *)
+        val () =
+        (
+        if ~isdepgen then let
+          val () = do_transfinal (state, "<STDIN>", d0cs)
+        in
+          // nothing
+        end // end of [if]
+        ) (* end of [val] *)
+//
       } // end of [_ when ...]
     | _ => ()
   end // end of [list_vt_nil when ...]
@@ -877,15 +890,28 @@ case+ arg of
 //
         val d0cs = parse_from_basename_toplevel (stadyn, basename, state.infil)
 //
-        val () =
-          if state.depgenflag > 0 then let
-          val filr = outchan_get_filr (state.outchan)
-          val ps = $DPGEN.depgen_eval (d0cs)
-        in
-          $DPGEN.fprint_entry (filr, basename, ps)
-        end // end of [val]
+        val isdepgen = state.depgenflag > 0
 //
-        val () = do_transfinal (state, basename, d0cs)
+        val () =
+        (
+        if isdepgen then let
+          val filr =
+            outchan_get_filr (state.outchan)
+          // end of [val]
+          val ents = $DPGEN.depgen_eval (d0cs)
+        in
+          $DPGEN.fprint_entry (filr, basename, ents)
+        end // end of [if]
+        ) (* end of [val] *)
+        val () =
+        (
+        if ~isdepgen then let
+          val () = do_transfinal (state, basename, d0cs)
+        in
+          // nothing
+        end // end of [if]
+        ) (* end of [val] *)
+//
       in
         process_cmdline (state, arglst)
       end (* end of [_] *)
@@ -946,10 +972,6 @@ process_cmdline2_COMARGkey1
   val () = (
     case+ key of
 //
-    | "-tc" => let
-        val () = state.typecheckonly := true
-      in
-      end // end of [-tc]
     | "-o" => let
         val () = state.waitkind := WTKoutput
       in
@@ -969,7 +991,12 @@ process_cmdline2_COMARGkey1
         val () = state.depgenflag := 1
       }
 //
-    | _ when is_DATS_flag (key) => let
+    | "-tc" => {
+        val () = state.typecheckonly := true
+      } // end of [-tc]
+//
+    | _ when
+        is_DATS_flag (key) => let
         val def = DATS_extract (key)
         val issome = stropt_is_some (def)
       in
@@ -983,7 +1010,8 @@ process_cmdline2_COMARGkey1
           // nothing
         end // end of [if]
       end
-    | _ when is_IATS_flag (key) => let
+    | _ when
+        is_IATS_flag (key) => let
         val dir = IATS_extract (key)
         val issome = stropt_is_some (dir)
       in
@@ -1016,13 +1044,20 @@ process_cmdline2_COMARGkey2
     case+ key of
     | "--output" =>
         state.waitkind := WTKoutput ()
+//
     | "--static" =>
         state.waitkind := WTKinput_sta
     | "--dynamic" =>
         state.waitkind := WTKinput_dyn
+//
     | "--typecheck" => {
         val () = state.typecheckonly := true
       } // end of [--typecheck]
+//
+    | "--depgen" => {
+        val () = state.depgenflag := 1
+      } // end of [--depgen]
+//
     | "--version" => patsopt_version (stdout_ref)
     | _ => comarg_warning (key) // unrecognized
   ) : void // end of [val]
