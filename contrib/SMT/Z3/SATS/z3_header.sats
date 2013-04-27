@@ -135,4 +135,8 @@ vtypedef Z3_stats = Z3_stats_vtype
 
 (* ****** ****** *)
 
+abst@ype Z3_ast_print_mode = int
+
+(* ****** ****** *)
+
 (* end of [z3_header.sats] *)

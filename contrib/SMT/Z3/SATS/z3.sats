@@ -98,7 +98,8 @@ counters is a burden and error-prone, but allows the user to use the memory
 more efficiently. The user must invoke Z3_inc_ref for any Z3_ast returned
 by Z3, and Z3_dec_ref whenever the Z3_ast is not needed anymore. This idiom
 is similar to the one used in BDD (binary decision diagrams) packages such
-as CUDD.  *) fun Z3_mk_context_rc (cfg: !Z3_config): Z3_context = "mac#%"
+as CUDD.
+*)
 
 fun Z3_mk_context_rc (cfg: !Z3_config): Z3_context = "mac#%"
 
@@ -135,6 +136,19 @@ fun Z3_dec_ref (ctx: !Z3_context, a: Z3_ast): void = "mac#%"
 (* ****** ****** *)
  
 (*
+Z3_bool
+Z3_get_param_value
+(
+  __in Z3_context c
+, __in Z3_string param_id, __out Z3_string_ptr param_value
+)
+*)
+fun Z3_get_param_value
+(
+  ctx: !Z3_context, p_id: Z3_string, p_val: &ptr? >> opt (Z3_string, b)
+) : #[b:bool] bool (b) = "mac#%"
+ 
+(*
 void
 Z3_update_param_value
 (__in Z3_context c, __in Z3_string param_id, __in Z3_string param_value)
@@ -143,16 +157,6 @@ fun Z3_update_param_value
   (ctx: !Z3_context, p_id: Z3_string, p_val: Z3_string): void = "mac#%"
 // end of [Z3_update_param_value]
 
-(*
-Z3_bool
-Z3_get_param_value
-(__in Z3_context c, __in Z3_string param_id, __out Z3_string_ptr param_value)
-*)
-fun Z3_get_param_value
-(
-  ctx: !Z3_context, p_id: Z3_string, p_val: &ptr? >> opt (Z3_string, b)
-) : #[b:bool] bool (b) = "mac#%"
- 
 (* ****** ****** *)
 
 (*
@@ -214,6 +218,43 @@ fun Z3_mk_or2
 fun Z3_mk_and2
   (ctx: !Z3_context, a1: !Z3_ast, a2: !Z3_ast): Z3_ast = "mac#%"
 // end of [Z3_mk_and2]
+
+(* ****** ****** *)
+
+(*
+void
+Z3_set_ast_print_mode
+  (__in Z3_context c, __in Z3_ast_print_mode mode)
+Select mode for the format used for pretty-printing AST nodes.
+*) 
+fun Z3_set_ast_print_mode
+  (ctx: !Z3_context, mode: Z3_ast_print_mode): void
+// end of [Z3_set_ast_print_mode]
+ 
+(*
+Z3_string
+Z3_ast_to_string (__in Z3_context c, __in Z3_ast a)
+Convert the given AST node into a string.
+*)
+fun Z3_ast_to_string (ctx: !Z3_context, a: !Z3_ast): vStrptr1
+
+(*
+Z3_string
+Z3_pattern_to_string (__in Z3_context c, __in Z3_pattern p)
+*)
+fun Z3_pattern_to_string (ctx: !Z3_context, p: !Z3_pattern): vStrptr1
+ 
+(*
+Z3_string
+Z3_func_decl_to_string (__in Z3_context c, __in Z3_func_decl d)
+*) 
+fun Z3_func_decl_to_string (ctx: !Z3_context, d: !Z3_func_decl): vStrptr1
+
+(*
+Z3_string
+Z3_model_to_string (__in Z3_context c, __in Z3_model m)
+*)
+fun Z3_model_to_string (ctx: !Z3_context, m: !Z3_model): vStrptr1
 
 (* ****** ****** *)
 

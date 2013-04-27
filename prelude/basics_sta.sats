@@ -530,6 +530,14 @@ vtypedef vttakeout
 viewdef vttakeout0 (vt:vt@ype) = vttakeout (void, vt)
 //
 (* ****** ****** *)
+//
+vtypedef
+vstrptr (l:addr) = vttakeout0 (strptr l)
+//
+vtypedef vStrptr0 = [l:addr] vstrptr (l)
+vtypedef vStrptr1 = [l:addr | l > null] vstrptr (l)
+//
+(* ****** ****** *)
 
 typedef
 bottom_t0ype_uni = {a:t@ype} (a)
