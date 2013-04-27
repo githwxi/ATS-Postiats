@@ -135,7 +135,8 @@ case+ ivs of
 //
 end // end of [auxbeg]
 //
-fun auxcomb (
+fun auxcomb
+(
 //
 // ~1/0 means contradiction/undecided
 //
