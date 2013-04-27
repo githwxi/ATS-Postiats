@@ -198,17 +198,17 @@ Z3_ast Z3_mk_eq (__in Z3_context c, __in Z3_ast l, __in Z3_ast r)
 Create an AST node representing l = r. 
 *)
 fun Z3_mk_eq
-  (ctx: !Z3_context, l: Z3_ast, r: Z3_ast): Z3_ast = "mac#%"
+  (ctx: !Z3_context, l: !Z3_ast, r: !Z3_ast): Z3_ast = "mac#%"
 // end of [Z3_mk_eq]
 
 (* ****** ****** *)
 
 fun Z3_mk_or2
-  (ctx: !Z3_context, a1: Z3_ast, a2: Z3_ast): Z3_ast = "mac#%"
+  (ctx: !Z3_context, a1: !Z3_ast, a2: !Z3_ast): Z3_ast = "mac#%"
 // end of [Z3_mk_or2]
 
 fun Z3_mk_and2
-  (ctx: !Z3_context, a1: Z3_ast, a2: Z3_ast): Z3_ast = "mac#%"
+  (ctx: !Z3_context, a1: !Z3_ast, a2: !Z3_ast): Z3_ast = "mac#%"
 // end of [Z3_mk_and2]
 
 (* ****** ****** *)
