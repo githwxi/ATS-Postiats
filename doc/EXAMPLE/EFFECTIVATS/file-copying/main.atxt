@@ -1,6 +1,4 @@
-In the following implementation of a function for copying files, I intend
-to demonstrate a typical and highly effective way of employing absviewtypes
-(that is, abstract linear types).
+
 
 In order to copy the content of one file into anther, we needs a means to
 refer to the involved files.

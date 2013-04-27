@@ -116,7 +116,7 @@ have been created using Z3_mk_context_rc. This function is a NOOP if c
 was created using Z3_mk_context.
 *)
 fun Z3_inc_ref
-  (ctx: !Z3_context, a: !Z3_ast_vt): Z3_ast_vt = "mac#%"
+  (ctx: !Z3_context, a: !Z3_ast): Z3_ast = "mac#%"
 // end of [Z3_inc_ref]
  
 (*
@@ -126,7 +126,7 @@ Decrement the reference counter of the given AST. The context c should
 have been created using Z3_mk_context_rc. This function is a NOOP if c
 was created using Z3_mk_context.
 *)
-fun Z3_dec_ref (ctx: !Z3_context, a: Z3_ast_vt): void = "mac#%"
+fun Z3_dec_ref (ctx: !Z3_context, a: Z3_ast): void = "mac#%"
 
 (* ****** ****** *)
  
@@ -166,7 +166,7 @@ Z3_symbol
 Z3_mk_int_symbol (__in Z3_context c, __in int i)
 Create a Z3 symbol using an integer.
 *)
-Z3_mk_int_symbol
+fun Z3_mk_int_symbol
   (ctx: !Z3_context, i: int): Z3_symbol = "mac#%"
 // end of [Z3_mk_int_symbol]
    
@@ -175,7 +175,7 @@ Z3_symbol
 Z3_mk_string_symbol (__in Z3_context c, __in Z3_string s)
 Create a Z3 symbol using a C string.
 *)
-Z3_mk_string_symbol
+fun Z3_mk_string_symbol
   (ctx: !Z3_context, str: Z3_string): Z3_symbol = "mac#%"
 // end of [Z3_mk_string_symbol]
 
@@ -200,6 +200,16 @@ Create an AST node representing l = r.
 fun Z3_mk_eq
   (ctx: !Z3_context, l: Z3_ast, r: Z3_ast): Z3_ast = "mac#%"
 // end of [Z3_mk_eq]
+
+(* ****** ****** *)
+
+fun Z3_mk_or2
+  (ctx: !Z3_context, a1: Z3_ast, a2: Z3_ast): Z3_ast = "mac#%"
+// end of [Z3_mk_or2]
+
+fun Z3_mk_and2
+  (ctx: !Z3_context, a1: Z3_ast, a2: Z3_ast): Z3_ast = "mac#%"
+// end of [Z3_mk_and2]
 
 (* ****** ****** *)
 

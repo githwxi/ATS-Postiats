@@ -68,10 +68,6 @@ abstype Z3_symbol_type = ptr
 typedef Z3_symbol = Z3_symbol_type
 
 (* ****** ****** *)
-//
-abstype Z3_ast_type = ptr
-//
-(* ****** ****** *)
 
 abstype Z3_sort_type = ptr
 typedef Z3_sort = Z3_sort_type
@@ -91,7 +87,7 @@ typedef Z3_constructor = Z3_constructor_type
 (* ****** ****** *)
 //
 absvtype Z3_ast_vtype = ptr
-vtypedef Z3_ast_vt = Z3_ast_vtype
+vtypedef Z3_ast = Z3_ast_vtype
 //
 (* ****** ****** *)
 
