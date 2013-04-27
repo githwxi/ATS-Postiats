@@ -216,17 +216,6 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
-#packfilename("ML/DATS/list0.dats")
-#packfilename("ML/DATS/option0.dats")
-#packfilename("ML/DATS/array0.dats")
-#packfilename("ML/DATS/string.dats")
-#packfilename("ML/DATS/string0.dats")
-#packfilename("ML/DATS/filebas.dats")
-#packfilename("ML/DATS/funmap.dats")
-#packfilename("ML/DATS/funset.dats")
-
-(* ****** ****** *)
-
 #packpostamble()
 
 (* ****** ****** *)

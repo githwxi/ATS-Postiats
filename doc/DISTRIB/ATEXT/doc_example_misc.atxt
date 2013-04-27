@@ -114,6 +114,10 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
+#packfilename("hanoi.dats")
+
+(* ****** ****** *)
+
 #packfilename("isqrt.dats")
 
 (* ****** ****** *)
