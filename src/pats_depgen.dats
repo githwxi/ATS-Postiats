@@ -220,35 +220,45 @@ end // end of [depgen_d0exp]
 
 implement
 depgen_d0explst
-  (xs, res) = (
-  case+ xs of
-  | list_cons (x, xs) => let
-      val () = depgen_d0exp (x, res) in depgen_d0explst (xs, res)
-    end // end of [list_cons]
-  | list_nil () => ()
+  (xs, res) =
+(
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = depgen_d0exp (x, res) in depgen_d0explst (xs, res)
+  end // end of [list_cons]
+| list_nil () => ()
+//
 ) // end of [depgen_d0explst]
 
 implement
 depgen_d0expopt
-  (opt, res) = (
-  case+ opt of
-  | Some (d0e) => depgen_d0exp (d0e, res) | None () => ()
+  (opt, res) =
+(
+//
+case+ opt of
+| Some (d0e) => depgen_d0exp (d0e, res) | None () => ()
+//
 ) // end of [depgen_d0expopt]
 
 (* ****** ****** *)
 
 implement
 depgen_labd0explst
-  (lxs, res) = (
-  case+ lxs of
-  | list_cons
-      (lx, lxs) => let
-      val DL0ABELED (l, x) = lx
-      val () = depgen_d0exp (x, res)
-    in
-      depgen_labd0explst (lxs, res)
-    end // end of [list_cons]
-  | list_nil () => ()
+  (lxs, res) =
+(
+//
+case+ lxs of
+| list_cons
+    (lx, lxs) => let
+    val DL0ABELED (l, x) = lx
+    val () = depgen_d0exp (x, res)
+  in
+    depgen_labd0explst (lxs, res)
+  end // end of [list_cons]
+| list_nil () => ()
+//
 ) // end of [depgen_labd0explst]
 
 (* ****** ****** *)
@@ -296,12 +306,15 @@ end // end of [depgen_d0ecl]
 
 implement
 depgen_d0eclist
-  (xs, res) = (
-  case+ xs of
-  | list_cons (x, xs) => let
-      val () = depgen_d0ecl (x, res) in depgen_d0eclist (xs, res)
-    end // end of [list_cons]
-  | list_nil () => ()
+  (xs, res) =
+(
+//
+case+ xs of
+| list_cons (x, xs) => let
+    val () = depgen_d0ecl (x, res) in depgen_d0eclist (xs, res)
+  end // end of [list_cons]
+| list_nil () => ()
+//
 ) // end of [depgen_d0eclist]
 
 (* ****** ****** *)
@@ -335,8 +348,10 @@ end // end of [depgen_guad0ecl_node]
 
 implement
 depgen_eval (d0cs) = let
-  var res: pathlst_vt = list_vt_nil
-  val () = depgen_d0eclist (d0cs, res)
+//
+var res: pathlst_vt = list_vt_nil
+val () = depgen_d0eclist (d0cs, res)
+//
 in
   list_vt_reverse (res)
 end // end of [depgen_eval]
@@ -380,23 +395,27 @@ case+ 0 of
 //
 end // end of [fprint_target]
 
+(* ****** ****** *)
+
 implement
 fprint_entry
-  (out, basename, ps) = let
+  (out, basename, ents) = let
 //
 fun loop (
-  out: FILEref, i: int, ps: pathlst_vt
+  out: FILEref, i: int, ents: pathlst_vt
 ) : void = let
 in
 //
-case+ ps of
+case+ ents of
 | ~list_vt_cons
-    (p, ps) => let
+    (ent, ents) => let
     val () =
+    (
       if i > 0 then fprint_char (out, ' ')
-    val () = fprint_string (out, p)
+    ) : void
+    val () = fprint_string (out, ent)
   in
-    loop (out, i + 1, ps)
+    loop (out, i + 1, ents)
   end // end of [list_vt_cons]
 | ~list_vt_nil () => ()
 //
@@ -405,7 +424,7 @@ end
 val () =
   fprint_target (out, basename)
 val () = fprint_string (out, " : ")
-val () = loop (out, 0, ps)
+val () = loop (out, 0, ents)
 val () = fprint_newline (out)
 //
 in
