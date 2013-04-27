@@ -85,7 +85,9 @@ fun Z3_set_param_value
 Z3_context Z3_mk_context (__in Z3_config c)
 Create a context using the given configuration.
 *)
+(*
 fun Z3_mk_context (cfg: !Z3_config): Z3_context = "mac#%"
+*)
 
 (* 
 Z3_context Z3_mk_context_rc (__in Z3_config c)
@@ -97,6 +99,8 @@ more efficiently. The user must invoke Z3_inc_ref for any Z3_ast returned
 by Z3, and Z3_dec_ref whenever the Z3_ast is not needed anymore. This idiom
 is similar to the one used in BDD (binary decision diagrams) packages such
 as CUDD.  *) fun Z3_mk_context_rc (cfg: !Z3_config): Z3_context = "mac#%"
+
+fun Z3_mk_context_rc (cfg: !Z3_config): Z3_context = "mac#%"
 
 (* ****** ****** *)
 

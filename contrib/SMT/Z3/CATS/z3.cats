@@ -36,6 +36,18 @@
 
 /* ****** ****** */
 
+#define atscntrb_Z3_mk_config Z3_mk_config
+#define atscntrb_Z3_del_config Z3_del_config
+#define atscntrb_Z3_set_param_value Z3_set_param_value
+
+/* ****** ****** */
+
+#define atscntrb_Z3_mk_context Z3_mk_context
+#define atscntrb_Z3_mk_context_rc Z3_mk_context_rc
+#define atscntrb_Z3_del_context Z3_del_context
+
+/* ****** ****** */
+
 ATSinline()
 Z3_ast
 atscntrb_Z3_inc_ref
