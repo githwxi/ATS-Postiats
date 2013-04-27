@@ -116,13 +116,14 @@ val ent = sprintf
 ("\
 ATSinline()
 atstype_bool
-atspre_%s_char_char
-  (atstype_char c1, atstype_char c2) {
-  return (c1 %s c2 ? atsbool_true : atsbool_false) ;
+atspre_%s_int_int
+  (atstype_int i1, atstype_int i2) {
+  return (i1 %s i2 ? atsbool_true : atsbool_false) ;
 } // end of [atspre_%s_char_char]\n\
-#define atspre_%s_char0_char0 atspre_%s_char_char
-#define atspre_%s_char1_char1 atspre_%s_char_char
-", @(
+#define atspre_%s_char0_char0 atspre_%s_int_int
+#define atspre_%s_char1_char1 atspre_%s_int_int
+",
+@(
  opr, fopr, opr, opr, opr, opr, opr
 )
 ) // end of [sprintf] // end of [val]
@@ -143,13 +144,25 @@ end // end of [fun_char_cmp0_decl]
 
 ATSinline()
 atstype_int
-atspre_compare_char_char
-  (atstype_char c1, atstype_char c2)
+atspre_compare_int_int
+  (atstype_int i1, atstype_int i2)
 {
-  return ((atstype_int)c1) - ((atstype_int)c2) ;
+  return (i1 - i2) ;
 } // end of [atspre_compare_char_char]
-\#define atspre_compare_char0_char0 atspre_compare_char_char
-\#define atspre_compare_char1_char1 atspre_compare_char_char
+\#define atspre_compare_char0_char0 atspre_compare_int_int(c1, c2)
+\#define atspre_compare_char1_char1 atspre_compare_int_int(c1, c2)
+
+#atscode_separator_for_C()
+
+\#define atspre_eq_char0_int0(c, i) atspre_eq_int_int(c, i)
+\#define atspre_eq_int0_char0(i, c) atspre_eq_int_int(i, c)
+\#define atspre_neq_char0_int0(c, i) atspre_neq_int_int(c, i)
+\#define atspre_neq_int0_char0(i, c) atspre_neq_int_int(i, c)
+
+#atscode_separator_for_C()
+
+\#define atspre_compare_char0_int0(c, i) atspre_compare_int_int(c, i)
+\#define atspre_compare_int0_char0(i, c) atspre_compare_int_int(i, c)
 
 #atscode_separator_for_C()
 

@@ -35,6 +35,7 @@ val () = read (src, cbuf)
 val isnot = cbuffer_isnot_empty (cbuf)
 //
 in
+//
 if isnot then let
   val () = write (dst, cbuf) in loop (src, dst, cbuf)
 end // end of [if]

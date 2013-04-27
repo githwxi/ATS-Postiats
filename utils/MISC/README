@@ -1,0 +1,14 @@
+##
+## A miscellaneous collection of (small) utilities
+##
+
+###### ######
+
+linenumbering:
+
+It is for numbering lines in a given file.  A primary use of this utility
+is to produce code in a blog or tutorial.
+
+###### ######
+
+## end of [README] ##

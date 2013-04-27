@@ -18,14 +18,14 @@ staload _(*anon*) = "prelude/DATS/integer.dats"
 
 (* ****** ****** *)
 
-fun fcopy (
-  filr: FILEref
-, filr2: FILEref
+fun fcopy
+(
+  inp: FILEref, out: FILEref
 ) : void = let
-  val c = fileref_getc (filr)
+  val c = fileref_getc (inp)
 in
   if c >= 0 then let
-    val () = fileref_putc (filr2, c) in fcopy (filr, filr2)
+    val () = fileref_putc (out, c) in fcopy (inp, out)
   end // end of [if]
 end (* end of [fcopy] *)
 
@@ -35,19 +35,21 @@ implement
 main (
   argc, argv
 ) = 0 where {
-  val filr = (
+  val inp =
+  (
     if argc >= 2 then
-      fileref_open_exn (argv[1], $UN.cast{fmode}("r"))
+      fileref_open_exn (argv[1], file_mode_r)
     else stdin_ref
-  ) : FILEref // end of [filr]
-  val filr2 = (
+  ) : FILEref // end of [inp]
+  val out =
+  (
     if argc >= 3 then
-      fileref_open_exn (argv[2], $UN.cast{fmode}("w"))
+      fileref_open_exn (argv[2], file_mode_w)
     else stdout_ref
   ) : FILEref // end of [val]
-  val () = fcopy (filr, filr2)
-  val () = if argc >= 2 then fileref_close (filr)
-  val () = if argc >= 3 then fileref_close (filr2)
+  val () = fcopy (inp, out)
+  val () = if argc >= 2 then fileref_close (inp)
+  val () = if argc >= 3 then fileref_close (out)
 } // end of [main]
 
 (* ****** ****** *)

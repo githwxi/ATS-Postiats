@@ -91,6 +91,24 @@ atslib_fflush_exn
 %{
 extern
 atsvoid_t0ype
+atslib_fputc_exn
+(
+  atstype_int c, atstype_ptr filp
+) {
+  int err ;
+  err = fputc(c, (FILE*)filp) ;
+  if (0 > err) {
+    ATSLIBfailexit("fputc") ; // abnormal exit
+  } /* end of [if] */
+  return ;  
+} /* end of [atslib_fputc_exn] */
+%}
+
+(* ****** ****** *)
+
+%{
+extern
+atsvoid_t0ype
 atslib_fgets_exn
 (
   atstype_ptr buf

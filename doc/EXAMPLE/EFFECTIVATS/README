@@ -4,18 +4,18 @@ While ATS is a rich and powerful programming language, it is also a complex
 and demanding language. For most people, learning ATS can be difficult and
 time-consuming, especially, when there is little guidance available.
 
-Every competent programmer should know very well that controlling
+Every competent programmer should probably know very well that controlling
 complexities in programming is of vital importance in general software
 practice. This is especially so in the context where static program
 verification is of a major concern.  Over the last few years, I have been
 practicing a refinement-based style of programming, which I find to be
 highly effective in managing programming complexities. Given the
-availability of advanced types such as dependent types and linear types,
-ATS is particularly well-suited to support this style of programming.
+availability of advanced types such as dependent types and linear types and
+the support for abstract types, ATS is particularly well-suited to
+accomodate this style of programming.
 
 In this directory, I will present a variety of concrete examples to
 demonstrate some common approaches to effectively employing programming
-features of ATS in the construction of high-quality programs. I hope
-that this effort will make it easier for people to both learn ATS and
-make effective use of it in practice.
-
+features of ATS in the construction of high-quality programs. I hope that
+this effort can greatly help people both learn ATS and make effective use
+of it in practice.

@@ -1,4 +1,5 @@
-
+Copying files may sound easy, there are actually certain subtle issues that
+need to be properly addressed.
 
 In order to copy the content of one file into anther, we needs a means to
 refer to the involved files.
