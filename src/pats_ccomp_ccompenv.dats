@@ -194,7 +194,8 @@ var !p_cmp = @lam
   val-HIDextcode (knd2, pos2, _) = x2.hidecl_node
 } (* end of [where] // end of [@lam] *)
 //
-val xs = list_vt_mergesort<hidecl> (xs, !p_cmp)
+val xs = list_vt_reverse (xs)
+val xs = list_vt_mergesort<hidecl> (xs, !p_cmp) // HX: stable-sorting
 //
 in
   list_of_list_vt (xs)
