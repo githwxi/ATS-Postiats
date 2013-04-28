@@ -160,13 +160,13 @@ val ic_conc =
 //
 val ic_conc_neg = icnstr_negate<a> (ic_conc)
 //
-// (*
+(*
 val () =
 (
   print ("auxsolve: ic_conc_neg = ");
   print_icnstr (ic_conc_neg, n+1); print_newline ()
 ) // end of [val]
-// *)
+*)
 //
 val iset = indexset_make_s3exp (vim, s3p_conc)
 //

@@ -130,6 +130,10 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
+#packfilename("sllist_mapfree.dats")
+
+(* ****** ****** *)
+
 #packfilename("wclines.dats")
 
 (* ****** ****** *)

@@ -38,18 +38,20 @@ intrange_foreach (l, r) = let
   var env: void = () in intrange_foreach_env<void> (l, r, env)
 end // end of [intrange_foreach]
 
-implement{env}
+implement{tenv}
 intrange_foreach_env
   (l, r, env) = let
 //
-fun loop (
-  l: int, r: int, env: &env
-) : int = (
+fun loop
+(
+  l: int, r: int, env: &tenv
+) : int =
+(
   if l < r then let
-    val cont = intrange_foreach$cont (l, env)
+    val cont = intrange_foreach$cont<tenv> (l, env)
   in
     if cont then let
-      val () = intrange_foreach$fwork (l, env) in loop (succ(l), r, env)
+      val () = intrange_foreach$fwork<tenv> (l, env) in loop (succ(l), r, env)
     end else l // end of [if]
   end else l // end of [if]
 ) // end of [loop]
@@ -72,19 +74,21 @@ intrange_rforeach (l, r) = let
   var env: void = () in intrange_rforeach_env<void> (l, r, env)
 end // end of [intrange_rforeach]
 
-implement{env}
+implement{tenv}
 intrange_rforeach_env
   (l, r, env) = let
 //
-fun loop (
-  l: int, r: int, env: &env
-) : int = (
+fun loop
+(
+  l: int, r: int, env: &tenv
+) : int =
+(
   if l < r then let
     val r1 = pred (r)
-    val cont = intrange_rforeach$cont (r1, env)
+    val cont = intrange_rforeach$cont<tenv> (r1, env)
   in
     if cont then let
-      val () = intrange_rforeach$fwork (r1, env) in loop (l, r1, env)
+      val () = intrange_rforeach$fwork<tenv> (r1, env) in loop (l, r1, env)
     end else r // end of [if]
   end else r // end of [if]
 ) // end of [loop]
