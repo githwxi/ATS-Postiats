@@ -53,13 +53,12 @@
 typedef interr = int
 
 (* ****** ****** *)
-
 /*
 int close (int);
 */
 fun close (fd: int): interr = "mac#%"
 fun close_exn (fd: int): void = "mac#%"
-
+//
 (* ****** ****** *)
 
 fun execv {n:pos}{l:addr}
@@ -160,6 +159,11 @@ int unlink(const char *pathname);
 */
 fun unlink (path: NSH(string)):<!ref> intLte(0) = "mac#%"
 fun unlink_exn (path: NSH(string)):<!exnref> void = "mac#%"
+
+(* ****** ****** *)
+
+#include "./unistd_sysconf.sats"
+#include "./unistd_pathconf.sats"
 
 (* ****** ****** *)
 
