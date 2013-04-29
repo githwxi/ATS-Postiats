@@ -103,6 +103,10 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ; \
 all_html::
 
 #make_entry("z3")
+#make_entry("z3_symbol")
+#make_entry("z3_propeq")
+#make_entry("z3_stringconv")
+#make_entry("z3_solver")
 
 ######
 

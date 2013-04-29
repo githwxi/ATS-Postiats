@@ -56,37 +56,19 @@ href="http://z3.codeplex.com/">Z3</a> in ATS.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("Z3_mk_int_symbol")
-#declnamesynop("Z3_mk_string_symbol")
+#declname2("z3_symbol.sats", "z3_symbol.html")
 
 (* ****** ****** *)
 
-#declnamesynop("Z3_mk_true")
-#declnamesynop("Z3_mk_false")
+#declname2("z3_propeq.sats", "z3_propeq.html")
 
 (* ****** ****** *)
 
-#declnamesynop("Z3_mk_eq")
+#declname2("z3_stringconv.sats", "z3_stringconv.html")
 
 (* ****** ****** *)
 
-#declnamesynop("Z3_mk_or2")
-#declnamesynop("Z3_mk_and2")
-
-(* ****** ****** *)
-
-#declnamesynop("Z3_set_ast_print_mode")
-
-(* ****** ****** *)
-
-#declnamesynop("Z3_ast_to_string")
-#declnamesynop("Z3_pattern_to_string")
-#declnamesynop("Z3_func_decl_to_string")
-#declnamesynop("Z3_model_to_string")
-
-(* ****** ****** *)
-
-#declnamesynop("Z3_solver_get_model")
+#declname2("z3_solver.sats", "z3_solver.html")
 
 (* ****** ****** *)
 
