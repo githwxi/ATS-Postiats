@@ -34,9 +34,9 @@ static
 atstype_int
 readch (int src)
 {
-  char c ;
   ssize_t n ;
-  n = read (src, &c, 1) ;
+  unsigned char c ;
+  n = read(src, &c, 1) ;
   if (n <= 0) return -1 ;
   return c ;
 }
@@ -46,7 +46,7 @@ atsvoid_t0ype
 writech (int dst, char c)
 {
   ssize_t n ;
-  n = write (dst, &c, 1) ;
+  n = write(dst, &c, 1) ;
   return ;
 }
 
@@ -57,20 +57,40 @@ writech (int dst, char c)
 #define i2c int2char0
 
 (* ****** ****** *)
-
+//
 extern
-fun fcopy (src: fildes, dst: fildes): void
+fun fcopy1 (src: fildes, dst: fildes): void
+//
+(* ****** ****** *)
+
+(*
+implement
+fcopy1 (src, dst) = let
+//
+val () = while (true)
+{
+  val c = readch (src)
+  val () = if not(c >= 0) then break
+  val () = writech (dst, i2c(c))
+} // end of [val]
+//
+in
+  (* nothing *)
+end (* end of [fcopy1] *)
+*)
+
+(* ****** ****** *)
 
 implement
-fcopy (src, dst) = let
+fcopy1 (src, dst) = let
   val c = readch (src)
 in
 //
 if c >= 0 then
-  (writech (dst, i2c(c)); fcopy (src, dst))
+  (writech (dst, i2c(c)); fcopy1 (src, dst))
 // end of [if]
 //
-end (* end of [fcopy] *)
+end (* end of [fcopy1] *)
 
 (* ****** ****** *)
 
@@ -83,10 +103,10 @@ implement
 main0 () =
 {
 //
-val () = fcopy (STDIN, STDOUT)
+val () = fcopy1 (STDIN, STDOUT)
 //
 } (* end of [main0] *)
 
 (* ****** ****** *)
 
-(* end of [fcopy-1.dats] *)
+(* end of [fcopy1.dats] *)

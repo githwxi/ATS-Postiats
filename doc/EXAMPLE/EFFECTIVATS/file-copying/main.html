@@ -10,13 +10,15 @@
 <body>
 
 <h1>
-Effective ATS: Copying Files (1)
+Effective ATS: Copying Files
 </h1>
 
 While the task of copying files is conceptually simple, it can still be
 quite interesting to implement in ATS.
 
-<p>
+<h2>
+Attempt One
+</h2>
 
 In order to copy the content of one file into anther, we need a means to
 refer to the involved files. In Linux, the notion of file descriptor serves
@@ -45,14 +47,14 @@ the stadef-declaration can also be replaced with the following one:
 typedef filedes = filedes_t0ype
 </pre>
 
-Now let us name the file-copying function [fcopy] and give it
+Now let us name the file-copying function [fcopy1] and give it
 the following interface:
 
 <pre>
-fun fcopy (src: fildes, dst: fildes): void
+fun fcopy1 (src: fildes, dst: fildes): void
 </pre>
 
-How should we implement [fcopy]? For the moment, let us try to answer this
+How should we implement [fcopy1]? For the moment, let us try to answer this
 question in a somewhat abstract manner.
 
 <p>
@@ -78,37 +80,188 @@ fun readch (src: fildes): int
 
 We use natural numbers, that is, non-negative integers for valid chars and
 a negative integer (e.g., -1) for the special value (indicating that the
-end of [src] is reached). Now we can readily implement [fcopy] as follows:
+end of [src] is reached). Now we can readily implement [fcopy1] as follows:
 
 <pre>
 implement
-fcopy (src, dst) = let
+fcopy1 (src, dst) = let
   val c = readch (src)
 in
 //
 if c >= 0 then
-  (writech (dst, c); fcopy (src, dst))
+  (writech (dst, c); fcopy1 (src, dst))
 // end of [if]
 //
-end (* end of [fcopy] *)
+end (* end of [fcopy1] *)
 </pre>
 
 Now it is time to raise the obvious question: How can functions [readch]
 and [writech] be implemented? They can be implemented based on the system
-calls [read] and [write]. Please find the code of a running implementation
-of [fcopy] in fcopy-1.dats, where [readch] and [writech] are implement in C
-directly.
+calls [read] and [write]. Please find a completed running implementation of
+file-copying based on [fcopy1] in fcopy1.dats, where [readch] and [writech]
+are implemented in C directly.
 
 <p>
 
 Of course, there is a lot of criticism that can be said about the above
-implementation of [fcopy]. For instance, it is terribly inefficient; it
+implementation of [fcopy1]. For instance, it is terribly inefficient; it
 does not support any error-handling at all; etc. I will attempt to address
 these issues elsewhere. However, one thing that is extremely positive in
 this implementation is the introduction of functions [readch] and
 [writech], which adds a layer to shield system calls [read] and [write]
 from being used directly. This is a programming style I would recommend
 highly and repeatedly.
+
+<h2>
+Attempt Two
+</h2>
+
+Obviously, [fcopy1] is very inefficient for copying files as it calls
+[read] and [write] each time to read and write only one char, respectively.
+If multiple chars are to read at once, then a buffer (that is, memory) must
+be made available to store them. As it is largely straightforward to handle
+only cases where such a buffer is statically allocated, I will focus on a
+solution that can also cope with dynamically allocated buffers.
+
+Let us first introduce an abstract type for buffers:
+
+<pre>
+absvtype buffer_vtype = ptr
+vtypedef buffer = buffer_vtype
+</pre>
+
+Actually, [buffer_vtype] is introduced as a viewtype, that is, a linear
+type, and the following functions are for creating and destroying a buffer,
+respectively:
+
+<pre>
+fun buffer_create (m: size_t): buffer
+fun buffer_destroy (buf: buffer): void
+</pre>
+
+As we also need to test whether a buffer contains any data or not, we
+introduce the following function for this purpose:
+
+<pre>
+fun buffer_isnot_empty (buf: !buffer): void
+</pre>
+
+We use the names [readbuf] and [writebuf] for functions reading and writing
+multiple chars, respectively, and assign to them the following types:
+
+<pre>
+fun readbuf (src: fildes, buf: !buffer): void
+fun writebuf (dst: fildes, buf: !buffer): void
+</pre>
+
+Let [fcopy2] be given the same interface as [fcopy1].  The following code
+gives a straightforward implementation of [fcopy2] based on [readbuf] and
+[writebuf]:
+
+<pre>
+implement
+fcopy2 (src, dst) = let
+//
+fun loop
+(
+  src: fildes, dst: fildes, buf: !buffer
+) : void = let
+  val () = readbuf (src, buf)
+  val isnot = buffer_isnot_empty (buf)
+in
+  if isnot then let
+    val () = writebuf (dst, buf) in loop (src, dst, buf)
+  end else () // end of [if]
+//
+end // end of [loop]
+//
+val buf =
+  buffer_create (i2sz(BUFSZ))
+val () = loop (src, dst, buf)
+val () = buffer_destroy (buf)
+//
+in
+  // nothing
+end (* end of [fcopy2] *)
+</pre>
+
+Note that [BUFSZ] is a compile-time integer constant and [i2sz] is a
+cast-function for casting an integer of the type [int] to one of the type
+[size_t].  Please find the code of a completed running implementation of
+file-copying based on [fcopy2] in fcopy2.dats, where [readbuf] and
+[writebuf] are implemented in C directly.
+
+<h2>
+Attempt Three
+</h2>
+
+While the inefficiency of [fcopy1] is addressed in the implementation of
+[fcopy2], the absence of error-handing is not. I now give another
+implementation of file-copying and address the issue of error-handling in
+this implementation.
+
+<p>
+
+Clearly, a call to [read] or [write] can fail due to a variety of reasons.
+If such a failure occurs, we should probably stop file-copying and report
+an error. Let us introduce another file-copying function [fcopy3] as follows:
+
+<pre>
+fun fcopy3 (src: fildes, dst: fildes, err: &int): void
+</pre>
+
+The third argument [err] of [fcopy3] is a call-by-reference integer. In
+other words, what is passed as the third argument of [fcopy3] is the
+address of a left-value. If an error caused by [read] or [write] occurs
+during file-copying, then the value of the integer stored in [err] should
+be increased. To achieve this, we can modify the types of [readbuf] and
+[writebuf] as follows:
+
+<pre>
+fun readbuf (src: fildes, buf: !buffer, err: &int): void
+fun writebuf (dst: fildes, buf: !buffer, err: &int): void
+</pre>
+
+The function [readbuf] calls [read]; if this call reports an error, then
+[readbuf] should increase the value of the integer stored in its third
+argument. The function [writebuf] does the same with [write].  The
+following code gives an implementation of [fcopy3] similar to that of
+[fcopy2]:
+
+<pre>
+implement
+fcopy3 (src, dst, err) = let
+//
+fun loop
+(
+  src: fildes, dst: fildes, buf: !buffer, err0: int, err: &int
+) : void = let
+  val () = readbuf (src, buf, err)
+  val isnot = buffer_isnot_empty (buf)
+in
+  if isnot then let
+    val () = writebuf (dst, buf, err)
+  in
+    if err = err0 then loop (src, dst, buf, err0, err)
+  end else () // end of [if]
+//
+end // end of [loop]
+//
+val buf =
+  buffer_create (i2sz(BUFSZ))
+val err0 = err
+val () = loop (src, dst, buf, err0, err)
+val () = buffer_destroy (buf)
+//
+in
+  // nothing
+end (* end of [fcopy3] *)
+</pre>
+
+Note that the loop function exists whenever an error due to [read] or
+[write] is reported.  Please find the code of a completed running
+implementation of file-copying based on [fcopy3] in fcopy3.dats, where
+[readbuf] and [writebuf] are implemented in C directly.
 
 </body>
 </html>

@@ -87,7 +87,8 @@ RMF=rm -f
 
 ######
 
-#make2_entry("fcopy-1", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+#make2_entry("fcopy1", "", "")
+#make2_entry("fcopy2", "-DATS_MEMALLOC_LIBC", "")
 
 ######
 
