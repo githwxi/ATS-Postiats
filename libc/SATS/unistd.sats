@@ -54,12 +54,18 @@ typedef interr = int
 
 (* ****** ****** *)
 
+staload
+TYPES =
+"libc/sys/SATS/types.sats"
+typedef off_t = $TYPES.off_t
+
+(* ****** ****** *)
 /*
 int close (int);
 */
-fun close (fd: int): interr = "mac#%"
-fun close_exn (fd: int): void = "mac#%"
-
+fun close (fildes: int): interr = "mac#%"
+fun close_exn (fildes: int): void = "mac#%"
+//
 (* ****** ****** *)
 
 fun execv {n:pos}{l:addr}
@@ -154,12 +160,60 @@ overload usleep with usleep_int
 overload usleep with usleep_uint
 //
 (* ****** ****** *)
-
+/*
+int link(const char *old, const char *new)
+*/
+fun link
+(
+  old: NSH(string)
+, new: NSH(string)
+) :<!ref> intLte(0) = "mac#%"
+fun link_exn
+  (old: NSH(string), new: NSH(string)):<!ref> void = "mac#%"
+//
+(* ****** ****** *)
 /*
 int unlink(const char *pathname);
 */
 fun unlink (path: NSH(string)):<!ref> intLte(0) = "mac#%"
 fun unlink_exn (path: NSH(string)):<!exnref> void = "mac#%"
+
+(* ****** ****** *)
+/*
+int symlink(const char *old, const char *new)
+*/
+fun symlink
+(
+  old: NSH(string)
+, new: NSH(string)
+) :<!ref> intLte(0) = "mac#%"
+fun symlink_exn
+  (old: NSH(string), new: NSH(string)):<!ref> void = "mac#%"
+//
+(* ****** ****** *)
+
+fun readlink{n:int}
+(
+  path: NSH(string), buf: &(@[byte][n]) >> _, n: size_t (n)
+) : ssizeLte(n) = "mac#%" // end of [readlink]
+
+(* ****** ****** *)
+
+fun sync ((*void*)): void = "mac#%"
+fun fsync (fildes: int): int = "mac#%"
+fun fdatasync (fildes: int): int = "mac#%"
+
+(* ****** ****** *)
+//
+fun truncate
+  (path: NSH(string), ofs: off_t): int = "mac#%"
+//
+fun ftruncate (fildes: int, ofs: off_t): int = "mac#%"
+//
+(* ****** ****** *)
+
+#include "./unistd_sysconf.sats"
+#include "./unistd_pathconf.sats"
 
 (* ****** ****** *)
 

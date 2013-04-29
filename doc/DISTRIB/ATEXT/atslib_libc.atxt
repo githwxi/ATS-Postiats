@@ -105,6 +105,7 @@ The ATSLIB/libc library\
 #packfilename("SATS/fcntl.sats")
 #packfilename("SATS/fnmatch.sats")
 #packfilename("SATS/malloc.sats")
+#packfilename("SATS/math.sats")
 #packfilename("SATS/stddef.sats")
 #packfilename("SATS/stdio.sats")
 #packfilename("SATS/stdlib.sats")
@@ -122,6 +123,7 @@ The ATSLIB/libc library\
 #packfilename("CATS/fcntl.cats")
 #packfilename("CATS/fnmatch.cats")
 #packfilename("CATS/malloc.cats")
+#packfilename("CATS/math.cats")
 #packfilename("CATS/stdio.cats")
 #packfilename("CATS/stdlib.cats")
 #packfilename("CATS/string.cats")
@@ -135,6 +137,7 @@ The ATSLIB/libc library\
 (* ****** ****** *)
 
 #packfilename("DATS/dirent.dats")
+#packfilename("DATS/math.dats")
 #packfilename("DATS/stdio.dats")
 #packfilename("DATS/stdlib.dats")
 #packfilename("DATS/string.dats")

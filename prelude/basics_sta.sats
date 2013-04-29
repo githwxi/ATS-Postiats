@@ -530,6 +530,14 @@ vtypedef vttakeout
 viewdef vttakeout0 (vt:vt@ype) = vttakeout (void, vt)
 //
 (* ****** ****** *)
+//
+vtypedef
+vstrptr (l:addr) = vttakeout0 (strptr l)
+//
+vtypedef vStrptr0 = [l:addr] vstrptr (l)
+vtypedef vStrptr1 = [l:addr | l > null] vstrptr (l)
+//
+(* ****** ****** *)
 
 typedef
 bottom_t0ype_uni = {a:t@ype} (a)
@@ -560,6 +568,13 @@ typedef cmpref_funenv
   (a: vt@ype, vt: vt@ype) = (&RD(a), &RD(a), !vt) -<fun> int
 stadef cmpref = cmpref_fun
 stadef cmpref = cmpref_funenv
+
+(* ****** ****** *)
+
+abst@ype
+undefined_t0ype = $extype"atstype_undefined"
+absvt@ype
+undefined_vt0ype = $extype"atstype_undefined"
 
 (* ****** ****** *)
 

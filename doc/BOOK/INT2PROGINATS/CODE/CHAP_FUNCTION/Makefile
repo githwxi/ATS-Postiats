@@ -4,7 +4,7 @@
 
 ######
 
-CC=gcc -std=c99
+CCOPT=gcc -std=c99
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
@@ -26,16 +26,16 @@ all:: queens
 ######
 
 misc: misc_dats.c ; \
-  $(CC) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+  $(CCOPT) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 
 bsearch: bsearch_dats.c ; \
-  $(CC) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+  $(CCOPT) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 
 coinchange: coinchange_dats.c ; \
-  $(CC) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+  $(CCOPT) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 
 queens: queens_dats.c ; \
-  $(CC) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+  $(CCOPT) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 
 ######
 

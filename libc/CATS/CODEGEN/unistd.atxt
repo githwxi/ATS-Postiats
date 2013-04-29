@@ -56,23 +56,6 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 \#define atslib_getcwd getcwd
 
-ATSinline()
-atstype_strptr
-atslib_getcwd_gc (
-) {
-  char *p_cwd ;
-  int bsz = 32 ; // HX: [32] is chosen nearly randomly
-  char *p2_cwd ;
-  p_cwd = (char*)0 ;
-  while (1) {
-    p_cwd = atspre_malloc_gc(bsz) ;
-    p2_cwd = atslib_getcwd(p_cwd, bsz) ;
-    if (p2_cwd != 0) return p_cwd ; else atspre_mfree_gc(p_cwd) ;
-    bsz = 2 * bsz ;
-  }
-  return (char*)0 ; // HX: deadcode
-} // end of [atslib_getcwd_gc]
-
 #atscode_separator_for_C()
 
 \#define atslib_pause pause
@@ -89,19 +72,26 @@ atslib_getcwd_gc (
 
 #atscode_separator_for_C()
 
+\#define atslib_link link
 \#define atslib_unlink unlink
 
-ATSinline()
-atsvoid_t0ype
-atslib_unlink_exn
-(
-  atstype_string path
-) {
-  int err ;
-  err = unlink((char*)path) ;
-  if (err < 0) ATSLIBfailexit("unlink") ;
-  return ;
-} // end of [atslib_unlink_exn]
+#atscode_separator_for_C()
+
+\#define atslib_symlink symlink
+\#define atslib_readlink readlink
+
+#atscode_separator_for_C()
+
+\#define atslib_sync sync
+\#define atslib_fsync fsync
+\#define atslib_fdatasync fdatasync
+
+#atscode_separator_for_C()
+
+\#define atslib_truncate truncate
+\#define atslib_ftruncate ftruncate
+
+#atscode_separator_for_C()
 
 \#endif // ifndef ATSLIB_LIBC_UNISTD_CATS
 

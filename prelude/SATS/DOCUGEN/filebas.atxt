@@ -98,19 +98,30 @@ errors.
 #declnamesynop("fileref_getc")
 #decldescrpt('\
 
-This function reads a char from a given file handle. If a
-negative integer (EOF) is returned, then it is an indication
-of error.
+This function reads a char from a given file handle. Note that the function
+is based on the libc-function #dyncode("fgetc"), and it returns a negative
+integer (EOF) as an indication of error.
 
 ')
 
 (* ****** ****** *)
 
 #declnamesynop("fileref_putc")
+#declnamesynop("fileref_putc_int")
 #decldescrpt('\
 
-This function writes a char to a given file handle. Note that it does not
-report any errors.
+This function, which overloads the symbol #dyncode("fileref_putc"), casts
+its first argument into a char and then write the char to a given file
+handle. Note that the function is based on the libc-function #dyncode("fputc"),
+and it does not report any errors.\
+
+')
+#declnamesynop("fileref_putc_char")
+#decldescrpt('\
+
+This function, which  overloads the symbol #dyncode("fileref_putc"), writes
+a char  to a  given file  handle. Note that  the function  is based  on the
+libc-function #dyncode("fputc"), and it does not report any errors.\
 
 ')
 
@@ -119,9 +130,10 @@ report any errors.
 #declnamesynop("fileref_puts")
 #decldescrpt('\
 
-This function writes a string to a given file handle. Note that it does
-not report any errors. The following code gives a reference implementation
-of the function:
+This function writes a string to a given file handle. Note that the
+function is based on the libc-function #dyncode("fputs"), and it does not
+report any errors. The following code gives a reference implementation of
+the function:
 
 #pats2xhtmld_tryit('\
 implement
@@ -141,31 +153,33 @@ in
 end // end of [fileref_puts]
 ')\
 
-The actual implementation of #dyncode("fileref_fputs") in ATSLIB directly
-calls the libc-function fputs declared in [stdio.h].
-
 ')
 
 (* ****** ****** *)
 
 #declnamesynop("fileref_is_eof")
 #decldescrpt('\
-This function tests whether the end of a given file handle is reached.
+
+This function tests whether the end of a given file handle is reached.  It
+is based on the libc-function #dyncode("feof") declared in [stdio.h].\
+
 ')
 #declexample('\
 
 The following code gives a naive implementation of file-copying:
 
 #pats2xhtmld_tryit('\
-fun fprint_fileref (
+fun fprint_fileref
+(
   out: FILEref, inp: FILEref
-) : void = (
+) : void = let
+in
   if ~fileref_is_eof(inp) then let
     val () = fileref_putc (out, fileref_getc (inp))
   in
     fprint_fileref (out, inp)
   end else () // end of [if]
-) // end of [fprint_fileref]
+end // end of [fprint_fileref]
 
 implement
 main () = let

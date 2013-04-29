@@ -95,20 +95,16 @@ val () = assertloc (acker2 (3) (3) = 61)
 *)
 
 (* ****** ****** *)
-
-fun ifold
-  (n: int, f: (int, int) -> int, ini: int): int =
-  if n > 0 then f (ifold (n-1, f, ini), n) else ini
-// end of [ifold]
-
-fun sum (n:int): int = ifold (n, lam (res, x) => res + x, 0)
-val () = assertloc (sum (10) = 55)
-
-fun prod (n:int): int = ifold (n, lam (res, x) => res * x, 1)
-val () = assertloc (prod (10) = 10*9*8*7*6*5*4*3*2*1)
+//
+// Mutually recursive functions
+//
+fun P (n:int): int = if n > 0 then 1 + Q(n-1) else 1
+and Q (n:int): int = if n > 0 then Q(n-1) + n * P(n) else 0
 
 (* ****** ****** *)
-
+//
+// Mutually tail-recursive functions
+//
 fun print_multable () = let
 //
 #define N 9
@@ -162,6 +158,40 @@ in
   loop (n, 1(*i*), 0(*res*))
 end // end of [sum]
 val () = assertloc (sum (10) = 55)
+
+(* ****** ****** *)
+//
+// Higher-order functions
+//
+fun rtfind
+(
+  f: int -> int
+) : int = let
+//
+fun loop
+(
+  f: int -> int, n: int
+) : int =
+(
+  if f(n) = 0 then n else loop (f, n+1)
+) // end of [loop]
+//
+in
+  loop (f, 0)
+end // end of [rtfind]
+
+fun ifold
+  (n: int, f: (int, int) -> int, ini: int): int =
+  if n > 0 then f (ifold (n-1, f, ini), n) else ini
+// end of [ifold]
+
+fun sum (n:int): int = ifold (n, lam (res, x) => res + x, 0)
+val () = assertloc (sum (10) = 55)
+
+fun prod (n:int): int = ifold (n, lam (res, x) => res * x, 1)
+val () = assertloc (prod (10) = 10*9*8*7*6*5*4*3*2*1)
+
+fun sqrsum (n: int): int = ifold (n, lam (res, x) => res + x * x, 0)
 
 (* ****** ****** *)
 

@@ -73,8 +73,10 @@ staload "./pats_constraint3.sats"
 (* ****** ****** *)
 
 local
+//
 #include "./pats_lintprgm_myint_int.dats"
 #include "./pats_lintprgm_myint_intinf.dats"
+//
 in (*nothing*) end
 
 (* ****** ****** *)
@@ -138,7 +140,8 @@ val ics_asmp = let
           s3exp2icnstr<a> (loc0, vim, n, s3p)
         // end ofl[val]
 (*
-        val () = (
+        val () =
+        (
           println! ("auxsolve: loop: s3p = ", s3p);
           print "auxsolve: loop: ic = "; print_icnstr (ic, n+1); print_newline ();
         ) // end of [val]
@@ -158,9 +161,10 @@ val ic_conc =
 val ic_conc_neg = icnstr_negate<a> (ic_conc)
 //
 (*
-val () = (
-  print ("auxsolve: ic_conc = ");
-  print_icnstr (ic_conc, n+1); print_newline ()
+val () =
+(
+  print ("auxsolve: ic_conc_neg = ");
+  print_icnstr (ic_conc_neg, n+1); print_newline ()
 ) // end of [val]
 *)
 //

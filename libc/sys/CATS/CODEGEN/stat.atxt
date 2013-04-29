@@ -41,6 +41,21 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+\#define atslib_chmod chmod
+
+#atscode_separator_for_C()
+
+\#define atslib_mkdir mkdir
+\#define atslib_mkfifo mkfifo
+
+#atscode_separator_for_C()
+
+\#define atslib_stat stat
+\#define atslib_fstat fstat
+\#define atslib_lstat lstat
+
+#atscode_separator_for_C()
+
 \#endif // ifndef ATSLIB_LIBC_SYS_STAT_CATS
 
 #atscode_separator_for_C()

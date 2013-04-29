@@ -38,6 +38,43 @@
 (* ****** ****** *)
 
 %{
+ATSinline()
+atstype_strptr
+atslib_getcwd_gc (
+) {
+  char *p_cwd ;
+  int bsz = 32 ; // HX: [32] is chosen nearly randomly
+  char *p2_cwd ;
+  p_cwd = (char*)0 ;
+  while (1) {
+    p_cwd = atspre_malloc_gc(bsz) ;
+    p2_cwd = atslib_getcwd(p_cwd, bsz) ;
+    if (p2_cwd != 0) return p_cwd ; else atspre_mfree_gc(p_cwd) ;
+    bsz = 2 * bsz ;
+  }
+  return (char*)0 ; // HX: deadcode
+} // end of [atslib_getcwd_gc]
+%}
+
+(* ****** ****** *)
+
+%{
+extern
+atsvoid_t0ype
+atslib_link_exn
+(
+  atstype_string old, atstype_string new
+) {
+  int err ;
+  err = atslib_link(old, new) ;
+  if (0 > err) ATSLIBfailexit("link") ;
+  return ;
+} /* end of [atslib_link_exn] */
+%}
+
+(* ****** ****** *)
+
+%{
 extern
 atsvoid_t0ype
 atslib_unlink_exn

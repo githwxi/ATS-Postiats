@@ -152,6 +152,7 @@ The ATSLIB/prelude library\
 #packfilename("SATS/arrayref.sats")
 #packfilename("SATS/matrix.sats")
 #packfilename("SATS/matrixptr.sats")
+#packfilename("SATS/matrixref.sats")
 
 #packfilename("SATS/gprint.sats")
 
@@ -244,6 +245,7 @@ The ATSLIB/prelude library\
 
 #packfilename("DATS/matrix.dats")
 #packfilename("DATS/matrixptr.dats")
+#packfilename("DATS/matrixref.dats")
 
 #packfilename("DATS/gprint.dats")
 

@@ -14,7 +14,7 @@
 (* ****** ****** *)
 
 staload
-UN = "prelude/SATS/unsafe.sats"
+UN="prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 

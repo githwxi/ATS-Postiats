@@ -71,7 +71,7 @@ typedef T = int
 val out = stdout_ref
 //
 val xs = sllist_nil{T}()
-val xs = 1 :: 2 ::  3 :: 4 :: 5 :: xs
+val xs = 1 :: 2 :: 3 :: 4 :: 5 :: xs
 val () = fprintln! (out, "xs = ", xs)
 //
 implement

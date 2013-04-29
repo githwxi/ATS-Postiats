@@ -55,6 +55,7 @@ all::
 #make_entry("fcntl")
 #make_entry("fnmatch")
 #make_entry("malloc")
+#make_entry("math")
 #make_entry("stdio")
 #make_entry("stdlib")
 #make_entry("string")

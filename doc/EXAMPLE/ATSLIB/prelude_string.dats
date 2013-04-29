@@ -17,7 +17,8 @@ val alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 (* ****** ****** *)
 
-val () = {
+val () =
+{
 //
 val () = assertloc ("AB" < "ABC")
 val () = assertloc ("BC" > "ABC")
@@ -28,7 +29,8 @@ val () = assertloc ("XYZ" < "YZ")
 
 (* ****** ****** *)
 
-val () = {
+val () =
+{
 //
 val ab = alphabet
 val () = assertloc (ab[0] = 'A')
@@ -45,7 +47,8 @@ val () = assertloc (string_length (ab) = 26)
 
 (* ****** ****** *)
 
-val () = {
+val () =
+{
 //
 val ab = alphabet
 //
@@ -69,7 +72,8 @@ val () = assertloc (string_rindex (ab, 'P') = 15)
 
 (* ****** ****** *)
 
-val () = {
+val () =
+{
 //
 val ab = alphabet
 val ab2 = string0_copy (ab)
@@ -86,7 +90,8 @@ val () = strptr_free (abab)
 
 (* ****** ****** *)
 
-val () = {
+val () =
+{
 //
 val ab = alphabet
 //
@@ -103,7 +108,31 @@ val () = assertloc (ab = strnptr2string (string_tabulate (i2sz(26))))
 
 (* ****** ****** *)
 
-val () = {
+val () =
+{
+//
+val ab = alphabet
+//
+val out = stdout_ref
+//
+implement{env}
+string_foreach$fwork
+  (c, env) = fprint_char (out, c)
+val () = assertloc (string_foreach (ab) = 26)
+val () = fprint_newline (out)
+//
+implement{env}
+string_rforeach$fwork
+  (c, env) = fprint_char (out, c)
+val () = assertloc (string_rforeach (ab) = 26)
+val () = fprint_newline (out)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
 //
 val () = assertloc (stropt_length (stropt_none ()) = ~1)
 //

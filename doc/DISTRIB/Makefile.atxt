@@ -88,6 +88,7 @@ all_script::
 #make_entry("atslib_prelude")
 #make_entry("atslib_libc")
 #make_entry("atslib_libats")
+#make_entry("atslib_libats_ML")
 
 #make_entry("ccomp_atslib")
 #make_entry("ccomp_runtime")
@@ -118,11 +119,13 @@ srcget_patsrc:: SCRIPT/patsopt_src.bash ; bash $<
 ######
 
 srcget_atslib:: srcget_atslib_prelude
-srcget_atslib:: srcget_atslib_libc
-srcget_atslib:: srcget_atslib_libats
 srcget_atslib_prelude:: SCRIPT/atslib_prelude.bash ; bash $<
+srcget_atslib:: srcget_atslib_libc
 srcget_atslib_libc:: SCRIPT/atslib_libc.bash ; bash $<
+srcget_atslib:: srcget_atslib_libats
 srcget_atslib_libats:: SCRIPT/atslib_libats.bash ; bash $<
+srcget_atslib:: srcget_atslib_libats_ML
+srcget_atslib_libats_ML:: SCRIPT/atslib_libats_ML.bash ; bash $<
 
 ######
 

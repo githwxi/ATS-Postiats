@@ -25,6 +25,11 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_start_time("June, 2012")
 
 #atscode_separator()
+//
+// HX-2013-04:
+// intrange (l, r) is for integers i satisfying l <= i < r
+//
+#atscode_separator()
 
 fun{env:vt0p}
 intrange_foreach$cont (i: int, env: &env): bool

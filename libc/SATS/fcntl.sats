@@ -52,14 +52,18 @@ RD(a:vt0p) = a // for commenting: read-only
 (* ****** ****** *)
 
 staload
-TYPES = "libc/sys/SATS/types.sats"
+TYPES =
+"libc/sys/SATS/types.sats"
 typedef mode_t = $TYPES.mode_t
 
 (* ****** ****** *)
 //
-absvt@ype fildes_vtype (fd: int) = int
+absvt@ype
+fildes_vtype (fd: int) = int
 //
-vtypedef fildes (fd: int) = fildes_vtype (fd)
+vtypedef
+fildes (fd: int) = fildes_vtype (fd)
+//
 vtypedef Fildes = [fd:int] fildes (fd)
 vtypedef Fildes0 = [fd:int | fd >= 0] fildes (fd)
 //

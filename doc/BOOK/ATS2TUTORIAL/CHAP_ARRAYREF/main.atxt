@@ -132,10 +132,10 @@ early, can be buried so scarily deep!\
 The careful reader may have already noticed that the sort #dyncode("t@ype")
 is assigned to the template parameter #dyncode("a"). In other words, the
 above implementation of #dyncode("arrayref_reverse") cannot handle a case
-where the values stored in an array are of some linear type. The reason for
-choosing the sort #dyncode("t@ype") is that both
+where the values stored in a given array are of some linear type. The
+reason for choosing the sort #dyncode("t@ype") is that both
 #dyncode("arrayref_get_at") and #dyncode("arrayref_set_at") can only be
-applied an array containing values of a nonlinear type. In the following
+applied to an array containing values of a nonlinear type. In the following
 implementation, the template parameter is given the sort
 #dyncode("viewt@ype") so that an array containing values of a linear type
 can be handled:\

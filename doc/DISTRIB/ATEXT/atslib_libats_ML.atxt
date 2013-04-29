@@ -123,6 +123,10 @@ The ATSLIB/libats/ML library\
 
 (* ****** ****** *)
 
+#packfilename("CATS/strarr.cats")
+
+(* ****** ****** *)
+
 #packpostamble()
 
 (* ****** ****** *)

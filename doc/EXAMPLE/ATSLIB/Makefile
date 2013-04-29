@@ -98,6 +98,15 @@ clean:: ; $(RMF) prelude_reference_dats.c
 cleanall:: ; $(RMF) prelude_reference.exe
 
 
+all:: prelude_intrange
+prelude_intrange: prelude_intrange.exe
+prelude_intrange.exe: prelude_intrange_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+prelude_intrange_dats.c: prelude_intrange.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_intrange_dats.c --dynamic prelude_intrange.dats
+clean:: ; $(RMF) prelude_intrange_dats.o
+clean:: ; $(RMF) prelude_intrange_dats.c
+cleanall:: ; $(RMF) prelude_intrange.exe
+
+
 all:: prelude_array
 prelude_array: prelude_array.exe
 prelude_array.exe: prelude_array_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
@@ -182,6 +191,14 @@ libc_malloc_dats.c: libc_malloc.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --
 clean:: ; $(RMF) libc_malloc_dats.o
 clean:: ; $(RMF) libc_malloc_dats.c
 cleanall:: ; $(RMF) libc_malloc.exe
+
+all:: libc_math
+libc_math: libc_math.exe
+libc_math.exe: libc_math_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime  -o $@ $< -lm
+libc_math_dats.c: libc_math.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_math_dats.c --dynamic libc_math.dats
+clean:: ; $(RMF) libc_math_dats.o
+clean:: ; $(RMF) libc_math_dats.c
+cleanall:: ; $(RMF) libc_math.exe
 
 all:: libc_stdio
 libc_stdio: libc_stdio.exe

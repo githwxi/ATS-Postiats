@@ -202,6 +202,24 @@ overload compare with compare_char1_char1 of 20
 
 #atscode_separator()
 //
+fun eq_char0_int0 : (char, int) -<fun0> bool = "mac\#%"
+fun eq_int0_char0 : (int, char) -<fun0> bool = "mac\#%"
+overload = with eq_char0_int0 of 0
+overload = with eq_int0_char0 of 0
+fun neq_char0_int0 : (char, int) -<fun0> bool = "mac\#%"
+fun neq_int0_char0 : (int, char) -<fun0> bool = "mac\#%"
+overload != with neq_char0_int0 of 0
+overload <> with neq_char0_int0 of 0
+overload != with neq_int0_char0 of 0
+overload <> with neq_int0_char0 of 0
+//
+fun compare_char0_int0 : (char, int) -<fun0> int = "mac\#%"
+fun compare_int0_char0 : (int, char) -<fun0> int = "mac\#%"
+overload compare with compare_char0_int0
+overload compare with compare_int0_char0
+//
+#atscode_separator()
+//
 // unsigned characters
 //
 #atscode_separator()

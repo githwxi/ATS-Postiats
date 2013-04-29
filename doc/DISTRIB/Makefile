@@ -85,6 +85,16 @@ clean:: ; $(RMF) atslib_libats_atxt.exe
 cleanall:: ; $(RMF) HTML/atslib_libats.html
 cleanall:: ; $(RMF) SCRIPT/atslib_libats.bash
 
+all_html:: HTML/atslib_libats_ML.html
+HTML/atslib_libats_ML.html: atslib_libats_ML_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atslib_libats_ML.bash
+SCRIPT/atslib_libats_ML.bash: atslib_libats_ML_atxt.exe ; ./$< > $@
+atslib_libats_ML_atxt.dats: ATEXT/atslib_libats_ML.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atslib_libats_ML_atxt.exe: atslib_libats_ML_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atslib_libats_ML_atxt.exe
+cleanall:: ; $(RMF) HTML/atslib_libats_ML.html
+cleanall:: ; $(RMF) SCRIPT/atslib_libats_ML.bash
+
 
 all_html:: HTML/ccomp_atslib.html
 HTML/ccomp_atslib.html: ccomp_atslib_atxt.exe ; ./$< > $@
@@ -169,11 +179,13 @@ srcget_patsrc:: SCRIPT/patsopt_src.bash ; bash $<
 ######
 
 srcget_atslib:: srcget_atslib_prelude
-srcget_atslib:: srcget_atslib_libc
-srcget_atslib:: srcget_atslib_libats
 srcget_atslib_prelude:: SCRIPT/atslib_prelude.bash ; bash $<
+srcget_atslib:: srcget_atslib_libc
 srcget_atslib_libc:: SCRIPT/atslib_libc.bash ; bash $<
+srcget_atslib:: srcget_atslib_libats
 srcget_atslib_libats:: SCRIPT/atslib_libats.bash ; bash $<
+srcget_atslib:: srcget_atslib_libats_ML
+srcget_atslib_libats_ML:: SCRIPT/atslib_libats_ML.bash ; bash $<
 
 ######
 
