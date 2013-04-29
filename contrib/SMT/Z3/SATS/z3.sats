@@ -51,6 +51,8 @@
 
 (* ****** ****** *)
 
+#define
+ATSCNTRB_SML_Z3_Z3_HEADER
 #include "./z3_header.sats"
 
 (* ****** ****** *)
@@ -170,58 +172,6 @@ fun Z3_interrupt (ctx: !Z3_context): void = "mac#%"
 (* ****** ****** *)
 
 (*
-Z3_symbol
-Z3_mk_int_symbol (__in Z3_context c, __in int i)
-Create a Z3 symbol using an integer.
-*)
-fun Z3_mk_int_symbol
-  (ctx: !Z3_context, i: int): Z3_symbol = "mac#%"
-// end of [Z3_mk_int_symbol]
-   
-(*
-Z3_symbol
-Z3_mk_string_symbol (__in Z3_context c, __in Z3_string s)
-Create a Z3 symbol using a C string.
-*)
-fun Z3_mk_string_symbol
-  (ctx: !Z3_context, str: Z3_string): Z3_symbol = "mac#%"
-// end of [Z3_mk_string_symbol]
-
-(* ****** ****** *)
-
-(*
-Z3_ast Z3_mk_true (__in Z3_context c)
-Create an AST node representing true.
-*)
-fun Z3_mk_true (ctx: !Z3_context): Z3_ast = "mac#%"
- 
-(*
-Z3_ast Z3_mk_false (__in Z3_context c)
-Create an AST node representing false. 
-*)
-fun Z3_mk_false (ctx: !Z3_context): Z3_ast = "mac#%"
-
-(*
-Z3_ast Z3_mk_eq (__in Z3_context c, __in Z3_ast l, __in Z3_ast r)
-Create an AST node representing l = r. 
-*)
-fun Z3_mk_eq
-  (ctx: !Z3_context, l: !Z3_ast, r: !Z3_ast): Z3_ast = "mac#%"
-// end of [Z3_mk_eq]
-
-(* ****** ****** *)
-
-fun Z3_mk_or2
-  (ctx: !Z3_context, a1: !Z3_ast, a2: !Z3_ast): Z3_ast = "mac#%"
-// end of [Z3_mk_or2]
-
-fun Z3_mk_and2
-  (ctx: !Z3_context, a1: !Z3_ast, a2: !Z3_ast): Z3_ast = "mac#%"
-// end of [Z3_mk_and2]
-
-(* ****** ****** *)
-
-(*
 void
 Z3_set_ast_print_mode
   (__in Z3_context c, __in Z3_ast_print_mode mode)
@@ -250,11 +200,87 @@ Z3_func_decl_to_string (__in Z3_context c, __in Z3_func_decl d)
 *) 
 fun Z3_func_decl_to_string (ctx: !Z3_context, d: !Z3_func_decl): vStrptr1
 
+(* ****** ****** *)
+
+#include "./z3_params.sats"
+#include "./z3_params_descrs.sats"
+
+(* ****** ****** *)
+
+#include "./z3_symbol.sats"
+
+(* ****** ****** *)
+
+#include "./z3_sort.sats"
+
+(* ****** ****** *)
+
+#include "./z3_constapp.sats"
+
+(* ****** ****** *)
+
+#include "./z3_propeq.sats"
+
+(* ****** ****** *)
+
+#include "./z3_arithmetic.sats"
+
+(* ****** ****** *)
+
+#include "./z3_bitvector.sats"
+
+(* ****** ****** *)
+
 (*
-Z3_string
-Z3_model_to_string (__in Z3_context c, __in Z3_model m)
+#include "./z3_arrayset.sats"
+#include "./z3_numeral.sats"
+#include "./z3_quantifier.sats"
 *)
-fun Z3_model_to_string (ctx: !Z3_context, m: !Z3_model): vStrptr1
+
+(* ****** ****** *)
+
+#include "./z3_accessor.sats"
+#include "./z3_modifier.sats"
+
+(* ****** ****** *)
+
+#include "./z3_model.sats"
+
+(* ****** ****** *)
+
+(*
+#include "./z3_interlog.sats"
+#include "./z3_stringconv.sats"
+#include "./z3_parserint.sats"
+#include "./z3_errhandle.sats"
+*)
+
+(* ****** ****** *)
+
+#include "./z3_fixedpoint.sats"
+
+(* ****** ****** *)
+(*
+#include "./z3_ast_map"
+#include "./z3_ast_vector"
+*)
+(* ****** ****** *)
+
+#include "./z3_goal.sats"
+
+(* ****** ****** *)
+
+(*
+#include "./z3_tactic_probe.sats"
+*)
+
+(* ****** ****** *)
+
+#include "./z3_solver.sats"
+
+(* ****** ****** *)
+
+#include "./z3_stats.sats"
 
 (* ****** ****** *)
 

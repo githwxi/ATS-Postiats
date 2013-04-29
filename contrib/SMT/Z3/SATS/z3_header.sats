@@ -51,16 +51,16 @@ typedef Z3_string = string
 (* ****** ****** *)
 
 absvtype
-Z3_config_vtype = ptr
-vtypedef
-Z3_config = Z3_config_vtype
+Z3_config_vtype (l:addr) = ptr
+stadef Z3_config = Z3_config_vtype
+vtypedef Z3_config = [l:addr] Z3_config (l)
 
 (* ****** ****** *)
 
 absvtype
-Z3_context_vtype = ptr
-vtypedef
-Z3_context = Z3_context_vtype
+Z3_context_vtype (l:addr) = ptr
+stadef Z3_context = Z3_context_vtype
+vtypedef Z3_context = [l:addr] Z3_context (l)
 
 (* ****** ****** *)
 
@@ -86,52 +86,96 @@ typedef Z3_constructor = Z3_constructor_type
 
 (* ****** ****** *)
 //
-absvtype Z3_ast_vtype = ptr
-vtypedef Z3_ast = Z3_ast_vtype
+absvtype
+Z3_ast_vtype (l:addr) = ptr
+stadef Z3_ast = Z3_ast_vtype
+vtypedef Z3_ast = [l:addr] Z3_ast (l)
 //
 (* ****** ****** *)
 
-absvtype Z3_params_vtype = ptr
-vtypedef Z3_params = Z3_params_vtype
+absvtype
+Z3_params_vtype (l:addr) = ptr
+stadef Z3_params = Z3_params_vtype
+vtypedef
+Z3_params = [l:addr] Z3_params (l)
 
-absvtype Z3_param_descrs_vtype = ptr
-vtypedef Z3_param_descrs = Z3_param_descrs_vtype
+absvtype
+Z3_params_descrs_vtype (l:addr) = ptr
+stadef Z3_params_descrs = Z3_params_descrs_vtype
+vtypedef
+Z3_params_descrs = [l:addr] Z3_params_descrs (l)
 
-absvtype Z3_model_vtype = ptr
-vtypedef Z3_model = Z3_model_vtype
+absvtype
+Z3_model_vtype (l:addr) = ptr
+stadef Z3_model = Z3_model_vtype
+vtypedef
+Z3_model = [l:addr] Z3_model (l)
 
-absvtype Z3_func_interp_vtype = ptr
-vtypedef Z3_func_interp = Z3_func_interp_vtype
+absvtype
+Z3_func_interp_vtype (l:addr) = ptr
+stadef Z3_func_interp = Z3_func_interp_vtype
+vtypedef
+Z3_func_interp = [l:addr] Z3_func_interp_vtype (l)
 
-absvtype Z3_func_entry_vtype = ptr
-vtypedef Z3_func_entry = Z3_func_entry_vtype
+absvtype
+Z3_func_entry_vtype (l:addr) = ptr
+stadef Z3_func_entry = Z3_func_entry_vtype
+vtypedef
+Z3_func_entry = [l:addr] Z3_func_entry_vtype (l)
 
-absvtype Z3_fixedpoint_vtype = ptr
-vtypedef Z3_fixedpoint = Z3_fixedpoint_vtype
+absvtype
+Z3_fixedpoint_vtype (l:addr) = ptr
+stadef Z3_fixedpoint = Z3_fixedpoint_vtype
+vtypedef
+Z3_fixedpoint = [l:addr] Z3_fixedpoint_vtype (l)
 
-absvtype Z3_ast_vector_vtype = ptr
-vtypedef Z3_ast_vector = Z3_ast_vector_vtype
+absvtype
+Z3_ast_vector_vtype (l:addr) = ptr
+stadef Z3_ast_vector = Z3_ast_vector_vtype
+vtypedef
+Z3_ast_vector = [l:addr] Z3_ast_vector_vtype (l)
 
-absvtype Z3_ast_map_vtype = ptr
-vtypedef Z3_ast_map = Z3_ast_map_vtype
+absvtype
+Z3_ast_map_vtype (l:addr) = ptr
+stadef Z3_ast_map = Z3_ast_map_vtype
+vtypedef
+Z3_ast_map = [l:addr] Z3_ast_map_vtype (l)
 
-absvtype Z3_goal_vtype = ptr
-vtypedef Z3_goal = Z3_goal_vtype
+absvtype
+Z3_goal_vtype (l:addr) = ptr
+stadef Z3_goal = Z3_goal_vtype
+vtypedef
+Z3_goal = [l:addr] Z3_goal_vtype (l)
 
-absvtype Z3_tactic_vtype = ptr
-vtypedef Z3_tactic = Z3_tactic_vtype
+absvtype
+Z3_tactic_vtype (l:addr) = ptr
+stadef Z3_tactic = Z3_tactic_vtype
+vtypedef
+Z3_tactic = [l:addr] Z3_tactic_vtype (l)
 
-absvtype Z3_probe_vtype = ptr
-vtypedef Z3_probe = Z3_probe_vtype
+absvtype
+Z3_probe_vtype (l:addr) = ptr
+stadef Z3_probe = Z3_probe_vtype
+vtypedef
+Z3_probe = [l:addr] Z3_probe_vtype (l)
 
-absvtype Z3_apply_result_vtype = ptr
-vtypedef Z3_apply_result = Z3_apply_result_vtype
+absvtype
+Z3_apply_result_vtype (l:addr) = ptr
+stadef Z3_apply_result = Z3_apply_result_vtype
+vtypedef
+Z3_apply_result = [l:addr] Z3_apply_result_vtype (l)
 
-absvtype Z3_solver_vtype = ptr
-vtypedef Z3_solver = Z3_solver_vtype
+absvtype
+Z3_solver_vtype (l:addr) = ptr
+stadef Z3_solver = Z3_solver_vtype
+vtypedef
+Z3_solver = [l:addr] Z3_solver_vtype (l)
 
-absvtype Z3_stats_vtype = ptr
-vtypedef Z3_stats = Z3_stats_vtype
+absvtype
+Z3_stats_vtype (l:addr) = ptr
+stadef Z3_stats = Z3_stats_vtype
+vtypedef
+Z3_stats = [l:addr] Z3_stats_vtype (l)
 
 (* ****** ****** *)
 

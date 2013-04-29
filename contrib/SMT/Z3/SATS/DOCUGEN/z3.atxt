@@ -86,4 +86,8 @@ href="http://z3.codeplex.com/">Z3</a> in ATS.  ')
 
 (* ****** ****** *)
 
+#declnamesynop("Z3_solver_get_model")
+
+(* ****** ****** *)
+
 (* end of [z3.atxt] *)
