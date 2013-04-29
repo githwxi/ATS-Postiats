@@ -118,14 +118,53 @@ overload land with land_mode_mode
 (* ****** ****** *)
 
 abst@ype
+dev_t0ype = $extype"atslib_dev_type"
+typedef dev_t = dev_t0ype // = its C-counterpart
+
+(* ****** ****** *)
+
+abst@ype
 ino_t0ype = $extype"atslib_ino_type"
 typedef ino_t = ino_t0ype // = its C-counterpart
 
 (* ****** ****** *)
 
 abst@ype
+nlink_t0ype = $extype"atslib_nlink_type"
+typedef nlink_t = nlink_t0ype // = its C-counterpart
+
+(* ****** ****** *)
+
+abst@ype
+uid_t0ype = $extype"atslib_uid_type"
+typedef uid_t = uid_t0ype // = its C-counterpart
+abst@ype
+gid_t0ype = $extype"atslib_gid_type"
+typedef gid_t = gid_t0ype // = its C-counterpart
+
+(* ****** ****** *)
+
+abst@ype
 off_t0ype = $extype"atslib_off_type"
 typedef off_t = off_t0ype // = its C-counterpart
+
+(* ****** ****** *)
+
+abst@ype
+blkcnt_t0ype = $extype"atslib_blkcnt_type"
+typedef blkcnt_t = blkcnt_t0ype // = its C-counterpart
+abst@ype
+blkcnt_t0ype = $extype"atslib_blkcnt_type"
+typedef blkcnt_t = blkcnt_t0ype // = its C-counterpart
+
+(* ****** ****** *)
+
+abst@ype
+blksize_t0ype = $extype"atslib_blksize_type"
+typedef blksize_t = blksize_t0ype // = its C-counterpart
+abst@ype
+blksize_t0ype = $extype"atslib_blksize_type"
+typedef blksize_t = blksize_t0ype // = its C-counterpart
 
 (* ****** ****** *)
 

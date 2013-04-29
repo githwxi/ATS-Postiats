@@ -571,6 +571,13 @@ stadef cmpref = cmpref_funenv
 
 (* ****** ****** *)
 
+abst@ype
+undefined_t0ype = $extype"atstype_undefined"
+absvt@ype
+undefined_vt0ype = $extype"atstype_undefined"
+
+(* ****** ****** *)
+
 #if VERBOSE_PRELUDE #then
 #print "Loading [basics_sta.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
