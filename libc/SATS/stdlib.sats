@@ -75,7 +75,9 @@ fun _Exit (int): void = "mac#%"
 /*
 int atexit(void (*)(void));
 */
-fun atexit (f: ((*void*)) -> void): int = "mac#%"
+fun atexit
+  (f: ((*void*)) -> void): int(*err*) = "mac#%"
+// end of [atexit]
 
 (* ****** ****** *)
 

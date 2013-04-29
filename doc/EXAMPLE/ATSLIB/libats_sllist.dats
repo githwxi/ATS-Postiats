@@ -29,7 +29,8 @@ staload "libats/SATS/sllist.sats"
 
 (* ****** ****** *)
 
-val () = {
+val () =
+{
 //
 typedef T = int
 //
@@ -62,7 +63,8 @@ val () = sllist_free (rxs)
 
 (* ****** ****** *)
 
-val () = {
+val () =
+{
 //
 typedef T = int
 //
@@ -83,7 +85,8 @@ val () = sllist_free (ys)
 }
 (* ****** ****** *)
 
-val () = {
+val () =
+{
 //
 typedef T = int
 //

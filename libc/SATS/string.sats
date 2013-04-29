@@ -179,5 +179,13 @@ fun mempcpy_unsafe {l:agz}{n:int}
   (dst: ptr (l), src: ptr, n: size_t (n)):<!wrt> ptr (l+n) = "mac#%"
 //
 (* ****** ****** *)
+//
+// HX: This one is non-reentrant:
+//
+fun strerror
+  (errno: int):<!ref> [l:agz] vttakeout0 (strptr l) = "mac#%"
+// end of [strerror]
+
+(* ****** ****** *)
 
 (* end of [string.sats] *)

@@ -100,6 +100,10 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+\#define atslib_strerror strerror
+
+#atscode_separator_for_C()
+
 \#endif // ifndef ATSLIB_LIBC_STRING_CATS
 
 #atscode_separator_for_C()
