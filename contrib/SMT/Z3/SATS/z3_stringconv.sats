@@ -46,6 +46,49 @@ ATSCNTRB_SML_Z3_Z3_HEADER
 //
 (* ****** ****** *)
 
+(*
+void
+Z3_set_ast_print_mode
+  (__in Z3_context c, __in Z3_ast_print_mode mode)
+Select mode for the format used for pretty-printing AST nodes.
+*) 
+fun Z3_set_ast_print_mode
+  (ctx: !Z3_context, mode: Z3_ast_print_mode): void
+// end of [Z3_set_ast_print_mode]
+ 
 (* ****** ****** *)
 
-(* end of [z3_model.sats] *)
+(*
+Z3_string
+Z3_ast_to_string (__in Z3_context c, __in Z3_ast a)
+Convert the given AST node into a string.
+*)
+fun Z3_ast_to_string (ctx: !Z3_context, a: !Z3_ast): vStrptr1
+
+(* ****** ****** *)
+
+(*
+Z3_string
+Z3_pattern_to_string (__in Z3_context c, __in Z3_pattern p)
+*)
+fun Z3_pattern_to_string (ctx: !Z3_context, p: !Z3_pattern): vStrptr1
+ 
+(* ****** ****** *)
+
+(*
+Z3_string
+Z3_func_decl_to_string (__in Z3_context c, __in Z3_func_decl d)
+*) 
+fun Z3_func_decl_to_string (ctx: !Z3_context, d: !Z3_func_decl): vStrptr1
+
+(* ****** ****** *)
+
+(*
+Z3_string
+Z3_model_to_string (__in Z3_context c, __in Z3_model m)
+*)
+fun Z3_model_to_string (ctx: !Z3_context, m: !Z3_model): vStrptr1
+
+(* ****** ****** *)
+
+(* end of [z3_stringconv.sats] *)
