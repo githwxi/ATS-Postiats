@@ -27,7 +27,7 @@ represented as an integer, it seems appropriate to make it abstract as is
 done in the following declaration:
 
 <pre>
-abst@ype filedes = int
+abst@ype fildes = int
 </pre>
 
 Often it is a good practice to give a name to an abstract type that is
@@ -35,8 +35,8 @@ less likely to cause collision and then introduce a short alias for the name.
 For instance, the following declarations demonstrate such a practice:
 
 <pre>
-abst@ype filedes_t0ype = int
-stadef filedes: t@ype = filedes_t0ype
+abst@ype fildes_t0ype = int
+stadef fildes: t@ype = fildes_t0ype
 </pre>
 
 My naming convention uses the special identifier [t0ype] to indicate
@@ -44,7 +44,7 @@ a type of the sort t@ype, that is, a type of unknown size. Note that
 the stadef-declaration can also be replaced with the following one:
 
 <pre>
-typedef filedes = filedes_t0ype
+typedef fildes = fildes_t0ype
 </pre>
 
 Now let us name the file-copying function [fcopy1] and give it

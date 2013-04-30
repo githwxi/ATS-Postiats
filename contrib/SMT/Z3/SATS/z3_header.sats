@@ -68,29 +68,46 @@ abstype Z3_symbol_type = ptr
 typedef Z3_symbol = Z3_symbol_type
 
 (* ****** ****** *)
-
-abstype Z3_sort_type = ptr
-typedef Z3_sort = Z3_sort_type
-
-abstype Z3_func_decl_type = ptr
-typedef Z3_func_decl = Z3_func_decl_type
-
-abstype Z3_app_type = ptr
-typedef Z3_app = Z3_app_type
-
-abstype Z3_pattern_type = ptr
-typedef Z3_pattern = Z3_pattern_type
-
-abstype Z3_constructor_type = ptr
-typedef Z3_constructor = Z3_constructor_type
-
-(* ****** ****** *)
 //
 absvtype
 Z3_ast_vtype (l:addr) = ptr
 stadef Z3_ast = Z3_ast_vtype
 vtypedef Z3_ast = [l:addr] Z3_ast (l)
 //
+(* ****** ****** *)
+
+absvtype
+Z3_sort_vtype (l:addr) = ptr
+stadef Z3_sort = Z3_sort_vtype
+vtypedef
+Z3_sort = [l:addr] Z3_sort (l)
+
+absvtype
+Z3_func_decl_vtype (l:addr) = ptr
+stadef Z3_func_decl = Z3_func_decl_vtype
+vtypedef
+Z3_func_decl = [l:addr] Z3_func_decl (l)
+
+absvtype
+Z3_app_vtype (l:addr) = ptr
+stadef Z3_app = Z3_app_vtype
+vtypedef
+Z3_app = [l:addr] Z3_app (l)
+
+absvtype
+Z3_pattern_vtype (l:addr) = ptr
+stadef Z3_pattern = Z3_pattern_vtype
+vtypedef
+Z3_pattern = [l:addr] Z3_pattern (l)
+
+(* ****** ****** *)
+
+absvtype
+Z3_constructor_vtype (l:addr) = ptr
+stadef Z3_constructor = Z3_constructor_vtype
+vtypedef
+Z3_constructor = [l:addr] Z3_constructor (l)
+
 (* ****** ****** *)
 
 absvtype

@@ -27,47 +27,65 @@
 
 /* ****** ****** */
 
-#ifndef Z3_Z3_CATS
-#define Z3_Z3_CATS
-
-/* ****** ****** */
-
-#include <z3.h>
-
-/* ****** ****** */
-
-#define atscntrb_Z3_mk_config Z3_mk_config
-#define atscntrb_Z3_del_config Z3_del_config
-#define atscntrb_Z3_set_param_value Z3_set_param_value
-
-/* ****** ****** */
-
-#define atscntrb_Z3_mk_context Z3_mk_context
-#define atscntrb_Z3_mk_context_rc Z3_mk_context_rc
-#define atscntrb_Z3_del_context Z3_del_context
+#ifndef Z3_Z3_PROPEQ_CATS
+#define Z3_Z3_PROPEQ_CATS
 
 /* ****** ****** */
 
 ATSinline()
 Z3_ast
-atscntrb_Z3_inc_ref
-  (Z3_ast a) { Z3_inc_ref (a); return a ; }
-// end of [atscntrb_Z3_inc_ref]
+atscntrb_Z3_mk_true
+  (Z3_context ctx)
+{
+  return atscntrb_Z3_inc_ref(Z3_mk_true(ctx)) ;
+} // end of [atscntrb_Z3_mk_true]
 
-#define atscntrb_Z3_dec_ref(a) Z3_dec_ref(a)
-
-/* ****** ****** */
-
-#include "z3_constapp.cats"
-
-/* ****** ****** */
-
-#include "z3_propeq.cats" // for prop and equality
-
-/* ****** ****** */
-
-#endif // end of [Z3_Z3_CATS]
+ATSinline()
+Z3_ast
+atscntrb_Z3_mk_false
+  (Z3_context ctx)
+{
+  return atscntrb_Z3_inc_ref(Z3_mk_false(ctx)) ;
+} // end of [atscntrb_Z3_mk_false]
 
 /* ****** ****** */
 
-/* end of [z3.cats] */
+ATSinline()
+Z3_ast
+atscntrb_Z3_mk_eq
+  (Z3_context ctx, Z3_ast l, Z3_ast r)
+{
+  return atscntrb_Z3_inc_ref(Z3_mk_eq(ctx, l, r)) ;
+} // end of [atscntrb_Z3_mk_eq]
+
+/* ****** ****** */
+
+ATSinline()
+Z3_ast
+atscntrb_Z3_mk_or2
+  (Z3_context ctx, Z3_ast a0, Z3_ast a1)
+{
+  Z3_ast a01[2] ;
+  a01[0] = a0 ; a01[1] = a1 ;
+  return atscntrb_Z3_inc_ref(Z3_mk_or(ctx, 2, a01)) ;
+} // end of [atscntrb_Z3_mk_or2]
+
+/* ****** ****** */
+
+ATSinline()
+Z3_ast
+atscntrb_Z3_mk_and2
+  (Z3_context ctx, Z3_ast a0, Z3_ast a1)
+{
+  Z3_ast a01[2] ;
+  a01[0] = a0 ; a01[1] = a1 ;
+  return atscntrb_Z3_inc_ref(Z3_mk_and(ctx, 2, a01)) ;
+} // end of [atscntrb_Z3_mk_and2]
+
+/* ****** ****** */
+
+#endif // end of [Z3_Z3_PROPEQ_CATS]
+
+/* ****** ****** */
+
+/* end of [z3_propeq.cats] */

@@ -1,10 +1,10 @@
-(***********************************************************************)
-(*                                                                     *)
-(*                         Applied Type System                         *)
-(*                                                                     *)
-(***********************************************************************)
+/***********************************************************************/
+/*                                                                     */
+/*                         Applied Type System                         */
+/*                                                                     */
+/***********************************************************************/
 
-(*
+/* (*
 ** ATS/Postiats - Unleashing the Potential of Types!
 ** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
@@ -23,36 +23,22 @@
 ** along  with  ATS;  see the  file COPYING.  If not, please write to the
 ** Free Software Foundation,  51 Franklin Street, Fifth Floor, Boston, MA
 ** 02110-1301, USA.
-*)
+*) */
 
-(* ****** ****** *)
+/* ****** ****** */
 
-(*
-** Start Time: April, 2013
-**
-** Author: William Blair 
-** Authoremail: wdblair AT bu DOT edu
-**
-** Author: Hongwei Xi
-** Authoremail: gmhwxi AT gmail DOT com
-*)
+#ifndef Z3_Z3_CONSTAPP_CATS
+#define Z3_Z3_CONSTAPP_CATS
 
-(* ****** ****** *)
-//
-#ifndef
-ATSCNTRB_SML_Z3_Z3_HEADER
-#include "./z3_header.sats"
-#endif
-//
-(* ****** ****** *)
-/*
-// Declare and create a constant. 
-*/
-fun Z3_mk_const
-(
-  ctx,: !Z3_context c, s: Z3_symbol, ty: Z3_sort
-) : Z3_ast = "mac#%"
+/* ****** ****** */
 
-(* ****** ****** *)
+#define atscntrb_Z3_mk_const(ctx, sym, ty) \
+  atscntrb_Z3_inc_ref(Z3_mk_const(ctx, sym, ty))
 
-(* end of [z3_constapp.sats] *)
+/* ****** ****** */
+
+#endif // end of [Z3_Z3_CONSTAPP_CATS]
+
+/* ****** ****** */
+
+/* end of [z3_propeq.cats] */
