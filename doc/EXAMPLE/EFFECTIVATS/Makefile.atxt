@@ -89,6 +89,7 @@ RMF=rm -f
 
 #make2_entry("fcopy1", "", "")
 #make2_entry("fcopy2", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("fcopy3", "-DATS_MEMALLOC_LIBC", "")
 
 ######
 

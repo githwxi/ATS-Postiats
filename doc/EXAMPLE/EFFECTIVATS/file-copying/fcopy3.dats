@@ -84,7 +84,7 @@ readbuf
   buffer buf = (buffer)buf0 ;
   ssize_t nchar ;
   nchar = read(src, buf->data, buf->size) ;
-  if (nchar < 0) { (int*)err += 1 ; return ; }
+  if (nchar < 0) { *(int*)err += 1 ; return ; }
   buf->nchar = nchar ;
   return ;
 }
@@ -102,7 +102,7 @@ writebuf
   {
     if (buf->nchar==0) break ;
     nchar = write(dst, buf->data, buf->nchar) ;
-    if (nchar < 0) { (int*)err += 1 ; return ; }
+    if (nchar < 0) { *(int*)err += 1 ; return ; }
     buf->nchar -= nchar ;
   } // end of [while]
   return ;
@@ -134,7 +134,7 @@ in
   if isnot then let
     val () = writebuf (dst, buf, err)
   in
-    if err = err0 then loop (src, dst, buf, err0, err)
+    if err = err0 then loop (src, dst, buf, err0, err) else ((*error*))
   end else () // end of [if]
 //
 end // end of [loop]

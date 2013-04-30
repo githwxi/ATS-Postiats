@@ -30,8 +30,8 @@ done in the following declaration:
 abst@ype filedes = int
 </pre>
 
-Often it is a good practice to give an abstract type a name that is less
-likely to cause collision and then introduce a short alias for the name.
+Often it is a good practice to give a name to an abstract type that is
+less likely to cause collision and then introduce a short alias for the name.
 For instance, the following declarations demonstrate such a practice:
 
 <pre>
@@ -80,7 +80,7 @@ fun readch (src: fildes): int
 
 We use natural numbers, that is, non-negative integers for valid chars and
 a negative integer (e.g., -1) for the special value (indicating that the
-end of [src] is reached). Now we can readily implement [fcopy1] as follows:
+end of [src] is reached). We can now readily implement [fcopy1] as follows:
 
 <pre>
 implement
@@ -95,22 +95,22 @@ if c >= 0 then
 end (* end of [fcopy1] *)
 </pre>
 
-Now it is time to raise the obvious question: How can functions [readch]
-and [writech] be implemented? They can be implemented based on the system
-calls [read] and [write]. Please find a completed running implementation of
+At this point, the obviously question is: How can functions [readch] and
+[writech] be implemented? They can be implemented based on the system calls
+[read] and [write]. Please find a completed running implementation of
 file-copying based on [fcopy1] in fcopy1.dats, where [readch] and [writech]
 are implemented in C directly.
 
 <p>
 
-Of course, there is a lot of criticism that can be said about the above
-implementation of [fcopy1]. For instance, it is terribly inefficient; it
-does not support any error-handling at all; etc. I will attempt to address
-these issues elsewhere. However, one thing that is extremely positive in
-this implementation is the introduction of functions [readch] and
-[writech], which adds a layer to shield system calls [read] and [write]
-from being used directly. This is a programming style I would recommend
-highly and repeatedly.
+Of course, there is a lot of criticism that can be laid upon the above
+implementation of file-copying]. For instance, it is terribly inefficient;
+it does not support any error-handling at all; etc. I will attempt to
+address these issues in the following presentation. However, one thing that
+is extremely positive about this implementation is the introduction of
+functions [readch] and [writech], which adds a layer to shield system calls
+[read] and [write] from being used directly. This is a programming style I
+would recommend highly and repeatedly.
 
 <h2>
 Attempt Two
@@ -118,10 +118,11 @@ Attempt Two
 
 Obviously, [fcopy1] is very inefficient for copying files as it calls
 [read] and [write] each time to read and write only one char, respectively.
-If multiple chars are to read at once, then a buffer (that is, memory) must
-be made available to store them. As it is largely straightforward to handle
-only cases where such a buffer is statically allocated, I will focus on a
-solution that can also cope with dynamically allocated buffers.
+If multiple chars are to be read at once, then a buffer (that is, some
+memory) must be made available to store them. As it is largely
+straightforward to handle only cases where such a buffer is statically
+allocated, I will focus on a solution that can also cope with dynamically
+allocated buffers.
 
 Let us first introduce an abstract type for buffers:
 
@@ -196,7 +197,7 @@ Attempt Three
 </h2>
 
 While the inefficiency of [fcopy1] is addressed in the implementation of
-[fcopy2], the absence of error-handing is not. I now give another
+[fcopy2], the absence of error-handling is not. I now give another
 implementation of file-copying and address the issue of error-handling in
 this implementation.
 
@@ -242,7 +243,7 @@ in
   if isnot then let
     val () = writebuf (dst, buf, err)
   in
-    if err = err0 then loop (src, dst, buf, err0, err)
+    if err = err0 then loop (src, dst, buf, err0, err) else ((*error*))
   end else () // end of [if]
 //
 end // end of [loop]

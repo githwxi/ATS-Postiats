@@ -41,6 +41,14 @@ clean:: ; $(RMF) fcopy2_dats.o
 clean:: ; $(RMF) fcopy2_dats.c
 cleanall:: ; $(RMF) fcopy2.exe
 
+all:: fcopy3
+fcopy3: fcopy3.exe
+fcopy3.exe: fcopy3_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+fcopy3_dats.c: fcopy3.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fcopy3_dats.c --dynamic fcopy3.dats
+clean:: ; $(RMF) fcopy3_dats.o
+clean:: ; $(RMF) fcopy3_dats.c
+cleanall:: ; $(RMF) fcopy3.exe
+
 
 ######
 
