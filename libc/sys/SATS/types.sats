@@ -174,5 +174,16 @@ fun size2off (x: size_t):<> off_t = "mac#%"
 fun off2size (x: off_t):<> size_t = "mac#%"
 
 (* ****** ****** *)
+//
+absvt@ype
+fildes_vtype (fd: int) = int
+//
+vtypedef
+fildes (fd: int) = fildes_vtype (fd)
+//
+vtypedef Fildes = [fd:int] fildes (fd)
+vtypedef Fildes0 = [fd:int | fd >= 0] fildes (fd)
+//
+(* ****** ****** *)
 
 (* end of [types.sats] *)

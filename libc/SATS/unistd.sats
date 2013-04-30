@@ -53,19 +53,56 @@
 typedef interr = int
 
 (* ****** ****** *)
-
+//
 staload
 TYPES =
 "libc/sys/SATS/types.sats"
+//
 typedef off_t = $TYPES.off_t
-
+//
+vtypedef
+fildes (i:int) = $TYPES.fildes (i)
+//
+vtypedef Fildes = $TYPES.Fildes
+vtypedef Fildes0 = $TYPES.Fildes0
+//
 (* ****** ****** *)
 /*
 int close (int);
 */
-fun close (fildes: int): interr = "mac#%"
-fun close_exn (fildes: int): void = "mac#%"
+symintr close
+symintr close_exn
 //
+fun close0 (fd: int): interr = "mac#%"
+//
+// HX-2013-03-25: should this be moved to unistd.sats?
+//
+dataview
+close_v (fd:int, int) =
+  | close_v_succ (fd, 0) of ()
+  | {i:int | i < 0} close_v_fail (fd, i) of fildes (fd)
+//
+fun close1{fd:nat}
+  (fd: fildes (fd)): [i:int] (close_v (fd, i) | int i) = "mac#%"
+//
+overload close with close0
+overload close with close1
+//
+fun close0_exn (fd: int): void = "ext#%"
+fun close1_exn (fd: Fildes0):<!exn> void = "ext#%"
+//
+overload close_exn with close0_exn
+overload close_exn with close1_exn
+//
+(* ****** ****** *)
+
+fun dup (fildes: int): int = "mac%"
+fun dup2 (fildes: int, fildes2: int): int = "mac%"
+//
+// HX: this one requires -D_GNU_SOURCE
+//
+fun dup3 (fildes: int, fildes2: int, flags: int): int = "mac%"
+
 (* ****** ****** *)
 
 fun execv {n:pos}{l:addr}
@@ -125,11 +162,23 @@ fun getcwd
   pf: !b0ytes (m) @ l >> getcwd_v (m, l, l1) | p: ptr l, m: size_t m
 ) : #[l1:addr] ptr (l1) = "mac#%" // end of [getcwd]
 
-fun getcwd_gc (): Strptr1 = "mac#%" // HX: this is a convenient function
+fun getcwd_gc (): Strptr1 = "ext#%" // HX: this is a convenient function
 
 (* ****** ****** *)
 
 fun pause (): int = "mac#%" // the return value is -1 if the call returns
+
+(* ****** ****** *)
+
+fun pread {n:int}
+(
+  fd: !Fildes0, buf: &(@[byte][n])>>_, n: size_t (n), ofs: off_t
+) : ssize_t = "mac#%" // end of [pread]
+
+fun pwrite {n:int}
+(
+  fd: !Fildes0, buf: &RD(array(byte, n)), n: size_t (n), ofs: off_t
+) : ssize_t = "mac#%" // end of [pwrite]
 
 (* ****** ****** *)
 //
@@ -169,15 +218,8 @@ fun link
 , new: NSH(string)
 ) :<!ref> intLte(0) = "mac#%"
 fun link_exn
-  (old: NSH(string), new: NSH(string)):<!ref> void = "mac#%"
+  (old: NSH(string), new: NSH(string)):<!ref> void = "ext#%"
 //
-(* ****** ****** *)
-/*
-int unlink(const char *pathname);
-*/
-fun unlink (path: NSH(string)):<!ref> intLte(0) = "mac#%"
-fun unlink_exn (path: NSH(string)):<!exnref> void = "mac#%"
-
 (* ****** ****** *)
 /*
 int symlink(const char *old, const char *new)
@@ -188,8 +230,15 @@ fun symlink
 , new: NSH(string)
 ) :<!ref> intLte(0) = "mac#%"
 fun symlink_exn
-  (old: NSH(string), new: NSH(string)):<!ref> void = "mac#%"
+  (old: NSH(string), new: NSH(string)):<!ref> void = "ext#%"
 //
+(* ****** ****** *)
+/*
+int unlink(const char *pathname);
+*/
+fun unlink (path: NSH(string)):<!ref> intLte(0) = "mac#%"
+fun unlink_exn (path: NSH(string)):<!exnref> void = "ext#%"
+
 (* ****** ****** *)
 
 fun readlink{n:int}
@@ -200,15 +249,15 @@ fun readlink{n:int}
 (* ****** ****** *)
 
 fun sync ((*void*)): void = "mac#%"
-fun fsync (fildes: int): int = "mac#%"
-fun fdatasync (fildes: int): int = "mac#%"
+fun fsync (fd: !Fildes0): int = "mac#%"
+fun fdatasync (fd: !Fildes0): int = "mac#%"
 
 (* ****** ****** *)
 //
 fun truncate
   (path: NSH(string), ofs: off_t): int = "mac#%"
 //
-fun ftruncate (fildes: int, ofs: off_t): int = "mac#%"
+fun ftruncate (fd: !Fildes0, ofs: off_t): int = "mac#%"
 //
 (* ****** ****** *)
 

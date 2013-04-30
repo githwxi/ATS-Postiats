@@ -57,8 +57,11 @@ val () = println! ("one-half second passed.")
 val () =
 {
 //
-val ec = $STDLIB.system ("touch /tmp/deadbeef")
-val () = if ec = 0 then unlink_exn ("/tmp/deadbeef")
+val err = $STDLIB.system ("touch /tmp/deadbeef")
+val ( ) = assertloc (err = 0)
+val ( ) = symlink_exn ("/tmp/deadbeef", "/tmp/deadbeef2")
+val ( ) = unlink_exn ("/tmp/deadbeef")
+val ( ) = unlink_exn ("/tmp/deadbeef2")
 //
 } // end of [val]
 

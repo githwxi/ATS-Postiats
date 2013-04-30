@@ -37,8 +37,11 @@
 
 (* ****** ****** *)
 
+staload "libc/SATS/unistd.sats"
+
+(* ****** ****** *)
+
 %{
-ATSinline()
 atstype_strptr
 atslib_getcwd_gc (
 ) {
@@ -70,6 +73,22 @@ atslib_link_exn
   if (0 > err) ATSLIBfailexit("link") ;
   return ;
 } /* end of [atslib_link_exn] */
+%}
+
+(* ****** ****** *)
+
+%{
+extern
+atsvoid_t0ype
+atslib_symlink_exn
+(
+  atstype_string old, atstype_string new
+) {
+  int err ;
+  err = atslib_symlink(old, new) ;
+  if (0 > err) ATSLIBfailexit("symlink") ;
+  return ;
+} /* end of [atslib_symlink_exn] */
 %}
 
 (* ****** ****** *)

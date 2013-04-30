@@ -59,4 +59,11 @@ SATS file in ATSLIB where these types and functions are declared.
 
 (* ****** ****** *)
 
+#declnamesynop("fildes")
+#declnamesynop("fildes_vtype")
+#declnamesynop("Fildes")
+#declnamesynop("Fildes0")
+
+(* ****** ****** *)
+
 (* end of [types.atxt] *)

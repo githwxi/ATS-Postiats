@@ -38,10 +38,6 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-extern int close (int fd) ; // unistd.h
-
-#atscode_separator_for_C()
-
 \#define atslib_fildes_get_int(fd) (fd)
 
 #atscode_separator_for_C()
@@ -58,10 +54,6 @@ atslib_fildes_isgtez
 
 \#define atslib_open_flags(path, flags) open((char*)path, flags)
 \#define atslib_open_flags_mode(path, flags, mode) open((char*)path, flags, mode)
-
-#atscode_separator_for_C()
-
-\#define atslib_close(fd) close(fd)
 
 #atscode_separator_for_C()
 

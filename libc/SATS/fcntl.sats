@@ -50,22 +50,18 @@ RD(a:vt0p) = a // for commenting: read-only
 #define SHR(x) x // for commenting: it is shared
 
 (* ****** ****** *)
-
+//
 staload
 TYPES =
 "libc/sys/SATS/types.sats"
-typedef mode_t = $TYPES.mode_t
-
-(* ****** ****** *)
 //
-absvt@ype
-fildes_vtype (fd: int) = int
+typedef mode_t = $TYPES.mode_t
 //
 vtypedef
-fildes (fd: int) = fildes_vtype (fd)
+fildes (i:int) = $TYPES.fildes (i)
 //
-vtypedef Fildes = [fd:int] fildes (fd)
-vtypedef Fildes0 = [fd:int | fd >= 0] fildes (fd)
+vtypedef Fildes = $TYPES.Fildes
+vtypedef Fildes0 = $TYPES.Fildes0
 //
 (* ****** ****** *)
 
@@ -103,30 +99,6 @@ fun open_flags_mode
 (
   path: NSH(string), flags: fcntlflags, mode: mode_t
 ) : Fildes = "mac#%" // endfun
-
-(* ****** ****** *)
-//
-// HX-2013-03-25: should this be moved to unistd.sats?
-//
-dataview
-close_v
-  (fd:int, int) =
-  | close_v_succ (fd, 0) of ()
-  | {i:int | i < 0} close_v_fail (fd, i) of fildes (fd)
-// end of [close_v]
-
-fun close
-  {fd:nat}
-(
-  fd: fildes (fd)
-) : [i:int]
-(
-  close_v (fd, i) | int i
-) = "mac#%" // endfun
-
-fun close_exn
-  {fd:nat} (fd: fildes (fd)):<!exn> void = "mac#%"
-// end of [close_exn]
 
 (* ****** ****** *)
 

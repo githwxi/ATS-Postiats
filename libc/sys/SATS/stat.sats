@@ -69,6 +69,12 @@ typedef blksize_t = $TYPES.blksize_t
 //
 typedef time_t = $TYPES.time_t
 //
+vtypedef
+fildes (i:int) = $TYPES.fildes (i)
+//
+vtypedef Fildes = $TYPES.Fildes
+vtypedef Fildes0 = $TYPES.Fildes0
+//
 (* ****** ****** *)
 //
 typedef
@@ -149,14 +155,16 @@ fun isfdtype (fildes: int, fdtype: mode_t): int
 fun chmod
   (path: NSH(string), mode: mode_t): int = "mac#%"
 fun chmod_exn
-  (path: NSH(string), mode: mode_t): void = "mac#%"
+  (path: NSH(string), mode: mode_t): void = "ext#%"
+//
+fun fchmod (fd: !Fildes0, mode: mode_t): int = "mac#%"
 //
 (* ****** ****** *)
 //
 fun mkdir
   (path: NSH(string), mode: mode_t): int = "mac#%"
 fun mkdir_exn
-  (path: NSH(string), mode: mode_t): void = "mac#%"
+  (path: NSH(string), mode: mode_t): void = "ext#%"
 //
 (* ****** ****** *)
 //
@@ -170,16 +178,16 @@ fun stat
   path: NSH(string), st: &stat? >> opt (stat, i==0)
 ) : #[i:int | i <= 0] int (i) = "mac#%"
 fun stat_exn
-  (path: NSH(string), st: &stat? >> stat): void = "mac#%"
+  (path: NSH(string), st: &stat? >> stat): void = "ext#%"
 //
 (* ****** ****** *)
 //
 fun fstat
 (
-  fildes: int, st: &stat? >> opt (stat, i==0)
+  fd: !Fildes0, st: &stat? >> opt (stat, i==0)
 ) : #[i:int | i <= 0] int (i) = "mac#%"
 fun fstat_exn
-  (fildes: int, st: &stat? >> stat): void = "mac#%"
+  (fd: !Fildes0, st: &stat? >> stat): void = "ext#%"
 //
 (* ****** ****** *)
 //
@@ -188,7 +196,7 @@ fun lstat
   path: NSH(string), st: &stat? >> opt (stat, i==0)
 ) : #[i:int | i <= 0] int (i) = "mac#%"
 fun lstat_exn
-  (path: NSH(string), st: &stat? >> stat): void = "mac#%"
+  (path: NSH(string), st: &stat? >> stat): void = "ext#%"
 //
 (* ****** ****** *)
 

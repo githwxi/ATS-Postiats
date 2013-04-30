@@ -31,6 +31,35 @@ the SATS file in ATSLIB where these functions are declared.
 
 (* ****** ****** *)
 
+#declnamesynop("chmod")
+#declnamesynop("fchmod")
+
+(* ****** ****** *)
+
+#declnamesynop("mkdir")
+#declnamesynop("mkdir_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("mkfifo")
+
+(* ****** ****** *)
+
+#declnamesynop("stat")
+#declnamesynop("stat_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("fstat")
+#declnamesynop("fstat_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("lstat")
+#declnamesynop("lstat_exn")
+
+(* ****** ****** *)
+
 #declnamesynop("umask")
 
 (* ****** ****** *)

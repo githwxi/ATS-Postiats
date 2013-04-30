@@ -202,7 +202,7 @@ cleanall:: ; $(RMF) libc_math.exe
 
 all:: libc_stdio
 libc_stdio: libc_stdio.exe
-libc_stdio.exe: libc_stdio_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libc_stdio.exe: libc_stdio_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
 libc_stdio_dats.c: libc_stdio.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_stdio_dats.c --dynamic libc_stdio.dats
 clean:: ; $(RMF) libc_stdio_dats.o
 clean:: ; $(RMF) libc_stdio_dats.c
@@ -242,7 +242,7 @@ cleanall:: ; $(RMF) libc_time.exe
 
 all:: libc_unistd
 libc_unistd: libc_unistd.exe
-libc_unistd.exe: libc_unistd_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libc_unistd.exe: libc_unistd_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
 libc_unistd_dats.c: libc_unistd.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_unistd_dats.c --dynamic libc_unistd.dats
 clean:: ; $(RMF) libc_unistd_dats.o
 clean:: ; $(RMF) libc_unistd_dats.c

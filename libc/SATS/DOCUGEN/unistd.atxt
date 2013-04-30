@@ -31,8 +31,19 @@ file in ATSLIB where these functions are declared.
 
 (* ****** ****** *)
 
-#declnamesynop("close")
-#declnamesynop("close_exn")
+#declnamesynop("close0")
+#declnamesynop("close0_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("close1")
+#declnamesynop("close1_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("dup")
+#declnamesynop("dup2")
+#declnamesynop("dup3")
 
 (* ****** ****** *)
 
@@ -70,6 +81,11 @@ the result returned by #dyncode("getcwd"). ")
 
 (* ****** ****** *)
 
+#declnamesynop("pread")
+#declnamesynop("pwrite")
+
+(* ****** ****** *)
+
 #declnamesynop("sleep")
 #declnamesynop("sleep_int")
 #declnamesynop("sleep_uint")
@@ -82,8 +98,33 @@ the result returned by #dyncode("getcwd"). ")
 
 (* ****** ****** *)
 
+#declnamesynop("link")
+#declnamesynop("link_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("symlink")
+#declnamesynop("symlink_exn")
+
+(* ****** ****** *)
+
 #declnamesynop("unlink")
 #declnamesynop("unlink_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("readlink")
+
+(* ****** ****** *)
+
+#declnamesynop("sync")
+#declnamesynop("fsync")
+#declnamesynop("fdatasync")
+
+(* ****** ****** *)
+
+#declnamesynop("truncate")
+#declnamesynop("ftruncate")
 
 (* ****** ****** *)
 
