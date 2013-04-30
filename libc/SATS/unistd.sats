@@ -60,6 +60,8 @@ TYPES =
 //
 typedef off_t = $TYPES.off_t
 //
+stadef fildes_v = $TYPES.fildes_v
+//
 vtypedef
 fildes (i:int) = $TYPES.fildes (i)
 //
@@ -80,7 +82,7 @@ fun close0 (fd: int): interr = "mac#%"
 dataview
 close_v (fd:int, int) =
   | close_v_succ (fd, 0) of ()
-  | {i:int | i < 0} close_v_fail (fd, i) of fildes (fd)
+  | {i:int | i < 0} close_v_fail (fd, i) of fildes_v (fd)
 //
 fun close1{fd:nat}
   (fd: fildes (fd)): [i:int] (close_v (fd, i) | int i) = "mac#%"
@@ -245,6 +247,8 @@ fun readlink{n:int}
 (
   path: NSH(string), buf: &(@[byte][n]) >> _, n: size_t (n)
 ) : ssizeLte(n) = "mac#%" // end of [readlink]
+
+fun readlink_gc (path: NSH(string)): Strptr0 = "ext#%"
 
 (* ****** ****** *)
 

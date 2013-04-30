@@ -59,9 +59,15 @@ val () =
 //
 val err = $STDLIB.system ("touch /tmp/deadbeef")
 val ( ) = assertloc (err = 0)
-val ( ) = symlink_exn ("/tmp/deadbeef", "/tmp/deadbeef2")
 val ( ) = unlink_exn ("/tmp/deadbeef")
+val ( ) = symlink_exn ("Hello, world!", "/tmp/deadbeef2")
+val str = readlink_gc ("/tmp/deadbeef2")
 val ( ) = unlink_exn ("/tmp/deadbeef2")
+val ( ) = println! ("readlink(/tmp/deadbeef2) = ", str)
+val ( ) = strptr_free (str)
+val str = readlink_gc ("/tmp/deadbeef3")
+val ( ) = println! ("readlink(/tmp/deadbeef3) = ", str)
+val ( ) = strptr_free (str)
 //
 } // end of [val]
 

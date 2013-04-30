@@ -89,6 +89,14 @@ clean:: ; $(RMF) wclines_dats.o
 clean:: ; $(RMF) wclines_dats.c
 cleanall:: ; $(RMF) wclines.exe
 
+all:: wclines2
+wclines2: wclines2.exe
+wclines2.exe: wclines2_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -O2 -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+wclines2_dats.c: wclines2.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output wclines2_dats.c --dynamic wclines2.dats
+clean:: ; $(RMF) wclines2_dats.o
+clean:: ; $(RMF) wclines2_dats.c
+cleanall:: ; $(RMF) wclines2.exe
+
 
 all:: sllist_mapfree
 sllist_mapfree: sllist_mapfree.exe

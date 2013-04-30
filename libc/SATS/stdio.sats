@@ -54,6 +54,14 @@ sortdef fm = file_mode
 
 (* ****** ****** *)
 
+staload
+TYPES =
+"libc/sys/SATS/types.sats"
+stadef fildes = $TYPES.fildes
+stadef fildes_v = $TYPES.fildes_v
+
+(* ****** ****** *)
+
 (*
 abstype FILEref = ptr // declared in [prelude/basic_dyn.sats]
 *)
@@ -291,15 +299,15 @@ fun fileno1 (filp: !FILEptr1(*none*)):<> int = "mac#%"
 overload fileno with fileno1
 
 (* ****** ****** *)
+
 (*
 //
 // HX-2011-08
 //
 *)
-absview fildes_v (fd:int)
-
 dataview
-fdopen_v (
+fdopen_v
+(
   fd:int, addr, m: fmode
 ) =
   | {l:agz}
@@ -310,14 +318,16 @@ fdopen_v (
 fun fdopen
   {fd:int}{m:fm}
 (
-  pf: fildes_v (fd) | fd: int (fd), m: fmode (m)
-) : [l:agez] (fdopen_v (fd, l, m) | ptr l)
+  fd: fildes (fd), m: fmode (m)
+) : [l:agez] 
+(
+  fdopen_v (fd, l, m) | ptr l
+) = "mac#%" // end of [fdopen]
 
 fun fdopen_exn
   {fd:int}{m:fm}
-(
-  pf: fildes_v (fd) | fd: int (fd), m: fmode (m)
-) : FILEptr1 (m) // end of [fdopen_exn]
+  (fd: fildes (fd), m: fmode (m)): FILEptr1 (m) = "ext#%"
+// end of [fdopen_exn]
 
 (* ****** ****** *)
 (*  
@@ -402,6 +412,9 @@ fun fflush0_exn
   (filr: FILEref):<!exnwrt> void = "ext#%"
 overload fflush_exn with fflush0_exn
 //
+(* ****** ****** *)
+//
+fun fflush_all ():<!exnwrt> void = "ext#%"
 fun fflush_stdout ():<!exnwrt> void = "ext#%"
 //
 (* ****** ****** *)

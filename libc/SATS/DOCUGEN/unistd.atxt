@@ -114,6 +114,7 @@ the result returned by #dyncode("getcwd"). ")
 (* ****** ****** *)
 
 #declnamesynop("readlink")
+#declnamesynop("readlink_gc")
 
 (* ****** ****** *)
 

@@ -46,7 +46,10 @@ atstype_strptr
 atslib_getcwd_gc (
 ) {
   char *p_cwd ;
-  int bsz = 32 ; // HX: [32] is chosen nearly randomly
+//
+// HX: [32] is chosen nearly randomly
+//
+  size_t bsz = 32 ;
   char *p2_cwd ;
   p_cwd = (char*)0 ;
   while (1) {
@@ -105,6 +108,36 @@ atslib_unlink_exn
   if (0 > err) ATSLIBfailexit("unlink") ;
   return ;
 } /* end of [atslib_unlink_exn] */
+%}
+
+(* ****** ****** *)
+
+%{
+atstype_strptr
+atslib_readlink_gc
+(
+  atstype_string path
+) {
+  char *bfp ;
+//
+// HX: [32] is chosen nearly randomly
+//
+  size_t bsz = 32 ;
+  ssize_t bsz2 ;
+  bfp = (char*)0 ;
+  while (1) {
+    bfp = atspre_malloc_gc(bsz) ;
+    bsz2 = atslib_readlink(path, bfp, bsz) ;
+    if (bsz2 < 0) {
+      atspre_mfree_gc(bfp) ; break ;
+    }
+    if (bsz2 < bsz) {
+      bfp[bsz2] = '\000' ; return bfp ;
+    }
+    atspre_mfree_gc(bfp) ; bsz *= 2 ;
+  }
+  return (char*)0 ; // HX: deadcode
+} // end of [atslib_readlink_gc]
 %}
 
 (* ****** ****** *)

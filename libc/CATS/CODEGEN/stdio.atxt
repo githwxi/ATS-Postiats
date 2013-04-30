@@ -72,9 +72,20 @@ extern void exit (int status) ; // in [stdlib.h]
 */
 
 #atscode_separator_for_C()
+//
+\#define atslib_fflush0_exn() atslib_fflush_exn()
+//
+\#define atslib_fflush_all() atslib_fclose_exn((FILE*)0)
+\#define atslib_fflush_stdout() atslib_fclose_exn(stdout)
+//
+#atscode_separator_for_C()
 
 \#define atslib_fileno0 fileno
 \#define atslib_fileno1 fileno
+
+#atscode_separator_for_C()
+
+\#define atslib_fdopen fdopen
 
 #atscode_separator_for_C()
 

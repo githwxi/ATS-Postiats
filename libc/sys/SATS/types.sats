@@ -175,6 +175,9 @@ fun off2size (x: off_t):<> size_t = "mac#%"
 
 (* ****** ****** *)
 //
+absview fildes_view (fd: int)
+viewdef fildes_v (i:int) = fildes_view (i)
+//
 absvt@ype
 fildes_vtype (fd: int) = int
 //
@@ -184,6 +187,17 @@ fildes (fd: int) = fildes_vtype (fd)
 vtypedef Fildes = [fd:int] fildes (fd)
 vtypedef Fildes0 = [fd:int | fd >= 0] fildes (fd)
 //
+(* ****** ****** *)
+
+castfn
+fildes_decode
+  {fd:nat} (fd: fildes (fd)):<> (fildes_v (fd) | int fd)
+// end of [fildes_decode]
+
+castfn fildes_encode
+  {fd:nat} (pf: fildes_v (fd) | fd: int fd):<> fildes (fd)
+// end of [fildes_encode]
+
 (* ****** ****** *)
 
 (* end of [types.sats] *)
