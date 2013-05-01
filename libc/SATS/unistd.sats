@@ -109,11 +109,21 @@ fun dup_fildes (fd: !Fildes0): Fildes = "mac#%"
 
 (* ****** ****** *)
 //
-fun dup2 (fildes: int, fildes2: int): int = "mac#%"
+fun dup2
+  (fildes: int, fildes2: int): int = "mac#%"
+//
+// HX-2013-05:
+// this one requires that [fd2] be not in use
+//
+fun dup2_fildes{fd2:nat}
+  (fd: !Fildes0, fd2: int (fd2)): Fildes = "mac#%"
+//
+(* ****** ****** *)
 //
 // HX: this one requires -D_GNU_SOURCE
 //
-fun dup3 (fildes: int, fildes2: int, flags: int): int = "mac#%"
+fun dup3
+  (fildes: int, fildes2: int, flags: int): int = "mac#%"
 //
 (* ****** ****** *)
 

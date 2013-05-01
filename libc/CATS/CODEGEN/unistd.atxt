@@ -37,11 +37,14 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#define ATSLIBfailexit(cmd) \\
-  do { \\
-    perror(cmd) ; \\
-    fprintf(stderr, "exit(ATSLIB): [%s] failed\n", cmd) ; exit(1) ; \\
-  } while (0) \\
+\#define \\
+ATSLIBfailexit(cmd) \\
+do { \\
+  perror(cmd) ; \\
+  fprintf(stderr, "exit(ATSLIB): [%s] failed\n", cmd) ; exit(1) ; \\
+} while (0) \\
+
+#atscode_separator_for_C()
 
 #atscode_separator_for_C()
 

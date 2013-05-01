@@ -33,7 +33,7 @@
 (* ****** ****** *)
 
 %{#
-#include "libc/CATS/fcntl.cats"
+#include "libc/CATS/errno.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
@@ -51,65 +51,11 @@ RD(a:vt0p) = a // for commenting: read-only
 
 (* ****** ****** *)
 //
-staload
-TYPES =
-"libc/sys/SATS/types.sats"
+// HX: these functions are reentrant!
 //
-typedef mode_t = $TYPES.mode_t
-//
-vtypedef
-fildes (i:int) = $TYPES.fildes (i)
-//
-vtypedef Fildes = $TYPES.Fildes
-vtypedef Fildes0 = $TYPES.Fildes0
-//
-(* ****** ****** *)
-
-praxi
-fildes_neg_elim {fd:int | fd < 0} (fd: fildes (fd)): void
-
-(* ****** ****** *)
-//
-// HX: this is just a castfn
-//
-fun fildes_get_int
-  {fd:int} (fd: !fildes (fd)):<> int (fd) = "mac#%"
-//
-fun fildes_isgtez
-  {fd:int} (fd: !fildes (fd)):<> bool (fd >= 0) = "mac#%"
-//
-(* ****** ****** *)
-//
-fun fildes_iget_int
-  (fd: int):<> [fd:int] vttakeout0 (fildes (fd)) = "ext#%"
-//
-(* ****** ****** *)
-
-typedef fcntlflags = int
+fun the_errno_get ():<> int = "mac#%"
+fun the_errno_set (eno: int):<> void = "mac#%"
 
 (* ****** ****** *)
 
-macdef O_RDWR   = $extval (fcntlflags, "O_RDWR")
-macdef O_RDONLY = $extval (fcntlflags, "O_RDONLY")
-macdef O_WRONLY = $extval (fcntlflags, "O_WRONLY")
-
-(* ****** ****** *)
-
-fun open_flags
-(
-  path: NSH(string), flags: fcntlflags
-) : Fildes = "mac#%" // endfun
-
-fun open_flags_mode
-(
-  path: NSH(string), flags: fcntlflags, mode: mode_t
-) : Fildes = "mac#%" // endfun
-
-(* ****** ****** *)
-
-fun fcntl_getfl (fd: !Fildes0): fcntlflags = "mac#%"
-fun fcntl_setfl (fd: !Fildes0, flags: fcntlflags): int = "mac#%"
-
-(* ****** ****** *)
-
-(* end of [fcntl.sats] *)
+(* end of [errno.sats] *)

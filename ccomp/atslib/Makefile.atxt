@@ -126,6 +126,7 @@ all:: atslib_prelude
 
 all:: atslib_libc
 #make_entry("libc", "dirent.dats")
+#make_entry("libc", "fcntl.dats")
 #make_entry("libc", "stdio.dats")
 #make_entry("libc", "stdlib.dats")
 #make_entry("libc", "string.dats")

@@ -70,6 +70,14 @@ output/atslib_libc_dirent_dats.o: output/atslib_libc_dirent_dats.c ; \
 clean:: ; $(RMF) output/atslib_libc_dirent_dats.c
 clean:: ; $(RMF) output/atslib_libc_dirent_dats.o
 
+atslib_libc:: atslib_libc_fcntl_dats
+atslib_libc_fcntl_dats: output/atslib_libc_fcntl_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libc_fcntl_dats.c: ../../libc/DATS/fcntl.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libc_fcntl_dats.o: output/atslib_libc_fcntl_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libc_fcntl_dats.c
+clean:: ; $(RMF) output/atslib_libc_fcntl_dats.o
+
 atslib_libc:: atslib_libc_stdio_dats
 atslib_libc_stdio_dats: output/atslib_libc_stdio_dats.o ; $(ARR) lib/libatslib.a $<
 output/atslib_libc_stdio_dats.c: ../../libc/DATS/stdio.dats ; $(PATSOPT) -o $@ --dynamic $<

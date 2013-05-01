@@ -15,6 +15,8 @@ UNSAFE = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload
+FCNTL = "libc/SATS/fcntl.sats"
+staload
 STDLIB = "libc/SATS/stdlib.sats"
 
 (* ****** ****** *)
@@ -32,7 +34,19 @@ val STDOUT2 = dup (STDOUT_FILENO)
 val STDERR2 = dup (STDERR_FILENO)
 val () = println! ("STDOUT2 = ", STDOUT2)
 val () = println! ("STDERR2 = ", STDERR2)
-}
+//
+val (fpf | fildes) = $FCNTL.fildes_iget_int (STDOUT2)
+val fd = $FCNTL.fildes_get_int (fildes)
+prval () = fpf (fildes)
+val () = println! ("fd = ", fd)
+//
+val () = close0_exn (STDOUT2)
+//
+val (fpf | fildes) = $FCNTL.fildes_iget_int (STDOUT2)
+val fd = $FCNTL.fildes_get_int (fildes)
+prval () = fpf (fildes)
+val () = println! ("fd(-1) = ", fd)
+} (* end of [libc_unistd] *)
 
 (* ****** ****** *)
 

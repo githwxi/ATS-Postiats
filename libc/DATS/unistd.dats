@@ -37,6 +37,8 @@
 
 (* ****** ****** *)
 
+staload "libc/SATS/errno.sats"
+staload "libc/SATS/fcntl.sats"
 staload "libc/SATS/unistd.sats"
 
 (* ****** ****** *)
@@ -46,10 +48,10 @@ extern
 atsvoid_t0ype
 atslib_close_exn
 (
-  atstype_int fildes
+  atstype_int fd
 ) {
   int err ;
-  err = atslib_close(fildes) ;
+  err = atslib_close(fd) ;
   if (0 > err) ATSLIBfailexit("close") ;
   return ;
 } /* end of [atslib_close_exn] */
@@ -58,6 +60,25 @@ atslib_close_exn
 (* ****** ****** *)
 
 %{
+extern
+atstype_int
+atslib_dup2_fildes
+(
+  atstype_int fd, atstype_int fd2
+) {
+  int flags ;
+  flags = fcntl(fd, F_GETFD) ;
+  if (flags >= 0) {
+    errno = EINVAL ; return -1 ; // [fd2] in use
+  } /* end of [if] */
+  return atslib_dup2(fd, fd2) ;
+} /* end of [atslib_dup2_fildes] */
+%}
+
+(* ****** ****** *)
+
+%{
+extern
 atstype_strptr
 atslib_getcwd_gc (
 ) {
@@ -129,6 +150,7 @@ atslib_unlink_exn
 (* ****** ****** *)
 
 %{
+extern
 atstype_strptr
 atslib_readlink_gc
 (

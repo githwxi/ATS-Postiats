@@ -52,6 +52,7 @@ all::
 ######
 
 #make_entry("dirent")
+#make_entry("errno")
 #make_entry("fcntl")
 #make_entry("fnmatch")
 #make_entry("malloc")
