@@ -69,6 +69,12 @@ vtypedef Fildes = $TYPES.Fildes
 vtypedef Fildes0 = $TYPES.Fildes0
 //
 (* ****** ****** *)
+
+macdef STDIN_FILENO = $extval (int, "STDIN_FILENO")
+macdef STDOUT_FILENO = $extval (int, "STDOUT_FILENO")
+macdef STDERR_FILENO = $extval (int, "STDERR_FILENO")
+
+(* ****** ****** *)
 /*
 int close (int);
 */
@@ -98,13 +104,17 @@ overload close_exn with close1_exn
 //
 (* ****** ****** *)
 
-fun dup (fildes: int): int = "mac%"
-fun dup2 (fildes: int, fildes2: int): int = "mac%"
+fun dup (fildes: int): int = "mac#%"
+fun dup_fildes (fd: !Fildes0): Fildes = "mac#%"
+
+(* ****** ****** *)
+//
+fun dup2 (fildes: int, fildes2: int): int = "mac#%"
 //
 // HX: this one requires -D_GNU_SOURCE
 //
-fun dup3 (fildes: int, fildes2: int, flags: int): int = "mac%"
-
+fun dup3 (fildes: int, fildes2: int, flags: int): int = "mac#%"
+//
 (* ****** ****** *)
 
 fun execv {n:pos}{l:addr}

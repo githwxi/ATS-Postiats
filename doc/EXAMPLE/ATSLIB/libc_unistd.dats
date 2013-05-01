@@ -25,6 +25,19 @@ staload "libc/SATS/unistd.sats"
 
 val () =
 {
+val STDIN2 = dup (STDIN_FILENO)
+val () = println! ("STDIN2 = ", STDIN2)
+val () = close0_exn (STDIN2)
+val STDOUT2 = dup (STDOUT_FILENO)
+val STDERR2 = dup (STDERR_FILENO)
+val () = println! ("STDOUT2 = ", STDOUT2)
+val () = println! ("STDERR2 = ", STDERR2)
+}
+
+(* ****** ****** *)
+
+val () =
+{
 //
 val out = stdout_ref
 val cwd = getcwd_gc ()

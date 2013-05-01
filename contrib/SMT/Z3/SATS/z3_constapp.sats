@@ -51,7 +51,7 @@ ATSCNTRB_SML_Z3_Z3_HEADER
 fun Z3_mk_const
 (
   ctx,: !Z3_context c, s: Z3_symbol, ty: Z3_sort
-) : Z3_ast = "mac#%"
+) : Z3_ast = "mac#%" // end of [Z3_mk_const]
 
 (* ****** ****** *)
 

@@ -49,8 +49,8 @@ val out = stdout_ref
 //
 local
 //
-implement(te)
-array_foreach$fwork<T><te> (x, env) = fprint (out, x)
+implement(tenv)
+array_foreach$fwork<T><tenv> (x, env) = fprint (out, x)
 //
 in (* in of [local] *)
 //
@@ -81,12 +81,10 @@ val out = stdout_ref
 //
 local
 //
-implement(te)
-array_iforeach$fwork<T><te>
+implement(tenv)
+array_iforeach$fwork<T><tenv>
   (i, x, env) = let
-  val () =
-    if i > 0 then fprint (out, "; ")
-  // end of [val]
+  val () = if i > 0 then fprint (out, "; ")
 in
   fprint! out i ": " x
 end (* end of [array_iforeach$fwork] *)

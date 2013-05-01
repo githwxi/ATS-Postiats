@@ -42,6 +42,22 @@ staload "libc/SATS/unistd.sats"
 (* ****** ****** *)
 
 %{
+extern
+atsvoid_t0ype
+atslib_close_exn
+(
+  atstype_int fildes
+) {
+  int err ;
+  err = atslib_close(fildes) ;
+  if (0 > err) ATSLIBfailexit("close") ;
+  return ;
+} /* end of [atslib_close_exn] */
+%}
+
+(* ****** ****** *)
+
+%{
 atstype_strptr
 atslib_getcwd_gc (
 ) {

@@ -46,6 +46,17 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator_for_C()
 
 \#define atslib_close close
+\#define atslib_close0 atslib_close
+\#define atslib_close1 atslib_close
+\#define atslib_close0_exn atslib_close_exn
+\#define atslib_close1_exn atslib_close_exn
+
+#atscode_separator_for_C()
+
+\#define atslib_dup dup
+\#define atslib_dup_fildes dup
+\#define atslib_dup2 dup2
+\#define atslib_dup3 dup3
 
 #atscode_separator_for_C()
 

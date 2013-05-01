@@ -37,8 +37,9 @@ typedef T = double
 //
 val asz = i2sz(5)
 val A = (arrayref)$arrpsz{T}(0.0, 1.0, 2.0, 3.0, 4.0)
-implement(env)
-array_iforeach$fwork<T><env> (i, x, env) =
+//
+implement(tenv)
+array_iforeach$fwork<T><tenv> (i, x, env) =
   let val () = if i > 0 then print ", " in print (x) end
 val () = assertloc (asz = arrayref_iforeach (A, asz))
 val () = println! ()
