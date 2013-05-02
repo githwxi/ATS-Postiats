@@ -69,6 +69,7 @@ atspre_exit_errmsg
 #atscode_separator_for_C()
 
 \#define atspre_exit_void atspre_exit
+\#define atspre_exit_errmsg_void atspre_exit_errmsg
 
 #atscode_separator_for_C()
 

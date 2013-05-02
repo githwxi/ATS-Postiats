@@ -122,6 +122,10 @@ all:: atslib_prelude
 \#make_entry("prelude", "string.dats")
 ')
 
+#comment('\
+\#make_entry("prelude", "filebas.dats")
+')
+
 ######
 
 all:: atslib_libc

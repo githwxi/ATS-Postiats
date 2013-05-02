@@ -184,18 +184,23 @@ fun fileref_get_line_charlst (r: FILEref): charlst_vt
 fun fileref_get_lines_charlstlst (r: FILEref): List0_vt (charlst_vt)
 
 #atscode_separator()
-
-fun fileref_get_line_string (r: FILEref): Strptr1
-
-fun fileref_get_line_string_main (
-  r: FILEref, n: &size_t? >> size_t n, ending: &int? >> int
-) : #[n:nat] strnptr (n) // endfun
-
-(*
-** HX: only for files of "tiny" size
-*)
-fun fileref_get_lines_stringlst (r: FILEref): List0_vt (Strptr1)
-
+//
+fun{
+} fileref_get_line_string$bufsize (): intGte(1)
+//
+// HX-2013-05:
+// these functions are based on [fgets];
+// they should only be applied to files containing
+// no occurrences of the NUL character ('\000').
+//
+fun{
+} fileref_get_line_string (r: FILEref): Strptr1
+fun{
+} fileref_get_line_string_main
+  (r: FILEref, n: &int? >> int n): #[n:nat] strnptr (n)
+fun{
+} fileref_get_lines_stringlst (r: FILEref): List0_vt (Strptr1)
+//
 #atscode_separator()
 
 fun fileref_put_charlst (r: FILEref, cs: NSH(List(char))): void

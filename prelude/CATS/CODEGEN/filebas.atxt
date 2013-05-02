@@ -204,6 +204,17 @@ atspre_fileref_load_double
 
 #atscode_separator_for_C()
 
+extern
+atstype_ptr
+atspre_fileref_get_line_string_main2
+(
+  atstype_int bsz // int bsz
+, atstype_ptr filp // FILE* filp
+, atstype_ref nlen // int *nlen
+) ; // endfun
+
+#atscode_separator_for_C()
+
 \#endif // ifndef ATSLIB_PRELUDE_FILEBAS_CATS
 
 #atscode_separator_for_C()

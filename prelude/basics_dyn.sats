@@ -401,9 +401,16 @@ fun exit_fprintf
 
 (* ****** ****** *)
 
-fun exit_void
-  (ecode: int):<!exn> void = "mac#atspre_exit_void"
-// end of [exit_void]
+fun
+exit_void
+(
+  ecode: int
+) :<!exn> void = "mac#atspre_exit_void"
+fun
+exit_errmsg_void
+(
+  ecode: int, msg: string
+) :<!exn> void = "mac#atspre_exit_errmsg_void"
 
 (* ****** ****** *)
 

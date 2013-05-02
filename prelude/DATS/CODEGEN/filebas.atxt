@@ -187,17 +187,23 @@ fun loop (
 ) : void = let
   val i = fileref_getc (filr)
 in
-  if i >= 0 then let
-    val c = $UN.cast{char} (i)
+//
+if i >= 0 then let
+  val c = $UN.cast{char} (i)
+in
+  if (c != EOF) then let
+    val () =
+    (
+      res := list_vt_cons{char}{0} (c, _)
+    )
+    val+list_vt_cons (_, res1) = res
+    val () = loop (filr, res1)
+    prval () = fold@ (res)
   in
-    if (c != EOF) then let
-      val () = res := list_vt_cons{char}{0} (c, _)
-      val+ list_vt_cons (_, res1) = res
-      val () = loop (filr, res1)
-    in
-      fold@ (res)
-    end else (res := list_vt_nil)
+    // nothing
   end else (res := list_vt_nil)
+end else (res := list_vt_nil)
+//
 end // end of [loop]
 //
 var res: ptr
@@ -226,9 +232,13 @@ if iseof then let
 in
   // nothing
 end else let
-  val line = fileref_get_line_charlst (filr)
-  val () = res := list_vt_cons{..}{0}(line, _)
-  val list_vt_cons (_, res1) = res
+  val line =
+    fileref_get_line_charlst (filr)
+  val () =
+  (
+    res := list_vt_cons{..}{0}(line, _)
+  )
+  val+list_vt_cons (_, res1) = res
   val () = loop (filr, res1)
   prval () = fold@ (res)
 in
@@ -247,17 +257,56 @@ end // end of [fileref_get_lines_charlstlst]
 #atscode_separator()
 
 implement
+fileref_get_line_string$bufsize<> () = 64
+
+#atscode_separator()
+
+implement{}
 fileref_get_line_string
   (filr) = let
-  var n: size_t // uninitialized
-  var ending: int // uninitialized
-  val str = fileref_get_line_string_main (filr, n, ending)
-  prval () = lemma_strnptr_param (str)
+  var nlen: int // uninitialized
+  val line = fileref_get_line_string_main (filr, nlen)
+  prval () = lemma_strnptr_param (line)
 in
-  strnptr2strptr (str)
+  strnptr2strptr (line)
 end // end of [fileref_get_line_string]
 
-implement
+#atscode_separator()
+
+implement{}
+fileref_get_line_string_main
+  (filr, nlen) = let
+//
+val bsz = fileref_get_line_string$bufsize ()
+val [l:addr,n:int] str = $extfcall
+(
+Strnptr0, "atspre_fileref_get_line_string_main2", bsz, filr, addr@(nlen)
+)
+//
+prval () = lemma_strnptr_param (str)
+//
+extern
+praxi
+__assert {l:addr} (pf: !int? @ l >> int (n) @ l): void
+prval () = __assert (view@(nlen)) 
+//
+val isnot = strnptr_isnot_null (str)
+//
+in
+//
+if isnot then str else let
+  val (
+  ) = exit_errmsg_void (1, "[fileref_get_line_string] failed.")
+  val () = assert (nlen >= 0) // HX: for TC // deadcode at run-time
+in
+  str // HX: [str]=null is not returned
+end (* end of [if] *)
+//
+end // end of [fileref_get_line_string_main]
+
+#atscode_separator()
+
+implement{}
 fileref_get_lines_stringlst
   (filr) = let
 //
@@ -274,9 +323,13 @@ if iseof then let
 in
   // nothing
 end else let
-  val line = fileref_get_line_string (filr)
-  val () = res := list_vt_cons{..}{0}(line, _)
-  val list_vt_cons (_, res1) = res
+  val line =
+    fileref_get_line_string (filr)
+  val () =
+  (
+    res := list_vt_cons{..}{0}(line, _)
+  )
+  val+list_vt_cons (_, res1) = res
   val () = loop (filr, res1)
   prval () = fold@ (res)
 in
@@ -296,7 +349,8 @@ end // end of [fileref_get_lines_stringlst]
 
 local
 
-fun loop (
+fun loop
+(
   filr: FILEref
 , n: int, res: &ptr? >> charlst_vt
 ) : int = let
@@ -308,7 +362,7 @@ in
   if i >= 0 then let
     val c = $UN.cast{char} (i)
     val () = res := list_vt_cons{char}{0} (c, _)
-    val+ list_vt_cons (_, res1) = res
+    val+list_vt_cons (_, res1) = res
     val n = loop (filr, pred(n), res1)
     prval () = fold@ (res)
   in
@@ -322,7 +376,7 @@ end // end of [if]
 //
 end // end of [loop]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 fileref_get_file_charlst
@@ -350,6 +404,66 @@ list_foreach$fwork<char><env> (c, env) = fileref_putc (out, c)
 in
   list_foreach<char> (cs)
 end // end of [fileref_put_charlst]
+
+#atscode_separator()
+
+\%{
+extern
+atstype_ptr
+atspre_fileref_get_line_string_main2
+(
+  atstype_int bsz0
+, atstype_ptr filp0
+, atstype_ref nlen // int *nlen
+)
+{
+//
+  int bsz = bsz0 ;
+  FILE *filp = (FILE*)filp0 ;
+  int ofs = 0, ofs2 ;
+  char *buf, *buf2, *pres ;
+  buf = atspre_malloc_gc(bsz) ;
+//
+  while (1) {
+    buf2 = buf+ofs ;
+    pres = fgets(buf2, bsz-ofs, filp) ;
+    if (!pres)
+    {
+      if (feof(filp))
+      {
+        *buf2 = '\000' ;
+        *(int*)nlen = ofs ; return buf ;
+      } else {
+        atspre_mfree_gc(buf) ;
+        *(int*)nlen = -1 ; return (char*)0 ;
+      } // end of [if]
+    }
+    ofs2 = strlen(buf2) ;
+    if (ofs2==0) return buf ;
+    ofs += ofs2 ; // HX: ofs > 0
+//
+// HX: the newline symbol needs to be trimmed:
+//
+    if (buf[ofs-1]=='\n')
+    {
+      buf[ofs-1] = '\0'; *(int*)nlen = ofs-1 ; return buf ;
+    }
+//
+// HX: there is room // so there are no more chars:
+//
+    if (ofs+1 < bsz) { *(int*)nlen = ofs ; return buf ; }
+//
+// HX: there is no room // so another call to [fgets] is needed:
+//
+    bsz *= 2 ;
+    buf2 = buf ; buf = atspre_malloc_gc(bsz) ; memcpy(buf, buf2, ofs) ;
+    atspre_mfree_gc(buf2) ;
+  } // end of [while]
+//
+  return buf ; // HX: deadcode
+//
+} // end of [atspre_fileref_get_line_string_main2]
+\%}
 
 #atscode_separator()
 

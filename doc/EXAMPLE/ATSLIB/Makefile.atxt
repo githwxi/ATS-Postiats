@@ -98,6 +98,8 @@ RMF=rm -f
 #make2_entry("prelude_string", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("prelude_reference", "-DATS_MEMALLOC_LIBC", "")
 
+#make2_entry("prelude_filebas", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+
 #make_entry("prelude_intrange")
 
 #make2_entry("prelude_array", "-DATS_MEMALLOC_LIBC", "")

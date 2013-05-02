@@ -84,35 +84,11 @@ val () = fclose_exn (fp)
 
 (* ****** ****** *)
 
-(*
-val () =
-{
-var done: bool = false
-val rfp = fopen_ref_exn ("./libc_stdio.dats", file_mode_r)
-val (
-) = while (true)
-{
-  val str = fgets0_gc (2, rfp)
-  val () = assertloc (strptr_isnot_null (str))
-  val () =
-  (
-    if strptr_isnot_empty (str) then print! ("str = ", str) else done := true
-  ) : void
-  val () = strptr_free (str)
-  val () = if done then break
-}
-val () = fclose_exn (rfp)
-} (* end of [val] *)
-*)
-
-(* ****** ****** *)
-
 val () =
 {
 //
 val rfp = popen_exn ("ls", "r")
-val wfp = popen_exn ("sort", "w")
-//
+val wfp = popen_exn ("sort -f", "w")
 val (
 ) = while (true)
 {
@@ -124,7 +100,6 @@ val (
   val () = if isemp then break
 }
 val status = pclose0_exn (wfp)
-//
 val status = pclose0_exn (rfp)
 //
 } (* end of [val] *)

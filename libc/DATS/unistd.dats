@@ -84,9 +84,9 @@ atslib_getcwd_gc (
 ) {
   char *p_cwd ;
 //
-// HX: [32] is chosen nearly randomly
+// HX: [64] is chosen nearly randomly
 //
-  size_t bsz = 32 ;
+  int bsz = 64 ;
   char *p2_cwd ;
   p_cwd = (char*)0 ;
   while (1) {
@@ -158,9 +158,9 @@ atslib_readlink_gc
 ) {
   char *bfp ;
 //
-// HX: [32] is chosen nearly randomly
+// HX: [64] is chosen nearly randomly
 //
-  size_t bsz = 32 ;
+  int bsz = 64 ;
   ssize_t bsz2 ;
   bfp = (char*)0 ;
   while (1) {

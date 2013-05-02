@@ -95,6 +95,13 @@ prerr_strptr (x) = fprint_strptr (stderr_ref, x)
 #atscode_separator()
 
 implement{}
+strnptr_is_null (str) = (strnptr2ptr (str) = nullp)
+implement{}
+strnptr_isnot_null (str) = (strnptr2ptr (str) > nullp)
+
+#atscode_separator()
+
+implement{}
 strptr_length (x) = let
   val isnot = ptr_isnot_null (strptr2ptr(x))
 in
@@ -102,6 +109,16 @@ in
     then g0u2i(string_length ($UN.strptr2string(x))) else g0i2i(~1)
   // end of [if]
 end // end of [strptr_length]
+
+implement{}
+strnptr_length (x) = let
+  prval () = lemma_strnptr_param (x)
+  val isnot = ptr_isnot_null (strnptr2ptr(x))
+in
+  if isnot
+    then g1u2i(string_length ($UN.strnptr2string(x))) else g1i2i(~1)
+  // end of [if]
+end // end of [strnptr_length]
 
 #atscode_separator()
 

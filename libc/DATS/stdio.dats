@@ -168,7 +168,7 @@ atslib_fgets_gc
     memcpy(buf, buf2, ofs) ;
     atspre_mfree_gc(buf2) ;
   }
-  return buf ;
+  return buf ; // HX: deadcode
 } // end of [atslib_fgets_gc]
 %}
 

@@ -98,6 +98,15 @@ clean:: ; $(RMF) prelude_reference_dats.c
 cleanall:: ; $(RMF) prelude_reference.exe
 
 
+all:: prelude_filebas
+prelude_filebas: prelude_filebas.exe
+prelude_filebas.exe: prelude_filebas_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+prelude_filebas_dats.c: prelude_filebas.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_filebas_dats.c --dynamic prelude_filebas.dats
+clean:: ; $(RMF) prelude_filebas_dats.o
+clean:: ; $(RMF) prelude_filebas_dats.c
+cleanall:: ; $(RMF) prelude_filebas.exe
+
+
 all:: prelude_intrange
 prelude_intrange: prelude_intrange.exe
 prelude_intrange.exe: prelude_intrange_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

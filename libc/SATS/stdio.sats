@@ -492,7 +492,7 @@ overload fgets with fgets1_err
 (* ****** ****** *)
 //
 // HX-2013-05:
-// A complete line is read each time
+// A complete line is read each time // [nullp] for error
 //
 fun fgets0_gc
   (bsz: intGte(1), filr: FILEref): Strptr0 = "ext#%"
