@@ -109,6 +109,7 @@ all_html::
 
 #make_entry("stat")
 #make_entry("types")
+#make_entry("wait")
 
 ######
 

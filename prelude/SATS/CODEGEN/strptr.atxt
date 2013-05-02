@@ -142,9 +142,16 @@ strptr_free_null
 #atscode_separator()
 
 fun{}
-strptr_is_null {l:addr} (x: !strptr l):<> bool (l==null)
+strptr_is_null
+  {l:addr} (x: !strptr l):<> bool (l==null)
 fun{}
-strptr_isnot_null {l:addr} (x: !strptr l):<> bool (l > null)
+strptr_isnot_null
+  {l:addr} (x: !strptr l):<> bool (l > null)
+
+#atscode_separator()
+
+fun{} strptr_is_empty (x: !Strptr1):<> bool
+fun{} strptr_isnot_empty (x: !Strptr1):<> bool
 
 #atscode_separator()
 

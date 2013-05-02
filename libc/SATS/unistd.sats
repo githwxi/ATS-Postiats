@@ -60,6 +60,8 @@ TYPES =
 //
 typedef off_t = $TYPES.off_t
 //
+typedef pid_t = $TYPES.pid_t
+//
 stadef fildes_v = $TYPES.fildes_v
 //
 vtypedef
@@ -168,6 +170,10 @@ fun encrypt
 
 (* ****** ****** *)
 
+fun fork ((*void*)): pid_t = "mac#%"
+
+(* ****** ****** *)
+
 dataview
 getcwd_v
 (
@@ -186,6 +192,14 @@ fun getcwd
 
 fun getcwd_gc (): Strptr1 = "ext#%" // HX: this is a convenient function
 
+(* ****** ****** *)
+/*
+pid_t getpid(void);
+pid_t getppid(void);
+*/
+fun getpid ((*void*)): pid_t = "mac#%"
+fun getppid ((*void*)): pid_t = "mac#%"
+//
 (* ****** ****** *)
 
 fun pause (): int = "mac#%" // the return value is -1 if the call returns

@@ -1,0 +1,51 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../wait.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libc_wait")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libc/sys/wait\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are mostly the API for the
+corresponding libc-functions declared in [sys/wait.h],  and many more
+details on these functions can often be found in the Linux Programmer's
+manual.  See #myatscodelink("libc/sys/SATS/wait.sats", "sys/wait.sats") for
+the SATS file in ATSLIB where these functions are declared.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("wait")
+#declnamesynop("wait_void")
+#declnamesynop("wait_status")
+
+(* ****** ****** *)
+
+#declnamesynop("waitopt")
+#declnamesynop("waitopt_t0ype")
+
+#declnamesynop("lor_waitopt_waitopt")
+
+(* ****** ****** *)
+
+#declnamesynop("waitpid")
+
+(* ****** ****** *)
+
+(* end of [wait.atxt] *)

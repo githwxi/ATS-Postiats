@@ -50,7 +50,7 @@ atslib_fopen_exn
   atstype_string path
 , atstype_string mode
 ) {
-  FILE* filp ;
+  FILE *filp ;
   filp = fopen ((char*)path, (char*)mode) ;
   if (!filp) ATSLIBfailexit("fopen") ; // HX: failure
   return filp ;
@@ -111,23 +111,65 @@ extern
 atsvoid_t0ype
 atslib_fgets_exn
 (
-  atstype_ptr buf
-, atstype_int bsz
+  atstype_ptr buf0
+, atstype_int bsz0
 , atstype_ptr filp
 ) {
-  atstype_ptr p ;
-  p = fgets((char*)buf, (int)bsz, (FILE*)filp) ;
-  if (!p)
+  char *buf, *pres ;
+  buf = (char*)buf0 ;
+  pres = fgets(buf, (int)bsz0, (FILE*)filp) ;
+  if (!pres)
   {
     if (feof((FILE*)filp))
     {
-      *(char*)buf = '\000' ; // EOF is reached
+      buf[0] = '\000' ; // EOF is reached
     } else {
       ATSLIBfailexit("fgets") ; // abnormal exit
     } // end of [if]
   } /* end of [if] */
   return ;  
 } /* end of [atslib_fgets_exn] */
+%}
+
+(* ****** ****** *)
+
+%{
+extern
+atstype_ptr
+atslib_fgets_gc
+(
+  atstype_int bsz0
+, atstype_ptr filp0
+)
+{
+  int bsz = bsz0 ;
+  FILE *filp = (FILE*)filp0 ;
+  int ofs = 0, ofs2 ;
+  char *buf, *buf2, *pres ;
+  buf = atspre_malloc_gc(bsz) ;
+  while (1) {
+    buf2 = buf+ofs ;
+    pres = fgets(buf2, bsz-ofs, filp) ;
+    if (!pres)
+    {
+      if (feof(filp))
+      {
+        *buf2 = '\000' ; return buf ;
+      } else {
+        atspre_mfree_gc(buf) ; return (char*)0 ;
+      } // end of [if]
+    }
+    ofs2 = strlen(buf2) ;
+    if (ofs2==0) return buf ;
+    ofs += ofs2 ; // HX: ofs > 0
+    if (buf[ofs-1]=='\n') return buf ;
+    bsz *= 2 ; buf2 = buf ;
+    buf = atspre_malloc_gc(bsz) ;
+    memcpy(buf, buf2, ofs) ;
+    atspre_mfree_gc(buf2) ;
+  }
+  return buf ;
+} // end of [atslib_fgets_gc]
 %}
 
 (* ****** ****** *)
@@ -153,9 +195,46 @@ atslib_fputs_exn
 %{
 extern
 atstype_ptr
+atslib_popen_exn
+(
+  atstype_string cmd
+, atstype_string type
+) {
+  FILE *filp ;
+  filp = popen((char*)cmd, (char*)type) ;
+  if (!filp) {
+    ATSLIBfailexit("popen") ; // abnormal exit
+  } /* end of [if] */
+  return filp ;
+} /* end of [atslib_popen_exn]
+%}
+
+(* ****** ****** *)
+
+%{
+extern
+atstype_int
+atslib_pclose_exn
+(
+  atstype_ptr filp
+) {
+  int res ;
+  res = pclose((FILE*)filp) ;
+  if (0 > res) {
+    ATSLIBfailexit("pclose") ; // abnormal exit
+  } /* end of [if] */
+  return res ;
+} /* end of [atslib_pclose_exn]
+%}
+
+(* ****** ****** *)
+
+%{
+extern
+atstype_ptr
 atslib_tmpfile_exn(
 ) {
-  FILE* filp = tmpfile() ;
+  FILE *filp = tmpfile() ;
   if (!filp) ATSLIBfailexit("tmpfile") ;
   return (filp) ;
 } // end of [atslib_tmpfile_exn]

@@ -42,11 +42,12 @@ extern void exit (int status) ; // in [stdlib.h]
 
 #atscode_separator_for_C()
 
-\#define ATSLIBfailexit(cmd) \\
-  do { \\
-    perror(cmd) ; \\
-    fprintf(stderr, "exit(ATSLIB): [%s] failed\n", cmd) ; exit(1) ; \\
-  } while (0) \\
+\#define \\
+ATSLIBfailexit(cmd) \\
+do { \\
+  perror(cmd) ; \\
+  fprintf(stderr, "exit(ATSLIB): [%s] failed\n", cmd) ; exit(1) ; \\
+} while (0) \\
 
 #atscode_separator_for_C()
 
@@ -114,6 +115,8 @@ extern void exit (int status) ; // in [stdlib.h]
 \#define atslib_fgets0 fgets
 \#define atslib_fgets1 fgets
 \#define atslib_fgets1_err fgets
+\#define atslib_fgets0_gc atslib_fgets_gc
+\#define atslib_fgets1_gc atslib_fgets_gc
 
 #atscode_separator_for_C()
 
@@ -131,6 +134,19 @@ extern void exit (int status) ; // in [stdlib.h]
 
 \#define atslib_ftell0 ftell
 \#define atslib_ftell1 ftell
+
+#atscode_separator_for_C()
+
+\#define atslib_perror perror
+
+#atscode_separator_for_C()
+
+\#define atslib_popen popen
+
+#atscode_separator_for_C()
+
+\#define atslib_pclose0_exn atslib_pclose_exn
+\#define atslib_pclose1_exn atslib_pclose_exn
 
 #atscode_separator_for_C()
 

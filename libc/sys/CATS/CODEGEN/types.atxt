@@ -37,13 +37,19 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+typedef time_t atslib_time_type ;
+typedef clock_t atslib_clock_type ;
+
+#atscode_separator_for_C()
+
 typedef ino_t atslib_ino_type ;
 typedef off_t atslib_off_type ;
 
 #atscode_separator_for_C()
 
-typedef time_t atslib_time_type ;
-typedef clock_t atslib_clock_type ;
+typedef pid_t atslib_pid_type ;
+typedef uid_t atslib_uid_type ;
+typedef gid_t atslib_gid_type ;
 
 #atscode_separator_for_C()
 

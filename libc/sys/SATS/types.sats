@@ -136,6 +136,14 @@ typedef nlink_t = nlink_t0ype // = its C-counterpart
 (* ****** ****** *)
 
 abst@ype
+pid_t0ype = $extype"atslib_pid_type"
+typedef pid_t = pid_t0ype // = its C-counterpart
+castfn pid2int (x: pid_t):<> int
+castfn pid2lint (x: pid_t):<> lint
+
+(* ****** ****** *)
+
+abst@ype
 uid_t0ype = $extype"atslib_uid_type"
 typedef uid_t = uid_t0ype // = its C-counterpart
 abst@ype

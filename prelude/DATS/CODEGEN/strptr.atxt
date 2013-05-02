@@ -30,6 +30,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
 
+\#define CNUL '\000'
 \#define nullp the_null_ptr
 
 #atscode_separator()
@@ -38,6 +39,17 @@ implement{}
 strptr_is_null (str) = (strptr2ptr (str) = nullp)
 implement{}
 strptr_isnot_null (str) = (strptr2ptr (str) > nullp)
+
+#atscode_separator()
+
+implement{}
+strptr_is_empty (str) = let
+  val p = strptr2ptr (str) in $UN.ptr1_get<char>(p) = CNUL
+end // end of [strptr_is_empty]
+implement{}
+strptr_isnot_empty (str) = let
+  val p = strptr2ptr (str) in $UN.ptr1_get<char>(p) != CNUL
+end // end of [strptr_isnot_empty]
 
 #atscode_separator()
 

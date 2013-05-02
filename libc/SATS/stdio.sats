@@ -490,6 +490,18 @@ fun fgets1_err
 overload fgets with fgets1_err
 //
 (* ****** ****** *)
+//
+// HX-2013-05:
+// A complete line is read each time
+//
+fun fgets0_gc
+  (bsz: intGte(1), filr: FILEref): Strptr0 = "ext#%"
+fun fgets1_gc {m:fm}
+(
+  pf_mod: fmlte (m, r) | bsz: intGte(1), filr: FILEptr1 (m)
+) : Strptr0 = "ext#%" // end of [fget1_gc]
+
+(* ****** ****** *)
 (*
 //
 // int fgetpos(FILE *stream, fpos_t *pos);
@@ -838,10 +850,24 @@ s is printed, followed by a colon and a blank.  Then the message and a
 newline.
 //
 *)
-
 fun perror
   (msg: NSH(string)):<!wrt> void = "mac#%"
 // end of [perror]
+
+(* ****** ****** *)
+
+absview popen_v (l:addr)
+
+fun popen_exn
+(
+  cmd: NSH(string), type: NSH(string)
+) : FILEref = "ext#%" // endfun
+
+fun pclose0_exn (filr: FILEref): int= "ext#%"
+fun pclose1_exn
+  {l:agz}{m:fm}
+  (pf: popen_v l | filr: FILEptr (l, m)): int= "ext#%"
+// end of [pclose1_exn]
 
 (* ****** ****** *)
 
