@@ -46,6 +46,9 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator_for_C()
 
 \#define atslib_mkdir mkdir
+
+#atscode_separator_for_C()
+
 \#define atslib_mkfifo mkfifo
 
 #atscode_separator_for_C()

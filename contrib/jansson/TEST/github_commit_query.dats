@@ -263,7 +263,8 @@ var arg2: string = "ATS-Postiats"
 val () = if argc >= 2 then arg1 := argv[1]
 val () = if argc >= 3 then arg2 := argv[2]
 //
-val FMT = "https://api.github.com/repos/%s/%s/commits"
+val FMT =
+  "https://api.github.com/repos/%s/%s/commits"
 val url = auxurl (FMT, arg1, arg2)
 //
 val () = println! ("url = ", url)

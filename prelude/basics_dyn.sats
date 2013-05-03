@@ -339,6 +339,18 @@ praxi opt_clear
   {a:t0p} {b:bool} (x: !opt (INV(a), b) >> a?):<prf> void
 //
 (* ****** ****** *)
+//
+absvt@ype
+arrayopt (a:vt0p, n:int, b:bool) = array (a, n)
+//
+praxi
+arrayopt_unsome
+  {a:vt0p}{n:int} (A: &arrayopt (a, n, true) >> array (a, n)): void
+praxi
+arrayopt_unnone
+  {a:vt0p}{n:int} (A: &arrayopt (a, n, false) >> array (a?, n)): void
+//
+(* ****** ****** *)
 
 absvtype
 argv_int_vtype (n:int) = ptr
