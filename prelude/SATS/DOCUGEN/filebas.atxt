@@ -258,17 +258,16 @@ by calling #dyncode("fileref_get_line_charlst").
 #declnamesynop("fileref_get_line_string")
 #decldescrpt('\
 
-This function is a specialization of
-#dyncode("fileref_get_line_string_main"), and its implementation is given
-as follows:
+This function returns a line read from a given file handle.
+It is just a specialization of #dyncode("fileref_get_line_string_main"),
+and its implementation is given as follows:
 
 #pats2xhtmld_tryit('\
 implement
 fileref_get_line_string
   (filr) = let
   var n: size_t // uninitialized
-  var ending: int // uninitialized
-  val str = fileref_get_line_string_main (filr, n, ending)
+  val str = fileref_get_line_string_main (filr, n)
   prval () = lemma_strnptr_param (str)
 in
   strnptr2strptr (str)
@@ -279,15 +278,35 @@ end // end of [fileref_get_line_string]
 (* ****** ****** *)
 
 #declnamesynop("fileref_get_line_string_main")
+#decldescrpt('\
+
+This function returns a line read from a given file handle and records
+the length of the line in its second (call-by-reference) argument. Note
+that the length information can be trusted only if there are no occurrences
+of the NUL char in the line.\
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("fileref_get_lines_stringlst")
 #decldescrpt('\
 
-This function returns a linear list consisting of all the lines read
-from a given file handle. Note the each of the returned lines is obtained
-by calling #dyncode("fileref_get_line_string").
+This function returns a linear list consisting of all the lines read from
+a given file handle. Note each of the returned lines is obtained by calling
+#dyncode("fileref_get_line_string").
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("fileref_get_line_string$bufsize")
+#decldescrpt('\
+
+This function returns the size of the initial buffer to be used by
+#dyncode("fileref_get_line_string"). Note that
+#dyncode("fileref_get_line_string") can automatically increase the size of
+the buffer it uses if the buffer is not large enough.
 
 ')
 

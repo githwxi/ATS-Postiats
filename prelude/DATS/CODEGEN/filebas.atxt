@@ -180,28 +180,32 @@ implement
 fileref_get_line_charlst
   (filr) = let
 //
-val EOF = '\\\n'
+val EOL = '\\\n'
 //
-fun loop (
+fun loop
+(
   filr: FILEref, res: &ptr? >> charlst_vt
 ) : void = let
   val i = fileref_getc (filr)
 in
 //
 if i >= 0 then let
-  val c = $UN.cast{char} (i)
+  val c = int2char0(i)
 in
-  if (c != EOF) then let
-    val () =
-    (
-      res := list_vt_cons{char}{0} (c, _)
-    )
-    val+list_vt_cons (_, res1) = res
-    val () = loop (filr, res1)
-    prval () = fold@ (res)
-  in
-    // nothing
-  end else (res := list_vt_nil)
+//
+if (c != EOL) then let
+  val () =
+  (
+    res :=
+    list_vt_cons{char}{0}(c, _)
+  )
+  val+list_vt_cons (_, res1) = res
+  val () = loop (filr, res1)
+  prval () = fold@ (res)
+in
+  // nothing
+end else (res := list_vt_nil)
+//
 end else (res := list_vt_nil)
 //
 end // end of [loop]
@@ -221,7 +225,8 @@ fileref_get_lines_charlstlst
 //
 vtypedef res = List0_vt (charlst_vt)
 //
-fun loop (
+fun loop
+(
   filr: FILEref, res: &res? >> res
 ) : void = let
   val iseof = fileref_is_eof (filr)
@@ -256,8 +261,8 @@ end // end of [fileref_get_lines_charlstlst]
 
 #atscode_separator()
 
-implement
-fileref_get_line_string$bufsize<> () = 64
+implement{}
+fileref_get_line_string$bufsize () = 64
 
 #atscode_separator()
 
@@ -312,7 +317,8 @@ fileref_get_lines_stringlst
 //
 vtypedef res = List0_vt (Strptr1)
 //
-fun loop (
+fun loop
+(
   filr: FILEref, res: &res? >> res
 ) : void = let
   val iseof = fileref_is_eof (filr)
@@ -360,15 +366,18 @@ if n != 0 then let
   val i = fileref_getc (filr)
 in
   if i >= 0 then let
-    val c = $UN.cast{char} (i)
-    val () = res := list_vt_cons{char}{0} (c, _)
+    val () =
+    (
+      res :=
+      list_vt_cons{char}{0}((i2c)i, _)
+    )
     val+list_vt_cons (_, res1) = res
     val n = loop (filr, pred(n), res1)
     prval () = fold@ (res)
   in
     n
   end else let
-    val () = res := list_vt_nil () in n
+    val () = res := list_vt_nil () in (n)
   end // end of [if]
 end else let
   val () = res := list_vt_nil () in n(*=0*)

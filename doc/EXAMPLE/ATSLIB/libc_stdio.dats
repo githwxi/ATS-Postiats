@@ -87,8 +87,8 @@ val () = fclose_exn (fp)
 val () =
 {
 //
-val rfp = popen_exn ("ls", "r")
-val wfp = popen_exn ("sort -f", "w")
+val rfp = popen_exn ("ls", $UN.cast{pmode(r)}("r"))
+val wfp = popen_exn ("sort -f", $UN.cast{pmode(w)}("w"))
 val (
 ) = while (true)
 {

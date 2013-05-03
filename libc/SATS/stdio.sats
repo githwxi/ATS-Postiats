@@ -856,14 +856,25 @@ fun perror
 
 (* ****** ****** *)
 
-absview popen_v (l:addr)
+abstype pmode_type (m:fm) = string
+typedef pmode (m:fm) = pmode_type (m)
 
-fun popen_exn
+absview popen_view (l:addr)
+viewdef popen_v (l:addr) = popen_view (l)
+
+praxi popen_v_free_null (pf: popen_v (null)): void
+
+fun popen{m:fm}
 (
-  cmd: NSH(string), type: NSH(string)
+  cmd: NSH(string), mode: pmode (m)
+) : [l:addr] (popen_v (l) | FILEptr (l, m))
+
+fun popen_exn{m:fm}
+(
+  cmd: NSH(string), mode: pmode (m)
 ) : FILEref = "ext#%" // endfun
 
-fun pclose0_exn (filr: FILEref): int= "ext#%"
+fun pclose0_exn (filr: FILEref): int = "ext#%"
 fun pclose1_exn
   {l:agz}{m:fm}
   (pf: popen_v l | filr: FILEptr (l, m)): int= "ext#%"

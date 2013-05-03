@@ -118,7 +118,7 @@ staload STRPTR = "prelude/DATS/strptr.dats"
 (* ****** ****** *)
 
 extern
-fun request (url: string): Strptr0 = "mac#request"
+fun request (url: string): Strptr0 = "mac#"
 
 (* ****** ****** *)
 //
@@ -138,11 +138,11 @@ process_root
 prval (
 ) = lemma_addr_param {l} ()
 //
-val isnz =
+val isnot =
   JSONptr_isnot_null (root)
 val () =
 (
-if ~isnz then let
+if ~isnot then let
   val () =
     prerrln! ("ERROR: on line ", err.line, ": ", $UN.cast{string}(err.text))
   val () = exit_void (1)
@@ -150,7 +150,7 @@ in
   // nothing
 end // end of [if]
 )
-val () = assert (isnz)
+val () = assert (isnot)
 //
 val isa = json_is_array (root)
 val () =
@@ -247,7 +247,7 @@ char *auxurl
 }
 %}
 extern
-fun auxurl : (string, string, string) -> Strptr1 = "mac#auxurl"
+fun auxurl : (string, string, string) -> Strptr1 = "mac#"
 
 (* ****** ****** *)
 
@@ -265,14 +265,17 @@ val () = if argc >= 3 then arg2 := argv[2]
 //
 val FMT = "https://api.github.com/repos/%s/%s/commits"
 val url = auxurl (FMT, arg1, arg2)
+//
+val () = println! ("url = ", url)
+//
 val text = request ($UN.strptr2string (url))
 val () = strptr_free (url)
 //
-val isnz = strptr_isnot_null (text)
+val isnot = strptr_isnot_null (text)
 //
 in
 //
-if isnz then let
+if isnot then let
   var err: json_err
   val root = json_loads ($UN.strptr2string(text), 0, err)
   val () = strptr_free (text)

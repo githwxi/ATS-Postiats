@@ -16,7 +16,7 @@ ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 
 ######
 
-GCC=gcc
+CCOPT=gcc
 PATSHOMEQ="$(PATSHOME)"
 PATSOPT=$(PATSHOMEQ)/src/patsopt
 
@@ -37,42 +37,24 @@ RMF=rm -f
 
 all:: test01
 test01: test01.exe
-test01.exe: test01_dats.c ; \
-  $(GCC) \
-    -I$(PATSHOMEQ) \
-    -I$(PATSHOMEQ)/ccomp/runtime \
-    -I$(PATSHOMEQ)/contrib \
-    -o $@ $< -ljansson 
-test01_dats.c: test01.dats ; \
-  $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test01_dats.c --dynamic test01.dats
+test01.exe: test01_dats.c ;   $(CCOPT)   -I$(PATSHOMEQ)   -I$(PATSHOMEQ)/ccomp/runtime   -I$(PATSHOME)/contrib   -DATS_MEMALLOC_LIBC  -o $@ $< -ljansson
+test01_dats.c: test01.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test01_dats.c --dynamic test01.dats
 clean:: ; $(RMF) test01_dats.o
 clean:: ; $(RMF) test01_dats.c
 cleanall:: ; $(RMF) test01.exe
 
 all:: test02
 test02: test02.exe
-test02.exe: test02_dats.c ; \
-  $(GCC) \
-    -I$(PATSHOMEQ) \
-    -I$(PATSHOMEQ)/ccomp/runtime \
-    -I$(PATSHOMEQ)/contrib \
-    -o $@ $< -ljansson 
-test02_dats.c: test02.dats ; \
-  $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test02_dats.c --dynamic test02.dats
+test02.exe: test02_dats.c ;   $(CCOPT)   -I$(PATSHOMEQ)   -I$(PATSHOMEQ)/ccomp/runtime   -I$(PATSHOME)/contrib   -DATS_MEMALLOC_LIBC -DATS_MEMALLOC_LIBC -o $@ $< -ljansson
+test02_dats.c: test02.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test02_dats.c --dynamic test02.dats
 clean:: ; $(RMF) test02_dats.o
 clean:: ; $(RMF) test02_dats.c
 cleanall:: ; $(RMF) test02.exe
 
 all:: github_commit_query
 github_commit_query: github_commit_query.exe
-github_commit_query.exe: github_commit_query_dats.c ; \
-  $(GCC) \
-    -I$(PATSHOMEQ) \
-    -I$(PATSHOMEQ)/ccomp/runtime \
-    -I$(PATSHOMEQ)/contrib \
-    -o $@ $< -lcurl -ljansson 
-github_commit_query_dats.c: github_commit_query.dats ; \
-  $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output github_commit_query_dats.c --dynamic github_commit_query.dats
+github_commit_query.exe: github_commit_query_dats.c ;   $(CCOPT)   -I$(PATSHOMEQ)   -I$(PATSHOMEQ)/ccomp/runtime   -I$(PATSHOME)/contrib   -DATS_MEMALLOC_LIBC -DATS_MEMALLOC_LIBC -o $@ $< -lcurl -ljansson
+github_commit_query_dats.c: github_commit_query.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output github_commit_query_dats.c --dynamic github_commit_query.dats
 clean:: ; $(RMF) github_commit_query_dats.o
 clean:: ; $(RMF) github_commit_query_dats.c
 cleanall:: ; $(RMF) github_commit_query.exe
