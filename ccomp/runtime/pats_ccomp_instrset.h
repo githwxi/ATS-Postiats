@@ -196,6 +196,7 @@
 
 /* ****** ****** */
 
+#define ATSINSmove_nil(tmp) (tmp = ((ATStysum()*)0))
 #define ATSINSmove_con(tmp, tysum) (tmp = ATS_MALLOC(sizeof(tysum)))
 #define ATSINSstore_con_tag(tmp, val) (((ATStysum()*)(tmp))->contag = val)
 #define ATSINSstore_con_ofs(tmp, tyrec, lab, val) (((tyrec*)(tmp))->lab = val)

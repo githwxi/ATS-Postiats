@@ -125,7 +125,7 @@ if res > 0 then
 else let
   val () = ptr_free{dirent}(pfgc, pf | p)
 in
-  $UN.castvwtp0{Direntp}(the_null_ptr)
+  $UN.castvwtp0{Direntp0}(the_null_ptr)
 end (* end of [if] *)
 //
 end // end of [readdir_r_gc]

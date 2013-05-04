@@ -265,10 +265,40 @@ d2con_is_tagless (d2c) =
   s2cst_is_tagless (d2con_get_scst (d2c))
 // end of [d2con_is_tagless]
 
+(* ****** ****** *)
+
+implement
+d2con_is_listnil (d2c) = let
+//
+val s2c = d2con_get_scst (d2c)
+val opt = s2cst_get_islst (s2c)
+//
+in
+  case opt of
+  | Some (x) =>
+      if d2c = x.0 then true else false
+  | None ( ) => false
+end // end of [d2con_is_listnil]
+
+implement
+d2con_is_listcons (d2c) = let
+//
+val s2c = d2con_get_scst (d2c)
+val opt = s2cst_get_islst (s2c)
+//
+in
+  case opt of
+  | Some (x) =>
+      if d2c = x.1 then true else false
+  | None ( ) => false
+end // end of [d2con_is_listcons]
+
 implement
 d2con_is_listlike (d2c) =
   s2cst_is_listlike (d2con_get_scst (d2c))
 // end of [d2con_is_listlike]
+
+(* ****** ****** *)
 
 implement
 d2con_is_singular (d2c) =

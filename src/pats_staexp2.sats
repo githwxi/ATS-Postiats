@@ -897,7 +897,11 @@ fun d2con_is_prf (d2c: d2con): bool // proof constructor
 
 fun d2con_is_nullary (d2c: d2con): bool // nullary constructor
 fun d2con_is_tagless (d2c: d2con): bool // tagless constructor
+//
+fun d2con_is_listnil (d2c: d2con): bool // like listnil
+fun d2con_is_listcons (d2c: d2con): bool // like listcons
 fun d2con_is_listlike (d2c: d2con): bool // like listnil/listcons
+//
 fun d2con_is_singular (d2c: d2con): bool // singular constructor
 
 (* ****** ****** *)

@@ -1659,11 +1659,22 @@ end // end of [emit_instrlst_ln]
 
 local
 
+fun auxnil
+(
+  out: FILEref, tmp: tmpvar
+) : void = let
+//
+val () = emit_text (out, "ATSINSmove_nil(")
+val () = emit_tmpvar (out, tmp)
+val () = emit_text (out, ") ;\n")
+//
+in
+  // nothing
+end // end of [auxnil]
+
 fun auxcon
 (
-  out: FILEref
-, tmp: tmpvar
-, hit_con: hitype
+  out: FILEref, tmp: tmpvar, hit_con: hitype
 ) : void = let
 //
 val () = emit_text (out, "ATSINSmove_con(")
@@ -1748,18 +1759,30 @@ emit_instr_move_con (out, ins) = let
 val- INSmove_con
   (tmp, d2c, hse_sum, arg) = ins.instr_node
 //
-val hit_con = hisexp_typize (hse_sum)
-//
 val () = emit_newline (out)
-val () = auxcon (out, tmp, hit_con)
-val () = auxtag (out, tmp, d2c)
-val () = {
-  val iscons = list_is_cons (arg)
-  val () = if iscons then emit_newline (out)
-} (* end of [val] *)
-val () = auxarg (out, tmp, hit_con, arg)
+//
+val isnil = $S2E.d2con_is_listnil (d2c)
 //
 in
+//
+if isnil then let
+  val () = auxnil (out, tmp)
+in
+  // nothing
+end else let
+  val hit_con =
+    hisexp_typize (hse_sum)
+  val () = auxcon (out, tmp, hit_con)
+  val () = auxtag (out, tmp, d2c)
+  val () = (
+    case+ arg of
+    | list_cons _ => emit_newline (out) | _ => ()
+  ) (* end of [val] *)
+  val () = auxarg (out, tmp, hit_con, arg)
+in
+  // nothing
+end // end of [if]
+//
 end // end of [emit_instr_move_con]
 
 end // end of [local]

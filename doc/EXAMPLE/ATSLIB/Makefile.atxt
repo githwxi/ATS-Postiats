@@ -102,6 +102,9 @@ RMF=rm -f
 
 #make_entry("prelude_intrange")
 
+#make2_entry("prelude_list", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("prelude_option", "-DATS_MEMALLOC_LIBC", "")
+
 #make2_entry("prelude_array", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("prelude_arrayptr", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("prelude_arrayref", "-DATS_MEMALLOC_LIBC", "")

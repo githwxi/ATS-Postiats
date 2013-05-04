@@ -267,7 +267,7 @@ dynarray_takeout_atend_opt
   (DA) = let
   val+DYNARRAY (_, _, n) = DA
 in
-  dynarray_takeout_at_opt (DA, n)
+  if n > 0 then dynarray_takeout_at_opt (DA, pred(n)) else None_vt{a}()
 end // end of [dynarray_takeout_atend_opt]
 
 (* ****** ****** *)

@@ -94,7 +94,7 @@ dirent$PC_NAME_MAX (): intGte(0) // HX: default=256
 
 absvtype direntp_vtype (l:addr) = ptr
 vtypedef direntp (l:addr) = direntp_vtype (l)
-vtypedef Direntp = [l:addr] direntp (l)
+vtypedef Direntp0 = [l:addr] direntp (l)
 vtypedef Direntp1 = [l:addr | l > null] direntp (l)
 
 (* ****** ****** *)
@@ -113,7 +113,7 @@ direntp_get_viewptr{l:agz}
 praxi
 direntp_free_null (direntp (null)): void
 
-fun direntp_free (x: Direntp): void = "mac#%"
+fun direntp_free (x: Direntp0): void = "mac#%"
 
 (* ****** ****** *)
 
@@ -169,6 +169,8 @@ fun readdir
   option_v (vtakeout0 (dirent@l), l > null) | ptr (l)
 ) = "mac#%" // end of [readdir]
 
+(* ****** ****** *)
+
 fun readdir_r
 (
   dirp: !DIRptr1
@@ -176,9 +178,8 @@ fun readdir_r
 , result: &ptr? >> ptr
 ) :<!wrt> #[i:int | i >= 0] int(i) = "mac#%"
 
-(* ****** ****** *)
-
-fun{} readdir_r_gc (dirp: !DIRptr1): Direntp
+fun{}
+readdir_r_gc (dirp: !DIRptr1): Direntp0
 
 (* ****** ****** *)
 
