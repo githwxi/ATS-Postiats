@@ -110,8 +110,24 @@ val () =
 //
 val dirp = opendir_exn (".")
 //
-val ent1 = readdir_r_gc (dirp)
-val ((*void*)) = direntp_free (ent1)
+val () = while (true)
+{
+val entp = readdir_r_gc (dirp)
+val isnot =
+  ptr_isnot_null (direntp2ptr(entp))
+val () =
+if isnot then
+{
+  val (
+    fpf | str
+  ) = direntp_get_d_name (entp)
+  val () = println! ("entp.d_name = ", str)
+  prval () = fpf (str)
+} (* end of [if] *)
+//
+val ((*void*)) = direntp_free (entp)
+val () = if ~isnot then break
+} (* end of [val] *)
 //
 val () = closedir_exn (dirp)
 //

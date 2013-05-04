@@ -61,6 +61,10 @@ typedef struct dirent atslib_dirent_type ;
 
 #atscode_separator_for_C()
 
+\#define atslib_direntp_get_d_name(entp) (((atslib_dirent_type*)entp)->d_name)
+
+#atscode_separator_for_C()
+
 \#define atslib_alphasort alphasort
 \#define atslib_versionsort versionsort
 

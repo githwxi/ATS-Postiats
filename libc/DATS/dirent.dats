@@ -55,8 +55,7 @@ implement{}
 dirent_get_d_name_gc
   (ent) = let
 //
-val
-(
+val (
   fpf | str
 ) = dirent_get_d_name (ent)
 val str2 = strptr1_copy (str)
@@ -65,6 +64,20 @@ prval () = fpf (str)
 in
   str2
 end // end of [dirent_get_d_name_gc]
+
+implement{}
+direntp_get_d_name_gc
+  (entp) = let
+//
+val (
+  pf, fpf | p
+) = direntp_get_viewptr (entp)
+val str2 = dirent_get_d_name_gc<> (!p)
+prval () = minus_addback (fpf, pf | entp)
+//
+in
+  str2
+end // end of [direntp_get_d_name_gc]
 
 (* ****** ****** *)
 
