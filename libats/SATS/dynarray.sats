@@ -129,7 +129,7 @@ dynarray_inserts_at{n:int}
 (
   DA: !dynarray (INV(a))
 , i: size_t, xs: &array(a, n) >> arrayopt(a, n, b), n: size_t n
-) : #[b:bool] bool (b) // end of [dynarray_inserts_at_exn]
+) : #[b:bool] bool (b) // end of [dynarray_inserts_at]
 
 (* ****** ****** *)
 

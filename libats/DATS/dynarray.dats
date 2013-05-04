@@ -225,6 +225,64 @@ end // end of [dynarray_insert_atend_opt]
 (* ****** ****** *)
 
 implement{a}
+dynarray_inserts_at
+  (DA, i, xs, n2) = let
+//
+val+@DYNARRAY (A, m, n) = DA
+//
+fun pow2min
+(
+  s1: sizeGte(1), s2: size_t
+) : sizeGte(1) =
+(
+  if s1 >= s2 then s1 else pow2min (s1+s1, s2)
+) (* end of [recap] *)
+//
+extern fun memcpy
+  : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_memcpy"
+extern fun memmove
+  : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_memmove"
+//
+in
+//
+if n + n2 <= m then let
+  val p1 =
+    ptr_add<a> (arrayptr2ptr(A), i)
+  val p2 = ptr_add<a> (p1, n2)
+  val ptr =
+    memmove (p2, p1, (n-i)*sizeof<a>)
+  val ptr =
+    memcpy (p1, addr@(xs), n2*sizeof<a>)
+  val () = n := n+n2
+  prval () = fold@ (DA)
+  prval () =
+  __assert (xs) where {
+    extern praxi __assert {n:int} (xs: &array(a, n) >> arrayopt (a, n, false)): void
+  } (* end of [prval] *)
+in
+  false
+end else let
+  val m = m and n = n
+  prval () = fold@ (DA)
+  val recap = dynarray$recapacitize ()
+in
+//
+if recap > 0 then let
+  val m2 = pow2min (m+m, n+n2)
+  val _(*true*) = dynarray_reset_capacity (DA, m2)
+in
+  dynarray_inserts_at (DA, i, xs, n2)
+end else let
+  prval () = arrayopt_some (xs) in true
+end (* end of [if] *)
+//
+end // end of [if]
+//
+end // end of [dynarray_inserts_at]
+
+(* ****** ****** *)
+
+implement{a}
 dynarray_takeout_at_opt
   (DA, i) = let
 //

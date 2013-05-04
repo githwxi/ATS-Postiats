@@ -344,6 +344,12 @@ absvt@ype
 arrayopt (a:vt0p, n:int, b:bool) = array (a, n)
 //
 praxi
+arrayopt_some
+  {a:vt0p}{n:int} (A: &array (a, n) >> arrayopt (a, n, true)): void
+praxi
+arrayopt_none
+  {a:vt0p}{n:int} (A: &array (a?, n) >> arrayopt (a, n, false)): void
+praxi
 arrayopt_unsome
   {a:vt0p}{n:int} (A: &arrayopt (a, n, true) >> array (a, n)): void
 praxi
