@@ -1659,47 +1659,43 @@ end // end of [emit_instrlst_ln]
 
 local
 
-fun auxnil
+fun auxcon0
 (
-  out: FILEref, tmp: tmpvar
+  out: FILEref, tmp: tmpvar, d2c: d2con
 ) : void = let
 //
-val () = emit_text (out, "ATSINSmove_nil(")
-val () = emit_tmpvar (out, tmp)
+val tag =
+(
+if $S2E.d2con_is_listlike (d2c) then 0 else $S2E.d2con_get_tag (d2c)
+) : int // end of [val]
+//
+val () = emit_text (out, "ATSINSmove_con0(")
+val () =
+(
+  emit_tmpvar (out, tmp); emit_text (out, ", "); emit_int (out, tag)
+)
 val () = emit_text (out, ") ;\n")
 //
 in
   // nothing
-end // end of [auxnil]
+end // end of [auxcon0]
 
-fun auxcon
-(
-  out: FILEref, tmp: tmpvar, hit_con: hitype
-) : void = let
-//
-val () = emit_text (out, "ATSINSmove_con(")
-val () = emit_tmpvar (out, tmp)
-val () = emit_text (out, ", ")
-val () = emit_hitype (out, hit_con)
-val () = emit_text (out, ") ;\n")
-//
-in
-  // nothing
-end // end of [auxcon]
+(* ****** ****** *)
 
 fun auxtag
 (
-  out: FILEref
-, tmp: tmpvar, d2c: d2con
+  out: FILEref, tmp: tmpvar, d2c: d2con
 ) : void = let
 //
 val flag =
 (
-  case+ 0 of
-  | _ when $S2E.d2con_is_nullary (d2c) => 0
-  | _ when $S2E.d2con_is_listlike (d2c) => 0
-  | _ when $S2E.d2con_is_singular (d2c) => 0
-  | _ => 1 // HX: tag assignment is needed
+case+ 0 of
+(*
+| _ when $S2E.d2con_is_nullary (d2c) => 0
+*)
+| _ when $S2E.d2con_is_listlike (d2c) => 0
+| _ when $S2E.d2con_is_singular (d2c) => 0
+| _ => 1 // HX: tag assignment is needed
 ) : int // end of [val]
 //
 val tag = $S2E.d2con_get_tag (d2c)
@@ -1718,13 +1714,12 @@ end // end of [auxtag]
 fun auxarg
 (
   out: FILEref
-, tmp: tmpvar
-, hit_con: hitype
-, lxs: labprimvalist
+, tmp: tmpvar, hit_con: hitype, lxs: labprimvalist
 ) : void = let
 in
 //
 case+ lxs of
+//
 | list_cons
     (lx, lxs) => let
     val+LABPRIMVAL (l, x) = lx
@@ -1747,9 +1742,36 @@ case+ lxs of
   in
     auxarg (out, tmp, hit_con, lxs)
   end // end of [list_cons]
+//
 | list_nil () => ()
 //
 end // end of [auxarg]
+
+fun auxcon1
+(
+  out: FILEref
+, tmp: tmpvar, d2c: d2con, hit_con: hitype, arg: labprimvalist
+) : void = let
+//
+val (
+) = emit_text (out, "ATSINSmove_con1(")
+val (
+) = (
+  emit_tmpvar (out, tmp);  emit_text (out, ", "); emit_hitype (out, hit_con)
+)
+val () = emit_text (out, ") ;\n")
+//
+val () = auxtag (out, tmp, d2c)
+//
+val () =
+(
+case+ arg of list_cons _ => emit_newline (out) | _ => ()
+) : void // end of [val]
+val () = auxarg (out, tmp, hit_con, arg)
+//
+in
+  // nothing
+end // end of [auxcon1]
 
 in (* in of [local] *)
 
@@ -1761,24 +1783,17 @@ val- INSmove_con
 //
 val () = emit_newline (out)
 //
-val isnil = $S2E.d2con_is_listnil (d2c)
+val isnul = $S2E.d2con_is_nullary (d2c)
 //
 in
 //
-if isnil then let
-  val () = auxnil (out, tmp)
+if isnul then let
+  val () = auxcon0 (out, tmp, d2c)
 in
   // nothing
 end else let
-  val hit_con =
-    hisexp_typize (hse_sum)
-  val () = auxcon (out, tmp, hit_con)
-  val () = auxtag (out, tmp, d2c)
-  val () = (
-    case+ arg of
-    | list_cons _ => emit_newline (out) | _ => ()
-  ) (* end of [val] *)
-  val () = auxarg (out, tmp, hit_con, arg)
+  val hit_con = hisexp_typize (hse_sum)
+  val () = auxcon1 (out, tmp, d2c, hit_con, arg)
 in
   // nothing
 end // end of [if]

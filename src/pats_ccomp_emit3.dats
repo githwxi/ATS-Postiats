@@ -311,7 +311,8 @@ end // (* end of [emit_patckont] *)
 //
 local
 
-fun auxcon (
+fun auxcon
+(
   out: FILEref
 , pmv: primval, d2c: d2con, fail: patckont
 ) : void =let
@@ -348,8 +349,16 @@ case+ 0 of
     // nothing
   end // end of [islistlike]
 | _ => let
+    val isnul =
+      $S2E.d2con_is_nullary (d2c)
+    // end of [val]
     val () = emit_text (out, "ATSifnot(")
-    val () = emit_text (out, "ATSPATCKcon(")
+    val () =
+    (
+      if isnul
+        then emit_text (out, "ATSPATCKcon0(")
+        else emit_text (out, "ATSPATCKcon1(")
+    ) : void // end of [val]
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_int (out, $S2E.d2con_get_tag (d2c))

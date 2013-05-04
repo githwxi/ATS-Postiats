@@ -225,6 +225,14 @@ clean:: ; $(RMF) tally_dats.o
 clean:: ; $(RMF) tally_dats.c
 cleanall:: ; $(RMF) tally.exe
 
+all:: weekday
+weekday: weekday.exe
+weekday.exe: weekday_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+weekday_dats.c: weekday.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output weekday_dats.c --dynamic weekday.dats
+clean:: ; $(RMF) weekday_dats.o
+clean:: ; $(RMF) weekday_dats.c
+cleanall:: ; $(RMF) weekday.exe
+
 
 ######
 

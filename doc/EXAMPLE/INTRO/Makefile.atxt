@@ -112,6 +112,7 @@ RMF=rm -f
 #make_entry("sumodd")
 #make_entry("strprefix")
 #make_entry("tally")
+#make_entry("weekday")
 
 ######
 

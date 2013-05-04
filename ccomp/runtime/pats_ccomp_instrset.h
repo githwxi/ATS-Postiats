@@ -172,7 +172,8 @@
 #define ATSPATCKfloat(pmv, pat) ((pmv)==pat)
 #define ATSPATCKstring(pmv, pat) (atspre_string_equal(pmv, pat))
 //
-#define ATSPATCKcon(pmv, tag) (((ATStysum()*)(pmv))->contag==tag)
+#define ATSPATCKcon0(pmv, tag) (pmv==(void*)tag)
+#define ATSPATCKcon1(pmv, tag) (((ATStysum()*)(pmv))->contag==tag)
 //
 #define ATSPATCKexn0(pmv, d2c) (((ATStysum()*)(pmv))->contag==&(d2c))
 #define ATSPATCKexn1(pmv, d2c) (((ATStysum()*)(pmv))->contag==(d2c).exntag)
@@ -196,8 +197,8 @@
 
 /* ****** ****** */
 
-#define ATSINSmove_nil(tmp) (tmp = ((ATStysum()*)0))
-#define ATSINSmove_con(tmp, tysum) (tmp = ATS_MALLOC(sizeof(tysum)))
+#define ATSINSmove_con0(tmp, tag) (tmp = ((void*)tag))
+#define ATSINSmove_con1(tmp, tysum) (tmp = ATS_MALLOC(sizeof(tysum)))
 #define ATSINSstore_con_tag(tmp, val) (((ATStysum()*)(tmp))->contag = val)
 #define ATSINSstore_con_ofs(tmp, tyrec, lab, val) (((tyrec*)(tmp))->lab = val)
 
