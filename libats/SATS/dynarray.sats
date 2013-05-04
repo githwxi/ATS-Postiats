@@ -33,6 +33,12 @@
 
 (* ****** ****** *)
 
+%{#
+#include "libats/CATS/dynarray.cats"
+%} // end of [%{#]
+
+(* ****** ****** *)
+
 typedef SHR(a:type) = a // for commenting purpose
 typedef NSH(a:type) = a // for commenting purpose
 
@@ -57,6 +63,21 @@ vtypedef dynarray (a:vt0p) = dynarray_vtype (a)
 
 fun{a:vt0p}
 dynarray_make_nil (cap: sizeGte(1)): dynarray (a)
+
+(* ****** ****** *)
+
+fun{}
+dynarray_free
+  {a:t0p} (DA: dynarray (INV(a))):<!wrt> void
+// end of [dynarray_free]
+
+(* ****** ****** *)
+
+fun{}
+dynarray_getfree_arrayptr{a:vt0p}
+(
+  DA: dynarray (INV(a)), n: &size_t? >> size_t (n)
+) :<!wrt> #[n:int] arrayptr (a, n)
 
 (* ****** ****** *)
 //
@@ -88,10 +109,18 @@ overload [] with dynarray_set_at_exn
 fun{a:vt0p}
 dynarray_insert_at_opt
   (DA: !dynarray (INV(a)), i: size_t, x: a): Option_vt (a)
+
+(* ****** ****** *)
+
 fun{a:vt0p}
-dynarray_insert_atbeg (DA: !dynarray (INV(a)), x: a): Option_vt (a)
+dynarray_insert_atbeg_exn (DA: !dynarray (INV(a)), x: a): void
 fun{a:vt0p}
-dynarray_insert_atend (DA: !dynarray (INV(a)), x: a): Option_vt (a)
+dynarray_insert_atbeg_opt (DA: !dynarray (INV(a)), x: a): Option_vt (a)
+
+fun{a:vt0p}
+dynarray_insert_atend_exn (DA: !dynarray (INV(a)), x: a): void
+fun{a:vt0p}
+dynarray_insert_atend_opt (DA: !dynarray (INV(a)), x: a): Option_vt (a)
 
 (* ****** ****** *)
 
@@ -107,10 +136,13 @@ dynarray_inserts_at{n:int}
 fun{a:vt0p}
 dynarray_takeout_at_opt
   (DA: !dynarray (INV(a)), i: size_t): Option_vt (a)
+
+(* ****** ****** *)
+
 fun{a:vt0p}
-dynarray_takeout_atbeg (DA: !dynarray (INV(a)), i: size_t): Option_vt (a)
+dynarray_takeout_atbeg_opt (DA: !dynarray (INV(a))): Option_vt (a)
 fun{a:vt0p}
-dynarray_takeout_atend (DA: !dynarray (INV(a)), i: size_t): Option_vt (a)
+dynarray_takeout_atend_opt (DA: !dynarray (INV(a))): Option_vt (a)
 
 (* ****** ****** *)
 

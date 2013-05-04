@@ -71,15 +71,29 @@ implement{a}
 dynarray_make_nil
   (cap) = let
 //
-val A = arrayptr_make_uninitized (cap)
+val A = arrayptr_make_uninitized<a> (cap)
 val A = __cast (A) where
 {
-  extern fun __cast {n:int} (arrayptr (a?, n)): arrayptr (a, n)
+  extern castfn __cast {n:int} (arrayptr (a?, n)):<> arrayptr (a, n)
 } (* end of [val] *)
 //
 in
   DYNARRAY (A, cap, g1i2u(0))
 end (* end of [dynarray_make_nil] *)
+
+(* ****** ****** *)
+
+implement{}
+dynarray_getfree_arrayptr
+  (DA, n) = let
+//
+val+~DYNARRAY{a}{m,n}(A, _, n0) = DA
+//
+val () = n := n0
+//
+in
+  $UN.castvwtp0{arrayptr(a,n)}(A)
+end (* end of [dynarray_getfree_arrayptr] *)
 
 (* ****** ****** *)
 
@@ -142,29 +156,119 @@ if m > n then let
   val () = n := succ(n)
   prval () = fold@ (DA)
 in
-  None_vt ()
+  None_vt{a}( )
 end else let
   prval () = fold@ (DA)
   val recap = dynarray$recapacitize ()
 in
   if recap > 0 then let
-    val _(*true*) = dynarray_reset_capacity (DA, m1+m1)
+    val _(*true*) = dynarray_reset_capacity<a> (DA, m1+m1)
   in
     dynarray_insert_at_opt (DA, i, x)
   end else let
     // no support for auto recapacitizing
   in
-    Some_vt (x)
+    Some_vt{a}(x)
   end // end of [if]
 end // end of [if]
 //
 end else let
   prval () = fold@ (DA)
 in
-  Some_vt (x)
+  Some_vt{a}(x)
 end // end of [if]
 //
 end // end of [dynarray_insert_at_opt]
+
+(* ****** ****** *)
+
+implement{a}
+dynarray_insert_atbeg_exn
+  (DA, x) = let
+//
+val-~None_vt () =
+  dynarray_insert_at_opt (DA, i2sz(0), x)
+//
+in
+  // nothing
+end // end of [dynarray_insert_atbeg_exn]
+implement{a}
+dynarray_insert_atbeg_opt
+  (DA, x) = let
+in
+  dynarray_insert_at_opt (DA, i2sz(0), x)
+end // end of [dynarray_insert_atbeg_opt]
+
+(* ****** ****** *)
+
+implement{a}
+dynarray_insert_atend_exn
+  (DA, x) = let
+//
+val+DYNARRAY (_, _, n) = DA
+val-~None_vt () =
+  dynarray_insert_at_opt (DA, n, x)
+//
+in
+  // nothing
+end // end of [dynarray_insert_atend_exn]
+implement{a}
+dynarray_insert_atend_opt
+  (DA, x) = let
+//
+val+DYNARRAY (_, _, n) = DA
+//
+in
+  dynarray_insert_at_opt (DA, n, x)
+end // end of [dynarray_insert_atend_opt]
+
+(* ****** ****** *)
+
+implement{a}
+dynarray_takeout_at_opt
+  (DA, i) = let
+//
+val+@DYNARRAY (A, m, n) = DA
+//
+val i = g1ofg0_uint (i)
+//
+in
+//
+if i < n then let
+  extern fun memmove
+    : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_memmove"
+  // end of [extern]
+  val p1 = ptr_add<a> (arrayptr2ptr(A), i)
+  val p2 = ptr_succ<a> (p1)
+  val n1 = pred (n)
+  val x = $UN.ptr0_get<a> (p1)
+  val ptr = memmove (p1, p2, (n1-i)*sizeof<a>)
+  val () = n := n1
+  prval () = fold@ (DA)
+in
+  Some_vt{a}(x)
+end else let
+  prval () = fold@ (DA) in None_vt{a}( )
+end // end of [if]
+//
+end // end of [dynarray_takeout_at_opt]
+
+(* ****** ****** *)
+
+implement{a}
+dynarray_takeout_atbeg_opt
+  (DA) = let
+in
+  dynarray_takeout_at_opt (DA, i2sz(0))
+end // end of [dynarray_takeout_atbeg_opt]
+
+implement{a}
+dynarray_takeout_atend_opt
+  (DA) = let
+  val+DYNARRAY (_, _, n) = DA
+in
+  dynarray_takeout_at_opt (DA, n)
+end // end of [dynarray_takeout_atend_opt]
 
 (* ****** ****** *)
 
@@ -178,7 +282,7 @@ in
 //
 if m2 >= n then let
 //
-val A2 = arrayptr_make_uninitized (m2)
+val A2 = arrayptr_make_uninitized<a> (m2)
 val ptr = memcpy
 (
   arrayptr2ptr(A2), arrayptr2ptr(A), n*sizeof<a>
@@ -187,8 +291,8 @@ val ptr = memcpy
     : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_memcpy"
 } (* end of [val] *)
 //
-extern fun __cast {n:int} (arrayptr (a, n)): arrayptr (a?, n)
-extern fun __cast2 {n:int} (arrayptr (a?, n)): arrayptr (a, n)
+extern castfn __cast {n:int} (arrayptr (a, n)):<> arrayptr (a?, n)
+extern castfn __cast2 {n:int} (arrayptr (a?, n)):<> arrayptr (a, n)
 //
 val A1 = __cast(A)
 val A2 = __cast2(A2)
@@ -214,6 +318,16 @@ end // end of [dynarray_reset_capacity]
 (* ****** ****** *)
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement{}
+dynarray_free (DA) = let
+  var n: size_t
+  val A = dynarray_getfree_arrayptr (DA, n)
+in
+  arrayptr_free (A)
+end (* end of [dynarray_free] *)
 
 (* ****** ****** *)
 

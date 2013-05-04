@@ -284,6 +284,14 @@ clean:: ; $(RMF) libats_dllist_dats.o
 clean:: ; $(RMF) libats_dllist_dats.c
 cleanall:: ; $(RMF) libats_dllist.exe
 
+all:: libats_dynarray
+libats_dynarray: libats_dynarray.exe
+libats_dynarray.exe: libats_dynarray_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_dynarray_dats.c: libats_dynarray.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_dynarray_dats.c --dynamic libats_dynarray.dats
+clean:: ; $(RMF) libats_dynarray_dats.o
+clean:: ; $(RMF) libats_dynarray_dats.c
+cleanall:: ; $(RMF) libats_dynarray.exe
+
 
 all:: libats_linmap_skiplist
 libats_linmap_skiplist: libats_linmap_skiplist.exe
