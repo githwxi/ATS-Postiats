@@ -38,16 +38,21 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#define ATSLIBfailexit(cmd) \\
-  do { \\
-    perror(cmd) ; \\
-    fprintf(stderr, "exit(ATSLIB): [%s] failed\n", cmd) ; exit(1) ; \\
-  } while (0) \\
+\#define \\
+ATSLIBfailexit(cmd) \\
+do { \\
+  perror(cmd) ; \\
+  fprintf(stderr, "exit(ATSLIB): [%s] failed\n", cmd) ; exit(1) ; \\
+} while (0) \\
 
 #atscode_separator_for_C()
 
 typedef DIR atslib_DIR_type ;
 typedef struct dirent atslib_dirent_type ;
+
+#atscode_separator_for_C()
+
+\#define atslib_direntp_free(x) atspre_mfree_gc(x)
 
 #atscode_separator_for_C()
 

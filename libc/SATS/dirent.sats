@@ -81,28 +81,55 @@ castfn DIRptr2ptr {l:addr} (dirp: !DIRptr l):<> ptr (l)
 (* ****** ****** *)
 
 abst@ype
-dirent_t0ype = $extype"atslib_dirent_type" // = struct dirent
+dirent_t0ype =
+$extype"atslib_dirent_type" // = struct dirent
 typedef dirent = dirent_t0ype
+
+(* ****** ****** *)
+
+fun{}
+dirent$PC_NAME_MAX (): intGte(0) // HX: default=256
+
+(* ****** ****** *)
+
+absvtype direntp_vtype (l:addr) = ptr
+vtypedef direntp (l:addr) = direntp_vtype (l)
+vtypedef Direntp = [l:addr] direntp (l)
+vtypedef Direntp1 = [l:addr | l > null] direntp (l)
+
+(* ****** ****** *)
+
+castfn
+direntp_get_viewptr{l:agz}
+(
+  x: !direntp l
+) :<> (
+  dirent @ l, minus (direntp l, dirent @ l) | ptr l
+) // end of [direntp_get_viewptr]
+
+praxi
+direntp_free_null (direntp (null)): void
+
+fun direntp_free (x: Direntp): void = "mac#%"
 
 (* ****** ****** *)
 
 fun dirent_get_d_ino (ent: &RD(dirent)):<> ino_t = "mac#%"
 
 (* ****** ****** *)
-
+//
 fun
 dirent_get_d_name
-  (ent: &RD(dirent)):<> [l:agz] vttakeout0 (strptr l) = "mac#%"
-// end of [dirent_get_d_name]
-
+  (ent: &RD(dirent)):<> vStrptr1 = "mac#%"
 fun{}
 dirent_get_d_name_gc (ent: &RD(dirent)):<!wrt> Strptr1
-
+//
 (* ****** ****** *)
-
+//
 fun{}
-compare_dirent_string (ent: &RD(dirent), str: NSH(string)):<> int
-
+compare_dirent_string
+  (ent: &RD(dirent), str: NSH(string)):<> int
+//
 (* ****** ****** *)
 
 fun opendir (dname: NSH(string)): DIRptr0 = "mac#%"
@@ -137,6 +164,10 @@ fun readdir_r
 , ent: &dirent? >> opt (dirent, i==0)
 , result: &ptr? >> ptr
 ) :<!wrt> #[i:int | i >= 0] int(i) = "mac#%"
+
+(* ****** ****** *)
+
+fun{} readdir_r_gc (dirp: !DIRptr1): Direntp
 
 (* ****** ****** *)
 

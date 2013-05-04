@@ -108,6 +108,20 @@ prval None_v () = pfopt
 val () =
 {
 //
+val dirp = opendir_exn (".")
+//
+val ent1 = readdir_r_gc (dirp)
+val ((*void*)) = direntp_free (ent1)
+//
+val () = closedir_exn (dirp)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
 typedef filter = (&dirent) -> int
 typedef compar = (&ptr(*direntp*), &ptr(*direntp*)) -> int
 //

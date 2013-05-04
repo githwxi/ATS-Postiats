@@ -272,6 +272,8 @@ stadef size_t = size0_t // 1st-select
 //
 typedef Size =
   [i:int | i >= 0] g1uint (size_kind, i)
+typedef Size_t = Size
+//
 typedef sizeLt (n:int) = g1uintLt (size_kind, n)
 typedef sizeLte (n:int) = g1uintLte (size_kind, n)
 typedef sizeGt (n:int) = g1uintGt (size_kind, n)
@@ -285,6 +287,10 @@ typedef ssize1_t (i:int) = g1int (ssize_kind , i)
 //
 stadef ssize_t = ssize1_t // 2nd-select
 stadef ssize_t = ssize0_t // 1st-select
+//
+typedef SSize =
+  [i:int] g1int (ssize_kind, i)
+typedef SSize_t = SSize
 //
 typedef ssizeLt (n:int) = g1intLt (ssize_kind, n)
 typedef ssizeLte (n:int) = g1intLte (ssize_kind, n)
