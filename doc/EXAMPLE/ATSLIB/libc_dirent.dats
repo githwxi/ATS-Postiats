@@ -118,11 +118,13 @@ val isnot =
 val () =
 if isnot then
 {
-  val (
-    fpf | str
-  ) = direntp_get_d_name (entp)
-  val () = println! ("entp.d_name = ", str)
-  prval () = fpf (str)
+//
+val (
+  fpf | str
+) = direntp_get_d_name (entp)
+val () = println! ("entp.d_name = ", str)
+prval () = fpf (str)
+//
 } (* end of [if] *)
 //
 val ((*void*)) = direntp_free (entp)

@@ -125,10 +125,10 @@ dynarray_insert_atend_opt (DA: !dynarray (INV(a)), x: a): Option_vt (a)
 (* ****** ****** *)
 
 fun{a:vt0p}
-dynarray_inserts_at{n:int}
+dynarray_inserts_at{n2:int}
 (
-  DA: !dynarray (INV(a))
-, i: size_t, xs: &array(a, n) >> arrayopt(a, n, b), n: size_t n
+  DA: !dynarray (INV(a)), i: size_t
+, xs: &array(a, n2) >> arrayopt(a, n2, b), n2: size_t (n2)
 ) : #[b:bool] bool (b) // end of [dynarray_inserts_at]
 
 (* ****** ****** *)
@@ -150,6 +150,14 @@ fun{a:vt0p}
 dynarray_reset_capacity
   (DA: !dynarray (INV(a)), m2: sizeGte(1)): bool(*done/ignored*)
 // end of [dynarray_reset_capacity]
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+dynarray_quicksort$cmp
+  (x1: &RD(a), x2: &RD(a)):<> int
+fun{a:vt0p}
+dynarray_quicksort (DA: !dynarray (INV(a))): void
 
 (* ****** ****** *)
 

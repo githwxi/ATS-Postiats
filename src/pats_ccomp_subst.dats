@@ -1096,7 +1096,8 @@ case+
     instr_move_ref (loc0, tmp, pmv)
   end // end of [INSmove_ref]
 //
-| INSmove_boxrec (
+| INSmove_boxrec
+  (
     tmp, lpmvs, hse_rec
   ) => let
     val tmp = ftmp (tmp)
@@ -1105,7 +1106,8 @@ case+
   in
     instr_move_boxrec (loc0, tmp, lpmvs, hse_rec)
   end // end of [INSmove_boxrec]
-| INSmove_fltrec (
+| INSmove_fltrec
+  (
     tmp, lpmvs, hse_rec
   ) => let
     val tmp = ftmp (tmp)
@@ -1115,9 +1117,14 @@ case+
     instr_move_fltrec (loc0, tmp, lpmvs, hse_rec)
   end // end of [INSmove_fltrec]
 //
-(*
-| INSpatck of (primval, patck, patckont) // pattern check
-*)
+| INSpatck
+  (
+    pmv, pck, pcknt
+  ) => let
+    val pmv = fpmv (pmv)
+  in
+    instr_patck (loc0, pmv, pck, pcknt)
+  end // end of [INSpatck]
 //
 (*
 | INSmove_ptrofsel of

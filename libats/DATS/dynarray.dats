@@ -134,9 +134,9 @@ implement{a}
 dynarray_insert_at_opt
   (DA, i, x) = let
 //
-val+@DYNARRAY (A, m, n) = DA
+val i = g1ofg0_uint (i)
 //
-val m1 = m
+val+@DYNARRAY (A, m, n) = DA
 //
 in
 //
@@ -158,11 +158,12 @@ if m > n then let
 in
   None_vt{a}( )
 end else let
+  val m = m
   prval () = fold@ (DA)
   val recap = dynarray$recapacitize ()
 in
   if recap > 0 then let
-    val _(*true*) = dynarray_reset_capacity<a> (DA, m1+m1)
+    val _(*true*) = dynarray_reset_capacity<a> (DA, m+m)
   in
     dynarray_insert_at_opt (DA, i, x)
   end else let
@@ -173,9 +174,7 @@ in
 end // end of [if]
 //
 end else let
-  prval () = fold@ (DA)
-in
-  Some_vt{a}(x)
+  prval () = fold@ (DA) in Some_vt{a}(x)
 end // end of [if]
 //
 end // end of [dynarray_insert_at_opt]
@@ -228,8 +227,6 @@ implement{a}
 dynarray_inserts_at
   (DA, i, xs, n2) = let
 //
-val+@DYNARRAY (A, m, n) = DA
-//
 fun pow2min
 (
   s1: sizeGte(1), s2: size_t
@@ -237,6 +234,13 @@ fun pow2min
 (
   if s1 >= s2 then s1 else pow2min (s1+s1, s2)
 ) (* end of [recap] *)
+//
+val i = g1ofg0_uint (i)
+val+@DYNARRAY (A, m, n) = DA
+//
+in
+//
+if i <= n then let
 //
 extern fun memcpy
   : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_memcpy"
@@ -278,6 +282,11 @@ end (* end of [if] *)
 //
 end // end of [if]
 //
+end else let
+  prval () = fold@ (DA)
+  prval () = arrayopt_some (xs) in true
+end // end of [if]
+//
 end // end of [dynarray_inserts_at]
 
 (* ****** ****** *)
@@ -286,9 +295,8 @@ implement{a}
 dynarray_takeout_at_opt
   (DA, i) = let
 //
-val+@DYNARRAY (A, m, n) = DA
-//
 val i = g1ofg0_uint (i)
+val+@DYNARRAY (A, m, n) = DA
 //
 in
 //
@@ -372,6 +380,37 @@ in
 end // end of [if]
 //
 end // end of [dynarray_reset_capacity]
+
+(* ****** ****** *)
+
+implement{a}
+dynarray_quicksort
+  (DA) = let
+//
+val+DYNARRAY{a}{m,n}(A, m, n) = DA
+//
+val p = arrayptr2ptr (A)
+//
+prval
+(
+pf, fpf
+) = __assert (p) where
+{
+extern
+praxi __assert
+  {l:addr} (p: ptr l): vtakeout0 (array_v (a, l, n))
+} (* end of [prval] *)
+//
+implement{a}
+array_quicksort$cmp (x, y) = dynarray_quicksort$cmp<a> (x, y)
+//
+val () = array_quicksort (!p, n)
+//
+prval () = fpf (pf)
+//
+in
+  // nothing
+end // end of [dynarray_quicksort]
 
 (* ****** ****** *)
 

@@ -144,7 +144,7 @@ compare_dirent_string
 (* ****** ****** *)
 
 fun opendir (dname: NSH(string)): DIRptr0 = "mac#%"
-fun opendir_exn (dname: NSH(string)): DIRptr1 = "mac#%"
+fun opendir_exn (dname: NSH(string)): DIRptr1 = "ext#%"
 
 (* ****** ****** *)
 
@@ -157,7 +157,7 @@ fun closedir{l:agz}
   option_v (DIR_v (l), i < 0) | int i
 ) = "mac#%" // end of [closedir]
 
-fun closedir_exn (dirp: DIRptr1):<!exnwrt> void = "mac#%"
+fun closedir_exn (dirp: DIRptr1):<!exnwrt> void = "ext#%"
 
 (* ****** ****** *)
 

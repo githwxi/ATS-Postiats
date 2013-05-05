@@ -98,6 +98,37 @@ end // end of [compare_dirent_string]
 
 (* ****** ****** *)
 
+%{
+extern
+atstype_ptr
+atslib_opendir_exn
+(
+  atstype_string dname
+) {
+  DIR *dirp ;
+  dirp = opendir((char*)dname) ;
+  if (!dirp) ATSLIBfailexit("opendir") ;
+  return dirp ; // [opendir] succeeded
+} // end of [atslib_opendir_exn]
+%}
+
+(* ****** ****** *)
+
+%{
+extern
+atsvoid_t0ype
+atslib_closedir_exn
+(
+  atstype_ptr dirp
+) {
+  int err = closedir((DIR*)dirp) ;
+  if (err < 0) ATSLIBfailexit("closedir") ;
+  return ; // [closedir] succeeded
+} // end of [atslib_closedir_exn]
+%}
+
+(* ****** ****** *)
+
 implement{}
 readdir_r_gc
   (dirp) = let

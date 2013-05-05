@@ -188,7 +188,7 @@ cleanall:: ; $(RMF) prelude_gprint.exe
 
 all:: libc_dirent
 libc_dirent: libc_dirent.exe
-libc_dirent.exe: libc_dirent_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libc_dirent.exe: libc_dirent_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
 libc_dirent_dats.c: libc_dirent.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_dirent_dats.c --dynamic libc_dirent.dats
 clean:: ; $(RMF) libc_dirent_dats.o
 clean:: ; $(RMF) libc_dirent_dats.c

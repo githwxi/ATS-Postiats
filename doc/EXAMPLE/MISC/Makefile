@@ -9,7 +9,7 @@
 
 ######
 
-GCC=gcc -std=c99
+CCOPT=gcc -std=c99
 PATSHOMEQ="$(PATSHOME)"
 PATSOPT=$(PATSHOMEQ)/src/patsopt
 PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
@@ -27,7 +27,7 @@ RMF=rm -f
 
 all:: ferryman
 ferryman: ferryman.exe
-ferryman.exe: ferryman_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+ferryman.exe: ferryman_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
 ferryman_dats.c: ferryman.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output ferryman_dats.c --dynamic ferryman.dats
 clean:: ; $(RMF) ferryman_dats.o
 clean:: ; $(RMF) ferryman_dats.c
@@ -35,7 +35,7 @@ cleanall:: ; $(RMF) ferryman.exe
 
 all:: fibver_loop
 fibver_loop: fibver_loop.exe
-fibver_loop.exe: fibver_loop_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+fibver_loop.exe: fibver_loop_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
 fibver_loop_dats.c: fibver_loop.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fibver_loop_dats.c --dynamic fibver_loop.dats
 clean:: ; $(RMF) fibver_loop_dats.o
 clean:: ; $(RMF) fibver_loop_dats.c
@@ -43,7 +43,7 @@ cleanall:: ; $(RMF) fibver_loop.exe
 
 all:: fibver_trec
 fibver_trec: fibver_trec.exe
-fibver_trec.exe: fibver_trec_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+fibver_trec.exe: fibver_trec_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
 fibver_trec_dats.c: fibver_trec.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fibver_trec_dats.c --dynamic fibver_trec.dats
 clean:: ; $(RMF) fibver_trec_dats.o
 clean:: ; $(RMF) fibver_trec_dats.c
@@ -51,7 +51,7 @@ cleanall:: ; $(RMF) fibver_trec.exe
 
 all:: hanoi
 hanoi: hanoi.exe
-hanoi.exe: hanoi_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+hanoi.exe: hanoi_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
 hanoi_dats.c: hanoi.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output hanoi_dats.c --dynamic hanoi.dats
 clean:: ; $(RMF) hanoi_dats.o
 clean:: ; $(RMF) hanoi_dats.c
@@ -59,7 +59,7 @@ cleanall:: ; $(RMF) hanoi.exe
 
 all:: isqrt
 isqrt: isqrt.exe
-isqrt.exe: isqrt_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+isqrt.exe: isqrt_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
 isqrt_dats.c: isqrt.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output isqrt_dats.c --dynamic isqrt.dats
 clean:: ; $(RMF) isqrt_dats.o
 clean:: ; $(RMF) isqrt_dats.c
@@ -67,7 +67,7 @@ cleanall:: ; $(RMF) isqrt.exe
 
 all:: passwdgen
 passwdgen: passwdgen.exe
-passwdgen.exe: passwdgen_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+passwdgen.exe: passwdgen_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
 passwdgen_dats.c: passwdgen.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output passwdgen_dats.c --dynamic passwdgen.dats
 clean:: ; $(RMF) passwdgen_dats.o
 clean:: ; $(RMF) passwdgen_dats.c
@@ -75,36 +75,35 @@ cleanall:: ; $(RMF) passwdgen.exe
 
 all:: queens_loop
 queens_loop: queens_loop.exe
-queens_loop.exe: queens_loop_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+queens_loop.exe: queens_loop_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
 queens_loop_dats.c: queens_loop.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output queens_loop_dats.c --dynamic queens_loop.dats
 clean:: ; $(RMF) queens_loop_dats.o
 clean:: ; $(RMF) queens_loop_dats.c
 cleanall:: ; $(RMF) queens_loop.exe
 
-all:: wclines
-wclines: wclines.exe
-wclines.exe: wclines_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -O2 -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
-wclines_dats.c: wclines.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output wclines_dats.c --dynamic wclines.dats
-clean:: ; $(RMF) wclines_dats.o
-clean:: ; $(RMF) wclines_dats.c
-cleanall:: ; $(RMF) wclines.exe
-
-all:: wclines2
-wclines2: wclines2.exe
-wclines2.exe: wclines2_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -O2 -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
-wclines2_dats.c: wclines2.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output wclines2_dats.c --dynamic wclines2.dats
-clean:: ; $(RMF) wclines2_dats.o
-clean:: ; $(RMF) wclines2_dats.c
-cleanall:: ; $(RMF) wclines2.exe
-
+all:: readdirall
+readdirall: readdirall.exe
+readdirall.exe: readdirall_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+readdirall_dats.c: readdirall.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output readdirall_dats.c --dynamic readdirall.dats
+clean:: ; $(RMF) readdirall_dats.o
+clean:: ; $(RMF) readdirall_dats.c
+cleanall:: ; $(RMF) readdirall.exe
 
 all:: sllist_mapfree
 sllist_mapfree: sllist_mapfree.exe
-sllist_mapfree.exe: sllist_mapfree_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+sllist_mapfree.exe: sllist_mapfree_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
 sllist_mapfree_dats.c: sllist_mapfree.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output sllist_mapfree_dats.c --dynamic sllist_mapfree.dats
 clean:: ; $(RMF) sllist_mapfree_dats.o
 clean:: ; $(RMF) sllist_mapfree_dats.c
 cleanall:: ; $(RMF) sllist_mapfree.exe
+
+all:: wclines
+wclines: wclines.exe
+wclines.exe: wclines_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+wclines_dats.c: wclines.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output wclines_dats.c --dynamic wclines.dats
+clean:: ; $(RMF) wclines_dats.o
+clean:: ; $(RMF) wclines_dats.c
+cleanall:: ; $(RMF) wclines.exe
 
 
 ######

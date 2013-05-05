@@ -72,42 +72,21 @@ typedef struct dirent atslib_dirent_type ;
 
 \#define atslib_opendir opendir
 
-ATSinline()
-atstype_ptr
-atslib_opendir_exn
-(
-  atstype_string dname
-) {
-  DIR *dirp ;
-  dirp = opendir((char*)dname) ;
-  if (!dirp) ATSLIBfailexit("opendir") ;
-  return dirp ; // [opendir] succeeded
-} // end of [atslib_opendir_exn]
-
 #atscode_separator_for_C()
 
 \#define atslib_closedir closedir
 
-ATSinline()
-atsvoid_t0ype
-atslib_closedir_exn
-(
-  atstype_ptr dirp
-) {
-  int err = closedir((DIR*)dirp) ;
-  if (err < 0) ATSLIBfailexit("closedir") ;
-  return ; // [closedir] succeeded
-} // end of [atslib_closedir_exn]
-
 #atscode_separator_for_C()
 
 \#define atslib_readdir readdir
-\#define atslib_readdir_r(dirp, ent, res) \\
+\#define \\
+atslib_readdir_r(dirp, ent, res) \\
   readdir_r((DIR*)dirp, (atslib_dirent_type*)ent, (atslib_dirent_type**)res)
 
 #atscode_separator_for_C()
 
-\#define atslib_scandir(dirp, namelst, filter, compar) \\
+\#define \\
+atslib_scandir(dirp, namelst, filter, compar) \\
   scandir((char*)dirp, (atslib_dirent_type***)namelst, (void*)filter, (void*)compar)
 
 #atscode_separator_for_C()

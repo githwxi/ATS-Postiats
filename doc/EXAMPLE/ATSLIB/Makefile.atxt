@@ -116,7 +116,7 @@ RMF=rm -f
 
 ######
 
-#make2_entry("libc_dirent", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libc_dirent", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 #make_entry("libc_fcntl")
 #make_entry("libc_fnmatch")
 #make2_entry("libc_malloc", "-DATS_MEMALLOC_LIBC", "")

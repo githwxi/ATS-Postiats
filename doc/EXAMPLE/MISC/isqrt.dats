@@ -2,7 +2,8 @@
 ** A verfied implementation of the integer sqare root function
 ** that is non-tail-recursive and of logarithmic time complexity
 **
-** Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+** Author: Hongwei Xi
+** Authoremail: hwxi AT cs DOT bu DOT edu
 ** Time: November, 2009
 *)
 
