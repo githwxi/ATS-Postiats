@@ -57,7 +57,8 @@ fun{} dynarray$recapacitize (): int
 
 absvtype
 dynarray_vtype (a:vt@ype+) = ptr
-vtypedef dynarray (a:vt0p) = dynarray_vtype (a)
+vtypedef
+dynarray (a:vt0p) = dynarray_vtype (a)
 
 (* ****** ****** *)
 
@@ -73,11 +74,29 @@ dynarray_free
 
 (* ****** ****** *)
 
+fun{a:vt0p}
+fprint_dynarray
+  (out: FILEref, DA: !dynarray (INV(a))): void
+// end of [fprint_dynarray]
+
+(* ****** ****** *)
+
 fun{}
 dynarray_getfree_arrayptr{a:vt0p}
 (
   DA: dynarray (INV(a)), n: &size_t? >> size_t (n)
 ) :<!wrt> #[n:int] arrayptr (a, n)
+
+(* ****** ****** *)
+
+fun{}
+dynarray_get_array{a:vt0p}
+(
+  DA: !RD(dynarray (INV(a))), n: &size_t? >> size_t (n)
+) :<!wrt> #[l:addr;n:int]
+(
+  array_v (a, l, n), array_v (a, l, n) -<lin,prf> void | ptr l
+) // end of [dynarray_get_array]
 
 (* ****** ****** *)
 //
@@ -107,11 +126,16 @@ overload [] with dynarray_set_at_exn
 (* ****** ****** *)
 
 fun{a:vt0p}
-dynarray_insert_at_opt
-  (DA: !dynarray (INV(a)), i: size_t, x: a): Option_vt (a)
+dynarray_insert_at
+(
+  DA: !dynarray (INV(a)), i: size_t, x: a, res: &a? >> opt(a, b)
+) : #[b:bool] bool (b) // end of [dynarray_insert_at]
 
 (* ****** ****** *)
 
+fun{a:vt0p}
+dynarray_insert_at_opt
+  (DA: !dynarray (INV(a)), i: size_t, x: a): Option_vt (a)
 fun{a:vt0p}
 dynarray_insert_atbeg_exn (DA: !dynarray (INV(a)), x: a): void
 fun{a:vt0p}
@@ -134,11 +158,16 @@ dynarray_inserts_at{n2:int}
 (* ****** ****** *)
 
 fun{a:vt0p}
-dynarray_takeout_at_opt
-  (DA: !dynarray (INV(a)), i: size_t): Option_vt (a)
+dynarray_takeout_at
+(
+  DA: !dynarray (INV(a)), i: size_t, res: &a? >> opt(a, b)
+) : #[b:bool] bool(b) // end of [dynarray_takeout_at]
 
 (* ****** ****** *)
 
+fun{a:vt0p}
+dynarray_takeout_at_opt
+  (DA: !dynarray (INV(a)), i: size_t): Option_vt (a)
 fun{a:vt0p}
 dynarray_takeout_atbeg_opt (DA: !dynarray (INV(a))): Option_vt (a)
 fun{a:vt0p}

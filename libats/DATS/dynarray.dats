@@ -98,6 +98,23 @@ end (* end of [dynarray_getfree_arrayptr] *)
 (* ****** ****** *)
 
 implement{}
+dynarray_get_array
+  (DA, n) = let
+//
+val+DYNARRAY{a}{m,n}(A, _, n0) = DA
+//
+val () = n := n0
+val ptr = arrayptr2ptr (A)
+//
+prval (pf, fpf) = $UN.ptr_vtake{array(a,n)}(ptr)
+//
+in
+  (pf, fpf | ptr)
+end (* end of [dynarray_get_array] *)
+
+(* ****** ****** *)
+
+implement{}
 dynarray_get_size (DA) = let
   val+DYNARRAY (_, _, n) = DA in (n)
 end // end of [dynarray_get_size]
@@ -125,14 +142,9 @@ end // end of [dynarray_getref_at]
 
 (* ****** ****** *)
 
-(*
-fun{a:vt0p}
-dynarray_insert_at_opt
-  (DA: !dynarray (INV(a)), i: size_t, x: a): Option_vt (a)
-*)
 implement{a}
-dynarray_insert_at_opt
-  (DA, i, x) = let
+dynarray_insert_at
+  (DA, i, x, res) = let
 //
 val i = g1ofg0_uint (i)
 //
@@ -155,8 +167,9 @@ if m > n then let
   val () = $UN.ptr0_set<a> (p1, x)
   val () = n := succ(n)
   prval () = fold@ (DA)
+  prval () = opt_none{a}(res)
 in
-  None_vt{a}( )
+  false
 end else let
   val m = m
   prval () = fold@ (DA)
@@ -165,19 +178,39 @@ in
   if recap > 0 then let
     val _(*true*) = dynarray_reset_capacity<a> (DA, m+m)
   in
-    dynarray_insert_at_opt (DA, i, x)
+    dynarray_insert_at (DA, i, x, res)
   end else let
-    // no support for auto recapacitizing
+    val () = res := x
+    prval () = opt_some{a}(res)
   in
-    Some_vt{a}(x)
+    true
   end // end of [if]
 end // end of [if]
 //
 end else let
-  prval () = fold@ (DA) in Some_vt{a}(x)
+  prval () = fold@ (DA)
+  val () = res := x
+  prval () = opt_some{a}(res)
+in
+  true
 end // end of [if]
 //
-end // end of [dynarray_insert_at_opt]
+end // end of [dynarray_insert_at]
+
+(* ****** ****** *)
+
+implement{a}
+dynarray_insert_at_opt
+  (DA, i, x) = let
+//
+var res: a?
+val ans = dynarray_insert_at (DA, i, x, res)
+//
+in
+//
+option_vt_make_opt<a> (ans, res)
+//
+end (* end of [dynarray_insert_at] *)
 
 (* ****** ****** *)
 
@@ -292,8 +325,8 @@ end // end of [dynarray_inserts_at]
 (* ****** ****** *)
 
 implement{a}
-dynarray_takeout_at_opt
-  (DA, i) = let
+dynarray_takeout_at
+  (DA, i, res) = let
 //
 val i = g1ofg0_uint (i)
 val+@DYNARRAY (A, m, n) = DA
@@ -311,11 +344,31 @@ if i < n then let
   val ptr = memmove (p1, p2, (n1-i)*sizeof<a>)
   val () = n := n1
   prval () = fold@ (DA)
+  val () = res := x
+  prval () = opt_some{a}(res)
 in
-  Some_vt{a}(x)
+  true
 end else let
-  prval () = fold@ (DA) in None_vt{a}( )
+  prval () = fold@ (DA)
+  prval () = opt_none{a}(res)
+in
+  false
 end // end of [if]
+//
+end // end of [dynarray_takeout_at]
+
+(* ****** ****** *)
+
+implement{a}
+dynarray_takeout_at_opt
+  (DA, i) = let
+//
+var res: a?
+val ans = dynarray_takeout_at (DA, i, res)
+//
+in
+//
+option_vt_make_opt<a> (ans, res)
 //
 end // end of [dynarray_takeout_at_opt]
 
@@ -412,6 +465,9 @@ in
   // nothing
 end // end of [dynarray_quicksort]
 
+implement{a}
+dynarray_quicksort$cmp (x, y) = gcompare_ref<a> (x, y)
+
 (* ****** ****** *)
 
 end // end of [local]
@@ -425,6 +481,22 @@ dynarray_free (DA) = let
 in
   arrayptr_free (A)
 end (* end of [dynarray_free] *)
+
+(* ****** ****** *)
+
+implement{a}
+fprint_dynarray (out, DA) = let
+//
+var n: size_t
+val (pf, fpf | p) = dynarray_get_array (DA, n)
+//
+val () = fprint_array (out, !p, n)
+//
+prval () = fpf (pf)
+//
+in
+  // nothing
+end (* end of [fprint_dynarray] *)
 
 (* ****** ****** *)
 

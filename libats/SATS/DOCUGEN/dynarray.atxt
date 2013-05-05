@@ -1,0 +1,207 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../dynarray.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_dynarray")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/dynarray\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+
+This package implements dynamic arrays. In contrast to an array of fixed
+size, a dynamic array can grow its capacity at run-time when there is no
+cell available for adding a new element.
+
+')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("dynarray")
+#declnamesynop("dynarray_vtype")
+
+(* ****** ****** *)
+
+#declnamesynop("dynarray_make_nil")
+
+(* ****** ****** *)
+
+#declnamesynop("dynarray_free")
+#declnamesynop("dynarray_getfree_arrayptr")
+
+(* ****** ****** *)
+
+#declnamesynop("dynarray_get_size")
+#declnamesynop("dynarray_get_capacity")
+
+(* ****** ****** *)
+
+#declnamesynop("dynarray_getref_at")
+#decldescrpt('\
+
+Given a dynamic array DA and an index i, this function returns the address
+of cell i in DA if i is valid. Otherwise, it returns the null pointer. ')
+
+(* ****** ****** *)
+
+#declnamesynop("dynarray_get_at_exn")
+#decldescrpt('\
+
+Given a dynamic array DA and an index i, this function returns the content
+of cell i in DA if i is valid. Otherwise, it raises an exception
+(#dyncode("ArraySubscriptExn")). Note that the type of the content is
+non-linear.\
+
+')
+
+#declnamesynop("dynarray_set_at_exn")
+#decldescrpt('\
+
+Given a dynamic array DA, an index i and a value x, this function updates
+the content of cell i in DA with x if i is valid. Otherwise, it raises an
+exception (#dyncode("ArraySubscriptExn")).  Note that the type of the
+content is non-linear.\
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("dynarray_insert_at")
+#decldescrpt('\
+
+Given a dynamic array DA, an index i and a value x, this function inserts x
+into cell i in DA if i is valid, that is, i is less than or equal to the
+current size of DA.  Otherwise, there is no insertion.  If insertion
+happens, then #dyncode("false") is returned. Otherwise, #dyncode("true") is
+returned. If DA is not allowed to reset its capacity, then insertion may
+not happen even if the index i is valid.  The time-complexity of this
+function is O(n), where n is the current size of DA.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("dynarray_insert_at_opt")
+#decldescrpt('\
+
+This function is just an optional variant of #dyncode("dynarray_insert_at").
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("dynarray_insert_atbeg_opt")
+#decldescrpt('\
+
+This function is a special case of #dyncode("dynarray_insert_at_opt") where
+the index i equals 0.\
+
+')
+
+
+#declnamesynop("dynarray_insert_atend_opt")
+#decldescrpt('\
+
+This function is a special case of #dyncode("dynarray_insert_at_opt") where
+the index i equals the current size of the dynamic array.\
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("dynarray_inserts_at")
+#decldescrpt('\
+
+This function is for inserting an array of elements into a given dynamic
+array. If insertion is actually performed, then #dyncode("false") is
+returned.  Otherwise, #dyncode("true") is returned.\
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("dynarray_takeout_at")
+#decldescrpt('\
+
+Given a dynamic array DA, an index i, this function takes out the content
+of cell i in DA if i is valid, that is, it is less than the current size of
+DA. If the content is taken out, then #dyncode("true") is
+returned. Otherwise, #dyncode("false") is returned.  The time-complexity of
+this function is O(n), where n is the current size of DA.\
+
+')
+
+
+(* ****** ****** *)
+
+#declnamesynop("dynarray_takeout_at_opt")
+#decldescrpt('\
+
+This function is just an optional variant of #dyncode("dynarray_takeout_at").
+
+')
+
+#declnamesynop("dynarray_takeout_atbeg_opt")
+#decldescrpt('\
+
+This function is a special case of #dyncode("dynarray_takeout_at_opt") where
+the index i equals 0.\
+
+')
+
+#declnamesynop("dynarray_takeout_atend_opt")
+#decldescrpt('\
+
+This function is a special case of #dyncode("dynarray_takeout_at_opt") where
+the index i equals the current size of DA minus 1.\
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("dynarray_reset_capacity")
+#decldescrpt('\
+
+Given a dynamic array DA and a size m2, this function resets the capacity
+of DA to m2 if m2 is great than or equal to the current size of DA. If the
+capacity is reset, then #dyncode("true") is returned. Otherwise,
+#dyncode("false") is returned.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("dynarray_quicksort")
+#declnamesynop("dynarray_quicksort$cmp")
+#decldescrpt("\
+
+This function is called in the implementation of
+#dyncode("dynarray_quicksort") to perform comparison test on array
+elements, and its default implementation is based on
+#dyncode("gcompare_ref"):
+
+#pats2xhtmld_tryit("\
+implement{a}
+dynarray_quicksort$cmp (x, y) = gcompare_ref<a> (x, y)
+")
+")
+
+(* ****** ****** *)
+
+(* end of [dynarray.atxt] *)

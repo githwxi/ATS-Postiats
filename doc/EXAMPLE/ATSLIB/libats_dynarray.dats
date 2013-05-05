@@ -40,33 +40,43 @@ implement
 dynarray$recapacitize<> () = 0
 *)
 //
-val A = dynarray_make_nil<T> (g1i2u(1))
+val DA = dynarray_make_nil<T> (g1i2u(1))
 //
-val ans0 = dynarray_insert_at_opt (A, 0sz, 0)
+val ans0 = dynarray_insert_at_opt (DA, 0sz, 0)
 val-~None_vt () = ans0
-val () = println! ("A[0] = ", A[0sz])
-val () = println! ("A->sz = ", dynarray_get_size (A))
-val () = println! ("A->cap = ", dynarray_get_capacity (A))
+val () = println! ("DA[0] = ", DA[0sz])
+val () = println! ("DA->sz = ", dynarray_get_size (DA))
+val () = println! ("DA->cap = ", dynarray_get_capacity (DA))
 //
-val ans1 = dynarray_insert_at_opt (A, 1sz, 1)
+val ans1 = dynarray_insert_at_opt (DA, 1sz, 1)
 val-~None_vt () = ans1
-val () = println! ("A[1] = ", A[1sz])
-val () = println! ("A->sz = ", dynarray_get_size (A))
-val () = println! ("A->cap = ", dynarray_get_capacity (A))
+val () = println! ("DA[1] = ", DA[1sz])
+val () = println! ("DA->sz = ", dynarray_get_size (DA))
+val () = println! ("DA->cap = ", dynarray_get_capacity (DA))
 //
-val ans2 = dynarray_insert_at_opt (A, 2sz, 2)
+val ans2 = dynarray_insert_at_opt (DA, 2sz, 2)
 val-~None_vt () = ans2
-val () = println! ("A[2] = ", A[2sz])
-val () = println! ("A->sz = ", dynarray_get_size (A))
-val () = println! ("A->cap = ", dynarray_get_capacity (A))
+val () = println! ("DA[2] = ", DA[2sz])
+val () = println! ("DA->sz = ", dynarray_get_size (DA))
+val () = println! ("DA->cap = ", dynarray_get_capacity (DA))
 //
-val-~Some_vt(x) = dynarray_takeout_atbeg_opt (A)
+val ans3 = dynarray_insert_at_opt (DA, 3sz, 3)
+val-~None_vt () = ans3
+val () = println! ("DA[3] = ", DA[3sz])
+val () = println! ("DA->sz = ", dynarray_get_size (DA))
+val () = println! ("DA->cap = ", dynarray_get_capacity (DA))
+//
+val out = stdout_ref
+val () = fprint_dynarray (out, DA)
+val () = fprint_newline (out)
+//
+val-~Some_vt(x) = dynarray_takeout_atbeg_opt (DA)
 val () = println! ("takeout(beg) = ", x)
-val-~Some_vt(x) = dynarray_takeout_atend_opt (A)
+val-~Some_vt(x) = dynarray_takeout_atend_opt (DA)
 val () = println! ("takeout(end) = ", x)
-val () = println! ("A->sz = ", dynarray_get_size (A))
+val () = println! ("DA->sz = ", dynarray_get_size (DA))
 //
-val () = dynarray_free (A)
+val () = dynarray_free (DA)
 //
 } (* end of [val] *)
 

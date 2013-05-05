@@ -45,10 +45,8 @@ staload _ = "prelude/DATS/list_vt_mergesort.dats"
 staload _ = "prelude/DATS/list_vt_quicksort.dats"
 *)
 //
-(*
 staload _ = "prelude/DATS/option.dats"
 staload _ = "prelude/DATS/option_vt.dats"
-*)
 //
 staload _ = "prelude/DATS/array.dats"
 staload _ = "prelude/DATS/array_bsearch.dats"
