@@ -41,15 +41,37 @@ there is no cell available for adding a new element.
 (* ****** ****** *)
 
 #declnamesynop("dynarray$recapacitize")
+#decldescrpt('\
+
+The value returned by this function determines whether the capacity of a
+dynamic array is allowed to be expanded automatically if needed.
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("dynarray_make_nil")
+#decldescrpt('\
+
+Given a size m, this function returns a dynamic array of capacity m and
+size 0.
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("dynarray_free")
+
+(* ****** ****** *)
+
 #declnamesynop("dynarray_getfree_arrayptr")
+
+#decldescrpt('\
+
+Given a dynamic array DA, this function returns the arrayptr-value inside
+DA and then frees DA.\
+
+')
 
 (* ****** ****** *)
 
@@ -60,7 +82,7 @@ there is no cell available for adding a new element.
 #declnamesynop("dynarray_get_size")
 #decldescrpt('\
 
-This function returns the current size of a given dynamic array.
+This function returns the current size of a given dynamic array.\
 
 ')
 
@@ -70,7 +92,7 @@ This function returns the current size of a given dynamic array.
 
 #decldescrpt('\
 
-This function returns the current capacity of a given dynamic array.
+This function returns the current capacity of a given dynamic array.\
 
 ')
 
@@ -80,7 +102,9 @@ This function returns the current capacity of a given dynamic array.
 #decldescrpt('\
 
 Given a dynamic array DA and an index i, this function returns the address
-of cell i in DA if i is valid. Otherwise, it returns the null pointer. ')
+of cell i in DA if i is valid. Otherwise, it returns the null pointer.\
+
+')
 
 (* ****** ****** *)
 

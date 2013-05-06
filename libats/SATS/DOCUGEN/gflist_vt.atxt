@@ -29,19 +29,55 @@ lists that are assigned the fully indexed list type.
 (* ****** ****** *)
 
 #declnamesynop("gflist_vt_length")
+#decldescrpt("\
+
+This function computes the length of a given list.
+
+")
 
 (* ****** ****** *)
 
 #declnamesynop("gflist_vt_append")
+#decldescrpt("\
+
+Given two lists xs1 and xs2, this function returns a list that is the
+concatenation of xs1 and xs2.  Note that there is no involvement of memory
+allocation/deallocation in the implementation of
+#dyncode("gflist_vt_append").\
+
+")
 
 (* ****** ****** *)
 
 #declnamesynop("gflist_vt_revapp")
+#decldescrpt("\
+
+Given two lists xs1 and xs2, this function returns a list that is the
+concatenation of rxs1 and xs2, where rxs1 is the reverse of xs1.  Note that
+there is no involvement of memory allocation/deallocation in the
+implementation of #dyncode("gflist_vt_revapp").\
+
+")
+
 #declnamesynop("gflist_vt_reverse")
+#decldescrpt("\
+
+This function reverses a given list. It is just a special case of
+#dyncode("gflist_vt_revapp") where the first argument is taken to be empty.
+
+")
 
 (* ****** ****** *)
 
 #declnamesynop("gflist_vt_mergesort")
+#decldescrpt("\
+
+This function applies mergesort to a given list. Note that there is no
+involvement of memory allocation/deallocation in the implementation of
+#dyncode("gflist_vt_mergesort") and the returned list is constructed
+precisely of the nodes in the original given list.\
+
+")
 
 #declnamesynop("gflist_vt_mergesort$cmp")
 #decldescrpt("\
