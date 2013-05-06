@@ -57,9 +57,9 @@ T_AND : 'and'
 T_AS : 'as'
 T_ASSUME : 'assume'
 T_BEGIN : 'begin'
-T_BRKCONT : 'break'
-          , 'continue'
+//
 T_CASE : case, case-, case+, prcase
+//
 T_CLASSDEC : 'classdec'
 T_DATASORT : 'datasort'
 T_DATATYPE : dataprop
@@ -139,6 +139,9 @@ T_DLREXTKIND : $extkind
 T_DLREXTYPE : $extype
 T_DLREXTYPE_STRUCT : $extype_struct
 T_DLREXTVAL : $extval
+//
+T_DLRBREAK : $break
+T_DLRCONTINUE : $continue
 T_DLRRAISE : $raise
 //
 T_DLRLST : $lst, $lst_t, $lst_vt

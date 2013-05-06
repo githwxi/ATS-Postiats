@@ -106,10 +106,7 @@ token_node =
   | T_AS of () // as // for refas-pattern
   | T_ASSUME of () // assume // for implementing abstypes
   | T_BEGIN of () // begin // opening a sequence
-  | T_BRKCONT of
-      (int) // break and continue
-  | T_CASE of
-      (caskind) // case, case-, case+, prcase
+  | T_CASE of (caskind) // case, case-, case+, prcase
   | T_CLASSDEC of () // classdec
   | T_DATASORT of () // datasort
   | T_DATATYPE of int // datatype, dataprop, dataview, dataviewtype
@@ -193,6 +190,8 @@ token_node =
   | T_DLREXTVAL of () // externally named value
   | T_DLREXTFCALL of () // externally named fcall
 //
+  | T_DLRBREAK of () // $break
+  | T_DLRCONTINUE of () // $continue
   | T_DLRRAISE of () // $raise // raising exceptions
 //
   | T_DLRLST of int // $lst and $lst_t and $lst_vt
@@ -298,9 +297,6 @@ val ABSVIEWT0YPE : tnode
 
 val ADDR : tnode
 val ADDRAT : tnode
-
-val BREAK : tnode
-val CONTINUE : tnode
 
 val CASE : tnode
 val CASE_pos : tnode

@@ -728,10 +728,6 @@ case+ tok.token_node of
     val () = incby1 () in d0exp_sel_int (tok)
   end // end of [T_DOTINT]
 //
-| T_BRKCONT (knd) => let
-    val () = incby1 () in d0exp_loopexn (tok)
-  end // end of [T_BRKCONT]
-//
 | T_ADDRAT () => let
     val () = incby1 () in d0exp_ptrof (tok)
   end
@@ -1193,6 +1189,13 @@ case+ tok.token_node of
   in
     loop (ent1, ent2)
   end
+//
+| T_DLRBREAK () => let
+    val () = incby1 () in d0exp_loopexn (0(*knd*), tok)
+  end // end of [T_DLRBREAK]
+| T_DLRCONTINUE () => let
+    val () = incby1 () in d0exp_loopexn (1(*knd*), tok)
+  end // end of [T_DLRCONTINUE]
 //
 | T_DLRRAISE () => let
     val bt = 0

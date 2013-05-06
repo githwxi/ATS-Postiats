@@ -106,12 +106,17 @@ that the proof attests to ys being the reverse of xs. ")
 
 (* ****** ****** *)
 
-#declnamesynop("gflist_mergesort$cmp")
 #declnamesynop("gflist_mergesort")
 #decldescrpt("\
 
 Given a list xs, this function returns a proof and another list ys such
 that the proof attests to ys being an ordered permutation of ys. ")
+
+#declnamesynop("gflist_mergesort$cmp")
+#decldescrpt("\
+
+This function is employed by #dyncode("gflist_mergesort") for comparing
+elements in a given list during sorting. ")
 
 (* ****** ****** *)
 

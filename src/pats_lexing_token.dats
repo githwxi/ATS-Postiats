@@ -58,9 +58,6 @@ implement ABSVIEW = T_ABSTYPE (VIEW_int)
 implement ABSVIEWTYPE = T_ABSTYPE (VIEWTYPE_int)
 implement ABSVIEWT0YPE = T_ABSTYPE (VIEWT0YPE_int)
 
-implement BREAK = T_BRKCONT (0)
-implement CONTINUE = T_BRKCONT (1)
-
 implement CASE = T_CASE (CK_case)
 implement CASE_pos = T_CASE (CK_case_pos)
 implement CASE_neg = T_CASE (CK_case_neg)
@@ -356,9 +353,6 @@ val () = ins ("as", T_AS)
 val () = ins ("assume", T_ASSUME)
 val () = ins ("begin", T_BEGIN)
 //
-val () = ins ("break", BREAK)
-val () = ins ("continue", CONTINUE)
-//
 (*
 val () = ins ("case", CASE)
 *)
@@ -525,6 +519,8 @@ val () = ins ("$tuple", DLRTUP)
 val () = ins ("$tuple_t", DLRTUP_T)
 val () = ins ("$tuple_vt", DLRTUP_VT)
 //
+val () = ins ("$break", T_DLRBREAK)
+val () = ins ("$continue", T_DLRCONTINUE)
 val () = ins ("$raise", T_DLRRAISE)
 //
 val () = ins ("$showtype", T_DLRSHOWTYPE)
@@ -553,8 +549,8 @@ val () = ins ("#undef", T_SRPUNDEF)
 //
 val rtbl = HASHTBLref_make_ptr {key,itm} (ptbl)
 //
-in // in of [local]
-
+in (* in of [local] *)
+//
 implement
 tnode_search (x) = let
   val (fptbl | ptbl) = HASHTBLref_takeout_ptr (rtbl)
@@ -568,7 +564,7 @@ in
     prval () = opt_unnone {itm} (res) in T_NONE ()
   end // end of [if]
 end // end of [tnode_search]
-
+//
 end // end of [local]
 
 (* ****** ****** *)

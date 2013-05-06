@@ -97,7 +97,7 @@ val (
   val isemp = strptr_is_empty (str)
   val () = if ~isemp then fputs_exn ($UN.strptr2string(str), wfp)
   val () = strptr_free (str)
-  val () = if isemp then break
+  val () = if isemp then $break
 }
 val status = pclose0_exn (wfp)
 val status = pclose0_exn (rfp)

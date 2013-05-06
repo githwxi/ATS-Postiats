@@ -127,8 +127,8 @@ prval () = fpf (str)
 //
 } (* end of [if] *)
 //
-val ((*void*)) = direntp_free (entp)
-val () = if ~isnot then break
+val () = direntp_free (entp)
+val () = if ~isnot then $break
 } (* end of [val] *)
 //
 val () = closedir_exn (dirp)

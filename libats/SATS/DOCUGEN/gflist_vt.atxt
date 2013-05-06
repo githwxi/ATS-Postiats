@@ -41,8 +41,13 @@ lists that are assigned the fully indexed list type.
 
 (* ****** ****** *)
 
-#declnamesynop("gflist_vt_mergesort$cmp")
 #declnamesynop("gflist_vt_mergesort")
+
+#declnamesynop("gflist_vt_mergesort$cmp")
+#decldescrpt("\
+
+This function is employed by #dyncode("gflist_vt_mergesort") for comparing
+elements in a given list during sorting. ")
 
 (* ****** ****** *)
 

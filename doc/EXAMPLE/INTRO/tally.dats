@@ -46,7 +46,7 @@ var res: ullint = 0ull
 //
 val () =
   while (true) (
-  if i > n then break; res :=+ g0i2u(i); i :=+ 1
+  if i > n then $break; res :=+ g0i2u(i); i :=+ 1
 ) // end of [val] 
 //
 in

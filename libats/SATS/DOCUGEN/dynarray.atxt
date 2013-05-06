@@ -23,9 +23,11 @@ ATSLIB/libats/dynarray\
 
 #para('\
 
-This package implements dynamic arrays. In contrast to an array of fixed
-size, a dynamic array can grow its capacity at run-time when there is no
-cell available for adding a new element.
+This package implements dynamic arrays.  Given a dynamic array DA, its size
+is the current number of elements stored in DA, and its capacity is the
+number of cells (either occupied or unoccupied) in DA.  In contrast to an
+array of fixed size, a dynamic array can grow its capacity at run-time when
+there is no cell available for adding a new element.
 
 ')
 
@@ -38,6 +40,10 @@ cell available for adding a new element.
 
 (* ****** ****** *)
 
+#declnamesynop("dynarray$recapacitize")
+
+(* ****** ****** *)
+
 #declnamesynop("dynarray_make_nil")
 
 (* ****** ****** *)
@@ -47,8 +53,26 @@ cell available for adding a new element.
 
 (* ****** ****** *)
 
+#declnamesynop("dynarray_get_array")
+
+(* ****** ****** *)
+
 #declnamesynop("dynarray_get_size")
+#decldescrpt('\
+
+This function returns the current size of a given dynamic array.
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("dynarray_get_capacity")
+
+#decldescrpt('\
+
+This function returns the current capacity of a given dynamic array.
+
+')
 
 (* ****** ****** *)
 

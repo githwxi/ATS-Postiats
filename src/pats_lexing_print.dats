@@ -85,7 +85,6 @@ fprint_token
   | T_AS () => fprintf (out, "AS()", @())
   | T_ASSUME () => fprintf (out, "ASSUME()", @())
   | T_BEGIN () => fprintf (out, "BEGIN()", @())
-  | T_BRKCONT (x) => fprintf (out, "BRKCONT(%i)", @(x))
   | T_CASE (x) => fprintf (out, "CASE(...)", @())
   | T_CLASSDEC () => fprintf (out, "CLASSDEC()", @())
   | T_DATASORT () => fprintf (out, "DATASORT()", @())
@@ -161,7 +160,10 @@ fprint_token
   | T_DLREXTVAL () => fprintf (out, "DLREXTVAL()", @())
   | T_DLREXTFCALL () => fprintf (out, "DLREXTFCALL()", @())
 //
+  | T_DLRBREAK () => fprintf (out, "DLRBREAK()", @())
+  | T_DLRCONTINUE () => fprintf (out, "DLRCONTINUE()", @())
   | T_DLRRAISE () => fprintf (out, "DLRRAISE()", @())
+//
   | T_DLRLST (x) => fprintf (out, "DLRLST(%i)", @(x))
   | T_DLRREC (x) => fprintf (out, "DLRREC(%i)", @(x))
   | T_DLRTUP (x) => fprintf (out, "DLRTUP(%i)", @(x))

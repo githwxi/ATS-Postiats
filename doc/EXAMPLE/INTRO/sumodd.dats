@@ -24,7 +24,7 @@ val () = for
   i := 1; i <= n; i :=+ 1
 )
 (
-  if i mod 2 = 0 then continue else res :=+ i
+  if i mod 2 = 0 then $continue else res :=+ i
 )
 in
   res

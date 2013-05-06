@@ -1387,6 +1387,7 @@ and d0exp_node =
   | D0Ewhile of (
       loopi0nvopt, location(*inv*), d0exp(*test*), d0exp(*body*)
     ) // end of [D0Ewhile]
+//
   | D0Eloopexn of int(*break/continue: 0/1*)
 //
   | D0Etrywith of (tryhead, d0exp, c0laulst) (* try-expression *)
@@ -1771,7 +1772,11 @@ fun d0exp_whilehead
   (hd: loophead, test: d0exp, body: d0exp): d0exp
 // end of [d0exp_whilehead]
 
-fun d0exp_loopexn (tok: token): d0exp // brk/cnt: 0/1
+(* ****** ****** *)
+
+fun d0exp_loopexn
+  (knd: int, tok: token): d0exp // knd=0/1: brk/cont
+// end of [d0exp_loopexn]
 
 (* ****** ****** *)
 

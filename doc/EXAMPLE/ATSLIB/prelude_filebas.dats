@@ -24,7 +24,7 @@ val ( ) = while (true)
   val () =
     if ~iseof then println! (str)
   val () = strptr_free (str)
-  val () = if iseof then break
+  val () = if iseof then $break
 }
 val ( ) = fileref_close (inp)
 } (* end of [val] *)

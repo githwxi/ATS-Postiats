@@ -2144,11 +2144,10 @@ in '{
 (* ****** ****** *)
 
 implement
-d0exp_loopexn (tok) = let
-  val-T_BRKCONT (knd) = tok.token_node
-in '{
+d0exp_loopexn
+  (knd, tok) = '{
   d0exp_loc= tok.token_loc, d0exp_node= D0Eloopexn (knd)
-} end // end of [d0exp_loopexn]
+} // end of [d0exp_loopexn]
 
 (* ****** ****** *)
 
