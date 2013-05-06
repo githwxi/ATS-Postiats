@@ -61,6 +61,8 @@ TYPES =
 typedef off_t = $TYPES.off_t
 //
 typedef pid_t = $TYPES.pid_t
+typedef uid_t = $TYPES.uid_t
+typedef gid_t = $TYPES.gid_t
 //
 stadef fildes_v = $TYPES.fildes_v
 //
@@ -199,6 +201,37 @@ pid_t getppid(void);
 */
 fun getpid ((*void*)): pid_t = "mac#%"
 fun getppid ((*void*)): pid_t = "mac#%"
+//
+(* ****** ****** *)
+
+fun getuid (): uid_t = "mac#%"
+fun setuid (uid: uid_t): int = "mac#%"
+fun geteuid (): uid_t = "mac#%"
+fun seteuid (uid: uid_t): int = "mac#%"
+
+(* ****** ****** *)
+
+fun getgid (): gid_t = "mac#%"
+fun setgid (gid: gid_t): int = "mac#%"
+fun getegid (): gid_t = "mac#%"
+fun setegid (gid: gid_t): int = "mac#%"
+        
+(* ****** ****** *)
+
+fun setreuid (ruid: uid_t, euid: uid_t): int = "mac#%"
+fun setregid (rgid: gid_t, egid: gid_t): int = "mac#%"
+
+(* ****** ****** *)
+
+fun setresuid (ruid: uid_t, euid: uid_t, suid: uid_t): int = "mac#%"
+fun setresgid (rgid: gid_t, egid: gid_t, sgid: gid_t): int = "mac#%"
+          
+(* ****** ****** *)
+//
+// HX: these are linux-specific!
+//
+fun setfsuid(fsuid: uid_t): int = "mac#%"
+fun setfsgid(fsgid: gid_t): int = "mac#%"
 //
 (* ****** ****** *)
 

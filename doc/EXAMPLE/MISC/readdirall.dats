@@ -78,10 +78,15 @@ end // end of [readdirall]
 (* ****** ****** *)
 
 implement
-main0 () =
+main0 (argc, argv) =
 {
 //
-val dirp = opendir_exn (".")
+val dname =
+(
+  if argc >= 2 then argv[1] else "."
+) : string // end of [val]
+//
+val dirp = opendir_exn (dname)
 //
 val DA = readdirall (dirp)
 //

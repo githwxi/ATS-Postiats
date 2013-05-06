@@ -72,6 +72,37 @@ do { \\
 
 #atscode_separator_for_C()
 
+\#define atslib_getpid getpid
+\#define atslib_getppid getppid
+
+#atscode_separator_for_C()
+
+\#define atslib_getuid getuid
+\#define atslib_setuid setuid
+\#define atslib_geteuid geteuid
+\#define atslib_seteuid seteuid
+
+#atscode_separator_for_C()
+
+\#define atslib_getgid getgid
+\#define atslib_setgid setgid
+\#define atslib_getegid getegid
+\#define atslib_setegid setegid
+
+#atscode_separator_for_C()
+
+\#define atslib_setreuid setreuid
+\#define atslib_setregid setregid
+\#define atslib_setresuid setresuid
+\#define atslib_setresgid setresgid
+
+#atscode_separator_for_C()
+
+\#define atslib_setfsuid setfsuid
+\#define atslib_setfsgid setfsgid
+
+#atscode_separator_for_C()
+
 \#define atslib_pause pause
 
 #atscode_separator_for_C()

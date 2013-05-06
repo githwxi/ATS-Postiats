@@ -1005,8 +1005,10 @@ the type #dyncode("(int) -> int"), sums up all the integers between 1 and a
 given natural number:
 
 #atscode("\
-fun sum (n: int): int = let
-  fun loop (
+fun sum
+  (n: int): int = let
+  fun loop
+  (
     i: int, res: int
   ) :<cloref1> int =
     if i <= n then loop (i+1, res+i) else res
@@ -1036,8 +1038,10 @@ itself. It is straightforward to make #dyncode("loop") an envless function
 by including #dyncode("n") as an argument in addition to the original ones:
 
 #atscode("\
-fun sum (n: int): int = let
-  fun loop (
+fun sum
+  (n: int): int = let
+  fun loop
+  (
     n:int, i: int, res: int
   ) : int =
     if i <= n then loop (n, i+1, res+i) else res
@@ -1049,8 +1053,9 @@ end // end of [sum]
 
 As a matter of fact, what happens during compilation is that the first
 implementation of #dyncode("sum") and #dyncode("loop") gets translated,
-more or less, into the second implementation, and there is no actual
-creation of closures (for representing closure functions) at run-time.\
+more or less, into the second implementation, and there is #emphasis("no")
+actual creation of closures (for representing closure functions) at
+run-time.\
 
 ")#comment("para")
 

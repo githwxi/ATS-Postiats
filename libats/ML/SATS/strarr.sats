@@ -87,9 +87,12 @@ fun strarr_make_string (str: string):<!wrt> strarr
 overload strarr with strarr_make_string
 
 (* ****** ****** *)
-
+//
+// HX-2013:
+// naming convention: xxx_imake_yyy -> yyy_make_xxx
+//
 fun strarr_imake_string (str: strarr):<!wrt> string
-
+//
 (* ****** ****** *)
 //
 symintr strarr_get_at
