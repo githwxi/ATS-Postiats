@@ -33,6 +33,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+\#include <errno.h>
 \#include <string.h>
 
 #atscode_separator_for_C()
@@ -101,6 +102,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator_for_C()
 
 \#define atslib_strerror strerror
+\#define atslib_strerror_r strerror_r
 
 #atscode_separator_for_C()
 

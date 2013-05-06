@@ -183,8 +183,20 @@ fun mempcpy_unsafe {l:agz}{n:int}
 // HX: This one is non-reentrant:
 //
 fun strerror
-  (errno: int):<!ref> [l:agz] vttakeout0 (strptr l) = "mac#%"
+  (errnum: int):<!ref> [l:agz] vttakeout0 (strptr l) = "mac#%"
 // end of [strerror]
+
+(* ****** ****** *)
+/*
+int strerror_r(int errnum, char *buf, size_t buflen);
+*/
+fun strerror_r{n:int}
+  (errnum: int, buf: &bytes(n), n: size_t (n)):<> int = "mac#%"
+// end of [strerror_r]
+
+(* ****** ****** *)
+
+fun strerror_r_gc (errnum: int):<> Strptr1 = "ext#%"
 
 (* ****** ****** *)
 

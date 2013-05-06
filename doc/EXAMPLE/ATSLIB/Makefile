@@ -244,7 +244,7 @@ cleanall:: ; $(RMF) libc_stdlib.exe
 
 all:: libc_string
 libc_string: libc_string.exe
-libc_string.exe: libc_string_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libc_string.exe: libc_string_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
 libc_string_dats.c: libc_string.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_string_dats.c --dynamic libc_string.dats
 clean:: ; $(RMF) libc_string_dats.o
 clean:: ; $(RMF) libc_string_dats.c

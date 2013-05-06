@@ -68,8 +68,7 @@ val () =
 //
 val out = stdout_ref
 val uid = getlogin_r_gc ()
-val () = fprint_strptr (out, uid)
-val () = fprint_newline (out)
+val () = fprintln! (out, "userid = ", uid)
 val () = strptr_free (uid)
 //
 } // end of [val]

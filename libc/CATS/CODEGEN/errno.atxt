@@ -37,8 +37,13 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+\#define ENONE 0
+
+#atscode_separator_for_C()
+
 \#define atslib_the_errno_get() (errno)
 \#define atslib_the_errno_set(eno) (errno = eno)
+\#define atslib_the_errno_reset() (errno = ENONE)
 
 #atscode_separator_for_C()
 
