@@ -72,6 +72,11 @@ do { \\
 
 #atscode_separator_for_C()
 
+\#define atslib_getlogin getlogin
+\#define atslib_getlogin_r getlogin_r
+
+#atscode_separator_for_C()
+
 \#define atslib_getpid getpid
 \#define atslib_getppid getppid
 

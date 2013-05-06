@@ -78,7 +78,12 @@ atspre_fprint_strptr
   atstype_ref out, atstype_strptr x
 ) {
   int err = 0 ;
-  err += fprintf((FILE*)out, "%s", (char*)x) ; return ;
+  if (x != 0) {
+    err += fprintf((FILE*)out, "%s", (char*)x) ;
+  } else {
+    err += fprintf((FILE*)out, "%s", "(null)") ;
+  } // end of [if]
+  return ;
 } // end of [atspre_fprint_strptr]
 \#define atspre_print_strptr(x) atspre_fprint_strptr(stdout, (x))
 \#define atspre_prerr_strptr(x) atspre_fprint_strptr(stderr, (x))

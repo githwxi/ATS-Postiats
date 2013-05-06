@@ -66,6 +66,19 @@ val () = strptr_free (cwd)
 val () =
 {
 //
+val out = stdout_ref
+val uid = getlogin_r_gc ()
+val () = fprint_strptr (out, uid)
+val () = fprint_newline (out)
+val () = strptr_free (uid)
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () =
+{
+//
 val left = sleep (1)
 val () = println! ("left = ", left)
 val left = sleep (1U)

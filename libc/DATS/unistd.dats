@@ -83,20 +83,49 @@ atstype_strptr
 atslib_getcwd_gc (
 ) {
   char *p_cwd ;
+  int bsz ;
+  int myeno ;
+  char *p2_cwd ;
 //
 // HX: [64] is chosen nearly randomly
 //
-  int bsz = 64 ;
-  char *p2_cwd ;
+  bsz = 64 ;
   p_cwd = (char*)0 ;
   while (1) {
     p_cwd = atspre_malloc_gc(bsz) ;
-    p2_cwd = atslib_getcwd(p_cwd, bsz) ;
+    p2_cwd = atslib_getcwd(p_cwd, bsz) ; myeno = errno ;
     if (p2_cwd != 0) return p_cwd ; else atspre_mfree_gc(p_cwd) ;
+    if (myeno != ERANGE) break ;
     bsz = 2 * bsz ;
   }
-  return (char*)0 ; // HX: deadcode
+  return (char*)0 ;
 } // end of [atslib_getcwd_gc]
+%}
+
+(* ****** ****** *)
+
+%{
+extern
+atstype_strptr
+atslib_getlogin_r_gc (
+) {
+  char *p_uid ;
+  int bsz ;
+  int err, myeno ;
+//
+// HX: [16] is chosen nearly randomly
+//
+  bsz = 16 ;
+  p_uid = (char*)0 ;
+  while (1) {
+    p_uid = atspre_malloc_gc(bsz) ;
+    err = atslib_getlogin_r(p_uid, bsz) ; myeno = errno ;
+    if (err==0) return p_uid ; else atspre_mfree_gc(p_uid) ;
+    if (myeno != ERANGE) break ;
+    bsz = 2 * bsz ;
+  }
+  return (char*)0 ;
+} // end of [atslib_getlogin_r_gc]
 %}
 
 (* ****** ****** *)
@@ -163,9 +192,15 @@ atslib_readlink_gc
   int bsz = 64 ;
   ssize_t bsz2 ;
   bfp = (char*)0 ;
+
+  fprintf (stderr, "atslib_readlink_gc: bsz = %i\n", bsz) ;
+
   while (1) {
     bfp = atspre_malloc_gc(bsz) ;
     bsz2 = atslib_readlink(path, bfp, bsz) ;
+//
+    fprintf (stderr, "atslib_readlink_gc: bsz2 = %li\n", bsz2) ;
+//
     if (bsz2 < 0) {
       atspre_mfree_gc(bfp) ; break ;
     }

@@ -192,7 +192,7 @@ fun getcwd
   pf: !b0ytes (m) @ l >> getcwd_v (m, l, l1) | p: ptr l, m: size_t m
 ) : #[l1:addr] ptr (l1) = "mac#%" // end of [getcwd]
 
-fun getcwd_gc (): Strptr1 = "ext#%" // HX: this is a convenient function
+fun getcwd_gc (): Strptr0 = "ext#%" // HX: this is a convenient function
 
 (* ****** ****** *)
 /*
@@ -233,6 +233,13 @@ fun setresgid (rgid: gid_t, egid: gid_t, sgid: gid_t): int = "mac#%"
 fun setfsuid(fsuid: uid_t): int = "mac#%"
 fun setfsgid(fsgid: gid_t): int = "mac#%"
 //
+(* ****** ****** *)
+
+fun getlogin (): vStrptr0 = "mac#%"
+fun getlogin_r{n:int | n >= 2}
+  (buf: &bytes(n), n: size_t n): int = "mac#%"
+fun getlogin_r_gc (): Strptr0 = "ext#%"
+
 (* ****** ****** *)
 
 fun pause (): int = "mac#%" // the return value is -1 if the call returns
