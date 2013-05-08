@@ -67,19 +67,14 @@
 
 #define ATSdyncst_mac(d2c)
 #define ATSdyncst_castfn(d2c)
-#define ATSdyncst_extfun(d2c, args, res) ATSextfun() res d2c args
-#define ATSdyncst_stafun(d2c, args, res) ATSstafun() res d2c args
+#define ATSdyncst_extfun(d2c, targs, tres) ATSextfun() tres d2c targs
+#define ATSdyncst_stafun(d2c, targs, tres) ATSstafun() tres d2c targs
 
 /* ****** ****** */
 
 #define ATSdynload0(flag) int flag = 0
 #define ATSdynload1(flag) extern int flag
 #define ATSdynloadset(flag) flag = 1
-
-/* ****** ****** */
-
-#define ATStysum() struct{ int contag; }
-#define ATStylist(tyelt) struct{ tyelt head; void *tail; }
 
 /* ****** ****** */
 

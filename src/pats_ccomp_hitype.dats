@@ -804,6 +804,8 @@ case+ hit of
 //
 end // end of [emit_hisexp]
 
+(* ****** ****** *)
+
 implement
 emit_hisexplst_sep
   (out, hses, sep) = let

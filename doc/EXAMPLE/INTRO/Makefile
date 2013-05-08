@@ -73,6 +73,14 @@ clean:: ; $(RMF) bintree_dats.o
 clean:: ; $(RMF) bintree_dats.c
 cleanall:: ; $(RMF) bintree.exe
 
+all:: clofun
+clofun: clofun.exe
+clofun.exe: clofun_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+clofun_dats.c: clofun.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output clofun_dats.c --dynamic clofun.dats
+clean:: ; $(RMF) clofun_dats.o
+clean:: ; $(RMF) clofun_dats.c
+cleanall:: ; $(RMF) clofun.exe
+
 all:: extfcall
 extfcall: extfcall.exe
 extfcall.exe: extfcall_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

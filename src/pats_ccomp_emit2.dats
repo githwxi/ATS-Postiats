@@ -80,7 +80,7 @@ end // end of [funval_isbot]
 fun aux_funval
 (
   out: FILEref
-, pmv_fun: primval, hse_fun: hisexp
+, pmv_fun: primval, hse_fun: hisexp, isclo: &bool
 ) : void = let
 in
 //
@@ -95,7 +95,7 @@ case+ pmv_fun.primval_node of
 //
 | PMVtmpltcstmat _ => emit_primval (out, pmv_fun)
 //
-| _(*funval*) => aux_funval2 (out, pmv_fun, hse_fun)
+| _(*funval*) => aux_funval2 (out, pmv_fun, hse_fun, isclo)
 //
 (*
 | _ => let
@@ -113,7 +113,7 @@ end // end of [aux_funval]
 and aux_funval2
 (
   out: FILEref
-, pmv_fun: primval, hse_fun: hisexp
+, pmv_fun: primval, hse_fun: hisexp, isclo: &bool
 ) : void = let
 //
 val-HSEfun
@@ -122,17 +122,31 @@ val-HSEfun
 ) = hse_fun.hisexp_node
 //
 val () = emit_text (out, "ATSfunclo")
+//
 val () =
 (
 case+ fc of
-| FUNCLOfun _ => emit_text (out, "_fun")
-| FUNCLOclo _ => emit_text (out, "_clo")
+| FUNCLOfun _ => () | FUNCLOclo _ => isclo := true
 ) : void // end of [val]
+val () =
+(
+if isclo
+  then emit_text (out, "_clo") else emit_text (out, "_fun")
+// end of [if]
+) : void // end of [val]
+//
 val () = emit_lparen (out)
 val () = emit_primval (out, pmv_fun)
 val () = emit_text (out, ", ")
 val () = emit_lparen (out)
+//
+val hses_arg =
+(
+if isclo
+  then list_cons (hisexp_cloptr, hses_arg) else hses_arg
+) : hisexplst // end of [val]
 val () = emit_hisexplst_sep (out, hses_arg, ", ")
+//
 val () = emit_rparen (out)
 val () = emit_text (out, ", ")
 val () = emit_hisexp (out, hse_res)
@@ -237,11 +251,22 @@ val () =
 val () = emit_text (out, "(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
-val () = aux_funval (out, pmv_fun, hse_fun)
+//
+var
+isclo: bool = false
+val () = aux_funval (out, pmv_fun, hse_fun, isclo)
+//
+val pmvs_arg =
+(
+if isclo
+  then list_cons (pmv_fun, pmvs_arg) else pmvs_arg
+) : primvalist // end of [val]
+//
 val () = emit_lparen (out)
-val nenv = aux_funenv (out, pmv_fun)
-val () = emit_fparamlst (out, nenv, pmvs_arg)
+val ln = aux_funenv (out, pmv_fun)
+val () = emit_fparamlst (out, ln, pmvs_arg)
 val () = emit_rparen (out)
+//
 val () = emit_text (out, ") ;")
 //
 in

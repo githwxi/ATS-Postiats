@@ -49,6 +49,7 @@
 
 #define ATStysum() struct{ int contag; }
 #define ATStylist(tyelt) struct{ tyelt head; void *tail; }
+#define ATStyclo() struct{ void *fclo; }
 
 /* ****** ****** */
 
@@ -119,7 +120,9 @@
 //
 /* ****** ****** */
 
-#define ATSfunclo_fun(pmv, args, res) ((res(*)args)(pmv))
+#define ATSfcall(fun, args) (fun)args
+#define ATSfunclo_fun(pmv, targs, tres) ((tres(*)targs)(pmv))
+#define ATSfunclo_clo(pmv, targs, tres) ((tres(*)targs)(((ATStyclo()*)pmv)->fclo))
 
 /* ****** ****** */
 

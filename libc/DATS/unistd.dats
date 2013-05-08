@@ -67,11 +67,15 @@ atslib_dup2_fildes
   atstype_int fd, atstype_int fd2
 ) {
   int flags ;
+//
   flags = fcntl(fd, F_GETFD) ;
+//
   if (flags >= 0) {
     errno = EINVAL ; return -1 ; // [fd2] in use
   } /* end of [if] */
+//
   return atslib_dup2(fd, fd2) ;
+//
 } /* end of [atslib_dup2_fildes] */
 %}
 
@@ -91,15 +95,19 @@ atslib_getcwd_gc (
 //
   bsz = 64 ;
   p_cwd = (char*)0 ;
-  while (1) {
+//
+  while (1)
+  {
     p_cwd = atspre_malloc_gc(bsz) ;
     p2_cwd = atslib_getcwd(p_cwd, bsz) ; myeno = errno ;
     if (p2_cwd != 0) return p_cwd ; else atspre_mfree_gc(p_cwd) ;
     if (myeno != ERANGE) break ;
     bsz = 2 * bsz ;
   }
+//
   return (char*)0 ;
-} // end of [atslib_getcwd_gc]
+//
+} /* end of [atslib_getcwd_gc] */
 %}
 
 (* ****** ****** *)
@@ -117,15 +125,19 @@ atslib_getlogin_r_gc (
 //
   bsz = 16 ;
   p_uid = (char*)0 ;
-  while (1) {
+//
+  while (1)
+  {
     p_uid = atspre_malloc_gc(bsz) ;
     err = atslib_getlogin_r(p_uid, bsz) ; myeno = errno ;
     if (err==0) return p_uid ; else atspre_mfree_gc(p_uid) ;
     if (myeno != ERANGE) break ;
     bsz = 2 * bsz ;
   }
+//
   return (char*)0 ;
-} // end of [atslib_getlogin_r_gc]
+//
+} /* end of [atslib_getlogin_r_gc] */
 %}
 
 (* ****** ****** *)
@@ -192,15 +204,14 @@ atslib_readlink_gc
   int bsz = 64 ;
   ssize_t bsz2 ;
   bfp = (char*)0 ;
-
-  fprintf (stderr, "atslib_readlink_gc: bsz = %i\n", bsz) ;
-
-  while (1) {
+//
+  while (1)
+  {
     bfp = atspre_malloc_gc(bsz) ;
     bsz2 = atslib_readlink(path, bfp, bsz) ;
-//
-    fprintf (stderr, "atslib_readlink_gc: bsz2 = %li\n", bsz2) ;
-//
+/*
+    fprintf(stderr, "atslib_readlink_gc: bsz2 = %li\n", bsz2) ;
+*/
     if (bsz2 < 0) {
       atspre_mfree_gc(bfp) ; break ;
     }
@@ -209,8 +220,10 @@ atslib_readlink_gc
     }
     atspre_mfree_gc(bfp) ; bsz *= 2 ;
   }
+//
   return (char*)0 ; // HX: deadcode
-} // end of [atslib_readlink_gc]
+//
+} /* end of [atslib_readlink_gc] */
 %}
 
 (* ****** ****** *)
