@@ -37,6 +37,8 @@ staload _ = "libats/DATS/dynarray.dats"
 extern
 fun{}
 readdirall$pred (x: !Direntp1): bool
+implement
+readdirall$pred<> (x) = true
 
 (* ****** ****** *)
 
@@ -49,6 +51,17 @@ readdirall (dirp: !DIRptr1): dynarray (Direntp1)
 implement{}
 readdirall (dirp) = let
 //
+implement
+readdirall$pred<> (x) = let
+  val (
+    fpf | str
+  ) = direntp_get_d_name (x)
+  val ans = (str != "." && str != "..")
+  prval () = fpf (str)
+in
+  ans
+end // end of [readdirall]
+//
 vtypedef elt = Direntp1
 vtypedef res = dynarray (elt)
 //
@@ -60,7 +73,16 @@ fun loop
 in
 //
 if direntp2ptr(entp) > 0 then let
-  val-~None_vt () = dynarray_insert_atend_opt (DA, entp)
+  val ans = readdirall$pred (entp)
+  val () =
+  (
+    if ans then
+    {
+      val-~None_vt () = dynarray_insert_atend_opt (DA, entp)
+    } else
+      direntp_free (entp)
+    // end of [if]
+  ) : void (* end of [val] *) 
 in
   loop (dirp, DA)
 end else let
