@@ -352,14 +352,19 @@ fixed range) and floating point numbers (of double precision),
 respectively.\
 ")
 
-#para("\ In the current implementation of ATS (Postiats), a program in ATS
+#para("\
+
+In the current implementation of ATS (Postiats), a program in ATS
 is first compiled into one in C (conforming to the C99 standard), which can
 then be compiled to object code by a compiler for C such as gcc. In the
 compilation from ATS to C, the type #dyncode("int") in ATS is translated to
 the type of the same name in C. Similarly, the type #dyncode("double") in
-ATS is translated to the type of the same name in C.\ ")
+ATS is translated to the type of the same name in C.\
+
+")
 
 #para("\
+
 There are many other primitive types in ATS, and I will introduce
 them gradually.  Some commonly used primitive types are listed as follows:
 
