@@ -345,21 +345,27 @@ another part of the soundness of the type system of ATS.\
 #title("Primitive Types")
 
 #para("\
-The simplest types in ATS are primitive types, which are used to
-classify primitive values. For instance, we have the primitive types
-#dyncode("int") and #dyncode("double"), which classify integers (in a
-fixed range) and floating point numbers (of double precision),
-respectively.\
+
+The simplest types in ATS are primitive types, which are used to classify
+primitive values. For instance, we have the primitive types #dyncode("int")
+and #dyncode("double"), which classify integers (in a fixed range) and
+floating point numbers (of double precision), respectively.\
+
 ")
 
-#para("\ In the current implementation of ATS (Postiats), a program in ATS
-is first compiled into one in C (conforming to the C99 standard), which can
-then be compiled to object code by a compiler for C such as gcc. In the
-compilation from ATS to C, the type #dyncode("int") in ATS is translated to
-the type of the same name in C. Similarly, the type #dyncode("double") in
-ATS is translated to the type of the same name in C.\ ")
+#para("\
+
+In the current implementation of ATS (Postiats), a program in ATS is first
+compiled into one in C (conforming to the C99 standard), which can then be
+compiled to object code by a compiler for C such as gcc. In the compilation
+from ATS to C, the type #dyncode("int") in ATS is translated to the type of
+the same name in C. Similarly, the type #dyncode("double") in ATS is
+translated to the type of the same name in C.\
+
+")
 
 #para("\
+
 There are many other primitive types in ATS, and I will introduce
 them gradually.  Some commonly used primitive types are listed as follows:
 

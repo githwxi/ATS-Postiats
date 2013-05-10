@@ -1077,7 +1077,7 @@ val plus2 = addx (2) // [plus2] is of the type int -<cloref1> int
 
 It should be clear that #dyncode("plus1(0)") and #dyncode("plus2(0)")
 return #dyncode("1") and #dyncode("2"), respectively.  The closure that is
-assigned the name #dyncode("plus1") consists of an envless function and an
+given the name #dyncode("plus1") consists of an envless function and an
 environment binding #dyncode("x") to #dyncode("1"). The envless function
 can essentially be described by the pseudo syntax #dyncode("lam (env, y) =>
 env.x + y"), where #dyncode("env") and #dyncode("env.x") refer to an
