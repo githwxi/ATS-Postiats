@@ -387,8 +387,8 @@ case+ hfds of
     val pmv =
     (
       if tmplev = 0
-        then primval_make_funlab (loc, fl)
-        else primval_make_funlab2 (loc, d2v, fl)
+        then primval_make_funclo (loc, fl)
+        else primval_make_tmpfunlab (loc, d2v, fl)
     ) : primval // end of [val]
     val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
 //
@@ -458,7 +458,7 @@ case+ hfds of
 //
 end (* end of [auxmain] *)
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 hifundeclst_ccomp (
@@ -517,7 +517,7 @@ case+ hvds of
 //
 end // end of [auxlst]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 hivaldeclst_ccomp
@@ -592,7 +592,7 @@ case+ hvds of
 //
 end // end of [auxmain]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 hivaldeclst_ccomp_rec
@@ -665,7 +665,7 @@ case+ hvds of
 //
 end // end of [auxlst]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 hivardeclst_ccomp
@@ -707,7 +707,7 @@ val () =
   if tmplev > 0 then funlab_set_tmpknd (flab, 1)
 // end of [val]
 //
-val pmv_lam = primval_make_funlab (loc0, flab)
+val pmv_lam = primval_make_funclo (loc0, flab)
 //
 val fent = let
   val ins =
@@ -763,7 +763,7 @@ case+
   end // end of [_]
 end // end of [auxmain]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 hiimpdec_ccomp

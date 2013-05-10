@@ -89,6 +89,7 @@ case+ pmv_fun.primval_node of
 | PMVcst (d2c) => emit_d2cst (out, d2c)
 //
 | PMVfunlab (flab) => emit_funlab (out, flab)
+| PMVcfunlab (knd, flab) => emit_funlab (out, flab)
 //
 | PMVtmpltcst _ => emit_primval (out, pmv_fun)
 | PMVtmpltvar _ => emit_primval (out, pmv_fun)
@@ -161,43 +162,29 @@ fun aux_funenv
   out: FILEref, pmv_fun: primval
 ) : int(*nenv*) = let
 //
-fun aux
+fun auxflab
 (
-  out: FILEref, d2es: d2envlst, i: int
+  out: FILEref, flab: funlab
 ) : int = let
+  val opt = funlab_get_funent (flab)
 in
 //
-case+ d2es of
-| list_cons
-    (d2e, d2es) => let
-    val () =
-    (
-      if (i > 0) then emit_text (out, ", ")
-    )
-    val () = emit_d2env (out, d2e)
-  in
-    aux (out, d2es, i+1)
-  end // end of [list_cons]
-| list_nil () => i // number of environvals
+case+ opt of
+| Some (fent) => let
+    val d2es =
+      funent_eval_d2envlst (fent) in emit_d2envlst (out, d2es)
+  end // end of [Some]
+| None ((*void*)) => 0
 //
-end (* end of [aux] *)
+end // end of [auxflab]
 //
-in
+in (* in of [let] *)
 //
 case+
 pmv_fun.primval_node of
 //
-| PMVfunlab (flab) => let
-    val opt = funlab_get_funent (flab)
-  in
-    case+ opt of
-    | Some (fent) => let
-        val d2es = funent_eval_d2envlst (fent)
-      in
-        aux (out, d2es, 0)
-      end (* end of [Some] *)
-    | None () => 0
-  end // end of [PMVfunlab]
+| PMVfunlab (flab) => auxflab (out, flab)
+| PMVcfunlab (knd, flab) => auxflab (out, flab)
 //
 | _ => 0
 //
@@ -213,8 +200,8 @@ case+ pmvs of
 | list_cons _ => let
     val () =
     (
-      if n > 0 then emit_text (out, ", ")
-    )
+      if (n > 0) then emit_text (out, ", ")
+    ) // end of [val]
   in
     emit_primvalist (out, pmvs)
   end (* end of [list_cons] *)

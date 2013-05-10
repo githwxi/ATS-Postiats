@@ -133,15 +133,14 @@ case+ 0 of
     case+
       pmv.primval_node of
     | PMVfunlab (fl) => let
-        val () = ccompenv_add_flabsetenv (env, fl)
-      in
-        pmv
-      end // end of [PMVfunlab2]
-    | PMVfunlab2 (d2v, fl) => let
-        val () = ccompenv_add_flabsetenv (env, fl)
-      in
-        pmv
-      end // end of [PMVfunlab2]
+        val () = ccompenv_add_flabsetenv (env, fl) in pmv
+      end // end of [PMVfunlab]
+    | PMVcfunlab (_, fl) => let
+        val () = ccompenv_add_flabsetenv (env, fl) in pmv
+      end // end of [PMVcfunlab]
+    | PMVtmpfunlab (d2v, fl) => let
+        val () = ccompenv_add_flabsetenv (env, fl) in pmv
+      end // end of [PMVtmpfunlab]
     | _ => let
         val () = ccompenv_add_dvarsetenv_var (env, d2v)
       in
@@ -1433,7 +1432,7 @@ val () = fprintln! (out, "hidexp_ccomp_lam: fent = ", fent)
 *)
 //
 in
-  primval_make_funlab (loc0, flab)
+  primval_make_funclo (loc0, flab)
 end // end of [hidexp_ccomp_lam]
 
 (* ****** ****** *)
