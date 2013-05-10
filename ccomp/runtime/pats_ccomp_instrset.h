@@ -99,11 +99,11 @@
 
 /* ****** ****** */
 
-#define ATSPMVfunlab(id) (id)
+#define ATSPMVfunlab(flab) (flab)
 
 /* ****** ****** */
 
-#define ATSPMVcfunlab(id, env) (id##$closurerize)env
+#define ATSPMVcfunlab(knd, flab, env) (flab##$closurerize)env
 
 /* ****** ****** */
 

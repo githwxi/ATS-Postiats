@@ -1221,6 +1221,8 @@ case+ opt of
 ) : d2envlst
 //
 val () = emit_text (out, "ATSPMVcfunlab(")
+val () = emit_int (out, knd)
+val () = emit_text (out, ", ")
 val () = emit_funlab (out, flab)
 val () = emit_text (out, ", (")
 val nenv = emit_d2envlst (out, d2es)

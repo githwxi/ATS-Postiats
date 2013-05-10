@@ -89,6 +89,7 @@ RMF=rm -f
 
 #make_entry("acker1")
 #make_entry("acker2")
+#make2_entry("acker3", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("areverse", "-DATS_MEMALLOC_LIBC", "")
 #make_entry("atof")
 #make_entry("atoi")

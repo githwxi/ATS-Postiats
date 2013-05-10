@@ -41,7 +41,7 @@ fun loop
 //
 in
   loop (f, 0)
-end // end of [rtfind]
+end // end of [rtfind2]
 
 (* ****** ****** *)
 
@@ -49,11 +49,9 @@ implement
 main0 () =
 {
 //
-macdef i = 5
-val rt = rtfind (lam (x) => (x-i)*(x+i+1))
+val rt = rtfind (lam (x) => (x-10)*(x+11))
 val () = println! ("rt = ", rt)
-val i2 = i + i
-val rt2 = rtfind2 (lam (x) => (x-i2)*(x+i2+1))
+val rt2 = rtfind2 (lam (x) => (x-10)*(x+11))
 val () = println! ("rt2 = ", rt2)
 //
 } (* end of [main0] *)
