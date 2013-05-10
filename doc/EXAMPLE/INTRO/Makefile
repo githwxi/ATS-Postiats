@@ -41,6 +41,14 @@ clean:: ; $(RMF) acker2_dats.o
 clean:: ; $(RMF) acker2_dats.c
 cleanall:: ; $(RMF) acker2.exe
 
+all:: acker3
+acker3: acker3.exe
+acker3.exe: acker3_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+acker3_dats.c: acker3.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output acker3_dats.c --dynamic acker3.dats
+clean:: ; $(RMF) acker3_dats.o
+clean:: ; $(RMF) acker3_dats.c
+cleanall:: ; $(RMF) acker3.exe
+
 all:: areverse
 areverse: areverse.exe
 areverse.exe: areverse_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
@@ -72,6 +80,14 @@ bintree_dats.c: bintree.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output b
 clean:: ; $(RMF) bintree_dats.o
 clean:: ; $(RMF) bintree_dats.c
 cleanall:: ; $(RMF) bintree.exe
+
+all:: clofun
+clofun: clofun.exe
+clofun.exe: clofun_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+clofun_dats.c: clofun.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output clofun_dats.c --dynamic clofun.dats
+clean:: ; $(RMF) clofun_dats.o
+clean:: ; $(RMF) clofun_dats.c
+cleanall:: ; $(RMF) clofun.exe
 
 all:: extfcall
 extfcall: extfcall.exe

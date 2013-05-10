@@ -442,7 +442,8 @@ case+ x.primval_node of
     val () = prstr ")"    
   }
 | PMVrefarg
-    (knd, pmv) => {
+    (knd, pmv) =>
+  {
     val () = prstr "PMVrefarg("
     val () = fprint_int (out, knd)
     val () = prstr ", "
@@ -450,17 +451,30 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
-| PMVfunlab
-    (flab) => {
+| PMVfunlab (flab) =>
+  {
     val () = prstr "PMVfunlab("
     val () = fprint_funlab (out, flab)
     val () = prstr ")"
   }
-| PMVfunlab2
+| PMVcfunlab
+  (
+    knd, flab
+  ) => {
+    val () = prstr "PMVcfunlab("
+    val () = prstr "knd="
+    val () = fprint_int (out, knd)
+    val () = prstr "; flab="
+    val () = fprint_funlab (out, flab)
+    val () = prstr ")"
+  }
+//
+| PMVtmpfunlab
     (d2v, flab) => {
-    val () = prstr "PMVfunlab2("
+    val () = prstr "PMVtmpfunlab("
+    val () = prstr "d2v="
     val () = fprint_d2var (out, d2v)
-    val () = prstr ", "
+    val () = prstr ", flab="
     val () = fprint_funlab (out, flab)
     val () = prstr ")"
   }

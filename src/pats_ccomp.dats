@@ -378,10 +378,18 @@ primval_funlab
 // end of [primval_funlab]
 
 implement
-primval_funlab2
+primval_cfunlab
+  (loc, hse, knd, fl) =
+  primval_make_node (loc, hse, PMVcfunlab (knd, fl))
+// end of [primval_cfunlab]
+
+(* ****** ****** *)
+
+implement
+primval_tmpfunlab
   (loc, hse, d2v, fl) =
-  primval_make_node (loc, hse, PMVfunlab2 (d2v, fl))
-// end of [primval_funlab2]
+  primval_make_node (loc, hse, PMVtmpfunlab (d2v, fl))
+// end of [primval_tmpfunlab]
 
 (* ****** ****** *)
 

@@ -538,7 +538,9 @@ and primval_node =
   | PMVrefarg of (int(*knd*), primval)
 //
   | PMVfunlab of (funlab)
-  | PMVfunlab2 of (d2var, funlab) // for tmpltvar relocation
+  | PMVcfunlab of (int(*knd*), funlab)
+//
+  | PMVtmpfunlab of (d2var, funlab) // for tmpltvar relocation
 //
   | PMVtmpltcst of (d2cst, t2mpmarglst) // for template constants
   | PMVtmpltcstmat of (d2cst, t2mpmarglst, tmpcstmat) // for matched template constants
@@ -579,12 +581,15 @@ and primvalopt = Option (primval)
 and labprimvalist = List (labprimval)
 and labprimvalist_vt = List_vt (labprimval)
 
-and primlab = '{
+and primlab =
+'{
   primlab_loc= location
 , primlab_node= primlab_node
 } // end of [primlab]
 
 and primlablst = List (primlab)
+
+and d2vbindmap = d2varmap (primval)
 
 (* ****** ****** *)
 
@@ -826,9 +831,16 @@ fun primval_funlab
   (loc: location, hse: hisexp, flab: funlab): primval
 // end of [primval_funlab]
 
-fun primval_funlab2
+fun primval_cfunlab
+(
+  loc: location, hse: hisexp, knd: int, flab: funlab
+) : primval // end of [primval_cfunlab]
+
+(* ****** ****** *)
+
+fun primval_tmpfunlab
   (loc: location, hse: hisexp, d2v: d2var, flab: funlab): primval
-// end of [primval_funlab2]
+// end of [primval_tmpfunlab]
 
 (* ****** ****** *)
 
@@ -864,12 +876,12 @@ fun primval_make_sizeof (loc: location, hselt: hisexp): primval
 
 (* ****** ****** *)
 
-fun primval_make_funlab
+fun primval_make_funclo
   (loc: location, flab: funlab): primval
 
-fun primval_make_funlab2
+fun primval_make_tmpfunlab
   (loc: location, d2v: d2var, flab: funlab): primval
-// end of [primval_make_funlab2]
+// end of [primval_make_tmpfunlab]
 
 (* ****** ****** *)
 
@@ -1478,6 +1490,10 @@ fun ccompenv_add_tmpvarmat (env: !ccompenv, tmpmat: tmpvarmat): void
 //
 (* ****** ****** *)
 
+fun ccompenv_get_d2vbindmap (env: !ccompenv): d2varmap (primval)
+
+(* ****** ****** *)
+
 fun hipatck_ccomp
 (
   env: !ccompenv, res: !instrseq
@@ -1659,6 +1675,7 @@ fun emit2_d2cst (out: FILEref, d2c: d2cst): void // HX: local
 
 fun emit_d2env (out: FILEref, d2e: d2env): void
 fun emit_d2var_env (out: FILEref, d2v: d2var): void
+fun emit_d2envlst (out: FILEref, d2es: d2envlst): int(*nenv*)
 
 (* ****** ****** *)
 
@@ -1780,6 +1797,8 @@ fun emit_the_dyncstlst_exdec (out: FILEref): void
 // HX: for emitting the prototype of a function entry
 //
 fun emit_funent_ptype (out: FILEref, fent: funent): void
+//
+fun emit_funent_closure (out: FILEref, fent: funent): void
 //
 fun emit_funent_implmnt (out: FILEref, fent: funent): void
 //

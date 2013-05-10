@@ -26,15 +26,18 @@
 (* ****** ****** *)
 
 (*
-** Example: Coin Changes
+** Example:
+** Implementations of the Ackermann function
 **
 ** Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
 ** Time: January, 2011
 *)
 
+(* ****** ****** *)
+
 (*
 ** Ported to ATS2 by Hongwei Xi (gmhwxiATgmailDOTcom)
-** Time: March 24, 2013
+** Time: May 10, 2013
 *)
 
 (* ****** ****** *)
@@ -44,42 +47,33 @@
 //
 (* ****** ****** *)
 
-typedef int4 = (int, int, int, int)
+fun acker1
+  (m: int, n: int): int =
+(
+  if m > 0 then
+    if n > 0 then acker1 (m-1, acker1 (m, n-1)) else acker1 (m-1, 1)
+  else n+1 // end of [if]
+)
 
 (* ****** ****** *)
 
-val theCoins = (1, 5, 10, 25): int4
-
-(* ****** ****** *)
-
-fun coin_get
-  (n: int): int =
-  if n = 0 then theCoins.0
-  else if n = 1 then theCoins.1
-  else if n = 2 then theCoins.2
-  else if n = 3 then theCoins.3
-  else ~1 (* erroneous value *)
-// end of [coin_get]
-
-fun coin_change (sum: int) = let
-  fun aux (sum: int, n: int): int =
-    if sum > 0 then
-     (if n >= 0 then aux (sum, n-1) + aux (sum-coin_get(n), n) else 0)
-    else (if sum < 0 then 0 else 1)
-  // end of [aux]
-in
-  aux (sum, 3)
-end // end of [coin_change]
+fun acker2
+  (m: int) (n: int): int =
+(
+  if m > 0 then
+    if n > 0 then acker2 (m-1) (acker2 m (n-1)) else acker2 (m-1) 1
+  else n+1 // end of [if]
+)
 
 (* ****** ****** *)
 
 implement
-main0 () = {
-  val () = println! ("coin_change (25) = ", coin_change (25))
-  val () = println! ("coin_change (100) = ", coin_change (100))
-  val () = println! ("coin_change (1000) = ", coin_change (1000))
-} // end of [main]
+main0 () =
+{
+val () = assertloc (acker1 (3, 3) = 61)
+val () = assertloc (acker2 (3) (3) = 61)
+} // end of [main0]
 
 (* ****** ****** *)
 
-(* end of [coinchange.dats] *)
+(* end of [acker.dats]  *)

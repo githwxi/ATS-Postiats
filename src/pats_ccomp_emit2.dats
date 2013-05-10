@@ -80,7 +80,7 @@ end // end of [funval_isbot]
 fun aux_funval
 (
   out: FILEref
-, pmv_fun: primval, hse_fun: hisexp
+, pmv_fun: primval, hse_fun: hisexp, isclo: &bool
 ) : void = let
 in
 //
@@ -89,13 +89,14 @@ case+ pmv_fun.primval_node of
 | PMVcst (d2c) => emit_d2cst (out, d2c)
 //
 | PMVfunlab (flab) => emit_funlab (out, flab)
+| PMVcfunlab (knd, flab) => emit_funlab (out, flab)
 //
 | PMVtmpltcst _ => emit_primval (out, pmv_fun)
 | PMVtmpltvar _ => emit_primval (out, pmv_fun)
 //
 | PMVtmpltcstmat _ => emit_primval (out, pmv_fun)
 //
-| _(*funval*) => aux_funval2 (out, pmv_fun, hse_fun)
+| _(*funval*) => aux_funval2 (out, pmv_fun, hse_fun, isclo)
 //
 (*
 | _ => let
@@ -113,7 +114,7 @@ end // end of [aux_funval]
 and aux_funval2
 (
   out: FILEref
-, pmv_fun: primval, hse_fun: hisexp
+, pmv_fun: primval, hse_fun: hisexp, isclo: &bool
 ) : void = let
 //
 val-HSEfun
@@ -122,17 +123,31 @@ val-HSEfun
 ) = hse_fun.hisexp_node
 //
 val () = emit_text (out, "ATSfunclo")
+//
 val () =
 (
 case+ fc of
-| FUNCLOfun _ => emit_text (out, "_fun")
-| FUNCLOclo _ => emit_text (out, "_clo")
+| FUNCLOfun _ => () | FUNCLOclo _ => isclo := true
 ) : void // end of [val]
+val () =
+(
+if isclo
+  then emit_text (out, "_clo") else emit_text (out, "_fun")
+// end of [if]
+) : void // end of [val]
+//
 val () = emit_lparen (out)
 val () = emit_primval (out, pmv_fun)
 val () = emit_text (out, ", ")
 val () = emit_lparen (out)
+//
+val hses_arg =
+(
+if isclo
+  then list_cons (hisexp_cloptr, hses_arg) else hses_arg
+) : hisexplst // end of [val]
 val () = emit_hisexplst_sep (out, hses_arg, ", ")
+//
 val () = emit_rparen (out)
 val () = emit_text (out, ", ")
 val () = emit_hisexp (out, hse_res)
@@ -147,43 +162,29 @@ fun aux_funenv
   out: FILEref, pmv_fun: primval
 ) : int(*nenv*) = let
 //
-fun aux
+fun auxflab
 (
-  out: FILEref, d2es: d2envlst, i: int
+  out: FILEref, flab: funlab
 ) : int = let
+  val opt = funlab_get_funent (flab)
 in
 //
-case+ d2es of
-| list_cons
-    (d2e, d2es) => let
-    val () =
-    (
-      if (i > 0) then emit_text (out, ", ")
-    )
-    val () = emit_d2env (out, d2e)
-  in
-    aux (out, d2es, i+1)
-  end // end of [list_cons]
-| list_nil () => i // number of environvals
+case+ opt of
+| Some (fent) => let
+    val d2es =
+      funent_eval_d2envlst (fent) in emit_d2envlst (out, d2es)
+  end // end of [Some]
+| None ((*void*)) => 0
 //
-end (* end of [aux] *)
+end // end of [auxflab]
 //
-in
+in (* in of [let] *)
 //
 case+
 pmv_fun.primval_node of
 //
-| PMVfunlab (flab) => let
-    val opt = funlab_get_funent (flab)
-  in
-    case+ opt of
-    | Some (fent) => let
-        val d2es = funent_eval_d2envlst (fent)
-      in
-        aux (out, d2es, 0)
-      end (* end of [Some] *)
-    | None () => 0
-  end // end of [PMVfunlab]
+| PMVfunlab (flab) => auxflab (out, flab)
+| PMVcfunlab (knd, flab) => auxflab (out, flab)
 //
 | _ => 0
 //
@@ -199,8 +200,8 @@ case+ pmvs of
 | list_cons _ => let
     val () =
     (
-      if n > 0 then emit_text (out, ", ")
-    )
+      if (n > 0) then emit_text (out, ", ")
+    ) // end of [val]
   in
     emit_primvalist (out, pmvs)
   end (* end of [list_cons] *)
@@ -237,11 +238,22 @@ val () =
 val () = emit_text (out, "(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
-val () = aux_funval (out, pmv_fun, hse_fun)
+//
+var
+isclo: bool = false
+val () = aux_funval (out, pmv_fun, hse_fun, isclo)
+//
+val pmvs_arg =
+(
+if isclo
+  then list_cons (pmv_fun, pmvs_arg) else pmvs_arg
+) : primvalist // end of [val]
+//
 val () = emit_lparen (out)
-val nenv = aux_funenv (out, pmv_fun)
-val () = emit_fparamlst (out, nenv, pmvs_arg)
+val ln = aux_funenv (out, pmv_fun)
+val () = emit_fparamlst (out, ln, pmvs_arg)
 val () = emit_rparen (out)
+//
 val () = emit_text (out, ") ;")
 //
 in

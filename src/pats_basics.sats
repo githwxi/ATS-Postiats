@@ -143,9 +143,12 @@ fun fprint_dcstkind : fprint_type (dcstkind)
 (* ****** ****** *)
 
 datatype
-funclo = (* function or closure *)
-  | FUNCLOclo of int(*knd*) (* closure: knd=1/0/~1: ptr/clo/ref *)
+funclo =
+//
+// function or closure
+//
   | FUNCLOfun (* function *)
+  | FUNCLOclo of int (*knd*) // closure: knd=1/0/~1: ptr/clo/ref
 typedef funcloopt = Option funclo
 
 #define CLOPTR ( 1)
@@ -154,6 +157,7 @@ macdef FUNCLOcloptr = FUNCLOclo (CLOPTR)
 macdef FUNCLOcloref = FUNCLOclo (CLOREF)
 
 fun funclo_is_ptr (fc: funclo): bool
+fun funclo_is_cloptr (fc: funclo): bool
 
 fun print_funclo (x: funclo): void
 fun prerr_funclo (x: funclo): void

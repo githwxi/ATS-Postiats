@@ -41,6 +41,10 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
 staload "./pats_staexp2.sats"
 staload "./pats_staexp2_util.sats"
 
@@ -105,16 +109,27 @@ end // end of [primval_is_nshared]
 (* ****** ****** *)
 
 implement
-primval_make_funlab
+primval_make_funclo
   (loc, fl) = let
-  val hse = funlab_get_type (fl) in primval_funlab (loc, hse, fl)
-end // end of [primval_make_funlab]
+//
+val hse = funlab_get_type (fl)
+val-HSEfun (fc, arg, res) = hse.hisexp_node
+//
+in
+//
+case+ fc of
+| FUNCLOfun () => primval_funlab (loc, hse, fl)
+| FUNCLOclo (knd) => primval_cfunlab (loc, hse, knd, fl)
+//
+end // end of [primval_make_funclo]
+
+(* ****** ****** *)
 
 implement
-primval_make_funlab2
+primval_make_tmpfunlab
   (loc, d2v, fl) = let
-  val hse = funlab_get_type (fl) in primval_funlab2 (loc, hse, d2v, fl)
-end // end of [primval_make_funlab2]
+  val hse = funlab_get_type (fl) in primval_tmpfunlab (loc, hse, d2v, fl)
+end // end of [primval_make_tmpfunlab]
 
 (* ****** ****** *)
 

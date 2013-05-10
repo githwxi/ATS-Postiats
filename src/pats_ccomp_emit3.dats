@@ -41,6 +41,10 @@ staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_ccomp_emit2"
 
 (* ****** ****** *)
+
+staload "pats_basics.sats"
+
+(* ****** ****** *)
 //
 staload
 FIL = "./pats_filename.sats"
@@ -371,7 +375,8 @@ case+ 0 of
 //
 end // end of [auxcon]
 
-fun auxexn (
+fun auxexn
+(
   out: FILEref
 , pmv: primval, d2c: d2con, fail: patckont
 ) : void = let
@@ -504,7 +509,8 @@ end // end of [local]
 
 local
 
-fun auxfun (
+fun auxfun
+(
   out: FILEref, fent: funent
 ) : void = let
 //
@@ -540,52 +546,323 @@ val () = if isqua then emit_text (out, "#if(0)\n")
 val () = if isext then emit_text (out, "ATSglobaldec()\n")
 val () = if issta then emit_text (out, "ATSstaticdec()\n")
 //
-val () = let
+val hse_res = funlab_get_type_res (flab)
+val hses_arg = funlab_get_type_fullarg (flab)
 //
-val hse =
-  funlab_get_type_res (flab) in emit_hisexp (out, hse)
-//
-end // end of [val]
-//
+val (
+) = emit_hisexp (out, hse_res)
 val () = emit_text (out, "\n")
 val () = emit_funlab (out, flab)
 val () = emit_text (out, "(")
-//
-val () = let
-//
-val hses =
-  funlab_get_type_fullarg (flab)
-//
-in
-  emit_hisexplst_sep (out, hses, ", ")
-end // end of [val]
-//
+val (
+) = emit_hisexplst_sep (out, hses_arg, ", ")
 val () = emit_text (out, ") ;\n")
 //
 val () =
   if isqua then emit_text (out, "#endif // end of [QUALIFIED]\n")
-// end of [val]
+//
 val () =
   if istmp then emit_text (out, "#endif // end of [TEMPLATE]\n")
-// end of [val]
-//
-val () = emit_newline (out)
 //
 in
   // nothing
 end // end of [auxfun]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 emit_funent_ptype
   (out, fent) = let
 //
-  val () = auxfun (out, fent)
+val () = auxfun (out, fent)
+//
+val () = emit_newline (out)
 //
 in
   // nothing
 end // end of [emit_funentry_ptype]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fun aux1_arglst
+(
+  out: FILEref
+, hses: hisexplst, n0: int, i: int
+) : void = let
+in
+//
+case+ hses of
+| list_cons
+    (hse, hses) => let
+    val () = if n0+i > 0 then emit_text (out, ", ")
+    val () =
+    (
+      emit_hisexp (out, hse); emit_text (out, " arg"); emit_int (out, i)
+    ) : void // end of [val]
+  in
+    aux1_arglst (out, hses, n0, i+1)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end (* end of [aux1_arglst] *)
+
+fun aux2_arglst
+(
+  out: FILEref
+, hses: hisexplst, n0: int, i: int
+) : void = let
+in
+//
+case+ hses of
+| list_cons
+    (hse, hses) => let
+    val () =
+      if n0+i > 0 then emit_text (out, ", ")
+    val () =
+    (
+      emit_text (out, "arg"); emit_int (out, i)
+    ) : void // end of [val]
+  in
+    aux2_arglst (out, hses, n0, i+1)
+  end // end of [list_cons]
+| list_nil () => ()  
+//
+end (* end of [aux2_arglst] *)
+
+fun aux1_envlst
+(
+  out: FILEref, d2es: d2envlst, i: int
+) : void = let
+in
+//
+case+ d2es of
+| list_cons
+    (d2e, d2es) => let
+    val hse = d2env_get_type (d2e)
+    val () =
+    (
+      emit_hisexp (out, hse); emit_text (out, " env"); emit_int (out, i)
+    )
+    val () = emit_text (out, " ;\n")
+  in
+    aux1_envlst (out, d2es, i+1)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end (* end of [aux1_envlst] *)
+
+fun aux2_envlst
+(
+  out: FILEref, d2es: d2envlst, n0: int, i: int
+) : int = let
+in
+//
+case+ d2es of
+| list_cons
+    (d2e, d2es) => let
+    val hse = d2env_get_type (d2e)
+    val () = if n0+i > 0 then emit_text (out, ", ")
+    val () =
+    (
+      emit_hisexp (out, hse); emit_text (out, " env"); emit_int (out, i)
+    ) : void // end of [val]
+  in
+    aux2_envlst (out, d2es, n0, i+1)
+  end // end of [list_cons]
+| list_nil () => (n0+i)
+//
+end (* end of [aux2_envlst] *)
+
+fun aux3_envlst
+(
+  out: FILEref, d2es: d2envlst, n0: int, i: int
+) : int = let
+in
+//
+case+ d2es of
+| list_cons
+    (d2e, d2es) => let
+    val () =
+      if n0+i > 0 then emit_text (out, ", ")
+    val () =
+    (
+      emit_text (out, "env"); emit_int (out, i)
+    ) : void // end of [val]
+  in
+    aux3_envlst (out, d2es, n0, i+1)
+  end // end of [list_cons]
+| list_nil () => (n0+i)
+//
+end (* end of [aux3_envlst] *)
+
+fun aux4_envlst
+(
+  out: FILEref, d2es: d2envlst, n0: int, i: int
+) : int = let
+in
+//
+case+ d2es of
+| list_cons
+    (d2e, d2es) => let
+    val () = if n0+i > 0 then emit_text (out, ", ")
+    val () =
+    (
+      emit_text (out, "p_cenv->env"); emit_int (out, i)
+    ) : void // end of [val]
+  in
+    aux4_envlst (out, d2es, n0, i+1)
+  end // end of [list_cons]
+| list_nil () => (i)
+//
+end (* end of [aux4_envlst] *)
+
+fun aux5_envlst
+(
+  out: FILEref, d2es: d2envlst, i: int
+) : void = let
+in
+//
+case+ d2es of
+| list_cons
+    (d2e, d2es) => let
+    val hse = d2env_get_type (d2e)
+    val () =
+    (
+      emit_text (out, "p_cenv->env"); emit_int (out, i)
+    ) : void // end of [val]
+    val () =
+    (
+      emit_text (out, " = "); emit_text (out, "env"); emit_int (out, i)
+    ) : void // end of [val]
+    val () = emit_text (out, " ;\n")
+  in
+    aux5_envlst (out, d2es, i+1)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end (* end of [aux5_envlst] *)
+
+fun auxclo_type
+(
+  out: FILEref, flab: funlab, d2es: d2envlst
+) : void = let
+//
+val () = emit_text (out, "typedef struct")
+val () = emit_text (out, "\n{\n")
+val () = emit_text (out, "atstype_funptr cfun ;\n")
+val () = aux1_envlst (out, d2es, 0)
+val () = emit_text (out, "} ")
+val () = emit_funlab (out, flab)
+val () = emit_text (out, "$closure_t0ype ;\n")
+//
+in
+  // nothing
+end (* end of [auxclo_type] *)
+
+fun auxclo_cfun
+(
+  out: FILEref, flab: funlab, d2es: d2envlst
+) : void = let
+//
+val hse_res = funlab_get_type_res (flab)
+val hses_arg = funlab_get_type_arg (flab)
+//
+val () = emit_text (out, "ATSstaticdec()\n")
+val () = emit_hisexp (out, hse_res)
+val () = emit_text (out, "\n")
+val () = emit_funlab (out, flab)
+val () = emit_text (out, "$cfun")
+val () = emit_text (out, "\n(\n")
+val () = emit_funlab (out, flab)
+val () = emit_text (out, "$closure_t0ype *p_cenv")
+val () = aux1_arglst (out, hses_arg, 1, 0)
+val () = emit_text (out, "\n)\n{\n")
+val () = emit_text (out, "return ")
+val () = emit_funlab (out, flab)
+val () = emit_text (out, "(")
+val n0 = aux4_envlst (out, d2es, 0, 0)
+val () = aux2_arglst (out, hses_arg, n0, 0)
+val () = emit_text (out, ") ;\n")
+val () = emit_text (out, "} /* end of [cfun] */\n")
+//
+in
+  // nothing
+end (* end of [auxclo_cfun] *)
+
+fun auxclo_init
+(
+  out: FILEref, flab: funlab, d2es: d2envlst
+) : void = let
+//
+val () = emit_text (out, "ATSstaticdec()\n")
+val () = emit_text (out, "atstype_cloptr\n")
+val () = emit_funlab (out, flab)
+val () = emit_text (out, "$closureinit")
+val () = emit_text (out, "\n(\n")
+val () = emit_funlab (out, flab)
+val () = emit_text (out, "$closure_t0ype *p_cenv")
+val n0 = aux2_envlst (out, d2es, 1, 0)
+val () = emit_text (out, "\n)\n{\n")
+val () = aux5_envlst (out, d2es, 0)
+val () = emit_text (out, "p_cenv->cfun = ")
+val () = emit_funlab (out, flab)
+val () = emit_text (out, "$cfun ;\n")
+val () = emit_text (out, "return p_cenv ;\n")
+val () = emit_text (out, "} /* end of [closureinit] */\n")
+//
+in
+  // nothing
+end (* end of [auxclo_init] *)
+
+fun auxclo_create
+(
+  out: FILEref, flab: funlab, d2es: d2envlst
+) : void = let
+//
+val () = emit_text (out, "ATSstaticdec()\n")
+val () = emit_text (out, "atstype_cloptr\n")
+val () = emit_funlab (out, flab)
+val () = emit_text (out, "$closurerize")
+val () = emit_text (out, "\n(\n")
+val n0 = aux2_envlst (out, d2es, 0, 0)
+val () = emit_text (out, "\n)\n{\n")
+val () = emit_text (out, "return ")
+val () = emit_funlab (out, flab)
+val () = emit_text (out, "$closureinit(")
+val () = emit_text (out, "ATS_MALLOC(sizeof(")
+val () = emit_funlab (out, flab)
+val () = emit_text (out, "$closure_t0ype))")
+val n0 = aux3_envlst (out, d2es, 1, 0)
+val () = emit_text (out, ") ;\n")
+val () = emit_text (out, "} /* end of [closurerize] */\n")
+//
+in
+  // nothing
+end (* end of [auxclo_create] *)
+
+in (* in of [local] *)
+
+implement
+emit_funent_closure
+  (out, fent) = let
+//
+val flab = funent_get_lab (fent)
+val d2es = funent_eval_d2envlst (fent)
+//
+val () = auxclo_type (out, flab, d2es)
+val () = auxclo_cfun (out, flab, d2es)
+val () = auxclo_init (out, flab, d2es)
+val () = auxclo_create (out, flab, d2es)
+//
+val () = emit_newline (out)
+//
+in
+  // nothing
+end // end of [emit_funent_closure]
 
 end // end of [local]
 

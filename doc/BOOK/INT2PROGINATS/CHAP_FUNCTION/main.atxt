@@ -1252,14 +1252,16 @@ Ackermann's function (which is famous for being recursive but not primitive
 recursive):
 
 #atscode('\
-fun acker1 (m: int, n: int): int =
+fun acker1
+  (m: int, n: int): int =
 (
   if m > 0 then
     if n > 0 then acker1 (m-1, acker1 (m, n-1)) else acker1 (m-1, 1)
   else n+1 // end of [if]
 )
 
-fun acker2 (m: int) (n: int): int =
+fun acker2
+  (m: int) (n: int): int =
 (
   if m > 0 then
     if n > 0 then acker2 (m-1) (acker2 m (n-1)) else acker2 (m-1) 1
@@ -1287,6 +1289,15 @@ function itself (due to the treatment of curried functions by the ATS
 compiler <command>atsopt</command>).  Therefore, the need for currying in
 ATS is greatly diminished. Unless convincing reasons can be given, currying
 is in general #emphasis("not") a recommended programming style in ATS.\
+
+")#comment("para")
+
+#para("\
+
+Please find
+#mycodelink("CHAP_FUNCTION/acker.dats", "on-line")
+the entire code in this section plus some additional
+code for testing.\
 
 ")#comment("para")
 

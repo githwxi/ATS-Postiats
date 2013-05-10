@@ -1,5 +1,5 @@
 (*
-** Copyright (C) 2011 Hongwei Xi, Boston University
+** Copyright (C) 2011 Hongwei Xi, ATS Trustful Software, Inc.
 **
 ** Permission is hereby granted, free of charge, to any person
 ** obtaining a copy of this software and associated documentation
@@ -48,7 +48,7 @@
 
 fun bsearch_fun
 (
-  f: int -> uint
+  f: int -<cloref1> uint
 , x0: uint, lb: int, ub: int
 ) : int =
   if lb <= ub then let
@@ -69,9 +69,11 @@ macdef
 square (x) = let val x = ,(x) in x * x end
 
 (* ****** ****** *)
-
+//
+// Assume 32-bit ints
+//
 val ISQRT_MAX = (1 << 16) - 1
-
+//
 (* ****** ****** *)
 
 fun isqrt

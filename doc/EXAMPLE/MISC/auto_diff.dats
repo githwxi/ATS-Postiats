@@ -59,7 +59,7 @@ local
 
 val EPSILON = ref_make_elt<int> (0)
 
-in // in of [local]
+in (* in of [local] *)
 
 fn derivative (
   f: dualnum -<cloref1> dualnum, x: dualnum
@@ -475,7 +475,7 @@ end // end of [xy2_star]
 //
 val+ list_pair (x2_star, y2_star) = xy2_star
 //
-in // in of [let]
+in (* in of [let] *)
 //
 println! (x1_star); println! (y1_star);
 println! (x2_star); println! (y2_star);
@@ -543,7 +543,7 @@ val ws_star =
 
 val list_sing (w_star) = ws_star
 
-in // in of [let]
+in (* in of [let] *)
 //
   println! (w_star)
 //

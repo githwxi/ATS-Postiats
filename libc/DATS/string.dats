@@ -57,14 +57,18 @@ atslib_strerror_r_gc
 //
   bsz = 64 ;
   p_err = (char*)0 ;
-  while (1) {
+//
+  while (1)
+  {
     p_err = atspre_malloc_gc(bsz) ;
     err = atslib_strerror_r(errnum, p_err, bsz) ; myeno = errno ;
     if (err==0) return p_err ;
     if (myeno != ERANGE) break ;
     atspre_mfree_gc(p_err) ; bsz = 2 * bsz ;
   }
+//
   return p_err ;
+//
 } /* end of [atslib_strerror_r_gc] */
 %}
 

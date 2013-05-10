@@ -49,6 +49,7 @@
 
 #define ATStysum() struct{ int contag; }
 #define ATStylist(tyelt) struct{ tyelt head; void *tail; }
+#define ATStyclo() struct{ void *cfun; }
 
 /* ****** ****** */
 
@@ -95,7 +96,14 @@
 /* ****** ****** */
 
 #define ATSPMVextval(id) (id)
-#define ATSPMVfunlab(id) (id)
+
+/* ****** ****** */
+
+#define ATSPMVfunlab(flab) (flab)
+
+/* ****** ****** */
+
+#define ATSPMVcfunlab(knd, flab, env) (flab##$closurerize)env
 
 /* ****** ****** */
 
@@ -119,7 +127,9 @@
 //
 /* ****** ****** */
 
-#define ATSfunclo_fun(pmv, args, res) ((res(*)args)(pmv))
+#define ATSfcall(fun, args) (fun)args
+#define ATSfunclo_fun(pmv, targs, tres) ((tres(*)targs)(pmv))
+#define ATSfunclo_clo(pmv, targs, tres) ((tres(*)targs)(((ATStyclo()*)pmv)->cfun))
 
 /* ****** ****** */
 

@@ -836,7 +836,8 @@ extern fun emit_primval_ptrofsel : emit_primval_type
 extern fun emit_primval_refarg : emit_primval_type
 //
 extern fun emit_primval_funlab : emit_primval_type
-
+extern fun emit_primval_cfunlab : emit_primval_type
+//
 (* ****** ****** *)
 
 implement
@@ -894,6 +895,7 @@ case+ pmv0.primval_node of
 | PMVrefarg _ => emit_primval_refarg (out, pmv0)
 //
 | PMVfunlab _ => emit_primval_funlab (out, pmv0)
+| PMVcfunlab _ => emit_primval_cfunlab (out, pmv0)
 //
 | _ => let
 (*
@@ -1038,6 +1040,38 @@ case+ opt of
 //
 end // end of [emit_d2var_env]
 
+(* ****** ****** *)
+
+implement
+emit_d2envlst
+  (out, d2es) = let
+//
+fun auxlst
+(
+  out: FILEref, d2es: d2envlst, i: int
+) : int = let
+in
+//
+case+ d2es of
+| list_cons
+    (d2e, d2es) => let
+    val () =
+      if (i > 0) then emit_text (out, ", ")
+    // end of [val]
+    val () = emit_d2env (out, d2e)
+  in
+    auxlst (out, d2es, i+1)
+  end // end of [list_cons]
+| list_nil () => (i)
+//
+end (* end of [auxlst] *)
+//
+in
+  auxlst (out, d2es, 0)
+end // end of [emit_d2envlst]
+
+(* ****** ****** *)
+
 implement
 emit_primval_env
   (out, pmv0) = let
@@ -1163,6 +1197,42 @@ val () = emit_rparen (out)
 in
   // nothing
 end // end of [emit_primval_funlab]
+
+(* ****** ****** *)
+
+local
+
+
+in (* in of [local] *)
+
+implement
+emit_primval_cfunlab
+  (out, pmv0) = let
+//
+val-PMVcfunlab
+  (knd, flab) = pmv0.primval_node
+val opt = funlab_get_funent (flab)
+val d2es =
+(
+case+ opt of
+| Some (fent) =>
+    funent_eval_d2envlst (fent)
+| None () => list_nil ()
+) : d2envlst
+//
+val () = emit_text (out, "ATSPMVcfunlab(")
+val () = emit_int (out, knd)
+val () = emit_text (out, ", ")
+val () = emit_funlab (out, flab)
+val () = emit_text (out, ", (")
+val nenv = emit_d2envlst (out, d2es)
+val () = emit_text (out, "))")
+//
+in
+  // nothing
+end // end of [emit_primval_cfunlab]
+
+end // end of [local]
 
 (* ****** ****** *)
 

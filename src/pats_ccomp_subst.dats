@@ -638,15 +638,15 @@ case+
 //
 | PMVfunlab
     (flab) => primval_funlab (loc0, hse0, flab)
-| PMVfunlab2
+| PMVtmpfunlab
     (d2v, flab) => let
     val opt = ccompenv_find_vbindmapall (env, d2v)
   in
     case+ opt of
     | ~Some_vt (pmv_flab) => pmv_flab
     | ~None_vt (
-      ) => primval_funlab2 (loc0, hse0, d2v, flab)
-  end // end of [PMVfunlab2]
+      ) => primval_tmpfunlab (loc0, hse0, d2v, flab)
+  end // end of [PMVtmpfunlab]
 //
 | PMVtmpltcst
     (d2c, t2mas) => let
@@ -1291,7 +1291,7 @@ case+ hfds of
 //
     val loc = hfd.hifundec_loc
     val d2v = hfd.hifundec_var
-    val pmv = primval_make_funlab (loc, flab2)
+    val pmv = primval_make_funclo (loc, flab2)
 //
     val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
 //

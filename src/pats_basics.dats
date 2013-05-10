@@ -267,6 +267,14 @@ funclo_is_ptr (fc) =
 // end of [funclo_is_ptr]
 
 implement
+funclo_is_cloptr (fc) =
+  case+ fc of
+  | FUNCLOclo (knd) => knd != 0 | FUNCLOfun _ => false
+// end of [funclo_is_cloptr]
+
+(* ****** ****** *)
+
+implement
 eq_funclo_funclo
   (fc1, fc2) = case+ (fc1, fc2) of
   | (FUNCLOclo knd1, FUNCLOclo knd2) => knd1 = knd2

@@ -41,6 +41,10 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
 staload
 GLOB = "./pats_global.sats"
 
@@ -131,14 +135,16 @@ in
 end // end of [emit_ats_ccomp_prelude]
 
 (* ****** ****** *)
-
+//
 extern
 fun emit_funlablst_ptype
   (out: FILEref, fls: funlablst): void
+//
 implement
 emit_funlablst_ptype (out, fls) = let
 //
-fun loop (
+fun loop
+(
   out: FILEref, fls: funlablst, i: int
 ) : void = let
 in
@@ -160,17 +166,63 @@ end // end of [loop]
 in
   loop (out, fls, 0)
 end // end of [emit_funlablst_ptype]
-
+//
 (* ****** ****** *)
-
+//
+extern
+fun emit_funlablst_closure
+  (out: FILEref, fls: funlablst): void
+//
+implement
+emit_funlablst_closure
+  (out, fls) = let
+//
+fun loop
+(
+  out: FILEref, fls: funlablst, i: int
+) : void = let
+in
+//
+case+ fls of
+| list_cons
+    (fl, fls) => let
+    val tmpknd = funlab_get_tmpknd (fl)
+    val istmp =
+    (
+      if tmpknd > 0 then true else false
+    ) : bool // end of [val]
+    val isclo =
+    (
+      if istmp then false else
+        funclo_is_cloptr (funlab_get_funclo (fl))
+    ) : bool // end of [val]
+    val-Some (fent) = funlab_get_funent (fl)
+    val () =
+      if isclo then emit_funent_closure (out, fent)
+    // end of [val]
+  in
+    loop (out, fls, i+1)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [loop]
+//
+in
+  loop (out, fls, 0)
+end // end of [emit_funlablst_closure]
+//
+(* ****** ****** *)
+//
 extern
 fun emit_funlablst_implmnt
   (out: FILEref, fls: funlablst): void
+//
 implement
 emit_funlablst_implmnt
   (out, fls) = let
 //
-fun loop (
+fun loop
+(
   out: FILEref, fls: funlablst, i: int
 ) : void = let
 in
@@ -198,7 +250,7 @@ end // end of [loop]
 in
   loop (out, fls, 0)
 end // end of [emit_funlablst_implmnt]
-
+//
 (* ****** ****** *)
 
 local
@@ -368,6 +420,7 @@ emit_the_funlablst
   (out) = let
   val fls0 = the_funlablst_get2 ()
   val () = emit_funlablst_ptype (out, fls0)
+  val () = emit_funlablst_closure (out, fls0)
   val () = emit_funlablst_implmnt (out, fls0)
 in
   // nothing
