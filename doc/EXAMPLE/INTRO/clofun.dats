@@ -49,9 +49,9 @@ implement
 main0 () =
 {
 //
-val rt = rtfind (lam (x) => (x-10)*(x+11))
+val rt = rtfind (lam (x) => (x+10)*(x-11))
 val () = println! ("rt = ", rt)
-val rt2 = rtfind2 (lam (x) => (x-10)*(x+11))
+val rt2 = rtfind2 (lam (x) => (x+10)*(x-11))
 val () = println! ("rt2 = ", rt2)
 //
 } (* end of [main0] *)

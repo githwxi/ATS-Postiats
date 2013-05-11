@@ -319,6 +319,22 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+funlab_is_envful (flab) = let
+//
+val opt = funlab_get_funent (flab)
+val d2es =
+(
+case+ opt of
+| Some (fent) => funent_eval_d2envlst (fent) | None () => list_nil ()
+) : d2envlst // end of [val]
+//
+in
+  list_is_cons (d2es)
+end // end of [funlab_is_envful]
+
+(* ****** ****** *)
+
+implement
 funlab_get_type_fullarg (flab) = let
 //
 fun aux

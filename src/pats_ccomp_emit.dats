@@ -1188,11 +1188,25 @@ implement
 emit_primval_funlab
   (out, pmv0) = let
 //
-val-PMVfunlab (flab) = pmv0.primval_node
+val-PMVfunlab
+  (flab) = pmv0.primval_node
+//
+val isenv = funlab_is_envful (flab)
+//
+val () =
+(
+if isenv then
+  emit_text (out, "ATSERROR(")
+)
 //
 val () = emit_text (out, "ATSPMVfunlab(")
 val () = emit_funlab (out, flab)
 val () = emit_rparen (out)
+//
+val () =
+(
+if isenv then emit_rparen (out)
+)
 //
 in
   // nothing

@@ -294,6 +294,10 @@ fun funlab_get_tmparg (flab: funlab): t2mpmarglst
 fun funlab_get_stamp (flab: funlab):<> stamp
 //
 (* ****** ****** *)
+
+fun funlab_is_envful (flab: funlab): bool
+
+(* ****** ****** *)
 //
 // HX: obtaining env+arg-list
 //

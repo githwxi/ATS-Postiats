@@ -179,9 +179,16 @@ fun loop
 in
   loop (f, 0)
 end // end of [rtfind]
+//
+val rt = rtfind (lam (n) => (n+10)*(n-11))
+val () = assertloc (rt = 11)
+//
+(* ****** ****** *)
 
 fun ifold
-  (n: int, f: (int, int) -> int, ini: int): int =
+(
+  n: int, f: (int, int) -> int, ini: int
+) : int =
   if n > 0 then f (ifold (n-1, f, ini), n) else ini
 // end of [ifold]
 
@@ -191,7 +198,22 @@ val () = assertloc (sum (10) = 55)
 fun prod (n:int): int = ifold (n, lam (res, x) => res * x, 1)
 val () = assertloc (prod (10) = 10*9*8*7*6*5*4*3*2*1)
 
-fun sqrsum (n: int): int = ifold (n, lam (res, x) => res + x * x, 0)
+fun sqrsum
+  (n: int): int = ifold (n, lam (res, x) => res + x * x, 0)
+val () = assertloc (sqrsum (10) = (2*10+1)*(10+1)*10/6)
+
+(* ****** ****** *)
+
+fun ifold2
+(
+  n: int, f: (int, int) -<cloref1> int, ini: int
+) : int =
+  if n > 0 then f (ifold2 (n-1, f, ini), n) else ini
+// end of [ifold]
+
+fun sqrmodsum (n: int, d: int): int =
+  ifold2 (n, lam (res, x) => if x mod d = 0 then res + x * x else res, 0)
+val () = assertloc (sqrmodsum (10, 2) = 2*2+4*4+6*6+8*8+10*10)
 
 (* ****** ****** *)
 

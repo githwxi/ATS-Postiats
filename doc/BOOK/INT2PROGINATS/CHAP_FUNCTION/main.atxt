@@ -1030,12 +1030,13 @@ at the level of types.\
 
 If the syntax #dyncode(":&lt;cloref1&gt;") is replaced with the colon
 symbol #dyncode(":") alone, the code can still pass typechecking but its
-compilation eventually leads to an error indicating that #dyncode("loop")
-cannot be compiled into a toplevel function in C. The reason for this error
-is due to the body of #dyncode("loop") containing a variable #dyncode("n")
-that is neither at toplevel nor a part of the arguments of #dyncode("loop")
-itself. It is straightforward to make #dyncode("loop") an envless function
-by including #dyncode("n") as an argument in addition to the original ones:
+compilation may eventually lead to a warning or even an error indicating
+that #dyncode("loop") cannot be compiled into a toplevel function in C. The
+reason for this warning/error is due to the body of #dyncode("loop")
+containing a variable #dyncode("n") that is neither at toplevel nor a part
+of the arguments of #dyncode("loop") itself. It is straightforward to make
+#dyncode("loop") an envless function by including #dyncode("n") as an
+argument in addition to the original ones:
 
 #atscode("\
 fun sum
@@ -1159,15 +1160,63 @@ fun prod (n: int): int = ifold (n, lam (res, x) => res * x, 1)
 ")
 
 If we ever want to compute the sum of the squares of the integers ranging
-from 1 to a given natural number, we can readily define a function based on
-#dyncode("ifold") to do it:
+from 1 to a given natural number n, we can readily define a function based
+on #dyncode("ifold") to do it:
 
 #atscode("\
 fun sqrsum (n: int): int = ifold (n, lam (res, x) => res + x * x, 0)
 ")
 
+Suppose we generalize #dyncode("sqrsum") to the following function
+#dyncode("sqrmodsum") in order to compute the sum of the squares of the
+integers ranging from 1 to n that are multiples of a given number d:
+
+#atscode("\
+fun sqrmodsum (n: int, d: int): int =
+  ifold (n, lam (res, x) => if x mod d then res + x * x else res, 0)
+")
+
+For someone unfamilar with the distinction between an envless function and
+a closure function, it may be a bit suprising to learn that this
+generalization does not actually work. The simple reason is that
+#dyncode("ifold") expects its second argument to be an envless function but
+the function passed to #dyncode("ifold") in the body of
+#dyncode("sqrmodsum") is clearly not envless (due to its use of
+#dyncode("d")). To address the issue, we can implement a variant of
+#dyncode("ifold") as follows and then implement #dyncode("sqrmodsum") based
+on this variant:
+
+#atscode("\
+fun ifold2
+(
+  n: int, f: (int, int) -<cloref1> int, ini: int
+) : int =
+  if n > 0 then f (ifold2 (n-1, f, ini), n) else ini
+// end of [ifold2]
+
+fun sqrmodsum (n: int, d: int): int =
+  ifold2 (n, lam (res, x) => if x mod d then res + x * x else res, 0)
+")
+
+While #dyncode("ifold2") is indeed more general than #dyncode("ifold"),
+this generality does come with a price. Whenever #dyncode("sqrmodsum") is
+called, a closure function must be created on heap and then passed to
+#dyncode("ifold2"); this closure function is of no further use after the
+call returns and the memory it occupies can only be properly relcaimed
+through garbage collection (GC). Therefore, calling functions like
+#dyncode("sqrmodsum") can readily result in memory leaks in a setting where
+no GC is available. Fortunately, there are also linear closure functions in
+ATS, which do not cause any memory leaks even in the absence of GC as they
+are required to be explicitly freed by the programmer. I will cover this
+interesting topic elsewhere.\
+
+")#comment("para")
+
+#para("\
+
 As more features of ATS are introduced, higher-order functions will become
-even more effective in facilitating code reuse.
+even more effective in facilitating code reuse.\
+
 ")#comment("para")
 
 </sect1><!--id="higher-order_functions"-->
