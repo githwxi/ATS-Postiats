@@ -190,4 +190,26 @@ dynarray_quicksort (DA: !dynarray (INV(a))): void
 
 (* ****** ****** *)
 
+abst@ype
+dynarray_struct = $extype"atslib_dynarray_struct"
+
+(* ****** ****** *)
+
+fun{}
+dynarray_make2_nil
+  {a:vt0p}{l:addr}
+(
+  pfat: dynarray_struct? @ l | p: ptr l, cap: sizeGte(1)
+) : (mfree_ngc_v (l) | dynarray (a))
+
+fun{}
+dynarray_getfree2_arrayptr
+  {a:vt0p}{l:addr}
+(
+  pfngc: mfree_ngc_v (l)
+| p: ptr l, DA: dynarray (a), n: &size_t? >> size_t n
+) : #[n:int] (dynarray_struct? @ l | arrayptr (a, n))
+
+(* ****** ****** *)
+
 (* end of [dynarray.sats] *)
