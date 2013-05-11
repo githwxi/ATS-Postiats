@@ -49,6 +49,8 @@ fun{} prerr_errmac_loc (loc: location): void // generic
 fun{} prerr_error3_loc (loc: location): void // generic
 fun{} prerr_error4_loc (loc: location): void // generic
 //
+fun{} prerr_errccomp_loc (loc: location): void // generic
+//
 fun{} prerr_warning1_loc (loc: location): void // generic
 fun{} prerr_warning2_loc (loc: location): void // generic
 fun{} prerr_warning3_loc (loc: location): void // generic

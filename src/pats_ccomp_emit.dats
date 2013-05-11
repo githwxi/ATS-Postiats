@@ -1196,17 +1196,28 @@ val isenv = funlab_is_envful (flab)
 val () =
 (
 if isenv then
-  emit_text (out, "ATSERROR(")
+{
+  val loc0 = pmv0.primval_loc
+  val () = prerr_errccomp_loc (loc0)
+  val () =
+  (
+    prerr ": the function is expected to be envless but it is not."
+  ) // end of [val]
+  val () = prerr_newline ()
+} // end of [if]
+)
+//
+val () =
+(
+if isenv then
+  emit_text (out, "ATSERRORnotenvless(")
 )
 //
 val () = emit_text (out, "ATSPMVfunlab(")
 val () = emit_funlab (out, flab)
 val () = emit_rparen (out)
 //
-val () =
-(
-if isenv then emit_rparen (out)
-)
+val () = if isenv then emit_rparen (out)
 //
 in
   // nothing

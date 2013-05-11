@@ -37,13 +37,15 @@ staload "./pats_errmsg.sats"
 (* ****** ****** *)
 
 implement{}
-prerr_interror () = {
+prerr_interror () =
+{
   val () = prerr "INTERROR("
   val () = prerr_FILENAME<> ()
   val () = prerr ")"
 }
 implement{}
-prerr_interror_loc (loc) = {
+prerr_interror_loc (loc) =
+{
   val () = $LOC.prerr_location (loc)
   val () = prerr ": INTERROR("
   val () = prerr_FILENAME<> ()
@@ -58,39 +60,54 @@ prerr_error1_loc (loc) = (
 ) // end of [prerr_error1_loc]
 
 implement{}
-prerr_error2_loc (loc) = (
+prerr_error2_loc (loc) =
+(
   $LOC.prerr_location (loc); prerr ": error(2)"
 ) // end of [prerr_error2_loc]
 
 implement{}
-prerr_errmac_loc (loc) = (
+prerr_errmac_loc (loc) =
+(
   $LOC.prerr_location (loc); prerr ": error(mac)"
 ) // end of [prerr_errmac_loc]
 
 implement{}
-prerr_error3_loc (loc) = (
+prerr_error3_loc (loc) =
+(
   $LOC.prerr_location (loc); prerr ": error(3)"
 ) // end of [prerr_error3_loc]
 
 implement{}
-prerr_error4_loc (loc) = (
+prerr_error4_loc (loc) =
+(
   $LOC.prerr_location (loc); prerr ": error(4)"
 ) // end of [prerr_error4_loc]
 
 (* ****** ****** *)
 
 implement{}
-prerr_warning1_loc (loc) = (
+prerr_errccomp_loc (loc) =
+(
+  $LOC.prerr_location (loc); prerr ": error(ccomp)"
+) // end of [prerr_errccomp_loc]
+
+(* ****** ****** *)
+
+implement{}
+prerr_warning1_loc (loc) =
+(
   $LOC.prerr_location (loc); prerr ": warning(1)"
 ) // end of [prerr_warning1_loc]
 
 implement{}
-prerr_warning2_loc (loc) = (
+prerr_warning2_loc (loc) =
+(
   $LOC.prerr_location (loc); prerr ": warning(2)"
 ) // end of [prerr_warning2_loc]
 
 implement{}
-prerr_warning3_loc (loc) = (
+prerr_warning3_loc (loc) =
+(
   $LOC.prerr_location (loc); prerr ": warning(3)"
 ) // end of [prerr_warning3_loc]
 

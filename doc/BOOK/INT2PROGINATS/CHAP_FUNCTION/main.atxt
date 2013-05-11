@@ -1174,6 +1174,7 @@ integers ranging from 1 to n that are multiples of a given number d:
 #atscode("\
 fun sqrmodsum (n: int, d: int): int =
   ifold (n, lam (res, x) => if x mod d then res + x * x else res, 0)
+// end of [sqrmodsum]
 ")
 
 For someone unfamilar with the distinction between an envless function and
@@ -1196,6 +1197,7 @@ fun ifold2
 
 fun sqrmodsum (n: int, d: int): int =
   ifold2 (n, lam (res, x) => if x mod d then res + x * x else res, 0)
+// end of [sqrmodsum]
 ")
 
 While #dyncode("ifold2") is indeed more general than #dyncode("ifold"),
