@@ -1324,8 +1324,8 @@ fn{a:t0p}
 twice (f: I(a)):<cloref> I(a) = lam (x) => f (f (x))
 ")
 
-Let us now take a look at some interesting and likely puzzling code
-involving #dyncode("twice"):
+Let us now take a look at some interesting code involving #dyncode("twice")
+that is also likely be puzzling:
 
 #atscode("\
 //

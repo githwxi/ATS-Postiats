@@ -379,7 +379,7 @@ case+ hfds of
     val d2v = hfd.hifundec_var
     val () = d2var_set_level (d2v, level)
     val-Some (hse) = d2var_get2_hisexp (d2v)
-    val fcopt = None () // HX: determined by [hse]
+    val fcopt = None_vt() // HX: determined by [hse]
 //
     val tmplev = ccompenv_get_tmplevel (env)
 //

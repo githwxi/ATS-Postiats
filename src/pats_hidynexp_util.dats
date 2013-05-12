@@ -73,7 +73,8 @@ val-Some (hse) = d2cst_get2_hisexp (d2c)
 //
 in
 //
-case+ hse.hisexp_node of
+case+
+  hse.hisexp_node of
 | HSEfun (fc, _arg, _res) =>
   (
     case+ fc of FUNCLOfun () => true | _ => false
@@ -88,7 +89,7 @@ implement
 d2cst_get2_type_arg
   (d2c) = let
 //
-val-Some (hse) = d2cst_get2_hisexp (d2c)
+val-Some(hse) = d2cst_get2_hisexp (d2c)
 //
 in
 //
@@ -98,7 +99,8 @@ case+ hse.hisexp_node of
   ) => _arg
 | _ => let
     val () = prerr_interror ()
-    val () = (
+    val (
+    ) = (
       prerrln! (": d2cst_get_type_arg: hse = ", hse)
     ) // end of [val]
     val () = assertloc (false)
@@ -112,17 +114,19 @@ implement
 d2cst_get2_type_res
   (d2c) = let
 //
-val-Some (hse) = d2cst_get2_hisexp (d2c)
+val-Some(hse) = d2cst_get2_hisexp (d2c)
 //
 in
 //
-case+ hse.hisexp_node of
+case+
+  hse.hisexp_node of
 | HSEfun (
     _(*fc*), _(*arg*), _res
   ) => _res
 | _ => let
     val () = prerr_interror ()
-    val () = (
+    val (
+    ) = (
       prerrln! (": d2cst_get_type_arg: hse = ", hse)
     ) // end of [val]
     val () = assertloc (false)
@@ -152,11 +156,13 @@ case+ opt of
 | Some (hse) =>
   (
     case+ hse.hisexp_node of
-    | HSEfun (fc, _, _) => Some (fc) | _ => None ()
+    | HSEfun (fc, _, _) => Some_vt (fc) | _ => None_vt ()
   )
-| None () => None ()
+| None () => None_vt ()
 //
 end // end of [d2cst_get2_funclo]
+
+(* ****** ****** *)
 
 implement
 d2var_get2_funclo (d2v) = let
@@ -167,9 +173,9 @@ case+ opt of
 | Some (hse) =>
   (
     case+ hse.hisexp_node of
-    | HSEfun (fc, _, _) => Some (fc) | _ => None ()
+    | HSEfun (fc, _, _) => Some_vt (fc) | _ => None_vt ()
   )
-| None () => None ()
+| None () => None_vt ()
 //
 end // end of [d2var_get2_funclo]
 
@@ -193,7 +199,7 @@ in
   list_forall_fun (lxs, ftest)
 end // end of [labhidexplst_is_value]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 hidexp_is_value

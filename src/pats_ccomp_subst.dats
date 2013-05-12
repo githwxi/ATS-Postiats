@@ -324,7 +324,7 @@ val stamp = $STMP.funlab_stamp_make ()
 val flab2 =
 funlab_make
 (
-  name, flev2, hse2, Some(fc), qopt, sopt, t2mas, stamp
+  name, flev2, hse2, Some_vt(fc), qopt, sopt, t2mas, stamp
 ) (* end of [val] *)
 //
 val () = funlab_set_origin (flab2, Some (flab))

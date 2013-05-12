@@ -786,13 +786,13 @@ hidecl_local (loc, head, body) =
 (* ****** ****** *)
 
 local
-//
+
 staload UN = "prelude/SATS/unsafe.sats"
 staload _(*anon*) = "prelude/DATS/unsafe.dats"
 //
 staload TRENV2 = "./pats_trans2_env.sats"
-//
-in // in of [local]
+
+in (* in of [local] *)
 
 implement
 filenv_get_tmpcstdecmapopt (fenv) = let

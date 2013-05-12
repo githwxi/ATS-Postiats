@@ -137,13 +137,12 @@ prval () = free_gc_elim {funlab_struct?} (pfgc)
 //
 val fc =
 (
-case+ hse.hisexp_node of
-| HSEfun (fc, _, _) => fc
-| _ =>
-  (
-    case+ fcopt of
-    | Some (fc) => fc | None () => FUNCLOfun ()
-  )
+case+ fcopt of
+| ~Some_vt (fc) => fc
+| ~None_vt () => (
+  case+ hse.hisexp_node of
+  | HSEfun (fc, _, _) => fc | _ => FUNCLOfun ()
+  ) // end of [None_vt]
 ) : funclo // end of [val]
 //
 val () = p->funlab_name := name
@@ -332,17 +331,15 @@ implement
 funlab_make_type
   (hse) = let
   val lev0 = the_d2varlev_get ()
-  val fcopt = None () // HX: determined by [hse]
+  val fcopt = None_vt() // HX: determined by [hse]
   val stamp = $STMP.funlab_stamp_make ()
   val flname = $STMP.tostring_prefix_stamp ("__patsfun_", stamp)
-  val qopt = None ()
-  val sopt = None ()
   val t2mas = list_nil ()
 in
 //
 funlab_make
 (
-  flname, lev0, hse, fcopt, qopt, sopt, t2mas, stamp
+  flname, lev0, hse, fcopt, None(*qopt*), None(*sopt*), t2mas, stamp
 )
 //
 end // end of [funlab_make_type]

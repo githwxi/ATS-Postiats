@@ -82,20 +82,24 @@ staload "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 
-viewtypedef
-funclopt_vt = Option_vt (funclo)
-fn d2exp_funclopt_of_d2exp (
-  d2e0: d2exp, opt: &(funclopt_vt?) >> funclopt_vt
-) : d2exp =
-  case+ :(
-    opt: funclopt_vt
-  ) => d2e0.d2exp_node of
-  | D2Eann_funclo (d2e, fc) =>
-      let val () = opt := Some_vt fc in d2e end
-  | _ => let
-      val () = opt := None_vt () in d2e0
-    end // end of [_]
-// end of [d2exp_funclopt_of_d2exp]
+fn d2exp_funclopt_of_d2exp
+(
+  d2e0: d2exp, opt: &(fcopt_vt?) >> fcopt_vt
+) : d2exp = let
+in
+//
+case+
+:(
+  opt: fcopt_vt
+) => d2e0.d2exp_node of
+| D2Eann_funclo (d2e, fc) =>
+    let val () = opt := Some_vt fc in d2e end
+  // end of [D2Eann_funclo]
+| _ =>
+    let val () = opt := None_vt () in d2e0 end
+  // end of [_]
+//
+end // end of [d2exp_funclopt_of_d2exp]
 
 viewtypedef
 s2effopt_vt = Option_vt (s2eff)
@@ -330,7 +334,7 @@ case+ s2e0.s2exp_node of
     val (pfpush | ()) = trans3_env_push ()
 //
     var err: int = 0
-    var opt: funclopt_vt
+    var opt: fcopt_vt
     val d2e_body = d2exp_funclopt_of_d2exp (d2e_body, opt)
     val () = (case+ opt of
       | ~Some_vt (fc) => $SOL.funclo_equal_solve_err (loc0, fc, fc1, err)

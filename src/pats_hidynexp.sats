@@ -62,8 +62,8 @@ fun d2var_set2_hisexp (d2v: d2var, opt: hisexpopt): void
 //
 (* ****** ****** *)
 
-fun d2cst_get2_funclo (d2c: d2cst): fcopt
-fun d2var_get2_funclo (d2v: d2var): fcopt
+fun d2cst_get2_funclo (d2c: d2cst): fcopt_vt
+fun d2var_get2_funclo (d2v: d2var): fcopt_vt
 
 (* ****** ****** *)
 

@@ -230,7 +230,7 @@ in
   primval_make_tmp (loc0, tmpret)
 end // end of [auxret]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 hidexp_ccomp
@@ -457,7 +457,7 @@ in
   instrseq_add (res, ins)
 end // end of [auxval]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 hidexp_ccomp_ret (
@@ -1114,7 +1114,7 @@ case+ hdes of
 //
 end // end of [auxnodelst]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 hidexp_ccomp_ret_lst
@@ -1175,7 +1175,7 @@ case+ lxs of
 //
 end // end of [auxlst]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 hidexp_ccomp_ret_rec
@@ -1281,7 +1281,7 @@ case+ hdes of
 //
 end // end of [auxlst]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 hidexp_ccomp_ret_arrpsz

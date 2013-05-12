@@ -242,13 +242,15 @@ overload fprint with fprint_funlab
 fun fprint_funlablst : fprint_type (funlablst)
 overload fprint with fprint_funlablst
 //
+(* ****** ****** *)
+//
 fun
 funlab_make
 (
   name: string
 , level: int
 , hse0: hisexp
-, fcopt: fcopt
+, fcopt: fcopt_vt
 , qopt: d2cstopt
 , sopt: d2varopt
 , t2mas: t2mpmarglst
@@ -258,14 +260,20 @@ funlab_make
 fun funlab_make_type (hse: hisexp): funlab
 //
 fun funlab_make_dcst_type
-  (d2c: d2cst, hse: hisexp, opt: fcopt): funlab
+  (d2c: d2cst, hse: hisexp, opt: fcopt_vt): funlab
 fun funlab_make_dvar_type
-  (d2v: d2var, hse: hisexp, opt: fcopt): funlab
+  (d2v: d2var, hse: hisexp, opt: fcopt_vt): funlab
 //
 fun funlab_make_tmpcst_type
-   (d2c: d2cst, t2ms: t2mpmarglst, hse: hisexp, opt: fcopt): funlab
+(
+  d2c: d2cst, t2ms: t2mpmarglst, hse: hisexp, opt: fcopt_vt
+) : funlab // endfun
 fun funlab_make_tmpvar_type
-   (d2v: d2var, t2ms: t2mpmarglst, hse: hisexp, opt: fcopt): funlab
+(
+   d2v: d2var, t2ms: t2mpmarglst, hse: hisexp, opt: fcopt_vt
+) : funlab // endfun
+//
+(* ****** ****** *)
 //
 fun funlab_get_name (flab: funlab): string
 //

@@ -149,12 +149,20 @@ funclo =
 //
   | FUNCLOfun (* function *)
   | FUNCLOclo of int (*knd*) // closure: knd=1/0/~1: ptr/clo/ref
+//
+(* ****** ****** *)
+//
 typedef fcopt = Option (funclo)
+vtypedef fcopt_vt = Option_vt (funclo)
+//
+(* ****** ****** *)
 
 #define CLOPTR ( 1)
 #define CLOREF (~1)
 macdef FUNCLOcloptr = FUNCLOclo (CLOPTR)
 macdef FUNCLOcloref = FUNCLOclo (CLOREF)
+
+(* ****** ****** *)
 
 fun funclo_is_ptr (fc: funclo): bool
 fun funclo_is_cloptr (fc: funclo): bool
