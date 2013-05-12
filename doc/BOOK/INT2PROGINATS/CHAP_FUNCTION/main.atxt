@@ -1325,7 +1325,7 @@ twice (f: I(a)):<cloref> I(a) = lam (x) => f (f (x))
 ")
 
 Let us now take a look at some interesting code involving #dyncode("twice")
-that is also likely be puzzling:
+that is also likely to be puzzling:
 
 #atscode("\
 //
@@ -1346,10 +1346,13 @@ val ans3 = twice<I3>(twice<I2>)(twice<I1>)(twice<I0>)(S)(Z)
 Note that the type definitions
 #stacode("I0"),
 #stacode("I1"),
-#stacode("I2"),
-and
+#stacode("I2"), and
 #stacode("I3") are introduced to make the above code more easily
-accessible.
+accessible.\
+
+")
+
+#para("\
 
 Obviously, #dyncode("Z") stands for the integer 0 and #dyncode("S") for the
 successor function on integers. Also, #dyncode("ans0") equals 2 as it is
@@ -1362,6 +1365,11 @@ value of #dyncode("ans3")? In general, what is the nth value in the
 sequence of #dyncode("ans0"), #dyncode("ans1"), #dyncode("ans2"), etc.?
 I leave these questions as exercises for the interested reader.
 
+")
+
+#para("\
+Please find #mycodelink("CHAP_FUNCTION/twice.dats", "on-line")
+the entire code in this section plus some additional code for testing.
 ")
 
 </sect1>

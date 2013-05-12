@@ -477,7 +477,10 @@ macdef JSON_ENCODE_ANY = $extval (int, "JSON_ENCODE_ANY")
 
 typedef json_err = json_error_t
 
-fun json_loads (
+(* ****** ****** *)
+
+fun json_loads
+(
   inp: NSH(string)
 , flags: int
 , error: &json_err? >> json_err
@@ -485,20 +488,23 @@ fun json_loads (
 
 fun json_loadb
   {lb:addr}
-  {n1,n2:int | n1 >= n2} (
+  {n1,n2:int | n1 >= n2}
+(
   pfbuf: !bytes(n1) @ lb
 | pbuf: ptr lb, n2: size_t n2
 , flags: int
 , error: &json_err? >> json_err
 ) : JSONptr0 = "mac#%" // endfun
 
-fun json_loadf (
+fun json_loadf
+(
   inp: FILEref
 , flags: int
 , error: &json_err? >> json_err
 ) : JSONptr0 = "mac#%" // endfun
 
-fun json_load_file (
+fun json_load_file
+(
   path: NSH(string)
 , flags: int
 , error: &json_err? >> json_err

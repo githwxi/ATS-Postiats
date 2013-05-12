@@ -74,7 +74,7 @@ do { \\
 
 #atscode_separator_for_C()
 //
-\#define atslib_fflush0_exn() atslib_fflush_exn()
+\#define atslib_fflush0_exn atslib_fflush_exn
 //
 \#define atslib_fflush_all() atslib_fclose_exn((FILE*)0)
 \#define atslib_fflush_stdout() atslib_fclose_exn(stdout)
@@ -109,6 +109,9 @@ do { \\
 \#define atslib_fputc0_char(c, fp) fputc((int)c, fp)
 \#define atslib_fputc1_int fputc
 \#define atslib_fputc1_char(c, fp) fputc((int)c, fp)
+
+\#define atslib_fputc0_exn_int atslib_fputc_exn
+\#define atslib_fputc0_exn_char atslib_fputc_exn
 
 #atscode_separator_for_C()
 

@@ -29,6 +29,7 @@ val c = fgetc (inp)
 in
 //
 if c >= 0 then let
+//
   val () =
   if pos = 0 then
   {
@@ -37,6 +38,7 @@ if c >= 0 then let
     val () = fprint! (out, "*) ")
   } (* end of [val] *)
   val () = fputc_exn (c, out)
+//
 in
   if c != '\n' then linecopy (inp, out, nl, pos+1) else fflush_exn (out)
 end (* end of [if] *)

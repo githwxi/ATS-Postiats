@@ -16,9 +16,11 @@ val square = lam (x: double): double => x * x
 
 fn area_of_ring
   (r1: double, r2: double): double = 3.1416 * (square(r1) - square(r2))
-// end of [area_of_ring]
+val () = assert (area_of_ring (2.0, 1.0) = 3 * 3.1416)
 
+(*
 val () = println! ("area_of_ring (2.0, 1.0) = ", area_of_ring (2.0, 1.0))
+*)
 
 (* ****** ****** *)
 //
@@ -128,8 +130,11 @@ end // end of [print_multable]
 val () = print_multable ()
 
 (* ****** ****** *)
+//
+// Envless Functions and Closure Functions
+//
+(* ****** ****** *)
 
-(*
 fun sum
   (n: int): int = let
 //
@@ -143,7 +148,6 @@ in
   loop (1(*i*), 0(*res*))
 end // end of [sum]
 val () = assertloc (sum (10) = 55)
-*)
 
 fun sum
   (n: int): int = let
@@ -158,6 +162,16 @@ in
   loop (n, 1(*i*), 0(*res*))
 end // end of [sum]
 val () = assertloc (sum (10) = 55)
+
+(* ****** ****** *)
+
+fun addx (x: int): int -<cloref1> int = lam y => x + y
+
+val plus1 = addx (1) // [plus1] is of the type int -<cloref1> int
+val () = assert (plus1 (0) = 1)
+
+val plus2 = addx (2) // [plus2] is of the type int -<cloref1> int
+val () = assert (plus2 (0) = 2)
 
 (* ****** ****** *)
 //
