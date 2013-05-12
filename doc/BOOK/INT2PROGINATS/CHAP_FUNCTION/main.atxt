@@ -1171,8 +1171,8 @@ fun prod (n: int): int = ifold (n, lam (res, x) => res * x, 1)
 ")
 
 If we ever want to compute the sum of the squares of the integers ranging
-from 1 to a given natural number n, we can readily define a function based
-on #dyncode("ifold") to do it:
+from 1 to a given natural number n, we can readily do it by defining a
+function based on #dyncode("ifold") as follows:
 
 #atscode("\
 fun sqrsum (n: int): int = ifold (n, lam (res, x) => res + x * x, 0)
@@ -1237,8 +1237,8 @@ even more effective in facilitating code reuse.\
 <!-- ****** ****** -->
 
 <sect1
-id="example-fun-inversion-through-binary-search">
-#title("Example: Fun Inversion through Binary Search")
+id="example-binary-search-for-fun">
+#title("Example: Binary Search for Fun")
 
 #para("\
 
@@ -1307,7 +1307,7 @@ id="example-a-higher-order-fun-puzzle">
 
 #para("\
 
-Let us introduce a type definition as follows:
+Let us first introduce a type definition as follows:
 
 #atscode("\
 typedef I (a:t@ype) = a -<cloref1> a
@@ -1360,7 +1360,7 @@ clear that #dyncode("ans1") is the result of applying #dyncode("S2") to
 be able to figure out that the value of #dyncode("ans2") is 16. What is the
 value of #dyncode("ans3")? In general, what is the nth value in the
 sequence of #dyncode("ans0"), #dyncode("ans1"), #dyncode("ans2"), etc.?
-I leave these questions as exercises for the reader.
+I leave these questions as exercises for the interested reader.
 
 ")
 
