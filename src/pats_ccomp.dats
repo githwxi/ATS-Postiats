@@ -386,10 +386,23 @@ primval_cfunlab
 (* ****** ****** *)
 
 implement
-primval_tmpfunlab
+primval_d2vfunlab
   (loc, hse, d2v, fl) =
-  primval_make_node (loc, hse, PMVtmpfunlab (d2v, fl))
-// end of [primval_tmpfunlab]
+  primval_make_node (loc, hse, PMVd2vfunlab (d2v, fl))
+// end of [primval_d2vfunlab]
+
+(* ****** ****** *)
+
+implement
+primval_lamfix
+  (knd, pmv_funval) = let
+//
+val loc = pmv_funval.primval_loc
+val hse = pmv_funval.primval_type
+//
+in
+  primval_make_node (loc, hse, PMVlamfix (knd, pmv_funval))
+end // end of [primval_lamfix]
 
 (* ****** ****** *)
 

@@ -149,7 +149,7 @@ funclo =
 //
   | FUNCLOfun (* function *)
   | FUNCLOclo of int (*knd*) // closure: knd=1/0/~1: ptr/clo/ref
-typedef funcloopt = Option funclo
+typedef fcopt = Option (funclo)
 
 #define CLOPTR ( 1)
 #define CLOREF (~1)

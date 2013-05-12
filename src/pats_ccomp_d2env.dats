@@ -51,6 +51,7 @@ typedef d2var = $D2E.d2var
 (* ****** ****** *)
 
 staload "./pats_histaexp.sats"
+staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
 
@@ -87,10 +88,9 @@ implement
 d2var2env (d2v) = let
 //
 val-Some (hse) =
-  $D2E.d2var_get_hitype (d2v)
+  d2var_get2_hisexp (d2v) in d2env_make (d2v, hse)
+// end of [val]
 //
-in
-  d2env_make (d2v, $UN.cast{hisexp}(hse))
 end // end of [d2var2env]
 
 (* ****** ****** *)

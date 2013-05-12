@@ -423,7 +423,8 @@ fn f0undec_tr (
  ) : f1undec = let
   val loc = d.f0undec_loc
   val effopt = d.f0undec_eff
-  val (fcopt, efcopt) = (
+  val (fcopt, efcopt) =
+  (
     case+ effopt of
     | Some eff => (fcopt, Some efc) where {
         val (fcopt, lin, prf, efc) = e0fftaglst_tr (eff)
@@ -433,7 +434,7 @@ fn f0undec_tr (
           if isprf then EFFCSTnil () else EFFCSTall ()
         ) : effcst // end of [val]
       } // end of [None]
-  ) : @(funcloopt, effcstopt)
+  ) : @(fcopt, effcstopt)
 //
   val d1e_def =
     d0exp_tr_lams_dyn (

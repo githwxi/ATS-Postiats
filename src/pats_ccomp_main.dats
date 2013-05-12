@@ -193,8 +193,9 @@ case+ fls of
     ) : bool // end of [val]
     val isclo =
     (
-      if istmp then false else
-        funclo_is_cloptr (funlab_get_funclo (fl))
+      if istmp then false else let
+        val fc = funlab_get_funclo (fl) in funclo_is_cloptr (fc)
+      end // end of [let] // end of [if]
     ) : bool // end of [val]
     val-Some (fent) = funlab_get_funent (fl)
     val () =

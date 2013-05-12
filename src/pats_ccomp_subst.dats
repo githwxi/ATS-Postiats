@@ -268,10 +268,17 @@ fun instrlst_subst
 (* ****** ****** *)
 
 extern
-fun ccompenv_add_fundecsloc_subst (
+fun primval_lamfix_subst
+  (env: !ccompenv, sub: !stasub, pmv: primval): primval
+// end of [primval_lamfix_subst]
+
+(* ****** ****** *)
+
+extern
+fun ccompenv_add_fundecsloc_subst
+(
   env: !ccompenv
-, map: !tmpmap, sub: !stasub
-, knd: funkind, decarg: s2qualst, hfds: hifundeclst
+, sub: !stasub, knd: funkind, decarg: s2qualst, hfds: hifundeclst
 ) : void // end of [ccompenv_add_fundecsloc_subst]
 
 (* ****** ****** *)
@@ -308,13 +315,18 @@ val flev2 = the_d2varlev_get ()
 val hse = funlab_get_type (flab)
 val hse2 = hisexp_subst (sub, hse)
 val () = println! ("funlab_subst: hse2 = ", hse2)
+val fc = funlab_get_funclo (flab)
 val qopt = funlab_get_d2copt (flab)
 val sopt = funlab_get_d2vopt (flab)
 val t2mas = funlab_get_tmparg (flab)
 val stamp = $STMP.funlab_stamp_make ()
 //
 val flab2 =
-  funlab_make (name, flev2, hse2, qopt, sopt, t2mas, stamp)
+funlab_make
+(
+  name, flev2, hse2, Some(fc), qopt, sopt, t2mas, stamp
+) (* end of [val] *)
+//
 val () = funlab_set_origin (flab2, Some (flab))
 //
 } // end of [funlab_subst]
@@ -638,15 +650,20 @@ case+
 //
 | PMVfunlab
     (flab) => primval_funlab (loc0, hse0, flab)
-| PMVtmpfunlab
+| PMVcfunlab
+    (knd, flab) => primval_cfunlab (loc0, hse0, knd, flab)
+//
+| PMVd2vfunlab
     (d2v, flab) => let
     val opt = ccompenv_find_vbindmapall (env, d2v)
   in
     case+ opt of
     | ~Some_vt (pmv_flab) => pmv_flab
     | ~None_vt (
-      ) => primval_tmpfunlab (loc0, hse0, d2v, flab)
-  end // end of [PMVtmpfunlab]
+      ) => primval_d2vfunlab (loc0, hse0, d2v, flab)
+  end // end of [PMVd2vfunlab]
+//
+| PMVlamfix _ => primval_lamfix_subst (env, sub, pmv0)
 //
 | PMVtmpltcst
     (d2c, t2mas) => let
@@ -839,7 +856,7 @@ case+
       ccompenv_add_fundecsloc (env, knd, decarg, hfds)
     // end of [val]
     val () =
-      ccompenv_add_fundecsloc_subst (env, map, sub, knd, decarg, hfds)
+      ccompenv_add_fundecsloc_subst (env, sub, knd, decarg, hfds)
     // end of [val]
   in
     pmd0
@@ -1264,40 +1281,77 @@ end // end of [instrlst_subst]
 
 (* ****** ****** *)
 
+implement
+primval_lamfix_subst
+  (env, sub, pmv0) = let
+//
+val-PMVlamfix
+  (knd, pmv) = pmv0.primval_node
+val loc = pmv.primval_loc
+val hse = pmv.primval_type
+//
+val fl =
+(
+case- pmv.primval_node of
+| PMVfunlab (fl) => fl | PMVcfunlab (knd, fl) => fl
+) : funlab // end of [val]
+//
+val-Some
+  (fent) = funlab_get_funent (fl)
+//
+val sfx = funlab_incget_ncopy (fl)
+//
+val fl2 = funlab_subst (sub, fl)
+val () = funlab_set_suffix (fl2, sfx)
+val () = the_funlablst_add (fl2)
+val () = ccompenv_add_flabsetenv (env, fl2)
+//
+val fent2 = funent_subst (env, sub, fl2, fent, sfx)
+//
+val () = funlab_set_funent (fl2, Some (fent2))
+val pmv_funval = primval_make_funlab (loc, fl2)
+//
+in
+  primval_lamfix (knd, pmv_funval)
+end // end of [primval_lamfix_subst]
+
+(* ****** ****** *)
+
 local
 
 fun
 auxinit{n:nat}
 (
   env: !ccompenv
-, map: !tmpmap, sub: !stasub, hfds: list (hifundec, n)
+, sub: !stasub, hfds: list (hifundec, n)
 ) : list_vt (funlab, n) = let
 in
 //
 case+ hfds of
 | list_cons
     (hfd, hfds) => let
-    val-Some (flab) =
+    val-Some (fl) =
       hifundec_get_funlabopt (hfd)
     // end of [val]
 //
-    val sfx = funlab_incget_ncopy (flab)
+    val sfx =
+      funlab_incget_ncopy (fl)
+    // end of [val]
 //
-    val flab2 = funlab_subst (sub, flab)
-    val () = funlab_set_suffix (flab2, sfx)
-    val () = the_funlablst_add (flab2)
-//
-    val () = ccompenv_add_flabsetenv (env, flab2)
+    val fl2 = funlab_subst (sub, fl)
+    val () = funlab_set_suffix (fl2, sfx)
+    val () = the_funlablst_add (fl2)
+    val () = ccompenv_add_flabsetenv (env, fl2)
 //
     val loc = hfd.hifundec_loc
     val d2v = hfd.hifundec_var
-    val pmv = primval_make_funclo (loc, flab2)
+    val pmv = primval_make_funlab (loc, fl2)
 //
     val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
 //
-    val flabs2 = auxinit (env, map, sub, hfds)
+    val fls2 = auxinit (env, sub, hfds)
   in
-    list_vt_cons (flab2, flabs2)
+    list_vt_cons (fl2, fls2)
   end (* end of [list_cons] *)
 | list_nil () => list_vt_nil ()
 //
@@ -1306,8 +1360,7 @@ end // end of [auxinit]
 fun
 auxmain{n:nat}
 (
-  env: !ccompenv
-, map: !tmpmap, sub: !stasub
+  env: !ccompenv, sub: !stasub
 , hfds: list (hifundec, n), fls2: list_vt (funlab, n)
 ) : void = let
 in
@@ -1322,7 +1375,7 @@ case+ hfds of
     val fent2 = funent_subst (env, sub, fl2, fent, sfx)
     val () = funlab_set_funent (fl2, Some (fent2))
   in
-    auxmain (env, map, sub, hfds, fls2)
+    auxmain (env, sub, hfds, fls2)
   end // end of [list_cons]
 | list_nil () => let
     val+~list_vt_nil () = fls2 in (*nothing*)
@@ -1335,15 +1388,15 @@ in (* in of [local] *)
 implement
 ccompenv_add_fundecsloc_subst
 (
-  env, map, sub, knd, decarg, hfds
+  env, sub, knd, decarg, hfds
 ) = let
 in
 //
 case+ decarg of
 | list_nil (
   ) => let
-    val fls = auxinit (env, map, sub, hfds)
-    val ( ) = auxmain (env, map, sub, hfds, fls)
+    val fls = auxinit (env, sub, hfds)
+    val ( ) = auxmain (env, sub, hfds, fls)
   in
     // nothing
   end // end of [list_nil]

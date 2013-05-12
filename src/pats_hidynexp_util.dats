@@ -57,11 +57,11 @@ staload "./pats_hidynexp.sats"
 (* ****** ****** *)
 //
 implement
-d2cst_get2_tyer (d2c) =
-  $UN.cast{hisexpopt}($D2E.d2cst_get_tyer(d2c))
+d2cst_get2_hisexp (d2c) =
+  $UN.cast{hisexpopt}($D2E.d2cst_get_hisexp(d2c))
 implement
-d2cst_set2_tyer (d2c, opt) =
-  $D2E.d2cst_set_tyer (d2c, $UN.cast{$D2E.hisexpopt}(opt))
+d2cst_set2_hisexp (d2c, opt) =
+  $D2E.d2cst_set_hisexp (d2c, $UN.cast{$D2E.hisexpopt}(opt))
 //
 (* ****** ****** *)
 
@@ -69,7 +69,7 @@ implement
 $D2E.d2cst_is_fun
   (d2c) = let
 //
-val-Some (hse) = d2cst_get2_tyer (d2c)
+val-Some (hse) = d2cst_get2_hisexp (d2c)
 //
 in
 //
@@ -88,7 +88,7 @@ implement
 d2cst_get2_type_arg
   (d2c) = let
 //
-val-Some (hse) = d2cst_get2_tyer (d2c)
+val-Some (hse) = d2cst_get2_hisexp (d2c)
 //
 in
 //
@@ -112,7 +112,7 @@ implement
 d2cst_get2_type_res
   (d2c) = let
 //
-val-Some (hse) = d2cst_get2_tyer (d2c)
+val-Some (hse) = d2cst_get2_hisexp (d2c)
 //
 in
 //
@@ -131,6 +131,47 @@ case+ hse.hisexp_node of
   end (* end of [_] *)
 //
 end // end of [d2cst_get_type_res]
+
+(* ****** ****** *)
+//
+implement
+d2var_get2_hisexp (d2v) =
+  $UN.cast{hisexpopt}($D2E.d2var_get_hisexp(d2v))
+implement
+d2var_set2_hisexp (d2v, opt) =
+  $D2E.d2var_set_hisexp (d2v, $UN.cast{$D2E.hisexpopt}(opt))
+//
+(* ****** ****** *)
+
+implement
+d2cst_get2_funclo (d2c) = let
+  val opt = d2cst_get2_hisexp (d2c)
+in
+//
+case+ opt of
+| Some (hse) =>
+  (
+    case+ hse.hisexp_node of
+    | HSEfun (fc, _, _) => Some (fc) | _ => None ()
+  )
+| None () => None ()
+//
+end // end of [d2cst_get2_funclo]
+
+implement
+d2var_get2_funclo (d2v) = let
+  val opt = d2var_get2_hisexp (d2v)
+in
+//
+case+ opt of
+| Some (hse) =>
+  (
+    case+ hse.hisexp_node of
+    | HSEfun (fc, _, _) => Some (fc) | _ => None ()
+  )
+| None () => None ()
+//
+end // end of [d2var_get2_funclo]
 
 (* ****** ****** *)
 

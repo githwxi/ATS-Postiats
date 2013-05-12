@@ -109,27 +109,42 @@ end // end of [primval_is_nshared]
 (* ****** ****** *)
 
 implement
-primval_make_funclo
+primval_make_funlab
   (loc, fl) = let
 //
 val hse = funlab_get_type (fl)
-val-HSEfun (fc, arg, res) = hse.hisexp_node
+val funclo = funlab_get_funclo (fl)
 //
 in
 //
-case+ fc of
+case+ funclo of
 | FUNCLOfun () => primval_funlab (loc, hse, fl)
 | FUNCLOclo (knd) => primval_cfunlab (loc, hse, knd, fl)
 //
-end // end of [primval_make_funclo]
+end // end of [primval_make_funlab]
+
+implement
+primval_make2_funlab
+  (loc, hse0, fl) = let
+//
+val hse = funlab_get_type (fl)
+val funclo = funlab_get_funclo (fl)
+//
+in
+//
+case+ funclo of
+| FUNCLOfun () => primval_funlab (loc, hse0, fl)
+| FUNCLOclo (knd) => primval_cfunlab (loc, hse0, knd, fl)
+//
+end // end of [primval_make2_funlab]
 
 (* ****** ****** *)
 
 implement
-primval_make_tmpfunlab
+primval_make_d2vfunlab
   (loc, d2v, fl) = let
-  val hse = funlab_get_type (fl) in primval_tmpfunlab (loc, hse, d2v, fl)
-end // end of [primval_make_tmpfunlab]
+  val hse = funlab_get_type (fl) in primval_d2vfunlab (loc, hse, d2v, fl)
+end // end of [primval_make_d2vfunlab]
 
 (* ****** ****** *)
 

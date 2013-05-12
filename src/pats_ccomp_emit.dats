@@ -897,6 +897,8 @@ case+ pmv0.primval_node of
 | PMVfunlab _ => emit_primval_funlab (out, pmv0)
 | PMVcfunlab _ => emit_primval_cfunlab (out, pmv0)
 //
+| PMVlamfix (knd, pmv) => emit_primval (out, pmv)
+//
 | _ => let
 (*
     val () = prerr_interror_loc (loc0)

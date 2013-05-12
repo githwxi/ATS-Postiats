@@ -49,12 +49,22 @@ staload "./pats_histaexp.sats"
 
 (* ****** ****** *)
 //
-fun d2cst_get2_tyer (d2c: d2cst): hisexpopt
-fun d2cst_set2_tyer (d2c: d2cst, opt: hisexpopt): void
+fun d2cst_get2_hisexp (d2c: d2cst): hisexpopt
+fun d2cst_set2_hisexp (d2c: d2cst, opt: hisexpopt): void
 //
 fun d2cst_get2_type_arg (d2c: d2cst): hisexplst
 fun d2cst_get2_type_res (d2c: d2cst): hisexp
 //
+(* ****** ****** *)
+//
+fun d2var_get2_hisexp (d2v: d2var): hisexpopt
+fun d2var_set2_hisexp (d2v: d2var, opt: hisexpopt): void
+//
+(* ****** ****** *)
+
+fun d2cst_get2_funclo (d2c: d2cst): fcopt
+fun d2var_get2_funclo (d2v: d2var): fcopt
+
 (* ****** ****** *)
 
 datatype

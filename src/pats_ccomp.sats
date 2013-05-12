@@ -248,6 +248,7 @@ funlab_make
   name: string
 , level: int
 , hse0: hisexp
+, fcopt: fcopt
 , qopt: d2cstopt
 , sopt: d2varopt
 , t2mas: t2mpmarglst
@@ -256,13 +257,15 @@ funlab_make
 //
 fun funlab_make_type (hse: hisexp): funlab
 //
-fun funlab_make_dcst_type (d2c: d2cst, hse: hisexp): funlab
-fun funlab_make_dvar_type (d2v: d2var, hse: hisexp): funlab
+fun funlab_make_dcst_type
+  (d2c: d2cst, hse: hisexp, opt: fcopt): funlab
+fun funlab_make_dvar_type
+  (d2v: d2var, hse: hisexp, opt: fcopt): funlab
 //
 fun funlab_make_tmpcst_type
-   (d2c: d2cst, t2ms: t2mpmarglst, hse: hisexp): funlab
+   (d2c: d2cst, t2ms: t2mpmarglst, hse: hisexp, opt: fcopt): funlab
 fun funlab_make_tmpvar_type
-   (d2v: d2var, t2ms: t2mpmarglst, hse: hisexp): funlab
+   (d2v: d2var, t2ms: t2mpmarglst, hse: hisexp, opt: fcopt): funlab
 //
 fun funlab_get_name (flab: funlab): string
 //
@@ -544,7 +547,9 @@ and primval_node =
   | PMVfunlab of (funlab)
   | PMVcfunlab of (int(*knd*), funlab)
 //
-  | PMVtmpfunlab of (d2var, funlab) // for tmpltvar relocation
+  | PMVd2vfunlab of (d2var, funlab) // for fundecloc relocation
+//
+  | PMVlamfix of (int(*knd*), primval) // knd=0/1:lam/fix
 //
   | PMVtmpltcst of (d2cst, t2mpmarglst) // for template constants
   | PMVtmpltcstmat of (d2cst, t2mpmarglst, tmpcstmat) // for matched template constants
@@ -842,9 +847,14 @@ fun primval_cfunlab
 
 (* ****** ****** *)
 
-fun primval_tmpfunlab
-  (loc: location, hse: hisexp, d2v: d2var, flab: funlab): primval
-// end of [primval_tmpfunlab]
+fun primval_d2vfunlab
+(
+  loc: location, hse: hisexp, d2v: d2var, flab: funlab
+) : primval // end of [primval_d2vfunlab]
+
+(* ****** ****** *)
+
+fun primval_lamfix (knd: int, pmv_funval: primval): primval
 
 (* ****** ****** *)
 
@@ -880,12 +890,16 @@ fun primval_make_sizeof (loc: location, hselt: hisexp): primval
 
 (* ****** ****** *)
 
-fun primval_make_funclo
+fun primval_make_funlab
   (loc: location, flab: funlab): primval
+fun primval_make2_funlab
+  (loc: location, hse0: hisexp, flab: funlab): primval
 
-fun primval_make_tmpfunlab
+(* ****** ****** *)
+
+fun primval_make_d2vfunlab
   (loc: location, d2v: d2var, flab: funlab): primval
-// end of [primval_make_tmpfunlab]
+// end of [primval_make_d2vfunlab]
 
 (* ****** ****** *)
 

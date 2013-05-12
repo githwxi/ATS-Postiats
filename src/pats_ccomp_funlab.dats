@@ -48,6 +48,10 @@ staload _(*anon*) = "./pats_utils.dats"
 
 (* ****** ****** *)
 
+staload "./pats_basics.sats"
+
+(* ****** ****** *)
+
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_ccomp_funlab"
@@ -89,6 +93,8 @@ funlab_struct =
 //
 , funlab_level= int // top/inner level
 //
+, funlab_funclo= funclo (* funclo option *)
+//
 , funlab_type= hisexp (* function type *)
 //
 , funlab_tmpknd= int (* 0/1 : temp use/def *)
@@ -97,7 +103,6 @@ funlab_struct =
 , funlab_d2vopt= d2varopt (* static *)
 //
 , funlab_ncopy= int
-//
 , funlab_origin= Option (ptr)
 , funlab_suffix= int
 //
@@ -115,23 +120,37 @@ local
 
 assume ccomp_funlab_type = ref (funlab_struct)
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 funlab_make
 (
-  name, level, hse, qopt, sopt, t2mas, stamp
+  name, level, hse, fcopt, qopt, sopt, t2mas, stamp
 ) = let
 //
-val (
+val
+(
   pfgc, pfat | p
 ) = ptr_alloc<funlab_struct> ()
+//
 prval () = free_gc_elim {funlab_struct?} (pfgc)
+//
+val fc =
+(
+case+ hse.hisexp_node of
+| HSEfun (fc, _, _) => fc
+| _ =>
+  (
+    case+ fcopt of
+    | Some (fc) => fc | None () => FUNCLOfun ()
+  )
+) : funclo // end of [val]
 //
 val () = p->funlab_name := name
 val () = p->funlab_level := level
 //
 val () = p->funlab_type := hse
+val () = p->funlab_funclo := fc
 //
 val () = p->funlab_tmpknd := ~1
 val () = p->funlab_d2copt := qopt // global
@@ -168,7 +187,12 @@ end // end of [funlab_get_level]
 implement
 funlab_get_type (flab) = let
   val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_type
-end // end of [funlab_get_hisexp]
+end // end of [funlab_get_type]
+
+implement
+funlab_get_funclo (flab) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_funclo
+end // end of [funlab_get_funclo]
 
 implement
 funlab_get_tmpknd (flab) = let
@@ -249,15 +273,6 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-funlab_get_funclo
-  (flab) = fc where {
-  val hse = funlab_get_type (flab)
-  val-HSEfun (fc, _(*arg*), _(*res*)) = hse.hisexp_node
-} // end of [funlab_get_funclo]
-
-(* ****** ****** *)
-
-implement
 funlab_get_type_arg
   (flab) = let
   val hse = funlab_get_type (flab)
@@ -317,13 +332,19 @@ implement
 funlab_make_type
   (hse) = let
   val lev0 = the_d2varlev_get ()
+  val fcopt = None () // HX: determined by [hse]
   val stamp = $STMP.funlab_stamp_make ()
   val flname = $STMP.tostring_prefix_stamp ("__patsfun_", stamp)
   val qopt = None ()
   val sopt = None ()
   val t2mas = list_nil ()
 in
-  funlab_make (flname, lev0, hse, qopt, sopt, t2mas, stamp)
+//
+funlab_make
+(
+  flname, lev0, hse, fcopt, qopt, sopt, t2mas, stamp
+)
+//
 end // end of [funlab_make_type]
 
 (* ****** ****** *)
@@ -361,25 +382,37 @@ in (* in of [local] *)
 
 implement
 funlab_make_dcst_type
-  (d2c, hse) = let
+  (d2c, hse, fcopt) = let
   val lev0 = the_d2varlev_get ()
   val qopt = Some (d2c)
   val t2mas = list_nil ()
   val stamp = $STMP.funlab_stamp_make ()
   val flname = flname_make (d2c, stamp)
 in
-  funlab_make (flname, lev0, hse, qopt, None (*sopt*), t2mas, stamp)
+//
+funlab_make
+(
+  flname, lev0, hse, fcopt, qopt, None (*sopt*), t2mas, stamp
+)
+//
 end // end of [funlab_make_dcst_type]
 
 implement
 funlab_make_tmpcst_type
-  (d2c, t2mas, hse) = let
+(
+  d2c, t2mas, hse, fcopt
+) = let
   val lev0 = the_d2varlev_get ()
   val qopt = Some (d2c)
   val stamp = $STMP.funlab_stamp_make ()
   val flname = flname_make (d2c, stamp)
 in
-  funlab_make (flname, lev0, hse, qopt, None (*sopt*), t2mas, stamp)
+//
+funlab_make
+(
+  flname, lev0, hse, fcopt, qopt, None (*sopt*), t2mas, stamp
+)
+//
 end // end of [funlab_make_tmpcst_type]
 
 end // end of [local]
@@ -404,25 +437,37 @@ in (* in of [local] *)
 
 implement
 funlab_make_dvar_type
-  (d2v, hse) = let
+  (d2v, hse, fcopt) = let
   val lev0 = the_d2varlev_get ()
   val sopt = Some (d2v)
   val t2mas = list_nil ()
   val stamp = $STMP.funlab_stamp_make ()
   val flname = flname_make (d2v, stamp)
 in
-  funlab_make (flname, lev0, hse, None(*qopt*), sopt, t2mas, stamp)
+//
+funlab_make
+(
+  flname, lev0, hse, fcopt, None(*qopt*), sopt, t2mas, stamp
+)
+//
 end // end of [funlab_make_dvar_type]
 
 implement
 funlab_make_tmpvar_type
-  (d2v, t2mas, hse) = let
+(
+  d2v, t2mas, hse, fcopt
+) = let
   val lev0 = the_d2varlev_get ()
   val sopt = Some (d2v)
   val stamp = $STMP.funlab_stamp_make ()
   val flname = flname_make (d2v, stamp)
 in
-  funlab_make (flname, lev0, hse, None(*qopt*), sopt, t2mas, stamp)
+//
+funlab_make
+(
+  flname, lev0, hse, fcopt, None(*qopt*), sopt, t2mas, stamp
+)
+//
 end // end of [funlab_make_tmpvar_type]
 
 end // end of [local]

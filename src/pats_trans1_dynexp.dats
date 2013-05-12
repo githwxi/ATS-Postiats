@@ -720,7 +720,7 @@ case+ d0e0.d0exp_node of
           (fcopt, lin, Some efc)
         end // end of [Some]
       | None () => (None (), lin0, None ())
-    ) : (funcloopt, int, effcstopt)
+    ) : (fcopt, int, effcstopt)
     val d1e_lam = d0exp_tr_lams_dyn
       (knd, Some loc0, fcopt, lin, args, res, efcopt, body)
     // end of [val]
@@ -739,7 +739,7 @@ case+ d0e0.d0exp_node of
       | None () => (
           None () (*fcopt*), 0 (*lin*), None () (*efcopt*)
         ) // end of [None]
-    ) : (funcloopt, int, effcstopt)
+    ) : (fcopt, int, effcstopt)
     val d1e_def = d0exp_tr_lams_dyn (
       knd, Some loc0, fcopt, lin, args, res, efcopt, d0e_def
     ) // end of [val]

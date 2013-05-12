@@ -930,9 +930,8 @@ val () = emit_newline (out)
 //
 val () = emit_text (out, "*/\n")
 //
-val funclo = funlab_get_funclo (flab)
-val hses_arg = funlab_get_type_arg (flab)
 val hse_res = funlab_get_type_res (flab)
+val hses_arg = funlab_get_type_arg (flab)
 //
 val tmpret = funent_get_tmpret (fent)
 //

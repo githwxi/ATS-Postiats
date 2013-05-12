@@ -19,9 +19,11 @@ ATSCCFLAGS=
 ######
 
 all:: misc
+all:: acker
 all:: bsearch
 all:: coinchange
 all:: queens
+all:: twice
 
 ######
 
@@ -39,6 +41,9 @@ coinchange: coinchange_dats.c ; \
 
 queens: queens_dats.c ; \
   $(CCOPT) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+
+twice: twice_dats.c ; \
+  $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 
 ######
 
@@ -61,6 +66,7 @@ cleanall:: ; $(RMF) acker
 cleanall:: ; $(RMF) bsearch
 cleanall:: ; $(RMF) coinchange
 cleanall:: ; $(RMF) queens
+cleanall:: ; $(RMF) twice
 
 ######
 

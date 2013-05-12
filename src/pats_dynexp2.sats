@@ -203,8 +203,8 @@ fun d2cst_set_decarg (x: d2cst, s2qs: s2qualst): void
 fun d2cst_get_artylst (x: d2cst): List (int)
 //
 fun d2cst_get_type (x: d2cst): s2exp
-fun d2cst_get_tyer (x: d2cst): hisexpopt
-fun d2cst_set_tyer (x: d2cst, opt: hisexpopt): void
+fun d2cst_get_hisexp (x: d2cst): hisexpopt
+fun d2cst_set_hisexp (x: d2cst, opt: hisexpopt): void
 //
 fun d2cst_get_pack (x: d2cst): Stropt
 fun d2cst_get_extdef (x: d2cst): dcstextdef
@@ -327,8 +327,8 @@ fun d2var_set_type (x: d2var, opt: s2expopt): void
 fun d2var_get_mastype (x: d2var):<> s2expopt
 fun d2var_set_mastype (x: d2var, opt: s2expopt): void
 //
-fun d2var_get_hitype (x: d2var):<> hisexpopt
-fun d2var_set_hitype (x: d2var, opt: hisexpopt): void
+fun d2var_get_hisexp (x: d2var):<> hisexpopt
+fun d2var_set_hisexp (x: d2var, opt: hisexpopt): void
 
 fun d2var_exch_type (x: d2var, opt: s2expopt): s2expopt 
 
@@ -338,6 +338,8 @@ fun d2var_inc_utimes (x: d2var):<> void
 
 fun d2var_get_stamp (x: d2var):<> stamp
 
+(* ****** ****** *)
+
 (*
 ** HX: [d2v] is linear if its linval is nonneg
 *)
@@ -346,6 +348,8 @@ fun d2var_is_linear (d2v: d2var): bool
 ** HX: [d2v] is mutable if it contains some view
 *)
 fun d2var_is_mutabl (d2v: d2var): bool
+
+(* ****** ****** *)
 
 fun eq_d2var_d2var (x1: d2var, x2: d2var):<> bool
 fun neq_d2var_d2var (x1: d2var, x2: d2var):<> bool

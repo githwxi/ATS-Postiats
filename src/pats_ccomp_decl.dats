@@ -378,18 +378,20 @@ case+ hfds of
     val loc = hfd.hifundec_loc
     val d2v = hfd.hifundec_var
     val () = d2var_set_level (d2v, level)
-    val-Some (s2e) = d2var_get_mastype (d2v)
-    val hse = s2exp_tyer_deep (loc, s2e)
+    val-Some (hse) = d2var_get2_hisexp (d2v)
+    val fcopt = None () // HX: determined by [hse]
 //
     val tmplev = ccompenv_get_tmplevel (env)
 //
-    val fl = funlab_make_dvar_type (d2v, hse)
+    val fl = funlab_make_dvar_type (d2v, hse, fcopt)
+//
     val pmv =
     (
       if tmplev = 0
-        then primval_make_funclo (loc, fl)
-        else primval_make_tmpfunlab (loc, d2v, fl)
+        then primval_make_funlab (loc, fl)
+        else primval_make_d2vfunlab (loc, d2v, fl)
     ) : primval // end of [val]
+//
     val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
 //
     val istmp =
@@ -398,7 +400,8 @@ case+ hfds of
     ) : bool // end of [val]
     val () = if istmp then funlab_set_tmpknd (fl, 1)
 //
-    val () = (
+    val () =
+    (
       case+ decarg of
       | list_cons _ => ccompenv_add_fundec (env, hfd)
       | list_nil () => ()
@@ -439,10 +442,10 @@ case+ hfds of
     val fent =
       hidexp_ccomp_funlab_arg_body (
       env, flab, imparg, tmparg, prolog, loc, hips_arg, hde_body
-    ) // end of [val]
+    ) // end of [fcall] // end of [val]
     val () = if istmp then ccompenv_dec_tmplevel (env)
 //
-    val p =
+    val () =
       hifundec_set_funlabopt (hfd, Some (flab))
     // end of [val]
     val () = funlab_set_funent (flab, Some (fent))
@@ -698,16 +701,19 @@ fun auxlam
 //
 val loc_fun = hde0.hidexp_loc
 val hse_fun = hde0.hidexp_type
+val fcopt = d2cst_get2_funclo (d2c)
+//
 val-HDElam (hips_arg, hde_body) = hde0.hidexp_node
 //
 val flab =
-  funlab_make_dcst_type (d2c, hse_fun)
+  funlab_make_dcst_type (d2c, hse_fun, fcopt)
+//
 val tmplev = ccompenv_get_tmplevel (env)
 val () =
   if tmplev > 0 then funlab_set_tmpknd (flab, 1)
 // end of [val]
 //
-val pmv_lam = primval_make_funclo (loc0, flab)
+val pmv_lam = primval_make_funlab (loc0, flab)
 //
 val fent = let
   val ins =
@@ -736,31 +742,43 @@ fun auxmain
 , tmparg: s2explstlst
 , hde0: hidexp
 ) : funlab = let
+//
+val hse0 = hde0.hidexp_type
+//
 in
 //
 case+
   hde0.hidexp_node of
 //
 | HDElam _ =>
+  (
     auxlam (env, loc0, d2c, imparg, tmparg, hde0)
-  // end of [HDElam]
-| HDEcst (d2c0) => (
-    funlab_make_dcst_type (d2c0, hde0.hidexp_type)
-  ) // end of [HDEcst]
-| HDEvar (d2v0) => (
-    funlab_make_dvar_type (d2v0, hde0.hidexp_type)
-  ) // end of [HDEcst]
-| HDEtmpcst (d2c0, t2mas) => (
-    funlab_make_tmpcst_type (d2c0, t2mas, hde0.hidexp_type)
-  ) // end of [HDEtmpcst]
+  ) // end of [HDElam]
+| HDEcst (d2c) => let
+    val fcopt = d2cst_get2_funclo (d2c)
+  in
+    funlab_make_dcst_type (d2c, hse0, fcopt)
+  end // end of [HDEcst]
+| HDEvar (d2v) => let
+    val fcopt = d2var_get2_funclo (d2v)
+  in
+    funlab_make_dvar_type (d2v, hse0, fcopt)
+  end // end of [HDEvar]
+| HDEtmpcst (d2c, t2mas) => let
+    val fcopt = d2cst_get2_funclo (d2c)
+  in
+    funlab_make_tmpcst_type (d2c, t2mas, hse0, fcopt)
+  end // end of [HDEtmpcst]
 //
 | _ => let
-    val () =
+    val (
+    ) = (
       println! ("hiimpdec_ccomp: auxmain: hde0 = ", hde0)
-    // end of [val]
+    ) // end of [val]
   in
     exitloc (1)
   end // end of [_]
+//
 end // end of [auxmain]
 
 in (* in of [local] *)

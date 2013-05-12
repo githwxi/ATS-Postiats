@@ -1354,14 +1354,13 @@ end // end of [local]
 
 (* ****** ****** *)
 
-fn f1undec_tr (
-  level: int
-, decarg: s2qualst
-, d2v: d2var
-, f1d: f1undec
+fn f1undec_tr
+(
+  decarg: s2qualst
+, d2v: d2var, f1d: f1undec
 ) : f2undec = let
-  val () = d2var_set_level (d2v, level)
-  val () = d2var_set_decarg (d2v, decarg)
+  val (
+  ) = d2var_set_decarg (d2v, decarg)
   val def = d1exp_tr (f1d.f1undec_def)
 (*
   val () = begin
@@ -1377,7 +1376,6 @@ end // end of [f1undec_tr]
 fn f1undeclst_tr
   {n:nat} (
   knd: funkind
-, level: int
 , decarg: s2qualst
 , f1ds: list (f1undec, n)
 ) : f2undeclst = let
@@ -1412,24 +1410,24 @@ fn f1undeclst_tr
 //
   val f2ds = let
     fun aux2
-      {n:nat} .<n>. (
-      level: int
-    , decarg: s2qualst
+      {n:nat} .<n>.
+    (
+      decarg: s2qualst
     , d2vs: list (d2var, n)
     , f1ds: list (f1undec, n)
     ) : list (f2undec, n) =
       case+ d2vs of
       | list_cons (d2v, d2vs) => let
           val+list_cons (f1d, f1ds) = f1ds
-          val f2d = f1undec_tr (level, decarg, d2v, f1d)
-          val f2ds = aux2 (level, decarg, d2vs, f1ds)
+          val f2d = f1undec_tr (decarg, d2v, f1d)
+          val f2ds = aux2 (decarg, d2vs, f1ds)
         in
           list_cons (f2d, f2ds)
         end // end of [list_cons]
       | list_nil () => list_nil ()
     // end of [aux2]
   in
-    aux2 (level, decarg, d2vs, f1ds)
+    aux2 (decarg, d2vs, f1ds)
   end // end of [val]
 //
   val () = (
@@ -1442,7 +1440,8 @@ end // end of [f1undeclst_tr]
 
 (* ****** ****** *)
 
-fn v1aldec_tr (
+fn v1aldec_tr
+(
   v1d: v1aldec, p2t: p2at
 ) : v2aldec = let
   val loc = v1d.v1aldec_loc
@@ -1452,7 +1451,8 @@ in
   v2aldec_make (loc, p2t, def, ann)
 end // end of [v1aldec_tr]
 
-fn v1aldeclst_tr {n:nat} (
+fn v1aldeclst_tr{n:nat}
+(
   isrec: bool, v1ds: list (v1aldec, n)
 ) : v2aldeclst = let
   val p2ts = list_map_fun<v1aldec>
@@ -1478,7 +1478,8 @@ end (* end of [v1aldeclst_tr] *)
 
 (* ****** ****** *)
 
-fn v1ardec_tr (
+fn v1ardec_tr
+(
   v1d: v1ardec
 ) : v2ardec = let
 (*
@@ -1514,7 +1515,8 @@ in
   ) // end of [v2ardec_make]
 end // end of [v1ardec_tr]
 
-fn v1ardeclst_tr (
+fn v1ardeclst_tr
+(
   v1ds: v1ardeclst
 ) : v2ardeclst = v2ds where {
   val v2ds =
@@ -1537,7 +1539,8 @@ fn v1ardeclst_tr (
 local
 
 fun
-auxkndck (
+auxkndck
+(
   v1d: v1ardec
 ) : void = let
   val stadyn = v1d.v1ardec_knd
@@ -1559,7 +1562,8 @@ end // end of [if]
 end // end of [auxkndck]
 
 fun
-auxwthck (
+auxwthck
+(
   v1d: v1ardec
 ) : void = let
   val idopt = v1d.v1ardec_wth
@@ -1585,7 +1589,8 @@ end // end of [auxwthck]
 in // in of [local]
 
 fun
-prv1ardec_tr (
+prv1ardec_tr
+(
   v1d: v1ardec
 ) : prv2ardec = let
 //
@@ -1612,7 +1617,8 @@ end // end of [prv1ardec_tr]
 end // end of [local]
 
 fun
-prv1ardeclst_tr (
+prv1ardeclst_tr
+(
   v1ds: v1ardeclst
 ) : prv2ardeclst = v2ds where {
   val v2ds =
@@ -1635,7 +1641,8 @@ extern fun i1mpdec_tr (d1c: d1ecl): Option_vt (i2mpdec)
 
 (* ****** ****** *)
 
-fn s1taload_tr (
+fn s1taload_tr
+(
   loc0: location
 , idopt: symbolopt
 , fil: filename
@@ -1704,7 +1711,8 @@ d1ecl_tr (d1c0) = let
   end // end of [val]
 *)
 //
-fun auxcheck_impdec (
+fun auxcheck_impdec
+(
   d1c0: d1ecl, knd: int, impdec: i2mpdec
 ) : void = let
   val d2c = impdec.i2mpdec_cst
@@ -1868,22 +1876,29 @@ case+ d1c0.d1ecl_node of
     funknd, decarg, f1ds
   ) => let
     val (pfenv | ()) = the_s2expenv_push_nil ()
-    val () = (case+ decarg of
+    val (
+    ) = (
+      case+ decarg of
       | list_cons _ => the_tmplev_inc () | list_nil _ => ()
     ) // end of [val]
-    val s2qs = l2l (list_map_fun (decarg, q1marg_tr_dec))
-    val () = s2qualstlst_set_tmplev (s2qs, the_tmplev_get ())
-    val f2ds = let
-      val level = the_d2varlev_get () in
-      f1undeclst_tr (funknd, level, s2qs, f1ds)
-    end // end of [val]
+//
+    val tmplev = the_tmplev_get ()
+    val s2qs = list_map_fun (decarg, q1marg_tr_dec)
+    val s2qs = list_of_list_vt (s2qs)
+    val () = s2qualstlst_set_tmplev (s2qs, tmplev)
+//
+    val f2ds = f1undeclst_tr (funknd, s2qs, f1ds)
+//
     val () = the_s2expenv_pop_free (pfenv | (*none*))
-    val () = (case+ decarg of
+    val () =
+    (
+      case+ decarg of
       | list_cons _ => the_tmplev_dec () | list_nil _ => ()
     ) // end of [val]
   in
     d2ecl_fundecs (loc0, funknd, s2qs, f2ds)
   end // end of [D1Cfundecs]
+//
 | D1Cvaldecs
   (
     knd, isrec, v1ds
@@ -1896,6 +1911,7 @@ case+ d1c0.d1ecl_node of
       d2ecl_valdecs_rec (loc0, knd, v2ds)
     // end of [if]
   end // end of [D1Cvaldecs]
+//
 | D1Cvardecs
     (knd, v1ds) => (
     if knd = 0 then let
@@ -1959,9 +1975,7 @@ case+ d1c0.d1ecl_node of
 (*
 | _ => let
     val () = prerr_error2_loc (loc0)
-    val () = prerr ": d1ecl_tr: not implemented: d1c0 = "
-    val () = fprint_d1ecl (stderr_ref, d1c0)
-    val () = prerr_newline ()
+    val () = prerrln! (": d1ecl_tr: not implemented: d1c0 = ", d2c0)
   in
     d2ecl_none (loc0)
   end // end of [_]
@@ -1973,14 +1987,15 @@ end // end of [d1ecl_tr]
 
 implement
 d1eclist_tr (d1cs) = let
-  val d2cs = list_map_fun (d1cs, d1ecl_tr) in (l2l)d2cs
+  val d2cs = list_map_fun (d1cs, d1ecl_tr) in list_of_list_vt (d2cs)
 end // end of [d1eclist_tr]
 
 (* ****** ****** *)
 
 implement
 d1eclist_tr_errck
-  (d1cs) = d2cs where {
+  (d1cs) = d2cs where
+{
   val d2cs = d1eclist_tr (d1cs)
   val () = the_trans2errlst_finalize ()
 } // end of [d1eclist_tr_errck]

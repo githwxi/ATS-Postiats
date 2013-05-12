@@ -594,7 +594,7 @@ case+ t2mas of
   in
     ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, tmpmat)
   end (* end of [list_cons] *)
-| list_nil () => primval_funlab (loc0, hse0, flab)
+| list_nil () => primval_make2_funlab (loc0, hse0, flab)
 //
 end // end of [ccomp_funlab_tmpsubst_none]
 
@@ -638,7 +638,7 @@ val () = funlab_set_funent (flab2, Some (fent2))
 val () = stasub_free (sub)
 //
 in
-  primval_funlab (loc0, hse0, flab2)
+  primval_make2_funlab (loc0, hse0, flab2)
 end // end of [ccomp_funlab_tmpsubst_some]
 
 (* ****** ****** *)
@@ -673,7 +673,7 @@ case+ mat of
     ccomp_tmpcstmat_some (env, loc0, hse0, d2c, t2mas, mat)
   // end of [TMPCSTMATsome]
 | TMPCSTMATsome2
-    (d2c, s2ess, flab) => primval_funlab (loc0, hse0, flab)
+    (d2c, s2ess, flab) => primval_make2_funlab (loc0, hse0, flab)
 | TMPCSTMATnone
     () => primval_tmpltcstmat (loc0, hse0, d2c, t2mas, mat)
   // end of [TMPCSTMATnone]
@@ -729,7 +729,7 @@ case+ mat of
     ccomp_tmpvarmat_some (env, loc0, hse0, d2v, t2mas, mat)
   // end of [TMPVARMATsome]
 | TMPVARMATsome2
-    (d2c, s2ess, flab) => primval_funlab (loc0, hse0, flab)
+    (d2c, s2ess, flab) => primval_make2_funlab (loc0, hse0, flab)
 | TMPVARMATnone
     () => primval_tmpltvarmat (loc0, hse0, d2v, t2mas, mat)
   // end of [TMPVARMATnone]

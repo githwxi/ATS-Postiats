@@ -93,8 +93,8 @@ d2var_struct =
 , d2var_view= d2varopt2 // 
 , d2var_finknd= d2vfin // the status at the end of scope
 , d2var_type= s2expopt // the (current) type of a variable
+, d2var_hisexp= hisexpopt // the type erasure of [d2var_type]
 , d2var_mastype= s2expopt // the master type of a variable
-, d2var_hitype= hisexpopt // the type erasure of [d2var_type]
 , d2var_utimes= int //
 , d2var_stamp= stamp // uniqueness stamp
 } // end of [d2var_struct]
@@ -125,8 +125,8 @@ val () = p->d2var_addr := None ()
 val () = p->d2var_view := d2varopt2_encode (None(*d2v*))
 val () = p->d2var_finknd := D2VFINnone ()
 val () = p->d2var_type := None ()
+val () = p->d2var_hisexp := None ()
 val () = p->d2var_mastype := None ()
-val () = p->d2var_hitype := None ()
 val () = p->d2var_utimes := 0
 val () = p->d2var_stamp := stamp
 //
@@ -266,14 +266,14 @@ end // end of [d2var_set_mastype]
 (* ****** ****** *)
 
 implement
-d2var_get_hitype
+d2var_get_hisexp
   (d2v) = $effmask_ref let
-  val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_hitype
-end // end of [d2var_get_hitype]
+  val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_hisexp
+end // end of [d2var_get_hisexp]
 implement
-d2var_set_hitype (d2v, opt) = let
-  val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_hitype := opt
-end // end of [d2var_set_hitype]
+d2var_set_hisexp (d2v, opt) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_hisexp := opt
+end // end of [d2var_set_hisexp]
 
 (* ****** ****** *)
 

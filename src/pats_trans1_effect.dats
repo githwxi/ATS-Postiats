@@ -93,45 +93,53 @@ fn loop_err (
   val () = $ERR.abort ()
 } // end of [loop_err]
 
-fun loop (
-    fcopt: &funcloopt
-  , lin: &int
-  , prf: &int
-  , efs: &effset
-  , evs: &effvarlst
-  , tags: e0fftaglst
-  ) : void = begin case+ tags of
-  | list_cons (tag, tags) => let
-      val () = case+ tag.e0fftag_node of
+fun loop
+(
+  fcopt: &fcopt
+, lin: &int, prf: &int
+, efs: &effset, evs: &effvarlst
+, tags: e0fftaglst
+) : void = let
+in
 //
-      | E0FFTAGvar ev => evs := list_cons (ev, evs)
+case+ tags of
+| list_cons (tag, tags) => let
+    val () = case+ tag.e0fftag_node of
 //
-      | E0FFTAGint (int) => {
-          val () = evs := effvars_nil
-          val () = if int = 0 then efs := effset_nil
-          val () = if int = 1 then efs := effset_all
-        } // end of [E0FFTAGint]
+    | E0FFTAGvar ev => evs := list_cons (ev, evs)
 //
-      | E0FFTAGcst (isneg, name)
-          when name_is_all name => {
-          val () = evs := effvars_nil
-          val () = if isneg > 0 then efs := effset_nil else efs := effset_all
-        } // end of [E0FFTAGcst when ...]
-      | E0FFTAGcst (isneg, name)
-          when name_is_nil name => {
-          val () = evs := effvars_nil
-          val () = if isneg > 0 then efs := effset_all else efs := effset_nil
-        } // end of [E0FFTAGcst when ...]
-      | E0FFTAGcst (isneg, name)
-          when name_is_lazy name => {
-          val () = evs := effvars_nil
-          val () = if isneg > 0 then
-            efs := effset_add (effset_nil, effect_ref) // HX: nonsensical
-          val () = if isneg = 0 then
-            efs := effset_del (effset_all, effect_ref) // HX: !laz = 1,~ref
-        } // end of [E0FFTAGcst when ...]
+    | E0FFTAGint (int) =>
+      {
+        val () = evs := effvars_nil
+        val () = if int = 0 then efs := effset_nil
+        val () = if int = 1 then efs := effset_all
+      } // end of [E0FFTAGint]
 //
-      | E0FFTAGcst (isneg, name) => begin case+ 0 of
+    | E0FFTAGcst (isneg, name)
+        when name_is_all name =>
+      {
+        val () = evs := effvars_nil
+        val () = if isneg > 0 then efs := effset_nil else efs := effset_all
+      } // end of [E0FFTAGcst when ...]
+    | E0FFTAGcst (isneg, name)
+        when name_is_nil name =>
+      {
+        val () = evs := effvars_nil
+        val () = if isneg > 0 then efs := effset_all else efs := effset_nil
+      } // end of [E0FFTAGcst when ...]
+    | E0FFTAGcst (isneg, name)
+        when name_is_lazy name =>
+      {
+        val () = evs := effvars_nil
+        val () = if isneg > 0 then
+          efs := effset_add (effset_nil, effect_ref) // HX: nonsensical
+        val () = if isneg = 0 then
+          efs := effset_del (effset_all, effect_ref) // HX: !laz = 1,~ref
+      } // end of [E0FFTAGcst when ...]
+//
+    | E0FFTAGcst (isneg, name) =>
+      (
+        case+ 0 of
         | _ when name_is_ntm name => {
             val () = if isneg > 0 then efs := effset_del (efs, effect_ntm)
             val () = if isneg = 0 then efs := effset_add (efs, effect_ntm)
@@ -176,52 +184,66 @@ fun loop (
           } // end of [_ when ...]
 //
         | _ => loop_err (tag, name)
-        end // end of [E0FFTAGcst]
+      ) // end of [E0FFTAGcst]
 //
-      | E0FFTAGprf () => prf := 1
+    | E0FFTAGprf () => prf := 1
 //
-      | E0FFTAGlin (i(*nil/all*)) => let
-          val () = lin := 1 // linearity
-        in
-          if i > 0 then (efs := effset_all; evs := effvars_nil)
-        end // end of [E0FFTAGlin]
+    | E0FFTAGlin (i(*nil/all*)) => let
+        val () = lin := 1 // linearity
+      in
+        if i > 0 then (efs := effset_all; evs := effvars_nil)
+      end // end of [E0FFTAGlin]
 //
-      | E0FFTAGfun (uln, i(*nil/all*)) => let
-          val () = if (uln >= 0) then lin := uln
-          val () = fcopt := Some (FUNCLOfun ())
-        in
-          if i > 0 then (efs := effset_all; evs := effvars_nil)
-        end // end of [E0FFTAGfun]
+    | E0FFTAGfun (uln, i(*nil/all*)) => let
+        val () = if (uln >= 0) then lin := uln
+        val () = fcopt := Some (FUNCLOfun ())
+      in
+        if i > 0 then (efs := effset_all; evs := effvars_nil)
+      end // end of [E0FFTAGfun]
 //
-      | E0FFTAGclo (uln, knd, i) => let
-          // knd : 1/~1:ptr/ref; i : nil/all
-          val () = if (uln >= 0) then lin := uln
-          val () = fcopt := Some (FUNCLOclo (knd))
-        in
-          if i > 0 then (efs := effset_all; evs := effvars_nil)
-        end // end of [E0FFTAGclo]
+    | E0FFTAGclo (uln, knd, i) => let
+        // knd : 1/~1:ptr/ref; i : nil/all
+        val () = if (uln >= 0) then lin := uln
+        val () = fcopt := Some (FUNCLOclo (knd))
+      in
+        if i > 0 then (efs := effset_all; evs := effvars_nil)
+      end // end of [E0FFTAGclo]
 //
-    in
-      loop (fcopt, lin, prf, efs, evs, tags)
-    end // end of [let] // end of [list_cons]
-  | list_nil () => () // end of [list_nil]
+  in
+    loop (fcopt, lin, prf, efs, evs, tags)
+  end // end of [let] // end of [list_cons]
+//
+| list_nil () => () // end of [list_nil]
+//
 end // end of [loop]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
-e0fftaglst_tr (tags) = let
-  var fcopt: funcloopt = None()
-  var lin: int = 0 and prf: int = 0
-  var efs: effset = effset_nil and evs: effvarlst = effvars_nil
-  val () = loop (fcopt, lin, prf, efs, evs, tags)
-  val efc = (case+ 0 of
-    | _ when eq_effset_effset (efs, effset_all) => EFFCSTall ()
-    | _ when eq_effset_effset (efs, effset_nil) => begin
-        case+ evs of list_nil () => EFFCSTnil () | _ => EFFCSTset (efs, evs)
-      end // end of [_ when ...]
-    | _ => EFFCSTset (efs, evs)
-  ) : effcst // end of [val]
+e0fftaglst_tr
+  (tags) = let
+//
+var fcopt: fcopt = None()
+var lin: int = 0 and prf: int = 0
+var efs: effset = effset_nil and evs: effvarlst = effvars_nil
+val () = loop (fcopt, lin, prf, efs, evs, tags)
+val efc =
+(
+case+ 0 of
+//
+| _ when
+    (efs = effset_all) => EFFCSTall ()
+//
+| _ when
+    (efs = effset_nil) =>
+    (
+      case+ evs of list_nil () => EFFCSTnil () | _ => EFFCSTset (efs, evs)
+    )
+//
+| _ => EFFCSTset (efs, evs)
+//
+) : effcst // end of [val]
+//
 in
   @(fcopt, lin, prf, efc)
 end // end of [e0fftaglst_tr]

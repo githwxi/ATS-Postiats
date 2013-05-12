@@ -83,7 +83,7 @@ d2cst_struct = @{
 , d2cst_decarg= s2qualst // template arg
 , d2cst_artylst= List (int) // arity
 , d2cst_type= s2exp // assigned type
-, d2cst_tyer= hisexpopt // type erasure
+, d2cst_hisexp= hisexpopt // type erasure
 (*
 , d2cst_skexp= s2kexp // skeleton of the assigned type
 *)
@@ -125,7 +125,7 @@ val () = p->d2cst_kind := dck
 val () = p->d2cst_decarg := decarg
 val () = p->d2cst_artylst := artylst
 val () = p->d2cst_type := typ
-val () = p->d2cst_tyer := None(*void*)
+val () = p->d2cst_hisexp := None(*void*)
 (*
 val () = p->d2cst_skexp := s2kexp_make_s2exp (typ)
 *)
@@ -176,13 +176,13 @@ d2cst_get_type (d2c) = let
 end // end of [d2cst_get_type]
 
 implement
-d2cst_get_tyer (d2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_tyer
-end // end of [d2cst_get_tyer]
+d2cst_get_hisexp (d2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_hisexp
+end // end of [d2cst_get_hisexp]
 implement
-d2cst_set_tyer (d2c, opt) = let
-  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_tyer := opt
-end // end of [d2cst_set_tyer]
+d2cst_set_hisexp (d2c, opt) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_hisexp := opt
+end // end of [d2cst_set_hisexp]
 
 implement
 d2cst_get_def (d2c) = let

@@ -138,9 +138,9 @@ case+ 0 of
     | PMVcfunlab (_, fl) => let
         val () = ccompenv_add_flabsetenv (env, fl) in pmv
       end // end of [PMVcfunlab]
-    | PMVtmpfunlab (d2v, fl) => let
+    | PMVd2vfunlab (d2v, fl) => let
         val () = ccompenv_add_flabsetenv (env, fl) in pmv
-      end // end of [PMVtmpfunlab]
+      end // end of [PMVd2vfunlab]
     | _ => let
         val () = ccompenv_add_dvarsetenv_var (env, d2v)
       in
@@ -1431,8 +1431,11 @@ val () = fprintln! (out, "hidexp_ccomp_lam: find2es = ", find2es)
 val () = fprintln! (out, "hidexp_ccomp_lam: fent = ", fent)
 *)
 //
+val knd = 0(*lam*)
+val pmv_funval = primval_make_funlab (loc0, flab)
+//
 in
-  primval_make_funclo (loc0, flab)
+  primval_lamfix (knd, pmv_funval)
 end // end of [hidexp_ccomp_lam]
 
 (* ****** ****** *)

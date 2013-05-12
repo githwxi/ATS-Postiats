@@ -139,9 +139,8 @@ case+ opt of
 | Some
     (s2e) => let
     val loc = d2var_get_loc (d2v)
-    val hse = s2exp_tyer_shallow (loc, s2e)
-    val hse = $UN.cast{hisexp0}(hse)
-    val ((*void*)) = d2var_set_hitype (d2v, Some (hse))
+    val hse = s2exp_tyer_deep (loc, s2e)
+    val ((*void*)) = d2var_set2_hisexp (d2v, Some (hse))
   in
     d2v
   end (* end of [Some] *)
@@ -956,7 +955,9 @@ local
 
 fun aux_tyer
   (d2c: d2cst): void = let
-  val opt = d2cst_get2_tyer (d2c)
+//
+val opt = d2cst_get2_hisexp (d2c)
+//
 in
 //
 case+ opt of
@@ -966,7 +967,7 @@ case+ opt of
     val s2e = d2cst_get_type (d2c)
     val hse = s2exp_tyer_deep (loc, s2e)
   in
-    d2cst_set2_tyer (d2c, Some (hse))
+    d2cst_set2_hisexp (d2c, Some (hse))
   end // end of [None]
 //
 end // end of [aux_tyer]

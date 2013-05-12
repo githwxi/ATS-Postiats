@@ -958,9 +958,10 @@ end // end of [s1exp_trdn_res_impred]
 (* ****** ****** *)
 
 fun
-s1exp_trup_arrow ( // arrow is a special type constructor
+s1exp_trup_arrow // arrow is a special type constructor
+(
   s1e0: s1exp
-, fcopt: funcloopt
+, fcopt: fcopt
 , islin: bool
 , isprf: bool
 , efcopt: effcstopt

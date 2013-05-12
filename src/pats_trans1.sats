@@ -76,7 +76,7 @@ fun e0xplst_tr (x: e0xplst): e1xplst
 (* ****** ****** *)
 
 fun e0fftaglst_tr
-  (tags:  e0fftaglst): @(funcloopt, int, int, effcst)
+  (tags:  e0fftaglst): @(fcopt, int, int, effcst)
 // end of [e0fftaglst_tr]
 
 (* ****** ****** *)
@@ -202,15 +202,10 @@ fun d0expopt_tr (xs: d0expopt): d1expopt
 
 fun labd0exp_tr (x: labd0exp): labd1exp
 
-fun d0exp_tr_lams_dyn (
-  lamknd : int
-, locopt : Option (location)
-, fcopt : funcloopt
-, lin : int
-, args : f0arglst
-, res : s0expopt
-, efcopt : effcstopt
-, body : d0exp
+fun d0exp_tr_lams_dyn
+(
+  knd : int, locopt : Option(location), fcopt : fcopt, lin : int
+, args : f0arglst, res : s0expopt, efcopt : effcstopt, body : d0exp
 ) : d1exp // end of [d0exp_lams_dyn_tr]
 
 fun termination_metric_check

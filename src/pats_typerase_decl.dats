@@ -256,7 +256,10 @@ fun f3undec_tyer
   in
     the_trans4errlst_add (T4E_d3exp_tyer_isprf (d3e_def))
   end // end of [val]
+//
+  val d2v_fun = d2var_tyer (d2v_fun)
   val hde_def = d3exp_tyer (d3e_def)
+//
 in
   hifundec_make (loc, d2v_fun, imparg, hde_def)
 end // end of [f3undec_tyer]
