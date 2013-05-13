@@ -43,11 +43,25 @@ preface.db:: preface.exe ; ./$< > $@
 preface.db:: ; $(RMF) preface.exe preface_atxt_dats.c preface_atxt.dats preface_atxt.txt
 
 ######
-
+#
+# PART I
+#
 allchap:: CHAP_START
 allchap:: CHAP_PROGELEM
 allchap:: CHAP_FUNCTION
-
+#
+######
+#
+# PART II
+#
+allchap:: CHAP_EFFECTFUL
+#
+######
+#
+# PART III
+#
+allchap:: CHAP_DEPTYPES
+#
 ######
 
 CHAP_START:: ; \
@@ -64,6 +78,20 @@ CHAP_FUNCTION:: ; \
   make -C CHAP_FUNCTION -f ../Makefile.chap main.db
 CHAP_FUNCTION:: ; \
   make -C CHAP_FUNCTION -f ../Makefile.chap clean
+
+######
+
+CHAP_EFFECTFUL:: ; \
+  make -C CHAP_EFFECTFUL -f ../Makefile.chap main.db
+CHAP_EFFECTFUL:: ; \
+  make -C CHAP_EFFECTFUL -f ../Makefile.chap clean
+
+######
+
+CHAP_DEPTYPES:: ; \
+  make -C CHAP_DEPTYPES -f ../Makefile.chap main.db
+CHAP_DEPTYPES:: ; \
+  make -C CHAP_DEPTYPES -f ../Makefile.chap clean
 
 ######
 
