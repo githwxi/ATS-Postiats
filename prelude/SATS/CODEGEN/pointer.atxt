@@ -41,10 +41,10 @@ stadef ptrknd = ptr_kind
 castfn ptr1_of_ptr0 (p: ptr):<> [l:addr] ptr (l)
 
 #atscode_separator()
-
+//
 prfun
 lemma_ptr_param {l:addr} (p: ptr l): [l >= null] void
-
+//
 #atscode_separator()
 
 prfun ptr_get_index
@@ -52,20 +52,32 @@ prfun ptr_get_index
 // end of [ptr_get_index]
 
 #atscode_separator()
-
+//
 symintr ptr_is_null
 symintr ptr_isnot_null
 //
-// ptr_succ(p) = ptr_add(p, 1)
-// ptr_pred(p) = ptr_sub(p, 1)
+#atscode_separator()
+//
+symintr ptr_add_bsz
+symintr ptr_sub_bsz
+//
+// ptr_add_bsz (p, ofs) = p + ofs
+// ptr_sub_bsz (p, ofs) = p - ofs
+//
+#atscode_separator()
 //
 symintr ptr_succ
 symintr ptr_pred
 //
-// ptr_add<a> (p, ofs) = p + ofs*sizeof<a>
-// ptr_sub<a> (p, ofs) = p - ofs*sizeof<a>
+// ptr_succ<a>(p) = p + sizeof<a>
+// ptr_pred<a>(p) = p - sizeof<a>
+//
+#atscode_separator()
 //
 symintr ptr_add ptr_sub
+//
+// ptr_add<a> (p, ofs) = p + ofs*sizeof<a>
+// ptr_sub<a> (p, ofs) = p - ofs*sizeof<a>
 //
 #atscode_separator()
 
@@ -75,26 +87,23 @@ fun ptr0_isnot_null (p: ptr):<> bool = "mac\#%"
 overload ptr_isnot_null with ptr0_isnot_null of 0
 
 #atscode_separator()
-
-fun{a:vt0p}
-ptr0_succ (p: ptr):<> ptr
+//
+fun ptr0_add_bsz
+  (p: ptr, ofs: size_t):<> ptr = "mac\#%"
+fun ptr0_sub_bsz
+  (p: ptr, ofs: size_t):<> ptr = "mac\#%"
+//
+overload ptr_add_bsz with ptr0_add_bsz of 0
+overload ptr_sub_bsz with ptr0_sub_bsz of 0
+//
+#atscode_separator()
+//
+fun{a:vt0p} ptr0_succ (p: ptr):<> ptr
+fun{a:vt0p} ptr0_pred (p: ptr):<> ptr
+//
 overload ptr_succ with ptr0_succ of 0
-fun{a:vt0p}
-ptr0_pred (p: ptr):<> ptr
 overload ptr_pred with ptr0_pred of 0
-
-#atscode_separator()
-
-fun ptr0_add_bytesize (p: ptr, ofs: size_t):<> ptr = "mac\#%"
-fun ptr0_sub_bytesize (p: ptr, ofs: size_t):<> ptr = "mac\#%"
-
-#atscode_separator()
-
-fun ptr1_add_bytesize
-  {l:addr}{i:int} (p: ptr l, ofs: size_t (i)):<> ptr (l+i) = "mac\#%"
-fun ptr1_sub_bytesize
-  {l:addr}{i:int} (p: ptr l, ofs: size_t (i)):<> ptr (l-i) = "mac\#%"
-
+//
 #atscode_separator()
 //
 fun{
@@ -221,29 +230,41 @@ overload fprint with fprint_ptr
 
 #atscode_separator()
 
-praxi ptr1_is_gtez
-  {l:addr} (p: ptr l):<> [l >= null] void
+praxi
+ptr1_is_gtez {l:addr} (p: ptr l): [l >= null] void
 
 #atscode_separator()
-
+//
 fun ptr1_is_null
   {l:addr} (p: ptr l):<> bool (l==null) = "mac\#%"
-overload ptr_is_null with ptr1_is_null of 10
 fun ptr1_isnot_null
   {l:addr} (p: ptr l):<> bool (l > null) = "mac\#%"
+//
+overload ptr_is_null with ptr1_is_null of 10
 overload ptr_isnot_null with ptr1_isnot_null of 10
-
+//
 #atscode_separator()
-
+//
+fun ptr1_add_bsz{l:addr}{i:int}
+  (p: ptr l, ofs: size_t (i)):<> ptr (l+i) = "mac\#%"
+fun ptr1_sub_bsz{l:addr}{i:int}
+  (p: ptr l, ofs: size_t (i)):<> ptr (l-i) = "mac\#%"
+//
+overload ptr_add_bsz with ptr1_add_bsz of 20
+overload ptr_sub_bsz with ptr1_sub_bsz of 20
+//
+#atscode_separator()
+//
 fun{a:vt0p}
 ptr1_succ {l:addr} (p: ptr l):<> ptr (l+sizeof(a))
-overload ptr_succ with ptr1_succ of 10
 fun{a:vt0p}
 ptr1_pred {l:addr} (p: ptr l):<> ptr (l-sizeof(a))
+//
+overload ptr_succ with ptr1_succ of 10
 overload ptr_pred with ptr1_pred of 10
-
+//
 #atscode_separator()
-
+//
 fun{
 a:vt0p}{tk:tk
 } ptr1_add_gint
@@ -259,7 +280,7 @@ overload ptr_add with ptr1_add_gint of 20
 overload ptr_add with ptr1_add_guint of 20
 //
 #atscode_separator()
-
+//
 fun{
 a:vt0p}{tk:tk
 } ptr1_sub_gint
@@ -342,21 +363,18 @@ overload <> with neq_ptr1_intz of 10
 //
 // HX: implemented in [prelude/DATS/pointer.dats]
 //
-fun{a:t0p}
-ptr_get {l:addr}
-  (pf: !INV(a) @ l | p: ptr l):<> a
-fun{a:t0p}
-ptr_get_vt {l:addr}
+fun{a:vt0p}
+ptr_get{l:addr}
   (pf: !INV(a) @ l >> a?! @ l | p: ptr l):<> a
-// end of [ptr_get_vt]
+// end of [ptr_get]
 
 fun{a:vt0p}
-ptr_set {l:addr} (
-  pf: !a? @ l >> a @ l | p: ptr l, x: INV(a)
-) :<!wrt> void // end of [ptr_set]
+ptr_set{l:addr}
+  (pf: !a? @ l >> a @ l | p: ptr l, x: INV(a)):<!wrt> void
+// end of [ptr_set]
 
 fun{a:vt0p}
-ptr_exch {l:addr}
+ptr_exch{l:addr}
   (pf: !INV(a) @ l | p: ptr l, x: &a >> a):<!wrt> void
 // end of [ptr_exch]
 

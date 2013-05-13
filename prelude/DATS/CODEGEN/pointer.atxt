@@ -43,60 +43,60 @@ ptr_get_index {l} (p) = addreq_make {l, l} ()
 #atscode_separator()
 
 implement{a}
-ptr0_succ (p) = ptr0_add_bytesize (p, sizeof<a>)
+ptr0_succ (p) = ptr0_add_bsz (p, sizeof<a>)
 implement{a}
-ptr0_pred (p) = ptr0_sub_bytesize (p, sizeof<a>)
+ptr0_pred (p) = ptr0_sub_bsz (p, sizeof<a>)
 
 #atscode_separator()
-
+//
 implement{a}{tk}
 ptr0_add_gint (p, i) =
-  ptr0_add_bytesize (p, g0int2uint(i) * sizeof<a>)
+  ptr0_add_bsz (p, g0int2uint(i) * sizeof<a>)
 implement{a}{tk}
 ptr0_sub_gint (p, i) =
-  ptr0_sub_bytesize (p, g0int2uint(i) * sizeof<a>)
-
+  ptr0_sub_bsz (p, g0int2uint(i) * sizeof<a>)
+//
 implement{a}{tk}
 ptr0_add_guint (p, i) =
-  ptr0_add_bytesize (p, g0uint2uint(i) * sizeof<a>)
+  ptr0_add_bsz (p, g0uint2uint(i) * sizeof<a>)
 implement{a}{tk}
 ptr0_sub_guint (p, i) =
-  ptr0_sub_bytesize (p, g0uint2uint(i) * sizeof<a>)
-
+  ptr0_sub_bsz (p, g0uint2uint(i) * sizeof<a>)
+//
 #atscode_separator()
-
+//
 implement{a}
 ptr1_succ {l} (p) =
   $UN.cast{ptr(l+sizeof(a))}(ptr0_succ<a> (p))
 implement{a}
 ptr1_pred {l} (p) =
   $UN.cast{ptr(l-sizeof(a))}(ptr0_pred<a> (p))
-
+//
 #atscode_separator()
-
+//
 implement{a}{tk}
 ptr1_add_gint {l}{i} (p, i) =
   $UN.cast{ptr(l+i*sizeof(a))}(ptr0_add_gint<a><tk> (p, i))
 implement{a}{tk}
 ptr1_sub_gint {l}{i} (p, i) =
   $UN.cast{ptr(l-i*sizeof(a))}(ptr0_sub_gint<a><tk> (p, i))
-
+//
 implement{a}{tk}
 ptr1_add_guint {l}{i} (p, i) =
   $UN.cast{ptr(l+i*sizeof(a))}(ptr0_add_guint<a><tk> (p, i))
 implement{a}{tk}
 ptr1_sub_guint {l}{i} (p, i) =
   $UN.cast{ptr(l-i*sizeof(a))}(ptr0_sub_guint<a><tk> (p, i))
-
+//
 #atscode_separator()
 
 implement{a} ptr_get (pf | p) = !p
-implement{a} ptr_get_vt (pf | p) = !p
 
 implement{a} ptr_set (pf | p, x) = !p := x
 
 implement{a}
-ptr_exch (pf | p, x) = {
+ptr_exch (pf | p, x) =
+{
   val tmp = x; val () = x := !p; val () = !p := tmp
 } // end of [ptr_exch]
 

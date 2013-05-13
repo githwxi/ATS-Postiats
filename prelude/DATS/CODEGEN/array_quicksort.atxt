@@ -43,8 +43,8 @@ implement{a}
 array_quicksort
   (A, asz) = let
 //
-overload + with ptr0_add_bytesize
-overload - with ptr0_sub_bytesize
+overload + with ptr0_add_bsz
+overload - with ptr0_sub_bsz
 //
 (* ****** ****** *)
 //

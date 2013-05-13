@@ -63,16 +63,16 @@ val () = assertloc (f91 (0) = 91)
 
 (*
 extern
-fun string_is_at_end
+fun string_is_atend
   {n:int} {i:nat | i <= n}
   (str: string n, i: size_t i): bool (i == n)
-// end of [string_is_at_end]
+// end of [string_is_atend]
 
 extern
-fun string_isnot_at_end
+fun string_isnot_atend
   {n:int} {i:nat | i <= n}
   (str: string n, i: size_t i): bool (i < n)
-// end of [string_isnot_at_end]
+// end of [string_isnot_atend]
 *)
 
 fun string_length{n:nat}

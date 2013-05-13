@@ -57,7 +57,7 @@ end // end of [string_isnot_empty]
 implement{}
 string_is_atend_size{n}{i}
   (str, i) = let
-  val p_i = ptr1_add_bytesize (string2ptr(str), i)
+  val p_i = ptr1_add_bsz (string2ptr(str), i)
 in
   $UN.cast{bool(n==i)}($UN.ptr1_get<char>(p_i) = CNUL)
 end // end of [string_is_atend_size]
@@ -75,9 +75,7 @@ string_is_atend_guint (str, i) =
 
 implement{}
 string_get_at_size (str, i) = let
-  val p_i =
-    ptr1_add_bytesize (string2ptr(str), i)
-  // end of [val]
+  val p_i = ptr1_add_bsz (string2ptr(str), i)
 in
   $UN.ptr1_get<charNZ>(p_i)
 end // end of [string_get_at_size]
@@ -97,8 +95,8 @@ implement{}
 string_test_at_size
   {n}{i} (str, i) = let
 //
-val p_i =
-  ptr1_add_bytesize (string2ptr(str), i)
+val p_i = ptr1_add_bsz (string2ptr(str), i)
+//
 extern
 castfn __cast 
   : (char) -<> [c:int] (string_index_p (n, i, c) | char (c))
@@ -300,10 +298,10 @@ implement{
 val ln1 = succ(ln)
 val (pf, pfgc | p_dst) = malloc_gc (ln1)
 val p_src = string2ptr(str)
-val p_src_st = ptr1_add_bytesize (p_src, st)
+val p_src_st = ptr1_add_bsz (p_src, st)
 val _(*p_dst*) = memcpy (p_dst, p_src_st, ln)
 //
-val p_dst_ln = ptr1_add_bytesize (p_dst, ln)
+val p_dst_ln = ptr1_add_bsz (p_dst, ln)
 val () = $UN.ptr0_set<char>(p_dst_ln, CNUL)
 //
 in
@@ -441,8 +439,7 @@ val n12 = n1 + n2
 val (pf, fpf | p) = malloc_gc (succ(n12))
 //
 val p1 = memcpy (p, string2ptr(x1), n1)
-val p2 = ptr1_add_bytesize (p, n1)
-val p2 = memcpy (p2, string2ptr(x2), succ(n2))
+val p2 = memcpy (ptr1_add_bsz (p, n1), string2ptr(x2), succ(n2))
 //
 in
   castvwtp_trans{strnptr(n1+n2)}((pf, fpf | p))
