@@ -58,11 +58,11 @@ symintr ptr_isnot_null
 //
 #atscode_separator()
 //
-symintr ptr_add_bsz
-symintr ptr_sub_bsz
+symintr add_ptr_bsz
+symintr sub_ptr_bsz
 //
-// ptr_add_bsz (p, ofs) = p + ofs
-// ptr_sub_bsz (p, ofs) = p - ofs
+// add_ptr_bsz (p, ofs) = p + ofs
+// sub_ptr_bsz (p, ofs) = p - ofs
 //
 #atscode_separator()
 //
@@ -88,14 +88,21 @@ overload ptr_isnot_null with ptr0_isnot_null of 0
 
 #atscode_separator()
 //
-fun ptr0_add_bsz
+fun add_ptr0_bsz
   (p: ptr, ofs: size_t):<> ptr = "mac\#%"
-fun ptr0_sub_bsz
+fun sub_ptr0_bsz
   (p: ptr, ofs: size_t):<> ptr = "mac\#%"
 //
-overload ptr_add_bsz with ptr0_add_bsz of 0
-overload ptr_sub_bsz with ptr0_sub_bsz of 0
+overload add_ptr_bsz with add_ptr0_bsz of 0
+overload sub_ptr_bsz with sub_ptr0_bsz of 0
 //
+
+#atscode_separator()
+
+fun sub_ptr0_ptr0
+  (p1: ptr, p2: ptr):<> ssize_t = "mac\#%"
+overload - with sub_ptr0_ptr0 of 0
+
 #atscode_separator()
 //
 fun{a:vt0p} ptr0_succ (p: ptr):<> ptr
@@ -126,12 +133,6 @@ a:vt0p}{tk:tk
 overload ptr_sub with ptr0_sub_gint of 0
 overload ptr_sub with ptr0_sub_guint of 0
 //
-#atscode_separator()
-
-fun sub_ptr0_ptr0
-  (p1: ptr, p2: ptr):<> ssize_t = "mac\#%"
-overload - with sub_ptr0_ptr0 of 0
-
 #atscode_separator()
 
 %{
@@ -245,14 +246,20 @@ overload ptr_isnot_null with ptr1_isnot_null of 10
 //
 #atscode_separator()
 //
-fun ptr1_add_bsz{l:addr}{i:int}
+fun add_ptr1_bsz{l:addr}{i:int}
   (p: ptr l, ofs: size_t (i)):<> ptr (l+i) = "mac\#%"
-fun ptr1_sub_bsz{l:addr}{i:int}
+fun sub_ptr1_bsz{l:addr}{i:int}
   (p: ptr l, ofs: size_t (i)):<> ptr (l-i) = "mac\#%"
 //
-overload ptr_add_bsz with ptr1_add_bsz of 20
-overload ptr_sub_bsz with ptr1_sub_bsz of 20
+overload add_ptr_bsz with add_ptr1_bsz of 20
+overload sub_ptr_bsz with sub_ptr1_bsz of 20
 //
+#atscode_separator()
+
+fun sub_ptr1_ptr1{l1,l2:addr}
+  (p1: ptr l1, p2: ptr l2):<> ssize_t (l1-l2) = "mac\#%"
+overload - with sub_ptr1_ptr1 of 20
+
 #atscode_separator()
 //
 fun{a:vt0p}

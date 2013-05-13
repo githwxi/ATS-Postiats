@@ -149,8 +149,8 @@ atspre_compare_int_int
 {
   return (i1 - i2) ;
 } // end of [atspre_compare_char_char]
-\#define atspre_compare_char0_char0 atspre_compare_int_int(c1, c2)
-\#define atspre_compare_char1_char1 atspre_compare_int_int(c1, c2)
+\#define atspre_compare_char0_char0(c1, c2) atspre_compare_int_int(c1, c2)
+\#define atspre_compare_char1_char1(c1, c2) atspre_compare_int_int(c1, c2)
 
 #atscode_separator_for_C()
 

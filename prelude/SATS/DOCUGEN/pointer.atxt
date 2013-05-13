@@ -87,29 +87,34 @@ informative type.  ')
 
 (* ****** ****** *)
 
-#declname("ptr_add_bsz")
+#declname("add_ptr_bsz")
 #declsynop2("\
 #pats2xhtmls("\
-symintr ptr_add_bsz
-overload ptr_add_bsz with ptr0_add_bsz of 0
-overload ptr_add_bsz with ptr1_add_bsz of 20
+symintr add_ptr_bsz
+overload add_ptr_bsz with add_ptr0_bsz of 0
+overload add_ptr_bsz with add_ptr1_bsz of 20
 ")
 ")
-#declnamesynop("ptr0_add_bsz")
-#declnamesynop("ptr1_add_bsz")
+#declnamesynop("add_ptr0_bsz")
+#declnamesynop("add_ptr1_bsz")
 
 (* ****** ****** *)
 
-#declname("ptr_sub_bsz")
+#declname("sub_ptr_bsz")
 #declsynop2("\
 #pats2xhtmls("\
-symintr ptr_sub_bsz
-overload ptr_sub_bsz with ptr0_sub_bsz of 0
-overload ptr_sub_bsz with ptr1_sub_bsz of 20
+symintr sub_ptr_bsz
+overload sub_ptr_bsz with sub_ptr0_bsz of 0
+overload sub_ptr_bsz with sub_ptr1_bsz of 20
 ")
 ")
-#declnamesynop("ptr0_sub_bsz")
-#declnamesynop("ptr1_sub_bsz")
+#declnamesynop("sub_ptr0_bsz")
+#declnamesynop("sub_ptr1_bsz")
+
+(* ****** ****** *)
+
+#declnamesynop("sub_ptr0_ptr0")
+#declnamesynop("sub_ptr1_ptr1")
 
 (* ****** ****** *)
 
@@ -145,8 +150,8 @@ overload ptr_pred with ptr1_pred of 1
 symintr ptr_add
 overload ptr_add with ptr0_add_gint of 0
 overload ptr_add with ptr0_add_guint of 0
-overload ptr_add with ptr1_add_gint of 2
-overload ptr_add with ptr1_add_guint of 2
+overload ptr_add with ptr1_add_gint of 20
+overload ptr_add with ptr1_add_guint of 20
 ")
 ")
 #declnamesynop("ptr0_add_gint")
@@ -162,8 +167,8 @@ overload ptr_add with ptr1_add_guint of 2
 symintr ptr_sub
 overload ptr_sub with ptr0_sub_gint of 0
 overload ptr_sub with ptr0_sub_guint of 0
-overload ptr_sub with ptr1_sub_gint of 2
-overload ptr_sub with ptr1_sub_guint of 2
+overload ptr_sub with ptr1_sub_gint of 20
+overload ptr_sub with ptr1_sub_guint of 20
 ")
 ")
 #declnamesynop("ptr0_sub_gint")
