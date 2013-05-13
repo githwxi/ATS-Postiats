@@ -1,7 +1,12 @@
 (*
-** Some code used in the book
+** Some code used in the INT2PROGINTATS book
 *)
 
+(* ****** ****** *)
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
 (* ****** ****** *)
 
 val _3 = 3.
@@ -69,12 +74,25 @@ val '(x, y, z) = xyz // x = 'A'; y = 1; z = 2.0
 typedef
 point2D = @{ x= double, y= double }
 
+(* ****** ****** *)
+
 val theOrigin = @{ x= 0.0, y= 0.0 } : point2D
-val theOrigin_x = theOrigin.x and theOrigin_y = theOrigin.y
+
+(* ****** ****** *)
+
+val theOrigin_x = theOrigin.x
+and theOrigin_y = theOrigin.y
+
+(* ****** ****** *)
 
 val @{ x= theOrigin_x, y= theOrigin_y } = theOrigin
 val @{ x= theOrigin_x, ... } = theOrigin
 val @{ y= theOrigin_y, ... } = theOrigin
+
+(* ****** ****** *)
+
+val () = assertloc (theOrigin.x = theOrigin_x)
+val () = assertloc (theOrigin.y = theOrigin_y)
 
 (* ****** ****** *)
 

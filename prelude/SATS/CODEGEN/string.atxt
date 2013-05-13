@@ -61,13 +61,12 @@ stringBtwe
 #atscode_separator()
 
 dataprop
-string_index_p (
+string_index_p
+(
   n: int, int(*i*), int(*c*)
 ) =
-  | string_index_p_eq (n, n, 0)
-  | {i:int | n > i}
-    {c:int8 | c != 0}
-    string_index_p_gt (n, i, c)
+  | string_index_p_eqz (n, n, 0)
+  | {i:int | n > i} {c:int8 | c != 0} string_index_p_neqz (n, i, c)
 // end of [string_index_p]
 
 #atscode_separator()
@@ -118,7 +117,7 @@ fun{} string_isnot_empty (x: string):<> bool
 //
 symintr string_is_atend
 //
-fun{tk:tk}
+fun{}
 string_is_atend_size
   {n:int}{i:nat | i <= n}
   (s: string (n), i: size_t (i)):<> bool (i==n)
