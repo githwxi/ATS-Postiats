@@ -23,9 +23,9 @@ type #stacode("int") to both of integers 0 and 1, then we simply cannot
 distinguish 0 from 1 at the level of types. This means that 0 and 1 are
 interchangeable as far as typechecking is concerned. In other words, we
 cannot expect a program error to be caught during typechecking if the error
-is caused by 0 being mistyped as 1. This form of imprecision in types is a
-crippling limitation if we ever want to build a type-based specification
-language that is reasonably expressive for practical use.
+is caused by 0 being mistyped as 1. This form of imprecision in types can
+become a crippling limitation if we ever want to build a type-based
+specification language that is reasonably expressive for practical use.
 
 ")#comment("para")
 
