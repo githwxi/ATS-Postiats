@@ -200,51 +200,6 @@ end // end of [dynarray_insert_at]
 (* ****** ****** *)
 
 implement{a}
-dynarray_insert_at_exn
-  (DA, i, x) = let
-//
-var res: a?
-val ans = dynarray_insert_at (DA, i, x, res)
-//
-in
-//
-if ans then let
-//
-prval () = opt_unsome{a}(res)
-prval () = $UN.cast2void (res)
-//
-val () = prerr "exit(ATSLIB): [dynarray_insert_at_exn] failed."
-//
-in
-  exit_void (1)
-end else let
-//
-prval () = opt_unnone{a}(res)
-//
-in
-  // nothing
-end // end of [if]
-//
-end (* end of [dynarray_insert_at_exn] *)
-
-(* ****** ****** *)
-
-implement{a}
-dynarray_insert_at_opt
-  (DA, i, x) = let
-//
-var res: a?
-val ans = dynarray_insert_at (DA, i, x, res)
-//
-in
-//
-option_vt_make_opt<a> (ans, res)
-//
-end (* end of [dynarray_insert_at_opt] *)
-
-(* ****** ****** *)
-
-implement{a}
 dynarray_insert_atbeg_exn
   (DA, x) = let
 in
@@ -384,58 +339,12 @@ end // end of [dynarray_takeout_at]
 (* ****** ****** *)
 
 implement{a}
-dynarray_takeout_at_exn
-  (DA, i) = let
-//
-var res: a?
-val ans = dynarray_takeout_at (DA, i, res)
-//
-in
-//
-if ans then let
-//
-prval () = opt_unsome{a}(res)
-//
-in
-  res
-end else let
-//
-prval () = opt_unnone{a}(res)
-//
-val (
-) = prerr "exit(ATSLIB): [dynarray_takeout_at_exn] failed."
-//
-val () = exit_void (1)
-//
-in
-  $UN.castvwtp0{a}(res)
-end // end of [if]
-//
-end // end of [dynarray_takeout_at_exn]
-
-(* ****** ****** *)
-
-implement{a}
-dynarray_takeout_at_opt
-  (DA, i) = let
-//
-var res: a?
-val ans = dynarray_takeout_at (DA, i, res)
-//
-in
-//
-option_vt_make_opt<a> (ans, res)
-//
-end // end of [dynarray_takeout_at_opt]
-
-(* ****** ****** *)
-
-implement{a}
 dynarray_takeout_atbeg_exn
   (DA) = let
 in
   dynarray_takeout_at_exn (DA, i2sz(0))
 end // end of [dynarray_takeout_atbeg_exn]
+//
 implement{a}
 dynarray_takeout_atbeg_opt
   (DA) = let
@@ -455,13 +364,14 @@ if n > 0 then
   dynarray_takeout_at_exn (DA, pred(n))
 else let
   var res: a?
-  val () = prerr "exit(ATSLIB): [dynarray_takeout_at_exn] failed."
+  val () = prerr "exit(ATSLIB): [dynarray_takeout_atend_exn] failed."
   val () = exit_void (1)
 in
   $UN.castvwtp0{a}(res)
 end (* end of [if] *)
 //
 end // end of [dynarray_takeout_atend_exn]
+//
 implement{a}
 dynarray_takeout_atend_opt
   (DA) = let
@@ -604,6 +514,98 @@ in
 if cptr2ptr(pi) > 0 then $UN.cptr_set (pi, x) else $raise ArraySubscriptExn()
 //
 end // end of [dynarray_set_at_exn]
+
+(* ****** ****** *)
+
+implement{a}
+dynarray_insert_at_exn
+  (DA, i, x) = let
+//
+var res: a?
+val ans = dynarray_insert_at (DA, i, x, res)
+//
+in
+//
+if ans then let
+//
+prval () = opt_unsome{a}(res)
+prval () = $UN.cast2void (res)
+//
+val () = prerr "exit(ATSLIB): [dynarray_insert_at_exn] failed."
+//
+in
+  exit_void (1)
+end else let
+//
+prval () = opt_unnone{a}(res)
+//
+in
+  // nothing
+end // end of [if]
+//
+end (* end of [dynarray_insert_at_exn] *)
+
+(* ****** ****** *)
+
+implement{a}
+dynarray_insert_at_opt
+  (DA, i, x) = let
+//
+var res: a?
+val ans = dynarray_insert_at (DA, i, x, res)
+//
+in
+//
+option_vt_make_opt<a> (ans, res)
+//
+end (* end of [dynarray_insert_at_opt] *)
+
+(* ****** ****** *)
+
+implement{a}
+dynarray_takeout_at_exn
+  (DA, i) = let
+//
+var res: a?
+val ans = dynarray_takeout_at (DA, i, res)
+//
+in
+//
+if ans then let
+//
+prval () = opt_unsome{a}(res)
+//
+in
+  res
+end else let
+//
+prval () = opt_unnone{a}(res)
+//
+val (
+) = prerr "exit(ATSLIB): [dynarray_takeout_at_exn] failed."
+//
+val () = exit_void (1)
+//
+in
+  $UN.castvwtp0{a}(res)
+end // end of [if]
+//
+end // end of [dynarray_takeout_at_exn]
+
+(* ****** ****** *)
+
+implement{a}
+dynarray_takeout_at_opt
+  (DA, i) = let
+//
+var res: a?
+val ans = dynarray_takeout_at (DA, i, res)
+//
+in
+//
+option_vt_make_opt<a> (ans, res)
+//
+end // end of [dynarray_takeout_at_opt]
 
 (* ****** ****** *)
 
