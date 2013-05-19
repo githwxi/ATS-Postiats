@@ -46,6 +46,59 @@ ATSCNTRB_SML_Z3_Z3_HEADER
 //
 (* ****** ****** *)
 
+fun Z3_mk_add{n:int}
+(
+  ctx: !Z3_context, xs: &array (Z3_ast, n), n: int n
+) : Z3_ast = "mac#%" // end of [Z3_mk_add]
+
+(* ****** ****** *)
+
+fun Z3_mk_lt
+(
+  ctx: !Z3_context, left: !Z3_ast, right: !Z3_ast
+) : Z3_ast = "mac#%" // end of [Z3_mk_lt]
+
+fun Z3_mk_le
+(
+  ctx: !Z3_context, left: !Z3_ast, right: !Z3_ast
+) : Z3_ast = "mac#%" // end of [Z3_mk_le]
+
+(* ****** ****** *)
+
+fun Z3_mk_gt
+(
+  ctx: !Z3_context, left: !Z3_ast, right: !Z3_ast
+) : Z3_ast = "mac#%" // end of [Z3_mk_gt]
+
+fun Z3_mk_ge
+(
+  ctx: !Z3_context, left: !Z3_ast, right: !Z3_ast
+) : Z3_ast = "mac#%" // end of [Z3_mk_ge]
+
+(* ****** ****** *)
+//
+// Some conveninence functions
+//
+(* ****** ****** *)
+
+fun Z3_mk_add2
+(
+  ctx: !Z3_context, a1: !Z3_ast, a2: !Z3_ast
+) : Z3_ast = "mac#%" // end of [Z3_mk_add2]
+
+fun Z3_mk_mul2
+(
+  ctx: !Z3_context, a1: !Z3_ast, a2: !Z3_ast
+) : Z3_ast = "mac#%" // end of [Z3_mk_mul2]
+
+(* ****** ****** *)
+
+(*
+fun Z3_mk_add_dynarray
+(
+  ctx: !Z3_context, xs: dynarray (Z3_ast)
+) : Z3_ast = "mac#%" // end of [Z3_mk_add_dynarray]
+*)
 
 (* ****** ****** *)
 

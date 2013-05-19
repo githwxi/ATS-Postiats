@@ -6,44 +6,54 @@
 //
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
+(* ****** ****** *)
 
-staload
-I = "prelude/DATS/integer.dats"
-staload
-LIST = "prelude/DATS/list.dats"
+staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-fun intrange (
+fun intrange
+(
   m: int, n: int
-) : List0(int) = let
+) : List0_vt(int) = let
 //
-typedef tres = List0(int)
+vtypedef
+res = List0_vt(int)
 //
-fun loop (
-  m: int, n: int
-, res: &tres? >> tres
+fun loop
+(
+  m: int, n: int, res: &res? >> res
 ) : void =
   if m < n then let
-    val () =
-      res := list_cons{int}{0}(m, _)
-    // end of [val]
-    val list_cons (_, res1) = res
+    val () = res :=
+      list_vt_cons{int}{0}(m, _)
+    val list_vt_cons (_, res1) = res
     val () = loop (m+1, n, res1)
     prval () = fold@ (res)
   in
     // nothing 
   end else
-    (res := list_nil ())
+    (res := list_vt_nil ())
   // end of [if]
 //
-var res: tres
+var res: res
 val () = loop (m, n, res)
 //
 in
   res
 end // end of [intrange]
 
+(* ****** ****** *)
+//
+staload "libats/SATS/sllist.sats"
+//
+staload _ = "libats/DATS/gnode.dats"
+staload _ = "libats/DATS/sllist.dats"
+//
 (* ****** ****** *)
 
 implement
@@ -52,11 +62,20 @@ main (
 ) = 0 where {
   #define M 0
   #define N 10
-  val xs = intrange (M, N)
-  val () = assertloc (list_length (xs) = N-M)
   val out = stdout_ref
-  val () = fprint_list_sep<int> (out, xs, ", ")
+//
+  typedef T = int
+//
+  val xs = intrange (M, N)
+  val xs = $UN.castvwtp0{Sllist(T)}(xs)
+//
+  val ln = sllist_length (xs)
+  val () = assertloc (ln = N-M)
+  val () = fprint_sllist<T> (out, xs)
   val () = fprint_newline (out)
+//
+  val () = sllist_free (xs)
+//
 } // end of [main]
 
 (* ****** ****** *)

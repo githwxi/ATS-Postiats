@@ -46,41 +46,18 @@ ATSCNTRB_SML_Z3_Z3_HEADER
 //
 (* ****** ****** *)
 
-(*
-Z3_tactic
-Z3_mk_tactic (__in Z3_context c, __in Z3_string name)
-Return a tactic associated with the given name. The complete list of
-tactics may be obtained using the procedures Z3_get_num_tactics and
-Z3_get_tactic_name. It may also be obtained using the command
-(help-tactics) in the SMT 2.0 front-end.
-*)
-fun Z3_mk_tactic (ctx: !Z3_context, name: string): Z3_tactic = "mac#%"
+fun Z3_mk_int
+(
+  ctx: !Z3_context, numeral: int, ty: !Z3_sort
+) : Z3_ast = "mac#%" // end of [Z3_mk_int]
 
 (* ****** ****** *)
 
-fun Z3_tactic_inc_ref
-  (ctx: !Z3_context, t: !Z3_tactic): Z3_tactic = "mac#%"
-// end of [Z3_tactic_inc_ref]
-
-fun Z3_tactic_dec_ref (ctx: !Z3_context, t: Z3_tactic): void = "mac#%"
-
-(* ****** ****** *)
-
-(*
-Z3_mk_probe (__in Z3_context c, __in Z3_string name)
-Return a probe associated with the given name. The complete list of probes
-may be obtained using the procedures Z3_get_num_probes and
-Z3_get_probe_name. It may also be obtained using the command (help-tactics)
-in the SMT 2.0 front-end.
-*)
-fun Z3_mk_probe (ctx: !Z3_context, name: string): Z3_probe = "mac#%"
-
-fun Z3_probe_inc_ref
-  (ctx: !Z3_context, p: !Z3_probe): Z3_probe = "mac#%"
-// end of [Z3_probe_inc_ref]
-
-fun Z3_probe_dec_ref (ctx: !Z3_context, p: Z3_probe): void = "mac#%"
+fun Z3_mk_numeral
+(
+  ctx: !Z3_context, numeral: Z3_string, ty: !Z3_sort
+) : Z3_ast = "mac#%" // end of [Z3_mk_numeral]
 
 (* ****** ****** *)
 
-(* end of [z3_tactic_probe.sats] *)
+(* end of [z3_numeral.sats] *)

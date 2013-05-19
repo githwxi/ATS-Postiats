@@ -122,8 +122,8 @@ Increment the reference counter of the given AST. The context c should
 have been created using Z3_mk_context_rc. This function is a NOOP if c
 was created using Z3_mk_context.
 *)
-fun Z3_inc_ref
-  (ctx: !Z3_context, a: !Z3_ast): Z3_ast = "mac#%"
+fun Z3_inc_ref{l:addr}
+  (ctx: !Z3_context, a: !Z3_ast l): Z3_ast (l) = "mac#%"
 // end of [Z3_inc_ref]
  
 (*
@@ -200,9 +200,12 @@ fun Z3_interrupt (ctx: !Z3_context): void = "mac#%"
 
 (* ****** ****** *)
 
+#include "./z3_numeral.sats"
+
+(* ****** ****** *)
+
 (*
 #include "./z3_arrayset.sats"
-#include "./z3_numeral.sats"
 #include "./z3_quantifier.sats"
 *)
 

@@ -109,7 +109,7 @@ RMF=rm -f
 #make_entry("gfact")
 #make_entry("hello")
 #make_entry("intecho")
-#make_entry("intrange")
+#make2_entry("intrange", "-DATS_MEMALLOC_LIBC", "")
 #make_entry("mutailrec")
 #make_entry("sumodd")
 #make_entry("strprefix")

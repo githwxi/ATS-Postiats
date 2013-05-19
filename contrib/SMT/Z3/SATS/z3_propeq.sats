@@ -58,14 +58,23 @@ Create an AST node representing false.
 *)
 fun Z3_mk_false (ctx: !Z3_context): Z3_ast = "mac#%"
 
+(* ****** ****** *)
+
 (*
 Z3_ast Z3_mk_eq (__in Z3_context c, __in Z3_ast l, __in Z3_ast r)
 Create an AST node representing l = r. 
 *)
 fun Z3_mk_eq
-  (ctx: !Z3_context, l: !Z3_ast, r: !Z3_ast): Z3_ast = "mac#%"
-// end of [Z3_mk_eq]
+(
+  ctx: !Z3_context, left: !Z3_ast, right: !Z3_ast
+) : Z3_ast = "mac#%" // end of [Z3_mk_eq]
 
+(* ****** ****** *)
+
+fun Z3_mk_not
+  (ctx: !Z3_context, a: !Z3_ast): Z3_ast = "mac#%"
+// end of [Z3_mk_not]
+  
 (* ****** ****** *)
 
 fun Z3_mk_or2

@@ -203,7 +203,7 @@ cleanall:: ; $(RMF) intecho.exe
 
 all:: intrange
 intrange: intrange.exe
-intrange.exe: intrange_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+intrange.exe: intrange_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
 intrange_dats.c: intrange.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output intrange_dats.c --dynamic intrange.dats
 clean:: ; $(RMF) intrange_dats.o
 clean:: ; $(RMF) intrange_dats.c

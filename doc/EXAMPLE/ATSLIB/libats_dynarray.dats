@@ -66,11 +66,18 @@ val () = println! ("DA[3] = ", DA[3sz])
 val () = println! ("DA->sz = ", dynarray_get_size (DA))
 val () = println! ("DA->cap = ", dynarray_get_capacity (DA))
 //
+val () = dynarray_insert_at_exn (DA, 4sz, 4)
+val () = println! ("DA[4] = ", DA[4sz])
+val () = println! ("DA->sz = ", dynarray_get_size (DA))
+val () = println! ("DA->cap = ", dynarray_get_capacity (DA))
+//
 val out = stdout_ref
 val () = fprint_dynarray (out, DA)
 val () = fprint_newline (out)
 //
-val-~Some_vt(x) = dynarray_takeout_atbeg_opt (DA)
+val x = dynarray_takeout_at_exn (DA, 0sz)
+val () = println! ("takeout(0) = ", x)
+val x = dynarray_takeout_atbeg_exn (DA)
 val () = println! ("takeout(beg) = ", x)
 val-~Some_vt(x) = dynarray_takeout_atend_opt (DA)
 val () = println! ("takeout(end) = ", x)

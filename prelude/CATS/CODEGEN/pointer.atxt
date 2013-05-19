@@ -61,19 +61,19 @@ atspre_ptr_isnot_null
 
 ATSinline()
 atstype_ptr
-atspre_ptr_add_bsz
+atspre_add_ptr_bsz
   (atstype_ptr p, atstype_size ofs) { return ((char*)p + ofs) ; }
-// end of [atspre_ptr_add_bsz]
-\#define atspre_ptr0_add_bsz atspre_ptr_add_bsz
-\#define atspre_ptr1_add_bsz atspre_ptr_add_bsz
+// end of [atspre_add_ptr_bsz]
+\#define atspre_add_ptr0_bsz atspre_add_ptr_bsz
+\#define atspre_add_ptr1_bsz atspre_add_ptr_bsz
 
 ATSinline()
 atstype_ptr
-atspre_ptr_sub_bsz
+atspre_sub_ptr_bsz
   (atstype_ptr p, atstype_size ofs) { return ((char*)p - ofs) ; }
-// end of [atspre_ptr_sub_bsz]
-\#define atspre_ptr0_sub_bsz atspre_ptr_sub_bsz
-\#define atspre_ptr1_sub_bsz atspre_ptr_sub_bsz
+// end of [atspre_sub_ptr_bsz]
+\#define atspre_sub_ptr0_bsz atspre_sub_ptr_bsz
+\#define atspre_sub_ptr1_bsz atspre_sub_ptr_bsz
 
 #atscode_separator_for_C()
 

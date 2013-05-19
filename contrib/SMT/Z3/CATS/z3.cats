@@ -27,6 +27,14 @@
 
 /* ****** ****** */
 
+// Author: Will Blair
+
+/* ****** ****** */
+
+// Author: Hongwei Xi
+
+/* ****** ****** */
+
 #ifndef Z3_Z3_CATS
 #define Z3_Z3_CATS
 
@@ -58,11 +66,19 @@ atscntrb_Z3_inc_ref
 
 /* ****** ****** */
 
+#include "z3_sort.cats"
+
+/* ****** ****** */
+
 #include "z3_constapp.cats"
 
 /* ****** ****** */
 
 #include "z3_propeq.cats" // for prop and equality
+
+/* ****** ****** */
+
+#include "./z3_arithmetic.cats"
 
 /* ****** ****** */
 

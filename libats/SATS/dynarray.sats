@@ -132,10 +132,16 @@ dynarray_insert_at
 ) : #[b:bool] bool (b) // end of [dynarray_insert_at]
 
 (* ****** ****** *)
-
+//
+fun{a:vt0p}
+dynarray_insert_at_exn
+  (DA: !dynarray (INV(a)), i: size_t, x: a): void
 fun{a:vt0p}
 dynarray_insert_at_opt
   (DA: !dynarray (INV(a)), i: size_t, x: a): Option_vt (a)
+//
+(* ****** ****** *)
+
 fun{a:vt0p}
 dynarray_insert_atbeg_exn (DA: !dynarray (INV(a)), x: a): void
 fun{a:vt0p}
@@ -164,12 +170,25 @@ dynarray_takeout_at
 ) : #[b:bool] bool(b) // end of [dynarray_takeout_at]
 
 (* ****** ****** *)
-
+//
+fun{a:vt0p}
+dynarray_takeout_at_exn
+  (DA: !dynarray (INV(a)), i: size_t): (a)
 fun{a:vt0p}
 dynarray_takeout_at_opt
   (DA: !dynarray (INV(a)), i: size_t): Option_vt (a)
+//
+(* ****** ****** *)
+
+fun{a:vt0p}
+dynarray_takeout_atbeg_exn (DA: !dynarray (INV(a))): (a)
 fun{a:vt0p}
 dynarray_takeout_atbeg_opt (DA: !dynarray (INV(a))): Option_vt (a)
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+dynarray_takeout_atend_exn (DA: !dynarray (INV(a))): (a)
 fun{a:vt0p}
 dynarray_takeout_atend_opt (DA: !dynarray (INV(a))): Option_vt (a)
 

@@ -537,13 +537,16 @@ fun sum_iter
 A tail-recursive function is often referred to as an iterative function.
 ")#comment("para")
 
-#para("\
-In ATS, the single most important optimization is probably the one
+#para("\ In ATS, the single most important optimization is probably the one
 that turns a self tail-call into a local jump. This optimization
 effectively turns every tail-recursive function into the equivalent of a
 loop. Although ATS provides direct syntactic support for constructing
 for-loops and while-loops, the preferred approach to loop construction in
-ATS is in general through the use of tail-recursive functions.
+ATS is in general through the use of tail-recursive functions. This is the
+case primarily due to the fact that the syntax for writing tail-recursive
+functions is compatible with the syntax for other programming features in
+ATS while the syntax for loops is much less so.\
+
 ")
 
 </sect1>
@@ -707,7 +710,7 @@ fun safety_test1
 (*
 ** [abs]: the absolute value function
 *)
-  j0 <> j1 andalso abs (i0 - i1) <> abs (j0 - j1)
+  j0 != j1 andalso abs (i0 - i1) != abs (j0 - j1)
 // end of [safety_test1]
 
 fun safety_test2
@@ -987,8 +990,8 @@ id="envless-functions-and-function-closures">
 #para("\
 
 I use <emphasis>envless</emphasis> as a shorthand for environmentless,
-which is not a legal word but I guess you have no problem figuring out what
-it means.\
+which is not a legal word but I suppose that you have no problem figuring
+out what it means.\
 
 ")
 
@@ -1073,11 +1076,12 @@ run-time.\
 
 #para("\
 
-The need for creating closures often appears when the return value of a
-function call is a function itself. For instance, the following defined
-function #dyncode("addx") returns another function when applied to a given
-integer #dyncode("x"), and the returned function is a closure function,
-which always adds the integer #dyncode("x") to its own argument:
+The need for creating closures often appears when a function is not
+directly applied. For instance, the return value of a function call may
+also be a function. In the following code, the defined function
+#dyncode("addx") returns another function when applied to a given integer
+#dyncode("x"), and the returned function is a closure function, which
+always adds the integer #dyncode("x") to its own argument:
 
 
 #atscode("\
@@ -1222,7 +1226,7 @@ through garbage collection (GC). Therefore, calling functions like
 no GC is available. Fortunately, there are also linear closure functions in
 ATS, which do not cause any memory leaks even in the absence of GC as they
 are required to be explicitly freed by the programmer. I will cover this
-interesting topic elsewhere.\
+interesting programming feature elsewhere.\
 
 ")#comment("para")
 

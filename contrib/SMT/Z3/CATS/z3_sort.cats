@@ -27,18 +27,23 @@
 
 /* ****** ****** */
 
-#ifndef Z3_Z3_CONSTAPP_CATS
-#define Z3_Z3_CONSTAPP_CATS
+#ifndef Z3_Z3_SORT_CATS
+#define Z3_Z3_SORT_CATS
 
 /* ****** ****** */
 
-#define atscntrb_Z3_mk_const(ctx, sym, ty) \
-  atscntrb_Z3_inc_ref(Z3_mk_const(ctx, sym, ty))
+ATSinline()
+Z3_sort
+atscntrb_Z3_mk_int_sort(Z3_context ctx) {
+  Z3_sort ty = Z3_mk_int_sort(ctx);
+  Z3_inc_ref(ctx, Z3_sort_to_ast(ctx, ty));
+  return ty;
+}
 
 /* ****** ****** */
 
-#endif // end of [Z3_Z3_CONSTAPP_CATS]
+#endif // end of [Z3_Z3_SORT_CATS]
 
 /* ****** ****** */
 
-/* end of [z3_constapp.cats] */
+/* end of [z3_sort.cats] */

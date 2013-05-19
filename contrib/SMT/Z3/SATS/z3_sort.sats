@@ -46,6 +46,15 @@ ATSCNTRB_SML_Z3_Z3_HEADER
 //
 (* ****** ****** *)
 
+fun Z3_mk_int_sort (ctx: !Z3_context): Z3_sort = "mac#%"
+  
+(* ****** ****** *)
+
+fun Z3_sort_inc_ref
+  {l:addr} (ctx: !Z3_context, srt: !Z3_sort l): Z3_sort l = "mac#%"
+// end of [Z3_sort_inc_ref]
+
+fun Z3_sort_dec_ref (ctx: !Z3_context, srt: Z3_sort): void = "mac#%"
 
 (* ****** ****** *)
 

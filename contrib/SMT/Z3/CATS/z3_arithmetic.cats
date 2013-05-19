@@ -27,18 +27,37 @@
 
 /* ****** ****** */
 
-#ifndef Z3_Z3_CONSTAPP_CATS
-#define Z3_Z3_CONSTAPP_CATS
+#ifndef Z3_Z3_ARITHMETIC_CATS
+#define Z3_Z3_ARITHMETIC_CATS
 
 /* ****** ****** */
 
-#define atscntrb_Z3_mk_const(ctx, sym, ty) \
-  atscntrb_Z3_inc_ref(Z3_mk_const(ctx, sym, ty))
+ATSinline()
+Z3_ast
+atscntrb_Z3_mk_add2
+  (Z3_context ctx, Z3_ast a0, Z3_ast a1)
+{
+  Z3_ast a01[2] ;
+  a01[0] = a0 ; a01[1] = a1 ;
+  return atscntrb_Z3_inc_ref(Z3_mk_add(ctx, 2, a01)) ;
+} // end of [atscntrb_Z3_mk_add2]
 
 /* ****** ****** */
 
-#endif // end of [Z3_Z3_CONSTAPP_CATS]
+ATSinline()
+Z3_ast
+atscntrb_Z3_mk_mul2
+  (Z3_context ctx, Z3_ast a0, Z3_ast a1)
+{
+  Z3_ast a01[2] ;
+  a01[0] = a0 ; a01[1] = a1 ;
+  return atscntrb_Z3_inc_ref(Z3_mk_mul(ctx, 2, a01)) ;
+} // end of [atscntrb_Z3_mk_mul2]
 
 /* ****** ****** */
 
-/* end of [z3_constapp.cats] */
+#endif // end of [Z3_Z3_ARITHMETIC_CATS]
+
+/* ****** ****** */
+
+/* end of [z3_airthmetic.cats] */
