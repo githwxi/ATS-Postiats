@@ -40,13 +40,14 @@ fun{} queue_isnot_empty
 
 extern
 fun{a:vt0p}
-enqueue {n:int}
+queue_insert_atend{n:int}
   (que: !queue (INV(a), n) >> queue (a, n+1), x: a): void
-// end of [enqueue]
+// end of [queue_insert_atend]
 
 extern
 fun{a:vt0p}
-dequeue {n:pos} (que: !queue (INV(a), n) >> queue (a, n-1)): a
+queue_takeout_atbeg
+  {n:pos} (que: !queue (INV(a), n) >> queue (a, n-1)): (a)
 
 (* ****** ****** *)
 
@@ -96,7 +97,8 @@ in
 end // end of [queue_isnot_empty]
 
 implement{a}
-enqueue (que, x) = let
+queue_insert_atend
+  (que, x) = let
 //
 val+@QUEUE (f, r) = que
 val () = r := sllist_cons (x, r)
@@ -104,11 +106,13 @@ prval () = fold@ (que)
 //
 in
   // nothing
-end // end of [enqueue]
+end // end of [queue_insert_atend]
 
 implement{a}
-dequeue (que) = let
-  val+@QUEUE (f, r) = que
+queue_takeout_atbeg
+  (que) = let
+//
+val+@QUEUE (f, r) = que
 //
 prval () = lemma_sllist_param (f)
 prval () = lemma_sllist_param (r)
@@ -132,7 +136,7 @@ in
   x
 end // end of [if]
 //
-end // end of [dequeue]
+end // end of [queue_takeout_atbeg]
 
 end // end of [local]
 
@@ -156,15 +160,17 @@ typedef T = int
 //
 val Q = queue_make_nil {T} ()
 //
-val () = enqueue (Q, 0)
-val () = enqueue (Q, 1)
-val () = println! ("Q[hd] = ", dequeue (Q))
-val () = println! ("Q[hd] = ", dequeue (Q))
+val () = queue_insert_atend (Q, 0)
+val () = queue_insert_atend (Q, 1)
+val () = println! ("Q[hd] = ", queue_takeout_atbeg (Q))
+val () = println! ("Q[hd] = ", queue_takeout_atbeg (Q))
 //
-val () = enqueue (Q, 2)
-val () = enqueue (Q, 3)
-val () = println! ("Q[hd] = ", dequeue (Q))
-val () = println! ("Q[hd] = ", dequeue (Q))
+val () = queue_insert_atend (Q, 2)
+val () = queue_insert_atend (Q, 3)
+val () = queue_insert_atend (Q, 4)
+val () = println! ("Q[hd] = ", queue_takeout_atbeg (Q))
+val () = println! ("Q[hd] = ", queue_takeout_atbeg (Q))
+val () = println! ("Q[hd] = ", queue_takeout_atbeg (Q))
 //
 val () = queue_free_nil (Q)
 //

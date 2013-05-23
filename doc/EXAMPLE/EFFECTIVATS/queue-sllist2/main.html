@@ -85,7 +85,7 @@ As for enqueueing, we declare the following function:
 
 <pre>
 fun{a:vt0p}
-enqueue{n:int}
+queue_insert_atend{n:int}
   (que: !queue (a, n) >> queue (a, n+1), x: a): void
 </pre>
 
@@ -100,7 +100,7 @@ As for dequeueing, we declare the following function:
 
 <pre>
 fun{a:vt0p}
-dequeue{n:int | n > 0} (que: !queue (a, n) >> queue (a, n-1)): a
+queue_takeout_atbeg{n:int | n > 0} (que: !queue (a, n) >> queue (a, n-1)): a
 </pre>
 
 Note that the syntax indicates that [que] is a call-by-value argument and
@@ -128,9 +128,9 @@ element.
 
 <p>
 
-Clearly, this implementation guarantees that enqueue is always O(1)-time
-but dequeue may be O(n)-time, where n is the size of the rear part of the
-queue. It can also be readily noted that enqueue and dequeue are both
+Clearly, this implementation guarantees that enqueueing is always O(1)-time
+but dequeueing may be O(n)-time, where n is the size of the rear part of the
+queue. It can also be readily noted that enqueueing and dequeueing are both
 O(1)-time if amortized time-complexity is of the concern.
 
 <p>
@@ -159,7 +159,8 @@ implement{}
 queue_make_nil () = QUEUE (sllist_nil (), sllist_nil ())
 </pre>
 
-A queue of size 0 consists of an empty front part and an empty rear part.
+The function [queue_make_nil] is called to create a queue of size 0, which
+consists of an empty front part and an empty rear part.
 
 <pre>
 implement{}
@@ -178,6 +179,7 @@ in
 end // end of [queue_free_nil]
 </pre>
 
+The function [queue_free_nil] is called to destroy a queue of size 0.
 As the elements in a queue may be of a linear type, that is, they may
 contain resources, a queue can be safely freed only if it contains no
 elements.
@@ -220,11 +222,15 @@ of the type [bool(N != 0)].  In order to show that [N != 0] implies [N >
 
 <p>
 
-The enqueue and dequeue functions are implemented as follows:
+The functions
+[queue_insert_atend]
+and
+[queue_takeout_atbeg]
+are implemented as follows:
 
 <pre>
 implement{a}
-enqueue (que, x) = let
+queue_insert_atend (que, x) = let
 //
 val+@QUEUE (f, r) = que
 val () = r := sllist_cons (x, r)
@@ -232,10 +238,10 @@ prval () = fold@ (que)
 //
 in
   // nothing
-end // end of [enqueue]
+end // end of [queue_insert_atend]
 
 implement{a}
-dequeue (que) = let
+queue_takeout_atbeg (que) = let
   val+@QUEUE (f, r) = que
 //
 val () = lemma_sllist_param (f)
@@ -260,12 +266,12 @@ in
   x
 end // end of [if]
 //
-end // end of [dequeue]
+end // end of [queue_takeout_atbeg]
 </pre>
 
 By following the description given at the beginning of this section, one
-should find it straightforward to understand the code for enqueue and
-dequeue.
+should find it straightforward to understand the code for enqueueing and
+dequeueing.
 
 <p>
 

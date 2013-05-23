@@ -38,7 +38,7 @@
 (* ****** ****** *)
 
 absvtype
-linmap_node_vtype (key: t@ype, itm:vt@ype+, l:addr)
+linmap_node_vtype (key:t@ype, itm:vt@ype+, l:addr)
 
 (* ****** ****** *)
 //
@@ -63,7 +63,7 @@ mynode2ptr
 //
 fun{
 key:t0p;itm:vt0p
-} mynode_null (): mynode (key, itm, null)
+} mynode_null ():<> mynode (key, itm, null)
 //
 praxi
 mynode_free_null

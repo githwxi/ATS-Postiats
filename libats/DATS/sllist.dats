@@ -109,21 +109,17 @@ sllist_sing (x) = sllist_cons<a> (x, sllist_nil ())
 implement{a}
 sllist_cons
   (x, xs) = let
-  val nx0 = g2node_make_elt<a> (x)
-  val nxs = sllist_decode (xs)
-  val () = gnode_link10 (nx0, nxs)
-in
-  sllist_encode (nx0)
+//
+val nx = mynode_make_elt<a> (x) in sllist_cons_ngc (nx, xs)
+//
 end // end of [sllist_cons]
 
 implement{a}
 sllist_uncons
   (xs) = let
-  val nxs = sllist1_decode (xs)
-  val nxs2 = gnode_get_next (nxs)
-  val () = xs := sllist_encode (nxs2)
-in
-  g2node_getfree_elt (nxs)
+//
+val nx0 = sllist_uncons_ngc (xs) in mynode_getfree_elt<a> (nx0)
+//
 end // end of [sllist_uncons]
 
 (* ****** ****** *)
@@ -674,6 +670,68 @@ implement(a)
 gnode_link11<mytkind><a>
   (nx1, nx2) = gnode_set_next (nx1, nx2)
 // end of [gnode_link11]
+
+(* ****** ****** *)
+//
+typedef
+g2node (a:vt0p, l:addr) = gnode (mytkind, a, l)
+//
+extern
+castfn
+gnode2mynode
+  {a:vt0p}{l:addr} (x: g2node (INV(a), l)):<> mynode (a, l)
+extern
+castfn
+mynode2gnode
+  {a:vt0p}{l:addr} (x: mynode (INV(a), l)):<> g2node (a, l)
+//
+(* ****** ****** *)
+
+implement{a}
+mynode_make_elt
+  (x) = gnode2mynode (g2node_make_elt<a> (x))
+// end of [mynode_make_elt]
+
+(* ****** ****** *)
+
+implement{a}
+mynode_getref_elt
+  (nx) = gnode_getref_elt ($UN.castvwtp1{g2node1(a)}(nx))
+// end of [mynode_getref_elt]
+
+(* ****** ****** *)
+
+implement{a}
+mynode_free_elt
+  (nx, res) = g2node_free_elt (mynode2gnode (nx), res)
+// end of [mynode_free_elt]
+
+implement{a}
+mynode_getfree_elt (nx) = g2node_getfree_elt (mynode2gnode (nx))
+
+(* ****** ****** *)
+
+implement{a}
+sllist_cons_ngc
+  (nx0, xs) = let
+//
+val nx0 = mynode2gnode (nx0)
+val nxs = sllist_decode (xs)
+val ( ) = gnode_link10 (nx0, nxs)
+//
+in
+  sllist_encode (nx0)
+end // end of [sllist_cons_ngc]
+
+implement{a}
+sllist_uncons_ngc
+  (xs) = let
+  val nxs = sllist1_decode (xs)
+  val nxs2 = gnode_get_next (nxs)
+  val () = xs := sllist_encode (nxs2)
+in
+  gnode2mynode (nxs)
+end // end of [sllist_uncons_ngc]
 
 (* ****** ****** *)
 
