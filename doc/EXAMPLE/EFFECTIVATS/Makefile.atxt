@@ -93,6 +93,10 @@ RMF=rm -f
 
 ######
 
+#make2_entry("queue-sllist2", "-DATS_MEMALLOC_LIBC", "")
+
+######
+
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o *_?ats.c
 clean:: ; $(RMF) *_atxt.txt

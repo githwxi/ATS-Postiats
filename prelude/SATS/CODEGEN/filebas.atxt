@@ -176,12 +176,14 @@ vtypedef charlst_vt = List0_vt (char)
 
 #atscode_separator()
 
-fun fileref_get_line_charlst (r: FILEref): charlst_vt
+fun{
+} fileref_get_line_charlst (r: FILEref): charlst_vt
 
 (*
 ** HX: only for files of "tiny" size
 *)
-fun fileref_get_lines_charlstlst (r: FILEref): List0_vt (charlst_vt)
+fun{
+} fileref_get_lines_charlstlst (r: FILEref): List0_vt (charlst_vt)
 
 #atscode_separator()
 //

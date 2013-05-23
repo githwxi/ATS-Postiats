@@ -188,6 +188,14 @@ sllist_reverse
 
 (* ****** ****** *)
 
+fun{a:vt0p}
+sllist_reverse_append
+  {n1,n2:int} (
+  xs1: sllist (INV(a), n1), xs2: sllist (a, n2)
+) :<!wrt> sllist (a, n1+n2) // end of [sllist_reverse_append]
+
+(* ****** ****** *)
+
 fun{a:t0p}
 sllist_free (xs: Sllist (INV(a))):<!wrt> void
 

@@ -381,8 +381,18 @@ end // end of [sllist_append]
 
 implement{a}
 sllist_reverse (xs) = let
+in
+  sllist_reverse_append (xs, sllist_nil ())
+end // end of [sllist_reverse]
+
+(* ****** ****** *)
+
+implement{a}
+sllist_reverse_append
+  (xs1, xs2) = let
 //
-fun loop (
+fun loop
+(
   nxs: g2node0 (a), res: g2node1 (a)
 ) : g2node1 (a) = let
   val iscons = gnodelst_is_cons (nxs)
@@ -398,21 +408,27 @@ end else res // end of [if]
 //
 end // end of [loop]
 //
-val iscons = sllist_is_cons (xs)
+prval (
+) = lemma_sllist_param (xs1)
+//
+val iscons = sllist_is_cons (xs1)
 //
 in
 //
 if iscons then let
-  val nxs = sllist1_decode (xs)
-  val nx0 = nxs
-  val nxs = gnode_get_next (nx0)
-  val () = gnode_set_next_null (nx0)
-  val res = $effmask_all (loop (nxs, nx0))
+  val nxs1 = sllist1_decode (xs1)
+  val nx0 = nxs1
+  val nxs1 = gnode_get_next (nx0)
+  val () = gnode_link10 (nx0, sllist_decode (xs2))
 in
-  sllist_encode (res)
-end else (xs) // end of [if]
+  sllist_encode ($effmask_all (loop (nxs1, nx0)))
+end else let
+  prval () = sllist_free_nil (xs1)
+in
+  xs2
+end // end of [if]
 //
-end // end of [sllist_reverse]
+end // end of [sllist_reverse_append]
 
 (* ****** ****** *)
 

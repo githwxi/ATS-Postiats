@@ -176,7 +176,7 @@ end // end of [fileref_get_exnmsg]
 
 #atscode_separator()
 
-implement
+implement{}
 fileref_get_line_charlst
   (filr) = let
 //
@@ -219,7 +219,7 @@ end // end of [fileref_get_line_charlst]
 
 #atscode_separator()
 
-implement
+implement{}
 fileref_get_lines_charlstlst
   (filr) = let
 //

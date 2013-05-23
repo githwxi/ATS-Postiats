@@ -52,6 +52,17 @@ cleanall:: ; $(RMF) fcopy3.exe
 
 ######
 
+all:: queue-sllist2
+queue-sllist2: queue-sllist2.exe
+queue-sllist2.exe: queue-sllist2_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+queue-sllist2_dats.c: queue-sllist2.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output queue-sllist2_dats.c --dynamic queue-sllist2.dats
+clean:: ; $(RMF) queue-sllist2_dats.o
+clean:: ; $(RMF) queue-sllist2_dats.c
+cleanall:: ; $(RMF) queue-sllist2.exe
+
+
+######
+
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o *_?ats.c
 clean:: ; $(RMF) *_atxt.txt

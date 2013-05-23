@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>Effectivats-queue-sllist2</title>
+</head>
+
+<body>
+
+<h1>
+Effective ATS: An Amortized Implementation of Queues
+</h1>
+
+Queues are a common data structure in practice. In the following
+presentation, I would like to give a simple 2-list-based implementation of
+queues for which both insertion (enqueue) and removal (dequeue) are
+guaranteed to be amortized O(1)-time operations.
+
+<h2>
+A Simple Interface for Queues
+</h2>
+
+Let us first declare a linear abstract type for queues as follows:
+
+<pre>
+absvtype queue_vtype (a:viewt@ype, n:int)
+vtypedef queue (a, n) = queue_vtype (a, n)
+</pre>
+
+The full name of the declared abstract type is [queue_vtype] and it is
+given an alias [queue]. Given a type T, which may be linear, and an integer
+N, the type [queue(T, N)] is for queues containing N elements of type T.
+
+Obviously, N should be a natural number if there is ever a queue of the
+type [queue(T, N)]. This is captured by the type of the following function
+(or more precisely, proof-function):
+
+<pre>
+prfun
+lemma_queue_param
+  {a:vt0p}{n:int} (que: !queue (a, n)): [n >= 0] void
+</pre>
+
+The following function is to be called to create a queue of size 0:
+
+<pre>
+fun{} queue_make_nil {a:vt0p} (): queue (a, 0)
+</pre>
+
+By declaring [queue_make_nil] as a function template, we have a better
+chance to expect that its definition be inlined during compilation. This
+makes sense as [queue_make_nil] should really just be a function of a tiny
+body.
+
+<p>
+
+The following function is to be called to destroy a queue of size 0 (and
+free the memory it occupies):
+
+<pre>
+fun{} queue_free_nil {a:vt0p} (que: queue (a, 0)): void
+</pre>
+
+Clearly, we also need to test whether a given queue is empty. So let us
+declare the following function for this purpose:
+
+<pre>
+fun{}
+queue_is_empty
+  {a:vt0p}{n:int} (que: !queue (a, n)): bool (n==0)
+</pre>
+
+Similarly, let us declare the following function for testing whether a
+given queue is not empty:
+
+<pre>
+fun{}
+queue_isnot_empty
+  {a:vt0p}{n:int} (que: !queue (a, n)): bool (n > 0)
+</pre>
+
+As for enqueueing, we declare the following function: 
+
+<pre>
+fun{a:vt0p}
+enqueue{n:int}
+  (que: !queue (a, n) >> queue (a, n+1), x: a): void
+</pre>
+
+Note that the syntax indicates that [que] is a call-by-value argument and
+the type of the queue it refers to changes from [queue(T, N)] to [queue(T,
+N+1)] for some type T and integer N. Obviously, the increased size is due
+to one element being inserted into the queue.
+
+<p>
+
+As for dequeueing, we declare the following function: 
+
+<pre>
+fun{a:vt0p}
+dequeue{n:int | n > 0} (que: !queue (a, n) >> queue (a, n-1)): a
+</pre>
+
+Note that the syntax indicates that [que] is a call-by-value argument and
+the type of the queue it refers to changes from [queue(T, N)] to [queue(T,
+N-1)] for some type T and <em>positive</em> integer N. Obviously, the
+decreased size is due to one element being removed from the queue.
+
+<p>
+
+Now it is ready for us to implement the abstract type [queue_vtype] and the functions
+associated with it.
+
+<h2>
+A 2-List-Based Implementation of Queues
+</h2>
+
+In a functional programming setting, a queue is often represented as two
+lists: the front part and the rear part. For enqueueing, the rear part is
+replaced with a new list whose head is the enqueued element and whose tail
+is the original rear part. For dequeueing, if the front part is empty, then
+it is first replaced with the reverse of the rear part while the rear part
+is replaced with the empty list; if the front part is not empty, then it is
+replaced with its own tail while its head is returned as the dequeued
+element.
+
+<p>
+
+Clearly, this implementation guarantees that enqueue is always O(1)-time
+but dequeue may be O(n)-time, where n is the size of the rear part of the
+queue. It can also be readily noted that enqueue and dequeue are both
+O(1)-time if amortized time-complexity is of the concern.
+
+<p>
+
+Let us now see the actual code for this 2-list-based implementation of
+queues.  Instead of functional lists, which require the presence of GC to
+avoid memory leaks, the code makes use of linear singly-linked lists (of
+the type [sllist]), performing memory allocation/deallocation explicitly.
+
+<pre>
+staload "libats/SATS/sllist.sats"
+
+dataviewtype
+queue (a:viewt@ype+, n:int) =
+  {f,r:nat | f+r==n} QUEUE of (sllist (a, f), sllist (a, r))
+// end of [queue]
+
+assume queue_vtype (a, n) = queue (a, n)
+</pre>
+
+Clearly, the above code indicates that the size of a queue equals
+the sum of lengths of its front and rear parts.
+
+<pre>
+implement{}
+queue_make_nil () = QUEUE (sllist_nil (), sllist_nil ())
+</pre>
+
+A queue of size 0 consists of an empty front part and an empty rear part.
+
+<pre>
+implement{}
+queue_free_nil (que) = let
+//
+val+~QUEUE (f, r) = que
+//
+prval () = lemma_sllist_param (f)
+prval () = lemma_sllist_param (r)
+//
+prval () = sllist_free_nil (f)
+prval () = sllist_free_nil (r)
+//
+in
+  // nothing
+end // end of [queue_free_nil]
+</pre>
+
+As the elements in a queue may be of a linear type, that is, they may
+contain resources, a queue can be safely freed only if it contains no
+elements.
+
+<pre>
+implement{}
+queue_is_empty (que) = let
+  val+QUEUE (f, r) = que
+in
+  if sllist_is_nil (f) then sllist_is_nil (r) else false
+end // end of [queue_is_empty]
+</pre>
+
+A queue is empty if and only if both of its front and rear parts are empty.
+
+<pre>
+implement{}
+queue_isnot_empty (que) = let
+  val+QUEUE (f, r) = que
+in
+  if sllist_is_cons (f) then true else sllist_is_cons (r)
+end // end of [queue_isnot_empty]
+</pre>
+
+A queue is not empty if and only if either its front or its rear is not
+empty. It is also possible to implement [queue_isnot_empty] directly based
+on [queue_is_empty] as is shown below:
+
+<pre>
+implement{}
+queue_isnot_empty (que) = let
+  prval () = lemma_queue_param (que) in not (queue_is_empty (que))
+end // end of [queue_isnot_empty]
+</pre>
+
+Note that the negation of a value of the type [bool(N == 0)] for some N is
+of the type [bool(N != 0)].  In order to show that [N != 0] implies [N >
+0], we need to prove that [N >= 0], which is achieved by calling
+[lemma_queue_param].
+
+<p>
+
+The enqueue and dequeue functions are implemented as follows:
+
+<pre>
+implement{a}
+enqueue (que, x) = let
+//
+val+@QUEUE (f, r) = que
+val () = r := sllist_cons (x, r)
+prval () = fold@ (que)
+//
+in
+  // nothing
+end // end of [enqueue]
+
+implement{a}
+dequeue (que) = let
+  val+@QUEUE (f, r) = que
+//
+val () = lemma_sllist_param (f)
+val () = lemma_sllist_param (r)
+//
+val iscons = sllist_is_cons (f)
+//
+in
+//
+if iscons then let
+  val x = sllist_uncons (f)
+  prval () = fold@ (que)
+in
+  x
+end else let
+  prval () = sllist_free_nil (f)
+  val () = f := sllist_reverse (r)
+  val () = r := sllist_nil {a} ()
+  val x = sllist_uncons (f)
+  prval () = fold@ (que)
+in
+  x
+end // end of [if]
+//
+end // end of [dequeue]
+</pre>
+
+By following the description given at the beginning of this section, one
+should find it straightforward to understand the code for enqueue and
+dequeue.
+
+<p>
+
+For a running implementation, please find in queue-sllist2.dats the
+entirety of the above presented code plus some code for testing.
+
+</body>
+</html>
