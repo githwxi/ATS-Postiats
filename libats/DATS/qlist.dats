@@ -265,6 +265,13 @@ mynode1_decode
 
 (* ****** ****** *)
 
+implement{}
+mynode_null {a} () =
+  $UN.castvwtp0 {mynode(a,null)} (list_vt_nil)
+// end of [mynode_null]
+
+(* ****** ****** *)
+
 implement{a}
 mynode_make_elt (x) =
   $UN.castvwtp0{mynode1(a)}(list_vt_cons{a}{0}(x, _))

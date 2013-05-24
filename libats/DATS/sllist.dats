@@ -687,6 +687,11 @@ mynode2gnode
 //
 (* ****** ****** *)
 
+implement{}
+mynode_null () = gnode2mynode (gnode_null ())
+
+(* ****** ****** *)
+
 implement{a}
 mynode_make_elt
   (x) = gnode2mynode (g2node_make_elt<a> (x))
@@ -726,9 +731,11 @@ end // end of [sllist_cons_ngc]
 implement{a}
 sllist_uncons_ngc
   (xs) = let
-  val nxs = sllist1_decode (xs)
-  val nxs2 = gnode_get_next (nxs)
-  val () = xs := sllist_encode (nxs2)
+//
+val nxs = sllist1_decode (xs)
+val nxs2 = gnode_get_next (nxs)
+val ( ) = xs := sllist_encode (nxs2)
+//
 in
   gnode2mynode (nxs)
 end // end of [sllist_uncons_ngc]

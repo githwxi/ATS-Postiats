@@ -262,8 +262,8 @@ mynode2ptr
 
 (* ****** ****** *)
 //
-fun{a:vt0p}
-mynode_null (): mynode (a, null)
+fun{}
+mynode_null {a:vt0p} (): mynode (a, null)
 //
 praxi
 mynode_free_null {a:vt0p} (nx: mynode (a, null)): void

@@ -108,24 +108,24 @@ dllist_sing (x: a):<!wrt> dllist (a, 0, 1)
 (* ****** ****** *)
 
 fun{a:vt0p}
-dllist_cons {r:int}
+dllist_cons{r:int}
   (x: a, xs: dllist (INV(a), 0, r)):<!wrt> dllist (a, 0, r+1)
 // end of [dllist_cons]
 
 fun{a:vt0p}
-dllist_uncons {r:int | r > 0}
+dllist_uncons{r:int | r > 0}
   (xs: &dllist (INV(a), 0, r) >> dllist (a, 0, r-1)):<!wrt> (a)
 // end of [dllist_uncons]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-dllist_snoc {f:int}
+dllist_snoc{f:int}
   (xs: dllist (INV(a), f, 1), x: a):<!wrt> dllist (a, f+1, 1)
 // end of [dllist_snoc]
 
 fun{a:vt0p}
-dllist_unsnoc {f:int | f > 0}
+dllist_unsnoc{f:int | f > 0}
   (xs: &dllist (INV(a), f, 1) >> dllist (a, f-1, 1)):<!wrt> (a)
 // end of [dllist_unsnoc]
 
@@ -357,6 +357,72 @@ fprint_rdllist
   (out: FILEref, xs: !Dllist (INV(a))): void
 // end of [fprint_rdllist]
 //
+(* ****** ****** *)
+
+absvtype dllist_node_vtype (a:vt@ype+, l:addr) = ptr
+
+(* ****** ****** *)
+
+stadef mynode = dllist_node_vtype
+vtypedef mynode (a) = [l:addr] mynode (a, l)
+vtypedef mynode0 (a) = [l:addr | l >= null] mynode (a, l)
+vtypedef mynode1 (a) = [l:addr | l >  null] mynode (a, l)
+
+(* ****** ****** *)
+
+castfn
+mynode2ptr
+  {a:vt0p}{l:addr} (nx: !mynode (INV(a), l)):<> ptr (l)
+// end of [mynode2ptr]
+
+(* ****** ****** *)
+//
+fun{}
+mynode_null {a:vt0p} (): mynode (a, null)
+//
+praxi
+mynode_free_null {a:vt0p} (nx: mynode (a, null)): void
+//
+(* ****** ****** *)
+
+fun{a:vt0p}
+mynode_make_elt (x: a):<!wrt> mynode1 (a)
+
+fun{a:vt0p}
+mynode_getref_elt (nx: !mynode1 (INV(a))):<> cPtr1 (a)
+
+fun{a:vt0p}
+mynode_free_elt
+  (nx: mynode1 (INV(a)), res: &(a?) >> a):<!wrt> void
+// end of [mynode_free_elt]
+
+fun{a:vt0p}
+mynode_getfree_elt (nx: mynode1 (INV(a))):<!wrt> a
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+dllist_cons_ngc{r:int}
+  (x: mynode1 (a), xs: dllist (INV(a), 0, r)):<!wrt> dllist (a, 0, r+1)
+// end of [dllist_cons_ngc]
+
+fun{a:vt0p}
+dllist_uncons_ngc{r:int | r > 0}
+  (xs: &dllist (INV(a), 0, r) >> dllist (a, 0, r-1)):<!wrt> mynode1 (a)
+// end of [dllist_uncons_ngc]
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+dllist_snoc_ngc{f:int}
+  (xs: dllist (INV(a), f, 1), nx: mynode1 (a)):<!wrt> dllist (a, f+1, 1)
+// end of [dllist_snoc_ngc]
+
+fun{a:vt0p}
+dllist_unsnoc_ngc{f:int | f > 0}
+  (xs: &dllist (INV(a), f, 1) >> dllist (a, f-1, 1)):<!wrt> mynode1 (a)
+// end of [dllist_unsnoc_ngc]
+
 (* ****** ****** *)
 
 (* end of [dllist.sats] *)

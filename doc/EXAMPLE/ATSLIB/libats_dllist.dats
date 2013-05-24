@@ -26,6 +26,7 @@ staload "libats/SATS/dllist.sats"
 
 #define :: dllist_cons
 #define cons dllist_cons
+#define snoc dllist_snoc
 
 (* ****** ****** *)
 
@@ -34,11 +35,15 @@ val () = {
 typedef T = int
 val out = stdout_ref
 //
-val xs = dllist_nil {T} ()
-val xs = 1 :: 2 :: 3 :: 4 :: 5 :: xs
+val xs = dllist_sing<T> (5)
+val xs = cons (1, cons (2, cons (3, cons (4, xs))))
+//
+val () = fprint_dllist (out, xs)
+val () = fprint_newline (out)
 //
 val xs_beg = xs
 val p_beg = dllist2ptr (xs_beg)
+//
 val xs_end = dllist_move_all (xs_beg)
 val xs2_beg = rdllist_move_all (xs_end)
 val p2_beg = dllist2ptr (xs2_beg)
@@ -46,6 +51,27 @@ val p2_beg = dllist2ptr (xs2_beg)
 val () = dllist_free (xs2_beg)
 //
 val () = assertloc (p_beg = p2_beg)
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () = {
+//
+typedef T = int
+val out = stdout_ref
+//
+val xs = dllist_sing<T> (1)
+val xs = snoc (snoc (snoc (snoc (xs, 2), 3), 4), 5)
+//
+val () = fprint_dllist (out, xs)
+val () = fprint_string (out, "->")
+val () = fprint_rdllist (out, xs)
+val () = fprint_newline (out)
+//
+val xs_beg = rdllist_move_all (xs)
+//
+val () = dllist_free (xs_beg)
 //
 } // end of [val]
 
