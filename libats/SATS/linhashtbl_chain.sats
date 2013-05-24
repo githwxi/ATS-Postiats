@@ -55,9 +55,4 @@
 
 (* ****** ****** *)
 
-sortdef tk = tkind
-sortdef t0p = t@ype and vt0p = vt@ype
-
-(* ****** ****** *)
-
-(* end of [linhashtbl.sats] *)
+(* end of [linhashtbl_chain.sats] *)
