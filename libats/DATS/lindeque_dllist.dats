@@ -1,0 +1,253 @@
+(***********************************************************************)
+(*                                                                     *)
+(*                         Applied Type System                         *)
+(*                                                                     *)
+(***********************************************************************)
+
+(*
+** ATS/Postiats - Unleashing the Potential of Types!
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
+** All rights reserved
+**
+** ATS is free software;  you can  redistribute it and/or modify it under
+** the terms of the GNU LESSER GENERAL PUBLIC LICENSE as published by the
+** Free Software Foundation; either version 2.1, or (at your option)  any
+** later version.
+**
+** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
+** WARRANTY; without  even  the  implied  warranty  of MERCHANTABILITY or
+** FITNESS FOR A PARTICULAR PURPOSE.  See the  GNU General Public License
+** for more details.
+**
+** You  should  have  received  a  copy of the GNU General Public License
+** along  with  ATS;  see the  file COPYING.  If not, please write to the
+** Free Software Foundation,  51 Franklin Street, Fifth Floor, Boston, MA
+** 02110-1301, USA.
+*)
+
+(* ****** ****** *)
+//
+// License: LGPL 3.0 (available at http://www.gnu.org/licenses/lgpl.txt)
+//
+(* ****** ****** *)
+
+staload
+UN = "prelude/SATS/unsafe.sats"
+// end of [staload]
+
+(* ****** ****** *)
+
+#define nullp the_null_ptr
+
+(* ****** ****** *)
+
+staload "libats/SATS/gnode.sats"
+
+(* ****** ****** *)
+
+staload "libats/SATS/dllist.sats"
+staload "libats/DATS/dllist.dats"
+
+(* ****** ****** *)
+
+staload "libats/SATS/lindeque_dllist.sats"
+
+(* ****** ****** *)
+//
+extern
+castfn
+deque_encode
+  : {a:vt0p}{n:int} (g2node0 (INV(a))) -<> deque (a, n)
+extern
+castfn
+deque_decode
+  : {a:vt0p}{n:int} (deque (INV(a), n)) -<> g2node0 (a)
+//
+extern
+castfn
+deque1_encode
+  : {a:vt0p}{n:int | n > 0} (g2node1 (INV(a))) -<> deque (a, n)
+extern
+castfn
+deque1_decode
+  : {a:vt0p}{n:int | n > 0} (deque (INV(a), n)) -<> g2node1 (a)
+//
+(* ****** ****** *)
+
+implement{}
+deque_nil {a} () = $UN.castvwtp0{deque(a,0)}(nullp)
+
+(* ****** ****** *)
+//
+implement{}
+deque_is_nil {a}{n} (dq) =
+  $UN.cast{bool(n==0)}($UN.castvwtp1{ptr}(dq) = nullp)
+//
+implement{}
+deque_isnot_nil {a}{n} (dq) =
+  $UN.cast{bool(n > 0)}($UN.castvwtp1{ptr}(dq) > nullp)
+//
+(* ****** ****** *)
+
+implement{a}
+deque_length {n} (dq) = let
+//
+fun loop
+(
+  nxs: g2node1 (a), p0: ptr, n: int
+) : int = let
+  val nxs2 = gnode_get_next (nxs)
+  val nxs2 = $UN.cast{g2node1(a)}(nxs2)
+in
+//
+if p0 != gnode2ptr (nxs2) then loop (nxs2, p0, n+1) else n
+//
+end // end of [loop]
+//
+val isnot = deque_isnot_nil (dq)
+//
+prval () = lemma_deque_param (dq)
+//
+in
+//
+if isnot then let
+  val nxs = $UN.castvwtp1{g2node1(a)}(dq)
+  val len = $effmask_all (loop (nxs, gnode2ptr (nxs), 1))
+in
+  $UN.cast{int(n)}(len)
+end else (0) // end of [if]
+//
+end // end of [deque_length]
+
+(* ****** ****** *)
+
+implement{a}
+deque_insert_atbeg
+  (dq, x) = let
+//
+val nx0 = g2node_make_elt<a> (x) in deque_insert_atbeg_ngc (dq, nx0)
+//
+end // end of [deque_insert_atbeg]
+
+implement{a}
+deque_insert_atend
+  (dq, x) = let
+//
+val nx0 = g2node_make_elt<a> (x) in deque_insert_atend_ngc (dq, nx0)
+//
+end // end of [deque_insert_atend]
+
+(* ****** ****** *)
+
+implement{a}
+deque_takeout_atbeg
+  (dq) = let
+//
+val nx = deque_takeout_atbeg_ngc (dq) in g2node_getfree_elt (nx)
+//
+end // end of [deque_takeout_atbeg]
+
+implement{a}
+deque_takeout_atend
+  (dq) = let
+//
+val nx = deque_takeout_atend_ngc (dq) in g2node_getfree_elt (nx)
+//
+end // end of [deque_takeout_atend]
+
+(* ****** ****** *)
+
+implement{a}
+deque_insert_atbeg_ngc
+  (dq, nx0) = let
+//
+val nxs = deque_decode (dq)
+val isnul = gnode_is_null (nxs)
+//
+in
+//
+if isnul then let
+  val () = gnode_link11 (nx0, nx0)
+in
+  dq := deque_encode (nx0)
+end else let
+  val () = gnode_insert_prev (nxs, nx0)
+in
+  dq := deque_encode (nx0)
+end // end of [if]
+//
+end // end of [deque_insert_atbeg_ngc]
+
+(* ****** ****** *)
+
+implement{a}
+deque_insert_atend_ngc
+  (dq, nx0) = let
+//
+val nxs = deque_decode (dq)
+val isnul = gnode_is_null (nxs)
+//
+in
+//
+if isnul then let
+  val () = gnode_link11 (nx0, nx0)
+in
+  dq := deque_encode (nx0)
+end else let
+  val () = gnode_insert_prev (nxs, nx0)
+in
+  dq := deque_encode (nxs)
+end // end of [if]
+//
+end // end of [deque_insert_atend_ngc]
+
+(* ****** ****** *)
+
+implement{a}
+deque_takeout_atbeg_ngc
+  (dq) = let
+//
+val nxs = deque1_decode (dq)
+val nxs2 = gnode_get_next (nxs)
+//
+val p = gnode2ptr (nxs)
+val p2 = gnode2ptr (nxs2)
+//
+val nxs = gnode_remove (nxs)
+//
+in
+//
+if (p != p2) then let
+  val () = dq := deque_encode (nxs2) in nxs
+end else let
+  val () = dq := deque_encode (gnode_null ()) in nxs
+end // end of [if]
+//
+end // end of [deque_takeout_atbeg_ngc]
+
+(* ****** ****** *)
+
+implement{a}
+deque_takeout_atend_ngc
+  (dq) = let
+//
+val nxs = deque1_decode (dq)
+val nxs2 = gnode_remove_prev (nxs)
+val nxs2 = $UN.cast{g2node1(a)}(nxs2)
+//
+val p = gnode2ptr (nxs)
+val p2 = gnode2ptr (nxs2)
+//
+in
+//
+if (p != p2) then let
+  val () = dq := deque_encode (nxs) in nxs2
+end else let
+  val () = dq := deque_encode (gnode_null ()) in nxs2
+end // end of [if]
+//
+end // end of [deque_takeout_atend_ngc]
+
+(* ****** ****** *)
+
+(* end of [lindeque_dllist.dats] *)

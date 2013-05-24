@@ -50,15 +50,6 @@ staload "libats/SATS/sllist.sats"
 staload "libats/SATS/gnode.sats"
 
 (* ****** ****** *)
-
-stadef mytkind = $extkind"atslib_sllist"
-
-(* ****** ****** *)
-
-typedef g2node0 (a:vt0p) = gnode0 (mytkind, a)
-typedef g2node1 (a:vt0p) = gnode1 (mytkind, a)
-
-(* ****** ****** *)
 //
 extern
 fun{a:vt0p}
@@ -110,7 +101,7 @@ implement{a}
 sllist_cons
   (x, xs) = let
 //
-val nx = mynode_make_elt<a> (x) in sllist_cons_ngc (nx, xs)
+val nx = g2node_make_elt<a> (x) in sllist_cons_ngc (nx, xs)
 //
 end // end of [sllist_cons]
 
@@ -118,7 +109,7 @@ implement{a}
 sllist_uncons
   (xs) = let
 //
-val nx0 = sllist_uncons_ngc (xs) in mynode_getfree_elt<a> (nx0)
+val nx0 = sllist_uncons_ngc (xs) in g2node_getfree_elt<a> (nx0)
 //
 end // end of [sllist_uncons]
 
@@ -672,55 +663,10 @@ gnode_link11<mytkind><a>
 // end of [gnode_link11]
 
 (* ****** ****** *)
-//
-typedef
-g2node (a:vt0p, l:addr) = gnode (mytkind, a, l)
-//
-extern
-castfn
-gnode2mynode
-  {a:vt0p}{l:addr} (x: g2node (INV(a), l)):<> mynode (a, l)
-extern
-castfn
-mynode2gnode
-  {a:vt0p}{l:addr} (x: mynode (INV(a), l)):<> g2node (a, l)
-//
-(* ****** ****** *)
-
-implement{}
-mynode_null () = gnode2mynode (gnode_null ())
-
-(* ****** ****** *)
-
-implement{a}
-mynode_make_elt
-  (x) = gnode2mynode (g2node_make_elt<a> (x))
-// end of [mynode_make_elt]
-
-(* ****** ****** *)
-
-implement{a}
-mynode_getref_elt
-  (nx) = gnode_getref_elt ($UN.castvwtp1{g2node1(a)}(nx))
-// end of [mynode_getref_elt]
-
-(* ****** ****** *)
-
-implement{a}
-mynode_free_elt
-  (nx, res) = g2node_free_elt (mynode2gnode (nx), res)
-// end of [mynode_free_elt]
-
-implement{a}
-mynode_getfree_elt (nx) = g2node_getfree_elt (mynode2gnode (nx))
-
-(* ****** ****** *)
-
 implement{a}
 sllist_cons_ngc
   (nx0, xs) = let
 //
-val nx0 = mynode2gnode (nx0)
 val nxs = sllist_decode (xs)
 val ( ) = gnode_link10 (nx0, nxs)
 //
@@ -737,7 +683,7 @@ val nxs2 = gnode_get_next (nxs)
 val ( ) = xs := sllist_encode (nxs2)
 //
 in
-  gnode2mynode (nxs)
+  nxs
 end // end of [sllist_uncons_ngc]
 
 (* ****** ****** *)

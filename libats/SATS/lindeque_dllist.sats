@@ -31,7 +31,8 @@
 //
 (* ****** ****** *)
 
-absvtype deque_vtype (a:viewt@ype+, n:int)
+absvtype
+deque_vtype (a:viewt@ype+, n:int) = ptr
 vtypedef deque (a:vt0p, n:int) = deque_vtype (a, n)
 vtypedef Deque (a:vt0p) = [n:int] deque (a, n)
 
@@ -44,19 +45,24 @@ lemma_deque_param
 
 (* ****** ****** *)
 
-fun deque_nil{a:vt0p} (): deque (a, 0)
+fun{} deque_nil{a:vt0p} ():<> deque (a, 0)
 
 (* ****** ****** *)
 
-prfun deque_free_nil{a:vt0p} (dq: !deque (a, 0)): void
+prfun deque_free_nil{a:vt0p} (dq: deque (a, 0)): void
 
 (* ****** ****** *)
 //
-fun deque_is_nil
-  {a:vt0p}{n:int} (dq: !deque (INV(a), n)): bool (n==0)
-fun deque_isnot_nil
-  {a:vt0p}{n:int} (dq: !deque (INV(a), n)): bool (n > 0)
+fun{} deque_is_nil
+  {a:vt0p}{n:int} (dq: !deque (INV(a), n)):<> bool (n==0)
+fun{} deque_isnot_nil
+  {a:vt0p}{n:int} (dq: !deque (INV(a), n)):<> bool (n > 0)
 //
+(* ****** ****** *)
+
+fun{a:vt0p}
+deque_length {n:int} (dq: !deque (INV(a), n)):<> int (n)
+
 (* ****** ****** *)
 //
 fun{a:vt0p}
@@ -77,47 +83,47 @@ deque_insert_atend{n:int}
 //
 fun{a:vt0p}
 deque_takeout_at{n:int}{i:nat | i < n}
-  (dq: &deque (INV(a), n) >> deque (a, n-1), i: int i): a
+(
+  dq: &deque (INV(a), n) >> deque (a, n-1), i: int i
+) : a // end of [deque_takeout_at]
 //
 fun{a:vt0p}
-deque_takeout_atbeg{n:pos} (dq: &deque (INV(a), n) >> deque (a, n-1)): a
+deque_takeout_atbeg{n:pos}
+  (dq: &deque (INV(a), n) >> deque (a, n-1)): (a)
 fun{a:vt0p}
-deque_takeout_atend{n:pos} (dq: &deque (INV(a), n) >> deque (a, n-1)): a
+deque_takeout_atend{n:pos}
+  (dq: &deque (INV(a), n) >> deque (a, n-1)): (a)
+//
+(* ****** ****** *)
+//
+// HX-2013-05: functions of ngc-version
 //
 (* ****** ****** *)
 
-absvtype
-lindeque_node_vtype (a: vt@ype+, l:addr)
+staload "libats/SATS/dllist.sats"
 
 (* ****** ****** *)
 //
-stadef mynode = lindeque_node_vtype // HX: local shorthand
-//
-vtypedef
-mynode (a:vt0p) = [l:addr] mynode (a, l)
-vtypedef
-mynode0 (a:vt0p) = [l:addr | l >= null] mynode (a, l)
-vtypedef
-mynode1 (a:vt0p) = [l:addr | l >  null] mynode (a, l)
-//
-(* ****** ****** *)
-
-castfn
-mynode2ptr
-  {a:vt0p}{l:addr} (nx: !mynode (INV(a), l)):<> ptr (l)
-// end of [mynode2ptr]
-
-(* ****** ****** *)
-//
-fun{a:t0p} mynode_null ():<> mynode (a, null)
-//
-praxi
-mynode_free_null {a:t0p} (nx: mynode (a, null)): void
+fun{a:vt0p}
+deque_insert_atbeg_ngc{n:int}
+(
+  dq: &deque (INV(a), n) >> deque (a, n+1), nx: g2node1(a)
+) :<!wrt> void // end of [deque_insert_atbeg_ngc]
+fun{a:vt0p}
+deque_insert_atend_ngc{n:int}
+(
+  dq: &deque (INV(a), n) >> deque (a, n+1), nx: g2node1(a)
+) :<!wrt> void // end of [deque_insert_atend_ngc]
 //
 (* ****** ****** *)
-
-fun{a:vt0p} mynode_make_elt (x: a):<!wrt> mynode1 (a)
-
+//
+fun{a:vt0p}
+deque_takeout_atbeg_ngc{n:pos}
+  (dq: &deque (INV(a), n) >> deque (a, n-1)):<!wrt> g2node1(a)
+fun{a:vt0p}
+deque_takeout_atend_ngc{n:pos}
+  (dq: &deque (INV(a), n) >> deque (a, n-1)):<!wrt> g2node1(a)
+//
 (* ****** ****** *)
 
 (* end of [lindeque_dllist.sats] *)

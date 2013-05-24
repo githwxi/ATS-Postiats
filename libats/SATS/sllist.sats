@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -243,57 +243,32 @@ fprint_sllist
 overload fprint with fprint_sllist
 //
 (* ****** ****** *)
-
-absvtype sllist_node_vtype (a:vt@ype+, l:addr) = ptr
-
-(* ****** ****** *)
-
-stadef mynode = sllist_node_vtype
-vtypedef mynode (a) = [l:addr] mynode (a, l)
-vtypedef mynode0 (a) = [l:addr | l >= null] mynode (a, l)
-vtypedef mynode1 (a) = [l:addr | l >  null] mynode (a, l)
-
-(* ****** ****** *)
-
-castfn
-mynode2ptr
-  {a:vt0p}{l:addr} (nx: !mynode (INV(a), l)):<> ptr (l)
-// end of [mynode2ptr]
-
-(* ****** ****** *)
 //
-fun{}
-mynode_null {a:vt0p} (): mynode (a, null)
-//
-praxi
-mynode_free_null {a:vt0p} (nx: mynode (a, null)): void
+// HX-2013-05: functions of ngc-version
 //
 (* ****** ****** *)
 
-fun{a:vt0p}
-mynode_make_elt (x: a):<!wrt> mynode1 (a)
+staload "libats/SATS/gnode.sats"
 
-fun{a:vt0p}
-mynode_getref_elt (nx: !mynode1 (INV(a))):<> cPtr1 (a)
+(* ****** ****** *)
 
-fun{a:vt0p}
-mynode_free_elt
-  (nx: mynode1 (INV(a)), res: &(a?) >> a):<!wrt> void
-// end of [mynode_free_elt]
+stadef mytkind = $extkind"libats_sllist"
 
-fun{a:vt0p}
-mynode_getfree_elt (nx: mynode1 (INV(a))):<!wrt> a
+(* ****** ****** *)
+
+typedef g2node0 (a:vt0p) = gnode0 (mytkind, a)
+typedef g2node1 (a:vt0p) = gnode1 (mytkind, a)
 
 (* ****** ****** *)
 
 fun{a:vt0p}
 sllist_cons_ngc {n:int}
-  (nx: mynode1 (a), xs: sllist (INV(a), n)):<!wrt> sllist (a, n+1)
+  (nx: g2node1 (a), xs: sllist (INV(a), n)):<!wrt> sllist (a, n+1)
 // end of [sllist_cons_ngc]
 
 fun{a:vt0p}
 sllist_uncons_ngc {n:int | n > 0}
-  (xs: &sllist (INV(a), n) >> sllist (a, n-1)):<!wrt> mynode1 (a)
+  (xs: &sllist (INV(a), n) >> sllist (a, n-1)):<!wrt> g2node1 (a)
 // end of [sllist_uncons_ngc]
 
 (* ****** ****** *)

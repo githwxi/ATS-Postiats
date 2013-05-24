@@ -61,9 +61,9 @@ mynode2ptr
 
 (* ****** ****** *)
 //
-fun{
-key:t0p;itm:vt0p
-} mynode_null ():<> mynode (key, itm, null)
+fun{}
+mynode_null
+  {key:t0p;itm:vt0p} ():<> mynode (key, itm, null)
 //
 praxi
 mynode_free_null

@@ -173,6 +173,9 @@ libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linheap_fibonacci.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linralist_nested.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linralist_nested.dats
 
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/lindeque_dllist.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/lindeque_dllist.dats
+
 ######
 
 libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/list0.sats

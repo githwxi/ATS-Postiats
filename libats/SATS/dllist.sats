@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -242,6 +242,8 @@ dllist_insert_prev
   (xs: dllist (INV(a), f, r), x0: a):<!wrt> dllist (a, f, r+1)
 // end of [dllist_insert]
 
+(* ****** ****** *)
+
 fun{a:vt0p}
 dllist_takeout
   {f,r:int | r > 1}
@@ -358,69 +360,44 @@ fprint_rdllist
 // end of [fprint_rdllist]
 //
 (* ****** ****** *)
-
-absvtype dllist_node_vtype (a:vt@ype+, l:addr) = ptr
-
-(* ****** ****** *)
-
-stadef mynode = dllist_node_vtype
-vtypedef mynode (a) = [l:addr] mynode (a, l)
-vtypedef mynode0 (a) = [l:addr | l >= null] mynode (a, l)
-vtypedef mynode1 (a) = [l:addr | l >  null] mynode (a, l)
-
-(* ****** ****** *)
-
-castfn
-mynode2ptr
-  {a:vt0p}{l:addr} (nx: !mynode (INV(a), l)):<> ptr (l)
-// end of [mynode2ptr]
-
-(* ****** ****** *)
 //
-fun{}
-mynode_null {a:vt0p} (): mynode (a, null)
-//
-praxi
-mynode_free_null {a:vt0p} (nx: mynode (a, null)): void
+// HX-2013-05: functions of ngc-version
 //
 (* ****** ****** *)
 
-fun{a:vt0p}
-mynode_make_elt (x: a):<!wrt> mynode1 (a)
+staload "libats/SATS/gnode.sats"
 
-fun{a:vt0p}
-mynode_getref_elt (nx: !mynode1 (INV(a))):<> cPtr1 (a)
+(* ****** ****** *)
 
-fun{a:vt0p}
-mynode_free_elt
-  (nx: mynode1 (INV(a)), res: &(a?) >> a):<!wrt> void
-// end of [mynode_free_elt]
+stadef mytkind = $extkind"libats_dllist"
 
-fun{a:vt0p}
-mynode_getfree_elt (nx: mynode1 (INV(a))):<!wrt> a
+(* ****** ****** *)
+
+typedef g2node0 (a:vt0p) = gnode0 (mytkind, a)
+typedef g2node1 (a:vt0p) = gnode1 (mytkind, a)
 
 (* ****** ****** *)
 
 fun{a:vt0p}
 dllist_cons_ngc{r:int}
-  (x: mynode1 (a), xs: dllist (INV(a), 0, r)):<!wrt> dllist (a, 0, r+1)
+  (x: g2node1 (a), xs: dllist (INV(a), 0, r)):<!wrt> dllist (a, 0, r+1)
 // end of [dllist_cons_ngc]
 
 fun{a:vt0p}
 dllist_uncons_ngc{r:int | r > 0}
-  (xs: &dllist (INV(a), 0, r) >> dllist (a, 0, r-1)):<!wrt> mynode1 (a)
+  (xs: &dllist (INV(a), 0, r) >> dllist (a, 0, r-1)):<!wrt> g2node1 (a)
 // end of [dllist_uncons_ngc]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
 dllist_snoc_ngc{f:int}
-  (xs: dllist (INV(a), f, 1), nx: mynode1 (a)):<!wrt> dllist (a, f+1, 1)
+  (xs: dllist (INV(a), f, 1), nx: g2node1 (a)):<!wrt> dllist (a, f+1, 1)
 // end of [dllist_snoc_ngc]
 
 fun{a:vt0p}
 dllist_unsnoc_ngc{f:int | f > 0}
-  (xs: &dllist (INV(a), f, 1) >> dllist (a, f-1, 1)):<!wrt> mynode1 (a)
+  (xs: &dllist (INV(a), f, 1) >> dllist (a, f-1, 1)):<!wrt> g2node1 (a)
 // end of [dllist_unsnoc_ngc]
 
 (* ****** ****** *)

@@ -43,10 +43,6 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "libats/SATS/dllist.sats"
-
-(* ****** ****** *)
-
 #define nullp the_null_ptr
 
 (* ****** ****** *)
@@ -55,12 +51,7 @@ staload "libats/SATS/gnode.sats"
 
 (* ****** ****** *)
 
-stadef mytkind = $extkind"atslib_dllist"
-
-(* ****** ****** *)
-
-typedef g2node0 (a:vt0p) = gnode0 (mytkind, a)
-typedef g2node1 (a:vt0p) = gnode1 (mytkind, a)
+staload "libats/SATS/dllist.sats"
 
 (* ****** ****** *)
 //
@@ -114,7 +105,7 @@ implement{a}
 dllist_cons
   (x, xs) = let
 //
-val nx = mynode_make_elt<a> (x) in dllist_cons_ngc (nx, xs)
+val nx = g2node_make_elt<a> (x) in dllist_cons_ngc (nx, xs)
 //
 end // end of [dllist_cons]
 
@@ -122,7 +113,7 @@ implement{a}
 dllist_uncons
   (xs) = let
 //
-val nx0 = dllist_uncons_ngc (xs) in mynode_getfree_elt<a> (nx0)
+val nx0 = dllist_uncons_ngc (xs) in g2node_getfree_elt<a> (nx0)
 //
 end // end of [dllist_uncons]
 
@@ -132,7 +123,7 @@ implement{a}
 dllist_snoc
   (xs, x) = let
 //
-val nx = mynode_make_elt<a> (x) in dllist_snoc_ngc (xs, nx)
+val nx = g2node_make_elt<a> (x) in dllist_snoc_ngc (xs, nx)
 //
 end // end of [dllist_snoc]
 
@@ -140,7 +131,7 @@ implement{a}
 dllist_unsnoc
   (xs) = let
 //
-val nx0 = dllist_unsnoc_ngc (xs) in mynode_getfree_elt<a> (nx0)
+val nx0 = dllist_unsnoc_ngc (xs) in g2node_getfree_elt<a> (nx0)
 //
 end // end of [dllist_unsnoc]
 
@@ -879,54 +870,10 @@ in
 end // end of [gnode_getref_prev]
 
 (* ****** ****** *)
-//
-typedef
-g2node (a:vt0p, l:addr) = gnode (mytkind, a, l)
-//
-extern
-castfn
-gnode2mynode
-  {a:vt0p}{l:addr} (x: g2node (INV(a), l)):<> mynode (a, l)
-extern
-castfn
-mynode2gnode
-  {a:vt0p}{l:addr} (x: mynode (INV(a), l)):<> g2node (a, l)
-//
-(* ****** ****** *)
-
-implement{}
-mynode_null () = gnode2mynode (gnode_null ())
-
-(* ****** ****** *)
-
-implement{a}
-mynode_make_elt
-  (x) = gnode2mynode (g2node_make_elt<a> (x))
-// end of [mynode_make_elt]
-
-(* ****** ****** *)
-
-implement{a}
-mynode_getref_elt
-  (nx) = gnode_getref_elt ($UN.castvwtp1{g2node1(a)}(nx))
-// end of [mynode_getref_elt]
-
-(* ****** ****** *)
-
-implement{a}
-mynode_free_elt
-  (nx, res) = g2node_free_elt (mynode2gnode (nx), res)
-// end of [mynode_free_elt]
-
-implement{a}
-mynode_getfree_elt (nx) = g2node_getfree_elt (mynode2gnode (nx))
-
-(* ****** ****** *)
 
 implement{a}
 dllist_cons_ngc
   (nx0, xs) = let
-  val nx0 = mynode2gnode (nx0)
   val () = gnode_set_prev_null (nx0)
   val nxs = dllist_decode (xs)
   val () = gnode_link10 (nx0, nxs)
@@ -944,7 +891,7 @@ val () = gnode0_set_prev_null (nxs2)
 val () = xs := dllist_encode (nxs2)
 //
 in
-  gnode2mynode (nxs)
+  nxs
 end // end of [dllist_uncons_ngc]
 
 (* ****** ****** *)
@@ -953,7 +900,6 @@ implement{a}
 dllist_snoc_ngc
   (xs, nx0) = let
 //
-val nx0 = mynode2gnode (nx0)
 val () = gnode_set_next_null (nx0)
 val nxs = dllist_decode (xs)
 val () = gnode_link01 (nxs, nx0)
@@ -961,6 +907,19 @@ val () = gnode_link01 (nxs, nx0)
 in
   dllist_encode (nx0)
 end // end of [dllist_snoc_ngc]
+
+implement{a}
+dllist_unsnoc_ngc
+  (xs) = let
+//
+val nxs = dllist1_decode (xs)
+val nxs2 = gnode_get_prev (nxs)
+val () = gnode0_set_next_null (nxs2)
+val () = xs := dllist_encode (nxs2)
+//
+in
+  nxs
+end // end of [dllist_unsnoc_ngc]
 
 (* ****** ****** *)
 
