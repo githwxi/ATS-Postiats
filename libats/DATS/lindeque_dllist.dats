@@ -75,22 +75,22 @@ deque1_decode
 (* ****** ****** *)
 
 implement{}
-deque_nil {a} () = $UN.castvwtp0{deque(a,0)}(nullp)
+lindeque_nil {a} () = $UN.castvwtp0{deque(a,0)}(nullp)
 
 (* ****** ****** *)
 //
 implement{}
-deque_is_nil {a}{n} (dq) =
+lindeque_is_nil {a}{n} (dq) =
   $UN.cast{bool(n==0)}($UN.castvwtp1{ptr}(dq) = nullp)
 //
 implement{}
-deque_isnot_nil {a}{n} (dq) =
+lindeque_isnot_nil {a}{n} (dq) =
   $UN.cast{bool(n > 0)}($UN.castvwtp1{ptr}(dq) > nullp)
 //
 (* ****** ****** *)
 
 implement{a}
-deque_length {n} (dq) = let
+lindeque_length {n} (dq) = let
 //
 fun loop
 (
@@ -104,9 +104,8 @@ if p0 != gnode2ptr (nxs2) then loop (nxs2, p0, n+1) else n
 //
 end // end of [loop]
 //
-val isnot = deque_isnot_nil (dq)
-//
 prval () = lemma_deque_param (dq)
+val isnot = lindeque_isnot_nil (dq)
 //
 in
 //
@@ -117,48 +116,68 @@ in
   $UN.cast{int(n)}(len)
 end else (0) // end of [if]
 //
-end // end of [deque_length]
+end // end of [lindeque_length]
 
 (* ****** ****** *)
 
 implement{a}
-deque_insert_atbeg
+lindeque_insert_atbeg
   (dq, x) = let
 //
-val nx0 = g2node_make_elt<a> (x) in deque_insert_atbeg_ngc (dq, nx0)
+val nx0 = g2node_make_elt<a> (x) in lindeque_insert_atbeg_ngc (dq, nx0)
 //
-end // end of [deque_insert_atbeg]
+end // end of [lindeque_insert_atbeg]
 
 implement{a}
-deque_insert_atend
+lindeque_insert_atend
   (dq, x) = let
 //
-val nx0 = g2node_make_elt<a> (x) in deque_insert_atend_ngc (dq, nx0)
+val nx0 = g2node_make_elt<a> (x) in lindeque_insert_atend_ngc (dq, nx0)
 //
-end // end of [deque_insert_atend]
+end // end of [lindeque_insert_atend]
 
 (* ****** ****** *)
 
 implement{a}
-deque_takeout_atbeg
+lindeque_takeout_atbeg
   (dq) = let
 //
-val nx = deque_takeout_atbeg_ngc (dq) in g2node_getfree_elt (nx)
+val nx = lindeque_takeout_atbeg_ngc (dq) in g2node_getfree_elt (nx)
 //
-end // end of [deque_takeout_atbeg]
+end // end of [lindeque_takeout_atbeg]
 
 implement{a}
-deque_takeout_atend
+lindeque_takeout_atend
   (dq) = let
 //
-val nx = deque_takeout_atend_ngc (dq) in g2node_getfree_elt (nx)
+val nx = lindeque_takeout_atend_ngc (dq) in g2node_getfree_elt (nx)
 //
-end // end of [deque_takeout_atend]
+end // end of [lindeque_takeout_atend]
 
 (* ****** ****** *)
 
 implement{a}
-deque_insert_atbeg_ngc
+lindeque2dllist {n} (dq) = let
+//
+val nxs = deque_decode (dq)
+val isnot = gnode_isnot_null (nxs)
+//
+val () =
+if isnot then
+{
+  val nxs2 = gnode_get_prev (nxs)
+  val nxs2 = $UN.cast{g2node1(a)}(nxs2)
+  val () = gnode_set_prev_null (nxs)
+  val () = gnode_set_next_null (nxs2)
+} // end of [if]
+in
+  $UN.castvwtp0{dllist(a,0,n)}(nxs)
+end // end of [lindeque2dllist]
+
+(* ****** ****** *)
+
+implement{a}
+lindeque_insert_atbeg_ngc
   (dq, nx0) = let
 //
 val nxs = deque_decode (dq)
@@ -176,12 +195,12 @@ in
   dq := deque_encode (nx0)
 end // end of [if]
 //
-end // end of [deque_insert_atbeg_ngc]
+end // end of [lindeque_insert_atbeg_ngc]
 
 (* ****** ****** *)
 
 implement{a}
-deque_insert_atend_ngc
+lindeque_insert_atend_ngc
   (dq, nx0) = let
 //
 val nxs = deque_decode (dq)
@@ -199,12 +218,12 @@ in
   dq := deque_encode (nxs)
 end // end of [if]
 //
-end // end of [deque_insert_atend_ngc]
+end // end of [lindeque_insert_atend_ngc]
 
 (* ****** ****** *)
 
 implement{a}
-deque_takeout_atbeg_ngc
+lindeque_takeout_atbeg_ngc
   (dq) = let
 //
 val nxs = deque1_decode (dq)
@@ -223,12 +242,12 @@ end else let
   val () = dq := deque_encode (gnode_null ()) in nxs
 end // end of [if]
 //
-end // end of [deque_takeout_atbeg_ngc]
+end // end of [lindeque_takeout_atbeg_ngc]
 
 (* ****** ****** *)
 
 implement{a}
-deque_takeout_atend_ngc
+lindeque_takeout_atend_ngc
   (dq) = let
 //
 val nxs = deque1_decode (dq)
@@ -246,7 +265,7 @@ end else let
   val () = dq := deque_encode (gnode_null ()) in nxs2
 end // end of [if]
 //
-end // end of [deque_takeout_atend_ngc]
+end // end of [lindeque_takeout_atend_ngc]
 
 (* ****** ****** *)
 

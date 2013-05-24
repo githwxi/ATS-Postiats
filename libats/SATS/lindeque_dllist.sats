@@ -54,25 +54,31 @@ staload "libats/SATS/dllist.sats"
 (* ****** ****** *)
 //
 fun{a:vt0p}
-deque_insert_atbeg_ngc{n:int}
+lindeque_insert_atbeg_ngc{n:int}
 (
   dq: &deque (INV(a), n) >> deque (a, n+1), nx: g2node1(a)
-) :<!wrt> void // end of [deque_insert_atbeg_ngc]
+) :<!wrt> void // end of [lindeque_insert_atbeg_ngc]
 fun{a:vt0p}
-deque_insert_atend_ngc{n:int}
+lindeque_insert_atend_ngc{n:int}
 (
   dq: &deque (INV(a), n) >> deque (a, n+1), nx: g2node1(a)
-) :<!wrt> void // end of [deque_insert_atend_ngc]
+) :<!wrt> void // end of [lindeque_insert_atend_ngc]
 //
 (* ****** ****** *)
 //
 fun{a:vt0p}
-deque_takeout_atbeg_ngc{n:pos}
+lindeque_takeout_atbeg_ngc{n:pos}
   (dq: &deque (INV(a), n) >> deque (a, n-1)):<!wrt> g2node1(a)
 fun{a:vt0p}
-deque_takeout_atend_ngc{n:pos}
+lindeque_takeout_atend_ngc{n:pos}
   (dq: &deque (INV(a), n) >> deque (a, n-1)):<!wrt> g2node1(a)
 //
+(* ****** ****** *)
+
+fun{a:vt0p}
+lindeque2dllist{n:int} (dq: deque (INV(a), n)):<!wrt> dllist (a, 0, n)
+// end of [fun]
+
 (* ****** ****** *)
 
 (* end of [lindeque_dllist.sats] *)

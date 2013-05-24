@@ -41,53 +41,53 @@ lemma_deque_param
 
 (* ****** ****** *)
 
-fun{} deque_nil{a:vt0p} ():<> deque (a, 0)
+fun{} lindeque_nil{a:vt0p} ():<> deque (a, 0)
 
 (* ****** ****** *)
 
-prfun deque_free_nil{a:vt0p} (dq: deque (a, 0)): void
+prfun lindeque_free_nil{a:vt0p} (dq: deque (a, 0)): void
 
 (* ****** ****** *)
 //
-fun{} deque_is_nil
+fun{} lindeque_is_nil
   {a:vt0p}{n:int} (dq: !deque (INV(a), n)):<> bool (n==0)
-fun{} deque_isnot_nil
+fun{} lindeque_isnot_nil
   {a:vt0p}{n:int} (dq: !deque (INV(a), n)):<> bool (n > 0)
 //
 (* ****** ****** *)
 
 fun{a:vt0p}
-deque_length {n:int} (dq: !deque (INV(a), n)):<> int (n)
+lindeque_length {n:int} (dq: !deque (INV(a), n)):<> int (n)
 
 (* ****** ****** *)
 //
 fun{a:vt0p}
-deque_insert_at
+lindeque_insert_at
   {n:int}{i:nat | i <= n}
 (
   dq: &deque (INV(a), n) >> deque (a, n+1), i: int i, x: a
-) : void // end of [deque_insert_at]
+) : void // end of [lindeque_insert_at]
 //
 fun{a:vt0p}
-deque_insert_atbeg{n:int}
+lindeque_insert_atbeg{n:int}
   (dq: &deque (INV(a), n) >> deque (a, n+1), x: a): void
 fun{a:vt0p}
-deque_insert_atend{n:int}
+lindeque_insert_atend{n:int}
   (dq: &deque (INV(a), n) >> deque (a, n+1), x: a): void
 //
 (* ****** ****** *)
 //
 fun{a:vt0p}
-deque_takeout_at{n:int}{i:nat | i < n}
+lindeque_takeout_at{n:int}{i:nat | i < n}
 (
   dq: &deque (INV(a), n) >> deque (a, n-1), i: int i
-) : a // end of [deque_takeout_at]
+) : a // end of [lindeque_takeout_at]
 //
 fun{a:vt0p}
-deque_takeout_atbeg{n:pos}
+lindeque_takeout_atbeg{n:pos}
   (dq: &deque (INV(a), n) >> deque (a, n-1)): (a)
 fun{a:vt0p}
-deque_takeout_atend{n:pos}
+lindeque_takeout_atend{n:pos}
   (dq: &deque (INV(a), n) >> deque (a, n-1)): (a)
 //
 (* ****** ****** *)

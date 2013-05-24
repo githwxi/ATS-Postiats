@@ -1,0 +1,82 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../lindeque_dllist.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_lindeque_dllist")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/lindeque_dllist\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+#para("\
+
+This package implements linear deques (double-ended queues) based on the
+circular doubly-linked list structure.
+
+")
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("deque")
+#decldescrpt("\
+
+The type constructor #stacode("deque") is a shorthand for
+#stacode("deque_vtype").  ")
+
+#declnamesynop("deque_vtype")
+#decldescrpt("\
+
+Given a type T and an integer N, the abstract viewtype
+#stacode("deque_vtype(K, T)") is for a deque storing N elements of the type
+T. Note that #stacode("deque_vtype") is co-variant in its first argument.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("lindeque_nil")
+#decldescrpt("This function creates an empty deque.")
+
+(* ****** ****** *)
+
+#declnamesynop("lindeque_is_nil")
+#decldescrpt("This function tests whether a given deque is empty.")
+#declnamesynop("lindeque_isnot_nil")
+#decldescrpt("This function tests whether a given deque is non-empty.")
+
+(* ****** ****** *)
+
+#declnamesynop("lindeque_length")
+
+(* ****** ****** *)
+
+#declnamesynop("lindeque_insert_atbeg")
+#declnamesynop("lindeque_insert_atend")
+
+(* ****** ****** *)
+
+#declnamesynop("lindeque_takeout_atbeg")
+#declnamesynop("lindeque_takeout_atend")
+
+(* ****** ****** *)
+
+#declnamesynop("lindeque2dllist")
+
+(* ****** ****** *)
+
+(* end of [lindeque_dllist.atxt] *)

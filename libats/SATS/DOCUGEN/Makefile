@@ -255,6 +255,14 @@ upload_linralist_nested:: ;   scp HTML/linralist_nested.html ats-hwxi,ats-lang@w
 clean:: ; $(RMF) linralist_nested_atxt.exe
 cleanall:: ; $(RMF) HTML/linralist_nested.html
 
+all_html:: HTML/lindeque_dllist.html
+HTML/lindeque_dllist.html:   lindeque_dllist_atxt.exe ; ./$< > $@
+lindeque_dllist_atxt.txt: lindeque_dllist.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+lindeque_dllist_atxt.exe: htmlgendecl_atxt.dats   lindeque_dllist_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_lindeque_dllist:: ;   scp HTML/lindeque_dllist.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) lindeque_dllist_atxt.exe
+cleanall:: ; $(RMF) HTML/lindeque_dllist.html
+
 
 ######
 

@@ -15,6 +15,7 @@
 //
 (* ****** ****** *)
 
+staload "libats/SATS/dllist.sats"
 staload "libats/SATS/lindeque_dllist.sats"
 
 (* ****** ****** *)
@@ -30,41 +31,41 @@ val () =
 //
 typedef T = int
 //
-var DQ = deque_nil {T} ()
+var DQ = lindeque_nil {T} ()
 //
-val () = deque_insert_atbeg (DQ, 0)
-val () = deque_insert_atbeg (DQ, 1)
-val () = deque_insert_atbeg (DQ, 2)
-val () = deque_insert_atbeg (DQ, 3)
-val () = deque_insert_atbeg (DQ, 4)
+val () = lindeque_insert_atbeg (DQ, 0)
+val () = lindeque_insert_atbeg (DQ, 1)
+val () = lindeque_insert_atbeg (DQ, 2)
+val () = lindeque_insert_atbeg (DQ, 3)
+val () = lindeque_insert_atbeg (DQ, 4)
 //
-val () = assertloc (deque_length (DQ) = 5)
+val () = assertloc (lindeque_length (DQ) = 5)
 //
-val () = println! ("DQ[beg] = ", deque_takeout_atbeg (DQ))
-val () = println! ("DQ[beg] = ", deque_takeout_atbeg (DQ))
-val () = println! ("DQ[beg] = ", deque_takeout_atbeg (DQ))
-val () = println! ("DQ[beg] = ", deque_takeout_atbeg (DQ))
-val () = println! ("DQ[beg] = ", deque_takeout_atbeg (DQ))
+val () = println! ("DQ[beg] = ", lindeque_takeout_atbeg (DQ))
+val () = println! ("DQ[beg] = ", lindeque_takeout_atbeg (DQ))
+val () = println! ("DQ[beg] = ", lindeque_takeout_atbeg (DQ))
+val () = println! ("DQ[beg] = ", lindeque_takeout_atbeg (DQ))
+val () = println! ("DQ[beg] = ", lindeque_takeout_atbeg (DQ))
 //
-val () = assertloc (deque_is_nil (DQ))
+val () = assertloc (lindeque_is_nil (DQ))
 //
-val () = deque_insert_atbeg (DQ, 0)
-val () = deque_insert_atbeg (DQ, 1)
-val () = deque_insert_atbeg (DQ, 2)
-val () = deque_insert_atbeg (DQ, 3)
-val () = deque_insert_atbeg (DQ, 4)
+val () = lindeque_insert_atbeg (DQ, 0)
+val () = lindeque_insert_atbeg (DQ, 1)
+val () = lindeque_insert_atbeg (DQ, 2)
+val () = lindeque_insert_atbeg (DQ, 3)
+val () = lindeque_insert_atbeg (DQ, 4)
 //
-val () = assertloc (deque_length (DQ) = 5)
+val () = assertloc (lindeque_length (DQ) = 5)
 //
-val () = println! ("DQ[end] = ", deque_takeout_atend (DQ))
-val () = println! ("DQ[end] = ", deque_takeout_atend (DQ))
-val () = println! ("DQ[end] = ", deque_takeout_atend (DQ))
-val () = println! ("DQ[end] = ", deque_takeout_atend (DQ))
-val () = println! ("DQ[end] = ", deque_takeout_atend (DQ))
+val () = println! ("DQ[end] = ", lindeque_takeout_atend (DQ))
+val () = println! ("DQ[end] = ", lindeque_takeout_atend (DQ))
+val () = println! ("DQ[end] = ", lindeque_takeout_atend (DQ))
+val () = println! ("DQ[end] = ", lindeque_takeout_atend (DQ))
+val () = println! ("DQ[end] = ", lindeque_takeout_atend (DQ))
 //
-val () = assertloc (deque_is_nil (DQ))
+val () = assertloc (lindeque_is_nil (DQ))
 //
-prval () = deque_free_nil (DQ)
+prval () = lindeque_free_nil (DQ)
 //
 } // end of [val]
 
@@ -75,41 +76,66 @@ val () =
 //
 typedef T = int
 //
-var DQ = deque_nil {T} ()
+var DQ = lindeque_nil {T} ()
 //
-val () = deque_insert_atend (DQ, 0)
-val () = deque_insert_atend (DQ, 1)
-val () = deque_insert_atend (DQ, 2)
-val () = deque_insert_atend (DQ, 3)
-val () = deque_insert_atend (DQ, 4)
+val () = lindeque_insert_atend (DQ, 0)
+val () = lindeque_insert_atend (DQ, 1)
+val () = lindeque_insert_atend (DQ, 2)
+val () = lindeque_insert_atend (DQ, 3)
+val () = lindeque_insert_atend (DQ, 4)
 //
-val () = assertloc (deque_length (DQ) = 5)
+val () = assertloc (lindeque_length (DQ) = 5)
 //
-val () = println! ("DQ[beg] = ", deque_takeout_atbeg (DQ))
-val () = println! ("DQ[beg] = ", deque_takeout_atbeg (DQ))
-val () = println! ("DQ[beg] = ", deque_takeout_atbeg (DQ))
-val () = println! ("DQ[beg] = ", deque_takeout_atbeg (DQ))
-val () = println! ("DQ[beg] = ", deque_takeout_atbeg (DQ))
+val () = println! ("DQ[beg] = ", lindeque_takeout_atbeg (DQ))
+val () = println! ("DQ[beg] = ", lindeque_takeout_atbeg (DQ))
+val () = println! ("DQ[beg] = ", lindeque_takeout_atbeg (DQ))
+val () = println! ("DQ[beg] = ", lindeque_takeout_atbeg (DQ))
+val () = println! ("DQ[beg] = ", lindeque_takeout_atbeg (DQ))
 //
-val () = assertloc (deque_is_nil (DQ))
+val () = assertloc (lindeque_is_nil (DQ))
 //
-val () = deque_insert_atend (DQ, 0)
-val () = deque_insert_atend (DQ, 1)
-val () = deque_insert_atend (DQ, 2)
-val () = deque_insert_atend (DQ, 3)
-val () = deque_insert_atend (DQ, 4)
+val () = lindeque_insert_atend (DQ, 0)
+val () = lindeque_insert_atend (DQ, 1)
+val () = lindeque_insert_atend (DQ, 2)
+val () = lindeque_insert_atend (DQ, 3)
+val () = lindeque_insert_atend (DQ, 4)
 //
-val () = assertloc (deque_length (DQ) = 5)
+val () = assertloc (lindeque_length (DQ) = 5)
 //
-val () = println! ("DQ[end] = ", deque_takeout_atend (DQ))
-val () = println! ("DQ[end] = ", deque_takeout_atend (DQ))
-val () = println! ("DQ[end] = ", deque_takeout_atend (DQ))
-val () = println! ("DQ[end] = ", deque_takeout_atend (DQ))
-val () = println! ("DQ[end] = ", deque_takeout_atend (DQ))
+val () = println! ("DQ[end] = ", lindeque_takeout_atend (DQ))
+val () = println! ("DQ[end] = ", lindeque_takeout_atend (DQ))
+val () = println! ("DQ[end] = ", lindeque_takeout_atend (DQ))
+val () = println! ("DQ[end] = ", lindeque_takeout_atend (DQ))
+val () = println! ("DQ[end] = ", lindeque_takeout_atend (DQ))
 //
-val () = assertloc (deque_is_nil (DQ))
+val () = assertloc (lindeque_is_nil (DQ))
 //
-prval () = deque_free_nil (DQ)
+prval () = lindeque_free_nil (DQ)
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () =
+{
+//
+typedef T = int
+//
+var DQ = lindeque_nil {T} ()
+//
+val () = lindeque_insert_atend (DQ, 0)
+val () = lindeque_insert_atend (DQ, 1)
+val () = lindeque_insert_atend (DQ, 2)
+val () = lindeque_insert_atend (DQ, 3)
+val () = lindeque_insert_atend (DQ, 4)
+//
+val xs = lindeque2dllist (DQ)
+//
+val out = stdout_ref
+val () = fprint_dllist (out, xs)
+val () = fprint_newline (out)
+//
+val () = dllist_free<T> (xs)
 //
 } // end of [val]
 

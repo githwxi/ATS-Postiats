@@ -41,7 +41,7 @@ than those based on balanced trees. ")
 #decldescrpt("\
 
 The type constructor #stacode("map") is a shorthand for
-#stacode("may_vtype").  ")
+#stacode("map_vtype").  ")
 
 #declnamesynop("map_vtype")
 #decldescrpt("\
