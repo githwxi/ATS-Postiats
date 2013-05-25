@@ -121,10 +121,20 @@ end // end of [lindeque_length]
 (* ****** ****** *)
 
 implement{a}
+lindeque_insert_at
+  (dq, i, x) = let
+//
+val nx0 =
+  g2node_make_elt<a> (x) in lindeque_insert_at_ngc (dq, i, nx0)
+//
+end // end of [lindeque_insert_at]
+
+implement{a}
 lindeque_insert_atbeg
   (dq, x) = let
 //
-val nx0 = g2node_make_elt<a> (x) in lindeque_insert_atbeg_ngc (dq, nx0)
+val nx0 =
+  g2node_make_elt<a> (x) in lindeque_insert_atbeg_ngc (dq, nx0)
 //
 end // end of [lindeque_insert_atbeg]
 
@@ -132,11 +142,20 @@ implement{a}
 lindeque_insert_atend
   (dq, x) = let
 //
-val nx0 = g2node_make_elt<a> (x) in lindeque_insert_atend_ngc (dq, nx0)
+val nx0 =
+  g2node_make_elt<a> (x) in lindeque_insert_atend_ngc (dq, nx0)
 //
 end // end of [lindeque_insert_atend]
 
 (* ****** ****** *)
+
+implement{a}
+lindeque_takeout_at
+  (dq, i) = let
+//
+val nx = lindeque_takeout_at_ngc (dq, i) in g2node_getfree_elt (nx)
+//
+end // end of [lindeque_takeout_at]
 
 implement{a}
 lindeque_takeout_atbeg

@@ -62,20 +62,44 @@ T. Note that #stacode("deque_vtype") is co-variant in its first argument.\
 (* ****** ****** *)
 
 #declnamesynop("lindeque_length")
+#decldescrpt("\
+This function computes the length of a given deque,
+")
 
 (* ****** ****** *)
 
 #declnamesynop("lindeque_insert_atbeg")
+#decldescrpt("\
+This function inserts an element at the beginning of a given deque.
+")
+
 #declnamesynop("lindeque_insert_atend")
+#decldescrpt("\
+This function inserts an element at the end of a given deque.
+")
 
 (* ****** ****** *)
 
 #declnamesynop("lindeque_takeout_atbeg")
+#decldescrpt("\
+This function takes out the element at the beginning of a given deque.
+")
+
 #declnamesynop("lindeque_takeout_atend")
+#decldescrpt("\
+This function takes out the element at the end of a given deque.
+")
 
 (* ****** ****** *)
 
 #declnamesynop("lindeque2dllist")
+#decldescrpt("\
+
+This function turns a given deque into a doubly-linked list. Note that it
+is a specific function for this particular dllist-based implementation of
+deques.\
+
+")
 
 (* ****** ****** *)
 

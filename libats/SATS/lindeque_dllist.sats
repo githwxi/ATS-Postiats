@@ -54,6 +54,13 @@ staload "libats/SATS/dllist.sats"
 (* ****** ****** *)
 //
 fun{a:vt0p}
+lindeque_insert_at_ngc
+  {n:int}{i:nat | i <= n}
+(
+  dq: &deque (INV(a), n) >> deque (a, n+1), i: int i, x: g2node1(a)
+) : void // end of [lindeque_insert_at_ngc]
+//
+fun{a:vt0p}
 lindeque_insert_atbeg_ngc{n:int}
 (
   dq: &deque (INV(a), n) >> deque (a, n+1), nx: g2node1(a)
@@ -65,6 +72,12 @@ lindeque_insert_atend_ngc{n:int}
 ) :<!wrt> void // end of [lindeque_insert_atend_ngc]
 //
 (* ****** ****** *)
+//
+fun{a:vt0p}
+lindeque_takeout_at_ngc{n:int}{i:nat | i < n}
+(
+  dq: &deque (INV(a), n) >> deque (a, n-1), i: int i
+) : g2node1(a) // end of [lindeque_takeout_at_ngc]
 //
 fun{a:vt0p}
 lindeque_takeout_atbeg_ngc{n:pos}

@@ -49,6 +49,14 @@ clean:: ; $(RMF) fibver_trec_dats.o
 clean:: ; $(RMF) fibver_trec_dats.c
 cleanall:: ; $(RMF) fibver_trec.exe
 
+all:: fourslot
+fourslot: fourslot.exe
+fourslot.exe: fourslot_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+fourslot_dats.c: fourslot.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fourslot_dats.c --dynamic fourslot.dats
+clean:: ; $(RMF) fourslot_dats.o
+clean:: ; $(RMF) fourslot_dats.c
+cleanall:: ; $(RMF) fourslot.exe
+
 all:: hanoi
 hanoi: hanoi.exe
 hanoi.exe: hanoi_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
