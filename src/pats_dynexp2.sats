@@ -177,7 +177,7 @@ fun d2cst_make (
 , dck: dcstkind
 , decarg: s2qualst
 , artylst: List int
-, typ: s2exp // HX: there is no s2Var in it
+, s2e: s2exp // HX: there is no s2Var in it
 , extdef: dcstextdef
 ) : d2cst // end of [d2cst_make]
 

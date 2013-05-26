@@ -195,7 +195,8 @@ end // end of [tmpsub_append]
 
 local
 
-fun aux (
+fun aux
+(
   res: &tmpvarset_vt, x: instr
 ) : void = let
 //
@@ -275,6 +276,8 @@ case+ x.instr_node of
 | INSupdate_ptrdec (tmp(*ptr*), _(*type*)) => ()
 //
 | INStmpdec (tmp) => tmpadd (tmp)
+//
+| INSdcstdef (d2c, pmv) => ()
 //
 end // end of [aux]
 

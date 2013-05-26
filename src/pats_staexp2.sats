@@ -1165,6 +1165,10 @@ fun s2exp_is_impred (x: s2exp): bool
 
 (* ****** ****** *)
 
+fun s2exp_is_tyfun (x: s2exp): bool
+
+(* ****** ****** *)
+
 datatype
 sp2at_node =
   | SP2Tcon of (s2cst, s2varlst)

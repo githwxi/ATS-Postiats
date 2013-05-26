@@ -100,29 +100,43 @@ end // end of [local]
 
 (* ****** ****** *)
 //
-extern fun latest_get (): bit
-extern fun latest_set (i: bit): void
-extern fun reading_get (): bit
-extern fun reading_set (i: bit): void
+extern val p_latest : Ptr1
+extern val p_reading : Ptr1
+//
+local
+
+var latest: bit = int2bit(0)
+var reading: bit = int2bit(0)
+
+in (* in of [local] *)
+
+implement p_latest = addr@(latest)
+implement p_reading = addr@(reading)
+
+end // end of [local]
+//
+(* ****** ****** *)
+//
+extern fun{} latest_get (): bit
+extern fun{} latest_set (i: bit): void
+extern fun{} reading_get (): bit
+extern fun{} reading_set (i: bit): void
 //
 local
 staload
 UN = "prelude/SATS/unsafe.sats"
 //
-var latest: bit = int2bit(0)
-var reading: bit = int2bit(0)
-//
 in (* in of [local] *)
 //
-implement
-latest_get () = $UN.ptr1_get<bit> (addr@(latest))
-implement
-latest_set (i) = $UN.ptr1_set<bit> (addr@(latest), i)
+implement{}
+latest_get () = $UN.ptr1_get<bit> (p_latest)
+implement{}
+latest_set (i) = $UN.ptr1_set<bit> (p_latest, i)
 //
-implement
-reading_get () = $UN.ptr1_get<bit> (addr@(reading))
-implement
-reading_set (i) = $UN.ptr1_set<bit> (addr@(reading), i)
+implement{}
+reading_get () = $UN.ptr1_get<bit> (p_reading)
+implement{}
+reading_set (i) = $UN.ptr1_set<bit> (p_reading, i)
 //
 end // end of [local]
 //
@@ -172,12 +186,14 @@ val S = slot_make ()
 //
 val x0 = fourslot_read<T> (A, S)
 val () = fprintln! (out, "x0 = ", x0)
+val () = assertloc (x0 = 0)
 //
 val () = fourslot_write<T> (A, S, 1)
 val () = fourslot_write<T> (A, S, ~1)
 //
 val x1 = fourslot_read<T> (A, S)
 val () = fprintln! (out, "x1 = ", x1)
+val () = assertloc (x1 = ~1)
 //
 val () = slot_free (S)
 //

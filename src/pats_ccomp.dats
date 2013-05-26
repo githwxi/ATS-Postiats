@@ -45,29 +45,32 @@ staload "./pats_hidynexp.sats"
 staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
-
+//
 implement
 hifundec_get_funlabopt (hfd) =
   $UN.ptrget<Option(funlab)> (hifundec_getref_funlabopt (hfd))
-// end of [hifundec_get_funlabopt]
-
 implement
 hifundec_set_funlabopt (hfd, opt) =
   $UN.ptrset<Option(funlab)> (hifundec_getref_funlabopt (hfd), opt)
-// end of [hifundec_set_funlabopt]
-
+//
 (* ****** ****** *)
-
+//
 implement
 hiimpdec_get_funlabopt (imp) =
   $UN.ptrget<Option(funlab)> (hiimpdec_getref_funlabopt (imp))
-// end of [hiimpdec_get_funlabopt]
-
 implement
 hiimpdec_set_funlabopt (imp, opt) =
   $UN.ptrset<Option(funlab)> (hiimpdec_getref_funlabopt (imp), opt)
-// end of [hiimpdec_set_funlabopt]
-
+//
+(* ****** ****** *)
+//
+implement
+hiimpdec_get_instrlstopt (imp) =
+  $UN.ptrget<Option(instrlst)> (hiimpdec_getref_instrlstopt (imp))
+implement
+hiimpdec_set_instrlstopt (imp, opt) =
+  $UN.ptrset<Option(instrlst)> (hiimpdec_getref_instrlstopt (imp), opt)
+//
 (* ****** ****** *)
 
 extern
@@ -867,7 +870,14 @@ instr_update_ptrdec
 implement
 instr_tmpdec
   (loc, tmp) = instr_make_node (loc, INStmpdec (tmp))
-// end of [instr_tempdec]
+// end of [instr_tmpdec]
+
+(* ****** ****** *)
+
+implement
+instr_dcstdef
+  (loc, d2c, pmv) = instr_make_node (loc, INSdcstdef (d2c, pmv))
+// end of [instr_dcstdef]
 
 (* ****** ****** *)
 

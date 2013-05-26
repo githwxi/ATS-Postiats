@@ -77,14 +77,6 @@ end // end of [instrseq_add]
 (* ****** ****** *)
 
 implement
-instrseq_add_tmpdec
-  (res, loc, tmp) =
-  instrseq_add (res, instr_tmpdec (loc, tmp))
-// end of [instrseq_add_tmpdec]
-
-(* ****** ****** *)
-
-implement
 instrseq_addlst
   (res, xs) = let
 in
@@ -97,6 +89,22 @@ case+ xs of
 | list_nil () => ()
 //
 end // end of [instrseq_addlst]
+
+(* ****** ****** *)
+
+implement
+instrseq_add_tmpdec
+  (res, loc, tmp) =
+  instrseq_add (res, instr_tmpdec (loc, tmp))
+// end of [instrseq_add_tmpdec]
+
+(* ****** ****** *)
+
+implement
+instrseq_add_dcstdef
+  (res, loc, d2c, pmv) =
+  instrseq_add (res, instr_dcstdef (loc, d2c, pmv))
+// end of [instrseq_add_dcstdef]
 
 (* ****** ****** *)
 

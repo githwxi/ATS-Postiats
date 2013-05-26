@@ -104,13 +104,16 @@ are implemented in C directly.
 <p>
 
 Of course, there is a lot of criticism that can be laid upon the above
-implementation of file-copying]. For instance, it is terribly inefficient;
+implementation of file-copying. For instance, it is terribly inefficient;
 it does not support any error-handling at all; etc. I will attempt to
 address these issues in the following presentation. However, one thing that
 is extremely positive about this implementation is the introduction of
 functions [readch] and [writech], which adds a layer to shield system calls
 [read] and [write] from being used directly. This is a programming style I
-would recommend highly and repeatedly.
+would recommend highly and repeatedly. What seems really unfortunate to me
+is that popular books on systems programming
+(e.g. <a href="http://www.apuebook.com/">APUE</a>) often do very little, if
+at all, to advocate this very useful programming style!
 
 <h2>
 Attempt Two
@@ -140,15 +143,16 @@ fun buffer_create (m: size_t): buffer
 fun buffer_destroy (buf: buffer): void
 </pre>
 
-As we also need to test whether a buffer contains any data or not, we
+As we also need to test whether a buffer contains any data or not, let us
 introduce the following function for this purpose:
 
 <pre>
 fun buffer_isnot_empty (buf: !buffer): bool
 </pre>
 
-We use the names [readbuf] and [writebuf] for functions reading and writing
-multiple chars, respectively, and assign to them the following types:
+In addition, let us use the names [readbuf] and [writebuf] for functions
+reading and writing multiple chars, respectively, and assign to them the
+following types:
 
 <pre>
 fun readbuf (src: fildes, buf: !buffer): void
@@ -259,7 +263,7 @@ in
 end (* end of [fcopy3] *)
 </pre>
 
-Note that the loop function exists whenever an error due to [read] or
+Note that the loop function exits whenever an error due to [read] or
 [write] is reported.  Please find the code of a completed running
 implementation of file-copying based on [fcopy3] in fcopy3.dats, where
 [readbuf] and [writebuf] are implemented in C directly.

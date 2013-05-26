@@ -1020,7 +1020,8 @@ case+ x.instr_node of
   }
 //
 | INSupdate_ptrinc
-    (tmp, hse_elt) => {
+    (tmp, hse_elt) =>
+  {
     val () = prstr "INSupdate_ptrinc("
     val () = fprint_tmpvar (out, tmp)
     val () = prstr "; "
@@ -1028,7 +1029,8 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 | INSupdate_ptrdec
-    (tmp, hse_elt) => {
+    (tmp, hse_elt) =>
+  {
     val () = prstr "INSupdate_ptrdec("
     val () = fprint_tmpvar (out, tmp)
     val () = prstr "; "
@@ -1036,9 +1038,19 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
-| INStmpdec (tmp) => {
+| INStmpdec (tmp) =>
+  {
     val () = prstr "INStmpdec("
     val () = fprint_tmpvar (out, tmp)
+    val () = prstr ")"
+  }
+//
+| INSdcstdef (d2c, pmv) =>
+  {
+    val () = prstr "INSdcstdef("
+    val () = fprint_d2cst (out, d2c)
+    val () = prstr " = "
+    val () = fprint_primval (out, pmv)
     val () = prstr ")"
   }
 //

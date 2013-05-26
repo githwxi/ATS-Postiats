@@ -268,13 +268,14 @@ hipatck_ccomp_sum
 //
 val loc0 = hip0.hipat_loc
 //
-// (*
+(*
 val () =
 (
   println! ("hipatck_ccomp_sum: loc0 = ", loc0);
   println! ("hipatck_ccomp_sum: hip0 = ", hip0);
 ) // end of [val]
-// *)
+*)
+//
 val-HIPcon (pck, d2c, hse_sum, lhips) = hip0.hipat_node
 val () = hipatck_ccomp_con (env, res, fail, loc0, d2c, pmv0)
 //

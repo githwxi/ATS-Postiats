@@ -579,6 +579,23 @@ s2exp_is_impred
 (* ****** ****** *)
 
 implement
+s2exp_is_tyfun
+  (s2e) = let
+in
+//
+case+
+  s2e.s2exp_node of
+| S2Efun _ => true
+| S2Euni (_, _, s2e) => s2exp_is_tyfun (s2e)
+| S2Eexi (_, _, s2e) => s2exp_is_tyfun (s2e)
+| S2Emetfun (_, _, s2e) => s2exp_is_tyfun (s2e)
+| _ => false
+//
+end // end of [s2exp_is_tyfun]
+
+(* ****** ****** *)
+
+implement
 s2eff_nil = S2EFFset ($EFF.effset_nil)
 implement
 s2eff_all = S2EFFset ($EFF.effset_all)

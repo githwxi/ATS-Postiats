@@ -187,6 +187,11 @@ end // end of [local]
 
 (* ****** ****** *)
 
+implement
+tmpvar_copy_err (tmp) = tmp
+
+(* ****** ****** *)
+
 local
 
 (* ****** ****** *)

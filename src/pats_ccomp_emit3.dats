@@ -1030,6 +1030,14 @@ case+ pmd.primdec_node of
 | PMDdatdecs _ => ()
 | PMDexndecs _ => ()
 //
+| PMDimpdec (imp) => let
+    val opt = hiimpdec_get_instrlstopt (imp)
+  in
+    case+ opt of
+    | Some (inss) => emit_instrlst_ln (out, inss)
+    | None () => ()
+  end // end of [PMDimpdec]
+//
 | PMDfundecs _ => ()
 //
 | PMDvaldecs
@@ -1040,8 +1048,6 @@ case+ pmd.primdec_node of
 //
 | PMDvardecs (hvds, inss) =>
     emit_instrlst_ln (out, $UN.cast{instrlst}(inss))
-//
-| PMDimpdec _ => ()
 //
 | PMDinclude (pmds) => emit_primdeclst (out, pmds)
 //
@@ -1086,7 +1092,7 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-emit_d2cst_exdec
+emit_d2cst_extdec
   (out, d2c) = let
 //
 macdef
@@ -1150,17 +1156,20 @@ case+ 0 of
     // nothing
   end // end of [castfn]
 | _ => let
-    val () = emit_text (out, "ATSdyncst_unknown(")
+    val-Some(hse) = d2cst_get2_hisexp (d2c)
+    val () = emit_text (out, "ATSdyncst_valdec(")
     val () = emit_d2cst (out, d2c)
+    val () = emit_text (out, ", ")
+    val () = emit_hisexp (out, hse)
     val () = emit_text (out, ") ;\n")
   in
     // nothing
   end // end of [_]
 //
-end // end of [emit_d2cst_exdec]
+end // end of [emit_d2cst_extdec]
 
 implement
-emit_d2cstlst_exdec
+emit_d2cstlst_extdec
   (out, d2cs) = let
 in
 //
@@ -1168,14 +1177,14 @@ case+ d2cs of
 | list_cons
     (d2c, d2cs) => let
     val () =
-      emit_d2cst_exdec (out, d2c)
+      emit_d2cst_extdec (out, d2c)
     // end of [val]
   in
-    emit_d2cstlst_exdec (out, d2cs)
+    emit_d2cstlst_extdec (out, d2cs)
   end // end of [list_cons]
 | list_nil () => ()
 //
-end // end of [emit_d2cstlst_exdec]
+end // end of [emit_d2cstlst_extdec]
 
 (* ****** ****** *)
 

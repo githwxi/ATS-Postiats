@@ -51,11 +51,6 @@
 //
 /* ****** ****** */
 
-#define ATSextfun() extern
-#define ATSstafun() static
-
-/* ****** ****** */
-
 #define ATSinline() static inline
 
 /* ****** ****** */
@@ -65,20 +60,26 @@
 
 /* ****** ****** */
 
-#define ATSdyncst_mac(d2c)
-#define ATSdyncst_castfn(d2c)
-#define ATSdyncst_extfun(d2c, targs, tres) ATSextfun() tres d2c targs
-#define ATSdyncst_stafun(d2c, targs, tres) ATSstafun() tres d2c targs
-
-/* ****** ****** */
-
 #define ATSdynload0(flag) int flag = 0
-#define ATSdynload1(flag) extern int flag
+#define ATSdynload1(flag) ATSglobaldec() int flag
 #define ATSdynloadset(flag) flag = 1
 
 /* ****** ****** */
 
 #define ATSassume(flag) void *flag = (void*)0
+
+/* ****** ****** */
+
+#define ATSdyncst_mac(d2c)
+#define ATSdyncst_castfn(d2c)
+#define ATSdyncst_extfun(d2c, targs, tres) ATSglobaldec() tres d2c targs
+#define ATSdyncst_stafun(d2c, targs, tres) ATSstaticdec() tres d2c targs
+
+/* ****** ****** */
+
+#define ATSdyncst_valimp(d2c, type) type d2c
+#define ATSdyncst_valdec(d2c, type) ATSglobaldec() type d2c
+#define ATSdyncst_valbind(d2c, pmv) d2c = (pmv)
 
 /* ****** ****** */
 

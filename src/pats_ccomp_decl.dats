@@ -647,7 +647,7 @@ val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
 //
 in
   // nothing
-end // end of [hivardec_ccomp]
+end // end of [aux]
 
 fun auxlst
 (
@@ -764,6 +764,7 @@ case+
   in
     funlab_make_dvar_type (d2v, hse0, fcopt)
   end // end of [HDEvar]
+//
 | HDEtmpcst (d2c, t2mas) => let
     val fcopt = d2cst_get2_funclo (d2c)
   in
@@ -790,6 +791,7 @@ hiimpdec_ccomp
 ) = let
 //
 val d2c = imp.hiimpdec_cst
+val knd = d2cst_get_kind (d2c)
 //
 val () =
 (
@@ -801,9 +803,10 @@ in
 case+ 0 of
 (*
 | _ when
-    d2cst_is_castfn d2c => ()
+    dcstkind_is_castfn knd => ()
 *)
-| _ => let
+| _ when
+    dcstkind_is_fun (knd) => let
     val loc0 = imp.hiimpdec_loc
     val imparg = imp.hiimpdec_imparg
     val tmparg = imp.hiimpdec_tmparg
@@ -824,9 +827,22 @@ case+ 0 of
     // nothing
   end // end of [if]
 //
+| _ (*non-fun*) => let
+    var res
+      : instrseq = instrseq_make_nil ()
+    val pmv = hidexp_ccomp (env, res, imp.hiimpdec_def)
+    val () = instrseq_add_dcstdef (res, imp.hiimpdec_loc, d2c, pmv)
+    val inss = instrseq_get_free (res)
+    val () = hiimpdec_set_instrlstopt (imp, Some (inss))
+  in
+    // nothing
+  end // end of [non-fun]
+//
 end // end of [hiimpdec_ccomp]
 
 end // end of [local]
+
+(* ****** ****** *)
 
 implement
 hiimpdec_ccomp_if

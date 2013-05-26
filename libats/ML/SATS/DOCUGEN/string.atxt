@@ -160,7 +160,7 @@ implement
 main () = 0 where {
   val str = "abcdefg"
   val cs = string_explode (str)
-  val () = assertloc (string_length (str) = g0int2uint(list0_length (cs)))
+  val () = assertloc (string_length (str) = g0i2u(list0_length (cs)))
 } // end of [main]
 ')
 ")

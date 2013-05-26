@@ -176,7 +176,8 @@ implement
 tmpvarlst_subst
   (sub, tmplst, sfx) = let
 //
-fun loop (
+fun loop
+(
   sub: !stasub
 , xs: tmpvarlst, sfx: int, ys: tmpvarlst_vt
 ) : tmpvarlst_vt = let
@@ -377,11 +378,18 @@ in
 case+ opt of
 | ~Some_vt (tmp2) => tmp2
 | ~None_vt () => let
+//
+    val loc = tmpvar_get_loc (tmp)
+    val () = prerr_errccomp_loc (loc)
+    val () = prerr ": toplevel non-global code is not allowed in template."
+    val () = prerr_newline ()
+//
+(*
     val () = prerr_interror ()
-    val () = prerr ": tmpvar2var: copy is not found: tmp = "
-    val () = prerr_tmpvar (tmp)
+    val () = prerrln! (": tmpvar2var: copy is not found: tmp = ", tmp)
+*)
   in
-    $ERR.abort ()
+    tmpvar_copy_err (tmp)
   end // end of [None_vt]
 //
 end // end of [tmpvar2var]
@@ -390,7 +398,8 @@ end // end of [tmpvar2var]
 
 (*
 extern
-fun tmpvarlst_reset_alias (
+fun tmpvarlst_reset_alias
+(
   map: !tmpmap, tmplst: tmpvarlst
 ) : void // end of [tmpvarlst_reset_alias]
 //

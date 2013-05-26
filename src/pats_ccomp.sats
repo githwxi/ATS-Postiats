@@ -143,12 +143,19 @@ fun tmpvar_make_ref
 fun tmpvar_make_ret
   (loc: location, hse: hisexp): tmpvar
 
+(* ****** ****** *)
+
+fun tmpvar_copy_err (tmp: tmpvar): tmpvar
+
+(* ****** ****** *)
+
 fun tmpvar_get_loc (tmp: tmpvar): location
 
 fun tmpvar_get_type (tmp: tmpvar): hisexp
 
 fun tmpvar_isref (tmp: tmpvar): bool // tmpref?
 fun tmpvar_isret (tmp: tmpvar): bool // tmpret?
+fun tmpvar_iserr (tmp: tmpvar): bool // tmperr?
 
 fun tmpvar_get_topknd (tmp: tmpvar): int // 0/1: local/(static)top
 
@@ -393,20 +400,6 @@ fun the_funlablst_addlst (fls: funlablst): void
 
 (* ****** ****** *)
 
-fun hifundec_get_funlabopt
-  (hfd: hifundec): Option (funlab)
-fun hifundec_set_funlabopt
-  (hfd: hifundec, opt: Option (funlab)): void
-
-(* ****** ****** *)
-
-fun hiimpdec_get_funlabopt
-  (imp: hiimpdec): Option (funlab)
-fun hiimpdec_set_funlabopt
-  (imp: hiimpdec, opt: Option (funlab)): void
-
-(* ****** ****** *)
-
 datatype tmpsub =
   | TMPSUBcons of (s2var, s2exp, tmpsub) | TMPSUBnil of ()
 typedef tmpsubopt = Option (tmpsub)
@@ -456,6 +449,11 @@ overload fprint with fprint_tmpvarmat
 
 (* ****** ****** *)
 
+abstype ccomp_instrlst_type
+typedef instrlst = ccomp_instrlst_type
+
+(* ****** ****** *)
+
 datatype
 primcstsp =
   | PMCSTSPmyfil of ($FIL.filename)
@@ -464,11 +462,6 @@ primcstsp =
 // end of [primcstsp]
 
 fun fprint_primcstsp : fprint_type (primcstsp)
-
-(* ****** ****** *)
-
-abstype ccomp_instrlst_type
-typedef instrlst = ccomp_instrlst_type
 
 (* ****** ****** *)
 
@@ -1065,6 +1058,8 @@ instr_node =
 //
   | INStmpdec of (tmpvar) // HX-2013-01: this is a no-op
 //
+  | INSdcstdef of (d2cst, primval) // HX-2013-05: global const def
+//
 // end of [instr_node]
 
 where
@@ -1307,6 +1302,10 @@ fun instr_tmpdec (loc: location, tmp: tmpvar): instr
 
 (* ****** ****** *)
 
+fun instr_dcstdef (loc: location, d2c: d2cst, pmv: primval): instr
+
+(* ****** ****** *)
+
 fun ibranch_make (tlab: tmplab, inss: instrlst): ibranch
 
 (* ****** ****** *)
@@ -1330,11 +1329,33 @@ fun instrseq_make_nil (): instrseq
 fun instrseq_get_free (res: instrseq): instrlst
 
 fun instrseq_add (res: !instrseq, x: instr): void
+fun instrseq_addlst (res: !instrseq, x: instrlst): void
 
 fun instrseq_add_tmpdec
   (res: !instrseq, loc: location, tmp: tmpvar): void
+fun instrseq_add_dcstdef
+  (res: !instrseq, loc: location, d2c: d2cst, pmv: primval): void
 
-fun instrseq_addlst (res: !instrseq, x: instrlst): void
+(* ****** ****** *)
+
+fun hifundec_get_funlabopt
+  (hfd: hifundec): Option (funlab)
+fun hifundec_set_funlabopt
+  (hfd: hifundec, opt: Option (funlab)): void
+
+(* ****** ****** *)
+
+fun hiimpdec_get_funlabopt
+  (imp: hiimpdec): Option (funlab)
+fun hiimpdec_set_funlabopt
+  (imp: hiimpdec, opt: Option (funlab)): void
+
+(* ****** ****** *)
+
+fun hiimpdec_get_instrlstopt
+  (imp: hiimpdec): Option (instrlst)
+fun hiimpdec_set_instrlstopt
+  (imp: hiimpdec, opt: Option (instrlst)): void
 
 (* ****** ****** *)
 
@@ -1711,8 +1732,8 @@ fun emit_staload (out: FILEref, hid: hidecl): void
 
 (* ****** ****** *)
 
-fun emit_d2cst_exdec (out: FILEref, d2c: d2cst): void
-fun emit_d2cstlst_exdec (out: FILEref, d2cs: d2cstlst): void
+fun emit_d2cst_extdec (out: FILEref, d2c: d2cst): void
+fun emit_d2cstlst_extdec (out: FILEref, d2cs: d2cstlst): void
 
 (* ****** ****** *)
 
@@ -1811,13 +1832,15 @@ fun emit_funarglst
   (out: FILEref, nenv: int, hses_arg: hisexplst): void
 //
 (* ****** ****** *)
-
+//
 fun emit_the_tmpdeclst (out: FILEref): void
 fun emit_the_funlablst (out: FILEref): void
 fun emit_the_primdeclst (out: FILEref): void
 fun emit_the_typedeflst (out: FILEref): void
-fun emit_the_dyncstlst_exdec (out: FILEref): void
-
+//
+fun emit_the_dyncstlst_extdec (out: FILEref): void
+fun emit_the_primdeclst_valimp (out: FILEref): void
+//
 (* ****** ****** *)
 //
 // HX: for emitting the prototype of a function entry

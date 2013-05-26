@@ -190,6 +190,7 @@ fun hipat_ann
 (* ****** ****** *)
 
 abstype hidynexp_funlab_type // placeholder for [funlab]
+abstype hidynexp_instrlst_type // placeholder for [funlab]
 
 (* ****** ****** *)
 
@@ -427,6 +428,7 @@ and hiimpdec = '{
 , hiimpdec_tmparg= s2explstlst
 , hiimpdec_def= hidexp
 , hiimpdec_funlab= Option (hidynexp_funlab_type)
+, hiimpdec_instrlst= Option (hidynexp_instrlst_type)
 } // end of [hiimpdec]
 
 and hiimpdeclst = List (hiimpdec)
@@ -755,6 +757,10 @@ fun hiimpdec_make (
 fun hiimpdec_getref_funlabopt
   (imp: hiimpdec): Ptr1 = "patsopt_hiimpdec_getref_funlabopt"
 // end of [hiimpdec_getref_funlabopt]
+
+fun hiimpdec_getref_instrlstopt
+  (imp: hiimpdec): Ptr1 = "patsopt_hiimpdec_getref_instrlstopt"
+// end of [hiimpdec_getref_instrlstopt]
 
 (* ****** ****** *)
 

@@ -331,14 +331,14 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-emit_the_dyncstlst_exdec (out) = let
+emit_the_dyncstlst_extdec (out) = let
 //
 val () = emit_text (out, "/*\n")
 val () = emit_text (out, "dyncstlst-declaration(beg)\n")
 val () = emit_text (out, "*/\n")
 //
 val d2cs = the_dyncstlst_get2 ()
-val () = emit_d2cstlst_exdec (out, d2cs)
+val () = emit_d2cstlst_extdec (out, d2cs)
 //
 val () = emit_text (out, "/*\n")
 val () = emit_text (out, "dyncstlst-declaration(end)\n")
@@ -346,7 +346,7 @@ val () = emit_text (out, "*/\n")
 //
 in
   // nothing
-end // end of [emit_the_dyncstlst_exdec]
+end // end of [emit_the_dyncstlst_extdec]
 
 (* ****** ****** *)
 
@@ -432,13 +432,93 @@ end // end of [emit_the_funlablst]
 implement
 emit_the_primdeclst
   (out) = let
-  val p =
-    the_toplevel_getref_primdeclst ()
-  // end of [val]
-  val pmdlst = $UN.ptrget<primdeclst> (p)
+//
+val p =
+  the_toplevel_getref_primdeclst ()
+// end of [val]
+val pmdlst = $UN.ptrget<primdeclst> (p)
+//
 in
   emit_primdeclst (out, pmdlst)
 end // end of [emit_the_primdeclst]
+
+(* ****** ****** *)
+
+local
+
+fun aux
+(
+  out: FILEref, x: primdec
+) : void = let
+in
+//
+case+
+  x.primdec_node of
+| PMDimpdec (imp) => let
+    val opt = hiimpdec_get_instrlstopt (imp)
+  in
+    case+ opt of
+    | Some _ => let
+        val d2c = imp.hiimpdec_cst
+        val-Some(hse) = d2cst_get2_hisexp (d2c)
+        val () = emit_text (out, "ATSdyncst_valimp(")
+        val () = emit_d2cst (out, d2c)
+        val () = emit_text (out, ", ")
+        val () = emit_hisexp (out, hse)
+        val () = emit_text (out, ") ;\n")
+      in
+        // nothing
+      end // end of [Some]
+    | None _ => ()
+  end (* end of [PMDimpdec] *)
+//
+| PMDlocal (xs_head, xs_body) => auxlst (out, xs_body)
+//
+| _ => ()
+//
+end // end of [aux]
+
+and auxlst
+(
+  out: FILEref, xs: primdeclst
+) : void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = aux (out, x) in auxlst (out, xs)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [auxlst]
+
+in (* in of [local] *)
+
+implement
+emit_the_primdeclst_valimp
+  (out) = let
+//
+val p =
+  the_toplevel_getref_primdeclst ()
+// end of [val]
+val pmdlst = $UN.ptrget<primdeclst> (p)
+//
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "dynvalist-implementation(beg)\n")
+val () = emit_text (out, "*/\n")
+//
+val () = auxlst (out, pmdlst)
+//
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "dynvalist-implementation(end)\n")
+val () = emit_text (out, "*/\n")
+//
+in
+  // nothing
+end // end of [emit_the_primdeclst_valimp]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -834,7 +914,9 @@ val (
 //
 val () = emit_the_typedeflst (out)
 //
-val () = emit_the_dyncstlst_exdec (out)
+val () = emit_the_dyncstlst_extdec (out)
+//
+val () = emit_the_primdeclst_valimp (out)
 //
 val (
 ) = aux_extcodelst_if (out, lam (pos) => pos < DYNMID)
@@ -860,6 +942,7 @@ val () = let
 in
   aux_dynload (out, infil, fbody)
 end // end of [val]
+//
 val () = strptr_free (the_primdeclst_rep)
 //
 val () = aux_saspdeclst (out)

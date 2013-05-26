@@ -668,6 +668,7 @@ hiimpdec_make (
 , hiimpdec_tmparg= tmparg
 , hiimpdec_def= def
 , hiimpdec_funlab= None ()
+, hiimpdec_instrlst= None ()
 } // end of [hiimpdec_make]
 
 (* ****** ****** *)
@@ -849,6 +850,12 @@ patsopt_hiimpdec_getref_funlabopt
   (ats_ptr_type impdec) {
   return &((hiimpdec_t)impdec)->atslab_hiimpdec_funlab ;
 } // end of [patsopt_hiimpdec_getref_funlabopt]
+
+ats_ptr_type
+patsopt_hiimpdec_getref_instrlstopt
+  (ats_ptr_type impdec) {
+  return &((hiimpdec_t)impdec)->atslab_hiimpdec_instrlst ;
+} // end of [patsopt_hiimpdec_getref_instrlstopt]
 
 %} // end of [%{$]
 
