@@ -52,10 +52,10 @@ if c2 != CNUL then
 (
   if c1 = c2 then let
     prval
-      string_index_p_gt () = pf1
+      string_index_p_neqz () = pf1
     val str1 = string_tail (str1)
     prval
-      string_index_p_gt () = pf2
+      string_index_p_neqz () = pf2
     val str2 = string_tail (str2)
   in
     loop (str1, str2, succ(i))

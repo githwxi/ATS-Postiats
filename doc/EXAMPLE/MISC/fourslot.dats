@@ -1,6 +1,10 @@
 (* ****** ****** *)
 //
-// Fourslot algorithm by Simpson
+// Fourslot algorithm for fully asynchrous read/write by Simpson
+//
+(* ****** ****** *)
+//
+// Implemented by Hongwei Xi in May, 2013
 //
 (* ****** ****** *)
 //
@@ -137,7 +141,7 @@ fourslot_write
   val () = latest_set (pair)
 in
   // nothing
-end // end of [fourslot_read]
+end // end of [fourslot_write]
 
 (* ****** ****** *)
 
@@ -145,20 +149,23 @@ implement
 main0 () =
 {
 //
+local
 var latest: int = 0
-val p_latest = addr@ (latest)
-//
+in
 implement{}
 latest_get () = $UN.ptr1_get<bit> (addr@(latest))
 implement{}
-latest_set (i) = $UN.ptr1_set<bit> (p_latest, i)
+latest_set (i) = $UN.ptr1_set<bit> (addr@(latest), i)
+end // end of [local]
 //
+local
 var reading: int = 0
-val p_reading = addr@ (reading)
+in
 implement{}
-reading_get () = $UN.ptr1_get<bit> (p_reading)
+reading_get () = $UN.ptr1_get<bit> (addr@(reading))
 implement{}
-reading_set (i) = $UN.ptr1_set<bit> (p_reading, i)
+reading_set (i) = $UN.ptr1_set<bit> (addr@(reading), i)
+end // end of [local]
 //
 typedef T = int
 //

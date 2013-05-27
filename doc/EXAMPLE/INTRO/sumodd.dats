@@ -32,6 +32,34 @@ end // end of [sumodd]
 
 (* ****** ****** *)
 
+extern
+fun sumodd2 (n: int): int
+implement
+sumodd2 (n) = let
+//
+var res: int = 0
+//
+fun loop
+(
+  pf: !int@res | i: int
+) : void =
+(
+  if i <= n then let
+    val (
+    ) = if i mod 2 != 0 then res := res + i
+  in
+    loop (pf | i+1)
+  end else () // end of [if]
+)
+//
+val () = loop (view@res | 0)
+//
+in
+  res
+end // end of [sumodd2]
+
+(* ****** ****** *)
+
 macdef square(x) = let val x = ,(x) in x * x end
 
 (* ****** ****** *)
@@ -40,11 +68,11 @@ implement
 main0 () =
  {
   #define N 100
-  val () = assertloc (sumodd (N) = square((N+1)/2))
+  val () = assertloc (sumodd (N) = sumodd2 (N))
   #define N1 N+1
-  val () = assertloc (sumodd (N1) = square((N1+1)/2))
+  val () = assertloc (sumodd2 (N1) = square((N1+1)/2))
 } // end of [main0]
 
 (* ****** ****** *)
 
-(* end of [sumodd] *)
+(* end of [sumodd.dats] *)
