@@ -101,7 +101,7 @@ end // end of [let] // end of [val]
 //
 val s2e_ptr = s2exp_ptr_addr_type (s2e_addr)
 val () = d2var_set_type (d2v, Some (s2e_ptr))
-val () = d2var_set_mastype (d2v, None(*useless*))
+val () = d2var_set_mastype (d2v, Some (s2e_ptr))
 val () = d2var_set_linval (d2v, ~1(*nonlin*))
 //
 // HX-2012-07: this is often needed in 'unsafe' programming style

@@ -623,22 +623,14 @@ case+
     primval_select2 (loc0, hse0, pmv, hse_rt, pmls)
   end // end of [PMVselect2]
 //
-| PMVsel_var
+| PMVselptr
     (pmv, hse_rt, pmls) => let
     val pmv = fpmv (pmv)
     val hse_rt = hisexp_subst (sub, hse_rt)
     val pmls = fpmlist (pmls)
   in
-    primval_sel_var (loc0, hse0, pmv, hse_rt, pmls)
-  end // end of [PMVsel_var]
-| PMVsel_ptr
-    (pmv, hse_rt, pmls) => let
-    val pmv = fpmv (pmv)
-    val hse_rt = hisexp_subst (sub, hse_rt)
-    val pmls = fpmlist (pmls)
-  in
-    primval_sel_ptr (loc0, hse0, pmv, hse_rt, pmls)
-  end // end of [PMVsel_ptr]
+    primval_selptr (loc0, hse0, pmv, hse_rt, pmls)
+  end // end of [PMVselptr]
 //
 | PMVptrof (pmv) => let
     val pmv = fpmv (pmv) in primval_ptrof (loc0, hse0, pmv)
@@ -1177,16 +1169,6 @@ case+
   end // end of [INSload_ptrofs]
 *)
 //
-| INSstore_varofs
-  (
-    pmv_l, hse_rt, pmls, pmv_r
-  ) => let
-    val pmv_l = fpmv (pmv_l)
-    val hse_rt = hisexp_subst (sub, hse_rt)
-    val pmv_r = fpmv (pmv_r)
-  in
-    instr_store_varofs (loc0, pmv_l, hse_rt, pmls, pmv_r)
-  end // end of [INSstore_varofs]
 | INSstore_ptrofs
   (
     pmv_l, hse_rt, pmls, pmv_r
@@ -1198,17 +1180,6 @@ case+
     instr_store_ptrofs (loc0, pmv_l, hse_rt, pmls, pmv_r)
   end // end of [INSstore_ptrofs]
 //
-| INSxstore_varofs
-  (
-    tmp, pmv_l, hse_rt, pmls, pmv_r
-  ) => let
-    val tmp = ftmp (tmp)
-    val pmv_l = fpmv (pmv_l)
-    val hse_rt = hisexp_subst (sub, hse_rt)
-    val pmv_r = fpmv (pmv_r)
-  in
-    instr_xstore_varofs (loc0, tmp, pmv_l, hse_rt, pmls, pmv_r)
-  end // end of [INSxstore_ptrofs]
 | INSxstore_ptrofs
   (
     tmp, pmv_l, hse_rt, pmls, pmv_r

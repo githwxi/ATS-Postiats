@@ -145,7 +145,7 @@ case+ lhips of
 //
 end // end of [auxlst]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 hipatck_ccomp_rec
@@ -170,6 +170,7 @@ fun hipatck_ccomp_con
   env: !ccompenv, res: !instrseq
 , fail: patckont, loc0: location, d2c: d2con, pmv0: primval
 ) : void // end of [hipatck_ccomp_con]
+
 implement
 hipatck_ccomp_con
 (
@@ -258,7 +259,7 @@ in
   | list_nil () => ()
 end // end of [auxlst]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 hipatck_ccomp_sum
@@ -438,7 +439,7 @@ case+ lhips of
 //
 end // end of [auxlst]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 himatch_ccomp_rec
@@ -482,13 +483,14 @@ fun auxvar
 in
 //
 case+ 0 of
-| _ when utimes = 0 => ()
+| _ when
+    utimes = 0 => () // HX: [d2v] is unused
 | _ when
     d2var_is_mutabl (d2v) => let
     val hse = hipat_get_type (hip)
-    val pmv =
-      primval_selcon (loc, hse, pmv0, hse_sum, lab)
-    val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
+    val pmv = primval_selcon (loc, hse, pmv0, hse_sum, lab)
+    val pmv_ref = primval_ptrof (loc, hisexp_typtr, pmv)
+    val () = ccompenv_add_vbindmapenvall (env, d2v, pmv_ref)
   in
     // nothing
   end // end of [_]
@@ -558,7 +560,7 @@ case+ lhips of
 //
 end // end of [auxpat]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 himatch_ccomp_sum
@@ -625,7 +627,7 @@ end else (
 //
 end // end of [auxvar]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 himatch_ccomp
@@ -692,16 +694,20 @@ in
 //
 case+
   hse0.hisexp_node of
+//
 | HSErefarg
-    (refval, hse) => (
+    (refval, hse) =>
+  (
     if refval = 0 then
-      primval_arg (loc, hse, narg)
+      primval_arg (loc, hse0, narg)
     else
-      primval_argref (loc, hse, narg)
+      primval_argref (loc, hse0, narg)
     // end of [if]
   ) // end of [HSErefarg]
+//
 | HSEvararg _ =>
     primval_argtmpref (loc, hse0, narg)
+//
 | _ => primval_arg (loc, hse0, narg)
 //
 end // end of [primval_make_funarg]

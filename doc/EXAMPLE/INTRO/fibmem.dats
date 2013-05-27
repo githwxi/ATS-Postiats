@@ -87,7 +87,7 @@ end // end of [fibmem]
 implement
 fib (n) = let
 //
-val asz = g1int2uint (n+1)
+val asz = g1i2u (n+1)
 val arrp = arrayptr_make_elt<int> (asz, ~1)
 val (pf | p) = arrayptr_takeout_viewptr (arrp)
 //

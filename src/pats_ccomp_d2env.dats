@@ -47,6 +47,7 @@ S2E = "./pats_staexp2.sats"
 staload
 D2E = "./pats_dynexp2.sats"
 typedef d2var = $D2E.d2var
+overload print with $D2E.print_d2var
 
 (* ****** ****** *)
 
@@ -86,7 +87,12 @@ end // end of [local]
 
 implement
 d2var2env (d2v) = let
-//
+(*
+val () =
+(
+  println! ("d2var2env: d2v = ", d2v)
+)
+*)
 val-Some (hse) =
   d2var_get2_hisexp (d2v) in d2env_make (d2v, hse)
 // end of [val]

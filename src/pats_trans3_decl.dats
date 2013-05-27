@@ -658,7 +658,7 @@ val s2e0 = (
       end // end of [Some]
     | None () => let
         val s2e = s2exp_topize_0 (s2e_ann)
-        val () = d2var_set_type (d2v, Some s2e)
+        val () = d2var_set_type (d2v, Some (s2e))
       in        
         s2e_ann
       end // end of [None]
@@ -670,13 +670,17 @@ val s2e0 = (
         val () = ini3 := Some (d3e)
         val () = d3exp_open_and_add (d3e)
         val s2e = d3exp_get_type (d3e)
-        val () = d2var_set_type (d2v, Some s2e)
+        val () = d2var_set_type (d2v, Some (s2e))
       in
         s2exp_topize_0 (s2e)
       end // end of [Some]
-    | None () =>
-        s2exp_Var_make_srt (locvar, s2rt_t0ype)
-      // end of [None]
+    | None () => let
+        val s2e =
+          s2exp_Var_make_srt (locvar, s2rt_t0ype)
+        val () = d2var_set_type (d2v, Some (s2e))
+      in
+        s2e
+      end // end of [None]
     ) // end of [None]
 ) : s2exp // end of [val]
 //
@@ -684,8 +688,8 @@ val () = println! ("v2ardec_tr: s2e0 = ", s2e0)
 //
 val d2vw =
   d2var_mutablize (locvar, d2v, s2e0, v2d.v2ardec_wth)
-val-Some
-  (s2l) = d2var_get_addr (d2v)
+val-Some(s2l) = d2var_get_addr (d2v)
+//
 val s2e0_top = s2exp_topize_0 (s2e0)
 val s2at0 = s2exp_at (s2e0_top, s2l)
 val () = d2var_set_finknd (d2vw, D2VFINsome_lvar (s2at0))

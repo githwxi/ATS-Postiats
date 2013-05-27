@@ -13,7 +13,8 @@ typedef T = int
 typedef T2 = (T, T)
 fun fib (n: int): T = let
 //
-fun loop (
+fun loop
+(
   xx: &T2, n: int
 ) : void = let
 in

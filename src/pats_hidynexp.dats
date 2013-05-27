@@ -504,16 +504,16 @@ hidexp_refarg
 (* ****** ****** *)
 
 implement
-hidexp_sel_var
+hidexp_selvar
   (loc, hse, d2v, hse_rt, hils) =
-  hidexp_make_node (loc, hse, HDEsel_var (d2v, hse_rt, hils))
-// end of [hidexp_sel_var]
+  hidexp_make_node (loc, hse, HDEselvar (d2v, hse_rt, hils))
+// end of [hidexp_selvar]
 
 implement
-hidexp_sel_ptr
+hidexp_selptr
   (loc, hse, hde, hse_rt, hils) =
-  hidexp_make_node (loc, hse, HDEsel_ptr (hde, hse_rt, hils))
-// end of [hidexp_sel_ptr]
+  hidexp_make_node (loc, hse, HDEselptr (hde, hse_rt, hils))
+// end of [hidexp_selptr]
 
 (* ****** ****** *)
 

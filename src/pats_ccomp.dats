@@ -338,16 +338,10 @@ primval_select2
 (* ****** ****** *)
 
 implement
-primval_sel_var
+primval_selptr
   (loc, hse, pmv, hse_rt, pmls) =
-  primval_make_node (loc, hse, PMVsel_var (pmv, hse_rt, pmls))
-// end of [primval_sel_var]
-
-implement
-primval_sel_ptr
-  (loc, hse, pmv, hse_rt, pmls) =
-  primval_make_node (loc, hse, PMVsel_ptr (pmv, hse_rt, pmls))
-// end of [primval_sel_ptr]
+  primval_make_node (loc, hse, PMVselptr (pmv, hse_rt, pmls))
+// end of [primval_selptr]
 
 (* ****** ****** *)
 
@@ -463,52 +457,16 @@ end // end of [primval_make_tmp]
 (* ****** ****** *)
 
 implement
-primval_make_ptrof
-  (loc, pmv) = let
-  val hse = hisexp_typtr 
-in
-//
-case+
-  pmv.primval_node of
-| PMVargref (narg) =>
-    primval_arg (loc, hse, narg)
-  // end of [PMVargref]
-| _ => primval_ptrof (loc, hse, pmv)
-end // end of [primval_make_ptrof]
-
-(* ****** ****** *)
-
-implement
 primval_make_ptrofsel
 (
   loc, pmv, hse_rt, pmls
 ) = let
   val hse_ptr = hisexp_typtr
   val hse_undef = hisexp_undefined // HX: a place holder
-  val pmv_sel = primval_sel_ptr (loc, hse_undef, pmv, hse_rt, pmls)
+  val pmv_sel = primval_selptr (loc, hse_undef, pmv, hse_rt, pmls)
 in
   primval_ptrof (loc, hse_ptr, pmv_sel)
 end // end of [primval_make_ptrofsel]
-
-(* ****** ****** *)
-
-implement
-primval_make_refarg
-  (loc, knd, pmv) = let
-in
-//
-if knd = 0 then let
-  val hse = pmv.primval_type
-in
-  primval_refarg (loc, hse, knd, pmv)
-end else let
-  val hse = hisexp_typtr
-  val pmv = primval_make_ptrof (loc, pmv)
-in
-  primval_refarg (loc, hse, knd, pmv)
-end // end of [if]
-//
-end // end of [primval_make_refarg]
 
 (* ****** ****** *)
 
@@ -751,12 +709,6 @@ instr_move_ptrofsel
 
 (*
 implement
-instr_load_varofs
-  (loc, tmp, pmv, hse_rt, pmls) =
-  instr_make_node (loc, INSload_varofs (tmp, pmv, hse_rt, pmls))
-// end of [instr_load_varofs]
-
-implement
 instr_load_ptrofs
   (loc, tmp, pmv, hse_rt, pmls) =
   instr_make_node (loc, INSload_ptrofs (tmp, pmv, hse_rt, pmls))
@@ -766,24 +718,10 @@ instr_load_ptrofs
 (* ****** ****** *)
 
 implement
-instr_store_varofs
-  (loc, pmv_l, hse_rt, ofs, pmv_r) =
-  instr_make_node (loc, INSstore_varofs (pmv_l, hse_rt, ofs, pmv_r))
-// end of [instr_store_varofs]
-
-implement
 instr_store_ptrofs
   (loc, pmv_l, hse_rt, ofs, pmv_r) =
   instr_make_node (loc, INSstore_ptrofs (pmv_l, hse_rt, ofs, pmv_r))
 // end of [instr_store_ptrofs]
-
-(* ****** ****** *)
-
-implement
-instr_xstore_varofs
-  (loc, tmp, pmv_l, hse_rt, ofs, pmv_r) =
-  instr_make_node (loc, INSxstore_varofs (tmp, pmv_l, hse_rt, ofs, pmv_r))
-// end of [instr_xstore_varofs]
 
 implement
 instr_xstore_ptrofs

@@ -827,10 +827,11 @@ extern fun emit_primval_selcon : emit_primval_type
 extern fun emit_primval_select : emit_primval_type
 extern fun emit_primval_select2 : emit_primval_type
 //
-extern fun emit_primval_sel_var : emit_primval_type
-extern fun emit_primval_sel_ptr : emit_primval_type
+extern fun emit_primval_selptr : emit_primval_type
 //
 extern fun emit_primval_ptrof : emit_primval_type
+extern fun emit_primval_ptrof2 : emit_primval_type
+//
 extern fun emit_primval_ptrofsel : emit_primval_type
 //
 extern fun emit_primval_refarg : emit_primval_type
@@ -886,8 +887,7 @@ case+ pmv0.primval_node of
 | PMVselect _ => emit_primval_select (out, pmv0)
 | PMVselect2 _ => emit_primval_select2 (out, pmv0)
 //
-| PMVsel_var _ => emit_primval_sel_var (out, pmv0)
-| PMVsel_ptr _ => emit_primval_sel_ptr (out, pmv0)
+| PMVselptr _ => emit_primval_selptr (out, pmv0)
 //
 | PMVptrof _ => emit_primval_ptrof (out, pmv0)
 | PMVptrofsel _ => emit_primval_ptrofsel (out, pmv0)
@@ -982,17 +982,10 @@ implement
 emit_primval_argref
   (out, pmv0) = let
 //
-val hse0 = pmv0.primval_type
 val-PMVargref (narg) = pmv0.primval_node
 //
-val () = emit_text (out, "ATSderef(")
-val () = fprintf (out, "arg%i", @(narg))
-val () = emit_text (out, ", ")
-val () = emit_hisexp (out, hse0)
-val () = emit_rparen (out)
-//
 in
-  // nothing
+  fprintf (out, "arg%i", @(narg))
 end // end of [emit_primval_argref]
 
 (* ****** ****** *)
@@ -1120,28 +1113,33 @@ end // end of [emit_primval_castfn]
 
 (* ****** ****** *)
 
-local
-
-fun testselptr0
-  (pmv: primval): bool =
-  case+ pmv.primval_node of
-  | PMVsel_ptr (_, _, list_nil ()) => true | _ => false
-// end of [testselptr0]
-
-in (* in of [local] *)
-
 implement
 emit_primval_ptrof
   (out, pmv0) = let
 //
-val-PMVptrof
-  (pmv) = pmv0.primval_node
+val-PMVptrof (pmv) = pmv0.primval_node
+//
+in
+  emit_primval_ptrof2 (out, pmv)
+end // end of [emit_primval_ptrof]
+
+implement
+emit_primval_ptrof2
+  (out, pmv) = let
+//
+fun testselptr0
+  (pmv: primval): bool =
+(
+case+ pmv.primval_node of
+| PMVselptr (_, _, list_nil ()) => true | _ => false
+)
+//
 val test = testselptr0 (pmv)
 //
 in
 //
 if test then let
-  val-PMVsel_ptr
+  val-PMVselptr
     (pmv_ptr, _, _) = pmv.primval_node
   // end of [val]
 in
@@ -1157,9 +1155,7 @@ in
   // nothing
 end // end of [if]
 //
-end // end of [emit_primval_ptrof]
-
-end // end of [local]
+end // end of [emit_primval_ptrof2]
 
 (* ****** ****** *)
 
@@ -1167,17 +1163,18 @@ implement
 emit_primval_refarg
   (out, pmv0) = let
 //
-val-PMVrefarg
-  (knd, pmv) = pmv0.primval_node
+val-PMVrefarg (knd, pmv) = pmv0.primval_node
 //
-val () = (
-  if knd = 0
-    then emit_text (out, "ATSPMVrefarg0(")
-    else emit_text (out, "ATSPMVrefarg1(")
-  // end of [if]
-) : void // end of [val]
+val () =
+  if (knd = 0) then emit_text (out, "ATSPMVrefarg0(")
+val () =
+  if (knd > 0) then emit_text (out, "ATSPMVrefarg1(")
 //
-val () = emit_primval (out, pmv)
+val () =
+  if (knd = 0) then emit_primval (out, pmv)
+val () =
+  if (knd > 0) then emit_primval_ptrof2 (out, pmv)
+//
 val () = emit_rparen (out)
 //
 in
@@ -1336,14 +1333,11 @@ end // end of [emit_primlab]
 //
 extern fun emit_instr_move_con : emit_instr_type
 extern fun emit_instr_move_rec : emit_instr_type
+//
 (*
-extern fun emit_instr_load_varofs : emit_instr_type
 extern fun emit_instr_load_ptrofs : emit_instr_type
 *)
-extern fun emit_instr_store_varofs : emit_instr_type
 extern fun emit_instr_store_ptrofs : emit_instr_type
-//
-extern fun emit_instr_xstore_varofs : emit_instr_type
 extern fun emit_instr_xstore_ptrofs : emit_instr_type
 //
 extern fun emit_instr_raise : emit_instr_type
@@ -1594,10 +1588,7 @@ case+ ins.instr_node of
 //
 | INSpatck (pmv, patck, fail) => emit_instr_patck (out, ins)
 //
-| INSstore_varofs _ => emit_instr_store_varofs (out, ins)
 | INSstore_ptrofs _ => emit_instr_store_ptrofs (out, ins)
-//
-| INSxstore_varofs _ => emit_instr_xstore_varofs (out, ins)
 | INSxstore_ptrofs _ => emit_instr_xstore_ptrofs (out, ins)
 //
 | INSraise _ => emit_instr_raise (out, ins)
@@ -2075,9 +2066,11 @@ fun auxselist
 //
 vtypedef
 res = List_vt @(hisexp, primlab)
-fun loop (
+fun loop
+(
   hse0: hisexp, pmls: primlablst, res: res
-) : res = (
+) : res =
+(
   case+ pmls of
   | list_cons (pml, pmls) => let
       val hse1 = auxsel (hse0, pml)
@@ -2086,7 +2079,7 @@ fun loop (
       loop (hse1, pmls, res)
     end // end of [list_cons]
   | list_nil () => res
-) // end of [loop]
+) (* end of [loop] *)
 //
 in
   loop (hse0, pmls, list_vt_nil ())
@@ -2118,7 +2111,9 @@ case+ xys of
       | HSEtyarr
          (hse_elt, _) => {
          val () = hse := hse_elt
-         val () = pmv := primval_make_ptrof (pmv.primval_loc, pmv)
+         val () =
+           pmv := primval_ptrof (pmv.primval_loc, hisexp_typtr, pmv)
+         // end of [val]
        } // end of [HSEtyarr]
       | _ => () // end of [_]
     ) : void // end of [val]
@@ -2206,27 +2201,10 @@ end // end of [emit_primval_select2]
 (* ****** ****** *)
 
 implement
-emit_primval_sel_var
+emit_primval_selptr
   (out, pmv0) = let
 //
-val-PMVsel_var
-  (pmv, hse_rt, pmls) = pmv0.primval_node
-//
-val () = let
-  val xys = auxselist (hse_rt, pmls)
-in
-  auxmain (out, 0(*var*), pmv, hse_rt, xys, 0)
-end // end of [val]
-//
-in
-  // nothing
-end // end of [emit_primval_sel_var]
-
-implement
-emit_primval_sel_ptr
-  (out, pmv0) = let
-//
-val-PMVsel_ptr
+val-PMVselptr
   (pmv, hse_rt, pmls) = pmv0.primval_node
 //
 val () = let
@@ -2237,7 +2215,7 @@ end // end of [val]
 //
 in
   // nothing
-end // end of [emit_primval_sel_ptr]
+end // end of [emit_primval_selptr]
 
 (* ****** ****** *)
 
@@ -2265,26 +2243,6 @@ end // end of [emit_primval_ptrofsel]
 (* ****** ****** *)
 
 implement
-emit_instr_store_varofs
-  (out, ins) = let
-//
-val-INSstore_varofs
-  (pmv_l, hse_rt, pmls, pmv_r) = ins.instr_node
-//
-val xys = auxselist (hse_rt, pmls)
-val () = emit_text (out, "ATSINSstore(")
-val () = auxmain (out, 0(*non*), pmv_l, hse_rt, xys, 0)
-val () = emit_text (out, ", ")
-val () = emit_primval (out, pmv_r)
-val () = emit_text (out, ") ;")
-//
-in
-  // nothing
-end // end of [emit_instr_store_varofs]
-
-(* ****** ****** *)
-
-implement
 emit_instr_store_ptrofs
   (out, ins) = let
 //
@@ -2301,28 +2259,6 @@ val () = emit_text (out, ") ;")
 in
   // nothing
 end // end of [emit_instr_store_ptrofs]
-
-(* ****** ****** *)
-
-implement
-emit_instr_xstore_varofs
-  (out, ins) = let
-//
-val-INSxstore_varofs
-  (tmp, pmv_l, hse_rt, pmls, pmv_r) = ins.instr_node
-//
-val xys = auxselist (hse_rt, pmls)
-val () = emit_text (out, "ATSINSxstore(")
-val () = emit_tmpvar (out, tmp)
-val () = emit_text (out, ", ")
-val () = auxmain (out, 0(*non*), pmv_l, hse_rt, xys, 0)
-val () = emit_text (out, ", ")
-val () = emit_primval (out, pmv_r)
-val () = emit_text (out, ") ;")
-//
-in
-  // nothing
-end // end of [emit_instr_xstore_varofs]
 
 (* ****** ****** *)
 

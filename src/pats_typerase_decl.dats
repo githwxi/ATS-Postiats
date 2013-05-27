@@ -370,6 +370,7 @@ fun v3ardec_tyer
   val loc = v3d.v3ardec_loc
   val knd = v3d.v3ardec_knd
   val d2v = v3d.v3ardec_dvar_ptr
+  val d2v = d2var_tyer (d2v)
   val d2vw = v3d.v3ardec_dvar_view
   val type = s2exp_tyer_shallow (loc, v3d.v3ardec_type)
   val ini = d3expopt_tyer (v3d.v3ardec_ini)

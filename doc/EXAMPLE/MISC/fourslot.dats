@@ -99,46 +99,15 @@ slot_set (S, i, j) = S[bit2int(i)] := j
 end // end of [local]
 
 (* ****** ****** *)
-//
-extern val p_latest : Ptr1
-extern val p_reading : Ptr1
-//
-local
 
-var latest: bit = int2bit(0)
-var reading: bit = int2bit(0)
+staload UN = "prelude/SATS/unsafe.sats"
 
-in (* in of [local] *)
-
-implement p_latest = addr@(latest)
-implement p_reading = addr@(reading)
-
-end // end of [local]
-//
 (* ****** ****** *)
 //
 extern fun{} latest_get (): bit
 extern fun{} latest_set (i: bit): void
 extern fun{} reading_get (): bit
 extern fun{} reading_set (i: bit): void
-//
-local
-staload
-UN = "prelude/SATS/unsafe.sats"
-//
-in (* in of [local] *)
-//
-implement{}
-latest_get () = $UN.ptr1_get<bit> (p_latest)
-implement{}
-latest_set (i) = $UN.ptr1_set<bit> (p_latest, i)
-//
-implement{}
-reading_get () = $UN.ptr1_get<bit> (p_reading)
-implement{}
-reading_set (i) = $UN.ptr1_set<bit> (p_reading, i)
-//
-end // end of [local]
 //
 (* ****** ****** *)
 
@@ -175,6 +144,21 @@ end // end of [fourslot_read]
 implement
 main0 () =
 {
+//
+var latest: int = 0
+val p_latest = addr@ (latest)
+//
+implement{}
+latest_get () = $UN.ptr1_get<bit> (addr@(latest))
+implement{}
+latest_set (i) = $UN.ptr1_set<bit> (p_latest, i)
+//
+var reading: int = 0
+val p_reading = addr@ (reading)
+implement{}
+reading_get () = $UN.ptr1_get<bit> (p_reading)
+implement{}
+reading_set (i) = $UN.ptr1_set<bit> (p_reading, i)
 //
 typedef T = int
 //

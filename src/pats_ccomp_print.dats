@@ -402,28 +402,17 @@ case+ x.primval_node of
     val () = prstr ")"
   } // end of [PMVselect2]
 //
-| PMVsel_var (
+| PMVselptr (
     pmv, hse_sel, pmls
   ) => {
-    val () = prstr "PMVsel_var("
+    val () = prstr "PMVselptr("
     val () = fprint_primval (out, pmv)
     val () = prstr "; "
     val () = fprint_hisexp (out, hse_sel)
     val () = prstr "; "
     val () = fprint_primlablst (out, pmls)
     val () = prstr ")"
-  } // end of [PMVsel_var]
-| PMVsel_ptr (
-    pmv, hse_sel, pmls
-  ) => {
-    val () = prstr "PMVsel_ptr("
-    val () = fprint_primval (out, pmv)
-    val () = prstr "; "
-    val () = fprint_hisexp (out, hse_sel)
-    val () = prstr "; "
-    val () = fprint_primlablst (out, pmls)
-    val () = prstr ")"
-  } // end of [PMVsel_ptr]
+  } // end of [PMVselptr]
 //
 | PMVptrof (pmv) => {
     val () = prstr "PMVptrof("
@@ -877,20 +866,6 @@ case+ x.instr_node of
   } // end of [INSmove_ptrofsel]
 //
 (*
-| INSload_varofs
-    (tmp, pmv, hse_sel, ofs) => {
-    val () = prstr "INSload_varofs("
-    val () = fprint_tmpvar (out, tmp)
-    val () = prstr " <- "
-    val () = fprint_primval (out, pmv)
-    val () = prstr "("
-    val () = fprint_hisexp (out, hse_sel)
-    val () = prstr ")"
-    val () = prstr "["
-    val () = fprint_primlablst (out, ofs)
-    val () = prstr "]"
-    val () = prstr ")"
-  }
 | INSload_ptrofs
     (tmp, pmv, hse_sel, ofs) => {
     val () = prstr "INSload_ptrofs("
@@ -907,20 +882,6 @@ case+ x.instr_node of
   }
 *)
 //
-| INSstore_varofs
-    (pmv_l, hse_rt, ofs, pmv_r) => {
-    val () = prstr "INSstore_varofs("
-    val () = fprint_primval (out, pmv_l)
-    val () = prstr "("
-    val () = fprint_hisexp (out, hse_rt)
-    val () = prstr ")"
-    val () = prstr "["
-    val () = fprint_primlablst (out, ofs)
-    val () = prstr "]"
-    val () = prstr " := "
-    val () = fprint_primval (out, pmv_r)
-    val () = prstr ")"
-  }
 | INSstore_ptrofs
     (pmv_l, hse_rt, ofs, pmv_r) => {
     val () = prstr "INSstore_ptrofs("
@@ -936,7 +897,6 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
-| INSxstore_varofs _ => prstr "INSxstore_ptrofs(...)"
 | INSxstore_ptrofs _ => prstr "INSxstore_ptrofs(...)"
 //
 | INSraise

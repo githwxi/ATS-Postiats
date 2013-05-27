@@ -97,8 +97,7 @@ case+
 | PMVselect _ => true // field-selection
 | PMVselect2 _ => true // field-selection
 //
-| PMVsel_var _ => true // left-value
-| PMVsel_ptr _ => true // left-value
+| PMVselptr _ => true // left-value
 //
 | PMVcastfn (d2c, pmv) => primval_is_nshared (pmv)
 //
@@ -250,13 +249,9 @@ case+ x.instr_node of
 | INSmove_ptrofsel (tmp, _, _, _) => tmpadd (tmp)
 //
 (*
-| INSload_varofs (tmp, _, _, _) => tmpadd (tmp)
 | INSload_ptrofs (tmp, _, _, _) => tmpadd (tmp)
 *)
-| INSstore_varofs _ => ()
 | INSstore_ptrofs _ => ()
-//
-| INSxstore_varofs (tmp, _, _, _, _) => tmpadd (tmp)
 | INSxstore_ptrofs (tmp, _, _, _, _) => tmpadd (tmp)
 //
 | INSraise _ => ()

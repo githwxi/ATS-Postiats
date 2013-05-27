@@ -476,9 +476,10 @@ case+
     val () = prstr ")"
   }
 //
-| HDEsel_var
-    (d2v, hse_rt, hils) => {
-    val () = prstr "HDEsel_var("
+| HDEselvar
+    (d2v, hse_rt, hils) =>
+  {
+    val () = prstr "HDEselvar("
     val () = fprint_d2var (out, d2v)
     val () = prstr "("
     val () = fprint_hisexp (out, hse_rt)
@@ -488,9 +489,10 @@ case+
     val () = prstr "]"
     val () = prstr ")"
   }
-| HDEsel_ptr
-    (hde, hse_rt, hils) => {
-    val () = prstr "HDEsel_ptr("
+| HDEselptr
+    (hde, hse_rt, hils) =>
+  {
+    val () = prstr "HDEselptr("
     val () = fprint_hidexp (out, hde)
     val () = prstr "("
     val () = fprint_hisexp (out, hse_rt)

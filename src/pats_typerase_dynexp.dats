@@ -136,15 +136,14 @@ val opt = d2var_get_mastype (d2v)
 in
 //
 case+ opt of
-| Some
-    (s2e) => let
+| Some (s2e) => let
     val loc = d2var_get_loc (d2v)
     val hse = s2exp_tyer_deep (loc, s2e)
     val ((*void*)) = d2var_set2_hisexp (d2v, Some (hse))
   in
     d2v
   end (* end of [Some] *)
-| None () => d2v
+| None ((*void*)) => d2v
 //
 end // end of [d2var_tyer]
 
@@ -617,7 +616,7 @@ case+
     val hse_rt = s2exp_tyer_deep (loc0, s2rt)
     val hils = d3lablst_tyer (d3ls)
   in
-    hidexp_sel_var (loc0, hse0, d2v, hse_rt, hils)
+    hidexp_selvar (loc0, hse0, d2v, hse_rt, hils)
   end // end of [D3Esel_var]
 | D3Esel_ptr
     (d3e, s2rt, d3ls) => let
@@ -626,7 +625,7 @@ case+
       s2exp_tyer_deep (loc0, s2rt)
     val hils = d3lablst_tyer (d3ls)
   in
-    hidexp_sel_ptr (loc0, hse0, hde, hse_rt, hils)
+    hidexp_selptr (loc0, hse0, hde, hse_rt, hils)
   end // end of [D3Esel_ptr]
 | D3Esel_ref
     (d3e, s2rt, d3ls) => let
@@ -635,7 +634,7 @@ case+
       s2exp_tyer_deep (loc0, s2rt)
     val hils = d3lablst_tyer (d3ls)
   in
-    hidexp_sel_ptr (loc0, hse0, hde, hse_rt, hils)
+    hidexp_selptr (loc0, hse0, hde, hse_rt, hils)
   end // end of [D3Esel_ref]
 //
 | D3Eassgn_var (

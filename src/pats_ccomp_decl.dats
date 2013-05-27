@@ -627,7 +627,7 @@ val d2v = hvd.hivardec_dvar_ptr
 val d2vw = hvd.hivardec_dvar_view
 val loc_d2v = d2var_get_loc (d2v)
 val () = d2var_set_level (d2v, level)
-val s2at = d2var_get_type_some (loc_d2v, d2vw)
+val-Some (s2at) = d2var_get_mastype (d2vw)
 val-S2Eat (s2e_elt, _) = s2at.s2exp_node
 val hse_elt = s2exp_tyer_shallow (loc_d2v, s2e_elt)
 val tmp = tmpvar_make_ref (loc_d2v, hse_elt)
@@ -643,7 +643,8 @@ case+
 ) : void // end of [val]
 //
 val pmv = primval_tmpref (loc, hse_elt, tmp)
-val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
+val pmv_ref = primval_ptrof (loc, hisexp_typtr, pmv)
+val () = ccompenv_add_vbindmapenvall (env, d2v, pmv_ref)
 //
 in
   // nothing
