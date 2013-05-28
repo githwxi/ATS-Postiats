@@ -79,6 +79,42 @@ end // end of [array_interchange]
 #atscode_separator()
 
 implement{a}
+array_subcirculate
+  (A, i, j) = let
+//
+extern
+fun memmove
+(
+  dst: ptr, src: ptr, bsz: size_t
+) :<!wrt> ptr = "mac\#atspre_array_memmove"
+//
+in
+//
+if i < j then
+{
+//
+val p0 = ptr_add<a> (addr@(A), i)
+val p1 = ptr_add<a> (addr@(A), j)
+val A1 = $UN.ptr0_get<a> (p1)
+val _(*ptr*) = memmove (ptr_succ<a>(p0), p0, (j-i)*sizeof<a>)
+val () = $UN.ptr0_set<a> (p0, A1)
+//
+} else if i > j then
+{
+//
+val p0 = ptr_add<a> (addr@(A), j)
+val p1 = ptr_add<a> (addr@(A), i)
+val A0 = $UN.ptr0_get<a> (p0)
+val _(*ptr*) = memmove (p0, ptr_succ<a>(p0), (i-j)*sizeof<a>)
+val () = $UN.ptr0_set<a> (p1, A0)
+//
+} else () // end of [if]
+//
+end // end of [array_subcirculate]
+
+#atscode_separator()
+
+implement{a}
 array_ptr_takeout
   {l}{n}{i}(pf | p, i) = let
   prval pfout =

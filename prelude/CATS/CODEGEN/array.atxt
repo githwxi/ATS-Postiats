@@ -32,6 +32,20 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 \#define ATSLIB_PRELUDE_ARRAY_CATS
 
 #atscode_separator_for_C()
+//
+// [string.h]
+//
+extern
+void *memmove(void *dst, const void *src, size_t n) ;
+//
+#atscode_separator_for_C()
+
+/*
+** HX: for [array_subcirculate]
+*/
+\#define atspre_array_memmove memmove
+
+#atscode_separator_for_C()
 
 \#endif // ifndef ATSLIB_PRELUDE_ARRAY_CATS
 

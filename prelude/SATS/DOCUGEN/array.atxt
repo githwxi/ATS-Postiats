@@ -366,6 +366,19 @@ end // end of [insertion_sort]
 
 (* ****** ****** *)
 
+#declnamesynop("array_subcirculate")
+#decldescrpt('\
+
+Given an array A and two valid indices i and j, this function circulates
+the values stored in array-cells between cell i and cell j, inclusive.  If
+i is less than j, then A[k] moves into A[k+1] for k ranging from i up to
+j-1 and A[j] moves into A[i]. If i is greater than j, then A[k] moves into
+A[k-1] for k ranging from i down to j+1, and A[j] moves into A[i].\
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("array_ptr_alloc")
 
 (* ****** ****** *)

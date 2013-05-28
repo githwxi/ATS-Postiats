@@ -55,19 +55,20 @@ end (* end of [if] *)
 fun test() = let
 //
 val out = stdout_ref
-val l1 = 1 :: 2 :: sllist_nil{int}()
-val () = fprintln! (out, "l1 = ", l1)
+val xs = sllist_nil{int}()
+val xs = 1 :: 2 :: 3 :: 4 :: 5 :: xs
+val () = fprintln! (out, "xs = ", xs)
 //
 local
 implement
-sllist_mapfree$fwork<int><int> (a) = a + 1
+sllist_mapfree$fwork<int><int> (a) = a * a
 in
-val l2 = sllist_mapfree<int><int> (l1)
+val xs2 = sllist_mapfree<int><int> (xs)
 end
 //
-val () = fprintln! (out, "l2 = ", l2)
+val () = fprintln! (out, "xs2 = ", xs2)
 //
-val () = sllist_free<int> (l2)
+val () = sllist_free<int> (xs2)
 //
 in
   // nothing

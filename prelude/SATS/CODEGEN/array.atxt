@@ -128,11 +128,11 @@ fun{
 a:t0p}{tk:tk
 } array_get_at_gint
   {n:int} (A: &RD(@[INV(a)][n]), i: g1intLt (tk, n)):<> a
-overload [] with array_get_at_gint of 10
 fun{
 a:t0p}{tk:tk
 } array_get_at_guint
   {n:int} (A: &RD(@[INV(a)][n]), i: g1uintLt (tk, n)):<> a
+overload [] with array_get_at_gint of 10
 overload [] with array_get_at_guint of 10
 
 #atscode_separator()
@@ -146,11 +146,11 @@ fun{
 a:t0p}{tk:tk
 } array_set_at_gint
   {n:int} (A: &(@[INV(a)][n]), i: g1intLt (tk, n), x: a):<!wrt> void
-overload [] with array_set_at_gint of 10
 fun{
 a:t0p}{tk:tk
 } array_set_at_guint
   {n:int} (A: &(@[INV(a)][n]), i: g1uintLt (tk, n), x: a):<!wrt> void
+overload [] with array_set_at_gint of 10
 overload [] with array_set_at_guint of 10
 
 #atscode_separator()
@@ -164,21 +164,34 @@ overload array_exch_at with array_exch_at_size of 11
 
 fun{
 a:vt0p}{tk:tk
-} array_exch_at_gint
-  {n:int} (A: &(@[INV(a)][n]), i: g1intLt (tk, n), x: &a >> _):<!wrt> void
-overload array_exch_at with array_exch_at_gint of 10
+} array_exch_at_gint{n:int}
+(
+  A: &(@[INV(a)][n]), i: g1intLt (tk, n), x: &a >> _
+) :<!wrt> void
 fun{
 a:vt0p}{tk:tk
-} array_exch_at_guint
-  {n:int} (A: &(@[INV(a)][n]), i: g1uintLt (tk, n), x: &a >> _):<!wrt> void
+} array_exch_at_guint{n:int}
+(
+  A: &(@[INV(a)][n]), i: g1uintLt (tk, n), x: &a >> _
+) :<!wrt> void
+overload array_exch_at with array_exch_at_gint of 10
 overload array_exch_at with array_exch_at_guint of 10
 
 #atscode_separator()
 
 fun{a:vt0p}
-array_interchange
-  {n:int} (A: &(@[INV(a)][n]), i: sizeLt n, j: sizeLt n):<!wrt> void
-// end of [array_interchange]
+array_interchange{n:int}
+(
+  A: &(@[INV(a)][n]), i: sizeLt (n), j: sizeLt (n)
+) :<!wrt> void // end of [array_interchange]
+
+#atscode_separator()
+
+fun{a:vt0p}
+array_subcirculate{n:int}
+(
+  A: &(@[INV(a)][n]), i: sizeLt (n), j: sizeLt (n)
+) :<!wrt> void // end of [array_subcirculate]
 
 #atscode_separator()
 

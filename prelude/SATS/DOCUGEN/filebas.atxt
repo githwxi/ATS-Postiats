@@ -247,9 +247,9 @@ the chars returned.  ')
 #declnamesynop("fileref_get_lines_charlstlst")
 #decldescrpt('\
 
-This function returns a linear list consisting of all the lines read
-from a given file handle. Note the each of the returned lines is obtained
-by calling #dyncode("fileref_get_line_charlst").
+This function returns a linear list consisting of all the lines read from a
+given file handle. Note that each of the returned lines is obtained by
+calling #dyncode("fileref_get_line_charlst").
 
 ')
 
@@ -263,10 +263,10 @@ It is just a specialization of #dyncode("fileref_get_line_string_main"),
 and its implementation is given as follows:
 
 #pats2xhtmld_tryit('\
-implement
+implement{}
 fileref_get_line_string
   (filr) = let
-  var n: size_t // uninitialized
+  var n: int // uninitialized
   val str = fileref_get_line_string_main (filr, n)
   prval () = lemma_strnptr_param (str)
 in
@@ -292,9 +292,9 @@ of the NUL char in the line.\
 #declnamesynop("fileref_get_lines_stringlst")
 #decldescrpt('\
 
-This function returns a linear list consisting of all the lines read from
-a given file handle. Note each of the returned lines is obtained by calling
-#dyncode("fileref_get_line_string").
+This function returns a linear list consisting of all the lines read from a
+given file handle. Note that each of the returned lines is obtained by
+calling #dyncode("fileref_get_line_string").
 
 ')
 
