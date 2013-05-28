@@ -4,6 +4,10 @@
 
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 extern
 fun{a:vt0p}
 Perm$fwork {n:int} (A: &array (a, n), n: int n): void
@@ -32,10 +36,6 @@ Perm_aux {
 
 (* ****** ****** *)
 
-macdef i2u (x) = g1int2uint ,(x)
-
-(* ****** ****** *)
-
 implement{a}
 Perm {l1,l2,k,n} (
   pf1, pf2 | p1, p2, k, n
@@ -51,9 +51,10 @@ if k < n then
 else let
   prval pf = array_v_unsplit (pf1, pf2)
   val () = Perm$fwork<a> (!p1, n)
-  prval (pf1_, pf2_) = array_v_split_at (pf | (i2u)k)
+  prval (pf1_, pf2_) = array_v_split_at (pf | (i2sz)k)
+  prval () = pf1 := pf1_ and () = pf2 := pf2_
 in
-  pf1 := pf1_ ; pf2 := pf2_
+  // nothing
 end // end of [if]
 //
 end // end of [Perm]
@@ -71,23 +72,79 @@ prval () = lemma_array_v_param (pf2)
 in
 //
 if k2 < n then let
-  val () =
-    array_interchange (!p2, (i2u)0, i2u(k2-k))
-  prval (
-    pf21, pf22
-  ) = array_v_uncons (pf2)
-  prval pf11 =
-    array_v_extend (pf1, pf21)
-  val () = Perm<a>
-    (pf11, pf22 | p1, ptr1_succ<a> (p2), k+1, n)
-  prval (pf1_, pf21) = array_v_unextend (pf11)
-  prval () = pf1 := pf1_
-  prval () = pf2 := array_v_cons (pf21, pf22)
+//
+val () =
+  array_subcirculate (!p2, (i2sz)0, i2sz(k2-k))
+//
+prval
+(pf21, pf22) = array_v_uncons (pf2)
+prval pf11 = array_v_extend (pf1, pf21)
+//
+val () = Perm<a> (pf11, pf22 | p1, ptr1_succ<a> (p2), k+1, n)
+//
+prval
+(pf1_, pf21) = array_v_unextend (pf11)
+prval pf2_ = array_v_cons (pf21, pf22)
+val (pf2_ | p2) = viewptr_match (pf2_ | p2)
+//
+prval () = pf1 := pf1_ and () = pf2 := pf2_
+//
+val () =
+  array_subcirculate (!p2, i2sz(k2-k), (i2sz)0)
+//
 in
   Perm_aux<a> (pf1, pf2 | p1, p2, k, n, k2+1)
 end else () // end of [if]
 //
 end // end of [Perm_aux]
+
+(* ****** ****** *)
+//
+// HX-2013-05: Some testing code
+//
+(* ****** ****** *)
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
+(* ****** ****** *)
+
+implement{a}
+Perm$fwork (A, n) =
+{
+//
+prval () = lemma_array_param (A)
+//
+val out = stdout_ref
+val () = fprint_array (out, A, i2sz(n))
+val () = fprint_newline (out)
+} // end of [Perm$fwork]  
+
+(* ****** ****** *)
+
+implement
+main0 () =
+{
+#define N 5
+//
+val A =
+  arrayptr_make_intrange (0, N)
+//
+val
+(
+pf | p
+) = arrayptr_takeout_viewptr{int}(A)
+//
+prval pf1 = array_v_nil () and pf2 = pf
+//
+val () = Perm (pf1, pf2 | p, p, 0, N)
+//
+prval () = array_v_unnil (pf1) and () = arrayptr_addback (pf2 | A)
+//
+val () = arrayptr_free (A)
+//
+} // end of [main0]
+
 
 (* ****** ****** *)
 

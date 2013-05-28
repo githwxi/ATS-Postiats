@@ -623,7 +623,7 @@ in
 case+
   d2var_get_view (d2v) of
 | Some _(*ref*) => primval_selptr (loc0, hse0, pmv, hse0, list_nil)
-| None _(*val*) => pmv
+| None _(*val*) => (pmv)
 //
 end // end of [hidexp_ccomp_var]
 

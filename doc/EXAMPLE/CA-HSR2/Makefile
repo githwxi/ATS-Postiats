@@ -38,7 +38,7 @@ cleanall:: ; $(RMF) program-1-3.exe
 
 all:: program-1-4
 program-1-4: program-1-4.exe
-program-1-4.exe: program-1-4_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+program-1-4.exe: program-1-4_dats.c ;   $(GCC) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
 program-1-4_dats.c: program-1-4.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output program-1-4_dats.c --dynamic program-1-4.dats
 clean:: ; $(RMF) program-1-4_dats.o
 clean:: ; $(RMF) program-1-4_dats.c

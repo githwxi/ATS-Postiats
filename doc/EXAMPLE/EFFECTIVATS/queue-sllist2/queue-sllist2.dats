@@ -1,7 +1,7 @@
 (* ****** ****** *)
 //
 // HX-2013-05:
-// Effective ATS: Amortize Queue Implementation
+// Effective ATS: Amortized Queue Implementation
 //
 (* ****** ****** *)
 
@@ -28,14 +28,14 @@ extern
 fun{} queue_free_nil {a:vt0p} (que: queue (a, 0)): void
 
 (* ****** ****** *)
-
+//
 extern
 fun{} queue_is_empty
   {a:vt0p}{n:int} (que: !queue (INV(a), n)): bool (n==0)
 extern
 fun{} queue_isnot_empty
   {a:vt0p}{n:int} (que: !queue (INV(a), n)): bool (n > 0)
-
+//
 (* ****** ****** *)
 
 extern
