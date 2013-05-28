@@ -1,0 +1,30 @@
+(* ****** ****** *)
+
+%{
+implement
+srcfilename_get () = "../json_header.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_json-c_json")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/json-c/json_header\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("array_list")
+#declnamesynop("array_list_vtype")
+#declnamesynop("array_list0")
+#declnamesynop("array_list1")
+
+(* ****** ****** *)
+
+(* end of [json_header.atxt] *)
