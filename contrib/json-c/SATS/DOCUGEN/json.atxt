@@ -56,4 +56,12 @@ This file contains the API for a simple hashtable implementation. ')
 
 (* ****** ****** *)
 
+#declname2("json_object.sats", "json_object.html")
+//
+#declsynop2('\
+
+This file contains the API for functions declared in [json_object.h]. ')
+
+(* ****** ****** *)
+
 (* end of [json.atxt] *)

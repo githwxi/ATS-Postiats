@@ -10,7 +10,9 @@
 
 (* ****** ****** *)
 
-typedef json_bool = bool
+typedef json_bool = int
+
+(* ****** ****** *)
 
 absvtype array_list_vtype (l:addr) = ptr
 vtypedef array_list (l) = array_list_vtype (l)
@@ -58,6 +60,44 @@ typedef
 unsigned long(lh_hash_fn)(const void *k)
 *)
 typedef lh_hash_fn_type = (Ptr0) -<> ulint
+
+(* ****** ****** *)
+
+(*
+typedef
+enum
+json_type
+{
+/* If you change this, be sure to update json_type_to_name() too */
+json_type_null,
+json_type_boolean,
+json_type_double,
+json_type_int,
+json_type_object,
+json_type_array,
+json_type_string,
+} json_type;
+*)
+
+abst@ype json_type_type = int
+typedef json_type = json_type_type
+//
+macdef json_type_null = $extval(json_type, "json_type_null")
+macdef json_type_boolean = $extval(json_type, "json_type_boolean")
+macdef json_type_double = $extval(json_type, "json_type_double")
+macdef json_type_int = $extval(json_type, "json_type_int")
+macdef json_type_object = $extval(json_type, "json_type_object")
+macdef json_type_array = $extval(json_type, "json_type_array")
+macdef json_type_string = $extval(json_type, "json_type_string")
+//
+(* ****** ****** *)
+
+absvtype json_object_vtype (l:addr) = ptr
+vtypedef json_object (l) = json_object_vtype (l)
+vtypedef
+json_object0 = [l:addr | l >= null] json_object (l)
+vtypedef
+json_object1 = [l:addr | l >  null] json_object (l)
 
 (* ****** ****** *)
 

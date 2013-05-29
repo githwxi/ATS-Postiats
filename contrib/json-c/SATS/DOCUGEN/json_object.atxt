@@ -1,0 +1,36 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../json_object.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_json-c_json")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/json-c/json_object\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object2ptr")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_new")
+#declnamesynop("json_object_get")
+#declnamesynop("json_object_put")
+#declnamesynop("json_object_get_type")
+#declnamesynop("json_object_is_type")
+#declnamesynop("json_object_to_json_string")
+#declnamesynop("json_object_to_json_string_ext")
+
+(* ****** ****** *)
+
+(* end of [json_object.atxt] *)

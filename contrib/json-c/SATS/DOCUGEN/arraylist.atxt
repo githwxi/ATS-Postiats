@@ -19,6 +19,10 @@ ATSLIB/contrib/json-c/arraylist\
 
 (* ****** ****** *)
 
+#declnamesynop("array_list22ptr")
+
+(* ****** ****** *)
+
 #declnamesynop("array_list_new")
 
 (* ****** ****** *)
