@@ -40,7 +40,7 @@ fun array_list_free (al: array_list1):<!wrt> void = "mac#%"
 
 (* ****** ****** *)
 
-fun array_list_length (al: !array_list1):<> int = "mac#%"
+fun array_list_length (al: !array_list1):<> intGte(0) = "mac#%"
 
 (* ****** ****** *)
 

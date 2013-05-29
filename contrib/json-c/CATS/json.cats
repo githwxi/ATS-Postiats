@@ -91,6 +91,27 @@ atscntrb_lh_entry_get_val (atstype_ptr ent)
 //
 /* ****** ****** */
 
+#define atscntrb_json_hex_chars json_hex_chars
+#define atscntrb_json_number_chars json_number_chars
+
+/* ****** ****** */
+
+#define atscntrb_json_object_new_string json_object_new_string
+#define atscntrb_json_object_new_string_len json_object_new_string_len
+#define atscntrb_json_object_get_string json_object_get_string
+#define atscntrb_json_object_get_string_len json_object_get_string_len
+ 
+/* ****** ****** */
+
+#define atscntrb_json_object_new_object json_object_new_object
+#define atscntrb_json_object_get_object json_object_get_object
+#define atscntrb_jsob_object_object_length jsob_object_object_length
+#define atscntrb_json_object_object_add json_object_object_add
+#define atscntrb_json_object_object_del json_object_object_del
+#define atscntrb_json_object_object_get json_object_object_get
+
+/* ****** ****** */
+
 #endif // ifndef JSON_JSON_CATS
 
 /* ****** ****** */

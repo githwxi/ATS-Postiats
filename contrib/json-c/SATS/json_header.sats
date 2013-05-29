@@ -63,6 +63,15 @@ typedef lh_hash_fn_type = (Ptr0) -<> ulint
 
 (* ****** ****** *)
 
+absvtype printbuf_vtype (l:addr) = ptr
+vtypedef printbuf (l) = printbuf_vtype (l)
+vtypedef
+printbuf0 = [l:addr | l >= null] printbuf (l)
+vtypedef
+printbuf1 = [l:addr | l >  null] printbuf (l)
+
+(* ****** ****** *)
+
 (*
 typedef
 enum

@@ -19,7 +19,7 @@ ATSLIB/contrib/json-c/arraylist\
 
 (* ****** ****** *)
 
-#declnamesynop("array_list22ptr")
+#declnamesynop("array_list2ptr")
 
 (* ****** ****** *)
 
@@ -41,6 +41,10 @@ ATSLIB/contrib/json-c/arraylist\
 
 #declnamesynop("array_list_get_idx")
 #declnamesynop("array_list_set_idx")
+
+(* ****** ****** *)
+
+#declnamesynop("array_list_sort")
 
 (* ****** ****** *)
 
