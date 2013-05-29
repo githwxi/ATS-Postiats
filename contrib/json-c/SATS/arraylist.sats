@@ -24,6 +24,12 @@ void  array_list_sort (struct array_list *arr, int(*compar)(const void *, const 
 
 (* ****** ****** *)
 
+castfn
+array_list2ptr {l:addr} (al: !array_list (l)):<> ptr (l)
+overload ptrcast with array_list2ptr
+
+(* ****** ****** *)
+
 fun array_list_new
   (free_fn: (Ptr1(*data*)) -> void): array_list0 = "mac#%"
 // end of [array_list_new]

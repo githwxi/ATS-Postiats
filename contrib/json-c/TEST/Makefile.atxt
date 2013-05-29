@@ -26,6 +26,7 @@ all:: %s\n\
   -I$(PATSHOMEQ) \
   -I$(PATSHOMEQ)/ccomp/runtime \
   -I$(PATSHOMEQ)/contrib \
+  -I$(JSON) \
   -DATS_MEMALLOC_LIBC %s -o $@ $< %s\n\
 %s_dats.c: %s.dats ; \
   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output %s_dats.c --dynamic %s.dats\n\
@@ -70,6 +71,10 @@ ATSGCFLAG=-D_ATS_GCATS
 
 ######
 
+JSON=/usr/include/json
+
+######
+
 all::
 
 ######
@@ -79,9 +84,7 @@ RMF=rm -f
 
 ######
 
-#make2_entry("test01", "", "-ljansson")
-#make2_entry("test02", "-DATS_MEMALLOC_LIBC", "-ljansson")
-#make2_entry("github_commit_query", "-DATS_MEMALLOC_LIBC", "-lcurl -ljansson")
+#make2_entry("test01", "-DATS_MEMALLOC_LIBC", "-ljson")
 
 ######
 

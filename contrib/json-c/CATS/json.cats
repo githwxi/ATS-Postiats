@@ -1,10 +1,10 @@
-(*
+/*
 ** API for json-c in ATS
-*)
+*/
 
-(* ****** ****** *)
+/* ****** ****** */
 
-(*
+/*
 ** Permission to use, copy, modify, and distribute this software for any
 ** purpose with or without fee is hereby granted, provided that the above
 ** copyright notice and this permission notice appear in all copies.
@@ -16,39 +16,39 @@
 ** WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ** ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 ** OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-*)
+*/
 
-(* ****** ****** *)
+/* ****** ****** */
 
-(*
-**
-** Time: May, 2013
-** Author Hongwei Xi (gmhwxi AT gmail DOT com)
-**
-*)
+/*
+** Start Time: May, 2013
+** Author Hongwei Xi
+** Authoremail: gmhwxi AT gmail DOT com
+*/
 
-(* ****** ****** *)
+/* ****** ****** */
 
-%{#
-#include "json-c/CATS/json.cats"
-%} // end of [%{#]
+#ifndef JSON_JSON_CATS
+#define JSON_JSON_CATS
 
-(* ****** ****** *)
+/* ****** ****** */
 
-#define ATS_PACKNAME "ATSCNTRB.json"
-#define ATS_STALOADFLAG 0 // no need for staloading at run-time
-#define ATS_EXTERN_PREFIX "atscntrb_" // prefix for external names
+#include <json.h>
 
-(* ****** ****** *)
+/* ****** ****** */
 
-#include "./json_header.sats"
+#define atscntrb_array_list_new array_list_new
+#define atscntrb_array_list_free array_list_free
+#define atscntrb_array_list_length array_list_length
+#define atscntrb_array_list_add array_list_add
+#define atscntrb_array_list_get_idx array_list_get_idx
+#define atscntrb_array_list_set_idx array_list_set_idx
+#define atscntrb_array_list_sort array_list_sort
 
-(* ****** ****** *)
+/* ****** ****** */
 
-#include "./arraylist.sats" // HX: dynamic array implementation
+#endif // ifndef JSON_JSON_CATS
 
-(* ****** ****** *)
+/* ****** ****** */
 
-(* end of [json.sats] *)
-
-
+/* end of [json.cats] */
