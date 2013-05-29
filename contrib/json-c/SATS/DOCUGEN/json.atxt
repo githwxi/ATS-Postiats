@@ -48,4 +48,12 @@ implementation. ')
 
 (* ****** ****** *)
 
+#declname2("linkhash.sats", "linkhash.html")
+//
+#declsynop2('\
+
+This file contains the API for a simple hashtable implementation. ')
+
+(* ****** ****** *)
+
 (* end of [json.atxt] *)

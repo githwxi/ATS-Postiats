@@ -45,7 +45,11 @@
 
 (* ****** ****** *)
 
-#include "./arraylist.sats" // HX: dynamic array implementation
+#include "./arraylist.sats" // HX: for dynamic arrays
+
+(* ****** ****** *)
+
+#include "./linkhash.sats" // HX: for hashtable implementation
 
 (* ****** ****** *)
 

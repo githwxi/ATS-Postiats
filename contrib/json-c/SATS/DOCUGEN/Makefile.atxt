@@ -105,6 +105,7 @@ all_html::
 #make_entry("json")
 #make_entry("json_header")
 #make_entry("arraylist")
+#make_entry("linkhash")
 
 ######
 

@@ -31,7 +31,7 @@ overload ptrcast with array_list2ptr
 (* ****** ****** *)
 
 fun array_list_new
-  (free_fn: (Ptr1(*data*)) -> void): array_list0 = "mac#%"
+  (free_fn: free_fn_type): array_list0 = "mac#%"
 // end of [array_list_new]
 
 (* ****** ****** *)

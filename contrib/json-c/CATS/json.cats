@@ -46,6 +46,35 @@
 #define atscntrb_array_list_sort array_list_sort
 
 /* ****** ****** */
+//
+#define atscntrb_lh_table_new lh_table_new
+//
+#define atscntrb_lh_char_hash lh_char_hash
+#define atscntrb_lh_char_equal lh_char_equal
+#define atscntrb_lh_kchar_table_new(size, name, free_fn) \
+  lh_kchar_table_new(size, name, (lh_entry_free_fn*)free_fn)
+//
+#define atscntrb_lh_ptr_hash lh_ptr_hash
+#define atscntrb_lh_ptr_equal lh_ptr_equal
+#define atscntrb_lh_kptr_table_new(size, name, free_fn) \
+  lh_kptr_table_new(size, name, (lh_entry_free_fn*)free_fn)
+//
+#define atscntrb_lh_table_free lh_table_free
+//
+#define atscntrb_lh_table_length lh_table_length
+//
+#define atscntrb_lh_table_insert lh_table_insert
+//
+#define atscntrb_lh_table_delete lh_table_delete
+#define atscntrb_lh_table_delete_entry lh_table_delete_entry
+//
+#define atscntrb_lh_table_lookup(t, k) ((void*)(lh_table_lookup(t, k)))
+#define atscntrb_lh_table_lookup_ex(t, k, v) lh_table_lookup_ex(t, k, v)
+#define atscntrb_lh_table_lookup_entry(t, k) lh_table_lookup_entry(t, k)
+//
+#define atscntrb_lh_table_resize lh_table_resize
+//
+/* ****** ****** */
 
 #endif // ifndef JSON_JSON_CATS
 
