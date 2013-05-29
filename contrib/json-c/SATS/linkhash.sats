@@ -10,11 +10,21 @@
 (* ****** ****** *)
 
 castfn
-lh_entry2ptr {l:addr} (al: !lh_entry (l)):<> ptr (l)
+lh_entry2ptr {l:addr} (ent: !lh_entry (l)):<> ptr (l)
 overload ptrcast with lh_entry2ptr
 
 castfn
-lh_table2ptr {l:addr} (al: !lh_table (l)):<> ptr (l)
+ptr2lh_entry
+  {l:addr} (p: ptr l):<> vttakeout (ptr l, lh_entry(l))
+// end of [ptr2lh_entry]
+
+fun lh_entry_get_key (ent: !lh_entry1):<> Ptr0 = "mac#%"
+fun lh_entry_get_val (ent: !lh_entry1):<> Ptr0 = "mac#%"
+
+(* ****** ****** *)
+
+castfn
+lh_table2ptr {l:addr} (tbl: !lh_table (l)):<> ptr (l)
 overload ptrcast with lh_table2ptr
 
 (* ****** ****** *)

@@ -46,6 +46,21 @@
 #define atscntrb_array_list_sort array_list_sort
 
 /* ****** ****** */
+
+ATSinline()
+atstype_ptr
+atscntrb_lh_entry_get_key (atstype_ptr ent)
+{
+  return (atstype_ptr)(((struct lh_entry*)ent)->k) ;
+}
+ATSinline()
+atstype_ptr
+atscntrb_lh_entry_get_val (atstype_ptr ent)
+{
+  return (atstype_ptr)(((struct lh_entry*)ent)->v) ;
+}
+
+/* ****** ****** */
 //
 #define atscntrb_lh_table_new lh_table_new
 //
