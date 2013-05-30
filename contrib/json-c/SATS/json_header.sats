@@ -11,6 +11,7 @@
 (* ****** ****** *)
 
 typedef json_bool = int
+macdef json_true = 1 and json_false = 0
 
 (* ****** ****** *)
 
@@ -93,11 +94,11 @@ typedef json_type = json_type_type
 //
 macdef json_type_null = $extval(json_type, "json_type_null")
 macdef json_type_boolean = $extval(json_type, "json_type_boolean")
-macdef json_type_double = $extval(json_type, "json_type_double")
 macdef json_type_int = $extval(json_type, "json_type_int")
-macdef json_type_object = $extval(json_type, "json_type_object")
-macdef json_type_array = $extval(json_type, "json_type_array")
+macdef json_type_double = $extval(json_type, "json_type_double")
 macdef json_type_string = $extval(json_type, "json_type_string")
+macdef json_type_array = $extval(json_type, "json_type_array")
+macdef json_type_object = $extval(json_type, "json_type_object")
 //
 (* ****** ****** *)
 
@@ -107,6 +108,18 @@ vtypedef
 json_object0 = [l:addr | l >= null] json_object (l)
 vtypedef
 json_object1 = [l:addr | l >  null] json_object (l)
+
+(* ****** ****** *)
+
+(*
+** HX: the address [l] refers to the address of the object
+*)
+absvt0ype
+json_object_iterator_vt0ype (l:addr) =
+  $extype"json_object_iterator_struct"
+vtypedef
+json_object_iterator (l:addr) = json_object_iterator_vt0ype (l)
+vtypedef json_object_iterator = [l:addr] json_object_iterator (l)
 
 (* ****** ****** *)
 

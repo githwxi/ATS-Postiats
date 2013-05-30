@@ -33,12 +33,19 @@
 
 /* ****** ****** */
 
-#include <json/json.h>
+#include <json-c/json.h>
 
 /* ****** ****** */
 
 #define atscntrb_json_c_version json_c_version
 #define atscntrb_json_c_version_num json_c_version_num
+
+/* ****** ****** */
+
+typedef 
+struct
+json_object_iterator
+json_object_iterator_struct ;
 
 /* ****** ****** */
 
@@ -198,6 +205,20 @@ json_object_array_put2_idx
 #define atscntrb_json_object_object_add json_object_object_add
 #define atscntrb_json_object_object_del json_object_object_del
 #define atscntrb_json_object_object_get json_object_object_get
+
+/* ****** ****** */
+
+ATSinline()
+atsvoid_t0ype
+json_object_iter_clear (void *jsi) { return ; }
+
+#define atscntrb_json_object_iter_clear json_object_iter_clear
+#define atscntrb_json_object_iter_begin json_object_iter_begin
+#define atscntrb_json_object_iter_end json_object_iter_end
+#define atscntrb_json_object_iter_next json_object_iter_next
+#define atscntrb_json_object_iter_peek_name(jsi) ((void*)(json_object_iter_peek_name(jsi)))
+#define atscntrb_json_object_iter_peek_value(jsi) ((void*)(json_object_iter_peek_value(jsi)))
+#define atscntrb_json_object_iter_equal json_object_iter_equal
 
 /* ****** ****** */
 

@@ -85,6 +85,14 @@ This file contains the API for functions declared in [json_object.h]. ')
 
 (* ****** ****** *)
 
+#declname2("json_object_iterator.sats", "json_object_iterator.html")
+//
+#declsynop2('\
+
+This file contains the API for functions declared in [json_object_iterator.h]. ')
+
+(* ****** ****** *)
+
 #declname2("json_tokener.sats", "json_tokener.html")
 //
 #declsynop2('\

@@ -69,6 +69,23 @@ fpf | str
 val () = println! ("stringOf(obj) = ", str)
 prval () = fpf (str)
 //
+var jsi: json_object_iterator?
+var jsiEnd: json_object_iterator?
+val () = jsi := json_object_iter_begin (obj)
+val () = jsiEnd := json_object_iter_end (obj)
+//
+val name1 = json_object_iter_peek_name (jsi)
+val () = println! ("name1 = ", name1)
+val () = json_object_iter_next (jsi)
+//
+val name2 = json_object_iter_peek_name (jsi)
+val () = println! ("name2 = ", name2)
+val () = json_object_iter_next (jsi)
+//
+val () = assertloc (json_object_iter_equal (jsi, jsiEnd) = json_true)
+val () = json_object_iter_clear (jsi)
+val () = json_object_iter_clear (jsiEnd)
+//
 val freed = json_object_put (obj)
 //
 } // end of [main]

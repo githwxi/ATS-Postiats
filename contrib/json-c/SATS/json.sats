@@ -73,6 +73,7 @@ fun json_c_version_num (): int = "mac#%"
 (* ****** ****** *)
 
 #include "./json_object.sats"
+#include "./json_object_iterator.sats"
 
 (* ****** ****** *)
 
