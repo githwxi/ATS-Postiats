@@ -60,8 +60,9 @@ fun json_object_iter_peek_name
 struct json_object*
 json_object_iter_peek_value (const struct json_object_iterator *iter)
 *)
-fun json_object_iter_peek_value
-  {l:agz} (jso: &json_object_iterator(l)): json_object0 = "mac#%"
+fun json_object_iter_peek_value{l:agz}
+  (jso: &json_object_iterator(l)): [l2:addr] vttakeout0 (json_object(l2)) = "mac#%"
+// end of [json_object_iter_peek_value]
 
 (*
 json_bool
