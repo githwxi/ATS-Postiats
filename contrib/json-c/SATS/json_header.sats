@@ -110,6 +110,63 @@ json_object1 = [l:addr | l >  null] json_object (l)
 
 (* ****** ****** *)
 
+typedef
+json_tokener_error = int
+macdef json_tokener_success = $extval (int, "json_tokener_success")
+macdef json_tokener_continue = $extval (int, "json_tokener_continue")
+macdef json_tokener_error_depth = $extval (int, "json_tokener_error_depth")
+macdef json_tokener_error_parse_eof = $extval (int, "json_tokener_error_parse_eof,")
+macdef json_tokener_error_parse_unexpected = $extval (int, "json_tokener_error_parse_unexpected")
+macdef json_tokener_error_parse_null = $extval (int, "json_tokener_error_parse_null")
+macdef json_tokener_error_parse_boolean = $extval (int, "json_tokener_error_parse_boolean")
+macdef json_tokener_error_parse_number = $extval (int, "json_tokener_error_parse_number,")
+macdef json_tokener_error_parse_array = $extval (int, "json_tokener_error_parse_array")
+macdef json_tokener_error_parse_object_key_name = $extval (int, "json_tokener_error_parse_object_key_name")
+macdef json_tokener_error_parse_object_key_sep = $extval (int, "json_tokener_error_parse_object_key_sep")
+macdef json_tokener_error_parse_object_value_sep = $extval (int, "json_tokener_error_parse_object_value_sep,")
+macdef json_tokener_error_parse_string = $extval (int, "json_tokener_error_parse_string")
+macdef json_tokener_error_parse_comment = $extval (int, "json_tokener_error_parse_comment")
+
+(* ****** ****** *)
+           
+typedef
+json_tokener_state = int
+macdef json_tokener_state_eatws = $extval (int, "json_tokener_state_eatws")
+macdef json_tokener_state_start = $extval (int, "json_tokener_state_start")
+macdef json_tokener_state_finish = $extval (int, "json_tokener_state_finish")
+macdef json_tokener_state_null = $extval (int, "json_tokener_state_null,")
+macdef json_tokener_state_comment_start = $extval (int, "json_tokener_state_comment_start")
+macdef json_tokener_state_comment = $extval (int, "json_tokener_state_comment")
+macdef json_tokener_state_comment_eol = $extval (int, "json_tokener_state_comment_eol")
+macdef json_tokener_state_comment_end = $extval (int, "json_tokener_state_comment_end")
+macdef json_tokener_state_string = $extval (int, "json_tokener_state_string")
+macdef json_tokener_state_string_escape = $extval (int, "json_tokener_state_string_escape")
+macdef json_tokener_state_escape_unicode = $extval (int, "json_tokener_state_escape_unicode")
+macdef json_tokener_state_boolean = $extval (int, "json_tokener_state_boolean")
+macdef json_tokener_state_number = $extval (int, "json_tokener_state_number")
+macdef json_tokener_state_array = $extval (int, "json_tokener_state_array")
+macdef json_tokener_state_array_add = $extval (int, "json_tokener_state_array_add")
+macdef json_tokener_state_array_sep = $extval (int, "json_tokener_state_array_sep")
+macdef json_tokener_state_object_field_start = $extval (int, "json_tokener_state_object_field_start")
+macdef json_tokener_state_object_field = $extval (int, "json_tokener_state_object_field")
+macdef json_tokener_state_object_field_end = $extval (int, "json_tokener_state_object_field_end")
+macdef json_tokener_state_object_value = $extval (int, "json_tokener_state_object_value")
+macdef json_tokener_state_object_value_add = $extval (int, "json_tokener_state_object_value_add")
+macdef json_tokener_state_object_sep = $extval (int, "json_tokener_state_object_sep")
+macdef json_tokener_state_array_after_sep = $extval (int, "json_tokener_state_array_after_sep")
+macdef json_tokener_state_object_field_start_after_sep = $extval (int, "json_tokener_state_object_field_start_after_sep")
+
+(* ****** ****** *)
+
+absvtype json_tokener_vtype (l:addr) = ptr
+vtypedef json_tokener (l) = json_tokener_vtype (l)
+vtypedef
+json_tokener0 = [l:addr | l >= null] json_tokener (l)
+vtypedef
+json_tokener1 = [l:addr | l >  null] json_tokener (l)
+
+(* ****** ****** *)
+
 #endif // end of [JSON_JSON_HEADER_HATS]
 
 (* ****** ****** *)

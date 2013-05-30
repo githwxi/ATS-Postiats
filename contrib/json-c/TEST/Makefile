@@ -26,10 +26,6 @@ ATSGCFLAG=-D_ATS_GCATS
 
 ######
 
-JSON=/usr/include/json
-
-######
-
 all::
 
 ######
@@ -39,9 +35,17 @@ RMF=rm -f
 
 ######
 
+all:: test00
+test00: test00.exe
+test00.exe: test00_dats.c ;   $(CCOPT)   -I$(PATSHOMEQ)   -I$(PATSHOMEQ)/ccomp/runtime   -I$(PATSHOMEQ)/contrib   -DATS_MEMALLOC_LIBC  -o $@ $< -ljson
+test00_dats.c: test00.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test00_dats.c --dynamic test00.dats
+clean:: ; $(RMF) test00_dats.o
+clean:: ; $(RMF) test00_dats.c
+cleanall:: ; $(RMF) test00.exe
+
 all:: test01
 test01: test01.exe
-test01.exe: test01_dats.c ;   $(CCOPT)   -I$(PATSHOMEQ)   -I$(PATSHOMEQ)/ccomp/runtime   -I$(PATSHOMEQ)/contrib   -I$(JSON)   -DATS_MEMALLOC_LIBC -DATS_MEMALLOC_LIBC -o $@ $< -ljson
+test01.exe: test01_dats.c ;   $(CCOPT)   -I$(PATSHOMEQ)   -I$(PATSHOMEQ)/ccomp/runtime   -I$(PATSHOMEQ)/contrib   -DATS_MEMALLOC_LIBC -DATS_MEMALLOC_LIBC -o $@ $< -ljson
 test01_dats.c: test01.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test01_dats.c --dynamic test01.dats
 clean:: ; $(RMF) test01_dats.o
 clean:: ; $(RMF) test01_dats.c
@@ -49,11 +53,19 @@ cleanall:: ; $(RMF) test01.exe
 
 all:: test02
 test02: test02.exe
-test02.exe: test02_dats.c ;   $(CCOPT)   -I$(PATSHOMEQ)   -I$(PATSHOMEQ)/ccomp/runtime   -I$(PATSHOMEQ)/contrib   -I$(JSON)   -DATS_MEMALLOC_LIBC -DATS_MEMALLOC_LIBC -o $@ $< -ljson
+test02.exe: test02_dats.c ;   $(CCOPT)   -I$(PATSHOMEQ)   -I$(PATSHOMEQ)/ccomp/runtime   -I$(PATSHOMEQ)/contrib   -DATS_MEMALLOC_LIBC -DATS_MEMALLOC_LIBC -o $@ $< -ljson
 test02_dats.c: test02.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test02_dats.c --dynamic test02.dats
 clean:: ; $(RMF) test02_dats.o
 clean:: ; $(RMF) test02_dats.c
 cleanall:: ; $(RMF) test02.exe
+
+all:: test03
+test03: test03.exe
+test03.exe: test03_dats.c ;   $(CCOPT)   -I$(PATSHOMEQ)   -I$(PATSHOMEQ)/ccomp/runtime   -I$(PATSHOMEQ)/contrib   -DATS_MEMALLOC_LIBC -DATS_MEMALLOC_LIBC -o $@ $< -ljson
+test03_dats.c: test03.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test03_dats.c --dynamic test03.dats
+clean:: ; $(RMF) test03_dats.o
+clean:: ; $(RMF) test03_dats.c
+cleanall:: ; $(RMF) test03.exe
 
 
 ######

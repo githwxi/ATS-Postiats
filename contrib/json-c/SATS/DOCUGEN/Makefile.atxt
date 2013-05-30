@@ -104,9 +104,12 @@ all_html::
 
 #make_entry("json")
 #make_entry("json_header")
-#make_entry("arraylist")
 #make_entry("linkhash")
+#make_entry("arraylist")
+#make_entry("printbuf")
+#make_entry("json_util")
 #make_entry("json_object")
+#make_entry("json_tokener")
 
 ######
 

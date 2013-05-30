@@ -33,7 +33,12 @@
 
 /* ****** ****** */
 
-#include <json.h>
+#include <json/json.h>
+
+/* ****** ****** */
+
+#define atscntrb_json_c_version json_c_version
+#define atscntrb_json_c_version_num json_c_version_num
 
 /* ****** ****** */
 
@@ -91,6 +96,36 @@ atscntrb_lh_entry_get_val (atstype_ptr ent)
 //
 /* ****** ****** */
 
+#if(0)
+ATSinline()
+atstype_ptr
+atscntrb_printbuf_get_buf
+  (atstype_ptr pb)
+{
+  return ((struct printbuf*)pb)->buf ;
+} // end of [atscntrb_printbuf_get_buf]
+
+ATSinline()
+atstype_int
+atscntrb_printbuf_get_size
+  (atstype_ptr pb)
+{
+  return ((struct printbuf *)pb)->size ;
+} // end of [atscntrb_printbuf_get_size]
+#endif
+
+/* ****** ****** */
+
+#define atscntrb_printbuf_new printbuf_new
+#define atscntrb_printbuf_free printbuf_free
+#define atscntrb_printbuf_reset printbuf_reset
+#define atscntrb_printbuf_length printbuf_length
+#define atscntrb_printbuf_memappend printbuf_memappend
+#define atscntrb_printbuf_memset printbuf_memset
+#define atscntrb_sprintbuf sprintbuf
+
+/* ****** ****** */
+
 #define atscntrb_json_hex_chars json_hex_chars
 #define atscntrb_json_number_chars json_number_chars
 
@@ -109,6 +144,19 @@ atscntrb_lh_entry_get_val (atstype_ptr ent)
 #define atscntrb_json_object_object_add json_object_object_add
 #define atscntrb_json_object_object_del json_object_object_del
 #define atscntrb_json_object_object_get json_object_object_get
+
+/* ****** ****** */
+
+#define atscntrb_json_tokener_error_desc json_tokener_error_desc
+#define atscntrb_json_tokener_get_error json_tokener_get_error
+#define atscntrb_json_tokener_new json_tokener_new
+#define atscntrb_json_tokener_new_ex json_tokener_new_ex
+#define atscntrb_json_tokener_free json_tokener_free
+#define atscntrb_json_tokener_reset json_tokener_reset
+#define atscntrb_json_tokener_parse json_tokener_parse
+#define atscntrb_json_tokener_parse_verbose json_tokener_parse_verbose
+#define atscntrb_json_tokener_parse_ex json_tokener_parse_ex
+#define atscntrb_json_tokener_set_flags json_tokener_set_flags
 
 /* ****** ****** */
 
