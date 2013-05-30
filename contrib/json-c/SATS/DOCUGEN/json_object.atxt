@@ -33,10 +33,31 @@ ATSLIB/contrib/json-c/json_object\
 
 (* ****** ****** *)
 
+#declnamesynop("json_object_new_boolean")
+#declnamesynop("json_object_get_boolean")
+#declnamesynop("json_object_new_int")
+#declnamesynop("json_object_get_int")
+#declnamesynop("json_object_new_int64")
+#declnamesynop("json_object_get_int64")
+#declnamesynop("json_object_new_double")
+#declnamesynop("json_object_get_double")
+
+(* ****** ****** *)
+
 #declnamesynop("json_object_new_string")
 #declnamesynop("json_object_new_string_len")
 #declnamesynop("json_object_get_string")
 #declnamesynop("json_object_get_string_len")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_new_array")
+#declnamesynop("json_object_get_array")
+#declnamesynop("json_object_array_length")
+#declnamesynop("json_object_array_add")
+#declnamesynop("json_object_array_put_idx")
+#declnamesynop("json_object_array_put2_idx")
+#declnamesynop("json_object_array_get_idx")
 
 (* ****** ****** *)
 

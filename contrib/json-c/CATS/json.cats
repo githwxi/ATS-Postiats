@@ -46,8 +46,8 @@
 #define atscntrb_array_list_free array_list_free
 #define atscntrb_array_list_length array_list_length
 #define atscntrb_array_list_add array_list_add
+#define atscntrb_array_list_put_idx array_list_put_idx
 #define atscntrb_array_list_get_idx array_list_get_idx
-#define atscntrb_array_list_set_idx array_list_set_idx
 #define atscntrb_array_list_sort array_list_sort
 
 /* ****** ****** */
@@ -112,9 +112,6 @@ atscntrb_printbuf_get_size
 {
   return ((struct printbuf *)pb)->size ;
 } // end of [atscntrb_printbuf_get_size]
-#endif
-
-/* ****** ****** */
 
 #define atscntrb_printbuf_new printbuf_new
 #define atscntrb_printbuf_free printbuf_free
@@ -123,6 +120,7 @@ atscntrb_printbuf_get_size
 #define atscntrb_printbuf_memappend printbuf_memappend
 #define atscntrb_printbuf_memset printbuf_memset
 #define atscntrb_sprintbuf sprintbuf
+#endif
 
 /* ****** ****** */
 
@@ -131,11 +129,67 @@ atscntrb_printbuf_get_size
 
 /* ****** ****** */
 
+#define atscntrb_json_object_new json_object_new
+#define atscntrb_json_object_newjson_object_get json_object_get
+#define atscntrb_json_object_put json_object_put
+#define atscntrb_json_object_is_type json_object_is_type
+#define atscntrb_json_object_get_type json_object_get_type
+#define atscntrb_json_object_to_json_string(jso) ((void*)(json_object_to_json_string(jso)))
+#define atscntrb_json_object_to_json_string_ext(jso, flags) ((void*)(json_object_to_json_string_ext(jso, flags)))
+
+/* ****** ****** */
+
+#define atscntrb_json_object_new_boolean json_object_new_boolean
+#define atscntrb_json_object_get_boolean json_object_get_boolean
+
+#define atscntrb_json_object_new_int json_object_new_int
+#define atscntrb_json_object_get_int json_object_get_int
+
+#define atscntrb_json_object_new_int64 json_object_new_int64
+#define atscntrb_json_object_get_int64 json_object_get_int64
+
+#define atscntrb_json_object_new_double json_object_new_double
+#define atscntrb_json_object_get_double json_object_get_double
+
+/* ****** ****** */
+
 #define atscntrb_json_object_new_string json_object_new_string
 #define atscntrb_json_object_new_string_len json_object_new_string_len
 #define atscntrb_json_object_get_string json_object_get_string
 #define atscntrb_json_object_get_string_len json_object_get_string_len
  
+/* ****** ****** */
+
+ATSinline()
+int
+json_object_array_add2
+  (struct json_object *jso, struct json_object *val)
+{
+  int err ;
+  err = json_object_array_add (jso, val) ;
+  if (err < 0) json_object_put (val) ;
+  return err ;
+}
+ATSinline()
+int
+json_object_array_put2_idx
+  (struct json_object *jso, int idx, struct json_object *val)
+{
+  int err ;
+  err = json_object_array_put_idx (jso, idx, val) ;
+  if (err < 0) json_object_put (val) ;
+  return err ;
+}
+
+#define atscntrb_json_object_new_array json_object_new_array
+#define atscntrb_json_object_get_array json_object_get_array
+#define atscntrb_json_object_array_length json_object_array_length
+#define atscntrb_json_object_array_add json_object_array_add
+#define atscntrb_json_object_array_add2 json_object_array_add2
+#define atscntrb_json_object_array_put_idx json_object_array_put_idx
+#define atscntrb_json_object_array_put2_idx json_object_array_put2_idx
+#define atscntrb_json_object_array_get_idx json_object_array_get_idx
+
 /* ****** ****** */
 
 #define atscntrb_json_object_new_object json_object_new_object
