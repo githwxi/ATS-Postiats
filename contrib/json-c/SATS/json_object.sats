@@ -56,6 +56,34 @@ fun json_object_to_json_string_ext
   (jso: !json_object0, flags: int): vStrptr1 = "mac#%"
 
 (* ****** ****** *)
+//
+// HX-2013-05: for convenience
+//
+fun{
+} print_json_object (jso: !json_object0): void
+fun{
+} print_json_object_ext (jso: !json_object0, flags: int): void
+overload print with print_json_object
+overload print with print_json_object_ext
+//
+fun{
+} prerr_json_object (jso: !json_object0): void
+fun{
+} prerr_json_object_ext (jso: !json_object0, flags: int): void
+overload prerr with prerr_json_object
+overload prerr with prerr_json_object_ext
+//
+fun{
+} fprint_json_object
+  (out: FILEref, jso: !json_object0): void
+fun{
+} fprint_json_object_ext
+  (out: FILEref, jso: !json_object0, flags: int): void
+//
+overload fprint with fprint_json_object
+overload fprint with fprint_json_object_ext
+//
+(* ****** ****** *)
 
 (*
 void json_object_set_serializer
@@ -188,7 +216,7 @@ struct array_list*
 json_object_get_array (struct json_object *obj)
 *)
 fun json_object_get_array
-  (jso: !json_object1): [l:addr] vttakeout0 (array_list(l)) = "mac#%"
+  (jso: !json_object1): [l:agez] vttakeout0 (array_list(l)) = "mac#%"
 // end of [json_object_get_array]
 
 (*
@@ -222,7 +250,7 @@ json_object_array_get_idx (struct json_object *obj, int idx)
 *)
 fun
 json_object_array_get_idx
-  (jso: !json_object1, idx: intGte(0)): [l:addr] vttakeout0 (json_object(l)) = "mac#%"
+  (jso: !json_object1, idx: intGte(0)): [l:agez] vttakeout0 (json_object(l)) = "mac#%"
 // end of [json_object_array_get_idx]
 
 (*
@@ -252,7 +280,7 @@ fun json_object_new_object (): json_object0 = "mac#%"
 struct lh_table* json_object_get_object(struct json_object *obj);
 *)
 fun json_object_get_object
-  {l:addr} (jso: !json_object(l)): [l2:addr] vttakeout (json_object l, lh_table l2) = "mac#%"
+  {l:addr} (jso: !json_object(l)): [l2:agez] vttakeout (json_object l, lh_table l2) = "mac#%"
 // end of [json_object_get_object]
 
 (* ****** ****** *)
@@ -288,7 +316,7 @@ struct json_object*
 json_object_object_get(struct json_object* obj, const char *key);
 *)
 fun json_object_object_get{l:addr}
-  (jso: !json_object l, key: string): [l2:addr] vttakeout (json_object l, json_object l2) 
+  (jso: !json_object l, key: string): [l2:agez] vttakeout (json_object l, json_object l2) 
 // end of [json_object_object_get]
 
 (* ****** ****** *)

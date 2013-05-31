@@ -29,12 +29,15 @@ UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload "json-c/SATS/json.sats"
+staload _(*anon*) = "json-c/DATS/json.dats"
 
 (* ****** ****** *)
 
 implement
 main0 () =
 {
+//
+val out = stdout_ref
 //
 val arr = json_object_new_array ()
 val () = assertloc (ptrcast(arr) > 0)
@@ -45,12 +48,7 @@ val jso2 = json_object_new_string ("Chloe")
 val () = assertloc (json_object_array_add2 (arr, jso1) = 0)
 val () = assertloc (json_object_array_add2 (arr, jso2) = 0)
 //
-val
-(
-fpf | str
-) = json_object_to_json_string (arr)
-val () = println! ("stringOf(arr) = ", str)
-prval () = fpf (str)
+val () = println! ("stringOf(arr) = ", arr)
 //
 val freed = json_object_put (arr)
 //
@@ -62,12 +60,7 @@ val jso2 = json_object_new_string ("Chloe")
 val () = json_object_object_add (obj, "girl1", jso1)
 val () = json_object_object_add (obj, "girl2", jso2)
 //
-val
-(
-fpf | str
-) = json_object_to_json_string (obj)
-val () = println! ("stringOf(obj) = ", str)
-prval () = fpf (str)
+val () = println! ("stringOf(obj) = ", obj)
 //
 var jsi: json_object_iterator?
 var jsiEnd: json_object_iterator?
@@ -76,10 +69,18 @@ val () = jsiEnd := json_object_iter_end (obj)
 //
 val name1 = json_object_iter_peek_name (jsi)
 val () = println! ("name1 = ", name1)
+val (fpf | value1) = json_object_iter_peek_value (jsi)
+val () = println! ("stringOf(value1) = ", value1)
+prval () = fpf (value1)
+//
 val () = json_object_iter_next (jsi)
 //
 val name2 = json_object_iter_peek_name (jsi)
 val () = println! ("name2 = ", name2)
+val (fpf | value2) = json_object_iter_peek_value (jsi)
+val () = println! ("stringOf(value2) = ", value2)
+prval () = fpf (value2)
+//
 val () = json_object_iter_next (jsi)
 //
 val () = assertloc (json_object_iter_equal (jsi, jsiEnd) = json_true)

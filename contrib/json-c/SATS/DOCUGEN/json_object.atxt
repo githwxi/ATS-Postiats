@@ -28,8 +28,26 @@ ATSLIB/contrib/json-c/json_object\
 #declnamesynop("json_object_put")
 #declnamesynop("json_object_is_type")
 #declnamesynop("json_object_get_type")
+
+(* ****** ****** *)
+
 #declnamesynop("json_object_to_json_string")
 #declnamesynop("json_object_to_json_string_ext")
+
+(* ****** ****** *)
+
+#declnamesynop("print")
+#declnamesynop("print_json_object")
+#declnamesynop("print_json_object_ext")
+#declnamesynop("prerr")
+#declnamesynop("prerr_json_object")
+#declnamesynop("prerr_json_object_ext")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
+#declnamesynop("fprint_json_object")
+#declnamesynop("fprint_json_object_ext")
 
 (* ****** ****** *)
 
