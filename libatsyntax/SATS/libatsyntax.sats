@@ -106,6 +106,13 @@ datatype
 d0eclrep =
   | D0ECLREPsing of (d0ecl, charlst)
   | D0ECLREPinclude of (d0ecl, charlst, d0eclreplst)
+  | D0ECLREPguadecl of (guad0eclrep)
+
+and guad0eclrep =
+  | GUAD0ECLREPone of (d0eclreplst)
+  | GUAD0ECLREPtwo of (d0eclreplst, d0eclreplst)
+  | GUAD0ECLREPcons of (d0eclreplst, guad0eclrep)
+
 where d0eclreplst = List (d0eclrep)
 
 (* ****** ****** *)
@@ -286,7 +293,7 @@ fun charlst_pats2xhtmlize_embedded
 // HX: it is for building ATSLIB documentation
 //
 fun d0eclreplst_find_synop
-  (xs: d0eclreplst, sym: symbol): Option_vt (charlst)
+  (xs: d0eclreplst, sym: symbol): List_vt (charlst)
 //
 (* ****** ****** *)
 
