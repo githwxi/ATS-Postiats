@@ -201,13 +201,10 @@ are called here to read from and write through the pointer p.
 
 (* ****** ****** *)
 
-#declname("array_get_at")
-#decldescrpt('\
-#pats2xhtmls("\
-overload array_get_at with array_get_at_gint
-overload array_get_at with array_get_at_guint
-")\
-')
+#declnamesynop("array_get_at")
+
+(* ****** ****** *)
+
 #declnamesynop("array_get_at_gint")
 #decldescrpt('\
 
@@ -248,13 +245,10 @@ This function, which overloads the symbol #dyncode("[]"), is like
 
 (* ****** ****** *)
 
-#declname("array_set_at")
-#decldescrpt('\
-#pats2xhtmls("\
-overload array_set_at with array_set_at_gint
-overload array_set_at with array_set_at_guint
-")\
-')
+#declnamesynop("array_set_at")
+
+(* ****** ****** *)
+
 #declnamesynop("array_set_at_gint")
 #decldescrpt("\
 
@@ -295,13 +289,10 @@ This function, which overloads the symbol #dyncode("[]"), is like
 
 (* ****** ****** *)
 
-#declname("array_exch_at")
-#decldescrpt('\
-#pats2xhtmls("\
-overload array_exch_at with array_exch_at_gint
-overload array_exch_at with array_exch_at_guint
-")\
-')
+#declnamesynop("array_exch_at")
+
+(* ****** ****** *)
+
 #declnamesynop("array_exch_at_gint")
 #decldescrpt('\
 This function exchanges the value in array-cell i of the given array A and the

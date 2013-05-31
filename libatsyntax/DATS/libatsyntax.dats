@@ -696,6 +696,13 @@ test_symbol_d0ecl
 in
 //
 case+ d0c.d0ecl_node of
+//
+| $SYN.D0Coverload
+    (id, dqid, pval) =>
+  (
+    if id.i0de_sym = sym then true else false
+  )
+//
 | $SYN.D0Cstacons
     (_, xs) => s0taconlst_test (sym, xs)
 | $SYN.D0Csexpdefs
@@ -1012,10 +1019,8 @@ case+ gd0c of
 //
 end // end of [guad0eclrep_find_synop]
 //
-val res = auxlst (d0cs, sym, list_vt_nil)
-//
 in
-  list_vt_reverse (res)
+  auxlst (d0cs, sym, list_vt_nil)
 end // end of [d0eclreplst_find_synop]
 
 (* ****** ****** *)
