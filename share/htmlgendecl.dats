@@ -213,9 +213,12 @@ in
 case+ atxtlst of
 | list_cons _ => $LDOC.atext_concatxt (atxtlst)
 | list_nil () => let
-    val str = sprintf ("Synopsis for [%s] is unavailable.", @(name))
+    val x = sprintf ("Synopsis for [%s] is unavailable.", @(name))
+    val x1 = $UN.castvwtp1{string}(x)
+    val x2 = sprintf ("<pre class=\"patsyntax\">\n%s</pre>\n", @(x1))
+    val () = strptr_free (x)
   in
-    $LDOC.atext_strptr (str)
+    $LDOC.atext_strptr (x2)
   end // end of [list_nil]
 //
 end // end of [synoplst2atext]

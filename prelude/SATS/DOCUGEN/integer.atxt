@@ -223,6 +223,10 @@ unequal to its second argument. It is for unsigned integers.
 
 (* ****** ****** *)
 
+#declnamesynop("fprint")
+
+(* ****** ****** *)
+
 #declnamesynop("fprint_int")
 #declnamesynop("fprint_uint")
 #declnamesynop("fprint_lint")

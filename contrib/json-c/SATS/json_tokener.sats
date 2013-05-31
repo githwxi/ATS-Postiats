@@ -9,6 +9,13 @@
 
 (* ****** ****** *)
 
+castfn
+json_tokener2ptr
+  {l:addr} (al: !json_tokener (l)):<> ptr (l)
+overload ptrcast with json_tokener2ptr
+
+(* ****** ****** *)
+
 (*
 const char*
 json_tokener_error_desc (enum json_tokener_error jerr)
