@@ -88,7 +88,7 @@ prval () = fpf (value2)
 //
 val () = json_object_iter_next (jsi)
 //
-val () = assertloc (json_object_iter_equal (jsi, jsiEnd) = json_true)
+val () = assertloc (json_object_iter_equal (jsi, jsiEnd))
 val () = json_object_iter_clear (obj, jsi)
 val () = json_object_iter_clear (obj, jsiEnd)
 //

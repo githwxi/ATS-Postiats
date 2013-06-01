@@ -844,7 +844,11 @@ val () =
 val pmls = hilablst_ccomp (env, res, hils)
 //
 in
-  primval_selptr (loc0, hse0, pmv, hse_rt, pmls)
+//
+case+ d2var_get_view (d2v) of
+| Some _ => primval_selptr (loc0, hse0, pmv, hse_rt, pmls)
+| None _ => primval_select2 (loc0, hse0, pmv, hse_rt, pmls)
+//
 end // end of [hidexp_ccomp_selvar]
 
 (* ****** ****** *)

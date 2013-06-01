@@ -682,7 +682,8 @@ end // end of [local]
 
 local
 
-fun auxmain (
+fun auxmain
+(
   out: FILEref, flab: funlab
 ) : void = let
 //
