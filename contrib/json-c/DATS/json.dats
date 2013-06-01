@@ -38,6 +38,13 @@
 staload "json-c/SATS/json.sats"
 
 (* ****** ****** *)
+
+implement{}
+not_json_bool (tf) =
+  if tf != 0 then json_false else json_true
+// end of [not_json_bool]
+
+(* ****** ****** *)
 //
 implement{}
 print_json_object

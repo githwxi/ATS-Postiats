@@ -14,6 +14,8 @@ typedef json_bool = int
 //
 macdef json_true = 1 and json_false = 0
 //
+fun{} not_json_bool (tf: json_bool): json_bool
+//
 (* ****** ****** *)
 
 absvtype lh_entry_vtype (l:addr) = ptr

@@ -321,4 +321,26 @@ fun json_object_object_get{l:addr}
 
 (* ****** ****** *)
 
+fun{env:vt0p}
+json_object_iforeach$cont (x: !json_object0, env: &env): bool
+fun{env:vt0p}
+json_object_iforeach$fwork (i: int, x: !json_object0, env: &env): void
+fun{}
+json_object_iforeach (jso: !json_object1): void
+fun{env:vt0p}
+json_object_iforeach_env (jso: !json_object1, env: &env): void
+
+(* ****** ****** *)
+
+fun{env:vt0p}
+json_object_kforeach$cont (x: !json_object0, env: &env): bool
+fun{env:vt0p}
+json_object_kforeach$fwork (k: string, x: !json_object0, env: &env): void
+fun{}
+json_object_kforeach (jso: !json_object1): void
+fun{env:vt0p}
+json_object_kforeach_env (jso: !json_object1, env: &env): void
+
+(* ****** ****** *)
+
 (* end of [json_object.sats] *)

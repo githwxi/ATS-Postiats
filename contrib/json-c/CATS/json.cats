@@ -103,34 +103,6 @@ atscntrb_lh_entry_get_val (atstype_ptr ent)
 //
 /* ****** ****** */
 
-#if(0)
-ATSinline()
-atstype_ptr
-atscntrb_printbuf_get_buf
-  (atstype_ptr pb)
-{
-  return ((struct printbuf*)pb)->buf ;
-} // end of [atscntrb_printbuf_get_buf]
-
-ATSinline()
-atstype_int
-atscntrb_printbuf_get_size
-  (atstype_ptr pb)
-{
-  return ((struct printbuf *)pb)->size ;
-} // end of [atscntrb_printbuf_get_size]
-
-#define atscntrb_printbuf_new printbuf_new
-#define atscntrb_printbuf_free printbuf_free
-#define atscntrb_printbuf_reset printbuf_reset
-#define atscntrb_printbuf_length printbuf_length
-#define atscntrb_printbuf_memappend printbuf_memappend
-#define atscntrb_printbuf_memset printbuf_memset
-#define atscntrb_sprintbuf sprintbuf
-#endif
-
-/* ****** ****** */
-
 #define atscntrb_json_hex_chars json_hex_chars
 #define atscntrb_json_number_chars json_number_chars
 
@@ -210,15 +182,32 @@ json_object_array_put2_idx
 
 ATSinline()
 atsvoid_t0ype
-json_object_iter_clear (void *jsi) { return ; }
+atscntrb_json_object_iter_clear
+  (void* jso, void *jsi) { return ; }
+// end of [json_object_iter_clear]
 
-#define atscntrb_json_object_iter_clear json_object_iter_clear
+ATSinline()
+atstype_bool
+atscntrb_json_object_iter_equal
+  (void *jsi1, void *jsi2)
+{
+  int equal = json_object_iter_equal(jsi1, jsi2);
+  return (equal != 0 ? 1 : 0) ;
+}
+ATSinline()
+atstype_bool
+atscntrb_json_object_iter_notequal
+  (void *jsi1, void *jsi2)
+{
+  int equal = json_object_iter_equal(jsi1, jsi2);
+  return (equal != 0 ? 0 : 1) ;
+}
+
 #define atscntrb_json_object_iter_begin json_object_iter_begin
 #define atscntrb_json_object_iter_end json_object_iter_end
 #define atscntrb_json_object_iter_next json_object_iter_next
 #define atscntrb_json_object_iter_peek_name(jsi) ((void*)(json_object_iter_peek_name(jsi)))
 #define atscntrb_json_object_iter_peek_value(jsi) ((void*)(json_object_iter_peek_value(jsi)))
-#define atscntrb_json_object_iter_equal json_object_iter_equal
 
 /* ****** ****** */
 

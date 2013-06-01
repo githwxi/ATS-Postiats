@@ -37,8 +37,6 @@ implement
 main0 () =
 {
 //
-val out = stdout_ref
-//
 val arr = json_object_new_array ()
 val () = assertloc (ptrcast(arr) > 0)
 //
@@ -67,16 +65,23 @@ var jsiEnd: json_object_iterator?
 val () = jsi := json_object_iter_begin (obj)
 val () = jsiEnd := json_object_iter_end (obj)
 //
-val name1 = json_object_iter_peek_name (jsi)
-val () = println! ("name1 = ", name1)
+val () = println! ("[jsi] and [jsiEnd] are initialized.")
+//
+val (fpf | x) = json_object_iter_peek_name (jsi)
+val () = println! ("json_object_iter_peek_name")
+val () = println! ("name1 = ", x)
+prval () = fpf (x)
+//
 val (fpf | value1) = json_object_iter_peek_value (jsi)
 val () = println! ("stringOf(value1) = ", value1)
 prval () = fpf (value1)
 //
 val () = json_object_iter_next (jsi)
 //
-val name2 = json_object_iter_peek_name (jsi)
-val () = println! ("name2 = ", name2)
+val x = json_object_iter_peek_name (jsi)
+val () = println! ("name2 = ", x.1)
+prval () = x.0 (x.1)
+//
 val (fpf | value2) = json_object_iter_peek_value (jsi)
 val () = println! ("stringOf(value2) = ", value2)
 prval () = fpf (value2)
@@ -84,8 +89,8 @@ prval () = fpf (value2)
 val () = json_object_iter_next (jsi)
 //
 val () = assertloc (json_object_iter_equal (jsi, jsiEnd) = json_true)
-val () = json_object_iter_clear (jsi)
-val () = json_object_iter_clear (jsiEnd)
+val () = json_object_iter_clear (obj, jsi)
+val () = json_object_iter_clear (obj, jsiEnd)
 //
 val freed = json_object_put (obj)
 //
