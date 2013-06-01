@@ -67,10 +67,10 @@ val () = jsiEnd := json_object_iter_end (obj)
 //
 val () = println! ("[jsi] and [jsiEnd] are initialized.")
 //
-val (fpf | x) = json_object_iter_peek_name (jsi)
+val x = json_object_iter_peek_name (jsi)
 val () = println! ("json_object_iter_peek_name")
-val () = println! ("name1 = ", x)
-prval () = fpf (x)
+val () = println! ("name1 = ", x.1)
+prval () = x.0 (x.1)
 //
 val (fpf | value1) = json_object_iter_peek_value (jsi)
 val () = println! ("stringOf(value1) = ", value1)

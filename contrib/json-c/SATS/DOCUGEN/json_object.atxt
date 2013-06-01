@@ -88,4 +88,11 @@ ATSLIB/contrib/json-c/json_object\
 
 (* ****** ****** *)
 
+#declnamesynop("json_object_kforeach")
+#declnamesynop("json_object_kforeach_env")
+#declnamesynop("json_object_kforeach$cont")
+#declnamesynop("json_object_kforeach$fwork")
+
+(* ****** ****** *)
+
 (* end of [json_object.atxt] *)

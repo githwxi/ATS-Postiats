@@ -111,7 +111,7 @@ fun json_object_new_boolean (b: json_bool): json_object0 = "mac#%"
 json_bool
 json_object_get_boolean (struct json_object *obj)
 *)
-fun json_object_get_boolean (obj: !json_object0): json_bool = "mac#%"
+fun json_object_get_boolean (obj: !json_object1): json_bool = "mac#%"
 
 (* ****** ****** *)
 //
@@ -129,7 +129,7 @@ fun json_object_new_int (i: int32): json_object0 = "mac#%"
 int32_t
 json_object_get_int (struct json_object *obj)
 *)
-fun json_object_get_int (obj: !json_object0): int32 = "mac#%"
+fun json_object_get_int (obj: !json_object1): int32 = "mac#%"
 
 (* ****** ****** *)
 //
@@ -147,7 +147,7 @@ fun json_object_new_int64 (i: int64): json_object0 = "mac#%"
 int64_t
 json_object_get_int64 (struct json_object *obj)
 *)
-fun json_object_get_int64 (obj: !json_object0): int64 = "mac#%"
+fun json_object_get_int64 (obj: !json_object1): int64 = "mac#%"
 
 (* ****** ****** *)
 //
@@ -165,7 +165,7 @@ fun json_object_new_double (d: double): json_object0 = "mac#%"
 double
 json_object_get_double (struct json_object *obj)
 *)
-fun json_object_get_double (obj: !json_object0): double = "mac#%"
+fun json_object_get_double (obj: !json_object1): double = "mac#%"
 
 (* ****** ****** *)
 //
@@ -216,7 +216,8 @@ struct array_list*
 json_object_get_array (struct json_object *obj)
 *)
 fun json_object_get_array
-  (jso: !json_object1): [l:agez] vttakeout0 (array_list(l)) = "mac#%"
+  {l:agz} (jso: !json_object(l))
+  : [l2:agez] vttakeout (json_object(l), array_list(l2)) = "mac#%"
 // end of [json_object_get_array]
 
 (*
@@ -233,29 +234,41 @@ fun json_object_array_add
 fun json_object_array_add2
   (jso: !json_object1, _val: json_object0): int = "mac#%"
 
+(* ****** ****** *)
+
 (*
 int json_object_array_put_idx
   (struct json_object *obj, int idx, struct json_object *val)
 *)
-fun json_object_array_put_idx{l:addr}
-(
-  jso: !json_object1, idx: intGte(0), _val: !json_object(l) >> opt (json_object(l), i < 0)
+fun
+json_object_array_put_idx
+  {l:agz;l2:addr} (
+  jso: !json_object(l), idx: intGte(0)
+, _val: !json_object(l2) >> opt (json_object(l2), i < 0)
 ) : #[i:int | i <= 0] int (i) = "mac#%"
 fun json_object_array_put2_idx
   (jso: !json_object1, idx: intGte(0), _val: json_object0): int = "mac#%"
+
+(* ****** ****** *)
 
 (*
 struct json_object*
 json_object_array_get_idx (struct json_object *obj, int idx)
 *)
 fun
-json_object_array_get_idx
-  (jso: !json_object1, idx: intGte(0)): [l:agez] vttakeout0 (json_object(l)) = "mac#%"
+json_object_array_get_idx{l:agz}
+(
+  jso: !json_object(l), idx: intGte(0)
+) : [l2:agez] vttakeout (json_object(l), json_object(l2)) = "mac#%"
 // end of [json_object_array_get_idx]
+
+(* ****** ****** *)
 
 (*
 void json_object_array_sort
-  (struct json_object *jso, int(*cmp)(const void *, const void *))
+(
+  struct json_object *jso, int(*cmp)(const void*, const void*)
+) ; // end of [json_object_array_sort]
 *)
 fun json_object_array_sort
 (
@@ -277,10 +290,12 @@ fun json_object_new_object (): json_object0 = "mac#%"
 (* ****** ****** *)
 
 (*
-struct lh_table* json_object_get_object(struct json_object *obj);
+struct lh_table*
+json_object_get_object(struct json_object *obj);
 *)
 fun json_object_get_object
-  {l:addr} (jso: !json_object(l)): [l2:agez] vttakeout (json_object l, lh_table l2) = "mac#%"
+  {l:agz} (jso: !json_object(l))
+  : [l2:agez] vttakeout (json_object l, lh_table l2) = "mac#%"
 // end of [json_object_get_object]
 
 (* ****** ****** *)
@@ -315,31 +330,23 @@ fun json_object_object_del (jso: !json_object1, key: string): void = "mac#%"
 struct json_object*
 json_object_object_get(struct json_object* obj, const char *key);
 *)
-fun json_object_object_get{l:addr}
-  (jso: !json_object l, key: string): [l2:agez] vttakeout (json_object l, json_object l2) 
+fun json_object_object_get
+  {l:agz} (jso: !json_object l, key: string)
+  : [l2:agez] vttakeout (json_object l, json_object l2) 
 // end of [json_object_object_get]
 
 (* ****** ****** *)
 
 fun{env:vt0p}
-json_object_iforeach$cont (x: !json_object0, env: &env): bool
+json_object_kforeach$cont
+  (k: !Strptr1, v: !json_object0, env: &env): bool
 fun{env:vt0p}
-json_object_iforeach$fwork (i: int, x: !json_object0, env: &env): void
-fun{}
-json_object_iforeach (jso: !json_object1): void
-fun{env:vt0p}
-json_object_iforeach_env (jso: !json_object1, env: &env): void
-
-(* ****** ****** *)
-
-fun{env:vt0p}
-json_object_kforeach$cont (x: !json_object0, env: &env): bool
-fun{env:vt0p}
-json_object_kforeach$fwork (k: string, x: !json_object0, env: &env): void
+json_object_kforeach$fwork
+  (k: !Strptr1, v: !json_object0, env: &env >> _): void
 fun{}
 json_object_kforeach (jso: !json_object1): void
 fun{env:vt0p}
-json_object_kforeach_env (jso: !json_object1, env: &env): void
+json_object_kforeach_env (jso: !json_object1, env: &env >> _): void
 
 (* ****** ****** *)
 

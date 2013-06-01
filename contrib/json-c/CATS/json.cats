@@ -103,6 +103,15 @@ atscntrb_lh_entry_get_val (atstype_ptr ent)
 //
 /* ****** ****** */
 
+#define atscntrb_json_object_from_file json_object_from_file
+#define atscntrb_json_object_to_file json_object_to_file
+#define atscntrb_json_object_to_file_ext json_object_to_file_ext
+#define atscntrb_json_parse_int64 json_parse_int64
+#define atscntrb_json_parse_double json_parse_double
+#define atscntrb_json_type_to_name(type) ((void*)(json_type_to_name(type)))
+
+/* ****** ****** */
+
 #define atscntrb_json_hex_chars json_hex_chars
 #define atscntrb_json_number_chars json_number_chars
 

@@ -35,6 +35,11 @@
 //
 (* ****** ****** *)
 
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "json-c/SATS/json.sats"
 
 (* ****** ****** *)
@@ -81,6 +86,69 @@ fprint_json_object_ext
 in
   // nothing
 end // end of [fprint_json_object_ext]
+
+(* ****** ****** *)
+
+implement{env}
+json_object_kforeach$cont (k, v, env) = true
+
+(*
+implement{env}
+json_object_kforeach$fwork (k, v, env) = ()
+*)
+
+implement{}
+json_object_kforeach
+  (jso) = let
+  var env: void = ()
+in
+  json_object_kforeach_env<void> (jso, env)
+end // end of [json_object_kforeach]
+
+implement{env}
+json_object_kforeach_env
+  (jso, env) = let
+//
+stadef jso = json_object
+stadef iter(l:addr) = json_object_iterator(l)
+//
+fun loop{l:addr}
+(
+  jso: !jso(l)
+, jsi: &iter(l), jsiEnd: &iter(l)
+, env: &env >> _
+) : void = let
+in
+//
+if jsi != jsiEnd then let
+  val (fpf_k | k) = json_object_iter_peek_name (jsi)
+  val (fpf_v | v) = json_object_iter_peek_value (jsi)
+  val cont = json_object_kforeach$cont (k, v, env)
+  val () = if cont then json_object_kforeach$fwork (k, v, env)
+  prval () = fpf_k (k)
+  prval () = fpf_v (v)
+  val () = json_object_iter_next (jsi)
+in
+  loop (jso, jsi, jsiEnd, env)
+end else () // end of [if]
+//
+end // end of [loop]
+//
+val (
+) = assertloc
+  (json_object_is_type (jso, json_type_object) != 0)
+//
+var jsi = json_object_iter_begin (jso)
+var jsiEnd = json_object_iter_end (jso)
+//
+val () = loop (jso, jsi, jsiEnd, env)
+//
+val () = json_object_iter_clear (jso, jsi)
+val () = json_object_iter_clear (jso, jsiEnd)
+//
+in
+  // nothing
+end // end of [json_object_kforeach_env]
 
 (* ****** ****** *)
 

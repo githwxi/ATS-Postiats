@@ -33,7 +33,7 @@ staload _(*anon*) = "json-c/DATS/json.dats"
 
 (* ****** ****** *)
 
-fun foo{l:agz}
+fun foo1{l:agz}
   (jso: !json_object(l)): void =
 {
 //
@@ -50,13 +50,13 @@ while (it != itEnd)
   (
     fpf | name
   ) = json_object_iter_peek_name (it)
-  val () = println! ("name = ", name)
+  val () = println! ("name1 = ", name)
   prval () = fpf (name)
   val
   (
     fpf | value
   ) = json_object_iter_peek_value (it)
-  val () = println! ("value = ", value)
+  val () = println! ("value1 = ", value)
   prval () = fpf (value)
   val () = json_object_iter_next (it)
 }
@@ -64,7 +64,25 @@ while (it != itEnd)
 val () = json_object_iter_clear (jso, it)
 val () = json_object_iter_clear (jso, itEnd)
 //
-} (* end of [foo] *)
+} (* end of [foo1] *)
+
+(* ****** ****** *)
+
+fun foo2{l:agz}
+  (jso: !json_object(l)): void = let
+//
+implement{env}
+json_object_kforeach$fwork (k, v, env) =
+{
+val () = println! ("name2 = ", k)
+val () = println! ("value2 = ", v)
+}
+//
+in
+  json_object_kforeach (jso)
+end // end of [foo2]
+
+(* ****** ****** *)
 
 implement
 main0 () =
@@ -79,8 +97,8 @@ val jso2 = json_tokener_parse ("{'relation':'daughter', 'name':'Chloe', 'age':0}
 val () = assertloc (ptrcast (jso2) > 0)
 val () = fprintln! (out, "jso2 = ", jso2)
 //
-val () = foo (jso1)
-val () = foo (jso2)
+val () = foo1 (jso1)
+val () = foo2 (jso2)
 //
 val () = assertloc (json_object_put (jso1) > 0)
 val () = assertloc (json_object_put (jso2) > 0)

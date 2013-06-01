@@ -20,7 +20,8 @@ json_object_iter_init_default (void)
 //
 // HX-2013-05: I added this one
 //
-fun json_object_iter_clear{l:addr}
+fun
+json_object_iter_clear{l:addr}
 (
   jso: !json_object(l), iter: &json_object_iterator(l) >> _?
 ) : void = "mac#%" // end of [json_object_iter_clear]
@@ -52,7 +53,8 @@ fun json_object_iter_next
 
 (*
 const char*
-json_object_iter_peek_name (const struct json_object_iterator *iter)
+json_object_iter_peek_name
+  (const struct json_object_iterator *iter)
 *)
 fun json_object_iter_peek_name
   {l:addr} (jso: &json_object_iterator(l)): vStrptr1 = "mac#%"
@@ -61,7 +63,7 @@ fun json_object_iter_peek_name
 struct json_object*
 json_object_iter_peek_value (const struct json_object_iterator *iter)
 *)
-fun json_object_iter_peek_value{l:agz}
+fun json_object_iter_peek_value{l:addr}
   (jso: &json_object_iterator(l)): [l2:agez] vttakeout0 (json_object(l2)) = "mac#%"
 // end of [json_object_iter_peek_value]
 
