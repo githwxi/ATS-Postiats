@@ -27,10 +27,6 @@ macdef json_number_chars = $extval (string, "atscntrb_json_number_chars")
 
 (* ****** ****** *)
 
-fun json_object_new (): json_object0 = "mac#%"
-
-(* ****** ****** *)
-
 fun json_object_get{l:addr}
   (jso: !json_object(l)): json_object(l) = "mac#%"
 

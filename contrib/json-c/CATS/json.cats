@@ -118,7 +118,7 @@ atscntrb_lh_entry_get_val (atstype_ptr ent)
 /* ****** ****** */
 
 #define atscntrb_json_object_new json_object_new
-#define atscntrb_json_object_newjson_object_get json_object_get
+#define atscntrb_json_object_get json_object_get
 #define atscntrb_json_object_put json_object_put
 #define atscntrb_json_object_is_type json_object_is_type
 #define atscntrb_json_object_get_type json_object_get_type

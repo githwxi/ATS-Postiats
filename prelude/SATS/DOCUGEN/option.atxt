@@ -84,13 +84,7 @@ a1,a2:t@ype
 
 (* ****** ****** *)
 
-#declname("Option")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef Option (a:t@ype) = [b:bool] option (a, b)\
-')')
-')
+#declnamesynop("Option")
 
 (* ****** ****** *)
 

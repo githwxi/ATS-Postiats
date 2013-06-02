@@ -80,81 +80,18 @@ respectively.\
 
 (* ****** ****** *)
 
-#declname("List")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef List (a:t@ype) = [n:int] list (a, n)
-')')
-')
-#declname("List0")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef List0 (a:t@ype) = [n:int | n >= 0] list (a, n)
-')')
-')
-#declname("List1")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef List1 (a:t@ype) = [n:int | n >= 1] list (a, n)
-')')
-')
+#declnamesynop("List")
+#declnamesynop("List0")
+#declnamesynop("List1")
 
 (* ****** ****** *)
 
-#declname("listLt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef listLt
-  (a:t0p, n:int) = [k:nat | k < n] list (a, k)
-')')
-')
-#declname("listLte")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef listLte
-  (a:t0p, n:int) = [k:nat | k <= n] list (a, k)
-')')
-')
-#declname("listGt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef listGt
-  (a:t0p, n:int) = [k:int | k > n] list (a, k)
-')')
-')
-#declname("listGte")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef listGte
-  (a:t0p, n:int) = [k:int | k >= n] list (a, k)
-')')
-')
-
-(* ****** ****** *)
-
-#declname("listBtw")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef listBtw
-  (a:t0p, m:int, n:int) = [k:int | m <= k; k < n] list (a, k)
-')')
-')
-#declname("listBtwe")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef listBtwe
-  (a:t0p, m:int, n:int) = [k:int | m <= k; k <= n] list (a, k)
-')')
-')
+#declnamesynop("listLt")
+#declnamesynop("listLte")
+#declnamesynop("listGt")
+#declnamesynop("listGte")
+#declnamesynop("listBtw")
+#declnamesynop("listBtwe")
 
 (* ****** ****** *)
 

@@ -130,5 +130,50 @@ This function prints a long double-precision floating point number.
 #declnamesynop("prerr_ldouble")
 
 (* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declnamesynop("~")
+#declnamesynop("neg")
+#declnamesynop("abs")
+
+(* ****** ****** *)
+
+#declnamesynop("succ")
+#declnamesynop("pred")
+#declnamesynop("half")
+
+(* ****** ****** *)
+
+#declnamesynop("+")
+#declnamesynop("-")
+#declnamesynop("*")
+#declnamesynop("/")
+#declnamesynop("mod")
+
+(* ****** ****** *)
+
+#declnamesynop("<")
+#declnamesynop("<=")
+#declnamesynop(">")
+#declnamesynop(">=")
+#declnamesynop("=")
+#declnamesynop("!=")
+#declnamesynop("compare")
+
+(* ****** ****** *)
+
+#declnamesynop("max")
+#declnamesynop("min")
+
+(* ****** ****** *)
+
+#declnamesynop("print")
+#declnamesynop("prerr")
+#declnamesynop("fprint")
+
+(* ****** ****** *)
 
 (* end of [float.atxt] *)

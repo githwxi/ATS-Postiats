@@ -383,6 +383,7 @@ cloref_t0ype_type (a: t@ype)
 stadef cloref = cloref_t0ype_type
 //
 (* ****** ****** *)
+
 (*
 absview
 read_view_int_int_view
@@ -408,7 +409,9 @@ readout_vt0ype_int_vt0ype (a:vt@ype, stamp: int) = a
 stadef READOUT = readout_vt0ype_int_vt0ype
 vtypedef READOUT (a:vt@ype) = [s:int] READOUT (a, s)
 *)
+
 (* ****** ****** *)
+
 (*
 absvt@ype
 write_vt0ype_vt0ype (a: vt@ype) = a

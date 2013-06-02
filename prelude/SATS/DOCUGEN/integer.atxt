@@ -76,6 +76,8 @@ less than its second argument. It is for signed integers.
 ')
 #declnamesynop("g1int_lt")
 
+(* ****** ****** *)
+
 #declnamesynop("g0int_lte")
 #decldescrpt('\
 This function returns true if and only if its first argument is
@@ -91,6 +93,9 @@ This function returns true if and only if its first argument is
 greater than its second argument. It is for signed integers.
 ')
 #declnamesynop("g1int_gt")
+
+(* ****** ****** *)
+
 #declnamesynop("g0int_gte")
 #decldescrpt('\
 This function returns true if and only if its first argument is
@@ -106,6 +111,9 @@ This function returns true if and only if its first argument is
 equal to its second argument. It is for signed integers.
 ')
 #declnamesynop("g1int_eq")
+
+(* ****** ****** *)
+
 #declnamesynop("g0int_neq")
 #decldescrpt('\
 This function returns true if and only if its first argument is
@@ -124,6 +132,13 @@ unequal to its second argument. It is for signed integers.
 #declnamesynop("g1int_max")
 #declnamesynop("g0int_min")
 #declnamesynop("g1int_min")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_int")
+#declnamesynop("fprint_lint")
+#declnamesynop("fprint_llint")
+#declnamesynop("fprint_ssize")
 
 (* ****** ****** *)
 
@@ -172,6 +187,9 @@ This function returns true if and only if its first argument is
 less than its second argument. It is for unsigned integers.
 ')
 #declnamesynop("g1uint_lt")
+
+(* ****** ****** *)
+
 #declnamesynop("g0uint_lte")
 #decldescrpt('\
 This function returns true if and only if its first argument is
@@ -187,6 +205,9 @@ This function returns true if and only if its first argument is
 greater than its second argument. It is for unsigned integers.
 ')
 #declnamesynop("g1uint_gt")
+
+(* ****** ****** *)
+
 #declnamesynop("g0uint_gte")
 #decldescrpt('\
 This function returns true if and only if its first argument is
@@ -202,6 +223,9 @@ This function returns true if and only if its first argument is
 equal to its second argument. It is for unsigned integers.
 ')
 #declnamesynop("g1uint_eq")
+
+(* ****** ****** *)
+
 #declnamesynop("g0uint_neq")
 #decldescrpt('\
 This function returns true if and only if its first argument is
@@ -223,19 +247,91 @@ unequal to its second argument. It is for unsigned integers.
 
 (* ****** ****** *)
 
-#declnamesynop("fprint")
+#declnamesynop("fprint_uint")
+#declnamesynop("fprint_ulint")
+#declnamesynop("fprint_ullint")
+#declnamesynop("fprint_size")
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declnamesynop("~")
+#declnamesynop("neg")
+#declnamesynop("abs")
 
 (* ****** ****** *)
 
-#declnamesynop("fprint_int")
-#declnamesynop("fprint_uint")
-#declnamesynop("fprint_lint")
-#declnamesynop("fprint_ulint")
-#declnamesynop("fprint_llint")
-#declnamesynop("fprint_ullint")
-#declnamesynop("fprint_size")
-#declnamesynop("fprint_ssize")
+#declnamesynop("succ")
+#declnamesynop("pred")
+#declnamesynop("half")
 
+(* ****** ****** *)
+
+#declnamesynop("+")
+#declnamesynop("-")
+#declnamesynop("*")
+#declnamesynop("/")
+#declnamesynop("mod")
+
+(* ****** ****** *)
+
+#declnamesynop("isltz")
+#declnamesynop("isltez")
+#declnamesynop("isgtz")
+#declnamesynop("isgtez")
+#declnamesynop("iseqz")
+#declnamesynop("isneqz")
+
+(* ****** ****** *)
+
+#declnamesynop("<")
+#declnamesynop("<=")
+#declnamesynop(">")
+#declnamesynop(">=")
+#declnamesynop("=")
+#declnamesynop("!=")
+#declnamesynop("compare")
+
+(* ****** ****** *)
+
+#declnamesynop("max")
+#declnamesynop("min")
+
+(* ****** ****** *)
+
+#declnamesynop("print")
+#declnamesynop("prerr")
+#declnamesynop("fprint")
+
+(* ****** ****** *)
+//
+#declnamesynop("g0i2i")
+#declnamesynop("g1i2i")
+//
+#declnamesynop("g0i2u")
+#declnamesynop("g1i2u")
+//
+#declnamesynop("g0u2i")
+#declnamesynop("g1u2i")
+//
+#declnamesynop("g0u2u")
+#declnamesynop("g1u2u")
+//
+(* ****** ****** *)
+//
+#declnamesynop("i2u")
+#declnamesynop("i2sz")
+#declnamesynop("i2ssz")
+//
+#declnamesynop("u2i")
+#declnamesynop("u2sz")
+//
+#declnamesynop("sz2i")
+#declnamesynop("sz2u")
+//
 (* ****** ****** *)
 
 (* end of [integer.atxt] *)

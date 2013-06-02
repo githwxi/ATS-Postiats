@@ -23,7 +23,6 @@ ATSLIB/contrib/json-c/json_object\
 
 (* ****** ****** *)
 
-#declnamesynop("json_object_new")
 #declnamesynop("json_object_get")
 #declnamesynop("json_object_put")
 #declnamesynop("json_object_is_type")
@@ -36,16 +35,13 @@ ATSLIB/contrib/json-c/json_object\
 
 (* ****** ****** *)
 
-#declnamesynop("print")
 #declnamesynop("print_json_object")
 #declnamesynop("print_json_object_ext")
-#declnamesynop("prerr")
 #declnamesynop("prerr_json_object")
 #declnamesynop("prerr_json_object_ext")
 
 (* ****** ****** *)
 
-#declnamesynop("fprint")
 #declnamesynop("fprint_json_object")
 #declnamesynop("fprint_json_object_ext")
 
@@ -89,9 +85,32 @@ ATSLIB/contrib/json-c/json_object\
 (* ****** ****** *)
 
 #declnamesynop("json_object_kforeach")
+#decldescrpt('\
+
+This function is a special case of #dyncode("json_object_kforeach_env")
+where the third argument named env is ignored.
+
+')
+
 #declnamesynop("json_object_kforeach_env")
+#decldescrpt('\
+
+This function can be employed to traverse the fields of a given json object.
+
+')
+
 #declnamesynop("json_object_kforeach$cont")
 #declnamesynop("json_object_kforeach$fwork")
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declnamesynop("print")
+#declnamesynop("prerr")
+#declnamesynop("fprint")
 
 (* ****** ****** *)
 

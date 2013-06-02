@@ -86,82 +86,18 @@ respectively.\
 
 (* ****** ****** *)
 
-#declname("List_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-viewtypedef
-List_vt (a:vt0p) = [n:int] list_vt (a, n)
-')')
-')
-#declname("List0_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-viewtypedef
-List0_vt (a:vt0p) = [n:int | n >= 0] list_vt (a, n)
-')')
-')
-#declname("List1_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-viewtypedef
-List1_vt (a:vt0p) = [n:int | n >= 1] list_vt (a, n)
-')')
-')
-
-#declname("listLt_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-viewtypedef listLt_vt
-  (a:vt0p, n:int) = [k:nat | k < n] list_vt (a, k)
-')')
-')
-#declname("listLte_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-viewtypedef listLte_vt
-  (a:vt0p, n:int) = [k:nat | k <= n] list_vt (a, k)
-')')
-')
-#declname("listGt_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-viewtypedef listGt_vt
-  (a:vt0p, n:int) = [k:int | k > n] list_vt (a, k)
-')')
-')
-#declname("listGte_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-viewtypedef listGte_vt
-  (a:vt0p, n:int) = [k:int | k >= n] list_t (a, k)
-')')
-')
+#declnamesynop("List_vt")
+#declnamesynop("List0_vt")
+#declnamesynop("List1_vt")
 
 (* ****** ****** *)
 
-#declname("listBtw_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-viewtypedef listBtw_vt
-  (a:vt0p, m:int, n:int) = [k:int | m <= k; k < n] list_vt (a, k)
-')')
-')
-#declname("listBtwe_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-viewtypedef listBtwe_vt
-  (a:vt0p, m:int, n:int) = [k:int | m <= k; k <= n] list_vt (a, k)
-')')
-')
+#declnamesynop("listLt_vt")
+#declnamesynop("listLte_vt")
+#declnamesynop("listGt_vt")
+#declnamesynop("listGte_vt")
+#declnamesynop("listBtw_vt")
+#declnamesynop("listBtwe_vt")
 
 (* ****** ****** *)
 
