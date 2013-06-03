@@ -172,6 +172,8 @@ function returns a pointer that points to the suffix of xs of length n-i.
 While this function itself is safe, any subsequent use of the returned
 pointer requires great caution. ')
 
+(* ****** ****** *)
+
 #declnamesynop("list_vt_get_at")
 #declnamesynop("list_vt_set_at")
 #declnamesynop("list_vt_exch_at")
@@ -348,6 +350,10 @@ by #dyncode("list_vt_foreach$cont") returns false.  ")
 #declnamesynop("list_vt_foreach_env")
 
 #declnamesynop("list_vt_foreach$cont")
+#decldescrpt('\
+The default implementation of this function always returns true.\
+')
+
 #declnamesynop("list_vt_foreach$fwork")
 
 (* ****** ****** *)
@@ -364,6 +370,10 @@ implemented by #dyncode("list_vt_foreach$cont") returns false.  ")
 #declnamesynop("list_vt_iforeach_env")
 
 #declnamesynop("list_vt_iforeach$cont")
+#decldescrpt('\
+The default implementation of this function always returns true.\
+')
+
 #declnamesynop("list_vt_iforeach$fwork")
 
 (* ****** ****** *)
@@ -535,6 +545,31 @@ list_vt_quicksort$cmp (x, y) = gcompare_ref<a> (x, y)
 This function does essentially the same as #dyncode("list_vt_quicksort")
 except for allowing the comparison function to be provided as an argument.
 ')
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("iseqz")
+#declnamesynop("isneqz")
+
+(* ****** ****** *)
+
+#declnamesynop("length")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
 
 (* ****** ****** *)
 

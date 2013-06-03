@@ -163,6 +163,9 @@ fprint_list_sep
   (out: FILEref, xs: List (INV(x)), sep: NSH(string)): void
 // end of [fprint_list_sep]
 
+overload fprint with fprint_list
+overload fprint with fprint_list_sep
+
 #atscode_separator()
 
 fun{x:t0p}

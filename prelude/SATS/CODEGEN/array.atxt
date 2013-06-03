@@ -119,64 +119,55 @@ array_getref_at
 //
 #atscode_separator()
 
-symintr array_get_at
-
-#atscode_separator()
-
 fun{a:t0p}
 array_get_at_size
   {n:int} (A: &RD(@[INV(a)][n]), i: sizeLt n):<> a
-overload [] with array_get_at_size of 11
-overload array_get_at with array_get_at_size of 11
 
 fun{
 a:t0p}{tk:tk
 } array_get_at_gint
   {n:int} (A: &RD(@[INV(a)][n]), i: g1intLt (tk, n)):<> a
+overload [] with array_get_at_gint of 0
+
 fun{
 a:t0p}{tk:tk
 } array_get_at_guint
   {n:int} (A: &RD(@[INV(a)][n]), i: g1uintLt (tk, n)):<> a
-overload [] with array_get_at_gint of 10
-overload [] with array_get_at_guint of 10
-overload array_get_at with array_get_at_gint of 10
-overload array_get_at with array_get_at_guint of 10
+overload [] with array_get_at_guint of 0
 
-#atscode_separator()
-
-symintr array_set_at
+symintr array_get_at
+overload array_get_at with array_get_at_gint of 0
+overload array_get_at with array_get_at_guint of 0
 
 #atscode_separator()
 
 fun{a:t0p}
 array_set_at_size
   {n:int} (A: &(@[INV(a)][n]), i: sizeLt n, x: a):<!wrt> void
-overload [] with array_set_at_size of 11
-overload array_set_at with array_set_at_size of 11
 
 fun{
 a:t0p}{tk:tk
 } array_set_at_gint
   {n:int} (A: &(@[INV(a)][n]), i: g1intLt (tk, n), x: a):<!wrt> void
+overload [] with array_set_at_gint of 0
+
 fun{
 a:t0p}{tk:tk
 } array_set_at_guint
   {n:int} (A: &(@[INV(a)][n]), i: g1uintLt (tk, n), x: a):<!wrt> void
-overload [] with array_set_at_gint of 10
-overload [] with array_set_at_guint of 10
-overload array_set_at with array_set_at_gint of 10
-overload array_set_at with array_set_at_guint of 10
+overload [] with array_set_at_guint of 0
 
-#atscode_separator()
-
-symintr array_exch_at
+symintr array_set_at
+overload array_set_at with array_set_at_gint of 0
+overload array_set_at with array_set_at_guint of 0
 
 #atscode_separator()
 
 fun{a:vt0p}
-array_exch_at_size
-  {n:int} (A: &(@[INV(a)][n]), i: sizeLt n, x: &a >> _):<!wrt> void
-overload array_exch_at with array_exch_at_size of 11
+array_exch_at_size{n:int}
+(
+  A: &(@[INV(a)][n]), i: sizeLt n, x: &a >> _
+) :<!wrt> void // end of [array_exch_at_size]
 
 fun{
 a:vt0p}{tk:tk
@@ -190,8 +181,10 @@ a:vt0p}{tk:tk
 (
   A: &(@[INV(a)][n]), i: g1uintLt (tk, n), x: &a >> _
 ) :<!wrt> void
-overload array_exch_at with array_exch_at_gint of 10
-overload array_exch_at with array_exch_at_guint of 10
+
+symintr array_exch_at
+overload array_exch_at with array_exch_at_gint of 0
+overload array_exch_at with array_exch_at_guint of 0
 
 #atscode_separator()
 

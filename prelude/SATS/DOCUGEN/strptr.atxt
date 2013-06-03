@@ -165,4 +165,19 @@ end // end of [strnptr_upperize]
 
 (* ****** ****** *)
 
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("print")
+#declnamesynop("prerr")
+#declnamesynop("fprint")
+
+(* ****** ****** *)
+
 (* end of [strptr.atxt] *)

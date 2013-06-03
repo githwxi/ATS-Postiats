@@ -72,10 +72,16 @@ option_is_none{a:t0p}
 #atscode_separator()
 
 fun{a:t0p}
-option_unsome (opt: option (a, true)):<> a
+option_unsome (opt: option (INV(a), true)):<> a
 
 fun{a:t0p}
-option_unsome_exn (opt: Option (a)):<!exn> a
+option_unsome_exn (opt: Option (INV(a))):<!exn> a
+
+#atscode_separator()
+
+fun{a:t0p}
+fprint_option (out: FILEref, opt: Option (INV(a))): void
+overload fprint with fprint_option
 
 #atscode_separator()
 

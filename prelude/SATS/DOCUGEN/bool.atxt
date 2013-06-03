@@ -61,6 +61,10 @@ This function does the same as #dyncode("bool2int0") at run-time.
 //
 (* ****** ****** *)
 
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
 #declnamesynop("+")
 #declnamesynop("*")
 

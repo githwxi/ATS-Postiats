@@ -83,21 +83,20 @@ fun{
 overload arrayptr2matrixptr with arrayptr2matrixptr_size
 
 #atscode_separator()
-
-symintr matrixptr_make_elt
-
+//
 fun{
 a:t0p
 } matrixptr_make_elt_int
   {m,n:nat} (m: int m, n: int n, x: a):<!wrt> matrixptr (a, m, n)
-overload matrixptr_make_elt with matrixptr_make_elt_int
-
 fun{
 a:t0p
 } matrixptr_make_elt_size
   {m,n:int} (m: size_t m, n: size_t n, x: a):<!wrt> matrixptr (a, m, n)
+//
+symintr matrixptr_make_elt
+overload matrixptr_make_elt with matrixptr_make_elt_int
 overload matrixptr_make_elt with matrixptr_make_elt_size
-
+//
 #atscode_separator()
 
 fun{a:t0p}
@@ -106,6 +105,7 @@ matrixptr_get_at_int
 (
   A: !matrixptr (INV(a), m, n), i: natLt (m), n: int n, j: natLt (n)
 ) :<> (a) // end of [matrixptr_get_at_int]
+overload [] with matrixptr_get_at_int
 
 fun{a:t0p}
 matrixptr_get_at_size
@@ -113,9 +113,11 @@ matrixptr_get_at_size
 (
   A: !matrixptr (INV(a), m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n)
 ) :<> (a) // end of [matrixptr_get_at_size]
-
-overload [] with matrixptr_get_at_int
 overload [] with matrixptr_get_at_size
+
+symintr matrixptr_get_at
+overload matrixptr_get_at with matrixptr_get_at_int of 0
+overload matrixptr_get_at with matrixptr_get_at_size of 0
 
 #atscode_separator()
 
@@ -125,6 +127,7 @@ matrixptr_set_at_int
 (
   A: !matrixptr (INV(a), m, n), i: natLt (m), n: int n, j: natLt (n), x: a
 ) :<!wrt> void // end of [matrixptr_set_at_int]
+overload [] with matrixptr_set_at_int
 
 fun{a:t0p}
 matrixptr_set_at_size
@@ -132,13 +135,13 @@ matrixptr_set_at_size
 (
   A: !matrixptr (INV(a), m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n), x: a
 ) :<!wrt> void // end of [matrixptr_set_at_size]
-
-overload [] with matrixptr_set_at_int
 overload [] with matrixptr_set_at_size
 
-#atscode_separator()
+symintr matrixptr_set_at
+overload matrixptr_set_at with matrixptr_set_at_int of 0
+overload matrixptr_set_at with matrixptr_set_at_size of 0
 
-symintr matrixptr_exch_at
+#atscode_separator()
 
 fun{a:vt0p}
 matrixptr_exch_at_int
@@ -156,6 +159,7 @@ matrixptr_exch_at_size
 , i: sizeLt (m), n: size_t n, j: sizeLt (n), x: &a>>a
 ) :<!wrt> void // end of [matrixptr_exch_at_size]
 
+symintr matrixptr_exch_at
 overload matrixptr_exch_at with matrixptr_exch_at_int
 overload matrixptr_exch_at with matrixptr_exch_at_size
 

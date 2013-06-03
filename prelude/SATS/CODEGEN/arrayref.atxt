@@ -134,18 +134,19 @@ a:t0p}{tk:tk
   {n:int}{i:nat | i < n} (
   A: arrayref (a, n), i: g1int (tk, i)
 ) :<!ref> a // end of [arrayref_get_at_gint]
-overload [] with arrayref_get_at_gint
+overload [] with arrayref_get_at_gint of 0
+
 fun{
 a:t0p}{tk:tk
 } arrayref_get_at_guint
   {n:int}{i:nat | i < n} (
   A: arrayref (a, n), i: g1uint (tk, i)
 ) :<!ref> a // end of [arrayref_get_at_guint]
-overload [] with arrayref_get_at_guint
+overload [] with arrayref_get_at_guint of 0
 
 symintr arrayref_get_at
-overload arrayref_get_at with arrayref_get_at_gint
-overload arrayref_get_at with arrayref_get_at_guint
+overload arrayref_get_at with arrayref_get_at_gint of 0
+overload arrayref_get_at with arrayref_get_at_guint of 0
 
 #atscode_separator()
 
@@ -161,18 +162,19 @@ a:t0p}{tk:tk
   {n:int}{i:nat | i < n} (
   A: arrayref (a, n), i: g1int (tk, i), x: a
 ) :<!refwrt> void // end of [arrayref_set_at_gint]
-overload [] with arrayref_set_at_gint
+overload [] with arrayref_set_at_gint of 0
+
 fun{
 a:t0p}{tk:tk
 } arrayref_set_at_guint
   {n:int}{i:nat | i < n} (
   A: arrayref (a, n), i: g1uint (tk, i), x: a
 ) :<!refwrt> void // end of [arrayref_set_at_guint]
-overload [] with arrayref_set_at_guint
+overload [] with arrayref_set_at_guint of 0
 
 symintr arrayref_set_at
-overload arrayref_set_at with arrayref_set_at_gint
-overload arrayref_set_at with arrayref_set_at_guint
+overload arrayref_set_at with arrayref_set_at_gint of 0
+overload arrayref_set_at with arrayref_set_at_guint of 0
 
 #atscode_separator()
 
@@ -188,6 +190,7 @@ a:vt0p}{tk:tk
   {n:int}{i:nat | i < n} (
   A: arrayref (a, n), i: g1int (tk, i), x: &a >> _
 ) :<!refwrt> void // end of [arrayref_exch_at_gint]
+
 fun{
 a:vt0p}{tk:tk
 } arrayref_exch_at_guint
@@ -196,8 +199,8 @@ a:vt0p}{tk:tk
 ) :<!refwrt> void // end of [arrayref_exch_at_guint]
 
 symintr arrayref_exch_at
-overload arrayref_exch_at with arrayref_exch_at_gint
-overload arrayref_exch_at with arrayref_exch_at_guint
+overload arrayref_exch_at with arrayref_exch_at_gint of 0
+overload arrayref_exch_at with arrayref_exch_at_guint of 0
 
 #atscode_separator()
 
@@ -332,27 +335,30 @@ fprint_arrszref_sep (
   out: FILEref, A: arrszref (a), sep: NSH(string)
 ) : void // end of [fprint_arrszref_sep]
 
+overload fprint with fprint_arrszref
+overload fprint with fprint_arrszref_sep
+
 #atscode_separator()
 
 fun{a:t0p}
 arrszref_get_at_size
   (A: arrszref (a), i: size_t):<!exnref> a
-// end of [arrszref_get_at_size]
 
 fun{
 a:t0p}{tk:tk
 } arrszref_get_at_gint
   (A: arrszref (a), i: g0int (tk)):<!exnref> a
-overload [] with arrszref_get_at_gint
+overload [] with arrszref_get_at_gint of 0
+
 fun{
 a:t0p}{tk:tk
 } arrszref_get_at_guint
   (A: arrszref (a), i: g0uint (tk)):<!exnref> a
-overload [] with arrszref_get_at_guint
+overload [] with arrszref_get_at_guint of 0
 
 symintr arrszref_get_at
-overload arrszref_get_at with arrszref_get_at_gint
-overload arrszref_get_at with arrszref_get_at_guint
+overload arrszref_get_at with arrszref_get_at_gint of 0
+overload arrszref_get_at with arrszref_get_at_guint of 0
 
 #atscode_separator()
 
@@ -365,16 +371,17 @@ fun{
 a:t0p}{tk:tk
 } arrszref_set_at_gint
   (A: arrszref (a), i: g0int (tk), x: a):<!exnrefwrt> void
-overload [] with arrszref_set_at_gint
+overload [] with arrszref_set_at_gint of 0
+
 fun{
 a:t0p}{tk:tk
 } arrszref_set_at_guint
   (A: arrszref (a), i: g0uint (tk), x: a):<!exnrefwrt> void
-overload [] with arrszref_set_at_guint
+overload [] with arrszref_set_at_guint of 0
 
 symintr arrszref_set_at
-overload arrszref_set_at with arrszref_set_at_gint
-overload arrszref_set_at with arrszref_set_at_guint
+overload arrszref_set_at with arrszref_set_at_gint of 0
+overload arrszref_set_at with arrszref_set_at_guint of 0
 
 #atscode_separator()
 
@@ -388,6 +395,7 @@ a:vt0p}{tk:tk
 } arrszref_exch_at_gint
   (A: arrszref (a), i: g0int (tk), x: &a >> _):<!exnrefwrt> void
 // end of [arrszref_exch_at_gint]
+
 fun{
 a:vt0p}{tk:tk
 } arrszref_exch_at_guint
@@ -395,8 +403,8 @@ a:vt0p}{tk:tk
 // end of [arrszref_exch_at_guint]
 
 symintr arrszref_exch_at
-overload arrszref_exch_at with arrszref_exch_at_gint
-overload arrszref_exch_at with arrszref_exch_at_guint
+overload arrszref_exch_at with arrszref_exch_at_gint of 0
+overload arrszref_exch_at with arrszref_exch_at_guint of 0
 
 #atscode_separator()
 

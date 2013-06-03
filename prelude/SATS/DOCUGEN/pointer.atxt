@@ -138,6 +138,10 @@ informative type.  ')
 //
 (* ****** ****** *)
 
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
 #declnamesynop("ptr_is_null")
 #declnamesynop("ptr_isnot_null")
 

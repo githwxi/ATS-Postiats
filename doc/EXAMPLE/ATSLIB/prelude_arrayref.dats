@@ -52,7 +52,27 @@ var i: int = 0
 val () = assertloc (asz = arrayref_rforeach_env<T><tenv> (A, asz, i))
 val () = println! ()
 //
-} // end of [val]
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
+typedef T = char
+val A = (arrszref)$arrpsz{T}('A', 'B', 'C', 'D', 'E')
+//
+val () = assertloc (A[0] = 'A')
+val () = assertloc (A[1] = 'B')
+val () = assertloc (A[2] = 'C')
+val () = assertloc (A[3] = 'D')
+val () = assertloc (A[4] = 'E')
+//
+val out = stdout_ref
+implement fprint_array$sep<> (out) = fprint (out, " | ")
+val () = fprintln! (out, A)
+//
+} (* end of [val] *)
 
 (* ****** ****** *)
 
@@ -60,4 +80,4 @@ implement main0 () = ()
 
 (* ****** ****** *)
 
-(* end of [prelude_arrayptr.dats] *)
+(* end of [prelude_arrayref.dats] *)

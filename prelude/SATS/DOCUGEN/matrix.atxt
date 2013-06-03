@@ -83,5 +83,23 @@ stadef matrix = matrix_viewt0ype_int_int_viewt0ype
 #declnamesynop("mul_matrix_matrix")
 
 (* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop("matrix_get_at")
+#declnamesynop("matrix_set_at")
+#declnamesynop("matrix_exch_at")
+
+(* ****** ****** *)
 
 (* end of [matrix.atxt] *)

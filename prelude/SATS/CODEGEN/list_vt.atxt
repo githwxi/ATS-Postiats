@@ -97,24 +97,27 @@ fprint_list_vt$sep (out: FILEref): void
 fun{x:vt0p}
 fprint_list_vt
   (out: FILEref, xs: !List_vt (INV(x))): void
-// end of [fprint_list_vt]
-
 fun{x:vt0p}
 fprint_list_vt_sep (
   out: FILEref, xs: !List_vt (INV(x)), sep: NSH(string)
 ) : void // end of [fprint_list_vt_sep]
+
+overload fprint with fprint_list_vt
+overload fprint with fprint_list_vt_sep
 
 #atscode_separator()
 
 fun{x:vt0p}
 list_vt_is_nil
   {n:int} (xs: !list_vt (INV(x), n)):<> bool (n==0)
-// end of [list_vt_is_nil]
+overload iseqz with list_vt_is_nil
 
 fun{x:vt0p}
 list_vt_is_cons
   {n:int} (xs: !list_vt (INV(x), n)):<> bool (n > 0)
-// end of [list_vt_is_cons]
+overload isneqz with list_vt_is_cons
+
+#atscode_separator()
 
 fun{x:vt0p}
 list_vt_is_sing
@@ -130,7 +133,7 @@ list_vt_is_pair
 
 fun{x:vt0p}
 list_vt_length {n:int} (xs: !list_vt (INV(x), n)):<> int n
-// end of [list_vt_length]
+overload length with list_vt_length
 
 #atscode_separator()
 
@@ -157,12 +160,16 @@ list_vt_getref_at
 fun{x:t0p}
 list_vt_get_at {n:int}
   (xs: !list_vt (INV(x), n), i: natLt n):<> x
-// end of [list_vt_get_at]
+overload [] with list_vt_get_at
+
+#atscode_separator()
 
 fun{x:t0p}
 list_vt_set_at {n:int}
   (xs: !list_vt (INV(x), n), i: natLt n, x: x):<!wrt> void
-// end of [list_vt_set_at]
+overload [] with list_vt_set_at
+
+#atscode_separator()
 
 fun{x:vt0p}
 list_vt_exch_at {n:int}

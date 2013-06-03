@@ -145,5 +145,17 @@ This function frees the memory occupied by a linear option-value.
 ')
 
 (* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
+
+(* ****** ****** *)
 
 (* end of [option_vt.atxt] *)

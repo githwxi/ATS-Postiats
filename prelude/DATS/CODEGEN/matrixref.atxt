@@ -30,6 +30,34 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
 
+implement{a}
+matrixref_get_at_size
+  (A, i, n, j) = let
+//
+val
+(
+vbox pf | p
+) = matrixref_get_viewptr (A)
+//
+in
+  matrix_get_at_size (!p, i, n, j)
+end // end of [matrixref_get_at_size]
+
+#atscode_separator()
+
+implement{a}
+matrixref_set_at_size
+  (A, i, n, j, x) = let
+//
+val
+(
+vbox pf | p
+) = matrixref_get_viewptr (A)
+//
+in
+  matrix_set_at_size (!p, i, n, j, x)
+end // end of [matrixref_set_at_size]
+
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

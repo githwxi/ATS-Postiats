@@ -712,5 +712,37 @@ string or null pointer.")
 #declfunretval("The void value is returned.")
 
 (* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("<")
+#declnamesynop("<=")
+#declnamesynop(">")
+#declnamesynop(">=")
+#declnamesynop("=")
+#declnamesynop("!=")
+#declnamesynop("compare")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop("length")
+
+(* ****** ****** *)
+
+#declnamesynop("print")
+#declnamesynop("prerr")
+#declnamesynop("fprint")
+
+(* ****** ****** *)
 
 (* end of [string.atxt] *)

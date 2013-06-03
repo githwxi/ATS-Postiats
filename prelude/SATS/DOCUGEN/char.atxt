@@ -317,6 +317,10 @@ This function is a slight variant of #dyncode("toupper_int").
 //
 (* ****** ****** *)
 
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
 #declnamesynop("+")
 #declnamesynop("-")
 

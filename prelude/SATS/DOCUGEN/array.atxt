@@ -475,6 +475,10 @@ end // end of [array_foldleft]
 (* ****** ****** *)
 
 #declnamesynop("array_foreach$cont")
+#decldescrpt('\
+The default implementation of this function always returns true.\
+')
+
 #declnamesynop("array_foreach$fwork")
 
 (* ****** ****** *)
@@ -494,8 +498,14 @@ the provided function does not take an argument as its environment.  ')
 (* ****** ****** *)
 
 #declnamesynop("array_foreach2")
+
 #declnamesynop("array_foreach2_env")
+
 #declnamesynop("array_foreach2$cont")
+#decldescrpt('\
+The default implementation of this function always returns true.\
+')
+
 #declnamesynop("array_foreach2$fwork")
 
 (* ****** ****** *)
@@ -569,6 +579,10 @@ end // end of [array_foldright]
 (* ****** ****** *)
 
 #declnamesynop("array_rforeach$cont")
+#decldescrpt('\
+The default implementation of this function always returns true.\
+')
+
 #declnamesynop("array_rforeach$fwork")
 
 (* ****** ****** *)
@@ -673,6 +687,24 @@ Note that the created array is properly freed before the code exits.  ')
 (* ****** ****** *)
 
 #declnamesynop("array_permute$randint")
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop("array_get_at")
+#declnamesynop("array_set_at")
+#declnamesynop("array_exch_at")
 
 (* ****** ****** *)
 

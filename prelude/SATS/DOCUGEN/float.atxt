@@ -135,6 +135,10 @@ This function prints a long double-precision floating point number.
 //
 (* ****** ****** *)
 
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
 #declnamesynop("~")
 #declnamesynop("neg")
 #declnamesynop("abs")

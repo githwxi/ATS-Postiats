@@ -133,5 +133,17 @@ function returns v. Otherwise, it raises an exception
 (#dyncode("NotSomeExn")).  ')
 
 (* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
+
+(* ****** ****** *)
 
 (* end of [option.atxt] *)

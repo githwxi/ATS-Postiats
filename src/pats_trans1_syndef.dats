@@ -251,10 +251,10 @@ fun auxfprln
   loc0: location
 , d1es: d1explst, sym: symbol, sym2: symbol
 ) : d1exp = let
-// (*
+(*
 val out = stdout_ref
 val () = fprintln! (out, "auxfprln: d1es = ", d1es)
-// *)
+*)
 in
 //
 case+ d1es of
@@ -323,14 +323,17 @@ case+ d1es of
 | list_cons
   (
     d1e, list_nil ()
-  ) =>
-  (
+  ) => (
     case+
       d1e.d1exp_node of
     | D1Elist
-        (npf, d1es) => auxfpr (loc0, d1es, sym)
+        (npf, d1es) =>
+        auxfpr (loc0, d1es, sym)
       // end of [D1Elist]
-    | _ => d1exp_err (loc0)
+    | _ => let
+      in
+        auxfpr (loc0, list_sing (d1e), sym)
+      end (* end of [_] *)
   ) (* end of [list_cons] *)
 //
 | list_cons _ => auxfpr (loc0, d1es, sym)
@@ -346,21 +349,29 @@ fun fsyndef_FPRINTLN
 //
 val sym = symbol_FPRINT
 val sym2 = symbol_FPRINT_NEWLINE
-//
+(*
+val out = stdout_ref
+val (
+) = fprintln!(out, "fsyndef_FPRINTLN: d1es = ", d1es)
+*)
 in
 //
 case+ d1es of
 | list_cons
   (
     d1e, list_nil ()
-  ) =>
-  (
+  ) => (
     case+
       d1e.d1exp_node of
     | D1Elist
-        (npf, d1es) => auxfprln (loc0, d1es, sym, sym2)
+        (npf, d1es) =>
+        auxfprln (loc0, d1es, sym, sym2)
       // end of [D1Elist]
-    | _ => d1exp_err (loc0)
+    | _ => let
+        val d1es = list_sing (d1e)
+      in
+        auxfprln (loc0, d1es, sym, sym2)
+      end (* end of [_] *)
   ) (* end of [list_cons] *)
 //
 | list_cons _ => auxfprln (loc0, d1es, sym, sym2)

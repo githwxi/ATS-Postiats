@@ -80,6 +80,13 @@ option_vt_free (opt: Option_vt (INV(a))):<!wrt> void
 
 #atscode_separator()
 
+fun{a:vt0p}
+fprint_option_vt{b:bool}
+   (out: FILEref, opt: !option_vt (INV(a), b)): void
+overload fprint with fprint_option_vt
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

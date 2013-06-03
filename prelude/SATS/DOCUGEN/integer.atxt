@@ -258,6 +258,10 @@ unequal to its second argument. It is for unsigned integers.
 //
 (* ****** ****** *)
 
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
 #declnamesynop("~")
 #declnamesynop("neg")
 #declnamesynop("abs")
