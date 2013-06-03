@@ -174,6 +174,28 @@ end // end of [strnptr_upperize]
 
 (* ****** ****** *)
 
+#declnamesynop("iseqz")
+#declnamesynop("isneqz")
+
+(* ****** ****** *)
+
+#declnamesynop("freelin")
+
+(* ****** ****** *)
+
+#declnamesynop("length")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop("strnptr_get_at")
+#declnamesynop("strnptr_set_at")
+
+(* ****** ****** *)
+
 #declnamesynop("print")
 #declnamesynop("prerr")
 #declnamesynop("fprint")

@@ -129,14 +129,6 @@ This funtion returns true if and only if its string argument is non-empty.
 
 (* ****** ****** *)
 
-#declname("string_is_atend")
-#declsynop2("
-#pats2xhtmls('\
-symintr string_is_atend
-overload string_is_atend with string_is_atend_gint
-overload string_is_atend with string_is_atend_guint
-')
-")
 #declnamesynop("string_is_atend_gint")
 #decldescrpt('\
 
@@ -155,14 +147,6 @@ taking an unsigned integer as the string index.  ')
 
 (* ****** ****** *)
 
-#declname("string_get_at")
-#declsynop2("
-#pats2xhtmls('\
-symintr string_get_at
-overload string_get_at with string_get_at_gint
-overload string_get_at with string_get_at_guint
-')
-")
 #declnamesynop("string_get_at_gint")
 #decldescrpt('\
 
@@ -183,14 +167,6 @@ string index.  ')
 
 (* ****** ****** *)
 
-#declname("string_test_at")
-#declsynop2("
-#pats2xhtmls('\
-symintr string_test_at
-overload string_test_at with string_test_at_gint
-overload string_test_at with string_test_at_guint
-')
-")
 #declnamesynop("string_test_at_gint")
 #decldescrpt('\
 
@@ -394,18 +370,6 @@ This function is the same as #dyncode("strrchr") except for requiring that
 its second argument be a non-null char.  The implementation of this
 function in ATSLIB calls the libc-function of the same name (declared in
 [strings.h]).  ')
-
-(* ****** ****** *)
-
-#declname("string_length")
-#declsynop2("
-#para('\
-#pats2xhtmld('\
-symintr string_length
-overload string_length with string0_length of 0
-overload string_length with string1_length of 1
-')')
-")
 
 (* ****** ****** *)
 
@@ -731,11 +695,22 @@ string or null pointer.")
 
 (* ****** ****** *)
 
-#declnamesynop("[]")
+#declnamesynop("string_is_atend")
 
 (* ****** ****** *)
 
 #declnamesynop("length")
+#declnamesynop("string_length")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+#declnamesynop("string_get_at")
+#declnamesynop("string_test_at")
+
+(* ****** ****** *)
+
+#declnamesynop("string_append")
 
 (* ****** ****** *)
 

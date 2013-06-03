@@ -84,7 +84,8 @@ lemma_strbuf_v_param
 #atscode_separator()
 
 castfn
-strptr2ptr {l:addr} (x: !strptr l):<> ptr (l)
+strptr2ptr
+  {l:addr} (x: !strptr l):<> ptr (l)
 castfn
 strnptr2ptr
   {l:addr}{n:int} (x: !strnptr (l, n)):<> ptr (l)
@@ -241,14 +242,46 @@ fun strnptr_free (x: Strnptr0):<!wrt> void = "mac\#%"
 #atscode_separator()
 
 fun{}
-strnptr_get_at {n:int}
+strnptr_get_at_size {n:int}
   (str: !strnptr (n), i: sizeLt n):<> charNZ
-overload [] with strnptr_get_at
+overload [] with strnptr_get_at_size
+
+fun{tk:tk}
+strnptr_get_at_gint
+  {n:int}{i:nat | i < n}
+  (s: !strnptr (n), i: g1int (tk, i)):<> charNZ
+overload [] with strnptr_get_at_gint of 0
+fun{tk:tk}
+strnptr_get_at_guint
+  {n:int}{i:nat | i < n}
+  (s: !strnptr (n), i: g1uint (tk, i)):<> charNZ
+overload [] with strnptr_get_at_guint of 0
+
+symintr strnptr_get_at
+overload strnptr_get_at with strnptr_get_at_gint
+overload strnptr_get_at with strnptr_get_at_guint
+
+#atscode_separator()
 
 fun{}
-strnptr_set_at {n:int}
-  (str: !strnptr (n), i: sizeLt n, c: charNZ):<> void
-overload [] with strnptr_set_at
+strnptr_set_at_size {n:int}
+  (str: !strnptr (n), i: sizeLt n, c: charNZ):<!wrt> void
+overload [] with strnptr_set_at_size
+
+fun{tk:tk}
+strnptr_set_at_gint
+  {n:int}{i:nat | i < n}
+  (s: !strnptr (n), i: g1int (tk, i), c: charNZ):<!wrt> void
+overload [] with strnptr_set_at_gint of 0
+fun{tk:tk}
+strnptr_set_at_guint
+  {n:int}{i:nat | i < n}
+  (s: !strnptr (n), i: g1uint (tk, i), c: charNZ):<!wrt> void
+overload [] with strnptr_set_at_guint of 0
+
+symintr strnptr_set_at
+overload strnptr_set_at with strnptr_set_at_gint
+overload strnptr_set_at with strnptr_set_at_guint
 
 #atscode_separator()
 
