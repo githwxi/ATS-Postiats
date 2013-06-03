@@ -80,81 +80,18 @@ respectively.\
 
 (* ****** ****** *)
 
-#declname("List")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef List (a:t@ype) = [n:int] list (a, n)
-')')
-')
-#declname("List0")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef List0 (a:t@ype) = [n:int | n >= 0] list (a, n)
-')')
-')
-#declname("List1")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef List1 (a:t@ype) = [n:int | n >= 1] list (a, n)
-')')
-')
+#declnamesynop("List")
+#declnamesynop("List0")
+#declnamesynop("List1")
 
 (* ****** ****** *)
 
-#declname("listLt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef listLt
-  (a:t0p, n:int) = [k:nat | k < n] list (a, k)
-')')
-')
-#declname("listLte")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef listLte
-  (a:t0p, n:int) = [k:nat | k <= n] list (a, k)
-')')
-')
-#declname("listGt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef listGt
-  (a:t0p, n:int) = [k:int | k > n] list (a, k)
-')')
-')
-#declname("listGte")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef listGte
-  (a:t0p, n:int) = [k:int | k >= n] list (a, k)
-')')
-')
-
-(* ****** ****** *)
-
-#declname("listBtw")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef listBtw
-  (a:t0p, m:int, n:int) = [k:int | m <= k; k < n] list (a, k)
-')')
-')
-#declname("listBtwe")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef listBtwe
-  (a:t0p, m:int, n:int) = [k:int | m <= k; k <= n] list (a, k)
-')')
-')
+#declnamesynop("listLt")
+#declnamesynop("listLte")
+#declnamesynop("listGt")
+#declnamesynop("listGte")
+#declnamesynop("listBtw")
+#declnamesynop("listBtwe")
 
 (* ****** ****** *)
 
@@ -521,9 +458,6 @@ or exceeds the length of its first argument.
 
 (* ****** ****** *)
 
-#declnamesynop("list_foreach$cont")
-#declnamesynop("list_foreach$fwork")
-
 #declnamesynop("list_foreach")
 #decldescrpt("\
 
@@ -567,10 +501,14 @@ end // end of [main]
 ')
 ")
 
-(* ****** ****** *)
+#declnamesynop("list_foreach$cont")
+#decldescrpt('\
+The default implementation of this function always returns true.\
+')
 
-#declnamesynop("list_foreach2$cont")
-#declnamesynop("list_foreach2$fwork")
+#declnamesynop("list_foreach$fwork")
+
+(* ****** ****** *)
 
 #declnamesynop("list_foreach2")
 #decldescrpt("\
@@ -585,6 +523,10 @@ inclusive, and xs[i] (ys[i]) refers to element i in xs (ys).  ")
 (* ****** ****** *)
 
 #declnamesynop("list_iforeach$cont")
+#decldescrpt('\
+The default implementation of this function always returns true.\
+')
+
 #declnamesynop("list_iforeach$fwork")
 
 #declnamesynop("list_iforeach")
@@ -597,10 +539,14 @@ ranges from 0 until n-1, inclusive, and xs[i] refers to element i in xs.
 
 #declnamesynop("list_iforeach_env")
 
-(* ****** ****** *)
+#declnamesynop("list_foreach2$cont")
+#decldescrpt('\
+The default implementation of this function always returns true.\
+')
 
-#declnamesynop("list_iforeach2$cont")
-#declnamesynop("list_iforeach2$fwork")
+#declnamesynop("list_foreach2$fwork")
+
+(* ****** ****** *)
 
 #declnamesynop("list_iforeach2")
 #decldescrpt("\
@@ -647,9 +593,15 @@ end // end of [factorial]
 ')
 ")
 
+#declnamesynop("list_iforeach2$cont")
+#decldescrpt('\
+The default implementation of this function always returns true.\
+')
+
+#declnamesynop("list_iforeach2$fwork")
+
 (* ****** ****** *)
 
-#declnamesynop("list_exists$pred")
 #declnamesynop("list_exists")
 #decldescrpt('\
 
@@ -695,9 +647,10 @@ their order in the original list.
 
 ')
 
+#declnamesynop("list_exists$pred")
+
 (* ****** ****** *)
 
-#declnamesynop("list_forall$pred")
 #declnamesynop("list_forall")
 #decldescrpt('\
 
@@ -729,9 +682,10 @@ the predicate implemented by #dyncode("list_equal$pred") holds on each
 pair (xs1[i], xs2[i]), where i ranges from 0 until n1-1, inclusive, and
 xs1[i] (xs2[i]) refers to element i in xs1 (xs2). ')
 
+#declnamesynop("list_forall$pred")
+
 (* ****** ****** *)
 
-#declnamesynop("list_find$pred")
 #declnamesynop("list_find_exn")
 #decldescrpt('\
 
@@ -766,9 +720,9 @@ This function is the optional version of #dyncode("list_find_exn").
 
 ')
 
-(* ****** ****** *)
+#declnamesynop("list_find$pred")
 
-#declnamesynop("list_filter$pred")
+(* ****** ****** *)
 
 #declnamesynop("list_filter")
 #decldescrpt('\
@@ -778,6 +732,8 @@ xs that satisfy the predicate implemented by #dyncode("list_filter$pred").
 The implementation of this function in ATSLIB is tail-recursive.
 
 ')
+
+#declnamesynop("list_filter$pred")
 
 (* ****** ****** *)
 
@@ -793,16 +749,15 @@ tail-recursive.
 
 (* ****** ****** *)
 
-#declnamesynop("list_app$fwork")
 #declnamesynop("list_app")
 #decldescrpt('\
 
 This function traverses a given list, applying to each encountered element
 the function implemented by #dyncode("list_app$fwork").  ')
 
-(* ****** ****** *)
+#declnamesynop("list_app$fwork")
 
-#declnamesynop("list_map$fwork")
+(* ****** ****** *)
 
 #declnamesynop("list_map")
 #decldescrpt('\
@@ -814,23 +769,24 @@ implementation of this function in ATSLIB is tail-recursive.
 
 ')
 
-(* ****** ****** *)
+#declnamesynop("list_map$fwork")
 
-#declnamesynop("list_imap$fwork")
+(* ****** ****** *)
 
 #declnamesynop("list_imap")
 #decldescrpt('\
 
 Given a list xs of length n, this function returns a linear list consisting
 f(i, xs[i]), where i ranges from 0 until n-1, xs[i] refers to element i in
-xs and f is the function implemented by #dyncode("list_imap$fwork").  The
+xs, and f is the function implemented by #dyncode("list_imap$fwork").  The
 implementation of this function in ATSLIB is tail-recursive.
 
 ')
 
+#declnamesynop("list_imap$fwork")
+
 (* ****** ****** *)
 
-#declnamesynop("list_mapopt$fwork")
 #declnamesynop("list_mapopt")
 #decldescrpt('\
 
@@ -842,9 +798,9 @@ The implementation of this function in ATSLIB is tail-recursive.
 
 ')
 
-(* ****** ****** *)
+#declnamesynop("list_mapopt$fwork")
 
-#declnamesynop("list_map2$fwork")
+(* ****** ****** *)
 
 #declnamesynop("list_map2")
 #decldescrpt('\
@@ -857,9 +813,9 @@ implementation of this function in ATSLIB is tail-recursive.
 
 ')
 
-(* ****** ****** *)
+#declnamesynop("list_map2$fwork")
 
-#declnamesynop("list_tabulate$fwork")
+(* ****** ****** *)
 
 #declnamesynop("list_tabulate")
 #decldescrpt('\
@@ -890,6 +846,8 @@ end // end of [list_make_intrange]
 ')
 ')
 
+#declnamesynop("list_tabulate$fwork")
+
 (* ****** ****** *)
 
 #declnamesynop("list_zip")
@@ -905,7 +863,6 @@ ATSLIB is tail-recursive.
 
 (* ****** ****** *)
 
-#declnamesynop("list_zipwith$fwork")
 #declnamesynop("list_zipwith")
 #decldescrpt('\
 
@@ -916,6 +873,8 @@ until min(m,n)-1, inclusive.  The implementation of this function in ATSLIB
 is tail-recursive.
 
 ')
+
+#declnamesynop("list_zipwith$fwork")
 
 (* ****** ****** *)
 
@@ -929,7 +888,8 @@ inclusive) equals (xs[i], ys[j]), where i = k/n and j=k-i*n.
 
 ")
 
-#declnamesynop("list_crosswith$fwork")
+(* ****** ****** *)
+
 #declnamesynop("list_crosswith")
 #decldescrpt("\
 
@@ -973,20 +933,10 @@ end // end of [main]
 ')
 ")
 
+#declnamesynop("list_crosswith$fwork")
+
 (* ****** ****** *)
 
-#declnamesynop("list_mergesort$cmp")
-#decldescrpt("\
-
-This function is called in the implementation of #dyncode("list_mergesort") to
-perform comparison test on list elements, and its default implementation is
-based on #dyncode("gcompare_val"):
-
-#pats2xhtmld_tryit("\
-implement{a}
-list_mergesort$cmp (x, y) = gcompare_val<a> (x, y)
-")
-")
 #declnamesynop("list_mergesort")
 #decldescrpt('\
 
@@ -1041,20 +991,21 @@ in
 end // end of [main]
 ')')
 
-(* ****** ****** *)
-
-#declnamesynop("list_quicksort$cmp")
+#declnamesynop("list_mergesort$cmp")
 #decldescrpt("\
 
-This function is called in the implementation of #dyncode("list_quicksort") to
+This function is called in the implementation of #dyncode("list_mergesort") to
 perform comparison test on list elements, and its default implementation is
 based on #dyncode("gcompare_val"):
 
 #pats2xhtmld_tryit("\
 implement{a}
-list_quicksort$cmp (x, y) = gcompare_val<a> (x, y)
+list_mergesort$cmp (x, y) = gcompare_val<a> (x, y)
 ")
 ")
+
+(* ****** ****** *)
+
 #declnamesynop("list_quicksort")
 #decldescrpt('\
 
@@ -1107,6 +1058,44 @@ in
   0(*normal*)
 end // end of [main]
 ')')
+
+#declnamesynop("list_quicksort$cmp")
+#decldescrpt("\
+
+This function is called in the implementation of #dyncode("list_quicksort") to
+perform comparison test on list elements, and its default implementation is
+based on #dyncode("gcompare_val"):
+
+#pats2xhtmld_tryit("\
+implement{a}
+list_quicksort$cmp (x, y) = gcompare_val<a> (x, y)
+")
+")
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("iseqz")
+#declnamesynop("isneqz")
+
+(* ****** ****** *)
+
+#declnamesynop("length")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
 
 (* ****** ****** *)
 

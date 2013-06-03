@@ -31,7 +31,7 @@
 (* ****** ****** *)
 
 %{#
-#include "json/CATS/json.cats"
+#include "json-c/CATS/json.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
@@ -42,14 +42,44 @@
 
 (* ****** ****** *)
 
+fun json_c_version (): string = "mac#%"
+fun json_c_version_num (): int = "mac#%"
+
+(* ****** ****** *)
+
 #include "./json_header.sats"
 
 (* ****** ****** *)
 
-#include "./arraylist.sats" // HX: dynamic array implementation
+(*
+#include "./linkhash.sats" // HX: for hashtable implementation
+*)
+
+(* ****** ****** *)
+
+(*
+#include "./arraylist.sats" // HX: for dynamic arrays
+*)
+
+(* ****** ****** *)
+
+(*
+#include "./printbuf.sats" // HX: for buffered printing
+*)
+
+(* ****** ****** *)
+
+#include "./json_util.sats"
+
+(* ****** ****** *)
+
+#include "./json_object.sats"
+#include "./json_object_iterator.sats"
+
+(* ****** ****** *)
+
+#include "./json_tokener.sats"
 
 (* ****** ****** *)
 
 (* end of [json.sats] *)
-
-

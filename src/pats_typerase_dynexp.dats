@@ -423,9 +423,15 @@ end // end of [d3exp_tyer_type]
 implement
 d3exp_tyer
   (d3e0) = let
-  val loc0 = d3e0.d3exp_loc
-  val s2e0 = d3exp_get_type (d3e0)
-  val hse0 = s2exp_tyer_shallow (loc0, s2e0)
+//
+val loc0 = d3e0.d3exp_loc
+val s2e0 = d3exp_get_type (d3e0)
+val hse0 = s2exp_tyer_shallow (loc0, s2e0)
+//
+(*
+val () = println! ("d3exp_tyer: d3e0 = ", d3e0)
+*)
+//
 in
 //
 case+

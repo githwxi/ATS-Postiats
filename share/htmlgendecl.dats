@@ -47,29 +47,50 @@ declitemlst_vt = List_vt (declitem)
 
 local
 
+typedef charlst = List (char)
 staload SYM = "src/pats_symbol.sats"
 
-in // in of [local]
+fun auxlst
+(
+  stadyn: int, css: List_vt (charlst), i: int
+) : List_vt (strptr1) = let
+in
+//
+case+ css of
+| ~list_vt_cons
+    (cs, css) => let
+    val str =
+      $LSYN.charlst_pats2xhtmlize_bground (stadyn, cs)
+    // end of [val]
+    val strlst = auxlst (stadyn, css, i+1)
+  in
+    list_vt_cons (str, strlst)
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => list_vt_nil ()
+//
+end // end of [auxlst]
+
+in (* in of [local] *)
 
 implement
-declname_find_synopsis
+declname_find_synoplst
   (stadyn, name) = let
+(*
+val (
+) = println! ("declname_find_synopsis: stadyn = ", stadyn)
+val () = println! ("declname_find_synopsis: name = ", name)
+*)
 //
 val sym =
   $SYM.symbol_make_string (name)
 val xs = theDeclrepLst_get ()
-val opt = $LSYN.d0eclreplst_find_synop (xs, sym)
+val css = $LSYN.d0eclreplst_find_synop (xs, sym)
 //
 in
 //
-case+ opt of
-| ~Some_vt (synop) =>
-    $LSYN.charlst_pats2xhtmlize_bground (0(*sta*), synop)
-| ~None_vt () =>
-    sprintf ("Synopsis for [%s] is unavailable.", @(name))
-  (* end of [None_vt] *)
+auxlst (stadyn, css, 0)
 //
-end // end of [declname_find_synopsis]
+end // end of [declname_find_synoplst]
 
 end // end of [local]
 
@@ -162,6 +183,48 @@ end // end of [local]
 
 (* ****** ****** *)
 
+fun synoplst2atext
+(
+  name: string, xs: List_vt (strptr1)
+) : atext = let
+//
+fun auxlst
+  (xs: List_vt (strptr1)): atextlst = let
+in
+//
+case+ xs of
+| ~list_vt_cons (x, xs) => let
+    val x1 = $UN.castvwtp1{string}(x)
+    val x2 = sprintf ("<pre class=\"patsyntax\">\n%s</pre>\n", @(x1))
+    val () = strptr_free (x)
+    val atxt = $LDOC.atext_strptr (x2)
+    val atxtlst = auxlst (xs)
+  in
+    list_cons (atxt, atxtlst)
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => list_nil ()
+//
+end // end of [auxlst]
+//
+val atxtlst = auxlst (xs)
+//
+in
+//
+case+ atxtlst of
+| list_cons _ => $LDOC.atext_concatxt (atxtlst)
+| list_nil () => let
+    val x = sprintf ("Synopsis for [%s] is unavailable.", @(name))
+    val x1 = $UN.castvwtp1{string}(x)
+    val x2 = sprintf ("<pre class=\"patsyntax\">\n%s</pre>\n", @(x1))
+    val () = strptr_free (x)
+  in
+    $LDOC.atext_strptr (x2)
+  end // end of [list_nil]
+//
+end // end of [synoplst2atext]
+
+(* ****** ****** *)
+
 local
 
 fn HR (sz: int): atext = let
@@ -174,6 +237,9 @@ end // end of [HR]
 
 fn aux_name
   (name: string): atext = let
+(*
+  val () = println! ("aux_name: name = ", name)
+*)
   val () = theDeclname_set (name)
   val str = sprintf ("<h2><a id=\"%s\">%s</a></h2>\n", @(name, name))
 in
@@ -182,6 +248,10 @@ end // end of [aux_name]
 
 fn aux_name2
   (name: string, href: string): atext = let
+(*
+  val () = println! ("aux_name2: name = ", name)
+  val () = println! ("aux_name2: href = ", href)
+*)
   val () = theDeclname_set (name)
   val str = sprintf ("<h2><a id=\"%s\" href=\"%s\">%s</a></h2>\n", @(name, href, name))
 in
@@ -189,16 +259,18 @@ in
 end // end of [aux_name2]
 
 fn aux_synop () = let
-  val head =
-    atext_apptxt2 (H3 ("Synopsis"), atext_newline())
-  // end of [val]
-  val name = theDeclname_get ()
-  val synop = declname_find_synopsis (0(*sta*), name)
-  val synop1 = $UN.castvwtp1 {string} (synop)
-  val synop2 = sprintf ("<pre class=\"patsyntax\">\n%s</pre>\n", @(synop1))
-  val () = strptr_free (synop)
+(*
+val () = println! ("aux_synop")
+*)
+val head =
+  atext_apptxt2 (H3 ("Synopsis"), atext_newline())
+// end of [val]
+val name = theDeclname_get ()
+val strlst = declname_find_synoplst (0(*sta*), name)
+val synop = synoplst2atext (name, strlst)
+//
 in
-  atext_apptxt2 (head, atext_strptr (synop2))
+  atext_apptxt2 (head, synop)
 end // end of [aux_synop]
 
 fn aux_synop2 (synop) = let
@@ -236,26 +308,31 @@ val head = atext_apptxt2 (H3 ("Parameters"), atext_newline())
 //
 val ul_beg = atext_strcst "<ul>"
 val ul_body = let
-  fun aux (xs: paramaddlst_vt): atext =
-    case+ xs of
-    | ~list_vt_cons (x, xs) => let
-         val li_beg = atext_strcst "<li>"
-         val li_end = atext_strcst "</li>"
-         val PMADD (name, desc) = x
-         val itm1 = atext_strsub name
-         val itm2 = atext_strcst " : "
-         val itm3 = atext_strsub desc
-         val li_body = atext_apptxt3 (itm1, itm2, itm3)
-         val li_one = atext_apptxt3 (li_beg, li_body, li_end)
-         val li_rest = aux (xs)
-       in
-         atext_apptxt2 (li_one, li_rest)
-       end
-    | ~list_vt_nil () => atext_nil ()
-  // end of [aux]
+//
+fun auxlst
+  (xs: paramaddlst_vt): atext = let
 in
-  aux (theParamaddLst_get ())
+  case+ xs of
+  | ~list_vt_cons (x, xs) => let
+      val li_beg = atext_strcst "<li>"
+      val li_end = atext_strcst "</li>"
+      val PMADD (name, desc) = x
+      val itm1 = atext_strsub name
+      val itm2 = atext_strcst " : "
+      val itm3 = atext_strsub desc
+      val li_body = atext_apptxt3 (itm1, itm2, itm3)
+      val li_one = atext_apptxt3 (li_beg, li_body, li_end)
+      val li_rest = auxlst (xs)
+    in
+      atext_apptxt2 (li_one, li_rest)
+    end
+  | ~list_vt_nil () => atext_nil ()
+end // end of [auxlst]
+//
+in
+  auxlst (theParamaddLst_get ())
 end // end of [val]
+//
 val ul_end = atext_strcst "</ul>"
 //
 val ul_all = atext_apptxt3 (ul_beg, ul_body, ul_end)
@@ -270,14 +347,13 @@ in
   atext_apptxt2 (head, atext_strsub (cntnt))
 end // end of [aux_funretval]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 theDeclitemLst_make_content () = let
 //
-fun aux (
-  x: declitem
-) : atext = let
+fun aux
+  (x: declitem): atext = let
 in
 //
 case+ x of
@@ -299,36 +375,41 @@ case+ x of
 | DITMfunretval (cntnt) => aux_funretval (cntnt)
 //
 end // end of [aux]
-fun auxlst (
+//
+fun auxlst
+(
   xs: declitemlst_vt, i: int
 ) : atextlst = let
 in
-  case+ xs of
-  | ~list_vt_cons
-      (x, xs) => let
-      val y = aux (x)
-      val ys = auxlst (xs, i+1)
-      val res = list_cons {atext} (y, ys)
-      val sep = (
-        if i > 0 then (
-          case+ x of
-          | DITMname _ => true
-          | DITMname2 _ => true
-          | _(*non-name-entry*) => false
-        ) else false
-      ) : bool // end of [val]
-    in
-      if sep then list_cons (HR(1), res) else res
-    end // end of [list_vt_cons]
-  | ~list_vt_nil () => list_nil ()
+//
+case+ xs of
+| ~list_vt_cons
+    (x, xs) => let
+    val y = aux (x)
+    val ys = auxlst (xs, i+1)
+    val res = list_cons {atext} (y, ys)
+    val sep = (
+      if i > 0 then
+      (
+        case+ x of
+        | DITMname _ => true
+        | DITMname2 _ => true
+        | _(*non-name-entry*) => false
+      ) else false
+    ) : bool // end of [val]
+  in
+    if sep then list_cons (HR(1), res) else res
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => list_nil ()
+//
 end // end of [auxlst]
 //
-val itms =
-  theDeclitemLst_get ()
-val txts = auxlst (itms, 0)
+val itmlst = theDeclitemLst_get ()
+//
+val atxtlst = auxlst (itmlst, 0(*i*))
 //
 in
-  atext_concatxt (txts)
+  atext_concatxt (atxtlst)
 end // end of [theDeclitemLst_make_content]
 
 end // end of [local]

@@ -53,11 +53,12 @@ val-HDEcase
   (knd, hdes, hicls) = hde0.hidexp_node
 //
 val pmvs = hidexplst_ccomp (env, res, hdes)
-val fail = (
-   case+ knd of
-   | CK_case_pos () => PTCKNTnone ()
-   | CK_case () => PTCKNTcaseof_fail (loc0)
-   | CK_case_neg () => PTCKNTcaseof_fail (loc0)
+val fail =
+(
+case+ knd of
+| CK_case_pos () => PTCKNTnone ()
+| CK_case () => PTCKNTcaseof_fail (loc0)
+| CK_case_neg () => PTCKNTcaseof_fail (loc0)
 ) : patckont // end of [val]
 //
 val ibranchlst =

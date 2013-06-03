@@ -53,9 +53,30 @@ without dimension information attached.
 
 (* ****** ****** *)
 
-#declnamesynop("matrixptr_exch_at")
 #declnamesynop("matrixptr_exch_at_int")
 #declnamesynop("matrixptr_exch_at_size")
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop("matrixptr_get_at")
+#declnamesynop("matrixptr_set_at")
+#declnamesynop("matrixptr_exch_at")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
 
 (* ****** ****** *)
 

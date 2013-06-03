@@ -25,7 +25,7 @@ all:: %s\n\
   $(CCOPT) \
   -I$(PATSHOMEQ) \
   -I$(PATSHOMEQ)/ccomp/runtime \
-  -I$(PATSHOME)/contrib \
+  -I$(PATSHOMEQ)/contrib \
   -DATS_MEMALLOC_LIBC %s -o $@ $< %s\n\
 %s_dats.c: %s.dats ; \
   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output %s_dats.c --dynamic %s.dats\n\

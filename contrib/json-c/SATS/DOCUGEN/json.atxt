@@ -30,6 +30,11 @@ href="http://json-c.github.io/json-c/">json-c</a> in ATS.  ')
 
 (* ****** ****** *)
 
+#declnamesynop("json_c_version")
+#declnamesynop("json_c_version_num")
+
+(* ****** ****** *)
+
 #declname2("json_header.sats", "json_header.html")
 //
 #declsynop2('\
@@ -45,6 +50,57 @@ definitions and macros in the json-c package. ')
 
 This file contains the API for a simple array-list (that is, dynamic array)
 implementation. ')
+
+(* ****** ****** *)
+
+#declname2("linkhash.sats", "linkhash.html")
+//
+#declsynop2('\
+
+This file contains the API for a simple hashtable implementation. ')
+
+(* ****** ****** *)
+
+#declname2("printbuf.sats", "printbuf.html")
+//
+#declsynop2('\
+
+This file contains the API for functions declared in [printbuf.h]. ')
+
+(* ****** ****** *)
+
+#declname2("json_util.sats", "json_util.html")
+//
+#declsynop2('\
+
+This file contains the API for functions declared in [json_util.h]. ')
+
+(* ****** ****** *)
+
+#declname2("json_object.sats", "json_object.html")
+//
+#declsynop2('\
+
+This file contains the API for functions declared in [json_object.h]. ')
+
+(* ****** ****** *)
+
+#declname2("json_object_iterator.sats", "json_object_iterator.html")
+//
+#declsynop2('\
+
+This file contains the API for functions declared in [json_object_iterator.h]. ')
+
+(* ****** ****** *)
+
+#declname2("json_tokener.sats", "json_tokener.html")
+//
+#declsynop2('\
+
+This file contains the API for functions declared in [json_tokener.h]. ')
+
+(* ****** ****** *)
+
 
 (* ****** ****** *)
 

@@ -1,0 +1,54 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../json_tokener.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_json-c_json")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/json-c/json_tokener\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("json_tokener2ptr")
+
+(* ****** ****** *)
+
+#declnamesynop("json_tokener_get_error")
+#declnamesynop("json_tokener_error_desc")
+
+(* ****** ****** *)
+
+#declnamesynop("json_tokener_new")
+#declnamesynop("json_tokener_new_ex")
+
+(* ****** ****** *)
+
+#declnamesynop("json_tokener_free")
+
+(* ****** ****** *)
+
+#declnamesynop("json_tokener_reset")
+
+(* ****** ****** *)
+
+#declnamesynop("json_tokener_parse")
+#declnamesynop("json_tokener_parse_verbose")
+#declnamesynop("json_tokener_parse_ex")
+
+(* ****** ****** *)
+
+#declnamesynop("json_tokener_set_flags")
+
+(* ****** ****** *)
+
+(* end of [json_tokener.atxt] *)

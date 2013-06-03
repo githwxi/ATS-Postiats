@@ -134,13 +134,6 @@ handled by calling the function #dyncode("fprint_ref").
 
 (* ****** ****** *)
 
-#declname("arrayptr_get_at")
-#decldescrpt('\
-#pats2xhtmls("\
-overload arrayptr_get_at with arrayptr_get_at_gint
-overload arrayptr_get_at with arrayptr_get_at_guint
-")\
-')
 #declnamesynop("arrayptr_get_at_gint")
 #decldescrpt("\
 
@@ -155,13 +148,6 @@ This function, which overloads the symbol #dyncode("[]"), is like
 
 (* ****** ****** *)
 
-#declname("arrayptr_set_at")
-#decldescrpt('\
-#pats2xhtmls("\
-overload arrayptr_set_at with arrayptr_set_at_gint
-overload arrayptr_set_at with arrayptr_set_at_guint
-")\
-')
 #declnamesynop("arrayptr_set_at_gint")
 #decldescrpt("\
 
@@ -176,13 +162,6 @@ This function, which overloads the symbol #dyncode("[]"), is like
 
 (* ****** ****** *)
 
-#declname("arrayptr_exch_at")
-#decldescrpt('\
-#pats2xhtmls("\
-overload arrayptr_exch_at with arrayptr_exch_at_gint
-overload arrayptr_exch_at with arrayptr_exch_at_guint
-")\
-')
 #declnamesynop("arrayptr_exch_at_gint")
 #decldescrpt("\
 
@@ -287,6 +266,32 @@ This function frees the memory occupied by a given arrayptr-value.
 This function first uninitializes a given arrayptr-value and then frees the
 memory occupied by it. In other words, #dyncode("arrayptr_freelin")
 combines #dyncode("arrayptr_uninitize") with #dyncode("arrayptr_free").  ")
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("ptrcast")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop("arrayptr_get_at")
+#declnamesynop("arrayptr_set_at")
+#declnamesynop("arrayptr_exch_at")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
 
 (* ****** ****** *)
 

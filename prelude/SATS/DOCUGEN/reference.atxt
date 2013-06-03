@@ -96,7 +96,7 @@ val theCount =
   ref_make_viewptr {int} (view@(__count) | addr@(__count))
 // end of [val]
 
-in // in of [local]
+in (* in of [local] *)
 
 fun theCount_get (): int = !theCount
 
@@ -113,8 +113,8 @@ end // end of [local]
 ')
 
 The specialty of this implementation is that it does not make use of any
-dynamic memory allocation. This is a programming style often necessary for
-implementing low-level embedded systems.
+dynamic memory allocation. This is a style often necessary for low-level
+embedded systems programming.
 
 ')
 
@@ -142,8 +142,13 @@ This function stores a value (the second argument) into a given reference
 #decldescrpt('\
 
 This function exchanges the value in a given reference (the first argument)
-with the value in a variable ( the second argument).  Note that the type of
+with the value in a variable (the second argument).  Note that the type of
 these values can be linear.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("ref_app_fun")
+#declnamesynop("ref_app_funenv")
 
 (* ****** ****** *)
 

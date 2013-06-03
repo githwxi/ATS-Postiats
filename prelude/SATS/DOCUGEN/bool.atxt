@@ -56,5 +56,24 @@ This function does the same as #dyncode("bool2int0") at run-time.
 #declnamesynop("mul_bool0_bool0")
 
 (* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("+")
+#declnamesynop("*")
+
+(* ****** ****** *)
+
+#declnamesynop("print")
+#declnamesynop("prerr")
+#declnamesynop("fprint")
+
+(* ****** ****** *)
 
 (* end of [bool.atxt] *)

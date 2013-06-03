@@ -107,9 +107,7 @@ except for taking an additional argument that serves as an environment.\
 
 #declnamesynop("intrange_rforeach$cont")
 #decldescrpt('\
-
 The default implementation of this function always returns true.\
-
 ')
 
 #declnamesynop("intrange_rforeach$fwork")

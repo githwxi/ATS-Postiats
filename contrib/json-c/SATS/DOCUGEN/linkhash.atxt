@@ -1,0 +1,78 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../linkhash.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_json-c_json")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/json-c/linkhash\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("lh_entry2ptr")
+
+(* ****** ****** *)
+
+#declnamesynop("lh_entry_get_key")
+#declnamesynop("lh_entry_get_val")
+
+(* ****** ****** *)
+
+#declnamesynop("lh_table2ptr")
+
+(* ****** ****** *)
+
+#declnamesynop("lh_table_new")
+
+(* ****** ****** *)
+
+#declnamesynop("lh_char_hash")
+#declnamesynop("lh_char_equal")
+#declnamesynop("lh_kchar_table_new")
+
+(* ****** ****** *)
+
+#declnamesynop("lh_ptr_hash")
+#declnamesynop("lh_ptr_equal")
+#declnamesynop("lh_kptr_table_new")
+
+(* ****** ****** *)
+
+#declnamesynop("lh_table_free")
+
+(* ****** ****** *)
+
+#declnamesynop("lh_table_length")
+
+(* ****** ****** *)
+
+#declnamesynop("lh_table_insert")
+
+(* ****** ****** *)
+
+#declnamesynop("lh_table_delete")
+#declnamesynop("lh_table_delete_entry")
+
+(* ****** ****** *)
+
+#declnamesynop("lh_table_lookup")
+#declnamesynop("lh_table_lookup_ex")
+#declnamesynop("lh_table_lookup_entry")
+
+(* ****** ****** *)
+
+#declnamesynop("lh_table_resize")
+
+(* ****** ****** *)
+
+(* end of [linkhash.atxt] *)

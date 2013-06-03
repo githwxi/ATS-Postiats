@@ -47,14 +47,6 @@ prval [l:addr] PTREQ () = ptr_get_index (p)\
 
 (* ****** ****** *)
 
-#declname("ptr_is_null")
-#declsynop2("
-#pats2xhtmls("\
-symintr ptr_is_null
-overload ptr_is_null with ptr0_is_null of 0
-overload ptr_is_null with ptr1_is_null of 1
-")
-")
 #declnamesynop("ptr0_is_null")
 #decldescrpt('\
 This function returns true if and only if its argument is the null pointer.
@@ -67,14 +59,6 @@ informative type.  ')
 
 (* ****** ****** *)
 
-#declname("ptr_isnot_null")
-#declsynop2("
-#pats2xhtmls("\
-symintr ptr_isnot_null
-overload ptr_isnot_null with ptr0_isnot_null of 0
-overload ptr_isnot_null with ptr1_isnot_null of 1
-")
-")
 #declnamesynop("ptr0_isnot_null")
 #decldescrpt('\
 This function returns true if and only if its argument is not the null pointer.
@@ -87,27 +71,11 @@ informative type.  ')
 
 (* ****** ****** *)
 
-#declname("add_ptr_bsz")
-#declsynop2("\
-#pats2xhtmls("\
-symintr add_ptr_bsz
-overload add_ptr_bsz with add_ptr0_bsz of 0
-overload add_ptr_bsz with add_ptr1_bsz of 20
-")
-")
 #declnamesynop("add_ptr0_bsz")
 #declnamesynop("add_ptr1_bsz")
 
 (* ****** ****** *)
 
-#declname("sub_ptr_bsz")
-#declsynop2("\
-#pats2xhtmls("\
-symintr sub_ptr_bsz
-overload sub_ptr_bsz with sub_ptr0_bsz of 0
-overload sub_ptr_bsz with sub_ptr1_bsz of 20
-")
-")
 #declnamesynop("sub_ptr0_bsz")
 #declnamesynop("sub_ptr1_bsz")
 
@@ -118,42 +86,16 @@ overload sub_ptr_bsz with sub_ptr1_bsz of 20
 
 (* ****** ****** *)
 
-#declname("ptr_succ")
-#declsynop2("
-#pats2xhtmls("\
-symintr ptr_succ
-overload ptr_succ with ptr0_succ of 0
-overload ptr_succ with ptr1_succ of 1
-")
-")
 #declnamesynop("ptr0_succ")
 #declnamesynop("ptr1_succ")
 
 (* ****** ****** *)
 
-#declname("ptr_pred")
-#declsynop2("
-#pats2xhtmls("\
-symintr ptr_pred
-overload ptr_pred with ptr0_pred of 0
-overload ptr_pred with ptr1_pred of 1
-")
-")
 #declnamesynop("ptr0_pred")
 #declnamesynop("ptr1_pred")
 
 (* ****** ****** *)
 
-#declname("ptr_add")
-#declsynop2("
-#pats2xhtmls("\
-symintr ptr_add
-overload ptr_add with ptr0_add_gint of 0
-overload ptr_add with ptr0_add_guint of 0
-overload ptr_add with ptr1_add_gint of 20
-overload ptr_add with ptr1_add_guint of 20
-")
-")
 #declnamesynop("ptr0_add_gint")
 #declnamesynop("ptr0_add_guint")
 #declnamesynop("ptr1_add_gint")
@@ -161,16 +103,6 @@ overload ptr_add with ptr1_add_guint of 20
 
 (* ****** ****** *)
 
-#declname("ptr_sub")
-#declsynop2("
-#pats2xhtmls("\
-symintr ptr_sub
-overload ptr_sub with ptr0_sub_gint of 0
-overload ptr_sub with ptr0_sub_guint of 0
-overload ptr_sub with ptr1_sub_gint of 20
-overload ptr_sub with ptr1_sub_guint of 20
-")
-")
 #declnamesynop("ptr0_sub_gint")
 #declnamesynop("ptr0_sub_guint")
 #declnamesynop("ptr1_sub_gint")
@@ -199,6 +131,47 @@ overload ptr_sub with ptr1_sub_guint of 20
 #declnamesynop("ptr_get")
 #declnamesynop("ptr_set")
 #declnamesynop("ptr_exch")
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("ptr_is_null")
+#declnamesynop("ptr_isnot_null")
+
+(* ****** ****** *)
+
+#declnamesynop("add_ptr_bsz")
+#declnamesynop("sub_ptr_bsz")
+
+(* ****** ****** *)
+
+#declnamesynop("ptr_succ")
+#declnamesynop("ptr_pred")
+#declnamesynop("ptr_add")
+#declnamesynop("ptr_sub")
+
+(* ****** ****** *)
+
+#declnamesynop("<")
+#declnamesynop("<=")
+#declnamesynop(">")
+#declnamesynop(">=")
+#declnamesynop("=")
+#declnamesynop("!=")
+#declnamesynop("compare")
+
+(* ****** ****** *)
+
+#declnamesynop("print")
+#declnamesynop("prerr")
+#declnamesynop("fprint")
 
 (* ****** ****** *)
 

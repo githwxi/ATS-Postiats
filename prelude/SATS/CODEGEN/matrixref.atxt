@@ -57,7 +57,99 @@ lemma_matrixref_param
 
 #atscode_separator()
 
+castfn
+matrixptr_refize
+  {a:vt0p}
+  {l:addr}
+  {m,n:int} (
+  A: matrixptr (INV(a), l, m, n)
+) :<!wrt> matrixref (a, m, n) // end of [matrixptr_refize]
+
+castfn
+matrixref_get_viewptr
+  {a:vt0p}
+  {m,n:int} (
+  A: matrixref (a, m, n)
+) :<> [l:addr] (vbox (matrix_v (a, l, m, n)) | ptr l)
+
 #atscode_separator()
+
+fun{
+a:t0p
+} matrixref_make_elt_int
+  {m,n:nat} (m: int m, n: int n, x: a):<!wrt> matrixref (a, m, n)
+fun{
+a:t0p
+} matrixref_make_elt_size
+  {m,n:int} (m: size_t m, n: size_t n, x: a):<!wrt> matrixref (a, m, n)
+//
+symintr matrixref_make_elt
+overload matrixref_make_elt with matrixref_make_elt_int
+overload matrixref_make_elt with matrixref_make_elt_size
+//
+#atscode_separator()
+
+fun{a:t0p}
+matrixref_get_at_int{m,n:int}
+(
+  A: matrixref (a, m, n), i: natLt(m), n: int(n), j: natLt(n)
+) :<!ref> (a) // end of [matrixref_get_at_int]
+overload [] with matrixptr_get_at_int
+
+fun{a:t0p}
+matrixref_get_at_size{m,n:int}
+(
+  A: matrixref (a, m, n), i: sizeLt(m), n: size_t(n), j: sizeLt(n)
+) :<!ref> (a) // end of [matrixref_get_at_size]
+overload [] with matrixptr_get_at_size
+//
+symintr matrixref_get_at
+overload matrixref_get_at with matrixref_get_at_int of 0
+overload matrixref_get_at with matrixref_get_at_size of 0
+//
+#atscode_separator()
+
+fun{a:t0p}
+matrixref_set_at_int
+  {m,n:int}
+(
+  A: matrixref (INV(a), m, n), i: natLt (m), n: int n, j: natLt (n), x: a
+) :<!refwrt> void // end of [matrixref_set_at_int]
+overload [] with matrixref_set_at_int
+
+fun{a:t0p}
+matrixref_set_at_size
+  {m,n:int}
+(
+  A: matrixref (INV(a), m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n), x: a
+) :<!refwrt> void // end of [matrixref_set_at_size]
+overload [] with matrixref_set_at_size
+
+symintr matrixref_set_at
+overload matrixref_set_at with matrixref_set_at_int of 0
+overload matrixref_set_at with matrixref_set_at_size of 0
+
+#atscode_separator()
+
+fun{a:vt0p}
+matrixref_exch_at_int
+  {m,n:int}
+(
+  A: matrixref (INV(a), m, n)
+, i: natLt (m), n: int n, j: natLt (n), x: &a >> _
+) :<!refwrt> void // end of [matrixref_exch_at_int]
+
+fun{a:vt0p}
+matrixref_exch_at_size
+  {m,n:int}
+(
+  A: matrixref (INV(a), m, n)
+, i: sizeLt (m), n: size_t n, j: sizeLt (n), x: &a >> _
+) :<!refwrt> void // end of [matrixref_exch_at_size]
+
+symintr matrixref_exch_at
+overload matrixref_exch_at with matrixref_exch_at_int of 0
+overload matrixref_exch_at with matrixref_exch_at_size of 0
 
 #atscode_eof_strsub("\#thisfilename$")\
 

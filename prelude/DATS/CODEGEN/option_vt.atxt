@@ -69,6 +69,35 @@ option_vt_unnone
 
 #atscode_separator()
 
+implement{a}
+option_vt_free (opt) =
+(
+case+ opt of ~Some_vt _ => () | ~None_vt () => ()
+) // end of [option_vt_free]
+
+#atscode_separator()
+
+implement{a}
+fprint_option_vt
+  (out, opt) = let
+in
+//
+case+ opt of
+| @Some_vt (x) => {
+    val (
+    ) = fprint_string (out, "Some_vt(")
+    val () = fprint_ref<a> (out, x)
+    val () = fprint_string (out, ")")
+    prval () = fold@ (opt)
+  } (* end of [Some_vt] *)
+| None_vt () => {
+    val () = fprint_string (out, "None_vt()")
+  } (* end of [None_vt] *)
+//
+end // end of [fprint_option_vt]
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

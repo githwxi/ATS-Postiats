@@ -11,11 +11,14 @@
 
 val () =
 {
-val+None _ = None{int}( )
+val+None _ = None{int}()
 //
-val x0 = 0
-val+Some x = Some{int}(x0)
-val () = assertloc (x = x0)
+val opt = Some{int}(0)
+val+Some x = opt
+val () = assertloc (x = 0)
+//
+val out = stdout_ref
+val () = fprintln! (out, "opt = ", opt)
 //
 }
 

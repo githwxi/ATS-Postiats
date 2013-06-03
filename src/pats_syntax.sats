@@ -143,7 +143,8 @@ fun fprint_s0tring : fprint_type (s0tring)
 
 (* ****** ****** *)
 
-typedef i0de = '{
+typedef
+i0de = '{
   i0de_loc= location, i0de_sym= symbol
 } // end of [i0de]
 

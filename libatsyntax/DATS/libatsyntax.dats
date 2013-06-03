@@ -65,19 +65,25 @@ end // end of [fhtml_putc]
 implement
 fstring_putc (x, putc) = let
 //
-fun loop {n:int}
-  {i:nat | i <= n} .<n-i>. (
+fun loop{n:int}
+  {i:nat | i <= n} .<n-i>.
+(
   x: string n
 , i: size_t i
 , putc: putc_type
 , nerr: &int
-) : int(*nerr*) =
-  if string_isnot_atend (x, i) then let
-    val err = putc (x[i])
-    val () = if err != 0 then nerr := nerr + 1
-  in
-    loop (x, i+1, putc, nerr)
-  end else nerr // end of [if]
+) : int(*nerr*) = let
+  val isnot = string_isnot_atend (x, i)
+in
+//
+if isnot then let
+  val err = putc (x[i])
+  val () = if err != 0 then nerr := nerr + 1
+in
+  loop (x, i+1, putc, nerr)
+end else nerr // end of [if]
+//
+end // end of [loop]
 //
 var nerr: int = 0
 val x = string1_of_string (x)
@@ -102,9 +108,7 @@ local
 
 staload "src/pats_lexing.sats"
 
-in // in of [local]
-
-(* ****** ****** *)
+in (* in of [local] *)
 
 implement
 token_is_eof (x) =
@@ -432,24 +436,27 @@ lexbufobj_get_tokenlst
 viewtypedef res = tokenlst_vt
 viewtypedef lexbuf = $LEX.lexbuf
 //
-fun loop (
+fun loop
+(
   buf: &lexbuf, res: &res? >> res
 ) : void = let
   val tok =
     $LEX.lexing_next_token (buf)
   val iseof = token_is_eof (tok)
 in
-  if iseof then
-    res := list_vt_nil ()
-  else let
-    val () = res :=
-      list_vt_cons {token}{0} (tok, ?)
-    val+ list_vt_cons (_, !p_res1) = res
-    val () = loop (buf, !p_res1)
-    prval () = fold@ (res)
-  in
-    // nothing
-  end // end of [if]
+//
+if iseof then
+  res := list_vt_nil ()
+else let
+  val () = res :=
+    list_vt_cons {token}{0} (tok, ?)
+  val+ list_vt_cons (_, !p_res1) = res
+  val () = loop (buf, !p_res1)
+  prval () = fold@ (res)
+in
+  // nothing
+end // end of [if]
+//
 end (* end of [loop] *)
 //
 var res: res
@@ -681,7 +688,7 @@ case+ xs of
 //
 end // end of [f0undeclst_test]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 test_symbol_d0ecl
@@ -689,6 +696,13 @@ test_symbol_d0ecl
 in
 //
 case+ d0c.d0ecl_node of
+//
+| $SYN.D0Coverload
+    (id, dqid, pval) =>
+  (
+    if id.i0de_sym = sym then true else false
+  )
+//
 | $SYN.D0Cstacons
     (_, xs) => s0taconlst_test (sym, xs)
 | $SYN.D0Csexpdefs
@@ -723,7 +737,8 @@ viewtypedef charlst_vt = List_vt (char)
 
 typedef d0eclist = $SYN.d0eclist
 
-fun drop (
+fun drop
+(
   inp: &charlst_vt, pos1: lint, pos2: lint
 ) : void = let
 in
@@ -738,15 +753,17 @@ if pos1 < pos2 then (
 //
 end // end of [drop]
 
-fun take (
+fun take
+(
   inp: &charlst_vt, pos1: lint, pos2: lint
-) : charlst = let
+) : charlst_vt = let
   var res: charlst_vt
   val () = take_main (inp, pos1, pos2, res)
 in
-  list_of_list_vt (res)
+  res
 end // end of [take]
-and take_main (
+and take_main
+(
   inp: &charlst_vt
 , pos1: lint, pos2: lint
 , res: &charlst_vt? >> charlst_vt
@@ -808,7 +825,7 @@ in
   res
 end // end of [i0nclude_declitemize]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 charlst_declitemize
@@ -825,12 +842,14 @@ val d0cs = $PAR.parse_from_tokbuf_toplevel (stadyn, !p)
 val () = $TBF.tokbuf_uninitialize (!p)
 val () = ptr_free (pfgc, pfat | p)  
 //
-fun d0eclrep_make (
-  d0c: d0ecl, cs: charlst
+fun d0eclrep_make
+(
+  d0c: d0ecl, inp: charlst_vt, pos: lint
 ) : d0eclrep = let
 in
 //
-case+ d0c.d0ecl_node of
+case+
+  d0c.d0ecl_node of
 | $SYN.D0Cinclude
     (pfil, stadyn, path) => let
     val (
@@ -838,41 +857,103 @@ case+ d0c.d0ecl_node of
     ) = $FIL.the_filenamelst_push (pfil)
     val replst = i0nclude_declitemize (d0c.d0ecl_loc, stadyn, path)
     val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+    val cs = list_of_list_vt (inp)
   in
     D0ECLREPinclude (d0c, cs, replst)
   end // end of [D0Cinclude]
-| _ => D0ECLREPsing (d0c, cs)
+| $SYN.D0Cguadecl (knd, gd0c) => let
+    val gd0c = guad0eclrep_make (gd0c.guad0ecl_node, inp, pos)
+  in
+    D0ECLREPguadecl (gd0c)
+  end // end of [D0Cguadecl]
+| _ => let
+    val cs = list_of_list_vt (inp) in D0ECLREPsing (d0c, cs)
+  end // end of [_]
 //
-end // end of [d0eclrep_make]
+end (* end of [d0eclrep_make] *)
 //
-fun loop (
+and guad0eclrep_make
+(
+  gnode: $SYN.guad0ecl_node, inp: charlst_vt, pos: lint
+) : guad0eclrep = let
+in
+//
+case+ gnode of
+| $SYN.GD0Cone (e0xp, d0cs) => let
+    var inp = inp
+    var pos = pos
+    var res: d0eclreplst
+    val () = traverse (d0cs, inp, pos, res)
+    val d0cs = res
+    val () = list_vt_free (inp)
+  in
+    GUAD0ECLREPone (d0cs)
+  end // end of [GD0Cone]
+| $SYN.GD0Ctwo (e0xp, d0cs1, d0cs2) => let
+    var inp = inp
+    var pos = pos
+    var res: d0eclreplst
+    val () = traverse (d0cs1, inp, pos, res)
+    val d0cs1 = res
+    val () = traverse (d0cs2, inp, pos, res)
+    val d0cs2 = res
+    val () = list_vt_free (inp)
+  in
+    GUAD0ECLREPtwo (d0cs1, d0cs2)
+  end // end of [GD0Ctwo]
+| $SYN.GD0Ccons (e0xp, d0cs1, knd, gnode2) => let
+    var inp = inp
+    var pos = pos
+    var res: d0eclreplst
+    val () = traverse (d0cs1, inp, pos, res)
+    val d0cs1 = res
+    val gd0c2 = guad0eclrep_make (gnode2, inp, pos)
+  in
+    GUAD0ECLREPcons (d0cs1, gd0c2)
+  end // end of [GD0Ccons]
+//
+end // end of [guad0eclrep_make]
+//
+and traverse
+(
   d0cs: d0eclist
-, inp: &charlst_vt, pos: lint
+, inp: &charlst_vt, pos: &lint
 , res: &d0eclreplst? >> d0eclreplst
-) : void =
-  case+ d0cs of
-  | list_cons
-      (d0c, d0cs) => let
-      val loc = d0c.d0ecl_loc
-      val pos1 = $LOC.location_beg_ntot (loc)
-      val pos2 = $LOC.location_end_ntot (loc)
-      val () = drop (inp, pos, pos1)
-      val pos = pos1
-      val cs = take (inp, pos, pos2)
-      val pos = pos2
-      val () = res :=
-        list_cons{d0eclrep}{0} (?, ?)
-      val+ list_cons (!p1, !p2) = res
-      val () = !p1 := d0eclrep_make (d0c, cs)
-      val () = loop (d0cs, inp, pos, !p2)
-    in
-      fold@ (res)
-    end // end of [list_cons]
-  | list_nil () => res := list_nil ()
+) : void = let
+in
+//
+case+ d0cs of
+| list_cons
+    (d0c, d0cs) => let
+//
+    val loc = d0c.d0ecl_loc
+//
+    val pos0 = pos
+    val pos1 = $LOC.location_beg_ntot (loc)
+    val pos2 = $LOC.location_end_ntot (loc)
+//
+    val () = drop (inp, pos0, pos1)
+    val inp_cs = take (inp, pos1, pos2)
+    val () = res :=
+      list_cons{d0eclrep}{0} (?, ?)
+    val+ list_cons (!p1, !p2) = res
+    val () = !p1 := d0eclrep_make (d0c, inp_cs, pos1)
+//
+    val () = pos := pos2
+    val () = traverse (d0cs, inp, pos, !p2)
+//
+    prval () = fold@ (res)
+  in
+    // nothing
+  end // end of [list_cons]
+| list_nil () => (res := list_nil ())
+//
+end (* end of [traverse] *)
 //
 var inp = inp
+var pos: lint = 0L
 var res: d0eclreplst
-val () = loop (d0cs, inp, 0L, res)
+val () = traverse (d0cs, inp, pos, res)
 val () = list_vt_free (inp)
 //
 in
@@ -882,36 +963,64 @@ end // end of [charlst_declitemize]
 end // end of [local]
 
 (* ****** ****** *)
-
+//
 implement
 d0eclreplst_find_synop
-  (xs, sym) = let
+  (d0cs, sym) = let
 //
-fun auxfind (
-  xs: d0eclreplst, sym: symbol
-) : Option_vt (charlst) = let
+vtypedef res_vt = List_vt (charlst)
+//
+fun aux
+(
+  d0c: d0eclrep, sym: symbol, res: res_vt
+) : res_vt = let
 in
 //
-case+ xs of
-| list_cons (x, xs) => (
-  case+ x of
-  | D0ECLREPsing (d0c, cs) =>
-      if test_symbol_d0ecl (sym, d0c)
-        then Some_vt (cs) else auxfind (xs, sym)
-      // end of [if]
-  | D0ECLREPinclude (d0c, cs, replst) => let
-      val opt = d0eclreplst_find_synop (replst, sym)
-    in
-      case+ opt of
-      | ~Some_vt cs => Some_vt (cs) | ~None_vt () => auxfind (xs, sym)
-    end // end of [D0ECLREPinclude]
-  ) // end of [list_cons]
-| list_nil () => None_vt ()
+case+ d0c of
+| D0ECLREPsing (d0c, cs) => let
+    val found = test_symbol_d0ecl (sym, d0c)
+  in
+    if found then list_vt_cons (cs, res) else res
+  end // end of [D0ECLREPsing]
+| D0ECLREPinclude (d0c, cs, d0cs2) => auxlst (d0cs2, sym, res)
+| D0ECLREPguadecl (gd0c) => auxgua (gd0c, sym, res)
 //
-end // end of [auxfind]
+end // end of [aux]
+
+and auxlst
+(
+  d0cs: d0eclreplst, sym: symbol, res: res_vt
+) : res_vt = let
+in
+//
+case+ d0cs of
+| list_cons
+    (d0c, d0cs) => let
+    val res = aux (d0c, sym, res) in auxlst (d0cs, sym, res)
+  end // end of [list_cons]
+| list_nil () => res
+//
+end // end of [auxlst]
+//
+and auxgua
+(
+  gd0c: guad0eclrep, sym: symbol, res: res_vt
+) : res_vt = let
+in
+//
+case+ gd0c of
+| GUAD0ECLREPone (d0cs) => auxlst (d0cs, sym, res)
+| GUAD0ECLREPtwo (d0cs1, d0cs2) => let
+    val res = auxlst (d0cs1, sym, res) in auxlst (d0cs2, sym, res)
+  end (* end of [GUAD0ECLREPtwo] *)
+| GUAD0ECLREPcons (d0cs1, gd0c2) => let
+    val res = auxlst (d0cs1, sym, res) in auxgua (gd0c2, sym, res)
+  end (* end of [GUAD0ECLREPcons] *)
+//
+end // end of [guad0eclrep_find_synop]
 //
 in
-  auxfind (xs, sym)
+  auxlst (d0cs, sym, list_vt_nil)
 end // end of [d0eclreplst_find_synop]
 
 (* ****** ****** *)

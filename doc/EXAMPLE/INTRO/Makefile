@@ -225,6 +225,14 @@ clean:: ; $(RMF) sumodd_dats.o
 clean:: ; $(RMF) sumodd_dats.c
 cleanall:: ; $(RMF) sumodd.exe
 
+all:: staref
+staref: staref.exe
+staref.exe: staref_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+staref_dats.c: staref.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output staref_dats.c --dynamic staref.dats
+clean:: ; $(RMF) staref_dats.o
+clean:: ; $(RMF) staref_dats.c
+cleanall:: ; $(RMF) staref.exe
+
 all:: strprefix
 strprefix: strprefix.exe
 strprefix.exe: strprefix_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

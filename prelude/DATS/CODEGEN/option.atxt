@@ -57,6 +57,24 @@ option_unsome_exn
 
 #atscode_separator()
 
+implement{a}
+fprint_option
+  (out, opt) = let
+in
+//
+case+ opt of
+| Some (x) => {
+    val (
+    ) = fprint_string (out, "Some(")
+    val () = fprint_val<a> (out, x)
+    val () = fprint_string (out, ")")
+  } (* end of [Some] *)
+| None () => fprint_string (out, "None()")
+//
+end // end of [fprint_option]
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

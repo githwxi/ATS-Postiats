@@ -88,13 +88,7 @@ a1,a2:t0p
 
 (* ****** ****** *)
 
-#declname("Option_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-viewtypedef Option_vt (a:viewt@ype) = [b:bool] option_vt (a, b)\
-')')
-')
+#declnamesynop("Option_vt")
 
 (* ****** ****** *)
 
@@ -149,6 +143,18 @@ content of a given variable.  ')
 #decldescrpt('\
 This function frees the memory occupied by a linear option-value.
 ')
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
 
 (* ****** ****** *)
 

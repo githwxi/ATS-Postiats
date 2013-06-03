@@ -86,82 +86,18 @@ respectively.\
 
 (* ****** ****** *)
 
-#declname("List_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-viewtypedef
-List_vt (a:vt0p) = [n:int] list_vt (a, n)
-')')
-')
-#declname("List0_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-viewtypedef
-List0_vt (a:vt0p) = [n:int | n >= 0] list_vt (a, n)
-')')
-')
-#declname("List1_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-viewtypedef
-List1_vt (a:vt0p) = [n:int | n >= 1] list_vt (a, n)
-')')
-')
-
-#declname("listLt_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-viewtypedef listLt_vt
-  (a:vt0p, n:int) = [k:nat | k < n] list_vt (a, k)
-')')
-')
-#declname("listLte_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-viewtypedef listLte_vt
-  (a:vt0p, n:int) = [k:nat | k <= n] list_vt (a, k)
-')')
-')
-#declname("listGt_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-viewtypedef listGt_vt
-  (a:vt0p, n:int) = [k:int | k > n] list_vt (a, k)
-')')
-')
-#declname("listGte_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-viewtypedef listGte_vt
-  (a:vt0p, n:int) = [k:int | k >= n] list_t (a, k)
-')')
-')
+#declnamesynop("List_vt")
+#declnamesynop("List0_vt")
+#declnamesynop("List1_vt")
 
 (* ****** ****** *)
 
-#declname("listBtw_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-viewtypedef listBtw_vt
-  (a:vt0p, m:int, n:int) = [k:int | m <= k; k < n] list_vt (a, k)
-')')
-')
-#declname("listBtwe_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-viewtypedef listBtwe_vt
-  (a:vt0p, m:int, n:int) = [k:int | m <= k; k <= n] list_vt (a, k)
-')')
-')
+#declnamesynop("listLt_vt")
+#declnamesynop("listLte_vt")
+#declnamesynop("listGt_vt")
+#declnamesynop("listGte_vt")
+#declnamesynop("listBtw_vt")
+#declnamesynop("listBtwe_vt")
 
 (* ****** ****** *)
 
@@ -235,6 +171,8 @@ Given a linear list xs of length n and a natural number i <= n, this
 function returns a pointer that points to the suffix of xs of length n-i.
 While this function itself is safe, any subsequent use of the returned
 pointer requires great caution. ')
+
+(* ****** ****** *)
 
 #declnamesynop("list_vt_get_at")
 #declnamesynop("list_vt_set_at")
@@ -412,6 +350,10 @@ by #dyncode("list_vt_foreach$cont") returns false.  ")
 #declnamesynop("list_vt_foreach_env")
 
 #declnamesynop("list_vt_foreach$cont")
+#decldescrpt('\
+The default implementation of this function always returns true.\
+')
+
 #declnamesynop("list_vt_foreach$fwork")
 
 (* ****** ****** *)
@@ -428,6 +370,10 @@ implemented by #dyncode("list_vt_foreach$cont") returns false.  ")
 #declnamesynop("list_vt_iforeach_env")
 
 #declnamesynop("list_vt_iforeach$cont")
+#decldescrpt('\
+The default implementation of this function always returns true.\
+')
+
 #declnamesynop("list_vt_iforeach$fwork")
 
 (* ****** ****** *)
@@ -599,6 +545,31 @@ list_vt_quicksort$cmp (x, y) = gcompare_ref<a> (x, y)
 This function does essentially the same as #dyncode("list_vt_quicksort")
 except for allowing the comparison function to be provided as an argument.
 ')
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("iseqz")
+#declnamesynop("isneqz")
+
+(* ****** ****** *)
+
+#declnamesynop("length")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
 
 (* ****** ****** *)
 

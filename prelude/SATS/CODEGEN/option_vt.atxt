@@ -26,7 +26,18 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-#atscode_decl_strcst("sortdef vt0p = viewt@ype")
+sortdef vt0p = viewt@ype
+
+#atscode_separator()
+
+\#if(0)
+//
+// HX: these decls are available in [basic_dyn.sats]
+//
+stadef option_vt = option_vt0ype_bool_vtype
+vtypedef Option_vt (a:vt0p) = [b:bool] option_vt (a, b)
+//
+\#endif
 
 #atscode_separator()
 
@@ -66,6 +77,13 @@ option_vt_unnone (opt: option_vt (INV(a), false)):<!wrt> void
 
 fun{a:t0p}
 option_vt_free (opt: Option_vt (INV(a))):<!wrt> void
+
+#atscode_separator()
+
+fun{a:vt0p}
+fprint_option_vt{b:bool}
+   (out: FILEref, opt: !option_vt (INV(a), b)): void
+overload fprint with fprint_option_vt
 
 #atscode_separator()
 

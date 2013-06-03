@@ -37,7 +37,6 @@ matrices without dimension information attached.
 
 (* ****** ****** *)
 
-#declnamesynop("matrixref_make_elt")
 #declnamesynop("matrixref_make_elt_int")
 #declnamesynop("matrixref_make_elt_size")
 
@@ -53,9 +52,34 @@ matrices without dimension information attached.
 
 (* ****** ****** *)
 
-#declnamesynop("matrixref_exch_at")
 #declnamesynop("matrixref_exch_at_int")
 #declnamesynop("matrixref_exch_at_size")
+
+(* ****** ****** *)
+
+#declnamesynop("matrixref_make_elt")
+
+(* ****** ****** *)
+
+#declnamesynop("matrixref_get_at")
+#declnamesynop("matrixref_set_at")
+#declnamesynop("matrixref_exch_at")
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
 
 (* ****** ****** *)
 

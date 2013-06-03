@@ -25,7 +25,13 @@ val () = A[i] := ~i
 val () = assertloc (A[i] = ~i)
 val () = arrayptr_interchange (A, (i2sz)0, (i2sz)4)
 val () = assertloc (A[0] = 4 && A[4] = 0)
+//
 val A = A // HX: a puzzling existential unpacking :)
+//
+val out = stdout_ref
+val () = fprint! (out, "A = ")
+val () = fprint_arrayptr_sep (out, A, i2sz(5), "; ")
+val () = fprintln! (out)
 //
 val () = arrayptr_free (A)
 //

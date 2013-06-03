@@ -84,13 +84,7 @@ a1,a2:t@ype
 
 (* ****** ****** *)
 
-#declname("Option")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-typedef Option (a:t@ype) = [b:bool] option (a, b)\
-')')
-')
+#declnamesynop("Option")
 
 (* ****** ****** *)
 
@@ -137,6 +131,18 @@ This is just the inverse of #dyncode("option_some").
 If a given option-value is of the form #dyncode("Some(v)"), then this
 function returns v. Otherwise, it raises an exception
 (#dyncode("NotSomeExn")).  ')
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
 
 (* ****** ****** *)
 

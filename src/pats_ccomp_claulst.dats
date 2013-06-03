@@ -90,7 +90,8 @@ labpatcomplst_vt = List_vt (labpatcomp_vt)
 (* ****** ****** *)
 
 implement
-hiclaulst_ccomp (
+hiclaulst_ccomp
+(
   env, pmvs, hicls, tmpret, fail
 ) = let
 in

@@ -17,7 +17,7 @@ fun myatscodelink
 
 (* ****** ****** *)
 
-fun declname_find_synopsis (stadyn: int, x: string): strptr1
+fun declname_find_synoplst (stadyn: int, x: string): List_vt (strptr1)
 
 (* ****** ****** *)
 

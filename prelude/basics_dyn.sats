@@ -263,6 +263,8 @@ typedef listBtw
 typedef listBtwe
   (a:t0p, m:int, n:int) = [k:int | m <= k; k <= n] list (a, k)
 //
+(* ****** ****** *)
+//
 datavtype // vt@ype+: covariant
 list_vt0ype_int_vtype (a:vt@ype+, int) =
   | list_vt_nil (a, 0) of ()

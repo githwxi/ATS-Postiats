@@ -28,33 +28,15 @@ chars.
 
 (* ****** ****** *)
 
-#declname("+")
-#declsynop2("\
-#pats2xhtmls("\
-overload + with add_char0_int0 of 0
-")
-")
 #declnamesynop("add_char0_int0")
 
-#declname("-")
-#declsynop2("\
-#pats2xhtmls("\
-overload - with sub_char0_int0 of 0
-overload - with sub_char0_char0 of 0
-")
-")
+(* ****** ****** *)
+
 #declnamesynop("sub_char0_int0")
 #declnamesynop("sub_char0_char0")
 
 (* ****** ****** *)
 
-#declname("<")
-#declsynop2("\
-#pats2xhtmls("\
-overload < with lt_char0_char0 of 0
-overload < with lt_char1_char1 of 20
-")
-")
 #declnamesynop("lt_char0_char0")
 #decldescrpt('\
 This function returns true if and only if the ascii code of its first
@@ -66,13 +48,8 @@ This function does the same as #dyncode("lt_char0_char0") but it is
 assigned a more informative type.
 ')
 
-#declname("<=")
-#declsynop2("\
-#pats2xhtmls("\
-overload <= with lte_char0_char0 of 0
-overload <= with lte_char1_char1 of 20
-")
-")
+(* ****** ****** *)
+
 #declnamesynop("lte_char0_char0")
 #decldescrpt('\
 This function returns true if and only if the ascii code of its first
@@ -86,13 +63,6 @@ assigned a more informative type.
 
 (* ****** ****** *)
 
-#declname(">")
-#declsynop2("\
-#pats2xhtmls("\
-overload > with gt_char0_char0 of 0
-overload > with gt_char1_char1 of 20
-")
-")
 #declnamesynop("gt_char0_char0")
 #decldescrpt('\
 This function returns true if and only if the ascii code of its first
@@ -104,13 +74,8 @@ This function does the same as #dyncode("gt_char0_char0") but it is
 assigned a more informative type.
 ')
 
-#declname(">=")
-#declsynop2("\
-#pats2xhtmls("\
-overload >= with gte_char0_char0 of 0
-overload >= with gte_char1_char1 of 20
-")
-")
+(* ****** ****** *)
+
 #declnamesynop("gte_char0_char0")
 #decldescrpt('\
 This function returns true if and only if the ascii code of its first
@@ -124,13 +89,6 @@ assigned a more informative type.
 
 (* ****** ****** *)
 
-#declname("=")
-#declsynop2("\
-#pats2xhtmls("\
-overload = with eq_char0_char0 of 0
-overload = with eq_char1_char1 of 20
-")
-")
 #declnamesynop("eq_char0_char0")
 #decldescrpt('\
 This function returns true if and only if the ascii code of its first
@@ -142,13 +100,8 @@ This function does the same as #dyncode("eq_char0_char0") but it is
 assigned a more informative type.
 ')
 
-#declname("!=")
-#declsynop2("\
-#pats2xhtmls("\
-overload != with neq_char0_char0 of 0
-overload != with neq_char1_char1 of 20
-")
-")
+(* ****** ****** *)
+
 #declnamesynop("neq_char0_char0")
 #decldescrpt('\
 This function returns true if and only if the ascii code of its first
@@ -161,14 +114,6 @@ assigned a more informative type.
 ')
 
 (* ****** ****** *)
-
-#declname("compare")
-#declsynop2("\
-#pats2xhtmls("\
-overload compare with compare_char0_char0 of 0
-overload compare with compare_char1_char1 of 20
-")
-")
 
 #declnamesynop("compare_char0_char0")
 #decldescrpt('\
@@ -184,17 +129,14 @@ This function does the same as #dyncode("compare_char0_char0") but it is
 assigned a more informative type.
 ')
 
+(* ****** ****** *)
+
+#declnamesynop("print_char")
+#declnamesynop("prerr_char")
+#declnamesynop("fprint_char")
 
 (* ****** ****** *)
 
-#declname("isalpha")
-#declsynop2("\
-#pats2xhtmls("\
-symintr isalpha
-overload isalpha with isalpha_int
-overload isalpha with isalpha_char
-")
-")
 #declnamesynop("isalpha_int")
 #decldescrpt("
 This function directly corresponds to the libc-function isalpha.
@@ -204,14 +146,8 @@ This function directly corresponds to the libc-function isalpha.
 This function is a slight variant of #dyncode("isalpha_int").
 ")
 
-#declname("isalnum")
-#declsynop2("\
-#pats2xhtmls("\
-symintr isalnum
-overload isalnum with isalnum_int
-overload isalnum with isalnum_char
-")
-")
+(* ****** ****** *)
+
 #declnamesynop("isalnum_int")
 #decldescrpt("
 This function directly corresponds to the libc-function isalnum.
@@ -221,14 +157,8 @@ This function directly corresponds to the libc-function isalnum.
 This function is a slight variant of #dyncode("isalnum_int").
 ")
 
-#declname("isascii")
-#declsynop2("\
-#pats2xhtmls("\
-symintr isascii
-overload isascii with isascii_int
-overload isascii with isascii_char
-")
-")
+(* ****** ****** *)
+
 #declnamesynop("isascii_int")
 #decldescrpt("
 This function directly corresponds to the libc-function isascii.
@@ -240,14 +170,6 @@ This function is a slight variant of #dyncode("isascii_int").
 
 (* ****** ****** *)
 
-#declname("isblank")
-#declsynop2("\
-#pats2xhtmls("\
-symintr isblank
-overload isblank with isblank_int
-overload isblank with isblank_char
-")
-")
 #declnamesynop("isblank_int")
 #decldescrpt("
 This function directly corresponds to the libc-function isblank.
@@ -257,14 +179,8 @@ This function directly corresponds to the libc-function isblank.
 This function is a slight variant of #dyncode("isblank_int").
 ")
 
-#declname("isspace")
-#declsynop2("\
-#pats2xhtmls("\
-symintr isspace
-overload isspace with isspace_int
-overload isspace with isspace_char
-")
-")
+(* ****** ****** *)
+
 #declnamesynop("isspace_int")
 #decldescrpt("
 This function directly corresponds to the libc-function isspace.
@@ -276,14 +192,6 @@ This function is a slight variant of #dyncode("isspace_int").
 
 (* ****** ****** *)
 
-#declname("iscntrl")
-#declsynop2("\
-#pats2xhtmls("\
-symintr iscntrl
-overload iscntrl with iscntrl_int
-overload iscntrl with iscntrl_char
-")
-")
 #declnamesynop("iscntrl_int")
 #decldescrpt("
 This function directly corresponds to the libc-function iscntrl.
@@ -295,14 +203,6 @@ This function is a slight variant of #dyncode("iscntrl_int").
 
 (* ****** ****** *)
 
-#declname("isdigit")
-#declsynop2("\
-#pats2xhtmls("\
-symintr isdigit
-overload isdigit with isdigit_int
-overload isdigit with isdigit_char
-")
-")
 #declnamesynop("isdigit_int")
 #decldescrpt("
 This function directly corresponds to the libc-function isdigit.
@@ -312,14 +212,8 @@ This function directly corresponds to the libc-function isdigit.
 This function is a slight variant of #dyncode("isdigit_int").
 ")
 
-#declname("isxdigit")
-#declsynop2("\
-#pats2xhtmls("\
-symintr isxdigit
-overload isxdigit with isxdigit_int
-overload isxdigit with isxdigit_char
-")
-")
+(* ****** ****** *)
+
 #declnamesynop("isxdigit_int")
 #decldescrpt("
 This function directly corresponds to the libc-function isxdigit.
@@ -331,14 +225,6 @@ This function is a slight variant of #dyncode("isxdigit_int").
 
 (* ****** ****** *)
 
-#declname("isgraph")
-#declsynop2("\
-#pats2xhtmls("\
-symintr isgraph
-overload isgraph with isgraph_int
-overload isgraph with isgraph_char
-")
-")
 #declnamesynop("isgraph_int")
 #decldescrpt("
 This function directly corresponds to the libc-function isgraph.
@@ -348,14 +234,8 @@ This function directly corresponds to the libc-function isgraph.
 This function is a slight variant of #dyncode("isgraph_int").
 ")
 
-#declname("isprint")
-#declsynop2("\
-#pats2xhtmls("\
-symintr isprint
-overload isprint with isprint_int
-overload isprint with isprint_char
-")
-")
+(* ****** ****** *)
+
 #declnamesynop("isprint_int")
 #decldescrpt("
 This function directly corresponds to the libc-function isprint.
@@ -365,14 +245,8 @@ This function directly corresponds to the libc-function isprint.
 This function is a slight variant of #dyncode("isprint_int").
 ")
 
-#declname("ispunct")
-#declsynop2("\
-#pats2xhtmls("\
-symintr ispunct
-overload ispunct with ispunct_int
-overload ispunct with ispunct_char
-")
-")
+(* ****** ****** *)
+
 #declnamesynop("ispunct_int")
 #decldescrpt("
 This function directly corresponds to the libc-function ispunct.
@@ -384,14 +258,6 @@ This function is a slight variant of #dyncode("ispunct_int").
 
 (* ****** ****** *)
 
-#declname("islower")
-#declsynop2("\
-#pats2xhtmls("\
-symintr islower
-overload islower with islower_int
-overload islower with islower_char
-")
-")
 #declnamesynop("islower_int")
 #decldescrpt("
 This function directly corresponds to the libc-function islower.
@@ -401,14 +267,8 @@ This function directly corresponds to the libc-function islower.
 This function is a slight variant of #dyncode("islower_int").
 ")
 
-#declname("isupper")
-#declsynop2("\
-#pats2xhtmls("\
-symintr isupper
-overload isupper with isupper_int
-overload isupper with isupper_char
-")
-")
+(* ****** ****** *)
+
 #declnamesynop("isupper_int")
 #decldescrpt("
 This function directly corresponds to the libc-function isupper.
@@ -420,14 +280,6 @@ This function is a slight variant of #dyncode("isupper_int").
 
 (* ****** ****** *)
 
-#declname("toascii")
-#declsynop2("\
-#pats2xhtmls("\
-symintr toascii
-overload toascii with toascii_int
-overload toascii with toascii_char
-")
-")
 #declnamesynop("toascii_int")
 #decldescrpt("
 This function directly corresponds to the libc-function toascii.
@@ -439,14 +291,6 @@ This function is a slight variant of #dyncode("toascii_int").
 
 (* ****** ****** *)
 
-#declname("tolower")
-#declsynop2("\
-#pats2xhtmls("\
-symintr tolower
-overload tolower with tolower_int
-overload tolower with tolower_char
-")
-")
 #declnamesynop("tolower_int")
 #decldescrpt("
 This function directly corresponds to the libc-function tolower.
@@ -458,14 +302,6 @@ This function is a slight variant of #dyncode("tolower_int").
 
 (* ****** ****** *)
 
-#declname("toupper")
-#declsynop2("\
-#pats2xhtmls("\
-symintr toupper
-overload toupper with toupper_int
-overload toupper with toupper_char
-")
-")
 #declnamesynop("toupper_int")
 #decldescrpt("
 This function directly corresponds to the libc-function toupper.
@@ -474,6 +310,57 @@ This function directly corresponds to the libc-function toupper.
 #decldescrpt("
 This function is a slight variant of #dyncode("toupper_int").
 ")
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("+")
+#declnamesynop("-")
+
+(* ****** ****** *)
+
+#declnamesynop("<")
+#declnamesynop("<=")
+#declnamesynop(">")
+#declnamesynop(">=")
+#declnamesynop("=")
+#declnamesynop("!=")
+#declnamesynop("compare")
+
+(* ****** ****** *)
+
+#declnamesynop("print")
+#declnamesynop("prerr")
+#declnamesynop("fprint")
+
+(* ****** ****** *)
+
+#declnamesynop("isalpha")
+#declnamesynop("isalnum")
+#declnamesynop("isascii")
+#declnamesynop("isblank")
+#declnamesynop("isspace")
+#declnamesynop("iscntrl")
+#declnamesynop("isdigit")
+#declnamesynop("isxdigit")
+#declnamesynop("isgraph")
+#declnamesynop("isprint")
+#declnamesynop("ispunct")
+#declnamesynop("islower")
+#declnamesynop("isupper")
+
+(* ****** ****** *)
+
+#declnamesynop("toascii")
+#declnamesynop("tolower")
+#declnamesynop("toupper")
 
 (* ****** ****** *)
 
