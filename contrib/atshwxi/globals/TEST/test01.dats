@@ -1,12 +1,12 @@
 (*
 ** HX-2013-06:
-** Statically allocated global references
+** Statically allocated global variables
 *)
 
 (* ****** ****** *)
 
-staload I = "intref.dats"
-staload F = "floatref.dats"
+staload I = "intvar.dats"
+staload F = "floatvar.dats"
 
 (* ****** ****** *)
 

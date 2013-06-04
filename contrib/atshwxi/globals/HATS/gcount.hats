@@ -27,36 +27,61 @@
 *)
 
 (* ****** ****** *)
+//
+staload _(*anon*) =
+"prelude/DATS/integer.dats"
+//
+(* ****** ****** *)
 
-(*
-abst@ype T
-*)
+extern fun inc (): void
+extern fun dec (): void
+extern fun get (): int
+extern fun set (x: int): void
+extern fun reset (): void
 
 (* ****** ****** *)
 
-extern fun get (): T
-extern fun set (x: T): void
+extern fun getinc (): int
+extern fun decget (): int
 
 (* ****** ****** *)
 
 local
 
-var _val: T
+var _val: int = 0
 val p_val = addr@(_val)
 prval pf_val = view@(_val)
-val () = initize (!p_val)
 
 val r_val =
-  ref_make_viewptr{T}(pf_val | p_val)
+  ref_make_viewptr{int}(pf_val | p_val)
 // end of [val]
 
 in (* in of [local] *)
 
+implement inc () =
+  let val n = !r_val in !r_val := n + 1 end
+// end of [inc]
+
+implement dec () =
+  let val n = !r_val in !r_val := n - 1 end
+// end of [dec]
+
 implement get () = !r_val
+
 implement set (x) = !r_val := x
+
+implement reset () = !r_val := 0
+
+implement getinc () =
+  let val n = !r_val in !r_val := n + 1; (n) end
+// end of [getinc]
+
+implement decget () =
+  let val n1 = !r_val - 1 in !r_val := n1; (n1) end
+// end of [decget]
 
 end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [globalref.hats] *)
+(* end of [gcount.hats] *)

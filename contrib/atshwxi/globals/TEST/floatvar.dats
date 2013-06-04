@@ -7,10 +7,10 @@ fun initize (x: &T? >> T): void = x := 0.0
 
 in (* in of [local] *)
 
-#include "atshwxi/globals/HATS/globalref.hats"
+#include "atshwxi/globals/HATS/gvar.hats"
 
 end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [floatref.dats] *)
+(* end of [floatvar.dats] *)
