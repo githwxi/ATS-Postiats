@@ -107,31 +107,63 @@ array0_make_list
 (* ****** ****** *)
 
 fun{a:t0p}
-array0_get_at_size (A: array0 (a), i: size_t):<!exn,!ref> a
+array0_get_at_size
+  (A: array0 (a), i: size_t):<!exn,!ref> a
 fun{a:t0p}{tk:tk}
-array0_get_at_gint (A: array0 (a), i: g0int(tk)):<!exn,!ref> a
-fun{a:t0p}{tk:tk}
-array0_get_at_guint (A: array0 (a), i: g0uint(tk)):<!exn,!ref> a
-
+array0_get_at_gint
+  (A: array0 (a), i: g0int(tk)):<!exn,!ref> a
 overload [] with array0_get_at_gint
+fun{a:t0p}{tk:tk}
+array0_get_at_guint
+  (A: array0 (a), i: g0uint(tk)):<!exn,!ref> a
 overload [] with array0_get_at_guint
-
+//
+overload array0_get_at with array0_get_at_gint
+overload array0_get_at with array0_get_at_guint
+//
 (* ****** ****** *)
 
 fun{a:t0p}
-array0_set_at_size (A: array0 (a), i: size_t, x: a):<!exn,!refwrt> void
+array0_set_at_size
+  (A: array0 (a), i: size_t, x: a):<!exn,!refwrt> void
 fun{a:t0p}{tk:tk}
-array0_set_at_gint (A: array0 (a), i: g0int(tk), x: a):<!exn,!refwrt> void
+array0_set_at_gint
+  (A: array0 (a), i: g0int(tk), x: a):<!exn,!refwrt> void
+overload [] with array0_set_at_gint
 fun{a:t0p}{tk:tk}
-array0_set_at_guint (A: array0 (a), i: g0uint(tk), x: a):<!exn,!refwrt> void
+array0_set_at_guint
+  (A: array0 (a), i: g0uint(tk), x: a):<!exn,!refwrt> void
+overload [] with array0_set_at_guint
+//
+overload array0_set_at with array0_set_at_gint
+overload array0_set_at with array0_set_at_guint
+//
+(* ****** ****** *)
 
 fun{a:vt0p}
-array0_exch_at_size (A: array0 (a), i: size_t, x: &a):<!exn,!refwrt> void
+array0_exch_at_size
+  (A: array0 (a), i: size_t, x: &a):<!exn,!refwrt> void
 fun{a:vt0p}{tk:tk}
-array0_exch_at_gint (A: array0 (a), i: g0int(tk), x: &a):<!exn,!refwrt> void
+array0_exch_at_gint
+  (A: array0 (a), i: g0int(tk), x: &a):<!exn,!refwrt> void
 fun{a:vt0p}{tk:tk}
-array0_exch_at_guint (A: array0 (a), i: g0uint(tk), x: &a):<!exn,!refwrt> void
+array0_exch_at_guint
+  (A: array0 (a), i: g0uint(tk), x: &a):<!exn,!refwrt> void
+//
+overload array0_exch_at with array0_exch_at_gint
+overload array0_exch_at with array0_exch_at_guint
+//
+(* ****** ****** *)
 
+fun{a:vt0p}
+fprint_array0 (out: FILEref, A: array0 (a)): void
+fun{a:vt0p}
+fprint_array0_sep
+  (out: FILEref, A: array0 (a), sep: string): void
+//
+overload fprint with fprint_array0
+overload fprint with fprint_array0_sep
+//
 (* ****** ****** *)
 
 fun{a:t0p}

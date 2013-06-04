@@ -1,0 +1,55 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../memory.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("HTML/TRYIT/memory")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/prelude/memory\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para("\
+
+This package contains various functions on memory allocation and
+deallocation.\
+
+")
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("malloc_gc")
+
+(* ****** ****** *)
+
+#declnamesynop("mfree_gc")
+
+(* ****** ****** *)
+
+#declnamesynop("calloc_gc")
+
+(* ****** ****** *)
+
+#declnamesynop("realloc_gc")
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+(* end of [pointer.atxt] *)

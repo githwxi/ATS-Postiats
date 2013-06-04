@@ -56,24 +56,35 @@ castfn
 option_of_option0 {a:t@ype} (xs: option0 a):<> Option (a)
 
 (* ****** ****** *)
-
+//
+fun{
+} option0_none
+  {a:t0p} ((*void*)):<> option0 (a)
+//
 fun{
 a:t0p
 } option0_some (x: a):<> option0 (a)
-fun{}
-option0_none {a:t0p} ((*void*)):<> option0 (a)
-
+//
 (* ****** ****** *)
 
 fun{}
-option0_is_some {a:t0p} (x: option0 a):<> bool
-fun{}
 option0_is_none {a:t0p} (x: option0 a):<> bool
+overload iseqz with option0_is_none
+
+fun{}
+option0_is_some {a:t0p} (x: option0 a):<> bool
+overload isneqz with option0_is_some
 
 (* ****** ****** *)
 
 fun{a:t0p}
 option0_unsome_exn (opt: option0 (a)):<!exn> a
+
+(* ****** ****** *)
+
+fun{a:t0p}
+fprint_option0 (out: FILEref, opt: option0 (a)): void
+overload fprint with fprint_option0
 
 (* ****** ****** *)
 

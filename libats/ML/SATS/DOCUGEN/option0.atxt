@@ -65,38 +65,57 @@ indexed type.
 
 (* ****** ****** *)
 
-#declnamesynop("option0_some")
-#decldescrpt('\
-This is just the function version of the constructor #dyncode("Some0").
-')
 #declnamesynop("option0_none")
 #decldescrpt('\
 This is just the function version of the constructor #dyncode("None0").
 ')
 
+#declnamesynop("option0_some")
+#decldescrpt('\
+This is just the function version of the constructor #dyncode("Some0").
+')
+
 (* ****** ****** *)
 
-#declnamesynop("option0_is_some")
-#decldescrpt('\
-This funtion returns true if and only a given option-value is formed with
-the constructor #dyncode('Some0').
-')
 #declnamesynop("option0_is_none")
 #decldescrpt('\
 This funtion returns true if and only a given option-value is formed with
 the constructor #dyncode('None0').
 ')
 
+#declnamesynop("option0_is_some")
+#decldescrpt('\
+This funtion returns true if and only a given option-value is formed with
+the constructor #dyncode('Some0').
+')
+
 (* ****** ****** *)
 
 #declnamesynop("option0_unsome_exn")
-#decldescrpt("\
+#decldescrpt('\
 
 If a given option-value is of the form #dyncode("Some0(v)"), then
 this function returns the value v. Otherwise, it raises an exception
-(#dyncode("NotSomeExn")).
+(#dyncode("NotSomeExn")).\
 
-")
+')
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("iseqz")
+#declnamesynop("isneqz")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
 
 (* ****** ****** *)
 

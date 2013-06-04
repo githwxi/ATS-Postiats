@@ -110,6 +110,7 @@ all_html::
 #make_entry("float")
 #make_entry("tuple")
 
+#make_entry("memory")
 #make_entry("pointer")
 #make_entry("reference")
 

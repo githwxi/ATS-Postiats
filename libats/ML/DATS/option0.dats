@@ -68,4 +68,11 @@ option0_unsome_exn (opt) =
 
 (* ****** ****** *)
 
+implement{a}
+fprint_option0
+  (out, opt) = fprint_option (out, option_of_option0 (opt))
+// end of [fprint_option0]
+
+(* ****** ****** *)
+
 (* end of [option0.dats] *)
