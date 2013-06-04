@@ -94,6 +94,16 @@ overload strarr with strarr_make_string
 fun strarr_imake_string (str: strarr):<!wrt> string
 //
 (* ****** ****** *)
+
+fun{}
+strarr_is_empty (str: strarr):<> bool
+overload iseqz with strarr_is_empty
+
+fun{}
+strarr_isnot_empty (str: strarr):<> bool
+overload isneqz with strarr_isnot_empty
+
+(* ****** ****** *)
 //
 symintr strarr_get_at
 //
@@ -136,6 +146,18 @@ overload <> with neq_strarr_strarr
 fun strarr_compare
   (str1: strarr, str2: strarr):<> int
 overload compare with strarr_compare
+
+(* ****** ****** *)
+
+fun{}
+strarr_length (str: strarr):<> size_t
+overload length with strarr_length
+
+(* ****** ****** *)
+
+fun
+fprint_strarr (out: FILEref, str: strarr): void
+overload fprint with fprint_strarr
 
 (* ****** ****** *)
 

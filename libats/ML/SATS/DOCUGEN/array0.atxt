@@ -106,5 +106,21 @@ This function is just the optional version of #dyncode("array0_find_exn").
 #declnamesynop("array0_foldright")
 
 (* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
+
+(* ****** ****** *)
 
 (* end of [array0.atxt] *)

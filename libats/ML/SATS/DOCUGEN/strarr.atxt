@@ -21,10 +21,10 @@ ATSLIB/libats/ML/strarr\
 
 #declpreamble("\
 
-The functions declared in this package are primarily for processing
-strings in functional programming, where a string are represented as
-an array of characters. Sometimes, the name #emph("strarr-value")
-is used to refer to such a string.
+The functions declared in this package are primarily for processing strings
+in functional programming, where a string is represented as an array of
+characters plus its size. Sometimes, the name #emph("strarr-value") is used
+to refer to such a string.
 
 ")
 
@@ -108,6 +108,47 @@ start and applies to each encountered character its second argument (a
 closure-function).\
 
 ")
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("iseqz")
+#declnamesynop("isneqz")
+
+(* ****** ****** *)
+
+#declnamesynop("<")
+#declnamesynop("<=")
+#declnamesynop(">")
+#declnamesynop(">=")
+#declnamesynop("=")
+#declnamesynop("!=")
+#declnamesynop("compare")
+
+(* ****** ****** *)
+
+#declnamesynop("length")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop("+")
+
+(* ****** ****** *)
+
+#declnamesynop("print")
+#declnamesynop("prerr")
+#declnamesynop("fprint")
 
 (* ****** ****** *)
 

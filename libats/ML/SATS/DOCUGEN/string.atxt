@@ -211,13 +211,25 @@ The following code prints a given string onto the standard output channel:
 staload "libats/ML/SATS/string.sats"
 //
 implement
-main () = 0 where {
+main0 () = {
   val str = "abcdefg"
   val () = string_foreach (str, lam (c) => print_char (c))
   val () = print_newline ()
 } // end of [main]
 ')
 ")
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declname("+")
 
 (* ****** ****** *)
 

@@ -120,15 +120,6 @@ Given an integer n and an element x, this function returns a list
 consisting of n occurrences of x if n is a natural number. Otherwise it
 raises an exception (#dyncode("IllegalArgExn")).  ")
 
-#declname("list0_make_intrange")
-#declsynop2("\
-#pats2xhtmls("\
-symintr list0_make_intrange
-overload list0_make_intrange with list0_make_intrange_lr
-overload list0_make_intrange with list0_make_intrange_lrd
-")
-")
-
 #declnamesynop("list0_make_intrange_lr")
 #decldescrpt("\
 
@@ -1008,6 +999,39 @@ main () = 0 where {
 } // end of [main]
 ')
 ")
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_make_intrange")
+
+(* ****** ****** *)
+
+#declnamesynop("iseqz")
+#declnamesynop("isneqz")
+
+(* ****** ****** *)
+
+#declnamesynop("length")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop("+")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
 
 (* ****** ****** *)
 

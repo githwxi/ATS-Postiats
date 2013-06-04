@@ -56,6 +56,22 @@ void *memcpy(void *dst, const void *src, size_t n);
 
 /* ****** ****** */
 
+extern
+size_t
+fwrite
+(
+  const void *ptr, size_t size, size_t nmemb, FILE *stream
+) ; // end of [fwrite] // in [stdio.h]
+
+/* ****** ****** */
+
+#define atslib_ML_strarr_memchr memchr
+#define atslib_ML_strarr_memcpy memcpy
+#define atslib_ML_strarr_strncmp strncmp
+#define atslib_ML_strarr_fwrite fwrite
+
+/* ****** ****** */
+
 #endif // ifndef ATSLIB_LIBATS_ML_STRING0_CATS
 
 /* ****** ****** */

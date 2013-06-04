@@ -205,8 +205,13 @@ implement
 array_copy
   {n} (to, from, n) = let
 //
-val p_to = addr@(to) and p_from = addr@(to)
-val _(*ptr*) = $extfcall (ptr, "memcpy", p_to, p_from, n*sizeof<a>)
+val p_to = addr@(to) and p_from = addr@(from)
+//
+val _ =
+$extfcall
+(
+  ptr, "atspre_array_memcpy", p_to, p_from, n*sizeof<a>
+) (* end of [val] *)
 //
 extern
 praxi __assert {l1,l2:addr}

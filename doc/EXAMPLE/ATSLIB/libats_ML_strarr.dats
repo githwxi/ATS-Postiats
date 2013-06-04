@@ -37,11 +37,16 @@ val () = assert (strarr_get_size (alphabet0 + alphabet0) = 2 * 26)
 val () =
 {
 val AB = strarr_copy (alphabet0)
-val () = assert (strarr_get_size (AB) = strarr_get_size (alphabet0))
-val () = assert (AB[0] = 'A')
-val () = assert (AB[25] = 'Z')
-val () = assert ( strarr_contains (AB, 'Q'))
-val () = assert (~strarr_contains (AB, '0'))
+//
+val () = fprintln! (stdout_ref, "AB = ", AB)
+//
+val () = assertloc (strarr_get_size (AB) = strarr_get_size (alphabet0))
+//
+val () = assertloc (AB[0] = 'A')
+val () = assertloc (AB[25] = 'Z')
+val () = assertloc ( strarr_contains (AB, 'Q'))
+val () = assertloc (~strarr_contains (AB, '0'))
+//
 } // end of [val]
 
 (* ****** ****** *)

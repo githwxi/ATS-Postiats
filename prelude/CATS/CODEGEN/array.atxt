@@ -36,13 +36,13 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 // [string.h]
 //
 extern
+void *memcpy(void *dst, const void *src, size_t n) ;
+extern
 void *memmove(void *dst, const void *src, size_t n) ;
 //
 #atscode_separator_for_C()
 
-/*
-** HX: for [array_subcirculate]
-*/
+\#define atspre_array_memcpy memcpy
 \#define atspre_array_memmove memmove
 
 #atscode_separator_for_C()

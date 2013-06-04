@@ -92,12 +92,21 @@ overload list0 with list0_make_arrpsz
 
 (* ****** ****** *)
 (*
-// HX: this one is of template style
+// HX: these are of template style
 *)
 fun{a:t0p}
-fprint_list0_sep (
+fprint_list0
+(
+  out: FILEref, xs: list0 (INV(a))
+) : void // end of [fprint_list0_sep]
+fun{a:t0p}
+fprint_list0_sep
+(
   out: FILEref, xs: list0 (INV(a)), sep: NSH(string)
 ) : void // end of [fprint_list0_sep]
+
+overload fprint with fprint_list0
+overload fprint with fprint_list0_sep
 
 (* ****** ****** *)
 
@@ -110,13 +119,19 @@ list0_pair (x1: a, x2: a):<> list0 (a)
 
 fun{a:t0p}
 list0_is_nil (xs: list0 a):<> bool
+overload iseqz with list0_is_nil
 fun{a:t0p}
 list0_is_cons (xs: list0 a):<> bool
+overload isneqz with list0_is_cons
+
+(* ****** ****** *)
 
 fun{a:t0p}
 list0_is_empty (xs: list0 a):<> bool
+overload iseqz with list0_is_empty
 fun{a:t0p}
 list0_isnot_empty (xs: list0 a):<> bool
+overload isneqz with list0_isnot_empty
 
 (* ****** ****** *)
 

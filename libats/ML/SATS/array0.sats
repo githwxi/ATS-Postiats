@@ -113,6 +113,11 @@ array0_get_at_gint (A: array0 (a), i: g0int(tk)):<!exn,!ref> a
 fun{a:t0p}{tk:tk}
 array0_get_at_guint (A: array0 (a), i: g0uint(tk)):<!exn,!ref> a
 
+overload [] with array0_get_at_gint
+overload [] with array0_get_at_guint
+
+(* ****** ****** *)
+
 fun{a:t0p}
 array0_set_at_size (A: array0 (a), i: size_t, x: a):<!exn,!refwrt> void
 fun{a:t0p}{tk:tk}

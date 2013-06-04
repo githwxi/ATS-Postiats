@@ -94,7 +94,11 @@ val
 //
 // [memcpy] declared in [string.h]
 //
-val _(*ptr*) = $extfcall (ptr, "memcpy", p, string2ptr(str), n)
+val _ =
+$extfcall
+(
+  ptr, "atslib_ML_strarr_memcpy", p, string2ptr(str), n
+) (* end of [val] *)
 //
 typedef A = arrayref (char, n)
 //
@@ -116,13 +120,21 @@ val (pfgc, pfarr | p2) = malloc_gc (succ (sz))
 //
 // [memcpy] declared in [string.h]
 //
-val _(*ptr*) = $extfcall (ptr, "memcpy", p2, p, sz)
+val _ =
+$extfcall (ptr, "atslib_ML_strarr_memcpy", p2, p, sz)
 //
 val () = $UN.ptr0_set<char> (ptr_add<char> (p2, sz), '\000')
 //
 in
   $UN.castvwtp0 {string} @(pfgc, pfarr | p2)
 end // end of [strarr_imake_string]
+
+(* ****** ****** *)
+
+implement{}
+strarr_is_empty (str) = strarr_get_size (str) = 0
+implement{}
+strarr_isnot_empty (str) = strarr_get_size (str) > 0
 
 (* ****** ****** *)
 
@@ -180,7 +192,11 @@ val n = g0uint_min_size (n1, n2)
 //
 // [strncmp] declared in [string.h]
 //
-val sgn = $extfcall (int, "strncmp", $UN.cast2ptr(A1), $UN.cast2ptr(A2), n)
+val sgn =
+$extfcall
+(
+  int, "atslib_ML_strarr_strncmp", $UN.cast2ptr(A1), $UN.cast2ptr(A2), n
+) (* end of [val] *)
 //
 in
 //
@@ -192,6 +208,43 @@ end // end of [strarr_compare]
 
 (* ****** ****** *)
 
+implement{}
+strarr_length (str) = strarr_get_size (str)
+
+(* ****** ****** *)
+
+implement
+fprint_strarr (out, str) = let
+//
+extern
+fun fwrite
+(
+  bufp: ptr
+, tsz: size_t, asz: size_t, out: FILEref
+) : size_t = "mac#atslib_ML_strarr_fwrite"
+//
+fun loop
+(
+  out: FILEref, bufp: ptr, n: size_t
+) : void = let
+in
+//
+if n > 0 then let
+  val n1 = fwrite (bufp, sizeof<char>, n, out)
+in
+  if n1 > 0 then
+    loop (out, add_ptr_bsz (bufp, n1), n-n1)
+  else ((*error*))
+end // end of of [if]
+//
+end // end of [loop]
+//
+in
+  loop (out, strarr_get_ref (str), strarr_get_size (str))
+end // end of [fprint_strarr]
+
+(* ****** ****** *)
+
 implement
 strarr_contains
   (str, c0) = $effmask_all let
@@ -200,7 +253,11 @@ val (A, asz) = strarr_get_refsize (str)
 //
 // [memcpy] declared in [string.h]
 //
-val p = $extfcall (ptr, "memchr", $UN.cast2ptr(A), char2int0(c0), asz)
+val p =
+$extfcall
+(
+  ptr, "atslib_ML_strarr_memchr", $UN.cast2ptr(A), char2int0(c0), asz
+) (* end of [val] *)
 //
 in
   (p > the_null_ptr)
