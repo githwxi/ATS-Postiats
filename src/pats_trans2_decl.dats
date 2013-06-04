@@ -267,7 +267,8 @@ end (* end of [overload_tr_def] *)
 
 (* ****** ****** *)
 
-fn d1atsrtdec_tr (
+fn d1atsrtdec_tr
+(
   res: s2rt, d1c: d1atsrtdec
 ) : s2cstlst = let
 //

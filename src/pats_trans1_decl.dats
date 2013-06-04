@@ -505,7 +505,8 @@ end // end of [i0mpdec_tr]
 
 (* ****** ****** *)
 
-fn i0nclude_tr (
+fn i0nclude_tr
+(
   d0c0: d0ecl, stadyn: int, path: string
 ) : d1eclist = d1cs where {
 //
@@ -529,8 +530,10 @@ fn i0nclude_tr (
 //
   val d0cs = $PAR.parse_from_filename_toplevel (stadyn, fil)
 //
-  val (pfpush | isexi) = $FIL.the_filenamelst_push_check (fil)
-//
+  val
+  (
+    pfpush | isexi
+  ) = $FIL.the_filenamelst_push_check (fil)
   val () = if isexi then {
     val () = $LOC.prerr_location (loc0)
     val () = prerr (": error(0)")
@@ -540,6 +543,7 @@ fn i0nclude_tr (
     val () = $FIL.fprint_the_filenamelst (stderr_ref)
     val () = the_trans1errlst_add (T1E_i0nclude_tr (d0c0))
   } // end of [val]
+  val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
 //  
 (*
   val () = begin
@@ -552,7 +556,6 @@ fn i0nclude_tr (
     print "Including ["; print fullname; print "] finishes."; print_newline ()
   end // end of [val]
 *)
-  val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
 } // end of [i0nclude_tr]
 
 (* ****** ****** *)

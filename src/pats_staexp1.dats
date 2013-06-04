@@ -786,7 +786,8 @@ e1xndec_make (loc, fil, id, qua, npf, arg) = '{
 (* ****** ****** *)
 
 implement
-d1cstdec_make (
+d1cstdec_make
+(
   loc, fil, id, s1e, extdef
 ) = '{
   d1cstdec_loc= loc

@@ -980,8 +980,9 @@ d0cstdec = '{
 
 typedef d0cstdeclst = List d0cstdec
 
-fun d0cstdec_make (
-  name: i0de
+fun d0cstdec_make
+(
+  ide: i0de
 , arg: d0cstarglst
 , eff: e0fftaglstopt
 , res: s0exp // return type

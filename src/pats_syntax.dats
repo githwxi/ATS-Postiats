@@ -1219,7 +1219,8 @@ end // end of [dcstextdef_is_mainats]
 (* ****** ****** *)
 
 implement
-d0cstdec_make (
+d0cstdec_make
+(
   id, arg, eff, res, extopt
 ) = let
   val fil = $FIL.filename_get_current ()

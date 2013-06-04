@@ -143,7 +143,8 @@ assume s2cst_type = ref (s2cst_struct)
 in // in of [local]
 
 implement
-s2cst_make (
+s2cst_make
+(
   id, loc, s2t
 , isabs, iscon, isrec, isasp, islst
 , argsrtss, def

@@ -154,7 +154,7 @@ in
   FXITMatm (s1e_app)
 end // end of [appf]
 
-in // in of [local]
+in (* in of [local] *)
 
 fn s1expitm_app
   (loc: location): s1expitm = fxitm_app (loc, appf)
@@ -223,7 +223,7 @@ fn aux_extarg
   | S1Elist (_(*npf*), s1es) => s1es | _ => list_sing (s1e)
 end // end of [aux_extarg]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s0exp_tr s0e0 = let
@@ -739,7 +739,7 @@ extern fun issta
 extern fun isext
   (ext: string, ext_new: &string): bool = "patsopt_extnam_isext"
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 dcstextdef_tr (sym, extopt) = let
@@ -880,23 +880,29 @@ in
   aux1 (d0c, fc, lin, prf, efcopt, 0, lst, xs, s1e_res)
 end // end of [aux2]
 //
-fn d0cstdec_tr (
+fn d0cstdec_tr
+(
   isfun: bool, isprf: bool, d0c: d0cstdec
 ) : d1cstdec = let
   val loc = d0c.d0cstdec_loc
+//
+// HX; [fil] should be the includer instead of includee
+//
+  val fil = $FIL.filename_get_current ()
   val sym = d0c.d0cstdec_sym
   val s1e_res = s0exp_tr d0c.d0cstdec_res
   val arg = d0c.d0cstdec_arg and eff = d0c.d0cstdec_eff
   val s1e = aux2 (d0c, isfun, isprf, arg, eff, s1e_res)
   val extdef = dcstextdef_tr (sym, d0c.d0cstdec_extopt)
 in
-  d1cstdec_make (loc, d0c.d0cstdec_fil, sym, s1e, extdef)
+  d1cstdec_make (loc, fil, sym, s1e, extdef)
 end // end of [d0cstdec_tr]
 //
-in // in of [local]
+in (* in of [local] *)
 
 implement
-d0cstdeclst_tr (
+d0cstdeclst_tr
+(
   isfun, isprf, ds
 ) = case+ ds of
   | list_cons (d, ds) => let

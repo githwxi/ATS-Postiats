@@ -899,7 +899,8 @@ fun d1ecl_exndecs (loc: location, ds: e1xndeclst): d1ecl
 
 fun d1ecl_classdec (loc: location, id: i0de, sup: s1expopt): d1ecl
 
-fun d1ecl_dcstdecs (
+fun d1ecl_dcstdecs
+(
   loc: location, dck: dcstkind, qarg: q1marglst, ds: d1cstdeclst
 ) : d1ecl // end of [d1ec_dcstdecs]
 

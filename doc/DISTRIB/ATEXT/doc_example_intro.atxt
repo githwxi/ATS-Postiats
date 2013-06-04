@@ -156,6 +156,10 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
+#packfilename("staref.dats")
+
+(* ****** ****** *)
+
 #packfilename("strprefix.dats")
 
 (* ****** ****** *)

@@ -901,7 +901,9 @@ d1cstdec = '{
 
 typedef d1cstdeclst = List d1cstdec
 
-fun d1cstdec_make (
+fun
+d1cstdec_make
+(
   loc: location
 , fil: filename
 , sym: symbol, s1e: s1exp, extdef: dcstextdef
