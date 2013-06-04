@@ -111,6 +111,7 @@ RMF=rm -f
 #make_entry("intecho")
 #make2_entry("intrange", "-DATS_MEMALLOC_LIBC", "")
 #make_entry("mutailrec")
+#make_entry("partempinst")
 #make_entry("sumodd")
 #make_entry("staref")
 #make_entry("strprefix")

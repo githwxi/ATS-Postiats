@@ -217,6 +217,14 @@ clean:: ; $(RMF) mutailrec_dats.o
 clean:: ; $(RMF) mutailrec_dats.c
 cleanall:: ; $(RMF) mutailrec.exe
 
+all:: partempinst
+partempinst: partempinst.exe
+partempinst.exe: partempinst_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+partempinst_dats.c: partempinst.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output partempinst_dats.c --dynamic partempinst.dats
+clean:: ; $(RMF) partempinst_dats.o
+clean:: ; $(RMF) partempinst_dats.c
+cleanall:: ; $(RMF) partempinst.exe
+
 all:: sumodd
 sumodd: sumodd.exe
 sumodd.exe: sumodd_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
