@@ -61,6 +61,7 @@ staload
 SYM = "./pats_symbol.sats"
 typedef symbol = $SYM.symbol
 typedef symbolopt = $SYM.symbolopt
+overload fprint with $SYM.fprint_symbol
 
 (* ****** ****** *)
 
@@ -100,7 +101,7 @@ local
 
 assume d2cst_type = ref (d2cst_struct)
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d2cst_make (
@@ -113,8 +114,14 @@ d2cst_make (
 , typ
 , extdef
 ) = let
-//
+(*
+val out = stdout_ref
+val () = fprintln! (out, "d2cst_make: id = ", id)
+*)
 val pack = $GLOB.the_PACKNAME_get ()
+(*
+val () = fprintln! (out, "d2cst_make: pack = ", pack)
+*)
 val stamp = $STMP.d2cst_stamp_make ()
 val (pfgc, pfat | p) = ptr_alloc<d2cst_struct> ()
 prval () = free_gc_elim {d2cst_struct?} (pfgc)
@@ -135,7 +142,7 @@ val () = p->d2cst_pack := pack
 val () = p->d2cst_extdef := extdef
 val () = p->d2cst_stamp := stamp
 //
-in // in of [let]
+in (* in of [let] *)
 //
 ref_make_view_ptr (pfat | p)
 //
@@ -335,7 +342,7 @@ val cmp = lam (
 
 assume d2cstset_type = $FS.set (d2cst)
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d2cstset_nil () = $FS.funset_make_nil ()
@@ -362,7 +369,8 @@ staload
 FM = "libats/SATS/funmap_avltree.sats"
 staload _ = "libats/DATS/funmap_avltree.dats"
 
-val cmp = lam (
+val cmp = lam
+(
   d2c1: d2cst, d2c2: d2cst
 ) : int =<cloref>
   compare_d2cst_d2cst (d2c1, d2c2)
@@ -371,7 +379,7 @@ val cmp = lam (
 assume
 d2cstmap_type (a:type) = $FM.map (d2cst, a)
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d2cstmap_make_nil () = $FM.funmap_make_nil ()

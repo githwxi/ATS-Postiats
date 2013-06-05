@@ -119,42 +119,8 @@ string_test_at_guint (str, i) =
 
 #atscode_separator()
 
-%{
-fun
-fun_string_cmp_decl
-  (opr: string): atext = let
-//
-val fopr_d = (
-  case+ opr of
-  | "lt" => "<" | "lte" => "<="
-  | "gt" => ">" | "gte" => ">="
-  | "eq" => "=" | "neq" => "!="
-  | _ => opr
-) : string // end of [val]
-//
-val ent = sprintf ("\
-implement
-%s_string_string (x1, x2) = (compare_string_string (x1, x2) %s 0)\
-", @(
- opr, fopr_d
-)
-) // end of [sprintf] // end of [val]
-in
-  atext_strptr (ent)
-end // end of [fun_char_cmp0_decl]
-%}\
-\
-#fun_string_cmp_decl("lt")
-#fun_string_cmp_decl("lte")
-#fun_string_cmp_decl("gt")
-#fun_string_cmp_decl("gte")
-#fun_string_cmp_decl("eq")
-#fun_string_cmp_decl("neq")
-
-#atscode_separator()
-
-implement
-strintcmp
+implement{
+} strintcmp
   {n1,n2} (x1, n2) = let
 //
 prval () = lemma_string_param (x1)
@@ -175,8 +141,8 @@ in
   $UN.cast{int(sgn(n1-n2))}(loop (string2ptr(x1), n2))
 end // end of [strintcmp]
 
-implement
-strlencmp
+implement{
+} strlencmp
   {n1,n2} (x1, x2) = let
 //
 prval () = lemma_string_param (x1)
@@ -210,18 +176,13 @@ end // end of [strlencmp]
 
 #atscode_separator()
 
-implement
-fprint_string (out, x) = fileref_puts (out, x)
-
-#atscode_separator()
-
-implement
-string_make_list (cs) =
+implement{
+} string_make_list (cs) =
   string_make_listlen (cs, list_length (cs))
 // end of [string_make_list]
 
-implement
-string_make_listlen
+implement{
+} string_make_listlen
   {n} (cs, n) = let
 //
 prval () = lemma_list_param (cs)
@@ -253,13 +214,13 @@ end // end of [string_make_listlen]
 
 #atscode_separator()
 
-implement
-string_make_list_rev (cs) =
+implement{
+} string_make_list_rev (cs) =
   string_make_listlen_rev (cs, list_length (cs))
 // end of [string_make_list_rev]
 
-implement
-string_make_listlen_rev
+implement{
+} string_make_listlen_rev
   {n} (cs, n) = let
 //
 prval () = lemma_list_param (cs)
@@ -448,7 +409,7 @@ end // end of [string1_append]
 
 #atscode_separator()
 
-implement
+implement{}
 stringlst_concat
   (xs) = $effmask_all let
 //
@@ -461,18 +422,20 @@ list_map$fwork<string><size_t> (x) = string0_length (x)
 //
 in
   list_map<string><size_t> (xs)
-end // end of [ns]
+end // end of [val]
 //
 val ntot = let
 //
 implement
-list_foldleft$fwork<size_t><size_t> (acc, n) = acc + n
+list_foldleft$fwork<size_t><size_t> (acc, n) = acc + (n)
 //
 in
   list_foldleft ($UN.list_vt2t (ns), (i2sz)0)
 end // end of [ntot]
 //
-fun loop {n:nat} .<n>. (
+fun loop
+  {n:nat} .<n>.
+(
   p: ptr, xs: list (string, n), ns: list_vt (size_t, n)
 ) : void = let
 in
@@ -500,7 +463,7 @@ end // end of [stringlst_concat]
 
 #atscode_separator()
 
-implement
+implement{}
 string_explode
   {n} (x) = let
 //
@@ -508,7 +471,9 @@ prval () = lemma_string_param (x)
 //
 viewtypedef res(n) = list_vt (charNZ, n)
 //
-fun loop {n:nat} .<n>. (
+fun loop
+  {n:nat} .<n>.
+(
   x: string n, res: &ptr? >> res(n)
 ) :<!wrt> void = let
   val p = string2ptr (x)
@@ -664,7 +629,8 @@ implement{
 ) // end of [stropt_is_none]
 
 implement{
-} stropt_is_some {n} (x) = (
+} stropt_is_some {n} (x) =
+(
   $UN.cast{bool(n>=0)} (ptr0_isnot_null ($UN.cast2ptr (x)))
 ) // end of [stropt_is_some]
 
@@ -681,17 +647,8 @@ end // end of [stropt_length]
 
 #atscode_separator()
 
-implement
-fprint_stropt
-  (out, x) = (
-  if stropt_is_some (x) then
-    fprint_string (out, stropt_unsome(x))
-  else fprint_ptr (out, the_null_ptr)
-) // end of [fprint_stropt]
-
-#atscode_separator()
-
 implement fprint_val<string> = fprint_string
+implement fprint_val<stropt> = fprint_stropt
 
 #atscode_eof_strsub("\#thisfilename$")\
 

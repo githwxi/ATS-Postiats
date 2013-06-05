@@ -57,6 +57,13 @@ output/atslib_prelude_float_dats.o: output/atslib_prelude_float_dats.c ; \
 clean:: ; $(RMF) output/atslib_prelude_float_dats.c
 clean:: ; $(RMF) output/atslib_prelude_float_dats.o
 
+atslib_prelude:: atslib_prelude_string_dats
+atslib_prelude_string_dats: output/atslib_prelude_string_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_prelude_string_dats.c: ../../prelude/DATS/string.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_prelude_string_dats.o: output/atslib_prelude_string_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_prelude_string_dats.c
+clean:: ; $(RMF) output/atslib_prelude_string_dats.o
 
 
 

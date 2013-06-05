@@ -217,6 +217,14 @@ clean:: ; $(RMF) mutailrec_dats.o
 clean:: ; $(RMF) mutailrec_dats.c
 cleanall:: ; $(RMF) mutailrec.exe
 
+all:: ordset
+ordset: ordset.exe
+ordset.exe: ordset_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+ordset_dats.c: ordset.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output ordset_dats.c --dynamic ordset.dats
+clean:: ; $(RMF) ordset_dats.o
+clean:: ; $(RMF) ordset_dats.c
+cleanall:: ; $(RMF) ordset.exe
+
 all:: partempinst
 partempinst: partempinst.exe
 partempinst.exe: partempinst_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

@@ -360,7 +360,8 @@ dynload "pats_comarg.dats"
 *)
 //
 fn patsopt_version
-  (out: FILEref): void = {
+  (out: FILEref): void =
+{
   val () = fprintf (out
 , "ATS/Postiats version %i.%i.%i with Copyright (c) 2011-20?? Hongwei Xi\n"
 , @(PATS_MAJOR_VERSION, PATS_MINOR_VERSION, PATS_MICRO_VERSION)
@@ -553,41 +554,50 @@ end // end of [fixity_load]
 (* ****** ****** *)
 
 fun
-pervasive_load (
+pervasive_load
+(
   ATSHOME: string, basename: string
-) : void = {
-  val fullname =
-    $FIL.filename_append (ATSHOME, basename)
-  val fullname = string_of_strptr (fullname)
-  val filename =
-    $FIL.filename_make (basename, fullname)
+) : void =
+{
+(*
+val (
+) = println!
+  ("pervasive_load: basename = ", basename)
+*)
+val fullname =
+  $FIL.filename_append (ATSHOME, basename)
+val fullname = string_of_strptr (fullname)
+val filename =
+  $FIL.filename_make (basename, fullname)
 //
-  val (pfpush | ()) = 
-    $FIL.the_filenamelst_push (filename)
-  val d0cs = parse_from_filename_toplevel (0(*sta*), filename)
-  val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+val (pfpush | ()) = 
+  $FIL.the_filenamelst_push (filename)
+val d0cs =
+  parse_from_filename_toplevel (0(*sta*), filename)
+val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
 //
-  val () = $TRENV1.the_EXTERN_PREFIX_set ("atspre_")
-  val () = $GLOB.the_PACKNAME_set_name ("ATSLIB.prelude")
+val () = $TRENV1.the_EXTERN_PREFIX_set ("atspre_")
+val () = $GLOB.the_PACKNAME_set_name ("ATSLIB.prelude")
 //
-  val (pfenv | ()) =
-    $TRENV1.the_trans1_env_push ((*void*))
-  val d1cs = $TRANS1.d0eclist_tr_errck (d0cs)
-  val () = $TRENV1.the_trans1_env_pop (pfenv | (*none*))
+val (pfenv | ()) =
+  $TRENV1.the_trans1_env_push ((*void*))
+val d1cs = $TRANS1.d0eclist_tr_errck (d0cs)
+val () = $TRENV1.the_trans1_env_pop (pfenv | (*none*))
 //
-  val (pfenv | ()) =
-    $TRENV2.the_trans2_env_push ((*void*))
-  val d2cs = $TRANS2.d1eclist_tr_errck (d1cs)
-  val () = $TRENV2.the_trans2_env_pervasive_joinwth (pfenv | (*none*))
+val (pfenv | ()) =
+  $TRENV2.the_trans2_env_push ((*void*))
+val d2cs = $TRANS2.d1eclist_tr_errck (d1cs)
+val () = $TRENV2.the_trans2_env_pervasive_joinwth (pfenv | (*none*))
 //
-  val () = $GLOB.the_PACKNAME_set_none ()
-  val () = $TRENV1.the_EXTERN_PREFIX_set_none ()
+val () = $GLOB.the_PACKNAME_set_none ()
+val () = $TRENV1.the_EXTERN_PREFIX_set_none ()
 //
 } // end of [pervasive_load]
 
 (* ****** ****** *)
 
-fun prelude_load (
+fun prelude_load
+(
   ATSHOME: string
 ) : void = {
   val () = fixity_load (ATSHOME)
@@ -662,7 +672,10 @@ fun prelude_load (
 //
 } // end of [prelude_load]
 
-fun prelude_load_if (
+(* ****** ****** *)
+
+fun prelude_load_if
+(
   ATSHOME: string, flag: &int
 ) : void =
   if flag = 0 then let
@@ -673,22 +686,26 @@ fun prelude_load_if (
 (* ****** ****** *)
 
 extern
-fun do_trans12 (
+fun do_trans12
+(
   basename: string, d0cs: d0eclist
 ) : d2eclist // end of [do_trans12]
 
 extern
-fun do_trans123 (
+fun do_trans123
+(
   basename: string, d0cs: d0eclist
 ) : d3eclist // end of [do_trans123]
 
 extern
-fun do_trans1234 (
+fun do_trans1234
+(
   basename: string, d0cs: d0eclist
 ) : hideclist // end of [do_trans1234]
 
 extern
-fun do_transfinal (
+fun do_transfinal
+(
   state: &cmdstate, basename: string, d0cs: d0eclist
 ) : void // end of [do_transfinal]
 

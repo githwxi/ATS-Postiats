@@ -153,6 +153,25 @@ atspre_fprint_string
 
 #atscode_separator_for_C()
 
+ATSinline()
+atsvoid_t0ype
+atspre_fprint_stropt
+(
+  atstype_ref out, atstype_stropt x
+) {
+  if (!x)
+  {
+    fprintf((FILE*)out, "strnone()") ;
+  } else {
+    fprintf((FILE*)out, "strsome(%s)", (char*)x) ;
+  }
+  return ;
+} // end of [atspre_fprint_stropt]
+\#define atspre_print_stropt(x) atspre_fprint_stropt(stdout, (x))
+\#define atspre_prerr_stropt(x) atspre_fprint_stropt(stderr, (x))
+
+#atscode_separator_for_C()
+
 \#endif // ifndef ATSLIB_PRELUDE_STRING_CATS
 
 #atscode_separator_for_C()

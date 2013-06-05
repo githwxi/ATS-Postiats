@@ -1680,7 +1680,7 @@ loaded: int
     val (pfsave | ()) = the_trans2_env_save ()
     val opt = $GLOB.the_PACKNAME_get ()
     val d2cs = d1eclist_tr (d1cs)
-    val () =  $GLOB.the_PACKNAME_set (opt)
+    val () = $GLOB.the_PACKNAME_set (opt)
     val (m0, m1, m2) = the_trans2_env_restore (pfsave | (*none*))
     val fenv = filenv_make (fil, m0, m1, m2, d2cs)
     val () = the_filenvmap_add (filsym, fenv)

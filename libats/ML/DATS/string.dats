@@ -32,6 +32,11 @@
 (* Start time: July, 2012 *)
 
 (* ****** ****** *)
+
+#define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
+#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
+
+(* ****** ****** *)
 //
 #include
 "share/atspre_staload_tmpdef.hats"
@@ -43,13 +48,13 @@ staload UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 macdef
-prelude_string_explode = string_explode
-macdef
 prelude_string0_copy = string0_copy
 macdef
 prelude_string0_append = string0_append
 macdef
 prelude_stringlst_concat = stringlst_concat
+macdef
+prelude_string_explode = string_explode
 macdef
 prelude_string_foreach = string_foreach
 
@@ -83,6 +88,7 @@ end // end of [string_append]
 
 (* ****** ****** *)
 
+(*
 implement
 stringlst_concat (xs) = let
   val xs = list_of_list0 (xs)
@@ -90,9 +96,11 @@ stringlst_concat (xs) = let
 in
   strptr2string (res)
 end // end of [stringlst_concat]
+*)
 
 (* ****** ****** *)
 
+(*
 implement
 string_explode (str) = let
   val str = string1_of_string0 (str)
@@ -100,6 +108,7 @@ string_explode (str) = let
 in
   list0_of_list_vt (res)
 end // end of [string_explode]
+*)
 
 (* ****** ****** *)
 

@@ -304,9 +304,11 @@ second integer argument, respectively.  ')
 //
 #decldescrpt('\
 
-This function returns ~1,0 and 1 to indicate that the length of its first
+This function returns -1, 0 and 1 to indicate that the length of its first
 string argument is less than, equal to and greater than the length of its
-second string argument, respectively.  ')
+second string argument, respectively.\
+
+')
 //
 #declfunretval("An integer between ~1 (negative 1) and 1 is returned.")
 
@@ -421,16 +423,17 @@ output channel:
 
 #pats2xhtmld_tryit('\
 implement
-main () = let
-  val xs = $lst{string}
-    ("H", "e", "l", "l", "o")
-  val Hello = stringlst_concat (xs)
-  val () = fprint_strptr (stdout_ref, Hello)
-  val () = fprint_newline (stdout_ref)
-  val () = strptr_free (Hello)
-in
-  0(*normal*)
-end // end of [main]
+main0 () =
+{
+//
+val xs =
+$list{string}("H", "e", "l", "l", "o")
+//
+val Hello = stringlst_concat (xs)
+val () = fprintln! (stdout_ref, Hello)
+val () = strptr_free (Hello)
+//
+} (* end of [main] *)
 ')\
 
 Note that the created linear string is freed before the code exits.

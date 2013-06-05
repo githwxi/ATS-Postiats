@@ -287,6 +287,8 @@ case+ hde0.hidexp_node of
 | HDEtmpvar (d2v, t2mas) =>
     hidexp_ccomp_tmpvar (env, res, hde0)
 //
+| HDEfoldat _ => primval_empty (loc0, hse0)
+//
 | HDElet (hids, hde_scope) => let
 //
     val (pfpush | ()) = ccompenv_push (env)
@@ -460,7 +462,8 @@ end // end of [auxval]
 in (* in of [local] *)
 
 implement
-hidexp_ccomp_ret (
+hidexp_ccomp_ret
+(
   env, res, tmpret, hde0
 ) = let
 //
@@ -499,13 +502,15 @@ case+ hde0.hidexp_node of
     instrseq_add (res, ins)
   end // end of [HDEcon]
 //
-| HDElet (hids, hde_scope) => let
-    val (
-      pfpush | ()
-    ) = ccompenv_push (env)
+| HDEfoldat _ => auxval (env, res, tmpret, hde0)
 //
-    val pmds =
-      hideclist_ccomp (env, hids)
+| HDElet (
+    hids, hde_scope
+  ) => let
+//
+    val (pf | ()) = ccompenv_push (env)
+//
+    val pmds = hideclist_ccomp (env, hids)
     val ins_push = instr_letpush (loc0, pmds)
     val () = instrseq_add (res, ins_push)
 //
@@ -513,7 +518,9 @@ case+ hde0.hidexp_node of
 //
     val ins_pop = instr_letpop (loc0)
     val () = instrseq_add (res, ins_pop)
-    val () = ccompenv_pop (pfpush | env)
+//
+    val () = ccompenv_pop (pf(*push*) | env)
+//
   in
     // nothing
   end // end of [HDElet]

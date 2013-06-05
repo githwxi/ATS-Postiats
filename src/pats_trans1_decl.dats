@@ -560,7 +560,9 @@ fn i0nclude_tr
 
 (* ****** ****** *)
 
-fun ats_packname_get (): Stropt = let
+fun
+ats_packname_get
+  (): Stropt = let
   val opt = the_e1xpenv_find (ATS_PACKNAME)
 in
 //
@@ -628,7 +630,8 @@ in
   d1cs
 end // end of [s0taload_tr_load]
 
-fn s0taload_tr (
+fn s0taload_tr
+(
   d0c0: d0ecl
 , idopt: symbolopt, path: string
 , loadflag: &int? >> int
@@ -680,7 +683,8 @@ end // end of [s0taload_tr]
 
 (* ****** ****** *)
 
-fn d0ynload_tr (
+fn d0ynload_tr
+(
   d0c0: d0ecl, path: string
 ) : filename = fil where {
   val loc0 = d0c0.d0ecl_loc
@@ -705,7 +709,8 @@ fn d0ynload_tr (
 
 (* ****** ****** *)
 
-fn guad0ecl_tr (
+fn guad0ecl_tr
+(
   knd: srpifkind, gd: guad0ecl
 ) : d1eclist = let
   fun loop (
@@ -783,9 +788,9 @@ case+ d0c0.d0ecl_node of
 | D0Ce0xpact (knd, e0xp) => let
     val e1xp = e0xp_tr (e0xp)
 (*
-    val () = begin
-      print "d0ecl_tr: D0Ce0xpact: e1xp = "; print e1xp; print_newline ()
-    end // end of [val]
+    val () =
+      println! ("d0ecl_tr: D0Ce0xpact: e1xp = ", e1xp)
+    // end of [val]
 *)
     val v1al = e1xp_valize (e1xp)
     val () = (case+ knd of
@@ -981,10 +986,27 @@ implement
 d0eclist_tr_errck
   (d0cs) = d1cs where
 {
-  val d1cs = d0eclist_tr (d0cs)
-  val d1c_packname = d1ecl_packname (ats_packname_get ())
-  val d1cs = list_cons (d1c_packname, d1cs)
-  val () = the_trans1errlst_finalize ()
+//
+val d1cs = d0eclist_tr (d0cs)
+//
+val opt = ats_packname_get ()
+val isnone = stropt_is_none (opt)
+//
+val d1cs =
+(
+//
+// HX-2013-06:
+// for [PACKNAME] to be set externally
+//
+if isnone then d1cs else let
+  val d1c_packname = d1ecl_packname (opt)
+in
+  list_cons (d1c_packname, d1cs)
+end // end of [if]
+) : d1eclist // end of [val]
+//
+val () = the_trans1errlst_finalize ()
+//
 } // end of [d0eclist_tr_errck]
 
 (* ****** ****** *)

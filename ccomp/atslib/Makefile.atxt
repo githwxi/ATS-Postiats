@@ -118,9 +118,7 @@ all:: atslib_prelude
 #make_entry("prelude", "char.dats")
 #make_entry("prelude", "integer.dats")
 #make_entry("prelude", "float.dats")
-#comment('\
-\#make_entry("prelude", "string.dats")
-')
+#make_entry("prelude", "string.dats")
 
 #comment('\
 \#make_entry("prelude", "filebas.dats")

@@ -64,7 +64,7 @@ val (pf0 | ()) = vbox_make_view_ptr {e1xpenv} (pf | p0)
 
 assume e1xpenv_push_v = unit_v // HX: it is just a dummy
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 the_e1xpenv_add
@@ -196,7 +196,7 @@ val (pf0 | ()) = vbox_make_view_ptr {fxtyenv} (pf | p0)
 
 assume fxtyenv_push_v = unit_v // HX: it is just a dummy
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 the_fxtyenv_add
@@ -286,7 +286,7 @@ val (pf_the_level | ()) =
 
 assume trans1_level_v = unit_v // HX: it is just a dummy
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 the_trans1_level_get () = let
@@ -319,7 +319,7 @@ local
 assume
 trans1_env_push_v = (e1xpenv_push_v, fxtyenv_push_v)
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 the_trans1_env_pop
@@ -357,7 +357,7 @@ local
 assume
 trans1_env_save_v = (e1xpenv_save_v, fxtyenv_save_v)
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 the_trans1_env_save () = let

@@ -118,6 +118,7 @@ array0_get_at_guint
   (A: array0 (a), i: g0uint(tk)):<!exn,!ref> a
 overload [] with array0_get_at_guint
 //
+symintr array0_get_at
 overload array0_get_at with array0_get_at_gint
 overload array0_get_at with array0_get_at_guint
 //
@@ -135,6 +136,7 @@ array0_set_at_guint
   (A: array0 (a), i: g0uint(tk), x: a):<!exn,!refwrt> void
 overload [] with array0_set_at_guint
 //
+symintr array0_set_at
 overload array0_set_at with array0_set_at_gint
 overload array0_set_at with array0_set_at_guint
 //
@@ -150,6 +152,7 @@ fun{a:vt0p}{tk:tk}
 array0_exch_at_guint
   (A: array0 (a), i: g0uint(tk), x: &a):<!exn,!refwrt> void
 //
+symintr array0_exch_at
 overload array0_exch_at with array0_exch_at_gint
 overload array0_exch_at with array0_exch_at_guint
 //

@@ -84,21 +84,29 @@ castfn string1_of_string0 (x: string):<> [n:nat] string (n)
 
 #atscode_separator()
 
-fun string_sing (c: charNZ):<> strnptr (1)
+fun{}
+string_sing (c: charNZ):<> strnptr (1)
 
 #atscode_separator()
 
-fun string_make_list
+fun{}
+ string_make_list
   {n:int} (cs: list(charNZ, n)):<> strnptr (n)
-fun string_make_listlen
+fun{}
+string_make_listlen
   {n:int} (cs: list(charNZ, n), n: int n):<> strnptr (n)
 
 #atscode_separator()
 
-fun string_make_list_rev
+fun{
+} string_make_list_rev
   {n:int} (cs: list(charNZ, n)):<> strnptr (n)
-fun string_make_listlen_rev
+// end of [string_make_list_rev]
+
+fun{
+} string_make_listlen_rev
   {n:int} (cs: list(charNZ, n), n: int n):<> strnptr (n)
+// end of [string_make_listlen_rev]
 
 #atscode_separator()
 
@@ -136,7 +144,7 @@ overload string_is_atend with string_is_atend_guint
 
 macdef
 string_isnot_atend
-  (str, ind) = ~string_is_atend (,(str), ,(ind))
+  (string, index) = ~string_is_atend (,(string), ,(index))
 // end of [string_isnot_atend]
 
 #atscode_separator()
@@ -221,14 +229,17 @@ overload compare with compare_string_string
 
 #atscode_separator()
 
-fun strcmp (x1: string, x2: string):<> int
+fun{
+} strcmp (x1: string, x2: string):<> int
 
-fun strintcmp
+fun{
+} strintcmp
   {n1,n2:int | n2 >=0}
   (x1: string n1, n2: int n2):<> int(sgn(n1-n2))
 // end of [strintcmp]
 
-fun strlencmp
+fun{
+} strlencmp
   {n1,n2:int}
   (x1: string n1, x2: string n2):<> int(sgn(n1-n2))
 // end of [strlencmp]
@@ -329,11 +340,13 @@ overload string_append with string1_append of 20
 //
 #atscode_separator()
 
-fun stringlst_concat (xs: List(string)):<!wrt> Strptr1
+fun{
+} stringlst_concat (xs: List(string)):<!wrt> Strptr1
 
 #atscode_separator()
 
-fun string_explode
+fun{
+} string_explode
   {n:int} (x: string(n)):<!wrt> list_vt (charNZ, n)
 // end of [string_explode]
 
