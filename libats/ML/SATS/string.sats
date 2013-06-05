@@ -50,9 +50,11 @@ typedef NSH(a:type) = a // for commenting purpose
 
 fun string_copy (s: NSH(string)):<> string
 
-fun substring_copy
+(* ****** ****** *)
+
+fun string_make_substring
   (s: NSH(string), st: size_t, ln: size_t):<> string
-// end of [substring_copy]
+// end of [string_make_substring]
 
 (* ****** ****** *)
 

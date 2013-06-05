@@ -75,9 +75,9 @@ castfn string2ptr (x: string):<> Ptr1
 
 #atscode_separator()
 //
-// HX: [string2str] = [string1_of_string0]
+// HX: [string2string] = [string1_of_string0]
 //
-castfn string2str (x: string):<> [n:nat] string (n)
+castfn string2string (x: string):<> [n:nat] string (n)
 castfn string1_of_string0 (x: string):<> [n:nat] string (n)
 //
 (* ****** ****** *)

@@ -46,18 +46,25 @@
 staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
+//
 macdef
 prelude_string0_copy = string0_copy
+//
 macdef
 prelude_string0_append = string0_append
+//
+macdef
+prelude_string_make_substring = string_make_substring
+//
 macdef
 prelude_stringlst_concat = stringlst_concat
+//
 macdef
 prelude_string_explode = string_explode
+//
 macdef
 prelude_string_foreach = string_foreach
-
+//
 (* ****** ****** *)
 
 staload "libats/SATS/ML_basis.sats"
@@ -76,6 +83,22 @@ string_copy (str) = let
 in
   strptr2string (res)
 end // end of [string_copy]
+
+(* ****** ****** *)
+
+implement
+string_make_substring
+  (str, st, ln) = let
+//
+val str = string2string(str)
+val st = g1ofg0_uint (st) and ln = g1ofg0_uint (ln)
+val lnx = string_length (str)
+//
+val st = min (st, lnx)
+//
+in
+  $UN.castvwtp0{string}(prelude_string_make_substring (str, st, min (ln, lnx-st)))
+end // end of [string_make_substring]
 
 (* ****** ****** *)
 
@@ -155,8 +178,6 @@ end // end of [string_implode]
 
 (* ****** ****** *)
 
-(*
-/*
 implement
 string_foreach (s, f) = let
 //
@@ -171,8 +192,6 @@ val _(*n*) = prelude_string_foreach (s)
 in
   // nothing
 end // end of [string_foreach]
-*/
-*)
 
 (* ****** ****** *)
 

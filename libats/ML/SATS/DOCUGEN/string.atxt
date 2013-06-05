@@ -47,7 +47,7 @@ main () = 0 where {
 ')
 ")
 
-#declnamesynop("substring_copy")
+#declnamesynop("string_make_substring")
 #decldescrpt("\
 
 Given a string str of length n and integers ln and st, this function

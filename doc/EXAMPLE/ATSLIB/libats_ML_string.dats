@@ -22,14 +22,34 @@ staload _(*anon*) = "libats/ML/DATS/string.dats"
 //
 (* ****** ****** *)
 
-val alphabet0 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+val alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 (* ****** ****** *)
 
 val () =
 {
-val () = assert (length (alphabet0) = 26)
-val () = assert (length (alphabet0 + alphabet0) = 2 * 26)
+//
+val () = assertloc (length (alphabet) = 26)
+val () = assertloc (alphabet = string_copy (alphabet))
+val () = assertloc (alphabet = string_make_substring (alphabet, (i2sz)0, (i2sz)26))
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val out = stdout_ref
+//
+val () =
+string_foreach
+(
+  alphabet+alphabet, lam c => fprint(out, tolower(c))
+) (* end of [val] *)
+//
+val () = fprint_newline (out)
+//
 } // end of [val]
 
 (* ****** ****** *)
@@ -38,4 +58,4 @@ implement main0 () = ()
 
 (* ****** ****** *)
 
-(* end of [libats_ML_strarr.dats] *)
+(* end of [libats_ML_string.dats] *)

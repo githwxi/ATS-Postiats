@@ -289,7 +289,7 @@ string1_length
 implement{}
 string0_copy
   (str) = let
-  val str = string2str (str)
+  val str = string2string(str)
   val str2 = string1_copy (str)
   prval () = lemma_strnptr_param (str2)
 in

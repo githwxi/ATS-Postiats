@@ -22,25 +22,25 @@ staload _(*anon*) = "libats/ML/DATS/strarr.dats"
 //
 (* ****** ****** *)
 
-val alphabet0 = (strarr)"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+val alphabet = (strarr)"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 (* ****** ****** *)
 
 val () =
 {
-val () = assert (strarr_get_size (alphabet0) = 26)
-val () = assert (strarr_get_size (alphabet0 + alphabet0) = 2 * 26)
+val () = assert (strarr_get_size (alphabet) = 26)
+val () = assert (strarr_get_size (alphabet + alphabet) = 2 * 26)
 } // end of [val]
 
 (* ****** ****** *)
 
 val () =
 {
-val AB = strarr_copy (alphabet0)
+val AB = strarr_copy (alphabet)
 //
 val () = fprintln! (stdout_ref, "AB = ", AB)
 //
-val () = assertloc (strarr_get_size (AB) = strarr_get_size (alphabet0))
+val () = assertloc (strarr_get_size (AB) = strarr_get_size (alphabet))
 //
 val () = assertloc (AB[0] = 'A')
 val () = assertloc (AB[25] = 'Z')
