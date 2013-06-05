@@ -122,9 +122,11 @@ FILEptr_free_null
 castfn
 FILEptr_refize (filp: FILEptr1):<> FILEref
 
+(* ****** ****** *)
+
 castfn
 FILEref_vttakeout // a lock is associated with FILEref-value
-  (filr: FILEref):<> [l:agz;m:fm] vttakeout0 (FILEptr (l, m))
+  {m:fm} (filr: FILEref):<> [l:agz] vttakeout0 (FILEptr (l, m))
 // end of [FILEref_vttakeout]
 
 (* ****** ****** *)

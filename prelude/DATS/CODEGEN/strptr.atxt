@@ -198,7 +198,7 @@ end // end of [strptr_append]
 
 #atscode_separator()
 
-implement
+implement{}
 strptrlst_concat (xs) = let
 //
 prval () = lemma_list_vt_param (xs)
@@ -209,25 +209,28 @@ fun loop
   xs: &list_vt(Strptr0, n0)>>list_vt(Strptr1, n1)
 ) :<!wrt> #[n1:nat | n1 <= n0] void = let
 in
-  case+ xs of
-  | @list_vt_cons
-      (x, xs1) => let
-      val isnot = strptr_isnot_null (x)
+//
+case+ xs of
+| @list_vt_cons
+    (x, xs1) => let
+    val isnot = strptr_isnot_null (x)
+  in
+    if isnot then let
+      val () = loop (xs1)
+      prval () = fold@ (xs)
     in
-      if isnot then let
-        val () = loop (xs1)
-      in
-        fold@ (xs)
-      end else let
-        val () = strptr_free_null (x)
-        val xs1 = xs1
-        val () = free@ {..}{0} (xs)
-        val () = xs := xs1
-      in
-        loop (xs)
-      end // end of [if]
-    end // end of [list_vt_cons]
-  | @list_vt_nil () => fold@ (xs)
+      // nothing
+    end else let
+      val () = strptr_free_null (x)
+      val xs1 = xs1
+      val () = free@ {..}{0} (xs)
+      val () = xs := xs1
+    in
+      loop (xs)
+    end // end of [if]
+  end // end of [list_vt_cons]
+| @list_vt_nil () => fold@ (xs)
+//
 end // end of [loop]
 //
 var xs = xs
@@ -241,12 +244,13 @@ case+ xs of
 | _ => let
     val res =
       stringlst_concat ($UN.castvwtp1{List(string)}(xs))
-    val () = loop (xs) where {
+    val () =
+    loop (xs) where {
       fun loop {n:nat} .<n>.
         (xs: list_vt (Strptr1, n)):<!wrt> void =
         case+ xs of
         | ~list_vt_cons (x, xs) => (strptr_free (x); loop (xs))
-        | ~list_vt_nil () => ()
+        | ~list_vt_nil ((*void*)) => ()
       // end of [loop]
     } // end of [where] // end of [val]
   in
