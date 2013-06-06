@@ -37,13 +37,12 @@ arrayptr_make_elt
 val
 (
   pf, pfgc | p
-) =
-  array_ptr_alloc<a> (asz)
+) = array_ptr_alloc<a> (asz)
 //
 val () = array_initize_elt<a> (!p, asz, elt)
 //
 in
-  arrayptr_encode (pf, pfgc | p)
+  arrayptr_encode(pf, pfgc | p)
 end // end of [arrayptr_make_elt]
 
 #atscode_separator()
@@ -82,24 +81,31 @@ implement{a}
 arrayptr_make_list
   (asz, xs) = let
 //
+prval () = lemma_list_param (xs)
+//
 val (
   pf, pfgc | p
-) = array_ptr_alloc<a> (asz)
+) = array_ptr_alloc<a> (i2sz(asz))
+//
 val () = array_initize_list<a> (!p, asz, xs)
 //
 in
-  arrayptr_encode (pf, pfgc | p)
+  arrayptr_encode(pf, pfgc | p)
 end // end of [arrayptr_make_list]
 
 implement{a}
 arrayptr_make_list_vt
   (asz, xs) = let
 //
-val (pf, pfgc | p) = array_ptr_alloc<a> (asz)
+prval () = lemma_list_vt_param (xs)
+//
+val (
+ pf, pfgc | p
+) = array_ptr_alloc<a> (i2sz(asz))
 val () = array_initize_list_vt<a> (!p, asz, xs)
 //
 in
-  arrayptr_encode (pf, pfgc | p)
+  arrayptr_encode(pf, pfgc | p)
 end // end of [arrayptr_make_list_vt]
 
 #atscode_separator()
@@ -108,7 +114,7 @@ implement{a}
 arrayptr_make_uninitized
   (asz) = let
 in
-  arrayptr_encode2 (array_ptr_alloc<a> (asz))
+  arrayptr_encode2(array_ptr_alloc<a> (asz))
 end // end of [arrayptr_uninitize]
 
 #atscode_separator()
@@ -288,15 +294,20 @@ implement arrayptr_free = ATS_MFREE
 #atscode_separator()
 
 implement{a}
-arrayptr_freelin (A, n) = let
-  val () = arrayptr_uninitize<a> (A, n) in arrayptr_free {a?} (A)
+arrayptr_freelin
+  (A, asz) = let
+//
+val () = arrayptr_uninitize<a> (A, asz)
+//
+in
+  arrayptr_free{a?}(A)
 end // end of [arrayptr_freelin]
 
 #atscode_separator()
 
 implement{a}
-arrayptr_tabulate (asz) =
-  arrayptr_encode2 (array_ptr_tabulate<a> (asz))
+arrayptr_tabulate
+  (asz) = arrayptr_encode2(array_ptr_tabulate<a> (asz))
 // end of [arrayptr_tabulate]
 
 #atscode_separator()

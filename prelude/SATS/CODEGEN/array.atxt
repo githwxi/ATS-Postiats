@@ -501,12 +501,12 @@ array_initize_elt{n:int}
 fun{a:t0p}
 array_initize_list{n:int}
 (
-  A: &(@[a?][n]) >> @[a][n], asz: size_t n, xs: list (INV(a), n)
+  A: &(@[a?][n]) >> @[a][n], asz: int n, xs: list (INV(a), n)
 ) :<!wrt> void // end of [array_initize_list]
 fun{a:vt0p}
 array_initize_list_vt{n:int}
 (
-  A: &(@[a?][n]) >> @[a][n], asz: size_t n, xs: list_vt (INV(a), n)
+  A: &(@[a?][n]) >> @[a][n], asz: int n, xs: list_vt (INV(a), n)
 ) :<!wrt> void // end of [array_initize_list_vt]
 
 #atscode_separator()

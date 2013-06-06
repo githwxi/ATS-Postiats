@@ -31,6 +31,18 @@ staload UN = "prelude/SATS/unsafe.sats"
 #atscode_separator()
 
 implement{a}
+arrayref_make_elt (asz, x) =
+  arrayptr_refize(arrayptr_make_elt<a> (asz, x))
+// end of [arrayref_make_elt]
+
+implement{a}
+arrayref_make_list (asz, xs) =
+  arrayptr_refize(arrayptr_make_list<a> (asz, xs))
+// end of [arrayref_make_list]
+
+#atscode_separator()
+
+implement{a}
 arrayref_get_at_size
   (A, i) = let
 //
@@ -121,13 +133,6 @@ end // end of [arrayref_interchange]
 #atscode_separator()
 
 implement{a}
-arrayref_make_elt (asz, x) = let
-  val A = arrayptr_make_elt<a> (asz, x) in arrayptr_refize (A)
-end // end of [arrayref_make_elt]
-
-#atscode_separator()
-
-implement{a}
 fprint_arrayref
   (out, A, n) = let
   val (
@@ -199,7 +204,7 @@ end // end of [arrayref_rforeach_env]
 
 implement{a}
 arrayref_tabulate
-  (asz) = arrayref_refize (arrayptr_tabulate (asz))
+  (asz) = arrayptr_refize (arrayptr_tabulate (asz))
 // end of [arrayref_tabulate]
 
 #atscode_separator()
@@ -284,7 +289,7 @@ arrszref_make_list
 prval () = lemma_list_param (xs)
 //
 val n = list_length<a> (xs)
-val A = arrayref_make_listlen (xs, n)
+val A = arrayref_make_list (n, xs)
 val asz = (i2sz)n
 //
 in

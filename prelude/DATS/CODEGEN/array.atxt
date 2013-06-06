@@ -671,6 +671,8 @@ array_initize_list
 typedef list0 = listGte (a, 0)
 typedef list1 = listGte (a, 1)
 //
+prval () = lemma_list_param (xs)
+//
 var xs = $UN.cast2ptr (xs)
 val p_xs = $UN.cast{Ptr1} (addr@ (xs))
 //
@@ -685,7 +687,7 @@ in
 end // end of [array_initize$init]
 //
 in
-  $effmask_all (array_initize (A, asz))
+  $effmask_all (array_initize (A, i2sz(asz)))
 end // end of [array_initize_list]
 
 #atscode_separator()
@@ -696,6 +698,8 @@ array_initize_list_vt
 //
 viewtypedef list0 = listGte_vt (a, 0)
 viewtypedef list1 = listGte_vt (a, 1)
+//
+prval () = lemma_list_vt_param (xs)
 //
 var xs = castvwtp_trans {ptr} (xs)
 val p_xs = $UN.cast{Ptr1} (addr@ (xs))
@@ -711,7 +715,7 @@ in
 end // end of [array_initize$init]
 //
 in
-  $effmask_all (array_initize (A, asz))
+  $effmask_all (array_initize (A, i2sz(asz)))
 end // end of [array_initize_list_vt]
 
 #atscode_separator()

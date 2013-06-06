@@ -97,10 +97,9 @@ arrayref_make_elt
 #atscode_separator()
 
 fun{a:t0p}
-arrayref_make_listlen
-  {n:int}
-  (xs: list (INV(a), n), n: int n):<!wrt> arrayref (a, n)
-// end of [arrayref_make_listlen]
+arrayref_make_list{n:int}
+  (asz: int n, xs: list (INV(a), n)):<!wrt> arrayref (a, n)
+// end of [arrayref_make_list]
 
 #atscode_separator()
 

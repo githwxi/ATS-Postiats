@@ -110,11 +110,15 @@ handled by calling the function #dyncode("fprint_ref").
 
 (* ****** ****** *)
 
+#declnamesynop("arrayref_tabulate")
+
+(* ****** ****** *)
+
 #declnamesynop("arrszref")
 
 (* ****** ****** *)
 
-#declnamesynop("arrszref_make")
+#declnamesynop("arrszref_make_arrayref")
 #decldescrpt("\
 
 This function combines an arrayref-value and its size into an

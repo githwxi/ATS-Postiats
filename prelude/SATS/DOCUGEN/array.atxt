@@ -378,6 +378,11 @@ A[k-1] for k ranging from i down to j+1, and A[j] moves into A[i].\
 
 (* ****** ****** *)
 
+#declnamesynop("array_ptr_tabulate")
+#declnamesynop("array_tabulate$fwork")
+
+(* ****** ****** *)
+
 #declnamesynop("fprint_array")
 #decldescrpt("\
 

@@ -167,15 +167,13 @@ overload arrayptr with arrayptr_make_arrpsz
 #atscode_separator()
 
 fun{a:t0p}
-arrayptr_make_list
-  {n:int}
-  (asz: size_t n, xs: list (INV(a), n)):<!wrt> arrayptr (a, n)
+arrayptr_make_list{n:int}
+  (asz: int n, xs: list (INV(a), n)):<!wrt> arrayptr (a, n)
 // end of [arrayptr_make_list]
 
 fun{a:vt0p}
-arrayptr_make_list_vt
-  {n:int}
-  (asz: size_t n, xs: list_vt (INV(a), n)):<!wrt> arrayptr (a, n)
+arrayptr_make_list_vt{n:int}
+  (asz: int n, xs: list_vt (INV(a), n)):<!wrt> arrayptr (a, n)
 // end of [arrayptr_make_list_vt]
 
 #atscode_separator()
