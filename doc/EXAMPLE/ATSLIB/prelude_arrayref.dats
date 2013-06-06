@@ -80,7 +80,7 @@ val () = assertloc (A[3] = 'D')
 val () = assertloc (A[4] = 'E')
 //
 implement
-array_tabulate$fwork<char> (i) = 'A'+g0u2i(i)
+array_tabulate$fwork<char> (i) = 'a'+g0u2i(i)
 val alphabet = arrszref_tabulate<char> ((i2sz)26)
 val () = fprintln! (out, "alphabet = ", alphabet)
 //
