@@ -63,11 +63,13 @@ typedef T = char
 //
 val out = stdout_ref
 //
-val A = (arrszref)$arrpsz{T}('A', 'B', 'C', 'D', 'E')
+val A =
+(arrszref)$arrpsz{T}('A', 'B', 'C', 'D', 'E')
 //
 local
-implement fprint_array$sep<> (out) = fprint (out, " | ")
-in
+implement
+fprint_array$sep<> (out) = fprint (out, " | ")
+in (* in of [local] *)
 val () = fprintln! (out, A)
 end // end of [local]
 //
@@ -76,6 +78,11 @@ val () = assertloc (A[1] = 'B')
 val () = assertloc (A[2] = 'C')
 val () = assertloc (A[3] = 'D')
 val () = assertloc (A[4] = 'E')
+//
+implement
+array_tabulate$fwork<char> (i) = 'A'+g0u2i(i)
+val alphabet = arrszref_tabulate<char> ((i2sz)26)
+val () = fprintln! (out, "alphabet = ", alphabet)
 //
 } (* end of [val] *)
 

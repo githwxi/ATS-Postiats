@@ -154,6 +154,10 @@ arrszref-value. ")
 #declnamesynop("arrszref_exch_at_guint")
 
 (* ****** ****** *)
+
+#declnamesynop("arrayref_tabulate")
+
+(* ****** ****** *)
 //
 // HX: various overloaded symbols
 //

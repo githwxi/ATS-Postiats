@@ -230,8 +230,11 @@ case+ hid0.hidecl_node of
   (
     hids_head, hids_body
   ) => let
+    val (pf | ()) = ccompenv_push (env)
     val pmds_head = hideclist_ccomp (env, hids_head)
+    val (pf2 | ()) = ccompenv_push (env)
     val pmds_body = hideclist_ccomp (env, hids_body)
+    val () = ccompenv_localjoin (pf, pf2 | env)
   in
     primdec_local (loc0, pmds_head, pmds_body)
   end // end of [HIDlocal]

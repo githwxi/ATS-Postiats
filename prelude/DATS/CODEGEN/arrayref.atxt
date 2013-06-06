@@ -322,16 +322,31 @@ end // end of [fprint_arrszref_sep]
 
 #atscode_separator()
 
+implement{a}
+arrszref_get_at_size
+  (ASZ, i) = $effmask_wrt let
+//
+var n: size_t
+val A = arrszref_get_refsize (ASZ, n)
+val i = g1ofg0_uint (i)
+//
+in
+//
+if n > i
+  then arrayref_get_at_size (A, i)
+  else $raise ArraySubscriptExn((*fun*))
+//
+end // end of [arrszref_get_at_size]
+
 implement
 {a}{tk}
 arrszref_get_at_gint
   (ASZ, i) = let
 in
 //
-if i >= 0 then
-  arrszref_get_at_size (ASZ, g0i2u(i))
-else
-  $raise ArraySubscriptExn() // neg index
+if i >= 0
+  then arrszref_get_at_size (ASZ, g0i2u(i))
+  else $raise ArraySubscriptExn((*fun*)) // i < 0
 //
 end // end of [arrszref_get_at_gint]
 
@@ -343,45 +358,7 @@ in
   arrszref_get_at_size (ASZ, g0u2u(i))
 end // end of [arrszref_get_at_guint]
 
-implement{a}
-arrszref_get_at_size
-  (ASZ, i) = $effmask_wrt let
-//
-var n: size_t
-val A = arrszref_get_refsize (ASZ, n)
-val i = g1ofg0_uint (i)
-//
-in
-//
-if n > i then
-  arrayref_get_at_size (A, i)
-else
-  $raise ArraySubscriptExn((*fun*))
-//
-end // end of [arrszref_get_at_size]
-
 #atscode_separator()
-
-implement
-{a}{tk}
-arrszref_set_at_gint
-  (ASZ, i, x) = let
-in
-//
-if i >= 0 then
-  arrszref_set_at_size (ASZ, g0i2u(i), x)
-else
-  $raise ArraySubscriptExn() // neg index
-//
-end // end of [arrszref_set_at_gint]
-
-implement
-{a}{tk}
-arrszref_set_at_guint
-  (ASZ, i, x) = let
-in
-  arrszref_set_at_size (ASZ, g0u2u(i), x)
-end // end of [arrszref_set_at_guint]
 
 implement{a}
 arrszref_set_at_size
@@ -393,32 +370,33 @@ val i = g1ofg0_uint (i)
 //
 in
 //
-if n > i then arrayref_set_at_size (A, i, x) else $raise ArraySubscriptExn()
+if n > i
+  then arrayref_set_at_size (A, i, x)
+  else $raise ArraySubscriptExn((*fun*))
 //
 end // end of [arrszref_set_at_size]
 
+implement
+{a}{tk}
+arrszref_set_at_gint
+  (ASZ, i, x) = let
+in
+//
+if i >= 0
+  then arrszref_set_at_size (ASZ, g0i2u(i), x)
+  else $raise ArraySubscriptExn((*fun*)) // i < 0
+//
+end // end of [arrszref_set_at_gint]
+
+implement
+{a}{tk}
+arrszref_set_at_guint
+  (ASZ, i, x) = let
+in
+  arrszref_set_at_size (ASZ, g0u2u(i), x)
+end // end of [arrszref_set_at_guint]
+
 #atscode_separator()
-
-implement
-{a}{tk}
-arrszref_exch_at_gint
-  (ASZ, i, x) = let
-in
-//
-if i >= 0 then
-  arrszref_exch_at_size (ASZ, g0i2u(i), x)
-else
-  $raise ArraySubscriptExn() // neg index
-//
-end // end of [arrszref_exch_at_gint]
-
-implement
-{a}{tk}
-arrszref_exch_at_guint
-  (ASZ, i, x) = let
-in
-  arrszref_exch_at_size (ASZ, g0u2u(i), x)
-end // end of [arrszref_exch_at_guint]
 
 implement{a}
 arrszref_exch_at_size
@@ -430,9 +408,40 @@ val i = g1ofg0_uint (i)
 //
 in
 //
-if n > i then arrayref_exch_at_size (A, i, x) else $raise ArraySubscriptExn()
+if n > i
+  then arrayref_exch_at_size (A, i, x)
+  else $raise ArraySubscriptExn((*fun*))
+// end of [if]
 //
 end // end of [arrszref_exch_at_size]
+
+implement
+{a}{tk}
+arrszref_exch_at_gint
+  (ASZ, i, x) = let
+in
+//
+if i >= 0
+  then arrszref_exch_at_size (ASZ, g0i2u(i), x)
+  else $raise ArraySubscriptExn((*fun*)) // i < 0
+//
+end // end of [arrszref_exch_at_gint]
+
+implement
+{a}{tk}
+arrszref_exch_at_guint
+  (ASZ, i, x) = let
+in
+  arrszref_exch_at_size (ASZ, g0u2u(i), x)
+end // end of [arrszref_exch_at_guint]
+
+#atscode_separator()
+
+implement{a}
+arrszref_tabulate (asz) = let
+  val asz = g1ofg0_uint (asz)
+  val A = arrayref_tabulate<a> (asz) in arrszref_make_arrayref(A, asz)
+end // end of [arrszref_tabulate]
 
 #atscode_separator()
 

@@ -621,7 +621,7 @@ in
 //
 case+ t2mas of
 | list_cons _ => let
-    val-Some (d2c) = funlab_get_d2copt (flab)
+    val-Some(d2c) = funlab_get_d2copt (flab)
     val t2mas = t2mpmarglst_tsubst (loc0, tsub, t2mas)
     val tmpmat = ccompenv_tmpcst_match (env, d2c, t2mas)
   in
