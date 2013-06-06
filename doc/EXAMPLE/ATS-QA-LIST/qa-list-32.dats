@@ -51,12 +51,9 @@ main0 () =
 //
 val asz = i2sz(LEN)
 //
-val A =
-arrayptr_make_uninitized<int> (asz)
-//
 implement
-array_initize$init<int> (i, x) = x := LEN-g0u2i(i)
-val () = arrayptr_initize<int> (A, asz)
+array_tabulate$fwork<int> (i) = LEN-g0u2i(i)
+val A = arrayptr_tabulate<int> (asz)
 //
 val () = $extfcall (void, "display_numbers", arrayptr2ptr(A), LEN)
 //

@@ -187,6 +187,13 @@ arrayptr_make_uninitized
 
 #atscode_separator()
 
+fun arrayptr_free
+  {a:t0p}{l:addr}{n:int}
+  (A: arrayptr (INV(a), l, n)):<!wrt> void = "mac\#%"
+// end of [arrayptr_free]
+
+#atscode_separator()
+
 (*
 fun{}
 fprint_array$sep (out: FILEref): void
@@ -424,14 +431,10 @@ arrayptr_uninitize
 (
   A: !arrayptr (INV(a), l, n) >> arrayptr (a?, l, n), asz: size_t n
 ) : void // end of [arrayptr_uninitize]
-macdef arrayptr_uninitialize = arrayptr_uninitize
+macdef
+arrayptr_uninitialize = arrayptr_uninitize
 
 #atscode_separator()
-
-fun arrayptr_free
-  {a:t0p}{l:addr}{n:int}
-  (A: arrayptr (INV(a), l, n)):<!wrt> void = "mac\#%"
-// end of [arrayptr_free]
 
 (*
 fun{a:vt0p}
@@ -443,6 +446,16 @@ arrayptr_freelin
   (A: arrayptr (INV(a), l, n), asz: size_t (n)): void
 // end of [arrayptr_freelin]
 
+#atscode_separator()
+//
+(*
+fun{a:vt0p}
+array_tabulate$fwork (index: size_t): (a)
+*)
+fun{a:vt0p}
+arrayptr_tabulate
+  {n:int} (asz: size_t n): arrayptr (a, n)
+//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

@@ -160,6 +160,24 @@ end // end of [array_ptr_free]
 
 #atscode_separator()
 
+implement{a}
+array_ptr_tabulate (asz) = let
+//
+val
+(
+  pf, pfgc | p
+) = array_ptr_alloc<a> (asz)
+//
+implement
+array_initize$init<a> (i, x) = x := array_tabulate$fwork<a> (i)
+val () = array_initize<a> (!p, asz)
+//
+in
+  (pf, pfgc | p)
+end // end of [array_ptr_tabulate]
+
+#atscode_separator()
+
 implement{}
 fprint_array$sep
   (out) = fprint_string (out, "; ")

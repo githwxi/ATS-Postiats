@@ -271,6 +271,16 @@ a:vt0p}{env:vt0p
 
 #atscode_separator()
 //
+(*
+fun{a:vt0p}
+array_tabulate$fwork (index: size_t): (a)
+*)
+fun{a:vt0p}
+arrayref_tabulate
+  {n:int} (asz: size_t n): arrayref (a, n)
+//
+#atscode_separator()
+//
 // arrszref: a reference to an array with size information attached
 //
 #atscode_separator()

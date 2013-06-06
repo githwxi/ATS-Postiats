@@ -197,6 +197,13 @@ end // end of [arrayref_rforeach_env]
 
 #atscode_separator()
 
+implement{a}
+arrayref_tabulate
+  (asz) = arrayref_refize (arrayptr_tabulate (asz))
+// end of [arrayref_tabulate]
+
+#atscode_separator()
+
 local
 
 datatype

@@ -294,6 +294,13 @@ end // end of [arrayptr_freelin]
 
 #atscode_separator()
 
+implement{a}
+arrayptr_tabulate (asz) =
+  arrayptr_encode2 (array_ptr_tabulate<a> (asz))
+// end of [arrayptr_tabulate]
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
