@@ -113,6 +113,15 @@ taking the length of the given string as its second argument.  ')
 
 #declnamesynop("string_make_substring")
 
+#decldescrpt("\
+
+Given a string str of length n and integers st and ln, this function
+returns a string that equals the substring in str that starts at char st
+and is of length ln.\
+
+")
+#declfunretval("A linear string is returned.")
+
 (* ****** ****** *)
 
 #declnamesynop("string_is_empty")

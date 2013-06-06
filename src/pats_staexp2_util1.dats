@@ -85,7 +85,7 @@ case+ 0 of
 //
 end // end of [impname_linearize]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s2rt_linearize
@@ -122,7 +122,7 @@ local
 #define CLOPTR 1
 #define CLOREF ~1
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s2rt_prf_lin_fc (
@@ -590,7 +590,7 @@ local
 #define :: list_vt_cons
 assume stasub_vtype = List_vt @(s2var, s2exp)
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 stasub_make_nil () = list_vt_nil ()
@@ -598,6 +598,41 @@ implement
 stasub_copy (sub) = list_vt_copy (sub)
 implement
 stasub_free (sub) = list_vt_free (sub)
+
+(* ****** ****** *)
+
+implement
+fprint_stasub
+  (out, sub) = let
+//
+fun loop
+(
+  out: FILEref, xs: !stasub, i: int
+) : void = let
+in
+//
+case+ xs of
+| list_vt_cons
+    (x, !p_xs) => let
+    val () =
+    if i > 0
+      then fprint_string (out, ", ")
+    // end of [val]
+    val () = fprint_s2var (out, x.0)
+    val () = fprint_string (out, "->")
+    val () = fprint_s2exp (out, x.1)
+    val () = loop (out, !p_xs, i+1)
+    prval () = fold@ (xs)
+  in
+    // nothing
+  end // end of [list_vt_cons]
+| list_vt_nil () => fold@ (xs)
+//
+end // end of [loop]
+//
+in
+  loop (out, sub, 0)
+end // end of [fprint_stasub]
 
 (* ****** ****** *)
 

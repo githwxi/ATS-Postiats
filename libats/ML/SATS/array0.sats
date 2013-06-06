@@ -158,6 +158,10 @@ overload array0_exch_at with array0_exch_at_guint
 //
 (* ****** ****** *)
 
+(*
+fun{}
+fprint_array$sep (out: FILEref): void
+*)
 fun{a:vt0p}
 fprint_array0 (out: FILEref, A: array0 (a)): void
 fun{a:vt0p}
@@ -178,6 +182,13 @@ fun{a:t0p}
 array0_append
   (A1: array0 (a), A2: array0 (a)):<!refwrt> array0 (a)
 // end of [array0_append]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+array0_tabulate
+  (asz: size_t, f: (size_t) -<cloref1> a): array0 (a)
+// end of [array0_tabulate]
 
 (* ****** ****** *)
 

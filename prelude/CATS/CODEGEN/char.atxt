@@ -90,6 +90,15 @@ atspre_uchar2int (atstype_uchar c) { return ((atstype_int)c) ; }
 #atscode_separator_for_C()
 
 ATSinline()
+atstype_char
+atspre_add_char_int
+  (atstype_char c1, atstype_int i2) { return (c1 + i2) ; }
+// end of [atspre_add_char_int]
+\#define atspre_add_char0_int0 atspre_add_char_int
+
+#atscode_separator_for_C()
+
+ATSinline()
 atstype_int
 atspre_sub_char_char
   (atstype_char c1, atstype_char c2) { return (c1 - c2) ; }

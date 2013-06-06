@@ -120,6 +120,9 @@ fprint_arrayref_sep
 , A: arrayref (a, n), asz: size_t n, sep: NSH(string)
 ) : void // end of [fprint_arrayref_sep]
 
+overload fprint with fprint_arrayref
+overload fprint with fprint_arrayref_sep
+
 #atscode_separator()
 
 fun{a:t0p}

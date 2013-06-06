@@ -104,6 +104,8 @@ fun stasub_make_nil () : stasub
 fun stasub_copy (sub: !stasub): stasub
 fun stasub_free (sub: stasub): void
 
+fun fprint_stasub (out: FILEref, sub: !stasub): void
+
 fun stasub_add
   (sub: &stasub, s2v: s2var, s2f: s2exp): void
 fun stasub_addlst

@@ -1,5 +1,5 @@
 (*
-** for testing [prelude/string]
+** for testing [libats/ML/strarr]
 *)
 
 (* ****** ****** *)

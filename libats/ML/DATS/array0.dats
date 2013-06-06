@@ -105,6 +105,18 @@ end // end of [array0_make_list]
 
 (* ****** ****** *)
 
+implement{a}
+fprint_array0 (out, A) =
+  fprint_arrszref (out, arrszref_of_array0 (A))
+// end of [fprint_array0]
+
+implement{a}
+fprint_array0_sep (out, A, sep) =
+  fprint_arrszref_sep (out, arrszref_of_array0 (A), sep)
+// end of [fprint_array0_sep]
+
+(* ****** ****** *)
+
 implement
 {a}{tk}
 array0_get_at_gint
@@ -261,6 +273,62 @@ end // end of [array0_append]
 (* ****** ****** *)
 
 implement{a}
+array0_tabulate
+  (asz, f) = let
+//
+val asz = g1ofg0_uint(asz)
+//
+val A =
+arrayptr_make_uninitized<a> (asz)
+//
+val () = let
+//
+implement
+array_initize$init<a> (i, x) = x := f (i)
+//
+in
+  arrayptr_initize<a> (A, asz)
+end // end of [val]
+//
+val ASZ = arrszref_make_arrayref (arrayptr_refize(A), asz)
+//
+in
+  array0_of_arrszref (ASZ)  
+end // end of [array0_tabulate]
+
+(* ****** ****** *)
+
+implement{a}
+array0_find_exn (A0, p) = let
+//
+val ASZ = arrszref_of_array0 (A0)
+//
+var asz: size_t
+val A = arrszref_get_refsize (ASZ, asz)
+//
+implement(tenv)
+array_foreach$cont<a><tenv> (x, env) = ~p(x)
+implement(tenv)
+array_foreach$fwork<a><tenv> (x, env) = ((*nothing*))
+//
+val idx = arrayref_foreach<a> (A, asz)
+//
+in
+  if idx < asz then idx else $raise NotFoundExn()
+end // end of [array0_find_exn]
+
+(*
+/*
+implement{a}
+array0_find_opt (A0, p) =
+  try Some0 (array0_find_exn<a> (A0, p)) with ~NotFoundExn() => None0 ()
+// end of [array0_find_opt]
+*/
+*)
+
+(* ****** ****** *)
+
+implement{a}
 array0_foreach
   (A0, f) = let
 //
@@ -326,36 +394,6 @@ end // end of [array0_rforeach]
 
 (* ****** ****** *)
 
-implement{a}
-array0_find_exn (A0, p) = let
-//
-val ASZ = arrszref_of_array0 (A0)
-//
-var asz: size_t
-val A = arrszref_get_refsize (ASZ, asz)
-//
-implement(tenv)
-array_foreach$cont<a><tenv> (x, env) = ~p(x)
-implement(tenv)
-array_foreach$fwork<a><tenv> (x, env) = ((*nothing*))
-//
-val idx = arrayref_foreach<a> (A, asz)
-//
-in
-  if idx < asz then idx else $raise NotFoundExn()
-end // end of [array0_find_exn]
-
-(*
-/*
-implement{a}
-array0_find_opt (A0, p) =
-  try Some0 (array0_find_exn<a> (A0, p)) with ~NotFoundExn() => None0 ()
-// end of [array0_find_opt]
-*/
-*)
-
-(* ****** ****** *)
-
 implement
 {a}{res}
 array0_foldleft
@@ -366,18 +404,16 @@ val ASZ = arrszref_of_array0 (A0)
 var asz: size_t
 val A = arrszref_get_refsize (ASZ, asz)
 //
-typedef tenv = res
-//
 implement
-array_foreach$cont<a><tenv> (x, env) = true
+array_foreach$cont<a><res> (x, env) = true
 implement
-array_foreach$fwork<a><tenv> (x, env) = env := f (env, x)
+array_foreach$fwork<a><res> (x, env) = env := f (env, x)
 //
-var res: tenv = ini
-val _ = arrayref_foreach_env<a><tenv> (A, asz, res)
+var result: res = ini
+val _ = arrayref_foreach_env<a><res> (A, asz, result)
 //
 in
-  res
+  result
 end // end of [array0_foldleft]
 
 (* ****** ****** *)
@@ -392,18 +428,16 @@ val ASZ = arrszref_of_array0 (A0)
 var asz: size_t
 val A = arrszref_get_refsize (ASZ, asz)
 //
-typedef tenv = res
-//
 implement
-array_iforeach$cont<a><tenv> (i, x, env) = true
+array_iforeach$cont<a><res> (i, x, env) = true
 implement
-array_iforeach$fwork<a><tenv> (i, x, env) = (env := f (env, i, x))
+array_iforeach$fwork<a><res> (i, x, env) = (env := f (env, i, x))
 //
-var res: tenv = ini
-val _ = arrayref_foreach_env<a><tenv> (A, asz, res)
+var result: res = ini
+val _ = arrayref_iforeach_env<a><res> (A, asz, result)
 //
 in
-  res
+  result
 end // end of [array0_ifoldleft]
 
 (* ****** ****** *)
@@ -418,21 +452,18 @@ val ASZ = arrszref_of_array0 (A0)
 var asz: size_t
 val A = arrszref_get_refsize (ASZ, asz)
 //
-typedef tenv = res
-//
 implement
-array_rforeach$cont<a><tenv> (x, env) = true
+array_rforeach$cont<a><res> (x, env) = true
 implement
-array_rforeach$fwork<a><tenv> (x, env) = env := f (x, env)
+array_rforeach$fwork<a><res> (x, env) = env := f (x, env)
 //
-var res: tenv = snk
-val _ = arrayref_rforeach_env<a><tenv> (A, asz, res)
+var result: res = snk
+val _ = arrayref_rforeach_env<a><res> (A, asz, result)
 //
 in
-  res
+  result
 end // end of [array0_foldright]
 
 (* ****** ****** *)
 
 (* end of [array0.dats] *)
-  

@@ -146,6 +146,10 @@ end // end of [impenv_find]
 implement
 impenv_update
   (env, s2v, s2f) = let
+(*
+val () = println! ("impenv_update: s2v = ", s2v)
+val () = println! ("impenv_update: s2f = ", s2f)
+*)
 in
 //
 case+ env of
@@ -270,24 +274,30 @@ val s2e_arg = s2hnf2exp (s2f_arg)
 val s2en_pat = s2e_pat.s2exp_node
 val s2en_arg = s2e_arg.s2exp_node
 //
+(*
+val () = println! ("auxmat: s2e_pat(aft) = ", s2e_pat)
+val () = println! ("auxmat: s2e_arg(aft) = ", s2e_arg)
+*)
+//
 in
 //
 case+ s2en_pat of
 | S2Evar (s2v) => let
     val s2f = impenv_find (env, s2v)
   in
-    if s2hnf_is_err (s2f) then (
+    if s2hnf_is_err (s2f) then
+    (
       impenv_update (env, s2v, s2f_arg)
     ) else (
       s2hnf_syneq (s2f, s2f_arg)
     ) // end of [if]
   end // end of [S2Evar]
 //
-| S2Ecst (s2c_pat) => let
+| S2Ecst (s2c) => let
   in
     case+ s2en_arg of
     | S2Ecst (s2c_arg) =>
-        if s2c_pat = s2c_arg then true else false
+        if s2c = s2c_arg then true else false
       // end of [S2Ecst]
     | _ => false
   end // end of [S2Ecst]
@@ -317,6 +327,12 @@ and auxmatlst
 , s2es_pat: s2explst
 , s2es_arg: s2explst
 ) : bool = let
+//
+(*
+val () = println! ("auxmatlst: s2es_pat = ", s2es_pat)
+val () = println! ("auxmatlst: s2es_arg = ", s2es_arg)
+*)
+//
 in
 //
 case+ s2es_pat of
@@ -400,11 +416,17 @@ implement
 hiimpdec_tmpcst_match
   (imp, d2c0, t2mas) = let
 //
-val d2c = imp.hiimpdec_cst
+val d2c1 = imp.hiimpdec_cst
+//
+(*
+val () = println! ("hiimpdec_tmpcst_match: d2c0 = ", d2c0)
+val () = println! ("hiimpdec_tmpcst_match: d2c1 = ", d2c1)
+*)
 //
 in
 //
-if d2c = d2c0 then let
+if d2c0 = d2c1 then let
+  val () = println! ("hiimpdec_tmpcst_match: d2c0 = d2c1")
   val env =
     impenv_make_svarlst (imp.hiimpdec_imparg)
   // end of [val]
@@ -428,6 +450,12 @@ end // end of [hiimpdec_tmpcst_match]
 implement
 hiimpdeclst_tmpcst_match
   (imps, d2c0, t2mas) = let
+//
+(*
+val () =
+println! ("hiimpdeclst_tmpcst_match: d2c0 = ", d2c0)
+*)
+//
 in
 //
 case+ imps of
@@ -451,12 +479,17 @@ hiimpdec2_tmpcst_match
 //
 val HIIMPDEC2
   (imp, tsub0, tmparg) = imp2
-val d2c = imp.hiimpdec_cst
+val d2c1 = imp.hiimpdec_cst
 val imparg = imp.hiimpdec_imparg
+//
+(*
+val () = println! ("hiimpdec_tmpcst_match2: d2c0 = ", d2c0)
+val () = println! ("hiimpdec_tmpcst_match2: d2c1 = ", d2c1)
+*)
 //
 in
 //
-if d2c = d2c0 then let
+if d2c0 = d2c1 then let
   val env = impenv_make_svarlst (imparg)
   val ans = auxmatlstlst (env, tmparg, t2mas)
 in

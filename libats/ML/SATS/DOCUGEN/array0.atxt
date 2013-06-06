@@ -74,8 +74,7 @@ end // end of [main]
 
 (* ****** ****** *)
 
-#declnamesynop("array0_foreach")
-#declnamesynop("array0_iforeach")
+#declnamesynop("array0_tabulate")
 
 (* ****** ****** *)
 
@@ -91,6 +90,11 @@ an element, then the function raises an exception (#dyncode("NotFoundExn")).
 #decldescrpt("\
 This function is just the optional version of #dyncode("array0_find_exn").
 ")
+
+(* ****** ****** *)
+
+#declnamesynop("array0_foreach")
+#declnamesynop("array0_iforeach")
 
 (* ****** ****** *)
 

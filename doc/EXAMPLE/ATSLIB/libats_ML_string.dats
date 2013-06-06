@@ -1,5 +1,5 @@
 (*
-** for testing [prelude/string]
+** for testing [libats/ML/string]
 *)
 
 (* ****** ****** *)
@@ -40,17 +40,22 @@ val () = assertloc (alphabet = string_make_substring (alphabet, (i2sz)0, (i2sz)2
 val () =
 {
 //
+val ds =
+string_tabulate
+(
+  i2sz(10)
+, lam i => $UN.cast{charNZ}('0' + g0u2i(i))
+) (* end of [val] *)
+//
 val out = stdout_ref
+val () = fprintln! (out, "digits = ", ds)
 //
 val () =
-string_foreach
-(
-  alphabet+alphabet, lam c => fprint(out, tolower(c))
-) (* end of [val] *)
+string_foreach (ds+ds, lam c => fprint(out, c))
 //
 val () = fprint_newline (out)
 //
-} // end of [val]
+} (* end of [val] *)
 
 (* ****** ****** *)
 

@@ -63,6 +63,9 @@ macdef
 prelude_string_explode = string_explode
 //
 macdef
+prelude_string_tabulate = string_tabulate
+//
+macdef
 prelude_string_foreach = string_foreach
 //
 (* ****** ****** *)
@@ -175,6 +178,21 @@ in
 end // end of [string_implode]
 */
 *)
+
+(* ****** ****** *)
+
+implement
+string_tabulate
+  (n, f) = let
+//
+val n = g1ofg0_uint(n)
+//
+implement
+string_tabulate$fwork<> (i) = f (i)
+//
+in
+  strnptr2string(prelude_string_tabulate (n))
+end // end of [string_tabulate]
 
 (* ****** ****** *)
 

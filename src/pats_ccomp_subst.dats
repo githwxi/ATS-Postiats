@@ -74,12 +74,18 @@ staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 
-macdef l2l (xs) = list_of_list_vt (,(xs))
-macdef list_vt2t (xs) = $UN.linlst2lst (,(xs))
+overload fprint with fprint_stasub
+overload fprint with fpprint_t2mpmarg
+overload fprint with fpprint_t2mpmarglst
 
 (* ****** ****** *)
 
 overload fprint with fprint_vbindmap
+
+(* ****** ****** *)
+
+macdef l2l (xs) = list_of_list_vt (,(xs))
+macdef list_vt2t (xs) = $UN.linlst2lst (,(xs))
 
 (* ****** ****** *)
 
@@ -95,11 +101,19 @@ in
 case+ xs of
 | list_cons
     (x, xs) => let
+//
     val s2es = x.t2mpmarg_arg
     val s2es2 =
       s2explst_subst (sub, s2es)
-    val x2 = t2mpmarg_make (loc0, s2es2)
+(*
+    val out = stdout_ref
+    val () = fprintln! (out, "auxlst: s2es = ", s2es)
+    val () = fprintln! (out, "auxlst: s2es2 = ", s2es2)
+*)
+    val x2 =
+      t2mpmarg_make (loc0, s2es2)
     val xs2 = auxlst (loc0, sub, xs)
+//
   in
     list_cons (x2, xs2)
   end // end of [list_cons]
@@ -107,12 +121,21 @@ case+ xs of
 //
 end // end of [auxlst]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 t2mpmarglst_subst
-  (loc0, sub, t2mas) = auxlst (loc0, sub, t2mas)
-// end of [t2mpmarglst_subst]
+  (loc0, sub, t2mas) = let
+//
+(*
+val out = stdout_ref
+val () = fprintln! (out, "t2mpmarglst_subst: sub = ", sub)
+val () = fprintln! (out, "t2mpmarglst_subst: t2mas = <", t2mas, ">")
+*)
+//
+in
+  auxlst (loc0, sub, t2mas)
+end // end of [t2mpmarglst_subst]
 
 end // end of [local]
 
@@ -151,7 +174,7 @@ fun tmpvar_set_suffix
   (tmp: tmpvar, sfx: int): void = "patsopt_tmpvar_set_suffix"
 // end of [tmpvar_set_suffix]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 tmpvar_subst
@@ -668,6 +691,11 @@ case+
 //
 | PMVtmpltcst
     (d2c, t2mas) => let
+(*
+    val out = stdout_ref
+    val () = fprintln! (out, "primval_subst: d2c = ", d2c)
+    val () = fprintln! (out, "primval_subst: t2mas = <", t2mas, ">")
+*)
     val trd = ccompenv_get_tmprecdepth (env)
     val mtrd = $GLOB.the_CCOMPENV_maxtmprecdepth_get ()
   in

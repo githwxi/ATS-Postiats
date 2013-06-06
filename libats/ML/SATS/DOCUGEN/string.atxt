@@ -50,9 +50,9 @@ main () = 0 where {
 #declnamesynop("string_make_substring")
 #decldescrpt("\
 
-Given a string str of length n and integers ln and st, this function
-returns a string consisting of chars str[ln], str[ln+1], ...,
-str[ln+min(n-ln,st)-1] if ln is less than n. Otherwise, it returns the
+Given a string str of length n and integers st and ln, this function
+returns a string consisting of chars str[st], str[st+1], ...,
+str[st+min(n-st,ln)-1] if st is less than n. Otherwise, it returns the
 empty string.
 
 ")
@@ -197,6 +197,10 @@ main () = 0 where {
 
 (* ****** ****** *)
 
+#declnamesynop("string_tabulate")
+
+(* ****** ****** *)
+
 #declnamesynop("string_foreach")
 #decldescrpt("\
 
@@ -229,7 +233,7 @@ main0 () = {
 
 (* ****** ****** *)
 
-#declname("+")
+#declnamesynop("+")
 
 (* ****** ****** *)
 

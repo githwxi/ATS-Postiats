@@ -205,6 +205,9 @@ fprint_arrayptr_sep
 , A: !arrayptr (INV(a), l, n), n: size_t n, sep: NSH(string)
 ) : void // end of [fprint_arrayptr_sep]
 
+overload fprint with fprint_arrayptr
+overload fprint with fprint_arrayptr_sep
+
 #atscode_separator()
 
 symintr arrayptr_get_at
