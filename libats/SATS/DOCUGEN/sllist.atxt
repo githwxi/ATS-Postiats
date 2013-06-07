@@ -120,5 +120,26 @@ singly-linked linear lists in ATS and vice versa.  ')
 #declnamesynop("sllist_foreach$fwork")
 
 (* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("iseqz")
+#declnamesynop("isneqz")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
+
+(* ****** ****** *)
 
 (* end of [sllist.atxt] *)

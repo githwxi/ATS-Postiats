@@ -24,6 +24,8 @@ val () = {
 //
 typedef T = int
 //
+val out = stdout_ref
+//
 val xs = qlist_make_nil {T} ()
 //
 val x1 = 1
@@ -32,6 +34,10 @@ val x2 = 2
 val () = qlist_insert (xs, x2)
 val x3 = 3
 val () = qlist_insert (xs, x3)
+//
+val () = fprint (out, "xs = ")
+val () = fprint_qlist_sep (out, xs, ", ")
+val () = fprint_newline (out)
 //
 val () = assertloc (qlist_length (xs) = 3)
 //

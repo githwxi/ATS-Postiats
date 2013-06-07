@@ -36,6 +36,8 @@ appear in the same order as they are accumulated.
 
 #declnamesynop("qlist")
 #declnamesynop("qlist_vtype")
+#declnamesynop("qlist0")
+#declnamesynop("qlist1")
 
 (* ****** ****** *)
 
@@ -222,6 +224,27 @@ This abstract viewtype is for the list-nodes in a qlist-object.
 
 #declnamesynop("qlist_insert_ngc")
 #declnamesynop("qlist_takeout_ngc")
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("iseqz")
+#declnamesynop("isneqz")
+
+(* ****** ****** *)
+
+#declnamesynop("length")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
 
 (* ****** ****** *)
 

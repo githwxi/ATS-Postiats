@@ -51,9 +51,12 @@ main0 () =
 //
 val asz = i2sz(LEN)
 //
+local
 implement
 array_tabulate$fwork<int> (i) = LEN-g0u2i(i)
+in (* in of [local] *)
 val A = arrayptr_tabulate<int> (asz)
+end // end of [local]
 //
 val () = $extfcall (void, "display_numbers", arrayptr2ptr(A), LEN)
 //
@@ -63,4 +66,4 @@ val () = arrayptr_free (A)
 
 (* ****** ****** *)
 
-(* end of [qa-list_32.dats] *)
+(* end of [qa-list-32.dats] *)

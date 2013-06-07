@@ -43,8 +43,8 @@ staload "libats/SATS/qlist.sats"
 (* ****** ****** *)
 
 implement{}
-qlist_make_nil (
-) = pq where {
+qlist_make_nil
+  () = pq where {
   val (
     pf, pfgc | p
   ) = ptr_alloc<qstruct> ()
@@ -157,20 +157,58 @@ implement{a}
 qlist_length
   {n} (pq) = let
 //
-typedef tenv = int
-//
+implement{a}{env}
+qlist_foreach$cont (x, env) = true
 implement
-qlist_foreach$cont<a><tenv> (x, env) = true
-implement
-qlist_foreach$fwork<a><tenv> (x, env) = env := env+1
+qlist_foreach$fwork<a><int> (x, env) = env := env+1
 //
-var env: tenv = (0)
-val () =
-  $effmask_all (qlist_foreach_env<a><tenv> (pq, env))
-// end of [val]
+var env: int = (0)
+//
+val () = $effmask_all (qlist_foreach_env<a><int> (pq, env))
+//
 in
   $UN.cast{int(n)}(env)
 end // end of [qlist_length]
+
+(* ****** ****** *)
+
+implement{}
+fprint_qlist$sep
+  (out) = fprint_string (out, "->")
+//
+implement{a}
+fprint_qlist
+  (out, pq) = let
+//
+implement{a}{env}
+qlist_foreach$cont (x, env) = true
+implement
+qlist_foreach$fwork<a><int>
+  (x, env) = let
+  val () = if env > 0 then fprint_qlist$sep (out)
+  val () = fprint_ref<a> (out, x)
+  val () = env := env+1
+in
+end // end of [qlist_foreach$fwork]
+//
+var env: int = 0
+//
+in
+  qlist_foreach_env<a><int> (pq, env)
+end // end of [fprint_qlist]
+
+(* ****** ****** *)
+
+implement{a}
+fprint_qlist_sep
+  (out, pq, sep) = let
+//
+implement{}
+fprint_qlist$sep (out) = fprint_string (out, sep)
+//
+in
+  fprint_qlist<a> (out, pq)
+end // end of [fprint_qlist_sep]
 
 (* ****** ****** *)
 
@@ -202,16 +240,17 @@ val+@list_vt_cons (x, xs2) = xs
 //
 val test =
   qlist_foreach$cont<a><env> (x, env)
-val () = (
-  if test then let
-    val () =
-      qlist_foreach$fwork<a><env> (x, env) in loop (addr@(xs2), p_nxr, env)
-    // end of [val]
-  end // end of [if]
+val () =
+(
+if test then let
+  val () =
+    qlist_foreach$fwork<a><env> (x, env) in loop (addr@(xs2), p_nxr, env)
+  // end of [val]
+end // end of [if]
 ) : void // end of [val]
 //
-prval ((*prf*)) = fold@ (xs)
-prval ((*prf*)) = $UN.cast2void (xs)
+prval ((*proof*)) = fold@ (xs)
+prval ((*proof*)) = $UN.cast2void(xs)
 //
 in
   // nothing
@@ -221,7 +260,7 @@ end // end of [loop]
 //
 val+@QLIST (nxf, p_nxr) = pq
 val () = loop (addr@(nxf), p_nxr, env)
-prval () = fold@ (pq)
+prval ((*proof*)) = fold@ (pq)
 //
 in
   // nothing

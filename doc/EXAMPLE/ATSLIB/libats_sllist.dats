@@ -50,12 +50,12 @@ val () = assertloc (4 = xs[3])
 val () = assertloc (5 = xs[4])
 //
 val () = fprintln! (out, xs)
-val () = assertloc (sllist_length (xs) = 5)
+val () = assertloc (length (xs) = 5)
 //
 val rxs = sllist_reverse (xs)
 //
 val () = fprintln! (out, rxs)
-val () = assertloc (sllist_length (rxs) = 5)
+val () = assertloc (length (rxs) = 5)
 //
 val () = sllist_free (rxs)
 //
@@ -92,21 +92,23 @@ typedef T = int
 //
 val out = stdout_ref
 //
-val xs = sllist_nil{T}()
-val xs = sllist_insert_at (xs, 0, 0)
-val xs = sllist_insert_at (xs, 1, 1)
-val xs = sllist_insert_at (xs, 2, 2)
-val xs = sllist_insert_at (xs, 3, 3)
-val xs = sllist_insert_at (xs, 4, 4)
+val zs = sllist_nil{T}()
+val zs = sllist_insert_at (zs, 0, 0)
+val zs = sllist_insert_at (zs, 1, 1)
+val zs = sllist_insert_at (zs, 2, 2)
+val zs = sllist_insert_at (zs, 3, 3)
+val zs = sllist_insert_at (zs, 4, 4)
 //
-var xs = xs
-val () = assertloc (4 = sllist_takeout_at (xs, 4))
-val () = assertloc (3 = sllist_takeout_at (xs, 3))
-val () = assertloc (2 = sllist_takeout_at (xs, 2))
-val () = assertloc (1 = sllist_takeout_at (xs, 1))
-val () = assertloc (0 = sllist_takeout_at (xs, 0))
+val () = fprintln! (out, "zs = ", zs)
 //
-prval () = sllist_free_nil (xs)
+var zs = zs
+val () = assertloc (4 = sllist_takeout_at (zs, 4))
+val () = assertloc (3 = sllist_takeout_at (zs, 3))
+val () = assertloc (2 = sllist_takeout_at (zs, 2))
+val () = assertloc (1 = sllist_takeout_at (zs, 1))
+val () = assertloc (0 = sllist_takeout_at (zs, 0))
+//
+prval () = sllist_free_nil (zs)
 //
 } // end of [val]
 

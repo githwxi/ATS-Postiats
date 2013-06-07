@@ -71,7 +71,7 @@ vtypedef
 qlist (a:vt0p, n:int) = qlist_vtype (a, n)
 //
 vtypedef
-qlist (a:vt0p) = [n:int] qlist (a, n)
+qlist (a:vt0p) = [n:int] qlist_vtype (a, n)
 vtypedef
 qlist0 (a:vt0p) = [n:int | n >= 0] qlist (a, n)
 vtypedef
@@ -95,17 +95,30 @@ qlist_free_nil {a:vt0p} (q: qlist (a, 0)):<!wrt> void
 fun{a:vt0p}
 qlist_is_nil
   {n:int} (q: !qlist (a, n)):<> bool (n == 0)
-// end of [qlist_is_nil]
-
 fun{a:vt0p}
 qlist_isnot_nil
   {n:nat} (q: !qlist (INV(a), n)):<> bool (n > 0)
-// end of [qlist_isnot_nil]
-
+//
+overload iseqz with qlist_is_nil
+overload isneqz with qlist_isnot_nil
+//
 (* ****** ****** *)
 
 fun{a:vt0p}
 qlist_length {n:int} (q: !qlist (INV(a), n)):<> int (n)
+//
+overload length with qlist_length
+//
+(* ****** ****** *)
+
+fun{}
+fprint_qlist$sep (out: FILEref): void
+fun{a:vt0p}
+fprint_qlist (out: FILEref, q: !qlist (INV(a))): void
+fun{a:vt0p}
+fprint_qlist_sep (out: FILEref, q: !qlist (INV(a)), sep: string): void
+overload fprint with fprint_qlist
+overload fprint with fprint_qlist_sep
 
 (* ****** ****** *)
 

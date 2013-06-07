@@ -149,5 +149,17 @@ doubly linked linear lists in ATS and vice versa.  ')
 #declnamesynop("rdllist_foreach_env")
 
 (* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
+
+(* ****** ****** *)
 
 (* end of [dllist.atxt] *)

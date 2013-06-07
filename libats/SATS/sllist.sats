@@ -110,20 +110,21 @@ sllist_make_list
 fun{
 } sllist_is_nil
   {a:vt0p}{n:int} (xs: !sllist (INV(a), n)):<> bool (n==0)
-// end of [sllist_is_nil]
-
 fun{
 } sllist_is_cons
   {a:vt0p}{n:int} (xs: !sllist (INV(a), n)):<> bool (n > 0)
-// end of [sllist_is_cons]
-
+//
+overload iseqz with sllist_is_nil
+overload isneqz with sllist_is_cons
+//
 (* ****** ****** *)
 
 fun{a:vt0p}
 sllist_length
   {n:int} (xs: !sllist (INV(a), n)):<> int (n)
-// end of [sllist_length]
-
+//
+overload length with sllist_length
+//
 (* ****** ****** *)
 
 fun{a:t0p}
@@ -140,6 +141,13 @@ sllist_getref_next (xs: !Sllist1 (INV(a))):<> Ptr1
 
 (* ****** ****** *)
 
+fun{a:vt0p}
+sllist_getref_elt_at {n:int}
+  (xs: !sllist (INV(a), n), i: natLt(n)):<> cPtr1 (a)
+// end of [sllist_getref_elt_at]
+
+(* ****** ****** *)
+
 fun{a:t0p}
 sllist_get_elt_at {n:int}
   (xs: !sllist (INV(a), n), i: natLt(n)):<> (a)
@@ -148,18 +156,13 @@ fun{a:t0p}
 sllist_set_elt_at {n:int}
   (xs: !sllist (INV(a), n), i: natLt(n), x0: a):<!wrt> void
 overload [] with sllist_set_elt_at
-fun{a:vt0p}
-sllist_getref_elt_at {n:int}
-  (xs: !sllist (INV(a), n), i: natLt(n)):<> cPtr1 (a)
-// end of [sllist_getref_elt_at]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-sllist_getref_at
-  {n:int} (
-  xs: &sllist (INV(a), n), i: natLte(n)
-) :<> Ptr1 // end of [sllist_getref_at]
+sllist_getref_at{n:int}
+  (xs: &sllist (INV(a), n), i: natLte(n)):<> Ptr1
+// end of [sllist_getref_at]
 
 fun{a:vt0p}
 sllist_insert_at {n:int}

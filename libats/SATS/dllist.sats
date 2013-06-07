@@ -346,18 +346,17 @@ a:vt0p}{env:vt0p
 //
 fun{}
 fprint_dllist$sep (out: FILEref): void
-//
 fun{a:vt0p}
-fprint_dllist
-  (out: FILEref, xs: !Dllist (INV(a))): void
-// end of [fprint_dllist]
+fprint_dllist (out: FILEref, xs: !Dllist (INV(a))): void
+//
+overload fprint with fprint_dllist
+//
+(* ****** ****** *)
 //
 fun{}
 fprint_rdllist$sep (out: FILEref): void
 fun{a:vt0p}
-fprint_rdllist
-  (out: FILEref, xs: !Dllist (INV(a))): void
-// end of [fprint_rdllist]
+fprint_rdllist (out: FILEref, xs: !Dllist (INV(a))): void
 //
 (* ****** ****** *)
 //
