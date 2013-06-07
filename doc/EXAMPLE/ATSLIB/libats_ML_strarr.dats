@@ -51,6 +51,27 @@ val () = assertloc (~strarr_contains (AB, '0'))
 
 (* ****** ****** *)
 
+val () =
+{
+//
+val out = stdout_ref
+//
+val () = fprint! (out, "foreach: ")
+val () = strarr_foreach (alphabet, lam c => fprint (out, c))
+val () = fprint_newline (out)
+//
+val () = fprint! (out, "iforeach: ")
+val () = strarr_iforeach (alphabet, lam (i, c) => fprint! (out, "(", c, i, ")"))
+val () = fprint_newline (out)
+//
+val () = fprint! (out, "rforeach: ")
+val () = strarr_rforeach (alphabet, lam c => fprint (out, c))
+val () = fprint_newline (out)
+//
+} // end of [val]
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

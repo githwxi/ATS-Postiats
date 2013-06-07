@@ -169,14 +169,21 @@ fun strarr_copy (str: strarr):<!wrt> strarr
 
 (* ****** ****** *)
 
-fun strarr_append (str1: strarr, str2: strarr):<!wrt> strarr
+fun strarr_append
+  (str1: strarr, str2: strarr):<!wrt> strarr
 overload + with strarr_append
 
 (* ****** ****** *)
-
+//
+fun strarr_tabulate
+  (n: size_t, f: cfun (size_t, char)): strarr
+//
+(* ****** ****** *)
+//
 fun strarr_foreach (str: strarr, f: cfun (char, void)): void
+fun strarr_iforeach (str: strarr, f: cfun2 (size_t, char, void)): void
 fun strarr_rforeach (str: strarr, f: cfun (char, void)): void
-
+//
 (* ****** ****** *)
 
 (* end of [strarr.sats] *)

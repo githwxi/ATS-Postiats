@@ -612,6 +612,33 @@ case+ xs of
 //
 end // end of [e0xndeclst_test]
 
+fun d0atdeclst_test
+(
+  sym: symbol
+, xs1: $SYN.d0atdeclst
+, xs2: $SYN.s0expdeflst
+) : bool = let
+//
+fun loop1
+(
+  sym: symbol, xs: $SYN.d0atdeclst
+) : bool = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) =>
+  (
+    if sym = x.d0atdec_sym then true else loop1 (sym, xs)
+  )
+| list_nil () => false
+//
+end // end of [loop1]
+//
+in
+  loop1 (sym, xs1)
+end // end of [d0atdeclst_test]
+
 fun d0cstdeclst_test
 (
   sym: symbol, xs: $SYN.d0cstdeclst
@@ -707,8 +734,12 @@ case+ d0c.d0ecl_node of
     (_, xs) => s0taconlst_test (sym, xs)
 | $SYN.D0Csexpdefs
     (_, xs) => s0expdeflst_test (sym, xs)
+//
 | $SYN.D0Cexndecs
     (xs) => e0xndeclst_test (sym, xs)
+| $SYN.D0Cdatdecs
+    (knd, xs1, xs2) => d0atdeclst_test (sym, xs1, xs2)
+//
 | $SYN.D0Cdcstdecs
     (_, _, _, xs) => d0cstdeclst_test (sym, xs)
 | $SYN.D0Cmacdefs

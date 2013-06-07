@@ -156,6 +156,10 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
+#packfilename("partempinst.dats")
+
+(* ****** ****** *)
+
 #packfilename("staref.dats")
 
 (* ****** ****** *)

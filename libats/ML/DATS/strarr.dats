@@ -288,7 +288,10 @@ end // end of [strarr_append]
 
 (* ****** ****** *)
 
-(*
+implement
+strarr_tabulate (n, f) = array2strarr (array0_tabulate (n, f))
+
+(* ****** ****** *)
 
 implement
 strarr_foreach
@@ -318,6 +321,34 @@ end // end of [strarr_foreach]
 (* ****** ****** *)
 
 implement
+strarr_iforeach
+  (str, f) = let
+//
+fun loop
+(
+  p: ptr, n: size_t
+, i: size_t, f: cfun (size_t, char, void)
+) : void = let
+in
+//
+if n > i then let
+  val () = f (i, $UN.ptr0_get<char> (p))
+in
+  loop (ptr0_succ<char> (p), n, succ (i), f)
+end else () // end of [if]
+//
+end // end of [loop]
+//
+val p0 = strarr_get_ref (str)
+val n0 = strarr_get_size (str)
+//
+in
+  loop (p0, n0, i2sz(0), f)
+end // end of [strarr_iforeach]
+
+(* ****** ****** *)
+
+implement
 strarr_rforeach
   (str, f) = let
 //
@@ -340,8 +371,6 @@ val n0 = strarr_get_size (str)
 in
   loop (ptr0_add_guint<char> (p0, n0), n0, f)
 end // end of [strarr_rforeach]
-
-*)
 
 (* ****** ****** *)
 

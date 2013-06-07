@@ -91,12 +91,17 @@ staload "libats/ML/SATS/strarr.sats"
 implement
 main0 () =
 {
-  val cs = (strarr)"abcde"
-  val () = strarr_foreach (cs, lam (c) => print_char (c))
-  val () = print_newline ()
+  val out = stdout_ref
+  val cs = (strarr)"abcdefg"
+  val () = strarr_foreach (cs, lam (c) => fprint_char (out, c))
+  val () = fprint_newline (out)
 } // end of [main0]
 ')
 ")
+
+(* ****** ****** *)
+
+#declnamesynop("strarr_iforeach")
 
 (* ****** ****** *)
 
@@ -107,6 +112,25 @@ This function traverses its first argument (a string) from the end to the
 start and applies to each encountered character its second argument (a
 closure-function).\
 
+")
+#declexample("\
+
+The following code prints the reverse of a given string onto the standard
+output channel:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/strarr.sats"
+//
+implement
+main0 () =
+{
+  val out = stdout_ref
+  val cs = (strarr)"abcdefg"
+  val () = strarr_rforeach (cs, lam (c) => fprint_char (out, c))
+  val () = fprint_newline (out)
+} // end of [main0]
+')
 ")
 
 (* ****** ****** *)

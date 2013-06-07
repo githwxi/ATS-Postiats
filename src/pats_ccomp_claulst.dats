@@ -101,4 +101,3 @@ end // end of [hiclaulst_ccomp]
 (* ****** ****** *)
 
 (* end of [pats_ccomp_claulst.dats] *)
-

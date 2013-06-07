@@ -221,13 +221,15 @@ array0_find_opt
 
 fun{
 a:t0p}{res:t0p
-} array0_foldleft (
+} array0_foldleft
+(
   A: array0 (a), ini: res, f: (res, &a) -<cloref1> res
 ) : res // end of [array0_foldleft]
 
 fun{
 a:t0p}{res:t0p
-} array0_ifoldleft (
+} array0_ifoldleft
+(
   A: array0 (a), ini: res, f: (res, size_t, &a) -<cloref1> res
 ) : res // end of [array0_ifoldleft]
 
