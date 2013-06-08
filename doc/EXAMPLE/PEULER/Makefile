@@ -33,6 +33,35 @@ problem1-hwxi2:: problem1-hwxi2.exe ; ./$<
 
 ######
 
+P2:: problem2-hwxi
+problem2-hwxi:: \
+  P2/problem2-hwxi.dats ; $(PATSOPT) -IATS${PATSHOME}/contrib -o $@_dats.c -d $<
+problem2-hwxi:: \
+  problem2-hwxi_dats.c ; \
+  $(CCOPT) -DATS_MEMALLOC_LIBC \
+  -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -I${PATSHOME}/contrib -o $@.exe $@_dats.c -lgmp
+problem2-hwxi:: problem2-hwxi.exe ; ./$<
+
+P2:: problem2-hwxi2
+problem2-hwxi2:: \
+  P2/problem2-hwxi2.dats ; $(PATSOPT) -o $@_dats.c -d $<
+problem2-hwxi2:: problem2-hwxi2_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -o $@.exe $@_dats.c
+problem2-hwxi2:: problem2-hwxi2.exe ; ./$<
+
+######
+
+P3:: problem3-hwxi
+problem3-hwxi:: \
+  P3/problem3-hwxi.dats ; $(PATSOPT) -IATS${PATSHOME}/contrib -o $@_dats.c -d $<
+problem3-hwxi:: \
+  problem3-hwxi_dats.c ; \
+  $(CCOPT) -DATS_MEMALLOC_LIBC \
+  -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -I${PATSHOME}/contrib -o $@.exe $@_dats.c -lgmp
+problem3-hwxi:: problem3-hwxi.exe ; ./$<
+
+######
+
 P16:: problem16-hwxi
 problem16-hwxi:: \
   P16/problem16-hwxi.dats ; $(PATSOPT) -IATS${PATSHOME}/contrib -o $@_dats.c -d $<

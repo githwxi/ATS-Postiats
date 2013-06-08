@@ -74,6 +74,36 @@ intinf_make_ulint
 (* ****** ****** *)
 
 implement{}
+intinf_get_int (x) = let
+//
+val
+(
+  fpf | x
+) = intinf_takeout (x)
+val i = $VT.intinf_get_int (x)
+prval () = fpf (x)
+//
+in
+  (i)
+end // end of [intinf_get_int]
+
+implement{}
+intinf_get_lint (x) = let
+//
+val
+(
+  fpf | x
+) = intinf_takeout (x)
+val i = $VT.intinf_get_lint (x)
+prval () = fpf (x)
+//
+in
+  (i)
+end // end of [intinf_get_lint]
+
+(* ****** ****** *)
+
+implement{}
 intinf_get_string
   (x, base) = let
 //
@@ -309,6 +339,90 @@ in
 end (* end of [mul_intinf_intinf] *)
 
 (* ****** ****** *)
+
+implement{}
+div_intinf_int (x, y) = let
+//
+val
+(
+  fpf | x
+) = intinf_takeout (x)
+//
+val z = $VT.div_intinf1_int (x, y)
+prval () = fpf (x)
+//
+in
+  intinf_vt2t (z)
+end // end of [div_intinf_int]
+
+implement{}
+div_intinf_intinf
+  (x, y) = let
+//
+val
+(
+  fpf1 | x
+) = intinf_takeout (x)
+val
+(
+  fpf2 | y
+) = intinf_takeout (y)
+val z = $VT.div_intinf1_intinf1 (x, y)
+prval () = fpf1 (x)
+prval () = fpf2 (y)
+//
+in
+  intinf_vt2t (z)
+end (* end of [div_intinf_intinf] *)
+
+(* ****** ****** *)
+
+implement{}
+nmod_intinf_int (x, y) = let
+//
+val
+(
+  fpf | x
+) = intinf_takeout (x)
+//
+val r = $VT.nmod_intinf1_int (x, y)
+prval () = fpf (x)
+//
+in
+  r
+end // end of [nmod_intinf_int]
+
+(* ****** ****** *)
+
+implement{}
+compare_intinf_int
+  (x, y) = let
+//
+val
+(
+  fpf1 | x
+) = intinf_takeout (x)
+val sgn = $VT.compare_intinf_int (x, y)
+prval () = fpf1 (x)
+//
+in
+  sgn (* HX: -1/0/1 *)
+end (* end of [compare_intinf_int] *)
+
+implement{}
+compare_int_intinf
+  (x, y) = let
+//
+val
+(
+  fpf2 | y
+) = intinf_takeout (y)
+val sgn = $VT.compare_int_intinf (x, y)
+prval () = fpf2 (y)
+//
+in
+  sgn (* HX: -1/0/1 *)
+end (* end of [compare_int_intinf] *)
 
 implement{}
 compare_intinf_intinf

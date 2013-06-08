@@ -388,7 +388,7 @@ g1int_nmod2
 
 fun{tk:tk}
 nmod_g1int_int
-  {i,j:int | i >= 0; j > 0} (x: g1int (tk, i), y: int (j)) :<> natLt (j)
+  {i,j:int | i >= 0; j > 0} (x: g1int (tk, i), y: int (j)):<> natLt (j)
 overload nmod with nmod_g1int_int of 21
 
 #atscode_separator()

@@ -200,9 +200,22 @@ fun mpz_inp_str
 // end of [mpz_inp_str]
 
 (* ****** ****** *)
+//
+fun fprint_mpz (out: FILEref, x: &RD(mpz)): void = "mac#%"
+fun fprint_mpz_base (out: FILEref, x: &RD(mpz), base: mp_base): void = "mac#%"
+//
+overload fprint with fprint_mpz
+overload fprint with fprint_mpz_base
+//
+(* ****** ****** *)
 
 fun mpz_out_raw (out: FILEref, x: &RD(mpz)): size_t = "mac#%"
 fun mpz_inp_raw (x: &mpz >> _, out: FILEref): size_t = "mac#%"
+
+(* ****** ****** *)
+
+fun mpz_odd_p (x: &RD(mpz)):<> bool = "mac#%"
+fun mpz_even_p (x: &RD(mpz)):<> bool = "mac#%"
 
 (* ****** ****** *)
 //
@@ -538,6 +551,19 @@ overload mpz_pow with mpz_cmp_ulint
 //
 fun mpz_ui_pow_ui
   (pw: &mpz >> _, base: ulint, exp: ulint): void = "mac#%"
+//
+(* ****** ****** *)
+
+symintr mpz_fib
+symintr mpz_fib2
+//
+fun mpz_fib_uint
+  (x: &mpz >> _, n: ulint): void = "mac#%"
+fun mpz_fib2_uint
+  (x1: &mpz >> _, x2: &mpz >> _, n: ulint): void = "mac#%"
+//
+overload mpz_fib with mpz_fib_uint
+overload mpz_fib2 with mpz_fib2_uint
 //
 (* ****** ****** *)
 

@@ -159,7 +159,8 @@ in
   s3exp_imul (s3ie1, s3ie2)
 end // end of [f_mul_int_int]
 //
-fun f_ndiv_int_int (
+fun f_ndiv_int_int
+(
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
   val s2c = s2cstref_get_cst (the_ndivrel_int_int_int)

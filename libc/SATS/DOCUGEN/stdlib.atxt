@@ -288,17 +288,19 @@ in
 end // end of [val]
 //
 in
-  if pres > 0 then let
-    prval (pf, fpf) = $UN.ptr_vtake {mi} (pres)
-    val () = println! (pres->name, ": month \#", pres->nr)
-    prval () = fpf (pf)
-  in
-    // nothing
-  end else let
-    val () = println! (key.name, ": unknown month")
-  in
-    // nothing
-  end // end of [if]
+//
+if pres > 0 then let
+  prval (pf, fpf) = $UN.ptr_vtake {mi} (pres)
+  val () = println! (pres->name, ": month \#", pres->nr)
+  prval () = fpf (pf)
+in
+  // nothing
+end else let
+  val () = println! (key.name, ": unknown month")
+in
+  // nothing
+end // end of [if]
+//
 end // end of [name2nr]
 
 implement
@@ -312,15 +314,19 @@ in
   qsort {mi}{N} (!p, asz, sizeof<mi>, cmpref_mi_mi) // HX: quicksorting
 end // end of [val]
 //
-val () = let
-  fun loop (
-    argc: int n, argv: !argv(n), i: natLte(n)
-  ) : void = let
-  in
-    if argc > i then
-      (name2nr (argv[i]); loop (argc, argv, i+1))
-    else () // end of [if]
-  end // end of [loop]
+val (
+) = let
+//
+fun loop
+(
+  argc: int n, argv: !argv(n), i: natLte(n)
+) : void = let
+in
+  if argc > i then
+    (name2nr (argv[i]); loop (argc, argv, i+1))
+  else () // end of [if]
+end // end of [loop]
+//
 in
   loop (argc, argv, 1)
 end // end of [val]

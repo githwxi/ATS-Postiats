@@ -33,7 +33,8 @@ fun fcopy2
 //
 fun loop {n:pos}
 (
-  buf: &b0ytes(n) >> bytes(n), n: int n, filr: FILEref, filr2: FILEref
+  buf: &b0ytes(n) >> bytes(n)
+, n: int n, filr: FILEref, filr2: FILEref
 ) : void = let
   val p = fgets (buf, n, filr)
 in

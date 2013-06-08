@@ -157,6 +157,17 @@ end // end of [let] // end of [g1int_ndiv]
 #atscode_separator()
 
 implement{tk}
+g1int_nmod2 {i,j} (x, y) = let
+  val [r:int] r = g1int_nmod (x, y)
+  prval [q:int,r2:int] pf = divmod_istot{i,j}()
+  prval INTEQ () = $UN.castview0{INTEQ(r,r2)}(0)
+in
+  (pf | r)
+end // end of [g1int_nmod2]
+
+#atscode_separator()
+
+implement{tk}
 g1int_sgn (x) = compare_g1int_int<tk> (x, 0)
 
 #atscode_separator()

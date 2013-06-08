@@ -97,6 +97,13 @@ fun{}
 intinf_free (x: Intinf): void
 
 (* ****** ****** *)
+//
+fun{}
+intinf_get_int (x: !Intinf): int
+fun{}
+intinf_get_lint (x: !Intinf): lint
+//
+(* ****** ****** *)
 
 fun{}
 intinf_get_strptr
@@ -279,24 +286,25 @@ div_intinf1_intinf1
 overload / with div_intinf1_intinf1
 
 (* ****** ****** *)
-
 //
 fun{}
 ndiv_intinf0_int
-  {i,j:int | i >= 0; j > 0} (x: intinf i, y: int j): intinf (ndiv(i,j))
+  {i,j:int | i >= 0; j > 0}
+  (x: intinf i, y: int j): intinf (ndiv(i,j))
 fun{}
 ndiv_intinf1_int
-  {i,j:int | i >= 0; j > 0} (x: !intinf i, y: int j): intinf (ndiv(i,j))
+  {i,j:int | i >= 0; j > 0}
+  (x: !intinf i, y: int j): intinf (ndiv(i,j))
 overload ndiv with ndiv_intinf1_int
 //
 (* ****** ****** *)
 //
 fun{}
 nmod_intinf0_int
-  {i,j:int | i >= 0; j > 0} (x: intinf i, y: int j): [r:nat | r < j] int (r)
+  {i,j:int | i >= 0; j > 0} (x: intinf i, y: int j): natLt (j)
 fun{}
 nmod_intinf1_int
-  {i,j:int | i >= 0; j > 0} (x: !intinf i, y: int j): [r:nat | r < j] int (r)
+  {i,j:int | i >= 0; j > 0} (x: !intinf i, y: int j): natLt (j)
 overload nmod with nmod_intinf1_int
 //
 (* ****** ****** *)

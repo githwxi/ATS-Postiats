@@ -120,6 +120,13 @@ end (* end of [intinf_free] *)
 (* ****** ****** *)
 
 implement{}
+intinf_get_int (x) = $GMP.mpz_get_int (!(x.2))
+implement{}
+intinf_get_lint (x) = $GMP.mpz_get_lint (!(x.2))
+
+(* ****** ****** *)
+
+implement{}
 intinf_get_strptr
   (x, base) = $GMP.mpz_get_str_null (base, !(x.2))
 // end of [intinf_get_strptr]

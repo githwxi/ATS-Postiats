@@ -107,7 +107,7 @@ stacst idiv_int_int : (int, int) -> int // HX: alias for div_int_int
 stadef idiv = idiv_int_int
 
 stadef mod_int_int
-  (x:int, y:int) = x - (x \ndiv_int_int y) * y
+  (x:int, y:int) = x - y * (x \ndiv_int_int y)
 stadef mod = mod_int_int
 stadef % (*adopted from C*) = mod_int_int
 
@@ -158,7 +158,7 @@ stadef nsub (x:int, y:int) = max (x-y, 0)
 stadef
 ndivrel_int_int_int // HX: y > 0
   (x: int, y: int, q: int): bool =
-  (q * y <= x && x < q * y + y)
+  (q * y <= x) && (x < q * y + y)
 stadef ndivrel = ndivrel_int_int_int
 //
 stadef

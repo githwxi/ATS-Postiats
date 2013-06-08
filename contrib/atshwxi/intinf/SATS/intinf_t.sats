@@ -49,19 +49,19 @@ staload "./intinf.sats"
 //
 stadef intinf = intinf_type
 //
-vtypedef Intinf = [i:int] intinf (i)
+typedef Intinf = [i:int] intinf (i)
 //
-vtypedef
+typedef
 intinfLt (i0:int) = [i:int | i < i0] intinf (i)
-vtypedef
+typedef
 intinfLte (i0:int) = [i:int | i <= i0] intinf (i)
-vtypedef
+typedef
 intinfGt (i0:int) = [i:int | i > i0] intinf (i)
-vtypedef
+typedef
 intinfGte (i0:int) = [i:int | i >= i0] intinf (i)
-vtypedef
+typedef
 intinfBtw (i1:int, i2:int) = [i:int | i1 <= i; i < i2] intinf (i)
-vtypedef
+typedef
 intinfBtwe (i1:int, i2:int) = [i:int | i1 <= i; i <= i2] intinf (i)
 //
 (* ****** ****** *)
@@ -91,6 +91,13 @@ intinf_make_ulint {i:int} (x: ulint (i)): intinf (i)
 fun{}
 intinf_make_ullint {i:int} (x: ullint (i)): intinf (i)
 
+(* ****** ****** *)
+//
+fun{}
+intinf_get_int (x: Intinf): int
+fun{}
+intinf_get_lint (x: Intinf): lint
+//
 (* ****** ****** *)
 
 fun{}
@@ -202,6 +209,25 @@ fun{}
 mul_intinf_intinf
   {i,j:int} (x: intinf i, y: intinf j): intinf (i*j)
 overload * with mul_intinf_intinf
+
+(* ****** ****** *)
+
+fun{}
+div_intinf_int
+  {i,j:int | j != 0} (x: intinf i, y: int j): Intinf(*none*)
+overload / with div_intinf_int
+
+fun{}
+div_intinf_intinf
+  {i,j:int | j != 0} (x: intinf i, y: intinf j): Intinf(*none*)
+overload / with div_intinf_intinf
+
+(* ****** ****** *)
+
+fun{}
+nmod_intinf_int
+  {i,j:int | i >= 0; j > 0} (x: intinf i, y: int j): natLt (j)
+overload nmod with nmod_intinf_int
 
 (* ****** ****** *)
 

@@ -127,12 +127,17 @@ end // end of [main]
 
 (* ****** ****** *)
 
+#declnamesynop("fclose")
 #declnamesynop("fclose0")
 #declnamesynop("fclose1")
+
+#declnamesynop("fclose_exn")
 #declnamesynop("fclose0_exn")
 #declnamesynop("fclose1_exn")
 
 (* ****** ****** *)
+
+#declnamesynop("freopen")
 
 #declnamesynop("freopen0")
 #decldescrpt("\
@@ -142,6 +147,9 @@ This function directly corresponds to the libc-function of the name
 #decldescrpt("\
 This function directly corresponds to the libc-function of the name
 #dyncode("freopen").")
+
+#declnamesynop("freopen_exn")
+
 #declnamesynop("freopen0_exn")
 #decldescrpt("\
 This function is a slight variant of #dyncode("freopen0_exn"): It exits
@@ -156,11 +164,12 @@ string \"Hello, world!\" plus a newline:
 staload "libc/SATS/stdio.sats"
 //
 implement
-main0 () = {
+main0 () = () where
+{
   val () = freopen0_exn ("foo.txt", file_mode_w, stdout_ref)
   val () = puts_exn ("Hello, world!")
   val () = fclose0_exn (stdout_ref)
-} // end of [main]
+} (* end of [main] *)
 ')
 ")
 %{
@@ -172,6 +181,8 @@ main0 () = {
 %}
 
 (* ****** ****** *)
+
+#declnamesynop("fileno")
 
 #declnamesynop("fileno0")
 #decldescrpt("\
@@ -208,9 +219,12 @@ This function directly corresponds to the libc-function of the name
 (* ****** ****** *)
 
 #declnamesynop("fdopen")
+#declnamesynop("fdopen_v")
 #declnamesynop("fdopen_exn")
 
 (* ****** ****** *)
+
+#declnamesynop("feof")
 
 #declnamesynop("feof0")
 #decldescrpt("\
@@ -231,6 +245,8 @@ indicator is set for the stream associated with its argument.
 
 (* ****** ****** *)
 
+#declnamesynop("ferror")
+
 #declnamesynop("ferror0")
 #decldescrpt("\
 
@@ -244,6 +260,8 @@ This function directly corresponds to the libc-function of the name
 #dyncode("ferror"). ")
 
 (* ****** ****** *)
+
+#declnamesynop("clearerr")
 
 #declnamesynop("clearerr0")
 #decldescrpt("\
@@ -265,11 +283,16 @@ associated with its argument. \
 
 (* ****** ****** *)
 
+#declnamesynop("fflush")
 #declnamesynop("fflush0")
 #declnamesynop("fflush1")
+
+#declnamesynop("fflush_exn")
 #declnamesynop("fflush0_exn")
 
 (* ****** ****** *)
+
+#declnamesynop("fgetc")
 
 #declnamesynop("fgetc0")
 #decldescrpt("\
@@ -319,6 +342,8 @@ This function directly corresponds to the libc-function of the name
 #declnamesynop("getchar1")
 
 (* ****** ****** *)
+
+#declnamesynop("fgets")
 
 #declnamesynop("fgets0")
 #decldescrpt("\
@@ -389,13 +414,7 @@ overload fputc with fputc1_char of 10
 #declnamesynop("fputc1_int")
 #declnamesynop("fputc1_char")
 
-#declname("fputc_exn")
-#declsynop2('\
-#pats2xhtmls('\
-overload fputc_exn with fputc0_exn_int of 0
-overload fputc_exn with fputc0_exn_char of 0
-')
-')
+#declnamesynop("fputc_exn")
 #declnamesynop("fputc0_exn_int")
 #declnamesynop("fputc0_exn_char")
 
@@ -407,6 +426,8 @@ overload fputc_exn with fputc0_exn_char of 0
 
 (* ****** ****** *)
 
+#declnamesynop("fputs")
+
 #declnamesynop("fputs0")
 #decldescrpt("\
 
@@ -417,6 +438,8 @@ This function directly corresponds to the libc-function of the name
 
 This function directly corresponds to the libc-function of the name
 #dyncode("fputs").  ")
+
+#declnamesynop("fputs_exn")
 #declnamesynop("fputs0_exn")
 
 (* ****** ****** *)
@@ -437,34 +460,56 @@ immediately if calling #dyncode("puts") leads to an error.  ")
 
 (* ****** ****** *)
 
+#declnamesynop("fread")
 #declnamesynop("fread0")
 #declnamesynop("fread1")
+
+#declnamesynop("fread_exn")
 #declnamesynop("fread0_exn")
 
+(* ****** ****** *)
+
+#declnamesynop("fwrite")
 #declnamesynop("fwrite0")
 #declnamesynop("fwrite1")
+
+#declnamesynop("fwrite_exn")
 #declnamesynop("fwrite0_exn")
 
 (* ****** ****** *)
 
+#declnamesynop("fgetpos")
 #declnamesynop("fgetpos0")
 #declnamesynop("fgetpos1")
+
+#declnamesynop("fgetpos_exn")
 #declnamesynop("fgetpos0_exn")
 
+(* ****** ****** *)
+
+#declnamesynop("fsetpos")
 #declnamesynop("fsetpos0")
 #declnamesynop("fsetpos1")
+
+#declnamesynop("fsetpos_exn")
 #declnamesynop("fsetpos0_exn")
 
 (* ****** ****** *)
 
+#declnamesynop("fseek")
 #declnamesynop("fseek0")
 #declnamesynop("fseek1")
+
+#declnamesynop("fseek_exn")
 #declnamesynop("fseek0_exn")
 
 (* ****** ****** *)
 
+#declnamesynop("ftell")
 #declnamesynop("ftell0")
 #declnamesynop("ftell1")
+
+#declnamesynop("ftell_exn")
 #declnamesynop("ftell0_exn")
 
 (* ****** ****** *)
@@ -525,6 +570,7 @@ main0 () = {
 
 (* ****** ****** *)
 
+#declnamesynop("rewind")
 #declnamesynop("rewind0")
 #declnamesynop("rewind1")
 
@@ -536,8 +582,11 @@ main0 () = {
 
 (* ****** ****** *)
 
+#declnamesynop("ungetc")
 #declnamesynop("ungetc0")
 #declnamesynop("ungetc1")
+
+#declnamesynop("ungetc_exn")
 #declnamesynop("ungetc0_exn")
 
 (* ****** ****** *)
@@ -550,21 +599,25 @@ main0 () = {
 //
 (* ****** ****** *)
 
+#declnamesynop("setbuf_null")
 #declnamesynop("setbuf0_null")
 #declnamesynop("setbuf1_null")
 
 (* ****** ****** *)
 
+#declnamesynop("setbuffer")
 #declnamesynop("setbuffer0")
 #declnamesynop("setbuffer1")
 
 (* ****** ****** *)
 
+#declnamesynop("setlinebuf")
 #declnamesynop("setlinebuf0")
 #declnamesynop("setlinebuf1")
 
 (* ****** ****** *)
 
+#declnamesynop("setvbuf")
 #declnamesynop("setvbuf0")
 #declnamesynop("setvbuf1")
 

@@ -98,9 +98,32 @@ typedef atscntrb_libgmp_mpz *ptrmpz;
 #define atscntrb_libgmp_mpz_inp_str mpz_inp_str
 #define atscntrb_libgmp_mpz_out_str mpz_out_str
 //
+/* ****** ****** */
+
+ATSinline()
+atsvoid_t0ype
+atscntrb_libgmp_fprint_mpz_base
+(
+  atstype_ref out, atstype_ptr x, atstype_int base
+) {
+  size_t ndigit ;
+  ndigit = mpz_out_str ((FILE*)out, base, (ptrmpz)x) ;
+  return ;
+} // end of [atscntrb_libgmp_fprint_mpz_base]
+
+#define atscntrb_libgmp_fprint_mpz(out, x) \
+  atscntrb_libgmp_fprint_mpz_base(out, x, 10)
+
+/* ****** ****** */
+//
 #define atscntrb_libgmp_mpz_inp_raw mpz_inp_raw
 #define atscntrb_libgmp_mpz_out_raw mpz_out_raw
 //
+/* ****** ****** */
+
+#define atscntrb_libgmp_mpz_odd_p(x) mpz_odd_p((ptrmpz)x)
+#define atscntrb_libgmp_mpz_even_p(x) mpz_even_p((ptrmpz)x)
+
 /* ****** ****** */
 
 #define atscntrb_libgmp_mpz_neg1(x) mpz_neg(x, x)
@@ -256,6 +279,11 @@ mpz_sub_si
 #define atscntrb_libgmp_mpz_pow_ulint(pow, base, exp) mpz_pow_ui(pow, base, exp)
 //
 #define atscntrb_libgmp_mpz_ui_pow_ui(pow, base, exp) mpz_ui_pow_ui(pow, base, exp)
+//
+/* ****** ****** */
+//
+#define atscntrb_libgmp_mpz_fib_uint(res, n) mpz_fib_ui(res, n)
+#define atscntrb_libgmp_mpz_fib2_uint(res1, res2, n) mpz_fib2_ui(res1, res2, n)
 //
 /* ****** ****** */
 

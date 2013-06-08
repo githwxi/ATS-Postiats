@@ -153,6 +153,7 @@ fun{}
 string_get_at_size
   {n:int}{i:nat | i < n}
   (s: string (n), i: size_t (i)):<> charNZ
+overload [] with string_get_at_size of 1
 fun{tk:tk}
 string_get_at_gint
   {n:int}{i:nat | i < n}
@@ -163,11 +164,14 @@ string_get_at_guint
   {n:int}{i:nat | i < n}
   (s: string (n), i: g1uint (tk, i)):<> charNZ
 overload [] with string_get_at_guint of 0
-
+//
+symintr string_get_at
+overload string_get_at with string_get_at_size of 1
+overload string_get_at with string_get_at_gint of 0
+overload string_get_at with string_get_at_guint of 0
+//
 #atscode_separator()
-//
-symintr string_test_at
-//
+
 fun{}
 string_test_at_size
   {n:int}{i:nat | i <= n}
@@ -176,12 +180,15 @@ fun{tk:tk}
 string_test_at_gint
   {n:int}{i:nat | i <= n}
   (s: string (n), i: g1int (tk, i)):<> [c:int] (string_index_p (n, i, c) | char (c))
-overload string_test_at with string_test_at_gint
 fun{tk:tk}
 string_test_at_guint
   {n:int}{i:nat | i <= n}
   (s: string (n), i: g1uint (tk, i)):<> [c:int] (string_index_p (n, i, c) | char (c))
-overload string_test_at with string_test_at_guint
+//
+symintr string_test_at
+overload string_test_at with string_test_at_size of 1
+overload string_test_at with string_test_at_gint of 0
+overload string_test_at with string_test_at_guint of 0
 //
 #atscode_separator()
 
