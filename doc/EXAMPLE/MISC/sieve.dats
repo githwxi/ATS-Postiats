@@ -7,8 +7,13 @@
 *)
 (* ****** ****** *)
 //
-// HX-2012-11-25: ported to ATS/Postiats
+// HX-2012-11-25: ported to ATS/Postiats (typecheck)
+// HX-2012-06-08: ported to ATS/Postiats (compilation)
 //
+(* ****** ****** *)
+
+staload INT = "prelude/DATS/integer.dats"
+
 (* ****** ****** *)
 //
 // lazy list:
@@ -51,18 +56,36 @@ end // end of [primes]
 
 //
 
+(* ****** ****** *)
+
 fun print_ints
-  (xs: llist): void = let
-  val+ x :: fxs = xs in
-  print x; print_newline (); print_ints (fxs ())
-end // end of [print_ints]
+  (N: int, xs: llist): void =
+(
+if N > 0 then let
+  val+ x :: fxs = xs
+in
+  print x; print ", ";
+  print_ints (N-1, fxs ())
+end else
+  (print "..."; print_newline ())
+) // end of [print_ints]
 
 (* ****** ****** *)
 //
 implement
-main (argc, argv) =
-  let val () = print_ints (primes) in 0(*normal*) end
-// end of [main]
+main (argc, argv) = let
+//
+val N =
+(
+if argc >= 2 then
+  $extfcall (int, "atoi", argv[1]) else 100
+) : int // end of [val]
+//
+val () = assertloc (N > 0)
+//
+in
+  let val () = print_ints (N, primes) in 0(*normal*) end
+end // end of [main]
 //
 (* ****** ****** *)
 

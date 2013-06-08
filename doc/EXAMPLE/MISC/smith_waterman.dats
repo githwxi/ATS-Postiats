@@ -96,8 +96,10 @@ in
 end // end of [loop]
 
 and loop2
-  {i,j:pos | i <= m} (
-  tbl: !dptbl (m+1, n+1), i: int i, j: int j, str1: string(m-i+1), str2: string(n-j+1), a: char
+  {i,j:pos | i <= m}
+(
+  tbl: !dptbl (m+1, n+1)
+, i: int i, j: int j, str1: string(m-i+1), str2: string(n-j+1), a: char
 ) : void = let
 in
 //
@@ -117,13 +119,12 @@ in
 end else loop (tbl, i+1, string_tail (str1))
 //
 end // end of [loop2]
-
+//
 val tbl =
   dptbl_make (m+1, n+1)
-// end of [val]
-
+//
 val () = loop (tbl, 1, str1)
-
+//
 in
   tbl
 end // end of [SWalign]
@@ -172,5 +173,7 @@ int *dptbl_getref
 } // end of [dptbl_getref]
 
 %}
+
+(* ****** ****** *)
 
 (* end of [smith_waterman.dats] *)

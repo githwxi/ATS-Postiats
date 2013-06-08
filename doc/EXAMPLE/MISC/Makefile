@@ -97,6 +97,14 @@ clean:: ; $(RMF) readdirall_dats.o
 clean:: ; $(RMF) readdirall_dats.c
 cleanall:: ; $(RMF) readdirall.exe
 
+all:: sieve
+sieve: sieve.exe
+sieve.exe: sieve_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+sieve_dats.c: sieve.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output sieve_dats.c --dynamic sieve.dats
+clean:: ; $(RMF) sieve_dats.o
+clean:: ; $(RMF) sieve_dats.c
+cleanall:: ; $(RMF) sieve.exe
+
 all:: sllist_mapfree
 sllist_mapfree: sllist_mapfree.exe
 sllist_mapfree.exe: sllist_mapfree_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 

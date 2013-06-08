@@ -1449,6 +1449,7 @@ val () = fprintln! (out, "hidexp_ccomp_lam: fent = ", fent)
 *)
 //
 val knd = 0(*lam*)
+val () = ccompenv_add_flabsetenv (env, flab)
 val pmv_funval = primval_make_funlab (loc0, flab)
 //
 in
