@@ -44,6 +44,7 @@ typedef time_t atslib_time_type ;
 \#if(0)
 //
 // HX-2013-05: where are they?
+// HX-2013-06: they are declared in [time.h]
 //
 typedef clock_t atslib_clock_type ;
 typedef clockid_t atslib_clockid_type ;

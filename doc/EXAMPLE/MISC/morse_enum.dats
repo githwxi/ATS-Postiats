@@ -61,11 +61,14 @@ staload STDIO = "libc/SATS/stdio.sats"
 (* ****** ****** *)
 
 implement
-main () = 0 where {
-  val xs = morse (5)
-  val xs = stream2list (xs)
-  val () = list_vt_foreach_fun (xs, lam (x) =<1> $STDIO.puts_exn (x))
-  val () = list_vt_free (xs)
+main0 () =
+{
+//
+val xs = morse (5)
+val xs = stream2list (xs)
+val () = list_vt_foreach_fun (xs, lam (x) =<1> $STDIO.puts_exn (x))
+val () = list_vt_free (xs)
+//
 } // end of [main]
 
 (* ****** ****** *)

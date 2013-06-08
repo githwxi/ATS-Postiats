@@ -105,6 +105,10 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
+#packfilename("coinflip.dats")
+
+(* ****** ****** *)
+
 #packfilename("ferryman.dats")
 
 (* ****** ****** *)
@@ -127,6 +131,14 @@ The ATSHOME/doc/EXAMPLE/MISC\
 (* ****** ****** *)
 
 #packfilename("passwdgen.dats")
+
+(* ****** ****** *)
+
+#packfilename("readdirall.dats")
+
+(* ****** ****** *)
+
+#packfilename("sieve.dats")
 
 (* ****** ****** *)
 

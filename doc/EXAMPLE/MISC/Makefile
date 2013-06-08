@@ -25,6 +25,14 @@ RMF=rm -f
 
 ######
 
+all:: coinflip
+coinflip: coinflip.exe
+coinflip.exe: coinflip_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+coinflip_dats.c: coinflip.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output coinflip_dats.c --dynamic coinflip.dats
+clean:: ; $(RMF) coinflip_dats.o
+clean:: ; $(RMF) coinflip_dats.c
+cleanall:: ; $(RMF) coinflip.exe
+
 all:: ferryman
 ferryman: ferryman.exe
 ferryman.exe: ferryman_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

@@ -88,6 +88,7 @@ RMF=rm -f
 
 ######
 
+#make_entry("coinflip")
 #make_entry("ferryman")
 #make_entry("fibver_loop")
 #make_entry("fibver_trec")
