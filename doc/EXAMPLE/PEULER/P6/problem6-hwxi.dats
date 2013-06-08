@@ -11,6 +11,10 @@
 //
 (* ****** ****** *)
 //
+// HX-2013-06: ported to ATS2
+//
+(* ****** ****** *)
+//
 staload _(*anon*) = "prelude/DATS/integer.dats"
 staload _(*anon*) = "prelude/DATS/intrange.dats"
 //

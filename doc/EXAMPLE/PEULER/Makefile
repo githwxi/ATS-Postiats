@@ -2,7 +2,7 @@
 #
 #
 
-CCOPT=gcc
+CCOPT=gcc -O2
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
@@ -77,6 +77,15 @@ problem6-hwxi:: \
 problem6-hwxi:: problem6-hwxi_dats.c ; \
   $(CCOPT) -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -o $@.exe $@_dats.c
 problem6-hwxi:: problem6-hwxi.exe ; ./$<
+
+######
+
+P10:: problem10-hwxi
+problem10-hwxi:: \
+  P10/problem10-hwxi.dats ; $(PATSOPT) -o $@_dats.c -d $<
+problem10-hwxi:: problem10-hwxi_dats.c ; \
+  $(CCOPT) -DATS_MEMALLOC_LIBC -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -o $@.exe $@_dats.c
+problem10-hwxi:: problem10-hwxi.exe ; ./$<
 
 ######
 

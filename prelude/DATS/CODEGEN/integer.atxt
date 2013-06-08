@@ -160,7 +160,7 @@ implement{tk}
 g1int_nmod2 {i,j} (x, y) = let
   val [r:int] r = g1int_nmod (x, y)
   prval [q:int,r2:int] pf = divmod_istot{i,j}()
-  prval INTEQ () = $UN.castview0{INTEQ(r,r2)}(0)
+  prval INTEQ() = $UN.castview0{INTEQ(r,r2)}(0)
 in
   (pf | r)
 end // end of [g1int_nmod2]
