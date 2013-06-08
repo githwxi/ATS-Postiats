@@ -89,6 +89,15 @@ problem10-hwxi:: problem10-hwxi.exe ; ./$<
 
 ######
 
+P12:: problem12-hwxi
+problem12-hwxi:: \
+  P12/problem12-hwxi.dats ; $(PATSOPT) -o $@_dats.c -d $<
+problem12-hwxi:: problem12-hwxi_dats.c ; \
+  $(CCOPT) -DATS_MEMALLOC_LIBC -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -o $@.exe $@_dats.c
+problem12-hwxi:: problem12-hwxi.exe ; ./$<
+
+######
+
 P16:: problem16-hwxi
 problem16-hwxi:: \
   P16/problem16-hwxi.dats ; $(PATSOPT) -IATS${PATSHOME}/contrib -o $@_dats.c -d $<

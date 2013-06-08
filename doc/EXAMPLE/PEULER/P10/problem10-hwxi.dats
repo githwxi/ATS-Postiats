@@ -31,7 +31,7 @@ end // end of [local]
 //
 viewdef V = array_v (bool, l, m)
 //
-fun remdup
+fun remmul
 (
   pf: !V | i: Nat, j: Nat
 ) : void =
@@ -39,9 +39,9 @@ fun remdup
 if (j < m) then let
   val () = if A->[j] then A->[j] := false
 in
-  remdup (pf | i, j+i)
+  remmul (pf | i, j+i)
 end // end of [if]
-) (* end of [remdup] *)
+) (* end of [remmul] *)
 //
 fun loop
 (
@@ -51,7 +51,7 @@ fun loop
 if i < m then
 (
   if A->[i] then let
-    val () = remdup (pf | i, i+i)
+    val () = remmul (pf | i, i+i)
   in
     loop (pf | i+1, res+g0i2u(i))
   end else
@@ -74,6 +74,7 @@ implement
 main0 () = () where {
 //
 val sum10 = sumprimes (10)
+val () = assertloc (sum10 = 17)
 val () = println! "The sum of all the primes < 10 = " sum10
 //
 val sum2M = sumprimes (2000000)
