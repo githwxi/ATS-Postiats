@@ -233,7 +233,7 @@ main0 () =
   val () = assertloc (p = 6857)
   val () = println! "The largest prime factor of [" N2 "] is [" p "]."
 //
-} // end of [main]
+} // end of [main0]
 
 (* ****** ****** *)
 

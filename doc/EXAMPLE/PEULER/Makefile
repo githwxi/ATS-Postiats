@@ -62,6 +62,24 @@ problem3-hwxi:: problem3-hwxi.exe ; ./$<
 
 ######
 
+P4:: problem4-hwxi
+problem4-hwxi:: \
+  P4/problem4-hwxi.dats ; $(PATSOPT) -o $@_dats.c -d $<
+problem4-hwxi:: problem4-hwxi_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -o $@.exe $@_dats.c
+problem4-hwxi:: problem4-hwxi.exe ; ./$<
+
+######
+
+P6:: problem6-hwxi
+problem6-hwxi:: \
+  P6/problem6-hwxi.dats ; $(PATSOPT) -o $@_dats.c -d $<
+problem6-hwxi:: problem6-hwxi_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -o $@.exe $@_dats.c
+problem6-hwxi:: problem6-hwxi.exe ; ./$<
+
+######
+
 P16:: problem16-hwxi
 problem16-hwxi:: \
   P16/problem16-hwxi.dats ; $(PATSOPT) -IATS${PATSHOME}/contrib -o $@_dats.c -d $<

@@ -64,6 +64,9 @@ end // end of [main]
 (* ****** ****** *)
 
 #declnamesynop("array0_make_elt")
+
+(* ****** ****** *)
+
 #declnamesynop("array0_make_list")
 
 (* ****** ****** *)
@@ -74,6 +77,8 @@ end // end of [main]
 
 (* ****** ****** *)
 
+#declnamesynop("array0_copy")
+#declnamesynop("array0_append")
 #declnamesynop("array0_tabulate")
 
 (* ****** ****** *)

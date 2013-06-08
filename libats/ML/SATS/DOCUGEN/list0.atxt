@@ -420,6 +420,100 @@ length of xs, then the function raises the exception
 
 (* ****** ****** *)
 
+#declnamesynop("list0_filter")
+#decldescrpt("\
+
+This function returns a list consisting of the sequence of elements in its
+first argument that satisfy the predicate provided as its second argument.
+
+Following is a standard implementation of this function:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/list0.sats"
+//
+implement{a}
+list0_filter (xs, p) = let
+in
+//
+case+ xs of
+| list0_cons (x, xs) =>
+    if p (x) then
+      list0_cons (x, list0_filter<a> (xs, p))
+    else
+      list0_filter<a> (xs, p)
+    // end of [if]
+| list0_nil () => list0_nil ()
+//
+end // end of [list0_filter]
+')\
+
+However, the implementation of this function in ATSLIB is tail-recursive.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_tabulate")
+#decldescrpt("\
+
+Given an integer n and a function f, this function returns a list
+consisting of the elements f(0), f(1), ..., f(n-1) if n is a natural
+number. Otherwise, it raises an exception (#dyncode("IllegalArgExn")).  ")
+
+#declexample("\
+
+The following code builds a list of digits and then prints them onto the
+standard output channel:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/list0.sats"
+//
+implement
+main () = 0 where {
+  val xs = list0_tabulate<int> (10, lam i => i)
+  val () = fprint_list0_sep<int> (stdout_ref, xs, ", ")
+} // end of [main]
+')
+
+As a more elaborate example, the following code implements a function
+#dyncode("list0_permute") that returns a list consisting of all the
+permutations of a given list:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/list0.sats"
+//
+fun{a:t0p}
+list0_permute
+(
+  xs0: list0 (a)
+) : list0 (list0 a) = let
+  val n = list0_length (xs0)
+in
+//
+case+ xs0 of
+| list0_cons
+    (x0, xs1) => let
+    val yss = list0_permute (xs1)
+    val f = lam (ys: list0 a) =<cloref1>
+      list0_tabulate<list0(a)> (n, lam i => list0_insert_at_exn (ys, i, x0))
+    // end of [lam] // end of [val]
+  in
+    list0_concat (list0_map (yss, f))
+  end // end of [list0_cons]
+| list0_nil () => list0_sing (list0_nil ())
+//
+end // end of [list0_permute]
+')
+")
+
+(* ****** ****** *)
+
 #declnamesynop("list0_app")
 #decldescrpt("\
 This function is idential to #dyncode("list0_foreach").
@@ -779,100 +873,6 @@ end // end of [list0_map2]
 
 However, the implementation of this function in ATSLIB is tail-recursive.\
 
-")
-
-(* ****** ****** *)
-
-#declnamesynop("list0_filter")
-#decldescrpt("\
-
-This function returns a list consisting of the sequence of elements in its
-first argument that satisfy the predicate provided as its second argument.
-
-Following is a standard implementation of this function:
-
-#pats2xhtmld_tryit('\
-//
-staload "libats/SATS/ML_basis.sats"
-staload "libats/ML/SATS/list0.sats"
-//
-implement{a}
-list0_filter (xs, p) = let
-in
-//
-case+ xs of
-| list0_cons (x, xs) =>
-    if p (x) then
-      list0_cons (x, list0_filter<a> (xs, p))
-    else
-      list0_filter<a> (xs, p)
-    // end of [if]
-| list0_nil () => list0_nil ()
-//
-end // end of [list0_filter]
-')\
-
-However, the implementation of this function in ATSLIB is tail-recursive.\
-
-")
-
-(* ****** ****** *)
-
-#declnamesynop("list0_tabulate")
-#decldescrpt("\
-
-Given an integer n and a function f, this function returns a list
-consisting of the elements f(0), f(1), ..., f(n-1) if n is a natural
-number. Otherwise, it raises an exception (#dyncode("IllegalArgExn")).  ")
-
-#declexample("\
-
-The following code builds a list of digits and then prints them onto the
-standard output channel:
-
-#pats2xhtmld_tryit('\
-//
-staload "libats/SATS/ML_basis.sats"
-staload "libats/ML/SATS/list0.sats"
-//
-implement
-main () = 0 where {
-  val xs = list0_tabulate<int> (10, lam i => i)
-  val () = fprint_list0_sep<int> (stdout_ref, xs, ", ")
-} // end of [main]
-')
-
-As a more elaborate example, the following code implements a function
-#dyncode("list0_permute") that returns a list consisting of all the
-permutations of a given list:
-
-#pats2xhtmld_tryit('\
-//
-staload "libats/SATS/ML_basis.sats"
-staload "libats/ML/SATS/list0.sats"
-//
-fun{a:t0p}
-list0_permute
-(
-  xs0: list0 (a)
-) : list0 (list0 a) = let
-  val n = list0_length (xs0)
-in
-//
-case+ xs0 of
-| list0_cons
-    (x0, xs1) => let
-    val yss = list0_permute (xs1)
-    val f = lam (ys: list0 a) =<cloref1>
-      list0_tabulate<list0(a)> (n, lam i => list0_insert_at_exn (ys, i, x0))
-    // end of [lam] // end of [val]
-  in
-    list0_concat (list0_map (yss, f))
-  end // end of [list0_cons]
-| list0_nil () => list0_sing (list0_nil ())
-//
-end // end of [list0_permute]
-')
 ")
 
 (* ****** ****** *)

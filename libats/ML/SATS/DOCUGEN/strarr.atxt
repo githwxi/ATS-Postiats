@@ -55,6 +55,11 @@ a strarr-value corresponding to a given C-style string.\
 
 (* ****** ****** *)
 
+#declnamesynop("strarr_get_at_gint")
+#declnamesynop("strarr_get_at_guint")
+
+(* ****** ****** *)
+
 #declnamesynop("strarr_copy")
 #decldescrpt("\
 Given a strarr-value, this function returns a copy of it.
@@ -163,6 +168,10 @@ main0 () =
 (* ****** ****** *)
 
 #declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop("strarr_get_at")
 
 (* ****** ****** *)
 
