@@ -9,6 +9,13 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 all::
 all:: P1
+all:: P2
+all:: P3
+all:: P4
+all:: P6
+all:: P10
+all:: P12
+all:: P14
 all:: P16
 
 ######
@@ -95,6 +102,17 @@ problem12-hwxi:: \
 problem12-hwxi:: problem12-hwxi_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -o $@.exe $@_dats.c
 problem12-hwxi:: problem12-hwxi.exe ; ./$<
+
+######
+
+P14:: problem14-hwxi
+problem14-hwxi:: \
+  P14/problem14-hwxi.dats ; $(PATSOPT) -IATS${PATSHOME}/contrib -o $@_dats.c -d $<
+problem14-hwxi:: \
+  problem14-hwxi_dats.c ; \
+  $(CCOPT) -DATS_MEMALLOC_LIBC \
+  -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -I${PATSHOME}/contrib -o $@.exe $@_dats.c -lgmp
+problem14-hwxi:: problem14-hwxi.exe ; ./$<
 
 ######
 

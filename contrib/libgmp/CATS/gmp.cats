@@ -238,15 +238,33 @@ mpz_sub_si
 #define atscntrb_libgmp_mpz_tdiv4_qr_uint(xq, xr, y, z) mpz_tdiv_qr_ui(xq, xr, y, z)
 #define atscntrb_libgmp_mpz_tdiv4_qr_ulint(xq, xr, y, z) mpz_tdiv_qr_ui(xq, xr, y, z)
 //
+/* ****** ****** */
+//
 // floor-division-functions
 //
 #define atscntrb_libgmp_mpz_fdiv_uint(x, y) mpz_fdiv_ui(x, y)
 #define atscntrb_libgmp_mpz_fdiv_ulint(x, y) mpz_fdiv_ui(x, y)
 //
+#define atscntrb_libgmp_mpz_fdiv2_q_mpz(x, y) mpz_fdiv_q(x, x, y)
+#define atscntrb_libgmp_mpz_fdiv2_q_uint(x, y) mpz_fdiv_q_ui(x, x, y)
+#define atscntrb_libgmp_mpz_fdiv2_q_ulint(x, y) mpz_fdiv_q_ui(x, x, y)
+#define atscntrb_libgmp_mpz_fdiv3_q_mpz(x, y, z) mpz_fdiv_q(x, y, z)
+#define atscntrb_libgmp_mpz_fdiv3_q_uint(x, y, z) mpz_fdiv_q_ui(x, y, z)
+#define atscntrb_libgmp_mpz_fdiv3_q_ulint(x, y, z) mpz_fdiv_q_ui(x, y, z)
+//
+/* ****** ****** */
+//
 // ceiling-division-functions
 //
 #define atscntrb_libgmp_mpz_cdiv_uint(x, y) mpz_cdiv_ui(x, y)
 #define atscntrb_libgmp_mpz_cdiv_ulint(x, y) mpz_cdiv_ui(x, y)
+//
+#define atscntrb_libgmp_mpz_cdiv2_q_mpz(x, y) mpz_cdiv_q(x, x, y)
+#define atscntrb_libgmp_mpz_cdiv2_q_uint(x, y) mpz_cdiv_q_ui(x, x, y)
+#define atscntrb_libgmp_mpz_cdiv2_q_ulint(x, y) mpz_cdiv_q_ui(x, x, y)
+#define atscntrb_libgmp_mpz_cdiv3_q_mpz(x, y, z) mpz_cdiv_q(x, y, z)
+#define atscntrb_libgmp_mpz_cdiv3_q_uint(x, y, z) mpz_cdiv_q_ui(x, y, z)
+#define atscntrb_libgmp_mpz_cdiv3_q_ulint(x, y, z) mpz_cdiv_q_ui(x, y, z)
 //
 /* ****** ****** */
 //
