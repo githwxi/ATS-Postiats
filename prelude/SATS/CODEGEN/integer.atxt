@@ -403,7 +403,7 @@ g1int_ngcd_type
 fun{tk:tk}
 g1int_ngcd : g1int_ngcd_type (tk)
 (*
-overload ngcd with g1int_ngcd of 20
+overload ngcd with g1int_ngcd of 20 // HX: [ngcd] is no longer pre-declared
 *)
 
 #atscode_separator()

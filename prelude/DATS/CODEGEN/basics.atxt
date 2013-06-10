@@ -32,8 +32,18 @@ false_elim () = case+ 0 of _ =/=> ()
 #atscode_separator()
 
 primplmnt inteq_make () = INTEQ ()
+primplmnt inteq_make_gint (x) = INTEQ ()
+primplmnt inteq_make_guint (x) = INTEQ ()
+
+#atscode_separator()
+
 primplmnt addreq_make () = ADDREQ ()
+primplmnt addreq_make_ptr (x) = ADDREQ ()
+
+#atscode_separator()
+
 primplmnt booleq_make () = BOOLEQ ()
+primplmnt booleq_make_bool (x) = BOOLEQ ()
 
 #atscode_separator()
 

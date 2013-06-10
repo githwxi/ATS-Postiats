@@ -88,6 +88,17 @@ problem6-hwxi:: problem6-hwxi.exe ; ./$<
 
 ######
 
+all::P8
+
+P8:: problem8-hwxi
+problem8-hwxi:: \
+  P8/problem8-hwxi.dats ; $(PATSOPT) -o $@_dats.c -d $<
+problem8-hwxi:: problem8-hwxi_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -o $@.exe $@_dats.c
+problem8-hwxi:: problem8-hwxi.exe ; ./$<
+
+######
+
 all::P10
 
 P10:: problem10-hwxi
