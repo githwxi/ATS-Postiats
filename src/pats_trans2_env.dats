@@ -88,7 +88,7 @@ filenv_struct =
 
 assume filenv_type = ref (filenv_struct)
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 filenv_make (
@@ -178,6 +178,8 @@ viewtypedef s2rtenv = symenv (s2rtext)
 val [l0:addr] (pf | p0) = symenv_make_nil ()
 val (pf0 | ()) = vbox_make_view_ptr {s2rtenv} (pf | p0)
 
+(* ****** ****** *)
+
 assume s2rtenv_push_v = unit_v
 
 (* ****** ****** *)
@@ -200,7 +202,7 @@ end // end of [the_s2rtenv_find_namespace]
 
 (* ****** ****** *)
 
-in // in of [local]
+in (* in of [local] *)
 
 (* ****** ****** *)
 
@@ -260,7 +262,9 @@ the_s2rtenv_push_nil
   prval pfenv = unit_v ()
 } // end of [the_s2rtenv_push_nil]
 
-fun the_s2rtenv_localjoin (
+fun
+the_s2rtenv_localjoin
+(
   pfenv1: s2rtenv_push_v
 , pfenv2: s2rtenv_push_v
 | (*none*)
@@ -380,7 +384,11 @@ in
   the_namespace_search (f)
 end // end of [the_s2expenv_find_namespace]
 
-in // in of [local]
+(* ****** ****** *)
+
+in (* in of [local] *)
+
+(* ****** ****** *)
 
 implement
 the_s2expenv_add (id, s2i) = let
@@ -445,7 +453,9 @@ the_s2expenv_push_nil
   prval pfenv = unit_v ()
 } // end of [the_s2expenv_push_nil]
 
-fun the_s2expenv_localjoin (
+fun
+the_s2expenv_localjoin
+(
   pfenv1: s2expenv_push_v
 , pfenv2: s2expenv_push_v
 | (*none*)
@@ -606,7 +616,7 @@ val the_maclev =
   ref_make_elt<int> (1) // HX: the initial level is 1
 // end of [val]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 the_maclev_get () = !the_maclev
@@ -647,7 +657,7 @@ val the_macdeflev =
   ref_make_elt<int> (0)
 // end of [val]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 the_macdeflev_get () = !the_macdeflev
@@ -672,7 +682,7 @@ val the_tmplev =
   ref_make_elt<int> (0)
 // end of [val]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 the_tmplev_get () = !the_tmplev
@@ -744,7 +754,7 @@ local
 val the_d2varlev = ref<int> (0)
 assume the_d2varlev_inc_v = unit_v
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 the_d2varlev_get () = !the_d2varlev
@@ -804,7 +814,7 @@ in
   the_namespace_search (f)
 end // end of [the_d2expenv_find_namespace]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 the_d2expenv_add (id, d2i) = let
@@ -874,7 +884,9 @@ the_d2expenv_push_nil
   prval pfenv = unit_v ()
 } // end of [the_d2expenv_push_nil]
 
-fun the_d2expenv_localjoin (
+fun
+the_d2expenv_localjoin
+(
   pfenv1: d2expenv_push_v
 , pfenv2: d2expenv_push_v
 | (*none*)
@@ -1021,7 +1033,7 @@ val the_staload_level = ref<int> (0)
 
 assume staload_level_push_v = unit_v
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 the_staload_level_get () = !the_staload_level
@@ -1054,7 +1066,7 @@ val the_filenvmap =
   ref<symmap(filenv)> (symmap_make_nil ())
 // end of [the_filenvmap]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 the_filenvmap_add (fid, fenv) = let
@@ -1081,7 +1093,7 @@ trans2_env_push_v = @(
   s2rtenv_push_v, s2expenv_push_v, d2expenv_push_v
 ) // end of [trans2_env_push_v]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 the_trans2_env_pop
@@ -1133,7 +1145,7 @@ trans2_env_save_v = @(
   s2rtenv_save_v, s2expenv_save_v, d2expenv_save_v
 ) // end of [trans2_env_save_v]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 the_trans2_env_save () = let
@@ -1225,7 +1237,7 @@ val () = the_d2expenv_pervasive_joinwth (map)
 //
 } // end of [the_d2expenv_initialize]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 the_trans2_env_initialize () = {

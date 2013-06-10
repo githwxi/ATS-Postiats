@@ -93,27 +93,36 @@ symmap_insert
 
 implement
 symmap_joinwth
-  {itm} (m1, m2) = let
-  typedef keyitm = (key, itm)
-  fun loop
-    {n:nat} .<n>. (
-    map: &symmap (itm)
-  , kis: list_vt (keyitm, n)
-  ) :<> void =
-    case+ kis of
-    | list_vt_cons (!p_ki, kis1) => let
-        var res: itm
-        val _exist = linmap_insert<key,itm> (map, p_ki->0, p_ki->1, cmp0, res)
-        prval () = opt_clear (res)
-        val () = free@ {keyitm} {0} (kis)
-      in
-        loop (map, kis1)
-      end
-    | ~list_vt_nil () => ()
-  // end of [loop]
-  val kis = linmap_listize_free<key,itm> (m2)
+  {itm} (map1, map2) = let
+//
+typedef keyitm = (key, itm)
+//
+fun loop
+  {n:nat} .<n>.
+(
+  map: &symmap (itm), kis: list_vt (keyitm, n)
+) :<> void = let
 in
-  loop (m1, kis)
+//
+case+ kis of
+| list_vt_cons
+    (!p_ki, kis1) => let
+    var res: itm
+    val _exist =
+      linmap_insert<key,itm> (map, p_ki->0, p_ki->1, cmp0, res)
+    prval () = opt_clear (res)
+    val () = free@ {keyitm} {0} (kis)
+  in
+    loop (map, kis1)
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => ()
+//
+end // end of [loop]
+//
+val kis = linmap_listize_free<key,itm> (map2)
+//
+in
+  loop (map1, kis)
 end // end of [symmap_joinwth]
 
 (* ****** ****** *)

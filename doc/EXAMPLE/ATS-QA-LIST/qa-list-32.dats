@@ -16,6 +16,34 @@ void display_numbers
 
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+//
+extern
+fun{a:t0p}
+display_numbers (A: ptr, asz: int) : void
+//
+implement{a}
+display_numbers (A, asz) = let
+//
+var A: ptr = A
+var i: int = 0
+//
+in
+//
+while (i < asz)
+{
+val () = i := i + 1
+val () = print_val<a> ($UN.ptr0_get<a> (A))
+val () = print_newline ()
+val () = A := ptr_succ<a> (A)
+}
+//
+end // end of [display_numbers]
+
+(* ****** ****** *)
+
 /*
 
 #define LEN 17
@@ -51,14 +79,30 @@ main0 () =
 //
 val asz = i2sz(LEN)
 //
+typedef T = int
+//
 local
 implement
-array_tabulate$fwork<int> (i) = LEN-g0u2i(i)
+array_tabulate$fwork<T> (i) = LEN-g0u2i(i)
 in (* in of [local] *)
-val A = arrayptr_tabulate<int> (asz)
+val A = arrayptr_tabulate<T> (asz)
 end // end of [local]
 //
+val () = display_numbers<T> (arrayptr2ptr(A), LEN)
 val () = $extfcall (void, "display_numbers", arrayptr2ptr(A), LEN)
+//
+val () = arrayptr_free (A)
+//
+typedef T = float
+//
+local
+implement
+array_tabulate$fwork<T> (i) = g0int2float(LEN-g0u2i(i))
+in (* in of [local] *)
+val A = arrayptr_tabulate<T> (asz)
+end // end of [local]
+//
+val () = display_numbers<T> (arrayptr2ptr(A), LEN)
 //
 val () = arrayptr_free (A)
 //

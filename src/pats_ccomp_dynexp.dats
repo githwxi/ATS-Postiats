@@ -157,6 +157,8 @@ end // end of [d2var_ccomp_some]
 extern fun hidexp_ccomp_var : hidexp_ccomp_funtype
 extern fun hidexp_ccomp_cst : hidexp_ccomp_funtype
 
+extern fun hidexp_ccomp_string : hidexp_ccomp_funtype
+
 extern fun hidexp_ccomp_cstsp : hidexp_ccomp_funtype
 
 extern fun hidexp_ccomp_tmpcst : hidexp_ccomp_funtype
@@ -257,7 +259,8 @@ case+ hde0.hidexp_node of
 | HDEbool (b) => primval_bool (loc0, hse0, b)
 | HDEchar (c) => primval_char (loc0, hse0, c)
 | HDEfloat (rep) => primval_float (loc0, hse0, rep)
-| HDEstring (str) => primval_string (loc0, hse0, str)
+//
+| HDEstring _ => hidexp_ccomp_string (env, res, hde0)
 //
 | HDEi0nt (tok) => primval_i0nt (loc0, hse0, tok)
 | HDEf0loat (tok) => primval_f0loat (loc0, hse0, tok)
@@ -648,6 +651,20 @@ val () = the_dyncstlst_add (d2c)
 in
   primval_cst (loc0, hse0, d2c)
 end // end of [hidexp_ccomp_cst]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_string
+  (env, res, hde0) = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val-HDEstring (str) = hde0.hidexp_node
+//
+in
+  primval_string (loc0, hse0, str)
+end // end of [hidexp_ccomp_string]
 
 (* ****** ****** *)
 

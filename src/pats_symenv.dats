@@ -191,13 +191,22 @@ end // end of [symenv_restore]
 implement
 symenv_localjoin
   {itm} (env) = let
-  val ms = env.maplst
-  val-~list_vt_cons (m1, ms) = ms
-  val () = symmap_free (m1)
-  val-~list_vt_cons (m2, ms) = ms
-  val () = env.maplst := ms
+//
+val ms = env.maplst
+val-~list_vt_cons (m1, ms) = ms
+val () = symmap_free (m1)
+val-~list_vt_cons (m2, ms) = ms
+val () = env.maplst := ms
+//
+// HX-2013-06:
+// it is done this way so that a binding in [map1] can replace one
+// [map2] if they happen to share the same key.
+//
+val m0 = env.map
+val () = env.map := m2
+//
 in
-  symmap_joinwth {itm} (env.map, m2)
+  symmap_joinwth {itm} (env.map, m0)
 end // end of [symenv_localjoin]
 
 (* ****** ****** *)
@@ -214,8 +223,7 @@ symenv_pervasive_insert {itm}
 
 implement
 symenv_pervasive_joinwth
-  {itm} (env, map) =
-  symmap_joinwth (env.pervasive, map)
+  {itm} (env, map) = symmap_joinwth (env.pervasive, map)
 // end of [symenv_pervasive_search]
 
 (* ****** ****** *)
