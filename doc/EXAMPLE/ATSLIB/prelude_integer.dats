@@ -25,16 +25,21 @@ val () = assertloc (1 + 2 = 2 + 1)
 val () = assertloc ((1 + 2) + 3 = 1 + (2 + 3))
 val () = assertloc (1 * 2 = 2 * 1)
 val () = assertloc ((1 * 2) * 3 = 1 * (2 * 3))
+//
 val x = 10
 val () = assertloc (abs(x) = max(x, 0) - min(x, 0))
 val x = ~10
 val () = assertloc (abs(x) = max(x, 0) - min(x, 0))
+//
 val () = assertloc (10 mod 2 = 0)
 val () = assertloc (10 mod 3 = 1)
-(*
-val () = assertloc (10 nmod 5 = 0)
-val () = assertloc (10 nmod 7 = 3)
-*)
+val () = assertloc ((10 \nmod 5) = 0)
+val () = assertloc ((10 \nmod 7) = 3)
+//
+macdef ngcd = g1int_ngcd
+val () = assertloc ((0 \ngcd 0) = 0)
+val () = assertloc ((15 \ngcd 27) = 3)
+val () = assertloc ((24 \ngcd 60) = 12)
 //
 } // end of [val]
 
@@ -52,10 +57,6 @@ val () = assertloc ((1u * 2u) * 3u = 1 * (2 * 3))
 //
 val () = assertloc (10u mod 2u = 0)
 val () = assertloc (10u mod 3u = 1)
-(*
-val () = assertloc (10u nmod 5 = 0)
-val () = assertloc (10u nmod 7 = 3)
-*)
 //
 } // end of [val]
 

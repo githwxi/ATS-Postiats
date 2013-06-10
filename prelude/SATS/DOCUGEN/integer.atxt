@@ -66,6 +66,12 @@ various finite precision.
 #declnamesynop("g1int_ndiv2")
 #declnamesynop("g0int_mod")
 #declnamesynop("g1int_mod")
+#declnamesynop("g1int_nmod")
+#declnamesynop("g1int_nmod2")
+#declnamesynop("g0int_gcd")
+#declnamesynop("g1int_gcd")
+#declnamesynop("g1int_ngcd")
+#declnamesynop("g1int_ngcd2")
 
 (* ****** ****** *)
 
