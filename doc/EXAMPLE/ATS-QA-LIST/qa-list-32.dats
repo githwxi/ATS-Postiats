@@ -88,8 +88,10 @@ in (* in of [local] *)
 val A = arrayptr_tabulate<T> (asz)
 end // end of [local]
 //
-val () = display_numbers<T> (arrayptr2ptr(A), LEN)
-val () = $extfcall (void, "display_numbers", arrayptr2ptr(A), LEN)
+val () =
+display_numbers<T> (arrayptr2ptr(A), LEN)
+val () = $extfcall
+(void, "display_numbers", arrayptr2ptr(A), LEN)
 //
 val () = arrayptr_free (A)
 //
@@ -97,7 +99,7 @@ typedef T = float
 //
 local
 implement
-array_tabulate$fwork<T> (i) = g0int2float(LEN-g0u2i(i))
+array_tabulate$fwork<T> (i) = g0i2f(LEN-g0u2i(i))
 in (* in of [local] *)
 val A = arrayptr_tabulate<T> (asz)
 end // end of [local]

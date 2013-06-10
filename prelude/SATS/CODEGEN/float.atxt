@@ -37,9 +37,7 @@ stadef ldblknd = ldouble_kind
 
 fun{
 tk1,tk2:tk
-} g0int2float
-  (x: g0int (tk1)):<> g0float (tk2)
-// endfun
+} g0int2float (x: g0int (tk1)):<> g0float (tk2)
 
 fun g0int2float_int_float (x: int):<> float = "mac\#%"
 fun g0int2float_int_double (x: int):<> double = "mac\#%"
@@ -49,9 +47,19 @@ fun g0int2float_lint_double (x: lint):<> double = "mac\#%"
 
 fun{
 tk1,tk2:tk
-} g0float2float
-  (x: g0float (tk1)):<> g0float (tk2)
-// endfun
+} g0float2int (x: g0float (tk1)):<> g0int (tk2)
+
+fun g0int2float_float_int (x: float):<> int = "mac\#%"
+fun g0int2float_float_lint (x: float):<> lint = "mac\#%"
+fun g0int2float_double_int (x: double):<> int = "mac\#%"
+fun g0int2float_double_lint (x: double):<> lint = "mac\#%"
+fun g0int2float_double_llint (x: double):<> llint = "mac\#%"
+
+#atscode_separator()
+
+fun{
+tk1,tk2:tk
+} g0float2float (x: g0float (tk1)):<> g0float (tk2)
 
 fun g0float2float_float_float (x: float):<> float = "mac\#%"
 fun g0float2float_float_double (x: float):<> double = "mac\#%"
@@ -216,6 +224,12 @@ fun div_float_int (x: float, y: int): float = "mac\#%"
 overload / with div_float_int of 20
 fun div_double_int (x: double, y: int): double = "mac\#%"
 overload / with div_double_int of 20
+
+#atscode_separator()
+
+macdef g0i2f (x) = g0int2float (,(x))
+macdef g0f2i (x) = g0float2int (,(x))
+macdef g0f2f (x) = g0float2float (,(x))
 
 #atscode_separator()
 

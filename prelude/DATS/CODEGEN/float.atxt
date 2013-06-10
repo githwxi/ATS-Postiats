@@ -89,6 +89,19 @@ g0int2float<lintknd,dblknd> = g0int2float_lint_double
 #atscode_separator()
 
 implement
+g0float2int<fltknd, intknd> = g0int2float_float_int
+implement
+g0float2int<fltknd, lintknd> = g0int2float_float_lint
+implement
+g0float2int<dblknd, intknd> = g0int2float_double_int
+implement
+g0float2int<dblknd, lintknd> = g0int2float_double_lint
+implement
+g0float2int<dblknd, llintknd> = g0int2float_double_llint
+
+#atscode_separator()
+
+implement
 g0float2float<fltknd,fltknd> = g0float2float_float_float
 implement
 g0float2float<fltknd,dblknd> = g0float2float_float_double
