@@ -30,6 +30,29 @@ convenience.  For full-fledged IO support, please see
 
 (* ****** ****** *)
 
+#declnamesynop("dirsep_get")
+#decldescrpt('\
+This function returns the character for separating directory names
+in a vaild path. In Unix-like systems, this character is the slash
+symbol (/).
+')
+
+(* ****** ****** *)
+
+#declnamesynop("dirname_self")
+#decldescrpt('\
+This function returns the name referring to the self directory, which
+is "." by default.
+')
+
+#declnamesynop("dirname_parent")
+#decldescrpt('\
+This function returns the name referring to the self directory, which
+is ".." by default.
+')
+
+(* ****** ****** *)
+
 #declnamesynop("filename_get_ext")
 #declnamesynop("filename_get_base")
 

@@ -184,8 +184,10 @@ val isnot2 = ptr_isnot_null (strptr2ptr(x2))
 //
 in
 //
-if isnot2 then
-  strnptr2strptr(string_append ($UN.strptr2string(x1), $UN.strptr2string(x2)))
+if
+isnot2
+then
+  strnptr2strptr(string1_append ($UN.strptr2string(x1), $UN.strptr2string(x2)))
 else
   strptr1_copy (x1)
 // end of [if]

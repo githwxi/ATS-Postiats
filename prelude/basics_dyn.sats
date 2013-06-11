@@ -455,25 +455,45 @@ exit_errmsg_void
 fun
 assert_bool0
   (x: bool):<!exn> void = "mac#%"
-overload assert with assert_bool0 of 0
-fun
-assert_errmsg_bool0
-  (x: bool, msg: string) :<!exn> void = "mac#%"
-overload assert_errmsg with assert_errmsg_bool0 of 0
-
 fun
 assert_bool1
   {b:bool} (
   x: bool (b)
 ) :<!exn> [b] void = "mac#%"
+//
+overload assert with assert_bool0 of 0
 overload assert with assert_bool1 of 10
+//
+(* ****** ****** *)
+
+fun
+assert_errmsg_bool0
+  (x: bool, msg: string):<!exn> void = "mac#%"
 fun
 assert_errmsg_bool1
   {b:bool} (
   x: bool b, msg: string
 ) :<!exn> [b] void = "mac#%"
+//
+symintr assert_errmsg
+overload assert_errmsg with assert_errmsg_bool0 of 0
 overload assert_errmsg with assert_errmsg_bool1 of 10
+//
+(* ****** ****** *)
 
+fun
+assert_errmsg2_bool0
+  (x: bool, msg1: string, msg2: string):<!exn> void = "mac#%"
+fun
+assert_errmsg2_bool1
+  {b:bool} (
+  x: bool b, msg1: string, msg2: string
+) :<!exn> [b] void = "mac#%"
+//
+symintr assert_errmsg2
+overload assert_errmsg2 with assert_errmsg2_bool0 of 0
+overload assert_errmsg2 with assert_errmsg2_bool1 of 10
+//
 (* ****** ****** *)
 
 datasort file_mode =

@@ -41,7 +41,7 @@ val stderr_ref : FILEref = "mac\#%FILE_stderr"
 
 #atscode_separator()
 
-fun{} dirsep_get ():<> char
+fun{} dirsep_get ():<> charNZ
 fun{} dirname_self ():<> string
 fun{} dirname_parent ():<> string
 

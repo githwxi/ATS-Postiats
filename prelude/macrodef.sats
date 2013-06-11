@@ -51,6 +51,10 @@ macdef assign (lv, rv) = ,(lv) := ,(rv)
 
 macdef exitloc (x) = exit_errmsg (,(x), $mylocation)
 macdef assertloc (x) = assert_errmsg (,(x), $mylocation)
+macdef
+assertlocmsg (x, msg) = assert_errmsg2 (,(x), $mylocation, ,(msg))
+macdef
+assertmsgloc (x, msg) = assert_errmsg2 (,(x), ,(msg), $mylocation)
 
 (* ****** ****** *)
 

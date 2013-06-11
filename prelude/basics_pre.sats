@@ -336,7 +336,7 @@ symintr decget decset decexch
 symintr !++ --! // getinc and decget
 symintr =++ --= // setinc and decset
 //
-symintr assert assert_errmsg
+symintr assert
 //
 symintr freelin (* strptr_free, strnptr_free, list_vt_freelin, ... *)
 //
