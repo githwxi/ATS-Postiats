@@ -134,6 +134,10 @@ handled by calling the function #dyncode("fprint_ref").
 
 (* ****** ****** *)
 
+#declnamesynop("arrayptr_get_at")
+
+(* ****** ****** *)
+
 #declnamesynop("arrayptr_get_at_gint")
 #decldescrpt("\
 
@@ -148,6 +152,10 @@ This function, which overloads the symbol #dyncode("[]"), is like
 
 (* ****** ****** *)
 
+#declnamesynop("arrayptr_set_at")
+
+(* ****** ****** *)
+
 #declnamesynop("arrayptr_set_at_gint")
 #decldescrpt("\
 
@@ -159,6 +167,10 @@ with its first argument.  ")
 
 This function, which overloads the symbol #dyncode("[]"), is like
 #dyncode("arrayptr_set_at_gint") except that the index is unsigned.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("arrayptr_exch_at")
 
 (* ****** ****** *)
 
@@ -286,12 +298,6 @@ combines #dyncode("arrayptr_uninitize") with #dyncode("arrayptr_free").  ")
 (* ****** ****** *)
 
 #declnamesynop("[]")
-
-(* ****** ****** *)
-
-#declnamesynop("arrayptr_get_at")
-#declnamesynop("arrayptr_set_at")
-#declnamesynop("arrayptr_exch_at")
 
 (* ****** ****** *)
 

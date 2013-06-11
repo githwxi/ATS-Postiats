@@ -156,6 +156,10 @@ taking an unsigned integer as the string index.  ')
 
 (* ****** ****** *)
 
+#declnamesynop("string_get_at")
+
+(* ****** ****** *)
+
 #declnamesynop("string_get_at_gint")
 #decldescrpt('\
 
@@ -173,6 +177,10 @@ This function, which overloads the symbol #dyncode("[]"), does the same as
 string index.  ')
 
 #declfunretval("A non-null char is returned.")
+
+(* ****** ****** *)
+
+#declnamesynop("string_test_at")
 
 (* ****** ****** *)
 
@@ -717,8 +725,6 @@ string or null pointer.")
 (* ****** ****** *)
 
 #declnamesynop("[]")
-#declnamesynop("string_get_at")
-#declnamesynop("string_test_at")
 
 (* ****** ****** *)
 

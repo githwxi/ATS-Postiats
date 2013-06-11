@@ -134,6 +134,10 @@ integer (EOF) as an indication of error.
 
 (* ****** ****** *)
 
+#declnamesynop("fileref_putc")
+
+(* ****** ****** *)
+
 #declnamesynop("fileref_putc_int")
 #decldescrpt('\
 
@@ -445,10 +449,6 @@ Clearly, this is a wasteful and inefficient way of removing empty lines.
 (* ****** ****** *)
 
 #declname("Overloaded Symbols")
-
-(* ****** ****** *)
-
-#declnamesynop("fileref_putc")
 
 (* ****** ****** *)
 

@@ -95,16 +95,19 @@ handled by calling the function #dyncode("fprint_ref").
 
 (* ****** ****** *)
 
+#declnamesynop("arrayref_get_at")
 #declnamesynop("arrayref_get_at_gint")
 #declnamesynop("arrayref_get_at_guint")
 
 (* ****** ****** *)
 
+#declnamesynop("arrayref_set_at")
 #declnamesynop("arrayref_set_at_gint")
 #declnamesynop("arrayref_set_at_guint")
 
 (* ****** ****** *)
 
+#declnamesynop("arrayref_exch_at")
 #declnamesynop("arrayref_exch_at_gint")
 #declnamesynop("arrayref_exch_at_guint")
 
@@ -140,16 +143,19 @@ arrszref-value. ")
 
 (* ****** ****** *)
 
+#declnamesynop("arrszref_get_at")
 #declnamesynop("arrszref_get_at_gint")
 #declnamesynop("arrszref_get_at_guint")
 
 (* ****** ****** *)
 
+#declnamesynop("arrszref_set_at")
 #declnamesynop("arrszref_set_at_gint")
 #declnamesynop("arrszref_set_at_guint")
 
 (* ****** ****** *)
 
+#declnamesynop("arrszref_exch_at")
 #declnamesynop("arrszref_exch_at_gint")
 #declnamesynop("arrszref_exch_at_guint")
 
@@ -168,18 +174,6 @@ arrszref-value. ")
 (* ****** ****** *)
 
 #declnamesynop("[]")
-
-(* ****** ****** *)
-
-#declnamesynop("arrayref_get_at")
-#declnamesynop("arrayref_set_at")
-#declnamesynop("arrayref_exch_at")
-
-(* ****** ****** *)
-
-#declnamesynop("arrszref_get_at")
-#declnamesynop("arrszref_set_at")
-#declnamesynop("arrszref_exch_at")
 
 (* ****** ****** *)
 

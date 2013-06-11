@@ -707,10 +707,4 @@ Note that the created array is properly freed before the code exits.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("array_get_at")
-#declnamesynop("array_set_at")
-#declnamesynop("array_exch_at")
-
-(* ****** ****** *)
-
 (* end of [array.atxt] *)

@@ -69,7 +69,14 @@ This package contains common functions for processing linear strings.\
 (* ****** ****** *)
 
 #declnamesynop("strnptr_get_at")
+#declnamesynop("strnptr_get_at_gint")
+#declnamesynop("strnptr_get_at_guint")
+
+(* ****** ****** *)
+
 #declnamesynop("strnptr_set_at")
+#declnamesynop("strnptr_set_at_gint")
+#declnamesynop("strnptr_set_at_guint")
 
 (* ****** ****** *)
 
@@ -188,11 +195,6 @@ end // end of [strnptr_upperize]
 (* ****** ****** *)
 
 #declnamesynop("[]")
-
-(* ****** ****** *)
-
-#declnamesynop("strnptr_get_at")
-#declnamesynop("strnptr_set_at")
 
 (* ****** ****** *)
 
