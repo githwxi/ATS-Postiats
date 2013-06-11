@@ -39,6 +39,72 @@ viewtypedef FILEptr1 = $STDIO.FILEptr1
 \#define i2c int2char0
 
 #atscode_separator()
+//
+// HX-2013-06:
+// this is just Unix convention
+//
+implement{} dirsep_get () = '/'
+implement{} dirname_self () = "."
+implement{} dirname_parent () = ".."
+//
+#atscode_separator()
+
+implement{}
+filename_get_ext (name) = let
+//
+\#define NUL '\000'
+overload + with add_ptr_bsz
+//
+fun loop
+(
+  p1: ptr, p2: ptr, c0: char
+) : ptr = let
+  val c = $UN.ptr0_get<char> (p1)
+in
+  if c != NUL then let
+    val p1 = p1 + (i2sz)1
+  in
+    if c != c0 then loop (p1, p2, c0) else loop (p1, p1, c0)
+  end else p2 // end of [if]
+end // end of [loop]
+//
+val p1 = string2ptr(name)
+val p2 = $effmask_all (loop (p1, the_null_ptr, '.'))
+//
+in
+  $UN.castvwtp0{vStrptr0}(p2)
+end // end of [filename_get_ext]
+
+#atscode_separator()
+
+implement{}
+filename_get_base (name) = let
+//
+\#define NUL '\000'
+overload + with add_ptr_bsz
+//
+fun loop
+(
+  p1: ptr, p2: ptr, c0: char
+) : ptr = let
+  val c = $UN.ptr0_get<char> (p1)
+in
+  if c != NUL then let
+    val p1 = p1 + (i2sz)1
+  in
+    if c != c0 then loop (p1, p2, c0) else loop (p1, p1, c0)
+  end else p2 // end of [if]
+end // end of [loop]
+//
+val c0 = dirsep_get<> ()
+val p1 = string2ptr(name)
+val p2 = $effmask_all (loop (p1, p1, c0))
+//
+in
+  $UN.castvwtp0{vStrptr1}(p2)
+end // end of [filename_get_base]
+
+#atscode_separator()
 
 (*
 //
@@ -86,9 +152,9 @@ fileref_close (filr) = $STDIO.fclose0_exn (filr)
 //
 // HX: atspre_fileref_flush
 //
-*)
 implement
 fileref_flush (filr) = $STDIO.fflush0_exn (filr)
+*)
 
 #atscode_separator()
 
@@ -96,9 +162,9 @@ fileref_flush (filr) = $STDIO.fflush0_exn (filr)
 //
 // HX: atspre_fileref_getc
 //
-*)
 implement
 fileref_getc (filr) = $STDIO.fgetc0 (filr)
+*)
 
 #atscode_separator()
 
@@ -403,7 +469,7 @@ end // end of [local]
 
 #atscode_separator()
 
-implement
+implement{}
 fileref_put_charlst
   (out, cs) = let
 //

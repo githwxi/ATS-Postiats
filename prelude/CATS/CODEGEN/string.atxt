@@ -135,7 +135,13 @@ atspre_fprint_string
   atstype_ref out, atstype_string x
 ) {
   int err = 0 ;
-  err += fprintf((FILE*)out, "%s", (char*)x) ; return ;
+  err += fprintf((FILE*)out, "%s", (char*)x) ;
+/*
+  if (err < 0) {
+    fprintf(stderr, "exit(ATS): [fprint_string] failed.") ; exit(1) ;
+  } // end of [if]
+*/
+  return ;
 } // end of [atspre_fprint_string]
 \#define atspre_print_string(x) atspre_fprint_string(stdout, (x))
 \#define atspre_prerr_string(x) atspre_fprint_string(stderr, (x))
@@ -159,12 +165,18 @@ atspre_fprint_stropt
 (
   atstype_ref out, atstype_stropt x
 ) {
+  int err = 0 ;
   if (!x)
   {
-    fprintf((FILE*)out, "strnone()") ;
+    err += fprintf((FILE*)out, "strnone()") ;
   } else {
-    fprintf((FILE*)out, "strsome(%s)", (char*)x) ;
+    err += fprintf((FILE*)out, "strsome(%s)", (char*)x) ;
   }
+/*
+  if (err < 0) {
+    fprintf(stderr, "exit(ATS): [fprint_stropt] failed.") ; exit(1) ;
+  } // end of [if]
+*/
   return ;
 } // end of [atspre_fprint_stropt]
 \#define atspre_print_stropt(x) atspre_fprint_stropt(stdout, (x))

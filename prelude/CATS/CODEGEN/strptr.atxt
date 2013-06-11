@@ -81,8 +81,13 @@ atspre_fprint_strptr
   if (x != 0) {
     err += fprintf((FILE*)out, "%s", (char*)x) ;
   } else {
-    err += fprintf((FILE*)out, "%s", "(null)") ;
+    err += fprintf((FILE*)out, "%s", "(strnull)") ;
   } // end of [if]
+/*
+  if (err < 0) {
+    fprintf(stderr, "exit(ATS): [fprint_strptr] failed.") ; exit(1) ;
+  } // end of [if]
+*/
   return ;
 } // end of [atspre_fprint_strptr]
 \#define atspre_print_strptr(x) atspre_fprint_strptr(stdout, (x))

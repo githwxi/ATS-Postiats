@@ -75,7 +75,7 @@ atspre_fileref_close
 {
   int err ;
   err = fclose((FILE*)filr) ;
-  if (err) {
+  if (err < 0) {
     fprintf(
       stderr
     , "exit(ATS): [atspre_fileref_close] failed.\n"
@@ -94,7 +94,7 @@ atspre_fileref_flush
 {
   int err ;
   err = fflush((FILE*)filr) ;
-  if (err) {
+  if (err < 0) {
     fprintf(
       stderr
     , "exit(ATS): [atspre_fileref_fflush] failed.\n"

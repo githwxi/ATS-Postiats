@@ -30,6 +30,11 @@ convenience.  For full-fledged IO support, please see
 
 (* ****** ****** *)
 
+#declnamesynop("filename_get_ext")
+#declnamesynop("filename_get_base")
+
+(* ****** ****** *)
+
 #declnamesynop("test_file_exists")
 #decldescrpt('\
 This function tests whether a given path refers to a file in existence.

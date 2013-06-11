@@ -453,8 +453,13 @@ atspre_fprint_int
 (
   atstype_ref out, atstype_int x
 ) {
-  int err ;
-  err = fprintf((FILE*)out, "%i", x) ;
+  int err = 0 ;
+  err += fprintf((FILE*)out, "%i", x) ;
+/*
+  if (err < 0) {
+    fprintf(stderr, "exit(ATS): [fprint_int] failed.") ; exit(1) ;
+  } // end of [if]
+*/
   return ;
 } // end [atspre_fprint_int]
 \#define atspre_print_int(x) atspre_fprint_int(stdout, (x))
@@ -466,8 +471,13 @@ atspre_fprint_lint
 (
   atstype_ref out, atstype_lint x
 ) {
-  int err ;
-  err = fprintf((FILE*)out, "%li", x) ;
+  int err = 0 ;
+  err += fprintf((FILE*)out, "%li", x) ;
+/*
+  if (err < 0) {
+    fprintf(stderr, "exit(ATS): [fprint_lint] failed.") ; exit(1) ;
+  } // end of [if]
+*/
   return ;
 } // end [atspre_fprint_lint]
 \#define atspre_print_lint(x) atspre_fprint_lint(stdout, (x))
@@ -479,8 +489,13 @@ atspre_fprint_llint
 (
   atstype_ref out, atstype_llint x
 ) {
-  int err ;
-  err = fprintf((FILE*)out, "%lli", x) ;
+  int err = 0 ;
+  err += fprintf((FILE*)out, "%lli", x) ;
+/*
+  if (err < 0) {
+    fprintf(stderr, "exit(ATS): [fprint_llint] failed.") ; exit(1) ;
+  } // end of [if]
+*/
   return ;
 } // end [atspre_fprint_llint]
 \#define atspre_print_llint(x) atspre_fprint_llint(stdout, (x))
@@ -492,8 +507,13 @@ atspre_fprint_ssize
 (
   atstype_ref out, atstype_ssize x
 ) {
-  int err ;
-  err = fprintf((FILE*)out, "%li", x) ;
+  int err = 0 ;
+  err += fprintf((FILE*)out, "%li", x) ;
+/*
+  if (err < 0) {
+    fprintf(stderr, "exit(ATS): [fprint_ssize] failed.") ; exit(1) ;
+  } // end of [if]
+*/
   return ;
 } // end [atspre_fprint_ssize]
 \#define atspre_print_ssize(x) atspre_fprint_ssize(stdout, (x))
@@ -954,8 +974,13 @@ atspre_fprint_uint
 (
   atstype_ref out, atstype_uint x
 ) {
-  int err ;
-  err = fprintf((FILE*)out, "%u", x) ;
+  int err = 0 ;
+  err += fprintf((FILE*)out, "%u", x) ;
+/*
+  if (err < 0) {
+    fprintf(stderr, "exit(ATS): [fprint_uint] failed.") ; exit(1) ;
+  } // end of [if]
+*/
   return ;
 } // end [atspre_fprint_uint]
 
@@ -968,8 +993,13 @@ atspre_fprint_ulint
 (
   atstype_ref out, atstype_ulint x
 ) {
-  int err ;
-  err = fprintf((FILE*)out, "%lu", x) ;
+  int err = 0 ;
+  err += fprintf((FILE*)out, "%lu", x) ;
+/*
+  if (err < 0) {
+    fprintf(stderr, "exit(ATS): [fprint_ulint] failed.") ; exit(1) ;
+  } // end of [if]
+*/
   return ;
 } // end [atspre_fprint_ulint]
 
@@ -982,8 +1012,13 @@ atspre_fprint_ullint
 (
   atstype_ref out, atstype_ullint x
 ) {
-  int err ;
-  err = fprintf((FILE*)out, "%llu", x) ;
+  int err = 0 ;
+  err += fprintf((FILE*)out, "%llu", x) ;
+/*
+  if (err < 0) {
+    fprintf(stderr, "exit(ATS): [fprint_ullint] failed.") ; exit(1) ;
+  } // end of [if]
+*/
   return ;
 } // end [atspre_fprint_ullint]
 
@@ -998,9 +1033,14 @@ atspre_fprint_size
 (
   atstype_ref out, atstype_size x
 ) {
-  int err ;
+  int err = 0 ;
   atstype_ulint x2 = x ;
-  err = fprintf((FILE*)out, "%lu", x2) ;
+  err += fprintf((FILE*)out, "%lu", x2) ;
+/*
+  if (err < 0) {
+    fprintf(stderr, "exit(ATS): [fprint_size] failed.") ; exit(1) ;
+  } // end of [if]
+*/
   return ;
 } // end [atspre_fprint_size]
 

@@ -304,8 +304,13 @@ atsvoid_t0ype
 atspre_fprint_float (
   atstype_ref r, atstype_float x
 ) {
-  int err ;
-  err = fprintf((FILE*)r, "%f", x) ;
+  int err = 0 ;
+  err += fprintf((FILE*)r, "%f", x) ;
+/*
+  if (err < 0) {
+    fprintf(stderr, "exit(ATS): [fprint_float] failed.") ; exit(1) ;
+  } // end of [if]
+*/
   return ;
 } // end [atspre_fprint_float]
 
@@ -317,8 +322,13 @@ atsvoid_t0ype
 atspre_fprint_double (
   atstype_ref r, atstype_double x
 ) {
-  int err ;
-  err = fprintf((FILE*)r, "%f", x) ;
+  int err = 0 ;
+  err += fprintf((FILE*)r, "%f", x) ;
+/*
+  if (err < 0) {
+    fprintf(stderr, "exit(ATS): [fprint_double] failed.") ; exit(1) ;
+  } // end of [if]
+*/
   return ;
 } // end [atspre_fprint_double]
 
@@ -330,8 +340,13 @@ atsvoid_t0ype
 atspre_fprint_ldouble (
   atstype_ref r, atstype_ldouble x
 ) {
-  int err ;
-  err = fprintf((FILE*)r, "%Lf", x) ;
+  int err = 0 ;
+  err += fprintf((FILE*)r, "%Lf", x) ;
+/*
+  if (err < 0) {
+    fprintf(stderr, "exit(ATS): [fprint_ldouble] failed.") ; exit(1) ;
+  } // end of [if]
+*/
   return ;
 } // end [atspre_fprint_ldouble]
 

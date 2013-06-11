@@ -40,6 +40,19 @@ val stdout_ref : FILEref = "mac\#%FILE_stdout"
 val stderr_ref : FILEref = "mac\#%FILE_stderr"
 
 #atscode_separator()
+
+fun{} dirsep_get ():<> char
+fun{} dirname_self ():<> string
+fun{} dirname_parent ():<> string
+
+#atscode_separator()
+
+fun{}
+filename_get_ext (name: string):<> vStrptr0
+fun{}
+filename_get_base (name: string):<> vStrptr1
+
+#atscode_separator()
 //
 val file_mode_r
   : file_mode (r()) = "mac\#%" // = "r"
@@ -205,15 +218,16 @@ fun{
 //
 #atscode_separator()
 
-fun fileref_put_charlst (r: FILEref, cs: NSH(List(char))): void
-
-#atscode_separator()
-
 (*
 ** HX: for handling files of "tiny" size
 *)
 fun fileref_get_file_charlst (r: FILEref): List0_vt (char)
 fun fileref_nget_file_charlst {n:nat} (r: FILEref, n: int n): List0_vt (char)
+
+#atscode_separator()
+
+fun{
+} fileref_put_charlst (r: FILEref, cs: NSH(List(char))): void
 
 #atscode_separator()
 

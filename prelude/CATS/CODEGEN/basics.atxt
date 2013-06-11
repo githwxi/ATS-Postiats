@@ -111,7 +111,7 @@ atspre_fprint_newline
   int err = -1 ;
   n = fprintf((FILE*)out, "\n") ;
   if (n > 0) err = fflush((FILE*)out) ;
-  if (err != 0) {
+  if (err < 0) {
     fprintf(stderr, "exit(ATS): [fprint_newline] failed.") ; exit(1) ;
   } // end of [if]
   return ;

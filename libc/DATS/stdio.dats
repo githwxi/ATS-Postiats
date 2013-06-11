@@ -194,6 +194,24 @@ atslib_fputs_exn
 
 %{
 extern
+atsvoid_t0ype
+atslib_puts_exn
+(
+  atstype_string str
+) {
+  int err ;
+  err = puts((char*)str) ;
+  if (0 > err) {
+    ATSLIBfailexit("puts") ; // abnormal exit
+  } /* end of [if] */
+  return ;  
+} /* end of [atslib_puts_exn] */
+%}
+
+(* ****** ****** *)
+
+%{
+extern
 atstype_ptr
 atslib_popen_exn
 (

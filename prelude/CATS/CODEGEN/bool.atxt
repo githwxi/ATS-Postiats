@@ -172,8 +172,13 @@ atsvoid_t0ype
 atspre_fprint_bool (
   atstype_ref out, atstype_bool x
 ) {
-  int err ;
-  err = fprintf((FILE*)out, "%s", atspre_tostring_bool(x)) ;
+  int err = 0 ;
+  err += fprintf((FILE*)out, "%s", atspre_tostring_bool(x)) ;
+/*
+  if (err < 0) {
+    fprintf(stderr, "exit(ATS): [fprint_bool] failed.") ; exit(1) ;
+  } // end of [if]
+*/
   return ;
 } // end [atspre_fprint_bool]
 \#define atspre_print_bool(x) atspre_fprint_bool(stdout, (x))
