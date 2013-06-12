@@ -82,9 +82,8 @@ implement
 strarr_make_string
   (str) = let
 //
-val [n:int] str =
-  string1_of_string0 (str)
-//
+val [n:int]
+  str = g1ofg0_string (str)
 val n = string1_length (str)
 //
 val

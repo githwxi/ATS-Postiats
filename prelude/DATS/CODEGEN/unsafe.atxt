@@ -35,7 +35,7 @@ implement
 ptr0_get
   (p) = x where {
   val [l:addr]
-    p = (ptr1_of_ptr0)p
+    p = g1ofg0_ptr(p)
   prval (pf, fpf) = __assert () where {
     extern praxi __assert (): (a @ l, a? @ l -<lin,prf> void)
   } // end of [prval]
@@ -52,7 +52,7 @@ implement
 ptr0_set
   (p, x) = () where {
   val [l:addr]
-    p = (ptr1_of_ptr0)p
+    p = g1ofg0_ptr(p)
   prval (pf, fpf) = __assert () where {
     extern praxi __assert (): (a? @ l, a @ l -<lin,prf> void)
   } // end of [prval]
@@ -68,7 +68,7 @@ implement
 {a}(*tmp*)
 ptr0_exch
   (p, x) = () where {
-  val p = (ptr1_of_ptr0)p
+  val p = g1ofg0_ptr(p)
   prval (pf, fpf) = ptr_vtake{a}(p)
   val tmp = !p
   val ( ) = !p := x
@@ -84,8 +84,8 @@ implement
 {a}(*tmp*)
 ptr0_intch
   (p1, p2) = () where {
-  val p1 = (ptr1_of_ptr0)p1
-  val p2 = (ptr1_of_ptr0)p2
+  val p1 = g1ofg0_ptr(p1)
+  val p2 = g1ofg0_ptr(p2)
   prval (pf1, fpf1) = ptr_vtake{a}(p1)
   prval (pf2, fpf2) = ptr_vtake{a}(p2)
   val tmp = !p1

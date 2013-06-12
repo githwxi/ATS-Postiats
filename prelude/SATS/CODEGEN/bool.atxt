@@ -26,7 +26,8 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-castfn bool1_of_bool0 (x: bool):<> Bool
+castfn g1ofg0_bool (x: bool):<> Bool
+castfn g0ofg1_bool (x: Bool):<> bool
 
 #atscode_separator()
 //

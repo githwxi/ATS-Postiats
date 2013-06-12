@@ -93,8 +93,8 @@ implement
 string_make_substring
   (str, st, ln) = let
 //
-val str = string2string(str)
-val st = g1ofg0_uint (st) and ln = g1ofg0_uint (ln)
+val str = g1ofg0_string(str)
+val st = g1ofg0_uint(st) and ln = g1ofg0_uint(ln)
 val lnx = string_length (str)
 //
 val st = min (st, lnx)
@@ -129,7 +129,7 @@ end // end of [stringlst_concat]
 (*
 implement
 string_explode (str) = let
-  val str = string1_of_string0 (str)
+  val str = g1ofg0_string (str)
   val res = $effmask_wrt (prelude_string_explode (str))
 in
   list0_of_list_vt (res)
@@ -197,15 +197,15 @@ end // end of [string_tabulate]
 (* ****** ****** *)
 
 implement
-string_foreach (s, f) = let
+string_foreach (str, f) = let
 //
-val s = string1_of_string0 (s)
+val str = g1ofg0_string(str)
 //
 implement{env}
 string_foreach$cont (c, env) = true
 implement{env}
 string_foreach$fwork (c, env) = f (c)
-val _(*n*) = prelude_string_foreach (s)
+val _(*n*) = prelude_string_foreach (str)
 //
 in
   // nothing

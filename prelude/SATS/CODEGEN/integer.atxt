@@ -219,9 +219,9 @@ overload compare with compare_g0int_int of 11
 // HX: for indexed integer types
 //
 castfn
-g1ofg0_int {tk:tk} (x: g0int tk):<> g1int (tk)
+g0ofg1_int {tk:tk} (x: g1int tk):<> g0int (tk)
 castfn
-g0tog1_int {tk:tk} (x: g0int tk):<> g1int (tk)
+g1ofg0_int {tk:tk} (x: g0int tk):<> g1int (tk)
 //
 #atscode_separator()
 //
@@ -739,16 +739,12 @@ castfn
 ssize_of_int {i:int} (x: int i):<> ssize_t (i)
 
 #atscode_separator()
-
+//
 castfn
-g1ofg0_uint
-  {tk:tk} (x: g0uint tk):<> [i:nat] g1uint (tk, i)
-// end of [g1ofg0_uint]
+g1ofg0_uint {tk:tk} (x: g1uint tk):<> g0uint (tk)
 castfn
-g0tog1_uint
-  {tk:tk} (x: g0uint tk):<> [i:nat] g1uint (tk, i)
-// end of [g0tog1_uint]
-
+g1ofg0_uint {tk:tk} (x: g0uint tk):<> g1uint0 (tk)
+//
 #atscode_separator()
 //
 fun{k1,k2:tk}

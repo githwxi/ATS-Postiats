@@ -134,6 +134,11 @@ overload tostring with tostring_char
 ')\
 
 #atscode_separator()
+
+castfn g0ofg1_char (c: Char):<> char
+castfn g1ofg0_char (c: char):<> Char
+
+#atscode_separator()
 //
 castfn
 char2schar1 {c:int} (c: char (c)):<> schar (c)

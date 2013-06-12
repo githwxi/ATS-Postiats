@@ -121,7 +121,7 @@ typedef uChar = [c:uint8] uchar (c)
 sortdef tk = tkind
 
 (* ****** ****** *)
-
+//
 abst@ype
 g0int_t0ype (tk:tk) = tkind_t0ype (tk)
 stadef g0int = g0int_t0ype // shorthand
@@ -130,7 +130,10 @@ g1int_int_t0ype (tk:tkind, int) = g0int (tk)
 stadef g1int = g1int_int_t0ype
 //
 typedef g1int (tk:tkind) = [i:int] g1int (tk, i)
-typedef g1nat (tk:tkind) = [i:int | i >= 0] g1int (tk, i)
+typedef g1int0 (tk:tkind) = [i:int | i >= 0] g1int (tk, i)
+typedef g1int1 (tk:tkind) = [i:int | i >= 1] g1int (tk, i)
+//
+(* ****** ****** *)
 //
 typedef g1intLt
   (tk:tk, n:int) = [i:int | i < n] g1int (tk, i)
@@ -146,15 +149,19 @@ typedef g1intBtwe
   (tk:tk, lb:int, ub:int) = [i: int | lb <= i; i <= ub] g1int (tk, i)
 //
 (* ****** ****** *)
-
+//
 abst@ype
 g0uint_t0ype (tk:tkind) = tkind_t0ype (tk)
 stadef g0uint = g0uint_t0ype // shorthand
 abst@ype
 g1uint_int_t0ype (tk:tkind, int) = g0uint (tk)
 stadef g1uint = g1uint_int_t0ype
-typedef g1uint (tk:tk) = [i:nat] g1uint (tk, i)
-
+typedef g1uint (tk:tk) = [i:int] g1uint (tk, i)
+typedef g1uint0 (tk:tk) = [i:int | i >= 0] g1uint (tk, i)
+typedef g1uint1 (tk:tk) = [i:int | i >= 1] g1uint (tk, i)
+//
+(* ****** ****** *)
+//
 typedef g1uintLt
   (tk:tk, n:int) = [i:nat | i < n] g1uint (tk, i)
 typedef g1uintLte
@@ -167,7 +174,7 @@ typedef g1uintBtw
   (tk:tk, lb:int, ub:int) = [i: int | lb <= i; i < ub] g1uint (tk, i)
 typedef g1uintBtwe
   (tk:tk, lb:int, ub:int) = [i: int | lb <= i; i <= ub] g1uint (tk, i)
-
+//
 (* ****** ****** *)
 //
 tkindef int_kind = "atstype_int"

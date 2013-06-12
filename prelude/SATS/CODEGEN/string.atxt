@@ -66,8 +66,17 @@ string_index_p
   n: int, int(*i*), int(*c*)
 ) =
   | string_index_p_eqz (n, n, 0)
-  | {i:int | n > i} {c:int8 | c != 0} string_index_p_neqz (n, i, c)
+  | {i:int | n > i}
+    {c:int8 | c != 0}
+    string_index_p_neqz (n, i, c)
 // end of [string_index_p]
+
+#atscode_separator()
+
+praxi
+lemma_string_param
+  {n:int} (x: string n): [n >= 0] void
+// end of [lemma_string_param]
 
 #atscode_separator()
 
@@ -77,8 +86,8 @@ castfn string2ptr (x: string):<> Ptr1
 //
 // HX: [string2string] = [string1_of_string0]
 //
-castfn string2string (x: string):<> [n:nat] string (n)
-castfn string1_of_string0 (x: string):<> [n:nat] string (n)
+castfn g0ofg1_string (x: String):<> string
+castfn g1ofg0_string (x: string):<> String0
 //
 (* ****** ****** *)
 
@@ -99,14 +108,14 @@ string_make_listlen
 #atscode_separator()
 
 fun{
-} string_make_list_rev
+} string_make_rlist
   {n:int} (cs: list(charNZ, n)):<> strnptr (n)
-// end of [string_make_list_rev]
+// end of [string_make_rlist]
 
 fun{
-} string_make_listlen_rev
+} string_make_rlistlen
   {n:int} (cs: list(charNZ, n), n: int n):<> strnptr (n)
-// end of [string_make_listlen_rev]
+// end of [string_make_rlistlen]
 
 #atscode_separator()
 

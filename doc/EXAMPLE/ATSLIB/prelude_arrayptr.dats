@@ -18,6 +18,43 @@ val () =
 //
 typedef T = int
 //
+val out = stdout_ref
+//
+val A_elt =
+arrayptr_make_elt<T> (i2sz(3), 0)
+val () = fprint (out, "A_elt = ")
+val () = fprint (out, A_elt, i2sz(3))
+val () = fprint_newline (out)
+val () = arrayptr_free (A_elt)
+//
+val xs = list_nil{T}()
+val xs = list_cons{T}(3, xs)
+val xs = list_cons{T}(2, xs)
+val xs = list_cons{T}(1, xs)
+//
+val A_list =
+arrayptr_make_list<T> (3, xs)
+val () = fprint (out, "A_list = ")
+val () = fprint (out, A_list, i2sz(3))
+val () = fprint_newline (out)
+val () = arrayptr_free (A_list)
+//
+val A_rlist =
+arrayptr_make_rlist<T> (3, xs)
+val () = fprint (out, "A_rlist = ")
+val () = fprint (out, A_rlist, i2sz(3))
+val () = fprint_newline (out)
+val () = arrayptr_free (A_rlist)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
+typedef T = int
+//
 val A = (arrayptr)$arrpsz{T}(0, 1, 2, 3, 4)
 val i = 2
 val () = assertloc (A[i] = i)

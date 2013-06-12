@@ -40,6 +40,10 @@ If str[i] equals the null character, then i equals n.\
 
 (* ****** ****** *)
 
+#declnamesynop("lemma_string_param")
+
+(* ****** ****** *)
+
 #declnamesynop("string_sing")
 #decldescrpt('\
 This function constructs a singleton string consisting of its char argument.

@@ -54,8 +54,8 @@ fun ptrcmp
 ) : int = (sgn) where
 {
 //
-val p1 = ptr1_of_ptr0 (p1)
-val p2 = ptr1_of_ptr0 (p2)
+val p1 = g1ofg0_ptr(p1)
+val p2 = g1ofg0_ptr(p2)
 //
 prval
 (

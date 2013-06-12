@@ -38,7 +38,8 @@ stadef ptrknd = ptr_kind
 
 #atscode_separator()
 
-castfn ptr1_of_ptr0 (p: ptr):<> [l:addr] ptr (l)
+castfn g0ofg1_ptr {l:addr} (p: ptr (l)):<> ptr
+castfn g1ofg0_ptr (p: ptr):<> [l:addr] ptr (l)
 
 #atscode_separator()
 //
