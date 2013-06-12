@@ -207,19 +207,25 @@ json_object_new_array (void)
 *)
 fun json_object_new_array (): json_object0 = "mac#%"
 
+(* ****** ****** *)
+
 (*
 struct array_list*
 json_object_get_array (struct json_object *obj)
 *)
 fun json_object_get_array
   {l:agz} (jso: !json_object(l))
-  : [l2:agez] vttakeout (json_object(l), array_list(l2)) = "mac#%"
+  : [l2:agez] vtget0 (json_object(l), array_list(l2)) = "mac#%"
 // end of [json_object_get_array]
+
+(* ****** ****** *)
 
 (*
 int json_object_array_length (struct json_object *obj)
 *)
 fun json_object_array_length (jso: !json_object1): intGte(0) = "mac#%"
+
+(* ****** ****** *)
 
 (*
 int json_object_array_add
@@ -229,6 +235,19 @@ fun json_object_array_add
   (jso: !json_object1, _val: json_object0): int = "mac#%"
 fun json_object_array_add2
   (jso: !json_object1, _val: json_object0): int = "mac#%"
+
+(* ****** ****** *)
+
+(*
+struct json_object*
+json_object_array_get_idx (struct json_object *obj, int idx)
+*)
+fun
+json_object_array_get_idx{l:agz}
+(
+  jso: !json_object(l), idx: intGte(0)
+) : [l2:agez] vtget0 (json_object(l), json_object(l2)) = "mac#%"
+// end of [json_object_array_get_idx]
 
 (* ****** ****** *)
 
@@ -244,19 +263,6 @@ json_object_array_put_idx
 ) : #[i:int | i <= 0] int (i) = "mac#%"
 fun json_object_array_put2_idx
   (jso: !json_object1, idx: intGte(0), _val: json_object0): int = "mac#%"
-
-(* ****** ****** *)
-
-(*
-struct json_object*
-json_object_array_get_idx (struct json_object *obj, int idx)
-*)
-fun
-json_object_array_get_idx{l:agz}
-(
-  jso: !json_object(l), idx: intGte(0)
-) : [l2:agez] vttakeout (json_object(l), json_object(l2)) = "mac#%"
-// end of [json_object_array_get_idx]
 
 (* ****** ****** *)
 
@@ -291,7 +297,7 @@ json_object_get_object(struct json_object *obj);
 *)
 fun json_object_get_object
   {l:agz} (jso: !json_object(l))
-  : [l2:agez] vttakeout (json_object l, lh_table l2) = "mac#%"
+  : [l2:agez] vtget0 (json_object l, lh_table l2) = "mac#%"
 // end of [json_object_get_object]
 
 (* ****** ****** *)
@@ -328,7 +334,7 @@ json_object_object_get(struct json_object* obj, const char *key);
 *)
 fun json_object_object_get
   {l:agz} (jso: !json_object l, key: string)
-  : [l2:agez] vttakeout (json_object l, json_object l2) 
+  : [l2:agez] vtget0 (json_object l, json_object l2) = "mac#%"
 // end of [json_object_object_get]
 
 (* ****** ****** *)

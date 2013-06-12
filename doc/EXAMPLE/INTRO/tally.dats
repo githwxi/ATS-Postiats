@@ -8,6 +8,7 @@
 
 staload "prelude/lmacrodef.sats"
 staload INT = "prelude/DATS/integer.dats"
+staload INTRANGE = "prelude/DATS/intrange.dats"
 
 (* ****** ****** *)
 
@@ -72,6 +73,31 @@ end // end of [tally4]
 
 (* ****** ****** *)
 
+fun tally5
+  (n: int): int = let
+//
+var res = 0: int
+prval pf_res = view@ (res)
+//
+implement{env}
+intrange_foreach$fwork
+  (i, env) = let
+  prval (pf_res, fpf) = decode ($vcopyenv_v (pf_res))
+  val () = res := res + i
+  prval () = fpf (pf_res)
+in
+  // nothing
+end
+val _ = intrange_foreach (1, n+1)
+//
+prval () = view@(res) := pf_res
+//
+in
+  res
+end // end of [tally5]
+
+(* ****** ****** *)
+
 implement 
 main () = let
   #define N 1000
@@ -79,6 +105,7 @@ main () = let
   val () = assertloc (tally2 (N) = N * (N+1) / 2)
   val () = assertloc (tally3 (N) = N * (N+1) / 2)
   val () = assertloc (tally4 (N) = N * (N+1) / 2)
+  val () = assertloc (tally5 (N) = N * (N+1) / 2)
 in
   0(*normalexit*)
 end // end of [main]

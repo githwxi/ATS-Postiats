@@ -742,7 +742,8 @@ d3exp_refarg (
 (* ****** ****** *)
 
 implement
-d3exp_arrinit (
+d3exp_arrinit
+(
   loc, s2e_arr, elt, asz, d3es
 ) = '{
   d3exp_loc= loc
@@ -751,7 +752,8 @@ d3exp_arrinit (
 } // end of [d3exp_arrinit]
 
 implement
-d3exp_arrpsz (
+d3exp_arrpsz
+(
   loc, s2f_arrpsz, s2e, d3es, asz
 ) = '{
   d3exp_loc= loc
@@ -762,7 +764,8 @@ d3exp_arrpsz (
 (* ****** ****** *)
 
 implement
-d3exp_raise (
+d3exp_raise
+(
   loc, s2f, d3e
 ) = '{
   d3exp_loc= loc
@@ -773,7 +776,8 @@ d3exp_raise (
 (* ****** ****** *)
 
 implement
-d3exp_effmask (
+d3exp_effmask
+(
   loc, s2fe, d3e
 ) = let
   val s2f = d3exp_get_type (d3e)
@@ -786,7 +790,20 @@ in '{
 (* ****** ****** *)
 
 implement
-d3exp_lam_dyn (
+d3exp_vcopyenv
+(
+  loc, s2f, knd, d2v
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Evcopyenv (knd, d2v)
+} // end of [d3exp_vcopyenv]
+
+(* ****** ****** *)
+
+implement
+d3exp_lam_dyn
+(
   loc, s2f_fun, lin, npf, arg, body
 ) = '{
   d3exp_loc= loc

@@ -1366,7 +1366,10 @@ and d0exp_node =
   | D0Eraise of (d0exp) // $raise
   | D0Eeffmask of (e0fftaglst, d0exp)
   | D0Eeffmask_arg of (int(*knd*), d0exp)
+//
   | D0Eshowtype of (d0exp) // $showtype
+//
+  | D0Evcopyenv of (int(*knd*), d0exp) // $vcopyenv_v/$vcopyenv_vt
 //
   | D0Eptrof of () // taking the addr of a left-value
   | D0Eviewat of () // taking the view at the addr of a left-value
@@ -1715,7 +1718,13 @@ fun d0exp_effmask_arg
   (knd: int, tok: token, d0e: d0exp): d0exp
 // end of [d0exp_effmask_arg]
 
+(* ****** ****** *)
+
 fun d0exp_showtype (tok: token, d0e: d0exp): d0exp
+
+(* ****** ****** *)
+
+fun d0exp_vcopyenv (knd: int, tok: token, d0e: d0exp): d0exp
 
 (* ****** ****** *)
 

@@ -758,6 +758,8 @@ and d2exp_node =
 //
   | D2Eshowtype of (d2exp) // $showtype: for debugging
 //
+  | D2Evcopyenv of (int(*knd*), d2exp) // $vcopyenv_v/$vcopyenv_vt
+//
   | D2Eexist of (s2exparg, d2exp) // witness-carrying expression
 //
   | D2Elam_dyn of (* boxed dynamic abstraction *)
@@ -1197,7 +1199,13 @@ fun d2exp_raise (loc: location, d2e: d2exp): d2exp
 
 fun d2exp_effmask (loc: location, s2fe: s2eff, d2e: d2exp): d2exp
 
+(* ****** ****** *)
+
 fun d2exp_showtype (loc: location, d2e: d2exp): d2exp
+
+(* ****** ****** *)
+
+fun d2exp_vcopyenv (loc: location, knd: int, d2e: d2exp): d2exp
 
 (* ****** ****** *)
 

@@ -359,7 +359,10 @@ and d1exp_node =
 //
   | D1Eraise of (d1exp) // raised exception
   | D1Eeffmask of (effcst(*eff*), d1exp(*body*)) // $effmask(...)
+//
   | D1Eshowtype of (d1exp) // $showtype: for debugging
+//
+  | D1Evcopyenv of (int(*knd*), d1exp) // $vcopyenv_v/$vcopyenv_vt
 //
   | D1Eptrof of d1exp // taking the address of
   | D1Eviewat of d1exp // taking view at a given address
@@ -683,6 +686,10 @@ fun d1exp_effmask_arg
 (* ****** ****** *)
 
 fun d1exp_showtype (loc: location, d1e: d1exp): d1exp
+
+(* ****** ****** *)
+
+fun d1exp_vcopyenv (loc: location, knd: int, d1e: d1exp): d1exp
 
 (* ****** ****** *)
 

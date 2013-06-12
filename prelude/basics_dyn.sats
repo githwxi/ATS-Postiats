@@ -203,6 +203,16 @@ stamped_vt2t
 
 (* ****** ****** *)
 //
+praxi
+vcopyenv_v_decode{v:view} (x: vcopyenv_v (v)): vtakeout0 (v)
+castfn
+vcopyenv_vt_decode{vt:vt0p} (x: vcopyenv_vt (vt)): vttakeout0 (vt)
+//
+overload decode with vcopyenv_v_decode
+overload decode with vcopyenv_vt_decode
+//
+(* ****** ****** *)
+//
 // HX: the_null_ptr = (void*)0
 //
 val the_null_ptr

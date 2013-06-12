@@ -686,6 +686,13 @@ d1exp_showtype (loc, d1e) =
 (* ****** ****** *)
 
 implement
+d1exp_vcopyenv (loc, knd, d1e) =
+  d1exp_make (loc, D1Evcopyenv (knd, d1e))
+// end of [d1exp_vcopyenv]
+
+(* ****** ****** *)
+
+implement
 d1exp_ptrof (loc, d1e) =
   d1exp_make (loc, D1Eptrof (d1e))
 

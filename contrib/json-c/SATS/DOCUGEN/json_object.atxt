@@ -69,9 +69,9 @@ ATSLIB/contrib/json-c/json_object\
 #declnamesynop("json_object_get_array")
 #declnamesynop("json_object_array_length")
 #declnamesynop("json_object_array_add")
+#declnamesynop("json_object_array_get_idx")
 #declnamesynop("json_object_array_put_idx")
 #declnamesynop("json_object_array_put2_idx")
-#declnamesynop("json_object_array_get_idx")
 
 (* ****** ****** *)
 

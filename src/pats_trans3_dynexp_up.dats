@@ -119,6 +119,11 @@ fun d2exp_trup_effmask (d2e0: d2exp): d3exp
 (* ****** ****** *)
 
 extern
+fun d2exp_trup_vcopyenv (d2e0: d2exp): d3exp
+
+(* ****** ****** *)
+
+extern
 fun d2exp_trup_arg_body (
   loc0: location
 , fc0: funclo, lin: int, npf: int, p2ts: p2atlst, d2e: d2exp
@@ -394,6 +399,8 @@ case+ d2e0.d2exp_node of
     val d3e = d2exp_trup (d2e)
     val () = fshowtype_d3exp (d3e)
   } // end of [D2Eshowtype]
+//
+| D2Evcopyenv _ => d2exp_trup_vcopyenv (d2e0)
 //
 | D2Elam_dyn _ => d2exp_trup_lam_dyn (d2e0)
 | D2Elaminit_dyn _ => d2exp_trup_laminit_dyn (d2e0)
@@ -1343,14 +1350,47 @@ end // end of [d2exp_trup_letwhere]
 implement
 d2exp_trup_effmask
   (d2e0) = let
-  val loc0 = d2e0.d2exp_loc
-  val-D2Eeffmask (s2fe, d2e) = d2e0.d2exp_node
-  val (pfpush | ()) = the_effenv_push_effmask (s2fe)
-  val d3e = d2exp_trup (d2e)
-  val () = the_effenv_pop (pfpush | (*none*))
+//
+val loc0 = d2e0.d2exp_loc
+val-D2Eeffmask (s2fe, d2e) = d2e0.d2exp_node
+val (pfpush | ()) = the_effenv_push_effmask (s2fe)
+val d3e = d2exp_trup (d2e)
+val () = the_effenv_pop (pfpush | (*none*))
+//
 in
   d3exp_effmask (loc0, s2fe, d3e)
 end // end of [d2exp_trup_effmask]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_vcopyenv
+  (d2e0) = let
+//
+val loc0 = d2e0.d2exp_loc
+val-D2Evcopyenv (knd, d2e) = d2e0.d2exp_node
+//
+in
+//
+case+
+  d2e.d2exp_node of
+| D2Evar (d2v) => let
+    val opt = d2var_get_type (d2v)
+    val s2f = (
+      case+ opt of
+      | Some s2e => let
+          val isprf = test_prfkind (knd)
+        in
+          if isprf then s2exp_vcopyenv_v (s2e) else s2exp_vcopyenv_vt (s2e)
+        end // end of [Some]
+      | None () => s2exp_void_t0ype ()
+    ) : s2exp // end of [val]
+  in
+    d3exp_vcopyenv (loc0, s2f, knd, d2v)
+  end // end of [D2Evar]
+| _(*non-var*) => d2exp_trup (d2e) // HX: ignoring [$vcopyenv]
+//
+end // end of [d2exp_trup_vcopyenv]
 
 (* ****** ****** *)
 

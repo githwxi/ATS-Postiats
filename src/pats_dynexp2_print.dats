@@ -617,6 +617,14 @@ case+ d2e0.d2exp_node of
     val () = prstr ")"
   } // end of [D2Eshowtype]
 //
+| D2Evcopyenv (knd, d2e) => {
+    val () = prstr "D2Evcopyenv("
+    val () = fprint_int (out, knd)
+    val () = prstr ", "
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Evcopyenv]
+//
 | D2Eselab (d2e, d2ls) => {
     val () = prstr "D2Eselab("
     val () = fprint_d2exp (out, d2e)

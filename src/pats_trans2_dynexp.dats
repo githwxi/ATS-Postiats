@@ -1467,6 +1467,8 @@ case+ d1e0.d1exp_node of
 //
 | D1Eshowtype (d1e) => d2exp_showtype (loc0, d1exp_tr d1e)
 //
+| D1Evcopyenv (knd, d1e) => d2exp_vcopyenv (loc0, knd, d1exp_tr d1e)
+//
 | D1Eptrof (d1e) => d2exp_ptrof (loc0, d1exp_tr d1e)
 | D1Eviewat (d1e) => d2exp_viewat (loc0, d1exp_tr d1e)
 //

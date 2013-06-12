@@ -471,7 +471,8 @@ case+ d3e0.d3exp_node of
     val () = fprint_int (out, asz)
     val () = prstr ")"
   }
-| D3Earrinit (
+| D3Earrinit
+  (
     s2e_elt, d3e_asz, d3es_elt
   ) => {
     val () = prstr "D3Earrinit("
@@ -494,6 +495,15 @@ case+ d3e0.d3exp_node of
     val () = fprint_s2eff (out, s2fe)
     val () = prstr "; "
     val () = fprint_d3exp (out, d3e)
+    val () = prstr ")"
+  }
+//
+| D3Evcopyenv
+    (knd, d2v) => {
+    val () = prstr "D3Evcopyenv("
+    val () = fprint_int (out, knd)
+    val () = prstr ", "
+    val () = fprint_d2var (out, d2v)
     val () = prstr ")"
   }
 //

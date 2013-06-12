@@ -352,6 +352,8 @@ and d3exp_node =
 //
   | D3Eeffmask of (s2eff, d3exp) // $effmask(s2eff, d3exp)
 //
+  | D3Evcopyenv of (int(*knd*), d2var) // $vcopyenv_v/vcopyenv_vt
+//
   | D3Elam_dyn of // dynamic abstraction
       (int(*lin*), int(*npf*), p3atlst, d3exp)
   | D3Elaminit_dyn of // dynamic flat funtion closure
@@ -745,6 +747,11 @@ fun d3exp_raise
 fun d3exp_effmask
   (loc: location, s2fe: s2eff, d3e: d3exp): d3exp
 // end of [d3exp_effmask]
+
+(* ****** ****** *)
+
+fun d3exp_vcopyenv
+  (loc: location, s2f: s2exp, knd: int, d2v: d2var): d3exp
 
 (* ****** ****** *)
 

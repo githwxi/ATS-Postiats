@@ -983,8 +983,17 @@ case+ x.d0exp_node of
     val () = fprint_d0exp (out, d0e)
     val () = prstr ")"
   }
+//
 | D0Eshowtype (d0e) => {
     val () = prstr "D0Eshowtype("
+    val () = fprint_d0exp (out, d0e)
+    val () = prstr ")"
+  }
+//
+| D0Evcopyenv (knd, d0e) => {
+    val () = prstr "D0Evcopyenv("
+    val () = fprint_int (out, knd)
+    val () = prstr ", "
     val () = fprint_d0exp (out, d0e)
     val () = prstr ")"
   }

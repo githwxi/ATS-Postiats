@@ -178,10 +178,8 @@ implement FREEAT = T_FREEAT
 
 (* ****** ****** *)
 
-implement
-DLRDELAY = T_DLRDELAY (TYPE_int)
-implement
-DLRLDELAY = T_DLRDELAY (VIEWTYPE_int)
+implement DLRDELAY = T_DLRDELAY (TYPE_int)
+implement DLRLDELAY = T_DLRDELAY (VIEWTYPE_int)
 
 (* ****** ****** *)
 //
@@ -215,6 +213,13 @@ implement
 DLRTUP_T = T_DLRTUP (TYTUPKIND_box_t)
 implement
 DLRTUP_VT = T_DLRTUP (TYTUPKIND_box_vt)
+
+(* ****** ****** *)
+
+implement
+DLRVCOPYENV_V = T_DLRVCOPYENV (VIEW_int)
+implement
+DLRVCOPYENV_VT = T_DLRVCOPYENV (VIEWTYPE_int)
 
 (* ****** ****** *)
 
@@ -523,11 +528,14 @@ val () = ins ("$break", T_DLRBREAK)
 val () = ins ("$continue", T_DLRCONTINUE)
 val () = ins ("$raise", T_DLRRAISE)
 //
-val () = ins ("$showtype", T_DLRSHOWTYPE)
-//
 val () = ins ("$myfilename", T_DLRMYFILENAME)
 val () = ins ("$mylocation", T_DLRMYLOCATION)
 val () = ins ("$myfunction", T_DLRMYFUNCTION)
+//
+val () = ins ("$showtype", T_DLRSHOWTYPE)
+//
+val () = ins ("$vcopyenv_v", DLRVCOPYENV_V)
+val () = ins ("$vcopyenv_vt", DLRVCOPYENV_VT)
 //
 val () = ins ("#assert", T_SRPASSERT)
 val () = ins ("#define", T_SRPDEFINE)

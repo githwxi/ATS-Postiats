@@ -1147,6 +1147,30 @@ s2exp_bottom_vt0ype_exi () =
 (* ****** ****** *)
 
 implement
+the_vcopyenv_view_view =
+  s2cstref_make "vcopyenv_view_view"
+implement
+s2exp_vcopyenv_v (s2e) = let
+  val s2c = s2cstref_get_cst (the_vcopyenv_view_view)
+in
+  s2exp_cstapp (s2c, list_sing (s2e))
+end // end of [s2exp_vcopyenv_v]
+
+(* ****** ****** *)
+
+implement
+the_vcopyenv_vt0ype_vt0ype =
+  s2cstref_make "vcopyenv_vt0ype_vt0ype"
+implement
+s2exp_vcopyenv_vt (s2e) = let
+  val s2c = s2cstref_get_cst (the_vcopyenv_vt0ype_vt0ype)
+in
+  s2exp_cstapp (s2c, list_sing (s2e))
+end // end of [s2exp_vcopyenv_vt]
+
+(* ****** ****** *)
+
+implement
 the_effnil = s2cstref_make "effnil"
 implement
 the_effall = s2cstref_make "effall"

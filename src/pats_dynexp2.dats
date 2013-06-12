@@ -655,10 +655,20 @@ d2exp_effmask
   d2exp_make_node (loc, D2Eeffmask (s2fe, d2e))
 // end of [d2exp_effmask]
 
+(* ****** ****** *)
+
 implement
 d2exp_showtype
   (loc, d2e) =
   d2exp_make_node (loc, D2Eshowtype (d2e))
+
+(* ****** ****** *)
+
+implement
+d2exp_vcopyenv
+  (loc, knd, d2e) =
+  d2exp_make_node (loc, D2Evcopyenv (knd, d2e))
+// end of [d2exp_vcopyenv]
 
 (* ****** ****** *)
 

@@ -177,11 +177,10 @@ token_node =
 //
   | T_DLRARRPSZ of () // $arrpsz // $arrptrsize
 //
-  | T_DLRDELAY of (int) // $delay(0) and $ldelay(1)
+  | T_DLRDELAY of (int(*lin*)) // $delay(type)/$ldelay(vtype)
 //
   | T_DLREFFMASK of () // $effmask
-  | T_DLREFFMASK_ARG of
-      (int) // ntm(0), exn(1), ref(2), wrt(3), all(4)
+  | T_DLREFFMASK_ARG of (int) // ntm(0), exn(1), ref(2), wrt(3), all(4)
 //
   | T_DLREXTERN of () // $extern
   | T_DLREXTKIND of () // $extkind
@@ -203,6 +202,8 @@ token_node =
   | T_DLRMYFUNCTION of () // $myfunction
 //
   | T_DLRSHOWTYPE of () // $showtype // for debugging purpose
+//
+  | T_DLRVCOPYENV of (int) // $vcopyenv_v(v)/$vcopyenv_vt(vt)
 //
   | T_SRPASSERT of () // #assert
   | T_SRPDEFINE of () // #define
@@ -414,6 +415,9 @@ val DLRREC_VT : tnode
 val DLRTUP : tnode
 val DLRTUP_T : tnode
 val DLRTUP_VT : tnode
+
+val DLRVCOPYENV_V : tnode
+val DLRVCOPYENV_VT : tnode
 
 (* ****** ****** *)
 
