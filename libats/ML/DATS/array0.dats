@@ -106,6 +106,16 @@ end // end of [array0_make_list]
 (* ****** ****** *)
 
 implement{a}
+array0_make_rlist
+  (xs) = let
+  val ASZ = arrszref_make_rlist ((list_of_list0)xs)
+in
+  array0_of_arrszref (ASZ)
+end // end of [array0_make_rlist]
+
+(* ****** ****** *)
+
+implement{a}
 fprint_array0 (out, A) =
   fprint_arrszref (out, arrszref_of_array0 (A))
 // end of [fprint_array0]

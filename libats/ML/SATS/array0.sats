@@ -104,6 +104,11 @@ fun{a:t0p}
 array0_make_list
   (xs: list0 (INV(a))):<!wrt> array0 (a)
 
+fun{a:t0p}
+array0_make_rlist
+  (xs: list0 (INV(a))):<!wrt> array0 (a)
+// end of [array0_make_rlist]
+
 (* ****** ****** *)
 
 fun{a:t0p}

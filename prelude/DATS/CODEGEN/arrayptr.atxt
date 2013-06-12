@@ -94,6 +94,24 @@ in
 end // end of [arrayptr_make_list]
 
 implement{a}
+arrayptr_make_rlist
+  (asz, xs) = let
+//
+prval () = lemma_list_param (xs)
+//
+val (
+  pf, pfgc | p
+) = array_ptr_alloc<a> (i2sz(asz))
+//
+val () = array_initize_rlist<a> (!p, asz, xs)
+//
+in
+  arrayptr_encode(pf, pfgc | p)
+end // end of [arrayptr_make_rlist]
+
+#atscode_separator()
+
+implement{a}
 arrayptr_make_list_vt
   (asz, xs) = let
 //
@@ -107,6 +125,21 @@ val () = array_initize_list_vt<a> (!p, asz, xs)
 in
   arrayptr_encode(pf, pfgc | p)
 end // end of [arrayptr_make_list_vt]
+
+implement{a}
+arrayptr_make_rlist_vt
+  (asz, xs) = let
+//
+prval () = lemma_list_vt_param (xs)
+//
+val (
+ pf, pfgc | p
+) = array_ptr_alloc<a> (i2sz(asz))
+val () = array_initize_rlist_vt<a> (!p, asz, xs)
+//
+in
+  arrayptr_encode(pf, pfgc | p)
+end // end of [arrayptr_make_rlist_vt]
 
 #atscode_separator()
 

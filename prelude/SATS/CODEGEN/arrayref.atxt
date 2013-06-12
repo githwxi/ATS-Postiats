@@ -101,6 +101,11 @@ arrayref_make_list{n:int}
   (asz: int n, xs: list (INV(a), n)):<!wrt> arrayref (a, n)
 // end of [arrayref_make_list]
 
+fun{a:t0p}
+arrayref_make_rlist{n:int}
+  (asz: int n, xs: list (INV(a), n)):<!wrt> arrayref (a, n)
+// end of [arrayref_make_rlist]
+
 #atscode_separator()
 
 (*
@@ -328,9 +333,15 @@ fun{a:t0p}
 arrszref_make_elt (asz: size_t, x: a):<!wrt> arrszref (a)
 // end of [arrszref_make_elt]
 
+#atscode_separator()
+
 fun{a:t0p}
 arrszref_make_list (xs: List (INV(a))):<!wrt> arrszref (a)
 // end of [arrszref_make_list]
+
+fun{a:t0p}
+arrszref_make_rlist (xs: List (INV(a))):<!wrt> arrszref (a)
+// end of [arrszref_make_rlist]
 
 #atscode_separator()
 

@@ -326,7 +326,7 @@ fun loop
   if n > 0 then let
     prval (pf1, pf2) = array_v_uncons (pf)
     val () = res := list_vt_cons {a}{0} (!p, _)
-    val+ list_vt_cons (_, res1) = res
+    val+list_vt_cons (_, res1) = res
     val () = loop (pf2 | ptr1_succ<a> (p), pred(n), res1)
     prval () = pf := array_v_cons (pf1, pf2)
     prval () = fold@ (res)
@@ -666,57 +666,177 @@ end // end of [array_initize_elt]
 
 implement{a}
 array_initize_list
-  (A, asz, xs) = let
-//
+  {n} (A, asz, xs) = let
+//;
 typedef list0 = listGte (a, 0)
 typedef list1 = listGte (a, 1)
 //
+fun loop
+(
+  p: ptr, p1: ptr, xs: list0
+) : void = let
+in
+//
+if p < p1 then let
+  val xs =
+    $UN.cast{list1}(xs)
+  val+list_cons (x, xs) = xs
+  val () = $UN.ptr0_set<a> (p, x)
+  val p = ptr_succ<a> (p)
+in
+  loop (p, p1, xs)
+end else () // end of [if]
+//
+end // end of [loop]
+//
 prval () = lemma_list_param (xs)
 //
-var xs = $UN.cast2ptr (xs)
-val p_xs = $UN.cast{Ptr1} (addr@ (xs))
+val p = addr@(A)
+val p1 = ptr_add<a> (p, asz)
+val () = $effmask_all(loop (p, p1, xs))
 //
-implement
-array_initize$init<a>
-  (i, xi) = let
-  val+ list_cons
-    (x, xs) = $UN.ptr1_get<list1> (p_xs)
-  val () = $UN.ptr1_set<list0> (p_xs, xs)
-in
-  xi := x
-end // end of [array_initize$init]
+prval (
+) = __assert (A) where
+{
+extern praxi __assert (A: &array(a?, n) >> array(a, n)): void
+} (* end of [prval] *)
 //
 in
-  $effmask_all (array_initize (A, i2sz(asz)))
+  // nothing
 end // end of [array_initize_list]
 
 #atscode_separator()
 
 implement{a}
-array_initize_list_vt
-  (A, asz, xs) = let
+array_initize_rlist
+  {n} (A, asz, xs) = let
+//;
+typedef list0 = listGte (a, 0)
+typedef list1 = listGte (a, 1)
 //
-viewtypedef list0 = listGte_vt (a, 0)
-viewtypedef list1 = listGte_vt (a, 1)
+fun loop
+(
+  p: ptr, p0: ptr, xs: list0
+) : void = let
+in
+//
+if p > p0 then let
+  val xs =
+    $UN.cast{list1}(xs)
+  val+list_cons (x, xs) = xs
+  val p = ptr_pred<a> (p)
+  val () = $UN.ptr0_set<a> (p, x)
+in
+  loop (p, p0, xs)
+end else () // end of [if]
+//
+end // end of [loop]
+//
+prval () = lemma_list_param (xs)
+//
+val p0 = addr@(A)
+val p = ptr_add<a> (p0, asz)
+val () = $effmask_all(loop (p, p0, xs))
+//
+prval (
+) = __assert (A) where
+{
+extern praxi __assert (A: &array(a?, n) >> array(a, n)): void
+} (* end of [prval] *)
+//
+in
+  // nothing
+end // end of [array_initize_rlist]
+
+#atscode_separator()
+
+implement{a}
+array_initize_list_vt
+  {n} (A, asz, xs) = let
+//;
+vtypedef list0 = listGte_vt (a, 0)
+vtypedef list1 = listGte_vt (a, 1)
+//
+fun loop
+(
+  p: ptr, p1: ptr, xs: list0
+) : void = let
+in
+//
+if p < p1 then let
+  val xs =
+    $UN.castvwtp0{list1}(xs)
+  val+~list_vt_cons (x, xs) = xs
+  val () = $UN.ptr0_set<a> (p, x)
+  val p = ptr_succ<a> (p)
+in
+  loop (p, p1, xs)
+end else let
+  prval () = $UN.cast2void (xs) in (*nothing*)
+end // end of [if]
+//
+end // end of [loop]
 //
 prval () = lemma_list_vt_param (xs)
 //
-var xs = castvwtp_trans {ptr} (xs)
-val p_xs = $UN.cast{Ptr1} (addr@ (xs))
+val p = addr@(A)
+val p1 = ptr_add<a> (p, asz)
+val () = $effmask_all(loop (p, p1, xs))
 //
-implement
-array_initize$init<a>
-  (i, xi) = let
-  val+ ~list_vt_cons
-    (x, xs) = $UN.ptr1_get<list1> (p_xs)
-  val () = $UN.ptr1_set<list0> (p_xs, xs)
-in
-  xi := x
-end // end of [array_initize$init]
+prval (
+) = __assert (A) where
+{
+extern praxi __assert (A: &array(a?, n) >> array(a, n)): void
+} (* end of [prval] *)
 //
 in
-  $effmask_all (array_initize (A, i2sz(asz)))
+  // nothing
 end // end of [array_initize_list_vt]
+
+#atscode_separator()
+
+implement{a}
+array_initize_rlist_vt
+  {n} (A, asz, xs) = let
+//;
+vtypedef list0 = listGte_vt (a, 0)
+vtypedef list1 = listGte_vt (a, 1)
+//
+fun loop
+(
+  p: ptr, p0: ptr, xs: list0
+) : void = let
+in
+//
+if p > p0 then let
+  val xs =
+    $UN.castvwtp0{list1}(xs)
+  val+~list_vt_cons (x, xs) = xs
+  val p = ptr_pred<a> (p)
+  val () = $UN.ptr0_set<a> (p, x)
+in
+  loop (p, p0, xs)
+end else let
+  prval () = $UN.cast2void (xs) in (*nothing*)
+end // end of [if]
+//
+end // end of [loop]
+//
+prval () = lemma_list_vt_param (xs)
+//
+val p0 = addr@(A)
+val p = ptr_add<a> (p0, asz)
+val () = $effmask_all(loop (p, p0, xs))
+//
+prval (
+) = __assert (A) where
+{
+extern praxi __assert (A: &array(a?, n) >> array(a, n)): void
+} (* end of [prval] *)
+//
+in
+  // nothing
+end // end of [array_initize_rlist_vt]
 
 #atscode_separator()
 

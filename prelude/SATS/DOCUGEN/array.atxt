@@ -597,6 +597,20 @@ The default implementation of this function always returns true.\
 
 (* ****** ****** *)
 
+#declnamesynop("array_initize_elt")
+
+(* ****** ****** *)
+
+#declnamesynop("array_initize_list")
+#declnamesynop("array_initize_rlist")
+
+(* ****** ****** *)
+
+#declnamesynop("array_initize_list_vt")
+#declnamesynop("array_initize_rlist_vt")
+
+(* ****** ****** *)
+
 #declnamesynop("array_uninitize")
 #declnamesynop("array_uninitize$clear")
 

@@ -170,11 +170,21 @@ fun{a:t0p}
 arrayptr_make_list{n:int}
   (asz: int n, xs: list (INV(a), n)):<!wrt> arrayptr (a, n)
 // end of [arrayptr_make_list]
+fun{a:t0p}
+arrayptr_make_rlist{n:int}
+  (asz: int n, xs: list (INV(a), n)):<!wrt> arrayptr (a, n)
+// end of [arrayptr_make_rlist]
+
+#atscode_separator()
 
 fun{a:vt0p}
 arrayptr_make_list_vt{n:int}
   (asz: int n, xs: list_vt (INV(a), n)):<!wrt> arrayptr (a, n)
 // end of [arrayptr_make_list_vt]
+fun{a:vt0p}
+arrayptr_make_rlist_vt{n:int}
+  (asz: int n, xs: list_vt (INV(a), n)):<!wrt> arrayptr (a, n)
+// end of [arrayptr_make_rlist_vt]
 
 #atscode_separator()
 

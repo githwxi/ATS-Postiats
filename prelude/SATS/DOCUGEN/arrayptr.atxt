@@ -101,13 +101,24 @@ This function creates an arrayptr-value of a given size n (first argument)
 and then initializes it with a given list (second argument) of length n.
 
 ")
+#declnamesynop("arrayptr_make_rlist")
+#decldescrpt("\
+
+This function creates an arrayptr-value of a given size n (first argument)
+and then initializes it with the reverse of a given list (second argument)
+of length n.
+
+")
+
+(* ****** ****** *)
 
 #declnamesynop("arrayptr_make_list_vt")
 #decldescrpt("\
 
 This function creates an arrayptr-value of a given size n (first argument)
-and then initializes it with a given linear list (second argument) of
-length n. Note that the linear list is consumed after the function returns.
+and then initializes it with the reverse of a given linear list (second
+argument) of length n. Note that the linear list is consumed after the
+function returns.
 
 ")
 
