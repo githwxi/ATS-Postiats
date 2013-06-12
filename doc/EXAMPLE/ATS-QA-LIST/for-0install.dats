@@ -1,4 +1,17 @@
 (*
+Here is my own attempt of writing the Python program in ATS:
+http://roscidus.com/blog/blog/2013/06/09/choosing-a-python-replacement-for-0install/
+*)
+
+(* ****** ****** *)
+//
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
+// Time: June, 2013
+//
+(* ****** ****** *)
+
+(*
 import os, sys, json
 envname = os.path.basename(sys.argv[0])
 args = json.loads(os.environ["0install-runenv-" + envname])

@@ -69,9 +69,9 @@ arrszref_of_array0
 (* ****** ****** *)
 
 fun{}
-array0_get_ref {a:t0p} (A: array0 a):<> Ptr1
+array0_get_ref {a:vt0p} (A: array0 a):<> Ptr1
 fun{}
-array0_get_size {a:t0p} (A: array0 a):<> size_t
+array0_get_size {a:vt0p} (A: array0 a):<> size_t
 
 fun{}
 array0_get_refsize{a:vt0p}
@@ -185,21 +185,35 @@ array0_append
 
 (* ****** ****** *)
 
-fun{a:t0p}
+fun{
+a:vt0p}{b:vt0p
+} array0_map
+  (A: array0 (a), f: (&a) -<cloref1> b): array0 (b)
+// end of [array0_map]
+
+fun{
+a:vt0p}{b:vt0p
+} array0_mapopt
+  (A: array0 (a), f: (&a) -<cloref1> Option_vt (b)): array0 (b)
+// end of [array0_mapopt]
+
+(* ****** ****** *)
+
+fun{a:vt0p}
 array0_tabulate
   (asz: size_t, f: (size_t) -<cloref1> a): array0 (a)
 // end of [array0_tabulate]
 
 (* ****** ****** *)
 
-fun{a:t0p}
+fun{a:vt0p}
 array0_foreach
-  (A: array0 (a), f: (&a) -<cloref1> void): void
+  (A: array0 (a), f: (&a >> _) -<cloref1> void): void
 // end of [array0_foreach]
 
-fun{a:t0p}
+fun{a:vt0p}
 array0_iforeach
-  (A: array0 (a), f: (size_t, &a) -<cloref1> void): void
+  (A: array0 (a), f: (size_t, &a >> _) -<cloref1> void): void
 // end of [array0_iforeach]
 
 (* ****** ****** *)
@@ -207,12 +221,12 @@ array0_iforeach
 (*
 ** HX: raising NotFoundExn if no satisfying element is found
 *)
-fun{a:t0p}
+fun{a:vt0p}
 array0_find_exn
   (A: array0 (a), p: (&a) -<cloref1> bool): size_t
 // end of [array0_find_exn]
 
-fun{a:t0p}
+fun{a:vt0p}
 array0_find_opt
   (A: array0 (a), p: (&a) -<cloref1> bool): option0 (size_t)
 // end of [array0_find_opt]
@@ -220,14 +234,14 @@ array0_find_opt
 (* ****** ****** *)
 
 fun{
-a:t0p}{res:t0p
+a:vt0p}{res:vt0p
 } array0_foldleft
 (
   A: array0 (a), ini: res, f: (res, &a) -<cloref1> res
 ) : res // end of [array0_foldleft]
 
 fun{
-a:t0p}{res:t0p
+a:vt0p}{res:vt0p
 } array0_ifoldleft
 (
   A: array0 (a), ini: res, f: (res, size_t, &a) -<cloref1> res
@@ -235,16 +249,17 @@ a:t0p}{res:t0p
 
 (* ****** ****** *)
 
-fun{a:t0p}
+fun{a:vt0p}
 array0_rforeach
-  (A: array0 (a), f: (&a) -<cloref1> void): void
+  (A: array0 (a), f: (&a >> _) -<cloref1> void): void
 // end of [array0_rforeach]
 
 (* ****** ****** *)
 
 fun{
-a:t0p}{res:t0p
-} array0_foldright (
+a:vt0p}{res:vt0p
+} array0_foldright
+(
   A: array0 (a), f: (&a, res) -<cloref1> res, snk: res
 ) : res // end of [array0_foldright]
 

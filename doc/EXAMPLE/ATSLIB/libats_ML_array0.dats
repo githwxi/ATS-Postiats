@@ -32,9 +32,14 @@ val out = stdout_ref
 //
 val () = fprintln! (out, "A = ", A)
 //
+val A2 = array0_map<int><int> (A, lam (x) => 2 * x)
+//
+local
 implement
 fprint_array$sep<> (out) = fprint (out, "| ")
-val () = fprintln! (out, "A = ", A)
+in
+val () = fprintln! (out, "A2 = ", A2)
+end // end of [local]
 //
 val sum = array0_foldleft<int><int> (A, 0, lam (res, x) => res + x)
 val () = fprintln! (out, "sum(45) = ", sum)

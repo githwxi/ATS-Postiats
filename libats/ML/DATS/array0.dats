@@ -272,6 +272,22 @@ end // end of [array0_append]
 
 (* ****** ****** *)
 
+implement
+{a}{b}
+array0_map
+  (A, f) = let
+//
+val p0 = array0_get_ref (A)
+val asz = array0_get_size (A)
+//
+val f = $UN.cast{cfun1(ptr, b)}(f)
+//
+in
+  array0_tabulate<b> (asz, lam i => f (ptr_add<a> (p0, i)))
+end // end of [array0_map]
+
+(* ****** ****** *)
+
 implement{a}
 array0_tabulate
   (asz, f) = let
