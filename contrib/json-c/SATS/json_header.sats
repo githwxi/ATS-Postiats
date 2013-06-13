@@ -5,8 +5,8 @@
 
 (* ****** ****** *)
 
-#ifndef JSON_JSON_HEADER_HATS
-#define JSON_JSON_HEADER_HATS
+#ifndef JSON_JSON_HEADER_SATS
+#define JSON_JSON_HEADER_SATS
 
 (* ****** ****** *)
 //
@@ -185,7 +185,7 @@ json_tokener1 = [l:addr | l >  null] json_tokener (l)
 
 (* ****** ****** *)
 
-#endif // end of [JSON_JSON_HEADER_HATS]
+#endif // end of [JSON_JSON_HEADER_SATS]
 
 (* ****** ****** *)
 

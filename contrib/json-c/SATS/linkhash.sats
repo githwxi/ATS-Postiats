@@ -11,8 +11,21 @@
 
 (* ****** ****** *)
 
-#include "./json_header.sats"
-
+staload JSON = "./json.sats"
+//
+stadef json_bool = $JSON.json_bool
+//
+stadef lh_entry = $JSON.lh_entry
+stadef lh_entry0 = $JSON.lh_entry0
+stadef lh_entry1 = $JSON.lh_entry1
+stadef lh_entry_free_fn_type = $JSON.lh_entry_free_fn_type
+//
+stadef lh_table = $JSON.lh_table
+stadef lh_table0 = $JSON.lh_table0
+stadef lh_table1 = $JSON.lh_table1
+stadef lh_hash_fn_type = $JSON.lh_hash_fn_type
+stadef lh_equal_fn_type = $JSON.lh_equal_fn_type
+//
 (* ****** ****** *)
 
 castfn

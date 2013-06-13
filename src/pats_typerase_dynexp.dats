@@ -438,12 +438,13 @@ case+
   d3e0.d3exp_node of
 //
 | D3Evar (d2v) => let
-    val () = d2var_inc_utimes (d2v)
+    val (
+    ) = d2var_inc_utimes (d2v)
   in
     hidexp_var (loc0, hse0, d2v)
   end // end of [D3Evar]
-| D3Ecst (d2c) =>
-    d3exp_tyer_cst (loc0, hse0, d2c)
+//
+| D3Ecst (d2c) => d3exp_tyer_cst (loc0, hse0, d2c)
 //
 | D3Eint (i) =>
     hidexp_int (loc0, hse0, i)
@@ -739,6 +740,10 @@ case+
   end // end of [D3Eraise]
 //
 | D3Eeffmask (_, d3e) => d3exp_tyer (d3e)
+//
+| D3Evcopyenv (knd, d2v) => let
+    val () = d2var_inc_utimes (d2v) in hidexp_var (loc0, hse0, d2v)
+  end // end of [D3Evcopyenv]
 //
 | D3Elam_dyn (
     lin, npf, p3ts_arg, d3e_body

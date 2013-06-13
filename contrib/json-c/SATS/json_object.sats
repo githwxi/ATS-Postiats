@@ -340,6 +340,19 @@ fun json_object_object_get
 (* ****** ****** *)
 
 fun{env:vt0p}
+json_object_iforeach$cont
+  (i: int, v: !json_object0, env: &env): bool
+fun{env:vt0p}
+json_object_iforeach$fwork
+  (i: int, v: !json_object0, env: &env >> _): void
+fun{}
+json_object_iforeach (jso: !json_object1): void
+fun{env:vt0p}
+json_object_iforeach_env (jso: !json_object1, env: &env >> _): void
+
+(* ****** ****** *)
+
+fun{env:vt0p}
 json_object_kforeach$cont
   (k: !Strptr1, v: !json_object0, env: &env): bool
 fun{env:vt0p}

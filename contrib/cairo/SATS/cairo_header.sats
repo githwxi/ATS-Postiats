@@ -40,8 +40,8 @@
 
 (* ****** ****** *)
 
-#ifndef CAIRO_CAIRO_HEADER_HATS
-#define CAIRO_CAIRO_HEADER_HATS
+#ifndef CAIRO_CAIRO_HEADER_SATS
+#define CAIRO_CAIRO_HEADER_SATS
 
 (* ****** ****** *)
 //
@@ -463,7 +463,7 @@ cairo_device_acquire_v_free_none
 
 (* ****** ****** *)
 
-#endif // end of [CAIRO_CAIRO_HEADER_HATS]
+#endif // end of [CAIRO_CAIRO_HEADER_SATS]
 
 (* ****** ****** *)
 

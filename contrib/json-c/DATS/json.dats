@@ -41,6 +41,7 @@ UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload "json-c/SATS/json.sats"
+staload "json-c/SATS/arraylist.sats"
 
 (* ****** ****** *)
 
@@ -90,6 +91,71 @@ end // end of [fprint_json_object_ext]
 (* ****** ****** *)
 
 implement{env}
+json_object_iforeach$cont (i, v, env) = true
+
+(*
+implement{env}
+json_object_iforeach$fwori (i, v, env) = ()
+*)
+
+implement{}
+json_object_iforeach
+  (jso) = let
+  var env: void = ()
+in
+  json_object_iforeach_env<void> (jso, env)
+end // end of [json_object_iforeach]
+
+implement{env}
+json_object_iforeach_env
+  (jso, env) = let
+//
+stadef jso = json_object
+//
+fun loop
+(
+  alst: !array_list1
+, n: int, i: intGte(0), env: &(env) >> _
+) : void = let
+in
+//
+if i < n then let
+  val [l:addr]
+    jsi = array_list_get_idx (alst, i)
+  val jsi = $UN.castvwtp0{jso(l)}(jsi)
+  val cont = json_object_iforeach$cont (i, jsi, env)
+  val () = if cont then json_object_iforeach$fwork (i, jsi, env)
+  prval () = $UN.cast2void (jsi)
+in
+  loop (alst, n, i+1, env)
+end else () // end of [if]
+//
+end // end of [loop]
+//
+val isarr =
+json_object_is_type (jso, json_type_array)
+val () =
+if (isarr = 0) then
+{
+val (
+) = assertmsgloc (false
+, "[json_object_iforeach] is applied to a non-array json object:\n"
+) (* end of [val] *)
+}
+//
+val (fpf | alst) = json_object_get_array (jso)
+//
+val () = assertloc (ptrcast (alst) > 0)
+val () = loop (alst, array_list_length (alst), 0, env)
+prval () = minus_addback (fpf, alst | jso)
+//
+in
+  // nothing
+end // end of [json_object_iforeach_env]
+
+(* ****** ****** *)
+
+implement{env}
 json_object_kforeach$cont (k, v, env) = true
 
 (*
@@ -134,9 +200,16 @@ end else () // end of [if]
 //
 end // end of [loop]
 //
+val isobj =
+json_object_is_type (jso, json_type_object)
+val () =
+if (isobj = 0) then
+{
 val (
-) = assertloc
-  (json_object_is_type (jso, json_type_object) != 0)
+) = assertmsgloc (false
+, "[json_object_kforeach] is applied to a non-object json-object:\n"
+) (* end of [val] *)
+}
 //
 var jsi = json_object_iter_begin (jso)
 var jsiEnd = json_object_iter_end (jso)

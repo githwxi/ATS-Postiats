@@ -10,9 +10,13 @@
 #define ATS_EXTERN_PREFIX "atscntrb_" // prefix for external names
 
 (* ****** ****** *)
-
-#include "./json_header.sats"
-
+//
+staload JSON = "./json.sats"
+//
+stadef printbuf = $JSON.printbuf
+stadef printbuf0 = $JSON.printbuf0
+stadef printbuf1 = $JSON.printbuf1
+//
 (* ****** ****** *)
 
 castfn
