@@ -74,6 +74,10 @@ val DA = dynarray_make_nil<T> (i2sz(argc+alen+1))
 //
 val () = dynarray_insert_atend_exn (DA, argv[0])
 //
+// HX-2013-06:
+// $vcopyenv is a new feature in ATS2; it should
+// be used judiciously :)
+//
 local
 implement{env}
 json_object_iforeach$fwork

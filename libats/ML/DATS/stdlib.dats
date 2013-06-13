@@ -58,7 +58,7 @@ if isneqz (str) then
 else let
   prval (
   ) = strptr_free_null (str)
-  val () = prerrln! "exit(ATS): [getenv_exn]: undefined variable: [" name "]"
+  val () = prerrln! "exit(ATS): [getenv_exn]: variable [" name "] is undefined."
 in
   exit (1)
 end // end of [if]
@@ -83,6 +83,29 @@ in
 end (* end of [if] *)
 //
 end // end of [getenv_opt]
+
+(* ****** ****** *)
+
+implement{}
+setenv_exn
+  (name, value, ow) = let
+//
+val err = $STDLIB.setenv (name, value, ow)
+//
+in
+//
+if err < 0 then let
+  val () = prerrln! "exit(ATS): [setenv_exn]: variable: [" name "] cannot be set."
+in
+  exit (1)
+end else () // end of [if]
+//
+end // end of [setenv_err]
+
+implement{}
+setenv_err
+  (name, value, ow) = $STDLIB.setenv (name, value, ow)
+// end of [setenv_err]
 
 (* ****** ****** *)
 

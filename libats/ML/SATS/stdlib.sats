@@ -53,4 +53,11 @@ fun{} getenv_opt (name: NSH(string)): option0 (string)
 
 (* ****** ****** *)
 
+fun{} setenv_exn
+  (name: NSH(string), value: NSH(string), overwrite: int): void
+fun{} setenv_err
+  (name: NSH(string), value: NSH(string), overwrite: int): int(*err*)
+
+(* ****** ****** *)
+
 (* end of [stdlib.sats] *)

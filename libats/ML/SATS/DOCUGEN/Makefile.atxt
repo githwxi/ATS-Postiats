@@ -113,6 +113,7 @@ all_html::
 #make_entry("strarr")
 
 #make_entry("filebas")
+#make_entry("stdlib")
 
 #make_entry("funmap")
 #make_entry("funset")

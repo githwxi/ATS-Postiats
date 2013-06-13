@@ -1,0 +1,41 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../stdlib.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_ML_stdlib")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/ML/stdlib\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are mostly provided for the sake of
+convenience. For full-fledged support, please see [ATSLIB/libc/SATS/stdlib.sats].
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("getenv_exn")
+#declnamesynop("getenv_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("setenv_exn")
+#declnamesynop("setenv_err")
+
+(* ****** ****** *)
+
+(* end of [stdlib.atxt] *)

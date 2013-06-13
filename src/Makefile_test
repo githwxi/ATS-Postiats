@@ -188,16 +188,16 @@ libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/string.sats
 libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/string.dats
 libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/strarr.sats
 libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/strarr.dats
+
 libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/filebas.sats
 libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/filebas.dats
+libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/stdlib.sats
+libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/stdlib.dats
 
 libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/funset.sats
 libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/funset.dats
 libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/funmap.sats
 libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/funmap.dats
-
-libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/stdlib.sats
-libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/stdlib.dats
 
 ######
 

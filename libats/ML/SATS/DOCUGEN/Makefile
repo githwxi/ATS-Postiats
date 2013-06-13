@@ -112,6 +112,14 @@ upload_filebas:: ;   scp HTML/filebas.html ats-hwxi,ats-lang@web.sourceforge.net
 clean:: ; $(RMF) filebas_atxt.exe
 cleanall:: ; $(RMF) HTML/filebas.html
 
+all_html:: HTML/stdlib.html
+HTML/stdlib.html:   stdlib_atxt.exe ; ./$< > $@
+stdlib_atxt.txt: stdlib.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+stdlib_atxt.exe: htmlgendecl_atxt.dats   stdlib_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_stdlib:: ;   scp HTML/stdlib.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
+clean:: ; $(RMF) stdlib_atxt.exe
+cleanall:: ; $(RMF) HTML/stdlib.html
+
 
 all_html:: HTML/funmap.html
 HTML/funmap.html:   funmap_atxt.exe ; ./$< > $@
