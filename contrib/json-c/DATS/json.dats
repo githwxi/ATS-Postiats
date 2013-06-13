@@ -53,6 +53,15 @@ not_json_bool (tf) =
 (* ****** ****** *)
 //
 implement{}
+json_object_is_null
+  (jso) = json_object2ptr (jso) = the_null_ptr
+implement{}
+json_object_isnot_null
+  (jso) = json_object2ptr (jso) > the_null_ptr
+//
+(* ****** ****** *)
+//
+implement{}
 print_json_object
   (jso) = fprint_json_object (stdout_ref, jso)
 implement{}

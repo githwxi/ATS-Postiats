@@ -44,6 +44,15 @@ If str[i] equals the null character, then i equals n.\
 
 (* ****** ****** *)
 
+#declnamesynop("string2ptr")
+
+(* ****** ****** *)
+
+#declnamesynop("g0ofg1_string")
+#declnamesynop("g1ofg0_string")
+
+(* ****** ****** *)
+
 #declnamesynop("string_sing")
 #decldescrpt('\
 This function constructs a singleton string consisting of its char argument.
@@ -706,6 +715,11 @@ string or null pointer.")
 (* ****** ****** *)
 
 #declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("g0ofg1")
+#declnamesynop("g1ofg0")
 
 (* ****** ****** *)
 

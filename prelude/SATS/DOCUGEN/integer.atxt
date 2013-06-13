@@ -260,11 +260,50 @@ unequal to its second argument. It is for unsigned integers.
 
 (* ****** ****** *)
 //
+// HX: various macdro definitions
+//
+(* ****** ****** *)
+
+#declname("Macro Definitions")
+
+(* ****** ****** *)
+//
+#declnamesynop("g0i2i")
+#declnamesynop("g1i2i")
+//
+#declnamesynop("g0i2u")
+#declnamesynop("g1i2u")
+//
+#declnamesynop("g0u2i")
+#declnamesynop("g1u2i")
+//
+#declnamesynop("g0u2u")
+#declnamesynop("g1u2u")
+//
+(* ****** ****** *)
+//
+#declnamesynop("i2u")
+#declnamesynop("i2sz")
+#declnamesynop("i2ssz")
+//
+#declnamesynop("u2i")
+#declnamesynop("u2sz")
+//
+#declnamesynop("sz2i")
+#declnamesynop("sz2u")
+//
+(* ****** ****** *)
+//
 // HX: various overloaded symbols
 //
 (* ****** ****** *)
 
 #declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("g0ofg1")
+#declnamesynop("g1ofg0")
 
 (* ****** ****** *)
 
@@ -316,32 +355,6 @@ unequal to its second argument. It is for unsigned integers.
 #declnamesynop("prerr")
 #declnamesynop("fprint")
 
-(* ****** ****** *)
-//
-#declnamesynop("g0i2i")
-#declnamesynop("g1i2i")
-//
-#declnamesynop("g0i2u")
-#declnamesynop("g1i2u")
-//
-#declnamesynop("g0u2i")
-#declnamesynop("g1u2i")
-//
-#declnamesynop("g0u2u")
-#declnamesynop("g1u2u")
-//
-(* ****** ****** *)
-//
-#declnamesynop("i2u")
-#declnamesynop("i2sz")
-#declnamesynop("i2ssz")
-//
-#declnamesynop("u2i")
-#declnamesynop("u2sz")
-//
-#declnamesynop("sz2i")
-#declnamesynop("sz2u")
-//
 (* ****** ****** *)
 
 (* end of [integer.atxt] *)

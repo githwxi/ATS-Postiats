@@ -84,6 +84,26 @@ ATSLIB/contrib/json-c/json_object\
 
 (* ****** ****** *)
 
+#declnamesynop("json_object_iforeach")
+#decldescrpt('\
+
+This function is a special case of #dyncode("json_object_iforeach_env")
+where the third argument named env is ignored.
+
+')
+
+#declnamesynop("json_object_iforeach_env")
+#decldescrpt('\
+
+This function can be employed to traverse the fields of a given json array.
+
+')
+
+#declnamesynop("json_object_iforeach$cont")
+#declnamesynop("json_object_iforeach$fwork")
+
+(* ****** ****** *)
+
 #declnamesynop("json_object_kforeach")
 #decldescrpt('\
 
@@ -109,6 +129,11 @@ This function can be employed to traverse the fields of a given json object.
 (* ****** ****** *)
 
 #declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("iseqz")
+#declnamesynop("isneqz")
 
 (* ****** ****** *)
 

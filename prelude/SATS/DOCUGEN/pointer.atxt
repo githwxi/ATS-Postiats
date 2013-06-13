@@ -31,6 +31,11 @@ arithmetic.  ")
 
 (* ****** ****** *)
 
+#declnamesynop("g0ofg1_ptr")
+#declnamesynop("g1ofg0_ptr")
+
+(* ****** ****** *)
+
 #declnamesynop("ptr_get_index")
 #decldescrpt('\
 The purpose of calling this proof function is to introduce a static

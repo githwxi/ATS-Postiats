@@ -16,6 +16,17 @@ overload ptrcast with json_object2ptr
 
 (* ****** ****** *)
 
+fun{}
+json_object_is_null
+  {l:addr} (al: !json_object (l)):<> bool (l==null)
+overload iseqz with json_object_is_null
+fun{}
+json_object_isnot_null
+  {l:addr} (al: !json_object (l)):<> bool (l > null)
+overload isneqz with json_object_isnot_null
+
+(* ****** ****** *)
+
 (*
 const char* json_hex_chars
 *)
@@ -43,6 +54,24 @@ fun json_object_is_type
 
 fun json_object_get_type
   (jso: !json_object0):<> json_type = "mac#%"
+
+(* ****** ****** *)
+
+(*
+#define JSON_C_TO_STRING_PLAIN 0
+#define JSON_C_TO_STRING_SPACED (1<<0)
+#define JSON_C_TO_STRING_PRETTY (1<<1)
+#define JSON_C_TO_STRING_NOZERO (1<<2))
+*)
+
+macdef
+JSON_C_TO_STRING_PLAIN = $extval (int, "JSON_C_TO_STRING_PLAIN")
+macdef
+JSON_C_TO_STRING_SPACED = $extval (int, "JSON_C_TO_STRING_SPACED")
+macdef
+JSON_C_TO_STRING_PRETTY = $extval (int, "JSON_C_TO_STRING_PRETTY")
+macdef
+JSON_C_TO_STRING_NOZERO = $extval (int, "JSON_C_TO_STRING_NOZERO")
 
 (* ****** ****** *)
 

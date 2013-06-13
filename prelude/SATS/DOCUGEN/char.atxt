@@ -20,11 +20,15 @@ ATSLIB/prelude/char\
 (* ****** ****** *)
 
 #declpreamble('\
-#para("\
-This package contains various function on chars, signed chars and unsigned
-chars.
-")
+#para('\
+This package contains various functions on (signed) chars and unsigned chars.
+')
 ')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("g0ofg1_char")
+#declnamesynop("g1ofg0_char")
 
 (* ****** ****** *)
 
@@ -137,6 +141,8 @@ assigned a more informative type.
 
 (* ****** ****** *)
 
+#declnamesynop("isalpha")
+
 #declnamesynop("isalpha_int")
 #decldescrpt("
 This function directly corresponds to the libc-function isalpha.
@@ -147,6 +153,8 @@ This function is a slight variant of #dyncode("isalpha_int").
 ")
 
 (* ****** ****** *)
+
+#declnamesynop("isalnum")
 
 #declnamesynop("isalnum_int")
 #decldescrpt("
@@ -159,6 +167,8 @@ This function is a slight variant of #dyncode("isalnum_int").
 
 (* ****** ****** *)
 
+#declnamesynop("isascii")
+
 #declnamesynop("isascii_int")
 #decldescrpt("
 This function directly corresponds to the libc-function isascii.
@@ -169,6 +179,8 @@ This function is a slight variant of #dyncode("isascii_int").
 ")
 
 (* ****** ****** *)
+
+#declnamesynop("isblank")
 
 #declnamesynop("isblank_int")
 #decldescrpt("
@@ -181,6 +193,8 @@ This function is a slight variant of #dyncode("isblank_int").
 
 (* ****** ****** *)
 
+#declnamesynop("isspace")
+
 #declnamesynop("isspace_int")
 #decldescrpt("
 This function directly corresponds to the libc-function isspace.
@@ -191,6 +205,8 @@ This function is a slight variant of #dyncode("isspace_int").
 ")
 
 (* ****** ****** *)
+
+#declnamesynop("iscntrl")
 
 #declnamesynop("iscntrl_int")
 #decldescrpt("
@@ -203,6 +219,8 @@ This function is a slight variant of #dyncode("iscntrl_int").
 
 (* ****** ****** *)
 
+#declnamesynop("isdigit")
+
 #declnamesynop("isdigit_int")
 #decldescrpt("
 This function directly corresponds to the libc-function isdigit.
@@ -213,6 +231,8 @@ This function is a slight variant of #dyncode("isdigit_int").
 ")
 
 (* ****** ****** *)
+
+#declnamesynop("isxdigit")
 
 #declnamesynop("isxdigit_int")
 #decldescrpt("
@@ -225,6 +245,8 @@ This function is a slight variant of #dyncode("isxdigit_int").
 
 (* ****** ****** *)
 
+#declnamesynop("isgraph")
+
 #declnamesynop("isgraph_int")
 #decldescrpt("
 This function directly corresponds to the libc-function isgraph.
@@ -235,6 +257,8 @@ This function is a slight variant of #dyncode("isgraph_int").
 ")
 
 (* ****** ****** *)
+
+#declnamesynop("isprint")
 
 #declnamesynop("isprint_int")
 #decldescrpt("
@@ -247,6 +271,8 @@ This function is a slight variant of #dyncode("isprint_int").
 
 (* ****** ****** *)
 
+#declnamesynop("ispunct")
+
 #declnamesynop("ispunct_int")
 #decldescrpt("
 This function directly corresponds to the libc-function ispunct.
@@ -257,6 +283,8 @@ This function is a slight variant of #dyncode("ispunct_int").
 ")
 
 (* ****** ****** *)
+
+#declnamesynop("islower")
 
 #declnamesynop("islower_int")
 #decldescrpt("
@@ -269,6 +297,8 @@ This function is a slight variant of #dyncode("islower_int").
 
 (* ****** ****** *)
 
+#declnamesynop("isupper")
+
 #declnamesynop("isupper_int")
 #decldescrpt("
 This function directly corresponds to the libc-function isupper.
@@ -279,6 +309,8 @@ This function is a slight variant of #dyncode("isupper_int").
 ")
 
 (* ****** ****** *)
+
+#declnamesynop("toascii")
 
 #declnamesynop("toascii_int")
 #decldescrpt("
@@ -291,6 +323,8 @@ This function is a slight variant of #dyncode("toascii_int").
 
 (* ****** ****** *)
 
+#declnamesynop("tolower")
+
 #declnamesynop("tolower_int")
 #decldescrpt("
 This function directly corresponds to the libc-function tolower.
@@ -301,6 +335,8 @@ This function is a slight variant of #dyncode("tolower_int").
 ")
 
 (* ****** ****** *)
+
+#declnamesynop("toupper")
 
 #declnamesynop("toupper_int")
 #decldescrpt("
@@ -318,6 +354,11 @@ This function is a slight variant of #dyncode("toupper_int").
 (* ****** ****** *)
 
 #declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("g0ofg1")
+#declnamesynop("g1ofg0")
 
 (* ****** ****** *)
 
@@ -339,28 +380,6 @@ This function is a slight variant of #dyncode("toupper_int").
 #declnamesynop("print")
 #declnamesynop("prerr")
 #declnamesynop("fprint")
-
-(* ****** ****** *)
-
-#declnamesynop("isalpha")
-#declnamesynop("isalnum")
-#declnamesynop("isascii")
-#declnamesynop("isblank")
-#declnamesynop("isspace")
-#declnamesynop("iscntrl")
-#declnamesynop("isdigit")
-#declnamesynop("isxdigit")
-#declnamesynop("isgraph")
-#declnamesynop("isprint")
-#declnamesynop("ispunct")
-#declnamesynop("islower")
-#declnamesynop("isupper")
-
-(* ****** ****** *)
-
-#declnamesynop("toascii")
-#declnamesynop("tolower")
-#declnamesynop("toupper")
 
 (* ****** ****** *)
 

@@ -25,10 +25,13 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_start_time("September, 2011")
 
 #atscode_separator()
-
-castfn g1ofg0_bool (x: bool):<> Bool
+//
 castfn g0ofg1_bool (x: Bool):<> bool
-
+castfn g1ofg0_bool (x: bool):<> Bool
+//
+overload g0ofg1 with g0ofg1_bool // index-erasing
+overload g1ofg0 with g1ofg0_bool // index-inducing
+//
 #atscode_separator()
 //
 fun int2bool0 (i: int):<> bool = "mac\#%"

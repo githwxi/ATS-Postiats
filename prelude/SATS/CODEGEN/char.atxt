@@ -134,10 +134,13 @@ overload tostring with tostring_char
 ')\
 
 #atscode_separator()
-
+//
 castfn g0ofg1_char (c: Char):<> char
 castfn g1ofg0_char (c: char):<> Char
-
+//
+overload g0ofg1 with g0ofg1_char // index-erasing
+overload g1ofg0 with g1ofg0_char // index-inducing
+//
 #atscode_separator()
 //
 castfn

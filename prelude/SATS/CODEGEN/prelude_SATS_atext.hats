@@ -619,8 +619,7 @@ val fopr_d = (
 //
 val ent = sprintf ("\
 fun{tk:tk}
-g0float_%s
-  : g0float_cmp_type (tk) = \"mac#%%\"
+g0float_%s : g0float_cmp_type (tk)
 overload %s with g0float_%s of 0\
 ", @(
  opr, fopr_d, opr

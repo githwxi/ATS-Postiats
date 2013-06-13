@@ -222,6 +222,8 @@ castfn
 g0ofg1_int {tk:tk} (x: g1int tk):<> g0int (tk)
 castfn
 g1ofg0_int {tk:tk} (x: g0int tk):<> g1int (tk)
+overload g0ofg1 with g0ofg1_int // index-erasing
+overload g1ofg0 with g1ofg0_int // index-inducing
 //
 #atscode_separator()
 //
@@ -744,6 +746,9 @@ castfn
 g1ofg0_uint {tk:tk} (x: g1uint tk):<> g0uint (tk)
 castfn
 g1ofg0_uint {tk:tk} (x: g0uint tk):<> g1uint0 (tk)
+//
+overload g0ofg1 with g0ofg1_uint // index-erasing
+overload g1ofg0 with g1ofg0_uint // index-inducing
 //
 #atscode_separator()
 //

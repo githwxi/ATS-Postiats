@@ -56,11 +56,11 @@ prval () = fpf (envname)
 //
 val (fpf | jstr) = $STDLIB.getenv ($UN.strptr2string(envname2))
 val () = strptr_free (envname2)
-val () = assertloc (strptr2ptr (jstr) > 0)
+val () = assertloc (isneqz(jstr))
 //
 val jso =
 json_tokener_parse ($UN.strptr2string(jstr))
-val () = assertloc (ptrcast(jso) > 0)
+val () = assertloc (isneqz (jso))
 prval () = fpf (jstr)
 //
 val alen = json_object_array_length (jso)

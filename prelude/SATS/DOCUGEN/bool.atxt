@@ -29,6 +29,11 @@ This package contains various functions on booleans values.
 
 (* ****** ****** *)
 
+#declnamesynop("g0ofg1_bool")
+#declnamesynop("g1ofg0_bool")
+
+(* ****** ****** *)
+
 #declnamesynop("int2bool0")
 #decldescrpt('\
 This function maps any nonzero integer to #dyncode("true") and zero
@@ -62,6 +67,11 @@ This function does the same as #dyncode("bool2int0") at run-time.
 (* ****** ****** *)
 
 #declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("g0ofg1")
+#declnamesynop("g1ofg0")
 
 (* ****** ****** *)
 
