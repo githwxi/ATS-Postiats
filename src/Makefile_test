@@ -196,6 +196,9 @@ libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/funset.dats
 libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/funmap.sats
 libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/funmap.dats
 
+libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/stdlib.sats
+libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/stdlib.dats
+
 ######
 
 contrib_cairo:: ; $(PATSOPT) -tc -IATS$(PATSHOME)/contrib -s $(PATSHOME)/contrib/cairo/SATS/cairo.sats

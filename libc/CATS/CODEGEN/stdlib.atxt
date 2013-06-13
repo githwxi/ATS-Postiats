@@ -45,6 +45,9 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator_for_C()
 
 \#define atslib_getenv getenv
+\#define atslib_putenv putenv
+\#define atslib_setenv setenv
+\#define atslib_unsetenv unsetenv
 
 #atscode_separator_for_C()
 

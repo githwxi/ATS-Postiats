@@ -29,13 +29,12 @@
 
 (* Author: Hongwei Xi *)
 (* Authoremail: hwxi AT cs DOT bu DOT edu *)
-(* Start time: January, 2013 *)
+(* Start time: June, 2013 *)
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats.ML"
-#define ATS_STALOADFLAG 0 // no need for staloading at run-time
-#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
+staload
+STDLIB = "libc/SATS/stdlib.sats"
 
 (* ****** ****** *)
 
@@ -43,38 +42,48 @@ staload "libats/SATS/ML_basis.sats"
 
 (* ****** ****** *)
 
-typedef SHR(a:type) = a // for commenting purpose
-typedef NSH(a:type) = a // for commenting purpose
+staload "libats/ML/SATS/stdlib.sats"
 
 (* ****** ****** *)
 
-typedef charlst0 = list0 (char)
-typedef stringlst0 = list0 (string)
+implement{}
+getenv_exn (name) = let
+//
+val str = $STDLIB.getenv_gc (name)
+//
+in
+//
+if isneqz (str) then
+  strptr2string (str)
+else let
+  prval (
+  ) = strptr_free_null (str)
+  val () = prerrln! "exit(ATS): [getenv_exn]: undefined variable: [" name "]"
+in
+  exit (1)
+end // end of [if]
+//
+end // end of [getenv_exn]
 
 (* ****** ****** *)
 
-fun fileref_open_opt
-  (path: NSH(string), fm: file_mode): option0 (FILEref)
-// end of [fileref_open_opt]
+implement{}
+getenv_opt (name) = let
+//
+val str = $STDLIB.getenv_gc (name)
+//
+in
+//
+if isneqz (str) then
+  Some0 (strptr2string (str))
+else let
+  prval () = strptr_free_null (str)
+in
+  None0 ()
+end (* end of [if] *)
+//
+end // end of [getenv_opt]
 
 (* ****** ****** *)
 
-fun fileref_get_line_charlst (filr: FILEref): charlst0
-
-(*
-** HX: for handling files of "tiny" size
-*)
-fun fileref_get_lines_charlstlst (filr: FILEref): list0 (charlst0)
-
-(* ****** ****** *)
-
-fun fileref_get_line_string (filr: FILEref): string
-
-(*
-** HX: for handling files of "tiny" size
-*)
-fun fileref_get_lines_stringlst (filr: FILEref): stringlst0
-
-(* ****** ****** *)
-
-(* end of [filebas.sats] *)
+(* end of [stdlib.dats] *)

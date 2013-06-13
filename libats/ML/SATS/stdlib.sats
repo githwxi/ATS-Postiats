@@ -29,7 +29,7 @@
 
 (* Author: Hongwei Xi *)
 (* Authoremail: hwxi AT cs DOT bu DOT edu *)
-(* Start time: January, 2013 *)
+(* Start time: June, 2013 *)
 
 (* ****** ****** *)
 
@@ -48,33 +48,9 @@ typedef NSH(a:type) = a // for commenting purpose
 
 (* ****** ****** *)
 
-typedef charlst0 = list0 (char)
-typedef stringlst0 = list0 (string)
+fun{} getenv_exn (name: NSH(string)): string
+fun{} getenv_opt (name: NSH(string)): option0 (string)
 
 (* ****** ****** *)
 
-fun fileref_open_opt
-  (path: NSH(string), fm: file_mode): option0 (FILEref)
-// end of [fileref_open_opt]
-
-(* ****** ****** *)
-
-fun fileref_get_line_charlst (filr: FILEref): charlst0
-
-(*
-** HX: for handling files of "tiny" size
-*)
-fun fileref_get_lines_charlstlst (filr: FILEref): list0 (charlst0)
-
-(* ****** ****** *)
-
-fun fileref_get_line_string (filr: FILEref): string
-
-(*
-** HX: for handling files of "tiny" size
-*)
-fun fileref_get_lines_stringlst (filr: FILEref): stringlst0
-
-(* ****** ****** *)
-
-(* end of [filebas.sats] *)
+(* end of [stdlib.sats] *)

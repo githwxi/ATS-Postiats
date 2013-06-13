@@ -68,6 +68,11 @@ end // end of [main]
 (* ****** ****** *)
 
 #declnamesynop("array0_make_list")
+#declnamesynop("array0_make_rlist")
+
+(* ****** ****** *)
+
+#declnamesynop("array0_make_subarray")
 
 (* ****** ****** *)
 

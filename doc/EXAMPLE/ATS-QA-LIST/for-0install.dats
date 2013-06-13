@@ -54,6 +54,9 @@ val envname2 =
 string_append ("0install-runenv-", $UN.strptr2string(envname))
 prval () = fpf (envname)
 //
+val err = // HX: for testing purpose
+$STDLIB.setenv ($UN.strptr2string(envname2), "['myarg1', 'myarg2']", 0)
+//
 val (fpf | jstr) = $STDLIB.getenv ($UN.strptr2string(envname2))
 val () = strptr_free (envname2)
 val () = assertloc (isneqz(jstr))
@@ -116,7 +119,10 @@ val (
 var asz: size_t
 val A = dynarray_getfree_arrayptr (DA, asz)
 //
-val ec = $UNISTD.execv_unsafe (argv[0], ptrcast(A))
+val () = fprint (out, A, asz)
+val () = fprint_newline (out)
+//
+// val ec = $UNISTD.execv_unsafe (argv[0], ptrcast(A))
 //
 val () = arrayptr_free (A) // HX: only if [ec] = -1
 //
