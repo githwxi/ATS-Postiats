@@ -135,6 +135,16 @@ list0_make_arrpsz
 (* ****** ****** *)
 
 implement{a}
+print_list0 (xs) = fprint_list0<a> (stdout_ref, xs)
+implement{a}
+prerr_list0 (xs) = fprint_list0<a> (stderr_ref, xs)
+
+implement{a}
+fprint_list0 (out, xs) = let
+  val xs = list_of_list0 (xs) in fprint_list<a> (out, xs)
+end // end of [fprint_list0]
+
+implement{a}
 fprint_list0_sep (out, xs, sep) = let
   val xs = list_of_list0 (xs) in fprint_list_sep<a> (out, xs, sep)
 end // end of [fprint_list0_sep]
@@ -705,7 +715,7 @@ case+ xs of
 | list0_cons
     (x, xs) => (
   case+ f(x) of
-  | Some0 y => let
+  | ~Some_vt y => let
       val () =
       (
       res :=
@@ -717,7 +727,7 @@ case+ xs of
     in
       // nothing
     end // end of [Some0]
-  | None0 () => loop (xs, res)
+  | ~None_vt () => loop (xs, res)
   ) (* end of [list0_cons] *)
 | list0_nil () => (
     res := list_vt_nil ()
@@ -835,7 +845,7 @@ in
 if n > i then
 (
 case+ f(i) of
-| Some0 x => let
+| ~Some_vt x => let
     val () =
     (
     res :=
@@ -847,7 +857,7 @@ case+ f(i) of
   in
     // nothing
   end // end of [Some0]
-| None0 () => loop (i+1, res)
+| ~None_vt () => loop (i+1, res)
 ) else (
   res := list_vt_nil ()
 ) (* end of [if] *)

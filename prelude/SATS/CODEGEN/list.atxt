@@ -132,7 +132,12 @@ list_make_arrpsz
 overload list with list_make_arrpsz
 
 #atscode_separator()
-
+//
+fun{x:t0p}
+print_list (xs: List (INV(x))): void
+fun{x:t0p}
+prerr_list (xs: List (INV(x))): void
+//
 fun{}
 fprint_list$sep (out: FILEref): void
 fun{x:t0p}
@@ -141,10 +146,12 @@ fun{x:t0p}
 fprint_list_sep
   (out: FILEref, xs: List (INV(x)), sep: NSH(string)): void
 // end of [fprint_list_sep]
-
+//
+overload print with print_list
+overload prerr with prerr_list
 overload fprint with fprint_list
 overload fprint with fprint_list_sep
-
+//
 #atscode_separator()
 
 fun{x:t0p}

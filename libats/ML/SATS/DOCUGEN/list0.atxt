@@ -1055,6 +1055,8 @@ main () = 0 where {
 
 (* ****** ****** *)
 
+#declnamesynop("print")
+#declnamesynop("prerr")
 #declnamesynop("fprint")
 
 (* ****** ****** *)

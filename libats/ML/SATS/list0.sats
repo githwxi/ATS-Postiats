@@ -91,23 +91,28 @@ list0_make_arrpsz
 overload list0 with list0_make_arrpsz
 
 (* ****** ****** *)
-(*
-// HX: these are of template style
-*)
+
+fun{a:t0p}
+print_list0 (xs: list0 (INV(a))): void
+fun{a:t0p}
+prerr_list0 (xs: list0 (INV(a))): void
+
 fun{a:t0p}
 fprint_list0
 (
   out: FILEref, xs: list0 (INV(a))
-) : void // end of [fprint_list0_sep]
+) : void // end of [fprint_list0]
 fun{a:t0p}
 fprint_list0_sep
 (
   out: FILEref, xs: list0 (INV(a)), sep: NSH(string)
 ) : void // end of [fprint_list0_sep]
-
+//
+overload print with print_list0
+overload prerr with prerr_list0
 overload fprint with fprint_list0
 overload fprint with fprint_list0_sep
-
+//
 (* ****** ****** *)
 
 fun{a:t0p}
@@ -346,7 +351,7 @@ a:t0p}{b:t0p
 fun{
 a:t0p}{b:t0p
 } list0_mapopt
-  (xs: list0 (INV(a)), f: cfun (a, option0 (b))): list0 (b)
+  (xs: list0 (INV(a)), f: cfun (a, Option_vt (b))): list0 (b)
 
 (* ****** ****** *)
 
@@ -375,7 +380,7 @@ list0_filter
 fun{a:t0p}
 list0_tabulate (n: int, f: cfun (int, a)): list0 (a)
 fun{a:t0p}
-list0_tabulate_opt (n: int, f: cfun (int, option0 (a))): list0 (a)
+list0_tabulate_opt (n: int, f: cfun (int, Option_vt (a))): list0 (a)
 
 (* ****** ****** *)
 
