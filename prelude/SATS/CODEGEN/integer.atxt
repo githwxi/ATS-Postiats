@@ -743,7 +743,7 @@ ssize_of_int {i:int} (x: int i):<> ssize_t (i)
 #atscode_separator()
 //
 castfn
-g1ofg0_uint {tk:tk} (x: g1uint tk):<> g0uint (tk)
+g0ofg1_uint {tk:tk} (x: g1uint tk):<> g0uint (tk)
 castfn
 g1ofg0_uint {tk:tk} (x: g0uint tk):<> g1uint0 (tk)
 //

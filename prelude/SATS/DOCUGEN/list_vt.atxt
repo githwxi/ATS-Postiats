@@ -569,6 +569,8 @@ except for allowing the comparison function to be provided as an argument.
 
 (* ****** ****** *)
 
+#declnamesynop("print")
+#declnamesynop("prerr")
 #declnamesynop("fprint")
 
 (* ****** ****** *)

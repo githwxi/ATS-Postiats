@@ -1095,6 +1095,8 @@ list_quicksort$cmp (x, y) = gcompare_val<a> (x, y)
 
 (* ****** ****** *)
 
+#declnamesynop("print")
+#declnamesynop("prerr")
 #declnamesynop("fprint")
 
 (* ****** ****** *)

@@ -96,7 +96,12 @@ list_vt_uncons {n:pos}
 // end of [list_vt_uncons]
 
 #atscode_separator()
-
+//
+fun{x:vt0p}
+print_list_vt (xs:!List_vt (INV(x))): void
+fun{x:vt0p}
+prerr_list_vt (xs:!List_vt (INV(x))): void
+//
 fun{}
 fprint_list_vt$sep (out: FILEref): void
 fun{x:vt0p}
@@ -106,10 +111,12 @@ fun{x:vt0p}
 fprint_list_vt_sep (
   out: FILEref, xs: !List_vt (INV(x)), sep: NSH(string)
 ) : void // end of [fprint_list_vt_sep]
-
+//
+overload print with print_list_vt
+overload prerr with prerr_list_vt
 overload fprint with fprint_list_vt
 overload fprint with fprint_list_vt_sep
-
+//
 #atscode_separator()
 
 fun{x:vt0p}

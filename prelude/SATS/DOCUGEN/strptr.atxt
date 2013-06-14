@@ -64,6 +64,8 @@ This package contains common functions for processing linear strings.\
 
 (* ****** ****** *)
 
+#declnamesynop("print_strptr")
+#declnamesynop("prerr_strptr")
 #declnamesynop("fprint_strptr")
 
 (* ****** ****** *)

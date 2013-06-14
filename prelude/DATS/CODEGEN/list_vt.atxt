@@ -38,6 +38,13 @@ end // end of [list_vt_uncons]
 #atscode_separator()
 
 implement{a}
+print_list_vt (xs) = fprint_list_vt<a> (stdout_ref, xs)
+implement{a}
+prerr_list_vt (xs) = fprint_list_vt<a> (stderr_ref, xs)
+
+#atscode_separator()
+
+implement{a}
 fprint_list_vt
   (out, xs) = let
 //
