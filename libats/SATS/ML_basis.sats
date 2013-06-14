@@ -81,6 +81,7 @@ typedef cfun9
 
 (* ****** ****** *)
 
+stadef cfun = cfun0
 stadef cfun = cfun1
 stadef cfun = cfun2
 stadef cfun = cfun3
@@ -97,6 +98,9 @@ datatype // t@ype+: covariant
 list0_t0ype_type (a: t@ype+) =
   | list0_nil of () | list0_cons of (a, list0_t0ype_type a)
 stadef list0 = list0_t0ype_type
+
+#define nil0 list0_nil
+#define cons0 list0_cons
 
 (* ****** ****** *)
 

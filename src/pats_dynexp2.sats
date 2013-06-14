@@ -140,13 +140,13 @@ typedef d2maclst = List (d2mac)
 (* ****** ****** *)
 
 datatype d2itm =
-  | D2ITMcon of d2conlst
   | D2ITMcst of d2cst
+  | D2ITMvar of d2var
+  | D2ITMcon of d2conlst
   | D2ITMe1xp of (e1xp)
+  | D2ITMsymdef of (symbol, d2pitmlst) (* overloaded symbol *)
   | D2ITMmacdef of d2mac
   | D2ITMmacvar of d2var
-  | D2ITMsymdef of (symbol, d2pitmlst) (* overloaded symbol *)
-  | D2ITMvar of d2var
 // end of [d2itm]
 
 and d2pitm = D2PITM of (int(*pval*), d2itm)
@@ -170,7 +170,8 @@ typedef d2symopt = Option (d2sym)
 
 (* ****** ****** *)
 
-fun d2cst_make (
+fun d2cst_make
+(
   id: symbol
 , loc: location // location of declaration
 , fil: filename // filename of declaration

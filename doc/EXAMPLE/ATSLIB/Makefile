@@ -124,6 +124,15 @@ clean:: ; $(RMF) prelude_list_dats.o
 clean:: ; $(RMF) prelude_list_dats.c
 cleanall:: ; $(RMF) prelude_list.exe
 
+all:: prelude_list_vt
+prelude_list_vt: prelude_list_vt.exe
+prelude_list_vt.exe: prelude_list_vt_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+prelude_list_vt_dats.c: prelude_list_vt.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_list_vt_dats.c --dynamic prelude_list_vt.dats
+clean:: ; $(RMF) prelude_list_vt_dats.o
+clean:: ; $(RMF) prelude_list_vt_dats.c
+cleanall:: ; $(RMF) prelude_list_vt.exe
+
+
 all:: prelude_option
 prelude_option: prelude_option.exe
 prelude_option.exe: prelude_option_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
@@ -131,6 +140,14 @@ prelude_option_dats.c: prelude_option.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/cont
 clean:: ; $(RMF) prelude_option_dats.o
 clean:: ; $(RMF) prelude_option_dats.c
 cleanall:: ; $(RMF) prelude_option.exe
+
+all:: prelude_option_vt
+prelude_option_vt: prelude_option_vt.exe
+prelude_option_vt.exe: prelude_option_vt_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+prelude_option_vt_dats.c: prelude_option_vt.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_option_vt_dats.c --dynamic prelude_option_vt.dats
+clean:: ; $(RMF) prelude_option_vt_dats.o
+clean:: ; $(RMF) prelude_option_vt_dats.c
+cleanall:: ; $(RMF) prelude_option_vt.exe
 
 
 all:: prelude_array

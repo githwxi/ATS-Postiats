@@ -48,12 +48,20 @@ implement prerr_FILENAME<> () = prerr "pats_trans2_dynexp"
 (* ****** ****** *)
 
 staload
+LOC = "./pats_location.sats"
+overload print with $LOC.print_location
+
+(* ****** ****** *)
+
+staload
 SYM = "./pats_symbol.sats"
 overload = with $SYM.eq_symbol_symbol
 
 staload
 SYN = "./pats_syntax.sats"
 typedef d0ynq = $SYN.d0ynq
+
+overload fprint with $SYN.fprint_macsynkind
 
 macdef
 print_dqid (dq, id) =
@@ -198,6 +206,10 @@ in
 case+ ans of
 | ~Some_vt d2i0 => (
   case+ d2i0 of
+//
+  | D2ITMcst d2c => d2exp_cst (loc0, d2c)
+  | D2ITMvar d2v => d2exp_var (loc0, d2v)
+//
   | D2ITMcon d2cs => let
       val d2cs = d2con_select_arity (d2cs, 0)
       val-list_cons (d2c, _) = d2cs // HX: [d2cs] cannot be nil
@@ -207,11 +219,17 @@ case+ ans of
         loc0, d2c, loc0, list_nil(*sarg*), ~1(*npf*), locarg, list_nil(*darg*)
       ) // end of [d2exp_con]
     end // end of [D2ITEMcon]
-  | D2ITMcst d2c => d2exp_cst (loc0, d2c)
-  | D2ITMe1xp e1xp => let
-      val d1e = d1exp_make_e1xp (loc0, e1xp) in d1exp_tr (d1e)
+//
+  | D2ITMe1xp exp => let
+      val d1e = d1exp_make_e1xp (loc0, exp) in d1exp_tr (d1e)
     end // end of [D2ITMe1xp]
-  | D2ITMvar d2v => d2exp_var (loc0, d2v)
+//
+  | D2ITMsymdef (sym, d2pis) => let
+      val d2s = d2sym_make (loc0, dq, id, d2pis)
+    in
+      d2exp_sym (loc0, d2s)
+    end // end of [D2ITEMsymdef]
+//
   | D2ITMmacdef d2m => let
       val () = macdef_check (loc0, d2m, dq, id)
     in
@@ -222,11 +240,7 @@ case+ ans of
     in
       d2exp_var (loc0, d2v)
     end // end of [D2ITEMmacvar]
-  | D2ITMsymdef (sym, d2pis) => let
-      val d2s = d2sym_make (loc0, dq, id, d2pis)
-    in
-      d2exp_sym (loc0, d2s)
-    end // end of [D2ITEMsymdef]
+//
 (*
   | _ => let
       val () = (
@@ -246,17 +260,21 @@ end // end of [d1exp_tr_dqid]
 (* ****** ****** *)
 
 extern
-fun d1exp_tr_app_dyn (
+fun
+d1exp_tr_app_dyn
+(
   d1e0: d1exp // all
 , d1e1: d1exp // fun
 , locarg: location, npf: int, darg: d1explst
 ) : d2exp // end of [d1exp_tr_app_dyn]
 extern
-fun d1exp_tr_app_sta_dyn (
+fun
+d1exp_tr_app_sta_dyn
+(
   d1e0: d1exp // all
 , d1e1: d1exp // sapp
 , d1e2: d1exp // fun
-, sarg: s1exparglst
+, sarg: s1exparglst // static arg
 , locarg: location, npf: int, darg: d1explst
 ) : d2exp // end of [d1exp_tr_app_sta_dyn]
 
@@ -270,6 +288,8 @@ and d1exp_tr_assgn
 and d1exp_tr_xchng
   (d1e0: d1exp, d1es: d1explst) : d2exp
 // end of [extern]
+
+(* ****** ****** *)
 
 implement
 d1exp_tr_deref
@@ -332,7 +352,8 @@ end // end of [d1exp_tr_xchng]
 (* ****** ****** *)
 
 fun
-d1exp_tr_app_dyn_dqid (
+d1exp_tr_app_dyn_dqid
+(
   d1e0: d1exp // all
 , d1e1: d1exp // sapp
 , dq: d0ynq, id: symbol // d1e1 -> dqid
@@ -353,10 +374,10 @@ case+ spdid of
     case+ ans of
     | ~Some_vt d2i => (
       case+ d2i of
-      | D2ITMe1xp (e0) =>
-          d1exp_tr_app_dyn_e1xp (d1e0, d1e1, e0, locarg, npf, darg)
+      | D2ITMe1xp (exp) =>
+          d1exp_tr_app_dyn_e1xp (d1e0, d1e1, exp, locarg, npf, darg)
       | _ => let
-          val sarg = list_nil () in
+          val sarg = list_nil() in
           d1exp_tr_app_sta_dyn_dqid_itm
             (d1e0, d1e1, d1e1, dq, id, d2i, sarg, locarg, npf, darg)
         end // end of [_]
@@ -377,42 +398,40 @@ case+ spdid of
 end // end of [d1exp_tr_app_dyn_dqid]
 
 and
-d1exp_tr_app_dyn_e1xp (
+d1exp_tr_app_dyn_e1xp
+(
   d1e0: d1exp // all
 , d1e1: d1exp // fun
-, e0: e1xp // d1e1 -> e0
+, exp1: e1xp // exp1 <- d1e1
 , locarg: location, npf: int, darg: d1explst 
 ) : d2exp = let
 in
 //
-case+ e0.e1xp_node of
+case+ exp1.e1xp_node of
 | E1XPfun _ => let
     val loc0 = d1e0.d1exp_loc
 //
     prval pfu = unit_v ()
-    val es = list_map_vclo<d1exp> {unit_v} (pfu | darg, !p_clo) where {
+    val exps = list_map_vclo<d1exp> {unit_v} (pfu | darg, !p_clo) where {
       var !p_clo = @lam (pf: !unit_v | d1e: d1exp): e1xp => e1xp_make_d1exp (loc0, d1e)
     } // end of [val]
     prval unit_v () = pfu
 //
-    val e1 = e1xp_app (loc0, e0, loc0, (l2l)es)
+    val exp1 = e1xp_app (loc0, exp1, loc0, (l2l)exps)
 (*
-    val () = (
-      print "d1exp_tr_app_dyn_e1xp: e1 = "; print_e1xp e1; print_newline ()
-    ) // end of [val]
+    val () = println! ("d1exp_tr_app_dyn_e1xp: exp1 = ", exp1)
 *)
-    val e2 = e1xp_normalize (e1)
+    val exp2 = e1xp_normalize (exp1)
 (*
-    val () = (
-      print "d1exp_tr_app_dyn_e1xp: e2 = "; print_e1xp e2; print_newline ()
-    ) // end of [val]
+    val () = println! ("d1exp_tr_app_dyn_e1xp: exp2 = ", exp2)
 *)
-    val d1e0_new = d1exp_make_e1xp (loc0, e2)
+    val d1e0_new = d1exp_make_e1xp (loc0, exp2)
   in
     d1exp_tr (d1e0_new)
   end // end of [E1XPfun]
 | _ => let
-    val d1e_fun = d1exp_make_e1xp (d1e1.d1exp_loc, e0)
+    val loc1 = d1e1.d1exp_loc
+    val d1e_fun = d1exp_make_e1xp (loc1, exp1)
   in
     d1exp_tr_app_dyn (d1e0, d1e_fun, locarg, npf, darg)
   end (* end of [_] *)
@@ -420,12 +439,13 @@ case+ e0.e1xp_node of
 end // end of [d1exp_tr_app_dyn_e1xp]
 
 and
-d1exp_tr_app_sta_dyn_dqid (
+d1exp_tr_app_sta_dyn_dqid
+(
   d1e0: d1exp // all
 , d1e1: d1exp // sapp
 , d1e2: d1exp // fun
 , dq: d0ynq, id: symbol
-, sarg: s1exparglst
+, sarg: s1exparglst // static arg
 , locarg: location, npf: int, darg: d1explst 
 ) : d2exp = let
   val ans = the_d2expenv_find_qua (dq, id)
@@ -434,8 +454,9 @@ in
 case+ ans of
 | ~Some_vt d2i => let
 (*
-    val () = (
-      print "d1exp_tr_app_sta_dyn_dqid: d2i = ..."; print_newline ()
+    val () =
+    (
+      println! ("d1exp_tr_app_sta_dyn_dqid: d2i = ", d2i)
     ) // end of [val]
 *)
   in
@@ -457,7 +478,8 @@ case+ ans of
 end // end of [d1exp_tr_app_sta_dyn_dqid]
 
 and
-d1exp_tr_app_sta_dyn_dqid_itm (
+d1exp_tr_app_sta_dyn_dqid_itm
+(
   d1e0: d1exp // all
 , d1e1: d1exp // sapp
 , d1e2: d1exp // fun
@@ -466,21 +488,45 @@ d1exp_tr_app_sta_dyn_dqid_itm (
 , sarg: s1exparglst
 , locarg: location, npf: int, darg: d1explst 
 ) : d2exp = let
+//
+val loc0 = d1e0.d1exp_loc
+val loc1 = d1e1.d1exp_loc
+val loc2 = d1e2.d1exp_loc
+//
 (*
-val () = (
-  print "d1exp_tr_app_sta_dyn_dqid_itm: loc = ";
-  $LOC.print_location (d1e0.d1exp_loc); print_newline ()
+val () =
+(
+  println! ("d1exp_tr_app_sta_dyn_dqid_itm: loc0 = ", loc0);
+  println! ("d1exp_tr_app_sta_dyn_dqid_itm: d1e0 = ", d1e0);
+  println! ("d1exp_tr_app_sta_dyn_dqid_itm: d1e1 = ", d1e1);
+  println! ("d1exp_tr_app_sta_dyn_dqid_itm: d1e2 = ", d1e2);
 ) // end of [val]
 val () = (
   print "d1exp_tr_app_sta_dyn_dqid_itm: dqid = "; print_dqid (dq, id); print_newline ()
 ) // end of [val]
 *)
+//
 in
 //
 case+ d2i of
-| D2ITMcon d2cs => let
-    val loc0 = d1e0.d1exp_loc
-    val loc1 = d1e1.d1exp_loc
+//
+| D2ITMcst (d2c) => let
+    val d2e2 = d2exp_cst (loc2, d2c)
+    val sarg = s1exparglst_tr (sarg)
+    val darg = d1explst_tr (darg)
+  in
+    d2exp_app_sta_dyn (loc0, loc1, d2e2, sarg, locarg, npf, darg)
+  end // end of [D2ITMcst]
+//
+| D2ITMvar (d2v) => let
+    val d2e2 = d2exp_var (loc2, d2v)
+    val sarg = s1exparglst_tr (sarg)
+    val darg = d1explst_tr (darg)
+  in
+    d2exp_app_sta_dyn (loc0, loc1, d2e2, sarg, locarg, npf, darg)
+  end // end of [D2ITMvar]
+//
+| D2ITMcon (d2cs) => let
     val n = list_length (darg)
     val d2cs = d2con_select_arity (d2cs, n)
     val-list_cons (d2c, _) = d2cs
@@ -490,54 +536,41 @@ case+ d2i of
   in
     d2exp_con (loc0, d2c, loc1, sarg, npf, locarg, darg)
   end // end of [D2ITEMcon]
-| D2ITMcst d2c => let
-    val d2e_fun =
-      d2exp_cst (d1e2.d1exp_loc, d2c)
-    // end of [val]
-    val sarg = s1exparglst_tr (sarg)
-    val darg = d1explst_tr (darg)
-  in
-    d2exp_app_sta_dyn (d1e0.d1exp_loc, d1e1.d1exp_loc, d2e_fun, sarg, locarg, npf, darg)
-  end // end of [D2ITMcst]
-| D2ITMvar d2v => let
-    val d2e_fun =
-      d2exp_var (d1e2.d1exp_loc, d2v)
-    // end of [val]
-    val sarg = s1exparglst_tr (sarg)
-    val darg = d1explst_tr (darg)
-  in
-    d2exp_app_sta_dyn (d1e0.d1exp_loc, d1e1.d1exp_loc, d2e_fun, sarg, locarg, npf, darg)
-  end // end of [D2ITMvar]
+//
+| D2ITMe1xp (exp) => let
+    val d1e2 = d1exp_make_e1xp (loc2, exp) in
+    d1exp_tr_app_sta_dyn (d1e0, d1e1, d1e2, sarg, locarg, npf, darg)
+  end // end of [D2ITMe1xp]
+//
 | D2ITMsymdef (sym, d2pis) => let
-    val loc = d1e2.d1exp_loc
-    val d2s =
-      d2sym_make (loc, dq, id, d2pis)
-    // end of [val]
-    val d2e_fun = d2exp_sym (loc, d2s)
+    val d2s2 = d2sym_make (loc2, dq, id, d2pis)
+    val d2e2 = d2exp_sym (loc2, d2s2)
     val sarg = s1exparglst_tr (sarg)
     val darg = d1explst_tr (darg)
   in
-    d2exp_app_sta_dyn (d1e0.d1exp_loc, d1e1.d1exp_loc, d2e_fun, sarg, locarg, npf, darg)
+    d2exp_app_sta_dyn (loc0, loc1, d2e2, sarg, locarg, npf, darg)
   end // end of [D2ITMsymdef]
+//
 | D2ITMmacdef (d2m) => let
-    val loc = d1e2.d1exp_loc
-    val () = macdef_check (loc, d2m, dq, id)
-    val d2e_fun = d2exp_mac (loc, d2m)
+    val loc2 = d1e2.d1exp_loc
+    val () = macdef_check (loc2, d2m, dq, id)
+    val d2e2 = d2exp_mac (loc2, d2m)
     val sarg = s1exparglst_tr (sarg)
     val darg = d1explst_tr (darg)
   in
-    d2exp_app_sta_dyn (d1e0.d1exp_loc, d1e1.d1exp_loc, d2e_fun, sarg, locarg, npf, darg)    
+    d2exp_app_sta_dyn (loc0, loc1, d2e2, sarg, locarg, npf, darg)    
   end // end of [D2ITEMmacdef]
+//
 (*
 | D2ITMmacvar (d2v) => let
-    val loc = d1e2.d1exp_loc
+    val loc2 = d1e2.d1exp_loc
     val () = macvar_check (loc, d2v, dq, id)
   in
     d2exp_var (loc0, d2v)
   end // end of [D2ITEMmacvar]
 *)
 | _ => let
-    val () = prerr_error2_loc (d1e2.d1exp_loc)
+    val () = prerr_error2_loc (loc2)
     val () = filprerr_ifdebug "d1exp_tr_app_sta_dyn_dqid_itm"
     val () = prerr ": the identifier ["
     val () = prerr_dqid (dq, id)
@@ -545,7 +578,7 @@ case+ d2i of
     val () = prerr_newline ()
     val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
   in
-    d2exp_err (d1e0.d1exp_loc)
+    d2exp_err (loc0)
   end (* end of [_] *)
 //
 end // end of [d1exp_tr_app_sta_dyn_dqid_itm]
@@ -586,8 +619,8 @@ d1exp_tr_app_sta_dyn (
 ) = let
 (*
   val () = (
-    print "d1exp_tr_app_sta_dyn: d1e0 = "; print_d1exp d1e0; print_newline ();
-    print "d1exp_tr_app_sta_dyn: sarg = "; fprint_s1exparglst (stdout_ref, sarg); print_newline ()
+    println! ("d1exp_tr_app_sta_dyn: d1e0 = ", d1e0);
+    fprintln! (stdout_ref, "d1exp_tr_app_sta_dyn: sarg = ", sarg);
   ) // end of [val]
 *)
 in
@@ -622,10 +655,9 @@ val loc0 = d1e0.d1exp_loc
 val-D1Emacsyn (knd, d1e) = d1e0.d1exp_node
 (*
 val () = {
-  val () = print ("d1exp_tr_macsyn: knd = ")
-  val () = $SYN.fprint_macsynkind (stdout_ref, knd)
-  val () = print_newline ()
-  val () = println! ("d1exp_tr_macsyn: d1e = ", d1e)
+  val out = stdout_ref
+  val () = fprintln! (out, "d1exp_tr_macsyn: knd = ", knd)
+  val () = fprintln! (out, "d1exp_tr_macsyn: d1e = ", d1e)
 } (* end of [val] *)
 *)
 //
@@ -1310,10 +1342,10 @@ case+ d1e0.d1exp_node of
   ) => (
     case+ d1e1.d1exp_node of
     | D1Eapp_sta
-        (d1e_fun, sarg) =>
-        d1exp_tr_app_sta_dyn (
-        d1e0, d1e1, d1e_fun, sarg, locarg, npf, darg
-      ) // end of [P1Tapp_sta]
+        (d1e2, sarg) =>
+      d1exp_tr_app_sta_dyn (
+        d1e0, d1e1, d1e2, sarg, locarg, npf, darg
+      ) // end of [D1Eapp_sta]
     | _ => d1exp_tr_app_dyn (d1e0, d1e1, locarg, npf, darg)
   ) // end of [D1Eapp_dyn]
 | D1Eapp_sta
@@ -1321,7 +1353,7 @@ case+ d1e0.d1exp_node of
     val locarg = loc0 // HX: it is just a dummy
   in
     d1exp_tr_app_sta_dyn (
-      d1e0, d1e1, d1e1, sarg, locarg, ~2(*fake*), list_nil(*darg*)
+      d1e0, d1e0, d1e1, sarg, locarg, ~2(*fake*), list_nil(*darg*)
     ) // end of [d1exp_tr_app_sta_dyn]
   end // end of [D1Eapp_sta]
 //

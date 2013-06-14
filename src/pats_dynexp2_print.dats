@@ -71,23 +71,21 @@ fprint_d2itm (out, x) = let
 in
 //
 case+ x of
+| D2ITMcst d2c => begin
+    prstr "D2ITMcst("; fprint_d2cst (out, d2c); prstr ")"
+  end // end of [D2ITMcst]
+| D2ITMvar d2v => begin
+    prstr "D2ITMvar("; fprint_d2var (out, d2v); prstr ")"
+  end // end of [D2ITMvar]
 | D2ITMcon d2cs => {
     val () = prstr "D2ITMcon("
     val () = fprint_d2conlst (out, d2cs)
     val () = prstr ")"
   } // end of [D2ITMcon]
-| D2ITMcst d2c => begin
-    prstr "D2ITMcst("; fprint_d2cst (out, d2c); prstr ")"
-  end // end of [D2ITMcst]
 | D2ITMe1xp e1xp => begin
     prstr "D2ITMe1xp("; fprint_e1xp (out, e1xp); prstr ")"
   end // end of [D2ITMe1xp]
-| D2ITMmacdef d2m => begin
-    prstr "D2ITMmacdef("; fprint_d2mac (out, d2m); prstr ")"
-  end // end of [D2ITMmacdef]
-| D2ITMmacvar d2v => begin
-    prstr "D2ITMmacvar("; fprint_d2var (out, d2v); prstr ")"
-  end // end of [D2ITMmacvar]
+//
 | D2ITMsymdef
     (sym, d2pis) => {
     val () = prstr "D2ITMsymdef("
@@ -96,9 +94,14 @@ case+ x of
     val () = fprint_d2pitmlst (out, d2pis)
     val () = prstr ")"
   } // end of [D2ITMsymdef]
-| D2ITMvar d2v => begin
-    prstr "D2ITMvar("; fprint_d2var (out, d2v); prstr ")"
-  end // end of [D2ITMvar]
+//
+| D2ITMmacdef d2m => begin
+    prstr "D2ITMmacdef("; fprint_d2mac (out, d2m); prstr ")"
+  end // end of [D2ITMmacdef]
+| D2ITMmacvar d2v => begin
+    prstr "D2ITMmacvar("; fprint_d2var (out, d2v); prstr ")"
+  end // end of [D2ITMmacvar]
+//
 // end of [case]
 end // end of [fprint_d2item]
 

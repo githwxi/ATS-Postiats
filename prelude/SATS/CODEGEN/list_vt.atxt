@@ -71,6 +71,11 @@ vtypedef listBtwe_vt
 
 #atscode_separator()
 
+\#define nil_vt list_vt_nil
+\#define cons_vt list_vt_cons
+
+#atscode_separator()
+
 prfun
 lemma_list_vt_param
   {x:vt0p}{n:int} (xs: !list_vt (INV(x), n)): [n >= 0] void

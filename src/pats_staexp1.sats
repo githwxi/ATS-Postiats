@@ -630,6 +630,8 @@ fun s1exparg_seq (loc: location, xs: s1explst): s1exparg
 
 fun fprint_s1exparg : fprint_type (s1exparg)
 fun fprint_s1exparglst : fprint_type (s1exparglst)
+overload fprint with fprint_s1exparg
+overload fprint with fprint_s1exparglst
 
 (* ****** ****** *)
 
