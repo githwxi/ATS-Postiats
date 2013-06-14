@@ -93,6 +93,5 @@ clean:: ; $(RMF) *_atxt.dats
 clean:: ; $(RMF) Makefile.exe
 
 cleanall:: clean
-cleanall:: ; $(RMF) *.png
 
 ###### end of [Makefile] ######
