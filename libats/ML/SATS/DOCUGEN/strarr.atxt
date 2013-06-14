@@ -60,6 +60,12 @@ a strarr-value corresponding to a given C-style string.\
 
 (* ****** ****** *)
 
+#declnamesynop("print_strarr")
+#declnamesynop("prerr_strarr")
+#declnamesynop("fprint_strarr")
+
+(* ****** ****** *)
+
 #declnamesynop("strarr_copy")
 #decldescrpt("\
 Given a strarr-value, this function returns a copy of it.

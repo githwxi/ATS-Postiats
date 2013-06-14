@@ -43,15 +43,12 @@
 //
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "libats/SATS/ML_basis.sats"
-staload "libats/ML/SATS/list0.sats"
-
-(* ****** ****** *)
-
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/array0.sats"
 staload _(*anon*) = "libats/ML/DATS/array0.dats"
 
@@ -211,6 +208,15 @@ implement{}
 strarr_length (str) = strarr_get_size (str)
 
 (* ****** ****** *)
+//
+implement
+print_strarr
+  (str) = fprint_strarr (stdout_ref, str)
+implement
+prerr_strarr
+  (str) = fprint_strarr (stderr_ref, str)
+//
+(* ****** ****** *)
 
 implement
 fprint_strarr (out, str) = let
@@ -232,7 +238,7 @@ if n > 0 then let
   val n1 = fwrite (bufp, sizeof<char>, n, out)
 in
   if n1 > 0 then
-    loop (out, add_ptr_bsz (bufp, n1), n-n1)
+    loop (out, add_ptr_bsz (bufp, n1), n - n1)
   else ((*error*))
 end // end of of [if]
 //

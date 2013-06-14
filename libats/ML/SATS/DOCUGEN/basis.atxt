@@ -1,0 +1,53 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../basis.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_ML_basis")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/ML/basis\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+
+This package contains various basic types for the ATSLIB-libats-ML
+library. ')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("list0")
+#declnamesynop("list0_t0ype_type")
+
+(* ****** ****** *)
+
+#declnamesynop("option0")
+#declnamesynop("option0_t0ype_type")
+
+(* ****** ****** *)
+
+#declnamesynop("array0")
+#declnamesynop("subarray0")
+
+(* ****** ****** *)
+
+#declnamesynop("strarr")
+#declnamesynop("substrarr")
+
+(* ****** ****** *)
+
+(* end of [basis.atxt] *)

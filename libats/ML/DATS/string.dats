@@ -70,7 +70,7 @@ prelude_string_foreach = string_foreach
 //
 (* ****** ****** *)
 
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 staload "libats/ML/SATS/string.sats"
 

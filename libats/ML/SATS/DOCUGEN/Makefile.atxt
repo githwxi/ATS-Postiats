@@ -106,6 +106,8 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ; \
 
 all_html::
 
+#make_entry("basis")
+
 #make_entry("list0")
 #make_entry("option0")
 #make_entry("array0")

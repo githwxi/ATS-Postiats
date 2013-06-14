@@ -37,13 +37,12 @@
 //
 (* ****** ****** *)
 
-staload "libats/ML/SATS/list0.sats"
+staload FM =
+"libats/SATS/funmap_avltree.sats"
 
 (* ****** ****** *)
 
-staload FM =
-  "libats/SATS/funmap_avltree.sats"
-// end of [FM]
+staload "libats/ML/SATS/list0.sats"
 
 (* ****** ****** *)
 

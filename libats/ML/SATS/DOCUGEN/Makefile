@@ -63,6 +63,15 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ;   $(ATSDOC) --outcode $@ -i $< > htmlg
 
 all_html::
 
+all_html:: HTML/basis.html
+HTML/basis.html:   basis_atxt.exe ; ./$< > $@
+basis_atxt.txt: basis.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+basis_atxt.exe: htmlgendecl_atxt.dats   basis_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_basis:: ;   scp HTML/basis.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
+clean:: ; $(RMF) basis_atxt.exe
+cleanall:: ; $(RMF) HTML/basis.html
+
+
 all_html:: HTML/list0.html
 HTML/list0.html:   list0_atxt.exe ; ./$< > $@
 list0_atxt.txt: list0.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@

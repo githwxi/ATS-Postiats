@@ -51,7 +51,7 @@ prelude_fileref_get_lines_stringlst = fileref_get_lines_stringlst
 
 (* ****** ****** *)
 
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 staload "libats/ML/SATS/option0.sats"
 

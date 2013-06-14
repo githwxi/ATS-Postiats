@@ -98,9 +98,9 @@ list_vt_uncons {n:pos}
 #atscode_separator()
 //
 fun{x:vt0p}
-print_list_vt (xs:!List_vt (INV(x))): void
+print_list_vt (xs: !List_vt (INV(x))): void
 fun{x:vt0p}
-prerr_list_vt (xs:!List_vt (INV(x))): void
+prerr_list_vt (xs: !List_vt (INV(x))): void
 //
 fun{}
 fprint_list_vt$sep (out: FILEref): void

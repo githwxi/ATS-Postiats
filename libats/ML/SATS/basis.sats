@@ -113,9 +113,21 @@ stadef option0 = option0_t0ype_type
 //
 abstype
 array0_vt0ype_type
-  (a: vt@ype(*invariant*)) = ptr // = arrszref (a)
-//
+  (a: vt@ype(*invariant*)) = ptr
 stadef array0 = array0_vt0ype_type
+//
+abstype
+subarray0_vt0ype_type
+  (a: vt@ype(*invariant*)) = ptr
+stadef subarray0 = subarray0_vt0ype_type
+//
+(* ****** ****** *)
+//
+abstype strarr_type = ptr
+typedef strarr = strarr_type
+//
+abstype substrarr_type = ptr
+typedef substrarr = substrarr_type
 //
 (* ****** ****** *)
 

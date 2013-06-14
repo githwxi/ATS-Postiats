@@ -39,7 +39,7 @@
 
 (* ****** ****** *)
 
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
 
@@ -58,11 +58,6 @@ typedef NSH(a:type) = a // for commenting purpose
 // a strarr-value is represented an array of character;
 // in principle, this array should be treated as read-only.
 //
-(* ****** ****** *)
-
-abstype strarr_type = ptr
-typedef strarr = strarr_type
-
 (* ****** ****** *)
 
 castfn array2strarr (cs: array0 (char)):<> strarr
@@ -154,11 +149,15 @@ strarr_length (str: strarr):<> size_t
 overload length with strarr_length
 
 (* ****** ****** *)
-
-fun
-fprint_strarr (out: FILEref, str: strarr): void
+//
+fun print_strarr (str: strarr): void
+fun prerr_strarr (str: strarr): void
+fun fprint_strarr (out: FILEref, str: strarr): void
+//
+overload print with print_strarr
+overload prerr with prerr_strarr
 overload fprint with fprint_strarr
-
+//
 (* ****** ****** *)
 
 fun strarr_contains (str: strarr, c: char):<> bool

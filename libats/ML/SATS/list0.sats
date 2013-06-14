@@ -45,7 +45,7 @@
 
 (* ****** ****** *)
 
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
 

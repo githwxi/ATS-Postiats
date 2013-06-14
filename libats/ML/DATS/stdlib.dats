@@ -38,7 +38,7 @@ STDLIB = "libc/SATS/stdlib.sats"
 
 (* ****** ****** *)
 
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
 
