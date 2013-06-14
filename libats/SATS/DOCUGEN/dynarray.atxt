@@ -223,6 +223,17 @@ the index i equals the current size of DA minus 1.\
 
 (* ****** ****** *)
 
+#declnamesynop("dynarray_filter")
+#declnamesynop("dynarray_filter$pred")
+
+(* ****** ****** *)
+
+#declnamesynop("dynarray_filterlin")
+#declnamesynop("dynarray_filterlin$pred")
+#declnamesynop("dynarray_filterlin$clear")
+
+(* ****** ****** *)
+
 #declnamesynop("dynarray_reset_capacity")
 #decldescrpt('\
 

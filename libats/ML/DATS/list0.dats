@@ -686,6 +686,53 @@ in
   list0_of_list_vt (ys)
 end // end of [list0_map]
 
+(* ****** ****** *)
+
+implement
+{a}{b}
+list0_mapopt
+  (xs, f) = res where
+{
+//
+fun loop
+(
+  xs: list0 (a)
+, res: &ptr? >> List0_vt (b)
+) : void = let
+in
+//
+case+ xs of
+| list0_cons
+    (x, xs) => (
+  case+ f(x) of
+  | Some0 y => let
+      val () =
+      (
+      res :=
+      list_vt_cons{b}{0}(y, _)
+      )
+      val+list_vt_cons (_, res1) = res
+      val () = loop (xs, res1)
+      prval () = fold@ (res)
+    in
+      // nothing
+    end // end of [Some0]
+  | None0 () => loop (xs, res)
+  ) (* end of [list0_cons] *)
+| list0_nil () => (
+    res := list_vt_nil ()
+  ) (* end of [list0_nil] *)
+//
+end // end of [loop]
+//
+var res: ptr
+val () = loop (xs, res)
+val res = list0_of_list_vt (res)
+//
+} // end of [list0_mapopt]
+
+(* ****** ****** *)
+
 implement
 {a}{b}
 list0_imap (xs, f) = let
@@ -697,6 +744,8 @@ val ys = list_imap<a><b> (xs)
 in
   list0_of_list_vt (ys)
 end // end of [list0_imap]
+
+(* ****** ****** *)
 
 (*
 implement
@@ -768,6 +817,48 @@ in
     $raise IllegalArgExn("list0_tabulate:n")
   // end of [if]
 end // end of [list0_tabulate]
+
+(* ****** ****** *)
+
+implement{a}
+list0_tabulate_opt
+  (n, f) = res where
+{
+//
+fun loop
+(
+  i: int
+, res: &ptr? >> List0_vt (a)
+) : void = let
+in
+//
+if n > i then
+(
+case+ f(i) of
+| Some0 x => let
+    val () =
+    (
+    res :=
+    list_vt_cons{a}{0}(x, _)
+    )
+    val+list_vt_cons (_, res1) = res
+    val () = loop (i+1, res1)
+    prval () = fold@ (res)
+  in
+    // nothing
+  end // end of [Some0]
+| None0 () => loop (i+1, res)
+) else (
+  res := list_vt_nil ()
+) (* end of [if] *)
+//
+end // end of [loop]
+//
+var res: ptr
+val () = loop (0, res)
+val res = list0_of_list_vt (res)
+//
+} // end of [list0_tabulate_opt]
 
 (* ****** ****** *)
 

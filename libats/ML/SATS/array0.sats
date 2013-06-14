@@ -208,7 +208,7 @@ a:vt0p}{b:vt0p
 fun{
 a:vt0p}{b:vt0p
 } array0_mapopt
-  (A: array0 (a), f: (&a) -<cloref1> Option_vt (b)): array0 (b)
+  (A: array0 (a), f: (&a) -<cloref1> option0 (b)): array0 (b)
 // end of [array0_mapopt]
 
 (* ****** ****** *)
@@ -217,6 +217,11 @@ fun{a:vt0p}
 array0_tabulate
   (asz: size_t, f: (size_t) -<cloref1> a): array0 (a)
 // end of [array0_tabulate]
+
+fun{a:vt0p}
+array0_tabulate_opt
+  (asz: size_t, f: (size_t) -<cloref1> option0 (a)): array0 (a)
+// end of [array0_tabulate_opt]
 
 (* ****** ****** *)
 

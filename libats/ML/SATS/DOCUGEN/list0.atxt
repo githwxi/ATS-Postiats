@@ -514,6 +514,18 @@ end // end of [list0_permute]
 
 (* ****** ****** *)
 
+#declnamesynop("list0_tabulate_opt")
+#decldescrpt('\
+
+Given an integer n and a function f, this function returns a list
+that collects precisely every x whenever
+#dyncode("Some0(x)") is returned by f(i), where i ranges from 0 until
+n-1, inclusive.\
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("list0_app")
 #decldescrpt("\
 This function is idential to #dyncode("list0_foreach").
@@ -797,6 +809,18 @@ end // end of [list0_map]
 ')
 
 However, the implementation of this function in ATSLIB is tail-recursive.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_mapopt")
+#decldescrpt("\
+
+Given a list xs of length n and a function f, this function returns
+another list that collects precisely every y whenever #dyncode("Some0(y)") is
+returned by f(xs[i]), where i ranges from 0 until n-1, inclusive.
+The implementation of this function in ATSLIB is tail-recursive.\
 
 ")
 

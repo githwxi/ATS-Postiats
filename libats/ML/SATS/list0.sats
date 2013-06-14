@@ -341,11 +341,19 @@ list0_find_opt (xs: list0 (INV(a)), p: cfun (a, bool)): option0 (a)
 
 fun{
 a:t0p}{b:t0p
-} list0_map (xs: list0 (INV(a)), f: cfun (a, b)): list0 (b)
+} list0_map
+  (xs: list0 (INV(a)), f: cfun (a, b)): list0 (b)
+fun{
+a:t0p}{b:t0p
+} list0_mapopt
+  (xs: list0 (INV(a)), f: cfun (a, option0 (b))): list0 (b)
+
+(* ****** ****** *)
 
 fun{
 a:t0p}{b:t0p
-} list0_imap (xs: list0 (INV(a)), f: cfun2 (int, a, b)): list0 (b)
+} list0_imap
+  (xs: list0 (INV(a)), f: cfun2 (int, a, b)): list0 (b)
 
 (* ****** ****** *)
 
@@ -366,6 +374,8 @@ list0_filter
 
 fun{a:t0p}
 list0_tabulate (n: int, f: cfun (int, a)): list0 (a)
+fun{a:t0p}
+list0_tabulate_opt (n: int, f: cfun (int, option0 (a))): list0 (a)
 
 (* ****** ****** *)
 

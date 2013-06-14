@@ -194,6 +194,22 @@ dynarray_takeout_atend_opt (DA: !dynarray (INV(a))): Option_vt (a)
 
 (* ****** ****** *)
 
+fun{a:t0p}
+dynarray_filter$pred (x: &a): bool
+fun{a:t0p}
+dynarray_filter (DA: !dynarray (INV(a))): void
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+dynarray_filterlin$pred (x: &a): bool
+fun{a:vt0p}
+dynarray_filterlin$clear (x: &a >> a?): void
+fun{a:vt0p}
+dynarray_filterlin (DA: !dynarray (INV(a))): void
+
+(* ****** ****** *)
+
 fun{a:vt0p}
 dynarray_reset_capacity
   (DA: !dynarray (INV(a)), m2: sizeGte(1)): bool(*done/ignored*)

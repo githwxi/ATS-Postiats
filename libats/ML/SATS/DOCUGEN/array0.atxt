@@ -68,7 +68,22 @@ end // end of [main]
 (* ****** ****** *)
 
 #declnamesynop("array0_make_list")
+#decldescrpt('\
+
+Given a list xs of length n, this function returns an array0-value A of the
+same size such that A[i] equals xs[i] for i ranging from 0 until n-1,
+inclusive.\
+
+')
+
 #declnamesynop("array0_make_rlist")
+#decldescrpt('\
+
+Given a list xs of length n, this function returns an array0-value A of the
+same size such that A[i] equals xs[n-i-1] for i ranging from 0 until n-1,
+inclusive.\
+
+')
 
 (* ****** ****** *)
 
@@ -77,34 +92,134 @@ end // end of [main]
 (* ****** ****** *)
 
 #declnamesynop("array0_get_at")
+
 #declnamesynop("array0_get_at_gint")
+#decldescrpt('\
+
+Given an array0-value A of size n and an index i, this function returns
+A[i] if i is valid (that is, 0 <= i < n), or it raises the exception
+#dyncode("ArraySubscriptExn").
+
+')
+
 #declnamesynop("array0_get_at_guint")
+#decldescrpt('\
+
+This function is like #dyncode("array0_get_at_gint") except for the given
+index being an unsigned integer.
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("array0_set_at")
+
 #declnamesynop("array0_set_at_gint")
+#decldescrpt('\
+
+Given an array0-value A of size n, an index i and a value x, this function
+assigns x to A[i] if i is valid (that is, 0 <= i < n), or it raises the
+exception #dyncode("ArraySubscriptExn").
+
+')
+
 #declnamesynop("array0_set_at_guint")
+#decldescrpt('\
+
+This function is like #dyncode("array0_set_at_gint") except for the given
+index being an unsigned integer.
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("array0_exch_at")
+
 #declnamesynop("array0_exch_at_gint")
+#decldescrpt('\
+
+Given an array0-value A of size n, an index i and a reference x, this
+function exchanges the values of A[i] and x if i is valid (that is, 0 <= i < n),
+or it raises the exception #dyncode("ArraySubscriptExn").
+
+')
+
 #declnamesynop("array0_exch_at_guint")
+#decldescrpt('\
+
+This function is like #dyncode("array0_exch_at_gint") except for the given
+index being an unsigned integer.
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("array0_copy")
+#decldescrpt('\
+
+Given an array0-value A of size n, this function returns another
+array0-value B such that each B[i] is initialized with A[i], where i ranges
+from i until n-1, inclusive.\
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("array0_append")
+#decldescrpt('\
+
+Given two array0-values A1 and A2, this function returns another
+array0-value B that contains the concatenation of the elements in A1 and
+A2.\
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("array0_map")
+#decldescrpt('\
+
+Given an array0-value A of size n and a function f, this function returns
+another array0-value B of the same size such that each B[i] is initialized
+with the value returned by f(A[i]), where i ranges from 0 until n-1,
+inclusive.\
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("array0_mapopt")
+#decldescrpt('\
+
+Given an array0-value A of size n and a function f, this function returns
+another array0-value B that collects precisely every x whenever
+#dyncode("Some0(x)") is returned by f(A[i]), where i ranges from 0 until
+n-1, inclusive.\
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("array0_tabulate")
+
+#decldescrpt('\
+
+Given a size asz and a function f, this function returns an array0-value A
+of size asz such that each A[i] is initialized with the value returned by f(i),
+where i ranges from 0 until asz-1, inclusive.\
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("array0_tabulate_opt")
+#decldescrpt('\
+
+Given an integer asz and a function f, this function returns an array0-value
+that collects precisely every x whenever #dyncode("Some0(x)") is returned
+by f(i), where i ranges from 0 until asz-1, inclusive.\
+
+')
 
 (* ****** ****** *)
 
@@ -124,7 +239,22 @@ This function is just the optional version of #dyncode("array0_find_exn").
 (* ****** ****** *)
 
 #declnamesynop("array0_foreach")
+#decldescrpt("\
+
+Given an array0-value A of size n and a function f, this function applies f
+to each A[i], where i ranges from 0 until n-1, inclusive.\
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("array0_iforeach")
+#decldescrpt("\
+
+Given an array0-value A of size n and a function f, this function applies f
+to each pair (i, A[i]), where i ranges from 0 until n-1, inclusive.\
+
+")
 
 (* ****** ****** *)
 
@@ -134,6 +264,12 @@ This function is just the optional version of #dyncode("array0_find_exn").
 (* ****** ****** *)
 
 #declnamesynop("array0_rforeach")
+#decldescrpt("\
+
+Given an array0-value A of size n and a function f, this function applies f
+to each A[n-i-1], where i ranges from 0 until n-1, inclusive.\
+
+")
 
 (* ****** ****** *)
 

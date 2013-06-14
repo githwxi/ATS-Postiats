@@ -608,5 +608,19 @@ option_vt_make_opt<a> (ans, res)
 end // end of [dynarray_takeout_at_opt]
 
 (* ****** ****** *)
+  
+implement{a}
+dynarray_filter (DA) = let
+//
+implement
+dynarray_filterlin$pred<a> (x) = dynarray_filter$pred<a> (x)
+implement
+dynarray_filterlin$clear<a> (x) = ()
+//
+in
+  dynarray_filterlin (DA)
+end // end of [dynarray_filter]
+  
+(* ****** ****** *)
 
 (* end of [dynarray.dats] *)
