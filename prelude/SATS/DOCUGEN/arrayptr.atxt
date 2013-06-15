@@ -49,6 +49,17 @@ stores N elements of the type T.
 (* ****** ****** *)
 
 #declnamesynop("arrayptrout")
+#decldescrpt("\
+
+Given a type T, an address L and an integer N, the type
+#stacode("arrayptrout(T, L, N)") essentially means #stacode("arrayptr(T, L,
+N)") minus the array-view #stacode("array_v(T, L, N)").
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("arrayptrout_vt0ype_addr_int")
 
 (* ****** ****** *)
 

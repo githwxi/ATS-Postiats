@@ -156,18 +156,20 @@ fun loop
   val c1 = $UN.ptr0_get<char>(p1)
   val c2 = $UN.ptr0_get<char>(p2)
 in
-  if c1 != CNUL then let
-    prval () =
-      __assert () where {
+//
+if c1 != CNUL then let
+  prval () =
+    __assert () where {
       extern praxi __assert (): [n1 > 0] void
-    } // end of [prval]
-  in
-    if c2 != CNUL then
-      loop {n1-1} (ptr_succ<char>(p1), ptr_succ<char>(p2))
-    else 1(*gt*) // end of [if]
-  end else (
-    if c2 != CNUL then ~1(*lt*) else 0(*eq*)
-  ) // end of [if]
+  } // end of [prval]
+in
+  if c2 != CNUL then
+    loop {n1-1} (ptr_succ<char>(p1), ptr_succ<char>(p2))
+  else 1(*gt*) // end of [if]
+end else (
+  if c2 != CNUL then ~1(*lt*) else 0(*eq*)
+) (* end of [if] *)
+//
 end // end of [loop]
 //
 in
@@ -507,24 +509,26 @@ fun loop
   val p = string2ptr (x)
   val c = $UN.ptr1_get<Char> (p)
 in
-  if c != CNUL then let
-    prval () = __assert () where {
-      extern praxi __assert (): [n > 0] void
-    }
-    val () = res :=
-      list_vt_cons {charNZ}{0} (c, _)
-    val+list_vt_cons (_, res1) = res
-    val x = $UN.cast{string(n-1)} (ptr1_succ(p))
-    val () = loop (x, res1)
-  in
-    fold@ (res)
-  end else let
-    prval () = __assert () where {
-      extern praxi __assert (): [n == 0] void
-    }
-  in
-    res := list_vt_nil ()
-  end // end of [if]
+//
+if c != CNUL then let
+  prval () = __assert () where {
+    extern praxi __assert (): [n > 0] void
+  }
+  val () = res :=
+    list_vt_cons {charNZ}{0} (c, _)
+  val+list_vt_cons (_, res1) = res
+  val x = $UN.cast{string(n-1)} (ptr1_succ(p))
+  val () = loop (x, res1)
+in
+  fold@ (res)
+end else let
+  prval () = __assert () where {
+    extern praxi __assert (): [n == 0] void
+  } // end of [prval]
+in
+  res := list_vt_nil ()
+end // end of [if]
+//
 end // end of [loop]
 //
 var res: ptr

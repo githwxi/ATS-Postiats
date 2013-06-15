@@ -41,12 +41,20 @@ library. ')
 (* ****** ****** *)
 
 #declnamesynop("array0")
+%{
+(*
 #declnamesynop("subarray0")
+*)
+%}
 
 (* ****** ****** *)
 
 #declnamesynop("strarr")
+%{
+(*
 #declnamesynop("substrarr")
+*)
+%}
 
 (* ****** ****** *)
 

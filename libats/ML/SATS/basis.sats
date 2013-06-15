@@ -115,20 +115,22 @@ abstype
 array0_vt0ype_type
   (a: vt@ype(*invariant*)) = ptr
 stadef array0 = array0_vt0ype_type
-//
+(*
 abstype
 subarray0_vt0ype_type
   (a: vt@ype(*invariant*)) = ptr
 stadef subarray0 = subarray0_vt0ype_type
+*)
 //
 (* ****** ****** *)
 //
 abstype strarr_type = ptr
 typedef strarr = strarr_type
-//
+(*
 abstype substrarr_type = ptr
 typedef substrarr = substrarr_type
+*)
 //
 (* ****** ****** *)
 
-(* end of [ML_basics.sats] *)
+(* end of [basis.sats] *)

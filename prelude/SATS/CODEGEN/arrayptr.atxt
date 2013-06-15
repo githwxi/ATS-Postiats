@@ -58,7 +58,9 @@ stadef arrayptr = arrayptr_vt0ype_int
 #atscode_separator()
 
 absvtype
-arrayptrout (a:t@ype, l: addr, n: int) = ptr (l)
+arrayptrout_vt0ype_addr_int
+  (a:t@ype, l: addr, n: int) = ptr (l)
+stadef arrayptrout = arrayptrout_vt0ype_addr_int
 
 #atscode_separator()
 

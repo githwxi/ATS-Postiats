@@ -79,6 +79,23 @@ val () = arrayptr_free (A)
 val () =
 {
 //
+val out = stdout_ref
+//
+val l = 0 and r = 10
+val A = arrayptr_make_intrange (l, r)
+val () = fprint (out, "A[0, 10) = ")
+val () = fprint_arrayptr<int> (out, A, i2sz(r))
+val () = fprint_newline (out)
+//
+val () = arrayptr_free (A)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
 typedef T = double
 //
 val asz = i2sz(5)

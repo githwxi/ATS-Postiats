@@ -55,6 +55,10 @@ a strarr-value corresponding to a given C-style string.\
 
 (* ****** ****** *)
 
+#declnamesynop("strarr_make_substring")
+
+(* ****** ****** *)
+
 #declnamesynop("strarr_get_at_gint")
 #declnamesynop("strarr_get_at_guint")
 

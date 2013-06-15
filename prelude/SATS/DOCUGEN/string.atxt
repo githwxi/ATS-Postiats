@@ -439,14 +439,6 @@ type.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("stringarr_concat")
-#decldescrpt("\
-
-This function returns a linear string that is the concatenation of the
-strings in its argument.  ")
-
-(* ****** ****** *)
-
 #declnamesynop("stringlst_concat")
 #decldescrpt("\
 
@@ -480,6 +472,14 @@ val () = strptr_free (Hello)
 Note that the created linear string is freed before the code exits.
 
 ')
+
+(* ****** ****** *)
+
+#declnamesynop("stringarr_concat")
+#decldescrpt("\
+
+This function returns a linear string that is the concatenation of the
+strings in its argument.  ")
 
 (* ****** ****** *)
 

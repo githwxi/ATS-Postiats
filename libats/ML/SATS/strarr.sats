@@ -82,6 +82,12 @@ fun strarr_make_string (str: string):<!wrt> strarr
 overload strarr with strarr_make_string
 
 (* ****** ****** *)
+
+fun strarr_make_substring
+  (str: string, st: size_t, ln: size_t):<!wrt> strarr
+// end of [strarr_make_substring]
+
+(* ****** ****** *)
 //
 // HX-2013:
 // naming convention: xxx_imake_yyy -> yyy_make_xxx
