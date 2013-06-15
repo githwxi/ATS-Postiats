@@ -87,6 +87,17 @@ concatenation of two given strings.
 
 (* ****** ****** *)
 
+#declnamesynop("strarr_tabulate")
+#decldescrpt("\
+
+Given a size n and a function f, this function returns an strarr-value str
+of size n such that each str[i] is initialized with the value returned by f(i),
+where i ranges from 0 until n-1, inclusive.\
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("strarr_foreach")
 #decldescrpt("\
 

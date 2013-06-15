@@ -57,6 +57,27 @@ val () =
 //
 val out = stdout_ref
 //
+val digits =
+strarr_tabulate (i2sz(10), lam i => '0' + g0u2i(i))
+val () = fprintln! (out, "digits = ", digits)
+//
+val xdigits =
+strarr_tabulate
+(
+  i2sz(16), lam i => if i < 10 then '0' + g0u2i(i) else 'a' + (g0u2i(i)-10)
+) (* end of [val] *)
+//
+val () = fprintln! (out, "xdigits = ", xdigits)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val out = stdout_ref
+//
 val () = fprint! (out, "foreach: ")
 val () = strarr_foreach (alphabet, lam c => fprint (out, c))
 val () = fprint_newline (out)
