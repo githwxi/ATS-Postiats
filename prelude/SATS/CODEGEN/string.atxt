@@ -102,7 +102,7 @@ string_sing (c: charNZ):<> strnptr (1)
 #atscode_separator()
 
 fun{}
- string_make_list
+string_make_list
   {n:int} (cs: list(charNZ, n)):<> strnptr (n)
 fun{}
 string_make_listlen

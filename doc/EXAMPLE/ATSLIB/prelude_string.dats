@@ -111,6 +111,30 @@ val () = assertloc (ab = strnptr2string (string_tabulate (i2sz(26))))
 val () =
 {
 //
+val asz = i2sz(5)
+val A = arrayptr_make_elt<string> (asz, "")
+val () =
+(
+  A[0] := "H";
+  A[1] := "e";
+  A[2] := "l";
+  A[3] := "l";
+  A[4] := "o";
+) (* end of [val] *)
+val str = stringarr_concat ($UN.arrayptr2ref(A), asz)
+val () = arrayptr_free (A)
+//
+val out = stdout_ref
+val () = fprintln! (out, "str = ", str)
+val () = strptr_free (str)
+//
+} // end of [val]
+
+(* ****** ****** *)
+
+val () =
+{
+//
 val ab = alphabet
 //
 val out = stdout_ref

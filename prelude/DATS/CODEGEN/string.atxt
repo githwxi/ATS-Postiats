@@ -425,6 +425,57 @@ end // end of [string1_append]
 #atscode_separator()
 
 implement{}
+stringarr_concat (xs, asz) = let
+//
+fun loop
+(
+  p1: ptr, p2: ptr, i: size_t, ntot: size_t
+) : size_t = let
+in
+//
+if i > 0 then let
+  val x = $UN.ptr0_get<string> (p1)
+  val nx: size_t = string_length (x)
+  val () = $UN.ptr0_set<size_t> (p2, nx)
+in
+  loop (ptr_succ<string> (p1), ptr_succ<size_t> (p2), pred(i), ntot+nx)
+end else ntot // end of [if]
+//
+end // end of [loop]
+//
+fun loop2
+(
+  p1: ptr, p2: ptr, i: size_t, pres: ptr
+) : void = let
+in
+//
+if i > 0 then let
+  val x = $UN.ptr0_get<string> (p1)
+  val nx = $UN.ptr0_get<size_t> (p2)
+  val _(*ptr*) = memcpy (pres, $UN.cast{ptr}(x), nx)
+in
+  loop2 (ptr_succ<string> (p1), ptr_succ<size_t> (p2), pred(i), pres+nx)
+end else $UN.ptr0_set<char> (pres, CNUL)
+//
+end // end of [loop2]
+//
+val p1 = $UN.cast{ptr}(xs)
+val nxs = arrayptr_make_uninitized<size_t> (asz)
+val p2 = arrayptr2ptr (nxs)
+//
+val ntot = $effmask_all (loop (p1, p2, asz, i2sz(0)))
+val (pf, pfgc | pres) = malloc_gc (g1ofg0(succ(ntot)))
+val ((*void*)) = $effmask_all (loop2 (p1, p2, asz, pres))
+//
+val () = arrayptr_free (nxs)
+//
+in
+  castvwtp_trans{Strptr1}((pf, pfgc | pres))
+end // end of [stringarr_concat]
+
+#atscode_separator()
+
+implement{}
 stringlst_concat (xs) = let
 //
 val n = list_length (xs)

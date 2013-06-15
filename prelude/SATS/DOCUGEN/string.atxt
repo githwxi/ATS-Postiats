@@ -439,11 +439,22 @@ type.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("stringlst_concat")
+#declnamesynop("stringarr_concat")
 #decldescrpt("\
 
 This function returns a linear string that is the concatenation of the
 strings in its argument.  ")
+
+(* ****** ****** *)
+
+#declnamesynop("stringlst_concat")
+#decldescrpt("\
+
+This function returns a linear string that is the concatenation of the
+strings in its argument. It is implemented based on
+#dyncode("stringarr_concat").\
+
+")
 
 #declexample('\
 

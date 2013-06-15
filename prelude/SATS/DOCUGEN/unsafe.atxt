@@ -144,6 +144,10 @@ list_vt_copy {n:int}
 
 (* ****** ****** *)
 
+#declnamesynop("arrayptr2ref")
+
+(* ****** ****** *)
+
 #declnamesynop("strptr2string")
 #decldescrpt("\
 
@@ -152,7 +156,13 @@ for temporary use).  ")
 
 (* ****** ****** *)
 
-#declnamesynop("ptr_get")
+#declnamesynop("ptr0_get")
+#decldescrpt("\
+This function is like #dyncode("ptr1_get") except it does not typecheck whether
+its argument is non-null.
+")
+
+#declnamesynop("ptr1_get")
 #decldescrpt("\
 
 This function reads from a non-null pointer with no requirement for a proof
@@ -161,13 +171,15 @@ a pointer in C.
 
 ")
 
-#declnamesynop("ptr0_get")
+(* ****** ****** *)
+
+#declnamesynop("ptr0_set")
 #decldescrpt("\
-This function is like #dyncode("ptr_get") except it does not typecheck if
-its argument is non-null.
+This function is like #dyncode("ptr1_set") except it does not typecheck whether
+its first argument is non-null.
 ")
 
-#declnamesynop("ptr_set")
+#declnamesynop("ptr1_set")
 #decldescrpt("\
 
 This function writes through a non-null pointer with no requirement for a proof
@@ -176,15 +188,15 @@ a pointer in C.
 
 ")
 
-#declnamesynop("ptr0_set")
+(* ****** ****** *)
+
+#declnamesynop("ptr0_exch")
 #decldescrpt("\
-This function is like #dyncode("ptr_set") except it does not typecheck if
+This function is like #dyncode("ptr1_exch") except it does not typecheck whether
 its first argument is non-null.
 ")
 
-(* ****** ****** *)
-
-#declnamesynop("ptr_exch")
+#declnamesynop("ptr1_exch")
 #decldescrpt("\
 
 This function exchanges the content at the location to which its first
@@ -194,77 +206,76 @@ pointer.
 
 ")
 
-#declnamesynop("ptr0_exch")
+(* ****** ****** *)
+
+#declnamesynop("ptr0_addby")
 #decldescrpt("\
-This function is like #dyncode("ptr_exch") except it does not typecheck if
+This function is like #dyncode("ptr1_addby") except it does not typecheck whether
 its first argument is non-null.
 ")
 
-(* ****** ****** *)
-
-#declnamesynop("ptr_addby")
+#declnamesynop("ptr1_addby")
 #decldescrpt("\
 
 This function updates the content of p with the sum of its current content
 and x.  ")
-#declnamesynop("ptr0_addby")
-#decldescrpt("\
-This function is like #dyncode("ptr_addby") except it does not typecheck if
-its first argument is non-null.
-")
 
 (* ****** ****** *)
 
-#declnamesynop("ptr_subby")
+#declnamesynop("ptr0_subby")
+#decldescrpt("\
+
+This function is like #dyncode("ptr1_subby") except it does not typecheck whether
+its first argument is non-null.
+")
+
+#declnamesynop("ptr1_subby")
 #decldescrpt("\
 
 This function updates the content of p with the difference of its current
 content from x.  ")
-#declnamesynop("ptr0_subby")
-#decldescrpt("\
-
-This function is like #dyncode("ptr_subby") except it does not typecheck if
-its first argument is non-null.
-")
 
 (* ****** ****** *)
 
-#declnamesynop("ptr_mulby")
+#declnamesynop("ptr0_mulby")
+#decldescrpt("\
+This function is like #dyncode("ptr1_mulby") except it does not typecheck whether
+its first argument is non-null.
+")
+
+#declnamesynop("ptr1_mulby")
 #decldescrpt("\
 
 This function updates the content of p with the product of multiplying its
 current content by x.  ")
-#declnamesynop("ptr0_mulby")
-#decldescrpt("\
-This function is like #dyncode("ptr_mulby") except it does not typecheck if
-its first argument is non-null.
-")
 
 (* ****** ****** *)
 
-#declnamesynop("ptr_divby")
+#declnamesynop("ptr0_divby")
+#decldescrpt("\
+This function is like #dyncode("ptr1_divby") except it does not typecheck whether
+its first argument is non-null.
+")
+
+#declnamesynop("ptr1_divby")
 #decldescrpt("\
 
 This function updates the content of p with the quotient of dividing its
 current content by x.  ")
-#declnamesynop("ptr0_divby")
-#decldescrpt("\
-This function is like #dyncode("ptr_divby") except it does not typecheck if
-its first argument is non-null.
-")
 
 (* ****** ****** *)
 
-#declnamesynop("ptr_modby")
+#declnamesynop("ptr0_modby")
+#decldescrpt("\
+This function is like #dyncode("ptr1_modby") except it does not typecheck whether
+its first argument is non-null.
+")
+
+#declnamesynop("ptr1_modby")
 #decldescrpt("\
 
 This function updates the content of p with the remainder of dividing its
 current content by x.  ")
-#declnamesynop("ptr0_modby")
-#decldescrpt("\
-This function is like #dyncode("ptr_modby") except it does not typecheck if
-its first argument is non-null.
-")
 
 (* ****** ****** *)
 
