@@ -157,7 +157,8 @@ fun tmpvar_isref (tmp: tmpvar): bool // tmpref?
 fun tmpvar_isret (tmp: tmpvar): bool // tmpret?
 fun tmpvar_iserr (tmp: tmpvar): bool // tmperr?
 
-fun tmpvar_get_topknd (tmp: tmpvar): int // 0/1: local/(static)top
+fun tmpvar_get_topknd
+  (tmp: tmpvar): int // knd=0/1: local/(static)top
 
 fun tmpvar_get_origin (tmp: tmpvar): tmpvaropt
 fun tmpvar_get_suffix (tmp: tmpvar): int
@@ -165,18 +166,21 @@ fun tmpvar_get_suffix (tmp: tmpvar): int
 fun tmpvar_get_stamp (tmp: tmpvar): stamp
 
 (* ****** ****** *)
-
+//
 fun print_tmpvar (x: tmpvar): void
-overload print with print_tmpvar
 fun prerr_tmpvar (x: tmpvar): void
+fun fprint_tmpvar : fprint_type (tmpvar)
+//
+overload print with print_tmpvar
 overload prerr with prerr_tmpvar
-fun fprint_tmpvar : fprint_type (tmpvar) // implemented in [pats_ccomp_tmpvar.dats]
+overload fprint with fprint_tmpvar
+//
+(* ****** ****** *)
 
 fun eq_tmpvar_tmpvar (x1: tmpvar, x2: tmpvar):<> bool
 overload = with eq_tmpvar_tmpvar
-
 fun compare_tmpvar_tmpvar (x1: tmpvar, x2: tmpvar):<> int
-overload = with compare_tmpvar_tmpvar
+overload compare with compare_tmpvar_tmpvar
 
 (* ****** ****** *)
 

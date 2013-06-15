@@ -247,20 +247,45 @@ exception NotFoundExn of () // expected to be found but not found
 (* ****** ****** *)
 //
 // HX-2012-07: indication of a function argument taking
-exception IllegalArgExn of (string) // some value out of its domain
+//
+exception
+IllegalArgExn of (string) // some value out of its domain
 //
 (* ****** ****** *)
 //
 // HX-2012-07: indication of something (e.g. a template instance)
-exception NotImplementedExn of (string) // that is not yet implemented
+//
+exception
+NotImplementedExn of (string) // that is not yet implemented
 //
 (* ****** ****** *)
-
+//
 typedef
 array (a, n) = @[a][n]
 viewdef
-array_v (a:vt@ype, l:addr, n:int) = @[a][n] @ l
-
+array_v
+  (a:vt@ype, l:addr, n:int) = @[a][n] @ l
+//
+absvtype
+arrayptr_3 (
+  a:vt0ype+, l: addr, n: int
+) = ptr // end of [arrayptr]
+vtypedef
+arrayptr_2 (
+  a:viewt@ype, n:int
+) = [l:addr] arrayptr_3 (a, l, n)
+stadef arrayptr = arrayptr_3
+stadef arrayptr = arrayptr_2
+//
+abstype
+arrayref_vt0ype_int_type
+  (a: vt@ype(*elt*), n: int(*size*)) = ptr
+stadef arrayref = arrayref_vt0ype_int_type
+//
+abstype
+arrszref_vt0ype_type (a: vt@ype) = ptr
+stadef arrszref = arrszref_vt0ype_type
+//
 (* ****** ****** *)
 //
 datatype // t@ype+: covariant
@@ -436,9 +461,9 @@ overload main with main_argc_argv_envp_int
 (* ****** ****** *)
 
 fun exit
-  (ecode: int) :<!exn> {a:t0p}(a) = "mac#%"
+  (ecode: int):<!exn> {a:t0p}(a) = "mac#%"
 fun exit_errmsg
-  (ecode: int, msg: string) :<!exn> {a:t0p}(a) = "mac#%"
+  (ecode: int, msg: string):<!exn> {a:t0p}(a) = "mac#%"
 (*
 fun exit_fprintf{ts:types}
 (
@@ -449,9 +474,9 @@ fun exit_fprintf{ts:types}
 (* ****** ****** *)
 //
 fun exit_void
-  (ecode: int) :<!exn> void = "mac#%"
+  (ecode: int):<!exn> void = "mac#%"
 fun exit_errmsg_void
-  (ecode: int, msg: string) :<!exn> void = "mac#%"
+  (ecode: int, msg: string):<!exn> void = "mac#%"
 //
 (* ****** ****** *)
 
@@ -468,7 +493,7 @@ overload assert with assert_bool1 of 10
 fun assert_errmsg_bool0
   (x: bool, msg: string):<!exn> void = "mac#%"
 fun assert_errmsg_bool1
-  {b:bool} (x: bool b, msg: string) :<!exn> [b] void = "mac#%"
+  {b:bool} (x: bool b, msg: string):<!exn> [b] void = "mac#%"
 //
 symintr assert_errmsg
 overload assert_errmsg with assert_errmsg_bool0 of 0

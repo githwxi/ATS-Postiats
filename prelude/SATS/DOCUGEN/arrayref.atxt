@@ -55,19 +55,17 @@ run-time.  ")
 
 (* ****** ****** *)
 
-#declname("arrayref")
-#declsynopsis2("
-#pats2xhtmls("\
-abstype
-arrayref_viewt0ype_int_type
-  (a: viewt@ype(*invariant*), n: int(*size*))
-stadef arrayref = arrayref_viewt0ype_int_type
-")
-")
+#declnamesynop("arrayref")
 #decldescrpt("\
 
 Given a type T and an integer N, the type #stacode("arrayref(T, N)") is for
-persistent arrays of size N in which each element is of the type T.  ")
+persistent arrays of size N in which each element is of the type T.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("arrayref_vt0ype_int_type")
 
 (* ****** ****** *)
 
@@ -118,6 +116,7 @@ handled by calling the function #dyncode("fprint_ref").
 (* ****** ****** *)
 
 #declnamesynop("arrszref")
+#declnamesynop("arrszref_vt0ype_type")
 
 (* ****** ****** *)
 

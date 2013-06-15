@@ -32,6 +32,26 @@ manipulating arrayptr-values.
 
 (* ****** ****** *)
 
+#declnamesynop("arrayptr")
+#decldescrpt("\
+
+Given a type T, an address L and an integer N, the type
+#stacode("arrayptr(T, L, N)") is for a linear array located at L that
+stores N elements of the type T.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("arrayptr_vt0ype_int")
+#declnamesynop("arrayptr_vt0ype_addr_int")
+
+(* ****** ****** *)
+
+#declnamesynop("arrayptrout")
+
+(* ****** ****** *)
+
 #declnamesynop("arrayptr_encode")
 
 (* ****** ****** *)

@@ -35,22 +35,30 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 #atscode_separator()
 
+\#if(0)
+//
+// HX-2013-06:
+// it is declared in [basic_dyn.sats]
+//
 absvtype
-arrayptr_3 (
+arrayptr_vt0ype_addr_int
+(
   a:vt0ype+, l: addr, n: int
-) = ptr // end of [arrayptr]
+) = ptr (l) // end of [arrayptr]
+stadef arrayptr = arrayptr_vt0ype_addr_int
 vtypedef
-arrayptr_2 (
+arrayptr_vt0ype_int
+(
   a:viewt@ype, n:int
-) = [l:addr] arrayptr_3 (a, l, n)
+) = [l:addr] arrayptr (a, l, n)
+stadef arrayptr = arrayptr_vt0ype_int
 //
-stadef arrayptr = arrayptr_3
-stadef arrayptr = arrayptr_2
-//
+\#endif
+
 #atscode_separator()
 
 absvtype
-arrayptrout (a:t@ype, l: addr, n: int) = ptr
+arrayptrout (a:t@ype, l: addr, n: int) = ptr (l)
 
 #atscode_separator()
 

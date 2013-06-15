@@ -297,11 +297,12 @@ hipatck_ccomp
 val loc0 = hip0.hipat_loc
 //
 (*
-val () = begin
+val () =
+(
   println! ("hipatck_ccomp: loc0 = ", loc0);
   println! ("hipatck_ccomp: hip0 = ", hip0);
-  print "hipatck_ccomp: pmv0 = "; print_primval pmv0; print_newline ();
-end // end of [val]
+  println! ("hipatck_ccomp: pmv0 = ", pmv0);
+) // end of [val]
 *)
 //
 in

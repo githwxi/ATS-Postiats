@@ -364,6 +364,9 @@ overload string_append with string1_append of 20
 #atscode_separator()
 
 fun{
+} stringarr_concat{n:int}
+  (xs: arrayref(string, n), size_t n):<!wrt> Strptr1
+fun{
 } stringlst_concat (xs: List(string)):<!wrt> Strptr1
 
 #atscode_separator()

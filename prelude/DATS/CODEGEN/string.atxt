@@ -290,7 +290,7 @@ implement{}
 string0_copy
   (str) = let
 //
-val str = g1ofg0_string (str)
+val str = g1ofg0(str)
 val str2 = string1_copy (str)
 prval () = lemma_strnptr_param (str2)
 //
@@ -397,8 +397,8 @@ implement{}
 string0_append
   (x1, x2) = let
 //
-val x1 = g1ofg0_string (x1)
-val x2 = g1ofg0_string (x2)
+val x1 = g1ofg0(x1)
+val x2 = g1ofg0(x2)
 val x12 = string1_append (x1, x2)
 prval () = lemma_strnptr_param (x12)
 //
@@ -425,55 +425,17 @@ end // end of [string1_append]
 #atscode_separator()
 
 implement{}
-stringlst_concat
-  (xs) = $effmask_all let
+stringlst_concat (xs) = let
 //
+val n = list_length (xs)
 prval () = lemma_list_param (xs)
-//
-val ns = let
-//
-implement
-list_map$fwork<string><size_t> (x) = string0_length (x)
-//
-in
-  list_map<string><size_t> (xs)
-end // end of [val]
-//
-val ntot = let
-//
-implement
-list_foldleft$fwork<size_t><size_t> (acc, n) = acc + (n)
+prval [n:int] INTEQ() = inteq_make_gint (n)
+val xs2 = arrayptr_make_list (n, xs)
+val res = stringarr_concat ($UN.castvwtp1{arrayref(string,n)}(xs2), i2sz(n))
+val () = arrayptr_free (xs2)
 //
 in
-  list_foldleft ($UN.list_vt2t (ns), (i2sz)0)
-end // end of [ntot]
-//
-fun loop
-  {n:nat} .<n>.
-(
-  p: ptr, xs: list (string, n), ns: list_vt (size_t, n)
-) : void = let
-in
-//
-case+ xs of
-| list_cons (x, xs) => let
-    val+~list_vt_cons (n, ns) = ns
-    val _(*p*) = memcpy (p, string2ptr(x), n)
-  in
-    loop (ptr_add<char> (p, n), xs, ns)
-  end // end of [list_cons]
-| list_nil () => let
-    val+~list_vt_nil () = ns in $UN.ptr0_set<char> (p, CNUL)
-  end // end of [list_nil]
-//
-end // end of [loop]
-//
-val ntot = g1ofg0_uint (ntot)
-val (pf, pfgc | p) = malloc_gc (succ(ntot))
-val () = loop (p, xs, ns)
-//
-in
-  castvwtp_trans{Strptr1}((pf, pfgc | p))
+  res
 end // end of [stringlst_concat]
 
 #atscode_separator()

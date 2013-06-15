@@ -43,10 +43,16 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 //
 #atscode_separator()
 
+\#if(0)
+//
+// HX-2013-06:
+// it is declared in [basic_dyn.sats]
+//
 abstype
 arrayref_vt0ype_int_type
   (a: vt@ype(*elt*), n: int(*size*)) = ptr
 stadef arrayref = arrayref_vt0ype_int_type
+\#endif
 
 #atscode_separator()
 
@@ -289,9 +295,16 @@ arrayref_tabulate
 //
 #atscode_separator()
 
+\#if(0)
+//
+// HX-2013-06:
+// it is declared in [basic_dyn.sats]
+//
 abstype
 arrszref_vt0ype_type (a: vt@ype) = ptr
 stadef arrszref = arrszref_vt0ype_type
+//
+\#endif
 
 #atscode_separator()
 

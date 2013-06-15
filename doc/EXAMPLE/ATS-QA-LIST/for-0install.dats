@@ -121,7 +121,7 @@ in
 end // end of [local]
 //
 val (
-) = dynarray_insert_atend_exn (DA, $UN.cast{string}(the_null_ptr))
+) = dynarray_insert_atend_exn (DA, $UN.cast{string}(0))
 //
 var asz: size_t
 val A = dynarray_getfree_arrayptr (DA, asz)
