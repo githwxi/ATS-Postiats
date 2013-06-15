@@ -48,6 +48,17 @@ atspre_argv_get_at
   return (((atstype_string*)argv)[i]) ;
 } /* end of [atspre_argv_get_at] */
 
+ATSinline()
+atsvoid_t0ype
+atspre_argv_set_at
+(
+  atstype_arrptr argv
+, atstype_int i, atstype_string x
+)
+{
+  ((atstype_string*)argv)[i] = x ; return ;
+} /* end of [atspre_argv_set_at] */
+
 #atscode_separator_for_C()
 
 ATSinline()

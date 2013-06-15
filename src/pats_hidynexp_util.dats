@@ -32,8 +32,8 @@
 //
 (* ****** ****** *)
 
-staload
-UN = "./prelude/SATS/unsafe.sats"
+staload UN = "./prelude/SATS/unsafe.sats"
+staload _(*anon*) = "prelude/DATS/list.dats"
 
 (* ****** ****** *)
 
@@ -47,7 +47,14 @@ staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
+staload LAB = "./pats_label.sats"
+overload = with $LAB.eq_label_label
+
+(* ****** ****** *)
+
+staload S2E = "./pats_staexp2.sats"
 staload D2E = "./pats_dynexp2.sats"
+overload = with $S2E.eq_d2con_d2con
 
 (* ****** ****** *)
 
@@ -181,6 +188,192 @@ end // end of [d2var_get2_funclo]
 
 (* ****** ****** *)
 
+implement
+hipat_is_wild
+  (hip) = let
+in
+//
+case+
+  hip.hipat_node of
+| HIPany _ => true
+| HIPvar _ => true
+| HIPann (hip, _) => hipat_is_wild (hip)
+| HIPrefas (_, hip) => hipat_is_wild (hip)
+| _ => false
+//
+end // end of [hipat_is_wild]
+
+implement
+hipatlst_is_wild
+  (hips) = list_forall_fun (hips, hipat_is_wild)
+// end of [hipatlst_is_wild]
+
+implement
+labhipatlst_is_wild
+  (lhips) = let
+//
+fun labhipat_is_wild
+  (lhip: labhipat): bool = let
+  val LABHIPAT (_, hip) = lhip in hipat_is_wild (hip)
+end // end of [labhipat_is_wild]
+//
+in
+  list_forall_fun (lhips, labhipat_is_wild)
+end // end of [labhipatlst_is_wild]
+
+(* ****** ****** *)
+
+implement
+hipat_subtest
+  (hip1, hip2) = let
+//
+(*
+val () =
+(
+  println! ("hipat_subtest: hip1 = ", hip1);
+  println! ("hipat_subtest: hip2 = ", hip2);
+) // end of [val]
+*)
+//
+val hipn1 = hip1.hipat_node
+val hipn2 = hip2.hipat_node
+//
+in
+//
+case+
+  (hipn1, hipn2) of
+//
+| (_, HIPany _) => true
+| (_, HIPvar _) => true
+| (_, HIPann (hip2, _)) => hipat_subtest (hip1, hip2)
+| (_, HIPrefas (_, hip2)) => hipat_subtest (hip1, hip2)
+//
+| (HIPann (hip1, _), _) => hipat_subtest (hip1, hip2)
+| (HIPrefas (_, hip1), _) => hipat_subtest (hip1, hip2)
+//
+| (HIPcon
+    (_, d2c1, _, lxs1), _) => (
+  case+ hipn2 of
+  | HIPcon (_, d2c2, _, lxs2) =>
+    (
+      if d2c1 = d2c2
+        then labhipatlst_subtest (lxs1, lxs2) else false
+      // end of [if]
+    )
+  | HIPcon_any (_, d2c2) => d2c1 = d2c2
+  | _ => false
+  )
+| (HIPcon_any (_, d2c1), _) => (
+  case+ hipn2 of
+  | HIPcon (_, d2c2, _, lxs2) =>
+      if d2c1 = d2c2 then labhipatlst_is_wild (lxs2) else false
+  | HIPcon_any (_, d2c2) => d2c1 = d2c2
+  | _ => false
+  )
+//
+| (HIPint i1, _) => (
+  case+ hipn2 of HIPint i2 => i1 = i2 | _ => false
+  )
+| (HIPbool b1, _) => (
+  case+ hipn2 of HIPbool b2 => b1 = b2 | _ => false
+  )
+| (HIPchar c1, _) => (
+  case+ hipn2 of HIPchar c2 => c1 = c2 | _ => false
+  )
+| (HIPstring str1, _) => (
+  case+ hipn2 of HIPstring str2 => str1 = str2 | _ => false
+  )
+| (HIPfloat f1, _) => (
+  case+ hipn2 of HIPfloat f2 => f1 = f2 | _ => false
+  )
+//
+| (HIPempty (), _) => (
+  case+ hipn2 of HIPempty () => true | _ => false
+  )
+//
+| (HIPlst (_, xs1), _) => (
+  case+ hipn2 of
+  | HIPlst (_, xs2) => hipatlst_subtest (xs1, xs2) | _ => false
+  )
+| (HIPrec (_, lxs1, _), _) => (
+  case+ hipn2 of
+  | HIPrec (_, lxs2, _) => labhipatlst_subtest (lxs1, lxs2) | _ => false
+  )
+//
+| (_, _) => false
+//
+end // end of [hipat_subtest]
+
+(* ****** ****** *)
+
+implement
+hipatlst_subtest
+  (xs1, xs2) = let
+in
+//
+case+ xs1 of
+| list_cons
+    (x1, xs1) => (
+  case+ xs2 of
+  | list_cons (x2, xs2) =>
+    (
+      if hipat_subtest (x1, x2)
+        then hipatlst_subtest (xs1, xs2) else false
+      // end of [if]
+    )
+  | list_nil () => false
+  )
+| list_nil () => (
+  case+ xs2 of list_cons _ => false | list_nil () => true
+  )
+//
+end // end of [hipatlst_subtest]
+
+(* ****** ****** *)
+
+local
+
+fun labhipat_subtest
+(
+  lx1: labhipat, lx2: labhipat
+) : bool = let
+//
+val+LABHIPAT (l1, x1) = lx1
+val+LABHIPAT (l2, x2) = lx2
+//
+in
+  if l1 = l2 then hipat_subtest (x1, x2) else false
+end // end of [labhipat_subtest]
+
+in (* in of [local] *)
+
+implement
+labhipatlst_subtest
+  (lxs1, lxs2) = let
+in
+//
+case+ lxs1 of
+| list_cons
+    (lx1, lxs1) => (
+  case+ lxs2 of
+  | list_cons (lx2, lxs2) =>
+    (
+      if labhipat_subtest (lx1, lx2)
+        then labhipatlst_subtest (lxs1, lxs2) else false
+      // end of [if]
+    )
+  | list_nil () => false
+  )
+| list_nil () => (
+  case+ lxs2 of list_cons _ => false | list_nil () => true
+  )
+//
+end // end of [labhipatlst_subtest]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 local
 
 fun hidexplst_is_value
@@ -203,7 +396,11 @@ in (* in of [local] *)
 
 implement
 hidexp_is_value
-  (hde0) = case+ hde0.hidexp_node of
+  (hde0) = let
+in
+//
+case+
+  hde0.hidexp_node of
 //
   | HDEvar _ => true
   | HDEcst _ => true
@@ -224,16 +421,17 @@ hidexp_is_value
   | HDEtmpvar _ => true
 //
   | _ => false
-// end of [hidexp_is_value]
+//
+end // end of [hidexp_is_value]
 
 end // end of [local]
 
 (* ****** ****** *)
-
+//
 implement
 hidexp_let_simplify
   (loc, hse, hids, hde) = hidexp_let (loc, hse, hids, hde)
-
+//
 (* ****** ****** *)
 
 (* end of [pats_hidynexp_util.dats] *)

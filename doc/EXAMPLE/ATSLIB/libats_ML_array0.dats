@@ -21,8 +21,6 @@ staload _(*anon*) = "libats/ML/DATS/array0.dats"
 //
 (* ****** ****** *)
 
-(* ****** ****** *)
-
 val () =
 {
 //

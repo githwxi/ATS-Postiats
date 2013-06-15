@@ -50,12 +50,11 @@ sortdef t0p = t@ype and vt0p = vt@ype
 // atsbool_true/atsbool_false are mapped to 1/0
 // this mapping is fixed and should never be changed!
 //
-val true_bool
-  : bool (true)  = "mac#atsbool_true" // = 1
 #define true true_bool // shorthand
-val false_bool
-  : bool (false) = "mac#atsbool_false" // = 0
+val true_bool : bool (true)  = "mac#atsbool_true" // = 1
+//
 #define false false_bool // shorthand
+val false_bool : bool (false) = "mac#atsbool_false" // = 0
 //
 (* ****** ****** *)
 //
@@ -215,9 +214,8 @@ overload decode with vcopyenv_vt_decode
 //
 // HX: the_null_ptr = (void*)0
 //
-val the_null_ptr
-  : ptr (null) = "mac#atsptr_null" // macro
-macdef NULL = the_null_ptr // end of [macdef]
+val
+the_null_ptr : ptr (null) = "mac#atsptr_null"
 //
 (* ****** ****** *)
 
@@ -397,10 +395,16 @@ stadef argv = argv_int_vtype
 [argv_takeout_parrnull] is declared in prelude/SATS/extern.sats
 *)
 
-fun argv_get_at {n:int}
-  (argv: !argv (n), i: natLt n):<> string = "mac#atspre_argv_get_at"
-overload [] with argv_get_at
+(* ****** ****** *)
 
+fun argv_get_at {n:int}
+  (argv: !argv (n), i: natLt n):<> string = "mac#%"
+fun argv_set_at {n:int}
+  (argv: !argv (n), i: natLt n, x: string):<!wrt> void = "mac#%"
+//
+overload [] with argv_get_at
+overload [] with argv_set_at
+//
 (* ****** ****** *)
 //
 symintr main0
@@ -431,59 +435,40 @@ overload main with main_argc_argv_envp_int
 //
 (* ****** ****** *)
 
-fun exit (
-  ecode: int
-) :<!exn> {a:t0p}(a) = "mac#atspre_exit"
-fun exit_errmsg (
-  ecode: int, msg: string
-) :<!exn> {a:t0p}(a) = "mac#atspre_exit_errmsg"
+fun exit
+  (ecode: int) :<!exn> {a:t0p}(a) = "mac#%"
+fun exit_errmsg
+  (ecode: int, msg: string) :<!exn> {a:t0p}(a) = "mac#%"
 (*
-fun exit_fprintf
-  {ts:types} (
-  ecode: int
-, out: FILEref
-, fmt: printf_c ts, args: ts
-) :<> {a:vt0p}(a) = "mac#atspre_exit_fprintf"
-// end of [exit_fprintf]
+fun exit_fprintf{ts:types}
+(
+  ecode: int, out: FILEref, fmt: printf_c ts, args: ts
+) :<!exn> {a:vt0p}(a) = "mac#%" // end of [exit_fprintf]
 *)
 
 (* ****** ****** *)
-
-fun
-exit_void
-(
-  ecode: int
-) :<!exn> void = "mac#atspre_exit_void"
-fun
-exit_errmsg_void
-(
-  ecode: int, msg: string
-) :<!exn> void = "mac#atspre_exit_errmsg_void"
-
+//
+fun exit_void
+  (ecode: int) :<!exn> void = "mac#%"
+fun exit_errmsg_void
+  (ecode: int, msg: string) :<!exn> void = "mac#%"
+//
 (* ****** ****** *)
 
-fun
-assert_bool0
+fun assert_bool0
   (x: bool):<!exn> void = "mac#%"
-fun
-assert_bool1
-  {b:bool} (
-  x: bool (b)
-) :<!exn> [b] void = "mac#%"
+fun assert_bool1
+  {b:bool} (x: bool (b)):<!exn> [b] void = "mac#%"
 //
 overload assert with assert_bool0 of 0
 overload assert with assert_bool1 of 10
 //
 (* ****** ****** *)
 
-fun
-assert_errmsg_bool0
+fun assert_errmsg_bool0
   (x: bool, msg: string):<!exn> void = "mac#%"
-fun
-assert_errmsg_bool1
-  {b:bool} (
-  x: bool b, msg: string
-) :<!exn> [b] void = "mac#%"
+fun assert_errmsg_bool1
+  {b:bool} (x: bool b, msg: string) :<!exn> [b] void = "mac#%"
 //
 symintr assert_errmsg
 overload assert_errmsg with assert_errmsg_bool0 of 0
@@ -495,10 +480,8 @@ fun
 assert_errmsg2_bool0
   (x: bool, msg1: string, msg2: string):<!exn> void = "mac#%"
 fun
-assert_errmsg2_bool1
-  {b:bool} (
-  x: bool b, msg1: string, msg2: string
-) :<!exn> [b] void = "mac#%"
+assert_errmsg2_bool1{b:bool}
+  (x: bool b, msg1: string, msg2: string):<!exn> [b] void = "mac#%"
 //
 symintr assert_errmsg2
 overload assert_errmsg2 with assert_errmsg2_bool0 of 0
@@ -533,27 +516,25 @@ typedef fmode = file_mode
 
 dataprop
 file_mode_lte
-  (file_mode, file_mode) =
-  | {m:file_mode} file_mode_lte_refl (m, m)
-  | {m1,m2,m3:file_mode}
+  (fmode, fmode) =
+  | {m:fmode} file_mode_lte_refl (m, m)
+  | {m1,m2,m3:fmode}
     file_mode_lte_tran (m1, m3) of
       (file_mode_lte (m1, m2), file_mode_lte (m2, m3))
-  | {m:file_mode} file_mode_lte_rw_r (rw(), r()) of ()
-  | {m:file_mode} file_mode_lte_rw_w (rw(), w()) of ()
+  | {m:fmode} file_mode_lte_rw_r (rw(), r()) of ()
+  | {m:fmode} file_mode_lte_rw_w (rw(), w()) of ()
 // end of [file_mode_lte]
 
+(* ****** ****** *)
+//
 prval file_mode_lte_r_r
-  : file_mode_lte (r(), r()) // implemented in [filebas_prf.dats]
+  : file_mode_lte (r(), r()) // impled in [filebas_prf.dats]
 prval file_mode_lte_w_w
-  : file_mode_lte (w(), w()) // implemented in [filebas_prf.dats]
+  : file_mode_lte (w(), w()) // impled in [filebas_prf.dats]
 prval file_mode_lte_rw_rw
-  : file_mode_lte (rw(), rw()) // implemented in [filebas_prf.dats]
-(*
-prval file_mode_lte_rw_r
-  : file_mode_lte (rw(), r()) // implemented in [filebas_prf.dats]
-prval file_mode_lte_rw_w
-  : file_mode_lte (rw(), w()) // implemented in [filebas_prf.dats]
-*)
+  : file_mode_lte (rw(), rw()) // impled in [filebas_prf.dats]
+//
+(* ****** ****** *)
 
 abstype FILEref_type = ptr
 typedef FILEref = FILEref_type
@@ -565,10 +546,9 @@ typedef fprint_vtype (a: vt0p) = (FILEref, !a) -> void
 
 (* ****** ****** *)
 
-fun fprint_newline
-  (out: FILEref): void = "mac#atspre_fprint_newline"
-fun print_newline (): void = "mac#atspre_print_newline"
-fun prerr_newline (): void = "mac#atspre_prerr_newline"
+fun print_newline (): void = "mac#%"
+fun prerr_newline (): void = "mac#%"
+fun fprint_newline (out: FILEref): void = "mac#%"
 
 (* ****** ****** *)
 

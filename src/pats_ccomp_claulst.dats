@@ -67,6 +67,7 @@ p2atcst =
   | P2TCintc of intinfset
 // end of [p2atcst]
 *)
+(*
 datavtype
 patcomp_vt =
   | PTCMPnil_vt of ()
@@ -86,6 +87,7 @@ patcomplst_vt = List_vt (patcomp_vt)
 
 and
 labpatcomplst_vt = List_vt (labpatcomp_vt)
+*)
 
 (* ****** ****** *)
 

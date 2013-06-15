@@ -79,8 +79,8 @@ hipat_node =
   | HIPint of int
   | HIPbool of bool
   | HIPchar of char
-  | HIPfloat of string
   | HIPstring of string
+  | HIPfloat of string
 //
   | HIPi0nt of $SYN.i0nt
   | HIPf0loat of $SYN.f0loat
@@ -187,6 +187,21 @@ fun hipat_ann
   (loc: location, hse: hisexp, hip: hipat, ann: hisexp): hipat
 // end of [hipat_ann]
 
+(* ****** ****** *)
+
+fun hipat_is_wild (hip: hipat): bool
+fun hipatlst_is_wild (hips: hipatlst): bool
+fun labhipatlst_is_wild (lhips: labhipatlst): bool
+
+(* ****** ****** *)
+//
+fun hipat_subtest
+  (hip1: hipat, hip2: hipat): bool
+fun hipatlst_subtest
+  (hips1: hipatlst, hips2: hipatlst): bool
+fun labhipatlst_subtest
+  (lhips1: labhipatlst, lhips2: labhipatlst): bool
+//
 (* ****** ****** *)
 
 abstype hidynexp_funlab_type // placeholder for [funlab]
