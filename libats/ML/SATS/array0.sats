@@ -48,6 +48,19 @@ typedef NSH(a:type) = a // for commenting purpose
 
 (* ****** ****** *)
 
+#if(0)
+//
+// HX: in [basis.sats]
+//
+abstype
+array0_vt0ype_type
+  (a: vt@ype(*invariant*)) = ptr
+stadef array0 = array0_vt0ype_type
+//
+#endif
+
+(* ****** ****** *)
+
 (*
 typedef array0 (a: t@ype) = arrszref (a)
 *)

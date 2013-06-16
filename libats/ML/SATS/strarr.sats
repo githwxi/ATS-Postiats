@@ -60,6 +60,17 @@ typedef NSH(a:type) = a // for commenting purpose
 //
 (* ****** ****** *)
 
+#if(0)
+//
+// HX: in [basis.sats]
+//
+abstype strarr_type = ptr
+typedef strarr = strarr_type
+//
+#endif
+
+(* ****** ****** *)
+
 castfn array2strarr (cs: array0 (char)):<> strarr
 castfn strarr2array (cs: strarr):<> array0 (char)
 
