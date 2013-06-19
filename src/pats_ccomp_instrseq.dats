@@ -93,6 +93,22 @@ end // end of [instrseq_addlst]
 (* ****** ****** *)
 
 implement
+instrseq_addlst_vt
+  (res, xs) = let
+in
+//
+case+ xs of
+| ~list_vt_cons
+    (x, xs) => let
+    val () = instrseq_add (res, x) in instrseq_addlst_vt (res, xs)
+  end // end of [list_cons]
+| ~list_vt_nil () => ()
+//
+end // end of [instrseq_addlst_vt]
+
+(* ****** ****** *)
+
+implement
 instrseq_add_tmpdec
   (res, loc, tmp) =
   instrseq_add (res, instr_tmpdec (loc, tmp))

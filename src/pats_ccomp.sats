@@ -106,8 +106,10 @@ abstype tmplab_type
 typedef tmplab = tmplab_type
 typedef tmplabopt = Option (tmplab)
 
-fun tmplab_make (): tmplab
+(* ****** ****** *)
 
+fun tmplab_make (loc: location): tmplab
+fun tmplab_get_loc (x: tmplab): location
 fun tmplab_get_stamp (x: tmplab): stamp
 
 (* ****** ****** *)
@@ -944,10 +946,27 @@ datatype patck =
 //
 // end of [patck]
 
-and patckont =
+(* ****** ****** *)
+
+typedef
+tmpmov =
+@(
+  tmpvar(*src*), tmpvar(*dst*)
+) // end of [tmpmov]
+
+typedef tmpmovlst = List (tmpmov)
+
+(* ****** ****** *)
+
+fun fprint_tmpmovlst (out: FILEref, xs: tmpmovlst): void
+
+(* ****** ****** *)
+
+datatype patckont =
   | PTCKNTnone of ()
   | PTCKNTtmplab of tmplab
   | PTCKNTtmplabint of (tmplab, int)
+  | PTCKNTtmplabmov of (tmplab, tmpmovlst)
   | PTCKNTcaseof_fail of (location) // run-time failure
   | PTCKNTfunarg_fail of (location, funlab) // run-time failure
   | PTCKNTraise of primval
@@ -977,6 +996,7 @@ datatype
 instr_node =
 //
   | INSfunlab of (funlab)
+  | INStmplab of (tmplab)
 //
   | INSmove_val of (tmpvar, primval)
 //
@@ -1083,11 +1103,14 @@ and ibranchlst = List (ibranch)
 (* ****** ****** *)
 
 fun print_instr (x: instr): void
-overload print with print_instr
 fun prerr_instr (x: instr): void
 overload prerr with prerr_instr
+overload print with print_instr
 fun fprint_instr : fprint_type (instr)
+overload fprint with fprint_instr
+
 fun fprint_instrlst : fprint_type (instrlst)
+overload fprint with fprint_instrlst
 
 (* ****** ****** *)
 
@@ -1095,11 +1118,17 @@ fun instr_funlab (loc: location, flab: funlab): instr
 
 (* ****** ****** *)
 
-fun instr_move_val (
+fun instr_tmplab (loc: location, tlab: tmplab): instr
+
+(* ****** ****** *)
+
+fun instr_move_val
+(
   loc: location, tmp: tmpvar, pmv: primval
 ) : instr // end of [instr_move_val]
 
-fun instr_pmove_val (
+fun instr_pmove_val
+(
   loc: location, tmp: tmpvar, pmv: primval
 ) : instr // end of [instr_pmove_val]
 
@@ -1173,20 +1202,24 @@ fun instr_move_ref
 
 (* ****** ****** *)
 
-fun instr_move_boxrec (
+fun instr_move_boxrec
+(
   loc: location, tmp: tmpvar, arg: labprimvalist, hse: hisexp
 ) : instr // end of [instr_move_boxrec]
-fun instr_move_fltrec (
+fun instr_move_fltrec
+(
   loc: location, tmp: tmpvar, arg: labprimvalist, hse: hisexp
 ) : instr // end of [instr_move_fltrec]
-fun instr_move_fltrec2 (
+fun instr_move_fltrec2
+(
   loc: location, tmp: tmpvar, arg: labprimvalist, hse: hisexp
 ) : instr // end of [instr_move_fltrec2]
 
 (* ****** ****** *)
 
-fun instr_patck (
-  loc: location, pmv: primval, pck: patck, pcknt: patckont
+fun instr_patck
+(
+  loc: location, pmv: primval, ptck: patck, ptknt: patckont
 ) : instr // pattern check
   
 (* ****** ****** *)
@@ -1314,7 +1347,8 @@ fun instrseq_make_nil (): instrseq
 fun instrseq_get_free (res: instrseq): instrlst
 
 fun instrseq_add (res: !instrseq, x: instr): void
-fun instrseq_addlst (res: !instrseq, x: instrlst): void
+fun instrseq_addlst (res: !instrseq, xs: instrlst): void
+fun instrseq_addlst_vt (res: !instrseq, xs: instrlst_vt): void
 
 fun instrseq_add_tmpdec
   (res: !instrseq, loc: location, tmp: tmpvar): void
@@ -1428,7 +1462,7 @@ fun ccompenv_get_loopcont (env: !ccompenv): tmplab
 fun ccompenv_inc_loopexnenv
 (
   env: !ccompenv, init: tmplab, fini: tmplab, cont: tmplab
-) : void // end of [ccompenv_push_loopexnenv]
+) : void // end of [ccompenv_inc_loopexnenv]
 
 fun ccompenv_dec_loopexnenv (env: !ccompenv): void
 
@@ -1806,6 +1840,10 @@ fun emit_instr_extfcall : emit_instr_type
 //
 fun emit_instr_patck : emit_instr_type
 //
+(* ****** ****** *)
+
+fun emit_ibranchlst : (FILEref, ibranchlst) -> void
+
 (* ****** ****** *)
 
 fun emit_instrlst (out: FILEref, inss: instrlst): void

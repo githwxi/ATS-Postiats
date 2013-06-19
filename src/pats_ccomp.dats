@@ -523,6 +523,13 @@ instr_funlab (loc, fl) =
 (* ****** ****** *)
 
 implement
+instr_tmplab (loc, tl) =
+  instr_make_node (loc, INStmplab (tl))
+// end of [instr_tmplab]
+
+(* ****** ****** *)
+
+implement
 instr_move_val (loc, tmp, pmv) =
   instr_make_node (loc, INSmove_val (tmp, pmv))
 // end of [instr_move_val]
@@ -664,8 +671,8 @@ end // end of [instr_move_fltrec2]
 
 implement
 instr_patck
-  (loc, pmv, pck, pcknt) =
-  instr_make_node (loc, INSpatck (pmv, pck, pcknt))
+  (loc, pmv, ptck, ptcknt) =
+  instr_make_node (loc, INSpatck (pmv, ptck, ptcknt))
 // end of [instr_patck]
 
 (* ****** ****** *)

@@ -1448,12 +1448,22 @@ in
 //
 case+ ins.instr_node of
 //
-| INSfunlab (flab) => {
+| INSfunlab (flab) =>
+  {
+    val (
+    ) = emit_text (out, "__patsflab_")
     val () =
-      emit_text (out, "__patsflab_")
-    val () = emit2_funlab (out, flab)
-    val () = emit_text (out, ":")
+    (
+      emit2_funlab (out, flab); emit_text (out, ":")
+    )
   } // end of [INSfunlab]
+| INStmplab (tlab) =>
+  {
+    val () =
+    (
+      emit_tmplab (out, tlab); emit_text (out, ":")
+    )
+  } // end of [INStmplab]
 //
 | INSmove_val
     (tmp, pmv) => emit_move_val (out, tmp, pmv)
@@ -1555,11 +1565,13 @@ case+ ins.instr_node of
     // nothing
   end // end of [INSloopexn]
 //
-| INSswitch (xs) =>
+| INSswitch (ibrs) =>
   {
-    val () = emit_text (out, "ATSdo() {\n")
-    val () =
-      emit_text (out, "\n} ATSwhile(0) ; /* end of [do] */")
+    val (
+    ) = emit_text (out, "ATScaseofbeg()\n")
+    val () = emit_ibranchlst (out, ibrs)
+    val (
+    ) = emit_text (out, "ATScaseofend()\n")
     // end of [val]
   } // end of [INSswitch]
 //

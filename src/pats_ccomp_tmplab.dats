@@ -58,32 +58,36 @@ local
 
 assume
 tmplab_type = '{
-  tmplab_stamp = stamp
+  tmplab_loc = location, tmplab_stamp = stamp
 } // end of [tmplab]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
-tmplab_make () = '{
-  tmplab_stamp= $STMP.tmplab_stamp_make ()
-} // end of [tmplab_make]
+tmplab_make (loc) = let
+  val stamp = $STMP.tmplab_stamp_make ()
+in
+  '{ tmplab_loc= loc, tmplab_stamp= stamp }
+end // end of [tmplab_make]
 
+implement
+tmplab_get_loc (tl) = tl.tmplab_loc
 implement
 tmplab_get_stamp (tl) = tl.tmplab_stamp
 
-implement
-fprint_tmplab
-  (out, tl) =
-{
-  val (
-  ) = fprint_string (out, "tmplab(")
-  val (
-  ) = $STMP.fprint_stamp (out, tl.tmplab_stamp)
-  val () = fprint_string (out, ")")
-} // end of [fprint_tmplab]
-
 end // end of [local]
 
+(* ****** ****** *)
+
+implement
+fprint_tmplab (out, tl) = 
+{
+  val stamp = tmplab_get_stamp (tl)
+  val () = fprint_string (out, "tmplab(")
+  val () = $STMP.fprint_stamp (out, stamp)
+  val () = fprint_string (out, ")")
+} (* end of [fprint_tmplab] *)
+  
 (* ****** ****** *)
 
 (* end of [pats_ccomp_tmplab.dats] *)

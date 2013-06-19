@@ -655,6 +655,25 @@ prerr_patck (x) = fprint_patck (stderr_ref, x)
 (* ****** ****** *)
 
 implement
+fprint_tmpmovlst (out, xs) = let
+//
+fun fpr
+(
+  out: FILEref, x: tmpmov
+) : void =
+{
+  val () = fprint_tmpvar (out, x.0)
+  val () = fprint_string (out, "->")
+  val () = fprint_tmpvar (out, x.1)
+}
+//
+in
+  $UT.fprintlst (out, xs, ", ", fpr)
+end // end of [fprint_tmpmovlst]
+
+(* ****** ****** *)
+
+implement
 fprint_patckont
   (out, x) = let
 //
@@ -663,29 +682,51 @@ macdef prstr (s) = fprint_string (out, ,(s))
 in
 //
 case+ x of
-| PTCKNTnone () =>
-    prstr "PTCKNTnone()"
-| PTCKNTtmplab (tl) => {
+//
+| PTCKNTnone (
+  ) => prstr "PTCKNTnone()"
+//
+| PTCKNTtmplab (tl) =>
+  {
     val () = prstr "PTCKNTtmplab("
     val () = fprint_tmplab (out, tl)
     val () = prstr ")"
   }
-| PTCKNTtmplabint (tl, i) => {
-    val () = prstr "PTCKNTtmplab("
+//
+| PTCKNTtmplabint
+    (tl, int) => {
+    val (
+    ) = prstr "PTCKNTtmplabint("
     val () = fprint_tmplab (out, tl)
     val () = prstr ", "
-    val () = fprint_int (out, i)
+    val () = fprint_int (out, int)
     val () = prstr ")"
   }
-| PTCKNTcaseof_fail (loc) => {
+//
+| PTCKNTtmplabmov
+    (tl, tmvlst) => {
+    val (
+    ) = prstr "PTCKNTtmplabmov("
+    val () = fprint_tmplab (out, tl)
+    val () = prstr "; "
+    val () = fprint_tmpmovlst (out, tmvlst)
+    val () = prstr ")"
+  }
+//
+| PTCKNTcaseof_fail
+    (loc) => {
     val () = prstr "PTCKNTcaseof_fail("
     val () = prstr ")"
   }
-| PTCKNTfunarg_fail (loc, fl) => {
+//
+| PTCKNTfunarg_fail
+    (loc, fl) => {
     val () = prstr "PTCKNTfunarg_fail("
     val () = prstr ")"
   }
-| PTCKNTraise (pmv) => {
+//
+| PTCKNTraise (pmv) =>
+  {
     val () = prstr "PTCKNTraise("
     val () = fprint_primval (out, pmv)
     val () = prstr ")"
@@ -712,6 +753,12 @@ case+ x.instr_node of
 | INSfunlab (fl) => {
     val () = prstr "INSfunlab("
     val () = fprint_funlab (out, fl)
+    val () = prstr ")"
+  }
+//
+| INStmplab (tl) => {
+    val () = prstr "INStmplab("
+    val () = fprint_tmplab (out, tl)
     val () = prstr ")"
   }
 //

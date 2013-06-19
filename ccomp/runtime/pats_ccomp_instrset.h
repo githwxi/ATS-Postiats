@@ -71,6 +71,13 @@
 
 /* ****** ****** */
 
+#define ATScaseofbeg() do {
+#define ATScaseofend() } while (0) ;
+#define ATSbranchbeg()
+#define ATSbranchend() break
+
+/* ****** ****** */
+
 #define ATSPMVint(i) i
 #define ATSPMVintrep(str) str
 

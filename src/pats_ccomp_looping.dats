@@ -64,12 +64,12 @@ case+ init of
 | None () => list_nil ()
 ) : instrlst // end of [val]
 //
-val tlab_init = tmplab_make ()
-val tlab_fini = tmplab_make ()
+val tlab_init = tmplab_make (loc0)
+val tlab_fini = tmplab_make (loc0)
 val tlab_cont =
 (
 case+ post of
-| Some _ => tmplab_make () | None _ => tlab_init
+| Some _ => tmplab_make (loc0) | None _ => tlab_init
 ) : tmplab // end of [val]
 //
 val (

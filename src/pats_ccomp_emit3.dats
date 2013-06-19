@@ -256,28 +256,42 @@ emit_patckont
 in
 //
 case+ fail of
-| PTCKNTnone () => {
-    val () =
-      emit_text
+| PTCKNTnone () =>
+  {
+    val () = emit_text
     (
       out, "ATSINSdeadcode_fail()"
     ) // end of [val]
   }
-| PTCKNTtmplab (tlab) => {
+| PTCKNTtmplab (tlab) =>
+  {
     val () =
       emit_text (out, "ATSgoto(")
     // end of [val]
     val () = emit_tmplab (out, tlab)
     val () = emit_text (out, ")")
   }
-| PTCKNTtmplabint (tlab, i) => {
+//
+| PTCKNTtmplabint
+    (tlab, int) => {
     val () =
       emit_text (out, "ATSgoto(")
     // end of [val]
-    val () = emit_tmplabint (out, tlab, i)
+    val () = emit_tmplabint (out, tlab, int)
     val () = emit_text (out, ")")
   }
-| PTCKNTcaseof_fail (loc) => {
+//
+| PTCKNTtmplabmov
+    (tlab, tmvlst) => {
+    val () =
+      emit_text (out, "ATSgoto(")
+    // end of [val]
+    val () = emit_tmplab (out, tlab)
+    val () = emit_text (out, ")")
+  }
+//
+| PTCKNTcaseof_fail (loc) =>
+  {
     val () =
       emit_text
     (
@@ -286,7 +300,8 @@ case+ fail of
     val () = $LOC.fprint_location (out, loc)
     val () = emit_text (out, "\")")
   }
-| PTCKNTfunarg_fail (loc, fl) => {
+| PTCKNTfunarg_fail (loc, fl) =>
+  {
     val () =
       emit_text
     (
@@ -502,6 +517,68 @@ val () =
 in
   // nothing
 end // end of [emit_instr_patck]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fun aux
+(
+  out: FILEref, ibr: ibranch
+) : void =  let
+  val tlab = ibr.ibranch_lab
+  val inss = ibr.ibranch_inslst
+(*
+  val () = emit_text (out, "/* ibranch: ")
+  val () = emit_tmplab (out, tlab)
+  val () = emit_text (out, " */\n")
+*)
+  val () = emit_text (out, "ATSbranchbeg() ;\n")
+  val () = emit_instrlst_ln (out, inss)
+  val () = emit_text (out, "ATSbranchend() ;\n")
+in
+  // nothing
+end // end of [emit_branch]
+
+in (* in of [local] *)
+
+implement
+emit_ibranchlst
+  (out, ibrs) = let
+//
+fun auxlst
+(
+  out: FILEref
+, i: int, ibrs: ibranchlst
+) : void = let
+in
+//
+case+ ibrs of
+| list_cons
+    (ibr, ibrs) =>
+  {
+    val () = aux (out, ibr)
+    val () = emit_newline (out)
+    val () = auxlst (out, i+1, ibrs)
+  } // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [auxlst]
+//
+val () = emit_text
+(
+  out, "/*\n** ibranchlst-beg\n*/\n"
+)
+val () = auxlst (out, 0(*i*), ibrs)
+val () = emit_text
+(
+  out, "/*\n** ibranchlst-end\n*/\n"
+)
+in
+  // nothing
+end // end of [emit_ibranchlst]
 
 end // end of [local]
 

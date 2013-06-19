@@ -207,6 +207,7 @@ in
 case+ x.instr_node of
 //
 | INSfunlab _ => ()
+| INStmplab _ => ()
 //
 | INSmove_val (tmp, _) => tmpadd (tmp)
 | INSpmove_val (tmp, _) => tmpadd (tmp)
