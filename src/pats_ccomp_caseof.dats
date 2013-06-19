@@ -36,6 +36,14 @@ staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
+staload "./pats_dynexp2.sats"
+
+(* ****** ****** *)
+
+staload "./pats_trans2_env.sats"
+
+(* ****** ****** *)
+
 staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
@@ -61,8 +69,9 @@ case+ knd of
 | CK_case_neg () => PTCKNTcaseof_fail (loc0)
 ) : patckont // end of [val]
 //
+val lvl0 = the_d2varlev_get ()
 val ibranchlst =
-  hiclaulst_ccomp (env, pmvs, hicls, tmpret, fail)
+  hiclaulst_ccomp (env, lvl0, pmvs, hicls, tmpret, fail)
 val ins = instr_switch (loc0, ibranchlst)
 val () = instrseq_add (res, ins)
 //

@@ -431,6 +431,12 @@ s2cst_is_singular (s2c) = let
   case+ opt of Some d2cs => list_is_sing (d2cs) | None () => false
 end // end of [s2cst_is_singular]
 
+implement
+s2cst_is_binarian (s2c) = let
+  val opt = s2cst_get_dconlst (s2c) in
+  case+ opt of Some d2cs => list_is_pair (d2cs) | None () => false
+end // end of [s2cst_is_binarian]
+
 (* ****** ****** *)
 
 implement

@@ -166,12 +166,14 @@ in
 //
 case+ p3t0.p3at_node of
 //
-| P3Tany (d2v) => hipat_any (loc0, hse0)
+| P3Tany (d2v) =>
+    hipat_any (loc0, hse0)
 | P3Tvar (d2v) => let
     val d2v = d2var_tyer (d2v) in hipat_var (loc0, hse0, d2v)
   end (* end of [P3Tvar] *)
 //
-| P3Tcon (
+| P3Tcon
+  (
     pck, d2c, npf, p3ts
   ) => p3at_tyer_con (loc0, hse0, pck, d2c, npf, p3ts)
 //
@@ -211,7 +213,16 @@ case+ p3t0.p3at_node of
     hipat_lst (loc0, hse0, hse_elt, hips)
   end // end of [P3Tlst]
 //
-| P3Texist (s2vs, p3t) => p3at_tyer (p3t)
+| P3Trefas
+    (d2v, p3t_as) => let
+    val d2v = d2var_tyer (d2v)
+    val hip_as = p3at_tyer (p3t_as)
+  in
+    hipat_refas (loc0, hse0, d2v, hip_as)
+  end // end of [P3Trefas]
+//
+| P3Texist
+    (s2vs, p3t_scoop) => p3at_tyer (p3t_scoop)
 //
 | P3Tann
     (p3t, s2e_ann) => let

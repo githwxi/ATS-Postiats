@@ -476,14 +476,13 @@ v2aldec_tr
   (knd, d2c) = let
 //
 val loc0 = d2c.v2aldec_loc
-//
 val p2t_val = d2c.v2aldec_pat
 (*
-val () = begin
-  print "v2aldec_tr: p2t_val = "; print_p2at (p2t_val); print_newline ()
-end // end of [val]
+val () =
+(
+  println! ("v2aldec_tr: p2t_val = ", p2t_val)
+) // end of [val]
 *)
-//
 val isprf = valkind_is_proof (knd)
 val [b:bool] isprf = bool1_of_bool (isprf)
 val (pfopt | ()) =
@@ -502,9 +501,10 @@ val () = the_effenv_pop_if (pfopt | isprf)
 //
 val s2e_def = d3exp_get_type (d3e_def)
 (*
-val () = begin
-  print "v2aldec_tr: s2e_def = "; print_s2exp s2e_def; print_newline ();
-end // end of [val]
+val () =
+(
+  println! ("v2aldec_tr: s2e_def = ", s2e_def)
+) // end of [val]
 *)
 //
 val casknd = valkind2caskind (knd)

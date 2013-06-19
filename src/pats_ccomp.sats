@@ -104,16 +104,20 @@ fun the_staloadlst_add (hid: hidecl): void
 
 abstype tmplab_type
 typedef tmplab = tmplab_type
+typedef tmplabopt = Option (tmplab)
 
 fun tmplab_make (): tmplab
 
 fun tmplab_get_stamp (x: tmplab): stamp
 
+(* ****** ****** *)
+
 fun print_tmplab (x: tmplab): void
-overload print with print_tmplab
 fun prerr_tmplab (x: tmplab): void
+overload print with print_tmplab
 overload prerr with prerr_tmplab
 fun fprint_tmplab : fprint_type (tmplab)
+overload fprint with fprint_tmplab
 
 (* ****** ****** *)
 
@@ -170,10 +174,12 @@ fun tmpvar_get_stamp (tmp: tmpvar): stamp
 fun print_tmpvar (x: tmpvar): void
 fun prerr_tmpvar (x: tmpvar): void
 fun fprint_tmpvar : fprint_type (tmpvar)
+fun fprint_tmpvaropt : fprint_type (tmpvaropt)
 //
 overload print with print_tmpvar
 overload prerr with prerr_tmpvar
 overload fprint with fprint_tmpvar
+overload fprint with fprint_tmpvaropt
 //
 (* ****** ****** *)
 
@@ -1582,9 +1588,11 @@ fun hidexp_ccomp_funlab_arg_body
 
 (* ****** ****** *)
 
-fun hiclaulst_ccomp
+fun
+hiclaulst_ccomp
 (
   env: !ccompenv
+, lvl0: int
 , pmvs: primvalist
 , hicls: hiclaulst
 , tmpret: tmpvar

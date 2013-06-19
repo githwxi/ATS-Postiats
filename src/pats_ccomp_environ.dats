@@ -110,7 +110,7 @@ end // end of [aux_funlab_get_flablst]
 
 fun auxtrclo
 (
-  flev0: int
+  flvl0: int
 , xs: funlablst
 , xss: funlablst2_vt
 , res: funlabset_vt
@@ -119,7 +119,7 @@ fun auxtrclo
 (*
 val () =
 (
-  println! ("auxtrclo: flev0 = ", flev0)
+  println! ("auxtrclo: flvl0 = ", flvl0)
 ) (* end of [val] *)
 *)
 //
@@ -130,16 +130,16 @@ case+ xs of
     (x, xs) => let
 //
 // HX-2013-04-12:
-// Note that flev <= flev0 holds!
+// Note that flvl <= flvl0 holds!
 //
-    val flev = funlab_get_level (x)
+    val flvl = funlab_get_level (x)
   in
-    if flev >= flev0 then let
+    if flvl >= flvl0 then let
       val ismem = funlabset_vt_ismem (res, x)
     in
       if ismem then
       (
-        auxtrclo (flev0, xs, xss, res)
+        auxtrclo (flvl0, xs, xss, res)
       ) else let
         val res = funlabset_vt_add (res, x)
         val xs_new = aux_funlab_get_flablst (x) 
@@ -151,11 +151,11 @@ case+ xs of
 *)
 //
       in
-        auxtrclo (flev0, xs_new, list_vt_cons (xs, xss), res)
+        auxtrclo (flvl0, xs_new, list_vt_cons (xs, xss), res)
       end (* end of [if] *)
     end else let // parent
       val res =
-        funlabset_vt_add (res, x) in auxtrclo (flev0, xs, xss, res)
+        funlabset_vt_add (res, x) in auxtrclo (flvl0, xs, xss, res)
       // end of [val]
     end (* end of [if] *)
   end // end of [list_vt_cons]
@@ -163,7 +163,7 @@ case+ xs of
   (
     case+ xss of
     | ~list_vt_cons
-        (xs, xss) => auxtrclo (flev0, xs, xss, res)
+        (xs, xss) => auxtrclo (flvl0, xs, xss, res)
     | ~list_vt_nil () => res
   ) (* end of [list_vt_nil] *)
 //
@@ -184,12 +184,12 @@ case+ opt of
 | None () => fls where
   {
     val fl0 = funent_get_lab (fent)
-    val flev0 = funent_get_level (fent)
+    val flvl = funent_get_level (fent)
     val xs = funent_get_flablst (fent)
     val xss = list_vt_nil () // : funlablst2_vt
     val res = funlabset_vt_nil ()
     val res = funlabset_vt_add (res, fl0)
-    val res = auxtrclo (flev0, xs, xss, res)
+    val res = auxtrclo (flvl, xs, xss, res)
     val fls = funlabset_vt_listize_free (res)
     val fls = list_of_list_vt (fls)
     val () = funent_set_flablst_fin (fent, Some (fls))

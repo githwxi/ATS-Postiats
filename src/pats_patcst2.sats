@@ -52,6 +52,11 @@ stadef label = $LAB.label
 (* ****** ****** *)
 
 staload
+SYN = "./pats_syntax.sats"
+
+(* ****** ****** *)
+
+staload
 STAEXP2 = "./pats_staexp2.sats"
 typedef d2con = $STAEXP2.d2con
 staload
@@ -59,6 +64,10 @@ DYNEXP2 = "./pats_dynexp2.sats"
 typedef p2at = $DYNEXP2.p2at
 typedef p2atlst = $DYNEXP2.p2atlst
 typedef c2lau = $DYNEXP2.c2lau
+
+(* ****** ****** *)
+
+fun intinf_of_i0nt (x: $SYN.i0nt): intinf
 
 (* ****** ****** *)
 

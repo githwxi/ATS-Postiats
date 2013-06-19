@@ -32,7 +32,8 @@
 //
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/list.dats"
+staload
+_ = "prelude/DATS/list.dats"
 
 (* ****** ****** *)
 
@@ -134,12 +135,16 @@ typedef f0loat = token
 typedef s0tring = token
 typedef s0tringopt = Option (s0tring)
 
-fun int_of_i0nt (x: i0nt): int
+(* ****** ****** *)
 
 fun fprint_i0nt : fprint_type (i0nt)
 fun fprint_c0har : fprint_type (c0har)
 fun fprint_f0loat : fprint_type (f0loat)
 fun fprint_s0tring : fprint_type (s0tring)
+
+(* ****** ****** *)
+
+fun int_of_i0nt (x: i0nt): int
 
 (* ****** ****** *)
 

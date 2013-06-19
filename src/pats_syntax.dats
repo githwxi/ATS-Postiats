@@ -92,7 +92,8 @@ synent_isnot_null (x) = ptr_isnot_null ($UN.cast{ptr} (x))
 
 implement
 int_of_i0nt (tok) = let
-  val-T_INTEGER (_, rep, _) = tok.token_node in int_of_string (rep)
+  val-T_INTEGER
+    (_, rep, _) = tok.token_node in int_of_string (rep)
 end // end of [int_of_i0nt]
 
 (* ****** ****** *)

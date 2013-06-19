@@ -602,6 +602,7 @@ fun s2cst_is_datype (s2c: s2cst): bool
 fun s2cst_is_tagless (x: s2cst): bool
 fun s2cst_is_listlike (x: s2cst): bool
 fun s2cst_is_singular (x: s2cst): bool
+fun s2cst_is_binarian (x: s2cst): bool
 
 fun s2cst_subeq (s2c1: s2cst, s2c2: s2cst): bool
 
@@ -903,6 +904,7 @@ fun d2con_is_listcons (d2c: d2con): bool // like listcons
 fun d2con_is_listlike (d2c: d2con): bool // like listnil/listcons
 //
 fun d2con_is_singular (d2c: d2con): bool // singular constructor
+fun d2con_is_binarian (d2c: d2con): bool // binarian constructor
 
 (* ****** ****** *)
 //

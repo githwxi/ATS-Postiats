@@ -41,26 +41,22 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 // it is declared in [basic_dyn.sats]
 //
 absvtype
-arrayptr_vt0ype_addr_int
-(
-  a:vt0ype+, l: addr, n: int
-) = ptr (l) // end of [arrayptr]
-stadef arrayptr = arrayptr_vt0ype_addr_int
+arrayptr_vt0ype_addr_int_vtype
+  (a:vt0ype+, l: addr, n: int) = ptr (l)
+stadef
+arrayptr = arrayptr_vt0ype_addr_int_vtype
 vtypedef
-arrayptr_vt0ype_int
-(
-  a:viewt@ype, n:int
-) = [l:addr] arrayptr (a, l, n)
-stadef arrayptr = arrayptr_vt0ype_int
+arrayptr
+  (a:vt0p, n:int) = [l:addr] arrayptr (a, l, n)
 //
 \#endif
 
 #atscode_separator()
 
 absvtype
-arrayptrout_vt0ype_addr_int
+arrayptrout_vt0ype_addr_int_vtype
   (a:t@ype, l: addr, n: int) = ptr (l)
-stadef arrayptrout = arrayptrout_vt0ype_addr_int
+stadef arrayptrout = arrayptrout_vt0ype_addr_int_vtype
 
 #atscode_separator()
 

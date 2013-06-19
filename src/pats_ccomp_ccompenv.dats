@@ -846,10 +846,10 @@ ccompenv_add_dvarsetenv_var
   (env, d2v) = ((*void*)) where
 {
 //
-val lev = d2var_get_level (d2v)
+val lvl = d2var_get_level (d2v)
 //
 val () =
-if (lev > 0) then
+if (lvl > 0) then
 {
 val CCOMPENV (!p) = env
 //
@@ -871,10 +871,10 @@ ccompenv_add_dvarsetenv_env
 {
 //
 val d2v = d2env_get_var (d2e)
-val lev = d2var_get_level (d2v)
+val lvl = d2var_get_level (d2v)
 //
 val () =
-if (lev > 0) then
+if (lvl > 0) then
 {
 val CCOMPENV (!p) = env
 //
@@ -934,12 +934,12 @@ prval () = fold@ (env)
 
 implement
 ccompenv_addlst_dvarsetenv_if
-  (env, flev0, d2es) = let
+  (env, flvl0, d2es) = let
 //
 fun addlst_if
 (
   env: !ccompenv
-, flev0: int, d2es: d2envlst
+, flvl0: int, d2es: d2envlst
 ) : void = let
 in
 //
@@ -947,13 +947,13 @@ case+ d2es of
 | list_cons
     (d2e, d2es) => let
     val d2v = d2env_get_var (d2e)
-    val lev = d2var_get_level (d2v)
+    val lvl = d2var_get_level (d2v)
     val () = 
-    ( // HX: no need for handling siblings (=lev0)
-      if lev <= flev0 then ccompenv_add_dvarsetenv_env (env, d2e)
+    ( // HX: no need for handling siblings (=lvl0)
+      if lvl <= flvl0 then ccompenv_add_dvarsetenv_env (env, d2e)
     ) : void // end of [val]
   in
-    addlst_if (env, flev0, d2es)
+    addlst_if (env, flvl0, d2es)
   end (* end of [list_cons] *)
 | list_nil () => ()
 //
@@ -961,7 +961,7 @@ end // end of [addlst_if]
 //
 in
 //
-addlst_if (env, flev0, d2es)
+addlst_if (env, flvl0, d2es)
 //
 end // end of [ccompenv_addlst_dvarsetenv_if]
 
@@ -969,7 +969,7 @@ end // end of [ccompenv_addlst_dvarsetenv_if]
 
 implement
 ccompenv_addlst_flabsetenv_ifmap
-  (env, flev0, vbmap, fls0) = let
+  (env, flvl0, vbmap, fls0) = let
 //
 fun auxenv
 (
@@ -999,23 +999,23 @@ end (* end of [auxenv] *)
 fun addlst_if
 (
   env: !ccompenv
-, flev0: int, vbmap: vbindmap, fls: funlablst_vt
+, flvl0: int, vbmap: vbindmap, fls: funlablst_vt
 ) : funlablst_vt = let
 in
 //
 case+ fls of
 | ~list_vt_cons
     (fl, fls) => let
-    val flev = funlab_get_level (fl)
+    val flvl = funlab_get_level (fl)
   in
-    if flev > flev0 then let
+    if flvl > flvl0 then let
       val-Some (fent) = funlab_get_funent (fl)
       val () = auxenv (env, vbmap, funent_get_d2envlst (fent))
     in
-      addlst_if (env, flev0, vbmap, fls)
+      addlst_if (env, flvl0, vbmap, fls)
     end else let
       val () = ccompenv_add_flabsetenv (env, fl)
-      val fls = addlst_if (env, flev0, vbmap, fls)
+      val fls = addlst_if (env, flvl0, vbmap, fls)
     in
       list_vt_cons (fl, fls)
     end (* end of [if] *)
@@ -1026,7 +1026,7 @@ end // end of [addlst_if]
 //
 in
 //
-addlst_if (env, flev0, vbmap, fls0)
+addlst_if (env, flvl0, vbmap, fls0)
 //
 end // end of [ccompenv_addlst_flabsetenv_if]
 

@@ -23,8 +23,6 @@ theDeclrepLst_initize
   (filr) = let
   val cs = char_list_vt_make_file (filr)
   val replst = charlst_declitemize (0(*sta*), cs)
-  val replst = list_reverse (replst)
-  val replst = list_of_list_vt (replst)
 in
   theDeclrepLst_set (replst)
 end // end of [theDeclrepLst]

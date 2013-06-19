@@ -60,13 +60,16 @@ fun intinf_make_size (sz: size_t): intinf
 // 0 -> base 8; 0x -> base 16; _ => base 10
 //
 *)
-fun intinf_make_string (rep: string): intinf
+fun intinf_make_string
+  (rep: string): intinf = "ext#patsopt_intinf_make_string"
+// end of [intinf_make_string]
 
 (* ****** ****** *)
 
 fun
 intinf_make_base_string_ofs
-  {n:int} {i:nat | i <= n} (
+  {n:int} {i:nat | i <= n}
+(
   base: intBtw(2,36+1), rep: string n, ofs: int i
 ) : intinf // end of [intinf_make_base_string_ofs]
 

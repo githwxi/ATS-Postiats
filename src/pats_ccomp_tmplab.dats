@@ -73,9 +73,13 @@ tmplab_get_stamp (tl) = tl.tmplab_stamp
 
 implement
 fprint_tmplab
-  (out, tl) = () where {
-  val () = fprint_string (out, "tmplab(")
-  val () = $STMP.fprint_stamp (out, tl.tmplab_stamp)
+  (out, tl) =
+{
+  val (
+  ) = fprint_string (out, "tmplab(")
+  val (
+  ) = $STMP.fprint_stamp (out, tl.tmplab_stamp)
+  val () = fprint_string (out, ")")
 } // end of [fprint_tmplab]
 
 end // end of [local]

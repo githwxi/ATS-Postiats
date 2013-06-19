@@ -1048,10 +1048,12 @@ case+ gd0c of
     val res = auxlst (d0cs1, sym, res) in auxgua (gd0c2, sym, res)
   end (* end of [GUAD0ECLREPcons] *)
 //
-end // end of [guad0eclrep_find_synop]
+end // end of [auxgua]
+//
+val res = auxlst (d0cs, sym, list_vt_nil)
 //
 in
-  auxlst (d0cs, sym, list_vt_nil)
+  list_vt_reverse (res)
 end // end of [d0eclreplst_find_synop]
 
 (* ****** ****** *)

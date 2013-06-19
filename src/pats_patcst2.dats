@@ -85,6 +85,35 @@ staload "./pats_patcst2.sats"
 (* ****** ****** *)
 
 implement
+intinf_of_i0nt (tok) = let
+//
+val-T_INTEGER (_, rep, sfx) = tok.token_node
+//
+in
+//
+if sfx > 0u then let
+  val n = string_length (rep)
+  val sfx = $UN.cast2size(sfx)
+  val ln = $UN.cast{size_t}(n - sfx)
+  val rep2 = 
+  __make (rep, 0, ln) where
+  {
+    extern fun __make
+      : (string, size_t, size_t) -> Strptr1 = "atspre_string_make_substring"
+  } // end of [where] // end of [val]
+  val intinf = $INTINF.intinf_make_string ($UN.linstr2str(rep2))
+  val () = strptr_free (rep2)
+in
+  intinf
+end else
+  $INTINF.intinf_make_string (rep)
+// end of [if]
+//
+end // end of [intinf_of_i0nt]
+
+(* ****** ****** *)
+
+implement
 p2atcstlstlst_vt_free (xss) = (
   case+ xss of
   | ~list_vt_cons (xs, xss) => let
@@ -280,12 +309,11 @@ case+ p2t0.p2at_node of
 | P2Tfloat f(*string*) => P2TCfloat f
 | P2Tstring s => P2TCstring s
 //
-| P2Ti0nt (x) => let
-    val-T_INTEGER (base, rep, sfx) = x.token_node
-    val i = intinf_make_string (rep) in P2TCint (i)
+| P2Ti0nt (tok) => let
+    val i0 = intinf_of_i0nt (tok) in P2TCint (i0)
   end // end of [P2Ti0nt]
-| P2Tf0loat (x) => let
-    val-T_FLOAT (base, rep, sfx) = x.token_node in P2TCfloat (rep)
+| P2Tf0loat (tok) => let
+    val-T_FLOAT (base, rep, sfx) = tok.token_node in P2TCfloat (rep)
   end // end of [P2Tf0loat]
 //
 | P2Trec

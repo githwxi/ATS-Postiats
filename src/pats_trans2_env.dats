@@ -785,7 +785,7 @@ the_d2varlev_save () = let
 end (* end of [the_d2varlev_save] *)
 
 implement
-the_d2varlev_restore (lev0) = !the_d2varlev := lev0
+the_d2varlev_restore (lvl0) = !the_d2varlev := lvl0
 
 end // end of [local]
 

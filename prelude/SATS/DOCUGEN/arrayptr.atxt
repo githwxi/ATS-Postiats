@@ -40,11 +40,7 @@ Given a type T, an address L and an integer N, the type
 stores N elements of the type T.
 
 ")
-
-(* ****** ****** *)
-
-#declnamesynop("arrayptr_vt0ype_int")
-#declnamesynop("arrayptr_vt0ype_addr_int")
+#declnamesynop("arrayptr_vt0ype_addr_int_vtype")
 
 (* ****** ****** *)
 
@@ -56,10 +52,7 @@ Given a type T, an address L and an integer N, the type
 N)") minus the array-view #stacode("array_v(T, L, N)").
 
 ")
-
-(* ****** ****** *)
-
-#declnamesynop("arrayptrout_vt0ype_addr_int")
+#declnamesynop("arrayptrout_vt0ype_addr_int_vtype")
 
 (* ****** ****** *)
 

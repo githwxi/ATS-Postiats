@@ -146,7 +146,7 @@ datatype intknd =
   | INT | UINT | LINT | ULINT | LLINT | ULLINT | ERROR
 // end of [intknd]
 
-in // in of [local]
+in (* in of [local] *)
 
 fun
 intrepsfx_syn_type (
@@ -202,8 +202,11 @@ case+ sfx of
    end // end of [_]
 end // end of [intrepsfx_syn_type]
 
+(* ****** ****** *)
+
 fun
-intbaserepsfx_syn_type_ind (
+intbaserepsfx_syn_type_ind
+(
   loc0: location, base: int, rep: string, sfx: uint
 ) : s2exp = let
   var p_sfx: ptr = null
@@ -213,7 +216,7 @@ intbaserepsfx_syn_type_ind (
     sfx > 0u then let
     val n = string_length (rep)
     val ln = n - (size_of_uint)sfx
-    val () = p_sfx := $UN.cast2ptr (rep) + ln
+    val () = p_sfx := $UN.cast2ptr(rep) + ln
     val () = rep1 :=
       __make (rep, 0, ln) where {
       extern fun __make (
@@ -255,7 +258,7 @@ case+ sfx of
       s2exp_int_intinf_t0ype (inf)
   // end of [default]
 | _ => let
-    val sfx = $UN.cast {string} (p_sfx)
+    val sfx = $UN.cast{string}(p_sfx)
     val knd = (case+ 0 of
       | _ when strcasecmp (sfx, "U") = 0 => UINT
 //
@@ -350,7 +353,7 @@ datatype fltknd =
   | FLOAT | DOUBLE | LDOUBLE | ERROR
 // end of [fltknd]
 
-in // in of [local]
+in (* in of [local] *)
 
 fun floatsfx_syn_type (
   loc0: location, rep: string, sfx: uint

@@ -72,10 +72,6 @@ hipat_node =
   | HIPany of () // wildcard
   | HIPvar of (d2var) // mutability from the context
 //
-  | HIPcon of (* constructor pattern *)
-      (pckind, d2con, hisexp(*tysum*), labhipatlst)
-  | HIPcon_any of (pckind, d2con) // HX: unused arg
-//
   | HIPint of int
   | HIPbool of bool
   | HIPchar of char
@@ -86,6 +82,10 @@ hipat_node =
   | HIPf0loat of $SYN.f0loat
 //
   | HIPempty of () // empty pattern
+//
+  | HIPcon of (* constructor pattern *)
+      (pckind, d2con, hisexp(*tysum*), labhipatlst)
+  | HIPcon_any of (pckind, d2con) // HX: unused arg
 //
   | HIPrec of (* record pattern *)
       (int(*knd*), labhipatlst, hisexp(*tyrec*))
@@ -116,14 +116,17 @@ and labhipatlst = List (labhipat)
 
 (* ****** ****** *)
 
-fun fprint_hipat : fprint_type (hipat)
 fun print_hipat (hip: hipat): void
-overload print with print_hipat
 fun prerr_hipat (hip: hipat): void
+overload print with print_hipat
 overload prerr with prerr_hipat
+fun fprint_hipat : fprint_type (hipat)
+overload fprint with fprint_hipat
 
 fun fprint_hipatlst : fprint_type (hipatlst)
+overload fprint with fprint_hipatlst
 fun fprint_labhipatlst : fprint_type (labhipatlst)
+overload fprint with fprint_labhipatlst
 
 (* ****** ****** *)
 

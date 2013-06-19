@@ -32,7 +32,13 @@
 //
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload UT = "./pats_utils.sats"
+staload _(*anon*) = "./pats_utils.dats"
 
 (* ****** ****** *)
 
@@ -134,6 +140,11 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+print_tmpvar (tmp) = fprint_tmpvar (stdout_ref, tmp)
+implement
+prerr_tmpvar (tmp) = fprint_tmpvar (stderr_ref, tmp)
+
+implement
 fprint_tmpvar
   (out, tmp) = let
   val isref = tmpvar_isref (tmp)
@@ -150,9 +161,8 @@ in
 end // end of [fprint_tmpvar]
 
 implement
-print_tmpvar (tmp) = fprint_tmpvar (stdout_ref, tmp)
-implement
-prerr_tmpvar (tmp) = fprint_tmpvar (stderr_ref, tmp)
+fprint_tmpvaropt
+  (out, opt) = $UT.fprintopt (out, opt, fprint_tmpvar)
 
 (* ****** ****** *)
 

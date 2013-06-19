@@ -267,19 +267,17 @@ array_v
   (a:vt@ype, l:addr, n:int) = @[a][n] @ l
 //
 absvtype
-arrayptr_3 (
-  a:vt0ype+, l: addr, n: int
-) = ptr // end of [arrayptr]
+arrayptr_vt0ype_addr_int_vtype
+  (a:vt0ype+, l:addr, n:int(*size*)) = ptr (l)
+stadef
+arrayptr = arrayptr_vt0ype_addr_int_vtype
 vtypedef
-arrayptr_2 (
-  a:viewt@ype, n:int
-) = [l:addr] arrayptr_3 (a, l, n)
-stadef arrayptr = arrayptr_3
-stadef arrayptr = arrayptr_2
+arrayptr
+  (a:vt0p, n:int) = [l:addr] arrayptr (a, l, n)
 //
 abstype
 arrayref_vt0ype_int_type
-  (a: vt@ype(*elt*), n: int(*size*)) = ptr
+  (a:vt@ype(*elt*), n:int(*size*)) = ptr
 stadef arrayref = arrayref_vt0ype_int_type
 //
 abstype
@@ -290,9 +288,9 @@ stadef arrszref = arrszref_vt0ype_type
 //
 datatype // t@ype+: covariant
 list_t0ype_int_type (a:t@ype+, int) =
-  | list_nil (a, 0) of ()
   | {n:int | n >= 0}
     list_cons (a, n+1) of (a, list_t0ype_int_type (a, n))
+  | list_nil (a, 0) of ()
 // end of [datatype]
 stadef list = list_t0ype_int_type
 typedef
@@ -318,9 +316,9 @@ typedef listBtwe
 //
 datavtype // vt@ype+: covariant
 list_vt0ype_int_vtype (a:vt@ype+, int) =
-  | list_vt_nil (a, 0) of ()
   | {n:int | n >= 0}
     list_vt_cons (a, n+1) of (a, list_vt0ype_int_vtype (a, n))
+  | list_vt_nil (a, 0) of ()
 // end of [list_vt0ype_int_vtype]
 stadef list_vt = list_vt0ype_int_vtype
 vtypedef

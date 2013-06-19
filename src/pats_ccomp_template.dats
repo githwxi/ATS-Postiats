@@ -719,9 +719,9 @@ ccomp_tmpcstmat_some
 //
 val-TMPCSTMATsome (imp, tsub) = mat
 //
-val lev0 = the_d2varlev_save ()
+val lvl0 = the_d2varlev_save ()
 val () = hiimpdec_ccomp_if (env, 0(*level*), imp)
-val () = the_d2varlev_restore (lev0)
+val () = the_d2varlev_restore (lvl0)
 //
 val-Some (flab) = hiimpdec_get_funlabopt (imp)
 //

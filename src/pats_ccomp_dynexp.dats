@@ -118,14 +118,14 @@ d2var_ccomp_some
   env, loc0, hse0, d2v, pmv
 ) = let
 //
-val lev0 = the_d2varlev_get ()
-val lev1 = d2var_get_level (d2v)
+val lvl0 = the_d2varlev_get ()
+val lvl1 = d2var_get_level (d2v)
 //
 in
 //
 case+ 0 of
 | _ when
-    lev1 < lev0 => let (* environval *)
+    lvl1 < lvl0 => let (* environval *)
 (*
     val () = println! ("d2var_ccomp_some: pmv = ", pmv)
 *)
@@ -144,7 +144,7 @@ case+ 0 of
     | _ => let
         val () = ccompenv_add_dvarsetenv_var (env, d2v)
       in
-        if lev1 > 0 then primval_env (loc0, hse0, d2v) else pmv(*toplevel*)
+        if lvl1 > 0 then primval_env (loc0, hse0, d2v) else pmv(*toplevel*)
       end (* end of [_] *)
   end // end of [environval]
 //
@@ -1388,7 +1388,7 @@ val () =
 val res = instrseq_make_nil ()
 val ((*void*)) = instrseq_addlst (res, prolog)
 //
-val flev0 = funlab_get_level (flab)
+val flvl0 = funlab_get_level (flab)
 //
 val (pfinc | ()) = the_d2varlev_inc ()
 //
@@ -1397,8 +1397,8 @@ val () = ccompenv_inc_dvarsetenv (env)
 val () = ccompenv_inc_vbindmapenv (env)
 //
 val () = let
-  val lev1 = the_d2varlev_get () in
-  hifunarg_ccomp (env, res, flab, lev1, loc_fun, hips_arg)
+  val lvl1 = the_d2varlev_get () in
+  hifunarg_ccomp (env, res, flab, lvl1, loc_fun, hips_arg)
 end // end of [val]
 //
 val loc_body = hde_body.hidexp_loc
@@ -1411,7 +1411,7 @@ val vbmap = ccompenv_getdec_vbindmapenv (env)
 val flset =
   ccompenv_getdec_flabsetenv (env)
 val fls0 = funlabset_vt_listize_free (flset)
-val fls0 = ccompenv_addlst_flabsetenv_ifmap (env, flev0, vbmap, fls0)
+val fls0 = ccompenv_addlst_flabsetenv_ifmap (env, flvl0, vbmap, fls0)
 //
 var d2eset =
   ccompenv_getdec_dvarsetenv (env)

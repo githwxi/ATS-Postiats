@@ -305,6 +305,11 @@ d2con_is_singular (d2c) =
   s2cst_is_singular (d2con_get_scst (d2c))
 // end of [d2con_is_singular]
 
+implement
+d2con_is_binarian (d2c) =
+  s2cst_is_binarian (d2con_get_scst (d2c))
+// end of [d2con_is_binarian]
+
 (* ****** ****** *)
 
 implement

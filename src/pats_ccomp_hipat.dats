@@ -372,7 +372,7 @@ extern
 fun himatch_ccomp_rec
 (
   env: !ccompenv, res: !instrseq
-, lev0: int, hip0: hipat, pmv0: primval // HX: [pmv] matches [hip]
+, lvl0: int, hip0: hipat, pmv0: primval // HX: [pmv] matches [hip]
 ) : void // end of [himatch_ccomp]
 
 local
@@ -381,7 +381,7 @@ fun aux
 (
   env: !ccompenv
 , res: !instrseq
-, lev0: int
+, lvl0: int
 , lab: label, hip: hipat
 , pmv0: primval, hse_rec: hisexp
 ) : void = let
@@ -392,7 +392,7 @@ case+ hip.hipat_node of
 | HIPann
     (hip, _(*ann*)) =>
   (
-    aux (env, res, lev0, lab, hip, pmv0, hse_rec)
+    aux (env, res, lvl0, lab, hip, pmv0, hse_rec)
   ) // end of [HIPann]
 | _ => let
     val loc = hip.hipat_loc
@@ -412,7 +412,7 @@ case+ hip.hipat_node of
         end // end of [let] // end of [None]
     ) : primval // end of [val]
   in
-    himatch_ccomp (env, res, lev0, hip, pmv)
+    himatch_ccomp (env, res, lvl0, hip, pmv)
   end // end of [_]
 end // end of [aux]
 
@@ -420,7 +420,7 @@ fun auxlst
 (
   env: !ccompenv
 , res: !instrseq
-, lev0: int
+, lvl0: int
 , lhips: labhipatlst
 , pmv0: primval, hse_rec: hisexp
 ) : void = let
@@ -431,10 +431,10 @@ case+ lhips of
     (lhip, lhips) => let
     val+LABHIPAT (lab, hip) = lhip
     val () = aux
-      (env, res, lev0, lab, hip, pmv0, hse_rec)
+      (env, res, lvl0, lab, hip, pmv0, hse_rec)
     // end of [val]
   in
-    auxlst (env, res, lev0, lhips, pmv0, hse_rec)
+    auxlst (env, res, lvl0, lhips, pmv0, hse_rec)
   end // end of [list_cons]
 | list_nil () => ()
 //
@@ -445,14 +445,14 @@ in (* in of [local] *)
 implement
 himatch_ccomp_rec
 (
-  env, res, lev0, hip0, pmv0
+  env, res, lvl0, hip0, pmv0
 ) = let
 //
 val-HIPrec
   (knd, lhips, hse_rec) = hip0.hipat_node
 //
 in
-  auxlst (env, res, lev0, lhips, pmv0, hse_rec)
+  auxlst (env, res, lvl0, lhips, pmv0, hse_rec)
 end // end of [himatch_ccomp_rec]
 
 end // end of [local]
@@ -463,7 +463,7 @@ extern
 fun himatch_ccomp_sum
 (
   env: !ccompenv, res: !instrseq
-, lev0: int, hip0: hipat, pmv0: primval // HX: [pmv] matches [hip]
+, lvl0: int, hip0: hipat, pmv0: primval // HX: [pmv] matches [hip]
 ) : void // end of [himatch_ccomp_sum]
 
 local
@@ -472,14 +472,14 @@ fun auxvar
 (
   env: !ccompenv
 , res: !instrseq
-, lev0: int
+, lvl0: int
 , narg: int
 , lab: label, hip: hipat
 , pmv0: primval, hse_sum: hisexp
 ) : void = let
   val loc = hip.hipat_loc
   val-HIPvar (d2v) = hip.hipat_node
-  val () = d2var_set_level (d2v, lev0)
+  val () = d2var_set_level (d2v, lvl0)
   val utimes = d2var_get_utimes (d2v)
 in
 //
@@ -511,7 +511,7 @@ fun auxpat
 (
   env: !ccompenv
 , res: !instrseq
-, lev0: int
+, lvl0: int
 , narg: int
 , lab: label, hip: hipat
 , pmv0: primval, hse_sum: hisexp
@@ -522,16 +522,16 @@ case+
   hip.hipat_node of
 | HIPany _ => ()
 | HIPvar (d2v) =>
-    auxvar (env, res, lev0, narg, lab, hip, pmv0, hse_sum)
+    auxvar (env, res, lvl0, narg, lab, hip, pmv0, hse_sum)
   // end of [HIPvar]
 | HIPann (hip, ann) =>
-    auxpat (env, res, lev0, narg, lab, hip, pmv0, hse_sum)
+    auxpat (env, res, lvl0, narg, lab, hip, pmv0, hse_sum)
   // end of [HIPann]
 | _ => let
     val-Some (d2v) = hip.hipat_asvar
     val-~Some_vt (pmv) = ccompenv_find_vbindmapenv (env, d2v)
   in
-    himatch_ccomp (env, res, lev0, hip, pmv)
+    himatch_ccomp (env, res, lvl0, hip, pmv)
   end // end of [_]
 //
 end // end of [auxpat]
@@ -540,7 +540,7 @@ fun auxpatlst
 (
   env: !ccompenv
 , res: !instrseq
-, lev0: int
+, lvl0: int
 , narg: int
 , lhips: labhipatlst
 , pmv0: primval, hse_sum: hisexp
@@ -552,10 +552,10 @@ case+ lhips of
     (lhip, lhips) => let
     val LABHIPAT (lab, hip) = lhip
     val () =
-      auxpat (env, res, lev0, narg, lab, hip, pmv0, hse_sum)
+      auxpat (env, res, lvl0, narg, lab, hip, pmv0, hse_sum)
     // end of [val]
   in
-    auxpatlst (env, res, lev0, narg+1, lhips, pmv0, hse_sum)
+    auxpatlst (env, res, lvl0, narg+1, lhips, pmv0, hse_sum)
   end // end of [list_cons]
 | list_nil () => ()
 //
@@ -566,7 +566,7 @@ in (* in of [local] *)
 implement
 himatch_ccomp_sum
 (
-  env, res, lev0, hip0, pmv0
+  env, res, lvl0, hip0, pmv0
 ) = let
 //
 val (
@@ -575,7 +575,7 @@ val (
 val-HIPcon (pck, d2c, hse_sum, lhips) = hip0.hipat_node
 //
 in
-  auxpatlst (env, res, lev0, 0(*narg*), lhips, pmv0, hse_sum)
+  auxpatlst (env, res, lvl0, 0(*narg*), lhips, pmv0, hse_sum)
 end // end of [himatch_ccomp_sum]
 
 end // end of [local]
@@ -588,11 +588,11 @@ fun auxvar
 (
   env: !ccompenv
 , res: !instrseq
-, lev0: int, d2v: d2var, pmv0: primval
+, lvl0: int, d2v: d2var, pmv0: primval
 ) : void = let
 //
 val n = d2var_get_utimes (d2v)
-val () = d2var_set_level (d2v, lev0)
+val () = d2var_set_level (d2v, lvl0)
 // (*
 val () =
 (
@@ -633,12 +633,12 @@ in (* in of [local] *)
 implement
 himatch_ccomp
 (
-  env, res, lev0, hip0, pmv0
+  env, res, lvl0, hip0, pmv0
 ) = let
 //
 (*
 val () = begin
-  println! ("ccomp_match: lev0 = ", lev0);
+  println! ("ccomp_match: lvl0 = ", lvl0);
   println! ("ccomp_match: hip0 = ", hip0);
   println! ("ccomp_match: pmv0 = ", pmv0);
 end // end [val]
@@ -651,7 +651,7 @@ in
 case+ hip0.hipat_node of
 | HIPany _ => ()
 //
-| HIPvar (d2v) => auxvar (env, res, lev0, d2v, pmv0)
+| HIPvar (d2v) => auxvar (env, res, lvl0, d2v, pmv0)
 //
 | HIPint _ => ()
 | HIPbool _ => ()
@@ -665,11 +665,11 @@ case+ hip0.hipat_node of
 //
 | HIPcon_any (pck, d2c) => ()
 //
-| HIPcon _ => himatch_ccomp_sum (env, res, lev0, hip0, pmv0)
+| HIPcon _ => himatch_ccomp_sum (env, res, lvl0, hip0, pmv0)
 //
-| HIPrec _ => himatch_ccomp_rec (env, res, lev0, hip0, pmv0)
+| HIPrec _ => himatch_ccomp_rec (env, res, lvl0, hip0, pmv0)
 //
-| HIPann (hip, ann) => himatch_ccomp (env, res, lev0, hip, pmv0)
+| HIPann (hip, ann) => himatch_ccomp (env, res, lvl0, hip, pmv0)
 //
 | _ => let
     val () = println! ("himatch_ccomp: hip0 = ", hip0)
@@ -718,7 +718,7 @@ end // end of [primval_make_funarg]
 implement
 hifunarg_ccomp
 (
-  env, res, fl, lev0, loc_fun, hips
+  env, res, fl, lvl0, loc_fun, hips
 ) = let
 //
 fun
@@ -759,7 +759,7 @@ fun auxmatch
 (
   env: !ccompenv
 , res: !instrseq
-, lev0: int
+, lvl0: int
 , hips: list (hipat, n)
 , pmvs: list_vt (primval, n)
 ) : void = let
@@ -769,9 +769,9 @@ case+ pmvs of
 | ~list_vt_cons
     (pmv, pmvs) => let
     val+list_cons (hip, hips) = hips
-    val () = himatch_ccomp (env, res, lev0, hip, pmv)
+    val () = himatch_ccomp (env, res, lvl0, hip, pmv)
   in
-    auxmatch (env, res, lev0, hips, pmvs)
+    auxmatch (env, res, lvl0, hips, pmvs)
   end // end of [list_vt_cons]
 | ~list_vt_nil () => ()
 //
@@ -781,7 +781,7 @@ val fail = PTCKNTfunarg_fail (loc_fun, fl)
 val pmvs = auxpatck (env, res, 0, hips, fail)
 //
 in
-  auxmatch (env, res, lev0, hips, pmvs)
+  auxmatch (env, res, lvl0, hips, pmvs)
 end // end of [hifunarg_ccomp]
 
 (* ****** ****** *)
