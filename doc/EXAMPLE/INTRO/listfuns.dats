@@ -40,7 +40,8 @@ case+ xs of
 
 fun zip{n:int}
 (
-  xs: list (int, n), ys: list (int, n)
+  xs: list (int, n)
+, ys: list (int, n)
 ) : list ((int, int), n) = let
 in
 //
