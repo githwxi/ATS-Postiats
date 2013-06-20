@@ -64,6 +64,10 @@ overload compare with $LAB.compare_label_label
 
 (* ****** ****** *)
 
+staload LOC = "./pats_location.sats"
+
+(* ****** ****** *)
+
 staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
@@ -1378,26 +1382,30 @@ fun auxcl
 , tmpret: tmpvar
 ) : ibranch = let
 //
-val loc = hicl.hiclau_loc
-val tlab = tmplab_make (loc)
-//
 val res = instrseq_make_nil ()
 //
 val (pf0 | ()) = ccompenv_push (env)
 val inss = patcomplst_ccomp (env, ptcmps)
 val ((*void*)) = instrseq_addlst_vt (res, inss)
 //
+val loc = $LOC.location_dummy
+val ins = instr_comment (loc, "ibranch-body:")
+val ( ) = instrseq_add (res, ins)
+//
+val ((*void*)) =
+hidexp_ccomp_ret (env, res, tmpret, hicl.hiclau_body)
+//
 val ((*void*)) = ccompenv_pop (pf0 | env)
 //
 val inss = instrseq_get_free (res)
 //
-val () =
-(
-  fprintln! (stdout_ref, "hiclaulst_ccomp: auxcl: inss =\n", inss)
-)
+val (
+) = fprintln!
+  (stdout_ref, "hiclaulst_ccomp: auxcl: inss =\n", inss)
+// end of [val]
 //
 in
-  ibranch_make (tlab, inss)
+  ibranch_make (hicl.hiclau_loc, inss)
 end (* end of [auxcl] *)
 
 fun auxclist

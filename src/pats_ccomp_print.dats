@@ -762,6 +762,12 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
+| INScomment (str) => {
+    val () = prstr "INScomment("
+    val () = fprint_string (out, str)
+    val () = prstr ")"
+  }
+//
 | INSmove_val (tmp, pmv) => {
     val () = prstr "INSmove_val("
     val () = fprint_tmpvar (out, tmp)
@@ -843,9 +849,9 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
-| INSswitch _ =>
+| INScaseof _ =>
   {
-    val () = prstr "INSswitch("
+    val () = prstr "INScaseof("
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }

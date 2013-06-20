@@ -70,9 +70,11 @@ case+ knd of
 ) : patckont // end of [val]
 //
 val lvl0 = the_d2varlev_get ()
-val ibranchlst =
-  hiclaulst_ccomp (env, lvl0, pmvs, hicls, tmpret, fail)
-val ins = instr_switch (loc0, ibranchlst)
+val ibranchlst = hiclaulst_ccomp
+(
+  env, lvl0, pmvs, hicls, tmpret, fail
+) (* end of [val] *)
+val ins = instr_caseof (loc0, ibranchlst)
 val () = instrseq_add (res, ins)
 //
 in

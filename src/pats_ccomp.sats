@@ -998,6 +998,8 @@ instr_node =
   | INSfunlab of (funlab)
   | INStmplab of (tmplab)
 //
+  | INScomment of (string)
+//
   | INSmove_val of (tmpvar, primval)
 //
   | INSpmove_val of (tmpvar(*ptr*), primval)
@@ -1022,9 +1024,10 @@ instr_node =
     , instrlst(*post*)
     , instrlst(*body*)
     ) // end of [INSloop]
-  | INSloopexn of (int(*knd*), tmplab) // knd=0/1: break/continue
+  | INSloopexn of
+      (int(*knd*), tmplab) // knd=0/1: break/continue
 //
-  | INSswitch of (ibranchlst) // switch statement
+  | INScaseof of (ibranchlst) // caseof-branch-statements
 //
   | INSletpop of ()
   | INSletpush of (primdeclst)
@@ -1095,7 +1098,7 @@ and instrlst = List (instr)
 and instrlst_vt = List_vt (instr)
 
 and ibranch = '{
-  ibranch_lab= tmplab, ibranch_inslst= instrlst
+  ibranch_loc= location, ibranch_inslst= instrlst
 } // end of [ibranch]
 
 and ibranchlst = List (ibranch)
@@ -1115,10 +1118,11 @@ overload fprint with fprint_instrlst
 (* ****** ****** *)
 
 fun instr_funlab (loc: location, flab: funlab): instr
+fun instr_tmplab (loc: location, tlab: tmplab): instr
 
 (* ****** ****** *)
 
-fun instr_tmplab (loc: location, tlab: tmplab): instr
+fun instr_comment (loc: location, str: string): instr
 
 (* ****** ****** *)
 
@@ -1180,7 +1184,7 @@ fun instr_loopexn
 
 (* ****** ****** *)
 
-fun instr_switch (loc: location, xs: ibranchlst): instr
+fun instr_caseof (loc: location, xs: ibranchlst): instr
 
 (* ****** ****** *)
 
@@ -1324,7 +1328,7 @@ fun instr_dcstdef (loc: location, d2c: d2cst, pmv: primval): instr
 
 (* ****** ****** *)
 
-fun ibranch_make (tlab: tmplab, inss: instrlst): ibranch
+fun ibranch_make (loc: location, inss: instrlst): ibranch
 
 (* ****** ****** *)
 
@@ -1589,6 +1593,8 @@ fun hidexp_ccomp : hidexp_ccomp_funtype
 fun hidexp_ccomp_lam : hidexp_ccomp_funtype
 fun hidexp_ccomp_loop : hidexp_ccomp_funtype
 fun hidexp_ccomp_loopexn : hidexp_ccomp_funtype
+
+(* ****** ****** *)
 
 typedef
 hidexp_ccomp_ret_funtype =

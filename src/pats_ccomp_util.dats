@@ -209,6 +209,8 @@ case+ x.instr_node of
 | INSfunlab _ => ()
 | INStmplab _ => ()
 //
+| INScomment _ => ()
+//
 | INSmove_val (tmp, _) => tmpadd (tmp)
 | INSpmove_val (tmp, _) => tmpadd (tmp)
 //
@@ -233,7 +235,7 @@ case+ x.instr_node of
   } // end of [INSloop]
 | INSloopexn (knd, tlab) => () // HX: knd=0/1: break/continue
 //
-| INSswitch _ => ()
+| INScaseof (ibrs) => auxibrlst (res, ibrs)
 //
 | INSletpop () => ()
 | INSletpush (pmds) => auxpmdlst (res, pmds)
@@ -277,7 +279,8 @@ case+ x.instr_node of
 //
 end // end of [aux]
 
-and auxlst (
+and auxlst
+(
   res: &tmpvarset_vt, xs: instrlst
 ) : void = let
 in
@@ -291,7 +294,31 @@ case+ xs of
 //
 end // end of [auxlst]
 
-and auxpmd (
+and auxibr
+(
+  res: &tmpvarset_vt, ibr: ibranch
+) : void = let
+in
+  auxlst (res, ibr.ibranch_inslst)
+end // end of [auxibr]
+
+and auxibrlst
+(
+  res: &tmpvarset_vt, ibrs: ibranchlst
+) : void = let
+in
+//
+case+ ibrs of
+| list_cons
+    (ibr, ibrs) => let
+    val () = auxibr (res, ibr) in auxibrlst (res, ibrs)
+  end // end of [list_cons]
+| list_nil () => ((*empty*))
+//
+end // end of [auxibrlst]
+
+and auxpmd
+(
   res: &tmpvarset_vt, pmd: primdec
 ) : void = let
 in

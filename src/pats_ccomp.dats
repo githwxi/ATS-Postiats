@@ -472,8 +472,8 @@ end // end of [primval_make_ptrofsel]
 
 implement
 ibranch_make
-  (tlab, inss) = '{
-  ibranch_lab= tlab, ibranch_inslst= inss
+  (loc, inss) = '{
+  ibranch_loc= loc, ibranch_inslst= inss
 } // end of [ibranch_make]
 
 (* ****** ****** *)
@@ -526,6 +526,13 @@ implement
 instr_tmplab (loc, tl) =
   instr_make_node (loc, INStmplab (tl))
 // end of [instr_tmplab]
+
+(* ****** ****** *)
+
+implement
+instr_comment (loc, str) =
+  instr_make_node (loc, INScomment (str))
+// end of [instr_comment]
 
 (* ****** ****** *)
 
@@ -597,9 +604,9 @@ instr_loopexn (
 (* ****** ****** *)
 
 implement
-instr_switch
-  (loc, xs) = instr_make_node (loc, INSswitch (xs))
-// end of [instr_switch]
+instr_caseof
+  (loc, xs) = instr_make_node (loc, INScaseof (xs))
+// end of [instr_caseof]
 
 (* ****** ****** *)
 

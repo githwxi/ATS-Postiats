@@ -248,6 +248,40 @@ end // end of [local]
 (* ****** ****** *)
 
 extern
+fun emit_tmpmovlst
+  (out: FILEref, tmvlst: tmpmovlst): void
+implement
+emit_tmpmovlst
+  (out, tmvlst) = let
+//
+fun auxlst
+(
+  out: FILEref, i: int, xs: tmpmovlst
+) : void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = emit_text (out, "ATSINSmove(")
+    val () = emit_tmpvar (out, x.1)
+    val () = emit_text (out, ", ")
+    val () = emit_tmpvar (out, x.0)
+    val () = emit_text (out, ") ; ")
+  in
+    auxlst (out, i+1, xs)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [auxlst]
+//
+in
+  auxlst (out, 0(*i*), tmvlst)
+end (* end of [emit_tmpmovlst] *)
+
+(* ****** ****** *)
+
+extern
 fun emit_patckont (out: FILEref, fail: patckont): void
 
 implement
@@ -256,65 +290,53 @@ emit_patckont
 in
 //
 case+ fail of
-| PTCKNTnone () =>
-  {
-    val () = emit_text
-    (
-      out, "ATSINSdeadcode_fail()"
-    ) // end of [val]
-  }
+//
 | PTCKNTtmplab (tlab) =>
   {
-    val () =
-      emit_text (out, "ATSgoto(")
-    // end of [val]
+    val () = emit_text (out, "ATSgoto(")
     val () = emit_tmplab (out, tlab)
     val () = emit_text (out, ")")
   }
 //
-| PTCKNTtmplabint
-    (tlab, int) => {
-    val () =
-      emit_text (out, "ATSgoto(")
-    // end of [val]
+| PTCKNTtmplabint (tlab, int) =>
+  {
+    val () = emit_text (out, "ATSgoto(")
     val () = emit_tmplabint (out, tlab, int)
     val () = emit_text (out, ")")
   }
 //
-| PTCKNTtmplabmov
-    (tlab, tmvlst) => {
-    val () =
-      emit_text (out, "ATSgoto(")
-    // end of [val]
+| PTCKNTtmplabmov (tlab, tmvlst) =>
+  {
+    val () = emit_tmpmovlst (out, tmvlst)
+    val () = emit_text (out, "ATSgoto(")
     val () = emit_tmplab (out, tlab)
     val () = emit_text (out, ")")
   }
 //
 | PTCKNTcaseof_fail (loc) =>
   {
-    val () =
-      emit_text
-    (
-      out, "ATSINScaseof_fail(\""
-    ) // end of [val]
+    val () = emit_text (out, "ATSINScaseof_fail(\"")
     val () = $LOC.fprint_location (out, loc)
     val () = emit_text (out, "\")")
   }
+//
 | PTCKNTfunarg_fail (loc, fl) =>
   {
-    val () =
-      emit_text
-    (
-      out, "ATSINSfunarg_fail(\""
-    ) // end of [val]
+    val () = emit_text (out, "ATSINSfunarg_fail(\"")
     val () = $LOC.fprint_location (out, loc)
     val () = emit_text (out, "\")")
   }
-| PTCKNTraise (pmv_exn) => {
-    val () =
-      emit_text (out, "ATSraise_exn(")
+//
+| PTCKNTraise (pmv_exn) =>
+  {
+    val () = emit_text (out, "ATSINSraise_exn(")
     val () = emit_primval (out, pmv_exn)
     val () = emit_text (out, ")")
+  }
+//
+| PTCKNTnone ((*void*)) =>
+  {
+    val () = emit_text (out, "ATSINSdeadcode_fail()")
   }
 //
 end // (* end of [emit_patckont] *)
@@ -528,13 +550,7 @@ fun aux
 (
   out: FILEref, ibr: ibranch
 ) : void =  let
-  val tlab = ibr.ibranch_lab
   val inss = ibr.ibranch_inslst
-(*
-  val () = emit_text (out, "/* ibranch: ")
-  val () = emit_tmplab (out, tlab)
-  val () = emit_text (out, " */\n")
-*)
   val () = emit_text (out, "ATSbranchbeg() ;\n")
   val () = emit_instrlst_ln (out, inss)
   val () = emit_text (out, "ATSbranchend() ;\n")

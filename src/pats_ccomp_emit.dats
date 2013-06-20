@@ -1465,6 +1465,13 @@ case+ ins.instr_node of
     )
   } // end of [INStmplab]
 //
+| INScomment (string) =>
+  {
+    val () = emit_text (out, "/*\n")
+    val () = emit_text (out, string)
+    val () = emit_text (out, "\n*/")
+  }
+//
 | INSmove_val
     (tmp, pmv) => emit_move_val (out, tmp, pmv)
   // end of [INSmove_val]
@@ -1565,7 +1572,7 @@ case+ ins.instr_node of
     // nothing
   end // end of [INSloopexn]
 //
-| INSswitch (ibrs) =>
+| INScaseof (ibrs) =>
   {
     val (
     ) = emit_text (out, "ATScaseofbeg()\n")
@@ -1573,7 +1580,7 @@ case+ ins.instr_node of
     val (
     ) = emit_text (out, "ATScaseofend()\n")
     // end of [val]
-  } // end of [INSswitch]
+  } // end of [INScaseof]
 //
 | INSletpop () => let
     val () = emit_text (out, "/*\n")

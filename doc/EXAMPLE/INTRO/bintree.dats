@@ -67,7 +67,19 @@ end // end of [bintree_free]
 
 (* ****** ****** *)
 
-implement main0 () = ()
+implement
+main0 () =
+{
+//
+typedef T = int
+//
+(*
+val bt0 = BTnil{T}()
+val bt1 = BTcons{T}(bt0, 1, bt0)
+val bt2 = BTcons{T}(bt1, 2, bt1)
+*)
+//
+} // end of [main0]
 
 (* ****** ****** *)
 

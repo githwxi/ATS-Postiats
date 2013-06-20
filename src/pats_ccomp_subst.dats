@@ -289,6 +289,10 @@ extern
 fun instrlst_subst
   (env: !ccompenv, map: !tmpmap, sub: !stasub, inss: instrlst, sfx: int): instrlst
 //
+extern
+fun ibranchlst_subst
+  (env: !ccompenv, map: !tmpmap, sub: !stasub, ibrs: ibranchlst, sfx: int): ibranchlst
+//
 (* ****** ****** *)
 
 extern
@@ -1021,6 +1025,7 @@ macdef fpmd (x) = primdec_subst (env, map, sub, ,(x), sfx)
 macdef fpmdlst (xs) = primdeclst_subst (env, map, sub, ,(xs), sfx)
 //
 macdef finstrlst (inss) = instrlst_subst (env, map, sub, ,(inss), sfx)
+macdef fibranchlst (inss) = ibranchlst_subst (env, map, sub, ,(inss), sfx)
 //
 in
 //
@@ -1099,9 +1104,9 @@ case+
   end
 | INSloopexn _ => ins0
 //
-(*
-| INSswitch (x) => ...
-*)
+| INScaseof (ibrs) => let
+    val ibrs = fibranchlst (ibrs) in instr_caseof (loc0, ibrs)
+  end // end of [INScaseof]
 //
 | INSletpop () => let
     prval pfpush = __assert () where
@@ -1253,7 +1258,8 @@ implement
 instrlst_subst
   (env, map, sub, inss, sfx) = let
 //
-fun loop (
+fun loop
+(
   env: !ccompenv
 , map: !tmpmap
 , sub: !stasub
@@ -1286,6 +1292,28 @@ val () = loop (env, map, sub, inss, sfx, res)
 in
   res
 end // end of [instrlst_subst]
+
+(* ****** ****** *)
+
+implement
+ibranchlst_subst
+  (env, map, sub, ibrs, sfx) = let
+in
+//
+case+ ibrs of
+| list_cons
+    (ibr, ibrs) => let
+    val loc = ibr.ibranch_loc
+    val inss = ibr.ibranch_inslst
+    val inss = instrlst_subst (env, map, sub, inss, sfx)
+    val ibr = ibranch_make (loc, inss)
+    val ibrs = ibranchlst_subst (env, map, sub, ibrs, sfx)
+  in
+    list_cons (ibr, ibrs)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end (* end of [ibranchlst_subst] *)
 
 (* ****** ****** *)
 

@@ -31,7 +31,9 @@ case+ xs of
     val islast = list0_is_nil (xs)
     val hasmore =
     (
-      if islast then string_isnot_empty (x) else true
+      if islast
+        then string_isnot_empty (x) else true
+      // end of [if]
     ) : bool // end of [val]
     val () =
     if hasmore then

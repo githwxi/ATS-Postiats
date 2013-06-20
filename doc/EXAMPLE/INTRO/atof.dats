@@ -29,7 +29,7 @@ atof (str) = let
 //
 typedef tenv = double
 //
-val str = string1_of_string0 (str)
+val str = g1ofg0_string (str)
 //
 var env: tenv = 0.0
 implement{env}

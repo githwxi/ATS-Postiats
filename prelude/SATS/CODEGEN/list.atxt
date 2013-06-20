@@ -88,12 +88,14 @@ lemma_list_param
 // end of [lemma_list_param]
 
 #atscode_separator()
-
+//
+castfn
+list_vt2t
+  {x:t0p}{n:int} (xs: list_vt (INV(x), n)):<> list (x, n)
 castfn
 list_of_list_vt
   {x:t0p}{n:int} (xs: list_vt (INV(x), n)):<> list (x, n)
-// end of [list_of_list_vt]
-
+//
 #atscode_separator()
 
 \#define list_sing(x) list_cons(x, list_nil())

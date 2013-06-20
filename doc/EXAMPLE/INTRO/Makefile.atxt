@@ -110,6 +110,7 @@ RMF=rm -f
 #make_entry("hello")
 #make_entry("intecho")
 #make2_entry("intrange", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("listfuns", "-DATS_MEMALLOC_LIBC", "")
 #make_entry("mutailrec")
 #make2_entry("ordset", "-DATS_MEMALLOC_LIBC", "")
 #make_entry("partempinst")

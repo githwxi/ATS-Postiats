@@ -209,6 +209,14 @@ clean:: ; $(RMF) intrange_dats.o
 clean:: ; $(RMF) intrange_dats.c
 cleanall:: ; $(RMF) intrange.exe
 
+all:: listfuns
+listfuns: listfuns.exe
+listfuns.exe: listfuns_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+listfuns_dats.c: listfuns.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output listfuns_dats.c --dynamic listfuns.dats
+clean:: ; $(RMF) listfuns_dats.o
+clean:: ; $(RMF) listfuns_dats.c
+cleanall:: ; $(RMF) listfuns.exe
+
 all:: mutailrec
 mutailrec: mutailrec.exe
 mutailrec.exe: mutailrec_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
