@@ -930,13 +930,13 @@ in
 case+ lxs of
 | list_cons
     (lx, lxs) => let
-    val+LABHIPAT (l, hip) = lx
+    val+LABHIPAT (lab, hip) = lx
     val loc = hip.hipat_loc
     val hse = hip.hipat_type
     val pmv = tmprimval2pmv (tpmv)
-    val pmv_l = primval_selcon (loc, hse, pmv, hse_sum, l)
-    val tpmv_l = auxtpmv_make (hip, pmv_l)
-    val mtk0 = MTKlabpat (l, hip, tpmv_l)
+    val pmvsel = primval_selcon (loc, hse, pmv, hse_sum, lab)
+    val tpmvsel = auxtpmv_make (hip, pmvsel)
+    val mtk0 = MTKlabpat (lab, hip, tpmvsel)
     val mtks = addselcon (tpmv, hse_sum, lxs, mtks)
   in
     list_cons (mtk0, mtks)
@@ -957,15 +957,14 @@ in
 case+ lxs of
 | list_cons
     (lx, lxs) => let
-    val+LABHIPAT (l, hip) = lx 
+    val+LABHIPAT (lab, hip) = lx 
     val loc = hip.hipat_loc
     val hse = hip.hipat_type
-    val pl = primlab_lab (loc, l)
+    val pml = primlab_lab (loc, lab)
     val pmv = tmprimval2pmv (tpmv)
-    val pl = primlab_lab (loc, l)
-    val pmv_l = primval_select (loc, hse, pmv, hse_rec, pl)
-    val tpmv_l = auxtpmv_make (hip, pmv_l)
-    val mtk0 = MTKlabpat (l, hip, tpmv_l)
+    val pmvsel = primval_select (loc, hse, pmv, hse_rec, pml)
+    val tpmvsel = auxtpmv_make (hip, pmvsel)
+    val mtk0 = MTKlabpat (lab, hip, tpmvsel)
     val mtks = addselect (tpmv, hse_rec, lxs, mtks)
   in
     list_cons (mtk0, mtks)

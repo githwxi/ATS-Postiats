@@ -2004,7 +2004,7 @@ fun auxsel
 , lab: label
 ) : void = let
 //
-val () = emit_text (out, "ATSselcon(")
+val () = emit_text (out, "ATSSELcon(")
 val () = emit_primval (out, pmv)
 val () = emit_text (out, ", ")
 val () = emit_hisexp (out, hse_sum)
@@ -2150,16 +2150,16 @@ case+ xys of
         // end of [val]
       in
         if issin
-          then emit_text (out, "ATSselrecsin(")
+          then emit_text (out, "ATSSELrecsin(")
           else (
             if boxknd >= 0 // HX: it is a rec
-              then emit_text (out, "ATSselfltrec(")
-              else emit_text (out, "ATSselarrptrind(")
+              then emit_text (out, "ATSSELfltrec(")
+              else emit_text (out, "ATSSELarrptrind(")
             // end of [if]
           ) // end of [if]
         // end of [if]
       end else
-        emit_text (out, "ATSselboxrec(")
+        emit_text (out, "ATSSELboxrec(")
       // end of [if]
     ) : void // end of [val]
 //
