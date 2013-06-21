@@ -1308,7 +1308,8 @@ end // end of [p_witht0ype]
 (* ****** ****** *)
 
 fun
-p_atms0exp_ngt (
+p_atms0exp_ngt
+(
   buf: &tokbuf, bt: int, err: &int
 ) : s0exp = let
   val tok = tokbuf_get_token (buf)
@@ -1323,23 +1324,34 @@ case+ tok.token_node of
 end // end of [p_atms0exp_ngt]
 
 fun
-p_tmps0exp (
+p_tmps0exp
+(
   buf: &tokbuf, bt: int, err: &int
 ) : s0exp = let
-  val xs = pstar1_fun {s0exp} (buf, bt, err, p_atms0exp_ngt)
-  fun loop (
-    x0: s0exp, xs: s0explst_vt
-  ) : s0exp =
-    case+ xs of
-    | ~list_vt_cons (x, xs) => let
-        val x0 = s0exp_app (x0, x) in loop (x0, xs)
-      end
-    | ~list_vt_nil () => x0
-  // end of [loop]
+//
+val xs =
+pstar1_fun{s0exp}(buf, bt, err, p_atms0exp_ngt)
+//
+fun loop
+(
+  x0: s0exp, xs: s0explst_vt
+) : s0exp = let
 in
-  case+ xs of
-  | ~list_vt_cons (x, xs) => loop (x, xs)
-  | ~list_vt_nil () => synent_null () // HX: [err] is already set
+//
+case+ xs of
+| ~list_vt_cons (x, xs) =>
+    let val x0 = s0exp_app (x0, x) in loop (x0, xs) end
+  // end of [list_vt_cons]
+| ~list_vt_nil ((*void*)) => x0
+//
+end // end of [loop]
+//
+in
+//
+case+ xs of
+| ~list_vt_cons (x, xs) => loop (x, xs)
+| ~list_vt_nil ((*void*)) => synent_null () // HX: [err] is already set
+//
 end // end of [p_tmps0exp]
 
 implement

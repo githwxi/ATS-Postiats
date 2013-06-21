@@ -80,13 +80,12 @@ tyreckind_is_boxlin (knd) =
 // end of [tyreckind_is_boxlin]
 
 implement
-tyreckind_is_boxed
-  (knd) = let
+tyreckind_is_boxed (knd) = let
 in
-  case+ knd of
-  | TYRECKINDbox _ => true
-  | TYRECKINDbox_lin _ => true
-  | _ => false
+//
+case+ knd of
+| TYRECKINDbox _ => true | TYRECKINDbox_lin _ => true | _ => false
+//
 end // end of [tyreckind_is_boxed]
 
 (* ****** ****** *)

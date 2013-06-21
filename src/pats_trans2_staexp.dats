@@ -356,7 +356,7 @@ in
   s2vs
 end // end of [sp2at_trdn_arg]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 sp1at_trdn
@@ -441,55 +441,65 @@ fun auxcheck
   val s2vs_dups = sp1at_get_dups (s2vs)
 //
 in
-  case+ s2vs_dups of
-  | list_cons (s2v, _) => {
-      val sym = s2var_get_sym (s2v)
-      val () = prerr_error2_loc (loc0)
-      val () = prerr ": the static variable ["
-      val () = $SYM.prerr_symbol (sym)
-      val () = prerr "] is not allowed to occur repeatedly in a pattern:"
-      val () = prerr_newline ()
-      val () = procrepeat (sp1t, sym)
-      val () = the_trans2errlst_add (T2E_sp1at_trdn (sp1t, s2t_pat))
-    } // end of [list_cons]
-  | list_nil () => ()
+//
+case+ s2vs_dups of
+| list_cons
+    (s2v, _) => {
+    val sym = s2var_get_sym (s2v)
+    val () = prerr_error2_loc (loc0)
+    val () = prerr ": the static variable ["
+    val () = $SYM.prerr_symbol (sym)
+    val () = prerr "] is not allowed to occur repeatedly in a pattern:"
+    val () = prerr_newline ()
+    val () = procrepeat (sp1t, sym)
+    val () = the_trans2errlst_add (T2E_sp1at_trdn (sp1t, s2t_pat))
+  } // end of [list_cons]
+| list_nil () => ()
+//
 end (* end of [auxcheck] *)
+//
+fun auxselect
+(
+  s2cs: s2cstlst
+, s2t_pat: s2rt, s2ts_arg: &s2rtlst
+) : s2cstlst = let
+in
+//
+case+ s2cs of
+| list_cons
+    (s2c, s2cs1) => let
+    val s2t_s2c = s2cst_get_srt (s2c)
+  in
+    case+ s2t_s2c of
+    | S2RTfun
+        (s2ts, s2t) => let
+        val test = s2rt_ltmat1 (s2t_pat, s2t)
+      in
+        if test then let
+          val () = s2ts_arg := s2ts in s2cs
+        end else
+          auxselect (s2cs1, s2t_pat, s2ts_arg)
+        // end of [if]
+      end // end of [S2RTfun]
+    | _ => auxselect (s2cs1, s2t_pat, s2ts_arg)
+   end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [auxselect]
 //
 in
 //
 case+ sp1t.sp1at_node of
-| SP1Tcstr (sq, id, s1as) => let
+| SP1Tcstr
+    (sq, id, s1as) => let
     val ans = the_s2expenv_find_qua (sq, id)
   in
     case+ ans of
     | ~Some_vt s2i => begin
       case+ s2i of
       | S2ITMcst (s2cs) => let
-          fun auxsel (
-            s2cs: s2cstlst
-          , s2t_pat: s2rt
-          , s2ts_arg: &s2rtlst
-          ) : s2cstlst = (
-            case+ s2cs of
-            | list_cons (s2c, s2cs1) => let
-                val s2t_s2c = s2cst_get_srt (s2c)
-              in
-                case+ s2t_s2c of
-                | S2RTfun (s2ts, s2t) => let
-                    val test = s2rt_ltmat1 (s2t_pat, s2t)
-                  in
-                    if test then let
-                      val () = s2ts_arg := s2ts in s2cs
-                    end else
-                      auxsel (s2cs1, s2t_pat, s2ts_arg)
-                    // end of [if]
-                  end // end of [S2RTfun]
-                | _ => auxsel (s2cs1, s2t_pat, s2ts_arg)
-              end // end of [list_cons]
-            | list_nil () => list_nil ()
-          ) // end of [auxsel]
           var s2ts_arg: s2rtlst = list_nil ()
-          val s2cs = auxsel (s2cs, s2t_pat, s2ts_arg)
+          val s2cs = auxselect (s2cs, s2t_pat, s2ts_arg)
         in
           case+ s2cs of
           | list_cons (s2c, _) => let
@@ -712,10 +722,15 @@ in
   loop (s1e0, s2e_fun.s2exp_srt, s2ess_arg, s2e_fun)
 end // end of [s2exp_app_wind]
 
+(* ****** ****** *)
+
 typedef
 locs1explst = @(location, s1explst)
 
-fun s1exp_app_unwind (
+(* ****** ****** *)
+
+fun s1exp_app_unwind
+(
   s1e0: s1exp, xs: &List_vt (locs1explst)
 ) : s1exp = begin
   case+ s1e0.s1exp_node of
@@ -738,7 +753,8 @@ fun s1exp_app_unwind (
   | _ => s1e0 // end of [_]
 end // end of [s1exp_app_unwind]
 
-and s1exp_app_unwind_e1xp (
+and s1exp_app_unwind_e1xp
+(
   s1e0: s1exp, e0: e1xp, xs: &List_vt (locs1explst)
 ) : s1exp = let
   val loc0 = s1e0.s1exp_loc
@@ -1389,20 +1405,25 @@ fun aux01 // flt/box: 0/1
 , lin: &int
 , prf: &int
 , prgm: &int
-) : labs2explst = begin case+ s1es of
-  | list_cons (s1e, s1es) => let
-      val lab = $LAB.label_make_int (i)
-      val s2e = s1exp_trdn_impred (s1e)
-      val ls2e = SLABELED (lab, None(), s2e)
-      val s2t = s2e.s2exp_srt
-      val () = if s2rt_is_lin (s2t) then (lin := lin+1)
-      val () = if s2rt_is_prf (s2t)
-        then (prf := prf+1) else (if i >= npf then prgm := prgm+1)
-      // end of [if] // end of [val]
-    in
-      list_cons (ls2e, aux01 (i+1, npf, s1es, lin, prf, prgm))
-    end (* end of [list_cons] *)
-  | list_nil () => list_nil ()
+) : labs2explst = let
+in
+//
+case+ s1es of
+| list_cons
+    (s1e, s1es) => let
+    val lab = $LAB.label_make_int (i)
+    val s2e = s1exp_trdn_impred (s1e)
+    val ls2e = SLABELED (lab, None(), s2e)
+    val s2t = s2e.s2exp_srt
+    val () = if s2rt_is_lin (s2t) then (lin := lin+1)
+    val () = if s2rt_is_prf (s2t)
+      then (prf := prf+1) else (if i >= npf then prgm := prgm+1)
+    // end of [if] // end of [val]
+  in
+    list_cons (ls2e, aux01 (i+1, npf, s1es, lin, prf, prgm))
+  end (* end of [list_cons] *)
+| list_nil () => list_nil ()
+//
 end // end of [aux01]
 
 fun aux23 // box_t/box_vt : 2/3
@@ -1411,22 +1432,27 @@ fun aux23 // box_t/box_vt : 2/3
 , npf: int, s1es: s1explst
 , s2t_prf: s2rt
 , s2t_prgm: s2rt
-) : labs2explst = begin case+ s1es of
-  | list_cons (s1e, s1es) => let
-      val lab = $LAB.label_make_int (i)
-      val s2e = (
-        if i >= npf then
-          s1exp_trdn (s1e, s2t_prgm) else s1exp_trdn (s1e, s2t_prf)
-        // end of [if]
-      ) : s2exp // end of [val]
-      val ls2e = SLABELED (lab, None(), s2e)
-    in
-      list_cons (ls2e, aux23 (i+1, npf, s1es, s2t_prf, s2t_prgm))
-    end (* end of [list_cons] *)
-  | list_nil () => list_nil ()
+) : labs2explst = let
+in
+//
+case+ s1es of
+| list_cons
+    (s1e, s1es) => let
+    val lab = $LAB.label_make_int (i)
+    val s2e = (
+      if i >= npf then
+        s1exp_trdn (s1e, s2t_prgm) else s1exp_trdn (s1e, s2t_prf)
+      // end of [if]
+    ) : s2exp // end of [val]
+    val ls2e = SLABELED (lab, None(), s2e)
+  in
+    list_cons (ls2e, aux23 (i+1, npf, s1es, s2t_prf, s2t_prgm))
+  end (* end of [list_cons] *)
+| list_nil () => list_nil ()
+//
 end // end of [aux23]
 
-in // in of [local]
+in (* in of [local] *)
 
 fun s1exp_trup_tytup_flt
 (
@@ -1556,17 +1582,20 @@ fun aux23 ( // box_t/box_vt : 2/3
   | list_nil () => list_nil ()
 end // end of [aux23]
 
-in // in of [local]
+in (* in of [local] *)
 
 fun s1exp_trup_tyrec
 (
   s1e0: s1exp, knd: int, npf: int, ls1es: labs1explst
 ) : s2exp = let
-(*
-  val () = begin
-    print "s1exp_trup_tyrec: s1e0 = "; print_s1exp (s1e0); print_newline ()
-  end // end of [val]
-*)
+// (*
+val () =
+(
+  println! ("s1exp_trup_tyrec: s1e0 = ", s1e0);
+  println! ("s1exp_trup_tyrec: knd = ", knd);
+  println! ("s1exp_trup_tyrec: npf = ", npf);
+)
+// *)
 in
 //
 case+ knd of
@@ -2160,7 +2189,7 @@ val () = loop (s1qs, s2vs, s2ps)
 val s2vs = list_vt_reverse (s2vs)
 val s2ps = list_vt_reverse (s2ps)
 //
-in // in of [let]
+in (* in of [let] *)
 //
 s2qua_make ((l2l)s2vs, (l2l)s2ps)
 //

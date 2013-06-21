@@ -2061,6 +2061,9 @@ case+
   | HSEtyrecsin
       (lhse) => labhisexp_get_elt (lhse)
     // end of [HSEtyrecsin]
+  | HSEtysum
+      (d2c, lhses) => auxfnd (lab, lhses)
+    // end of [HSEtysum]
   | _ => let
       val () = prerr_interror ()
       val () = prerr (": auxsel: hse0 = ")

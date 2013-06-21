@@ -315,9 +315,8 @@ case+ p3t.p3at_node of
 //
 end // end of [auxpat1]
 
-fun auxpat2 (
-  p3t: p3at
-) : s2exp = let
+fun auxpat2
+  (p3t: p3at): s2exp = let
   val loc = p3t.p3at_loc
   val d2v = auxpat1 (p3t)
   val-Some (s2e) = d2var_get_type (d2v)

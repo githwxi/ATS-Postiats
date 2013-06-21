@@ -129,7 +129,10 @@ in
 //
 case+ hse.hisexp_node of
 | HSEtyrec (knd, _) =>
+  (
     if tyreckind_is_boxed (knd) then 1 else 0
+  )
+| HSEtysum (d2c, _) => 0 // HX: it is not [1]!
 | _ => ~1 // HX: meaningless
 //
 end // end of [hisexp_get_boxknd]

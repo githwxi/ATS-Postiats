@@ -794,6 +794,14 @@ case+
   end // end of [D3Eloop]
 | D3Eloopexn (knd) => hidexp_loopexn (loc0, hse0, knd)
 //
+| D3Etrywith
+    (d3e_try, c3ls_with) => let
+    val hde_try = d3exp_tyer (d3e_try)
+    val hicls_with = c3laulst_tyer (c3ls_with)
+  in
+    hidexp_trywith (loc0, hse0, hde_try, hicls_with)
+  end // end of [D3Etrywith]
+//
 | D3Eann_type (d3e, _(*ann*)) => d3exp_tyer (d3e)
 //
 | D3Eerr () => hidexp_err (loc0, hse0)

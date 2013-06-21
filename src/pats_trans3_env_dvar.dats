@@ -514,11 +514,14 @@ fun d2vfin_check (loc0: location, d2v: d2var): void
 
 local
 
-fun d2vfin_check_some (
+fun
+d2vfin_check_some
+(
   loc0: location, d2v: d2var, s2e: s2exp
 ) : void = let
 //
-fun auxerr1 (
+fun auxerr1
+(
   loc0: location
 , d2v: d2var, s2e1: s2exp, s2e2: s2exp
 ) : void = {

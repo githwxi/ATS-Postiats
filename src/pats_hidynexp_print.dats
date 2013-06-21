@@ -594,7 +594,9 @@ case+
     val () = prstr ")"
   }
 //
-| HDElam (_arg, _body) => {
+| HDElam
+    (_arg, _body) =>
+  {
     val () = prstr "HDElam("
     val () = fprint_hipatlst (out, _arg)
     val () = prstr "; "
@@ -605,9 +607,20 @@ case+
 | HDEloop _ => {
     val () = prstr "HDEloop(...)"
   }
-| HDEloopexn (knd) => {
+| HDEloopexn (knd) =>
+  {
     val () = prstr "HDEloopexn("
     val () = fprint_int (out, knd)
+    val () = prstr ")"
+  }
+//
+| HDEtrywith
+    (hde, hicls) =>
+  {
+    val () = prstr "HDEtrywith("
+    val () = fprint_hidexp (out, hde)
+    val () = prstr "; "
+    val () = fprint_string (out, "...")
     val () = prstr ")"
   }
 //

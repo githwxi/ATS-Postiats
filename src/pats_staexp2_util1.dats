@@ -469,8 +469,10 @@ case+ s2e.s2exp_node of
 | S2Eat (s2e1, _) =>
     if s2exp_is_without (s2e1) then false else true
 | S2Etyrec
-    (knd, npf, ls2es) => labs2explst_is_lin2 (ls2es)
-  // end of [S2Etyrec]
+    (knd, npf, ls2es) =>
+  (
+    if tyreckind_is_boxed (knd) then true else labs2explst_is_lin2 (ls2es)
+  ) // end of [S2Etyrec]
 | _ => true
 ) else false // end of [if]
 //

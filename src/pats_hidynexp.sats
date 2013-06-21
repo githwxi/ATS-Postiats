@@ -338,8 +338,12 @@ and hidexp_node =
   | HDElam of (hipatlst, hidexp) // HX: lam_dyn
 //
   | HDEloop of (* for/while-loops *)
-      (hidexpopt(*init*), hidexp(*test*), hidexpopt(*post*), hidexp(*body*))
-  | HDEloopexn of (int) (* loop exception: 0/1: break/continue *)
+    (
+      hidexpopt(*init*), hidexp(*test*), hidexpopt(*post*), hidexp(*body*)
+    )
+  | HDEloopexn of (int(*knd*)) (* knd=0/1: break/continue *)
+//
+  | HDEtrywith of (hidexp(*try-exp*), hiclaulst(*with-clauses*))
 //
   | HDEerr of () // HX: indication of error
 // end of [hidexp_node]
@@ -715,17 +719,28 @@ fun hidexp_raise
 (* ****** ****** *)
 
 fun hidexp_lam
-  (loc: location, hse: hisexp, hips: hipatlst, hde: hidexp): hidexp
-// end of [hidexp_lam]
+(
+  loc: location, hse: hisexp, hips: hipatlst, hde: hidexp
+) : hidexp // end of [hidexp_lam]
 
 (* ****** ****** *)
 
-fun hidexp_loop (
+fun hidexp_loop
+(
   loc: location, hse: hisexp
 , init: hidexpopt, test: hidexp, post: hidexpopt, body: hidexp
 ) : hidexp // end of [hidexp_loop]
 
-fun hidexp_loopexn (loc: location, hse: hisexp, knd: int): hidexp
+fun hidexp_loopexn
+  (loc: location, hse: hisexp, knd: int): hidexp
+// end of [hidexp_loopexn]
+
+(* ****** ****** *)
+
+fun hidexp_trywith
+(
+  loc: location, hse: hisexp, _try: hidexp, _with: hiclaulst
+) : hidexp // end of [hidexp_trywith]
 
 (* ****** ****** *)
 

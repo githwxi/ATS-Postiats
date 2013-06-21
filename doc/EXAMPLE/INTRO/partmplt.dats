@@ -1,10 +1,10 @@
 //
-// An example involving partial temp. inst.
+// Some code involving partial templates
 //
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
-//
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start time: June, 2013
 //
 (* ****** ****** *)
@@ -111,4 +111,4 @@ val () = fprintln! (out, "zz_d = ", zz_d)
 
 (* ****** ****** *)
 
-(* end of [partempinst.dats] *)
+(* end of [partmplt.dats] *)

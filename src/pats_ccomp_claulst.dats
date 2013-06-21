@@ -1206,12 +1206,13 @@ implement
 hiclau_patcomp
   (lvl0, pmvs, hicl) = let
 //
-val out = stdout_ref
-//
 val hips = hicl.hiclau_pat
-val () = fprintln! (out, "hipatcomp_clau: hips =\n", hips)
 val ptcmps = himatchlst_patcomp (lvl0, pmvs, hips)
-val () = fprintln! (out, "hipatcomp_clau: ptcmps =\n", ptcmps)
+(*
+val out = stdout_ref
+val () = fprintln! (out, "hiclau_patcomp: hips =\n", hips)
+val () = fprintln! (out, "hiclau_patcomp: ptcmps =\n", ptcmps)
+*)
 //
 in
   ptcmps

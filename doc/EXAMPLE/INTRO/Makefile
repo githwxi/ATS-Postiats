@@ -233,13 +233,21 @@ clean:: ; $(RMF) ordset_dats.o
 clean:: ; $(RMF) ordset_dats.c
 cleanall:: ; $(RMF) ordset.exe
 
-all:: partempinst
-partempinst: partempinst.exe
-partempinst.exe: partempinst_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-partempinst_dats.c: partempinst.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output partempinst_dats.c --dynamic partempinst.dats
-clean:: ; $(RMF) partempinst_dats.o
-clean:: ; $(RMF) partempinst_dats.c
-cleanall:: ; $(RMF) partempinst.exe
+all:: partmplt
+partmplt: partmplt.exe
+partmplt.exe: partmplt_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+partmplt_dats.c: partmplt.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output partmplt_dats.c --dynamic partmplt.dats
+clean:: ; $(RMF) partmplt_dats.o
+clean:: ; $(RMF) partmplt_dats.c
+cleanall:: ; $(RMF) partmplt.exe
+
+all:: patrefas
+patrefas: patrefas.exe
+patrefas.exe: patrefas_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+patrefas_dats.c: patrefas.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output patrefas_dats.c --dynamic patrefas.dats
+clean:: ; $(RMF) patrefas_dats.o
+clean:: ; $(RMF) patrefas_dats.c
+cleanall:: ; $(RMF) patrefas.exe
 
 all:: sumodd
 sumodd: sumodd.exe

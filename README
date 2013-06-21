@@ -237,4 +237,14 @@ in
   | ~list_vt_nil () => xs1 := ys
 end // end of [list_vt_append]
 
+######
+
+HX-2013-06-20:
+
+Is it a good practice to allow the use of wildcards (_ or ...)
+for discarding resources:
+
+Pro: Very easy to use
+Con: Maybe it is too easy to allow unintential leak of resources 
+
 ###### end of [README] ######

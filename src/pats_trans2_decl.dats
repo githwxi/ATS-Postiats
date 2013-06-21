@@ -587,49 +587,73 @@ end // end of [t1kindef_tr]
 
 (* ****** ****** *)
 
-fn s1expdef_tr_arg
-  (xs: s1marglst): List_vt (s2varlst) = let
-  fn f (
-    x: s1marg
-  ) : s2varlst = s2vs where {
-    val s2vs = s1arglst_trup (x.s1marg_arg)
-    val () = the_s2expenv_add_svarlst (s2vs)
-  } // end of [f]
+fun
+s1expdef_tr_arg
+(
+  xs: s1marglst
+) : List_vt (s2varlst) = let
+//
+fn f
+(
+  x: s1marg
+) : s2varlst = s2vs where {
+  val s2vs = s1arglst_trup (x.s1marg_arg)
+  val () = the_s2expenv_add_svarlst (s2vs)
+} // end of [f]
+//
 in
   list_map_fun (xs, f)
 end // end of [s1expdef_tr_arg]
 
-fn s1expdef_tr_def (
+fun
+s1expdef_tr_def
+(
   xs: s1marglst, res: s2rtopt, def: s1exp
 ) : s2exp = let 
 //
-  val (pfenv | ()) = the_s2expenv_push_nil ()
-  val s2vss = s1expdef_tr_arg (xs)
-  val s2e_body = (case+ res of
-    | Some s2t => s1exp_trdn (def, s2t) | None () => s1exp_trup def
-  ) : s2exp // end of [val]
-  val () = the_s2expenv_pop_free (pfenv | (*none*))
+val (
+  pfenv | ()
+) = the_s2expenv_push_nil ()
 //
-  val s2e_def = s2exp_lamlst ((castvwtp1)s2vss, s2e_body)
-  val () = list_vt_free (s2vss)
+val s2vss = s1expdef_tr_arg (xs)
+//
+val s2e_body =
+(
+case+ res of
+| Some s2t => s1exp_trdn (def, s2t)
+| None ((*void*)) => s1exp_trup (def)
+) : s2exp // end of [val]
+//
+val (
+) = the_s2expenv_pop_free (pfenv | (*none*))
+//
+val s2e_def = s2exp_lamlst ((castvwtp1)s2vss, s2e_body)
+val () = list_vt_free (s2vss)
 //
 in
   s2e_def  
 end // end of [s1expdef_tr_def]
 
-fn s1expdef_tr (
+fun
+s1expdef_tr (
   res: s2rtopt, d: s1expdef
 ) : s2cst = let
 //
 fn auxerr
   (d: s1expdef): void = let
-  val () = prerr_error2_loc (d.s1expdef_loc)
-  val () = filprerr_ifdebug ("s1expdef_tr")
-  val () = prerr ": the sort for the definition does not match"
-  val () = prerr " the sort assigned to the static constant ["
-  val () = $SYM.prerr_symbol (d.s1expdef_sym)
-  val () = prerr "]."
-  val () = prerr_newline ()
+//
+val (
+) = prerr_error2_loc (d.s1expdef_loc)
+val () = filprerr_ifdebug ("s1expdef_tr")
+val (
+) = prerr "\
+: the sort for the static definition does not
+match the one assigned to the static constant [\
+" // end of [val]
+val () = $SYM.prerr_symbol (d.s1expdef_sym)
+val () = prerr "]."
+val () = prerr_newline ()
+//
 in
   the_trans2errlst_add (T2E_s1expdef_tr (d))
 end // end of [auxerr]
@@ -638,19 +662,20 @@ val sym = d.s1expdef_sym
 and loc_id = d.s1expdef_loc_id
 and arg = d.s1expdef_arg
 and def = d.s1expdef_def
-val res1 =
-  s1rtopt_tr (d.s1expdef_res)
-// end of [val]
-val res2 = (case+ res of
-  | Some s2t => (case+ res1 of
-    | Some s2t1 => let
-        val test = s2rt_ltmat1 (s2t1, s2t)
-      in
-        if test then res1 else (auxerr (d); res)
-      end // end of [Some]
-    | None () => res
-    ) // end of [Some]
-  | None () => res1
+val res1 = s1rtopt_tr (d.s1expdef_res)
+//
+val res2 = (
+case+ res of
+| Some s2t => (
+  case+ res1 of
+  | Some s2t1 => let
+      val test = s2rt_ltmat1 (s2t1, s2t)
+    in
+      if test then res1 else (auxerr (d); res)
+    end // end of [Some]
+  | None () => res
+  ) // end of [Some]
+| None () => res1
 ) : s2rtopt // end of [val]
 //
 val def2 = s1expdef_tr_def (arg, res2, def)

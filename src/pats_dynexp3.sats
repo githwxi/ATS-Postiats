@@ -367,8 +367,10 @@ and d3exp_node =
   | D3Elazy_force of (int(*lin*), d3exp) // lazy-value evaluation
 //
   | D3Eloop of (* for/while-loops *)
-      (d3expopt(*init*), d3exp(*test*), d3expopt(*post*), d3exp(*body*))
-  | D3Eloopexn of int (* loop exception: 0/1: break/continue *)
+    (
+      d3expopt(*init*), d3exp(*test*), d3expopt(*post*), d3exp(*body*)
+    )
+  | D3Eloopexn of int(*knd*) (* knd=0/1: break/continue *)
 //
   | D3Etrywith of (d3exp(*try-exp*), c3laulst(*with-clauses*))
 //

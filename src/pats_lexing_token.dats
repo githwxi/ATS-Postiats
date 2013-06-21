@@ -200,15 +200,19 @@ DLRLST_T = T_DLRLST (TYPE_int)
 implement
 DLRLST_VT = T_DLRLST (VIEWTYPE_int)
 
-implement
-DLRREC = T_DLRREC (~1) // unspecified
-implement
-DLRREC_T = T_DLRREC (TYPE_int)
-implement
-DLRREC_VT = T_DLRREC (VIEWTYPE_int)
+(* ****** ****** *)
 
 implement
-DLRTUP = T_DLRTUP (TYTUPKIND_box) // unspecified
+DLRREC =
+T_DLRREC (TYRECKIND_box) // unspecified
+implement
+DLRREC_T = T_DLRREC (TYRECKIND_box_t)
+implement
+DLRREC_VT = T_DLRREC (TYRECKIND_box_vt)
+
+implement
+DLRTUP =
+T_DLRTUP (TYTUPKIND_box) // unspecified
 implement
 DLRTUP_T = T_DLRTUP (TYTUPKIND_box_t)
 implement

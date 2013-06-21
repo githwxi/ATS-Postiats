@@ -590,6 +590,14 @@ hidexp_loopexn
 (* ****** ****** *)
 
 implement
+hidexp_trywith
+  (loc, hse, hde, hicls) =
+  hidexp_make_node (loc, hse, HDEtrywith (hde, hicls))
+// end of [hidexp_trywith]
+
+(* ****** ****** *)
+
+implement
 hidexp_err (loc, hse) = hidexp_make_node (loc, hse, HDEerr ())
 
 (* ****** ****** *)
