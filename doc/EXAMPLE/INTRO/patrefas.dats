@@ -37,7 +37,7 @@ val () = assertloc (ftest1 (xs) = 1 + 2)
 
 fun ftest2
   (xs: !List_vt (int)): int = let
-  val@cons_vt (x1, xs2 as cons_vt (x2, _)) = xs
+  val-@cons_vt (x1, xs2 as cons_vt (x2, _)) = xs
   val x1_old = x1
   val () = x1 := x1_old
   prval () = fold@(xs)
@@ -57,7 +57,7 @@ prval () = $UN.cast2void (xs) // HX: leak!
 
 fun ftest3
   (xs: !List_vt (int)): int = let
-  val@cons_vt
+  val-@cons_vt
   (
     y1 as y1_old, ys2 as cons_vt (y2, _)
   ) = xs
@@ -72,6 +72,32 @@ val () =
 val xs =
 cons_vt{int}(1, cons_vt{int}(2, nil_vt))
 val () = assertloc (ftest3 (xs) = 1 + 2)
+prval () = $UN.cast2void (xs) // HX: leak!
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+fun ftest4
+  (xs: !List_vt (int)): int = let
+in
+//
+case- xs of
+| @cons_vt (
+    y1 as y1_old, ys2 as cons_vt (y2, _)
+  ) => let
+    val () = y1 := y1_old
+    prval () = fold@( xs )
+  in
+    y1_old + y2
+  end // end of [ftest4]
+//
+end // end of [ftest4]
+
+val () =
+{
+val xs =
+cons_vt{int}(1, cons_vt{int}(2, nil_vt))
+val () = assertloc (ftest4 (xs) = 1 + 2)
 prval () = $UN.cast2void (xs) // HX: leak!
 } (* end of [val] *)
 

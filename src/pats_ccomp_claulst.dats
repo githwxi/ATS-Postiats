@@ -140,6 +140,8 @@ end // end of [tmprimval_make_some]
 
 extern
 fun tmprimval2pmv (tpmv: tmprimval): primval
+extern
+fun tmprimval2pmv2 (tpmv: tmprimval, d2v: d2var): primval
 
 (* ****** ****** *)
 
@@ -153,6 +155,33 @@ case+ tpmv of
 | TPMVsome (tmp, _) => let
     val loc = tmpvar_get_loc (tmp) in primval_make_tmp (loc, tmp)
   end // end of [TPMVsome]
+//
+end // end of [tmprimval2pmv]
+
+(* ****** ****** *)
+
+implement
+tmprimval2pmv2
+  (tpmv, d2v) = let
+//
+fun ptrof (pmv: primval): primval =
+  primval_ptrof (pmv.primval_loc, hisexp_typtr, pmv)
+//
+val ismut = d2var_is_mutabl (d2v)
+//
+in
+//
+case+ tpmv of
+| TPMVnone (pmv) =>
+    if ismut then ptrof (pmv) else pmv
+| TPMVsome (tmp, pmv) =>
+  (
+    if ismut then ptrof (pmv) else let
+      val loc =
+        tmpvar_get_loc (tmp) in primval_make_tmp (loc, tmp)
+      // end of [val]
+    end // end of [if]
+  ) // end of [TPMVsome]
 //
 end // end of [tmprimval2pmv]
 
@@ -1316,14 +1345,14 @@ case+ x of
 | PTCMPany () =>
     auxlst (env, xs, res1, res2)
 | PTCMPvar (d2v, tpmv) => let
-    val pmv = tmprimval2pmv (tpmv)
+    val pmv = tmprimval2pmv2 (tpmv, d2v)
     val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
     val res2 = addtpmv (res2, tpmv)
   in
     auxlst (env, xs, res1, res2)
   end // end of [PTCMPvar]
 | PTCMPasvar (d2v, tpmv) => let
-    val pmv = tmprimval2pmv (tpmv)
+    val pmv = tmprimval2pmv2 (tpmv, d2v)
     val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
   in
     auxlst (env, xs, res1, res2)
