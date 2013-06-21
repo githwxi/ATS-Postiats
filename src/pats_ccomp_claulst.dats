@@ -299,14 +299,17 @@ patcomp =
 //
   | PTCMPlablparen of (label)
   | PTCMPpatlparen of
-      (patck, tmprimval, tmplab, patckontref)
+    ( patck
+    , tmprimval, tmplab, patckontref
+    ) (* end of [PTCMPpatlparen] *)
   | PTCMPreclparen of (tmprimval, tmplab)
 //
   | PTCMPrparen of ()
 //
   | PTCMPpatneg of (patck, tmprimval)
 //
-  | PTCMPtmplab of (tmplab)
+  | PTCMPtmplabend of (tmplab)
+  | PTCMPtmplabgua of (tmplab, patckontref)
 // end of [patcomp]
 
 typedef patcomplst = List (patcomp)
@@ -399,10 +402,18 @@ case+ x0 of
     val () = prstr ")"
   }
 //
-| PTCMPtmplab (tlab) =>
+| PTCMPtmplabend (tlab) =>
   {
-    val () = prstr "PTCMPtmplab("
+    val () = prstr "PTCMPtmplabend("
     val () = fprint_tmplab (out, tlab)
+    val () = prstr ")"
+  }
+| PTCMPtmplabgua (tlab, kntr) =>
+  {
+    val () = prstr "PTCMPtmplabgua("
+    val () = fprint_tmplab (out, tlab)
+    val () = prstr ", "
+    val () = fprint_patckont (out, !kntr)
     val () = prstr ")"
   }
 //
@@ -434,6 +445,7 @@ fprint_patcomplstlst
 extern
 fun patcomplst_find_tmplab
   (xs: patcomplst): Option_vt (tmplab)
+// end of [patcomplst_find_tmplab]
 
 (* ****** ****** *)
 
@@ -457,7 +469,8 @@ case+ xs of
     | PTCMPpatlparen
         (_, _, tl, _) => Some_vt (tl)
     | PTCMPreclparen (_, tl) => Some_vt (tl)
-    | PTCMPtmplab (tl) => Some_vt (tl)
+    | PTCMPtmplabend (tl) => Some_vt (tl)
+    | PTCMPtmplabgua (tl, _) => Some_vt (tl)
     | _ => patcomplst_find_tmplab (xs)
   end // end of [list_cons]
 //
@@ -466,13 +479,38 @@ case+ xs of
 end // end of [patcomplst_find_tmplab]
 
 (* ****** ****** *)
+
+extern
+fun patcomplst_find_guafail (xs: patcomplst): patckont
+
+(* ****** ****** *)
+
+implement
+patcomplst_find_guafail
+  (xs) = let
+in
+//
+case+ xs of
+//
+| list_cons (x, xs) => let
+  in
+    case x of
+    | PTCMPtmplabgua (_, kntr) => !kntr
+    | _ => patcomplst_find_guafail (xs)
+  end // end of [list_cons]
+//
+| list_nil ((*void*)) => PTCKNTnone ()
+//
+end // end of [patcomplst_find_guafail]
+
+(* ****** ****** *)
 //
 extern
 fun patcomplst_unskip
- (xs: patcomplst, na: &int >> int): patcomplst
+  (xs: patcomplst, na: &int >> int): patcomplst
 extern
 fun patcomplst_unrparen
- (xs: patcomplst, na: &int >> int): patcomplst
+  (xs: patcomplst, na: &int >> int): patcomplst
 //
 (* ****** ****** *)
 
@@ -592,13 +630,12 @@ fun patcomplst_subtests
 // end of [patcomplst_subtests]
 
 (* ****** ****** *)
-
+//
 extern
 fun patck_isbin (ptck: patck): bool
 extern
-fun patck_ismat
- (ptck1: patck, ptck2: patck): bool
-
+fun patck_ismat (ptck1: patck, ptck2: patck): bool
+//
 (* ****** ****** *)
 
 implement
@@ -844,6 +881,15 @@ case+ xs1 of
         in
           !kntr := ptjmp
         end (* end of [PTCMPpatlparen] *)
+      | PTCMPtmplabgua
+          (tlab, kntr) => let
+          val rxs1 = list_vt_copy (rxs)
+          val pxs1 = list_vt_reverse (rxs1)      
+          val ptjmp = patcomplst_subtests ($UN.linlst2lst(pxs1), xss2)
+          val () = list_vt_free (pxs1)
+        in
+          !kntr := ptjmp
+        end (* end of [PTCMPtmplabgua] *)
       | _ => ()
     ) : void // end of [val]
   in
@@ -918,7 +964,8 @@ end // end of [patcomplstlst_jumpfill]
 extern
 fun himatchlst_patcomp
 (
-  lvl0: int, pmvs: primvalist, hips: hipatlst
+  lvl0: int
+, hicl: hiclau, pmvs: primvalist, hips: hipatlst
 ) : patcomplst // end of [himatchlst_patcomp]
 //
 (* ****** ****** *)
@@ -1164,7 +1211,7 @@ in (* in of [local] *)
 
 implement
 himatchlst_patcomp
-  (lvl0, pmvs, hips) = let
+  (lvl0, hicl, pmvs, hips) = let
 //
 fun auxloc
 (
@@ -1212,7 +1259,17 @@ case+ pmvs of
     val mtks = auxlst (pmvs, hips)
     val ptcmps = auxcomplst_pat (lvl0, tpmv, hip, mtks)
     val tlab = tmplab_make (lend)
-    val ptcmps = list_vt_extend (ptcmps, PTCMPtmplab(tlab))
+    val isnot = list_is_nil (hicl.hiclau_gua)
+    val ptcmpz =
+    (
+      if isnot
+        then PTCMPtmplabend (tlab)
+        else let
+          val kntr = patckontref_make () in PTCMPtmplabgua (tlab, kntr)
+        end // end of [else]
+      // end of [if]
+    ) : patcomp // end of [val]
+    val ptcmps = list_vt_extend (ptcmps, ptcmpz)
   in
     list_of_list_vt (ptcmps)
   end // end of [list_cons]
@@ -1228,14 +1285,15 @@ end // end of [local]
 extern
 fun hiclau_patcomp
 (
-  lvl0: int, pmvs: primvalist, hicl: hiclau
-) : patcomplst // end of [hiclau_patcomp]
+  lvl0: int
+, hicl: hiclau, pmvs: primvalist
+) : patcomplst // endfun
 implement
 hiclau_patcomp
-  (lvl0, pmvs, hicl) = let
+  (lvl0, hicl, pmvs) = let
 //
 val hips = hicl.hiclau_pat
-val ptcmps = himatchlst_patcomp (lvl0, pmvs, hips)
+val ptcmps = himatchlst_patcomp (lvl0, hicl, pmvs, hips)
 (*
 val out = stdout_ref
 val () = fprintln! (out, "hiclau_patcomp: hips =\n", hips)
@@ -1251,18 +1309,19 @@ end // end of [hiclau_patcomp]
 extern
 fun hiclaulst_patcomp
 (
-  lvl0: int, pmvs: primvalist, hicls: hiclaulst
-) : patcomplstlst // end of [hiclaulst_patcomp]
+  lvl0: int
+, hicls: hiclaulst, pmvs: primvalist
+) : patcomplstlst // endfun
 implement
 hiclaulst_patcomp
-  (lvl0, pmvs, hicls) = let
+  (lvl0, hicls, pmvs) = let
 in
 //
 case+ hicls of
 | list_cons
     (hicl, hicls) => let
-    val xs = hiclau_patcomp (lvl0, pmvs, hicl)
-    val xss = hiclaulst_patcomp (lvl0, pmvs, hicls)
+    val xs = hiclau_patcomp (lvl0, hicl, pmvs)
+    val xss = hiclaulst_patcomp (lvl0, hicls, pmvs)
   in
     list_cons (xs, xss)
   end // end of [list_cons]
@@ -1309,7 +1368,7 @@ end // end of [addtlab]
 
 (* ****** ****** *)
 
-fun auxlst
+fun fptcmplst
 (
   env: !ccompenv
 , xs: patcomplst
@@ -1322,7 +1381,7 @@ case+ xs of
 | list_cons
     (x, xs) => let
   in
-    auxlst2 (env, x, xs, res1, res2)
+    fptcmplst2 (env, x, xs, res1, res2)
   end // end of [list_cons]
 | list_nil () => let
     val res2 = list_vt_reverse (res2)
@@ -1330,9 +1389,9 @@ case+ xs of
     list_vt_reverse_append (res1, res2)
   end // end of [list_nil]
 //
-end (* end of [auxlst] *)
+end (* end of [fptcmplst] *)
 
-and auxlst2
+and fptcmplst2
 (
   env: !ccompenv
 , x: patcomp, xs: patcomplst
@@ -1343,19 +1402,19 @@ in
 //
 case+ x of
 | PTCMPany () =>
-    auxlst (env, xs, res1, res2)
+    fptcmplst (env, xs, res1, res2)
 | PTCMPvar (d2v, tpmv) => let
     val pmv = tmprimval2pmv2 (tpmv, d2v)
     val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
     val res2 = addtpmv (res2, tpmv)
   in
-    auxlst (env, xs, res1, res2)
+    fptcmplst (env, xs, res1, res2)
   end // end of [PTCMPvar]
 | PTCMPasvar (d2v, tpmv) => let
     val pmv = tmprimval2pmv2 (tpmv, d2v)
     val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
   in
-    auxlst (env, xs, res1, res2)
+    fptcmplst (env, xs, res1, res2)
   end // end of [PTCMPasvar]
 //
 | PTCMPpatlparen
@@ -1368,7 +1427,7 @@ case+ x of
     val ins = instr_patck (pmv.primval_loc, pmv, ptck, !kntr)
     val res1 = list_vt_cons (ins, res1)
   in
-    auxlst (env, xs, res1, res2)
+    fptcmplst (env, xs, res1, res2)
   end // end of [PTCMPreclparen]
 //
 | PTCMPreclparen
@@ -1376,28 +1435,98 @@ case+ x of
     val res1 = addtpmv (res1, tpmv)
     val res1 = addtlab (res1, tlab)
   in
-    auxlst (env, xs, res1, res2)
+    fptcmplst (env, xs, res1, res2)
   end // end of [PTCMPreclparen]
 //
-| PTCMPtmplab (tlab) => let
+| PTCMPtmplabend
+    (tlab) => let
+    val res1 = addtlab (res1, tlab)
   in
-    auxlst (env, xs, addtlab (res1, tlab), res2)
-  end // end of [PTCMPtmplab]
+    fptcmplst (env, xs, res1, res2)
+  end // end of [PTCMPtmplabend]
+| PTCMPtmplabgua
+    (tlab, _) => let
+    val res1 = addtlab (res1, tlab)
+  in
+    fptcmplst (env, xs, res1, res2)
+  end // end of [PTCMPtmplabgua]
 //
-| _ => auxlst (env, xs, res1, res2)
+| _ => fptcmplst (env, xs, res1, res2)
 //
-end (* end of [auxlst2] *)
+end (* end of [fptcmplst2] *)
 
 in (* in of [local] *)
 
 implement
 patcomplst_ccomp
- (env, xs) = let
+  (env, xs) = let
 in
-  auxlst (env, xs, list_vt_nil, list_vt_nil)
+  fptcmplst (env, xs, list_vt_nil, list_vt_nil)
 end // end of [patcomplst_ccomp]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+extern
+fun higmat_ccomp
+(
+  env: !ccompenv, res: !instrseq
+, lvl0: int, hig: higmat, fail: patckont
+) : void // end of [higmat_ccomp]
+extern
+fun higmatlst_ccomp
+(
+  env: !ccompenv, res: !instrseq
+, lvl0: int, higs: higmatlst, fail: patckont
+) : void // end of [higmatlst_ccomp]
+
+(* ****** ****** *)
+
+implement
+higmat_ccomp
+(
+  env, res, lvl0, hig, fail
+) = let
+//
+val hde = hig.higmat_exp
+//
+val hip =
+(
+case+
+  hig.higmat_pat of
+| Some (hip) => hip
+| None ((*void*)) => let
+    val hse = hisexp_bool_t0ype ()
+  in
+    hipat_bool (hde.hidexp_loc, hse, true)
+  end // end of [None]
+) : hipat // end of [val]
+//
+val pmv = hidexp_ccomp (env, res, hde)
+val () = hipatck_ccomp (env, res, fail, hip, pmv)
+val () = himatch_ccomp (env, res, lvl0, hip, pmv)
+//
+in
+end // end of [higmat_ccomp]
+
+implement
+higmatlst_ccomp
+  (env, res, lvl0, higs, fail) = let
+in
+//
+case+ higs of
+| list_cons
+    (hig, higs) => let
+    val () =
+      higmat_ccomp (env, res, lvl0, hig, fail)
+    // end of [val]
+  in
+    higmatlst_ccomp (env, res, lvl0, higs, fail)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [higmatlst_ccomp]
 
 (* ****** ****** *)
 
@@ -1406,6 +1535,7 @@ local
 fun auxcl
 (
   env: !ccompenv
+, lvl0: int
 , hicl: hiclau
 , ptcmps: patcomplst
 , tmpret: tmpvar
@@ -1417,8 +1547,24 @@ val (pf0 | ()) = ccompenv_push (env)
 val inss = patcomplst_ccomp (env, ptcmps)
 val ((*void*)) = instrseq_addlst_vt (res, inss)
 //
-val loc = $LOC.location_dummy
-val ins = instr_comment (loc, "ibranch-body:")
+val ldmy = $LOC.location_dummy
+//
+val higs = hicl.hiclau_gua (* guard-list *)
+//
+val () =
+(
+case+ higs of
+| list_cons _ => let
+    val fail = patcomplst_find_guafail (ptcmps)
+    val ins = instr_comment (ldmy, "ibranch-guard:")
+    val ( ) = instrseq_add (res, ins)
+    val () = higmatlst_ccomp (env, res, lvl0, higs, fail)
+  in
+  end // end of [list_cons]
+| list_nil () => ()
+) : void // end of [val]
+//
+val ins = instr_comment (ldmy, "ibranch-mbody:")
 val ( ) = instrseq_add (res, ins)
 //
 val ((*void*)) =
@@ -1440,6 +1586,7 @@ end (* end of [auxcl] *)
 fun auxclist
 (
   env: !ccompenv
+, lvl0: int
 , hicls: hiclaulst
 , ptcmpss: patcomplstlst
 , tmpret: tmpvar
@@ -1450,8 +1597,8 @@ case+ hicls of
 | list_cons _ => let
     val+list_cons (hicl, hicls) = hicls
     val-list_cons (ptcmps, ptcmpss) = ptcmpss
-    val ibranch = auxcl (env, hicl, ptcmps, tmpret)
-    val ibranchs = auxclist (env, hicls, ptcmpss, tmpret)
+    val ibranch = auxcl (env, lvl0, hicl, ptcmps, tmpret)
+    val ibranchs = auxclist (env, lvl0, hicls, ptcmpss, tmpret)
   in
     list_cons (ibranch, ibranchs)
   end // end of [list_cons]
@@ -1467,13 +1614,13 @@ hiclaulst_ccomp
   env, lvl0, pmvs, hicls, tmpret, fail
 ) = let
 //
-val ptcmpss = hiclaulst_patcomp (lvl0, pmvs, hicls)
+val ptcmpss = hiclaulst_patcomp (lvl0, hicls, pmvs)
 val ((*void*)) = patcomplstlst_jumpfill (ptcmpss, fail)
 //
 val () = fprintln! (stdout_ref, "ptcmpss =\n", ptcmpss)
 //
 in
-  auxclist (env, hicls, ptcmpss, tmpret)
+  auxclist (env, lvl0, hicls, ptcmpss, tmpret)
 end // end of [hiclaulst_ccomp]
 
 end // end of [local]

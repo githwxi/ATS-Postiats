@@ -76,6 +76,12 @@ prval () = $UN.cast2void (xs) // HX: leak!
 } (* end of [val] *)
 
 (* ****** ****** *)
+//
+// HX-2013-06-20:
+// pattern matching of case-expressions is handled
+// quite differently from that of val-declarations
+//
+(* ****** ****** *)
 
 fun ftest4
   (xs: !List_vt (int)): int = let

@@ -441,7 +441,7 @@ primval_err
 implement
 primval_make_sizeof
   (loc, s2elt) = let
-  val hse = hisexp_size_type ()
+  val hse = hisexp_size_t0ype ()
 in
   primval_sizeof (loc, hse, s2elt)
 end // end of [primval_make_sizeof]

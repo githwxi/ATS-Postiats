@@ -12,6 +12,8 @@
 abstype T
 absvtype VT
 
+(* ****** ****** *)
+
 vtypedef xy = $rec_vt { x= T, y= VT }
 
 (* ****** ****** *)

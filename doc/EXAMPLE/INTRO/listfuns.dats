@@ -12,7 +12,7 @@
 // HX-2013-06-19:
 // For the first time, the ATS2 compiler (ATS/Postiats)
 // is able to properly handle case-expressions, generating
-// highly optimized code. Voila!
+// *highly* optimized code. Voila!
 //
 (* ****** ****** *)
 //

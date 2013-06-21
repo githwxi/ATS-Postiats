@@ -157,8 +157,8 @@ overload fprint with fprint_list_sep
 #atscode_separator()
 
 fun{x:t0p}
-fprint_listlist_sep (
-  out: FILEref
+fprint_listlist_sep
+( out: FILEref
 , xss: List (List (INV(x))), sep1: NSH(string), sep2: NSH(string)
 ) : void // end of [fprint_listlist_sep]
 

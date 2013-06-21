@@ -296,18 +296,29 @@ in '{
 (* ****** ****** *)
 
 implement
-hisexp_void_type () = let
+hisexp_bool_t0ype () = let
+  val s2c =
+    $S2C.s2cstref_get_cst ($S2C.the_bool_t0ype)
+  // end of [val]
+in '{
+  hisexp_name= HITNAM_TYABS, hisexp_node= HSEcst (s2c)
+} end // end of [hisexp_bool_t0ype]
+
+(* ****** ****** *)
+
+implement
+hisexp_void_t0ype () = let
   val s2c =
     $S2C.s2cstref_get_cst ($S2C.the_atsvoid_t0ype)
   // end of [val]
 in '{
   hisexp_name= HITNAM_TYABS, hisexp_node= HSEcst (s2c)
-} end // end of [hisexp_void_type]
+} end // end of [hisexp_void_t0ype]
 
 (* ****** ****** *)
 
 implement
-hisexp_size_type () = let
+hisexp_size_t0ype () = let
   val s2c1 =
     $S2C.s2cstref_get_cst ($S2C.the_atstkind_t0ype)
   val hse1 = hisexp_cst (s2c1)
@@ -315,7 +326,7 @@ hisexp_size_type () = let
   val hse2 = hisexp_cst (s2c2)
 in 
   hisexp_app (hse1, list_sing (hse2))
-end // end of [hisexp_size_type]
+end // end of [hisexp_size_t0ype]
 
 (* ****** ****** *)
 

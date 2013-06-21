@@ -415,7 +415,7 @@ case+ opt of
       | list_cons (hse, _) => hse
       | list_nil () => let
           val loc = _fun.hidexp_loc
-          val hse = hisexp_void_type ()
+          val hse = hisexp_void_t0ype ()
         in
           hidexp_empty (loc, hse)
         end // end of [list_nil]

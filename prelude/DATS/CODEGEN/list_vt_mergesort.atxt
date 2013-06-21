@@ -76,19 +76,19 @@ case+ xs1 of
     | @list_vt_cons
         (x2, xs21) => let
         val sgn =
-          list_vt_mergesort$cmp (x1, x2)
+          list_vt_mergesort$cmp<a> (x1, x2)
         // end of [val]
       in
         if sgn <= 0 then let
-          prval () = fold@ {a} (xs2)
+          prval () = fold@{a}(xs2)
           val () = merge (xs11, xs2, xs11)
-          prval () = fold@ {a} (xs1)
+          prval () = fold@{a}(xs1)
         in
           res := xs1
         end else let
-          prval () = fold@ {a} (xs1)
+          prval () = fold@{a}(xs1)
           val () = merge (xs1, xs21, xs21)
-          prval () = fold@ {a} (xs2)
+          prval () = fold@{a}(xs2)
         in
           res := xs2
         end // end of [if]
