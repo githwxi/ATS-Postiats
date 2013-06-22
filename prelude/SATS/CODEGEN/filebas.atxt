@@ -189,14 +189,26 @@ vtypedef charlst_vt = List0_vt (char)
 
 #atscode_separator()
 
-fun{
-} fileref_get_line_charlst (r: FILEref): charlst_vt
+fun fileref_get_line_charlst (r: FILEref): charlst_vt
+
+#atscode_separator()
 
 (*
 ** HX: only for files of "tiny" size
 *)
-fun{
-} fileref_get_lines_charlstlst (r: FILEref): List0_vt (charlst_vt)
+fun fileref_get_lines_charlstlst (r: FILEref): List0_vt (charlst_vt)
+
+#atscode_separator()
+
+(*
+** HX: for handling files of "tiny" size
+*)
+fun fileref_get_file_charlst (r: FILEref): List0_vt (char)
+fun fileref_nget_file_charlst {n:nat} (r: FILEref, n: int n): List0_vt (char)
+
+#atscode_separator()
+
+fun fileref_put_charlst (r: FILEref, cs: NSH(List(char))): void
 
 #atscode_separator()
 //
@@ -216,19 +228,6 @@ fun{
 fun{
 } fileref_get_lines_stringlst (r: FILEref): List0_vt (Strptr1)
 //
-#atscode_separator()
-
-(*
-** HX: for handling files of "tiny" size
-*)
-fun fileref_get_file_charlst (r: FILEref): List0_vt (char)
-fun fileref_nget_file_charlst {n:nat} (r: FILEref, n: int n): List0_vt (char)
-
-#atscode_separator()
-
-fun{
-} fileref_put_charlst (r: FILEref, cs: NSH(List(char))): void
-
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

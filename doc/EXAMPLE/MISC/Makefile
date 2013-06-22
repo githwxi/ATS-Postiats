@@ -25,6 +25,17 @@ RMF=rm -f
 
 ######
 
+all:: autodiff
+autodiff: autodiff.exe
+autodiff.exe: autodiff_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_GCBDW -O2 -o $@ $< -lm -lgc
+autodiff_dats.c: autodiff.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output autodiff_dats.c --dynamic autodiff.dats
+clean:: ; $(RMF) autodiff_dats.o
+clean:: ; $(RMF) autodiff_dats.c
+cleanall:: ; $(RMF) autodiff.exe
+
+
+######
+
 all:: coinflip
 coinflip: coinflip.exe
 coinflip.exe: coinflip_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

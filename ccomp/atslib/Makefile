@@ -66,6 +66,15 @@ clean:: ; $(RMF) output/atslib_prelude_string_dats.c
 clean:: ; $(RMF) output/atslib_prelude_string_dats.o
 
 
+######
+
+atslib_prelude:: atslib_prelude_filebas_dats
+atslib_prelude_filebas_dats: output/atslib_prelude_filebas_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_prelude_filebas_dats.c: ../../prelude/DATS/filebas.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_prelude_filebas_dats.o: output/atslib_prelude_filebas_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_prelude_filebas_dats.c
+clean:: ; $(RMF) output/atslib_prelude_filebas_dats.o
 
 
 ######
@@ -138,15 +147,6 @@ clean:: ; $(RMF) output/atslib_libc_unistd_dats.o
 
 ######
 
-all:: atslib_libats
-atslib_libats:: atslib_libats_linmap_skiplist_dats
-atslib_libats_linmap_skiplist_dats: output/atslib_libats_linmap_skiplist_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libats_linmap_skiplist_dats.c: ../../libats/DATS/linmap_skiplist.dats ; $(PATSOPT) -o $@ --dynamic $<
-output/atslib_libats_linmap_skiplist_dats.o: output/atslib_libats_linmap_skiplist_dats.c ; \
-  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
-clean:: ; $(RMF) output/atslib_libats_linmap_skiplist_dats.c
-clean:: ; $(RMF) output/atslib_libats_linmap_skiplist_dats.o
-
 
 ######
 
@@ -174,6 +174,14 @@ output/atslib_libats_ML_strarr_dats.o: output/atslib_libats_ML_strarr_dats.c ; \
   $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
 clean:: ; $(RMF) output/atslib_libats_ML_strarr_dats.c
 clean:: ; $(RMF) output/atslib_libats_ML_strarr_dats.o
+
+atslib_libats_ML:: atslib_libats_ML_filebas_dats
+atslib_libats_ML_filebas_dats: output/atslib_libats_ML_filebas_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_ML_filebas_dats.c: ../../libats/ML/DATS/filebas.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_ML_filebas_dats.o: output/atslib_libats_ML_filebas_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_ML_filebas_dats.c
+clean:: ; $(RMF) output/atslib_libats_ML_filebas_dats.o
 
 
 ######

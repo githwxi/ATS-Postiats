@@ -5,14 +5,24 @@
 //
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
+(* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 staload "libats/ML/SATS/filebas.sats"
+
+(* ****** ****** *)
+
+staload _ = "libats/ML/DATS/list0.dats"
+staload _ = "libats/ML/DATS/filebas.dats"
 
 (* ****** ****** *)
 
@@ -60,4 +70,4 @@ end // end of [main]
 
 (* ****** ****** *)
 
-(* end of [linenum.dats] *)
+(* end of [linenmbr.dats] *)

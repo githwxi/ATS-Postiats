@@ -26,12 +26,13 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
 
 staload STDIO = "libc/SATS/stdio.sats"
-viewtypedef FILEptr1 = $STDIO.FILEptr1
+vtypedef FILEptr1 = $STDIO.FILEptr1 (*linear/nonnull*)
 
 #atscode_separator()
 
@@ -242,7 +243,7 @@ end // end of [fileref_get_exnmsg]
 
 #atscode_separator()
 
-implement{}
+implement
 fileref_get_line_charlst
   (filr) = let
 //
@@ -285,7 +286,7 @@ end // end of [fileref_get_line_charlst]
 
 #atscode_separator()
 
-implement{}
+implement
 fileref_get_lines_charlstlst
   (filr) = let
 //
@@ -324,6 +325,69 @@ val () = loop (filr, res)
 in
   res
 end // end of [fileref_get_lines_charlstlst]
+
+#atscode_separator()
+
+local
+
+fun loop
+(
+  filr: FILEref
+, n: int, res: &ptr? >> charlst_vt
+) : int = let
+in
+//
+if n != 0 then let
+  val i = fileref_getc (filr)
+in
+  if i >= 0 then let
+    val () =
+    (
+      res :=
+      list_vt_cons{char}{0}((i2c)i, _)
+    )
+    val+list_vt_cons (_, res1) = res
+    val n = loop (filr, pred(n), res1)
+    prval () = fold@ (res)
+  in
+    n
+  end else let
+    val () = res := list_vt_nil () in (n)
+  end // end of [if]
+end else let
+  val () = res := list_vt_nil () in n(*=0*)
+end // end of [if]
+//
+end // end of [loop]
+
+in (* in of [local] *)
+
+implement
+fileref_get_file_charlst
+  (filr) = res where {
+  var res: ptr; val _ = loop (filr, ~1, res)
+} // end of [fileref_get_file_charlst]
+
+implement
+fileref_nget_file_charlst
+  (filr, n) = res where {
+  var res: ptr; val _(*nleft*) = loop (filr, n, res)
+} // end of [fileref_nget_file_charlst]
+
+end // end of [local]
+
+#atscode_separator()
+
+implement
+fileref_put_charlst
+  (out, cs) = let
+//
+implement(env)
+list_foreach$fwork<char><env> (c, env) = fileref_putc (out, c)
+//
+in
+  list_foreach<char> (cs)
+end // end of [fileref_put_charlst]
 
 #atscode_separator()
 
@@ -416,69 +480,6 @@ val () = loop (filr, res)
 in
   res
 end // end of [fileref_get_lines_stringlst]
-
-#atscode_separator()
-
-local
-
-fun loop
-(
-  filr: FILEref
-, n: int, res: &ptr? >> charlst_vt
-) : int = let
-in
-//
-if n != 0 then let
-  val i = fileref_getc (filr)
-in
-  if i >= 0 then let
-    val () =
-    (
-      res :=
-      list_vt_cons{char}{0}((i2c)i, _)
-    )
-    val+list_vt_cons (_, res1) = res
-    val n = loop (filr, pred(n), res1)
-    prval () = fold@ (res)
-  in
-    n
-  end else let
-    val () = res := list_vt_nil () in (n)
-  end // end of [if]
-end else let
-  val () = res := list_vt_nil () in n(*=0*)
-end // end of [if]
-//
-end // end of [loop]
-
-in (* in of [local] *)
-
-implement
-fileref_get_file_charlst
-  (filr) = res where {
-  var res: ptr; val _ = loop (filr, ~1, res)
-} // end of [fileref_get_file_charlst]
-
-implement
-fileref_nget_file_charlst
-  (filr, n) = res where {
-  var res: ptr; val _(*nleft*) = loop (filr, n, res)
-} // end of [fileref_nget_file_charlst]
-
-end // end of [local]
-
-#atscode_separator()
-
-implement{}
-fileref_put_charlst
-  (out, cs) = let
-//
-implement(env)
-list_foreach$fwork<char><env> (c, env) = fileref_putc (out, c)
-//
-in
-  list_foreach<char> (cs)
-end // end of [fileref_put_charlst]
 
 #atscode_separator()
 

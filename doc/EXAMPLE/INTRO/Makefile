@@ -209,6 +209,14 @@ clean:: ; $(RMF) intrange_dats.o
 clean:: ; $(RMF) intrange_dats.c
 cleanall:: ; $(RMF) intrange.exe
 
+all:: linenmbr
+linenmbr: linenmbr.exe
+linenmbr.exe: linenmbr_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+linenmbr_dats.c: linenmbr.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output linenmbr_dats.c --dynamic linenmbr.dats
+clean:: ; $(RMF) linenmbr_dats.o
+clean:: ; $(RMF) linenmbr_dats.c
+cleanall:: ; $(RMF) linenmbr.exe
+
 all:: listfuns
 listfuns: listfuns.exe
 listfuns.exe: listfuns_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 

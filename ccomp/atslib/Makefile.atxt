@@ -120,9 +120,9 @@ all:: atslib_prelude
 #make_entry("prelude", "float.dats")
 #make_entry("prelude", "string.dats")
 
-#comment('\
-\#make_entry("prelude", "filebas.dats")
-')
+######
+
+#make_entry("prelude", "filebas.dats")
 
 ######
 
@@ -147,6 +147,7 @@ all:: atslib_libats_ML
 #make_entry("libats/ML", "array0.dats")
 #make_entry("libats/ML", "string.dats")
 #make_entry("libats/ML", "strarr.dats")
+#make_entry("libats/ML", "filebas.dats")
 
 ######
 
