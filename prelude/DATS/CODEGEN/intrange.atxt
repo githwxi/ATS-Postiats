@@ -60,7 +60,7 @@ in
   loop (l, r, env)
 end // end of [intrange_foreach_env]
 
-#atscode_eof_strsub("\#thisfilename$")\
+#atscode_separator()
 
 implement{env}
 intrange_rforeach$cont (i, env) = true
@@ -96,6 +96,8 @@ fun loop
 in
   loop (l, r, env)
 end // end of [intrange_rforeach_env]
+
+#atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
 

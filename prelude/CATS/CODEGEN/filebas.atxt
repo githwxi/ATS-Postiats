@@ -116,14 +116,14 @@ atspre_fileref_getc
 
 ATSinline()
 atsvoid_t0ype
-atspre_fileref_putc_int
+atspre_fileref_putc
 (
   atstype_ref filr, atstype_int c
 ) {
   fputc (c, (FILE*)filr) ; return ;
-} // end of [fileref_putc_int]
-
-\#define fileref_putc_char(c, filr) fileref_putc_int((atstype_int)(c), filr)
+} // end of [atspre_fileref_putc]
+\#define atspre_fileref_putc_int atspre_fileref_putc
+\#define atspre_fileref_putc_char atspre_fileref_putc
 
 #atscode_separator_for_C()
 

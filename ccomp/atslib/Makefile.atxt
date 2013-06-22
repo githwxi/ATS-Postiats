@@ -119,6 +119,7 @@ all:: atslib_prelude
 #make_entry("prelude", "integer.dats")
 #make_entry("prelude", "float.dats")
 #make_entry("prelude", "string.dats")
+#make_entry("prelude", "strptr.dats")
 
 ######
 

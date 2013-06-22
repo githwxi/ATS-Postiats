@@ -33,8 +33,15 @@
 
 (* ****** ****** *)
 
-staload
-UN = "prelude/SATS/unsafe.sats"
+#define ATS_DYNLOADFLAG 0 // no dynloading at run-time
+
+(* ****** ****** *)
+
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload _(*anon*) = "prelude/DATS/integer.dats"
 
 (* ****** ****** *)
 
@@ -83,6 +90,13 @@ fileref_get_lines_charlstlst (filr) =
 
 (* ****** ****** *)
 
+local
+
+staload _(*anon*) = "prelude/DATS/strptr.dats"
+staload _(*anon*) = "prelude/DATS/filebas.dats"
+
+in (* in of [local] *)
+
 implement
 fileref_get_line_string (filr) =
   strptr2string (prelude_fileref_get_line_string (filr))
@@ -92,6 +106,8 @@ implement
 fileref_get_lines_stringlst (filr) =
   $UN.castvwtp0{list0(string)}(prelude_fileref_get_lines_stringlst (filr))
 // end of [fileref_get_lines_stringlst]
+
+end // end of [local]
 
 (* ****** ****** *)
 

@@ -191,6 +191,11 @@ fun s2explstlst_hnfize (xss: SHARED(s2explstlst)): s2explstlst
 fun s2exp_hnfize_flag_svar (s2e0: s2exp, s2v: s2var, flag: &int): s2exp
 //
 (* ****** ****** *)
+
+fun s2exp_mhnfize (x: SHARED(s2exp)): s2exp
+fun s2explst_mhnfize (x: SHARED(s2explst)): s2explst
+
+(* ****** ****** *)
 //
 fun s2exp2hnf (x: SHARED(s2exp)): s2hnf // = s2exp_hnfize
 fun s2exp2hnf_cast (x: SHARED(s2exp)): s2hnf // HX: a cast function
@@ -202,6 +207,8 @@ fun s2hnf2exp (x: SHARED(s2hnf)): s2exp // HX: a cast function
 fun s2hnf_syneq (s2f1: s2hnf, s2f2: s2hnf): bool
 fun s2exp_syneq (s2e1: s2exp, s2e2: s2exp): bool
 fun s2explst_syneq (xs1: s2explst, xs2: s2explst): bool
+
+(* ****** ****** *)
 
 fun s2hnf_tszeq
   (s2f1: s2hnf, s2f2: s2hnf): bool // type-size-equality-test

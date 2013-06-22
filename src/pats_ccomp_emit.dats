@@ -840,6 +840,8 @@ extern fun emit_primval_refarg : emit_primval_type
 extern fun emit_primval_funlab : emit_primval_type
 extern fun emit_primval_cfunlab : emit_primval_type
 //
+extern fun emit_primval_err : emit_primval_type
+//
 (* ****** ****** *)
 
 implement
@@ -899,6 +901,8 @@ case+ pmv0.primval_node of
 | PMVcfunlab _ => emit_primval_cfunlab (out, pmv0)
 //
 | PMVlamfix (knd, pmv) => emit_primval (out, pmv)
+//
+| PMVerr () => emit_primval_err (out, pmv0)
 //
 | _ => let
 (*
@@ -1225,11 +1229,6 @@ end // end of [emit_primval_funlab]
 
 (* ****** ****** *)
 
-local
-
-
-in (* in of [local] *)
-
 implement
 emit_primval_cfunlab
   (out, pmv0) = let
@@ -1256,8 +1255,6 @@ val () = emit_text (out, "))")
 in
   // nothing
 end // end of [emit_primval_cfunlab]
-
-end // end of [local]
 
 (* ****** ****** *)
 
@@ -1293,6 +1290,20 @@ case+ pmv.primval_node of
 end // end of [emit_primval_deref]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+emit_primval_err
+  (out, pmv) = let
+//
+val () = emit_text (out, "PMVerr(\"")
+val () = emit_location (out, pmv.primval_loc)
+val () = emit_text (out, "\")")
+//
+in
+  // nothing
+end // end of [emit_primval_err]
 
 (* ****** ****** *)
 
@@ -1572,15 +1583,21 @@ case+ ins.instr_node of
     // nothing
   end // end of [INSloopexn]
 //
-| INScaseof (ibrs) =>
-  {
-    val (
-    ) = emit_text (out, "ATScaseofbeg()\n")
+| INScaseof (ibrs) => let
+    val () = emit_text (out, "ATScaseofbeg()\n")
     val () = emit_ibranchlst (out, ibrs)
-    val (
-    ) = emit_text (out, "ATScaseofend()\n")
-    // end of [val]
-  } // end of [INScaseof]
+    val () = emit_text (out, "ATScaseofend()\n")
+  in
+    // nothing
+  end // end of [INScaseof]
+//
+| INSfreeptr (pmv) => let
+    val () = emit_text (out, "ATSINSfreeptr(")
+    val () = emit_primval (out, pmv)
+    val () = emit_text (out, ") ;")
+  in
+    // nothing
+  end // end of [INSfreeptr]
 //
 | INSletpop () => let
     val () = emit_text (out, "/*\n")

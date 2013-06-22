@@ -10,7 +10,16 @@
 //
 (* ****** ****** *)
 //
-// The code is ported to ATS2 by Hongwei Xi on Friday, July 20, 2012
+// HX-2012-07-20: ported to ATS2
+//
+(* ****** ****** *)
+//
+// HX-2012-06-21: compiled to run with ATS/Postiats
+//
+(* ****** ****** *)
+//
+#include
+"share/atspre_staload_tmpdef.hats"
 //
 (* ****** ****** *)
 

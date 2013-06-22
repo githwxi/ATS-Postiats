@@ -26,6 +26,10 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+\#define ATS_DYNLOADFLAG 0 // no dynloading at run-time
+
+#atscode_separator()
+
 staload UN = "prelude/SATS/unsafe.sats"
 
 #atscode_separator()

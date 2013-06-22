@@ -22,10 +22,10 @@ val () =
 {
 //
 val (
-) = assertloc (NULL = $UNSAFE.cast{ptr}(0))
+) = assertloc (nullp = $UNSAFE.cast{ptr}(0))
 val (
 ) = assertloc (
-  ptr_add<ptr> (nullp, 1) = ptr1_add_bsz (nullp, sizeof<ptr>)
+  ptr_add<ptr> (nullp, 1) = add_ptr_bsz (nullp, sizeof<ptr>)
 ) // end of [val]
 //
 } // end of [val]

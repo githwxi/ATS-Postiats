@@ -26,8 +26,15 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-staload
-UN = "prelude/SATS/unsafe.sats"
+\#define ATS_DYNLOADFLAG 0 // no dynloading at run-time
+
+#atscode_separator()
+
+staload UN = "prelude/SATS/unsafe.sats"
+
+#atscode_separator()
+
+staload _(*anon*) = "prelude/DATS/integer.dats"
 
 #atscode_separator()
 
@@ -136,6 +143,29 @@ end // end of [local]
 extern
 castfn
 __cast_filp (r: FILEref): FILEptr1
+
+#atscode_separator()
+
+implement
+fileref_open_opt
+  (path, fm) = let
+//
+val filp = $STDIO.fopen (path, fm)
+val isnot = $STDIO.FILEptr2ptr(filp) > 0
+//
+in
+//
+if isnot then let
+  val filr = $STDIO.FILEptr_refize (filp)
+in
+  Some_vt (filr)
+end else let
+  prval () = $STDIO.FILEptr_free_null (filp)
+in
+  None_vt(*void*)
+end // end of [if]
+//
+end // end of [fileref_open_opt]
 
 #atscode_separator()
 
@@ -290,11 +320,13 @@ implement
 fileref_get_lines_charlstlst
   (filr) = let
 //
-vtypedef res = List0_vt (charlst_vt)
+vtypedef line = charlst_vt
+vtypedef lines = List0_vt (line)
 //
 fun loop
 (
-  filr: FILEref, res: &res? >> res
+  filr: FILEref
+, res: &lines? >> lines
 ) : void = let
   val iseof = fileref_is_eof (filr)
 in
@@ -308,7 +340,7 @@ end else let
     fileref_get_line_charlst (filr)
   val () =
   (
-    res := list_vt_cons{..}{0}(line, _)
+    res := list_vt_cons{line}{0}(line, _)
   )
   val+list_vt_cons (_, res1) = res
   val () = loop (filr, res1)
@@ -319,7 +351,7 @@ end // end of [if]
 //
 end // end of [loop]
 //
-var res: res
+var res: lines
 val () = loop (filr, res)
 //
 in
@@ -382,11 +414,22 @@ implement
 fileref_put_charlst
   (out, cs) = let
 //
-implement(env)
-list_foreach$fwork<char><env> (c, env) = fileref_putc (out, c)
+fun loop
+(
+  out: FILEref, cs: List(char)
+) : void = let
+in
+//
+case+ cs of
+| list_cons (c, cs) => let
+    val () = fileref_putc (out, c) in loop (out, cs)
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [loop]
 //
 in
-  list_foreach<char> (cs)
+  loop (out, cs)
 end // end of [fileref_put_charlst]
 
 #atscode_separator()
@@ -445,11 +488,13 @@ implement{}
 fileref_get_lines_stringlst
   (filr) = let
 //
-vtypedef res = List0_vt (Strptr1)
+vtypedef line = Strptr1
+vtypedef lines = List0_vt (line)
 //
 fun loop
 (
-  filr: FILEref, res: &res? >> res
+  filr: FILEref
+, res: &lines? >> lines
 ) : void = let
   val iseof = fileref_is_eof (filr)
 in
@@ -463,7 +508,7 @@ end else let
     fileref_get_line_string (filr)
   val () =
   (
-    res := list_vt_cons{..}{0}(line, _)
+    res := list_vt_cons{line}{0}(line, _)
   )
   val+list_vt_cons (_, res1) = res
   val () = loop (filr, res1)
@@ -474,7 +519,7 @@ end // end of [if]
 //
 end // end of [loop]
 //
-var res: res
+var res: lines
 val () = loop (filr, res)
 //
 in

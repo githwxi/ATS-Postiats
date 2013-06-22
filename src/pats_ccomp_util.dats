@@ -237,7 +237,9 @@ case+ x.instr_node of
 //
 | INScaseof (ibrs) => auxibrlst (res, ibrs)
 //
-| INSletpop () => ()
+| INSfreeptr _ => ()
+//
+| INSletpop ((*void*)) => ()
 | INSletpush (pmds) => auxpmdlst (res, pmds)
 //
 | INSmove_con (tmp, _, _, _) => tmpadd (tmp)

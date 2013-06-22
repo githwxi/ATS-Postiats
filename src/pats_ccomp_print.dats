@@ -856,6 +856,13 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
+| INSfreeptr (pmv) =>
+  {
+    val () = prstr "INSfreeptr("
+    val () = fprint_primval (out, pmv)
+    val () = prstr ")"
+  }
+//
 | INSletpop () =>
   {
     val () = prstr "INSletpop()"

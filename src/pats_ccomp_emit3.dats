@@ -447,7 +447,7 @@ in
 case+ patck of
 | PATCKint (i) => {
     val () = emit_text (out, "ATSifnot(")
-    val () = emit_text (out, "ATSPACKint(")
+    val () = emit_text (out, "ATSPATCKint(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVint (out, i)
@@ -457,7 +457,7 @@ case+ patck of
   } // end of [PATCKint]
 | PATCKbool (b) => {
     val () = emit_text (out, "ATSifnot(")
-    val () = emit_text (out, "ATSPACKbool(")
+    val () = emit_text (out, "ATSPATCKbool(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVbool (out, b)
@@ -467,7 +467,7 @@ case+ patck of
   } // end of [PATCKbool]
 | PATCKchar (c) => {
     val () = emit_text (out, "ATSifnot(")
-    val () = emit_text (out, "ATSPACKchar(")
+    val () = emit_text (out, "ATSPATCKchar(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVchar (out, c)
@@ -477,7 +477,7 @@ case+ patck of
   } // end of [PATCKchar]
 | PATCKstring (str) => {
     val () = emit_text (out, "ATSifnot(")
-    val () = emit_text (out, "ATSPACKstring(")
+    val () = emit_text (out, "ATSPATCKstring(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVstring (out, str)
@@ -487,7 +487,7 @@ case+ patck of
   } // end of [PATCKstring]
 | PATCKi0nt (tok) => {
     val () = emit_text (out, "ATSifnot(")
-    val () = emit_text (out, "ATSPACKint(")
+    val () = emit_text (out, "ATSPATCKint(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVi0nt (out, tok)
@@ -497,7 +497,7 @@ case+ patck of
   } // end of [PATCKi0nt]
 | PATCKf0loat (tok) => {
     val () = emit_text (out, "ATSifnot(")
-    val () = emit_text (out, "ATSPACKfloat(")
+    val () = emit_text (out, "ATSPATCKfloat(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVf0loat (out, tok)

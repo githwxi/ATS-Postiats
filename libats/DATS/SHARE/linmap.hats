@@ -56,7 +56,7 @@ linmap_search
 in
 //
 if cptr2ptr(p) > 0 then let
-  prval (pf, fpf | p) = $UN.cptr_vtake (p)
+  val (pf, fpf | p) = $UN.cptr_vtake (p)
   val () = res := !p
   prval () = fpf (pf)
   prval () = opt_some {itm} (res)
@@ -177,11 +177,11 @@ in
 if ans then let
   prval () = opt_unsome {itm} (res)
 in
-  Some_vt {itm} (res)
+  Some_vt{itm}(res)
 end else let
   prval () = opt_unnone {itm} (res)
 in
-  None_vt {itm} ((*void*))
+  None_vt{itm}((*void*))
 end // end of [if]
 //
 end // end of [linmap_takeout_opt]

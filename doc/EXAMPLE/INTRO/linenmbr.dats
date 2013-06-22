@@ -26,6 +26,13 @@ staload _ = "libats/ML/DATS/filebas.dats"
 
 (* ****** ****** *)
 
+(*
+dynload "prelude/DATS/filebas.dats"
+dynload "libats/ML/DATS/filebas.dats"
+*)
+
+(* ****** ****** *)
+
 implement
 main () = let
 //

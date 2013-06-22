@@ -207,6 +207,8 @@ case+ 0 of
 //
 end (* end of [s2exp_topize_flag] *)
 
+(* ****** ****** *)
+
 implement
 s2exp_topize (knd, s2e) = let
   var flag: int = 0 in s2exp_topize_flag (knd, s2e, flag)
@@ -250,7 +252,8 @@ end // end of [s2exp_invar_flag]
 (* ****** ****** *)
 
 implement
-s2exp_hnfize_app (
+s2exp_hnfize_app
+(
   s2e0, s2e_fun, s2es_arg, flag
 ) = let
 (*
@@ -262,7 +265,8 @@ s2exp_hnfize_app (
   val s2e_fun = s2exp_hnfize_flag (s2e_fun, flag)
 in
 //
-case+ s2e_fun.s2exp_node of
+case+
+  s2e_fun.s2exp_node of
 | S2Elam (s2vs_arg, s2e_body) => let
     #define :: list_cons
     val () = flag := flag + 1
@@ -395,38 +399,46 @@ end // end of [s2exp_hnfize_flag]
 
 implement
 s2explst_hnfize_flag
-  (s2es0, flag) =
-  case+ s2es0 of
-  | list_cons (s2e, s2es) => let
-      val flag0 = flag
-      val s2e = s2exp_hnfize_flag (s2e, flag)
-      val s2es = s2explst_hnfize_flag (s2es, flag)
-    in
-      if flag > flag0 then
-        list_cons (s2e, s2es) else s2es0
-      // end of [if]
-    end // end of [list_cons]
-  | list_nil () => list_nil ()
-// end of [s2explst_hnfize_flag]
+  (s2es0, flag) = let
+in
+//
+case+ s2es0 of
+| list_cons
+    (s2e, s2es) => let
+    val flag0 = flag
+    val s2e = s2exp_hnfize_flag (s2e, flag)
+    val s2es = s2explst_hnfize_flag (s2es, flag)
+  in
+    if flag > flag0 then
+      list_cons (s2e, s2es) else s2es0
+    // end of [if]
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [s2explst_hnfize_flag]
 
 (* ****** ****** *)
 
 implement
 labs2explst_hnfize_flag
-  (ls2es0, flag) =
-  case+ ls2es0 of
-  | list_cons (ls2e, ls2es) => let
-      val flag0 = flag
-      val SLABELED (l, name, s2e) = ls2e
-      val s2e = s2exp_hnfize_flag (s2e, flag)
-      val ls2es = labs2explst_hnfize_flag (ls2es, flag)
-    in
-      if flag > flag0 then
-        list_cons (SLABELED (l, name, s2e), ls2es) else ls2es0
-      // end of [if]
-    end // end of [list_cons]
-  | list_nil () => list_nil ()
-// end of [labs2explst_hnfize_flag]
+  (ls2es0, flag) = let
+in
+//
+case+ ls2es0 of
+| list_cons
+    (ls2e, ls2es) => let
+    val flag0 = flag
+    val SLABELED (l, name, s2e) = ls2e
+    val s2e = s2exp_hnfize_flag (s2e, flag)
+    val ls2es = labs2explst_hnfize_flag (ls2es, flag)
+  in
+    if flag > flag0 then
+      list_cons (SLABELED (l, name, s2e), ls2es) else ls2es0
+    // end of [if]
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [labs2explst_hnfize_flag]
 
 (* ****** ****** *)
 
@@ -456,6 +468,61 @@ case+ opt of
 | None () => None ()
 //
 end // end of [s2expopt_hnfsize]
+
+(* ****** ****** *)
+
+extern
+fun s2exp_mhnfize_flag (s2e: s2exp, flag: &int): s2exp
+extern
+fun s2explst_mhnfize_flag (s2es: s2explst, flag: &int): s2explst
+extern
+fun labs2explst_mhnfize_flag (ls2es: labs2exp, flag: &int): labs2explst
+
+(* ****** ****** *)
+
+implement
+s2exp_mhnfize_flag
+  (s2e0, flag) = let
+//
+val s2e0 = s2exp_hnfize_flag (s2e0, flag)
+//
+in
+//
+case+
+s2e0.s2exp_node of
+| _ => s2e0 // HX: should be removed eventually!
+//
+end // end of [s2exp_mhnfize_flag]
+
+implement
+s2explst_mhnfize_flag
+  (s2es0, flag) = let
+in
+//
+case+ s2es0 of
+| list_cons
+    (s2e, s2es) => let
+    val flag0 = flag
+    val s2e = s2exp_mhnfize_flag (s2e, flag)
+    val s2es = s2explst_mhnfize_flag (s2es, flag)
+  in
+    if flag > flag0 then list_cons (s2e, s2es) else s2es0
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [s2exp_mhnfize_flag]
+
+(* ****** ****** *)
+
+implement
+s2exp_mhnfize (s2e) = let
+  var flag: int = 0 in s2exp_mhnfize_flag (s2e, flag)
+end // end of [s2exp_mhnfize]
+
+implement
+s2explst_mhnfize (s2es) = let
+  var flag: int = 0 in s2explst_mhnfize_flag (s2es, flag)
+end // end of [s2explst_mhnfize]
 
 (* ****** ****** *)
 //
@@ -525,25 +592,33 @@ end // end of [s2exp_syneq_exn]
 
 implement
 s2hnflst_syneq_exn
-  (xs1, xs2) =
-  case+ (xs1, xs2) of
-  | (list_cons (x1, xs1), list_cons (x2, xs2)) => let
-      val () = s2hnf_syneq_exn (x1, x2) in s2hnflst_syneq_exn (xs1, xs2)
-    end // end of [cons, cons]
-  | (list_nil (), list_nil ()) => ()
-  | (_, _) => $raise (SYNEQexn)
-// end of [s2hnflst_syneq_exn]
+  (xs1, xs2) = let
+in
+//
+case+ (xs1, xs2) of
+| (list_cons (x1, xs1),
+   list_cons (x2, xs2)) => let
+    val () = s2hnf_syneq_exn (x1, x2) in s2hnflst_syneq_exn (xs1, xs2)
+  end // end of [cons, cons]
+| (list_nil (), list_nil ()) => ()
+| (_, _) => $raise (SYNEQexn)
+//
+end // end of [s2hnflst_syneq_exn]
 
 implement
 s2explst_syneq_exn
-  (xs1, xs2) =
-  case+ (xs1, xs2) of
-  | (list_cons (x1, xs1), list_cons (x2, xs2)) => let
-      val () = s2exp_syneq_exn (x1, x2) in s2explst_syneq_exn (xs1, xs2)
-    end // end of [cons, cons]
-  | (list_nil (), list_nil ()) => ()
-  | (_, _) => $raise (SYNEQexn)
-// end of [s2explst_syneq_exn]
+  (xs1, xs2) = let
+in
+//
+case+ (xs1, xs2) of
+| (list_cons (x1, xs1),
+   list_cons (x2, xs2)) => let
+    val () = s2exp_syneq_exn (x1, x2) in s2explst_syneq_exn (xs1, xs2)
+  end // end of [cons, cons]
+| (list_nil (), list_nil ()) => ()
+| (_, _) => $raise (SYNEQexn)
+//
+end // end of [s2explst_syneq_exn]
 
 implement
 s2explstlst_syneq_exn
@@ -558,76 +633,92 @@ s2explstlst_syneq_exn
 
 (* ****** ****** *)
 
-fun s2eff_syneq_exn (
+fun s2eff_syneq_exn
+(
   s2fe1: s2eff, s2fe2: s2eff
-) : void = begin
-  case+ (s2fe1, s2fe2) of
-  | (S2EFFset (efs1),
-     S2EFFset (efs2)) =>
-      if not(efs1=efs2) then $raise (SYNEQexn)
-    // end of [S2EFFset, S2EFFset]
-  | (S2EFFexp (s2e1),
-     S2EFFexp (s2e2)) => s2exp_syneq_exn (s2e1, s2e2)
-  | (S2EFFadd (s2fe11, s2fe12),
-     S2EFFadd (s2fe21, s2fe22)) => {
-      val () = s2eff_syneq_exn (s2fe11, s2fe21)
-      val () = s2eff_syneq_exn (s2fe21, s2fe22)
-    } // end of [S2EFFadd, S2EFFadd]
-  | (_, _) => $raise (SYNEQexn)
+) : void = let
+in
+//
+case+ (s2fe1, s2fe2) of
+| (S2EFFset (efs1),
+   S2EFFset (efs2)) =>
+    if not(efs1=efs2) then $raise (SYNEQexn)
+  // end of [S2EFFset, S2EFFset]
+| (S2EFFexp (s2e1),
+   S2EFFexp (s2e2)) => s2exp_syneq_exn (s2e1, s2e2)
+| (S2EFFadd (s2fe11, s2fe12),
+   S2EFFadd (s2fe21, s2fe22)) => {
+    val () = s2eff_syneq_exn (s2fe11, s2fe21)
+    val () = s2eff_syneq_exn (s2fe21, s2fe22)
+  } // end of [S2EFFadd, S2EFFadd]
+| (_, _) => $raise (SYNEQexn)
+//
 end // end of [s2eff]
 
-fun s2lab_syneq_exn (
+fun s2lab_syneq_exn
+(
   s2l1: s2lab, s2l2: s2lab
-) : void = (
-  case+ s2l1 of
-  | S2LABlab l1 => (
-    case+ s2l2 of
-    | S2LABlab l2 =>
-        if l1 != l2 then $raise (SYNEQexn)
-      // end of [S2LABlab]
-    | S2LABind _ => $raise (SYNEQexn)
-    )
-  | S2LABind ind1 => (
-    case+ s2l2 of
-    | S2LABlab _ => $raise (SYNEQexn)
-    | S2LABind (ind2) => s2explst_syneq_exn (ind1, ind2)
-    )
-) // end of [s2lab_syneq_exn]
+) : void = let
+in
+//
+case+ s2l1 of
+| S2LABlab l1 => (
+  case+ s2l2 of
+  | S2LABlab l2 =>
+      if l1 != l2 then $raise (SYNEQexn)
+    // end of [S2LABlab]
+  | S2LABind _ => $raise (SYNEQexn)
+  )
+| S2LABind ind1 => (
+  case+ s2l2 of
+  | S2LABlab _ => $raise (SYNEQexn)
+  | S2LABind (ind2) => s2explst_syneq_exn (ind1, ind2)
+  )
+//
+end // end of [s2lab_syneq_exn]
 
-fun s2lablst_syneq_exn (
+fun s2lablst_syneq_exn
+(
   s2ls1: s2lablst, s2ls2: s2lablst
-) : void = (
-  case+ (s2ls1, s2ls2) of
-  | (list_cons (s2l1, s2ls1),
-     list_cons (s2l2, s2ls2)) => let
-      val () =
-        s2lab_syneq_exn (s2l1, s2l2)
-      // end of [val]
-    in
-      s2lablst_syneq_exn (s2ls1, s2ls2)
-    end
-  | (list_nil (), list_nil ()) => ()
-  | (_, _) => $raise (SYNEQexn)
-) // end of [s2lablst_syneq_exn]
+) : void = let
+in
+//
+case+ (s2ls1, s2ls2) of
+| (list_cons (s2l1, s2ls1),
+   list_cons (s2l2, s2ls2)) => let
+    val () =
+      s2lab_syneq_exn (s2l1, s2l2)
+    // end of [val]
+  in
+    s2lablst_syneq_exn (s2ls1, s2ls2)
+  end
+| (list_nil (), list_nil ()) => ()
+| (_, _) => $raise (SYNEQexn)
+//
+end // end of [s2lablst_syneq_exn]
 
-fun labs2explst_syneq_exn (
+fun labs2explst_syneq_exn
+(
   ls2es1: labs2explst, ls2es2: labs2explst
-) : void = (
-  case+ (ls2es1, ls2es2) of
-  | (list_cons (ls2e1, ls2es1),
-     list_cons (ls2e2, ls2es2)) => let
-      val SLABELED (l1, _(*opt*), s2e1) = ls2e1
-      val SLABELED (l2, _(*opt*), s2e2) = ls2e2
+) : void = let
+in
+//
+case+ (ls2es1, ls2es2) of
+| (list_cons (ls2e1, ls2es1),
+   list_cons (ls2e2, ls2es2)) => let
+    val SLABELED (l1, _(*opt*), s2e1) = ls2e1
+    val SLABELED (l2, _(*opt*), s2e2) = ls2e2
+  in
+    if (l1 = l2) then let
+      val () = s2exp_syneq_exn (s2e1, s2e2)
     in
-      if (l1 = l2) then let
-        val () = s2exp_syneq_exn (s2e1, s2e2)
-      in
-        labs2explst_syneq_exn (ls2es1, ls2es2)
-      end else $raise (SYNEQexn)
-    end // end of [cons, cons]
-  | (list_nil (), list_nil ()) => ()
-  | (_, _) => $raise (SYNEQexn)
-) // end of [labs2explst_syneq]
+      labs2explst_syneq_exn (ls2es1, ls2es2)
+    end else $raise (SYNEQexn)
+  end // end of [cons, cons]
+| (list_nil (), list_nil ()) => ()
+| (_, _) => $raise (SYNEQexn)
+//
+end // end of [labs2explst_syneq]
 
 (* ****** ****** *)
 
@@ -636,7 +727,8 @@ s2hnf_syneq_exn
   (s2f10, s2f20) = let
   val s2e10 = s2hnf2exp (s2f10)
   and s2e20 = s2hnf2exp (s2f20)
-  val s2en10 = s2e10.s2exp_node and s2en20 = s2e20.s2exp_node
+  val s2en10 = s2e10.s2exp_node
+  and s2en20 = s2e20.s2exp_node
 in
 //
 case s2en10 of
@@ -825,7 +917,9 @@ end // end of [s2hnf_syneq]
 
 local
 
-fun s2exp_prenexize (
+fun
+s2exp_prenexize
+(
   knd: int // 0/1: exi/uni
 , s2e0: s2exp
 , s2vs_res: &s2varlst_vt
@@ -837,7 +931,8 @@ val s2e0 = s2exp_hnfize s2e0
 //
 in
 //
-case+ s2e0.s2exp_node of
+case+
+  s2e0.s2exp_node of
 //
 | S2Eexi (
     s2vs, s2ps, s2e_body
@@ -881,7 +976,9 @@ case+ s2e0.s2exp_node of
 //
 end // end of [s2exp_prenexize]
 
-and s2exp_prenexize_work (
+and
+s2exp_prenexize_work
+(
   knd: int
 , s2vs: s2varlst, s2ps: s2explst, s2e_body: s2exp
 , s2vs_res: &s2varlst_vt
@@ -901,7 +998,9 @@ in
   s2e_body
 end // end of [s2exp_prenexize_work]
 
-and s2explst_prenexize (
+and
+s2explst_prenexize
+(
   knd: int
 , s2es0: s2explst
 , s2vs_res: &s2varlst_vt
@@ -913,8 +1012,10 @@ in
 case+ s2es0 of
 | list_cons (s2e, s2es) => let
     val flag0 = flag
-    val s2e = s2exp_prenexize (knd, s2e, s2vs_res, s2ps_res, flag)
-    val s2es = s2explst_prenexize (knd, s2es, s2vs_res, s2ps_res, flag)
+    val s2e =
+      s2exp_prenexize (knd, s2e, s2vs_res, s2ps_res, flag)
+    val s2es =
+      s2explst_prenexize (knd, s2es, s2vs_res, s2ps_res, flag)
   in
     if flag > flag0 then list_cons (s2e, s2es) else s2es0
   end // end of [cons]
@@ -922,7 +1023,9 @@ case+ s2es0 of
 //
 end // end of [s2explst_prenexize]
 
-and labs2explst_prenexize (
+and
+labs2explst_prenexize 
+(
   knd: int
 , ls2es0: labs2explst
 , s2vs_res: &s2varlst_vt

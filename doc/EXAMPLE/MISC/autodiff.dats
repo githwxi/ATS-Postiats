@@ -15,7 +15,7 @@
 //
 (* ****** ****** *)
 //
-// HX-2012-06-21: compiled to run by ATS/Postiats
+// HX-2012-06-21: compiled to run with ATS/Postiats
 //
 (* ****** ****** *)
 //
@@ -334,6 +334,14 @@ end // end of [lte_dualnum_dualnum]
 
 (* ****** ****** *)
 
+extern fun
+gt_dualnum_dualnum (p1: dualnum, p2: dualnum): bool
+overload > with gt_dualnum_dualnum
+implement
+gt_dualnum_dualnum (p1, p2) = lt_dualnum_dualnum (p2, p1)
+
+(* ****** ****** *)
+
 fn square (p: dualnum): dualnum = p * p
 
 (* ****** ****** *)
@@ -348,7 +356,7 @@ fun loop {
 } .<i+1>. (
   f: !natLt n -<cloptr1> dualnum, i: int i, res: dualnumlst (n-i-1)
 ) : dualnumlst (n) =
-  if i >= 0 then loop (f, i-1, list_cons{dualnum}(f i, res)) else res
+  if i >= 0 then loop (f, i-1, list_cons{dualnum}(f(i), res)) else res
 // end of [loop]
 //
 in
@@ -363,7 +371,7 @@ fun vplus
 ) : dualnumlst n =
   case+ us of
   | list_cons (u, us) => let
-      val+ list_cons (v, vs) = vs
+      val+list_cons (v, vs) = vs
     in
       list_cons{dualnum}(u + v, vplus (us, vs))
     end // end of [list_cons]
@@ -376,7 +384,7 @@ fun vminus
 ) : dualnumlst n =
   case+ us of
   | list_cons (u, us) => let
-      val+ list_cons (v, vs) = vs
+      val+list_cons (v, vs) = vs
     in
       list_cons{dualnum}(u - v, vminus (us, vs))
     end // end of [list_cons]
@@ -425,9 +433,9 @@ fun list_nth_get {n:nat} .<n>.
   (xs: dualnumlst n, i: natLt n): dualnum =
 (
   if i > 0 then begin
-    let val+ list_cons (_, xs) = xs in list_nth_get (xs, i-1) end
+    let val+list_cons (_, xs) = xs in list_nth_get (xs, i-1) end
   end else begin
-    let val+ list_cons (x, _) = xs in x end
+    let val+list_cons (x, _) = xs in x end
   end (* end of [if] *)
 ) // end of [list_nth_get]
 
@@ -435,11 +443,11 @@ fun list_nth_set {n:nat} .<n>.
   (xs: dualnumlst n, i: natLt n, x0: dualnum): dualnumlst n =
 (
   if i > 0 then let
-    val+ list_cons (x, xs) = xs
+    val+list_cons (x, xs) = xs
   in
     list_cons{dualnum}(x, list_nth_set (xs, i-1, x0))
   end else begin
-    let val+ list_cons (_, xs) = xs in list_cons{dualnum}(x0, xs) end
+    let val+list_cons (_, xs) = xs in list_cons{dualnum}(x0, xs) end
   end (* end of [if] *)
 ) // end of [list_nth_set]
 
@@ -541,15 +549,15 @@ fn saddle (): void = let
 val start = $lst{dualnum} (_1, _1)
 //
 val xy1_star: dualnum2 = let
-  fn f1 (xy1: dualnum2):<cloref1> dualnum = let
-    val+ list_pair
-      (x1, y1) = xy1
-    // end of [val]
+  fn f1 (
+    xy1: dualnum2
+  ) :<cloref1> dualnum = let
+    val+list_pair (x1, y1) = xy1
     val sum = x1 * x1 + y1 * y1
-    fn f2 (xy2: dualnum2):<cloref1> dualnum = let
-      val+ list_pair
-        (x2, y2) = xy2
-      // end of [val]
+    fn f2 (
+      xy2: dualnum2
+    ) :<cloref1> dualnum = let
+      val+list_pair (x2, y2) = xy2
     in
       sum - (x2 * x2 + y2 * y2)
     end // end of [f2]
@@ -560,14 +568,14 @@ in
   multivariate_argmin (f1, start)
 end // end of [xy1_star]
 //
-val+ list_pair (x1_star, y1_star) = xy1_star
+val+list_pair (x1_star, y1_star) = xy1_star
 //
 val xy2_star: dualnum2 = let
   val sum = x1_star * x1_star + y1_star * y1_star
-  fn f3 (xy2: dualnum2):<cloref1> dualnum = let
-    val+ list_pair
-      (x2, y2) = xy2
-    // end of [val]
+  fn f3 (
+    xy2: dualnum2
+  ) :<cloref1> dualnum = let
+    val+list_pair (x2, y2) = xy2
   in
     sum - (x2 * x2 + y2 * y2)
   end // end of [f3]
@@ -575,7 +583,7 @@ in
   multivariate_argmax (f3, start)
 end // end of [xy2_star]
 //
-val+ list_pair (x2_star, y2_star) = xy2_star
+val+list_pair (x2_star, y2_star) = xy2_star
 //
 in (* in of [let] *)
 //
@@ -616,13 +624,14 @@ end // end of [p]
 //
 fun loop
 (
-  xs: dualnum2, xs_dot: dualnum2
+  xs: dualnum2
+, xs_dot: dualnum2
 ) :<cloref1> dualnum = let
-  val xs_ddot = vscale (__1, gradient (p, xs))
+  val xs_Dot = vscale (__1, gradient (p, xs))
   val xs_new = vplus (xs, vscale (delta_t, xs_dot))
 in
-  if _0 < list_nth_get (xs_new, 1) then
-    loop (xs_new, vplus (xs_dot, vscale (delta_t, xs_ddot)))
+  if list_nth_get (xs_new, 1) > _0 then
+    loop (xs_new, vplus (xs_dot, vscale (delta_t, xs_Dot)))
   else let
     val delta_t_f = ~(list_nth_get (xs, 1) / list_nth_get (xs_dot, 1))
     val xs_t_f = vplus (xs, vscale (delta_t_f, xs_dot))
@@ -641,14 +650,10 @@ end // end [naive_euler]
 val w0 = _0
 val ws_star = let
 //
-fn f
+fn f (ws: dualnum1):<cloref1> dualnum =
 (
-  ws: dualnum1
-) :<cloref1> dualnum = let
-  val+ list_sing (w) = ws
-in
-  naive_euler (w)
-end // end of [f]
+  let val+list_sing (w) = ws in naive_euler (w) end
+) // end of [f]
 //
 in
   multivariate_argmin (f, $lst{dualnum}(w0))
@@ -676,6 +681,8 @@ end // end of [particle]
 // 0.20719187464861194
 //
 *)
+
+(* ****** ****** *)
 
 implement
 main0 () =

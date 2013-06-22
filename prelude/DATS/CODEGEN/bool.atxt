@@ -26,8 +26,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-implement
-gcompare_val<bool> = compare_bool0_bool0
+\#define ATS_DYNLOADFLAG 0 // no dynloading at run-time
 
 #atscode_separator()
 

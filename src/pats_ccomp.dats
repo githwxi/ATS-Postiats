@@ -611,6 +611,13 @@ instr_caseof
 (* ****** ****** *)
 
 implement
+instr_freeptr
+  (loc, pmv) = instr_make_node (loc, INSfreeptr (pmv))
+// end of [instr_freeptr]
+
+(* ****** ****** *)
+
+implement
 instr_letpop
   (loc) = instr_make_node (loc, INSletpop ())
 // end of [instr_letpop]

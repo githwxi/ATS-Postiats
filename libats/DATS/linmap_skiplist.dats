@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -40,8 +40,7 @@
 
 (* ****** ****** *)
 
-staload
-UN = "prelude/SATS/unsafe.sats"
+staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -89,8 +88,9 @@ fun linmap_random_lgN
 local
 //
 staload "libc/SATS/stdlib.sats"
-staload _ = "prelude/DATS/integer.dats"
-staload _ = "prelude/DATS/float.dats"
+//
+staload INT = "prelude/DATS/integer.dats"
+staload FLOAT = "prelude/DATS/float.dats"
 //
 in (* in of [local] *)
 
@@ -103,11 +103,14 @@ fun loop
   {i:int | 1 <= i; i <= n}
   .<n-i>. (
   n: int n, i: int i, r: double
-) :<> intBtwe (1, n) =
-  if i < n then
-    if (r <= 0.5) then loop (n, i+1, r+r) else i
-  else n // end of [if]
-// end of [loop]
+) :<> intBtwe (1, n) = let
+in
+//
+if i < n then
+  if (r <= 0.5) then loop (n, i+1, r+r) else i
+else n // end of [if]
+//
+end // end of [loop]
 //
 val r = drand48 () // HX: containing ref-effect!
 //
@@ -167,8 +170,8 @@ sknodeGt0
 extern
 castfn
 sknode2ptr
-  {key:t0p;itm:vt0p}
-  {l:addr}{n:int} (nx: sknode (key, INV(itm), l, n)):<> ptr (l)
+  {key:t0p;itm:vt0p}{l:addr}{n:int}
+  (nx: sknode (key, INV(itm), l, n)):<> ptr (l)
 // end of [sknode2ptr]
 
 (* ****** ****** *)
@@ -177,11 +180,12 @@ sknode2ptr
 
 (* ****** ****** *)
 
+extern
 fun{
 } sknode_null
-  {key:t0p;itm:vt0p}{n:nat} .<>.
-  (n: int n):<> sknode (key, itm, null, n) = $UN.castvwtp0 (nullp)
-// end of [sknode_null]
+  {key:t0p;itm:vt0p}
+  {n:nat} (n: int n):<> sknode (key, itm, null, n)
+implement{} sknode_null (n) = $UN.castvwtp0 (nullp)
 
 (* ****** ****** *)
 
@@ -218,20 +222,24 @@ sknodelst_type
   (key:t@ype, itm:vt@ype+, int(*size*)) = ptr
 stadef sknodelst = sknodelst_type
 
+(* ****** ****** *)
+//
+// HX: initized with nulls
+//
 extern
 fun{}
-sknodelst_make // HX: initized with nulls
+sknodelst_make
   {key:t0p;itm:vt0p}{n:nat} (n: int n):<!wrt> sknodelst (key, itm, n)
 // end of [sknodelst_make]
+
+(* ****** ****** *)
 
 extern
 fun{}
 sknodelst_get_at
   {key:t0p;itm:vt0p}
   {n:int}{i:nat | i < n}
-(
-  nxa: sknodelst (key, INV(itm), n), i: int i
-) :<> sknodeGt0 (key, itm, i)
+  (nxa: sknodelst (key, INV(itm), n), i: int i):<> sknodeGt0 (key, itm, i)
 // end of [sknodelst_get_at]
 
 extern
@@ -243,19 +251,22 @@ sknodelst_set_at
   nxa: sknodelst (key, INV(itm), n), i: int i, nx0: sknodeGt0 (key, itm, i)
 ) :<!wrt> void // end of [sknodelst_set_at]
 
+overload [] with sknodelst_get_at
+overload [] with sknodelst_set_at
+
 (* ****** ****** *)
 
 extern
 fun{
 key:t0p;itm:vt0p
-} sknode_get_sknodelst
-  {n:nat} (nx: sknode1 (key, INV(itm), n)):<> sknodelst (key, itm, n)
+} sknode_get_sknodelst{n:nat}
+  (nx: sknode1 (key, INV(itm), n)) :<> sknodelst (key, itm, n)
 // end of [sknode_get_sknodelst]
 
 extern
 fun{
 key:t0p;itm:vt0p
-} sknode_get_sknodelen {n:nat} (nx: sknode1 (key, INV(itm), n)):<> int (n)
+} sknode_get_sknodelen{n:nat} (nx: sknode1 (key, INV(itm), n)):<> int (n)
 
 (* ****** ****** *)
 //
@@ -284,7 +295,7 @@ sknode_make
   val () = p->sknodelst := $UN.cast{ptr}(sknodelst_make(lgN))
   val () = p->sknodelen := lgN
 in
-  $UN.castvwtp0 {sknode1(key,itm,lgN)} @(pfat, pfgc | p)
+  $UN.castvwtp0 {sknode1(key,itm,lgN)}((pfat, pfgc | p))
 end // end of [sknode_make]
 
 (* ****** ****** *)
@@ -296,7 +307,7 @@ sknode_free
 //
 vtypedef VT = _sknode_struct (key, itm)
 //
-prval (
+val (
   pfat, pfgc | p
 ) = __cast (nx) where
 {
@@ -308,13 +319,8 @@ prval (
 } // end of [prval]
 //
 val () = res := p->item
-//
-val () =
-  __mfree (p->sknodelst) where
-{
-  extern fun __mfree : ptr -<0,!wrt> void = "atspre_mfree_gc"
-} // end of [val]
-//
+val (
+) = $extfcall (void, "ATS_MFREE", p->sknodelst)
 val () = ptr_free {VT?} (pfgc, pfat | p)
 //
 in
@@ -430,7 +436,7 @@ fun{
 key:t0p;itm:vt0p
 } sknode_get_next
   {n:int}{ni:nat | ni < n}
-  (nx: sknode1 (key, itm, n), ni: int ni):<> sknodeGt0 (key, itm, ni)
+  (nx: sknode1 (key, INV(itm), n), ni: int ni):<> sknodeGt0 (key, itm, ni)
 // end of [sknode_get_next]
 
 extern
@@ -438,7 +444,7 @@ fun{
 key:t0p;itm:vt0p
 } sknode_set_next
   {n,n1:int}{ni:nat | ni < n} (
-  nx: sknode1 (key, itm, n), ni: int ni, nx0: sknodeGt0 (key, itm, ni)
+  nx: sknode1 (key, INV(itm), n), ni: int ni, nx0: sknodeGt0 (key, itm, ni)
 ) :<!wrt> void // end of [sknode_set_next]
 
 (* ****** ****** *)
@@ -446,13 +452,13 @@ key:t0p;itm:vt0p
 implement
 {key,itm}
 sknode_get_next (nx, ni) = let
-  val nxa = sknode_get_sknodelst (nx) in sknodelst_get_at (nxa, ni)
+  val nxa = sknode_get_sknodelst (nx) in nxa[ni]
 end // end of [sknode_get_next]
 
 implement
 {key,itm}
 sknode_set_next (nx, ni, nx0) = let
-  val nxa = sknode_get_sknodelst (nx) in sknodelst_set_at (nxa, ni, nx0)
+  val nxa = sknode_get_sknodelst (nx) in nxa[ni] := nx0
 end // end of [sknode_set_next]
 
 (* ****** ****** *)
@@ -516,13 +522,13 @@ extern
 fun{
 key:t0p;itm:vt0p
 } sknode_search {n:int}
-  (nx: sknode1 (key, itm, n), k0: key, ni: natLte n):<> sknode0 (key, itm)
+  (nx: sknode1 (key, INV(itm), n), k0: key, ni: natLte n):<> sknode0 (key, itm)
 // end of [sknode_search]
 extern
 fun{
 key:t0p;itm:vt0p
 } sknodelst_search {n:int}
-  (nxa: sknodelst (key, itm, n), k0: key, ni: natLte n):<> sknode0 (key, itm)
+  (nxa: sknodelst (key, INV(itm), n), k0: key, ni: natLte n):<> sknode0 (key, itm)
 // end of [sknodelst_search]
 
 (* ****** ****** *)
@@ -541,7 +547,7 @@ in
 //
 if p_nx1 > nullp then let
   val k1 = sknode_get_key (nx1)
-  val sgn = compare_key_key (k0, k1)
+  val sgn = compare_key_key<key> (k0, k1)
 in
   if sgn < 0 then
     sknode_search (nx, k0, ni1)
@@ -564,12 +570,12 @@ in
 //
 if ni > 0 then let
   val ni1 = ni - 1
-  val nx = sknodelst_get_at (nxa, ni1)
+  val nx = nxa[ni1]
   val p_nx = sknode2ptr (nx)
 in
   if p_nx > nullp then let
     val k = sknode_get_key (nx)
-    val sgn = compare_key_key (k0, k)
+    val sgn = compare_key_key<key> (k0, k)
   in
     if sgn < 0 then
       sknodelst_search (nxa, k0, ni1)
@@ -616,13 +622,13 @@ extern
 fun{
 key:t0p;itm:vt0p
 } sknode_insert {n:int}{ni:nat | ni <= n} (
-  nx: sknode1 (key, itm, n), k0: key, ni: int ni, nx0: sknode1 (key, itm)
+  nx: sknode1 (key, INV(itm), n), k0: key, ni: int ni, nx0: sknode1 (key, itm)
 ) : void // end of [sknode_insert]
 extern
 fun{
 key:t0p;itm:vt0p
 } sknodelst_insert {n:int}{ni:nat | ni <= n} (
-  nxa: sknodelst (key, itm, n), k0: key, ni: int ni, nx0: sknode1 (key, itm)
+  nxa: sknodelst (key, INV(itm), n), k0: key, ni: int ni, nx0: sknode1 (key, itm)
 ) : void // end of [sknodelst_insert]
 
 implement
@@ -638,7 +644,7 @@ if ni > 0 then let
 in
   if p_nx1 > nullp then let
     val k1 = sknode_get_key (nx1)
-    val sgn = compare_key_key (k0, k1)
+    val sgn = compare_key_key<key> (k0, k1)
   in
     if sgn <= 0 then let
       val n0 = sknode_get_sknodelen (nx0)
@@ -674,19 +680,18 @@ in
 //
 if ni > 0 then let
   val ni1 = ni - 1
-  val nx = sknodelst_get_at (nxa, ni1)
+  val nx = nxa[ni1]
   val p_nx = sknode2ptr (nx)
 in
   if p_nx > nullp then let
     val k = sknode_get_key (nx)
-    val sgn = compare_key_key (k0, k)
+    val sgn = compare_key_key<key> (k0, k)
   in
     if sgn <= 0 then let
       val n0 = sknode_get_sknodelen (nx0)
       val () =
-        if (n0 >= ni) then {
-        val () =
-          sknodelst_set_at (nxa, ni1, nx0)
+      if (n0 >= ni) then {
+        val () = nxa[ni1] := nx0
         val () = sknode_set_next (nx0, ni1, nx)
       } // end of [if] // end of [val]
     in
@@ -696,9 +701,7 @@ in
     // end of [if]
   end else let
     val n0 = sknode_get_sknodelen (nx0)
-    val () =
-      if (n0 >= ni) then sknodelst_set_at (nxa, ni1, nx0)
-    // end of [val]
+    val () = if (n0 >= ni) then nxa[ni1] := nx0
   in
     sknodelst_insert (nxa, k0, ni1, nx0)
   end // end of [if]
@@ -761,8 +764,8 @@ case+ map of
       // end of [if]
     ) : void // end of [val]
     val () = sknodelst_insert (nxa, k0, lgN0, nx_new)
-    prval (
-    ) = pridentity (lgN) // opening the type of [lgN]
+    prval () =
+      pridentity (lgN) // for opening the type of [lgN]
     prval () = fold@ (map)
   in
     // nothing
@@ -780,14 +783,14 @@ fun{
 key:t0p;itm:vt0p
 } sknode_takeout
   {n:int}{ni:nat | ni <= n}
-  (nx: sknode1 (key, itm, n), k0: key, ni: int ni): sknodeGt0 (key, itm, 0)
+  (nx: sknode1 (key, INV(itm), n), k0: key, ni: int ni): sknodeGt0 (key, itm, 0)
 // end of [sknode_takeout]
 extern
 fun{
 key:t0p;itm:vt0p
 } sknodelst_takeout
   {n:int}{ni:nat | ni <= n}
-  (nxa: sknodelst (key, itm, n), k0: key, ni: int ni): sknodeGt0 (key, itm, 0)
+  (nxa: sknodelst (key, INV(itm), n), k0: key, ni: int ni): sknodeGt0 (key, itm, 0)
 // end of [sknodelst_takeout]
 
 implement
@@ -803,7 +806,7 @@ if ni > 0 then let
 in
   if p_nx1 > nullp then let
     val k1 = sknode_get_key (nx1)
-    val sgn = compare_key_key (k0, k1)
+    val sgn = compare_key_key<key> (k0, k1)
   in
     if sgn < 0 then
       sknode_takeout (nx, k0, ni1)
@@ -833,19 +836,19 @@ in
 //
 if ni > 0 then let
   val ni1 = ni - 1
-  val nx = sknodelst_get_at (nxa, ni1)
+  val nx = nxa[ni1]
   val p_nx = sknode2ptr (nx)
 in
   if p_nx > nullp then let
     val k = sknode_get_key (nx)
-    val sgn = compare_key_key (k0, k)
+    val sgn = compare_key_key<key> (k0, k)
   in
     if sgn < 0 then
       sknodelst_takeout (nxa, k0, ni1)
     else if sgn > 0 then
       sknode_takeout (nx, k0, ni)
     else let // sgn = 0
-      val () = sknodelst_set_at (nxa, ni1, sknode_get_next (nx, ni1))
+      val () = nxa[ni1] := sknode_get_next (nx, ni1)
     in
       if ni1 > 0 then sknodelst_takeout (nxa, k0, ni1) else nx
     end
@@ -934,7 +937,7 @@ in
 case+ map of
 | SKIPLIST
     (N, lgN, nxa) => let
-    val nx = sknodelst_get_at (nxa, 0)
+    val nx = nxa[0]
     val () = sknode_foreach_env (nx, env)
   in
     // nothing
@@ -954,28 +957,29 @@ sknode_freelin
 (
   nx: sknodeGt0 (key, itm, 0)
 ) : void = let
-  val p_nx = sknode2ptr (nx)
+//
+val p_nx = sknode2ptr (nx)
+//
 in
 //
 if p_nx > nullp then let
+//
   val cp = sknode_getref_item (nx)
   val nx1 = sknode_get_next<key,itm> (nx, 0)
-  prval
-  (
-    pf, fpf
-  ) = __assert (cp) where
+//
+  prval (pf, fpf) =
+  __assert (cp) where
   {
-    extern praxi __assert
-      : {l:addr} cptr (itm, l) -<prf> (itm @ l, itm? @ l -<lin,prf> void)
+    extern praxi
+    __assert{l:addr}
+      (cp: cptr (itm, l)): (itm @ l, itm? @ l -<lin,prf> void)
   } // end of [prval]
   val p_i = cptr2ptr (cp)
   val () = linmap_freelin$clear<itm> (!p_i)
   prval () = fpf (pf)
-  val (
-  ) = __mfree (nx) where
-  {
-    extern fun __mfree : sknode1 (key, itm) -<0,!wrt> void = "mac#atspre_mfree_gc"
-  } // end of [where] // end of [val]
+//
+  val () = $extfcall (void, "ATS_MFREE", nx)
+//
 in
   sknode_freelin (nx1)
 end else () // end of [if]
@@ -986,9 +990,12 @@ in
 //
 case+ map of
 | ~SKIPLIST
-    (N, lgN, nxa) => (
-    $effmask_all (sknode_freelin (sknodelst_get_at (nxa, 0)))
-  ) // end of [SKIPLIST]
+    (N, lgN, nxa) => let
+    val nx0 = nxa[0]
+    val () = $extfcall (void, "ATS_MFREE", nxa)
+  in
+    $effmask_all (sknode_freelin (nx0))
+  end // end of [SKIPLIST]
 //
 end // end of [linmap_freelin]
 
@@ -1014,21 +1021,18 @@ case+ map2 of
   in
     if N = i2sz(0) then let
       val nxa_ = nxa
-      val () =
-        free@ {..}{0}{0} (map2)
-      val () =
-        __mfree_null (nxa_) where {
-        extern praxi __mfree_null : {n:int} sknodelst (key, itm, n) -<> void
-      } // end of [where] // end of [val]
+      val () = free@{..}{0}{0}(map2)
+      val () = $extfcall (void, "ATS_MFREE", nxa_)
       prval () = opt_none {map} (map)
     in
       false
     end else let
       prval () = fold@ (map2)
-      prval () =
-        __assert (map, map2) where {
+      prval (
+      ) = __assert (map, map2) where
+      {
         extern praxi __assert : (!map? >> map, map) -<prf> void
-      } // end of [val]
+      } // end of [prval]
       prval () = opt_some {map} (map)
     in
       true

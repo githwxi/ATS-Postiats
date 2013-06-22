@@ -1029,6 +1029,8 @@ instr_node =
 //
   | INScaseof of (ibranchlst) // caseof-branch-statements
 //
+  | INSfreeptr of (primval) // memory deallocation
+//
   | INSletpop of ()
   | INSletpush of (primdeclst)
 //
@@ -1185,6 +1187,10 @@ fun instr_loopexn
 (* ****** ****** *)
 
 fun instr_caseof (loc: location, xs: ibranchlst): instr
+
+(* ****** ****** *)
+
+fun instr_freeptr (loc: location, pmv: primval): instr
 
 (* ****** ****** *)
 

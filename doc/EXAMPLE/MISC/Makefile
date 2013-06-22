@@ -132,6 +132,14 @@ clean:: ; $(RMF) sllist_mapfree_dats.o
 clean:: ; $(RMF) sllist_mapfree_dats.c
 cleanall:: ; $(RMF) sllist_mapfree.exe
 
+all:: strmat
+strmat: strmat.exe
+strmat.exe: strmat_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+strmat_dats.c: strmat.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output strmat_dats.c --dynamic strmat.dats
+clean:: ; $(RMF) strmat_dats.o
+clean:: ; $(RMF) strmat_dats.c
+cleanall:: ; $(RMF) strmat.exe
+
 all:: wclines
 wclines: wclines.exe
 wclines.exe: wclines_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib

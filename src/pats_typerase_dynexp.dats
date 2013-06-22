@@ -60,6 +60,14 @@ staload SYN = "./pats_syntax.sats"
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
+
+(* ****** ****** *)
+
+staload
+S2UT = "./pats_staexp2_util.sats"
+
+(* ****** ****** *)
+
 staload "./pats_dynexp2.sats"
 staload "./pats_dynexp3.sats"
 
@@ -1030,15 +1038,53 @@ end // end of [local]
 
 (* ****** ****** *)
 
-implement
-d3exp_tyer_tmpcst (
-  loc0, hse0, d2c, t2mas
-) = hidexp_tmpcst (loc0, hse0, d2c, t2mas)
+local
+
+fun
+t2mpmarg_mhnfize
+  (t2ma: t2mpmarg): t2mpmarg = let
+  val loc = t2ma.t2mpmarg_loc
+  val s2es = t2ma.t2mpmarg_arg
+  val s2es = $S2UT.s2explst_mhnfize (s2es)
+in
+  t2mpmarg_make (loc, s2es)
+end // end of [t2mpmarg_mhnfize]
+
+fun
+t2mpmarglst_mhnfize
+  (t2mas: t2mpmarglst): t2mpmarglst = let
+  val t2mas = list_map_fun (t2mas, t2mpmarg_mhnfize)
+in
+  list_of_list_vt (t2mas)
+end // end of [t2mpmarglst_mhnfize]
+
+in (* in of [local] *)
 
 implement
-d3exp_tyer_tmpvar (
+d3exp_tyer_tmpcst
+(
+  loc0, hse0, d2c, t2mas
+) = let
+  val t2mas2 =
+    t2mpmarglst_mhnfize (t2mas)
+  // end of [val]
+in
+  hidexp_tmpcst (loc0, hse0, d2c, t2mas2)
+end (* end of [d3exp_tyer_tmpcst] *)
+
+implement
+d3exp_tyer_tmpvar
+(
   loc0, hse0, d2v, t2mas
-) = hidexp_tmpvar (loc0, hse0, d2v, t2mas)
+) = let
+  val t2mas2 =
+    t2mpmarglst_mhnfize (t2mas)
+  // end of [val]
+in
+  hidexp_tmpvar (loc0, hse0, d2v, t2mas2)
+end (* end of [d3exp_tyer_tmpvar] *)
+
+end // end of [local]
 
 (* ****** ****** *)
 

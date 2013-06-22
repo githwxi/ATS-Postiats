@@ -103,19 +103,16 @@ case+ xs of
     (x, xs) => let
 //
     val s2es = x.t2mpmarg_arg
-    val s2es2 =
-      s2explst_subst (sub, s2es)
+    val s2es2 = s2explst_subst (sub, s2es)
 (*
     val out = stdout_ref
     val () = fprintln! (out, "auxlst: s2es = ", s2es)
     val () = fprintln! (out, "auxlst: s2es2 = ", s2es2)
 *)
-    val x2 =
-      t2mpmarg_make (loc0, s2es2)
-    val xs2 = auxlst (loc0, sub, xs)
+    val x2 = t2mpmarg_make (loc0, s2es2)
 //
   in
-    list_cons (x2, xs2)
+    list_cons (x2, auxlst (loc0, sub, xs))
   end // end of [list_cons]
 | list_nil () => list_nil ()
 //

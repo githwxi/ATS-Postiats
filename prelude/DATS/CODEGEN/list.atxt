@@ -53,8 +53,7 @@ list_make_intrange
   {l0,r} (l0, r) = let
 //
 typedef elt = intBtw (l0, r)
-viewtypedef
-res (l:int) = list_vt (elt, r-l)
+vtypedef res (l:int) = list_vt (elt, r-l)
 fun loop {
   l:int | l0 <= l; l <= r
 } .<r-l>. (
@@ -84,7 +83,7 @@ list_make_array
   {n} (A, n) = let
 //
 prval () = lemma_array_param (A)
-viewtypedef res(n:int) = list_vt (a, n)
+vtypedef res (n:int) = list_vt (a, n)
 fun loop
   {l:addr}
   {n:nat} .<n>. (
@@ -311,7 +310,7 @@ implement{x}
 list_copy
   (xs) = res where {
 //
-viewtypedef res = List0_vt (x)
+vtypedef res = List0_vt (x)
 prval () = lemma_list_param (xs)
 //
 fun loop
@@ -1410,7 +1409,9 @@ end // end of [list_crosswith]
 #atscode_separator()
 
 implement{a}
-list_mergesort$cmp (x1, x2) = gcompare_val<a> (x1, x2)
+list_mergesort$cmp
+  (x1, x2) = gcompare_val<a> (x1, x2)
+// end of [list_mergesort$cmp]
 
 implement{a}
 list_mergesort
@@ -1440,7 +1441,9 @@ end // end of [list_mergesort_fun]
 #atscode_separator()
 
 implement{a}
-list_quicksort$cmp (x1, x2) = gcompare_val<a> (x1, x2)
+list_quicksort$cmp
+  (x1, x2) = gcompare_val<a> (x1, x2)
+// end of [list_quicksort$cmp]
 
 implement{a}
 list_quicksort

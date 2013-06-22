@@ -40,15 +40,38 @@ var map =
   linmap_make_nil {key,itm} ()
 //
 val ans =
-  linmap_insert (map, 0, "a", res)
+  linmap_insert (map, 0, "a1", res)
 prval () = opt_clear (res)
-val () = println! ("ans = ", ans)
+val () = assertloc (not(ans)) // inserted
+val () = assertloc (linmap_size (map) = 1)
 //
 val ans =
-  linmap_insert (map, 0, "a", res)
+  linmap_insert (map, 1, "b1", res)
 prval () = opt_clear (res)
-val () = println! ("ans = ", ans)
+val () = assertloc (not(ans)) // inserted
+val () = assertloc (linmap_size (map) = 2)
 //
+val ans =
+  linmap_insert (map, 1, "b2", res)
+prval () = opt_clear (res)
+val () = assertloc (ans=true) // replaced
+val () = assertloc (linmap_size (map) = 2)
+//
+val-~Some_vt("a1") = linmap_search_opt (map, 0)
+val-~Some_vt("b2") = linmap_search_opt (map, 1)
+//
+val ans =
+  linmap_insert (map, 2, "c1", res)
+prval () = opt_clear (res)
+val () = assertloc (not(ans)) // inserted
+val () = assertloc (linmap_size (map) = 3)
+//
+val-~Some_vt("a1") = linmap_takeout_opt (map, 0)
+val () = assertloc (linmap_size (map) = 2)
+val-~Some_vt("b2") = linmap_takeout_opt (map, 1)
+val () = assertloc (linmap_size (map) = 1)
+val-~Some_vt("c1") = linmap_takeout_opt (map, 2)
+val () = assertloc (linmap_size (map) = 0)
 //
 val () = linmap_free (map)
 //
