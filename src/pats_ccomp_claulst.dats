@@ -712,8 +712,10 @@ val+list_cons (x1, xs1) = xs10
 val+list_cons (x2, xs2) = xs20
 //
 val out = stdout_ref
+(*
 val () = fprintln! (out, "auxlst2: x1 = ", x1)
 val () = fprintln! (out, "auxlst2: x2 = ", x2)
+*)
 //
 in
 //
@@ -854,9 +856,11 @@ implement
 patcomplst_jumpfill_rest
   (xs1, xss2) = let
 //
+(*
 val out = stdout_ref
 val (
 ) = fprintln! (out, "patcomplst_jumpfill_rest: xs1 = ", xs1)
+*)
 //
 fun auxlst
 (
@@ -1574,10 +1578,12 @@ val ((*void*)) = ccompenv_pop (pf0 | env)
 //
 val inss = instrseq_get_free (res)
 //
+(*
 val (
 ) = fprintln!
   (stdout_ref, "hiclaulst_ccomp: auxcl: inss =\n", inss)
 // end of [val]
+*)
 //
 in
   ibranch_make (hicl.hiclau_loc, inss)
@@ -1617,7 +1623,9 @@ hiclaulst_ccomp
 val ptcmpss = hiclaulst_patcomp (lvl0, hicls, pmvs)
 val ((*void*)) = patcomplstlst_jumpfill (ptcmpss, fail)
 //
+(*
 val () = fprintln! (stdout_ref, "ptcmpss =\n", ptcmpss)
+*)
 //
 in
   auxclist (env, lvl0, hicls, ptcmpss, tmpret)

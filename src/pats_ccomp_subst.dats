@@ -339,7 +339,9 @@ val name = funlab_get_name (flab)
 val flev2 = the_d2varlev_get ()
 val hse = funlab_get_type (flab)
 val hse2 = hisexp_subst (sub, hse)
-val () = println! ("funlab_subst: hse2 = ", hse2)
+(*
+val () = fprintln! (stdout_ref, "funlab_subst: hse2 = ", hse2)
+*)
 val fc = funlab_get_funclo (flab)
 val qopt = funlab_get_d2copt (flab)
 val sopt = funlab_get_d2vopt (flab)
@@ -461,9 +463,12 @@ implement
 funent_subst
   (env, sub, flab2, fent, sfx) = let
 //
+(*
 val () =
+(
   println! ("funent_subst: flab2 = ", flab2)
-// end of [val]
+) (* end of [val] *)
+*)
 //
 val loc = funent_get_loc (fent)
 val flab = funent_get_lab (fent)
