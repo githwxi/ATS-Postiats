@@ -58,6 +58,8 @@ map_vtype (k:t0p, i:vt0p) = List0_vt @(k, i)
 
 implement{}
 linmap_nil () = list_vt_nil ()
+implement{}
+linmap_make_nil () = list_vt_nil ()
 
 (* ****** ****** *)
 
@@ -93,9 +95,44 @@ linmap_free (map) = list_vt_free<(key,itm)> (map)
 
 implement
 {key,itm}
+linmap_insert
+  (map, k0, x0, res) = let
+//
+val nx0 =
+  mynode_make_keyitm<key,itm> (k0, x0)
+//
+val nx1 =
+  linmap_insert_ngc<key,itm> (map, nx0)
+//
+val p1 = mynode2ptr (nx1)
+//
+in
+//
+if p1 > 0 then let
+  val () =
+  res := mynode_getfree_itm (nx1)
+  prval () = opt_some{itm}(res)
+in
+  true
+end else let
+  prval () = mynode_free_null (nx1)
+  prval () = opt_none{itm}(res)
+in
+  false
+end (* end of [if] *)
+//
+end // end of [linmap_insert]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
 linmap_insert_any
   (map, k0, x0) = let
-  val () = map := list_vt_cons ( @(k0, x0), map )
+//
+vtypedef ki = @(key, itm)
+val () = map := list_vt_cons{ki}( @(k0, x0), map )
+//
 in
   // nothing
 end // end of [linmap_insert_any]
@@ -110,24 +147,41 @@ linmap_foreach_env
 vtypedef ki = @(key, itm)
 //
 implement
-list_vt_foreach$cont<ki><env> (kx, env) = linmap_foreach$cont (kx.0, kx.1, env)
+list_vt_foreach$cont<ki><env>
+  (kx, env) = linmap_foreach$cont<key,itm><env> (kx.0, kx.1, env)
 implement
-list_vt_foreach$fwork<ki><env> (kx, env) = linmap_foreach$fwork (kx.0, kx.1, env)
+list_vt_foreach$fwork<ki><env>
+  (kx, env) = linmap_foreach$fwork<key,itm><env> (kx.0, kx.1, env)
 //
 in
-  list_vt_foreach_env (map, env)
+  list_vt_foreach_env<ki><env> (map, env)
 end // end of [linmap_foreach_env]
 
 (* ****** ****** *)
-
+//
+// HX: [map] is just a list
+//
 implement
 {key,itm}
-linmap_listize_free (map) = map // [map] is just a list
+linmap_listize_free (map) = map
 
 (* ****** ****** *)
 //
 // HX: ngc-functions make no use of malloc/free!
 //
+(* ****** ****** *)
+
+implement{}
+mynode_null
+  {key,itm} () = let
+//
+vtypedef
+mynode = mynode(key,itm,null)
+//
+in
+  $UN.castvwtp0{mynode}(the_null_ptr)
+end // end of [mynode_null]
+
 (* ****** ****** *)
 
 implement
@@ -136,7 +190,7 @@ mynode_make_keyitm
   (k, x) = let
 //
 vtypedef ki = @(key, itm)
-val nx = list_vt_cons {ki}{0} ( @(k, x), _ )
+val nx = list_vt_cons{ki}{0}( @(k, x), _ )
 //
 in
   $UN.castvwtp0{mynode1(key,itm)}(nx)
@@ -215,7 +269,7 @@ vtypedef ki = @(key, itm)
 //
 val nx = $UN.castvwtp0{List1_vt(ki)}(nx)
 //
-val+~list_vt_cons (kx,  nx2) = nx
+val+~list_vt_cons (kx, nx2) = nx
 prval () = __assert (nx2) where {
   extern praxi __assert : List0_vt(ki) -<prf> void
 } // end of [where] // end of [prval]
@@ -265,6 +319,23 @@ end // end of [linmap_search_ngc]
 
 implement
 {key,itm}
+linmap_insert_ngc
+  (map, nx0) = let
+//
+val k0 = mynode_get_key (nx0)
+val nx1 =
+  linmap_takeout_ngc<key,itm> (map, k0)
+val () =
+  linmap_insert_any_ngc<key,itm> (map, nx0)
+//
+in
+  nx1
+end // end of [linmap_insert_ngc]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
 linmap_insert_any_ngc
   (map, nx0) = let
 //
@@ -308,10 +379,10 @@ case+ kxs of
     // end of [val]
   in
     if iseq then let
-      val p1 = addr@ (kxs1)
+      val p1 = $UN.castvwtp1{ptr}(kxs1)
       prval () = fold@ (kxs)
-      val res = $UN.castvwtp0{mynode1} (kxs)
-      val () = kxs := $UN.castvwtp0{kis} (p1)
+      val res = $UN.castvwtp0{mynode1}(kxs)
+      val () = kxs := $UN.castvwtp0{kis}(p1)
     in
       res
     end else let

@@ -38,7 +38,9 @@
 (* ****** ****** *)
 
 absvtype
-linmap_node_vtype (key:t@ype, itm:vt@ype+, l:addr)
+linmap_node_vtype
+  (key:t@ype, itm:vt@ype+, l:addr) = ptr(l)
+// end of [linmap_node_vtype]
 
 (* ****** ****** *)
 //
@@ -79,20 +81,21 @@ key:t0p;itm:vt0p
 
 fun{
 key:t0p;itm:vt0p
-} mynode_get_key (nx: !mynode1 (key, itm)):<> key
+} mynode_get_key (nx: !mynode1 (key, INV(itm))):<> key
 fun{
 key:t0p;itm:vt0p
-} mynode_getref_itm (nx: !mynode1 (key, itm)):<> cPtr1 (itm)
+} mynode_getref_itm (nx: !mynode1 (key, INV(itm))):<> cPtr1 (itm)
 
 fun{
 key:t0p;itm:vt0p
-} mynode_free_keyitm (
-  nx: mynode1 (key, itm), k0: &key? >> key, x0: &itm? >> itm
+} mynode_free_keyitm
+(
+  nx: mynode1 (key, INV(itm)), k0: &key? >> key, x0: &itm? >> itm
 ) :<!wrt> void // end of [mynode_free_keyitm]
 
 fun{
 key:t0p;itm:vt0p
-} mynode_getfree_itm (nx: mynode1 (key, itm)):<!wrt> itm
+} mynode_getfree_itm (nx: mynode1 (key, INV(itm))):<!wrt> itm
 
 (* ****** ****** *)
 

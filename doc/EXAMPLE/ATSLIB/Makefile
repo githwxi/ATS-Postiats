@@ -338,6 +338,14 @@ clean:: ; $(RMF) libats_funmap_list_dats.c
 cleanall:: ; $(RMF) libats_funmap_list.exe
 
 
+all:: libats_linmap_list
+libats_linmap_list: libats_linmap_list.exe
+libats_linmap_list.exe: libats_linmap_list_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_linmap_list_dats.c: libats_linmap_list.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_linmap_list_dats.c --dynamic libats_linmap_list.dats
+clean:: ; $(RMF) libats_linmap_list_dats.o
+clean:: ; $(RMF) libats_linmap_list_dats.c
+cleanall:: ; $(RMF) libats_linmap_list.exe
+
 all:: libats_linmap_skiplist
 libats_linmap_skiplist: libats_linmap_skiplist.exe
 libats_linmap_skiplist.exe: libats_linmap_skiplist_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib

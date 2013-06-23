@@ -226,9 +226,10 @@ key:t0p;itm:vt0p
 //
 fun{
 key:t0p;itm:vt0p
-} linmap_free_ifnil (
+} linmap_free_ifnil
+(
   map: !map (key, INV(itm)) >> opt (map (key, itm), b)
-) :<!wrt> #[b:bool] bool (b)(*~freed*) // end of [linmap_free_ifnil]
+) :<!wrt> #[b:bool] bool (b)(*~freed*) // endfun
 //
 (* ****** ****** *)
 
