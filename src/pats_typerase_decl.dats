@@ -287,7 +287,7 @@ end // end of [if]
 //
 end // end of [f3undeclst_tyer]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d3ecl_tyer_fundecs (d3c0) = let
@@ -340,7 +340,7 @@ end // end of [if]
 //
 end // end of [v3aldeclst_tyer]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d3ecl_tyer_valdecs (d3c0) = let
@@ -383,7 +383,7 @@ in
   hivardec_make (loc, knd, d2v, d2vw, type, ini)
 end // end of [v3ardec_tyer]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d3ecl_tyer_vardecs (d3c0) = let

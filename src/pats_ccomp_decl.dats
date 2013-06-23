@@ -203,10 +203,10 @@ case+ hid0.hidecl_node of
 //
 | HIDinclude
     (hids) => let
-// (*
+(*
     val () = println! ("hidecl_ccomp: HIDinclude: loc0 = ", loc0)
     val () = println! ("hidecl_ccomp: HIDinclude: hid0 = ", hid0)
-// *)
+*)
     val pmds = hideclist_ccomp (env, hids)
   in
     primdec_include (loc0, pmds)
@@ -734,7 +734,9 @@ end // end of [val]
 val () = the_funlablst_add (flab)
 val () = funlab_set_funent (flab, Some (fent))
 //
+(*
 val () = println! ("hiimpdec_ccomp: auxlam: fent = ", fent)
+*)
 //
 } // end of [auxlam]
 
@@ -798,10 +800,9 @@ hiimpdec_ccomp
 val d2c = imp.hiimpdec_cst
 val knd = d2cst_get_kind (d2c)
 //
-val () =
-(
-  println! ("hiimpdec_ccomp: d2c = ", d2c)
-)
+(*
+val () = println! ("hiimpdec_ccomp: d2c = ", d2c)
+*)
 //
 in
 //

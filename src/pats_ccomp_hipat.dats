@@ -642,8 +642,10 @@ himatch_ccomp_sum
   env, res, lvl0, hip0, pmv0
 ) = let
 //
+(*
 val (
 ) = println! ("himatch_ccomp_sum: hip0 = ", hip0)
+*)
 //
 val-HIPcon (pck, d2c, hse_sum, lhips) = hip0.hipat_node
 //
@@ -666,13 +668,13 @@ fun auxvar
 //
 val n = d2var_get_utimes (d2v)
 val () = d2var_set_level (d2v, lvl0)
-// (*
+(*
 val () =
 (
   println! ("himatch_ccomp: auxvar: n = ", n);
   println! ("himatch_ccomp: auxvar: d2v = ", d2v);
 ) // end of [val]
-// *)
+*)
 //
 in
 //

@@ -780,19 +780,23 @@ implement
 do_trans1234 (
   basename, d0cs
 ) = let
-  val d3cs =
-    do_trans123 (basename, d0cs)
-  // end of [d3cs]
-  val hids = $TYER.d3eclist_tyer (d3cs)
 //
-  val () = fprint_hideclist (stdout_ref, hids)
+val d3cs =
+  do_trans123 (basename, d0cs)
+// end of [d3cs]
+val hids = $TYER.d3eclist_tyer (d3cs)
 //
-  val () = if isdebug() then {
-    val () = print "The 4th translation (type/proof-erasing) of ["
-    val () = print_string (basename)
-    val () = print "] is successfully completed!"
-    val () = print_newline ()
-  } // end of [if] // end of [val]
+(*
+val () = fprint_hideclist (stdout_ref, hids)
+*)
+//
+val () =
+if isdebug() then {
+  val () = print "The 4th translation (type/proof-erasing) of ["
+  val () = print_string (basename)
+  val () = print "] is successfully completed!"
+  val () = print_newline ()
+} // end of [if] // end of [val]
 //
 in
   hids

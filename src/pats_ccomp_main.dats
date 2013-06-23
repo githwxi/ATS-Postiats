@@ -875,9 +875,9 @@ ccomp_main
 (
   out, flag, infil, hids
 ) = let
-//
+(*
 val () = println! ("ccomp_main: enter")
-//
+*)
 val () = emit_time_stamp (out)
 val () = emit_ats_ccomp_header (out)
 val () = emit_ats_ccomp_prelude (out)
@@ -951,9 +951,9 @@ val () = aux_main_ifopt (out, infil)
 //
 val (
 ) = aux_extcodelst_if (out, lam (pos) => pos <= DYNEND)
-//
+(*
 val () = println! ("ccomp_main: leave")
-//
+*)
 in
   // nothing
 end // end of [ccomp_main]

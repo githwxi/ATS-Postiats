@@ -1233,11 +1233,13 @@ implement
 ccompenv_add_vbindmapall
   (env, d2v, pmv) = let
 //
+(*
 val () =
 (
   println! ("ccompenv_add_vbindmapall: d2v = ", d2v);
   println! ("ccompenv_add_vbindmapall: pmv = ", pmv);
 ) : void // end of [val]
+*)
 //
 val CCOMPENV (!p) = env
 //
