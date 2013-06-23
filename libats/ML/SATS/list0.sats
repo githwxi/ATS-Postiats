@@ -143,14 +143,14 @@ overload isneqz with list0_isnot_empty
 fun{a:t0p}
 list0_head_exn (xs: list0 (INV(a))):<!exn> a
 fun{a:t0p}
-list0_head_opt (xs: list0 (INV(a))):<> option0 (a)
+list0_head_opt (xs: list0 (INV(a))):<> Option_vt (a)
 
 fun{a:t0p}
 list0_tail_exn
   (xs: SHR(list0 (INV(a)))):<!exn> list0 (a)
 fun{a:t0p}
 list0_tail_opt
-  (xs: SHR(list0 (INV(a)))):<> option0 (list0 (a))
+  (xs: SHR(list0 (INV(a)))):<> Option_vt (list0 (a))
 // end of [list0_tail_opt]
 
 (* ****** ****** *)
@@ -158,7 +158,7 @@ list0_tail_opt
 fun{a:t0p}
 list0_nth_exn (xs: list0 (INV(a)), i: int):<!exn> a
 fun{a:t0p}
-list0_nth_opt (xs: list0 (INV(a)), i: int):<> option0 (a)
+list0_nth_opt (xs: list0 (INV(a)), i: int):<> Option_vt (a)
 
 (* ****** ****** *)
 
@@ -331,16 +331,19 @@ list0_forall2_eq (
 (* ****** ****** *)
 
 fun{a:t0p}
-list0_equal (
+list0_equal
+(
   xs1: list0 (INV(a)), xs2: list0 a, eqfn: cfun2 (a, a, bool)
 ) : bool // end of [list0_equal]
 
 (* ****** ****** *)
 
 fun{a:t0p}
-list0_find_exn (xs: list0 (INV(a)), p: cfun (a, bool)): a
+list0_find_exn
+  (xs: list0 (INV(a)), p: cfun (a, bool)): a
 fun{a:t0p}
-list0_find_opt (xs: list0 (INV(a)), p: cfun (a, bool)): option0 (a)
+list0_find_opt
+  (xs: list0 (INV(a)), p: cfun (a, bool)): Option_vt (a)
 
 (* ****** ****** *)
 

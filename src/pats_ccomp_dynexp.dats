@@ -241,10 +241,10 @@ hidexp_ccomp
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 //
-// (*
+(*
 val () = println! ("hidexp_ccomp: hde0 = ", hde0)
 val () = println! ("hidexp_ccomp: hse0 = ", hse0)
-// *)
+*)
 //
 in
 //
@@ -868,7 +868,7 @@ val () =
 (
   println! ("hidexp_ccomp_selvar: d2v = ", d2v);
   println! ("hidexp_ccomp_selvar: pmv = ", pmv);
-) // end of [val]
+) (* end of [val] *)
 *)
 //
 val pmls = hilablst_ccomp (env, res, hils)

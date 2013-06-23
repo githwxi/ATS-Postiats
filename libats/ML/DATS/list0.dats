@@ -79,31 +79,45 @@ list0_make_intrange_lrd
 //
 typedef res = list0 (int)
 //
-fun loop1 ( // d > 0
+fun loop1 // d > 0
+(
   l: int, r: int, d: int, res: &ptr? >> res
-) : void =
-  if l < r then let
-    val () =
-      res := list0_cons (l, _)
-    val+ list0_cons (_, res1) = res
-    val () = loop1 (l+d, r, d, res1)
-    prval () = fold@ (res)
-  in
-    // nothing
-  end else (res := list0_nil)
+) : void = let
+in
 //
-fun loop2 ( // d < 0
+if l < r then let
+  val () =
+  (
+    res := list0_cons{int}(l, _)
+  )
+  val+list0_cons (_, res1) = res
+  val () = loop1 (l+d, r, d, res1)
+  prval () = fold@ (res)
+in
+  // nothing
+end else (res := list0_nil)
+//
+end // end of [loop1]
+//
+fun loop2 // d < 0
+(
   l: int, r: int, d: int, res: &ptr? >> res
-) : void =
-  if l > r then let
-    val () =
-      res := list0_cons (l, _)
-    val+ list0_cons (_, res1) = res
-    val () = loop2 (l+d, r, d, res1)
-    prval () = fold@ (res)
-  in
-    // nothing
-  end else (res := list0_nil)
+) : void = let
+in
+//
+if l > r then let
+  val () =
+  (
+    res := list0_cons{int}(l, _)
+  )
+  val+ list0_cons (_, res1) = res
+  val () = loop2 (l+d, r, d, res1)
+  prval () = fold@ (res)
+in
+  // nothing
+end else (res := list0_nil)
+//
+end // end of [loop2]
 //
 in
 //
@@ -152,9 +166,9 @@ end // end of [fprint_list0_sep]
 (* ****** ****** *)
 
 implement{a}
-list0_sing (x) = list0_cons (x, list0_nil)
+list0_sing (x) = list0_cons{a}(x, list0_nil)
 implement{a}
-list0_pair (x1, x2) = list0_cons (x1, list0_cons (x2, list0_nil))
+list0_pair (x1, x2) = list0_cons{a}(x1, list0_cons{a}(x2, list0_nil))
 
 (* ****** ****** *)
 
@@ -190,10 +204,16 @@ in
 end // end of [list0_head_exn]
 
 implement{a}
-list0_head_opt (xs) = (
-  case+ xs of
-  | list0_cons (x, _) => Some0 (x) | list0_nil _ => None0 ()
-) // end of [list0_head_opt]
+list0_head_opt
+  (xs) = let
+in
+//
+case+ xs of
+| list0_cons
+    (x, _) => Some_vt{a}(x)
+| list0_nil _ => None_vt(*void*)
+//
+end // end of [list0_head_opt]
 
 (* ****** ****** *)
 
@@ -207,10 +227,18 @@ in
 end // end of [list0_tail_exn]
 
 implement{a}
-list0_tail_opt (xs) = (
-  case+ xs of
-  | list0_cons (_, xs) => Some0 (xs) | list0_nil _ => None0 ()
-) // end of [list0_tail_opt]
+list0_tail_opt
+  (xs) = let
+in
+//
+case+ xs of
+| list0_cons
+    (_, xs) =>
+    Some_vt{list0(a)}(xs)
+  // end of [list_cons]
+| list0_nil _ => None_vt(*void*)
+//
+end // end of [list0_tail_opt]
 
 (* ****** ****** *)
 
@@ -225,7 +253,8 @@ in
 //
 case+ xs of
 | list0_cons
-    (x, xs) => (
+    (x, xs) =>
+  (
     if i > 0 then loop (xs, i-1) else x
   ) // end of [list0_cons]
 | list0_nil () => $raise ListSubscriptExn()
@@ -249,19 +278,23 @@ list0_nth_opt
   (xs, i) = let
 //
 fn handle
-  (exn: exn):<> option0 (a) = let
+  (exn: exn):<> Option_vt (a) = let
+//
+val isexn = isListSubscriptExn (exn)
 //
 in
-  if isListSubscriptExn (exn) then let
-    prval (
-    ) = __assert (exn) where {
-      extern praxi __assert : (exn) -<prf> void
-    } // end of [prval]
-  in
-    None0 ()
-  end else
-    $effmask_exn ($raise (exn)) // HX: deadcode
-  // end of [if]
+//
+if isexn then let
+  prval (
+  ) = __assert (exn) where {
+    extern praxi __assert : (exn) -<prf> void
+  } // end of [prval]
+in
+  None_vt ()
+end else (
+  $effmask_exn ($raise (exn)) // HX: deadcode
+) // end of [if]
+//
 end // end of [handle]
 //
 val i = g1ofg0_int (i)
@@ -270,9 +303,9 @@ in
 //
 if i >= 0 then (
   $effmask_exn (
-    try Some0 (loop<a> (xs, i)) with exn => handle (exn)
+    try Some_vt (loop<a> (xs, i)) with exn => handle (exn)
   ) // end of [$effmask_exn]
-) else None0 () // end of [if]
+) else None_vt () // end of [if]
 //
 end // end of [list0_nth_opt]
 
@@ -289,12 +322,17 @@ fun aux {i:nat} .<i>. (
 ) :<!exn> list0 a = let
 in
 //
-if i > 0 then (
+if i > 0 then
+(
   case+ xs of
   | list0_cons (x, xs) =>
-      list0_cons (x, aux (xs, i-1, x0))
+    (
+      list0_cons{a}(x, aux (xs, i-1, x0))
+    )
   | list0_nil () => $raise ListSubscriptExn()
-) else list0_cons (x0, xs)
+) else (
+  list0_cons{a}(x0, xs)
+) (* end of [if] *)
 //
 end // end of [aux]
 //
@@ -327,7 +365,7 @@ case+ xs of
     (x, xs) => let
   in
     if i > 0 then
-      list0_cons (x, aux (xs, i-1, x0))
+      list0_cons{a}(x, aux (xs, i-1, x0))
     else let
       val () = x0 := x in xs
     end (* end of [if] *)
@@ -657,10 +695,13 @@ end // end of [list0_find_exn]
 implement{a}
 list0_find_opt (xs, p) = let
 in
-  case+ xs of
-  | list0_cons (x, xs) =>
-      if p (x) then Some0 (x) else list0_find_opt (xs, p)
-  | list0_nil () => None0 ()
+//
+case+ xs of
+| list0_cons (x, xs) =>
+  (
+    if p (x) then Some_vt (x) else list0_find_opt (xs, p)
+  )
+| list0_nil () => None_vt ()
 end // end of [list0_find_opt]
 
 (* ****** ****** *)

@@ -2335,7 +2335,8 @@ emit_instr_raise
 val-INSraise
   (tmp, pmv_exn) = ins.instr_node
 //
-val () = emit_text (out, "ATSINSraise(")
+val (
+) = emit_text (out, "ATSINSraise_exn(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
 val () = emit_primval (out, pmv_exn)
