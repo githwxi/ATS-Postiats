@@ -916,7 +916,7 @@ if p_nx > nullp then let
   val p_i = sknode_getref_item (nx)
   val nx1 = sknode_get_next<key,itm> (nx, 0)
 //
-  prval (pf, fpf | p_i) = $UN.cptr_vtake {itm} (p_i)
+  val (pf, fpf | p_i) = $UN.cptr_vtake {itm} (p_i)
 //
   val test = linmap_foreach$cont<key,itm><env> (k, !p_i, env)
 in

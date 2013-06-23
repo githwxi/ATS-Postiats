@@ -75,34 +75,47 @@ argv_get_at
 
 #atscode_separator()
 
-implement{a}
-tostring_val (x) = strptr2string (tostrptr_val<a> (x))
+implement(a:t0p)
+gequal_ref<a> (x, y) = gequal_val<a> (x, y)
+
+implement gequal_val<int> (x, y) = (x = y)
+implement gequal_val<bool> (x, y) = (x = y)
+implement gequal_val<char> (x, y) = (x = y)
+implement gequal_val<double> (x, y) = (x = y)
+implement gequal_val<string> (x, y) = (x = y)
 
 #atscode_separator()
 
 implement{a}
-fprint_val (out, x) = let
-  val str = tostrptr_val<a> (x)
-  val ( ) = fprint_strptr (out, str)
-  val ( ) = strptr_free (str)
-in
-  // nothing
-end // end of [fprint_val]
+tostring_val (x) =
+  strptr2string (tostrptr_val<a> (x))
+// end of [tostring_val]
+
+#atscode_separator()
 
 implement{a}
 print_val (x) = fprint_val<a> (stdout_ref, x)
 implement{a}
 prerr_val (x) = fprint_val<a> (stderr_ref, x)
 
-#atscode_separator()
+implement{a}
+fprint_val (out, x) = let
+  val str = tostrptr_val<a> (x)
+  val ((*void*)) = fprint_strptr (out, str)
+  val ((*void*)) = strptr_free (str)
+in
+  // nothing
+end // end of [fprint_val]
 
-implement(a:t0p)
-fprint_ref<a> (out, x) = fprint_val<a> (out, x)
+#atscode_separator()
 
 implement{a}
 print_ref (x) = fprint_ref<a> (stdout_ref, x)
 implement{a}
 prerr_ref (x) = fprint_ref<a> (stderr_ref, x)
+
+implement(a:t0p)
+fprint_ref<a> (out, x) = fprint_val<a> (out, x)
 
 #atscode_separator()
 

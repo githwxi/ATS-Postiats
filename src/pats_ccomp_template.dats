@@ -36,6 +36,11 @@ staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
+staload LAB = "./pats_label.sats"
+overload = with $LAB.eq_label_label
+
+(* ****** ****** *)
+
 staload "./pats_staexp2.sats"
 staload "./pats_staexp2_util.sats"
 staload "./pats_dynexp2.sats"
@@ -307,13 +312,34 @@ case+ s2en_pat of
   ) => let
   in
     case+ s2en_arg of
-    | S2Eapp (s2e_arg, s2es_arg) => let
+    | S2Eapp
+      (
+        s2e_arg, s2es_arg
+      ) => let
         val ans = auxmat (env, s2e_pat, s2e_arg)
       in
-        if ans then auxmatlst (env, s2es_pat, s2es_arg) else false
+        if ans then
+          auxmatlst (env, s2es_pat, s2es_arg) else false
+        // end of [if]
       end // end of [S2Eapp]
     | _ => false
   end // end of [S2Eapp]
+//
+| S2Etyrec (
+    knd, npf, ls2es_pat
+  ) => let
+  in
+    case+ s2en_arg of
+    | S2Etyrec
+      (
+        knd2, npf2, ls2es_arg
+      ) => (
+        if knd = knd2 then
+          auxlabmatlst (env, ls2es_pat, ls2es_arg) else false
+        // end of [if]
+      ) // end of [S2Etyrec]
+    | _ => false
+  end // end of [S2Etyrec]
 //
 | _ when s2hnf_syneq (s2f_pat, s2f_arg) => true
 //
@@ -352,6 +378,41 @@ case+ s2es_pat of
 | list_nil () => true
 //
 end // end of [auxmatlst]
+
+and auxlabmatlst
+(
+  env: !impenv
+, ls2es_pat: labs2explst
+, ls2es_arg: labs2explst
+) : bool = let
+// (*
+val out = stdout_ref
+val () = fprintln! (out, "auxlabmatlst: ls2es_pat = ", ls2es_pat)
+val () = fprintln! (out, "auxlabmatlst: ls2es_arg = ", ls2es_arg)
+// *)
+in
+//
+case+ ls2es_pat of
+| list_cons _ => (
+  case+ ls2es_arg of
+  | list_cons _ => let
+      val+list_cons (lx1, ls2es_pat) = ls2es_pat
+      val+list_cons (lx2, ls2es_arg) = ls2es_arg
+      val+SLABELED (l1, _, x1) = lx1 and SLABELED (l2, _, x2) = lx2
+      val ans = (
+        if l1 = l2 then auxmat (env, x1, x2) else false
+      ) : bool // end of [val]
+    in
+      if ans then auxlabmatlst (env, ls2es_pat, ls2es_arg) else false
+    end // end of [list_cons]
+  | list_nil () => false
+  )
+| list_nil () => (
+  case+ ls2es_arg of
+  | list_cons _ => false | list_nil () => true
+  ) // end of [list_nil]
+//
+end // end of [auxlabmatlst]
 
 fun auxmatlstlst
 (
@@ -426,10 +487,7 @@ val () = println! ("hiimpdec_tmpcst_match: d2c1 = ", d2c1)
 in
 //
 if d2c0 = d2c1 then let
-  val () = println! ("hiimpdec_tmpcst_match: d2c0 = d2c1")
-  val env =
-    impenv_make_svarlst (imp.hiimpdec_imparg)
-  // end of [val]
+  val env = impenv_make_svarlst (imp.hiimpdec_imparg)
   val ans = auxmatlstlst (env, imp.hiimpdec_tmparg, t2mas)
 in
   if ans then let

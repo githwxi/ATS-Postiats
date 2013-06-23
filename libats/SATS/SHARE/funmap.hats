@@ -41,7 +41,7 @@ sortdef t0p = t@ype
 // for maps associating keys with items
 // of types [key] and [itm], respectively
 //
-abstype map_type (key:t@ype, itm:t@ype+)
+abstype map_type (key:t@ype, itm:t@ype+) = ptr
 typedef map (key:t0p, itm:t0p) = map_type (key, itm)
 
 (* ****** ****** *)
@@ -64,26 +64,45 @@ fun{
 } funmap_make_nil {key,itm:t0p} ():<> map (key, itm)
 
 (* ****** ****** *)
+//
+fun{
+} fprint_funmap$sep (out: FILEref): void // "; "
+fun{
+} fprint_funmap$mapto (out: FILEref): void // "->"
+//
+fun{
+key,itm:t@ype
+} fprint_funmap
+  (out: FILEref, map: map (key, INV(itm))): void
+//
+overload fprint with fprint_funmap
+//
+(* ****** ****** *)
 
 fun{
-} funmap_is_nil {key,itm:t0p} (map: map (key, itm)):<> bool
+} funmap_is_nil
+  {key,itm:t0p} (map: map (key, INV(itm))):<> bool
 fun{
-} funmap_isnot_nil {key,itm:t0p} (map: map (key, itm)):<> bool
+} funmap_isnot_nil
+  {key,itm:t0p} (map: map (key, INV(itm))):<> bool
 
 (* ****** ****** *)
 //
 // HX-2012-12: this function is O(n)-time
 //
-fun{key,itm:t@ype} funmap_size (map: map (key, itm)):<> size_t
+fun{
+key,itm:t@ype
+} funmap_size (map: map (key, INV(itm))):<> size_t
 //
 (* ****** ****** *)
 
 fun{
 key,itm:t0p
-} funmap_search (
+} funmap_search
+(
   map: map (key, INV(itm))
 , k0: key, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool (b) // endfun
+) : #[b:bool] bool (b)
 
 fun{
 key,itm:t0p
@@ -100,16 +119,18 @@ key,itm:t0p
 //
 fun{
 key,itm:t0p
-} funmap_insert (
+} funmap_insert
+(
   map: &map (key, INV(itm)) >> _
 , k0: key, x0: itm, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool (b) // endfun
+) : #[b:bool] bool (b)
 
 fun{
 key,itm:t0p
 } funmap_insert_opt
-  (map: &map (key, INV(itm)) >> _, k0: key, x0: itm): Option_vt (itm)
-// end of [funmap_insert_opt]
+(
+  map: &map (key, INV(itm)) >> _, k0: key, x0: itm
+) : Option_vt (itm) // endfun
 
 (* ****** ****** *)
 //
@@ -130,20 +151,21 @@ key,itm:t0p
 } funmap_takeout (
   map: &map (key, INV(itm)) >> _
 , k0: key, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool (b) // endfun
+) : #[b:bool] bool (b)
 
 fun{
 key,itm:t0p
 } funmap_takeout_opt
-  (map: &map (key, INV(itm)) >> _, k0: key): Option_vt (itm)
-// end of [funmap_takeout_opt]
+(
+  map: &map (key, INV(itm)) >> _, k0: key
+) : Option_vt (itm) // endfun
 
 (* ****** ****** *)
 
 fun{
 key,itm:t0p
-} funmap_remove (
-  map: &map (key, INV(itm)) >> _, k0: key): bool
+} funmap_remove
+  (map: &map (key, INV(itm)) >> _, k0: key): bool
 // end of [funmap_remove]
 
 (* ****** ****** *)
@@ -182,7 +204,9 @@ env:vt0p
 
 fun{
 key,itm:t0p
-} funmap_listize (xs: map (key, itm)):<!wrt> List_vt @(key, itm)
+} funmap_listize
+  (xs: map (key, INV(itm))):<!wrt> List_vt @(key, itm)
+// end of [funmap_listize]
 
 (* ****** ****** *)
 

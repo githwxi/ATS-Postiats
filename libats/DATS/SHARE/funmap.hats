@@ -34,9 +34,7 @@
 (* ****** ****** *)
 
 implement{}
-funmap_isnot_nil
-  (xs) = not (funmap_is_nil<> (xs))
-// end of [funmap_isnot_nil]
+funmap_isnot_nil (xs) = not (funmap_is_nil<> (xs))
 
 (* ****** ****** *)
 
@@ -51,11 +49,11 @@ in
 if ans then let
   prval () = opt_unsome {itm} (res)
 in
-  Some_vt (res)
+  Some_vt{itm}(res)
 end else let
   prval () = opt_unnone {itm} (res)
 in
-  None_vt (*void*)
+  None_vt{itm}((*void*))
 end // end of [if]
 //
 end // end of [funmap_search_opt]
@@ -73,11 +71,11 @@ in
 if ans then let
   prval () = opt_unsome {itm} (res)
 in
-  Some_vt (res)
+  Some_vt{itm}(res)
 end else let
   prval () = opt_unnone {itm} (res)
 in
-  None_vt (*void*)
+  None_vt{itm}((*void*))
 end // end of [if]
 //
 end // end of [funmap_insert_opt]
@@ -95,11 +93,11 @@ in
 if ans then let
   prval () = opt_unsome {itm} (res)
 in
-  Some_vt (res)
+  Some_vt{itm}(res)
 end else let
   prval () = opt_unnone {itm} (res)
 in
-  None_vt (*void*)
+  None_vt{itm}((*void*))
 end // end of [if]
 //
 end // end of [funmap_takeout_opt]
@@ -140,7 +138,7 @@ local
 
 staload Q = "libats/SATS/qlist.sats"
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 {key,itm}
@@ -167,6 +165,34 @@ in
 end // end of [funmap_listize]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement{}
+fprint_funmap$sep (out) = fprint_string (out, "; ")
+implement{}
+fprint_funmap$mapto (out) = fprint_string (out, "->")
+
+implement
+{key,itm}
+fprint_funmap
+  (out, map) = let
+//
+implement
+funmap_foreach$fwork<key,itm><int>
+  (k, x, env) = {
+  val () = if env > 0 then fprint_funmap$sep (out)
+  val () = env := env + 1
+  val () = fprint_val<key> (out, k)
+  val () = fprint_funmap$mapto (out)
+  val () = fprint_val<itm> (out, x)
+} (* end of [funmap_foreach$fwork] *)
+//
+var env: int = 0
+//
+in
+  funmap_foreach_env<key,itm><int> (map, env)
+end // end of [fprint_funmap]
 
 (* ****** ****** *)
 

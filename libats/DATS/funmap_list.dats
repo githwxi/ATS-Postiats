@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -38,7 +38,7 @@ staload "libats/SATS/funmap_list.sats"
 (* ****** ****** *)
 
 implement
-{key}
+{key}(*tmp*)
 equal_key_key
   (k1, k2) = gequal_val<key> (k1, k2)
 // end of [equal_key_key]
@@ -57,6 +57,10 @@ map_type
 (* ****** ****** *)
 
 implement{} funmap_nil () = list_nil ()
+
+(* ****** ****** *)
+
+implement{} funmap_make_nil () = list_nil ()
 
 (* ****** ****** *)
 
@@ -123,8 +127,13 @@ implement
 {key,itm}
 funmap_insert
   (map, k0, x0, res) = let
-  val ans = funmap_takeout (map, k0, res)
-  val ( ) = (map := list_cons ( @(k0, x0), map ))
+//
+typedef ki = @(key, itm)
+val ans = funmap_takeout<key,itm> (map, k0, res)
+val (
+) = map := list_cons{ki}( @(k0, x0), map )
+// end of [val]
+//
 in
   ans
 end // end of [funmap_insert]
@@ -134,8 +143,11 @@ end // end of [funmap_insert]
 implement
 {key,itm}
 funmap_insert_any
-  (map, k0, x0) = (map := list_cons ( @(k0, x0), map ))
-// end of [funmap_insert_any]
+  (map, k0, x0) = let
+  typedef ki = @(key, itm)
+in
+  map := list_cons{ki}( @(k0, x0), map )
+end // end of [funmap_insert_any]
 
 (* ****** ****** *)
 
@@ -146,12 +158,16 @@ funmap_takeout
 //
 typedef map = map (key, itm)
 //
-fun loop (
+fun loop
+(
   map: &map >> _
 , kxs1: List0 @(key, itm)
 , kxs2: List0_vt @(key, itm)
 , k0: key, res: &itm? >> opt (itm, b)
 ) : #[b:bool] bool (b) = let
+//
+typedef ki = @(key, itm)
+//
 in
 //
 case+ kxs1 of
@@ -166,11 +182,11 @@ case+ kxs1 of
     in
       true
     end else
-      loop (map, kxs1, list_vt_cons (kx, kxs2), k0, res)
+      loop (map, kxs1, list_vt_cons{ki}(kx, kxs2), k0, res)
     // end of [if]
   end // end of [list_cons]
 | list_nil () => let
-    val () = list_vt_free (kxs2)
+    val () = list_vt_free<ki> (kxs2)
     prval () = opt_none {itm} (res) in false
   end // end of [list_nil]
 //
@@ -187,15 +203,17 @@ implement
 funmap_foreach_env
   (map, env) = let
 //
-viewtypedef keyitm = @(key, itm)
+vtypedef ki = @(key, itm)
 //
 implement
-list_foreach$cont<keyitm><env> (kx, env) = funmap_foreach$cont (kx.0, kx.1, env)
+list_foreach$cont<ki><env> (kx, env) =
+  funmap_foreach$cont<key,itm><env> (kx.0, kx.1, env)
 implement
-list_foreach$fwork<keyitm><env> (kx, env) = funmap_foreach$fwork (kx.0, kx.1, env)
+list_foreach$fwork<ki><env> (kx, env) =
+  funmap_foreach$fwork<key,itm><env> (kx.0, kx.1, env)
 //
 in
-  list_foreach_env (map, env)
+  list_foreach_env<ki><env> (map, env)
 end // end of [funmap_foreach_env]
 
 (* ****** ****** *)

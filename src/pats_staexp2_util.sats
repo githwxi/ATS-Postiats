@@ -194,6 +194,7 @@ fun s2exp_hnfize_flag_svar (s2e0: s2exp, s2v: s2var, flag: &int): s2exp
 
 fun s2exp_mhnfize (x: SHARED(s2exp)): s2exp
 fun s2explst_mhnfize (x: SHARED(s2explst)): s2explst
+fun s2explstlst_mhnfize (x: SHARED(s2explstlst)): s2explstlst
 
 (* ****** ****** *)
 //

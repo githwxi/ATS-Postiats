@@ -55,6 +55,10 @@ overload print with $FIL.print_filename
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
+
+(* ****** ****** *)
+
 staload "./pats_dynexp2.sats"
 staload "./pats_dynexp3.sats"
 
@@ -212,6 +216,7 @@ if knd = 0 then let
   val d2c = impdec.i3mpdec_cst
   val imparg = impdec.i3mpdec_imparg
   val tmparg = impdec.i3mpdec_tmparg
+  val tmparg = s2explstlst_mhnfize (tmparg)
   val hse_def = d3exp_tyer (impdec.i3mpdec_def)
   val himp = hiimpdec_make (loc, d2c, imparg, tmparg, hse_def)
 in

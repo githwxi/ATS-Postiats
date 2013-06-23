@@ -1038,28 +1038,6 @@ end // end of [local]
 
 (* ****** ****** *)
 
-local
-
-fun
-t2mpmarg_mhnfize
-  (t2ma: t2mpmarg): t2mpmarg = let
-  val loc = t2ma.t2mpmarg_loc
-  val s2es = t2ma.t2mpmarg_arg
-  val s2es = $S2UT.s2explst_mhnfize (s2es)
-in
-  t2mpmarg_make (loc, s2es)
-end // end of [t2mpmarg_mhnfize]
-
-fun
-t2mpmarglst_mhnfize
-  (t2mas: t2mpmarglst): t2mpmarglst = let
-  val t2mas = list_map_fun (t2mas, t2mpmarg_mhnfize)
-in
-  list_of_list_vt (t2mas)
-end // end of [t2mpmarglst_mhnfize]
-
-in (* in of [local] *)
-
 implement
 d3exp_tyer_tmpcst
 (
@@ -1083,8 +1061,6 @@ d3exp_tyer_tmpvar
 in
   hidexp_tmpvar (loc0, hse0, d2v, t2mas2)
 end (* end of [d3exp_tyer_tmpvar] *)
-
-end // end of [local]
 
 (* ****** ****** *)
 

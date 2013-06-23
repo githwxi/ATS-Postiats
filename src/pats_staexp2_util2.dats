@@ -477,6 +477,8 @@ extern
 fun s2explst_mhnfize_flag (s2es: s2explst, flag: &int): s2explst
 extern
 fun labs2explst_mhnfize_flag (ls2es: labs2exp, flag: &int): labs2explst
+extern
+fun s2explstlst_mhnfize_flag (s2ess: s2explstlst, flag: &int): s2explstlst
 
 (* ****** ****** *)
 
@@ -510,7 +512,27 @@ case+ s2es0 of
   end // end of [list_cons]
 | list_nil () => list_nil ()
 //
-end // end of [s2exp_mhnfize_flag]
+end // end of [s2explst_mhnfize_flag]
+
+(* ****** ****** *)
+
+implement
+s2explstlst_mhnfize_flag
+  (s2ess0, flag) = let
+in
+//
+case+ s2ess0 of
+| list_cons
+    (s2es, s2ess) => let
+    val flag0 = flag
+    val s2es = s2explst_mhnfize_flag (s2es, flag)
+    val s2ess = s2explstlst_mhnfize_flag (s2ess, flag)
+  in
+    if flag > flag0 then list_cons (s2es, s2ess) else s2ess0
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [s2explstlst_mhnfize_flag]
 
 (* ****** ****** *)
 
@@ -523,6 +545,11 @@ implement
 s2explst_mhnfize (s2es) = let
   var flag: int = 0 in s2explst_mhnfize_flag (s2es, flag)
 end // end of [s2explst_mhnfize]
+
+implement
+s2explstlst_mhnfize (s2ess) = let
+  var flag: int = 0 in s2explstlst_mhnfize_flag (s2ess, flag)
+end // end of [s2explstlst_mhnfize]
 
 (* ****** ****** *)
 //

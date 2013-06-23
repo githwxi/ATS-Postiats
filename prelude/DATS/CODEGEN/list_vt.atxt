@@ -110,7 +110,8 @@ fun loop
 in
 //
 case+ xs of
-| list_vt_cons (_, xs) => loop (xs, j + 1)
+| list_vt_cons
+    (_, xs) => loop (xs, j + 1)
 | list_vt_nil () => j
 //
 end // end of [loop]
@@ -150,14 +151,12 @@ case+ xs of
     (x, xs1) => let
     val x =
       list_vt_copylin$copy<x> (x)
-    // end of [val]
     val () =
       res := list_vt_cons{x}{0}(x, _)
-    // end of [val]
-    val list_vt_cons (_, res1) = res
+    val+list_vt_cons (_, res1) = res
     val () = loop (xs1, res1)
-    prval () = fold@ (res)
     prval () = fold@ (xs)
+    prval () = fold@ (res)
   in
     // nothing
   end
@@ -190,7 +189,7 @@ in
   in
     fold@ (xs); res
   end else
-    $UN.cast2Ptr1 (addr@(xs))
+    $UN.cast2Ptr1(addr@(xs))
   // end of [if]
 end // end of [loop]
 //
@@ -213,7 +212,8 @@ var xs = __ref (xs) where
 } // end of [val]
 //
 val pi = list_vt_getref_at (xs, i)
-val+list_cons (x, _) = $UN.ptr1_get<List1(a)> (cptr2ptr (pi))
+val+list_cons (x, _) =
+  $UN.ptr1_get<List1(a)> (cptr2ptr(pi))
 //
 prval () = __unref (xs) where
 {
@@ -294,7 +294,8 @@ list_vt_insert_at
 val pi = list_vt_getref_at (xs, i)
 val xs_i = $UN.cptr_get (pi)
 val xs1_i = list_vt_cons (x, xs_i)
-val () = $UN.ptr1_set<List1_vt(a)> (cptr2ptr(pi), xs1_i)
+val () =
+  $UN.ptr1_set<List1_vt(a)> (cptr2ptr(pi), xs1_i)
 //
 prval () = __assert (xs) where
 {
@@ -315,7 +316,8 @@ list_vt_remove_at
 val pi = list_vt_getref_at (xs, i)
 val xs_i = $UN.cptr_get (pi)
 val+~list_vt_cons (x1, xs1_i) = xs_i
-val () = $UN.ptr1_set<List0_vt(a)> (cptr2ptr(pi), xs1_i)
+val () =
+  $UN.ptr1_set<List0_vt(a)> (cptr2ptr(pi), xs1_i)
 //
 prval () = __assert (xs) where
 {
@@ -340,6 +342,8 @@ in
   list_vt_freelin (xs)
 end // end of [list_vt_free]
 
+#atscode_separator()
+
 implement{a}
 list_vt_freelin$clear (x) = gclear_ref (x)
 implement{a}
@@ -357,7 +361,7 @@ fun loop
       val () =
         list_vt_freelin$clear<a> (x)
       val xs1 = xs1
-      val () = free@ {a}{0} (xs)
+      val () = free@{a}{0}(xs)
     in
       loop (xs1)
     end // end of [list_vt_cons]
@@ -748,7 +752,7 @@ in
         val xs1 = xs1
         val () =
           list_vt_freelin$clear<a> (x)
-        val () = free@ {..}{0} (xs)
+        val () = free@{a}{0}(xs)
         val () = xs := xs1
       in
         loop (xs)
@@ -824,7 +828,7 @@ in
       val y =
         list_vt_map$fwork<a><b> (x)
       // end of [val]
-      val () = res := list_vt_cons {b}{0} (y, _)
+      val () = res := list_vt_cons{b}{0}(y, _)
       val+list_vt_cons (_, res1) = res
       val () = loop (xs1, res1)
       val () = fold@ (xs)
@@ -863,7 +867,7 @@ in
         list_vt_mapfree$fwork<a><b> (x)
       // end of [val]
       val () = free@ {a}{0} (xs)
-      val () = res := list_vt_cons {b}{0} (y, _)
+      val () = res := list_vt_cons{b}{0}(y, _)
       val+list_vt_cons (_, res1) = res
       val () = loop (xs1, res1)
       prval () = fold@ (res)

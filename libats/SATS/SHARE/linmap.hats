@@ -66,6 +66,20 @@ fun{}
 linmap_make_nil {key:t0p;itm:vt0p} ():<!wrt> map (key, itm)
 
 (* ****** ****** *)
+//
+fun{
+} fprint_linmap$sep (out: FILEref): void // "; "
+fun{
+} fprint_linmap$mapto (out: FILEref): void // "->"
+//
+fun{
+key,itm:t@ype
+} fprint_linmap
+  (out: FILEref, map: !map (key, INV(itm))): void
+//
+overload fprint with fprint_linmap
+//
+(* ****** ****** *)
 
 fun{
 } linmap_is_nil

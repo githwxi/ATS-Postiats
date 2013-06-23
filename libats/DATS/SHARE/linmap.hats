@@ -288,4 +288,32 @@ end // end of [local]
 
 (* ****** ****** *)
 
+implement{}
+fprint_linmap$sep (out) = fprint_string (out, "; ")
+implement{}
+fprint_linmap$mapto (out) = fprint_string (out, "->")
+
+implement
+{key,itm}
+fprint_linmap
+  (out, map) = let
+//
+implement
+linmap_foreach$fwork<key,itm><int>
+  (k, x, env) = {
+  val () = if env > 0 then fprint_linmap$sep (out)
+  val () = env := env + 1
+  val () = fprint_val<key> (out, k)
+  val () = fprint_linmap$mapto (out)
+  val () = fprint_val<itm> (out, x)
+} (* end of [linmap_foreach$fwork] *)
+//
+var env: int = 0
+//
+in
+  linmap_foreach_env<key,itm><int> (map, env)
+end // end of [fprint_linmap]
+
+(* ****** ****** *)
+
 (* end of [linmap.hats] *)

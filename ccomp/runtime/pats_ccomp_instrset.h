@@ -197,6 +197,10 @@
 //
 /* ****** ****** */
 
+#define ATSINSfreeptr(ptr) ATS_MFREE(ptr)
+
+/* ****** ****** */
+
 #define ATSINSmove(tmp, val) (tmp = val)
 #define ATSINSpmove(tmp, hit, val) (*(hit*)tmp = val)
 

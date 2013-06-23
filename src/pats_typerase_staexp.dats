@@ -588,4 +588,26 @@ end // end of [t2mpmarglst_tyer]
 
 (* ****** ****** *)
 
+implement
+t2mpmarg_mhnfize
+  (t2ma) = let
+  val loc = t2ma.t2mpmarg_loc
+  val s2es = t2ma.t2mpmarg_arg
+  val s2es = s2explst_mhnfize (s2es)
+in
+  t2mpmarg_make (loc, s2es)
+end // end of [t2mpmarg_mhnfize]
+
+implement
+t2mpmarglst_mhnfize
+  (t2mas) = let
+//
+val t2mas = list_map_fun (t2mas, t2mpmarg_mhnfize)
+//
+in
+  list_of_list_vt (t2mas)
+end // end of [t2mpmarglst_mhnfize]
+
+(* ****** ****** *)
+
 (* end of [pats_typerase_staexp.dats] *)
