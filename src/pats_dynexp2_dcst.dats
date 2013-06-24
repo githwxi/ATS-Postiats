@@ -382,7 +382,7 @@ d2cstmap_type (a:type) = $FM.map (d2cst, a)
 in (* in of [local] *)
 
 implement
-d2cstmap_make_nil () = $FM.funmap_make_nil ()
+d2cstmap_nil () = $FM.funmap_make_nil ()
 
 implement
 d2cstmap_search

@@ -93,6 +93,8 @@ fun d3ecl_tyer_vardecs (d3c0: d3ecl): hidecl
 
 extern
 fun tmpcstimpmap_make_hideclist (xs: hideclist): tmpcstimpmap
+extern
+fun tmpvardecmap_make_hideclist (xs: hideclist): tmpvardecmap
 
 (* ****** ****** *)
 
@@ -158,9 +160,15 @@ case+
     val () = (
       if (loaded = 0) then let
         val hids = d3eclist_tyer (d3cs)
-        val tcdmap = tmpcstimpmap_make_hideclist (hids)
+//
+        val tcimap = tmpcstimpmap_make_hideclist (hids)
         val p = $TRENV2.filenv_getref_tmpcstimpmap (fenv)
-        val () = $UN.ptrset<tmpcstimpmapopt> (p, Some (tcdmap))
+        val () = $UN.ptrset<tmpcstimpmapopt> (p, Some (tcimap))
+//
+        val tvdmap = tmpvardecmap_make_hideclist (hids)
+        val p = $TRENV2.filenv_getref_tmpvardecmap (fenv)
+        val () = $UN.ptrset<tmpvardecmapopt> (p, Some (tvdmap))
+//
       in
         // nothing
       end // end of [Some]
@@ -290,15 +298,18 @@ end // end of [f3undeclst_tyer]
 in (* in of [local] *)
 
 implement
-d3ecl_tyer_fundecs (d3c0) = let
+d3ecl_tyer_fundecs
+  (d3c0) = hdc0 where
+{
 //
 val loc0 = d3c0.d3ecl_loc
-val-D3Cfundecs (knd, decarg, f3ds) = d3c0.d3ecl_node
+val-D3Cfundecs
+  (knd, decarg, f3ds) = d3c0.d3ecl_node
 val hfds = f3undeclst_tyer (knd, decarg, f3ds)
+val hdc0 = hidecl_fundecs (loc0, knd, decarg, hfds)
+val () = hifundeclst_set_hideclopt (hfds, Some(hdc0))
 //
-in
-  hidecl_fundecs (loc0, knd, decarg, hfds)
-end // end of [d3ecl_tyer_fundecs]
+} // end of [d3ecl_tyer_fundecs]
 
 end // end of [local]
 
@@ -412,24 +423,12 @@ in
 //
 case+ x.hidecl_node of
 | HIDimpdec
-    (knd, impdec) => let
-    val tmparg = impdec.hiimpdec_tmparg
+    (knd, imp) => let
+    val tmparg = imp.hiimpdec_tmparg
   in
     case+ tmparg of
-    | list_cons _ => let
-        val d2c = impdec.hiimpdec_cst
-(*
-        val () = print ("tmpcstimpmap_make_hideclist: ")
-        val () = print_d2cst (d2c)
-        val () = print_string ("<")
-        val () = fpprint_s2explstlst (stdout_ref, impdec.hiimpdec_tmparg)
-        val () = print_string (">")
-        val () = print_newline ()
-*)
-      in
-        tmpcstimpmap_insert (map, d2c, impdec)
-      end // end of [list_cons]
-    | _ => ()
+    | list_cons _ => tmpcstimpmap_insert (map, imp)
+    | list_nil () => ()
   end // end of [HIDimpdec]
 //
 | HIDinclude
@@ -437,8 +436,10 @@ case+ x.hidecl_node of
   (* end of [HIDinclude] *)
 //
 | HIDlocal
-    (_, xs_body) => auxlst (map, xs_body)
-  (* end of [HIDlocal] *)
+    (xs_head, xs_body) =>
+  (
+    auxlst (map, xs_head); auxlst (map, xs_body)
+  ) // end of [HIDlocal]
 //
 | _ => ()
 //
@@ -460,12 +461,69 @@ case+ xs of
 end (* end of [auxlst] *)
 //
 var map
-  : tmpcstimpmap = d2cstmap_make_nil ()
+  : tmpcstimpmap = d2cstmap_nil ()
 val () = auxlst (map, xs)
 //
 in
   map
 end // end of [tmpcstimpmap_make_hideclist]
+
+(* ****** ****** *)
+
+implement
+tmpvardecmap_make_hideclist (xs) = let
+//
+fun aux
+(
+  map: &tmpvardecmap, x: hidecl
+) : void = let
+in
+//
+case+ x.hidecl_node of
+| HIDfundecs
+    (knd, s2qs, hfds) => let
+  in
+    case+ s2qs of
+    | list_cons _ => tmpvardecmap_inserts (map, hfds)
+    | list_nil () => ()
+  end // end of [HIDfundecs]
+//
+| HIDinclude
+    (xs_incl) => auxlst (map, xs_incl)
+  (* end of [HIDinclude] *)
+//
+| HIDlocal
+    (xs_head, xs_body) =>
+  (
+    auxlst (map, xs_head); auxlst (map, xs_body)
+  ) // end of [HIDlocal]
+//
+| _ => ()
+//
+end (* end of [aux] *)
+//
+and auxlst
+(
+  map: &tmpvardecmap, xs: hideclist
+) : void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = aux (map, x) in auxlst (map, xs)
+  end (* end of [list_cons] *)
+| list_nil () => ()
+//
+end (* end of [auxlst] *)
+//
+var map
+  : tmpvardecmap = d2varmap_nil ()
+val () = auxlst (map, xs)
+//
+in
+  map
+end // end of [tmpvardecmap_make_hideclist]
 
 (* ****** ****** *)
 

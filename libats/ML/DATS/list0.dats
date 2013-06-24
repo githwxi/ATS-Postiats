@@ -421,6 +421,13 @@ end // end of [local]
 (* ****** ****** *)
 
 implement{a}
+list0_length (xs) = let
+  val xs = list_of_list0 (xs) in list_length<a> (xs)
+end // end of [list0_length]
+
+(* ****** ****** *)
+
+implement{a}
 list0_append (xs, ys) = let
   val xs = list_of_list0 (xs) and ys = list_of_list0 (ys)
 in

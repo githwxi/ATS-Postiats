@@ -593,6 +593,27 @@ end // end of [tmpcstmat_tmpcst_match]
 (* ****** ****** *)
 
 implement
+hifundec2tmpvarmat
+  (hfd, t2mas) = let
+  val s2vs = hfd.hifundec_imparg
+  val tsub = auxbndlstlst (s2vs, t2mas)
+in
+  TMPVARMATsome (hfd, tsub)
+end // end of [hifundec2tmpvarmat]
+
+implement
+hifundecopt2tmpvarmat
+  (hfdopt, t2mas) = let
+in
+//
+case hfdopt of
+| ~Some_vt (hfd) =>
+    hifundec2tmpvarmat (hfd, t2mas)
+| ~None_vt ((*void*)) => TMPVARMATnone ()
+//
+end // end of [hifundecopt2tmpvarmat]
+
+implement
 hifundec_tmpvar_match
   (hfd, d2v0, t2mas) = let
 //
@@ -600,14 +621,8 @@ val d2v = hfd.hifundec_var
 //
 in
 //
-if d2v = d2v0 then let
-  val s2vs = hfd.hifundec_imparg
-  val tsub = auxbndlstlst (s2vs, t2mas)
-in
-  TMPVARMATsome (hfd, tsub)
-end else
-  TMPVARMATnone ()
-// end of [if]
+if d2v = d2v0 then
+  hifundec2tmpvarmat (hfd, t2mas) else TMPVARMATnone ()
 //
 end // end of [hifundec_tmpvar_match]
 
@@ -832,6 +847,20 @@ ccomp_tmpvarmat_some
   (env, loc0, hse0, d2v, t2mas, mat) = let
 //
 val-TMPVARMATsome (hfd, tsub) = mat
+val opt = hifundec_get_funlabopt (hfd)
+val () =
+(
+case+ opt of
+| None _ => let
+    val-Some
+      (hdc0) = hifundec_get_hideclopt (hfd)
+    val-HIDfundecs
+      (knd, decarg, hfds) = hdc0.hidecl_node
+  in
+    hifundeclst_ccomp (env, 0(*lvl0*), knd, decarg, hfds)
+  end // end of [None]
+| Some _ => ()
+)
 val-Some (flab) = hifundec_get_funlabopt (hfd)
 //
 in

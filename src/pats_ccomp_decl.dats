@@ -103,15 +103,6 @@ fun hiexndecs_ccomp
 (* ****** ****** *)
 
 extern
-fun hifundeclst_ccomp
-(
-  env: !ccompenv, lvl0: int
-, knd: funkind, decarg: s2qualst, hfds: hifundeclst
-) : void // end of [hifundeclst_ccomp]
-
-(* ****** ****** *)
-
-extern
 fun hivaldeclst_ccomp
 (
   env: !ccompenv, lvl0: int, knd: valkind, hvds: hivaldeclst

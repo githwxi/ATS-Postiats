@@ -208,7 +208,8 @@ fun labhipatlst_subtest
 (* ****** ****** *)
 
 abstype hidynexp_funlab_type // placeholder for [funlab]
-abstype hidynexp_instrlst_type // placeholder for [funlab]
+abstype hidynexp_hidecl_type // placeholder for [hidecl]
+abstype hidynexp_instrlst_type // placeholder for [instrlst]
 
 (* ****** ****** *)
 
@@ -360,6 +361,7 @@ where hidecl = '{
 }
 
 and hideclist = List (hidecl)
+and hideclopt = Option (hidecl)
 and hideclistopt = Option (hideclist)
 
 and hidexp = '{
@@ -411,6 +413,7 @@ and hifundec = '{
 , hifundec_var= d2var
 , hifundec_imparg= s2varlst
 , hifundec_def= hidexp
+, hifundec_hidecl= Option (hidynexp_hidecl_type)
 , hifundec_funlab= Option (hidynexp_funlab_type)
 } // end of [hifundec]
 
@@ -763,12 +766,18 @@ fun hiclau_make (
 (* ****** ****** *)
 
 fun hifundec_make
-  (loc: location, d2v: d2var, imparg: s2varlst, def: hidexp): hifundec
-// end of [hifundec_make]
+(
+  loc: location, d2v: d2var, imparg: s2varlst, def: hidexp
+) : hifundec // end of [hifundec_make]
 
+fun hifundec_get_hideclopt (hfd: hifundec): hideclopt
+
+fun hifundec_getref_hideclopt
+  (hfd: hifundec): Ptr1 = "patsopt_hifundec_getref_hideclopt"
 fun hifundec_getref_funlabopt
   (hfd: hifundec): Ptr1 = "patsopt_hifundec_getref_funlabopt"
-// end of [hifundec_getref_funlabopt]
+
+fun hifundeclst_set_hideclopt (hfds: hifundeclst, opt: hideclopt): void
 
 (* ****** ****** *)
 
@@ -869,12 +878,27 @@ fun tmpcstimpmap_find
   (map: tmpcstimpmap, d2c: d2cst): hiimpdeclst
 //
 fun tmpcstimpmap_insert
-  (map: &tmpcstimpmap, d2c: d2cst, dec: hiimpdec): void
+  (map: &tmpcstimpmap, imp: hiimpdec): void
+//
+fun filenv_get_tmpcstimpmapopt (fenv: filenv): tmpcstimpmapopt
 //
 (* ****** ****** *)
-
-fun filenv_get_tmpcstimpmapopt (fenv: filenv): tmpcstimpmapopt
-
+//
+typedef
+tmpvardecmap = d2varmap (hifundec)
+typedef
+tmpvardecmapopt = Option (tmpvardecmap)
+//
+fun tmpvardecmap_find
+  (map: tmpvardecmap, d2v: d2var): Option_vt (hifundec)
+//
+fun tmpvardecmap_insert
+  (map: &tmpvardecmap, hfd: hifundec): void
+fun tmpvardecmap_inserts
+  (map: &tmpvardecmap, hfds: hifundeclst): void
+//
+fun filenv_get_tmpvardecmapopt (fenv: filenv): tmpvardecmapopt
+//
 (* ****** ****** *)
 
 (* end of [pats_hidynexp.sats] *)

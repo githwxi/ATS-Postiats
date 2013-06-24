@@ -252,7 +252,7 @@ fun d2cstset_add (xs: d2cstset, x: d2cst):<> d2cstset
 
 (* ****** ****** *)
 
-fun d2cstmap_make_nil {a:type} ():<> d2cstmap (a)
+fun d2cstmap_nil {a:type} ():<> d2cstmap (a)
 fun d2cstmap_search
   {a:type} (map: d2cstmap(a), d2v: d2cst): Option_vt (a)
 fun d2cstmap_insert
@@ -1524,7 +1524,13 @@ abstype dynexp2_d3eclist_type // placeholer for [d3eclist]
 (*
 abstype dynexp2_hideclist_type // placeholer for [hideclist]
 *)
-abstype dynexp2_tmpcstimpmap_type // placeholer for [tmpcstimpmap]
+//
+(* ****** ****** *)
+//
+abstype
+dynexp2_tmpcstimpmap_type // placeholer for [tmpcstimpmap]
+abstype
+dynexp2_tmpvardecmap_type // placeholer for [tmpvardecmap]
 //
 (* ****** ****** *)
 

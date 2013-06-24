@@ -47,29 +47,29 @@ staload "./pats_ccomp.sats"
 (* ****** ****** *)
 //
 implement
-hifundec_get_funlabopt (hfd) =
-  $UN.ptrget<Option(funlab)> (hifundec_getref_funlabopt (hfd))
+hifundec_get_funlabopt
+  (hfd) = $UN.cast{funlabopt}(hfd.hifundec_funlab)
 implement
 hifundec_set_funlabopt (hfd, opt) =
-  $UN.ptrset<Option(funlab)> (hifundec_getref_funlabopt (hfd), opt)
+  $UN.ptrset<funlabopt> (hifundec_getref_funlabopt (hfd), opt)
 //
 (* ****** ****** *)
 //
 implement
-hiimpdec_get_funlabopt (imp) =
-  $UN.ptrget<Option(funlab)> (hiimpdec_getref_funlabopt (imp))
+hiimpdec_get_funlabopt
+  (imp) = $UN.cast{funlabopt}(imp.hiimpdec_funlab)
 implement
 hiimpdec_set_funlabopt (imp, opt) =
-  $UN.ptrset<Option(funlab)> (hiimpdec_getref_funlabopt (imp), opt)
+  $UN.ptrset<funlabopt> (hiimpdec_getref_funlabopt (imp), opt)
 //
 (* ****** ****** *)
 //
 implement
-hiimpdec_get_instrlstopt (imp) =
-  $UN.ptrget<Option(instrlst)> (hiimpdec_getref_instrlstopt (imp))
+hiimpdec_get_instrlstopt
+  (imp) = $UN.cast{instrlstopt}(imp.hiimpdec_instrlst)
 implement
 hiimpdec_set_instrlstopt (imp, opt) =
-  $UN.ptrset<Option(instrlst)> (hiimpdec_getref_instrlstopt (imp), opt)
+  $UN.ptrset<instrlstopt> (hiimpdec_getref_instrlstopt (imp), opt)
 //
 (* ****** ****** *)
 

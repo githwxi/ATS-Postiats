@@ -1098,6 +1098,7 @@ instr = '{
 
 and instrlst = List (instr)
 and instrlst_vt = List_vt (instr)
+and instrlstopt = Option (instrlst)
 
 and ibranch = '{
   ibranch_loc= location, ibranch_inslst= instrlst
@@ -1385,17 +1386,13 @@ fun instrseq_add_freeconlst
 //
 (* ****** ****** *)
 
-fun hifundec_get_funlabopt
-  (hfd: hifundec): Option (funlab)
-fun hifundec_set_funlabopt
-  (hfd: hifundec, opt: Option (funlab)): void
+fun hifundec_get_funlabopt (hfd: hifundec): Option (funlab)
+fun hifundec_set_funlabopt (hfd: hifundec, opt: Option (funlab)): void
 
 (* ****** ****** *)
 
-fun hiimpdec_get_funlabopt
-  (imp: hiimpdec): Option (funlab)
-fun hiimpdec_set_funlabopt
-  (imp: hiimpdec, opt: Option (funlab)): void
+fun hiimpdec_get_funlabopt (imp: hiimpdec): Option (funlab)
+fun hiimpdec_set_funlabopt (imp: hiimpdec, opt: Option (funlab)): void
 
 (* ****** ****** *)
 
@@ -1698,6 +1695,14 @@ fun hiimpdec_ccomp_if
 
 (* ****** ****** *)
 
+fun hifundeclst_ccomp
+(
+  env: !ccompenv, lvl0: int
+, knd: funkind, decarg: s2qualst, hfds: hifundeclst
+) : void // end of [hifundeclst_ccomp]
+
+(* ****** ****** *)
+
 fun hidecl_ccomp
   (env: !ccompenv, hdc: hidecl): primdec
 fun hideclist_ccomp
@@ -1940,6 +1945,10 @@ fun hiimpdec2_tmpcst_match
 
 (* ****** ****** *)
 
+fun hifundec2tmpvarmat
+  (hfd: hifundec, t2mas: t2mpmarglst): tmpvarmat
+fun hifundecopt2tmpvarmat
+  (opt: Option_vt (hifundec), t2mas: t2mpmarglst): tmpvarmat
 fun hifundec_tmpvar_match
   (hfd: hifundec, d2v: d2var, t2mas: t2mpmarglst): tmpvarmat
 // end of [hiimpdec_tmpvar_match]

@@ -82,13 +82,16 @@ fun filenv_get_d2itmmap (fenv: filenv):
 fun filenv_get_d2eclist (fenv: filenv): d2eclist
 
 (* ****** ****** *)
-
+//
 fun filenv_getref_d3eclistopt (fenv: filenv): Ptr1
 (*
 fun filenv_getref_hideclistopt (fenv: filenv): Ptr1
 *)
+(* ****** ****** *)
+//
 fun filenv_getref_tmpcstimpmap (fenv: filenv): Ptr1
-
+fun filenv_getref_tmpvardecmap (fenv: filenv): Ptr1
+//
 (* ****** ****** *)
 
 fun the_s2rtenv_add (id: symbol, s2te: s2rtext): void

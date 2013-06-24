@@ -636,13 +636,62 @@ hiclau_make
 
 implement
 hifundec_make
-  (loc, d2v, s2vs, def) = '{
+(
+  loc, d2v, s2vs, def
+) = '{
   hifundec_loc= loc
 , hifundec_var= d2v
 , hifundec_imparg= s2vs
 , hifundec_def= def
+, hifundec_hidecl= None ()
 , hifundec_funlab= None ()
 } // end of [hifundec_make]
+
+(* ****** ****** *)
+
+local
+
+staload UN = "prelude/SATS/unsafe.sats"
+
+in (* in of [local] *)
+
+implement
+hifundec_get_hideclopt
+  (hfd) = $UN.cast{hideclopt}(hfd.hifundec_hidecl)
+// end of [hifundec_get_hideclopt]
+
+implement
+hifundeclst_set_hideclopt
+  (hfds, opt) = let
+//
+fun set
+(
+  hfd: hifundec, opt: hideclopt
+) : void =
+  $UN.ptrset<hideclopt> (hifundec_getref_hideclopt (hfd), opt)
+//
+fun auxlst
+(
+  hfds: hifundeclst, opt: hideclopt
+) : void = let
+in
+//
+case+ hfds of
+| list_cons
+    (hfd, hfds) => let
+    val () = set (hfd, opt) in auxlst (hfds, opt)
+  end // end of [auxlst]
+| list_nil () => ()
+//
+end // end of [auxlst]
+//
+in
+  auxlst (hfds, opt)
+end // end of [hifundeclst_set_hideclopt]
+
+end // end of [local]
+
+(* ****** ****** *)
 
 implement
 hivaldec_make
@@ -808,6 +857,11 @@ filenv_get_tmpcstimpmapopt (fenv) = let
   val p = $TRENV2.filenv_getref_tmpcstimpmap (fenv) in $UN.ptrget<tmpcstimpmapopt> (p)
 end // end of [filenv_get_tmpcstimpmapopt]
 
+implement
+filenv_get_tmpvardecmapopt (fenv) = let
+  val p = $TRENV2.filenv_getref_tmpvardecmap (fenv) in $UN.ptrget<tmpvardecmapopt> (p)
+end // end of [filenv_get_tmpvardecmapopt]
+
 end // end of [local]
 
 (* ****** ****** *)
@@ -819,18 +873,53 @@ tmpcstimpmap_find
 in
 //
 case+ opt of
-| ~Some_vt (impdecs) => impdecs | ~None_vt () => list_nil ()
+| ~Some_vt (imps) => imps | ~None_vt () => list_nil ()
 //
 end // end of [tmpcstimpmap_find]
 
 implement
 tmpcstimpmap_insert
-  (map, d2c, x) = let
-  val xs = tmpcstimpmap_find (map, d2c)
-  val _(*found*) = $D2E.d2cstmap_insert (map, d2c, list_cons (x, xs))
+  (map, imp) = let
+  val d2c = imp.hiimpdec_cst
+  val imps = tmpcstimpmap_find (map, d2c)
+  val _(*found*) =
+    $D2E.d2cstmap_insert (map, d2c, list_cons (imp, imps))
 in
   // nothing
 end // end of [tmpcstimpmap_insert]
+
+(* ****** ****** *)
+
+implement
+tmpvardecmap_find
+  (map, d2v) = $D2E.d2varmap_search (map, d2v)
+// end of [tmpvardecmap_find]
+
+implement
+tmpvardecmap_insert
+  (map, hfd) = let
+  val d2v = hfd.hifundec_var
+  val _(*found*) = $D2E.d2varmap_insert (map, d2v, hfd)
+in
+  // nothing
+end // end of [tmpvardecmap_insert]
+
+implement
+tmpvardecmap_inserts
+  (map, hfds) = let
+in
+//
+case+ hfds of
+| list_cons
+    (hfd, hfds) => let
+    val () =
+    tmpvardecmap_insert (map, hfd)
+  in
+    tmpvardecmap_inserts (map, hfds)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [tmpvardecmap_inserts]
 
 (* ****** ****** *)
 
@@ -841,27 +930,38 @@ extern typedef "hiimpdec_t" = hiimpdec
 %{$
 
 ats_void_type
-patsopt_hipat_set_asvar (
+patsopt_hipat_set_asvar
+(
   ats_ptr_type hip, ats_ptr_type opt
 ) {
   ((hipat_t)hip)->atslab_hipat_asvar = opt ; return ;
 } // end of [patsopt_hipat_set_asvar]
 
 ats_ptr_type
+patsopt_hifundec_getref_hideclopt
+  (ats_ptr_type fundec)
+{
+  return &((hifundec_t)fundec)->atslab_hifundec_hidecl ;
+} // end of [patsopt_hifundec_getref_hideclopt]
+
+ats_ptr_type
 patsopt_hifundec_getref_funlabopt
-  (ats_ptr_type fundec) {
+  (ats_ptr_type fundec)
+{
   return &((hifundec_t)fundec)->atslab_hifundec_funlab ;
 } // end of [patsopt_hifundec_getref_funlabopt]
 
 ats_ptr_type
 patsopt_hiimpdec_getref_funlabopt
-  (ats_ptr_type impdec) {
+  (ats_ptr_type impdec)
+{
   return &((hiimpdec_t)impdec)->atslab_hiimpdec_funlab ;
 } // end of [patsopt_hiimpdec_getref_funlabopt]
 
 ats_ptr_type
 patsopt_hiimpdec_getref_instrlstopt
-  (ats_ptr_type impdec) {
+  (ats_ptr_type impdec)
+{
   return &((hiimpdec_t)impdec)->atslab_hiimpdec_instrlst ;
 } // end of [patsopt_hiimpdec_getref_instrlstopt]
 
