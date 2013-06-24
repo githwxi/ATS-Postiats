@@ -861,19 +861,19 @@ fun hidecl_local
 (* ****** ****** *)
 //
 typedef
-tmpcstdecmap = d2cstmap (hiimpdeclst)
+tmpcstimpmap = d2cstmap (hiimpdeclst)
 typedef
-tmpcstdecmapopt = Option (tmpcstdecmap)
+tmpcstimpmapopt = Option (tmpcstimpmap)
 //
-fun tmpcstdecmap_find
-  (map: tmpcstdecmap, d2c: d2cst): hiimpdeclst
+fun tmpcstimpmap_find
+  (map: tmpcstimpmap, d2c: d2cst): hiimpdeclst
 //
-fun tmpcstdecmap_insert
-  (map: &tmpcstdecmap, d2c: d2cst, dec: hiimpdec): void
+fun tmpcstimpmap_insert
+  (map: &tmpcstimpmap, d2c: d2cst, dec: hiimpdec): void
 //
 (* ****** ****** *)
 
-fun filenv_get_tmpcstdecmapopt (fenv: filenv): tmpcstdecmapopt
+fun filenv_get_tmpcstimpmapopt (fenv: filenv): tmpcstimpmapopt
 
 (* ****** ****** *)
 

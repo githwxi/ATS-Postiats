@@ -87,7 +87,7 @@ fun filenv_getref_d3eclistopt (fenv: filenv): Ptr1
 (*
 fun filenv_getref_hideclistopt (fenv: filenv): Ptr1
 *)
-fun filenv_getref_tmpcstdecmap (fenv: filenv): Ptr1
+fun filenv_getref_tmpcstimpmap (fenv: filenv): Ptr1
 
 (* ****** ****** *)
 

@@ -804,16 +804,16 @@ staload TRENV2 = "./pats_trans2_env.sats"
 in (* in of [local] *)
 
 implement
-filenv_get_tmpcstdecmapopt (fenv) = let
-  val p = $TRENV2.filenv_getref_tmpcstdecmap (fenv) in $UN.ptrget<tmpcstdecmapopt> (p)
-end // end of [filenv_get_tmpcstdecmapopt]
+filenv_get_tmpcstimpmapopt (fenv) = let
+  val p = $TRENV2.filenv_getref_tmpcstimpmap (fenv) in $UN.ptrget<tmpcstimpmapopt> (p)
+end // end of [filenv_get_tmpcstimpmapopt]
 
 end // end of [local]
 
 (* ****** ****** *)
 
 implement
-tmpcstdecmap_find
+tmpcstimpmap_find
   (map, d2c) = let
   val opt = $D2E.d2cstmap_search (map, d2c)
 in
@@ -821,16 +821,16 @@ in
 case+ opt of
 | ~Some_vt (impdecs) => impdecs | ~None_vt () => list_nil ()
 //
-end // end of [tmpcstdecmap_find]
+end // end of [tmpcstimpmap_find]
 
 implement
-tmpcstdecmap_insert
+tmpcstimpmap_insert
   (map, d2c, x) = let
-  val xs = tmpcstdecmap_find (map, d2c)
+  val xs = tmpcstimpmap_find (map, d2c)
   val _(*found*) = $D2E.d2cstmap_insert (map, d2c, list_cons (x, xs))
 in
   // nothing
-end // end of [tmpcstdecmap_insert]
+end // end of [tmpcstimpmap_insert]
 
 (* ****** ****** *)
 

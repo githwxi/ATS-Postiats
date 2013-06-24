@@ -1524,7 +1524,7 @@ abstype dynexp2_d3eclist_type // placeholer for [d3eclist]
 (*
 abstype dynexp2_hideclist_type // placeholer for [hideclist]
 *)
-abstype dynexp2_tmpcstdecmap_type // placeholer for [tmpcstdecmap]
+abstype dynexp2_tmpcstimpmap_type // placeholer for [tmpcstimpmap]
 //
 (* ****** ****** *)
 

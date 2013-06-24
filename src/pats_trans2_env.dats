@@ -83,7 +83,7 @@ filenv_struct =
 (*
 , hidecl= Option (dynexp2_hideclist_type)
 *)
-, tcdmap= Option (dynexp2_tmpcstdecmap_type)
+, tcimap= Option (dynexp2_tmpcstimpmap_type)
 } // end of [filenv_struct]
 
 assume filenv_type = ref (filenv_struct)
@@ -109,7 +109,7 @@ val () = p->decl3 := None ()
 (*
 val () = p->hidecl := None ()
 *)
-val () = p->tcdmap := None ()
+val () = p->tcimap := None ()
 in
 //
 ref_make_view_ptr (pfat | p)
@@ -163,10 +163,10 @@ filenv_getref_d3eclistopt
 end // end of [filenv_getref_d3eclist]
 
 implement
-filenv_getref_tmpcstdecmap
+filenv_getref_tmpcstimpmap
   (fenv) = let
-  val (vbox pf | p) = ref_get_view_ptr (fenv) in $UN.cast2Ptr1(&(p->tcdmap))
-end // end of [filenv_getref_tmpcstdecmap]
+  val (vbox pf | p) = ref_get_view_ptr (fenv) in $UN.cast2Ptr1(&(p->tcimap))
+end // end of [filenv_getref_tmpcstimpmap]
 
 end // end of [local]
 

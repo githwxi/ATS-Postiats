@@ -1611,9 +1611,9 @@ case+ xs of
 | MARKENVLSTcons_staload
     (fenv, !p_xs) => let
     val-Some (map) =
-      filenv_get_tmpcstdecmapopt (fenv)
+      filenv_get_tmpcstimpmapopt (fenv)
     // end of [val]
-    val imps = tmpcstdecmap_find (map, d2c0)
+    val imps = tmpcstimpmap_find (map, d2c0)
     val opt = hiimpdeclst_tmpcst_match (imps, d2c0, t2mas)
     val res = auxcont (opt, !p_xs, d2c0, t2mas)
     prval () = fold@ (xs)

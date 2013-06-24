@@ -385,11 +385,11 @@ and auxlabmatlst
 , ls2es_pat: labs2explst
 , ls2es_arg: labs2explst
 ) : bool = let
-// (*
+(*
 val out = stdout_ref
 val () = fprintln! (out, "auxlabmatlst: ls2es_pat = ", ls2es_pat)
 val () = fprintln! (out, "auxlabmatlst: ls2es_arg = ", ls2es_arg)
-// *)
+*)
 in
 //
 case+ ls2es_pat of

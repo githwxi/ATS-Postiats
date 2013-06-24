@@ -92,7 +92,7 @@ fun d3ecl_tyer_vardecs (d3c0: d3ecl): hidecl
 (* ****** ****** *)
 
 extern
-fun tmpcstdecmap_make_hideclist (xs: hideclist): tmpcstdecmap
+fun tmpcstimpmap_make_hideclist (xs: hideclist): tmpcstimpmap
 
 (* ****** ****** *)
 
@@ -158,9 +158,9 @@ case+
     val () = (
       if (loaded = 0) then let
         val hids = d3eclist_tyer (d3cs)
-        val tcdmap = tmpcstdecmap_make_hideclist (hids)
-        val p = $TRENV2.filenv_getref_tmpcstdecmap (fenv)
-        val () = $UN.ptrset<tmpcstdecmapopt> (p, Some (tcdmap))
+        val tcdmap = tmpcstimpmap_make_hideclist (hids)
+        val p = $TRENV2.filenv_getref_tmpcstimpmap (fenv)
+        val () = $UN.ptrset<tmpcstimpmapopt> (p, Some (tcdmap))
       in
         // nothing
       end // end of [Some]
@@ -402,11 +402,11 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-tmpcstdecmap_make_hideclist (xs) = let
+tmpcstimpmap_make_hideclist (xs) = let
 //
 fun aux
 (
-  map: &tmpcstdecmap, x: hidecl
+  map: &tmpcstimpmap, x: hidecl
 ) : void = let
 in
 //
@@ -419,7 +419,7 @@ case+ x.hidecl_node of
     | list_cons _ => let
         val d2c = impdec.hiimpdec_cst
 (*
-        val () = print ("tmpcstdecmap_make_hideclist: ")
+        val () = print ("tmpcstimpmap_make_hideclist: ")
         val () = print_d2cst (d2c)
         val () = print_string ("<")
         val () = fpprint_s2explstlst (stdout_ref, impdec.hiimpdec_tmparg)
@@ -427,7 +427,7 @@ case+ x.hidecl_node of
         val () = print_newline ()
 *)
       in
-        tmpcstdecmap_insert (map, d2c, impdec)
+        tmpcstimpmap_insert (map, d2c, impdec)
       end // end of [list_cons]
     | _ => ()
   end // end of [HIDimpdec]
@@ -446,7 +446,7 @@ end (* end of [aux] *)
 //
 and auxlst
 (
-  map: &tmpcstdecmap, xs: hideclist
+  map: &tmpcstimpmap, xs: hideclist
 ) : void = let
 in
 //
@@ -460,12 +460,12 @@ case+ xs of
 end (* end of [auxlst] *)
 //
 var map
-  : tmpcstdecmap = d2cstmap_make_nil ()
+  : tmpcstimpmap = d2cstmap_make_nil ()
 val () = auxlst (map, xs)
 //
 in
   map
-end // end of [tmpcstdecmap_make_hideclist]
+end // end of [tmpcstimpmap_make_hideclist]
 
 (* ****** ****** *)
 
