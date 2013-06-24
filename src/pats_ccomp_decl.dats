@@ -500,7 +500,7 @@ fun aux
     | VK_val_pos () => PTCKNTnone () | _ => PTCKNTcaseof_fail (loc)
   ) : patckont // end of [val]
   val () = hipatck_ccomp (env, res, fail, hip, pmv_def)
-  val () = himatch_ccomp (env, res, lvl0, hip, pmv_def)
+  val () = himatch2_ccomp (env, res, lvl0, hip, pmv_def)
 in
   // nothing
 end // end of [aux]
@@ -565,7 +565,7 @@ case+ hvds of
     val tmp = tmpvar_make (loc, hse)
     val () = instrseq_add_tmpdec (res, loc, tmp)
     val pmv = primval_tmp (loc, hse, tmp)
-    val () = himatch_ccomp (env, res, lvl0, hip, pmv)
+    val () = himatch2_ccomp (env, res, lvl0, hip, pmv)
     val tmps = auxinit (env, res, lvl0, hvds)
   in
     list_vt_cons (tmp, tmps)

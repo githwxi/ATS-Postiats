@@ -84,22 +84,35 @@ fun isListSubscriptExn (x: !exn):<> bool = "mac\#%isListSubscriptExn"
 
 prfun
 lemma_list_param
-  {x:t0p}{n:int} (xs: list (INV(x), n)): [n >= 0] void
+  {x:t0p}{n:int}
+  (xs: list (INV(x), n)): [n >= 0] void
 // end of [lemma_list_param]
+
+#atscode_separator()
+
+castfn
+list_cast
+  {x:t0p}{n:int}
+  (xs: list (INV(x), n)):<> list (x, n)
+// end of [list_cast]
 
 #atscode_separator()
 //
 castfn
 list_vt2t
-  {x:t0p}{n:int} (xs: list_vt (INV(x), n)):<> list (x, n)
+  {x:t0p}{n:int}
+  (xs: list_vt (INV(x), n)):<> list (x, n)
 castfn
 list_of_list_vt
-  {x:t0p}{n:int} (xs: list_vt (INV(x), n)):<> list (x, n)
+  {x:t0p}{n:int}
+  (xs: list_vt (INV(x), n)):<> list (x, n)
 //
 #atscode_separator()
 
-\#define list_sing(x) list_cons(x, list_nil())
-\#define list_pair(x1, x2) list_cons(x1, list_cons (x2, list_nil()))
+\#define list_sing(x)
+  list_cons(x, list_nil())
+\#define list_pair(x1, x2)
+  list_cons(x1, list_cons (x2, list_nil()))
 
 #atscode_separator()
 

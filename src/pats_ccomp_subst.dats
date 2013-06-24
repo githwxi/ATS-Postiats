@@ -1087,6 +1087,10 @@ case+
     instr_cond (loc0, pmv, _then, _else)
   end // end of [INScond]
 //
+| INSfreecon (pmv) => let
+    val pmv = fpmv (pmv) in instr_freecon (loc0, pmv)
+  end // end of [INSfreecon]
+//
 | INSloop
   (
     tlab_init, tlab_fini, tlab_cont

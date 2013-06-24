@@ -836,6 +836,13 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
+| INSfreecon (pmv) =>
+  {
+    val () = prstr "INSfreecon("
+    val () = fprint_primval (out, pmv)
+    val () = prstr ")"
+  }
+//
 | INSloop _ =>
   {
     val () = prstr "INSloop(...)"
@@ -853,13 +860,6 @@ case+ x.instr_node of
   {
     val () = prstr "INScaseof("
     val () = fprint_string (out, "...")
-    val () = prstr ")"
-  }
-//
-| INSfreeptr (pmv) =>
-  {
-    val () = prstr "INSfreeptr("
-    val () = fprint_primval (out, pmv)
     val () = prstr ")"
   }
 //

@@ -77,6 +77,34 @@ end // end of [instrseq_add]
 (* ****** ****** *)
 
 implement
+instrseq_add_comment
+  (res, comment) = let
+//
+val loc = $LOC.location_dummy
+//
+in
+  instrseq_add (res, instr_comment (loc, comment))
+end // end of [instrseq_add_comment]
+
+(* ****** ****** *)
+
+implement
+instrseq_add_tmpdec
+  (res, loc, tmp) =
+  instrseq_add (res, instr_tmpdec (loc, tmp))
+// end of [instrseq_add_tmpdec]
+
+(* ****** ****** *)
+
+implement
+instrseq_add_dcstdef
+  (res, loc, d2c, pmv) =
+  instrseq_add (res, instr_dcstdef (loc, d2c, pmv))
+// end of [instrseq_add_dcstdef]
+
+(* ****** ****** *)
+
+implement
 instrseq_addlst
   (res, xs) = let
 in
@@ -108,19 +136,37 @@ end // end of [instrseq_addlst_vt]
 
 (* ****** ****** *)
 
-implement
-instrseq_add_tmpdec
-  (res, loc, tmp) =
-  instrseq_add (res, instr_tmpdec (loc, tmp))
-// end of [instrseq_add_tmpdec]
+local
 
-(* ****** ****** *)
+fun auxlst
+(
+  res: !instrseq
+, loc0: location, pmvs: primvalist_vt
+) : void = let
+//
+in
+//
+case+ pmvs of
+| ~list_vt_cons
+    (pmv, pmvs) => let
+    val ins =
+      instr_freecon (loc0, pmv)
+    val () = instrseq_add (res, ins)
+  in
+    auxlst (res, loc0, pmvs)
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => ()
+//
+end // end of [auxlist]
+
+in (* in of [local] *)
 
 implement
-instrseq_add_dcstdef
-  (res, loc, d2c, pmv) =
-  instrseq_add (res, instr_dcstdef (loc, d2c, pmv))
-// end of [instrseq_add_dcstdef]
+instrseq_add_freeconlst
+  (res, loc0, pmvs) = auxlst (res, loc0, pmvs)
+// end of [instrseq_add_freeconlst]
+
+end // end of [local]
 
 (* ****** ****** *)
 

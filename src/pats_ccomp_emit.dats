@@ -1508,6 +1508,14 @@ case+ ins.instr_node of
     // end of [val]
   } // end of [INScond]
 //
+| INSfreecon (pmv) => let
+    val () = emit_text (out, "ATSINSfreecon(")
+    val () = emit_primval (out, pmv)
+    val () = emit_text (out, ") ;")
+  in
+    // nothing
+  end // end of [INSfreecon]
+//
 | INSloop
   (
     tlab_init, tlab_fini, tlab_cont
@@ -1590,14 +1598,6 @@ case+ ins.instr_node of
   in
     // nothing
   end // end of [INScaseof]
-//
-| INSfreeptr (pmv) => let
-    val () = emit_text (out, "ATSINSfreeptr(")
-    val () = emit_primval (out, pmv)
-    val () = emit_text (out, ") ;")
-  in
-    // nothing
-  end // end of [INSfreeptr]
 //
 | INSletpop () => let
     val () = emit_text (out, "/*\n")

@@ -24,6 +24,19 @@ val+~nil_vt () = xs
 
 (* ****** ****** *)
 
+val () =
+{
+val xs =
+list_make_intrange (0, 10)
+val xs = list_vt_cast{int}(xs)
+val () = fprintln! (stdout_ref, "digits = ", xs)
+val rxs = list_vt_reverse (xs)
+val () = fprintln! (stdout_ref, "digits(rev) = ", rxs)
+val () = list_vt_free (rxs)
+} (* end of [val] *)
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

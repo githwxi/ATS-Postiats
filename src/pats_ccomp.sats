@@ -1015,6 +1015,8 @@ instr_node =
       primval(*test*), instrlst(*then*), instrlst(*else*)
     ) // end of [INScond]
 //
+  | INSfreecon of (primval) // memory deallocation
+//
   | INSloop of (
       tmplab(*init*)
     , tmplab(*fini*)
@@ -1028,8 +1030,6 @@ instr_node =
       (int(*knd*), tmplab) // knd=0/1: break/continue
 //
   | INScaseof of (ibranchlst) // caseof-branch-statements
-//
-  | INSfreeptr of (primval) // memory deallocation
 //
   | INSletpop of ()
   | INSletpush of (primdeclst)
@@ -1155,15 +1155,21 @@ fun instr_fcall
 
 fun instr_extfcall
 (
-  loc: location, tmpret: tmpvar, _fun: string, _arg: primvalist
+  loc: location
+, tmpret: tmpvar, _fun: string, _arg: primvalist
 ) : instr // end of [instr_extfcall]
 
 (* ****** ****** *)
 
 fun instr_cond
 (
-  loc: location, _cond: primval, _then: instrlst, _else: instrlst
+  loc: location
+, _cond: primval, _then: instrlst, _else: instrlst
 ) : instr // end of [instr_cond]
+
+(* ****** ****** *)
+
+fun instr_freecon (loc: location, pmv: primval): instr
 
 (* ****** ****** *)
 
@@ -1187,10 +1193,6 @@ fun instr_loopexn
 (* ****** ****** *)
 
 fun instr_caseof (loc: location, xs: ibranchlst): instr
-
-(* ****** ****** *)
-
-fun instr_freeptr (loc: location, pmv: primval): instr
 
 (* ****** ****** *)
 
@@ -1356,15 +1358,31 @@ vtypedef instrseq = instrseq_vtype
 fun instrseq_make_nil (): instrseq
 fun instrseq_get_free (res: instrseq): instrlst
 
+(* ****** ****** *)
+//
 fun instrseq_add (res: !instrseq, x: instr): void
-fun instrseq_addlst (res: !instrseq, xs: instrlst): void
-fun instrseq_addlst_vt (res: !instrseq, xs: instrlst_vt): void
-
+//
+(* ****** ****** *)
+//
+fun instrseq_add_comment (res: !instrseq, comment: string): void
+//
+(* ****** ****** *)
+//
 fun instrseq_add_tmpdec
   (res: !instrseq, loc: location, tmp: tmpvar): void
 fun instrseq_add_dcstdef
   (res: !instrseq, loc: location, d2c: d2cst, pmv: primval): void
-
+//
+(* ****** ****** *)
+//
+fun instrseq_addlst (res: !instrseq, xs: instrlst): void
+fun instrseq_addlst_vt (res: !instrseq, xs: instrlst_vt): void
+//
+(* ****** ****** *)
+//
+fun instrseq_add_freeconlst
+  (res: !instrseq, loc0: location, pmvs: primvalist_vt): void
+//
 (* ****** ****** *)
 
 fun hifundec_get_funlabopt
@@ -1463,6 +1481,12 @@ fun ccompenv_dec_tmplevel (env: !ccompenv): void
 fun ccompenv_get_tmprecdepth (env: !ccompenv): int
 fun ccompenv_inc_tmprecdepth (env: !ccompenv): void
 fun ccompenv_dec_tmprecdepth (env: !ccompenv): void
+
+(* ****** ****** *)
+
+fun ccompenv_inc_freeconenv (env: !ccompenv): void
+fun ccompenv_getdec_freeconenv (env: !ccompenv): primvalist_vt
+fun ccompenv_add_freeconenv (env: !ccompenv, pmv: primval): void
 
 (* ****** ****** *)
 
@@ -1576,11 +1600,19 @@ fun hipatck_ccomp
 , fail: patckont, hip: hipat, pmv: primval
 ) : void // end of [hipatck_ccomp]
 
+(* ****** ****** *)
+
 fun himatch_ccomp
 (
   env: !ccompenv, res: !instrseq
 , level: int, hip: hipat, pmv: primval // HX: [pmv] matches [hip]
 ) : void // end of [himatch_ccomp]
+
+fun himatch2_ccomp
+(
+  env: !ccompenv, res: !instrseq
+, level: int, hip: hipat, pmv: primval // HX: [pmv] matches [hip]
+) : void // end of [himatch2_ccomp]
 
 (* ****** ****** *)
 

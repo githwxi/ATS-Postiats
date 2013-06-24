@@ -78,8 +78,17 @@ vtypedef listBtwe_vt
 
 prfun
 lemma_list_vt_param
-  {x:vt0p}{n:int} (xs: !list_vt (INV(x), n)): [n >= 0] void
+  {x:vt0p}{n:int}
+  (xs: !list_vt (INV(x), n)): [n >= 0] void
 // end of [lemma_list_vt_param]
+
+#atscode_separator()
+
+castfn
+list_vt_cast
+  {x:vt0p}{n:int}
+  (xs: list_vt (INV(x), n)):<> list_vt (x, n)
+// end of [list_vt_cast]
 
 #atscode_separator()
 

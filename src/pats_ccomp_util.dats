@@ -226,6 +226,8 @@ case+ x.instr_node of
     val () = auxlst (res, _then) and () = auxlst (res, _else)
   } // end of [INScond]
 //
+| INSfreecon _ => ()
+//
 | INSloop
   (
     _, _, _, _init, _, _test, _post, _body
@@ -236,8 +238,6 @@ case+ x.instr_node of
 | INSloopexn (knd, tlab) => () // HX: knd=0/1: break/continue
 //
 | INScaseof (ibrs) => auxibrlst (res, ibrs)
-//
-| INSfreeptr _ => ()
 //
 | INSletpop ((*void*)) => ()
 | INSletpush (pmds) => auxpmdlst (res, pmds)

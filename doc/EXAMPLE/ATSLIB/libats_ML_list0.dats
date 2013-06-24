@@ -27,10 +27,10 @@ val () =
 val out = stdout_ref
 //
 val xs = list0_make_intrange (0, 10)
-val () = fprintln! (out, "digits = ", xs)
-val xs = list0_make_intrange (0, 100, 3)
-val () = fprintln! (out, "multiples(3) = ", xs)
-val xs = list0_make_intrange (0, 1000, 13)
+val () = assertloc (list0_head_exn(xs) = 0)
+val () = assertloc (list0_head_exn(list0_tail_exn(xs)) = 1)
+val () = assertloc (xs[9] = 9)
+val xs = list0_make_intrange (0, 30, 3)
 val () = fprintln! (out, "multiples(3) = ", xs)
 //
 } (* end of [val] *)

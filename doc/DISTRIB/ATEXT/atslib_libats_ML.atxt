@@ -101,6 +101,10 @@ The ATSLIB/libats/ML library\
 
 (* ****** ****** *)
 
+#packfilename("SATS/basis.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/list0.sats")
 #packfilename("SATS/option0.sats")
 #packfilename("SATS/array0.sats")

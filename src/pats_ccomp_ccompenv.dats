@@ -467,6 +467,27 @@ end // end of [fprint_markenvlst]
 
 (* ****** ****** *)
 
+vtypedef
+freeconenv = List_vt (primvalist_vt)
+
+extern
+fun freeconenv_free (xs: freeconenv): void
+
+implement
+freeconenv_free (xs) = let
+in
+//
+case+ xs of
+| ~list_vt_cons
+    (x, xs) => let
+    val () = list_vt_free (x) in freeconenv_free (xs)
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => ()
+//
+end // end of [freeconenv_free]
+
+(* ****** ****** *)
+
 datavtype
 looptmplab3 =
 LOOPTMPLAB3 of
@@ -474,7 +495,8 @@ LOOPTMPLAB3 of
   tmplab(*init*), tmplab(*fini*), tmplab(*cont*)
 ) // end of [looptmplab3]
 
-vtypedef loopexnenv = List_vt (looptmplab3)
+vtypedef
+loopexnenv = List_vt (looptmplab3)
 
 extern
 fun loopexnenv_free (xs: loopexnenv): void
@@ -557,6 +579,8 @@ ccompenv_struct =
 @{
   ccompenv_tmplevel= int
 , ccompenv_tmprecdepth= int
+//
+, ccompenv_freeconenv= freeconenv
 , ccompenv_loopexnenv= loopexnenv
 //
 , ccompenv_flabsetenv= flabsetenv
@@ -580,6 +604,7 @@ ccompenv_struct_uninitize (x) = let
   val () =
     markenvlst_vt_free (x.ccompenv_markenvlst)
 //
+  val () = freeconenv_free (x.ccompenv_freeconenv)
   val () = loopexnenv_free (x.ccompenv_loopexnenv)
 //
   val () = flabsetenv_free (x.ccompenv_flabsetenv)
@@ -612,6 +637,8 @@ val CCOMPENV (!p) = env
 //
 val () = p->ccompenv_tmplevel := 0
 val () = p->ccompenv_tmprecdepth := 0
+//
+val () = p->ccompenv_freeconenv := list_vt_nil ()
 val () = p->ccompenv_loopexnenv := list_vt_nil ()
 //
 val () = p->ccompenv_flabsetenv := list_vt_nil ()
@@ -721,11 +748,52 @@ implement
 ccompenv_dec_tmprecdepth
   (env) = let
   val CCOMPENV (!p) = env
-  val () = (p->ccompenv_tmprecdepth := p->ccompenv_tmprecdepth - 1)
+  val depth = p->ccompenv_tmprecdepth
+  val ((*void*)) = p->ccompenv_tmprecdepth := depth - 1
   prval () = fold@ (env)
 in
   // nothing
 end // end of [ccompenv_dec_tmprecdepth]
+
+(* ****** ****** *)
+
+implement
+ccompenv_inc_freeconenv
+  (env) = let
+  val CCOMPENV (!p) = env
+  val pmvs = list_vt_nil{primval}()
+  val pmvss = p->ccompenv_freeconenv
+  val ((*void*)) =
+    p->ccompenv_freeconenv := list_vt_cons (pmvs, pmvss)
+  prval () = fold@ (env)
+in
+  // nothing
+end // end of [ccompenv_inc_freeconenv]
+
+implement
+ccompenv_getdec_freeconenv
+  (env) = pmvs where
+{
+val CCOMPENV (!p) = env
+val-~list_vt_cons (pmvs, pmvss) = p->ccompenv_freeconenv
+val ((*void*)) = p->ccompenv_freeconenv := pmvss
+prval () = fold@ (env)
+} // end of [ccompenv_getdec_freeconenv]
+
+implement
+ccompenv_add_freeconenv
+  (env, pmv) = let
+//
+val CCOMPENV (!p) = env
+val-list_vt_cons
+  (!p_pmvs, _) = p->ccompenv_freeconenv
+val () = !p_pmvs := list_vt_cons (pmv, !p_pmvs)
+prval () = fold@ (p->ccompenv_freeconenv)
+prval () = fold@ (env)
+//
+in
+  // nothing
+end // end of [ccompenv_add_freeconenv]
 
 (* ****** ****** *)
 

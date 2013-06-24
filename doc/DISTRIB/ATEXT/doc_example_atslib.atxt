@@ -116,6 +116,16 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
+#packfilename("prelude_list.dats")
+#packfilename("prelude_list_vt.dats")
+
+(* ****** ****** *)
+
+#packfilename("prelude_option.dats")
+#packfilename("prelude_option_vt.dats")
+
+(* ****** ****** *)
+
 #packfilename("prelude_array.dats")
 #packfilename("prelude_arrayptr.dats")
 #packfilename("prelude_arrayref.dats")
@@ -130,6 +140,13 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 #packfilename("libats_qlist.dats")
 #packfilename("libats_sllist.dats")
 #packfilename("libats_dllist.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_ML_list0.dats")
+#packfilename("libats_ML_array0.dats")
+#packfilename("libats_ML_string.dats")
+#packfilename("libats_ML_strarr.dats")
 
 (* ****** ****** *)
 

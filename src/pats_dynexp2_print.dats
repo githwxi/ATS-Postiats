@@ -158,6 +158,13 @@ prerr_pckind (x) = fprint_pckind (stderr_ref, x)
 (* ****** ****** *)
 
 implement
+fprint_pckindopt
+  (out, opt) = $UT.fprintopt (out, opt, fprint_pckind)
+// end of [fprint_pckindopt]
+
+(* ****** ****** *)
+
+implement
 fprint_p2at
   (out, x) = let
   macdef prstr (s) = fprint_string (out, ,(s))

@@ -467,11 +467,18 @@ datatype pckind =
   | PCKunfold of () // 3 // folding
 // end of [pckind]
 
+typedef pckindopt = Option (pckind)
+
+(* ****** ****** *)
+
 fun print_pckind (x: pckind): void
 overload print with print_pckind
 fun prerr_pckind (x: pckind): void
 overload prerr with prerr_pckind
 fun fprint_pckind : fprint_type (pckind)
+fun fprint_pckindopt : fprint_type (pckindopt)
+
+(* ****** ****** *)
 
 fun eq_pckind_pckind (x1: pckind, x2: pckind): bool
 overload = with eq_pckind_pckind

@@ -299,8 +299,8 @@ patcomp =
 //
   | PTCMPlablparen of (label)
   | PTCMPpatlparen of
-    ( patck
-    , tmprimval, tmplab, patckontref
+    (
+      patck, tmprimval, tmplab, pckindopt, patckontref
     ) (* end of [PTCMPpatlparen] *)
   | PTCMPreclparen of (tmprimval, tmplab)
 //
@@ -365,10 +365,12 @@ case+ x0 of
   }
 //
 | PTCMPpatlparen
-    (ptck, tpmv, tlab, kntr) =>
+    (ptck, tpmv, tlab, opt, kntr) =>
   {
     val () = prstr "PTCMPpatlparen("
     val () = fprint_patck (out, ptck)
+    val () = prstr ", "
+    val () = fprint_pckindopt (out, opt)
     val () = prstr ", "
     val () = fprint_tmprimval (out, tpmv)
     val () = prstr ", "
@@ -467,7 +469,7 @@ case+ xs of
   in
     case x of
     | PTCMPpatlparen
-        (_, _, tl, _) => Some_vt (tl)
+        (_, _, tl, _, _) => Some_vt (tl)
     | PTCMPreclparen (_, tl) => Some_vt (tl)
     | PTCMPtmplabend (tl) => Some_vt (tl)
     | PTCMPtmplabgua (tl, _) => Some_vt (tl)
@@ -762,7 +764,8 @@ case+ x2 of
     | _ => None_vt ()
   )
 //
-| PTCMPpatlparen (ptck2, tpmv2, _, _) =>
+| PTCMPpatlparen
+    (ptck2, tpmv2, _, _, _) =>
   (
     case+ x1 of
     | PTCMPpatneg
@@ -779,7 +782,7 @@ case+ x2 of
         end // end of [else] // end of [if]
       end // end of [PTCMPnegcon]
     | PTCMPpatlparen
-        (ptck1, tpmv1, _, _) => let
+        (ptck1, tpmv1, _, _, _) => let
         val ismat = patck_ismat (ptck1, ptck2)
         val ((*void*)) =
           tmpmovlst_add (tmvlst, tpmv1, tpmv2)
@@ -876,7 +879,9 @@ case+ xs1 of
     val () = (
       case+ x1 of
       | PTCMPpatlparen
-          (ptck, tpmv, tlab, kntr) => let
+        (
+          ptck, tpmv, tlab, opt, kntr
+        ) => let
           val rxs1 = list_vt_copy (rxs)
           val rxs1 = list_vt_cons (PTCMPpatneg (ptck, tpmv), rxs1)
           val pxs1 = list_vt_reverse (rxs1)
@@ -885,8 +890,7 @@ case+ xs1 of
         in
           !kntr := ptjmp
         end (* end of [PTCMPpatlparen] *)
-      | PTCMPtmplabgua
-          (tlab, kntr) => let
+      | PTCMPtmplabgua (tlab, kntr) => let
           val rxs1 = list_vt_copy (rxs)
           val pxs1 = list_vt_reverse (rxs1)      
           val ptjmp = patcomplst_subtests ($UN.linlst2lst(pxs1), xss2)
@@ -927,8 +931,11 @@ case+ xs of
     (x, xs) => let
     val () = (
       case+ x of
-      | PTCMPpatlparen (_, _, _, kntr) =>
-        (case !kntr of PTCKNTnone () => !kntr := fail | _ => ())
+      | PTCMPpatlparen
+          (_, _, _, _, kntr) =>
+        (
+          case !kntr of PTCKNTnone () => !kntr := fail | _ => ()
+        ) (* end of [PTCMPpatlparen] *)
       | _ => ()
     ) : void // end of [val]
   in
@@ -1118,7 +1125,8 @@ case+
     val loc0 = hip0.hipat_loc
     val tl = tmplab_make (loc0)
     val kntr = patckontref_make ()
-    val ptcmp0 = PTCMPpatlparen (PATCKint(i), tpmv, tl, kntr)
+    val ptcmp0 =
+      PTCMPpatlparen (PATCKint(i), tpmv, tl, None(*knd*), kntr)
     val ptcmp1 = PTCMPrparen ()
     val ptcmps = auxcomplst (lvl0, mtks)
   in
@@ -1131,7 +1139,8 @@ case+
     val kntr = patckontref_make ()
     val i0 = $P2TC.intinf_of_i0nt (tok)
     val i0 = $INTINF.intinf_get_int (i0)
-    val ptcmp0 = PTCMPpatlparen (PATCKint(i0), tpmv, tl, kntr)
+    val ptcmp0 =
+      PTCMPpatlparen (PATCKint(i0), tpmv, tl, None(*void*), kntr)
     val ptcmp1 = PTCMPrparen ()
     val ptcmps = auxcomplst (lvl0, mtks)
   in
@@ -1149,7 +1158,8 @@ case+
     val kntr = patckontref_make ()
     val mtks = addrparen (mtks)
     val mtks = addselcon (tpmv, hse_sum, lxs, mtks)
-    val ptcmp0 = PTCMPpatlparen (PATCKcon(d2c), tpmv, tl, kntr)
+    val ptcmp0 =
+      PTCMPpatlparen (PATCKcon(d2c), tpmv, tl, Some(knd), kntr)
     val ptcmps = auxcomplst (lvl0, mtks)
   in
     list_vt_cons (ptcmp0, ptcmps)
@@ -1160,7 +1170,8 @@ case+
     val loc0 = hip0.hipat_loc
     val tl = tmplab_make (loc0)
     val kntr = patckontref_make ()
-    val ptcmp0 = PTCMPpatlparen (PATCKcon(d2c), tpmv, tl, kntr)
+    val ptcmp0 =
+      PTCMPpatlparen (PATCKcon(d2c), tpmv, tl, Some(knd), kntr)
     val ptcmp1 = PTCMPrparen ()
     val ptcmps = auxcomplst (lvl0, mtks)
   in
@@ -1372,6 +1383,25 @@ end // end of [addtlab]
 
 (* ****** ****** *)
 
+fun addfreecon
+(
+  env: !ccompenv
+, opt: pckindopt, pmv: primval
+) : void = let
+in
+//
+case+ opt of
+| Some (knd) => (
+  case+ knd of
+  | PCKfree (
+    ) => ccompenv_add_freeconenv (env, pmv) | _ => ()
+  ) (* end of [Some] *)
+| None ((*void*)) => ()
+//
+end // end of [addfreecon]
+
+(* ****** ****** *)
+
 fun fptcmplst
 (
   env: !ccompenv
@@ -1409,25 +1439,32 @@ case+ x of
     fptcmplst (env, xs, res1, res2)
 | PTCMPvar (d2v, tpmv) => let
     val pmv = tmprimval2pmv2 (tpmv, d2v)
-    val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
-    val res2 = addtpmv (res2, tpmv)
+    val (
+    ) = ccompenv_add_vbindmapenvall (env, d2v, pmv)
+    val res2 = let
+      val ismut = d2var_is_mutabl (d2v)
+    in
+      if ismut then res2 else addtpmv (res2, tpmv)
+    end : instrlst_vt // end of [val]
   in
     fptcmplst (env, xs, res1, res2)
   end // end of [PTCMPvar]
 | PTCMPasvar (d2v, tpmv) => let
     val pmv = tmprimval2pmv2 (tpmv, d2v)
-    val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
+    val (
+    ) = ccompenv_add_vbindmapenvall (env, d2v, pmv)
   in
     fptcmplst (env, xs, res1, res2)
   end // end of [PTCMPasvar]
 //
 | PTCMPpatlparen
   (
-    ptck, tpmv, tlab, kntr
+    ptck, tpmv, tlab, opt, kntr
   ) => let
     val res1 = addtpmv (res1, tpmv)
     val res1 = addtlab (res1, tlab)
     val pmv = tmprimval2pmv (tpmv)
+    val () = addfreecon (env, opt, pmv)
     val ins = instr_patck (pmv.primval_loc, pmv, ptck, !kntr)
     val res1 = list_vt_cons (ins, res1)
   in
@@ -1548,10 +1585,10 @@ fun auxcl
 val res = instrseq_make_nil ()
 //
 val (pf0 | ()) = ccompenv_push (env)
+val ((*void*)) = ccompenv_inc_freeconenv (env)
+//
 val inss = patcomplst_ccomp (env, ptcmps)
 val ((*void*)) = instrseq_addlst_vt (res, inss)
-//
-val ldmy = $LOC.location_dummy
 //
 val higs = hicl.hiclau_gua (* guard-list *)
 //
@@ -1559,17 +1596,22 @@ val () =
 (
 case+ higs of
 | list_cons _ => let
+    val (
+    ) = instrseq_add_comment (res, "ibranch-guard:")
     val fail = patcomplst_find_guafail (ptcmps)
-    val ins = instr_comment (ldmy, "ibranch-guard:")
-    val ( ) = instrseq_add (res, ins)
     val () = higmatlst_ccomp (env, res, lvl0, higs, fail)
   in
+    // nothing
   end // end of [list_cons]
 | list_nil () => ()
 ) : void // end of [val]
 //
-val ins = instr_comment (ldmy, "ibranch-mbody:")
-val ( ) = instrseq_add (res, ins)
+val loc = hicl.hiclau_loc
+val pmvs_freecon = ccompenv_getdec_freeconenv (env)
+val (
+) = instrseq_add_freeconlst (res, loc, pmvs_freecon)
+//
+val () = instrseq_add_comment (res, "ibranch-mbody:")
 //
 val ((*void*)) =
 hidexp_ccomp_ret (env, res, tmpret, hicl.hiclau_body)

@@ -245,8 +245,8 @@ end // end of [list0_tail_opt]
 local
 
 fun{a:t0p}
-loop
-  {i:nat} .<i>. (
+loop{i:nat} .<i>.
+(
   xs: list0 (a), i: int i
 ) :<!exn> a = let
 in
@@ -261,7 +261,7 @@ case+ xs of
 //
 end // end of [loop]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement{a}
 list0_nth_exn
@@ -310,6 +310,11 @@ if i >= 0 then (
 end // end of [list0_nth_opt]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement{a}
+list0_get_at_exn (xs, i) = list0_nth_exn (xs, i)
 
 (* ****** ****** *)
 

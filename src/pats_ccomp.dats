@@ -580,6 +580,13 @@ instr_cond
 (* ****** ****** *)
 
 implement
+instr_freecon
+  (loc, pmv) = instr_make_node (loc, INSfreecon (pmv))
+// end of [instr_freecon]
+
+(* ****** ****** *)
+
+implement
 instr_loop
 (
   loc, tlab_init, tlab_fini, tlab_cont
@@ -607,13 +614,6 @@ implement
 instr_caseof
   (loc, xs) = instr_make_node (loc, INScaseof (xs))
 // end of [instr_caseof]
-
-(* ****** ****** *)
-
-implement
-instr_freeptr
-  (loc, pmv) = instr_make_node (loc, INSfreeptr (pmv))
-// end of [instr_freeptr]
 
 (* ****** ****** *)
 

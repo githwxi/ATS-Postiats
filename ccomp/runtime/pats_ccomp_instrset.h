@@ -197,7 +197,7 @@
 //
 /* ****** ****** */
 
-#define ATSINSfreeptr(ptr) ATS_MFREE(ptr)
+#define ATSINSfreecon(datconptr) ATS_MFREE(datconptr)
 
 /* ****** ****** */
 

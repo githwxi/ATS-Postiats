@@ -44,6 +44,9 @@ prerr_list_vt (xs) = fprint_list_vt<a> (stderr_ref, xs)
 
 #atscode_separator()
 
+implement{}
+fprint_list_vt$sep (out) = fprint_list$sep<> (out)
+
 implement{a}
 fprint_list_vt
   (out, xs) = let

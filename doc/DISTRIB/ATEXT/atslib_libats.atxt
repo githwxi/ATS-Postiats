@@ -140,10 +140,6 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
-#packfilename("SATS/ML_basis.sats")
-
-(* ****** ****** *)
-
 #packfilename("SATS/SHARE/funmap.hats")
 #packfilename("SATS/SHARE/funset.hats")
 #packfilename("SATS/SHARE/linmap.hats")

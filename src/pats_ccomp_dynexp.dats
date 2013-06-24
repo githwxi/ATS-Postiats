@@ -291,7 +291,7 @@ case+ hde0.hidexp_node of
 | HDEfoldat _ => primval_empty (loc0, hse0)
 | HDEfreeat (hde) => let
     val pmv = hidexp_ccomp (env, res, hde)
-    val ins_free = instr_freeptr (loc0, pmv)
+    val ins_free = instr_freecon (loc0, pmv)
     val ((*void*)) = instrseq_add (res, ins_free)
   in
     primval_empty (loc0, hse0)

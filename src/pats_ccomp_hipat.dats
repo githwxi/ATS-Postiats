@@ -313,8 +313,10 @@ val () =
 ) // end of [val]
 *)
 //
-val-HIPcon (pck, d2c, hse_sum, lhips) = hip0.hipat_node
-val () = hipatck_ccomp_con (env, res, fail, loc0, d2c, pmv0)
+val-HIPcon
+  (pck, d2c, hse_sum, lhips) = hip0.hipat_node
+val (
+) = hipatck_ccomp_con (env, res, fail, loc0, d2c, pmv0)
 //
 in
   auxlst (env, res, fail, 0(*narg*), lhips, pmv0, hse_sum)
@@ -647,7 +649,14 @@ val (
 ) = println! ("himatch_ccomp_sum: hip0 = ", hip0)
 *)
 //
-val-HIPcon (pck, d2c, hse_sum, lhips) = hip0.hipat_node
+val-HIPcon
+  (pck, d2c, hse_sum, lhips) = hip0.hipat_node
+//
+val () = (
+case+ pck of
+| PCKfree (
+  ) => ccompenv_add_freeconenv (env, pmv0) | _ => ()
+) : void // end of [val]
 //
 in
   auxpatlst (env, res, lvl0, 0(*narg*), lhips, pmv0, hse_sum)
@@ -762,6 +771,23 @@ case+ hip0.hipat_node of
 end (* end of [himatch_ccomp] *)
 
 end // end of [local]
+
+(* ****** ****** *)
+ 
+implement
+himatch2_ccomp
+(
+  env, res, lvl0, hip0, pmv0
+) = let
+//
+val () = ccompenv_inc_freeconenv (env)
+val (
+) = himatch_ccomp (env, res, lvl0, hip0, pmv0)
+val pmvs = ccompenv_getdec_freeconenv (env)
+//
+in
+  instrseq_add_freeconlst (res, hip0.hipat_loc, pmvs)
+end // end of [himatch2_ccomp]
 
 (* ****** ****** *)
 
