@@ -37,6 +37,51 @@ val () = list_vt_free (rxs)
 
 (* ****** ****** *)
 
+val () =
+{
+typedef T = int
+val xs1 = $list_vt{T}(1)
+val xs2 = $list_vt{T}(2)
+val xs3 = $list_vt{T}(3)
+val xss = $list_vt{List_vt(T)}(xs1, xs2, xs3)
+val xs123 = list_vt_concat (xss) // xs123 = [1, 2, 3]
+//
+val () = assertloc (length (xs123) = 3)
+//
+val () = assertloc (xs123[0] = 1)
+val () = assertloc (xs123[1] = 2)
+val () = assertloc (xs123[2] = 3)
+//
+val () = list_vt_free<T> (xs123)
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val N = 10
+val out = stdout_ref
+//
+typedef T = int
+val xs =
+  $list_vt{T}(0, 9, 2, 7, 4, 5, 6, 3, 8, 1)
+val () = fprint_list_vt_sep<T> (out, xs, "; ")
+val () = fprint_newline (out)
+//
+implement
+list_vt_mergesort$cmp<T> (x1, x2) = compare (x1, x2)
+//
+val ys =
+  list_vt_mergesort<T> (xs)
+val () = fprint_list_vt<T> (out, ys)
+val () = fprint_newline (out)
+val () = list_vt_free<T> (ys)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

@@ -606,15 +606,20 @@ fn s0taload_tr_load
   fil: filename, loadflag: &int >> int
 ) : d1eclist = let
   val pname = $FIL.filename_get_part (fil)
-  val flag = (
-    if string_suffix_is_dats pname then 1(*dyn*) else 0(*sta*)
-  ) : int // end of [val]
+  val isdats = string_suffix_is_dats (pname)
+  val flag = (if isdats then 1(*dyn*) else 0(*sta*)): int
   val d0cs = $PAR.parse_from_filename_toplevel (flag, fil)
 //
   val (pfsave | ()) = the_trans1_env_save ()
-  val d1cs = d0eclist_tr (d0cs)
-  val d1c_packname = d1ecl_packname (ats_packname_get ())
-  val d1cs = list_cons (d1c_packname, d1cs)
+//
+  val (pfpush | ()) = $FIL.the_filenamelst_push (fil)
+  val d1cs = d0eclist_tr (d0cs) // HX: it is done in [fil]
+  val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+//
+  val packname = ats_packname_get ()
+  val d1c_pack = d1ecl_packname (packname)
+  val d1cs = list_cons{d1ecl}(d1c_pack, d1cs)
+//
   val ans = the_e1xpenv_find (ATS_STALOADFLAG)
   val () =
   (
@@ -624,7 +629,9 @@ fn s0taload_tr_load
       end // end of [Some_vt]
     | ~None_vt () => () // the default value
   ) : void // end of [val]
+//
   val () = the_trans1_env_restore (pfsave | (*none*))
+//
   val () = staload_file_insert (fil, loadflag, d1cs)
 in
   d1cs

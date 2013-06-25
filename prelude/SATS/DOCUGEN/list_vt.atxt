@@ -109,6 +109,20 @@ This proof function establishes that the integer n in any linear list type
 
 (* ****** ****** *)
 
+#declnamesynop("list_vt_cast")
+#decldescrpt("\
+This function can be employed to explicitly cast a linear list containing
+elements of type T1 into another linear list containing elements of type T2
+whenever T1 is a subtype of T2.
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt_sing")
+#declnamesynop("list_vt_pair")
+
+(* ****** ****** *)
+
 #declnamesynop("fprint_list_vt")
 #decldescrpt("\
 
@@ -119,18 +133,6 @@ element is not the first one.  Note that printing each list element is
 handled by calling the function #dyncode("fprint_ref").  ")
 
 #declnamesynop("fprint_list_vt$sep")
-
-(* ****** ****** *)
-
-#declnamesynop("fprint_list_vt_sep")
-#decldescrpt("\
-
-This function prints the elements in a given linear list to the output
-channel provided as its first argument, interspersing the string
-#dyncode('sep') between the printed list elements. Note that printing each
-list element is handled by calling the function #dyncode("fprint_ref").
-
-")
 
 (* ****** ****** *)
 
@@ -154,6 +156,23 @@ length 1, that is, a singleton linear list.
 This function returns true if and only if its argument is a linear list of
 length 2.
 ')
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt_unnil"
+#declnamesynop("list_vt_uncons"
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_list_vt_sep")
+#decldescrpt("\
+
+This function prints the elements in a given linear list to the output
+channel provided as its first argument, interspersing the string
+#dyncode('sep') between the printed list elements. Note that printing each
+list element is handled by calling the function #dyncode("fprint_ref").
+
+")
 
 (* ****** ****** *)
 
@@ -253,20 +272,22 @@ The following code makes a simple use of #dyncode("list_vt_concat"):
 
 #pats2xhtmld_tryit('\
 implement
-main () = 0 where {
+main0 () = () where
+{
 //
-  typedef T = int
-  val xs1 = $list_vt{T}(1)
-  val xs2 = $list_vt{T}(2)
-  val xs3 = $list_vt{T}(3)
-  val xss = $list_vt{List_vt(T)}(xs1, xs2, xs3)
-  val xs123 = list_vt_concat (xss) // xs123 = [1, 2, 3]
+typedef T = int
+val xs1 = $list_vt{T}(1)
+val xs2 = $list_vt{T}(2)
+val xs3 = $list_vt{T}(3)
+val xss = $list_vt{List_vt(T)}(xs1, xs2, xs3)
+val xs123 = list_vt_concat (xss) // xs123 = [1, 2, 3]
 //
-  val out = stdout_ref
-  val () = fprint_list_vt<T> (out, xs123) // printing out 1, 2, 3
-  val () = fprint_newline (out)
+val out = stdout_ref
+val () = fprint_list_vt<T> (out, xs123) // printing out 1, 2, 3
+val () = fprint_newline (out)
 //
-  val () = list_vt_free<T> (xs123)
+val () = list_vt_free<T> (xs123)
+//
 } // end of [main]
 ')
 ")
@@ -442,7 +463,7 @@ val () = fprint_list_vt_sep<T> (out, xs, "; ")
 val () = fprint_newline (out)
 //
 implement
-list_mergesort$cmp<T> (x1, x2) = compare (x1, x2)
+list_vt_mergesort$cmp<T> (x1, x2) = compare (x1, x2)
 //
 val ys =
   list_vt_mergesort<T> (xs)

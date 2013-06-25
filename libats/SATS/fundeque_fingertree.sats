@@ -31,19 +31,20 @@
 //
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats"
-#define ATS_STALOADFLAG 0 // no static loading at run-time
+#define
+ATS_PACKNAME "ATSLIB.libats.fundeque_fingertree"
+#define
+ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 //
 // HX: indexed by deque size
 //
 abstype
-deque_t0ype_int_type (elt:t@ype+, n:int)
+deque_t0ype_int_type (elt:t@ype+, n:int) = ptr
 //
 stadef deque = deque_t0ype_int_type
 typedef deque (a:t@ype) = [n:int] deque (a, n)
-//
 typedef Deque (a:t@ype) = [n:int] deque (a, n)
 //
 (* ****** ****** *)
@@ -58,88 +59,97 @@ prfun lemma_deque_param
 
 (* ****** ****** *)
 
-fun{a:t0p} fundeque_nil ():<> deque (a, 0)
+fun{}
+fundeque_nil{a:t0p} ():<> deque (a, 0)
 
 (* ****** ****** *)
 
 fun{a:t0p}
-fundeque_cons{n:nat}
-  (x: a, xt: deque (INV(a), n)):<> deque (a, n+1)
+fundeque_cons{n:int}
+  (x: a, xs: deque (INV(a), n)):<> deque (a, n+1)
 // end of [fundeque_cons]
 
 fun{a:t0p}
 fundeque_uncons{n:pos}
-  (xt: &deque (INV(a), n) >> deque (a, n-1)):<!wrt> a
+  (xs: &deque (INV(a), n) >> deque (a, n-1)):<!wrt> a
 // end of [fundeque_uncons]
 
 (* ****** ****** *)
 
 fun{a:t0p}
-fundeque_snoc{n:nat}
-  (xt: deque (INV(a), n), x: a):<> deque (a, n+1)
+fundeque_snoc{n:int}
+  (xs: deque (INV(a), n), x: a):<> deque (a, n+1)
 // end of [fundeque_snoc]
 
 fun{a:t0p}
 fundeque_unsnoc{n:pos}
-  (xt: &deque (INV(a), n) >> deque (a, n-1)):<!wrt> a
+  (xs: &deque (INV(a), n) >> deque (a, n-1)):<!wrt> a
 // end of [fundeque_unsnoc]
 
 (* ****** ****** *)
 
 fun{
 } fundeque_is_nil
-  {a:t0p}{n:nat} (xt: deque (INV(a), n)): bool (n==0)
+  {a:t0p}{n:int} (xs: deque (INV(a), n)): bool (n==0)
 // end of [fundeque_is_nil]
 
 fun{
 } fundeque_is_cons
-  {a:t0p}{n:nat} (xt: deque (INV(a), n)): bool (n > 0)
+  {a:t0p}{n:int} (xs: deque (INV(a), n)): bool (n > 0)
 // end of [fundeque_is_cons]
 
 (* ****** ****** *)
 
-fun{
-} fundeque_size
-  {a:t0p}{n:nat} (xt: deque (INV(a), n)):<> size_t (n)
+fun fundeque_size
+  {a:t0p}{n:int} (xs: deque (INV(a), n)):<> size_t (n)
 // end of [fundeque_size]
 
 (* ****** ****** *)
 
 fun{a:t0p}
-fundeque_get_atbeg {n:pos} (xt: deque (INV(a), n)):<> a
+fundeque_get_atbeg {n:pos} (xs: deque (INV(a), n)):<> a
 
 fun{a:t0p}
-fundeque_get_atend {n:pos} (xt: deque (INV(a), n)):<> a
+fundeque_get_atend {n:pos} (xs: deque (INV(a), n)):<> a
 
 (* ****** ****** *)
 
 fun fundeque_append
-  {a:t0p}{n1,n2:nat}
-  (xt1: deque (INV(a), n1), xt2: deque (a, n2)):<> deque (a, n1+n2)
-// end of [fundeque_append]
+  {a:t0p}{n1,n2:int}
+(
+  xs1: deque (INV(a), n1), xs2: deque (a, n2)
+) :<> deque (a, n1+n2) // endfun
 
 (* ****** ****** *)
 
+fun{a:t0p}
+fprint_fundeque (out: FILEref, xs: Deque (INV(a))): void
+overload fprint with fprint_fundeque
+
+(* ****** ****** *)
+//
 fun{
 a:t0p}{env:vt0p
-} fundeque_foreach$fwork (x: a, env: &env): void
+} fundeque_foreach$fwork (x: a, env: &env>>_): void
+//
 fun{a:t0p}
 fundeque_foreach (xs: Deque (INV(a))): void
 fun{
 a:t0p}{env:vt0p
-} fundeque_foreach_env (xs: Deque (INV(a)), env: &(env)>>env): void
-
+} fundeque_foreach_env (xs: Deque (INV(a)), env: &(env)>>_): void
+//
 (* ****** ****** *)
-
+//
 fun{
 a:t0p}{env:vt0p
-} fundeque_rforeach$fwork (x: a, env: &env): void
+} fundeque_rforeach$fwork (x: a, env: &env>>_): void
+//
 fun{a:t0p}
 fundeque_rforeach (xs: Deque (INV(a))): void
 fun{
 a:t0p}{env:vt0p
-} fundeque_rforeach_env (xs: Deque (INV(a)), env: &(env)>>env): void
-
+} fundeque_rforeach_env (xs: Deque (INV(a)), env: &(env)>>_): void
+//
 (* ****** ****** *)
 
 (* end of [fundeque_fingertree.sats] *)

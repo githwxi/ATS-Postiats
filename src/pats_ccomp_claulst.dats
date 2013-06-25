@@ -714,10 +714,10 @@ val+list_cons (x1, xs1) = xs10
 val+list_cons (x2, xs2) = xs20
 //
 val out = stdout_ref
-(*
+// (*
 val () = fprintln! (out, "auxlst2: x1 = ", x1)
 val () = fprintln! (out, "auxlst2: x2 = ", x2)
-*)
+// *)
 //
 in
 //
@@ -741,14 +741,13 @@ case+ x2 of
   in
     auxlst (xs1, xs2, tmvlst)
   end
-(*
-| _ when x1 as PTCMPany _ =>
-| _ when x1 as PTCMPvar _ =>
-*)
+//
+| _ when x1 as PTCMPany _ => Some_vt (xs20)
+| _ when x1 as PTCMPvar _ => Some_vt (xs20)
+//
 | _ when x1 as PTCMPasvar _ => auxlst (xs1, xs20, tmvlst)
-(*
-| _ when x1 as PTCMPrparen () =>
-*)
+//
+| _ when x1 as PTCMPrparen () => Some_vt (xs20)
 //
 | PTCMPlablparen (lab2) =>
   (
@@ -786,9 +785,10 @@ case+ x2 of
         val ismat = patck_ismat (ptck1, ptck2)
         val ((*void*)) =
           tmpmovlst_add (tmvlst, tpmv1, tpmv2)
+        // end of [val]
       in
         if ismat
-          then auxlst (xs1, xs2, tmvlst) else None_vt ()
+          then auxlst (xs1, xs2, tmvlst) else None_vt(*void*)
         // end of [if]
       end // end of [PTCMPpatlparen]
     | _ => None_vt ()

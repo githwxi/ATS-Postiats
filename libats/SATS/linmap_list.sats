@@ -33,8 +33,10 @@
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats"
-#define ATS_STALOADFLAG 0 // no static loading at run-time
+#define
+ATS_PACKNAME "ATSLIB.libats.linmap_list"
+#define
+ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 

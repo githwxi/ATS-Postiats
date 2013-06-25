@@ -49,8 +49,13 @@
 //
 (* ****** ****** *)
 
-#define ATS_DYNLOADFLAG 0 // no static loading at run-time
+#define
+ATS_DYNLOADFLAG 0 // no static loading at run-time
 
+(* ****** ****** *)
+//
+staload INT = "prelude/DATS/integer.dats"
+//
 (* ****** ****** *)
 
 staload "libats/SATS/fundeque_fingertree.sats"
@@ -58,18 +63,19 @@ staload "libats/SATS/fundeque_fingertree.sats"
 (* ****** ****** *)
 
 datatype
-ftnode (
-  a:t@ype+
-, int(*dpth*)
-, int(*size*)
-) =
+ftnode
+(
+  a:t@ype+, int(*dpth*), int(*size*)
+) = (* ftnode *)
   | FTN1 (a, 0, 1) of (a) // singleton
   | {d:nat} {n1,n2:nat}
-    FTN2 (a, d+1, n1+n2) of (
+    FTN2 (a, d+1, n1+n2) of
+    (
       ftnode (a, d, n1), ftnode (a, d, n2)
     ) // end of [FTN2]
   | {d:nat} {n1,n2,n3:nat}
-    FTN3 (a, d+1, n1+n2+n3) of (
+    FTN3 (a, d+1, n1+n2+n3) of
+    (
       ftnode (a, d, n1), ftnode (a, d, n2), ftnode (a, d, n3)
     ) // end of [FTN3]
 // end of [ftnode] // end of [datatype]
@@ -77,21 +83,20 @@ ftnode (
 (* ****** ****** *)
 
 datatype
-ftdigit (
-  a:t@ype+
-, int(*dpth*)
-, int(*size*)
-) =
+ftdigit
+(
+  a:t@ype+, int(*dpth*), int(*size*)
+) = (* ftdigit *)
   | {d:nat} {n:nat}
     FTD1 (a, d, n) of ftnode (a, d, n)
   | {d:nat} {n1,n2:nat}
     FTD2 (a, d, n1+n2) of (
       ftnode (a, d, n1), ftnode (a, d, n2)
-    ) // end of [FTN2]
+    ) // end of [FTD2]
   | {d:nat} {n1,n2,n3:nat}
     FTD3 (a, d, n1+n2+n3) of (
       ftnode (a, d, n1), ftnode (a, d, n2), ftnode (a, d, n3)
-    ) // end of [FTN3]
+    ) // end of [FTD3]
   | {d:nat} {n1,n2,n3,n4:nat}
     FTD4 (a, d, n1+n2+n3+n4) of (
       ftnode (a, d, n1), ftnode (a, d, n2), ftnode (a, d, n3), ftnode (a, d, n4)
@@ -101,19 +106,156 @@ ftdigit (
 (* ****** ****** *)
 
 datatype
-fingertree (
+fingertree
+(
   a:t@ype, int(*d*), int(*n*)
-) =
+) = (* fingertree *)
   | {d:nat}
-    FTemp (a, d, 0) of () // FTemp: () -> fingertree (a)
-  | {d:nat} {n:int}
-    FTsing (a, d, n) of
-      ftnode (a, d, n) // FTsing: ftnode (a) -> fingertree (a)
-  | {d:nat} {npr,nm,nsf:nat}
-    FTdeep (a, d, npr+nm+nsf) of (
+    FTemp (a, d, 0) of ()
+  | {d:nat}
+    {n:int}
+    FTsing (a, d, n) of ftnode (a, d, n)
+  | {d:nat}
+    {npr,nm,nsf:nat}
+    FTdeep (a, d, npr+nm+nsf) of
+    (
       ftdigit(a, d, npr), fingertree (a, d+1, nm), ftdigit (a, d, nsf)
     ) // end of [FTdeep]
 // end of [fingertree]
+
+(* ****** ****** *)
+
+extern
+fun{a:t0p}
+fprint_fingertree{d:int}{n:int}
+(
+  out: FILEref, xt: fingertree (INV(a), d, n)
+) : void // end of [fprint_fingertree]
+
+(* ****** ****** *)
+
+local
+
+fun{a:t0p}
+fprint_ftnode{d:int}{n:int}
+(
+  out: FILEref, xn: ftnode (INV(a), d, n)
+) : void = let
+//
+macdef prstr (str) = fprint_string (out, ,(str))
+//
+in
+//
+case+ xn of
+| FTN1 (x) =>
+  {
+    val () = prstr "FTN1("
+    val () = fprint_val<a> (out, x)
+    val () = prstr ")"
+  }
+| FTN2 (xn1, xn2) =>
+  {
+    val () = prstr "FTN2("
+    val () = fprint_ftnode (out, xn1)
+    val () = prstr ", "
+    val () = fprint_ftnode (out, xn2)
+    val () = prstr ")"
+  }
+| FTN3 (xn1, xn2, xn3) =>
+  {
+    val () = prstr "FTN3("
+    val () = fprint_ftnode (out, xn1)
+    val () = prstr ", "
+    val () = fprint_ftnode (out, xn2)
+    val () = prstr ", "
+    val () = fprint_ftnode (out, xn3)
+    val () = prstr ")"
+  }
+//
+end // end of [fprint_ftnode]
+
+fun{a:t0p}
+fprint_ftdigit{d:int}{n:int}
+(
+  out: FILEref, xn: ftdigit (INV(a), d, n)
+) : void = let
+//
+macdef prstr (str) = fprint_string (out, ,(str))
+//
+in
+//
+case+ xn of
+| FTD1 (xn1) =>
+  {
+    val () = prstr "FTD1("
+    val () = fprint_ftnode (out, xn1)
+    val () = prstr ")"
+  }
+| FTD2 (xn1, xn2) =>
+  {
+    val () = prstr "FTD2("
+    val () = fprint_ftnode (out, xn1)
+    val () = prstr ", "
+    val () = fprint_ftnode (out, xn2)
+    val () = prstr ")"
+  }
+| FTD3 (xn1, xn2, xn3) =>
+  {
+    val () = prstr "FTD2("
+    val () = fprint_ftnode (out, xn1)
+    val () = prstr ", "
+    val () = fprint_ftnode (out, xn2)
+    val () = prstr ", "
+    val () = fprint_ftnode (out, xn3)
+    val () = prstr ")"
+  }
+| FTD4 (xn1, xn2, xn3, xn4) =>
+  {
+    val () = prstr "FTD2("
+    val () = fprint_ftnode (out, xn1)
+    val () = prstr ", "
+    val () = fprint_ftnode (out, xn2)
+    val () = prstr ", "
+    val () = fprint_ftnode (out, xn3)
+    val () = prstr ", "
+    val () = fprint_ftnode (out, xn4)
+    val () = prstr ")"
+  }
+//
+end // end of [fprint_ftdigit]
+
+in (* in of [local] *)
+
+implement{a}
+fprint_fingertree
+  (out, xt) = let
+//
+macdef prstr (str) = fprint_string (out, ,(str))
+//
+in
+//
+case+ xt of
+| FTemp () => prstr "FTemp()"
+| FTsing (xn) =>
+  {
+    val () = prstr "FTsing("
+    val () = fprint_ftnode (out, xn)
+    val () = prstr ")"
+  }
+| FTdeep (xn1, xt2, xn3) =>
+  {
+    val () = prstr "FTdeep("
+    val () = fprint_ftdigit (out, xn1)
+    val () = prstr ", "
+    val () = fprint_fingertree (out, xt2)
+    val () = prstr ", "
+    val () = fprint_ftdigit (out, xn3)
+    val () = prstr ")"
+  }
+//
+end // end of [fprint_fingertree]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -173,13 +315,14 @@ fun
 ftnode_size
   {a:t0p}
   {d:int}
-  {n:nat} .<n>. (
+  {n:nat} .<n>.
+(
   xn: ftnode (a, d, n)
 ) :<> size_t (n) = let
   #define nsz(x) ftnode_size(x)
 in
   case+ xn of
-  | FTN1 _ => g1int2uint(1)
+  | FTN1 _ => g1i2u(1)
   | FTN2 (xn1, xn2) => let
       prval () = ftnode_prop_szpos (xn1)
       prval () = ftnode_prop_szpos (xn2)
@@ -201,7 +344,8 @@ fun
 ftdigit_size
   {a:t0p}
   {d:int}
-  {n:int} .<>. (
+  {n:int} .<>.
+(
   xd: ftdigit (a, d, n)
 ) :<> size_t (n) = let
   #define nsz(x) ftnode_size(x)
@@ -245,7 +389,8 @@ fun fingertree_cons
 
 implement
 fingertree_cons{a}
-  (xn, xt) = cons (xn, xt) where {
+  (xn, xt) = cons (xn, xt) where
+{
 //
 fun cons {d:nat}
   {n1,n2:int | n2 >= 0} .<n2>. (
@@ -291,7 +436,8 @@ fun fingertree_uncons
 
 implement
 fingertree_uncons{a}
-  (xt, r) = uncons (xt, r) where {
+  (xt, r) = uncons (xt, r) where
+{
 //
 fun uncons
   {d:nat}{n:pos} .<n>. (
@@ -365,7 +511,8 @@ fun fingertree_snoc
 
 implement
 fingertree_snoc{a}
-  (xt, xn) = snoc (xt, xn) where {
+  (xt, xn) = snoc (xt, xn) where
+{
 //
 fun snoc {d:nat}
   {n1,n2:int | n2 >= 0} .<n2>. (
@@ -411,7 +558,8 @@ fun fingertree_unsnoc
 
 implement
 fingertree_unsnoc{a}
-  (xt, r) = unsnoc (xt, r) where {
+  (xt, r) = unsnoc (xt, r) where
+{
 //
 fun unsnoc
   {d:nat}{n:pos} .<n>. (
@@ -477,54 +625,60 @@ fingertree_get_atend
 
 (* ****** ****** *)
 
-assume deque_t0ype_int_type
+assume
+deque_t0ype_int_type
   (a:t0p, n:int) = fingertree (a, 0, n)
 // end of [deque_t0ype_int_type]
 
 (* ****** ****** *)
 
 primplmnt
-lemma_deque_param (xs) = fingertree_prop1_sznat (xs)
+lemma_deque_param
+  (xs) = fingertree_prop1_sznat (xs)
+// end of [lemma_deque_param]
 
 (* ****** ****** *)
 
-implement{a} fundeque_nil () = FTemp ()
+implement{}
+fundeque_nil () = FTemp ((*void*))
 
 (* ****** ****** *)
 
 implement{a}
-fundeque_cons (xn, xt) =
-  fingertree_cons (FTN1 (xn), xt)
+fundeque_cons (x0, xs) =
+  fingertree_cons (FTN1{a}(x0), xs)
 // end of [fundeque_cons]
 
 implement{a}
 fundeque_uncons
-  (xt) = x0 where {
+  (xs) = x0 where
+{
   var xn: ptr?
-  val () = xt := fingertree_uncons (xt, xn)
+  val () = xs := fingertree_uncons (xs, xn)
   val+ FTN1 (x0) = xn
 } // end of [fundeque_uncons]
 
 (* ****** ****** *)
 
 implement{a}
-fundeque_snoc (xt, xn) =
-  fingertree_snoc (xt, FTN1 (xn))
+fundeque_snoc (xs, xn) =
+  fingertree_snoc (xs, FTN1{a}(xn))
 // end of [fundeque_snoc]
 
 implement{a}
 fundeque_unsnoc
-  (xt) = x0 where {
+  (xs) = x0 where
+{
   var xn: ptr?
-  val () = xt := fingertree_unsnoc (xt, xn)
+  val () = xs := fingertree_unsnoc (xs, xn)
   val+ FTN1 (x0) = xn
 } // end of [fundeque_unsnoc]
 
 (* ****** ****** *)
 
 implement{}
-fundeque_is_nil (xt) =
-  case+ xt of
+fundeque_is_nil (xs) =
+  case+ xs of
   | FTemp () => true
   | FTsing (xn) => let
       prval () = ftnode_prop_szpos (xn) in false
@@ -535,21 +689,21 @@ fundeque_is_nil (xt) =
 // end of [fundeque_is_nil]
 
 implement{}
-fundeque_is_cons (xt) = let
-  prval () = lemma_deque_param (xt) in ~fundeque_is_nil<> (xt)
+fundeque_is_cons (xs) = let
+  prval () = lemma_deque_param (xs) in ~fundeque_is_nil<> (xs)
 end // end of [fundeque_is_cons]
 
 (* ****** ****** *)
 
-implement{}
+implement
 fundeque_size
-  {a} (xt) = let
+  {a} (xs) = let
 //
 fun size
   {d:int}{n:nat} .<n>.
   (xt: fingertree (a, d, n)):<> size_t (n) =
   case+ xt of
-  | FTemp () => g1int2uint(0)
+  | FTemp () => g1i2u(0)
   | FTsing (xn) => ftnode_size (xn)
   | FTdeep (pr, m, sf) => let
       prval () = ftdigit_prop_szpos (pr)
@@ -558,20 +712,22 @@ fun size
     end // end of [FTdeep]
 (* end of [size] *)
 //
+prval () = lemma_deque_param (xs)
+//
 in
-  size (xt)
+  size (xs)
 end // end of [fundeque_size]
 
 (* ****** ****** *)
 
 implement{a}
-fundeque_get_atbeg (xt) = let
-  val+ FTN1 (x) = fingertree_get_atbeg{a} (xt) in x
+fundeque_get_atbeg (xs) = let
+  val+ FTN1 (x) = fingertree_get_atbeg{a}(xs) in (x)
 end // end of [fundeque_get_atbeg]
 
 implement{a}
-fundeque_get_atend (xt) = let
-  val+ FTN1 (x) = fingertree_get_atend{a} (xt) in x
+fundeque_get_atend (xs) = let
+  val+ FTN1 (x) = fingertree_get_atend{a}(xs) in (x)
 end // end of [fundeque_get_atend]
 
 (* ****** ****** *)
@@ -595,7 +751,8 @@ fun ftapp0
   | (_, FTemp ()) => xt1
   | (FTsing xn1, _) => xn1 ++ xt2
   | (_, FTsing xn2) => xt1 ++ xn2
-  | (FTdeep (pr1, m1, sf1), FTdeep (pr2, m2, sf2)) =>
+  | (FTdeep (pr1, m1, sf1),
+     FTdeep (pr2, m2, sf2)) =>
       FTdeep (pr1, ftadd0 (m1, sf1, pr2, m2), sf2)
 // end of [ftapp0]
 
@@ -929,11 +1086,27 @@ and ftadd4
     ) // end of [FTD4]
 // end of [ftadd4]
 
-in // in of [local]
+in (* in of [local] *)
 
-implement fundeque_append (xt1, xt2) = $effmask_all (ftapp0 (xt1, xt2))
+implement
+fundeque_append
+  (xs1, xs2) = let
+//
+prval () = lemma_deque_param (xs1)
+prval () = lemma_deque_param (xs2)
+//
+in
+  $effmask_all (ftapp0 (xs1, xs2))
+end // end of [fundeque_append]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement{a}
+fprint_fundeque
+  (out, xs) = fprint_fingertree<a> (out, xs)
+// end of [fprint_fundeque]
 
 (* ****** ****** *)
 
@@ -1003,7 +1176,7 @@ case+ xt of
   end // end of [FTdeep]
 end // end of [foreach]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement{a}
 fundeque_foreach (xs) = let
@@ -1098,7 +1271,7 @@ case+ xt of
 //
 end // end of [rforeach]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement{a}
 fundeque_rforeach (xs) = let

@@ -158,11 +158,11 @@ in
 if isnot then let
   val filr = $STDIO.FILEptr_refize (filp)
 in
-  Some_vt (filr)
+  Some_vt{FILEref}(filr)
 end else let
   prval () = $STDIO.FILEptr_free_null (filp)
 in
-  None_vt(*void*)
+  None_vt{FILEref}((*void*))
 end // end of [if]
 //
 end // end of [fileref_open_opt]

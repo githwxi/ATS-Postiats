@@ -331,16 +331,26 @@ cleanall:: ; $(RMF) libats_dynarray.exe
 
 all:: libats_funmap_list
 libats_funmap_list: libats_funmap_list.exe
-libats_funmap_list.exe: libats_funmap_list_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_funmap_list.exe: libats_funmap_list_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
 libats_funmap_list_dats.c: libats_funmap_list.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_funmap_list_dats.c --dynamic libats_funmap_list.dats
 clean:: ; $(RMF) libats_funmap_list_dats.o
 clean:: ; $(RMF) libats_funmap_list_dats.c
 cleanall:: ; $(RMF) libats_funmap_list.exe
 
+all:: libats_fundeque_fingertree
+libats_fundeque_fingertree: libats_fundeque_fingertree.exe
+libats_fundeque_fingertree.exe: libats_fundeque_fingertree_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_fundeque_fingertree_dats.c: libats_fundeque_fingertree.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_fundeque_fingertree_dats.c --dynamic libats_fundeque_fingertree.dats
+clean:: ; $(RMF) libats_fundeque_fingertree_dats.o
+clean:: ; $(RMF) libats_fundeque_fingertree_dats.c
+cleanall:: ; $(RMF) libats_fundeque_fingertree.exe
+
+
+######
 
 all:: libats_linmap_list
 libats_linmap_list: libats_linmap_list.exe
-libats_linmap_list.exe: libats_linmap_list_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_linmap_list.exe: libats_linmap_list_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
 libats_linmap_list_dats.c: libats_linmap_list.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_linmap_list_dats.c --dynamic libats_linmap_list.dats
 clean:: ; $(RMF) libats_linmap_list_dats.o
 clean:: ; $(RMF) libats_linmap_list_dats.c
@@ -353,7 +363,6 @@ libats_linmap_skiplist_dats.c: libats_linmap_skiplist.dats ;   $(PATSOPT) -IATS$
 clean:: ; $(RMF) libats_linmap_skiplist_dats.o
 clean:: ; $(RMF) libats_linmap_skiplist_dats.c
 cleanall:: ; $(RMF) libats_linmap_skiplist.exe
-
 
 all:: libats_lindeque_dllist
 libats_lindeque_dllist: libats_lindeque_dllist.exe

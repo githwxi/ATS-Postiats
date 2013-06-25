@@ -47,6 +47,24 @@ fun NotSomeExn ():<> exn = "mac\#%NotSomeExn_make"
 fun isNotSomeExn (x: !exn):<> bool = "mac\#%isNotSomeExn"
 
 #atscode_separator()
+//
+castfn
+option_cast
+  {a:t0p}{b:bool}
+  (opt: option (INV(a), b)):<> option (a, b)
+//
+(* ****** ****** *)
+//
+castfn
+option_vt2t
+  {a:t0p}{b:bool}
+  (opt: option_vt (INV(a), b)):<> option (a, b)
+castfn
+option_of_option_vt
+  {a:t0p}{b:bool}
+  (opt: option_vt (INV(a), b)):<> option (a, b)
+//
+#atscode_separator()
 
 fun{a:t0p}
 option_some (x: a):<> option (a, true)

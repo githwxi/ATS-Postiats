@@ -30,6 +30,13 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
 
+implement{}
+list_vt_unnil (xs) = let
+  val+~list_vt_nil () = xs in (*nothing*)
+end // end of [list_vt_unnil]
+
+#atscode_separator()
+
 implement{a}
 list_vt_uncons (xs) = let
   val+~list_vt_cons (x, xs1) = xs in xs := xs1; x

@@ -27,6 +27,17 @@
 
 (* ****** ****** *)
 
+#define
+ATS_PACKNAME "ATSLIB.libats.linset_listord"
+#define
+ATS_STALOADFLAG 0 // no static loading at run-time
+
+(* ****** ****** *)
+
+#define ATS_EXTERN_PREFIX "atslib_"
+
+(* ****** ****** *)
+
 sortdef tk = tkind
 sortdef t0p = t@ype and vt0p = vt@ype
 

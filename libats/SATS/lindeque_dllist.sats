@@ -35,8 +35,13 @@
 //
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats"
-#define ATS_STALOADFLAG 0 // no static loading at run-time
+#define
+ATS_PACKNAME "ATSLIB.libats.lindeque_dllist"
+#define
+ATS_STALOADFLAG 0 // no static loading at run-time
+
+(* ****** ****** *)
+
 #define ATS_EXTERN_PREFIX "atslib_"
 
 (* ****** ****** *)

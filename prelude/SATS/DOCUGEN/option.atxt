@@ -96,6 +96,12 @@ option-value expected to be non-null is actually null.  ')
 
 (* ****** ****** *)
 
+#declnamesynop("option_cast")
+#declnamesynop("option_vt2t")
+#declnamesynop("option_of_option_vt")
+
+(* ****** ****** *)
+
 #declnamesynop("option_some")
 #decldescrpt('\
 This is just the function version of the constructor #dyncode("Some").

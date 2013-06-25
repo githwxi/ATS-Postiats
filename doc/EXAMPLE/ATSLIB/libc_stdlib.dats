@@ -92,7 +92,7 @@ val () = assertloc (m2 = mrand48 ())
 val () = {
 //
 val str = "scratch-XXXXXX"
-val str2 = string_copy (str)
+val str2 = string1_copy (str)
 val fdes = mkstemp (str2)
 val () = assertloc (fdes >= 0)
 val () = assertloc ($UNI.close (fdes) = 0)

@@ -111,9 +111,22 @@ This proof function establishes that the integer n in any list type
 
 (* ****** ****** *)
 
+#declnamesynop("list_cast")
+#decldescrpt("\
+This function can be employed to explicitly cast a list containing
+elements of type T1 into another list containing elements of type T2
+whenever T1 is a subtype of T2.
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt2t")
+#decldescrpt("\
+This function does the same as #dyncode("list_of_list_vt")
+")
 #declnamesynop("list_of_list_vt")
 #decldescrpt("\
-This function casts a linear list-value to a nonlinear list-value.
+This function casts a linear list-value into a nonlinear list-value.
 ")
 
 (* ****** ****** *)
