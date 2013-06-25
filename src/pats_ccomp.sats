@@ -528,7 +528,7 @@ and primval_node =
 //
   | PMVbool of (bool)
   | PMVchar of (char)
-  | PMVfloat of (string)
+  | PMVfloat of (double)
   | PMVstring of (string)
 //
   | PMVi0nt of (i0nt)
@@ -768,7 +768,7 @@ fun primval_bool
 fun primval_char
   (loc: location, hse: hisexp, c: char): primval
 fun primval_float
-  (loc: location, hse: hisexp, rep: string): primval
+  (loc: location, hse: hisexp, f: double): primval
 fun primval_string
   (loc: location, hse: hisexp, str: string): primval
 
@@ -937,6 +937,7 @@ datatype patck =
   | PATCKbool of (bool)
   | PATCKchar of (char)
   | PATCKstring of (string)
+  | PATCKfloat of (double)
 //
   | PATCKi0nt of (i0nt)
   | PATCKf0loat of (f0loat)
@@ -1742,6 +1743,7 @@ fun emit_location (out: FILEref, x: location): void
 fun emit_int (out: FILEref, x: int): void
 fun emit_bool (out: FILEref, x: bool): void
 fun emit_char (out: FILEref, x: char): void
+fun emit_float (out: FILEref, x: double): void
 fun emit_string (out: FILEref, x: string): void
 
 (* ****** ****** *)
@@ -1751,7 +1753,7 @@ fun emit_ATSPMVintrep (out: FILEref, x: string): void
 
 fun emit_ATSPMVbool (out: FILEref, x: bool): void
 fun emit_ATSPMVchar (out: FILEref, x: char): void
-fun emit_ATSPMVfloat (out: FILEref, rep: string): void
+fun emit_ATSPMVfloat (out: FILEref, x: double): void
 fun emit_ATSPMVstring (out: FILEref, str: string): void
 
 fun emit_ATSPMVi0nt (out: FILEref, tok: $SYN.i0nt): void

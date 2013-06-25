@@ -246,8 +246,8 @@ primval_char
 
 implement
 primval_float
-  (loc, hse, rep) =
-  primval_make_node (loc, hse, PMVfloat (rep))
+  (loc, hse, f) =
+  primval_make_node (loc, hse, PMVfloat (f))
 // end of [primval_float]
 
 implement

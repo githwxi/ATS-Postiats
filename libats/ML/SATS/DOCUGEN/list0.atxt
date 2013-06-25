@@ -436,41 +436,6 @@ length of xs, then the function raises the exception
 
 (* ****** ****** *)
 
-#declnamesynop("list0_filter")
-#decldescrpt("\
-
-This function returns a list consisting of the sequence of elements in its
-first argument that satisfy the predicate provided as its second argument.
-
-Following is a standard implementation of this function:
-
-#pats2xhtmld_tryit('\
-//
-staload "libats/SATS/ML_basis.sats"
-staload "libats/ML/SATS/list0.sats"
-//
-implement{a}
-list0_filter (xs, p) = let
-in
-//
-case+ xs of
-| list0_cons (x, xs) =>
-    if p (x) then
-      list0_cons (x, list0_filter<a> (xs, p))
-    else
-      list0_filter<a> (xs, p)
-    // end of [if]
-| list0_nil () => list0_nil ()
-//
-end // end of [list0_filter]
-')\
-
-However, the implementation of this function in ATSLIB is tail-recursive.\
-
-")
-
-(* ****** ****** *)
-
 #declnamesynop("list0_tabulate")
 #decldescrpt("\
 
@@ -720,7 +685,7 @@ staload "libats/ML/SATS/list0.sats"
 implement
 main (
 ) = 0 where {
-  val xs = list0_of_list ($lst{int}(0, 2, 4, 6, 8))
+  val xs = list0_of_list ($list{int}(0, 2, 4, 6, 8))
   val isevn = list0_forall<int> (xs, lam (x) => x mod 2 = 0)
   val () = assertloc (isevn)
 } // end of [main] 
@@ -796,6 +761,41 @@ element does not exist, the function raises an exception
 #declnamesynop("list0_find_opt")
 #decldescrpt("\
 This function is the optional version of #dyncode("list0_find_exn").
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_filter")
+#decldescrpt("\
+
+This function returns a list consisting of the sequence of elements in its
+first argument that satisfy the predicate provided as its second argument.
+
+Following is a standard implementation of this function:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/list0.sats"
+//
+implement{a}
+list0_filter (xs, p) = let
+in
+//
+case+ xs of
+| list0_cons (x, xs) =>
+    if p (x) then
+      list0_cons (x, list0_filter<a> (xs, p))
+    else
+      list0_filter<a> (xs, p)
+    // end of [if]
+| list0_nil () => list0_nil ()
+//
+end // end of [list0_filter]
+')\
+
+However, the implementation of this function in ATSLIB is tail-recursive.\
+
 ")
 
 (* ****** ****** *)
@@ -978,22 +978,25 @@ staload "libats/ML/SATS/list0.sats"
 staload "contrib/atshwxi/testing/SATS/randgen.sats"
 //
 implement
-main () = 0 where {
-  \#define N 10
-  typedef T = int
-  val out = stdout_ref
+main0 () =
+{
+\#define N 10
+typedef T = int
+val out = stdout_ref
 //
-  val xs = list0_of_list_vt (randgen_list<T> (N))
-  val () =
-    fprint_string (out, "xs(bef) = ")
-  val () = fprint_list0_sep (out, xs, ", ")
-  val () = fprint_newline (out)
+val xs =
+  list0_of_list_vt (randgen_list<T> (N))
+val () =
+  fprint_string (out, "xs(bef) = ")
+val () = fprint_list0_sep (out, xs, ", ")
+val () = fprint_newline (out)
 //
-  val xs = list0_quicksort<T> (xs, lam (x1, x2) => compare (x1, x2))
-  val () =
-    fprint_string (out, "xs(aft) = ")
-  val () = fprint_list0_sep (out, xs, ", ")
-  val () = fprint_newline (out)
+val xs =
+  list0_quicksort<T> (xs, lam (x1, x2) => compare (x1, x2))
+val () =
+  fprint_string (out, "xs(aft) = ")
+val () = fprint_list0_sep (out, xs, ", ")
+val () = fprint_newline (out)
 //
 } // end of [main]
 ')
@@ -1019,22 +1022,25 @@ staload "libats/ML/SATS/list0.sats"
 staload "contrib/atshwxi/testing/SATS/randgen.sats"
 //
 implement
-main () = 0 where {
-  \#define N 10
-  typedef T = int
-  val out = stdout_ref
+main0 () =
+{
+\#define N 10
+typedef T = int
+val out = stdout_ref
 //
-  val xs = list0_of_list_vt (randgen_list<T> (N))
-  val () =
-    fprint_string (out, "xs(bef) = ")
-  val () = fprint_list0_sep (out, xs, ", ")
-  val () = fprint_newline (out)
+val xs =
+  list0_of_list_vt (randgen_list<T> (N))
+val () =
+  fprint_string (out, "xs(bef) = ")
+val () = fprint_list0_sep (out, xs, ", ")
+val () = fprint_newline (out)
 //
-  val xs = list0_mergesort<T> (xs, lam (x1, x2) => compare (x1, x2))
-  val () =
-    fprint_string (out, "xs(aft) = ")
-  val () = fprint_list0_sep (out, xs, ", ")
-  val () = fprint_newline (out)
+val xs =
+  list0_mergesort<T> (xs, lam (x1, x2) => compare (x1, x2))
+val () =
+  fprint_string (out, "xs(aft) = ")
+val () = fprint_list0_sep (out, xs, ", ")
+val () = fprint_newline (out)
 //
 } // end of [main]
 ')

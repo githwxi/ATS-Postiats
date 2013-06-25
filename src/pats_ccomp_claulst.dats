@@ -59,6 +59,12 @@ staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_ccomp_claulst"
+
+(* ****** ****** *)
+
 staload LAB = "./pats_label.sats"
 overload compare with $LAB.compare_label_label
 
@@ -1101,6 +1107,9 @@ and auxcomplst_pat
 , hip0: hipat
 , mtks: matokenlst
 ) : patcomplst_vt = let
+//
+val loc0 = hip0.hipat_loc
+//
 in
 //
 case+
@@ -1122,7 +1131,6 @@ case+
   end // end of [HIPvar]
 //
 | HIPint (i) => let
-    val loc0 = hip0.hipat_loc
     val tl = tmplab_make (loc0)
     val kntr = patckontref_make ()
     val ptcmp0 =
@@ -1133,8 +1141,52 @@ case+
     list_vt_cons (ptcmp0, list_vt_cons (ptcmp1, ptcmps))
   end // end of [HIPint]
 //
+| HIPbool (b) => let
+    val tl = tmplab_make (loc0)
+    val kntr = patckontref_make ()
+    val ptcmp0 =
+      PTCMPpatlparen (PATCKbool(b), tpmv, tl, None(*knd*), kntr)
+    val ptcmp1 = PTCMPrparen ()
+    val ptcmps = auxcomplst (lvl0, mtks)
+  in
+    list_vt_cons (ptcmp0, list_vt_cons (ptcmp1, ptcmps))
+  end // end of [HIPint]
+//
+| HIPchar (c) => let
+    val tl = tmplab_make (loc0)
+    val kntr = patckontref_make ()
+    val ptcmp0 =
+      PTCMPpatlparen (PATCKchar(c), tpmv, tl, None(*knd*), kntr)
+    val ptcmp1 = PTCMPrparen ()
+    val ptcmps = auxcomplst (lvl0, mtks)
+  in
+    list_vt_cons (ptcmp0, list_vt_cons (ptcmp1, ptcmps))
+  end // end of [HIPint]
+//
+| HIPstring (str) => let
+    val tl = tmplab_make (loc0)
+    val kntr = patckontref_make ()
+    val ptcmp0 =
+      PTCMPpatlparen (PATCKstring(str), tpmv, tl, None(*knd*), kntr)
+    val ptcmp1 = PTCMPrparen ()
+    val ptcmps = auxcomplst (lvl0, mtks)
+  in
+    list_vt_cons (ptcmp0, list_vt_cons (ptcmp1, ptcmps))
+  end // end of [HIPint]
+//
+| HIPfloat (rep) => let
+    val tl = tmplab_make (loc0)
+    val kntr = patckontref_make ()
+    val f = $UT.double_make_string (rep)
+    val ptcmp0 =
+      PTCMPpatlparen (PATCKfloat(f), tpmv, tl, None(*knd*), kntr)
+    val ptcmp1 = PTCMPrparen ()
+    val ptcmps = auxcomplst (lvl0, mtks)
+  in
+    list_vt_cons (ptcmp0, list_vt_cons (ptcmp1, ptcmps))
+  end // end of [HIPint]
+//
 | HIPi0nt (tok) => let
-    val loc0 = hip0.hipat_loc
     val tl = tmplab_make (loc0)
     val kntr = patckontref_make ()
     val i0 = $P2TC.intinf_of_i0nt (tok)
@@ -1153,7 +1205,6 @@ case+
   (
     knd, d2c, hse_sum, lxs
   ) => let
-    val loc0 = hip0.hipat_loc
     val tl = tmplab_make (loc0)
     val kntr = patckontref_make ()
     val mtks = addrparen (mtks)
@@ -1167,7 +1218,6 @@ case+
 //
 | HIPcon_any
     (knd, d2c) => let
-    val loc0 = hip0.hipat_loc
     val tl = tmplab_make (loc0)
     val kntr = patckontref_make ()
     val ptcmp0 =
@@ -1180,7 +1230,6 @@ case+
 //
 | HIPrec
     (knd, lxs, hse_rec) => let
-    val loc0 = hip0.hipat_loc
     val tl = tmplab_make (loc0)
     val mtks = addrparen (mtks)
     val mtks = addselect (tpmv, hse_rec, lxs, mtks)
@@ -1203,6 +1252,8 @@ case+
     auxcomplst_pat (lvl0, tpmv, hip, mtks)
 //
 | _ => let
+    val () = prerr_interror_loc (loc0)
+    val () = prerrln! ("himatchlst_patcomp: auxcomplst_pat: hip0 = ", hip0)
     val () = assertloc (false) in list_vt_nil ()
   end // end of [_]
 //

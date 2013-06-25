@@ -318,9 +318,9 @@ case+ x.primval_node of
     val () = fprint_char (out, c)
     val () = prstr ")"
   }
-| PMVfloat (rep) => {
+| PMVfloat (f) => {
     val () = prstr "PMVfloat("
-    val () = fprint_string (out, rep)
+    val () = fprint_double (out, f)
     val () = prstr ")"
   }
 | PMVstring (str) => {
@@ -617,6 +617,11 @@ case+ x of
     val () = fprint_char (out, c)
     val () = prstr ")"
   }
+| PATCKfloat (f) => {
+    val () = prstr "PATCKfloat("
+    val () = fprint_double (out, f)
+    val () = prstr ")"
+  }
 | PATCKstring (str) => {
     val () = prstr "PATCKstring("
     val () = fprint_string (out, str)
@@ -629,7 +634,7 @@ case+ x of
     val () = prstr ")"
   }
 | PATCKf0loat (tok) => {
-    val () = prstr "PATCKi0nt("
+    val () = prstr "PATCKf0loat("
     val () = $SYN.fprint_f0loat (out, tok)
     val () = prstr ")"
   }

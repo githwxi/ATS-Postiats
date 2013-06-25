@@ -445,9 +445,12 @@ fun auxmain (
 in
 //
 case+ patck of
-| PATCKint (i) => {
-    val () = emit_text (out, "ATSifnot(")
-    val () = emit_text (out, "ATSPATCKint(")
+| PATCKint (i) =>
+  {
+    val (
+    ) = emit_text (out, "ATSifnot(")
+    val (
+    ) = emit_text (out, "ATSPATCKint(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVint (out, i)
@@ -455,9 +458,12 @@ case+ patck of
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")
   } // end of [PATCKint]
-| PATCKbool (b) => {
-    val () = emit_text (out, "ATSifnot(")
-    val () = emit_text (out, "ATSPATCKbool(")
+| PATCKbool (b) =>
+  {
+    val (
+    ) = emit_text (out, "ATSifnot(")
+    val (
+    ) = emit_text (out, "ATSPATCKbool(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVbool (out, b)
@@ -465,9 +471,12 @@ case+ patck of
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")
   } // end of [PATCKbool]
-| PATCKchar (c) => {
-    val () = emit_text (out, "ATSifnot(")
-    val () = emit_text (out, "ATSPATCKchar(")
+| PATCKchar (c) =>
+  {
+    val (
+    ) = emit_text (out, "ATSifnot(")
+    val (
+    ) = emit_text (out, "ATSPATCKchar(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVchar (out, c)
@@ -475,9 +484,12 @@ case+ patck of
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")
   } // end of [PATCKchar]
-| PATCKstring (str) => {
-    val () = emit_text (out, "ATSifnot(")
-    val () = emit_text (out, "ATSPATCKstring(")
+| PATCKstring (str) =>
+  {
+    val (
+    ) = emit_text (out, "ATSifnot(")
+    val (
+    ) = emit_text (out, "ATSPATCKstring(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVstring (out, str)
@@ -485,6 +497,19 @@ case+ patck of
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")
   } // end of [PATCKstring]
+| PATCKfloat (dbl) => {
+    val (
+    ) = emit_text (out, "ATSifnot(")
+    val (
+    ) = emit_text (out, "ATSPATCKfloat(")
+    val () = emit_primval (out, pmv)
+    val () = emit_text (out, ", ")
+    val () = emit_ATSPMVfloat (out, dbl)
+    val () = emit_text (out, ")) { ")
+    val () = emit_patckont (out, fail)
+    val () = emit_text (out, " ; }")
+  } // end of [PATCKfloat]
+//
 | PATCKi0nt (tok) => {
     val () = emit_text (out, "ATSifnot(")
     val () = emit_text (out, "ATSPATCKint(")

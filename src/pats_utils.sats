@@ -40,6 +40,10 @@ fun eqref_type {a:type} (x1: a, x2: a):<> bool
 fun llint_make_string (rep: string): llint // in the [rep]
 //
 (* ****** ****** *)
+
+fun double_make_string (rep: string): double
+
+(* ****** ****** *)
 //
 // HX: finding the base of [rep]
 //

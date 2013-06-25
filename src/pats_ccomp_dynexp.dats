@@ -258,7 +258,12 @@ case+ hde0.hidexp_node of
 //
 | HDEbool (b) => primval_bool (loc0, hse0, b)
 | HDEchar (c) => primval_char (loc0, hse0, c)
-| HDEfloat (rep) => primval_float (loc0, hse0, rep)
+//
+| HDEfloat (rep) => let
+    val f =
+      $UT.double_make_string (rep) in primval_float (loc0, hse0, f)
+    // end of [val]
+  end // end of [HDEfloat]
 //
 | HDEstring _ => hidexp_ccomp_string (env, res, hde0)
 //

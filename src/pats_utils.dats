@@ -140,7 +140,8 @@ staload STDLIB = "libc/SATS/stdlib.sats"
 
 fun
 llint_make_string_sgn
-  {n,i:nat | i <= n} (
+  {n,i:nat | i <= n}
+(
   sgn: int, rep: string (n), i: size_t i
 ) : llint = let
 in
@@ -166,7 +167,8 @@ end // end of [llint_make_string_sgn]
 
 and
 llint_make_string_sgn_base
-  {n,i:nat | i <= n} (
+  {n,i:nat | i <= n}
+(
   sgn: int, base: intBtw (2,36+1), rep: string (n), i: size_t i
 ) : llint = let
 //
@@ -178,7 +180,7 @@ in
   (llint_of)sgn * $STDLIB.strtoll_errnul (substring (rep, i), base)
 end // end of [llint_make_string_sgn_base]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 llint_make_string
@@ -191,16 +193,20 @@ val isnot = string_isnot_empty (rep)
 in
 //
 if isnot then let
-  val c0 = rep[0]
-in
-  case+ c0 of
-  | '+' => llint_make_string_sgn ( 1(*sgn*), rep, 1)
-  | '-' => llint_make_string_sgn (~1(*sgn*), rep, 1)
-  | '~' => llint_make_string_sgn (~1(*sgn*), rep, 1) // HX: should it be supported?
-  | _ => llint_make_string_sgn (1(*sgn*), rep, 0)
+  val c0 = rep[0] in
+//
+case+ c0 of
+| '+' => llint_make_string_sgn ( 1(*sgn*), rep, 1)
+| '-' => llint_make_string_sgn (~1(*sgn*), rep, 1)
+| '~' => llint_make_string_sgn (~1(*sgn*), rep, 1) // HX: should it be supported?
+| _ => llint_make_string_sgn (1(*sgn*), rep, 0)
+//
 end else 0ll // end of [if]
 //
 end // end of [llint_make_string]
+
+implement
+double_make_string (rep) = $STDLIB.atof (rep)
 
 end // end of [local]
 
@@ -300,7 +306,7 @@ local
 
 assume lstord (a:type) = List (a)
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 lstord_nil () = list_nil ()

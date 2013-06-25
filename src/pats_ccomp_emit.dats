@@ -162,9 +162,11 @@ emit_ATSPMVbool
 (* ****** ****** *)
 
 implement
+emit_float (out, x) = fprintf (out, "%.18f", @(x))
+implement
 emit_ATSPMVfloat
   (out, x) = (
-  emit_text (out, "ATSPMVfloat("); emit_text (out, x); emit_text (out, ")")
+  emit_text (out, "ATSPMVfloat("); emit_float (out, x); emit_text (out, ")")
 ) // end of [emit_ATSPMVfloat]
 
 (* ****** ****** *)
@@ -868,7 +870,7 @@ case+ pmv0.primval_node of
 //
 | PMVbool (b) => emit_ATSPMVbool (out, b)
 | PMVchar (c) => emit_ATSPMVchar (out, c)
-| PMVfloat (rep) => emit_ATSPMVfloat (out, rep)
+| PMVfloat (f) => emit_ATSPMVfloat (out, f)
 | PMVstring (str) => emit_ATSPMVstring (out, str)
 //
 | PMVi0nt (tok) => emit_ATSPMVi0nt (out, tok)

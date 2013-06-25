@@ -86,6 +86,47 @@ val () = assertloc (iseq)
 
 (* ****** ****** *)
 
+val () =
+{
+//
+val xs = list0_of_list($list{int}(0, 2, 4, 6, 8))
+//
+val isevn = list0_forall<int> (xs, lam (x) => x mod 2 = 0)
+val () = assertloc ( isevn)
+//
+val isodd = list0_exists<int> (xs, lam (x) => x mod 2 != 0)
+val () = assertloc (~isodd)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val out = stdout_ref
+//
+val xs = list0_make_intrange (0, 10)
+val () = fprintln! (out, "xs = ", xs)
+//
+val ys =
+list0_map<int><int> (xs, lam x => x + x)
+val () = fprintln! (out, "ys = ", ys)
+//
+val ys_odd =
+list0_filter<int> (xs, lam x => x mod 2 != 0)
+val () = fprintln! (out, "ys_odd = ", ys_odd)
+//
+val ys_evn =
+list0_mapopt<int><int> (
+  xs, lam x => if x mod 2 = 0 then Some_vt{int}(x) else None_vt()
+) (* end of [val] *)
+val () = fprintln! (out, "ys_evn = ", ys_evn)
+//
+}
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

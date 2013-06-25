@@ -254,16 +254,19 @@ list0_iforeach (xs: list0 (INV(a)), f: cfun2 (int, a, void)): int
 (* ****** ****** *)
 
 fun{a1,a2:t0p}
-list0_foreach2 (
-  xs1: list0 (INV(a1)), xs2: list0 (INV(a2)), f: cfun2 (a1, a2, void)
-) : void // end of [list0_foreach2]
-
-fun{a1,a2:t0p}
-list0_foreach2_eq (
+list0_foreach2
+(
   xs1: list0 (INV(a1))
 , xs2: list0 (INV(a2))
 , f: cfun2 (a1, a2, void)
-, sgn: &int? >> int
+) : void // end of [list0_foreach2]
+
+fun{a1,a2:t0p}
+list0_foreach2_eq
+(
+  xs1: list0 (INV(a1))
+, xs2: list0 (INV(a2))
+, f: cfun2 (a1, a2, void), sgn: &int? >> int
 ) : void // end of [list0_foreach2_eq]
 
 (* ****** ****** *)
@@ -306,12 +309,11 @@ a:t0p}{res:t0p
 (* ****** ****** *)
 
 fun{a:t0p}
-list0_exists
-  (xs: list0 (INV(a)), p: cfun (a, bool)): bool
-// end of [list0_exists]
+list0_exists (xs: list0 (INV(a)), p: cfun (a, bool)): bool
 
 fun{a1,a2:t0p}
-list0_exists2 (
+list0_exists2
+(
   xs1: list0 (INV(a1))
 , xs2: list0 (INV(a2))
 , p: cfun2 (a1, a2, bool)
@@ -329,11 +331,11 @@ list0_forall2 (
 , p: cfun2 (a1, a2, bool)
 ) : bool // end of [list0_forall2]
 fun{a1,a2:t0p}
-list0_forall2_eq (
+list0_forall2_eq
+(
   xs1: list0 (INV(a1))
 , xs2: list0 (INV(a2))
-, p: cfun2 (a1, a2, bool)
-, sgn: &int? >> int
+, p: cfun2 (a1, a2, bool), sgn: &int? >> int
 ) : bool // end of [list0_forall2_eq]
 
 (* ****** ****** *)
@@ -352,6 +354,13 @@ list0_find_exn
 fun{a:t0p}
 list0_find_opt
   (xs: list0 (INV(a)), p: cfun (a, bool)): Option_vt (a)
+
+(* ****** ****** *)
+
+fun{a:t0p}
+list0_filter
+  (xs: list0 (INV(a)), f: cfun (a, bool)): list0 (a)
+// end of [list0_filter]
 
 (* ****** ****** *)
 
@@ -378,13 +387,6 @@ a1,a2:t0p}{b:t0p
 } list0_map2 (
   xs1: list0 (INV(a1)), xs2: list0 (INV(a2)), f: cfun2 (a1, a2, b)
 ) : list0 (b) // end of [list0_map2]
-
-(* ****** ****** *)
-
-fun{a:t0p}
-list0_filter
-  (xs: list0 (INV(a)), f: cfun (a, bool)): list0 (a)
-// end of [list0_filter]
 
 (* ****** ****** *)
 
