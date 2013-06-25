@@ -780,6 +780,8 @@ val ((*void*)) = p->ccompenv_freeconenv := pmvss
 prval () = fold@ (env)
 } // end of [ccompenv_getdec_freeconenv]
 
+(* ****** ****** *)
+
 implement
 ccompenv_add_freeconenv
   (env, pmv) = let
@@ -794,6 +796,21 @@ prval () = fold@ (env)
 in
   // nothing
 end // end of [ccompenv_add_freeconenv]
+
+implement
+ccompenv_add_freeconenv_if
+  (env, pmv, pck, d2c) = let
+in
+//
+case+ pck of
+| PCKfree () => let
+    val isnul = d2con_is_nullary (d2c)
+  in
+    if not(isnul) then ccompenv_add_freeconenv (env, pmv)
+  end (* end of [PCKfree] *)
+| _ => ((*nothing*))
+//
+end // end of [ccompenv_add_freeconenv_if]
 
 (* ****** ****** *)
 

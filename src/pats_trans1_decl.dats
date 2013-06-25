@@ -53,6 +53,9 @@ macdef ATS_MAINATSFLAG = $SYM.symbol_ATS_MAINATSFLAG
 (* ****** ****** *)
 
 staload FIL = "./pats_filename.sats"
+overload print with $FIL.print_filename
+overload prerr with $FIL.prerr_filename
+overload fprint with $FIL.fprint_filename
 
 (* ****** ****** *)
 
@@ -505,57 +508,65 @@ end // end of [i0mpdec_tr]
 
 (* ****** ****** *)
 
-fn i0nclude_tr
+extern
+fun i0nclude_tr
 (
   d0c0: d0ecl, stadyn: int, path: string
-) : d1eclist = d1cs where {
+) : d1eclist // end of [i0nclude_tr]
+
+implement
+i0nclude_tr
+  (d0c0, stadyn, path) = d1cs where
+{
 //
-  val loc0 = d0c0.d0ecl_loc
-  val filopt = $FIL.filenameopt_make_relative (path)
+val loc0 = d0c0.d0ecl_loc
+val filopt = $FIL.filenameopt_make_relative (path)
 //
-  val fil = (case+ filopt of
-    | ~Some_vt filename => filename
-    | ~None_vt () => let
-        val () = prerr_error1_loc (loc0)
-        val () = prerr ": the file ["
-        val () = prerr path;
-        val () = prerr "] is not available for inclusion."
-        val () = prerr_newline ()
-        val () = the_trans1errlst_add (T1E_i0nclude_tr (d0c0))
-        val () = $ERR.abort ()
-      in
-        $FIL.filename_dummy
-      end // end of [None_vt]
-  ) : filename // end of [val]
-//
-  val d0cs = $PAR.parse_from_filename_toplevel (stadyn, fil)
-//
-  val
-  (
-    pfpush | isexi
-  ) = $FIL.the_filenamelst_push_check (fil)
-  val () = if isexi then {
-    val () = $LOC.prerr_location (loc0)
-    val () = prerr (": error(0)")
-    val () = prerr (": including the file [");
-    val () = $FIL.prerr_filename (fil)
-    val () = prerr ("] generates the following looping trace:\n")
-    val () = $FIL.fprint_the_filenamelst (stderr_ref)
+val fil =
+(
+case+ filopt of
+| ~Some_vt filename => filename
+| ~None_vt () => let
+    val () = prerr_error1_loc (loc0)
+    val () = prerr ": the file ["
+    val () = prerr path;
+    val () = prerr "] is not available for inclusion."
+    val () = prerr_newline ()
     val () = the_trans1errlst_add (T1E_i0nclude_tr (d0c0))
-  } // end of [val]
-  val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+    val () = $ERR.abort ()
+  in
+    $FIL.filename_dummy
+  end // end of [None_vt]
+) : filename // end of [val]
+//
+val d0cs = $PAR.parse_from_filename_toplevel (stadyn, fil)
+//
+val
+(
+  pfpush | isexi
+) = $FIL.the_filenamelst_push_check (fil)
+val (
+) = if isexi then let
+  val () = $LOC.prerr_location (loc0)
+  val () = prerr (": error(0)")
+  val () = prerr (": including the file [");
+  val () = $FIL.prerr_filename (fil)
+  val () = prerr ("] generates the following looping trace:\n")
+  val () = $FIL.fprint_the_filenamelst (stderr_ref)
+  val () = the_trans1errlst_add (T1E_i0nclude_tr (d0c0))
+in
+  $ERR.abort ((*void*))
+end // end of [if] // end of [val]
+val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
 //  
 (*
-  val () = begin
-    print "Including ["; print fullname; print "] starts."; print_newline ()
-  end // end of [val]
+val () = println! ("Including [", fil, "] starts.")
 *)
-  val d1cs = d0eclist_tr (d0cs)
+val d1cs = d0eclist_tr (d0cs)
 (*
-  val () = begin
-    print "Including ["; print fullname; print "] finishes."; print_newline ()
-  end // end of [val]
+val () = println! ("Including [", fil, "] finishes.")
 *)
+//
 } // end of [i0nclude_tr]
 
 (* ****** ****** *)
@@ -601,7 +612,20 @@ extern fun string_suffix_is_dats
   (s: string): bool = "patsopt_string_suffix_is_dats"
 // end of [string_suffix_is_dats]
 
-fn s0taload_tr_load
+(* ****** ****** *)
+
+extern
+fun s0taload_tr
+(
+  d0c0: d0ecl
+, idopt: symbolopt, path: string
+, loadflag: &int? >> int
+, filref: &filename? >> filename
+) : d1eclist // end of [s0taload_tr]
+
+local
+
+fun auxload
 (
   fil: filename, loadflag: &int >> int
 ) : d1eclist = let
@@ -637,37 +661,57 @@ in
   d1cs
 end // end of [s0taload_tr_load]
 
-fn s0taload_tr
+in (* in of [local] *)
+
+implement s0taload_tr
 (
-  d0c0: d0ecl
-, idopt: symbolopt, path: string
-, loadflag: &int? >> int
-, filref: &filename? >> filename
-) : d1eclist = let
-  val loc0 = d0c0.d0ecl_loc
+  d0c0, idopt, path, loadflag, filref
+) = let
 //
-  val () = loadflag := 1 // HX: for ATS_STALOADFLAG
+val loc0 = d0c0.d0ecl_loc
 //
-  val filopt = $FIL.filenameopt_make_relative (path)
+val () = loadflag := 1 // HX: for ATS_STALOADFLAG
 //
-  val fil = (
-    case+ filopt of
-    | ~Some_vt fil => fil
-    | ~None_vt () => let
-        val () = prerr_error1_loc (loc0)
-        val () = prerr ": the file ["
-        val () = prerr path;
-        val () = prerr "] is not available for static loading."
-        val () = prerr_newline ()
-        val () = the_trans1errlst_add (T1E_s0taload_tr (d0c0))
-        val () = $ERR.abort ((*void*))
-      in
-        $FIL.filename_dummy
-      end // end of [None_vt]
-  ) : filename // end of [val]
-  val () = filref := fil
+val filopt = $FIL.filenameopt_make_relative (path)
 //
-  val flagd1csopt = staload_file_search (fil)
+val fil =
+(
+case+ filopt of
+| ~Some_vt fil => fil
+| ~None_vt ((*void*)) => let
+    val () = prerr_error1_loc (loc0)
+    val () = prerr ": the file ["
+    val () = prerr path;
+    val () = prerr "] is not available for static loading."
+    val () = prerr_newline ()
+    val () = the_trans1errlst_add (T1E_s0taload_tr (d0c0))
+    val () = $ERR.abort ((*void*))
+  in
+    $FIL.filename_dummy
+  end // end of [None_vt]
+) : filename // end of [val]
+//
+val
+(
+  pfpush | isexi
+) = $FIL.the_filenamelst_push_check (fil)
+val (
+) = if isexi then {
+  val () = $LOC.prerr_location (loc0)
+  val () = prerr (": error(0)")
+  val () = prerr (": staloading the file [");
+  val () = $FIL.prerr_filename (fil)
+  val () = prerr ("] generates the following looping trace:\n")
+  val () = $FIL.fprint_the_filenamelst (stderr_ref)
+  val () = the_trans1errlst_add (T1E_s0taload_tr (d0c0))
+  val () = $ERR.abort ((*void*))
+} // end of [if] // end of [val]
+val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+//
+val () = filref := fil
+//
+val flagd1csopt = staload_file_search (fil)
+//
 in
 //
 case+ flagd1csopt of
@@ -684,34 +728,45 @@ case+ flagd1csopt of
   in
     flagd1cs.1
   end // end of [Some_vt]
-| ~None_vt () => s0taload_tr_load (fil, loadflag)
+| ~None_vt () => auxload (fil, loadflag)
 //
 end // end of [s0taload_tr]
 
+end // end of [local]
+
 (* ****** ****** *)
 
-fn d0ynload_tr
+extern
+fun d0ynload_tr
+  (d0c0: d0ecl, path: string): filename
+// end of [d0ynload_tr]
+
+implement
+d0ynload_tr
+  (d0c0, path) = fil where
+{
+//
+val loc0 = d0c0.d0ecl_loc
+val filopt = $FIL.filenameopt_make_relative (path)
+val fil =
 (
-  d0c0: d0ecl, path: string
-) : filename = fil where {
-  val loc0 = d0c0.d0ecl_loc
-  val filopt = $FIL.filenameopt_make_relative (path)
-  val fil = (case+ filopt of
-    | ~Some_vt filename => filename
-    | ~None_vt () => let
-        val () = prerr_error1_loc (loc0)
-        val () = prerr ": the file ["
-        val () = prerr path;
-        val () = prerr "] is not available for dynamic loading"
-        val () = prerr_newline ()
-        val () = the_trans1errlst_add (T1E_d0ynload_tr (d0c0))
+case+ filopt of
+| ~Some_vt filename => filename
+| ~None_vt () => let
+    val () = prerr_error1_loc (loc0)
+    val () = prerr ": the file ["
+    val () = prerr path;
+    val () = prerr "] is not available for dynamic loading"
+    val () = prerr_newline ()
+    val () = the_trans1errlst_add (T1E_d0ynload_tr (d0c0))
 (*
-        val () = $ERR.abort () // HX: it is meaningful to continue
+    val () = $ERR.abort () // HX: it is meaningful to continue
 *)
-      in
-        $FIL.filename_dummy
-      end // end of [None_vt]
-  ) : filename // end of [val]
+  in
+    $FIL.filename_dummy
+  end // end of [None_vt]
+) : filename // end of [val]
+//
 } // end of [d0ynload_tr]
 
 (* ****** ****** *)

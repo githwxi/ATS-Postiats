@@ -644,19 +644,13 @@ himatch_ccomp_sum
   env, res, lvl0, hip0, pmv0
 ) = let
 //
-(*
+// (*
 val (
 ) = println! ("himatch_ccomp_sum: hip0 = ", hip0)
-*)
+// *)
 //
 val-HIPcon
   (pck, d2c, hse_sum, lhips) = hip0.hipat_node
-//
-val () = (
-case+ pck of
-| PCKfree (
-  ) => ccompenv_add_freeconenv (env, pmv0) | _ => ()
-) : void // end of [val]
 //
 in
   auxpatlst (env, res, lvl0, 0(*narg*), lhips, pmv0, hse_sum)
@@ -722,14 +716,14 @@ himatch_ccomp
 //
 val loc0 = hip0.hipat_loc
 //
-(*
+// (*
 val () =
 (
   println! ("ccomp_match: lvl0 = ", lvl0);
   println! ("ccomp_match: hip0 = ", hip0);
   println! ("ccomp_match: pmv0 = ", pmv0);
 ) // end [val]
-*)
+// *)
 //
 in
 //
@@ -748,10 +742,21 @@ case+ hip0.hipat_node of
 //
 | HIPempty () => ()
 //
-| HIPcon_any (pck, d2c) => ()
+| HIPcon (pck, d2c, _, _) => let
+    val (
+    ) = ccompenv_add_freeconenv_if (env, pmv0, pck, d2c)
+    val () = himatch_ccomp_sum (env, res, lvl0, hip0, pmv0)
+  in
+    
+  end // end of [HIPcon]
 //
-| HIPcon _ =>
-    himatch_ccomp_sum (env, res, lvl0, hip0, pmv0)
+| HIPcon_any
+    (pck, d2c) => let
+    val (
+    ) = ccompenv_add_freeconenv_if (env, pmv0, pck, d2c)
+  in
+    // nothing
+  end // end of [HIPcon_any]
 //
 | HIPrec _ =>
     himatch_ccomp_rec (env, res, lvl0, hip0, pmv0)

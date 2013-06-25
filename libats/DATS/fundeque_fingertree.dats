@@ -701,16 +701,21 @@ fundeque_size
 //
 fun size
   {d:int}{n:nat} .<n>.
-  (xt: fingertree (a, d, n)):<> size_t (n) =
-  case+ xt of
-  | FTemp () => g1i2u(0)
-  | FTsing (xn) => ftnode_size (xn)
-  | FTdeep (pr, m, sf) => let
-      prval () = ftdigit_prop_szpos (pr)
-    in
-      ftdigit_size (pr) + size (m) + ftdigit_size (sf)
-    end // end of [FTdeep]
-(* end of [size] *)
+(
+  xt: fingertree (a, d, n)
+) :<> size_t (n) = let
+in
+//
+case+ xt of
+| FTemp () => g1i2u(0)
+| FTsing (xn) => ftnode_size (xn)
+| FTdeep (pr, m, sf) => let
+    prval () = ftdigit_prop_szpos (pr)
+  in
+    ftdigit_size (pr) + size (m) + ftdigit_size (sf)
+  end // end of [FTdeep]
+//
+end (* end of [size] *)
 //
 prval () = lemma_deque_param (xs)
 //

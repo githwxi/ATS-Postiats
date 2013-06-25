@@ -356,6 +356,14 @@ clean:: ; $(RMF) libats_linmap_list_dats.o
 clean:: ; $(RMF) libats_linmap_list_dats.c
 cleanall:: ; $(RMF) libats_linmap_list.exe
 
+all:: libats_linmap_randbst
+libats_linmap_randbst: libats_linmap_randbst.exe
+libats_linmap_randbst.exe: libats_linmap_randbst_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_linmap_randbst_dats.c: libats_linmap_randbst.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_linmap_randbst_dats.c --dynamic libats_linmap_randbst.dats
+clean:: ; $(RMF) libats_linmap_randbst_dats.o
+clean:: ; $(RMF) libats_linmap_randbst_dats.c
+cleanall:: ; $(RMF) libats_linmap_randbst.exe
+
 all:: libats_linmap_skiplist
 libats_linmap_skiplist: libats_linmap_skiplist.exe
 libats_linmap_skiplist.exe: libats_linmap_skiplist_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
@@ -364,9 +372,17 @@ clean:: ; $(RMF) libats_linmap_skiplist_dats.o
 clean:: ; $(RMF) libats_linmap_skiplist_dats.c
 cleanall:: ; $(RMF) libats_linmap_skiplist.exe
 
+all:: libats_linset_listord
+libats_linset_listord: libats_linset_listord.exe
+libats_linset_listord.exe: libats_linset_listord_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_linset_listord_dats.c: libats_linset_listord.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_linset_listord_dats.c --dynamic libats_linset_listord.dats
+clean:: ; $(RMF) libats_linset_listord_dats.o
+clean:: ; $(RMF) libats_linset_listord_dats.c
+cleanall:: ; $(RMF) libats_linset_listord.exe
+
 all:: libats_lindeque_dllist
 libats_lindeque_dllist: libats_lindeque_dllist.exe
-libats_lindeque_dllist.exe: libats_lindeque_dllist_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_lindeque_dllist.exe: libats_lindeque_dllist_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
 libats_lindeque_dllist_dats.c: libats_lindeque_dllist.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_lindeque_dllist_dats.c --dynamic libats_lindeque_dllist.dats
 clean:: ; $(RMF) libats_lindeque_dllist_dats.o
 clean:: ; $(RMF) libats_lindeque_dllist_dats.c

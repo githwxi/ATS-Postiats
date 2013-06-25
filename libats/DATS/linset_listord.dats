@@ -27,33 +27,16 @@
 
 (* ****** ****** *)
 
-(*
-**
-** A functional map implementation based on ordered lists
-**
-** Contributed by Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-** Time: May 18, 2011
-**
-*)
-
-(* ****** ****** *)
-//
-// HX-2012-12: ported to ATS/Postitats from ATS/Anairiats
-//
-(* ****** ****** *)
-
-#define ATS_PACKNAME "ATSLIB.libats"
-#define ATS_STALOADFLAG 0 // no static loading at run-time
+(* Author: Hongwei Xi *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Start time: February, 2013 *)
 
 (* ****** ****** *)
 
-#include "./SHARE/funset.hats"
+staload "libats/SATS/linset.sats"
 
 (* ****** ****** *)
 
-castfn
-funset2list {a:t0p} (xs: set (INV(a))):<> List0 (a)
-
 (* ****** ****** *)
 
-(* end of [funset_listord.sats] *)
+(* end of [linset_listord.dats] *)

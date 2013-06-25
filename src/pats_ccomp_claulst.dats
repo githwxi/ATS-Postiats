@@ -1386,15 +1386,18 @@ end // end of [addtlab]
 fun addfreecon
 (
   env: !ccompenv
-, opt: pckindopt, pmv: primval
+, pmv: primval, opt: pckindopt, ptck: patck
 ) : void = let
 in
 //
 case+ opt of
 | Some (knd) => (
-  case+ knd of
-  | PCKfree (
-    ) => ccompenv_add_freeconenv (env, pmv) | _ => ()
+  case+ ptck of
+  | PATCKcon (d2c) =>
+      ccompenv_add_freeconenv_if (env, pmv, knd, d2c)
+  | PATCKexn (d2c) =>
+      ccompenv_add_freeconenv_if (env, pmv, knd, d2c)
+  | _ => ((*nothing*))
   ) (* end of [Some] *)
 | None ((*void*)) => ()
 //
@@ -1464,7 +1467,7 @@ case+ x of
     val res1 = addtpmv (res1, tpmv)
     val res1 = addtlab (res1, tlab)
     val pmv = tmprimval2pmv (tpmv)
-    val () = addfreecon (env, opt, pmv)
+    val ((*void*)) = addfreecon (env, pmv, opt, ptck)
     val ins = instr_patck (pmv.primval_loc, pmv, ptck, !kntr)
     val res1 = list_vt_cons (ins, res1)
   in

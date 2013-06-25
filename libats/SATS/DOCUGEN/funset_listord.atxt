@@ -183,7 +183,7 @@ elements in xs.  The time complexity of this function is O(|xs|).  ")
 
 (* ****** ****** *)
 
-#declnamesynop("list_of_funset")
+#declnamesynop("funset2list")
 #decldescrpt("\
 
 This function casts a set into a list in which elements are ordered
