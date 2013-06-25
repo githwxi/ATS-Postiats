@@ -71,6 +71,21 @@ val () = assertloc (length (xsxs) = 2 * length (xs))
 
 (* ****** ****** *)
 
+val () =
+{
+//
+#define N 10
+//
+val i = N / 2
+val xs = list0_make_intrange (0, N)
+val ys = list0_insert_at_exn (list0_remove_at_exn (xs, i), i, xs[i])
+val iseq = list0_equal<int> (xs, ys, lam (x, y) => x = y)
+val () = assertloc (iseq)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

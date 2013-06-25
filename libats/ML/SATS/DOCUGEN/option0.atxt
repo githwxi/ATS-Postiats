@@ -57,11 +57,20 @@ unindexed type.
 This function casts a linear option-value of indexed type to an option-value of
 unindexed type.
 ")
-#declnamesynop("option_of_option0")
+
+(* ****** ****** *)
+
+#declnamesynop("g0ofg1_option")
 #decldescrpt("\
-This function casts an option-value of unindexed type to an option-value of
-indexed type.
-")
+
+This function, which overloads the symbol #dyncode("g0ofg1"), casts an
+option-value of indexed type to another option-value of unindexed type.  ")
+
+#declnamesynop("g1ofg0_option")
+#decldescrpt("\
+
+This function, which overloads the symbol #dyncode("g1ofg0"), casts an
+option-value of unindexed type to another option-value of indexed type.  ")
 
 (* ****** ****** *)
 
@@ -107,6 +116,11 @@ this function returns the value v. Otherwise, it raises an exception
 (* ****** ****** *)
 
 #declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("g0ofg1")
+#declnamesynop("g1ofg0")
 
 (* ****** ****** *)
 

@@ -70,11 +70,19 @@ unindexed type.  ")
 This function casts a linear list-value of indexed type to a list-value of
 unindexed type.  ")
 
-#declnamesynop("list_of_list0")
+(* ****** ****** *)
+
+#declnamesynop("g0ofg1_list")
 #decldescrpt("\
 
-This function casts a list-value of unindexed type to a list-value of
-indexed type.  ")
+This function, which overloads the symbol #dyncode("g0ofg1"), casts a
+list-value of indexed type to another list-value of unindexed type.  ")
+
+#declnamesynop("g1ofg0_list")
+#decldescrpt("\
+
+This function, which overloads the symbol #dyncode("g1ofg0"), casts a
+list-value of unindexed type to another list-value of indexed type.  ")
 
 (* ****** ****** *)
 
@@ -119,6 +127,10 @@ This function does the same as #dyncode("list0_is_cons").
 Given an integer n and an element x, this function returns a list
 consisting of n occurrences of x if n is a natural number. Otherwise it
 raises an exception (#dyncode("IllegalArgExn")).  ")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_make_intrange")
 
 #declnamesynop("list0_make_intrange_lr")
 #decldescrpt("\
@@ -256,6 +268,8 @@ and n, inclusive.  Otherwise, the function raises an exception
 (#dyncode("IllegalArgExn")).  Clearly, if the function returns a list, then
 element i in the returned list must be x. ")
 
+(* ****** ****** *)
+
 #declnamesynop("list0_remove_at_exn")
 #decldescrpt("\
 
@@ -275,16 +289,18 @@ position i:
 //
 staload "libats/SATS/ML_basis.sats"
 staload "libats/ML/SATS/list0.sats"
-staload "contrib/atshwxi/testing/SATS/randgen.sats"
 //
 implement
 main () = let
-  \#define N 10
-  val i = randint (N) // 0 <= i < N
-  val xs = list0_of_list_vt (randgen_list<int> (N))
-  val ys = list0_insert_at_exn (list0_remove_at_exn (xs, i), i, xs[i])
-  val iseq = list0_equal<int> (xs, ys, lam (x, y) => x = y)
-  val () = assertloc (iseq)
+//
+\#define N 10
+//
+val i = N / 2
+val xs = list0_make_intrange (0, N)
+val ys = list0_insert_at_exn (list0_remove_at_exn (xs, i), i, xs[i])
+val iseq = list0_equal<int> (xs, ys, lam (x, y) => x = y)
+val () = assertloc (iseq)
+//
 in
   0(*normalexit*)
 end // end of [main]
@@ -1034,7 +1050,8 @@ main () = 0 where {
 
 (* ****** ****** *)
 
-#declnamesynop("list0_make_intrange")
+#declnamesynop("g0ofg1")
+#declnamesynop("g1ofg0")
 
 (* ****** ****** *)
 

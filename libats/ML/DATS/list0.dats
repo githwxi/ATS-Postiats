@@ -46,7 +46,9 @@ staload "libats/ML/SATS/list0.sats"
 implement{a}
 list0_make_elt
   (n, x) = let
-  val n = g1ofg0_int (n)
+//
+val n = g1ofg0(n)
+//
 in
 //
 if n >= 0 then let
@@ -154,13 +156,11 @@ implement{a}
 prerr_list0 (xs) = fprint_list0<a> (stderr_ref, xs)
 
 implement{a}
-fprint_list0 (out, xs) = let
-  val xs = list_of_list0 (xs) in fprint_list<a> (out, xs)
-end // end of [fprint_list0]
+fprint_list0 (out, xs) = fprint_list<a> (out, g1ofg0(xs))
 
 implement{a}
 fprint_list0_sep (out, xs, sep) = let
-  val xs = list_of_list0 (xs) in fprint_list_sep<a> (out, xs, sep)
+  val xs = g1ofg0(xs) in fprint_list_sep<a> (out, xs, sep)
 end // end of [fprint_list0_sep]
 
 (* ****** ****** *)
@@ -266,7 +266,9 @@ in (* in of [local] *)
 implement{a}
 list0_nth_exn
   (xs, i) = let
-  val i = g1ofg0_int (i)
+//
+val i = g1ofg0_int (i)
+//
 in
   if i >= 0 then
     loop<a> (xs, i) else $raise ListSubscriptExn()
@@ -357,8 +359,9 @@ local
 
 fun{
 a:t0p
-} aux {i:nat} .<i>. (
-  xs: list0 a, i: int i, x0: &a? >> a
+} auxlst {i:nat} .<i>.
+(
+  xs: list0 (a), i: int i, x0: &a? >> a
 ) :<!exnwrt> list0 a = let
 //
 extern praxi __assert : (&a? >> a) -<prf> void
@@ -370,7 +373,7 @@ case+ xs of
     (x, xs) => let
   in
     if i > 0 then
-      list0_cons{a}(x, aux (xs, i-1, x0))
+      list0_cons{a}(x, auxlst<a> (xs, i-1, x0))
     else let
       val () = x0 := x in xs
     end (* end of [if] *)
@@ -379,7 +382,7 @@ case+ xs of
     prval () = __assert (x0) in $raise ListSubscriptExn()
   end // end of [list0_nil]
 //
-end // end of [aux]
+end // end of [auxlst]
 
 in (* in of [local] *)
 
@@ -391,11 +394,14 @@ var x0: a?
 val i = g1ofg0_int (i)
 //
 in
+$effmask_wrt
+(
   if i >= 0 then
-    $effmask_wrt (aux (xs, i, x0))
+    auxlst<a> (xs, i, x0)
   else (
     $raise IllegalArgExn("list0_remove_at_exn:i")
   ) // end of [if]
+)
 end // end of [list0_remove_at_exn]
 
 implement{a}
@@ -407,13 +413,15 @@ val i = g1ofg0_int (i)
 extern praxi __assert : (&a? >> a) -<prf> void
 //
 in
+(
   if i >= 0 then
-    aux (xs, i, x0)
+    auxlst<a> (xs, i, x0)
   else let
     prval () = __assert (x0)
   in
     $raise IllegalArgExn("list0_takeout_at_exn:i")
   end // end of [if]
+)
 end // end of [list0_takeout_at_exn]
 
 end // end of [local]
@@ -421,17 +429,14 @@ end // end of [local]
 (* ****** ****** *)
 
 implement{a}
-list0_length (xs) = let
-  val xs = list_of_list0 (xs) in list_length<a> (xs)
-end // end of [list0_length]
+list0_length (xs) = list_length<a> (g1ofg0(xs))
 
 (* ****** ****** *)
 
 implement{a}
 list0_append (xs, ys) = let
-  val xs = list_of_list0 (xs) and ys = list_of_list0 (ys)
 in
-  list0_of_list (list_append<a> (xs, ys))
+  list0_of_list (list_append<a> (g1ofg0(xs), g1ofg0(ys)))
 end // end of [list0_append]
 
 (* ****** ****** *)
@@ -443,7 +448,7 @@ list0_reverse (xs) =
 
 implement{a}
 list0_reverse_append (xs, ys) = let
-  val xs = list_of_list0 (xs) and ys = list_of_list0 (ys)
+  val xs = g1ofg0(xs) and ys = g1ofg0(ys)
 in
   list0_of_list (list_reverse_append<a> (xs, ys))
 end // end of [list0_reverse_append]
@@ -464,8 +469,10 @@ end // end of [list0_concat]
 implement{a}
 list0_take_exn
   (xs, i) = let
-  val i = g1ofg0_int (i)
-  val xs = list_of_list0 (xs)
+//
+val i = g1ofg0_int (i)
+val xs = g1ofg0_list (xs)
+//
 in
   if i >= 0 then let
     val res =
@@ -481,8 +488,10 @@ end // end of [list0_take_exn]
 implement{a}
 list0_drop_exn
   (xs, i) = let
-  val i = g1ofg0_int (i)
-  val xs = list_of_list0 (xs)
+//
+val i = g1ofg0_int (i)
+val xs = g1ofg0_list (xs)
+//
 in
   if i >= 0 then
     list0_of_list (list_drop_exn (xs, i))
@@ -724,13 +733,12 @@ implement
 list0_map (xs, f) = let
   viewdef v = unit_v
   viewtypedef vt = cfun (a, b)
-  val xs = list_of_list0 (xs)
   fun app .<>.
     (pfu: !unit_v | x: a, f: !vt): b = f (x)
   // end of [fun]
   prval pfu = unit_v ()
   var f = f
-  val ys = list_map_funenv<a><b> {v}{vt} (pfu | xs, app, f)
+  val ys = list_map_funenv<a><b> {v}{vt} (pfu | g1ofg0(xs), app, f)
   prval () = topize (f)
   prval unit_v () = pfu
 in
@@ -741,9 +749,10 @@ implement
 {a}{b}
 list0_map (xs, f) = let
 //
-val xs = list_of_list0 (xs)
-implement list_map$fwork<a><b> (x) = f (x)
-val ys = list_map<a><b> (xs)
+implement
+list_map$fwork<a><b> (x) = f (x)
+//
+val ys = list_map<a><b> (g1ofg0_list(xs))
 //
 in
   list0_of_list_vt (ys)
@@ -800,9 +809,9 @@ implement
 {a}{b}
 list0_imap (xs, f) = let
 //
-val xs = list_of_list0 (xs)
-implement list_imap$fwork<a><b> (i, x) = f (i, x)
-val ys = list_imap<a><b> (xs)
+implement
+list_imap$fwork<a><b> (i, x) = f (i, x)
+val ys = list_imap<a><b> (g1ofg0_list(xs))
 //
 in
   list0_of_list_vt (ys)
@@ -817,8 +826,8 @@ list0_map2
   (xs1, xs2, f) = let
   viewdef v = unit_v
   viewtypedef vt = cfun2 (a1, a2, b)
-  val xs1 = list_of_list0 (xs1)
-  val xs2 = list_of_list0 (xs2)
+  val xs1 = g1ofg0_list(xs1)
+  val xs2 = g1ofg0_list(xs2)
   fun app .<>.
     (pfu: !unit_v | x1: a1, x2: a2, f: !vt): b = f (x1, x2)
   // end of [fun]
@@ -836,11 +845,9 @@ implement
 list0_map2
   (xs1, xs2, f) = let
 //
-val xs1 = list_of_list0 (xs1)
-val xs2 = list_of_list0 (xs2)
 implement
 list_map2$fwork<a1,a2><b> (x1, x2) = f (x1, x2)
-val ys = list_map2<a1,a2><b> (xs1, xs2)
+val ys = list_map2<a1,a2><b> ((g1ofg0)xs1, (g1ofg0)xs2)
 //
 in
   list0_of_list_vt (ys)
@@ -852,11 +859,9 @@ implement{a}
 list0_filter
   (xs, p) = let
 //
-val xs = list_of_list0 (xs)
-//
 implement
 list_filter$pred<a> (x) = p (x)
-val ys = list_filter<a> (xs)
+val ys = list_filter<a> ((g1ofg0)xs)
 //
 in
   list0_of_list_vt (ys)
@@ -928,8 +933,7 @@ val res = list0_of_list_vt (res)
 implement
 {x,y}
 list0_zip (xs, ys) = let
-  val xs = list_of_list0 (xs)
-  val ys = list_of_list0 (ys)
+  val xs = g1ofg0(xs) and ys = g1ofg0(ys)
   val xys = $effmask_wrt (list_zip<x,y> (xs, ys))
 in
   list0_of_list_vt (xys)
@@ -943,7 +947,7 @@ list0_quicksort (xs, cmp) = let
 implement
 list_quicksort$cmp<a> (x, y) = cmp (x, y)
 //
-val ys = $effmask_wrt (list_quicksort (list_of_list0 (xs)))
+val ys = $effmask_wrt (list_quicksort ((g1ofg0)xs))
 //
 in
   list0_of_list_vt (ys)
@@ -957,7 +961,7 @@ list0_mergesort (xs, cmp) = let
 implement
 list_mergesort$cmp<a> (x, y) = cmp (x, y)
 //
-val ys = $effmask_wrt (list_mergesort (list_of_list0 (xs)))
+val ys = $effmask_wrt (list_mergesort ((g1ofg0)xs))
 //
 in
   list0_of_list_vt (ys)

@@ -47,13 +47,23 @@ typedef SHR(a:type) = a // for commenting purpose
 typedef NSH(a:type) = a // for commenting purpose
 
 (* ****** ****** *)
+//
+castfn
+option0_of_option
+  {a:t@ype} (xs: Option a):<> option0 (a)
+castfn
+option0_of_option_vt
+  {a:t@ype} (xs: Option_vt a):<> option0 (a)
+//
+(* ****** ****** *)
 
 castfn
-option0_of_option {a:t@ype} (xs: Option a):<> option0 (a)
+g0ofg1_option {a:t@ype} (xs: Option (a)):<> option0 (a)
+overload g0ofg1 with g0ofg1_option
+
 castfn
-option0_of_option_vt {a:t@ype} (xs: Option_vt a):<> option0 (a)
-castfn
-option_of_option0 {a:t@ype} (xs: option0 a):<> Option (a)
+g1ofg0_option {a:t@ype} (xs: option0 (a)):<> Option (a)
+overload g1ofg0 with g1ofg0_option
 
 (* ****** ****** *)
 //
