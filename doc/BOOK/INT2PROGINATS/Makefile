@@ -49,6 +49,7 @@ preface.db:: ; $(RMF) preface.exe preface_atxt_dats.c preface_atxt.dats preface_
 allchap:: CHAP_START
 allchap:: CHAP_PROGELEM
 allchap:: CHAP_FUNCTION
+allchap:: CHAP_DATATYPE
 #
 ######
 #
@@ -78,6 +79,11 @@ CHAP_FUNCTION:: ; \
   make -C CHAP_FUNCTION -f ../Makefile.chap main.db
 CHAP_FUNCTION:: ; \
   make -C CHAP_FUNCTION -f ../Makefile.chap clean
+
+CHAP_DATATYPE:: ; \
+  make -C CHAP_DATATYPE -f ../Makefile.chap main.db
+CHAP_DATATYPE:: ; \
+  make -C CHAP_DATATYPE -f ../Makefile.chap clean
 
 ######
 

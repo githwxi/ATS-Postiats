@@ -14,6 +14,7 @@
 <!ENTITY chap_start SYSTEM "CHAP_START/main.db">
 <!ENTITY chap_progelem SYSTEM "CHAP_PROGELEM/main.db">
 <!ENTITY chap_function SYSTEM "CHAP_FUNCTION/main.db">
+<!ENTITY chap_datatype SYSTEM "CHAP_DATATYPE/main.db">
 <!ENTITY chap_effectful SYSTEM "CHAP_EFFECTFUL/main.db">
 <!ENTITY chap_deptypes SYSTEM "CHAP_DEPTYPES/main.db">
 ]>
@@ -39,6 +40,7 @@ id="basic-functional-programming">
 &chap_start;
 &chap_progelem;
 &chap_function;
+&chap_datatype;
 </part>
 
 <part

@@ -1124,7 +1124,13 @@ case+
 | HIPvar d2v => let
     val (
     ) = d2var_set_level (d2v, lvl0)
-    val ptcmp0 = PTCMPvar(d2v, tpmv)
+    val nused = d2var_get_utimes (d2v)
+    val ptcmp0 =
+    (
+      if nused > 0
+        then PTCMPvar(d2v, tpmv) else PTCMPany()
+      // end of [if]
+    ) : patcomp // end of [val]
     val ptcmps = auxcomplst (lvl0, mtks)
   in
     list_vt_cons (ptcmp0, ptcmps)

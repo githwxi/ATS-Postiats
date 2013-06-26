@@ -14,8 +14,6 @@
 fun atoi
   (str: string): int = let
 //
-val str = string1_of_string0 (str)
-//
 var env: int = 0
 implement{env}
 string_foreach$cont (c, env) = isdigit (c)
@@ -23,7 +21,7 @@ implement
 string_foreach$fwork<int>
   (c, env) = env := 10 * env + (c - '0')
 //
-val _ = string_foreach_env<int> (str, env)
+val _ = string_foreach_env<int> (g1ofg0(str), env)
 //
 in
   env
@@ -32,7 +30,8 @@ end // end of [atoi]
 (* ****** ****** *)
 
 fn atoi_usage
-  (cmd: string): void = prerrln! ("Usage: ", cmd, " [integer]")
+  (cmd: string): void =
+  prerrln! ("Usage: ", cmd, " [integer]")
 // end of [atoi_usage]
 
 (* ****** ****** *)
