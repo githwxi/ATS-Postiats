@@ -178,14 +178,7 @@ hipatck_ccomp_con
   env, res, fail, loc0, d2c, pmv0
 ) = let
 //
-val isexn = d2con_is_exn (d2c)
-//
-val patck =
-(
-  if isexn then PATCKexn (d2c) else PATCKcon (d2c)
-) : patck // end of [val]
-//
-val ins = instr_patck (loc0, pmv0, patck, fail)
+val ins = instr_patck (loc0, pmv0, PATCKcon (d2c), fail)
 //
 in
   instrseq_add (res, ins)

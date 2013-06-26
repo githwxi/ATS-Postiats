@@ -933,6 +933,8 @@ fun primlab_ind (loc: location, ind: primvalist): primlab
 
 datatype patck =
 //
+  | PATCKcon of (d2con)
+//
   | PATCKint of (int)
   | PATCKbool of (bool)
   | PATCKchar of (char)
@@ -941,9 +943,6 @@ datatype patck =
 //
   | PATCKi0nt of (i0nt)
   | PATCKf0loat of (f0loat)
-//
-  | PATCKcon of (d2con)
-  | PATCKexn of (d2con)
 //
 // end of [patck]
 

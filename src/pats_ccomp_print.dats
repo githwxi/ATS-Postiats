@@ -602,6 +602,12 @@ in
 //
 case+ x of
 //
+| PATCKcon (d2c) => {
+    val () = prstr "PATCKcon("
+    val () = fprint_d2con (out, d2c)
+    val () = prstr ")"
+  }
+//
 | PATCKint (i) => {
     val () = prstr "PATCKint("
     val () = fprint_int (out, i)
@@ -636,17 +642,6 @@ case+ x of
 | PATCKf0loat (tok) => {
     val () = prstr "PATCKf0loat("
     val () = $SYN.fprint_f0loat (out, tok)
-    val () = prstr ")"
-  }
-//
-| PATCKcon (d2c) => {
-    val () = prstr "PATCKcon("
-    val () = fprint_d2con (out, d2c)
-    val () = prstr ")"
-  }
-| PATCKexn (d2c) => {
-    val () = prstr "PATCKexn("
-    val () = fprint_d2con (out, d2c)
     val () = prstr ")"
   }
 //

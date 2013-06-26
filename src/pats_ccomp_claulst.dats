@@ -663,6 +663,13 @@ patck_ismat (ptck1, ptck2) = let
 in
 //
 case+ ptck1 of
+//
+| PATCKcon (d2c1) =>
+  (
+  case+ ptck2 of
+  | PATCKcon (d2c2) => d2c1 = d2c2 | _ => false
+  )
+//
 | PATCKint (i1) =>
   (case+ ptck2 of PATCKint (i2) => i1 = i2 | _ => false)
 | PATCKbool (b1) =>
@@ -676,11 +683,6 @@ case+ ptck1 of
 | PATCKi0nt of (i0nt)
 | PATCKf0loat of (f0loat)
 *)
-//
-| PATCKcon (d2c1) =>
-  (case+ ptck2 of PATCKcon (d2c2) => d2c1 = d2c2 | _ => false)
-| PATCKexn (d2c1) =>
-  (case+ ptck2 of PATCKexn (d2c2) => d2c1 = d2c2 | _ => false)
 //
 | _ => false
 end // end of [patck_ismat]
@@ -1451,8 +1453,6 @@ case+ opt of
 | Some (knd) => (
   case+ ptck of
   | PATCKcon (d2c) =>
-      ccompenv_add_freeconenv_if (env, pmv, knd, d2c)
-  | PATCKexn (d2c) =>
       ccompenv_add_freeconenv_if (env, pmv, knd, d2c)
   | _ => ((*nothing*))
   ) (* end of [Some] *)

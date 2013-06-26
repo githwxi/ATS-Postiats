@@ -445,6 +445,15 @@ fun auxmain (
 in
 //
 case+ patck of
+//
+| PATCKcon (d2c) => let
+    val isexn = $S2E.d2con_is_exn (d2c)
+  in
+    if isexn then
+      auxcon (out, pmv, d2c, fail) else auxexn (out, pmv, d2c, fail)
+    // end of [if]
+  end // end of [PATCKcon]
+//
 | PATCKint (i) =>
   {
     val (
@@ -530,9 +539,6 @@ case+ patck of
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")
   } // end of [PATCKf0loat]
-//
-| PATCKcon (d2c) => auxcon (out, pmv, d2c, fail)
-| PATCKexn (d2c) => auxexn (out, pmv, d2c, fail)
 //
 (*
 | _ => let
