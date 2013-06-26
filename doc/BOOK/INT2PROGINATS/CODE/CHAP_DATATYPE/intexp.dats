@@ -9,28 +9,6 @@ staload _(*anon*) = "prelude/DATS/integer.dats"
 
 (* ****** ****** *)
 
-(*
-datatype IEXP =
-  | IEXPnum of int // numeral
-  | IEXPneg of (IEXP) // negation
-  | IEXPadd of (IEXP, IEXP) // addition
-  | IEXPsub of (IEXP, IEXP) // subtraction
-  | IEXPmul of (IEXP, IEXP) // multiplication
-  | IEXPdiv of (IEXP, IEXP) // division
-// end of [IEXP]
-
-fun eval_iexp (e0: IEXP): int = case+ e0 of
-  | IEXPnum n => n
-  | IEXPneg (e) => ~eval_iexp (e)
-  | IEXPadd (e1, e2) => eval_iexp (e1) + eval_iexp (e2)
-  | IEXPsub (e1, e2) => eval_iexp (e1) - eval_iexp (e2)
-  | IEXPmul (e1, e2) => eval_iexp (e1) * eval_iexp (e2)
-  | IEXPdiv (e1, e2) => eval_iexp (e1) / eval_iexp (e1)
-// end of [eval_iexp]
-*)
-
-(* ****** ****** *)
-
 datatype IEXP =
   | IEXPcst of int // integer constants
   | IEXPneg of (IEXP) // negation
@@ -98,7 +76,14 @@ macdef bgte (x, y) = BEXPgte (,(x), ,(y))
 (* ****** ****** *)
 
 val
-iexp = IEXPif
+iexp1 = IEXPadd
+(
+  IEXPneg(IEXPnum(1))
+, IEXPmul(IEXPsub(IEXPnum(2), IEXP(3)), IEXP(4))
+)
+
+val
+iexp2 = IEXPif
 (
   I(1) \blte I(0), I(0), I(3) \iadd (I(5) \imul I(7))
 ) (* end of [val] *)
@@ -108,7 +93,8 @@ iexp = IEXPif
 implement
 main0 () =
 {
-val () = assertloc (eval_iexp (iexp) = (if 1 <= 0 then 0 else 3+(5*7)))
+val () = assertloc (eval_iexp (iexp1) = ~1 + (2-3)*4)
+val () = assertloc (eval_iexp (iexp2) = (if 1 <= 0 then 0 else 3+(5*7)))
 } (* end of [val] *)
 
 (* ****** ****** *)
