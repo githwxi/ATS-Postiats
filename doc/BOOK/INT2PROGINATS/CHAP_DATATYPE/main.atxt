@@ -39,12 +39,15 @@ which is unary. For instance, #dyncode("intopt_none()") and
 In order for accessing components in such values, a mechanism often
 referred to as pattern-matching is provided in ATS. I will demonstrate
 through examples that datatypes plus pattern matching can offer not only
-great convenience in programming but also clarity in code.
+great convenience in programming but also clarity in code.\
+
 ")#comment("para")
 
 #para("\
-The code employed for illustration in this chapter plus some
-additional code for testing is available #mycodelink("CHAPTER_DATATYPES/", "on-line").
+
+The code employed for illustration in this chapter plus some additional
+code for testing is available #mycodelink("CHAP_DATATYPE/", "on-line").\
+
 ")
 
 <sect1 id="patterns">
@@ -373,8 +376,8 @@ We can define a function #dyncode("charlst_length") as follows to compute
 the length of a given character list:
 
 #atscode("\
-fun charlst_length (cs: charlst): int =
-  case cs of
+fun charlst_length
+  (cs: charlst): int = case cs of
   | charlst_cons (_, cs) => 1 + charlst_length (cs)
   | charlst_nil () => 0
 // end of [charlst_length]
@@ -388,9 +391,12 @@ tail-recursive:
 #atscode("\
 fun charlst_length
   (cs: charlst): int = let
-  fun loop (cs: charlst, n: int): int = case cs of
-    | charlst_cons (_, cs) => loop (cs, n+1) | charlst_nil () => n
-  // end of [loop]
+//
+fun loop
+  (cs: charlst, n: int): int = case cs of
+  | charlst_cons (_, cs) => loop (cs, n+1) | charlst_nil () => n
+// end of [loop]
+//
 in
   loop (cs, 0)
 end // end of [charlst_length]
@@ -467,7 +473,7 @@ fun charlst_last
     (
       case+ cs1 of
       | charlst_nil () => c | charlst_cons _ => charlst_last (cs1)
-    ) // end of [char_cons]
+    ) // end of [charlst_cons]
 ) // end of [charlst_last]
 ")
 
