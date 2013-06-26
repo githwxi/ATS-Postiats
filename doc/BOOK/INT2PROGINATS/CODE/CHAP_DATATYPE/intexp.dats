@@ -32,30 +32,38 @@ and BEXP =
   | BEXPgte of (IEXP, IEXP) // greater-than-equal-to
 // end of [BEXP]
 
-fun eval_iexp (e0: IEXP): int = case+ e0 of
-  | IEXPcst n => n
-  | IEXPneg (e) => ~eval_iexp (e)
-  | IEXPadd (e1, e2) => eval_iexp (e1) + eval_iexp (e2)
-  | IEXPsub (e1, e2) => eval_iexp (e1) - eval_iexp (e2)
-  | IEXPmul (e1, e2) => eval_iexp (e1) * eval_iexp (e2)
-  | IEXPdiv (e1, e2) => eval_iexp (e1) / eval_iexp (e1)
-  | IEXPif (e_test, e_then, e_else) => let
-      val b = eval_bexp (e_test) in eval_iexp (if b then e_then else e_else)
-    end // end of [IEXPif]
-// end of [eval_iexp]
+fun eval_iexp (e0: IEXP): int =
+(
+case+ e0 of
+| IEXPcst n => n
+| IEXPneg (e) => ~eval_iexp (e)
+| IEXPadd (e1, e2) => eval_iexp (e1) + eval_iexp (e2)
+| IEXPsub (e1, e2) => eval_iexp (e1) - eval_iexp (e2)
+| IEXPmul (e1, e2) => eval_iexp (e1) * eval_iexp (e2)
+| IEXPdiv (e1, e2) => eval_iexp (e1) / eval_iexp (e1)
+| IEXPif
+  (
+    e_test, e_then, e_else
+  ) =>
+  (
+    eval_iexp (if eval_bexp (e_test) then e_then else e_else)
+  ) // end of [IEXPif]
+) (* end of [eval_iexp] *)
 
-and eval_bexp (e0: BEXP): bool = case+ e0 of
-  | BEXPcst b => b
-  | BEXPneg (e) => ~eval_bexp (e)
-  | BEXPconj (e1, e2) => if eval_bexp (e1) then eval_bexp (e2) else false
-  | BEXPdisj (e1, e2) => if eval_bexp (e1) then true else eval_bexp (e2)
-  | BEXPeq (e1, e2) => eval_iexp (e1) = eval_iexp (e2)
-  | BEXPneq (e1, e2) => eval_iexp (e1) <> eval_iexp (e2)
-  | BEXPlt (e1, e2) => eval_iexp (e1) < eval_iexp (e2)
-  | BEXPlte (e1, e2) => eval_iexp (e1) <= eval_iexp (e2)
-  | BEXPgt (e1, e2) => eval_iexp (e1) > eval_iexp (e2)
-  | BEXPgte (e1, e2) => eval_iexp (e1) >= eval_iexp (e2)
-// end of [eval_bexp]
+and eval_bexp (e0: BEXP): bool =
+(
+case+ e0 of
+| BEXPcst b => b
+| BEXPneg (e) => ~eval_bexp (e)
+| BEXPconj (e1, e2) => if eval_bexp (e1) then eval_bexp (e2) else false
+| BEXPdisj (e1, e2) => if eval_bexp (e1) then true else eval_bexp (e2)
+| BEXPeq (e1, e2) => eval_iexp (e1) = eval_iexp (e2)
+| BEXPneq (e1, e2) => eval_iexp (e1) <> eval_iexp (e2)
+| BEXPlt (e1, e2) => eval_iexp (e1) < eval_iexp (e2)
+| BEXPlte (e1, e2) => eval_iexp (e1) <= eval_iexp (e2)
+| BEXPgt (e1, e2) => eval_iexp (e1) > eval_iexp (e2)
+| BEXPgte (e1, e2) => eval_iexp (e1) >= eval_iexp (e2)
+) (* end of [eval_bexp] *)
 
 (* ****** ****** *)
 
