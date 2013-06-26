@@ -725,9 +725,11 @@ case+ x of
     val () = prstr ")"
   }
 //
-| PTCKNTraise (pmv) =>
+| PTCKNTraise (tmp, pmv) =>
   {
     val () = prstr "PTCKNTraise("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr ", "
     val () = fprint_primval (out, pmv)
     val () = prstr ")"
   } 

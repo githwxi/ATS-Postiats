@@ -969,7 +969,7 @@ datatype patckont =
   | PTCKNTtmplabmov of (tmplab, tmpmovlst)
   | PTCKNTcaseof_fail of (location) // run-time failure
   | PTCKNTfunarg_fail of (location, funlab) // run-time failure
-  | PTCKNTraise of primval
+  | PTCKNTraise of (tmpvar(*ret*), primval)
 // end of [patckont]
 
 (* ****** ****** *)

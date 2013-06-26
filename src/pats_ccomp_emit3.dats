@@ -307,7 +307,8 @@ case+ fail of
 //
 | PTCKNTtmplabmov (tlab, tmvlst) =>
   {
-    val () = emit_tmpmovlst (out, tmvlst)
+    val (
+    ) = emit_tmpmovlst (out, tmvlst)
     val () = emit_text (out, "ATSgoto(")
     val () = emit_tmplab (out, tlab)
     val () = emit_text (out, ")")
@@ -327,9 +328,11 @@ case+ fail of
     val () = emit_text (out, "\")")
   }
 //
-| PTCKNTraise (pmv_exn) =>
+| PTCKNTraise (tmp, pmv_exn) =>
   {
     val () = emit_text (out, "ATSINSraise_exn(")
+    val () = emit_tmpvar (out, tmp)
+    val () = emit_text (out, ", ")
     val () = emit_primval (out, pmv_exn)
     val () = emit_text (out, ")")
   }
@@ -355,7 +358,8 @@ local
 fun auxcon
 (
   out: FILEref
-, pmv: primval, d2c: d2con, fail: patckont
+, pmv: primval
+, d2c: d2con, fail: patckont
 ) : void =let
 //
 val s2c = $S2E.d2con_get_scst (d2c)
@@ -415,17 +419,20 @@ end // end of [auxcon]
 fun auxexn
 (
   out: FILEref
-, pmv: primval, d2c: d2con, fail: patckont
+, pmv: primval
+, d2c: d2con, fail: patckont
 ) : void = let
 //
-val narg = $S2E.d2con_get_arity_real (d2c)
+val narg =
+  $S2E.d2con_get_arity_real (d2c)
 //
 val () = emit_text (out, "ATSifnot(")
-val () = (
-  if narg = 0
-    then emit_text (out, "ATSPATCKexn0(")
-    else emit_text (out, "ATSPATCKexn1(")
-  // end of [if]
+val () =
+(
+if narg = 0
+  then emit_text (out, "ATSPATCKexn0(")
+  else emit_text (out, "ATSPATCKexn1(")
+// end of [if]
 ) : void // end of [val]
 val () = emit_primval (out, pmv)
 val () = emit_text (out, ", ")

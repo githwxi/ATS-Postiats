@@ -30,43 +30,11 @@
 /*
 (* Author: Hongwei Xi *)
 (* Authoremail: hwxi AT cs DOT bu DOT edu *)
-(* Start time: October, 2012 *)
+(* Start time: June, 2013 *)
 */
 
 /* ****** ****** */
 
-#ifndef PATS_CCOMP_EXCEPTION_H
-#define PATS_CCOMP_EXCEPTION_H
-
-/* ****** ****** */
-//
-extern
-atstype_exnconptr atspre_ListSubscriptExn_make () ;
-extern
-atstype_bool
-atspre_isListSubscriptExn (const atstype_exnconptr exn) ;
-//
-extern
-atstype_exnconptr atspre_ArraySubscriptExn_make () ;
-extern
-atstype_bool
-atspre_isArraySubscriptExn (const atstype_exnconptr exn) ;
-//
-extern
-atstype_exnconptr atspre_NotSomeExn_make () ;
-extern
-atstype_bool
-atspre_isNotSomeExn (const atstype_exnconptr exn) ;
-//
 /* ****** ****** */
 
-extern
-atsvoid_t0ype atsruntime_raise (const atstype_exnconptr exn) ;
-
-/* ****** ****** */
-
-#endif /* PATS_CCOMP_EXCEPTION_H */
-
-/* ****** ****** */
-
-/* end of [pats_ccomp_exception.h] */
+/* end of [pats_ccomp_trywith.h] */

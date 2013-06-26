@@ -72,7 +72,8 @@ val ((*void*)) = hidexp_ccomp_ret (env, res_try, tmpret, hde_try)
 val () = ccompenv_pop (pfpush | env)
 val inss_try = instrseq_get_free (res_try)
 //
-val fail = PTCKNTraise pmv_exn
+val fail =
+  PTCKNTraise (tmpret, pmv_exn)
 val ibrs_with = hiclaulst_ccomp
 (
   env, lvl0, list_sing(pmv_exn), hicls_with, tmpret, fail
