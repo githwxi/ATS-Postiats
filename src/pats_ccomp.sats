@@ -1069,6 +1069,7 @@ instr_node =
       (tmpvar, primval(*left*), hisexp(*tyroot*), primlablst(*ofs*), primval(*right*))
 //
   | INSraise of (tmpvar(*uninitized*), primval) // raising an exception
+  | INStrywith of (tmpvar(*exn*), instrlst, ibranchlst) // for try-with expressions
 //
   | INSmove_list_nil of (tmpvar)
   | INSpmove_list_nil of (tmpvar)
@@ -1289,6 +1290,14 @@ fun instr_raise
 (
   loc: location, tmp: tmpvar, pmv_exn: primval
 ) : instr // end of [instr_raise]
+
+(* ****** ****** *)
+
+fun instr_trywith
+(
+  loc: location
+, tmp(*exn*): tmpvar, _try: instrlst, _with: ibranchlst
+) : instr // end of [instr_trywith]
 
 (* ****** ****** *)
 
@@ -1641,6 +1650,7 @@ hidexp_ccomp_ret_funtype =
   (!ccompenv, !instrseq, tmpvar(*ret*), hidexp) -> void
 fun hidexp_ccomp_ret : hidexp_ccomp_ret_funtype
 fun hidexp_ccomp_ret_case : hidexp_ccomp_ret_funtype
+fun hidexp_ccomp_ret_trywith : hidexp_ccomp_ret_funtype
 
 (* ****** ****** *)
 

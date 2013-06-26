@@ -761,6 +761,15 @@ instr_raise
 (* ****** ****** *)
 
 implement
+instr_trywith
+  (loc, tmp, _try, _with) = let
+in
+  instr_make_node (loc, INStrywith (tmp, _try, _with))
+end // end of [instr_trywith]
+
+(* ****** ****** *)
+
+implement
 instr_move_list_nil
   (loc, tmp) = instr_make_node (loc, INSmove_list_nil (tmp))
 // end of [instr_move_list_nil]

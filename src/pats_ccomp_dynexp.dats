@@ -360,6 +360,8 @@ case+ hde0.hidexp_node of
 | HDEloop _ => hidexp_ccomp_loop (env, res, hde0)
 | HDEloopexn _ => hidexp_ccomp_loopexn (env, res, hde0)
 //
+| HDEtrywith _ => auxret (env, res, hde0)
+//
 | _ => let
     val () = println! ("hidexp_ccomp: loc0 = ", loc0)
     val () = println! ("hidexp_ccomp: hde0 = ", hde0)
@@ -579,6 +581,8 @@ case+ hde0.hidexp_node of
 //
 | HDEloop _ => auxval (env, res, tmpret, hde0)
 | HDEloopexn _ => auxval (env, res, tmpret, hde0)
+//
+| HDEtrywith _ => hidexp_ccomp_ret_trywith (env, res, tmpret, hde0)
 //
 | _ => let
     val () = println! ("hidexp_ccomp_ret: loc0 = ", loc0)
@@ -1081,7 +1085,9 @@ hidexp_ccomp_ret_if
 //
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
-val-HDEif (hde_cond, hde_then, hde_else) = hde0.hidexp_node
+//
+val-HDEif
+  (hde_cond, hde_then, hde_else) = hde0.hidexp_node
 //
 val pmv_cond = hidexp_ccomp (env, res, hde_cond)
 //

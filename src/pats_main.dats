@@ -326,6 +326,7 @@ dynload "pats_ccomp_hipat.dats"
 dynload "pats_ccomp_dynexp.dats"
 //
 dynload "pats_ccomp_caseof.dats"
+dynload "pats_ccomp_trywith.dats"
 dynload "pats_ccomp_claulst.dats"
 //
 dynload "pats_ccomp_looping.dats"

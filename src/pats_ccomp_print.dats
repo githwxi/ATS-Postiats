@@ -973,6 +973,15 @@ case+ x.instr_node of
     val () = prstr ")"
   } // end of [INSraise]
 //
+| INStrywith
+  (
+    tmp_exn, inss_try, ibrs_with
+  ) => {
+    val () = prstr "INStrywith("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  } (* end of [INStrywith] *)
+//
 | INSmove_list_nil (tmp) => {
     val () =
       prstr "INSmove_list_nil("

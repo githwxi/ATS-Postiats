@@ -260,6 +260,10 @@ case+ x.instr_node of
 | INSxstore_ptrofs (tmp, _, _, _, _) => tmpadd (tmp)
 //
 | INSraise _ => ()
+| INStrywith (tmp, _try, _with) =>
+  (
+    tmpadd (tmp); auxlst (res, _try); auxibrlst (res, _with)
+  )
 //
 | INSmove_list_nil (tmp) => tmpadd (tmp)
 | INSpmove_list_nil (tmp) => tmpadd (tmp)

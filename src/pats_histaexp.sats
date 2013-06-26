@@ -145,6 +145,10 @@ fun hisexp_size_t0ype () : hisexp
 
 (* ****** ****** *)
 
+fun hisexp_exception_vtype (): hisexp
+
+(* ****** ****** *)
+
 fun hisexp_get_boxknd (hse: hisexp): int
 fun hisexp_get_extknd (hse: hisexp): int
 

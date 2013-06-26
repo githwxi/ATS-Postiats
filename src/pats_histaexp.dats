@@ -330,6 +330,17 @@ end // end of [hisexp_size_t0ype]
 
 (* ****** ****** *)
 
+implement
+hisexp_exception_vtype () = let
+  val s2c =
+    $S2C.s2cstref_get_cst ($S2C.the_exception_vtype)
+  // end of [val]
+in '{
+  hisexp_name= HITNAM_TYABS, hisexp_node= HSEcst (s2c)
+} end // end of [hisexp_exception_vtype]
+
+(* ****** ****** *)
+
 fun hisexp_make_node (
   hit: hitnam, node: hisexp_node
 ) : hisexp = '{
