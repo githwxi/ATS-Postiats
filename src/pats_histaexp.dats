@@ -80,6 +80,9 @@ val HITNAM_DATCONPTR =
 val HITNAM_DATCONTYP =
   HITNAM (1(*ptr*), 1(*fin*), "atstype_datcontyp")
 //
+val HITNAM_EXNCONPTR =
+  HITNAM (1(*ptr*), 1(*fin*), "atstype_exnconptr")
+//
 (* ****** ****** *)
 
 val HITNAM_UNDEFINED =
@@ -275,6 +278,8 @@ hisexp_arrptr = '{
   hisexp_name= HITNAM_ARRPTR, hisexp_node= HSEtybox ()
 } (* end of [hisexp_arrptr] *)
 
+(* ****** ****** *)
+
 implement
 hisexp_datconptr = '{
   hisexp_name= HITNAM_DATCONPTR, hisexp_node= HSEtybox ()
@@ -283,6 +288,13 @@ implement
 hisexp_datcontyp = '{
   hisexp_name= HITNAM_DATCONTYP, hisexp_node= HSEtybox ()
 } (* end of [hisexp_datcontyp] *)
+
+(* ****** ****** *)
+
+implement
+hisexp_exnconptr = '{
+  hisexp_name= HITNAM_EXNCONPTR, hisexp_node= HSEtybox ()
+} (* end of [hisexp_exnconptr] *)
 
 (* ****** ****** *)
 
@@ -327,17 +339,6 @@ hisexp_size_t0ype () = let
 in 
   hisexp_app (hse1, list_sing (hse2))
 end // end of [hisexp_size_t0ype]
-
-(* ****** ****** *)
-
-implement
-hisexp_exception_vtype () = let
-  val s2c =
-    $S2C.s2cstref_get_cst ($S2C.the_exception_vtype)
-  // end of [val]
-in '{
-  hisexp_name= HITNAM_TYABS, hisexp_node= HSEcst (s2c)
-} end // end of [hisexp_exception_vtype]
 
 (* ****** ****** *)
 

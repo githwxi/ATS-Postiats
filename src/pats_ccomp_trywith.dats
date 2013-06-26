@@ -62,7 +62,7 @@ val lvl0 = the_d2varlev_get ()
 val-HDEtrywith
   (hde_try, hicls_with) = hde0.hidexp_node
 //
-val hse_exn = hisexp_exception_vtype ()
+val hse_exn = hisexp_exnconptr
 val tmp_exn = tmpvar_make (loc0, hse_exn)
 val pmv_exn = primval_make_tmp (loc0, tmp_exn)
 //

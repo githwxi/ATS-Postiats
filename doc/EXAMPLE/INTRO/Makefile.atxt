@@ -93,7 +93,7 @@ RMF=rm -f
 #make2_entry("areverse", "-DATS_MEMALLOC_LIBC", "")
 #make_entry("atof")
 #make_entry("atoi")
-#make_entry("bintree")
+#make2_entry("bintree", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("clofun", "-DATS_MEMALLOC_LIBC", "")
 #make_entry("extfcall")
 #make_entry("f91")
@@ -120,6 +120,7 @@ RMF=rm -f
 #make_entry("staref")
 #make_entry("strprefix")
 #make_entry("tally")
+#make_entry("trywith")
 #make_entry("weekday")
 
 ######

@@ -720,10 +720,10 @@ val+list_cons (x1, xs1) = xs10
 val+list_cons (x2, xs2) = xs20
 //
 val out = stdout_ref
-// (*
+(*
 val () = fprintln! (out, "auxlst2: x1 = ", x1)
 val () = fprintln! (out, "auxlst2: x2 = ", x2)
-// *)
+*)
 //
 in
 //

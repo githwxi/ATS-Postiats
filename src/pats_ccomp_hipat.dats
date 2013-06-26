@@ -716,14 +716,14 @@ himatch_ccomp
 //
 val loc0 = hip0.hipat_loc
 //
-// (*
+(*
 val () =
 (
   println! ("ccomp_match: lvl0 = ", lvl0);
   println! ("ccomp_match: hip0 = ", hip0);
   println! ("ccomp_match: pmv0 = ", pmv0);
 ) // end [val]
-// *)
+*)
 //
 in
 //

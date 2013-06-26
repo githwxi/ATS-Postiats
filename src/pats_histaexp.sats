@@ -135,6 +135,8 @@ val hisexp_arrptr : hisexp
 val hisexp_datconptr : hisexp
 val hisexp_datcontyp : hisexp
 //
+val hisexp_exnconptr : hisexp
+//
 val hisexp_undefined : hisexp
 //
 (* ****** ****** *)
@@ -142,10 +144,6 @@ val hisexp_undefined : hisexp
 fun hisexp_bool_t0ype () : hisexp
 fun hisexp_void_t0ype () : hisexp
 fun hisexp_size_t0ype () : hisexp
-
-(* ****** ****** *)
-
-fun hisexp_exception_vtype (): hisexp
 
 (* ****** ****** *)
 

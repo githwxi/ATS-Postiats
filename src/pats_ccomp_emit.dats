@@ -1601,6 +1601,32 @@ case+ ins.instr_node of
     // nothing
   end // end of [INScaseof]
 //
+| INStrywith
+  (
+    tmp_exn, inss_try, ibrs_with
+  ) => let
+//
+    val () =
+    emit_text (out, "ATStrywith_try(")
+    val () = emit_tmpvar (out, tmp_exn)
+    val () = emit_text (out, ")\n")
+//
+    val () = emit_instrlst_ln (out, inss_try)
+//
+    val () =
+    emit_text (out, "ATStrywith_with(")
+    val () = emit_tmpvar (out, tmp_exn)
+    val () = emit_text (out, ")\n")
+//
+    val () = emit_text (out, "ATScaseofbeg()\n")
+    val () = emit_ibranchlst (out, ibrs_with)
+    val () = emit_text (out, "ATScaseofend()\n")
+//
+    val () = emit_text (out, "ATStrywith_end()")
+  in
+    // empty
+  end // end of [INStrywith]
+//
 | INSletpop () => let
     val () = emit_text (out, "/*\n")
     val () = fprint_instr (out, ins)

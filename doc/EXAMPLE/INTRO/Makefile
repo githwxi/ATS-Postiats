@@ -75,7 +75,7 @@ cleanall:: ; $(RMF) atoi.exe
 
 all:: bintree
 bintree: bintree.exe
-bintree.exe: bintree_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+bintree.exe: bintree_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
 bintree_dats.c: bintree.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output bintree_dats.c --dynamic bintree.dats
 clean:: ; $(RMF) bintree_dats.o
 clean:: ; $(RMF) bintree_dats.c
@@ -288,6 +288,14 @@ tally_dats.c: tally.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output tally
 clean:: ; $(RMF) tally_dats.o
 clean:: ; $(RMF) tally_dats.c
 cleanall:: ; $(RMF) tally.exe
+
+all:: trywith
+trywith: trywith.exe
+trywith.exe: trywith_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+trywith_dats.c: trywith.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output trywith_dats.c --dynamic trywith.dats
+clean:: ; $(RMF) trywith_dats.o
+clean:: ; $(RMF) trywith_dats.c
+cleanall:: ; $(RMF) trywith.exe
 
 all:: weekday
 weekday: weekday.exe

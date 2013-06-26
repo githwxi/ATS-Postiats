@@ -479,7 +479,10 @@ typedef Strref1 = [l:addr | l > null] strref (l)
 
 abst@ype
 atsvoid_t0ype
-typedef void = atsvoid_t0ype
+(*
+= $extype"atsvoid_t0ype"
+*)
+typedef void = atsvoid_t0ype // = C-void
 
 (* ****** ****** *)
 //
