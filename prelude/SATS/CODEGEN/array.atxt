@@ -75,6 +75,22 @@ fun isArraySubscriptExn (x: !exn):<> bool = "mac\#%isArraySubscriptExn"
 
 #atscode_separator()
 
+macdef
+ifArraySubscriptExn
+  {tres}(exn, body) =
+(
+let val x = ,(exn) in
+(
+if isArraySubscriptExn(x)
+  then
+    let prval () = __vfree_exn (x) in ,(body) end
+  else $raise (x)
+) : tres // end of [if]
+end (* end of [let] *)
+) // end of [ifArraySubscriptExn]
+
+#atscode_separator()
+
 praxi
 lemma_array_param{a:vt0p}
   {l:addr}{n:int} (A: &(@[INV(a)][n])): [n >= 0] void

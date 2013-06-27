@@ -57,7 +57,9 @@ extern void *alloca (size_t bsz) ;
 extern
 atstype_exncon *atspre_AssertExn_make() ;
 extern
-atstype_exncon *atspre_IllegalArgExn_make() ;
+atstype_exncon *atspre_NotFoundExn_make() ;
+extern
+atstype_exncon *atspre_IllegalArgExn_make(const char*) ;
 
 extern
 atstype_exncon *atspre_ListSubscriptExn_make() ;
@@ -86,9 +88,10 @@ atsexnframe_t *atsexnframe_ptr ;
 
 /* ****** ****** */
 
-#define atsexnframe_alloc() \
-  (alloca(sizeof(atsexnframe_t)))
-#define atsexnframe_mfree(frame)
+#define \
+atsexnframe_alloc() alloca(sizeof(atsexnframe_t))
+#define \
+atsexnframe_mfree(frame) /* there-is-nothing-to-do */
 
 /* ****** ****** */
 

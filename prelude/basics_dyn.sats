@@ -242,22 +242,39 @@ dataprop SGN (int, int) =
 (* ****** ****** *)
 //
 // HX-2012-06: indication of something
-exception NotFoundExn of () // expected to be found but not found
+(*
+exception
+NotFoundExn of () // expected to be found but not
+*)
+fun NotFoundExn ():<> exn = "mac#%NotFoundExn_make"
+fun isNotFoundExn (x: !exn):<> bool = "mac#%isNotFoundExn"
 //
 (* ****** ****** *)
 //
 // HX-2012-07: indication of a function argument taking
 //
+(*
 exception
 IllegalArgExn of (string) // some value out of its domain
+*)
+fun IllegalArgExn (string):<> exn = "mac#%IllegalArgExn_make"
+fun isIllegalArgExn (x: !exn):<> bool = "mac#%isIllegalArgExn"
 //
 (* ****** ****** *)
 //
 // HX-2012-07: indication of something (e.g. a template instance)
 //
+(*
 exception
 NotImplementedExn of (string) // that is not yet implemented
+*)
+fun NotImplementedExn (string):<> exn = "mac#%NotImplementedExn_make"
+fun isNotImplementedExn (x: !exn):<> bool = "mac#%isNotImplementedExn"
 //
+(* ****** ****** *)
+
+praxi __vfree_exn (x: exn):<> void // for freeing nullary exception-con
+
 (* ****** ****** *)
 //
 typedef

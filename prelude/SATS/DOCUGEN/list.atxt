@@ -739,7 +739,7 @@ The following code finds the first odd number in a give list:
 implement
 main () = 0 where {
 //
-val xs = $list{int} (0, 1, 2, 3, 4)
+val xs = $list{int}(0, 1, 2, 3, 4)
 //
 implement
 list_find$pred<int> (x) = x mod 2 = 1

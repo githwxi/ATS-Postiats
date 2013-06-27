@@ -54,7 +54,9 @@ extern void exit (int) ; // in [stdlib.h]
 atstype_exncon
 AssertExnCon = { 10, "AssertException" } ;
 atstype_exncon
-IllegalArgExnCon = { 20, "IllegalArgException" } ;
+NotFoundExnCon = { 20, "NotFoundException" } ;
+atstype_exncon
+IllegalArgExnCon = { 30, "IllegalArgException" } ;
 
 /* ****** ****** */
 
@@ -63,7 +65,13 @@ atstype_exnconptr
 atspre_AssertExn_make() { return &AssertExnCon ; }
 extern
 atstype_exnconptr
-atspre_IllegalArgExn_make() { return &IllegalArgExnCon ; }
+atspre_NotFoundExn_make() { return &NotFoundExnCon ; }
+
+/* ****** ****** */
+
+extern
+atstype_exnconptr
+atspre_IllegalArgExn_make(const char *msg) { return &IllegalArgExnCon ; }
 
 /* ****** ****** */
 

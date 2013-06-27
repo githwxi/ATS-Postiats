@@ -94,6 +94,51 @@ val () = fprintln! (out, "xsys_sorted = ", xsys_sorted)
 
 (* ****** ****** *)
 
+val () = {
+//
+val xs = list_nil{int}()
+//
+val-true =
+(
+try
+//
+let val _ =
+  list_head_exn (xs) in g0ofg1(false)
+end (* end of [let] *)
+//
+with exn => ifListSubscriptExn{bool}(exn, true)
+)
+//
+val-true =
+(
+try
+//
+let val _ =
+  list_tail_exn (xs) in g0ofg1(false)
+end (* end of [let] *)
+//
+with exn => ifListSubscriptExn{bool}(exn, true)
+)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () = {
+//
+val xs = $list{int}(0, 1, 2, 3, 4)
+val rxs = list_vt2t (list_reverse (xs))
+//
+implement
+list_find$pred<int> (x) = x mod 2 = 1
+//
+val () = assertloc (1 = list_find_exn<int> (xs))
+val () = assertloc (3 = list_find_exn<int> (rxs))
+//
+} (* end of [main] *)
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

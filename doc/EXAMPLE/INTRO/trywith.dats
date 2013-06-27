@@ -10,35 +10,22 @@
 (* ****** ****** *)
 
 staload
+_(*anon*) = "prelude/DATS/list.dats"
+staload
+_(*anon*) = "prelude/DATS/arrayptr.dats"
+staload
 _(*anon*) = "prelude/DATS/integer.dats"
 
 (* ****** ****** *)
 
-exception A and B
-
-(* ****** ****** *)
-
-fun ftest
-  (x: int): int =
+val x =
 (
-  try (
-    if aux (x) = 0 then 0 else $raise (B)
-  ) with ~A () => 0
-) // end of [ftest1]
-
-and aux (x: int): int = if x = 0 then $raise (A) else 1
-
-(* ****** ****** *)
-
-val out = stdout_ref
-val () = fprintln! (out, "ftest(0) = ", ftest (0))
-val () = fprintln! (out, "ftest(1) = ", ftest (1))
-
-(* ****** ****** *)
-
-staload
-_(*anon*) = "prelude/DATS/list.dats"
-val _ = list_head_exn<int> (list_nil)
+try
+  list_head_exn<int> (list_nil)
+with
+| exn => ifListSubscriptExn{int}(exn, ~1)
+) (* end of [val] *)
+val () = println! ("x = ", x)
 
 (* ****** ****** *)
 

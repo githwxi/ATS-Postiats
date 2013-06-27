@@ -274,12 +274,15 @@ case+
     p2at_var (loc0, d2v_new)
   end // end of [P2Tvar]
 //
+| P2Tempty () => p2at_empty (loc0)
+//
 | P2Trec (knd, npf, lp2ts) => let
     val lp2ts =
       eval1_labp2atlst (loc0, ctx, env, lp2ts)
   in
     p2at_rec (loc0, knd, npf, lp2ts)
   end // end of [P2Trec]
+//
 | P2Tlst (lin, p2ts) => let
     val p2ts = eval1_p2atlst (loc0, ctx, env, p2ts)
   in
@@ -294,7 +297,10 @@ case+
   end // end of [P2Tann]
 //
 | _ => let
-    val () = println! ("eval1_p2at: not implemented yet")
+    val (
+    ) = (
+      println! ("eval1_p2at: not implemented yet: p2t0 = ", p2t0)
+    ) (* end of [val] *)
   in
     exitloc (1)
   end // end of [_]

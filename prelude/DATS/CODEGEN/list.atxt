@@ -719,9 +719,15 @@ case+ xs of
 end // end of [list_find_exn]
 
 implement{x}
-list_find_opt (xs) = $effmask_exn (
-  try Some_vt (list_find_exn<x> (xs)) with ~NotFoundExn () => None_vt
-) // end of [list_find_opt]
+list_find_opt (xs) = let
+in
+//
+case+ xs of
+| list_cons (x, xs) =>
+    if list_find$pred<x> (x) then Some_vt{x}(x) else list_find_opt<x> (xs)
+| list_nil () => None_vt(*void*)
+//
+end // end of [list_find_opt]
 
 #atscode_separator()
 
