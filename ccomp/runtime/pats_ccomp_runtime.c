@@ -43,120 +43,20 @@ extern void exit (int) ; // in [stdlib.h]
 
 #include "pats_ccomp_basics.h"
 #include "pats_ccomp_typedefs.h"
-#include "pats_ccomp_exception.h"
-
-/* ****** ****** */
-//
-// HX-2013-04: some pre-defined exceptions
-//
-/* ****** ****** */
-
-atstype_exncon
-AssertExnCon = { 10, "AssertException" } ;
-atstype_exnconptr AssertExnConPtr = &AssertExnCon ;
-
-atstype_exncon
-IllegalArgExnCon = { 20, "IllegalArgException" } ;
-atstype_exnconptr IllegalArgExnConPtr = &IllegalArgExnCon ;
-
-/* ****** ****** */
-
-atstype_exncon
-ListSubscriptExnCon =
-{
-  50, "ListSubscriptException"
-} ;
-atstype_exnconptr
-ListSubscriptExnConPtr = &ListSubscriptExnCon ;
-
-atstype_exncon
-ArraySubscriptExnCon =
-{
-  60, "ArraySubscriptException"
-} ;
-atstype_exnconptr
-ArraySubscriptExnConPtr = &ArraySubscriptExnCon ;
-
-atstype_exncon
-NotSomeExnCon = { 70, "NotSomeException" } ;
-atstype_exnconptr NotSomeExnConPtr = &NotSomeExnCon ;
-
-/* ****** ****** */
-
-extern
-atstype_exnconptr
-atspre_ListSubscriptExn_make(
-) { return ListSubscriptExnConPtr ; }
-extern
-atstype_bool
-atspre_isListSubscriptExn
-(
-  const atstype_exnconptr exn
-)
-{
-return
-(
-  exn->exntag==ListSubscriptExnCon.exntag ? atsbool_true : atsbool_false
-) ;
-} // end of [atspre_isListSubscriptExn]
-
-/* ****** ****** */
-
-extern
-atstype_exnconptr
-atspre_ArraySubscriptExn_make(
-) { return ArraySubscriptExnConPtr ; }
-extern
-atstype_bool
-atspre_isArraySubscriptExn
-(
-  const atstype_exnconptr exn
-)
-{
-return
-(
-  exn->exntag==ArraySubscriptExnCon.exntag ? atsbool_true : atsbool_false
-) ;
-} // end of [atspre_isArraySubscriptExn]
-
-/* ****** ****** */
-
-extern
-atstype_exnconptr
-atspre_NotSomeExn_make() { return NotSomeExnConPtr ; }
-extern
-atstype_bool
-atspre_isNotSomeExn
-(
-  const atstype_exnconptr exn
-) {
-  return (exn->exntag==NotSomeExnCon.exntag ? atsbool_true : atsbool_false) ;
-} // end of [atspre_isNotSomeExn]
-
-/* ****** ****** */
-
-extern
-atsvoid_t0ype
-atsruntime_raise
-(
-  const atstype_exnconptr exn
-)
-{
-  atsruntime_handle_uncaughtexn(exn) ; return ;
-} /* end of [atsruntime_raise] */
 
 /* ****** ****** */
 
 extern
 void
 atsruntime_handle_uncaughtexn
-  (void *exn0)
+  (const void *exn0)
 {
-  atstype_exnconptr exn = exn0 ;
+  atstype_exncon *exn ;
+  exn = (atstype_exncon*)exn0 ;
   fprintf(
     stderr
   , "exit(ATS): uncaught exception at run-time: %s(%d)\n"
-  , exn->exnname, exn->exntag
+  , exn->exname, exn->exntag
   ) ; exit(1) ;
   return ; // deadcode
 } /* end of [atsruntime_handle_uncaughtexn] */
@@ -166,7 +66,7 @@ atsruntime_handle_uncaughtexn
 extern
 void
 atsruntime_handle_unmatchedval
-  (char *msg0)
+  (const char *msg0)
 {
   fprintf(
     stderr

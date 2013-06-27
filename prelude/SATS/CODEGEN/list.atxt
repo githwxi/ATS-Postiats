@@ -232,25 +232,32 @@ list_is_pair
 #atscode_separator()
 
 fun{x:t0p}
-list_head {n:pos} (xs: list (INV(x), n)):<> x
+list_head{n:pos} (xs: list (INV(x), n)):<> x
 fun{x:t0p}
-list_tail {n:pos} (xs: SHR(list (INV(x), n))):<> list (x, n-1)
+list_head_exn{n:int} (xs: list (INV(x), n)):<!exn> x
 
 #atscode_separator()
-
+//
+fun{x:t0p}
+list_tail{n:pos}
+  (xs: SHR(list (INV(x), n))):<> list (x, n-1)
+fun{x:t0p}
+list_tail_exn{n:int}
+  (xs: SHR(list (INV(x), n))):<!exn> list (x, n-1)
+//
+#atscode_separator()
+//
 fun{
 x:t0p
-} list_nth
-  {n:int} (xs: list (INV(x), n), i: natLt (n)):<> x
-// end of [list_nth]
-
-#atscode_separator()
-
+} list_nth{n:int}
+  (xs: list (INV(x), n), i: natLt (n)):<> (x)
+//
 fun{x:t0p}
-list_get_at
-  {n:int} (xs: list (INV(x), n), i: natLt (n)):<> x
+list_get_at{n:int}
+  (xs: list (INV(x), n), i: natLt (n)):<> (x)
+//
 overload [] with list_get_at
-
+//
 #atscode_separator()
 
 fun{x:t0p}
@@ -262,7 +269,7 @@ list_insert_at
 fun{x:t0p}
 list_takeout_at
   {n:int} (
-  xs: SHR(list (INV(x), n)), i: natLt (n), x: &x? >> x
+  xs: SHR(list (INV(x), n)), i: natLt (n), x: &(x?) >> x
 ) :<> list (x, n-1) // end of [list_takeout_at]
 
 fun{x:t0p}
@@ -274,32 +281,38 @@ list_remove_at
 #atscode_separator()
 
 fun{x:t0p}
-list_length {n:int} (xs: list (INV(x), n)):<> int (n)
+list_length
+  {n:int} (xs: list (INV(x), n)):<> int (n)
+// end of [list_length]
 
 #atscode_separator()
 
 fun{
-x:t0p // type for elements
+x:t0p
 } list_copy
   {n:int} (xs: list (INV(x), n)):<!wrt> list_vt (x, n)
 // end of [list_copy]
 
 #atscode_separator()
-
+//
 fun{a:t0p}
-list_append {m,n:int} (
+list_append
+  {m,n:int} (
   xs: NSH(list (INV(a), m)), ys: SHR(list (a, n))
 ) :<> list (a, m+n) // end of [list_append]
+//
 overload + with list_append
+//
+#atscode_separator()
 
 fun{
-a:t0p // type for elements
+a:t0p
 } list_append1_vt
   {i,j:int} (
   xs: list_vt (INV(a), i), ys: SHR(list (a, j))
 ) :<!wrt> list (a, i+j) // endfun
 fun{
-a:t0p // type for elements
+a:t0p
 } list_append2_vt
   {i,j:int} (
   xs: NSH(list (INV(a), i)), ys: list_vt (a, j)
@@ -344,40 +357,31 @@ fun{x:t0p}
 list_concat (xss: List (List (INV(x)))):<!wrt> List0_vt (x)
 
 #atscode_separator()
-
+//
 fun{
 x:t0p
 } list_take
   {n:int}{i:nat | i <= n}
   (xs: list (INV(x), n), i: int i):<!wrt> list_vt (x, i)
-// end of [list_take]
-
 fun{
 x:t0p
 } list_take_exn
-  {n:int}{i:nat}
+  {n:int}{i:nat} // it may raise [ListSubscriptException]
   (xs: list (INV(x), n), i: int i):<!exnwrt> [i <= n] list_vt (x, i)
-// end of [list_take_exn]
-
+//
 #atscode_separator()
-
+//
 fun{
 x:t0p
 } list_drop
   {n:int}{i:nat | i <= n}
   (xs: SHR(list (INV(x), n)), i: int i):<> list (x, n-i)
-// end of [list_drop]
-
-(*
-** HX: it may raise [ListSubscriptException]
-*)
 fun{
 x:t0p
 } list_drop_exn
-  {n:int}{i:nat}
+  {n:int}{i:nat} // it may raise [ListSubscriptException]
   (xs: SHR(list (INV(x), n)), i: int i):<!exn> [i <= n] list (x, n-i)
-// end of [list_drop_exn]
-
+//
 #atscode_separator()
 
 fun{

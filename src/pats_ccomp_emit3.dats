@@ -454,9 +454,9 @@ in
 case+ patck of
 //
 | PATCKcon (d2c) => let
-    val isexn = $S2E.d2con_is_exn (d2c)
+    val iscon = $S2E.d2con_is_con (d2c)
   in
-    if isexn then
+    if iscon then
       auxcon (out, pmv, d2c, fail) else auxexn (out, pmv, d2c, fail)
     // end of [if]
   end // end of [PATCKcon]

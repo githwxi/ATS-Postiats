@@ -892,9 +892,8 @@ overload compare with compare_d2con_d2con
 
 (* ****** ****** *)
 
-fun d2con_is_exn (d2c: d2con): bool // exn constructor
-fun d2con_is_msg (d2c: d2con): bool // msg constructor
-fun d2con_is_prf (d2c: d2con): bool // proof constructor
+fun d2con_is_con (d2c: d2con): bool // data constructor
+fun d2con_is_exn (d2c: d2con): bool // exceptn constructor
 
 fun d2con_is_nullary (d2c: d2con): bool // nullary constructor
 fun d2con_is_tagless (d2c: d2con): bool // tagless constructor

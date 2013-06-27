@@ -269,6 +269,29 @@ end // end of [main]
 
 (* ****** ****** *)
 
+#declnamesynop("list_head")
+#declnamesynop("list_head_exn")
+#declnamesynop("list_tail")
+#declnamesynop("list_tail_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("list_nth")
+#declnamesynop("list_get_at")
+#declnamesynop("list_insert_at")
+#declnamesynop("list_takeout_at")
+#declnamesynop("list_remove_at")
+
+(* ****** ****** *)
+
+#declnamesynop("list_length")
+
+(* ****** ****** *)
+
+#declnamesynop("list_copy")
+
+(* ****** ****** *)
+
 #declnamesynop("list_append")
 #decldescrpt('\
 

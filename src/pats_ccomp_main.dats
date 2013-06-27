@@ -80,9 +80,9 @@ emit_ats_ccomp_header (out) = let
   val () = emit_text (out, "#include \"pats_ccomp_basics.h\"\n")
   val () = emit_text (out, "#include \"pats_ccomp_typedefs.h\"\n")
   val () = emit_text (out, "#include \"pats_ccomp_instrset.h\"\n")
-  val () = emit_text (out, "#include \"pats_ccomp_exception.h\"\n")
   val () = emit_text (out, "#include \"pats_ccomp_memalloc.h\"\n")
   val () = emit_text (out, "#include \"pats_ccomp_memalloca.h\"\n")
+  val () = emit_text (out, "#include \"pats_ccomp_exception.h\"\n")
   val () = emit_text (out, "#endif /* _ATS_CCOMP_HEADER_NONE */\n")
   val () = emit_newline (out)
 in
@@ -756,6 +756,7 @@ val () = emit_text (out, "** the ATS runtime")
 val () = emit_text (out, "\n*/\n")
 val () = emit_text (out, "#ifndef _ATS_CCOMP_RUNTIME_NONE\n")
 val () = emit_text (out, "#include \"pats_ccomp_runtime.c\"\n")
+val () = emit_text (out, "#include \"pats_ccomp_runtime_exn.c\"\n")
 val () = emit_text (out, "#endif /* _ATS_CCOMP_RUNTIME_NONE */\n")
 //
 val () = emit_text (out, "\n/*\n")

@@ -233,6 +233,22 @@ list_tail (xs) =
 
 #atscode_separator()
 
+implement{x}
+list_head_exn (xs) =
+(
+case+ xs of
+| list_cons (x, _) => x | _ => $raise ListSubscriptExn()
+) (* end of [list_head_exn] *)
+
+implement{x}
+list_tail_exn (xs) =
+(
+case+ xs of
+| list_cons (_, xs) => xs | _ => $raise ListSubscriptExn()
+) (* end of [list_tail_exn] *)
+
+#atscode_separator()
+
 implement{a}
 list_nth (xs, i) = let
 //
