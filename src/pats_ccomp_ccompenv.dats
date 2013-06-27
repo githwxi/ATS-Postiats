@@ -1113,7 +1113,7 @@ in
 //
 addlst_if (env, flvl0, vbmap, fls0)
 //
-end // end of [ccompenv_addlst_flabsetenv_if]
+end // end of [ccompenv_addlst_flabsetenv_ifmap]
 
 (* ****** ****** *)
 

@@ -479,7 +479,7 @@ fprint_funlab
   val sfx = funlab_get_suffix (flab)
   val () = fprintf (out, "$%i", @(sfx))
   val flev = funlab_get_level (flab)
-  val () = fprintf (out, "(%i)", @(flev))
+  val () = fprintf (out, "(level=%i)", @(flev))
 in
   // nothing
 end // end of [fprint_funlab]

@@ -1026,7 +1026,7 @@ in
   // nothing
 end // end of [auxtmp]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 emit_funent_implmnt
@@ -1184,7 +1184,8 @@ case+ pmd.primdec_node of
 //
 | PMDstaload _ => ()
 //
-| PMDlocal (
+| PMDlocal
+  (
     pmds_head, pmds_body
   ) => {
     val () =
@@ -1200,7 +1201,7 @@ case+ pmd.primdec_node of
 //
 end // end of [emit_primdec]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 emit_primdeclst

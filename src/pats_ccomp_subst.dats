@@ -1239,6 +1239,17 @@ case+
     instr_raise (loc0, tmp, pmv_exn)
   end // end of [INSraise]
 //
+| INStrywith
+  (
+    tmpexn, inss_try, ibrs_with
+  ) => let
+    val tmpexn = ftmp (tmpexn)
+    val inss_try = finstrlst (inss_try)
+    val ibrs_with = fibranchlst (ibrs_with)
+  in
+    instr_trywith (loc0, tmpexn, inss_try, ibrs_with)
+  end // end of [INStrywith]
+//
 (*
 //
 | INSmove_list_nil of (tmpvar) // tmp <- list_nil

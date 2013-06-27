@@ -124,16 +124,20 @@ assume map_vtype (key:t0p, itm:vt0p) = bstree0 (key, itm)
 fun{
 key:t0p;itm:vt0p
 } bstree_size
-  {n:int} .<>. (
-  t: !bstree (key, itm, n)
-) :<> int n = case+ t of
-  | BSTcons (n, _, _, _, _) => n | BSTnil _ => 0 
-// end of [bstree_size]
+  {n:int} .<>.
+(
+  t: !bstree (key, INV(itm), n)
+) :<> int n =
+(
+  case+ t of BSTcons (n, _, _, _, _) => n | BSTnil _ => 0 
+) // end of [bstree_size]
 
 (* ****** ****** *)
 
 implement{
 } linmap_nil () = BSTnil ()
+implement{
+} linmap_make_nil () = BSTnil ()
 
 (* ****** ****** *)
 
@@ -165,9 +169,9 @@ local
 
 fun{
 key:t0p;itm:t0p
-} auxfree
-  {n:nat} .<n>. (
-  t0: bstree (key, itm, n)
+} auxfree{n:nat} .<n>.
+(
+  t0: bstree (key, INV(itm), n)
 ) :<!wrt> void = let
 in
 //
@@ -195,8 +199,9 @@ end // end of [local]
 fun{
 key:t0p;itm:vt0p
 } bstree_search_ref
-  {n:nat} .<n>. (
-  t: !bstree (key, itm, n), k0: key
+  {n:nat} .<n>.
+(
+  t: !bstree (key, INV(itm), n), k0: key
 ) :<> cPtr0 (itm) = let
 in
 //
@@ -204,7 +209,7 @@ case+ t of
 | @BSTcons (
     _(*sz*), k, x, tl, tr
   ) => let
-    val sgn = compare_key_key (k0, k)
+    val sgn = compare_key_key<key> (k0, k)
   in
     case+ 0 of
     | _ when sgn < 0 => let
@@ -233,9 +238,9 @@ linmap_search_ref
 
 fun{
 key:t0p;itm:vt0p
-} bstree_insert_atroot
-  {n:nat} .<n>. (
-  t: &bstree (key, itm, n) >> bstree (key, itm, n+1-i), k0: key, x0: &itm >> opt (itm, i>0)
+} bstree_insert_atroot{n:nat} .<n>.
+(
+  t: &bstree (key, INV(itm), n) >> bstree (key, itm, n+1-i), k0: key, x0: &itm >> opt (itm, i>0)
 ) :<!wrt> #[i:nat2] int (i) = let
 in
 //
@@ -243,7 +248,7 @@ case+ t of
 | @BSTcons (
     n, k, x, tl, tr
   ) => let
-    val sgn = compare_key_key (k0, k)
+    val sgn = compare_key_key<key> (k0, k)
   in
     if sgn < 0 then let
       val ans = bstree_insert_atroot<key,itm> (tl, k0, x0)
@@ -300,7 +305,7 @@ case+ t of
   end (* end of [BSTcons] *)
 | ~BSTnil () => let
     val x0_ = x0
-    val () = t := BSTcons (1, k0, x0_, BSTnil (), BSTnil ())
+    val () = t := BSTcons{key,itm}(1, k0, x0_, BSTnil (), BSTnil ())
     prval () = opt_none {itm} (x0)
   in
     0 // inserted
@@ -310,9 +315,9 @@ end // end of [bstree_insert_atroot]
 
 fun{
 key:t0p;itm:vt0p
-} bstree_insert_random
-  {n:nat} .<n>. (
-  t: &bstree (key, itm, n) >> bstree (key, itm, n+1-i), k0: key, x0: &itm >> opt(itm, i>0)
+} bstree_insert_random{n:nat} .<n>.
+(
+  t: &bstree (key, INV(itm), n) >> bstree (key, itm, n+1-i), k0: key, x0: &itm >> opt(itm, i>0)
 ) : #[i:nat2] int (i) = let
 in
 //
@@ -325,7 +330,7 @@ case+ t of
     if randbit = 0 then let
       prval () = fold@ (t) in bstree_insert_atroot<key,itm> (t, k0, x0)
     end else let
-      val sgn = compare_key_key (k0, k)
+      val sgn = compare_key_key<key> (k0, k)
     in
       if sgn < 0 then let
         val ans = bstree_insert_random<key,itm> (tl, k0, x0)
@@ -344,7 +349,7 @@ case+ t of
   end (* end of [BSTcons] *)
 | ~BSTnil () => let
     val x0_ = x0
-    val () = t := BSTcons (1, k0, x0_, BSTnil (), BSTnil ())
+    val () = t := BSTcons{key,itm}(1, k0, x0_, BSTnil (), BSTnil ())
     prval () = opt_none {itm} (x0)
   in
     0 // inserted
@@ -370,8 +375,9 @@ end // end of [linmap_insert]
 fun{
 key:t0p;itm:vt0p
 } bstree_join_random
-  {nl,nr:nat} .<nl+nr>. (
-  tl: bstree (key, itm, nl), tr: bstree (key, itm, nr)
+  {nl,nr:nat} .<nl+nr>.
+(
+  tl: bstree (key, INV(itm), nl), tr: bstree (key, itm, nr)
 ) : bstree (key, itm, nl+nr) = let
 in
 //
@@ -416,16 +422,16 @@ end // end of [bstree_join_random]
 
 fun{
 key:t0p;itm:vt0p
-} bstree_takeout_random
-  {n:nat} .<n>. (
-  t: &bstree (key, itm, n) >> bstree (key, itm, n-i), k0: key, x0: &(itm?) >> opt (itm, i>0)
+} bstree_takeout_random{n:nat} .<n>.
+(
+  t: &bstree (key, INV(itm), n) >> bstree (key, itm, n-i), k0: key, x0: &(itm?) >> opt (itm, i>0)
 ) : #[i:nat2 | i <= n] int (i) = let
 in
 //
 case+ t of
 | @BSTcons {..} {nl,nr}
     (n, k, x, tl, tr) => let
-    val sgn = compare_key_key (k0, k)
+    val sgn = compare_key_key<key> (k0, k)
   in
     if sgn < 0 then let
       val ans = bstree_takeout_random<key,itm> (tl, k0, x0)
@@ -475,8 +481,8 @@ linmap_foreach_env
 //
 exception DISCONT of ()
 //
-fun aux
-  {n:nat} .<n>. (
+fun aux{n:nat} .<n>.
+(
   t: !bstree (key, itm, n), env: &(env) >> _
 ) : void = let
 in
@@ -487,9 +493,9 @@ case+ t of
   ) => let
     val () = aux (tl, env)
     val () =
-      if ~linmap_foreach$cont (k, x, env) then $raise DISCONT()
+      if ~linmap_foreach$cont<key,itm><env> (k, x, env) then $raise DISCONT()
     // end of [val]
-    val () = linmap_foreach$fwork (k, x, env)
+    val () = linmap_foreach$fwork<key,itm><env> (k, x, env)
     val () = aux (tr, env)
     prval () = fold@ (t)
   in
@@ -499,18 +505,23 @@ case+ t of
 //
 end // end of [aux]
 //
-fun aux2 (
+fun aux2
+(
   t: ptr, env: &(env) >> _
 ) : void = let
-  stadef bst = bstree0 (key,itm)
-  val t = $UN.castvwtp0 {bst} (t)
-  val () = aux (t, env)
-  val t = $UN.castvwtp0 {ptr} (t)
+//
+stadef
+  bst = bstree0 (key, itm)
+// end of [stadef]
+val t = $UN.castvwtp0{bst}(t)
+val () = aux (t, env)
+val t = $UN.castvwtp0{ptr}(t)
+//
 in
   // nothing
 end // end of [aux2]
 //
-val map = $UN.castvwtp1{ptr} (map)
+val map = $UN.castvwtp1{ptr}(map)
 //
 in
   try aux2 (map, env) with ~DISCONT () => ()
@@ -523,8 +534,8 @@ implement
 linmap_freelin
   (map) = let
 //
-fun aux
-  {n:nat} .<n>. (
+fun aux{n:nat} .<n>.
+(
   t: bstree (key, itm, n)
 ) : void = let
 in
