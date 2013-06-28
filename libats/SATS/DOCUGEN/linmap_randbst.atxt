@@ -70,6 +70,10 @@ in the implementation of randomized binary search trees.\
 
 (* ****** ****** *)
 
+#declnamesynop("linmap_randbst_random_m_n")
+
+(* ****** ****** *)
+
 #declnamesynop("linmap_nil")
 #decldescrpt("This function creates an empty map.")
 

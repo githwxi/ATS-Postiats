@@ -100,7 +100,7 @@ funlab_struct =
 , funlab_tmpknd= int (* 0/1 : temp use/def *)
 //
 , funlab_d2copt= d2cstopt (* global *)
-, funlab_d2vopt= d2varopt (* static *)
+, funlab_d2vopt= d2varopt (* local/static *)
 //
 , funlab_ncopy= int
 , funlab_origin= Option (ptr)

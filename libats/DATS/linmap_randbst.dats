@@ -38,6 +38,11 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload TIME = "libc/SATS/time.sats"
+staload STDLIB = "libc/SATS/stdlib.sats"
+
+(* ****** ****** *)
+
 staload "libats/SATS/linmap_randbst.sats"
 
 (* ****** ****** *)
@@ -52,42 +57,20 @@ mytkind = $extkind"atslib_linmap_randbst"
 (* ****** ****** *)
 
 implement{}
-linmap_randbst_initize () = let
-//
-val (
-) = ftmp () where {
-  extern fun ftmp : () -> void = "mac#atslib_srand48_with_time"
-} (* end of [val] *)
-//
-in
-end // end of [linmap_randbst_initize]
+linmap_randbst_initize () =
+(
+  $STDLIB.srand48 ($UN.cast{lint}($TIME.time_get()))
+) // end of [linmap_randbst_initize]
 
 (* ****** ****** *)
 
-extern
-fun linmap_random_m_n
-  {m,n:nat} (m: int m, n: int n): natLt (2)
-// end of [linmap_random_m_n]
-
-local
-
-staload "libc/SATS/stdlib.sats"
-
-in // in of [local]
-
-macdef i2d (i) =
-  g0int2float<int_kind,double_kind> (,(i))
-// end of [madef]
-
-implement
-linmap_random_m_n
+implement{}
+linmap_randbst_random_m_n
   (m, n) = let
-  val r = drand48 ()
+  val r = $STDLIB.drand48 ()
 in
-  if i2d (m+n) * r <= i2d (m) then 0 else 1
+  if g0i2f (m+n) * r <= g0i2f (m) then 0 else 1
 end // end of [linmap_random_m_n]
-
-end // end of [local]
 
 (* ****** ****** *)
 //
@@ -186,7 +169,7 @@ case+ t0 of
 //
 end // end of [auxfree]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 {key,itm}
@@ -322,10 +305,13 @@ key:t0p;itm:vt0p
 in
 //
 case+ t of
-| @BSTcons (
+| @BSTcons
+  (
     n, k, x, tl, tr
   ) => let
-    val randbit = linmap_random_m_n (1, n)
+    val randbit =
+      linmap_randbst_random_m_n (1, n)
+    // end of [val]
   in
     if randbit = 0 then let
       prval () = fold@ (t) in bstree_insert_atroot<key,itm> (t, k0, x0)
@@ -341,6 +327,9 @@ case+ t of
       in
         if ans = 0 then (n := n + 1; fold@ (t); ans) else (fold@ (t); ans)
       end else let // sgn = 0
+        val x_ = x
+        val () = x := x0
+        val () = x0 := x_
         prval () = opt_some {itm} (x0)
       in
         fold@ (t); 1 // [k0] is at the root of [t]
@@ -383,15 +372,19 @@ in
 //
 case+ tl of
 //
-| @BSTcons (
+| @BSTcons
+  (
     nl, _, _, tll, tlr
   ) => (
   case+ tr of
-  | @BSTcons (
+  | @BSTcons
+    (
       nr, _, _, trl, trr
     ) => let
       val n = nl + nr
-      val randbit = linmap_random_m_n (nl, nr)
+      val randbit =
+        linmap_randbst_random_m_n (nl, nr)
+      // end of [val]
     in
       if randbit = 0 then let
         prval () = fold@ (tr)
@@ -488,7 +481,8 @@ fun aux{n:nat} .<n>.
 in
 //
 case+ t of
-| @BSTcons (
+| @BSTcons
+  (
     n, k, x, tl, tr
   ) => let
     val () = aux (tl, env)
@@ -541,7 +535,8 @@ fun aux{n:nat} .<n>.
 in
 //
 case+ t of
-| @BSTcons (
+| @BSTcons
+  (
     _, k, x, tl, tr
   ) => let
     val () = linmap_freelin$clear (x)
@@ -606,11 +601,12 @@ fun aux
 in
 //
 case+ t of
-| ~BSTcons (
+| ~BSTcons
+  (
     _, k, i, tl, tr
   ) => res where {
     val res = aux (tr, res)
-    val res = list_vt_cons ((k, i), res)
+    val res = list_vt_cons{ki}((k, i), res)
     val res = aux (tl, res)
   } // end of [BSTcons]
 | ~BSTnil () => res
@@ -642,7 +638,7 @@ case+ t0 of
   ) => res where {
     val res = aux (tr, res)
     val i2 = linmap_listize$copy<itm> (i)
-    val res = list_vt_cons ((k, i2), res)
+    val res = list_vt_cons{ki}((k, i2), res)
     val res = aux (tl, res)
     prval () = fold@ (t0)
   } // end of [BSTcons]

@@ -263,6 +263,12 @@ fun labprimvalist_subst
 ) : labprimvalist // end of [labprimvalist_subst]
 //
 extern
+fun patckont_subst
+(
+  env: !ccompenv, map: !tmpmap, sub: !stasub, kont: patckont, sfx: int
+) : patckont // end of [patckont_subst]
+//
+extern
 fun primdec_subst
 (
   env: !ccompenv, map: !tmpmap, sub: !stasub, pmd: primdec, sfx: int
@@ -336,7 +342,7 @@ funlab_subst
 {
 //
 val name = funlab_get_name (flab)
-val flev2 = the_d2varlev_get ()
+val flvl2 = the_d2varlev_get ()
 val hse = funlab_get_type (flab)
 val hse2 = hisexp_subst (sub, hse)
 (*
@@ -351,7 +357,7 @@ val stamp = $STMP.funlab_stamp_make ()
 val flab2 =
 funlab_make
 (
-  name, flev2, hse2, Some_vt(fc), qopt, sopt, t2mas, stamp
+  name, flvl2, hse2, Some_vt(fc), qopt, sopt, t2mas, stamp
 ) (* end of [val] *)
 //
 val () = funlab_set_origin (flab2, Some (flab))
@@ -459,6 +465,51 @@ end // end of [tmpvarlst_reset_alias]
 
 (* ****** ****** *)
 
+extern
+fun funent_funlablst_update
+  (env: !ccompenv, fls: funlablst): funlablst_vt
+implement
+funent_funlablst_update (env, fls) = let
+//
+fun aux
+(
+  env: !ccompenv, fl: funlab
+) : funlab = let
+  val opt = funlab_get_d2vopt (fl)
+in
+//
+case+ opt of
+| Some (d2v) => let
+    val-~Some_vt (pmv) = ccompenv_find_vbindmapall (env, d2v)
+  in
+    case+ pmv.primval_node of
+    | PMVfunlab (fl) => fl | PMVcfunlab (knd, fl) => fl | _ => fl
+  end // end of [Some]
+| None ((*void*)) => fl // HX-2013-06-28: is this actually possible?
+//
+end // end of [aux]
+//
+fun auxlst
+(
+  env: !ccompenv, fls: funlablst
+) : funlablst_vt = let
+in
+//
+case+ fls of
+| list_cons
+    (fl, fls) =>
+    list_vt_cons (aux (env, fl), auxlst (env, fls))
+  // end of [list_cons]
+| list_nil () => list_vt_nil ()
+//
+end // end of [auxlst]
+//
+in
+  auxlst (env, fls)
+end // end of [funent_funlablst_update]
+
+(* ****** ****** *)
+
 implement
 funent_subst
   (env, sub, flab2, fent, sfx) = let
@@ -515,7 +566,7 @@ case+ opt of
 //
 end // end of [val]
 //
-val flev2 = funlab_get_level (flab2)
+val flvl2 = funlab_get_level (flab2)
 //
 val (pfinc | ()) = the_d2varlev_inc ()
 //
@@ -533,12 +584,14 @@ val fls0_tmp =
 val fls0_tmp =
   funlabset_vt_listize_free (fls0_tmp)
 val fls0_tmp =
-  ccompenv_addlst_flabsetenv_ifmap (env, flev2, vbmap, fls0_tmp)
-val fls0 = funent_get_flablst (fent)
-val fls02 = list_append2_vt (fls0, fls0_tmp)
+  ccompenv_addlst_flabsetenv_ifmap (env, flvl2, vbmap, fls0_tmp)
 //
-var d2es2 = ccompenv_getdec_dvarsetenv (env)
-val d2es2 = d2envset_vt_listize_free (d2es2)
+val fls0 = funent_get_flablst (fent)
+val fls0 = funent_funlablst_update (env, fls0)
+val fls02 = list_vt_append (fls0, fls0_tmp)
+//
+val d2es2(*set*) = ccompenv_getdec_dvarsetenv (env)
+val d2es2(*list*) = d2envset_vt_listize_free (d2es2)
 //
 val () = the_d2varlev_dec (pfinc | (*void*))
 //
@@ -556,7 +609,7 @@ funent_make (
 (*
 val out = stdout_ref
 val () = fprintln! (out, "funent_subst: flab2 = ", flab2)
-val () = fprintln! (out, "funent_subst: flev2 = ", flev2)
+val () = fprintln! (out, "funent_subst: flvl2 = ", flvl2)
 val () = fprintln! (out, "funent_subst: fls02 = ", fls02)
 val () = fprintln! (out, "funent_subst: d2es2 = ", d2es2)
 val () = fprintln! (out, "funent_subst: vbmap2 = ", vbmap2)
@@ -1011,6 +1064,33 @@ end (* end of [local] *)
 (* ****** ****** *)
 
 implement
+patckont_subst
+(
+  env, map, sub, kont, sfx
+) = let
+//
+macdef ftmp (x) = tmpvar2var (map, ,(x))
+macdef fpmv (x) = primval_subst (env, map, sub, ,(x), sfx)
+//
+in
+//
+case+ kont of
+(*
+| PTCKNTnone of ()
+| PTCKNTtmplab of tmplab
+| PTCKNTtmplabint of (tmplab, int)
+| PTCKNTtmplabmov of (tmplab, tmpmovlst)
+| PTCKNTcaseof_fail of (location)
+| PTCKNTfunarg_fail of (location, funlab)
+*)
+| PTCKNTraise (tmp, pmv) => PTCKNTraise (ftmp(tmp), fpmv(pmv))
+| _ => kont
+//
+end // end of [patckont_subst]
+
+(* ****** ****** *)
+
+implement
 instr_subst
 (
   env, map, sub, ins0, sfx
@@ -1023,6 +1103,9 @@ macdef fpmv (x) = primval_subst (env, map, sub, ,(x), sfx)
 macdef flabpmv (lx) = labprimval_subst (env, map, sub, ,(lx), sfx)
 macdef fpmvlst (xs) = primvalist_subst (env, map, sub, ,(xs), sfx)
 macdef flabpmvlst (lxs) = labprimvalist_subst (env, map, sub, ,(lxs), sfx)
+//
+macdef fkont (x) = patckont_subst (env, map, sub, ,(x), sfx)
+//
 macdef fpmd (x) = primdec_subst (env, map, sub, ,(x), sfx)
 macdef fpmdlst (xs) = primdeclst_subst (env, map, sub, ,(xs), sfx)
 //
@@ -1176,11 +1259,12 @@ case+
 //
 | INSpatck
   (
-    pmv, pck, pcknt
+    pmv, pck, kont
   ) => let
     val pmv = fpmv (pmv)
+    val kont = fkont (kont)
   in
-    instr_patck (loc0, pmv, pck, pcknt)
+    instr_patck (loc0, pmv, pck, kont)
   end // end of [INSpatck]
 //
 (*

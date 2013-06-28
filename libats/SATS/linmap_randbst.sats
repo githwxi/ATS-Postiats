@@ -49,4 +49,10 @@ fun{} linmap_randbst_initize (): void
 
 (* ****** ****** *)
 
+fun{} linmap_randbst_random_m_n
+  {m,n:nat} (m: int m, n: int n): natLt (2)
+// end of [linmap_randbst_random_m_n]
+
+(* ****** ****** *)
+
 (* end of [linmap_randbst.sats] *)
