@@ -48,6 +48,7 @@
 /* ****** ****** */
 
 #define ATStysum() struct{ int contag; }
+#define ATStyexn() struct{ int exntag; char *exname; }
 #define ATStylist(tyelt) struct{ tyelt head; void *tail; }
 #define ATStyclo() struct{ void *cfun; }
 
@@ -192,8 +193,8 @@
 #define ATSPATCKcon0(pmv, tag) (pmv==(void*)tag)
 #define ATSPATCKcon1(pmv, tag) (((ATStysum()*)(pmv))->contag==tag)
 //
-#define ATSPATCKexn0(pmv, d2c) (((ATStysum()*)(pmv))->contag==&(d2c))
-#define ATSPATCKexn1(pmv, d2c) (((ATStysum()*)(pmv))->contag==(d2c).exntag)
+#define ATSPATCKexn0(pmv, d2c) ((pmv)==(void*)(&(d2c)))
+#define ATSPATCKexn1(pmv, d2c) (((ATStyexn()*)(pmv))->exntag==(&(d2c))->exntag)
 //
 /* ****** ****** */
 
@@ -222,6 +223,13 @@
 #define ATSINSmove_con1(tmp, tysum) (tmp = ATS_MALLOC(sizeof(tysum)))
 #define ATSINSstore_con_tag(tmp, val) (((ATStysum()*)(tmp))->contag = val)
 #define ATSINSstore_con_ofs(tmp, tyrec, lab, val) (((tyrec*)(tmp))->lab = val)
+
+/* ****** ****** */
+
+#define ATSINSmove_exn0(tmp, d2c) (tmp = &(d2c))
+#define ATSINSmove_exn1(tmp, tyexn) (tmp = ATS_MALLOC(sizeof(tyexn)))
+#define ATSINSstore_exntag(tmp, d2c) (((ATStyexn()*)tmp)->exntag = (&(d2c))->exntag)
+#define ATSINSstore_exname(tmp, d2c) (((ATStyexn()*)tmp)->exname = (&(d2c))->exname)
 
 /* ****** ****** */
 

@@ -519,14 +519,40 @@ end // end of [local]
 
 (* ****** ****** *)
 
+local
+
+fun
+aux_prfx
+(
+  out: FILEref
+, fil: $FIL.filename, packopt: Stropt
+) : void = let
+//
+val isnone = stropt_is_none (packopt)
+//
+in
+//
+if isnone then
+(
+  emit_filename (out, fil)
+) else let
+  val packname = stropt_unsome (packopt)
+in
+  emit_ident (out, packname)
+end // end of [if]
+//
+end // end of [aux_prfx]
+
+in (* in of [local] *)
+
 implement
 emit_d2con
   (out, d2c) = let
   val fil = $S2E.d2con_get_fil (d2c)
-  val sym = $S2E.d2con_get_sym (d2c)
-  val name = $SYM.symbol_get_name (sym)
-  val () = emit_filename (out, fil)
+  val packopt = $S2E.d2con_get_pack (d2c)
+  val () = aux_prfx (out, fil, packopt)
   val () = emit_text (out, "_")
+  val name = $S2E.d2con_get_name (d2c)
   val () = emit_ident (out, name)
   val tag = $S2E.d2con_get_tag (d2c)
   val () = if
@@ -541,34 +567,6 @@ end // end of [emit_d2con]
 
 (* ****** ****** *)
 
-local
-
-fun
-aux_prfx (
-  out: FILEref, d2c: d2cst
-) : void = let
-//
-val pack =
-  $D2E.d2cst_get_pack (d2c)
-// end of [val]
-val issome = stropt_is_some (pack)
-//
-in
-//
-if issome then let
-  val pack = stropt_unsome (pack)
-in
-  emit_ident (out, pack)
-end else let
-  val fil = $D2E.d2cst_get_fil (d2c)
-in
-  emit_filename (out, fil)
-end // end of [if]
-//
-end // end of [aux_prfx]
-
-in (* in of [local] *)
-
 implement
 emit_d2cst
   (out, d2c) = let
@@ -579,7 +577,9 @@ in
 //
 case+ extdef of
 | $SYN.DCSTEXTDEFnone () => let
-    val () = aux_prfx (out, d2c)
+    val fil = $D2E.d2cst_get_fil (d2c)
+    val packopt = $D2E.d2cst_get_pack (d2c)
+    val () = aux_prfx (out, fil, packopt)
     val () = emit_text (out, "_")
     val name = $D2E.d2cst_get_name (d2c)
     val () = emit_ident (out, name)
@@ -1827,9 +1827,11 @@ fun auxcon0
   out: FILEref, tmp: tmpvar, d2c: d2con
 ) : void = let
 //
+val islst = $S2E.d2con_is_listlike (d2c)
+//
 val tag =
 (
-if $S2E.d2con_is_listlike (d2c) then 0 else $S2E.d2con_get_tag (d2c)
+  if islst then 0 else $S2E.d2con_get_tag (d2c)
 ) : int // end of [val]
 //
 val () = emit_text (out, "ATSINSmove_con0(")
@@ -1913,28 +1915,80 @@ end // end of [auxarg]
 fun auxcon1
 (
   out: FILEref
-, tmp: tmpvar, d2c: d2con, hit_con: hitype, arg: labprimvalist
+, tmp: tmpvar, d2c: d2con
+, hit_con: hitype, arg: labprimvalist
 ) : void = let
 //
 val (
 ) = emit_text (out, "ATSINSmove_con1(")
 val (
 ) = (
-  emit_tmpvar (out, tmp);  emit_text (out, ", "); emit_hitype (out, hit_con)
+  emit_tmpvar (out, tmp);
+  emit_text (out, ", "); emit_hitype (out, hit_con)
 )
 val () = emit_text (out, ") ;\n")
 //
 val () = auxtag (out, tmp, d2c)
-//
-val () =
-(
-case+ arg of list_cons _ => emit_newline (out) | _ => ()
-) : void // end of [val]
 val () = auxarg (out, tmp, hit_con, arg)
 //
 in
   // nothing
 end // end of [auxcon1]
+
+(* ****** ****** *)
+
+fun auxexn0
+(
+  out: FILEref, tmp: tmpvar, d2c: d2con
+) : void = let
+//
+val () = emit_text (out, "ATSINSmove_exn0(")
+val () = emit_tmpvar (out, tmp)
+val () = emit_text (out, ", ")
+val () = emit_d2con (out, d2c)
+val () = emit_text (out, ") ;\n")
+//
+in
+  // nothing
+end // end of [auxexn0]
+
+fun auxexn1
+(
+  out: FILEref
+, tmp: tmpvar, d2c: d2con
+, hit_con: hitype, arg: labprimvalist
+) : void = let
+//
+val (
+) = emit_text (out, "ATSINSmove_exn1(")
+val (
+) = (
+  emit_tmpvar (out, tmp);
+  emit_text (out, ", "); emit_hitype (out, hit_con)
+)
+val () = emit_text (out, ") ;\n")
+//
+val (
+) = emit_text (out, "ATSINSstore_exntag(")
+val (
+) = (
+  emit_tmpvar (out, tmp); emit_text (out, ", "); emit_d2con (out, d2c)
+) (* end of [val] *)
+val () = emit_text (out, ") ;\n")
+//
+val (
+) = emit_text (out, "ATSINSstore_exname(")
+val (
+) = (
+  emit_tmpvar (out, tmp); emit_text (out, ", "); emit_d2con (out, d2c)
+) (* end of [val] *)
+val () = emit_text (out, ") ;\n")
+//
+val () = auxarg (out, tmp, hit_con, arg)
+//
+in
+  // nothing
+end // end of [auxexn1]
 
 in (* in of [local] *)
 
@@ -1946,17 +2000,25 @@ val- INSmove_con
 //
 val () = emit_newline (out)
 //
+val iscon = $S2E.d2con_is_con (d2c)
+val isexn = $S2E.d2con_is_exn (d2c)
 val isnul = $S2E.d2con_is_nullary (d2c)
 //
 in
 //
 if isnul then let
-  val () = auxcon0 (out, tmp, d2c)
+  val () = if iscon then auxcon0 (out, tmp, d2c)
+  val () = if isexn then auxexn0 (out, tmp, d2c) 
 in
   // nothing
 end else let
   val hit_con = hisexp_typize (hse_sum)
-  val () = auxcon1 (out, tmp, d2c, hit_con, arg)
+  val () = (
+    if iscon then auxcon1 (out, tmp, d2c, hit_con, arg)
+  ) : void // end of [val]
+  val () = (
+    if isexn then auxexn1 (out, tmp, d2c, hit_con, arg)
+  ) : void // end of [val]
 in
   // nothing
 end // end of [if]

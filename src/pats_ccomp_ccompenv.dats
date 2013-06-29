@@ -62,66 +62,46 @@ staload "./pats_ccomp.sats"
 (* ****** ****** *)
 
 local
-//
-val the_dyncstset =
-  ref_make_elt<d2cstset> (d2cstset_nil ())
-val the_dyncstlst =
-  ref_make_elt<d2cstlst_vt> (list_vt_nil ())
-//
-in (* in of [local] *)
 
-implement
-the_dyncstlst_add
-  (d2c) = let
-  val d2cs = !the_dyncstset
-  val found = d2cstset_ismem (d2cs, d2c)
-in
-//
-if ~(found) then let
-  val () = let
-    val (
-      vbox pf | p
-    ) = ref_get_view_ptr (the_dyncstlst)
-  in
-    !p := list_vt_cons (d2c, !p)
-  end // end of [val]
-in
-  !the_dyncstset := d2cstset_add (d2cs, d2c)
-end (* end of [if] *)
-//
-end // end of [the_dyncstlst_add]
-
-implement
-the_dyncstlst_get () = let
-//
-val d2cs = let
-  val (
-    vbox pf | p
-  ) = ref_get_view_ptr (the_dyncstlst)
-  val d2cs = !p
-  val () = !p := list_vt_nil ()
-in
-  list_vt_reverse (d2cs)
-end // end of [val]
-//
-in
-  list_of_list_vt (d2cs)
-end // end of [the_dyncstlst_get]
-
-end // end of [local]
-
-(* ****** ****** *)
-
-local
-
+vtypedef
+exndeclst_vt = List_vt (hidecl)
 vtypedef
 saspdeclst_vt = List_vt (hidecl)
 
+val the_exndeclst =
+  ref_make_elt<exndeclst_vt> (list_vt_nil ())
 val the_saspdeclst =
   ref_make_elt<saspdeclst_vt> (list_vt_nil ())
 // end of [val]
 
 in (* in of [local] *)
+
+implement
+the_exndeclst_add (x) = let
+//
+val (
+  vbox pf | p
+) = ref_get_view_ptr (the_exndeclst)
+//
+in
+  !p := list_vt_cons (x, !p)
+end // end of [the_exndeclst_add]
+
+implement
+the_exndeclst_get () = let
+//
+val (
+  vbox pf | p
+) = ref_get_view_ptr (the_exndeclst)
+val xs = !p
+val () = !p := list_vt_nil ()
+val xs = list_vt_reverse<hidecl> (xs)
+//
+in
+  list_of_list_vt (xs)
+end // end of [the_exndeclst_get]
+
+(* ****** ****** *)
 
 implement
 the_saspdeclst_add (x) = let
@@ -247,6 +227,108 @@ end // end of [local]
 (* ****** ****** *)
 
 local
+//
+val the_dyncstset =
+  ref_make_elt<d2cstset> (d2cstset_nil ())
+val the_dyncstlst =
+  ref_make_elt<d2cstlst_vt> (list_vt_nil ())
+//
+in (* in of [local] *)
+
+implement
+the_dyncstlst_add
+  (d2c) = let
+  val d2cs = !the_dyncstset
+  val found = d2cstset_ismem (d2cs, d2c)
+in
+//
+if ~(found) then let
+  val () = let
+    val (
+      vbox pf | p
+    ) = ref_get_view_ptr (the_dyncstlst)
+  in
+    !p := list_vt_cons (d2c, !p)
+  end // end of [val]
+in
+  !the_dyncstset := d2cstset_add (d2cs, d2c)
+end (* end of [if] *)
+//
+end // end of [the_dyncstlst_add]
+
+implement
+the_dyncstlst_get () = let
+//
+val d2cs = let
+  val (
+    vbox pf | p
+  ) = ref_get_view_ptr (the_dyncstlst)
+  val d2cs = !p
+  val () = !p := list_vt_nil ()
+in
+  list_vt_reverse (d2cs)
+end // end of [val]
+//
+in
+  list_of_list_vt (d2cs)
+end // end of [the_dyncstlst_get]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+//
+val the_dynconset =
+  ref_make_elt<d2conset> (d2conset_nil ())
+val the_dynconlst =
+  ref_make_elt<d2conlst_vt> (list_vt_nil ())
+//
+in (* in of [local] *)
+
+implement
+the_dynconlst_add
+  (d2c) = let
+  val d2cs = !the_dynconset
+  val found = d2conset_ismem (d2cs, d2c)
+in
+//
+if ~(found) then let
+  val () = let
+    val (
+      vbox pf | p
+    ) = ref_get_view_ptr (the_dynconlst)
+  in
+    !p := list_vt_cons (d2c, !p)
+  end // end of [val]
+in
+  !the_dynconset := d2conset_add (d2cs, d2c)
+end (* end of [if] *)
+//
+end // end of [the_dynconlst_add]
+
+implement
+the_dynconlst_get () = let
+//
+val d2cs = let
+  val (
+    vbox pf | p
+  ) = ref_get_view_ptr (the_dynconlst)
+  val d2cs = !p
+  val () = !p := list_vt_nil ()
+in
+  list_vt_reverse (d2cs)
+end // end of [val]
+//
+in
+  list_of_list_vt (d2cs)
+end // end of [the_dynconlst_get]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
 
 vtypedef funlablst_vt = List_vt (funlab)
 
@@ -275,16 +357,18 @@ the_funlablst_addlst
 implement
 the_funlablst_get () = let
 //
-val xs = xs where {
-  val (vbox pf | p) = ref_get_view_ptr (the_funlablst)
-  val xs = !p
-  val () = !p := list_vt_nil ()
+val fls = fls where
+{
+val (
+  vbox pf | p
+) = ref_get_view_ptr (the_funlablst)
+val fls = !p; val () = !p := list_vt_nil ()
 } (* end of [val] *)
 //
-val xs = list_vt_reverse (xs)
+val fls = list_vt_reverse (fls)
 //
 in
-  list_of_list_vt (xs)
+  list_of_list_vt (fls)
 end // end of [the_funlablst_get]
 
 end // end of [local]

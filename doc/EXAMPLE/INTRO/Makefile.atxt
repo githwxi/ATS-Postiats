@@ -120,7 +120,7 @@ RMF=rm -f
 #make_entry("staref")
 #make_entry("strprefix")
 #make_entry("tally")
-#make_entry("trywith")
+#make2_entry("trywith", "-DATS_MEMALLOC_LIBC", "")
 #make_entry("weekday")
 
 ######

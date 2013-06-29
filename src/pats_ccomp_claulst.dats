@@ -652,7 +652,9 @@ in
 //
 case+ ptck of
 | PATCKbool _ => true
-| PATCKcon (d2c) => d2con_is_binarian (d2c)
+| PATCKcon (d2c) =>
+    if d2con_is_con (d2c) then d2con_is_binarian (d2c) else false
+  // end of [PATCKcon]
 | _ => false
 end // end of [patck_ismat]
 

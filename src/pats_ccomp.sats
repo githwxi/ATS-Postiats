@@ -86,19 +86,31 @@ staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
 
-fun the_dyncstlst_get (): d2cstlst
-fun the_dyncstlst_add (d2c: d2cst): void
+fun the_exndeclst_get (): hideclist
+fun the_exndeclst_add (hid: hidecl): void
 
 (* ****** ****** *)
 
 fun the_saspdeclst_get (): hideclist
 fun the_saspdeclst_add (hid: hidecl): void
 
+(* ****** ****** *)
+
 fun the_extcodelst_get (): hideclist
 fun the_extcodelst_add (hid: hidecl): void
 
 fun the_staloadlst_get (): hideclist
 fun the_staloadlst_add (hid: hidecl): void
+
+(* ****** ****** *)
+
+fun the_dynconlst_get (): d2conlst
+fun the_dynconlst_add (d2c: d2con): void
+
+(* ****** ****** *)
+
+fun the_dyncstlst_get (): d2cstlst
+fun the_dyncstlst_add (d2c: d2cst): void
 
 (* ****** ****** *)
 
@@ -1811,15 +1823,22 @@ fun emit_d2envlst (out: FILEref, d2es: d2envlst): int(*nenv*)
 
 (* ****** ****** *)
 
+fun emit_exndec (out: FILEref, hid: hidecl): void
 fun emit_saspdec (out: FILEref, hid: hidecl): void
+
+(* ****** ****** *)
+
 fun emit_extcode (out: FILEref, hid: hidecl): void
 fun emit_staload (out: FILEref, hid: hidecl): void
 
 (* ****** ****** *)
-
+//
+fun emit_d2con_extdec (out: FILEref, d2c: d2con): void
+fun emit_d2conlst_extdec (out: FILEref, d2cs: d2conlst): void
+//
 fun emit_d2cst_extdec (out: FILEref, d2c: d2cst): void
 fun emit_d2cstlst_extdec (out: FILEref, d2cs: d2cstlst): void
-
+//
 (* ****** ****** *)
 
 fun emit_sizeof (out: FILEref, hselt: hisexp): void
@@ -1927,7 +1946,9 @@ fun emit_the_funlablst (out: FILEref): void
 fun emit_the_primdeclst (out: FILEref): void
 fun emit_the_typedeflst (out: FILEref): void
 //
+fun emit_the_dynconlst_extdec (out: FILEref): void
 fun emit_the_dyncstlst_extdec (out: FILEref): void
+//
 fun emit_the_primdeclst_valimp (out: FILEref): void
 //
 (* ****** ****** *)

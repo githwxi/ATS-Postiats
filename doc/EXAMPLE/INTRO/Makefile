@@ -291,7 +291,7 @@ cleanall:: ; $(RMF) tally.exe
 
 all:: trywith
 trywith: trywith.exe
-trywith.exe: trywith_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+trywith.exe: trywith_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
 trywith_dats.c: trywith.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output trywith_dats.c --dynamic trywith.dats
 clean:: ; $(RMF) trywith_dats.o
 clean:: ; $(RMF) trywith_dats.c

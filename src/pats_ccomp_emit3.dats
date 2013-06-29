@@ -60,11 +60,13 @@ staload SYN = "./pats_syntax.sats"
 staload
 S2E = "./pats_staexp2.sats"
 typedef d2con = $S2E.d2con
+typedef d2conlst = $S2E.d2conlst
 
 (* ****** ****** *)
 
 staload
 D2E = "./pats_dynexp2.sats"
+typedef d2cst = $D2E.d2cst
 typedef d2ecl = $D2E.d2ecl
 typedef d2eclist = $D2E.d2eclist
 
@@ -81,6 +83,42 @@ staload "./pats_hidynexp.sats"
 (* ****** ****** *)
 
 staload "./pats_ccomp.sats"
+
+(* ****** ****** *)
+
+implement
+emit_exndec
+  (out, hid) = let
+//
+val loc0 = hid.hidecl_loc
+val-HIDexndecs (d2cs) = hid.hidecl_node
+//
+val () = emit_text (out, "/*\n")
+val () = emit_location (out, loc0)
+val () = emit_text (out, "\n*/\n")
+//
+fun auxlst
+(
+  out: FILEref, xs: d2conlst
+) : void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = emit_text (out, "ATSexndec(")
+    val () = emit_d2con (out, x)
+    val () = emit_text (out, ") ;\n")
+  in
+    auxlst (out, xs)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end (* end of [auxlst] *)
+//
+in
+  auxlst (out, d2cs)
+end // end of [emit_exndec]
 
 (* ****** ****** *)
 
@@ -1224,6 +1262,30 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+emit_d2con_extdec
+  (out, d2c) = let
+//
+val isexn = $S2E.d2con_is_exn (d2c)
+val () = emit_text (out, "ATSdyncon")
+val () = if isexn then emit_text (out, "_exn")
+val () = emit_text (out, "(")
+val () = emit_d2con (out, d2c)
+val () = emit_text (out, ") ;\n")
+//
+in
+  // nothing
+end // end of [emit_d2con_extdec]
+
+implement
+emit_d2conlst_extdec
+  (out, d2cs) =
+(
+  list_app_cloptr<d2con> (d2cs, lam d2c =<1> emit_d2con_extdec (out, d2c))
+) // end of [emit_d2conlst_extdec]
+
+(* ****** ****** *)
+
+implement
 emit_d2cst_extdec
   (out, d2c) = let
 //
@@ -1302,21 +1364,10 @@ end // end of [emit_d2cst_extdec]
 
 implement
 emit_d2cstlst_extdec
-  (out, d2cs) = let
-in
-//
-case+ d2cs of
-| list_cons
-    (d2c, d2cs) => let
-    val () =
-      emit_d2cst_extdec (out, d2c)
-    // end of [val]
-  in
-    emit_d2cstlst_extdec (out, d2cs)
-  end // end of [list_cons]
-| list_nil () => ()
-//
-end // end of [emit_d2cstlst_extdec]
+  (out, d2cs) =
+(
+  list_app_cloptr<d2cst> (d2cs, lam d2c =<1> emit_d2cst_extdec (out, d2c))
+) // end of [emit_d2cstlst_extdec]
 
 (* ****** ****** *)
 

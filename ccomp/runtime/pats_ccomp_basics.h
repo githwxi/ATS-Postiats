@@ -66,7 +66,17 @@
 
 /* ****** ****** */
 
+#define ATSexndec(d2c) \
+atstype_exncon d2c = { 0, "not-yet-named" }
+
+/* ****** ****** */
+
 #define ATSassume(flag) void *flag = (void*)0
+
+/* ****** ****** */
+
+#define ATSdyncon(d2c)
+#define ATSdyncon_exn(d2c) ATSglobaldec() atstype_exncon d2c
 
 /* ****** ****** */
 

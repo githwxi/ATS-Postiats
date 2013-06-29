@@ -43,17 +43,20 @@ staload _(*anon*) = "./pats_utils.dats"
 (* ****** ****** *)
 
 staload
-CNTR = "./pats_counter.sats"
-staload STMP = "./pats_stamp.sats"
-typedef stamp = $STMP.stamp
-overload compare with $STMP.compare_stamp_stamp
-staload SYM = "./pats_symbol.sats"
-typedef symbol = $SYM.symbol
+GLOB = "./pats_global.sats"
 
 (* ****** ****** *)
 
-staload FIL = "./pats_filename.sats"
-typedef filename = $FIL.filename
+staload
+STMP = "./pats_stamp.sats"
+typedef stamp = $STMP.stamp
+overload compare with $STMP.compare_stamp_stamp
+
+(* ****** ****** *)
+
+staload
+SYM = "./pats_symbol.sats"
+typedef symbol = $SYM.symbol
 
 (* ****** ****** *)
 
@@ -76,6 +79,7 @@ d2con_struct = @{
 , d2con_ind= s2explstopt // indexes
 , d2con_type= s2exp // type for dynamic constructor
 , d2con_tag= int // tag for dynamic constructor
+, d2con_pack= Stropt // for ATS_PACKNAME
 , d2con_stamp= stamp // uniqueness
 } // end of [d2con_struct]
 
@@ -90,14 +94,15 @@ in // in of [local]
 (* ****** ****** *)
 
 implement
-d2con_make (
+d2con_make
+(
   loc, fil, id, s2c, vwtp, qua, npf, arg, ind
 ) = let
+(*
+val out = stdout_ref
+val () = fprintln! (out, "d2cst_make: id = ", id)
+*)
 //
-val stamp =
-  $STMP.d2con_stamp_make ()
-// end of [val]
-val arity_full = list_length (arg)
 val arity_real = let
   fun aux1 (
     i: int, s2es: s2explst
@@ -117,8 +122,11 @@ in
   aux2 (0, aux1 (npf, arg))
 end // end of [val]
 //
+val arity_full = list_length (arg)
+//
 val d2c_type = let
-  fun aux (
+  fun aux
+  (
     s2f: s2exp, s2qs: s2qualst
   ) : s2exp = let
   in
@@ -143,10 +151,11 @@ in
   aux (s2f, qua)
 end : s2exp // end of [val]
 //
-val (
-  pfgc, pfat | p
-) = ptr_alloc<d2con_struct> ()
-prval () = free_gc_elim (pfgc)
+val pack = $GLOB.the_PACKNAME_get ()
+val stamp = $STMP.d2con_stamp_make ()
+//
+val (pfgc, pfat | p) = ptr_alloc<d2con_struct> ()
+prval () = free_gc_elim {d2con_struct?} (pfgc)
 //
 val () = p->d2con_sym := id
 val () = p->d2con_loc := loc
@@ -161,6 +170,7 @@ val () = p->d2con_arity_real := arity_real
 val () = p->d2con_ind := ind
 val () = p->d2con_type := d2c_type
 val () = p->d2con_tag := ~1
+val () = p->d2con_pack := pack
 val () = p->d2con_stamp := stamp
 //
 in
@@ -247,11 +257,25 @@ end // end of [d2con_set_tag]
 (* ****** ****** *)
 
 implement
-d2con_get_stamp (d2c) = $effmask_ref let
+d2con_get_pack
+  (d2c) = $effmask_ref let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_pack
+end // end of [d2con_get_pack]
+
+implement
+d2con_get_stamp
+  (d2c) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_stamp
 end // end of [d2con_get_stamp]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+d2con_get_name (d2c) = 
+  $SYM.symbol_get_name (d2con_get_sym (d2c))
+// end of [d2cin_get_name]
 
 (* ****** ****** *)
 
@@ -304,6 +328,8 @@ implement
 d2con_is_singular (d2c) =
   s2cst_is_singular (d2con_get_scst (d2c))
 // end of [d2con_is_singular]
+
+(* ****** ****** *)
 
 implement
 d2con_is_binarian (d2c) =
@@ -365,6 +391,42 @@ implement
 print_d2conlst (xs) = fprint_d2conlst (stdout_ref, xs)
 implement
 prerr_d2conlst (xs) = fprint_d2conlst (stderr_ref, xs)
+
+(* ****** ****** *)
+
+local
+
+staload
+FS = "libats/SATS/funset_avltree.sats"
+staload _ = "libats/DATS/funset_avltree.dats"
+
+val cmp = lam
+(
+  d2c1: d2con, d2c2: d2con
+) : int =<cloref>
+  compare_d2con_d2con (d2c1, d2c2)
+// end of [val]
+
+assume d2conset_type = $FS.set (d2con)
+
+in (* in of [local] *)
+
+implement
+d2conset_nil () = $FS.funset_make_nil ()
+
+implement
+d2conset_ismem
+  (xs, x) = $FS.funset_is_member (xs, x, cmp)
+// end of [d2conset_ismem]
+
+implement
+d2conset_add
+  (xs, x) = xs where {
+  var xs = xs
+  val _(*replaced*) = $FS.funset_insert (xs, x, cmp)
+} // end of [d2conset_add]
+
+end // end of [local]
 
 (* ****** ****** *)
 

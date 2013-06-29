@@ -104,25 +104,17 @@ assume d2cst_type = ref (d2cst_struct)
 in (* in of [local] *)
 
 implement
-d2cst_make (
-  id
-, loc
-, fil
-, dck
-, decarg
-, artylst
-, typ
-, extdef
+d2cst_make
+(
+  id, loc, fil, dck, decarg, artylst, typ, extdef
 ) = let
 (*
 val out = stdout_ref
 val () = fprintln! (out, "d2cst_make: id = ", id)
 *)
 val pack = $GLOB.the_PACKNAME_get ()
-(*
-val () = fprintln! (out, "d2cst_make: pack = ", pack)
-*)
 val stamp = $STMP.d2cst_stamp_make ()
+//
 val (pfgc, pfat | p) = ptr_alloc<d2cst_struct> ()
 prval () = free_gc_elim {d2cst_struct?} (pfgc)
 //
@@ -334,7 +326,8 @@ staload
 FS = "libats/SATS/funset_avltree.sats"
 staload _ = "libats/DATS/funset_avltree.dats"
 
-val cmp = lam (
+val cmp = lam
+(
   d2c1: d2cst, d2c2: d2cst
 ) : int =<cloref>
   compare_d2cst_d2cst (d2c1, d2c2)

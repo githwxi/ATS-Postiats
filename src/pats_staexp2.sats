@@ -71,7 +71,9 @@ staload "./pats_staexp1.sats"
 
 (* ****** ****** *)
 //
-abstype s2cst_type // assumed in [pats_staexp2_scst.dats]
+// HX: assumed in [pats_staexp2_scst.dats]
+//
+abstype s2cst_type
 typedef s2cst = s2cst_type
 typedef s2cstlst = List (s2cst)
 typedef s2cstopt = Option (s2cst)
@@ -80,7 +82,9 @@ vtypedef s2cstlst_vt = List_vt (s2cst)
 //
 (* ****** ****** *)
 //
-abstype s2var_type // assumed in [pats_staexp2_svar.dats]
+// HX: assumed in [pats_staexp2_svar.dats]
+//
+abstype s2var_type
 typedef s2var = s2var_type
 typedef s2varlst = List (s2var)
 vtypedef s2varlst_vt = List_vt (s2var)
@@ -88,26 +92,28 @@ typedef s2varopt = Option (s2var)
 vtypedef s2varopt_vt = Option_vt (s2var)
 typedef s2varlstlst = List (s2varlst)
 //
-abstype s2varset_type // assumed in [pats_staexp2_svar.dats]
+abstype s2varset_type
 typedef s2varset = s2varset_type
-absvtype s2varset_vtype // assumed in [pats_staexp2_svar.dats]
+absvtype s2varset_vtype
 vtypedef s2varset_vt = s2varset_vtype
 //
-abstype s2varmset_type // assumed in [pats_staexp2_svar.dats]
+abstype s2varmset_type
 typedef s2varmset = s2varmset_type
 //
 absvtype s2varbindmap_vtype
 vtypedef s2varbindmap = s2varbindmap_vtype
 //
 (* ****** ****** *)
-
-abstype s2Var_type // assumed in [pats_staexp2_sVar.dats]
+//
+// HX: assumed in [pats_staexp2_sVar.dats]
+//
+abstype s2Var_type
 typedef s2Var = s2Var_type
 typedef s2Varlst = List (s2Var)
 typedef s2Varopt = Option (s2Var)
-abstype s2Varset_type // assumed in [pats_staexp2_sVar.dats]
+abstype s2Varset_type
 typedef s2Varset = s2Varset_type
-abstype s2VarBound_type // assumed in [pats_staexp2_sVar.dats]
+abstype s2VarBound_type
 typedef s2VarBound = s2VarBound_type
 typedef s2VarBoundlst = List (s2VarBound)
 
@@ -122,14 +128,20 @@ typedef s2ctxtopt = Option (s2ctxt)
 typedef s2ctxtopt_vt = Option (s2ctxt)
 
 (* ****** ****** *)
-
-abstype d2con_type // assumed in [pats_staexp2_dcon.dats]
+//
+// HX: assumed in [pats_staexp2_dcon.dats]
+//
+abstype d2con_type
 typedef d2con = d2con_type
 typedef d2conlst = List (d2con)
-
+vtypedef d2conlst_vt = List_vt (d2con)
+//
+abstype d2conset_type
+typedef d2conset = d2conset_type
+//
 (* ****** ****** *)
 
-abstype s2rtdat_type // boxed
+abstype s2rtdat_type
 typedef s2rtdat = s2rtdat_type
 
 fun s2rtdat_make (id: symbol): s2rtdat
@@ -863,8 +875,25 @@ fun d2con_make_list_nil (): d2con
 fun d2con_make_list_cons (): d2con
 
 (* ****** ****** *)
+//
+// HX: implemented in [pats_staexp2_dcon.dats]
+//
+fun print_d2con (x: d2con): void
+overload print with print_d2con
+fun prerr_d2con (x: d2con): void
+overload prerr with prerr_d2con
+fun fprint_d2con : fprint_type (d2con)
+
+fun print_d2conlst (xs: d2conlst): void
+overload print with print_d2conlst
+fun prerr_d2conlst (xs: d2conlst): void
+overload prerr with prerr_d2conlst
+fun fprint_d2conlst : fprint_type (d2conlst)
+
+(* ****** ****** *)
 
 fun d2con_get_sym (x: d2con):<> symbol
+fun d2con_get_name (x: d2con):<> string
 fun d2con_get_loc (x: d2con):<> location
 fun d2con_get_fil (x: d2con):<> filename
 fun d2con_get_scst (x: d2con):<> s2cst
@@ -878,6 +907,7 @@ fun d2con_get_ind (x: d2con):<> s2explstopt
 fun d2con_get_type (x: d2con):<> s2exp
 fun d2con_get_tag (x: d2con): int
 fun d2con_set_tag (x: d2con, tag: int): void
+fun d2con_get_pack (x: d2con):<> Stropt
 fun d2con_get_stamp (x: d2con):<> stamp
 
 (* ****** ****** *)
@@ -906,20 +936,10 @@ fun d2con_is_singular (d2c: d2con): bool // singular constructor
 fun d2con_is_binarian (d2c: d2con): bool // binarian constructor
 
 (* ****** ****** *)
-//
-// HX: implemented in [ats_staexp2_dcon.dats]
-//
-fun print_d2con (x: d2con): void
-overload print with print_d2con
-fun prerr_d2con (x: d2con): void
-overload prerr with prerr_d2con
-fun fprint_d2con : fprint_type (d2con)
 
-fun print_d2conlst (xs: d2conlst): void
-overload print with print_d2conlst
-fun prerr_d2conlst (xs: d2conlst): void
-overload prerr with prerr_d2conlst
-fun fprint_d2conlst : fprint_type (d2conlst)
+fun d2conset_nil ():<> d2conset
+fun d2conset_ismem (xs: d2conset, x: d2con):<> bool
+fun d2conset_add (xs: d2conset, x: d2con):<> d2conset
 
 (* ****** ****** *)
 //

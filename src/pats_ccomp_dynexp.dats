@@ -196,6 +196,8 @@ fun hilablst_ccomp
 (* ****** ****** *)
 
 extern
+fun hidexp_ccomp_ret_con : hidexp_ccomp_ret_funtype
+extern
 fun hidexp_ccomp_ret_app : hidexp_ccomp_ret_funtype
 extern
 fun hidexp_ccomp_ret_extfcall : hidexp_ccomp_ret_funtype
@@ -508,14 +510,9 @@ case+ hde0.hidexp_node of
     hidexp_ccomp_ret_extfcall (env, res, tmpret, hde0)
   (* end of [HDEextfcall] *)
 //
-| HDEcon (
-    d2c, hse_sum, _arg
-  ) => let
-    val lpmvs = labhidexplst_ccomp (env, res, _arg)
-    val ins = instr_move_con (loc0, tmpret, d2c, hse_sum, lpmvs)
-  in
-    instrseq_add (res, ins)
-  end // end of [HDEcon]
+| HDEcon _ => 
+    hidexp_ccomp_ret_con (env, res, tmpret, hde0)
+  (* end of [HDEcon] *)
 //
 | HDEfoldat _ => auxval (env, res, tmpret, hde0)
 | HDEfreeat _ => auxval (env, res, tmpret, hde0)
@@ -1039,6 +1036,23 @@ val () = instrseq_add (res, ins)
 in
   primval_empty (loc0, hse0)
 end // end of [hidexp_ccomp_xchng_ptr]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_ret_con
+  (env, res, tmpret, hde0) = let
+//
+val loc0 = hde0.hidexp_loc
+val-HDEcon (d2c, hse_sum, _arg) = hde0.hidexp_node
+//
+val () = the_dynconlst_add (d2c)
+val lpmvs = labhidexplst_ccomp (env, res, _arg)
+val ins = instr_move_con (loc0, tmpret, d2c, hse_sum, lpmvs)
+//
+in
+  instrseq_add (res, ins)
+end // end of [hidexp_ccomp_ret_con]
 
 (* ****** ****** *)
 

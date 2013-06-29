@@ -93,6 +93,8 @@ typedef hisexpopt = Option (hisexp)
 
 (* ****** ****** *)
 //
+// HX: assumed in [pats_dynexp2_dcst.dats]
+//
 abstype d2cst_type
 typedef d2cst = d2cst_type
 typedef d2cstlst = List (d2cst)
@@ -101,12 +103,10 @@ typedef d2cstopt = Option (d2cst)
 vtypedef d2cstlst_vt = List_vt (d2cst)
 vtypedef d2cstopt_vt = Option_vt (d2cst)
 //
-abstype
-d2cstset_type // assumed in [pats_dynexp2_dcst.dats]
+abstype d2cstset_type
 typedef d2cstset = d2cstset_type
 //
-abstype
-d2cstmap_type (a:type) // assumed in [pats_dynexp2_dcst.dats]
+abstype d2cstmap_type (a:type)
 typedef d2cstmap (a:type) = d2cstmap_type (a)
 //
 (* ****** ****** *)
@@ -182,6 +182,10 @@ fun d2cst_make
 , extdef: dcstextdef
 ) : d2cst // end of [d2cst_make]
 
+(* ****** ****** *)
+//
+// HX: implemented in [pats_dynexp2_dcst.dats]
+//
 fun print_d2cst (x: d2cst): void
 overload print with print_d2cst
 fun prerr_d2cst (x: d2cst): void

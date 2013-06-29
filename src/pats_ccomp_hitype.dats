@@ -94,6 +94,7 @@ datatype hitype =
 //
   | HITtyrec of (labhitypelst)
   | HITtysum of (int(*tagged*), labhitypelst)
+  | HITtyexn of (labhitypelst)
 //
   | HITtyvar of (s2var) (* for substitution *)
 //
@@ -163,6 +164,11 @@ case+ hit of
   }
 | HITtysum (tag, lhits) => {
     val () = prstr "HITtysum("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+| HITtyexn (lhits) => {
+    val () = prstr "HITtyexn("
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }
@@ -275,8 +281,15 @@ case+ x1 of
   | HITtysum (tgd2, lxs2) =>
       if tgd1 = tgd2 then auxlablst (lxs1, lxs2) else abort ()
     // end of [HITtysum]
- | _ => abort ()
+  | _ => abort ()
   ) // end of [HITtysum]
+//
+| HITtyexn
+    (lxs1) => (
+  case+ x2 of
+  | HITtyexn (lxs2) => auxlablst (lxs1, lxs2)
+  | _ => abort ()
+  ) // end of [HITtyexn]
 //
 | HITtyvar (s2v1) => (
   case+ x2 of
@@ -438,6 +451,12 @@ case+ hit0 of
   in
     auxstr (hval, "postiats_tysum")
   end // end of [HITtysum]
+| HITtyexn
+    (lhits) => let
+    val () = auxlablst (hval, lhits)
+  in
+    auxstr (hval, "postiats_tyrexn")
+  end // end of [HITtyexn]
 //
 | HITtyvar (s2v) => let
     val stamp = s2var_get_stamp (s2v)
@@ -720,6 +739,7 @@ case+ hit0 of
 //
 | HITtyrec _ => emit_text (out, "atstype_tyrec(*ERROR*)")
 | HITtysum _ => emit_text (out, "atstype_tysum(*ERROR*)")
+| HITtyexn _ => emit_text (out, "atstype_tyexn(*ERROR*)")
 //
 | HITtyvar (s2v) => {
     val () = emit_text (out, "atstyvar_type")
@@ -855,6 +875,16 @@ in
   HITnmd (name)
 end // end of [hitype_gen_tysum]
 
+extern
+fun hitype_gen_tyexn (): hitype
+implement
+hitype_gen_tyexn () = let
+  val n = $STMP.hitype_stamp_make ()
+  val name = $STMP.tostring_prefix_stamp ("postiats_tyexn_", n)
+in
+  HITnmd (name)
+end // end of [hitype_gen_tyexn]
+
 (* ****** ****** *)
 
 implement
@@ -918,7 +948,12 @@ case+ hse0.hisexp_node of
     val HSLABELED (lab, opt, hse) = lhse in aux (flag, hse)
   end // end of [HSEtyrecsin]
 //
-| HSEtysum _ => aux_tysum (flag, hse0)
+| HSEtysum (d2c, _) =>
+  (
+    if d2con_is_con (d2c)
+      then aux_tysum (flag, hse0) else aux_tyexn (flag, hse0)
+    // end of [if]
+  ) // end of [HSEtysum]
 //
 | HSErefarg (knd, hse) => let
     val hit = aux (flag, hse) in HITrefarg (knd, hit)
@@ -1033,11 +1068,41 @@ in
       val () = the_hitypemap_insert (hit0, hit1)
     in
       hit1
-     end // end of [None_vt]
-   | ~Some_vt (hit0) => hit0
+    end // end of [None_vt]
+  | ~Some_vt (hit0) => hit0
 end // end of [if]
 //
 end // end of [aux_tysum]
+
+and aux_tyexn (
+  flag: int, hse0: hisexp
+) : hitype = let
+//
+val-HSEtysum
+  (d2c, lxs) = hse0.hisexp_node
+val isbox =
+  (if flag > 0 then true else false): bool
+//
+in
+//
+if isbox
+  then hitype_tybox ()
+  else let
+  val lys = auxlablst (flag, lxs)
+  val hit0 = HITtyexn (lys)
+  val opt = the_hitypemap_search (hit0)
+in
+  case+ opt of
+  | ~None_vt () => let
+      val hit1 = hitype_gen_tyexn ()
+      val () = the_hitypemap_insert (hit0, hit1)
+    in
+      hit1
+    end // end of [None_vt]
+  | ~Some_vt (hit0) => hit0
+end // end of [if]
+//
+end // end of [aux_tyexn]
 
 and auxlst (
   flag: int, xs: hisexplst
@@ -1165,21 +1230,26 @@ fun auxkey (
 in
 //
 case+ hit of
-| HITtyrec
-    (lhits) => {
-    val () =
-      emit_text (out, "struct {")
+| HITtyrec (lhits) => {
+    val () = emit_text (out, "struct {")
     val () = auxfldlst (out, lhits, 1)
     val () = emit_text (out, "\n}")
   } // end of [HITtyrec]
 | HITtysum (tgd, lhits) => {
     val () = emit_text (out, "struct {\n")
     val () = fprintf (out, "#if(%i)\n", @(tgd))
-    val () = emit_text (out, "int contag ;")
-    val () = fprintf (out, "\n#endif", @())
+    val () = emit_text (out, "int contag ;\n")
+    val () = emit_text (out, "#endif")
     val () = auxfldlst (out, lhits, 1)
     val () = emit_text (out, "\n}")
   } // end of [HITtysum]
+| HITtyexn (lhits) => {
+    val () = emit_text (out, "struct {\n")
+    val () = emit_text (out, "int exntag ;\n")
+    val () = emit_text (out, "char *exname ;")
+    val () = auxfldlst (out, lhits, 1)
+    val () = emit_text (out, "\n}")
+  } // end of [HITtyexn]
 | _ => emit_text (out, "(**ERROR**)")
 //
 end // end of [auxkey]

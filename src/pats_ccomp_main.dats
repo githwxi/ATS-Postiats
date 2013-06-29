@@ -52,6 +52,9 @@ GLOB = "./pats_global.sats"
 //
 staload
 S2E = "./pats_staexp2.sats"
+typedef d2con = $S2E.d2con
+typedef d2conlst = $S2E.d2conlst
+//
 staload
 D2E = "./pats_dynexp2.sats"
 //
@@ -133,6 +136,41 @@ val () = emit_text (out, "#endif /* _ATS_CCOMP_PRELUDE_NONE */\n")
 in
   emit_newline (out)
 end // end of [emit_ats_ccomp_prelude]
+
+(* ****** ****** *)
+
+extern fun the_dynconlst_get2 (): d2conlst
+extern fun the_dynconlst_set2 (xs: d2conlst): void
+
+local
+
+val the_d2conlst = ref<Option(d2conlst)> (None)
+
+in (* in of [local] *)
+
+implement
+the_dynconlst_get2
+  ((*void*)) = let
+//
+val opt = !the_d2conlst
+//
+in
+//
+case+ opt of
+| Some (xs) => xs
+| None (  ) => let
+    val xs = the_dynconlst_get ()
+    val () = !the_d2conlst := Some (xs)
+  in
+    xs
+  end // end of [None]
+//
+end // end of [the_dynconlst_get2]
+
+implement
+the_dynconlst_set2 (xs) = !the_d2conlst := Some (xs)
+
+end // end of [local]
 
 (* ****** ****** *)
 //
@@ -292,6 +330,26 @@ in
 end // end of [emit_the_tmpdeclst]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+emit_the_dynconlst_extdec (out) = let
+//
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "dynconlst-declaration(beg)\n")
+val () = emit_text (out, "*/\n")
+//
+val d2cs = the_dynconlst_get2 ()
+val () = emit_d2conlst_extdec (out, d2cs)
+//
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "dynconlst-declaration(end)\n")
+val () = emit_text (out, "*/\n")
+//
+in
+  // nothing
+end // end of [emit_the_dynconlst_extdec]
 
 (* ****** ****** *)
 
@@ -530,12 +588,12 @@ end // end of [local]
 *)
 
 (* ****** ****** *)
-
+//
 extern
 fun the_mainats_initize (): void
 extern
 fun the_mainats_d2copt_get (): d2cstopt
-
+//
 (* ****** ****** *)
 
 local
@@ -848,6 +906,31 @@ in
 end // end of [aux_extcodelst_if]
 
 fun
+aux_exndeclst
+  (out: FILEref): void = let
+//
+fun loop (
+  out: FILEref, xs: hideclist
+) : void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = emit_exndec (out, x) in loop (out, xs)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [loop]
+//
+val () = emit_newline (out)
+val () = loop (out, the_exndeclst_get ())
+//
+in
+  (* nothing *)
+end // end of [aux_exndeclst]
+
+fun
 aux_saspdeclst
   (out: FILEref): void = let
 //
@@ -865,8 +948,15 @@ case+ xs of
 //
 end // end of [loop]
 //
+val () = emit_newline (out)
+val () = loop (out, the_saspdeclst_get ())
+//
 in
-  loop (out, the_saspdeclst_get ())
+  (* nothing *)
+
+
+
+
 end // end of [aux_saspdeclst]
 
 in (* in of [local] *)
@@ -915,9 +1005,13 @@ val (
 //
 val () = emit_the_typedeflst (out)
 //
+val () = emit_the_dynconlst_extdec (out)
 val () = emit_the_dyncstlst_extdec (out)
 //
 val () = emit_the_primdeclst_valimp (out)
+//
+val () = aux_exndeclst (out)
+val () = aux_saspdeclst (out)
 //
 val (
 ) = aux_extcodelst_if (out, lam (pos) => pos < DYNMID)
@@ -936,17 +1030,18 @@ val () = strptr_free (the_funlablst_rep)
 val ( // HX: the call must be made before
 ) = the_mainats_initize () // aux_dynload is called
 //
-val () = let
-  val fbody =
-    $UN.castvwtp1{string}(the_primdeclst_rep)
-  // end of [val]
+val (
+) = let
+//
+val fbody =
+  $UN.castvwtp1{string}(the_primdeclst_rep)
+// end of [val]
+//
 in
   aux_dynload (out, infil, fbody)
 end // end of [val]
 //
 val () = strptr_free (the_primdeclst_rep)
-//
-val () = aux_saspdeclst (out)
 //
 val () = aux_main_ifopt (out, infil)
 //

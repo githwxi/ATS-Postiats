@@ -350,6 +350,8 @@ hiexndecs_ccomp
 val loc0 = hid0.hidecl_loc
 val-HIDexndecs (d2cs) = hid0.hidecl_node
 //
+val () = the_exndeclst_add (hid0)
+//
 in
   primdec_exndecs (loc0, d2cs)
 end // end of [hiexndecs_ccomp]
