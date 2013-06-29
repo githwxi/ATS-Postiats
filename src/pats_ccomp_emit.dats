@@ -1977,7 +1977,7 @@ val (
 val () = emit_text (out, ") ;\n")
 //
 val (
-) = emit_text (out, "ATSINSstore_exname(")
+) = emit_text (out, "ATSINSstore_exnmsg(")
 val (
 ) = (
   emit_tmpvar (out, tmp); emit_text (out, ", "); emit_d2con (out, d2c)

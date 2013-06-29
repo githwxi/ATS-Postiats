@@ -134,6 +134,25 @@ atspre_isNotSomeExn
 } // end of [atspre_isNotSomeExn]
 
 /* ****** ****** */
+
+extern
+void
+the_atsexncon_initize
+(
+  atstype_exncon *d2c, char* exnmsg
+)
+{
+//
+  int exntag ;
+  static int the_atsexntag = 1024 ;
+//
+  exntag = the_atsexntag ;
+  the_atsexntag = exntag + 1 ;
+  d2c->exntag = exntag ; d2c->exnmsg = exnmsg ;
+  return ;
+} // end of [the_atsexncon_initize]
+
+/* ****** ****** */
 //
 // HX-2013-06:
 // this is for single-threaded programs

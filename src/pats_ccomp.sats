@@ -1835,6 +1835,7 @@ fun emit_staload (out: FILEref, hid: hidecl): void
 //
 fun emit_d2con_extdec (out: FILEref, d2c: d2con): void
 fun emit_d2conlst_extdec (out: FILEref, d2cs: d2conlst): void
+fun emit_d2conlst_initize (out: FILEref, d2cs: d2conlst): void
 //
 fun emit_d2cst_extdec (out: FILEref, d2c: d2cst): void
 fun emit_d2cstlst_extdec (out: FILEref, d2cs: d2cstlst): void

@@ -1246,7 +1246,7 @@ case+ hit of
 | HITtyexn (lhits) => {
     val () = emit_text (out, "struct {\n")
     val () = emit_text (out, "int exntag ;\n")
-    val () = emit_text (out, "char *exname ;")
+    val () = emit_text (out, "char *exnmsg ;")
     val () = auxfldlst (out, lhits, 1)
     val () = emit_text (out, "\n}")
   } // end of [HITtyexn]

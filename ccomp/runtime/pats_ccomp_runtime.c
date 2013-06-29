@@ -56,7 +56,7 @@ atsruntime_handle_uncaughtexn
   fprintf(
     stderr
   , "exit(ATS): uncaught exception at run-time: %s(%d)\n"
-  , exn->exname, exn->exntag
+  , exn->exnmsg, exn->exntag
   ) ; exit(1) ;
   return ; // deadcode
 } /* end of [atsruntime_handle_uncaughtexn] */

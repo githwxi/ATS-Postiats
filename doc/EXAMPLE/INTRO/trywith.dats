@@ -14,7 +14,8 @@ _(*anon*) = "prelude/DATS/integer.dats"
 
 (* ****** ****** *)
 
-exception A and B and C of int
+exception A and B
+exception C of int and C2 of int
 
 (* ****** ****** *)
 
@@ -45,7 +46,7 @@ val () = println! ("ans1 = ", ans1)
 //
 val ans2 =
 (
-try ftest (x2) with ~A () => x0 | ~B () => x2 | ~C(y) => y
+try ftest (x2) with ~A () => x0 | ~B () => x2 | ~C2(y) => y
 ) : int // end of [val]
 val () = println! ("ans2 = ", ans2)
 //

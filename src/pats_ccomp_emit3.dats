@@ -53,6 +53,7 @@ LOC = "./pats_location.sats"
 //
 (* ****** ****** *)
 
+staload SYM = "./pats_symbol.sats"
 staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
@@ -106,7 +107,7 @@ in
 case+ xs of
 | list_cons
     (x, xs) => let
-    val () = emit_text (out, "ATSexndec(")
+    val () = emit_text (out, "ATSdynexn_dec(")
     val () = emit_d2con (out, x)
     val () = emit_text (out, ") ;\n")
   in
@@ -1265,12 +1266,17 @@ implement
 emit_d2con_extdec
   (out, d2c) = let
 //
-val isexn = $S2E.d2con_is_exn (d2c)
-val () = emit_text (out, "ATSdyncon")
-val () = if isexn then emit_text (out, "_exn")
+val isexn =
+  $S2E.d2con_is_exn (d2c)
+val (
+) = if isexn then {
+//
+val () = emit_text (out, "ATSdynexn_extdec")
 val () = emit_text (out, "(")
 val () = emit_d2con (out, d2c)
 val () = emit_text (out, ") ;\n")
+//
+} // end of [if] // end of [val]
 //
 in
   // nothing
@@ -1282,6 +1288,48 @@ emit_d2conlst_extdec
 (
   list_app_cloptr<d2con> (d2cs, lam d2c =<1> emit_d2con_extdec (out, d2c))
 ) // end of [emit_d2conlst_extdec]
+
+(* ****** ****** *)
+
+implement
+emit_d2conlst_initize
+  (out, d2cs) = let
+//
+fun aux
+(
+  out: FILEref, d2c: d2con
+) : void = let
+//
+val fil = $S2E.d2con_get_fil (d2c)
+val name = $S2E.d2con_get_name (d2c)
+//
+val () = emit_text (out, "ATSdynexn_initize(")
+val () = emit_d2con (out, d2c)
+val () = emit_text (out, ", ")
+val () = emit_text (out, "\"")
+val () = $FIL.fprint_filename_full (out, fil)
+val () = emit_text (out, ":")
+val () = emit_text (out, name)
+val () = emit_text (out, "\"")
+val () = emit_text (out, ") ;\n")
+//
+in
+  // nothing
+end (* end of [aux] *)
+//
+in
+//
+case+ d2cs of
+| list_cons
+    (d2c, d2cs) => let
+    val isexn = $S2E.d2con_is_exn (d2c)
+    val ((*void*)) = if isexn then aux (out, d2c)
+  in
+    emit_d2conlst_initize (out, d2cs)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [emit_d2conlst_initize]
 
 (* ****** ****** *)
 

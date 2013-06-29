@@ -122,7 +122,7 @@ typedef void* atstype_datcontyp ;
 typedef
 struct
 {
-  int exntag ; char *exname ;
+  int exntag ; char *exnmsg ;
 } atstype_exncon ;
 
 typedef atstype_exncon *atstype_exnconptr ;

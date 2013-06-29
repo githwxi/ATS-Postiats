@@ -606,6 +606,7 @@ implement
 the_mainats_initize () = let
 //
 fun loop (fls: funlablst): void = let
+//
 in
 //
 case+ fls of
@@ -629,7 +630,8 @@ in
   loop (the_funlablst_get2 ())
 end // end of [the_mainats_initize]
 
-implement the_mainats_d2copt_get () = !the_mainats_d2copt
+implement
+the_mainats_d2copt_get () = !the_mainats_d2copt
 
 end // end of [local]
 
@@ -713,23 +715,26 @@ staload "./pats_utils.sats"
 staload _(*anon*) = "./pats_utils.dats"
 
 fun
-the_tmpdeclst_stringize (
-) =
-  tostring_fprint<int> (
+the_tmpdeclst_stringize
+(
+) = tostring_fprint<int>
+(
   "postiats_tmpdeclst_", lam (out, _) => emit_the_tmpdeclst (out), 0
 ) // end of [the_tmpdeclst_stringize]
 
 fun
-the_primdeclst_stringize (
-) =
-  tostring_fprint<int> (
+the_primdeclst_stringize
+(
+) = tostring_fprint<int>
+(
   "postiats_primdeclst_", lam (out, _) => emit_the_primdeclst (out), 0
 ) // end of [the_funlablst_stringize]
 
 fun
-the_funlablst_stringize (
-) =
-  tostring_fprint<int> (
+the_funlablst_stringize
+(
+) = tostring_fprint<int>
+(
   "postiats_funlablst_", lam (out, _) => emit_the_funlablst (out), 0
 ) // end of [the_funlablst_stringize]
 
@@ -792,6 +797,13 @@ val () = emit_text (out, "\n)\n) ATSthen() {\n")
 val () = emit_text (out, "ATSdynloadset(")
 val () = emit_dynloadflag (out, infil)
 val () = emit_text (out, ") ;\n")
+//
+val () = let
+  val d2cs = the_dynconlst_get2 ()
+in
+  emit_d2conlst_initize (out, d2cs)
+end // end of [val]
+//
 val () = emit_text (out, fbody)
 val () = emit_text (out, "} /* ATSendif */\n")
 val () = emit_text (out, "ATSreturn_void() ;\n")
@@ -923,8 +935,21 @@ case+ xs of
 //
 end // end of [loop]
 //
-val () = emit_newline (out)
-val () = loop (out, the_exndeclst_get ())
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "exnconlst-declaration(beg)\n")
+val () = emit_text (out, "*/\n")
+//
+val () =
+emit_text (out, "\
+extern void the_atsexncon_initize (atstype_exncon *d2c, char *exnmsg) ;\n\
+") // end of [val]
+//
+val hids = the_exndeclst_get ()
+val ((*void*)) = loop (out, hids)
+//
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "exnconlst-declaration(end)\n")
+val () = emit_text (out, "*/\n")
 //
 in
   (* nothing *)
@@ -948,15 +973,19 @@ case+ xs of
 //
 end // end of [loop]
 //
-val () = emit_newline (out)
-val () = loop (out, the_saspdeclst_get ())
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "assumelst-declaration(beg)\n")
+val () = emit_text (out, "*/\n")
+//
+val hids = the_saspdeclst_get ()
+val ((*void*)) = loop (out, hids)
+//
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "assumelst-declaration(end)\n")
+val () = emit_text (out, "*/\n")
 //
 in
   (* nothing *)
-
-
-
-
 end // end of [aux_saspdeclst]
 
 in (* in of [local] *)
@@ -1031,16 +1060,10 @@ val ( // HX: the call must be made before
 ) = the_mainats_initize () // aux_dynload is called
 //
 val (
-) = let
-//
-val fbody =
-  $UN.castvwtp1{string}(the_primdeclst_rep)
-// end of [val]
-//
-in
-  aux_dynload (out, infil, fbody)
-end // end of [val]
-//
+) = aux_dynload
+  (out, infil, fbody) where {
+  val fbody = $UN.castvwtp1{string}(the_primdeclst_rep)
+} // end of [where] // end of [val]
 val () = strptr_free (the_primdeclst_rep)
 //
 val () = aux_main_ifopt (out, infil)
