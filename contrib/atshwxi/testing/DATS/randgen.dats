@@ -38,11 +38,6 @@
 staload "atshwxi/testing/SATS/randgen.sats"
 
 (* ****** ****** *)
-
-implement{a}
-randgen_ref (x) = x := randgen_val<a> ()
-
-(* ****** ****** *)
 //
 implement randgen_val<int> () = 0
 implement randgen_val<uint> () = 0u
@@ -57,6 +52,11 @@ implement randgen_val<float> () = 0.0f
 implement randgen_val<double> () = 0.0
 implement randgen_val<ldouble> () = 0.0l
 //
+(* ****** ****** *)
+
+implement{a}
+randgen_ref (x) = x := randgen_val<a> ()
+
 (* ****** ****** *)
 
 implement{a}

@@ -1439,7 +1439,7 @@ implement{a}
 list_mergesort
   (xs) = let
 //
-val xs = list_copy (xs)
+val xs = list_copy<a> (xs)
 //
 implement
 list_vt_mergesort$cmp<a>
@@ -1457,7 +1457,7 @@ implement
 list_mergesort$cmp<a> (x1, x2) = cmp (x1, x2)
 //
 in
-  list_mergesort (xs)
+  list_mergesort<a> (xs)
 end // end of [list_mergesort_fun]
 
 #atscode_separator()
@@ -1471,7 +1471,7 @@ implement{a}
 list_quicksort
   (xs) = let
 //
-val xs = list_copy (xs)
+val xs = list_copy<a> (xs)
 //
 implement
 list_vt_quicksort$cmp<a>
@@ -1489,7 +1489,7 @@ implement
 list_quicksort$cmp<a> (x1, x2) = cmp (x1, x2)
 //
 in
-  list_quicksort (xs)
+  list_quicksort<a> (xs)
 end // end of [list_quicksort_fun]
 
 #atscode_separator()

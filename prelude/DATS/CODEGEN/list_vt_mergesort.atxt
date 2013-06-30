@@ -117,6 +117,8 @@ end else xs // end of [if]
 //
 end // end of [list_vt_mergesort]
 
+#atscode_separator()
+
 implement{a}
 list_vt_mergesort_fun
   (xs, cmp) = let

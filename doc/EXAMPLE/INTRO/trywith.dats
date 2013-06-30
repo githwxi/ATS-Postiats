@@ -48,7 +48,7 @@ val () = assertexn (ans1 = 1)
 //
 val ans2 =
 (
-try ftest (x2) with ~A () => x0 | ~B () => x2 | ~C2(y) => y
+try ftest (x2) with ~A () => x0 | ~B () => x1 | ~C2(y) => y
 ) : int // end of [val]
 val () = assertexn (ans2 = 2)
 //

@@ -26,6 +26,13 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+\#define
+ATS_PACKNAME "ATSLIB.prelude.unsafe"
+\#define
+ATS_STALOADFLAG 0 // no static loading at run-time
+
+#atscode_separator()
+
 sortdef t0p = t@ype and vt0p = viewt@ype
 
 #atscode_separator()

@@ -42,66 +42,76 @@ implement{a}
 list_vt_quicksort
   {n} (xs) = let
 //
-abst@ype a2 = a?
+fun copyout
+  {n:nat} .<n>.
+(
+  xs: !list_vt (a, n), p: ptr
+) :<!wrt> void = let
+in
+//
+case+ xs of
+| @list_vt_cons
+    (x, xs1) => let
+    val (
+    ) = $UN.ptr0_set<a> (p, $UN.ptr0_get<a> (addr@(x)))
+    val () = copyout (xs1, ptr0_succ<a> (p))
+  in
+    fold@ (xs)
+  end // end of [list_vt_cons]
+| list_vt_nil ((*void*)) => ()
+//
+end // end of [copyout]
+//
+fun copyinto
+  {n:nat} .<n>.
+(
+  xs: !list_vt (a, n), p: ptr
+) :<!wrt> void = let
+in
+//
+case+ xs of
+| @list_vt_cons
+    (x, xs1) => let
+    val (
+    ) = $UN.ptr0_set<a> (addr@(x), $UN.ptr0_get<a> (p))
+    val () = copyinto (xs1, ptr0_succ<a> (p))
+  in
+    fold@ (xs)
+  end // end of [list_vt_cons]
+| list_vt_nil ((*void*)) => ()
+//
+end // end of [copyinto]
 //
 implement
-array_quicksort$cmp<a2>
-  (x1, x2) = let
-  extern praxi __to {l:addr} (pf: !a2 @ l >> a @ l): void
-  extern praxi __fr {l:addr} (pf: !a @ l >> a2 @ l): void
-  prval () = __to (view@(x1))
-  prval () = __to (view@(x2))
-  val ans = list_vt_quicksort$cmp<a> (x1, x2)
-  prval () = __fr (view@(x1))
-  prval () = __fr (view@(x2))
-in
-  ans
-end // end of [array_quicksort$cmp]
+array_quicksort$cmp<a>
+  (x1, x2) = list_vt_quicksort$cmp<a> (x1, x2)
+// end of [array_quicksort$cmp]
 //
 prval () = lemma_list_vt_param (xs)
 //
 val n = list_vt_length (xs)
 //
-val (
-  pf, pfgc | p
-) = array_ptr_alloc<a2> ((i2sz)n)
-val () = let
-  val xs1 = $UN.castvwtp1 {list(a2,n)} (xs)
-in
-  array_copy_from_list (!p, xs1)
-end // end of [val]
+val [l:addr]
+  (pfat, pfgc | p0) = array_ptr_alloc<a> ((i2sz)n)
 //
-val () = array_quicksort<a2> (!p, (i2sz)n)
+extern praxi
+__out (pf: !array_v (a?, l, n) >> array_v (a, l, n)): void
+extern praxi
+__into (pf: !array_v (a, l, n) >> array_v (a?, l, n)): void
 //
-val () = let
-  fun loop
-    {l:addr}{n:nat} .<n>. (
-    pf: !array_v (a2, l, n) | xs: !list_vt (a, n), p: ptr l
-  ) :<!wrt> void =
-    case+ xs of
-    | @list_vt_cons (x, xs1) => let
-        prval (
-          pf1, pf2
-        ) = array_v_uncons (pf)
-        val p_x = $UN.cast2Ptr1 (addr@(x))
-        val () = $UN.ptr1_set<a2> (p_x, !p)
-        val () = loop (pf2 | xs1, ptr1_succ<a2> (p))
-        prval () = pf := array_v_cons (pf1, pf2)
-        prval () = fold@ (xs)
-      in
-        // nothing
-      end // end of [list_vt]
-    | list_vt_nil () => ()
-  // end of [loop]
-in
-  loop (pf | xs, p)
-end // end of [val]
+val () = copyout (xs, p0)
+prval () = __out (pfat)
+val () = array_quicksort<a> (!p0, (i2sz)n)
+prval () = __into (pfat)
+val () = copyinto (xs, p0)
 //
-val () = array_ptr_free {a2} (pf, pfgc | p)
+val () = array_ptr_free {a} (pfat, pfgc | p0)
 //
 in
   xs
 end // end of [list_vt_quicksort]
+
+#atscode_separator()
 
 implement{a}
 list_vt_quicksort_fun

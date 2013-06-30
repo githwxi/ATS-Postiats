@@ -51,9 +51,10 @@ atsexnframe_ptr
 *my_atsexnframe_getref ()
 {
 //
-static atsexnframe_t *my_atsexnframe = 0 ;
+static
+atsexnframe_t *my_atsexnframe = (void*)0 ;
 //
-return &my_atsexnframe ;
+return &(my_atsexnframe) ;
 //
 } // end of [my_atsexnframe_getref]
 
