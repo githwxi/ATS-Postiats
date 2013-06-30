@@ -10,7 +10,10 @@
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
+staload
+_(*anon*) = "prelude/DATS/basics.dats"
 
 (* ****** ****** *)
 
@@ -24,7 +27,7 @@ main0 () = let
 var tval = $TM.time ()
 val TSTR =
   $extfcall(Ptr0, "ctime", addr@(tval))
-val () = assert (TSTR > 0)
+val () = assertexn (TSTR > 0)
 val () = print! ($UN.cast{string}(TSTR))
 val USER =
   $extfcall(Ptr0, "getenv", "USER")

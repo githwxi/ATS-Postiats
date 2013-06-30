@@ -106,7 +106,7 @@ let val _ =
   list_head_exn (xs) in g0ofg1(false)
 end (* end of [let] *)
 //
-with exn => ifListSubscriptExn{bool}(exn, true)
+with ~ListSubscriptExn() => true
 )
 //
 val-true =
@@ -117,7 +117,7 @@ let val _ =
   list_tail_exn (xs) in g0ofg1(false)
 end (* end of [let] *)
 //
-with exn => ifListSubscriptExn{bool}(exn, true)
+with ~ListSubscriptExn() => true
 )
 //
 } (* end of [val] *)

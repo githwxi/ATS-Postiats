@@ -1869,8 +1869,8 @@ val () = emit_text (out, "ATSINSstore_con_tag(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
 val () = emit_int (out, tag)
-val () = emit_text (out, ") ;")
-val () = emit_text (out, "\n#endif")
+val () = emit_text (out, ") ;\n")
+val () = emit_text (out, "#endif\n")
 //
 in
   // nothing

@@ -800,8 +800,15 @@ val () = emit_text (out, ") ;\n")
 //
 val () = let
   val d2cs = the_dynconlst_get2 ()
+  val () = emit_text (out, "/*\n")
+  val () = emit_text (out, "dynexnlst-initize(beg)\n")
+  val () = emit_text (out, "*/\n")
+  val () = emit_d2conlst_initize (out, d2cs)
+  val () = emit_text (out, "/*\n")
+  val () = emit_text (out, "dynexnlst-initize(end)\n")
+  val () = emit_text (out, "*/\n")
 in
-  emit_d2conlst_initize (out, d2cs)
+  // nothing
 end // end of [val]
 //
 val () = emit_text (out, fbody)
@@ -826,7 +833,8 @@ val () = emit_text (out, "** the ATS runtime")
 val () = emit_text (out, "\n*/\n")
 val () = emit_text (out, "#ifndef _ATS_CCOMP_RUNTIME_NONE\n")
 val () = emit_text (out, "#include \"pats_ccomp_runtime.c\"\n")
-val () = emit_text (out, "#include \"pats_ccomp_runtime_exn.c\"\n")
+val () = emit_text (out, "#include \"pats_ccomp_runtime2_dats.c\"\n")
+val () = emit_text (out, "#include \"pats_ccomp_runtime_trywith.c\"\n")
 val () = emit_text (out, "#endif /* _ATS_CCOMP_RUNTIME_NONE */\n")
 //
 val () = emit_text (out, "\n/*\n")

@@ -103,11 +103,11 @@
 /* ****** ****** */
 
 extern
-void atsruntime_raise (const void *exn) ;
+void atsruntime_raise (void *exn) ;
 extern
-void atsruntime_handle_uncaughtexn (const void *exn0) ;
+void atsruntime_handle_uncaughtexn (void *exn0) ;
 extern
-void atsruntime_handle_unmatchedval (const char *msg0) ;
+void atsruntime_handle_unmatchedval (char *msg0) ;
 
 /* ****** ****** */
 

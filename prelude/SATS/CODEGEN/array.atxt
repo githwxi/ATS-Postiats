@@ -67,14 +67,10 @@ arrayopt_v (
 
 #atscode_separator()
 
-(*
 exception ArraySubscriptExn of ()
-*)
+(*
 fun ArraySubscriptExn ():<> exn = "mac\#%ArraySubscriptExn_make"
 fun isArraySubscriptExn (x: !exn):<> bool = "mac\#%isArraySubscriptExn"
-
-#atscode_separator()
-
 macdef
 ifArraySubscriptExn
   {tres}(exn, body) =
@@ -88,6 +84,7 @@ if isArraySubscriptExn(x)
 ) : tres // end of [if]
 end (* end of [let] *)
 ) // end of [ifArraySubscriptExn]
+*)
 
 #atscode_separator()
 

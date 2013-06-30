@@ -279,33 +279,13 @@ implement{a}
 list0_nth_opt
   (xs, i) = let
 //
-fn handle
-  (exn: exn):<> Option_vt (a) = let
-//
-val isexn = isListSubscriptExn (exn)
-//
-in
-//
-if isexn then let
-  prval (
-  ) = __assert (exn) where {
-    extern praxi __assert : (exn) -<prf> void
-  } // end of [prval]
-in
-  None_vt ()
-end else (
-  $effmask_exn ($raise (exn)) // HX: deadcode
-) // end of [if]
-//
-end // end of [handle]
-//
-val i = g1ofg0_int (i)
+val i = g1ofg0(i)
 //
 in
 //
 if i >= 0 then (
   $effmask_exn (
-    try Some_vt (loop<a> (xs, i)) with exn => handle (exn)
+    try Some_vt (loop<a> (xs, i)) with ~ListSubscriptExn() => None_vt()
   ) // end of [$effmask_exn]
 ) else None_vt () // end of [if]
 //

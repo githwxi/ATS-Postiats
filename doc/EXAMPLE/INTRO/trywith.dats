@@ -10,6 +10,8 @@
 (* ****** ****** *)
 
 staload
+_(*anon*) = "prelude/DATS/basics.dats"
+staload
 _(*anon*) = "prelude/DATS/integer.dats"
 
 (* ****** ****** *)
@@ -36,19 +38,19 @@ val ans0 =
 (
 try ftest (x0) with ~A () => x0 | ~B () => x1
 ) : int // end of [val]
-val () = println! ("ans0 = ", ans0)
+val () = assertexn (ans0 = 0)
 //
 val ans1 =
 (
 try ftest (x1) with ~A () => x0 | ~B () => x1
 ) : int // end of [val]
-val () = println! ("ans1 = ", ans1)
+val () = assertexn (ans1 = 1)
 //
 val ans2 =
 (
 try ftest (x2) with ~A () => x0 | ~B () => x2 | ~C2(y) => y
 ) : int // end of [val]
-val () = println! ("ans2 = ", ans2)
+val () = assertexn (ans2 = 2)
 //
 } (* end of [val] *)
 

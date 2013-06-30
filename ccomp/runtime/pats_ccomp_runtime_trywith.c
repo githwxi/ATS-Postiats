@@ -35,85 +35,51 @@
 
 /* ****** ****** */
 //
-#include <stdio.h>
-//
-extern void exit (int) ; // in [stdlib.h]
-//
-/* ****** ****** */
-
 #include "pats_ccomp_basics.h"
 #include "pats_ccomp_typedefs.h"
-
-/* ****** ****** */
-//
-// HX-2013-04: some pre-initialized exceptions
+#include "pats_ccomp_exception.h"
 //
 /* ****** ****** */
-
-atstype_exncon
-ATSLIB_056$prelude_AssertExn = { 10, "AssertException" } ;
-atstype_exncon
-ATSLIB_056$prelude_IllegalArgExn = { 20, "IllegalArgException" } ;
-atstype_exncon
-ATSLIB_056$prelude_NotImplementedExn = { 30, "NotImplementedException" } ;
-
+//
+// HX-2013-06:
+// it is only for single-threaded programs
+//
 /* ****** ****** */
 
-atstype_exncon
-ATSLIB_056$prelude_NotFoundExn = { 40, "NotFoundException" } ;
-atstype_exncon
-ATSLIB_056$prelude_ListSubscriptExn = { 50, "ListSubscriptException" } ;
-atstype_exncon
-ATSLIB_056$prelude_ArraySubscriptExn = { 60, "ArraySubscriptException" } ;
-atstype_exncon ATSLIB_056$prelude_NotSomeExn = { 70, "NotSomeException" } ;
+extern
+atsexnframe_ptr
+*my_atsexnframe_getref ()
+{
+//
+static atsexnframe_t *my_atsexnframe = 0 ;
+//
+return &my_atsexnframe ;
+//
+} // end of [my_atsexnframe_getref]
 
 /* ****** ****** */
 
 extern
 void
-the_atsexncon_initize
-(
-  atstype_exncon *d2c, char* exnmsg
-)
+atsruntime_raise
+  (void *exn0)
 {
 //
-  int exntag ;
-  static int the_atsexntag = 1024 ;
+  atsexnframe_t *frame ;
+  frame = *(my_atsexnframe_getref()) ;
 //
-  exntag = the_atsexntag ;
-  the_atsexntag = exntag + 1 ;
-  d2c->exntag = exntag ; d2c->exnmsg = exnmsg ;
+  do {
+    if (!frame) break ;
+    (frame)->exn = (atstype_exnconptr)exn0 ;
+    siglongjmp((frame)->env, 1) ;
+  } while (0) ; // end of [do]
+//
+  atsruntime_handle_uncaughtexn(exn0) ;
+//
   return ;
-} // end of [the_atsexncon_initize]
+//
+} /* end of [atsruntime_raise] */
 
 /* ****** ****** */
 
-extern
-void
-atsruntime_handle_unmatchedval
-  (char *msg0)
-{
-  fprintf(
-    stderr
-  , "exit(ATS): unmatched value at run-time:\n%s\n", msg0
-  ) ; exit(1) ;
-  return ; // deadcode
-} /* end of [atsruntime_handle_unmatchedval] */
-
-/* ****** ****** */
-
-extern
-void
-atsruntime_handle_uncaughtexn_rest
-  (atstype_exncon *exn0)
-{
-  fprintf(
-    stderr
-  , "exit(ATS): uncaught exception at run-time: %s(%d)\n", exn0->exnmsg, exn0->exntag
-  ) ; exit(1) ;
-  return ; // deadcode
-} /* end of [atsruntime_handle_uncaughtexn_rest] */
-
-/* ****** ****** */
-
-/* end of [pats_ccomp_runtime.c] */
+/* end of [pats_ccomp_runtime_trywith.c] */

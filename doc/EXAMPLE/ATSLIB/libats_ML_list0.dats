@@ -123,7 +123,7 @@ list0_mapopt<int><int> (
 ) (* end of [val] *)
 val () = fprintln! (out, "ys_evn = ", ys_evn)
 //
-}
+} (* end of [val] *)
 
 (* ****** ****** *)
 

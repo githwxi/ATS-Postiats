@@ -241,35 +241,27 @@ dataprop SGN (int, int) =
 
 (* ****** ****** *)
 //
-// HX-2012-06: indication of something
-(*
-exception
-NotFoundExn of () // expected to be found but not
-*)
-fun NotFoundExn ():<> exn = "mac#%NotFoundExn_make"
-fun isNotFoundExn (x: !exn):<> bool = "mac#%isNotFoundExn"
+// HX-2012-06:
+// indication of the failure of
+exception AssertExn of () // an assertion
+//
+// HX-2012-06:
+// indication of something expected
+exception NotFoundExn of () // to be found but not
 //
 (* ****** ****** *)
 //
-// HX-2012-07: indication of a function argument taking
-//
-(*
-exception
-IllegalArgExn of (string) // some value out of its domain
-*)
-fun IllegalArgExn (string):<> exn = "mac#%IllegalArgExn_make"
-fun isIllegalArgExn (x: !exn):<> bool = "mac#%isIllegalArgExn"
+// HX-2012-07:
+// indication of a function argument being
+exception IllegalArgExn of (string) // out of its domain
 //
 (* ****** ****** *)
 //
-// HX-2012-07: indication of something (e.g. a template instance)
+// HX-2012-07:
+// indication of something (e.g. a template instance)
 //
-(*
 exception
 NotImplementedExn of (string) // that is not yet implemented
-*)
-fun NotImplementedExn (string):<> exn = "mac#%NotImplementedExn_make"
-fun isNotImplementedExn (x: !exn):<> bool = "mac#%isNotImplementedExn"
 //
 (* ****** ****** *)
 
@@ -505,6 +497,17 @@ overload assert with assert_bool1 of 10
 //
 (* ****** ****** *)
 
+fun{}
+assertexn_bool0 (x: bool):<!exn> void
+fun{}
+assertexn_bool1 {b:bool} (x: bool (b)):<!exn> [b] void
+//
+symintr assertexn
+overload assertexn with assertexn_bool0 of 0
+overload assertexn with assertexn_bool1 of 10
+//
+(* ****** ****** *)
+
 fun assert_errmsg_bool0
   (x: bool, msg: string):<!exn> void = "mac#%"
 fun assert_errmsg_bool1
@@ -516,11 +519,9 @@ overload assert_errmsg with assert_errmsg_bool1 of 10
 //
 (* ****** ****** *)
 
-fun
-assert_errmsg2_bool0
+fun assert_errmsg2_bool0
   (x: bool, msg1: string, msg2: string):<!exn> void = "mac#%"
-fun
-assert_errmsg2_bool1{b:bool}
+fun assert_errmsg2_bool1{b:bool}
   (x: bool b, msg1: string, msg2: string):<!exn> [b] void = "mac#%"
 //
 symintr assert_errmsg2

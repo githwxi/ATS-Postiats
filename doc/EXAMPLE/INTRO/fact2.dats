@@ -7,6 +7,7 @@
 
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/basics.dats"
 staload _(*anon*) = "prelude/DATS/integer.dats"
 
 (* ****** ****** *)
@@ -81,7 +82,7 @@ main (
   val n = (
     if argc >= 2 then g1int_of_string (argv[1]) else 10(*default*)
   ) : Int // end of [val]
-  val () = assert (n >= 0)
+  val () = assertexn (n >= 0)
   val pfr = fact (n)
   and pfr2 = fact2 (n)
   val () = assertloc (pfr.1 = pfr2.1)

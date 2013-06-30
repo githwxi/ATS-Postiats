@@ -40,14 +40,10 @@ typedef Option (a:t0p) = [b:bool] option (a, b)
 
 #atscode_separator()
 
-(*
 exception NotSomeExn of ()
-*)
+(*
 fun NotSomeExn ():<> exn = "mac\#%NotSomeExn_make"
 fun isNotSomeExn (x: !exn):<> bool = "mac\#%isNotSomeExn"
-
-#atscode_separator()
-
 macdef
 ifNotSomeExn
   {tres}(exn, body) =
@@ -61,6 +57,7 @@ if isNotSomeExn(x)
 ) : tres // end of [if]
 end (* end of [let] *)
 ) // end of [ifNotSomeExn]
+*)
 
 #atscode_separator()
 //

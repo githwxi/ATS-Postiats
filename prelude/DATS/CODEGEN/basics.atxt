@@ -75,6 +75,13 @@ argv_get_at
 
 #atscode_separator()
 
+implement{}
+assertexn_bool0 (b) = if not(b) then $raise AssertExn()
+implement{}
+assertexn_bool1 (b) = if not(b) then $raise AssertExn()
+
+#atscode_separator()
+
 implement(a:t0p)
 gequal_ref<a> (x, y) = gequal_val<a> (x, y)
 
