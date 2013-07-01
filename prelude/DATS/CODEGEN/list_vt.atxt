@@ -738,6 +738,8 @@ in
   list_vt_filterlin<a> (xs)
 end // end of [list_vt_filter]
 
+#atscode_separator()
+
 implement{a}
 list_vt_filterlin$clear (x) = gclear_ref (x)
 implement{a}

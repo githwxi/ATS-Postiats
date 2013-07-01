@@ -82,6 +82,23 @@ val () = list_vt_free<T> (ys)
 
 (* ****** ****** *)
 
+val () =
+{
+//
+val out = stdout_ref
+//
+val xs1 = list_make_intrange (0, 5)
+val xs2 = list_make_intrange (5, 10)
+val xs12 = list_vt_append<int> (xs1, xs2)
+//
+val () = fprintln! (out, "xs12 = ", xs12)
+//
+val () = list_vt_free (xs12)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

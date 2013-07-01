@@ -89,6 +89,8 @@ val () = fprintln! (out, "xsys = ", xsys)
 //
 val xsys_sorted = list_vt2t (list_mergesort (xsys))
 val () = fprintln! (out, "xsys_sorted = ", xsys_sorted)
+val xsys_sorted = list_vt2t (list_quicksort (xsys))
+val () = fprintln! (out, "xsys_sorted = ", xsys_sorted)
 //
 } (* end of [val] *)
 

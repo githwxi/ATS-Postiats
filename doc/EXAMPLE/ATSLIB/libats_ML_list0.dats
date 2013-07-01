@@ -132,9 +132,9 @@ val () =
 val out = stdout_ref
 val xs = list0_make_intrange (10, 0, ~1)
 val () = fprintln! (out, "xs = ", xs)
-val xs_sorted = list0_quicksort (xs, lam (x, y) => compare (x, y))
-val () = fprintln! (out, "xs_sorted = ", xs_sorted)
 val xs_sorted = list0_mergesort (xs, lam (x, y) => compare (x, y))
+val () = fprintln! (out, "xs_sorted = ", xs_sorted)
+val xs_sorted = list0_quicksort (xs, lam (x, y) => compare (x, y))
 val () = fprintln! (out, "xs_sorted = ", xs_sorted)
 } (* end of [val] *)
 

@@ -400,8 +400,12 @@ The default implementation of this function always returns true.\
 (* ****** ****** *)
 
 #declnamesynop("list_vt_filter")
-#declnamesynop("list_vt_filterlin")
 #declnamesynop("list_vt_filter$pred")
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt_filterlin")
+#declnamesynop("list_vt_filterlin$pred")
 #declnamesynop("list_vt_filterlin$clear")
 
 (* ****** ****** *)
@@ -420,6 +424,10 @@ list node after applying to the node the function implemented by
 (* ****** ****** *)
 
 #declnamesynop("list_vt_map")
+#declnamesynop("list_vt_map$fwork")
+
+(* ****** ****** *)
+
 #declnamesynop("list_vt_mapfree")
 #decldescrpt("\
 
@@ -427,7 +435,6 @@ This function is similar to #dyncode("list_vt_map"). However, it frees each
 list node after applying to the node the function implemented by
 #dyncode("list_vt_mapfree$fwork"). ")
 
-#declnamesynop("list_vt_map$fwork")
 #declnamesynop("list_vt_mapfree$fwork")
 
 (* ****** ****** *)
