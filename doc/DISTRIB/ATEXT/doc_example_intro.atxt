@@ -168,6 +168,10 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
+#packfilename("trywith.dats")
+
+(* ****** ****** *)
+
 #packpostamble()
 
 (* ****** ****** *)

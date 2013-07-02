@@ -214,8 +214,18 @@ case+ hid0.hidecl_node of
     val () = the_staloadlst_add (hid0)
     val () = ccompenv_add_staload (env, fenv)
   in
-    primdec_staload (loc0, fenv)
+    primdec_staload (loc0, hid0)
   end // end of [HIDstaload]
+//
+| HIDdynload _ => let
+(*
+    val () = println! ("hidecl_ccomp: HIDdynload: loc0 = ", loc0)
+    val () = println! ("hidecl_ccomp: HIDdynload: hid0 = ", hid0)
+*)
+    val () = the_dynloadlst_add (hid0)
+  in
+    primdec_dynload (loc0, hid0)
+  end // end of [HIDdynload]
 //
 | HIDlocal
   (

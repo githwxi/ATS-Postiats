@@ -474,6 +474,7 @@ The ATS/Postiats (ATS2) Compiler\
 #packfilename("pats_ccomp_hipat.dats")
 #packfilename("pats_ccomp_dynexp.dats")
 #packfilename("pats_ccomp_caseof.dats")
+#packfilename("pats_ccomp_trywith.dats")
 #packfilename("pats_ccomp_claulst.dats")
 #packfilename("pats_ccomp_looping.dats")
 #packfilename("pats_ccomp_decl.dats")

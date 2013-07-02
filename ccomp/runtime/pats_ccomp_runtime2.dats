@@ -41,17 +41,30 @@ fun atsruntime_handle_uncaughtexn_rest (exn): void = "ext#"
 implement
 atsruntime_handle_uncaughtexn
   (exn) = let
+//
+macdef
+errmsghead (
+) = prerr ("exit(ATS): uncaught exception at run-time")
+//
 in
 //
 case+ exn of
+| ~AssertExn () => let
+    val () = errmsghead ()
+    val () = prerrln! (": AssertExn") in exit(1)
+  end // end of [AssertExn]  
+| ~NotFoundExn () => let
+    val () = errmsghead ()
+    val () = prerrln! (": NotFoundExn") in exit(1)
+  end // end of [AssertExn]  
+| ~GenerallyExn (msg) => let
+    val () = errmsghead ()
+    val () = prerrln! (": GenerallyExn: ", msg) in exit(1)
+  end // end of [GnerallyExn]
 | ~IllegalArgExn (msg) => let
-    val (
-    ) = prerr ("exit(ATS): uncaught exception at run-time")
+    val () = errmsghead ()
     val () = prerrln! (": IllegalArgExn: ", msg) in exit(1)
   end // end of [IllegalArgExn]
-| ~NotImplementedExn (msg) => let
-    val () = prerrln! (": NotImplementedExn: ", msg) in exit(1)
-  end // end of [NotImplementedExn]
 //
 | _ => atsruntime_handle_uncaughtexn_rest (exn)
 //

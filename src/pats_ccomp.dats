@@ -150,11 +150,14 @@ primdec_include (loc, pmds) =
   primdec_make_node (loc, PMDinclude (pmds))
 
 (* ****** ****** *)
-
+//
 implement
-primdec_staload (loc, fenv) =
-  primdec_make_node (loc, PMDstaload (fenv))
-
+primdec_staload (loc, hid) =
+  primdec_make_node (loc, PMDstaload (hid))
+implement
+primdec_dynload (loc, hid) =
+  primdec_make_node (loc, PMDdynload (hid))
+//
 (* ****** ****** *)
 
 implement

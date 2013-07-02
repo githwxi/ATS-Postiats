@@ -22,41 +22,60 @@
 
 (* ****** ****** *)
 //
-// HX: for arithmetic expressions
-//
-datatype aexp =
-  | AEint of (int) // intconst
-  | AEneg of (aexp) // negative
-  | AEadd of (aexp, aexp) // addition
-  | AEsub of (aexp, aexp) // subtraction
-  | AEmul of (aexp, aexp) // multiplication
-  | AEdiv of (aexp, aexp) // division
-// end of [aexp]
-
-(* ****** ****** *)
-//
-// Some printing functions
-// mostly for the purpose of debugging
-//
-fun print_aexp (ae: aexp): void
-overload print with print_aexp
-fun fprint_aexp (out: FILEref, ae: aexp): void
-overload fprint with fprint_aexp
-//
-(* ****** ****** *)
-//
-// It is for evaluating arithemetic expressions.
-//
-fun aexp_eval (ae: aexp): double
-//
-(* ****** ****** *)
-//
-// A parsing function for turning string into aexp.
-// In case of parsing error, a run-time exception is
-// raised.
-//
-fun aexp_parse_string (inp: string): aexp
+#include
+"share/atspre_staload_tmpdef.hats"
 //
 (* ****** ****** *)
 
-(* end of [calculator.sats] *)
+staload "calculator.sats"
+
+(* ****** ****** *)
+
+implement
+print_aexp (ae) = fprint_aexp (stdout_ref, ae)
+
+(* ****** ****** *)
+
+implement
+fprint_aexp
+  (out, ae0) = let
+//
+macdef prcon1 (con, ae) =
+  fprint! (out, ,(con), "(", ,(ae), ")")
+macdef prcon2 (con, ae1, ae2) =
+  fprint! (out, ,(con), "(", ,(ae1), ", ", ,(ae2), ")")
+//
+in
+//
+case+ ae0 of
+| AEint (i) => prcon1 ("AEint", i)
+| AEneg (ae) => prcon1 ("AEneg", ae)
+| AEadd (ae1, ae2) => prcon2 ("AEadd", ae1, ae2)
+| AEsub (ae1, ae2) => prcon2 ("AEsub", ae1, ae2)
+| AEmul (ae1, ae2) => prcon2 ("AEmul", ae1, ae2)
+| AEdiv (ae1, ae2) => prcon2 ("AEdiv", ae1, ae2)
+//
+end // end of [fprint_aexp]
+
+(* ****** ****** *)
+
+implement
+aexp_eval (ae0) = let
+//
+macdef eval (x) = aexp_eval (,(x))
+//
+in
+//
+case+ ae0 of
+| AEint (i) => g0i2f(i)
+| AEneg (ae) => ~(eval(ae))
+| AEadd (ae1, ae2) => eval(ae1) + eval(ae2)
+| AEsub (ae1, ae2) => eval(ae1) - eval(ae2)
+| AEmul (ae1, ae2) => eval(ae1) * eval(ae2)
+| AEdiv (ae1, ae2) => eval(ae1) / eval(ae2)
+//
+end // end of [aexp_eval]
+
+(* ****** ****** *)
+
+(* end of [calculator.dats] *)

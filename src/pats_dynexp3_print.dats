@@ -38,6 +38,14 @@ staload _(*anon*) = "./pats_utils.dats"
 (* ****** ****** *)
 
 staload LEX = "./pats_lexing.sats"
+
+(* ****** ****** *)
+
+staload FIL = "./pats_filename.sats"
+macdef fprint_filename = $FIL.fprint_filename
+
+(* ****** ****** *)
+
 staload SYM = "./pats_symbol.sats"
 macdef fprint_symbol = $SYM.fprint_symbol
 staload SYN = "./pats_syntax.sats"
@@ -648,6 +656,13 @@ case+ d3c0.d3ecl_node of
 | D3Cinclude _ => prstr "D3Cinclude(...)"
 //
 | D3Cstaload _ => prstr "D3Cstaload(...)"
+//
+| D3Cdynload (fil) =>
+  {
+    val () = prstr "D3Cdynload("
+    val () = fprint_filename (out, fil)
+    val () = prstr ")"
+  }
 //
 | D3Clocal _ => prstr "D3Clocal(...)"
 //

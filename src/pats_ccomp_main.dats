@@ -738,10 +738,12 @@ the_funlablst_stringize
   "postiats_funlablst_", lam (out, _) => emit_the_funlablst (out), 0
 ) // end of [the_funlablst_stringize]
 
-fun aux_staload
+fun
+aux_staload
   (out: FILEref): void = let
 //
-fun loop (
+fun loop
+(
   out: FILEref, xs: hideclist
 ) : void = let
 in
@@ -772,7 +774,39 @@ in
 end // end of [aux_staload]
 
 fun
-aux_dynload (
+aux_dynload_ext
+  (out: FILEref): void = let
+//
+fun loop
+(
+  out: FILEref, xs: hideclist
+) : void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val-HIDdynload (fil) = x.hidecl_node
+    val () = emit_text (out, "/*\nextern\n*/ int\n")
+    val () = emit_filename (out, fil)
+    val () = emit_text (out, "__dynloadflag = 0 ;\n")
+    val () = emit_text (out, "extern atsvoid_t0ype\n")
+    val () = emit_filename (out, fil)
+    val () = emit_text (out, "__dynload(/*void*/) ;\n")
+  in
+    loop (out, xs)
+  end (* end of [list_cons] *)
+| list_nil () => ()
+//
+end // end of [loop]
+//
+in
+  loop (out, the_dynloadlst_get ())
+end // end of [aux_dynload_ext]
+
+fun
+aux_dynload_def
+(
   out: FILEref
 , infil: $FIL.filename, fbody: string
 ) : void = let
@@ -818,7 +852,7 @@ val () = emit_text (out, "} /* end of [*_dynload] */\n")
 //
 in
   // nothing
-end // end of [aux_dynload]
+end // end of [aux_dynload_def]
 
 fun
 aux_main
@@ -1068,7 +1102,9 @@ val ( // HX: the call must be made before
 ) = the_mainats_initize () // aux_dynload is called
 //
 val (
-) = aux_dynload
+) = aux_dynload_ext (out)
+val (
+) = aux_dynload_def
   (out, infil, fbody) where {
   val fbody = $UN.castvwtp1{string}(the_primdeclst_rep)
 } // end of [where] // end of [val]

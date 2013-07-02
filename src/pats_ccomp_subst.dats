@@ -963,25 +963,29 @@ case+
     primdec_valdecs_rec (loc0, knd, hvds, inss)
   end // end of [PMDvaldecs_rec]
 //
-| PMDvardecs (hvds, inss) => let
+| PMDvardecs
+    (hvds, inss) => let
     val inss = instrlst0_subst (env, map, sub, inss, sfx)
   in
     primdec_vardecs (loc0, hvds, inss)
   end // end of [PMDvardecs]
 //
 | PMDinclude (pmds) => let
-    val pmds =
-      primdeclst_subst (env, map, sub, pmds, sfx)
-    // end of [val]
+    val pmds = primdeclst_subst (env, map, sub, pmds, sfx)
   in
     primdec_include (loc0, pmds)
   end // end of [PMDinclude]
 //
-| PMDstaload (fenv) => let
+| PMDstaload (hid) => let
+    val-HIDstaload
+      (fil, flag, fenv, loaded) = hid.hidecl_node
     val () = ccompenv_add_staload (env, fenv) in pmd0
   end // end of [PMDstaload]
 //
-| PMDlocal (
+| PMDdynload (hid) => pmd0
+//
+| PMDlocal
+  (
     pmds_head, pmds_body
   ) => let
     val (pf | ()) = ccompenv_push (env)

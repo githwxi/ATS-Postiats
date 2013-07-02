@@ -1181,6 +1181,25 @@ end // end of [local]
 
 (* ****** ****** *)
 
+implement
+emit_dynload
+  (out, hid) = let
+//
+val-HIDdynload (fil) = hid.hidecl_node
+//
+val () = emit_text (out, "ATSdynloadfcall(")
+val () =
+(
+  emit_filename (out, fil); emit_text (out, "__dynload")
+)
+val () = emit_text (out, ") ;\n")
+//
+in
+  // nothing
+end (* end of [emit_dynload] *)
+
+(* ****** ****** *)
+
 local
 
 staload UN = "prelude/SATS/unsafe.sats"
@@ -1213,7 +1232,8 @@ case+ pmd.primdec_node of
 | PMDvaldecs
     (knd, hvds, inss) =>
     emit_instrlst_ln (out, $UN.cast{instrlst}(inss))
-| PMDvaldecs_rec (knd, hvds, inss) =>
+| PMDvaldecs_rec
+    (knd, hvds, inss) =>
     emit_instrlst_ln (out, $UN.cast{instrlst}(inss))
 //
 | PMDvardecs (hvds, inss) =>
@@ -1222,19 +1242,20 @@ case+ pmd.primdec_node of
 | PMDinclude (pmds) => emit_primdeclst (out, pmds)
 //
 | PMDstaload _ => ()
+| PMDdynload (fil) => emit_dynload (out, fil)
 //
 | PMDlocal
   (
     pmds_head, pmds_body
   ) => {
-    val () =
-      emit_text (out, "/* local */\n")
+    val (
+    ) = emit_text (out, "/* local */\n")
     val () = emit_primdeclst (out, pmds_head)
-    val () =
-      emit_text (out, "/* in of [local] */\n")
+    val (
+    ) = emit_text (out, "/* in of [local] */\n")
     val () = emit_primdeclst (out, pmds_body)
-    val () =
-      emit_text (out, "/* end of [local] */\n")
+    val (
+    ) = emit_text (out, "/* end of [local] */\n")
     // end of [val]
   } // end of [PMDlocal]
 //

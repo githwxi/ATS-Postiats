@@ -21,42 +21,30 @@
 *)
 
 (* ****** ****** *)
-//
-// HX: for arithmetic expressions
-//
-datatype aexp =
-  | AEint of (int) // intconst
-  | AEneg of (aexp) // negative
-  | AEadd of (aexp, aexp) // addition
-  | AEsub of (aexp, aexp) // subtraction
-  | AEmul of (aexp, aexp) // multiplication
-  | AEdiv of (aexp, aexp) // division
-// end of [aexp]
+
+staload "calculator.sats"
 
 (* ****** ****** *)
-//
-// Some printing functions
-// mostly for the purpose of debugging
-//
-fun print_aexp (ae: aexp): void
-overload print with print_aexp
-fun fprint_aexp (out: FILEref, ae: aexp): void
-overload fprint with fprint_aexp
-//
-(* ****** ****** *)
-//
-// It is for evaluating arithemetic expressions.
-//
-fun aexp_eval (ae: aexp): double
-//
-(* ****** ****** *)
-//
-// A parsing function for turning string into aexp.
-// In case of parsing error, a run-time exception is
-// raised.
-//
-fun aexp_parse_string (inp: string): aexp
-//
+
+dynload "calculator.dats"
+
 (* ****** ****** *)
 
-(* end of [calculator.sats] *)
+val () =
+{
+//
+val ae0 = AEint (0)
+val ae1 = AEadd (ae0, ae0)
+val ae2 = AEmul (ae1, ae1)
+//
+val () = println! ("ae2 = ", ae2)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+implement main0 () = ()
+
+(* ****** ****** *)
+
+(* end of [test.dats] *)

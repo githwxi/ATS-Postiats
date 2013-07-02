@@ -189,11 +189,13 @@ local
 
 vtypedef
 staloadlst_vt = List_vt (hidecl)
+vtypedef
+dynloadlst_vt = List_vt (hidecl)
 
-val
-the_staloadlst =
+val the_staloadlst =
   ref_make_elt<staloadlst_vt> (list_vt_nil ())
-// end of [val]
+val the_dynloadlst =
+  ref_make_elt<dynloadlst_vt> (list_vt_nil ())
 
 in (* in of [local] *)
 
@@ -221,6 +223,33 @@ val xs = list_vt_reverse<hidecl> (xs)
 in
   list_of_list_vt (xs)
 end // end of [the_staloadlst_get]
+
+(* ****** ****** *)
+
+implement
+the_dynloadlst_add (x) = let
+//
+val (
+  vbox pf | p
+) = ref_get_view_ptr (the_dynloadlst)
+//
+in
+  !p := list_vt_cons (x, !p)
+end // end of [the_dynloadlst_add]
+
+implement
+the_dynloadlst_get () = let
+//
+val (
+  vbox pf | p
+) = ref_get_view_ptr (the_dynloadlst)
+val xs = !p
+val () = !p := list_vt_nil ()
+val xs = list_vt_reverse<hidecl> (xs)
+//
+in
+  list_of_list_vt (xs)
+end // end of [the_dynloadlst_get]
 
 end // end of [local]
 

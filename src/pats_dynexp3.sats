@@ -246,9 +246,11 @@ d3ecl_node =
 //
   | D3Cinclude of d3eclist (* file inclusion *)
 //
-  | D3Cstaload of (
+  | D3Cstaload of
+    (
       filename, int(*flag*), filenv, int(*loaded*)
     ) // end of [D3Cstaload]
+  | D3Cdynload of (filename)
 //
   | D3Clocal of (d3eclist(*head*), d3eclist(*body*))
 // end of [d3ecl_node]
@@ -970,6 +972,12 @@ fun d3ecl_staload
   loc: location
 , fil: filename, loadflag: int, fenv: filenv, loaded: int
 ) : d3ecl // end of [d2ecl_staload]
+
+fun d3ecl_dynload (loc: location, fil: filename): void
+
+(* ****** ****** *)
+
+fun d3ecl_dynload (loc: location, fil: filename): d3ecl
 
 (* ****** ****** *)
 

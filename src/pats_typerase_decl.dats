@@ -145,7 +145,8 @@ case+
     val hids = d3eclist_tyer (d3cs) in hidecl_include (loc0, hids)
   end // end of [D3Cinclude]
 //
-| D3Cstaload (
+| D3Cstaload
+  (
     fname, flag, fenv, loaded
   ) => let
     val-Some (d3cs) =
@@ -176,6 +177,8 @@ case+
   in
     hidecl_staload (loc0, fname, flag, fenv, loaded)
   end // end of [D3Cstaload]
+//
+| D3Cdynload (fil) => hidecl_dynload (loc0, fil)
 //
 | D3Clocal
     (head, body) => let

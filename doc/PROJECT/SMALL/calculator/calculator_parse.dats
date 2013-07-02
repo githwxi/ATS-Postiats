@@ -21,42 +21,45 @@
 *)
 
 (* ****** ****** *)
-//
-// HX: for arithmetic expressions
-//
-datatype aexp =
-  | AEint of (int) // intconst
-  | AEneg of (aexp) // negative
-  | AEadd of (aexp, aexp) // addition
-  | AEsub of (aexp, aexp) // subtraction
-  | AEmul of (aexp, aexp) // multiplication
-  | AEdiv of (aexp, aexp) // division
-// end of [aexp]
+
+staload "calculator.sats"
 
 (* ****** ****** *)
-//
-// Some printing functions
-// mostly for the purpose of debugging
-//
-fun print_aexp (ae: aexp): void
-overload print with print_aexp
-fun fprint_aexp (out: FILEref, ae: aexp): void
-overload fprint with fprint_aexp
-//
-(* ****** ****** *)
-//
-// It is for evaluating arithemetic expressions.
-//
-fun aexp_eval (ae: aexp): double
-//
-(* ****** ****** *)
-//
-// A parsing function for turning string into aexp.
-// In case of parsing error, a run-time exception is
-// raised.
-//
-fun aexp_parse_string (inp: string): aexp
-//
+
+abstype cstream_type
+typedef cstream = cstream_type
+
 (* ****** ****** *)
 
-(* end of [calculator.sats] *)
+extern
+fun cstream_make_string (str: string): cstream
+
+(* ****** ****** *)
+
+extern
+fun cstream_inc (cs: cstream): void
+extern
+fun cstream_get (cs: cstream): char
+extern
+fun cstream_getinc (cs: cstream): char
+
+(* ****** ****** *)
+
+extern
+fun cstream_is_atend (cs: cstream): bool
+
+(* ****** ****** *)
+
+extern
+fun cstream_get_at (cs: cstream, i: int): char
+extern
+fun cstream_getinc_at (cs: cstream, i: int): char
+
+(* ****** ****** *)
+
+extern
+fun cstream_get_range (cs: cstream, i: int, j: int): string
+
+(* ****** ****** *)
+
+(* end of [calculator.dats] *)

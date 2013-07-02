@@ -63,6 +63,7 @@
 #define ATSdynload0(flag) int flag = 0
 #define ATSdynload1(flag) ATSglobaldec() int flag
 #define ATSdynloadset(flag) flag = 1
+#define ATSdynloadfcall(dynloadfun) dynloadfun()
 
 /* ****** ****** */
 

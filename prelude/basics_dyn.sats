@@ -245,23 +245,24 @@ dataprop SGN (int, int) =
 // indication of the failure of
 exception AssertExn of () // an assertion
 //
+(* ****** ****** *)
+//
 // HX-2012-06:
 // indication of something expected
 exception NotFoundExn of () // to be found but not
 //
 (* ****** ****** *)
 //
-// HX-2012-07:
-// indication of a function argument being
-exception IllegalArgExn of (string) // out of its domain
+exception GenerallyExn of (string) // for unspecified causes
+(*
+exception GenerallyExn2 of (string, ptr(*data*)) // for unspecified causes
+*)
 //
 (* ****** ****** *)
 //
 // HX-2012-07:
-// indication of something (e.g. a template instance)
-//
-exception
-NotImplementedExn of (string) // that is not yet implemented
+// indication of a function argument being
+exception IllegalArgExn of (string) // out of its domain
 //
 (* ****** ****** *)
 

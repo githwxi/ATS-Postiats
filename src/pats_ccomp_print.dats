@@ -197,15 +197,26 @@ case+ x.primdec_node of
     val () = prstr ")"
   }
 //
-| PMDinclude (pmds) => {
+| PMDinclude (pmds) =>
+  {
     val () = prstr "PMDinclude(\n"
     val () = fprint_primdeclst (out, pmds)
     val () = prstr ")"
   }
 //
-| PMDstaload (fenv) => {
-    val fil = filenv_get_name (fenv)
+| PMDstaload (hid) =>
+  {
+    val-HIDstaload
+      (fil, _, _, _) = hid.hidecl_node
     val () = prstr "PMDstaload("
+    val () = $FIL.fprint_filename (out, fil)
+    val () = prstr ")"
+  }
+//
+| PMDdynload (hid) =>
+  {
+    val-HIDdynload (fil) = hid.hidecl_node
+    val () = prstr "PMDdynload("
     val () = $FIL.fprint_filename (out, fil)
     val () = prstr ")"
   }

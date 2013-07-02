@@ -48,6 +48,7 @@ typedef label = $LAB.label
 (* ****** ****** *)
 //
 staload FIL = "./pats_filename.sats"
+typedef filename = $FIL.filename
 //
 staload LOC = "./pats_location.sats"
 typedef location = $LOC.location
@@ -99,8 +100,13 @@ fun the_saspdeclst_add (hid: hidecl): void
 fun the_extcodelst_get (): hideclist
 fun the_extcodelst_add (hid: hidecl): void
 
+(* ****** ****** *)
+
 fun the_staloadlst_get (): hideclist
 fun the_staloadlst_add (hid: hidecl): void
+
+fun the_dynloadlst_get (): hideclist
+fun the_dynloadlst_add (hid: hidecl): void
 
 (* ****** ****** *)
 
@@ -480,8 +486,8 @@ typedef instrlst = ccomp_instrlst_type
 
 datatype
 primcstsp =
-  | PMCSTSPmyfil of ($FIL.filename)
-  | PMCSTSPmyloc of ($LOC.location)
+  | PMCSTSPmyfil of (filename)
+  | PMCSTSPmyloc of (location)
   | PMCSTSPmyfun of (funlab) // HX: for function name
 // end of [primcstsp]
 
@@ -517,7 +523,8 @@ primdec_node =
 //
   | PMDinclude of (primdeclst)
 //
-  | PMDstaload of (filenv) // HX: staloading
+  | PMDstaload of (hidecl) // HX: staloading
+  | PMDdynload of (hidecl) // HX: dynloading
 //
   | PMDlocal of (primdeclst, primdeclst)
 // end of [primdec_node]
@@ -690,7 +697,8 @@ fun primdec_include (loc: location, pmds: primdeclst): primdec
 
 (* ****** ****** *)
 
-fun primdec_staload (loc: location, fenv: filenv): primdec
+fun primdec_staload (loc: location, hid: hidecl): primdec
+fun primdec_dynload (loc: location, hid: hidecl): primdec
 
 (* ****** ****** *)
 
@@ -1798,7 +1806,7 @@ fun emit_label (out: FILEref, lab: label): void
 fun emit_atslabel (out: FILEref, lab: label): void
 fun emit_labelext (out: FILEref, knd: int, lab: label): void
 
-fun emit_filename (out: FILEref, fil: $FIL.filename): void
+fun emit_filename (out: FILEref, fil: filename): void
 
 (* ****** ****** *)
 
@@ -1829,7 +1837,11 @@ fun emit_saspdec (out: FILEref, hid: hidecl): void
 (* ****** ****** *)
 
 fun emit_extcode (out: FILEref, hid: hidecl): void
+
+(* ****** ****** *)
+
 fun emit_staload (out: FILEref, hid: hidecl): void
+fun emit_dynload (out: FILEref, hid: hidecl): void
 
 (* ****** ****** *)
 //
@@ -2043,8 +2055,11 @@ fun funlab_subst
   (sub: !stasub, flab: funlab): funlab
 //
 fun funent_subst
-  (env: !ccompenv, sub: !stasub, flab2: funlab, fent: funent, sfx: int): funent
-//
+(
+  env: !ccompenv
+, sub: !stasub, flab2: funlab, fent: funent, sfx: int
+) : funent // end of [funent_subst]
+
 (* ****** ****** *)
 
 fun the_toplevel_getref_tmpvarlst (): Ptr1
@@ -2052,8 +2067,9 @@ fun the_toplevel_getref_primdeclst (): Ptr1
 
 (* ****** ****** *)
 
-fun ccomp_main (
-  out: FILEref, flag: int, infil: $FIL.filename, hdcs: hideclist
+fun ccomp_main
+(
+  out: FILEref, flag: int, infil: filename, hdcs: hideclist
 ) : void // end of [ccomp_main]
 
 (* ****** ****** *)

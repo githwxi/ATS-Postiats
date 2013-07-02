@@ -122,6 +122,7 @@ fun prv2ardeclst_tr (v2ds: prv2ardeclst): prv3ardeclst
 (* ****** ****** *)
 
 extern fun d2ecl_tr_staload (d2c: d2ecl): d3ecl
+extern fun d2ecl_tr_dynload (d2c: d2ecl): d3ecl
 
 (* ****** ****** *)
 
@@ -202,6 +203,8 @@ case+ d2c0.d2ecl_node of
   end // end of [D2Cinclude]
 //
 | D2Cstaload _ => d2ecl_tr_staload (d2c0)
+//
+| D2Cdynload _ => d2ecl_tr_dynload (d2c0)
 //
 | D2Clocal
     (d2cs_head, d2cs_body) => let
@@ -784,6 +787,17 @@ d2ecl_tr_staload
 in
   d3ecl_staload (loc0, fil, loadflag, fenv, loaded)
 end // end of [d2ecl_tr_staload]
+
+(* ****** ****** *)
+
+implement
+d2ecl_tr_dynload
+  (d2c0) = let
+  val loc0 = d2c0.d2ecl_loc
+  val-D2Cdynload (fil) = d2c0.d2ecl_node
+in
+  d3ecl_dynload (loc0, fil)
+end // end of [d2ecl_tr_dynload]
 
 (* ****** ****** *)
 

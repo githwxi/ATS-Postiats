@@ -834,6 +834,11 @@ hidecl_staload (
   loc, HIDstaload (fname, flag, loaded, fenv)
 ) // end of [hidecl_staload]
 
+implement
+hidecl_dynload (loc, fil) =
+  hidecl_make_node (loc, HIDdynload (fil))
+// end of [hidecl_dynload]
+
 (* ****** ****** *)
 
 implement

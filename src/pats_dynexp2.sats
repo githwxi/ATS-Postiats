@@ -673,10 +673,12 @@ d2ecl_node =
   | D2Cimpdec of (int(*knd*), i2mpdec) // knd=0/1 : implement/primplmnt
 //
   | D2Cinclude of d2eclist (* file inclusion *)
+//
   | D2Cstaload of (
       symbolopt(*id*), filename, int(*loadflag*), filenv, int(*loaded*)
     ) // end of [D2staload]
-  | D2Cdynload of filename (* dynamic load *)
+  | D2Cdynload of (filename) (* dynamic load *)
+//
   | D2Clocal of (d2eclist(*head*), d2eclist(*body*)) // local declaration
 //
   | D2Cerrdec of () // indication of error

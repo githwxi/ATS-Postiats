@@ -242,9 +242,11 @@ hidecl_node =
 //
   | HIDinclude of (hideclist)
 //
-  | HIDstaload of (
+  | HIDstaload of
+    (
       filename, int(*flag*), filenv, int(*loaded*)
     ) // end of [HIDstaload]
+  | HIDdynload of (filename)
 //
   | HIDlocal of (hideclist (*head*), hideclist (*body*))
 // end of [hidecl_node]
@@ -856,10 +858,13 @@ fun hidecl_include (loc: location, hids: hideclist): hidecl
 
 (* ****** ****** *)
 
-fun hidecl_staload (
+fun hidecl_staload
+(
   loc: location
 , fname: filename, flag: int, fenv: filenv, loaded: int
 ) : hidecl // end of [hidecl_staload]
+
+fun hidecl_dynload (loc: location, fil: filename): hidecl
 
 (* ****** ****** *)
       

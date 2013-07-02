@@ -359,6 +359,7 @@ case+ pmd.primdec_node of
 | PMDinclude (pmds) => auxpmdlst (res, pmds)
 //
 | PMDstaload _ => ()
+| PMDdynload _ => ()
 //
 | PMDlocal (
     pmds_head, pmds_body

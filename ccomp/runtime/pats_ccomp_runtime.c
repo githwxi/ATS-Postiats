@@ -53,9 +53,9 @@ extern void exit (int) ; // in [stdlib.h]
 atstype_exncon
 ATSLIB_056$prelude_AssertExn = { 10, "AssertException" } ;
 atstype_exncon
-ATSLIB_056$prelude_IllegalArgExn = { 20, "IllegalArgException" } ;
+ATSLIB_056$prelude_GenerallyExn = { 20, "GenerallyException" } ;
 atstype_exncon
-ATSLIB_056$prelude_NotImplementedExn = { 30, "NotImplementedException" } ;
+ATSLIB_056$prelude_IllegalArgExn = { 30, "IllegalArgException" } ;
 
 /* ****** ****** */
 
