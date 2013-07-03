@@ -35,7 +35,9 @@ implement
 print_aexp (ae) = fprint_aexp (stdout_ref, ae)
 
 (* ****** ****** *)
-
+//
+// HX: macros can often make code easier to access
+//
 implement
 fprint_aexp
   (out, ae0) = let

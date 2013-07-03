@@ -58,5 +58,57 @@ fun aexp_eval (ae: aexp): double
 fun aexp_parse_string (inp: string): aexp
 //
 (* ****** ****** *)
+//
+// abstract type
+// for streams character
+//
+abstype cstream_type
+typedef cstream = cstream_type
+//
+(* ****** ****** *)
+
+fun cstream_make_string (str: string): cstream
+
+(* ****** ****** *)
+
+fun cstream_is_atend (cs: cstream): bool
+
+(* ****** ****** *)
+
+fun cstream_inc (cs: cstream): void
+fun cstream_get (cs: cstream): char
+fun cstream_getinc (cs: cstream): char // get and inc
+
+(* ****** ****** *)
+
+fun cstream_get_at (cs: cstream, i: int): char
+fun cstream_getinc_at (cs: cstream, i: int): char
+
+(* ****** ****** *)
+
+fun cstream_get_range (cs: cstream, i: int, j: int): string
+
+(* ****** ****** *)
+
+datatype token =
+  | TOKint of int | TOKopr of string | TOKeof of ()
+// end of [token]
+
+(* ****** ****** *)
+
+fun print_token (tok: token): void
+overload print with print_token
+fun fprint_token (out: FILEref, tok: token): void
+overload fprint with fprint_token
+
+(* ****** ****** *)
+//
+// abstract type
+// for streams of tokens
+//
+abstype tstream_type
+typedef tstream = tstream_type
+//
+(* ****** ****** *)
 
 (* end of [calculator.sats] *)

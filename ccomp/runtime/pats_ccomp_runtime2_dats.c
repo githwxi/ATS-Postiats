@@ -103,7 +103,9 @@ __patstlab_4:
 ATSifnot(ATSPATCKexn1(arg0, ATSLIB_056$prelude_GenerallyExn)) { ATSgoto(__patstlab_6) ; }
 __patstlab_5:
 ATSINSmove(tmp1, ATSSELcon(arg0, pats_ccomp_runtime2_tyexn_0, atslab$0)) ;
+/*
 ATSINSfreecon(arg0) ;
+*/
 /*
 ibranch-mbody:
 */
@@ -129,7 +131,9 @@ __patstlab_6:
 ATSifnot(ATSPATCKexn1(arg0, ATSLIB_056$prelude_IllegalArgExn)) { ATSgoto(__patstlab_8) ; }
 __patstlab_7:
 ATSINSmove(tmp2, ATSSELcon(arg0, pats_ccomp_runtime2_tyexn_0, atslab$0)) ;
+/*
 ATSINSfreecon(arg0) ;
+*/
 /*
 ibranch-mbody:
 */

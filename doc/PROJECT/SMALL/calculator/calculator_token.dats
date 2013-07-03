@@ -26,4 +26,27 @@ staload "calculator.sats"
 
 (* ****** ****** *)
 
-(* end of [calculator_parse.dats] *)
+implement
+fprint_token
+  (out, tok) = let
+//
+macdef prstr (x) = fprint_string (out, ,(x))
+//
+in
+//
+case+ tok of
+| TOKint (int) =>
+  (
+    prstr "TOKint("; fprint_int (out, int); prstr ")"
+  )
+| TOKopr (opr) =>
+  (
+    prstr "TOKint("; fprint_string (out, opr); prstr ")"
+  )
+| TOKeof () => prstr "TOKeof()"
+//
+end // end of [fprint_token]
+
+(* ****** ****** *)
+
+(* end of [calculator_token.dats] *)

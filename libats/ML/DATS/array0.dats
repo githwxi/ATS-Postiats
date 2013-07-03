@@ -98,7 +98,7 @@ end // end of [array0_make_elt]
 implement{a}
 array0_make_list
   (xs) = let
-  val ASZ = arrszref_make_list ((list_of_list0)xs)
+  val ASZ = arrszref_make_list (g1ofg0(xs))
 in
   array0_of_arrszref (ASZ)
 end // end of [array0_make_list]
@@ -108,7 +108,7 @@ end // end of [array0_make_list]
 implement{a}
 array0_make_rlist
   (xs) = let
-  val ASZ = arrszref_make_rlist ((list_of_list0)xs)
+  val ASZ = arrszref_make_rlist (g1ofg0(xs))
 in
   array0_of_arrszref (ASZ)
 end // end of [array0_make_rlist]

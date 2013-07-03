@@ -686,9 +686,9 @@ val s2e0 = (
       end // end of [None]
     ) // end of [None]
 ) : s2exp // end of [val]
-//
+(*
 val () = println! ("v2ardec_tr: s2e0 = ", s2e0)
-//
+*)
 val d2vw =
   d2var_mutablize (locvar, d2v, s2e0, v2d.v2ardec_wth)
 val-Some(s2l) = d2var_get_addr (d2v)
