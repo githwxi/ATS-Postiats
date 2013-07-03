@@ -1892,8 +1892,13 @@ fun fprint_hitype : fprint_type (hitype)
 fun fprint_hitypelst : fprint_type (hitypelst)
 
 (* ****** ****** *)
+//
+// HX: flag=0/1: flatten/regular
+//
+fun hisexp_typize (flag: int, hse: hisexp): hitype
+//
+(* ****** ****** *)
 
-fun hisexp_typize (hse: hisexp): hitype
 fun emit_hitype (out: FILEref, hit: hitype): void
 
 (* ****** ****** *)
@@ -1902,6 +1907,8 @@ fun emit_hisexp (out: FILEref, hse: hisexp): void
 fun emit_hisexplst_sep
   (out: FILEref, hses: hisexplst, sep: string): void
 // end of [emit_hisexplst_sep]
+
+fun emit_hisexp_sel (out: FILEref, hse: hisexp): void
 
 (* ****** ****** *)
 

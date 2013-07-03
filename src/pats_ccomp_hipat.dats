@@ -636,12 +636,10 @@ himatch_ccomp_sum
 (
   env, res, lvl0, hip0, pmv0
 ) = let
-//
-// (*
+(*
 val (
 ) = println! ("himatch_ccomp_sum: hip0 = ", hip0)
-// *)
-//
+*)
 val-HIPcon
   (pck, d2c, hse_sum, lhips) = hip0.hipat_node
 //

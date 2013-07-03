@@ -1070,11 +1070,15 @@ in (* in of [local] *)
 implement
 emit_funent_implmnt
   (out, fent) = let
-//
+(*
+val () = fprintln! (stdout_ref, "emit_funent_implmnt: fent = ", fent)
+*)
 val loc0 = funent_get_loc (fent)
 val flab = funent_get_lab (fent)
 val d2es = funent_eval_d2envlst (fent)
-//
+(*
+val () = fprintln! (stdout_ref, "emit_funent_implmnt: d2es = ", d2es)
+*)
 val () = emit_text (out, "/*\n")
 val () = $LOC.fprint_location (out, loc0)
 val () = emit_text (out, "\n*/\n")

@@ -55,15 +55,18 @@ typedef int8 =
   int, int, int, int, int, int, int, int
 ) // end of [int8]
 
-fun print_dots (i: int): void =
+fun print_dots
+  (i: int): void =
   if i > 0 then (print ". "; print_dots (i-1)) else ()
 // end of [print_dots]
 
-fun print_row (i: int): void = begin
+fun print_row
+  (i: int): void = begin
   print_dots (i); print "Q "; print_dots (N-i-1); print '\n';
 end // end of [print_row]
 
-fun print_board (bd: int8): void = begin
+fun print_board
+  (bd: int8): void = begin
   print_row (bd.0); print_row (bd.1); print_row (bd.2); print_row (bd.3);
   print_row (bd.4); print_row (bd.5); print_row (bd.6); print_row (bd.7);
   print_newline ()

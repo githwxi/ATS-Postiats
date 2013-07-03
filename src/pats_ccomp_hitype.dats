@@ -223,11 +223,7 @@ fun eq_hitype_hitype (x1: hitype, x2: hitype): bool
 (* ****** ****** *)
 
 extern
-fun s2exp_typize (s2e: s2exp): hitype
-extern
-fun hisexplst_typize (hses: hisexplst): hitypelst
-extern
-fun labhisexplst_typize (lhses: labhisexplst): labhitypelst
+fun s2exp_typize (flag: int, s2e: s2exp): hitype
 
 (* ****** ****** *)
 //
@@ -804,7 +800,7 @@ implement
 emit_hisexp
   (out, hse) = let
 //
-val hit = hisexp_typize (hse)
+val hit = hisexp_typize (1, hse)
 //
 (*
 val () = println! ("emit_hisexp: hse = ", hse)
@@ -814,12 +810,10 @@ val () = println! ("emit_hisexp: hit = ", hit)
 in
 //
 case+ hit of
-| HITundef _ => {
-    val () =
-      emit_text (out, "HITundef(")
-    val () = fprint_hisexp (out, hse)
-    val () = emit_text (out, ")")
-  } // end of [HITundef]
+| HITundef _ =>
+  (
+    emit_text (out, "HITundef("); fprint_hisexp (out, hse); emit_text (out, ")")
+  ) // end of [HITundef]
 | _ => emit_hitype (out, hit)
 //
 end // end of [emit_hisexp]
@@ -835,23 +829,49 @@ fun loop (
 , hses: hisexplst, sep: string, i: int
 ) : void = let
 in
-  case+ hses of
-  | list_cons (
-      hse, hses
-    ) => let
-      val () =
-        if i > 0 then emit_text (out, sep)
-      // end of [val]
-      val () = emit_hisexp (out, hse)
-    in
-      loop (out, hses, sep, i+1)
-    end // end of [list_cons]
-  | list_nil () => ()
+//
+case+ hses of
+| list_cons
+    (hse, hses) => let
+    val () =
+      if i > 0
+        then emit_text (out, sep)
+      // end of [if]
+    val () = emit_hisexp (out, hse)
+  in
+    loop (out, hses, sep, i+1)
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
 end // end of [loop]
 //
 in
   loop (out, hses, sep, 0)
 end // end of [emit_hisexplst_sep]
+
+(* ****** ****** *)
+
+implement
+emit_hisexp_sel
+  (out, hse) = let
+//
+val hit = hisexp_typize (0, hse)
+//
+(*
+val () = println! ("emit_hisexp_sel: hse = ", hse)
+val () = println! ("emit_hisexp_sel: hit = ", hit)
+*)
+//
+in
+//
+case+ hit of
+| HITundef _ =>
+  (
+    emit_text (out, "HITundef("); fprint_hisexp (out, hse); emit_text (out, ")")
+  ) // end of [HITundef]
+| _ => emit_hitype (out, hit)
+//
+end // end of [emit_hisexp_sel]
 
 (* ****** ****** *)
 
@@ -889,7 +909,7 @@ end // end of [hitype_gen_tyexn]
 
 implement
 s2exp_typize
-  (s2e0) = let
+  (flag, s2e0) = let
 in
 //
 case+
@@ -904,7 +924,7 @@ case+
 | _ => let
     val hse0 = $TYER.s2exp_tyer_shallow ($LOC.location_dummy, s2e0)
   in
-    hisexp_typize (hse0)
+    hisexp_typize (flag, hse0)
   end // end of [_]
 //
 end // end of [s2exp_typize]
@@ -960,7 +980,7 @@ case+ hse0.hisexp_node of
   end // end of [HSErefarg]
 //
 | HSEs2exp (s2e) => let
-    val hit = s2exp_typize (s2e) in
+    val hit = s2exp_typize (flag, s2e) in
     case+ hit of HITnone () => hitype_undef (hse0) | _ => (hit)
   end // end of [HSEs2exp]
 //
@@ -986,7 +1006,8 @@ case+ 0 of
 //
 end // end of [aux_s2cst]
 
-and aux_tyarr (
+and aux_tyarr
+(
   flag: int, hse0: hisexp
 ) : hitype = let
 //
@@ -998,7 +1019,8 @@ in
   HITtyarr (hit_elt, dim)
 end // end of [aux_tyarr]
 
-and aux_tyrec (
+and aux_tyrec
+(
   flag: int, hse0: hisexp
 ) : hitype = let
 //
@@ -1041,7 +1063,8 @@ in
   | ~Some_vt (hit0) => hit0
 end // end of [aux_tyrec2]
 
-and aux_tysum (
+and aux_tysum
+(
   flag: int, hse0: hisexp
 ) : hitype = let
 //
@@ -1074,7 +1097,8 @@ end // end of [if]
 //
 end // end of [aux_tysum]
 
-and aux_tyexn (
+and aux_tyexn
+(
   flag: int, hse0: hisexp
 ) : hitype = let
 //
@@ -1104,7 +1128,8 @@ end // end of [if]
 //
 end // end of [aux_tyexn]
 
-and auxlst (
+and auxlst
+(
   flag: int, xs: hisexplst
 ) : hitypelst = let
 in
@@ -1112,7 +1137,7 @@ in
 case+ xs of
 | list_cons
     (x, xs) => let
-    val y = aux (flag, x)
+    val y = aux (flag+1, x)
     val ys = auxlst (flag, xs)
   in
     list_cons (y, ys)
@@ -1121,7 +1146,8 @@ case+ xs of
 //
 end // end of [auxlst]
 
-and auxlablst (
+and auxlablst
+(
   flag: int, lxs: labhisexplst
 ) : labhitypelst = let
 in
@@ -1143,11 +1169,7 @@ end // end of [auxlablst]
 in (* in of [local] *)
 
 implement
-hisexp_typize (x) = aux (0, x)
-implement
-hisexplst_typize (xs) = auxlst (0, xs)
-implement
-labhisexplst_typize (xs) = auxlablst (0, xs)
+hisexp_typize (flag, x) = aux (flag, x)
 
 end // end of [local]
 

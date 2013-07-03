@@ -9,9 +9,12 @@
 
 ######
 
-CC=gcc
+CC=gcc -std=c99 -D_XOPEN_SOURCE
+
+######
+
 PATSHOMEQ="$(PATSHOME)"
-PATSOPT=$(PATSHOMEQ)/src/patsopt
+PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 

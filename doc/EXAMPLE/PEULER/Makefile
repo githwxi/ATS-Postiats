@@ -1,8 +1,13 @@
 #
-#
+# A Makefile for PEULER problems
 #
 
-CCOPT=gcc -O2
+######
+
+CCOPT=gcc -O2 -D_XOPEN_SOURCE
+
+######
+
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######

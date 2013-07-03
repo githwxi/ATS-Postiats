@@ -301,6 +301,10 @@ implement
 emit_funenvlst
   (out, d2es) = let
 //
+(*
+val () = fprintln! (stdout_ref, "emit_funenvlst: d2es = ", d2es)
+*)
+//
 fun loop
 (
   out: FILEref

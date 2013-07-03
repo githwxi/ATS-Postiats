@@ -4,7 +4,8 @@
 
 ######
 
-CCOPT=gcc -std=c99
+CCOPT=\
+gcc -std=c99 -D_XOPEN_SOURCE
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
@@ -14,6 +15,9 @@ INCLUDES=-I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime
 ######
 
 CCFLAGS=-O2
+
+######
+
 ATSCCFLAGS=
 
 ######

@@ -9,7 +9,10 @@
 
 ######
 
-CCOPT=gcc -std=c99
+CCOPT=gcc -std=c99 -D_XOPEN_SOURCE
+
+######
+
 PATSHOMEQ="$(PATSHOME)"
 PATSOPT=$(PATSHOMEQ)/src/patsopt
 PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib

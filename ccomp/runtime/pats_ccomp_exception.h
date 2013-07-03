@@ -40,17 +40,17 @@
 
 /* ****** ****** */
 
-#ifndef _XOPEN_SOURCE
-#define _XOPEN_SOURCE // for [sigsetjmp] in gcc-4.5
-#endif // end of [_XOPEN_SOURCE]
+/*
+use -D_XOPEN_SOURCE
+*/
 #include <setjmp.h>
 
 /* ****** ****** */
 
-#include <alloca.h>
 /*
-extern void *alloca (size_t bsz) ;
+#include <alloca.h>
 */
+extern void *alloca (size_t bsz) ;
 
 /* ****** ****** */
 

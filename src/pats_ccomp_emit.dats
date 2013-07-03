@@ -2012,7 +2012,7 @@ if isnul then let
 in
   // nothing
 end else let
-  val hit_con = hisexp_typize (hse_sum)
+  val hit_con = hisexp_typize (0, hse_sum)
   val () = (
     if iscon then auxcon1 (out, tmp, d2c, hit_con, arg)
   ) : void // end of [val]
@@ -2075,7 +2075,7 @@ case- ins.instr_node of
   (
     tmp, lpmvs, hse_rec
   ) => let
-    val hit_rec = hisexp_typize (hse_rec)
+    val hit_rec = hisexp_typize (1, hse_rec)
     val extknd = hisexp_get_extknd (hse_rec)
   in
     loop (0(*boxknd*), extknd, tmp, hit_rec, lpmvs, 0)
@@ -2084,7 +2084,7 @@ case- ins.instr_node of
   (
     tmp, lpmvs, hse_rec
   ) => let
-    val hit_rec = hisexp_typize (hse_rec)
+    val hit_rec = hisexp_typize (0, hse_rec)
 //
     val () = emit_text (out, "ATSINSmove_boxrec(")
     val () = emit_tmpvar (out, tmp)
@@ -2114,7 +2114,7 @@ fun auxsel
 val () = emit_text (out, "ATSSELcon(")
 val () = emit_primval (out, pmv)
 val () = emit_text (out, ", ")
-val () = emit_hisexp (out, hse_sum)
+val () = emit_hisexp_sel (out, hse_sum)
 val () = emit_text (out, ", ")
 val () = emit_labelext (out, 0(*ext*), lab)
 val () = emit_rparen (out)
@@ -2224,6 +2224,9 @@ fun auxmain
 , xys: List_vt @(hisexp, primlab)
 , i: int
 ) : void = let
+(*
+val () = fprintln! (stdout_ref, "auxmain: hse_rt = ", hse_rt)
+*)
 in
 //
 case+ xys of
@@ -2239,12 +2242,12 @@ case+ xys of
       case+
         hse.hisexp_node of
       | HSEtyarr
-         (hse_elt, _) => {
-         val () = hse := hse_elt
-         val () =
-           pmv := primval_ptrof (pmv.primval_loc, hisexp_typtr, pmv)
-         // end of [val]
-       } // end of [HSEtyarr]
+          (hse_elt, _) => {
+          val () = hse := hse_elt
+          val () =
+            pmv := primval_ptrof (pmv.primval_loc, hisexp_typtr, pmv)
+          // end of [val]
+        } // end of [HSEtyarr]
       | _ => () // end of [_]
     ) : void // end of [val]
 //
@@ -2273,7 +2276,7 @@ case+ xys of
     val () = auxmain (out, knd, pmv, hse_rt, xys, i + 1)
 //
     val () = emit_text (out, ", ")
-    val () = emit_hisexp (out, hse)
+    val () = emit_hisexp_sel (out, hse)
     val () = emit_text (out, ", ")
     val extknd = hisexp_get_extknd (hse)
     val () = emit_primlab (out, extknd, pml)
