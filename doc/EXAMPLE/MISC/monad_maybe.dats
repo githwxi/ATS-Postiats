@@ -1,13 +1,13 @@
 (* ****** ****** *)
 //
-// Experimenting with (simple) monad
+// Experimenting with maybe-monad
 //
 (* ****** ****** *)
 
 (*
 ** Author: Hongwei Xi
 ** Authoremail: hwxi AT cs DOT bu DOT edu
-** Time: July, 2013
+** Time: the third of July, 2013
 *)
 
 (* ****** ****** *)
@@ -27,6 +27,8 @@ cfun1 (a: t@ype, b: t@ype) = a -<cloref1> b
 typedef
 cfun2 (a1: t@ype, a2: t@ype, b: t@ype) = (a1, a2) -<cloref1> b
 
+(* ****** ****** *)
+
 stadef cfun = cfun1
 stadef cfun = cfun2
 
@@ -36,14 +38,13 @@ extern
 fun{
 a,b:t@ype
 } monad_bind
-  (monad (INV(a)), cfun (a, monad (INV(b)))): monad (b)
+  (monad (a), cfun (a, monad (b))): monad (b)
 // end of [monad_bind]
 
 extern
 fun{a:t@ype} monad_return (x: a): monad (a)
-
 extern
-fun{a:t@ype} monad_unretn (m: monad(INV(a))): Option (a)
+fun{a:t@ype} monad_unretn (m: monad (a)): Option (a)
 
 (* ****** ****** *)
 
@@ -56,6 +57,8 @@ fun{
 a,b:t@ype
 } monad_lift (f: cfun (a, b), m: monad (a)): monad (b)
 
+(* ****** ****** *)
+
 implement
 {a,b}
 monad_fmap (f, m) =
@@ -65,6 +68,8 @@ monad_fmap (f, m) =
 implement
 {a,b}
 monad_lift (f, m) = monad_fmap<a,b> (f, m)
+
+(* ****** ****** *)
 
 local
 
@@ -88,30 +93,33 @@ end // end of [local]
 
 (* ****** ****** *)
 
-infix >>=
-macdef >>= = monad_bind
-macdef mret = monad_return
+#define mbind monad_bind
+#define mretn monad_return
+
+#define mlift monad_lift
+#define mfmap monad_fmap
+
+#define munretn monad_unretn
 
 (* ****** ****** *)
 
 fun
-test_maybe (
-) : void = let
+test_maybe
+(
+  x0: int
+) : int = let
 //
-val m0 = monad_lift<int,int> (lam x => x + 3, mret (2)) >>= (lam x => mret (x*2))
-//
+val m0 = mretn<int> (x0)
+val m0 = mlift<int,int> (lam x => x+3, m0)
+val m0 = mbind<int,int> (m0, lam x => mretn (x*2))
+val-Some(res) = munretn<int> (m0)
 in
-//
-case+ monad_unretn<int> (m0) of
-| Some x =>
-    println! ("The value equals Some(", x, ")")
-| None _ => println! ("The value equals None()")
-//
+  res (* = (x0+3)*2 *)
 end // end of [test_maybe]
 
 (* ****** ****** *)
 
-val () = test_maybe ()
+val () = assertloc (test_maybe(10) = (10+3)*2)
 
 (* ****** ****** *)
 
@@ -119,4 +127,4 @@ implement main0 () = ()
 
 (* ****** ****** *)
 
-(* end of [monad_option.dats] *)
+(* end of [monad_maybe.dats] *)

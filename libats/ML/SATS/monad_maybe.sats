@@ -27,37 +27,39 @@
 
 (* ****** ****** *)
 
-(*
-**
-** A functional set implementation based on AVL trees
-**
-** Contributed by Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-** Time: May, 2011 // based on a version done in October, 2008
-**
-*)
-
-(* ****** ****** *)
-//
-// License: LGPL 3.0 (available at http://www.gnu.org/licenses/lgpl.txt)
-//
-(* ****** ****** *)
-//
-// HX-2012-12: ported to ATS/Postitats from ATS/Anairiats
-//
-(* ****** ****** *)
-
-#define ATS_PACKNAME "ATSLIB.libats"
-#define ATS_STALOADFLAG 0 // no static loading at run-time
+#define ATS_PACKNAME "ATSLIB.libats.ML"
+#define ATS_STALOADFLAG 0 // no need for staloading at run-time
+#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
 
 (* ****** ****** *)
 
-#include "./SHARE/funset.hats"
+staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
 
-fun{a:t0p}
-funset_avltree_height (xs: set (a)):<> intGte (0)
+abstype
+monad_type (a:t@ype+) = ptr
+typedef
+monad (a:t@ype) = monad_type (a)
 
 (* ****** ****** *)
 
-(* end of [funset_avltree.sats] *)
+fun{
+a,b:t@ype
+} monad_bind
+(
+  monad (INV(a)), cfun (a, monad (b))
+) : monad (b) // end of [monad_bind]
+
+(* ****** ****** *)
+
+fun{a:t@ype} monad_return (x: a): monad (a)
+
+(* ****** ****** *)
+
+fun{a:t@ype}
+monad_maybe_unretn (m: monad (a)): Option (a)
+
+(* ****** ****** *)
+
+(* end of [monad_maybe.sats] *)

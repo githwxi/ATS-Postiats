@@ -92,13 +92,13 @@ clean:: ; $(RMF) isqrt_dats.o
 clean:: ; $(RMF) isqrt_dats.c
 cleanall:: ; $(RMF) isqrt.exe
 
-all:: monad_opt
-monad_opt: monad_opt.exe
-monad_opt.exe: monad_opt_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-monad_opt_dats.c: monad_opt.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output monad_opt_dats.c --dynamic monad_opt.dats
-clean:: ; $(RMF) monad_opt_dats.o
-clean:: ; $(RMF) monad_opt_dats.c
-cleanall:: ; $(RMF) monad_opt.exe
+all:: monad_maybe
+monad_maybe: monad_maybe.exe
+monad_maybe.exe: monad_maybe_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+monad_maybe_dats.c: monad_maybe.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output monad_maybe_dats.c --dynamic monad_maybe.dats
+clean:: ; $(RMF) monad_maybe_dats.o
+clean:: ; $(RMF) monad_maybe_dats.c
+cleanall:: ; $(RMF) monad_maybe.exe
 
 all:: passwdgen
 passwdgen: passwdgen.exe
