@@ -75,7 +75,15 @@ This package gives an implementation of list-monad in ML-style.
 
 (* ****** ****** *)
 
+#declnamesynop("monad_list_list")
+
+(* ****** ****** *)
+
 #declnamesynop("monad_list_listize")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_monad")
 
 (* ****** ****** *)
 

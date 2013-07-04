@@ -48,7 +48,7 @@ fun
 {b:t0p}
 monad_bind
 (
-  monad (INV(a)), cfun (a, monad (b))
+  monad (a), cfun (a, monad (b))
 ) : monad (b) // end of [monad_bind]
 
 fun
@@ -56,7 +56,7 @@ fun
 {b:t0p}
 monad_bind2
 (
-  monad (INV(a1)), monad(INV(a2)), cfun (a1, a2, monad (b))
+  monad (a1), monad(a2), cfun (a1, a2, monad (b))
 ) : monad (b) // end of [monad_bind2]
 
 (* ****** ****** *)
@@ -74,7 +74,7 @@ monad_seq
 (* ****** ****** *)
 
 fun{a:t0p}
-monad_join (monad (monad (a))): monad (a)
+monad_join (monad (monad (INV(a)))): monad (a)
 
 (* ****** ****** *)
 
@@ -113,10 +113,10 @@ monad_mapm_(cfun (a, monad (b)), list0 (a)): monad (unit)
 //
 fun{a:t0p}
 monad_seqlist
-  (list0 (monad (a))): monad (list0 (a))
+  (list0 (monad (INV(a)))): monad (list0 (a))
 //
 fun{a:t0p}
-monad_seqlist_(list0 (monad (a))): monad (unit)
+monad_seqlist_(list0 (monad (INV(a)))): monad (unit)
 //
 (* ****** ****** *)
 

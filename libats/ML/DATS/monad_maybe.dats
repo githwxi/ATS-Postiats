@@ -77,8 +77,18 @@ implement{a} monad_return (x) = Some{a}(x)
 
 (* ****** ****** *)
 
+implement{a} monad_maybe_none () = None{a}()
+implement{a} monad_maybe_some (x) = Some{a}(x)
+
+(* ****** ****** *)
+
 implement{a} monad_maybe_optize (m) = (m)
 
+(* ****** ****** *)
+//
+implement{a}
+fprint_monad (out, m) = fprint_option<a> (out, m)
+//
 (* ****** ****** *)
 
 (* end of [monad_maybe.hats] *)

@@ -41,9 +41,22 @@ staload "./basis.sats"
 
 (* ****** ****** *)
 
-fun{a:t@ype}
-monad_list_listize (m: monad (a)): list0 (a)
+fun{a:t0p}
+monad_list_list (xs: list0 (INV(a))): monad (a)
 
+(* ****** ****** *)
+
+fun{a:t0p}
+monad_list_listize (m: monad (INV(a))): list0 (a)
+
+(* ****** ****** *)
+//
+fun{a:t0p}
+fprint_monad
+  (FILEref, monad (INV(a))): void
+//
+overload fprint with fprint_monad
+//
 (* ****** ****** *)
 
 (* end of [monad_list.sats] *)

@@ -71,7 +71,16 @@ This package gives an implementation of maybe-monad in ML-style.
 
 (* ****** ****** *)
 
+#declnamesynop("monad_maybe_none")
+#declnamesynop("monad_maybe_some")
+
+(* ****** ****** *)
+
 #declnamesynop("monad_maybe_optize")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_monad")
 
 (* ****** ****** *)
 

@@ -67,13 +67,39 @@ end // end of [monad_bind]
 
 (* ****** ****** *)
 
+implement
+{a1,a2}{b}
+monad_bind2 (xs, ys, f) = let
+//
+implement
+list_crosswith$fwork<a1,a2><list0(b)> (x, y) = f (x, y)
+val xss =
+  list_crosswith<a1,a2><list0(b)> (g1ofg0(xs), g1ofg0(ys))
+val res = list_concat<b> ($UN.castvwtp1{List(List(b))}(xss))
+val ((*void*)) = list_vt_free<list0(b)> (xss)
+//
+in
+  list0_of_list_vt (res)
+end // end of [monad_bind2]
+
+(* ****** ****** *)
+
 implement{a}
 monad_return (x) = list0_cons{a}(x, list0_nil)
 
 (* ****** ****** *)
 
+implement{a} monad_list_list (xs) = (xs)
+
+(* ****** ****** *)
+
 implement{a} monad_list_listize (m) = (m)
 
+(* ****** ****** *)
+//
+implement{a}
+fprint_monad (out, m) = fprint_list0<a> (out, m)
+//
 (* ****** ****** *)
 
 (* end of [monad_list.hats] *)
