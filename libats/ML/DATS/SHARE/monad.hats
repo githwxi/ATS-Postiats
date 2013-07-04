@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,23 +27,52 @@
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats.ML"
-#define ATS_STALOADFLAG 0 // no need for staloading at run-time
-#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
+(* Author: Hongwei Xi *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Start time: July, 2013 *)
+
+(* ****** ****** *)
+//
+// HX: shared by monad_list
+// HX: shared by monad_maybe
+//
+(* ****** ****** *)
+
+implement
+{a1,a2}
+monad_seq (m1, m2) = monad_bind<a1><a2> (m1, lam _ => m2)
 
 (* ****** ****** *)
 
-staload "./basis.sats"
+implement
+{a}(*tmp*)
+monad_join (mm) = monad_bind<monad(a)><a> (mm, lam m => m)
 
 (* ****** ****** *)
 
-#include "./SHARE/monad.hats"
+implement
+{a}{b}
+monad_fmap (f, m) =
+  monad_bind<a><b> (m, lam x => monad_return<b> (f(x)))
+// end of [monad_fmap]
 
 (* ****** ****** *)
 
-fun{a:t@ype}
-monad_maybe_optize (m: monad (a)): Option (a)
+implement
+{a}{b}
+monad_liftm (f, m) =
+  monad_bind<a><b> (m, lam x => monad_return<b> (f(x)))
+// end of [monad_liftm]
 
 (* ****** ****** *)
 
-(* end of [monad_maybe.sats] *)
+implement
+{a}(*tmp*)
+monad_seqlist (ms) = monad_mapm<a><a> (lam x => x, ms)
+implement
+{a}(*tmp*)
+monad_seqlist_ (ms) = monad_mapm_<monad(a)><a> (lam m => m, ms)
+
+(* ****** ****** *)
+
+(* end of [monad.hats] *)

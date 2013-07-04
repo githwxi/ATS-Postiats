@@ -42,8 +42,8 @@ staload "./basis.sats"
 (* ****** ****** *)
 
 fun{a:t@ype}
-monad_maybe_optize (m: monad (a)): Option (a)
+monad_list_listize (m: monad (a)): list0 (a)
 
 (* ****** ****** *)
 
-(* end of [monad_maybe.sats] *)
+(* end of [monad_list.sats] *)

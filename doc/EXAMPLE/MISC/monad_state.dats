@@ -1,6 +1,6 @@
 (* ****** ****** *)
 //
-// Experimenting with maybe-monad
+// Experimenting with state-monad
 //
 (* ****** ****** *)
 
@@ -21,8 +21,10 @@ datatype unit = unit of ()
 
 (* ****** ****** *)
 
-abstype monad_type (env: t@ype, a: t@ype) = ptr
-typedef monad (env: t@ype, a: t@ype) = monad_type (env, a)
+abstype
+monad_type (t@ype(*env*), t@ype(*val*)) = ptr
+typedef
+monad (t:t@ype, a: t@ype) = monad_type (t, a)
 
 (* ****** ****** *)
 
@@ -54,6 +56,8 @@ monad_bind2
   monad (t, a1), monad (t, a2), cfun (a1, a2, monad (t, b))
 ) : monad (t, b) // end of [monad_bind2]
 
+(* ****** ****** *)
+
 extern
 fun
 {t:t@ype}
@@ -66,7 +70,8 @@ extern
 fun{t:t@ype} monad_put (env: t): monad (t, unit)
 
 extern
-fun{t:t@ype}{a:t@ype} monad_runState (m: monad (t, a), env: t): (a, t)
+fun{t:t@ype}{a:t@ype}
+monad_runST (m: monad (t, a), env: t): (a, t)
 
 (* ****** ****** *)
 
@@ -108,7 +113,7 @@ monad_return (x) = lam (env) => (x, env)
 implement{t} monad_get () = lam x => (x, x)
 implement{t} monad_put (env) = lam _ => (unit(), env)
 
-implement{t}{a} monad_runState (m, env) = m (env)
+implement{t}{a} monad_runST (m, env) = m (env)
 
 end // end of [local]
 
@@ -121,8 +126,9 @@ typedef t = int
 fun
 incr (
 ) : monad (t, unit) =
+(
   monad_bind<t><t,unit> (monad_get<t> (), lam env => monad_put<t> (env+1))
-
+) // end of [incr]
 
 (* ****** ****** *)
 
@@ -140,17 +146,18 @@ fun addm
 
 val m0 = monad_return<t><int> (0)
 val m1 = monad_return<t><int> (1)
-val m2 = monad_return<t><int> (2)
+val m_1 = monad_return<t><int> (~1)
 
-val m012 = (m0 \addm m1) \addm m2
+val m012 = (m0 \addm m1) \addm m_1
 
 (* ****** ****** *)
-
-val (res, env) = monad_runState<t><int> (m012, 0(*env*))
-
-val () = println! ("res(3) = ", res)
+//
+val (res, env) =
+  monad_runST<t><int> (m012, 0(*env*))
+//
+val () = println! ("res(0) = ", res)
 val () = println! ("env(2) = ", env)
-
+//
 (* ****** ****** *)
 
 implement main0 () = ()

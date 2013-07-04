@@ -147,6 +147,23 @@ clean:: ; $(RMF) funset_atxt.exe
 cleanall:: ; $(RMF) HTML/funset.html
 
 
+all_html:: HTML/monad_list.html
+HTML/monad_list.html:   monad_list_atxt.exe ; ./$< > $@
+monad_list_atxt.txt: monad_list.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+monad_list_atxt.exe: htmlgendecl_atxt.dats   monad_list_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_monad_list:: ;   scp HTML/monad_list.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
+clean:: ; $(RMF) monad_list_atxt.exe
+cleanall:: ; $(RMF) HTML/monad_list.html
+
+all_html:: HTML/monad_maybe.html
+HTML/monad_maybe.html:   monad_maybe_atxt.exe ; ./$< > $@
+monad_maybe_atxt.txt: monad_maybe.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+monad_maybe_atxt.exe: htmlgendecl_atxt.dats   monad_maybe_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_monad_maybe:: ;   scp HTML/monad_maybe.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
+clean:: ; $(RMF) monad_maybe_atxt.exe
+cleanall:: ; $(RMF) HTML/monad_maybe.html
+
+
 ######
 
 uploadall:: ;   scp HTML/*.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML

@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,13 +27,19 @@
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats.ML"
-#define ATS_STALOADFLAG 0 // no need for staloading at run-time
-#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
+(* Author: Hongwei Xi *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Start time: July, 2013 *)
 
 (* ****** ****** *)
 
-staload "./basis.sats"
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload "libats/ML/SATS/basis.sats"
+staload "libats/ML/SATS/list0.sats"
+staload "libats/ML/SATS/monad_list.sats"
 
 (* ****** ****** *)
 
@@ -41,9 +47,33 @@ staload "./basis.sats"
 
 (* ****** ****** *)
 
-fun{a:t@ype}
-monad_maybe_optize (m: monad (a)): Option (a)
+assume monad_type (a:t0p) = list0 (a)
 
 (* ****** ****** *)
 
-(* end of [monad_maybe.sats] *)
+implement
+{a}{b}
+monad_bind (xs, f) = let
+//
+implement
+list_map$fwork<a><list0(b)> (x) = f (x)
+val xss = list_map<a><list0(b)> (g1ofg0(xs))
+val res = list_concat<b> ($UN.castvwtp1{List(List(b))}(xss))
+val ((*void*)) = list_vt_free<list0(b)> (xss)
+//
+in
+  list0_of_list_vt (res)
+end // end of [monad_bind]
+
+(* ****** ****** *)
+
+implement{a}
+monad_return (x) = list0_cons{a}(x, list0_nil)
+
+(* ****** ****** *)
+
+implement{a} monad_list_listize (m) = (m)
+
+(* ****** ****** *)
+
+(* end of [monad_list.hats] *)

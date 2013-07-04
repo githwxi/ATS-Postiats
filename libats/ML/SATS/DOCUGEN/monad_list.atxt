@@ -1,0 +1,82 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../monad_list.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_ML_monad_list")
+%}
+
+(* ****** ****** *)
+
+%{
+
+#ifdef DBOOK #then
+fun pcenter (x: string): atext =
+  atext_apptxt2 (atext_strsub (x), atext_strcst ".")
+// end of [pcenter]
+#endif // end of [#ifdef]
+
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/ML/monad_list\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package gives an implementation of list-monad in ML-style.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("monad")
+#declnamesynop("monad_type")
+
+(* ****** ****** *)
+
+#declnamesynop("monad_bind")
+#declnamesynop("monad_bind2")
+
+(* ****** ****** *)
+
+#declnamesynop("monad_return")
+
+(* ****** ****** *)
+
+#declnamesynop("monad_seq")
+#declnamesynop("monad_join")
+
+(* ****** ****** *)
+
+#declnamesynop("monad_fmap")
+#declnamesynop("monad_liftm")
+#declnamesynop("monad_liftm2")
+#declnamesynop("monad_liftm3")
+
+(* ****** ****** *)
+
+#declnamesynop("monad_mapm")
+#declnamesynop("monad_mapm_")
+
+(* ****** ****** *)
+
+#declnamesynop("monad_seqlist")
+#declnamesynop("monad_seqlist_")
+
+(* ****** ****** *)
+
+#declnamesynop("monad_list_listize")
+
+(* ****** ****** *)
+
+(* end of [monad_list.atxt] *)

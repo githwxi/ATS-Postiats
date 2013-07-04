@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,13 +27,14 @@
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats.ML"
-#define ATS_STALOADFLAG 0 // no need for staloading at run-time
-#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
+(* Author: Hongwei Xi *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Start time: July, 2013 *)
 
 (* ****** ****** *)
 
-staload "./basis.sats"
+staload "libats/ML/SATS/basis.sats"
+staload "libats/ML/SATS/monad_maybe.sats"
 
 (* ****** ****** *)
 
@@ -41,9 +42,43 @@ staload "./basis.sats"
 
 (* ****** ****** *)
 
-fun{a:t@ype}
-monad_maybe_optize (m: monad (a)): Option (a)
+assume monad_type (a:t0p) = Option (a)
 
 (* ****** ****** *)
 
-(* end of [monad_maybe.sats] *)
+implement
+{a}{b}
+monad_bind (opt, f) = let
+in
+//
+case+ opt of
+| Some (x) => f (x) | None () => None ()
+//
+end // end of [monad_bind]
+
+(* ****** ****** *)
+
+implement
+{a1,a2}{b}
+monad_bind2 (opt1, opt2, f) = let
+in
+//
+case+ opt1 of
+| Some (x1) => (
+  case+ opt2 of Some (x2) => f (x1, x2) | None () => None ()
+  ) (* end of [Some] *)
+| None () => None ()
+//
+end // end of [monad_bind2]
+
+(* ****** ****** *)
+
+implement{a} monad_return (x) = Some{a}(x)
+
+(* ****** ****** *)
+
+implement{a} monad_maybe_optize (m) = (m)
+
+(* ****** ****** *)
+
+(* end of [monad_maybe.hats] *)

@@ -270,6 +270,13 @@ praxi __vfree_exn (x: exn):<> void // for freeing nullary exception-con
 
 (* ****** ****** *)
 //
+datatype unit = unit of ()
+dataprop unit_p = unit_p of ()
+dataview unit_v = unit_v of ()
+prfun unit_v_elim (pf: unit_v): void
+//
+(* ****** ****** *)
+//
 typedef
 array (a, n) = @[a][n]
 viewdef
@@ -349,12 +356,6 @@ vtypedef listBtw_vt
   (a:vt0p, m:int, n:int) = [k:int | m <= k; k < n] list_vt (a, k)
 vtypedef listBtwe_vt
   (a:vt0p, m:int, n:int) = [k:int | m <= k; k <= n] list_vt (a, k)
-//
-(* ****** ****** *)
-//
-dataprop unit_p = unit_p of ()
-dataview unit_v = unit_v of ()
-prfun unit_v_elim (pf: unit_v): void
 //
 (* ****** ****** *)
 //
