@@ -42,6 +42,11 @@ staload "./pats_basics.sats"
 (* ****** ****** *)
 
 staload
+LOC = "./pats_location.sats"
+
+(* ****** ****** *)
+
+staload
 S2E = "./pats_staexp2.sats"
 staload
 S2UT = "./pats_staexp2_util.sats"
@@ -116,6 +121,11 @@ and aux_funval2
   out: FILEref
 , pmv_fun: primval, hse_fun: hisexp, isclo: &bool
 ) : void = let
+//
+(*
+val () = println! ("aux_funval2: pmv_fun = ", pmv_fun)
+val () = println! ("aux_funval2: hse_fun = ", hse_fun)
+*)
 //
 val-HSEfun
 (

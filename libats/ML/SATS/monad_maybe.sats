@@ -58,7 +58,7 @@ fun{a:t@ype} monad_return (x: a): monad (a)
 (* ****** ****** *)
 
 fun{a:t@ype}
-monad_maybe_unretn (m: monad (a)): Option (a)
+monad_maybe_optize (m: monad (a)): Option (a)
 
 (* ****** ****** *)
 

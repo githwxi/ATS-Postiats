@@ -100,6 +100,14 @@ clean:: ; $(RMF) monad_maybe_dats.o
 clean:: ; $(RMF) monad_maybe_dats.c
 cleanall:: ; $(RMF) monad_maybe.exe
 
+all:: monad_state
+monad_state: monad_state.exe
+monad_state.exe: monad_state_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+monad_state_dats.c: monad_state.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output monad_state_dats.c --dynamic monad_state.dats
+clean:: ; $(RMF) monad_state_dats.o
+clean:: ; $(RMF) monad_state_dats.c
+cleanall:: ; $(RMF) monad_state.exe
+
 all:: passwdgen
 passwdgen: passwdgen.exe
 passwdgen.exe: passwdgen_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
