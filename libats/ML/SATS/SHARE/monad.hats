@@ -59,10 +59,31 @@ monad_bind2
   monad (a1), monad(a2), cfun (a1, a2, monad (b))
 ) : monad (b) // end of [monad_bind2]
 
+fun
+{a1,a2,a3:t0p}
+{b:t0p}
+monad_bind3
+(
+  monad (a1), monad(a2), monad (a3), cfun (a1, a2, a3, monad (b))
+) : monad (b) // end of [monad_bind3]
+
 (* ****** ****** *)
 
 fun{a:t0p} monad_return (x: a): monad (a)
 
+(* ****** ****** *)
+
+fun{
+} monad_unit (): monad (unit)
+
+(* ****** ****** *)
+//
+fun{a:t0p}
+monad_nil (): monad (list0 (a))
+fun{a:t0p}
+monad_cons
+  (monad (INV(a)), monad (list0 (a))): monad (list0 (a))
+//
 (* ****** ****** *)
 
 fun
@@ -95,6 +116,12 @@ fun
 monad_liftm2
   (cfun (a1, a2, b), monad (a1), monad (a2)): monad (b)
 // end of [monad_liftm2]
+fun
+{a1,a2,a3:t0p}
+{b:t0p}
+monad_liftm3
+  (cfun (a1, a2, a3, b), monad (a1), monad (a2), monad (a3)): monad (b)
+// end of [monad_liftm3]
 
 (* ****** ****** *)
 //

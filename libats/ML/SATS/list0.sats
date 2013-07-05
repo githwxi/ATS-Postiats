@@ -55,7 +55,7 @@ typedef NSH(a:type) = a // for commenting purpose
 (* ****** ****** *)
 
 #define nil0() list0_nil()
-#define cons0(x) list0_cons(x)
+#define cons0(x, xs) list0_cons(x, xs)
 #define sing0(x) list0_cons(x, list0_nil ())
 
 (* ****** ****** *)

@@ -52,9 +52,7 @@ monad_list_listize (m: monad (INV(a))): list0 (a)
 (* ****** ****** *)
 //
 fun{a:t0p}
-fprint_monad
-  (FILEref, monad (INV(a))): void
-//
+fprint_monad (out: FILEref, m: monad (INV(a))): void
 overload fprint with fprint_monad
 //
 (* ****** ****** *)

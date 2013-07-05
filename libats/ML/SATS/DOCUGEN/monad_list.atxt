@@ -46,10 +46,20 @@ This package gives an implementation of list-monad in ML-style.
 
 #declnamesynop("monad_bind")
 #declnamesynop("monad_bind2")
+#declnamesynop("monad_bind3")
 
 (* ****** ****** *)
 
 #declnamesynop("monad_return")
+
+(* ****** ****** *)
+
+#declnamesynop("monad_unit")
+
+(* ****** ****** *)
+
+#declnamesynop("monad_nil")
+#declnamesynop("monad_cons")
 
 (* ****** ****** *)
 
@@ -59,6 +69,9 @@ This package gives an implementation of list-monad in ML-style.
 (* ****** ****** *)
 
 #declnamesynop("monad_fmap")
+
+(* ****** ****** *)
+
 #declnamesynop("monad_liftm")
 #declnamesynop("monad_liftm2")
 #declnamesynop("monad_liftm3")
@@ -76,14 +89,29 @@ This package gives an implementation of list-monad in ML-style.
 (* ****** ****** *)
 
 #declnamesynop("monad_list_list")
+#decldescrpt('\
+
+This function, which is just an identity, turns a list into a list-monad.\
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("monad_list_listize")
+#decldescrpt('\
+
+This function, which is just an identity, turns a list-monad into a list.\
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("fprint_monad")
+#decldescrpt('\
+
+This function prints out a list-monad onto a given channel.
+
+')
 
 (* ****** ****** *)
 

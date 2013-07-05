@@ -71,8 +71,8 @@ vtypedef listBtwe_vt
 
 #atscode_separator()
 
-\#define nil_vt list_vt_nil
-\#define cons_vt list_vt_cons
+\#define nil_vt() list_vt_nil()
+\#define cons_vt(x, xs) list_vt_cons(x, xs)
 
 #atscode_separator()
 

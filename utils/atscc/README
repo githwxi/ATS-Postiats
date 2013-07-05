@@ -1,2 +1,2 @@
-The command atscc is a wrapper of convinience around atsopt, the direct
+The command [atscc] is a wrapper of convinience around [atsopt], the direct
 compilation command for ATS.

@@ -48,7 +48,8 @@ assume monad_type (a:t0p) = Option (a)
 
 implement
 {a}{b}
-monad_bind (opt, f) = let
+monad_bind
+  (opt, f) = let
 in
 //
 case+ opt of
@@ -60,7 +61,8 @@ end // end of [monad_bind]
 
 implement
 {a1,a2}{b}
-monad_bind2 (opt1, opt2, f) = let
+monad_bind2
+  (opt1, opt2, f) = let
 in
 //
 case+ opt1 of
@@ -73,7 +75,46 @@ end // end of [monad_bind2]
 
 (* ****** ****** *)
 
+implement
+{a1,a2,a3}{b}
+monad_bind3
+  (opt1, opt2, opt3, f) = let
+in
+//
+case+ opt1 of
+| Some (x1) => (
+  case+ opt2 of
+  | Some (x2) =>
+    (
+      case+ opt3 of
+      | Some (x3) => f (x1, x2, x3) | None () => None ()
+    )
+  | None () => None ()
+  ) (* end of [Some] *)
+| None () => None ()
+//
+end // end of [monad_bind3]
+
+(* ****** ****** *)
+
 implement{a} monad_return (x) = Some{a}(x)
+
+(* ****** ****** *)
+
+implement{a}
+monad_cons (mx, mxs) = let
+in
+//
+case+ mx of
+| Some (x) =>
+  (
+  case+ mxs of
+  | Some (xs) => Some{list0(a)}(list0_cons{a}(x, xs))
+  | None ((*void*)) => None ()
+  )
+| None () => None ()
+//
+end // end of [monad_cons]
 
 (* ****** ****** *)
 

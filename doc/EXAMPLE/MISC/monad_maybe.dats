@@ -113,6 +113,7 @@ val m0 = mretn<int> (x0)
 val m0 = mlift<int,int> (lam x => x+3, m0)
 val m0 = mbind<int,int> (m0, lam x => mretn (x*2))
 val-Some(res) = munretn<int> (m0)
+//
 in
   res (* = (x0+3)*2 *)
 end // end of [test_maybe]

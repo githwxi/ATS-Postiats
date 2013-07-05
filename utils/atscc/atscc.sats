@@ -27,36 +27,24 @@
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats.ML"
-#define ATS_STALOADFLAG 0 // no need for staloading at run-time
-#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
+(* Author: Hongwei Xi *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Start time: July, 2013 *)
 
 (* ****** ****** *)
 
-staload "./basis.sats"
+datatype
+comarg = COMARG of (int, string)
+typedef comarglst = List0 (comarg)
 
 (* ****** ****** *)
 
-#include "./SHARE/monad.hats"
+fun atsccproc{n:int}
+  (argc: int n, argv: argv(n)): comarglst
+// end of [atsccproc]
 
 (* ****** ****** *)
 
-fun{a:t0p}
-monad_maybe_none (): monad (a)
-fun{a:t0p}
-monad_maybe_some (x: a): monad (a)
-
 (* ****** ****** *)
 
-fun{a:t0p}
-monad_maybe_optize (m: monad (a)): Option (a)
-
-(* ****** ****** *)
-//
-fun{a:t0p}
-fprint_monad (out: FILEref, m: monad (INV(a))): void
-overload fprint with fprint_monad
-//
-(* ****** ****** *)
-
-(* end of [monad_maybe.sats] *)
+(* end of [atscc.sats] *)
