@@ -672,7 +672,9 @@ end // end of [local]
 
 local
 
-#define CNUL '\000'
+#define CNUL '\0'
+#define SPACE " "
+
 overload + with add_ptr_bsz
 
 fun auxstr
@@ -705,13 +707,13 @@ in
 case+ xs of
 | list_cons
     (x, xs) => let
-    val ecode = auxstr (p0, n0, sep)
-    val ecode =
+    val err = auxstr (p0, n0, sep)
+    val err =
     (
-      if ecode >= 0 then auxstr (p0, n0, x) else ~1
+    if err = 0 then auxstr (p0, n0, x) else ~1
     ) : int // end of [val]
   in
-    if ecode >= 0 then auxstrlst_sep (p0, n0, sep, xs) else ~1
+    if err = 0 then auxstrlst_sep (p0, n0, sep, xs) else ~1
   end // end of [list_cons]
 | list_nil () => 0(*success*)
 //
@@ -732,16 +734,17 @@ val (
 //
 var p0: ptr = p_st
 var n0: size_t = bsz
-val sep: string = " "
+val sep: string = SPACE
 //
-val ecode = auxstr (p0, n0, cmd)
-val ecode = (
-  if ecode >= 0 then auxstrlst_sep (p0, n0, sep, args) else ~1
+val err = auxstr (p0, n0, cmd)
+val err =
+(
+if err = 0 then auxstrlst_sep (p0, n0, sep, args) else ~1
 ) : int // end of [val]
 //
 in
 //
-if ecode >= 0
+if err = 0
   then let
   val () = $UN.ptr0_set<char> (p0, CNUL) in
   $UN.castvwtp0{Strptr1}((pfat, pfgc | p_st))
@@ -755,90 +758,103 @@ in (* in of [local]*)
 
 implement
 atsoptline_exec
-  (args) = let
+  (flag, arglst) = let
 //
 val bsz = 1024 // HX: more or less arbitrary
 //
 val cmd = atsopt_get ()
-val line = auxline (cmd, $UN.list_vt2t(args), i2sz(bsz))
-val () = list_vt_free (args)
+val [l:addr]
+  line = auxline (cmd, $UN.list_vt2t(arglst), i2sz(bsz))
+val () = list_vt_free (arglst)
 //
 val (
-) = fprintln! (stdout_ref, "atsoptline: ", line)
+) = if flag > 0 then
+{
+  val () = fprintln! (stderr_ref, "exec(", line, ")")
+} (* end of [if] *)
 //
-val ecode = $STDLIB.system ($UN.strptr2string(line))
+val status = $STDLIB.system ($UN.strptr2string(line))
 //
 val (
-) = fprintln! (stdout_ref, "atsoptline: ecode = ", ecode)
+) = if flag > 0 then
+{
+  val () = fprintln! (stderr_ref, "exec(", line, ") = ", status)
+} (* end of [if] *)
 //
 val () = strptr_free (line)
 //
 in
-  ecode
+  status
 end // end of [atsoptline_exec]
 
 (* ****** ****** *)
 
 implement
 atsoptline_exec_all
-  (lines) = let
+  (flag, lines) = let
 //
 vtypedef
 lines = List_vt(stringlst_vt)
 //
 fun auxlst
 (
-  lines: lines, ecode: int
+  lines: lines, status: int
 ) : int = let
 in
 //
 case+ lines of
 | ~list_vt_cons
     (line, lines) => let
-    val ecode =
-    (
-      if ecode = 0
-        then atsoptline_exec (line)
+    val status = (
+      if status = 0
+        then atsoptline_exec (flag, line)
         else let
-          val () = list_vt_free (line) in ecode
+          val () = list_vt_free (line) in status
         end // end of [else]
       // end of [if]
     ) : int // end of [val]
   in
-    auxlst (lines, ecode)
+    auxlst (lines, status)
   end // end of [cons]
-| ~list_vt_nil () => ecode(*success*)
+| ~list_vt_nil () => status
 //
 end // end of [auxlst]
 //
 in
-  auxlst (lines, 0(*ecode*))
+  auxlst (lines, 0(*success*))
 end // end of [atsoptline_exec_all]
 
 (* ****** ****** *)
 
 implement
 atsccompline_exec
-  (args) = let
+  (flag, arglst) = let
 //
 val bsz = 1024 // HX: more or less arbitrary
 //
 val cmd = atsccomp_get ()
-val line = auxline (cmd, $UN.list_vt2t(args), i2sz(bsz))
-val () = list_vt_free (args)
+val [l:addr]
+  line = auxline (cmd, $UN.list_vt2t(arglst), i2sz(bsz))
+val () = list_vt_free (arglst)
 //
 val (
-) = fprintln! (stdout_ref, "atsccompline: ", line)
+) = if flag > 0 then
+{
+  val () = fprintln! (stderr_ref, "exec(", line, ")")
+} (* end of [if] *)
 //
-val ecode = $STDLIB.system ($UN.strptr2string(line))
+val status = $STDLIB.system ($UN.strptr2string(line))
 //
 val (
-) = fprintln! (stdout_ref, "atsccompline: ecode = ", ecode)
+) = if flag > 0 then
+{
+  val () = fprintln! (stderr_ref, "exec(", line, ") = ", status)
+} (* end of [if] *)
 //
 val () = strptr_free (line)
 //
 in
-  ecode
+  status
 end // end of [atsccompline_exec]
 
 end // end of [local]

@@ -99,10 +99,15 @@ fun atsoptline_make_all (cas: commarglst): List0_vt (stringlst_vt)
 fun atsccompline_make (cas: commarglst): stringlst_vt
 
 (* ****** ****** *)
+//
+fun atsoptline_exec
+  (flag: int, args: stringlst_vt): int(*status*)
+fun atsoptline_exec_all
+  (flag: int, args: List_vt (stringlst_vt)): int(*status*)
+//
+(* ****** ****** *)
 
-fun atsoptline_exec (args: stringlst_vt): int(*ecode*)
-fun atsoptline_exec_all (args: List_vt (stringlst_vt)): int(*ecode*)
-fun atsccompline_exec (args: stringlst_vt): int(*ecode*)
+fun atsccompline_exec (flag: int, args: stringlst_vt): int(*status*)
 
 (* ****** ****** *)
 

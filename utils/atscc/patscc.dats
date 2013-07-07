@@ -58,14 +58,13 @@ main0 (argc, argv) =
 val out = stdout_ref
 //
 val cas = atsccproc_commline (argc, argv)
-val ((*void*)) = fprintln! (out, "atsccproc_commline: cas = ", cas)
 //
 val lines = atsoptline_make_all (cas)
-val ecode = atsoptline_exec_all (lines)
+val status = atsoptline_exec_all (1(*flag*), lines)
 //
 val cont =
 (
-  if ecode = 0 then true else false
+  if status = 0 then true else false
 ) : bool // end of [val]
 //
 val () =
@@ -73,9 +72,7 @@ if cont then
 {
 //
 val arglst = atsccompline_make (cas)
-val status = atsccompline_exec (arglst)
-//
-val ((*void*)) = fprintln! (out, "atsccompline_exec: status = ", status)
+val status = atsccompline_exec (1(*flag*), arglst)
 //
 } (* end of [if] *)
 //
