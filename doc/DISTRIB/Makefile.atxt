@@ -93,6 +93,8 @@ all_script::
 #make_entry("ccomp_atslib")
 #make_entry("ccomp_runtime")
 
+#make_entry("utils_atscc")
+
 #make_entry("doc_example_intro")
 #make_entry("doc_example_atslib")
 #make_entry("doc_example_misc")
@@ -105,6 +107,7 @@ srcgetall:: srcget_patsrc
 srcgetall:: srcget_atslib
 srcgetall:: srcget_ccomp_atslib
 srcgetall:: srcget_ccomp_runtime
+srcgetall:: srcget_utils_atscc
 srcgetall:: srcget_doc_example
 
 ######
@@ -131,6 +134,10 @@ srcget_atslib_libats_ML:: SCRIPT/atslib_libats_ML.bash ; bash $<
 
 srcget_ccomp_atslib:: SCRIPT/ccomp_atslib.bash ; bash $<
 srcget_ccomp_runtime:: SCRIPT/ccomp_runtime.bash ; bash $<
+
+######
+
+srcget_utils_atscc:: SCRIPT/utils_atscc.bash ; bash $<
 
 ######
 

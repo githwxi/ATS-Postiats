@@ -117,6 +117,17 @@ cleanall:: ; $(RMF) HTML/ccomp_runtime.html
 cleanall:: ; $(RMF) SCRIPT/ccomp_runtime.bash
 
 
+all_html:: HTML/utils_atscc.html
+HTML/utils_atscc.html: utils_atscc_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/utils_atscc.bash
+SCRIPT/utils_atscc.bash: utils_atscc_atxt.exe ; ./$< > $@
+utils_atscc_atxt.dats: ATEXT/utils_atscc.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+utils_atscc_atxt.exe: utils_atscc_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) utils_atscc_atxt.exe
+cleanall:: ; $(RMF) HTML/utils_atscc.html
+cleanall:: ; $(RMF) SCRIPT/utils_atscc.bash
+
+
 all_html:: HTML/doc_example_intro.html
 HTML/doc_example_intro.html: doc_example_intro_atxt.exe ; ./$< > $@
 all_script:: SCRIPT/doc_example_intro.bash
@@ -165,6 +176,7 @@ srcgetall:: srcget_patsrc
 srcgetall:: srcget_atslib
 srcgetall:: srcget_ccomp_atslib
 srcgetall:: srcget_ccomp_runtime
+srcgetall:: srcget_utils_atscc
 srcgetall:: srcget_doc_example
 
 ######
@@ -191,6 +203,10 @@ srcget_atslib_libats_ML:: SCRIPT/atslib_libats_ML.bash ; bash $<
 
 srcget_ccomp_atslib:: SCRIPT/ccomp_atslib.bash ; bash $<
 srcget_ccomp_runtime:: SCRIPT/ccomp_runtime.bash ; bash $<
+
+######
+
+srcget_utils_atscc:: SCRIPT/utils_atscc.bash ; bash $<
 
 ######
 
