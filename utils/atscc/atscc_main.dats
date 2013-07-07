@@ -236,6 +236,9 @@ case+ 0 of
       aux0 (n, argv, i+1, res)
     end // end of [_ when ...]
 //
+| _ when (str0="-atsccomp") =>
+    aux1_atsccomp (n, argv, i+1, res)
+//
 | _ when (str0="-IATS") =>
     aux1_iats (n, argv, i+1, res)
 | _ when (str0="-IIATS") =>
@@ -265,6 +268,24 @@ case+ 0 of
   end // end of [_]
 //
 end // end of [aux1]
+
+(* ****** ****** *)
+
+and aux1_atsccomp
+  {n:int}
+  {i:nat | i <= n}
+  .<3*(n-i)+0>.
+(
+  n: int n
+, argv: !argv(n)
+, i: int i
+, res: commarglst_vt
+) : commarglst_vt = let
+  val opt = argv_getopt_at (n, argv, i)
+  val res = list_vt_cons{ca}(CAatsccomp(opt), res)
+in
+  if i < n then aux0 (n, argv, i+1, res) else res
+end // end of [aux1_atsccomp]
 
 (* ****** ****** *)
 
@@ -404,7 +425,9 @@ case+ ca of
 | CAtcats () =>
   {
     val (
-    ) = res := list_vt_cons{string}("--typecheck", res)
+    ) = res :=
+      list_vt_cons{string}("--typecheck", res)
+    // ed of [val]
   }
 //
 | CAdats (_, opt) =>
@@ -529,7 +552,7 @@ case+ cas2 of
     | CAtcats () => let
         val cas1 =
           snoc (cas1, ca2) in auxlst (cas1, cas2, ress)
-      end (* end of [CAiats] *)
+      end (* end of [CAtcats] *)
 //
     | CAdats _ => let
         val cas1 =
@@ -589,6 +612,8 @@ case+ ca of
 | CAvats () => ()
 | CAccats () => ()
 | CAtcats () => ()
+//
+| CAatsccomp _ => ()
 //
 | CAdats (0, opt) => ()
 | CAdats (_, opt) =>
@@ -677,6 +702,8 @@ local
 
 overload + with add_ptr_bsz
 
+(* ****** ****** *)
+
 fun auxstr
 (
   p0: &ptr >> _, n0: &size_t >> _, x: string
@@ -719,6 +746,8 @@ case+ xs of
 //
 end // end of [auxstrlst_sep]
 
+(* ****** ****** *)
+
 fun auxline
 (
   cmd: string
@@ -754,17 +783,18 @@ if err = 0
 // end of [if]
 end // end of [auxline]
 
+(* ****** ****** *)
+
 in (* in of [local]*)
 
 implement
 atsoptline_exec
-  (flag, arglst) = let
+  (flag, atsopt, arglst) = let
 //
 val bsz = 1024 // HX: more or less arbitrary
 //
-val cmd = atsopt_get ()
 val [l:addr]
-  line = auxline (cmd, $UN.list_vt2t(arglst), i2sz(bsz))
+  line = auxline (atsopt, $UN.list_vt2t(arglst), i2sz(bsz))
 val () = list_vt_free (arglst)
 //
 val (
@@ -791,7 +821,7 @@ end // end of [atsoptline_exec]
 
 implement
 atsoptline_exec_all
-  (flag, lines) = let
+  (flag, atsopt, lines) = let
 //
 vtypedef
 lines = List_vt(stringlst_vt)
@@ -807,7 +837,8 @@ case+ lines of
     (line, lines) => let
     val status = (
       if status = 0
-        then atsoptline_exec (flag, line)
+        then
+          atsoptline_exec (flag, atsopt, line)
         else let
           val () = list_vt_free (line) in status
         end // end of [else]
@@ -828,13 +859,12 @@ end // end of [atsoptline_exec_all]
 
 implement
 atsccompline_exec
-  (flag, arglst) = let
+  (flag, atsccomp, arglst) = let
 //
 val bsz = 1024 // HX: more or less arbitrary
 //
-val cmd = atsccomp_get ()
 val [l:addr]
-  line = auxline (cmd, $UN.list_vt2t(arglst), i2sz(bsz))
+  line = auxline (atsccomp, $UN.list_vt2t(arglst), i2sz(bsz))
 val () = list_vt_free (arglst)
 //
 val (

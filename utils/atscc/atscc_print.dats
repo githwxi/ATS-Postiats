@@ -87,6 +87,11 @@ case+ ca of
 | CAccats () => prstr "CAccats()"
 | CAtcats () => prstr "CAtcats()"
 //
+| CAatsccomp (opt) =>
+  (
+    prstr "CAatsccomp("; propt (opt); prstr ")"
+  )
+//
 | CAdats (0, opt) =>
   (
     prstr "CAdats("; propt (opt); prstr ")"
@@ -309,12 +314,13 @@ case+ ca of
 | CAccats () => ()
 | CAtcats () => ()
 //
+| CAatsccomp _ => ()
+//
 | CAdats (0, opt) => ()
 | CAdats (_, opt) => (
     if issome (opt) then
     {
-      val () = fprint (out, ' ')
-      val () = fprint! (out, "-D", unsome(opt))
+      val () = fprint! (out, " -D ", unsome(opt))
     } else ((*void*)) // end of [if]
   )
 //
@@ -322,8 +328,7 @@ case+ ca of
 | CAiats (_, opt) => (
     if issome (opt) then
     {
-      val () = fprint (out, ' ')
-      val () = fprint! (out, "-I", unsome(opt))
+      val () = fprint! (out, " -I ", unsome(opt))
     } else ((*void*)) // end of [if]
   )
 //

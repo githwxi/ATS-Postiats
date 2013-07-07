@@ -33,6 +33,11 @@
 
 (* ****** ****** *)
 
+fun{} atsopt_get (): string
+fun{} atsccomp_get (): string
+
+(* ****** ****** *)
+
 (*
 datatype commerr =
   | CEdats of ()
@@ -47,6 +52,7 @@ datatype commarg =
   | CAvats of () // -vats: version inquiry
   | CAccats of () // -ccats: compilation only
   | CAtcats of () // -tcats: typechecking only
+  | CAatsccomp of (stropt) // -atsccomp 'gcc ...'
   | CAdats of (int(*knd*), stropt) // knd=0/1:-DATS/-DDATS
   | CAiats of (int(*knd*), stropt) // knd=0/1:-IATS/-IIATS
   | CAfilats of (int(*knd*), stropt) // knd=0/1:-fsats/-fdats
@@ -64,8 +70,7 @@ overload fprint with fprint_commarglst of 10
 
 (* ****** ****** *)
 
-fun{} atsopt_get (): string
-fun{} atsccomp_get (): string
+fun{} atsccomp_get2 (cas: commarglst): string
 
 (* ****** ****** *)
 //
@@ -101,14 +106,13 @@ fun atsccompline_make (cas: commarglst): stringlst_vt
 (* ****** ****** *)
 //
 fun atsoptline_exec
-  (flag: int, args: stringlst_vt): int(*status*)
+  (flag: int, atsopt: string, args: stringlst_vt): int(*status*)
 fun atsoptline_exec_all
-  (flag: int, args: List_vt (stringlst_vt)): int(*status*)
+  (flag: int, atsopt: string, args: List_vt (stringlst_vt)): int(*status*)
 //
-(* ****** ****** *)
-
-fun atsccompline_exec (flag: int, args: stringlst_vt): int(*status*)
-
+fun atsccompline_exec
+  (flag: int, atsccomp: string, args: stringlst_vt): int(*status*)
+//
 (* ****** ****** *)
 
 (* end of [atscc.sats] *)

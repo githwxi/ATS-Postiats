@@ -41,6 +41,13 @@ staload "./atscc.sats"
 
 (* ****** ****** *)
 
+macdef
+unsome (opt) = stropt_unsome (,(opt))
+macdef
+issome (opt) = stropt_is_some (,(opt))
+
+(* ****** ****** *)
+
 #define
 ATSOPT_DEFAULT "patsopt"
 
@@ -91,6 +98,27 @@ if strptr2ptr (def) > 0
 //
 end // end of [atsccomp_get]
   
+(* ****** ****** *)
+
+implement{}
+atsccomp_get2 (cas) = let
+in
+//
+case+ cas of
+| list_cons
+    (ca, cas) =>
+  (
+  case+ ca of
+  | CAatsccomp (opt) =>
+    (
+    if issome(opt) then unsome(opt) else atsccomp_get2 (cas)
+    )
+  | _ => atsccomp_get2 (cas)
+  )
+| list_nil () => atsccomp_get ()
+//
+end // end of [atsccomp_get2]
+
 (* ****** ****** *)
 
 (* end of [atscc_util.dats] *)

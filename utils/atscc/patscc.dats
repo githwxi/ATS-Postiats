@@ -59,8 +59,9 @@ val out = stdout_ref
 //
 val cas = atsccproc_commline (argc, argv)
 //
+val cmd = atsopt_get ()
 val lines = atsoptline_make_all (cas)
-val status = atsoptline_exec_all (1(*flag*), lines)
+val status = atsoptline_exec_all (1(*flag*), cmd, lines)
 //
 val cont =
 (
@@ -71,8 +72,9 @@ val () =
 if cont then
 {
 //
+val cmd = atsccomp_get2 (cas)
 val arglst = atsccompline_make (cas)
-val status = atsccompline_exec (1(*flag*), arglst)
+val status = atsccompline_exec (1(*flag*), cmd, arglst)
 //
 } (* end of [if] *)
 //
