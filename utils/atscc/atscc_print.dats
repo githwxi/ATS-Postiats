@@ -114,9 +114,9 @@ case+ ca of
     prstr "CAfilats(1, "; propt (opt); prstr ")"
   )
 //
-| CAgitem (str) =>
+| CAgitem (item) =>
   (
-    prstr "CAgitem("; prstr (str); prstr ")"
+    prstr "CAgitem("; prstr (item); prstr ")"
   )
 //
 (*
@@ -173,19 +173,19 @@ case+ ca of
 //
 end (* end of [aux] *)
 //
-and aux_iats
-(
-  out: FILEref, path: string
-) : void =
-{
-  val () = fprint! (out, " -IATS ", path)
-}
 and aux_dats
 (
   out: FILEref, def0: string
 ) : void =
 {
   val () = fprint! (out, " -DATS ", def0)
+}
+and aux_iats
+(
+  out: FILEref, path: string
+) : void =
+{
+  val () = fprint! (out, " -IATS ", path)
 }
 //
 fun auxlst
@@ -215,18 +215,18 @@ case+ ca0 of
     val () = fprintln! (out, " --version")
   }
 | CAfilats (knd, opt) =>
-    if issome (opt) then
-    {
-      val name = unsome(opt)
-      val outname = atscc_outname (knd, name)
-      val () = fprint! (out, " --output ", outname)
-      val () =
-        if knd = 0 then fprintln! (out, " --static ", name)
-      // end of [val]
-      val () =
-        if knd > 0 then fprintln! (out, " --dynamic ", name)
-      // end of [val]
-    }
+  if issome (opt) then
+  {
+    val name = unsome(opt)
+    val outname = atscc_outname (knd, name)
+    val () = fprint! (out, " --output ", outname)
+    val () =
+      if knd = 0 then fprintln! (out, " --static ", name)
+    // end of [val]
+    val () =
+      if knd > 0 then fprintln! (out, " --dynamic ", name)
+    // end of [val]
+  } (* end of [if] *)
 | _ => ((*void*))
 //
 end // end of [fprint_atsoptline]
@@ -336,7 +336,7 @@ case+ ca of
     if issome (opt) then aux_fdats (out, unsome(opt))
   )
 //
-| CAgitem (str) => aux_gitem (out, str)
+| CAgitem (item) => aux_gitem (out, item)
 //
 end // end of [aux]
 
@@ -376,7 +376,7 @@ case+ cas of
   end // end of [list_cons]
 | list_nil () => ()
 //
-end // end of [loop]
+end // end of [auxlst]
 //
 val-list_cons (ca, cas) = cas0
 val () = fprint (out, atsccomp_get ())

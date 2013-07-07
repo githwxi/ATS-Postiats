@@ -99,6 +99,7 @@ case+ p3t0.p3at_node of
     fprintf (out, "P3Tint(%i)", @(i))
 | P3Tintrep (s) =>
     fprintf (out, "P3Tintrep(%s)", @(s))
+//
 | P3Tbool (b) => let
     val name = if b then "true" else "false"
   in
@@ -106,6 +107,8 @@ case+ p3t0.p3at_node of
   end // end of [P3Tbool]
 | P3Tchar (c) =>
     fprintf (out, "P3Tchar(%c)", @(c))
+| P3Tfloat (rep) =>
+    fprintf (out, "P3Tfloat(%s)", @(rep))
 | P3Tstring (str) =>
     fprintf (out, "P3Tstring(%s)", @(str))
 //

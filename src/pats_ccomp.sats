@@ -958,8 +958,8 @@ datatype patck =
   | PATCKint of (int)
   | PATCKbool of (bool)
   | PATCKchar of (char)
-  | PATCKstring of (string)
   | PATCKfloat of (double)
+  | PATCKstring of (string)
 //
   | PATCKi0nt of (i0nt)
   | PATCKf0loat of (f0loat)

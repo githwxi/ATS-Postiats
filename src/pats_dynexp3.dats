@@ -89,6 +89,11 @@ p3at_char
 // end of [p3at_char]
 
 implement
+p3at_float
+  (loc, s2f, rep) = p3at_make_node (loc, s2f, P3Tfloat (rep))
+// end of [p3at_float]
+
+implement
 p3at_string
   (loc, s2f, str) = p3at_make_node (loc, s2f, P3Tstring (str))
 // end of [p3at_string]

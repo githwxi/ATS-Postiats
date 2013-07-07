@@ -1,4 +1,5 @@
-The command [atscc] is a wrapper of convenience around [atsopt].
+The command [atscc] is a thin wrapper around
+[atsopt] for convenience. 
 
 $ATSOPT = "atsopt"
 $ATSCCOMP = "gcc -std=c99 -D_XOPEN_SOURCE"
@@ -11,3 +12,7 @@ $ATSCCOMP = "gcc -std=c99 -D_XOPEN_SOURCE"
 -DDATS : definition for [atsopt] and [atsccomp]
 -IATS  : include path for [atsopt]
 -IIATS : include path for [atsopt] and [atsccomp]
+
+-cleanats :
+  removing the generated C-file (_?ats.c)
+  the flag is ignored if -ccats is present

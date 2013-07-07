@@ -73,6 +73,8 @@ hipat_node =
   | HIPvar of (d2var) // mutability from the context
 //
   | HIPint of int
+  | HIPintrep of string
+//
   | HIPbool of bool
   | HIPchar of char
   | HIPstring of string
@@ -159,6 +161,8 @@ fun hipat_con_any (
 ) : hipat // end of [hipat_con_any]
 
 fun hipat_int (loc: location, hse: hisexp, i: int): hipat
+fun hipat_intrep (loc: location, hse: hisexp, rep: string): hipat
+
 fun hipat_bool (loc: location, hse: hisexp, b: bool): hipat
 fun hipat_char (loc: location, hse: hisexp, c: char): hipat
 fun hipat_float (loc: location, hse: hisexp, rep: string): hipat

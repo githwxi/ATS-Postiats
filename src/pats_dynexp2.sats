@@ -499,7 +499,8 @@ datatype p2at_node =
     ) // end of [P2Tcon]
 //
   | P2Tint of int
-  | P2Tintrep of string(*rep*)
+  | P2Tintrep of string
+//
   | P2Tbool of bool
   | P2Tchar of char
   | P2Tfloat of string(*rep*)

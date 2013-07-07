@@ -58,10 +58,8 @@ vtypedef commarglst_vt = List0_vt (commarg)
 
 (* ****** ****** *)
 
-fun fprint_commarg
-  (out: FILEref, ca: commarg): void
-fun fprint_commarglst
-  (out: FILEref, cas: commarglst): void
+fun fprint_commarg (out: FILEref, ca: commarg): void
+fun fprint_commarglst (out: FILEref, cas: commarglst): void
 overload fprint with fprint_commarglst of 10
 
 (* ****** ****** *)
@@ -77,6 +75,10 @@ fun atscc_outname (flag: int, path: string): string
 //
 (* ****** ****** *)
 
+fun atsccproc_commline {n:int} (int n, !argv(n)): commarglst
+
+(* ****** ****** *)
+
 fun fprint_atsoptline
 (
   out: FILEref, cas: commarglst, ca0: commarg
@@ -89,14 +91,18 @@ fun fprint_atsccompline (out: FILEref, cas: commarglst): void
 (* ****** ****** *)
 
 fun atsoptline_make
-  (out: FILEref, cas: commarglst, ca0: commarg): stringlst_vt
+  (cas: !RD(commarglst), ca0: commarg): stringlst_vt
 // end of [atsoptline_make]
+
+fun atsoptline_make_all (cas: commarglst): List0_vt (stringlst_vt)
+
+fun atsccompline_make (cas: commarglst): stringlst_vt
 
 (* ****** ****** *)
 
-fun atsccproc{n:int}
-  (argc: int n, argv: !argv(n)): commarglst
-// end of [atsccproc]
+fun atsoptline_exec (args: stringlst_vt): int(*ecode*)
+fun atsoptline_exec_all (args: List_vt (stringlst_vt)): int(*ecode*)
+fun atsccompline_exec (args: stringlst_vt): int(*ecode*)
 
 (* ****** ****** *)
 

@@ -29,4 +29,8 @@ end // end of [display_case]
 
 (* ****** ****** *)
 
+implement main0 () = ()
+
+(* ****** ****** *)
+
 (* end of [qa-list-35.dats] *)

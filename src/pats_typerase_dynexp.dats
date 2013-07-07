@@ -186,6 +186,7 @@ case+ p3t0.p3at_node of
   ) => p3at_tyer_con (loc0, hse0, pck, d2c, npf, p3ts)
 //
 | P3Tint (i) => hipat_int (loc0, hse0, i)
+| P3Tintrep (rep) => hipat_intrep (loc0, hse0, rep)
 //
 | P3Tbool (b) => hipat_bool (loc0, hse0, b)
 | P3Tchar (c) => hipat_char (loc0, hse0, c)

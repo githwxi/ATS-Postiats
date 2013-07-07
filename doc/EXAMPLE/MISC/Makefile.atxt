@@ -74,7 +74,7 @@ end // end of [make2_entry]
 
 CCOPT=gcc -std=c99
 PATSHOMEQ="$(PATSHOME)"
-PATSOPT=$(PATSHOMEQ)/src/patsopt
+PATSOPT=$(PATSHOMEQ)/bin/patsopt
 PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 
 ######

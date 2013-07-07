@@ -466,7 +466,8 @@ prval () = lemma_list_vt_param (xs)
 prval () = lemma_list_vt_param (ys)
 //
 fun loop
-  {m,n:nat} .<m>. (
+  {m,n:nat} .<m>.
+(
   xs: list_vt (a, m), ys: list_vt (a, n)
 ) :<!wrt> list_vt (a, m+n) =
   case xs of
@@ -476,7 +477,7 @@ fun loop
       val () = xs1 := ys; prval () = fold@ (xs)
     in
       loop (xs1_, xs)
-    end
+    end // end of [cons]
   | ~list_vt_nil () => ys
 (* end of [loop] *)
 //

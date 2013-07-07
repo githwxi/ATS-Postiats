@@ -87,9 +87,11 @@ implement{}
 dynarray_getfree_arrayptr
   (DA, n) = let
 //
-val+~DYNARRAY{a}{m,n}(A, _, n0) = DA
+val+
+~DYNARRAY{a}{m,n}(A, _, n0) = DA
 //
 val () = n := n0
+prval () = lemma_g1uint_param (n0)
 //
 in
   $UN.castvwtp0{arrayptr(a,n)}(A)

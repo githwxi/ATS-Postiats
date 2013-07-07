@@ -67,6 +67,7 @@ datatype p3at_node =
   | P3Tintrep of string(*rep*)
   | P3Tbool of (bool)
   | P3Tchar of (char)
+  | P3Tfloat of (string)  
   | P3Tstring of (string)  
 //
   | P3Ti0nt of i0nt
@@ -145,6 +146,9 @@ fun p3at_bool (
 fun p3at_char (
   loc: location, s2f: s2exp, c: char
 ) : p3at // end of [p3at_char]
+fun p3at_float (
+  loc: location, s2f: s2exp, rep: string
+) : p3at // end of [p3at_float]
 fun p3at_string (
   loc: location, s2f: s2exp, str: string
 ) : p3at // end of [p3at_string]

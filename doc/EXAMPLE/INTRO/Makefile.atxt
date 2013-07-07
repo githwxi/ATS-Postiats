@@ -27,8 +27,8 @@ all:: %s\n\
   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output %s_dats.c --dynamic %s.dats\n\
 clean:: ; $(RMF) %s_dats.o\n\
 clean:: ; $(RMF) %s_dats.c\n\
-cleanall:: ; $(RMF) %s.exe\n\
-", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
+cleanall:: ; $(RMF) %s %s.exe\n\
+", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
 ) // end of [val]
 //
 val ent = string_of_strptr (ent)
@@ -76,7 +76,7 @@ CCOPT=gcc -std=c99 -D_XOPEN_SOURCE
 ######
 
 PATSHOMEQ="$(PATSHOME)"
-PATSOPT=$(PATSHOMEQ)/src/patsopt
+PATSOPT=$(PATSHOMEQ)/bin/patsopt
 PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 
 ######

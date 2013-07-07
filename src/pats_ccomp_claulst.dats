@@ -1150,6 +1150,18 @@ case+
   in
     list_vt_cons (ptcmp0, list_vt_cons (ptcmp1, ptcmps))
   end // end of [HIPint]
+| HIPintrep (rep) => let
+    val tl = tmplab_make (loc0)
+    val kntr = patckontref_make ()
+    val i0 = $UT.llint_make_string (rep)
+    val i0 = int_of_llint (i0)
+    val ptcmp0 =
+      PTCMPpatlparen (PATCKint(i0), tpmv, tl, None(*void*), kntr)
+    val ptcmp1 = PTCMPrparen ()
+    val ptcmps = auxcomplst (lvl0, mtks)
+  in
+    list_vt_cons (ptcmp0, list_vt_cons (ptcmp1, ptcmps))
+  end // end of [HIPintrep]
 //
 | HIPbool (b) => let
     val tl = tmplab_make (loc0)
@@ -1263,7 +1275,7 @@ case+
 //
 | _ => let
     val () = prerr_interror_loc (loc0)
-    val () = prerrln! ("himatchlst_patcomp: auxcomplst_pat: hip0 = ", hip0)
+    val () = prerrln! (": himatchlst_patcomp: auxcomplst_pat: hip0 = ", hip0)
     val () = assertloc (false) in list_vt_nil ()
   end // end of [_]
 //

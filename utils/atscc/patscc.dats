@@ -57,18 +57,30 @@ main0 (argc, argv) =
 {
 val out = stdout_ref
 //
-val gcc = atsccomp_get ()
-val () = fprintln! (out, "gcc = ", gcc)
+val cas = atsccproc_commline (argc, argv)
+val ((*void*)) = fprintln! (out, "atsccproc_commline: cas = ", cas)
 //
-val cas = atsccproc (argc, argv)
-val ((*void*)) = fprintln! (out, "cas = ", cas)
+val lines = atsoptline_make_all (cas)
+val ecode = atsoptline_exec_all (lines)
 //
-val () = fprint_atsoptline_all (out, cas)
+val cont =
+(
+  if ecode = 0 then true else false
+) : bool // end of [val]
 //
-val ((*void*)) = fprint_atsccompline (out, cas)
+val () =
+if cont then
+{
+//
+val arglst = atsccompline_make (cas)
+val status = atsccompline_exec (arglst)
+//
+val ((*void*)) = fprintln! (out, "atsccompline_exec: status = ", status)
+//
+} (* end of [if] *)
 //
 } (* end of [main0] *)
 
 (* ****** ****** *)
 
-(* end of [test.dats] *)
+(* end of [patscc.dats] *)

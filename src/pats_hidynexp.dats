@@ -114,6 +114,11 @@ hipat_int
   (loc, hse, i) =
   hipat_make_node (loc, hse, HIPint (i))
 // end of [hipat_int]
+implement
+hipat_intrep
+  (loc, hse, rep) =
+  hipat_make_node (loc, hse, HIPintrep (rep))
+// end of [hipat_intrep]
 
 implement
 hipat_bool

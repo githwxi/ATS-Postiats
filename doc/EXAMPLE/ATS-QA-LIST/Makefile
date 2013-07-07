@@ -11,7 +11,7 @@
 
 CCOPT=gcc -std=c99
 PATSHOMEQ="$(PATSHOME)"
-PATSOPT=$(PATSHOMEQ)/src/patsopt
+PATSOPT=$(PATSHOMEQ)/bin/patsopt
 PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 
 ######
@@ -32,6 +32,14 @@ qa-list-32_dats.c: qa-list-32.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --ou
 clean:: ; $(RMF) qa-list-32_dats.o
 clean:: ; $(RMF) qa-list-32_dats.c
 cleanall:: ; $(RMF) qa-list-32.exe
+
+all:: qa-list-35
+qa-list-35: qa-list-35.exe
+qa-list-35.exe: qa-list-35_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+qa-list-35_dats.c: qa-list-35.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output qa-list-35_dats.c --dynamic qa-list-35.dats
+clean:: ; $(RMF) qa-list-35_dats.o
+clean:: ; $(RMF) qa-list-35_dats.c
+cleanall:: ; $(RMF) qa-list-35.exe
 
 all:: for-0install
 for-0install: for-0install.exe

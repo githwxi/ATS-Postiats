@@ -454,8 +454,10 @@ case+ p3t.p3at_node of
 //
 | P3Tint _ => ()
 | P3Tintrep _ => ()
+//
 | P3Tbool _ => ()
 | P3Tchar _ => ()
+| P3Tfloat _ => ()
 | P3Tstring _ => ()
 //
 | P3Ti0nt _ => ()

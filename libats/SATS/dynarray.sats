@@ -38,18 +38,8 @@
 %} // end of [%{#]
 
 (* ****** ****** *)
-
-typedef SHR(a:type) = a // for commenting purpose
-typedef NSH(a:type) = a // for commenting purpose
-
-(* ****** ****** *)
-
-sortdef t0p = t@ype and vt0p = viewt@ype
-
-(* ****** ****** *)
 //
-// HX-2013-05:
-// for recapacitizing policy
+// HX: for recapacitizing policy
 //
 fun{} dynarray$recapacitize (): int
 //
@@ -85,7 +75,7 @@ fun{}
 dynarray_getfree_arrayptr{a:vt0p}
 (
   DA: dynarray (INV(a)), n: &size_t? >> size_t (n)
-) :<!wrt> #[n:int] arrayptr (a, n)
+) :<!wrt> #[n:nat] arrayptr (a, n)
 
 (* ****** ****** *)
 

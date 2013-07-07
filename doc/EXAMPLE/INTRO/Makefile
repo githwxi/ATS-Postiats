@@ -14,7 +14,7 @@ CCOPT=gcc -std=c99 -D_XOPEN_SOURCE
 ######
 
 PATSHOMEQ="$(PATSHOME)"
-PATSOPT=$(PATSHOMEQ)/src/patsopt
+PATSOPT=$(PATSHOMEQ)/bin/patsopt
 PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 
 ######
@@ -34,7 +34,7 @@ acker1.exe: acker1_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runti
 acker1_dats.c: acker1.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output acker1_dats.c --dynamic acker1.dats
 clean:: ; $(RMF) acker1_dats.o
 clean:: ; $(RMF) acker1_dats.c
-cleanall:: ; $(RMF) acker1.exe
+cleanall:: ; $(RMF) acker1 acker1.exe
 
 all:: acker2
 acker2: acker2.exe
@@ -42,7 +42,7 @@ acker2.exe: acker2_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runti
 acker2_dats.c: acker2.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output acker2_dats.c --dynamic acker2.dats
 clean:: ; $(RMF) acker2_dats.o
 clean:: ; $(RMF) acker2_dats.c
-cleanall:: ; $(RMF) acker2.exe
+cleanall:: ; $(RMF) acker2 acker2.exe
 
 all:: acker3
 acker3: acker3.exe
@@ -66,7 +66,7 @@ atof.exe: atof_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -
 atof_dats.c: atof.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output atof_dats.c --dynamic atof.dats
 clean:: ; $(RMF) atof_dats.o
 clean:: ; $(RMF) atof_dats.c
-cleanall:: ; $(RMF) atof.exe
+cleanall:: ; $(RMF) atof atof.exe
 
 all:: atoi
 atoi: atoi.exe
@@ -74,7 +74,7 @@ atoi.exe: atoi_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -
 atoi_dats.c: atoi.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output atoi_dats.c --dynamic atoi.dats
 clean:: ; $(RMF) atoi_dats.o
 clean:: ; $(RMF) atoi_dats.c
-cleanall:: ; $(RMF) atoi.exe
+cleanall:: ; $(RMF) atoi atoi.exe
 
 all:: bintree
 bintree: bintree.exe
@@ -98,7 +98,7 @@ extfcall.exe: extfcall_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/r
 extfcall_dats.c: extfcall.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output extfcall_dats.c --dynamic extfcall.dats
 clean:: ; $(RMF) extfcall_dats.o
 clean:: ; $(RMF) extfcall_dats.c
-cleanall:: ; $(RMF) extfcall.exe
+cleanall:: ; $(RMF) extfcall extfcall.exe
 
 all:: f91
 f91: f91.exe
@@ -106,7 +106,7 @@ f91.exe: f91_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o 
 f91_dats.c: f91.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output f91_dats.c --dynamic f91.dats
 clean:: ; $(RMF) f91_dats.o
 clean:: ; $(RMF) f91_dats.c
-cleanall:: ; $(RMF) f91.exe
+cleanall:: ; $(RMF) f91 f91.exe
 
 all:: fact1
 fact1: fact1.exe
@@ -114,7 +114,7 @@ fact1.exe: fact1_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime
 fact1_dats.c: fact1.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fact1_dats.c --dynamic fact1.dats
 clean:: ; $(RMF) fact1_dats.o
 clean:: ; $(RMF) fact1_dats.c
-cleanall:: ; $(RMF) fact1.exe
+cleanall:: ; $(RMF) fact1 fact1.exe
 
 all:: fact2
 fact2: fact2.exe
@@ -122,7 +122,7 @@ fact2.exe: fact2_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime
 fact2_dats.c: fact2.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fact2_dats.c --dynamic fact2.dats
 clean:: ; $(RMF) fact2_dats.o
 clean:: ; $(RMF) fact2_dats.c
-cleanall:: ; $(RMF) fact2.exe
+cleanall:: ; $(RMF) fact2 fact2.exe
 
 all:: fact3
 fact3: fact3.exe
@@ -138,7 +138,7 @@ fcopy.exe: fcopy_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime
 fcopy_dats.c: fcopy.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fcopy_dats.c --dynamic fcopy.dats
 clean:: ; $(RMF) fcopy_dats.o
 clean:: ; $(RMF) fcopy_dats.c
-cleanall:: ; $(RMF) fcopy.exe
+cleanall:: ; $(RMF) fcopy fcopy.exe
 
 all:: fcopy2
 fcopy2: fcopy2.exe
@@ -154,7 +154,7 @@ fib1.exe: fib1_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -
 fib1_dats.c: fib1.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fib1_dats.c --dynamic fib1.dats
 clean:: ; $(RMF) fib1_dats.o
 clean:: ; $(RMF) fib1_dats.c
-cleanall:: ; $(RMF) fib1.exe
+cleanall:: ; $(RMF) fib1 fib1.exe
 
 all:: fib2
 fib2: fib2.exe
@@ -162,7 +162,7 @@ fib2.exe: fib2_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -
 fib2_dats.c: fib2.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fib2_dats.c --dynamic fib2.dats
 clean:: ; $(RMF) fib2_dats.o
 clean:: ; $(RMF) fib2_dats.c
-cleanall:: ; $(RMF) fib2.exe
+cleanall:: ; $(RMF) fib2 fib2.exe
 
 all:: fibmem
 fibmem: fibmem.exe
@@ -178,7 +178,7 @@ fprtuple.exe: fprtuple_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/r
 fprtuple_dats.c: fprtuple.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fprtuple_dats.c --dynamic fprtuple.dats
 clean:: ; $(RMF) fprtuple_dats.o
 clean:: ; $(RMF) fprtuple_dats.c
-cleanall:: ; $(RMF) fprtuple.exe
+cleanall:: ; $(RMF) fprtuple fprtuple.exe
 
 all:: gfact
 gfact: gfact.exe
@@ -186,7 +186,7 @@ gfact.exe: gfact_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime
 gfact_dats.c: gfact.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output gfact_dats.c --dynamic gfact.dats
 clean:: ; $(RMF) gfact_dats.o
 clean:: ; $(RMF) gfact_dats.c
-cleanall:: ; $(RMF) gfact.exe
+cleanall:: ; $(RMF) gfact gfact.exe
 
 all:: hello
 hello: hello.exe
@@ -194,7 +194,7 @@ hello.exe: hello_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime
 hello_dats.c: hello.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output hello_dats.c --dynamic hello.dats
 clean:: ; $(RMF) hello_dats.o
 clean:: ; $(RMF) hello_dats.c
-cleanall:: ; $(RMF) hello.exe
+cleanall:: ; $(RMF) hello hello.exe
 
 all:: intecho
 intecho: intecho.exe
@@ -202,7 +202,7 @@ intecho.exe: intecho_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/run
 intecho_dats.c: intecho.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output intecho_dats.c --dynamic intecho.dats
 clean:: ; $(RMF) intecho_dats.o
 clean:: ; $(RMF) intecho_dats.c
-cleanall:: ; $(RMF) intecho.exe
+cleanall:: ; $(RMF) intecho intecho.exe
 
 all:: intrange
 intrange: intrange.exe
@@ -234,7 +234,7 @@ mutailrec.exe: mutailrec_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp
 mutailrec_dats.c: mutailrec.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output mutailrec_dats.c --dynamic mutailrec.dats
 clean:: ; $(RMF) mutailrec_dats.o
 clean:: ; $(RMF) mutailrec_dats.c
-cleanall:: ; $(RMF) mutailrec.exe
+cleanall:: ; $(RMF) mutailrec mutailrec.exe
 
 all:: ordset
 ordset: ordset.exe
@@ -250,7 +250,7 @@ partmplt.exe: partmplt_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/r
 partmplt_dats.c: partmplt.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output partmplt_dats.c --dynamic partmplt.dats
 clean:: ; $(RMF) partmplt_dats.o
 clean:: ; $(RMF) partmplt_dats.c
-cleanall:: ; $(RMF) partmplt.exe
+cleanall:: ; $(RMF) partmplt partmplt.exe
 
 all:: patrefas
 patrefas: patrefas.exe
@@ -266,7 +266,7 @@ sumodd.exe: sumodd_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runti
 sumodd_dats.c: sumodd.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output sumodd_dats.c --dynamic sumodd.dats
 clean:: ; $(RMF) sumodd_dats.o
 clean:: ; $(RMF) sumodd_dats.c
-cleanall:: ; $(RMF) sumodd.exe
+cleanall:: ; $(RMF) sumodd sumodd.exe
 
 all:: staref
 staref: staref.exe
@@ -274,7 +274,7 @@ staref.exe: staref_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runti
 staref_dats.c: staref.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output staref_dats.c --dynamic staref.dats
 clean:: ; $(RMF) staref_dats.o
 clean:: ; $(RMF) staref_dats.c
-cleanall:: ; $(RMF) staref.exe
+cleanall:: ; $(RMF) staref staref.exe
 
 all:: strprefix
 strprefix: strprefix.exe
@@ -282,7 +282,7 @@ strprefix.exe: strprefix_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp
 strprefix_dats.c: strprefix.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output strprefix_dats.c --dynamic strprefix.dats
 clean:: ; $(RMF) strprefix_dats.o
 clean:: ; $(RMF) strprefix_dats.c
-cleanall:: ; $(RMF) strprefix.exe
+cleanall:: ; $(RMF) strprefix strprefix.exe
 
 all:: tally
 tally: tally.exe
@@ -290,7 +290,7 @@ tally.exe: tally_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime
 tally_dats.c: tally.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output tally_dats.c --dynamic tally.dats
 clean:: ; $(RMF) tally_dats.o
 clean:: ; $(RMF) tally_dats.c
-cleanall:: ; $(RMF) tally.exe
+cleanall:: ; $(RMF) tally tally.exe
 
 all:: trywith
 trywith: trywith.exe
@@ -306,7 +306,7 @@ weekday.exe: weekday_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/run
 weekday_dats.c: weekday.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output weekday_dats.c --dynamic weekday.dats
 clean:: ; $(RMF) weekday_dats.o
 clean:: ; $(RMF) weekday_dats.c
-cleanall:: ; $(RMF) weekday.exe
+cleanall:: ; $(RMF) weekday weekday.exe
 
 
 ######

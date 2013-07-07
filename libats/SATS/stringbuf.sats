@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -33,63 +33,35 @@
 
 (* ****** ****** *)
 
-staload STDLIB = "libc/SATS/stdlib.sats"
+absvtype stringbuf_vtype = ptr
+vtypedef stringbuf = stringbuf_vtype
 
 (* ****** ****** *)
 
-staload "./atscc.sats"
+fun{}
+stringbuf_make_nil (cap: sizeGte(1)): stringbuf
 
 (* ****** ****** *)
 
-#define
-ATSOPT_DEFAULT "patsopt"
-
-implement
-{}(*tmp*)
-atsopt_get () = let
-//
-val def =
-  $STDLIB.getenv_gc ("PATSOPT")
-//
-in
-//
-if strptr2ptr (def) > 0
-  then strptr2string (def)
-  else let
-    prval () = strptr_free_null (def)
-  in
-    ATSOPT_DEFAULT
-  end (* end of [if] *)
-// end of [if]
-//
-end // end of [atsopt_get]
+fun{}
+stringbuf_getfree_strnptr
+  (sb: stringbuf, n: &size_t? >> size_t n):<!wrt> #[n:nat] strnptr(n)
+// end of [stringbuf_getfree_strnptr]
 
 (* ****** ****** *)
 
-#define
-ATSCCOMP_DEFAULT "\
-gcc -std=c99 -D_XOPEN_SOURCE\
-"
-implement
-{}(*tmp*)
-atsccomp_get () = let
-//
-val def =
-  $STDLIB.getenv_gc ("PATSCCOMP")
-//
-in
-//
-if strptr2ptr (def) > 0
-  then strptr2string (def)
-  else let
-    prval () = strptr_free_null (def)
-  in
-    ATSCCOMP_DEFAULT
-  end (* end of [if] *)
-// end of [if]
-//
-end // end of [atsccomp_get]
-  
+fun{}
+stringbuf_insert_at_char (sb: !stringbuf, x: charNZ): int
+fun{}
+stringbuf_insert_at_string (sb: !stringbuf, x: string): int
+
 (* ****** ****** *)
 
-(* end of [atscc_util.dats] *)
+fun{}
+stringbuf_insert_atend_char (sb: !stringbuf, x: charNZ): int
+fun{}
+stringbuf_insert_atend_string (sb: !stringbuf, x: string): int
+
+(* ****** ****** *)
+
+(* end of [stringbuf.sats] *)
