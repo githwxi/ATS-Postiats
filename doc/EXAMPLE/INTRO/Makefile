@@ -50,7 +50,7 @@ acker3.exe: acker3_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(
 acker3_dats.c: acker3.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output acker3_dats.c --dynamic acker3.dats
 clean:: ; $(RMF) acker3_dats.o
 clean:: ; $(RMF) acker3_dats.c
-cleanall:: ; $(RMF) acker3.exe
+cleanall:: ; $(RMF) acker3 acker3.exe
 
 all:: areverse
 areverse: areverse.exe
@@ -58,7 +58,7 @@ areverse.exe: areverse_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) 
 areverse_dats.c: areverse.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output areverse_dats.c --dynamic areverse.dats
 clean:: ; $(RMF) areverse_dats.o
 clean:: ; $(RMF) areverse_dats.c
-cleanall:: ; $(RMF) areverse.exe
+cleanall:: ; $(RMF) areverse areverse.exe
 
 all:: atof
 atof: atof.exe
@@ -82,7 +82,7 @@ bintree.exe: bintree_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I
 bintree_dats.c: bintree.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output bintree_dats.c --dynamic bintree.dats
 clean:: ; $(RMF) bintree_dats.o
 clean:: ; $(RMF) bintree_dats.c
-cleanall:: ; $(RMF) bintree.exe
+cleanall:: ; $(RMF) bintree bintree.exe
 
 all:: clofun
 clofun: clofun.exe
@@ -90,7 +90,7 @@ clofun.exe: clofun_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(
 clofun_dats.c: clofun.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output clofun_dats.c --dynamic clofun.dats
 clean:: ; $(RMF) clofun_dats.o
 clean:: ; $(RMF) clofun_dats.c
-cleanall:: ; $(RMF) clofun.exe
+cleanall:: ; $(RMF) clofun clofun.exe
 
 all:: extfcall
 extfcall: extfcall.exe
@@ -130,7 +130,7 @@ fact3.exe: fact3_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PA
 fact3_dats.c: fact3.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fact3_dats.c --dynamic fact3.dats
 clean:: ; $(RMF) fact3_dats.o
 clean:: ; $(RMF) fact3_dats.c
-cleanall:: ; $(RMF) fact3.exe
+cleanall:: ; $(RMF) fact3 fact3.exe
 
 all:: fcopy
 fcopy: fcopy.exe
@@ -146,7 +146,7 @@ fcopy2.exe: fcopy2_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(
 fcopy2_dats.c: fcopy2.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fcopy2_dats.c --dynamic fcopy2.dats
 clean:: ; $(RMF) fcopy2_dats.o
 clean:: ; $(RMF) fcopy2_dats.c
-cleanall:: ; $(RMF) fcopy2.exe
+cleanall:: ; $(RMF) fcopy2 fcopy2.exe
 
 all:: fib1
 fib1: fib1.exe
@@ -170,7 +170,7 @@ fibmem.exe: fibmem_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(
 fibmem_dats.c: fibmem.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fibmem_dats.c --dynamic fibmem.dats
 clean:: ; $(RMF) fibmem_dats.o
 clean:: ; $(RMF) fibmem_dats.c
-cleanall:: ; $(RMF) fibmem.exe
+cleanall:: ; $(RMF) fibmem fibmem.exe
 
 all:: fprtuple
 fprtuple: fprtuple.exe
@@ -210,7 +210,7 @@ intrange.exe: intrange_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) 
 intrange_dats.c: intrange.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output intrange_dats.c --dynamic intrange.dats
 clean:: ; $(RMF) intrange_dats.o
 clean:: ; $(RMF) intrange_dats.c
-cleanall:: ; $(RMF) intrange.exe
+cleanall:: ; $(RMF) intrange intrange.exe
 
 all:: linenmbr
 linenmbr: linenmbr.exe
@@ -218,7 +218,7 @@ linenmbr.exe: linenmbr_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) 
 linenmbr_dats.c: linenmbr.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output linenmbr_dats.c --dynamic linenmbr.dats
 clean:: ; $(RMF) linenmbr_dats.o
 clean:: ; $(RMF) linenmbr_dats.c
-cleanall:: ; $(RMF) linenmbr.exe
+cleanall:: ; $(RMF) linenmbr linenmbr.exe
 
 all:: listfuns
 listfuns: listfuns.exe
@@ -226,7 +226,7 @@ listfuns.exe: listfuns_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) 
 listfuns_dats.c: listfuns.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output listfuns_dats.c --dynamic listfuns.dats
 clean:: ; $(RMF) listfuns_dats.o
 clean:: ; $(RMF) listfuns_dats.c
-cleanall:: ; $(RMF) listfuns.exe
+cleanall:: ; $(RMF) listfuns listfuns.exe
 
 all:: mutailrec
 mutailrec: mutailrec.exe
@@ -242,7 +242,7 @@ ordset.exe: ordset_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(
 ordset_dats.c: ordset.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output ordset_dats.c --dynamic ordset.dats
 clean:: ; $(RMF) ordset_dats.o
 clean:: ; $(RMF) ordset_dats.c
-cleanall:: ; $(RMF) ordset.exe
+cleanall:: ; $(RMF) ordset ordset.exe
 
 all:: partmplt
 partmplt: partmplt.exe
@@ -258,7 +258,7 @@ patrefas.exe: patrefas_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) 
 patrefas_dats.c: patrefas.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output patrefas_dats.c --dynamic patrefas.dats
 clean:: ; $(RMF) patrefas_dats.o
 clean:: ; $(RMF) patrefas_dats.c
-cleanall:: ; $(RMF) patrefas.exe
+cleanall:: ; $(RMF) patrefas patrefas.exe
 
 all:: sumodd
 sumodd: sumodd.exe
@@ -298,7 +298,7 @@ trywith.exe: trywith_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I
 trywith_dats.c: trywith.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output trywith_dats.c --dynamic trywith.dats
 clean:: ; $(RMF) trywith_dats.o
 clean:: ; $(RMF) trywith_dats.c
-cleanall:: ; $(RMF) trywith.exe
+cleanall:: ; $(RMF) trywith trywith.exe
 
 all:: weekday
 weekday: weekday.exe
