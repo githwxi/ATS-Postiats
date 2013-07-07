@@ -3,10 +3,11 @@
 #
 
 ######
-
+#
 CC=gcc -std=c99 -D_XOPEN_SOURCE
+#
 #CC=clang -std=c99 -D_XOPEN_SOURCE
-
+#
 ######
 
 PATSHOMEQ="$(PATSHOME)"
