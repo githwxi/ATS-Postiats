@@ -157,6 +157,30 @@ This function creates an uninitialized arrayptr-value of a given size.
 
 (* ****** ****** *)
 
+#declnamesynop("arrayptr_imake_list")
+#decldescrpt("\
+
+This function copies out the elements in a given arrayptr-value to form a
+linear list. In the case where the elements are linear, the array becomes
+uninitialized after the function returns. Note that the name
+#dyncode("imake") is a shorthand for inverse-make in the sense that the
+function may alternatively be named #dyncode("list_make_arrayptr").
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("arrayptr_free")
+#decldescrpt("\
+
+This function frees the memory occupied by a given arrayptr-value that
+contains only non-linear elements. If there are non-linear elements
+involved, please try to use the function #dyncode("arrayptr_freelin").
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("fprint_arrayptr_sep")
 #decldescrpt("\
 
@@ -297,13 +321,6 @@ except for taking an additional argument that serves as an environment.  ')
 (* ****** ****** *)
 
 #declnamesynop("arrayptr_uninitize")
-
-(* ****** ****** *)
-
-#declnamesynop("arrayptr_free")
-#decldescrpt("\
-This function frees the memory occupied by a given arrayptr-value.
-")
 
 (* ****** ****** *)
 

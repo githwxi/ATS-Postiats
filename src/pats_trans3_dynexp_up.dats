@@ -189,11 +189,12 @@ case+ d2e0.d2exp_node of
 | D2Evar (d2v) => d2exp_trup_var (loc0, d2v)
 | D2Ecst (d2c) => d2exp_trup_cst (loc0, d2c)
 //
-| D2Eint (i(*int*)) => d2exp_trup_int (d2e0, i)
-| D2Eintrep (rep(*string*)) => d2exp_trup_intrep (d2e0, rep)
+| D2Eint (int) => d2exp_trup_int (d2e0, int)
+| D2Eintrep (rep) => d2exp_trup_intrep (d2e0, rep)
 | D2Ebool (b(*bool*)) => d2exp_trup_bool (d2e0, b)
 | D2Echar (c(*char*)) => d2exp_trup_char (d2e0, c)
-| D2Efloat (rep(*string*)) => d2exp_trup_float (d2e0, rep)
+| D2Efloat (rep) => d2exp_trup_float (d2e0, rep)
+| D2Estring (str) => d2exp_trup_string (d2e0, str)
 //
 | D2Ei0nt (tok) => d2exp_trup_i0nt (d2e0, tok)
 | D2Ec0har (tok) => let
@@ -205,7 +206,7 @@ case+ d2e0.d2exp_node of
 | D2Es0tring (tok) => let
     val-T_STRING (str) = tok.token_node
   in
-    d2exp_trup_string (d2e0, str) // by default: string1 (len)
+    d2exp_trup_string (d2e0, str) // by default: string1(len)
   end // end of [D2Es0tring]
 //
 | D2Ecstsp (csp) => d2exp_trup_cstsp (d2e0, csp)

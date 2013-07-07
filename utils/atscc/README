@@ -1,2 +1,13 @@
-The command [atscc] is a wrapper of convinience around [atsopt], the direct
-compilation command for ATS.
+The command [atscc] is a wrapper of convenience around [atsopt].
+
+$ATSOPT = "atsopt"
+$ATSCCOMP = "gcc -std=c99 -D_XOPEN_SOURCE"
+
+-vats  : the version of atsopt
+-tcats : typechecking only
+-ccats : compiling ATS to C only
+
+-DATS  : definition for [atsopt]
+-DDATS : definition for [atsopt] and [atsccomp]
+-IATS  : include path for [atsopt]
+-IIATS : include path for [atsopt] and [atsccomp]

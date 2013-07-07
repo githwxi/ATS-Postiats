@@ -201,6 +201,14 @@ arrayptr_make_uninitized
 
 #atscode_separator()
 
+fun{a:vt0p}
+arrayptr_imake_list{n:int}
+(
+  A: !arrayptr (INV(a), n) >> arrayptr (a?!, n), n: size_t (n)
+) : list_vt (a, n) // end of [arrayptr_imake_list]
+
+#atscode_separator()
+
 fun arrayptr_free
   {a:t0p}{l:addr}{n:int}
   (A: arrayptr (INV(a), l, n)):<!wrt> void = "mac\#%"
@@ -234,28 +242,22 @@ overload fprint with fprint_arrayptr_sep
 symintr arrayptr_get_at
 
 fun{a:t0p}
-arrayptr_get_at_size
-  {n:int}
-(
-  A: !arrayptr (INV(a), n), i: sizeLt (n)
-) :<> a // end of [arrayptr_get_at_size]
+arrayptr_get_at_size{n:int}
+  (A: !arrayptr (INV(a), n), i: sizeLt (n)):<> (a)
+// end of [arrayptr_get_at_size]
 
 fun{
 a:t0p}{tk:tk
 } arrayptr_get_at_gint
   {n:int}{i:nat | i < n}
-(
-  A: !arrayptr (INV(a), n), i: g1int (tk, i)
-) :<> a // end of [arrayptr_get_at_gint]
+  (A: !arrayptr (INV(a), n), i: g1int (tk, i)):<> (a)
 overload [] with arrayptr_get_at_gint of 0
 
 fun{
 a:t0p}{tk:tk
 } arrayptr_get_at_guint
   {n:int}{i:nat | i < n}
-(
-  A: !arrayptr (INV(a), n), i: g1uint (tk, i)
-) :<> a // end of [arrayptr_get_at_guint]
+  (A: !arrayptr (INV(a), n), i: g1uint (tk, i)):<> (a)
 overload [] with arrayptr_get_at_guint of 0
 
 overload arrayptr_get_at with arrayptr_get_at_gint
@@ -266,28 +268,22 @@ overload arrayptr_get_at with arrayptr_get_at_guint
 symintr arrayptr_set_at
 
 fun{a:t0p}
-arrayptr_set_at_size
-  {n:int}
-(
-  A: !arrayptr (INV(a), n), i: sizeLt (n), x: a
-) :<!wrt> void // end of [arrayptr_set_at_size]
+arrayptr_set_at_size{n:int}
+  (A: !arrayptr (INV(a), n), i: sizeLt (n), x: a):<!wrt> void
+// end of [arrayptr_set_at_size]
 
 fun{
 a:t0p}{tk:tk
 } arrayptr_set_at_gint
   {n:int}{i:nat | i < n}
-(
-  A: !arrayptr (INV(a), n), i: g1int (tk, i), x: a
-) :<!wrt> void // end of [arrayptr_set_at_gint]
+  (A: !arrayptr (INV(a), n), i: g1int (tk, i), x: a):<!wrt> void
 overload [] with arrayptr_set_at_gint of 0
 
 fun{
 a:t0p}{tk:tk
 } arrayptr_set_at_guint
   {n:int}{i:nat | i < n}
-(
-  A: !arrayptr (INV(a), n), i: g1uint (tk, i), x: a
-) :<!wrt> void // end of [arrayptr_set_at_guint]
+  (A: !arrayptr (INV(a), n), i: g1uint (tk, i), x: a):<!wrt> void
 overload [] with arrayptr_set_at_guint of 0
 
 overload arrayptr_set_at with arrayptr_set_at_gint of 0
@@ -298,27 +294,23 @@ overload arrayptr_set_at with arrayptr_set_at_guint of 0
 symintr arrayptr_exch_at
 
 fun{a:vt0p}
-arrayptr_exch_at_size
-  {n:int}
-(
-  A: !arrayptr (INV(a), n), i: sizeLt (n), x: &a
-) :<!wrt> void // end of [arrayptr_exch_at_size]
+arrayptr_exch_at_size{n:int}
+  (A: !arrayptr (INV(a), n), i: sizeLt (n), x: &a):<!wrt> void
+// end of [arrayptr_exch_at_size]
 
 fun{
 a:vt0p}{tk:tk
 } arrayptr_exch_at_gint
   {n:int}{i:nat | i < n}
-(
-  A: !arrayptr (INV(a), n), i: g1int (tk, i), x: &a >> _
-) :<!wrt> void // end of [arrayptr_exch_at_gint]
+  (A: !arrayptr (INV(a), n), i: g1int (tk, i), x: &a >> _):<!wrt> void
+// end of [arrayptr_exch_at_gint]
 
 fun{
 a:vt0p}{tk:tk
 } arrayptr_exch_at_guint
   {n:int}{i:nat | i < n}
-(
-  A: !arrayptr (INV(a), n), i: g1uint (tk, i), x: &a >> _
-) :<!wrt> void // end of [arrayptr_exch_at_guint]
+  (A: !arrayptr (INV(a), n), i: g1uint (tk, i), x: &a >> _):<!wrt> void
+// end of [arrayptr_exch_at_guint]
 
 overload arrayptr_exch_at with arrayptr_exch_at_gint of 0
 overload arrayptr_exch_at with arrayptr_exch_at_guint of 0
@@ -342,15 +334,15 @@ array_foreach$fwork (x: &a >> a, env: &(env) >> _): void
 *)
 fun{
 a:vt0p
-} arrayptr_foreach {n:int}
+} arrayptr_foreach{n:int}
 (
   A: !arrayptr (INV(a), n), asz: size_t (n)
 ) : sizeLte(n) // end of [arrayptr_foreach]
 fun{
 a:vt0p}{env:vt0p
-} arrayptr_foreach_env {n:int}
+} arrayptr_foreach_env{n:int}
 (
-  A: !arrayptr (INV(a), n), asz: size_t (n), env: &(env)>>env
+  A: !arrayptr (INV(a), n), asz: size_t (n), env: &(env) >> _
 ) : sizeLte(n) // end of [arrayptr_foreach_env]
 
 #atscode_separator()
@@ -387,13 +379,13 @@ array_iforeach$fwork (i: size_t, x: &a >> a, env: &(env) >> _): void
 *)
 fun{
 a:vt0p
-} arrayptr_iforeach {n:int}
+} arrayptr_iforeach{n:int}
 (
   A: !arrayptr (INV(a), n), asz: size_t (n)
 ) : sizeLte(n) // end of [arrayptr_iforeach]
 fun{
 a:vt0p}{env:vt0p
-} arrayptr_iforeach_env {n:int}
+} arrayptr_iforeach_env{n:int}
 (
   A: !arrayptr (INV(a), n), asz: size_t (n), env: &(env) >> _
 ) : sizeLte(n) // end of [arrayptr_iforeach_env]
@@ -408,15 +400,15 @@ array_rforeach$fwork (x: &a >> a, env: &(env) >> _): void
 *)
 fun{
 a:vt0p
-} arrayptr_rforeach {n:int}
+} arrayptr_rforeach{n:int}
 (
   A: !arrayptr (INV(a), n), asz: size_t (n)
 ) : sizeLte(n) // end of [arrayptr_rforeach]
 fun{
 a:vt0p}{env:vt0p
-} arrayptr_rforeach_env {n:int}
+} arrayptr_rforeach_env{n:int}
 (
-  A: !arrayptr (INV(a), n), asz: size_t (n), env: &(env)>>env
+  A: !arrayptr (INV(a), n), asz: size_t (n), env: &(env) >> _
 ) : sizeLte(n) // end of [arrayptr_rforeach_env]
 
 #atscode_separator()

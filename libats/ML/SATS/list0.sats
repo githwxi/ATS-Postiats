@@ -54,9 +54,8 @@ typedef NSH(a:type) = a // for commenting purpose
 
 (* ****** ****** *)
 
-#define nil0() list0_nil()
-#define cons0(x, xs) list0_cons(x, xs)
-#define sing0(x) list0_cons(x, list0_nil ())
+#define nil0 list0_nil
+#define cons0 list0_cons
 
 (* ****** ****** *)
 
@@ -74,6 +73,13 @@ overload g0ofg1 with g0ofg1_list
 castfn
 g1ofg0_list {a:t@ype} (xs: list0 (INV(a))):<> List0 (a)
 overload g1ofg0 with g1ofg0_list
+
+(* ****** ****** *)
+
+#define list0_sing(x)
+  list0_cons(x, list0_nil())
+#define list0_pair(x1, x2)
+  list0_cons(x1, list0_cons (x2, list0_nil()))
 
 (* ****** ****** *)
 
@@ -121,13 +127,6 @@ overload prerr with prerr_list0
 overload fprint with fprint_list0
 overload fprint with fprint_list0_sep
 //
-(* ****** ****** *)
-
-fun{a:t0p}
-list0_sing (x: a):<> list0 (a)
-fun{a:t0p}
-list0_pair (x1: a, x2: a):<> list0 (a)
-
 (* ****** ****** *)
 
 fun{a:t0p}

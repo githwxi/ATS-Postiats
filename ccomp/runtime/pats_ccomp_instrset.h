@@ -190,8 +190,14 @@
 #define ATSPATCKfloat(pmv, pat) ((pmv)==pat)
 #define ATSPATCKstring(pmv, pat) (atspre_string_equal(pmv, pat))
 //
-#define ATSPATCKcon0(pmv, tag) (pmv==(void*)tag)
-#define ATSPATCKcon1(pmv, tag) (((ATStysum()*)(pmv))->contag==tag)
+/*
+** a datatype should not contain more than 1024 constructors!
+*/
+#define ATS_DATACONMAX 1024
+//
+#define ATSPATCKcon0(pmv, tag) ((pmv)==(void*)tag)
+#define ATSPATCKcon1(pmv, tag) \
+  ((pmv)>=(void*)ATS_DATACONMAX && ((ATStysum()*)(pmv))->contag==tag)
 //
 #define ATSPATCKexn0(pmv, d2c) ((pmv)==(void*)(&(d2c)))
 #define ATSPATCKexn1(pmv, d2c) (((ATStyexn()*)(pmv))->exntag==(&(d2c))->exntag)

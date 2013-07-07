@@ -153,23 +153,48 @@ end // end of [arrayptr_uninitize]
 #atscode_separator()
 
 implement{a}
+arrayptr_imake_list
+  (A, asz) = res where
+{
+//
+val p = ptrcast(A)
+prval pf = arrayptr_takeout (A)
+val res = list_make_array (!p, asz)
+prval () = arrayptr_addback (pf | A)
+} // end of [arrayptr_imake_list]
+
+#atscode_separator()
+
+(*
+implement arrayptr_free = ATS_MFREE
+*)
+
+#atscode_separator()
+
+implement{a}
 fprint_arrayptr
-  (out, A, n) = () where {
-  val p = ptrcast (A)
-  prval pf = arrayptr_takeout (A)
-  val () = fprint_array<a> (out, !p, n)
-  prval () = arrayptr_addback (pf | A)
+  (out, A, n) = () where
+{
+//
+val p = ptrcast(A)
+prval pf = arrayptr_takeout (A)
+val () = fprint_array<a> (out, !p, n)
+prval () = arrayptr_addback (pf | A)
+//
 } // end of [fprint_arrayptr]
 
 #atscode_separator()
 
 implement{a}
 fprint_arrayptr_sep
-  (out, A, n, sep) = () where {
-  val p = ptrcast (A)
-  prval pf = arrayptr_takeout (A)
-  val () = fprint_array_sep<a> (out, !p, n, sep)
-  prval () = arrayptr_addback (pf | A)
+  (out, A, n, sep) = () where
+{
+//
+val p = ptrcast (A)
+prval pf = arrayptr_takeout (A)
+val () = fprint_array_sep<a> (out, !p, n, sep)
+prval () = arrayptr_addback (pf | A)
+//
 } // end of [fprint_arrayptr_sep]
 
 #atscode_separator()
@@ -317,12 +342,6 @@ arrayptr_uninitize
   val () = array_uninitize<a> (!p, asz)
   prval () = arrayptr_addback (pfarr | A)
 } // end of [arrayptr_uninitize]
-
-#atscode_separator()
-
-(*
-implement arrayptr_free = ATS_MFREE
-*)
 
 #atscode_separator()
 

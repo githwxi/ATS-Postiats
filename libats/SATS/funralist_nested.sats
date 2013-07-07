@@ -55,17 +55,13 @@
 // HX: indexed by list length
 //
 abstype
-ralist_t0ype_int_type (a:t@ype+, n:int)
+ralist_type (a:t@ype+, n:int)
 //
-stadef ralist = ralist_t0ype_int_type
+stadef ralist = ralist_type
 typedef ralist (a:t@ype) = [n:int] ralist (a, n)
 //
 typedef Ralist (a:t@ype) = [n:int] ralist (a, n)
 //
-(* ****** ****** *)
-
-sortdef t0p = t@ype and vt0p = viewt@ype
-
 (* ****** ****** *)
 
 prfun lemma_ralist_param

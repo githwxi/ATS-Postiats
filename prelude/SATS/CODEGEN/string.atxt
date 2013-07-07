@@ -60,6 +60,11 @@ stringBtwe
 //
 #atscode_separator()
 
+typedef stringlst = List0 (string)
+vtypedef stringlst_vt = List0_vt (string)
+
+#atscode_separator()
+
 dataprop
 string_index_p
 (

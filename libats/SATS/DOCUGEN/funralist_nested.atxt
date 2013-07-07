@@ -32,22 +32,9 @@ types in practical programming.
 
 (* ****** ****** *)
 
-#declname("ralist")
-#declsynop2('
-#para('\
-#pats2xhtmls('\
-stadef ralist = ralist_t0ype_int_type
-typedef ralist (a:t@ype) = [n:int] ralist (a, n)
-')')
-')
-
-(* ****** ****** *)
-
+#declnamesynop("ralist")
+#declnamesynop("ralist_type")
 #declnamesynop("Ralist")
-
-(* ****** ****** *)
-
-#declnamesynop("ralist_t0ype_int_type")
 
 (* ****** ****** *)
 

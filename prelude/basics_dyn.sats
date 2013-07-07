@@ -431,9 +431,15 @@ stadef argv = argv_int_vtype
 
 (* ****** ****** *)
 
-fun argv_get_at {n:int}
+praxi
+lemma_argv_param {n:int} (argv: !argv(n)): [n >= 0] void
+// end of [praxi]
+
+(* ****** ****** *)
+
+fun argv_get_at{n:int}
   (argv: !argv (n), i: natLt n):<> string = "mac#%"
-fun argv_set_at {n:int}
+fun argv_set_at{n:int}
   (argv: !argv (n), i: natLt n, x: string):<!wrt> void = "mac#%"
 //
 overload [] with argv_get_at

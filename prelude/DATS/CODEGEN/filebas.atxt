@@ -86,6 +86,28 @@ end // end of [filename_get_ext]
 #atscode_separator()
 
 implement{}
+filename_test_ext
+  (name, ext0) = let
+//
+val (fpf | ext) = filename_get_ext (name)
+//
+val ans =
+(
+  if strptr2ptr(ext) > 0
+    then eq_string_string (ext0, $UN.strptr2string(ext))
+    else false
+  // end of [if]
+) : bool // end of [val]
+//
+prval () = fpf (ext)
+//
+in
+  ans
+end // end of [filename_test_ext]
+
+#atscode_separator()
+
+implement{}
 filename_get_base (name) = let
 //
 \#define NUL '\000'
@@ -111,6 +133,22 @@ val p2 = $effmask_all (loop (p1, p1, c0))
 in
   $UN.castvwtp0{vStrptr1}(p2)
 end // end of [filename_get_base]
+
+#atscode_separator()
+
+implement{}
+filename_test_base
+  (name, base0) = let
+//
+val (fpf | base) = filename_get_base (name)
+//
+val ans = eq_string_string (base0, $UN.strptr2string(base))
+//
+prval () = fpf (base)
+//
+in
+  ans
+end // end of [filename_test_base]
 
 #atscode_separator()
 

@@ -448,15 +448,13 @@ end // end of [list_vt_append]
 
 implement{a}
 list_vt_extend
-  (xs, y) = list_vt_append<a> (xs, list_vt_sing (y))
+  (xs, y) = list_vt_append<a> (xs, cons_vt{a}(y, nil_vt()))
 // end of [list_vt_extend]
 
 #atscode_separator()
 
 implement{a}
-list_vt_reverse (xs) =
-  list_vt_reverse_append<a> (xs, list_vt_nil)
-// end of [list_vt_reverse]
+list_vt_reverse (xs) = list_vt_reverse_append<a> (xs, list_vt_nil)
 
 #atscode_separator()
 

@@ -50,7 +50,14 @@ fun{} dirname_parent ():<> string
 fun{}
 filename_get_ext (name: string):<> vStrptr0
 fun{}
+filename_test_ext (name: string, ext: string):<> bool
+
+#atscode_separator()
+
+fun{}
 filename_get_base (name: string):<> vStrptr1
+fun{}
+filename_test_base (name: string, base: string):<> bool
 
 #atscode_separator()
 //

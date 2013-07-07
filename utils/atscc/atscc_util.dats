@@ -33,71 +33,63 @@
 
 (* ****** ****** *)
 
-(*
-datatype commerr =
-  | CEdats of ()
-  | CEiats of ()
-  | CEfilats of ()
-// end of [commerr]
-*)
+staload STDLIB = "libc/SATS/stdlib.sats"
 
 (* ****** ****** *)
 
-datatype commarg =
-  | CAvats of () // -vats: version inquiry
-  | CAccats of () // -ccats: compilation only
-  | CAtcats of () // -tcats: typechecking only
-  | CAdats of (int(*knd*), stropt) // knd=0/1:-DATS/-DDATS
-  | CAiats of (int(*knd*), stropt) // knd=0/1:-IATS/-IIATS
-  | CAfilats of (int(*knd*), stropt) // knd=0/1:-fsats/-fdats
-  | CAgitem of string // generic item passed to ccomp
-// end of [commarg]
-
-typedef commarglst = List0 (commarg)
-vtypedef commarglst_vt = List0_vt (commarg)
+staload "./atscc.sats"
 
 (* ****** ****** *)
 
-fun fprint_commarg
-  (out: FILEref, ca: commarg): void
-fun fprint_commarglst
-  (out: FILEref, cas: commarglst): void
-overload fprint with fprint_commarglst of 10
+#define
+ATSOPT_DEFAULT "patsopt"
 
-(* ****** ****** *)
-
-fun{} atsopt_get (): string
-fun{} atsccomp_get (): string
-
-(* ****** ****** *)
+implement
+{}(*tmp*)
+atsopt_get () = let
 //
-// HX: flag=0/1:static/dynamic
+val def =
+  $STDLIB.getenv_gc ("ATSOPT")
 //
-fun atscc_outname (flag: int, path: string): string
+in
 //
-(* ****** ****** *)
-
-fun fprint_atsoptline
-(
-  out: FILEref, cas: commarglst, ca0: commarg
-) : void // end of [fprint_atsoptline]
-
-fun fprint_atsoptline_all (FILEref, commarglst): void
-
-fun fprint_atsccompline (out: FILEref, cas: commarglst): void
-
-(* ****** ****** *)
-
-fun atsoptline_make
-  (out: FILEref, cas: commarglst, ca0: commarg): stringlst_vt
-// end of [atsoptline_make]
+if strptr2ptr (def) > 0
+  then strptr2string (def)
+  else let
+    prval () = strptr_free_null (def)
+  in
+    ATSOPT_DEFAULT
+  end (* end of [if] *)
+// end of [if]
+//
+end // end of [atsopt_get]
 
 (* ****** ****** *)
 
-fun atsccproc{n:int}
-  (argc: int n, argv: !argv(n)): commarglst
-// end of [atsccproc]
-
+#define
+ATSCCOMP_DEFAULT "\
+gcc -std=c99 -D_XOPEN_SOURCE\
+"
+implement
+{}(*tmp*)
+atsccomp_get () = let
+//
+val def =
+  $STDLIB.getenv_gc ("ATSCCOMP")
+//
+in
+//
+if strptr2ptr (def) > 0
+  then strptr2string (def)
+  else let
+    prval () = strptr_free_null (def)
+  in
+    ATSCCOMP_DEFAULT
+  end (* end of [if] *)
+// end of [if]
+//
+end // end of [atsccomp_get]
+  
 (* ****** ****** *)
 
-(* end of [atscc.sats] *)
+(* end of [atscc_util.dats] *)

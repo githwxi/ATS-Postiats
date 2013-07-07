@@ -104,6 +104,8 @@ fprint_location
 implement
 token_get_loc (x) = x.token_loc
 
+(* ****** ****** *)
+
 local
 
 staload "src/pats_lexing.sats"
@@ -768,21 +770,73 @@ viewtypedef charlst_vt = List_vt (char)
 
 typedef d0eclist = $SYN.d0eclist
 
+(* ****** ****** *)
+//
+// HX-2013-07:
+// for getting the last
+// position of the current line
+//
+fn* EOLgetpos
+(
+  inp: !charlst_vt, pos1: lint, pos2: lint
+) : lint = let
+in
+//
+if pos1 < pos2 then let
+  val-list_vt_cons (_, !p_cs) = inp
+  val pos2 = EOLgetpos (!p_cs, pos1+1L, pos2)
+  prval () = fold@ (inp)
+in
+  pos2
+end else
+  EOLgetpos2 (inp, pos2)
+// end of [if]
+//
+end // end of [EOLgetpos]
+
+and EOLgetpos2
+(
+  inp: !charlst_vt, pos2: lint
+) : lint = let
+in
+//
+case+ inp of
+| list_vt_cons
+    (c, !p_cs) =>
+  (
+    if c != '\n' then let
+      val pos2 = EOLgetpos2 (!p_cs, pos2+1L)
+      prval () = fold@ (inp)
+    in
+      pos2
+    end else let
+      prval () = fold@ (inp) in pos2
+    end // end of [if]
+  )
+| list_vt_nil () => (fold@ inp; pos2)
+//
+end // end of [EOLgetpos2]
+
+(* ****** ****** *)
+
 fun drop
 (
   inp: &charlst_vt, pos1: lint, pos2: lint
 ) : void = let
 in
 //
-if pos1 < pos2 then (
+if pos1 < pos2 then
+(
   case+ inp of
   | ~list_vt_cons (_, cs) => let
       val () = inp := cs in drop (inp, pos1+1L, pos2)
     end // end of [list_vt_cons]
   | list_vt_nil () => fold@ (inp)
-) else () // end of [if]
+) else ((*void*)) // end of [if]
 //
 end // end of [drop]
+
+(* ****** ****** *)
 
 fun take
 (
@@ -793,6 +847,7 @@ fun take
 in
   res
 end // end of [take]
+
 and take_main
 (
   inp: &charlst_vt
@@ -801,7 +856,8 @@ and take_main
 ) : void = let
 in
 //
-if pos1 < pos2 then (
+if pos1 < pos2 then
+(
   case+ inp of
   | list_vt_cons _ => let
       prval () = fold@ (inp)
@@ -815,9 +871,13 @@ if pos1 < pos2 then (
   | list_vt_nil () => let
       prval () = fold@ (inp) in res := list_vt_nil ()
     end // end of [list_vt_nil]
-) else (res := list_vt_nil ()) // end of [if]
+) else (
+  res := list_vt_nil ()
+) (* end of [if] *)
 //
 end // end of [take_main]
+
+(* ****** ****** *)
 
 fun
 i0nclude_declitemize
@@ -964,7 +1024,11 @@ case+ d0cs of
     val pos2 = $LOC.location_end_ntot (loc)
 //
     val () = drop (inp, pos0, pos1)
+//
+    val pos2 = EOLgetpos (inp, pos1, pos2)
+//
     val inp_cs = take (inp, pos1, pos2)
+//
     val () = res :=
       list_cons{d0eclrep}{0} (?, ?)
     val+ list_cons (!p1, !p2) = res
