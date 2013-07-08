@@ -38,24 +38,22 @@ fun{} atsccomp_get (): string
 
 (* ****** ****** *)
 
-(*
-datatype commerr =
-  | CEdats of ()
-  | CEiats of ()
-  | CEfilats of ()
-// end of [commerr]
-*)
-
-(* ****** ****** *)
-
 datatype commarg =
+//
   | CAvats of () // -vats: version inquiry
+//
   | CAccats of () // -ccats: compilation only
   | CAtcats of () // -tcats: typechecking only
+//
+  | CAcleanaft of () // cleaning up *_?ats.c files
+//
   | CAatsccomp of (stropt) // -atsccomp 'gcc ...'
+//
   | CAdats of (int(*knd*), stropt) // knd=0/1:-DATS/-DDATS
   | CAiats of (int(*knd*), stropt) // knd=0/1:-IATS/-IIATS
+//
   | CAfilats of (int(*knd*), stropt) // knd=0/1:-fsats/-fdats
+//
   | CAgitem of string // generic item passed to ccomp
 // end of [commarg]
 
@@ -115,6 +113,11 @@ fun atsccomp_cont (cas: commarglst): bool
 fun atsccompline_exec
   (flag: int, atsccomp: string, args: stringlst_vt): int(*status*)
 //
+(* ****** ****** *)
+
+fun atscc_cleanaft_cont (cas: commarglst): bool
+fun atscc_cleanaft_exec (flag: int, cas: commarglst): void
+
 (* ****** ****** *)
 
 (* end of [atscc.sats] *)

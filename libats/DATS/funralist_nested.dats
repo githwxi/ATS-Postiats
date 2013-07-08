@@ -65,7 +65,7 @@ datatype myralist
 (* ****** ****** *)
 
 assume
-ralist_t0ype_int_type (a:t0p, n:int) = myralist (a, 0, n)
+ralist_type (a:t0p, n:int) = myralist (a, 0, n)
 
 (* ****** ****** *)
 

@@ -43,7 +43,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload STDLIB = "libc/SATS/stdlib.sats"
-staload _(*anon*) = "libc/DATS/stdlib.dats"
+staload UNISTD = "libc/SATS/unistd.sats"
 
 (* ****** ****** *)
 
@@ -225,6 +225,13 @@ case+ 0 of
     in
       aux0 (n, argv, i+1, res)
     end // end of [_ when ...]
+| _ when (str0="--version") => let
+      val res = list_vt_cons{ca}(CAvats(), res)
+      val res = list_vt_cons{ca}(CAgitem(str0), res)
+    in
+      aux0 (n, argv, i+1, res)
+    end // end of [_ when ...]
+//
 | _ when (str0="-ccats") => let
       val res = list_vt_cons{ca}(CAccats(), res)
     in
@@ -232,6 +239,12 @@ case+ 0 of
     end // end of [_ when ...]
 | _ when (str0="-tcats") => let
       val res = list_vt_cons{ca}(CAtcats(), res)
+    in
+      aux0 (n, argv, i+1, res)
+    end // end of [_ when ...]
+//
+| _ when (str0="-cleanaft") => let
+      val res = list_vt_cons{ca}(CAcleanaft(), res)
     in
       aux0 (n, argv, i+1, res)
     end // end of [_ when ...]
@@ -613,7 +626,9 @@ case+ ca of
 | CAccats () => ()
 | CAtcats () => ()
 //
-| CAatsccomp _ => ()
+| CAcleanaft () => ()
+//
+| CAatsccomp (opt) => ()
 //
 | CAdats (0, opt) => ()
 | CAdats (_, opt) =>
@@ -906,6 +921,78 @@ in
 end // end of [atsccompline_exec]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+atscc_cleanaft_cont (cas) = let
+in
+//
+case+ cas of
+| list_cons (ca, cas) =>
+  (
+    case+ ca of
+    | CAcleanaft () => true | _ => atscc_cleanaft_cont (cas)
+  )
+| list_nil ((*void*)) => false
+//
+end // end of [atscc_cleanaft_cont]
+
+(* ****** ****** *)
+
+implement
+atscc_cleanaft_exec
+  (flag, cas0) = let
+//
+fun rmf
+(
+  flag: int, opt: stropt
+) : void = (
+if issome(opt) then
+{
+  val _(*err*) =
+    $UNISTD.unlink (atscc_outname (flag, unsome(opt)))
+  // end of [val]
+} // end of [if]
+) (* end of [rmf] *)
+//
+fun auxlst
+(
+  cas: commarglst
+) : void = let
+in
+//
+case+ cas of
+| list_cons (ca, cas) =>
+  (
+    case+ ca of
+    | CAfilats
+        (flag, opt) =>
+      (
+      let val () = rmf (flag, opt) in auxlst (cas) end
+      ) (* end of [CAfilats] *)
+    | _(*skipped*) => auxlst (cas)
+  )
+| list_nil ((*void*)) => ()
+//
+end // end of [auxlst]
+//
+val (
+) = auxlst (cas0)
+val (
+) = if flag > 0 then
+{
+//
+val () = fprintln!
+(
+  stderr_ref, "atscc: removal of generated C-files is done."
+)
+//
+} (* end of [val] *)
+//
+in
+  // nothing
+end // end of [atscc_cleanaft_exec]
 
 (* ****** ****** *)
 

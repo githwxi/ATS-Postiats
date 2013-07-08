@@ -68,17 +68,21 @@ staload "./pats_trans3_env.sats"
 
 local
 
-fun auxck_free (
+fun auxck_free
+(
   loc0: location
 , s2es: s2explst, nerr: int
 ) : int = let
 in
 //
 case+ s2es of
-| list_cons (s2e, s2es) => let
+| list_cons
+    (s2e, s2es) => let
+(*
     val () = (
-      print "auxck_free: s2e = "; print_s2exp (s2e); print_newline ()  
+      println! ("auxck_free: s2e = ", s2e)
     ) // end of [val]
+*)
     var nerr: int = nerr
     val islin = s2exp_is_lin (s2e)
     val () = if islin then let
@@ -99,7 +103,8 @@ case+ s2es of
 //
 end // end of [auxck_free]
 
-fun auxfind (
+fun auxfind
+(
   loc0: location, s2ls: s2explst
 ) : s2explst = let
 in
@@ -143,7 +148,8 @@ case+ s2ls of
 //
 end // end of [auxfind]
 
-fun auxmain (
+fun auxmain
+(
   loc0: location
 , opknd: int // 0/1 free/fold
 , s2as: s2exparglst, d2e: d2exp

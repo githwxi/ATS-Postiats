@@ -11,13 +11,11 @@ gcc -std=c99 -D_XOPEN_SOURCE\
 -tcats : typechecking only
 -ccats : compiling ATS to C only
 
--atsccomp : selecting [atsccomp]
+-cleanaft : removing the generated C-files (_?ats.c)
+
+-atsccomp : designating the C-compiler [atsccomp] for use
 
 -DATS  : define for [atsopt]
 -DDATS : define for [atsopt] and [atsccomp]
 -IATS  : include path for [atsopt]
 -IIATS : include path for [atsopt] and [atsccomp]
-
--cleanats :
-  removing the generated C-file (_?ats.c)
-  the flag is ignored if -ccats is present

@@ -4,15 +4,17 @@
 #
 ######
 
-all:: bin/patsopt
+all:: bin/patsopt bin/patscc
 
 ######
 
 src_patsopt: ; make -C src patsopt
+bin/patsopt: src_patsopt ; cp -f src/patsopt bin/patsopt
 
 ######
 
-bin/patsopt: src_patsopt ; cp -f src/patsopt bin/patsopt
+utl_atscc: ; make -C utils/atscc patscc
+bin/patscc: utl_atscc ; cp -f utils/atscc/patscc bin/patscc
 
 ######
 
@@ -36,6 +38,7 @@ cleanall:: ; $(RMF) ccomp/atslib/lib64/*
 cleanall:: ; $(RMF) ccomp/atslib/output/*
 cleanall:: ; $(RMF) ccomp/atslib/Makefile
 cleanall:: ; $(RMF) ccomp/runtime/*
+cleanall:: ; $(RMF) utils/atscc/*
 cleanall:: ; $(RMF) prelude/*.?ats
 cleanall:: ; $(RMF) prelude/?ATS/*.?ats
 cleanall:: ; $(RMF) libc/?ATS/*.?ats

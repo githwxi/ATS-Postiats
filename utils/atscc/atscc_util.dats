@@ -76,7 +76,8 @@ end // end of [atsopt_get]
 #define
 ATSCCOMP_DEFAULT "\
 gcc -std=c99 -D_XOPEN_SOURCE \
--I${PATSHOME} -I${PATSHOME}/ccomp/runtime\
+-I${PATSHOME} -I${PATSHOME}/ccomp/runtime \
+-L${PATSHOME}/ccomp/atslib/lib -L${PATSHOME}/ccomp/atslib/lib64 \
 "
 implement
 {}(*tmp*)

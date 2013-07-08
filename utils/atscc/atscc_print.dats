@@ -87,6 +87,8 @@ case+ ca of
 | CAccats () => prstr "CAccats()"
 | CAtcats () => prstr "CAtcats()"
 //
+| CAcleanaft () => prstr "CAcleanaft()"
+//
 | CAatsccomp (opt) =>
   (
     prstr "CAatsccomp("; propt (opt); prstr ")"
@@ -313,6 +315,8 @@ case+ ca of
 | CAvats () => ()
 | CAccats () => ()
 | CAtcats () => ()
+//
+| CAcleanaft () => ()
 //
 | CAatsccomp _ => ()
 //

@@ -56,28 +56,24 @@ implement
 main0 (argc, argv) =
 {
 //
-val cas =
-  atsccproc_commline (argc, argv)
-//
 var status: int = 0
 //
+val cas = atsccproc_commline (argc, argv)
+//
 val cmd = atsopt_get ()
-val lines = atsoptline_make_all (cas)
+val argss = atsoptline_make_all (cas)
 val (
-) = status := atsoptline_exec_all (1(*flag*), cmd, lines)
+) = status := atsoptline_exec_all (1(*flag*), cmd, argss)
 //
 val cont =
 (
   if status = 0 then true else false
 ) : bool // end of [val]
-//
 val cont =
 (
   if cont then atsccomp_cont (cas) else false
 ) : bool // end of [val]
-//
-val () =
-if cont then
+val () = if cont then
 {
 //
 val cmd = atsccomp_get2 (cas)
@@ -86,7 +82,18 @@ val () = status := atsccompline_exec (1(*flag*), cmd, arglst)
 //
 } (* end of [if] *)
 //
-val () = exit_void (status)
+val cont =
+(
+  if status = 0 then true else false
+) : bool // end of [val]
+val cont =
+(
+  if cont then atscc_cleanaft_cont (cas) else false
+) : bool // end of [val]
+val () = if cont then atscc_cleanaft_exec (1(*flag*), cas)
+//
+val (
+) = exit_void (if status = 0 then 0(*success*) else 1(*failure*))
 //
 } (* end of [main0] *)
 

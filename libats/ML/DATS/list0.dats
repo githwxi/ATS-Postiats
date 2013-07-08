@@ -165,10 +165,15 @@ end // end of [fprint_list0_sep]
 
 (* ****** ****** *)
 
+(*
+//
+// HX: they have been declared as macros:
+//
 implement{a}
 list0_sing (x) = list0_cons{a}(x, list0_nil)
 implement{a}
 list0_pair (x1, x2) = list0_cons{a}(x1, list0_cons{a}(x2, list0_nil))
+*)
 
 (* ****** ****** *)
 
