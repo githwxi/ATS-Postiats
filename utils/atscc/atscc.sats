@@ -64,13 +64,13 @@ vtypedef commarglst_vt = List0_vt (commarg)
 
 (* ****** ****** *)
 
-fun fprint_commarg (out: FILEref, ca: commarg): void
-fun fprint_commarglst (out: FILEref, cas: commarglst): void
-overload fprint with fprint_commarglst of 10
+fun{} atsccomp_get2 (cas: commarglst): string
 
 (* ****** ****** *)
 
-fun{} atsccomp_get2 (cas: commarglst): string
+fun fprint_commarg (out: FILEref, ca: commarg): void
+fun fprint_commarglst (out: FILEref, cas: commarglst): void
+overload fprint with fprint_commarglst of 10
 
 (* ****** ****** *)
 //
@@ -109,6 +109,8 @@ fun atsoptline_exec
   (flag: int, atsopt: string, args: stringlst_vt): int(*status*)
 fun atsoptline_exec_all
   (flag: int, atsopt: string, args: List_vt (stringlst_vt)): int(*status*)
+//
+fun atsccomp_cont (cas: commarglst): bool
 //
 fun atsccompline_exec
   (flag: int, atsccomp: string, args: stringlst_vt): int(*status*)

@@ -55,17 +55,25 @@ dynload "./atscc_print.dats"
 implement
 main0 (argc, argv) =
 {
-val out = stdout_ref
 //
-val cas = atsccproc_commline (argc, argv)
+val cas =
+  atsccproc_commline (argc, argv)
+//
+var status: int = 0
 //
 val cmd = atsopt_get ()
 val lines = atsoptline_make_all (cas)
-val status = atsoptline_exec_all (1(*flag*), cmd, lines)
+val (
+) = status := atsoptline_exec_all (1(*flag*), cmd, lines)
 //
 val cont =
 (
   if status = 0 then true else false
+) : bool // end of [val]
+//
+val cont =
+(
+  if cont then atsccomp_cont (cas) else false
 ) : bool // end of [val]
 //
 val () =
@@ -74,9 +82,11 @@ if cont then
 //
 val cmd = atsccomp_get2 (cas)
 val arglst = atsccompline_make (cas)
-val status = atsccompline_exec (1(*flag*), cmd, arglst)
+val () = status := atsccompline_exec (1(*flag*), cmd, arglst)
 //
 } (* end of [if] *)
+//
+val () = exit_void (status)
 //
 } (* end of [main0] *)
 

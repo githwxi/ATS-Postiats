@@ -858,6 +858,24 @@ end // end of [atsoptline_exec_all]
 (* ****** ****** *)
 
 implement
+atsccomp_cont (cas) = let
+in
+//
+case+ cas of
+| list_cons (ca, cas) =>
+  (
+    case+ ca of
+    | CAccats () => false
+    | CAtcats () => false
+    | _ => atsccomp_cont (cas)
+  ) (* end of [cons] *)
+| list_nil ((*void*)) => true
+//
+end // end of [atsccomp_cont]
+
+(* ****** ****** *)
+
+implement
 atsccompline_exec
   (flag, atsccomp, arglst) = let
 //
