@@ -31,6 +31,7 @@ utils/atsyntax/pats2xhtml
 ccomp/atslib/lib
 ccomp/atslib/lib64
 ccomp/atslib/output
+ccomp/atslib/Makefile.exe
 
 #
 # ATSHOME/utils
