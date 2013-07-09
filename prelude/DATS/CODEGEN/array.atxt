@@ -169,11 +169,11 @@ val
 ) = array_ptr_alloc<a> (asz)
 //
 implement
-array_initize$init<a> (i, x) = x := array_tabulate$fwork<a> (i)
+array_initize$init<a> (i, x) = x := array_tabulate$fopr<a> (i)
 val () = array_initize<a> (!p, asz)
 //
 in
-  (pf, pfgc | p)
+  @(pf, pfgc | p)
 end // end of [array_ptr_tabulate]
 
 #atscode_separator()
@@ -935,9 +935,10 @@ end // end of [array_permute]
 
 #atscode_separator()
 
-implement{a}
-add3_array_array
-  {n} (A, B, C, n) = let
+implement
+{a,b}{c}
+addto_array_array
+  {na,nb}{nc}(A, B, C, n) = let
 //
 val pa = addr@ (A)
 val pa2 = ptr_add<a> (pa, n)
@@ -949,22 +950,22 @@ fun loop{la,lb,lc:addr}
   pa: ptr la, pa2: ptr, pb: ptr lb, pc: ptr lc
 ) : void =
 (
-  if pa < pa2 then let
-    prval (pfa, fpfa) = $UN.ptr_vtake{a}(pa)
-    prval (pfb, fpfb) = $UN.ptr_vtake{a}(pb)
-    prval (pfc, fpfc) = $UN.ptr_vtake{a?}(pc)
-    val () = add3_array_array$fop<a> (!pa, !pb, !pc)
-    prval () = fpfa (pfa)
-    prval () = fpfb (pfb)
-    prval () = fpfc ($UN.castview0{(a?)@lc}(pfc))
-  in
-    loop (ptr_succ<a> (pa), pa2, ptr_succ<a> (pb), ptr_succ<a> (pc))
-  end (* end of [if] *)
+if pa < pa2 then let
+  prval (pfa, fpfa) = $UN.ptr_vtake{a}(pa)
+  prval (pfb, fpfb) = $UN.ptr_vtake{b}(pb)
+  prval (pfc, fpfc) = $UN.ptr_vtake{c?}(pc)
+  val () = addto_array_array$addto<a,b><c> (!pa, !pb, !pc)
+  prval () = fpfa (pfa)
+  prval () = fpfb (pfb)
+  prval () = fpfc ($UN.castview0{(c?)@lc}(pfc))
+in
+  loop (ptr_succ<a> (pa), pa2, ptr_succ<a> (pb), ptr_succ<a> (pc))
+end (* end of [if] *)
 )
 //
 val () = loop (pa, pa2, pb, pc)
 prval [lc:addr] ADDREQ () = ptr_get_index (pc)
-prval () = view@(C) := $UN.castview0{array_v (a, lc, n)}(view@(C))
+prval () = view@(C) := $UN.castview0{array_v (c, lc, nc)}(view@(C))
 //
 in
   // nothing

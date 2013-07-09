@@ -800,12 +800,12 @@ the function implemented by #dyncode("list_app$fwork").  ')
 
 Given a list xs of length n, this function returns a linear list consisting
 f(xs[i]), where i ranges from 0 until n-1, xs[i] refers to element i in
-xs and f is the function implemented by #dyncode("list_map$fwork").  The
+xs and f is the function implemented by #dyncode("list_map$fopr").  The
 implementation of this function in ATSLIB is tail-recursive.
 
 ')
 
-#declnamesynop("list_map$fwork")
+#declnamesynop("list_map$fopr")
 
 (* ****** ****** *)
 
@@ -814,12 +814,12 @@ implementation of this function in ATSLIB is tail-recursive.
 
 Given a list xs of length n, this function returns a linear list consisting
 f(i, xs[i]), where i ranges from 0 until n-1, xs[i] refers to element i in
-xs, and f is the function implemented by #dyncode("list_imap$fwork").  The
+xs, and f is the function implemented by #dyncode("list_imap$fopr").  The
 implementation of this function in ATSLIB is tail-recursive.
 
 ')
 
-#declnamesynop("list_imap$fwork")
+#declnamesynop("list_imap$fopr")
 
 (* ****** ****** *)
 
@@ -827,14 +827,14 @@ implementation of this function in ATSLIB is tail-recursive.
 #decldescrpt('\
 
 Given a list xs, this function applies the function implemented by
-#dyncode("list_mapopt$fwork") to each element x in xs; if the application
+#dyncode("list_mapopt$fopr") to each element x in xs; if the application
 returns an optional value of the form #dyncode("Some(y)") for some y, then
 y is collected in the linear list returned by #dyncode("list_mapopt").
 The implementation of this function in ATSLIB is tail-recursive.
 
 ')
 
-#declnamesynop("list_mapopt$fwork")
+#declnamesynop("list_mapopt$fopr")
 
 (* ****** ****** *)
 
@@ -844,12 +844,12 @@ The implementation of this function in ATSLIB is tail-recursive.
 Given lists xs1 and xs2 of length n1 and n2, respectively, this function
 returns a linear list consisting f(xs1[i], xs2[i]), where i ranges from 0
 until min(n1,n2)-1, xs1[i] (xs2[i]) refers to element i in xs1 (xs2) and f is
-the function implemented by #dyncode("list_map2$fwork").  The
+the function implemented by #dyncode("list_map2$fopr").  The
 implementation of this function in ATSLIB is tail-recursive.
 
 ')
 
-#declnamesynop("list_map2$fwork")
+#declnamesynop("list_map2$fopr")
 
 (* ****** ****** *)
 

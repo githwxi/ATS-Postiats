@@ -75,7 +75,7 @@ val xs = 1 :: 2 :: 3 :: 4 :: 5 :: xs
 val () = fprintln! (out, "xs = ", xs)
 //
 implement
-sllist_map$fwork<T><T> (x) = 2 * x - 1
+sllist_map$fopr<T><T> (x) = 2 * x - 1
 val ys = sllist_map<T><T> (xs)
 val () = fprintln! (out, "ys = ", ys)
 //

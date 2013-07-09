@@ -837,7 +837,7 @@ in
   | @list_vt_cons
       (x, xs1) => let
       val y =
-        list_vt_map$fwork<a><b> (x)
+        list_vt_map$fopr<a><b> (x)
       // end of [val]
       val () = res := list_vt_cons{b}{0}(y, _)
       val+list_vt_cons (_, res1) = res
@@ -875,7 +875,7 @@ in
       (x, xs1) => let
       val xs1 = xs1
       val y =
-        list_vt_mapfree$fwork<a><b> (x)
+        list_vt_mapfree$fopr<a><b> (x)
       // end of [val]
       val () = free@ {a}{0} (xs)
       val () = res := list_vt_cons{b}{0}(y, _)

@@ -379,7 +379,7 @@ A[k-1] for k ranging from i down to j+1, and A[j] moves into A[i].\
 (* ****** ****** *)
 
 #declnamesynop("array_ptr_tabulate")
-#declnamesynop("array_tabulate$fwork")
+#declnamesynop("array_tabulate$fopr")
 
 (* ****** ****** *)
 
@@ -706,6 +706,11 @@ Note that the created array is properly freed before the code exits.  ')
 (* ****** ****** *)
 
 #declnamesynop("array_permute$randint")
+
+(* ****** ****** *)
+
+#declnamesynop("addto_array_array")
+#declnamesynop("addto_array_array$addto")
 
 (* ****** ****** *)
 //

@@ -1014,7 +1014,8 @@ fun loop
   case+ xs of
   | list_cons (x, xs) => let
       val acc =
-        list_foldleft$fwork<res><x> (acc, x)
+        list_foldleft$fopr<res><x> (acc, x)
+      // end of [val]
     in
       loop (xs, acc)
     end // end of [list_cons]
@@ -1073,7 +1074,7 @@ fun loop
   case+ xs of
   | list_cons (x, xs) => let
       val y =
-        list_map$fwork<x><y> (x)
+        list_map$fopr<x><y> (x)
       val () = res :=
         list_vt_cons{y}{0}(y, _(*?*))
       val+list_vt_cons
@@ -1156,7 +1157,7 @@ fun loop
   case+ xs of
   | list_cons (x, xs) => let
       val y =
-        list_imap$fwork<x><y> (i, x)
+        list_imap$fopr<x><y> (i, x)
       val () = res :=
         list_vt_cons{y}{0}(y, _(*?*))
       val+list_vt_cons
@@ -1193,7 +1194,8 @@ in
 case+ xs of
 | list_cons (x, xs) => let
     val opt =
-      list_mapopt$fwork<x><y> (x)
+      list_mapopt$fopr<x><y> (x)
+    // end of [val]
   in
     case+ opt of
     | ~Some_vt (y) => let
@@ -1285,7 +1287,7 @@ fun loop
 ) : void =
   if n > i then let
     val x =
-      list_tabulate$fwork<x> (i)
+      list_tabulate$fopr<x> (i)
     val () = res :=
       list_vt_cons{x}{0}(x, _(*?*))
     val+list_vt_cons
@@ -1310,7 +1312,7 @@ list_zip (xs, ys) = let
 typedef xy = @(x, y)
 //
 implement
-list_zipwith$fwork<x,y><xy> (x, y) = @(x, y)
+list_zipwith$fopr<x,y><xy> (x, y) = @(x, y)
 //
 in
   $effmask_all (list_zipwith<x,y><xy> (xs, ys))
@@ -1337,7 +1339,7 @@ case+ xs of
   case+ ys of
   | list_cons (y, ys) => let
       val xy =
-        list_zipwith$fwork<x,y><xy> (x, y)
+        list_zipwith$fopr<x,y><xy> (x, y)
       // end of [val]
       val () = res :=
         list_vt_cons{xy}{0}(xy, _(*y*))
@@ -1368,7 +1370,7 @@ list_cross (xs, ys) = let
 typedef xy = @(x, y)
 //
 implement
-list_crosswith$fwork<x,y><xy> (x, y) = @(x, y)
+list_crosswith$fopr<x,y><xy> (x, y) = @(x, y)
 //
 in
   $effmask_all (list_crosswith<x,y><xy> (xs, ys))
@@ -1407,7 +1409,7 @@ case+ ys2 of
 | list_cons
     (y, ys2) => let
     val xy = 
-      list_crosswith$fwork<x,y><xy> (x, y)
+      list_crosswith$fopr<x,y><xy> (x, y)
     // end of [val]
     val () = res :=
       list_vt_cons{xy}{0}(xy, _(*?*))

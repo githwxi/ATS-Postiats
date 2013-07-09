@@ -61,6 +61,52 @@ matrix_exch_at_size
 
 #atscode_separator()
 
+implement{a}
+matrix_ptr_alloc
+  (row, col) = let
+//
+val
+(
+  pfarr, pfgc | p
+) = array_ptr_alloc<a> (row*col)
+//
+prval pfmat = array2matrix_v(pfarr)
+//
+in
+  @(pfmat, pfgc | p)
+end // end of [matrix_ptr_alloc]
+
+#atscode_separator()
+
+implement{}
+matrix_ptr_free
+  {a} (pfmat, pfgc | p) = let
+//
+prval pfarr = matrix2array_v (pfmat)
+//
+in
+  array_ptr_free (pfarr, pfgc | p)
+end // end of [matrix_ptr_free]
+
+#atscode_separator()
+
+implement{a}
+matrix_ptr_tabulate
+  (row, col) = let
+//
+val (pf, pfgc | p) = matrix_ptr_alloc<a> (row, col)
+//
+implement
+matrix_initize$init<a> (i, j, x) = x := matrix_tabulate$fopr<a> (i, j)
+//
+val () = matrix_initize<a> (!p, row, col)
+//
+in
+  @(pf, pfgc | p)
+end // end of [matrix_ptr_tabulate]
+
+#atscode_separator()
+
 implement{}
 fprint_matrix$sep1 (out) = fprint_string (out, ", ")
 implement{}
@@ -119,7 +165,33 @@ end // end of [fprint_matrix_sep]
 #atscode_separator()
 
 implement{a}
-add3_matrix_matrix
+matrix_initize
+  (M, m, n) = let
+//
+infixl (/) %
+\#define % g0uint_mod
+//
+implement
+array_initize$init<a>
+  (ij, x) = let
+in
+  matrix_initize$init<a> (ij/n, ij%n, x)
+end // end of [array_initize$init]
+//
+val p = addr@(M)
+prval pf = matrix2array_v (view@(M))
+val () = array_initize<a> (!p, m * n)
+prval () = view@(M) := array2matrix_v (pf)
+//
+in
+  // nothing
+end // end of [matrix_initize]
+
+#atscode_separator()
+
+implement
+{a,b}{c}
+addto_matrix_matrix
   {m,n} (A, B, C, m, n) = let
 //
 val pA = addr@(A)
@@ -133,22 +205,22 @@ prval pfC = matrix2array_v (view@(C))
 local
 //
 implement
-add3_array_array$fop<a>
-  (x, y, z) = add3_matrix_matrix$fop (x, y, z)
+addto_array_array$addto<a,b><c>
+  (x, y, z) = addto_matrix_matrix$addto<a,b><c> (x, y, z)
 //
 in(* in of [local] *)
 //
-val ((*void*)) = add3_array_array (!pA, !pB, !pC, m*n)
+val ((*void*)) = addto_array_array<a,b><c> (!pA, !pB, !pC, m*n)
 //
 end // end of [local]
 //
 prval () = view@(A) := array2matrix_v {a}{..}{m,n} (pfA)
-prval () = view@(B) := array2matrix_v {a}{..}{m,n} (pfB)
-prval () = view@(C) := array2matrix_v {a}{..}{m,n} (pfC)
+prval () = view@(B) := array2matrix_v {b}{..}{m,n} (pfB)
+prval () = view@(C) := array2matrix_v {c}{..}{m,n} (pfC)
 //
 in
   // nothing
-end (* end of [add3_matrix_matrix] *)
+end (* end of [addto_matrix_matrix] *)
 
 #atscode_separator()
 

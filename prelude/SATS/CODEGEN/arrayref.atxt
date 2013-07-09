@@ -446,7 +446,7 @@ overload arrszref_exch_at with arrszref_exch_at_guint of 0
 //
 (*
 fun{a:vt0p}
-array_tabulate$fwork (index: size_t): (a)
+array_tabulate$fopr (index: size_t): (a)
 *)
 fun{a:vt0p}
 arrszref_tabulate (asz: size_t): arrszref (a)

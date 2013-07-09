@@ -81,7 +81,7 @@ val () = assertloc (A[4] = 'E')
 //
 local
 implement
-array_tabulate$fwork<char> (i) = '0'+g0u2i(i)
+array_tabulate$fopr<char> (i) = '0'+g0u2i(i)
 in (* in of [local] *)
 val digits = arrszref_tabulate<char> ((i2sz)10)
 end // end of [local]
@@ -89,7 +89,7 @@ val () = fprintln! (out, "digits = ", digits)
 //
 local
 implement
-array_tabulate$fwork<char> (i) = let
+array_tabulate$fopr<char> (i) = let
   val i = g0u2i(i) in if i < 10 then '0'+i else 'a' + (i-10)
 end // end of [array_tabulate$fwork]
 in (* in of [local] *)

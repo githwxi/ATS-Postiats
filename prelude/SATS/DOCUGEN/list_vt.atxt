@@ -424,7 +424,7 @@ list node after applying to the node the function implemented by
 (* ****** ****** *)
 
 #declnamesynop("list_vt_map")
-#declnamesynop("list_vt_map$fwork")
+#declnamesynop("list_vt_map$fopr")
 
 (* ****** ****** *)
 
@@ -433,9 +433,9 @@ list node after applying to the node the function implemented by
 
 This function is similar to #dyncode("list_vt_map"). However, it frees each
 list node after applying to the node the function implemented by
-#dyncode("list_vt_mapfree$fwork"). ")
+#dyncode("list_vt_mapfree$fopr"). ")
 
-#declnamesynop("list_vt_mapfree$fwork")
+#declnamesynop("list_vt_mapfree$fopr")
 
 (* ****** ****** *)
 

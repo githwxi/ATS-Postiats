@@ -735,7 +735,7 @@ implement
 list0_map (xs, f) = let
 //
 implement
-list_map$fwork<a><b> (x) = f (x)
+list_map$fopr<a><b> (x) = f (x)
 //
 val ys = list_map<a><b> (g1ofg0_list(xs))
 //
@@ -795,7 +795,7 @@ implement
 list0_imap (xs, f) = let
 //
 implement
-list_imap$fwork<a><b> (i, x) = f (i, x)
+list_imap$fopr<a><b> (i, x) = f (i, x)
 val ys = list_imap<a><b> (g1ofg0_list(xs))
 //
 in
@@ -831,7 +831,7 @@ list0_map2
   (xs1, xs2, f) = let
 //
 implement
-list_map2$fwork<a1,a2><b> (x1, x2) = f (x1, x2)
+list_map2$fopr<a1,a2><b> (x1, x2) = f (x1, x2)
 val ys = list_map2<a1,a2><b> ((g1ofg0)xs1, (g1ofg0)xs2)
 //
 in
@@ -859,7 +859,7 @@ list0_tabulate
   (n, f) = let
 //
 implement
-list_tabulate$fwork<a> (i) = f (i)
+list_tabulate$fopr<a> (i) = f (i)
 //
 val n = g1ofg0_int (n)
 //

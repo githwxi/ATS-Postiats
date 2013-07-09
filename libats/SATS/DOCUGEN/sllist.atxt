@@ -110,7 +110,7 @@ singly-linked linear lists in ATS and vice versa.  ')
 (* ****** ****** *)
 
 #declnamesynop("sllist_map")
-#declnamesynop("sllist_map$fwork")
+#declnamesynop("sllist_map$fopr")
 
 (* ****** ****** *)
 

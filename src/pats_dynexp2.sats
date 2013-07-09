@@ -710,12 +710,16 @@ and d2exp_node =
 //
   | D2Eextval of (s2exp(*type*), string(*name*))
   | D2Eextfcall of
-      (s2exp(*res*), string(*fun*), d2explst(*arg*))
+    (
+      s2exp(*res*), string(*fun*), d2explst(*arg*)
+    ) (* end of [D2Eextfcall] *)
 //
-  | D2Econ of ( // HX: data-constructor
+// HX: data-constructor
+//
+  | D2Econ of (
       d2con, location(*fun*)
-    , s2exparglst, int(*npf*), location(*arg*), d2explst
-    ) // end of [D2Econ]
+    , s2exparglst(*sarg*), int(*npf*), location(*arg*), d2explst(*darg*)
+    ) (* end of [D2Econ] *)
 //
   | D2Esym of d2sym // overloaded dynamic symbol
 //

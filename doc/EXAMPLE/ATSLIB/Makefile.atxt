@@ -112,6 +112,7 @@ RMF=rm -f
 #make2_entry("prelude_arrayptr", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("prelude_arrayref", "-DATS_MEMALLOC_LIBC", "")
 
+#make2_entry("prelude_matrix", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("prelude_matrixptr", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("prelude_matrixref", "-DATS_MEMALLOC_LIBC", "")
 

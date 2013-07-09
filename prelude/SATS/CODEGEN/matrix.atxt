@@ -111,8 +111,8 @@ matrix_get_at_size
 overload [] with matrix_get_at_size
 
 symintr matrix_get_at
-overload matrix_get_at with matrix_get_at_gint of 0
-overload matrix_get_at with matrix_get_at_guint of 0
+overload matrix_get_at with matrix_get_at_int of 0
+overload matrix_get_at with matrix_get_at_size of 0
 
 #atscode_separator()
 
@@ -135,8 +135,8 @@ matrix_set_at_size
 overload [] with matrix_set_at_size
 
 symintr matrix_set_at
-overload matrix_set_at with matrix_set_at_gint of 0
-overload matrix_set_at with matrix_set_at_guint of 0
+overload matrix_set_at with matrix_set_at_int of 0
+overload matrix_set_at with matrix_set_at_size of 0
 
 #atscode_separator()
 
@@ -162,6 +162,35 @@ overload matrix_exch_at with matrix_exch_at_size
 
 #atscode_separator()
 
+fun{a:vt0p}
+matrix_ptr_alloc
+  {m,n:int}
+(
+  row: size_t m, col: size_t n
+) :<!wrt> [l:agz]
+(
+  matrix_v (a?, l, m, n), mfree_gc_v (l) | ptr l
+) // end of [matrix_ptr_alloc]
+
+fun{}
+matrix_ptr_free
+  {a:vt0p}{l:addr}{m,n:int}
+(
+  matrix_v (a?, l, m, n), mfree_gc_v (l) | ptr l
+) :<!wrt> void // end of [matrix_ptr_free]
+
+#atscode_separator()
+
+fun{a:vt0p}
+matrix_tabulate$fopr (i: size_t, j: size_t): (a)
+fun{a:vt0p}
+matrix_ptr_tabulate
+  {m,n:int} (row: size_t m, col: size_t n)
+  : [l:addr] (matrix_v (a, l, m, n), mfree_gc_v (l) | ptr l)
+// end of [matrixptr_tabulate]
+
+#atscode_separator()
+
 fun{
 } fprint_matrix$sep1 (out: FILEref): void // col separation
 fun{
@@ -173,6 +202,10 @@ fprint_matrix{m,n:int}
   out: FILEref
 , M: &matrix (INV(a), m, n), m: size_t (m), n: size_t (n)
 ) : void // end of [fprint_matrix]
+
+overload fprint with fprint_matrix
+
+#atscode_separator()
 
 fun{a:vt0p}
 fprint_matrix_sep{m,n:int}
@@ -227,6 +260,19 @@ matrix_ptr_takeout_col
 
 #atscode_separator()
 
+fun{a:vt0p}
+matrix_initize$init
+  (i: size_t, j: size_t, x: &a? >> a): void
+fun{a:vt0p}
+matrix_initize{m,n:int}
+(
+  A: &matrix (a?, m, n) >> matrix (a, m, n), row: size_t m, col: size_t n
+) : void // end of [matrix_initize]
+
+macdef matrix_initialize = matrix_initize
+
+#atscode_separator()
+
 fun{
 a:vt0p}{env:vt0p
 } matrix_foreachrow$fwork{n:int}
@@ -248,34 +294,35 @@ a:vt0p}{env:vt0p
 
 #atscode_separator()
 
-fun{
-a:vt0p
-} add3_matrix_matrix$fop
-  (x: &a, y: &a, z: &a? >> a): void
-
-fun{
-a:vt0p
-} add3_matrix_matrix
+fun
+{a,b:vt0p}
+{c:vt0p}
+addto_matrix_matrix$addto
+  (x: &a, y: &b, z: &c? >> c): void
+fun
+{a,b:vt0p}
+{c:vt0p}
+addto_matrix_matrix
   {m,n:int}
 (
   A: &matrix (INV(a), m, n)
-, B: &matrix (    a,  m, n)
-, C: &matrix (a?, m, n) >> matrix (a, m, n)
+, B: &matrix (INV(b),  m, n)
+, C: &matrix (c?, m, n) >> matrix (c, m, n)
 , m: size_t m, n: size_t n
-) : void // end of [add_matrix_matrix]
+) : void // end of [addto_matrix_matrix]
 
 #atscode_separator()
 
 fun{
 a:t0p
-} mul_matrix_matrix
+} mul3_matrix_matrix
   {p,q,r:int}
 (
   A: &matrix (INV(a), p, q)
 , B: &matrix (    a , q, r)
 , C: &matrix (a?, p, r) >> matrix (a, p, r)
 , p: size_t p, q: size_t q, r: size_t r
-) : void // end of [mul_matrix_matrix]
+) : void // end of [mul3_matrix_matrix]
 
 #atscode_separator()
 

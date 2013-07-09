@@ -465,7 +465,7 @@ if iscons then let
   val nxs = gnode_get_next (nx)
   val p_x = gnode_getref_elt (nx)
   val (pf, fpf | p_x) = $UN.cptr_vtake{a}(p_x)
-  val y = sllist_map$fwork<a><b> (!p_x)
+  val y = sllist_map$fopr<a><b> (!p_x)
   prval () = fpf (pf)
   val ny = g2node_make_elt<b> (y)
   val () = $UN.ptr0_set<g2node1(b)> (p_res, ny)

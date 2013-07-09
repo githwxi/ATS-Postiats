@@ -514,14 +514,14 @@ x,y:t0p}{env:vt0p
 
 fun{
 res:vt0p}{x:t0p
-} list_foldleft$fwork (acc: res, x: x): res
+} list_foldleft$fopr (acc: res, x: x): res
 fun{
 res:vt0p}{x:t0p
 } list_foldleft (xs: List (INV(x)), ini: res): res
 
 fun{
 x:t0p}{res:vt0p
-} list_foldright$fwork (x: x, acc: res): res
+} list_foldright$fopr (x: x, acc: res): res
 fun{
 x:t0p}{res:vt0p
 } list_foldright (xs: List (INV(x)), snk: res): res
@@ -595,7 +595,7 @@ x:t0p
 
 fun{
 x:t0p}{y:vt0p
-} list_map$fwork (x): y
+} list_map$fopr (x): y
 fun{
 x:t0p}{y:vt0p
 } list_map {n:int}
@@ -617,7 +617,7 @@ x:t0p}{y:vt0p
 
 fun{
 x:t0p}{y:vt0p
-} list_imap$fwork (int, x): y
+} list_imap$fopr (int, x): y
 fun{
 x:t0p}{y:vt0p
 } list_imap {n:int}
@@ -628,7 +628,7 @@ x:t0p}{y:vt0p
 
 fun{
 x1,x2:t0p}{y:vt0p
-} list_map2$fwork (x1, x2): y
+} list_map2$fopr (x1, x2): y
 fun{
 x1,x2:t0p}{y:vt0p
 } list_map2 {n1,n2:int} (
@@ -652,7 +652,7 @@ x1,x2:t0p}{y:t0p
 
 fun{
 x:t0p}{y:vt0p
-} list_mapopt$fwork (x): Option_vt (y)
+} list_mapopt$fopr (x): Option_vt (y)
 fun{
 x:t0p}{y:vt0p
 } list_mapopt {n:int}
@@ -674,7 +674,7 @@ x:t0p}{y:t0p
 
 fun{
 a:vt0p
-} list_tabulate$fwork (i: int): a
+} list_tabulate$fopr (i: int): a
 fun{
 a:vt0p
 } list_tabulate {n:nat} (n: int n): list_vt (a, n)
@@ -689,7 +689,7 @@ x,y:t0p
 
 fun{
 x,y:t0p}{xy:vt0p
-} list_zipwith$fwork (x, y): xy
+} list_zipwith$fopr (x, y): xy
 fun{
 x,y:t0p}{xy:vt0p
 } list_zipwith
@@ -708,7 +708,7 @@ x,y:t0p
 
 fun{
 x,y:t0p}{xy:vt0p
-} list_crosswith$fwork (x, y): xy
+} list_crosswith$fopr (x, y): xy
 fun{
 x,y:t0p}{xy:vt0p
 } list_crosswith

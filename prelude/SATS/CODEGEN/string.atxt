@@ -384,7 +384,7 @@ fun{
 #atscode_separator()
 
 fun{
-} string_tabulate$fwork (size_t): charNZ
+} string_tabulate$fopr (size_t): charNZ
 fun{
 } string_tabulate {n:int} (n: size_t n): strnptr (n)
 

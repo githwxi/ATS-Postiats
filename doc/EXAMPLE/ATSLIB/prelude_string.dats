@@ -96,7 +96,7 @@ val () =
 val ab = alphabet
 //
 implement{}
-string_tabulate$fwork (i) = let
+string_tabulate$fopr (i) = let
   val c = int2char0 (char2int0('A') + g0u2i(i))
 in
   $UN.cast{charNZ}(c) // HX: [c] cannot be NUL

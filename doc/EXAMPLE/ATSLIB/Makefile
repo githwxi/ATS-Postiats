@@ -11,7 +11,7 @@
 
 CCOPT=gcc -std=c99
 PATSHOMEQ="$(PATSHOME)"
-PATSOPT=$(PATSHOMEQ)/src/patsopt
+PATSOPT=$(PATSHOMEQ)/bin/patsopt
 PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 
 ######
@@ -174,6 +174,14 @@ clean:: ; $(RMF) prelude_arrayref_dats.o
 clean:: ; $(RMF) prelude_arrayref_dats.c
 cleanall:: ; $(RMF) prelude_arrayref.exe
 
+
+all:: prelude_matrix
+prelude_matrix: prelude_matrix.exe
+prelude_matrix.exe: prelude_matrix_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+prelude_matrix_dats.c: prelude_matrix.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_matrix_dats.c --dynamic prelude_matrix.dats
+clean:: ; $(RMF) prelude_matrix_dats.o
+clean:: ; $(RMF) prelude_matrix_dats.c
+cleanall:: ; $(RMF) prelude_matrix.exe
 
 all:: prelude_matrixptr
 prelude_matrixptr: prelude_matrixptr.exe

@@ -456,7 +456,7 @@ arrayptr_freelin
 //
 (*
 fun{a:vt0p}
-array_tabulate$fwork (index: size_t): (a)
+array_tabulate$fopr (index: size_t): (a)
 *)
 fun{a:vt0p}
 arrayptr_tabulate

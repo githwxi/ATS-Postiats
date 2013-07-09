@@ -98,10 +98,50 @@ to access a matrix-cell.\
 
 (* ****** ****** *)
 
+#declnamesynop("matrix_ptr_alloc")
+#decldescrpt('\
+
+This function calls #dyncode("malloc_gc") to allocate memory for storing a
+matrix of the given dimension. Note that the second returned proof needs to
+be present in order to free the allocated memory.\
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("matrix_ptr_free")
+#decldescrpt('\
+
+This function frees the memory of a matrix. Note that both a proof of the
+view of the matrix and a proof of the free-view of the memory need to be
+present.\
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("matrix_ptr_tabulate")
+#decldescrpt('\
+
+This function creates a matrix of a given dimension.  For each valid
+index-pair (i, j), the content of matrix-cell (i, j) is initialized by the
+return value of a call to #dyncode("matrix_tabulate$fwork").
+
+')
+
+#declnamesynop("matrix_tabulate$fwork")
+
+(* ****** ****** *)
+
 #declnamesynop("fprint_matrix")
 #declnamesynop("fprint_matrix$sep1")
 #declnamesynop("fprint_matrix$sep2")
 #declnamesynop("fprint_matrix_sep")
+
+(* ****** ****** *)
+
+#declnamesynop("matrix_initize")
+#declnamesynop("matrix_initize$init")
 
 (* ****** ****** *)
 
@@ -111,12 +151,12 @@ to access a matrix-cell.\
 
 (* ****** ****** *)
 
-#declnamesynop("add3_matrix_matrix")
-#declnamesynop("add3_matrix_matrix$fop")
+#declnamesynop("addto_matrix_matrix")
+#declnamesynop("addto_matrix_matrix$addto")
 
 (* ****** ****** *)
 
-#declnamesynop("mul_matrix_matrix")
+#declnamesynop("mul3_matrix_matrix")
 
 (* ****** ****** *)
 //

@@ -250,12 +250,12 @@ array_ptr_free
 #atscode_separator()
 
 fun{a:vt0p}
+array_tabulate$fopr (i: size_t): (a)
+fun{a:vt0p}
 array_ptr_tabulate
   {n:int} (asz: size_t n)
   : [l:addr] (array_v (a, l, n), mfree_gc_v (l) | ptr l)
 // end of [arrayptr_tabulate]
-fun{a:vt0p}
-array_tabulate$fwork (i: size_t): (a)
 
 #atscode_separator()
 
@@ -606,13 +606,24 @@ array_permute{n:int}
 
 #atscode_separator()
 
-fun{a:vt0p}
-add3_array_array$fop (x: &a, y: &a, z: &a? >> a): void
-
-fun{a:vt0p}
-add3_array_array{n:int}
+fun
+{a,b:vt0p}
+{c:vt0p}
+addto_array_array$addto
 (
-  A: &array(INV(a), n), B: &array(a, n), C: &array(a?, n) >> array (a, n), n: size_t n
+  x1: &a, x2: &b, x3: &c? >> c
+) : void // [addto_array_array$addto]
+fun
+{a,b:vt0p}
+{c:vt0p}
+addto_array_array
+  {na,nb:int}
+  {nc:int | nc <= na; nc <= nb}
+(
+  A: &array(INV(a), na)
+, B: &array(INV(b), nb)
+, C: &array(c?, nc) >> array (c, nc)
+, nc: size_t (nc)
 ) : void // end of [add3_array_array]
 
 #atscode_separator()

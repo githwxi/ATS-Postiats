@@ -62,7 +62,7 @@ val () = fprintln! (out, "xs = ", xs)
 //
 local
 implement
-list_map$fwork<int><int> (x) = x + x
+list_map$fopr<int><int> (x) = x + x
 in (* in of [local] *)
 val ys = list_map<int><int> (xs)
 end // end of [local]

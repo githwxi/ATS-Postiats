@@ -555,7 +555,7 @@ fun loop (
 in
 //
 if i < n then let
-  val c = string_tabulate$fwork (i)
+  val c = string_tabulate$fopr (i)
   val () = $UN.ptr0_set<char> (p, c)
 in
   loop (ptr_succ<char> (p), n, succ (i))

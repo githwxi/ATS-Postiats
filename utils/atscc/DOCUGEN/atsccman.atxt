@@ -46,7 +46,7 @@ The command #command("atscc") is a wrapper for convenience around the
 ATS-compilation command #command("atsopt"). Sometimes, it is also given the
 name #command("patscc"). In a command-line starting with #command("atscc"),
 each file containing ATS code is first to be replaced with a corresponding
-file containing C code generated from the ATS code by
+file containing C code generated from compiling the ATS code by
 #command("atsopt"). Then a C-compilation command (such as gcc and clang) is
 invoked to process the files containing the generated C code.
 
@@ -131,13 +131,17 @@ include-path.
 
 <li>
 #uemph("-fsats"):
-This flag indicates that the next argument should be interpreted as
-the name of a file containing #iemph("static") ATS code.
+This flag indicates that the next argument should be interpreted as the
+name of a file containing #iemph("static") ATS code. Note that this flag is
+unnecessary if the name of the file ends with the extension
+#uemph(".sats").
 
 <li>
 #uemph("-fdats"):
-This flag indicates that the next argument should be interpreted as
-the name of a file containing #iemph("dynamic") ATS code.
+This flag indicates that the next argument should be interpreted as the
+name of a file containing #iemph("dynamic") ATS code.  Note that this flag
+is unnecessary if the name of the file ends with the extension
+#uemph(".dats").
 
 </menu>
 
