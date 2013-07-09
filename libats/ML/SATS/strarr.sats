@@ -95,7 +95,7 @@ overload strarr with strarr_make_string
 (* ****** ****** *)
 
 fun strarr_make_substring
-  (str: string, st: size_t, ln: size_t):<!wrt> strarr
+  (string, st: size_t, ln: size_t):<!wrt> strarr
 // end of [strarr_make_substring]
 
 (* ****** ****** *)
@@ -108,11 +108,11 @@ fun strarr_imake_string (str: strarr):<!wrt> string
 (* ****** ****** *)
 
 fun{}
-strarr_is_empty (str: strarr):<> bool
+strarr_is_empty (strarr):<> bool
 overload iseqz with strarr_is_empty
 
 fun{}
-strarr_isnot_empty (str: strarr):<> bool
+strarr_isnot_empty (strarr):<> bool
 overload isneqz with strarr_isnot_empty
 
 (* ****** ****** *)

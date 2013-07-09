@@ -76,8 +76,8 @@ fun cstream_is_atend (cs: cstream): bool
 (* ****** ****** *)
 
 fun cstream_inc (cs: cstream): void
-fun cstream_get (cs: cstream): char
-fun cstream_getinc (cs: cstream): char // get and inc
+fun cstream_get (cs: cstream): int
+fun cstream_getinc (cs: cstream): int // get and inc
 
 (* ****** ****** *)
 

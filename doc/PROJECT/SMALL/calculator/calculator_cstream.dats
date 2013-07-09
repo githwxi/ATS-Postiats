@@ -22,9 +22,58 @@
 
 (* ****** ****** *)
 
-staload "calculator.sats"
+staload "libats/ML/SATS/basis.sats"
+staload "libats/ML/SATS/strarr.sats"
 
 (* ****** ****** *)
+
+staload "./calculator.sats"
+
+(* ****** ****** *)
+
+typedef size = size_t
+
+(* ****** ****** *)
+
+datatype
+cstream =
+  CSTREAM of (strarr, ref(size))
+// end of [cstream]
+
+(* ****** ****** *)
+
+assume cstream_type = cstream
+
+(* ****** ****** *)
+
+implement
+cstream_is_atend
+  (cs) = let
+  val+CSTREAM (A, iref) = cs
+in
+  if !(iref) >= length(A) then true else false
+end // end of [cstream_is_atend]
+
+(* ****** ****** *)
+
+implement
+cstream_inc
+  (cs) = let
+  val+CSTREAM (A, iref) = cs
+in
+  !iref := succ (!iref)
+end // end of [cstream_inc]
+
+(* ****** ****** *)
+
+implement
+cstream_get
+  (cs) = let
+  val+CSTREAM (A, iref) = cs
+  val i = !iref
+in
+  if i < length(A) then char2int_unsigned(A[i]) else ~1
+end // end of [cstream_get]
 
 (* ****** ****** *)
 

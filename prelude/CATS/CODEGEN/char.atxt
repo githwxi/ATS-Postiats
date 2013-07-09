@@ -90,6 +90,36 @@ atspre_uchar2int (atstype_uchar c) { return ((atstype_int)c) ; }
 #atscode_separator_for_C()
 
 ATSinline()
+atstype_uint
+atspre_char2uint (atstype_char c) { return ((atstype_uint)c) ; }
+\#define atspre_char2uint0 atspre_char2uint
+
+ATSinline()
+atstype_uint
+atspre_schar2uint (atstype_schar c) { return ((atstype_uint)c) ; }
+\#define atspre_schar2uint0 atspre_schar2uint
+
+ATSinline()
+atstype_uint
+atspre_uchar2uint (atstype_uchar c) { return ((atstype_uint)c) ; }
+\#define atspre_uchar2uint0 atspre_uchar2uint
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_int
+atspre_char2u2int
+  (atstype_char c) { return ((atstype_int)((atstype_uchar)c)) ; }
+\#define atspre_char2u2int0 atspre_char2u2int
+ATSinline()
+atstype_uint
+atspre_char2u2uint
+  (atstype_char c) { return ((atstype_uint)((atstype_uchar)c)) ; }
+\#define atspre_char2u2uint0 atspre_char2u2uint
+
+#atscode_separator_for_C()
+
+ATSinline()
 atstype_char
 atspre_add_char_int
   (atstype_char c1, atstype_int i2) { return (c1 + i2) ; }

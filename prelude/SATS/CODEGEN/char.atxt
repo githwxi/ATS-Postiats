@@ -50,6 +50,14 @@ end // end of [fprint_print_prerr_decl]
 sortdef t0p = t@ype
 
 #atscode_separator()
+//
+castfn char2schar0 (c: char):<> schar
+castfn schar2char0 (c: schar):<> char
+//
+castfn char2uchar0 (c: char):<> uchar
+castfn uchar2char0 (c: uchar):<> char
+//
+#atscode_separator()
 
 fun int2char0 (i: int):<> char = "mac\#%"
 fun int2schar0 (i: int):<> schar = "mac\#%"
@@ -63,9 +71,16 @@ fun char2int0 (c: char):<> int = "mac\#%"
 fun schar2int0 (c: schar):<> int = "mac\#%"
 fun uchar2int0 (c: uchar):<> int = "mac\#%"
 
+#atscode_separator()
+
 fun char2uint0 (c: char):<> uint = "mac\#%"
 fun schar2uint0 (c: schar):<> uint = "mac\#%"
 fun uchar2uint0 (c: uchar):<> uint = "mac\#%"
+
+#atscode_separator()
+
+fun char2u2int0 (c: char):<> int = "mac\#%"
+fun char2u2uint0 (c: char):<> uint = "mac\#%"
 
 #atscode_separator()
 
@@ -431,6 +446,33 @@ fun toupper_int (c: int):<> int = "mac\#%"
 fun toupper_char (c: char):<> char = "mac\#%"
 overload toupper with toupper_int
 overload toupper with toupper_char
+
+#atscode_separator()
+
+symintr c2uc
+overload c2uc with char2uchar0 of 0
+overload c2uc with char2uchar1 of 10
+symintr uc2c
+overload uc2c with uchar2char0 of 0
+overload uc2c with uchar2char1 of 10
+
+#atscode_separator()
+
+symintr char2i
+overload char2i with char2int0 of 0
+symintr char2ui
+overload char2ui with char2uint0 of 0
+symintr uchar2i
+overload uchar2i with uchar2int0 of 0
+symintr uchar2ui
+overload uchar2ui with uchar2uint0 of 0
+
+#atscode_separator()
+
+symintr char2u2i
+overload char2u2i with char2u2int0 of 0
+symintr char2u2ui
+overload char2u2ui with char2u2uint0 of 0
 
 #atscode_separator()
 
