@@ -53,8 +53,18 @@ code. Sometimes, the name of the command is choosen to be #command("patsopt").
 #H2("Environment Variables")
 
 <menu>
+
 <li>
 #uemph("ATSHOME"):
+This variable stores the path to the directory where the ATS programming
+language system is installed. It must be set properly in order for
+#command("atsopt") to function correctly.
+
+<li>
+#uemph("ATSHOMERELOC"):
+This variable stores the current version of ATS. It is no longer needed in
+ATS2 (ATS/Postiats).
+
 </menu>
 
 #comment(" ****** ****** ")
@@ -74,6 +84,13 @@ code. Sometimes, the name of the command is choosen to be #command("patsopt").
 This flag indicates that a call to the ATS-compiler is only required to
 perform typechecking and it should not attempt to translate ATS (source)
 code into C (target) code.
+
+<li>
+#uemph("-dep"): It is a shorthand for #uemph("--depgen").
+<li>
+#uemph("--depgen"):
+This flag indicates that a call to the ATS-compiler is for generateing
+file-dependency information, which is often needed for contructing a Makefile.
 
 <li>
 #uemph("--DATS"):

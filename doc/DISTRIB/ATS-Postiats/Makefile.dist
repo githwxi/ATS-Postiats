@@ -28,7 +28,7 @@ clean::
 
 cleanall:: clean
 cleanall:: ; $(RMF) bin/*
-cleanall:: ; $(RMF) src/patopt
+cleanall:: ; $(RMF) src/patsopt
 cleanall:: ; $(RMF) src/*.?ats
 cleanall:: ; $(RMF) src/*_?ats.c
 cleanall:: ; $(RMF) src/*_?ats.o

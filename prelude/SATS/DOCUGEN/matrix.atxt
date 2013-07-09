@@ -37,20 +37,56 @@ stadef matrix = matrix_viewt0ype_int_int_viewt0ype
 (* ****** ****** *)
 
 #declnamesynop("matrix2array_v")
-#declnamesynop("array2matrix_v")
+#decldescrpt('\
+
+This proof function turns a proof of matrix-view into another proof of
+array-view.\
+
+')
 
 (* ****** ****** *)
 
+#declnamesynop("array2matrix_v")
+#decldescrpt('\
+
+This proof function turns a proof of array-view into another proof of
+matrix-view.\
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("matrix_get_at")
+#decldescrpt('\
+
+Note that the width (that is, number of columns) must be provided in order
+to access a matrix-cell.\
+
+')
 #declnamesynop("matrix_get_at_int")
 #declnamesynop("matrix_get_at_size")
 
 (* ****** ****** *)
 
+#declnamesynop("matrix_set_at")
+#decldescrpt('\
+
+Note that the width (that is, number of columns) must be provided in order
+to access a matrix-cell.\
+
+')
 #declnamesynop("matrix_set_at_int")
 #declnamesynop("matrix_set_at_size")
 
 (* ****** ****** *)
 
+#declnamesynop("matrix_exch_at")
+#decldescrpt('\
+
+Note that the width (that is, number of columns) must be provided in order
+to access a matrix-cell.\
+
+')
 #declnamesynop("matrix_exch_at_int")
 #declnamesynop("matrix_exch_at_size")
 
@@ -96,9 +132,7 @@ stadef matrix = matrix_viewt0ype_int_int_viewt0ype
 
 (* ****** ****** *)
 
-#declnamesynop("matrix_get_at")
-#declnamesynop("matrix_set_at")
-#declnamesynop("matrix_exch_at")
+#declnamesynop("fprint")
 
 (* ****** ****** *)
 

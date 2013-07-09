@@ -1,11 +1,17 @@
-The command [atscc] is a thin wrapper around
-[atsopt] for convenience. 
+##
+## The command [atscc] is just a thin wrapper
+## for convenience around the command [atsopt]
+##
+
+######
 
 $ATSOPT = "patsopt"
 $ATSCCOMP = "\
 gcc -std=c99 -D_XOPEN_SOURCE\
 -I${PATSHOME} -I${PATSHOME}/ccomp/runtime
 "
+
+######
 
 -vats  : the version of atsopt
 -tcats : typechecking only
@@ -19,3 +25,9 @@ gcc -std=c99 -D_XOPEN_SOURCE\
 -DDATS : define for [atsopt] and [atsccomp]
 -IATS  : include path for [atsopt]
 -IIATS : include path for [atsopt] and [atsccomp]
+
+--version : the version of atsopt and C-compiler
+
+######
+
+###### end of [README] ######

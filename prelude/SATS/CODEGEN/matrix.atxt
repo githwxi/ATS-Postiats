@@ -99,6 +99,7 @@ matrix_get_at_int
   M: &RD(matrix (INV(a), m, n))
 , i: natLt (m), n: int n, j: natLt (n)
 ) :<> (a) // end of [matrix_get_at_int]
+overload [] with matrix_get_at_int
 
 fun{a:t0p}
 matrix_get_at_size
@@ -107,9 +108,11 @@ matrix_get_at_size
   M: &RD(matrix (INV(a), m, n))
 , i: sizeLt (m), n: size_t n, j: sizeLt (n)
 ) :<> (a) // end of [matrix_get_at_size]
-
-overload [] with matrix_get_at_int
 overload [] with matrix_get_at_size
+
+symintr matrix_get_at
+overload matrix_get_at with matrix_get_at_gint of 0
+overload matrix_get_at with matrix_get_at_guint of 0
 
 #atscode_separator()
 
@@ -120,6 +123,7 @@ matrix_set_at_int
   M: &matrix (INV(a), m, n)
 , i: natLt (m), n: int n, j: natLt (n), x: a
 ) :<!wrt> void // end of [matrix_set_at_int]
+overload [] with matrix_set_at_int
 
 fun{a:t0p}
 matrix_set_at_size
@@ -128,13 +132,13 @@ matrix_set_at_size
   M: &matrix (INV(a), m, n)
 , i: sizeLt (m), n: size_t n, j: sizeLt (n), x: a
 ) :<!wrt> void // end of [matrix_set_at_size]
-
-overload [] with matrix_set_at_int
 overload [] with matrix_set_at_size
 
-#atscode_separator()
+symintr matrix_set_at
+overload matrix_set_at with matrix_set_at_gint of 0
+overload matrix_set_at with matrix_set_at_guint of 0
 
-symintr matrix_exch_at
+#atscode_separator()
 
 fun{a:vt0p}
 matrix_exch_at_int
@@ -152,6 +156,7 @@ matrix_exch_at_size
 , i: sizeLt (m), n: size_t n, j: sizeLt (n), x: &a>>a
 ) :<!wrt> void // end of [matrix_exch_at_size]
 
+symintr matrix_exch_at
 overload matrix_exch_at with matrix_exch_at_int
 overload matrix_exch_at with matrix_exch_at_size
 

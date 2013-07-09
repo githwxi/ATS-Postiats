@@ -94,14 +94,14 @@ matrixref_get_at_int{m,n:int}
 (
   A: matrixref (a, m, n), i: natLt(m), n: int(n), j: natLt(n)
 ) :<!ref> (a) // end of [matrixref_get_at_int]
-overload [] with matrixptr_get_at_int
+overload [] with matrixref_get_at_int
 
 fun{a:t0p}
 matrixref_get_at_size{m,n:int}
 (
   A: matrixref (a, m, n), i: sizeLt(m), n: size_t(n), j: sizeLt(n)
 ) :<!ref> (a) // end of [matrixref_get_at_size]
-overload [] with matrixptr_get_at_size
+overload [] with matrixref_get_at_size
 //
 symintr matrixref_get_at
 overload matrixref_get_at with matrixref_get_at_int of 0
