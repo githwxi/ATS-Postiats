@@ -39,15 +39,19 @@ sortdef vt0p = viewt@ype
 
 #atscode_separator()
 
-absviewt@ype
-matrix_viewt0ype_int_int_viewt0ype
-  (a:viewt@ype+, row:int, col:int) = array(a, row*col)
-stadef matrix = matrix_viewt0ype_int_int_viewt0ype
+absvt@ype
+matrix_vt0ype_int_int_vt0ype
+  (a:vt@ype+, row:int, col:int) = array(a, row*col)
+stadef matrix = matrix_vt0ype_int_int_vt0ype
+
+#atscode_separator()
 
 viewdef
 matrix_v (
   a:viewt@ype+, l:addr, row:int, col:int
 ) = matrix (a, row, col) @ l
+
+#atscode_separator()
 
 praxi matrix2array_v
   {a:vt0p}{l:addr}{m,n:int}
@@ -351,14 +355,14 @@ matrix_mapto2
 
 fun{
 a:t0p
-} mul3_matrix_matrix
+} multo_matrix_matrix_matrix
   {p,q,r:int}
 (
   A: &matrix (INV(a), p, q)
 , B: &matrix (    a , q, r)
 , C: &matrix (a?, p, r) >> matrix (a, p, r)
 , p: size_t p, q: size_t q, r: size_t r
-) : void // end of [mul3_matrix_matrix]
+) : void // end of [multo_matrix_matrix_matrix]
 
 #atscode_separator()
 

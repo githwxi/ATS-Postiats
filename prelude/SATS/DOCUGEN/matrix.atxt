@@ -19,14 +19,8 @@ ATSLIB/prelude/matrix\
 
 (* ****** ****** *)
 
-#declname("matrix")
-#declsynop2("\
-#pats2xhtmls("\
-absviewt@ype
-matrix_viewt0ype_int_int_viewt0ype
-  (a:viewt@ype+, row:int, col:int) = array(a, row*col)
-stadef matrix = matrix_viewt0ype_int_int_viewt0ype
-")")
+#declnamesynop("matrix")
+#declnamesynop("matrix_vt0ype_int_int_vt0ype")
 
 (* ****** ****** *)
 
@@ -157,12 +151,15 @@ return value of a call to #dyncode("matrix_tabulate$fwork").
 
 (* ****** ****** *)
 
-#declnamesynop("addto_matrix_matrix")
-#declnamesynop("addto_matrix_matrix$addto")
+#declnamesynop("matrix_mapto")
+#declnamesynop("matrix_mapto$fwork")
+
+#declnamesynop("matrix_mapto2")
+#declnamesynop("matrix_mapto2$fwork")
 
 (* ****** ****** *)
 
-#declnamesynop("mul3_matrix_matrix")
+#declnamesynop("multo_matrix_matrix_matrix")
 
 (* ****** ****** *)
 //

@@ -115,7 +115,7 @@ val ne =
 val len = nb+i2sz(2) // HX: 2 -> .c
 //
 implement
-string_tabulate$fwork<>
+string_tabulate$fopr<>
   (i) = let
 //
 val i = g1ofg0(i)
@@ -141,7 +141,7 @@ val nsfx = string1_length (sfx)
 val len = nb+nsfx
 //
 implement
-string_tabulate$fwork<>
+string_tabulate$fopr<>
   (i) = let
 //
 val i = g1ofg0(i) in
@@ -489,6 +489,18 @@ case+ cas of
 //
 end // end of [auxlst]
 
+fun auxout
+  (cas: commarglst): bool =
+(
+case+ cas of
+| list_cons
+    (ca, cas) =>
+  (
+    case+ ca of CAtcats () => false | _ => auxout (cas)
+  )
+| list_nil () => false
+) // end of [auxout]
+
 in (* in of [local] *)
 
 implement
@@ -511,9 +523,13 @@ case+ ca0 of
     val name = unsome(opt)
     val outname = atscc_outname (knd, name)
 //
-    val (
-    ) = res := list_vt_cons{string}("--output", res)
-    val () = res := list_vt_cons{string}(outname, res)
+    val () =
+    if auxout (cas) then
+    {
+      val (
+      ) = res := list_vt_cons{string}("--output", res)
+      val () = res := list_vt_cons{string}(outname, res)
+    } // end of [if] // end of [val]
 //
     val () =
       if knd = 0 then res := list_vt_cons{string}("--static", res)
