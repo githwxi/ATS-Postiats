@@ -37,10 +37,13 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 stadef ptrknd = ptr_kind
 
 #atscode_separator()
-
+//
 castfn g0ofg1_ptr (p: Ptr):<> ptr
 castfn g1ofg0_ptr (p: ptr):<> Ptr0
-
+//
+overload g0ofg1 with g0ofg1_ptr
+overload g1ofg0 with g1ofg0_ptr
+//
 #atscode_separator()
 //
 prfun

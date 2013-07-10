@@ -99,12 +99,42 @@ a:t0p}{env:vt0p
   (vec: &GV (a, n, d) >> _, n: int n, d: int d, env: &(env) >> _): natLte(n)
 //
 (* ****** ****** *)
+//
+fun{
+a,b:t0p}{env:vt0p
+} gvector_foreach2$cont
+  {n:int}{d:int} (x: &a, y: &b, env: &env): bool
+fun{
+a,b:t0p}{env:vt0p
+} gvector_foreach2$fwork
+  {n:int}{d:int} (x: &a >> _, y: &b >> _, env: &env >> _): void
+//
+fun{a,b:t0p}
+gvector_foreach2
+  {n:int}{d1,d2:int}
+(
+  vec1: &GV (a, n, d1) >> _
+, vec2: &GV (b, n, d2) >> _
+, n: int (n), d1: int (d1), d2: int (d2)
+) : natLte(n) // end of [gvector_foreach2]
+fun{
+a,b:t0p}{env:vt0p
+} gvector_foreach2_env
+  {n:int}{d1,d2:int}
+(
+  vec1: &GV (a, n, d1) >> _
+, vec2: &GV (b, n, d2) >> _
+, n: int (n), d1: int (d1), d2: int (d2)
+, env: &env >> _
+) : natLte(n) // end of [gvector_foreach2_env]
+//
+(* ****** ****** *)
 
 fun{a:t0p}
 multo_scalar_gvector
   {n:int}{d:int}
 (
-  alpha: a, vec: &GV (a, n, d) >> _, n: int n, d: int d
+  alpha: a, vec: &GV (a, n, d) >> _, n: int(n), d: int(d)
 ) : void // end of [multo_scalar_gvector]
 
 fun{a:t0p}
@@ -125,7 +155,9 @@ fun{a:t0p}
 mul_gvector_gvector
   {n:int}{d1,d2:int}
 (
-  vec1: &gvector (a, n, d1), vec2: &gvector (a, n, d2), n: int (n)
+  vec1: &gvector (a, n, d1)
+, vec2: &gvector (a, n, d2)
+, n: int(n), d1: int(d1), d2: int(d2)
 ) : (a) (* end of [mul_gvector_gvector] *)
 
 (* ****** ****** *)

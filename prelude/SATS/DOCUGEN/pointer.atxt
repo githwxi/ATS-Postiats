@@ -147,6 +147,11 @@ informative type.  ')
 
 (* ****** ****** *)
 
+#declnamesynop("g0ofg1")
+#declnamesynop("g1ofg0")
+
+(* ****** ****** *)
+
 #declnamesynop("ptr_is_null")
 #declnamesynop("ptr_isnot_null")
 
