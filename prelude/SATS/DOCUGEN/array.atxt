@@ -658,6 +658,16 @@ in stdlib.h of libc.\
 
 (* ****** ****** *)
 
+#declnamesynop("array_mapto")
+#declnamesynop("array_mapto$fwork")
+
+(* ****** ****** *)
+
+#declnamesynop("array_mapto2")
+#declnamesynop("array_mapto2$fwork")
+
+(* ****** ****** *)
+
 #declnamesynop("array_permute")
 #decldescrpt('\
 
@@ -706,11 +716,6 @@ Note that the created array is properly freed before the code exits.  ')
 (* ****** ****** *)
 
 #declnamesynop("array_permute$randint")
-
-(* ****** ****** *)
-
-#declnamesynop("addto_array_array")
-#declnamesynop("addto_array_array$addto")
 
 (* ****** ****** *)
 //

@@ -835,7 +835,8 @@ in
 end // end of [s1exp_is_top_underscore]
 
 fun s1exp_untop_if
-  (s1e: s1exp): s1exp = (
+  (s1e: s1exp): s1exp =
+(
   case+ s1e.s1exp_node of S1Etop (knd, s1e) => s1e | _ => s1e
 ) // end of [s1exp_untop_if]
 
@@ -870,7 +871,8 @@ s1exp_trup_arg
 *)
 in
 //
-case+ s1e0.s1exp_node of
+case+
+  s1e0.s1exp_node of
 | S1Einvar (refval, s1e) => let
     val () = ws1es :=
       WTHS1EXPLSTcons_some (0(*invar*), refval, s1e, ws1es)
@@ -912,63 +914,77 @@ implement
 s1exp_trdn_res_impred
   (s1e0, ws1es) = let
 //
-  fun auxwth (
-    ws1es: wths1explst
-  ) : wths2explst = begin
-    case+ ws1es of
-    | WTHS1EXPLSTcons_some
-        (knd, refval, s1e, ws1es) => let
-        val s2t = (
-          if refval = 0 then s2rt_view else s2rt_vt0ype
-        ) : s2rt // end of [val]
-        val s2e = s1exp_trdn (s1e, s2t)
-        val ws2es = auxwth (ws1es)
+fun auxwth
+(
+  ws1es: wths1explst
+) : wths2explst = let
+in
+//
+case+ ws1es of
+| WTHS1EXPLSTcons_some
+    (knd, refval, s1e, ws1es) => let
+    val s2t =
+    (
+      if refval = 0 then s2rt_view else s2rt_vt0ype
+    ) : s2rt // end of [val]
+    val s2e = s1exp_trdn (s1e, s2t)
+    val ws2es = auxwth (ws1es)
 //
 // HX-2012-05:
 // hnfizing needed for removing READ, WRITE, etc.
 //
-        val s2e = s2exp_hnfize (s2e)
-        val isinv = (
-          if knd = 0 then s2exp_is_nonvar (s2e) else false
-        ) : bool // end of [val]
+    val s2e = s2exp_hnfize (s2e)
+    val isinv =
+    (
+      if knd = 0 then s2exp_is_nonvar (s2e) else false
+    ) : bool // end of [val]
 //
-      in
-        if isinv then
-          WTHS2EXPLSTcons_invar (refval, s2e, ws2es)
-        else
-          WTHS2EXPLSTcons_trans (refval, s2e, ws2es)
-        // end of [if]
-      end // end of [WTHS1EXPLSTcons_invar]
-    | WTHS1EXPLSTcons_none (ws1es) => let
-        val ws2es = auxwth (ws1es) in WTHS2EXPLSTcons_none (ws2es)
-      end // end of [WTHS1EXPLSTcons_none]
-    | WTHS1EXPLSTnil () => WTHS2EXPLSTnil ()
-  end // endof [auxwth]
+  in
+    if isinv then
+      WTHS2EXPLSTcons_invar (refval, s2e, ws2es)
+    else
+      WTHS2EXPLSTcons_trans (refval, s2e, ws2es)
+    // end of [if]
+  end // end of [WTHS1EXPLSTcons_invar]
+| WTHS1EXPLSTcons_none (ws1es) => let
+    val ws2es = auxwth (ws1es) in WTHS2EXPLSTcons_none (ws2es)
+  end // end of [WTHS1EXPLSTcons_none]
+| WTHS1EXPLSTnil () => WTHS2EXPLSTnil ()
 //
-  fun auxres (
-    s1e: s1exp, ws1es: wths1explst
-  ) : s2exp =
-    case+ s1e.s1exp_node of
-    | S1Eexi (
-        1(*funres*), s1qs, s1e_scope
-      ) => let
-        val (pf_s2expenv | ()) = the_s2expenv_push_nil ()
-        val s2q = s1qualst_tr (s1qs)
-        val s2e_scope = auxres (s1e_scope, ws1es)
-        val () = the_s2expenv_pop_free (pf_s2expenv | (*none*))
-      in
-        s2exp_exi (s2q.s2qua_svs, s2q.s2qua_sps, s2e_scope)
-      end // end of [S1Eexi]
-    | _ => let
-        val s2e = s1exp_trdn_impred (s1e)
-        val ws2es = auxwth (ws1es) in s2exp_wth (s2e, ws2es)
-      end // end of [_]
-  (* end of [auxres] *)
+end // endof [auxwth]
+//
+fun auxres
+(
+  s1e: s1exp, ws1es: wths1explst
+) : s2exp = let
+in
+//
+case+
+  s1e.s1exp_node of
+| S1Eexi
+  (
+    1(*funres*), s1qs, s1e_scope
+  ) => let
+    val (pf_s2expenv | ()) = the_s2expenv_push_nil ()
+    val s2q = s1qualst_tr (s1qs)
+    val s2e_scope = auxres (s1e_scope, ws1es)
+    val () = the_s2expenv_pop_free (pf_s2expenv | (*none*))
+  in
+    s2exp_exi (s2q.s2qua_svs, s2q.s2qua_sps, s2e_scope)
+  end // end of [S1Eexi]
+| _ => let
+    val s2e = s1exp_trdn_impred (s1e)
+    val ws2es = auxwth (ws1es) in s2exp_wth (s2e, ws2es)
+  end // end of [_]
+//
+end // end of [auxres]
 //
 in
-  if wths1explst_is_none (ws1es) then
-    s1exp_trdn_impred (s1e0) else auxres (s1e0, ws1es)
-  // end of [if]
+//
+if wths1explst_is_none (ws1es)
+  then s1exp_trdn_impred (s1e0) else auxres (s1e0, ws1es)
+// end of [if]
+//
 end // end of [s1exp_trdn_res_impred]
 
 (* ****** ****** *)
@@ -2048,22 +2064,27 @@ end // end of [s1explst_trdn_err]
 
 implement
 s1exp_trdn_arg_impred
-  (s1e, w1ts) = s2e where {
-  val s2e = s1exp_trup_arg (s1e, w1ts)
-  val s2t = s2e.s2exp_srt
-  val s2t = s2rt_delink (s2t)
-  val isimp = s2rt_is_impred (s2t)
-  val () = if not(isimp) then let
-    val () = prerr_error2_loc (s1e.s1exp_loc)
-    val () = filprerr_ifdebug ("s1exp_trdn_arg_impred")
-    val () = prerr ": the static expression needs to be impredicative"
-    val () = prerr " but it is assigned the sort ["
-    val () = prerr_s2rt (s2t)
-    val () = prerr "]."
-    val () = prerr_newline ()
-  in
-    the_trans2errlst_add (T2E_s1exp_trdn_impred (s1e))
-  end // end of [val]
+  (s1e, w1ts) = s2e where
+{
+//
+val s2e = s1exp_trup_arg (s1e, w1ts)
+val s2t = s2e.s2exp_srt
+val s2t = s2rt_delink (s2t)
+val isimp = s2rt_is_impred (s2t)
+//
+val () =
+if not(isimp) then let
+  val () = prerr_error2_loc (s1e.s1exp_loc)
+  val () = filprerr_ifdebug ("s1exp_trdn_arg_impred")
+  val () = prerr ": the static expression needs to be impredicative"
+  val () = prerr " but it is assigned the sort ["
+  val () = prerr_s2rt (s2t)
+  val () = prerr "]."
+  val () = prerr_newline ()
+in
+  the_trans2errlst_add (T2E_s1exp_trdn_impred (s1e))
+end // end of [val]
+//
 } // end of [s1exp_trdn_arg_impred]
 
 (* ****** ****** *)

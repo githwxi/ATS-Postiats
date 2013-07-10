@@ -188,7 +188,7 @@ string_tabulate
 val n = g1ofg0_uint(n)
 //
 implement
-string_tabulate$fwork<> (i) = f (i)
+string_tabulate$fopr<> (i) = f (i)
 //
 in
   strnptr2string(prelude_string_tabulate (n))

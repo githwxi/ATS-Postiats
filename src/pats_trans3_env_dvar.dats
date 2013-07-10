@@ -32,9 +32,12 @@
 //
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
-staload _(*anon*) = "prelude/DATS/reference.dats"
+staload
+_(*anon*) = "prelude/DATS/list.dats"
+staload
+_(*anon*) = "prelude/DATS/list_vt.dats"
+staload
+_(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
@@ -45,10 +48,17 @@ staload UT = "./pats_utils.sats"
 staload ERR = "./pats_error.sats"
 
 (* ****** ****** *)
-
+//
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans3_env_dvar"
+//
+implement
+prerr_FILENAME<> () = prerr "pats_trans3_env_dvar"
+//
+(* ****** ****** *)
+
+staload LOC = "./pats_location.sats"
+overload print with $LOC.print_location
 
 (* ****** ****** *)
 
@@ -889,7 +899,8 @@ case+ d2vfin of
 //
 end // end of [d2vfin_unchecked]
 //
-fun aux_invar .<>. (
+fun aux_invar .<>.
+(
   refknd: int, p3t: p3at, s2e: s2exp
 ) : void = let
 //
@@ -901,14 +912,16 @@ case+ 0 of
 | _ when
     refknd = 0 => d2vfin_unchecked (d2v)
 | _ (* refknd = 1 *) => let
-    val-Some (
+    val-Some
+    (
       d2v_view
     ) = d2var_get_view (d2v) in d2vfin_unchecked (d2v_view)
   end // end of [_]
 //
 end // end of [aux_invar]
 //
-fun aux_trans .<>. (
+fun aux_trans .<>.
+(
   refknd: int, p3t: p3at, s2e: s2exp
 ) : void = let
 //
@@ -934,7 +947,8 @@ case+ 0 of
 //
 end // end of [aux_trans]
 //
-fun auxlst (
+fun auxlst
+(
   loc0: location
 , p3ts: p3atlst, wths2es: wths2explst
 ) : void = let
@@ -962,6 +976,7 @@ case+ wths2es of
     auxlst (loc0, p3ts, wths2es)
   end // end of [WTHS2EXPLSTcons_none]
 | WTHS2EXPLSTnil () => ()
+//
 end // end of [auxlst]
 //
 var err: int = 0

@@ -786,40 +786,57 @@ labp1at_tr (lp1t) =
 
 implement
 p1at_tr_arg
-  (p1t0, wths1es) = let
-  val loc0 = p1t0.p1at_loc
+  (p1t0, ws1es) = let
+//
+val loc0 = p1t0.p1at_loc
+//
 in
 //
-case+ p1t0.p1at_node of
-| P1Tann (p1t, ann) => let
+case+
+  p1t0.p1at_node of
+//
+| P1Tann
+    (p1t, ann) => let
     val p2t = p1at_tr (p1t)
-    val ann = s1exp_trdn_arg_impred (ann, wths1es)
+    val ann =
+      s1exp_trdn_arg_impred (ann, ws1es)
+    // end of [ann]
     val ann = s2exp_hnfize (ann)
   in
     p2at_ann (loc0, p2t, ann)
   end // end of [P1Tann]
-| P1Tlist (npf, p1ts) => let
-    val p2ts = p1atlst_tr_arg (p1ts, wths1es)
+//
+| P1Tlist
+    (npf, p1ts) => let
+    val p2ts = p1atlst_tr_arg (p1ts, ws1es)
   in
     p2at_list (loc0, npf, p2ts)
   end // end of [P1Tlist]
-| _ => p1at_tr (p1t0)
+//
+| _ => let
+    val () = ws1es := WTHS1EXPLSTcons_none (ws1es)
+  in
+    p1at_tr (p1t0)
+  end // end of [_]
 //
 end // end of [p1at_tr_arg]
 
 implement
 p1atlst_tr_arg
-  (p1ts, wths1es) =
-(
+  (p1ts, ws1es) = let
+in
+//
 case+ p1ts of
-| list_cons (p1t, p1ts) => let
-    val p2t = p1at_tr_arg (p1t, wths1es)
-    val p2ts = p1atlst_tr_arg (p1ts, wths1es)
+| list_cons
+    (p1t, p1ts) => let
+    val p2t = p1at_tr_arg (p1t, ws1es)
+    val p2ts = p1atlst_tr_arg (p1ts, ws1es)
   in
     list_cons (p2t, p2ts)
   end // end of [list_cons]
 | list_nil () => list_nil ()
-) // end of [p1atlst_tr_arg]
+//
+end // end of [p1atlst_tr_arg]
 
 (* ****** ****** *)
 

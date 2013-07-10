@@ -881,6 +881,44 @@ end // end of [array_uninitize]
 
 #atscode_separator()
 
+implement
+{a,b}{c}
+array_mapto2
+  {n}(A, B, C, n) = let
+//
+val pa = addr@ (A)
+val pa2 = ptr_add<a> (pa, n)
+val pb = addr@ (B)
+val pc = addr@ (C)
+//
+fun loop{la,lb,lc:addr}
+(
+  pa: ptr la, pa2: ptr, pb: ptr lb, pc: ptr lc
+) : void =
+(
+if pa < pa2 then let
+  prval (pfa, fpfa) = $UN.ptr_vtake{a}(pa)
+  prval (pfb, fpfb) = $UN.ptr_vtake{b}(pb)
+  prval (pfc, fpfc) = $UN.ptr_vtake{c?}(pc)
+  val () = array_mapto2$fwork<a,b><c> (!pa, !pb, !pc)
+  prval () = fpfa (pfa)
+  prval () = fpfb (pfb)
+  prval () = fpfc ($UN.castview0{(c?)@lc}(pfc))
+in
+  loop (ptr_succ<a> (pa), pa2, ptr_succ<a> (pb), ptr_succ<a> (pc))
+end (* end of [if] *)
+)
+//
+val () = loop (pa, pa2, pb, pc)
+prval [lc:addr] ADDREQ () = ptr_get_index (pc)
+prval () = view@(C) := $UN.castview0{array_v (c, lc, n)}(view@(C))
+//
+in
+  // nothing
+end (* end of [array_mapto2] *)
+
+#atscode_separator()
+
 (*
 implement{a}
 array_bsearch
@@ -932,44 +970,6 @@ end // end of [loop]
 in
   loop (view@ (A) | addr@ (A), asz)
 end // end of [array_permute]
-
-#atscode_separator()
-
-implement
-{a,b}{c}
-addto_array_array
-  {na,nb}{nc}(A, B, C, n) = let
-//
-val pa = addr@ (A)
-val pa2 = ptr_add<a> (pa, n)
-val pb = addr@ (B)
-val pc = addr@ (C)
-//
-fun loop{la,lb,lc:addr}
-(
-  pa: ptr la, pa2: ptr, pb: ptr lb, pc: ptr lc
-) : void =
-(
-if pa < pa2 then let
-  prval (pfa, fpfa) = $UN.ptr_vtake{a}(pa)
-  prval (pfb, fpfb) = $UN.ptr_vtake{b}(pb)
-  prval (pfc, fpfc) = $UN.ptr_vtake{c?}(pc)
-  val () = addto_array_array$addto<a,b><c> (!pa, !pb, !pc)
-  prval () = fpfa (pfa)
-  prval () = fpfb (pfb)
-  prval () = fpfc ($UN.castview0{(c?)@lc}(pfc))
-in
-  loop (ptr_succ<a> (pa), pa2, ptr_succ<a> (pb), ptr_succ<a> (pc))
-end (* end of [if] *)
-)
-//
-val () = loop (pa, pa2, pb, pc)
-prval [lc:addr] ADDREQ () = ptr_get_index (pc)
-prval () = view@(C) := $UN.castview0{array_v (c, lc, nc)}(view@(C))
-//
-in
-  // nothing
-end (* end of [add3_array_array] *)
 
 #atscode_separator()
 

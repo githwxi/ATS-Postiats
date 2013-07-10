@@ -140,14 +140,20 @@ return value of a call to #dyncode("matrix_tabulate$fwork").
 
 (* ****** ****** *)
 
-#declnamesynop("matrix_initize")
-#declnamesynop("matrix_initize$init")
+#declnamesynop("matrix_foreach")
+#declnamesynop("matrix_foreach_env")
+#declnamesynop("matrix_foreach$fwork")
 
 (* ****** ****** *)
 
 #declnamesynop("matrix_foreachrow")
 #declnamesynop("matrix_foreachrow_env")
 #declnamesynop("matrix_foreachrow$fwork")
+
+(* ****** ****** *)
+
+#declnamesynop("matrix_initize")
+#declnamesynop("matrix_initize$init")
 
 (* ****** ****** *)
 

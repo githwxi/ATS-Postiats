@@ -165,6 +165,32 @@ end // end of [fprint_matrix_sep]
 #atscode_separator()
 
 implement{a}
+matrix_foreach (A, m, n) = let
+  var env: void = () in matrix_foreach_env<a><void> (A, m, n, env)
+end // end of [matrix_foreach]
+
+implement
+{a}{env}
+matrix_foreach_env
+  (A, m, n, env) = let
+//
+implement
+array_foreach$cont<a><env> (x, env) = true
+implement
+array_foreach$fwork<a><env> (x, env) = matrix_foreach$fwork<a><env> (x, env)
+//
+val p = addr@(A)
+prval pf = matrix2array_v (view@(A))
+val _(*mn*) = array_foreach_env<a> (!p, m*n, env)
+prval () = view@(A) := array2matrix_v (pf)
+//
+in
+  // nothing
+end // end of [matrix_foreach_env]
+
+#atscode_separator()
+
+implement{a}
 matrix_initize
   (M, m, n) = let
 //
@@ -190,8 +216,40 @@ end // end of [matrix_initize]
 #atscode_separator()
 
 implement
+{a}{b}
+matrix_mapto
+  {m,n} (A, B, m, n) = let
+//
+val pA = addr@(A)
+val pB = addr@(B)
+//
+prval pfA = matrix2array_v (view@(A))
+prval pfB = matrix2array_v (view@(B))
+//
+local
+//
+implement
+array_mapto$fwork<a><b>
+  (x, y) = matrix_mapto$fwork<a><b> (x, y)
+//
+in(* in of [local] *)
+//
+val ((*void*)) = array_mapto<a><b> (!pA, !pB, m*n)
+//
+end // end of [local]
+//
+prval () = view@(A) := array2matrix_v {a}{..}{m,n} (pfA)
+prval () = view@(B) := array2matrix_v {b}{..}{m,n} (pfB)
+//
+in
+  // nothing
+end (* end of [matrix_mapto] *)
+
+#atscode_separator()
+
+implement
 {a,b}{c}
-addto_matrix_matrix
+matrix_mapto2
   {m,n} (A, B, C, m, n) = let
 //
 val pA = addr@(A)
@@ -205,12 +263,12 @@ prval pfC = matrix2array_v (view@(C))
 local
 //
 implement
-addto_array_array$addto<a,b><c>
-  (x, y, z) = addto_matrix_matrix$addto<a,b><c> (x, y, z)
+array_mapto2$fwork<a,b><c>
+  (x, y, z) = matrix_mapto2$fwork<a,b><c> (x, y, z)
 //
 in(* in of [local] *)
 //
-val ((*void*)) = addto_array_array<a,b><c> (!pA, !pB, !pC, m*n)
+val ((*void*)) = array_mapto2<a,b><c> (!pA, !pB, !pC, m*n)
 //
 end // end of [local]
 //
@@ -220,7 +278,7 @@ prval () = view@(C) := array2matrix_v {c}{..}{m,n} (pfC)
 //
 in
   // nothing
-end (* end of [addto_matrix_matrix] *)
+end (* end of [matrix_mapto2] *)
 
 #atscode_separator()
 

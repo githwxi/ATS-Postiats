@@ -260,16 +260,21 @@ matrix_ptr_takeout_col
 
 #atscode_separator()
 
-fun{a:vt0p}
-matrix_initize$init
-  (i: size_t, j: size_t, x: &a? >> a): void
-fun{a:vt0p}
-matrix_initize{m,n:int}
+fun{
+a:vt0p}{env:vt0p
+} matrix_foreach$fwork (x: &a >> _, env: &(env) >> _): void
+fun{
+a:vt0p
+} matrix_foreach{m,n:int}
 (
-  A: &matrix (a?, m, n) >> matrix (a, m, n), row: size_t m, col: size_t n
-) : void // end of [matrix_initize]
-
-macdef matrix_initialize = matrix_initize
+  A: &matrix(INV(a), m, n) >> _, m: size_t m, n: size_t n
+) : void // end of [matrix_foreach]
+fun{
+a:vt0p}{env:vt0p
+} matrix_foreach_env{m,n:int}
+(
+  A: &matrix(INV(a), m, n) >> _, m: size_t m, n: size_t n, env: &(env) >> _
+) : void // end of [matrix_foreach_env]
 
 #atscode_separator()
 
@@ -294,22 +299,53 @@ a:vt0p}{env:vt0p
 
 #atscode_separator()
 
+fun{a:vt0p}
+matrix_initize$init
+  (i: size_t, j: size_t, x: &a? >> a): void
+fun{a:vt0p}
+matrix_initize{m,n:int}
+(
+  A: &matrix (a?, m, n) >> matrix (a, m, n), row: size_t m, col: size_t n
+) : void // end of [matrix_initize]
+
+macdef matrix_initialize = matrix_initize
+
+#atscode_separator()
+
+fun
+{a:vt0p}
+{b:vt0p}
+matrix_mapto$fwork
+  (x: &a, y: &b? >> b): void
+fun
+{a:vt0p}
+{b:vt0p}
+matrix_mapto
+  {m,n:int}
+(
+  A: &matrix (INV(a), m, n)
+, B: &matrix (b?, m, n) >> matrix (b, m, n)
+, m: size_t m, n: size_t n
+) : void // end of [matrix_mapto]
+
+#atscode_separator()
+
 fun
 {a,b:vt0p}
 {c:vt0p}
-addto_matrix_matrix$addto
+matrix_mapto2$fwork
   (x: &a, y: &b, z: &c? >> c): void
 fun
 {a,b:vt0p}
 {c:vt0p}
-addto_matrix_matrix
+matrix_mapto2
   {m,n:int}
 (
   A: &matrix (INV(a), m, n)
 , B: &matrix (INV(b),  m, n)
 , C: &matrix (c?, m, n) >> matrix (c, m, n)
 , m: size_t m, n: size_t n
-) : void // end of [addto_matrix_matrix]
+) : void // end of [matrix_mapto2]
 
 #atscode_separator()
 

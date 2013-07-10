@@ -596,6 +596,45 @@ array_quicksort_stdlib{n:int}
 
 #atscode_separator()
 
+fun
+{a:vt0p}
+{b:vt0p}
+array_mapto$fwork
+(
+  x: &a, y: &b? >> b
+) : void // [array_mapto2$fwork]
+fun
+{a:vt0p}
+{b:vt0p}
+array_mapto{n:int}
+(
+  A: &array(INV(a), n)
+, B: &array(b?, n) >> array (b, n)
+, n: size_t (n)
+) : void // end of [array_mapto]
+
+#atscode_separator()
+
+fun
+{a,b:vt0p}
+{c:vt0p}
+array_mapto2$fwork
+(
+  x: &a, y: &b, z: &c? >> c
+) : void // [array_mapto2$fwork]
+fun
+{a,b:vt0p}
+{c:vt0p}
+array_mapto2{n:int}
+(
+  A: &array(INV(a), n)
+, B: &array(INV(b), n)
+, C: &array(c?, n) >> array (c, n)
+, n: size_t (n)
+) : void // end of [array_mapto2]
+
+#atscode_separator()
+
 fun{}
 array_permute$randint
   {n:int | n > 0} (n: size_t n): sizeLt (n)
@@ -603,28 +642,6 @@ fun{a:vt0p}
 array_permute{n:int}
   (A: &(@[INV(a)][n]) >> @[a][n], n: size_t n): void
 // end of [array_permute]
-
-#atscode_separator()
-
-fun
-{a,b:vt0p}
-{c:vt0p}
-addto_array_array$addto
-(
-  x1: &a, x2: &b, x3: &c? >> c
-) : void // [addto_array_array$addto]
-fun
-{a,b:vt0p}
-{c:vt0p}
-addto_array_array
-  {na,nb:int}
-  {nc:int | nc <= na; nc <= nb}
-(
-  A: &array(INV(a), na)
-, B: &array(INV(b), nb)
-, C: &array(c?, nc) >> array (c, nc)
-, nc: size_t (nc)
-) : void // end of [add3_array_array]
 
 #atscode_separator()
 
