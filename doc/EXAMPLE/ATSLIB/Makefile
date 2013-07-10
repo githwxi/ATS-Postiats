@@ -388,6 +388,14 @@ clean:: ; $(RMF) libats_linset_listord_dats.o
 clean:: ; $(RMF) libats_linset_listord_dats.c
 cleanall:: ; $(RMF) libats_linset_listord.exe
 
+all:: libats_linheap_binomial
+libats_linheap_binomial: libats_linheap_binomial.exe
+libats_linheap_binomial.exe: libats_linheap_binomial_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_linheap_binomial_dats.c: libats_linheap_binomial.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_linheap_binomial_dats.c --dynamic libats_linheap_binomial.dats
+clean:: ; $(RMF) libats_linheap_binomial_dats.o
+clean:: ; $(RMF) libats_linheap_binomial_dats.c
+cleanall:: ; $(RMF) libats_linheap_binomial.exe
+
 all:: libats_lindeque_dllist
 libats_lindeque_dllist: libats_lindeque_dllist.exe
 libats_lindeque_dllist.exe: libats_lindeque_dllist_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 

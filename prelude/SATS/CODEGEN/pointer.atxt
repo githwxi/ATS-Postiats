@@ -407,6 +407,9 @@ fun cptr_is_null
 fun cptr_isnot_null
   {a:vt0p}{l:addr} (p: cptr (a, l)):<> bool (l > null) = "mac\#%"
 //
+overload iseqz with cptr_is_null
+overload isneqz with cptr_isnot_null
+//
 #atscode_separator()
 
 typedef voidptr (l:addr) = cptr (void, l)

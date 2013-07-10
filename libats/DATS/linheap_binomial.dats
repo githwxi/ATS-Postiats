@@ -51,12 +51,13 @@
 //
 (* ****** ****** *)
 
-#define ATS_DYNLOADFLAG 0 // no dynamic loading at run-time
+#define ATS_PACKNAME "ATSLIB.libats.linheap_binomial"
+#define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
+#define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 (* ****** ****** *)
 
-staload
-UN = "prelude/SATS/unsafe.sats"
+staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -80,14 +81,16 @@ staload "libats/SATS/linheap_binomial.sats"
 // btree(a, n) is for a binomial tree of rank(n)
 //
 datavtype
-btree (
+btree
+(
   a:vt@ype+, int(*rank*)
 ) =
   | {n:nat}
     btnode (a, n) of (int (n), a, btreelst (a, n))
 // end of [btree]
 
-and btreelst (
+and btreelst
+(
   a:vt@ype+, int(*rank*)
 ) =
   | {n:nat}
@@ -98,7 +101,8 @@ and btreelst (
 (* ****** ****** *)
 
 datavtype
-bheap (
+bheap
+(
   a:vt@ype+, int(*rank*), int(*size*)
 ) =
   | {n:nat}
@@ -120,44 +124,61 @@ end // end of [btree_rank]
 
 (* ****** ****** *)
 
-local
-
 extern
-fun pow2 {n:nat}
+fun{
+} pow2 {n:nat}
   (n: int n):<> [p:int] (EXP2 (n, p) | size_t p)
 // end of [pow2]
 
-in // in of [local]
+implement{}
+pow2 {n} (n) = let
+  val res =
+    g0uint_lsl_size ((i2sz)1, n)
+  val [p:int] res = g1ofg0_uint (res)
+  prval pf = __assert () where
+  {
+    extern praxi __assert (): EXP2 (n, p)
+  } // end of [where] // end of [prval]
+in
+  (pf | res)
+end // end of [pow2]
+
+(* ****** ****** *)
 
 fun{
 a:vt0p
 } btree_size
-  {n:int} .<>. (
+  {n:int} .<>.
+(
   bt: !btree (a, n)
-) :<> [p:int] (
+) :<> [p:int]
+(
   EXP2 (n, p) | size_t (p)
 ) = let
   val btnode (n, _, _) = bt in pow2 (n)
 end // end of [btree_size]
 
-end // end of [local]
+(* ****** ****** *)
 
 fun{
 a:vt0p
 } bheap_size
-  {n:int}{sz:int} (
+  {n:int}{sz:int}
+(
   hp: !bheap (a, n, sz)
 ) : size_t (sz) = let
 in
-  case+ hp of
-  | bheap_cons
-      (pf | bt, hp) => let
-      val (pf2 | p) = btree_size (bt)
-      prval () = exp2_isfun (pf, pf2)
-    in
-      p + bheap_size (hp)
-    end // end of [bheap_cons]
-  | bheap_nil () => g1int2uint (0)
+//
+case+ hp of
+| bheap_cons
+    (pf | bt, hp) => let
+    val (pf2 | p) = btree_size<a> (bt)
+    prval () = exp2_isfun (pf, pf2)
+  in
+    p + bheap_size<a> (hp)
+  end // end of [bheap_cons]
+| bheap_nil ((*void*)) => g1int2uint (0)
+//
 end // end of [bheap_size]
 
 (* ****** ****** *)
@@ -167,12 +188,13 @@ a:t0p
 } btree_free
   {n:nat} .<n,1>.
   (bt: btree (a, n)) :<!wrt> void = let 
-  val ~btnode (_, _, bts) = bt in btreelst_free (bts)
+  val ~btnode (_, _, bts) = bt in btreelst_free<a> (bts)
 end // end of [btree_free]
 
 and
 btreelst_free
-  {n:nat} .<n,0>. (
+  {n:nat} .<n,0>.
+(
   bts: btreelst (a, n)
 ) :<!wrt> void = let
 in
@@ -180,7 +202,7 @@ in
 case+ bts of
 | ~btlst_cons
     (bt, bts) => let
-    val () = btree_free (bt) in btreelst_free (bts)
+    val () = btree_free<a> (bt) in btreelst_free<a> (bts)
   end // end of [btlst_cons]
 |  ~btlst_nil () => ()
 end // end of [btreelst_free]
@@ -200,13 +222,13 @@ in
   if sgn <= 0 then let
     prval () = fold@ (bt2)
     val () = n1 := n1 + 1
-    val () = bts1 := btlst_cons (bt2, bts1)
+    val () = bts1 := btlst_cons{a}(bt2, bts1)
   in
     fold@ (bt1); bt1
   end else let
     prval () = fold@ (bt1)
     val () = n2 := n2 + 1
-    val () = bts2 := btlst_cons (bt1, bts2)
+    val () = bts2 := btlst_cons{a}(bt1, bts2)
   in
     fold@ (bt2); bt2
   end // end of [if]
@@ -216,19 +238,22 @@ end // end of [btree_btree_merge]
 
 fun{a:vt0p}
 btree_bheap_merge
-  {n,n1:nat | n <= n1}{sz:nat}{p:int} .<sz>. (
+  {n:nat}
+  {n1:int | n <= n1}
+  {sz:nat}{p:int} .<sz>.
+(
   pf: EXP2 (n, p)
 | bt: btree (a, n), n: int (n), hp: bheap (a, n1, sz)
 ) :<!wrt> [n2:int | n2 >= min(n, n1)] bheap (a, n2, sz+p) =
   case+ hp of
   | ~bheap_nil () =>
-      bheap_cons (pf | bt, bheap_nil {a} {n+1} ())
+      bheap_cons{a}(pf | bt, bheap_nil {a} {n+1} ())
     // end of [bheap_nil]
   | @bheap_cons (pf1 | bt1, hp1) => let
       val n1 = btree_rank<a> (bt1)
     in
       if n < n1 then let
-        prval () = fold@ (hp) in bheap_cons {a} (pf | bt, hp)
+        prval () = fold@ (hp) in bheap_cons{a}(pf | bt, hp)
       end else if n > n1 then let
         val () = hp1 := btree_bheap_merge<a> (pf | bt, n, hp1)
         prval () = fold@ (hp) 
@@ -237,11 +262,11 @@ btree_bheap_merge
       end else let
         prval () = exp2_ispos (pf1)
         prval () = exp2_isfun (pf, pf1)
-        val bt = btree_btree_merge (bt, bt1)
+        val bt = btree_btree_merge<a> (bt, bt1)
         val hp1 = hp1
-        val () = free@ {a}{0}{0}{0}{1} (hp)
+        val () = free@{a}{0}{0}{0}{1}(hp)
       in
-        btree_bheap_merge (EXP2ind (pf) | bt, n+1, hp1)
+        btree_bheap_merge<a> (EXP2ind (pf) | bt, n+1, hp1)
       end // end of [if]
     end (* end of [bheap_cons] *)
 // end of [btree_bheap_merge]
@@ -272,24 +297,24 @@ case+ hp1 of
     in
       if n1 < n2 then let
         prval () = fold@ (hp2)
-        val () = hp11 := bheap_bheap_merge (hp11, hp2)
+        val () = hp11 := bheap_bheap_merge<a> (hp11, hp2)
         prval () = fold@ (hp1)
       in
         hp1
       end else if n1 > n2 then let
         prval () = fold@ (hp1)
-        val () = hp21 := bheap_bheap_merge (hp1, hp21)
+        val () = hp21 := bheap_bheap_merge<a> (hp1, hp21)
         prval () = fold@ (hp2)
       in
         hp2
       end else let
         prval () = exp2_isfun (pf1, pf2)
-        val bt12 = btree_btree_merge (bt1, bt2)
+        val bt12 = btree_btree_merge<a> (bt1, bt2)
         val hp11 = hp11 and hp21 = hp21
-        val () = free@ {a}{0}{0}{0}{1} (hp1)
-        val () = free@ {a}{0}{0}{0}{1} (hp2)
+        val () = free@{a}{0}{0}{0}{1}(hp1)
+        val () = free@{a}{0}{0}{0}{1}(hp2)
       in
-        btree_bheap_merge (EXP2ind (pf1) | bt12, n1+1, bheap_bheap_merge (hp11, hp21))
+        btree_bheap_merge<a> (EXP2ind (pf1) | bt12, n1+1, bheap_bheap_merge<a> (hp11, hp21))
       end // end of [if]
     end (* end of [bheap_cons] *)
   ) // end of [bheap_cons]
@@ -297,60 +322,63 @@ end // end of [bheap_bheap_merge]
 
 (* ****** ****** *)
 
-local
-
-staload _ = "prelude/DATS/unsafe.dats"
-
-in // in of [local]
-
 fun{a:vt0p}
 bheap_search_ref
-  {n:nat}{sz:pos} .<>. (
+  {n:nat}{sz:pos} .<>.
+(
   hp0: !bheap (a, n, sz)
+) :<> cPtr1(a) = let
+//
+fun search
+  {n:nat}{sz:nat} .<sz>.
+(
+  hp0: !bheap (a, n, sz), p_x0: Ptr1
 ) :<> Ptr1 = let
-//
-  fun search
-    {n:nat}{sz:nat} .<sz>. (
-    hp0: !bheap (a, n, sz), p_x0: Ptr1
-  ) :<> Ptr1 =
-    case+ hp0 of
-    | @bheap_cons
-        (pf | bt, hp) => let
-        prval () = exp2_ispos (pf)
-        val @btnode (_, x, _) = bt
-        prval (pfat, fpf) = __assert (p_x0) where {
-          extern praxi __assert
-            {l:addr} (p: ptr l): (a@l, a@l -<lin,prf> void)
-          // end of [extern]
-        } // end of [prval]
-        val sgn = compare_elt_elt<a> (!p_x0, x)
-        prval () = fpf (pfat)
-        val res = (
-          if sgn > 0 then search (hp, addr@(x)) else search (hp, p_x0)
-        ) : Ptr1 // end of [val]
-        prval () = fold@ (bt)
-        prval () = fold@ (hp0)
-      in
-        res
-      end // end of [bheap_cons]
-    | bheap_nil () => p_x0
-  (* end of [search] *)
-//
-  val+ @bheap_cons
-    (pf0 | bt0, hp1) = hp0
-  val+ @btnode (_, x0, _) = bt0
-  prval () = fold@ (bt0)
-  val res = search (hp1, addr@(x0))
-  prval () = fold@ (hp0)
 in
-  res
+//
+case+ hp0 of
+| @bheap_cons
+    (pf | bt, hp) => let
+    prval () = exp2_ispos (pf)
+    val @btnode (_, x, _) = bt
+    prval (pfat, fpf) = __assert (p_x0) where
+    {
+      extern praxi __assert
+        {l:addr} (p: ptr l): (a@l, a@l -<lin,prf> void)
+      // end of [extern]
+    } // end of [prval]
+    val sgn = compare_elt_elt<a> (!p_x0, x)
+    prval () = fpf (pfat)
+    val res =
+    (
+      if sgn > 0 then search (hp, addr@(x)) else search (hp, p_x0)
+    ) : Ptr1 // end of [val]
+    prval () = fold@ (bt)
+    prval () = fold@ (hp0)
+  in
+    res
+  end // end of [bheap_cons]
+| bheap_nil () => p_x0
+//
+end (* end of [search] *)
+//
+val+ @bheap_cons
+  (pf0 | bt0, hp1) = hp0
+val+ @btnode (_, x0, _) = bt0
+prval () = fold@ (bt0)
+val res = search (hp1, addr@(x0))
+prval () = fold@ (hp0)
+//
+in
+  $UN.ptr2cptr{a}(res)
 end // end of [bheap_search_ref]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
 bheap_remove
-  {n:nat}{sz:pos} .<>. (
+  {n:nat}{sz:pos} .<>.
+(
   hp0: &bheap (a, n, sz) >> bheap (a, n1, sz-p)
 ) :<!wrt> #[
   n1,n2,p:int | n1 >= n; n2 >= n; sz >= p
@@ -414,13 +442,14 @@ fun remove
   EXP2 (n2, p) | void
 ) = let
 //
-  prval () = __assert () where {
+  prval (
+  ) = __assert () where
+  {
     extern praxi __assert (): [sz > 0] void
   } // end of [prval]
 //
-  val+ @bheap_cons
-    (pf | bt, hp) = hp0
-  // end of [val]
+  val+ @bheap_cons (pf | bt, hp) = hp0
+//
   prval pf = pf
   prval () = exp2_ispos (pf)
 in
@@ -433,7 +462,7 @@ in
 end else let
   val () = btmin := bt
   val hp = hp
-  val () = free@ {a}{0}{0}{0}{1} (hp0)
+  val () = free@{a}{0}{0}{0}{1}(hp0)
   val () = hp0 := hp
 in
   (pf | ())
@@ -448,8 +477,6 @@ in
   (pf | btmin)
 end // end of [bheap_remove]
 
-end // end of [local]
-
 (* ****** ****** *)
 
 assume
@@ -461,6 +488,8 @@ heap_vtype
 
 implement{}
 linheap_nil {a} () = bheap_nil{a}{0}()
+implement{}
+linheap_make_nil {a} () = bheap_nil{a}{0}()
 
 (* ****** ****** *)
 
@@ -485,15 +514,15 @@ end // end of [linheap_is_cons]
 (* ****** ****** *)
 
 implement{a}
-linheap_size (hp) = bheap_size<a> (hp)
+linheap_size (hp) = $effmask_all (bheap_size<a> (hp))
 
 (* ****** ****** *)
 
 implement{a}
 linheap_insert
   (hp0, x0) = let
-  val bt = btnode (0, x0, btlst_nil ()) in
-  hp0 := btree_bheap_merge (EXP2bas () | bt, 0, hp0)
+  val bt = btnode{a}(0, x0, btlst_nil()) in
+  hp0 := btree_bheap_merge<a> (EXP2bas () | bt, 0, hp0)
 end // end of [linheap_insert]
 
 (* ****** ****** *)
@@ -510,19 +539,14 @@ in
 case+ hp0 of
 | bheap_cons
     (pf | _, _) => let
-    prval () = exp2_ispos (pf) in bheap_search_ref (hp0)
+    prval (
+    ) = exp2_ispos (pf) in bheap_search_ref<a> (hp0)
   end // end of [bheap_cons]
-| bheap_nil {a}{n} () => nullp
+| bheap_nil {a}{n} () => cptr_null{a}((*void*))
 //
 end // end of [linheap_getmin_ref]
 
 (* ****** ****** *)
-
-local
-
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
-
-in // in of [local]
 
 implement{a}
 linheap_delmin
@@ -538,34 +562,34 @@ case+ hp0 of
 | bheap_cons
     (pf0 | _, _) => let
     prval () = exp2_ispos (pf0)
-    val (_(*pf*) | btmin) = bheap_remove (hp0)
+    val (_(*pf*) | btmin) = bheap_remove<a> (hp0)
     val ~btnode (_, x, bts) = btmin
     val () = res := x
-    prval () = opt_some {a} (res)
+    prval () = opt_some{a}(res)
     val hp1 = hp1 where {
-      fun loop {n:nat}{sz:nat} .<n>. (
+      fun loop
+        {n:nat}{sz:nat} .<n>.
+      (
         bts: btreelst (a, n), hp: bheap (a, n, sz)
       ) :<> [sz:nat] bheap (a, 0, sz) =
         case+ bts of
         | ~btlst_cons (bt, bts) => let
-            prval pf = exp2_istot () in loop (bts, bheap_cons (pf | bt, hp))
+            prval pf = exp2_istot () in loop (bts, bheap_cons{a}(pf | bt, hp))
           end // end of [btlst_cons]
         | ~btlst_nil () => hp
       // end of [loop]
       val hp1 = loop (bts, bheap_nil)
     } // end of [val]
-    val () = hp0 := bheap_bheap_merge (hp0, hp1)
+    val () = hp0 := bheap_bheap_merge<a> (hp0, hp1)
   in
     true
   end // end of [bheap_cons]
 | bheap_nil () => let
-    prval () = opt_none {a} (res) in false
+    prval () = opt_none{a}(res) in false
   end // end of [bheap_nil]
 // end of [case]
 //
 end // end of [linheap_delmin]
-
-end // end of [local]
 
 (* ****** ****** *)
 
@@ -583,7 +607,7 @@ in
 case+ hp0 of
 | ~bheap_cons
     (_ | bt, hp) => let
-    val () = btree_free (bt) in linheap_free (hp)
+    val () = btree_free<a> (bt) in linheap_free (hp)
   end // end of [bheap]
 | ~bheap_nil () => ()
 //
@@ -600,16 +624,15 @@ in
 case+ hp0 of
 | bheap_cons
     (_ | _, _) => let
-    prval () = opt_some {hp} (hp0) in true
+    prval () = opt_some{hp}(hp0) in true
   end // end of [bheap_cons]
 | bheap_nil () => let
-    prval () =
-      __assert (hp0) where {
-      extern fun __assert
-        {n:int} (hp: !bheap (a, n, 0) >> ptr):<> void
-      // end of [extern]
+    prval () = __assert (hp0) where
+    {
+      extern
+      praxi __assert {n:int} (hp: !bheap (a, n, 0) >> ptr): void
     } // end of [prval]
-    prval () = opt_none {hp} (hp0) in false
+    prval () = opt_none{hp}(hp0) in false
   end // end of [bheap_nil]
 //
 end // end of [linheap_free_vt]

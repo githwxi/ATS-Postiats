@@ -35,7 +35,7 @@
 
 (* ****** ****** *)
 
-absvtype heap_vtype (a:vt@ype+)
+absvtype heap_vtype (a:vt@ype+) = ptr
 vtypedef heap (a:vt0p) = heap_vtype (a)
 
 (* ****** ****** *)
@@ -51,54 +51,56 @@ fun{} linheap_make_nil {a:vt0p} ():<> heap (a)
 (* ****** ****** *)
 
 fun{
-} linheap_is_nil {a:vt0p} (hp: !heap (a)):<> bool
+} linheap_is_nil{a:vt0p}(hp: !heap (INV(a))):<> bool
 fun{
-} linheap_isnot_nil {a:vt0p} (hp: !heap (a)):<> bool
+} linheap_isnot_nil{a:vt0p}(hp: !heap (INV(a))):<> bool
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-linheap_size (hp: !heap a): size_t
+linheap_size (hp: !heap (INV(a))):<> size_t
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-linheap_insert (hp: &heap (a) >> _, x: a): void
+linheap_insert (hp: &heap (INV(a)) >> _, x: a): void
 
 (* ****** ****** *)
 
 fun{a:t0p}
-linheap_getmin (
-  hp: !heap (a), res: &a? >> opt (a, b)
+linheap_getmin
+(
+  hp: !heap (INV(a)), res: &a? >> opt (a, b)
 ) : #[b:bool] bool b // endfun
 
 fun{a:vt0p}
-linheap_getmin_ref (hp: !heap (a)): Ptr0
+linheap_getmin_ref (hp: !heap (INV(a))): cPtr0 (a)
 
 fun{a:t0p}
-linheap_getmin_opt (hp: !heap (a)): Option_vt (a)
+linheap_getmin_opt (hp: !heap (INV(a))): Option_vt (a)
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-linheap_delmin (
-  hp: &heap (a) >> _, res: &a? >> opt (a, b)
+linheap_delmin
+(
+  hp: &heap (INV(a)) >> _, res: &a? >> opt (a, b)
 ) : #[b:bool] bool b // endfun
 
 fun{a:vt0p}
-linheap_delmin_opt (hp: &heap (a) >> _): Option_vt (a)
+linheap_delmin_opt (hp: &heap (INV(a)) >> _): Option_vt (a)
 
 (* ****** ****** *)
 
 fun{a:vt0p}
 linheap_merge
-  (hp1: heap (a), hp2: heap (a)): heap (a)
+  (hp1: heap (INV(a)), hp2: heap (a)): heap (a)
 // end of [linheap_merge]
 
 (* ****** ****** *)
 
 fun{a:t0p}
-linheap_free (hp: heap (a)):<!wrt> void
+linheap_free (hp: heap (INV(a))):<!wrt> void
 
 (* ****** ****** *)
 
@@ -106,7 +108,7 @@ fun{x:vt0p}
 linmap_freelin$clear
   (x: &x >> x?):<!wrt> void
 fun{a:vt0p}
-linheap_freelin (hp: heap (a)):<!wrt> void
+linheap_freelin (hp: heap (INV(a))):<!wrt> void
 
 (* ****** ****** *)
 //
@@ -114,7 +116,7 @@ linheap_freelin (hp: heap (a)):<!wrt> void
 //
 fun{a:vt0p}
 linheap_free_ifnil
-  (hp: !heap (a) >> opt (heap (a), b)) :<> #[b:bool] bool(b)
+  (hp: !heap (INV(a)) >> opt (heap (a), b)) :<> #[b:bool] bool(b)
 // end of [linheap_free_ifnil]
 
 (* ****** ****** *)

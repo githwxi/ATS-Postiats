@@ -34,22 +34,28 @@
 (* ****** ****** *)
 
 implement{a}
+compare_elt_elt
+  (x1, x2) = gcompare_ref<a> (x1, x2)
+// end of [compare_elt_elt]
+
+(* ****** ****** *)
+
+implement{a}
 linheap_getmin
   (hp0, res) = let
-  val p_min = linheap_getmin_ref (hp0)
+  val cp = linheap_getmin_ref (hp0)
 in
 //
-if p_min > nullp then let
-  prval (pf, fpf) = __assert (p_min) where {
-    extern praxi __assert
-      {l:addr} (p: ptr l): (a @ l, a @ l -<lin,prf> void)
-    // end of [extern]
-  } // end of [prval]
-  val () = res := !p_min
+if isneqz(cp) then let
+  prval
+  (
+    pf, fpf | p
+  ) = $UN.cptr_vtake{a}(cp)
+  val () = res := !p
   prval () = fpf (pf)
-  prval () = opt_some {a} (res) in true
+  prval () = opt_some{a}(res) in true
 end else let
-  prval () = opt_none {a} (res) in false
+  prval () = opt_none{a}(res) in false
 end // end of [if]
 //
 end // end of [linheap_getmin]
@@ -59,18 +65,39 @@ end // end of [linheap_getmin]
 implement{a}
 linheap_getmin_opt
   (hp0) = let
-  var res: a? // unintialized
-  val b = linheap_getmin (hp0, res)
+//
+var res: a? // unintialized
+val ans = linheap_getmin (hp0, res)
+//
 in
 //
-if b then let
-  prval () = opt_unsome {a} (res) in Some_vt (res)
+if ans then let
+  prval () = opt_unsome{a}(res) in Some_vt{a}(res)
 end else let
-  prval () = opt_unnone {a} (res) in None_vt ()
+  prval () = opt_unnone{a}(res) in None_vt{a}((*void*))
 end // end of [if]
 //
 end // end of [linheap_getmin_opt]
 
 (* ****** ****** *)
 
-(* end of [linheap.dats] *)
+implement{a}
+linheap_delmin_opt
+  (hp0) = let
+//
+var res: a? // unintialized
+val ans = linheap_delmin (hp0, res)
+//
+in
+//
+if ans then let
+  prval () = opt_unsome{a}(res) in Some_vt{a}(res)
+end else let
+  prval () = opt_unnone{a}(res) in None_vt{a}((*void*))
+end // end of [if]
+//
+end // end of [linheap_delmin_opt]
+
+(* ****** ****** *)
+
+(* end of [linheap.hats] *)
