@@ -341,14 +341,10 @@ case+ hp0 of
     (pf | bt, hp) => let
     prval () = exp2_ispos (pf)
     val @btnode (_, x, _) = bt
-    prval (pfat, fpf) = __assert (p_x0) where
-    {
-      extern praxi __assert
-        {l:addr} (p: ptr l): (a@l, a@l -<lin,prf> void)
-      // end of [extern]
-    } // end of [prval]
+    prval
+      (pf, fpf) = $UN.ptr_vtake{a}(p_x0)
     val sgn = compare_elt_elt<a> (!p_x0, x)
-    prval () = fpf (pfat)
+    prval () = fpf (pf)
     val res =
     (
       if sgn > 0 then search (hp, addr@(x)) else search (hp, p_x0)
@@ -540,9 +536,11 @@ case+ hp0 of
 | bheap_cons
     (pf | _, _) => let
     prval (
-    ) = exp2_ispos (pf) in bheap_search_ref<a> (hp0)
+    ) = exp2_ispos (pf)
+  in
+    bheap_search_ref<a> (hp0)
   end // end of [bheap_cons]
-| bheap_nil {a}{n} () => cptr_null{a}((*void*))
+| bheap_nil ((*void*)) => cptr_null{a}((*void*))
 //
 end // end of [linheap_getmin_ref]
 

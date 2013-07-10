@@ -43,11 +43,13 @@ compare_elt_elt
 implement{a}
 linheap_getmin
   (hp0, res) = let
-  val cp = linheap_getmin_ref (hp0)
+//
+val cp = linheap_getmin_ref (hp0)
+//
 in
 //
 if isneqz(cp) then let
-  prval
+  val
   (
     pf, fpf | p
   ) = $UN.cptr_vtake{a}(cp)
@@ -68,7 +70,9 @@ linheap_getmin_opt
 //
 var res: a? // unintialized
 val ans = linheap_getmin (hp0, res)
-//
+(*
+val () = println! ("linheap_getmin_opt: ans = ", ans)
+*)
 in
 //
 if ans then let

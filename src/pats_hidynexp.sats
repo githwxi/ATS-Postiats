@@ -151,7 +151,8 @@ fun hipat_make_node
 fun hipat_any (loc: location, hse: hisexp): hipat
 fun hipat_var (loc: location, hse: hisexp, d2v: d2var): hipat
 
-fun hipat_con (
+fun hipat_con
+(
   loc: location
 , hse: hisexp, pck: pckind
 , d2c: d2con, hse_sum: hisexp, lhips: labhipatlst
