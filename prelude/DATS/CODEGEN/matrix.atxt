@@ -110,7 +110,7 @@ end // end of [matrix_ptr_tabulate]
 implement{}
 fprint_matrix$sep1 (out) = fprint_string (out, ", ")
 implement{}
-fprint_matrix$sep2 (out) = fprint_string (out, "\n")
+fprint_matrix$sep2 (out) = fprint_string (out, "; ")
 
 implement{a}
 fprint_matrix

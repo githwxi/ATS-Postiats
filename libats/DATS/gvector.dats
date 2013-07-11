@@ -183,18 +183,42 @@ end // end of [gvector_foreach2_env]
 
 implement{a}
 multo_scalar_gvector
-  (alpha, V, n, d) = let
+  (k, V, n, d) = let
 //
 implement(a,env)
 gvector_foreach$cont<a><env> (x, env) = true
 implement(env)
-gvector_foreach$fwork<a><env> (x, env) = x := gmul_val<a> (alpha, x)
+gvector_foreach$fwork<a><env> (x, env) = x := gmul_val<a> (k, x)
 //
 val _(*n*) = gvector_foreach (V, n, d)
 //
 in
   // nothing
 end // end of [multo_scalar_gvector]
+
+(* ****** ****** *)
+
+implement{a}
+multo_scalar_gvector_gvector
+  {n}{d1,d2}(k, V1, V2, n, d1, d2) = let
+//
+prval (
+) = __initize (V2) where
+{
+extern praxi
+__initize (&gvector (a?, n, d2) >> gvector (a, n, d2)): void
+} (* end of [where] *) // end of [prval]
+//
+implement(a,env)
+gvector_foreach2$cont<a,a><env> (x, y, env) = true
+implement(env)
+gvector_foreach2$fwork<a,a><env> (x, y, env) = y := gmul_val<a> (k, x)
+//
+val _(*n*) = gvector_foreach2 (V1, V2, n, d1, d2)
+//
+in
+  // nothing
+end // end of [multo_scalar_gvector_gvector]
 
 (* ****** ****** *)
 

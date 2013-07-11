@@ -179,9 +179,7 @@ end // end of [array_ptr_tabulate]
 #atscode_separator()
 
 implement{}
-fprint_array$sep
-  (out) = fprint_string (out, "; ")
-// end of [fprint_array$sep]
+fprint_array$sep (out) = fprint_string (out, ", ")
 
 implement{a}
 fprint_array
