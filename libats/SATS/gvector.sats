@@ -94,7 +94,6 @@ array2gvector
   {a:t0p}{l:addr}{n:int}
   (A: &array (INV(a), n) >> GV (a, n, 1)): void
 // end [array2gvector]
-
 praxi
 array2gvector_v
   {a:t0p}{l:addr}{n:int}

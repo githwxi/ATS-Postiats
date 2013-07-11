@@ -170,6 +170,31 @@ gmatrow_v_uncons
 //
 (* ****** ****** *)
 
+praxi
+matrix2gmatrix
+  {a:t0p}{l:addr}{m,n:int}
+  (A: &matrix (INV(a), m, n) >> GMR (a, m, n, n)): void
+praxi
+matrix2gmatrix_v
+  {a:t0p}{l:addr}{m,n:int}
+  (pf: matrix_v (INV(a), l, m, n)):<prf> GMR (a, l, m, n, n)
+// end [matrix2gmatrix_v]
+
+(* ****** ****** *)
+
+praxi
+gmatrix2matrix
+  {a:t0p}{l:addr}{m,n:int}
+  (V: &GMR (INV(a), m, n, n) >> matrix (a, m, n)): void
+// end [gmatrix2matrix]
+praxi
+gmatrix2matrix_v
+  {a:t0p}{l:addr}{m,n:int}
+  (pf: GMR (INV(a), l, m, n, n)):<prf> matrix_v (a, l, m, n)
+// end [gmatrix2matrix_v]
+
+(* ****** ****** *)
+
 fun{a:t0p}
 gmatcol_getref_at
   {m,n:int}{ld:int}
