@@ -96,16 +96,23 @@ gmatcol_v_unnil
   {a:t0p}{l:addr}{m:int}{ld:int} (GMC (a, l, m, 0, ld)): void
 praxi
 gmatcol_v_unnil_nil
-  {a1,a2:t0p}{l:addr}{m:int}{ld:int} (GMC (a1, l, m, 0, ld)): GMC (a2, l, m, 0, ld)
+  {a1,a2:t0p}
+  {l:addr}{m:int}{ld:int} (GMC (a1, l, m, 0, ld)): GMC (a2, l, m, 0, ld)
 //
 praxi
 gmatcol_v_cons
-  {a:t0p}{l:addr}{m,n:int}{ld:int}
-  (array_v (a, l, m), GMC (INV(a), l+ld*sizeof(a), m, n, ld)): GMC (a, l, m, n+1, ld)
+  {a:t0p}{l:addr}
+  {m,n:int}{ld:int}
+(
+  array_v (a, l, m)
+, GMC (INV(a), l+ld*sizeof(a), m, n, ld)
+) : GMC (a, l, m, n+1, ld) // end of [gmatcol_v_cons]
 praxi
 gmatcol_v_uncons
-  {a:t0p}{l:addr}{m,n:int | n > 0}{ld:int}
-  (GMC (INV(a), l, m, n, ld)): (array_v (a, l, m), GMC (a, l+ld*sizeof(a), m, n-1, ld))
+  {a:t0p}{l:addr}
+  {m,n:int | n > 0}{ld:int}
+  (GMC (INV(a), l, m, n, ld))
+: (array_v (a, l, m), GMC (a, l+ld*sizeof(a), m, n-1, ld))
 //
 (* ****** ****** *)
 //
@@ -133,12 +140,42 @@ lemma_gmatrow_v_param
   (pf: !GMR (INV(a), l, m, n, ld)): [m >= 0; n >= 1; ld >= n] void
 
 (* ****** ****** *)
+//
+praxi
+gmatrow_v_nil
+  {a:t0p}{l:addr}
+  {m:nat;n:pos}{ld:int | ld >= n} (): GMR (a, l, m, n, ld)
+praxi
+gmatrow_v_unnil
+  {a:t0p}{l:addr}{n:int}{ld:int} (GMR (a, l, 0, n, ld)): void
+praxi
+gmatrow_v_unnil_nil
+  {a1,a2:t0p}
+  {l:addr}{n:int}{ld:int} (GMR (a1, l, 0, n, ld)): GMR (a2, l, 0, n, ld)
+//
+praxi
+gmatrow_v_cons
+  {a:t0p}{l:addr}
+  {m,n:int}{ld:int}
+(
+  array_v (a, l, n)
+, GMR (INV(a), l+ld*sizeof(a), m, n, ld)
+) : GMR (a, l, m+1, n, ld) // end of [gmatrow_v_cons]
+praxi
+gmatrow_v_uncons
+  {a:t0p}{l:addr}
+  {m,n:int | m > 0}{ld:int}
+  (GMR (INV(a), l, m, n, ld))
+: (array_v (a, l, n), GMR (a, l+ld*sizeof(a), m-1, n, ld))
+//
+(* ****** ****** *)
 
 fun{a:t0p}
 gmatcol_getref_at
   {m,n:int}{ld:int}
-  (M: &GMC (INV(a), m, n, ld), m: int(m), i: natLt(m), j:natLt(n)): cPtr1(a)
-// end of [gmatcol_getref_at]
+(
+  M: &GMC (INV(a), m, n, ld), m: int(m), i: natLt(m), j:natLt(n)
+) : cPtr1(a) // end of [gmatcol_getref_at]
 
 fun{a:t0p}
 gmatrow_getref_at
