@@ -32,6 +32,10 @@
 (* Start time: July, 2013 *)
 
 (* ****** ****** *)
+
+staload "libats/SATS/gvector.sats"
+
+(* ****** ****** *)
 //
 datasort mord =
   | mrow (* row major *)
@@ -47,13 +51,71 @@ datatype MORD (mord) =
 //
 abst@ype
 gmatrix_t0ype
-  (a:t@ype+, mo:mord, m:int, n:int, ld:int)
+  (a:t@ype+, mo:mord, m:int, n:int, ld:int) (* irregular *)
 //
 typedef gmatrix
   (a:t@ype, mo:mord, m:int, n:int, ld:int) = gmatrix_t0ype (a, mo, m, n, ld)
+viewdef gmatrix_v
+  (a:t0p, mo:mord, l:addr, m:int, n:int, ld:int) = gmatrix_t0ype (a, mo, m, n, ld) @ l
 //
-stadef GM = gmatrix
+stadef GMX = gmatrix
+stadef GMX_v = gmatrix_v
 //
+(* ****** ****** *)
+
+praxi
+lemma_gmatrow_param
+  {a:t0p}{m,n:int}{ld:int}
+  (M: &gmatrow (a, m, n, ld)): [m >= 0; n >= 1; ld >= n] void
+praxi
+lemma_gmatrow_v_param
+  {a:t0p}{l:addr}{m,n:int}{ld:int}
+  (pf: !gmatrow_v (a, l, m, n, ld)): [m >= 0; n >= 1; ld >= n] void
+
+(* ****** ****** *)
+//
+typedef gmatrow
+  (a:t@ype, m:int, n:int, ld:int) = gmatrix_t0ype (a, mrow, m, n, ld)
+viewdef gmatrow_v
+  (a:t@ype, l:addr, m:int, n:int, ld:int) = gmatrix_t0ype (a, mrow, m, n, ld) @ l
+//
+stadef GMR = gmatrow
+stadef GMR_v = gmatrow_v
+//
+typedef gmatcol
+  (a:t@ype, m:int, n:int, ld:int) = gmatrix_t0ype (a, mcol, m, n, ld)
+viewdef gmatcol_v
+  (a:t@ype, l:addr, m:int, n:int, ld:int) = gmatrix_t0ype (a, mcol, m, n, ld) @ l
+//
+stadef GMC = gmatcol
+stadef GMC_v = gmatcol_v
+//
+(* ****** ****** *)
+
+praxi
+lemma_gmatcol_param
+  {a:t0p}{m,n:int}{ld:int}
+  (M: &gmatcol (a, m, n, ld)): [m >= 1; n >= 0; ld >= m] void
+praxi
+lemma_gmatcol_v_param
+  {a:t0p}{l:addr}{m,n:int}{ld:int}
+  (pf: !gmatcol_v (a, l, m, n, ld)): [m >= 1; n >= 0; ld >= m] void
+
+(* ****** ****** *)
+//
+// BB: outer product
+// BB: tensor product
+//
+//
+fun{a:t0p}
+multo_gvector_gvector_gmatrow
+  {m,n:int}{d1,d2:int}{ld3:int}
+(
+  V1: &GV (INV(a), m, d1), V2: &GV (a , n, d2)
+, M3: &GMR (a?, m, n, ld3) >> GMR (a, m, n, ld3)
+, m: int(m), n: int(n), d1: int(d1), d2: int(d2), ld3: int(ld3)
+) : void (* end of [mulo_gvector_gvector_gmatrow] *)
+
 (* ****** ****** *)
 
 fun{
@@ -61,33 +123,33 @@ a:t0p
 } multo_gmatrix_gmatrix_gmatrix
   {mo:mord}{p,q,r:int}{lda,ldb,ldc:int}
 (
-  A: &GM (INV(a), mo, p, q, lda)
-, B: &GM (    a , mo, q, r, ldb)
-, C: &GM (a?, mo, p, r, ldc) >> GM (a, mo, p, r, ldc)
+  A: &GMX (INV(a), mo, p, q, lda)
+, B: &GMX (    a , mo, q, r, ldb)
+, C: &GMX (    a?, mo, p, r, ldc) >> GMX (a, mo, p, r, ldc)
 , MORD (mo), int p, int q, int r, int lda, int ldb, int ldc
 ) : void // end of [multo_gmatrix_gmatrix_gmatrix]
 
 fun{
 a:t0p
-} multo_gmatrix_gmatrix_gmatrix_row
+} multo_gmatrow_gmatrow_gmatrow
   {p,q,r:int}{lda,ldb,ldc:int}
 (
-  A: &GM (INV(a), mrow, p, q, lda)
-, B: &GM (    a , mrow, q, r, ldb)
-, C: &GM (a?, mrow, p, r, ldc) >> GM (a, mrow, p, r, ldc)
+  A: &GMR (INV(a), p, q, lda)
+, B: &GMR (    a , q, r, ldb)
+, C: &GMR (a?, p, r, ldc) >> GMR (a, p, r, ldc)
 , int p, int q, int r, int lda, int ldb, int ldc
-) : void // end of [multo_gmatrix_gmatrix_gmatrix_row]
+) : void // end of [multo_gmatrow_gmatrow_gmatrow]
 
 fun{
 a:t0p
-} multo_gmatrix_gmatrix_gmatrix_col
+} multo_gmatcol_gmatcol_gmatcol
   {p,q,r:int}{lda,ldb,ldc:int}
 (
-  A: &GM (INV(a), mcol, p, q, lda)
-, B: &GM (    a , mcol, q, r, ldb)
-, C: &GM (a?, mcol, p, r, ldc) >> GM (a, mcol, p, r, ldc)
+  A: &GMC (INV(a), p, q, lda)
+, B: &GMC (    a , q, r, ldb)
+, C: &GMC (a?, p, r, ldc) >> GMC (a, p, r, ldc)
 , int p, int q, int r, int lda, int ldb, int ldc
-) : void // end of [multo_gmatrix_gmatrix_gmatrix_col]
+) : void // end of [multo_gmatcol_gmatcol_gmatcol]
 
 (* ****** ****** *)
 

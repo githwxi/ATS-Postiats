@@ -1,0 +1,50 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../gvector.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_gvector")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/gvector\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package contains various functions for manipulating generic vectors,
+that is, one-dimensional arrays.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("gvector")
+#declnamesynop("gvector_t0ype")
+
+(* ****** ****** *)
+
+#declnamesynop("gvector_v")
+
+(* ****** ****** *)
+
+#declnamesynop("GV")
+#declnamesynop("GV_v")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_gvector_param")
+#declnamesynop("lemma_gvector_v_param")
+
+(* ****** ****** *)
+
+(* end of [gvector.atxt] *)

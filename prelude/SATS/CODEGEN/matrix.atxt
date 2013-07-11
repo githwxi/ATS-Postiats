@@ -285,14 +285,15 @@ a:vt0p}{env:vt0p
 fun{
 a:vt0p}{env:vt0p
 } matrix_foreachrow$fwork{n:int}
-  (x: &array (a, n) >> _, n: size_t n, env: &(env) >> _): void
-// end of [matrix_foreachrow$fwork]
+(
+  row: &array (INV(a), n) >> _, n: size_t n, env: &(env) >> _
+) : void // end of [matrix_foreachrow$fwork]
 
 fun{
 a:vt0p
 } matrix_foreachrow{m,n:int}
 (
-  A: &matrix(INV(a), m, n) >> _, m: size_t m, n: size_t n
+  A: &matrix(INV(a), m, n) >> _, m: size_t (m), n: size_t (n)
 ) : void // end of [matrix_foreachrow]
 fun{
 a:vt0p}{env:vt0p

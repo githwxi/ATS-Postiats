@@ -1,0 +1,68 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../gmatrix.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_gmatrix")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/gmatrix\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package contains various functions for manipulating generic matrices,
+that is, two-dimensional arrays.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("mord")
+#declnamesynop("MORD")
+
+(* ****** ****** *)
+
+#declnamesynop("gmatrix")
+#declnamesynop("gmatrix_t0ype")
+#declnamesynop("gmatrix_v")
+#declnamesynop("GMX")
+#declnamesynop("GMX_v")
+
+(* ****** ****** *)
+
+#declnamesynop("gmatrow")
+#declnamesynop("gmatrow_v")
+#declnamesynop("GMR")
+#declnamesynop("GMR_v")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_gmatrow_param")
+#declnamesynop("lemma_gmatrow_v_param")
+
+(* ****** ****** *)
+
+#declnamesynop("gmatcol")
+#declnamesynop("gmatcol_v")
+#declnamesynop("GMC")
+#declnamesynop("GMC_v")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_gmatcol_param")
+#declnamesynop("lemma_gmatcol_v_param")
+
+(* ****** ****** *)
+
+(* end of [gmatrix.atxt] *)

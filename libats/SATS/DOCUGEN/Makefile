@@ -63,6 +63,14 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ;   $(ATSDOC) --outcode $@ -i $< > htmlg
 
 all_html::
 
+all_html:: HTML/gnode.html
+HTML/gnode.html:   gnode_atxt.exe ; ./$< > $@
+gnode_atxt.txt: gnode.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+gnode_atxt.exe: htmlgendecl_atxt.dats   gnode_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_gnode:: ;   scp HTML/gnode.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) gnode_atxt.exe
+cleanall:: ; $(RMF) HTML/gnode.html
+
 all_html:: HTML/qlist.html
 HTML/qlist.html:   qlist_atxt.exe ; ./$< > $@
 qlist_atxt.txt: qlist.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
@@ -127,13 +135,23 @@ upload_gfarray:: ;   scp HTML/gfarray.html ats-hwxi,ats-lang@web.sourceforge.net
 clean:: ; $(RMF) gfarray_atxt.exe
 cleanall:: ; $(RMF) HTML/gfarray.html
 
-all_html:: HTML/gnode.html
-HTML/gnode.html:   gnode_atxt.exe ; ./$< > $@
-gnode_atxt.txt: gnode.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
-gnode_atxt.exe: htmlgendecl_atxt.dats   gnode_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
-upload_gnode:: ;   scp HTML/gnode.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
-clean:: ; $(RMF) gnode_atxt.exe
-cleanall:: ; $(RMF) HTML/gnode.html
+
+all_html:: HTML/gvector.html
+HTML/gvector.html:   gvector_atxt.exe ; ./$< > $@
+gvector_atxt.txt: gvector.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+gvector_atxt.exe: htmlgendecl_atxt.dats   gvector_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_gvector:: ;   scp HTML/gvector.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) gvector_atxt.exe
+cleanall:: ; $(RMF) HTML/gvector.html
+
+all_html:: HTML/gmatrix.html
+HTML/gmatrix.html:   gmatrix_atxt.exe ; ./$< > $@
+gmatrix_atxt.txt: gmatrix.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+gmatrix_atxt.exe: htmlgendecl_atxt.dats   gmatrix_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_gmatrix:: ;   scp HTML/gmatrix.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) gmatrix_atxt.exe
+cleanall:: ; $(RMF) HTML/gmatrix.html
+
 
 all_html:: HTML/funmap_list.html
 HTML/funmap_list.html:   funmap_list_atxt.exe ; ./$< > $@

@@ -106,6 +106,7 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ; \
 
 all_html::
 
+#make_entry("gnode")
 #make_entry("qlist")
 #make_entry("sllist")
 #make_entry("dllist")
@@ -114,7 +115,10 @@ all_html::
 #make_entry("gflist")
 #make_entry("gflist_vt")
 #make_entry("gfarray")
-#make_entry("gnode")
+
+#make_entry("gvector")
+#make_entry("gmatrix")
+
 #make_entry("funmap_list")
 #make_entry("funmap_avltree")
 #make_entry("funset_avltree")
