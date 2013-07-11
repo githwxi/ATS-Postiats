@@ -30,13 +30,7 @@ that is, one-dimensional arrays.
 
 #declnamesynop("gvector")
 #declnamesynop("gvector_t0ype")
-
-(* ****** ****** *)
-
 #declnamesynop("gvector_v")
-
-(* ****** ****** *)
-
 #declnamesynop("GV")
 #declnamesynop("GV_v")
 
@@ -44,6 +38,15 @@ that is, one-dimensional arrays.
 
 #declnamesynop("lemma_gvector_param")
 #declnamesynop("lemma_gvector_v_param")
+
+(* ****** ****** *)
+
+#declnamesynop("multo_scalar_gvector")
+#declnamesynop("multo_scalar_gvector_gvector")
+
+(* ****** ****** *)
+
+#declnamesynop("mul_gvector_gvector_scalar")
 
 (* ****** ****** *)
 

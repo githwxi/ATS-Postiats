@@ -33,39 +33,39 @@
 
 (* ****** ****** *)
 
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "libats/SATS/gvector.sats"
 staload "libats/SATS/gmatrix.sats"
 
 (* ****** ****** *)
 
-(*
 implement{a}
-gmatrix_foreach (A, m, n) = let
-  var env: void = () in gmatrix_foreach_env<a><void> (A, m, n, env)
-end // end of [gmatrix_foreach]
-
-implement
-{a}{env}
-gmatrix_foreach_env
-  (A, m, n, env) = let
+gmatcol_getref_col_at
+  {m,n}{ld}(M, m, j) = let
 //
-implement
-array_foreach$cont<a><env> (x, env) = true
-implement
-array_foreach$fwork<a><env> (x, env) = gmatrix_foreach$fwork<a><env> (x, env)
-//
-val p = addr@(A)
-prval pf = gmatrix2array_v (view@(A))
-val _(*mn*) = array_foreach_env<a> (!p, m*n, env)
-prval () = view@(A) := array2gmatrix_v (pf)
+val pcol = $UN.cast2Ptr1(ptr_add<a> (addr@(M), j * m))
 //
 in
-  // nothing
-end // end of [gmatrix_foreach_env]
-*)
+  $UN.ptr2cptr{array(a,m)}(pcol)
+end // end of [gmatcol_getref_col_at]
+
+implement{a}
+gmatrow_getref_row_at
+  {m,n}{ld}(M, n, i) = let
+//
+val prow = $UN.cast2Ptr1(ptr_add<a> (addr@(M), i * n))
+//
+in
+  $UN.ptr2cptr{array(a,n)}(prow)
+end // end of [gmatrow_getref_row_at]
 
 (* ****** ****** *)
 
+(*
 implement{a}
 multo_gmatrix_gmatrix_gmatrix
 (
@@ -73,10 +73,11 @@ multo_gmatrix_gmatrix_gmatrix
 ) = (
 case+ mord of
 | MORDrow () =>
-    multo_gmatrix_gmatrix_gmatrix_row (A, B, C, p, q, r, lda, ldb, ldc)
+    multo_gmatrow_gmatrow_gmatrow (A, B, C, p, q, r, lda, ldb, ldc)
 | MORDcol () =>
-    multo_gmatrix_gmatrix_gmatrix_col (A, B, C, p, q, r, lda, ldb, ldc)
+    multo_gmatcol_gmatcol_gmatcol (A, B, C, p, q, r, lda, ldb, ldc)
 ) (* end of [multo_gmatrix_gmatrix_gmatrix] *)
+*)
 
 (* ****** ****** *)
 

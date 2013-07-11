@@ -65,4 +65,19 @@ that is, two-dimensional arrays.
 
 (* ****** ****** *)
 
+#declnamesynop("multo_gmatcol_gvector_gvector")
+#declnamesynop("multo_gmatrow_gvector_gvector")
+
+(* ****** ****** *)
+
+#declnamesynop("multo_gmatcol_gmatcol_gmatcol")
+#declnamesynop("multo_gmatrow_gmatrow_gmatrow")
+
+(* ****** ****** *)
+
+#declnamesynop("tmulto_gvector_gvector_gmatcol")
+#declnamesynop("tmulto_gvector_gvector_gmatrow")
+
+(* ****** ****** *)
+
 (* end of [gmatrix.atxt] *)

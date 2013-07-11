@@ -147,7 +147,7 @@ fun{a:t0p}
 multo_scalar_gvector
   {n:int}{d:int}
 (
-  alpha: a
+  k: a
 , V: &GV (INV(a), n, d) >> _
 , n: int(n), d: int(d)
 ) : void // end of [multo_scalar_gvector]
@@ -156,7 +156,7 @@ fun{a:t0p}
 multo_scalar_gvector_gvector
   {n:int}{d,d2:int}
 (
-  alpha: a
+  k: a
 , V1: &GV (INV(a), n, d)
 , V2: &GV (    a?, n, d2) >> GV (a, n, d2)
 , n: int(n), d: int(d)
@@ -168,13 +168,13 @@ multo_scalar_gvector_gvector
 // HX: inner product
 //
 fun{a:t0p}
-mul_gvector_gvector
+mul_gvector_gvector_scalar
   {n:int}{d1,d2:int}
 (
   V1: &gvector (INV(a), n, d1)
 , V2: &gvector (    a , n, d2)
 , n: int(n), d1: int(d1), d2: int(d2)
-) : (a) (* end of [mul_gvector_gvector] *)
+) : (a) (* end of [mul_gvector_gvector_scalar] *)
 
 (* ****** ****** *)
 

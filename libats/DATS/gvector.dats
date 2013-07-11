@@ -199,7 +199,7 @@ end // end of [multo_scalar_gvector]
 (* ****** ****** *)
 
 implement{a}
-mul_gvector_gvector
+mul_gvector_gvector_scalar
   (V1, V2, n, d1, d2) = let
 //
 typedef tenv = a
@@ -213,7 +213,7 @@ val _(*n*) = gvector_foreach2_env<a,a><tenv> (V1, V2, n, d1, d2, env)
 //
 in
   env
-end // end of [mul_gvector_gvector]
+end // end of [mul_gvector_gvector_scalar]
 
 (* ****** ****** *)
 
