@@ -57,7 +57,7 @@ pfA = arrayptr_takeout{T}(A)
 prval
 pfB = arrayptr_takeout{T}(B)
 //
-val (pfM, pfMgc | pM) = matrix_ptr_alloc<T> (asz, asz)
+val (pfM, pfgcM | pM) = matrix_ptr_alloc<T> (asz, asz)
 //
 prval pfA = array2gvector_v (pfA)
 prval pfB = array2gvector_v (pfB)
@@ -82,7 +82,7 @@ val () = fprint_newline (out)
 prval () = arrayptr_addback (pfA | A)
 prval () = arrayptr_addback (pfB | B)
 //
-val () = matrix_ptr_free (pfM, pfMgc | pM)
+val () = matrix_ptr_free (pfM, pfgcM | pM)
 val () = arrayptr_free (A) and () = arrayptr_free (B)
 //
 } (* end of [val] *)

@@ -55,21 +55,25 @@ stadef GV = gvector
 stadef GV = gvector_v
 
 (* ****** ****** *)
-
+//
 praxi
 gvector_v_nil
   {a:t0p}{l:addr}{d:int | d > 0} (): GV (a, l, 0, d)
+praxi
+gvector_v_unnil
+  {a:t0p}{l:addr}{n:int}{d:int} (pf: GV (a, l, 0, d)): void
+praxi
+gvector_v_unnil_nil
+  {a1,a2:t0p}
+  {l:addr}{n:int}{d:int} (pf: GV (a1, l, 0, d)): GV (a2, l, 0, d)
+//
+(* ****** ****** *)
+
 praxi
 gvector_v_cons
   {a:t0p}{l:addr}{n:int}{d:int}
   (a @ l, GV (INV(a), l+d*sizeof(a), n, d)): GV (a, l, n+1, d)
 // end of [gvector_v_cons]
-
-(* ****** ****** *)
-
-praxi
-gvector_v_unnil
-  {a:t0p}{l:addr}{n:int}{d:int} (pf: GV (a, l, 0, d)): void
 praxi
 gvector_v_uncons
   {a:t0p}{l:addr}{n:int | n > 0}{d:int}

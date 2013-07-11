@@ -72,13 +72,13 @@ that is, two-dimensional arrays.
 
 #declnamesynop("gmatrow_v_nil")
 #declnamesynop("gmatrow_v_unnil")
-#declnamesynop("gmatrow_v_unnil_v_nil")
+#declnamesynop("gmatrow_v_unnil_nil")
 #declnamesynop("gmatrow_v_cons")
 #declnamesynop("gmatrow_v_uncons")
 
 (* ****** ****** *)
 
-#declnamesynop("multo_gmatcol_gvector_gvector")
+#declnamesynop("multo_gvector_gmatcol_gvector")
 #declnamesynop("multo_gmatrow_gvector_gvector")
 
 (* ****** ****** *)

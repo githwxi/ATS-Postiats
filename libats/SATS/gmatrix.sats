@@ -229,24 +229,26 @@ gmatrow_getref_row_at
 
 fun{
 a:t0p
-} multo_gmatcol_gvector_gvector
-  {m,n:int}{lda:int}{db,dc:int}
+} multo_gvector_gmatcol_gvector
+  {m,n:int}{d1,ld2,d3:int}
 (
-  A: &GMR (INV(a), m, n, lda)
-, B: &GV (a, n, db)
-, C: &GV (a?, m, dc) >> GV (a, m, dc)
-, int(m), int(n), int(lda), int(db), int(dc)
-) : void // end of [multo_gmatcol_gvector_gvector]
+  V1: &GV (a, m, d1)
+, M2: &GMC (INV(a), m, n, ld2)
+, V3: &GV (a?, n, d3) >> GV (a, n, d3)
+, int(m), int(n), int(d1), int(ld2), int(d3)
+) : void // end of [multo_gvector_gmatcol_gvector]
+
+(* ****** ****** *)
 
 fun{
 a:t0p
 } multo_gmatrow_gvector_gvector
-  {m,n:int}{lda:int}{db,dc:int}
+  {m,n:int}{ld1,d2,d3:int}
 (
-  A: &GMR (INV(a), m, n, lda)
-, B: &GV (a, n, db)
-, C: &GV (a?, m, dc) >> GV (a, m, dc)
-, int(m), int(n), int(lda), int(db), int(dc)
+  M1: &GMR (INV(a), m, n, ld1)
+, V2: &GV (a, n, d2)
+, V3: &GV (a?, m, d3) >> GV (a, m, d3)
+, int(m), int(n), int(ld1), int(d2), int(d3)
 ) : void // end of [multo_gmatrow_gvector_gvector]
 
 (* ****** ****** *)
@@ -293,7 +295,7 @@ a:t0p
 //
 fun{a:t0p}
 tmulto_gvector_gvector_gmatcol
-  {m,n:int}{d1,d2:int}{ld3:int}
+  {m,n:int}{d1,d2,ld3:int}
 (
   V1: &GV (INV(a), m, d1)
 , V2: &GV (    a , n, d2)
@@ -303,7 +305,7 @@ tmulto_gvector_gvector_gmatcol
 
 fun{a:t0p}
 tmulto_gvector_gvector_gmatrow
-  {m,n:int}{d1,d2:int}{ld3:int}
+  {m,n:int}{d1,d2,ld3:int}
 (
   V1: &GV (INV(a), m, d1)
 , V2: &GV (    a , n, d2)
