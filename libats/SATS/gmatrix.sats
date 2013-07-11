@@ -58,7 +58,11 @@ viewdef gmatrix_v
   (a:t0p, mo:mord, l:addr, m:int, n:int, ld:int) = gmatrix_t0ype (a, mo, m, n, ld) @ l
 //
 stadef GMX = gmatrix
-stadef GMX_v = gmatrix_v
+stadef GMX = gmatrix_v
+//
+(* ****** ****** *)
+//
+// HX: row-major
 //
 (* ****** ****** *)
 //
@@ -68,19 +72,45 @@ viewdef gmatcol_v
   (a:t@ype, l:addr, m:int, n:int, ld:int) = gmatrix_t0ype (a, mcol, m, n, ld) @ l
 //
 stadef GMC = gmatcol
-stadef GMC_v = gmatcol_v
+stadef GMC = gmatcol_v
 //
 (* ****** ****** *)
 
 praxi
 lemma_gmatcol_param
   {a:t0p}{m,n:int}{ld:int}
-  (M: &gmatcol (INV(a), m, n, ld)): [m >= 1; n >= 0; ld >= m] void
+  (M: &GMC (INV(a), m, n, ld)): [m >= 1; n >= 0; ld >= m] void
 praxi
 lemma_gmatcol_v_param
   {a:t0p}{l:addr}{m,n:int}{ld:int}
-  (pf: !gmatcol_v (INV(a), l, m, n, ld)): [m >= 1; n >= 0; ld >= m] void
+  (pf: !GMC (INV(a), l, m, n, ld)): [m >= 1; n >= 0; ld >= m] void
 
+(* ****** ****** *)
+//
+praxi
+gmatcol_v_nil
+  {a:t0p}{l:addr}
+  {m:pos;n:nat}{ld:int | ld >= m} (): GMC (a, l, m, n, ld)
+praxi
+gmatcol_v_unnil
+  {a:t0p}{l:addr}{m:int}{ld:int} (GMC (a, l, m, 0, ld)): void
+praxi
+gmatcol_v_unnil_nil
+  {a1,a2:t0p}{l:addr}{m:int}{ld:int} (GMC (a1, l, m, 0, ld)): GMC (a2, l, m, 0, ld)
+//
+praxi
+gmatcol_v_cons
+  {a:t0p}{l:addr}{m,n:int}{ld:int}
+  (array_v (a, l, m), GMC (INV(a), l+ld*sizeof(a), m, n, ld)): GMC (a, l, m, n+1, ld)
+praxi
+gmatcol_v_uncons
+  {a:t0p}{l:addr}{m,n:int | n > 0}{ld:int}
+  (GMC (INV(a), l, m, n, ld)): (array_v (a, l, m), GMC (a, l+ld*sizeof(a), m, n-1, ld))
+//
+(* ****** ****** *)
+//
+// HX: row-major
+//
 (* ****** ****** *)
 //
 typedef gmatrow
@@ -89,18 +119,18 @@ viewdef gmatrow_v
   (a:t@ype, l:addr, m:int, n:int, ld:int) = gmatrix_t0ype (a, mrow, m, n, ld) @ l
 //
 stadef GMR = gmatrow
-stadef GMR_v = gmatrow_v
+stadef GMR = gmatrow_v
 //
 (* ****** ****** *)
 
 praxi
 lemma_gmatrow_param
   {a:t0p}{m,n:int}{ld:int}
-  (M: &gmatrow (INV(a), m, n, ld)): [m >= 0; n >= 1; ld >= n] void
+  (M: &GMR (INV(a), m, n, ld)): [m >= 0; n >= 1; ld >= n] void
 praxi
 lemma_gmatrow_v_param
   {a:t0p}{l:addr}{m,n:int}{ld:int}
-  (pf: !gmatrow_v (INV(a), l, m, n, ld)): [m >= 0; n >= 1; ld >= n] void
+  (pf: !GMR (INV(a), l, m, n, ld)): [m >= 0; n >= 1; ld >= n] void
 
 (* ****** ****** *)
 
@@ -141,7 +171,7 @@ a:t0p
   {m,n:int}{lda:int}{db,dc:int}
 (
   A: &GMR (INV(a), m, n, lda)
-, B: &GV (a , n, db)
+, B: &GV (a, n, db)
 , C: &GV (a?, m, dc) >> GV (a, m, dc)
 , int(m), int(n), int(lda), int(db), int(dc)
 ) : void // end of [multo_gmatcol_gvector_gvector]
@@ -152,7 +182,7 @@ a:t0p
   {m,n:int}{lda:int}{db,dc:int}
 (
   A: &GMR (INV(a), m, n, lda)
-, B: &GV (a , n, db)
+, B: &GV (a, n, db)
 , C: &GV (a?, m, dc) >> GV (a, m, dc)
 , int(m), int(n), int(lda), int(db), int(dc)
 ) : void // end of [multo_gmatrow_gvector_gvector]
@@ -203,7 +233,8 @@ fun{a:t0p}
 tmulto_gvector_gvector_gmatcol
   {m,n:int}{d1,d2:int}{ld3:int}
 (
-  V1: &GV (INV(a), m, d1), V2: &GV (a , n, d2)
+  V1: &GV (INV(a), m, d1)
+, V2: &GV (    a , n, d2)
 , M3: &GMC (a?, m, n, ld3) >> GMC (a, m, n, ld3)
 , m: int(m), n: int(n), d1: int(d1), d2: int(d2), ld3: int(ld3)
 ) : void (* end of [tmulto_gvector_gvector_gmatcol] *)
@@ -212,7 +243,8 @@ fun{a:t0p}
 tmulto_gvector_gvector_gmatrow
   {m,n:int}{d1,d2:int}{ld3:int}
 (
-  V1: &GV (INV(a), m, d1), V2: &GV (a , n, d2)
+  V1: &GV (INV(a), m, d1)
+, V2: &GV (    a , n, d2)
 , M3: &GMR (a?, m, n, ld3) >> GMR (a, m, n, ld3)
 , m: int(m), n: int(n), d1: int(d1), d2: int(d2), ld3: int(ld3)
 ) : void (* end of [tmulto_gvector_gvector_gmatrow] *)

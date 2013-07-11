@@ -37,14 +37,31 @@ that is, two-dimensional arrays.
 #declnamesynop("gmatrix_t0ype")
 #declnamesynop("gmatrix_v")
 #declnamesynop("GMX")
-#declnamesynop("GMX_v")
+
+(* ****** ****** *)
+
+#declnamesynop("gmatcol")
+#declnamesynop("gmatcol_v")
+#declnamesynop("GMC")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_gmatcol_param")
+#declnamesynop("lemma_gmatcol_v_param")
+
+(* ****** ****** *)
+
+#declnamesynop("gmatcol_v_nil")
+#declnamesynop("gmatcol_v_unnil")
+#declnamesynop("gmatcol_v_unnil_nil")
+#declnamesynop("gmatcol_v_cons")
+#declnamesynop("gmatcol_v_uncons")
 
 (* ****** ****** *)
 
 #declnamesynop("gmatrow")
 #declnamesynop("gmatrow_v")
 #declnamesynop("GMR")
-#declnamesynop("GMR_v")
 
 (* ****** ****** *)
 
@@ -53,15 +70,11 @@ that is, two-dimensional arrays.
 
 (* ****** ****** *)
 
-#declnamesynop("gmatcol")
-#declnamesynop("gmatcol_v")
-#declnamesynop("GMC")
-#declnamesynop("GMC_v")
-
-(* ****** ****** *)
-
-#declnamesynop("lemma_gmatcol_param")
-#declnamesynop("lemma_gmatcol_v_param")
+#declnamesynop("gmatrow_v_nil")
+#declnamesynop("gmatrow_v_unnil")
+#declnamesynop("gmatrow_v_unnil_v_nil")
+#declnamesynop("gmatrow_v_cons")
+#declnamesynop("gmatrow_v_uncons")
 
 (* ****** ****** *)
 

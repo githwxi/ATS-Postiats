@@ -52,7 +52,29 @@ gvector_v
 (* ****** ****** *)
 
 stadef GV = gvector
-stadef GV_v = gvector_v
+stadef GV = gvector_v
+
+(* ****** ****** *)
+
+praxi
+gvector_v_nil
+  {a:t0p}{l:addr}{d:int | d > 0} (): GV (a, l, 0, d)
+praxi
+gvector_v_cons
+  {a:t0p}{l:addr}{n:int}{d:int}
+  (a @ l, GV (INV(a), l+d*sizeof(a), n, d)): GV (a, l, n+1, d)
+// end of [gvector_v_cons]
+
+(* ****** ****** *)
+
+praxi
+gvector_v_unnil
+  {a:t0p}{l:addr}{n:int}{d:int} (pf: GV (a, l, 0, d)): void
+praxi
+gvector_v_uncons
+  {a:t0p}{l:addr}{n:int | n > 0}{d:int}
+  (GV (INV(a), l, n, d)): (a @ l, GV (a, l+d*sizeof(a), n-1, d))
+// end of [gvector_v_uncons]
 
 (* ****** ****** *)
 //
@@ -63,20 +85,33 @@ lemma_gvector_param
 praxi
 lemma_gvector_v_param
   {a:t0p}{l:addr}{n:int}{d:int}
-  (pf: !GV_v (INV(a), l, n, d)): [n >= 0; d >= 1] void
+  (pf: !GV (INV(a), l, n, d)): [n >= 0; d >= 1] void
 //
 (* ****** ****** *)
 
-prfun
+praxi
+array2gvector
+  {a:t0p}{l:addr}{n:int}
+  (A: &array (INV(a), n) >> GV (a, n, 1)): void
+// end [array2gvector]
+
+praxi
 array2gvector_v
   {a:t0p}{l:addr}{n:int}
-  (pf: array_v (INV(a), l, n)):<prf> GV_v (a, l, n, 1)
-// end [gvector2array_v]
+  (pf: array_v (INV(a), l, n)):<prf> GV (a, l, n, 1)
+// end [array2gvector_v]
 
-prfun
+(* ****** ****** *)
+
+praxi
+gvector2array
+  {a:t0p}{l:addr}{n:int}
+  (V: &GV (INV(a), n, 1) >> array (a, n)): void
+// end [gvector2array]
+praxi
 gvector2array_v
   {a:t0p}{l:addr}{n:int}
-  (pf: GV_v (INV(a), l, n, 1)):<prf> array_v (a, l, n)
+  (pf: GV (INV(a), l, n, 1)):<prf> array_v (a, l, n)
 // end [gvector2array_v]
 
 (* ****** ****** *)
@@ -152,14 +187,16 @@ multo_scalar_gvector
 , n: int(n), d: int(d)
 ) : void // end of [multo_scalar_gvector]
 
+(* ****** ****** *)
+
 fun{a:t0p}
 multo_scalar_gvector_gvector
-  {n:int}{d,d2:int}
+  {n:int}{d1,d2:int}
 (
   k: a
-, V1: &GV (INV(a), n, d)
-, V2: &GV (    a?, n, d2) >> GV (a, n, d2)
-, n: int(n), d: int(d)
+, V1: &GV (INV(a), n, d1)
+, V2: &GV (a?, n, d2) >> GV (a, n, d2)
+, n: int(n), d1: int(d1), d2: int(d2)
 ) : void // end of [multo_scalar_gvector_gvector]
 
 (* ****** ****** *)
