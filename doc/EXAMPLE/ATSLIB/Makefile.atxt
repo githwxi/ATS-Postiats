@@ -141,6 +141,11 @@ RMF=rm -f
 
 ######
 
+#make2_entry("libats_gvector", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_gmatrix", "-DATS_MEMALLOC_LIBC", "")
+
+######
+
 #make2_entry("libats_funmap_list", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libats_fundeque_fingertree", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 

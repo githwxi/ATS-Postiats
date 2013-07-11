@@ -38,4 +38,18 @@ staload "libats/SATS/gmatrix.sats"
 
 (* ****** ****** *)
 
+implement{a}
+multo_gmatrix_gmatrix_gmatrix
+(
+  A, B, C, mord, p, q, r, lda, ldb, ldc
+) = (
+case+ mord of
+| MORDrow () =>
+    multo_gmatrix_gmatrix_gmatrix_row (A, B, C, p, q, r, lda, ldb, ldc)
+| MORDcol () =>
+    multo_gmatrix_gmatrix_gmatrix_col (A, B, C, p, q, r, lda, ldb, ldc)
+) (* end of [multo_gmatrix_gmatrix_gmatrix] *)
+
+(* ****** ****** *)
+
 (* end of [gmatrix.dats] *)

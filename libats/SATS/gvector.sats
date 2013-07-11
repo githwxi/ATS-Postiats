@@ -59,25 +59,36 @@ stadef GV_v = gvector_v
 praxi
 lemma_gvector_param
   {a:t0p}{n:int}{d:int}
-  (v: &GV (a, n, d)): [n >= 0; d >= 1] void
+  (v: &GV (INV(a), n, d)): [n >= 0; d >= 1] void
 praxi
 lemma_gvector_v_param
   {a:t0p}{l:addr}{n:int}{d:int}
-  (pf: !GV_v (a, l, n, d)): [n >= 0; d >= 1] void
+  (pf: !GV_v (INV(a), l, n, d)): [n >= 0; d >= 1] void
 //
 (* ****** ****** *)
 
 prfun
-gvector2array_v
+array2gvector_v
   {a:t0p}{l:addr}{n:int}
-  (pf: GV_v (a, l, n, 1)):<prf> array_v (a, l, n)
+  (pf: array_v (INV(a), l, n)):<prf> GV_v (a, l, n, 1)
 // end [gvector2array_v]
 
 prfun
-array2gvector_v
+gvector2array_v
   {a:t0p}{l:addr}{n:int}
-  (pf: array_v (a, l, n)):<prf> GV_v (a, l, n, 1)
+  (pf: GV_v (INV(a), l, n, 1)):<prf> array_v (a, l, n)
 // end [gvector2array_v]
+
+(* ****** ****** *)
+
+fun{}
+fprint_gvector$sep (out: FILEref): void
+
+fun{a:t0p}
+fprint_gvector{n:int}{d:int}
+(
+  out: FILEref, V: &GV (INV(a), n, d), int n, int d
+) : void // end of [fprint_gvector]
 
 (* ****** ****** *)
 //
@@ -92,11 +103,13 @@ a:t0p}{env:vt0p
 //
 fun{a:t0p}
 gvector_foreach{n:int}{d:int}
-  (vec: &GV (a, n, d) >> _, n: int n, d: int d): natLte(n)
+  (V: &GV (INV(a), n, d) >> _, n: int n, d: int d): natLte(n)
 fun{
 a:t0p}{env:vt0p
 } gvector_foreach_env{n:int}{d:int}
-  (vec: &GV (a, n, d) >> _, n: int n, d: int d, env: &(env) >> _): natLte(n)
+(
+  V: &GV (INV(a), n, d) >> _, n: int n, d: int d, env: &(env) >> _
+) : natLte(n) // end of [gvector_foreach_env]
 //
 (* ****** ****** *)
 //
@@ -113,8 +126,8 @@ fun{a,b:t0p}
 gvector_foreach2
   {n:int}{d1,d2:int}
 (
-  vec1: &GV (a, n, d1) >> _
-, vec2: &GV (b, n, d2) >> _
+  V1: &GV (INV(a), n, d1) >> _
+, V2: &GV (INV(b), n, d2) >> _
 , n: int (n), d1: int (d1), d2: int (d2)
 ) : natLte(n) // end of [gvector_foreach2]
 fun{
@@ -122,8 +135,8 @@ a,b:t0p}{env:vt0p
 } gvector_foreach2_env
   {n:int}{d1,d2:int}
 (
-  vec1: &GV (a, n, d1) >> _
-, vec2: &GV (b, n, d2) >> _
+  V1: &GV (INV(a), n, d1) >> _
+, V2: &GV (INV(b), n, d2) >> _
 , n: int (n), d1: int (d1), d2: int (d2)
 , env: &env >> _
 ) : natLte(n) // end of [gvector_foreach2_env]
@@ -134,7 +147,9 @@ fun{a:t0p}
 multo_scalar_gvector
   {n:int}{d:int}
 (
-  alpha: a, vec: &GV (a, n, d) >> _, n: int(n), d: int(d)
+  alpha: a
+, V: &GV (INV(a), n, d) >> _
+, n: int(n), d: int(d)
 ) : void // end of [multo_scalar_gvector]
 
 fun{a:t0p}
@@ -142,8 +157,9 @@ multo_scalar_gvector_gvector
   {n:int}{d,d2:int}
 (
   alpha: a
-, vec: &GV (a, n, d), vec2: &GV (a?, n, d2) >> GV (a, n, d2)
-, n: int n, d: int d
+, V1: &GV (INV(a), n, d)
+, V2: &GV (    a?, n, d2) >> GV (a, n, d2)
+, n: int(n), d: int(d)
 ) : void // end of [multo_scalar_gvector_gvector]
 
 (* ****** ****** *)
@@ -155,8 +171,8 @@ fun{a:t0p}
 mul_gvector_gvector
   {n:int}{d1,d2:int}
 (
-  vec1: &gvector (a, n, d1)
-, vec2: &gvector (a, n, d2)
+  V1: &gvector (INV(a), n, d1)
+, V2: &gvector (    a , n, d2)
 , n: int(n), d1: int(d1), d2: int(d2)
 ) : (a) (* end of [mul_gvector_gvector] *)
 

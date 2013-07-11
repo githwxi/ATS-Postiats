@@ -42,16 +42,53 @@ datatype MORD (mord) =
 (* ****** ****** *)
 //
 // HX-2013-07:
-// generic matrix: element, row, col, ord, ld
+// generic matrix:
+// element, row, col, ord, ld
+//
 abst@ype
 gmatrix_t0ype
-  (a:t@ype+, m:int, n:int, mo:mord, ld:int)
+  (a:t@ype+, mo:mord, m:int, n:int, ld:int)
 //
 typedef gmatrix
-  (a:t0p, m:int, n:int, mo:mord) = gmatrix_t0ype (a, m, n, mo, 1)
-typedef gmatrix
-  (a:t0p, m:int, n:int, mo:mord, ld:int) = gmatrix_t0ype (a, m, n, mo, ld)
+  (a:t@ype, mo:mord, m:int, n:int, ld:int) = gmatrix_t0ype (a, mo, m, n, ld)
 //
+stadef GM = gmatrix
+//
+(* ****** ****** *)
+
+fun{
+a:t0p
+} multo_gmatrix_gmatrix_gmatrix
+  {mo:mord}{p,q,r:int}{lda,ldb,ldc:int}
+(
+  A: &GM (INV(a), mo, p, q, lda)
+, B: &GM (    a , mo, q, r, ldb)
+, C: &GM (a?, mo, p, r, ldc) >> GM (a, mo, p, r, ldc)
+, MORD (mo), int p, int q, int r, int lda, int ldb, int ldc
+) : void // end of [multo_gmatrix_gmatrix_gmatrix]
+
+fun{
+a:t0p
+} multo_gmatrix_gmatrix_gmatrix_row
+  {p,q,r:int}{lda,ldb,ldc:int}
+(
+  A: &GM (INV(a), mrow, p, q, lda)
+, B: &GM (    a , mrow, q, r, ldb)
+, C: &GM (a?, mrow, p, r, ldc) >> GM (a, mrow, p, r, ldc)
+, int p, int q, int r, int lda, int ldb, int ldc
+) : void // end of [multo_gmatrix_gmatrix_gmatrix_row]
+
+fun{
+a:t0p
+} multo_gmatrix_gmatrix_gmatrix_col
+  {p,q,r:int}{lda,ldb,ldc:int}
+(
+  A: &GM (INV(a), mcol, p, q, lda)
+, B: &GM (    a , mcol, q, r, ldb)
+, C: &GM (a?, mcol, p, r, ldc) >> GM (a, mcol, p, r, ldc)
+, int p, int q, int r, int lda, int ldb, int ldc
+) : void // end of [multo_gmatrix_gmatrix_gmatrix_col]
+
 (* ****** ****** *)
 
 (* end of [gmatrix.sats] *)

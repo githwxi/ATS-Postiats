@@ -42,6 +42,37 @@ staload "libats/SATS/gvector.sats"
 
 (* ****** ****** *)
 
+implement{}
+fprint_gvector$sep
+  (out) = fprint_string (out, ", ")
+// end of [fprint_gvector$sep]
+
+(* ****** ****** *)
+
+implement{a}
+fprint_gvector
+  (out, V, n, d) = let
+//
+typedef tenv = int
+implement
+gvector_foreach$fwork<a><tenv>
+  (x, env) = let
+  val i = env
+  val () = if i > 0 then fprint_gvector$sep<> (out)
+  val () = env := i + 1
+in
+  fprint_ref<a> (out, x)
+end // end of [gvector_foreach$fwork]
+//
+var env: tenv = 0
+val _(*n*) = gvector_foreach_env<a><tenv> (V, n, d, env)
+//
+in
+  // nothing
+end // end of [fprint_gvector]
+
+(* ****** ****** *)
+
 implement{a}{env}
 gvector_foreach$cont (x, env) = true
 
