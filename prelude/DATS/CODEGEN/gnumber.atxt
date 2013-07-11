@@ -45,11 +45,59 @@ gpred_val<int> (x) = pred (x)
 implement
 gadd_val<int> (x, y) = x + y
 implement
+gadd_val<lint> (x, y) = x + y
+implement
+gadd_val<llint> (x, y) = x + y
+implement
+gadd_val<uint> (x, y) = x + y
+implement
+gadd_val<ulint> (x, y) = x + y
+implement
+gadd_val<ullint> (x, y) = x + y
+implement
+gadd_val<size_t> (x, y) = x + y
+implement
+gadd_val<ssize_t> (x, y) = x + y
+implement
+gadd_val<float> (x, y) = x + y
+implement
+gadd_val<double> (x, y) = x + y
+
+#atscode_separator()
+
+implement
 gsub_val<int> (x, y) = x - y
+
+#atscode_separator()
+
 implement
 gmul_val<int> (x, y) = x * y
 implement
+gmul_val<lint> (x, y) = x * y
+implement
+gmul_val<llint> (x, y) = x * y
+implement
+gmul_val<uint> (x, y) = x * y
+implement
+gmul_val<ulint> (x, y) = x * y
+implement
+gmul_val<ullint> (x, y) = x * y
+implement
+gmul_val<size_t> (x, y) = x * y
+implement
+gmul_val<ssize_t> (x, y) = x * y
+implement
+gmul_val<float> (x, y) = x * y
+implement
+gmul_val<double> (x, y) = x * y
+
+#atscode_separator()
+
+implement
 gdiv_val<int> (x, y) = x / y
+
+#atscode_separator()
+
 implement
 gmod_val<int> (x, y) = x mod y
 

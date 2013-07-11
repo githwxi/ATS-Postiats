@@ -30,17 +30,27 @@ staload _ = "libats/DATS/gmatrix.dats"
 val () =
 {
 //
-typedef T = int
+typedef T = float
+//
 val out = stdout_ref
 //
 val n = 4
 val asz = i2sz(n)
 //
-val A = arrayptr_make_intrange (0, n)
-val B = arrayptr_make_intrange (0, n)
+implement
+fprint_val<T> (out, x) =
+  ignoret ($extfcall (int, "fprintf", out, "%.2f", x))
 //
-val pA = ptrcast (A)
-val pB = ptrcast (B)
+local
+implement
+array_tabulate$fopr<T>
+  (i) = g0i2f(g0uint2int_size_int(i))
+in (* in of [local] *)
+val A = arrayptr_tabulate<T> (asz)
+val B = arrayptr_tabulate<T> (asz)
+end // end of [local]
+//
+val pA = ptrcast (A) and pB = ptrcast (B)
 //
 prval
 pfA = arrayptr_takeout{T}(A)
@@ -59,13 +69,13 @@ prval pfA = gvector2array_v (pfA)
 prval pfB = gvector2array_v (pfB)
 prval pfM = gmatrix2matrix_v (pfM)
 //
-val () = fprint (out, "A = ")
+val () = fprint (out, "A =\n")
 val () = fprint_array (out, !pA, asz)
 val () = fprint_newline (out)
-val () = fprint (out, "B = ")
+val () = fprint (out, "B =\n")
 val () = fprint_array (out, !pB, asz)
 val () = fprint_newline (out)
-val () = fprint (out, "M =\n")
+val () = fprint (out, "A(X)B =\n")
 val () = fprint_matrix (out, !pM, asz, asz)
 val () = fprint_newline (out)
 //
