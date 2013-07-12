@@ -118,6 +118,8 @@ all_html::
 
 #make_entry("gvector")
 #make_entry("gmatrix")
+#make_entry("gmatrix_col")
+#make_entry("gmatrix_row")
 
 #make_entry("funmap_list")
 #make_entry("funmap_avltree")

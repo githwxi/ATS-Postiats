@@ -40,56 +40,7 @@ that is, two-dimensional arrays.
 
 (* ****** ****** *)
 
-#declnamesynop("gmatcol")
-#declnamesynop("gmatcol_v")
-#declnamesynop("GMC")
-
-(* ****** ****** *)
-
-#declnamesynop("lemma_gmatcol_param")
-#declnamesynop("lemma_gmatcol_v_param")
-
-(* ****** ****** *)
-
-#declnamesynop("gmatcol_v_nil")
-#declnamesynop("gmatcol_v_unnil")
-#declnamesynop("gmatcol_v_unnil_nil")
-#declnamesynop("gmatcol_v_cons")
-#declnamesynop("gmatcol_v_uncons")
-
-(* ****** ****** *)
-
-#declnamesynop("gmatrow")
-#declnamesynop("gmatrow_v")
-#declnamesynop("GMR")
-
-(* ****** ****** *)
-
-#declnamesynop("lemma_gmatrow_param")
-#declnamesynop("lemma_gmatrow_v_param")
-
-(* ****** ****** *)
-
-#declnamesynop("gmatrow_v_nil")
-#declnamesynop("gmatrow_v_unnil")
-#declnamesynop("gmatrow_v_unnil_nil")
-#declnamesynop("gmatrow_v_cons")
-#declnamesynop("gmatrow_v_uncons")
-
-(* ****** ****** *)
-
-#declnamesynop("multo_gvector_gmatcol_gvector")
-#declnamesynop("multo_gmatrow_gvector_gvector")
-
-(* ****** ****** *)
-
-#declnamesynop("multo_gmatcol_gmatcol_gmatcol")
-#declnamesynop("multo_gmatrow_gmatrow_gmatrow")
-
-(* ****** ****** *)
-
-#declnamesynop("tmulto_gvector_gvector_gmatcol")
-#declnamesynop("tmulto_gvector_gvector_gmatrow")
+#declnamesynop("multo_gmatrix_gmatrix_gmatrix")
 
 (* ****** ****** *)
 

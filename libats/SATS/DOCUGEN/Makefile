@@ -152,6 +152,22 @@ upload_gmatrix:: ;   scp HTML/gmatrix.html ats-hwxi,ats-lang@web.sourceforge.net
 clean:: ; $(RMF) gmatrix_atxt.exe
 cleanall:: ; $(RMF) HTML/gmatrix.html
 
+all_html:: HTML/gmatrix_col.html
+HTML/gmatrix_col.html:   gmatrix_col_atxt.exe ; ./$< > $@
+gmatrix_col_atxt.txt: gmatrix_col.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+gmatrix_col_atxt.exe: htmlgendecl_atxt.dats   gmatrix_col_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_gmatrix_col:: ;   scp HTML/gmatrix_col.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) gmatrix_col_atxt.exe
+cleanall:: ; $(RMF) HTML/gmatrix_col.html
+
+all_html:: HTML/gmatrix_row.html
+HTML/gmatrix_row.html:   gmatrix_row_atxt.exe ; ./$< > $@
+gmatrix_row_atxt.txt: gmatrix_row.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+gmatrix_row_atxt.exe: htmlgendecl_atxt.dats   gmatrix_row_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_gmatrix_row:: ;   scp HTML/gmatrix_row.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) gmatrix_row_atxt.exe
+cleanall:: ; $(RMF) HTML/gmatrix_row.html
+
 
 all_html:: HTML/funmap_list.html
 HTML/funmap_list.html:   funmap_list_atxt.exe ; ./$< > $@

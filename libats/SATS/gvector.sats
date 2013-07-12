@@ -129,6 +129,17 @@ fprint_gvector{n:int}{d:int}
 ) : void // end of [fprint_gvector]
 
 (* ****** ****** *)
+
+fun{a:t0p}
+copyto_gvector_gvector
+  {n:int}{d1,d2:int}
+(
+  V1: &GV (INV(a), n, d1)
+, V2: &GV (a?, n, d2) >> GV (a, n, d2)
+, n: int (n), d1: int (d1), d2: int (d2)
+) : void // end of [copyto_gvector_gvector]
+
+(* ****** ****** *)
 //
 fun{
 a:t0p}{env:vt0p

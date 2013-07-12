@@ -1,0 +1,62 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../gmatrix_col.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_gmatrix_col")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/gmatrix_col\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package contains various functions for manipulating generic matrices,
+that is, two-dimensional arrays of column-major style.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("gmatcol")
+#declnamesynop("gmatcol_v")
+#declnamesynop("GMC")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_gmatcol_param")
+#declnamesynop("lemma_gmatcol_v_param")
+
+(* ****** ****** *)
+
+#declnamesynop("gmatcol_v_nil")
+#declnamesynop("gmatcol_v_unnil")
+#declnamesynop("gmatcol_v_unnil_nil")
+#declnamesynop("gmatcol_v_cons")
+#declnamesynop("gmatcol_v_uncons")
+
+(* ****** ****** *)
+
+#declnamesynop("multo_gvector_gmatcol_gvector")
+
+(* ****** ****** *)
+
+#declnamesynop("multo_gmatcol_gmatcol_gmatcol")
+
+(* ****** ****** *)
+
+#declnamesynop("tmulto_gvector_gvector_gmatcol")
+
+(* ****** ****** *)
+
+(* end of [gmatrix_col.atxt] *)

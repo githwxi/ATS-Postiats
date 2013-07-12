@@ -1,0 +1,62 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../gmatrix_row.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_gmatrix_row")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/gmatrix_row\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package contains various functions for manipulating generic matrices,
+that is, two-dimensional arrays of row-major style.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("gmatrow")
+#declnamesynop("gmatrow_v")
+#declnamesynop("GMR")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_gmatrow_param")
+#declnamesynop("lemma_gmatrow_v_param")
+
+(* ****** ****** *)
+
+#declnamesynop("gmatrow_v_nil")
+#declnamesynop("gmatrow_v_unnil")
+#declnamesynop("gmatrow_v_unnil_nil")
+#declnamesynop("gmatrow_v_cons")
+#declnamesynop("gmatrow_v_uncons")
+
+(* ****** ****** *)
+
+#declnamesynop("multo_gmatrow_gvector_gvector")
+
+(* ****** ****** *)
+
+#declnamesynop("multo_gmatrow_gmatrow_gmatrow")
+
+(* ****** ****** *)
+
+#declnamesynop("tmulto_gvector_gvector_gmatrow")
+
+(* ****** ****** *)
+
+(* end of [gmatrix_row.atxt] *)

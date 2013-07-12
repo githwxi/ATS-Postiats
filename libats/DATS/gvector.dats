@@ -182,6 +182,30 @@ end // end of [gvector_foreach2_env]
 (* ****** ****** *)
 
 implement{a}
+copyto_gvector_gvector
+  {n}{d1,d2}(V1, V2, n, d1, d2) = let
+//
+prval (
+) = __initize (V2) where
+{
+extern praxi
+__initize (&gvector (a?, n, d2) >> gvector (a, n, d2)): void
+} (* end of [where] *) // end of [prval]
+//
+implement(a,env)
+gvector_foreach2$cont<a,a><env> (x, y, env) = true
+implement(env)
+gvector_foreach2$fwork<a,a><env> (x, y, env) = y := x
+//
+val _(*n*) = gvector_foreach2 (V1, V2, n, d1, d2)
+//
+in
+  // nothing
+end // end of [copyto_gvector_gvector]
+
+(* ****** ****** *)
+
+implement{a}
 multo_scalar_gvector
   (k, V, n, d) = let
 //
