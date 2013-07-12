@@ -247,6 +247,18 @@ a:t0p
 , int p, int q, int r, int lda, int ldb, int ldc
 ) : void // end of [muladdto_gmatcol_gmatcol_gmatcol]
 
+fun{
+a:t0p
+} sumaddto_gmatcol_gmatcol_gmatcol
+  {m,n:int}{lda,ldb,ldc:int}
+(
+  A: &GMC (INV(a), m, n, lda)
+, B: &GMC (    a , m, n, ldb)
+, C: &GMC (    a , m, n, ldc) >> _
+, int m, int m, int lda, int ldb, int ldc
+) : void // end of [muladdto_gmatcol_gmatcol_gmatcol]
+
+
 (* ****** ****** *)
 //
 // BB: outer product

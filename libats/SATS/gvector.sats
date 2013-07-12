@@ -221,6 +221,16 @@ muladdto_scalar_gvector_gvector
 , n: int(n), d1: int(d1), d2: int(d2)
 ) : void // end of [muladdto_scalar_gvector_gvector]
 
+fun{a:t0p}
+sumaddto_gvector_gvector_gvector
+  {n:int}{d1,d2:int}
+(
+  V1: &GV (INV(a), n, d1)
+, V2: &GV (a, n, d2)
+, V3: &GV (a, n, d3) >> _
+, n: int(n), d1: int(d1), d2: int(d2), d3:int(d3)
+) : void // end of [muladdto_scalar_gvector_gvector]
+
 (* ****** ****** *)
 //
 // HX: dot product

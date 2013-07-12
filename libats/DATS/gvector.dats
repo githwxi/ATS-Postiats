@@ -257,6 +257,31 @@ end // end of [muladdto_scalar_gvector_gvector]
 (* ****** ****** *)
 
 implement{a}
+sumaddto_gvector_gvector_gvector
+  {n}{d1,d2,d3}(V1, V2, V3, n, d1, d2, d3) = let
+//
+prval (
+) = __initize (V3) where
+{
+extern praxi
+__initize (&gvector (a?, n, d3) >> gvector (a, n, d3)): void
+} (* end of [where] *) // end of [prval]
+//
+implement(a,env)
+gvector_foreach2$cont<a,a><env> (x, y, env) = true
+implement(env)
+gvector_foreach2$fwork<a,a><env> (x, y, env) = gaddto_val<a> (x, y)
+//
+val _(*n*) = gvector_foreach2 (V1, V3, n, d1, d3)
+val _(*n*) = gvector_foreach2 (V2, V3, n, d2, d3)
+//
+in
+  // nothing
+end // end of [sumaddto_gvector_gvector_gvector]
+
+(* ****** ****** *)
+
+implement{a}
 mul_gvector_gvector_scalar
   (V1, V2, n, d1, d2) = let
 //
