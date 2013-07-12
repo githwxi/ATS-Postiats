@@ -43,16 +43,6 @@ staload "libats/SATS/gvector.sats"
 staload "libats/SATS/gmatrix.sats"
 
 (* ****** ****** *)
-//
-typedef gmatcol
-  (a:t@ype, m:int, n:int, ld:int) = gmatrix_t0ype (a, mcol, m, n, ld)
-viewdef gmatcol_v
-  (a:t@ype, l:addr, m:int, n:int, ld:int) = gmatrix_t0ype (a, mcol, m, n, ld) @ l
-//
-stadef GMC = gmatcol
-stadef GMC = gmatcol_v
-//
-(* ****** ****** *)
 
 praxi
 lemma_gmatcol_param
@@ -82,15 +72,19 @@ gmatcol_v_cons
   {a:t0p}{l:addr}
   {m,n:int}{ld:int}
 (
-  array_v (a, l, m)
+  GVT (a, l, m, 1)
 , GMC (INV(a), l+ld*sizeof(a), m, n, ld)
-) : GMC (a, l, m, n+1, ld) // end of [gmatcol_v_cons]
+) : GMC (a, l, m, n+1, ld)
 praxi
 gmatcol_v_uncons
   {a:t0p}{l:addr}
   {m,n:int | n > 0}{ld:int}
-  (GMC (INV(a), l, m, n, ld))
-: (array_v (a, l, m), GMC (a, l+ld*sizeof(a), m, n-1, ld))
+(
+  pf: GMC (INV(a), l, m, n, ld)
+) :
+(
+  GVT (a, l, m, 1), GMC (a, l+ld*sizeof(a), m, n-1, ld)
+) (* end of [gmatcol_v_uncons] *)
 //
 (* ****** ****** *)
 //
@@ -111,15 +105,19 @@ gmatcol_v_cons2
   {a:t0p}{l:addr}
   {m,n:int}{ld:int}
 (
-  GV (a, l, n, ld)
+  GVT (a, l, n, ld)
 , GMC (INV(a), l+sizeof(a), m, n, ld)
-) : GMC (a, l, m+1, n, ld) // end of [gmatcol_v_cons2]
+) : GMC (a, l, m+1, n, ld)
 praxi
 gmatcol_v_uncons2
   {a:t0p}{l:addr}
   {m,n:int | m > 0}{ld:int}
-  (GMC (INV(a), l, m, n, ld))
-: (GV (a, l, n, ld), GMC (a, l+sizeof(a), m-1, n, ld))
+(
+  pf: GMC (INV(a), l, m, n, ld)
+) :
+(
+  GVT (a, l, n, ld), GMC (a, l+sizeof(a), m-1, n, ld)
+) (* end of [gmatcol_v_uncons2] *)
 //
 (* ****** ****** *)
 
@@ -213,13 +211,13 @@ gmatcol_getref_row_at
   {m,n:int}{ld:int}
 (
   M: &GMC (INV(a), m, n, ld), i: natLt(m)
-) : cPtr1(GV(a, n, ld)) // end of [gmatcol_getref_row_at]
+) : cPtr1(GVT(a, n, ld)) // end of [gmatcol_getref_row_at]
 fun{a:t0p}
 gmatcol_getref_col_at
   {m,n:int}{ld:int}
 (
   M: &GMC (INV(a), m, n, ld), int(ld), j: natLt(n)
-) : cPtr1(GV(a, m,  1)) // end of [gmatcol_getref_col_at]
+) : cPtr1(GVT(a, m, 1(*d*))) // end of [gmatcol_getref_col_at]
 
 (* ****** ****** *)
 
@@ -228,9 +226,9 @@ a:t0p
 } muladdto_gvector_gmatcol_gvector
   {m,n:int}{d1,ld2,d3:int}
 (
-  V1: &GV (a, m, d1)
+  V1: &GVT (a, m, d1)
 , M2: &GMC (INV(a), m, n, ld2)
-, V3: &GV (a, n, d3) >> _
+, V3: &GVT (a, n, d3) >> _
 , int(m), int(n), int(d1), int(ld2), int(d3)
 ) : void // end of [muladdto_gvector_gmatcol_gvector]
 
@@ -270,8 +268,8 @@ fun{a:t0p}
 muladdto_gvector_gvector_gmatcol
   {m,n:int}{d1,d2,ld3:int}
 (
-  V1: &GV (INV(a), m, d1)
-, V2: &GV (    a , n, d2)
+  V1: &GVT (INV(a), m, d1)
+, V2: &GVT (    a , n, d2)
 , M3: &GMC (a, m, n, ld3) >> _
 , m: int(m), n: int(n), d1: int(d1), d2: int(d2), ld3: int(ld3)
 ) : void (* end of [muladdto_gvector_gvector_gmatcol] *)

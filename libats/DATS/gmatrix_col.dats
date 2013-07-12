@@ -78,56 +78,6 @@ end // end of [gmatcol_getref_col_at]
 (* ****** ****** *)
 
 implement{a}
-muladdto_gvector_gmatcol_gvector
-  {m,n}{d1,ld2,d3}
-(
-  V1, M2, V3, m, n, d1, ld2, d3
-) = let
-//
-fun loop
-  {l1,l2,l3:addr}{n:nat} .<n>.
-(
-  pf1: !GV (a, l1, m, d1)
-, pf2: !GMC (a, l2, m, n, ld2)
-, pf3: !GV (a, l3, n, d3) >> _
-| p1: ptr(l1), p2: ptr(l2), p3: ptr(l3), n: int n
-) : void = let
-in
-//
-if n > 0 then let
-//
-prval (pf21, pf22) = gmatcol_v_uncons (pf2)
-prval (pf31, pf32) = gvector_v_uncons (pf3)
-//
-prval () = array2gvector(!p2)
-val () = gaddto_val<a> (mul_gvector_gvector_scalar (!p1, !p2, m, d1, 1), !p3)
-val () = loop (pf1, pf22, pf32 | p1, ptr_add<a> (p2, ld2), ptr_add<a> (p3, d3), n-1)
-prval () = gvector2array(!p2)
-//
-prval () = pf2 := gmatcol_v_cons (pf21, pf22)
-prval () = pf3 := gvector_v_cons (pf31, pf32)
-//
-in
-  // nothing
-end else let
-//
-prval () = pf3 := gvector_v_unnil_nil{a?,a}(pf3)
-//
-in
-  // nothing
-end // end of [if]
-//
-end // end of [loop]
-//
-prval () = lemma_gmatcol_param (M2)
-//
-in
-  loop (view@V1, view@M2, view@V3 | addr@V1, addr@M2, addr@V3, n)
-end // end of [muladdto_gvector_gmatcol_gvector]
-
-(* ****** ****** *)
-
-implement{a}
 muladdto_gmatcol_gmatcol_gmatcol
   {p,q,r}{lda,ldb,ldc}
 (
@@ -303,13 +253,12 @@ prval (pf21, pf22) = gvector_v_uncons (pf2)
 prval (pf31, pf32) = gmatcol_v_uncons (pf3)
 //
 val k = !p2
-prval () = array2gvector(!p3)
 val (
 ) = muladdto_scalar_gvector_gvector (k, !p1, !p3, m, d1, 1)
 val (
 // BB: Why is it not necessary to pass d2, ld3 to loop()?
 ) = loop (pf1, pf22, pf32 | p1, ptr_add<a> (p2, d2), ptr_add<a> (p3, ld3), m, pred(n))
-prval () = gvector2array(!p3)
+//
 prval () = pf2 := gvector_v_cons (pf21, pf22)
 prval () = pf3 := gmatcol_v_cons (pf31, pf32)
 //

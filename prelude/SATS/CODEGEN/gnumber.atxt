@@ -66,8 +66,10 @@ fun{a:t0p} gmod_val (x: a, y: a):<> a
 
 #atscode_separator()
 
+(*
 fun{a:t0p} gaddto_val (x: a, y: &a):<!wrt> void
 fun{a:t0p} gmulto_val (x: a, y: &a):<!wrt> void
+*)
 
 #atscode_separator()
 

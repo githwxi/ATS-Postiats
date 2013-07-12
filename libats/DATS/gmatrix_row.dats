@@ -78,57 +78,6 @@ end // end of [gmatrow_getref_row_at]
 (* ****** ****** *)
 
 implement{a}
-muladdto_gmatrow_gvector_gvector
-  {m,n}{ld1,d2,d3}
-(
-  M1, V2, V3, m, n, ld1, d2, d3
-) = let
-//
-fun loop
-  {l1,l2,l3:addr}{m:nat} .<m>.
-(
-  pf1:
-  !GMR (a, l1, m, n, ld1)
-, pf2: !GV (a, l2, n, d2)
-, pf3: !GV (a, l3, m, d3) >> _
-| p1: ptr(l1), p2: ptr(l2), p3: ptr(l3), m: int m
-) : void = let
-in
-//
-if m > 0 then let
-//
-prval (pf11, pf12) = gmatrow_v_uncons (pf1)
-prval (pf31, pf32) = gvector_v_uncons (pf3)
-//
-prval () = array2gvector(!p1)
-val () = gaddto_val<a> (mul_gvector_gvector_scalar (!p1, !p2, n, 1, d2), !p3)
-val () = loop (pf12, pf2, pf32 | ptr_add<a> (p1, ld1), p2, ptr_add<a> (p3, d3), m-1)
-prval () = gvector2array(!p1)
-//
-prval () = pf1 := gmatrow_v_cons (pf11, pf12)
-prval () = pf3 := gvector_v_cons (pf31, pf32)
-//
-in
-  // nothing
-end else let
-//
-prval () = pf3 := gvector_v_unnil_nil{a?,a}(pf3)
-//
-in
-  // nothing
-end // end of [if]
-//
-end // end of [loop]
-//
-prval () = lemma_gmatrow_param (M1)
-//
-in
-  loop (view@M1, view@V2, view@V3 | addr@M1, addr@V2, addr@V3, m)
-end // end of [multo_gmatrow_gvector_gvector]
-
-(* ****** ****** *)
-
-implement{a}
 muladdto_gmatrow_gmatrow_gmatrow
   {p,q,r}{lda,ldb,ldc}
 (
@@ -226,12 +175,11 @@ prval (pf11, pf12) = gvector_v_uncons (pf1)
 prval (pf31, pf32) = gmatrow_v_uncons (pf3)
 //
 val k = !p1
-prval () = array2gvector(!p3)
 val (
 ) = muladdto_scalar_gvector_gvector (k, !p2, !p3, n, d2, 1)
 val (
 ) = loop (pf12, pf2, pf32 | ptr_add<a> (p1, d1), p2, ptr_add<a> (p3, ld3), pred(m), n)
-prval () = gvector2array(!p3)
+//
 prval () = pf1 := gvector_v_cons (pf11, pf12)
 prval () = pf3 := gmatrow_v_cons (pf31, pf32)
 //

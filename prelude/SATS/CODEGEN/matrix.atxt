@@ -354,19 +354,6 @@ matrix_mapto2
 
 #atscode_separator()
 
-fun{
-a:t0p
-} multo_matrix_matrix_matrix
-  {p,q,r:int}
-(
-  A: &matrix (INV(a), p, q)
-, B: &matrix (    a , q, r)
-, C: &matrix (a?, p, r) >> matrix (a, p, r)
-, p: size_t p, q: size_t q, r: size_t r
-) : void // end of [multo_matrix_matrix_matrix]
-
-#atscode_separator()
-
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
