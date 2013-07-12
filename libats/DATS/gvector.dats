@@ -256,23 +256,4 @@ end // end of [muladdto_scalar_gvector_gvector]
 
 (* ****** ****** *)
 
-implement{a}
-mul_gvector_gvector_scalar
-  (V1, V2, n, d1, d2) = let
-//
-typedef tenv = a
-//
-implement
-gvector_foreach2$fwork<a,a><tenv>
-  (x, y, env) = env := gadd_val<a> (env, gmul_val<a> (x, y))
-//
-var env: tenv = gnumint<a> (0)
-val _(*n*) = gvector_foreach2_env<a,a><tenv> (V1, V2, n, d1, d2, env)
-//
-in
-  env
-end // end of [mul_gvector_gvector_scalar]
-
-(* ****** ****** *)
-
 (* end of [gvector.dats] *)

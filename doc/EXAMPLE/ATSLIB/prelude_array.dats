@@ -304,12 +304,10 @@ val out = stdout_ref
 local
 //
 implement
-add3_array_array$fop<T>
-  (x, y, z) = z := (x * y)
+array_mapto2$fwork<T,T><T> (x, y, z) = z := (x * y)
 in
 //
-val (
-) = add3_array_array (!p, !p, !p, asz)
+val () = array_mapto2 (!p, !p, !p, asz)
 //
 end (* end of [local] *)
 //

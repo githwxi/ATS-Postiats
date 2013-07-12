@@ -158,10 +158,6 @@ return value of a call to #dyncode("matrix_tabulate$fwork").
 #declnamesynop("matrix_mapto2$fwork")
 
 (* ****** ****** *)
-
-#declnamesynop("multo_matrix_matrix_matrix")
-
-(* ****** ****** *)
 //
 // HX: various overloaded symbols
 //

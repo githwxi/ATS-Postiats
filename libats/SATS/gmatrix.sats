@@ -61,20 +61,36 @@ stadef GMX = gmatrix
 stadef GMX = gmatrix_v
 //
 (* ****** ****** *)
-(*
-** HX: C := C + A * B
-*)
-fun{
-a:t0p
-} muladdto_gmatrix_gmatrix_gmatrix
-  {mo:mord}{p,q,r:int}{lda,ldb,ldc:int}
-(
-  A: &GMX (INV(a), mo, p, q, lda)
-, B: &GMX (    a , mo, q, r, ldb)
-, C: &GMX (    a , mo, p, r, ldc) >> _
-, MORD (mo), int p, int q, int r, int lda, int ldb, int ldc
-) : void // end of [muladdto_gmatrix_gmatrix_gmatrix]
-
+//
+typedef gmatrow
+  (a:t@ype, m:int, n:int, ld:int) = gmatrix_t0ype (a, mrow, m, n, ld)
+viewdef gmatrow_v
+  (a:t@ype, l:addr, m:int, n:int, ld:int) = gmatrix_t0ype (a, mrow, m, n, ld) @ l
+//
+stadef GMR = gmatrow
+stadef GMR = gmatrow_v
+//
+(* ****** ****** *)
+//
+typedef gmatcol
+  (a:t@ype, m:int, n:int, ld:int) = gmatrix_t0ype (a, mcol, m, n, ld)
+viewdef gmatcol_v
+  (a:t@ype, l:addr, m:int, n:int, ld:int) = gmatrix_t0ype (a, mcol, m, n, ld) @ l
+//
+stadef GMC = gmatcol
+stadef GMC = gmatcol_v
+//
+(* ****** ****** *)
+//
+praxi
+gmatrow2col
+  {a:t0p}{m,n:int}{ld:int}
+  (&GMR(INV(a), m, n, ld) >> GMC(a, n, m, ld)): void
+praxi
+gmatcol2row
+  {a:t0p}{m,n:int}{ld:int}
+  (&GMC(INV(a), m, n, ld) >> GMR(a, n, m, ld)): void
+//
 (* ****** ****** *)
 
 (* end of [gmatrix.sats] *)
