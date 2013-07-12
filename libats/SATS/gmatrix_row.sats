@@ -148,47 +148,130 @@ gmatrow_v_uncons2
 //
 (* ****** ****** *)
 
+praxi
+gmatrow_v_split1x2
+  {a:t0p}{l:addr}
+  {m,n:int}{ld:int}
+  {j:nat | j <= n}
+(
+  GMR (INV(a), l, m, n, ld), int j
+) :
+(
+  GMR (a, l            , m, j  , ld)
+, GMR (a, l+j*sizeof(a), m, n-j, ld)
+) (* end of [gmatrow_v_split1x2] *)
+
+praxi
+gmatrow_v_unsplit1x2
+  {a:t0p}{l:addr}
+  {m,j,j2:int}{ld:int}
+(
+  GMR (INV(a), l            , m, j , ld)
+, GMR (a     , l+j*sizeof(a), m, j2, ld)
+) : GMR (a, l, m, j+j2, ld) // end of [praxi]
+
+(* ****** ****** *)
+
+praxi
+gmatrow_v_split2x1
+  {a:t0p}{l:addr}
+  {m,n:int}{ld:int}
+  {i,j:nat | i <= m}
+(
+  GMR (INV(a), l, m, n, ld), int i
+) :
+(
+  GMR (a, l               , i  , n, ld)
+, GMR (a, l+i*ld*sizeof(a), m-i, n, ld)
+) (* end of [gmatrow_v_split2x1] *)
+
+praxi
+gmatrow_v_unsplit2x1
+  {a:t0p}{l:addr}
+  {i,i2,n:int}{ld:int}
+(
+  GMR (INV(a), l               , i , n, ld)
+, GMR (a     , l+i*ld*sizeof(a), i2, n, ld)
+) : GMR (a, l, i+i2, n, ld) // end of [praxi]
+
+(* ****** ****** *)
+
+praxi
+gmatrow_v_split2x2
+  {a:t0p}{l:addr}
+  {m,n:int}{ld:int}
+  {i,j:nat | i <= m; j <= n}
+(
+  GMR (INV(a), l, m, n, ld), int i, int j
+) :
+(
+  GMR (a, l                           , i  , j  , ld)
+, GMR (a, l               +j*sizeof(a), i  , n-j, ld)
+, GMR (a, l+i*ld*sizeof(a)            , m-i, j  , ld)
+, GMR (a, l+i*ld*sizeof(a)+j*sizeof(a), m-i, n-j, ld)
+) (* end of [gmatrow_v_split2x2] *)
+
+praxi
+gmatrow_v_unsplit2x2
+  {a:t0p}{l:addr}
+  {i,i2,j,j2:int}{ld:int}
+(
+  GMR (INV(a), l                           , i , j , ld)
+, GMR (a     , l               +j*sizeof(a), i , j2, ld)
+, GMR (a     , l+i*ld*sizeof(a)            , i2, j , ld)
+, GMR (a     , l+i*ld*sizeof(a)+j*sizeof(a), i2, j2, ld)
+) : GMR (a, l, i+i2, j+j2, ld) // end of [praxi]
+
+(* ****** ****** *)
+
 fun{a:t0p}
 gmatrow_getref_at
   {m,n:int}{ld:int}
 (
-  M: &GMR (INV(a), m, n, ld), n: int(n), i: natLt(m), j:natLt(n)
+  M: &GMR (INV(a), m, n, ld), int(ld), i: natLt(m), j: natLt(n)
 ) : cPtr1(a) // end of [gmatrow_getref_at]
 
 (* ****** ****** *)
 
 fun{a:t0p}
+gmatrow_getref_col_at
+  {m,n:int}{ld:int}
+(
+  M: &GMR (INV(a), m, n, ld), j: natLt(n)
+) : cPtr1(GV(a, m, ld)) // end of [gmatrow_getref_col_at]
+
+fun{a:t0p}
 gmatrow_getref_row_at
   {m,n:int}{ld:int}
 (
-  M: &GMR (INV(a), m, n, ld), n: int(n), i: natLt(m)
-) : cPtr1(array(a, n)) // end of [gmatrow_getref_row_at]
+  M: &GMR (INV(a), m, n, ld), int(ld), i: natLt(m)
+) : cPtr1(GV(a, n,  1)) // end of [gmatrow_getref_row_at]
 
 (* ****** ****** *)
 
 fun{
 a:t0p
-} multo_gmatrow_gvector_gvector
+} muladdto_gmatrow_gvector_gvector
   {m,n:int}{ld1,d2,d3:int}
 (
   M1: &GMR (INV(a), m, n, ld1)
 , V2: &GV (a, n, d2)
-, V3: &GV (a?, m, d3) >> GV (a, m, d3)
+, V3: &GV (a, m, d3) >> _
 , int(m), int(n), int(ld1), int(d2), int(d3)
-) : void // end of [multo_gmatrow_gvector_gvector]
+) : void // end of [muladdto_gmatrow_gvector_gvector]
 
 (* ****** ****** *)
 
 fun{
 a:t0p
-} multo_gmatrow_gmatrow_gmatrow
+} muladdto_gmatrow_gmatrow_gmatrow
   {p,q,r:int}{lda,ldb,ldc:int}
 (
   A: &GMR (INV(a), p, q, lda)
 , B: &GMR (    a , q, r, ldb)
-, C: &GMR (a?, p, r, ldc) >> GMR (a, p, r, ldc)
+, C: &GMR (    a , p, r, ldc) >> _
 , int p, int q, int r, int lda, int ldb, int ldc
-) : void // end of [multo_gmatrow_gmatrow_gmatrow]
+) : void // end of [muladdto_gmatrow_gmatrow_gmatrow]
 
 (* ****** ****** *)
 //
@@ -196,14 +279,14 @@ a:t0p
 // BB: tensor product
 //
 fun{a:t0p}
-tmulto_gvector_gvector_gmatrow
+muladdto_gvector_gvector_gmatrow
   {m,n:int}{d1,d2,ld3:int}
 (
   V1: &GV (INV(a), m, d1)
 , V2: &GV (    a , n, d2)
-, M3: &GMR (a?, m, n, ld3) >> GMR (a, m, n, ld3)
+, M3: &GMR (a, m, n, ld3) >> _
 , m: int(m), n: int(n), d1: int(d1), d2: int(d2), ld3: int(ld3)
-) : void (* end of [tmulto_gvector_gvector_gmatrow] *)
+) : void (* end of [muladdto_gvector_gvector_gmatrow] *)
 
 (* ****** ****** *)
 

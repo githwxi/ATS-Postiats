@@ -42,6 +42,16 @@ staload "libats/SATS/gvector.sats"
 
 (* ****** ****** *)
 
+implement{a}
+gvector_getref_at
+  (V, d, i) = let
+  val p = $UN.cast2Ptr1(ptr_add<a> (addr@(V), i*d))
+in
+  $UN.ptr2cptr{a}(p)
+end // end of [gvector_getref_at]
+
+(* ****** ****** *)
+
 implement{}
 fprint_gvector$sep
   (out) = fprint_string (out, ", ")
@@ -223,7 +233,7 @@ end // end of [multo_scalar_gvector]
 (* ****** ****** *)
 
 implement{a}
-multo_scalar_gvector_gvector
+muladdto_scalar_gvector_gvector
   {n}{d1,d2}(k, V1, V2, n, d1, d2) = let
 //
 prval (
@@ -236,13 +246,13 @@ __initize (&gvector (a?, n, d2) >> gvector (a, n, d2)): void
 implement(a,env)
 gvector_foreach2$cont<a,a><env> (x, y, env) = true
 implement(env)
-gvector_foreach2$fwork<a,a><env> (x, y, env) = y := gmul_val<a> (k, x)
+gvector_foreach2$fwork<a,a><env> (x, y, env) = gaddto_val<a> (gmul_val<a> (k, x), y)
 //
 val _(*n*) = gvector_foreach2 (V1, V2, n, d1, d2)
 //
 in
   // nothing
-end // end of [multo_scalar_gvector_gvector]
+end // end of [muladdto_scalar_gvector_gvector]
 
 (* ****** ****** *)
 

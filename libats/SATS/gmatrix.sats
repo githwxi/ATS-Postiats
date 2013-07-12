@@ -61,17 +61,19 @@ stadef GMX = gmatrix
 stadef GMX = gmatrix_v
 //
 (* ****** ****** *)
-
+(*
+** HX: C := C + A * B
+*)
 fun{
 a:t0p
-} multo_gmatrix_gmatrix_gmatrix
+} muladdto_gmatrix_gmatrix_gmatrix
   {mo:mord}{p,q,r:int}{lda,ldb,ldc:int}
 (
   A: &GMX (INV(a), mo, p, q, lda)
 , B: &GMX (    a , mo, q, r, ldb)
-, C: &GMX (    a?, mo, p, r, ldc) >> GMX (a, mo, p, r, ldc)
+, C: &GMX (    a , mo, p, r, ldc) >> _
 , MORD (mo), int p, int q, int r, int lda, int ldb, int ldc
-) : void // end of [multo_gmatrix_gmatrix_gmatrix]
+) : void // end of [muladdto_gmatrix_gmatrix_gmatrix]
 
 (* ****** ****** *)
 

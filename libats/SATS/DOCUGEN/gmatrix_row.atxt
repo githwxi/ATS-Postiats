@@ -47,15 +47,40 @@ that is, two-dimensional arrays of row-major style.
 
 (* ****** ****** *)
 
-#declnamesynop("multo_gmatrow_gvector_gvector")
+#declnamesynop("gmatrow_v_nil2")
+#declnamesynop("gmatrow_v_unnil2")
+#declnamesynop("gmatrow_v_unnil2_nil2")
+#declnamesynop("gmatrow_v_cons2")
+#declnamesynop("gmatrow_v_uncons2")
 
 (* ****** ****** *)
 
-#declnamesynop("multo_gmatrow_gmatrow_gmatrow")
+#declnamesynop("gmatrow_v_split1x2")
+#declnamesynop("gmatrow_v_unsplit1x2")
+
+#declnamesynop("gmatrow_v_split2x1")
+#declnamesynop("gmatrow_v_unsplit2x1")
+
+#declnamesynop("gmatrow_v_split2x2")
+#declnamesynop("gmatrow_v_unsplit2x2")
 
 (* ****** ****** *)
 
-#declnamesynop("tmulto_gvector_gvector_gmatrow")
+#declnamesynop("gmatrow_getref_at")
+#declnamesynop("gmatrow_getref_col_at")
+#declnamesynop("gmatrow_getref_row_at")
+
+(* ****** ****** *)
+
+#declnamesynop("muladdto_gmatrow_gvector_gvector")
+
+(* ****** ****** *)
+
+#declnamesynop("muladdto_gmatrow_gmatrow_gmatrow")
+
+(* ****** ****** *)
+
+#declnamesynop("muladdto_gvector_gvector_gmatrow")
 
 (* ****** ****** *)
 

@@ -102,6 +102,13 @@ implement
 gmod_val<int> (x, y) = x mod y
 
 #atscode_separator()
+
+implement{a}
+gaddto_val (x, y) = y := gadd_val<a> (x, y)
+implement{a}
+gmulto_val (x, y) = y := gmul_val<a> (x, y)
+
+#atscode_separator()
 //
 // HX: double-precision floating point numbers
 //

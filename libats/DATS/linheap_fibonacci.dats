@@ -212,9 +212,11 @@ end // end of [linheap_insert]
 (* ****** ****** *)
 
 implement{a}
-linheap_getmin_ref (hp) =
-  case+ hp of FIBHEAP (nx, _) => gnode2ptr (nx)
-// end of [linheap_getmin_ref]
+linheap_getmin_ref (hp) = let
+//
+val FIBHEAP (nx, _) = hp in $UN.ptr2cptr{a}(gnode2ptr(nx))
+//
+end // end of [linheap_getmin_ref]
 
 (* ****** ****** *)
 

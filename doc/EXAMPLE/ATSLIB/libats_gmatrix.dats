@@ -52,13 +52,15 @@ end // end of [local]
 //
 val pA = ptrcast (A) and pB = ptrcast (B)
 //
-prval
-pfA = arrayptr_takeout{T}(A)
-prval
-pfB = arrayptr_takeout{T}(B)
+prval pfA = arrayptr_takeout{T}(A)
+prval pfB = arrayptr_takeout{T}(B)
 //
-val (pfM, pfgcM | pM) = matrix_ptr_alloc<T> (asz, asz)
-val (pfM2, pfgcM2 | pM2) = matrix_ptr_alloc<T> (asz, asz)
+val M = matrixptr_make_elt<T> (asz, asz, 0)
+val M2 = matrixptr_make_elt<T> (asz, asz, 0)
+val pM = ptrcast (M) and pM2 = ptrcast (M2)
+//
+prval pfM = matrixptr_takeout{T}(M)
+prval pfM2 = matrixptr_takeout{T}(M2)
 //
 prval pfA = array2gvector_v (pfA)
 prval pfB = array2gvector_v (pfB)
@@ -66,9 +68,9 @@ prval pfM = matrix2gmatrix_v (pfM)
 prval pfM2 = matrix2gmatrix_v (pfM2)
 //
 val () =
-  tmulto_gvector_gvector_gmatrow (!pA, !pB, !pM, n, n, 1, 1, n)
+  muladdto_gvector_gvector_gmatrow (!pA, !pB, !pM, n, n, 1, 1, n)
 val () =
-  multo_gmatrow_gmatrow_gmatrow (!pM, !pM, !pM2, n, n, n, n, n, n)
+  muladdto_gmatrow_gmatrow_gmatrow (!pM, !pM, !pM2, n, n, n, n, n, n)
 //
 prval pfA = gvector2array_v (pfA)
 prval pfB = gvector2array_v (pfB)
@@ -90,10 +92,11 @@ val () = fprint_newline (out)
 //
 prval () = arrayptr_addback (pfA | A)
 prval () = arrayptr_addback (pfB | B)
+prval () = matrixptr_addback (pfM | M)
+prval () = matrixptr_addback (pfM2 | M2)
 //
-val () = matrix_ptr_free (pfM, pfgcM | pM)
-val () = matrix_ptr_free (pfM2, pfgcM2 | pM2)
 val () = arrayptr_free (A) and () = arrayptr_free (B)
+val () = matrixptr_free (M) and () = matrixptr_free (M2)
 //
 } (* end of [val] *)
 

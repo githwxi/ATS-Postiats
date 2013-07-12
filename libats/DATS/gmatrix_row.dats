@@ -44,19 +44,41 @@ staload "libats/SATS/gmatrix_row.sats"
 (* ****** ****** *)
 
 implement{a}
-gmatrow_getref_row_at
-  {m,n}{ld}(M, n, i) = let
+gmatrow_getref_at
+  (M, ld, i, j) = let
 //
-val prow = $UN.cast2Ptr1(ptr_add<a> (addr@(M), i * n))
+val p = $UN.cast2Ptr1(ptr_add<a> (addr@M, i*ld+j))
 //
 in
-  $UN.ptr2cptr{array(a,n)}(prow)
+  $UN.ptr2cptr{a}(p)
+end // end of [gmatrow_getref_at]
+
+(* ****** ****** *)
+
+implement{a}
+gmatrow_getref_col_at
+  {m,n}{ld}(M, j) = let
+//
+val pcol = $UN.cast2Ptr1(ptr_add<a> (addr@M, j))
+//
+in
+  $UN.ptr2cptr{GV(a,m,ld)}(pcol)
+end // end of [gmatrow_getref_row_at]
+
+implement{a}
+gmatrow_getref_row_at
+  {m,n}{ld}(M, ld, i) = let
+//
+val prow = $UN.cast2Ptr1(ptr_add<a> (addr@M, i*ld))
+//
+in
+  $UN.ptr2cptr{GV(a,n,1)}(prow)
 end // end of [gmatrow_getref_row_at]
 
 (* ****** ****** *)
 
 implement{a}
-multo_gmatrow_gvector_gvector
+muladdto_gmatrow_gvector_gvector
   {m,n}{ld1,d2,d3}
 (
   M1, V2, V3, m, n, ld1, d2, d3
@@ -68,7 +90,7 @@ fun loop
   pf1:
   !GMR (a, l1, m, n, ld1)
 , pf2: !GV (a, l2, n, d2)
-, pf3: !GV (a?, l3, m, d3) >> GV (a, l3, m, d3)
+, pf3: !GV (a, l3, m, d3) >> _
 | p1: ptr(l1), p2: ptr(l2), p3: ptr(l3), m: int m
 ) : void = let
 in
@@ -79,7 +101,7 @@ prval (pf11, pf12) = gmatrow_v_uncons (pf1)
 prval (pf31, pf32) = gvector_v_uncons (pf3)
 //
 prval () = array2gvector(!p1)
-val () = !p3 := mul_gvector_gvector_scalar (!p1, !p2, n, 1, d2)
+val () = gaddto_val<a> (mul_gvector_gvector_scalar (!p1, !p2, n, 1, d2), !p3)
 val () = loop (pf12, pf2, pf32 | ptr_add<a> (p1, ld1), p2, ptr_add<a> (p3, d3), m-1)
 prval () = gvector2array(!p1)
 //
@@ -107,7 +129,7 @@ end // end of [multo_gmatrow_gvector_gvector]
 (* ****** ****** *)
 
 implement{a}
-multo_gmatrow_gmatrow_gmatrow
+muladdto_gmatrow_gmatrow_gmatrow
   {p,q,r}{lda,ldb,ldc}
 (
   A, B, C, p, q, r, lda, ldb, ldc
@@ -122,7 +144,7 @@ fun loop
 (
   pfa: !GMR (a, la, p, q, lda)
 , pfb: !GMR (a, lb, q, r, ldb)
-, pfc: !GMR (a?, lc, p, r, ldc) >> GMR (a, lc, p, r, ldc)
+, pfc: !GMR (a, lc, p, r, ldc) >> _
 , pft: !array_v(a?, lt, q) >> _
 | pa: ptr la, pb: ptr lb, pc: ptr lc, pt: ptr lt, r: int r
 ) : void =
@@ -141,7 +163,7 @@ prval
 //
 prval () = array2gvector (!pt)
 val () = copyto_gvector_gvector (!pb, !pt, q, ldb, 1)
-val () = multo_gmatrow_gvector_gvector (!pa, !pt, !pc, p, q, lda, 1, ldc)
+val () = muladdto_gmatrow_gvector_gvector (!pa, !pt, !pc, p, q, lda, 1, ldc)
 prval () = gvector2array (!pt)
 //
 val (
@@ -177,12 +199,12 @@ val ((*void*)) = array_ptr_free (pft, pftgc | pt)
 //
 in
   // nothing
-end // end of [multo_gmatrow_gmatrow_gmatrow]
+end // end of [muladdto_gmatrow_gmatrow_gmatrow]
 
 (* ****** ****** *)
 
 implement{a}
-tmulto_gvector_gvector_gmatrow
+muladdto_gvector_gvector_gmatrow
   {m,n}{d1,d2,ld3}
 (
   V1, V2, M3, m, n, d1, d2, ld3
@@ -193,7 +215,7 @@ fun loop
 (
   pf1: !GV (a, l1, m, d1)
 , pf2: !GV (a, l2, n, d2)
-, pf3: !GMR (a?, l3, m, n, ld3) >> GMR (a, l3, m, n, ld3)
+, pf3: !GMR (a, l3, m, n, ld3) >> _
 | p1: ptr l1, p2: ptr l2, p3: ptr l3, m: int m, n: int n
 ) : void =
 (
@@ -206,7 +228,7 @@ prval (pf31, pf32) = gmatrow_v_uncons (pf3)
 val k = !p1
 prval () = array2gvector(!p3)
 val (
-) = multo_scalar_gvector_gvector (k, !p2, !p3, n, d2, 1)
+) = muladdto_scalar_gvector_gvector (k, !p2, !p3, n, d2, 1)
 val (
 ) = loop (pf12, pf2, pf32 | ptr_add<a> (p1, d1), p2, ptr_add<a> (p3, ld3), pred(m), n)
 prval () = gvector2array(!p3)
@@ -228,7 +250,7 @@ prval () = lemma_gmatrow_param (M3)
 //
 in
   loop (view@V1, view@V2, view@M3 | addr@V1, addr@V2, addr@M3, m, n)
-end // end of [tmul_gvector_gvector_gmatrow]
+end // end of [muladdto_gvector_gvector_gmatrow]
 
 (* ****** ****** *)
 

@@ -32,7 +32,6 @@ that is, one-dimensional arrays.
 #declnamesynop("gvector_t0ype")
 #declnamesynop("gvector_v")
 #declnamesynop("GV")
-#declnamesynop("GV_v")
 
 (* ****** ****** *)
 
@@ -41,12 +40,47 @@ that is, one-dimensional arrays.
 
 (* ****** ****** *)
 
+#declnamesynop("gvector_v_nil")
+#declnamesynop("gvector_v_unnil")
+#declnamesynop("gvector_v_unnil_nil")
+#declnamesynop("gvector_v_cons")
+#declnamesynop("gvector_v_uncons")
+
+(* ****** ****** *)
+
+#declnamesynop("gvector_getref_at")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_gvector")
+#declnamesynop("fprint_gvector$sep")
+
+(* ****** ****** *)
+
 #declnamesynop("multo_scalar_gvector")
-#declnamesynop("multo_scalar_gvector_gvector")
+#decldescrpt("\
+
+This function scales vector V (2nd argument) by a scalar k (1st argument).
+
+")
+
+#declnamesynop("muladdto_scalar_gvector_gvector")
+#decldescrpt("\
+
+This function scales vector V1 (2nd argument) by a scalar k (1st argument)
+and then add it to vector V2 (3rd argument).
+
+")
 
 (* ****** ****** *)
 
 #declnamesynop("mul_gvector_gvector_scalar")
+#decldescrpt("\
+
+This function computes the inner product (a.k.a. dot product) of two given
+vectors.
+
+")
 
 (* ****** ****** *)
 

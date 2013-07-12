@@ -46,16 +46,16 @@ staload "libats/SATS/gmatrix_row.sats"
 (* ****** ****** *)
 
 implement{a}
-multo_gmatrix_gmatrix_gmatrix
+muladdto_gmatrix_gmatrix_gmatrix
 (
   A, B, C, mord, p, q, r, lda, ldb, ldc
 ) = (
 case+ mord of
 | MORDrow () =>
-    multo_gmatrow_gmatrow_gmatrow (A, B, C, p, q, r, lda, ldb, ldc)
+    muladdto_gmatrow_gmatrow_gmatrow (A, B, C, p, q, r, lda, ldb, ldc)
 | MORDcol () =>
-    multo_gmatcol_gmatcol_gmatcol (A, B, C, p, q, r, lda, ldb, ldc)
-) (* end of [multo_gmatrix_gmatrix_gmatrix] *)
+    muladdto_gmatcol_gmatcol_gmatcol (A, B, C, p, q, r, lda, ldb, ldc)
+) (* end of [muladdto_gmatrix_gmatrix_gmatrix] *)
 
 (* ****** ****** *)
 

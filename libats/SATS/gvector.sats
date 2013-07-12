@@ -57,32 +57,6 @@ stadef GV = gvector_v
 (* ****** ****** *)
 //
 praxi
-gvector_v_nil
-  {a:t0p}{l:addr}{d:int | d > 0} (): GV (a, l, 0, d)
-praxi
-gvector_v_unnil
-  {a:t0p}{l:addr}{n:int}{d:int} (pf: GV (a, l, 0, d)): void
-praxi
-gvector_v_unnil_nil
-  {a1,a2:t0p}
-  {l:addr}{n:int}{d:int} (pf: GV (a1, l, 0, d)): GV (a2, l, 0, d)
-//
-(* ****** ****** *)
-
-praxi
-gvector_v_cons
-  {a:t0p}{l:addr}{n:int}{d:int}
-  (a @ l, GV (INV(a), l+d*sizeof(a), n, d)): GV (a, l, n+1, d)
-// end of [gvector_v_cons]
-praxi
-gvector_v_uncons
-  {a:t0p}{l:addr}{n:int | n > 0}{d:int}
-  (GV (INV(a), l, n, d)): (a @ l, GV (a, l+d*sizeof(a), n-1, d))
-// end of [gvector_v_uncons]
-
-(* ****** ****** *)
-//
-praxi
 lemma_gvector_param
   {a:t0p}{n:int}{d:int}
   (v: &GV (INV(a), n, d)): [n >= 0; d >= 1] void
@@ -118,6 +92,40 @@ gvector2array_v
 // end [gvector2array_v]
 
 (* ****** ****** *)
+//
+praxi
+gvector_v_nil
+  {a:t0p}{l:addr}{d:int | d > 0} (): GV (a, l, 0, d)
+praxi
+gvector_v_unnil
+  {a:t0p}{l:addr}{n:int}{d:int} (pf: GV (a, l, 0, d)): void
+praxi
+gvector_v_unnil_nil
+  {a1,a2:t0p}
+  {l:addr}{n:int}{d:int} (pf: GV (a1, l, 0, d)): GV (a2, l, 0, d)
+//
+praxi
+gvector_v_cons
+  {a:t0p}{l:addr}{n:int}{d:int}
+(
+  pf1: a @ l, pf2: GV (INV(a), l+d*sizeof(a), n, d)
+) : GV (a, l, n+1, d) // endfun
+praxi
+gvector_v_uncons
+  {a:t0p}{l:addr}
+  {n:int | n > 0}{d:int}
+  (pf: GV (INV(a), l, n, d)): (a @ l, GV (a, l+d*sizeof(a), n-1, d))
+//
+(* ****** ****** *)
+
+fun{a:t0p}
+gvector_getref_at
+  {n:int}{d:int}
+(
+  V: &GV (INV(a), n, d), d: int d, i: natLt(n)
+) : cPtr1(a) // end of [gvector_getref_at]
+
+(* ****** ****** *)
 
 fun{}
 fprint_gvector$sep (out: FILEref): void
@@ -136,7 +144,7 @@ copyto_gvector_gvector
 (
   V1: &GV (INV(a), n, d1)
 , V2: &GV (a?, n, d2) >> GV (a, n, d2)
-, n: int (n), d1: int (d1), d2: int (d2)
+, len: int (n), d1: int (d1), d2: int (d2)
 ) : void // end of [copyto_gvector_gvector]
 
 (* ****** ****** *)
@@ -204,14 +212,14 @@ multo_scalar_gvector
 (* ****** ****** *)
 
 fun{a:t0p}
-multo_scalar_gvector_gvector
+muladdto_scalar_gvector_gvector
   {n:int}{d1,d2:int}
 (
   k: a
 , V1: &GV (INV(a), n, d1)
-, V2: &GV (a?, n, d2) >> GV (a, n, d2)
+, V2: &GV (a, n, d2) >> _
 , n: int(n), d1: int(d1), d2: int(d2)
-) : void // end of [multo_scalar_gvector_gvector]
+) : void // end of [muladdto_scalar_gvector_gvector]
 
 (* ****** ****** *)
 //

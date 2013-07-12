@@ -43,6 +43,7 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 absvtype
 arrayptr_vt0ype_addr_int_vtype
   (a:vt0ype+, l: addr, n: int) = ptr (l)
+//
 stadef
 arrayptr = arrayptr_vt0ype_addr_int_vtype
 vtypedef

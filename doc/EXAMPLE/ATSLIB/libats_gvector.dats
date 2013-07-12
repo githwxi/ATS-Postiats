@@ -53,7 +53,7 @@ val () = fprint (out, "B = ")
 val () = fprint_gvector (out, !pB, n, 1)
 val () = fprint_newline (out)
 //
-val dp = mul_gvector_gvector (!pA, !pB, n, 1, 1)
+val dp = mul_gvector_gvector_scalar (!pA, !pB, n, 1, 1)
 //
 val () = println! ("dotprod(A, B) = ", dp)
 //

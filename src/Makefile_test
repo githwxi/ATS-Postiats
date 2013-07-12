@@ -140,6 +140,15 @@ libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/gflist.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/gflist_vt.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/gflist_vt.dats
 
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/gvector.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/gvector.dats
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/gmatrix.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/gmatrix.dats
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/gmatrix_col.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/gmatrix_col.dats
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/gmatrix_row.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/gmatrix_row.dats
+
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funmap_list.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/funmap_list.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funmap_avltree.sats

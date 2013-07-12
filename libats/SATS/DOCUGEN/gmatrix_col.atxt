@@ -47,15 +47,58 @@ that is, two-dimensional arrays of column-major style.
 
 (* ****** ****** *)
 
-#declnamesynop("multo_gvector_gmatcol_gvector")
+#declnamesynop("gmatcol_v_nil2")
+#declnamesynop("gmatcol_v_unnil2")
+#declnamesynop("gmatcol_v_unnil2_nil2")
+#declnamesynop("gmatcol_v_cons2")
+#declnamesynop("gmatcol_v_uncons2")
 
 (* ****** ****** *)
 
-#declnamesynop("multo_gmatcol_gmatcol_gmatcol")
+#declnamesynop("gmatcol_v_split2x1")
+#declnamesynop("gmatcol_v_unsplit2x1")
+
+#declnamesynop("gmatcol_v_split1x2")
+#declnamesynop("gmatcol_v_unsplit1x2")
+
+#declnamesynop("gmatcol_v_split2x2")
+#declnamesynop("gmatcol_v_unsplit2x2")
 
 (* ****** ****** *)
 
-#declnamesynop("tmulto_gvector_gvector_gmatcol")
+#declnamesynop("gmatcol_getref_at")
+#declnamesynop("gmatcol_getref_row_at")
+#declnamesynop("gmatcol_getref_col_at")
+
+(* ****** ****** *)
+
+#declnamesynop("muladdto_gvector_gmatcol_gvector")
+#decldescrpt("\
+
+This function computes the product of vector V1 and matrix M2
+and then add it to V3.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("muladdto_gmatcol_gmatcol_gmatcol")
+#decldescrpt("\
+
+This function computes the product of matrices A (1st argument) and B (2nd
+argument) and then add it to C (3rd argument).
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("muladdto_gvector_gvector_gmatcol")
+#decldescrpt("\
+
+This function computes the outer product (a.k.a. tensor product) of V1 and
+V2 and then add it to M3.
+
+")
 
 (* ****** ****** *)
 

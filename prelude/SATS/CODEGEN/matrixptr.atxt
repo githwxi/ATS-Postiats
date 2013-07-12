@@ -35,22 +35,25 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 #atscode_separator()
 
-absviewtype
-matrixptr_4
+absvtype
+matrixptr_vt0ype_addr_int_int_vtype
   (a:vt@ype+, l: addr, m: int, n: int) = ptr
 //
-viewtypedef
-matrixptr_3
-  (a:vt@ype, m: int, n: int) = [l:addr] matrixptr_4 (a, l, m, n)
-//
-stadef matrixptr = matrixptr_4
-stadef matrixptr = matrixptr_3
+stadef
+matrixptr = matrixptr_vt0ype_addr_int_int_vtype
+vtypedef
+matrixptr
+  (a:vt@ype, m: int, n: int) = [l:addr] matrixptr (a, l, m, n)
 //
 #atscode_separator()
 
-absviewtype
-matrixptrout (a:vt@ype, l: addr, m: int, n: int) = ptr
-
+absvtype
+matrixptrout_vt0ype_addr_int_int_vtype
+  (a:vt@ype, l: addr, m: int, n: int) = ptr
+//
+stadef
+matrixptrout = matrixptrout_vt0ype_addr_int_int_vtype
+//
 #atscode_separator()
 
 praxi
@@ -63,8 +66,32 @@ lemma_matrixptr_param{a:vt0p}
 castfn
 matrixptr2ptr
   {a:vt0p}
-  {l:addr}{m,n:int} (A: !matrixptr (INV(a), l, m, n)):<> ptr (l)
+  {l:addr}{m,n:int}
+  (A: !matrixptr (INV(a), l, m, n)):<> ptr (l)
 overload ptrcast with matrixptr2ptr
+
+castfn
+matrixptrout2ptr
+  {a:t0p}
+  {l:addr}{m,n:int}
+  (A: !matrixptrout (INV(a), l, m, n)):<> ptr (l)
+overload ptrcast with matrixptrout2ptr
+
+#atscode_separator()
+
+praxi
+matrixptr_takeout
+  {a:vt0p}{l:addr}{m,n:int}
+(
+  !matrixptr (INV(a), l, m, n) >> matrixptrout (a?, l, m, n)
+) : matrix_v (a, l, m, n) // endfun
+praxi
+matrixptr_addback
+  {a:vt0p}{l:addr}{m,n:int}
+(
+  pf: matrix_v (INV(a), l, m, n)
+| mat: !matrixptrout (a?, l, m, n) >> matrixptr (a, l, m, n)
+) : void // end of [matrixptr_addback]
 
 #atscode_separator()
 

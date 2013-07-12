@@ -40,7 +40,7 @@ that is, two-dimensional arrays.
 
 (* ****** ****** *)
 
-#declnamesynop("multo_gmatrix_gmatrix_gmatrix")
+#declnamesynop("muladdto_gmatrix_gmatrix_gmatrix")
 
 (* ****** ****** *)
 
