@@ -238,32 +238,6 @@ gmatrow_getref_row_at
 ) : cPtr1(GVT(a, n, 1(*d*))) // end of [gmatrow_getref_row_at]
 
 (* ****** ****** *)
-
-fun{
-a:t0p
-} muladdto_gmatrow_gvector_gvector
-  {m,n:int}{ld1,d2,d3:int}
-(
-  M1: &GMR(INV(a), m, n, ld1)
-, V2: &GVT(    a , n, d2)
-, V3: &GVT(    a , m, d3) >> _
-, int(m), int(n), int(ld1), int(d2), int(d3)
-) : void // end of [muladdto_gmatrow_gvector_gvector]
-
-(* ****** ****** *)
-
-fun{
-a:t0p
-} muladdto_gmatrow_gmatrow_gmatrow
-  {p,q,r:int}{lda,ldb,ldc:int}
-(
-  A: &GMR(INV(a), p, q, lda)
-, B: &GMR(    a , q, r, ldb)
-, C: &GMR(    a , p, r, ldc) >> _
-, int p, int q, int r, int lda, int ldb, int ldc
-) : void // end of [muladdto_gmatrow_gmatrow_gmatrow]
-
-(* ****** ****** *)
 //
 // BB: outer product
 // BB: tensor product

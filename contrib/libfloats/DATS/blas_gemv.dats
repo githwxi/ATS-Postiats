@@ -144,9 +144,9 @@ blas_gemv_rowt
 (
   M1, V2, V3, m, n, ld1, d2, d3
 ) = let
-  prval () = gmatrow2col (M1)
+  prval () = gmatrix_trans (M1)
   val () = blas_gemv_col (M1, V2, V3, n, m, ld1, d2, d3)
-  prval () = gmatcol2row (M1)
+  prval () = gmatrix_trans (M1)
 in
   // nothing
 end // end of [blas_gemv_rowt]
@@ -160,9 +160,9 @@ blas_gemv_colt
 (
   M1, V2, V3, m, n, ld1, d2, d3
 ) = let
-  prval () = gmatcol2row (M1)
+  prval () = gmatrix_trans (M1)
   val () = blas_gemv_row (M1, V2, V3, n, m, ld1, d2, d3)
-  prval () = gmatrow2col (M1)
+  prval () = gmatrix_trans (M1)
 in
   // nothing
 end // end of [blas_gemv_colt]

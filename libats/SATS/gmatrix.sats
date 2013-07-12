@@ -37,10 +37,13 @@ staload "libats/SATS/gvector.sats"
 
 (* ****** ****** *)
 //
-datasort mord =
-  | mcol (* col major *) | mrow (* row major *)
-datatype MORD (mord) =
-  | MORDcol (mcol) of () | MORDrow (mrow) of ()
+sortdef mord = int
+//
+stadef mrow: mord = 0 // row-major
+stadef mcol: mord = 1 // col-major
+//
+datatype MORD (int) =
+  | MORDrow (mrow) of () | MORDcol (mcol) of ()
 //
 (* ****** ****** *)
 //
@@ -83,13 +86,9 @@ stadef GMC = gmatcol_v
 (* ****** ****** *)
 //
 praxi
-gmatrow2col
-  {a:t0p}{m,n:int}{ld:int}
-  (&GMR(INV(a), m, n, ld) >> GMC(a, n, m, ld)): void
-praxi
-gmatcol2row
-  {a:t0p}{m,n:int}{ld:int}
-  (&GMC(INV(a), m, n, ld) >> GMR(a, n, m, ld)): void
+gmatrix_trans
+  {a:t0p}{mo:mord}{m,n:int}{ld:int}
+  (&GMX(INV(a), mo, m, n, ld) >> GMX(a, 1-mo, n, m, ld)): void
 //
 (* ****** ****** *)
 

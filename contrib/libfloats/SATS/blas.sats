@@ -53,6 +53,10 @@ blas_swap
 // 
 (* ****** ****** *)
 
+(*
+HX: Y = alphabeta (AX, Y)
+*)
+
 fun{a:t0p}
 blas_gemv$alphabeta (x: a, y: a): a
 
@@ -100,6 +104,30 @@ blas_gemv_colt
 //
 // BLAS: level 3
 // 
+(* ****** ****** *)
+
+fun{
+a:t0p
+} blas_gemm_row_row_row
+  {mo:mord}{p,q,r:int}{lda,ldb,ldc:int}
+(
+  A: &GMR(INV(a), p, q, lda)
+, B: &GMR(    a , q, r, ldb)
+, C: &GMR(    a , p, r, ldc) >> _
+, int p, int q, int r, int lda, int ldb, int ldc
+) : void // end of [blas_gemm_row_row_row]
+
+fun{
+a:t0p
+} blas_gemm_col_col_col
+  {mo:mord}{p,q,r:int}{lda,ldb,ldc:int}
+(
+  A: &GMC(INV(a), p, q, lda)
+, B: &GMC(    a , q, r, ldb)
+, C: &GMC(    a , p, r, ldc) >> _
+, int p, int q, int r, int lda, int ldb, int ldc
+) : void // end of [blas_gemm_col_col_col]
+
 (* ****** ****** *)
 
 (* end of [blas.sats] *)
