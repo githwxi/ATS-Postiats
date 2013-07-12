@@ -153,6 +153,84 @@ end // end of [muladdto_gmatcol_gmatcol_gmatcol]
 (* ****** ****** *)
 
 implement{a}
+sumaddto_gmatcol_gmatcol_gmatcol
+  {m,n}{lda,ldb,ldc}
+(
+  A, B, C, m, n, lda, ldb, ldc
+) = let
+//
+prval () = lemma_gmatcol_param (A)
+prval () = lemma_gmatcol_param (B)
+prval () = lemma_gmatcol_param (C)
+//
+// Add one column at a time for col-major
+fun loop
+  {la,lb,lc,lt:addr}{m,n:nat} .<n>.
+(
+  pfa: !GMC (a, la, m, n, lda)
+, pfb: !GMC (a, lb, m, n, ldb)
+, pfc: !GMC (a, lc, m, n, ldc) >> _
+| pa: ptr la, pb: ptr lb, pc: ptr lc, m: int n, n: int n
+) : void =
+(
+if n > 0
+then let
+//
+prval
+(
+  pfa1, pfa2
+) = gmatcol_v_uncons (pfa)
+prval
+(
+  pfb1, pfb2
+) = gmatcol_v_uncons (pfb)
+prval
+(
+  pfc1, pfc2
+) = gmatcol_v_uncons (pfc)
+//
+prval () = array2gvector (!pa)
+prval () = array2gvector (!pb)
+prval () = array2gvector (!pc)
+val () = sumaddto_gvector_gvector_gvector(!pa, !pb, !pc, m, 1, 1, 1)
+prval () = gvector2array (!pa)
+prval () = gvector2array (!pb)
+prval () = gvector2array (!pc)
+//
+val (
+) = loop (
+  pfa2, pfb2, pfc2
+| ptr_add<a> (pa, lda),  ptr_add<a> (pb, ldb),  ptr_add<a> (pc, ldc), m, pred(n)
+) (* end of [val] *)
+//
+prval () = pfa := gmatcol_v_cons (pfa1, pfa2)
+prval () = pfa := gmatcol_v_cons (pfa1, pfa2)
+prval () = pfc := gmatcol_v_cons (pfc1, pfc2)
+//
+in
+  // nothing
+end else let
+//
+// BB: is this necessary?; I thought we just have a, not?:
+prval () = (pfc := gmatcol_v_unnil_nil{a?,a}(pfc))
+//
+in
+  // nothing
+end // end of [if]
+)
+//
+val (
+) = loop (
+  view@A, view@B, view@C | addr@A, addr@B, addr@C, m, n
+) (* end of [val] *)
+//
+in
+  // nothing
+end // end of [sumaddto_gmatcol_gmatcol_gmatcol]
+
+(* ****** ****** *)
+
+implement{a}
 muladdto_gvector_gvector_gmatcol
   {m,n}{d1,d2,ld3}
 (
@@ -178,6 +256,7 @@ val k = !p2
 val (
 ) = muladdto_scalar_gvector_gvector (k, !p1, !p3, m, d1, 1)
 val (
+// BB: Why is it not necessary to pass d2, ld3 to loop()?
 ) = loop (pf1, pf22, pf32 | p1, ptr_add<a> (p2, d2), ptr_add<a> (p3, ld3), m, pred(n))
 //
 prval () = pf2 := gvector_v_cons (pf21, pf22)
