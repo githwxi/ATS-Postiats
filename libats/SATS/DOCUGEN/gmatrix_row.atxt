@@ -39,19 +39,15 @@ that is, two-dimensional arrays of row-major style.
 
 (* ****** ****** *)
 
-#declnamesynop("gmatrow_v_nil")
-#declnamesynop("gmatrow_v_unnil")
-#declnamesynop("gmatrow_v_unnil_nil")
-#declnamesynop("gmatrow_v_cons")
-#declnamesynop("gmatrow_v_uncons")
+#declnamesynop("gmatrow_v_cons0")
+#declnamesynop("gmatrow_v_uncons0")
+#declnamesynop("gmatrow_v_renil0")
 
 (* ****** ****** *)
 
-#declnamesynop("gmatrow_v_nil2")
-#declnamesynop("gmatrow_v_unnil2")
-#declnamesynop("gmatrow_v_unnil2_nil2")
-#declnamesynop("gmatrow_v_cons2")
-#declnamesynop("gmatrow_v_uncons2")
+#declnamesynop("gmatrow_v_cons1")
+#declnamesynop("gmatrow_v_uncons1")
+#declnamesynop("gmatrow_v_renil1")
 
 (* ****** ****** *)
 
@@ -72,15 +68,13 @@ that is, two-dimensional arrays of row-major style.
 
 (* ****** ****** *)
 
-#declnamesynop("muladdto_gmatrow_gvector_gvector")
+#declnamesynop("gmatrow_foreachrow")
+#declnamesynop("gmatrow_foreachrow_env")
 
 (* ****** ****** *)
 
-#declnamesynop("muladdto_gmatrow_gmatrow_gmatrow")
-
-(* ****** ****** *)
-
-#declnamesynop("muladdto_gvector_gvector_gmatrow")
+#declnamesynop("gmatrow_foreachrow2")
+#declnamesynop("gmatrow_foreachrow2_env")
 
 (* ****** ****** *)
 

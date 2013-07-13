@@ -70,7 +70,19 @@ blas_swap
 
 (* ****** ****** *)
 //
-// Y <- alpha * X + Y
+// X <- alpha*X
+//
+fun{a:t0p}
+blas_scal
+  {n:int}{dx:int}
+(
+  alpha: a
+, X: &GVT(a, n, dx) >> _, int n, int dx
+) : void // end of [blas_scal]
+
+(* ****** ****** *)
+//
+// Y <- alpha*X + Y
 //
 fun{a:t0p}
 blas_axpy
@@ -81,13 +93,32 @@ blas_axpy
 , Y: &GVT(a, n, dy) >> _, int n, int dx, int dy
 ) : void // end of [blas_axpy]
 
+fun{
+a:t0p
+} blas_axpy2_row
+  {m,n:int}{lda,ldb:int}
+(
+  alpha: a
+, X2: &GMR(a, m, n, lda)
+, Y2: &GMR(a, m, n, ldb) >> _, int m, int n, int lda, int ldb
+) : void // end of [blas_axpy2_row]
+fun{
+a:t0p
+} blas_axpy2_col
+  {m,n:int}{lda,ldb:int}
+(
+  alpha: a
+, X2: &GMC(a, m, n, lda)
+, Y2: &GMC(a, m, n, ldb) >> _, int m, int n, int lda, int ldb
+) : void // end of [blas_axpy2_col]
+
 (* ****** ****** *)
 //
 // BLAS: level 2
 // 
 (* ****** ****** *)
 //
-// Y = alpha*(AX) + beta*Y
+// Y <- alpha*(AX) + beta*Y
 //
 fun{a:t0p}
 blas_gemv_row
@@ -115,7 +146,7 @@ blas_gemv_col
 
 (* ****** ****** *)
 //
-// M3 = alpha(V1(X)V2) + M3
+// M3 <- alpha(V1(X)V2) + M3
 //
 fun{
 a:t0p
@@ -147,34 +178,7 @@ a:t0p
 // 
 (* ****** ****** *)
 //
-// C = alpha*A + beta*B
-//
-fun{
-a:t0p
-} blas_gema_row
-  {mo1,mo2:int}
-  {m,n:int}{lda,ldb,ldc:int}
-(
-  A: &GMR(a, m, m, lda)
-, B: &GMR(a, m, n, ldb)
-, C: &GMR(a?, m, n, ldc) >> GMR(a, m, n, ldc)
-, m: int m, n: int n, int lda, int ldb, int ldc
-) : void // end of [blas_gema_row]
-
-fun{
-a:t0p
-} blas_gema_col
-  {m,n:int}{lda,ldb,ldc:int}
-(
-  A: &GMC(a, m, m, lda)
-, B: &GMC(a, m, n, ldb)
-, C: &GMC(a?, m, n, ldc) >> GMC(a, m, n, ldc)
-, m: int m, n: int n, int lda, int ldb, int ldc
-) : void // end of [blas_gema_col]
-
-(* ****** ****** *)
-//
-// C = alpha*(AB)+beta*C
+// C <- alpha*(AB)+beta*C
 //
 fun{
 a:t0p

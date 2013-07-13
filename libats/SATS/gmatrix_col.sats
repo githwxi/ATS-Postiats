@@ -212,4 +212,57 @@ gmatcol_getref_col_at
 
 (* ****** ****** *)
 
+fun{
+a:t0p}{env:vt0p
+} gmatcol_foreachcol$fwork{m:int}
+(
+  col: &GVT (a, m, 1) >> _, m: int m, env: &(env) >> _
+) : void // end of [gmatcol_foreachcol$fwork]
+
+fun{
+a:t0p
+} gmatcol_foreachcol{m,n:int}{ld:int}
+(
+  M: &gmatcol(a, m, n, ld) >> _, int(m), int(n), int(ld)
+) : void // end of [gmatcol_foreachcol]
+fun{
+a:t0p}{env:vt0p
+} gmatcol_foreachcol_env{m,n:int}{ld:int}
+(
+  M: &gmatcol(a, m, n, ld) >> _, int(m), int(n), int(ld), env: &(env) >> _
+) : void // end of [gmatcol_foreachcol_env]
+
+(* ****** ****** *)
+
+fun{
+a1,a2:t0p}{env:vt0p
+} gmatcol_foreachcol2$fwork{m:int}
+(
+  col1: &GVT (a1, m, 1) >> _
+, col2: &GVT (a2, m, 1) >> _
+, m: int (m), env: &(env) >> _
+) : void // end of [gmatcol_foreachcol$fwork]
+
+fun{
+a1,a2:t0p
+} gmatcol_foreachcol2
+  {m,n:int}{ld1,ld2:int}
+(
+  M1: &gmatcol(a1, m, n, ld1) >> _
+, M2: &gmatcol(a2, m, n, ld2) >> _
+, int(m), int(n), int(ld1), int(ld2)
+) : void // end of [gmatcol_foreachcol]
+fun{
+a1,a2:t0p}{env:vt0p
+} gmatcol_foreachcol2_env
+  {m,n:int}{ld1,ld2:int}
+(
+  M1: &gmatcol(a1, m, n, ld1) >> _
+, M2: &gmatcol(a2, m, n, ld2) >> _
+, int(m), int(n), int(ld1), int(ld2)
+, env: &(env) >> _
+) : void // end of [gmatcol_foreachcol2_env]
+
+(* ****** ****** *)
+
 (* end of [gmatrix_col.sats] *)
