@@ -47,77 +47,67 @@ staload "libats/SATS/gmatrix.sats"
 praxi
 lemma_gmatcol_param
   {a:t0p}{m,n:int}{ld:int}
-  (M: &GMC (INV(a), m, n, ld)): [m >= 1; n >= 0; ld >= m] void
+  (M: &GMC(a, m, n, ld)): [m >= 1; n >= 0; ld >= m] void
 praxi
 lemma_gmatcol_v_param
   {a:t0p}{l:addr}{m,n:int}{ld:int}
-  (pf: !GMC (INV(a), l, m, n, ld)): [m >= 1; n >= 0; ld >= m] void
+  (pf: !GMC(a, l, m, n, ld)): [m >= 1; n >= 0; ld >= m] void
 
 (* ****** ****** *)
 //
-praxi
-gmatcol_v_nil
-  {a:t0p}{l:addr}
-  {m:pos}{ld:int | ld >= m} (): GMC (a, l, m, 0, ld)
-praxi
-gmatcol_v_unnil
-  {a:t0p}{l:addr}{m:int}{ld:int} (GMC (a, l, m, 0, ld)): void
-praxi
-gmatcol_v_unnil_nil
-  {a1,a2:t0p}
-  {l:addr}{m:int}{ld:int} (GMC (a1, l, m, 0, ld)): GMC (a2, l, m, 0, ld)
+// HX: 0 for row
 //
 praxi
-gmatcol_v_cons
+gmatcol_v_renil0
+  {a1,a2:t0p}
+  {l:addr}{n:int}{ld:int} (GMC(a1, l, 0, n, ld)): GMC(a2, l, 0, n, ld)
+//
+praxi
+gmatcol_v_cons0
   {a:t0p}{l:addr}
   {m,n:int}{ld:int}
 (
-  GVT (a, l, m, 1)
-, GMC (INV(a), l+ld*sizeof(a), m, n, ld)
-) : GMC (a, l, m, n+1, ld)
+  GVT(a, l, n, ld)
+, GMC(a, l+sizeof(a), m, n, ld)
+) : GMC(a, l, m+1, n, ld)
 praxi
-gmatcol_v_uncons
-  {a:t0p}{l:addr}
-  {m,n:int | n > 0}{ld:int}
-(
-  pf: GMC (INV(a), l, m, n, ld)
-) :
-(
-  GVT (a, l, m, 1), GMC (a, l+ld*sizeof(a), m, n-1, ld)
-) (* end of [gmatcol_v_uncons] *)
-//
-(* ****** ****** *)
-//
-praxi
-gmatcol_v_nil2
-  {a:t0p}{l:addr}
-  {n:nat}{ld:int | ld >= 1} (): GMC (a, l, 0, n, ld)
-praxi
-gmatcol_v_unnil2
-  {a:t0p}{l:addr}{n:int}{ld:int} (GMC (a, l, 0, n, ld)): void
-praxi
-gmatcol_v_unnil2_nil2
-  {a1,a2:t0p}
-  {l:addr}{n:int}{ld:int} (GMC (a1, l, 0, n, ld)): GMC (a2, l, 0, n, ld)
-//
-praxi
-gmatcol_v_cons2
-  {a:t0p}{l:addr}
-  {m,n:int}{ld:int}
-(
-  GVT (a, l, n, ld)
-, GMC (INV(a), l+sizeof(a), m, n, ld)
-) : GMC (a, l, m+1, n, ld)
-praxi
-gmatcol_v_uncons2
+gmatcol_v_uncons0
   {a:t0p}{l:addr}
   {m,n:int | m > 0}{ld:int}
 (
-  pf: GMC (INV(a), l, m, n, ld)
+  pf: GMC(a, l, m, n, ld)
 ) :
 (
-  GVT (a, l, n, ld), GMC (a, l+sizeof(a), m-1, n, ld)
-) (* end of [gmatcol_v_uncons2] *)
+  GVT(a, l, n, ld), GMC(a, l+sizeof(a), m-1, n, ld)
+) (* end of [gmatcol_v_uncons0] *)
+//
+(* ****** ****** *)
+//
+// HX: 1 for col
+//
+praxi
+gmatcol_v_renil1
+  {a1,a2:t0p}
+  {l:addr}{m:int}{ld:int} (GMC(a1, l, m, 0, ld)): GMC(a2, l, m, 0, ld)
+//
+praxi
+gmatcol_v_cons1
+  {a:t0p}{l:addr}
+  {m,n:int}{ld:int}
+(
+  GVT(a, l, m, 1)
+, GMC(a, l+ld*sizeof(a), m, n, ld)
+) : GMC(a, l, m, n+1, ld)
+praxi
+gmatcol_v_uncons1
+  {a:t0p}{l:addr}
+  {m,n:int | n > 0}{ld:int}
+(
+  pf: GMC(a, l, m, n, ld)
+) :
+(
+  GVT(a, l, m, 1), GMC(a, l+ld*sizeof(a), m, n-1, ld)
+) (* end of [gmatcol_v_uncons1] *)
 //
 (* ****** ****** *)
 
@@ -127,11 +117,11 @@ gmatcol_v_split2x1
   {m,n:int}{ld:int}
   {i,j:nat | i <= m}
 (
-  GMC (INV(a), l, m, n, ld), int i
+  GMC(a, l, m, n, ld), int i
 ) :
 (
-  GMC (a, l            , i  , n, ld)
-, GMC (a, l+i*sizeof(a), m-i, n, ld)
+  GMC(a, l            , i  , n, ld)
+, GMC(a, l+i*sizeof(a), m-i, n, ld)
 ) (* end of [gmatcol_v_split2x1] *)
 
 praxi
@@ -139,9 +129,9 @@ gmatcol_v_unsplit2x1
   {a:t0p}{l:addr}
   {i,i2,n:int}{ld:int}
 (
-  GMC (INV(a), l            , i , n, ld)
-, GMC (a     , l+i*sizeof(a), i2, n, ld)
-) : GMC (a, l, i+i2, n, ld) // end of [praxi]
+  GMC(a, l            , i , n, ld)
+, GMC(a, l+i*sizeof(a), i2, n, ld)
+) : GMC(a, l, i+i2, n, ld) // end of [praxi]
 
 (* ****** ****** *)
 
@@ -151,11 +141,11 @@ gmatcol_v_split1x2
   {m,n:int}{ld:int}
   {j:nat | j <= n}
 (
-  GMC (INV(a), l, m, n, ld), int j
+  GMC(a, l, m, n, ld), int j
 ) :
 (
-  GMC (a, l               , m, j  , ld)
-, GMC (a, l+j*ld*sizeof(a), m, n-j, ld)
+  GMC(a, l               , m, j  , ld)
+, GMC(a, l+j*ld*sizeof(a), m, n-j, ld)
 ) (* end of [gmatcol_v_split1x2] *)
 
 praxi
@@ -163,9 +153,9 @@ gmatcol_v_unsplit1x2
   {a:t0p}{l:addr}
   {m,j,j2:int}{ld:int}
 (
-  GMC (INV(a), l               , m, j , ld)
-, GMC (a     , l+j*ld*sizeof(a), m, j2, ld)
-) : GMC (a, l, m, j+j2, ld) // end of [praxi]
+  GMC(a, l               , m, j , ld)
+, GMC(a, l+j*ld*sizeof(a), m, j2, ld)
+) : GMC(a, l, m, j+j2, ld) // end of [praxi]
 
 (* ****** ****** *)
 
@@ -175,13 +165,13 @@ gmatcol_v_split2x2
   {m,n:int}{ld:int}
   {i,j:nat | i <= m; j <= n}
 (
-  GMC (INV(a), l, m, n, ld), int i, int j
+  GMC(a, l, m, n, ld), int i, int j
 ) :
 (
-  GMC (a, l                           , i  , j  , ld)
-, GMC (a, l            +j*ld*sizeof(a), i  , n-j, ld)
-, GMC (a, l+i*sizeof(a)               , m-i, j  , ld)
-, GMC (a, l+i*sizeof(a)+j*ld*sizeof(a), m-i, n-j, ld)
+  GMC(a, l                           , i  , j  , ld)
+, GMC(a, l            +j*ld*sizeof(a), i  , n-j, ld)
+, GMC(a, l+i*sizeof(a)               , m-i, j  , ld)
+, GMC(a, l+i*sizeof(a)+j*ld*sizeof(a), m-i, n-j, ld)
 ) (* end of [gmatcol_v_split2x2] *)
 
 praxi
@@ -189,11 +179,11 @@ gmatcol_v_unsplit2x2
   {a:t0p}{l:addr}
   {i,i2,j,j2:int}{ld:int}
 (
-  GMC (INV(a), l                           , i , j , ld)
-, GMC (a     , l            +j*ld*sizeof(a), i , j2, ld)
-, GMC (a     , l+i*sizeof(a)               , i2, j , ld)
-, GMC (a     , l+i*sizeof(a)+j*ld*sizeof(a), i2, j2, ld)
-) : GMC (a, l, i+i2, j+j2, ld) // end of [praxi]
+  GMC(a, l                           , i , j , ld)
+, GMC(a, l            +j*ld*sizeof(a), i , j2, ld)
+, GMC(a, l+i*sizeof(a)               , i2, j , ld)
+, GMC(a, l+i*sizeof(a)+j*ld*sizeof(a), i2, j2, ld)
+) : GMC(a, l, i+i2, j+j2, ld) // end of [praxi]
 
 (* ****** ****** *)
 
@@ -201,7 +191,7 @@ fun{a:t0p}
 gmatcol_getref_at
   {m,n:int}{ld:int}
 (
-  M: &GMC (INV(a), m, n, ld), int(ld), i: natLt(m), j: natLt(n)
+  M: &GMC(a, m, n, ld), int(ld), i: natLt(m), j: natLt(n)
 ) : cPtr1(a) // end of [gmatcol_getref_at]
 
 (* ****** ****** *)
@@ -210,69 +200,15 @@ fun{a:t0p}
 gmatcol_getref_row_at
   {m,n:int}{ld:int}
 (
-  M: &GMC (INV(a), m, n, ld), i: natLt(m)
-) : cPtr1(GVT(a, n, ld)) // end of [gmatcol_getref_row_at]
+  M: &GMC(a, m, n, ld), i: natLt(m)
+) : cPtr1(GVT(a, n, ld)) // endfun
+
 fun{a:t0p}
 gmatcol_getref_col_at
   {m,n:int}{ld:int}
 (
-  M: &GMC (INV(a), m, n, ld), int(ld), j: natLt(n)
-) : cPtr1(GVT(a, m, 1(*d*))) // end of [gmatcol_getref_col_at]
-
-(* ****** ****** *)
-
-fun{
-a:t0p
-} muladdto_gvector_gmatcol_gvector
-  {m,n:int}{d1,ld2,d3:int}
-(
-  V1: &GVT (a, m, d1)
-, M2: &GMC (INV(a), m, n, ld2)
-, V3: &GVT (a, n, d3) >> _
-, int(m), int(n), int(d1), int(ld2), int(d3)
-) : void // end of [muladdto_gvector_gmatcol_gvector]
-
-(* ****** ****** *)
-
-fun{
-a:t0p
-} muladdto_gmatcol_gmatcol_gmatcol
-  {p,q,r:int}{lda,ldb,ldc:int}
-(
-  A: &GMC (INV(a), p, q, lda)
-, B: &GMC (    a , q, r, ldb)
-, C: &GMC (    a , p, r, ldc) >> _
-, int p, int q, int r, int lda, int ldb, int ldc
-) : void // end of [muladdto_gmatcol_gmatcol_gmatcol]
-
-fun{
-a:t0p
-} sumaddto_gmatcol_gmatcol_gmatcol
-  {m,n:int}{lda,ldb,ldc:int}
-(
-  A: &GMC (INV(a), m, n, lda)
-, B: &GMC (    a , m, n, ldb)
-, C: &GMC (    a , m, n, ldc) >> _
-, int m, int m, int lda, int ldb, int ldc
-) : void // end of [muladdto_gmatcol_gmatcol_gmatcol]
-
-
-(* ****** ****** *)
-//
-// BB: outer product
-// BB: tensor product
-//
-// M3 := M3 + V1(X)V2
-//
-fun{a:t0p}
-muladdto_gvector_gvector_gmatcol
-  {m,n:int}{d1,d2,ld3:int}
-(
-  V1: &GVT (INV(a), m, d1)
-, V2: &GVT (    a , n, d2)
-, M3: &GMC (a, m, n, ld3) >> _
-, m: int(m), n: int(n), d1: int(d1), d2: int(d2), ld3: int(ld3)
-) : void (* end of [muladdto_gvector_gvector_gmatcol] *)
+  M: &GMC(a, m, n, ld), int(ld), j: natLt(n)
+) : cPtr1(GVT(a, m, 1(*d*))) // endfun
 
 (* ****** ****** *)
 

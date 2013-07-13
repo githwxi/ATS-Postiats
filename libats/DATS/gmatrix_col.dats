@@ -39,6 +39,7 @@ UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload "libats/SATS/gvector.sats"
+staload "libats/SATS/gmatrix.sats"
 staload "libats/SATS/gmatrix_col.sats"
 
 (* ****** ****** *)
@@ -62,7 +63,7 @@ gmatcol_getref_row_at
 val prow = $UN.cast2Ptr1(ptr_add<a> (addr@M, i))
 //
 in
-  $UN.ptr2cptr{GV(a,n,ld)}(prow)
+  $UN.ptr2cptr{GVT(a,n,ld)}(prow)
 end // end of [gmatcol_getref_row_at]
 
 implement{a}
@@ -72,212 +73,8 @@ gmatcol_getref_col_at
 val pcol = $UN.cast2Ptr1(ptr_add<a> (addr@M, j*ld))
 //
 in
-  $UN.ptr2cptr{GV(a,m, 1)}(pcol)
+  $UN.ptr2cptr{GVT(a,m,1(*d*))}(pcol)
 end // end of [gmatcol_getref_col_at]
-
-(* ****** ****** *)
-
-implement{a}
-muladdto_gmatcol_gmatcol_gmatcol
-  {p,q,r}{lda,ldb,ldc}
-(
-  A, B, C, p, q, r, lda, ldb, ldc
-) = let
-//
-prval () = lemma_gmatcol_param (A)
-prval () = lemma_gmatcol_param (B)
-prval () = lemma_gmatcol_param (C)
-//
-fun loop
-  {la,lb,lc,lt:addr}{p:nat} .<p>.
-(
-  pfa: !GMC (a, la, p, q, lda)
-, pfb: !GMC (a, lb, q, r, ldb)
-, pfc: !GMC (a, lc, p, r, ldc) >> _
-, pft: !array_v(a?, lt, q) >> _
-| pa: ptr la, pb: ptr lb, pc: ptr lc, pt: ptr lt, p: int p
-) : void =
-(
-if p > 0
-then let
-//
-prval
-(
-  pfa1, pfa2
-) = gmatcol_v_uncons2 (pfa)
-prval
-(
-  pfc1, pfc2
-) = gmatcol_v_uncons2 (pfc)
-//
-prval () = array2gvector (!pt)
-val () = copyto_gvector_gvector (!pa, !pt, q, lda, 1)
-val () = muladdto_gvector_gmatcol_gvector (!pt, !pb, !pc, q, r, 1, ldb, ldc)
-prval () = gvector2array (!pt)
-//
-val (
-) = loop (
-  pfa2, pfb, pfc2, pft
-| ptr_succ<a> (pa), pb, ptr_succ<a> (pc), pt, pred(p)
-) (* end of [val] *)
-//
-prval () = pfa := gmatcol_v_cons2 (pfa1, pfa2)
-prval () = pfc := gmatcol_v_cons2 (pfc1, pfc2)
-//
-in
-  // nothing
-end else let
-//
-prval () = (pfc := gmatcol_v_unnil2_nil2{a?,a}(pfc))
-//
-in
-  // nothing
-end // end of [if]
-)
-//
-val qsz = i2sz(q)
-val [lt:addr]
-  (pft, pftgc | pt) = array_ptr_alloc<a> (qsz)
-//
-val (
-) = loop (
-  view@A, view@B, view@C, pft | addr@A, addr@B, addr@C, pt, p
-) (* end of [val] *)
-//
-val ((*void*)) = array_ptr_free (pft, pftgc | pt)
-//
-in
-  // nothing
-end // end of [muladdto_gmatcol_gmatcol_gmatcol]
-
-(* ****** ****** *)
-
-implement{a}
-sumaddto_gmatcol_gmatcol_gmatcol
-  {m,n}{lda,ldb,ldc}
-(
-  A, B, C, m, n, lda, ldb, ldc
-) = let
-//
-prval () = lemma_gmatcol_param (A)
-prval () = lemma_gmatcol_param (B)
-prval () = lemma_gmatcol_param (C)
-//
-// Add one column at a time for col-major
-fun loop
-  {la,lb,lc,lt:addr}{m,n:nat} .<n>.
-(
-  pfa: !GMC (a, la, m, n, lda)
-, pfb: !GMC (a, lb, m, n, ldb)
-, pfc: !GMC (a, lc, m, n, ldc) >> _
-| pa: ptr la, pb: ptr lb, pc: ptr lc, m: int n, n: int n
-) : void =
-(
-if n > 0
-then let
-//
-prval
-(
-  pfa1, pfa2
-) = gmatcol_v_uncons (pfa)
-prval
-(
-  pfb1, pfb2
-) = gmatcol_v_uncons (pfb)
-prval
-(
-  pfc1, pfc2
-) = gmatcol_v_uncons (pfc)
-//
-prval () = array2gvector (!pa)
-prval () = array2gvector (!pb)
-prval () = array2gvector (!pc)
-val () = sumaddto_gvector_gvector_gvector(!pa, !pb, !pc, m, 1, 1, 1)
-prval () = gvector2array (!pa)
-prval () = gvector2array (!pb)
-prval () = gvector2array (!pc)
-//
-val (
-) = loop (
-  pfa2, pfb2, pfc2
-| ptr_add<a> (pa, lda),  ptr_add<a> (pb, ldb),  ptr_add<a> (pc, ldc), m, pred(n)
-) (* end of [val] *)
-//
-prval () = pfa := gmatcol_v_cons (pfa1, pfa2)
-prval () = pfa := gmatcol_v_cons (pfa1, pfa2)
-prval () = pfc := gmatcol_v_cons (pfc1, pfc2)
-//
-in
-  // nothing
-end else let
-//
-// BB: is this necessary?; I thought we just have a, not?:
-prval () = (pfc := gmatcol_v_unnil_nil{a?,a}(pfc))
-//
-in
-  // nothing
-end // end of [if]
-)
-//
-val (
-) = loop (
-  view@A, view@B, view@C | addr@A, addr@B, addr@C, m, n
-) (* end of [val] *)
-//
-in
-  // nothing
-end // end of [sumaddto_gmatcol_gmatcol_gmatcol]
-
-(* ****** ****** *)
-
-implement{a}
-muladdto_gvector_gvector_gmatcol
-  {m,n}{d1,d2,ld3}
-(
-  V1, V2, M3, m, n, d1, d2, ld3
-) = let
-//
-fun loop
-  {l1,l2,l3:addr}{n:nat} .<n>.
-(
-  pf1: !GV (a, l1, m, d1)
-, pf2: !GV (a, l2, n, d2)
-, pf3: !GMC (a, l3, m, n, ld3) >> _
-| p1: ptr l1, p2: ptr l2, p3: ptr l3, m: int m, n: int n
-) : void =
-(
-if n > 0
-  then let
-//
-prval (pf21, pf22) = gvector_v_uncons (pf2)
-prval (pf31, pf32) = gmatcol_v_uncons (pf3)
-//
-val k = !p2
-val (
-) = muladdto_scalar_gvector_gvector (k, !p1, !p3, m, d1, 1)
-val (
-// BB: Why is it not necessary to pass d2, ld3 to loop()?
-) = loop (pf1, pf22, pf32 | p1, ptr_add<a> (p2, d2), ptr_add<a> (p3, ld3), m, pred(n))
-//
-prval () = pf2 := gvector_v_cons (pf21, pf22)
-prval () = pf3 := gmatcol_v_cons (pf31, pf32)
-//
-in
-  // nothing
-end else let
-//
-prval () = (pf3 := gmatcol_v_unnil_nil{a?,a}(pf3))
-//
-in
-  // nothing
-end // end of [if]
-)
-//
-prval () = lemma_gmatcol_param (M3)
-//
-in
-  loop (view@V1, view@V2, view@M3 | addr@V1, addr@V2, addr@M3, m, n)
-end // end of [tmul_gvector_gvector_gmatcol]
 
 (* ****** ****** *)
 

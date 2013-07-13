@@ -47,13 +47,35 @@ datatype MORD (int) =
 //
 (* ****** ****** *)
 //
+datasort transp = tpn | tpt | tpc
+datatype TRANSP (transp) =
+  | TPN (tpn) of () | TPT (tpt) of () | TPC (tpc) of ()
+//
+(* ****** ****** *)
+
+dataprop
+transpdim
+(
+  transp
+, int // row
+, int // col
+, int // row_new
+, int // col_new
+) =
+  | {m,n:int} TPDIM_N (tpn, m, n, m, n) of ()
+  | {m,n:int} TPDIM_T (tpt, m, n, n, m) of ()
+  | {m,n:int} TPDIM_C (tpc, m, n, n, m) of ()
+// end of [transpdim]
+
+(* ****** ****** *)
+//
 // HX-2013-07:
 // generic matrix:
 // element, row, col, ord, ld
 //
 abst@ype
 gmatrix_t0ype
-  (a:t@ype+, mo:mord, m:int, n:int, ld:int) (* irregular *)
+  (a:t@ype, mo:mord, m:int, n:int, ld:int) (* irregular *)
 //
 typedef gmatrix
   (a:t@ype, mo:mord, m:int, n:int, ld:int) = gmatrix_t0ype (a, mo, m, n, ld)
@@ -63,6 +85,21 @@ viewdef gmatrix_v
 stadef GMX = gmatrix
 stadef GMX = gmatrix_v
 //
+(* ****** ****** *)
+
+praxi
+lemma_gmatrix_param
+  {a:t0p}{mo:mord}
+  {m,n:int}{ld:int}
+  (M: &GMX (a, mo, m, n, ld))
+: [0 <= mo; mo <= 1; 0 <= m; 0 <= n; 1 <= ld] void
+praxi
+lemma_gmatrix_v_param
+  {a:t0p}{mo:mord}
+  {l:addr}{m,n:int}{ld:int}
+  (pf: !GMX (a, mo, l, m, n, ld))
+: [0 <= mo; mo <= 1; 0 <= m; 0 <= n; 1 <= ld] void
+
 (* ****** ****** *)
 //
 typedef gmatrow
@@ -86,9 +123,9 @@ stadef GMC = gmatcol_v
 (* ****** ****** *)
 //
 praxi
-gmatrix_trans
+gmatrix_transp
   {a:t0p}{mo:mord}{m,n:int}{ld:int}
-  (&GMX(INV(a), mo, m, n, ld) >> GMX(a, 1-mo, n, m, ld)): void
+  (&GMX(a, mo, m, n, ld) >> GMX(a, 1-mo, n, m, ld)): void
 //
 (* ****** ****** *)
 

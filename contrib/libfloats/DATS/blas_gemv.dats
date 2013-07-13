@@ -1,19 +1,7 @@
 (* ****** ****** *)
 //
-// Basic Linear Algebraic System in ATS
+// Basic Linear Algebraic Subprograms in ATS
 //
-(* ****** ****** *)
-
-(* Author: Hongwei Xi *)
-(* Authoremail: hwxi AT cs DOT bu DOT edu *)
-(* Start time: July, 2013 *)
-
-(* ****** ****** *)
-
-(* Author: ... *)
-(* Authoremail: ... *)
-(* Start time: ... *)
-
 (* ****** ****** *)
 
 staload "libats/SATS/gvector.sats"
@@ -65,7 +53,9 @@ in
   // nothing
 end else let
 //
-prval () = pf3 := gvector_v_unnil_nil{a?,a}(pf3)
+(*
+prval () = pf3 := gvector_v_renil{a?,a}(pf3)
+*)
 //
 in
   // nothing
@@ -121,7 +111,9 @@ in
   // nothing
 end else let
 //
-prval () = pf3 := gvector_v_unnil_nil{a?,a}(pf3)
+(*
+prval () = pf3 := gvector_v_renil{a?,a}(pf3)
+*)
 //
 in
   // nothing
