@@ -33,6 +33,12 @@ that is, two-dimensional arrays.
 
 (* ****** ****** *)
 
+#declnamesynop("transp")
+#declnamesynop("TRANSP")
+#declnamesynop("transpdim")
+
+(* ****** ****** *)
+
 #declnamesynop("gmatrix")
 #declnamesynop("gmatrix_t0ype")
 #declnamesynop("gmatrix_v")
@@ -40,7 +46,24 @@ that is, two-dimensional arrays.
 
 (* ****** ****** *)
 
-#declnamesynop("muladdto_gmatrix_gmatrix_gmatrix")
+#declnamesynop("lemma_gmatrix_param")
+#declnamesynop("lemma_gmatrix_v_param")
+
+(* ****** ****** *)
+
+#declnamesynop("gmatrow")
+#declnamesynop("gmatrow_v")
+#declnamesynop("GMR")
+
+(* ****** ****** *)
+
+#declnamesynop("gmatcol")
+#declnamesynop("gmatcol_v")
+#declnamesynop("GMC")
+
+(* ****** ****** *)
+
+#declnamesynop("gmatrix_transp")
 
 (* ****** ****** *)
 

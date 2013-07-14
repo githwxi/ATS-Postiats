@@ -28,12 +28,6 @@ that is, two-dimensional arrays of row-major style.
 
 (* ****** ****** *)
 
-#declnamesynop("gmatrow")
-#declnamesynop("gmatrow_v")
-#declnamesynop("GMR")
-
-(* ****** ****** *)
-
 #declnamesynop("lemma_gmatrow_param")
 #declnamesynop("lemma_gmatrow_v_param")
 
