@@ -122,6 +122,22 @@ stadef GMC = gmatcol_v
 //
 (* ****** ****** *)
 //
+(*
+// HX-2013-07:
+// Don't use [gmatrix_initize]
+// unless you know what you are doing
+*)
+praxi
+gmatrix_initize
+  {a:t0p}{mo:mord}{m,n:int}{ld:int}
+  (&GMX(a?, mo, m, n, ld) >> GMX(a, mo, n, m, ld)): void
+praxi
+gmatrix_uninitize
+  {a:t0p}{mo:mord}{m,n:int}{ld:int}
+  (&GMX(a, mo, m, n, ld) >> GMX(a?, mo, n, m, ld)): void
+//
+(* ****** ****** *)
+//
 praxi
 gmatrix_transp
   {a:t0p}{mo:mord}{m,n:int}{ld:int}
