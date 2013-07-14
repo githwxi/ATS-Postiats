@@ -498,7 +498,7 @@ case+ cas of
   (
     case+ ca of CAtcats () => false | _ => auxout (cas)
   )
-| list_nil () => false
+| list_nil () => true
 ) // end of [auxout]
 
 in (* in of [local] *)

@@ -40,12 +40,12 @@ prval
 ) =
   $UN.ptr_vtake{gvector(a,n,d2)}(p2)
 //
-val x = blas_inner (X, !p2, n, 1, d2)
+val x = blas_inner<a> (X, !p2, n, 1, d2)
 prval () = fpf (pf2)
 //
 val p3 = env
 val y = $UN.ptr0_get<a> (p3)
-val () = $UN.ptr0_set<a> (p3, blas$alphabeta (alpha, x, beta, y))
+val () = $UN.ptr0_set<a> (p3, blas$alphabeta<a> (alpha, x, beta, y))
 val () = env := ptr_add<a> (p3, d3)
 //
 in
@@ -86,9 +86,9 @@ prval
   (pf11, pf12) = gmatrow_v_uncons0 (pf1)
 prval (pf31, pf32) = gvector_v_uncons (pf3)
 //
-val x = blas_inner (!p1, !p2, n, 1, d2)
+val x = blas_inner<a> (!p1, !p2, n, 1, d2)
 val (
-) = (!p3 := blas$alphabeta (alpha, x, beta, !p3))
+) = (!p3 := blas$alphabeta<a> (alpha, x, beta, !p3))
 val () = loop
 (
   pf12, pf2, pf32
@@ -145,9 +145,9 @@ prval
   (pf11, pf12) = gmatcol_v_uncons0 (pf1)
 prval (pf31, pf32) = gvector_v_uncons (pf3)
 //
-val x = blas_inner (!p1, !p2, n, ld1, d2)
+val x = blas_inner<a> (!p1, !p2, n, ld1, d2)
 val (
-) = (!p3 := blas$alphabeta (alpha, x, beta, !p3))
+) = (!p3 := blas$alphabeta<a> (alpha, x, beta, !p3))
 val () = loop
 (
   pf12, pf2, pf32

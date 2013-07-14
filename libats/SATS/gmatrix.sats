@@ -78,7 +78,7 @@ gmatrix_t0ype
   (a:t@ype, mo:mord, m:int, n:int, ld:int) (* irregular *)
 //
 typedef gmatrix
-  (a:t@ype, mo:mord, m:int, n:int, ld:int) = gmatrix_t0ype (a, mo, m, n, ld)
+  (a:t0p, mo:mord, m:int, n:int, ld:int) = gmatrix_t0ype (a, mo, m, n, ld)
 viewdef gmatrix_v
   (a:t0p, mo:mord, l:addr, m:int, n:int, ld:int) = gmatrix_t0ype (a, mo, m, n, ld) @ l
 //
@@ -103,9 +103,9 @@ lemma_gmatrix_v_param
 (* ****** ****** *)
 //
 typedef gmatrow
-  (a:t@ype, m:int, n:int, ld:int) = gmatrix_t0ype (a, mrow, m, n, ld)
+  (a:t0p, m:int, n:int, ld:int) = gmatrix_t0ype (a, mrow, m, n, ld)
 viewdef gmatrow_v
-  (a:t@ype, l:addr, m:int, n:int, ld:int) = gmatrix_t0ype (a, mrow, m, n, ld) @ l
+  (a:t0p, l:addr, m:int, n:int, ld:int) = gmatrix_t0ype (a, mrow, m, n, ld) @ l
 //
 stadef GMR = gmatrow
 stadef GMR = gmatrow_v
@@ -113,9 +113,9 @@ stadef GMR = gmatrow_v
 (* ****** ****** *)
 //
 typedef gmatcol
-  (a:t@ype, m:int, n:int, ld:int) = gmatrix_t0ype (a, mcol, m, n, ld)
+  (a:t0p, m:int, n:int, ld:int) = gmatrix_t0ype (a, mcol, m, n, ld)
 viewdef gmatcol_v
-  (a:t@ype, l:addr, m:int, n:int, ld:int) = gmatrix_t0ype (a, mcol, m, n, ld) @ l
+  (a:t0p, l:addr, m:int, n:int, ld:int) = gmatrix_t0ype (a, mcol, m, n, ld) @ l
 //
 stadef GMC = gmatcol
 stadef GMC = gmatcol_v

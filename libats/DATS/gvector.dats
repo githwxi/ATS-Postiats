@@ -88,7 +88,7 @@ gvector_foreach$cont (x, env) = true
 
 (*
 implement{a}{env}
-gvector_foreach$fwork (x, env) = ()
+gvector_foreach$fwork (x, env) = ((*void*))
 *)
 
 implement{a}

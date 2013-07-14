@@ -32,7 +32,7 @@ gvector_foreach2$cont (x, y, env) = true
 //
 implement
 gvector_foreach2$fwork<a,a><tenv>
-  (x, y, env) = env := gadd_val<a> (env, blas_inner$mul(x, y))
+  (x, y, env) = env := gadd_val<a> (env, blas_inner$mul<a> (x, y))
 //
 var env: tenv = gnumint<a> (0)
 val _(*n*) = gvector_foreach2_env<a,a><tenv> (V1, V2, n, d1, d2, env)
@@ -62,7 +62,7 @@ gvector_foreach2$cont (x, y, env) = true
 implement(env)
 gvector_foreach2$fwork<a,a><env> (x, y, env) = y := x
 //
-val _(*n*) = gvector_foreach2 (V1, V2, n, d1, d2)
+val _(*n*) = gvector_foreach2<a,a> (V1, V2, n, d1, d2)
 //
 in
   // nothing
@@ -87,7 +87,7 @@ __initize (&GMR(a?, m, n, ldy) >> GMR(a, m, n, ldy)): void
 //
 implement(env)
 gmatrow_foreachrow2$fwork<a,a><env>
-  (X, Y, n, env) = blas_copy (X, Y, n, 1, 1)
+  (X, Y, n, env) = blas_copy<a> (X, Y, n, 1, 1)
 //
 val () = gmatrow_foreachrow2<a,a> (X2, Y2, m, n, ldx, ldy)
 //
@@ -213,7 +213,7 @@ gvector_foreach2$cont (x, y, env) = true
 //
 implement(env)
 gvector_foreach2$fwork<a,a><env>
-  (x, y, env) = y := blas$alpha (alpha, x, y)
+  (x, y, env) = y := blas$alpha<a> (alpha, x, y)
 //
 val _(*n*) = gvector_foreach2<a,a> (X, Y, n, dx, dy)
 //
@@ -233,7 +233,7 @@ blas_axpy2_row
 //
 implement(env)
 gmatrow_foreachrow2$fwork<a,a><env>
-  (X, Y, n, env) = blas_axpy (alpha, X, Y, n, 1, 1)
+  (X, Y, n, env) = blas_axpy<a> (alpha, X, Y, n, 1, 1)
 //
 val () = gmatrow_foreachrow2<a,a> (X2, Y2, m, n, ldx, ldy)
 //
@@ -251,7 +251,7 @@ blas_axpy2_col
 //
 implement(env)
 gmatcol_foreachcol2$fwork<a,a><env>
-  (X, Y, n, env) = blas_axpy (alpha, X, Y, n, 1, 1)
+  (X, Y, n, env) = blas_axpy<a> (alpha, X, Y, n, 1, 1)
 //
 val () = gmatcol_foreachcol2<a,a> (X2, Y2, m, n, ldx, ldy)
 //

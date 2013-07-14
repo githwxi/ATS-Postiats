@@ -44,19 +44,9 @@ staload "libats/SATS/gmatrix_col.sats"
 staload "libats/SATS/gmatrix_row.sats"
 
 (* ****** ****** *)
-
-implement{a}
-muladdto_gmatrix_gmatrix_gmatrix
-(
-  A, B, C, mord, p, q, r, lda, ldb, ldc
-) = (
-case+ mord of
-| MORDrow () =>
-    muladdto_gmatrow_gmatrow_gmatrow (A, B, C, p, q, r, lda, ldb, ldc)
-| MORDcol () =>
-    muladdto_gmatcol_gmatcol_gmatcol (A, B, C, p, q, r, lda, ldb, ldc)
-) (* end of [muladdto_gmatrix_gmatrix_gmatrix] *)
-
+//
+// HX-2013-07: It is yet empty
+//
 (* ****** ****** *)
 
 (* end of [gmatrix.dats] *)

@@ -16,6 +16,13 @@
 
 (* ****** ****** *)
 
+#define
+ATS_PACKNAME "ATSLIB.libfloats.blas"
+#define
+ATS_STALOADFLAG 0 // no static loading at run-time
+
+(* ****** ****** *)
+
 staload "libats/SATS/gvector.sats"
 staload "libats/SATS/gmatrix.sats"
 staload "libats/SATS/gmatrix_col.sats"

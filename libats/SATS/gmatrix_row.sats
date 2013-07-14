@@ -56,27 +56,27 @@ lemma_gmatrow_v_param
 (* ****** ****** *)
 
 praxi
-matrix2gmatrix
+matrix2gmatrow
   {a:t0p}{l:addr}{m,n:int}
-  (A: &matrix (a, m, n) >> GMR(a, m, n, n)): void
+  (A: &matrix (INV(a), m, n) >> GMR(a, m, n, n)): void
 praxi
-matrix2gmatrix_v
+matrix2gmatrow_v
   {a:t0p}{l:addr}{m,n:int}
-  (pf: matrix_v (a, l, m, n)):<prf> GMR(a, l, m, n, n)
-// end [matrix2gmatrix_v]
+  (pf: matrix_v (INV(a), l, m, n)):<prf> GMR(a, l, m, n, n)
+// end [matrix2gmatrow_v]
 
 (* ****** ****** *)
 
 praxi
-gmatrix2matrix
+gmatrow2matrix
   {a:t0p}{l:addr}{m,n:int}
   (V: &GMR(a, m, n, n) >> matrix (a, m, n)): void
-// end [gmatrix2matrix]
+// end [gmatrow2matrix]
 praxi
-gmatrix2matrix_v
+gmatrow2matrix_v
   {a:t0p}{l:addr}{m,n:int}
   (pf: GMR(a, l, m, n, n)):<prf> matrix_v (a, l, m, n)
-// end [gmatrix2matrix_v]
+// end [gmatrow2matrix_v]
 
 (* ****** ****** *)
 //

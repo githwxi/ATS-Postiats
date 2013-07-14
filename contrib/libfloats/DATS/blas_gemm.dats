@@ -85,7 +85,7 @@ prval
 ) = gmatrow_v_uncons1 (pfc)
 //
 prval () = array2gvector (!pt)
-val () = blas_copy (!pb, !pt, q, ldb, 1)
+val () = blas_copy<a> (!pb, !pt, q, ldb, 1)
 //
 val () = blas_gemv_row (alpha, !pa, !pt, beta, !pc, p, q, lda, 1, ldc)
 //
