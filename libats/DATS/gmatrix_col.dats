@@ -78,4 +78,15 @@ end // end of [gmatcol_getref_col_at]
 
 (* ****** ****** *)
 
+implement{a}
+gmatcol_LU_decompose
+  {m,n}{ld}(M, m, n, ld) = let
+//
+
+// fun for pivot?
+//
+in // inf of [gmatcol_LU_decompose]
+
+end // end of [gmatcol_LU_decompose] 
+
 (* end of [gmatrix_col.dats] *)

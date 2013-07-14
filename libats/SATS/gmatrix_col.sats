@@ -213,3 +213,13 @@ gmatcol_getref_col_at
 (* ****** ****** *)
 
 (* end of [gmatrix_col.sats] *)
+
+// 
+// BB: in-place LU decomposition
+//
+fun{a:t0p}
+gmatcol_LU_decompose
+  {m,n:int}{ld:int}
+( 
+  M: &GMC(a, m, n, ld), m: int, n:int, ld:int
+) : void
