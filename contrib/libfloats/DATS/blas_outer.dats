@@ -94,7 +94,7 @@ prval (pf31, pf32) = gmatcol_v_uncons1 (pf3)
 //
 val alpha2 = gmul_val<a> (alpha, !p2)
 val (
-) = blas_axpy (alpha2, !p1, !p3, m, d1, 1)
+) = blas_axpy<a> (alpha2, !p1, !p3, m, d1, 1)
 val (
 ) = loop
 (
@@ -110,7 +110,7 @@ in
 end else let
 //
 (*
-prval () = (pf3 := gmatcol_v_renil1{a?,a}(pf3))
+prval () = (pf3 := gmatcol_v_renil1{a,a}(pf3))
 *)
 //
 in

@@ -69,6 +69,16 @@ transpdim
 
 (* ****** ****** *)
 //
+// HX: [transp] is inverse
+//
+prfun
+transpdim_transp
+  {tp:transp}{m1,n1:int}{m2,n2:int}
+  (pf: transpdim (tp, m1, n1, m2, n2)): transpdim (tp, n1, m1, n2, m2)
+// end of [transpdim_transp]
+
+(* ****** ****** *)
+//
 // HX-2013-07:
 // generic matrix:
 // element, row, col, ord, ld
