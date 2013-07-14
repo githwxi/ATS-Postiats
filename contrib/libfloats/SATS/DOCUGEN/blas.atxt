@@ -1,0 +1,85 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../blas.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libfloats_blas")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/libfloats/blas\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package contains various BLAS (Basic Linear Algebra Subprograms) and
+BLAS-like functions.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("blas$alpha")
+#declnamesynop("blas$alphabeta")
+
+(* ****** ****** *)
+
+#declnamesynop("blas_inner")
+#declnamesynop("blas_inner$mul")
+
+(* ****** ****** *)
+
+#declnamesynop("blas_copy")
+#declnamesynop("blas_copy2_row")
+#declnamesynop("blas_copy2_col")
+
+(* ****** ****** *)
+
+#declnamesynop("blas_swap")
+#declnamesynop("blas_swap2_row")
+#declnamesynop("blas_swap2_col")
+
+(* ****** ****** *)
+
+#declnamesynop("blas_scal")
+#declnamesynop("blas_scal2_row")
+#declnamesynop("blas_scal2_col")
+
+(* ****** ****** *)
+
+#declnamesynop("blas_axpy")
+#declnamesynop("blas_axpy2_row")
+#declnamesynop("blas_axpy2_col")
+
+(* ****** ****** *)
+
+#declnamesynop("blas_gemv_row")
+#declnamesynop("blas_gemv_col")
+#declnamesynop("blas_gemv_trow")
+#declnamesynop("blas_gemv_tcol")
+
+(* ****** ****** *)
+
+#declnamesynop("blas_gemm_row")
+#declnamesynop("blas_gemm_row_nn")
+#declnamesynop("blas_gemm_row_nt")
+#declnamesynop("blas_gemm_row_tn")
+#declnamesynop("blas_gemm_row_tt")
+#declnamesynop("blas_gemm_col")
+#declnamesynop("blas_gemm_col_nn")
+#declnamesynop("blas_gemm_col_nt")
+#declnamesynop("blas_gemm_col_tn")
+#declnamesynop("blas_gemm_col_tt")
+
+(* ****** ****** *)
+
+(* end of [blas.atxt] *)

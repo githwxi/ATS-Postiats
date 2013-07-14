@@ -38,7 +38,7 @@
 // element type, length/size, delta
 //
 abst@ype
-gvector_t0ype (a:t@ype+, n:int, d:int) (* irregular *)
+gvector_t0ype (a:t@ype+, n:int, d:int) (*irregular*)
 //
 typedef
 gvector (a:t0p, n:int, d:int) = gvector_t0ype (a, n, d)
