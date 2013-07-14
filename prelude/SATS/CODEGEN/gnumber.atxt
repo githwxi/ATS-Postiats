@@ -46,10 +46,15 @@ typedef NSH(a:type) = a // for commenting purpose
 // HX: generic number operations
 //
 #atscode_separator()
-
-fun{a:t0p} gnumint (x: int):<> a
-fun{a:t0p} gnumdouble (x: double):<> a
-
+//
+(*
+#define gint gnumber_int
+#define gdouble gnumber_double
+*)
+//
+fun{a:t0p} gnumber_int (x: int):<> a
+fun{a:t0p} gnumber_double (x: double):<> a
+//
 #atscode_separator()
 
 fun{a:t0p} gneg_val (x: a):<> a

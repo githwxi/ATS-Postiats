@@ -31,14 +31,54 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 implement
-gnumint<int> (x) = g0int2int_int_int (x)
+gnumber_int<int> (x) = g0int2int_int_int (x)
+implement
+gnumber_int<lint> (x) = g0int2int_int_lint (x)
+implement
+gnumber_int<llint> (x) = g0int2int_int_llint (x)
+implement
+gnumber_int<uint> (x) = g0int2uint_int_uint (x)
+implement
+gnumber_int<ulint> (x) = g0int2uint_int_ulint (x)
+implement
+gnumber_int<ullint> (x) = g0int2uint_int_ullint (x)
+
+implement
+gnumber_int<double> (x) = g0int2float_int_double (x)
+implement
+gnumber_double<double> (x) = g0float2float_double_double (x)
 
 #atscode_separator()
 
 implement
 gsucc_val<int> (x) = succ (x)
 implement
+gsucc_val<lint> (x) = succ (x)
+implement
+gsucc_val<llint> (x) = succ (x)
+implement
+gsucc_val<uint> (x) = succ (x)
+implement
+gsucc_val<ulint> (x) = succ (x)
+implement
+gsucc_val<ullint> (x) = succ (x)
+implement
+gsucc_val<float> (x) = succ (x)
+implement
+gsucc_val<double> (x) = succ (x)
+
+#atscode_separator()
+
+implement
 gpred_val<int> (x) = pred (x)
+implement
+gpred_val<lint> (x) = pred (x)
+implement
+gpred_val<llint> (x) = pred (x)
+implement
+gpred_val<float> (x) = pred (x)
+implement
+gpred_val<double> (x) = pred (x)
 
 #atscode_separator()
 
@@ -67,6 +107,14 @@ gadd_val<double> (x, y) = x + y
 
 implement
 gsub_val<int> (x, y) = x - y
+implement
+gsub_val<lint> (x, y) = x - y
+implement
+gsub_val<llint> (x, y) = x - y
+implement
+gsub_val<float> (x, y) = x - y
+implement
+gsub_val<double> (x, y) = x - y
 
 #atscode_separator()
 
@@ -95,11 +143,31 @@ gmul_val<double> (x, y) = x * y
 
 implement
 gdiv_val<int> (x, y) = x / y
+implement
+gdiv_val<lint> (x, y) = x / y
+implement
+gdiv_val<llint> (x, y) = x / y
+implement
+gdiv_val<uint> (x, y) = x / y
+implement
+gdiv_val<ulint> (x, y) = x / y
+implement
+gdiv_val<ullint> (x, y) = x / y
+implement
+gdiv_val<size_t> (x, y) = x / y
+implement
+gdiv_val<ssize_t> (x, y) = x / y
+implement
+gdiv_val<float> (x, y) = x / y
+implement
+gdiv_val<double> (x, y) = x / y
 
 #atscode_separator()
 
 implement
 gmod_val<int> (x, y) = x mod y
+implement
+gmod_val<double> (x, y) = x mod y
 
 #atscode_separator()
 
@@ -109,37 +177,6 @@ gaddto_val (x, y) = y := gadd_val<a> (x, y)
 implement{a}
 gmulto_val (x, y) = y := gmul_val<a> (x, y)
 *)
-
-#atscode_separator()
-//
-// HX: double-precision floating point numbers
-//
-#atscode_separator()
-
-implement
-gnumint<double> (x) = g0int2float_int_double (x)
-implement
-gnumdouble<double> (x) = g0float2float_double_double (x)
-
-#atscode_separator()
-
-implement
-gsucc_val<double> (x) = succ (x)
-implement
-gpred_val<double> (x) = pred (x)
-
-#atscode_separator()
-
-implement
-gadd_val<double> (x, y) = x + y
-implement
-gsub_val<double> (x, y) = x - y
-implement
-gmul_val<double> (x, y) = x * y
-implement
-gdiv_val<double> (x, y) = x / y
-implement
-gmod_val<double> (x, y) = x mod y
 
 #atscode_separator()
 
