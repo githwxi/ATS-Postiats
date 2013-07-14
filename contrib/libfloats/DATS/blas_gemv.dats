@@ -91,7 +91,8 @@ val (
 ) = (!p3 := blas$alphabeta (alpha, x, beta, !p3))
 val () = loop
 (
-  pf12, pf2, pf32 | ptr_add<a> (p1, ld1), p2, ptr_add<a> (p3, d3), m-1
+  pf12, pf2, pf32
+| ptr_add<a> (p1, ld1), p2, ptr_add<a> (p3, d3), m-1
 ) (* end of [val] *)
 //
 prval (
@@ -103,7 +104,7 @@ in
 end else let
 //
 (*
-prval () = pf3 := gvector_v_renil{a?,a}(pf3)
+prval () = pf3 := gvector_v_renil0{a?,a}(pf3)
 *)
 //
 in
@@ -149,7 +150,8 @@ val (
 ) = (!p3 := blas$alphabeta (alpha, x, beta, !p3))
 val () = loop
 (
-  pf12, pf2, pf32 | ptr_succ<a> (p1), p2, ptr_add<a> (p3, d3), m-1
+  pf12, pf2, pf32
+| ptr_succ<a> (p1), p2, ptr_add<a> (p3, d3), m-1
 ) (* end of [val] *)
 //
 prval (
@@ -161,7 +163,7 @@ in
 end else let
 //
 (*
-prval () = pf3 := gvector_v_renil{a?,a}(pf3)
+prval () = pf3 := gvector_v_renil0{a?,a}(pf3)
 *)
 //
 in
@@ -175,6 +177,46 @@ prval () = lemma_gmatcol_param (M1)
 in
   loop (view@M1, view@V2, view@V3 | addr@M1, addr@V2, addr@V3, m)
 end // end of [blas_gemv_col]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+blas_gemv_trow
+  {m,n}{ld1,d2,d3}
+(
+  alpha, M1, V2, beta, V3, m, n, ld1, d2, d3
+) = let
+//
+prval (
+) = gmatrix_transp (M1)
+val () = blas_gemv_col (alpha, M1, V2, beta, V3, m, n, ld1, d2, d3)
+prval (
+) = gmatrix_transp (M1)
+//
+in
+  // nothing
+end // end of [blas_gemv_trow]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+blas_gemv_tcol
+  {m,n}{ld1,d2,d3}
+(
+  alpha, M1, V2, beta, V3, m, n, ld1, d2, d3
+) = let
+//
+prval (
+) = gmatrix_transp (M1)
+val () = blas_gemv_row (alpha, M1, V2, beta, V3, m, n, ld1, d2, d3)
+prval (
+) = gmatrix_transp (M1)
+//
+in
+  // nothing
+end // end of [blas_gemv_tcol]
 
 (* ****** ****** *)
 
