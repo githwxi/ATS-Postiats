@@ -232,4 +232,57 @@ gmatrow_getref_row_at
 
 (* ****** ****** *)
 
+fun{
+a:t0p}{env:vt0p
+} gmatrow_foreachrow$fwork{n:int}
+(
+  row: &GVT (a, n, 1) >> _, n: int n, env: &(env) >> _
+) : void // end of [gmatrow_foreachrow$fwork]
+
+fun{
+a:t0p
+} gmatrow_foreachrow{m,n:int}{ld:int}
+(
+  M: &gmatrow(a, m, n, ld) >> _, int(m), int(n), int(ld)
+) : void // end of [gmatrow_foreachrow]
+fun{
+a:t0p}{env:vt0p
+} gmatrow_foreachrow_env{m,n:int}{ld:int}
+(
+  M: &gmatrow(a, m, n, ld) >> _, int(m), int(n), int(ld), env: &(env) >> _
+) : void // end of [gmatrow_foreachrow_env]
+
+(* ****** ****** *)
+
+fun{
+a1,a2:t0p}{env:vt0p
+} gmatrow_foreachrow2$fwork{n:int}
+(
+  row1: &GVT (a1, n, 1) >> _
+, row2: &GVT (a2, n, 1) >> _
+, n: int (n), env: &(env) >> _
+) : void // end of [gmatrow_foreachrow$fwork]
+
+fun{
+a1,a2:t0p
+} gmatrow_foreachrow2
+  {m,n:int}{ld1,ld2:int}
+(
+  M1: &gmatrow(a1, m, n, ld1) >> _
+, M2: &gmatrow(a2, m, n, ld2) >> _
+, int(m), int(n), int(ld1), int(ld2)
+) : void // end of [gmatrow_foreachrow]
+fun{
+a1,a2:t0p}{env:vt0p
+} gmatrow_foreachrow2_env
+  {m,n:int}{ld1,ld2:int}
+(
+  M1: &gmatrow(a1, m, n, ld1) >> _
+, M2: &gmatrow(a2, m, n, ld2) >> _
+, int(m), int(n), int(ld1), int(ld2)
+, env: &(env) >> _
+) : void // end of [gmatrow_foreachrow2_env]
+
+(* ****** ****** *)
+
 (* end of [gmatrix_row.sats] *)

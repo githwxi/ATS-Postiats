@@ -28,30 +28,20 @@ that is, two-dimensional arrays of column-major style.
 
 (* ****** ****** *)
 
-#declnamesynop("gmatcol")
-#declnamesynop("gmatcol_v")
-#declnamesynop("GMC")
-
-(* ****** ****** *)
-
 #declnamesynop("lemma_gmatcol_param")
 #declnamesynop("lemma_gmatcol_v_param")
 
 (* ****** ****** *)
 
-#declnamesynop("gmatcol_v_nil")
-#declnamesynop("gmatcol_v_unnil")
-#declnamesynop("gmatcol_v_unnil_nil")
-#declnamesynop("gmatcol_v_cons")
-#declnamesynop("gmatcol_v_uncons")
+#declnamesynop("gmatcol_v_cons0")
+#declnamesynop("gmatcol_v_uncons0")
+#declnamesynop("gmatcol_v_renil0")
 
 (* ****** ****** *)
 
-#declnamesynop("gmatcol_v_nil2")
-#declnamesynop("gmatcol_v_unnil2")
-#declnamesynop("gmatcol_v_unnil2_nil2")
-#declnamesynop("gmatcol_v_cons2")
-#declnamesynop("gmatcol_v_uncons2")
+#declnamesynop("gmatcol_v_cons1")
+#declnamesynop("gmatcol_v_uncons1")
+#declnamesynop("gmatcol_v_renil1")
 
 (* ****** ****** *)
 
@@ -72,33 +62,13 @@ that is, two-dimensional arrays of column-major style.
 
 (* ****** ****** *)
 
-#declnamesynop("muladdto_gvector_gmatcol_gvector")
-#decldescrpt("\
-
-This function computes the product of vector V1 and matrix M2
-and then add it to V3.
-
-")
+#declnamesynop("gmatcol_foreachcol")
+#declnamesynop("gmatcol_foreachcol_env")
 
 (* ****** ****** *)
 
-#declnamesynop("muladdto_gmatcol_gmatcol_gmatcol")
-#decldescrpt("\
-
-This function computes the product of matrices A (1st argument) and B (2nd
-argument) and then add it to C (3rd argument).
-
-")
-
-(* ****** ****** *)
-
-#declnamesynop("muladdto_gvector_gvector_gmatcol")
-#decldescrpt("\
-
-This function computes the outer product (a.k.a. tensor product) of V1 and
-V2 and then add it to M3.
-
-")
+#declnamesynop("gmatcol_foreachcol2")
+#declnamesynop("gmatcol_foreachcol2_env")
 
 (* ****** ****** *)
 

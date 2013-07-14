@@ -93,6 +93,27 @@ end // end of [blas_swap]
 
 implement
 {a}(*tmp*)
+blas_scal
+  (alpha, X, n, dx) = let
+//
+implement
+{a}{env}
+gvector_foreach$cont (x, env) = true
+//
+implement(env)
+gvector_foreach$fwork<a><env>
+  (x, env) = x := gmul_val<a> (alpha, x)
+//
+val _(*n*) = gvector_foreach<a> (X, n, dx)
+//
+in
+  // nothing
+end // end of [blas_scal]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 blas_axpy
   (alpha, X, Y, n, dx, dy) = let
 //
@@ -109,6 +130,44 @@ val _(*n*) = gvector_foreach2<a,a> (X, Y, n, dx, dy)
 in
   // nothing
 end // end of [blas_axpy]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+blas_axpy2_row
+  {m,n}{lda,ldb}
+(
+  alpha, X2, Y2, m, n, lda, ldb
+) = let
+//
+implement(env)
+gmatrow_foreachrow2$fwork<a,a><env>
+  (X, Y, n, env) = blas_axpy (alpha, X, Y, n, 1, 1)
+//
+val () = gmatrow_foreachrow2<a,a> (X2, Y2, m, n, lda, ldb)
+//
+in
+  // nothing
+end // end of [blas_axpy2_row]
+
+implement
+{a}(*tmp*)
+blas_axpy2_col
+  {m,n}{lda,ldb}
+(
+  alpha, X2, Y2, m, n, lda, ldb
+) = let
+//
+implement(env)
+gmatcol_foreachcol2$fwork<a,a><env>
+  (X, Y, n, env) = blas_axpy (alpha, X, Y, n, 1, 1)
+//
+val () = gmatcol_foreachcol2<a,a> (X2, Y2, m, n, lda, ldb)
+//
+in
+  // nothing
+end // end of [blas_axpy2_col]
 
 (* ****** ****** *)
 

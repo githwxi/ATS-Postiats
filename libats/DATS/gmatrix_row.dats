@@ -39,6 +39,7 @@ UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload "libats/SATS/gvector.sats"
+staload "libats/SATS/gmatrix.sats"
 staload "libats/SATS/gmatrix_row.sats"
 
 (* ****** ****** *)
@@ -74,6 +75,81 @@ val prow = $UN.cast2Ptr1(ptr_add<a> (addr@M, i*ld))
 in
   $UN.ptr2cptr{GVT(a,n,1(*d*))}(prow)
 end // end of [gmatrow_getref_row_at]
+
+(* ****** ****** *)
+
+implement{a}
+gmatrow_foreachrow
+  (M, m, n, ld) = let
+  var env: void = () in
+  gmatrow_foreachrow_env<a><void> (M, m, n, ld, env)
+end // end of [gmatrix_foreach]
+
+(* ****** ****** *)
+
+implement{a1,a2}
+gmatrow_foreachrow2
+  (M1, M2, m, n, ld1, ld2) = let
+  var env: void = () in
+  gmatrow_foreachrow2_env<a1,a2><void> (M1, M2, m, n, ld1, ld2, env)
+end // end of [gmatrix_foreachrow2]
+
+implement
+{a1,a2}{env}
+gmatrow_foreachrow2_env
+  {m,n}{lda,ldb}
+(
+  A, B, m, n, lda, ldb, env
+) = let
+//
+fun loop
+  {l1,l2:addr}{m:nat} .<m>.
+(
+  pfX: !GMR(a1, l1, m, n, lda)
+, pfY: !GMR(a2, l2, m, n, ldb)
+| p1: ptr l1, p2: ptr l2, m: int m, env: &env
+) : void = let
+in
+//
+if m > 0
+then let
+//
+prval
+  (pfX1, pfX2) = gmatrow_v_uncons0 (pfX)
+prval
+  (pfY1, pfY2) = gmatrow_v_uncons0 (pfY)
+//
+val () = gmatrow_foreachrow2$fwork<a1,a2><env> (!p1, !p2, n, env)
+//
+val () = loop
+(
+  pfX2, pfY2
+| ptr_add<a1> (p1, lda), ptr_add<a2> (p2, ldb), pred(m), env
+) (* end of [val] *)
+//
+prval () = pfX := gmatrow_v_cons0 (pfX1, pfX2)
+prval () = pfY := gmatrow_v_cons0 (pfY1, pfY2)
+//
+in
+  // nothing
+end else let
+//
+(*
+prval () = (pfY := gmatrow_v_renil0 {a,a} (pfY))
+*)
+//
+in
+  // nothing
+end // end of [if]
+//
+end // end of [loop]
+//
+prval () = lemma_gmatrow_param (A)
+prval () = lemma_gmatrow_param (B)
+//
+in
+  loop (view@A, view@B | addr@A, addr@B, m, env)
+end // end of [gmatrow_foreachrow2]
 
 (* ****** ****** *)
 
