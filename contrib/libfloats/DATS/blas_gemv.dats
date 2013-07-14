@@ -88,11 +88,11 @@ prval (pf31, pf32) = gvector_v_uncons (pf3)
 //
 val x = blas_inner<a> (!p1, !p2, n, 1, d2)
 val (
-) = (!p3 := blas$alphabeta<a> (alpha, x, beta, !p3))
+) = (!p3 := blas$_alpha_beta<a> (alpha, x, beta, !p3))
 val () = loop
 (
   pf12, pf2, pf32
-| ptr_add<a> (p1, ld1), p2, ptr_add<a> (p3, d3), m-1
+| ptr_add<a> (p1, ld1), p2, ptr_add<a> (p3, d3), pred(m)
 ) (* end of [val] *)
 //
 prval (
@@ -147,11 +147,11 @@ prval (pf31, pf32) = gvector_v_uncons (pf3)
 //
 val x = blas_inner<a> (!p1, !p2, n, ld1, d2)
 val (
-) = (!p3 := blas$alphabeta<a> (alpha, x, beta, !p3))
+) = (!p3 := blas$_alpha_beta<a> (alpha, x, beta, !p3))
 val () = loop
 (
   pf12, pf2, pf32
-| ptr_succ<a> (p1), p2, ptr_add<a> (p3, d3), m-1
+| ptr_succ<a> (p1), p2, ptr_add<a> (p3, d3), pred(m)
 ) (* end of [val] *)
 //
 prval (

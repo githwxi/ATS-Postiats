@@ -31,9 +31,11 @@ staload "libats/SATS/gmatrix_row.sats"
 (* ****** ****** *)
 
 fun{a:t0p}
-blas$alpha (alpha: a, x: a, y: a): a
+blas$_alpha_0 (alpha: a, x: a): a
 fun{a:t0p}
-blas$alphabeta (alpha: a, x: a, beta: a, y: a): a
+blas$_alpha_1 (alpha: a, x: a, y: a): a
+fun{a:t0p}
+blas$_alpha_beta (alpha: a, x: a, beta: a, y: a): a
 
 (* ****** ****** *)
 //
@@ -125,32 +127,67 @@ blas_scal2_col
 // Y <- alpha*X + Y
 //
 fun{a:t0p}
-blas_axpy
+blas_ax1y
   {n:int}{dx,dy:int}
 (
   alpha: a
 , X: &GVT(a, n, dx)
 , Y: &GVT(a, n, dy) >> _, int n, int dx, int dy
-) : void // end of [blas_axpy]
+) : void // end of [blas_ax1y]
 
 fun{
 a:t0p
-} blas_axpy2_row
+} blas_ax1y2_row
   {m,n:int}{lda,ldb:int}
 (
   alpha: a
 , X2: &GMR(a, m, n, lda)
 , Y2: &GMR(a, m, n, ldb) >> _, int m, int n, int lda, int ldb
-) : void // end of [blas_axpy2_row]
+) : void // end of [blas_ax1y2_row]
 fun{
 a:t0p
-} blas_axpy2_col
+} blas_ax1y2_col
   {m,n:int}{lda,ldb:int}
 (
   alpha: a
 , X2: &GMC(a, m, n, lda)
 , Y2: &GMC(a, m, n, ldb) >> _, int m, int n, int lda, int ldb
-) : void // end of [blas_axpy2_col]
+) : void // end of [blas_ax1y2_col]
+
+(* ****** ****** *)
+//
+// Y <- alpha*X + beta*Y
+//
+fun{a:t0p}
+blas_axby
+  {n:int}{dx,dy:int}
+(
+  alpha: a
+, X: &GVT(a, n, dx)
+, beta: a
+, Y: &GVT(a, n, dy) >> _, int n, int dx, int dy
+) : void // end of [blas_axby]
+
+fun{
+a:t0p
+} blas_axby2_row
+  {m,n:int}{lda,ldb:int}
+(
+  alpha: a
+, X2: &GMR(a, m, n, lda)
+, beta: a
+, Y2: &GMR(a, m, n, ldb) >> _, int m, int n, int lda, int ldb
+) : void // end of [blas_axby2_row]
+fun{
+a:t0p
+} blas_axby2_col
+  {m,n:int}{lda,ldb:int}
+(
+  alpha: a
+, X2: &GMC(a, m, n, lda)
+, beta: a
+, Y2: &GMC(a, m, n, ldb) >> _, int m, int n, int lda, int ldb
+) : void // end of [blas_axby2_col]
 
 (* ****** ****** *)
 //
@@ -247,12 +284,16 @@ a:t0p
 fun{
 a:t0p
 } blas_gemm_row
-  {moa,mob:mord}
-  {p,q,r:int}{lda,ldb,ldc:int}
+  {p,q,r:int}
+  {tra,trb:transp}
+  {ma,na:int}{mb,nb:int}
+  {lda,ldb,ldc:int}
 (
-  alpha: a
-, A: &GMX(a, moa, p, q, lda), MORD(moa)
-, B: &GMX(a, mob, q, r, ldb), MORD(mob)
+  pfa: transpdim (tra, ma, na, p, q)
+, pfb: transpdim (trb, mb, nb, q, r)   
+| alpha: a
+, A: &GMR(a, ma, na, lda), TRANSP(tra)
+, B: &GMR(a, mb, nb, ldb), TRANSP(trb)
 , beta: a
 , C: &GMR(a, p, r, ldc) >> _
 , int p, int q, int r, int lda, int ldb, int ldc
@@ -311,12 +352,16 @@ a:t0p
 fun{
 a:t0p
 } blas_gemm_col
-  {moa,mob:mord}
-  {p,q,r:int}{lda,ldb,ldc:int}
+  {p,q,r:int}
+  {tra,trb:transp}
+  {ma,na:int}{mb,nb:int}
+  {lda,ldb,ldc:int}
 (
-  alpha: a
-, A: &GMX(a, moa, p, q, lda), MORD(moa)
-, B: &GMX(a, mob, q, r, ldb), MORD(mob)
+  pfa: transpdim (tra, ma, na, p, q)
+, pfb: transpdim (trb, mb, nb, q, r)   
+| alpha: a
+, A: &GMC(a, ma, na, lda), TRANSP(tra)
+, B: &GMC(a, mb, nb, ldb), TRANSP(trb)
 , beta: a
 , C: &GMC(a, p, r, ldc) >> _
 , int p, int q, int r, int lda, int ldb, int ldc

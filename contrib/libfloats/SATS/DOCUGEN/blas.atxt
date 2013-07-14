@@ -56,9 +56,15 @@ BLAS-like functions.
 
 (* ****** ****** *)
 
-#declnamesynop("blas_axpy")
-#declnamesynop("blas_axpy2_row")
-#declnamesynop("blas_axpy2_col")
+#declnamesynop("blas_ax1y")
+#declnamesynop("blas_ax1y2_row")
+#declnamesynop("blas_ax1y2_col")
+
+(* ****** ****** *)
+
+#declnamesynop("blas_axby")
+#declnamesynop("blas_axby2_row")
+#declnamesynop("blas_axby2_col")
 
 (* ****** ****** *)
 

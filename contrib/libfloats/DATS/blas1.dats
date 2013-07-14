@@ -204,8 +204,55 @@ end // end of [blas_scal2_col]
 
 implement
 {a}(*tmp*)
-blas_axpy
+blas_ax1y
   (alpha, X, Y, n, dx, dy) = let
+//
+implement
+blas$_alpha_beta<a>
+  (alpha, x, beta, y) = blas$_alpha_1<a> (alpha, x, y)
+//
+val beta = gnumint<a> (1)
+//
+in
+  blas_axby<a> (alpha, X, beta, Y, n, dx, dy)
+end // end of [blas_ax1y]
+
+implement
+{a}(*tmp*)
+blas_ax1y2_row
+  (alpha, X2, Y2, m, n, ldx, ldy) = let
+//
+implement
+blas$_alpha_beta<a>
+  (alpha, x, beta, y) = blas$_alpha_1<a> (alpha, x, y)
+//
+val beta = gnumint<a> (1)
+//
+in
+  blas_axby2_row<a> (alpha, X2, beta, Y2, m, n, ldx, ldy)
+end // end of [blas_ax1y2_row]
+
+implement
+{a}(*tmp*)
+blas_ax1y2_col
+  (alpha, X2, Y2, m, n, ldx, ldy) = let
+//
+implement
+blas$_alpha_beta<a>
+  (alpha, x, beta, y) = blas$_alpha_1<a> (alpha, x, y)
+//
+val beta = gnumint<a> (1)
+//
+in
+  blas_axby2_col<a> (alpha, X2, beta, Y2, m, n, ldx, ldy)
+end // end of [blas_ax1y2_col]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+blas_axby
+  (alpha, X, beta, Y, n, dx, dy) = let
 //
 implement
 {a1,a2}{env}
@@ -213,51 +260,53 @@ gvector_foreach2$cont (x, y, env) = true
 //
 implement(env)
 gvector_foreach2$fwork<a,a><env>
-  (x, y, env) = y := blas$alpha<a> (alpha, x, y)
+  (x, y, env) = y := blas$_alpha_beta<a> (alpha, x, beta, y)
 //
 val _(*n*) = gvector_foreach2<a,a> (X, Y, n, dx, dy)
 //
 in
   // nothing
-end // end of [blas_axpy]
+end // end of [blas_axby]
 
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-blas_axpy2_row
+blas_axby2_row
   {m,n}{ldx,ldy}
 (
-  alpha, X2, Y2, m, n, ldx, ldy
+  alpha, X2, beta, Y2, m, n, ldx, ldy
 ) = let
 //
 implement(env)
 gmatrow_foreachrow2$fwork<a,a><env>
-  (X, Y, n, env) = blas_axpy<a> (alpha, X, Y, n, 1, 1)
+  (X, Y, n, env) =
+  blas_axby<a> (alpha, X, beta, Y, n, 1, 1)
 //
 val () = gmatrow_foreachrow2<a,a> (X2, Y2, m, n, ldx, ldy)
 //
 in
   // nothing
-end // end of [blas_axpy2_row]
+end // end of [blas_axby2_row]
 
 implement
 {a}(*tmp*)
-blas_axpy2_col
+blas_axby2_col
   {m,n}{ldx,ldy}
 (
-  alpha, X2, Y2, m, n, ldx, ldy
+  alpha, X2, beta, Y2, m, n, ldx, ldy
 ) = let
 //
 implement(env)
 gmatcol_foreachcol2$fwork<a,a><env>
-  (X, Y, n, env) = blas_axpy<a> (alpha, X, Y, n, 1, 1)
+  (X, Y, n, env) =
+  blas_axby<a> (alpha, X, beta, Y, n, 1, 1)
 //
 val () = gmatcol_foreachcol2<a,a> (X2, Y2, m, n, ldx, ldy)
 //
 in
   // nothing
-end // end of [blas_axpy2_col]
+end // end of [blas_axby2_col]
 
 (* ****** ****** *)
 

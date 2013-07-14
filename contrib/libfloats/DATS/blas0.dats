@@ -21,11 +21,13 @@ staload "libfloats/SATS/blas.sats"
 (* ****** ****** *)
 
 implement{a}
-blas$alpha (alpha, x, y) =
-  gadd_val<a> (gmul_val<a> (alpha, x), y)
-
+blas$_alpha_0 (alpha, x) =
+  gmul_val<a> (alpha, x)
 implement{a}
-blas$alphabeta
+blas$_alpha_1 (alpha, x, y) =
+  gadd_val<a> (gmul_val<a> (alpha, x), y)
+implement{a}
+blas$_alpha_beta
   (alpha, x, beta, y) =
   gadd_val<a> (gmul_val<a> (alpha, x), gmul_val<a> (beta, y))
 // end of [blas_alphabeta]
