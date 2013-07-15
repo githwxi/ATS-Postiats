@@ -90,4 +90,12 @@ end // end of [lapack_LUdec]
 
 (* ****** ****** *)
 
+// TODO: check for function existence for:
+// copy Upper/Lower diag in ATS/BLAS
+// copy + set diag element in ATS/BLAS (or MATLAB)
+//
+// Then: check that L*U = A
+//
+// Then write solve code for Ax=b
+
 (* end of [test_LUdec.dats] *)
