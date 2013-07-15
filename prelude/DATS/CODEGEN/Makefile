@@ -162,6 +162,7 @@ basics_atxt.dats: basics.atxt
 clean:: ; $(RMF) basics_atxt.exe
 cleanall:: ; $(RMF) basics.dats
 
+
 all:: gorder.dats
 gorder.dats: gorder_atxt.exe ; ./$< > $@
 gorder_atxt.exe: gorder_atxt.dats
@@ -171,6 +172,7 @@ gorder_atxt.dats: gorder.atxt
 clean:: ; $(RMF) gorder_atxt.exe
 cleanall:: ; $(RMF) gorder.dats
 
+
 all:: gnumber.dats
 gnumber.dats: gnumber_atxt.exe ; ./$< > $@
 gnumber_atxt.exe: gnumber_atxt.dats
@@ -179,6 +181,33 @@ gnumber_atxt.dats: gnumber.atxt
 	$(ATSDOC) --outcode $@ -i gnumber.atxt > gnumber_atxt.txt
 clean:: ; $(RMF) gnumber_atxt.exe
 cleanall:: ; $(RMF) gnumber.dats
+
+all:: gnumber_int.dats
+gnumber_int.dats: gnumber_int_atxt.exe ; ./$< > $@
+gnumber_int_atxt.exe: gnumber_int_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ gnumber_int_atxt.dats -latsdoc
+gnumber_int_atxt.dats: gnumber_int.atxt
+	$(ATSDOC) --outcode $@ -i gnumber_int.atxt > gnumber_int_atxt.txt
+clean:: ; $(RMF) gnumber_int_atxt.exe
+cleanall:: ; $(RMF) gnumber_int.dats
+
+all:: gnumber_uint.dats
+gnumber_uint.dats: gnumber_uint_atxt.exe ; ./$< > $@
+gnumber_uint_atxt.exe: gnumber_uint_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ gnumber_uint_atxt.dats -latsdoc
+gnumber_uint_atxt.dats: gnumber_uint.atxt
+	$(ATSDOC) --outcode $@ -i gnumber_uint.atxt > gnumber_uint_atxt.txt
+clean:: ; $(RMF) gnumber_uint_atxt.exe
+cleanall:: ; $(RMF) gnumber_uint.dats
+
+all:: gnumber_float.dats
+gnumber_float.dats: gnumber_float_atxt.exe ; ./$< > $@
+gnumber_float_atxt.exe: gnumber_float_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ gnumber_float_atxt.dats -latsdoc
+gnumber_float_atxt.dats: gnumber_float.atxt
+	$(ATSDOC) --outcode $@ -i gnumber_float.atxt > gnumber_float_atxt.txt
+clean:: ; $(RMF) gnumber_float_atxt.exe
+cleanall:: ; $(RMF) gnumber_float.dats
 
 
 all:: unsafe.dats
@@ -302,6 +331,7 @@ arrayref_atxt.dats: arrayref.atxt
 	$(ATSDOC) --outcode $@ -i arrayref.atxt > arrayref_atxt.txt
 clean:: ; $(RMF) arrayref_atxt.exe
 cleanall:: ; $(RMF) arrayref.dats
+
 
 
 all:: parray.dats

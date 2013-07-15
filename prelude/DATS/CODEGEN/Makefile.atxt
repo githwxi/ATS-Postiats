@@ -81,8 +81,13 @@ all::
 #make_entry("strptr")
 
 #make_entry("basics")
+
 #make_entry("gorder")
+
 #make_entry("gnumber")
+#make_entry("gnumber_int")
+#make_entry("gnumber_uint")
+#make_entry("gnumber_float")
 
 #make_entry("unsafe")
 
@@ -102,8 +107,9 @@ all::
 
 #make_entry("arrayptr")
 #make_entry("arrayref")
+
 #comment('\
-for pointer arrays terminated with the null pointer
+for pointer arrays terminated with the null pointer\
 ')
 #make_entry("parray")
 

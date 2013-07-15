@@ -1,0 +1,119 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"gnumber_uint.dats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/gnumber_uint.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("March, 2013")
+
+#atscode_separator()
+
+implement
+gnumber_int<uint> (x) = g0int2uint_int_uint (x)
+implement
+gnumber_int<ulint> (x) = g0int2uint_int_ulint (x)
+implement
+gnumber_int<ullint> (x) = g0int2uint_int_ullint (x)
+
+#atscode_separator()
+
+implement
+gsucc_val<uint> (x) = succ (x)
+implement
+gsucc_val<ulint> (x) = succ (x)
+implement
+gsucc_val<ullint> (x) = succ (x)
+implement
+gsucc_val<size_t> (x) = succ (x)
+
+#atscode_separator()
+
+implement
+gpred_val<uint> (x) = pred (x)
+implement
+gpred_val<ulint> (x) = pred (x)
+implement
+gpred_val<ullint> (x) = pred (x)
+implement
+gpred_val<size_t> (x) = pred (x)
+
+#atscode_separator()
+
+implement
+gadd_val<uint> (x, y) = x + y
+implement
+gadd_val<ulint> (x, y) = x + y
+implement
+gadd_val<ullint> (x, y) = x + y
+implement
+gadd_val<size_t> (x, y) = x + y
+
+#atscode_separator()
+
+implement
+gsub_val<uint> (x, y) = x - y
+implement
+gsub_val<ulint> (x, y) = x - y
+implement
+gsub_val<ullint> (x, y) = x - y
+implement
+gsub_val<size_t> (x, y) = x - y
+
+#atscode_separator()
+
+implement
+gmul_val<uint> (x, y) = x * y
+implement
+gmul_val<ulint> (x, y) = x * y
+implement
+gmul_val<ullint> (x, y) = x * y
+implement
+gmul_val<size_t> (x, y) = x * y
+
+#atscode_separator()
+
+implement
+gdiv_val<uint> (x, y) = x / y
+implement
+gdiv_val<ulint> (x, y) = x / y
+implement
+gdiv_val<ullint> (x, y) = x / y
+implement
+gdiv_val<size_t> (x, y) = x / y
+
+#atscode_separator()
+
+implement
+gmod_val<uint> (x, y) = x mod y
+implement
+gmod_val<ulint> (x, y) = x mod y
+implement
+gmod_val<ullint> (x, y) = x mod y
+implement
+gmod_val<size_t> (x, y) = x mod y
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "gnumber_uint_atxt.txt")
+%}\

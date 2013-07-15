@@ -1,0 +1,94 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"gnumber_float.dats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/gnumber.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("March, 2013")
+
+#atscode_separator()
+
+implement
+gnumber_int<float> (x) = g0int2float_int_float (x)
+implement
+gnumber_int<double> (x) = g0int2float_int_double (x)
+
+implement
+gnumber_double<float> (x) = g0float2float_double_float (x)
+implement
+gnumber_double<double> (x) = g0float2float_double_double (x)
+
+#atscode_separator()
+
+implement
+gsucc_val<float> (x) = succ (x)
+implement
+gsucc_val<double> (x) = succ (x)
+
+#atscode_separator()
+
+implement
+gpred_val<float> (x) = pred (x)
+implement
+gpred_val<double> (x) = pred (x)
+
+#atscode_separator()
+
+implement
+gadd_val<float> (x, y) = x + y
+implement
+gadd_val<double> (x, y) = x + y
+
+#atscode_separator()
+
+implement
+gsub_val<float> (x, y) = x - y
+implement
+gsub_val<double> (x, y) = x - y
+
+#atscode_separator()
+
+implement
+gmul_val<float> (x, y) = x * y
+implement
+gmul_val<double> (x, y) = x * y
+
+#atscode_separator()
+
+implement
+gdiv_val<float> (x, y) = x / y
+implement
+gdiv_val<double> (x, y) = x / y
+
+#atscode_separator()
+
+implement
+gmod_val<float> (x, y) = x mod y
+implement
+gmod_val<double> (x, y) = x mod y
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "gnumber_float_atxt.txt")
+%}\

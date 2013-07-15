@@ -1,0 +1,117 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"gnumber_int.dats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/gnumber_int.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("March, 2013")
+
+#atscode_separator()
+
+implement
+gnumber_int<int> (x) = g0int2int_int_int (x)
+implement
+gnumber_int<lint> (x) = g0int2int_int_lint (x)
+implement
+gnumber_int<llint> (x) = g0int2int_int_llint (x)
+implement
+gnumber_int<ssize_t> (x) = g0int2int_int_ssize (x)
+
+#atscode_separator()
+
+implement
+gsucc_val<int> (x) = succ (x)
+implement
+gsucc_val<lint> (x) = succ (x)
+implement
+gsucc_val<llint> (x) = succ (x)
+implement
+gsucc_val<ssize_t> (x) = succ (x)
+
+#atscode_separator()
+
+implement
+gpred_val<int> (x) = pred (x)
+implement
+gpred_val<lint> (x) = pred (x)
+implement
+gpred_val<llint> (x) = pred (x)
+
+#atscode_separator()
+
+implement
+gadd_val<int> (x, y) = x + y
+implement
+gadd_val<lint> (x, y) = x + y
+implement
+gadd_val<llint> (x, y) = x + y
+implement
+gadd_val<ssize_t> (x, y) = x + y
+
+#atscode_separator()
+
+implement
+gsub_val<int> (x, y) = x - y
+implement
+gsub_val<lint> (x, y) = x - y
+implement
+gsub_val<llint> (x, y) = x - y
+
+#atscode_separator()
+
+implement
+gmul_val<int> (x, y) = x * y
+implement
+gmul_val<lint> (x, y) = x * y
+implement
+gmul_val<llint> (x, y) = x * y
+implement
+gmul_val<ssize_t> (x, y) = x * y
+
+#atscode_separator()
+
+implement
+gdiv_val<int> (x, y) = x / y
+implement
+gdiv_val<lint> (x, y) = x / y
+implement
+gdiv_val<llint> (x, y) = x / y
+implement
+gdiv_val<ssize_t> (x, y) = x / y
+
+#atscode_separator()
+
+implement
+gmod_val<int> (x, y) = x mod y
+implement
+gmod_val<lint> (x, y) = x mod y
+implement
+gmod_val<llint> (x, y) = x mod y
+implement
+gmod_val<ssize_t> (x, y) = x mod y
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "gnumber_int_atxt.txt")
+%}\
