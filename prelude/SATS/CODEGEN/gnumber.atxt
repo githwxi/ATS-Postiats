@@ -29,6 +29,13 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_start_time("September, 2011")
 
 #atscode_separator()
+
+#atscode_author("Brandon Barker")
+#atscode_authoremail("brandon.barker AT gmail DOT com")
+#atscode_start_time("July, 2013")
+
+
+#atscode_separator()
 //
 // HX: for unindexed gnumber types
 //
@@ -57,6 +64,7 @@ fun{a:t0p} gnumber_double (x: double):<> a
 //
 #atscode_separator()
 
+fun{a:t0p} gabs_val (x: a):<> a
 fun{a:t0p} gneg_val (x: a):<> a
 fun{a:t0p} gsucc_val (x: a):<> a
 fun{a:t0p} gpred_val (x: a):<> a
@@ -68,6 +76,11 @@ fun{a:t0p} gsub_val (x: a, y: a):<> a
 fun{a:t0p} gmul_val (x: a, y: a):<> a
 fun{a:t0p} gdiv_val (x: a, y: a):<> a
 fun{a:t0p} gmod_val (x: a, y: a):<> a
+
+#atscode_separator()
+
+fun{a:t0p} gmax_val (x: a, y: a):<> a
+fun{a:t0p} gmin_val (x: a, y: a):<> a
 
 #atscode_separator()
 
