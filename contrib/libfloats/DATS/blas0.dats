@@ -20,6 +20,13 @@ staload "libfloats/SATS/blas.sats"
 
 (* ****** ****** *)
 
+implement
+blas$gnorm<float><float> (x) = x
+implement
+blas$gnorm<double><double> (x) = x
+
+(* ****** ****** *)
+
 implement{a}
 blas$_alpha_0 (alpha, x) =
   gmul_val<a> (alpha, x)
@@ -35,7 +42,7 @@ blas$_alpha_beta
 (* ****** ****** *)
 
 implement{a}
-blas_inner$mul (x, y) = gmul_val<a> (x, y)
+blas_inner$fmul (x, y) = gmul_val<a> (x, y)
 
 (* ****** ****** *)
 

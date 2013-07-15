@@ -248,6 +248,21 @@ gmatrow_getref_row_at
 (* ****** ****** *)
 
 fun{a:t0p}
+gmatrow_interchange_row
+  {m,n:int}{ld:int}
+(
+  M: &GMR(a, m, n, ld), int(ld), i1: natLt(m), i2: natLt(m)
+) : void // end of [gmatrow_interchange_row]
+fun{a:t0p}
+gmatrow_interchange_col
+  {m,n:int}{ld:int}
+(
+  M: &GMR(a, m, n, ld), int(ld), j1: natLt(n), j2: natLt(n)
+) : void // end of [gmatrow_interchange_col]
+
+(* ****** ****** *)
+
+fun{a:t0p}
 gmatrow_ptr_split2x2
   {l:addr}
   {m,n:int}{ld:int}

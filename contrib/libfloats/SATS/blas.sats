@@ -30,6 +30,10 @@ staload "libats/SATS/gmatrix_row.sats"
 
 (* ****** ****** *)
 
+fun{a1:t0p}{a2:t0p} blas$gnorm (x: a1): a2
+
+(* ****** ****** *)
+
 fun{a:t0p}
 blas$_alpha_0 (alpha: a, x: a): a
 fun{a:t0p}
@@ -42,11 +46,31 @@ blas$_alpha_beta (alpha: a, x: a, beta: a, y: a): a
 // BLAS: level 1
 // 
 (* ****** ****** *)
+
+fun
+{a:t0p}
+{a2:t0p}
+blas_nrm2
+  {n:int}{d:int}
+  (V: &GVT(a, n, d), int n, int d): (a2)
+// end of [blas_nrm2]
+
+(* ****** ****** *)
+
+fun
+{a:t0p}
+{a2:t0p}
+blas_isamax
+  {n:int | n > 0}{d:int}
+  (V: &GVT(a, n, d), int n, int d): natLt(n)
+// end of [blas_isamax]
+
+(* ****** ****** *)
 //
 // HX: inner product
 //
 fun{a:t0p}
-blas_inner$mul (x: a, y: a): a
+blas_inner$fmul (x: a, y: a): a
 
 fun{a:t0p}
 blas_inner
@@ -55,15 +79,6 @@ blas_inner
   V1: &GVT(a, n, d1)
 , V2: &GVT(a, n, d2), int(n), int(d1), int(d2)
 ) : (a) // end of [blas_inner]
-
-(* ****** ****** *)
-
-fun{
-a1,a2:t0p
-} blas_nrm2
-  {n:int}{d:int}
-  (pf: fprecision (a1, a2) | V: &GVT(a1, n, d)): (a2)
-// end of [blas_nrm2]
 
 (* ****** ****** *)
 
