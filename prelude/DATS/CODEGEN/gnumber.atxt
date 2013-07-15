@@ -25,6 +25,12 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_start_time("March, 2013")
 
 #atscode_separator()
+
+#atscode_author("Brandon Barker")
+#atscode_authoremail("brandon.barker AT gmail DOT com")
+#atscode_start_time("July, 2013")
+
+#atscode_separator()
 //
 // HX: (default) integers
 //
@@ -141,6 +147,10 @@ gmul_val<double> (x, y) = x * y
 
 #atscode_separator()
 
+//BB: should gdiv_val be implemented for the integers in this way?
+//    it seems there could be alternative definitions since it isn't
+//    well defined.
+
 implement
 gdiv_val<int> (x, y) = x / y
 implement
@@ -161,6 +171,77 @@ implement
 gdiv_val<float> (x, y) = x / y
 implement
 gdiv_val<double> (x, y) = x / y
+
+//BB: what about <ldouble>
+
+#atscode_separator()
+
+implement
+gmax_val<int> (x, y) = (if x < y then y else x): int
+implement
+gmax_val<lint> (x, y) = (if x < y then y else x): lint
+implement
+gmax_val<llint> (x, y) = (if x < y then y else x): llint
+implement
+gmax_val<uint> (x, y) = (if x < y then y else x): uint
+implement
+gmax_val<ulint> (x, y) = (if x < y then y else x): ulint
+implement
+gmax_val<ullint> (x, y) = (if x < y then y else x): ulint
+implement
+gmax_val<size_t> (x, y) = (if x < y then y else x): size_t
+implement
+gmax_val<ssize_t> (x, y) = (if x < y then y else x): ssize_t
+implement
+gmax_val<float> (x, y) = (if x < y then y else x): float
+implement
+gmax_val<double> (x, y) = (if x < y then y else x): double
+
+#atscode_separator()
+
+implement
+gmin_val<int> (x, y) = (if x < y then x else y): int
+implement
+gmin_val<lint> (x, y) = (if x < y then x else y): lint
+implement
+gmin_val<llint> (x, y) = (if x < y then x else y): llint
+implement
+gmin_val<uint> (x, y) = (if x < y then x else y): uint
+implement
+gmin_val<ulint> (x, y) = (if x < y then x else y): ulint
+implement
+gmin_val<ullint> (x, y) = (if x < y then x else y): ulint
+implement
+gmin_val<size_t> (x, y) = (if x < y then x else y): size_t
+implement
+gmin_val<ssize_t> (x, y) = (if x < y then x else y): ssize_t
+implement
+gmin_val<float> (x, y) = (if x < y then x else y): float
+implement
+gmin_val<double> (x, y) = (if x < y then x else y): double
+
+#atscode_separator()
+
+implement
+gabs_val<int> (x) = (if x < 0 then ~x else x): int
+implement
+gabs_val<lint> (x) = (if x < 0 then ~x else x): lint
+implement
+gabs_val<llint> (x) = (if x < 0 then ~x else x): llint
+implement
+gabs_val<uint> (x) = (if x < 0 then ~x else x): uint
+implement
+gabs_val<ulint> (x) = (if x < 0 then ~x else x): ulint
+implement
+gabs_val<ullint> (x) = (if x < 0 then ~x else x): ulint
+implement
+gabs_val<size_t> (x) = (if x < 0 then ~x else x): size_t
+implement
+gabs_val<ssize_t> (x) = (if x < 0 then ~x else x): ssize_t
+implement
+gabs_val<float> (x) = (if x < 0 then ~x else x): float
+implement
+gabs_val<double> (x) = (if x < 0 then ~x else x): double
 
 #atscode_separator()
 

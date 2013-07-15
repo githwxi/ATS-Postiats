@@ -266,3 +266,16 @@ a1,a2:t0p}{env:vt0p
 (* ****** ****** *)
 
 (* end of [gmatrix_col.sats] *)
+
+// 
+// BB: in-place LU decomposition
+//     for square matrices.
+//
+fun{a:t0p}
+gmatcol_LUdec_Crout
+  {m,n:int}{ld:int}
+( 
+  M: &GMC(a, n, n, ld), n:int, ld:int
+) : [l:addr] (array_v (a, l, n), mfree_gc_v (l) | ptr l)
+//
+// BB note: need to return other information as well later
