@@ -37,11 +37,11 @@ macdef ggt = ggt_val<a>
 macdef gmul = gmul_val<a>
 macdef gpred = gpred_val<a>
 //
-macdef gn = gnumint<a>
+macdef gint = gnumber_int<a>
 //
 in
 //
-if x \ggt gn(0) then x \gmul gfact<a> (gpred (x)) else gn(1)
+if x \ggt gint(0) then x \gmul gfact<a> (gpred (x)) else gint(1)
 //
 end // end of [gfact]
 

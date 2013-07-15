@@ -105,11 +105,14 @@ if r > 0 then let
 prval (pfb1, pfb2) = gmatrow_v_uncons1 (pfb)
 prval (pfc1, pfc2) = gmatrow_v_uncons1 (pfc)
 //
-prval () = array2gvector (!pt)
-val () = blas_copy<a> (!pb, !pt, q, ldb, 1)
-val () = blas_gemv_row (alpha, !pa, !pt, beta, !pc, p, q, lda, 1, ldc)
-//
-prval () = gvector2array (!pt)
+prval (
+) = array2gvector (!pt)
+val (
+) = blas_copy<a> (!pb, !pt, q, ldb, 1)
+val (
+) = blas_gemv_row (alpha, !pa, !pt, beta, !pc, p, q, lda, 1, ldc)
+prval (
+) = gvector2array (!pt)
 //
 val (
 ) = loop (
@@ -122,11 +125,9 @@ prval () = pfc := gmatrow_v_cons1 (pfc1, pfc2)
 in
   // nothing
 end else let
-//
 (*
 prval () = (pfc := gmatrow_v_renil1{a,a}(pfc))
 *)
-//
 in
   // nothing
 end // end of [if]
@@ -180,7 +181,8 @@ prval
   pfc1, pfc2
 ) = gmatrow_v_uncons1 (pfc)
 //
-val () = blas_gemv_row (alpha, !pa, !pb, beta, !pc, p, q, lda, 1, ldc)
+val (
+) = blas_gemv_row (alpha, !pa, !pb, beta, !pc, p, q, lda, 1, ldc)
 //
 val (
 ) = loop (
@@ -193,11 +195,9 @@ prval () = pfc := gmatrow_v_cons1 (pfc1, pfc2)
 in
   // nothing
 end else let
-//
 (*
 prval () = (pfc := gmatrow_v_renil1{a,a}(pfc))
 *)
-//
 in
   // nothing
 end // end of [if]
@@ -240,11 +240,14 @@ if r > 0 then let
 prval (pfb1, pfb2) = gmatrow_v_uncons1 (pfb)
 prval (pfc1, pfc2) = gmatrow_v_uncons1 (pfc)
 //
-prval () = array2gvector (!pt)
-val () = blas_copy<a> (!pb, !pt, q, ldb, 1)
-val () = blas_gemv_trow (alpha, !pa, !pt, beta, !pc, p, q, lda, 1, ldc)
-//
-prval () = gvector2array (!pt)
+prval (
+) = array2gvector (!pt)
+val (
+) = blas_copy<a> (!pb, !pt, q, ldb, 1)
+val (
+) = blas_gemv_trow (alpha, !pa, !pt, beta, !pc, p, q, lda, 1, ldc)
+prval (
+) = gvector2array (!pt)
 //
 val (
 ) = loop (
@@ -257,11 +260,9 @@ prval () = pfc := gmatrow_v_cons1 (pfc1, pfc2)
 in
   // nothing
 end else let
-//
 (*
 prval () = (pfc := gmatrow_v_renil1{a,a}(pfc))
 *)
-//
 in
   // nothing
 end // end of [if]
@@ -309,8 +310,8 @@ if r > 0 then let
 prval (pfb1, pfb2) = gmatrow_v_uncons0 (pfb)
 prval (pfc1, pfc2) = gmatrow_v_uncons1 (pfc)
 //
-val () = blas_gemv_trow (alpha, !pa, !pb, beta, !pc, p, q, lda, 1, ldc)
-//
+val (
+) = blas_gemv_trow (alpha, !pa, !pb, beta, !pc, p, q, lda, 1, ldc)
 val (
 ) = loop (
   pfa, pfb2, pfc2 | pa, ptr_add<a> (pb, ldb), ptr_succ<a> (pc), pred(r)
@@ -322,11 +323,9 @@ prval () = pfc := gmatrow_v_cons1 (pfc1, pfc2)
 in
   // nothing
 end else let
-//
 (*
 prval () = (pfc := gmatrow_v_renil1{a,a}(pfc))
 *)
-//
 in
   // nothing
 end // end of [if]

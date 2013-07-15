@@ -39,6 +39,10 @@ that is, two-dimensional arrays.
 
 (* ****** ****** *)
 
+#declnamesynop("transpdim_transp")
+
+(* ****** ****** *)
+
 #declnamesynop("gmatrix")
 #declnamesynop("gmatrix_t0ype")
 #declnamesynop("gmatrix_v")

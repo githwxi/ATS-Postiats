@@ -10,6 +10,10 @@ staload _ = "prelude/DATS/gnumber.dats"
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "libats/SATS/gvector.sats"
 staload "libats/SATS/gmatrix.sats"
 staload "libats/SATS/gmatrix_row.sats"
@@ -30,23 +34,27 @@ staload _ = "libfloats/DATS/blas_gemm.dats"
 val () =
 {
 //
-typedef T = int
-val M = 10 and N = 20
+typedef T = double
 //
 val out = stdout_ref
 //
+macdef
+gint = gnumber_int<T>
+//
+val M = 10 and N = 20
+//
 implement
-matrix_tabulate$fopr<T> (i, j) = g0u2i(i*j)
+matrix_tabulate$fopr<T> (i, j) = $UN.cast{T}(i*j)
 val (pfM, pfMgc | pM) = matrix_ptr_tabulate<T> (i2sz(M), i2sz(N))
 //
 implement
-matrix_tabulate$fopr<T> (i, j) = (    0    )
+matrix_tabulate$fopr<T> (i, j) = (    gint(0)    )
 val (pfM2, pfM2gc | pM2) = matrix_ptr_tabulate<T> (i2sz(M), i2sz(M))
 //
 prval () = matrix2gmatrow (!pM)
 prval () = matrix2gmatrow (!pM2)
 //
-val () = blas_gemm_row_nt (1, !pM, !pM, 0, !pM2, M, N, M, N, N, M)
+val () = blas_gemm_row_nt (gint(1), !pM, !pM, gint(0), !pM2, M, N, M, N, N, M)
 //
 prval () = gmatrow2matrix (!pM)
 prval () = gmatrow2matrix (!pM2)

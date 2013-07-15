@@ -34,7 +34,7 @@ implement
 gvector_foreach2$fwork<a,a><tenv>
   (x, y, env) = env := gadd_val<a> (env, blas_inner$mul<a> (x, y))
 //
-var env: tenv = gnumint<a> (0)
+var env: tenv = gnumber_int<a> (0)
 val _(*n*) = gvector_foreach2_env<a,a><tenv> (V1, V2, n, d1, d2, env)
 //
 in
@@ -207,11 +207,11 @@ implement
 blas_ax1y
   (alpha, X, Y, n, dx, dy) = let
 //
+val beta = gnumber_int<a> (1)
+//
 implement
 blas$_alpha_beta<a>
   (alpha, x, beta, y) = blas$_alpha_1<a> (alpha, x, y)
-//
-val beta = gnumint<a> (1)
 //
 in
   blas_axby<a> (alpha, X, beta, Y, n, dx, dy)
@@ -222,11 +222,11 @@ implement
 blas_ax1y2_row
   (alpha, X2, Y2, m, n, ldx, ldy) = let
 //
+val beta = gnumber_int<a> (1)
+//
 implement
 blas$_alpha_beta<a>
   (alpha, x, beta, y) = blas$_alpha_1<a> (alpha, x, y)
-//
-val beta = gnumint<a> (1)
 //
 in
   blas_axby2_row<a> (alpha, X2, beta, Y2, m, n, ldx, ldy)
@@ -237,11 +237,11 @@ implement
 blas_ax1y2_col
   (alpha, X2, Y2, m, n, ldx, ldy) = let
 //
+val beta = gnumber_int<a> (1)
+//
 implement
 blas$_alpha_beta<a>
   (alpha, x, beta, y) = blas$_alpha_1<a> (alpha, x, y)
-//
-val beta = gnumint<a> (1)
 //
 in
   blas_axby2_col<a> (alpha, X2, beta, Y2, m, n, ldx, ldy)
