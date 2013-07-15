@@ -232,18 +232,18 @@ gmatrow_getref_at
 (* ****** ****** *)
 
 fun{a:t0p}
-gmatrow_getref_col_at
-  {m,n:int}{ld:int}
-(
-  M: &GMR(a, m, n, ld), j: natLt(n)
-) : cPtr1(GVT(a, m, ld)) // endfun
-
-fun{a:t0p}
 gmatrow_getref_row_at
   {m,n:int}{ld:int}
 (
   M: &GMR(a, m, n, ld), int(ld), i: natLt(m)
 ) : cPtr1(GVT(a, n, 1(*d*))) // endfun
+
+fun{a:t0p}
+gmatrow_getref_col_at
+  {m,n:int}{ld:int}
+(
+  M: &GMR(a, m, n, ld), int(ld), j: natLt(n)
+) : cPtr1(GVT(a, m, ld)) // endfun
 
 (* ****** ****** *)
 
@@ -251,13 +251,15 @@ fun{a:t0p}
 gmatrow_interchange_row
   {m,n:int}{ld:int}
 (
-  M: &GMR(a, m, n, ld), int(ld), i1: natLt(m), i2: natLt(m)
+  M: &GMR(a, m, n, ld)
+, n: int n, int(ld), i1: natLt(m), i2: natLt(m)
 ) : void // end of [gmatrow_interchange_row]
 fun{a:t0p}
 gmatrow_interchange_col
   {m,n:int}{ld:int}
 (
-  M: &GMR(a, m, n, ld), int(ld), j1: natLt(n), j2: natLt(n)
+  M: &GMR(a, m, n, ld)
+, m: int m, int(ld), j1: natLt(n), j2: natLt(n)
 ) : void // end of [gmatrow_interchange_col]
 
 (* ****** ****** *)

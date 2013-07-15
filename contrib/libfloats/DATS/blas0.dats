@@ -21,9 +21,9 @@ staload "libfloats/SATS/blas.sats"
 (* ****** ****** *)
 
 implement
-blas$gnorm<float><float> (x) = x
+blas$gnorm<float><float> (x) = abs(x)
 implement
-blas$gnorm<double><double> (x) = x
+blas$gnorm<double><double> (x) = abs(x)
 
 (* ****** ****** *)
 

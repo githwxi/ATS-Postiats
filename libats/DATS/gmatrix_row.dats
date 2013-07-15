@@ -78,7 +78,7 @@ end // end of [gmatrow_getref_at]
 
 implement{a}
 gmatrow_getref_col_at
-  {m,n}{ld}(M, j) = let
+  {m,n}{ld}(M, ld, j) = let
 //
 val pcol = $UN.cast2Ptr1(ptr_add<a> (addr@M, j))
 //
@@ -95,6 +95,70 @@ val prow = $UN.cast2Ptr1(ptr_add<a> (addr@M, i*ld))
 in
   $UN.ptr2cptr{GVT(a,n,1(*d*))}(prow)
 end // end of [gmatrow_getref_row_at]
+
+(* ****** ****** *)
+
+implement{a}
+gmatrow_interchange_row
+  {m,n}{ld}
+(
+  M, n, ld, i1, i2
+) = let
+in
+//
+if i1 != i2 then let
+//
+val cp1 =
+  gmatrow_getref_row_at (M, ld, i1)
+val cp2 =
+  gmatrow_getref_row_at (M, ld, i2)
+//
+prval
+(pf1, fpf1 | p1) = $UN.cptr_vtake (cp1)
+prval
+(pf2, fpf2 | p2) = $UN.cptr_vtake (cp2)
+//
+val () = gvector_exchange (!p1, !p2, n, 1, 1)
+//
+prval () = fpf1 (pf1) and () = fpf2 (pf2)
+//
+in
+  // nothing
+end else () // end of [if]
+//
+end (* end of [gmatrow_interchange_row] *)
+
+(* ****** ****** *)
+
+implement{a}
+gmatrow_interchange_col
+  {m,n}{ld}
+(
+  M, m, ld, j1, j2
+) = let
+in
+//
+if j1 != j2 then let
+//
+val cp1 =
+  gmatrow_getref_col_at (M, ld, j1)
+val cp2 =
+  gmatrow_getref_col_at (M, ld, j2)
+//
+prval
+(pf1, fpf1 | p1) = $UN.cptr_vtake (cp1)
+prval
+(pf2, fpf2 | p2) = $UN.cptr_vtake (cp2)
+//
+val () = gvector_exchange (!p1, !p2, m, ld, ld)
+//
+prval () = fpf1 (pf1) and () = fpf2 (pf2)
+//
+in
+  // nothing
+end else () // end of [if]
+//
+end (* end of [gmatrow_interchange_col] *)
 
 (* ****** ****** *)
 
