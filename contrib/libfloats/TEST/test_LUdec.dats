@@ -87,7 +87,7 @@ in
   // nothing
 end else () // end of [if]
 //
-end // end of [lapack_LUdec]
+end // end of [lapack_LUdec_row]
 
 end (* end of [local] *)
 
