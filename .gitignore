@@ -15,6 +15,7 @@ src/Makefile_atxt.dats
 src/Makefile_atxt.txt
 
 bin/patsopt
+bin/patscc
 
 #
 # building patsopt thru CMake 
