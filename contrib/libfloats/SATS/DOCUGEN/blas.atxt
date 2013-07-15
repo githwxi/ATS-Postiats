@@ -28,6 +28,10 @@ BLAS-like functions.
 
 (* ****** ****** *)
 
+#declnamesynop("blas$gnorm")
+
+(* ****** ****** *)
+
 #declnamesynop("blas$_alpha_0")
 #declnamesynop("blas$_alpha_1")
 #declnamesynop("blas$_alpha_beta")
@@ -35,7 +39,7 @@ BLAS-like functions.
 (* ****** ****** *)
 
 #declnamesynop("blas_inner")
-#declnamesynop("blas_inner$mul")
+#declnamesynop("blas_inner$fmul")
 
 (* ****** ****** *)
 
@@ -46,9 +50,12 @@ BLAS-like functions.
 (* ****** ****** *)
 
 #declnamesynop("blas_swap")
+%{
+(*
 #declnamesynop("blas_swap2_row")
 #declnamesynop("blas_swap2_col")
-
+*)
+%}
 (* ****** ****** *)
 
 #declnamesynop("blas_scal")

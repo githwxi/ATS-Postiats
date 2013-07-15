@@ -4,6 +4,11 @@
 //
 (* ****** ****** *)
 
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "libats/SATS/gvector.sats"
 staload "libats/SATS/gmatrix.sats"
 staload "libats/SATS/gmatrix_col.sats"
@@ -20,6 +25,79 @@ staload "libfloats/SATS/blas.sats"
 (* ****** ****** *)
 
 implement
+{a}{a2}
+blas_nrm2
+  (V, n, d) = let
+//
+typedef tenv = a2
+//
+implement{a}{env}
+gvector_foreach$cont (x, env) = true
+implement
+gvector_foreach$fwork<a><tenv>
+  (x, env) =
+(
+  env := gadd_val<a2> (env, blas$gnorm<a><a2> (x))
+)
+//
+var env: tenv = gnumber_int<a2> (0)
+val _(*n*) = gvector_foreach_env<a><tenv> (V, n, d, env)
+//
+in
+  env
+end // end of [blas_nrm2]
+
+(* ****** ****** *)
+
+implement
+{a}{a2}
+blas_isamax
+  {n}{d}(V, n, d) = let
+//
+var max: a2
+val p_max = addr@(max)
+var imax: int = 0
+val p_imax = addr@(imax)
+//
+typedef tenv = int
+//
+implement{a}{env}
+gvector_foreach$cont (x, env) = true
+implement
+gvector_foreach$fwork<a><tenv>
+  (x, env) = let
+//
+val x2 = blas$gnorm<a><a2> (x)
+val isgt = ggt_val<a2> (x2, $UN.ptr1_get<a2> (p_max))
+val (
+) = if isgt then
+(
+  $UN.ptr1_set<a2> (p_max, x2); $UN.ptr1_set<int> (p_imax, env)
+) (* end of [if] *) // end of [val]
+//
+in
+  env := succ (env)
+end // end of [gvector_foreach$fwork]
+//
+val p = addr@V
+prval
+(pf, pf2) = gvector_v_uncons (view@V)
+val () = max := blas$gnorm<a><a2> (!p)
+val (pf2 | p2) = viewptr_match (pf2 | ptr_add<a> (p, d))
+//
+var env: int = 1
+val n1 = pred (n)
+val _(*n1*) = gvector_foreach_env<a><tenv> (!p2, n1, d, env)
+//
+prval () = view@V := gvector_v_cons (pf, pf2)
+//
+in
+  $UN.cast{natLt(n)}(imax)
+end // end of [blas_isamax]
+
+(* ****** ****** *)
+
+implement
 {a}(*tmp*)
 blas_inner
   (V1, V2, n, d1, d2) = let
@@ -32,7 +110,10 @@ gvector_foreach2$cont (x, y, env) = true
 //
 implement
 gvector_foreach2$fwork<a,a><tenv>
-  (x, y, env) = env := gadd_val<a> (env, blas_inner$mul<a> (x, y))
+  (x, y, env) =
+(
+  env := gadd_val<a> (env, blas_inner$fmul<a> (x, y))
+)
 //
 var env: tenv = gnumber_int<a> (0)
 val _(*n*) = gvector_foreach2_env<a,a><tenv> (V1, V2, n, d1, d2, env)

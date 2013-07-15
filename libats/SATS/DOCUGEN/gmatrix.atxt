@@ -67,7 +67,8 @@ that is, two-dimensional arrays.
 
 (* ****** ****** *)
 
-#declnamesynop("gmatrix_transp")
+#declnamesynop("gmatrix_flipord")
+#declnamesynop("gmatrix_v_flipord")
 
 (* ****** ****** *)
 

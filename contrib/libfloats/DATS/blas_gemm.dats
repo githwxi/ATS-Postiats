@@ -356,13 +356,13 @@ blas_gemm_col
 val pfa = transpdim_transp (pfa)
 val pfb = transpdim_transp (pfb)
 //
-prval () = gmatrix_transp (A)
-prval () = gmatrix_transp (B)
-prval () = gmatrix_transp (C)
+prval () = gmatrix_flipord (A)
+prval () = gmatrix_flipord (B)
+prval () = gmatrix_flipord (C)
 val () = blas_gemm_row (pfb, pfa | alpha, B, trb, A, tra, beta, C, r, q, p, ldb, lda, ldc)
-prval () = gmatrix_transp (A)
-prval () = gmatrix_transp (B)
-prval () = gmatrix_transp (C)
+prval () = gmatrix_flipord (A)
+prval () = gmatrix_flipord (B)
+prval () = gmatrix_flipord (C)
 //
 in
   // nothing
@@ -377,15 +377,15 @@ blas_gemm_col_nn
   alpha, A, B, beta, C, p, q, r, lda, ldb, ldc
 ) = let
 //
-prval () = gmatrix_transp (A)
-prval () = gmatrix_transp (B)
-prval () = gmatrix_transp (C)
+prval () = gmatrix_flipord (A)
+prval () = gmatrix_flipord (B)
+prval () = gmatrix_flipord (C)
 //
 val () = blas_gemm_row_nn (alpha, B, A, beta, C, r, q, p, ldb, lda, ldc)
 //
-prval () = gmatrix_transp (A)
-prval () = gmatrix_transp (B)
-prval () = gmatrix_transp (C)
+prval () = gmatrix_flipord (A)
+prval () = gmatrix_flipord (B)
+prval () = gmatrix_flipord (C)
 //
 in
   // nothing
@@ -400,15 +400,15 @@ blas_gemm_col_nt
   alpha, A, B, beta, C, p, q, r, lda, ldb, ldc
 ) = let
 //
-prval () = gmatrix_transp (A)
-prval () = gmatrix_transp (B)
-prval () = gmatrix_transp (C)
+prval () = gmatrix_flipord (A)
+prval () = gmatrix_flipord (B)
+prval () = gmatrix_flipord (C)
 //
 val () = blas_gemm_row_tn (alpha, B, A, beta, C, r, q, p, ldb, lda, ldc)
 //
-prval () = gmatrix_transp (A)
-prval () = gmatrix_transp (B)
-prval () = gmatrix_transp (C)
+prval () = gmatrix_flipord (A)
+prval () = gmatrix_flipord (B)
+prval () = gmatrix_flipord (C)
 //
 in
   // nothing
@@ -423,15 +423,15 @@ blas_gemm_col_tn
   alpha, A, B, beta, C, p, q, r, lda, ldb, ldc
 ) = let
 //
-prval () = gmatrix_transp (A)
-prval () = gmatrix_transp (B)
-prval () = gmatrix_transp (C)
+prval () = gmatrix_flipord (A)
+prval () = gmatrix_flipord (B)
+prval () = gmatrix_flipord (C)
 //
 val () = blas_gemm_row_nt (alpha, B, A, beta, C, r, q, p, ldb, lda, ldc)
 //
-prval () = gmatrix_transp (A)
-prval () = gmatrix_transp (B)
-prval () = gmatrix_transp (C)
+prval () = gmatrix_flipord (A)
+prval () = gmatrix_flipord (B)
+prval () = gmatrix_flipord (C)
 //
 in
   // nothing
@@ -446,15 +446,15 @@ blas_gemm_col_tt
   alpha, A, B, beta, C, p, q, r, lda, ldb, ldc
 ) = let
 //
-prval () = gmatrix_transp (A)
-prval () = gmatrix_transp (B)
-prval () = gmatrix_transp (C)
+prval () = gmatrix_flipord (A)
+prval () = gmatrix_flipord (B)
+prval () = gmatrix_flipord (C)
 //
 val () = blas_gemm_row_tt (alpha, B, A, beta, C, r, q, p, ldb, lda, ldc)
 //
-prval () = gmatrix_transp (A)
-prval () = gmatrix_transp (B)
-prval () = gmatrix_transp (C)
+prval () = gmatrix_flipord (A)
+prval () = gmatrix_flipord (B)
+prval () = gmatrix_flipord (C)
 //
 in
   // nothing

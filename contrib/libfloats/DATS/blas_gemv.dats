@@ -189,10 +189,10 @@ blas_gemv_trow
 ) = let
 //
 prval (
-) = gmatrix_transp (M1)
+) = gmatrix_flipord (M1)
 val () = blas_gemv_col (alpha, M1, V2, beta, V3, m, n, ld1, d2, d3)
 prval (
-) = gmatrix_transp (M1)
+) = gmatrix_flipord (M1)
 //
 in
   // nothing
@@ -209,10 +209,10 @@ blas_gemv_tcol
 ) = let
 //
 prval (
-) = gmatrix_transp (M1)
+) = gmatrix_flipord (M1)
 val () = blas_gemv_row (alpha, M1, V2, beta, V3, m, n, ld1, d2, d3)
 prval (
-) = gmatrix_transp (M1)
+) = gmatrix_flipord (M1)
 //
 in
   // nothing

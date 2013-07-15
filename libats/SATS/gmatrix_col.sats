@@ -215,7 +215,7 @@ fun{a:t0p}
 gmatcol_getref_row_at
   {m,n:int}{ld:int}
 (
-  M: &GMC(a, m, n, ld), i: natLt(m)
+  M: &GMC(a, m, n, ld), int(ld), i: natLt(m)
 ) : cPtr1(GVT(a, n, ld)) // endfun
 
 fun{a:t0p}
@@ -231,13 +231,15 @@ fun{a:t0p}
 gmatcol_interchange_row
   {m,n:int}{ld:int}
 (
-  M: &GMC(a, m, n, ld), int(ld), i1: natLt(m), i2: natLt(m)
+  M: &GMC(a, m, n, ld)
+, n: int n, int(ld), i1: natLt(m), i2: natLt(m)
 ) : void // end of [gmatcol_interchange_row]
 fun{a:t0p}
 gmatcol_interchange_col
   {m,n:int}{ld:int}
 (
-  M: &GMC(a, m, n, ld), int(ld), j1: natLt(n), j2: natLt(n)
+  M: &GMC(a, m, n, ld)
+, m: int m, int(ld), j1: natLt(n), j2: natLt(n)
 ) : void // end of [gmatcol_interchange_col]
 
 (* ****** ****** *)

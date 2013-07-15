@@ -78,6 +78,27 @@ transpdim_transp
 // end of [transpdim_transp]
 
 (* ****** ****** *)
+
+sortdef uplo = int
+stadef uplo_l: uplo = 0 // lo
+stadef uplo_u: uplo = 1 // up
+datatype UPLO (uplo) = UPLO_L (uplo_l) | UPLO_U (uplo_u) of ()
+
+(* ****** ****** *)
+
+sortdef diag = int
+stadef diag_n: diag = 0 // non
+stadef diag_u: diag = 1 // unit
+datatype DIAG (diag) = DIAG_N (diag_n) | DIAG_U (diag_u) of ()
+
+(* ****** ****** *)
+
+sortdef side = int
+stadef side_l: side = 0 // left
+stadef side_r: side = 1 // right
+datatype SIDE (side) = SIDE_L (side_l) | SIDE_R (side_r) of ()
+
+(* ****** ****** *)
 //
 // HX-2013-07:
 // generic matrix:
@@ -149,9 +170,15 @@ gmatrix_uninitize
 (* ****** ****** *)
 //
 praxi
-gmatrix_transp
-  {a:t0p}{mo:mord}{m,n:int}{ld:int}
-  (&GMX(a, mo, m, n, ld) >> GMX(a, 1-mo, n, m, ld)): void
+gmatrix_flipord
+  {a:t0p}{mo:mord}
+  {m,n:int}{ld:int}
+  (M: &GMX(a, mo, m, n, ld) >> GMX(a, 1-mo, n, m, ld)): void
+praxi
+gmatrix_v_flipord
+  {a:t0p}{mo:mord}
+  {l:addr}{m,n:int}{ld:int}
+  (pf: !GMX(a, mo, l, m, n, ld) >> GMX(a, 1-mo, l, n, m, ld)): void
 //
 (* ****** ****** *)
 
