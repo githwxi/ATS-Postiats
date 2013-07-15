@@ -112,6 +112,24 @@ gvector_v_uncons
 //
 (* ****** ****** *)
 
+praxi
+gvector_v_split
+  {a:t0p}
+  {l:addr}
+  {n:int}{d:int}
+  {i:nat | i <= n}
+  (GVT(INV(a), l, n, d)): (GVT(a, l, i, d), GVT(a, l+i*d*sizeof(a), n-i, d))
+// end of [gvector_v_split]
+praxi
+gvector_v_unsplit
+  {a:t0p}
+  {l:addr}
+  {n1,n2:int}{d:int}
+  (GVT(INV(a), l, n1, d), GVT(a, l+n1*d*sizeof(a), n2, d)): GVT(a, l, n1+n2, d)
+// end of [gvector_v_unsplit]
+
+(* ****** ****** *)
+
 fun{a:t0p}
 gvector_getref_at
   {n:int}{d:int}
@@ -133,11 +151,18 @@ fprint_gvector{n:int}{d:int}
 (* ****** ****** *)
 
 fun{a:t0p}
+gvector_copyto
+  {n:int}{d1,d2:int}
+(
+  V1: &GVT(INV(a), n, d1)
+, V2: &GVT(a?, n, d2) >> GVT(a, n, d2), int(n), int(d1), int(d2)
+) : void // end of [gvector_copyto]
+
+fun{a:t0p}
 gvector_exchange
   {n:int}{d1,d2:int}
 (
-  V1: &GVT(a, n, d1)
-, V2: &GVT(a, n, d2), int(n), int(d1), int(d2)
+  V1: &GVT(INV(a), n, d1), V2: &GVT(a, n, d2), int(n), int(d1), int(d2)
 ) : void // end of [gvector_exchange]
 
 (* ****** ****** *)

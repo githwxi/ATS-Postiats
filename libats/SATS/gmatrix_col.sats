@@ -245,6 +245,17 @@ gmatcol_interchange_col
 (* ****** ****** *)
 
 fun{a:t0p}
+gmatcol_copyto
+  {m,n:int}{ld1,ld2:int}
+(
+  M1: &GMC(a, m, n, ld1)
+, M2: &GMC(a?, m, n, ld2) >> GMC(a, m, n, ld2)
+, int(m), int(n), int(ld1), int(ld2)
+) : void // end of [gmatcol_copyto]
+
+(* ****** ****** *)
+
+fun{a:t0p}
 gmatcol_ptr_split2x2
   {l:addr}
   {m,n:int}{ld:int}

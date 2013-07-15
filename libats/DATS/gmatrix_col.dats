@@ -162,6 +162,48 @@ end (* end of [gmatcol_interchange_col] *)
 
 (* ****** ****** *)
 
+implement
+{a}(*tmp*)
+gmatcol_copyto
+  {m,n}{ldx,ldy}
+(
+  X2, Y2, m, n, ldx, ldy
+) = let
+//
+prval (
+) = __initize (Y2) where
+{
+extern praxi
+__initize (&GMC(a?, m, n, ldy) >> GMC(a, m, n, ldy)): void
+} (* end of [where] *) // end of [prval]
+//
+implement(env)
+gmatcol_foreachcol2$fwork<a,a><env>
+  (X, Y, m, env) = gvector_copyto (X, Y, m, 1, 1)
+//
+val () = gmatcol_foreachcol2<a,a> (X2, Y2, m, n, ldx, ldy)
+//
+in
+  // nothing
+end // end of [gmatcol_copyto]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+gmatcol_imake_matrixptr
+  (M, m, n, ld) = let
+//
+prval () = gmatrix_flipord (M)
+val matres = gmatrow_imake_matrixptr (M, n, m, ld)
+prval () = gmatrix_flipord (M)
+//
+in
+  matres
+end // end of [gmatcol_imake_matrixptr]
+
+(* ****** ****** *)
+
 implement{a}
 gmatcol_ptr_split2x2
   (pf | p, ld, i, j) = let

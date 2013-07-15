@@ -182,4 +182,19 @@ gmatrix_v_flipord
 //
 (* ****** ****** *)
 
+fun{a:t0p}
+gmatrow_imake_matrixptr
+  {m,n:int}{ld:int}
+(
+  M: &GMR(a, m, n, ld), int m, int n, int(ld)
+) : matrixptr (a, m, n)
+fun{a:t0p}
+gmatcol_imake_matrixptr
+  {m,n:int}{ld:int}
+(
+  M: &GMC(a, m, n, ld), int m, int n, int(ld)
+) : matrixptr (a, n, m)
+
+(* ****** ****** *)
+
 (* end of [gmatrix.sats] *)
