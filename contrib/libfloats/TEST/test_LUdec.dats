@@ -76,7 +76,8 @@ val (
 ) = blas_gemm_col_nn
 (
   alpha2, !pM10, !pM01, beta2, !pM11, m-1, 1, n-1, ld, ld, ld
-)
+) (* end of [val] *)
+//
 val () = lapack_LUdec_col (!pM11, m-1, n-1, ld)
 //
 prval () = (view@M := fpf (pf00, pf01, pf10, pf11))

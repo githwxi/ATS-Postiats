@@ -208,6 +208,21 @@ gmatrow_v_unsplit2x2
 (* ****** ****** *)
 
 fun{a:t0p}
+gmatrow_get_at
+  {m,n:int}{ld:int}
+(
+  M: &GMR(a, m, n, ld), int(ld), i: natLt(m), j: natLt(n)
+) : (a) // end of [gmatrow_get_at]
+fun{a:t0p}
+gmatrow_set_at
+  {m,n:int}{ld:int}
+(
+  M: &GMR(a, m, n, ld), int(ld), i: natLt(m), j: natLt(n), x: a
+) : void // end of [gmatrow_set_at]
+
+(* ****** ****** *)
+
+fun{a:t0p}
 gmatrow_getref_at
   {m,n:int}{ld:int}
 (
@@ -229,6 +244,30 @@ gmatrow_getref_row_at
 (
   M: &GMR(a, m, n, ld), int(ld), i: natLt(m)
 ) : cPtr1(GVT(a, n, 1(*d*))) // endfun
+
+(* ****** ****** *)
+
+fun{a:t0p}
+gmatrow_ptr_split2x2
+  {l:addr}
+  {m,n:int}{ld:int}
+  {i,j:nat | i <= m; j <= n}
+(
+  pf: GMR(a, l, m, n, ld) | ptr(l), int(ld), int(i), int(j)
+) : [l01,l10,l11:addr]
+(
+  GMR(a, l  , i  , j  , ld)
+, GMR(a, l01, i  , n-j, ld)
+, GMR(a, l10, m-i, j  , ld)
+, GMR(a, l11, m-i, n-j, ld)
+, (
+  GMR(a, l  , i  , j  , ld)
+, GMR(a, l01, i  , n-j, ld)
+, GMR(a, l10, m-i, j  , ld)
+, GMR(a, l11, m-i, n-j, ld)
+) -<prf> GMR(a, l, m, n, ld)
+| ptr(l01), ptr(l10), ptr(l11)
+) (* end of [gmatrow_ptr_split2x2] *)
 
 (* ****** ****** *)
 

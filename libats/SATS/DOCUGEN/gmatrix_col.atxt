@@ -56,9 +56,15 @@ that is, two-dimensional arrays of column-major style.
 
 (* ****** ****** *)
 
+#declnamesynop("gmatcol_get_at")
+#declnamesynop("gmatcol_set_at")
 #declnamesynop("gmatcol_getref_at")
 #declnamesynop("gmatcol_getref_row_at")
 #declnamesynop("gmatcol_getref_col_at")
+
+(* ****** ****** *)
+
+#declnamesynop("gmatcol_ptr_split2x2")
 
 (* ****** ****** *)
 

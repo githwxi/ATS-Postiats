@@ -188,15 +188,6 @@ gmatcol_v_unsplit2x2
 (* ****** ****** *)
 
 fun{a:t0p}
-gmatcol_getref_at
-  {m,n:int}{ld:int}
-(
-  M: &GMC(a, m, n, ld), int(ld), i: natLt(m), j: natLt(n)
-) : cPtr1(a) // end of [gmatcol_getref_at]
-
-(* ****** ****** *)
-
-fun{a:t0p}
 gmatcol_get_at
   {m,n:int}{ld:int}
 (
@@ -208,6 +199,15 @@ gmatcol_set_at
 (
   M: &GMC(a, m, n, ld), int(ld), i: natLt(m), j: natLt(n), x: a
 ) : void // end of [gmatcol_set_at]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+gmatcol_getref_at
+  {m,n:int}{ld:int}
+(
+  M: &GMC(a, m, n, ld), int(ld), i: natLt(m), j: natLt(n)
+) : cPtr1(a) // end of [gmatcol_getref_at]
 
 (* ****** ****** *)
 
@@ -242,13 +242,13 @@ gmatcol_interchange_col
 
 (* ****** ****** *)
 
-fun
+fun{a:t0p}
 gmatcol_ptr_split2x2
-  {a:t0p}{l:addr}
+  {l:addr}
   {m,n:int}{ld:int}
   {i,j:nat | i <= m; j <= n}
 (
-  pf: GMC(a, l, m, n, ld) | ptr(l), int(i), int(j)
+  pf: GMC(a, l, m, n, ld) | ptr(l), int(ld), int(i), int(j)
 ) : [l01,l10,l11:addr]
 (
   GMC(a, l  , i  , j  , ld)

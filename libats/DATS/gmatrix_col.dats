@@ -45,6 +45,26 @@ staload "libats/SATS/gmatrix_col.sats"
 (* ****** ****** *)
 
 implement{a}
+gmatcol_get_at
+  (M, ld, i, j) = let
+//
+val pij =
+  gmatcol_getref_at<a> (M, ld, i, j) in $UN.cptr_get<a> (pij)
+//
+end // end of [gmatcol_get_at]
+
+implement{a}
+gmatcol_set_at
+  (M, ld, i, j, x) = let
+//
+val pij =
+  gmatcol_getref_at<a> (M, ld, i, j) in $UN.cptr_set<a> (pij, x)
+//
+end // end of [gmatcol_set_at]
+
+(* ****** ****** *)
+
+implement{a}
 gmatcol_getref_at
   (M, ld, i, j) = let
 //
@@ -78,5 +98,20 @@ end // end of [gmatcol_getref_col_at]
 
 (* ****** ****** *)
 
-(* end of [gmatrix_col.dats] *)
+implement{a}
+gmatcol_ptr_split2x2
+  (pf | p, ld, i, j) = let
+//
+val j_ld = j * ld
+val p01 = ptr_add<a> (p, j_ld  )
+val p10 = ptr_add<a> (p, i     )
+val p11 = ptr_add<a> (p, i+j_ld)
+prval (pf00, pf01, pf10, pf11) = gmatcol_v_split2x2 (pf, i, j)
+//
+in
+  (pf00, pf01, pf10, pf11, gmatcol_v_unsplit2x2 | p01, p10, p11)
+end // end of [gmatcol_ptr_split2x2]
 
+(* ****** ****** *)
+
+(* end of [gmatrix_col.dats] *)

@@ -45,6 +45,26 @@ staload "libats/SATS/gmatrix_row.sats"
 (* ****** ****** *)
 
 implement{a}
+gmatrow_get_at
+  (M, ld, i, j) = let
+//
+val pij =
+  gmatrow_getref_at<a> (M, ld, i, j) in $UN.cptr_get<a> (pij)
+//
+end // end of [gmatrow_get_at]
+
+implement{a}
+gmatrow_set_at
+  (M, ld, i, j, x) = let
+//
+val pij =
+  gmatrow_getref_at<a> (M, ld, i, j) in $UN.cptr_set<a> (pij, x)
+//
+end // end of [gmatrow_set_at]
+
+(* ****** ****** *)
+
+implement{a}
 gmatrow_getref_at
   (M, ld, i, j) = let
 //
@@ -75,6 +95,22 @@ val prow = $UN.cast2Ptr1(ptr_add<a> (addr@M, i*ld))
 in
   $UN.ptr2cptr{GVT(a,n,1(*d*))}(prow)
 end // end of [gmatrow_getref_row_at]
+
+(* ****** ****** *)
+
+implement{a}
+gmatrow_ptr_split2x2
+  (pf | p, ld, i, j) = let
+//
+val i_ld = i * ld
+val p01 = ptr_add<a> (p, j     )
+val p10 = ptr_add<a> (p, i_ld  )
+val p11 = ptr_add<a> (p, i_ld+j)
+prval (pf00, pf01, pf10, pf11) = gmatrow_v_split2x2 (pf, i, j)
+//
+in
+  (pf00, pf01, pf10, pf11, gmatrow_v_unsplit2x2 | p01, p10, p11)
+end // end of [gmatrow_ptr_split2x2]
 
 (* ****** ****** *)
 

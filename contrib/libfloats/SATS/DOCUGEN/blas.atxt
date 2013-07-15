@@ -28,7 +28,6 @@ BLAS-like functions.
 
 (* ****** ****** *)
 
-#declnamesynop("blas$_alpha")
 #declnamesynop("blas$_alpha_0")
 #declnamesynop("blas$_alpha_1")
 #declnamesynop("blas$_alpha_beta")
