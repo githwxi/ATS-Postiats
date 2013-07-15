@@ -30,16 +30,21 @@ implement
 gnumber_int<float> (x) = g0int2float_int_float (x)
 implement
 gnumber_int<double> (x) = g0int2float_int_double (x)
+(*
 implement
-fgnumber_int<ldouble> (x) = g0int2float_int_ldouble (x)
+gnumber_int<ldouble> (x) = g0int2float_int_ldouble (x)
+*)
+
+#atscode_separator()
 
 implement
 gnumber_double<float> (x) = g0float2float_double_float (x)
 implement
 gnumber_double<double> (x) = g0float2float_double_double (x)
+(*
 implement
 gnumber_double<ldouble> (x) = g0float2float_double_ldouble (x)
-
+*)
 #atscode_separator()
 
 implement
