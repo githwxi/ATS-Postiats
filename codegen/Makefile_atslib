@@ -31,30 +31,14 @@ prelude_cats:
 
 ######
 
-#libc:: libc_sats
-#libc:: libc_dats
 libc:: libc_cats
 
-libc_sats:
-	make -C libc/SATS/CODEGEN -f Makefile.gen
-	make -C libc/SATS/CODEGEN -f Makefile all
-libc_dats:
-	make -C libc/DATS/CODEGEN -f Makefile.gen
-	make -C libc/DATS/CODEGEN -f Makefile all
 libc_cats:
 	make -C libc/CATS/CODEGEN -f Makefile.gen
 	make -C libc/CATS/CODEGEN -f Makefile all
 
-#libc_sys:: libc_sys_sats
-#libc_sys:: libc_sys_dats
 libc_sys:: libc_sys_cats
 
-libc_sys_sats:
-	make -C libc/sys/SATS/CODEGEN -f Makefile.gen
-	make -C libc/sys/SATS/CODEGEN -f Makefile all
-libc_sys_dats:
-	make -C libc/sys/DATS/CODEGEN -f Makefile.gen
-	make -C libc_sys/DATS/CODEGEN -f Makefile all
 libc_sys_cats:
 	make -C libc/sys/CATS/CODEGEN -f Makefile.gen
 	make -C libc/sys/CATS/CODEGEN -f Makefile all
@@ -88,12 +72,15 @@ libats_ML_sats:
 clean:: ; make -C prelude/SATS/CODEGEN -f Makefile clean
 clean:: ; make -C prelude/DATS/CODEGEN -f Makefile clean
 clean:: ; make -C prelude/CATS/CODEGEN -f Makefile clean
-clean:: ; make -C libc/SATS/CODEGEN -f Makefile clean
+
+#clean:: ; make -C libc/SATS/CODEGEN -f Makefile clean
 #clean:: ; make -C libc/DATS/CODEGEN -f Makefile clean
 clean:: ; make -C libc/CATS/CODEGEN -f Makefile clean
+
 clean:: ; make -C libats/SATS/CODEGEN -f Makefile clean
 #clean:: ; make -C libats/DATS/CODEGEN -f Makefile clean
 #clean:: ; make -C libats/CATS/CODEGEN -f Makefile clean
+
 clean:: ; make -C libats/ML/SATS/CODEGEN -f Makefile clean
 #clean:: ; make -C libats/ML/DATS/CODEGEN -f Makefile clean
 #clean:: ; make -C libats/ML/CATS/CODEGEN -f Makefile clean

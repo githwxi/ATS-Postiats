@@ -119,6 +119,19 @@ gmod_val<ssize_t> (x, y) = x mod y
 
 #atscode_separator()
 
+(*
+implement
+gconjugate_val<int> (x) = x
+implement
+gconjugate_val<lint> (x) = x
+implement
+gconjugate_val<llint> (x) = x
+implement
+gconjugate_val<ssize_t> (x) = x
+*)
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

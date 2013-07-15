@@ -34,7 +34,6 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_authoremail("brandon.barker AT gmail DOT com")
 #atscode_start_time("July, 2013")
 
-
 #atscode_separator()
 //
 // HX: for unindexed gnumber types
@@ -49,15 +48,30 @@ typedef SHR(a:type) = a // for commenting purpose
 typedef NSH(a:type) = a // for commenting purpose
 
 #atscode_separator()
+
+abstype
+fprecision_prop (a1:t0p, a2:t0p)
+propdef
+fprecision (a1:t0p, a2:t0p) = fprecision_prop (a1, a2)
+praxi
+fprecision_float (): fprecision (float, float)
+praxi
+fprecision_double (): fprecision (double, double)
+praxi
+fprecision_ldouble (): fprecision (ldouble, ldouble)
+
+#atscode_separator()
 //
 // HX: generic number operations
 //
 #atscode_separator()
 //
+%{
 (*
 #define gint gnumber_int
 #define gdouble gnumber_double
 *)
+%}
 //
 fun{a:t0p} gnumber_int (x: int):<> a
 fun{a:t0p} gnumber_double (x: double):<> a
@@ -67,6 +81,7 @@ fun{a:t0p} gnumber_double (x: double):<> a
 fun{a:t0p} gneg_val (x: a):<> a
 fun{a:t0p} gsucc_val (x: a):<> a
 fun{a:t0p} gpred_val (x: a):<> a
+fun{a:t0p} grecip_val (x: a):<> a
 
 #atscode_separator()
 
@@ -78,10 +93,7 @@ fun{a:t0p} gmod_val (x: a, y: a):<> a
 
 #atscode_separator()
 
-(*
-fun{a:t0p} gaddto_val (x: a, y: &a):<!wrt> void
-fun{a:t0p} gmulto_val (x: a, y: &a):<!wrt> void
-*)
+fun{a:t0p} gconjugate_val (x: a):<> a
 
 #atscode_separator()
 

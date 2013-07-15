@@ -197,6 +197,21 @@ gmatcol_getref_at
 (* ****** ****** *)
 
 fun{a:t0p}
+gmatcol_get_at
+  {m,n:int}{ld:int}
+(
+  M: &GMC(a, m, n, ld), int(ld), i: natLt(m), j: natLt(n)
+) : (a) // end of [gmatcol_get_at]
+fun{a:t0p}
+gmatcol_set_at
+  {m,n:int}{ld:int}
+(
+  M: &GMC(a, m, n, ld), int(ld), i: natLt(m), j: natLt(n), x: a
+) : void // end of [gmatcol_set_at]
+
+(* ****** ****** *)
+
+fun{a:t0p}
 gmatcol_getref_row_at
   {m,n:int}{ld:int}
 (
@@ -224,6 +239,30 @@ gmatcol_interchange_col
 (
   M: &GMC(a, m, n, ld), int(ld), j1: natLt(n), j2: natLt(n)
 ) : void // end of [gmatcol_interchange_col]
+
+(* ****** ****** *)
+
+fun
+gmatcol_ptr_split2x2
+  {a:t0p}{l:addr}
+  {m,n:int}{ld:int}
+  {i,j:nat | i <= m; j <= n}
+(
+  pf: GMC(a, l, m, n, ld) | ptr(l), int(i), int(j)
+) : [l01,l10,l11:addr]
+(
+  GMC(a, l  , i  , j  , ld)
+, GMC(a, l01, i  , n-j, ld)
+, GMC(a, l10, m-i, j  , ld)
+, GMC(a, l11, m-i, n-j, ld)
+, (
+  GMC(a, l  , i  , j  , ld)
+, GMC(a, l01, i  , n-j, ld)
+, GMC(a, l10, m-i, j  , ld)
+, GMC(a, l11, m-i, n-j, ld)
+) -<prf> GMC(a, l, m, n, ld)
+| ptr(l01), ptr(l10), ptr(l11)
+) (* end of [gmatcol_ptr_split2x2] *)
 
 (* ****** ****** *)
 

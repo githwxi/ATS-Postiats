@@ -58,6 +58,15 @@ blas_inner
 
 (* ****** ****** *)
 
+fun{
+a1,a2:t0p
+} blas_nrm2
+  {n:int}{d:int}
+  (pf: fprecision (a1, a2) | V: &GVT(a1, n, d)): (a2)
+// end of [blas_nrm2]
+
+(* ****** ****** *)
+
 fun{a:t0p}
 blas_copy
   {n:int}{d1,d2:int}
@@ -108,6 +117,15 @@ blas_scal
 ) : void // end of [blas_scal]
 
 fun{a:t0p}
+blas_scal2
+  {mo:mord}
+  {m,n:int}{ld:int}
+(
+  MORD(mo)
+, a(*alpha*)
+, X2: &GMX(a, mo, m, n, ld) >> _, int m, int n, int ld
+) : void // end of [blas_scal2]
+fun{a:t0p}
 blas_scal2_row
   {m,n:int}{ld:int}
 (
@@ -135,6 +153,17 @@ blas_ax1y
 , Y: &GVT(a, n, dy) >> _, int n, int dx, int dy
 ) : void // end of [blas_ax1y]
 
+fun{
+a:t0p
+} blas_ax1y2
+  {mo:mord}
+  {m,n:int}{lda,ldb:int}
+(
+  MORD (mo)
+, a(*alpha*)
+, X2: &GMX(a, mo, m, n, lda)
+, Y2: &GMX(a, mo, m, n, ldb) >> _, int m, int n, int lda, int ldb
+) : void // end of [blas_ax1y2]
 fun{
 a:t0p
 } blas_ax1y2_row

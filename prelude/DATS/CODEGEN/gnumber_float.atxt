@@ -114,6 +114,17 @@ gmod_val<ldouble> (x, y) = x mod y
 
 #atscode_separator()
 
+(*
+implement
+gconjugate_val<float> (x) = x
+implement
+gconjugate_val<double> (x) = x
+implement
+gconjugate_val<ldouble> (x) = x
+*)
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
