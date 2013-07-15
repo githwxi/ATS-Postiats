@@ -212,6 +212,21 @@ gmatcol_getref_col_at
 
 (* ****** ****** *)
 
+fun{a:t0p}
+gmatcol_interchange_row
+  {m,n:int}{ld:int}
+(
+  M: &GMC(a, m, n, ld), int(ld), i1: natLt(m), i2: natLt(m)
+) : void // end of [gmatcol_interchange_row]
+fun{a:t0p}
+gmatcol_interchange_col
+  {m,n:int}{ld:int}
+(
+  M: &GMC(a, m, n, ld), int(ld), j1: natLt(n), j2: natLt(n)
+) : void // end of [gmatcol_interchange_col]
+
+(* ****** ****** *)
+
 fun{
 a:t0p}{env:vt0p
 } gmatcol_foreachcol$fwork{m:int}

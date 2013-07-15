@@ -30,11 +30,24 @@ implement
 gnumber_int<float> (x) = g0int2float_int_float (x)
 implement
 gnumber_int<double> (x) = g0int2float_int_double (x)
+implement
+fgnumber_int<ldouble> (x) = g0int2float_int_ldouble (x)
 
 implement
 gnumber_double<float> (x) = g0float2float_double_float (x)
 implement
 gnumber_double<double> (x) = g0float2float_double_double (x)
+implement
+gnumber_double<ldouble> (x) = g0float2float_double_ldouble (x)
+
+#atscode_separator()
+
+implement
+gneg_val<float> (x) = ~x
+implement
+gneg_val<double> (x) = ~x
+implement
+gneg_val<ldouble> (x) = ~x
 
 #atscode_separator()
 
@@ -42,6 +55,8 @@ implement
 gsucc_val<float> (x) = succ (x)
 implement
 gsucc_val<double> (x) = succ (x)
+implement
+gsucc_val<ldouble> (x) = succ (x)
 
 #atscode_separator()
 
@@ -49,6 +64,8 @@ implement
 gpred_val<float> (x) = pred (x)
 implement
 gpred_val<double> (x) = pred (x)
+implement
+gpred_val<ldouble> (x) = pred (x)
 
 #atscode_separator()
 
@@ -56,6 +73,8 @@ implement
 gadd_val<float> (x, y) = x + y
 implement
 gadd_val<double> (x, y) = x + y
+implement
+gadd_val<ldouble> (x, y) = x + y
 
 #atscode_separator()
 
@@ -63,6 +82,8 @@ implement
 gsub_val<float> (x, y) = x - y
 implement
 gsub_val<double> (x, y) = x - y
+implement
+gsub_val<ldouble> (x, y) = x - y
 
 #atscode_separator()
 
@@ -70,6 +91,8 @@ implement
 gmul_val<float> (x, y) = x * y
 implement
 gmul_val<double> (x, y) = x * y
+implement
+gmul_val<ldouble> (x, y) = x * y
 
 #atscode_separator()
 
@@ -77,6 +100,8 @@ implement
 gdiv_val<float> (x, y) = x / y
 implement
 gdiv_val<double> (x, y) = x / y
+implement
+gdiv_val<ldouble> (x, y) = x / y
 
 #atscode_separator()
 
@@ -84,6 +109,8 @@ implement
 gmod_val<float> (x, y) = x mod y
 implement
 gmod_val<double> (x, y) = x mod y
+implement
+gmod_val<ldouble> (x, y) = x mod y
 
 #atscode_separator()
 

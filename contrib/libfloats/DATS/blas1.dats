@@ -124,22 +124,7 @@ end // end of [blas_copy2_col]
 
 implement
 {a}(*tmp*)
-blas_swap
-  (V1, V2, n, d1, d2) = let
-//
-implement
-{a1,a2}{env}
-gvector_foreach2$cont (x, y, env) = true
-//
-implement(env)
-gvector_foreach2$fwork<a,a><env>
-  (x, y, env) = let val t = x in x := y; y := t end
-//
-val _(*n*) = gvector_foreach2<a,a> (V1, V2, n, d1, d2)
-//
-in
-  // nothing
-end // end of [blas_swap]
+blas_swap = gvector_exchange<a>
 
 (* ****** ****** *)
 

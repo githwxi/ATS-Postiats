@@ -60,48 +60,42 @@ implement(a:t0p)
 gcompare_ref<a> (x, y) = gcompare_val<a> (x, y)
 
 #atscode_separator()
-//
-implement
-gcompare_val<int> = g0int_compare_int
-implement
-gcompare_val<lint> = g0int_compare_lint
-implement
-gcompare_val<llint> = g0int_compare_llint
-implement
-gcompare_val<ssize_t> = g0int_compare_ssize
-//
-implement
-gcompare_val<uint> = g0uint_compare_uint
-implement
-gcompare_val<ulint> = g0uint_compare_ulint
-implement
-gcompare_val<ullint> = g0uint_compare_ullint
-implement
-gcompare_val<size_t> = g0uint_compare_size
-//
-#atscode_separator()
 
-implement
-gcompare_val<bool> = compare_bool0_bool0
+implement{a}
+gisltz_val (x) = glt_val (x, gnumber_int<a> (0))
+implement{a}
+gisltez_val (x) = glte_val (x, gnumber_int<a> (0))
+implement{a}
+gisgtz_val (x) = ggt_val (x, gnumber_int<a> (0))
+implement{a}
+gisgtez_val (x) = ggte_val (x, gnumber_int<a> (0))
+implement{a}
+giseqz_val (x) = geq_val (x, gnumber_int<a> (0))
+implement{a}
+gisneqz_val (x) = gneq_val (x, gnumber_int<a> (0))
 
 #atscode_separator()
 
-implement
-gcompare_val<char> = compare_char0_char0
+implement{a}
+gabs_val (x) =
+  if gisgtez_val (x) then x else gneg_val<a> (x)
+// end of [gabs_val]
 
 #atscode_separator()
 
-implement
-gcompare_val<float> = g0float_compare_float
-implement
-gcompare_val<double> = g0float_compare_double
-implement
-gcompare_val<ldouble> = g0float_compare_ldouble
+implement{a}
+gmax_val (x, y) = if ggte_val (x, y) then x else y
+implement{a}
+gmin_val (x, y) = if glte_val (x, y) then x else y
 
 #atscode_separator()
 
-implement
-gcompare_val<string> = compare_string_string
+\#include "prelude/DATS/gorder_int.dats"
+\#include "prelude/DATS/gorder_uint.dats"
+\#include "prelude/DATS/gorder_bool.dats"
+\#include "prelude/DATS/gorder_char.dats"
+\#include "prelude/DATS/gorder_float.dats"
+\#include "prelude/DATS/gorder_string.dats"
 
 #atscode_separator()
 

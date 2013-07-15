@@ -172,6 +172,60 @@ gorder_atxt.dats: gorder.atxt
 clean:: ; $(RMF) gorder_atxt.exe
 cleanall:: ; $(RMF) gorder.dats
 
+all:: gorder_int.dats
+gorder_int.dats: gorder_int_atxt.exe ; ./$< > $@
+gorder_int_atxt.exe: gorder_int_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ gorder_int_atxt.dats -latsdoc
+gorder_int_atxt.dats: gorder_int.atxt
+	$(ATSDOC) --outcode $@ -i gorder_int.atxt > gorder_int_atxt.txt
+clean:: ; $(RMF) gorder_int_atxt.exe
+cleanall:: ; $(RMF) gorder_int.dats
+
+all:: gorder_uint.dats
+gorder_uint.dats: gorder_uint_atxt.exe ; ./$< > $@
+gorder_uint_atxt.exe: gorder_uint_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ gorder_uint_atxt.dats -latsdoc
+gorder_uint_atxt.dats: gorder_uint.atxt
+	$(ATSDOC) --outcode $@ -i gorder_uint.atxt > gorder_uint_atxt.txt
+clean:: ; $(RMF) gorder_uint_atxt.exe
+cleanall:: ; $(RMF) gorder_uint.dats
+
+all:: gorder_bool.dats
+gorder_bool.dats: gorder_bool_atxt.exe ; ./$< > $@
+gorder_bool_atxt.exe: gorder_bool_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ gorder_bool_atxt.dats -latsdoc
+gorder_bool_atxt.dats: gorder_bool.atxt
+	$(ATSDOC) --outcode $@ -i gorder_bool.atxt > gorder_bool_atxt.txt
+clean:: ; $(RMF) gorder_bool_atxt.exe
+cleanall:: ; $(RMF) gorder_bool.dats
+
+all:: gorder_char.dats
+gorder_char.dats: gorder_char_atxt.exe ; ./$< > $@
+gorder_char_atxt.exe: gorder_char_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ gorder_char_atxt.dats -latsdoc
+gorder_char_atxt.dats: gorder_char.atxt
+	$(ATSDOC) --outcode $@ -i gorder_char.atxt > gorder_char_atxt.txt
+clean:: ; $(RMF) gorder_char_atxt.exe
+cleanall:: ; $(RMF) gorder_char.dats
+
+all:: gorder_float.dats
+gorder_float.dats: gorder_float_atxt.exe ; ./$< > $@
+gorder_float_atxt.exe: gorder_float_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ gorder_float_atxt.dats -latsdoc
+gorder_float_atxt.dats: gorder_float.atxt
+	$(ATSDOC) --outcode $@ -i gorder_float.atxt > gorder_float_atxt.txt
+clean:: ; $(RMF) gorder_float_atxt.exe
+cleanall:: ; $(RMF) gorder_float.dats
+
+all:: gorder_string.dats
+gorder_string.dats: gorder_string_atxt.exe ; ./$< > $@
+gorder_string_atxt.exe: gorder_string_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ gorder_string_atxt.dats -latsdoc
+gorder_string_atxt.dats: gorder_string.atxt
+	$(ATSDOC) --outcode $@ -i gorder_string.atxt > gorder_string_atxt.txt
+clean:: ; $(RMF) gorder_string_atxt.exe
+cleanall:: ; $(RMF) gorder_string.dats
+
 
 all:: gnumber.dats
 gnumber.dats: gnumber_atxt.exe ; ./$< > $@

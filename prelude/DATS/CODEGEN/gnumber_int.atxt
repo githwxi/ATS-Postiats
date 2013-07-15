@@ -38,6 +38,15 @@ gnumber_int<ssize_t> (x) = g0int2int_int_ssize (x)
 #atscode_separator()
 
 implement
+gneg_val<int> (x) = ~x
+implement
+gneg_val<lint> (x) = ~x
+implement
+gneg_val<llint> (x) = ~x
+
+#atscode_separator()
+
+implement
 gsucc_val<int> (x) = succ (x)
 implement
 gsucc_val<lint> (x) = succ (x)

@@ -3,7 +3,7 @@
 #if (ATSCODEFORMAT == "txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"gnumber.dats"
+val _thisfilename = atext_strcst"gorder_string.dats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
@@ -14,7 +14,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 (*
 ** Source:
-** $PATSHOME/prelude/DATS/CODEGEN/gnumber.atxt
+** $PATSHOME/prelude/DATS/CODEGEN/gorder_string.atxt
 ** Time of generation: #timestamp()
 *)
 
@@ -26,20 +26,13 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-#atscode_author("Brandon Barker")
-#atscode_authoremail("brandon.barker AT gmail DOT com")
-#atscode_start_time("July, 2013")
-
-#atscode_separator()
-
-\#include "prelude/DATS/gnumber_int.dats"
-\#include "prelude/DATS/gnumber_uint.dats"
-\#include "prelude/DATS/gnumber_float.dats"
+implement
+gcompare_val<string> = compare_string_string
 
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "gnumber_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "gorder_string_atxt.txt")
 %}\

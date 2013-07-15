@@ -29,6 +29,13 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_start_time("September, 2011")
 
 #atscode_separator()
+
+#atscode_author("Brandon Barker")
+#atscode_authoremail("brandon.barker AT gmail DOT com")
+#atscode_start_time("July, 2013")
+
+
+#atscode_separator()
 //
 // HX: for unindexed gnumber types
 //

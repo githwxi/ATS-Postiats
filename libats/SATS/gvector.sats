@@ -131,6 +131,16 @@ fprint_gvector{n:int}{d:int}
 ) : void // end of [fprint_gvector]
 
 (* ****** ****** *)
+
+fun{a:t0p}
+gvector_exchange
+  {n:int}{d1,d2:int}
+(
+  V1: &GVT(a, n, d1)
+, V2: &GVT(a, n, d2), int(n), int(d1), int(d2)
+) : void // end of [gvector_exchange]
+
+(* ****** ****** *)
 //
 fun{
 a:t0p}{env:vt0p

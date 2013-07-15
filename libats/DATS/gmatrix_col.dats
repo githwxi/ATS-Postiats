@@ -79,3 +79,4 @@ end // end of [gmatcol_getref_col_at]
 (* ****** ****** *)
 
 (* end of [gmatrix_col.dats] *)
+
