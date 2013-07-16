@@ -55,7 +55,7 @@ fun
 {a2:t0p}
 blas_nrm2
   {n:int}{d:int}
-  (V: &GVT(INV(a), n, d), int n, int d): (a2)
+  (V: &GVT(a, n, d), int n, int d): (a2)
 // end of [blas_nrm2]
 
 (* ****** ****** *)
@@ -65,7 +65,7 @@ fun
 {a2:t0p}
 blas_isamax
   {n:int | n > 0}{d:int}
-  (V: &GVT(INV(a), n, d), int n, int d): natLt(n)
+  (V: &GVT(a, n, d), int n, int d): natLt(n)
 // end of [blas_isamax]
 
 (* ****** ****** *)
@@ -79,7 +79,7 @@ fun{a:t0p}
 blas_inner
   {n:int}{d1,d2:int}
 (
-  V1: &GVT(INV(a), n, d1)
+  V1: &GVT(a, n, d1)
 , V2: &GVT(a, n, d2), int(n), int(d1), int(d2)
 ) : (a) // end of [blas_inner]
 
@@ -89,7 +89,7 @@ fun{a:t0p}
 blas_copy
   {n:int}{d1,d2:int}
 (
-  V1: &GVT(INV(a), n, d1)
+  V1: &GVT(a, n, d1)
 , V2: &GVT(a?, n, d2) >> GVT(a, n, d2)
 , int(n), int(d1), int(d2)
 ) : void // end of [blas_copy]
@@ -118,7 +118,7 @@ fun{a:t0p}
 blas_swap
   {n:int}{d1,d2:int}
 (
-  V1: &GVT(INV(a), n, d1)
+  V1: &GVT(a, n, d1)
 , V2: &GVT(a, n, d2), int(n), int(d1), int(d2)
 ) : void // end of [blas_swap]
 
@@ -131,7 +131,7 @@ blas_scal
   {n:int}{dx:int}
 (
   alpha: a
-, X: &GVT(INV(a), n, dx) >> _, int n, int dx
+, X: &GVT(a, n, dx) >> _, int n, int dx
 ) : void // end of [blas_scal]
 
 fun{a:t0p}
@@ -167,7 +167,7 @@ blas_ax1y
   {n:int}{dx,dy:int}
 (
   alpha: a
-, X: &GVT(INV(a), n, dx)
+, X: &GVT(a, n, dx)
 , Y: &GVT(a, n, dy) >> _, int n, int dx, int dy
 ) : void // end of [blas_ax1y]
 
@@ -210,7 +210,7 @@ blas_axby
   {n:int}{dx,dy:int}
 (
   alpha: a
-, X: &GVT(INV(a), n, dx)
+, X: &GVT(a, n, dx)
 , beta: a
 , Y: &GVT(a, n, dy) >> _, int n, int dx, int dy
 ) : void // end of [blas_axby]

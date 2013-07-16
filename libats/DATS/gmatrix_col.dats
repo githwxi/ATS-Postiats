@@ -113,9 +113,9 @@ val cp1 =
 val cp2 =
   gmatcol_getref_row_at (M, ld, i2)
 //
-prval
+val
 (pf1, fpf1 | p1) = $UN.cptr_vtake (cp1)
-prval
+val
 (pf2, fpf2 | p2) = $UN.cptr_vtake (cp2)
 //
 val () = gvector_exchange (!p1, !p2, n, ld, ld)
@@ -145,9 +145,9 @@ val cp1 =
 val cp2 =
   gmatcol_getref_col_at (M, ld, j2)
 //
-prval
+val
 (pf1, fpf1 | p1) = $UN.cptr_vtake (cp1)
-prval
+val
 (pf2, fpf2 | p2) = $UN.cptr_vtake (cp2)
 //
 val () = gvector_exchange (!p1, !p2, m, 1, 1)
@@ -179,7 +179,9 @@ __initize (&GMC(a?, m, n, ldy) >> GMC(a, m, n, ldy)): void
 //
 implement(env)
 gmatcol_foreachcol2$fwork<a,a><env>
-  (X, Y, m, env) = gvector_copyto (X, Y, m, 1, 1)
+  (X, Y, m, env) = let
+  prval () = gvector_uninitize (Y) in gvector_copyto (X, Y, m, 1, 1)
+end // end of [gmatcol_foreachcol2$fwork]
 //
 val () = gmatcol_foreachcol2<a,a> (X2, Y2, m, n, ldx, ldy)
 //

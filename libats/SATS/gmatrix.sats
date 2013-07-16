@@ -117,21 +117,6 @@ stadef GMX = gmatrix
 stadef GMX = gmatrix_v
 //
 (* ****** ****** *)
-
-praxi
-lemma_gmatrix_param
-  {a:t0p}{mo:mord}
-  {m,n:int}{ld:int}
-  (M: &GMX (a, mo, m, n, ld))
-: [0 <= mo; mo <= 1; 0 <= m; 0 <= n; 1 <= ld] void
-praxi
-lemma_gmatrix_v_param
-  {a:t0p}{mo:mord}
-  {l:addr}{m,n:int}{ld:int}
-  (pf: !GMX (a, mo, l, m, n, ld))
-: [0 <= mo; mo <= 1; 0 <= m; 0 <= n; 1 <= ld] void
-
-(* ****** ****** *)
 //
 typedef gmatrow
   (a:t0p, m:int, n:int, ld:int) = gmatrix_t0ype (a, mrow, m, n, ld)
@@ -151,6 +136,21 @@ viewdef gmatcol_v
 stadef GMC = gmatcol
 stadef GMC = gmatcol_v
 //
+(* ****** ****** *)
+
+praxi
+lemma_gmatrix_param
+  {a:t0p}{mo:mord}
+  {m,n:int}{ld:int}
+  (M: &GMX (a, mo, m, n, ld))
+: [0 <= mo; mo <= 1; 0 <= m; 0 <= n; 1 <= ld] void
+praxi
+lemma_gmatrix_v_param
+  {a:t0p}{mo:mord}
+  {l:addr}{m,n:int}{ld:int}
+  (pf: !GMX (a, mo, l, m, n, ld))
+: [0 <= mo; mo <= 1; 0 <= m; 0 <= n; 1 <= ld] void
+
 (* ****** ****** *)
 //
 (*

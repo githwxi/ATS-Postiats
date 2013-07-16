@@ -41,7 +41,7 @@ lapack_LUdec_row
 
 (* ****** ****** *)
 
-local
+// local
 
 fun
 {a:t0p}
@@ -65,7 +65,7 @@ in
   imax
 end // end of [auxpivot]
 
-in (* in of [local] *)
+// in (* in of [local] *)
 
 implement
 {a}{a2}(*tmp*)
@@ -90,14 +90,14 @@ val
 val M00 = gmatrow_get_at (!pM, ld, 0, 0)
 val alpha = grecip_val<a> (M00)
 val ((*void*)) = blas_scal2_row (alpha, !pM01, 1, n-1, ld)
-val alpha2 = gnumber_int(~1) and beta2 = gnumber_int<a> (1)
+val alpha2 = gnumber_int<a>(~1) and beta2 = gnumber_int<a> (1)
 val (
 ) = blas_gemm_row_nn
 (
   alpha2, !pM10, !pM01, beta2, !pM11, m-1, 1, n-1, ld, ld, ld
 ) (* end of [val] *)
 //
-val () = lapack_LUdec_row (!pM11, m-1, n-1, ld)
+val () = lapack_LUdec_row<a><a2> (!pM11, m-1, n-1, ld)
 //
 prval () = (view@M := fpf (pf00, pf01, pf10, pf11))
 //
@@ -107,23 +107,7 @@ end else () // end of [if]
 //
 end // end of [lapack_LUdec_row]
 
-end (* end of [local] *)
-
-(* ****** ****** *)
-
-// BB TODO: check for function existence for:
-// fast copy Upper/Lower diag in ATS/BLAS
-// -- no luck so far.
-//
-// copy & set diag element in ATS/BLAS (or MATLAB)
-//
-// For these ^ make foreach routines if needed.
-// 
-// Then: check that L*U = A
-//
-// Then write solve code for Ax=b
-// BLAS level 2 may be good for this.
-//
+// end (* end of [local] *)
 
 (* ****** ****** *)
 
@@ -136,43 +120,61 @@ val out = stdout_ref
 val N = 10
 val Nsz = i2sz(N)
 //
-typedef T = int
+typedef T = double
+typedef T2 = double
 //
 implement
-matrix_tabulate$fopr<T> (i, j) = $UN.cast{T}(i*j)
+matrix_tabulate$fopr<T>
+  (i, j) = $UN.cast{T}(min(i,j))+2.0
 val (pfM, pfMgc | pM) = matrix_ptr_tabulate<T> (Nsz, Nsz)
 //
 implement
 fprint_val<T> (out, x) =
-  ignoret($extfcall (int, "fprintf", out, "%2.2d", x))
+  ignoret($extfcall (int, "fprintf", out, "%.2f", x))
 //
 val () = fprintln! (out, "M =")
 val () = fprint_matrix_sep (out, !pM, Nsz, Nsz, ", ", "\n")
 val () = fprint_newline (out)
 //
 prval () = matrix2gmatrow (!pM)
+val () = lapack_LUdec_row<T><T2> (!pM, N, N, N)
+prval () = gmatrow2matrix (!pM)
 //
+val () = fprintln! (out, "L\\U =")
+val () = fprint_matrix_sep (out, !pM, Nsz, Nsz, ", ", "\n")
+val () = fprint_newline (out)
+//
+prval () = matrix2gmatrow (!pM)
 local
-implement // lower-non
-gmatrix_imake$fopr<T> (i, j, x) =
-  if j <= i then x else gnumber_int<T> (0)
-in
+implement // LU
+gmatrix_imake$fopr<T>
+  (i, j, x) =
+(
+  if i > j then x else
+  (
+    if i >= j then gnumber_int<T> (1) else gnumber_int<T> (0)
+  )
+)
+in (* in of [local] *)
 val L = gmatrix_imake_matrixptr (!pM, MORDrow, N, N, N)
 end (* end of [local] *)
 //
-val () = fprintln! (out, "L =")
-val () = fprint_matrixptr_sep (out, L, Nsz, Nsz, ", ", "\n")
-val () = fprint_newline (out)
-//
 local
-implement // upper-unit
-gmatrix_imake$fopr<T> (i, j, x) =
-  if i < j then x else if i <= j then gnumber_int<T> (1) else gnumber_int<T> (0)
+implement // UN
+gmatrix_imake$fopr<T>
+  (i, j, x) =
+(
+  if i <= j then x else gnumber_int<T> (0)
+)
 in
 val U = gmatrix_imake_matrixptr (!pM, MORDrow, N, N, N)
 end (* end of [local] *)
 //
 prval () = gmatrow2matrix (!pM)
+//
+val () = fprintln! (out, "L =")
+val () = fprint_matrixptr_sep (out, L, Nsz, Nsz, ", ", "\n")
+val () = fprint_newline (out)
 //
 val () = fprintln! (out, "U =")
 val () = fprint_matrixptr_sep (out, U, Nsz, Nsz, ", ", "\n")
@@ -188,4 +190,3 @@ val () = matrix_ptr_free (pfM, pfMgc | pM)
 (* ****** ****** *)
 
 (* end of [test_LUPdec.dats] *)
-

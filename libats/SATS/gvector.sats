@@ -38,7 +38,7 @@
 // element type, length/size, delta
 //
 abst@ype
-gvector_t0ype (a:t@ype+, n:int, d:int) (*irregular*)
+gvector_t0ype (a:t@ype, n:int, d:int) (*irregular*)
 //
 typedef
 gvector (a:t0p, n:int, d:int) = gvector_t0ype (a, n, d)
@@ -59,11 +59,27 @@ stadef GVT = gvector_v
 praxi
 lemma_gvector_param
   {a:t0p}{n:int}{d:int}
-  (v: &GVT(INV(a), n, d)): [n >= 0; d >= 1] void
+  (v: &GVT(a, n, d)): [n >= 0; d >= 1] void
 praxi
 lemma_gvector_v_param
   {a:t0p}{l:addr}{n:int}{d:int}
-  (pf: !GVT(INV(a), l, n, d)): [n >= 0; d >= 1] void
+  (pf: !GVT(a, l, n, d)): [n >= 0; d >= 1] void
+//
+(* ****** ****** *)
+//
+(*
+// HX-2013-07:
+// Don't use [gmatrix_initize]
+// unless you know what you are doing
+*)
+praxi
+gvector_initize
+  {a:t0p}{n:int}{d:int}
+  (&GVT(a?, n, d) >> GVT(a, n, d)): void
+praxi
+gvector_uninitize
+  {a:t0p}{n:int}{d:int}
+  (&GVT(a, n, d) >> GVT(a?, n, d)): void
 //
 (* ****** ****** *)
 
@@ -83,12 +99,12 @@ array2gvector_v
 praxi
 gvector2array
   {a:t0p}{l:addr}{n:int}
-  (V: &GVT(INV(a), n, 1) >> array (a, n)): void
+  (V: &GVT(a, n, 1) >> array (a, n)): void
 // end [gvector2array]
 praxi
 gvector2array_v
   {a:t0p}{l:addr}{n:int}
-  (pf: GVT(INV(a), l, n, 1)):<prf> array_v (a, l, n)
+  (pf: GVT(a, l, n, 1)):<prf> array_v (a, l, n)
 // end [gvector2array_v]
 
 (* ****** ****** *)
@@ -102,13 +118,13 @@ praxi
 gvector_v_cons
   {a:t0p}{l:addr}{n:int}{d:int}
 (
-  pf1: a @ l, pf2: GVT(INV(a), l+d*sizeof(a), n, d)
+  pf1: a @ l, pf2: GVT(a, l+d*sizeof(a), n, d)
 ) : GVT(a, l, n+1, d) // endfun
 praxi
 gvector_v_uncons
   {a:t0p}{l:addr}
   {n:int | n > 0}{d:int}
-  (pf: GVT(INV(a), l, n, d)): (a @ l, GVT(a, l+d*sizeof(a), n-1, d))
+  (pf: GVT(a, l, n, d)): (a @ l, GVT(a, l+d*sizeof(a), n-1, d))
 //
 (* ****** ****** *)
 
@@ -118,14 +134,14 @@ gvector_v_split
   {l:addr}
   {n:int}{d:int}
   {i:nat | i <= n}
-  (GVT(INV(a), l, n, d)): (GVT(a, l, i, d), GVT(a, l+i*d*sizeof(a), n-i, d))
+  (GVT(a, l, n, d)): (GVT(a, l, i, d), GVT(a, l+i*d*sizeof(a), n-i, d))
 // end of [gvector_v_split]
 praxi
 gvector_v_unsplit
   {a:t0p}
   {l:addr}
   {n1,n2:int}{d:int}
-  (GVT(INV(a), l, n1, d), GVT(a, l+n1*d*sizeof(a), n2, d)): GVT(a, l, n1+n2, d)
+  (GVT(a, l, n1, d), GVT(a, l+n1*d*sizeof(a), n2, d)): GVT(a, l, n1+n2, d)
 // end of [gvector_v_unsplit]
 
 (* ****** ****** *)
@@ -134,7 +150,7 @@ fun{a:t0p}
 gvector_getref_at
   {n:int}{d:int}
 (
-  V: &GVT(INV(a), n, d), d: int d, i: natLt(n)
+  V: &GVT(a, n, d), d: int d, i: natLt(n)
 ) : cPtr1(a) // endfun
 
 (* ****** ****** *)
@@ -145,7 +161,7 @@ fprint_gvector$sep (out: FILEref): void
 fun{a:t0p}
 fprint_gvector{n:int}{d:int}
 (
-  out: FILEref, V: &GVT(INV(a), n, d), int n, int d
+  out: FILEref, V: &GVT(a, n, d), int n, int d
 ) : void // end of [fprint_gvector]
 
 (* ****** ****** *)
@@ -154,7 +170,7 @@ fun{a:t0p}
 gvector_copyto
   {n:int}{d1,d2:int}
 (
-  V1: &GVT(INV(a), n, d1)
+  V1: &GVT(a, n, d1)
 , V2: &GVT(a?, n, d2) >> GVT(a, n, d2), int(n), int(d1), int(d2)
 ) : void // end of [gvector_copyto]
 
@@ -162,7 +178,7 @@ fun{a:t0p}
 gvector_exchange
   {n:int}{d1,d2:int}
 (
-  V1: &GVT(INV(a), n, d1), V2: &GVT(a, n, d2), int(n), int(d1), int(d2)
+  V1: &GVT(a, n, d1), V2: &GVT(a, n, d2), int(n), int(d1), int(d2)
 ) : void // end of [gvector_exchange]
 
 (* ****** ****** *)
@@ -178,12 +194,12 @@ a:t0p}{env:vt0p
 //
 fun{a:t0p}
 gvector_foreach{n:int}{d:int}
-  (V: &GVT(INV(a), n, d) >> _, n: int n, d: int d): natLte(n)
+  (V: &GVT(a, n, d) >> _, n: int n, d: int d): natLte(n)
 fun{
 a:t0p}{env:vt0p
 } gvector_foreach_env{n:int}{d:int}
 (
-  V: &GVT(INV(a), n, d) >> _, n: int n, d: int d, env: &(env) >> _
+  V: &GVT(a, n, d) >> _, n: int n, d: int d, env: &(env) >> _
 ) : natLte(n) // end of [gvector_foreach_env]
 //
 (* ****** ****** *)
@@ -201,8 +217,8 @@ fun{a,b:t0p}
 gvector_foreach2
   {n:int}{d1,d2:int}
 (
-  V1: &GVT(INV(a), n, d1) >> _
-, V2: &GVT(INV(b), n, d2) >> _
+  V1: &GVT(a, n, d1) >> _
+, V2: &GVT(b, n, d2) >> _
 , n: int (n), d1: int (d1), d2: int (d2)
 ) : natLte(n) // end of [gvector_foreach2]
 fun{
@@ -210,8 +226,8 @@ a,b:t0p}{env:vt0p
 } gvector_foreach2_env
   {n:int}{d1,d2:int}
 (
-  V1: &GVT(INV(a), n, d1) >> _
-, V2: &GVT(INV(b), n, d2) >> _
+  V1: &GVT(a, n, d1) >> _
+, V2: &GVT(b, n, d2) >> _
 , n: int (n), d1: int (d1), d2: int (d2)
 , env: &env >> _
 ) : natLte(n) // end of [gvector_foreach2_env]

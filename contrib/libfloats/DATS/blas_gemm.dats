@@ -353,8 +353,8 @@ blas_gemm_col
 | alpha, A, tra, B, trb, beta, C, p, q, r, lda, ldb, ldc
 ) = let
 //
-val pfa = transpdim_transp (pfa)
-val pfb = transpdim_transp (pfb)
+prval pfa = transpdim_transp (pfa)
+prval pfb = transpdim_transp (pfb)
 //
 prval () = gmatrix_flipord (A)
 prval () = gmatrix_flipord (B)
