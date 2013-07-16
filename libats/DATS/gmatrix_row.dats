@@ -211,7 +211,7 @@ gmatrow_foreachrow
   (M, m, n, ld) = let
   var env: void = () in
   gmatrow_foreachrow_env<a><void> (M, m, n, ld, env)
-end // end of [gmatrix_foreach]
+end // end of [gmatrix_foreachrow]
 
 (* ****** ****** *)
 
@@ -253,7 +253,7 @@ prval () = lemma_gmatrow_param (M)
 //
 in
   loop (view@M | addr@M, m, env)
-end // end of [gmatrow_foreachrow]
+end // end of [gmatrow_foreachrow_env]
 
 (* ****** ****** *)
 

@@ -45,10 +45,18 @@ staload "libats/SATS/gmatrix_row.sats"
 
 (* ****** ****** *)
 
-(*
-fun{a:t0p}
-gmatrix_imake$fopr (i: int, j: int, x: a): a
-*)
+implement
+{a}(*tmp*)
+gmatrix_iforeach
+  (M, mo, m, n, ld) = let
+  var env: void = () in
+  gmatrix_iforeach_env<a><void> (M, mo, m, n, ld, env)
+end // end of [gmatrix_iforeach]
+
+(* ****** ****** *)
+
+implement{a}
+gmatrix_imake$fopr (i, j, x) = x
 implement{a}
 gmatrix_imake_matrixptr
   {mo}{m,n}{ld}
@@ -74,7 +82,7 @@ prval () = gmatrow2matrix (!p)
 //
 in
   $UN.castvwtp0{matrixptr(a,m,n)}((pf, pfgc | p))
-end // end of [gmatrow_imake_matrixptr]
+end // end of [gmatrix_imake_matrixptr]
 
 (* ****** ****** *)
 

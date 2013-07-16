@@ -39,7 +39,8 @@ stadef safecond2
 
 extern
 praxi
-stateTrans01 {
+stateTrans01
+{
   f,c,g,w:bool
 | safecond1 (f, c, g)
 ; safecond2 (f, g, w)
@@ -108,6 +109,8 @@ move_fw (
 }
 %}
 
+(* ****** ****** *)
+
 extern
 fun move_f
   {f,c,g,w:bool} (
@@ -142,7 +145,8 @@ fun move_fw
 (* ****** ****** *)
 
 extern
-fun solvePuzzle (
+fun solvePuzzle
+(
   pf: !STATE0 (false, false, false, false) >> STATE0 (true, true, true, true)
 | f: !F (false) >> F (true)
 , c: !C (false) >> C (true)

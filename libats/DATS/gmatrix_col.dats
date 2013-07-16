@@ -210,7 +210,7 @@ gmatcol_foreachcol
   (M, m, n, ld) = let
   var env: void = () in
   gmatcol_foreachcol_env<a><void> (M, m, n, ld, env)
-end // end of [gmatcol_foreach]
+end // end of [gmatcol_foreachcol]
 
 (* ****** ****** *)
 
@@ -252,7 +252,7 @@ prval () = lemma_gmatcol_param (M)
 //
 in
   loop (view@M | addr@M, n, env)
-end // end of [gmatcol_foreachcol]
+end // end of [gmatcol_foreachcol_env]
 
 (* ****** ****** *)
 

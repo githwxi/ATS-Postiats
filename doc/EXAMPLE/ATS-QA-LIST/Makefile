@@ -49,6 +49,14 @@ clean:: ; $(RMF) for-0install_dats.o
 clean:: ; $(RMF) for-0install_dats.c
 cleanall:: ; $(RMF) for-0install.exe
 
+all:: qa-list-43
+qa-list-43: qa-list-43.exe
+qa-list-43.exe: qa-list-43_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+qa-list-43_dats.c: qa-list-43.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output qa-list-43_dats.c --dynamic qa-list-43.dats
+clean:: ; $(RMF) qa-list-43_dats.o
+clean:: ; $(RMF) qa-list-43_dats.c
+cleanall:: ; $(RMF) qa-list-43.exe
+
 
 ######
 
