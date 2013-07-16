@@ -265,6 +265,17 @@ gmatrow_interchange_col
 (* ****** ****** *)
 
 fun{a:t0p}
+gmatrow_copyto
+  {m,n:int}{ld1,ld2:int}
+(
+  M1: &GMR(a, m, n, ld1)
+, M2: &GMR(a?, m, n, ld2) >> GMR(a, m, n, ld2)
+, int(m), int(n), int(ld1), int(ld2)
+) : void // end of [gmatrow_copyto]
+
+(* ****** ****** *)
+
+fun{a:t0p}
 gmatrow_ptr_split2x2
   {l:addr}
   {m,n:int}{ld:int}

@@ -13,6 +13,10 @@ test_gemm: test_gemm.dats ; \
   $(PATSCC) -atsccomp $(ATSCCOMP) -IATS ${PATSHOME}/contrib -o $@ $<
 cleanall:: ; $(RMF) test_gemm
 
+test_LUPdec: test_LUPdec.dats ; \
+  $(PATSCC) -atsccomp $(ATSCCOMP) -tcats -IATS ${PATSHOME}/contrib -o $@ $<
+cleanall:: ; $(RMF) test_LUPdec
+
 ######
 
 RMF=rm -f

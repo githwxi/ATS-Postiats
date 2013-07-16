@@ -162,6 +162,50 @@ end (* end of [gmatrow_interchange_col] *)
 
 (* ****** ****** *)
 
+implement
+{a}(*tmp*)
+gmatrow_copyto
+  {m,n}{ldx,ldy}
+(
+  X2, Y2, m, n, ldx, ldy
+) = let
+//
+prval (
+) = __initize (Y2) where
+{
+extern praxi
+__initize (&GMR(a?, m, n, ldy) >> GMR(a, m, n, ldy)): void
+} (* end of [where] *) // end of [prval]
+//
+implement(env)
+gmatrow_foreachrow2$fwork<a,a><env>
+  (X, Y, n, env) = gvector_copyto<a> (X, Y, n, 1, 1)
+//
+val () = gmatrow_foreachrow2<a,a> (X2, Y2, m, n, ldx, ldy)
+//
+in
+  // nothing
+end // end of [gmatrow_copyto]
+
+(* ****** ****** *)
+
+implement{a}
+gmatrow_imake_matrixptr
+  (M, m, n, ld) = let
+//
+prval (
+) = lemma_gmatrow_param (M)
+val (pf, pfgc | p) = matrix_ptr_alloc<a> (i2sz(m), i2sz(n))
+prval () = matrix2gmatrow (!p)
+val () = gmatrow_copyto (M, !p, m, n, ld, n)
+prval () = gmatrow2matrix (!p)
+//
+in
+  matrixptr_encode (pf, pfgc | p)
+end // end of [gmatrow_imake_matrixptr]
+
+(* ****** ****** *)
+
 implement{a}
 gmatrow_ptr_split2x2
   (pf | p, ld, i, j) = let

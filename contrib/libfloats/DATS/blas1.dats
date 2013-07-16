@@ -124,82 +124,15 @@ end // end of [blas_inner]
 
 (* ****** ****** *)
 
-implement
-{a}(*tmp*)
-blas_copy
-  {n}{d1,d2}
-  (V1, V2, n, d1, d2) = let
-//
-prval (
-) = __initize (V2) where
-{
-extern praxi
-__initize (&GVT(a?, n, d2) >> GVT(a, n, d2)): void
-} (* end of [where] *) // end of [prval]
-//
-implement
-{a1,a2}{env}
-gvector_foreach2$cont (x, y, env) = true
-implement(env)
-gvector_foreach2$fwork<a,a><env> (x, y, env) = y := x
-//
-val _(*n*) = gvector_foreach2<a,a> (V1, V2, n, d1, d2)
-//
-in
-  // nothing
-end // end of [blas_copy]
+implement{a}
+blas_copy = gvector_copyto<a>
 
 (* ****** ****** *)
 
-implement
-{a}(*tmp*)
-blas_copy2_row
-  {m,n}{ldx,ldy}
-(
-  X2, Y2, m, n, ldx, ldy
-) = let
-//
-prval (
-) = __initize (Y2) where
-{
-extern praxi
-__initize (&GMR(a?, m, n, ldy) >> GMR(a, m, n, ldy)): void
-} (* end of [where] *) // end of [prval]
-//
-implement(env)
-gmatrow_foreachrow2$fwork<a,a><env>
-  (X, Y, n, env) = blas_copy<a> (X, Y, n, 1, 1)
-//
-val () = gmatrow_foreachrow2<a,a> (X2, Y2, m, n, ldx, ldy)
-//
-in
-  // nothing
-end // end of [blas_copy2_row]
-
-implement
-{a}(*tmp*)
-blas_copy2_col
-  {m,n}{ldx,ldy}
-(
-  X2, Y2, m, n, ldx, ldy
-) = let
-//
-prval (
-) = __initize (Y2) where
-{
-extern praxi
-__initize (&GMC(a?, m, n, ldy) >> GMC(a, m, n, ldy)): void
-} (* end of [where] *) // end of [prval]
-//
-implement(env)
-gmatcol_foreachcol2$fwork<a,a><env>
-  (X, Y, m, env) = blas_copy (X, Y, m, 1, 1)
-//
-val () = gmatcol_foreachcol2<a,a> (X2, Y2, m, n, ldx, ldy)
-//
-in
-  // nothing
-end // end of [blas_copy2_col]
+implement{a}
+blas_copy2_row = gmatrow_copyto<a>
+implement{a}
+blas_copy2_col = gmatcol_copyto<a>
 
 (* ****** ****** *)
 

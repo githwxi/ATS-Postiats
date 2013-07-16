@@ -83,6 +83,33 @@ end // end of [fprint_gvector]
 
 (* ****** ****** *)
 
+implement
+{a}(*tmp*)
+gvector_copyto
+  {n}{d1,d2}
+  (V1, V2, n, d1, d2) = let
+//
+prval (
+) = __initize (V2) where
+{
+extern praxi
+__initize (&GVT(a?, n, d2) >> GVT(a, n, d2)): void
+} (* end of [where] *) // end of [prval]
+//
+implement
+{a1,a2}{env}
+gvector_foreach2$cont (x, y, env) = true
+implement(env)
+gvector_foreach2$fwork<a,a><env> (x, y, env) = y := x
+//
+val _(*n*) = gvector_foreach2<a,a> (V1, V2, n, d1, d2)
+//
+in
+  // nothing
+end // end of [gvector_copyto]
+
+(* ****** ****** *)
+
 implement{a}
 gvector_exchange
   (V1, V2, n, d1, d2) = let

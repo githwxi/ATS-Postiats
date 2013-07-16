@@ -30,7 +30,10 @@ staload "libats/SATS/gmatrix_row.sats"
 
 (* ****** ****** *)
 
-fun{a1:t0p}{a2:t0p} blas$gnorm (x: a1): a2
+fun
+{a1:t0p}
+{a2:t0p}
+blas$gnorm (x: a1): a2
 
 (* ****** ****** *)
 
