@@ -2,14 +2,32 @@
 // A naive implementation of LU decomposition
 //
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
+staload _ = "prelude/DATS/gnumber.dats"
+//
+(* ****** ****** *)
+
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
 
 staload "libats/SATS/gvector.sats"
 staload "libats/SATS/gmatrix.sats"
 staload "libats/SATS/gmatrix_row.sats"
+staload _ = "libats/DATS/gvector.dats"
+staload _ = "libats/DATS/gmatrix.dats"
+staload _ = "libats/DATS/gmatrix_row.dats"
 
 (* ****** ****** *)
 
 staload "libfloats/SATS/blas.sats"
+staload _ = "libfloats/DATS/blas0.dats"
+staload _ = "libfloats/DATS/blas1.dats"
+staload _ = "libfloats/DATS/blas_gemv.dats"
+staload _ = "libfloats/DATS/blas_gemm.dats"
 
 (* ****** ****** *)
 
@@ -106,6 +124,68 @@ end (* end of [local] *)
 // Then write solve code for Ax=b
 // BLAS level 2 may be good for this.
 //
+
+(* ****** ****** *)
+
+implement
+main0 () =
+{
+//
+val out = stdout_ref
+//
+val N = 10
+val Nsz = i2sz(N)
+//
+typedef T = int
+//
+implement
+matrix_tabulate$fopr<T> (i, j) = $UN.cast{T}(i*j)
+val (pfM, pfMgc | pM) = matrix_ptr_tabulate<T> (Nsz, Nsz)
+//
+implement
+fprint_val<T> (out, x) =
+  ignoret($extfcall (int, "fprintf", out, "%2.2d", x))
+//
+val () = fprintln! (out, "M =")
+val () = fprint_matrix_sep (out, !pM, Nsz, Nsz, ", ", "\n")
+val () = fprint_newline (out)
+//
+prval () = matrix2gmatrow (!pM)
+//
+local
+implement // lower-non
+gmatrix_imake$fopr<T> (i, j, x) =
+  if j <= i then x else gnumber_int<T> (0)
+in
+val L = gmatrix_imake_matrixptr (!pM, MORDrow, N, N, N)
+end (* end of [local] *)
+//
+val () = fprintln! (out, "L =")
+val () = fprint_matrixptr_sep (out, L, Nsz, Nsz, ", ", "\n")
+val () = fprint_newline (out)
+//
+local
+implement // upper-unit
+gmatrix_imake$fopr<T> (i, j, x) =
+  if i < j then x else if i <= j then gnumber_int<T> (1) else gnumber_int<T> (0)
+in
+val U = gmatrix_imake_matrixptr (!pM, MORDrow, N, N, N)
+end (* end of [local] *)
+//
+prval () = gmatrow2matrix (!pM)
+//
+val () = fprintln! (out, "U =")
+val () = fprint_matrixptr_sep (out, U, Nsz, Nsz, ", ", "\n")
+val () = fprint_newline (out)
+//
+val () = matrixptr_free (L)
+val () = matrixptr_free (U)
+//
+val () = matrix_ptr_free (pfM, pfMgc | pM)
+//
+} // end of [main0]
+
+(* ****** ****** *)
 
 (* end of [test_LUPdec.dats] *)
 

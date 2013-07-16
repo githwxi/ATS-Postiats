@@ -93,7 +93,7 @@ case mo of
     {
       val () = p_ij := p_j
       val (
-      ) = for (i := 0; i < n; i := i+1)
+      ) = for (i := 0; i < m; i := i+1)
       {
         val (pf, fpf | p) = $UN.ptr0_vtake (p_ij)
         val () = gmatrix_iforeach$fwork<a><env> (i, j, !p, env)
@@ -123,7 +123,7 @@ prval () = matrix2gmatrow (!p)
 implement(env)
 gmatrix_iforeach$fwork<a><env>
   (i, j, x, env) = let
-  val x2 = gmatrix_imake$fopr (i, j, x)
+  val x2 = gmatrix_imake$fopr<a> (i, j, x)
   val p_ij = ptr_add<a> (p, i*n+j)
   val () = $UN.ptr0_set<a> (p_ij, x2)
 in

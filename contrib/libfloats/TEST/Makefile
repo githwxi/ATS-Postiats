@@ -14,7 +14,7 @@ test_gemm: test_gemm.dats ; \
 cleanall:: ; $(RMF) test_gemm
 
 test_LUPdec: test_LUPdec.dats ; \
-  $(PATSCC) -atsccomp $(ATSCCOMP) -tcats -IATS ${PATSHOME}/contrib -o $@ $<
+  $(PATSCC) -atsccomp $(ATSCCOMP) -IATS ${PATSHOME}/contrib -o $@ $<
 cleanall:: ; $(RMF) test_LUPdec
 
 ######

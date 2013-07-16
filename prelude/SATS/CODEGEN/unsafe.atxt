@@ -106,7 +106,7 @@ castfn strnptr2string {l:addr}{n:nat} (x: !strnptr (l, n)):<> string (n)
 praxi ptr_vtake
   {a:vt0p}{l:addr} (p: ptr l): vtakeout0 (a@l)
 // end of [ptr_vtake]
-praxi ptr0_vtake
+castfn ptr0_vtake
   {a:vt0p} (p: ptr): [l:addr] (a@l, a@l -<lin,prf> void | ptr l)
 // end of [ptr0_vtake]
 
