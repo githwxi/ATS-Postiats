@@ -55,6 +55,59 @@ end // end of [gmatrix_iforeach]
 
 (* ****** ****** *)
 
+implement
+{a}{env}
+gmatrix_iforeach_env
+  (M, mo, m, n, ld, env) = let
+//
+in
+//
+case mo of
+| MORDrow () => let
+    var i: int = 0
+    and j: int = 0
+    var p_i: ptr = addr@(M)
+    var p_ij: ptr = the_null_ptr
+  in
+    for (i := 0; i < m; i := i+1)
+    {
+      val () = p_ij := p_i
+      val (
+      ) = for (j := 0; j < n; j := j+1)
+      {
+        val (pf, fpf | p) = $UN.ptr0_vtake (p_ij)
+        val () = gmatrix_iforeach$fwork<a><env> (i, j, !p, env)
+        prval () = fpf (pf)
+        val () = p_ij := ptr_succ<a> (p)
+      }
+      val () = p_i := ptr_add<a> (p_i, ld)
+    } 
+  end // end of [MORDrow]
+| MORDcol () => let
+    var i: int = 0
+    and j: int = 0
+    var p_j: ptr = addr@(M)
+    var p_ij: ptr = the_null_ptr
+  in
+    for (j := 0; j < n; j := j+1)
+    {
+      val () = p_ij := p_j
+      val (
+      ) = for (i := 0; i < n; i := i+1)
+      {
+        val (pf, fpf | p) = $UN.ptr0_vtake (p_ij)
+        val () = gmatrix_iforeach$fwork<a><env> (i, j, !p, env)
+        prval () = fpf (pf)
+        val () = p_ij := ptr_succ<a> (p)
+      }
+      val () = p_j := ptr_add<a> (p_j, ld)
+    } 
+  end // end of [MORDcol]
+//
+end // end of [gmatrix_iforeach_env]
+
+(* ****** ****** *)
+
 implement{a}
 gmatrix_imake$fopr (i, j, x) = x
 implement{a}
