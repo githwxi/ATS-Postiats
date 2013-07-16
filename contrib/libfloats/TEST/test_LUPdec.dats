@@ -78,7 +78,9 @@ in
 //
 if m >= 1 then let
 //
+(*
 val imax = auxpivot<a><a2> (M, m, n, ld)
+*)
 //
 val
 (
@@ -89,7 +91,7 @@ val
 //
 val M00 = gmatrow_get_at (!pM, ld, 0, 0)
 val alpha = grecip_val<a> (M00)
-val ((*void*)) = blas_scal2_row (alpha, !pM01, 1, n-1, ld)
+val ((*void*)) = blas_scal2_row (alpha, !pM10, m-1, 1, ld)
 val alpha2 = gnumber_int<a>(~1) and beta2 = gnumber_int<a> (1)
 val (
 ) = blas_gemm_row_nn
@@ -164,7 +166,7 @@ implement // UN
 gmatrix_imake$fopr<T>
   (i, j, x) =
 (
-  if i <= j then x else gnumber_int<T> (0)
+  if i <= j then x else gnumber_int<T>(0)
 )
 in
 val U = gmatrix_imake_matrixptr (!pM, MORDrow, N, N, N)
@@ -180,10 +182,33 @@ val () = fprintln! (out, "U =")
 val () = fprint_matrixptr_sep (out, U, Nsz, Nsz, ", ", "\n")
 val () = fprint_newline (out)
 //
+val pL = ptrcast (L)
+val pU = ptrcast (U)
+prval pfL = matrixptr_takeout (L)
+prval pfU = matrixptr_takeout (U)
+//
+val (pfLU, pfLUgc | pLU) = matrix_ptr_alloc<T> (Nsz, Nsz)
+//
+prval () = matrix2gmatrow (!pL)
+prval () = matrix2gmatrow (!pU)
+prval () = matrix2gmatrow (!pLU)
+prval () = gmatrix_initize (!pLU)
+val () = blas_gemm_row_nn (gnumber_int<T>(1), !pL, !pU, gnumber_int<T>(0), !pLU, N, N, N, N, N, N)
+prval () = gmatrow2matrix (!pL)
+prval () = gmatrow2matrix (!pU)
+prval () = gmatrow2matrix (!pLU)
+//
+val () = fprintln! (out, "LU =")
+val () = fprint_matrix_sep (out, !pLU, Nsz, Nsz, ", ", "\n")
+val () = fprint_newline (out)
+//
+prval () = matrixptr_addback (pfL | L)
+prval () = matrixptr_addback (pfU | U)
+//
 val () = matrixptr_free (L)
 val () = matrixptr_free (U)
-//
 val () = matrix_ptr_free (pfM, pfMgc | pM)
+val () = matrix_ptr_free (pfLU, pfLUgc | pLU)
 //
 } // end of [main0]
 
