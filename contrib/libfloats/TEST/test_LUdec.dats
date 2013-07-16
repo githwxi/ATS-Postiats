@@ -93,12 +93,17 @@ end (* end of [local] *)
 
 (* ****** ****** *)
 
-// TODO: check for function existence for:
-// copy Upper/Lower diag in ATS/BLAS
-// copy + set diag element in ATS/BLAS (or MATLAB)
+// BB TODO: check for function existence for:
+// fast copy Upper/Lower diag in ATS/BLAS
+// -- no luck so far.
 //
+// copy & set diag element in ATS/BLAS (or MATLAB)
+//
+// For these ^ make foreach routines if needed.
+// 
 // Then: check that L*U = A
 //
 // Then write solve code for Ax=b
+// BLAS level 2 may be good for this.
+//
 
-(* end of [test_LUdec.dats] *)
