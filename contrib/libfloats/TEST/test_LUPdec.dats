@@ -41,7 +41,7 @@ prval
 val imax = blas_isamax<a><a2> (!p, n, 1)
 prval () = view@M := gmatrow_v_cons0 (pf1, pf2)
 //
-val () = gmatrow_interchange_col (M, ld, 0, imax)
+val () = gmatrow_interchange_col (M, m, ld, 0, imax)
 //
 in
   imax
@@ -93,4 +93,4 @@ end (* end of [local] *)
 
 (* ****** ****** *)
 
-(* end of [test_LUdec.dats] *)
+(* end of [test_LUPdec.dats] *)
