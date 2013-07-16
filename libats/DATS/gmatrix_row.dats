@@ -190,23 +190,6 @@ end // end of [gmatrow_copyto]
 (* ****** ****** *)
 
 implement{a}
-gmatrow_imake_matrixptr
-  (M, m, n, ld) = let
-//
-prval (
-) = lemma_gmatrow_param (M)
-val (pf, pfgc | p) = matrix_ptr_alloc<a> (i2sz(m), i2sz(n))
-prval () = matrix2gmatrow (!p)
-val () = gmatrow_copyto (M, !p, m, n, ld, n)
-prval () = gmatrow2matrix (!p)
-//
-in
-  matrixptr_encode (pf, pfgc | p)
-end // end of [gmatrow_imake_matrixptr]
-
-(* ****** ****** *)
-
-implement{a}
 gmatrow_ptr_split2x2
   (pf | p, ld, i, j) = let
 //
@@ -222,7 +205,8 @@ end // end of [gmatrow_ptr_split2x2]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 gmatrow_foreachrow
   (M, m, n, ld) = let
   var env: void = () in
@@ -231,11 +215,54 @@ end // end of [gmatrix_foreach]
 
 (* ****** ****** *)
 
-implement{a1,a2}
+implement
+{a}{env}
+gmatrow_foreachrow_env
+  {m,n}{ld}
+  (M, m, n, ld, env) = let
+fun loop
+  {l:addr}{m:nat} .<m>.
+(
+  pfM: !GMR(a, l, m, n, ld) | p: ptr l, m: int m, env: &env
+) : void = let
+in
+//
+if m > 0
+then let
+//
+prval (pfM1, pfM2) = gmatrow_v_uncons0 (pfM)
+val () = gmatrow_foreachrow$fwork<a><env> (!p, n, env)
+val () = loop (pfM2 | ptr_add<a> (p, ld), pred(m), env)
+prval ((*void*)) = pfM := gmatrow_v_cons0 (pfM1, pfM2)
+//
+in
+  // nothing
+end else let
+//
+(*
+prval () = (pfM := gmatrow_v_renil0 {a,a} (pfM))
+*)
+//
+in
+  // nothing
+end // end of [if]
+//
+end // end of [loop]
+//
+prval () = lemma_gmatrow_param (M)
+//
+in
+  loop (view@M | addr@M, m, env)
+end // end of [gmatrow_foreachrow]
+
+(* ****** ****** *)
+
+implement
+{a1,a2}
 gmatrow_foreachrow2
-  (M1, M2, m, n, ld1, ld2) = let
+  (A, B, m, n, ld1, ld2) = let
   var env: void = () in
-  gmatrow_foreachrow2_env<a1,a2><void> (M1, M2, m, n, ld1, ld2, env)
+  gmatrow_foreachrow2_env<a1,a2><void> (A, B, m, n, ld1, ld2, env)
 end // end of [gmatrix_foreachrow2]
 
 implement
@@ -249,8 +276,8 @@ gmatrow_foreachrow2_env
 fun loop
   {l1,l2:addr}{m:nat} .<m>.
 (
-  pfX: !GMR(a1, l1, m, n, lda)
-, pfY: !GMR(a2, l2, m, n, ldb)
+  pfA: !GMR(a1, l1, m, n, lda)
+, pfB: !GMR(a2, l2, m, n, ldb)
 | p1: ptr l1, p2: ptr l2, m: int m, env: &env
 ) : void = let
 in
@@ -259,27 +286,28 @@ if m > 0
 then let
 //
 prval
-  (pfX1, pfX2) = gmatrow_v_uncons0 (pfX)
+  (pfA1, pfA2) = gmatrow_v_uncons0 (pfA)
 prval
-  (pfY1, pfY2) = gmatrow_v_uncons0 (pfY)
+  (pfB1, pfB2) = gmatrow_v_uncons0 (pfB)
 //
 val () = gmatrow_foreachrow2$fwork<a1,a2><env> (!p1, !p2, n, env)
 //
 val () = loop
 (
-  pfX2, pfY2
+  pfA2, pfB2
 | ptr_add<a1> (p1, lda), ptr_add<a2> (p2, ldb), pred(m), env
 ) (* end of [val] *)
 //
-prval () = pfX := gmatrow_v_cons0 (pfX1, pfX2)
-prval () = pfY := gmatrow_v_cons0 (pfY1, pfY2)
+prval () = pfA := gmatrow_v_cons0 (pfA1, pfA2)
+prval () = pfB := gmatrow_v_cons0 (pfB1, pfB2)
 //
 in
   // nothing
 end else let
 //
 (*
-prval () = (pfY := gmatrow_v_renil0 {a,a} (pfY))
+prval () = (pfA := gmatrow_v_renil0 {a,a} (pfA))
+prval () = (pfB := gmatrow_v_renil0 {a,a} (pfB))
 *)
 //
 in

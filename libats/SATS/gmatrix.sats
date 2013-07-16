@@ -182,19 +182,80 @@ gmatrix_v_flipord
 //
 (* ****** ****** *)
 
-fun{a:t0p}
-gmatrow_imake_matrixptr
-  {m,n:int}{ld:int}
+fun{
+a:t0p}{env:vt0p
+} gmatrix_iforeach$fwork{n:int}
 (
-  M: &GMR(a, m, n, ld), int m, int n, int(ld)
-) : matrixptr (a, m, n)
-fun{a:t0p}
-gmatcol_imake_matrixptr
-  {m,n:int}{ld:int}
-(
-  M: &GMC(a, m, n, ld), int m, int n, int(ld)
-) : matrixptr (a, n, m)
+  i: int, j: int, x: &(a) >> _, env: &(env) >> _
+) : void // end of [gmatrix_iforeach$fwork]
 
+fun{
+a:t0p
+} gmatrix_iforeach
+  {mo:mord}{m,n:int}{ld:int}
+(
+  M: &GMX(a, mo, m, n, ld) >> _, MORD(mo), int m, int n, int ld
+) : void // end of [gmatrix_iforeach]
+fun{
+a:t0p}{env:vt0p
+} gmatrix_iforeach_env
+  {mo:mord}{m,n:int}{ld:int}
+(
+  M: &GMX(a, mo, m, n, ld) >> _, MORD(mo), int m, int n, int ld, env: &(env) >> _
+) : void // end of [gmatrix_iforeach_env]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+gmatrix_imake$fopr
+  (i: int, j: int, x: a): a
+fun{a:t0p}
+gmatrix_imake_matrixptr
+  {mo:mord}{m,n:int}{ld:int}
+(
+  M: &GMX(a, mo, m, n, ld), mo: MORD(mo), int m, int n, int(ld)
+) : matrixptr (a, m, n)
+
+(* ****** ****** *)
+
+abst@ype
+trmatrix_t0ype
+(
+  a:t@ype+
+, mo: mord, ul: uplo, dg: diag, n:int, ld: int
+)
+typedef trmatrix
+(
+  a:t0p, mo:mord, ul: uplo, dg: diag, n:int, ld:int
+) = trmatrix_t0ype (a, mo, ul, dg, n, ld)
+viewdef trmatrix_v
+(
+  a:t0p, mo:mord, ul: uplo, dg: diag, l:addr, n:int, ld:int
+) = trmatrix_t0ype (a, mo, ul, dg, n, ld) @ l
+//
+stadef TRMX = trmatrix
+stadef TRMX = trmatrix_v
+//
+(* ****** ****** *)
+//
+praxi
+trmatrix_flipord
+  {a:t0p}
+  {mo:mord}
+  {ul:uplo}
+  {dg:diag}
+  {n:int}{ld:int}
+  (M: &TRMX(a, mo, ul, dg, n, ld) >> TRMX(a, 1-mo, 1-ul, dg, n, ld)): void
+praxi
+trmatrix_v_flipord
+  {a:t0p}
+  {mo:mord}
+  {ul:uplo}
+  {dg:diag}
+  {l:addr}
+  {n:int}{ld:int}
+  (pf: !TRMX(a, mo, ul, dg, l, n, ld) >> TRMX(a, 1-mo, 1-ul, dg, l, n, ld)): void
+//
 (* ****** ****** *)
 
 (* end of [gmatrix.sats] *)

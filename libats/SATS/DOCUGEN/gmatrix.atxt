@@ -72,4 +72,16 @@ that is, two-dimensional arrays.
 
 (* ****** ****** *)
 
+#declnamesynop("trmatrix")
+#declnamesynop("trmatrix_t0ype")
+#declnamesynop("trmatrix_v")
+#declnamesynop("TRMX")
+
+(* ****** ****** *)
+
+#declnamesynop("trmatrix_flipord")
+#declnamesynop("trmatrix_v_flipord")
+
+(* ****** ****** *)
+
 (* end of [gmatrix.atxt] *)

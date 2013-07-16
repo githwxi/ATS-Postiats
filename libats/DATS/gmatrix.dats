@@ -44,9 +44,38 @@ staload "libats/SATS/gmatrix_col.sats"
 staload "libats/SATS/gmatrix_row.sats"
 
 (* ****** ****** *)
+
+(*
+fun{a:t0p}
+gmatrix_imake$fopr (i: int, j: int, x: a): a
+*)
+implement{a}
+gmatrix_imake_matrixptr
+  {mo}{m,n}{ld}
+  (M, mo, m, n, ld) = let
 //
-// HX-2013-07: It is yet empty
+prval (
+) = lemma_gmatrix_param (M)
+val (pf, pfgc | p) = matrix_ptr_alloc<a> (i2sz(m), i2sz(n))
+prval () = matrix2gmatrow (!p)
 //
+implement(env)
+gmatrix_iforeach$fwork<a><env>
+  (i, j, x, env) = let
+  val x2 = gmatrix_imake$fopr (i, j, x)
+  val p_ij = ptr_add<a> (p, i*n+j)
+  val () = $UN.ptr0_set<a> (p_ij, x2)
+in
+  // nothing
+end // end of [gmatrix_iforeach$fwork]
+val () = gmatrix_iforeach<a> (M, mo, m, n, ld)
+//
+prval () = gmatrow2matrix (!p)
+//
+in
+  $UN.castvwtp0{matrixptr(a,m,n)}((pf, pfgc | p))
+end // end of [gmatrow_imake_matrixptr]
+
 (* ****** ****** *)
 
 (* end of [gmatrix.dats] *)

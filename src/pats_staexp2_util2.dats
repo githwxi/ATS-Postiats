@@ -147,14 +147,14 @@ fun s2exp_invar_flag (s2e: s2exp, flag: &int): s2exp
 
 extern
 fun s2exp_hnfize_flag (s2e: s2exp, flag: &int): s2exp
-
 extern
 fun s2explst_hnfize_flag (s2es: s2explst, flag: &int): s2explst
 extern
 fun labs2explst_hnfize_flag (ls2es: labs2explst, flag: &int): labs2explst
 
 extern
-fun s2exp_hnfize_app (
+fun s2exp_hnfize_app
+(
   s2e0: s2exp, s2e_fun: s2exp, s2es_arg: s2explst, flag: &int
 ) : s2exp // [s2exp_hnfize_app]
 
@@ -172,7 +172,8 @@ case+ 0 of
     val () = flag := flag + 1 in s2exp_unit_prop ()
   end // end of [_ when ...]
 | _ (*isprf=false*) => let
-    val isdone = (
+    val isdone =
+    (
       if knd > 0 (*typization*) then
         (if s2exp_is_lin (s2e0) then false else true)
       else false // end of [if]
@@ -185,11 +186,10 @@ case+ 0 of
       val () = flag := flag + 1
     in
       case+ s2e0.s2exp_node of
-      | _ when
-          s2rt_is_boxed (s2t0) =>
-          s2exp_ptr_type () // HX: this seems adequate
       | S2Etop (_, s2e) =>
-          s2exp_top_srt (s2rt_t0ype, knd, s2e)
+          s2exp_topize_flag (knd, s2e, flag)
+      | _ when // HX: this seems adequate
+          s2rt_is_boxed (s2t0) => s2exp_ptr_type ()
       | S2Etyarr (s2e_elt, dim) => let
           val s2e_elt = s2exp_top (knd, s2e_elt)
         in

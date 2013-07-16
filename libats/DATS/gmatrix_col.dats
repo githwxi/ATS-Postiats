@@ -189,21 +189,6 @@ end // end of [gmatcol_copyto]
 
 (* ****** ****** *)
 
-implement
-{a}(*tmp*)
-gmatcol_imake_matrixptr
-  (M, m, n, ld) = let
-//
-prval () = gmatrix_flipord (M)
-val matres = gmatrow_imake_matrixptr (M, n, m, ld)
-prval () = gmatrix_flipord (M)
-//
-in
-  matres
-end // end of [gmatcol_imake_matrixptr]
-
-(* ****** ****** *)
-
 implement{a}
 gmatcol_ptr_split2x2
   (pf | p, ld, i, j) = let
@@ -229,11 +214,53 @@ end // end of [gmatcol_foreach]
 
 (* ****** ****** *)
 
+implement
+{a}{env}
+gmatcol_foreachcol_env
+  {m,n}{ld}
+  (M, m, n, ld, env) = let
+fun loop
+  {l:addr}{n:nat} .<n>.
+(
+  pfM: !GMC(a, l, m, n, ld) | p: ptr l, n: int n, env: &env
+) : void = let
+in
+//
+if n > 0
+then let
+//
+prval (pfM1, pfM2) = gmatcol_v_uncons1 (pfM)
+val () = gmatcol_foreachcol$fwork<a><env> (!p, m, env)
+val () = loop (pfM2 | ptr_add<a> (p, ld), pred(n), env)
+prval ((*void*)) = pfM := gmatcol_v_cons1 (pfM1, pfM2)
+//
+in
+  // nothing
+end else let
+//
+(*
+prval () = (pfM := gmatcol_v_renil0 {a,a} (pfM))
+*)
+//
+in
+  // nothing
+end // end of [if]
+//
+end // end of [loop]
+//
+prval () = lemma_gmatcol_param (M)
+//
+in
+  loop (view@M | addr@M, n, env)
+end // end of [gmatcol_foreachcol]
+
+(* ****** ****** *)
+
 implement{a1,a2}
 gmatcol_foreachcol2
-  (M1, M2, m, n, ld1, ld2) = let
+  (A, B, m, n, ld1, ld2) = let
   var env: void = () in
-  gmatcol_foreachcol2_env<a1,a2><void> (M1, M2, m, n, ld1, ld2, env)
+  gmatcol_foreachcol2_env<a1,a2><void> (A, B, m, n, ld1, ld2, env)
 end // end of [gmatrix_foreachcol2]
 
 implement
@@ -247,9 +274,9 @@ gmatcol_foreachcol2_env
 fun loop
   {l1,l2:addr}{n:nat} .<n>.
 (
-  pfX: !GMC(a1, l1, m, n, lda)
-, pfY: !GMC(a2, l2, m, n, ldb)
-| p1: ptr l1, p2: ptr l2, m: int m, env: &env
+  pfA: !GMC(a1, l1, m, n, lda)
+, pfB: !GMC(a2, l2, m, n, ldb)
+| p1: ptr l1, p2: ptr l2, n: int n, env: &env
 ) : void = let
 in
 //
@@ -257,27 +284,28 @@ if n > 0
 then let
 //
 prval
-  (pfX1, pfX2) = gmatcol_v_uncons1 (pfX)
+  (pfA1, pfA2) = gmatcol_v_uncons1 (pfA)
 prval
-  (pfY1, pfY2) = gmatcol_v_uncons1 (pfY)
+  (pfB1, pfB2) = gmatcol_v_uncons1 (pfB)
 //
-val () = gmatcol_foreachcol2$fwork<a1,a2><env> (!p1, !p2, n, env)
+val () = gmatcol_foreachcol2$fwork<a1,a2><env> (!p1, !p2, m, env)
 //
 val () = loop
 (
-  pfX2, pfY2
+  pfA2, pfB2
 | ptr_add<a1> (p1, lda), ptr_add<a2> (p2, ldb), pred(n), env
 ) (* end of [val] *)
 //
-prval () = pfX := gmatcol_v_cons1 (pfX1, pfX2)
-prval () = pfY := gmatcol_v_cons1 (pfY1, pfY2)
+prval () = pfA := gmatcol_v_cons1 (pfA1, pfA2)
+prval () = pfB := gmatcol_v_cons1 (pfB1, pfB2)
 //
 in
   // nothing
 end else let
 //
 (*
-prval () = (pfY := gmatcol_v_renil1 {a,a} (pfY))
+prval () = (pfA := gmatrow_v_renil0 {a,a} (pfA))
+prval () = (pfB := gmatrow_v_renil0 {a,a} (pfB))
 *)
 //
 in
