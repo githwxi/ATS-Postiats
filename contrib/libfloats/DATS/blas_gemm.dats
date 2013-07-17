@@ -1,6 +1,6 @@
 (* ****** ****** *)
 //
-// Basic Linear Algebraic System in ATS
+// Basic Linear Algebra System in ATS
 //
 (* ****** ****** *)
 
@@ -226,58 +226,45 @@ prval () = lemma_gmatrow_param (B)
 prval () = lemma_gmatrow_param (C)
 //
 fun loop
-  {la,lb,lc,lt:addr}{r:nat} .<r>.
+  {la,lb,lc:addr}{p:nat} .<p>.
 (
   pfa: !GMR (a, la, q, p, lda)
 , pfb: !GMR (a, lb, q, r, ldb)
 , pfc: !GMR (a, lc, p, r, ldc) >> _
-, pft: !array_v(a?, lt, q) >> _
-| pa: ptr la, pb: ptr lb, pc: ptr lc, pt: ptr lt, r: int r
+| pa: ptr la, pb: ptr lb, pc: ptr lc, p: int p
 ) : void =
 (
-if r > 0 then let
+if p > 0 then let
 //
-prval (pfb1, pfb2) = gmatrow_v_uncons1 (pfb)
-prval (pfc1, pfc2) = gmatrow_v_uncons1 (pfc)
+prval (pfa1, pfa2) = gmatrow_v_uncons1 (pfa)
+prval (pfc1, pfc2) = gmatrow_v_uncons0 (pfc)
 //
-prval (
-) = array2gvector (!pt)
 val (
-) = blas_copy<a> (!pb, !pt, q, ldb, 1)
-val (
-) = blas_gemv_trow (alpha, !pa, !pt, beta, !pc, p, q, lda, 1, ldc)
-prval (
-) = gvector2array (!pt)
+) = blas_gemv_trow (alpha, !pb, !pa, beta, !pc, r, q, ldb, lda, 1)
 //
 val (
 ) = loop (
-  pfa, pfb2, pfc2, pft | pa, ptr_succ<a> (pb), ptr_succ<a> (pc), pt, pred(r)
+  pfa2, pfb, pfc2 | ptr_succ<a> (pa), pb, ptr_add<a> (pc, ldc), pred(p)
 ) (* end of [val] *)
 //
-prval () = pfb := gmatrow_v_cons1 (pfb1, pfb2)
-prval () = pfc := gmatrow_v_cons1 (pfc1, pfc2)
+prval () = pfa := gmatrow_v_cons1 (pfa1, pfa2)
+prval () = pfc := gmatrow_v_cons0 (pfc1, pfc2)
 //
 in
   // nothing
 end else let
 (*
-prval () = (pfc := gmatrow_v_renil1{a,a}(pfc))
+prval () = (pfc := gmatrow_v_renil0{a,a}(pfc))
 *)
 in
   // nothing
 end // end of [if]
 )
 //
-val qsz = i2sz(q)
-val [lt:addr]
-  (pft, pftgc | pt) = array_ptr_alloc<a> (qsz)
-//
 val (
 ) = loop (
-  view@A, view@B, view@C, pft | addr@A, addr@B, addr@C, pt, r
+  view@A, view@B, view@C | addr@A, addr@B, addr@C, p
 ) (* end of [val] *)
-//
-val ((*void*)) = array_ptr_free (pft, pftgc | pt)
 //
 in
   // nothing
@@ -297,44 +284,58 @@ prval () = lemma_gmatrow_param (B)
 prval () = lemma_gmatrow_param (C)
 //
 fun loop
-  {la,lb,lc:addr}{r:nat} .<r>.
+  {la,lb,lc,lt:addr}{p:nat} .<p>.
 (
   pfa: !GMR (a, la, q, p, lda)
 , pfb: !GMR (a, lb, r, q, ldb)
 , pfc: !GMR (a, lc, p, r, ldc) >> _
-| pa: ptr la, pb: ptr lb, pc: ptr lc, r: int r
+, pft: !array_v(a?, lt, q) >> _
+| pa: ptr la, pb: ptr lb, pc: ptr lc, pt: ptr lt, p: int p
 ) : void =
 (
-if r > 0 then let
+if p > 0 then let
 //
-prval (pfb1, pfb2) = gmatrow_v_uncons0 (pfb)
-prval (pfc1, pfc2) = gmatrow_v_uncons1 (pfc)
+prval (pfa1, pfa2) = gmatrow_v_uncons1 (pfa)
+prval (pfc1, pfc2) = gmatrow_v_uncons0 (pfc)
 //
+prval (
+) = array2gvector (!pt)
 val (
-) = blas_gemv_trow (alpha, !pa, !pb, beta, !pc, p, q, lda, 1, ldc)
+) = blas_copy<a> (!pa, !pt, q, lda, 1)
+val (
+) = blas_gemv_row (alpha, !pb, !pt, beta, !pc, r, q, ldb, 1, 1)
+prval (
+) = gvector2array (!pt)
+//
 val (
 ) = loop (
-  pfa, pfb2, pfc2 | pa, ptr_add<a> (pb, ldb), ptr_succ<a> (pc), pred(r)
+  pfa2, pfb, pfc2, pft | ptr_succ<a> (pa), pb, ptr_add<a> (pc, ldc), pt, pred(p)
 ) (* end of [val] *)
 //
-prval () = pfb := gmatrow_v_cons0 (pfb1, pfb2)
-prval () = pfc := gmatrow_v_cons1 (pfc1, pfc2)
+prval () = pfa := gmatrow_v_cons1 (pfa1, pfa2)
+prval () = pfc := gmatrow_v_cons0 (pfc1, pfc2)
 //
 in
   // nothing
 end else let
 (*
-prval () = (pfc := gmatrow_v_renil1{a,a}(pfc))
+prval () = (pfc := gmatrow_v_renil0{a,a}(pfc))
 *)
 in
   // nothing
 end // end of [if]
 )
 //
+val qsz = i2sz(q)
+val [lt:addr]
+  (pft, pftgc | pt) = array_ptr_alloc<a> (qsz)
+//
 val (
 ) = loop (
-  view@A, view@B, view@C | addr@A, addr@B, addr@C, r
+  view@A, view@B, view@C, pft | addr@A, addr@B, addr@C, pt, p
 ) (* end of [val] *)
+//
+val ((*void*)) = array_ptr_free (pft, pftgc | pt)
 //
 in
   // nothing

@@ -147,11 +147,23 @@ gvector_v_unsplit
 (* ****** ****** *)
 
 fun{a:t0p}
-gvector_getref_at
+gvector_get_at
   {n:int}{d:int}
 (
   V: &GVT(a, n, d), d: int d, i: natLt(n)
-) : cPtr1(a) // endfun
+) : a // end of [gvector_get_at]
+fun{a:t0p}
+gvector_set_at
+  {n:int}{d:int}
+(
+  V: &GVT(a, n, d), d: int d, i: natLt(n), x: a
+) : void // end of [gvector_set_at]
+
+fun{a:t0p}
+gvector_getref_at
+  {n:int}{d:int}
+  (V: &GVT(a, n, d), d: int d, i: natLt(n)): cPtr1(a)
+// end of [gvector_getref_at]
 
 (* ****** ****** *)
 

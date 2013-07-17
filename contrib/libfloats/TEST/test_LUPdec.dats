@@ -41,11 +41,12 @@ lapack_LUdec_row
 
 (* ****** ****** *)
 
-// local
-
+implement
+{a}{a2}(*tmp*)
+lapack_LUdec_row
+  (M, m, n, ld) = let
+//
 fun
-{a:t0p}
-{a2:t0p}
 auxpivot
   {m,n:int | 1 <= m; m <= n}{ld:int}
 (
@@ -64,13 +65,6 @@ val () = gmatrow_interchange_col (M, m, ld, 0, imax)
 in
   imax
 end // end of [auxpivot]
-
-// in (* in of [local] *)
-
-implement
-{a}{a2}(*tmp*)
-lapack_LUdec_row
-  (M, m, n, ld) = let
 //
 val pM = addr@M
 //
@@ -78,9 +72,7 @@ in
 //
 if m >= 1 then let
 //
-(*
-val imax = auxpivot<a><a2> (M, m, n, ld)
-*)
+val imax = auxpivot (M, m, n, ld)
 //
 val
 (
@@ -92,7 +84,7 @@ val
 val M00 = gmatrow_get_at (!pM, ld, 0, 0)
 val alpha = grecip_val<a> (M00)
 val ((*void*)) = blas_scal2_row (alpha, !pM10, m-1, 1, ld)
-val alpha2 = gnumber_int<a>(~1) and beta2 = gnumber_int<a> (1)
+val alpha2 = gnumber_int<a>(~1) and beta2 = gnumber_int<a>(1)
 val (
 ) = blas_gemm_row_nn
 (
@@ -108,8 +100,6 @@ in
 end else () // end of [if]
 //
 end // end of [lapack_LUdec_row]
-
-// end (* end of [local] *)
 
 (* ****** ****** *)
 
@@ -154,7 +144,7 @@ gmatrix_imake$fopr<T>
 (
   if i > j then x else
   (
-    if i >= j then gnumber_int<T> (1) else gnumber_int<T> (0)
+    if i >= j then gnumber_int<T>(1) else gnumber_int<T>(0)
   )
 )
 in (* in of [local] *)

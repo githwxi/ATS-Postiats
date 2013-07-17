@@ -1,6 +1,6 @@
 (* ****** ****** *)
 //
-// Basic Linear Algebraic Subprograms in ATS
+// Basic Linear Algebra Subprograms in ATS
 //
 (* ****** ****** *)
 

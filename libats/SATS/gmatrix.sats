@@ -214,14 +214,14 @@ gmatrix_imake_matrixptr
   {mo:mord}{m,n:int}{ld:int}
 (
   M: &GMX(a, mo, m, n, ld), mo: MORD(mo), int m, int n, int(ld)
-) : matrixptr (a, m, n)
+) : matrixptr (a, m, n) // end of [gmatrix_imake_matrixptr]
 
 (* ****** ****** *)
 
 abst@ype
 trmatrix_t0ype
 (
-  a:t@ype+
+  a:t@ype
 , mo: mord, ul: uplo, dg: diag, n:int, ld: int
 )
 typedef trmatrix

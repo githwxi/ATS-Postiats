@@ -72,6 +72,17 @@ that is, two-dimensional arrays.
 
 (* ****** ****** *)
 
+#declnamesynop("gmatrix_iforeach")
+#declnamesynop("gmatrix_iforeach_env")
+#declnamesynop("gmatrix_iforeach$fwork")
+
+(* ****** ****** *)
+
+#declnamesynop("gmatrix_imake$fopr")
+#declnamesynop("gmatrix_imake_matrixptr")
+
+(* ****** ****** *)
+
 #declnamesynop("trmatrix")
 #declnamesynop("trmatrix_t0ype")
 #declnamesynop("trmatrix_v")
