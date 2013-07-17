@@ -1,5 +1,5 @@
 //
-// A naive implementation of LU decomposition
+// A naive implementation of LUP decomposition
 //
 (* ****** ****** *)
 //
@@ -79,7 +79,7 @@ val
   pf00, pf01
 , pf10, pf11, fpf
 | pM01, pM10, pM11
-) = gmatrow_ptr_split2x2 (view@M | pM, ld, 1, 1)
+) = gmatrow_ptr_split_2x2 (view@M | pM, ld, 1, 1)
 //
 val M00 = gmatrow_get_at (!pM, ld, 0, 0)
 val alpha = grecip_val<a> (M00)
@@ -158,7 +158,7 @@ gmatrix_imake$fopr<T>
 (
   if i <= j then x else gnumber_int<T>(0)
 )
-in
+in (* in of [local] *)
 val U = gmatrix_imake_matrixptr (!pM, MORDrow, N, N, N)
 end (* end of [local] *)
 //

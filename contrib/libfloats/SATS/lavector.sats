@@ -14,6 +14,15 @@ vtypedef LAgvec
 //
 (* ****** ****** *)
 
+fun{}
+fprint_LAgvec$sep (FILEref): void
+fun{a:t0p}
+fprint_LAgvec{n:int}
+  (out: FILEref, M: !LAgvec (a, n)): void
+overload fprint with fprint_LAgvec
+
+(* ****** ****** *)
+
 fun{a:t0p}
 add_LAgvec_LAgvec{n:int}
   (A: !LAgvec (a, n), B: !LAgvec (a, n)): LAgvec (a, n)

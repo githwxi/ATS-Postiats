@@ -156,7 +156,7 @@ gmatrow_v_unsplit1x2
 (* ****** ****** *)
 
 praxi
-gmatrow_v_split2x1
+gmatrow_v_split_2x1
   {a:t0p}{l:addr}
   {m,n:int}{ld:int}
   {i,j:nat | i <= m}
@@ -166,10 +166,10 @@ gmatrow_v_split2x1
 (
   GMR(a, l               , i  , n, ld)
 , GMR(a, l+i*ld*sizeof(a), m-i, n, ld)
-) (* end of [gmatrow_v_split2x1] *)
+) (* end of [gmatrow_v_split_2x1] *)
 
 praxi
-gmatrow_v_unsplit2x1
+gmatrow_v_unsplit_2x1
   {a:t0p}{l:addr}
   {i,i2,n:int}{ld:int}
 (
@@ -180,7 +180,7 @@ gmatrow_v_unsplit2x1
 (* ****** ****** *)
 
 praxi
-gmatrow_v_split2x2
+gmatrow_v_split_2x2
   {a:t0p}{l:addr}
   {m,n:int}{ld:int}
   {i,j:nat | i <= m; j <= n}
@@ -192,10 +192,10 @@ gmatrow_v_split2x2
 , GMR(a, l               +j*sizeof(a), i  , n-j, ld)
 , GMR(a, l+i*ld*sizeof(a)            , m-i, j  , ld)
 , GMR(a, l+i*ld*sizeof(a)+j*sizeof(a), m-i, n-j, ld)
-) (* end of [gmatrow_v_split2x2] *)
+) (* end of [gmatrow_v_split_2x2] *)
 
 praxi
-gmatrow_v_unsplit2x2
+gmatrow_v_unsplit_2x2
   {a:t0p}{l:addr}
   {i,i2,j,j2:int}{ld:int}
 (
@@ -276,7 +276,7 @@ gmatrow_copyto
 (* ****** ****** *)
 
 fun{a:t0p}
-gmatrow_ptr_split2x2
+gmatrow_ptr_split_2x2
   {l:addr}
   {m,n:int}{ld:int}
   {i,j:nat | i <= m; j <= n}
@@ -295,7 +295,7 @@ gmatrow_ptr_split2x2
 , GMR(a, l11, m-i, n-j, ld)
 ) -<prf> GMR(a, l, m, n, ld)
 | ptr(l01), ptr(l10), ptr(l11)
-) (* end of [gmatrow_ptr_split2x2] *)
+) (* end of [gmatrow_ptr_split_2x2] *)
 
 (* ****** ****** *)
 

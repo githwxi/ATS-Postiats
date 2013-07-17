@@ -112,7 +112,7 @@ gmatcol_v_uncons1
 (* ****** ****** *)
 
 praxi
-gmatcol_v_split2x1
+gmatcol_v_split_2x1
   {a:t0p}{l:addr}
   {m,n:int}{ld:int}
   {i,j:nat | i <= m}
@@ -122,10 +122,10 @@ gmatcol_v_split2x1
 (
   GMC(a, l            , i  , n, ld)
 , GMC(a, l+i*sizeof(a), m-i, n, ld)
-) (* end of [gmatcol_v_split2x1] *)
+) (* end of [gmatcol_v_split_2x1] *)
 
 praxi
-gmatcol_v_unsplit2x1
+gmatcol_v_unsplit_2x1
   {a:t0p}{l:addr}
   {i,i2,n:int}{ld:int}
 (
@@ -160,7 +160,7 @@ gmatcol_v_unsplit1x2
 (* ****** ****** *)
 
 praxi
-gmatcol_v_split2x2
+gmatcol_v_split_2x2
   {a:t0p}{l:addr}
   {m,n:int}{ld:int}
   {i,j:nat | i <= m; j <= n}
@@ -172,10 +172,10 @@ gmatcol_v_split2x2
 , GMC(a, l            +j*ld*sizeof(a), i  , n-j, ld)
 , GMC(a, l+i*sizeof(a)               , m-i, j  , ld)
 , GMC(a, l+i*sizeof(a)+j*ld*sizeof(a), m-i, n-j, ld)
-) (* end of [gmatcol_v_split2x2] *)
+) (* end of [gmatcol_v_split_2x2] *)
 
 praxi
-gmatcol_v_unsplit2x2
+gmatcol_v_unsplit_2x2
   {a:t0p}{l:addr}
   {i,i2,j,j2:int}{ld:int}
 (
@@ -256,7 +256,7 @@ gmatcol_copyto
 (* ****** ****** *)
 
 fun{a:t0p}
-gmatcol_ptr_split2x2
+gmatcol_ptr_split_2x2
   {l:addr}
   {m,n:int}{ld:int}
   {i,j:nat | i <= m; j <= n}
@@ -275,7 +275,7 @@ gmatcol_ptr_split2x2
 , GMC(a, l11, m-i, n-j, ld)
 ) -<prf> GMC(a, l, m, n, ld)
 | ptr(l01), ptr(l10), ptr(l11)
-) (* end of [gmatcol_ptr_split2x2] *)
+) (* end of [gmatcol_ptr_split_2x2] *)
 
 (* ****** ****** *)
 

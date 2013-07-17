@@ -126,7 +126,7 @@ pats_staexp2_pprint.dats
 pats_staexp2_sort.dats
 pats_staexp2_scst.dats
 pats_staexp2_svar.dats
-pats_staexp2_sVar.dats
+pats_staexp2_svvar.dats
 pats_staexp2_hole.dats
 pats_staexp2_ctxt.dats
 pats_staexp2_dcon.dats
@@ -236,6 +236,7 @@ pats_ccomp_print.dats
 pats_ccomp_hitype.dats
 pats_ccomp_tmplab.dats
 pats_ccomp_tmpvar.dats
+pats_ccomp_d2env.dats
 pats_ccomp_funlab.dats
 pats_ccomp_funent.dats
 pats_ccomp_util.dats
@@ -243,13 +244,17 @@ pats_ccomp_ccompenv.dats
 pats_ccomp_instrseq.dats
 pats_ccomp_hipat.dats
 pats_ccomp_dynexp.dats
-pats_ccomp_claulst.dats
 pats_ccomp_caseof.dats
+pats_ccomp_trywith.dats
+pats_ccomp_claulst.dats
+pats_ccomp_looping.dats
 pats_ccomp_decl.dats
 pats_ccomp_subst.dats
+pats_ccomp_environ.dats
 pats_ccomp_template.dats
 pats_ccomp_emit.dats
 pats_ccomp_emit2.dats
+pats_ccomp_emit3.dats
 pats_ccomp_main.dats
 pats_comarg.sats
 pats_comarg.dats

@@ -192,18 +192,18 @@ end // end of [gmatcol_copyto]
 (* ****** ****** *)
 
 implement{a}
-gmatcol_ptr_split2x2
+gmatcol_ptr_split_2x2
   (pf | p, ld, i, j) = let
 //
 val j_ld = j * ld
 val p01 = ptr_add<a> (p, j_ld  )
 val p10 = ptr_add<a> (p, i     )
 val p11 = ptr_add<a> (p, i+j_ld)
-prval (pf00, pf01, pf10, pf11) = gmatcol_v_split2x2 (pf, i, j)
+prval (pf00, pf01, pf10, pf11) = gmatcol_v_split_2x2 (pf, i, j)
 //
 in
-  (pf00, pf01, pf10, pf11, gmatcol_v_unsplit2x2 | p01, p10, p11)
-end // end of [gmatcol_ptr_split2x2]
+  (pf00, pf01, pf10, pf11, gmatcol_v_unsplit_2x2 | p01, p10, p11)
+end // end of [gmatcol_ptr_split_2x2]
 
 (* ****** ****** *)
 

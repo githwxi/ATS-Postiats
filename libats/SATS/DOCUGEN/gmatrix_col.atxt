@@ -45,14 +45,14 @@ that is, two-dimensional arrays of column-major style.
 
 (* ****** ****** *)
 
-#declnamesynop("gmatcol_v_split2x1")
-#declnamesynop("gmatcol_v_unsplit2x1")
+#declnamesynop("gmatcol_v_split_2x1")
+#declnamesynop("gmatcol_v_unsplit_2x1")
 
 #declnamesynop("gmatcol_v_split1x2")
 #declnamesynop("gmatcol_v_unsplit1x2")
 
-#declnamesynop("gmatcol_v_split2x2")
-#declnamesynop("gmatcol_v_unsplit2x2")
+#declnamesynop("gmatcol_v_split_2x2")
+#declnamesynop("gmatcol_v_unsplit_2x2")
 
 (* ****** ****** *)
 
@@ -64,7 +64,7 @@ that is, two-dimensional arrays of column-major style.
 
 (* ****** ****** *)
 
-#declnamesynop("gmatcol_ptr_split2x2")
+#declnamesynop("gmatcol_ptr_split_2x2")
 
 (* ****** ****** *)
 

@@ -33,6 +33,78 @@ LAgmat_tabulate
 
 (* ****** ****** *)
 
+fun{}
+fprint_LAgmat$sep1 (FILEref): void
+fun{}
+fprint_LAgmat$sep2 (FILEref): void
+fun{a:t0p}
+fprint_LAgmat
+  {mo:mord}{m,n:int} (FILEref, !LAgmat (a, mo, m, n)): void
+overload fprint with fprint_LAgmat
+
+(* ****** ****** *)
+
+fun{a:t0p}
+LAgmat_split_1x2
+  {mo:mord}{m,n:int}
+  {j:nat | j <= n}
+(
+  !LAgmat (a, mo, m, n), j: int j
+) :
+(
+  LAgmat (a, mo,   m,   j)
+, LAgmat (a, mo,   m, n-j)
+) (* end of [LAgmat_split_1x2] *)
+
+fun{a:t0p}
+LAgmat_split_2x1
+  {mo:mord}{m,n:int}
+  {i:nat | i <= m}
+(
+  !LAgmat (a, mo, m, n), i: int i
+) :
+(
+  LAgmat (a, mo,   i,   n)
+, LAgmat (a, mo, m-i,   n)
+) (* end of [LAgmat_split_2x1] *)
+
+fun{a:t0p}
+LAgmat_split_2x2
+  {mo:mord}{m,n:int}
+  {i,j:nat | i <= m; j <= n}
+(
+  !LAgmat (a, mo, m, n), i: int i, j: int j
+) :
+(
+  LAgmat (a, mo,   i,   j)
+, LAgmat (a, mo,   i, n-j)
+, LAgmat (a, mo, m-i,   j)
+, LAgmat (a, mo, m-i, n-j)
+) (* end of [LAgmat_split_2x2] *)
+
+(* ****** ****** *)
+//
+// HX-2013-07
+// this is deep copy!
+//
+fun{a:t0p}
+LAgmat_copy
+  {mo:mord}{m,n:pos} (!LAgmat (a, mo, m, n)): LAgmat (a, mo, m, n)
+// end of [LAgmat_copy]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+LAgmat_incref // refcnt++
+  {mo:mord}{m,n:pos} (!LAgmat (a, mo, m, n)): LAgmat (a, mo, m, n)
+// end of [LAgmat_incref]
+fun{a:t0p}
+LAgmat_decref
+  {mo:mord}{m,n:pos} (M: LAgmat (a, mo, m, n)): void (* refcnt-- *)
+// end of [LAgmat_decref]
+
+(* ****** ****** *)
+
 fun{a:t0p}
 add_LAgmat_LAgmat
   {mo:mord}{m,n:int}
@@ -50,7 +122,7 @@ overload * with mul_LAgmat_LAgmat
 (* ****** ****** *)
 
 fun{a:t0p}
-tmulto_LAgvec_LAgvec
+tmul_LAgvec_LAgvec
   {mo:mord}{m,n:int}
   (V1: !LAgvec (a, m), V2: !LAgvec (a, n), M3: LAgmat (a, mo, m, n)): void
 

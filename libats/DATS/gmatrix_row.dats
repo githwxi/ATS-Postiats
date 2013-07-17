@@ -192,18 +192,18 @@ end // end of [gmatrow_copyto]
 (* ****** ****** *)
 
 implement{a}
-gmatrow_ptr_split2x2
+gmatrow_ptr_split_2x2
   (pf | p, ld, i, j) = let
 //
 val i_ld = i * ld
 val p01 = ptr_add<a> (p, j     )
 val p10 = ptr_add<a> (p, i_ld  )
 val p11 = ptr_add<a> (p, i_ld+j)
-prval (pf00, pf01, pf10, pf11) = gmatrow_v_split2x2 (pf, i, j)
+prval (pf00, pf01, pf10, pf11) = gmatrow_v_split_2x2 (pf, i, j)
 //
 in
-  (pf00, pf01, pf10, pf11, gmatrow_v_unsplit2x2 | p01, p10, p11)
-end // end of [gmatrow_ptr_split2x2]
+  (pf00, pf01, pf10, pf11, gmatrow_v_unsplit_2x2 | p01, p10, p11)
+end // end of [gmatrow_ptr_split_2x2]
 
 (* ****** ****** *)
 
