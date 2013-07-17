@@ -119,7 +119,7 @@ main0 () =
 //
 val out = stdout_ref
 //
-val N = 10
+val N = 9
 val Nsz = i2sz(N)
 //
 typedef T = double
@@ -127,7 +127,7 @@ typedef T2 = double
 //
 implement
 matrix_tabulate$fopr<T>
-  (i, j) = $UN.cast{T}(min(i,j))+2.0
+  (i, j) = N - $UN.cast{T}(max(i,j))
 val (pfM, pfMgc | pM) = matrix_ptr_tabulate<T> (Nsz, Nsz)
 //
 implement
