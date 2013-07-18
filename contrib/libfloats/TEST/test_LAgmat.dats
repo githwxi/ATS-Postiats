@@ -65,30 +65,21 @@ in
 val B = LAgmat_tabulate<T> (MORDcol, M, N)
 end
 //
-val ApB = A + B
+val () = fprintln! (out, "A = ", A)
+val () = fprintln! (out, "B = ", B)
+//
+val AB_sum = A + B
+val () = fprintln! (out, "A + B = ", AB_sum)
+val () = LAgmat_decref (AB_sum)
 //
 val At = A^t
-val AAt = A*At
+val AAt = A * At
+val () = fprintln! (out, "A' = ", At)
+val () = fprintln! (out, "A * A' = ", AAt)
+val () = LAgmat_decref (At)
+val () = LAgmat_decref (AAt)
 //
 val (Af2, Al3) = LAgmat_split_1x2(A, 1)
-
-(* ****** Print Tests ****** *)
-//
-val () = fprintln! (out, "A =")
-val () = fprint (out, A)
-val () = fprint_newline (out)
-//
-val () = fprintln! (out, "B =")
-val () = fprint (out, B)
-val () = fprint_newline (out)
-//
-val () = fprintln! (out, "A+B =")
-val () = fprint (out, ApB)
-val () = fprint_newline (out)
-//
-val () = fprintln! (out, "A*A' =")
-val () = fprint (out, AAt)
-val () = fprint_newline (out)
 //
 val () = fprintln! (out, "First two columns of A: ")
 val () = fprint (out, Af2)
@@ -97,8 +88,11 @@ val () = fprint_newline (out)
 val () = fprintln! (out, "Last three columns of A: ")
 val () = fprint (out, Al3)
 val () = fprint_newline (out)
-
-
+//
+val () = LAgmat_decref (B)
+val () = LAgmat_decref (Af2)
+val () = LAgmat_decref (Al3)
+//
 } (* end of [val] *)
 
 (* ****** ****** *)
@@ -107,4 +101,4 @@ implement main0 () = ()
 
 (* ****** ****** *)
 
-(* end of [test_LAg.dats] *)
+(* end of [test_LAgmat.dats] *)
