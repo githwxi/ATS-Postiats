@@ -23,6 +23,10 @@ vtypedef LAgmat
 //
 (* ****** ****** *)
 
+symintr tran
+
+(* ****** ****** *)
+
 fun{a:t0p}
 LAgmat_tabulate$fopr (i: intGte(0), j: intGte(0)): a
 fun{a:t0p}
@@ -91,6 +95,18 @@ fun{a:t0p}
 LAgmat_copy
   {mo:mord}{m,n:pos} (!LAgmat (a, mo, m, n)): LAgmat (a, mo, m, n)
 // end of [LAgmat_copy]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+LAgmat_transpose
+  {mo:mord}{m,n:pos} (!LAgmat (a, mo, m, n)): LAgmat (a, mo, n, m)
+overload tran with LAgmat_transpose
+//
+// BB: could we do overloading such that A' = LAgmat_transpose(A),
+//     as in MATLAB/Octave? or something similar like A^t if that
+//     wont work.
+// end of [LAgmat_trans]
 
 (* ****** ****** *)
 
