@@ -59,13 +59,18 @@ fun
 LAgmat_takeout_matrix
   {a:t0p}{mo:mord}{m,n:int}
 (
-  !LAgmat(a, mo, m, n), &int? >> int(ld)
+  !LAgmat(a, mo, m, n)
+, &int? >> int(m2)
+, &int? >> int(n)
+, &int? >> int(ld)
+, &ptr? >> TRANSP(tp)
 ) :
 #[
-  l:addr;ld:int
+  l:addr;m2,n2,ld:int;tp:transp
 ] (
-  gmatrix_v (a, mo, l, m, n, ld)
-, gmatrix_v (a, mo, l, m, n, ld) -<lin,prf> void
+  gmatrix_v (a, mo, l, m2, n2, ld)
+, gmatrix_v (a, mo, l, m2, n2, ld) -<lin,prf> void
+, transpdim (tp, m2, n2, m, n)
 | ptr (l)
 ) // end of [LAgmat_takeout_matrix]
 

@@ -25,6 +25,27 @@ staload "libfloats/SATS/lamatrix.sats"
 
 (* ****** ****** *)
 
+fun{}
+LAgmat_TPN_assert
+  {tp:transp}
+(
+  tp: TRANSP (tp), msg: string
+) : void = let
+in
+//
+case+ tp of
+| TPN () => ()
+| TPT () => let
+    val () = prerr (msg) in assertexn (false)
+  end // end of [TRANSP_T]
+| TPC () => let
+    val () = prerr (msg) in assertexn (false)
+  end // end of [TRANSP_C]
+//
+end // end of [LAgmat_TPN_assert]
+
+(* ****** ****** *)
+
 implement
 {a}(*tmp*)
 LAgmat_1x1y
@@ -73,9 +94,22 @@ val mo = LAgmat_mord (A)
 val nrow = LAgmat_nrow (A)
 val ncol = LAgmat_ncol (A)
 //
-var lda: int and ldb
-val (pfA, fpfA | pA) = LAgmat_takeout_matrix (A, lda)
-val (pfB, fpfB | pB) = LAgmat_takeout_matrix (B, ldb)
+var ma: int and mb: int
+var na: int and nb: int
+var lda: int and ldb: int
+var tra: ptr and trb: ptr
+//
+val (pfa, fpfa, pftra | pA) = LAgmat_takeout_matrix (A, ma, na, lda, tra)
+val (pfb, fpfb, pftrb | pB) = LAgmat_takeout_matrix (B, mb, nb, ldb, trb)
+//
+val () = LAgmat_TPN_assert (tra, "LAgmat_axby:transposed:A")
+val () = LAgmat_TPN_assert (trb, "LAgmat_axby:transposed:B")
+//
+val-TPN () = tra
+val-TPN () = trb
+//
+prval TPDIM_N () = pftra
+prval TPDIM_N () = pftrb
 //
 val () =
 (
@@ -86,8 +120,8 @@ case+ mo of
     blas_axby2_col (alpha, !pA, beta, !pB, nrow, ncol, lda, ldb)
 ) : void // end of [val]
 //
-prval () = fpfA (pfA)
-prval () = fpfB (pfB)
+prval () = fpfa (pfa)
+prval () = fpfb (pfb)
 //
 in
   // nothing

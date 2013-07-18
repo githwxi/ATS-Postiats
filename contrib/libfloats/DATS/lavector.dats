@@ -21,6 +21,11 @@ staload "libfloats/SATS/lavector.sats"
 
 (* ****** ****** *)
 
+implement{}
+fprint_LAgvec$sep (out) = fprint_array$sep<> (out)
+
+(* ****** ****** *)
+
 implement{a}
 add11_LAgvec_LAgvec
   (A, B) = res where
