@@ -105,7 +105,7 @@ val () = LAgmat_decref4 (C11, C12, C21, C22)
 //
 in
   // nothing
-end // end of [LAgmat_gemm_strassen]
+end // end of [LAgmat_gemm_strassen2]
 
 (* ****** ****** *)
 

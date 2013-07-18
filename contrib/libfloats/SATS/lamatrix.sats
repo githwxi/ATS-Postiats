@@ -65,7 +65,7 @@ LAgmat_takeout_matrix
   l:addr;ld:int
 ] (
   gmatrix_v (a, mo, l, m, n, ld)
-, vtakeout0 (gmatrix_v (a, mo, l, m, n, ld))
+, (gmatrix_v (a, mo, l, m, n, ld)) -<lin,prf> void
 | ptr (l)
 ) // end of [LAgmat_takeout_matrix]
 

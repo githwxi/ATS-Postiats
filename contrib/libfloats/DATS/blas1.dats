@@ -207,7 +207,6 @@ blas_ax1y
   (alpha, X, Y, n, dx, dy) = let
 //
 val beta = gnumber_int<a> (1)
-//
 implement
 blas$_alpha_beta<a>
   (alpha, x, beta, y) = blas$_alpha_1<a> (alpha, x, y)
