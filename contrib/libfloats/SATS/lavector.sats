@@ -29,6 +29,32 @@ LAgvec_inner{n:int}
 // end of [LAgvec_inner]
 
 (* ****** ****** *)
+//
+// Y <- X + Y
+//
+fun{a:t0p}
+LAgvec_1x1y{n:int}
+(
+  X: !LAgvec (a, n), Y: !LAgvec (a, n) >> _
+) : void // [LAgvec_1x1y]
+//
+// Y <- alpha*X + Y
+//
+fun{a:t0p}
+LAgvec_ax1y{n:int}
+(
+  alpha: a, X: !LAgvec (a, n), Y: !LAgvec (a, n) >> _
+) : void // [LAgvec_ax1y]
+//
+// Y <- alpha*X + beta*Y
+//
+fun{a:t0p}
+LAgvec_axby{n:int}
+(
+  alpha: a, X: !LAgvec (a, n), beta: a, Y: !LAgvec (a, n) >> _
+) : void // [LAgvec_axby]
+
+(* ****** ****** *)
 
 fun{a:t0p}
 add11_LAgvec_LAgvec{n:int}
