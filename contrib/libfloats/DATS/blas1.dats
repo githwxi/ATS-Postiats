@@ -124,24 +124,6 @@ end // end of [blas_inner]
 
 (* ****** ****** *)
 
-implement{a}
-blas_copy = gvector_copyto<a>
-
-(* ****** ****** *)
-
-implement{a}
-blas_copy2_row = gmatrow_copyto<a>
-implement{a}
-blas_copy2_col = gmatcol_copyto<a>
-
-(* ****** ****** *)
-
-implement
-{a}(*tmp*)
-blas_swap = gvector_exchange<a>
-
-(* ****** ****** *)
-
 implement
 {a}(*tmp*)
 blas_scal
@@ -198,6 +180,24 @@ val () = gmatcol_foreachcol<a> (X2, m, n, ld)
 in
   // nothing
 end // end of [blas_scal2_col]
+
+(* ****** ****** *)
+
+implement{a}
+blas_copy = gvector_copyto<a>
+
+(* ****** ****** *)
+
+implement{a}
+blas_copy2_row = gmatrow_copyto<a>
+implement{a}
+blas_copy2_col = gmatcol_copyto<a>
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+blas_swap = gvector_exchange<a>
 
 (* ****** ****** *)
 

@@ -30,6 +30,14 @@ lemma_LAgmat_param
 : [0 <= mo; mo <= 1; 0 <= m; 0 <= n] void
 
 (* ****** ****** *)
+
+praxi
+LAgmat_uninitize
+  {a:t0p}{mo:mord}{m,n:int}
+  (M: !LAgmat(a, mo, m, n) >> LAgmat(a?, mo, m, n)): void
+// end of [LAgmat_uninitize]
+
+(* ****** ****** *)
 //
 fun
 LAgmat_mord
@@ -188,16 +196,12 @@ LAgmat_decref4
   val () = LAgmat_decref ,(M4)
 }
 (* ****** ****** *)
-//
-// Y <- X
-//
+
 fun{a:t0p}
-LAgmat_copy
+LAgmat_transp
   {mo:mord}{m,n:int}
-(
-  X: !LAgmat (a, mo, m, n)
-, Y: !LAgmat (a?, mo, m, n) >> _
-) : void // endfun
+  (!LAgmat (a, mo, m, n)): LAgmat (a, mo, n, m)
+// end of [LAgmat_transp]
 
 (* ****** ****** *)
 //
@@ -206,10 +210,40 @@ LAgmat_copy
 fun{a:t0p}
 LAgmat_scal
   {mo:mord}{m,n:int}
-  (a, X: !LAgmat (a, mo, m, n) >> _): void
-// end of [LAgmat_scal]
+(
+  alpha: a
+, X: !LAgmat (a, mo, m, n) >> _
+) : void // endfun
 
 (* ****** ****** *)
+//
+// Y <- X
+//
+fun{a:t0p}
+LAgmat_copy
+  {mo:mord}{m,n:int}
+(
+  X: !LAgmat (a, mo, m, n)
+, Y: !LAgmat (a?, mo, m, n) >> LAgmat (a, mo, m, n)
+) : void // endfun
+
+fun{a:t0p}
+copy_LAgmat
+  {mo:mord}{m,n:int}
+  (X: !LAgmat (a, mo, m, n)) : LAgmat (a, mo, m, n)
+// end of [copy_LAgmat]
+
+(* ****** ****** *)
+//
+// Y <- X + Y
+//
+fun{a:t0p}
+LAgmat_1x1y
+  {mo:mord}{m,n:int}
+(
+  X: !LAgmat (a, mo, m, n)
+, Y: !LAgmat (a, mo, m, n) >> _
+) : void // endfun
 //
 // Y <- alpha*X + Y
 //
@@ -221,6 +255,36 @@ LAgmat_ax1y
 , X: !LAgmat (a, mo, m, n)
 , Y: !LAgmat (a, mo, m, n) >> _
 ) : void // endfun
+//
+// Y <- alpha*X + beta*Y
+//
+fun{a:t0p}
+LAgmat_axby
+  {mo:mord}{m,n:int}
+(
+  alpha: a
+, X: !LAgmat (a, mo, m, n)
+, beta: a
+, Y: !LAgmat (a, mo, m, n) >> _
+) : void // endfun
+
+(* ****** ****** *)
+
+fun{a:t0p}
+add11_LAgmat_LAgmat
+  {mo:mord}{m,n:int}
+(
+  X: !LAgmat (a, mo, m, n), Y: !LAgmat (a, mo, m, n)
+) : LAgmat (a, mo, m, n)
+overload + with add11_LAgmat_LAgmat
+
+fun{a:t0p}
+sub11_LAgmat_LAgmat
+  {mo:mord}{m,n:int}
+(
+  X: !LAgmat (a, mo, m, n), Y: !LAgmat (a, mo, m, n)
+) : LAgmat (a, mo, m, n)
+overload - with sub11_LAgmat_LAgmat
 
 (* ****** ****** *)
 //
@@ -237,6 +301,34 @@ LAgmat_gemm
 , beta: a
 , C: !LAgmat (a, mo, p, r) >> _
 ) : void // endfun
+
+(* ****** ****** *)
+
+fun{a:t0p}
+mul00_LAgmat_LAgmat
+  {mo:mord}{p,q,r:int}
+(
+  X: LAgmat (a, mo, p, q), Y: LAgmat (a, mo, q, r)
+) : LAgmat (a, mo, p, r)
+fun{a:t0p}
+mul01_LAgmat_LAgmat
+  {mo:mord}{p,q,r:int}
+(
+  X: LAgmat (a, mo, p, q), Y: !LAgmat (a, mo, q, r)
+) : LAgmat (a, mo, p, r)
+fun{a:t0p}
+mul10_LAgmat_LAgmat
+  {mo:mord}{p,q,r:int}
+(
+  X: !LAgmat (a, mo, p, q), Y: LAgmat (a, mo, q, r)
+) : LAgmat (a, mo, p, r)
+fun{a:t0p}
+mul11_LAgmat_LAgmat
+  {mo:mord}{p,q,r:int}
+(
+  X: !LAgmat (a, mo, p, q), Y: !LAgmat (a, mo, q, r)
+) : LAgmat (a, mo, p, r)
+overload * with mul11_LAgmat_LAgmat
 
 (* ****** ****** *)
 

@@ -85,6 +85,43 @@ blas_inner
 
 (* ****** ****** *)
 
+//
+// X <- alpha*X
+//
+fun{a:t0p}
+blas_scal
+  {n:int}{dx:int}
+(
+  alpha: a
+, X: &GVT(a, n, dx) >> _, int n, int dx
+) : void // end of [blas_scal]
+
+fun{a:t0p}
+blas_scal2
+  {mo:mord}
+  {m,n:int}{ld:int}
+(
+  MORD(mo)
+, a(*alpha*)
+, X2: &GMX(a, mo, m, n, ld) >> _, int m, int n, int ld
+) : void // end of [blas_scal2]
+fun{a:t0p}
+blas_scal2_row
+  {m,n:int}{ld:int}
+(
+  alpha: a
+, X2: &GMR(a, m, n, ld) >> _, int m, int n, int ld
+) : void // end of [blas_scal2_row]
+fun{a:t0p}
+blas_scal2_col
+  {m,n:int}{ld:int}
+(
+  alpha: a
+, X2: &GMC(a, m, n, ld) >> _, int m, int n, int ld
+) : void // end of [blas_scal2_col]
+
+(* ****** ****** *)
+
 fun{a:t0p}
 blas_copy
   {n:int}{d1,d2:int}
@@ -121,42 +158,6 @@ blas_swap
   V1: &GVT(a, n, d1)
 , V2: &GVT(a, n, d2), int(n), int(d1), int(d2)
 ) : void // end of [blas_swap]
-
-(* ****** ****** *)
-//
-// X <- alpha*X
-//
-fun{a:t0p}
-blas_scal
-  {n:int}{dx:int}
-(
-  alpha: a
-, X: &GVT(a, n, dx) >> _, int n, int dx
-) : void // end of [blas_scal]
-
-fun{a:t0p}
-blas_scal2
-  {mo:mord}
-  {m,n:int}{ld:int}
-(
-  MORD(mo)
-, a(*alpha*)
-, X2: &GMX(a, mo, m, n, ld) >> _, int m, int n, int ld
-) : void // end of [blas_scal2]
-fun{a:t0p}
-blas_scal2_row
-  {m,n:int}{ld:int}
-(
-  alpha: a
-, X2: &GMR(a, m, n, ld) >> _, int m, int n, int ld
-) : void // end of [blas_scal2_row]
-fun{a:t0p}
-blas_scal2_col
-  {m,n:int}{ld:int}
-(
-  alpha: a
-, X2: &GMC(a, m, n, ld) >> _, int m, int n, int ld
-) : void // end of [blas_scal2_col]
 
 (* ****** ****** *)
 //
