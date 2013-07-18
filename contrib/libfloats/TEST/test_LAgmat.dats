@@ -34,11 +34,6 @@ macdef ^ (M, t) = LAgmat_transp (,(M))
 
 (* ****** ****** *)
 
-// TODO:
-// Vector ops
-// Test copy
-// Test incref/decref -- what are these?
-
 val () = 
 {
 //
@@ -56,14 +51,14 @@ implement
 LAgmat_tabulate$fopr<T> (i, j) = $UN.cast{T}(i+j)
 in
 val A = LAgmat_tabulate<T> (MORDcol, M, N)
-end
+end // end of [local]
 //
 local
 implement
 LAgmat_tabulate$fopr<T> (i, j) = $UN.cast{T}(i-j)
 in
 val B = LAgmat_tabulate<T> (MORDcol, M, N)
-end
+end // end of [local]
 //
 val () = fprintln! (out, "A = ", A)
 val () = fprintln! (out, "B = ", B)

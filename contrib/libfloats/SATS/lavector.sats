@@ -30,6 +30,36 @@ LAgvec_inner{n:int}
 
 (* ****** ****** *)
 //
+// X <- alpha*X
+//
+fun{a:t0p}
+LAgvec_scal{n:int}
+  (alpha: a, X: !LAgvec (a, n) >> _) : void
+// end of [LAgvec_scal]
+
+fun{a:t0p}
+scal_LAgvec{n:int}
+  (alpha: a, X: !LAgvec (a, n)): LAgvec (a, n)
+// end of [scal_LAgvec]
+
+(* ****** ****** *)
+//
+// Y <- X
+//
+fun{a:t0p}
+LAgvec_copy{n:int}
+(
+  X: !LAgvec (a, n)
+, Y: !LAgvec (a?, n) >> LAgvec (a, n)
+) : void // endfun
+
+fun{a:t0p}
+copy_LAgvec
+  {n:int}(X: !LAgvec (a, n)): LAgvec (a, n)
+// end of [copy_LAgvec]
+
+(* ****** ****** *)
+//
 // Y <- X + Y
 //
 fun{a:t0p}

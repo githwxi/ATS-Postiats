@@ -22,11 +22,11 @@ staload "libfloats/SATS/lavector.sats"
 (* ****** ****** *)
 
 implement{a}
-add11_LAgmat_LAgmat
+add11_LAgvec_LAgvec
   (A, B) = res where
 {
 //
-val res = copy_LAgmat (B)
+val res = copy_LAgvec (B)
 val ((*void*)) = LAgvec_1x1y (A, res)
 //
 } // end of [add11_LAgvec_LAgvec]
