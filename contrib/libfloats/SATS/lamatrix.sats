@@ -23,13 +23,60 @@ vtypedef LAgmat
 //
 (* ****** ****** *)
 
-fun{a:t0p}
-LAgmat_tabulate$fopr (i: intGte(0), j: intGte(0)): a
-fun{a:t0p}
-LAgmat_tabulate
-  {mo:mord}{m,n:pos}
-  (mo: MORD(mo), m: int m, n: int n): LAgmat (a, mo, n, n)
-// end of [LAgmat_tabulate]
+praxi
+lemma_LAgmat_param
+  {a:t0p}{mo:mord}{m,n:int}
+  (M: !LAgmat(a, mo, m, n))
+: [0 <= mo; mo <= 1; 0 <= m; 0 <= n] void
+
+(* ****** ****** *)
+//
+fun
+LAgmat_mord
+  {a:t0p}{mo:mord}{m,n:int}
+  (M: !LAgmat (a, mo, m, n)): MORD(mo)
+//
+fun
+LAgmat_nrow
+  {a:t0p}{mo:mord}{m,n:int}
+  (M: !LAgmat (a, mo, m, n)): int (m)
+fun
+LAgmat_ncol
+  {a:t0p}{mo:mord}{m,n:int}
+  (M: !LAgmat (a, mo, m, n)): int (n)
+//
+(* ****** ****** *)
+
+fun
+LAgmat_takeout_matrix
+  {a:t0p}{mo:mord}{m,n:int}
+(
+  !LAgmat(a, mo, m, n), &int? >> int(ld)
+) :
+#[
+  l:addr;ld:int
+] (
+  gmatrix_v (a, mo, l, m, n, ld)
+, vtakeout0 (gmatrix_v (a, mo, l, m, n, ld))
+| ptr (l)
+) // end of [LAgmat_takeout_matrix]
+
+(* ****** ****** *)
+
+fun
+LAgmat_get_at
+  {a:t0p}{mo:mord}{m,n:int}
+(
+  M: !LAgmat (a, mo, m, n), i: natLt(m), j: natLt(n)
+) : (a) // end of [LAgmat_get_at]
+overload [] with LAgmat_get_at
+fun
+LAgmat_set_at
+  {a:t0p}{mo:mord}{m,n:int}
+(
+  M: !LAgmat (a, mo, m, n), i: natLt(m), j: natLt(n), x: a
+) : void // end of [LAgmat_set_at]
+overload [] with LAgmat_set_at
 
 (* ****** ****** *)
 
@@ -49,7 +96,7 @@ LAgmat_split_1x2
   {mo:mord}{m,n:int}
   {j:nat | j <= n}
 (
-  !LAgmat (a, mo, m, n), j: int j
+  LAgmat (a, mo, m, n), j: int j
 ) :
 (
   LAgmat (a, mo,   m,   j)
@@ -61,7 +108,7 @@ LAgmat_split_2x1
   {mo:mord}{m,n:int}
   {i:nat | i <= m}
 (
-  !LAgmat (a, mo, m, n), i: int i
+  LAgmat (a, mo, m, n), i: int i
 ) :
 (
   LAgmat (a, mo,   i,   n)
@@ -73,7 +120,7 @@ LAgmat_split_2x2
   {mo:mord}{m,n:int}
   {i,j:nat | i <= m; j <= n}
 (
-  !LAgmat (a, mo, m, n), i: int i, j: int j
+  LAgmat (a, mo, m, n), i: int i, j: int j
 ) :
 (
   LAgmat (a, mo,   i,   j)
@@ -83,48 +130,113 @@ LAgmat_split_2x2
 ) (* end of [LAgmat_split_2x2] *)
 
 (* ****** ****** *)
+
+fun{a:t0p}
+LAgmat_imake$fopr
+  (i: intGte(0), j: intGte(0), x: a): a
+fun{a:t0p}
+LAgmat_imake_matrixptr
+  {mo:mord}{m,n:pos}
+  (!LAgmat (a, mo, m, n)): matrixptr (a, m, n)
+// end of [LAgmat_imake_matrixptr]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+LAgmat_tabulate$fopr (i: intGte(0), j: intGte(0)): a
+fun{a:t0p}
+LAgmat_tabulate
+  {mo:mord}{m,n:pos}
+  (mo: MORD(mo), m: int m, n: int n): LAgmat (a, mo, n, n)
+// end of [LAgmat_tabulate]
+
+(* ****** ****** *)
 //
-// HX-2013-07
-// this is deep copy!
+fun{a:t0p}
+LAgmat_incref // refcnt++
+  {mo:mord}{l:addr}{m,n:int}
+  (!LAgmat (a, mo, l, m, n)): LAgmat (a, mo, l, m, n)
+//
+(* ****** ****** *)
+
+fun{a:t0p}
+LAgmat_decref // refcnt--
+  {mo:mord}{l:addr}{m,n:int}(M: LAgmat (a, mo, l, m, n)): void
+//
+macdef
+LAgmat_decref2
+  (M1, M2) =
+{
+  val () = LAgmat_decref ,(M1)
+  val () = LAgmat_decref ,(M2)
+}
+macdef
+LAgmat_decref3
+  (M1, M2, M3) =
+{
+  val () = LAgmat_decref ,(M1)
+  val () = LAgmat_decref ,(M2)
+  val () = LAgmat_decref ,(M3)
+}
+macdef
+LAgmat_decref4
+  (M1, M2, M3, M4) =
+{
+  val () = LAgmat_decref ,(M1)
+  val () = LAgmat_decref ,(M2)
+  val () = LAgmat_decref ,(M3)
+  val () = LAgmat_decref ,(M4)
+}
+(* ****** ****** *)
+//
+// Y <- X
 //
 fun{a:t0p}
 LAgmat_copy
-  {mo:mord}{m,n:pos} (!LAgmat (a, mo, m, n)): LAgmat (a, mo, m, n)
-// end of [LAgmat_copy]
-
-(* ****** ****** *)
-
-fun{a:t0p}
-LAgmat_incref // refcnt++
-  {mo:mord}{m,n:pos} (!LAgmat (a, mo, m, n)): LAgmat (a, mo, m, n)
-// end of [LAgmat_incref]
-fun{a:t0p}
-LAgmat_decref
-  {mo:mord}{m,n:pos} (M: LAgmat (a, mo, m, n)): void (* refcnt-- *)
-// end of [LAgmat_decref]
-
-(* ****** ****** *)
-
-fun{a:t0p}
-add_LAgmat_LAgmat
   {mo:mord}{m,n:int}
-  (!LAgmat (a, mo, m, n), !LAgmat (a, mo, m, n)): LAgmat (a, mo, m, n)
-overload + with add_LAgmat_LAgmat
+(
+  X: !LAgmat (a, mo, m, n)
+, Y: !LAgmat (a?, mo, m, n) >> _
+) : void // endfun
 
 (* ****** ****** *)
-
+//
+// X <- alpha*X
+//
 fun{a:t0p}
-mul_LAgmat_LAgmat
-  {mo:mord}{p,q,r:int}
-  (!LAgmat (a, mo, p, q), !LAgmat (a, mo, q, r)): LAgmat (a, mo, p, r)
-overload * with mul_LAgmat_LAgmat
-
-(* ****** ****** *)
-
-fun{a:t0p}
-tmul_LAgvec_LAgvec
+LAgmat_scal
   {mo:mord}{m,n:int}
-  (V1: !LAgvec (a, m), V2: !LAgvec (a, n), M3: LAgmat (a, mo, m, n)): void
+  (a, X: !LAgmat (a, mo, m, n) >> _): void
+// end of [LAgmat_scal]
+
+(* ****** ****** *)
+//
+// Y <- alpha*X + Y
+//
+fun{a:t0p}
+LAgmat_ax1y
+  {mo:mord}{m,n:int}
+(
+  alpha: a
+, X: !LAgmat (a, mo, m, n)
+, Y: !LAgmat (a, mo, m, n) >> _
+) : void // endfun
+
+(* ****** ****** *)
+//
+// C <- alpha*(A*B) + beta*C
+//
+fun{a:t0p}
+LAgmat_gemm
+  {mo:mord}
+  {p,q,r:int}
+(
+  alpha: a
+, A: !LAgmat (a, mo, p, q)
+, B: !LAgmat (a, mo, q, r)
+, beta: a
+, C: !LAgmat (a, mo, p, r) >> _
+) : void // endfun
 
 (* ****** ****** *)
 

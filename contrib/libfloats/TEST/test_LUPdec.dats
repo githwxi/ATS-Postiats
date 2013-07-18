@@ -34,16 +34,16 @@ staload _ = "libfloats/DATS/blas_gemm.dats"
 extern
 fun
 {a:t0p}{a2:t0p}
-lapack_LUdec_row
+lapack_LUPdec_row
   {m,n:int | m <= n}{ld:int}
   (M: &GMR(a, m, n, ld), int(m), int(n), int(ld)): void
-// end of [lapack_LUdec_row]
+// end of [lapack_LUPdec_row]
 
 (* ****** ****** *)
 
 implement
 {a}{a2}(*tmp*)
-lapack_LUdec_row
+lapack_LUPdec_row
   (M, m, n, ld) = let
 //
 fun
@@ -91,7 +91,7 @@ val (
   alpha2, !pM10, !pM01, beta2, !pM11, m-1, 1, n-1, ld, ld, ld
 ) (* end of [val] *)
 //
-val () = lapack_LUdec_row<a><a2> (!pM11, m-1, n-1, ld)
+val () = lapack_LUPdec_row<a><a2> (!pM11, m-1, n-1, ld)
 //
 prval () = (view@M := fpf (pf00, pf01, pf10, pf11))
 //
@@ -99,7 +99,7 @@ in
   // nothing
 end else () // end of [if]
 //
-end // end of [lapack_LUdec_row]
+end // end of [lapack_LUPdec_row]
 
 (* ****** ****** *)
 
@@ -129,7 +129,7 @@ val () = fprint_matrix_sep (out, !pM, Nsz, Nsz, ", ", "\n")
 val () = fprint_newline (out)
 //
 prval () = matrix2gmatrow (!pM)
-val () = lapack_LUdec_row<T><T2> (!pM, N, N, N)
+val () = lapack_LUPdec_row<T><T2> (!pM, N, N, N)
 prval () = gmatrow2matrix (!pM)
 //
 val () = fprintln! (out, "L\\U =")
