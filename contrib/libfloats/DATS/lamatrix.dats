@@ -1,6 +1,6 @@
 (* ****** ****** *)
 //
-// Basic Linear Algebra Subprograms in ATS
+// Linear Algebra matrix operations
 //
 (* ****** ****** *)
 
@@ -27,18 +27,37 @@ staload "libfloats/SATS/lamatrix.sats"
 
 implement
 {a}(*tmp*)
+LAgmat_1x1y
+(
+  A, B
+) = let
+//
+val _1 = gnumber_int<a>(1)
+//
+implement
+blas$_alpha_beta<a>
+  (alpha, x, beta, y) = gadd_val<a> (x, y)
+//
+in
+  LAgmat_axby (_1, A, _1, B)
+end // end of [LAgmat_1x1y]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 LAgmat_ax1y
 (
   alpha, A, B
 ) = let
 //
-val beta = gnumber_int(1)
+val _1 = gnumber_int<a>(1)
 implement
 blas$_alpha_beta<a>
   (alpha, x, beta, y) = blas$_alpha_1<a> (alpha, x, y)
 //
 in
-  LAgmat_axby (alpha, A, beta, B)
+  LAgmat_axby (alpha, A, _1, B)
 end // end of [LAgmat_ax1y]
 
 (* ****** ****** *)
@@ -73,6 +92,31 @@ prval () = fpfB (pfB)
 in
   // nothing
 end // end of [LAgmat_axby]
+
+(* ****** ****** *)
+
+implement{a}
+add11_LAgmat_LAgmat
+  (A, B) = res where
+{
+//
+val res = copy_LAgmat (B)
+val ((*void*)) = LAgmat_1x1y (A, res)
+//
+} // end of [add11_LAgmat_LAgmat]
+
+(* ****** ****** *)
+
+implement{a}
+sub11_LAgmat_LAgmat
+  (A, B) = res where
+{
+//
+val _n1 = gnumber_int<a>(~1)
+val res = scal_LAgmat (_n1, B)
+val ((*void*)) = LAgmat_1x1y (A, res)
+//
+} // end of [sub11_LAgmat_LAgmat]
 
 (* ****** ****** *)
 

@@ -65,7 +65,7 @@ LAgmat_takeout_matrix
   l:addr;ld:int
 ] (
   gmatrix_v (a, mo, l, m, n, ld)
-, (gmatrix_v (a, mo, l, m, n, ld)) -<lin,prf> void
+, gmatrix_v (a, mo, l, m, n, ld) -<lin,prf> void
 | ptr (l)
 ) // end of [LAgmat_takeout_matrix]
 
@@ -214,6 +214,13 @@ LAgmat_scal
   alpha: a
 , X: !LAgmat (a, mo, m, n) >> _
 ) : void // endfun
+
+fun{a:t0p}
+scal_LAgmat
+  {mo:mord}{m,n:int}
+(
+  alpha: a, X: !LAgmat (a, mo, m, n)
+) : LAgmat (a, mo, m, n)
 
 (* ****** ****** *)
 //
