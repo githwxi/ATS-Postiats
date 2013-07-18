@@ -55,7 +55,7 @@ val ApB = A + B
 val At = tran(A)
 val AAt = A*At
 //
-val (Af2, Al3) = LAgmat_split_1x2(A)
+val (Af2, Al3) = LAgmat_split_1x2(A, 1)
 
 (* ****** Print Tests ****** *)
 //
