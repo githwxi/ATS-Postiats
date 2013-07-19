@@ -1201,7 +1201,7 @@ val p_env = addr@ (env)
 val f = lam
   (xn: ftnode): void =<cloref> let
   val+ FTN1 (x) = xn
-  prval (pf, fpf) = $UN.ptr_vtake {env} (p_env)
+  val (pf, fpf | p_env) = $UN.ptr_vtake{env}(p_env)
   val () = $effmask_all (fundeque_foreach$fwork<a> (x, !p_env))
   prval () = fpf (pf)
 in
@@ -1296,7 +1296,7 @@ val p_env = addr@ (env)
 val f = lam
   (xn: ftnode): void =<cloref> let
   val+ FTN1 (x) = xn
-  prval (pf, fpf) = $UN.ptr_vtake {env} (p_env)
+  val (pf, fpf | p_env) = $UN.ptr_vtake{env}(p_env)
   val () = $effmask_all (fundeque_rforeach$fwork<a> (x, !p_env))
   prval () = fpf (pf)
 in

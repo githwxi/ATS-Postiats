@@ -138,7 +138,7 @@ val+@REFCNT (_, x) = rfc
 val p_x = addr@x
 prval () = fold@(rfc)
 //
-prval (pf, fpf) = $UN.ptr_vtake{a}(p_x)
+val (pf, fpf | p_x) = $UN.ptr_vtake{a}(p_x)
 //
 in
   (pf, fpf | p_x)

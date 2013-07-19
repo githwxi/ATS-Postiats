@@ -446,7 +446,7 @@ val p_env = addr@ (env)
 val f = lam
   (x: node): void =<cloref0> let
   val+ N1 (x) = x
-  prval (pf, fpf) = $UN.ptr_vtake {env} (p_env)
+  val (pf, fpf | p_env) = $UN.ptr_vtake{env}(p_env)
   val test =
     $effmask_all (funralist_foreach$cont<a> (x, !p_env))
   val () =

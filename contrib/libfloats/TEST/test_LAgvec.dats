@@ -23,10 +23,44 @@ staload "libfloats/SATS/lavector.sats"
 
 (* ****** ****** *)
 
+staload _ = "libats/DATS/gvector.dats"
+staload _ = "libats/DATS/refcount.dats"
+
+
+(* ****** ****** *)
+
+staload _ = "libfloats/DATS/blas0.dats"
+staload _ = "libfloats/DATS/blas1.dats"
+staload _ = "libfloats/DATS/lavector.dats"
+
+(* ****** ****** *)
+
 val () =
 {
 //
-// It is yet empty
+typedef T = int
+//
+val N = 10
+val out = stdout_ref
+//
+local
+implement
+array_tabulate$fopr<T> (i) = g0u2i(i)
+in (* in of [local] *)
+val A = arrayptr_tabulate<T> (i2sz(N))
+end // end of [local]
+//
+val V = LAgvec_make_arrayptr (A, N)
+val () = fprintln! (out, "V = ", V)
+//
+val (V1, V2) = LAgvec_split (V, 5)
+val () = fprintln! (out, "V1 = ", V1)
+val () = fprintln! (out, "V2 = ", V2)
+//
+val dotprod = LAgvec_inner (V1, V2)
+val () = fprintln! (out, "dotprod = ", dotprod)
+//
+val () = LAgvec_decref2 (V1, V2)
 //
 } // end of [val]
 

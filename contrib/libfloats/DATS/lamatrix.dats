@@ -99,8 +99,14 @@ var na: int and nb: int
 var lda: int and ldb: int
 var tra: ptr and trb: ptr
 //
-val (pfa, fpfa, pftra | pA) = LAgmat_takeout_matrix (A, ma, na, lda, tra)
-val (pfb, fpfb, pftrb | pB) = LAgmat_takeout_matrix (B, mb, nb, ldb, trb)
+val
+(
+  pfa, fpfa, pftra | pA
+) = LAgmat_vtakeout_matrix (A, ma, na, lda, tra)
+val
+(
+  pfb, fpfb, pftrb | pB
+) = LAgmat_vtakeout_matrix (B, mb, nb, ldb, trb)
 //
 val () = LAgmat_TPN_assert (tra, "LAgmat_axby:transposed:A")
 val () = LAgmat_TPN_assert (trb, "LAgmat_axby:transposed:B")

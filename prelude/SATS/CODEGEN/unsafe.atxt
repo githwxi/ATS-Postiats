@@ -103,12 +103,15 @@ castfn strnptr2string {l:addr}{n:nat} (x: !strnptr (l, n)):<> string (n)
 //
 // HX: only if you know what you are doing ...
 //
-praxi ptr_vtake
-  {a:vt0p}{l:addr} (p: ptr l): vtakeout0 (a@l)
-// end of [ptr_vtake]
+symintr ptr_vtake
+
 castfn ptr0_vtake
-  {a:vt0p} (p: ptr): [l:addr] (a@l, a@l -<lin,prf> void | ptr l)
-// end of [ptr0_vtake]
+  {a:vt0p} (ptr):<> [l:addr] (a@l, a@l -<lin,prf> void | ptr l)
+overload ptr_vtake with ptr0_vtake of 0
+
+castfn ptr1_vtake
+  {a:vt0p}{l:addr} (ptr l):<> (a@l, a@l -<lin,prf> void | ptr l) 
+overload ptr_vtake with ptr1_vtake of 10
 
 #atscode_separator()
 

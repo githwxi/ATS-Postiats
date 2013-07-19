@@ -159,12 +159,12 @@ in
 //
 if i > 0 then let
   val p = g1ofg0(p)
-  prval (pf, fpf) = $UN.ptr_vtake (p)
+  val (pf, fpf | p) = $UN.ptr_vtake{a}(p)
   val cont = gvector_foreach$cont<a><env> (!p, env)
   prval () = fpf (pf)
 in
   if cont then let
-    prval (pf, fpf) = $UN.ptr_vtake (p)
+    val (pf, fpf | p) = $UN.ptr_vtake{a}(p)
     val () = gvector_foreach$fwork<a><env> (!p, env)
     prval () = fpf (pf)
   in
@@ -211,14 +211,14 @@ in
 if i > 0 then let
   val p1 = g1ofg0(p1)
   val p2 = g1ofg0(p2)
-  prval (pf1, fpf1) = $UN.ptr_vtake{a}(p1)
-  prval (pf2, fpf2) = $UN.ptr_vtake{b}(p2)
+  val (pf1, fpf1 | p1) = $UN.ptr_vtake{a}(p1)
+  val (pf2, fpf2 | p2) = $UN.ptr_vtake{b}(p2)
   val cont = gvector_foreach2$cont<a,b><env> (!p1, !p2, env)
   prval () = fpf1 (pf1) and () = fpf2 (pf2)
 in
   if cont then let
-    prval (pf1, fpf1) = $UN.ptr_vtake{a}(p1)
-    prval (pf2, fpf2) = $UN.ptr_vtake{b}(p2)
+    val (pf1, fpf1 | p1) = $UN.ptr_vtake{a}(p1)
+    val (pf2, fpf2 | p2) = $UN.ptr_vtake{b}(p2)
     val () = gvector_foreach2$fwork<a,b><env> (!p1, !p2, env)
     prval () = fpf1 (pf1) and () = fpf2 (pf2)
   in

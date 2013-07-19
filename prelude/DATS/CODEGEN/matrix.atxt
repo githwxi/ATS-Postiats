@@ -130,9 +130,9 @@ if i < m then let
   (
     if i > 0 then fprint_matrix$sep2 (out)
   ) : void // end of [val]
-  prval (
-    pf, fpf
-  ) = $UN.ptr_vtake {array(a,n)} (p0)
+  val (
+    pf, fpf | p0
+  ) = $UN.ptr_vtake{array(a,n)}(p0)
   val () = fprint_array (out, !p0, n)
   prval () = fpf (pf)
 in

@@ -57,13 +57,13 @@ fun ptrcmp
 val p1 = g1ofg0_ptr(p1)
 val p2 = g1ofg0_ptr(p2)
 //
-prval
+val
 (
-  pf1, fpf1
+  pf1, fpf1 | p1
 ) = $UN.ptr_vtake{a}(p1)
-prval
+val
 (
-  pf2, fpf2
+  pf2, fpf2 | p2
 ) = $UN.ptr_vtake{a}(p2)
 //
 val sgn = array_quicksort$cmp<a> (!p1, !p2)

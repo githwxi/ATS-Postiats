@@ -337,6 +337,17 @@ cleanall:: ; $(RMF) libats_dynarray.exe
 
 ######
 
+all:: libats_refcount
+libats_refcount: libats_refcount.exe
+libats_refcount.exe: libats_refcount_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_refcount_dats.c: libats_refcount.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_refcount_dats.c --dynamic libats_refcount.dats
+clean:: ; $(RMF) libats_refcount_dats.o
+clean:: ; $(RMF) libats_refcount_dats.c
+cleanall:: ; $(RMF) libats_refcount.exe
+
+
+######
+
 all:: libats_gvector
 libats_gvector: libats_gvector.exe
 libats_gvector.exe: libats_gvector_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 

@@ -225,7 +225,7 @@ fun loop
 in
   if test then let
     val p = $IT.giter_getref_inc (itr)
-    prval (pf, fpf) = $UN.ptr_vtake {x} (p)
+    val (pf, fpf | p) = $UN.ptr_vtake{x}(p)
     val () = foreach_giter_ref$fwork (!p)
     prval () = fpf (pf)
   in

@@ -341,8 +341,9 @@ case+ hp0 of
     (pf | bt, hp) => let
     prval () = exp2_ispos (pf)
     val @btnode (_, x, _) = bt
-    prval
-      (pf, fpf) = $UN.ptr_vtake{a}(p_x0)
+    val (
+      pf, fpf | p_x0
+    ) = $UN.ptr_vtake{a}(p_x0)
     val sgn = compare_elt_elt<a> (!p_x0, x)
     prval () = fpf (pf)
     val res =

@@ -69,7 +69,7 @@ implement
 ptr0_exch
   (p, x) = () where {
   val p = g1ofg0_ptr(p)
-  prval (pf, fpf) = ptr_vtake{a}(p)
+  val (pf, fpf | p) = ptr_vtake{a}(p)
   val tmp = !p
   val ( ) = !p := x
   val ( ) = x := tmp
@@ -86,8 +86,8 @@ ptr0_intch
   (p1, p2) = () where {
   val p1 = g1ofg0_ptr(p1)
   val p2 = g1ofg0_ptr(p2)
-  prval (pf1, fpf1) = ptr_vtake{a}(p1)
-  prval (pf2, fpf2) = ptr_vtake{a}(p2)
+  val (pf1, fpf1 | p1) = ptr_vtake{a}(p1)
+  val (pf2, fpf2 | p2) = ptr_vtake{a}(p2)
   val tmp = !p1
   val ( ) = !p1 := !p2
   val ( ) = !p2 := tmp

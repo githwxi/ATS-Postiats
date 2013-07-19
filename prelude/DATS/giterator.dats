@@ -74,7 +74,7 @@ fun loop
 in
   if test then let
     val p = giter_getref_inc<knd><x> (itr)
-    prval (pf, fpf) = $UN.ptr_vtake {x} (p)
+    val (pf, fpf | p) = $UN.ptr_vtake{x}(p)
     val () = if notbeg then fprint_string (out, sep)
     val () = fprint_ref<x> (out, !p)
     prval () = fpf (pf)
@@ -108,10 +108,10 @@ implement
 giter_vttake (itr) = let
   val p =
     giter_getref<knd><x> (itr)
-  prval (
-    pf, fpf
-  ) = $UN.ptr_vtake {x} (p)
-  val res = $UN.vttakeout_void {x} (!p)
+  val (
+    pf, fpf | p
+  ) = $UN.ptr_vtake{x}(p)
+  val res = $UN.vttakeout_void{x}(!p)
   prval () = fpf (pf)
 in
   res
@@ -142,10 +142,10 @@ implement
 giter_vttake_inc (itr) = let
   val p =
     giter_getref_inc<knd><x> (itr)
-  prval (
-    pf, fpf
-  ) = $UN.ptr_vtake {x} (p)
-  val res = $UN.vttakeout_void {x} (!p)
+  val (
+    pf, fpf | p
+  ) = $UN.ptr_vtake{x}(p)
+  val res = $UN.vttakeout_void{x}(!p)
   prval () = fpf (pf)
 in
   res
@@ -187,10 +187,10 @@ implement
 giter_dec_vttake (itr) = let
   val p =
     giter_dec_getref<knd><x> (itr)
-  prval (
-    pf, fpf
-  ) = $UN.ptr_vtake {x} (p)
-  val res = $UN.vttakeout_void {x} (!p)
+  val (
+    pf, fpf | p
+  ) = $UN.ptr_vtake{x}(p)
+  val res = $UN.vttakeout_void{x}(!p)
   prval () = fpf (pf)
 in
   res
@@ -452,7 +452,7 @@ in
   if isnotend then let
     val p =
       giter_getref_inc<knd><x> (itr)
-    prval (pf, fpf) = $UN.ptr_vtake (p)
+    val (pf, fpf | p) = $UN.ptr_vtake{x}(p)
     val cont = giter_foreach$cont (!p, env)
   in
     if cont then let
@@ -500,8 +500,9 @@ fun loop
     val ra2 = half (ra)
     val p =
       giter_fgetref_at (itr, ra2)
-    prval
-      (pf, fpf) = $UN.ptr_vtake (p)
+    val (
+      pf, fpf | p
+    ) = $UN.ptr_vtake{x}(p)
     val sgn = giter_bsearch$ford (!p)
     prval () = fpf (pf)
   in

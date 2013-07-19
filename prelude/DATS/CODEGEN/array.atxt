@@ -67,7 +67,7 @@ if i != j then let
   val p = addr@(A)
   val pi = ptr0_add_guint<a> (p, i)
   val pj = g1ofg0_ptr (ptr0_add_guint<a> (p, j))
-  prval (pf, fpf) = $UN.ptr_vtake{a}(pj)
+  val (pf, fpf | pj) = $UN.ptr_vtake{a}(pj)
   val () = $UN.ptr0_exch<a> (pi, !pj)
   prval () = fpf (pf)
 in
@@ -895,9 +895,9 @@ fun loop{la,lb,lc:addr}
 ) : void =
 (
 if pa < pa2 then let
-  prval (pfa, fpfa) = $UN.ptr_vtake{a}(pa)
-  prval (pfb, fpfb) = $UN.ptr_vtake{b}(pb)
-  prval (pfc, fpfc) = $UN.ptr_vtake{c?}(pc)
+  val (pfa, fpfa | pa) = $UN.ptr_vtake{a}(pa)
+  val (pfb, fpfb | pb) = $UN.ptr_vtake{b}(pb)
+  val (pfc, fpfc | pc) = $UN.ptr_vtake{c?}(pc)
   val () = array_mapto2$fwork<a,b><c> (!pa, !pb, !pc)
   prval () = fpfa (pfa)
   prval () = fpfb (pfb)

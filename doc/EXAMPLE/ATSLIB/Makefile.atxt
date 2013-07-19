@@ -141,6 +141,10 @@ RMF=rm -f
 
 ######
 
+#make2_entry("libats_refcount", "-DATS_MEMALLOC_LIBC", "")
+
+######
+
 #make2_entry("libats_gvector", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libats_gmatrix", "-DATS_MEMALLOC_LIBC", "")
 

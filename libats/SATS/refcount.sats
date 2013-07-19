@@ -44,7 +44,8 @@ ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 
-absvtype refcnt_vt0ype_vtype (a:vt@ype+)
+absvtype
+refcnt_vt0ype_vtype (a:vt@ype) = ptr
 vtypedef refcnt (a: vt0p) = refcnt_vt0ype_vtype (a)
 
 (* ****** ****** *)

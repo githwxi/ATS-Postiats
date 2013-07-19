@@ -43,8 +43,8 @@ fun loop
 if l < r then let
   val m = l + half (r-l)
   val pm = addr@ (A.[m])
-  prval (
-    pf, fpf
+  val (
+    pf, fpf | pm
   ) = $UN.ptr_vtake{a}(pm)
   val sgn = array_bsearch$ford<a> (!pm)
   prval () = fpf (pf)
@@ -72,9 +72,9 @@ array_bsearch$ford<a>
   (x) = sgn where
 {
 //
-prval
+val
 (
-  pf, fpf
+  pf, fpf | p0
 ) = $UN.ptr_vtake (p0)
 val sgn = cmp (!p0, x)
 prval ((*void*)) = fpf (pf)

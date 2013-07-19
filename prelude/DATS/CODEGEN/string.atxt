@@ -631,7 +631,7 @@ string_rforeach_env
 val n = string1_length (str)
 typedef chararr = array (char, n)
 val p = string2ptr (str)
-prval (pf, fpf) = $UN.ptr_vtake {chararr} (p)
+val (pf, fpf | p) = $UN.ptr_vtake {chararr} (p)
 //
 implement
 array_rforeach$cont<char><env>
