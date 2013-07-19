@@ -130,7 +130,7 @@ LAgvec_make_arrayptr
   val pA = $UN.castvwtp0{ptr}(A)
   val src = refcnt_make<ptr> (pA)
 in
-  LAGVEC (1u, src, pA, n, 1)
+  LAGVEC (1u(*rfc*), src, pA, n, 1)
 end // end of [LAgvec_make_arrayptr]
 
 (* ****** ****** *)
@@ -161,8 +161,8 @@ val p1 = p
 val i1 = i
 val p2 = ptr_add<a> (p, i)
 val i2 = n-i
-val V1 = LAGVEC (1u, src1, p1, i1, d)
-val V2 = LAGVEC (1u, src2, p2, i2, d)
+val V1 = LAGVEC (1u(*rfc*), src1, p1, i1, d)
+val V2 = LAGVEC (1u(*rfc*), src2, p2, i2, d)
 //
 in
   (V1, V2)

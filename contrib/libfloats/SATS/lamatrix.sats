@@ -113,11 +113,21 @@ LAgmat_decref4
 }
 (* ****** ****** *)
 
-fun{a:t0p}
-LAgmat_make_matrixptr
+fun{}
+LAgmat_make_arrayptr
+  {a:t0p}
   {mo:mord}{m,n:int}
-  (MORD(mo), matrixptr (a, m, n)): LAgmat(a, mo, m, n)
-// end of [LAgmat_make_matrixptr]
+(
+  MORD(mo)
+, A: arrayptr (INV(a), m*n), int(m), int(n)
+) : LAgmat(a, mo, m, n) // endfun
+
+fun{}
+LAgmat_make_matrixptr
+  {a:t0p}{m,n:int}
+(
+  M: matrixptr (INV(a), m, n), int(m), int(n)
+) : LAgmat(a, mrow, m, n) // endfun
 
 (* ****** ****** *)
 

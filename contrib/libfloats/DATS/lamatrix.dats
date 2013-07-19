@@ -13,6 +13,7 @@ staload "libats/SATS/gvector.sats"
 staload "libats/SATS/gmatrix.sats"
 staload "libats/SATS/gmatrix_col.sats"
 staload "libats/SATS/gmatrix_row.sats"
+staload "libats/SATS/refcount.sats"
 
 (* ****** ****** *)
 
@@ -43,6 +44,81 @@ case+ tp of
   end // end of [TRANSP_C]
 //
 end // end of [LAgmat_TPN_assert]
+
+(* ****** ****** *)
+
+local
+
+vtypedef
+sourcerfc = refcnt (ptr)
+
+datavtype
+LAgmat
+(
+  a:t@ype
+, mord, int, int
+) =
+  {mo:mord}
+  {m,n:int}
+  {ld:int}
+  {tp:transp}
+  LAGMAT (a, mo, m, n) of
+  (
+    uint(*rfc*), sourcerfc
+  , MORD(mo), ptr, int(m), int(n), int(ld), TRANSP(tp)
+  )
+// end of [LAgmat]
+
+assume
+LAgmat_vtype
+  (a:t0p, mo: int, l:addr, m: int, n:int) = LAgmat (a, mo, m, n)
+// end of [assume]
+
+in (* in of [local] *)
+
+(* ****** ****** *)
+
+implement
+LAgmat_nrow
+  (M) = m where
+{
+val+LAGMAT (_, _, _, _, m, _, _, _) = M
+} (* end of [LAgmat_nrow] *)
+
+implement
+LAgmat_ncol
+  (M) = n where
+{
+val+LAGMAT (_, _, _, _, _, n, _, _) = M
+} (* end of [LAgmat_ncol] *)
+
+(* ****** ****** *)
+
+implement{}
+LAgmat_make_arrayptr
+  (mo, A, m, n) = let
+//
+val pA = $UN.castvwtp0{ptr}(A)
+val src = refcnt_make<ptr> (pA)
+//
+in
+  LAGMAT (1u(*rfc*), src, mo, pA, m, n, n, TPN)
+end // end of [LAgmat_make_arrayptr]
+
+implement{}
+LAgmat_make_matrixptr
+  (M, m, n) = let
+//
+val pM = $UN.castvwtp0{ptr}(M)
+val src = refcnt_make<ptr> (pM)
+//
+in
+  LAGMAT (1u(*rfc*), src, MORDrow, pM, m, n, n, TPN)
+end // end of [LAgmat_make_matrixptr]
+
+(* ****** ****** *)
+
+end // end of [local]
 
 (* ****** ****** *)
 

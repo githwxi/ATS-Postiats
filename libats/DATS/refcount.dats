@@ -32,6 +32,11 @@
 (* Start time: July, 2013 *)
 
 (* ****** ****** *)
+//
+// HX: For supporting ref-counted resourse.
+// HX: This implementation does not support locked counting
+//
+(* ****** ****** *)
 
 staload
 UN = "prelude/SATS/unsafe.sats"
