@@ -26,7 +26,6 @@ staload "libfloats/SATS/lavector.sats"
 staload _ = "libats/DATS/gvector.dats"
 staload _ = "libats/DATS/refcount.dats"
 
-
 (* ****** ****** *)
 
 staload _ = "libfloats/DATS/blas0.dats"

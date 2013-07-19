@@ -39,29 +39,29 @@ LAgmat_uninitize
 
 (* ****** ****** *)
 //
-fun
+fun{}
 LAgmat_mord
   {a:t0p}{mo:mord}{m,n:int}
   (M: !LAgmat(a, mo, m, n)): MORD(mo)
 //
-fun
+fun{}
 LAgmat_nrow
   {a:t0p}{mo:mord}{m,n:int}
   (M: !LAgmat(a, mo, m, n)): int (m)
-fun
+fun{}
 LAgmat_ncol
   {a:t0p}{mo:mord}{m,n:int}
   (M: !LAgmat(a, mo, m, n)): int (n)
 //
 (* ****** ****** *)
 
-fun
+fun{}
 LAgmat_vtakeout_matrix
   {a:t0p}{mo:mord}{m,n:int}
 (
   !LAgmat(a, mo, m, n)
 , &int? >> int(m2)
-, &int? >> int(n)
+, &int? >> int(n2)
 , &int? >> int(ld)
 , &ptr? >> TRANSP(tp)
 ) :
@@ -76,16 +76,21 @@ LAgmat_vtakeout_matrix
 
 (* ****** ****** *)
 //
-fun{a:t0p}
+fun{}
 LAgmat_incref // refcnt++
-  {mo:mord}{l:addr}{m,n:int}
+  {a:t0p}
+  {mo:mord}
+  {l:addr}{m,n:int}
   (!LAgmat(a, mo, l, m, n)): LAgmat(a, mo, l, m, n)
 //
 (* ****** ****** *)
 
-fun{a:t0p}
+fun{}
 LAgmat_decref // refcnt--
-  {mo:mord}{l:addr}{m,n:int}(M: LAgmat(a, mo, l, m, n)): void
+  {a:t0p}
+  {mo:mord}
+  {l:addr}{m,n:int}
+  (M: LAgmat(a, mo, l, m, n)): void
 //
 macdef
 LAgmat_decref2
@@ -132,6 +137,14 @@ LAgmat_make_matrixptr
 (* ****** ****** *)
 
 fun{a:t0p}
+LAgmat_make_uninitized
+  {mo:int}{m,n:nat}
+  (MORD(mo), m: int(m), n: int(n)): LAgmat(a?, mo, m, n)
+// end of [LAgmat_make_uninitized]
+
+(* ****** ****** *)
+
+fun{a:t0p}
 LAgmat_transp
   {mo:mord}{m,n:int}
   (!LAgmat(a, mo, m, n)): LAgmat(a, mo, n, m)
@@ -155,7 +168,7 @@ LAgmat_set_at
 overload [] with LAgmat_set_at
 
 (* ****** ****** *)
-
+//
 fun{}
 fprint_LAgmat$sep1 (FILEref): void
 fun{}
@@ -164,7 +177,12 @@ fun{a:t0p}
 fprint_LAgmat
   {mo:mord}{m,n:int} (FILEref, !LAgmat(a, mo, m, n)): void
 overload fprint with fprint_LAgmat
-
+//
+fun{a:t0p}
+fprint_LAgmat_sep
+  {mo:mord}{m,n:int}
+  (FILEref, !LAgmat(a, mo, m, n), sep1: string, sep2: string): void
+//
 (* ****** ****** *)
 
 fun{a:t0p}
@@ -219,11 +237,11 @@ LAgmat_imake_matrixptr
 (* ****** ****** *)
 
 fun{a:t0p}
-LAgmat_tabulate$fopr (i: intGte(0), j: intGte(0)): a
+LAgmat_tabulate$fopr (i: int, j: int): a
 fun{a:t0p}
 LAgmat_tabulate
   {mo:mord}{m,n:pos}
-  (mo: MORD(mo), m: int m, n: int n): LAgmat(a, mo, n, n)
+  (mo: MORD(mo), m: int m, n: int n): LAgmat(a, mo, m, n)
 // end of [LAgmat_tabulate]
 
 (* ****** ****** *)

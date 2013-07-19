@@ -143,13 +143,13 @@ lemma_gmatrix_param
   {a:t0p}{mo:mord}
   {m,n:int}{ld:int}
   (M: &GMX (a, mo, m, n, ld))
-: [0 <= mo; mo <= 1; 0 <= m; 0 <= n; 1 <= ld] void
+: [0 <= mo; mo <= 1; 0 <= m; 0 <= n; 0 <= ld] void
 praxi
 lemma_gmatrix_v_param
   {a:t0p}{mo:mord}
   {l:addr}{m,n:int}{ld:int}
   (pf: !GMX (a, mo, l, m, n, ld))
-: [0 <= mo; mo <= 1; 0 <= m; 0 <= n; 1 <= ld] void
+: [0 <= mo; mo <= 1; 0 <= m; 0 <= n; 0 <= ld] void
 
 (* ****** ****** *)
 //
@@ -161,11 +161,11 @@ lemma_gmatrix_v_param
 praxi
 gmatrix_initize
   {a:t0p}{mo:mord}{m,n:int}{ld:int}
-  (&GMX(a?, mo, m, n, ld) >> GMX(a, mo, n, m, ld)): void
+  (&GMX(a?, mo, m, n, ld) >> GMX(a, mo, m, n, ld)): void
 praxi
 gmatrix_uninitize
   {a:t0p}{mo:mord}{m,n:int}{ld:int}
-  (&GMX(a, mo, m, n, ld) >> GMX(a?, mo, n, m, ld)): void
+  (&GMX(a, mo, m, n, ld) >> GMX(a?, mo, m, n, ld)): void
 //
 (* ****** ****** *)
 //
@@ -215,6 +215,21 @@ gmatrix_imake_matrixptr
 (
   M: &GMX(a, mo, m, n, ld), mo: MORD(mo), int m, int n, int(ld)
 ) : matrixptr (a, m, n) // end of [gmatrix_imake_matrixptr]
+
+(* ****** ****** *)
+//
+fun{}
+fprint_gmatrix$sep1 (out: FILEref): void
+fun{}
+fprint_gmatrix$sep2 (out: FILEref): void
+//
+fun{a:t0p}
+fprint_gmatrix
+  {mo:mord}{m,n:int}{ld:int}
+(
+  FILEref
+, V: &GMX(a, mo, m, n, ld), MORD(mo), int(m), int(n), int(ld)
+) : void // end of [fprint_gmatrix]
 
 (* ****** ****** *)
 

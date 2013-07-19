@@ -138,5 +138,81 @@ in
 end // end of [gmatrix_imake_matrixptr]
 
 (* ****** ****** *)
+//
+implement{}
+fprint_gmatrix$sep1 (out) = fprint (out, ", ")
+implement{}
+fprint_gmatrix$sep2 (out) = fprint (out, "; ")
+//
+implement{a}
+fprint_gmatrix
+  {mo}{m,n}{ld}
+  (out, M, mo, m0, n0, ld) = let
+//
+implement
+fprint_gvector$sep<> (out) = fprint_gmatrix$sep1 (out)
+//
+fun loop_row
+  {l:addr}{m:nat}.<m>.
+(
+  pf: !GMR(a, l, m, n, ld) | p: ptr l, m: int m
+) : void =
+(
+if m > 0
+then let
+//
+val (
+) = (
+  if m < m0 then fprint_gmatrix$sep2 (out)
+) (* end of [val] *)
+//
+prval
+(pf1, pf2) = gmatrow_v_uncons0 (pf)
+val () = fprint_gvector (out, !p, n0, 1)
+val (
+) = loop_row (pf2 | ptr_add<a> (p, ld), pred(m))
+prval () = pf := gmatrow_v_cons0 (pf1, pf2)
+//
+in
+  // nothing
+end else () // end of [if]
+)
+//
+fun loop_col
+  {l:addr}{m:nat}.<m>.
+(
+  pf: !GMC(a, l, m, n, ld) | p: ptr l, m: int m
+) : void =
+(
+if m > 0
+then let
+//
+val (
+) = (
+  if m < m0 then fprint_gmatrix$sep2 (out)
+) (* end of [val] *)
+//
+prval
+(pf1, pf2) = gmatcol_v_uncons0 (pf)
+val () = fprint_gvector (out, !p, n0, ld)
+val () = loop_col (pf2 | ptr_succ<a> (p), pred(m))
+prval () = pf := gmatcol_v_cons0 (pf1, pf2)
+//
+in
+  // nothing
+end else () // end of [if]
+)
+//
+prval () = lemma_gmatrix_param (M)
+//
+in
+//
+case+ mo of
+| MORDrow () => loop_row (view@M | addr@M, m0)
+| MORDcol () => loop_col (view@M | addr@M, m0)
+//
+end // end of [fprint_gmatrix]
+
+(* ****** ****** *)
 
 (* end of [gmatrix.dats] *)

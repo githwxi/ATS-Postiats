@@ -175,8 +175,7 @@ end // end of [local]
 (* ****** ****** *)
 
 implement{}
-fprint_LAgvec$sep
-  (out) = fprint_gvector$sep<> (out)
+fprint_LAgvec$sep (out) = fprint (out, ", ")
 implement{a}
 fprint_LAgvec (out, V) = let
 //
@@ -185,7 +184,12 @@ val n = LAgvec_size (V)
 var d: int
 val (pf, fpf | p) = LAgvec_vtakeout_vector (V, d)
 //
+local
+implement
+fprint_gvector$sep<> (out) = fprint_LAgvec$sep (out)
+in (* in of [local] *)
 val () = fprint_gvector (out, !p, n, d)
+end // end of [local]
 //
 prval () = fpf (pf)
 //
