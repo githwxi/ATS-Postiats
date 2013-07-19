@@ -18,6 +18,22 @@ vtypedef LAgvec
 //
 (* ****** ****** *)
 
+praxi
+lemma_LAgvec_param
+  {a:t0p}{n:int}
+  (V: !LAgvec(a, n)): [n >= 0] void
+// end of [lemma_LAgvec_param]
+
+(* ****** ****** *)
+
+praxi
+LAgvec_uninitize
+  {a:t0p}{n:int}
+  (V: !LAgvec(a, n) >> LAgvec(a?, n)): void
+// end of [LAgvec_uninitize]
+
+(* ****** ****** *)
+
 fun{}
 LAgvec_size
   {a:t0p}{n:int}(!LAgvec(a, n)): int(n)
@@ -60,8 +76,14 @@ LAgvec_decref2
 
 fun{}
 LAgvec_make_arrayptr
-  {a:t0p}{n:int}(arrayptr (INV(a), n), int n): LAgvec(a, n)
+  {a:t0p}{n:int}
+  (arrayptr (INV(a), n), int n): LAgvec(a, n)
 // end of [LAgvec_make_arrayptr]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+LAgvec_make_uninitized {n:nat}(int n): LAgvec(a?, n)
 
 (* ****** ****** *)
 

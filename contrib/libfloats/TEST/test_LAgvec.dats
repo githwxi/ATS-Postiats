@@ -53,6 +53,9 @@ end // end of [local]
 val V = LAgvec_make_arrayptr (A, N)
 val () = fprintln! (out, "V = ", V)
 //
+val V' = copy_LAgvec (V)
+val () = fprintln! (out, "V' = ", V')
+//
 val (V1, V2) = LAgvec_split (V, 5)
 val () = fprintln! (out, "V1 = ", V1)
 val () = fprintln! (out, "V2 = ", V2)
@@ -60,6 +63,7 @@ val () = fprintln! (out, "V2 = ", V2)
 val dotprod = LAgvec_inner (V1, V2)
 val () = fprintln! (out, "dotprod = ", dotprod)
 //
+val () = LAgvec_decref (V')
 val () = LAgvec_decref2 (V1, V2)
 //
 } // end of [val]

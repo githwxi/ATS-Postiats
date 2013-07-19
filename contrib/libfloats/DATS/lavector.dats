@@ -22,6 +22,15 @@ staload "libfloats/SATS/lavector.sats"
 
 (* ****** ****** *)
 
+extern
+praxi
+LAgvec_initize
+  {a:t0p}{n:int}
+  (V: !LAgvec(a?, n) >> LAgvec(a, n)): void
+// end of [LAgvec_initize]
+
+(* ****** ****** *)
+
 local
 
 vtypedef
@@ -124,6 +133,19 @@ in
   LAGVEC (1u, src, pA, n, 1)
 end // end of [LAgvec_make_arrayptr]
 
+(* ****** ****** *)
+
+implement{a}
+LAgvec_make_uninitized (n) = let
+//
+val A = arrayptr_make_uninitized<a> (i2sz(n))
+//
+in
+  LAgvec_make_arrayptr (A, n)
+end // end of [LAgvec_make_uninitized]
+
+(* ****** ****** *)
+
 implement{a}
 LAgvec_split
   (V, i) = let
@@ -173,7 +195,8 @@ end // end of [fprint_LAgvec]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 LAgvec_inner
   (V1, V2) = let
 //
@@ -197,6 +220,54 @@ prval () = fpf1 (pf1) and () = fpf2 (pf2)
 in
   res
 end // end of [LAgvec_inner]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+LAgvec_copy
+  (V1, V2) = let
+//
+val n = LAgvec_size V1
+//
+var d1: int and d2: int
+//
+val
+(
+  pf1, fpf1 | p1
+) = LAgvec_vtakeout_vector (V1, d1)
+val
+(
+  pf2, fpf2 | p2
+) = LAgvec_vtakeout_vector (V2, d2)
+//
+val () = blas_copy (!p1, !p2, n, d1, d2)
+//
+prval (
+) = gvector_uninitize(!p2)
+prval () = fpf1 (pf1) and () = fpf2 (pf2)
+//
+prval () = LAgvec_initize{a}(V2)
+//
+in
+  // nothing
+end // end of [LAgvec_copy]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+copy_LAgvec
+  (V) = V2 where
+{
+//
+prval () = lemma_LAgvec_param (V)
+//
+val n = LAgvec_size (V)
+val V2 = LAgvec_make_uninitized<a> (n)
+val () = LAgvec_copy (V, V2)
+//
+} // end of [copy_LAgvec]
 
 (* ****** ****** *)
 
