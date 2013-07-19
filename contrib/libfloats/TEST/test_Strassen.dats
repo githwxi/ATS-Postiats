@@ -1,6 +1,6 @@
 //
-// A naive implementation
-// of Strassen's matrix multiplication algorithm
+// A naive implementation of
+// Strassen's matrix multiplication algorithm
 //
 (* ****** ****** *)
 

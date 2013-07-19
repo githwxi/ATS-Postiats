@@ -118,13 +118,6 @@ castfn
 vttakeout_void {a:vt0p} (x: !a):<> vttakeout0 (a)
 
 #atscode_separator()
-
-(*
-absview vrefcnt_view (a: vt0p)
-viewdef vrefcnt (a: vt0p) = vrefcnt_view (a)
-*)
-
-#atscode_separator()
 //
 // HX: only if you know what you are doing ...
 //
