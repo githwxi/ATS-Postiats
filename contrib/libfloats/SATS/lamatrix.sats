@@ -349,6 +349,54 @@ LAgmat_gemm
 , C: !LAgmat(a, mo, p, r) >> _
 ) : void // endfun
 
+fun{a:t0p}
+LAgmat_gemm_nn
+  {mo:mord}
+  {p,q,r:int}
+(
+  alpha: a
+, A: !LAgmat(a, mo, p, q)
+, B: !LAgmat(a, mo, q, r)
+, beta: a
+, C: !LAgmat(a, mo, p, r) >> _
+) : void // endfun
+
+fun{a:t0p}
+LAgmat_gemm_nt
+  {mo:mord}
+  {p,q,r:int}
+(
+  alpha: a
+, A: !LAgmat(a, mo, p, q)
+, B: !LAgmat(a, mo, r, q)
+, beta: a
+, C: !LAgmat(a, mo, p, r) >> _
+) : void // endfun
+
+fun{a:t0p}
+LAgmat_gemm_tn
+  {mo:mord}
+  {p,q,r:int}
+(
+  alpha: a
+, A: !LAgmat(a, mo, q, p)
+, B: !LAgmat(a, mo, q, r)
+, beta: a
+, C: !LAgmat(a, mo, p, r) >> _
+) : void // endfun
+
+fun{a:t0p}
+LAgmat_gemm_tt
+  {mo:mord}
+  {p,q,r:int}
+(
+  alpha: a
+, A: !LAgmat(a, mo, q, p)
+, B: !LAgmat(a, mo, r, q)
+, beta: a
+, C: !LAgmat(a, mo, p, r) >> _
+) : void // endfun
+
 (* ****** ****** *)
 
 fun{a:t0p}

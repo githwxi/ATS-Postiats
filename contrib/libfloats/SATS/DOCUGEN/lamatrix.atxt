@@ -48,7 +48,8 @@ functions on matrices.
 (* ****** ****** *)
 
 #declnamesynop("fprint_LAgmat")
-#declnamesynop("fprint_LAgmat$sep")
+#declnamesynop("fprint_LAgmat$sep1")
+#declnamesynop("fprint_LAgmat$sep2")
 #declnamesynop("fprint_LAgmat_sep")
 
 (* ****** ****** *)
@@ -82,6 +83,13 @@ functions on matrices.
 (* ****** ****** *)
 
 #declnamesynop("LAgmat_gemm")
+#declnamesynop("LAgmat_gemm_nn")
+#declnamesynop("LAgmat_gemm_nt")
+#declnamesynop("LAgmat_gemm_tn")
+#declnamesynop("LAgmat_gemm_tt")
+
+(* ****** ****** *)
+
 #declnamesynop("mul00_LAgmat_LAgmat")
 #declnamesynop("mul10_LAgmat_LAgmat")
 #declnamesynop("mul01_LAgmat_LAgmat")

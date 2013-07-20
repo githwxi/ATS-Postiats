@@ -741,6 +741,36 @@ end // end of [LAgmat_gemm]
 (* ****** ****** *)
 
 implement{a}
+LAgmat_gemm_nn
+  (alpha, A, B, beta, C) =
+(
+  LAgmat_gemm (TPDIM_N, TPDIM_N | alpha, A, TPN, B, TPN, beta, C)
+) (* end of [LAgmat_gemm_nn] *)
+
+implement{a}
+LAgmat_gemm_nt
+  (alpha, A, B, beta, C) =
+(
+  LAgmat_gemm (TPDIM_N, TPDIM_T | alpha, A, TPN, B, TPT, beta, C)
+) (* end of [LAgmat_gemm_nt] *)
+
+implement{a}
+LAgmat_gemm_tn
+  (alpha, A, B, beta, C) =
+(
+  LAgmat_gemm (TPDIM_T, TPDIM_N | alpha, A, TPT, B, TPN, beta, C)
+) (* end of [LAgmat_gemm_tn] *)
+
+implement{a}
+LAgmat_gemm_tt
+  (alpha, A, B, beta, C) =
+(
+  LAgmat_gemm (TPDIM_T, TPDIM_T | alpha, A, TPT, B, TPT, beta, C)
+) (* end of [LAgmat_gemm_tt] *)
+
+(* ****** ****** *)
+
+implement{a}
 mul00_LAgmat_LAgmat
   (A, B) = AB where
 {
@@ -788,7 +818,7 @@ local
 implement
 blas$_alpha_beta<a> (alpha, x, beta, y) = x
 in (* in of [local] *)
-val () = LAgmat_gemm (TPDIM_N, TPDIM_N |_1, A, TPN, B, TPN, _0, C)
+val () = LAgmat_gemm (TPDIM_N, TPDIM_N | _1, A, TPN, B, TPN, _0, C)
 end // end of [local]
 //
 } // end of [mul11_LAgmat_LAgmat]
