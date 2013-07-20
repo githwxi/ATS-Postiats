@@ -66,7 +66,7 @@ LAgmat_vtakeout_matrix
 , &ptr? >> TRANSP(tp)
 ) :
 #[
-  l:addr;m2,n2,ld:int;tp:transp
+  l:addr;m2,n2:int;ld:int;tp:transp
 ] (
   gmatrix_v (a, mo, l, m2, n2, ld)
 , gmatrix_v (a, mo, l, m2, n2, ld) -<lin,prf> void

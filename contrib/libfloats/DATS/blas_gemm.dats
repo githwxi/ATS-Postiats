@@ -31,8 +31,8 @@ case+ tra of
 //
 | TPN () => let
     prval TPDIM_N () = pfa
-    val (
-    ) = case+ trb of
+  in
+    case+ trb of
     | TPN () =>
       {
         prval TPDIM_N () = pfb
@@ -46,14 +46,12 @@ case+ tra of
     | TPC () => let
         val () = prerrln! ("blas_gemm: [TPC] not yet supported.") in assertloc (false)
       end // end of [TPC]
-  in
-    // nothing
   end // end of [TPN]
 //
 | TPT () => let
     prval TPDIM_T () = pfa
-    val (
-    ) = case+ trb of
+  in
+    case+ trb of
     | TPN () =>
       {
         prval TPDIM_N () = pfb
@@ -67,8 +65,6 @@ case+ tra of
     | TPC () => let
         val () = prerrln! ("blas_gemm: [TPC] not yet supported.") in assertloc (false)
       end // end of [TPC]
-  in
-    // nothing
   end // end of [TPT]
 //
 | TPC () => let

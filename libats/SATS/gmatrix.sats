@@ -45,11 +45,15 @@ stadef mcol: mord = 1 // col-major
 datatype MORD (int) =
   | MORDrow (mrow) of () | MORDcol (mcol) of ()
 //
+typedef MORD = [mo:mord] MORD(mo)
+//
 (* ****** ****** *)
 //
 datasort transp = tpn | tpt | tpc
 datatype TRANSP (transp) =
   | TPN (tpn) of () | TPT (tpt) of () | TPC (tpc) of ()
+//
+typedef TRANSP = [tp:transp] TRANSP(tp)
 //
 (* ****** ****** *)
 

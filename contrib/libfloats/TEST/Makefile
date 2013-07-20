@@ -17,6 +17,10 @@ test_LUPdec: test_LUPdec.dats ; \
   $(PATSCC) -atsccomp $(ATSCCOMP) -IATS ${PATSHOME}/contrib -o $@ $<
 cleanall:: ; $(RMF) test_LUPdec
 
+test_LUPdec2: test_LUPdec2.dats ; \
+  $(PATSCC) -atsccomp $(ATSCCOMP) -IATS ${PATSHOME}/contrib -o $@ $<
+cleanall:: ; $(RMF) test_LUPdec2
+
 ######
 
 test_LAgvec: test_LAgvec.dats ; \
