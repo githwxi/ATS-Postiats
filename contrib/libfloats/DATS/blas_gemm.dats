@@ -106,7 +106,7 @@ prval (
 val (
 ) = blas_copy<a> (!pb, !pt, q, ldb, 1)
 val (
-) = blas_gemv_row (alpha, !pa, !pt, beta, !pc, p, q, lda, 1, ldc)
+) = blas_gemv_row_n (alpha, !pa, !pt, beta, !pc, p, q, lda, 1, ldc)
 prval (
 ) = gvector2array (!pt)
 //
@@ -178,7 +178,7 @@ prval
 ) = gmatrow_v_uncons1 (pfc)
 //
 val (
-) = blas_gemv_row (alpha, !pa, !pb, beta, !pc, p, q, lda, 1, ldc)
+) = blas_gemv_row_n (alpha, !pa, !pb, beta, !pc, p, q, lda, 1, ldc)
 //
 val (
 ) = loop (
@@ -236,7 +236,7 @@ prval (pfa1, pfa2) = gmatrow_v_uncons1 (pfa)
 prval (pfc1, pfc2) = gmatrow_v_uncons0 (pfc)
 //
 val (
-) = blas_gemv_trow (alpha, !pb, !pa, beta, !pc, r, q, ldb, lda, 1)
+) = blas_gemv_row_t (alpha, !pb, !pa, beta, !pc, r, q, ldb, lda, 1)
 //
 val (
 ) = loop (
@@ -299,7 +299,7 @@ prval (
 val (
 ) = blas_copy<a> (!pa, !pt, q, lda, 1)
 val (
-) = blas_gemv_row (alpha, !pb, !pt, beta, !pc, r, q, ldb, 1, 1)
+) = blas_gemv_row_n (alpha, !pb, !pt, beta, !pc, r, q, ldb, 1, 1)
 prval (
 ) = gvector2array (!pt)
 //

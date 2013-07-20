@@ -106,6 +106,56 @@ val+LAGMAT (_, _, _, _, _, n, _) = M
 (* ****** ****** *)
 
 implement{}
+LAgmat_vtakeout_row
+  {a}{mo}{m,n}
+  (M, i, d0) = let
+//
+val+LAGMAT
+  (_, _, gmp, mo, m, n, ld) = M
+//
+val d =
+(
+case+ mo of
+| MORDrow () => 1 | MORDcol () => ld
+) : Int
+val d2 = ld+1-d
+//
+val () = d0 := d
+//
+prval [d:int]
+  INTEQ () = inteq_make_gint (d)
+//
+in
+  $UN.ptr_vtake{gvector(a,n,d)}(ptr_add<a> (gmp,i*d2))
+end // end of [LAgmat_vtakeout_row]
+
+implement{}
+LAgmat_vtakeout_col
+  {a}{mo}{m,n}
+  (M, j, d0) = let
+//
+val+LAGMAT
+  (_, _, gmp, mo, m, n, ld) = M
+//
+val d =
+(
+case+ mo of
+| MORDrow () => ld | MORDcol () => 1
+) : Int
+val d2 = ld+1-d
+//
+val () = d0 := d
+//
+prval [d:int]
+  INTEQ () = inteq_make_gint (d)
+//
+in
+  $UN.ptr_vtake{gvector(a,m,d)}(ptr_add<a> (gmp,j*d2))
+end // end of [LAgmat_vtakeout_col]
+
+(* ****** ****** *)
+
+implement{}
 LAgmat_vtakeout_matrix
   {a}{mo}{m,n}
   (M, ld0) = let
@@ -365,6 +415,54 @@ prval () = fpf (pf)
 in
   $UN.cast{cPtr1(a)}(p_ij)
 end // end of [Lagmat_getref_at]
+
+(* ****** ****** *)
+
+implement{a}
+LAgmat_interchange_row
+  (M, i1, i2) = let
+//
+val n = LAgmat_ncol (M)
+val mo = LAgmat_mord (M)
+//
+var ld: int
+val (pf, fpf | p) = LAgmat_vtakeout_matrix (M, ld)
+//
+val () =
+(
+case+ mo of
+| MORDrow () => gmatrow_interchange_row (!p, n, ld, i1, i2)
+| MORDcol () => gmatcol_interchange_row (!p, n, ld, i1, i2)
+) : void // endval
+//
+prval () = fpf (pf)
+//
+in
+  // nothing
+end // end of [Lagmat_interchange_row]
+
+implement{a}
+LAgmat_interchange_col
+  (M, j1, j2) = let
+//
+val m = LAgmat_nrow (M)
+val mo = LAgmat_mord (M)
+//
+var ld: int
+val (pf, fpf | p) = LAgmat_vtakeout_matrix (M, ld)
+//
+val () =
+(
+case+ mo of
+| MORDrow () => gmatrow_interchange_col (!p, m, ld, j1, j2)
+| MORDcol () => gmatcol_interchange_col (!p, m, ld, j1, j2)
+) : void // endval
+//
+prval () = fpf (pf)
+//
+in
+  // nothing
+end // end of [Lagmat_interchange_col]
 
 (* ****** ****** *)
 //

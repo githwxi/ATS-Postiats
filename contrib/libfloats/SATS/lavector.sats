@@ -118,6 +118,13 @@ LAgvec_split
 (* ****** ****** *)
 
 fun{a:t0p}
+LAgvec_tabulate$fopr (i: int): a
+fun{a:t0p}
+LAgvec_tabulate {n:nat} (n: int n): LAgvec(a, n)
+
+(* ****** ****** *)
+
+fun{a:t0p}
 LAgvec_inner{n:int}
   (A: !LAgvec(a, n), B: !LAgvec(a, n)): a(*innerprod*)
 // end of [LAgvec_inner]
@@ -151,6 +158,17 @@ fun{a:t0p}
 copy_LAgvec
   {n:int}(X: !LAgvec(a, n)): LAgvec(a, n)
 // end of [copy_LAgvec]
+
+(* ****** ****** *)
+//
+// Y <-> X
+//
+fun{a:t0p}
+LAgvec_swap{n:int}
+(
+  X: !LAgvec(a, n) >> _
+, Y: !LAgvec(a, n) >> _
+) : void // endfun
 
 (* ****** ****** *)
 //

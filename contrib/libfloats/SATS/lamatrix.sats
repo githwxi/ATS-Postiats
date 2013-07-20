@@ -10,6 +10,7 @@
 
 (* ****** ****** *)
 
+staload "libats/SATS/gvector.sats"
 staload "libats/SATS/gmatrix.sats"
 
 (* ****** ****** *)
@@ -69,6 +70,38 @@ LAgmat_ncol
 (* ****** ****** *)
 
 fun{}
+LAgmat_vtakeout_row
+  {a:t0p}{mo:mord}{m,n:int}
+(
+  !LAgmat(a, mo, m, n)
+, i: natLt(m), d: &int? >> int(d)
+) :
+#[
+  l:addr;d:int
+] (
+  gvector_v (a, l, n, d)
+, gvector_v (a, l, n, d) -<lin,prf> void
+| ptr (l)
+) // end of [LAgmat_vtakeout_row]
+
+fun{}
+LAgmat_vtakeout_col
+  {a:t0p}{mo:mord}{m,n:int}
+(
+  !LAgmat(a, mo, m, n)
+, j: natLt(n), d: &int? >> int(d)
+) :
+#[
+  l:addr;d:int
+] (
+  gvector_v (a, l, m, d)
+, gvector_v (a, l, m, d) -<lin,prf> void
+| ptr (l)
+) // end of [LAgmat_vtakeout_col]
+
+(* ****** ****** *)
+
+fun{}
 LAgmat_vtakeout_matrix
   {a:t0p}{mo:mord}{m,n:int}
 (
@@ -76,7 +109,7 @@ LAgmat_vtakeout_matrix
 , ld: &int? >> int(ld)
 ) :
 #[
-  l:addr;ld:int;tp:transp
+  l:addr;ld:int
 ] (
   gmatrix_v (a, mo, l, m, n, ld)
 , gmatrix_v (a, mo, l, m, n, ld) -<lin,prf> void
@@ -185,6 +218,22 @@ LAgmat_getref_at
 (
   M: !LAgmat(a, mo, m, n), i: natLt(m), j: natLt(n)
 ) : cPtr1(a) // end of [LAgmat_getref_at]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+LAgmat_interchange_row
+  {mo:mord}{m,n:int}
+(
+  M: !LAgmat(a, mo, m, n), i1: natLt(m), i2: natLt(m)
+) : void // end of [gmatcol_interchange_row]
+
+fun{a:t0p}
+LAgmat_interchange_col
+  {mo:mord}{m,n:int}
+(
+  M: !LAgmat(a, mo, m, n), j1: natLt(n), j2: natLt(n)
+) : void // end of [gmatcol_interchange_col]
 
 (* ****** ****** *)
 //

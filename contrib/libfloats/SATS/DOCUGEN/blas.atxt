@@ -38,8 +38,18 @@ BLAS-like functions.
 
 (* ****** ****** *)
 
+#declnamesynop("blas_nrm2")
+
+(* ****** ****** *)
+
+#declnamesynop("blas_iamax")
+
+(* ****** ****** *)
+
 #declnamesynop("blas_inner")
 #declnamesynop("blas_inner$fmul")
+#declnamesynop("blas_inner_u")
+#declnamesynop("blas_inner_c")
 
 (* ****** ****** *)
 
@@ -77,9 +87,11 @@ BLAS-like functions.
 (* ****** ****** *)
 
 #declnamesynop("blas_gemv_row")
+#declnamesynop("blas_gemv_row_n")
+#declnamesynop("blas_gemv_row_t")
 #declnamesynop("blas_gemv_col")
-#declnamesynop("blas_gemv_trow")
-#declnamesynop("blas_gemv_tcol")
+#declnamesynop("blas_gemv_col_n")
+#declnamesynop("blas_gemv_col_t")
 
 (* ****** ****** *)
 

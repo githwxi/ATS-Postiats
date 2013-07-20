@@ -31,15 +31,16 @@ staload _ = "libats/DATS/refcount.dats"
 
 (* ****** ****** *)
 
-staload "libfloats/SATS/lavector.sats"
-staload "libfloats/SATS/lamatrix.sats"
-
-(* ****** ****** *)
-
+staload "libfloats/SATS/blas.sats"
 staload _ = "libfloats/DATS/blas0.dats"
 staload _ = "libfloats/DATS/blas1.dats"
 staload _ = "libfloats/DATS/blas_gemv.dats"
 staload _ = "libfloats/DATS/blas_gemm.dats"
+
+(* ****** ****** *)
+
+staload "libfloats/SATS/lavector.sats"
+staload "libfloats/SATS/lamatrix.sats"
 staload _ = "libfloats/DATS/lavector.dats"
 staload _ = "libfloats/DATS/lamatrix.dats"
 
@@ -48,6 +49,7 @@ staload _ = "libfloats/DATS/lamatrix.dats"
 extern
 fun
 {a:t0p}
+{a2:t0p}
 lapack_LUPdec
   {mo:mord}
   {m,n:int | m <= n}
@@ -56,20 +58,43 @@ lapack_LUPdec
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}{a2}
 lapack_LUPdec
   {mo}{m,n} (M) = let
+//
+fun auxpivot
+  {m,n:nat |
+   1 <= m; m <= n}
+(
+  M: !LAgmat(a, mo, m, n), n: int n
+) : natLt(n) = let
+//
+var d: int
+val
+(
+  pf, fpf | p
+) = LAgmat_vtakeout_row (M, 0, d)
+val imax = blas_iamax<a><a2> (!p, n, d)
+prval () = fpf (pf)
+//
+val () = LAgmat_interchange_col (M, 0, imax)
+//
+in
+  imax
+end // end of [auxpivot]
 //
 fun loop
   {m,n:nat | m <= n}
 (
-  M: LAgmat(a, mo, m, n), m: int m
+  M: LAgmat(a, mo, m, n), m: int m, n: int n
 ) : void = let
 in
 if m >= 1 then let
 //
+val imax = auxpivot (M, n)
 (*
-val imax = auxpivot (M)
+val () = println! ("auxpivot: imax = ", imax)
 *)
 //
 val
@@ -84,7 +109,7 @@ val alpha2 = gnumber_int<a>(~1) and _1 = gnumber_int<a>(1)
 val () = LAgmat_gemm_nn (alpha2, M10, M01, _1, M11)
 //
 val () = LAgmat_decref2 (M01, M10)
-val () = loop (M11, m-1)
+val () = loop (M11, m-1, n-1)
 //
 in
   // nothing
@@ -98,7 +123,8 @@ end // end of [loop]
 prval () = lemma_LAgmat_param (M)
 //
 val m = LAgmat_nrow (M)
-val () = loop (LAgmat_incref (M), m) 
+val n = LAgmat_ncol (M)
+val () = loop (LAgmat_incref (M), m, n) 
 //
 in
   // nothing
@@ -130,7 +156,7 @@ val () = fprintln! (out, "M =")
 val () = fprint_LAgmat_sep (out, M, ", ", "\n")
 val () = fprint_newline (out)
 //
-val () = lapack_LUPdec<T> (M)
+val () = lapack_LUPdec<T><T> (M)
 //
 val () = fprintln! (out, "L\\U =")
 val () = fprint_LAgmat_sep (out, M, ", ", "\n")

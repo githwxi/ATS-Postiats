@@ -37,6 +37,8 @@ functions on matrices.
 
 (* ****** ****** *)
 
+#declnamesynop("LAgmat_vtakeout_row")
+#declnamesynop("LAgmat_vtakeout_col")
 #declnamesynop("LAgmat_vtakeout_matrix")
 
 (* ****** ****** *)

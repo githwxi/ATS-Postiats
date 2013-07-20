@@ -190,6 +190,19 @@ end // end of [fprint_LAgvec]
 
 (* ****** ****** *)
 
+implement{a}
+LAgvec_tabulate (n) = let
+//
+implement
+array_tabulate$fopr<a>
+  (i) = LAgvec_tabulate$fopr (g0u2i(i))
+//
+in
+  LAgvec_make_arrayptr (arrayptr_tabulate<a> (i2sz(n)), n)
+end // end of [LAgvec_tabulate]
+
+(* ****** ****** *)
+
 implement
 {a}(*tmp*)
 LAgvec_inner
@@ -224,15 +237,12 @@ LAgvec_copy
   (V1, V2) = let
 //
 val n = LAgvec_size V1
-//
 var d1: int and d2: int
 //
-val
-(
+val (
   pf1, fpf1 | p1
 ) = LAgvec_vtakeout_vector (V1, d1)
-val
-(
+val (
   pf2, fpf2 | p2
 ) = LAgvec_vtakeout_vector (V2, d2)
 //
@@ -263,6 +273,31 @@ val V2 = LAgvec_make_uninitized<a> (n)
 val () = LAgvec_copy (V, V2)
 //
 } // end of [copy_LAgvec]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+LAgvec_swap
+  (V1, V2) = let
+//
+val n = LAgvec_size V1
+var d1: int and d2: int
+//
+val (
+  pf1, fpf1 | p1
+) = LAgvec_vtakeout_vector (V1, d1)
+val (
+  pf2, fpf2 | p2
+) = LAgvec_vtakeout_vector (V2, d2)
+//
+val () = blas_swap (!p1, !p2, n, d1, d2)
+//
+prval () = fpf1 (pf1) and () = fpf2 (pf2)
+//
+in
+  // nothing
+end // end of [LAgvec_swap]
 
 (* ****** ****** *)
 

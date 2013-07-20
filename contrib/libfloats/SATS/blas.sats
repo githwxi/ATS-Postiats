@@ -31,9 +31,11 @@ staload "libats/SATS/gmatrix_row.sats"
 (* ****** ****** *)
 
 fun
-{a1:t0p}
-{a2:t0p}
-blas$gnorm (x: a1): a2
+{a:t0p}
+{a2:t0p} blas$gnorm (x: a): a2
+fun
+{a:t0p}
+{a2:t0p} blas$gnorm2 (x: a): a2
 
 (* ****** ****** *)
 
@@ -63,14 +65,14 @@ blas_nrm2
 fun
 {a:t0p}
 {a2:t0p}
-blas_isamax
+blas_iamax
   {n:int | n > 0}{d:int}
   (V: &GVT(a, n, d), int n, int d): natLt(n)
-// end of [blas_isamax]
+// end of [blas_iamax]
 
 (* ****** ****** *)
 //
-// HX: inner product
+// HX: inner product (dot)
 //
 fun{a:t0p}
 blas_inner$fmul (x: a, y: a): a
@@ -82,6 +84,21 @@ blas_inner
   V1: &GVT(a, n, d1)
 , V2: &GVT(a, n, d2), int(n), int(d1), int(d2)
 ) : (a) // end of [blas_inner]
+
+fun{a:t0p}
+blas_inner_u
+  {n:int}{d1,d2:int}
+(
+  V1: &GVT(a, n, d1)
+, V2: &GVT(a, n, d2), int(n), int(d1), int(d2)
+) : (a) // end of [blas_inner_u]
+fun{a:t0p}
+blas_inner_c
+  {n:int}{d1,d2:int}
+(
+  V1: &GVT(a, n, d1)
+, V2: &GVT(a, n, d2), int(n), int(d1), int(d2)
+) : (a) // end of [blas_inner_c]
 
 (* ****** ****** *)
 
@@ -247,6 +264,22 @@ a:t0p
 //
 fun{a:t0p}
 blas_gemv_row
+  {m,n:int}
+  {tp:transp}
+  {ma,na:int}
+  {lda,dx,dy:int}
+(
+  pf: transpdim (tp, ma, na, m, n)
+| alpha: a
+, A: &GMR(a, m, n, lda), tp: TRANSP(tp)
+, X: &GVT(a, n, dx)
+, beta: a
+, Y: &GVT(a, m, dy) >> _
+, int(m), int(n), int(lda), int(dx), int(dy)
+) : void // end of [blas_gemv_row]
+
+fun{a:t0p}
+blas_gemv_row_n
   {m,n:int}{lda,dx,dy:int}
 (
   alpha: a
@@ -255,22 +288,9 @@ blas_gemv_row
 , beta: a
 , Y: &GVT(a, m, dy) >> _
 , int(m), int(n), int(lda), int(dx), int(dy)
-) : void // end of [blas_gemv_row]
-
+) : void // end of [blas_gemv_row_n]
 fun{a:t0p}
-blas_gemv_col
-  {m,n:int}{lda,dx,dy:int}
-(
-  alpha: a
-, A: &GMC(a, m, n, lda)
-, X: &GVT(a, n, dx)
-, beta: a
-, Y: &GVT(a, m, dy) >> _
-, int(m), int(n), int(lda), int(dx), int(dy)
-) : void // end of [blas_gemv_col]
-
-fun{a:t0p}
-blas_gemv_trow
+blas_gemv_row_t
   {m,n:int}{lda,dx,dy:int}
 (
   alpha: a
@@ -279,10 +299,39 @@ blas_gemv_trow
 , beta: a
 , Y: &GVT(a, m, dy) >> _
 , int(m), int(n), int(lda), int(dx), int(dy)
-) : void // end of [blas_gemv_trow]
+) : void // end of [blas_gemv_row_t]
+
+(* ****** ****** *)
 
 fun{a:t0p}
-blas_gemv_tcol
+blas_gemv_col
+  {m,n:int}
+  {tp:transp}
+  {ma,na:int}
+  {lda,dx,dy:int}
+(
+  pf: transpdim (tp, ma, na, m, n)
+| alpha: a
+, A: &GMC(a, ma, na, lda), tp: TRANSP(tp)
+, X: &GVT(a, n, dx)
+, beta: a
+, Y: &GVT(a, m, dy) >> _
+, int(m), int(n), int(lda), int(dx), int(dy)
+) : void // end of [blas_gemv_col]
+
+fun{a:t0p}
+blas_gemv_col_n
+  {m,n:int}{lda,dx,dy:int}
+(
+  alpha: a
+, A: &GMC(a, m, n, lda)
+, X: &GVT(a, n, dx)
+, beta: a
+, Y: &GVT(a, m, dy) >> _
+, int(m), int(n), int(lda), int(dx), int(dy)
+) : void // end of [blas_gemv_col_n]
+fun{a:t0p}
+blas_gemv_col_t
   {m,n:int}{lda,dx,dy:int}
 (
   alpha: a
@@ -291,10 +340,11 @@ blas_gemv_tcol
 , beta: a
 , Y: &GVT(a, m, dy) >> _
 , int(m), int(n), int(lda), int(dx), int(dy)
-) : void // end of [blas_gemv_tcol]
+) : void // end of [blas_gemv_col_t]
 
 (* ****** ****** *)
 //
+// HX: outer product (ger)
 // M3 <- alpha(V1(X)V2) + M3
 //
 fun{
@@ -308,7 +358,6 @@ a:t0p
 , M3: &GMR(a, m, n, ld3) >> _
 , int(m), int(n), int(d1), int(d2), int(ld3)
 ) : void (* end of [blas_outer_row] *)
-
 fun{
 a:t0p
 } blas_outer_col

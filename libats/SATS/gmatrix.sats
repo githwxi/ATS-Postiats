@@ -221,12 +221,11 @@ gmatrix_imake_matrixptr
 ) : matrixptr (a, m, n) // end of [gmatrix_imake_matrixptr]
 
 (* ****** ****** *)
-//
+
 fun{}
 fprint_gmatrix$sep1 (out: FILEref): void
 fun{}
 fprint_gmatrix$sep2 (out: FILEref): void
-//
 fun{a:t0p}
 fprint_gmatrix
   {mo:mord}{m,n:int}{ld:int}
