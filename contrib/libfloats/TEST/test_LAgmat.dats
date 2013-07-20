@@ -4,6 +4,18 @@
 //
 (* ****** ****** ****** ****** ****** ****** ****** ****** *)
 
+(* Author: Hongwei Xi *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Start time: July, 2013 *)
+
+(* ****** ****** *)
+
+(* Author: Brandon Barker *)
+(* Authoremail: brandon.barker AT gmail DOT com *)
+(* Start time: July, 2013 *)
+
+(* ****** ****** *)
+
 #include
 "share/atspre_staload_tmpdef.hats"
 //
@@ -37,14 +49,13 @@ staload _ = "libfloats/DATS/lavector.dats"
 staload _ = "libfloats/DATS/lamatrix.dats"
 
 (* ****** ****** *)
-
+//
+// HX: a hackery of a little fun
+//
 #define t 't'
-
-(* ****** ****** *)
-
 infixr ^
 macdef ^ (M, t) = LAgmat_transpose (,(M))
-
+//
 (* ****** ****** *)
 
 val () =

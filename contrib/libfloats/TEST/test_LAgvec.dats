@@ -4,6 +4,18 @@
 //
 (* ****** ****** ****** ****** ****** ****** ****** ****** *)
 
+(* Author: Hongwei Xi *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Start time: July, 2013 *)
+
+(* ****** ****** *)
+
+(* Author: Brandon Barker *)
+(* Authoremail: brandon.barker AT gmail DOT com *)
+(* Start time: July, 2013 *)
+
+(* ****** ****** *)
+
 #include
 "share/atspre_staload_tmpdef.hats"
 //

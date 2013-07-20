@@ -4,6 +4,18 @@
 
 ######
 
+# (* Author: Hongwei Xi *)
+# (* Authoremail: hwxi AT cs DOT bu DOT edu *)
+# (* Start time: July, 2013 *)
+
+# (* ****** ****** *)
+
+# (* Author: Brandon Barker *)
+# (* Authoremail: brandon.barker AT gmail DOT com *)
+# (* Start time: July, 2013 *)
+
+######
+
 PATSCC=patscc
 ATSCCOMP='gcc -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -DATS_MEMALLOC_LIBC'
 

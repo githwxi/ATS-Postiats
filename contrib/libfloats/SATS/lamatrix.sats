@@ -4,6 +4,12 @@
 //
 (* ****** ****** *)
 
+(* Author: Hongwei Xi *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Start time: July, 2013 *)
+
+(* ****** ****** *)
+
 staload "libats/SATS/gmatrix.sats"
 
 (* ****** ****** *)

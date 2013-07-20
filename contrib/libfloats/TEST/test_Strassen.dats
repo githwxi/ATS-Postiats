@@ -3,6 +3,12 @@
 // Strassen's matrix multiplication algorithm
 //
 (* ****** ****** *)
+
+(* Author: Hongwei Xi *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Start time: July, 2013 *)
+
+(* ****** ****** *)
 //
 #include
 "share/atspre_staload_tmpdef.hats"
@@ -188,11 +194,15 @@ val () = LAgmat_decref4 (B11, B12, B21, B22)
 //
 val _n1 = gnumber_int<a>(~1)
 //
+// C11 = M1+M4-M5+M7
+//
 val T = copy_LAgmat (M1)
 val () = LAgmat_1x1y (M4, T)
 val () = LAgmat_ax1y (_n1, M5, T)
 val () = LAgmat_1x1y (M7, T)
 val () = LAgmat_axby (alpha, T, beta, C11)
+//
+// C12 = M3+M5
 //
 prval (
 ) = LAgmat_uninitize (T)
@@ -200,11 +210,15 @@ val () = LAgmat_copy (M3, T)
 val () = LAgmat_1x1y (M5, T)
 val () = LAgmat_axby (alpha, T, beta, C12)
 //
+// C21 = M2+M4
+//
 prval (
 ) = LAgmat_uninitize (T)
 val () = LAgmat_copy (M2, T)
 val () = LAgmat_1x1y (M4, T)
 val () = LAgmat_axby (alpha, T, beta, C21)
+//
+// C22 = M1-M2+M3+M6
 //
 prval (
 ) = LAgmat_uninitize (T)

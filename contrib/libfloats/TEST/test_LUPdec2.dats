@@ -2,6 +2,12 @@
 // A naive implementation of LUP decomposition
 //
 (* ****** ****** *)
+
+(* Author: Hongwei Xi *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Start time: July, 2013 *)
+
+(* ****** ****** *)
 //
 #include
 "share/atspre_staload_tmpdef.hats"
