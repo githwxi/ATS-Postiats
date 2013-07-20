@@ -152,20 +152,29 @@ LAgmat_transp
 
 (* ****** ****** *)
 
-fun
+fun{a:t0p}
 LAgmat_get_at
-  {a:t0p}{mo:mord}{m,n:int}
+  {mo:mord}{m,n:int}
 (
   M: !LAgmat(a, mo, m, n), i: natLt(m), j: natLt(n)
 ) : (a) // end of [LAgmat_get_at]
 overload [] with LAgmat_get_at
-fun
+fun{a:t0p}
 LAgmat_set_at
-  {a:t0p}{mo:mord}{m,n:int}
+  {mo:mord}{m,n:int}
 (
   M: !LAgmat(a, mo, m, n), i: natLt(m), j: natLt(n), x: a
 ) : void // end of [LAgmat_set_at]
 overload [] with LAgmat_set_at
+
+(* ****** ****** *)
+
+fun{a:t0p}
+LAgmat_getref_at
+  {mo:mord}{m,n:int}
+(
+  M: !LAgmat(a, mo, m, n), i: natLt(m), j: natLt(n)
+) : cPtr1(a) // end of [LAgmat_getref_at]
 
 (* ****** ****** *)
 //

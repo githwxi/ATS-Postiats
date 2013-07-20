@@ -376,6 +376,61 @@ end // end of [LAgmat_split_2x2]
 end // end of [local]
 
 (* ****** ****** *)
+
+implement{a}
+LAgmat_get_at
+  (M, i, j) = x where
+{
+//
+val cp = LAgmat_getref_at (M, i, j)
+val (pf, fpf | p) = $UN.cptr_vtake (cp)
+val x = !p
+prval () = fpf (pf)
+//
+} // end of [LAgmat_get_at]
+
+implement{a}
+LAgmat_set_at
+  (M, i, j, x) = () where
+{
+//
+val cp = LAgmat_getref_at (M, i, j)
+val (pf, fpf | p) = $UN.cptr_vtake (cp)
+val () = (!p := x)
+prval () = fpf (pf)
+//
+} // end of [LAgmat_set_at]
+
+(* ****** ****** *)
+
+implement{a}
+LAgmat_getref_at
+  (M, i, j) = let
+//
+val m = LAgmat_nrow (M)
+val n = LAgmat_ncol (M)
+val ord = LAgmat_mord (M)
+//
+var m2: int and n2: int
+var ld: int and tp: ptr
+val (pf, fpf, pftp | p) = LAgmat_vtakeout_matrix (M, m2, n2, ld, tp)
+//
+val () = LAgmat_TPN_assert (tp, "LAgmat_transp:transposed:M")
+//
+val p_ij =
+(
+case+ ord of
+| MORDrow () => ptr_add<a>(p, i*ld+j)
+| MORDcol () => ptr_add<a>(p, i+j*ld)
+) : ptr // endval
+//
+prval () = fpf (pf)
+//
+in
+  $UN.cast{cPtr1(a)}(p_ij)
+end // end of [Lagmat_getref_at]
+
+(* ****** ****** *)
 //
 implement{}
 fprint_LAgmat$sep1 (out) = fprint (out, ", ")
@@ -387,7 +442,7 @@ implement
 fprint_LAgmat
   (out, M) = let
 //
-val mo = LAgmat_mord (M)
+val ord = LAgmat_mord (M)
 //
 var m: int
 and n: int
@@ -419,7 +474,7 @@ implement
 fprint_gmatrix$sep2<>
   (out) = fprint_LAgmat$sep2 (out)
 in (* in of [local] *)
-val () = fprint_gmatrix (out, !p, mo, m, n, ld)
+val () = fprint_gmatrix (out, !p, ord, m, n, ld)
 end // end of [local]
 //
 prval () = fpf (pf)
@@ -448,7 +503,7 @@ end // end of [fprint_LAgmat_sep]
 
 implement{a}
 LAgmat_tabulate
-  (mo, m, n) = let
+  (ord, m, n) = let
 //
 infixl (/) %
 #define % g0uint_mod
@@ -459,7 +514,7 @@ val mn = m2 * n2
 //
 in
 //
-case+ mo of
+case+ ord of
 | MORDrow () => let
     implement
     array_tabulate$fopr<a> (isz) = let
@@ -468,7 +523,7 @@ case+ mo of
       LAgmat_tabulate$fopr<a> (g0u2i(i), g0u2i(j))
     end
   in
-    LAgmat_make_arrayptr (mo, arrayptr_tabulate<a> (mn), m, n)
+    LAgmat_make_arrayptr (ord, arrayptr_tabulate<a> (mn), m, n)
   end // end of [MORDrow]
 | MORDcol () => let
     implement
@@ -478,7 +533,7 @@ case+ mo of
       LAgmat_tabulate$fopr<a> (g0u2i(i), g0u2i(j))
     end
   in
-    LAgmat_make_arrayptr (mo, arrayptr_tabulate<a> (mn), m, n)
+    LAgmat_make_arrayptr (ord, arrayptr_tabulate<a> (mn), m, n)
   end // end of [MORDcol]
 //
 end // end of [LAgmat_tabulate]
@@ -675,7 +730,7 @@ LAgmat_axby
   alpha, A, beta, B
 ) = let
 //
-val mo = LAgmat_mord (A)
+val ord = LAgmat_mord (A)
 val nrow = LAgmat_nrow (A)
 val ncol = LAgmat_ncol (A)
 //
@@ -706,7 +761,7 @@ prval TPDIM_N () = pftpb
 //
 val () =
 (
-case+ mo of
+case+ ord of
 | MORDrow () =>
     blas_axby2_row (alpha, !pA, beta, !pB, nrow, ncol, lda, ldb)
 | MORDcol () =>
