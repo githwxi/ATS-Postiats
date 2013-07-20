@@ -210,7 +210,7 @@ prval (
 ) = LAgmat_uninitize (T)
 val () = LAgmat_copy (M1, T)
 val () = LAgmat_ax1y (_n1, M2, T)
-val () = LAgmat_1x1y (M4, T)
+val () = LAgmat_1x1y (M3, T)
 val () = LAgmat_1x1y (M6, T)
 val () = LAgmat_axby (alpha, T, beta, C22)
 //
@@ -233,27 +233,33 @@ typedef T = int
 val out = stdout_ref
 //
 val ord = MORDcol
-val nrow = 16 and ncol = 16
+val nrow = 4 and ncol = 4
 //
 local
 implement
 LAgmat_tabulate$fopr<T>
   (i, j) = gnumber_int<T>(i+j)
 in
-val M = LAgmat_tabulate<T> (ord, nrow, ncol)
+val A = LAgmat_tabulate<T> (ord, nrow, ncol)
+val B = LAgmat_tabulate<T> (ord, ncol, nrow)
 end
 //
-val M1 = incref (M)
-val M2 = M \mul10 M1
+val AB = A \mul11 B
 //
 implement
-fprint_LAgmat$sep2<>
-  (out) = fprint_newline (out)
-val () = fprintln! (out, "M =\n", M)
-val () = fprintln! (out, "M2 =\n", M2)
+fprint_val<T> (out, x) =
+ignoret (
+  $extfcall (int, "fprintf", out, "%2.2d", x)
+) // end of [fprint_val]
+implement
+fprint_LAgmat$sep2<> (out) = fprint_newline (out)
+val () = fprintln! (out, "A =\n", A)
+val () = fprintln! (out, "B =\n", B)
+val () = fprintln! (out, "AB =\n", AB)
 //
-val () = decref (M)
-val () = decref (M2)
+val () = decref (A)
+val () = decref (B)
+val () = decref (AB)
 //
 } // end of [val]
 
