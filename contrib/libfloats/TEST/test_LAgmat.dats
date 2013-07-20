@@ -43,7 +43,7 @@ staload _ = "libfloats/DATS/lamatrix.dats"
 (* ****** ****** *)
 
 infixr ^
-macdef ^ (M, t) = LAgmat_transp (,(M))
+macdef ^ (M, t) = LAgmat_transpose (,(M))
 
 (* ****** ****** *)
 

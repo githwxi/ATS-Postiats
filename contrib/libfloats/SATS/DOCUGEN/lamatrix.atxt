@@ -1,0 +1,92 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../lamatrix.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libfloats_lamatrix")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/libfloats/lamatrix\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package is a thin layer for helping use various BLAS and BLAS-like
+functions on matrices.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgmat_mord")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgmat_nrow")
+#declnamesynop("LAgmat_ncol")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgmat_vtakeout_matrix")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgmat_get_at")
+#declnamesynop("LAgmat_set_at")
+#declnamesynop("LAgmat_getref_at")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_LAgmat")
+#declnamesynop("fprint_LAgmat$sep")
+#declnamesynop("fprint_LAgmat_sep")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgmat_split_1x2")
+#declnamesynop("LAgmat_split_2x1")
+#declnamesynop("LAgmat_split_2x2")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgmat_tabulate")
+#declnamesynop("LAgmat_tabulate$fopr")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgmat_scal")
+#declnamesynop("scal_LAgmat")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgmat_copy")
+#declnamesynop("copy_LAgmat")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgmat_ax1y")
+#declnamesynop("LAgmat_axby")
+#declnamesynop("add11_LAgmat_LAgmat")
+#declnamesynop("sub11_LAgmat_LAgmat")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgmat_gemm")
+#declnamesynop("mul00_LAgmat_LAgmat")
+#declnamesynop("mul10_LAgmat_LAgmat")
+#declnamesynop("mul01_LAgmat_LAgmat")
+#declnamesynop("mul11_LAgmat_LAgmat")
+
+(* ****** ****** *)
+
+(* end of [lamatrix.atxt] *)

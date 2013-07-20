@@ -35,6 +35,7 @@ LAgmat_initize
 
 (* ****** ****** *)
 
+(*
 fun{}
 LAgmat_TPN_assert
   {tp:transp}
@@ -53,6 +54,7 @@ case+ tp of
   end // end of [TRANSP_C]
 //
 end // end of [LAgmat_TPN_assert]
+*)
 
 (* ****** ****** *)
 
@@ -70,11 +72,10 @@ LAgmat
   {mo:mord}
   {m,n:int}
   {ld:int}
-  {tp:transp}
   LAGMAT (a, mo, m, n) of
   (
     uint(*rfc*), sourcerfc
-  , ptr, MORD(mo), int(m), int(n), int(ld), TRANSP(tp)
+  , ptr, MORD(mo), int(m), int(n), int(ld)
   )
 // end of [LAgmat]
 
@@ -92,7 +93,7 @@ LAgmat_mord
   (M) = mo where
 {
 val+LAGMAT
-  (_, _, _, mo, _, _, _, _) = M
+  (_, _, _, mo, _, _, _) = M
 } (* end of [LAgmat_nrow] *)
 
 (* ****** ****** *)
@@ -101,14 +102,14 @@ implement{}
 LAgmat_nrow
   (M) = m where
 {
-val+LAGMAT (_, _, _, _, m, _, _, _) = M
+val+LAGMAT (_, _, _, _, m, _, _) = M
 } (* end of [LAgmat_nrow] *)
 
 implement{}
 LAgmat_ncol
   (M) = n where
 {
-val+LAGMAT (_, _, _, _, _, n, _, _) = M
+val+LAGMAT (_, _, _, _, _, n, _) = M
 } (* end of [LAgmat_ncol] *)
 
 (* ****** ****** *)
@@ -116,45 +117,18 @@ val+LAGMAT (_, _, _, _, _, n, _, _) = M
 implement{}
 LAgmat_vtakeout_matrix
   {a}{mo}{m,n}
-  (M, m2, n2, ld0, tp0) = let
+  (M, ld0) = let
 //
 val+LAGMAT
-  (_, _, gmp, mo, m, n, ld, tp) = M
+  (_, _, gmp, mo, m, n, ld) = M
 //
 val () = ld0 := ld
-val () = tp0 := tp
 //
 prval [ld:int]
   INTEQ () = inteq_make_gint (ld)
 //
 in
-//
-case+ tp of
-//
-| TPN () => let
-    val () = m2 := m
-    val () = n2 := n
-    val (pf, fpf | gmp) = $UN.ptr_vtake{gmatrix(a,mo,m,n,ld)}(gmp)
-  in
-    (pf, fpf, TPDIM_N () | gmp)
-  end
-//
-| TPT () => let
-    val () = m2 := n
-    val () = n2 := m
-    val (pf, fpf | gmp) = $UN.ptr_vtake{gmatrix(a,mo,n,m,ld)}(gmp)
-  in
-    (pf, fpf, TPDIM_T () | gmp)
-  end
-//
-| TPC () => let
-    val () = m2 := n
-    val () = n2 := m
-    val (pf, fpf | gmp) = $UN.ptr_vtake{gmatrix(a,mo,n,m,ld)}(gmp)
-  in
-    (pf, fpf, TPDIM_C () | gmp)
-  end
-//
+  $UN.ptr_vtake{gmatrix(a,mo,m,n,ld)}(gmp)
 end // end of [LAgmat_vtakeout_matrix]
 
 (* ****** ****** *)
@@ -164,7 +138,7 @@ LAgmat_incref
   {a}{mo}{l}{m,n} (M) = let
 //
 val+@LAGMAT
-  (rfc, _, _, _, _, _, _, _) = M
+  (rfc, _, _, _, _, _, _) = M
 val ((*void*)) = (rfc := succ(rfc))
 prval () = fold@(M)
 //
@@ -179,7 +153,7 @@ LAgmat_decref
   {a}{mo}{l}{m,n} (M) = let
 //
 val+@LAGMAT
-  (rfc, src, _, _, _, _, _, _) = M
+  (rfc, src, _, _, _, _, _) = M
 val rfc1 = pred (rfc)
 //
 in (* in of [LAgmat_decref] *)
@@ -220,7 +194,7 @@ val ld =
 ) : Int // end of [val]
 //
 in
-  LAGMAT (1u(*rfc*), src, pA, mo, m, n, ld, TPN)
+  LAGMAT (1u(*rfc*), src, pA, mo, m, n, ld)
 end // end of [LAgmat_make_arrayptr]
 
 implement{}
@@ -231,7 +205,7 @@ val pM = $UN.castvwtp0{ptr}(M)
 val src = refcnt_make<ptr> (pM)
 //
 in
-  LAGMAT (1u(*rfc*), src, pM, MORDrow, m, n, n, TPN)
+  LAGMAT (1u(*rfc*), src, pM, MORDrow, m, n, n)
 end // end of [LAgmat_make_matrixptr]
 
 (* ****** ****** *)
@@ -252,31 +226,11 @@ end // end of [LAgmat_make_uninitized]
 (* ****** ****** *)
 
 implement{a}
-LAgmat_transp
-  {mo}{m,n} (M) = let
-//
-val+LAGMAT
-  (_, src, gmp, mo, m, n, ld, tp) = M
-//
-val () = LAgmat_TPN_assert (tp, "LAgmat_transp:transposed:M")
-//
-val src2 = refcnt_incref (src)
-//
-in
-  LAGMAT (1u(*rfc*), src2, gmp, mo, n, m, ld, TPT)
-end // end of [LAgmat_transp]
-
-(* ****** ****** *)
-
-implement{a}
 LAgmat_split_1x2
   (M, j) = let
 //
 val+LAGMAT
-  (_, src, p, mo, m, n, ld, tp) = M
-//
-val (
-) = LAgmat_TPN_assert (tp, "LAgmat_split_1x2:transposed:M")
+  (_, src, p, mo, m, n, ld) = M
 //
 val src1 = refcnt_incref (src)
 val src2 = refcnt_incref (src)
@@ -291,8 +245,8 @@ case+ mo of
 //
 val j1 = j and j2 = n-j
 //
-val M1 = LAGMAT (1u(*rfc*), src1, p1, mo, m, j1, ld, tp)
-val M2 = LAGMAT (1u(*rfc*), src2, p2, mo, m, j2, ld, tp)
+val M1 = LAGMAT (1u(*rfc*), src1, p1, mo, m, j1, ld)
+val M2 = LAGMAT (1u(*rfc*), src2, p2, mo, m, j2, ld)
 //
 in
   (M1, M2)
@@ -303,10 +257,7 @@ LAgmat_split_2x1
   (M, i) = let
 //
 val+LAGMAT
-  (_, src, p, mo, m, n, ld, tp) = M
-//
-val (
-) = LAgmat_TPN_assert (tp, "LAgmat_split_2x1:transposed:M")
+  (_, src, p, mo, m, n, ld) = M
 //
 val src1 = refcnt_incref (src)
 val src2 = refcnt_incref (src)
@@ -321,8 +272,8 @@ case+ mo of
 //
 val i1 = i and i2 = m-i
 //
-val M1 = LAGMAT (1u(*rfc*), src1, p1, mo, i1, n, ld, tp)
-val M2 = LAGMAT (1u(*rfc*), src2, p2, mo, i2, n, ld, tp)
+val M1 = LAGMAT (1u(*rfc*), src1, p1, mo, i1, n, ld)
+val M2 = LAGMAT (1u(*rfc*), src2, p2, mo, i2, n, ld)
 //
 in
   (M1, M2)
@@ -335,10 +286,7 @@ LAgmat_split_2x2
   (M, i, j) = let
 //
 val+LAGMAT
-  (_, src, p, mo, m, n, ld, tp) = M
-//
-val (
-) = LAgmat_TPN_assert (tp, "LAgmat_split_2x2:transposed:M")
+  (_, src, p, mo, m, n, ld) = M
 //
 val src11 = refcnt_incref (src)
 val src12 = refcnt_incref (src)
@@ -362,10 +310,10 @@ val p22 = ptr_add<a> (p, d22)
 val i1 = i and i2 = m-i
 val j1 = j and j2 = n-j
 //
-val M11 = LAGMAT (1u(*rfc*), src11, p11, mo, i1, j1, ld, tp)
-val M12 = LAGMAT (1u(*rfc*), src12, p12, mo, i1, j2, ld, tp)
-val M21 = LAGMAT (1u(*rfc*), src21, p21, mo, i2, j1, ld, tp)
-val M22 = LAGMAT (1u(*rfc*), src22, p22, mo, i2, j2, ld, tp)
+val M11 = LAGMAT (1u(*rfc*), src11, p11, mo, i1, j1, ld)
+val M12 = LAGMAT (1u(*rfc*), src12, p12, mo, i1, j2, ld)
+val M21 = LAGMAT (1u(*rfc*), src21, p21, mo, i2, j1, ld)
+val M22 = LAGMAT (1u(*rfc*), src22, p22, mo, i2, j2, ld)
 //
 in
   (M11, M12, M21, M22)
@@ -411,11 +359,8 @@ val m = LAgmat_nrow (M)
 val n = LAgmat_ncol (M)
 val ord = LAgmat_mord (M)
 //
-var m2: int and n2: int
-var ld: int and tp: ptr
-val (pf, fpf, pftp | p) = LAgmat_vtakeout_matrix (M, m2, n2, ld, tp)
-//
-val () = LAgmat_TPN_assert (tp, "LAgmat_transp:transposed:M")
+var ld: int
+val (pf, fpf | p) = LAgmat_vtakeout_matrix (M, ld)
 //
 val p_ij =
 (
@@ -442,29 +387,12 @@ implement
 fprint_LAgmat
   (out, M) = let
 //
+val m = LAgmat_nrow (M)
+val n = LAgmat_ncol (M)
 val ord = LAgmat_mord (M)
 //
-var m: int
-and n: int
 var ld: int
-var tp: ptr?
-val (
-  pf, fpf, pftr | p
-) = LAgmat_vtakeout_matrix (M, m, n, ld, tp)
-//
-val () =
-(
-case tp of
-| TPN () => ()
-| TPT () =>
-  (
-    fprint (out, "transped:\n")
-  )
-| TPC () =>
-  (
-    fprint (out, "ctransped:\n")
-  )
-) : void // end of [val]
+val (pf, fpf | p) = LAgmat_vtakeout_matrix (M, ld)
 //
 local
 implement
@@ -549,27 +477,22 @@ val m = LAgmat_nrow (M)
 val n = LAgmat_ncol (M)
 val ord = LAgmat_mord (M)
 //
-var m2: int and n2: int
-var ld: int and tp: ptr
-//
-val
-(
-  pf, fpf, pftp | p
-) = LAgmat_vtakeout_matrix (M, m2, n2, ld, tp)
+var ld: int
+val (pf, fpf | p) = LAgmat_vtakeout_matrix (M, ld)
 //
 in
 //
 case+ ord of
 | MORDrow () => let
     val () =
-    blas_scal2_row (alpha, !p, m2, n2, ld)
+    blas_scal2_row (alpha, !p, m, n, ld)
     prval () = fpf (pf)
   in
     // nothing
   end // end of [MORDrow]
 | MORDcol () => let
     val () =
-    blas_scal2_col (alpha, !p, m2, n2, ld)
+    blas_scal2_col (alpha, !p, m, n, ld)
     prval () = fpf (pf)
   in
     // nothing
@@ -616,30 +539,9 @@ val m = LAgmat_nrow (M1)
 val n = LAgmat_ncol (M1)
 val ord = LAgmat_mord (M1)
 //
-var m1: int and n1: int
-var m2: int and n2: int
 var ld1: int and ld2: int
-var tp1: ptr and tp2: ptr
-//
-val
-(
-  pf1, fpf1, pftp1 | p1
-) = LAgmat_vtakeout_matrix (M1, m1, n1, ld1, tp1)
-val
-(
-  pf2, fpf2, pftp2 | p2
-) = LAgmat_vtakeout_matrix (M2, m2, n2, ld2, tp2)
-//
-val (
-) = LAgmat_TPN_assert (tp1, "LAgmat_copy:transposed:M1")
-val (
-) = LAgmat_TPN_assert (tp2, "LAgmat_copy:transposed:M2")
-//
-val-TPN () = tp1
-val-TPN () = tp2
-//
-prval TPDIM_N () = pftp1
-prval TPDIM_N () = pftp2
+val (pf1, fpf1 | p1) = LAgmat_vtakeout_matrix (M1, ld1)
+val (pf2, fpf2 | p2) = LAgmat_vtakeout_matrix (M2, ld2)
 //
 in
 //
@@ -734,30 +636,10 @@ val ord = LAgmat_mord (A)
 val nrow = LAgmat_nrow (A)
 val ncol = LAgmat_ncol (A)
 //
-var ma: int and mb: int
-var na: int and nb: int
 var lda: int and ldb: int
-var tpa: ptr and tpb: ptr
 //
-val
-(
-  pfa, fpfa, pftpa | pA
-) = LAgmat_vtakeout_matrix (A, ma, na, lda, tpa)
-val
-(
-  pfb, fpfb, pftpb | pB
-) = LAgmat_vtakeout_matrix (B, mb, nb, ldb, tpb)
-//
-val (
-) = LAgmat_TPN_assert (tpa, "LAgmat_axby:transposed:A")
-val (
-) = LAgmat_TPN_assert (tpb, "LAgmat_axby:transposed:B")
-//
-val-TPN () = tpa
-val-TPN () = tpb
-//
-prval TPDIM_N () = pftpa
-prval TPDIM_N () = pftpb
+val (pfa, fpfa | pA) = LAgmat_vtakeout_matrix (A, lda)
+val (pfb, fpfb | pB) = LAgmat_vtakeout_matrix (B, ldb)
 //
 val () =
 (
@@ -804,49 +686,47 @@ val ((*void*)) = LAgmat_1x1y (A, res)
 
 implement{a}
 LAgmat_gemm
+  {mo}{p,q,r}
 (
-  alpha, A, B, beta, C
+  pftra, pftrb
+| alpha, A, tra, B, trb, beta, C
 ) = let
 //
-val p = LAgmat_nrow (A)
-val q = LAgmat_nrow (B)
+val p = LAgmat_nrow (C)
 val r = LAgmat_ncol (C)
+val ma = LAgmat_nrow (A)
+val na = LAgmat_ncol (A)
+val q =
+(
+case+ tra of
+| TPN () => let
+    prval TPDIM_N () = pftra in na
+  end // end of [TPN]
+| TPT () => let
+    prval TPDIM_T () = pftra in ma
+  end // end of [TPT]
+| TPC () => let
+    prval TPDIM_C () = pftra in ma
+  end // end of [TPC]
+) : int(q) // endval
 val ord = LAgmat_mord (C)
 //
-var ma: int and mb: int and mc: int
-var na: int and nb: int and nc: int
 var lda: int and ldb: int and ldc: int
-var tpa: ptr and tpb: ptr and tpc: ptr
-//
-val
-(
-  pfa, fpfa, pftpa | pA
-) = LAgmat_vtakeout_matrix (A, ma, na, lda, tpa)
-val
-(
-  pfb, fpfb, pftpb | pB
-) = LAgmat_vtakeout_matrix (B, mb, nb, ldb, tpb)
-val
-(
-  pfc, fpfc, pftpc | pC
-) = LAgmat_vtakeout_matrix (C, mc, nc, ldc, tpc)
-//
-val () = LAgmat_TPN_assert (tpc, "LAgmat_gemm:transposed:C")
-//
-val-TPN () = tpc
-prval TPDIM_N () = pftpc
+val (pfa, fpfa | pA) = LAgmat_vtakeout_matrix (A, lda)
+val (pfb, fpfb | pB) = LAgmat_vtakeout_matrix (B, ldb)
+val (pfc, fpfc | pC) = LAgmat_vtakeout_matrix (C, ldc)
 //
 val () = (
 case+ ord of
 | MORDrow () =>
   blas_gemm_row
   (
-    pftpa, pftpb | alpha, !pA, tpa, !pB, tpb, beta, !pC, p, q, r, lda, ldb, ldc
+    pftra, pftrb | alpha, !pA, tra, !pB, trb, beta, !pC, p, q, r, lda, ldb, ldc
   )
 | MORDcol () =>
   blas_gemm_col
   (
-    pftpa, pftpb | alpha, !pA, tpa, !pB, tpb, beta, !pC, p, q, r, lda, ldb, ldc
+    pftra, pftrb | alpha, !pA, tra, !pB, trb, beta, !pC, p, q, r, lda, ldb, ldc
   )
 ) : void // end of [val]
 //
@@ -908,7 +788,7 @@ local
 implement
 blas$_alpha_beta<a> (alpha, x, beta, y) = x
 in (* in of [local] *)
-val ((*void*)) = LAgmat_gemm (_1, A, B, _0, C)
+val () = LAgmat_gemm (TPDIM_N, TPDIM_N |_1, A, TPN, B, TPN, _0, C)
 end // end of [local]
 //
 } // end of [mul11_LAgmat_LAgmat]

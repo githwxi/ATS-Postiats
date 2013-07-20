@@ -60,17 +60,13 @@ LAgmat_vtakeout_matrix
   {a:t0p}{mo:mord}{m,n:int}
 (
   !LAgmat(a, mo, m, n)
-, &int? >> int(m2)
-, &int? >> int(n2)
-, &int? >> int(ld)
-, &ptr? >> TRANSP(tp)
+, ld: &int? >> int(ld)
 ) :
 #[
-  l:addr;m2,n2:int;ld:int;tp:transp
+  l:addr;ld:int;tp:transp
 ] (
-  gmatrix_v (a, mo, l, m2, n2, ld)
-, gmatrix_v (a, mo, l, m2, n2, ld) -<lin,prf> void
-, transpdim (tp, m2, n2, m, n)
+  gmatrix_v (a, mo, l, m, n, ld)
+, gmatrix_v (a, mo, l, m, n, ld) -<lin,prf> void
 | ptr (l)
 ) // end of [LAgmat_vtakeout_matrix]
 
@@ -145,10 +141,10 @@ LAgmat_make_uninitized
 (* ****** ****** *)
 
 fun{a:t0p}
-LAgmat_transp
+LAgmat_transpose
   {mo:mord}{m,n:int}
   (!LAgmat(a, mo, m, n)): LAgmat(a, mo, n, m)
-// end of [LAgmat_transp]
+// end of [LAgmat_transpose]
 
 (* ****** ****** *)
 
@@ -157,16 +153,17 @@ LAgmat_get_at
   {mo:mord}{m,n:int}
 (
   M: !LAgmat(a, mo, m, n), i: natLt(m), j: natLt(n)
-) : (a) // end of [LAgmat_get_at]
-overload [] with LAgmat_get_at
+) : (a) // endfun
 fun{a:t0p}
 LAgmat_set_at
   {mo:mord}{m,n:int}
 (
   M: !LAgmat(a, mo, m, n), i: natLt(m), j: natLt(n), x: a
-) : void // end of [LAgmat_set_at]
+) : void // endfun
+//
+overload [] with LAgmat_get_at
 overload [] with LAgmat_set_at
-
+//
 (* ****** ****** *)
 
 fun{a:t0p}
@@ -231,17 +228,6 @@ LAgmat_split_2x2
 , LAgmat(a, mo, m-i,   j)
 , LAgmat(a, mo, m-i, n-j)
 ) (* end of [LAgmat_split_2x2] *)
-
-(* ****** ****** *)
-
-fun{a:t0p}
-LAgmat_imake$fopr
-  (i: intGte(0), j: intGte(0), x: a): a
-fun{a:t0p}
-LAgmat_imake_matrixptr
-  {mo:mord}{m,n:pos}
-  (!LAgmat(a, mo, m, n)): matrixptr (a, m, n)
-// end of [LAgmat_imake_matrixptr]
 
 (* ****** ****** *)
 
@@ -351,10 +337,14 @@ fun{a:t0p}
 LAgmat_gemm
   {mo:mord}
   {p,q,r:int}
+  {tra,trb:transp}
+  {ma,na:int}{mb,nb:int}
 (
-  alpha: a
-, A: !LAgmat(a, mo, p, q)
-, B: !LAgmat(a, mo, q, r)
+  pfa: transpdim (tra, ma, na, p, q)
+, pfb: transpdim (trb, mb, nb, q, r)   
+| alpha: a
+, A: !LAgmat(a, mo, ma, na), TRANSP(tra)
+, B: !LAgmat(a, mo, mb, nb), TRANSP(trb)
 , beta: a
 , C: !LAgmat(a, mo, p, r) >> _
 ) : void // endfun

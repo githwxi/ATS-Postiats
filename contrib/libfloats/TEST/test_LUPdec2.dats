@@ -74,8 +74,9 @@ val a00 = M00[0,0]
 val () = LAgmat_decref (M00)
 val alpha = grecip_val<a> (a00)
 val () = LAgmat_scal (alpha, M10)
-val alpha2 = gnumber_int<a>(~1) and beta2 = gnumber_int<a>(1)
-val () = LAgmat_gemm (alpha2, M10, M01, beta2, M11)
+val alpha2 = gnumber_int<a>(~1) and _1 = gnumber_int<a>(1)
+val () = LAgmat_gemm (TPDIM_N, TPDIM_N | alpha2, M10, TPN, M01, TPN, _1, M11)
+//
 val () = LAgmat_decref2 (M01, M10)
 val () = loop (M11, m-1)
 //
