@@ -30,7 +30,14 @@ lemma_LAgmat_param
 : [0 <= mo; mo <= 1; 0 <= m; 0 <= n] void
 
 (* ****** ****** *)
-
+//
+// HX: only if you know what you are doing
+//
+praxi
+LAgmat_initize
+  {a:t0p}{mo:mord}{m,n:int}
+  (M: !LAgmat(a?, mo, m, n) >> LAgmat(a, mo, m, n)): void
+// end of [LAgmat_initize]
 praxi
 LAgmat_uninitize
   {a:t0p}{mo:mord}{m,n:int}

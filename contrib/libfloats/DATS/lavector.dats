@@ -22,15 +22,6 @@ staload "libfloats/SATS/lavector.sats"
 
 (* ****** ****** *)
 
-extern
-praxi
-LAgvec_initize
-  {a:t0p}{n:int}
-  (V: !LAgvec(a?, n) >> LAgvec(a, n)): void
-// end of [LAgvec_initize]
-
-(* ****** ****** *)
-
 local
 
 vtypedef

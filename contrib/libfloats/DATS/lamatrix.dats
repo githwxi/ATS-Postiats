@@ -26,15 +26,6 @@ staload "libfloats/SATS/lamatrix.sats"
 
 (* ****** ****** *)
 
-extern
-praxi
-LAgmat_initize
-  {a:t0p}{mo:mord}{m,n:int}
-  (M: !LAgmat(a?, mo, m, n) >> LAgmat(a, mo, m, n)): void
-// end of [LAgmat_initize]
-
-(* ****** ****** *)
-
 (*
 fun{}
 LAgmat_TPN_assert
@@ -515,13 +506,13 @@ val ord = LAgmat_mord (M)
 prval () = lemma_LAgmat_param (M)
 //
 val M2 = LAgmat_make_uninitized<a> (ord, m, n)
-val () = LAgmat_initize (M2)
 //
 val _0 = gnumber_int<a>(0)
 local
 implement
 blas$_alpha_beta<a>
   (alpha, x, beta, y) = gmul_val<a> (alpha, x)
+prval () = LAgmat_initize (M2)
 in (* in of [local] *)
 val () = LAgmat_axby (alpha, M, _0, M2)
 end // end of [local]
@@ -812,11 +803,11 @@ val C = LAgmat_make_uninitized (ord, p, r)
 //
 val _1 = gnumber_int<a>(1)
 val _0 = gnumber_int<a>(0)
-prval () = LAgmat_initize (C)
 //
 local
 implement
 blas$_alpha_beta<a> (alpha, x, beta, y) = x
+prval () = LAgmat_initize (C)
 in (* in of [local] *)
 val () = LAgmat_gemm (TPDIM_N, TPDIM_N | _1, A, TPN, B, TPN, _0, C)
 end // end of [local]
