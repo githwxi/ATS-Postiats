@@ -89,6 +89,11 @@ functions on matrices.
 
 (* ****** ****** *)
 
+#declnamesynop("LAgmat_transp")
+#declnamesynop("transp_LAgmat")
+
+(* ****** ****** *)
+
 #declnamesynop("LAgmat_ax1y")
 #declnamesynop("LAgmat_axby")
 #declnamesynop("add11_LAgmat_LAgmat")

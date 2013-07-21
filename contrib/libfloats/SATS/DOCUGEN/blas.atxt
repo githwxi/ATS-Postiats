@@ -29,6 +29,7 @@ BLAS-like functions.
 (* ****** ****** *)
 
 #declnamesynop("blas$gnorm")
+#declnamesynop("blas$gnorm2")
 
 (* ****** ****** *)
 

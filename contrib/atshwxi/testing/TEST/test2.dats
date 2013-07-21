@@ -18,7 +18,7 @@ factorial
 //
 val xs =
   list_tabulate (n) where {
-  implement list_tabulate$fwork<int> (i) = i
+  implement list_tabulate$fopr<int> (i) = i
 } // end of [where] // end of [val]
 //
 typedef res = int
