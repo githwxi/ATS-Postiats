@@ -345,6 +345,37 @@ dynload "pats_ccomp_main.dats"
 dynload "pats_comarg.dats"
 //
 (* ****** ****** *)
+
+fn patsopt_usage
+(
+  out: FILEref, arg0: comarg
+) : void = let
+//
+val COMARGkey (_, cmdname) = arg0
+//
+in
+//
+fprintln! (out, "usage: ", cmdname, " <command> ... <command>\n");
+fprintln! (out, "where a <command> is of one of the following forms:\n");
+fprintln! (out, "  -h (for printing out this help usage)");
+fprintln! (out, "  --help (for printing out this help usage)");
+fprintln! (out, "  -v (for printing out the version)");
+fprintln! (out, "  --version (for printing out the version)");
+fprintln! (out, "  -s filenames (for compiling (many) static <filenames>)");
+fprintln! (out, "  --static filenames (for compiling (many) static <filenames>)");
+fprintln! (out, "  -d filenames (for compiling (many) dynamic <filenames>)");
+fprintln! (out, "  --dynamic filenames (for compiling (many) dynamic <filenames>)");
+fprintln! (out, "  -o filename (output into <filename>)");
+fprintln! (out, "  --output filename (output into <filename>)");
+fprintln! (out, "  -tc (for typechecking only)");
+fprintln! (out, "  --typecheck (for typechecking only)");
+fprintln! (out, "  --depgen (for generating file dependencices only)");
+fprintln! (out, "  --gline (for generating line pragma information on source code)");
+fprint_newline (out);
+//
+end // end of [patsopt_usage]
+
+(* ****** ****** *)
 //
 #define PATS_MAJOR_VERSION 1
 #define PATS_MINOR_VERSION 0
@@ -361,7 +392,7 @@ dynload "pats_comarg.dats"
 *)
 //
 fn patsopt_version
-  (out: FILEref): void =
+  (out: FILEref, arg0: comarg): void =
 {
   val () = fprintf (out
 , "ATS/Postiats version %i.%i.%i with Copyright (c) 2011-20?? Hongwei Xi\n"
@@ -1018,13 +1049,13 @@ case+ key of
   in
   end // end of [-d]
 //
-| "-dep" => {
-    val () = state.depgenflag := 1
-  }
-//
 | "-tc" => {
     val () = state.typecheckonly := true
   } // end of [-tc]
+//
+| "-dep" => {
+    val () = state.depgenflag := 1
+  } // end of [-dep]
 //
 | _ when
     is_DATS_flag (key) => let
@@ -1057,7 +1088,8 @@ case+ key of
     end // end of [if]
   end
 //
-| "-v" => patsopt_version (stdout_ref)
+| "-h" => patsopt_usage (stdout_ref, state.comarg0)
+| "-v" => patsopt_version (stdout_ref, state.comarg0)
 //
 | _ => comarg_warning (key) // unrecognized key
 //
@@ -1096,7 +1128,12 @@ case+ key of
     val () = state.depgenflag := 1
   } // end of [--depgen]
 //
-| "--version" => patsopt_version (stdout_ref)
+| "--gline" => {
+    val () = $GLOB.the_DEBUGATS_dbgline_set (1)
+  } // end of [--gline]
+//
+| "--help" => patsopt_usage (stdout_ref, state.comarg0)
+| "--version" => patsopt_version (stdout_ref, state.comarg0)
 //
 | _ => comarg_warning (key) // unrecognized key
 //

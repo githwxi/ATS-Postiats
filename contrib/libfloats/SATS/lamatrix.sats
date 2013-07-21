@@ -18,6 +18,10 @@ staload "libats/SATS/gmatrix.sats"
 staload "contrib/libfloats/SATS/lavector.sats"
 
 (* ****** ****** *)
+
+#define WR(x) x
+
+(* ****** ****** *)
 //
 absvtype
 LAgmat_vtype
@@ -42,13 +46,15 @@ lemma_LAgmat_param
 //
 praxi
 LAgmat_initize
-  {a:t0p}{mo:mord}{m,n:int}
-  (M: !LAgmat(a?, mo, m, n) >> LAgmat(a, mo, m, n)): void
+  {a:t0p}{mo:mord}
+  {l:addr}{m,n:int}
+  (M: !LAgmat(a?, mo, l, m, n) >> LAgmat(a, mo, l, m, n)): void
 // end of [LAgmat_initize]
 praxi
 LAgmat_uninitize
-  {a:t0p}{mo:mord}{m,n:int}
-  (M: !LAgmat(a, mo, m, n) >> LAgmat(a?, mo, m, n)): void
+  {a:t0p}{mo:mord}
+  {l:addr}{m,n:int}
+  (M: !LAgmat(a, mo, l, m, n) >> LAgmat(a?, mo, l, m, n)): void
 // end of [LAgmat_uninitize]
 
 (* ****** ****** *)
@@ -187,14 +193,6 @@ LAgmat_make_uninitized
 (* ****** ****** *)
 
 fun{a:t0p}
-LAgmat_transpose
-  {mo:mord}{m,n:int}
-  (!LAgmat(a, mo, m, n)): LAgmat(a, mo, n, m)
-// end of [LAgmat_transpose]
-
-(* ****** ****** *)
-
-fun{a:t0p}
 LAgmat_get_at
   {mo:mord}{m,n:int}
 (
@@ -303,6 +301,36 @@ LAgmat_tabulate
 
 (* ****** ****** *)
 //
+fun
+{a:t0p}
+{env:vt0p}
+LAgmat_iforeach$fwork
+  (i: int, j: int, x: &a >> _, env: &env >> _): void
+fun{a:t0p}
+LAgmat_iforeach
+  {mo:mord}{m,n:int} (!LAgmat (a, mo, m, n) >> _): void
+fun
+{a:t0p}
+{env:vt0p}
+LAgmat_iforeach_env
+  {mo:mord}{m,n:int}
+  (M: !LAgmat (a, mo, m, n) >> _, env: &env >> _): void
+//
+(* ****** ****** *)
+//
+fun{a:t0p}
+LAgmat_imake$fopr (i: int, j: int, x: a): a
+fun{a:t0p}
+LAgmat_imake_arrayptr
+  {mo:mord}{m,n:int}
+  (M: !LAgmat (a, mo, m, n)): arrayptr (a, m*n)
+fun{a:t0p}
+LAgmat_imake_matrixptr
+  {mo:mord}{m,n:int}
+  (M: !LAgmat (a, mo, m, n)): matrixptr (a, m, n)
+//
+(* ****** ****** *)
+//
 // X <- alpha*X
 //
 fun{a:t0p}
@@ -337,6 +365,22 @@ copy_LAgmat
   {mo:mord}{m,n:int}
   (X: !LAgmat(a, mo, m, n)) : LAgmat(a, mo, m, n)
 // end of [copy_LAgmat]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+LAgmat_transp
+  {mo:mord}{m,n:int}
+(
+  X: !LAgmat(a, mo, m, n)
+, Y: !LAgmat(a?, mo, n, m) >> LAgmat(a, mo, n, m)
+) : void // endfun
+
+fun{a:t0p}
+transp_LAgmat
+  {mo:mord}{m,n:int}
+  (X: !LAgmat(a, mo, m, n)) : LAgmat(a, mo, n, m)
+// end of [transp_LAgmat]
 
 (* ****** ****** *)
 //

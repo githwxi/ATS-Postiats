@@ -61,7 +61,7 @@ fun the_DEBUGATS_dbgflag_get (): int
 fun the_DEBUGATS_dbgflag_set (flag: int): void
 
 fun the_DEBUGATS_dbgline_get (): int
-fun the_DEBUGATS_dbgline_set (line: int): void
+fun the_DEBUGATS_dbgline_set (flag: int): void
 
 (* ****** ****** *)
 

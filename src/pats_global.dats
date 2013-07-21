@@ -145,7 +145,7 @@ in // in of [local]
 implement
 the_DEBUGATS_dbgline_get () = !rdbgline
 implement
-the_DEBUGATS_dbgline_set (line) = !rdbgline := line
+the_DEBUGATS_dbgline_set (flag) = !rdbgline := flag
 
 end // end of [local]
 

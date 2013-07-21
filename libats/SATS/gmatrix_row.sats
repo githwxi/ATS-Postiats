@@ -273,6 +273,15 @@ gmatrow_copyto
 , int(m), int(n), int(ld1), int(ld2)
 ) : void // end of [gmatrow_copyto]
 
+fun{a:t0p}
+gmatrow_transpto
+  {m,n:int}{ld1,ld2:int}
+(
+  M1: &GMR(a, m, n, ld1)
+, M2: &GMR(a?, n, m, ld2) >> GMR(a, n, m, ld2)
+, int(m), int(n), int(ld1), int(ld2)
+) : void // end of [gmatrow_transpto]
+
 (* ****** ****** *)
 
 fun{a:t0p}

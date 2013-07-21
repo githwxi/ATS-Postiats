@@ -557,6 +557,98 @@ end // end of [LAgmat_tabulate]
 
 (* ****** ****** *)
 
+(*
+fun{a:t0p}{env:vt0p}
+LAgmat_iforeach$fwork
+  (int, int, &a >> _, &env >> _): void
+*)
+
+implement
+{a}(*tmp*)
+LAgmat_iforeach
+  (M) = let
+  var env: void = ()
+in
+  LAgmat_iforeach_env<a><void> (M, env)
+end // end of [LAgmat_iforeach]
+
+implement
+{a}{env}
+LAgmat_iforeach_env
+  (M, env) = let
+//
+val m = LAgmat_nrow (M)
+val n = LAgmat_ncol (M)
+val ord = LAgmat_mord (M)
+//
+var ld: int
+val (pf, fpf | p) = LAgmat_vtakeout_matrix (M, ld)
+//
+implement
+gmatrix_iforeach$fwork<a><env> = LAgmat_iforeach$fwork<a><env>
+//
+val () = gmatrix_iforeach_env<a><env> (!p, ord, m, n, ld, env)
+//
+prval () = fpf (pf)
+//
+in
+  // nothing
+end // end of [LAgmat_iforeach_env]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+LAgmat_imake_arrayptr
+  (M) = let
+//
+val m = LAgmat_nrow (M)
+val n = LAgmat_ncol (M)
+val ord = LAgmat_mord (M)
+//
+var ld: int
+val (pf, fpf | p) = LAgmat_vtakeout_matrix (M, ld)
+//
+implement
+gmatrix_imake$fopr<a> = LAgmat_imake$fopr<a>
+//
+val A = gmatrix_imake_arrayptr<a> (!p, ord, m, n, ld)
+//
+prval () = fpf (pf)
+//
+in
+  A
+end // end of [LAgmat_imake_arrayptr]
+
+implement
+{a}(*tmp*)
+LAgmat_imake_matrixptr
+  (M) = let
+//
+val m = LAgmat_nrow (M)
+val n = LAgmat_ncol (M)
+val ord = LAgmat_mord (M)
+//
+var ld: int
+val (pf, fpf | p) = LAgmat_vtakeout_matrix (M, ld)
+//
+implement
+gmatrix_imake$fopr<a> = LAgmat_imake$fopr<a>
+//
+val A = gmatrix_imake_matrixptr<a> (!p, ord, m, n, ld)
+//
+prval () = fpf (pf)
+//
+in
+  A
+end // end of [LAgmat_imake_matrixptr]
+
+(* ****** ****** *)
+//
+// HX: BLAS and BLAS-like functions
+//
+(* ****** ****** *)
+
 implement
 {a}(*tmp*)
 LAgmat_scal
@@ -637,7 +729,7 @@ in
 case+ ord of
 | MORDrow () => let
     val () =
-    blas_copy2_row (!p1, !p2, m, n, ld1, ld2)
+    gmatrow_copyto (!p1, !p2, m, n, ld1, ld2)
     prval () = gmatrix_uninitize(!p2)
     prval () = fpf1 (pf1) and () = fpf2 (pf2)
     prval () = LAgmat_initize{a}(M2)
@@ -646,7 +738,7 @@ case+ ord of
   end // end of [MORDrow]
 | MORDcol () => let
     val () =
-    blas_copy2_col (!p1, !p2, m, n, ld1, ld2)
+    gmatcol_copyto (!p1, !p2, m, n, ld1, ld2)
     prval () = gmatrix_uninitize(!p2)
     prval () = fpf1 (pf1) and () = fpf2 (pf2)
     prval () = LAgmat_initize{a}(M2)
@@ -674,6 +766,64 @@ val M2 = LAgmat_make_uninitized<a> (ord, m, n)
 val () = LAgmat_copy (M, M2)
 //
 } // end of [copy_LAgmat]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+LAgmat_transp
+  (M1, M2) = let
+//
+val m = LAgmat_nrow (M1)
+val n = LAgmat_ncol (M1)
+val ord = LAgmat_mord (M1)
+//
+var ld1: int and ld2: int
+val (pf1, fpf1 | p1) = LAgmat_vtakeout_matrix (M1, ld1)
+val (pf2, fpf2 | p2) = LAgmat_vtakeout_matrix (M2, ld2)
+//
+in
+//
+case+ ord of
+| MORDrow () => let
+    val () =
+    gmatrow_transpto (!p1, !p2, m, n, ld1, ld2)
+    prval () = gmatrix_uninitize(!p2)
+    prval () = fpf1 (pf1) and () = fpf2 (pf2)
+    prval () = LAgmat_initize{a}(M2)
+  in
+    // nothing
+  end // end of [MORDrow]
+| MORDcol () => let
+    val () =
+    gmatcol_transpto (!p1, !p2, m, n, ld1, ld2)
+    prval () = gmatrix_uninitize(!p2)
+    prval () = fpf1 (pf1) and () = fpf2 (pf2)
+    prval () = LAgmat_initize{a}(M2)
+  in
+    // nothing
+  end // end of [MORDcol]
+//
+end // end of [LAgmat_transp]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+transp_LAgmat
+  (M) = M2 where
+{
+//
+val m = LAgmat_nrow (M)
+and n = LAgmat_ncol (M)
+val ord = LAgmat_mord (M)
+//
+prval () = lemma_LAgmat_param (M)
+//
+val M2 = LAgmat_make_uninitized<a> (ord, n, m)
+val () = LAgmat_transp (M, M2)
+//
+} // end of [transp_LAgmat]
 
 (* ****** ****** *)
 

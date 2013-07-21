@@ -64,6 +64,11 @@ that is, two-dimensional arrays of column-major style.
 
 (* ****** ****** *)
 
+#declnamesynop("gmatcol_copyto")
+#declnamesynop("gmatcol_transpto")
+
+(* ****** ****** *)
+
 #declnamesynop("gmatcol_ptr_split_2x2")
 
 (* ****** ****** *)

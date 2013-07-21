@@ -186,6 +186,29 @@ gmatrix_v_flipord
 //
 (* ****** ****** *)
 
+fun{}
+fprint_gmatrix$sep1 (out: FILEref): void
+fun{}
+fprint_gmatrix$sep2 (out: FILEref): void
+fun{a:t0p}
+fprint_gmatrix
+  {mo:mord}{m,n:int}{ld:int}
+(
+  FILEref
+, V: &GMX(a, mo, m, n, ld), MORD(mo), int(m), int(n), int(ld)
+) : void // end of [fprint_gmatrix]
+
+fun{a:t0p}
+fprint_gmatrix_sep
+  {mo:mord}{m,n:int}{ld:int}
+(
+  FILEref
+, V: &GMX(a, mo, m, n, ld)
+, MORD(mo), int(m), int(n), int(ld), sep1: string, sep: string
+) : void // end of [fprint_gmatrix_sep]
+
+(* ****** ****** *)
+
 fun{
 a:t0p}{env:vt0p
 } gmatrix_iforeach$fwork{n:int}
@@ -213,26 +236,19 @@ a:t0p}{env:vt0p
 fun{a:t0p}
 gmatrix_imake$fopr
   (i: int, j: int, x: a): a
+
+fun{a:t0p}
+gmatrix_imake_arrayptr
+  {mo:mord}{m,n:int}{ld:int}
+(
+  M: &GMX(a, mo, m, n, ld), mo: MORD(mo), int m, int n, int(ld)
+) : arrayptr (a, m*n) // end of [gmatrix_imake_arrayptr]
 fun{a:t0p}
 gmatrix_imake_matrixptr
   {mo:mord}{m,n:int}{ld:int}
 (
   M: &GMX(a, mo, m, n, ld), mo: MORD(mo), int m, int n, int(ld)
 ) : matrixptr (a, m, n) // end of [gmatrix_imake_matrixptr]
-
-(* ****** ****** *)
-
-fun{}
-fprint_gmatrix$sep1 (out: FILEref): void
-fun{}
-fprint_gmatrix$sep2 (out: FILEref): void
-fun{a:t0p}
-fprint_gmatrix
-  {mo:mord}{m,n:int}{ld:int}
-(
-  FILEref
-, V: &GMX(a, mo, m, n, ld), MORD(mo), int(m), int(n), int(ld)
-) : void // end of [fprint_gmatrix]
 
 (* ****** ****** *)
 

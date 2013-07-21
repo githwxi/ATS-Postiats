@@ -45,99 +45,6 @@ staload "libats/SATS/gmatrix_row.sats"
 
 (* ****** ****** *)
 
-implement
-{a}(*tmp*)
-gmatrix_iforeach
-  (M, mo, m, n, ld) = let
-  var env: void = () in
-  gmatrix_iforeach_env<a><void> (M, mo, m, n, ld, env)
-end // end of [gmatrix_iforeach]
-
-(* ****** ****** *)
-
-implement
-{a}{env}
-gmatrix_iforeach_env
-  (M, mo, m, n, ld, env) = let
-//
-in
-//
-case mo of
-| MORDrow () => let
-    var i: int = 0
-    and j: int = 0
-    var p_i: ptr = addr@(M)
-    var p_ij: ptr = the_null_ptr
-  in
-    for (i := 0; i < m; i := i+1)
-    {
-      val () = p_ij := p_i
-      val (
-      ) = for (j := 0; j < n; j := j+1)
-      {
-        val (pf, fpf | p) = $UN.ptr0_vtake (p_ij)
-        val () = gmatrix_iforeach$fwork<a><env> (i, j, !p, env)
-        prval () = fpf (pf)
-        val () = p_ij := ptr_succ<a> (p)
-      }
-      val () = p_i := ptr_add<a> (p_i, ld)
-    } 
-  end // end of [MORDrow]
-| MORDcol () => let
-    var i: int = 0
-    and j: int = 0
-    var p_j: ptr = addr@(M)
-    var p_ij: ptr = the_null_ptr
-  in
-    for (j := 0; j < n; j := j+1)
-    {
-      val () = p_ij := p_j
-      val (
-      ) = for (i := 0; i < m; i := i+1)
-      {
-        val (pf, fpf | p) = $UN.ptr0_vtake (p_ij)
-        val () = gmatrix_iforeach$fwork<a><env> (i, j, !p, env)
-        prval () = fpf (pf)
-        val () = p_ij := ptr_succ<a> (p)
-      }
-      val () = p_j := ptr_add<a> (p_j, ld)
-    } 
-  end // end of [MORDcol]
-//
-end // end of [gmatrix_iforeach_env]
-
-(* ****** ****** *)
-
-implement{a}
-gmatrix_imake$fopr (i, j, x) = x
-implement{a}
-gmatrix_imake_matrixptr
-  {mo}{m,n}{ld}
-  (M, mo, m, n, ld) = let
-//
-prval (
-) = lemma_gmatrix_param (M)
-val (pf, pfgc | p) = matrix_ptr_alloc<a> (i2sz(m), i2sz(n))
-prval () = matrix2gmatrow (!p)
-//
-implement(env)
-gmatrix_iforeach$fwork<a><env>
-  (i, j, x, env) = let
-  val x2 = gmatrix_imake$fopr<a> (i, j, x)
-  val p_ij = ptr_add<a> (p, i*n+j)
-  val () = $UN.ptr0_set<a> (p_ij, x2)
-in
-  // nothing
-end // end of [gmatrix_iforeach$fwork]
-val () = gmatrix_iforeach<a> (M, mo, m, n, ld)
-//
-prval () = gmatrow2matrix (!p)
-//
-in
-  $UN.castvwtp0{matrixptr(a,m,n)}((pf, pfgc | p))
-end // end of [gmatrix_imake_matrixptr]
-
-(* ****** ****** *)
 //
 implement{}
 fprint_gmatrix$sep1 (out) = fprint (out, ", ")
@@ -212,6 +119,147 @@ case+ mo of
 | MORDcol () => loop_col (view@M | addr@M, m0)
 //
 end // end of [fprint_gmatrix]
+
+(* ****** ****** *)
+
+implement{a}
+fprint_gmatrix_sep
+  (out, M, mo, m, n, ld, sep1, sep2) = let
+//
+implement
+fprint_gmatrix$sep1<> (out) = fprint (out, sep1)
+implement
+fprint_gmatrix$sep2<> (out) = fprint (out, sep2)
+//
+in
+  fprint_gmatrix (out, M, mo, m, n, ld)
+end // end of [fprint_gmatrix_sep]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+gmatrix_iforeach
+  (M, mo, m, n, ld) = let
+  var env: void = () in
+  gmatrix_iforeach_env<a><void> (M, mo, m, n, ld, env)
+end // end of [gmatrix_iforeach]
+
+(* ****** ****** *)
+
+implement
+{a}{env}
+gmatrix_iforeach_env
+  (M, mo, m, n, ld, env) = let
+//
+in
+//
+case mo of
+| MORDrow () => let
+    var i: int = 0
+    and j: int = 0
+    var p_i: ptr = addr@(M)
+    var p_ij: ptr = the_null_ptr
+  in
+    for (i := 0; i < m; i := i+1)
+    {
+      val () = p_ij := p_i
+      val (
+      ) = for (j := 0; j < n; j := j+1)
+      {
+        val (pf, fpf | p) = $UN.ptr0_vtake (p_ij)
+        val () = gmatrix_iforeach$fwork<a><env> (i, j, !p, env)
+        prval () = fpf (pf)
+        val () = p_ij := ptr_succ<a> (p)
+      }
+      val () = p_i := ptr_add<a> (p_i, ld)
+    } 
+  end // end of [MORDrow]
+| MORDcol () => let
+    var i: int = 0
+    and j: int = 0
+    var p_j: ptr = addr@(M)
+    var p_ij: ptr = the_null_ptr
+  in
+    for (j := 0; j < n; j := j+1)
+    {
+      val () = p_ij := p_j
+      val (
+      ) = for (i := 0; i < m; i := i+1)
+      {
+        val (pf, fpf | p) = $UN.ptr0_vtake (p_ij)
+        val () = gmatrix_iforeach$fwork<a><env> (i, j, !p, env)
+        prval () = fpf (pf)
+        val () = p_ij := ptr_succ<a> (p)
+      }
+      val () = p_j := ptr_add<a> (p_j, ld)
+    } 
+  end // end of [MORDcol]
+//
+end // end of [gmatrix_iforeach_env]
+
+(* ****** ****** *)
+
+implement{a}
+gmatrix_imake$fopr (i, j, x) = x
+
+implement{a}
+gmatrix_imake_arrayptr
+  {mo}{m,n}{ld}
+  (M, mo, m, n, ld) = let
+//
+prval (
+) = lemma_gmatrix_param (M)
+prval () = mul_gte_gte_gte{m,n}()
+val (pf, pfgc | p) = array_ptr_alloc<a> (i2sz(m*n))
+//
+typedef tenv = ptr
+//
+implement
+gmatrix_iforeach$fwork<a><tenv>
+  (i, j, x, env) = let
+  val x2 = gmatrix_imake$fopr<a> (i, j, x)
+  val p_ij = env
+  val () = env := ptr_succ<a> (p_ij)
+  val () = $UN.ptr0_set<a> (p_ij, x2)
+in
+  // nothing
+end // end of [gmatrix_iforeach$fwork]
+//
+var env: tenv = p
+val () = gmatrix_iforeach_env<a><tenv> (M, mo, m, n, ld, env)
+//
+in
+  $UN.castvwtp0{arrayptr(a,m*n)}((pf, pfgc | p))
+end // end of [gmatrix_imake_arrayptr]
+
+implement{a}
+gmatrix_imake_matrixptr
+  {mo}{m,n}{ld}
+  (M, mo, m, n, ld) = let
+//
+prval (
+) = lemma_gmatrix_param (M)
+val (pf, pfgc | p) = matrix_ptr_alloc<a> (i2sz(m), i2sz(n))
+prval () = matrix2gmatrow (!p)
+//
+implement(env)
+gmatrix_iforeach$fwork<a><env>
+  (i, j, x, env) = let
+  val x2 = gmatrix_imake$fopr<a> (i, j, x)
+  val p_ij = ptr_add<a> (p, i*n+j)
+  val () = $UN.ptr0_set<a> (p_ij, x2)
+in
+  // nothing
+end // end of [gmatrix_iforeach$fwork]
+//
+val () = gmatrix_iforeach<a> (M, mo, m, n, ld)
+//
+prval () = gmatrow2matrix (!p)
+//
+in
+  $UN.castvwtp0{matrixptr(a,m,n)}((pf, pfgc | p))
+end // end of [gmatrix_imake_matrixptr]
 
 (* ****** ****** *)
 

@@ -72,14 +72,22 @@ that is, two-dimensional arrays.
 
 (* ****** ****** *)
 
+#declnamesynop("fprint_gmatrix")
+#declnamesynop("fprint_gmatrix$sep1")
+#declnamesynop("fprint_gmatrix$sep2")
+#declnamesynop("fprint_gmatrix_sep")
+
+(* ****** ****** *)
+
 #declnamesynop("gmatrix_iforeach")
 #declnamesynop("gmatrix_iforeach_env")
 #declnamesynop("gmatrix_iforeach$fwork")
 
 (* ****** ****** *)
 
-#declnamesynop("gmatrix_imake$fopr")
+#declnamesynop("gmatrix_imake_arrayptr")
 #declnamesynop("gmatrix_imake_matrixptr")
+#declnamesynop("gmatrix_imake$fopr")
 
 (* ****** ****** *)
 

@@ -64,6 +64,11 @@ that is, two-dimensional arrays of row-major style.
 
 (* ****** ****** *)
 
+#declnamesynop("gmatrow_copyto")
+#declnamesynop("gmatrow_transpto")
+
+(* ****** ****** *)
+
 #declnamesynop("gmatrow_ptr_split_2x2")
 
 (* ****** ****** *)

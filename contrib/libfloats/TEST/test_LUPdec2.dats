@@ -128,7 +128,7 @@ val () = loop (LAgmat_incref (M), m, n)
 //
 in
   // nothing
-end // end of [lapack_LUPdec2]
+end // end of [lapack_LUPdec]
 
 (* ****** ****** *)
 
@@ -136,33 +136,79 @@ implement
 main0 () =
 {
 //
+typedef T = double
+//
 val out = stdout_ref
 //
-val N = 9
-val ord = MORDcol
-//
-typedef T = double
+val n = 9
+val ord = MORDcol // column-major
 //
 implement
 fprint_val<T> (out, x) =
   ignoret($extfcall (int, "fprintf", out, "%.2f", x))
 //
+local
 implement
 LAgmat_tabulate$fopr<T>
-  (i, j) = N - $UN.cast{T}(max(i,j))
-val M = LAgmat_tabulate (ord, N, N)
+  (i, j) = n - $UN.cast{T}(max(i,j))
+in
+val M = LAgmat_tabulate (ord, n, n)
+val M2 = LAgmat_tabulate (ord, n, n)
+end // end of [local]
 //
 val () = fprintln! (out, "M =")
 val () = fprint_LAgmat_sep (out, M, ", ", "\n")
 val () = fprint_newline (out)
 //
-val () = lapack_LUPdec<T><T> (M)
+val () = lapack_LUPdec<T><T> (M2)
 //
 val () = fprintln! (out, "L\\U =")
-val () = fprint_LAgmat_sep (out, M, ", ", "\n")
+val () = fprint_LAgmat_sep (out, M2, ", ", "\n")
 val () = fprint_newline (out)
 //
-val () = LAgmat_decref (M)
+val _0 = gnumber_int<T>(0)
+val _1 = gnumber_int<T>(1)
+//
+local
+implement
+LAgmat_imake$fopr<T> (i, j, x) =
+  if i > j then x else if i >= j then _1 else _0
+in (* in of [local] *)
+val L = LAgmat_make_arrayptr (ord, LAgmat_imake_arrayptr (M2), n, n)
+end // end of [local]
+//
+local
+implement
+LAgmat_imake$fopr<T> (i, j, x) = if i <= j then x else _0
+in (* in of [local] *)
+val U = LAgmat_make_arrayptr (ord, LAgmat_imake_arrayptr (M2), n, n)
+end // end of [local]
+//
+val LU = L * U
+val () = fprintln! (out, "L =")
+val () = fprint_LAgmat_sep (out, L, ", ", "\n")
+val () = fprint_newline (out)
+val () = fprintln! (out, "U =")
+val () = fprint_LAgmat_sep (out, U, ", ", "\n")
+val () = fprint_newline (out)
+val () = fprintln! (out, "LU =")
+val () = fprint_LAgmat_sep (out, LU, ", ", "\n")
+val () = fprint_newline (out)
+//
+local
+implement
+LAgmat_iforeach$fwork<T><T>
+  (_, _, x, env) = env := env + blas$gnorm2<T><T> (x)
+val E = M-LU
+var error: T = gnumber_int<T>(0)
+val () = LAgmat_iforeach_env<T><T> (E, error)
+val () = LAgmat_decref (E)
+in (* in of [local] *)
+val () = fprintln! (out, "|M-LU|^2 = ", error)
+end // end of [local]
+//
+val () = LAgmat_decref2 (M, M2)
+val () = LAgmat_decref3 (L, U, LU)
 //
 } // end of [main0]
 

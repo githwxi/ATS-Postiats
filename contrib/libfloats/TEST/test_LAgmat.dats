@@ -54,7 +54,7 @@ staload _ = "libfloats/DATS/lamatrix.dats"
 //
 #define t 't'
 infixr ^
-macdef ^ (M, t) = LAgmat_transpose (,(M))
+macdef ^ (M, t) = transp_LAgmat (,(M))
 //
 (* ****** ****** *)
 
@@ -68,7 +68,13 @@ val out = stdout_ref
 macdef
 gint = gnumber_int<T>
 //
-val ord = MORDrow
+implement
+fprint_val<T> (out, x) = ignoret
+(
+  $extfcall (int, "fprintf", out, "%.2f", x)
+)
+//
+val ord = MORDcol
 val M = 3 and N = 5
 //
 //
@@ -81,7 +87,7 @@ end // end of [local]
 //
 local
 implement
-LAgmat_tabulate$fopr<T> (i, j) = $UN.cast{T}(i-j)
+LAgmat_tabulate$fopr<T> (i, j) = $UN.cast{T}(i+j)
 in
 val B = LAgmat_tabulate<T> (ord, M, N)
 end // end of [local]
@@ -98,25 +104,25 @@ val AB_sum = A + B
 val () = fprint (out, "A + B =\n")
 val () = fprint_LAgmat_sep (out, AB_sum, ", ", "\n")
 val () = fprint_newline (out)
+val () = LAgmat_decref (B)
 val () = LAgmat_decref (AB_sum)
 //
 val A_t = A^t
+val () = fprint (out, "A' =\n")
+val () = fprint_LAgmat_sep (out, A_t, ", ", "\n")
+val () = fprint_newline (out)
 val AAt = A * A_t
 val () = fprint (out, "A * A' =\n")
 val () = fprint_LAgmat_sep (out, AAt, ", ", "\n")
 val () = fprint_newline (out)
 val () = LAgmat_decref (AAt)
-val () = LAgmat_decref (A_t)
-//
-val B_t = B^t
-val BBt = B * B_t
-val () = fprint (out, "B * B' =\n")
-val () = fprint_LAgmat_sep (out, BBt, ", ", "\n")
+val AtA = A_t * A
+val () = fprint (out, "A' * A =\n")
+val () = fprint_LAgmat_sep (out, AtA, ", ", "\n")
 val () = fprint_newline (out)
-val () = LAgmat_decref (BBt)
-val () = LAgmat_decref (B_t)
+val () = LAgmat_decref (AtA)
 //
-val () = LAgmat_decref (B)
+val () = LAgmat_decref (A_t)
 //
 val (Af2, Al3) = LAgmat_split_1x2(A, 2)
 //
