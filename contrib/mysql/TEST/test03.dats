@@ -13,6 +13,7 @@ staload _ = "prelude/DATS/integer.dats"
 (* ****** ****** *)
 //
 staload "mysql/SATS/mysql.sats"
+staload _ = "mysql/DATS/mysql.dats"
 //
 (* ****** ****** *)
 
@@ -51,9 +52,7 @@ main () = let
   val perr = MYSQLRESptr2ptr (res)
   val () = assertloc (perr > nullp)
 //
-  val () =
-    fprint_mysqlres_sep (stdout_ref, res, "\n", ", ")
-  val () = fprint_newline (stdout_ref)
+  val () = fprintln! (stdout_ref, res)
 //
   val (
     _pf | nrow2
@@ -79,9 +78,7 @@ main () = let
   val perr = MYSQLRESptr2ptr (res)
   val () = assertloc (perr > nullp)
 //
-  val () =
-    fprint_mysqlres_sep (stdout_ref, res, "\n", ", ")
-  val () = fprint_newline (stdout_ref)
+  val () = fprintln! (stdout_ref, res)
 //
   val (
     _pf | nrow2
