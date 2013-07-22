@@ -27,7 +27,7 @@
 //
 (* ****** ****** *)
 
-staload "calculator.sats"
+staload "./calculator.sats"
 
 (* ****** ****** *)
 

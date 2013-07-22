@@ -86,6 +86,11 @@ perform typechecking and it should not attempt to translate ATS (source)
 code into C (target) code.
 
 <li>
+#uemph("--gline"):
+This flag indicates that line pragma information is to be generated
+in the C (target) code.
+
+<li>
 #uemph("-dep"): It is a shorthand for #uemph("--depgen").
 <li>
 #uemph("--depgen"):

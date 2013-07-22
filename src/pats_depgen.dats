@@ -401,7 +401,8 @@ implement
 fprint_entry
   (out, basename, ents) = let
 //
-fun loop (
+fun loop
+(
   out: FILEref, i: int, ents: pathlst_vt
 ) : void = let
 in

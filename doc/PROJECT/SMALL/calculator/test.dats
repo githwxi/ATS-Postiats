@@ -22,11 +22,11 @@
 
 (* ****** ****** *)
 
-staload "calculator.sats"
+staload "./calculator.sats"
 
 (* ****** ****** *)
 
-dynload "calculator.dats"
+dynload "./calculator.dats"
 
 (* ****** ****** *)
 

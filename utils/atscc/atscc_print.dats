@@ -84,8 +84,11 @@ in
 case+ ca of
 //
 | CAvats () => prstr "CAvats()"
+//
 | CAccats () => prstr "CAccats()"
 | CAtcats () => prstr "CAtcats()"
+//
+| CAgline () => prstr "CAgline()"
 //
 | CAcleanaft () => prstr "CAcleanaft()"
 //
@@ -313,8 +316,11 @@ in
 case+ ca of
 //
 | CAvats () => ()
+//
 | CAccats () => ()
 | CAtcats () => ()
+//
+| CAgline () => ()
 //
 | CAcleanaft () => ()
 //

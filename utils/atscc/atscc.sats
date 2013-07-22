@@ -45,6 +45,8 @@ datatype commarg =
   | CAccats of () // -ccats: compilation only
   | CAtcats of () // -tcats: typechecking only
 //
+  | CAgline of () // --gline: line programa info
+//
   | CAcleanaft of () // cleaning up *_?ats.c files
 //
   | CAatsccomp of (stropt) // -atsccomp 'gcc ...'

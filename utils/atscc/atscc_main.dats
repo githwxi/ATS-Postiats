@@ -221,33 +221,39 @@ in
 case+ 0 of
 //
 | _ when (str0="-vats") => let
-      val res = list_vt_cons{ca}(CAvats(), res)
-    in
-      aux0 (n, argv, i+1, res)
-    end // end of [_ when ...]
+    val res = list_vt_cons{ca}(CAvats(), res)
+  in
+    aux0 (n, argv, i+1, res)
+  end // end of [_ when ...]
 | _ when (str0="--version") => let
-      val res = list_vt_cons{ca}(CAvats(), res)
-      val res = list_vt_cons{ca}(CAgitem(str0), res)
-    in
-      aux0 (n, argv, i+1, res)
-    end // end of [_ when ...]
+    val res = list_vt_cons{ca}(CAvats(), res)
+    val res = list_vt_cons{ca}(CAgitem(str0), res)
+  in
+    aux0 (n, argv, i+1, res)
+  end // end of [_ when ...]
 //
 | _ when (str0="-ccats") => let
-      val res = list_vt_cons{ca}(CAccats(), res)
-    in
-      aux0 (n, argv, i+1, res)
-    end // end of [_ when ...]
+    val res = list_vt_cons{ca}(CAccats(), res)
+  in
+    aux0 (n, argv, i+1, res)
+  end // end of [_ when ...]
 | _ when (str0="-tcats") => let
-      val res = list_vt_cons{ca}(CAtcats(), res)
-    in
-      aux0 (n, argv, i+1, res)
-    end // end of [_ when ...]
+    val res = list_vt_cons{ca}(CAtcats(), res)
+  in
+    aux0 (n, argv, i+1, res)
+  end // end of [_ when ...]
+//
+| _ when (str0="--gline") => let
+    val res = list_vt_cons{ca}(CAgline(), res)
+  in
+    aux0 (n, argv, i+1, res)
+  end // end of [_ when ...]  
 //
 | _ when (str0="-cleanaft") => let
-      val res = list_vt_cons{ca}(CAcleanaft(), res)
-    in
-      aux0 (n, argv, i+1, res)
-    end // end of [_ when ...]
+    val res = list_vt_cons{ca}(CAcleanaft(), res)
+  in
+    aux0 (n, argv, i+1, res)
+  end // end of [_ when ...]
 //
 | _ when (str0="-atsccomp") =>
     aux1_atsccomp (n, argv, i+1, res)
@@ -440,7 +446,13 @@ case+ ca of
     val (
     ) = res :=
       list_vt_cons{string}("--typecheck", res)
-    // ed of [val]
+    // end of [val]
+  }
+//
+| CAgline () =>
+  {
+    val (
+    ) = res := list_vt_cons{string}("--gline", res)
   }
 //
 | CAdats (_, opt) =>
@@ -583,6 +595,11 @@ case+ cas2 of
           snoc (cas1, ca2) in auxlst (cas1, cas2, ress)
       end (* end of [CAtcats] *)
 //
+    | CAgline () => let
+        val cas1 =
+          snoc (cas1, ca2) in auxlst (cas1, cas2, ress)
+      end (* end of [CAgline] *)
+//
     | CAdats _ => let
         val cas1 =
           snoc (cas1, ca2) in auxlst (cas1, cas2, ress)
@@ -639,8 +656,11 @@ in
 case+ ca of
 //
 | CAvats () => ()
+//
 | CAccats () => ()
 | CAtcats () => ()
+//
+| CAgline () => ()
 //
 | CAcleanaft () => ()
 //

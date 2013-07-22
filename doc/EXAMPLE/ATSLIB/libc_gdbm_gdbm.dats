@@ -39,20 +39,19 @@ staload "libc/gdbm/SATS/gdbm.sats"
 val () =
 {
 //
-val mode = lor_mode_mode (S_IRUSR, S_IWUSR)
+val mode = S_IRUSR lor S_IWUSR
 val [lf:addr] dbf =
 gdbm_open ("gdbmtest.gdbm", 512(*blksz*), GDBM_NEWDB, mode, nullp)
-(*
-val () = printf ("errstr = %s\n", @(gdbm_strerror (gdbm_errno_get ())))
-*)
+//
+val () = println! ("errstr = ", gdbm_strerror (gdbm_errno_get ()))
+//
 val () = assertloc (ptrcast (dbf) > 0)
 //
 val (fpf_k | k) = datum_make0_string ("a")
 val v = datum_make1_string ("A")
-val _err = gdbm_store (dbf, k, v, GDBM_INSERT)
+val () = assertloc (gdbm_store (dbf, k, v, GDBM_INSERT) = 0)
 val () = datum_free (v)
-val isexi = gdbm_exists (dbf, k)
-val () = assertloc (isexi > 0)
+val () = assertloc (gdbm_exists (dbf, k) > 0)
 val v = gdbm_fetch (dbf, k)
 //
 val () = println! ("k(a) = ", $UN.cast{string}(ptrcast(k.dptr)))
