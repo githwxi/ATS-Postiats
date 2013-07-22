@@ -13,6 +13,7 @@ staload _ = "prelude/DATS/integer.dats"
 (* ****** ****** *)
 //
 staload "mysql/SATS/mysql.sats"
+staload _ = "mysql/DATS/mysql.dats"
 //
 (* ****** ****** *)
 

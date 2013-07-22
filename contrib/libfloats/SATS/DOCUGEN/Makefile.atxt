@@ -103,6 +103,8 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ; \
 all_html::
 
 #make_entry("blas")
+#make_entry("lavector")
+#make_entry("lamatrix")
 
 ######
 

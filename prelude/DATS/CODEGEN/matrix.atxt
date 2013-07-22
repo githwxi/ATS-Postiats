@@ -108,9 +108,9 @@ end // end of [matrix_ptr_tabulate]
 #atscode_separator()
 
 implement{}
-fprint_matrix$sep1 (out) = fprint_string (out, ", ")
+fprint_matrix$sep1 (out) = fprint (out, ", ")
 implement{}
-fprint_matrix$sep2 (out) = fprint_string (out, "; ")
+fprint_matrix$sep2 (out) = fprint (out, "; ")
 
 implement{a}
 fprint_matrix
@@ -154,9 +154,9 @@ fprint_matrix_sep
 ) = let
 //
 implement
-fprint_matrix$sep1<> (out) = fprint_string (out, sep1)
+fprint_matrix$sep1<> (out) = fprint (out, sep1)
 implement
-fprint_matrix$sep2<> (out) = fprint_string (out, sep2)
+fprint_matrix$sep2<> (out) = fprint (out, sep2)
 //
 in
   fprint_matrix (out, M, m, n)

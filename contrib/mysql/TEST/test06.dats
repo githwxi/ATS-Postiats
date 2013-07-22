@@ -13,6 +13,7 @@ staload _ = "prelude/DATS/integer.dats"
 (* ****** ****** *)
 //
 staload "mysql/SATS/mysql.sats"
+staload _ = "mysql/DATS/mysql.dats"
 //
 (* ****** ****** *)
 
@@ -66,9 +67,7 @@ main () = let
   val (_pf | nfld2) = mysql_num_fields (res)
   val () = println! ("nfld2 = ", nfld2)
 //
-  val () =
-    fprint_mysqlres_sep (stdout_ref, res, "\n", ", ")
-  val () = fprint_newline (stdout_ref)
+  val () = fprintln! (stdout_ref, res)
 //
   val (
     _pf | nrow2

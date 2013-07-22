@@ -253,6 +253,15 @@ gmatcol_copyto
 , int(m), int(n), int(ld1), int(ld2)
 ) : void // end of [gmatcol_copyto]
 
+fun{a:t0p}
+gmatcol_transpto
+  {m,n:int}{ld1,ld2:int}
+(
+  M1: &GMC(a, m, n, ld1)
+, M2: &GMC(a?, n, m, ld2) >> GMC(a, n, m, ld2)
+, int(m), int(n), int(ld1), int(ld2)
+) : void // end of [gmatcol_transpto]
+
 (* ****** ****** *)
 
 fun{a:t0p}

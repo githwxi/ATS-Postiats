@@ -4,6 +4,12 @@
 //
 (* ****** ****** *)
 
+(* Author: Hongwei Xi *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Start time: July, 2013 *)
+
+(* ****** ****** *)
+
 staload "libats/SATS/gvector.sats"
 
 (* ****** ****** *)
@@ -25,7 +31,14 @@ lemma_LAgvec_param
 // end of [lemma_LAgvec_param]
 
 (* ****** ****** *)
-
+//
+// HX: only if you know what you are doing
+//
+praxi
+LAgvec_initize
+  {a:t0p}{n:int}
+  (V: !LAgvec(a?, n) >> LAgvec(a, n)): void
+// end of [LAgvec_initize]
 praxi
 LAgvec_uninitize
   {a:t0p}{n:int}
@@ -105,6 +118,13 @@ LAgvec_split
 (* ****** ****** *)
 
 fun{a:t0p}
+LAgvec_tabulate$fopr (i: int): a
+fun{a:t0p}
+LAgvec_tabulate {n:nat} (n: int n): LAgvec(a, n)
+
+(* ****** ****** *)
+
+fun{a:t0p}
 LAgvec_inner{n:int}
   (A: !LAgvec(a, n), B: !LAgvec(a, n)): a(*innerprod*)
 // end of [LAgvec_inner]
@@ -138,6 +158,17 @@ fun{a:t0p}
 copy_LAgvec
   {n:int}(X: !LAgvec(a, n)): LAgvec(a, n)
 // end of [copy_LAgvec]
+
+(* ****** ****** *)
+//
+// Y <-> X
+//
+fun{a:t0p}
+LAgvec_swap{n:int}
+(
+  X: !LAgvec(a, n) >> _
+, Y: !LAgvec(a, n) >> _
+) : void // endfun
 
 (* ****** ****** *)
 //

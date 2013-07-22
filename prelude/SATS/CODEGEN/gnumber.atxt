@@ -93,6 +93,10 @@ fun{a:t0p} gmod_val (x: a, y: a):<> a
 
 #atscode_separator()
 
+fun{a:t0p} gsqrt_val (x: a):<!exn> a
+
+#atscode_separator()
+
 fun{a:t0p} gconjugate_val (x: a):<> a
 
 #atscode_separator()

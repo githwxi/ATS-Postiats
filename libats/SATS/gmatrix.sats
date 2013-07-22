@@ -45,11 +45,15 @@ stadef mcol: mord = 1 // col-major
 datatype MORD (int) =
   | MORDrow (mrow) of () | MORDcol (mcol) of ()
 //
+typedef MORD = [mo:mord] MORD(mo)
+//
 (* ****** ****** *)
 //
 datasort transp = tpn | tpt | tpc
 datatype TRANSP (transp) =
   | TPN (tpn) of () | TPT (tpt) of () | TPC (tpc) of ()
+//
+typedef TRANSP = [tp:transp] TRANSP(tp)
 //
 (* ****** ****** *)
 
@@ -143,13 +147,13 @@ lemma_gmatrix_param
   {a:t0p}{mo:mord}
   {m,n:int}{ld:int}
   (M: &GMX (a, mo, m, n, ld))
-: [0 <= mo; mo <= 1; 0 <= m; 0 <= n; 1 <= ld] void
+: [0 <= mo; mo <= 1; 0 <= m; 0 <= n; 0 <= ld] void
 praxi
 lemma_gmatrix_v_param
   {a:t0p}{mo:mord}
   {l:addr}{m,n:int}{ld:int}
   (pf: !GMX (a, mo, l, m, n, ld))
-: [0 <= mo; mo <= 1; 0 <= m; 0 <= n; 1 <= ld] void
+: [0 <= mo; mo <= 1; 0 <= m; 0 <= n; 0 <= ld] void
 
 (* ****** ****** *)
 //
@@ -161,11 +165,11 @@ lemma_gmatrix_v_param
 praxi
 gmatrix_initize
   {a:t0p}{mo:mord}{m,n:int}{ld:int}
-  (&GMX(a?, mo, m, n, ld) >> GMX(a, mo, n, m, ld)): void
+  (&GMX(a?, mo, m, n, ld) >> GMX(a, mo, m, n, ld)): void
 praxi
 gmatrix_uninitize
   {a:t0p}{mo:mord}{m,n:int}{ld:int}
-  (&GMX(a, mo, m, n, ld) >> GMX(a?, mo, n, m, ld)): void
+  (&GMX(a, mo, m, n, ld) >> GMX(a?, mo, m, n, ld)): void
 //
 (* ****** ****** *)
 //
@@ -180,6 +184,29 @@ gmatrix_v_flipord
   {l:addr}{m,n:int}{ld:int}
   (pf: !GMX(a, mo, l, m, n, ld) >> GMX(a, 1-mo, l, n, m, ld)): void
 //
+(* ****** ****** *)
+
+fun{}
+fprint_gmatrix$sep1 (out: FILEref): void
+fun{}
+fprint_gmatrix$sep2 (out: FILEref): void
+fun{a:t0p}
+fprint_gmatrix
+  {mo:mord}{m,n:int}{ld:int}
+(
+  FILEref
+, V: &GMX(a, mo, m, n, ld), MORD(mo), int(m), int(n), int(ld)
+) : void // end of [fprint_gmatrix]
+
+fun{a:t0p}
+fprint_gmatrix_sep
+  {mo:mord}{m,n:int}{ld:int}
+(
+  FILEref
+, V: &GMX(a, mo, m, n, ld)
+, MORD(mo), int(m), int(n), int(ld), sep1: string, sep: string
+) : void // end of [fprint_gmatrix_sep]
+
 (* ****** ****** *)
 
 fun{
@@ -209,6 +236,13 @@ a:t0p}{env:vt0p
 fun{a:t0p}
 gmatrix_imake$fopr
   (i: int, j: int, x: a): a
+
+fun{a:t0p}
+gmatrix_imake_arrayptr
+  {mo:mord}{m,n:int}{ld:int}
+(
+  M: &GMX(a, mo, m, n, ld), mo: MORD(mo), int m, int n, int(ld)
+) : arrayptr (a, m*n) // end of [gmatrix_imake_arrayptr]
 fun{a:t0p}
 gmatrix_imake_matrixptr
   {mo:mord}{m,n:int}{ld:int}

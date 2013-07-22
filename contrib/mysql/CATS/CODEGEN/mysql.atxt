@@ -47,8 +47,42 @@ typedef MYSQL_FIELD MYSQLFIELD_struct ;
 
 #atscode_separator_for_C()
 
-\#define atscntrb_mysql_init_0() mysql_init(NULL)
-\#define atscntrb_mysql_init_1(conn) mysql_init(conn)
+\#define atscntrb_mysql_init0() mysql_init(NULL)
+\#define atscntrb_mysql_init1(conn) mysql_init(conn)
+
+#atscode_separator_for_C()
+
+/*
+implement
+mysql_init0_exn
+  ((*null*)) = let
+  val conn = mysql_init0 ()
+  val p = MYSQLptr2ptr (conn)
+in
+//
+if p > null then conn else let
+//
+  prval () = mysql_free_null (conn) // HX: no-op
+  val () = prerrln! ("exit(ATS): [mysql_init0] failed.")
+  val () = exit_void (1)
+//
+in
+  $UN.castvwtp0{MYSQLptr1}(0)
+end // end of [if]
+//  
+end // end of [mysql_init0_exn]
+*/
+ATSinline()
+atstype_ptr
+atscntrb_mysql_init0_exn()
+{
+  MYSQL *conn ;
+  conn = atscntrb_mysql_init0() ;
+  if (!conn) {
+    fprintf (stderr, "exit(ATS): [mysql_init0] failed.\n") ;
+  } // end of [if]
+  return conn ;
+} // end of [atscntrb_mysql_init0_exn]
 
 #atscode_separator_for_C()
 

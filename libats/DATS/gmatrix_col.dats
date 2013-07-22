@@ -191,6 +191,45 @@ end // end of [gmatcol_copyto]
 
 (* ****** ****** *)
 
+implement
+{a}(*tmp*)
+gmatcol_transpto
+  {m,n}{ldx,ldy}
+(
+  X2, Y2, m, n, ldx, ldy
+) = let
+typedef tenv = ptr
+implement
+gmatcol_foreachcol$fwork<a><tenv>
+  {m} (X, m, env) = () where
+{
+//
+typedef tYcol = gvector(a,m,ldy)
+//
+val pY = env
+val () = env := ptr_succ<a> (env)
+//
+val (pf, fpf | pY) = $UN.ptr_vtake{tYcol}(pY)
+//
+prval (
+) = gvector_uninitize{a}(!pY)
+val () = gvector_copyto<a> (X, !pY, m, 1, ldy)
+//
+prval ((*void*)) = fpf (pf)
+//
+} // end of [gmatcol_foreachcol$fwork]
+//
+var env: ptr = addr@Y2
+val () = gmatcol_foreachcol_env<a><tenv> (X2, m, n, ldx, env)
+//
+prval () = gmatrix_initize{a}(Y2)
+//
+in
+  // nothing
+end // end of [gmatcol_transpto]
+
+(* ****** ****** *)
+
 implement{a}
 gmatcol_ptr_split_2x2
   (pf | p, ld, i, j) = let

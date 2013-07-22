@@ -4,11 +4,22 @@
 //
 (* ****** ****** *)
 
+(* Author: Hongwei Xi *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Start time: July, 2013 *)
+
+(* ****** ****** *)
+
+staload "libats/SATS/gvector.sats"
 staload "libats/SATS/gmatrix.sats"
 
 (* ****** ****** *)
 
 staload "contrib/libfloats/SATS/lavector.sats"
+
+(* ****** ****** *)
+
+#define WR(x) x
 
 (* ****** ****** *)
 //
@@ -30,62 +41,104 @@ lemma_LAgmat_param
 : [0 <= mo; mo <= 1; 0 <= m; 0 <= n] void
 
 (* ****** ****** *)
-
+//
+// HX: only if you know what you are doing
+//
+praxi
+LAgmat_initize
+  {a:t0p}{mo:mord}
+  {l:addr}{m,n:int}
+  (M: !LAgmat(a?, mo, l, m, n) >> LAgmat(a, mo, l, m, n)): void
+// end of [LAgmat_initize]
 praxi
 LAgmat_uninitize
-  {a:t0p}{mo:mord}{m,n:int}
-  (M: !LAgmat(a, mo, m, n) >> LAgmat(a?, mo, m, n)): void
+  {a:t0p}{mo:mord}
+  {l:addr}{m,n:int}
+  (M: !LAgmat(a, mo, l, m, n) >> LAgmat(a?, mo, l, m, n)): void
 // end of [LAgmat_uninitize]
 
 (* ****** ****** *)
 //
-fun
+fun{}
 LAgmat_mord
   {a:t0p}{mo:mord}{m,n:int}
   (M: !LAgmat(a, mo, m, n)): MORD(mo)
 //
-fun
+fun{}
 LAgmat_nrow
   {a:t0p}{mo:mord}{m,n:int}
   (M: !LAgmat(a, mo, m, n)): int (m)
-fun
+fun{}
 LAgmat_ncol
   {a:t0p}{mo:mord}{m,n:int}
   (M: !LAgmat(a, mo, m, n)): int (n)
 //
 (* ****** ****** *)
 
-fun
+fun{}
+LAgmat_vtakeout_row
+  {a:t0p}{mo:mord}{m,n:int}
+(
+  !LAgmat(a, mo, m, n)
+, i: natLt(m), d: &int? >> int(d)
+) :
+#[
+  l:addr;d:int
+] (
+  gvector_v (a, l, n, d)
+, gvector_v (a, l, n, d) -<lin,prf> void
+| ptr (l)
+) // end of [LAgmat_vtakeout_row]
+
+fun{}
+LAgmat_vtakeout_col
+  {a:t0p}{mo:mord}{m,n:int}
+(
+  !LAgmat(a, mo, m, n)
+, j: natLt(n), d: &int? >> int(d)
+) :
+#[
+  l:addr;d:int
+] (
+  gvector_v (a, l, m, d)
+, gvector_v (a, l, m, d) -<lin,prf> void
+| ptr (l)
+) // end of [LAgmat_vtakeout_col]
+
+(* ****** ****** *)
+
+fun{}
 LAgmat_vtakeout_matrix
   {a:t0p}{mo:mord}{m,n:int}
 (
   !LAgmat(a, mo, m, n)
-, &int? >> int(m2)
-, &int? >> int(n)
-, &int? >> int(ld)
-, &ptr? >> TRANSP(tp)
+, ld: &int? >> int(ld)
 ) :
 #[
-  l:addr;m2,n2,ld:int;tp:transp
+  l:addr;ld:int
 ] (
-  gmatrix_v (a, mo, l, m2, n2, ld)
-, gmatrix_v (a, mo, l, m2, n2, ld) -<lin,prf> void
-, transpdim (tp, m2, n2, m, n)
+  gmatrix_v (a, mo, l, m, n, ld)
+, gmatrix_v (a, mo, l, m, n, ld) -<lin,prf> void
 | ptr (l)
 ) // end of [LAgmat_vtakeout_matrix]
 
 (* ****** ****** *)
 //
-fun{a:t0p}
+fun{}
 LAgmat_incref // refcnt++
-  {mo:mord}{l:addr}{m,n:int}
+  {a:t0p}
+  {mo:mord}
+  {l:addr}{m,n:int}
   (!LAgmat(a, mo, l, m, n)): LAgmat(a, mo, l, m, n)
 //
 (* ****** ****** *)
 
-fun{a:t0p}
+fun{}
 LAgmat_decref // refcnt--
-  {mo:mord}{l:addr}{m,n:int}(M: LAgmat(a, mo, l, m, n)): void
+  {a:t0p}
+  {mo:mord}
+  {l:addr}{m,n:int}
+  (M: LAgmat(a, mo, l, m, n)): void
 //
 macdef
 LAgmat_decref2
@@ -132,30 +185,56 @@ LAgmat_make_matrixptr
 (* ****** ****** *)
 
 fun{a:t0p}
-LAgmat_transp
-  {mo:mord}{m,n:int}
-  (!LAgmat(a, mo, m, n)): LAgmat(a, mo, n, m)
-// end of [LAgmat_transp]
+LAgmat_make_uninitized
+  {mo:int}{m,n:nat}
+  (MORD(mo), m: int(m), n: int(n)): LAgmat(a?, mo, m, n)
+// end of [LAgmat_make_uninitized]
 
 (* ****** ****** *)
 
-fun
+fun{a:t0p}
 LAgmat_get_at
-  {a:t0p}{mo:mord}{m,n:int}
+  {mo:mord}{m,n:int}
 (
   M: !LAgmat(a, mo, m, n), i: natLt(m), j: natLt(n)
-) : (a) // end of [LAgmat_get_at]
-overload [] with LAgmat_get_at
-fun
+) : (a) // endfun
+fun{a:t0p}
 LAgmat_set_at
-  {a:t0p}{mo:mord}{m,n:int}
+  {mo:mord}{m,n:int}
 (
   M: !LAgmat(a, mo, m, n), i: natLt(m), j: natLt(n), x: a
-) : void // end of [LAgmat_set_at]
+) : void // endfun
+//
+overload [] with LAgmat_get_at
 overload [] with LAgmat_set_at
+//
+(* ****** ****** *)
+
+fun{a:t0p}
+LAgmat_getref_at
+  {mo:mord}{m,n:int}
+(
+  M: !LAgmat(a, mo, m, n), i: natLt(m), j: natLt(n)
+) : cPtr1(a) // end of [LAgmat_getref_at]
 
 (* ****** ****** *)
 
+fun{a:t0p}
+LAgmat_interchange_row
+  {mo:mord}{m,n:int}
+(
+  M: !LAgmat(a, mo, m, n), i1: natLt(m), i2: natLt(m)
+) : void // end of [gmatcol_interchange_row]
+
+fun{a:t0p}
+LAgmat_interchange_col
+  {mo:mord}{m,n:int}
+(
+  M: !LAgmat(a, mo, m, n), j1: natLt(n), j2: natLt(n)
+) : void // end of [gmatcol_interchange_col]
+
+(* ****** ****** *)
+//
 fun{}
 fprint_LAgmat$sep1 (FILEref): void
 fun{}
@@ -164,7 +243,12 @@ fun{a:t0p}
 fprint_LAgmat
   {mo:mord}{m,n:int} (FILEref, !LAgmat(a, mo, m, n)): void
 overload fprint with fprint_LAgmat
-
+//
+fun{a:t0p}
+fprint_LAgmat_sep
+  {mo:mord}{m,n:int}
+  (FILEref, !LAgmat(a, mo, m, n), sep1: string, sep2: string): void
+//
 (* ****** ****** *)
 
 fun{a:t0p}
@@ -208,24 +292,43 @@ LAgmat_split_2x2
 (* ****** ****** *)
 
 fun{a:t0p}
-LAgmat_imake$fopr
-  (i: intGte(0), j: intGte(0), x: a): a
-fun{a:t0p}
-LAgmat_imake_matrixptr
-  {mo:mord}{m,n:pos}
-  (!LAgmat(a, mo, m, n)): matrixptr (a, m, n)
-// end of [LAgmat_imake_matrixptr]
-
-(* ****** ****** *)
-
-fun{a:t0p}
-LAgmat_tabulate$fopr (i: intGte(0), j: intGte(0)): a
+LAgmat_tabulate$fopr (i: int, j: int): a
 fun{a:t0p}
 LAgmat_tabulate
   {mo:mord}{m,n:pos}
-  (mo: MORD(mo), m: int m, n: int n): LAgmat(a, mo, n, n)
+  (mo: MORD(mo), m: int m, n: int n): LAgmat(a, mo, m, n)
 // end of [LAgmat_tabulate]
 
+(* ****** ****** *)
+//
+fun
+{a:t0p}
+{env:vt0p}
+LAgmat_iforeach$fwork
+  (i: int, j: int, x: &a >> _, env: &env >> _): void
+fun{a:t0p}
+LAgmat_iforeach
+  {mo:mord}{m,n:int} (!LAgmat (a, mo, m, n) >> _): void
+fun
+{a:t0p}
+{env:vt0p}
+LAgmat_iforeach_env
+  {mo:mord}{m,n:int}
+  (M: !LAgmat (a, mo, m, n) >> _, env: &env >> _): void
+//
+(* ****** ****** *)
+//
+fun{a:t0p}
+LAgmat_imake$fopr (i: int, j: int, x: a): a
+fun{a:t0p}
+LAgmat_imake_arrayptr
+  {mo:mord}{m,n:int}
+  (M: !LAgmat (a, mo, m, n)): arrayptr (a, m*n)
+fun{a:t0p}
+LAgmat_imake_matrixptr
+  {mo:mord}{m,n:int}
+  (M: !LAgmat (a, mo, m, n)): matrixptr (a, m, n)
+//
 (* ****** ****** *)
 //
 // X <- alpha*X
@@ -262,6 +365,22 @@ copy_LAgmat
   {mo:mord}{m,n:int}
   (X: !LAgmat(a, mo, m, n)) : LAgmat(a, mo, m, n)
 // end of [copy_LAgmat]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+LAgmat_transp
+  {mo:mord}{m,n:int}
+(
+  X: !LAgmat(a, mo, m, n)
+, Y: !LAgmat(a?, mo, n, m) >> LAgmat(a, mo, n, m)
+) : void // endfun
+
+fun{a:t0p}
+transp_LAgmat
+  {mo:mord}{m,n:int}
+  (X: !LAgmat(a, mo, m, n)) : LAgmat(a, mo, n, m)
+// end of [transp_LAgmat]
 
 (* ****** ****** *)
 //
@@ -324,10 +443,62 @@ fun{a:t0p}
 LAgmat_gemm
   {mo:mord}
   {p,q,r:int}
+  {tra,trb:transp}
+  {ma,na:int}{mb,nb:int}
+(
+  pfa: transpdim (tra, ma, na, p, q)
+, pfb: transpdim (trb, mb, nb, q, r)   
+| alpha: a
+, A: !LAgmat(a, mo, ma, na), TRANSP(tra)
+, B: !LAgmat(a, mo, mb, nb), TRANSP(trb)
+, beta: a
+, C: !LAgmat(a, mo, p, r) >> _
+) : void // endfun
+
+fun{a:t0p}
+LAgmat_gemm_nn
+  {mo:mord}
+  {p,q,r:int}
 (
   alpha: a
 , A: !LAgmat(a, mo, p, q)
 , B: !LAgmat(a, mo, q, r)
+, beta: a
+, C: !LAgmat(a, mo, p, r) >> _
+) : void // endfun
+
+fun{a:t0p}
+LAgmat_gemm_nt
+  {mo:mord}
+  {p,q,r:int}
+(
+  alpha: a
+, A: !LAgmat(a, mo, p, q)
+, B: !LAgmat(a, mo, r, q)
+, beta: a
+, C: !LAgmat(a, mo, p, r) >> _
+) : void // endfun
+
+fun{a:t0p}
+LAgmat_gemm_tn
+  {mo:mord}
+  {p,q,r:int}
+(
+  alpha: a
+, A: !LAgmat(a, mo, q, p)
+, B: !LAgmat(a, mo, q, r)
+, beta: a
+, C: !LAgmat(a, mo, p, r) >> _
+) : void // endfun
+
+fun{a:t0p}
+LAgmat_gemm_tt
+  {mo:mord}
+  {p,q,r:int}
+(
+  alpha: a
+, A: !LAgmat(a, mo, q, p)
+, B: !LAgmat(a, mo, r, q)
 , beta: a
 , C: !LAgmat(a, mo, p, r) >> _
 ) : void // endfun

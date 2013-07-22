@@ -37,21 +37,21 @@ implement
 gvector_foreach$fwork<a><tenv>
   (x, env) =
 (
-  env := gadd_val<a2> (env, blas$gnorm<a><a2> (x))
+  env := gadd_val<a2> (env, blas$gnorm2<a><a2> (x))
 )
 //
-var env: tenv = gnumber_int<a2> (0)
+var env: tenv = gnumber_int<a2>(0)
 val _(*n*) = gvector_foreach_env<a><tenv> (V, n, d, env)
 //
 in
-  env
+  gsqrt_val<a2> (env)
 end // end of [blas_nrm2]
 
 (* ****** ****** *)
 
 implement
 {a}{a2}
-blas_isamax
+blas_iamax
   {n}{d}(V, n, d) = let
 //
 var max: a2
@@ -93,7 +93,7 @@ prval () = view@V := gvector_v_cons (pf, pf2)
 //
 in
   $UN.cast{natLt(n)}(imax)
-end // end of [blas_isamax]
+end // end of [blas_iamax]
 
 (* ****** ****** *)
 
@@ -115,12 +115,40 @@ gvector_foreach2$fwork<a,a><tenv>
   env := gadd_val<a> (env, blas_inner$fmul<a> (x, y))
 )
 //
-var env: tenv = gnumber_int<a> (0)
+var env: tenv = gnumber_int<a>(0)
 val _(*n*) = gvector_foreach2_env<a,a><tenv> (V1, V2, n, d1, d2, env)
 //
 in
   env
 end // end of [blas_inner]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+blas_inner_u
+  (V1, V2, n, d1, d2) = let
+//
+implement
+blas_inner$fmul<a> (x, y) = gmul_val<a> (x, y)
+//
+in
+  blas_inner (V1, V2, n, d1, d2)
+end // end of [blas_inner_u]
+
+implement
+{a}(*tmp*)
+blas_inner_c
+  (V1, V2, n, d1, d2) = let
+//
+implement
+blas_inner$fmul<a> (x, y) = let
+  val x_ = gconjugate_val<a> (x) in gmul_val<a> (x_, y)
+end // end of [blas_inner_c]
+//
+in
+  blas_inner (V1, V2, n, d1, d2)
+end // end of [blas_inner_c]
 
 (* ****** ****** *)
 

@@ -27,6 +27,13 @@ blas$gnorm<double><double> (x) = abs(x)
 
 (* ****** ****** *)
 
+implement
+blas$gnorm2<float><float> (x) = x*x
+implement
+blas$gnorm2<double><double> (x) = x*x
+
+(* ****** ****** *)
+
 implement{a}
 blas$_alpha_0 (alpha, x) =
   gmul_val<a> (alpha, x)

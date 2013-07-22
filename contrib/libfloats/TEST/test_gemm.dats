@@ -2,6 +2,12 @@
 // Some testing code for gemm-functions
 //
 (* ****** ****** *)
+
+(* Author: Hongwei Xi *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Start time: July, 2013 *)
+
+(* ****** ****** *)
 //
 #include
 "share/atspre_staload_tmpdef.hats"

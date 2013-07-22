@@ -1,0 +1,83 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../lavector.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libfloats_lavector")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/libfloats/lavector\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package is a thin layer for helping use various BLAS and BLAS-like
+functions on vectors.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgvec_size")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgvec_vtakeout_vector")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgvec_get_at")
+#declnamesynop("LAgvec_set_at")
+#declnamesynop("LAgvec_getref_at")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_LAgvec")
+#declnamesynop("fprint_LAgvec$sep")
+#declnamesynop("fprint_LAgvec_sep")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgvec_split")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgvec_tabulate")
+#declnamesynop("LAgvec_tabulate$fopr")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgvec_inner")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgvec_scal")
+#declnamesynop("scal_LAgvec")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgvec_copy")
+#declnamesynop("copy_LAgvec")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgvec_swap")
+
+(* ****** ****** *)
+
+#declnamesynop("LAgvec_ax1y")
+#declnamesynop("LAgvec_axby")
+
+(* ****** ****** *)
+
+(* end of [lavector.atxt] *)

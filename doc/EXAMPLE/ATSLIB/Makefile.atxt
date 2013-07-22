@@ -134,6 +134,10 @@ RMF=rm -f
 
 ######
 
+#make2_entry("libc_gdbm_gdbm", "-DATS_MEMALLOC_LIBC", "-lgdbm")
+
+######
+
 #make2_entry("libats_qlist", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libats_sllist", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libats_dllist", "-DATS_MEMALLOC_LIBC", "")
@@ -178,6 +182,7 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o *_?ats.c
 clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
+clean:: ; $(RMF) gdbmtest.gdbm
 clean:: ; $(RMF) Makefile.exe
 
 cleanall:: clean

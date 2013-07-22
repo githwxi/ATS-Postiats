@@ -77,7 +77,7 @@ end // end of [local]
 *)
 implement
 {a}(*tmp*)
-blas_gemv_row
+blas_gemv_row_n
   {m,n}{ld1,d2,d3}
 (
   alpha, M1, V2, beta, V3, m, n, ld1, d2, d3
@@ -130,7 +130,27 @@ prval () = lemma_gmatrow_param (M1)
 //
 in
   loop (view@M1, view@V2, view@V3 | addr@M1, addr@V2, addr@V3, m)
-end // end of [blas_gemv_row]
+end // end of [blas_gemv_row_n]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+blas_gemv_row_t
+  {m,n}{ld1,d2,d3}
+(
+  alpha, M1, V2, beta, V3, m, n, ld1, d2, d3
+) = let
+//
+prval (
+) = gmatrix_flipord (M1)
+val () = blas_gemv_col_n (alpha, M1, V2, beta, V3, m, n, ld1, d2, d3)
+prval (
+) = gmatrix_flipord (M1)
+//
+in
+  // nothing
+end // end of [blas_gemv_row_t]
 
 (* ****** ****** *)
 (*
@@ -141,7 +161,7 @@ end // end of [blas_gemv_row]
 *)
 implement
 {a}(*tmp*)
-blas_gemv_col
+blas_gemv_col_n
   {m,n}{ld1,d2,d3}
 (
   alpha, M1, V2, beta, V3, m, n, ld1, d2, d3
@@ -209,7 +229,7 @@ end // end of [blas_gemv_col]
 
 implement
 {a}(*tmp*)
-blas_gemv_trow
+blas_gemv_col_t
   {m,n}{ld1,d2,d3}
 (
   alpha, M1, V2, beta, V3, m, n, ld1, d2, d3
@@ -217,33 +237,13 @@ blas_gemv_trow
 //
 prval (
 ) = gmatrix_flipord (M1)
-val () = blas_gemv_col (alpha, M1, V2, beta, V3, m, n, ld1, d2, d3)
+val () = blas_gemv_row_n (alpha, M1, V2, beta, V3, m, n, ld1, d2, d3)
 prval (
 ) = gmatrix_flipord (M1)
 //
 in
   // nothing
-end // end of [blas_gemv_trow]
-
-(* ****** ****** *)
-
-implement
-{a}(*tmp*)
-blas_gemv_tcol
-  {m,n}{ld1,d2,d3}
-(
-  alpha, M1, V2, beta, V3, m, n, ld1, d2, d3
-) = let
-//
-prval (
-) = gmatrix_flipord (M1)
-val () = blas_gemv_row (alpha, M1, V2, beta, V3, m, n, ld1, d2, d3)
-prval (
-) = gmatrix_flipord (M1)
-//
-in
-  // nothing
-end // end of [blas_gemv_tcol]
+end // end of [blas_gemv_col_t]
 
 (* ****** ****** *)
 

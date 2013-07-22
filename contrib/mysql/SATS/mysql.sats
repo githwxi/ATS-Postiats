@@ -70,33 +70,51 @@ vtypedef MYSQLRESptr1 = [l:addr| l > null] MYSQLRESptr (l)
 (* ****** ****** *)
 
 absvtype MYSQLFIELDptr (l1:addr, l2:addr) = ptr
-vtypedef MYSQLFIELDptr0 (l1:addr) = [l2:addr] MYSQLFIELDptr (l1, l2)
-vtypedef MYSQLFIELDptr1 (l1:addr) = [l2:addr| l2 > null] MYSQLFIELDptr (l1, l2)
+vtypedef
+MYSQLFIELDptr0 (l1:addr) = [l2:addr] MYSQLFIELDptr (l1, l2)
+vtypedef
+MYSQLFIELDptr1 (l1:addr) = [l2:addr| l2 > null] MYSQLFIELDptr (l1, l2)
 
 (* ****** ****** *)
-
 /*
 typedef char **MYSQLROW;
 */
 absvtype MYSQLROW (l1:addr, l2:addr) = ptr
-vtypedef MYSQLROW0 (l1:addr) = [l2:addr] MYSQLROW (l1, l2)
-vtypedef MYSQLROW1 (l1:addr) = [l2:addr| l2 > null] MYSQLROW (l1, l2)
+vtypedef
+MYSQLROW0 (l1:addr) = [l2:addr] MYSQLROW (l1, l2)
+vtypedef
+MYSQLROW1 (l1:addr) = [l2:addr| l2 > null] MYSQLROW (l1, l2)
 
 (* ****** ****** *)
 
-absvtype MYSQLROWLEN (l1:addr, l2:addr) = ptr
-vtypedef MYSQLROWLEN0 (l1:addr) = [l2:addr] MYSQLROWLEN (l1, l2)
-vtypedef MYSQLROWLEN1 (l1:addr) = [l2:addr| l2 > null] MYSQLROWLEN (l1, l2)
+absvtype
+MYSQLROWLEN (l1:addr, l2:addr) = ptr
+vtypedef
+MYSQLROWLEN0
+  (l1:addr) = [l2:addr] MYSQLROWLEN (l1, l2)
+vtypedef
+MYSQLROWLEN1
+  (l1:addr) = [l2:addr| l2 > null] MYSQLROWLEN (l1, l2)
 
 (* ****** ****** *)
 
-castfn MYSQLptr2ptr {l:addr} (x: !MYSQLptr l):<> ptr (l)
-castfn MYSQLRESptr2ptr {l:addr} (x: !MYSQLRESptr (l)):<> ptr (l)
-castfn MYSQLFIELDptr2ptr {l1,l2:addr} (x: !MYSQLFIELDptr (l1, l2)):<> ptr (l2)
+castfn
+MYSQLptr2ptr {l:addr} (x: !MYSQLptr l):<> ptr (l)
+castfn
+MYSQLRESptr2ptr {l:addr} (x: !MYSQLRESptr (l)):<> ptr (l)
+castfn
+MYSQLFIELDptr2ptr {l1,l2:addr} (x: !MYSQLFIELDptr (l1, l2)):<> ptr (l2)
+
+overload ptrcast with MYSQLptr2ptr
+overload ptrcast with MYSQLRESptr2ptr
+overload ptrcast with MYSQLFIELDptr2ptr
 
 (* ****** ****** *)
 
-castfn MYSQLROW2ptr {l1,l2:addr} (x: !MYSQLROW (l1, l2)):<> ptr (l2)
+castfn
+MYSQLROW2ptr {l1,l2:addr} (x: !MYSQLROW (l1, l2)):<> ptr (l2)
+
+overload ptrcast with MYSQLROW2ptr
 
 (* ****** ****** *)
 
@@ -127,12 +145,11 @@ overload free_null with mysqlfield_free_null
 symintr mysql_init
 
 fun mysql_init0 ((*null*)): MYSQLptr0 = "mac#%"
-overload mysql_init with mysql_init0
-
+fun mysql_init0_exn ((*null*)): MYSQLptr1 = "mac#%"
 fun mysql_init1 {l:agz} (x: !MYSQLptr (l)): ptr (l) = "mac#%"
-overload mysql_init with mysql_init1
 
-fun mysql_init0_exn ((*null*)): MYSQLptr1
+overload mysql_init with mysql_init0
+overload mysql_init with mysql_init1
 
 (* ****** ****** *)
 
@@ -593,22 +610,51 @@ fun mysql_warning_count (mysql: !MYSQLptr1) : uint = "mac#%"
 //
 (* ****** ****** *)
 
-fun fprint_mysql_error (out: FILEref, mysql: !MYSQLptr1) : void
+fun{
+} fprint_mysql_error (out: FILEref, mysql: !MYSQLptr1) : void
 
 (* ****** ****** *)
-
-fun fprint_mysqlres_sep
-  {l:agz} (
+//
+fun{
+} fprint_mysqlres$sep1 (FILEref): void
+fun{
+} fprint_mysqlres$sep2 (FILEref): void
+fun{
+} fprint_mysqlres{l:agz}
+  (out: FILEref, res: !MYSQLRESptr (l)): void
+// end of [fprint_mysqlres]
+fun{
+} fprint_mysqlres_sep{l:agz}
+(
   out: FILEref
-, res: !MYSQLRESptr (l), sep1: NSH(string), sep2: NSH(string)
+, res: !MYSQLRESptr(l), sep1: NSH(string), sep2: NSH(string)
 ) : void // end of [fprint_mysqlres_sep]
+//
+overload fprint with fprint_mysqlres
+overload fprint with fprint_mysqlres_sep
+//
+(* ****** ****** *)
 
-fun fprint_mysqlrow_sep
-  {l1,l2:addr | l2 > null}{n:int} (
+fun{
+} fprint_mysqlrow$sep (FILEref): void
+fun{
+} fprint_mysqlrow
+  {l1,l2:addr | l2 > null}{n:int}
+(
+  pfrow: MYSQLRESnfield (l1, n)
+| out: FILEref, row: !MYSQLROW (l1, l2), n: int n
+) : void // end of [fprint_mysqlrow]
+fun{
+} fprint_mysqlrow_sep
+  {l1,l2:addr | l2 > null}
+  {n:int} (
   pfrow: MYSQLRESnfield (l1, n)
 | out: FILEref, row: !MYSQLROW (l1, l2), n: int n, sep: NSH(string)
 ) : void // end of [fprint_mysqlrow_sep]
-
+//
+overload fprint with fprint_mysqlrow
+overload fprint with fprint_mysqlrow_sep
+//
 (* ****** ****** *)
 
 (* end of [mysql.sats] *)

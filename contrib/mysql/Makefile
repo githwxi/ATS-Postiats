@@ -1,5 +1,5 @@
 #
-# API for mysql in ATS
+# API for mysql in ATS2
 #
 # Start Time: August, 2012
 # Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
@@ -7,12 +7,12 @@
 
 ######
 
-ATSHOMEQ="$(ATSHOME)"
+PATSHOMEQ="$(PATSHOME)"
 
 ######
 
-ATSCC=$(ATSHOMEQ)/bin/atscc
-ATSCTRB="$(PATSHOME)"/contrib
+PATSCC=$(PATSHOMEQ)/bin/patscc
+PATSCTRB="$(PATSHOME)"/contrib
 MYSQLCLFLAGS=`mysql_config --cflags --libs`
 
 ######
@@ -27,7 +27,7 @@ atsctrb_mysql.o: mysql_dats.o ; ld -r -o $@ $^
 ######
 
 mysql_dats.o: DATS/mysql.dats
-	$(ATSCC) -O2 -I$(ATSCTRB) -IATS$(ATSCTRB) -o $@ -c $< $(MYSQLCLFLAGS)
+	$(PATSCC) -O2 -IIATS $(PATSCTRB) -o $@ -c $< $(MYSQLCLFLAGS)
 
 ######
 

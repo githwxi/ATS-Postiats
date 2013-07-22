@@ -44,20 +44,21 @@ lapack_LUPdec_row
 implement
 {a}{a2}(*tmp*)
 lapack_LUPdec_row
+  {m,n}{ld}
   (M, m, n, ld) = let
 //
 fun
 auxpivot
-  {m,n:int | 1 <= m; m <= n}{ld:int}
+  {m >= 1}
 (
   M: &GMR(a, m, n, ld), m: int m, n: int n, ld: int ld
-) : natLt (n) = let
+) : natLt(n) = let
 //
 val p = addr@M
 //
 prval
 (pf1, pf2) = gmatrow_v_uncons0 (view@M)
-val imax = blas_isamax<a><a2> (!p, n, 1)
+val imax = blas_iamax<a><a2> (!p, n, 1)
 prval () = view@M := gmatrow_v_cons0 (pf1, pf2)
 //
 val () = gmatrow_interchange_col (M, m, ld, 0, imax)
