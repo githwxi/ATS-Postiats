@@ -540,8 +540,8 @@ BUILD/patsopt: ; make -C BUILD -j8 -f Makefile patsopt
 #
 depend::
 	$(RMF) .depend
-	$(ATSOPT) -o .depend -dep1 -s $(SOURCESsta) -d $(SOURCESdyn)
-	$(ATSOPT) -o .depend -dep1 -d pats_main.dats
+	$(ATSOPT) -o .depend --depgen -s $(SOURCESsta) -d $(SOURCESdyn)
+	$(ATSOPT) -o .depend --depgen -d pats_main.dats
 include .depend
 
 ######

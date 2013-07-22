@@ -1194,8 +1194,8 @@ pats_main_dats.o: pats_main_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 #
 depend::
 	$(RMF) .depend
-	$(ATSOPT) -o .depend -dep1 -s $(SOURCESsta) -d $(SOURCESdyn)
-	$(ATSOPT) -o .depend -dep1 -d pats_main.dats
+	$(ATSOPT) -o .depend --depgen -s $(SOURCESsta) -d $(SOURCESdyn)
+	$(ATSOPT) -o .depend --depgen -d pats_main.dats
 include .depend
 
 ######

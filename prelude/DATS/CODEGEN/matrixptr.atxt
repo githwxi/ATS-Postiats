@@ -115,8 +115,8 @@ fprint_matrixptr
 //
 val p0 = ptrcast (M)
 //
-prval (
-  pf, fpf
+val (
+  pf, fpf | p0
 ) = $UN.ptr_vtake {matrix(a,m,n)} (p0)
 val () = fprint_matrix<a> (out, !p0, m, n)
 prval () = fpf (pf)
