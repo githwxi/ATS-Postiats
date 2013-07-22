@@ -27,3 +27,8 @@
 // Define triu
 
 // Define tril
+
+// Implement fminsearch
+// As in matlab, default is Nelder-mead simplex
+
+// Implement norm
