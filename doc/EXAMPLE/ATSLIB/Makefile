@@ -302,6 +302,17 @@ cleanall:: ; $(RMF) libc_unistd.exe
 
 ######
 
+all:: libc_gdbm_gdbm
+libc_gdbm_gdbm: libc_gdbm_gdbm.exe
+libc_gdbm_gdbm.exe: libc_gdbm_gdbm_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -lgdbm
+libc_gdbm_gdbm_dats.c: libc_gdbm_gdbm.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_gdbm_gdbm_dats.c --dynamic libc_gdbm_gdbm.dats
+clean:: ; $(RMF) libc_gdbm_gdbm_dats.o
+clean:: ; $(RMF) libc_gdbm_gdbm_dats.c
+cleanall:: ; $(RMF) libc_gdbm_gdbm.exe
+
+
+######
+
 all:: libats_qlist
 libats_qlist: libats_qlist.exe
 libats_qlist.exe: libats_qlist_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
@@ -493,6 +504,7 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o *_?ats.c
 clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
+clean:: ; $(RMF) gdbmtest.gdbm
 clean:: ; $(RMF) Makefile.exe
 
 cleanall:: clean

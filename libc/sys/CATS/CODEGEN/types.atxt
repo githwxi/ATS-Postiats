@@ -37,6 +37,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+typedef mode_t atslib_mode_type ;
 typedef time_t atslib_time_type ;
 
 #atscode_separator_for_C()
@@ -60,6 +61,28 @@ typedef off_t atslib_off_type ;
 typedef pid_t atslib_pid_type ;
 typedef uid_t atslib_uid_type ;
 typedef gid_t atslib_gid_type ;
+
+#atscode_separator_for_C()
+
+ATSinline()
+atslib_mode_type
+atslib_lor_mode_mode
+(
+  atslib_mode_type m1
+, atslib_mode_type m2
+) {
+  return (m1 | m2) ;
+} // end of [atslib_lor_mode_mode]
+
+ATSinline()
+atslib_mode_type
+atslib_land_mode_mode
+(
+  atslib_mode_type m1
+, atslib_mode_type m2
+) {
+  return (m1 & m2) ;
+} // end of [atslib_land_mode_mode]
 
 #atscode_separator_for_C()
 

@@ -55,6 +55,7 @@ This package contains an API for programming mysql in ATS.\
 
 #declnamesynop("mysql_init")
 #declnamesynop("mysql_init0")
+#declnamesynop("mysql_init0_exn")
 #declnamesynop("mysql_init1")
 
 (* ****** ****** *)
@@ -207,6 +208,35 @@ end // end of [main]
 #declnamesynop("mysql_hex_string")
 #declnamesynop("mysql_escape_string")
 #declnamesynop("mysql_real_escape_string")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_mysqlres")
+#declnamesynop("fprint_mysqlres$sep1")
+#declnamesynop("fprint_mysqlres$sep2")
+#declnamesynop("fprint_mysqlres_sep")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_mysqlrow")
+#declnamesynop("fprint_mysqlrow$sep")
+#declnamesynop("fprint_mysqlrow_sep")
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("ptrcast")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
 
 (* ****** ****** *)
 

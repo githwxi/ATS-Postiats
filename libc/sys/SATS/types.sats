@@ -110,9 +110,14 @@ overload = with eq_mode_mode
 overload != with neq_mode_mode
 overload <> with neq_mode_mode
 
-fun lor_mode_mode (m1: mode_t, m2: mode_t):<> mode_t
-fun land_mode_mode (m1: mode_t, m2: mode_t):<> mode_t
+(* ****** ****** *)
+
+fun lor_mode_mode
+  (m1: mode_t, m2: mode_t):<> mode_t = "mac#%"
 overload lor with lor_mode_mode
+
+fun land_mode_mode
+  (m1: mode_t, m2: mode_t):<> mode_t = "mac#%"
 overload land with land_mode_mode
 
 (* ****** ****** *)

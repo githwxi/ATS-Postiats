@@ -106,6 +106,21 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+ATSinline()
+atstype_ptr
+atslib_strdup_gc
+  (atstype_string src)
+{
+  char *dst ;
+  size_t len, len1 ;
+  len = atslib_strlen((char*)src) ;
+  len1 = len + 1;
+  dst = atspre_malloc_gc(len1) ;
+  return atslib_memcpy(dst, src, len1) ;
+} // end of [atslib_strdup_gc]
+
+#atscode_separator_for_C()
+
 \#endif // ifndef ATSLIB_LIBC_STRING_CATS
 
 #atscode_separator_for_C()
