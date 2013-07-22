@@ -10,6 +10,7 @@ make -f codegen/Makefile_atslib
 touch src/.depend
 make -C src -f Makefile all
 
+mkdir -p bin
 cp src/patsopt bin/patsopt
 
 cd utils/atscc
