@@ -115,17 +115,17 @@ fun fileref_open_opt
 
 #atscode_separator()
 
-fun fileref_close (r: FILEref): void = "mac\#%"
+fun fileref_close (fil: FILEref): void = "mac\#%"
 
 #atscode_separator()
 
-fun fileref_flush (r: FILEref): void = "mac\#%"
+fun fileref_flush (fil: FILEref): void = "mac\#%"
 
 #atscode_separator()
 //
 // HX: error indication: EOF
 //
-fun fileref_getc (r: FILEref): int = "mac\#%"
+fun fileref_getc (inp: FILEref): int = "mac\#%"
 //
 #atscode_separator()
 //
@@ -134,10 +134,10 @@ fun fileref_getc (r: FILEref): int = "mac\#%"
 symintr fileref_putc
 //
 fun fileref_putc_int
-  (r: FILEref, c: int): void = "mac\#%"
+  (out: FILEref, c: int): void = "mac\#%"
 overload fileref_putc with fileref_putc_int
 fun fileref_putc_char
-  (r: FILEref, c: char): void = "mac\#%"
+  (out: FILEref, c: char): void = "mac\#%"
 overload fileref_putc with fileref_putc_char
 //
 #atscode_separator()
@@ -145,13 +145,14 @@ overload fileref_putc with fileref_putc_char
 // HX: no error reporting
 //
 fun fileref_puts
-  (r: FILEref, s: NSH(string)): void = "mac\#%"
+  (out: FILEref, s: NSH(string)): void = "mac\#%"
 //
 #atscode_separator()
 
-fun fileref_is_eof (r: FILEref): bool = "mac\#%"
+fun fileref_is_eof (fil: FILEref): bool = "mac\#%"
 
-macdef fileref_isnot_eof (r) = ~fileref_is_eof (,(r))
+macdef
+fileref_isnot_eof (inp) = ~fileref_is_eof (,(inp))
 
 #atscode_separator()
 
@@ -175,18 +176,18 @@ fun fileref_load_double : fileref_load_type (double) = "mac\#%"
 
 fun{a:t0p}
 fileref_get_optval
-  (r: FILEref): Option_vt (a)
+  (inp: FILEref): Option_vt (a)
 // end of [fileref_get_optval]
 
 fun{
 a:t0p
 } fileref_get_exnmsg
-  (r: FILEref, msg: NSH(string)): a
+  (inp: FILEref, msg: NSH(string)): a
 // end of [fileref_get_exnmsg]
 
 macdef
 fileref_get_exnloc
-  (r) = fileref_get_exnmsg (,(r), $mylocation)
+  (inp) = fileref_get_exnmsg (,(inp), $mylocation)
 // end of [fileref_get_exnloc]
 
 #atscode_separator()
@@ -196,31 +197,33 @@ vtypedef charlst_vt = List0_vt (char)
 
 #atscode_separator()
 
-fun fileref_get_line_charlst (r: FILEref): charlst_vt
+fun fileref_get_line_charlst (inp: FILEref): charlst_vt
 
 #atscode_separator()
 
 (*
 ** HX: only for files of "tiny" size
 *)
-fun fileref_get_lines_charlstlst (r: FILEref): List0_vt (charlst_vt)
+fun fileref_get_lines_charlstlst (inp: FILEref): List0_vt (charlst_vt)
 
 #atscode_separator()
 
 (*
 ** HX: for handling files of "tiny" size
 *)
-fun fileref_get_file_charlst (r: FILEref): List0_vt (char)
-fun fileref_nget_file_charlst {n:nat} (r: FILEref, n: int n): List0_vt (char)
+fun fileref_get_file_charlst (inp: FILEref): List0_vt (char)
+fun fileref_nget_file_charlst {n:nat} (inp: FILEref, n: int n): listLte_vt (char, n)
 
 #atscode_separator()
 
-fun fileref_put_charlst (r: FILEref, cs: NSH(List(char))): void
+fun fileref_put_charlst (inp: FILEref, cs: NSH(List(char))): void
 
 #atscode_separator()
 //
 fun{
 } fileref_get_line_string$bufsize (): intGte(1)
+fun{
+} fileref_get_file_string$bufsize (): intGte(1)
 //
 // HX-2013-05:
 // these functions are based on [fgets];
@@ -228,12 +231,15 @@ fun{
 // no occurrences of the NUL character ('\000').
 //
 fun{
-} fileref_get_line_string (r: FILEref): Strptr1
+} fileref_get_line_string (inp: FILEref): Strptr1
 fun{
 } fileref_get_line_string_main
-  (r: FILEref, n: &int? >> int n): #[n:nat] strnptr (n)
+  (inp: FILEref, n: &int? >> int n): #[n:nat] strnptr (n)
 fun{
-} fileref_get_lines_stringlst (r: FILEref): List0_vt (Strptr1)
+} fileref_get_lines_stringlst (inp: FILEref): List0_vt (Strptr1)
+//
+fun{
+} fileref_get_file_string (inp: FILEref): Strptr1
 //
 #atscode_separator()
 

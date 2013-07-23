@@ -40,6 +40,7 @@ staload _(*anon*) = "prelude/DATS/integer.dats"
 
 staload STDIO = "libc/SATS/stdio.sats"
 vtypedef FILEptr1 = $STDIO.FILEptr1 (*linear/nonnull*)
+staload STRING = "libc/SATS/string.sats"
 
 #atscode_separator()
 
@@ -194,9 +195,9 @@ val isnot = $STDIO.FILEptr2ptr(filp) > 0
 in
 //
 if isnot then let
-  val filr = $STDIO.FILEptr_refize (filp)
+  val fil = $STDIO.FILEptr_refize (filp)
 in
-  Some_vt{FILEref}(filr)
+  Some_vt{FILEref}(fil)
 end else let
   prval () = $STDIO.FILEptr_free_null (filp)
 in
@@ -212,7 +213,7 @@ end // end of [fileref_open_opt]
 // HX: atspre_fileref_close
 //
 implement
-fileref_close (filr) = $STDIO.fclose0_exn (filr)
+fileref_close (fil) = $STDIO.fclose0_exn (fil)
 *)
 
 #atscode_separator()
@@ -222,7 +223,7 @@ fileref_close (filr) = $STDIO.fclose0_exn (filr)
 // HX: atspre_fileref_flush
 //
 implement
-fileref_flush (filr) = $STDIO.fflush0_exn (filr)
+fileref_flush (fil) = $STDIO.fflush0_exn (fil)
 *)
 
 #atscode_separator()
@@ -231,8 +232,7 @@ fileref_flush (filr) = $STDIO.fflush0_exn (filr)
 //
 // HX: atspre_fileref_getc
 //
-implement
-fileref_getc (filr) = $STDIO.fgetc0 (filr)
+implement fileref_getc (inp) = $STDIO.fgetc0 (inp)
 *)
 
 #atscode_separator()
@@ -243,11 +243,11 @@ fileref_getc (filr) = $STDIO.fgetc0 (filr)
 // HX: atspre_fileref_putc_char
 //
 implement
-fileref_putc_int (filr, c) = let
-  val _(*ignored*) = $STDIO.fputc0 (c, filr) in (*nothing*)
+fileref_putc_int (out, c) = let
+  val _(*ignored*) = $STDIO.fputc0 (c, out) in (*nothing*)
 end // end of [fileref_putc_int]
 implement
-fileref_putc_char (filr, c) = fileref_putc_int (filr, (c2i)c)
+fileref_putc_char (out, c) = fileref_putc_int (out, (c2i)c)
 *)
 
 #atscode_separator()
@@ -257,8 +257,8 @@ fileref_putc_char (filr, c) = fileref_putc_int (filr, (c2i)c)
 // HX: atspre_fileref_puts
 //
 implement
-fileref_puts (filr, s) = let
-  val _(*ignored*) = $STDIO.fputs0 (s, filr) in (*nothing*)
+fileref_puts (out, s) = let
+  val _(*ignored*) = $STDIO.fputs0 (s, out) in (*nothing*)
 end // end of [fileref_puts]
 *)
 
@@ -269,8 +269,8 @@ end // end of [fileref_puts]
 // HX: atspre_fileref_is_eof
 //
 implement
-fileref_is_eof (filr) =
-  if $STDIO.feof0 (filr) != 0 true else false
+fileref_is_eof (fil) =
+  if $STDIO.feof0 (fil) != 0 true else false
 // end of [fileref_is_eof]
 *)
 
@@ -313,15 +313,15 @@ end // end of [fileref_get_exnmsg]
 
 implement
 fileref_get_line_charlst
-  (filr) = let
+  (inp) = let
 //
 val EOL = '\\\n'
 //
 fun loop
 (
-  filr: FILEref, res: &ptr? >> charlst_vt
+  inp: FILEref, res: &ptr? >> charlst_vt
 ) : void = let
-  val i = fileref_getc (filr)
+  val i = fileref_getc (inp)
 in
 //
 if i >= 0 then let
@@ -335,7 +335,7 @@ if (c != EOL) then let
     list_vt_cons{char}{0}(c, _)
   )
   val+list_vt_cons (_, res1) = res
-  val () = loop (filr, res1)
+  val () = loop (inp, res1)
   prval () = fold@ (res)
 in
   // nothing
@@ -346,7 +346,7 @@ end else (res := list_vt_nil)
 end // end of [loop]
 //
 var res: ptr
-val () = loop (filr, res)
+val () = loop (inp, res)
 //
 in
   res
@@ -356,17 +356,17 @@ end // end of [fileref_get_line_charlst]
 
 implement
 fileref_get_lines_charlstlst
-  (filr) = let
+  (inp) = let
 //
 vtypedef line = charlst_vt
 vtypedef lines = List0_vt (line)
 //
 fun loop
 (
-  filr: FILEref
+  inp: FILEref
 , res: &lines? >> lines
 ) : void = let
-  val iseof = fileref_is_eof (filr)
+  val iseof = fileref_is_eof (inp)
 in
 //
 if iseof then let
@@ -375,13 +375,13 @@ in
   // nothing
 end else let
   val line =
-    fileref_get_line_charlst (filr)
+    fileref_get_line_charlst (inp)
   val () =
   (
     res := list_vt_cons{line}{0}(line, _)
   )
   val+list_vt_cons (_, res1) = res
-  val () = loop (filr, res1)
+  val () = loop (inp, res1)
   prval () = fold@ (res)
 in
   // nothing
@@ -390,7 +390,7 @@ end // end of [if]
 end // end of [loop]
 //
 var res: lines
-val () = loop (filr, res)
+val () = loop (inp, res)
 //
 in
   res
@@ -402,13 +402,13 @@ local
 
 fun loop
 (
-  filr: FILEref
+  inp: FILEref
 , n: int, res: &ptr? >> charlst_vt
 ) : int = let
 in
 //
 if n != 0 then let
-  val i = fileref_getc (filr)
+  val i = fileref_getc (inp)
 in
   if i >= 0 then let
     val () =
@@ -417,7 +417,7 @@ in
       list_vt_cons{char}{0}((i2c)i, _)
     )
     val+list_vt_cons (_, res1) = res
-    val n = loop (filr, pred(n), res1)
+    val n = loop (inp, pred(n), res1)
     prval () = fold@ (res)
   in
     n
@@ -434,15 +434,17 @@ in (* in of [local] *)
 
 implement
 fileref_get_file_charlst
-  (filr) = res where {
-  var res: ptr; val _ = loop (filr, ~1, res)
+  (inp) = res where {
+  var res: ptr; val _ = loop (inp, ~1, res)
 } // end of [fileref_get_file_charlst]
 
 implement
 fileref_nget_file_charlst
-  (filr, n) = res where {
-  var res: ptr; val _(*nleft*) = loop (filr, n, res)
-} // end of [fileref_nget_file_charlst]
+  {n} (inp, n) = let
+  var res: ptr; val _(*nleft*) = loop (inp, n, res)
+in
+  $UN.castvwtp0{listLte_vt(char,n)}(res)
+end // end of [fileref_nget_file_charlst]
 
 end // end of [local]
 
@@ -474,14 +476,16 @@ end // end of [fileref_put_charlst]
 
 implement{}
 fileref_get_line_string$bufsize () = 64
+implement{}
+fileref_get_file_string$bufsize () = 1024
 
 #atscode_separator()
 
 implement{}
 fileref_get_line_string
-  (filr) = let
+  (inp) = let
   var nlen: int // uninitialized
-  val line = fileref_get_line_string_main (filr, nlen)
+  val line = fileref_get_line_string_main (inp, nlen)
   prval () = lemma_strnptr_param (line)
 in
   strnptr2strptr (line)
@@ -491,12 +495,12 @@ end // end of [fileref_get_line_string]
 
 implement{}
 fileref_get_line_string_main
-  (filr, nlen) = let
+  (inp, nlen) = let
 //
 val bsz = fileref_get_line_string$bufsize ()
 val [l:addr,n:int] str = $extfcall
 (
-Strnptr0, "atspre_fileref_get_line_string_main2", bsz, filr, addr@(nlen)
+Strnptr0, "atspre_fileref_get_line_string_main2", bsz, inp, addr@(nlen)
 )
 //
 prval () = lemma_strnptr_param (str)
@@ -524,17 +528,17 @@ end // end of [fileref_get_line_string_main]
 
 implement{}
 fileref_get_lines_stringlst
-  (filr) = let
+  (inp) = let
 //
 vtypedef line = Strptr1
 vtypedef lines = List0_vt (line)
 //
 fun loop
 (
-  filr: FILEref
+  inp: FILEref
 , res: &lines? >> lines
 ) : void = let
-  val iseof = fileref_is_eof (filr)
+  val iseof = fileref_is_eof (inp)
 in
 //
 if iseof then let
@@ -543,13 +547,13 @@ in
   // nothing
 end else let
   val line =
-    fileref_get_line_string (filr)
+    fileref_get_line_string (inp)
   val () =
   (
     res := list_vt_cons{line}{0}(line, _)
   )
   val+list_vt_cons (_, res1) = res
-  val () = loop (filr, res1)
+  val () = loop (inp, res1)
   prval () = fold@ (res)
 in
   // nothing
@@ -558,11 +562,69 @@ end // end of [if]
 end // end of [loop]
 //
 var res: lines
-val () = loop (filr, res)
+val () = loop (inp, res)
 //
 in
   res
 end // end of [fileref_get_lines_stringlst]
+
+#atscode_separator()
+
+implement{}
+fileref_get_file_string (inp) = let
+//
+\#define CNUL '\000'
+//
+fun loop
+(
+  inp: FILEref
+, p0: ptr, n0: size_t, p1: ptr, n1: size_t
+) : Strptr1 = let
+//
+val nw = $extfcall (size_t, "atslib_fwrite", p1, 1, n1, inp)
+//
+in
+//
+if nw > 0
+then let
+  val n1 = n1 - nw
+  val p1 = add_ptr_bsz (p1, nw)
+in
+  if n1 > 0 then
+    loop (inp, p0, n0, p1, n1) else loop2 (inp, p0, n0)
+  // end of [if]
+end else let
+  val () = $UN.ptr0_set<char> (p1, CNUL) in $UN.castvwtp0{Strptr1}(p0)
+end // end of [if]
+//
+end // end of [loop]
+//
+and loop2
+(
+  inp: FILEref, p0: ptr, n0: size_t
+) : Strptr1 = let
+  val bsz = succ(n0)
+  val bsz2 = g1ofg0(bsz + bsz)
+  val (pf, pfgc | p0_) = malloc_gc (bsz2)
+  val p0_ = $UN.castvwtp0{ptr}((pf, pfgc | p0_))
+  val _(*ptr*) = $extfcall (ptr, "atslib_memcpy", p0_, p0, n0)
+  val () = strptr_free ($UN.castvwtp0{Strptr1}(p0))
+  val n0_ = pred(g0ofg1(bsz2))
+  val p1_ = add_ptr_bsz (p0_, n0)
+in
+  loop (inp, p0_, n0_, p1_, bsz)
+end // end of [loop2]
+//
+val bsz =
+  fileref_get_file_string$bufsize ()
+val bsz = i2sz(bsz)
+val (pf, pfgc | p0_) = malloc_gc (bsz)
+val p0_ = $UN.castvwtp0{ptr}((pf, pfgc | p0_))
+val n0_ = pred(bsz)
+//
+in
+  loop (inp, p0_, n0_, p0_, n0_)
+end // end of [fileref_get_file_string]
 
 #atscode_separator()
 

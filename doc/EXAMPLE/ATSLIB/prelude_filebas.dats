@@ -15,6 +15,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 val () =
 {
+//
 val name =
 "/home/hwxi/research/Postiats/git/doc/EXAMPLE/ATSLIB/prelude_filebas.dats"
 //
@@ -34,19 +35,23 @@ prval () = fpf (base)
 
 val () =
 {
-val inp = stdin_ref
+val inp =
+fileref_open_exn
+  ("./prelude_filebas.dats", file_mode_r)
+//
 val (
 ) = while (true)
 {
-  val str =
+  val line =
     fileref_get_line_string (inp)
   val iseof = fileref_is_eof (inp)
-  val () =
-    if ~iseof then println! (str)
-  val () = strptr_free (str)
+  val () = if ~iseof then println! (line)
+  val () = strptr_free (line)
   val () = if iseof then $break
 }
-val ( ) = fileref_close (inp)
+//
+val () = fileref_close (inp)
+//
 } (* end of [val] *)
 
 (* ****** ****** *)

@@ -40,7 +40,7 @@ staload _ = "libfloats/DATS/blas_gemm.dats"
 val () =
 {
 //
-typedef T = double
+typedef T = float
 //
 val out = stdout_ref
 //
@@ -64,6 +64,10 @@ val () = blas_gemm_row_nt (gint(1), !pM, !pM, gint(0), !pM2, M, N, M, N, N, M)
 //
 prval () = gmatrow2matrix (!pM)
 prval () = gmatrow2matrix (!pM2)
+//
+implement
+fprint_val<T> (out, x) =
+  ignoret ($extfcall (int, "fprintf", out, "%.2f", x))
 //
 val () = fprintln! (out, "M =")
 val () = fprint_matrix_sep (out, !pM, i2sz(M), i2sz(N), "; ", "\n")

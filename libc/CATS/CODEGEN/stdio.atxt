@@ -81,8 +81,9 @@ do { \\
 //
 #atscode_separator_for_C()
 
-\#define atslib_fileno0 fileno
-\#define atslib_fileno1 fileno
+\#define atslib_fileno fileno
+\#define atslib_fileno0 atslib_fileno
+\#define atslib_fileno1 atslib_fileno
 
 #atscode_separator_for_C()
 
@@ -90,53 +91,77 @@ do { \\
 
 #atscode_separator_for_C()
 
-\#define atslib_feof0 feof
-\#define atslib_feof1 feof
+\#define atslib_feof feof
+\#define atslib_feof0 atslib_feof
+\#define atslib_feof1 atslib_feof
 
 #atscode_separator_for_C()
 
-\#define atslib_ferror0 ferror
-\#define atslib_ferror1 ferror
+\#define atslib_ferror ferror
+\#define atslib_ferror0 atslib_ferror
+\#define atslib_ferror1 atslib_ferror
 
 #atscode_separator_for_C()
 
-\#define atslib_fgetc0 fgetc
-\#define atslib_fgetc1 fgetc
+\#define atslib_fgetc fgetc
+\#define atslib_fgetc0 atslib_fgetc
+\#define atslib_fgetc1 atslib_fgetc
 
 #atscode_separator_for_C()
 
-\#define atslib_fputc0_int fputc
-\#define atslib_fputc0_char(c, fp) fputc((int)c, fp)
-\#define atslib_fputc1_int fputc
-\#define atslib_fputc1_char(c, fp) fputc((int)c, fp)
+\#define atslib_fputc fputc
+\#define atslib_fputc0_int atslib_fputc
+\#define atslib_fputc0_char(c, fp) atslib_fputc((int)c, fp)
+\#define atslib_fputc1_int atslib_fputc
+\#define atslib_fputc1_char(c, fp) atslib_fputc((int)c, fp)
 
 \#define atslib_fputc0_exn_int atslib_fputc_exn
 \#define atslib_fputc0_exn_char atslib_fputc_exn
 
 #atscode_separator_for_C()
 
-\#define atslib_fgets0 fgets
-\#define atslib_fgets1 fgets
-\#define atslib_fgets1_err fgets
+\#define atslib_fgets fgets
+\#define atslib_fgets0 atslib_fgets
+\#define atslib_fgets1 atslib_fgets
+\#define atslib_fgets1_err atslib_fgets
 \#define atslib_fgets0_gc atslib_fgets_gc
 \#define atslib_fgets1_gc atslib_fgets_gc
 
 #atscode_separator_for_C()
 
-\#define atslib_fputs0 fputs
-\#define atslib_fputs1 fputs
+\#define atslib_fputs fputs
+\#define atslib_fputs0 atslib_fputs
+\#define atslib_fputs1 atslib_fputs
 \#define atslib_fputs0_exn atslib_fputs_exn
 \#define atslib_fputs1_exn atslib_fputs_exn
 
 #atscode_separator_for_C()
 
-\#define atslib_fseek0 fseek
-\#define atslib_fseek1 fseek
+\#define atslib_puts puts
 
 #atscode_separator_for_C()
 
-\#define atslib_ftell0 ftell
-\#define atslib_ftell1 ftell
+\#define atslib_fread fread
+\#define atslib_fread0 atslib_fread
+\#define atslib_fread1 atslib_fread
+
+#atscode_separator_for_C()
+
+\#define atslib_fwrite fwrite
+\#define atslib_fwrite0 atslib_fwrite
+\#define atslib_fwrite1 atslib_fwrite
+
+#atscode_separator_for_C()
+
+\#define atslib_fseek fseek
+\#define atslib_fseek0 atslib_fseek
+\#define atslib_fseek1 atslib_fseek
+
+#atscode_separator_for_C()
+
+\#define atslib_ftell ftell
+\#define atslib_ftell0 atslib_ftell
+\#define atslib_ftell1 atslib_ftell
 
 #atscode_separator_for_C()
 
@@ -153,8 +178,9 @@ do { \\
 
 #atscode_separator_for_C()
 
-\#define atslib_rewind0 rewind
-\#define atslib_rewind1 rewind
+\#define atslib_rewind rewind
+\#define atslib_rewind0 atslib_rewind
+\#define atslib_rewind1 atslib_rewind
 
 #atscode_separator_for_C()
 

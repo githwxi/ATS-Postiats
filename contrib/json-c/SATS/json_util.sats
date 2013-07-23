@@ -13,8 +13,9 @@
 struct json_object*
 json_object_from_file (const char *filename)
 *)
-
-fun json_object_from_file (filename: string): json_object0 = "mac#%"
+fun json_object_from_file
+  (filename: string): json_object0 = "mac#%"
+// end of [json_object_from_file]
 
 (* ****** ****** *)
 
