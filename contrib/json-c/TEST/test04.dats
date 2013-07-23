@@ -11,12 +11,6 @@
 *)
 
 (* ****** ****** *)
-
-%{^
-#include "json-c/CATS/json.cats"
-%}
-
-(* ****** ****** *)
 //
 #include
 "share/atspre_staload_tmpdef.hats"

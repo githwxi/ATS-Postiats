@@ -23,6 +23,16 @@ ATSLIB/contrib/json-c/json_util\
 
 (* ****** ****** *)
 
+#declnamesynop("json_objectlst_from_file")
+#decldescrpt('\
+
+This is an extension function. It essentially parses the content of a file
+into a list of (possibly null) json-objects.\
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("json_object_to_file")
 #declnamesynop("json_object_to_file_ext")
 

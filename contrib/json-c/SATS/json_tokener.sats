@@ -11,8 +11,16 @@
 
 castfn
 json_tokener2ptr
-  {l:addr} (al: !json_tokener (l)):<> ptr (l)
+  {l:addr} (tok: !json_tokener (l)):<> ptr (l)
 overload ptrcast with json_tokener2ptr
+
+(* ****** ****** *)
+
+(*
+** HX-2013-07: field-selection
+*)
+fun
+json_tokener_get_char_offset (tok: !json_tokener1):<> int = "mac#%"
 
 (* ****** ****** *)
 
@@ -53,7 +61,7 @@ fun json_tokener_new_ex (depth: intGte(0)): json_tokener0 = "mac#%"
 void
 json_tokener_free (struct json_tokener *tok)
 *)
-fun json_tokener_free (tok: !json_tokener1): void = "mac#%"
+fun json_tokener_free (tok: json_tokener1): void = "mac#%"
 
 (* ****** ****** *)
 
@@ -79,6 +87,15 @@ json_tokener_parse_verbose
 fun json_tokener_parse_verbose
   (str: string, error: &json_tokener_error): json_object0 = "mac#%"
 
+(* ****** ****** *)
+(*
+** HX-2013-07: this is extension
+*)
+fun{
+} json_tokener_parse$skip {n:int} (string n): natLte (n)
+fun{
+} json_tokener_parse_list (str: string): List0_vt (json_object0)
+//
 (* ****** ****** *)
 
 (*

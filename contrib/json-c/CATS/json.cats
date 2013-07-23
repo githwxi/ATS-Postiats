@@ -220,6 +220,14 @@ atscntrb_json_object_iter_notequal
 
 /* ****** ****** */
 
+ATSinline()
+atstype_int
+atscntrb_json_tokener_get_char_offset
+  (void *tok)
+{
+  return ((json_tokener*)tok)->char_offset ;
+}
+
 #define atscntrb_json_tokener_error_desc json_tokener_error_desc
 #define atscntrb_json_tokener_get_error json_tokener_get_error
 #define atscntrb_json_tokener_new json_tokener_new

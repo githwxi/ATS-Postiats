@@ -83,6 +83,14 @@ clean:: ; $(RMF) test05_dats.o
 clean:: ; $(RMF) test05_dats.c
 cleanall:: ; $(RMF) test05.exe
 
+all:: test06
+test06: test06.exe
+test06.exe: test06_dats.c ;   $(CCOPT)   -I$(PATSHOMEQ)   -I$(PATSHOMEQ)/ccomp/runtime   -I$(PATSHOMEQ)/contrib   -DATS_MEMALLOC_LIBC -DATS_MEMALLOC_LIBC -o $@ $< -ljson-c
+test06_dats.c: test06.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output test06_dats.c --dynamic test06.dats
+clean:: ; $(RMF) test06_dats.o
+clean:: ; $(RMF) test06_dats.c
+cleanall:: ; $(RMF) test06.exe
+
 
 ######
 

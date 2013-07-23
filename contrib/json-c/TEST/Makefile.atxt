@@ -85,6 +85,7 @@ RMF=rm -f
 #make2_entry("test03", "-DATS_MEMALLOC_LIBC", "-ljson-c")
 #make2_entry("test04", "-DATS_MEMALLOC_LIBC", "-ljson-c")
 #make2_entry("test05", "-DATS_MEMALLOC_LIBC", "-ljson-c")
+#make2_entry("test06", "-DATS_MEMALLOC_LIBC", "-ljson-c")
 
 ######
 

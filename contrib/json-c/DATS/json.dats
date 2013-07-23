@@ -24,7 +24,7 @@
 **
 ** Author Hongwei Xi
 ** Authoremail: gmhwxi AT gmail DOT com
-** Time: May, 2013
+** Start time: May, 2013
 **
 *)
 
@@ -41,8 +41,14 @@ UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload "json-c/SATS/json.sats"
-staload "json-c/SATS/arraylist.sats"
+overload ptrcast with json_object2ptr
+overload ptrcast with json_tokener2ptr
 
+(* ****** ****** *)
+
+staload "json-c/SATS/arraylist.sats"
+overload ptrcast with array_list2ptr
+  
 (* ****** ****** *)
 
 implement{}
@@ -231,6 +237,106 @@ val () = json_object_iter_clear (jso, jsiEnd)
 in
   // nothing
 end // end of [json_object_kforeach_env]
+
+(* ****** ****** *)
+
+implement{}
+json_objectlst_from_file
+  (fname) = let
+//
+val opt = fileref_open_opt (fname, file_mode_r)
+//
+in
+//
+case+ opt of
+| ~Some_vt (inp) => let
+    val str = fileref_get_file_string (inp)
+    val () = fileref_close (inp)
+    val res = json_tokener_parse_list ($UN.strptr2string(str))
+    val ((*void*)) = strptr_free (str)
+  in
+    res
+  end // end of [Some_vt]
+| ~None_vt ((*void*)) => list_vt_nil ()
+//
+end // end of [json_objectlst_from_file]
+
+(* ****** ****** *)
+
+implement{}
+json_tokener_parse$skip (str) =
+let prval () = lemma_string_param (str) in 0 end
+
+implement{}
+json_tokener_parse_list
+  (str) = let
+//
+vtypedef jobj0 = json_object0
+vtypedef res = List0_vt (jobj0)
+//
+overload + with add_ptr_bsz
+//
+fnx loop
+(
+  tok: !json_tokener1
+, str: string, len: intGte(0),
+ res: &res? >> res
+) : void = let
+  val str = g1ofg0(str)
+  val nskip = json_tokener_parse$skip (str)
+  val str = $UN.cast{string}(string2ptr(str) + i2sz(nskip))
+  val len = $UN.cast{intGte(0)}(len - nskip)
+in
+  if len > 0 then
+    loop2 (tok, str, len, res) else res := list_vt_nil{jobj0}()
+  // end of [if]
+end // end of [loop]
+
+and loop2
+(
+  tok: !json_tokener1
+, str: string, len: intGte(0)
+, res: &res? >> res
+) : void = let
+//
+val jso =
+json_tokener_parse_ex (tok, str, len)
+val err = json_tokener_get_error (tok)
+//
+in
+//
+case+ 0 of
+| _ when err =
+    json_tokener_success => let
+    val () = res := list_vt_cons{jobj0}{0}(jso, _)
+    val+list_vt_cons (_, res1) = res
+    val ofs = json_tokener_get_char_offset (tok)
+    val str2 = $UN.cast{string}(string2ptr(str) + g0i2u(ofs))
+    val len2 = len - ofs
+    val len2 = $UN.cast{intGte(0)}(len2)
+    val () = loop (tok, str2, len2, res1)
+    prval () = fold@ (res)
+  in
+    // nothing
+  end // end of [_ when ...]
+| _ => let
+    val _freed = json_object_put (jso) in res := list_vt_nil{jobj0}()
+  end // end of [_]
+//
+end // end of [loop2]
+//
+val tok = json_tokener_new ()
+val ((*void*)) = assertloc (ptrcast(tok) > 0)
+//
+var res: ptr
+val len = length(str)
+val len = g1ofg0(len)
+val () = loop (tok, str, g1u2i(len), res)
+val () = json_tokener_free (tok)
+//
+in
+  res
+end // end of [jso_tokener_parse_list]
 
 (* ****** ****** *)
 
