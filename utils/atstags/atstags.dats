@@ -1,0 +1,64 @@
+(***********************************************************************)
+(*                                                                     *)
+(*                         Applied Type System                         *)
+(*                                                                     *)
+(***********************************************************************)
+
+(*
+** ATS/Postiats - Unleashing the Potential of Types!
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
+** All rights reserved
+**
+** ATS is free software;  you can  redistribute it and/or modify it under
+** the terms of the GNU LESSER GENERAL PUBLIC LICENSE as published by the
+** Free Software Foundation; either version 2.1, or (at your option)  any
+** later version.
+**
+** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
+** WARRANTY; without  even  the  implied  warranty  of MERCHANTABILITY or
+** FITNESS FOR A PARTICULAR PURPOSE.  See the  GNU General Public License
+** for more details.
+**
+** You  should  have  received  a  copy of the GNU General Public License
+** along  with  ATS;  see the  file COPYING.  If not, please write to the
+** Free Software Foundation,  51 Franklin Street, Fifth Floor, Boston, MA
+** 02110-1301, USA.
+*)
+
+(* ****** ****** *)
+
+(* Author: Hongwei Xi *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Start time: July, 2013 *)
+
+(* ****** ****** *)
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
+(* ****** ****** *)
+
+staload "json-c/SATS/json.sats"
+staload _ = "json-c/DATS/json.dats"
+
+(* ****** ****** *)
+
+implement
+main (argc, argv) = let
+//
+val out = stdout_ref
+//
+val () = assertloc (argc >= 2)
+val jos = json_objectlst_from_file (argv[1])
+val () = assertloc (ptrcast(jtags) > 0)
+val () = fprintln! (out, "jtags =\n", jtags)
+val ret = json_object_put (jtags)
+val () = fprintln! (out, "json_object_put: ret = ", ret)
+//
+in
+  0(*normal*)
+end // end of [main]
+
+(* ****** ****** *)
+
+(* end of [atstags.dats] *)
