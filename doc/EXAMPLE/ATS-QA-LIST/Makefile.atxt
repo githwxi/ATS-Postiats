@@ -91,6 +91,7 @@ RMF=rm -f
 #make2_entry("qa-list-35", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("for-0install", "-DATS_MEMALLOC_LIBC -I$(PATSHOME)/contrib", "-ljson-c")
 #make2_entry("qa-list-43", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("qa-list-45", "-DATS_MEMALLOC_LIBC", "")
 
 ######
 
