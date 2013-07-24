@@ -423,7 +423,7 @@ val res = list_vt_reverse (res)
 //
 in
   list_vt2t(res)
-end // end of [atsccproc]
+end // end of [atsccproc_commline]
 
 end (* end of [local] *)
 

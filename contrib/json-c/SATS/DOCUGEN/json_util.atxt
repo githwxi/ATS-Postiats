@@ -23,7 +23,7 @@ ATSLIB/contrib/json-c/json_util\
 
 (* ****** ****** *)
 
-#declnamesynop("json_objectlst_from_file")
+#declnamesynop("json_objlst_from_file")
 #decldescrpt('\
 
 This function is based on #dyncode("json_tokener_parse_list"). It

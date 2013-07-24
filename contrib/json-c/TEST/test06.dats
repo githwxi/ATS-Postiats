@@ -28,7 +28,7 @@ staload _(*anon*) = "json-c/DATS/json.dats"
 (* ****** ****** *)
 
 fun
-json_objectlst_fprint_and_free
+json_objlst_fprint_and_free
 (
   out: FILEref, xs: List_vt (json_object0), i: int
 ) : void = let
@@ -41,11 +41,11 @@ case+ xs of
     val () = fprint_newline (out)
     val _freed = json_object_put (x)
   in
-    json_objectlst_fprint_and_free (out, xs, i+1)
+    json_objlst_fprint_and_free (out, xs, i+1)
   end // end of [list_vt_cons]
 | ~list_vt_nil () => ()
 //
-end // end of [json_objectlst_fprint_and_free]
+end // end of [json_objlst_fprint_and_free]
 
 (* ****** ****** *)
 
@@ -63,7 +63,7 @@ json_tokener_parse_list ("\
 {'relation':'daughter', 'name':'Chloe'}\n\
 ")
 //
-val () = json_objectlst_fprint_and_free (out, xs, 0)
+val () = json_objlst_fprint_and_free (out, xs, 0)
 //
 } // end of [main]
 

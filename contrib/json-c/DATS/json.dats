@@ -241,7 +241,7 @@ end // end of [json_object_kforeach_env]
 (* ****** ****** *)
 
 implement{}
-json_objectlst_from_file
+json_objlst_from_file
   (fname) = let
 //
 val opt = fileref_open_opt (fname, file_mode_r)
@@ -259,7 +259,7 @@ case+ opt of
   end // end of [Some_vt]
 | ~None_vt ((*void*)) => list_vt_nil ()
 //
-end // end of [json_objectlst_from_file]
+end // end of [json_objlst_from_file]
 
 (* ****** ****** *)
 
