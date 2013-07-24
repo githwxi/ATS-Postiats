@@ -28,29 +28,16 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: August, 2012
+// Start Time: July, 2013
 //
 (* ****** ****** *)
 
-staload
-SYN = "./pats_syntax.sats"
-typedef d0eclist = $SYN.d0eclist
+staload "./pats_syntax.sats"
 
 (* ****** ****** *)
 
-fun depgen_eval (d0cs: d0eclist): List_vt (string)
+staload "./pats_taggen.sats"
 
 (* ****** ****** *)
 
-fun fprint_target (out: FILEref, basename: string): void
-
-(* ****** ****** *)
-
-fun fprint_entry
-(
-  out: FILEref, basename: string, ps: List_vt (string)
-) : void // end of [fprint_entry]
-
-(* ****** ****** *)
-
-(* end of [pats_depgen.sats] *)
+(* end of [pats_taggen.dats] *)

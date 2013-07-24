@@ -69,7 +69,8 @@ staload "./pats_syntax.sats"
 
 (* ****** ****** *)
 
-staload DPGEN = "./pats_depgen.sats"
+staload DEPGEN = "./pats_depgen.sats"
+staload TAGGEN = "./pats_taggen.sats"
 
 (* ****** ****** *)
 
@@ -144,6 +145,7 @@ dynload "pats_fixity_fxty.dats"
 dynload "pats_syntax.dats"
 dynload "pats_syntax_print.dats"
 dynload "pats_depgen.dats"
+dynload "pats_taggen.dats"
 
 dynload "pats_tokbuf.dats"
 dynload "pats_parsing.dats"
@@ -369,8 +371,9 @@ fprintln! (out, "  -o filename (output into <filename>)");
 fprintln! (out, "  --output filename (output into <filename>)");
 fprintln! (out, "  -tc (for typechecking only)");
 fprintln! (out, "  --typecheck (for typechecking only)");
-fprintln! (out, "  --depgen (for generating file dependencices only)");
-fprintln! (out, "  --gline (for generating line pragma information on source code)");
+fprintln! (out, "  --gline (for generating line pragma information in target code)");
+fprintln! (out, "  --depgen (for generating information on file dependencices)");
+fprintln! (out, "  --taggen (for generating tagging information on syntactic entities)");
 fprint_newline (out);
 //
 end // end of [patsopt_usage]
@@ -474,7 +477,8 @@ cmdstate = @{
 //
 , outchan= outchan
 //
-, depgenflag= int // dependency generation
+, depgenflag= int // dep info generation
+, taggenflag= int // tagging info generation
 //
 , typecheckonly= bool
 // number of accumulated errors
@@ -887,26 +891,23 @@ case+ arglst of
 //
         val d0cs = parse_from_stdin_toplevel (stadyn)
 //
+        var istrans: bool = true
         val isdepgen = state.depgenflag > 0
+        val () = if isdepgen then istrans := false
+        val istaggen = state.taggenflag > 0
+        val () = if istaggen then istrans := false
 //
-        val () =
-        (
+        val () = (
         if isdepgen then let
-          val filr =
-            outchan_get_filr (state.outchan)
-          // end of [val]
-          val ents = $DPGEN.depgen_eval (d0cs)
+          val ents = $DEPGEN.depgen_eval (d0cs)
+          val filr = outchan_get_filr (state.outchan)
         in
-          $DPGEN.fprint_entry (filr, "<stdin>", ents)
+          $DEPGEN.fprint_entry (filr, "<STDIN>", ents)
         end // end of [if]
         ) (* end of [val] *)
-        val () =
-        (
-        if ~isdepgen then let
-          val () = do_transfinal (state, "<STDIN>", d0cs)
-        in
-          // nothing
-        end // end of [if]
+//
+        val () = (
+        if istrans then do_transfinal (state, "<STDIN>", d0cs)
         ) (* end of [val] *)
 //
       } // end of [_ when ...]
@@ -949,26 +950,23 @@ case+ arg of
 //
         val d0cs = parse_from_basename_toplevel (stadyn, basename, state.infil)
 //
+        var istrans: bool = true
         val isdepgen = state.depgenflag > 0
+        val () = if isdepgen then istrans := false
+        val istaggen = state.taggenflag > 0
+        val () = if istaggen then istrans := false
 //
-        val () =
-        (
+        val () = (
         if isdepgen then let
-          val filr =
-            outchan_get_filr (state.outchan)
-          // end of [val]
-          val ents = $DPGEN.depgen_eval (d0cs)
+          val ents = $DEPGEN.depgen_eval (d0cs)
+          val filr = outchan_get_filr (state.outchan)
         in
-          $DPGEN.fprint_entry (filr, basename, ents)
+          $DEPGEN.fprint_entry (filr, basename, ents)
         end // end of [if]
         ) (* end of [val] *)
-        val () =
-        (
-        if ~isdepgen then let
-          val () = do_transfinal (state, basename, d0cs)
-        in
-          // nothing
-        end // end of [if]
+//
+        val () = (
+        if istrans then do_transfinal (state, basename, d0cs)
         ) (* end of [val] *)
 //
       in
@@ -1124,13 +1122,16 @@ case+ key of
     val () = state.typecheckonly := true
   } // end of [--typecheck]
 //
-| "--depgen" => {
-    val () = state.depgenflag := 1
-  } // end of [--depgen]
-//
 | "--gline" => {
     val () = $GLOB.the_DEBUGATS_dbgline_set (1)
   } // end of [--gline]
+//
+| "--depgen" => {
+    val () = state.depgenflag := 1
+  } // end of [--depgen]
+| "--taggen" => {
+    val () = state.taggenflag := 1
+  } // end of [--taggen]
 //
 | "--help" => patsopt_usage (stdout_ref, state.comarg0)
 | "--version" => patsopt_version (stdout_ref, state.comarg0)
@@ -1201,7 +1202,8 @@ state = @{
 // HX: the default output channel
 , outchan= OUTCHANref (stdout_ref)
 //
-, depgenflag= 0 // dependency generation
+, depgenflag= 0 // dep info generation
+, taggenflag= 0 // tagging info generation
 //
 , typecheckonly= false
 , nerror= 0 // number of accumulated errors

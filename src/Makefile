@@ -73,6 +73,8 @@ SOURCES := \
   pats_syntax_print.dats \
   pats_depgen.sats \
   pats_depgen.dats \
+  pats_taggen.sats \
+  pats_taggen.dats \
   pats_tokbuf.sats \
   pats_tokbuf.dats \
   pats_tokbuf.cats \
@@ -308,6 +310,8 @@ OBJECTS := \
   pats_syntax_print_dats.o \
   pats_depgen_sats.o \
   pats_depgen_dats.o \
+  pats_taggen_sats.o \
+  pats_taggen_dats.o \
   pats_tokbuf_sats.o \
   pats_tokbuf_dats.o \
   pats_parsing_sats.o \
@@ -641,6 +645,12 @@ pats_depgen_sats.o: pats_depgen_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_depgen_dats.c: pats_depgen.dats; $(ATSCC) -cc $<
 pats_depgen_dats.o: pats_depgen_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_taggen_sats.c: pats_taggen.sats; $(ATSCC) -cc $<
+pats_taggen_sats.o: pats_taggen_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_taggen_dats.c: pats_taggen.dats; $(ATSCC) -cc $<
+pats_taggen_dats.o: pats_taggen_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_tokbuf_sats.c: pats_tokbuf.sats; $(ATSCC) -cc $<
 pats_tokbuf_sats.o: pats_tokbuf_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
