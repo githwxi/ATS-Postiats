@@ -359,21 +359,6 @@ cleanall:: ; $(RMF) libats_refcount.exe
 
 ######
 
-all:: libats_gvector
-libats_gvector: libats_gvector.exe
-libats_gvector.exe: libats_gvector_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-libats_gvector_dats.c: libats_gvector.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_gvector_dats.c --dynamic libats_gvector.dats
-clean:: ; $(RMF) libats_gvector_dats.o
-clean:: ; $(RMF) libats_gvector_dats.c
-cleanall:: ; $(RMF) libats_gvector.exe
-
-all:: libats_gmatrix
-libats_gmatrix: libats_gmatrix.exe
-libats_gmatrix.exe: libats_gmatrix_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-libats_gmatrix_dats.c: libats_gmatrix.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_gmatrix_dats.c --dynamic libats_gmatrix.dats
-clean:: ; $(RMF) libats_gmatrix_dats.o
-clean:: ; $(RMF) libats_gmatrix_dats.c
-cleanall:: ; $(RMF) libats_gmatrix.exe
 
 
 ######

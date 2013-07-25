@@ -881,7 +881,7 @@ end // end of [array_uninitize]
 
 implement
 {a,b}{c}
-array_mapto2
+array_map2to
   {n}(A, B, C, n) = let
 //
 val pa = addr@ (A)
@@ -898,7 +898,7 @@ if pa < pa2 then let
   val (pfa, fpfa | pa) = $UN.ptr_vtake{a}(pa)
   val (pfb, fpfb | pb) = $UN.ptr_vtake{b}(pb)
   val (pfc, fpfc | pc) = $UN.ptr_vtake{c?}(pc)
-  val () = array_mapto2$fwork<a,b><c> (!pa, !pb, !pc)
+  val () = array_map2to$fwork<a,b><c> (!pa, !pb, !pc)
   prval () = fpfa (pfa)
   prval () = fpfb (pfb)
   prval () = fpfc ($UN.castview0{(c?)@lc}(pfc))
@@ -913,7 +913,7 @@ prval () = view@(C) := $UN.castview0{array_v (c, lc, n)}(view@(C))
 //
 in
   // nothing
-end (* end of [array_mapto2] *)
+end (* end of [array_map2to] *)
 
 #atscode_separator()
 

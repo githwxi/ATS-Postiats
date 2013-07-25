@@ -338,19 +338,19 @@ matrix_mapto
 fun
 {a,b:vt0p}
 {c:vt0p}
-matrix_mapto2$fwork
+matrix_map2to$fwork
   (x: &a, y: &b, z: &c? >> c): void
 fun
 {a,b:vt0p}
 {c:vt0p}
-matrix_mapto2
+matrix_map2to
   {m,n:int}
 (
   A: &matrix (INV(a), m, n)
 , B: &matrix (INV(b),  m, n)
 , C: &matrix (c?, m, n) >> matrix (c, m, n)
 , m: size_t m, n: size_t n
-) : void // end of [matrix_mapto2]
+) : void // end of [matrix_map2to]
 
 #atscode_separator()
 

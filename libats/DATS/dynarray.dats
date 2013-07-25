@@ -106,12 +106,12 @@ dynarray_get_array
 val+DYNARRAY{a}{m,n}(A, _, n0) = DA
 //
 val () = n := n0
-val ptr = arrayptr2ptr (A)
+val p0 = arrayptr2ptr (A)
 //
-prval (pf, fpf) = $UN.ptr_vtake{array(a,n)}(ptr)
+val (pf, fpf | p0) = $UN.ptr_vtake{array(a,n)}(p0)
 //
 in
-  (pf, fpf | ptr)
+  (pf, fpf | p0)
 end (* end of [dynarray_get_array] *)
 
 (* ****** ****** *)

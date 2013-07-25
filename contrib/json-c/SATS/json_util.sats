@@ -20,12 +20,17 @@ fun json_object_from_file
 (* ****** ****** *)
 
 (*
-** HX-2013-07: this is extension
+** HX-2013-07:
+** this one is in extension
 *)
 fun{
 } json_objlst_from_file
   (filename: string): List0_vt (json_object0)
 // end of [json_objlst_from_file]
+fun{
+} json_objlst_from_file_delim
+  (filename: string, delim: string): List0_vt (json_object0)
+// end of [json_objlst_from_file_delim]
 
 (* ****** ****** *)
 

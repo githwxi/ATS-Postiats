@@ -249,7 +249,7 @@ end (* end of [matrix_mapto] *)
 
 implement
 {a,b}{c}
-matrix_mapto2
+matrix_map2to
   {m,n} (A, B, C, m, n) = let
 //
 val pA = addr@(A)
@@ -263,12 +263,12 @@ prval pfC = matrix2array_v (view@(C))
 local
 //
 implement
-array_mapto2$fwork<a,b><c>
-  (x, y, z) = matrix_mapto2$fwork<a,b><c> (x, y, z)
+array_map2to$fwork<a,b><c>
+  (x, y, z) = matrix_map2to$fwork<a,b><c> (x, y, z)
 //
 in(* in of [local] *)
 //
-val ((*void*)) = array_mapto2<a,b><c> (!pA, !pB, !pC, m*n)
+val ((*void*)) = array_map2to<a,b><c> (!pA, !pB, !pC, m*n)
 //
 end // end of [local]
 //
@@ -278,7 +278,7 @@ prval () = view@(C) := array2matrix_v {c}{..}{m,n} (pfC)
 //
 in
   // nothing
-end (* end of [matrix_mapto2] *)
+end (* end of [matrix_map2to] *)
 
 #atscode_separator()
 

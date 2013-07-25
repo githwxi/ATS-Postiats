@@ -94,7 +94,9 @@ fun json_tokener_parse_verbose
 fun{
 } json_tokener_parse$skip {n:int} (string n): natLte (n)
 fun{
-} json_tokener_parse_list (str: string): List0_vt (json_object0)
+} json_tokener_parse_list (inp: string): List0_vt (json_object0)
+fun{
+} json_tokener_parse_list_delim (inp: string, delim: string): List0_vt (json_object0)
 //
 (* ****** ****** *)
 

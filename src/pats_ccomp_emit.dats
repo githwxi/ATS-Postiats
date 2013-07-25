@@ -1429,10 +1429,11 @@ emit_instr
 //
 val loc0 = ins.instr_loc
 //
-(*
+// (*
 val (
-) = println! ("emit_instr: ins = ", ins)
-*)
+) = fprintln!
+  (out, "/*\n", "emit_instr: ins = ", ins, "\n*/")
+// *)
 //
 // generating #line progma for debugging
 //
@@ -2382,9 +2383,14 @@ emit_instr_store_ptrofs
 val-INSstore_ptrofs
   (pmv_l, hse_rt, pmls, pmv_r) = ins.instr_node
 //
-val xys = auxselist (hse_rt, pmls)
 val () = emit_text (out, "ATSINSstore(")
-val () = auxmain (out, 1(*non*), pmv_l, hse_rt, xys, 0)
+//
+val () = let
+  val xys = auxselist (hse_rt, pmls)
+in
+  auxmain (out, 1(*ptr*), pmv_l, hse_rt, xys, 0)
+end // end of [val]
+//
 val () = emit_text (out, ", ")
 val () = emit_primval (out, pmv_r)
 val () = emit_text (out, ") ;")

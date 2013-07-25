@@ -93,9 +93,9 @@ val (pfmat3, pfgc3 | p3) = matrix_ptr_alloc<int> (m, n)
 //
 local
 implement
-addto_matrix_matrix$addto<int,int><int> (x, y, z) = z := x + y
+matrix_map2to$fwork<int,int><int> (x, y, z) = z := x + y
 in
-val () = addto_matrix_matrix<int,int><int> (!p1, !p2, !p3, m, n)
+val () = matrix_map2to<int,int><int> (!p1, !p2, !p3, m, n)
 end // end of [local]
 //
 val () = fprintln! (stdout_ref, "M1 = ")

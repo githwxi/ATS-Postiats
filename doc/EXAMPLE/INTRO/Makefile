@@ -172,13 +172,8 @@ clean:: ; $(RMF) fibmem_dats.o
 clean:: ; $(RMF) fibmem_dats.c
 cleanall:: ; $(RMF) fibmem fibmem.exe
 
-all:: fprtuple
-fprtuple: fprtuple.exe
-fprtuple.exe: fprtuple_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-fprtuple_dats.c: fprtuple.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fprtuple_dats.c --dynamic fprtuple.dats
-clean:: ; $(RMF) fprtuple_dats.o
-clean:: ; $(RMF) fprtuple_dats.c
-cleanall:: ; $(RMF) fprtuple fprtuple.exe
+
+
 
 all:: gfact
 gfact: gfact.exe

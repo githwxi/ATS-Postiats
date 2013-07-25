@@ -59,7 +59,7 @@ implement
 monad_bind (xs, f) = let
 //
 implement
-list_map$fwork<a><list0(b)> (x) = f (x)
+list_map$fopr<a><list0(b)> (x) = f (x)
 val xss = list_map<a><list0(b)> (g1ofg0(xs))
 val res = list_concat<b> ($UN.castvwtp1{List(List(b))}(xss))
 val ((*void*)) = list_vt_free<list0(b)> (xss)
@@ -75,7 +75,7 @@ implement
 monad_bind2 (xs, ys, f) = let
 //
 implement
-list_crosswith$fwork<a1,a2><list0(b)> (x, y) = f (x, y)
+list_crosswith$fopr<a1,a2><list0(b)> (x, y) = f (x, y)
 val xss =
   list_crosswith<a1,a2><list0(b)> (g1ofg0(xs), g1ofg0(ys))
 val res = list_concat<b> ($UN.castvwtp1{List(List(b))}(xss))

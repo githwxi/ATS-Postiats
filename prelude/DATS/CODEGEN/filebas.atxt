@@ -185,7 +185,7 @@ __cast_filp (r: FILEref): FILEptr1
 
 #atscode_separator()
 
-implement
+implement{}
 fileref_open_opt
   (path, fm) = let
 //
@@ -581,7 +581,7 @@ fun loop
 , p0: ptr, n0: size_t, p1: ptr, n1: size_t
 ) : Strptr1 = let
 //
-val nw = $extfcall (size_t, "atslib_fwrite", p1, 1, n1, inp)
+val nw = $extfcall (size_t, "atslib_fread", p1, 1, n1, inp)
 //
 in
 //

@@ -175,6 +175,8 @@ fun p3at_lincon_update (
   p3t0: p3at, d2c: d2con, p3ts_arg: p3atlst
 ) : void // end of [p3at_lincon_update]
 
+(* ****** ****** *)
+
 local
 
 fun auxvar
@@ -204,7 +206,7 @@ case+ p3t.p3at_node of
 | _ => ()
 end // end of [auxpat]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 p3at_lincon_update (
@@ -247,7 +249,7 @@ case+ opt of
 | None () => ()
 end // end of [auxck]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 p3at_free_update
@@ -336,7 +338,7 @@ in
   s2exp_datconptr (d2c, rt, arg)
 end // end of [s2dcp_make]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 p3at_unfold_update
@@ -364,7 +366,9 @@ end // end of [local]
 
 local
 
-fun auxerr_arity (
+fun
+auxerr_arity
+(
   p2t0: p2at, serr: int
 ) : void = let
   val loc0 = p2t0.p2at_loc
@@ -377,7 +381,7 @@ in
   the_trans3errlst_add (T3E_p2at_trdn_con_arity (p2t0, serr))
 end // end of [val]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 p2at_trdn_con
@@ -411,7 +415,9 @@ case+ s2e_head.s2exp_node of
     if eq_d2con_d2con (d2c, d2c1) then (flag := 1; s2es_arg_alt := s2es)
 | _ => ()
 ) // end of [val]
-val () = if (flag > 0) then (
+//
+val () =
+if (flag > 0) then (
   case+ pck of
   | PCKfree () => let
       val () = prerr_error3_loc (loc0)
@@ -429,7 +435,9 @@ val () = if (flag > 0) then (
     end // end of [PCKunfold]
   | _ => ()
 ) // end of [if] // end of [val]
-val () = if (flag < 0) then let
+//
+val () =
+if (flag < 0) then let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": the constructor pattern cannot be assigned the type ["
   val () = pprerr_s2exp (s2e)
@@ -450,7 +458,9 @@ val () = if pck = PCKcon then
 val () = println! ("p2at_trdn_con: pck = ", pck)
 val () = println! ("p2at_trdn_con: flag = ", flag)
 *)
-val p3t0 = (case+ 0 of
+val p3t0 =
+(
+case+ 0 of
 | _ when flag = 0 => let
     val+~PATCONTRUP
       (p2ts, s2es_arg, s2e_res) = p2at_trup_con (p2t0)

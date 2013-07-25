@@ -229,20 +229,21 @@ case+ hip.hipat_node of
       | HIPrefas
           (d2v, hip) => hip where
         {
-          val () =
+          val isnot =
+            not(d2var_is_mutabl(d2v))
+          val ((*void*)) =
           (
-            if not(d2var_is_mutabl(d2v))
-              then let
-                val () = use := use + 1
-              in
-                ccompenv_add_vbindmapenvall (env, d2v, pmv)
-              end else let
-                val pml = primlab_lab (loc, lab)
-                val pmv_ref = primval_make_ptrofsel (loc, pmv0, hse_sum, list_sing(pml))
-              in
-                ccompenv_add_vbindmapenvall (env, d2v, pmv_ref)
-              end // end of [else]
-            // end of [if]
+            if isnot then let
+              val () = use := use + 1
+            in
+              ccompenv_add_vbindmapenvall (env, d2v, pmv)
+            end else let
+              val pmv =
+                primval_selcon (loc, hse, pmv0, hse_sum, lab)
+              val pmv_ref = primval_ptrof (loc, hisexp_typtr, pmv)
+            in
+              ccompenv_add_vbindmapenvall (env, d2v, pmv_ref)
+            end // end of [if]
           ) : void // end of [val]
         } (* end of [HIPrefas] *)
       | _ => hip

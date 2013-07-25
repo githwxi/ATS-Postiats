@@ -261,15 +261,28 @@ case+ opt of
 //
 end // end of [json_objlst_from_file]
 
+implement{}
+json_objlst_from_file_delim
+  (fname, delim) = let
+//
+implement
+json_tokener_parse$skip<> (inp) = let
+  val nskip = strspn (inp, delim) in g1u2i(nskip)
+end // end of [json_tokener_parse$skip]
+//
+in
+  json_objlst_from_file (fname)
+end // end of [json_objlst_from_file_delim]
+
 (* ****** ****** *)
 
 implement{}
-json_tokener_parse$skip (str) =
-let prval () = lemma_string_param (str) in 0 end
+json_tokener_parse$skip (inp) =
+let prval () = lemma_string_param (inp) in 0 end
 
 implement{}
 json_tokener_parse_list
-  (str) = let
+  (inp) = let
 //
 vtypedef jobj0 = json_object0
 vtypedef res = List0_vt (jobj0)
@@ -279,28 +292,28 @@ overload + with add_ptr_bsz
 fnx loop
 (
   tok: !json_tokener1
-, str: string, len: intGte(0),
+, inp: string, len: intGte(0),
  res: &res? >> res
 ) : void = let
-  val str = g1ofg0(str)
-  val nskip = json_tokener_parse$skip (str)
-  val str = $UN.cast{string}(string2ptr(str) + i2sz(nskip))
+  val inp = g1ofg0(inp)
+  val nskip = json_tokener_parse$skip (inp)
+  val inp = $UN.cast{string}(string2ptr(inp) + i2sz(nskip))
   val len = $UN.cast{intGte(0)}(len - nskip)
 in
   if len > 0 then
-    loop2 (tok, str, len, res) else res := list_vt_nil{jobj0}()
+    loop2 (tok, inp, len, res) else res := list_vt_nil{jobj0}()
   // end of [if]
 end // end of [loop]
 
 and loop2
 (
   tok: !json_tokener1
-, str: string, len: intGte(0)
+, inp: string, len: intGte(0)
 , res: &res? >> res
 ) : void = let
 //
 val jso =
-json_tokener_parse_ex (tok, str, len)
+json_tokener_parse_ex (tok, inp, len)
 val err = json_tokener_get_error (tok)
 //
 in
@@ -311,10 +324,10 @@ case+ 0 of
     val () = res := list_vt_cons{jobj0}{0}(jso, _)
     val+list_vt_cons (_, res1) = res
     val ofs = json_tokener_get_char_offset (tok)
-    val str2 = $UN.cast{string}(string2ptr(str) + g0i2u(ofs))
+    val inp2 = $UN.cast{string}(string2ptr(inp) + g0i2u(ofs))
     val len2 = len - ofs
     val len2 = $UN.cast{intGte(0)}(len2)
-    val () = loop (tok, str2, len2, res1)
+    val () = loop (tok, inp2, len2, res1)
     prval () = fold@ (res)
   in
     // nothing
@@ -329,14 +342,29 @@ val tok = json_tokener_new ()
 val ((*void*)) = assertloc (ptrcast(tok) > 0)
 //
 var res: ptr
-val len = length(str)
+val len = length(inp)
 val len = g1ofg0(len)
-val () = loop (tok, str, g1u2i(len), res)
+val () = loop (tok, inp, g1u2i(len), res)
 val () = json_tokener_free (tok)
 //
 in
   res
 end // end of [jso_tokener_parse_list]
+
+(* ****** ****** *)
+
+implement{}
+json_tokener_parse_list_delim
+  (inp, delim) = let
+//
+implement
+json_tokener_parse$skip<> (inp) = let
+  val nskip = strspn (inp, delim) in g1u2i(nskip)
+end // end of [json_tokener_parse$skip]
+//
+in
+  json_tokener_parse_list (inp)
+end // end of [json_tokener_parse_list_delim]
 
 (* ****** ****** *)
 

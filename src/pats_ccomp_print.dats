@@ -253,7 +253,7 @@ end // end of [fprint_primdeclst]
 implement
 fprint_primval (out, x) = let
 //
-  macdef prstr (s) = fprint_string (out, ,(s))
+macdef prstr (s) = fprint_string (out, ,(s))
 //
 in
 //
@@ -325,8 +325,15 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 | PMVchar (c) => {
+    val i = $UN.cast2int(c)
     val () = prstr "PMVchar("
-    val () = fprint_char (out, c)
+    val () =
+    (
+    if char_isprint(c)
+      then fprint_char (out, c)
+      else fprintf (out, "int(%i)", @(i))
+    // end of [if]
+    ) : void // end of [val]
     val () = prstr ")"
   }
 | PMVfloat (f) => {
