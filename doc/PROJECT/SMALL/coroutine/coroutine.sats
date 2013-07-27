@@ -18,4 +18,14 @@ typedef event (a:t0p) = event_type (a)
 
 (* ****** ****** *)
 
+fun{a,b:t0p}
+co_run (co: &cortn (a, b) >> _, x: a): b
+
+fun{a,b:t0p}
+co_run_seq{n:int}
+  (co: &cortn (a, b) >> _, xs: list (a, n)): list_vt (b, n)
+// end of [co_run_seq]
+
+(* ****** ****** *)
+
 (* end of [coroutine.sats] *)

@@ -32,7 +32,6 @@ This package contains some common proof functions involving integer sequences.
 (* ****** ****** *)
 
 #declnamesynop("LENGTH")
-
 #declnamesynop("length_istot")
 #declnamesynop("length_isfun")
 #declnamesynop("length_isnat")
@@ -40,16 +39,13 @@ This package contains some common proof functions involving integer sequences.
 (* ****** ****** *)
 
 #declnamesynop("SNOC")
-
 #declnamesynop("snoc_istot")
 #declnamesynop("snoc_isfun")
-
 #declnamesynop("lemma_snoc_length")
 
 (* ****** ****** *)
 
 #declnamesynop("APPEND")
-
 #declnamesynop("append_istot")
 #declnamesynop("append_isfun")
 
@@ -95,7 +91,6 @@ associative.")
 (* ****** ****** *)
 
 #declnamesynop("REVAPP")
-
 #declnamesynop("revapp_istot")
 #declnamesynop("revapp_isfun")
 
