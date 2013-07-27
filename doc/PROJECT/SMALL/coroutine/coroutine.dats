@@ -7,12 +7,36 @@ staload "./coroutine.sats"
 
 (* ****** ****** *)
 
+stadef co = cortn
+
+(* ****** ****** *)
+
+implement
+{a,b,c}
+co_fmap (co, f) =
+co_make_lcfun<a,c>
+(
+llam x =>
+let
+  val (y, co) = co_run2 (co, x) in (f(y), co_fmap (co, f))
+end
+) // end of [co_fmap]
+
+(* ****** ****** *)
+
+implement{a,b}
+co_run2 (co, x) = let
+  var co = co; val y = co_run<a,b> (co, x) in (y, co)
+end // end of [co_run2]
+
+(* ****** ****** *)
+
 implement{a,b}
 co_run_seq (co, xs) = let
 //
 fun loop {n:nat} .<n>.
 (
-  co: &cortn (a, b) >> _
+  co: &co (a, b) >> _
 , xs: list (a, n), res: &ptr? >> list_vt (b, n)
 ) : void = let
 in
