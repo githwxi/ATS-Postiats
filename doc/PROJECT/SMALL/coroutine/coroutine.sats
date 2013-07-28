@@ -4,16 +4,14 @@
 (* ****** ****** *)
 
 absvtype
-coroutine_vtype (inp: t@ype-, out: t@ype+)
-
-(* ****** ****** *)
-
+coroutine_vtype
+  (inp: t@ype-, out: t@ype+) = ptr
 stadef cortn = coroutine_vtype
 stadef coroutine = coroutine_vtype
 
 (* ****** ****** *)
 
-absvtype event_vtype (a: t@ype+)
+absvtype event_vtype (a: t@ype+) = ptr
 vtypedef event (a:t0p) = event_vtype (a)
 
 (* ****** ****** *)
@@ -25,10 +23,15 @@ vtypedef lcfun1
 
 (* ****** ****** *)
 
-fun{a,b:t0p}
-co_make_lcfun
-  (cf: lcfun1 (a, @(b, cortn (a, b)))): cortn (a, b)
-// end of [co_make_lcfun]
+castfn
+lcfun2cortn{a,b:t0p}
+  (cf: lcfun1 (a, @(b, cortn (a, b)))):<> cortn (a, b)
+// end of [lcfun2cortn]
+
+castfn
+cortn2lcfun{a,b:t0p}
+  (co: cortn (a, b)):<> lcfun1 (a, @(b, cortn (a, b)))
+// end of [cortn2lcfun]
 
 (* ****** ****** *)
 
@@ -40,9 +43,9 @@ co_run2 (co: cortn (a, b), x: a): (b, cortn (a, b))
 (* ****** ****** *)
 
 fun{a,b:t0p}
-co_run_seq{n:int}
+co_run_list{n:int}
   (co: &cortn (a, b) >> _, xs: list (a, n)): list_vt (b, n)
-// end of [co_run_seq]
+// end of [co_run_list]
 
 (* ****** ****** *)
 

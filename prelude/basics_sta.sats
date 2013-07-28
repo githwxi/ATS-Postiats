@@ -506,6 +506,17 @@ viewdef b0ytes_v (l:addr, n:int) = b0ytes (n) @ l
 
 (* ****** ****** *)
 //
+abstype
+cloref_t0ype_type (a:t@ype) = ptr
+stadef cloref = cloref_t0ype_type
+//
+absvtype
+cloptr_vt0ype_vtype (a:t@ype) = ptr
+stadef cloptr = cloptr_vt0ype_vtype
+vtypedef cloptr0 = cloptr_vt0ype_vtype (void)
+//
+(* ****** ****** *)
+//
 // HX: for memory deallocation (with/without GC)
 //
 absview

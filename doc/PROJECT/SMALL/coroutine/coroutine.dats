@@ -3,6 +3,11 @@
 //
 (* ****** ****** *)
 
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "./coroutine.sats"
 
 (* ****** ****** *)
@@ -12,27 +17,31 @@ stadef co = cortn
 (* ****** ****** *)
 
 implement
-{a,b,c}
-co_fmap (co, f) =
-co_make_lcfun<a,c>
-(
-llam x =>
-let
-  val (y, co) = co_run2 (co, x) in (f(y), co_fmap (co, f))
-end
-) // end of [co_fmap]
+{a,b}
+co_run (co, x) = let
+  val (y, co2) = co_run2<a,b> (co, x) in co := co2; y
+end // end of [co_run]
 
 (* ****** ****** *)
 
-implement{a,b}
-co_run2 (co, x) = let
-  var co = co; val y = co_run<a,b> (co, x) in (y, co)
-end // end of [co_run2]
+implement
+{a,b}
+co_run2
+  (co, x) = res where
+{
+  val cf = cortn2lcfun{a,b}(co)
+  val res = cf (x)
+  val () = cloptr_free ($UN.castvwtp0{cloptr0}(cf))
+} // end of [co_run2]
 
 (* ****** ****** *)
 
-implement{a,b}
-co_run_seq (co, xs) = let
+implement
+{a,b}
+co_run_list
+  (co, xs) = let
+//
+prval () = lemma_list_param (xs)
 //
 fun loop {n:nat} .<n>.
 (
@@ -57,12 +66,23 @@ case+ xs of
 end // end of [loop]
 //
 var res: ptr
-prval () = lemma_list_param (xs)
 val () = loop (co, xs, res)
 //
 in
   res
-end // end of [co_run_seq]
+end // end of [co_run_list]
+
+(* ****** ****** *)
+
+implement
+{a,b,c}
+co_fmap (co, f) =
+lcfun2cortn{a,c}
+(
+llam x => let
+  val (y, co) = co_run2<a,b> (co, x) in (f(y), co_fmap<a,b,c> (co, f))
+end (* end of [llam] *)
+) // end of [co_fmap]
 
 (* ****** ****** *)
 

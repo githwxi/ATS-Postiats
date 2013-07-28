@@ -376,14 +376,6 @@ clo_t0ype_t0ype (a: t@ype) = a
 absvt@ype
 clo_vt0ype_vt0ype (a: vt@ype) = a
 //
-absvtype
-cloptr_vt0ype_vtype (a: vt@ype)
-stadef cloptr = cloptr_vt0ype_vtype
-//
-abstype
-cloref_t0ype_type (a: t@ype)
-stadef cloref = cloref_t0ype_type
-//
 (* ****** ****** *)
 
 (*

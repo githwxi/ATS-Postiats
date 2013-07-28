@@ -47,7 +47,7 @@ atspre_arrpsz_get_ptrsize
 ATSinline()
 atsvoid_t0ype
 atspre_arrayptr_free
-  (atstype_arrptr ptr) { ATS_MFREE (ptr) ; return ; }
+  (atstype_arrptr p0) { ATS_MFREE (p0) ; return ; }
 // end of [atspre_arrayptr_free]
 
 #atscode_separator_for_C()

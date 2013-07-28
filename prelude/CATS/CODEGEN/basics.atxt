@@ -39,6 +39,17 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator_for_C()
 
 ATSinline()
+atsvoid_t0ype
+atspre_cloptr_free
+(
+  atstype_cloptr pclo
+) {
+  ATS_MFREE (pclo) ; return ;
+} /* [atspre_cloptr_free] */
+
+#atscode_separator_for_C()
+
+ATSinline()
 atstype_string
 atspre_argv_get_at
 (
