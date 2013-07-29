@@ -33,6 +33,13 @@
 
 (* ****** ****** *)
 
+implement{key}
+equal_key_key (k1, k2) = gequal_val<key> (k1, k2)
+implement{key}
+compare_key_key (k1, k2) = gcompare_val<key> (k1, k2)
+
+(* ****** ****** *)
+
 implement{}
 funmap_isnot_nil (xs) = not (funmap_is_nil<> (xs))
 

@@ -33,6 +33,13 @@
 
 (* ****** ****** *)
 
+implement{a}
+compare_elt_elt
+  (x1, x2) = gcompare_val<a> (x1, x2)
+// end of [compare_elt_elt]
+
+(* ****** ****** *)
+
 implement{}
 funset_isnot_empty
   (xs) = not (funset_is_empty<> (xs))
@@ -52,7 +59,7 @@ fun loop (
 in
   case+ xs of
   | list_cons (x, xs) => let
-      val _(*exi*) = funset_insert (set, x) in loop (set, xs)
+      val _(*exi*) = funset_insert<a> (set, x) in loop (set, xs)
     end // end of [list_cons]
   | list_nil () => ()
 end // end of [loop]
@@ -74,6 +81,46 @@ funset_isnot_member
 (* ****** ****** *)
 
 implement{a}
+funset_takeoutmax_opt
+  (xs) = let
+//
+var x0: a?
+val ans =
+  $effmask_wrt (funset_takeoutmax<a> (xs, x0))
+//
+in
+//
+if ans then let
+  prval () = opt_unsome{a}(x0) in Some_vt{a}(x0)
+end else let
+  prval () = opt_unnone{a}(x0) in None_vt (*void*)
+end (* end of [if] *)
+//
+end // end of [funset_takeoutmax_opt]
+
+(* ****** ****** *)
+
+implement{a}
+funset_takeoutmin_opt
+  (xs) = let
+//
+var x0: a?
+val ans =
+  $effmask_wrt (funset_takeoutmin<a> (xs, x0))
+//
+in
+//
+if ans then let
+  prval () = opt_unsome{a}(x0) in Some_vt{a}(x0)
+end else let
+  prval () = opt_unnone{a}(x0) in None_vt (*void*)
+end (* end of [if] *)
+//
+end // end of [funset_takeoutmin_opt]
+
+(* ****** ****** *)
+
+implement{a}
 funset_is_supset
   (xs1, xs2) = funset_is_subset<a> (xs2, xs1)
 // end of [funset_is_supset]
@@ -82,7 +129,7 @@ funset_is_supset
 
 implement{a}
 funset_is_equal (xs1, xs2) = let
-  val sgn = funset_compare (xs1, xs2) in sgn = 0
+  val sgn = funset_compare<a> (xs1, xs2) in sgn = 0
 end // end of [funset_equal]
 
 (* ****** ****** *)

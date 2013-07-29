@@ -89,6 +89,7 @@ extern fun eval1_i2nvresstate : eval1_type (i2nvresstate)
 //
 extern fun eval1_p2at : eval1_type (p2at)
 extern fun eval1_p2atlst : eval1_type (p2atlst)
+extern fun eval1_p2atopt : eval1_type (p2atopt)
 //
 extern fun eval1_labp2at : eval1_type (labp2at)
 extern fun eval1_labp2atlst : eval1_type (labp2atlst)
@@ -111,6 +112,14 @@ extern fun eval1_d2exparglst : eval1_type (d2exparglst)
 extern fun eval1_d2exp_applst : eval1_type (d2exp)
 extern fun eval1_d2exp_macsyn : eval1_type (d2exp)
 //
+(* ****** ****** *)
+
+extern fun eval1_gm2at : eval1_type (gm2at)
+extern fun eval1_gm2atlst : eval1_type (gm2atlst)
+
+extern fun eval1_c2lau : eval1_type (c2lau)
+extern fun eval1_c2laulst : eval1_type (c2laulst)
+
 (* ****** ****** *)
 //
 extern fun eval1_d2ecl : eval1_type (d2ecl)
@@ -274,6 +283,15 @@ case+
     p2at_var (loc0, d2v_new)
   end // end of [P2Tvar]
 //
+| P2Tcon
+  (
+    knd, d2c, s2qs, s2e_con, npf, p2ts_arg
+  ) => let
+    val p2ts_arg = eval1_p2atlst (loc0, ctx, env, p2ts_arg)
+  in
+    p2at_con (loc0, knd, d2c, s2qs, s2e_con, npf, p2ts_arg)
+  end // end of [P2Tcon]
+//
 | P2Tempty () => p2at_empty (loc0)
 //
 | P2Trec (knd, npf, lp2ts) => let
@@ -314,6 +332,15 @@ eval1_p2atlst
   (loc0, ctx, env, p2ts) =
   eval1_listmap (loc0, ctx, env, p2ts, eval1_p2at)
 // end of [eval1_p2atlst]
+
+implement
+eval1_p2atopt
+  (loc0, ctx, env, opt) = let
+in
+  case+ opt of
+  | Some (p2t) => Some (eval1_p2at (loc0, ctx, env, p2t))
+  | None ((*void*)) => None ()
+end // end of [eval1_p2atopt]
 
 (* ****** ****** *)
 
@@ -556,6 +583,8 @@ macdef eval1dlablst (xs) = eval1_d2lablst (loc0, ctx, env, ,(xs))
 //
 macdef eval1invres (inv) = eval1_i2nvresstate (loc0, ctx, env, ,(inv))
 //
+macdef eval1claulst (c2ls) = eval1_c2laulst (loc0, ctx, env, ,(c2ls))
+//
 in
 //
 case+ d2en0 of
@@ -660,8 +689,22 @@ case+ d2en0 of
     d2exp_sifhead (loc0, inv, _test, _then, _else)
   end // end of [D2Esifhead]
 //
-| D2Elst (lin, opt, d2es) =>
-    d2exp_lst (loc0, lin, eval1sexpopt (opt), eval1dexplst (d2es))
+| D2Ecasehead
+  (
+    knd, inv, d2es, c2ls
+  ) => let
+    val inv = eval1invres (inv)
+    val d2es = eval1dexplst (d2es)
+    val c2ls = eval1claulst (c2ls)
+  in
+    d2exp_casehead (loc0, knd, inv, d2es, c2ls)
+  end // end of [D2Ecasehead]
+//
+| D2Elst
+    (lin, opt, d2es) => d2exp_lst
+  (
+    loc0, lin, eval1sexpopt (opt), eval1dexplst (d2es)
+  ) (* end of [D2Elst] *)
 | D2Etup (knd, npf, d2es) =>
     d2exp_tup (loc0, knd, npf, eval1dexplst (d2es))
 | D2Erec (knd, npf, ld2es) =>
@@ -689,8 +732,10 @@ case+ d2en0 of
     loc0, d2s, eval1dexp (d2e), loc0, eval1dexplst (ind)
   ) // end of [D2Earrsub]
 | D2Earrinit
-    (elt, asz, ini) => d2exp_arrinit (
-    loc0, eval1sexp (elt), eval1dexpopt (asz), eval1dexplst (ini)
+    (elt, asz, ini) => d2exp_arrinit
+  (
+    loc0
+  , eval1sexp (elt), eval1dexpopt (asz), eval1dexplst (ini)
   ) // end of [D2Earrinit]
 | D2Earrpsz (opt, d2es) =>
     d2exp_arrpsz (loc0, eval1sexpopt (opt), eval1dexplst (d2es))
@@ -724,6 +769,41 @@ case+ d2en0 of
 | _ => d2exp_err (loc0)
 //
 end // end of [eval1_d2exp]
+
+(* ****** ****** *)
+
+implement
+eval1_gm2at
+  (loc0, ctx, env, gm2t) = let
+  val d2e = eval1_d2exp (loc0, ctx, env, gm2t.gm2at_exp)
+  val opt = eval1_p2atopt (loc0, ctx, env, gm2t.gm2at_pat)
+in
+  gm2at_make (loc0, d2e, opt)
+end // end of [eval1_gm2at]
+
+implement
+eval1_gm2atlst
+  (loc0, ctx, env, gm2ts) =
+  eval1_listmap (loc0, ctx, env, gm2ts, eval1_gm2at)
+// end of [eval1_gm2atlst]
+
+(* ****** ****** *)
+
+implement
+eval1_c2lau
+  (loc0, ctx, env, c2l) = let
+  val p2ts = eval1_p2atlst (loc0, ctx, env, c2l.c2lau_pat)
+  val gm2ts = eval1_gm2atlst (loc0, ctx, env, c2l.c2lau_gua)
+  val d2e_body = eval1_d2exp (loc0, ctx, env, c2l.c2lau_body)
+in
+  c2lau_make (loc0, p2ts, gm2ts, c2l.c2lau_seq, c2l.c2lau_neg, d2e_body)
+end // end of [eval1_c2lau]
+
+implement
+eval1_c2laulst
+  (loc0, ctx, env, c2ls) =
+  eval1_listmap (loc0, ctx, env, c2ls, eval1_c2lau)
+// end of [eval1_c2laulst]
 
 (* ****** ****** *)
 
@@ -798,19 +878,22 @@ fun auxlst2 (
   loc0: location
 , ctx: !evalctx, env: &alphenv
 , d2cs: v2aldeclst, d2es: d2explst
-) : v2aldeclst = (
-  case+ d2cs of
-  | list_cons (d2c, d2cs) => let
-      val p2t = eval1_p2at (loc0, ctx, env, d2c.v2aldec_pat)
-      val-list_cons (d2e, d2es) = d2es
-      val ann = eval1_s2expopt (loc0, ctx, env, d2c.v2aldec_ann)
-      val d2c = v2aldec_make (loc0, p2t, d2e, ann)
-      val d2cs = auxlst2 (loc0, ctx, env, d2cs, d2es)
-    in
-      list_cons (d2c, d2cs)
-    end
-  | list_nil () => list_nil ()
-) // end of [auxlst2]
+) : v2aldeclst = let
+in
+//
+case+ d2cs of
+| list_cons 
+    (d2c, d2cs) => let
+    val p2t = eval1_p2at (loc0, ctx, env, d2c.v2aldec_pat)
+    val-list_cons (d2e, d2es) = d2es
+    val ann = eval1_s2expopt (loc0, ctx, env, d2c.v2aldec_ann)
+    val d2c = v2aldec_make (loc0, p2t, d2e, ann)
+    val d2cs = auxlst2 (loc0, ctx, env, d2cs, d2es)
+  in
+    list_cons (d2c, d2cs)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+end // end of [auxlst2]
 //
 in
   auxlst2 (loc0, ctx, env, d2cs, d2es)

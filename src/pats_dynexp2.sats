@@ -741,11 +741,13 @@ and d2exp_node =
   | D2Esifhead of // static conditional
       (i2nvresstate, s2exp, d2exp, d2exp)
 //
-  | D2Ecasehead of ( // dynamic case-expression
+  | D2Ecasehead of
+    ( // dynamic case-expression
       caskind, i2nvresstate, d2explst, c2laulst
     ) // end of [D2Ecaseof]
-  | D2Escasehead of ( // static case-expression
-      i2nvresstate, s2exp, sc2laulst
+  | D2Escasehead of
+    (
+      i2nvresstate, s2exp, sc2laulst // static case-expression
     ) // end of [D2Escaseof]
 //
   | D2Elist of (int(*pfarity*), d2explst) // temporary
@@ -856,23 +858,20 @@ and d2lablst = List d2lab
 
 (* ****** ****** *)
 
-and i2nvarg =
-'{
+and i2nvarg = '{
   i2nvarg_var= d2var, i2nvarg_type= s2expopt
 } // end of [i2nvarg]
 
 and i2nvarglst = List i2nvarg
 
-and i2nvresstate =
-'{
+and i2nvresstate = '{
   i2nvresstate_svs= s2varlst
 , i2nvresstate_gua= s2explst
 , i2nvresstate_arg= i2nvarglst
 , i2nvresstate_met= s2explstopt
 } // end of [i2nvresstate]
 
-and loopi2nv =
-'{
+and loopi2nv = '{
   loopi2nv_loc= location
 , loopi2nv_svs= s2varlst
 , loopi2nv_gua= s2explst
@@ -883,8 +882,7 @@ and loopi2nv =
 
 (* ****** ****** *)
 
-and gm2at =
-'{
+and gm2at = '{
   gm2at_loc= location, gm2at_exp= d2exp, gm2at_pat= p2atopt
 } // end of [gm2at]
 

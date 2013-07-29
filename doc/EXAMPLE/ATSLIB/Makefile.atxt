@@ -159,6 +159,7 @@ RMF=rm -f
 ######
 
 #make2_entry("libats_funmap_list", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_funset_listord", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libats_fundeque_fingertree", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 
 ######

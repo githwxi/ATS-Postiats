@@ -322,7 +322,8 @@ end // end of [list_length]
 
 #atscode_separator()
 
-implement{x}
+implement
+{x}(*tmp*)
 list_copy
   (xs) = res where {
 //
@@ -330,22 +331,28 @@ vtypedef res = List0_vt (x)
 prval () = lemma_list_param (xs)
 //
 fun loop
-  {n:nat} .<n>. (
+  {n:nat} .<n>.
+(
   xs: list (x, n)
 , res: &res? >> list_vt (x, n)
-) :<!wrt> void = case+ xs of
-  | list_cons (x, xs) => let
-      val () = res :=
-        list_vt_cons{x}{0}(x, _(*?*))
-      val+list_vt_cons
-        (_, res1) = res // res1 = res.1
-      val () = loop (xs, res1)
-      prval () = fold@ (res)
-    in
-      // nothing
-    end // end of [cons]
-  | list_nil () => res := list_vt_nil ()
-// end of [loop]
+) :<!wrt> void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = res :=
+      list_vt_cons{x}{0}(x, _(*?*))
+    val+list_vt_cons
+      (_, res1) = res // res1 = res.1
+    val () = loop (xs, res1)
+    prval () = fold@ (res)
+  in
+    // nothing
+  end // end of [cons]
+| list_nil () => res := list_vt_nil ()
+//
+end // end of [loop]
 //
 var res: res? ; val () = loop (xs, res)
 //
@@ -353,14 +360,16 @@ var res: res? ; val () = loop (xs, res)
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 list_append
   {m,n} (xs, ys) = let
   val ys = __cast (ys) where {
     extern castfn __cast (ys: list (a, n)):<> list_vt (a, n)
   } // end of [where] // end of [val]
 in
-$effmask_wrt (
+$effmask_wrt
+(
   list_of_list_vt (list_append2_vt (xs, ys))
 ) // end of [$effmask_wrt]
 end // end of [list_append]

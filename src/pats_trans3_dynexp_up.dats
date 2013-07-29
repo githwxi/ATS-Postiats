@@ -242,9 +242,19 @@ case+ d2e0.d2exp_node of
 *)
   in
     case+ _fun.d2exp_node of    
+//
     | D2Esym (d2s) =>
         d2exp_trup_applst_sym (d2e0, d2s, _arg)
       // end of [D2Esym]
+    | D2Etmpid (
+        d2e, t2mas
+      ) when
+        d2exp_is_sym (d2e) => let
+        val-D2Esym (d2s) = d2e.d2exp_node
+      in
+        d2exp_trup_applst_tmpsym (d2e0, d2s, t2mas, _arg)
+      end // end of [D2Etmpid when ...]
+//
     | D2Emac (d2m) => let
 (*
         val () = (
@@ -263,14 +273,7 @@ case+ d2e0.d2exp_node of
       in
         d2exp_trup (d2e0)
       end // end of [D2Emac]
-    | D2Etmpid (
-        d2e, t2mas
-      ) when
-        d2exp_is_sym (d2e) => let
-        val-D2Esym (d2s) = d2e.d2exp_node
-      in
-        d2exp_trup_applst_tmpsym (d2e0, d2s, t2mas, _arg)
-      end // end of [D2Etmpid when ...]
+//
     | _ => d2exp_trup_applst (d2e0, _fun, _arg)
   end // end of [D2Eapplst]
 //

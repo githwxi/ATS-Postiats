@@ -33,7 +33,10 @@ sortdef t0p = t@ype
 //
 // HX: for sets of elements of type a
 //
-abstype set_type (a: t@ype+)
+abstype set_type (a:t@ype+) = ptr
+//
+(* ****** ****** *)
+
 typedef set (a:t0p) = set_type (a)
 
 (* ****** ****** *)
@@ -45,83 +48,104 @@ compare_elt_elt (x1: a, x2: a):<> int
 
 fun{}
 funset_nil {a:t0p} ():<> set (a)
-
-fun{a:t0p}
-funset_sing (x0: a):<> set (a) // singleton set
-
-(* ****** ****** *)
-
 fun{}
 funset_make_nil {a:t0p} ():<> set (a)
 
 fun{a:t0p}
-funset_make_list (xs: List a):<> set (a)
+funset_sing (x0: a):<> set (a) // singleton set
+fun{a:t0p}
+funset_make_sing (x0: a):<> set (a) // singleton set
+
+(* ****** ****** *)
+
+fun{a:t0p}
+funset_make_list (xs: List(INV(a))):<> set (a)
 
 (* ****** ****** *)
 
 fun{}
-funset_is_empty {a:t0p} (xs: set (a)):<> bool
+funset_is_empty {a:t0p} (xs: set(INV(a))):<> bool
 fun{}
-funset_isnot_empty {a:t0p} (xs: set (a)):<> bool
+funset_isnot_empty {a:t0p} (xs: set(INV(a))):<> bool
 
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_size (xs: set (a)):<> size_t
+funset_size (xs: set(INV(a))):<> size_t
 
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_is_member (xs: set a, x0: a):<> bool
+funset_is_member (xs: set(INV(a)), x0: a):<> bool
 fun{a:t0p}
-funset_isnot_member (xs: set a, x0: a):<> bool
+funset_isnot_member (xs: set(INV(a)), x0: a):<> bool
 
 (* ****** ****** *)
 
 fun{a:t0p}
 funset_insert
-  (xs: &set (a) >> _, x0: a):<!wrt> bool(*[x0] in [xs]*)
+  (xs: &set(INV(a)) >> _, x0: a):<!wrt> bool(*[x0] in [xs]*)
 // end of [funset_insert]
 
 fun{a:t0p}
 funset_remove
-  (xs: &set (a) >> _, x0: a):<!wrt> bool(*[x0] in [xs]*)
+  (xs: &set(INV(a)) >> _, x0: a):<!wrt> bool(*[x0] in [xs]*)
 // end of [funset_remove]
 
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_union (xs1: set (a), xs2: set (a)):<> set (a)
+funset_takeoutmax
+(
+  xs: &set(INV(a)) >> _, x0: &a? >> opt (a, b)
+) :<!wrt> #[b:bool] bool (b)
 fun{a:t0p}
-funset_intersect (xs1: set (a), xs2: set (a)):<> set (a)
-fun{a:t0p}
-funset_diff (xs1: set (a), xs2: set (a)):<> set (a)
-fun{a:t0p}
-funset_symdiff (xs1: set (a), xs2: set (a)):<> set (a)
+funset_takeoutmax_opt (xs: &set(INV(a)) >> _):<> Option_vt (a)
 
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_is_subset (xs1: set (a), xs2: set (a)):<> bool
+funset_takeoutmin
+(
+  xs: &set(INV(a)) >> _, x0: &a? >> opt (a, b)
+) :<!wrt> #[b:bool] bool (b)
 fun{a:t0p}
-funset_is_supset (xs1: set (a), xs2: set (a)):<> bool
+funset_takeoutmin_opt (xs: &set(INV(a)) >> _):<> Option_vt (a)
 
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_is_equal (xs1: set (a), xs2: set (a)):<> bool
+funset_union (xs1: set(INV(a)), xs2: set (a)):<> set (a)
+fun{a:t0p}
+funset_intersect (xs1: set(INV(a)), xs2: set (a)):<> set (a)
+fun{a:t0p}
+funset_diff (xs1: set(INV(a)), xs2: set (a)):<> set (a)
+fun{a:t0p}
+funset_symdiff (xs1: set(INV(a)), xs2: set (a)):<> set (a)
+
+(* ****** ****** *)
+
+fun{a:t0p}
+funset_is_subset (xs1: set(INV(a)), xs2: set (a)):<> bool
+fun{a:t0p}
+funset_is_supset (xs1: set(INV(a)), xs2: set (a)):<> bool
+
+(* ****** ****** *)
+
+fun{a:t0p}
+funset_is_equal (xs1: set(INV(a)), xs2: set (a)):<> bool
 
 (* ****** ****** *)
 //
 // set ordering induced by the ordering on elements
 //
 fun{a:t0p}
-funset_compare (xs1: set (a), xs2: set (a)):<> Sgn
+funset_compare (xs1: set(INV(a)), xs2: set (a)):<> Sgn
 //
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_listize (xs: set (a)):<!wrt> List_vt (a) // = list_copy
+funset_listize (xs: set(INV(a))):<!wrt> List_vt (a) // = list_copy
 
 (* ****** ****** *)
 

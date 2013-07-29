@@ -86,4 +86,59 @@ end (* end of [llam] *)
 
 (* ****** ****** *)
 
+implement
+{a,b}
+co_arr (f) = lcfun2cortn{a,b} (llam (x) => (f (x), co_arr<a,b> (f)))
+
+(* ****** ****** *)
+
+implement
+{a,b,c}
+co_arr_fst (co) =
+lcfun2cortn{@(a,c),@(b,c)}
+(
+llam @(x1, x2) => let
+  val (y1, co) = co_run2<a,b> (co, x1) in ((y1, x2), co_arr_fst (co))
+end (* end of [llam] *)
+) // end of [co_arr_fst]
+
+implement
+{a,b,c}
+co_arr_snd (co) =
+lcfun2cortn{@(c,a),@(c, b)}
+(
+llam @(x1, x2) => let
+  val (y2, co) = co_run2<a,b> (co, x2) in ((x1, y2), co_arr_snd (co))
+end (* end of [llam] *)
+) // end of [co_arr_snd]
+
+(* ****** ****** *)
+
+implement
+{a,b,c}
+co_arr_bind
+  (cof, cog) =
+lcfun2cortn{a,c}
+(
+llam x => let
+  val (y, cof) = co_run2<a,b> (cof, x)
+  val (z, cog) = co_run2<b,c> (cog, y) in (z, co_arr_bind (cof, cog))
+end (* end of [llam] *)
+) // end of [co_arr_bind]
+
+(* ****** ****** *)
+
+implement
+{a,b}
+co_arr_loop
+  (co, y0) =
+lcfun2cortn{a,b}
+(
+llam x => let
+  val (y1, co) = co_run2<(a,b),b> (co, @(x, y0)) in (y1, co_arr_loop<a,b> (co, y1))
+end (* end of [llam] *)
+) // end of [co_arr_loop]
+
+(* ****** ****** *)
+
 (* end of [coroutine.dats] *)

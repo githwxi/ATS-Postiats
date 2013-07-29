@@ -36,21 +36,47 @@ cortn2lcfun{a,b:t0p}
 (* ****** ****** *)
 
 fun{a,b:t0p}
-co_run (co: &cortn (a, b) >> _, x: a): b
+co_run (co: &cortn (INV(a), INV(b)) >> _, x: a): b
 fun{a,b:t0p}
-co_run2 (co: cortn (a, b), x: a): (b, cortn (a, b))
+co_run2 (co: cortn (INV(a), INV(b)), x: a): (b, cortn (a, b))
 
 (* ****** ****** *)
 
 fun{a,b:t0p}
 co_run_list{n:int}
-  (co: &cortn (a, b) >> _, xs: list (a, n)): list_vt (b, n)
-// end of [co_run_list]
+(
+  co: &cortn (INV(a), INV(b)) >> _, xs: list (a, n)
+) : list_vt (b, n) // end of [co_run_list]
 
 (* ****** ****** *)
 
 fun{a,b,c:t0p}
-co_fmap (co: cortn (a, b), f: cfun1 (b, c)): cortn (a, c)
+co_fmap (co: cortn (INV(a), INV(b)), f: cfun1 (b, c)): cortn (a, c)
+
+(* ****** ****** *)
+
+fun{a,b:t0p}
+co_arr (f: a -<cloref1> b): cortn (a, b)
+
+(* ****** ****** *)
+
+fun{a,b,c:t0p}
+co_arr_fst (co: cortn(INV(a), INV(b))): cortn ((a,c), (b,c))
+fun{a,b,c:t0p}
+co_arr_snd (co: cortn(INV(a), INV(b))): cortn ((c,a), (c,b))
+
+(* ****** ****** *)
+
+fun{a,b,c:t0p}
+co_arr_bind (
+  cof: cortn (INV(a), INV(b))
+, cog: cortn (INV(b), INV(c))
+) : cortn (a, c)
+
+(* ****** ****** *)
+
+fun{a,b:t0p}
+co_arr_loop (co: cortn((INV(a), INV(b)), b), seed: b): cortn(a, b)
 
 (* ****** ****** *)
 
