@@ -29,7 +29,7 @@
 
 (*
 **
-** A functional map implementation based on ordered lists
+** A functional set implementation based on ordered lists
 **
 ** Contributed by Hongwei Xi (hwxi AT cs DOT bu DOT edu)
 ** Time: May 18, 2011
@@ -38,12 +38,19 @@
 
 (* ****** ****** *)
 //
+// License:
+// LGPL 3.0 (available at http://www.gnu.org/licenses/lgpl.txt)
+//
+(* ****** ****** *)
+//
 // HX-2012-12: ported to ATS/Postitats from ATS/Anairiats
 //
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats"
-#define ATS_STALOADFLAG 0 // no static loading at run-time
+#define
+ATS_PACKNAME "ATSLIB.libats.funset_listord"
+#define
+ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 

@@ -9,7 +9,7 @@
 (*
 ** ATS - Unleashing the Potential of Types!
 **
-** Copyright (C) 2002-2010 Hongwei Xi, Boston University
+** Copyright (C) 2010-2013 Hongwei Xi, Boston University
 **
 ** All rights reserved
 **
@@ -46,7 +46,12 @@
 //
 (* ****** ****** *)
 
-#define ATS_DYNLOADFLAG 0 // no dynamic loading at run-time
+#define
+ATS_PACKNAME "ATSLIB.libats.funset_listord"
+#define
+ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
+#define
+ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 (* ****** ****** *)
 
@@ -82,7 +87,6 @@ implement{a} funset_make_sing (x) = list_sing (x)
 ** HX-2012-12:
 ** it supersedes the one in [./SHARE/funset.hats]
 *)
-
 implement{a}
 funset_make_list
   (xs) = let
@@ -170,7 +174,7 @@ funset_is_member
 fun aux
   {n:nat} .<n>. (
   xs: list (a, n)
-) :<cloref0> bool = let
+) :<> bool = let
 in
 //
 case+ xs of
@@ -333,9 +337,10 @@ funset_union
   (xs1, xs2) = let
 //
 fun aux // non-tail-recursive
-  {n1,n2:nat} .<n1+n2>. (
+  {n1,n2:nat} .<n1+n2>.
+(
   xs1: list (a, n1), xs2: list (a, n2)
-) :<cloref0> List0 (a) = let
+) :<> List0 (a) = let
 in
 //
 case xs1 of
@@ -371,9 +376,10 @@ funset_intersect
   (xs1, xs2) = let
 //
 fun aux // non-tail-recursive
-  {n1,n2:nat} .<n1+n2>. (
+  {n1,n2:nat} .<n1+n2>.
+(
   xs1: list (a, n1), xs2: list (a, n2)
-) :<cloref0> List0 (a) = let
+) :<> List0 (a) = let
 in
 //
 case xs1 of
@@ -407,27 +413,35 @@ end // end of [funset_intersect]
 implement{a}
 funset_diff
   (xs1, xs2) = let
-  fun aux // non-tail-recursive
-    {n1,n2:nat} .<n1+n2>. (
-    xs1: list (a, n1), xs2: list (a, n2)
-  ) :<cloref0> List0 (a) =
-  case xs1 of
-  | list_cons (x1, xs11) => (
-      case+ xs2 of
-      | list_cons (x2, xs21) => let
-          val sgn = compare_elt_elt<a> (x1, x2)
-        in
-          if sgn > 0 then
-            list_cons{a}(x1, aux (xs11, xs2))
-          else if sgn < 0 then
-            aux (xs1, xs21)
-          else
-            aux (xs11, xs21)
-          // end of [if]
-        end // end of [list_cons]
-      | list_nil () => xs1
-    ) // end of [list_cons]
-  | list_nil () => xs2
+//
+fun aux // non-tail-recursive
+  {n1,n2:nat} .<n1+n2>.
+(
+  xs1: list (a, n1), xs2: list (a, n2)
+) :<cloref0> List0 (a) = let
+in
+//
+case xs1 of
+| list_cons
+    (x1, xs11) => (
+  case+ xs2 of
+  | list_cons
+      (x2, xs21) => let
+      val sgn = compare_elt_elt<a> (x1, x2)
+    in
+      if sgn > 0
+        then list_cons{a}(x1, aux (xs11, xs2))
+        else (
+          if sgn < 0 then aux (xs1, xs21) else aux (xs11, xs21)
+        ) (* end of [else] *)
+      // end of [if]
+    end // end of [list_cons]
+  | list_nil () => xs1
+  ) // end of [list_cons]
+| list_nil () => xs2
+//
+end // end of [aux]
+//
 in
   aux (xs1, xs2)
 end // end of [funset_diff]
@@ -437,27 +451,38 @@ end // end of [funset_diff]
 implement{a}
 funset_symdiff
   (xs1, xs2) = let
-  fun aux // non-tail-recursive
-    {n1,n2:nat} .<n1+n2>. (
-    xs1: list (a, n1), xs2: list (a, n2)
-  ) :<cloref0> List0 (a) =
-  case xs1 of
-  | list_cons (x1, xs11) => (
-      case+ xs2 of
-      | list_cons (x2, xs21) => let
-          val sgn = compare_elt_elt<a> (x1, x2)
-        in
-          if sgn > 0 then
-            list_cons{a}(x1, aux (xs11, xs2))
-          else if sgn < 0 then
-            list_cons{a}(x2, aux (xs1, xs21))
-          else
-            aux (xs11, xs21)
-          // end of [if]
-        end // end of [list_cons]
-      | list_nil () => xs1
-    ) // end of [list_cons]
-  | list_nil () => xs2
+//
+fun aux // non-tail-recursive
+  {n1,n2:nat} .<n1+n2>.
+(
+  xs1: list (a, n1), xs2: list (a, n2)
+) :<> List0 (a) = let
+in
+//
+case xs1 of
+| list_cons
+    (x1, xs11) => (
+  case+ xs2 of
+  | list_cons
+      (x2, xs21) => let
+      val sgn =
+        compare_elt_elt<a> (x1, x2)
+      // end of [val]
+    in
+      if sgn > 0 then
+        list_cons{a}(x1, aux (xs11, xs2))
+      else if sgn < 0 then
+        list_cons{a}(x2, aux (xs1, xs21))
+      else
+        aux (xs11, xs21)
+      // end of [if]
+    end // end of [list_cons]
+  | list_nil () => xs1
+  ) // end of [list_cons]
+| list_nil () => xs2
+//
+end // end of [aux]
+//
 in
   aux (xs1, xs2)
 end // end of [funset_symdiff]
@@ -472,7 +497,7 @@ fun aux // tail-recursive
   {n1,n2:nat} .<n1>.
 (
   xs1: list (a, n1), xs2: list (a, n2)
-) :<cloref0> Sgn = (
+) :<> Sgn = (
   case+ xs1 of
   | list_cons
       (x1, xs1) => (
