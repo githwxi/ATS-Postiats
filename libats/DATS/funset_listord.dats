@@ -465,41 +465,17 @@ end // end of [funset_symdiff]
 (* ****** ****** *)
 
 implement{a}
-funset_is_subset
-  (xs1, xs2) = let
-  fun aux // tail-recursive
-    {n1,n2:nat} .<n1+n2>. (
-    xs1: list (a, n1), xs2: list (a, n2)
-  ) :<cloref0> bool =
-    case+ xs1 of
-    | list_cons (x1, xs11) => (
-      case+ xs2 of
-      | list_cons (x2, xs21) => let
-          val sgn = compare_elt_elt<a> (x1, x2)
-        in
-          if sgn > 0 then false
-          else if sgn < 0 then aux (xs1, xs21)
-          else aux (xs11, xs21)
-        end
-      | list_nil () => false
-      ) // end of [list_cons]
-    | list_nil () => true
-in
-  aux (xs1, xs2)
-end // end of [funset_is_subset]
-
-(* ****** ****** *)
-
-implement{a}
 funset_compare
   (xs1, xs2) = let
 //
 fun aux // tail-recursive
-  {n1,n2:nat} .<n1>. (
+  {n1,n2:nat} .<n1>.
+(
   xs1: list (a, n1), xs2: list (a, n2)
 ) :<cloref0> Sgn = (
   case+ xs1 of
-  | list_cons (x1, xs1) => (
+  | list_cons
+      (x1, xs1) => (
     case+ xs2 of
     | list_cons (x2, xs2) => let
         val sgn = compare_elt_elt<a> (x1, x2)
@@ -522,7 +498,52 @@ end // end of [funset_compare]
 (* ****** ****** *)
 
 implement{a}
+funset_is_subset
+  (xs1, xs2) = let
+//
+fun aux // tail-recursive
+  {n1,n2:nat} .<n1+n2>.
+(
+  xs1: list (a, n1), xs2: list (a, n2)
+) :<> bool = let
+in
+//
+case+ xs1 of
+| list_cons
+    (x1, xs11) => (
+  case+ xs2 of
+  | list_cons
+      (x2, xs21) => let
+      val sgn = compare_elt_elt<a> (x1, x2)
+    in
+      if sgn > 0 then false else
+        (if sgn < 0 then aux (xs1, xs21) else aux (xs11, xs21))
+      // end of [if]
+    end // end of [list_cons]
+  | list_nil () => false
+  ) // end of [list_cons]
+| list_nil () => true
+//
+end // end of [aux]
+//
+in
+  aux (xs1, xs2)
+end // end of [funset_is_subset]
+
+(* ****** ****** *)
+
+implement{a}
 funset_listize (xs) = list_reverse<a> (xs)
+
+(* ****** ****** *)
+
+(*
+//
+// HX: this is now a cast funciton
+//
+implement{}
+funset2list (xs) = xs // HX: [xs] in decending order
+*)
 
 (* ****** ****** *)
 

@@ -143,21 +143,7 @@ O(|xs1|+|xs2|).  ")
 
 (* ****** ****** *)
 
-#declnamesynop("funset_is_subset")
-#decldescrpt("\
-
-Given sets xs1 and xs2, this function tests whether xs1 is a subset of xs2.
-The time complexity of this function is O(|xs1|+|xs2|).  ")
-
-#declnamesynop("funset_is_supset")
-#decldescrpt("\
-
-Given sets xs1 and xs2, this function tests whether xs1 is a superset of
-xs2.  The time complexity of this function is O(|xs1|+|xs2|).  ")
-
-(* ****** ****** *)
-
-#declnamesynop("funset_is_equal")
+#declnamesynop("funset_equal")
 #decldescrpt("\
 
 This function tests whether two given sets xs1 and xs2 are equal.  The time
@@ -172,6 +158,20 @@ This function compares two given sets xs1 and xs2 based on the ordering
 induced from the one on set elements, which is implemented by
 #dyncode("compare_elt_elt").  The time complexity of this function is
 O(|xs1|+|xs2|).  ")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_is_subset")
+#decldescrpt("\
+
+Given sets xs1 and xs2, this function tests whether xs1 is a subset of xs2.
+The time complexity of this function is O(|xs1|+|xs2|).  ")
+
+#declnamesynop("funset_is_supset")
+#decldescrpt("\
+
+Given sets xs1 and xs2, this function tests whether xs1 is a superset of
+xs2.  The time complexity of this function is O(|xs1|+|xs2|).  ")
 
 (* ****** ****** *)
 

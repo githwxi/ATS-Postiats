@@ -44,10 +44,16 @@ The type constructor #stacode("set") is a shorthand for
 
 #declnamesynop("funset_nil")
 #decldescrpt("This function forms an empty set.")
+#declnamesynop("funset_make_nil")
+#decldescrpt("This function is the same as #dyncode("funset_nil").")
+
+(* ****** ****** *)
 
 #declnamesynop("funset_sing")
 #decldescrpt("Given an element x, this function forms the singleton set
 containing x.")
+#declnamesynop("funset_make_sing")
+#decldescrpt("This function is the same as #dyncode("funset_sing").")
 
 (* ****** ****** *)
 
@@ -132,20 +138,7 @@ between xs1 and xs2.  ")
 
 (* ****** ****** *)
 
-#declnamesynop("funset_is_subset")
-#decldescrpt("\
-
-Given sets xs1 and xs2, this function tests whether xs1 is a subset of xs2.  ")
-
-#declnamesynop("funset_is_supset")
-#decldescrpt("\
-
-Given sets xs1 and xs2, this function tests whether xs1 is a superset of
-xs2. ")
-
-(* ****** ****** *)
-
-#declnamesynop("funset_is_equal")
+#declnamesynop("funset_equal")
 #decldescrpt("\
 
 This function tests whether two given sets xs1 and xs2 are equal. ")
@@ -158,6 +151,19 @@ This function tests whether two given sets xs1 and xs2 are equal. ")
 This function compares two given sets xs1 and xs2 based on the ordering
 induced from the one (implemented by #dyncode("compare_elt_elt")) on set
 elements.  ")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_is_subset")
+#decldescrpt("\
+
+Given sets xs1 and xs2, this function tests whether xs1 is a subset of xs2.  ")
+
+#declnamesynop("funset_is_supset")
+#decldescrpt("\
+
+Given sets xs1 and xs2, this function tests whether xs1 is a superset of
+xs2. ")
 
 (* ****** ****** *)
 

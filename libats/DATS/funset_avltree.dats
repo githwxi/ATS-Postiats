@@ -252,7 +252,7 @@ avlmax{h:pos} .<h>.
 (
   t: avltree (a, h), x0: &a? >> a
 ) :<!wrt> avltree_dec (a, h) = let
-  val+ B{..}{hl,hr}(h, x, tl, tr) = t
+  val+B{..}{hl,hr}(h, x, tl, tr) = t
 in
 //
 case+ tr of
@@ -278,7 +278,7 @@ avlmin{h:pos} .<h>.
 (
   t: avltree (a, h), x0: &a? >> a
 ) :<!wrt> avltree_dec (a, h) = let
-  val+ B{..}{hl,hr}(h, x, tl, tr) = t
+  val+B{..}{hl,hr}(h, x, tl, tr) = t
 in
 //
 case+ tl of
@@ -296,6 +296,132 @@ case+ tl of
 | E () => (x0 := x; tr)
 //
 end // end of [avlmin]
+
+(* ****** ****** *)
+
+(*
+** left join: height(tl) >= height(tr)
+*)
+fun{a:t0p}
+avltree_ljoin
+  {hl,hr:nat | hl >= hr} .<hl>.
+(
+  x: a, tl: avltree (a, hl), tr: avltree (a, hr)
+) :<> avltree_inc (a, hl) = let
+  val hl = avlht(tl): int hl
+  and hr = avlht(tr): int hr
+in
+//
+if hl >= hr + HTDF1 then let
+  val+B{..}{hll, hlr}(_, xl, tll, tlr) = tl
+  val [hlr:int] tlr = avltree_ljoin<a> (x, tlr, tr)
+  val hll = avlht(tll): int hll
+  and hlr = avlht(tlr): int hlr
+in
+  if hlr <= hll + HTDF then
+    B{a}(max(hll,hlr)+1, xl, tll, tlr)
+  else // hll+HTDF1 = hlr
+    avltree_lrotate<a> (xl, hll, tll, hlr, tlr)
+  // end of [if]
+end else B{a}(hl+1, x, tl, tr) // end of [if]
+//
+end // end of [avltree_ljoin]
+
+(* ****** ****** *)
+
+(*
+** right join: height(tl) <= height(tr)
+*)
+fun{a:t0p}
+avltree_rjoin
+  {hl,hr:nat | hl <= hr} .<hr>.
+(
+  x: a, tl: avltree (a, hl), tr: avltree (a, hr)
+) :<> avltree_inc (a, hr) = let
+  val hl = avlht(tl): int hl
+  and hr = avlht(tr): int hr
+in
+//
+if hr >= hl + HTDF1 then let
+  val+B{..}{hrl,hrr}(_, xr, trl, trr) = tr
+  val [hrl:int] trl = avltree_rjoin<a> (x, tl, trl)
+  val hrl = avlht(trl): int hrl
+  and hrr = avlht(trr): int hrr
+in
+  if hrl <= hrr + HTDF then
+    B{a}(max(hrl,hrr)+1, xr, trl, trr)
+  else // hrl = hrr+HTDF1
+    avltree_rrotate<a> (xr, hrl, trl, hrr, trr)
+  // end of [if]
+end else B{a}(hr+1, x, tl, tr) // end of [if]
+//
+end // end of [avltree_rjoin]
+
+(* ****** ****** *)
+
+fn{a:t0p}
+avltree_join
+  {hl,hr:nat}
+(
+  x: a, tl: avltree (a, hl), tr: avltree (a, hr)
+) :<> [h:int | hl <= h; hr <= h; h <= max(hl,hr)+1] avltree (a, h) = let
+  val hl = avlht(tl): int hl
+  and hr = avlht(tr): int hr
+in
+  if hl >= hr then avltree_ljoin<a> (x, tl, tr) else avltree_rjoin<a> (x, tl, tr)
+end // end of [avltree_join]
+
+(* ****** ****** *)
+
+fn{a:t0p}
+avltree_concat
+  {hl,hr:nat}
+(
+  tl: avltree (a, hl), tr: avltree (a, hr)
+) :<> [h:nat | h <= max(hl,hr)+1] avltree (a, h) =
+(
+case+
+  (tl, tr) of
+| (E (), _) => tr
+| (_, E ()) => tl
+| (_, _) =>> let
+    var x_min: a // uninitialized
+    val tr = $effmask_wrt (avlmin<a> (tr, x_min))
+  in
+    avltree_join<a> (x_min, tl, tr)
+  end // end of [_, _]
+) // end of [avltree_concat]
+
+(* ****** ****** *)
+
+fun{a:t@ype}
+avltree_split_at
+  {h:nat} .<h>.
+(
+  t: avltree (a, h), x0: a
+, tl0: &ptr? >> avltree (a, hl)
+, tr0: &ptr? >> avltree (a, hr)
+) :<!wrt>
+  #[i,hl,hr:nat | i <= 1; hl <= h; hr <= h] int (i) =
+(
+case+ t of
+| B (_(*h*), x, tl, tr) => let
+    val sgn = compare_elt_elt<a> (x0, x)
+  in
+    if sgn < 0 then let
+      val i = avltree_split_at<a> (tl, x0, tl0, tr0)
+    in
+      tr0 := avltree_join<a> (x, tr0, tr); i
+    end else if sgn > 0 then let
+      val i = avltree_split_at<a> (tr, x0, tl0, tr0)
+    in
+      tl0 := avltree_join<a> (x, tl, tl0); i
+    end else begin
+      tl0 := tl; tr0 := tr; 1 // [x] is found in [t]
+    end // end of [if]
+  end // end of [B]
+| E ((*void*)) => (tl0 := E (); tr0 := E (); 0)
+) // end of [avltree_split_at]
 
 (* ****** ****** *)
 
@@ -463,6 +589,256 @@ case+ xs of
   end // end of [E]
 //
 end // end of [funset_takeoutmin]
+
+(* ****** ****** *)
+
+implement{a}
+funset_union
+  (t1, t2) = let
+//
+fun aux
+  {h1,h2:nat} .<h1>.
+(
+  t1: avltree (a, h1)
+, t2: avltree (a, h2)
+) :<!wrt> [h:nat] avltree (a, h) =
+(
+  case+ (t1, t2) of
+  | (E (), _) => t2
+  | (_, E ()) => t1
+  | (_, _) =>> let
+      val+B (_, x1, t1l, t1r) = t1
+      var t2l0: ptr and t2r0: ptr
+      val i = avltree_split_at<a> (t2, x1, t2l0, t2r0)
+      val t12l = aux (t1l, t2l0) and t12r = aux (t1r, t2r0)
+    in
+      avltree_join<a> (x1, t12l, t12r)
+    end // end of [_, _]
+) // end of [aux] // [aux] is a keyword
+//
+in
+//
+$effmask_wrt (aux (t1, t2))
+//
+end // end of [funset_union]
+
+(* ****** ****** *)
+
+implement{a}
+funset_intersect
+  (t1, t2) = let
+//
+fun aux
+  {h1,h2:nat} .<h1>.
+(
+  t1: avltree (a, h1), t2: avltree (a, h2)
+) :<!wrt> [h:nat] avltree (a, h) = let
+in
+//
+case+
+  (t1, t2) of
+| (E (), _) => E ()
+| (_, E ()) => E ()
+| (_, _) =>> let
+    val+B (_, x1, t1l, t1r) = t1
+    var t2l0: ptr and t2r0: ptr
+    val i = avltree_split_at<a> (t2, x1, t2l0, t2r0)
+    val t12l = aux (t1l, t2l0) and t12r = aux (t1r, t2r0)
+  in
+    if i = 0 then
+      avltree_concat<a> (t12l, t12r) else avltree_join<a> (x1, t12l, t12r)
+    // end of [if]
+  end // end of [_, _]
+end // end // end of [aux]
+in
+//
+$effmask_wrt (aux (t1, t2))
+//
+end // end of [funset_intersect]
+
+(* ****** ****** *)
+
+implement{a}
+funset_diff
+  (t1, t2) = let
+//
+fun aux
+  {h1,h2:nat} .<h1>.
+(
+  t1: avltree (a, h1), t2: avltree (a, h2)
+) :<!wrt> [h:nat] avltree (a, h) = let
+in
+//
+case+
+  (t1, t2) of
+| (E (), _) => E ()
+| (_, E ()) => t1
+| (_, _) =>> let
+    val+B (_, x1, t1l, t1r) = t1
+    var t2l0: ptr and t2r0: ptr
+    val i = avltree_split_at<a> (t2, x1, t2l0, t2r0)
+    val t12l = aux (t1l, t2l0) and t12r = aux (t1r, t2r0)
+  in
+    if i > 0 then
+      avltree_concat<a> (t12l, t12r) else avltree_join<a> (x1, t12l, t12r)
+    // end of [if]
+  end // end of [_, _]
+//
+end // end of [aux]
+//
+in
+//
+$effmask_wrt (aux (t1, t2))
+//
+end // end of [funset_diff]
+
+(* ****** ****** *)
+
+implement{a}
+funset_symdiff
+  (t1, t2) = let
+//
+fun aux {h1,h2:nat} .<h1>.
+(
+  t1: avltree (a, h1), t2: avltree (a, h2)
+) :<!wrt> [h:nat] avltree (a, h) = let
+in
+//
+case+
+  (t1, t2) of
+| (E (), _) => t2
+| (_, E ()) => t1
+| (_, _) =>> let
+    val+B (_, x1, t1l, t1r) = t1
+    var t2l0: ptr and t2r0: ptr
+    val i = avltree_split_at<a> (t2, x1, t2l0, t2r0)
+    val t12l = aux (t1l, t2l0) and t12r = aux (t1r, t2r0)
+  in
+    if i > 0 then
+      avltree_concat<a> (t12l, t12r) else avltree_join<a> (x1, t12l, t12r)
+    // end of [if]
+  end // end of [_, _]
+//
+end // end of [aux]
+//
+in
+//
+$effmask_wrt (aux (t1, t2))
+//
+end // end of [funset_symdiff]
+
+(* ****** ****** *)
+
+implement{a}
+funset_equal
+  (t1, t2) = let
+//
+fun aux
+  {h1,h2:nat} .<h1>.
+(
+  t1: avltree (a, h1), t2: avltree (a, h2)
+) :<!wrt> bool = let
+in
+//
+case+
+  (t1, t2) of
+| (E _, E _) => true
+| (E _, B _) => false
+| (B _, E _) => false
+| (_, _) =>> let
+    val+B(_, x1, t1l, t1r) = t1
+    var t2l0: ptr and t2r0: ptr
+    val i = avltree_split_at<a> (t2, x1, t2l0, t2r0)
+  in
+    if i > 0 then
+      (if aux (t1l, t2l0) then aux (t1r, t2r0) else false)
+    else false // end of [if]
+  end // end of [_, _]
+//
+end // end of [aux]    
+//
+in
+//
+$effmask_wrt (aux (t1, t2))
+//
+end // end of [funset_equal]
+
+(* ****** ****** *)
+
+implement{a}
+funset_compare
+  (t1, t2) = let
+//
+fun aux
+  {h1,h2:nat} .<h1>.
+(
+  t1: avltree (a, h1), t2: avltree (a, h2)
+) :<!wrt> Sgn = let
+in
+//
+case+
+  (t1, t2) of
+| (E _, E _) => 0
+| (E _, B _) => ~1
+| (B _, E _) => 1
+| (_, _) =>> let
+    val+B(_, x1, t1l, t1r) = t1
+    var t2l0: ptr and t2r0: ptr
+    val i = avltree_split_at<a> (t2, x1, t2l0, t2r0)
+  in
+    if i = 0 then let
+      val sgn_r = aux (t1r, t2r0)
+    in
+      if sgn_r >= 0 then 1 else ~1
+    end else let
+      val sgn_r = aux (t1r, t2r0)
+    in
+      if sgn_r = 0 then aux (t1l, t2l0) else sgn_r
+    end (* end of [if] *)
+  end // end of [_, _]
+//
+end // end of [aux]    
+//
+in
+//
+$effmask_wrt (aux (t1, t2))
+//
+end // end of [funset_compare]
+
+(* ****** ****** *)
+
+implement{a}
+funset_is_subset
+  (t1, t2) = let
+//
+fun aux
+  {h1,h2:nat} .<h1>.
+(
+  t1: avltree (a, h1), t2: avltree (a, h2)
+) :<!wrt> bool = let
+in
+//
+case+
+  (t1, t2) of
+| (E (), _) => true
+| (_, E ()) => false
+| (_, _) =>> let
+    val+B(_, x1, t1l, t1r) = t1
+    var t2l0: ptr and t2r0: ptr
+    val i = avltree_split_at<a> (t2, x1, t2l0, t2r0)
+  in
+    if i > 0 then
+      (if aux (t1l, t2l0) then aux (t1r, t2r0) else false)
+    else false // end of [if]
+  end // end of [_, _]
+//
+end // end of [test]    
+//
+in
+//
+$effmask_wrt (aux (t1, t2))
+//
+end // end of [funset_is_subset]
 
 (* ****** ****** *)
 
