@@ -379,6 +379,14 @@ clean:: ; $(RMF) libats_funset_listord_dats.o
 clean:: ; $(RMF) libats_funset_listord_dats.c
 cleanall:: ; $(RMF) libats_funset_listord.exe
 
+all:: libats_funset_avltree
+libats_funset_avltree: libats_funset_avltree.exe
+libats_funset_avltree.exe: libats_funset_avltree_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_funset_avltree_dats.c: libats_funset_avltree.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_funset_avltree_dats.c --dynamic libats_funset_avltree.dats
+clean:: ; $(RMF) libats_funset_avltree_dats.o
+clean:: ; $(RMF) libats_funset_avltree_dats.c
+cleanall:: ; $(RMF) libats_funset_avltree.exe
+
 all:: libats_fundeque_fingertree
 libats_fundeque_fingertree: libats_fundeque_fingertree.exe
 libats_fundeque_fingertree.exe: libats_fundeque_fingertree_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib

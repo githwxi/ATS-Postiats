@@ -522,7 +522,7 @@ end // end of [funset_compare]
 (* ****** ****** *)
 
 implement{a}
-funset_listize (xs) = list_copy<a> (xs)
+funset_listize (xs) = list_reverse<a> (xs)
 
 (* ****** ****** *)
 

@@ -247,6 +247,58 @@ end // end of [avltree_rrotate]
 
 (* ****** ****** *)
 
+fun{a:t0p}
+avlmax{h:pos} .<h>.
+(
+  t: avltree (a, h), x0: &a? >> a
+) :<!wrt> avltree_dec (a, h) = let
+  val+ B{..}{hl,hr}(h, x, tl, tr) = t
+in
+//
+case+ tr of
+| B _ => let
+    val [hr:int] tr = avlmax<a> (tr, x0)
+    val hl = avlht(tl) : int hl
+    and hr = avlht(tr) : int hr
+  in
+    if hl - hr <= HTDF then begin
+      B{a}(1+max(hl,hr), x, tl, tr)
+    end else begin // hl+HTDF1 = hr
+      avltree_rrotate<a> (x, hl, tl, hr, tr)
+    end // end of [if]
+  end // end of [B]
+| E () => (x0 := x; tl)
+//
+end // end of [avlmax]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+avlmin{h:pos} .<h>.
+(
+  t: avltree (a, h), x0: &a? >> a
+) :<!wrt> avltree_dec (a, h) = let
+  val+ B{..}{hl,hr}(h, x, tl, tr) = t
+in
+//
+case+ tl of
+| B _ => let
+    val [hl:int] tl = avlmin<a> (tl, x0)
+    val hl = avlht(tl) : int hl
+    and hr = avlht(tr) : int hr
+  in
+    if hr - hl <= HTDF then begin
+      B{a}(1+max(hl,hr), x, tl, tr)
+    end else begin // hl+HTDF1 = hr
+      avltree_lrotate<a> (x, hl, tl, hr, tr)
+    end // end of [if]
+  end // end of [B]
+| E () => (x0 := x; tr)
+//
+end // end of [avlmin]
+
+(* ****** ****** *)
+
 implement{a}
 funset_insert
   (xs, x0) = found where
@@ -260,7 +312,7 @@ fun insert
 in
 //
 case+ t of
-| B{..}{hl,hr}
+| B {..}{hl,hr}
     (h, x, tl, tr) => let
     val sgn = compare_elt_elt<a> (x0, x)
   in
@@ -272,7 +324,7 @@ case+ t of
       if hl - hr <= HTDF then begin
         B{a}(1+max(hl,hr), x, tl, tr)
       end else ( // hl = hr+HTDF1
-        avltree_rrotate (x, hl, tl, hr, tr)
+        avltree_rrotate<a> (x, hl, tl, hr, tr)
       ) // end of [if]
     end else if sgn > 0 then let
       val [hr:int] tr = insert (tr, found)
@@ -282,7 +334,7 @@ case+ t of
       if hr - hl <= HTDF then begin
         B{a}(1+max(hl, hr), x, tl, tr)
       end else ( // hl+HTDF1 = hr
-        avltree_lrotate (x, hl, tl, hr, tr)
+        avltree_lrotate<a> (x, hl, tl, hr, tr)
       ) // end of [if]
     end else let (* [k0] already exists *)
       val () = found := true in B{a}(h, x0, tl, tr)
@@ -300,27 +352,146 @@ val () = (xs := insert (xs, found))
 
 (* ****** ****** *)
 
-fun{a:t0p}
-avltree_takeout_min
-  {h:pos} .<h>. (
-  t: avltree (a, h), x0: &a? >> a
+implement{a}
+funset_remove
+  (xs, x0) = let
+//
+fun aux{h:nat} .<h>.
+(
+  t: avltree (a, h), ans: &bool? >> bool
 ) :<!wrt> avltree_dec (a, h) = let
-  val+ B{..}{hl,hr}(h, x, tl, tr) = t
 in
-  case+ tl of
-  | B _ => let
-      val [hl:int] tl = avltree_takeout_min<a> (tl, x0)
-      val hl = avlht(tl) : int hl
-      and hr = avlht(tr) : int hr
-    in
-      if hr - hl <= HTDF then begin
-        B (1+max(hl,hr), x, tl, tr)
-      end else begin // hl+HTDF1 = hr
-        avltree_lrotate (x, hl, tl, hr, tr)
-      end // end of [if]
+//
+case+ t of
+| B {..}{hl,hr}
+    (h, x, tl, tr) => let
+    val sgn = compare_elt_elt<a> (x0, x)
+  in
+    case+ 0 of
+    | _ when sgn < 0 => let
+        val [hl:int] tl = aux (tl, ans)
+        val hl = avlht(tl) : int hl
+        and hr = avlht(tr) : int hr
+      in
+        if hr - hl <= HTDF then
+          B{a}(1+max(hl,hr), x, tl, tr)
+        else // hl+HTDF1 = hr
+          avltree_lrotate<a> (x, hl, tl, hr, tr)
+        // end of [if]
+      end // end of [sgn < 0]
+    | _ when sgn > 0 => let
+        val [hr:int] tr = aux (tr, ans)
+        val hl = avlht(tl) : int hl
+        and hr = avlht(tr) : int hr
+      in
+        if hl - hr <= HTDF then
+          B{a}(1+max(hl,hr), x, tl, tr)
+        else // hl=hr+HTDF1
+          avltree_rrotate<a> (x, hl, tl, hr, tr)
+        // end of [if]
+      end // end of [sgn > 0]
+    | _ (*sgn = 0*) => let
+        val () = ans := true
+      in
+        case+ tr of
+        | B _ => let
+            var x_min: a?
+            val [hr:int] tr = avlmin<a> (tr, x_min)
+            val hl = avlht(tl) : int hl
+            and hr = avlht(tr) : int hr
+          in
+            if hl - hr <= HTDF then
+              B{a}(1+max(hl,hr), x_min, tl, tr)
+            else // hl=hr+HTDF1
+              avltree_rrotate<a> (x_min, hl, tl, hr, tr)
+            // end of [if]
+          end // end of [B]
+        | E _ => tl
+      end // end of [sgn = 0]
     end // end of [B]
-  | E () => (x0 := x; tr)
-end // end of [avltree_takeout_min]
+  | E ((*void*)) => let val () = ans := false in E () end
+//
+end // end of [aux]
+//
+var ans: bool
+val () = xs := aux (xs, ans)
+//
+in
+  ans
+end // end of [funset_remove]
+
+(* ****** ****** *)
+
+implement{a}
+funset_takeoutmax
+  (xs, x0) = let
+in
+//
+case+ xs of
+| B _ => let
+    val () = xs := avlmax<a> (xs, x0)
+    prval ((*void*)) = opt_some{a}(x0)
+  in
+    true
+  end // end of [B]
+| E _ => let
+    prval () = opt_none{a}(x0)
+  in
+    false
+  end // end of [E]
+//
+end // end of [funset_takeoutmax]
+
+(* ****** ****** *)
+
+implement{a}
+funset_takeoutmin
+  (xs, x0) = let
+in
+//
+case+ xs of
+| B _ => let
+    val () = xs := avlmin<a> (xs, x0)
+    prval ((*void*)) = opt_some{a}(x0)
+  in
+    true
+  end // end of [B]
+| E _ => let
+    prval () = opt_none{a}(x0)
+  in
+    false
+  end // end of [E]
+//
+end // end of [funset_takeoutmin]
+
+(* ****** ****** *)
+
+implement{a}
+funset_listize
+  (xs) = let
+//
+fun aux
+  {h:nat} .<h>.
+(
+  t: avltree (a, h), res: List0_vt(a)
+) :<> List0_vt(a) = let
+in
+//
+case+ t of
+| B (_, x, tl, tr) => let
+    val res = aux (tr, res)
+    val res = list_vt_cons{a}(x, res)
+    val res = aux (tl, res)
+  in
+    res
+  end // end of [B]
+| E ((*void*)) => res
+//
+end // end of [aux]
+//
+in
+  aux (xs, list_vt_nil)
+end // end of [funset_listize]
 
 (* ****** ****** *)
 
