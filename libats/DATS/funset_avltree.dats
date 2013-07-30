@@ -40,6 +40,10 @@ ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "libats/SATS/funset_avltree.sats"
 
 (* ****** ****** *)
@@ -121,13 +125,6 @@ val () = $effmask_all (loop (xs, res))
 
 (* ****** ****** *)
 
-implement{}
-funset_is_empty (xs) = case+ xs of B _ => false | E () => true
-implement{}
-funset_isnot_empty (xs) = case+ xs of B _ => true | E () => false 
-
-(* ****** ****** *)
-
 implement{a}
 funset_size
   (xs) = aux (xs) where
@@ -142,6 +139,13 @@ fun aux {h:nat} .<h>.
 ) (* end of [aux] *)
 //
 } // end of [funset_size]
+
+(* ****** ****** *)
+
+implement{}
+funset_is_empty (xs) = case+ xs of B _ => false | E () => true
+implement{}
+funset_isnot_empty (xs) = case+ xs of B _ => true | E () => false 
 
 (* ****** ****** *)
 
@@ -840,6 +844,51 @@ in
 $effmask_wrt (aux (t1, t2))
 //
 end // end of [funset_is_subset]
+
+(* ****** ****** *)
+
+implement{a}{env}
+funset_foreach_env
+  (xs, env) = let
+//
+exception DISCONT of ()
+//
+val p_env = addr@ (env)
+//
+fun foreach
+  {h:nat} .<h>.
+(
+  t: avltree (a, h), p_env: ptr
+) : void = let
+in
+//
+case+ t of
+| B (_, x, tl, tr) => let
+//
+    val () = foreach (tl, p_env)
+//
+    val (
+      pf, fpf | p_env
+    ) = $UN.ptr_vtake (p_env)
+    val cont = funset_foreach$cont<a><env> (x, !p_env)
+    val ((*void*)) =
+    (
+      if cont then funset_foreach$fwork<a><env> (x, !p_env) else $raise DISCONT()
+    ) : void // end of [val]
+    prval () = fpf (pf)
+//
+    val () = foreach (tr, p_env)
+//
+  in
+    // nothing
+  end // end of [B]
+| E ((*void*)) => ()
+//
+end // end of [foreach]
+//
+in
+  try foreach (xs, p_env) with ~DISCONT() => ()
+end // end of [funralist_foreach]
 
 (* ****** ****** *)
 

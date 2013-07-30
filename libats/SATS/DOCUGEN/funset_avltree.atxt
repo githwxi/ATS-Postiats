@@ -66,11 +66,16 @@ xs. Note that duplicated elements in xs are all removed in the formed set.
 
 (* ****** ****** *)
 
+#declnamesynop("fprint_funset")
+#declnamesynop("fprint_funset$sep")
+
+(* ****** ****** *)
+
 #declnamesynop("funset_size")
 #decldescrpt("\
 
 This function returns the size of a given set xs. Its time complexity is
-O(1). ")
+O(n). ")
 
 (* ****** ****** *)
 
@@ -164,6 +169,13 @@ Given sets xs1 and xs2, this function tests whether xs1 is a subset of xs2.  ")
 
 Given sets xs1 and xs2, this function tests whether xs1 is a superset of
 xs2. ")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_foreach")
+#declnamesynop("funset_foreach_env")
+#declnamesynop("funset_foreach$cont")
+#declnamesynop("funset_foreach$fwork")
 
 (* ****** ****** *)
 

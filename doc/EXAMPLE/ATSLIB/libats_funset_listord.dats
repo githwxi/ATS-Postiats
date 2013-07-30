@@ -42,9 +42,7 @@ val () = assertloc (funset_is_member (set, 3))
 val () = assertloc (funset_is_member (set, 4))
 val () = assertloc (funset_isnot_member (set, 5))
 //
-val xs2 = funset_listize (set)
-val () = fprintln! (out, "xs2 = ", xs2)
-val () = list_vt_free (xs2)
+val () = fprintln! (out, "set = ", set)
 //
 var set = set
 val-true = funset_remove (set, 1)

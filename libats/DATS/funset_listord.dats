@@ -557,6 +557,30 @@ end // end of [funset_is_subset]
 
 (* ****** ****** *)
 
+implement
+{a}{env}
+funset_foreach_env
+  (xs, env) = let
+//
+val xs = list_reverse (xs)
+//
+implement
+list_vt_foreach$cont<a><env> (x, env) =
+  funset_foreach$cont<a><env> (x, env)
+implement
+list_vt_foreach$fwork<a><env> (x, env) =
+  funset_foreach$fwork<a><env> (x, env)
+//
+val () = list_vt_foreach_env<a><env> (xs, env)
+//
+val () = list_vt_free (xs)
+//
+in
+  // nothing
+end // end of [funset_foreach_env]
+
+(* ****** ****** *)
+
 implement{a}
 funset_listize (xs) = list_reverse<a> (xs)
 

@@ -33,10 +33,17 @@
 
 (* ****** ****** *)
 
+#ifdef EQUAL_KEY_KEY
 implement{key}
 equal_key_key (k1, k2) = gequal_val<key> (k1, k2)
+#endif // end of [EQUAL_KEY_KEY]
+
+(* ****** ****** *)
+
+#ifdef COMPARE_KEY_KEY
 implement{key}
 compare_key_key (k1, k2) = gcompare_val<key> (k1, k2)
+#endif // end of [COMPARE_KEY_KEY]
 
 (* ****** ****** *)
 
@@ -141,6 +148,34 @@ end // end of [funmap_foreach]
 
 (* ****** ****** *)
 
+implement{}
+fprint_funmap$sep (out) = fprint_string (out, "; ")
+implement{}
+fprint_funmap$mapto (out) = fprint_string (out, "->")
+
+implement
+{key,itm}
+fprint_funmap
+  (out, map) = let
+//
+implement
+funmap_foreach$fwork<key,itm><int>
+  (k, x, env) = {
+  val () = if env > 0 then fprint_funmap$sep (out)
+  val () = env := env + 1
+  val () = fprint_val<key> (out, k)
+  val () = fprint_funmap$mapto (out)
+  val () = fprint_val<itm> (out, x)
+} (* end of [funmap_foreach$fwork] *)
+//
+var env: int = 0
+//
+in
+  funmap_foreach_env<key,itm><int> (map, env)
+end // end of [fprint_funmap]
+
+(* ****** ****** *)
+
 local
 
 staload Q = "libats/SATS/qlist.sats"
@@ -172,34 +207,6 @@ in
 end // end of [funmap_listize]
 
 end // end of [local]
-
-(* ****** ****** *)
-
-implement{}
-fprint_funmap$sep (out) = fprint_string (out, "; ")
-implement{}
-fprint_funmap$mapto (out) = fprint_string (out, "->")
-
-implement
-{key,itm}
-fprint_funmap
-  (out, map) = let
-//
-implement
-funmap_foreach$fwork<key,itm><int>
-  (k, x, env) = {
-  val () = if env > 0 then fprint_funmap$sep (out)
-  val () = env := env + 1
-  val () = fprint_val<key> (out, k)
-  val () = fprint_funmap$mapto (out)
-  val () = fprint_val<itm> (out, x)
-} (* end of [funmap_foreach$fwork] *)
-//
-var env: int = 0
-//
-in
-  funmap_foreach_env<key,itm><int> (map, env)
-end // end of [fprint_funmap]
 
 (* ****** ****** *)
 

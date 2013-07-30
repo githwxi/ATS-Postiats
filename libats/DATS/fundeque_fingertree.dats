@@ -655,7 +655,7 @@ fundeque_uncons
 {
   var xn: ptr?
   val () = xs := fingertree_uncons (xs, xn)
-  val+ FTN1 (x0) = xn
+  val+FTN1 (x0) = xn
 } // end of [fundeque_uncons]
 
 (* ****** ****** *)
@@ -671,7 +671,7 @@ fundeque_unsnoc
 {
   var xn: ptr?
   val () = xs := fingertree_unsnoc (xs, xn)
-  val+ FTN1 (x0) = xn
+  val+FTN1 (x0) = xn
 } // end of [fundeque_unsnoc]
 
 (* ****** ****** *)
@@ -727,12 +727,12 @@ end // end of [fundeque_size]
 
 implement{a}
 fundeque_get_atbeg (xs) = let
-  val+ FTN1 (x) = fingertree_get_atbeg{a}(xs) in (x)
+  val+FTN1 (x) = fingertree_get_atbeg{a}(xs) in (x)
 end // end of [fundeque_get_atbeg]
 
 implement{a}
 fundeque_get_atend (xs) = let
-  val+ FTN1 (x) = fingertree_get_atend{a}(xs) in (x)
+  val+FTN1 (x) = fingertree_get_atend{a}(xs) in (x)
 end // end of [fundeque_get_atend]
 
 (* ****** ****** *)
@@ -1200,9 +1200,9 @@ val p_env = addr@ (env)
 //
 val f = lam
   (xn: ftnode): void =<cloref> let
-  val+ FTN1 (x) = xn
+  val+FTN1 (x) = xn
   val (pf, fpf | p_env) = $UN.ptr_vtake{env}(p_env)
-  val () = $effmask_all (fundeque_foreach$fwork<a> (x, !p_env))
+  val () = $effmask_all (fundeque_foreach$fwork<a><env> (x, !p_env))
   prval () = fpf (pf)
 in
   // nothing
@@ -1295,9 +1295,9 @@ val p_env = addr@ (env)
 //
 val f = lam
   (xn: ftnode): void =<cloref> let
-  val+ FTN1 (x) = xn
+  val+FTN1 (x) = xn
   val (pf, fpf | p_env) = $UN.ptr_vtake{env}(p_env)
-  val () = $effmask_all (fundeque_rforeach$fwork<a> (x, !p_env))
+  val () = $effmask_all (fundeque_rforeach$fwork<a><env> (x, !p_env))
   prval () = fpf (pf)
 in
   // nothing

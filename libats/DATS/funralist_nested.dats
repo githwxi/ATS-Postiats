@@ -179,7 +179,7 @@ in
 //
 case+ xs of
 | RAevn (xxs) => let
-    val+ N2 (x, _) = head (xxs) in x
+    val+N2 (x, _) = head (xxs) in x
   end // end of [RAevn]
 | RAodd (x, _) => x
 //
@@ -189,7 +189,7 @@ in (* in of [local] *)
 
 implement{a}
 funralist_head (xs) =
-  let val+ N1 (x) = head{a} (xs) in x end
+  let val+N1 (x) = head{a} (xs) in x end
 // end of [funralist_head]
 
 end // end of [local]
@@ -218,7 +218,7 @@ case+ xs of
     (xxs) => let
     var nxx: ptr
     val xxs = uncons (xxs, nxx)
-    val+ N2 (x0, x1) = nxx
+    val+N2 (x0, x1) = nxx
     prval () = topize (nxx) // HX: this is not necessary
     val () = x := x0
   in
@@ -242,7 +242,7 @@ funralist_uncons
 //
 var nx: ptr // unintialized
 val () = (xs := uncons{a} (xs, nx))
-val+ N1 (x0) = nx
+val+N1 (x0) = nx
 prval () = topize (nx) // HX: this is not necessary
 //
 in
@@ -266,9 +266,9 @@ case+ xs of
     val x01 = get_at (xxs, half i)
   in
     if i mod 2 = 0 then
-      let val+ N2 (x0, _) = x01 in x0 end
+      let val+N2 (x0, _) = x01 in x0 end
     else
-      let val+ N2 (_, x1) = x01 in x1 end
+      let val+N2 (_, x1) = x01 in x1 end
     // end of [if]
   end // end of [RAevn]
 | RAodd (x, xxs) => (
@@ -276,9 +276,9 @@ case+ xs of
       val x01 = get_at (xxs, half (i-1))
     in
       if i mod 2 = 0 then
-        let val+ N2 (_, x1) = x01 in x1 end
+        let val+N2 (_, x1) = x01 in x1 end
       else
-        let val+ N2 (x0, _) = x01 in x0 end
+        let val+N2 (x0, _) = x01 in x0 end
       // end of [if]
     end // end of [if]
   ) // end of [RAodd]
@@ -291,7 +291,7 @@ implement{a}
 funralist_get_at
   (xs, i) = let
 //
-val+ N1 (x) = get_at{a} (xs, i) in x (*return*)
+val+N1 (x) = get_at{a} (xs, i) in x (*return*)
 //
 end // end of [funralist_get_at]
 
@@ -340,7 +340,7 @@ in
   if i mod 2 = 0 then let
     val f1 = lam
       (xx: node): node =<cloref0>
-      let val+ N2 (x0, x1) = xx in N2 (f x0, x1) end
+      let val+N2 (x0, x1) = xx in N2 (f x0, x1) end
     // end of [val]
     val xxs =
       fset_at (xxs, half(i), f1)
@@ -350,7 +350,7 @@ in
   end else let
     val f1 = lam
       (xx: node): node =<cloref0>
-      let val+ N2 (x0, x1) = xx in N2 (x0, f x1) end
+      let val+N2 (x0, x1) = xx in N2 (x0, f x1) end
     // end of [val]
     val xxs =
       fset_at (xxs, half(i), f1)
@@ -416,7 +416,7 @@ and foreach2
   typedef node = node (a, d+1)
   val f1 = lam
     (xx: node): void =<cloref0> let
-    val+ N2 (x0, x1) = xx in f (x0); f (x1)
+    val+N2 (x0, x1) = xx in f (x0); f (x1)
   end // end of [val]
   val () = foreach (xxs, f1)
   val () = $effmask_wrt (__free ($UN.cast2ptr(f1)))
@@ -424,7 +424,7 @@ in
   // nothing
 end // end of [foreach2]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement{a}
 funralist_foreach (xs) = let
@@ -445,13 +445,13 @@ val p_env = addr@ (env)
 //
 val f = lam
   (x: node): void =<cloref0> let
-  val+ N1 (x) = x
+  val+N1 (x) = x
   val (pf, fpf | p_env) = $UN.ptr_vtake{env}(p_env)
-  val test =
-    $effmask_all (funralist_foreach$cont<a> (x, !p_env))
+  val cont =
+    $effmask_all (funralist_foreach$cont<a><env> (x, !p_env))
   val () =
     $effmask_all (
-    if test then funralist_foreach$fwork<a> (x, !p_env) else $raise DISCONT()
+    if cont then funralist_foreach$fwork<a><env> (x, !p_env) else $raise DISCONT()
   ) : void // end of [val]
   prval () = fpf (pf)
 in
@@ -459,7 +459,7 @@ in
 end // end of [val]
 //
 val () =
-  try foreach (xs, f) with ~DISCONT () => ()
+  try foreach (xs, f) with ~DISCONT() => ()
 // end of [val]
 //
 val () = $effmask_wrt (__free ($UN.cast2ptr(f)))
@@ -476,7 +476,7 @@ local
 
 staload Q = "libats/SATS/qlist.sats"
 
-in // in of [local]
+in (* in of [local] *)
 
 implement{a}
 funralist_listize

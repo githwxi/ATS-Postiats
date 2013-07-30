@@ -31,7 +31,7 @@ typedef T = int
 val out = stdout_ref
 //
 val xs =
-$lst_vt{T}(0, 1, 2, 3, 4, 1, 2)
+$lst_vt{T}(0, 1, 2, 3, 4, 3, 2, 1, 0)
 val set = funset_make_list ($UN.list_vt2t(xs))
 val () = list_vt_free (xs)
 //
@@ -42,9 +42,11 @@ val () = assertloc (funset_is_member (set, 3))
 val () = assertloc (funset_is_member (set, 4))
 val () = assertloc (funset_isnot_member (set, 5))
 //
+val () = fprintln! (out, "set = ", set)
+//
 val xs2 = funset_listize (set)
 val () = fprintln! (out, "xs2 = ", xs2)
-val () = list_vt_free (xs2)
+val _freed = list_vt_free (xs2)
 //
 val () = assertloc (funset_equal (set, set))
 val () = assertloc (funset_compare (set, set) = 0)

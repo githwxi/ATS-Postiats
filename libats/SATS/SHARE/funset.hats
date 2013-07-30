@@ -62,6 +62,16 @@ fun{a:t0p}
 funset_make_list (xs: List(INV(a))):<> set(a)
 
 (* ****** ****** *)
+//
+fun{
+} fprint_funset$sep (out: FILEref): void // ", "
+//
+fun{a:t0p}
+fprint_funset (out: FILEref, set: set(INV(a))): void
+//
+overload fprint with fprint_funset
+//
+(* ****** ****** *)
 
 fun{}
 funset_is_empty {a:t0p} (xs: set(INV(a))):<> bool
@@ -141,6 +151,29 @@ fun{a:t0p}
 funset_is_subset (xs1: set(INV(a)), xs2: set(a)):<> bool
 fun{a:t0p}
 funset_is_supset (xs1: set(INV(a)), xs2: set(a)):<> bool
+
+(* ****** ****** *)
+
+fun{
+a:t0p}{env:vt0p
+} funset_foreach$cont
+  (x: a, env: &env): bool
+// end of [funset_foreach$cont]
+
+fun{
+a:t0p}{env:vt0p
+} funset_foreach$fwork
+  (x: a, env: &(env) >> _): void
+// end of [funset_foreach$fwork]
+
+fun{a:t0p}
+funset_foreach (set: set(INV(a))): void
+
+fun{
+a:t0p}{env:vt0p
+} funset_foreach_env
+  (set: set(INV(a)), env: &(env) >> _): void
+// end of [funset_foreach_env]
 
 (* ****** ****** *)
 

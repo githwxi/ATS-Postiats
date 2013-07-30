@@ -51,6 +51,8 @@ fun{key:t0p}
 equal_key_key (x1: key, x2: key):<> bool
 #endif // end of [EQUAL_KEY_KEY]
 
+(* ****** ****** *)
+
 #ifdef COMPARE_KEY_KEY
 fun{key:t0p}
 compare_key_key (x1: key, x2: key):<> int
