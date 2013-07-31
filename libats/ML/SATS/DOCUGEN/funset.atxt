@@ -49,10 +49,18 @@ This package implements functional sets based on ordered AVL-trees.\
 
 (* ****** ****** *)
 
-#declnamesynop("funset_is_equal")
+#declnamesynop("funset_equal")
+#declnamesynop("funset_compare")
 
 #declnamesynop("funset_is_subset")
 #declnamesynop("funset_is_supset")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_foreach")
+#declnamesynop("funset_foreach_env")
+#declnamesynop("funset_foreach$cont")
+#declnamesynop("funset_foreach$fwork")
 
 (* ****** ****** *)
 

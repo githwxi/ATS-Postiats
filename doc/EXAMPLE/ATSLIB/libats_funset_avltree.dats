@@ -66,7 +66,7 @@ val-~Some_vt(4) = funset_takeoutmax_opt (set)
 val-~Some_vt(0) = funset_takeoutmin_opt (set)
 val-~Some_vt(2) = funset_takeoutmin_opt (set)
 //
-val () = assertloc (funset_is_empty (set))
+val () = assertloc (funset_is_nil (set))
 //
 } (* end of [val] *)
 

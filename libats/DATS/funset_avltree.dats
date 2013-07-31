@@ -143,9 +143,9 @@ fun aux {h:nat} .<h>.
 (* ****** ****** *)
 
 implement{}
-funset_is_empty (xs) = case+ xs of B _ => false | E () => true
+funset_is_nil (xs) = case+ xs of B _ => false | E () => true
 implement{}
-funset_isnot_empty (xs) = case+ xs of B _ => true | E () => false 
+funset_isnot_nil (xs) = case+ xs of B _ => true | E () => false 
 
 (* ****** ****** *)
 

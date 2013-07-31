@@ -42,9 +42,9 @@ staload UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 implement{key}
-equal_key_key (k1, k2) = gequal_val<key> (k1, k2)
+equal_key_key = gequal_val<key>
 implement{key}
-compare_key_key (k1, k2) = gcompare_val<key> (k1, k2)
+compare_key_key = gcompare_val<key>
 
 (* ****** ****** *)
 
@@ -230,25 +230,31 @@ end // end of [linmap_foreach]
 
 (* ****** ****** *)
 
+implement{}
+fprint_linmap$sep (out) = fprint_string (out, "; ")
+implement{}
+fprint_linmap$mapto (out) = fprint_string (out, "->")
+
 implement
 {key,itm}
-linmap_listize_free
-  (map) = kxs where {
-//
-extern praxi __assert1 (x: &itm? >> itm): void
-extern praxi __assert2 (x: &(itm) >> itm?): void
+fprint_linmap
+  (out, map) = let
 //
 implement
-linmap_listize$copy<itm> (x) =
-  let val x2 = x; prval () = __assert1 (x) in x2 end
-val kxs = linmap_listize_copy (map)
+linmap_foreach$fwork<key,itm><int>
+  (k, x, env) = {
+  val () = if env > 0 then fprint_linmap$sep (out)
+  val () = env := env + 1
+  val () = fprint_val<key> (out, k)
+  val () = fprint_linmap$mapto (out)
+  val () = fprint_val<itm> (out, x)
+} (* end of [linmap_foreach$fwork] *)
 //
-implement
-linmap_freelin$clear<itm> (x) =
-  let prval () = __assert2 (x) in (* DoNothing *) end
-val () = linmap_freelin<key,itm> (map)
+var env: int = 0
 //
-} // end of [linmap_listize_free]
+in
+  linmap_foreach_env<key,itm><int> (map, env)
+end // end of [fprint_linmap]
 
 (* ****** ****** *)
 
@@ -256,11 +262,11 @@ local
 
 staload Q = "libats/SATS/qlist.sats"
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 {key,itm}
-linmap_listize_copy
+linmap_listize
   (map) = let
 //
 vtypedef tki = @(key, itm)
@@ -288,31 +294,25 @@ end // end of [local]
 
 (* ****** ****** *)
 
-implement{}
-fprint_linmap$sep (out) = fprint_string (out, "; ")
-implement{}
-fprint_linmap$mapto (out) = fprint_string (out, "->")
-
 implement
 {key,itm}
-fprint_linmap
-  (out, map) = let
+linmap_listize_free
+  (map) = kxs where {
+//
+extern praxi __assert1 (x: &itm? >> itm): void
+extern praxi __assert2 (x: &(itm) >> itm?): void
 //
 implement
-linmap_foreach$fwork<key,itm><int>
-  (k, x, env) = {
-  val () = if env > 0 then fprint_linmap$sep (out)
-  val () = env := env + 1
-  val () = fprint_val<key> (out, k)
-  val () = fprint_linmap$mapto (out)
-  val () = fprint_val<itm> (out, x)
-} (* end of [linmap_foreach$fwork] *)
+linmap_listize$copy<itm> (x) =
+  let val x2 = x; prval () = __assert1 (x) in x2 end
+val kxs = linmap_listize (map)
 //
-var env: int = 0
+implement
+linmap_freelin$clear<itm> (x) =
+  let prval () = __assert2 (x) in (* DoNothing *) end
+val () = linmap_freelin<key,itm> (map)
 //
-in
-  linmap_foreach_env<key,itm><int> (map, env)
-end // end of [fprint_linmap]
+} // end of [linmap_listize_free]
 
 (* ****** ****** *)
 

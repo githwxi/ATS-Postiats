@@ -65,8 +65,8 @@ xs. Note that duplicated elements in xs are all removed in the formed set.
 
 (* ****** ****** *)
 
-#declnamesynop("funset_is_empty")
-#declnamesynop("funset_isnot_empty")
+#declnamesynop("funset_is_nil")
+#declnamesynop("funset_isnot_nil")
 
 (* ****** ****** *)
 

@@ -34,16 +34,12 @@
 (* ****** ****** *)
 
 implement{a}
-compare_elt_elt
-  (x1, x2) = gcompare_val<a> (x1, x2)
-// end of [compare_elt_elt]
+compare_elt_elt = gcompare_val<a>
 
 (* ****** ****** *)
 
 implement{}
-funset_isnot_empty
-  (xs) = not (funset_is_empty<> (xs))
-// end of [funset_isnot_empty]
+funset_isnot_nil (xs) = not(funset_is_nil (xs))
 
 (* ****** ****** *)
 
@@ -147,8 +143,8 @@ end // end of [funset_foreach]
 (* ****** ****** *)
 
 implement{}
-fprint_funset$sep (out) = fprint_string (out, ", ")
-
+fprint_funset$sep
+  (out) = fprint_string (out, ", ")
 implement
 {a}(*tmp*)
 fprint_funset

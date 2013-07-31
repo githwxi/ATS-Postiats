@@ -60,18 +60,18 @@ typedef NSH(a:type) = a // for commenting purpose
 (* ****** ****** *)
 
 castfn
-list0_of_list {a:t@ype} (xs: List (INV(a))):<> list0 (a)
+list0_of_list{a:t@ype} (xs: List (INV(a))):<> list0 (a)
 castfn
-list0_of_list_vt {a:t@ype} (xs: List_vt (INV(a))):<> list0 (a)
+list0_of_list_vt{a:t@ype} (xs: List_vt (INV(a))):<> list0 (a)
 
 (* ****** ****** *)
 
 castfn
-g0ofg1_list {a:t@ype} (xs: List (INV(a))):<> list0 (a)
+g0ofg1_list{a:t@ype} (xs: List (INV(a))):<> list0 (a)
 overload g0ofg1 with g0ofg1_list
 
 castfn
-g1ofg0_list {a:t@ype} (xs: list0 (INV(a))):<> List0 (a)
+g1ofg0_list{a:t@ype} (xs: list0 (INV(a))):<> List0 (a)
 overload g1ofg0 with g1ofg0_list
 
 (* ****** ****** *)

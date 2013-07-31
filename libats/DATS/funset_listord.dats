@@ -156,9 +156,9 @@ end // end of [funset_make_list]
 (* ****** ****** *)
 
 implement{}
-funset_is_empty (xs) = list_is_nil (xs)
+funset_is_nil (xs) = list_is_nil (xs)
 implement{}
-funset_isnot_empty (xs) = list_is_cons (xs)
+funset_isnot_nil (xs) = list_is_cons (xs)
 
 (* ****** ****** *)
 

@@ -58,11 +58,15 @@ fun aexp_eval (ae: aexp): double
 fun aexp_parse_string (inp: string): aexp
 //
 (* ****** ****** *)
+
+typedef size = size_t
+
+(* ****** ****** *)
 //
 // abstract type
 // for streams character
 //
-abstype cstream_type
+abstype cstream_type = ptr
 typedef cstream = cstream_type
 //
 (* ****** ****** *)
@@ -81,12 +85,19 @@ fun cstream_getinc (cs: cstream): int // get and inc
 
 (* ****** ****** *)
 
-fun cstream_get_at (cs: cstream, i: int): char
-fun cstream_getinc_at (cs: cstream, i: int): char
+fun cstream_get_pos (cs: cstream): size
 
 (* ****** ****** *)
 
-fun cstream_get_range (cs: cstream, i: int, j: int): string
+fun cstream_get_at (cs: cstream, i: size): char
+
+(* ****** ****** *)
+
+fun cstream_get_range (cs: cstream, i: size, j: size): string
+
+(* ****** ****** *)
+
+fun cstream_skip (cs: cstream, f: int -> bool): void
 
 (* ****** ****** *)
 
@@ -96,9 +107,9 @@ datatype token =
 
 (* ****** ****** *)
 
-fun print_token (tok: token): void
+fun print_token (token): void
 overload print with print_token
-fun fprint_token (out: FILEref, tok: token): void
+fun fprint_token (FILEref, token): void
 overload fprint with fprint_token
 
 (* ****** ****** *)

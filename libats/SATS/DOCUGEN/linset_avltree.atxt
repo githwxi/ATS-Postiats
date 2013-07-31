@@ -41,10 +41,9 @@ The type constructor #stacode("set") is a shorthand for
 #declnamesynop("set_vtype")
 #decldescrpt("\
 
-Given a kind tk and a type T, the abstract viewtype
-#stacode("set_vtype(tk, T)") is for a set storing elements
-of the type T. Note that #stacode("set_vtype") is co-variant
-in its second type argument.\
+Given a type T, the abstract viewtype #stacode("set_vtype(T)")
+is for a set storing elements of the type T. Note that #stacode("set_vtype")
+is co-variant in its type argument.\
 
 ")
 

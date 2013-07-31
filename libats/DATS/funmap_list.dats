@@ -36,14 +36,6 @@
 staload "libats/SATS/funmap_list.sats"
 
 (* ****** ****** *)
-
-implement
-{key}(*tmp*)
-equal_key_key
-  (k1, k2) = gequal_val<key> (k1, k2)
-// end of [equal_key_key]
-
-(* ****** ****** *)
 //
 #include "./SHARE/funmap.hats" // code reuse
 //

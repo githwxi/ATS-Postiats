@@ -33,17 +33,10 @@
 
 (* ****** ****** *)
 
-#ifdef EQUAL_KEY_KEY
 implement{key}
-equal_key_key (k1, k2) = gequal_val<key> (k1, k2)
-#endif // end of [EQUAL_KEY_KEY]
-
-(* ****** ****** *)
-
-#ifdef COMPARE_KEY_KEY
+equal_key_key = gequal_val<key>
 implement{key}
-compare_key_key (k1, k2) = gcompare_val<key> (k1, k2)
-#endif // end of [COMPARE_KEY_KEY]
+compare_key_key = gcompare_val<key>
 
 (* ****** ****** *)
 

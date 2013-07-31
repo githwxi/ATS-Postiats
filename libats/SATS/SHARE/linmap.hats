@@ -233,6 +233,16 @@ key:t0p;itm:vt0p
 //
 (* ****** ****** *)
 
+fun{itm:vt0p}
+linmap_listize$copy (x: &itm):<!wrt> itm
+fun{
+key:t0p;itm:vt0p
+} linmap_listize
+  (map: !map (key, INV(itm))):<!wrt> List_vt @(key, itm)
+// end of [linmap_listize_copy]
+
+(* ****** ****** *)
+
 (*
 //
 // HX: listization is done in the in-order fashion
@@ -244,14 +254,6 @@ key:t0p;itm:vt0p
 } linmap_listize_free
   (map: map (key, INV(itm))):<!wrt> List_vt @(key, itm)
 // end of [linmap_listize_free]
-
-fun{itm:vt0p}
-linmap_listize$copy (x: &itm):<!wrt> itm
-fun{
-key:t0p;itm:vt0p
-} linmap_listize_copy
-  (map: !map (key, INV(itm))):<!wrt> List_vt @(key, itm)
-// end of [linmap_listize_copy]
 
 (* ****** ****** *)
 

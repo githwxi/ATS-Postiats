@@ -51,10 +51,6 @@ ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 
-#define EQUAL_KEY_KEY 1
-
-(* ****** ****** *)
-
 #include "./SHARE/funmap.hats"
 
 (* ****** ****** *)

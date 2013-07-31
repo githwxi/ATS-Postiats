@@ -195,8 +195,8 @@ This function frees a given map containing only non-linear items. ")
 
 (* ****** ****** *)
 
-#declnamesynop("linmap_freelin$clear")
 #declnamesynop("linmap_freelin")
+#declnamesynop("linmap_freelin$clear")
 
 (* ****** ****** *)
 
@@ -208,20 +208,20 @@ Otherwise, the function keeps the map and returns true. ")
 
 (* ****** ****** *)
 
+#declnamesynop("linmap_listize")
+#decldescrpt("\
+
+This function returns a linear list of pairs consisting of keys and
+their associated items in a given map while keeping the map. ")
+#declnamesynop("linmap_listize$copy")
+
+(* ****** ****** *)
+
 #declnamesynop("linmap_listize_free")
 #decldescrpt("\
 
 This function returns a linear list of pairs consisting of keys and
 their associated items in a given map while freeing the map. ")
-
-(* ****** ****** *)
-
-#declnamesynop("linmap_listize$copy")
-#declnamesynop("linmap_listize_copy")
-#decldescrpt("\
-
-This function returns a linear list of pairs consisting of keys and
-their associated items in a given map while keeping the map. ")
 
 (* ****** ****** *)
 

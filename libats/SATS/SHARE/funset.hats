@@ -74,9 +74,9 @@ overload fprint with fprint_funset
 (* ****** ****** *)
 
 fun{}
-funset_is_empty {a:t0p} (xs: set(INV(a))):<> bool
+funset_is_nil {a:t0p} (xs: set(INV(a))):<> bool
 fun{}
-funset_isnot_empty {a:t0p} (xs: set(INV(a))):<> bool
+funset_isnot_nil {a:t0p} (xs: set(INV(a))):<> bool
 
 (* ****** ****** *)
 
@@ -153,28 +153,22 @@ fun{a:t0p}
 funset_is_supset (xs1: set(INV(a)), xs2: set(a)):<> bool
 
 (* ****** ****** *)
-
+//
 fun{
 a:t0p}{env:vt0p
-} funset_foreach$cont
-  (x: a, env: &env): bool
-// end of [funset_foreach$cont]
-
+} funset_foreach$cont (x: a, env: &env): bool
 fun{
 a:t0p}{env:vt0p
-} funset_foreach$fwork
-  (x: a, env: &(env) >> _): void
-// end of [funset_foreach$fwork]
-
+} funset_foreach$fwork (x: a, env: &(env) >> _): void
+//
 fun{a:t0p}
 funset_foreach (set: set(INV(a))): void
-
 fun{
 a:t0p}{env:vt0p
 } funset_foreach_env
   (set: set(INV(a)), env: &(env) >> _): void
 // end of [funset_foreach_env]
-
+//
 (* ****** ****** *)
 
 fun{a:t0p}

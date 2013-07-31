@@ -21,17 +21,20 @@
 *)
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
+(* ****** ****** *)
 
 staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/strarr.sats"
+staload _ = "libats/ML/DATS/array0.dats"
+staload _ = "libats/ML/DATS/strarr.dats"
 
 (* ****** ****** *)
 
 staload "./calculator.sats"
-
-(* ****** ****** *)
-
-typedef size = size_t
 
 (* ****** ****** *)
 
@@ -43,6 +46,19 @@ cstream =
 (* ****** ****** *)
 
 assume cstream_type = cstream
+
+(* ****** ****** *)
+
+implement
+cstream_make_string
+  (str) = let
+//
+val A = strarr_make_string (str)
+val iref = ref_make_elt<size> (i2sz(0))
+//
+in
+  CSTREAM (A, iref)
+end // end of [cstream_make_string]
 
 (* ****** ****** *)
 
@@ -72,9 +88,37 @@ cstream_get
   val+CSTREAM (A, iref) = cs
   val i = !iref
 in
-  if i < length(A) then char2int_unsigned(A[i]) else ~1
+  if i < length(A) then char2u2int0(A[i]) else ~1
 end // end of [cstream_get]
 
+(* ****** ****** *)
+
+implement
+cstream_getinc
+  (cs) = let
+  val+CSTREAM (A, iref) = cs
+  val i = !iref
+  val () = !iref := succ (!iref)
+in
+  if i < length(A) then char2u2int0(A[i]) else ~1
+end // end of [cstream_getinc]
+
+(* ****** ****** *)
+
+implement
+cstream_get_pos (cs) =
+  let val+CSTREAM (A, iref) = cs in !iref end
+// end of [cstream_get_pos]
+
+(* ****** ****** *)
+
+implement
+cstream_skip
+  (cs, f) = let
+  val c = cstream_get (cs) in
+  if f (c) then (cstream_inc (cs); cstream_skip (cs, f))
+end // end of [ctsream_skip]
+      
 (* ****** ****** *)
 
 (* end of [calculator_cstream.dats] *)

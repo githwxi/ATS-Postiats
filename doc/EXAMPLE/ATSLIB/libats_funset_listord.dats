@@ -49,11 +49,10 @@ val-true = funset_remove (set, 1)
 val-true = funset_remove (set, 3)
 val-false = funset_remove (set, 5)
 val-~Some_vt(4) = funset_takeoutmax_opt (set)
+val-~Some_vt(2) = funset_takeoutmax_opt (set)
 val-~Some_vt(0) = funset_takeoutmin_opt (set)
 //
-val xs3 = funset_listize (set)
-val () = fprintln! (out, "xs3 = ", xs3)
-val () = list_vt_free (xs3)
+val () = assertloc (funset_is_nil (set))
 //
 } // end of [val]
 

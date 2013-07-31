@@ -33,12 +33,13 @@
 
 (* ****** ****** *)
 //
-// HX-2012-12: the map implementation is based on AVL trees
+// HX-2012-12:
+// the map implementation is based on AVL trees
 //
 (* ****** ****** *)
 
-staload FM =
-"libats/SATS/funmap_avltree.sats"
+staload
+FM = "libats/SATS/funmap_avltree.sats"
 
 (* ****** ****** *)
 
