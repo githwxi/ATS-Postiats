@@ -269,6 +269,43 @@ end // end of [funset_remove]
 (* ****** ****** *)
 
 implement{a}
+funset_getmax
+  (xs, x0) = let
+in
+//
+case+ xs of
+| list_cons
+    (x, _) => let
+    val () = x0 := x
+    prval () = opt_some{a}(x0) in true
+  end // end of [list_cons]
+| list_nil () => let
+    prval () = opt_none{a}(x0) in false
+  end // end of [list_nil]
+//
+end // end of [funset_getmax]
+
+(* ****** ****** *)
+
+implement{a}
+funset_getmin
+  (xs, x0) = let
+in
+//
+case+ xs of
+| list_cons _ => let
+    val () = x0 := list_last (xs)
+    prval () = opt_some{a}(x0) in true
+  end // end of [list_cons]
+| list_nil () => let
+    prval () = opt_none{a}(x0) in false
+  end // end of [list_nil]
+//
+end // end of [funset_getmin]
+
+(* ****** ****** *)
+
+implement{a}
 funset_takeoutmax
   (xs, x0) = let
 in

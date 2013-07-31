@@ -105,9 +105,23 @@ funset_remove
 (* ****** ****** *)
 
 fun{a:t0p}
+funset_getmax
+  (xs: set(INV(a)), x0: &a? >> opt(a, b)): #[b:bool] bool(b)
+fun{a:t0p}
+funset_getmax_opt (xs: set(INV(a))): Option_vt (a)
+
+fun{a:t0p}
+funset_getmin
+  (xs: set(INV(a)), x0: &a? >> opt(a, b)): #[b:bool] bool(b)
+fun{a:t0p}
+funset_getmin_opt (xs: set(INV(a))): Option_vt (a)
+
+(* ****** ****** *)
+
+fun{a:t0p}
 funset_takeoutmax
 (
-  xs: &set(INV(a)) >> _, x0: &a? >> opt (a, b)
+  xs: &set(INV(a)) >> _, x0: &a? >> opt(a, b)
 ) :<!wrt> #[b:bool] bool (b)
 fun{a:t0p}
 funset_takeoutmax_opt (xs: &set(INV(a)) >> _):<> Option_vt(a)
@@ -117,7 +131,7 @@ funset_takeoutmax_opt (xs: &set(INV(a)) >> _):<> Option_vt(a)
 fun{a:t0p}
 funset_takeoutmin
 (
-  xs: &set(INV(a)) >> _, x0: &a? >> opt (a, b)
+  xs: &set(INV(a)) >> _, x0: &a? >> opt(a, b)
 ) :<!wrt> #[b:bool] bool (b)
 fun{a:t0p}
 funset_takeoutmin_opt (xs: &set(INV(a)) >> _):<> Option_vt(a)

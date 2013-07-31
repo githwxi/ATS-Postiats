@@ -186,6 +186,34 @@ avltree_height{h:int} (t: avltree (a, h)): int h = avlht (t)
 
 (* ****** ****** *)
 
+fun{a:t0p}
+avlmax{h:pos} .<h>.
+  (t: avltree (a, h)): a = let
+//
+val+B{..}{hl,hr}(h, x, tl, tr) = t
+//
+in
+//
+case+ tr of B _ => avlmax<a> (tr) | E () => x
+//
+end // end of [avlmax]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+avlmin{h:pos} .<h>.
+  (t: avltree (a, h)): a = let
+//
+val+B{..}{hl,hr}(h, x, tl, tr) = t
+//
+in
+//
+case+ tl of B _ => avlmin<a> (tl) | E () => x
+//
+end // end of [avlmin]
+
+(* ****** ****** *)
+
 (*
 ** left rotation for restoring height invariant
 *)
@@ -255,18 +283,21 @@ end // end of [avltree_rrotate]
 (* ****** ****** *)
 
 fun{a:t0p}
-avlmax{h:pos} .<h>.
+avlmaxout{h:pos} .<h>.
 (
   t: avltree (a, h), x0: &a? >> a
 ) :<!wrt> avltree_dec (a, h) = let
-  val+B{..}{hl,hr}(h, x, tl, tr) = t
+//
+val+B{..}{hl,hr}(h, x, tl, tr) = t
+//
 in
 //
 case+ tr of
 | B _ => let
-    val [hr:int] tr = avlmax<a> (tr, x0)
-    val hl = avlht(tl) : int hl
-    and hr = avlht(tr) : int hr
+    val [hr:int]
+      tr = avlmaxout<a> (tr, x0)
+    val hl = avlht(tl) : int(hl)
+    and hr = avlht(tr) : int(hr)
   in
     if hl - hr <= HTDF
       then B{a}(1+max(hl,hr), x, tl, tr)
@@ -275,23 +306,26 @@ case+ tr of
   end // end of [B]
 | E () => (x0 := x; tl)
 //
-end // end of [avlmax]
+end // end of [avlmaxout]
 
 (* ****** ****** *)
 
 fun{a:t0p}
-avlmin{h:pos} .<h>.
+avlminout{h:pos} .<h>.
 (
   t: avltree (a, h), x0: &a? >> a
 ) :<!wrt> avltree_dec (a, h) = let
-  val+B{..}{hl,hr}(h, x, tl, tr) = t
+//
+val+B{..}{hl,hr}(h, x, tl, tr) = t
+//
 in
 //
 case+ tl of
 | B _ => let
-    val [hl:int] tl = avlmin<a> (tl, x0)
-    val hl = avlht(tl) : int hl
-    and hr = avlht(tr) : int hr
+    val [hl:int]
+      tl = avlminout<a> (tl, x0)
+    val hl = avlht(tl) : int(hl)
+    and hr = avlht(tr) : int(hr)
   in
     if hr - hl <= HTDF
       then B{a}(1+max(hl,hr), x, tl, tr)
@@ -300,7 +334,7 @@ case+ tl of
   end // end of [B]
 | E () => (x0 := x; tr)
 //
-end // end of [avlmin]
+end // end of [avlminout]
 
 (* ****** ****** *)
 
@@ -393,7 +427,7 @@ case+
 | (_, E ()) => tl
 | (_, _) =>> let
     var x_min: a // uninitialized
-    val tr = $effmask_wrt (avlmin<a> (tr, x_min))
+    val tr = $effmask_wrt (avlminout<a> (tr, x_min))
   in
     avltree_join<a> (x_min, tl, tr)
   end // end of [_, _]
@@ -524,14 +558,15 @@ case+ t of
       in
         case+ tr of
         | B _ => let
-            var x_min: a?
-            val [hr:int] tr = avlmin<a> (tr, x_min)
-            val hl = avlht(tl) : int hl
-            and hr = avlht(tr) : int hr
+            var xmin: a?
+            val [hr:int]
+            tr = avlminout<a> (tr, xmin)
+            val hl = avlht(tl) : int (hl)
+            and hr = avlht(tr) : int (hr)
           in
             if hl - hr <= HTDF
-              then B{a}(1+max(hl,hr), x_min, tl, tr)
-              else avltree_rrotate<a> (x_min, hl, tl, hr, tr)
+              then B{a}(1+max(hl,hr), xmin, tl, tr)
+              else avltree_rrotate<a> (xmin, hl, tl, hr, tr)
             // end of [if]
           end // end of [B]
         | E _ => tl
@@ -553,13 +588,50 @@ end // end of [funset_remove]
 (* ****** ****** *)
 
 implement{a}
+funset_getmax
+  (xs, x0) = let
+in
+//
+case+ xs of
+| B _ => let
+    val () = x0 := avlmax<a> (xs)
+    prval () = opt_some{a}(x0) in true
+  end // end of [B]
+| E _ => let
+    prval () = opt_none{a}(x0) in false
+  end // end of [E]
+//
+end // end of [funset_getmax]
+
+(* ****** ****** *)
+
+implement{a}
+funset_getmin
+  (xs, x0) = let
+in
+//
+case+ xs of
+| B _ => let
+    val () = x0 := avlmin<a> (xs)
+    prval () = opt_some{a}(x0) in true
+  end // end of [B]
+| E _ => let
+    prval () = opt_none{a}(x0) in false
+  end // end of [E]
+//
+end // end of [funset_getmin]
+
+(* ****** ****** *)
+
+implement{a}
 funset_takeoutmax
   (xs, x0) = let
 in
 //
 case+ xs of
 | B _ => let
-    val () = xs := avlmax<a> (xs, x0)
+    val (
+    ) = xs := avlmaxout<a> (xs, x0)
     prval ((*void*)) = opt_some{a}(x0)
   in
     true
@@ -581,7 +653,8 @@ in
 //
 case+ xs of
 | B _ => let
-    val () = xs := avlmin<a> (xs, x0)
+    val (
+    ) = xs := avlminout<a> (xs, x0)
     prval ((*void*)) = opt_some{a}(x0)
   in
     true

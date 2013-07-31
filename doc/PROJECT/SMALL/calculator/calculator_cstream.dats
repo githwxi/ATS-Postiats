@@ -119,6 +119,9 @@ cstream_skip
   if f (c) then (cstream_inc (cs); cstream_skip (cs, f))
 end // end of [ctsream_skip]
       
+implement
+cstream_skip_WS (cs) = cstream_skip (cs, lam (c) => isspace (c))
+
 (* ****** ****** *)
 
 (* end of [calculator_cstream.dats] *)

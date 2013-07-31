@@ -106,6 +106,20 @@ funset_remove
 (* ****** ****** *)
 
 fun{a:t0p}
+funset_getmax_opt (xs: set(INV(a))): Option_vt (a)
+fun{a:t0p}
+funset_getmin_opt (xs: set(INV(a))): Option_vt (a)
+
+(* ****** ****** *)
+
+fun{a:t0p}
+funset_takeoutmax_opt (xs: &set(INV(a)) >> _): Option_vt (a)
+fun{a:t0p}
+funset_takeoutmin_opt (xs: &set(INV(a)) >> _): Option_vt (a)
+
+(* ****** ****** *)
+
+fun{a:t0p}
 funset_union (xs1: set(INV(a)), xs2: set(a)):<> set(a)
 fun{a:t0p}
 funset_intersect (xs1: set(INV(a)), xs2: set(a)):<> set(a)

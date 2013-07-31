@@ -77,6 +77,46 @@ funset_isnot_member
 (* ****** ****** *)
 
 implement{a}
+funset_getmax_opt
+  (xs) = let
+//
+var x0: a?
+val ans =
+  $effmask_wrt (funset_getmax<a> (xs, x0))
+//
+in
+//
+if ans then let
+  prval () = opt_unsome{a}(x0) in Some_vt{a}(x0)
+end else let
+  prval () = opt_unnone{a}(x0) in None_vt(*void*)
+end (* end of [if] *)
+//
+end // end of [funset_getmax_opt]
+
+(* ****** ****** *)
+
+implement{a}
+funset_getmin_opt
+  (xs) = let
+//
+var x0: a?
+val ans =
+  $effmask_wrt (funset_getmin<a> (xs, x0))
+//
+in
+//
+if ans then let
+  prval () = opt_unsome{a}(x0) in Some_vt{a}(x0)
+end else let
+  prval () = opt_unnone{a}(x0) in None_vt(*void*)
+end (* end of [if] *)
+//
+end // end of [funset_getmin_opt]
+
+(* ****** ****** *)
+
+implement{a}
 funset_takeoutmax_opt
   (xs) = let
 //
@@ -89,7 +129,7 @@ in
 if ans then let
   prval () = opt_unsome{a}(x0) in Some_vt{a}(x0)
 end else let
-  prval () = opt_unnone{a}(x0) in None_vt (*void*)
+  prval () = opt_unnone{a}(x0) in None_vt(*void*)
 end (* end of [if] *)
 //
 end // end of [funset_takeoutmax_opt]
@@ -109,7 +149,7 @@ in
 if ans then let
   prval () = opt_unsome{a}(x0) in Some_vt{a}(x0)
 end else let
-  prval () = opt_unnone{a}(x0) in None_vt (*void*)
+  prval () = opt_unnone{a}(x0) in None_vt(*void*)
 end (* end of [if] *)
 //
 end // end of [funset_takeoutmin_opt]

@@ -166,6 +166,24 @@ end // end of [funset_remove]
 
 implement
 {a}(*tmp*)
+funset_getmax_opt = $FS.funset_getmax_opt<a>
+implement
+{a}(*tmp*)
+funset_getmin_opt = $FS.funset_getmin_opt<a>
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+funset_takeoutmax_opt = $FS.funset_takeoutmax_opt<a>
+implement
+{a}(*tmp*)
+funset_takeoutmin_opt = $FS.funset_takeoutmin_opt<a>
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 funset_union
   (xs1, xs2) = let
 //

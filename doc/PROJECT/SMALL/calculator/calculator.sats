@@ -98,6 +98,7 @@ fun cstream_get_range (cs: cstream, i: size, j: size): string
 (* ****** ****** *)
 
 fun cstream_skip (cs: cstream, f: int -> bool): void
+fun cstream_skip_WS (cs: cstream): void // skipping white space
 
 (* ****** ****** *)
 

@@ -60,8 +60,40 @@ atspre_g0int2float_lint_double
 #atscode_separator_for_C()
 
 ATSinline()
+atstype_int
+atspre_g0float2int_float_int
+  (atstype_float x) { return ((atstype_int)x) ; }
+ATSinline()
+atstype_lint
+atspre_g0float2int_float_lint
+  (atstype_float x) { return ((atstype_lint)x) ; }
+ATSinline()
+atstype_llint
+atspre_g0float2int_float_llint
+  (atstype_float x) { return ((atstype_llint)x) ; }
+
+ATSinline()
+atstype_int
+atspre_g0float2int_double_int
+  (atstype_double x) { return ((atstype_int)x) ; }
+ATSinline()
+atstype_lint
+atspre_g0float2int_double_lint
+  (atstype_double x) { return ((atstype_lint)x) ; }
+ATSinline()
+atstype_llint
+atspre_g0float2int_double_llint
+  (atstype_double x) { return ((atstype_llint)x) ; }
+
+#atscode_separator_for_C()
+
+ATSinline()
 atstype_float
 atspre_g0float2float_float_float (atstype_float x) { return (x) ; }
+
+ATSinline()
+atstype_double
+atspre_g0float2float_double_double (atstype_double x) { return (x) ; }
 
 ATSinline()
 atstype_double
@@ -82,10 +114,6 @@ atstype_double x
 {
  return ((atstype_float)x) ;
 }
-
-ATSinline()
-atstype_double
-atspre_g0float2float_double_double (atstype_double x) { return (x) ; }
 
 #atscode_separator_for_C()
 

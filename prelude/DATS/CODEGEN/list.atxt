@@ -230,6 +230,20 @@ implement{x}
 list_tail (xs) =
   let val+list_cons (_, xs) = xs in xs end
 // end of [list_tail]
+implement{x}
+list_last (xs) = let
+//
+fun loop
+  (xs: List1 (x)): x = let
+  val+list_cons (x, xs) = xs
+in
+  case+ xs of
+  | list_cons _ => loop (xs) | list_nil _ => x
+end // end of [loop]
+//
+in
+  $effmask_all (loop (xs))
+end // end of [list_last]
 
 #atscode_separator()
 
@@ -246,6 +260,13 @@ list_tail_exn (xs) =
 case+ xs of
 | list_cons (_, xs) => xs | _ => $raise ListSubscriptExn()
 ) (* end of [list_tail_exn] *)
+
+implement{x}
+list_last_exn (xs) =
+(
+case+ xs of
+| list_cons _ => list_last (xs) | _ => $raise ListSubscriptExn()
+) (* end of [list_last_exn] *)
 
 #atscode_separator()
 
