@@ -120,15 +120,23 @@ overload isneqz with strarr_isnot_empty
 symintr strarr_get_at
 //
 fun{tk:tk}
-strarr_get_at_gint (str: strarr, i: g0int(tk)):<!exn> char
+strarr_get_at_gint
+  (str: strarr, i: g0int(tk)):<!exn> char
 fun{tk:tk}
-strarr_get_at_guint (str: strarr, i: g0uint(tk)):<!exn> char
+strarr_get_at_guint
+  (str: strarr, i: g0uint(tk)):<!exn> char
 //
 overload [] with strarr_get_at_gint of 0
 overload strarr_get_at with strarr_get_at_gint of 0
 overload [] with strarr_get_at_guint of 0
 overload strarr_get_at with strarr_get_at_guint of 0
 //
+(* ****** ****** *)
+
+fun strarr_get_range
+  (strarr, i0: size_t, i1: size_t): string
+// end of [strarr_get_range]
+
 (* ****** ****** *)
 
 fun lt_strarr_strarr

@@ -627,7 +627,7 @@ end // end of [linmap_listize_free]
 
 implement
 {key,itm}
-linmap_listize_copy
+linmap_listize
   (map) = let
 //
 vtypedef ki = @(key, itm)
@@ -654,7 +654,7 @@ end // end of [aux]
 //
 in
   aux (map, list_vt_nil ())
-end // end of [linmap_listize_copy]
+end // end of [linmap_listize]
 
 (* ****** ****** *)
 
