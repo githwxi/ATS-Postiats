@@ -72,6 +72,7 @@ qlist (a:vt0p, n:int) = qlist_vtype (a, n)
 //
 vtypedef
 qlist (a:vt0p) = [n:int] qlist_vtype (a, n)
+//
 vtypedef
 qlist0 (a:vt0p) = [n:int | n >= 0] qlist (a, n)
 vtypedef
@@ -97,7 +98,7 @@ qlist_is_nil
   {n:int} (q: !qlist (a, n)):<> bool (n == 0)
 fun{a:vt0p}
 qlist_isnot_nil
-  {n:nat} (q: !qlist (INV(a), n)):<> bool (n > 0)
+  {n:int} (q: !qlist (INV(a), n)):<> bool (n > 0)
 //
 overload iseqz with qlist_is_nil
 overload isneqz with qlist_isnot_nil
@@ -123,21 +124,24 @@ overload fprint with fprint_qlist_sep
 (* ****** ****** *)
 
 fun{a:vt0p}
-qlist_insert (*last*)
-  {n:int} (
+qlist_insert{n:int}
+(
   q: !qlist (INV(a), n) >> qlist (a, n+1), x: a
 ) :<!wrt> void // end of [qlist_insert]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-qlist_takeout (*first*)
-  {n:int | n > 0} (q: !qlist (INV(a), n) >> qlist (a, n-1)):<!wrt> (a)
-// end of [qlist_takeout]
+qlist_takeout{n:pos}
+  (q: !qlist (INV(a), n) >> qlist (a, n-1)):<!wrt> (a)
+fun{a:vt0p}
+qlist_takeout_opt (q: !qlist (INV(a)) >> _):<!wrt> Option_vt(a)
+
+(* ****** ****** *)
 
 fun{a:vt0p}
-qlist_takeout_list
-  {n:int} (q: !qlist (INV(a), n) >> qlist (a, 0)):<!wrt> list_vt (a, n)
+qlist_takeout_list{n:int}
+  (q: !qlist (INV(a), n) >> qlist (a, 0)):<!wrt> list_vt (a, n)
 // end of [qlist_takeout_list]
 
 (* ****** ****** *)
@@ -199,15 +203,15 @@ qstruct_unobjfize
 (* ****** ****** *)
 
 fun{a:vt0p}
-qstruct_insert (*last*)
-  {n:int} (q: &qstruct (INV(a), n) >> qstruct (a, n+1), x: a):<!wrt> void
+qstruct_insert{n:int}
+  (q: &qstruct (INV(a), n) >> qstruct (a, n+1), x: a):<!wrt> void
 // end of [qstruct_insert]
 
-fun{a:vt0p}
-qstruct_takeout (*first*)
-  {n:int | n > 0} (q: &qstruct (INV(a), n) >> qstruct (a, n-1)):<!wrt> (a)
-// end of [qstruct_takeout]
+(* ****** ****** *)
 
+fun{a:vt0p}
+qstruct_takeout{n:pos}
+  (q: &qstruct (INV(a), n) >> qstruct (a, n-1)):<!wrt> (a)
 fun{a:vt0p}
 qstruct_takeout_list
   {n:int} (q: &qstruct (INV(a), n) >> qstruct (a, 0)):<!wrt> list_vt (a, n)

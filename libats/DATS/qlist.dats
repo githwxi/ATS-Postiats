@@ -70,7 +70,8 @@ val () = __mfree (pq) where
 (* ****** ****** *)
 
 implement{a}
-qlist_insert (pq, x) = let
+qlist_insert
+  (pq, x) = let
   val nx = mynode_make_elt<a> (x) in qlist_insert_ngc<a> (pq, nx)
 end // end of [qlist_insert]
 
@@ -94,8 +95,16 @@ end // end of [qstruct_insert]
 
 implement{a}
 qlist_takeout (pq) = let
-  val nx0 = qlist_takeout_ngc (pq) in mynode_getfree_elt (nx0)
+  val nx0 = qlist_takeout_ngc (pq) in mynode_getfree_elt<a> (nx0)
 end // end of [qlist_takeout]
+
+implement{a}
+qlist_takeout_opt (pq) =
+(
+if qlist_isnot_nil (pq) then Some_vt{a}(qlist_takeout(pq)) else None_vt{a}()
+) // end of [qlist_takeout_opt]
+
+(* ****** ****** *)
 
 implement{a}
 qstruct_takeout

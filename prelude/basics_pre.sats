@@ -196,9 +196,9 @@ ifintrel_bool_int_int_int
 (* ****** ****** *)
 
 stadef
-int_of_bool (b: bool): int = ifint (b, 1, 0)
-stadef bool_of_int (i: int): bool = (i != 0)
-stadef b2i = int_of_bool and i2b = bool_of_int
+bool2int (b: bool): int = ifint (b, 1, 0)
+stadef int2bool (i: int): bool = (i != 0)
+stadef b2i = bool2int and i2b = int2bool
 
 (*
 ** HX: [char] = [int8]

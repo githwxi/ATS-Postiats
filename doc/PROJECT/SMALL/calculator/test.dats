@@ -27,6 +27,7 @@ staload "./calculator.sats"
 (* ****** ****** *)
 
 dynload "./calculator.dats"
+dynload "./calculator_print.dats"
 dynload "./calculator_cstream.dats"
 dynload "./calculator_tstream.dats"
 
@@ -48,12 +49,10 @@ val () = println! ("ae2 = ", ae2)
 val () =
 {
 //
-val cs = cstream_make_string ("Hello")
-//
-val i0 = cstream_getinc (cs)
-val () = println! ("i0 = ", int2char0(i0))
-val i1 = cstream_getinc (cs)
-val () = println! ("i1 = ", int2char0(i1))
+val out = stdout_ref
+val () = fprintln! (out, TOKint(0))
+val () = fprintln! (out, TOKopr("+"))
+val () = fprintln! (out, TOKeof())
 //
 } (* end of [val] *)
 
@@ -62,10 +61,19 @@ val () = println! ("i1 = ", int2char0(i1))
 val () =
 {
 //
-val out = stdout_ref
-val () = fprintln! (out, TOKint(0))
-val () = fprintln! (out, TOKopr("+"))
-val () = fprintln! (out, TOKeof())
+val ts = tstream_make_string ("(1+23)*456/7%8^9")
+//
+val (
+) = loop (ts) where
+{
+fun loop
+  (ts: tstream): void = let
+  val tok = tstream_getinc (ts)
+  val () = println! ("tok = ", tok)
+in
+  case+ tok of TOKeof () => () | _ => loop (ts)
+end // end of [loop]
+} (* end of [val] *)
 //
 } (* end of [val] *)
 

@@ -33,15 +33,40 @@
 
 (* ****** ****** *)
 
-#define
-ATS_PACKNAME "ATSLIB.libats.funralist_nested"
-#define
-ATS_STALOADFLAG 0 // no static loading at run-time
+implement{a}
+fundeque_get_atbeg_opt (xs) =
+(
+if fundeque_is_cons (xs) then 
+  Some_vt{a}(fundeque_get_atbeg<a> (xs))
+else None_vt{a}((*void*))
+) // end of [fundeque_get_atbeg_opt]
+
+implement{a}
+fundeque_get_atend_opt (xs) =
+(
+if fundeque_is_cons (xs) then 
+  Some_vt{a}(fundeque_get_atend<a> (xs))
+else None_vt{a}((*void*))
+) // end of [fundeque_get_atend_opt]
 
 (* ****** ****** *)
 
-#include "./SHARE/funralist.hats"
+implement{a}
+fundeque_takeout_atbeg_opt (xs) =
+(
+if fundeque_is_cons (xs) then 
+  Some_vt{a}(fundeque_uncons<a> (xs))
+else None_vt{a}((*void*))
+) // end of [fundeque_get_atbeg_opt]
+
+implement{a}
+fundeque_takeout_atend_opt (xs) =
+(
+if fundeque_is_cons (xs) then 
+  Some_vt{a}(fundeque_unsnoc<a> (xs))
+else None_vt{a}((*void*))
+) // end of [fundeque_get_atend_opt]
 
 (* ****** ****** *)
 
-(* end of [funralist_nested.sats] *)
+(* end of [fundeque.hats] *)

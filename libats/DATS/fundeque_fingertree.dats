@@ -61,6 +61,10 @@ staload INT = "prelude/DATS/integer.dats"
 staload "libats/SATS/fundeque_fingertree.sats"
 
 (* ****** ****** *)
+//
+#include "./SHARE/fundeque.hats" // code reuse
+//
+(* ****** ****** *)
 
 datatype
 ftnode

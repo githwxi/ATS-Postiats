@@ -42,6 +42,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload _(*anon*) = "prelude/DATS/integer.dats"
+staload _(*anon*) = "prelude/DATS/filebas.dats"
 
 (* ****** ****** *)
 

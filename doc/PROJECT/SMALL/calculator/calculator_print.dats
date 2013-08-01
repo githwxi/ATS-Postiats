@@ -23,66 +23,73 @@
 (* ****** ****** *)
 
 staload "./calculator.sats"
-staload _ = "prelude/DATS/pointer.dats"
-staload _ = "prelude/DATS/reference.dats"
-
-(* ****** ****** *)
-
-datatype
-tstream = TSTREAM of (ref(token), cstream)
-
-(* ****** ****** *)
-
-assume tstream_type = tstream
 
 (* ****** ****** *)
 
 implement
-tstream_make_string
-  (str) = let
-  val cs = cstream_make_string (str)
-  val tok = cstream_get_token (cs)
-  val tref = ref_make_elt<token> (tok)
+print_aexp (ae) = fprint (stdout_ref, ae)
+
+(* ****** ****** *)
+//
+// HX: macros can often make code easier to access
+//
+implement
+fprint_aexp
+  (out, ae0) = let
+//
+macdef prcon1 (con, ae) =
+  fprint! (out, ,(con), "(", ,(ae), ")")
+macdef prcon2 (con, ae1, ae2) =
+  fprint! (out, ,(con), "(", ,(ae1), ", ", ,(ae2), ")")
+//
 in
-  TSTREAM (tref, cs)
-end // end of [tstream_make_string]
+//
+case+ ae0 of
+| AEint (i) => prcon1 ("AEint", i)
+| AEneg (ae) => prcon1 ("AEneg", ae)
+| AEadd (ae1, ae2) => prcon2 ("AEadd", ae1, ae2)
+| AEsub (ae1, ae2) => prcon2 ("AEsub", ae1, ae2)
+| AEmul (ae1, ae2) => prcon2 ("AEmul", ae1, ae2)
+| AEdiv (ae1, ae2) => prcon2 ("AEdiv", ae1, ae2)
+//
+end // end of [fprint_aexp]
 
 (* ****** ****** *)
 
 implement
-tstream_get (ts) = let
-//
-val+TSTREAM (tref, cs) = ts
-//
-in
-  !tref
-end // end of [tstream_get_token]
+print_token (tok) = fprint (stdout_ref, tok)
 
 (* ****** ****** *)
 
 implement
-tstream_inc (ts) = let
+fprint_token
+  (out, tok) = let
 //
-val+TSTREAM (tref, cs) = ts
-val ((*void*)) = !tref := cstream_get_token (cs)
+macdef prstr (x) = fprint_string (out, ,(x))
 //
 in
-  // nothing
-end // end of [tstream_inc]
+//
+case+ tok of
+| TOKint (int) =>
+  (
+    prstr "TOKint("; fprint (out, int); prstr ")"
+  )
+| TOKopr (opr) =>
+  (
+    prstr "TOKopr("; fprint (out, opr); prstr ")"
+  )
+//
+| TOKlpar () => prstr "("
+| TOKrpar () => prstr ")"
+//
+| TOKunknown (chr) =>
+  (
+    prstr "TOKunknown("; fprint (out, chr); prstr ")"
+  )
+| TOKeof () => prstr "TOKeof()"
+//
+end // end of [fprint_token]
 
 (* ****** ****** *)
 
-implement
-tstream_getinc (ts) = let
-//
-val+TSTREAM (tref, cs) = ts
-val tok = !tref
-val ((*void*)) = !tref := cstream_get_token (cs)
-//
-in
-  tok
-end // end of [tstream_inc]
-
-(* ****** ****** *)
-
-(* end of [calculator_tstream.dats] *)
+(* end of [calculator_print.dats] *)

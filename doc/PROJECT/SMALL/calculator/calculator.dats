@@ -27,37 +27,11 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "./calculator.sats"
-
-(* ****** ****** *)
-
-implement
-print_aexp (ae) = fprint_aexp (stdout_ref, ae)
-
-(* ****** ****** *)
-//
-// HX: macros can often make code easier to access
-//
-implement
-fprint_aexp
-  (out, ae0) = let
-//
-macdef prcon1 (con, ae) =
-  fprint! (out, ,(con), "(", ,(ae), ")")
-macdef prcon2 (con, ae1, ae2) =
-  fprint! (out, ,(con), "(", ,(ae1), ", ", ,(ae2), ")")
-//
-in
-//
-case+ ae0 of
-| AEint (i) => prcon1 ("AEint", i)
-| AEneg (ae) => prcon1 ("AEneg", ae)
-| AEadd (ae1, ae2) => prcon2 ("AEadd", ae1, ae2)
-| AEsub (ae1, ae2) => prcon2 ("AEsub", ae1, ae2)
-| AEmul (ae1, ae2) => prcon2 ("AEmul", ae1, ae2)
-| AEdiv (ae1, ae2) => prcon2 ("AEdiv", ae1, ae2)
-//
-end // end of [fprint_aexp]
 
 (* ****** ****** *)
 
@@ -77,6 +51,51 @@ case+ ae0 of
 | AEdiv (ae1, ae2) => eval(ae1) / eval(ae2)
 //
 end // end of [aexp_eval]
+
+(* ****** ****** *)
+
+extern
+fun REPloop
+  (inp: FILEref, out: FILEref): void
+// end of [REPloop]
+
+implement
+REPloop (inp, out) = let
+//
+val () = fprint (out, ">> ")
+val () = fileref_flush (out)
+val line = fileref_get_line_string (inp)
+val opt = aexp_parse_string ($UN.strptr2string(line))
+//
+in
+//
+case+ opt of
+| ~Some_vt (aexp) => let
+    val lval = aexp_eval (aexp)
+    val (
+    ) = fprintln! (out, "eval(", line, ") = ", lval)
+    val () = strptr_free (line)
+  in
+    REPloop (inp, out)
+  end // end of [Some_vt]
+| ~None_vt ((*void*)) => let
+    val () = strptr_free (line) in (* nothing *)
+  end // end of [None_vt]
+//
+end // end of [REPloop]
+
+(* ****** ****** *)
+
+dynload "./calculator_print.dats"
+dynload "./calculator_token.dats"
+dynload "./calculator_cstream.dats"
+dynload "./calculator_tstream.dats"
+dynload "./calculator_parsing.dats"
+
+(* ****** ****** *)
+
+implement
+main0 () = REPloop (stdin_ref, stdout_ref)
 
 (* ****** ****** *)
 

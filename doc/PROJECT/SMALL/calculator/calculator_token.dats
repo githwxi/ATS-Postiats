@@ -26,4 +26,69 @@ staload "./calculator.sats"
 
 (* ****** ****** *)
 
-(* end of [calculator_parse.dats] *)
+implement
+token_is_add (tok) = let
+in
+//
+case+ tok of
+| TOKopr ("+") => true
+| TOKopr ("add") => true
+| _ => false
+//
+end // end of [token_is_add]
+
+(* ****** ****** *)
+
+implement
+token_is_sub (tok) = let
+in
+//
+case+ tok of
+| TOKopr ("-") => true
+| TOKopr ("sub") => true
+| _ => false
+//
+end // end of [token_is_sub]
+
+(* ****** ****** *)
+
+implement
+token_is_mul (tok) = let
+in
+//
+case+ tok of
+| TOKopr ("*") => true
+| TOKopr ("mul") => true
+| _ => false
+//
+end // end of [token_is_mul]
+
+(* ****** ****** *)
+
+implement
+token_is_div (tok) = let
+in
+//
+case+ tok of
+| TOKopr ("/") => true
+| TOKopr ("div") => true
+| _ => false
+//
+end // end of [token_is_div]
+
+(* ****** ****** *)
+
+implement
+token_is_mod (tok) = let
+in
+//
+case+ tok of
+| TOKopr ("%") => true
+| TOKopr ("mod") => true
+| _ => false
+//
+end // end of [token_is_mod]
+
+(* ****** ****** *)
+
+(* end of [calculator_token.dats] *)
