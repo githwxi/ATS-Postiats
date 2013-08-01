@@ -70,7 +70,8 @@ val opt = aexp_parse_string ($UN.strptr2string(line))
 in
 //
 case+ opt of
-| ~Some_vt (aexp) => let
+| ~Some_vt (aexp) =>
+  let
     val lval = aexp_eval (aexp)
     val (
     ) = fprintln! (out, "eval(", line, ") = ", lval)
@@ -78,9 +79,9 @@ case+ opt of
   in
     REPloop (inp, out)
   end // end of [Some_vt]
-| ~None_vt ((*void*)) => let
-    val () = strptr_free (line) in (* nothing *)
-  end // end of [None_vt]
+| ~None_vt ((*void*)) =>
+  let val () = strptr_free (line) in REPloop (inp, out) end
+  // end of [None_vt]
 //
 end // end of [REPloop]
 

@@ -78,17 +78,4 @@ end // end of [token_is_div]
 
 (* ****** ****** *)
 
-implement
-token_is_mod (tok) = let
-in
-//
-case+ tok of
-| TOKopr ("%") => true
-| TOKopr ("mod") => true
-| _ => false
-//
-end // end of [token_is_mod]
-
-(* ****** ****** *)
-
 (* end of [calculator_token.dats] *)

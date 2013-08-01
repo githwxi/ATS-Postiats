@@ -15,6 +15,9 @@ src/.depend
 src/Makefile.exe
 src/Makefile_atxt.dats
 src/Makefile_atxt.txt
+src/TAGS
+src/tags
+src/TAGATS
 
 bin/patscc
 bin/patsopt

@@ -517,6 +517,11 @@ BUILD/patsopt: ; make -C BUILD -j8 -f Makefile patsopt
 
 ######
 
+TAGATS:: ; $(RMF) $@
+TAGATS:: ; $(ATSOPT) -o $@ --taggen -s $(SOURCESsta) -d $(SOURCESdyn)
+
+######
+
 pats_error_sats.c: pats_error.sats; $(ATSCC) -cc $<
 pats_error_sats.o: pats_error_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
@@ -1226,5 +1231,6 @@ clean:: ; $(RMF) $(DIR)/*_?ats.o
 clean:: ; $(RMF) $(DIR)/*_?ats.c
 
 cleanall:: clean
+cleanall:: TAGATS
 
 ###### end of [Makefile] ######

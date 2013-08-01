@@ -122,7 +122,6 @@ fun token_is_add (token): bool
 fun token_is_sub (token): bool
 fun token_is_mul (token): bool
 fun token_is_div (token): bool
-fun token_is_mod (token): bool
 
 (* ****** ****** *)
 
