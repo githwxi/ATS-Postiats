@@ -20,17 +20,13 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
-all:: calc
+all:: Gameof24
 
 ######
 
-calc: \
-  calculator_dats.o \
-  calculator_print_dats.o \
-  calculator_token_dats.o \
-  calculator_cstream_dats.o \
-  calculator_tstream_dats.o \
-  calculator_parsing_dats.o ; \
+Gameof24: \
+  GameOf24_dats.o \
+  GameOf24_card_dats.o ; \
   $(CCOPT) \
     -I${PATSHOME} \
     -I${PATSHOME}/ccomp/runtime \
@@ -40,7 +36,7 @@ calc: \
 ######
 
 %_dats.c: \
-  %.dats calculator.sats ; $(PATSCC) -ccats $<
+  %.dats GameOf24.sats ; $(PATSCC) -ccats $<
 %_dats.o: %_dats.c; $(PATSCC) $(DATSMEMALLOC) -c $<
 
 ######
@@ -61,7 +57,7 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
 cleanall:: clean
-cleanall:: ; $(RMF) calc
+cleanall:: ; $(RMF) Gameof24
 
 ######
 

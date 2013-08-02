@@ -64,6 +64,10 @@ a strarr-value corresponding to a given C-style string.\
 
 (* ****** ****** *)
 
+#declnamesynop("strarr_get_range")
+
+(* ****** ****** *)
+
 #declnamesynop("print_strarr")
 #declnamesynop("prerr_strarr")
 #declnamesynop("fprint_strarr")
