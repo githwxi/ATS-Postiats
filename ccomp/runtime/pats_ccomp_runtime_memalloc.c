@@ -61,7 +61,7 @@ void
 *atsruntime_realloc_undef
    (void *ptr, size_t bsz)
 {
- return atsruntime_calloc_libc (ptr, bsz) ;
+ return atsruntime_realloc_libc (ptr, bsz) ;
 }
 
 #endif // ATS_MEMALLOC_LIBC
@@ -94,7 +94,7 @@ void
 *atsruntime_realloc_undef
    (void *ptr, size_t bsz)
 {
- return atsruntime_calloc_gcbdw (ptr, bsz) ;
+ return atsruntime_realloc_gcbdw (ptr, bsz) ;
 }
 
 #endif // ATS_MEMALLOC_GCBDW
