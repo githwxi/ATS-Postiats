@@ -51,16 +51,20 @@ typedef NSH(x:type) = x // for commenting purpose
 
 (* ****** ****** *)
 
-absviewtype zmqctx (l:addr)
+absvtype zmqctx_vtype (l:addr)
+vtypedef zmqctx (l:addr) = zmqctx_vtype (l)
+viewtypedef zmqctx0 = [l:addr] zmqctx_vtype (l)
+viewtypedef zmqctx1 = [l:addr | l > null] zmqctx_vtype (l)
 
-viewtypedef zmqctx0 = [l:addr] zmqctx (l)
-viewtypedef zmqctx1 = [l:addr | l > null] zmqctx (l)
+(* ****** ****** *)
 
 castfn zmqctx2ptr {l:addr} (ctx: !zmqctx (l)):<> ptr (l)
 
 (* ****** ****** *)
 
-absviewtype zmqctxopt (l:addr, b:bool)
+absvtype zmqctxopt (l:addr, b:bool)
+
+(* ****** ****** *)
 
 castfn
 zmqctxopt_unsome

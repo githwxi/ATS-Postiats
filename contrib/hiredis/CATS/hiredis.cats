@@ -52,6 +52,38 @@
 
 /* ****** ****** */
 
+#define atscntrb_hiredis_redisReaderFree redisReaderFree
+#define atscntrb_hiredis_redisReaderCreate redisReaderCreate
+#define atscntrb_hiredis_redisReaderFeed redisReaderFeed
+#define atscntrb_hiredis_redisReaderGetReply redisReaderGetReply
+
+/* ****** ****** */
+//
+#define atscntrb_hiredis_redisFree redisFree
+//
+#define atscntrb_hiredis_redisConnect redisConnect
+#define atscntrb_hiredis_redisConnectWithTimeout redisConnectTimeout
+#define atscntrb_hiredis_redisConnectNonBlock redisConnectNonBlock
+//
+#define atscntrb_hiredis_redisConnectUnix redisConnectUnix
+#define atscntrb_hiredis_redisConnectUnixWithTimeout redisConnectUnixTimeout
+#define atscntrb_hiredis_redisConnectUnixNonBlock redisConnectUnixNonBlock
+//
+/* ****** ****** */
+
+#define atscntrb_hiredis_redisBufferRead redisBufferRead
+#define atscntrb_hiredis_redisBufferWrite redisBufferWrite
+
+/* ****** ****** */
+
+#define atscntrb_hiredis_redisGetReply redisGetReply
+#define atscntrb_hiredis_redisGetReplyFromReader redisGetReplyFromReader
+
+/* ****** ****** */
+
+#define atscntrb_hiredis_redisCommand redisCommand
+#define atscntrb_hiredis_redisFormatCommand redisFormatCommand
+#define atscntrb_hiredis_redisAppendCommand redisAppendCommand
 
 /* ****** ****** */
 
