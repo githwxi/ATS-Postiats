@@ -40,9 +40,18 @@ overload / with div_card_card
 //
 (* ****** ****** *)
 
-fun fprint_card
-  (out: FILEref, x: card): void
+fun card_get_val (card): double
+
+(* ****** ****** *)
+
+fun card_make_int (v: int): card
+
+(* ****** ****** *)
+
+fun fprint_card (out: FILEref, x: card): void
+fun fprint_cardlst (out: FILEref, xs: List0(card)): void
 overload fprint with fprint_card
+overload fprint with fprint_cardlst of 10
 
 (* ****** ****** *)
 
@@ -61,13 +70,20 @@ fun cardset_tabulate
 
 (* ****** ****** *)
 
-abstype task_type = ptr
-typedef task = task_type
+fun cardset_remove2_add1
+(
+  cs: cardset, i:int, j:int, c: card
+) : cardset // endfun
 
 (* ****** ****** *)
 
-abstype taskset_type = ptr
-typedef taskset = taskset_type
+fun cardset_get_at
+  (cs: cardset, i: int): card
+overload [] with cardset_get_at
+
+(* ****** ****** *)
+
+fun play24 (n1: int, n2: int, n3: int, n4: int): List0(card)
 
 (* ****** ****** *)
 

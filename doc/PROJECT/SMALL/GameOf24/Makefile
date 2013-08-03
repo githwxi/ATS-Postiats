@@ -20,13 +20,15 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
-all:: Gameof24
+all:: GameOf24
 
 ######
 
-Gameof24: \
+GameOf24: \
   GameOf24_dats.o \
-  GameOf24_card_dats.o ; \
+  GameOf24_card_dats.o \
+  GameOf24_cardset_dats.o \
+  GameOf24_solve_dats.o ; \
   $(CCOPT) \
     -I${PATSHOME} \
     -I${PATSHOME}/ccomp/runtime \
@@ -57,7 +59,7 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
 cleanall:: clean
-cleanall:: ; $(RMF) Gameof24
+cleanall:: ; $(RMF) GameOf24
 
 ######
 

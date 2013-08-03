@@ -12,8 +12,11 @@ staload "GameOf24.sats"
 
 (* ****** ****** *)
 
+local
+
 datatype
 card_node =
+  | CARDint of (int)
   | CARDadd of (card, card)
   | CARDsub of (card, card)
   | CARDmul of (card, card)
@@ -25,9 +28,23 @@ card_val= double, card_node= card_node
 //
 } (* end of [card] *)
 
+assume card_type = card
+
 (* ****** ****** *)
 
-assume card_type = card
+in (* in of [local] *)
+
+(* ****** ****** *)
+
+implement
+card_get_val (c) = c.card_val
+
+(* ****** ****** *)
+
+implement
+card_make_int (v) = '{
+  card_val= g0i2f (v), card_node= CARDint (v)
+} // end of [card_make_int]
 
 (* ****** ****** *)
 
@@ -93,12 +110,36 @@ fprint_card
 in
 //
 case+ c0.card_node of
-| CARDadd (c1, c2) => fprintln! (out, "CARDadd(", c1, ", ", c2, ")")
-| CARDsub (c1, c2) => fprintln! (out, "CARDsub(", c1, ", ", c2, ")")
-| CARDmul (c1, c2) => fprintln! (out, "CARDmul(", c1, ", ", c2, ")")
-| CARDdiv (c1, c2) => fprintln! (out, "CARDdiv(", c1, ", ", c2, ")")
+| CARDint (v) => fprint! (out, "CARDint(", v, ")")
+| CARDadd (c1, c2) => fprint! (out, "CARDadd(", c1, ", ", c2, ")")
+| CARDsub (c1, c2) => fprint! (out, "CARDsub(", c1, ", ", c2, ")")
+| CARDmul (c1, c2) => fprint! (out, "CARDmul(", c1, ", ", c2, ")")
+| CARDdiv (c1, c2) => fprint! (out, "CARDdiv(", c1, ", ", c2, ")")
 //
 end // end of [fprint_card]
+
+(* ****** ****** *)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+fprint_val<card> (out, c) = fprint_card (out, c)
+
+(* ****** ****** *)
+
+implement
+fprint_cardlst
+  (out, cs) = let
+//
+implement
+fprint_list$sep<> (out) = fprint_newline (out)
+//
+val () = fprint_list (out, cs)
+//
+in
+end // end of [fprint_cardlst]
 
 (* ****** ****** *)
 
