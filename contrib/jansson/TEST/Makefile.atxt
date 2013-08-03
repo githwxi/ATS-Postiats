@@ -62,11 +62,7 @@ ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 
 CCOPT=gcc
 PATSHOMEQ="$(PATSHOME)"
-PATSOPT=$(PATSHOMEQ)/src/patsopt
-
-######
-
-ATSGCFLAG=-D_ATS_GCATS
+PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
@@ -92,7 +88,6 @@ clean:: ; $(RMF) *_atxt.dats
 clean:: ; $(RMF) Makefile.exe
 
 cleanall:: clean
-cleanall:: ; $(RMF) *.png
 
 ###### end of [Makefile] ######
 \

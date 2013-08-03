@@ -6,9 +6,16 @@
 *)
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
+(* ****** ****** *)
 
 staload "./../SATS/foreach.sats"
 staload "./../SATS/foldleft.sats"
+staload _(*anon*) = "./../DATS/foreach.dats"
+staload _(*anon*) = "./../DATS/foldleft.dats"
 
 (* ****** ****** *)
 

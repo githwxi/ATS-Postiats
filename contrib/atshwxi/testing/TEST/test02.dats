@@ -6,9 +6,14 @@
 *)
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
+(* ****** ****** *)
 
-staload "./../SATS/listize.sats"
 staload "./../SATS/foldleft.sats"
+staload _(*anon*) = "./../DATS/foldleft.dats"
 
 (* ****** ****** *)
 
@@ -17,14 +22,15 @@ factorial
   {n:nat} (n: int n): int = let
 //
 val xs =
-  list_tabulate (n) where {
+  list_tabulate<int> (n) where
+{
   implement list_tabulate$fopr<int> (i) = i
 } // end of [where] // end of [val]
 //
 typedef res = int
 //
 val res =
-  foldleft_list_vt<res> (xs, 1) where {
+  foldleft_list_vt<int><res> (xs, 1) where {
   implement
   foldleft_list_vt$fwork<int><res> (acc, n) = acc * (n+1)
 } // end of [where] // end of [val]

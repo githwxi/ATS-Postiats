@@ -4,21 +4,35 @@
 
 ######
 
-PATSOPT=patsopt
+PATSCC=patscc
 
 ######
 
 all::
-all:: test1
-all:: test2
+all:: test01
+all:: test02
 
 ######
 
-test1: test1.dats ; \
-  $(PATSOPT) -IATS$(PATSHOME)/contrib -tc -d test1.dats
+test01: test01.dats ; \
+  $(PATSCC) -cleanaft -IATS $(PATSHOME)/contrib -o $@ $<
+cleanall:: ; $(RMF) test01
 
-test2: test2.dats ; \
-  $(PATSOPT) -IATS$(PATSHOME)/contrib -tc -d test2.dats
+test02: test02.dats ; \
+  $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -IATS $(PATSHOME)/contrib -o $@ $<
+cleanall:: ; $(RMF) test02
+
+######
+
+RMF=rm -f
+
+######
+
+clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_?ats.o *_?ats.c
+clean:: ; $(RMF) *_atxt.dats
+
+cleanall:: clean
 
 ######
 

@@ -52,7 +52,7 @@ fun loop
   n: int n, i: int i, acc: res
 ) : res =
   if i < n then let
-    val acc = foldleft_int$fwork (acc, i) in loop (n, succ(i), acc)
+    val acc = foldleft_int$fwork<res> (acc, i) in loop (n, succ(i), acc)
   end else acc // end of [if]
 (* end of [loop] *)
 //
@@ -70,14 +70,16 @@ foldleft_list
  prval () = lemma_list_param (xs)
 //
 fun loop
-  {n:nat} .<n>. (
+  {n:nat} .<n>.
+(
   xs: list (x, n), acc: res
 ) : res =
   case+ xs of
-  | list_cons (x, xs) => let
-      val acc =
-        foldleft_list$fwork<x> (acc, x) in loop (xs, acc)
-      // end of [val]
+  | list_cons
+      (x, xs) => let
+      val acc = foldleft_list$fwork<x><res> (acc, x)
+    in
+      loop (xs, acc)
     end // end of [list_cons]
   | list_nil () => acc
 (* end of [loop] *)
@@ -100,9 +102,9 @@ fun loop
   xs: !list_vt (x, n), acc: res
 ) : res =
   case+ xs of
-  | @list_vt_cons (x, xs1) => let
-      val acc =
-        foldleft_list_vt$fwork<x> (acc, x)
+  | @list_vt_cons
+      (x, xs1) => let
+      val acc = foldleft_list_vt$fwork<x><res> (acc, x)
       val res = loop (xs1, acc)
       prval () = fold@ (xs)
     in
@@ -126,12 +128,13 @@ prval () = lemma_array_param (A)
 //
 fun loop
   {l:addr}
-  {n:nat} .<n>. (
+  {n:nat} .<n>.
+(
   pf: !array_v (a, l, n) | p: ptr l, n: size_t n, acc: res
 ) : res =
   if n > 0 then let
     prval (pf1, pf2) = array_v_uncons (pf)
-    val acc = foldleft_array$fwork<a> (acc, !p)
+    val acc = foldleft_array$fwork<a><res> (acc, !p)
     val res = loop (pf2 | ptr1_succ<a> (p), pred(n), acc)
     prval () = pf := array_v_cons (pf1, pf2)
   in

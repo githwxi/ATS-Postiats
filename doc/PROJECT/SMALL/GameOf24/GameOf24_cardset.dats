@@ -54,7 +54,7 @@ if k <= 0
 then c else let
   val k1 = k - 1
 in
-  case+ k1 of
+  case+ 0 of
   | _ when k1 < i => cs[k1]
   | _ when k1 < j => (if k1+1 < j then cs[k1+1] else cs[k1+2])
   | _ (*k1 >= j*) => cs[k1+2]
