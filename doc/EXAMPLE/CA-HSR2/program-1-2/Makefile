@@ -4,10 +4,13 @@
 
 ######
 
-CC=gcc -std=c99
-CC=clang -std=c99
 PATSHOMEQ="$(PATSHOME)"
 PATSOPT=$(PATSHOMEQ)/src/patsopt
+
+######
+
+CC=gcc -std=c99 -D_XOPEN_SOURCE
+CC=clang -std=c99 -D_XOPEN_SOURCE
 
 ######
 
@@ -26,12 +29,7 @@ test: \
 
 ######
 
-program-1-2_dats.c: \
-  program-1-2.dats; \
-  $(PATSOPT) -IATS${PATSHOME}/contrib --output $@ --dynamic $<
-program-1-2-test_dats.c: \
-  program-1-2-test.dats; \
-  $(PATSOPT) -IATS${PATSHOME}/contrib --output $@ --dynamic $<
+%_dats.c: %.dats; $(PATSOPT) -IATS${PATSHOME}/contrib --output $@ --dynamic $<
 
 ######
 

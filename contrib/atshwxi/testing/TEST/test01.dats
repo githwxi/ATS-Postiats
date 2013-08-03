@@ -12,33 +12,8 @@
 //
 (* ****** ****** *)
 
-staload "./../SATS/foreach.sats"
 staload "./../SATS/foldleft.sats"
-staload _(*anon*) = "./../DATS/foreach.dats"
 staload _(*anon*) = "./../DATS/foldleft.dats"
-
-(* ****** ****** *)
-
-fun{a:t0p}
-fprint_list
-(
-  out: FILEref, xs: List (a), sep: string
-) : void = let
-//
-implement
-iforeach_list$fwork<a>
-  (i, x) = let
-  val () =
-    if i > 0 then fprint_string (out, sep)
-  // end of [if]
-  val () = fprint_val<a> (out, x)
-in
-  // nothing
-end // endimp
-//
-in
-  iforeach_list<a> (xs)
-end // end of [fprint_list]
 
 (* ****** ****** *)
 
@@ -90,4 +65,4 @@ end // end of [main]
 
 (* ****** ****** *)
 
-(* end of [test1.dats] *)
+(* end of [test01.dats] *)
