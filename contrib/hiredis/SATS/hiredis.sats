@@ -47,23 +47,47 @@
 
 %{^#
 //
-#include "hiredis/CATS/hiredis.cats
+#include "hiredis/CATS/hiredis.cats"
 //
 %} // end of [%{^#]
 
 (* ****** ****** *)
 
-absvtype redisReply_vtype (l:addr)
+staload
+TIME = "libc/sys/SATS/time.sats"
+typedef timeval = $TIME.timeval
+
+(* ****** ****** *)
+
+macdef REDIS_OK = $extval (int, "REDIS_OK")
+macdef REDIS_ERR = $extval (int, "REDIS_ERR")
+
+(* ****** ****** *)
+
+(*
+typedef
+struct redisReply
+{
+//
+  int type; /* REDIS_REPLY_* */
+  long long integer; /* The integer when type is REDIS_REPLY_INTEGER */
+  int len; /* Length of string */
+  char *str; /* Used for both REDIS_REPLY_ERROR and REDIS_REPLY_STRING */
+  size_t elements; /* number of elements, for REDIS_REPLY_ARRAY */
+  struct redisReply **element; /* elements vector for REDIS_REPLY_ARRAY */
+//
+} redisReply;
+*)
+absvtype redisReply_vtype (l:addr) = ptr(l)
 vtypedef redisReply (l:addr) = redisReply_vtype (l)
 vtypedef redisReply0 = [l:addr] redisReply_vtype (l)
 vtypedef redisReply1 = [l:addr | l > null] redisReply_vtype (l)
 
 castfn
-redisReply2ptr{l:addr} (ctx: !redisReply (l)):<> ptr (l)
+redisReply2ptr{l:addr} (rep: !redisReply (l)):<> ptr (l)
 overload ptrcast with redisReply2ptr
 
 (* ****** ****** *)
-
 /*
 void freeReplyObject(void *reply);
 */
@@ -71,8 +95,25 @@ fun freeReplyObject (obj: redisReply0): void = "mac#%"
 
 (* ****** ****** *)
 
+fun
+redisReply_get_str
+  (rep: !redisReply1): vStrptr0 = "mac#%"
+fun
+redisReply_get_integer (rep: !redisReply1): llint = "mac#%"
+fun
+redisReply_get_array
+(
+  rep: !redisReply1, n: &size_t? >> size_t n
+) : #[l:addr;n:int]
+(
+  array_v (redisReply1, l, n)
+, array_v (redisReply1, l, n) -<lin,prf> void | ptr l
+) = "mac#%" // end of [redisReply_get_array]
+
+(* ****** ****** *)
+
 (*
-absvtype redisReadTask_vtype (l:addr)
+absvtype redisReadTask_vtype (l:addr) = ptr(l)
 vtypedef redisReadTask (l:addr) = redisReadTask_vtype (l)
 vtypedef redisReadTask0 = [l:addr] redisReadTask_vtype (l)
 vtypedef redisReadTask1 = [l:addr | l > null] redisReadTask_vtype (l)
@@ -80,13 +121,34 @@ vtypedef redisReadTask1 = [l:addr | l > null] redisReadTask_vtype (l)
 
 (* ****** ****** *)
 
-absvtype redisReader_vtype (l:addr)
+(*
+typedef
+struct redisReader
+{
+//
+  int err; /* Error flags, 0 when there is no error */
+  char errstr[128]; /* String representation of error when applicable */
+//
+  char *buf; /* Read buffer */
+  size_t pos; /* Buffer cursor */
+  size_t len; /* Buffer length */
+//
+  redisReadTask rstack[3];
+  int ridx; /* Index of current read task */
+  void *reply; /* Temporary reply pointer */
+//
+  redisReplyObjectFunctions *fn;
+  void *privdata;
+//
+} redisReader;
+*)
+absvtype redisReader_vtype (l:addr) = ptr(l)
 vtypedef redisReader (l:addr) = redisReader_vtype (l)
 vtypedef redisReader0 = [l:addr] redisReader_vtype (l)
 vtypedef redisReader1 = [l:addr | l > null] redisReader_vtype (l)
 
 castfn
-redisReader2ptr{l:addr} (ctx: !redisReader (l)):<> ptr (l)
+redisReader2ptr{l:addr} (rdr: !redisReader (l)):<> ptr (l)
 overload ptrcast with redisReader2ptr
 
 (* ****** ****** *)
@@ -102,7 +164,7 @@ fun redisReaderCreate_exn (): redisReader1 = "mac#%"
 /*
 void redisReaderFree(redisReader *r);
 */
-fun redisReaderFree (r: redisReader0): void = "mac#%"
+fun redisReaderFree (rdr: redisReader0): void = "mac#%"
 
 (* ****** ****** *)
 
@@ -128,7 +190,17 @@ fun redisReaderGetReply
 
 (* ****** ****** *)
 
-absvtype redisContext_vtype (l:addr)
+(*
+typedef struct redisContext {
+    int err; /* Error flags, 0 when there is no error */
+    char errstr[128]; /* String representation of error when applicable */
+    int fd;
+    int flags;
+    char *obuf; /* Write buffer */
+    redisReader *reader; /* Protocol reader */
+} redisContext;
+*)
+absvtype redisContext_vtype (l:addr) = ptr(l)
 vtypedef redisContext (l:addr) = redisContext_vtype (l)
 vtypedef redisContext0 = [l:addr] redisContext_vtype (l)
 vtypedef redisContext1 = [l:addr | l > null] redisContext_vtype (l)
@@ -136,6 +208,11 @@ vtypedef redisContext1 = [l:addr | l > null] redisContext_vtype (l)
 castfn
 redisContext2ptr{l:addr} (ctx: !redisContext (l)):<> ptr (l)
 overload ptrcast with redisContext2ptr
+
+(* ****** ****** *)
+
+fun redis_get_err (ctx: !redisContext1):<> int = "mac#%"
+fun redis_get_errstr (ctx: !redisContext1):<> vStrptr1 = "mac#%"
 
 (* ****** ****** *)
 
@@ -157,6 +234,17 @@ fun redisConnect_exn
 
 (* ****** ****** *)
 
+fun redisConnectWithTimeout_tval
+  (ip: RD(string), port: int, tv: timeval): redisContext0 = "mac#%"
+fun redisConnectWithTimeout_fsec
+  (ip: RD(string), port: int, fsec: double): redisContext0 = "mac#%"
+//
+symintr redisConnectWithTimeout
+overload redisConnectWithTimeout with redisConnectWithTimeout_tval
+overload redisConnectWithTimeout with redisConnectWithTimeout_fsec
+
+(* ****** ****** *)
+
 fun redisConnectNonBlock
   (ip: RD(string), port: int): redisContext0 = "mac#%"
 
@@ -166,6 +254,17 @@ fun redisConnectUnix
   (path: RD(string)): redisContext0 = "mac#%"
 fun redisConnectUnix_exn
   (path: RD(string)): redisContext1 = "mac#%"
+
+(* ****** ****** *)
+
+fun redisConnectUnixWithTimeout_tval
+  (ip: RD(string), tv: timeval): redisContext0 = "mac#%"
+fun redisConnectUnixWithTimeout_fsec
+  (ip: RD(string), fsec: double): redisContext0 = "mac#%"
+//
+symintr redisConnectUnixWithTimeout
+overload redisConnectUnixWithTimeout with redisConnectUnixWithTimeout_tval
+overload redisConnectUnixWithTimeout with redisConnectUnixWithTimeout_fsec
 
 (* ****** ****** *)
 

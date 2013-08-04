@@ -213,4 +213,16 @@ castfn fildes_encode
 
 (* ****** ****** *)
 
+abst@ype
+useconds_t = // microseconds
+$extype"atslib_useconds_type"
+castfn usec2lint (x: useconds_t):<> lint
+
+abst@ype
+suseconds_t = // microseconds
+$extype"atslib_suseconds_type"
+castfn susec2lint (x: suseconds_t):<> lint
+
+(* ****** ****** *)
+
 (* end of [types.sats] *)

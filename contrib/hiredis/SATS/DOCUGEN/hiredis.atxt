@@ -41,6 +41,12 @@ This package contains an API in ATS for the <a href="https://github.com/redis/hi
 
 (* ****** ****** *)
 
+#declnamesynop("redisReply_get_str")
+#declnamesynop("redisReply_get_integer")
+#declnamesynop("redisReply_get_array")
+
+(* ****** ****** *)
+
 #declnamesynop("redisReaderCreate")
 #declnamesynop("redisReaderCreate_exn")
 
