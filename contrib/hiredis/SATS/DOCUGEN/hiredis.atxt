@@ -31,6 +31,20 @@ This package contains an API in ATS for the <a href="https://github.com/redis/hi
 
 (* ****** ****** *)
 
+#declnamesynop("REDIS_OK")
+#declnamesynop("REDIS_ERR")
+
+(* ****** ****** *)
+
+#declnamesynop("REDIS_REPLY_NIL")
+#declnamesynop("REDIS_REPLY_ARRAY")
+#declnamesynop("REDIS_REPLY_STRING")
+#declnamesynop("REDIS_REPLY_INTEGER")
+#declnamesynop("REDIS_REPLY_STATUS")
+#declnamesynop("REDIS_REPLY_ERROR")
+
+(* ****** ****** *)
+
 #declnamesynop("redisReply")
 #declnamesynop("redisReader")
 #declnamesynop("redisContext")

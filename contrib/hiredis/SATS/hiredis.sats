@@ -64,6 +64,21 @@ macdef REDIS_ERR = $extval (int, "REDIS_ERR")
 
 (* ****** ****** *)
 
+macdef
+REDIS_REPLY_NIL = $extval (int, "REDIS_REPLY_NIL")
+macdef
+REDIS_REPLY_ARRAY = $extval (int, "REDIS_REPLY_ARRAY")
+macdef
+REDIS_REPLY_STRING = $extval (int, "REDIS_REPLY_STRING")
+macdef
+REDIS_REPLY_INTEGER = $extval (int, "REDIS_REPLY_INTEGER")
+macdef
+REDIS_REPLY_STATUS = $extval (int, "REDIS_REPLY_STATUS")
+macdef
+REDIS_REPLY_ERROR = $extval (int, "REDIS_REPLY_ERROR")
+
+(* ****** ****** *)
+
 (*
 typedef
 struct redisReply
@@ -96,11 +111,6 @@ fun freeReplyObject (obj: redisReply0): void = "mac#%"
 (* ****** ****** *)
 
 fun
-redisReply_get_str
-  (rep: !redisReply1): vStrptr0 = "mac#%"
-fun
-redisReply_get_integer (rep: !redisReply1): llint = "mac#%"
-fun
 redisReply_get_array
 (
   rep: !redisReply1, n: &size_t? >> size_t n
@@ -109,6 +119,18 @@ redisReply_get_array
   array_v (redisReply1, l, n)
 , array_v (redisReply1, l, n) -<lin,prf> void | ptr l
 ) = "mac#%" // end of [redisReply_get_array]
+fun
+redisReply_get_string (rep: !redisReply1): vStrptr1 = "mac#%"
+fun
+redisReply_get_integer (rep: !redisReply1): llint = "mac#%"
+fun
+redisReply_get_status (rep: !redisReply1): vStrptr1 = "mac#%"
+fun
+redisReply_get_error (rep: !redisReply1): vStrptr1 = "mac#%"
+
+(* ****** ****** *)
+
+fun redisReply_get_type (rep: !redisReply1): int = "mac#%"
 
 (* ****** ****** *)
 

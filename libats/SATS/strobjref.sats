@@ -41,27 +41,30 @@
 
 (* ****** ****** *)
 
-viewtypedef strobjref0 = [l:addr] strobjref (l)
-viewtypedef strobjref1 = [l:addr | l > null] strobjref (l)
+absvtype strobjref_vtype (l:addr)
+vtypedef strobjref (l:addr) = strobjref_vtype (l)
+viewtypedef strobjref = [l:addr] strobjref (l)
+viewtypedef strobjref0 = [l:addr | l >= null] strobjref (l)
+viewtypedef strobjref1 = [l:addr | l >  null] strobjref (l)
 
 (* ****** ****** *)
 
-castfn ptr_of_strobjref {l:addr} (x: !strobjref l): ptr (l)
-overload ptr_of with ptr_of_strobjref
+castfn strobjref2ptr{l:addr} (x: !strobjref (l)): ptr (l)
+overload ptrcast with strobjref2ptr
 
 (* ****** ****** *)
 
 fun strobjref_make_nil ():<> strobjref (null)
-fun strobjref_make_strptr0 (x: strptr0):<> strobjref0
-fun strobjref_make_strptr1 (x: strptr1):<> strobjref1
+fun strobjref_make_strptr0 (x: Strptr0):<> strobjref0
+fun strobjref_make_strptr1 (x: Strptr1):<> strobjref1
 
 (* ****** ****** *)
 
-fun strobjref_ref
-  {l:addr} (x: !strpbjref l): strpbjref l
+fun strobjref_incref
+  {l:addr} (x: !strobjref l): strobjref l
 // end of [strobjref_ref]
 
-fun strobjref_unref (x: strpbjref0): void
+fun strobjref_decref (x: strobjref0): void
 
 (* ****** ****** *)
 

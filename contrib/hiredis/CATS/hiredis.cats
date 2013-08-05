@@ -62,16 +62,85 @@ redisReply_get_array
 (
   struct redisReply *rep, size_t *asz
 ) {
+  if (((redisReply*)rep)->type != REDIS_REPLY_ARRAY)
+  {
+    fprintf(stderr
+    , "exit(ATSCNTRB): [hiredis:redisReply_get_array]: non-array reply.\n"
+    ) ; exit(1) ;
+  }
   *asz = ((redisReply*)rep)->elements ;
   return (((redisReply*)rep)->element) ;
 } // end of [redisReply_get_array]
 
+ATSinline()
+atstype_string
+redisReply_get_string
+(
+  struct redisReply *rep
+) {
+  if (((redisReply*)rep)->type != REDIS_REPLY_STRING)
+  {
+    fprintf(stderr
+    , "exit(ATSCNTRB): [hiredis:redisReply_get_string]: non-string reply.\n"
+    ) ; exit(1) ;
+  }
+  return (((redisReply*)rep)->str) ;
+} // end of [redisReply_get_string]
+
+ATSinline()
+atstype_llint
+redisReply_get_integer
+(
+  struct redisReply *rep
+) {
+  if (((redisReply*)rep)->type != REDIS_REPLY_INTEGER)
+  {
+    fprintf(stderr
+    , "exit(ATSCNTRB): [hiredis:redisReply_get_integer]: non-integer reply.\n"
+    ) ; exit(1) ;
+  }
+  return (((redisReply*)rep)->integer) ;
+} // end of [redisReply_get_integer]
+
+ATSinline()
+atstype_string
+redisReply_get_status
+(
+  struct redisReply *rep
+) {
+  if (((redisReply*)rep)->type != REDIS_REPLY_STATUS)
+  {
+    fprintf(stderr
+    , "exit(ATSCNTRB): [hiredis:redisReply_get_status]: non-status reply.\n"
+    ) ; exit(1) ;
+  }
+  return (((redisReply*)rep)->str) ;
+} // end of [redisReply_get_status]
+
+ATSinline()
+atstype_string
+redisReply_get_error
+(
+  struct redisReply *rep
+) {
+  if (((redisReply*)rep)->type != REDIS_REPLY_ERROR)
+  {
+    fprintf(stderr
+    , "exit(ATSCNTRB): [hiredis:redisReply_get_error]: non-error reply.\n"
+    ) ; exit(1) ;
+  }
+  return (((redisReply*)rep)->str) ;
+} // end of [redisReply_get_error]
+
 /* ****** ****** */
 
 #define atscntrb_hiredis_freeReplyObject freeReplyObject
-#define atscntrb_hiredis_redisReply_get_str(rep) (((redisReply*)rep)->str)
-#define atscntrb_hiredis_redisReply_get_integer(rep) (((redisReply*)rep)->integer)
 #define atscntrb_hiredis_redisReply_get_array redisReply_get_array
+#define atscntrb_hiredis_redisReply_get_string redisReply_get_string
+#define atscntrb_hiredis_redisReply_get_integer redisReply_get_integer
+#define atscntrb_hiredis_redisReply_get_status redisReply_get_status
+#define atscntrb_hiredis_redisReply_get_error redisReply_get_error
+#define atscntrb_hiredis_redisReply_get_type(rep) (((redisReply*)rep)->type)
 
 /* ****** ****** */
 
