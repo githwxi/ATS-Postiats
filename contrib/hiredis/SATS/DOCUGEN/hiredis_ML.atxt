@@ -1,0 +1,57 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../hiredis_ML.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_hiredis_hiredis_ML")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/hiredis/hiredis_ML\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+
+This package contains an API in ATS of ML-style
+for the <a href="https://github.com/redis/hiredis/">hiredis</a> package.\
+
+')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("redisVal")
+
+(* ****** ****** *)
+
+#declnamesynop("redisReply2Val0")
+#declnamesynop("redisReply2Val1")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_redisVal")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_get_val")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_set_int")
+#declnamesynop("redis_set_string")
+
+(* ****** ****** *)
+
+(* end of [hiredis.atxt] *)
