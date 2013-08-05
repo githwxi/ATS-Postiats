@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -56,6 +56,19 @@
 staload
 TIME = "libc/sys/SATS/time.sats"
 typedef timeval = $TIME.timeval
+
+(* ****** ****** *)
+
+macdef
+HIREDIS_MAJOR = $extval (int, "HIREDIS_MAJOR")
+macdef
+HIREDIS_MINOR = $extval (int, "HIREDIS_MINOR")
+macdef
+HIREDIS_PATCH = $extval (int, "HIREDIS_PATCH")
+
+(* ****** ****** *)
+
+fun{} hiredis_version (): int
 
 (* ****** ****** *)
 

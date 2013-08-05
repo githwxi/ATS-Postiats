@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,41 +27,34 @@
 
 (* ****** ****** *)
 
-(* Author: Hongwei Xi *)
-(* Authoremail: hwxi AT cs DOT bu DOT edu *)
-(* Start time: July, 2013 *)
+(*
+** Start Time: July, 2013
+** Author: Hanwen Wu
+** Authoremail: steinwaywhw AT gmail DOT com
+*)
+(*
+** Start Time: August, 2013
+** Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+*)
 
 (* ****** ****** *)
 
-absvtype stringbuf_vtype = ptr
-vtypedef stringbuf = stringbuf_vtype
+#define ATS_PACKNAME "ATSCNTRB.hiredis"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
+#define ATS_EXTERN_PREFIX "atscntrb_hiredis_" // prefix for external names
 
 (* ****** ****** *)
 
-fun{}
-stringbuf_make_nil (cap: sizeGte(1)): stringbuf
+staload "hiredis/SATS/hiredis.sats"
 
 (* ****** ****** *)
 
-fun{}
-stringbuf_getfree_strnptr
-  (sb: stringbuf, n: &size_t? >> size_t n):<!wrt> #[n:nat] strnptr(n)
-// end of [stringbuf_getfree_strnptr]
+implement{}
+hiredis_version () = 
+(
+1000 * (1000 * HIREDIS_MAJOR + HIREDIS_MINOR) + HIREDIS_PATCH
+)
 
 (* ****** ****** *)
 
-fun{}
-stringbuf_insert_at_char (sb: !stringbuf, x: charNZ): int
-fun{}
-stringbuf_insert_at_string (sb: !stringbuf, x: string): int
-
-(* ****** ****** *)
-
-fun{}
-stringbuf_insert_atend_char (sb: !stringbuf, x: charNZ): int
-fun{}
-stringbuf_insert_atend_string (sb: !stringbuf, x: string): int
-
-(* ****** ****** *)
-
-(* end of [stringbuf.sats] *)
+(* end of [hiredis.dats] *)
