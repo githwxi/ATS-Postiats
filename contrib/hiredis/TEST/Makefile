@@ -9,7 +9,17 @@ PATSHOMEQ="$(PATSHOME)"
 
 ######
 
-test01: test01.dats ; $(PATSCC) -cleanaft -IIATS $(PATSHOMEQ)/contrib -o $@ $< -lhiredis
+test01: test01.dats ; \
+  $(PATSCC) -cleanaft \
+    -IIATS $(PATSHOMEQ)/contrib -o $@ $< -lhiredis
+cleanall:: ; $(RMF) test01
+
+######
+
+test02: test02.dats ; \
+  $(PATSCC) -cleanaft -IIATS $(PATSHOMEQ)/contrib \
+    -DATS_MEMALLOC_GCBDW -o $@ $< testlib.dats -lhiredis -lgc
+cleanall:: ; $(RMF) test02
 
 ######
 
@@ -22,6 +32,5 @@ clean:: ; $(RMF) *_?ats.c
 clean:: ; $(RMF) *_?ats.o
 
 cleanall:: clean
-cleanall:: ; $(RMF) test01
 
 ###### end of [Makefile] ######

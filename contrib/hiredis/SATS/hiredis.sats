@@ -144,6 +144,7 @@ redisReply_get_error (rep: !redisReply1): vStrptr1 = "mac#%"
 (* ****** ****** *)
 
 fun redisReply_get_type (rep: !redisReply1): int = "mac#%"
+fun redisReply_get_strlen (rep: !redisReply1): int = "mac#%"
 
 (* ****** ****** *)
 

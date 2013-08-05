@@ -133,15 +133,17 @@ redisReply_get_error
 } // end of [redisReply_get_error]
 
 /* ****** ****** */
-
+//
 #define atscntrb_hiredis_freeReplyObject freeReplyObject
 #define atscntrb_hiredis_redisReply_get_array redisReply_get_array
 #define atscntrb_hiredis_redisReply_get_string redisReply_get_string
 #define atscntrb_hiredis_redisReply_get_integer redisReply_get_integer
 #define atscntrb_hiredis_redisReply_get_status redisReply_get_status
 #define atscntrb_hiredis_redisReply_get_error redisReply_get_error
+//
 #define atscntrb_hiredis_redisReply_get_type(rep) (((redisReply*)rep)->type)
-
+#define atscntrb_hiredis_redisReply_get_strlen(rep) (((redisReply*)rep)->len)
+//
 /* ****** ****** */
 
 #define atscntrb_hiredis_redisReaderFree redisReaderFree
