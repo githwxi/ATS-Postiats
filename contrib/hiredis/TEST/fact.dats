@@ -37,9 +37,9 @@ in
 //
 if n > 0 then let
 //
+val () = redis_set_int (ctx, arg, n-1)
 val-RDSVstring(r) = redis_get (ctx, res)
 val r = g0string2int_int (r)
-val () = redis_set_int (ctx, arg, n-1)
 val () = redis_set_int (ctx, res, n*r)
 //
 in

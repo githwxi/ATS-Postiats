@@ -192,10 +192,30 @@ end // end of [redisReply2Val1]
 (* ****** ****** *)
 
 implement
-redis_del
+redis_del1
   (ctx, k) = let
 val p0 = ptrcast (ctx)
 val rep = $extfcall (redisReply0, "redisCommand", p0, "DEL %s", k)
+val () = freeReplyObject (rep)
+//
+in
+  // nothing
+end // end of [redis_del1]
+implement
+redis_del2
+  (ctx, k1, k2) = let
+val p0 = ptrcast (ctx)
+val rep = $extfcall (redisReply0, "redisCommand", p0, "DEL %s %s", k1, k2)
+val () = freeReplyObject (rep)
+//
+in
+  // nothing
+end // end of [redis_del2]
+implement
+redis_del3
+  (ctx, k1, k2, k3) = let
+val p0 = ptrcast (ctx)
+val rep = $extfcall (redisReply0, "redisCommand", p0, "DEL %s %s %s", k1, k2, k3)
 val () = freeReplyObject (rep)
 //
 in
@@ -229,9 +249,6 @@ val () = freeReplyObject (rep)
 in
   // nothing
 end // end of [redis_set_int]
-
-(* ****** ****** *)
-
 implement
 redis_set_string
   (ctx, k, v) = let
@@ -247,15 +264,81 @@ end // end of [redis_set_string]
 (* ****** ****** *)
 
 implement
+redis_getset_int
+  (ctx, k, v) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall (redisReply0, "redisCommand", p0, "GETSET %s %i", k, v)
+val () = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_getset_int]
+implement
+redis_getset_string
+  (ctx, k, v) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall (redisReply0, "redisCommand", p0, "GETSET %s %s", k, v)
+val () = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_getset_string]
+
+(* ****** ****** *)
+
+implement
+redis_decr
+  (ctx, k) = let
+val p0 = ptrcast (ctx)
+val rep = $extfcall (redisReply0, "redisCommand", p0, "DECR %s", k)
+val () = assertloc (ptrcast(rep) > 0)
+val newval = redisReply_get_integer (rep)
+val ((*void*)) = freeReplyObject (rep)
+//
+in
+  newval
+end // end of [redis_decr]
+implement
+redis_decrby
+  (ctx, k, d) = let
+val p0 = ptrcast (ctx)
+val rep = $extfcall (redisReply0, "redisCommand", p0, "DECRBY %s %i", k, d)
+val () = assertloc (ptrcast(rep) > 0)
+val newval = redisReply_get_integer (rep)
+val ((*void*)) = freeReplyObject (rep)
+//
+in
+  newval
+end // end of [redis_decrby]
+
+(* ****** ****** *)
+
+implement
 redis_incr
   (ctx, k) = let
 val p0 = ptrcast (ctx)
 val rep = $extfcall (redisReply0, "redisCommand", p0, "INCR %s", k)
-val () = freeReplyObject (rep)
+val () = assertloc (ptrcast(rep) > 0)
+val newval = redisReply_get_integer (rep)
+val ((*void*)) = freeReplyObject (rep)
 //
 in
-  // nothing
+  newval
 end // end of [redis_incr]
+implement
+redis_incrby
+  (ctx, k, d) = let
+val p0 = ptrcast (ctx)
+val rep = $extfcall (redisReply0, "redisCommand", p0, "INCRBY %s %i", k, d)
+val () = assertloc (ptrcast(rep) > 0)
+val newval = redisReply_get_integer (rep)
+val ((*void*)) = freeReplyObject (rep)
+//
+in
+  newval
+end // end of [redis_incrby]
 
 (* ****** ****** *)
 

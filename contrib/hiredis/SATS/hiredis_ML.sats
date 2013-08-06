@@ -77,9 +77,21 @@ fun fprint_redisVal (FILEref, redisVal): void
 overload fprint with fprint_redisVal
 
 (* ****** ****** *)
-
-fun redis_del (!redisContext1, k: string): void
-
+//
+fun redis_del1
+  (!redisContext1, k: string): void
+fun redis_del2
+  (!redisContext1, k1: string, k2: string): void
+fun redis_del3
+  (!redisContext1, k1: string, k2: string, k3: string): void
+//
+symintr redis_del
+overload redis_del with redis_del1
+symintr redis_del
+overload redis_del with redis_del2
+symintr redis_del
+overload redis_del with redis_del3
+//
 (* ****** ****** *)
 
 fun redis_get
@@ -97,7 +109,20 @@ fun redis_set_string
 
 (* ****** ****** *)
 
-fun redis_incr (!redisContext1, k: string): void
+fun redis_getset_int
+  (!redisContext1, k: string, v: int): redisVal
+// end of [redis_getset_int]
+fun redis_getset_string
+  (!redisContext1, k: string, v: string): redisVal
+// end of [redis_getset_string]
+
+(* ****** ****** *)
+
+fun redis_decr (!redisContext1, k: string): llint
+fun redis_decrby (!redisContext1, k: string, d: int): llint
+
+fun redis_incr (!redisContext1, k: string): llint
+fun redis_incrby (!redisContext1, k: string, d: int): llint
 
 (* ****** ****** *)
 //

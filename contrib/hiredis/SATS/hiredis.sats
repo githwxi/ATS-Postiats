@@ -108,8 +108,9 @@ struct redisReply
 *)
 absvtype redisReply_vtype (l:addr) = ptr(l)
 vtypedef redisReply (l:addr) = redisReply_vtype (l)
-vtypedef redisReply0 = [l:addr] redisReply_vtype (l)
-vtypedef redisReply1 = [l:addr | l > null] redisReply_vtype (l)
+vtypedef redisReply = [l:addr] redisReply_vtype (l)
+vtypedef redisReply0 = [l:agez] redisReply_vtype (l)
+vtypedef redisReply1 = [l:addr | l >  null] redisReply_vtype (l)
 
 castfn
 redisReply2ptr{l:addr} (rep: !redisReply (l)):<> ptr (l)
@@ -152,7 +153,8 @@ fun redisReply_get_strptr (rep: !redisReply1): ptr = "mac#%"
 (*
 absvtype redisReadTask_vtype (l:addr) = ptr(l)
 vtypedef redisReadTask (l:addr) = redisReadTask_vtype (l)
-vtypedef redisReadTask0 = [l:addr] redisReadTask_vtype (l)
+vtypedef redisReadTask = [l:addr] redisReadTask_vtype (l)
+vtypedef redisReadTask0 = [l:agez] redisReadTask_vtype (l)
 vtypedef redisReadTask1 = [l:addr | l > null] redisReadTask_vtype (l)
 *)
 
@@ -181,7 +183,8 @@ struct redisReader
 *)
 absvtype redisReader_vtype (l:addr) = ptr(l)
 vtypedef redisReader (l:addr) = redisReader_vtype (l)
-vtypedef redisReader0 = [l:addr] redisReader_vtype (l)
+vtypedef redisReader = [l:addr] redisReader_vtype (l)
+vtypedef redisReader0 = [l:agez] redisReader_vtype (l)
 vtypedef redisReader1 = [l:addr | l > null] redisReader_vtype (l)
 
 castfn
@@ -239,7 +242,8 @@ typedef struct redisContext {
 *)
 absvtype redisContext_vtype (l:addr) = ptr(l)
 vtypedef redisContext (l:addr) = redisContext_vtype (l)
-vtypedef redisContext0 = [l:addr] redisContext_vtype (l)
+vtypedef redisContext = [l:addr] redisContext_vtype (l)
+vtypedef redisContext0 = [l:agez] redisContext_vtype (l)
 vtypedef redisContext1 = [l:addr | l > null] redisContext_vtype (l)
 
 castfn
