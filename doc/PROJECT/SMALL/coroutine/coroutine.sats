@@ -5,13 +5,13 @@
 
 absvtype
 coroutine_vtype
-  (inp: t@ype-, out: t@ype+) = ptr
+  (inp:t@ype-, out:t@ype+) = ptr
 stadef cortn = coroutine_vtype
 stadef coroutine = coroutine_vtype
 
 (* ****** ****** *)
 
-absvtype event_vtype (a: t@ype+) = ptr
+absvtype event_vtype (a:t@ype+) = ptr
 vtypedef event (a:t0p) = event_vtype (a)
 
 (* ****** ****** *)
@@ -72,6 +72,14 @@ co_arr_bind (
   cof: cortn (INV(a), INV(b))
 , cog: cortn (INV(b), INV(c))
 ) : cortn (a, c)
+
+(* ****** ****** *)
+
+fun{a,b,c:t0p}
+co_arr_fanout (
+  cof: cortn (INV(a), INV(b))
+, cog: cortn (INV(a), INV(c))
+) : cortn (a, @(b,c))
 
 (* ****** ****** *)
 

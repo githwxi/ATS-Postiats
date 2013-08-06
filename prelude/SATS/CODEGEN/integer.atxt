@@ -66,10 +66,13 @@ fun g0int2int_int_ssize (x: int):<> ssize_t = "mac\#%"
 #atscode_separator()
 
 fun{tk:tk}
-g0int_of_string
-  (str: NSH(string)):<> g0int (tk)
-// end of [g0int_of_string]
-
+g0string2int (str: NSH(string)):<> g0int (tk)
+//
+fun g0string2int_int (x: NSH(string)):<> int = "mac\#%"
+fun g0string2int_lint (x: NSH(string)):<> lint = "mac\#%"
+fun g0string2int_llint (x: NSH(string)):<> llint = "mac\#%"
+fun g0string2int_ssize (x: NSH(string)):<> ssize_t = "mac\#%"
+//
 #atscode_separator()
 
 typedef
@@ -239,12 +242,14 @@ fun g1int2int_int_ssize {i:int} (x: int i):<> ssize_t (i) = "mac\#%"
 #atscode_separator()
 
 fun{tk:tk}
-g1int_of_string (str: NSH(string)):<> g1int (tk)
+g1string2int (str: NSH(string)):<> g1int (tk)
 
 #atscode_separator()
 
-prfun g1int_get_index
-  {tk:tk} {i1:int} (x: g1int (tk, i1)): [i2:int] INTEQ (i1, i2)
+prfun
+g1int_get_index
+  {tk:tk}{i1:int}
+  (x: g1int (tk, i1)): [i2:int] INTEQ (i1, i2)
 // end of [g1int_get_index]
 
 #atscode_separator()
@@ -607,8 +612,13 @@ fun g0uint2uint_size_size (x: size_t):<> size_t = "mac\#%"
 #atscode_separator()
 
 fun{tk:tk}
-g0uint_of_string (str: NSH(string)):<> g0uint (tk)
-
+g0string2uint (str: NSH(string)):<> g0uint (tk)
+//
+fun g0string2uint_uint (x: NSH(string)):<> uint = "mac\#%"
+fun g0string2uint_ulint (x: NSH(string)):<> ulint = "mac\#%"
+fun g0string2uint_ullint (x: NSH(string)):<> ullint = "mac\#%"
+fun g0string2uint_size (x: NSH(string)):<> size_t = "mac\#%"
+//
 #atscode_separator()
 
 fun{tk:tk}
@@ -802,12 +812,14 @@ fun g1uint2uint_size_size : g1uint2uint_type (sizeknd, sizeknd) = "mac\#%"
 #atscode_separator()
 
 fun{tk:tk}
-g1uint_of_string (str: NSH(string)):<> g1uint (tk)
+g1string2uint (str: NSH(string)):<> g1uint (tk)
 
 #atscode_separator()
 
-prfun g1uint_get_index
-  {tk:tk} {i1:int} (x: g1uint (tk, i1)): [i2:int] INTEQ (i1, i2)
+prfun
+g1uint_get_index
+  {tk:tk}{i1:int}
+  (x: g1uint (tk, i1)): [i2:int] INTEQ (i1, i2)
 // end of [g1uint_get_index]
 
 #atscode_separator()

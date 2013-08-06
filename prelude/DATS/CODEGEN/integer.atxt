@@ -569,46 +569,23 @@ end // end of [g1uint_implist]
 #g1uint_implist("sizeknd", "size")\
 //
 #atscode_separator()
-
-local
-
-staload "libc/SATS/stdlib.sats"
-
-in (* in of [local] *)
-
-implement
-g0int_of_string<intknd> (str) = atoi (str)
-implement
-g0int_of_string<lintknd> (str) = atol (str)
-implement
-g0int_of_string<llintknd> (str) = atoll (str)
-implement
-g0int_of_string<ssizeknd> (str) = g0int2int (atol (str))
-
-implement
-g0uint_of_string<uintknd> (str) =
-  g0uint2uint (g0uint_of_string<ulintknd> (str))
-implement
-g0uint_of_string<ulintknd> (str) =
-  $effmask_wrt (strtoul0 (str, 10(*base*)))
-// end of [g0uint_of_string_ulint]
-implement
-g0uint_of_string<ullintknd> (str) =
-  $effmask_wrt (strtoull0 (str, 10(*base*)))
-// end of [g0uint_of_string_ullint]
-implement
-g0uint_of_string<sizeknd> (str) =
-  g0uint2uint (g0uint_of_string<ulintknd> (str))
-// end of [g0uint_of_string_size]
-
-end // end of [local]
-
+//
+implement g0string2int<intknd> = g0string2int_int
+implement g0string2int<lintknd> = g0string2int_lint
+implement g0string2int<llintknd> = g0string2int_llint
+implement g0string2int<ssizeknd> = g0string2int_ssize
+//
+implement g0string2uint<uintknd> = g0string2uint_uint
+implement g0string2uint<ulintknd> = g0string2uint_ulint
+implement g0string2uint<ullintknd> = g0string2uint_ullint
+implement g0string2uint<sizeknd> = g0string2uint_size
+//
 #atscode_separator()
 
 implement{tk}
-g1int_of_string (str) = g1ofg0_int (g0int_of_string<tk> (str))
+g1string2int (str) = g1ofg0_int (g0string2int<tk> (str))
 implement{tk}
-g1uint_of_string (str) = g1ofg0_uint (g0uint_of_string<tk> (str))
+g1string2uint (str) = g1ofg0_uint (g0string2uint<tk> (str))
 
 #atscode_separator()
 

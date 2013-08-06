@@ -57,22 +57,6 @@
 /* ****** ****** */
 
 ATSinline()
-atstype_arrptr
-redisReply_get_array
-(
-  struct redisReply *rep, size_t *asz
-) {
-  if (((redisReply*)rep)->type != REDIS_REPLY_ARRAY)
-  {
-    fprintf(stderr
-    , "exit(ATSCNTRB): [hiredis:redisReply_get_array]: non-array reply.\n"
-    ) ; exit(1) ;
-  }
-  *asz = ((redisReply*)rep)->elements ;
-  return (((redisReply*)rep)->element) ;
-} // end of [redisReply_get_array]
-
-ATSinline()
 atstype_string
 redisReply_get_string
 (
@@ -101,6 +85,22 @@ redisReply_get_integer
   }
   return (((redisReply*)rep)->integer) ;
 } // end of [redisReply_get_integer]
+
+ATSinline()
+atstype_arrptr
+redisReply_get_array
+(
+  struct redisReply *rep, size_t *asz
+) {
+  if (((redisReply*)rep)->type != REDIS_REPLY_ARRAY)
+  {
+    fprintf(stderr
+    , "exit(ATSCNTRB): [hiredis:redisReply_get_array]: non-array reply.\n"
+    ) ; exit(1) ;
+  }
+  *asz = ((redisReply*)rep)->elements ;
+  return (((redisReply*)rep)->element) ;
+} // end of [redisReply_get_array]
 
 ATSinline()
 atstype_string
@@ -143,6 +143,7 @@ redisReply_get_error
 //
 #define atscntrb_hiredis_redisReply_get_type(rep) (((redisReply*)rep)->type)
 #define atscntrb_hiredis_redisReply_get_strlen(rep) (((redisReply*)rep)->len)
+#define atscntrb_hiredis_redisReply_get_strptr(rep) (((redisReply*)rep)->str)
 //
 /* ****** ****** */
 

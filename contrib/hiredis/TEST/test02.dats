@@ -20,17 +20,47 @@ staload "hiredis/SATS/hiredis_ML.sats"
 val () =
 {
 //
-val ctx =
-redisConnectWithTimeout ("127.0.0.1", 6379, 1.0)
+val ctx = redisConnect ("127.0.0.1", 6379)
 val ((*void*)) = assertloc (ptrcast(ctx) > 0)
 //
 val () = redis_set_int (ctx, "foo", 0)
-val-RDSVstring (str) = redis_get_val (ctx, "foo")
-val () = println! ("str = ", str)
+val-RDSVstring (str) = redis_get (ctx, "foo")
+val () = println! ("foo = ", str)
 //
 val () = redis_set_string (ctx, "foo", "1")
-val-RDSVstring (str) = redis_get_val (ctx, "foo")
-val () = println! ("str = ", str)
+val-RDSVstring (str) = redis_get (ctx, "foo")
+val () = println! ("foo = ", str)
+//
+val () = redis_del (ctx, "counter")
+val () = redis_incr (ctx, "counter")
+val () = redis_incr (ctx, "counter")
+val-RDSVstring (int) = redis_get (ctx, "counter")
+val () = println! ("counter = ", int)
+//
+val () = redis_del (ctx, "mylist")
+val len = redis_llen (ctx, "mylist")
+val () = println! ("length(mylist) = ", len)
+val () = redis_rpush_int (ctx, "mylist", 1)
+val () = redis_rpush_int (ctx, "mylist", 2)
+val len = redis_llen (ctx, "mylist")
+val () = println! ("length(mylist) = ", len)
+//
+val rdsv =
+redis_lrange (ctx, "mylist", 0, ~1)
+val () = println! ("mylist = ", rdsv)
+//
+val () = redis_lpush_int (ctx, "mylist", 0)
+//
+val rdsv =
+redis_lrange (ctx, "mylist", 0,  2)
+val () = println! ("mylist = ", rdsv)
+//
+val () = redis_lpop (ctx, "mylist")
+val () = redis_rpop (ctx, "mylist")
+//
+val rdsv =
+redis_lrange (ctx, "mylist", 0, ~1)
+val () = println! ("mylist = ", rdsv)
 //
 val ((*void*)) = redisFree (ctx)
 //

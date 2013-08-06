@@ -54,11 +54,11 @@ staload "hiredis/SATS/hiredis.sats"
 
 datatype
 redisVal =
-| RDSVnil of ()
-| {n:nat}
-  RDSVarray of (arrayref (redisVal, n), size_t n)
 | RDSVstring of string
 | RDSVinteger of llint
+| {n:nat}
+  RDSVarray of (arrayref (redisVal, n), size_t n)
+| RDSVnil of ()
 | RDSVstatus of string
 | RDSVerror of string
 
@@ -69,13 +69,22 @@ fun redisReply2Val1 (rep: !redisReply1): redisVal
 
 (* ****** ****** *)
 
-fun fprint_redisVal (out: FILEref, v: redisVal): void
+fun print_redisVal (redisVal): void
+fun prerr_redisVal (redisVal): void
+overload print with print_redisVal
+overload prerr with prerr_redisVal
+fun fprint_redisVal (FILEref, redisVal): void
+overload fprint with fprint_redisVal
 
 (* ****** ****** *)
 
-fun redis_get_val
+fun redis_del (!redisContext1, k: string): void
+
+(* ****** ****** *)
+
+fun redis_get
   (!redisContext1, k: string): redisVal
-// end of [redis_get_val]
+// end of [redis_get]
 
 (* ****** ****** *)
 
@@ -86,6 +95,36 @@ fun redis_set_string
   (!redisContext1, k: string, v: string): void
 // end of [redis_set_string]
 
+(* ****** ****** *)
+
+fun redis_incr (!redisContext1, k: string): void
+
+(* ****** ****** *)
+//
+fun redis_llen
+  (!redisContext1, k: string): llint
+//
+fun redis_lpop
+  (!redisContext1, k: string): void
+//
+fun redis_lpush_int
+  (!redisContext1, k: string, v: int): void
+fun redis_lpush_string
+  (!redisContext1, k: string, v: string): void
+//
+fun redis_rpop
+  (!redisContext1, k: string): void
+//
+fun redis_rpush_int
+  (!redisContext1, k: string, v: int): void
+fun redis_rpush_string
+  (!redisContext1, k: string, v: string): void
+//
+fun redis_lrange
+(
+  !redisContext1, k: string, i0: int, i1: int
+) : redisVal // end of [redis_lrang]
+//
 (* ****** ****** *)
 
 (* end of [hiredis_ML.sats] *)

@@ -112,6 +112,55 @@ int fprintf (FILE *stream, const char *format, ...) ;
 \#define atspre_g1uint2uint_size_ullint atspre_g0uint2uint_size_ullint
 //
 #atscode_separator_for_C()
+//
+extern int atoi (const char *inp) ;
+extern long int atol (const char *inp) ;
+extern long long int atoll (const char *inp) ;
+//
+ATSinline()
+atstype_int
+atspre_g0string2int_int
+  (atstype_string inp) { return atoi((char*)inp) ; }
+ATSinline()
+atstype_lint
+atspre_g0string2int_lint
+  (atstype_string inp) { return atol((char*)inp) ; }
+ATSinline()
+atstype_llint
+atspre_g0string2int_llint
+  (atstype_string inp) { return atoll((char*)inp) ; }
+ATSinline()
+atstype_ssize
+atspre_g0string2int_ssize
+  (atstype_string inp) { return atol((char*)inp) ; }
+//
+#atscode_separator_for_C()
+//
+extern
+unsigned long int
+strtoul(const char *nptr, char **endptr, int base);
+extern
+unsigned long long int
+strtoull(const char *nptr, char **endptr, int base);
+//
+ATSinline()
+atstype_uint
+atspre_g0string2uint_uint
+  (atstype_string inp) { return strtoul((char*)inp, NULL, 10) ; }
+ATSinline()
+atstype_ulint
+atspre_g0string2uint_ulint
+  (atstype_string inp) { return strtoul((char*)inp, NULL, 10) ; }
+ATSinline()
+atstype_ullint
+atspre_g0string2uint_ullint
+  (atstype_string inp) { return strtoull((char*)inp, NULL, 10) ; }
+ATSinline()
+atstype_size
+atspre_g0string2uint_size
+  (atstype_string inp) { return strtoul((char*)inp, NULL, 10) ; }
+//
+#atscode_separator_for_C()
 
 %{
 local

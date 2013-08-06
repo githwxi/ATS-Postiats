@@ -232,7 +232,7 @@ implement
 array_mapto$fwork<a><b>
   (x, y) = matrix_mapto$fwork<a><b> (x, y)
 //
-in(* in of [local] *)
+in (* in of [local] *)
 //
 val ((*void*)) = array_mapto<a><b> (!pA, !pB, m*n)
 //
@@ -266,7 +266,7 @@ implement
 array_map2to$fwork<a,b><c>
   (x, y, z) = matrix_map2to$fwork<a,b><c> (x, y, z)
 //
-in(* in of [local] *)
+in (* in of [local] *)
 //
 val ((*void*)) = array_map2to<a,b><c> (!pA, !pB, !pC, m*n)
 //

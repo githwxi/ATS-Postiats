@@ -6,6 +6,11 @@
 #define ATS_PACKNAME "testlib"
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
+(* ****** ****** *)
 
 staload "hiredis/SATS/hiredis.sats"
 staload "hiredis/SATS/hiredis_ML.sats"

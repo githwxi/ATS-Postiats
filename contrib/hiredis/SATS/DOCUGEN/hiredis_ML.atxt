@@ -45,12 +45,40 @@ for the <a href="https://github.com/redis/hiredis/">hiredis</a> package.\
 
 (* ****** ****** *)
 
-#declnamesynop("redis_get_val")
+#declnamesynop("redis_del")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_get")
 
 (* ****** ****** *)
 
 #declnamesynop("redis_set_int")
 #declnamesynop("redis_set_string")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_incr")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_llen")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_lpop")
+#declnamesynop("redis_lpush_int")
+#declnamesynop("redis_lpush_string")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_rpop")
+#declnamesynop("redis_rpush_int")
+#declnamesynop("redis_rpush_string")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_lrange")
 
 (* ****** ****** *)
 

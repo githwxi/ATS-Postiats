@@ -127,7 +127,7 @@ fun
 redisReply_get_array
 (
   rep: !redisReply1, n: &size_t? >> size_t n
-) : #[l:addr;n:int]
+) : #[l:addr;n:nat]
 (
   array_v (redisReply1, l, n)
 , array_v (redisReply1, l, n) -<lin,prf> void | ptr l
@@ -145,6 +145,7 @@ redisReply_get_error (rep: !redisReply1): vStrptr1 = "mac#%"
 
 fun redisReply_get_type (rep: !redisReply1): int = "mac#%"
 fun redisReply_get_strlen (rep: !redisReply1): int = "mac#%"
+fun redisReply_get_strptr (rep: !redisReply1): ptr = "mac#%"
 
 (* ****** ****** *)
 

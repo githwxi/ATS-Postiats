@@ -129,6 +129,20 @@ end (* end of [llam] *)
 (* ****** ****** *)
 
 implement
+{a,b,c}
+co_arr_fanout
+  (cof, cog) = 
+lcfun2cortn{a,@(b,c)}
+(
+llam (x) => let
+  val (y, cof) = co_run2<a,b> (cof, x)
+  val (z, cog) = co_run2<a,c> (cog, x) in ((y, z), co_arr_fanout (cof, cog))
+end (* end of [llam] *)
+) // end of [co_arr_fanout]
+
+(* ****** ****** *)
+
+implement
 {a,b}
 co_arr_loop
   (co, y0) =
