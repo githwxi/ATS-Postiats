@@ -54,13 +54,13 @@ staload "hiredis/SATS/hiredis.sats"
 
 datatype
 redisVal =
-| RDSVstring of string
-| RDSVinteger of llint
+| RDSstring of string
+| RDSinteger of llint
 | {n:nat}
-  RDSVarray of (arrayref (redisVal, n), size_t n)
-| RDSVnil of ()
-| RDSVstatus of string
-| RDSVerror of string
+  RDSarray of (arrayref (redisVal, n), size_t n)
+| RDSnil of ()
+| RDSstatus of string
+| RDSerror of string
 
 (* ****** ****** *)
 
@@ -77,21 +77,30 @@ fun fprint_redisVal (FILEref, redisVal): void
 overload fprint with fprint_redisVal
 
 (* ****** ****** *)
+
+fun redis_ping
+  (!redisContext1): redisVal
+
+(* ****** ****** *)
 //
 fun redis_del1
-  (!redisContext1, k: string): void
+  (!redisContext1, k: string): redisVal
 fun redis_del2
-  (!redisContext1, k1: string, k2: string): void
+  (!redisContext1, k1: string, k2: string): redisVal
 fun redis_del3
-  (!redisContext1, k1: string, k2: string, k3: string): void
+  (!redisContext1, k1: string, k2: string, k3: string): redisVal
 //
 symintr redis_del
 overload redis_del with redis_del1
-symintr redis_del
 overload redis_del with redis_del2
-symintr redis_del
 overload redis_del with redis_del3
 //
+(* ****** ****** *)
+
+fun redis_exists
+  (!redisContext1, k: string): redisVal
+// end of [redis_exists]
+  
 (* ****** ****** *)
 
 fun redis_get
@@ -101,10 +110,10 @@ fun redis_get
 (* ****** ****** *)
 
 fun redis_set_int
-  (!redisContext1, k: string, v: int): void
+  (!redisContext1, k: string, v: int): redisVal
 // end of [redis_set_string]
 fun redis_set_string
-  (!redisContext1, k: string, v: string): void
+  (!redisContext1, k: string, v: string): redisVal
 // end of [redis_set_string]
 
 (* ****** ****** *)
@@ -118,37 +127,44 @@ fun redis_getset_string
 
 (* ****** ****** *)
 
-fun redis_decr (!redisContext1, k: string): llint
-fun redis_decrby (!redisContext1, k: string, d: int): llint
+fun redis_decr (!redisContext1, k: string): redisVal
+fun redis_decrby (!redisContext1, k: string, d: int): redisVal
 
-fun redis_incr (!redisContext1, k: string): llint
-fun redis_incrby (!redisContext1, k: string, d: int): llint
+fun redis_incr (!redisContext1, k: string): redisVal
+fun redis_incrby (!redisContext1, k: string, d: int): redisVal
+
+(* ****** ****** *)
+
+fun redis_rename
+  (!redisContext1, k: string, k2: string): redisVal
+// end of [redis_rename]
 
 (* ****** ****** *)
 //
 fun redis_llen
-  (!redisContext1, k: string): llint
+  (!redisContext1, k: string): redisVal
 //
 fun redis_lpop
-  (!redisContext1, k: string): void
+  (!redisContext1, k: string): redisVal
 //
 fun redis_lpush_int
-  (!redisContext1, k: string, v: int): void
+  (!redisContext1, k: string, v: int): redisVal
 fun redis_lpush_string
-  (!redisContext1, k: string, v: string): void
+  (!redisContext1, k: string, v: string): redisVal
 //
 fun redis_rpop
-  (!redisContext1, k: string): void
+  (!redisContext1, k: string): redisVal
 //
 fun redis_rpush_int
-  (!redisContext1, k: string, v: int): void
+  (!redisContext1, k: string, v: int): redisVal
 fun redis_rpush_string
-  (!redisContext1, k: string, v: string): void
+  (!redisContext1, k: string, v: string): redisVal
+//
+fun redis_lindex
+  (!redisContext1, k: string, i: int): redisVal
 //
 fun redis_lrange
-(
-  !redisContext1, k: string, i0: int, i1: int
-) : redisVal // end of [redis_lrang]
+  (!redisContext1, k: string, i0: int, i1: int): redisVal
 //
 (* ****** ****** *)
 

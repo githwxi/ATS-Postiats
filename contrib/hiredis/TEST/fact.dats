@@ -30,17 +30,17 @@ fun loop
   ctx: !redisContext1
 ) : void = let
 //
-val-RDSVstring(n) = redis_get (ctx, arg)
+val-RDSstring(n) = redis_get (ctx, arg)
 val n = g0string2int_int (n)
 //
 in
 //
 if n > 0 then let
 //
-val () = redis_set_int (ctx, arg, n-1)
-val-RDSVstring(r) = redis_get (ctx, res)
+val _ = redis_set_int (ctx, arg, n-1)
+val-RDSstring(r) = redis_get (ctx, res)
 val r = g0string2int_int (r)
-val () = redis_set_int (ctx, res, n*r)
+val _ = redis_set_int (ctx, res, n*r)
 //
 in
   loop (ctx)
@@ -52,10 +52,10 @@ val ctx =
   redisConnect ("127.0.0.1", 6379)
 val () = assertloc (ptrcast(ctx) > 0)
 //
-val () = redis_set_int (ctx, arg, n)
-val () = redis_set_int (ctx, res, 1)
+val _ = redis_set_int (ctx, arg, n)
+val _ = redis_set_int (ctx, res, 1)
 val () = loop (ctx)
-val-RDSVstring (r) = redis_get (ctx, res)
+val-RDSstring (r) = redis_get (ctx, res)
 //
 val ((*void*)) = redisFree (ctx)
 //

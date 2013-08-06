@@ -23,27 +23,35 @@ val () =
 val ctx = redisConnect ("127.0.0.1", 6379)
 val ((*void*)) = assertloc (ptrcast(ctx) > 0)
 //
-val () = redis_set_int (ctx, "foo", 0)
-val-RDSVstring (str) = redis_get (ctx, "foo")
+val r = redis_ping (ctx)
+val () = println! ("PING: ", r)
+//
+val _ = redis_set_int (ctx, "foo", 0)
+val-RDSstring (str) = redis_get (ctx, "foo")
 val () = println! ("foo = ", str)
-val-RDSVstring (str) = redis_getset_string (ctx, "foo", "1")
+val-RDSstring (str) = redis_getset_string (ctx, "foo", "1")
 val () = println! ("foo(old) = ", str)
-val-RDSVstring (str) = redis_get (ctx, "foo")
+val-RDSstring (str) = redis_get (ctx, "foo")
 val () = println! ("foo(new) = ", str)
 //
-val () = redis_del (ctx, "counter")
+val _ = redis_del (ctx, "counter")
+//
+val-RDSinteger
+  (i) = redis_exists (ctx, "counter")
+val () = println! ("EXISTS counter = ", i)
+//
 val ret = redis_incr (ctx, "counter")
 val () = println! ("counter = ", ret)
 val ret = redis_decr (ctx, "counter")
 val () = println! ("counter = ", ret)
-val-RDSVstring (int) = redis_get (ctx, "counter")
+val-RDSstring (int) = redis_get (ctx, "counter")
 val () = println! ("counter = ", int)
 //
-val () = redis_del (ctx, "mylist")
+val _ = redis_del (ctx, "mylist")
 val len = redis_llen (ctx, "mylist")
 val () = println! ("length(mylist) = ", len)
-val () = redis_rpush_int (ctx, "mylist", 1)
-val () = redis_rpush_int (ctx, "mylist", 2)
+val _ = redis_rpush_int (ctx, "mylist", 1)
+val _ = redis_rpush_int (ctx, "mylist", 2)
 val len = redis_llen (ctx, "mylist")
 val () = println! ("length(mylist) = ", len)
 //
@@ -51,14 +59,14 @@ val rdsv =
 redis_lrange (ctx, "mylist", 0, ~1)
 val () = println! ("mylist = ", rdsv)
 //
-val () = redis_lpush_int (ctx, "mylist", 0)
+val _ = redis_lpush_int (ctx, "mylist", 0)
 //
 val rdsv =
 redis_lrange (ctx, "mylist", 0,  2)
 val () = println! ("mylist = ", rdsv)
 //
-val () = redis_lpop (ctx, "mylist")
-val () = redis_rpop (ctx, "mylist")
+val _ = redis_lpop (ctx, "mylist")
+val _ = redis_rpop (ctx, "mylist")
 //
 val rdsv =
 redis_lrange (ctx, "mylist", 0, ~1)

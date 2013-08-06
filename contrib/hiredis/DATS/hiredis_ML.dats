@@ -85,19 +85,19 @@ fprint_redisVal
 in
 //
 case+ x of
-| RDSVstring (str) =>
-    fprint! (out, "RDSVstring(", str, ")")
-| RDSVinteger (int) =>
-    fprint! (out, "RDSVinteger(", int, ")")
-| RDSVarray (A, n) =>
+| RDSstring (str) =>
+    fprint! (out, "RDSstring(", str, ")")
+| RDSinteger (int) =>
+    fprint! (out, "RDSinteger(", int, ")")
+| RDSarray (A, n) =>
   {
-    val () = fprint (out, "RDSVarray(")
+    val () = fprint (out, "RDSarray(")
     val () = fprint_arrayref_sep (out, A, n, ", ")
     val () = fprint (out, ")")
   }
-| RDSVnil () => fprint! (out, "RDSVnil(", ")")
-| RDSVstatus (str) => fprint! (out, "RDSVstatus(", str, ")")
-| RDSVerror (str) => fprint! (out, "RDSVerror(", str, ")")
+| RDSnil () => fprint! (out, "RDSnil(", ")")
+| RDSstatus (str) => fprint! (out, "RDSstatus(", str, ")")
+| RDSerror (str) => fprint! (out, "RDSerror(", str, ")")
 //
 end // end of [fprint_redisVal]
 
@@ -135,14 +135,14 @@ case+ t of
     REDIS_REPLY_STRING => let
     val str = redisReply_strdup (rep)
   in
-    RDSVstring (strptr2string(str))
+    RDSstring (strptr2string(str))
   end // end of [STRING]
 //
 | _ when t =
     REDIS_REPLY_INTEGER => let
     val int = redisReply_get_integer (rep)
   in
-    RDSVinteger (int)
+    RDSinteger (int)
   end // end of [INTEGER]
 //
 | _ when t =
@@ -165,24 +165,24 @@ case+ t of
     prval () = fpf (pf)
     val A2 = $UN.castvwtp0{arrayref(b,n)}((pf2, pf2gc | p2))
   in
-    RDSVarray (A2, asz)
+    RDSarray (A2, asz)
   end // end of [ARRAY]
 //
 | _ when t =
-    REDIS_REPLY_NIL => RDSVnil ()
+    REDIS_REPLY_NIL => RDSnil ()
 //
 | _ when t =
     REDIS_REPLY_STATUS => let
     val str = redisReply_strdup (rep)
   in
-    RDSVstatus (strptr2string(str))
+    RDSstatus (strptr2string(str))
   end // end of [STATUS]
 //
 | _ when t =
     REDIS_REPLY_ERROR => let
     val str = redisReply_strdup (rep)
   in
-    RDSVerror (strptr2string(str))
+    RDSerror (strptr2string(str))
   end // end of [ERROR]
 //
 | _ => let val () = assertloc (false) in exit(1) end
@@ -192,35 +192,78 @@ end // end of [redisReply2Val1]
 (* ****** ****** *)
 
 implement
-redis_del1
-  (ctx, k) = let
+redis_ping
+  (ctx) = let
+//
 val p0 = ptrcast (ctx)
-val rep = $extfcall (redisReply0, "redisCommand", p0, "DEL %s", k)
-val () = freeReplyObject (rep)
+val rep = $extfcall
+(
+  redisReply0, "redisCommand", p0, "PING"
+)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
-  // nothing
+  redisReply2Val0 (rep)
+end // end of [redis_ping]
+
+(* ****** ****** *)
+
+implement
+redis_del1
+  (ctx, k) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall
+(
+  redisReply0, "redisCommand", p0, "DEL %s", k
+)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
 end // end of [redis_del1]
 implement
 redis_del2
   (ctx, k1, k2) = let
+//
 val p0 = ptrcast (ctx)
-val rep = $extfcall (redisReply0, "redisCommand", p0, "DEL %s %s", k1, k2)
-val () = freeReplyObject (rep)
+val rep = $extfcall
+(
+  redisReply0, "redisCommand", p0, "DEL %s %s", k1, k2
+)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
-  // nothing
+  redisReply2Val0 (rep)
 end // end of [redis_del2]
 implement
 redis_del3
   (ctx, k1, k2, k3) = let
+//
 val p0 = ptrcast (ctx)
-val rep = $extfcall (redisReply0, "redisCommand", p0, "DEL %s %s %s", k1, k2, k3)
-val () = freeReplyObject (rep)
+val rep = $extfcall
+(
+  redisReply0, "redisCommand", p0, "DEL %s %s %s", k1, k2, k3
+)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
-  // nothing
-end // end of [redis_del]
+  redisReply2Val0 (rep)
+end // end of [redis_del3]
+
+(* ****** ****** *)
+
+implement
+redis_exists
+  (ctx, k) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall (redisReply0, "redisCommand", p0, "EXISTS %s", k)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_exists]
 
 (* ****** ****** *)
 
@@ -230,7 +273,7 @@ redis_get
 //
 val p0 = ptrcast (ctx)
 val rep = $extfcall (redisReply0, "redisCommand", p0, "GET %s", k)
-val () = assertloc (ptrcast(rep) > 0)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
   redisReply2Val0 (rep)
@@ -244,10 +287,10 @@ redis_set_int
 //
 val p0 = ptrcast (ctx)
 val rep = $extfcall (redisReply0, "redisCommand", p0, "SET %s %i", k, v)
-val () = freeReplyObject (rep)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
-  // nothing
+  redisReply2Val0 (rep)
 end // end of [redis_set_int]
 implement
 redis_set_string
@@ -255,10 +298,10 @@ redis_set_string
 //
 val p0 = ptrcast (ctx)
 val rep = $extfcall (redisReply0, "redisCommand", p0, "SET %s %s", k, v)
-val () = freeReplyObject (rep)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
-  // nothing
+  redisReply2Val0 (rep)
 end // end of [redis_set_string]
 
 (* ****** ****** *)
@@ -269,7 +312,7 @@ redis_getset_int
 //
 val p0 = ptrcast (ctx)
 val rep = $extfcall (redisReply0, "redisCommand", p0, "GETSET %s %i", k, v)
-val () = assertloc (ptrcast(rep) > 0)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
   redisReply2Val0 (rep)
@@ -280,7 +323,7 @@ redis_getset_string
 //
 val p0 = ptrcast (ctx)
 val rep = $extfcall (redisReply0, "redisCommand", p0, "GETSET %s %s", k, v)
-val () = assertloc (ptrcast(rep) > 0)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
   redisReply2Val0 (rep)
@@ -291,26 +334,24 @@ end // end of [redis_getset_string]
 implement
 redis_decr
   (ctx, k) = let
+//
 val p0 = ptrcast (ctx)
 val rep = $extfcall (redisReply0, "redisCommand", p0, "DECR %s", k)
-val () = assertloc (ptrcast(rep) > 0)
-val newval = redisReply_get_integer (rep)
-val ((*void*)) = freeReplyObject (rep)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
-  newval
+  redisReply2Val0 (rep)
 end // end of [redis_decr]
 implement
 redis_decrby
   (ctx, k, d) = let
+//
 val p0 = ptrcast (ctx)
 val rep = $extfcall (redisReply0, "redisCommand", p0, "DECRBY %s %i", k, d)
-val () = assertloc (ptrcast(rep) > 0)
-val newval = redisReply_get_integer (rep)
-val ((*void*)) = freeReplyObject (rep)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
-  newval
+  redisReply2Val0 (rep)
 end // end of [redis_decrby]
 
 (* ****** ****** *)
@@ -318,27 +359,39 @@ end // end of [redis_decrby]
 implement
 redis_incr
   (ctx, k) = let
+//
 val p0 = ptrcast (ctx)
 val rep = $extfcall (redisReply0, "redisCommand", p0, "INCR %s", k)
-val () = assertloc (ptrcast(rep) > 0)
-val newval = redisReply_get_integer (rep)
-val ((*void*)) = freeReplyObject (rep)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
-  newval
+  redisReply2Val0 (rep)
 end // end of [redis_incr]
 implement
 redis_incrby
   (ctx, k, d) = let
+//
 val p0 = ptrcast (ctx)
 val rep = $extfcall (redisReply0, "redisCommand", p0, "INCRBY %s %i", k, d)
-val () = assertloc (ptrcast(rep) > 0)
-val newval = redisReply_get_integer (rep)
-val ((*void*)) = freeReplyObject (rep)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
-  newval
+  redisReply2Val0 (rep)
 end // end of [redis_incrby]
+
+(* ****** ****** *)
+
+implement
+redis_rename
+  (ctx, k, k2) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall (redisReply0, "redisCommand", p0, "RENAME %s %s", k, k2)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_rename]
 
 (* ****** ****** *)
 
@@ -348,12 +401,10 @@ redis_llen
 //
 val p0 = ptrcast (ctx)
 val rep = $extfcall (redisReply0, "redisCommand", p0, "LLEN %s", k)
-val () = assertloc (ptrcast(rep) > 0)
-val len = redisReply_get_integer (rep)
-val () = freeReplyObject (rep)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
-  len
+  redisReply2Val0 (rep)
 end // end of [redis_llen]
 
 (* ****** ****** *)
@@ -361,34 +412,37 @@ end // end of [redis_llen]
 implement
 redis_lpop
   (ctx, k) = let
+//
 val p0 = ptrcast (ctx)
 val rep = $extfcall (redisReply0, "redisCommand", p0, "LPOP %s", k)
-val () = freeReplyObject (rep)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
-  // nothing
+  redisReply2Val0 (rep)
 end // end of [redis_lpop]
 
 implement
 redis_lpush_int
   (ctx, k, v) = let
+//
 val p0 = ptrcast (ctx)
 val rep = $extfcall (redisReply0, "redisCommand", p0, "LPUSH %s %i", k, v)
-val () = freeReplyObject (rep)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
-  // nothing
+  redisReply2Val0 (rep)
 end // end of [redis_lpush_int]
 
 implement
 redis_lpush_string
   (ctx, k, v) = let
+//
 val p0 = ptrcast (ctx)
 val rep = $extfcall (redisReply0, "redisCommand", p0, "LPUSH %s %s", k, v)
-val () = freeReplyObject (rep)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
-  // nothing
+  redisReply2Val0 (rep)
 end // end of [redis_lpush_string]
 
 (* ****** ****** *)
@@ -396,44 +450,62 @@ end // end of [redis_lpush_string]
 implement
 redis_rpop
   (ctx, k) = let
+//
 val p0 = ptrcast (ctx)
 val rep = $extfcall (redisReply0, "redisCommand", p0, "RPOP %s", k)
-val () = freeReplyObject (rep)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
-  // nothing
+  redisReply2Val0 (rep)
 end // end of [redis_rpop]
 
 implement
 redis_rpush_int
   (ctx, k, v) = let
+//
 val p0 = ptrcast (ctx)
 val rep = $extfcall (redisReply0, "redisCommand", p0, "RPUSH %s %i", k, v)
-val () = freeReplyObject (rep)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
-  // nothing
+  redisReply2Val0 (rep)
 end // end of [redis_rpush_int]
 
 implement
 redis_rpush_string
   (ctx, k, v) = let
+//
 val p0 = ptrcast (ctx)
 val rep = $extfcall (redisReply0, "redisCommand", p0, "RPUSH %s %s", k, v)
-val () = freeReplyObject (rep)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
-  // nothing
+  redisReply2Val0 (rep)
 end // end of [redis_rpush_string]
+
+(* ****** ****** *)
+
+implement
+redis_lindex
+  (ctx, k, i) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall (redisReply0, "redisCommand", p0, "LINDEX %s %i", k, i)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_lindex]
 
 (* ****** ****** *)
 
 implement
 redis_lrange
   (ctx, k, i0, i1) = let
+//
 val p0 = ptrcast (ctx)
 val rep = $extfcall (redisReply0, "redisCommand", p0, "LRANGE %s %i %i", k, i0, i1)
-val () = assertloc (ptrcast(rep) > 0)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
 //
 in
   redisReply2Val0 (rep)

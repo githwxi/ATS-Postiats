@@ -46,6 +46,9 @@ for the <a href="https://github.com/redis/hiredis/">hiredis</a> package.\
 (* ****** ****** *)
 
 #declnamesynop("redis_del")
+#declnamesynop("redis_del1")
+#declnamesynop("redis_del2")
+#declnamesynop("redis_del3")
 
 (* ****** ****** *)
 
@@ -58,7 +61,13 @@ for the <a href="https://github.com/redis/hiredis/">hiredis</a> package.\
 
 (* ****** ****** *)
 
+#declnamesynop("redis_decr")
+#declnamesynop("redis_decrby")
+
+(* ****** ****** *)
+
 #declnamesynop("redis_incr")
+#declnamesynop("redis_incrby")
 
 (* ****** ****** *)
 
@@ -75,6 +84,10 @@ for the <a href="https://github.com/redis/hiredis/">hiredis</a> package.\
 #declnamesynop("redis_rpop")
 #declnamesynop("redis_rpush_int")
 #declnamesynop("redis_rpush_string")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_lindex")
 
 (* ****** ****** *)
 
