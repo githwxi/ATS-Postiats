@@ -91,6 +91,15 @@ fun redis_echo (!redisContext1, msg: string): redisVal
 fun redis_quit (ctx: redisContext1): redisVal
 
 (* ****** ****** *)
+
+fun redis_keys (!redisContext1, pat: string): redisVal
+
+(* ****** ****** *)
+
+fun redis_flushdb (!redisContext1): redisVal
+fun redis_flushall (!redisContext1): redisVal
+
+(* ****** ****** *)
 //
 fun redis_del1
   (!redisContext1, k: string): redisVal
