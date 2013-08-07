@@ -77,9 +77,18 @@ fun fprint_redisVal (FILEref, redisVal): void
 overload fprint with fprint_redisVal
 
 (* ****** ****** *)
+//
+fun redis_auth
+  (!redisContext1, pass: string): redisVal
+//
+(* ****** ****** *)
 
-fun redis_ping
-  (!redisContext1): redisVal
+fun redis_ping (!redisContext1): redisVal
+fun redis_echo (!redisContext1, msg: string): redisVal
+
+(* ****** ****** *)
+
+fun redis_quit (ctx: redisContext1): redisVal
 
 (* ****** ****** *)
 //
@@ -106,6 +115,12 @@ fun redis_exists
 fun redis_get
   (!redisContext1, k: string): redisVal
 // end of [redis_get]
+
+(* ****** ****** *)
+
+fun redis_strlen
+  (!redisContext1, k: string): redisVal
+// end of [redis_strlen]
 
 (* ****** ****** *)
 
@@ -165,6 +180,37 @@ fun redis_lindex
 //
 fun redis_lrange
   (!redisContext1, k: string, i0: int, i1: int): redisVal
+//
+(* ****** ****** *)
+//
+fun redis_scard
+  (!redisContext1, k: string): redisVal
+//
+fun redis_sadd_int
+  (!redisContext1, k: string, v: int): redisVal
+fun redis_sadd_string
+  (!redisContext1, k: string, v: string): redisVal
+//
+fun redis_srem_int
+  (!redisContext1, k: string, v: int): redisVal
+fun redis_srem_string
+  (!redisContext1, k: string, v: string): redisVal
+//
+fun redis_spop
+  (!redisContext1, k: string): redisVal
+//
+fun redis_smove_int
+  (!redisContext1, k1: string, k2: string, v: int): redisVal
+fun redis_smove_string
+  (!redisContext1, k1: string, k2: string, v: string): redisVal
+//
+fun redis_smembers
+  (!redisContext1, k: string): redisVal
+//
+fun redis_sismember_int
+  (!redisContext1, k: string, v: int): redisVal
+fun redis_sismember_string
+  (!redisContext1, k: string, v: string): redisVal
 //
 (* ****** ****** *)
 
