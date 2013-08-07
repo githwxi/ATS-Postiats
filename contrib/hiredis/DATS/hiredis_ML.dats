@@ -262,6 +262,55 @@ end // end of [redis_ping]
 (* ****** ****** *)
 
 implement
+redis_keys
+  (ctx, pat) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall
+(
+  redisReply0, "redisCommand", p0, "KEYS %s", pat
+)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_keys]
+
+(* ****** ****** *)
+
+implement
+redis_flushdb
+  (ctx) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall
+(
+  redisReply0, "redisCommand", p0, "FLUSHDB"
+)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_flushdb]
+
+implement
+redis_flushall
+  (ctx) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall
+(
+  redisReply0, "redisCommand", p0, "FLUSHALL"
+)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_flushall]
+
+(* ****** ****** *)
+
+implement
 redis_del1
   (ctx, k) = let
 //

@@ -104,6 +104,11 @@ val () = println! ("SPOP: ", redis_spop (ctx, "myset"))
 val rds = redis_smembers (ctx, "myset")
 val () = println! ("myset = ", rds)
 //
+val () =
+println! ("KEYS *: ", redis_keys (ctx, "*"))
+val (
+) = println! ("FLUSHDB: ", redis_flushdb (ctx))
+//
 val () = println! ("QUIT: ", redis_quit (ctx))
 //
 } (* end of [val] *)
