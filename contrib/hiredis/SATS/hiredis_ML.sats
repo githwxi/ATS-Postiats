@@ -142,6 +142,15 @@ fun redis_set_string
 
 (* ****** ****** *)
 
+fun redis_setnx_int
+  (!redisContext1, k: string, v: int): redisVal
+// end of [redis_setnx_string]
+fun redis_setnx_string
+  (!redisContext1, k: string, v: string): redisVal
+// end of [redis_setnx_string]
+
+(* ****** ****** *)
+
 fun redis_getset_int
   (!redisContext1, k: string, v: int): redisVal
 // end of [redis_getset_int]
@@ -156,6 +165,7 @@ fun redis_decrby (!redisContext1, k: string, d: int): redisVal
 
 fun redis_incr (!redisContext1, k: string): redisVal
 fun redis_incrby (!redisContext1, k: string, d: int): redisVal
+fun redis_incrbyfloat (!redisContext1, k: string, d: double): redisVal
 
 (* ****** ****** *)
 
@@ -220,6 +230,48 @@ fun redis_sismember_int
   (!redisContext1, k: string, v: int): redisVal
 fun redis_sismember_string
   (!redisContext1, k: string, v: string): redisVal
+//
+(* ****** ****** *)
+
+fun redis_hlen
+  (!redisContext1, k: string): redisVal
+//
+fun redis_hkeys
+  (!redisContext1, k: string): redisVal
+fun redis_hvals
+  (!redisContext1, k: string): redisVal
+//
+fun redis_hexists
+  (!redisContext1, k: string, f: string): redisVal
+//
+fun redis_hdel1
+  (!redisContext1, k: string, f: string): redisVal
+fun redis_hdel2
+  (!redisContext1, k: string, f1: string, f2: string): redisVal
+//
+symintr redis_hdel
+overload redis_hdel with redis_hdel1
+overload redis_hdel with redis_hdel2
+//
+fun redis_hget
+  (!redisContext1, k: string, f: string): redisVal
+//
+fun redis_hset_int
+  (!redisContext1, k: string, f: string, v: int): redisVal
+fun redis_hset_string
+  (!redisContext1, k: string, f: string, v: string): redisVal
+//
+fun redis_hgetall (!redisContext1, k: string): redisVal
+//
+fun redis_hsetnx_int
+  (!redisContext1, k: string, f: string, v: int): redisVal
+fun redis_hsetnx_string
+  (!redisContext1, k: string, f: string, v: string): redisVal
+//
+fun redis_hincrby
+  (!redisContext1, k: string, f: string, d: int): redisVal
+fun redis_hincrbyfloat
+  (!redisContext1, k: string, f: string, d: double): redisVal
 //
 (* ****** ****** *)
 

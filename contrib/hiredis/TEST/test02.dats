@@ -104,6 +104,29 @@ val () = println! ("SPOP: ", redis_spop (ctx, "myset"))
 val rds = redis_smembers (ctx, "myset")
 val () = println! ("myset = ", rds)
 //
+val _ = redis_hset_int (ctx, "myhtable", "a", 0)
+val _ = redis_hset_int (ctx, "myhtable", "b", 1)
+val _ = redis_hset_int (ctx, "myhtable", "c", 2)
+//
+val _ = redis_hincrby (ctx, "myhtable", "c", 10)
+//
+val () = println! ("HGET c: ", redis_hget(ctx, "myhtable", "c"))
+//
+val () = println! ("HDEL c: ", redis_hdel(ctx, "myhtable", "c"))
+val () = println! ("HDEL c: ", redis_hdel(ctx, "myhtable", "c"))
+//
+val () = println! ("HEXISTS c: ", redis_hexists(ctx, "myhtable", "c"))
+//
+val rds = redis_hlen (ctx, "myhtable")
+val () = println! ("HLEN myhtable: ", rds)
+val rds = redis_hkeys (ctx, "myhtable")
+val () = println! ("HKEYS myhtable: ", rds)
+val rds = redis_hvals (ctx, "myhtable")
+val () = println! ("HVALS myhtable: ", rds)
+//
+val rds = redis_hgetall (ctx, "myhtable")
+val () = println! ("HGETALL myhtable: ", rds)
+//
 val () =
 println! ("KEYS *: ", redis_keys (ctx, "*"))
 val (

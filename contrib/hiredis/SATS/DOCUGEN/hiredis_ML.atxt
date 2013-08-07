@@ -81,6 +81,11 @@ for the <a href="https://github.com/redis/hiredis/">hiredis</a> package.\
 
 (* ****** ****** *)
 
+#declnamesynop("redis_setnx_int")
+#declnamesynop("redis_setnx_string")
+
+(* ****** ****** *)
+
 #declnamesynop("redis_getset_int")
 #declnamesynop("redis_getset_string")
 
@@ -93,6 +98,7 @@ for the <a href="https://github.com/redis/hiredis/">hiredis</a> package.\
 
 #declnamesynop("redis_incr")
 #declnamesynop("redis_incrby")
+#declnamesynop("redis_incrbyfloat")
 
 (* ****** ****** *)
 
@@ -153,6 +159,44 @@ for the <a href="https://github.com/redis/hiredis/">hiredis</a> package.\
 
 #declnamesynop("redis_sismember_int")
 #declnamesynop("redis_sismember_string")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_hlen")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_hkeys")
+#declnamesynop("redis_hvals")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_hexists")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_hdel")
+#declnamesynop("redis_hdel1")
+#declnamesynop("redis_hdel2")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_hget")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_hset_int")
+#declnamesynop("redis_hset_string")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_hsetnx_int")
+#declnamesynop("redis_hsetnx_string")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_hincrby")
+#declnamesynop("redis_hincrbyfloat")
 
 (* ****** ****** *)
 

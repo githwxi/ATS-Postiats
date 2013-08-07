@@ -423,6 +423,31 @@ end // end of [redis_set_string]
 (* ****** ****** *)
 
 implement
+redis_setnx_int
+  (ctx, k, v) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall (redisReply0, "redisCommand", p0, "SET %s %i", k, v)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_setnx_int]
+implement
+redis_setnx_string
+  (ctx, k, v) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall (redisReply0, "redisCommand", p0, "SET %s %s", k, v)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_setnx_string]
+
+(* ****** ****** *)
+
+implement
 redis_getset_int
   (ctx, k, v) = let
 //
@@ -494,6 +519,17 @@ val ((*void*)) = assertloc (ptrcast(rep) > 0)
 in
   redisReply2Val0 (rep)
 end // end of [redis_incrby]
+implement
+redis_incrbyfloat
+  (ctx, k, d) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall (redisReply0, "redisCommand", p0, "INCRBYFLOAT %s %f", k, d)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_incrbyfloat]
 
 (* ****** ****** *)
 
@@ -768,6 +804,215 @@ val ((*void*)) = assertloc (ptrcast(rep) > 0)
 in
   redisReply2Val0 (rep)
 end // end of [redis_sismember_string]
+
+(* ****** ****** *)
+
+implement
+redis_hlen
+  (ctx, k) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall (redisReply0, "redisCommand", p0, "HLEN %s", k)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_hlen]
+
+(* ****** ****** *)
+
+implement
+redis_hkeys
+  (ctx, k) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall (redisReply0, "redisCommand", p0, "HKEYS %s", k)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_hkeys]
+
+implement
+redis_hvals
+  (ctx, k) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall (redisReply0, "redisCommand", p0, "HVALS %s", k)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_hvals]
+
+(* ****** ****** *)
+
+implement
+redis_hexists
+  (ctx, k, f) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall (redisReply0, "redisCommand", p0, "HEXISTS %s %s", k, f)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_hexists]
+
+(* ****** ****** *)
+
+implement
+redis_hdel1
+  (ctx, k, f) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall
+(
+  redisReply0, "redisCommand", p0, "HDEL %s %s", k, f
+)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_hdel1]
+implement
+redis_hdel2
+  (ctx, k, f1, f2) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall
+(
+  redisReply0, "redisCommand", p0, "HDEL %s %s %s", k, f1, f2
+)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_hdel2]
+
+(* ****** ****** *)
+
+implement
+redis_hget
+  (ctx, k, f) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall
+(
+  redisReply0, "redisCommand", p0, "HGET %s %s", k, f
+)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_hget]
+
+(* ****** ****** *)
+
+implement
+redis_hgetall
+  (ctx, k) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall (redisReply0, "redisCommand", p0, "HGETALL %s", k)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_hgetall]
+
+(* ****** ****** *)
+
+implement
+redis_hset_int
+  (ctx, k, f, v) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall
+(
+  redisReply0, "redisCommand", p0, "HSET %s %s %i", k, f, v
+)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_hset_int]
+implement
+redis_hset_string
+  (ctx, k, f, v) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall
+(
+  redisReply0, "redisCommand", p0, "HSET %s %s %s", k, f, v
+)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_hset_string]
+
+(* ****** ****** *)
+
+implement
+redis_hsetnx_int
+  (ctx, k, f, v) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall
+(
+  redisReply0, "redisCommand", p0, "HSETNX %s %s %i", k, f, v
+)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_hsetnx_int]
+implement
+redis_hsetnx_string
+  (ctx, k, f, v) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall
+(
+  redisReply0, "redisCommand", p0, "HSETNX %s %s %s", k, f, v
+)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_hsetnx_string]
+
+(* ****** ****** *)
+
+implement
+redis_hincrby
+  (ctx, k, f, d) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall
+(
+  redisReply0, "redisCommand", p0, "HINCRBY %s %s %i", k, f, d
+)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_hincrby]
+implement
+redis_hincrbyfloat
+  (ctx, k, f, d) = let
+//
+val p0 = ptrcast (ctx)
+val rep = $extfcall 
+(
+  redisReply0, "redisCommand", p0, "HINCRBYFLOAT %s %s %f", k, f, d
+)
+val ((*void*)) = assertloc (ptrcast(rep) > 0)
+//
+in
+  redisReply2Val0 (rep)
+end // end of [redis_hincrbyfloat]
 
 (* ****** ****** *)
 
