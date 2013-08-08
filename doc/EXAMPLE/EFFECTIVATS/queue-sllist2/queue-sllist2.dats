@@ -4,6 +4,13 @@
 // Effective ATS: Amortized Queue Implementation
 //
 (* ****** ****** *)
+//
+// How to test:
+// ./queue-sllist2
+// How to compile:
+// patscc -DATS_MEMALLOC_LIBC -o queue-sllist2 queue-sllist2.dats
+//
+(* ****** ****** *)
 
 absvtype
 queue_vtype (a:viewt@ype+, n:int) = ptr

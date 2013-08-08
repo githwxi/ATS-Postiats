@@ -23,6 +23,17 @@ vtypedef lcfun1
 
 (* ****** ****** *)
 
+(*
+//
+// HX-2013-08:
+// if coroutines need to be properly freed,
+// the following type is another possibililty for coroutines:
+//
+{i:bool} (option_vt (a, i)) -<lin,cloptr1> option_vt (@(b, cortn (a, b)), i)
+*)
+
+(* ****** ****** *)
+
 castfn
 lcfun2cortn{a,b:t0p}
   (cf: lcfun1 (a, @(b, cortn (a, b)))):<> cortn (a, b)
