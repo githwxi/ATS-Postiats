@@ -26,7 +26,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-primplmnt inteq_make () = INTEQ ()
+primplmnt eqint_make () = EQINT ()
 
 #atscode_separator()
 
@@ -140,13 +140,13 @@ mul_is_associative
   {x,y,z}{xy,yz}
   (pf1, pf2, pf3, pf4) = {
   prval pf1_alt = mul_make {x,y} ()
-  prval INTEQ () = mul_isfun2 (pf1, pf1_alt)
+  prval EQINT () = mul_isfun2 (pf1, pf1_alt)
   prval pf2_alt = mul_make {y,z} ()
-  prval INTEQ () = mul_isfun2 (pf2, pf2_alt)
+  prval EQINT () = mul_isfun2 (pf2, pf2_alt)
   prval pf3_alt = mul_make {xy,z} ()
-  prval INTEQ () = mul_isfun2 (pf3, pf3_alt)
+  prval EQINT () = mul_isfun2 (pf3, pf3_alt)
   prval pf4_alt = mul_make {x,yz} ()
-  prval INTEQ () = mul_isfun2 (pf4, pf4_alt)
+  prval EQINT () = mul_isfun2 (pf4, pf4_alt)
 //
 } // end of [mul_is_associative]
 

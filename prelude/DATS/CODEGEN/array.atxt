@@ -905,7 +905,7 @@ end (* end of [if] *)
 )
 //
 val () = loop (pa, pa2, pb)
-prval [lb:addr] ADDREQ () = ptr_get_index (pb)
+prval [lb:addr] EQADDR () = ptr_get_index (pb)
 prval () = view@(B) := $UN.castview0{array_v (b, lb, n)}(view@(B))
 //
 in
@@ -943,7 +943,7 @@ end (* end of [if] *)
 )
 //
 val () = loop (pa, pa2, pb, pc)
-prval [lc:addr] ADDREQ () = ptr_get_index (pc)
+prval [lc:addr] EQADDR () = ptr_get_index (pc)
 prval () = view@(C) := $UN.castview0{array_v (c, lc, n)}(view@(C))
 //
 in

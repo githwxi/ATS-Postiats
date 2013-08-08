@@ -486,7 +486,7 @@ stringlst_concat (xs) = let
 //
 val n = list_length (xs)
 prval () = lemma_list_param (xs)
-prval [n:int] INTEQ() = inteq_make_gint (n)
+prval [n:int] EQINT() = eqint_make_gint (n)
 val xs2 = arrayptr_make_list (n, xs)
 val res = stringarr_concat ($UN.castvwtp1{arrayref(string,n)}(xs2), i2sz(n))
 val () = arrayptr_free (xs2)

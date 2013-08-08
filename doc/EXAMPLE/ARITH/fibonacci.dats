@@ -78,7 +78,7 @@ end // end of [fib_isfun]
 
 primplmnt
 fib_isfun2 (pf1, pf2) = let
-  prval () = fib_isfun (pf1, pf2) in inteq_make ()
+  prval () = fib_isfun (pf1, pf2) in eqint_make ()
 end // end of [fib_isfun2]
 
 (* ****** ****** *)
@@ -105,7 +105,7 @@ in
 //
 sif m > 0 then let
   prval FIBind (pf30, pf31) = pf3
-  prval INTEQ () = fib_isfun2 (pf1, pf31)
+  prval EQINT () = fib_isfun2 (pf1, pf31)
 in
   lemma {m-1,n+1}
     (pf30, pf4, pf31, FIBind (pf2, pf4))
@@ -146,7 +146,7 @@ fibeq2
 ] void =
   sif n > 0 then let
     prval FIBind (pf11, pf12) = pf1
-    prval INTEQ () = fib_isfun2 (pf0, pf12)
+    prval EQINT () = fib_isfun2 (pf0, pf12)
     prval pf_n_n = fibeq1 (pf0, pf0, pf1, pf1)
     prval pf_1n_n1 = fibeq1 (pf11, pf1, pf0, pf2)
     prval () = fib_isfun (pf_n_n, pf_1n_n1)

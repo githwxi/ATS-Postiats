@@ -52,7 +52,7 @@ lemma_ptr_param {l:addr} (p: ptr l): [l >= null] void
 #atscode_separator()
 
 prfun ptr_get_index
-  {l1:addr} (p: ptr l1): [l2:addr] ADDREQ (l1, l2)
+  {l1:addr} (p: ptr l1): [l2:addr] EQADDR (l1, l2)
 // end of [ptr_get_index]
 
 #atscode_separator()

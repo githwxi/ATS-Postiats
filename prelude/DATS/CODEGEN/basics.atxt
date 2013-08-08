@@ -31,19 +31,19 @@ false_elim () = case+ 0 of _ =/=> ()
 
 #atscode_separator()
 
-primplmnt inteq_make () = INTEQ ()
-primplmnt inteq_make_gint (x) = INTEQ ()
-primplmnt inteq_make_guint (x) = INTEQ ()
+primplmnt eqint_make () = EQINT ()
+primplmnt eqint_make_gint (x) = EQINT ()
+primplmnt eqint_make_guint (x) = EQINT ()
 
 #atscode_separator()
 
-primplmnt addreq_make () = ADDREQ ()
-primplmnt addreq_make_ptr (x) = ADDREQ ()
+primplmnt eqaddr_make () = EQADDR ()
+primplmnt eqaddr_make_ptr (x) = EQADDR ()
 
 #atscode_separator()
 
-primplmnt booleq_make () = BOOLEQ ()
-primplmnt booleq_make_bool (x) = BOOLEQ ()
+primplmnt eqbool_make () = EQBOOL ()
+primplmnt eqbool_make_bool (x) = EQBOOL ()
 
 #atscode_separator()
 

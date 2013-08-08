@@ -65,34 +65,34 @@ prfun false_elim {X:prop | false} (): X
 (* ****** ****** *)
 
 dataprop
-INTEQ (int, int) = {x:int} INTEQ (x, x)
+EQINT (int, int) = {x:int} EQINT (x, x)
 //
-prfun inteq_make {x,y:int | x == y} (): INTEQ (x, y)
+prfun eqint_make {x,y:int | x == y} (): EQINT (x, y)
 //
 prfun
-inteq_make_gint
-  {tk:tk}{x:int} (x: g1int (tk, x)): [y:int] INTEQ (x, y)
+eqint_make_gint
+  {tk:tk}{x:int} (x: g1int (tk, x)): [y:int] EQINT (x, y)
 prfun
-inteq_make_guint
-  {tk:tk}{x:int} (x: g1uint (tk, x)): [y:int] INTEQ (x, y)
+eqint_make_guint
+  {tk:tk}{x:int} (x: g1uint (tk, x)): [y:int] EQINT (x, y)
 //
 (* ****** ****** *)
 
 dataprop
-ADDREQ (addr, addr) = {x:addr} ADDREQ (x, x)
+EQADDR (addr, addr) = {x:addr} EQADDR (x, x)
 //
-prfun addreq_make {x,y:addr | x == y} (): ADDREQ (x, y)
+prfun eqaddr_make {x,y:addr | x == y} (): EQADDR (x, y)
 //
-prfun addreq_make_ptr {x:addr} (x: ptr (x)): [y:addr] ADDREQ (x, y)
+prfun eqaddr_make_ptr {x:addr} (x: ptr (x)): [y:addr] EQADDR (x, y)
 //
 (* ****** ****** *)
 
 dataprop
-BOOLEQ (bool, bool) = {x:bool} BOOLEQ (x, x)
+EQBOOL (bool, bool) = {x:bool} EQBOOL (x, x)
 //
-prfun booleq_make {x,y:bool | x == y} (): BOOLEQ (x, y)
+prfun eqbool_make {x,y:bool | x == y} (): EQBOOL (x, y)
 //
-prfun booleq_make_bool {x:bool} (x: bool (x)): [y:bool] BOOLEQ (x, y)
+prfun eqbool_make_bool {x:bool} (x: bool (x)): [y:bool] EQBOOL (x, y)
 //
 (* ****** ****** *)
 
@@ -102,6 +102,11 @@ prfun prop_verify_and_add {b:bool | b} ():<prf> [b] void
 (* ****** ****** *)
 
 prfun pridentity {a:vt@ype} (x: !INV(a)): void
+
+(* ****** ****** *)
+
+dataprop
+EQTYPE (vt@ype, vt@ype) = {a:vt@ype} EQTYPE (a, a)
 
 (* ****** ****** *)
 
