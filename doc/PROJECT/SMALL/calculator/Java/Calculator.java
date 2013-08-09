@@ -6,7 +6,7 @@ class Calculator
     double eval(String inp) throws IllegalArgumentException;
     static
     {
-	System.loadLibrary("Calulator_dats");
+	System.loadLibrary("Calculator_dats");
     }
     public static void main(String[] args)
     {

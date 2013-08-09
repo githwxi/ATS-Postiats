@@ -73,7 +73,7 @@ extern
 fun raiseExnByClassName
 (
   env: !JNIEnvPtr, name: string, msg: string
-) : void = "sta#%"
+) : void = "mac#raiseExnByClassName"
 
 (* ****** ****** *)
 
@@ -92,12 +92,24 @@ case+ opt of
 | ~Some_vt
     (ae) => aexp_eval (ae)
 | ~None_vt ((*void*)) => let
-    val () = raiseExnByClassName (env, "java/lang/IllegalArgumentException", "Illegal Argument")
+    val (
+    ) = raiseExnByClassName
+      (env, "java/lang/IllegalArgumentException", "ParsingError")
+    // end of [val]
   in
     0.0 (*deadcode*)
   end // end of [None_vt]
 //
 end (* end of [eval] *)
+
+(* ****** ****** *)
+
+%{$
+#include "pats_ccomp_runtime.c"
+#include "pats_ccomp_runtime2_dats.c"
+#include "pats_ccomp_runtime_memalloc.c"
+#include "pats_ccomp_runtime_trywith.c"
+%}
 
 (* ****** ****** *)
 
