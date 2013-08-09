@@ -15,7 +15,7 @@ JNIincl=/usr/lib/jvm/java-7-openjdk-amd64/include
 
 Hello:: Hello.h
 Hello:: Hello.class
-Hello:: Hello_dats.so
+Hello:: libHello_dats.so
 
 ######
 
@@ -23,7 +23,7 @@ Hello.h: Hello.class ; javah Hello
 Hello.class: Hello.java ; javac $<
 Hello_dats.o: Hello.dats; \
   $(PATSCC) -IIATS $(PATSHOME)/contrib -I $(JNIincl) -fPIC -c Hello.dats
-Hello_dats.so: Hello_dats.o ; gcc -shared -o $@ -Wl,-soname,$@ $< -ldl
+libHello_dats.so: Hello_dats.o ; gcc -shared -o $@ -Wl,-soname,$@ $< -ldl
 
 ######
 
@@ -38,7 +38,7 @@ clean::; $(RMF) Hello_dats.c
 
 cleanall:: clean
 cleanall::; $(RMF) Hello.class
-cleanall:: ; $(RMF) Hello_dats.so
+cleanall:: ; $(RMF) libHello_dats.so
 
 ######
 

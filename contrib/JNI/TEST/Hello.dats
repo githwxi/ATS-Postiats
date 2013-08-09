@@ -28,7 +28,7 @@ extern
 fun helloFrom{l1,l2:agz}
 (
   env: !JNIEnvPtr, obj: !jobject l1, whom: jstring l2
-) : void = "ext#Java_Hello_helloFrom_" // endfun
+) : void = "ext#Java_Hello_helloFrom" // endfun
 
 (* ****** ****** *)
 

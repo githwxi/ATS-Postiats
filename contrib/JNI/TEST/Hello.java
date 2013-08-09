@@ -6,7 +6,14 @@ class Hello
     void helloFrom(String whom);
     static
     {
-	System.loadLibrary("Hello_dats.so");
+        //
+        // Damn! looking for libHello!!!
+	//
+	System.loadLibrary("Hello_dats");
+	/*
+	String PATSHOME = System.getenv("PATSHOME") ;
+	System.load(PATSHOME + "/contrib/JNI/TEST/Hello_dats.so");
+	*/
     }
     public static void main(String[] args)
     {
