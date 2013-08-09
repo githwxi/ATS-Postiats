@@ -41,16 +41,20 @@ typedef Void = void
 //
 (* ****** ****** *)
 
-abstype jstring = $extype"jstring"
+abstype jstring (l:addr) = ptr(l)
+typedef jstring = [l:addr] jstring (l)
+typedef jstring0 = [l:agez] jstring (l)
+typedef jstring1 = [l:addr | l > null] jstring (l)
 
 (* ****** ****** *)
 
 abstype jclass = ptr
-abstype jobject (l:addr) = ptr
-abstype jstring (l:addr) = ptr
-typedef jstring = [l:addr] jstring (l)
-typedef jstring0 = [l:agez] jstring (l)
-typedef jstring1 = [l:addr | l > null] jstring (l)
+abstype jobject (l:addr) = ptr(l)
+
+(* ****** ****** *)
+
+castfn jstring2ptr {l:addr} (jstring(l)):<> ptr(l)
+castfn jobject2ptr {l:addr} (jobject(l)):<> ptr(l)
 
 (* ****** ****** *)
 
@@ -70,18 +74,18 @@ GetStringUTFChars_v (src:addr, dst:addr)
 fun
 GetStringUTFChars{l1:agz}
 (
-  env: !JNIEnvPtr, x: jstring l1
-) : [l2:addr]
+  env: !JNIEnvPtr, src: jstring l1
+) : [l2:addr | l2 > null]
 (
-  GetStringUTFChars_v (l1, l2) | strptr l2
-) = "mac#%" // endfun
+  GetStringUTFChars_v (l1, l2) | strptr (l2)
+) = "mac#%" // end of [GetStringUTFChars]
 
 fun
-ReleaseStringUTFChars{l1:agz}{l2:addr}
-(
+ReleaseStringUTFChars
+  {l1,l2:agz} (
   pf: GetStringUTFChars_v (l1, l2)
 | env: !JNIEnvPtr, src: jstring (l1), dst: strptr (l2)
-) : void = "mac#%" // endfun
+) : void = "mac#%" // end of [ReleaseStringUTFChars]
 
 (* ****** ****** *)
 

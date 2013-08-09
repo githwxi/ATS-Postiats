@@ -8,9 +8,11 @@ PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
-
+#
+# You may need to change this:
+#
 JNIincl=/usr/lib/jvm/java-7-openjdk-amd64/include
-
+#
 ######
 
 Hello:: Hello.h

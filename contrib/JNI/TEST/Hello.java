@@ -19,9 +19,9 @@ class Hello
     {
 	if (args.length >= 1)
         {
-	  Hello.helloFrom(args[0]);
+	    Hello.helloFrom(args[0]);
 	} else {
-	  Hello.helloFrom("ATS/Postiats");
+	    Hello.helloFrom(System.getenv("USER"));
         } ;
 	return ;
     }
