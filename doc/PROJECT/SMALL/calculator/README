@@ -13,9 +13,9 @@ style that should be readily accessible.
 calculator.sats:
 This file contains all declarations.
 
-calculator_print.sats:
-This file contains the code implementing various printing
-functions (mostly for the purpose of debugging).
+calculator_aexp.sats:
+This file contains the code implementing a function for
+evaluating AST for arithmetic expressions.
 
 calculator_token.sats:
 This file contains the code implementing various functions
@@ -33,6 +33,10 @@ calculator_parsing.sats:
 This file contains the code implementing a parser of the so-called
 recursive decent style.
 
+calculator_print.sats:
+This file contains the code implementing various printing
+functions (mostly for the purpose of debugging).
+
 ######
 
 Here is a running session:
@@ -48,4 +52,3 @@ eval(1*2*3*4*5*6*7*8*9) = 362880.000000
 ######
 
 ###### end of [README] ######
-

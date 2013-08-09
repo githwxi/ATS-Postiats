@@ -26,11 +26,12 @@ all:: calc
 
 calc: \
   calculator_dats.o \
-  calculator_print_dats.o \
+  calculator_aexp_dats.o \
   calculator_token_dats.o \
   calculator_cstream_dats.o \
   calculator_tstream_dats.o \
-  calculator_parsing_dats.o ; \
+  calculator_parsing_dats.o \
+  calculator_print_dats.o ; \
   $(CCOPT) \
     -I${PATSHOME} \
     -I${PATSHOME}/ccomp/runtime \

@@ -333,6 +333,8 @@ dynload "pats_ccomp_claulst.dats"
 //
 dynload "pats_ccomp_looping.dats"
 //
+dynload "pats_ccomp_tailcal.dats"
+//
 dynload "pats_ccomp_decl.dats"
 //
 dynload "pats_ccomp_subst.dats"

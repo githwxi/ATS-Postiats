@@ -1,5 +1,5 @@
 (*
-** API for json-c in ATS
+** API in ATS for json-c
 *)
 
 (* ****** ****** *)

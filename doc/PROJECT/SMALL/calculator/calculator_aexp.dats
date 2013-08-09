@@ -35,51 +35,23 @@ staload "./calculator.sats"
 
 (* ****** ****** *)
 
-extern
-fun REPloop
-  (inp: FILEref, out: FILEref): void
-// end of [REPloop]
-
 implement
-REPloop (inp, out) = let
+aexp_eval (ae0) = let
 //
-val () = fprint (out, ">> ")
-val () = fileref_flush (out)
-val line = fileref_get_line_string (inp)
-val opt = aexp_parse_string ($UN.strptr2string(line))
+macdef eval (x) = aexp_eval (,(x))
 //
 in
 //
-case+ opt of
-| ~Some_vt (aexp) =>
-  let
-    val lval = aexp_eval (aexp)
-    val (
-    ) = fprintln! (out, "eval(", line, ") = ", lval)
-    val () = strptr_free (line)
-  in
-    REPloop (inp, out)
-  end // end of [Some_vt]
-| ~None_vt ((*void*)) =>
-  let val () = strptr_free (line) in REPloop (inp, out) end
-  // end of [None_vt]
+case+ ae0 of
+| AEint (i) => g0i2f(i)
+| AEneg (ae) => ~(eval(ae))
+| AEadd (ae1, ae2) => eval(ae1) + eval(ae2)
+| AEsub (ae1, ae2) => eval(ae1) - eval(ae2)
+| AEmul (ae1, ae2) => eval(ae1) * eval(ae2)
+| AEdiv (ae1, ae2) => eval(ae1) / eval(ae2)
 //
-end // end of [REPloop]
+end // end of [aexp_eval]
 
 (* ****** ****** *)
 
-dynload "./calculator_aexp.dats"
-dynload "./calculator_token.dats"
-dynload "./calculator_cstream.dats"
-dynload "./calculator_tstream.dats"
-dynload "./calculator_parsing.dats"
-dynload "./calculator_print.dats"
-
-(* ****** ****** *)
-
-implement
-main0 () = REPloop (stdin_ref, stdout_ref)
-
-(* ****** ****** *)
-
-(* end of [calculator.dats] *)
+(* end of [calculator_aexp.dats] *)
