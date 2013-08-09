@@ -22,12 +22,11 @@
 /* ****** ****** */
 
 ATSinline()
-atstype_ptr
-JNI_NewStringUTF
+jstring JNI_NewStringUTF
 (
-  atstype_ptr env, atstype_ptr str
+  JNIEnv *env, char *cstr
 ) {
-  return (*((JNIEnv*)env))->NewStringUTF((JNIEnv*)env, (char*)str) ;
+  return (*env)->NewStringUTF(env, cstr) ;
 } // end of [JNI_GetStringUTFChars]
 
 #define atscntrb_JNI_NewStringUTF JNI_NewStringUTF
@@ -35,26 +34,46 @@ JNI_NewStringUTF
 /* ****** ****** */
 
 ATSinline()
-atstype_ptr
-JNI_GetStringUTFChars
+char* JNI_GetStringUTFChars
 (
-  atstype_ptr env, atstype_ptr src
+  JNIEnv *env, jstring jstr
 ) {
   return
-  (char*)((*((JNIEnv*)env))->GetStringUTFChars((JNIEnv*)env, (jstring)src, (jboolean*)0)) ;
+  (char*)((*env)->GetStringUTFChars(env, jstr, (jboolean*)0)) ;
 } // end of [JNI_GetStringUTFChars]
 
 ATSinline()
-atsvoid_t0ype
-JNI_ReleaseStringUTFChars
+void JNI_ReleaseStringUTFChars
 (
-  atstype_ptr env, atstype_ptr src, atstype_ptr dst
+  JNIEnv *env, jstring jstr, char *cstr
 ) {
-  (*((JNIEnv*)env))->ReleaseStringUTFChars((JNIEnv*)env, (jstring)src, (char*)dst) ; return ;
+  (*env)->ReleaseStringUTFChars(env, jstr, cstr) ; return/*void*/ ;
 } // end of [JNI_ReleaseStringUTFChars]
 
 #define atscntrb_JNI_GetStringUTFChars JNI_GetStringUTFChars
 #define atscntrb_JNI_ReleaseStringUTFChars JNI_ReleaseStringUTFChars
+
+/* ****** ****** */
+
+ATSinline()
+void JNI_RaiseExceptionByClassName
+(
+  JNIEnv *env, char *clsname, char *msg
+) {
+  jclass jcls ;
+//
+  jcls = (*env)->FindClass(env, clsname) ;
+//
+  if (jcls)
+  {
+    (*env)->ThrowNew(env, jcls, msg) ; (*env)->DeleteLocalRef(env, jcls) ;
+  }
+//
+  return ;
+//
+} // end of [JNI_raiseExnByClassName]
+
+#define atscntrb_JNI_RaiseExceptionByClassName JNI_RaiseExceptionByClassName
 
 /* ****** ****** */
 

@@ -53,31 +53,6 @@ fun eval{l1,l2:addr}
 
 (* ****** ****** *)
 
-%{^
-static
-void raiseExnByClassName
-(
-  JNIEnv *env, char *name, char *msg
-)
-{
-  jclass cls ;
-  cls = (*env)->FindClass(env, name) ;
-  if (cls)
-  {
-    (*env)->ThrowNew(env, cls, msg) ;
-    (*env)->DeleteLocalRef(env, cls) ;
-  }
-  return;
-} /* raiseExnByClassName */
-%}
-extern
-fun raiseExnByClassName
-(
-  env: !JNIEnvPtr, name: string, msg: string
-) : void = "mac#raiseExnByClassName"
-
-(* ****** ****** *)
-
 implmnt eval
   (env, obj, inp) = let
 //
@@ -94,7 +69,7 @@ case+ opt of
     (ae) => aexp_eval (ae)
 | ~None_vt ((*void*)) => let
     val (
-    ) = raiseExnByClassName
+    ) = $JNI.RaiseExceptionByClassName
       (env, "java/lang/IllegalArgumentException", "ParsingError")
     // end of [val]
   in

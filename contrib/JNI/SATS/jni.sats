@@ -89,4 +89,12 @@ ReleaseStringUTFChars
 
 (* ****** ****** *)
 
+fun
+RaiseExceptionByClassName
+(
+  env: !JNIEnvPtr, clsname: string, exnmsg: string
+) : void = "mac#%" // endfun
+
+(* ****** ****** *)
+
 (* end of [jni.sats] *)
