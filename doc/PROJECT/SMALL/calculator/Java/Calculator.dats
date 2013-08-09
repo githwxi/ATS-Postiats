@@ -1,5 +1,6 @@
 (*
-** Implementation of a simple calculator in ATS
+** Implementation of
+** a simple calculator in ATS for use in Java
 *)
 
 (* ****** ****** *)
@@ -105,6 +106,9 @@ end (* end of [eval] *)
 (* ****** ****** *)
 
 %{$
+//
+// HX: This is ATS runtime:
+//
 #include "pats_ccomp_runtime.c"
 #include "pats_ccomp_runtime2_dats.c"
 #include "pats_ccomp_runtime_memalloc.c"
