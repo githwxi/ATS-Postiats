@@ -27,11 +27,13 @@
 
 (* ****** ****** *)
 
-staload "libats/ML/SATS/basis.sats"
+#define ATS_PACKNAME "ATSLIB.libats.ML"
+#define ATS_STALOADFLAG 0 // no need for staloading at run-time
+#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
 
 (* ****** ****** *)
 
-sortdef t0p = t@ype
+staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
 //

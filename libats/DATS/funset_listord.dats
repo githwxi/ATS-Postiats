@@ -74,13 +74,17 @@ set_type (a: t0p) = List0 (a)
 //
 (* ****** ****** *)
 
-implement{} funset_nil () = list_nil ()
-implement{} funset_make_nil () = list_nil ()
+implement{
+} funset_nil () = list_nil ()
+implement{
+} funset_make_nil () = list_nil ()
 
 (* ****** ****** *)
 
-implement{a} funset_sing (x) = list_sing (x)
-implement{a} funset_make_sing (x) = list_sing (x)
+implement{a}
+funset_sing (x) = list_cons{a}(x, list_nil)
+implement{a}
+funset_make_sing (x) = list_cons{a}(x, list_nil)
 
 (* ****** ****** *)
 (*

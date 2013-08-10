@@ -27,29 +27,28 @@
 
 (* ****** ****** *)
 
-staload "libats/ML/SATS/basis.sats"
+#define ATS_PACKNAME "ATSLIB.libats.ML"
+#define ATS_STALOADFLAG 0 // no need for staloading at run-time
+#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
 
 (* ****** ****** *)
 
-sortdef t0p = t@ype
+staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
 //
 // HX: for sets of elements of type a
 //
-abstype map_type (key: t@ype, itm: t0ype+)
+abstype map_type (key:t@ype, itm:t0ype+) = ptr
 typedef map (key:t0p, itm:t0p) = map_type (key, itm)
 //
 (* ****** ****** *)
 
-typedef cmp (key:t0p) = (key, key) -<cloref0> (int)
-
-(* ****** ****** *)
-
 fun{
 key,itm:t0p
-} funmap_insert (
-  map: &map (key, itm) >> _, k: key, x: itm, cmp: cmp(key)
+} funmap_insert
+(
+  map: &map (key, itm) >> _, k: key, x: itm
 ) : option0 (itm) // end of [funmap_insert]
 
 (* ****** ****** *)

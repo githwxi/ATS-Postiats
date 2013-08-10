@@ -290,7 +290,7 @@ in
 //
 if i >= 0 then (
   $effmask_exn (
-    try Some_vt (loop<a> (xs, i)) with ~ListSubscriptExn() => None_vt()
+    try Some_vt{a}(loop<a> (xs, i)) with ~ListSubscriptExn() => None_vt()
   ) // end of [$effmask_exn]
 ) else None_vt () // end of [if]
 //
@@ -703,11 +703,11 @@ list0_find_opt (xs, p) = let
 in
 //
 case+ xs of
-| list0_cons (x, xs) =>
-  (
-    if p (x) then Some_vt (x) else list0_find_opt (xs, p)
-  )
-| list0_nil () => None_vt ()
+| list0_cons (x, xs) => (
+    if p (x) then Some_vt{a}(x) else list0_find_opt (xs, p)
+  ) (* end of [list_cons] *)
+| list0_nil () => None_vt{a}((*void*))
+//
 end // end of [list0_find_opt]
 
 (* ****** ****** *)

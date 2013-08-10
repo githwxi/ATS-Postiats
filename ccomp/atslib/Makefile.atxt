@@ -141,6 +141,8 @@ all:: atslib_libc
 
 all:: atslib_libats
 #make_entry("libats", "funmap_list.dats")
+#make_entry("libats", "funset_avltree.dats")
+#make_entry("libats", "funset_listord.dats")
 #make_entry("libats", "fundeque_fingertree.dats")
 #make_entry("libats", "linmap_list.dats")
 #make_entry("libats", "linmap_skiplist.dats")
@@ -148,6 +150,8 @@ all:: atslib_libats
 ######
 
 all:: atslib_libats_ML
+#make_entry("libats/ML", "list0.dats")
+#make_entry("libats/ML", "option0.dats")
 #make_entry("libats/ML", "array0.dats")
 #make_entry("libats/ML", "string.dats")
 #make_entry("libats/ML", "strarr.dats")

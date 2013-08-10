@@ -26,14 +26,15 @@ class Calculator
     double eval(String inp) throws IllegalArgumentException;
     static
     {
-	System.loadLibrary("Calculator_dats");
+	// HX: for loading libCalculator_dats.so only
+	System.loadLibrary("Calculator_dats"); // once!!!
     }
     public static void main(String[] args)
     {
 	Scanner scanner = new Scanner(System.in) ;
 	while (true) {
-	    System.out.print (">> ") ;
 	    String inp ;
+	    System.out.print (">> ") ;
 	    try {
 		inp = scanner.nextLine() ;
 	    } catch (NoSuchElementException e) {

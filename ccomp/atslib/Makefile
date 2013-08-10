@@ -164,6 +164,22 @@ output/atslib_libats_funmap_list_dats.o: output/atslib_libats_funmap_list_dats.c
 clean:: ; $(RMF) output/atslib_libats_funmap_list_dats.c
 clean:: ; $(RMF) output/atslib_libats_funmap_list_dats.o
 
+atslib_libats:: atslib_libats_funset_avltree_dats
+atslib_libats_funset_avltree_dats: output/atslib_libats_funset_avltree_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_funset_avltree_dats.c: ../../libats/DATS/funset_avltree.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_funset_avltree_dats.o: output/atslib_libats_funset_avltree_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_funset_avltree_dats.c
+clean:: ; $(RMF) output/atslib_libats_funset_avltree_dats.o
+
+atslib_libats:: atslib_libats_funset_listord_dats
+atslib_libats_funset_listord_dats: output/atslib_libats_funset_listord_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_funset_listord_dats.c: ../../libats/DATS/funset_listord.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_funset_listord_dats.o: output/atslib_libats_funset_listord_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_funset_listord_dats.c
+clean:: ; $(RMF) output/atslib_libats_funset_listord_dats.o
+
 atslib_libats:: atslib_libats_fundeque_fingertree_dats
 atslib_libats_fundeque_fingertree_dats: output/atslib_libats_fundeque_fingertree_dats.o ; $(ARR) lib/libatslib.a $<
 output/atslib_libats_fundeque_fingertree_dats.c: ../../libats/DATS/fundeque_fingertree.dats ; $(PATSOPT) -o $@ --dynamic $<
@@ -192,6 +208,22 @@ clean:: ; $(RMF) output/atslib_libats_linmap_skiplist_dats.o
 ######
 
 all:: atslib_libats_ML
+atslib_libats_ML:: atslib_libats_ML_list0_dats
+atslib_libats_ML_list0_dats: output/atslib_libats_ML_list0_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_ML_list0_dats.c: ../../libats/ML/DATS/list0.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_ML_list0_dats.o: output/atslib_libats_ML_list0_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_ML_list0_dats.c
+clean:: ; $(RMF) output/atslib_libats_ML_list0_dats.o
+
+atslib_libats_ML:: atslib_libats_ML_option0_dats
+atslib_libats_ML_option0_dats: output/atslib_libats_ML_option0_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_ML_option0_dats.c: ../../libats/ML/DATS/option0.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_ML_option0_dats.o: output/atslib_libats_ML_option0_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_ML_option0_dats.c
+clean:: ; $(RMF) output/atslib_libats_ML_option0_dats.o
+
 atslib_libats_ML:: atslib_libats_ML_array0_dats
 atslib_libats_ML_array0_dats: output/atslib_libats_ML_array0_dats.o ; $(ARR) lib/libatslib.a $<
 output/atslib_libats_ML_array0_dats.c: ../../libats/ML/DATS/array0.dats ; $(PATSOPT) -o $@ --dynamic $<

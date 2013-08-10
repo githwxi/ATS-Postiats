@@ -43,8 +43,11 @@ staload "libats/ML/SATS/option0.sats"
 
 (* ****** ****** *)
 
-implement{a} option0_some (x) = Some0 (x)
-implement{ } option0_none ( ) = None0 ( )
+implement
+{a}(*tmp*)
+option0_some (x) = Some0{a}(x)
+implement{
+} option0_none ((*void*)) = None0((*void*))
 
 (* ****** ****** *)
 
