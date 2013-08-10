@@ -8,6 +8,29 @@
 //
 // Here is a running session:
 //
+// Please input 4 integers:
+// 4 4 10 10
+// play24(4, 4, 10, 10):
+// CARDdiv(CARDsub(CARDmul(CARDint(10), CARDint(10)), CARDint(4)), CARDint(4))
+// CARDdiv(CARDsub(CARDmul(CARDint(10), CARDint(10)), CARDint(4)), CARDint(4))
+// Please input 4 integers:
+// 1 7 13 13
+// play24(1, 7, 13, 13):
+// CARDdiv(CARDsub(CARDmul(CARDint(13), CARDint(13)), CARDint(1)), CARDint(7))
+// Please input 4 integers:
+// 3 3 8 8
+// play24(3, 3, 8, 8):
+// CARDdiv(CARDint(8), CARDsub(CARDint(3), CARDdiv(CARDint(8), CARDint(3))))
+// CARDdiv(CARDint(8), CARDsub(CARDint(3), CARDdiv(CARDint(8), CARDint(3))))
+// CARDdiv(CARDint(8), CARDsub(CARDint(3), CARDdiv(CARDint(8), CARDint(3))))
+// CARDdiv(CARDint(8), CARDsub(CARDint(3), CARDdiv(CARDint(8), CARDint(3))))
+// Please input 4 integers:
+// 5 7 7 11
+// play24(5, 7, 7, 11):
+// CARDmul(CARDsub(CARDint(5), CARDdiv(CARDint(11), CARDint(7))), CARDint(7))
+// CARDmul(CARDsub(CARDint(5), CARDdiv(CARDint(11), CARDint(7))), CARDint(7))
+// Please input 4 integers:
+//   C-c C-c
 */
 
 import java.util.* ;
