@@ -151,21 +151,25 @@ atscntrb_jsonc_lh_entry_get_val (atstype_ptr ent)
 ATSinline()
 int
 json_object_array_add2
-  (struct json_object *jso, struct json_object *val)
-{
+(
+  struct json_object *jso
+, struct json_object *val
+) {
   int err ;
-  err = json_object_array_add (jso, val) ;
-  if (err < 0) json_object_put (val) ;
+  err = json_object_array_add(jso, val) ;
+  if (err < 0) { json_object_put (val) ; }
   return err ;
 }
 ATSinline()
 int
 json_object_array_put2_idx
-  (struct json_object *jso, int idx, struct json_object *val)
-{
+(
+  struct json_object *jso
+, int idx, struct json_object *val
+) {
   int err ;
-  err = json_object_array_put_idx (jso, idx, val) ;
-  if (err < 0) json_object_put (val) ;
+  err = json_object_array_put_idx(jso, idx, val) ;
+  if (err < 0) { json_object_put (val) ; }
   return err ;
 }
 
@@ -200,7 +204,7 @@ atstype_bool
 atscntrb_jsonc_json_object_iter_equal
   (void *jsi1, void *jsi2)
 {
-  int equal = json_object_iter_equal(jsi1, jsi2);
+  int equal = json_object_iter_equal(jsi1, jsi2) ;
   return (equal != 0 ? 1 : 0) ;
 }
 ATSinline()
@@ -208,7 +212,7 @@ atstype_bool
 atscntrb_jsonc_json_object_iter_notequal
   (void *jsi1, void *jsi2)
 {
-  int equal = json_object_iter_equal(jsi1, jsi2);
+  int equal = json_object_iter_equal(jsi1, jsi2) ;
   return (equal != 0 ? 0 : 1) ;
 }
 

@@ -37,6 +37,16 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+typedef int8_t atstype_int8 ;
+typedef int16_t atstype_int16 ;
+typedef int32_t atstype_int32 ;
+typedef int64_t atstype_int64 ;
+
+typedef intptr_t atstype_intptr ;
+typedef uintptr_t atstype_uintptr ;
+
+#atscode_separator_for_C()
+
 extern
 int fprintf (FILE *stream, const char *format, ...) ;
 // in [stdio.h]
@@ -274,7 +284,7 @@ atspre_fprint_intptr
   atstype_ref r, atstype_intptr x
 ) {
   int err ;
-  err = fprintf((FILE*)r, "%lli", (atsptr_llint)x) ;
+  err = fprintf((FILE*)r, "%lli", (atstype_llint)x) ;
   return ;
 } // end [atspre_fprint_intptr]
 

@@ -89,7 +89,7 @@ fun json_tokener_parse_verbose
 
 (* ****** ****** *)
 (*
-** HX-2013-07: this is extension
+** HX-2013-07: this one is in extension
 *)
 fun{
 } json_tokener_parse$skip {n:int} (string n): natLte (n)

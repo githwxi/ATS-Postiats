@@ -4,6 +4,11 @@
 
 (* ****** ****** *)
 
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "json-c/SATS/json.sats"
 staload "json-c/SATS/json_ML.sats"
 
@@ -59,7 +64,7 @@ fprint_labjsonValist
   (out, lxs) = let
 //
 macdef SEP = "; "
-macdef MAPTO = ": "
+macdef MAPTO = ":"
 //
 fun loop
 (
@@ -84,6 +89,13 @@ end // end of [loop]
 in
   loop (out, lxs, 0)
 end // end of [fprint_labjsonValist]
+
+(* ****** ****** *)
+
+implement
+jsonVal_ofstring (str) = let
+  val jso = json_tokener_parse (str) in json_object2val0 (jso)
+end // end of [jsonVal_ofstring]
 
 (* ****** ****** *)
 
@@ -116,7 +128,7 @@ case+ 0 of
     prval () = __assert_agz (jso) 
     val i = json_object_get_int (jso)
   in
-    JSONint(g0i2i(i))
+    JSONint($UN.cast2llint(i))
   end // end of [json_type_int]
 | _ when type =
     json_type_boolean => let
@@ -146,11 +158,56 @@ case+ 0 of
   in
     JSONstring(str2)
   end // end of [json_type_string]
-(*
-| _ when type = json_type_array =>
-| _ when type = json_type_object =>
-*)
-| _ => let val () = assertloc (false) in exit(1) end
+| _ when type =
+    json_type_array => let
+    prval (
+    ) = __assert_agz (jso) 
+    val [n:int] n = json_object_array_length (jso)
+    val (pf, pfgc | p) = array_ptr_alloc<jsonVal> (i2sz(n))
+    local
+    implement(env)
+    json_object_iforeach$fwork<env>
+      (i, v, env) =
+    {
+      val v2 = json_object2val1 (v)
+      val p_i = ptr_add<jsonVal> (p, i)
+      val () = $UN.ptr0_set (p_i, v2)
+    }
+    in (* in of [local] *)
+    val () = json_object_iforeach (jso)
+    end // end of [local]
+    val A = $UN.castvwtp0{arrayref(jsonVal,n)}((pf, pfgc | p))
+  in
+    JSONarray(A, i2sz(n))
+  end // end of [json_type_array]
+| _ when type =
+    json_type_object => let
+    prval (
+    ) = __assert_agz (jso)
+    typedef tenv = ptr
+    local
+    implement    
+    json_object_kforeach$fwork<tenv>
+      (k, v, env) =
+    {
+      val k2 = strptr1_copy(k)
+      val k2 = strptr2string(k2)
+      val v2 = json_object2val1 (v)
+      val kvs = $UN.cast{labjsonValist}(env)
+      val kvs = list_cons{labjsonVal}((k2, v2), kvs)
+      val ((*void*)) = env := $UN.cast2ptr (kvs)
+    }
+    in (* in of [local] *)
+    var env: tenv = the_null_ptr
+    val () = json_object_kforeach_env<tenv> (jso, env)
+    end // end of [local]
+    val kvs = $UN.castvwtp0{List0_vt(labjsonVal)}(env)
+    val kvs = list_vt_reverse<labjsonVal> (kvs)
+  in
+    JSONobject(list_vt2t(kvs))
+  end // end of [json_type_object]
+| _ (*deadcode*) =>
+    let val () = assertloc (false) in exit(1) end
 //
 end // end of [json_object2val1]
 

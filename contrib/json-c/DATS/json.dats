@@ -110,7 +110,7 @@ json_object_iforeach$cont (i, v, env) = true
 
 (*
 implement{env}
-json_object_iforeach$fwori (i, v, env) = ()
+json_object_iforeach$fwork (i, v, env) = ()
 *)
 
 implement{}
@@ -138,8 +138,8 @@ if i < n then let
   val [l:addr]
     jsi = array_list_get_idx (alst, i)
   val jsi = $UN.castvwtp0{jso(l)}(jsi)
-  val cont = json_object_iforeach$cont (i, jsi, env)
-  val () = if cont then json_object_iforeach$fwork (i, jsi, env)
+  val cont = json_object_iforeach$cont<env> (i, jsi, env)
+  val () = if cont then json_object_iforeach$fwork<env> (i, jsi, env)
   prval () = $UN.cast2void (jsi)
 in
   loop (alst, n, i+1, env)
@@ -204,8 +204,8 @@ in
 if jsi != jsiEnd then let
   val (fpf_k | k) = json_object_iter_peek_name (jsi)
   val (fpf_v | v) = json_object_iter_peek_value (jsi)
-  val cont = json_object_kforeach$cont (k, v, env)
-  val () = if cont then json_object_kforeach$fwork (k, v, env)
+  val cont = json_object_kforeach$cont<env> (k, v, env)
+  val () = if cont then json_object_kforeach$fwork<env> (k, v, env)
   prval () = fpf_k (k)
   prval () = fpf_v (v)
   val () = json_object_iter_next (jsi)

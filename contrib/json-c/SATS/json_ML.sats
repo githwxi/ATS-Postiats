@@ -20,6 +20,15 @@
 
 (* ****** ****** *)
 
+#define
+ATS_PACKNAME "ATSCNTRB.jsonc_ML"
+#define
+ATS_STALOADFLAG 0 // no need for staloading at run-time
+#define
+ATS_EXTERN_PREFIX "atscntrb_jsonc_ML_" // prefix for external names
+
+(* ****** ****** *)
+
 staload "json-c/SATS/json.sats"
 
 (* ****** ****** *)
@@ -46,6 +55,11 @@ and
 labjsonValist = List0 (labjsonVal)
 
 (* ****** ****** *)
+
+typedef jsonValist = List0 (jsonVal)
+vtypedef jsonValist_vt = List0_vt (jsonValist)
+
+(* ****** ****** *)
 //
 fun print_jsonVal (jsonVal): void
 fun prerr_jsonVal (jsonVal): void
@@ -62,8 +76,13 @@ fun fprint_labjsonValist
 //
 (* ****** ****** *)
 
-fun json_object2val0 (json_object0): jsonVal
-fun json_object2val1 (!json_object0): jsonVal
+fun jsonVal_ofstring (str: string): jsonVal
+fun jsonVal_tostring (jsv: jsonVal): Strptr1
+
+(* ****** ****** *)
+
+fun json_object2val0 (jso: json_object0): jsonVal
+fun json_object2val1 (jso: !json_object0): jsonVal
 
 (* ****** ****** *)
 
