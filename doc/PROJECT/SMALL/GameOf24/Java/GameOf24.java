@@ -53,7 +53,7 @@ class GameOf24
     static
     void main(String[] args)
     {
-	Scanner
+	Scanner scanner ;
         scanner = new Scanner(System.in) ;
 	while (true) {
 	    int num[] = new int[4]; int ind = 0 ;

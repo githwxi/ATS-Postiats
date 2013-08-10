@@ -43,7 +43,8 @@ stadef jobject (l:addr) = $JNI.jobject(l)
 
 (* ****** ****** *)
 //
-// HX: helloFrom is declared in Java class [Hello]
+// HX-2013-08:
+// [eval] is declared in Java class [Calculator]
 //
 extern
 fun JNI_eval{l1,l2:addr}

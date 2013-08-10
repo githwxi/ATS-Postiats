@@ -68,7 +68,7 @@ end // end of [redisReply2Val0]
 (* ****** ****** *)
 
 implement
-fprint_val<redisVal> (out, x) = fprint (out, x)
+fprint_val<redisVal> = fprint_redisVal
 
 (* ****** ****** *)
 
@@ -149,7 +149,7 @@ case+ t of
     REDIS_REPLY_ARRAY => let
     var asz: size_t
     val (pf, fpf | p) = redisReply_get_array (rep, asz)
-    prval [n:int] INTEQ () = inteq_make_guint (asz)
+    prval [n:int] EQINT () = eqint_make_guint (asz)
     val (pf2, pf2gc | p2) = array_ptr_alloc<redisVal> (asz)
 //
     vtypedef a = redisReply1 and b = redisVal

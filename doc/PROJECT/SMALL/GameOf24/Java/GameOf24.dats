@@ -40,7 +40,8 @@ stadef jobject (l:addr) = $JNI.jobject(l)
 
 (* ****** ****** *)
 //
-// HX: helloFrom is declared in Java class [Hello]
+// HX-2013-08:
+// [play24] is declared in Java class [GameOf24]
 //
 extern
 fun JNI_play24{l:addr}

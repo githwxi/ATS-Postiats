@@ -50,9 +50,18 @@ extern void exit (int code) ;
 /*
 #include <gc.h>
 */
+extern void GC_init () ;
 extern void GC_free (void *ptr) ;
 extern void *GC_malloc(size_t bsz) ;
 extern void *GC_realloc(void *ptr, size_t bsz) ;
+
+/* ****** ****** */
+
+ATSinline()
+atsvoid_t0ype
+atsruntime_minit_gcbdw
+  (/*void*/) { GC_init() ; return ; }
+// end of [atsruntime_minit_gcbdw]
 
 /* ****** ****** */
 

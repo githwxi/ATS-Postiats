@@ -18,6 +18,8 @@ implement
 main0 () =
 {
 //
+val () = minit_gc() // initializing memalloc-system
+//
 val n1 = 3
 and n2 = 3
 and n3 = 8

@@ -33,11 +33,15 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#define atspre_malloc_gc ATS_MALLOC
+\#define atspre_minit_gc ATS_MINIT
 
 #atscode_separator_for_C()
 
 \#define atspre_mfree_gc ATS_MFREE
+
+#atscode_separator_for_C()
+
+\#define atspre_malloc_gc ATS_MALLOC
 
 #atscode_separator_for_C()
 

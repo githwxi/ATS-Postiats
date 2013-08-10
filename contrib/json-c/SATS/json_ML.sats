@@ -1,21 +1,69 @@
 (*
-** ML-style API in ATS for json-c
+** a quasi ML-style API in ATS for json-c
 *)
+
+(* ****** ****** *)
+
+(*
+** Permission to use, copy, modify, and distribute this software for any
+** purpose with or without fee is hereby granted, provided that the above
+** copyright notice and this permission notice appear in all copies.
+** 
+** THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+** WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+** MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+** ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+** WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+** ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+** OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+*)
+
+(* ****** ****** *)
+
+staload "json-c/SATS/json.sats"
+
+(* ****** ****** *)
+
+typedef json_int = llint
 
 (* ****** ****** *)
 
 datatype
 jsonVal =
-  | JSONint of (llint)
+  | JSONnul of ()
+  | JSONint of (json_int)
+  | JSONbool of (json_bool)
   | JSONstring of (string)
   | JSONdouble of (double)
   | {n:nat}
     JSONarray of (arrayref (jsonVal, n), size_t (n))
-  | {n:nat}
-    JSONobject of (arrayref (labjsonVal, n), size_t (n))
+  | JSONobject of labjsonValist
 // end of [jsonVal]
 
-where labjsonVal = @(string, jsonVal)
+where
+labjsonVal = @(string, jsonVal)
+and
+labjsonValist = List0 (labjsonVal)
+
+(* ****** ****** *)
+//
+fun print_jsonVal (jsonVal): void
+fun prerr_jsonVal (jsonVal): void
+fun fprint_jsonVal (out: FILEref, x: jsonVal): void
+//
+overload print with print_jsonVal
+overload prerr with prerr_jsonVal
+overload fprint with fprint_jsonVal
+//
+(* ****** ****** *)
+//
+fun fprint_labjsonValist
+  (out: FILEref, lxs: labjsonValist): void
+//
+(* ****** ****** *)
+
+fun json_object2val0 (json_object0): jsonVal
+fun json_object2val1 (!json_object0): jsonVal
 
 (* ****** ****** *)
 
