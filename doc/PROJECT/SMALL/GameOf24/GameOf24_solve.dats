@@ -8,7 +8,7 @@
 //
 (* ****** ****** *)
 
-staload "GameOf24.sats"
+staload "./GameOf24.sats"
 
 (* ****** ****** *)
 

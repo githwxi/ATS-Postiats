@@ -45,7 +45,7 @@ class Calculator
 		double ans = eval(inp) ;
 		System.out.println ("eval(" + inp + ") = " + ans) ;
 	    } catch (IllegalArgumentException e) {
-		// HX-2013-08: Ignore the parsing error
+		// HX-2013-08: Ignoring any and all parsing errors
 	    }
 	}
 	return ;

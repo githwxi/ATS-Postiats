@@ -46,14 +46,15 @@ stadef jobject (l:addr) = $JNI.jobject(l)
 // HX: helloFrom is declared in Java class [Hello]
 //
 extern
-fun eval{l1,l2:addr}
+fun JNI_eval{l1,l2:addr}
 (
   env: !JNIEnvPtr, obj: !jobject l1, inp: jstring l2
 ) : double = "ext#Java_Calculator_eval" // endfun
 
 (* ****** ****** *)
 
-implmnt eval
+implmnt
+JNI_eval
   (env, obj, inp) = let
 //
 val () = assertloc ($JNI.jstring2ptr(inp) > 0)
@@ -76,7 +77,7 @@ case+ opt of
     0.0 (*deadcode*)
   end // end of [None_vt]
 //
-end (* end of [eval] *)
+end (* end of [JNI_eval] *)
 
 (* ****** ****** *)
 

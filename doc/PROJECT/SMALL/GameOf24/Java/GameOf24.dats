@@ -1,0 +1,97 @@
+(*
+** A simple implementation of
+** Game-of-24 in ATS for use in Java
+*)
+
+(* ****** ****** *)
+//
+// HX: no dynloading
+//
+#define ATS_DYNLOADFLAG 0
+//
+(* ****** ****** *)
+
+staload "../GameOf24.sats"
+
+(* ****** ****** *)
+
+local
+//
+#include "../GameOf24_card.dats"
+#include "../GameOf24_cardset.dats"
+#include "../GameOf24_solve.dats"
+//
+in (*nothing*) end
+
+(* ****** ****** *)
+
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload JNI = "JNI/SATS/jni.sats"
+
+(* ****** ****** *)
+
+stadef JNIEnvPtr = $JNI.JNIEnvPtr
+stadef jstring (l:addr) = $JNI.jstring(l)
+stadef jobject (l:addr) = $JNI.jobject(l)
+
+(* ****** ****** *)
+//
+// HX: helloFrom is declared in Java class [Hello]
+//
+extern
+fun JNI_play24{l:addr}
+(
+  env: !JNIEnvPtr, obj: !jobject l, n1: int, n2: int, n3: int, n4: int
+) : void = "ext#Java_GameOf24_play24" // endfun
+
+(* ****** ****** *)
+
+implement
+JNI_play24
+(
+  env, obj, n1, n2, n3, n4
+) = let
+//
+val n1 = $UN.cast{int}(n1)
+val n2 = $UN.cast{int}(n2)
+val n3 = $UN.cast{int}(n3)
+val n4 = $UN.cast{int}(n4)
+//
+val out = stdout_ref
+val res = play24 (n1, n2, n3, n4)
+val (
+) = fprintln! (out, "play24(", n1, ", ", n2, ", ", n3, ", ", n4, "):")
+//
+in
+//
+case+ res of
+| list_cons _ =>
+  {
+    val () = fprintln! (out, res)
+  }
+| list_nil () => 
+  {
+    val () = fprintln! (out, "There is NO solution.")
+  }
+//
+end // end of [JNI_play24]
+
+(* ****** ****** *)
+
+%{$
+//
+// HX: This is ATS runtime:
+//
+#include "pats_ccomp_runtime.c"
+#include "pats_ccomp_runtime2_dats.c"
+#include "pats_ccomp_runtime_memalloc.c"
+#include "pats_ccomp_runtime_trywith.c"
+%}
+
+(* ****** ****** *)
+
+(* end of [GameOf24.dats] *)
