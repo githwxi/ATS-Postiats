@@ -235,7 +235,7 @@ in
 end else let // [hrl=hrr+2]: deep rotation
   val+B{..}{hrll,hrlr}(_(*hrl*), xrl, trll, trlr) = trl
   val hrll = avlht trll : int hrll
-  val hrlr = avlht trlr : int hrlr
+  and hrlr = avlht trlr : int hrlr
 in
   B{a}(hr, xrl, B{a}(1+max(hl,hrll), x, tl, trll), B{a}(1+max(hrlr,hrr), xr, trlr, trr))
 end // end of [if]
@@ -269,7 +269,7 @@ in
 end else let
   val+B{..}{hlrl,hlrr}(_(*hlr*), xlr, tlrl, tlrr) = tlr
   val hlrl = avlht(tlrl) : int hlrl
-  val hlrr = avlht(tlrr) : int hlrr
+  and hlrr = avlht(tlrr) : int hlrr
 in
   B{a}(hl, xlr, B{a}(1+max(hll,hlrl), xl, tll, tlrl), B{a}(1+max(hlrr,hr), x, tlrr, tr))
 end // end of [if]

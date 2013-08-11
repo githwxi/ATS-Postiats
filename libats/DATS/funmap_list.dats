@@ -49,9 +49,6 @@ map_type
 (* ****** ****** *)
 
 implement{} funmap_nil () = list_nil ()
-
-(* ****** ****** *)
-
 implement{} funmap_make_nil () = list_nil ()
 
 (* ****** ****** *)

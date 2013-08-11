@@ -75,21 +75,286 @@ datatype avltree
   | E (key, itm, 0) of ((*void*))
 // end of [datatype avltree]
 
+(* ****** ****** *)
+
+typedef
+avltree
+  (key:t0p, itm:t0p) = [h:nat] avltree (key, itm, h)
+// end of [avltree]
+
 typedef avltree_inc
-  (key:t@ype, itm:t@ype, h:int) =
+  (key:t0p, itm:t0p, h:int) =
   [h1:nat | h <= h1; h1 <= h+1] avltree (key, itm, h1)
 // end of [avltree_inc]
 
 typedef avltree_dec
-  (key:t@ype, itm:t@ype, h:int) =
+  (key:t0p, itm:t0p, h:int) =
   [h1:nat | h1 <= h; h <= h1+1] avltree (key, itm, h1)
 // end of [avltree_dec]
 
 (* ****** ****** *)
 
 assume
-map_type (key:t0p, itm: vt0p) = [h:nat] avltree (key, itm, h)
+map_type (key:t0p, itm: vt0p) = avltree (key, itm)
 // end of [map_type]
+
+(* ****** ****** *)
+
+implement{} funmap_nil () = E ()
+implement{} funmap_make_nil () = E ()
+
+(* ****** ****** *)
+
+implement{}
+funmap_is_nil (map) =
+  case+ map of E _ => true | B _ => false
+// end of [funmap_is_nil]
+
+implement{}
+funmap_isnot_nil (map) =
+  case+ map of B _ => true | E _ => false
+// end of [funmap_isnot_nil]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+funmap_size
+  (map) = let
+//
+fun aux
+(
+  t0: avltree (key, itm), res: size_t
+) : size_t = let
+in
+//
+case+ t0 of
+| B (
+    _, _, _, tl, tr
+  ) => let
+    val res = succ(res)
+    val res = aux (tl, res)
+    val res = aux (tr, res)
+  in
+    res
+  end // end of [B]
+| E ((*void*)) => res
+//
+end // end of [aux]
+//
+in
+  $effmask_all (aux (map, i2sz(0)))
+end // end of [funmap_size]
+
+(* ****** ****** *)
+
+macdef
+avlht (t) =
+(
+case+ ,(t) of B (h, _, _, _, _) => h | E ((*void*)) => 0
+) // end of [avlht]
+
+(* ****** ****** *)
+
+(*
+** left rotation for restoring height invariant
+*)
+fn{
+key,itm:t0p
+} avltree_lrotate
+  {hl,hr:nat | hl+HTDF1 == hr}
+(
+  k: key, x: itm
+, hl : int hl
+, tl: avltree (key, itm, hl)
+, hr : int hr
+, tr: avltree (key, itm, hr)
+) :<> avltree_inc (key, itm, hr) = let
+  val+B{..}{hrl,hrr}(_, kr, xr, trl, trr) = tr
+  val hrl = avlht(trl) : int hrl
+  and hrr = avlht(trr) : int hrr
+in
+//
+if hrl <= hrr+HTDF_1 then let
+  val hrl1 = hrl + 1
+in
+  B{key,itm}
+  (
+    1+max(hrl1,hrr), kr, xr
+  , B{key,itm}(hrl1, k, x, tl, trl), trr
+  )
+end else let // [hrl=hrr+2]: deep rotation
+  val+B{..}{hrll,hrlr}(_(*hrl*), krl, xrl, trll, trlr) = trl
+  val hrll = avlht trll : int hrll
+  and hrlr = avlht trlr : int hrlr
+in
+  B{key,itm}
+  (
+    hr, krl, xrl
+  , B{key,itm}(1+max(hl,hrll), k, x, tl, trll)
+  , B{key,itm}(1+max(hrlr,hrr), kr, xr, trlr, trr)
+  )
+end // end of [if]
+//
+end // end of [avltree_lrotate]
+
+(* ****** ****** *)
+
+(*
+** right rotation for restoring height invariant
+*)
+fn{key,itm:t0p}
+avltree_rrotate
+  {hl,hr:nat | hl == hr+HTDF1}
+(
+  k: key, x: itm
+, hl: int hl
+, tl: avltree (key, itm, hl)
+, hr: int hr
+, tr: avltree (key, itm, hr)
+) :<> avltree_inc (key, itm, hl) = let
+  val+B{..}{hll,hlr}(_(*hl*), kl, xl, tll, tlr) = tl
+  val hll = avlht(tll) : int hll
+  and hlr = avlht(tlr) : int hlr
+in
+//
+if hll+HTDF_1 >= hlr then let
+  val hlr1 = hlr + 1
+in
+  B{key,itm}
+  (
+    1+max(hll,hlr1), kl, xl
+  , tll, B{key,itm}(hlr1, k, x, tlr, tr)
+  )
+end else let
+  val+B{..}{hlrl,hlrr}(_(*hlr*), klr, xlr, tlrl, tlrr) = tlr
+  val hlrl = avlht(tlrl) : int hlrl
+  and hlrr = avlht(tlrr) : int hlrr
+in
+  B{key,itm}
+  (
+    hl, klr, xlr
+  , B{key,itm}(1+max(hll,hlrl), kl, xl, tll, tlrl)
+  , B{key,itm}(1+max(hlrr,hr), k, x, tlrr, tr)
+  )
+end // end of [if]
+//
+end // end of [avltree_rrotate]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+funmap_search
+  (map, k0, res) = let
+//
+fun search{h:nat} .<h>.
+(
+  t0: avltree (key, itm, h)
+, res: &itm? >> opt (itm, b)
+) :<!wrt> #[b:bool] bool(b) = let
+in
+//
+case+ t0 of
+| B (
+    _(*h*), k, x, tl, tr
+  ) => let
+    val sgn =
+      compare_key_key<key> (k0, k)
+    // end of [val]
+  in
+    case+ 0 of
+    | _ when sgn < 0 => search (tl, res)
+    | _ when sgn > 0 => search (tr, res)
+    | _ => let
+        val () = res := x
+        prval () = opt_some{itm}(res) in true
+      end // end of [_]
+  end // end of [B]
+| E () => 
+    let prval () = opt_none{itm}(res) in false end
+  // end of [E]
+//
+end // end of [search]
+//
+in
+  search (map, res)
+end // end of [funmap_search]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+funmap_insert
+(
+  map, k0, x0, res2
+) = res where {
+//
+fun insert{h:nat} .<h>.
+(
+  t0: avltree (key, itm, h)
+, res: &bool? >> bool (b)
+, res2: &itm? >> opt (itm, b)
+) :<!wrt> #[b:bool] avltree_inc (key, itm, h) = let
+in
+//
+case+ t0 of
+| B{..}{hl,hr}
+    (h, k, x, tl, tr) => let
+    val sgn = compare_key_key<key> (k0, k)
+  in
+    case+ 0 of
+    | _ when sgn < 0 => let
+        val [hl:int]
+          tl = insert (tl, res, res2)
+        val hl = avlht (tl) : int (hl)
+        and hr = avlht (tr) : int (hr)
+      in
+        if hl - hr <= HTDF then
+          B{key,itm}(1+max(hl,hr), k, x, tl, tr)
+        else // hl = hr+HTDF1
+          avltree_rrotate<key,itm> (k, x, hl, tl, hr, tr)
+        // end of [if]
+      end // end of [sgn < 0]
+    | _ when sgn > 0 => let
+        val [hr:int]
+          tr = insert (tr, res, res2)
+        val hl = avlht (tl) : int (hl)
+        and hr = avlht (tr) : int (hr)
+      in
+        if hr - hl <= HTDF then
+          B (1+max(hl, hr), k, x, tl, tr)
+        else // hl+HTDF1 = hr
+          avltree_lrotate (k, x, hl, tl, hr, tr)
+        // end of [if]
+      end // end of [sgn > 0]
+    | _ (* sgn=0 *) => let
+        val () = res := true
+        val () = res2 := x
+        prval () = opt_some{itm}(res2)
+      in
+        B{key,itm}(h, k, x0, tl, tr)
+      end // end of [sgn = 0]
+  end (* end of [B] *)
+| E ((*void*)) => let
+    val () = res := false
+    prval () = opt_none{itm}(res2)
+  in
+    B{key,itm}(1, k0, x0, E (), E ())
+  end (* end of [E] *)
+//
+end // end of [insert]
+//
+var res: bool // uninitialized
+val () = map := insert (map, res, res2)
+//
+} // end of [funmap_insert]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+funmap_avltree_height (map) = avlht (map)
 
 (* ****** ****** *)
 
