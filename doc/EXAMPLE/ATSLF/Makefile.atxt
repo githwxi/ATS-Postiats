@@ -55,15 +55,10 @@ PATSOPT=$(PATSHOMEQ)/src/patsopt
 
 ######
 
-ATSGCFLAG=-D_ATS_GCATS
-
-######
-
 all::
 
 ######
 
-LNS=ln -s
 RMF=rm -f
 
 ######

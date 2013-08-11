@@ -99,21 +99,15 @@ void *bsearch
 , int (*compar)(const void *, const void *)
 ) ; // end of [bsearch]
 *)
-
 implement{a}
 array_bsearch_stdlib
   (A, asz, key, cmp) = let
-//
-val tsz = sizeof<a>
-//
-// HX: [bsearch] is in libc/stdlib
-//
-extern fun bsearch (
-  key: ptr, base: ptr, asz: size_t, tsz: size_t, cmp: cmpref (a)
-) :<> Ptr0 = "mac\#atslib_bsearch"
-//
 in
-  bsearch (addr@(key), addr@(A), asz, tsz, cmp)
+//
+$extfcall (
+  Ptr0, "atspre_array_bsearch", addr@(key), addr@(A), asz, sizeof<a>, cmp
+) // end of [$extfcall]
+//
 end // end of [array_bsearch_stdlib]
 
 #atscode_separator()

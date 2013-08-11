@@ -8,6 +8,12 @@ PATSCC=$(PATSHOME)/bin/patscc
 
 ######
 
+all::fcopy1
+all::fcopy2
+all::fcopy3
+
+######
+
 fcopy1: fcopy1.dats ; $(PATSCC) -o $@ $<
 fcopy2: fcopy2.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 fcopy3: fcopy3.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<

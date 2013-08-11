@@ -149,7 +149,7 @@ val nitm = scandir (dirp, namelst, $UNSAFE.cast{filter}(0), $UNSAFE.cast{compar}
 val () = assertloc (nitm >= 0)
 val () = println! ("scandir(...) = ", nitm)
 //
-extern fun direntp_free (x: ptr): void = "mac#atslib_mfree_libc"
+extern fun direntp_free (x: ptr): void = "mac#atsruntime_mfree_libc"
 //
 implement
 array_uninitize$clear<ptr> (i, x) = direntp_free (x)

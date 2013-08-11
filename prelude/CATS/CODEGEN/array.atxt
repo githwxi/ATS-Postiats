@@ -33,6 +33,28 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 //
+// [stdlib.h]
+//
+extern
+void qsort
+(
+  void *base, size_t nmemb, size_t size
+, int(*compar)(const void *, const void *)
+) ; // end of [qsort]
+extern
+void *bsearch
+(
+  const void *key
+, const void *base
+, size_t nmemb, size_t size
+, int (*compar)(const void *, const void *)
+) ; // end of [bsearch]
+//
+\#define atspre_array_qsort qsort
+\#define atspre_array_bsearch bsearch
+//
+#atscode_separator_for_C()
+//
 // [string.h]
 //
 extern
@@ -40,11 +62,9 @@ void *memcpy(void *dst, const void *src, size_t n) ;
 extern
 void *memmove(void *dst, const void *src, size_t n) ;
 //
-#atscode_separator_for_C()
-
 \#define atspre_array_memcpy memcpy
 \#define atspre_array_memmove memmove
-
+//
 #atscode_separator_for_C()
 
 \#endif // ifndef ATSLIB_PRELUDE_ARRAY_CATS

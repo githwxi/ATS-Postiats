@@ -8,6 +8,10 @@ PATSCC=$(PATSHOME)/bin/patscc
 
 ######
 
+all:: queue-sllist2
+
+######
+
 queue-sllist2: queue-sllist2.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 
 ######

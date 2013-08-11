@@ -18,7 +18,8 @@ staload "prelude/DATS/integer.dats"
 //
 // HX: [fun] declares a recursive function
 //
-fun fact (x: int): int = if x > 0 then x * fact (x-1) else 1
+fun fact (x: int): int =
+  if x > 0 then x * fact (x-1) else 1
 //
 (* ****** ****** *)
 //
@@ -28,26 +29,24 @@ fun fact (x: int): int = if x > 0 then x * fact (x-1) else 1
 // [@(...)] is used in ATS to group arguments for variadic functions
 //
 fn fact_usage
-  (cmd: string): void = prerrln! ("Usage: ", cmd, " [integer]")
+  (cmd: string): void =
+  prerrln! ("Usage: ", cmd, " [integer]")
 // end of [fact_usage]
 
 (* ****** ****** *)
 
 implement
-main (
-  argc, argv
-) = let
+main (argc, argv) = let
 in
 //
 if argc >= 2 then let
-  val n =
-    g0int_of_string (argv[1])
-  val res = fact (n)
-  val () = println! ("factorial of ", n, " = ", res)
+  val n = g0string2int_int(argv[1])
+  val (
+  ) = println! ("factorial of ", n, " = ", fact (n))
 in
-  0 (*normalexit*)
+  0 (*normal*)
 end else let
-  val () = fact_usage (argv[0]) in exit (1)
+  val () = fact_usage (argv[0]) in exit(1)
 end // end of [if]
 //
 end // end of [main]
