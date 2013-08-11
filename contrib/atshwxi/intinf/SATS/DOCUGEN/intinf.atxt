@@ -14,7 +14,7 @@ val () = patscode_prefix_set("TRYIT/atshwxi_intinf")
 (* ****** ****** *)
 
 #decltitle("\
-CONTRIB/atshwxi/intinf\
+ATSLIB/contrib/atshwxi/intinf\
 ")
 
 (* ****** ****** *)

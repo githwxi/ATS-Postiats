@@ -74,7 +74,7 @@ end // end of [fact]
 (* ****** ****** *)
 
 extern
-fun atoi: string -> int = "mac#atslib_atoi"
+fun atoi: string -> int = "mac#atoi"
 
 (* ****** ****** *)
 
