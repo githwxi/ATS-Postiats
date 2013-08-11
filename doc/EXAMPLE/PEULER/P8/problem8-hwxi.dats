@@ -46,7 +46,7 @@ implement
 main0 () = let
 //
 val n = string1_length (theInput)
-prval [n:int] INTEQ () = inteq_make_guint (n)
+prval [n:int] EQINT () = eqint_make_guint (n)
 //
 fun loop
   {i:nat | i <= n} .<n-i>.
