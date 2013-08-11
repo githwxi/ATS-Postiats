@@ -172,8 +172,17 @@ libatslex/SATS/DOCUGEN/HTML
 libatslex/SATS/DOCUGEN/TRYIT
 
 #
+# ATSLIB/libatsyntax
+#
+
+libatsyntax/libatsyntax.a
+
+#
 # ATSLIB/contrib
 #
+
+contrib/cairo/cairo-1.12.*
+contrib/zeromq/DOC/zguide
 
 contrib/*/atsctrb_*.o
 contrib/*/SATS/DOCUGEN/*.exe
@@ -203,10 +212,6 @@ contrib/*/*/CATS/CODEGEN/*.cats
 contrib/*/*/CATS/CODEGEN/*_atxt.txt
 contrib/*/*/CATS/CODEGEN/*_atxt.dats
 contrib/*/*/TEST/test??
-
-contrib/cairo/cairo-1.12.*
-
-libatsyntax/libatsyntax.a
 
 #
 # ATSHOME/doc/DISTRIB
