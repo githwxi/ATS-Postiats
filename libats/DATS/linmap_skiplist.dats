@@ -85,41 +85,6 @@ fun linmap_random_lgN
   {n:int | n >= 1} (lgMAX: int (n)): intBtwe (1, n)
 // end of [linmap_random_lgN]
 
-local
-//
-staload "libc/SATS/stdlib.sats"
-//
-staload INT = "prelude/DATS/integer.dats"
-staload FLOAT = "prelude/DATS/float.dats"
-//
-in (* in of [local] *)
-
-implement
-linmap_random_lgN
-  (n) = let
-//
-fun loop
-  {n:int}
-  {i:int | 1 <= i; i <= n}
-  .<n-i>. (
-  n: int n, i: int i, r: double
-) :<> intBtwe (1, n) = let
-in
-//
-if i < n then
-  if (r <= 0.5) then loop (n, i+1, r+r) else i
-else n // end of [if]
-//
-end // end of [loop]
-//
-val r = drand48 () // HX: containing ref-effect!
-//
-in
-  loop (n, 1, r)
-end // end of [linmap_random_lgN]
-
-end // end of [local]
-
 (* ****** ****** *)
 
 abstype
@@ -1040,6 +1005,43 @@ case+ map2 of
   end // end of [SKIPLIST]
 //
 end // end of [linmap_free_ifnil]
+
+(* ****** ****** *)
+
+local
+//
+staload "libc/SATS/stdlib.sats"
+//
+staload INT = "prelude/DATS/integer.dats"
+staload FLOAT = "prelude/DATS/float.dats"
+//
+in (* in of [local] *)
+
+implement
+linmap_random_lgN
+  (n) = let
+//
+fun loop
+  {n:int}
+  {i:int | 1 <= i; i <= n}
+  .<n-i>. (
+  n: int n, i: int i, r: double
+) :<> intBtwe (1, n) = let
+in
+//
+if i < n then
+  if (r <= 0.5) then loop (n, i+1, r+r) else i
+else n // end of [if]
+//
+end // end of [loop]
+//
+val r = drand48 () // HX: containing ref-effect!
+//
+in
+  loop (n, 1, r)
+end // end of [linmap_random_lgN]
+
+end // end of [local]
 
 (* ****** ****** *)
 

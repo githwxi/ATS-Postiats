@@ -65,7 +65,8 @@ datatype avltree
   a:t@ype+, int(*height*)
 ) =
   | {hl,hr:nat |
-     hl <= hr+HTDF; hr <= hl+HTDF}
+     hl <= hr+HTDF;
+     hr <= hl+HTDF}
     B (a, 1+max(hl,hr)) of
       (int (1+max(hl,hr)), a, avltree (a, hl), avltree (a, hr))
   | E (a, 0) of ((*void*))

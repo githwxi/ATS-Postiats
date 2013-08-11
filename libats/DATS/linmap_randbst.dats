@@ -61,24 +61,6 @@ stadef
 mytkind = $extkind"atslib_linmap_randbst"
 
 (* ****** ****** *)
-
-implement{}
-linmap_randbst_initize () =
-(
-  $STDLIB.srand48 ($UN.cast{lint}($TIME.time_get()))
-) // end of [linmap_randbst_initize]
-
-(* ****** ****** *)
-
-implement{}
-linmap_randbst_random_m_n
-  (m, n) = let
-  val r = $STDLIB.drand48 ()
-in
-  if g0i2f (m+n) * r <= g0i2f (m) then 0 else 1
-end // end of [linmap_random_m_n]
-
-(* ****** ****** *)
 //
 // HX: for linear binary search trees
 //
@@ -655,6 +637,24 @@ end // end of [aux]
 in
   aux (map, list_vt_nil ())
 end // end of [linmap_listize]
+
+(* ****** ****** *)
+
+implement{}
+linmap_randbst_initize () =
+(
+  $STDLIB.srand48 ($UN.cast{lint}($TIME.time_get()))
+) // end of [linmap_randbst_initize]
+
+(* ****** ****** *)
+
+implement{}
+linmap_randbst_random_m_n
+  (m, n) = let
+  val r = $STDLIB.drand48 ()
+in
+  if g0i2f (m+n) * r <= g0i2f (m) then 0 else 1
+end // end of [linmap_random_m_n]
 
 (* ****** ****** *)
 
