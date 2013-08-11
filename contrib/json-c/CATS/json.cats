@@ -143,7 +143,8 @@ atscntrb_jsonc_lh_entry_get_val (atstype_ptr ent)
 
 #define atscntrb_jsonc_json_object_new_string json_object_new_string
 #define atscntrb_jsonc_json_object_new_string_len json_object_new_string_len
-#define atscntrb_jsonc_json_object_get_string json_object_get_string
+
+#define atscntrb_jsonc_json_object_get_string(jso) ((char*)(json_object_get_string(jso)))
 #define atscntrb_jsonc_json_object_get_string_len json_object_get_string_len
  
 /* ****** ****** */

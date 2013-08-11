@@ -67,10 +67,6 @@ PATSOPT=$(PATSHOMEQ)/src/patsopt
 
 ######
 
-ATSGCFLAG=-D_ATS_GCATS
-
-######
-
 CCFLAGS=-O2
 MYSQLLIBS=`mysql_config --libs`
 MYSQLCFLAGS=`mysql_config --cflags`

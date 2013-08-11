@@ -21,6 +21,16 @@ ATSCCOMP='gcc -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -DATS_ME
 
 ######
 
+all::
+all:: test_gemm
+all:: test_LUPdec
+all:: test_LUPdec2
+all:: test_Strassen
+all:: test_LAgvec
+all:: test_LAgmat
+
+######
+
 test_gemm: test_gemm.dats ; \
   $(PATSCC) -atsccomp $(ATSCCOMP) -IATS ${PATSHOME}/contrib -o $@ $<
 cleanall:: ; $(RMF) test_gemm
