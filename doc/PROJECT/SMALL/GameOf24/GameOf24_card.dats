@@ -120,12 +120,26 @@ end // end of [fprint_card]
 
 (* ****** ****** *)
 
-end // end of [local]
+implement
+fpprint_card
+  (out, c0) = let
+//
+overload fprint with fpprint_card of 10
+//
+in
+//
+case+ c0.card_node of
+| CARDint (v) => fprint! (out, v)
+| CARDadd (c1, c2) => fprint! (out, "(", c1, " + ", c2, ")")
+| CARDsub (c1, c2) => fprint! (out, "(", c1, " - ", c2, ")")
+| CARDmul (c1, c2) => fprint! (out, "(", c1, " * ", c2, ")")
+| CARDdiv (c1, c2) => fprint! (out, "(", c1, " / ", c2, ")")
+//
+end // end of [fpprint_card]
 
 (* ****** ****** *)
 
-implement
-fprint_val<card> (out, c) = fprint_card (out, c)
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -134,12 +148,40 @@ fprint_cardlst
   (out, cs) = let
 //
 implement
+fprint_val<card> = fprint_card
+//
+implement
 fprint_list$sep<> (out) = fprint_newline (out)
 //
 val () = fprint_list (out, cs)
 //
 in
 end // end of [fprint_cardlst]
+
+(* ****** ****** *)
+
+#define EPSILON 0.1
+
+implement
+fpprint_cardlst
+  (out, cs) = let
+//
+implement
+fprint_val<card>
+  (out, c) = let
+  val v = card_get_val (c)
+in
+  fpprint_card (out, c);
+  fprint_string (out, " = ");
+  fprint_int (out, g0f2i(v+EPSILON))
+end // end of [fprint_val]
+implement
+fprint_list$sep<> (out) = fprint_newline (out)
+//
+val () = fprint_list (out, cs)
+//
+in
+end // end of [fpprint_cardlst]
 
 (* ****** ****** *)
 

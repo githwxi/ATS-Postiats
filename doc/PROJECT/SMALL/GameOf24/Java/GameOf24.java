@@ -64,7 +64,10 @@ class GameOf24
 	    }
 	    if (ind < 4)
 	    {
-		System.out.println ("Abnormal exit due to input error!"); break ;
+		if (ind > 0) {
+		    System.out.println ("Abnormal exit due to input error!") ;
+		} // end of [if]
+		break ;
 	    }
 	    GameOf24.play24(num[0], num[1], num[2], num[3]) ;
 	}

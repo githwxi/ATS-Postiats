@@ -71,9 +71,9 @@ in
 //
 case+ res of
 | list_cons _ =>
-  {
-    val () = fprintln! (out, res)
-  }
+  (
+    fpprint_cardlst (out, res); fprint_newline (out)
+  )
 | list_nil () => 
   {
     val () = fprintln! (out, "There is NO solution.")

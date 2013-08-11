@@ -55,6 +55,11 @@ overload fprint with fprint_cardlst of 10
 
 (* ****** ****** *)
 
+fun fpprint_card (out: FILEref, x: card): void
+fun fpprint_cardlst (out: FILEref, xs: List0(card)): void
+
+(* ****** ****** *)
+
 abstype cardset_type = ptr
 typedef cardset = cardset_type
 

@@ -27,7 +27,7 @@ and n4 = 8
 val out = stdout_ref
 val res = play24 (n1, n2, n3, n4)
 val () = fprintln! (out, "play24(", n1, ", ", n2, ", ", n3, ", ", n4, "):")
-val () = fprintln! (out, res)
+val () = (fpprint_cardlst (out, res); fprint_newline (out))
 //
 val n1 = 4
 and n2 = 4
@@ -36,7 +36,7 @@ and n4 = 10
 val out = stdout_ref
 val res = play24 (n1, n2, n3, n4)
 val () = fprintln! (out, "play24(", n1, ", ", n2, ", ", n3, ", ", n4, "):")
-val () = fprintln! (out, res)
+val () = (fpprint_cardlst (out, res); fprint_newline (out))
 //
 val n1 = 5
 and n2 = 5
@@ -45,7 +45,7 @@ and n4 = 11
 val out = stdout_ref
 val res = play24 (n1, n2, n3, n4)
 val () = fprintln! (out, "play24(", n1, ", ", n2, ", ", n3, ", ", n4, "):")
-val () = fprintln! (out, res)
+val () = (fpprint_cardlst (out, res); fprint_newline (out))
 //
 val n1 = 3
 and n2 = 5
@@ -54,7 +54,7 @@ and n4 = 13
 val out = stdout_ref
 val res = play24 (n1, n2, n3, n4)
 val () = fprintln! (out, "play24(", n1, ", ", n2, ", ", n3, ", ", n4, "):")
-val () = fprintln! (out, res)
+val () = (fpprint_cardlst (out, res); fprint_newline (out))
 //
 } (* end of [main0] *)
 
