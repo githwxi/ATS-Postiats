@@ -192,4 +192,12 @@ elements in xs.  ")
 
 (* ****** ****** *)
 
+#declnamesynop("funset_avltree_height")
+#decldescrpt("\
+
+Given a set xs represented by some AVL-tree, this function returns the
+height of the tree. ")
+
+(* ****** ****** *)
+
 (* end of [funset_avltree.atxt] *)

@@ -1,7 +1,7 @@
 (* ****** ****** *)
 
 %{
-implement srcfilename_get () = "../linset.sats"
+implement srcfilename_get () = "../linset_avltree.sats"
 %}
 
 (* ****** ****** *)
@@ -51,6 +51,14 @@ is co-variant in its type argument.\
 
 #declnamesynop("compare_elt_elt")
 #decldescrpt("This function is for comparing set elements.")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_avltree_height")
+#decldescrpt("\
+
+Given a set xs represented by some AVL-tree, this function returns the
+height of the tree. ")
 
 (* ****** ****** *)
 

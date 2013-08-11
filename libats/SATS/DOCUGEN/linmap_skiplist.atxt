@@ -66,16 +66,6 @@ co-variant in its second argument.\
 
 (* ****** ****** *)
 
-#declnamesynop("linmap_skiplist_initize")
-#decldescrpt("\
-
-This function is called to initialize the random number generator employed
-in the skip-list implementation.\
-
-")
-
-(* ****** ****** *)
-
 #declnamesynop("linmap_make_nil")
 #decldescrpt("This function creates an empty map.")
 
@@ -222,6 +212,16 @@ their associated items in a given map while keeping the map. ")
 
 This function returns a linear list of pairs consisting of keys and
 their associated items in a given map while freeing the map. ")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_skiplist_initize")
+#decldescrpt("\
+
+This function is called to initialize the random number generator employed
+in the skip-list implementation.\
+
+")
 
 (* ****** ****** *)
 

@@ -181,11 +181,6 @@ case+ ,(t) of B (h, _, _, _) => h | E ((*void*)) => 0
 
 (* ****** ****** *)
 
-fn{a:t0p}
-avltree_height{h:int} (t: avltree (a, h)): int h = avlht (t)
-
-(* ****** ****** *)
-
 fun{a:t0p}
 avlmax{h:pos} .<h>.
   (t: avltree (a, h)): a = let
@@ -991,6 +986,11 @@ end // end of [aux]
 in
   aux (xs, list_vt_nil)
 end // end of [funset_listize]
+
+(* ****** ****** *)
+
+implement{a}
+funset_avltree_height (xs) = avlht (xs)
 
 (* ****** ****** *)
 

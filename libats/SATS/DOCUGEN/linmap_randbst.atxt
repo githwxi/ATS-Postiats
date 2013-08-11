@@ -60,20 +60,6 @@ co-variant in its second argument.\
 
 (* ****** ****** *)
 
-#declnamesynop("linmap_randbst_initize")
-#decldescrpt("\
-
-This function is called to initialize the random number generator employed
-in the implementation of randomized binary search trees.\
-
-")
-
-(* ****** ****** *)
-
-#declnamesynop("linmap_randbst_random_m_n")
-
-(* ****** ****** *)
-
 #declnamesynop("linmap_nil")
 #decldescrpt("This function creates an empty map.")
 
@@ -153,6 +139,20 @@ the items in the map is handled by calling #dyncode("linmap_listize$copy").\
 
 This function returns a linear list of pairs consisting of keys and
 their associated items in a given map while freeing the map. ")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_randbst_initize")
+#decldescrpt("\
+
+This function is called to initialize the random number generator employed
+in the implementation of randomized binary search trees.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_randbst_random_m_n")
 
 (* ****** ****** *)
 

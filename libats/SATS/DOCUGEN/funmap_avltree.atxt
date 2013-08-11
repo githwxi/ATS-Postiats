@@ -82,4 +82,8 @@ O(n). ")
 
 (* ****** ****** *)
 
+#declnamesynop("funmap_avltree_height")
+
+(* ****** ****** *)
+
 (* end of [funmap_avltree.atxt] *)

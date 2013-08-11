@@ -20,7 +20,7 @@ ATSLIB/libats/linhashtbl_chain\
 (* ****** ****** *)
 
 This package implements linear hashtables where the buckets associated with
-keys are represented as doubly-linked lists.
+keys are represented as (singly or doubly) linked lists.
 
 (* ****** ****** *)
 
