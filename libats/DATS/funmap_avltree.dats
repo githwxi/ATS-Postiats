@@ -28,8 +28,19 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: hwxi AT cs DOT bu DOT edu *)
-(* Start time: December, 2012 *)
+(* Authoremail: gmhwxi AT gmail DOT com *)
+(* Start time: August, 2013 *)
+
+(* ****** ****** *)
+
+#define
+ATS_PACKNAME "ATSLIB.libats.funset_avltree"
+#define
+ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
+
+(* ****** ****** *)
+
+staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -148,6 +159,46 @@ end // end of [funmap_size]
 
 (* ****** ****** *)
 
+implement
+{key,itm}
+funmap_search
+  (map, k0, res) = let
+//
+fun search{h:nat} .<h>.
+(
+  t0: avltree (key, itm, h)
+, res: &itm? >> opt (itm, b)
+) :<!wrt> #[b:bool] bool(b) = let
+in
+//
+case+ t0 of
+| B (
+    _(*h*), k, x, tl, tr
+  ) => let
+    val sgn =
+      compare_key_key<key> (k0, k)
+    // end of [val]
+  in
+    case+ 0 of
+    | _ when sgn < 0 => search (tl, res)
+    | _ when sgn > 0 => search (tr, res)
+    | _ => let
+        val () = res := x
+        prval () = opt_some{itm}(res) in true
+      end // end of [_]
+  end // end of [B]
+| E () => 
+    let prval () = opt_none{itm}(res) in false end
+  // end of [E]
+//
+end // end of [search]
+//
+in
+  search (map, res)
+end // end of [funmap_search]
+
+(* ****** ****** *)
+
 macdef
 avlht (t) =
 (
@@ -245,46 +296,6 @@ end // end of [avltree_rrotate]
 
 implement
 {key,itm}
-funmap_search
-  (map, k0, res) = let
-//
-fun search{h:nat} .<h>.
-(
-  t0: avltree (key, itm, h)
-, res: &itm? >> opt (itm, b)
-) :<!wrt> #[b:bool] bool(b) = let
-in
-//
-case+ t0 of
-| B (
-    _(*h*), k, x, tl, tr
-  ) => let
-    val sgn =
-      compare_key_key<key> (k0, k)
-    // end of [val]
-  in
-    case+ 0 of
-    | _ when sgn < 0 => search (tl, res)
-    | _ when sgn > 0 => search (tr, res)
-    | _ => let
-        val () = res := x
-        prval () = opt_some{itm}(res) in true
-      end // end of [_]
-  end // end of [B]
-| E () => 
-    let prval () = opt_none{itm}(res) in false end
-  // end of [E]
-//
-end // end of [search]
-//
-in
-  search (map, res)
-end // end of [funmap_search]
-
-(* ****** ****** *)
-
-implement
-{key,itm}
 funmap_insert
 (
   map, k0, x0, res2
@@ -295,7 +306,8 @@ fun insert{h:nat} .<h>.
   t0: avltree (key, itm, h)
 , res: &bool? >> bool (b)
 , res2: &itm? >> opt (itm, b)
-) :<!wrt> #[b:bool] avltree_inc (key, itm, h) = let
+) :<!wrt> #[b:bool]
+  avltree_inc (key, itm, h) = let
 in
 //
 case+ t0 of
@@ -323,9 +335,9 @@ case+ t0 of
         and hr = avlht (tr) : int (hr)
       in
         if hr - hl <= HTDF then
-          B (1+max(hl, hr), k, x, tl, tr)
+          B{key,itm}(1+max(hl, hr), k, x, tl, tr)
         else // hl+HTDF1 = hr
-          avltree_lrotate (k, x, hl, tl, hr, tr)
+          avltree_lrotate<key,itm> (k, x, hl, tl, hr, tr)
         // end of [if]
       end // end of [sgn > 0]
     | _ (* sgn=0 *) => let
@@ -346,9 +358,312 @@ case+ t0 of
 end // end of [insert]
 //
 var res: bool // uninitialized
-val () = map := insert (map, res, res2)
+val ((*void*)) = map := insert (map, res, res2)
 //
 } // end of [funmap_insert]
+
+(* ****** ****** *)
+
+fun{
+key,itm:t0p
+} avlmaxout{h:pos} .<h>.
+(
+  t: avltree (key, itm, h)
+, k0: &key? >> key, x0: &itm? >> itm
+) :<!wrt> avltree_dec (key, itm, h) = let
+//
+val+B{..}{hl,hr}(h, k, x, tl, tr) = t
+//
+in
+//
+case+ tr of
+| B _ => let
+    val [hr:int]
+      tr = avlmaxout<key,itm> (tr, k0, x0)
+    val hl = avlht(tl) : int(hl)
+    and hr = avlht(tr) : int(hr)
+  in
+    if hl - hr <= HTDF
+      then B{key,itm}(1+max(hl,hr), k, x, tl, tr)
+      else avltree_rrotate<key,itm> (k, x, hl, tl, hr, tr)
+    // end of [if]
+  end // end of [B]
+| E () => (k0 := k; x0 := x; tl)
+//
+end // end of [avlmaxout]
+
+(* ****** ****** *)
+
+fun{
+key,itm:t0p
+} avlminout{h:pos} .<h>.
+(
+  t: avltree (key, itm, h)
+, k0: &key? >> key, x0: &itm? >> itm
+) :<!wrt> avltree_dec (key, itm, h) = let
+//
+val+B{..}{hl,hr}(h, k, x, tl, tr) = t
+//
+in
+//
+case+ tl of
+| B _ => let
+    val [hl:int]
+      tl = avlminout<key,itm> (tl, k0, x0)
+    val hl = avlht(tl) : int(hl)
+    and hr = avlht(tr) : int(hr)
+  in
+    if hr - hl <= HTDF
+      then B{key,itm}(1+max(hl,hr), k, x, tl, tr)
+      else avltree_lrotate<key,itm> (k, x, hl, tl, hr, tr)
+    // end of [if]
+  end // end of [B]
+| E () => (k0 := k; x0 := x; tr)
+//
+end // end of [avlminout]
+
+(* ****** ****** *)
+
+(*
+** left join: height(tl) >= height(tr)
+*)
+fun{
+key,itm:t0p
+} avltree_ljoin
+  {hl,hr:nat | hl >= hr} .<hl>.
+(
+  k: key, x: itm
+, tl: avltree (key, itm, hl)
+, tr: avltree (key, itm, hr)
+) :<> avltree_inc (key, itm, hl) = let
+  val hl = avlht(tl): int hl
+  and hr = avlht(tr): int hr
+in
+//
+if hl >= hr + HTDF1 then let
+  val+B{..}{hll, hlr}(_, kl, xl, tll, tlr) = tl
+  val [hlr:int] tlr = avltree_ljoin<key,itm> (k, x, tlr, tr)
+  val hll = avlht(tll): int hll
+  and hlr = avlht(tlr): int hlr
+in
+  if hlr <= hll + HTDF
+    then B{key,itm}(1+max(hll,hlr), kl, xl, tll, tlr)
+    else avltree_lrotate<key,itm> (kl, xl, hll, tll, hlr, tlr)
+  // end of [if]
+end else B{key,itm}(hl+1, k, x, tl, tr) // end of [if]
+//
+end // end of [avltree_ljoin]
+
+(* ****** ****** *)
+
+(*
+** right join: height(tl) <= height(tr)
+*)
+fun{
+key,itm:t0p
+} avltree_rjoin
+  {hl,hr:nat | hl <= hr} .<hr>.
+(
+  k: key, x: itm
+, tl: avltree (key, itm, hl)
+, tr: avltree (key, itm, hr)
+) :<> avltree_inc (key, itm, hr) = let
+  val hl = avlht(tl): int hl
+  and hr = avlht(tr): int hr
+in
+//
+if hr >= hl + HTDF1 then let
+  val+B{..}{hrl,hrr}(_, kr, xr, trl, trr) = tr
+  val [hrl:int] trl = avltree_rjoin<key,itm> (k, x, tl, trl)
+  val hrl = avlht(trl): int hrl
+  and hrr = avlht(trr): int hrr
+in
+  if hrl <= hrr + HTDF
+    then B{key,itm}(1+max(hrl,hrr), kr, xr, trl, trr)
+    else avltree_rrotate<key,itm> (kr, xr, hrl, trl, hrr, trr)
+  // end of [if]
+end else B{key,itm}(hr+1, k, x, tl, tr) // end of [if]
+//
+end // end of [avltree_rjoin]
+
+(* ****** ****** *)
+
+fn{
+key,itm:t0p
+} avltree_join
+  {hl,hr:nat}
+(
+  k: key, x: itm
+, tl: avltree (key, itm, hl)
+, tr: avltree (key, itm, hr)
+) :<> [
+  h:int
+| hl <= h
+; hr <= h
+; h <= 1+max(hl,hr)
+] avltree (key, itm, h) = let
+  val hl = avlht(tl): int hl
+  and hr = avlht(tr): int hr
+in
+  if hl >= hr then
+    avltree_ljoin<key,itm> (k, x, tl, tr) else avltree_rjoin<key,itm> (k, x, tl, tr)
+  // end of [if]
+end // end of [avltree_join]
+
+(* ****** ****** *)
+
+fn{
+key,itm:t0p
+} avltree_concat
+  {hl,hr:nat}
+(
+  tl: avltree (key, itm, hl)
+, tr: avltree (key, itm, hr)
+) :<> [
+  h:nat
+| h <= 1+max(hl,hr)
+] avltree (key, itm, h) =
+(
+case+
+  (tl, tr) of
+| (E (), _) => tr
+| (_, E ()) => tl
+| (_, _) =>> let
+    var kmin: key // uninitialized
+    var xmin: itm // uninitialized
+    val tr = $effmask_wrt
+      (avlminout<key,itm> (tr, kmin, xmin))
+    // end of [val]
+  in
+    avltree_join<key,itm> (kmin, xmin, tl, tr)
+  end // end of [_, _]
+) // end of [avltree_concat]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+funmap_takeout
+(
+  map, k0, res2
+) = res where {
+//
+fun takeout{h:nat} .<h>.
+(
+  t0: avltree (key, itm, h)
+, res: &bool? >> bool(b)
+, res2: &itm? >> opt(itm, b)
+) :<!wrt> #[b:bool]
+  avltree_dec (key, itm, h) = let
+in
+//
+case+ t0 of
+| B {..}{hl,hr}
+    (h, k, x, tl, tr) => let
+    val sgn = compare_key_key<key> (k0, k)
+  in
+    case+ 0 of
+    | _ when sgn < 0 => let
+        val [hl:int] tl = takeout (tl, res, res2)
+        val hl = avlht(tl) : int hl
+        and hr = avlht(tr) : int hr
+      in
+        if hr - hl <= HTDF
+          then B{key,itm}(1+max(hl,hr), k, x, tl, tr)
+          else avltree_lrotate<key,itm> (k, x, hl, tl, hr, tr)
+        // end of [if]
+      end // end of [sgn < 0]
+    | _ when sgn > 0 => let
+        val [hr:int] tr = takeout (tr, res, res2)
+        val hl = avlht(tl) : int hl
+        and hr = avlht(tr) : int hr
+      in
+        if hl - hr <= HTDF
+          then B{key,itm}(1+max(hl,hr), k, x, tl, tr)
+          else avltree_rrotate<key,itm> (k, x, hl, tl, hr, tr)
+        // end of [if]
+      end // end of [sgn > 0]
+    | _ (* sgn = 0 *) => let
+        val () = res := true // fould
+        val () = res2 := x
+        prval () = opt_some{itm}(res2)
+      in
+        case+ tr of
+        | B _ => let
+            var kmin: key?
+            var xmin: itm?
+            val [hr:int] tr = avlminout<key,itm> (tr, kmin, xmin)
+            val hl = avlht(tl) : int (hl)
+            and hr = avlht(tr) : int (hr)
+          in
+            if hl - hr <= HTDF
+              then B{key,itm}(1+max(hl,hr), kmin, xmin, tl, tr)
+              else avltree_rrotate<key,itm> (kmin, xmin, hl, tl, hr, tr)
+            // end of [if]
+          end // end of [B]
+        | E _ => tl
+      end // end of [sgn = 0]
+  end // end of [B]
+| E ((*void*)) => let
+    val () = res := false
+    prval () = opt_none{itm}(res2) in t0 
+  end // end of [E]
+//
+end // end of [takeout]
+//
+var res: bool
+val ((*void*)) = map := takeout (map, res, res2)
+//
+} // end of [funmap_takeout]
+
+(* ****** ****** *)
+
+implement
+{key,itm}{env}
+funmap_foreach_env
+  (xs, env) = let
+//
+exception DISCONT of ()
+//
+val p_env = addr@ (env)
+//
+fun foreach
+  {h:nat} .<h>.
+(
+  t: avltree (key, itm, h), p_env: ptr
+) : void = let
+in
+//
+case+ t of
+| B (_, k, x, tl, tr) => let
+//
+    val () = foreach (tl, p_env)
+//
+    val (
+      pf, fpf | p_env
+    ) = $UN.ptr_vtake (p_env)
+    val cont =
+      funmap_foreach$cont<key,itm><env> (k, x, !p_env)
+    val ((*void*)) =
+    (
+      if cont then
+        funmap_foreach$fwork<key,itm><env> (k, x, !p_env)
+      else $raise DISCONT()
+    ) : void // end of [val]
+    prval () = fpf (pf)
+//
+    val () = foreach (tr, p_env)
+//
+  in
+    // nothing
+  end // end of [B]
+| E ((*void*)) => ()
+//
+end // end of [foreach]
+//
+in
+  try foreach (xs, p_env) with ~DISCONT() => ()
+end // end of [funmap_foreach_env]
 
 (* ****** ****** *)
 

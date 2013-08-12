@@ -466,7 +466,7 @@ val () = $effmask_wrt (__free ($UN.cast2ptr(f)))
 //
 in
   // nothing
-end // end of [funralist_foreach]
+end // end of [funralist_foreach_env]
 
 end // end of [local]
 

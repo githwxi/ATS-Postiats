@@ -35,8 +35,6 @@
 ATS_PACKNAME "ATSLIB.libats.funset_avltree"
 #define
 ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
-#define
-ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 (* ****** ****** *)
 
@@ -278,6 +276,57 @@ end // end of [avltree_rrotate]
 
 (* ****** ****** *)
 
+implement{a}
+funset_insert
+  (xs, x0) = found where
+{
+//
+fun insert
+  {h:nat} .<h>.
+(
+  t: avltree (a, h), found: &bool? >> bool
+) :<!wrt> avltree_inc (a, h) = let
+in
+//
+case+ t of
+| B {..}{hl,hr}
+    (h, x, tl, tr) => let
+    val sgn = compare_elt_elt<a> (x0, x)
+  in
+    if sgn < 0 then let
+      val [hl:int] tl = insert (tl, found)
+      val hl = avlht(tl) : int hl
+      and hr = avlht(tr) : int hr
+    in
+      if hl - hr <= HTDF
+        then B{a}(1+max(hl,hr), x, tl, tr)
+        else avltree_rrotate<a> (x, hl, tl, hr, tr)
+      // end of [if]
+    end else if sgn > 0 then let
+      val [hr:int] tr = insert (tr, found)
+      val hl = avlht(tl) : int hl
+      and hr = avlht(tr) : int hr
+    in
+      if hr - hl <= HTDF
+        then B{a}(1+max(hl, hr), x, tl, tr)
+        else avltree_lrotate<a> (x, hl, tl, hr, tr)
+      // end of [if]
+    end else let (* [k0] already exists *)
+      val () = found := true in B{a}(h, x0, tl, tr)
+    end // end of [if]
+  end // end of [B]
+| E ((*void*)) => let // [x0] is not in [xs]
+    val () = found := false in B{a}(1, x0, E(), E())
+  end // end of [E]
+end // end of [insert]
+//
+var found: bool // uninitialized
+val () = (xs := insert (xs, found))
+//
+} // end of [funset_insert]
+
+(* ****** ****** *)
+
 fun{a:t0p}
 avlmaxout{h:pos} .<h>.
 (
@@ -422,10 +471,10 @@ case+
 | (E (), _) => tr
 | (_, E ()) => tl
 | (_, _) =>> let
-    var x_min: a // uninitialized
-    val tr = $effmask_wrt (avlminout<a> (tr, x_min))
+    var xmin: a // uninitialized
+    val tr = $effmask_wrt (avlminout<a> (tr, xmin))
   in
-    avltree_join<a> (x_min, tl, tr)
+    avltree_join<a> (xmin, tl, tr)
   end // end of [_, _]
 ) // end of [avltree_concat]
 
@@ -463,61 +512,10 @@ case+ t of
 (* ****** ****** *)
 
 implement{a}
-funset_insert
-  (xs, x0) = found where
-{
-//
-fun insert
-  {h:nat} .<h>.
-(
-  t: avltree (a, h), found: &bool? >> bool
-) :<!wrt> avltree_inc (a, h) = let
-in
-//
-case+ t of
-| B {..}{hl,hr}
-    (h, x, tl, tr) => let
-    val sgn = compare_elt_elt<a> (x0, x)
-  in
-    if sgn < 0 then let
-      val [hl:int] tl = insert (tl, found)
-      val hl = avlht(tl) : int hl
-      and hr = avlht(tr) : int hr
-    in
-      if hl - hr <= HTDF
-        then B{a}(1+max(hl,hr), x, tl, tr)
-        else avltree_rrotate<a> (x, hl, tl, hr, tr)
-      // end of [if]
-    end else if sgn > 0 then let
-      val [hr:int] tr = insert (tr, found)
-      val hl = avlht(tl) : int hl
-      and hr = avlht(tr) : int hr
-    in
-      if hr - hl <= HTDF
-        then B{a}(1+max(hl, hr), x, tl, tr)
-        else avltree_lrotate<a> (x, hl, tl, hr, tr)
-      // end of [if]
-    end else let (* [k0] already exists *)
-      val () = found := true in B{a}(h, x0, tl, tr)
-    end // end of [if]
-  end // end of [B]
-| E ((*void*)) => let // [x0] is not in [xs]
-    val () = found := false in B{a}(1, x0, E(), E())
-  end // end of [E]
-end // end of [insert]
-//
-var found: bool // uninitialized
-val () = (xs := insert (xs, found))
-//
-} // end of [funset_insert]
-
-(* ****** ****** *)
-
-implement{a}
 funset_remove
   (xs, x0) = let
 //
-fun aux{h:nat} .<h>.
+fun remove{h:nat} .<h>.
 (
   t: avltree (a, h), found: &bool? >> bool
 ) :<!wrt> avltree_dec (a, h) = let
@@ -530,7 +528,7 @@ case+ t of
   in
     case+ 0 of
     | _ when sgn < 0 => let
-        val [hl:int] tl = aux (tl, found)
+        val [hl:int] tl = remove (tl, found)
         val hl = avlht(tl) : int hl
         and hr = avlht(tr) : int hr
       in
@@ -540,7 +538,7 @@ case+ t of
         // end of [if]
       end // end of [sgn < 0]
     | _ when sgn > 0 => let
-        val [hr:int] tr = aux (tr, found)
+        val [hr:int] tr = remove (tr, found)
         val hl = avlht(tl) : int hl
         and hr = avlht(tr) : int hr
       in
@@ -554,9 +552,8 @@ case+ t of
       in
         case+ tr of
         | B _ => let
-            var xmin: a?
-            val [hr:int]
-            tr = avlminout<a> (tr, xmin)
+            var xmin: a? // uninitialized
+            val [hr:int] tr = avlminout<a> (tr, xmin)
             val hl = avlht(tl) : int (hl)
             and hr = avlht(tr) : int (hr)
           in
@@ -572,10 +569,10 @@ case+ t of
     let val () = found := false in E () end
   (* end of [E] *)
 //
-end // end of [aux]
+end // end of [remove]
 //
 var found: bool
-val () = (xs := aux (xs, found))
+val () = (xs := remove (xs, found))
 //
 in
   found
@@ -957,7 +954,7 @@ end // end of [foreach]
 //
 in
   try foreach (xs, p_env) with ~DISCONT() => ()
-end // end of [funralist_foreach]
+end // end of [funset_foreach_env]
 
 (* ****** ****** *)
 
