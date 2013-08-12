@@ -42,12 +42,14 @@ typedef stamp = $STMP.stamp
 
 (* ****** ****** *)
 
-staload LAB = "./pats_label.sats"
+staload
+LAB = "./pats_label.sats"
 typedef label = $LAB.label
 
 (* ****** ****** *)
 //
-staload FIL = "./pats_filename.sats"
+staload
+FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
 //
 staload LOC = "./pats_location.sats"
@@ -73,7 +75,8 @@ staload "./pats_staexp2.sats"
 (* ****** ****** *)
 
 staload
-S2EUT = "./pats_staexp2_util.sats"
+S2EUT =
+"./pats_staexp2_util.sats"
 vtypedef stasub = $S2EUT.stasub 
 
 (* ****** ****** *)

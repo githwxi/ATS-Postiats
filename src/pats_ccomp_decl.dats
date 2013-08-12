@@ -765,6 +765,7 @@ case+
     auxlam (env, loc0, d2c, imparg, tmparg, hde0)
   ) // end of [HDElam]
 | HDEcst (d2c) => let
+    val () = the_dyncstlst_add (d2c)
     val fcopt = d2cst_get2_funclo (d2c)
   in
     funlab_make_dcst_type (d2c, hse0, fcopt)
