@@ -1535,6 +1535,14 @@ fun ccompenv_dec_loopexnenv (env: !ccompenv): void
 
 (* ****** ****** *)
 
+fun ccompenv_inc_tailcalenv (env: !ccompenv): void
+fun ccompenv_dec_tailcalenv (env: !ccompenv): void
+fun ccompenv_add_tailcalenv (env: !ccompenv, fl: funlab): void
+fun ccompenv_addlst_tailcalenv (env: !ccompenv, fls: funlablst): void
+fun ccompenv_find_tailcalenv (env: !ccompenv, fl: funlab): bool
+
+(* ****** ****** *)
+
 (*
 fun ccompenv_get_funlevel (env: !ccompenv): int (* function level *)
 *)

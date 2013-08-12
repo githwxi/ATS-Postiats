@@ -162,9 +162,7 @@ case+ hid0.hidecl_node of
 | HIDfundecs
     (knd, decarg, hfds) => let
     val lvl0 = the_d2varlev_get ()
-    val () =
-      hifundeclst_ccomp (env, lvl0, knd, decarg, hfds)
-    // end of [val]
+    val () = hifundeclst_ccomp (env, lvl0, knd, decarg, hfds)
   in
     primdec_fundecs (loc0, knd, decarg, hfds)
   end // end of [HIDfundecs]
@@ -384,38 +382,40 @@ case+ hfds of
     val loc = hfd.hifundec_loc
     val d2v = hfd.hifundec_var
     val () = d2var_set_level (d2v, lvl0)
-    val-Some (hse) = d2var_get2_hisexp (d2v)
-    val fcopt = None_vt() // HX: determined by [hse]
+    val-Some(hse) = d2var_get2_hisexp (d2v)
+    val fcopt = None_vt() // HX: by [hse]
+//
+    val flab =
+      funlab_make_dvar_type (d2v, hse, fcopt)
+    val () = the_funlablst_add (flab)
 //
     val tmplev = ccompenv_get_tmplevel (env)
-//
-    val fl = funlab_make_dvar_type (d2v, hse, fcopt)
-//
-    val pmv =
-    (
+    val pmv = (
       if tmplev = 0
-        then primval_make_funlab (loc, fl)
-        else primval_make_d2vfunlab (loc, d2v, fl)
+        then primval_make_funlab (loc, flab)
+        else primval_make_d2vfunlab (loc, d2v, flab)
+      // end of [if]
     ) : primval // end of [val]
 //
-    val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
+    val (
+    ) = ccompenv_add_vbindmapenvall (env, d2v, pmv)
 //
-    val istmp =
-    (
-      if tmplev > 0 then true else list_is_cons (decarg)
+    val istmp = (
+      if tmplev > 0
+        then true else list_is_cons (decarg)
+      // end of [if]
     ) : bool // end of [val]
-    val () = if istmp then funlab_set_tmpknd (fl, 1)
+    val () = if istmp then funlab_set_tmpknd (flab, 1)
 //
-    val () =
-    (
+    val () = (
       case+ decarg of
       | list_cons _ => ccompenv_add_fundec (env, hfd)
       | list_nil () => ()
     ) : void // end of [val]
 //
-    val fls = auxinit (env, lvl0, decarg, hfds)
+    val flabs = auxinit (env, lvl0, decarg, hfds)
   in
-    list_vt_cons (fl, fls)
+    list_vt_cons (flab, flabs)
   end // end of [list_cons]
 | list_nil () => list_vt_nil ()
 //
@@ -428,6 +428,9 @@ fun auxmain
 , knd: funkind, decarg: s2qualst
 , hfds: list (hifundec, n), flabs: list_vt (funlab, n)
 ) : void = let
+//
+val () = println! ("hifundeclst_ccomp: auxmain")
+//
 in
 //
 case+ hfds of
@@ -445,6 +448,8 @@ case+ hfds of
 //
     val istmp = list_is_cons (decarg)
     val () = if istmp then ccompenv_inc_tmplevel (env)
+    val isfnx = funkind_is_tailrecur (knd)
+    val () = if not(isfnx) then ccompenv_add_tailcalenv (env, flab)
     val fent =
       hidexp_ccomp_funlab_arg_body (
       env, flab, imparg, tmparg, prolog, loc, hips_arg, hde_body
@@ -474,12 +479,22 @@ hifundeclst_ccomp
 (
   env, lvl0, knd, decarg, hfds
 ) = let
-  val flabs =
-    auxinit (env, lvl0, decarg, hfds)
-  // end of [val]
-  val () = the_funlablst_addlst ($UN.castvwtp1{funlablst}(flabs))
+//
+val flabs =
+  auxinit (env, lvl0, decarg, hfds)
+//
+val () = ccompenv_inc_tailcalenv (env)
+//
+val isfnx = funkind_is_tailrecur (knd)
+val flabs2 = $UN.castvwtp1{funlablst}(flabs)
+val () = if isfnx then ccompenv_addlst_tailcalenv (env, flabs2)
+//
+val () = auxmain (env, knd, decarg, hfds, flabs)
+//
+val () = ccompenv_dec_tailcalenv (env)
+//
 in
-  auxmain (env, knd, decarg, hfds, flabs)
+  // nothing
 end // end of [hifundeclst_ccomp]
 
 end // end of [local]
@@ -716,6 +731,8 @@ val-HDElam (hips_arg, hde_body) = hde0.hidexp_node
 val flab =
   funlab_make_dcst_type (d2c, hse_fun, fcopt)
 //
+val () = the_funlablst_add (flab)
+//
 val tmplev = ccompenv_get_tmplevel (env)
 val () =
   if tmplev > 0 then funlab_set_tmpknd (flab, 1)
@@ -734,7 +751,6 @@ in
   // end of [hidexp_ccomp_funlab_arg_body]
 end // end of [val]
 //
-val () = the_funlablst_add (flab)
 val () = funlab_set_funent (flab, Some (fent))
 //
 (*

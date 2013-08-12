@@ -42,6 +42,12 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
+staload
+STMP = "./pats_stamp.sats"
+typedef stamp = $STMP.stamp
+
+(* ****** ****** *)
+
 staload FIL = "./pats_filename.sats"
 
 (* ****** ****** *)
@@ -630,6 +636,28 @@ end // end of [loopexnenv_free]
 (* ****** ****** *)
 
 vtypedef
+tailcalenv = List_vt (funlablst_vt)
+
+extern
+fun tailcalenv_free (xs: tailcalenv): void
+
+implement
+tailcalenv_free (xs) = let
+in
+//
+case+ xs of
+| ~list_vt_cons
+    (x, xs) =>
+  (
+    list_vt_free (x); tailcalenv_free (xs)
+  ) // end of [list_vt_cons]
+| ~list_vt_nil () => ()
+//
+end // end of [tailcalenv_free]
+
+(* ****** ****** *)
+
+vtypedef
 flabsetenv = List_vt (funlabset_vt)
 
 extern
@@ -696,12 +724,15 @@ ccompenv_struct =
 , ccompenv_freeconenv= freeconenv
 , ccompenv_loopexnenv= loopexnenv
 //
+, ccompenv_tailcalenv= tailcalenv
+//
 , ccompenv_flabsetenv= flabsetenv
 , ccompenv_dvarsetenv= dvarsetenv
 , ccompenv_vbindmapenv= vbindmapenv
 //
 , ccompenv_markenvlst= markenvlst_vt
 , ccompenv_vbindmapall= d2varmap_vt (primval)
+//
 } // end of [ccompenv_struct]
 
 (* ****** ****** *)
@@ -719,6 +750,8 @@ ccompenv_struct_uninitize (x) = let
 //
   val () = freeconenv_free (x.ccompenv_freeconenv)
   val () = loopexnenv_free (x.ccompenv_loopexnenv)
+//
+  val () = tailcalenv_free (x.ccompenv_tailcalenv)
 //
   val () = flabsetenv_free (x.ccompenv_flabsetenv)
   val () = dvarsetenv_free (x.ccompenv_dvarsetenv)
@@ -753,6 +786,8 @@ val () = p->ccompenv_tmprecdepth := 0
 //
 val () = p->ccompenv_freeconenv := list_vt_nil ()
 val () = p->ccompenv_loopexnenv := list_vt_nil ()
+//
+val () = p->ccompenv_tailcalenv := list_vt_nil ()
 //
 val () = p->ccompenv_flabsetenv := list_vt_nil ()
 val () = p->ccompenv_dvarsetenv := list_vt_nil ()
@@ -975,6 +1010,111 @@ ccompenv_get_loopcont
 in
   tl_cont
 end // end of [ccompenv_get_loopcont]
+
+(* ****** ****** *)
+
+implement
+ccompenv_inc_tailcalenv
+  (env) = () where
+{
+//
+val CCOMPENV (!p) = env
+val fls = list_vt_nil{funlab}()
+val flss = p->ccompenv_tailcalenv
+val ((*void*)) =
+  p->ccompenv_tailcalenv := list_vt_cons (fls, flss)
+prval () = fold@ (env)
+//
+} // end of [ccompenv_inc_tailcalenv]
+
+implement
+ccompenv_dec_tailcalenv
+  (env) = () where
+{
+//
+val CCOMPENV (!p) = env
+val-~list_vt_cons
+  (fls, flss) = p->ccompenv_tailcalenv
+val () = list_vt_free (fls)
+val () = p->ccompenv_tailcalenv := flss
+prval () = fold@ (env)
+//
+} // end of [ccompenv_dec_tailcalenv]
+
+(* ****** ****** *)
+
+implement
+ccompenv_add_tailcalenv
+  (env, fl0) = () where
+{
+//
+val CCOMPENV (!p) = env
+val-list_vt_cons
+  (!p_fls, _) = p->ccompenv_tailcalenv
+val () = !p_fls := list_vt_cons (fl0, !p_fls)
+prval () = fold@ (p->ccompenv_tailcalenv)
+prval () = fold@ (env)
+//
+} // end of [ccompenv_add_tailcalenv]
+
+implement
+ccompenv_addlst_tailcalenv
+  (env, fls) = let
+in
+//
+case+ fls of
+| list_cons
+    (fl, fls) =>
+  {
+    val () = ccompenv_add_tailcalenv (env, fl)
+    val () = ccompenv_addlst_tailcalenv (env, fls)
+  } // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [ccompenv_addlst_tailcalenv]
+
+(* ****** ****** *)
+
+local
+
+fun auxfind
+(
+  s0: stamp, fls: List(funlab)
+) : bool = let
+in
+//
+case+ fls of
+| list_cons
+    (fl, fls) => let
+    val s = funlab_get_stamp (fl)
+    val iseq = $STMP.eq_stamp_stamp (s0, s)
+  in
+    if iseq then true else auxfind (s0, fls)
+  end // end of [list_cons]
+| list_nil ((*void*)) => false
+//
+end // end of [auxfind]
+
+in (* in of [local] *)
+
+implement
+ccompenv_find_tailcalenv
+  (env, fl0) = let
+//
+val s0 = funlab_get_stamp (fl0)
+//
+val CCOMPENV (!p) = env
+val-list_vt_cons
+  (!p_fls, _) = p->ccompenv_tailcalenv
+val ans = auxfind (s0, $UN.linlst2lst(!p_fls))
+prval () = fold@ (p->ccompenv_tailcalenv)
+prval () = fold@ (env)
+//
+in
+  ans
+end // end of [ccompenv_find_tailcalenv]
+
+end // end of [local]
 
 (* ****** ****** *)
 

@@ -1473,9 +1473,17 @@ val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 val-HDElam (hips_arg, hde_body) = hde0.hidexp_node
 //
+val (
+) = ccompenv_inc_tailcalenv (env)
+//
 val flab = funlab_make_type (hse0)
+//
+val () = the_funlablst_add (flab)
+val () = ccompenv_add_tailcalenv (env, flab)
+//
 val tmplev = ccompenv_get_tmplevel (env)
-val () = if tmplev > 0 then funlab_set_tmpknd (flab, 1)
+val () =
+  if tmplev > 0 then funlab_set_tmpknd (flab, 1)
 //
 val fent = let
   val imparg = list_nil(*s2vs*)
@@ -1487,9 +1495,10 @@ in
     (env, flab, imparg, tmparg, prolog, loc0, hips_arg, hde_body)
   // end of [hidexp_ccomp_funlab_arg_body]
 end // end of [val]
+val () =
+  funlab_set_funent (flab, Some(fent))
 //
-val () = the_funlablst_add (flab)
-val () = funlab_set_funent (flab, Some (fent))
+val () = ccompenv_dec_tailcalenv (env)
 //
 (*
 val out = stdout_ref
