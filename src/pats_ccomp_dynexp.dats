@@ -1056,6 +1056,48 @@ end // end of [hidexp_ccomp_ret_con]
 
 (* ****** ****** *)
 
+local
+
+fun auxtail
+(
+  env: !ccompenv
+, tmp: tmpvar, pmv: primval
+, ntl0: &int? >> int
+) : funlabopt_vt = let
+//
+val () = ntl0 := ~1
+val isret = tmpvar_isret (tmp)
+//
+in
+//
+if isret then
+(
+case+
+  pmv.primval_node of
+| PMVcst (d2c) => let
+    val () = ntl0 := 0
+  in
+    ccompenv_find_tailcalenv_cst (env, d2c)
+  end
+| PMVfunlab (fl) => let
+    val ntl = ccompenv_find_tailcalenv (env, fl)
+    val () = ntl0 := ntl
+  in
+    if ntl >= 0 then Some_vt (fl) else None_vt ()
+  end
+| PMVcfunlab (knd, fl) => let
+    val ntl = ccompenv_find_tailcalenv (env, fl)
+    val () = ntl0 := ntl
+  in
+    if ntl >= 0 then Some_vt (fl) else None_vt ()
+  end
+| _ => None_vt()
+) else None_vt() // end of [if]
+//
+end // end of [auxtail]
+
+in (* in of [local] *)
+
 implement
 hidexp_ccomp_ret_app
   (env, res, tmpret, hde0) = let
@@ -1067,11 +1109,65 @@ val-HDEapp (hde_fun, hse_fun, hdes_arg) = hde0.hidexp_node
 val pmv_fun = hidexp_ccomp (env, res, hde_fun)
 val pmvs_arg = hidexplst_ccomp (env, res, hdes_arg)
 //
-val ins = instr_fcall (loc0, tmpret, pmv_fun, hse_fun, pmvs_arg)
+var added: int = 0
+val isret = tmpvar_isret (tmpret)
 //
+val () =
+if isret then (
+case+
+pmv_fun.primval_node of
+//
+| PMVcst (d2c) => let
+    val opt = ccompenv_find_tailcalenv_cst (env, d2c)
+  in
+    case+ opt of
+    | ~Some_vt (fl) => let
+        val ntl = 0
+        val ins = instr_fcall2 (loc0, tmpret, fl, ntl, hse_fun, pmvs_arg)
+        val () = added := added + 1
+      in
+        instrseq_add (res, ins)
+      end // end of [Some_vt]
+    | ~None_vt ((*void*)) => ()
+  end // end of [PMVcst]
+//
+| PMVfunlab (fl) => let
+    val ntl = ccompenv_find_tailcalenv (env, fl)
+  in
+    if ntl >= 0 then let
+      val ins = instr_fcall2 (loc0, tmpret, fl, ntl, hse_fun, pmvs_arg)
+      val () = added := added + 1
+    in
+      instrseq_add (res, ins)
+    end // end of [if]
+  end // end of [PMVfunlab]
+//
+| PMVcfunlab (knd, fl) => let
+    val ntl = ccompenv_find_tailcalenv (env, fl)
+  in
+    if ntl >= 0 then let
+      val ins = instr_fcall2 (loc0, tmpret, fl, ntl, hse_fun, pmvs_arg)
+      val () = added := added + 1
+    in
+      instrseq_add (res, ins)
+    end // end of [if]
+  end // end of [PMVcfunlab]
+//
+| _ (*non-tail-recursive*) => ()
+) // end of [if]
+//
+val () =
+if added = 0 then let
+  val ins = instr_fcall (loc0, tmpret, pmv_fun, hse_fun, pmvs_arg)
 in
   instrseq_add (res, ins)
+end // end of [if]
+//
+in
+  // nothing
 end // end of [hidexp_ccomp_ret_app]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -1473,13 +1569,11 @@ val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 val-HDElam (hips_arg, hde_body) = hde0.hidexp_node
 //
-val (
-) = ccompenv_inc_tailcalenv (env)
-//
-val flab = funlab_make_type (hse0)
+val flab =
+  funlab_make_type (hse0)
 //
 val () = the_funlablst_add (flab)
-val () = ccompenv_add_tailcalenv (env, flab)
+val () = ccompenv_inc_tailcalenv (env, flab)
 //
 val tmplev = ccompenv_get_tmplevel (env)
 val () =

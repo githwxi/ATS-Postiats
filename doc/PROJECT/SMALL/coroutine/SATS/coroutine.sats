@@ -11,11 +11,6 @@ stadef coroutine = coroutine_vtype
 
 (* ****** ****** *)
 
-absvtype event_vtype (a:t@ype+) = ptr
-vtypedef event (a:t0p) = event_vtype (a)
-
-(* ****** ****** *)
-
 typedef cfun1
   (a:vt0p, b:vt0p) = (a) -<cloref1> b
 vtypedef lcfun1
@@ -99,4 +94,4 @@ co_arr_loop (co: cortn((INV(a), INV(b)), b), seed: b): cortn(a, b)
 
 (* ****** ****** *)
 
-(* end of [coroutine.sats] *)
+(* end of [coroutine_t.sats] *)

@@ -8,7 +8,7 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "./coroutine.sats"
+staload "../SATS/coroutine.sats"
 
 (* ****** ****** *)
 

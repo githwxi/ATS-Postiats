@@ -64,8 +64,12 @@ STMP = "./pats_stamp.sats"
 
 staload
 FIL = "./pats_filename.sats"
+
+(* ****** ****** *)
+
 staload
 LOC = "./pats_location.sats"
+overload fprint with $LOC.fprint_location
 
 (* ****** ****** *)
 
@@ -1428,12 +1432,16 @@ emit_instr
   (out, ins) = let
 //
 val loc0 = ins.instr_loc
-//
 // (*
 val (
 ) = fprintln!
-  (out, "/*\n", "emit_instr: ins = ", ins, "\n*/")
+  (out, "/*\n", "emit_instr: loc0 = ", loc0, "\n*/")
 // *)
+(*
+val (
+) = fprintln!
+  (out, "/*\n", "emit_instr: ins = ", ins, "\n*/")
+*)
 //
 // generating #line progma for debugging
 //
@@ -1494,6 +1502,7 @@ case+ ins.instr_node of
   // end of [INSpmove_val]
 //
 | INSfcall _ => emit_instr_fcall (out, ins)
+| INSfcall2 _ => emit_instr_fcall2 (out, ins)
 | INSextfcall _ => emit_instr_extfcall (out, ins)
 //
 | INScond

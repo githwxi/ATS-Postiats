@@ -861,7 +861,7 @@ case+ opt of
   end // end of [None]
 | Some _ => ()
 )
-val-Some (flab) = hifundec_get_funlabopt (hfd)
+val-Some(flab) = hifundec_get_funlabopt (hfd)
 //
 in
   ccomp_funlab_tmpsubst (env, loc0, hse0, flab, tsub)

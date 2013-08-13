@@ -446,10 +446,49 @@ in
   res
 end // end of [list_vt_append]
 
+#atscode_separator()
+
 implement{a}
 list_vt_extend
   (xs, y) = list_vt_append<a> (xs, cons_vt{a}(y, nil_vt()))
 // end of [list_vt_extend]
+
+#atscode_separator()
+
+implement{a}
+list_vt_unextend
+  (xs) = let
+//
+fun loop
+  {n:pos} .<n>.
+(
+  xs: &list_vt (a, n) >> list_vt (a, n-1)
+) :<!wrt> (a) = let
+//
+val+@list_vt_cons (x, xs1) = xs
+//
+in
+//
+case+ xs1 of
+| list_vt_cons _ => let
+    val x = loop (xs1)
+    prval () = fold@ (xs)
+  in
+    x
+  end // end of [list_vt_cons]
+| list_vt_nil () => let
+    val x = x
+    val xs1 = xs1
+    val () = free@{a}{0}(xs)
+  in
+    xs := xs1; x
+  end // end of [list_vt_nil]
+//
+end // end of [loop]
+//
+in
+  loop (xs)
+end // end of [list_vt_unextend]
 
 #atscode_separator()
 

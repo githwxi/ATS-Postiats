@@ -42,6 +42,7 @@ staload "./pats_intinf.sats"
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
+overload prerr with $LOC.prerr_location
 
 (* ****** ****** *)
 
@@ -283,9 +284,8 @@ case+ s3e0 of
 *)
 //
 | _ => let
-(*
-    val () = println! ("s3exp2icnstr: s3e0 = ", s3e0)
-*)
+    val () = prerrln! ("s3exp2icnstr: loc0 = ", loc0)
+    val () = prerrln! ("s3exp2icnstr: s3e0 = ", s3e0)
     val () = assertloc (false) in ICerr (loc0, $UN.cast(s3e0))
   end // end of [_]
 //

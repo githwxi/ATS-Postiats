@@ -257,7 +257,15 @@ x:vt0p
   {n:int} (xs1: list_vt (INV(x), n), x2: x):<!wrt> list_vt (x, n+1)
 // end of [list_vt_extend]
 
+fun{x:vt0p}
+list_vt_unextend{n:pos}
+  (xs: &list_vt (INV(x), n) >> list_vt (x, n-1)):<!wrt> x
+// end of [list_vt_unextend]
+
+#atscode_separator()
+
 macdef list_vt_snoc = list_vt_extend
+macdef list_vt_unsnoc = list_vt_unextend
 
 #atscode_separator()
 

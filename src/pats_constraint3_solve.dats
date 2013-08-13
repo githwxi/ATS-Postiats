@@ -187,7 +187,7 @@ ans // ~1: contradiction reached; 0: undecided yet
 //
 end // end of [auxsolve]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s3explst_solve_s2exp
@@ -320,7 +320,8 @@ c3nstr_solve_itmlst_disj (
 (* ****** ****** *)
 
 extern
-fun prerr_case_exhaustiveness_errmsg (
+fun prerr_case_exhaustiveness_errmsg
+(
   loc0: location, casknd: caskind, p2tcs: p2atcstlst
 ) : void // end of [prerr_case_exhaustiveness_errmsg]
 implement

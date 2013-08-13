@@ -279,6 +279,14 @@ clean:: ; $(RMF) strprefix_dats.o
 clean:: ; $(RMF) strprefix_dats.c
 cleanall:: ; $(RMF) strprefix strprefix.exe
 
+all:: tailcal
+tailcal: tailcal.exe
+tailcal.exe: tailcal_dats.c ;   $(CCOPT) -D_GNU_SOURCE -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+tailcal_dats.c: tailcal.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output tailcal_dats.c --dynamic tailcal.dats
+clean:: ; $(RMF) tailcal_dats.o
+clean:: ; $(RMF) tailcal_dats.c
+cleanall:: ; $(RMF) tailcal tailcal.exe
+
 all:: tally
 tally: tally.exe
 tally.exe: tally_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

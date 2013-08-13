@@ -272,6 +272,7 @@ typedef funlab = ccomp_funlab_type
 typedef funlablst = List (funlab)
 vtypedef funlablst_vt = List_vt (funlab)
 typedef funlabopt = Option (funlab)
+vtypedef funlabopt_vt = Option_vt (funlab)
 //
 fun print_funlab (x: funlab): void
 overload print with print_funlab
@@ -363,8 +364,8 @@ fun funlabset_vt_nil (): funlabset_vt
 fun funlabset_vt_free (fls: funlabset_vt): void
 fun funlabset_vt_ismem (fls: !funlabset_vt, fl: funlab): bool
 fun funlabset_vt_add (fls: funlabset_vt, fl: funlab): funlabset_vt
-fun funlabset_vt_listize (fls: !funlabset_vt): List_vt (funlab)
-fun funlabset_vt_listize_free (fls: funlabset_vt): List_vt (funlab)
+fun funlabset_vt_listize (fls: !funlabset_vt): funlablst_vt
+fun funlabset_vt_listize_free (fls: funlabset_vt): funlablst_vt
 
 fun funlablst2set (fls: funlablst): funlabset_vt
 
@@ -1029,9 +1030,10 @@ instr_node =
 //
   | INSmove_arg_val of (int(*arg*), primval)
 //
-  | INSfcall of
+  | INSfcall of // regular funcall
       (tmpvar, primval(*fun*), hisexp, primvalist(*arg*))
-    // end of [INSfcall]
+  | INSfcall2 of // tail-recursive funcall // ntl: 0/1+ : fun/fnx
+      (tmpvar, funlab, int(*ntl*), hisexp, primvalist(*arg*))
   | INSextfcall of (tmpvar, string(*fun*), primvalist(*arg*))
 //    
   | INScond of ( // conditinal instruction
@@ -1177,6 +1179,14 @@ fun instr_fcall
 , tmpret: tmpvar
 , pmv_fun: primval, hse_fun: hisexp, pmvs_arg: primvalist
 ) : instr // end of [instr_fcall]
+
+fun instr_fcall2
+(
+  loc: location
+, tmpret: tmpvar
+, fl: funlab, ntl: int, hse_fun: hisexp
+, pmvs_arg: primvalist
+) : instr // end of [instr_fcall2]
 
 fun instr_extfcall
 (
@@ -1535,11 +1545,11 @@ fun ccompenv_dec_loopexnenv (env: !ccompenv): void
 
 (* ****** ****** *)
 
-fun ccompenv_inc_tailcalenv (env: !ccompenv): void
 fun ccompenv_dec_tailcalenv (env: !ccompenv): void
-fun ccompenv_add_tailcalenv (env: !ccompenv, fl: funlab): void
-fun ccompenv_addlst_tailcalenv (env: !ccompenv, fls: funlablst): void
-fun ccompenv_find_tailcalenv (env: !ccompenv, fl: funlab): bool
+fun ccompenv_inc_tailcalenv (env: !ccompenv, fl: funlab): void
+fun ccompenv_inc_tailcalenv_fnx (env: !ccompenv, fls: funlablst_vt): void
+fun ccompenv_find_tailcalenv (env: !ccompenv, fl: funlab): int
+fun ccompenv_find_tailcalenv_cst (env: !ccompenv, d2c: d2cst): funlabopt_vt
 
 (* ****** ****** *)
 
@@ -1950,6 +1960,7 @@ emit_instr_type = (FILEref, instr) -> void
 fun emit_instr : emit_instr_type
 //
 fun emit_instr_fcall : emit_instr_type
+fun emit_instr_fcall2 : emit_instr_type
 fun emit_instr_extfcall : emit_instr_type
 //
 fun emit_instr_patck : emit_instr_type

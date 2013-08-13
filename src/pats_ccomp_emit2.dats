@@ -272,6 +272,134 @@ end // end of [emit_instr_fcall]
 
 (* ****** ****** *)
 
+local
+
+fun aux1
+(
+  out: FILEref
+, ntl: int, pmv: primval, i: int
+) : void = let
+//
+val (
+) = emit_text (out, "ATSINSmove(")
+val () =
+(
+if ntl = 0
+  then fprintf (out, "argx%i", @(i))
+  else fprintf (out, "a%irgx%i", @(ntl, i))
+// end of [if]
+) : void // end of [val]
+val () = emit_text (out, ", ")
+val () = emit_primval (out, pmv)
+val () = emit_text (out, ") ;\n")
+//
+in
+  // nothing
+end // end of [aux1]
+
+fun aux1lst
+(
+  out: FILEref
+, ntl: int, pmvs: primvalist, i: int
+) : void = let
+in
+//
+case+ pmvs of
+| list_cons
+    (pmv, pmvs) =>
+  (
+    aux1 (out, ntl, pmv, i);
+    aux1lst (out, ntl, pmvs, i+1)
+  )
+| list_nil () => ()
+//
+end // end of [aux1lst]
+
+fun aux2
+(
+  out: FILEref
+, ntl: int, pmv: primval, i: int
+) : void = let
+//
+val (
+) = emit_text (out, "ATSINSmove(")
+val () =
+(
+if ntl = 0
+  then fprintf (out, "arg%i", @(i))
+  else fprintf (out, "a%irg%i", @(ntl, i))
+// end of [if]
+) : void // end of [val]
+val () =
+(
+if ntl = 0
+  then fprintf (out, ", argx%i", @(i))
+  else fprintf (out, ", a%irgx%i", @(ntl, i))
+// end of [if]
+) : void // end of [val]
+val () = emit_text (out, ") ;\n")
+//
+in
+  // nothing
+end // end of [aux2]
+
+fun aux2lst
+(
+  out: FILEref
+, ntl: int, pmvs: primvalist, i: int
+) : void = let
+in
+//
+case+ pmvs of
+| list_cons
+    (pmv, pmvs) =>
+  (
+    aux2 (out, ntl, pmv, i);
+    aux2lst (out, ntl, pmvs, i+1)
+  )
+| list_nil () => ()
+//
+end // end of [aux2lst]
+
+fun auxgoto
+(
+  out: FILEref, flab: funlab
+) : void = let
+//
+val (
+) = emit_text (out, "ATSgoto(")
+val (
+) = emit_text (out, "__patsflab_")
+val () = emit2_funlab (out, flab)
+val () = emit_text (out, ") ;\n")
+//
+in
+  // nothing
+end // end of [auxgoto]
+
+in (* in of [local] *)
+
+implement
+emit_instr_fcall2
+  (out, ins) = let
+//
+val-INSfcall2
+  (tmp, flab, ntl, hse_fun, pmvs_arg) = ins.instr_node
+//
+val () = emit_text (out, "ATStailcalbeg()\n")
+val () = aux1lst (out, ntl, pmvs_arg, 0(*i*))
+val () = aux2lst (out, ntl, pmvs_arg, 0(*i*))
+val () = auxgoto (out, flab) // HX: loop again
+val () = emit_text (out, "ATStailcalend()\n")
+//
+in
+  // nothing
+end // end of [emit_instr_fcall2]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 implement
 emit_instr_extfcall
   (out, ins) = let

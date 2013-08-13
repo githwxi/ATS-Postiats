@@ -217,6 +217,7 @@ case+ x.instr_node of
 | INSmove_arg_val _ => ()
 //
 | INSfcall (tmp, _, _, _) => tmpadd (tmp)
+| INSfcall2 (tmp, _, _, _, _) => tmpadd (tmp)
 | INSextfcall (tmp, _fun, _arg) => tmpadd (tmp)
 //    
 | INScond

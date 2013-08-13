@@ -8,8 +8,8 @@
 //
 (* ****** ****** *)
 
-staload "../coroutine.sats"
-staload _ = "../coroutine.dats"
+staload "../SATS/coroutine.sats"
+staload _ = "../DATS/coroutine.dats"
 
 (* ****** ****** *)
 //

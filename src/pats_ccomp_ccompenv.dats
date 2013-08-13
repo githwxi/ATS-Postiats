@@ -635,8 +635,25 @@ end // end of [loopexnenv_free]
 
 (* ****** ****** *)
 
-vtypedef
-tailcalenv = List_vt (funlablst_vt)
+datavtype
+tlcalitm =
+  | TCIfun of funlab
+  | TCIfnx of funlablst_vt
+// end of [tlcalitm]
+
+vtypedef tailcalenv = List_vt (tlcalitm)
+
+extern
+fun tlcalitm_free (x: tlcalitm): void
+implement
+tlcalitm_free (x) = let
+in
+//
+case+ x of
+| ~TCIfun (fl) => ()
+| ~TCIfnx (fls) => list_vt_free (fls)
+//
+end // end of [tlcalitm_free]
 
 extern
 fun tailcalenv_free (xs: tailcalenv): void
@@ -649,7 +666,7 @@ case+ xs of
 | ~list_vt_cons
     (x, xs) =>
   (
-    list_vt_free (x); tailcalenv_free (xs)
+    tlcalitm_free (x); tailcalenv_free (xs)
   ) // end of [list_vt_cons]
 | ~list_vt_nil () => ()
 //
@@ -1015,17 +1032,31 @@ end // end of [ccompenv_get_loopcont]
 
 implement
 ccompenv_inc_tailcalenv
-  (env) = () where
+  (env, fl) = () where
 {
 //
 val CCOMPENV (!p) = env
-val fls = list_vt_nil{funlab}()
-val flss = p->ccompenv_tailcalenv
+val tci = TCIfun (fl)
+val tcis = p->ccompenv_tailcalenv
 val ((*void*)) =
-  p->ccompenv_tailcalenv := list_vt_cons (fls, flss)
+  p->ccompenv_tailcalenv := list_vt_cons (tci, tcis)
 prval () = fold@ (env)
 //
 } // end of [ccompenv_inc_tailcalenv]
+
+implement
+ccompenv_inc_tailcalenv_fnx
+  (env, fls) = () where
+{
+//
+val CCOMPENV (!p) = env
+val tci = TCIfnx (fls)
+val tcis = p->ccompenv_tailcalenv
+val ((*void*)) =
+  p->ccompenv_tailcalenv := list_vt_cons (tci, tcis)
+prval () = fold@ (env)
+//
+} // end of [ccompenv_inc_tailcalenv_fnx]
 
 implement
 ccompenv_dec_tailcalenv
@@ -1034,44 +1065,12 @@ ccompenv_dec_tailcalenv
 //
 val CCOMPENV (!p) = env
 val-~list_vt_cons
-  (fls, flss) = p->ccompenv_tailcalenv
-val () = list_vt_free (fls)
-val () = p->ccompenv_tailcalenv := flss
+  (tci, tcis) = p->ccompenv_tailcalenv
+val () = tlcalitm_free (tci)
+val () = p->ccompenv_tailcalenv := tcis
 prval () = fold@ (env)
 //
 } // end of [ccompenv_dec_tailcalenv]
-
-(* ****** ****** *)
-
-implement
-ccompenv_add_tailcalenv
-  (env, fl0) = () where
-{
-//
-val CCOMPENV (!p) = env
-val-list_vt_cons
-  (!p_fls, _) = p->ccompenv_tailcalenv
-val () = !p_fls := list_vt_cons (fl0, !p_fls)
-prval () = fold@ (p->ccompenv_tailcalenv)
-prval () = fold@ (env)
-//
-} // end of [ccompenv_add_tailcalenv]
-
-implement
-ccompenv_addlst_tailcalenv
-  (env, fls) = let
-in
-//
-case+ fls of
-| list_cons
-    (fl, fls) =>
-  {
-    val () = ccompenv_add_tailcalenv (env, fl)
-    val () = ccompenv_addlst_tailcalenv (env, fls)
-  } // end of [list_cons]
-| list_nil ((*void*)) => ()
-//
-end // end of [ccompenv_addlst_tailcalenv]
 
 (* ****** ****** *)
 
@@ -1079,8 +1078,31 @@ local
 
 fun auxfind
 (
-  s0: stamp, fls: List(funlab)
-) : bool = let
+  s0: stamp, tci: !tlcalitm
+) : int = let
+in
+//
+case+ tci of
+| TCIfun (fl) => let
+    val s = funlab_get_stamp (fl)
+    val iseq = $STMP.eq_stamp_stamp (s0, s)
+    prval () = fold@ (tci)
+  in
+    if iseq then 0 else ~1
+  end // end of [TCIfun]
+| TCIfnx (!p_fls) => let
+    val res = auxfind_lst (s0, $UN.linlst2lst(!p_fls), 1)
+    prval () = fold@ (tci)
+  in
+    res
+  end // end of [TCIfnx]
+//
+end // end of [auxfind]
+
+and auxfind_lst
+(
+  s0: stamp, fls: List(funlab), i: int
+) : int = let
 in
 //
 case+ fls of
@@ -1089,11 +1111,32 @@ case+ fls of
     val s = funlab_get_stamp (fl)
     val iseq = $STMP.eq_stamp_stamp (s0, s)
   in
-    if iseq then true else auxfind (s0, fls)
+    if iseq then i else auxfind_lst (s0, fls, i+1)
   end // end of [list_cons]
-| list_nil ((*void*)) => false
+| list_nil ((*void*)) => ~1
 //
-end // end of [auxfind]
+end // end of [auxfind_lst]
+
+fun auxfind2
+(
+  d2c0: d2cst, tci: !tlcalitm
+) : funlabopt_vt = let
+//
+val-TCIfun (fl) = tci
+val opt = funlab_get_d2copt (fl)
+prval () = fold@ (tci)
+//
+in
+//
+case+ opt of
+| Some (d2c) => let
+    val iseq = eq_d2cst_d2cst (d2c0, d2c)
+  in
+    if iseq then Some_vt(fl) else None_vt()
+  end // end of [Some]
+| None ((*void*)) => None_vt((*void*))
+//
+end // end of [auxfind2]
 
 in (* in of [local] *)
 
@@ -1105,8 +1148,23 @@ val s0 = funlab_get_stamp (fl0)
 //
 val CCOMPENV (!p) = env
 val-list_vt_cons
-  (!p_fls, _) = p->ccompenv_tailcalenv
-val ans = auxfind (s0, $UN.linlst2lst(!p_fls))
+  (!p_tci, _) = p->ccompenv_tailcalenv
+val ans = auxfind (s0, !p_tci)
+prval () = fold@ (p->ccompenv_tailcalenv)
+prval () = fold@ (env)
+//
+in
+  ans
+end // end of [ccompenv_find_tailcalenv]
+
+implement
+ccompenv_find_tailcalenv_cst
+  (env, d2c0) = let
+//
+val CCOMPENV (!p) = env
+val-list_vt_cons
+  (!p_tci, _) = p->ccompenv_tailcalenv
+val ans = auxfind2 (d2c0, !p_tci)
 prval () = fold@ (p->ccompenv_tailcalenv)
 prval () = fold@ (env)
 //

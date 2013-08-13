@@ -79,6 +79,11 @@
 
 /* ****** ****** */
 
+#define ATStailcalbeg() do {
+#define ATStailcalend() } while (0) ;
+
+/* ****** ****** */
+
 #define ATSPMVint(i) i
 #define ATSPMVintrep(str) str
 
