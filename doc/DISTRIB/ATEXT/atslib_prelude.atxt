@@ -133,7 +133,12 @@ The ATSLIB/prelude library\
 #packfilename("SATS/lazy.sats")
 #packfilename("SATS/lazy_vt.sats")
 
+(* ****** ****** *)
+
 #packfilename("SATS/gorder.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/gnumber.sats")
 
 (* ****** ****** *)
@@ -217,8 +222,22 @@ The ATSLIB/prelude library\
 #packfilename("DATS/lazy.dats")
 #packfilename("DATS/lazy_vt.dats")
 
+(* ****** ****** *)
+
 #packfilename("DATS/gorder.dats")
+#packfilename("DATS/gorder_int.dats")
+#packfilename("DATS/gorder_uint.dats")
+#packfilename("DATS/gorder_bool.dats")
+#packfilename("DATS/gorder_char.dats")
+#packfilename("DATS/gorder_float.dats")
+#packfilename("DATS/gorder_string.dats")
+
+(* ****** ****** *)
+
 #packfilename("DATS/gnumber.dats")
+#packfilename("DATS/gnumber_int.dats")
+#packfilename("DATS/gnumber_uint.dats")
+#packfilename("DATS/gnumber_float.dats")
 
 (* ****** ****** *)
 

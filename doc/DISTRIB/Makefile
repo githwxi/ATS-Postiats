@@ -55,6 +55,8 @@ cleanall:: ; $(RMF) HTML/patsopt_src.html
 cleanall:: ; $(RMF) SCRIPT/patsopt_src.bash
 
 
+######
+
 all_html:: HTML/atslib_prelude.html
 HTML/atslib_prelude.html: atslib_prelude_atxt.exe ; ./$< > $@
 all_script:: SCRIPT/atslib_prelude.bash
@@ -96,6 +98,21 @@ cleanall:: ; $(RMF) HTML/atslib_libats_ML.html
 cleanall:: ; $(RMF) SCRIPT/atslib_libats_ML.bash
 
 
+######
+
+all_html:: HTML/atscntrb_atshwxi_testing.html
+HTML/atscntrb_atshwxi_testing.html: atscntrb_atshwxi_testing_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_atshwxi_testing.bash
+SCRIPT/atscntrb_atshwxi_testing.bash: atscntrb_atshwxi_testing_atxt.exe ; ./$< > $@
+atscntrb_atshwxi_testing_atxt.dats: ATEXT/atscntrb_atshwxi_testing.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_atshwxi_testing_atxt.exe: atscntrb_atshwxi_testing_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_atshwxi_testing_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_atshwxi_testing.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_atshwxi_testing.bash
+
+
+######
+
 all_html:: HTML/ccomp_atslib.html
 HTML/ccomp_atslib.html: ccomp_atslib_atxt.exe ; ./$< > $@
 all_script:: SCRIPT/ccomp_atslib.bash
@@ -117,6 +134,8 @@ cleanall:: ; $(RMF) HTML/ccomp_runtime.html
 cleanall:: ; $(RMF) SCRIPT/ccomp_runtime.bash
 
 
+######
+
 all_html:: HTML/utils_atscc.html
 HTML/utils_atscc.html: utils_atscc_atxt.exe ; ./$< > $@
 all_script:: SCRIPT/utils_atscc.bash
@@ -127,6 +146,8 @@ clean:: ; $(RMF) utils_atscc_atxt.exe
 cleanall:: ; $(RMF) HTML/utils_atscc.html
 cleanall:: ; $(RMF) SCRIPT/utils_atscc.bash
 
+
+######
 
 all_html:: HTML/doc_example_intro.html
 HTML/doc_example_intro.html: doc_example_intro_atxt.exe ; ./$< > $@
@@ -174,6 +195,7 @@ cleanall:: ; $(RMF) SCRIPT/doc_example_pcpv.bash
 srcgetall:: srcget_share
 srcgetall:: srcget_patsrc
 srcgetall:: srcget_atslib
+srcgetall:: srcget_atscntrb
 srcgetall:: srcget_ccomp_atslib
 srcgetall:: srcget_ccomp_runtime
 srcgetall:: srcget_utils_atscc
@@ -198,6 +220,11 @@ srcget_atslib:: srcget_atslib_libats
 srcget_atslib_libats:: SCRIPT/atslib_libats.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats_ML
 srcget_atslib_libats_ML:: SCRIPT/atslib_libats_ML.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_atshwxi_testing
+srcget_atscntrb_atshwxi_testing:: SCRIPT/atscntrb_atshwxi_testing.bash ; bash $<
 
 ######
 

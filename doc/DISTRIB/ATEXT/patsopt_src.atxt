@@ -222,6 +222,11 @@ The ATS/Postiats (ATS2) Compiler\
 
 (* ****** ****** *)
 
+#packfilename("pats_taggen.sats")
+#packfilename("pats_taggen.dats")
+
+(* ****** ****** *)
+
 #packfilename("pats_tokbuf.sats")
 #packfilename("pats_tokbuf.cats")
 #packfilename("pats_tokbuf.dats")

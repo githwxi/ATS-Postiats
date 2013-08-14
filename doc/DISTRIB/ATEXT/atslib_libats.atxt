@@ -142,6 +142,8 @@ The ATSLIB/libats library\
 
 #packfilename("SATS/SHARE/funmap.hats")
 #packfilename("SATS/SHARE/funset.hats")
+#packfilename("SATS/SHARE/fundeque.hats")
+#packfilename("SATS/SHARE/funralist.hats")
 #packfilename("SATS/SHARE/linmap.hats")
 #packfilename("SATS/SHARE/linmap_node.hats")
 #packfilename("SATS/SHARE/linset.hats")
@@ -207,6 +209,7 @@ The ATSLIB/libats library\
 
 #packfilename("DATS/SHARE/funmap.hats")
 #packfilename("DATS/SHARE/funset.hats")
+#packfilename("DATS/SHARE/fundeque.hats")
 #packfilename("DATS/SHARE/linmap.hats")
 #packfilename("DATS/SHARE/linheap.hats")
 

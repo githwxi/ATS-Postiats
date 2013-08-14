@@ -85,15 +85,27 @@ all_script::
 
 #make_entry("patsopt_src")
 
+######
+
 #make_entry("atslib_prelude")
 #make_entry("atslib_libc")
 #make_entry("atslib_libats")
 #make_entry("atslib_libats_ML")
 
+######
+
+#make_entry("atscntrb_atshwxi_testing")
+
+######
+
 #make_entry("ccomp_atslib")
 #make_entry("ccomp_runtime")
 
+######
+
 #make_entry("utils_atscc")
+
+######
 
 #make_entry("doc_example_intro")
 #make_entry("doc_example_atslib")
@@ -105,6 +117,7 @@ all_script::
 srcgetall:: srcget_share
 srcgetall:: srcget_patsrc
 srcgetall:: srcget_atslib
+srcgetall:: srcget_atscntrb
 srcgetall:: srcget_ccomp_atslib
 srcgetall:: srcget_ccomp_runtime
 srcgetall:: srcget_utils_atscc
@@ -129,6 +142,11 @@ srcget_atslib:: srcget_atslib_libats
 srcget_atslib_libats:: SCRIPT/atslib_libats.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats_ML
 srcget_atslib_libats_ML:: SCRIPT/atslib_libats_ML.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_atshwxi_testing
+srcget_atscntrb_atshwxi_testing:: SCRIPT/atscntrb_atshwxi_testing.bash ; bash $<
 
 ######
 

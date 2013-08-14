@@ -107,6 +107,7 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 #packfilename("acker1.dats")
 #packfilename("acker2.dats")
+#packfilename("acker3.dats")
 
 (* ****** ****** *)
 
@@ -116,6 +117,14 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 #packfilename("atoi.dats")
 #packfilename("atof.dats")
+
+(* ****** ****** *)
+
+#packfilename("bintree.dats")
+
+(* ****** ****** *)
+
+#packfilename("clofun.dats")
 
 (* ****** ****** *)
 
@@ -156,7 +165,23 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
+#packfilename("intrange.dats")
+
+(* ****** ****** *)
+
+#packfilename("linenmbr.dats")
+
+(* ****** ****** *)
+
+#packfilename("listfuns.dats")
+
+(* ****** ****** *)
+
 #packfilename("partmplt.dats")
+
+(* ****** ****** *)
+
+#packfilename("patrefas.dats")
 
 (* ****** ****** *)
 
@@ -165,6 +190,10 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 (* ****** ****** *)
 
 #packfilename("strprefix.dats")
+
+(* ****** ****** *)
+
+#packfilename("sumodd.dats")
 
 (* ****** ****** *)
 
