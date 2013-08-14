@@ -95,7 +95,7 @@ funent =
 assume funent_type = funent
 extern typedef "funent_t" = funent
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 funent_make

@@ -190,7 +190,12 @@ fun tmpvar_get_topknd
 fun tmpvar_get_origin (tmp: tmpvar): tmpvaropt
 fun tmpvar_get_suffix (tmp: tmpvar): int
 
-fun tmpvar_get_stamp (tmp: tmpvar): stamp
+fun tmpvar_get_stamp (tmp: tmpvar): stamp // unicity
+
+(* ****** ****** *)
+
+fun tmpvar_get_tailcal (tmp: tmpvar): int // if >= 2
+fun tmpvar_inc_tailcal (tmp: tmpvar): void // incby 1
 
 (* ****** ****** *)
 //

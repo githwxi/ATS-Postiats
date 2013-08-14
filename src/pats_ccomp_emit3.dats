@@ -1038,6 +1038,41 @@ end // end of [local]
 
 (* ****** ****** *)
 
+extern
+fun emit_argxs
+  (out: FILEref, hses: hisexplst): void
+implement
+emit_argxs
+  (out, hses) = let
+//
+fun auxlst
+(
+  out: FILEref, hses: hisexplst, i: int
+) : void = let
+in
+//
+case+ hses of
+| list_cons
+    (hse, hses) => let
+    val (
+    ) = emit_text (out, "ATStmpdec(")
+    val () = (
+      fprintf (out, "argx%i, ", @(i)); emit_hisexp (out, hse)
+    ) (* end of [val] *)
+    val () = emit_text (out, ") ;\n")
+  in
+    auxlst (out, hses, i+1)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [auxlst]
+//
+in
+  auxlst (out, hses, 0(*i*))
+end // end of [emit_argxs]
+
+(* ****** ****** *)
+
 local
 
 fun auxtmp
@@ -1147,14 +1182,15 @@ val () = funent_varbindmap_initize (fent)
 // function body
 //
 val () = emit_text (out, "{\n")
-val tmplst = funent_get_tmpvarlst (fent)
+//
 val () = emit_text (out, "/* tmpvardeclst(beg) */\n")
-val () = emit_tmpdeclst (out, tmplst)
+val ntlcal = tmpvar_get_tailcal (tmpret)
+val () = if ntlcal >= 2 then emit_argxs (out, hses_arg)
+val () = emit_tmpdeclst (out, funent_get_tmpvarlst (fent))
 val () = emit_text (out, "/* tmpvardeclst(end) */\n")
+//
 val () = emit_text (out, "/* funbodyinstrlst(beg) */\n")
-val body_inss = funent_get_instrlst (fent)
-val () = emit_instrlst (out, body_inss)
-val () = emit_text (out, "\n")
+val () = emit_instrlst_ln (out, funent_get_instrlst (fent))
 val () = emit_text (out, "/* funbodyinstrlst(end) */\n")
 //
 // function return

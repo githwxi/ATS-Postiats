@@ -1157,6 +1157,9 @@ pmv_fun.primval_node of
 ) // end of [if]
 //
 val () =
+if added > 0 then tmpvar_inc_tailcal (tmpret)
+//
+val () =
 if added = 0 then let
   val ins = instr_fcall (loc0, tmpret, pmv_fun, hse_fun, pmvs_arg)
 in
