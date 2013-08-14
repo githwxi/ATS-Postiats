@@ -14,6 +14,11 @@ evset_vtype (a:vt0p) = List0_vt (a)
 (* ****** ****** *)
 
 implement{a}
+evset_size (xs) = list_vt_length (xs)
+
+(* ****** ****** *)
+
+implement{a}
 evset_takeout_atbeg
   (xs0) = let
 in
