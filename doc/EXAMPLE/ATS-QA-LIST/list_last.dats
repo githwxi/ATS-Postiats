@@ -3,12 +3,12 @@
 // HX-2013-08:
 //
 // How to find the last element in a given list?
-// Several of implementations of different styles
+// Several implementations of different styles
 // are presented as follows. While this problem
 // may sound too simple, the solutions given below
 // can still allow one to appreciate the power of
-// of dependent types in helping construct high-quality
-// code.
+// dependent types in helping construct high-quality
+// code that is correct and efficient.
 //
 (* ****** ****** *)
 //
@@ -100,7 +100,10 @@ case+ xs of
 end // end of [list_last_opt2]
 
 (* ****** ****** *)
-
+//
+// Some testing code
+// for the functions implemented above
+//
 val () =
 {
 //
@@ -115,7 +118,7 @@ val-true = list_last_opt2<int> (xs, res)
 prval () = opt_unsome (res)
 val () = assertloc (res = 9)
 //
-} // end of [val]
+} (* end of [val] *)
 
 (* ****** ****** *)
 

@@ -349,13 +349,14 @@ run-time: If a value of the type #stacode("wday") does not match either of
 
 <sect1
 id="recursive_datatypes">
-<title>Recursive Datatypes</title>
+<title>Recursively Defined Datatypes</title>
 
 #para("\
 
-A recursive datatype is one such that its associated constructors may form
-values by applying to values of the datatype itself. For instance, the
-following declared datatype #stacode("charlst") is recursive:
+A recursively defined datatype (or recursive datatype for short) is one
+such that its associated constructors may form values by applying to values
+of the datatype itself. For instance, the following declared datatype
+#stacode("charlst") is recursive:
 
 #atscode("\
 datatype charlst =
@@ -533,7 +534,33 @@ non-empty list.\
 #comment(" ****** ****** ")
 
 <sect1
-id="example_evaluating_arithmetic_expressions">
+id="example_binary_search_tree">
+<title>Example: Binary Search Tree</title>
+
+#para("\
+
+A binary search tree is a binary tree satisfying the following property:
+for each node in the tree, the key stored in the node is greater than or
+equal to every key stored in the left child of the node and less than or
+equal to every key stored in the right child of the node. In other words, a
+binary tree is a binary search tree if a pre-order traversal encounters a
+list of keys ordered ascendingly (according to some ordering on keys).
+In practice, binary search trees are commonly employed to represent sets and maps.
+
+")
+
+#atscode("\
+datatype bstree =
+  | E of () | B of (bstree, string, bstree)
+// end of [bstree]
+")
+
+</sect1><!--id="example_binary_search_tree"-->
+
+#comment(" ****** ****** ")
+
+<sect1
+id="example_evaluating_integer_expressions">
 <title>Example: Evaluating Integer Expressions</title>
 
 #para("\
@@ -669,7 +696,7 @@ functional programming language like the core of ATS can be implemented.\
 
 ")
 
-</sect1><!--id="example_evaluating_arithmetic_expressions"-->
+</sect1><!--id="example_evaluating_integer_expressions"-->
 
 #comment(" ****** ****** ")
 
