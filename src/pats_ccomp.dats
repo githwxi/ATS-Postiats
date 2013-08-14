@@ -411,21 +411,19 @@ primval_tmpltcst
   (loc, hse, d2c, t2mas) =
   primval_make_node (loc, hse, PMVtmpltcst (d2c, t2mas))
 // end of [primval_tmpltcst]
-
-implement
-primval_tmpltcstmat
-  (loc, hse, d2c, t2mas, mat) =
-  primval_make_node (loc, hse, PMVtmpltcstmat (d2c, t2mas, mat))
-// end of [primval_tmpltcstmat]
-
-(* ****** ****** *)
-
 implement
 primval_tmpltvar
   (loc, hse, d2v, t2mas) =
   primval_make_node (loc, hse, PMVtmpltvar (d2v, t2mas))
 // end of [primval_tmpltvar]
 
+(* ****** ****** *)
+
+implement
+primval_tmpltcstmat
+  (loc, hse, d2c, t2mas, mat) =
+  primval_make_node (loc, hse, PMVtmpltcstmat (d2c, t2mas, mat))
+// end of [primval_tmpltcstmat]
 implement
 primval_tmpltvarmat
   (loc, hse, d2v, t2mas, mat) =

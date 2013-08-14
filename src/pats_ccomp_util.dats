@@ -192,6 +192,53 @@ end // end of [tmpsub_append]
 
 (* ****** ****** *)
 
+#if(0)
+
+extern
+fun tailcalck (
+  env: !ccompenv
+, tmpret: tmpvar, pmv: primval, ntl0: &int? >> int
+) : funlabopt_vt // end of [tailcalck]
+
+implement
+tailcalck
+  (env, tmpret, pmv, ntl0) = let
+//
+val () = ntl0 := ~1
+val isret = tmpvar_isret (tmpret)
+//
+in
+//
+if isret then
+(
+case+
+  pmv.primval_node of
+| PMVcst (d2c) => let
+    val () = ntl0 := 0
+  in
+    ccompenv_find_tailcalenv_cst (env, d2c)
+  end // end of [PMVcst]
+| PMVfunlab (fl) => let
+    val ntl = ccompenv_find_tailcalenv (env, fl)
+    val () = ntl0 := ntl
+  in
+    if ntl >= 0 then Some_vt (fl) else None_vt ()
+  end // end of [PMVfunlab]
+| PMVcfunlab (knd, fl) => let
+    val ntl = ccompenv_find_tailcalenv (env, fl)
+    val () = ntl0 := ntl
+  in
+    if ntl >= 0 then Some_vt (fl) else None_vt ()
+  end // end of [PMVcfunlab]
+| _ => None_vt ()
+) else None_vt () // end of [if]
+//
+end // end of [tailcalck]
+
+#endif // #if(0)
+
+(* ****** ****** *)
+
 local
 
 fun aux

@@ -163,9 +163,11 @@ fun tmpvarlst_subst
 local
 
 extern
-fun tmpvar_set_origin (
-  tmp: tmpvar, opt: tmpvaropt
-) : void  = "patsopt_tmpvar_set_origin"
+fun tmpvar_set_ret
+  (tmp: tmpvar, ret: int): void  = "patsopt_tmpvar_set_ret"
+extern
+fun tmpvar_set_origin
+  (tmp: tmpvar, opt: tmpvaropt): void  = "patsopt_tmpvar_set_origin"
 extern
 fun tmpvar_set_suffix
   (tmp: tmpvar, sfx: int): void = "patsopt_tmpvar_set_suffix"
@@ -181,7 +183,10 @@ tmpvar_subst
   val hse = hisexp_subst (sub, hse)
   val tmp2 = tmpvar_make (loc, hse)
   val () =
-    tmpvar_set_origin (tmp2, Some (tmp))
+    if tmpvar_isret (tmp) then tmpvar_set_ret (tmp2, 1)
+  // end of [val]
+  val () =
+    tmpvar_set_origin (tmp2, Some(tmp))
   // end of [val]
   val () = tmpvar_set_suffix (tmp2, sfx)
 in
@@ -557,10 +562,8 @@ val () = let
 in
 //
 case+ opt of
-| Some (d2v) =>
-  ccompenv_add_tmpvarmat
-  (
-    env, TMPVARMATsome2 (d2v, tmparg2, flab2)
+| Some (d2v) => (
+    ccompenv_add_tmpvarmat (env, TMPVARMATsome2 (d2v, tmparg2, flab2))
   ) (* end of [Some] *)
 | None ((*void*)) => ()
 //
@@ -764,7 +767,7 @@ case+
     in
       ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, tmpmat)
     end else
-      pmv0 // HX-2013-01: maximal tmprecdepth is reached!
+      pmv0 // HX-2013-01: maximal tmprecdepth has been reached!
     // end of [if]
   end // end of [PMVtmpltcst]
 //
@@ -1155,6 +1158,17 @@ case+
   in
     instr_fcall (loc0, tmp, _fun, hse, _arg)
   end // end of [INSfcall]
+//
+| INSfcall2
+    (tmp, flab, ntl, hse, _arg) => let
+    val tmp = ftmp (tmp)
+    val () = tmpvar_inc_tailcal (tmp)
+    val hse = hisexp_subst (sub, hse)
+    val _arg = fpmvlst (_arg)
+  in
+    instr_fcall2 (loc0, tmp, flab, ntl, hse, _arg)
+  end // end of [INSfcall2]
+//
 | INSextfcall
     (tmp, fnm, args) => let
     val tmp = ftmp (tmp)

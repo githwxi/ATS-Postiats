@@ -100,6 +100,7 @@ case+ pmv_fun.primval_node of
 | PMVtmpltvar _ => emit_primval (out, pmv_fun)
 //
 | PMVtmpltcstmat _ => emit_primval (out, pmv_fun)
+| PMVtmpltvarmat _ => emit_primval (out, pmv_fun)
 //
 | _(*funval*) => aux_funval2 (out, pmv_fun, hse_fun, isclo)
 //

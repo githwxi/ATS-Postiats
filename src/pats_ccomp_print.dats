@@ -506,6 +506,17 @@ case+ x.primval_node of
     val () = prstr ">"
     val () = prstr ")"
   }
+| PMVtmpltvar
+    (d2v, t2mas) =>
+  {
+    val () = prstr "PMVtmpltvar("
+    val () = fprint_d2var (out, d2v)
+    val () = prstr "<"
+    val () = fpprint_t2mpmarglst (out, t2mas)
+    val () = prstr ">"
+    val () = prstr ")"
+  }
+//
 | PMVtmpltcstmat
     (d2c, t2mas, mat) =>
   {
@@ -513,17 +524,6 @@ case+ x.primval_node of
     val () = fprint_tmpcstmat_kind (out, mat)
     val () = prstr "]("
     val () = fprint_d2cst (out, d2c)
-    val () = prstr "<"
-    val () = fpprint_t2mpmarglst (out, t2mas)
-    val () = prstr ">"
-    val () = prstr ")"
-  }
-//
-| PMVtmpltvar
-    (d2v, t2mas) =>
-  {
-    val () = prstr "PMVtmpltvar("
-    val () = fprint_d2var (out, d2v)
     val () = prstr "<"
     val () = fpprint_t2mpmarglst (out, t2mas)
     val () = prstr ">"

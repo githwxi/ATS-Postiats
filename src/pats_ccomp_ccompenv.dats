@@ -1035,6 +1035,11 @@ ccompenv_inc_tailcalenv
   (env, fl) = () where
 {
 //
+(*
+val (
+) = println! ("ccompenv_inc_tailcalenv: fl = ", fl)
+*)
+//
 val CCOMPENV (!p) = env
 val tci = TCIfun (fl)
 val tcis = p->ccompenv_tailcalenv
@@ -1173,6 +1178,34 @@ in
 end // end of [ccompenv_find_tailcalenv]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+ccompenv_find_tailcalenv_tmpcst
+  (env, d2c0, t2mas) = let
+//
+val opt = ccompenv_find_tailcalenv_cst (env, d2c0)
+//
+in
+//
+case+ opt of
+| ~None_vt () => None_vt ()
+| ~Some_vt (fl0) => let
+    val ans =
+      funlab_tmpcst_match (fl0, d2c0, t2mas)
+    // end of [val]
+(*
+    val () =
+      println! ("ccompenv_find_tailcalenv_tmpcst: fl0 = ", fl0)
+    val () =
+      println! ("ccompenv_find_tailcalenv_tmpcst: ans = ", ans)
+*)
+  in
+    if ans then Some_vt (fl0) else None_vt ()
+  end // end [Some_vt]
+//
+end // end of [ccompenv_find_tailcalenv_tmpcst]
 
 (* ****** ****** *)
 

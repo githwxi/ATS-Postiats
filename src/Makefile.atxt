@@ -358,7 +358,6 @@ val SOURCES =
 , "pats_ccomp_trywith.dats"
 , "pats_ccomp_claulst.dats"
 , "pats_ccomp_looping.dats"
-, "pats_ccomp_tailcal.dats"
 , "pats_ccomp_decl.dats"
 , "pats_ccomp_subst.dats"
 , "pats_ccomp_environ.dats"

@@ -249,7 +249,6 @@ SOURCES := \
   pats_ccomp_trywith.dats \
   pats_ccomp_claulst.dats \
   pats_ccomp_looping.dats \
-  pats_ccomp_tailcal.dats \
   pats_ccomp_decl.dats \
   pats_ccomp_subst.dats \
   pats_ccomp_environ.dats \
@@ -483,7 +482,6 @@ OBJECTS := \
   pats_ccomp_trywith_dats.o \
   pats_ccomp_claulst_dats.o \
   pats_ccomp_looping_dats.o \
-  pats_ccomp_tailcal_dats.o \
   pats_ccomp_decl_dats.o \
   pats_ccomp_subst_dats.o \
   pats_ccomp_environ_dats.o \
@@ -1168,9 +1166,6 @@ pats_ccomp_claulst_dats.o: pats_ccomp_claulst_dats.c; $(ATSCC) $(ATSCCFLAGS) -c 
 
 pats_ccomp_looping_dats.c: pats_ccomp_looping.dats; $(ATSCC) -cc $<
 pats_ccomp_looping_dats.o: pats_ccomp_looping_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
-
-pats_ccomp_tailcal_dats.c: pats_ccomp_tailcal.dats; $(ATSCC) -cc $<
-pats_ccomp_tailcal_dats.o: pats_ccomp_tailcal_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_ccomp_decl_dats.c: pats_ccomp_decl.dats; $(ATSCC) -cc $<
 pats_ccomp_decl_dats.o: pats_ccomp_decl_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<

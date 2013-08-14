@@ -592,8 +592,9 @@ and primval_node =
   | PMVlamfix of (int(*knd*), primval) // knd=0/1:lam/fix
 //
   | PMVtmpltcst of (d2cst, t2mpmarglst) // for template constants
-  | PMVtmpltcstmat of (d2cst, t2mpmarglst, tmpcstmat) // for matched template constants
   | PMVtmpltvar of (d2var, t2mpmarglst) // for template variables
+//
+  | PMVtmpltcstmat of (d2cst, t2mpmarglst, tmpcstmat) // for matched template constants
   | PMVtmpltvarmat of (d2var, t2mpmarglst, tmpvarmat) // for matched template variables
 //
   | PMVerr of ()
@@ -1549,13 +1550,19 @@ fun ccompenv_inc_loopexnenv
 fun ccompenv_dec_loopexnenv (env: !ccompenv): void
 
 (* ****** ****** *)
-
+//
 fun ccompenv_dec_tailcalenv (env: !ccompenv): void
+//
 fun ccompenv_inc_tailcalenv (env: !ccompenv, fl: funlab): void
 fun ccompenv_inc_tailcalenv_fnx (env: !ccompenv, fls: funlablst_vt): void
+//
 fun ccompenv_find_tailcalenv (env: !ccompenv, fl: funlab): int
-fun ccompenv_find_tailcalenv_cst (env: !ccompenv, d2c: d2cst): funlabopt_vt
-
+//
+fun ccompenv_find_tailcalenv_cst
+  (env: !ccompenv, d2c: d2cst): funlabopt_vt
+fun ccompenv_find_tailcalenv_tmpcst
+  (env: !ccompenv, d2c: d2cst, t2mas: t2mpmarglst): funlabopt_vt
+//
 (* ****** ****** *)
 
 (*
@@ -2011,6 +2018,12 @@ fun emit_funent_implmnt (out: FILEref, fent: funent): void
 (* ****** ****** *)
 
 fun emit_primdeclst (out: FILEref, pmds: primdeclst): void
+
+(* ****** ****** *)
+
+fun funlab_tmpcst_match
+  (fl: funlab, d2c: d2cst, t2mas: t2mpmarglst): bool
+// end of [funlab_tmpcst_match]
 
 (* ****** ****** *)
 
