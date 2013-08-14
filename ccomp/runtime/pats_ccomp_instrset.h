@@ -244,6 +244,11 @@
 
 /* ****** ****** */
 
+#define ATSINSmove_tlcal(argx, tmp) (argx = tmp)
+#define ATSINSargmove_tlcal(arg, argx) (arg = argx)
+
+/* ****** ****** */
+
 #define ATSINSstore_fltrec_ofs(tmp, tyrec, lab, val) ((tmp).lab = val)
 
 /* ****** ****** */

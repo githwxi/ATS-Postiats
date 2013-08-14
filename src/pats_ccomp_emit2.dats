@@ -281,8 +281,8 @@ fun aux1
 , ntl: int, pmv: primval, i: int
 ) : void = let
 //
-val (
-) = emit_text (out, "ATSINSmove(")
+val () =
+emit_text (out, "ATSINSmove_tlcal(")
 val () =
 (
 if ntl = 0
@@ -322,8 +322,8 @@ fun aux2
 , ntl: int, pmv: primval, i: int
 ) : void = let
 //
-val (
-) = emit_text (out, "ATSINSmove(")
+val () =
+emit_text (out, "ATSINSargmove_tlcal(")
 val () =
 (
 if ntl = 0
