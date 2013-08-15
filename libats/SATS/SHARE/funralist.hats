@@ -61,7 +61,6 @@ abstype
 ralist_type (a:t@ype+, n:int)
 //
 stadef ralist = ralist_type
-typedef ralist (a:t@ype) = [n:int] ralist (a, n)
 //
 typedef Ralist (a:t@ype) = [n:int] ralist (a, n)
 //
@@ -144,6 +143,13 @@ funralist_update
   {n:int} (
   xs: ralist (INV(a), n), i: natLt n, x0: a
 ) :<> ralist (a, n) // endfun
+
+(* ****** ****** *)
+
+fun{a:t0p}
+fprint_funralist
+  (out: FILEref, xs: Ralist(INV(a))): void
+overload fprint with fprint_funralist
 
 (* ****** ****** *)
 //

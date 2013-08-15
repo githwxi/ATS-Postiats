@@ -53,8 +53,12 @@
 ATS_DYNLOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
+
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
 //
-staload INT = "prelude/DATS/integer.dats"
+staload _(*anon*) = "prelude/DATS/integer.dats"
 //
 (* ****** ****** *)
 //
@@ -1112,29 +1116,21 @@ end // end of [local]
 
 (* ****** ****** *)
 
-implement{a}
-fprint_fundeque
-  (out, xs) = fprint_fingertree<a> (out, xs)
-// end of [fprint_fundeque]
-
-(* ****** ****** *)
-
 typedef ftnode
   (a:t0p, d:int) = [n:int] ftnode (a, d, n)
 // end of [ftnode]
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-
 local
 
-extern fun __free (p: ptr):<!wrt> void = "mac#ATS_MFREE"
+extern
+fun __free (p: ptr):<!wrt> void = "mac#ATS_MFREE"
 
-fun foreach
-  {a:t0p}
-  {d:nat}
-  {n:nat} .<n>. (
+fun
+foreach{a:t0p}
+  {d:nat}{n:nat} .<n>.
+(
   xt: fingertree (a, d, n)
 , f: ftnode (a, d) -<cloref> void
 ) :<> void = let
@@ -1148,8 +1144,8 @@ case+ xt of
     prval () = ftdigit_prop_szpos (pr)
     prval () = ftdigit_prop_szpos (sf)
 //
-    val () = (
-      case+ pr of
+    val (
+    ) = (case+ pr of
       | FTD1 (xn1) => f (xn1)
       | FTD2 (xn1, xn2) => (f (xn1); f (xn2))
       | FTD3 (xn1, xn2, xn3) => (f (xn1); f (xn2); f (xn3))
@@ -1189,23 +1185,27 @@ in (* in of [local] *)
 
 implement{a}
 fundeque_foreach (xs) = let
-  var env: void = () in fundeque_foreach_env (xs, env)
+  var env: void = () in fundeque_foreach_env<a><void> (xs, env)
 end // end of [fundeque_foreach]
 
-implement{a}{env}
+implement
+{a}{env}
 fundeque_foreach_env
   (xs, env) = let
 //
-prval () = fingertree_prop1_sznat (xs)
-//
 typedef ftnode = ftnode (a, 0)
+//
+prval () = fingertree_prop1_sznat (xs)
 //
 val p_env = addr@ (env)
 //
 val f = lam
   (xn: ftnode): void =<cloref> let
   val+FTN1 (x) = xn
-  val (pf, fpf | p_env) = $UN.ptr_vtake{env}(p_env)
+  val
+  (
+    pf, fpf | p_env
+  ) = $UN.ptr_vtake{env}(p_env)
   val () = $effmask_all (fundeque_foreach$fwork<a><env> (x, !p_env))
   prval () = fpf (pf)
 in
@@ -1213,7 +1213,7 @@ in
 end // end of [val]
 //
 val () = foreach (xs, f)
-prval () = $effmask_wrt (__free ($UN.cast2ptr(f)))
+val () = $effmask_wrt (__free ($UN.cast2ptr(f)))
 //
 in
   // nothing
@@ -1228,10 +1228,10 @@ local
 extern
 fun __free (p: ptr):<!wrt> void = "mac#ATS_MFREE"
 
-fun rforeach
-  {a:t0p}
-  {d:nat}
-  {n:nat} .<n>. (
+fun
+rforeach{a:t0p}
+  {d:nat}{n:nat} .<n>.
+(
   xt: fingertree (a, d, n)
 , f: (ftnode (a, d)) -<cloref> void
 ) :<> void = let
@@ -1245,7 +1245,8 @@ case+ xt of
     prval () = ftdigit_prop_szpos (pr)
     prval () = ftdigit_prop_szpos (sf)
 //
-    val () = (case+ sf of
+    val (
+    ) = (case+ sf of
       | FTD1 (xn1) => f (xn1)
       | FTD2 (xn1, xn2) => (f (xn2); f (xn1))
       | FTD3 (xn1, xn2, xn3) => (f (xn3); f (xn2); f (xn1))
@@ -1285,23 +1286,26 @@ in (* in of [local] *)
 
 implement{a}
 fundeque_rforeach (xs) = let
-  var env: void = () in fundeque_rforeach_env (xs, env)
+  var env: void = () in fundeque_rforeach_env<a><void> (xs, env)
 end // end of [fundeque_rforeach]
 
-implement{a}{env}
+implement
+{a}{env}
 fundeque_rforeach_env
   (xs, env) = let
 //
-prval () = fingertree_prop1_sznat (xs)
-//
 typedef ftnode = ftnode (a, 0)
+//
+prval () = fingertree_prop1_sznat (xs)
 //
 val p_env = addr@ (env)
 //
 val f = lam
   (xn: ftnode): void =<cloref> let
   val+FTN1 (x) = xn
-  val (pf, fpf | p_env) = $UN.ptr_vtake{env}(p_env)
+  val (
+    pf, fpf | p_env
+  ) = $UN.ptr_vtake{env}(p_env)
   val () = $effmask_all (fundeque_rforeach$fwork<a><env> (x, !p_env))
   prval () = fpf (pf)
 in
@@ -1309,7 +1313,7 @@ in
 end // end of [val]
 //
 val () = rforeach (xs, f)
-prval () = $effmask_wrt (__free ($UN.cast2ptr(f)))
+val () = $effmask_wrt (__free ($UN.cast2ptr(f)))
 //
 in
   // nothing

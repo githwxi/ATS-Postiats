@@ -74,6 +74,38 @@ else None_vt{a}((*void*))
 
 (* ****** ****** *)
 
+implement{a}
+fprint_fundeque (out, xs) = let
+//
+typedef tenv = int
+//
+implement
+fundeque_foreach$fwork<a><tenv>
+  (x, env) = let
+//
+val () =
+if env > 0 then
+  fprint_fundeque$sep (out)
+// end of [val]
+val () = fprint_val<a> (out, x)
+val () = env := env + 1
+//
+in
+  // nothing
+end // end of [fundeque_foreach$fwork]
+//
+var env: tenv = 0
+val () = fundeque_foreach_env<a><tenv> (xs, env)
+//
+in
+  // nothing
+end // end of [fprint_fundeque]
+
+implement{}
+fprint_fundeque$sep (out) = fprint (out, ", ")
+
+(* ****** ****** *)
+
 local
 
 staload Q = "libats/SATS/qlist.sats"
@@ -87,7 +119,8 @@ fundeque_listize
 viewtypedef tenv = $Q.qstruct (a)
 //
 implement
-fundeque_foreach$fwork<a><tenv> (x, env) = $Q.qstruct_insert<a> (env, x)
+fundeque_foreach$fwork<a><tenv>
+  (x, env) = $Q.qstruct_insert<a> (env, x)
 //
 var env: $Q.qstruct
 val () = $Q.qstruct_initize {a} (env)

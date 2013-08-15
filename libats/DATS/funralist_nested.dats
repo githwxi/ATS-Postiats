@@ -40,9 +40,13 @@
 // a nested datatype!
 //
 (* ****** ****** *)
-//
-staload INT = "prelude/DATS/integer.dats"
-//
+
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload _(*anon*) = "prelude/DATS/integer.dats"
+
 (* ****** ****** *)
 //
 staload "libats/SATS/funralist_nested.sats"
@@ -141,10 +145,9 @@ funralist_is_cons (xs) =
 local
 
 fun
-length
-  {a:t0p}
-  {d:nat}
-  {n:nat} .<n>. (
+length{a:t0p}
+  {d:nat}{n:nat} .<n>.
+(
   xs: myralist (a, d, n)
 ) :<> int (n) = let
 in
@@ -163,7 +166,7 @@ end // end of [length]
 in (* in of [local] *)
 
 implement{}
-funralist_length {a} (xs) = let
+funralist_length{a} (xs) = let
 //
 prval () = lemma_ralist_param (xs)
 //
@@ -177,10 +180,10 @@ end // end of [local]
 
 local
 
-fun head
-  {a:t0p}
-  {d:nat}
-  {n:pos} .<n>. (
+fun
+head{a:t0p}
+  {d:nat}{n:pos} .<n>.
+(
   xs: myralist (a, d, n)
 ) :<> node (a, d) = let
 in
@@ -215,8 +218,10 @@ funralist_tail
 
 local
 
-fun uncons
-  {a:t0p}{d:nat}{n:pos} .<n>. (
+fun
+uncons{a:t0p}
+  {d:nat}{n:pos} .<n>.
+(
   xs: myralist (a, d, n), x: &ptr? >> node (a, d)
 ) :<!wrt> myralist (a, d, n-1) = let
 in
@@ -263,8 +268,10 @@ end // end of [local]
 
 local
 
-fun get_at
-  {a:t0p}{d:nat}{n:nat} .<n>. (
+fun
+get_at{a:t0p}
+  {d:nat}{n:nat} .<n>.
+(
   xs: myralist (a, d, n), i: natLt n
 ) :<> node (a, d) = let
 in
@@ -309,63 +316,58 @@ end // end of [local]
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
 local
 
 extern
 fun __free (p: ptr):<!wrt> void = "mac#ATS_MFREE"
 //
 fun
-fset_at
-  {a:t0p}
-  {d:nat}
-  {n:nat} .<n,1>. (
+fset_at{a:t0p}
+  {d:nat}{n:nat} .<n,1>.
+(
   xs: myralist (a, d, n)
-, i: natLt (n)
-, f: node (a, d) -<cloref0> node (a, d)
+, i: natLt (n), f: node (a, d) -<cloref0> node (a, d)
 ) :<> myralist (a, d, n) = let
 in
   case+ xs of
   | RAevn (xxs) => RAevn (fset2_at (xxs, i, f))
   | RAodd (x, xxs) =>
       if i = 0 then RAodd (f x, xxs) else RAodd (x, fset2_at (xxs, i-1, f))
+    // end of [RAodd]
 end // end of [fset_at]
 //
 and
-fset2_at
-  {a:t0p}
-  {d:nat}
-  {n2:pos} .<2*n2,0>. (
+fset2_at{a:t0p}
+  {d:nat}{n2:pos} .<2*n2,0>.
+(
   xxs: myralist (a, d+1, n2)
-, i: natLt (2*n2)
-, f: node (a, d) -<cloref0> node (a, d)
+, i: natLt (2*n2), f: node (a, d) -<cloref0> node (a, d)
 ) :<> myralist (a, d+1, n2) = let
   typedef node = node (a, d+1)
 in
-  if i mod 2 = 0 then let
-    val f1 = lam
-      (xx: node): node =<cloref0>
-      let val+N2 (x0, x1) = xx in N2 (f x0, x1) end
-    // end of [val]
-    val xxs =
-      fset_at (xxs, half(i), f1)
-    val () = $effmask_wrt (__free ($UN.cast2ptr(f1)))
-  in
-    xxs
-  end else let
-    val f1 = lam
-      (xx: node): node =<cloref0>
-      let val+N2 (x0, x1) = xx in N2 (x0, f x1) end
-    // end of [val]
-    val xxs =
-      fset_at (xxs, half(i), f1)
-    val () = $effmask_wrt (__free ($UN.cast2ptr(f1)))
-  in
-    xxs
-  end // end of [if]
+//
+if i mod 2 = 0 then let
+  val f1 = lam
+    (xx: node): node =<cloref0>
+    let val+N2 (x0, x1) = xx in N2 (f x0, x1) end
+  // end of [val]
+  val xxs =
+    fset_at (xxs, half(i), f1)
+  val () = $effmask_wrt (__free ($UN.cast2ptr(f1)))
+in
+  xxs
+end else let
+  val f1 = lam
+    (xx: node): node =<cloref0>
+    let val+N2 (x0, x1) = xx in N2 (x0, f x1) end
+  // end of [val]
+  val xxs =
+    fset_at (xxs, half(i), f1)
+  val () = $effmask_wrt (__free ($UN.cast2ptr(f1)))
+in
+  xxs
+end // end of [if]
+//
 end // end of [fset2_at]
 
 in (* in of [local] *)
@@ -375,6 +377,7 @@ funralist_set_at
   (xs, i, x0) = let
 //
 typedef node = node (a, 0)
+//
 val f = lam (_: node): node =<cloref0> N1{a}(x0)
 val xs = fset_at{a} (xs, i, f)
 val () = $effmask_wrt (__free ($UN.cast2ptr(f)))
@@ -382,8 +385,6 @@ val () = $effmask_wrt (__free ($UN.cast2ptr(f)))
 in
   xs
 end // end of [funralist_set_at]
-
-implement{a} funralist_set_at = funralist_set_at
 
 end // end of [local]
 

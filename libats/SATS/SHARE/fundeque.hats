@@ -137,8 +137,11 @@ fun fundeque_append
 
 (* ****** ****** *)
 
+fun{}
+fprint_fundeque$sep (out: FILEref): void
 fun{a:t0p}
-fprint_fundeque (out: FILEref, xs: Deque (INV(a))): void
+fprint_fundeque
+  (out: FILEref, xs: Deque (INV(a))): void
 overload fprint with fprint_fundeque
 
 (* ****** ****** *)
