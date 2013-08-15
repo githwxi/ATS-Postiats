@@ -180,6 +180,14 @@ output/atslib_libats_funset_listord_dats.o: output/atslib_libats_funset_listord_
 clean:: ; $(RMF) output/atslib_libats_funset_listord_dats.c
 clean:: ; $(RMF) output/atslib_libats_funset_listord_dats.o
 
+atslib_libats:: atslib_libats_funralist_nested_dats
+atslib_libats_funralist_nested_dats: output/atslib_libats_funralist_nested_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_funralist_nested_dats.c: ../../libats/DATS/funralist_nested.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_funralist_nested_dats.o: output/atslib_libats_funralist_nested_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_funralist_nested_dats.c
+clean:: ; $(RMF) output/atslib_libats_funralist_nested_dats.o
+
 atslib_libats:: atslib_libats_fundeque_fingertree_dats
 atslib_libats_fundeque_fingertree_dats: output/atslib_libats_fundeque_fingertree_dats.o ; $(ARR) lib/libatslib.a $<
 output/atslib_libats_fundeque_fingertree_dats.c: ../../libats/DATS/fundeque_fingertree.dats ; $(PATSOPT) -o $@ --dynamic $<

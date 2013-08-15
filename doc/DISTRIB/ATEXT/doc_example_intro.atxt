@@ -124,14 +124,6 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
-#packfilename("clofun.dats")
-
-(* ****** ****** *)
-
-#packfilename("extfcall.dats")
-
-(* ****** ****** *)
-
 #packfilename("f91.dats")
 
 (* ****** ****** *)
@@ -181,14 +173,6 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
-#packfilename("partmplt.dats")
-
-(* ****** ****** *)
-
-#packfilename("patrefas.dats")
-
-(* ****** ****** *)
-
 #packfilename("ordset.dats")
 
 (* ****** ****** *)
@@ -201,19 +185,7 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
-#packfilename("sumodd.dats")
-
-(* ****** ****** *)
-
 #packfilename("tally.dats")
-
-(* ****** ****** *)
-
-#packfilename("trywith.dats")
-
-(* ****** ****** *)
-
-#packfilename("weekday.dats")
 
 (* ****** ****** *)
 

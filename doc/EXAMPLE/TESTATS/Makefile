@@ -46,6 +46,19 @@ cleanall:: ; $(RMF) patrefas
 
 ######
 
+all:: sumodd
+sumodd: sumodd.dats ; $(PATSCC) -cleanaft -o $@ $<
+cleanall:: ; $(RMF) sumodd
+
+######
+
+all:: trywith
+trywith: trywith.dats ; \
+  $(PATSCC) -D_GNU_SOURCE -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) trywith
+
+######
+
 all:: weekday
 weekday: weekday.dats ; $(PATSCC) -cleanaft -o $@ $<
 cleanall:: ; $(RMF) weekday

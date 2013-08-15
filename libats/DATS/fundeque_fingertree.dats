@@ -57,9 +57,9 @@ ATS_DYNLOADFLAG 0 // no static loading at run-time
 staload INT = "prelude/DATS/integer.dats"
 //
 (* ****** ****** *)
-
+//
 staload "libats/SATS/fundeque_fingertree.sats"
-
+//
 (* ****** ****** *)
 //
 #include "./SHARE/fundeque.hats" // code reuse
@@ -1129,7 +1129,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 local
 
-extern fun __free (p: ptr):<!wrt> void = "mac#ats_free_gc"
+extern fun __free (p: ptr):<!wrt> void = "mac#ATS_MFREE"
 
 fun foreach
   {a:t0p}
@@ -1225,7 +1225,8 @@ end // end of [local]
 
 local
 
-extern fun __free (p: ptr):<!wrt> void = "mac#ats_free_gc"
+extern
+fun __free (p: ptr):<!wrt> void = "mac#ATS_MFREE"
 
 fun rforeach
   {a:t0p}

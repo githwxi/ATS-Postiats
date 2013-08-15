@@ -219,23 +219,6 @@ clean:: ; $(RMF) ordset_dats.c
 cleanall:: ; $(RMF) ordset ordset.exe
 
 
-all:: partmplt
-partmplt: partmplt.exe
-partmplt.exe: partmplt_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-partmplt_dats.c: partmplt.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output partmplt_dats.c --dynamic partmplt.dats
-clean:: ; $(RMF) partmplt_dats.o
-clean:: ; $(RMF) partmplt_dats.c
-cleanall:: ; $(RMF) partmplt partmplt.exe
-
-
-all:: sumodd
-sumodd: sumodd.exe
-sumodd.exe: sumodd_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-sumodd_dats.c: sumodd.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output sumodd_dats.c --dynamic sumodd.dats
-clean:: ; $(RMF) sumodd_dats.o
-clean:: ; $(RMF) sumodd_dats.c
-cleanall:: ; $(RMF) sumodd sumodd.exe
-
 all:: staref
 staref: staref.exe
 staref.exe: staref_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
@@ -260,15 +243,6 @@ tally_dats.c: tally.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output tally
 clean:: ; $(RMF) tally_dats.o
 clean:: ; $(RMF) tally_dats.c
 cleanall:: ; $(RMF) tally tally.exe
-
-
-all:: trywith
-trywith: trywith.exe
-trywith.exe: trywith_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-trywith_dats.c: trywith.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output trywith_dats.c --dynamic trywith.dats
-clean:: ; $(RMF) trywith_dats.o
-clean:: ; $(RMF) trywith_dats.c
-cleanall:: ; $(RMF) trywith trywith.exe
 
 
 ######

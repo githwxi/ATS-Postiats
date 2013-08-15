@@ -143,6 +143,7 @@ all:: atslib_libats
 #make_entry("libats", "funmap_list.dats")
 #make_entry("libats", "funset_avltree.dats")
 #make_entry("libats", "funset_listord.dats")
+#make_entry("libats", "funralist_nested.dats")
 #make_entry("libats", "fundeque_fingertree.dats")
 #make_entry("libats", "linmap_list.dats")
 #make_entry("libats", "linmap_skiplist.dats")

@@ -38,42 +38,6 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-implement{a}
-fundeque_get_atbeg_opt (xs) =
-(
-if fundeque_is_cons (xs) then 
-  Some_vt{a}(fundeque_get_atbeg<a> (xs))
-else None_vt{a}((*void*))
-) // end of [fundeque_get_atbeg_opt]
-
-implement{a}
-fundeque_get_atend_opt (xs) =
-(
-if fundeque_is_cons (xs) then 
-  Some_vt{a}(fundeque_get_atend<a> (xs))
-else None_vt{a}((*void*))
-) // end of [fundeque_get_atend_opt]
-
-(* ****** ****** *)
-
-implement{a}
-fundeque_takeout_atbeg_opt (xs) =
-(
-if fundeque_is_cons (xs) then 
-  Some_vt{a}(fundeque_uncons<a> (xs))
-else None_vt{a}((*void*))
-) // end of [fundeque_get_atbeg_opt]
-
-implement{a}
-fundeque_takeout_atend_opt (xs) =
-(
-if fundeque_is_cons (xs) then 
-  Some_vt{a}(fundeque_unsnoc<a> (xs))
-else None_vt{a}((*void*))
-) // end of [fundeque_get_atend_opt]
-
-(* ****** ****** *)
-
 local
 
 staload Q = "libats/SATS/qlist.sats"
@@ -81,26 +45,26 @@ staload Q = "libats/SATS/qlist.sats"
 in (* in of [local] *)
 
 implement{a}
-fundeque_listize
+funralist_listize
   {n} (xs) = let
 //
 viewtypedef tenv = $Q.qstruct (a)
 //
 implement
-fundeque_foreach$fwork<a><tenv> (x, env) = $Q.qstruct_insert<a> (env, x)
+funralist_foreach$fwork<a><tenv> (x, env) = $Q.qstruct_insert<a> (env, x)
 //
 var env: $Q.qstruct
 val () = $Q.qstruct_initize {a} (env)
-val () = $effmask_all (fundeque_foreach_env (xs, env))
+val () = $effmask_all (funralist_foreach_env (xs, env))
 val res = $Q.qstruct_takeout_list (env)
 val () = $Q.qstruct_uninitize {a} (env)
 //
 in
   $UN.castvwtp0{list_vt(a,n)}(res)
-end // end of [fundeque_listize]
+end // end of [funralist_listize]
 
 end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [fundeque.hats] *)
+(* end of [funralist.hats] *)

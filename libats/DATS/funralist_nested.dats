@@ -32,16 +32,24 @@
 (* Start time: May, 2012 *)
 
 (* ****** ****** *)
-
-staload "libats/SATS/funralist_nested.sats"
-
-(* ****** ****** *)
 //
 // HX-2013-01:
 //
 // this data structure is essentially due to Chris Okasaki
 // However, unlike Okasaki's formulation, [ralist] is *not*
 // a nested datatype!
+//
+(* ****** ****** *)
+//
+staload INT = "prelude/DATS/integer.dats"
+//
+(* ****** ****** *)
+//
+staload "libats/SATS/funralist_nested.sats"
+//
+(* ****** ****** *)
+//
+#include "./SHARE/funralist.hats" // code reuse
 //
 (* ****** ****** *)
 
@@ -111,7 +119,7 @@ funralist_cons
 prval () = lemma_ralist_param (xs)
 //
 in
-  cons{a} (N1(x), xs)
+  cons{a} (N1{a}(x), xs)
 end // end of [funralist_cons]
 
 end // end of [local]
@@ -308,7 +316,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 local
 
 extern
-fun __free (p: ptr):<!wrt> void = "mac#ats_free_gc"
+fun __free (p: ptr):<!wrt> void = "mac#ATS_MFREE"
 //
 fun
 fset_at
@@ -367,7 +375,7 @@ funralist_set_at
   (xs, i, x0) = let
 //
 typedef node = node (a, 0)
-val f = lam (_: node): node =<cloref0> N1 (x0)
+val f = lam (_: node): node =<cloref0> N1{a}(x0)
 val xs = fset_at{a} (xs, i, f)
 val () = $effmask_wrt (__free ($UN.cast2ptr(f)))
 //
@@ -381,45 +389,48 @@ end // end of [local]
 
 (* ****** ****** *)
 
-implement{a}{env}
-funralist_foreach$cont (x, env) = true
-
-(* ****** ****** *)
-
 local
 
 extern
-fun __free (p: ptr):<!wrt> void = "mac#ats_free_gc"
+fun __free (p: ptr):<!wrt> void = "mac#ATS_MFREE"
 
-fnx foreach
-  {a:t0p}
-  {d:nat}{n:nat} .<n,1>. (
+fun
+foreach{a:t0p}
+  {d:nat}{n:nat} .<n,1>.
+(
   xs: myralist (a, d, n), f: node (a, d) -<cloref0> void
-) :<> void =
-  case+ xs of
-  | RAevn (xxs) =>
-      foreach2 (xxs, f)
-    // end of [RAevn]
-  | RAodd (x, xxs) => let
-      val () = f (x) in case+ xxs of
-      | RAnil () => () | _ =>> foreach2 (xxs, f)
-    end // end of [RAodd]
-  | RAnil () => ()
-// end of [foreach]
+) :<> void = let
+in
+//
+case+ xs of
+| RAevn (xxs) =>
+    foreach2 (xxs, f)
+  // end of [RAevn]
+| RAodd (x, xxs) => let
+    val () = f (x) in case+ xxs of
+    | RAnil () => () | _ =>> foreach2 (xxs, f)
+  end // end of [RAodd]
+| RAnil ((*void*)) => ()
+//
+end // end of [foreach]
 
-and foreach2
-  {a:t0p}
-  {d:nat}
-  {n2:pos} .<2*n2,0>. (
+and
+foreach2{a:t0p}
+  {d:nat}{n2:pos} .<2*n2,0>.
+(
   xxs: myralist (a, d+1, n2), f: node (a, d) -<cloref0> void
 ) :<> void = let
-  typedef node = node (a, d+1)
-  val f1 = lam
-    (xx: node): void =<cloref0> let
-    val+N2 (x0, x1) = xx in f (x0); f (x1)
-  end // end of [val]
-  val () = foreach (xxs, f1)
-  val () = $effmask_wrt (__free ($UN.cast2ptr(f1)))
+//
+typedef node = node (a, d+1)
+//
+val f1 = lam
+  (xx: node): void =<cloref0> let
+  val+N2 (x0, x1) = xx in f (x0); f (x1)
+end // end of [val]
+//
+val () = foreach (xxs, f1)
+val () = $effmask_wrt (__free ($UN.cast2ptr(f1)))
+//
 in
   // nothing
 end // end of [foreach2]
@@ -435,69 +446,32 @@ implement{a}{env}
 funralist_foreach_env
   (xs, env) = let
 //
-exception DISCONT of ()
+typedef node = node (a, 0)
 //
 prval () = lemma_ralist_param (xs)
-//
-typedef node = node (a, 0)
 //
 val p_env = addr@ (env)
 //
 val f = lam
-  (x: node): void =<cloref0> let
-  val+N1 (x) = x
-  val (pf, fpf | p_env) = $UN.ptr_vtake{env}(p_env)
-  val cont =
-    $effmask_all (funralist_foreach$cont<a><env> (x, !p_env))
+  (x0: node): void =<cloref0> let
+  val+N1 (x) = x0
+  val (
+    pf, fpf | p_env
+  ) = $UN.ptr_vtake{env}(p_env)
   val () =
-    $effmask_all (
-    if cont then funralist_foreach$fwork<a><env> (x, !p_env) else $raise DISCONT()
-  ) : void // end of [val]
-  prval () = fpf (pf)
+    $effmask_all (funralist_foreach$fwork<a><env> (x, !p_env))
+  prval ((*void*)) = fpf (pf)
 in
   // nothing
 end // end of [val]
 //
-val () =
-  try foreach (xs, f) with ~DISCONT() => ()
-// end of [val]
+val () = foreach (xs, f)
 //
 val () = $effmask_wrt (__free ($UN.cast2ptr(f)))
 //
 in
   // nothing
 end // end of [funralist_foreach_env]
-
-end // end of [local]
-
-(* ****** ****** *)
-
-local
-
-staload Q = "libats/SATS/qlist.sats"
-
-in (* in of [local] *)
-
-implement{a}
-funralist_listize
-  {n} (xs) = let
-//
-viewtypedef tenv = $Q.qstruct (a)
-//
-implement
-funralist_foreach$cont<a><tenv> (x, env) = true
-implement
-funralist_foreach$fwork<a><tenv> (x, env) = $Q.qstruct_insert<a> (env, x)
-//
-var env: $Q.qstruct
-val () = $Q.qstruct_initize {a} (env)
-val () = $effmask_all (funralist_foreach_env (xs, env))
-val res = $Q.qstruct_takeout_list (env)
-val () = $Q.qstruct_uninitize {a} (env)
-//
-in
-  $UN.castvwtp0{list_vt(a,n)}(res)
-end // end of [funralist_listize]
 
 end // end of [local]
 

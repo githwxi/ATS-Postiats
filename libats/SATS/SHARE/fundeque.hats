@@ -167,4 +167,11 @@ a:t0p}{env:vt0p
 //
 (* ****** ****** *)
 
+fun{a:t0p}
+fundeque_listize
+  {n:int} (xs: deque (INV(a), n)):<!wrt> list_vt (a, n)
+// end of [fundeque_listize]
+
+(* ****** ****** *)
+
 (* end of [fundeque.hats] *)

@@ -146,17 +146,15 @@ funralist_update
 ) :<> ralist (a, n) // endfun
 
 (* ****** ****** *)
-
-fun{a:t0p}{env:vt0p}
-funralist_foreach$cont (x: a, env: &env): bool
+//
 fun{a:t0p}{env:vt0p}
 funralist_foreach$fwork (x: a, env: &(env) >> _): void
-
+//
 fun{a:t0p}
 funralist_foreach (xs: Ralist (INV(a))): void
 fun{a:t0p}{env:vt0p}
 funralist_foreach_env (xs: Ralist (INV(a)), env: &(env)>>env): void
-
+//
 (* ****** ****** *)
 
 fun{a:t0p}
