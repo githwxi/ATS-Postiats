@@ -205,10 +205,6 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
-#packfilename("tailcal.dats")
-
-(* ****** ****** *)
-
 #packfilename("tally.dats")
 
 (* ****** ****** *)

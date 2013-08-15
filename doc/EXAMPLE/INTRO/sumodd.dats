@@ -66,7 +66,7 @@ macdef square(x) = let val x = ,(x) in x * x end
 
 implement
 main0 () =
- {
+{
   #define N 100
   val () = assertloc (sumodd (N) = sumodd2 (N))
   #define N1 N+1

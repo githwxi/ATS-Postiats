@@ -84,22 +84,6 @@ clean:: ; $(RMF) bintree_dats.o
 clean:: ; $(RMF) bintree_dats.c
 cleanall:: ; $(RMF) bintree bintree.exe
 
-all:: clofun
-clofun: clofun.exe
-clofun.exe: clofun_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-clofun_dats.c: clofun.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output clofun_dats.c --dynamic clofun.dats
-clean:: ; $(RMF) clofun_dats.o
-clean:: ; $(RMF) clofun_dats.c
-cleanall:: ; $(RMF) clofun clofun.exe
-
-all:: extfcall
-extfcall: extfcall.exe
-extfcall.exe: extfcall_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-extfcall_dats.c: extfcall.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output extfcall_dats.c --dynamic extfcall.dats
-clean:: ; $(RMF) extfcall_dats.o
-clean:: ; $(RMF) extfcall_dats.c
-cleanall:: ; $(RMF) extfcall extfcall.exe
-
 all:: f91
 f91: f91.exe
 f91.exe: f91_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
@@ -234,6 +218,7 @@ clean:: ; $(RMF) ordset_dats.o
 clean:: ; $(RMF) ordset_dats.c
 cleanall:: ; $(RMF) ordset ordset.exe
 
+
 all:: partmplt
 partmplt: partmplt.exe
 partmplt.exe: partmplt_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
@@ -242,13 +227,6 @@ clean:: ; $(RMF) partmplt_dats.o
 clean:: ; $(RMF) partmplt_dats.c
 cleanall:: ; $(RMF) partmplt partmplt.exe
 
-all:: patrefas
-patrefas: patrefas.exe
-patrefas.exe: patrefas_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-patrefas_dats.c: patrefas.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output patrefas_dats.c --dynamic patrefas.dats
-clean:: ; $(RMF) patrefas_dats.o
-clean:: ; $(RMF) patrefas_dats.c
-cleanall:: ; $(RMF) patrefas patrefas.exe
 
 all:: sumodd
 sumodd: sumodd.exe
@@ -274,6 +252,7 @@ clean:: ; $(RMF) strprefix_dats.o
 clean:: ; $(RMF) strprefix_dats.c
 cleanall:: ; $(RMF) strprefix strprefix.exe
 
+
 all:: tally
 tally: tally.exe
 tally.exe: tally_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
@@ -282,6 +261,7 @@ clean:: ; $(RMF) tally_dats.o
 clean:: ; $(RMF) tally_dats.c
 cleanall:: ; $(RMF) tally tally.exe
 
+
 all:: trywith
 trywith: trywith.exe
 trywith.exe: trywith_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
@@ -289,14 +269,6 @@ trywith_dats.c: trywith.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output t
 clean:: ; $(RMF) trywith_dats.o
 clean:: ; $(RMF) trywith_dats.c
 cleanall:: ; $(RMF) trywith trywith.exe
-
-all:: weekday
-weekday: weekday.exe
-weekday.exe: weekday_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-weekday_dats.c: weekday.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output weekday_dats.c --dynamic weekday.dats
-clean:: ; $(RMF) weekday_dats.o
-clean:: ; $(RMF) weekday_dats.c
-cleanall:: ; $(RMF) weekday weekday.exe
 
 
 ######
