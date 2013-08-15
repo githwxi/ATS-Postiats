@@ -94,6 +94,7 @@ all_script::
 
 ######
 
+#make_entry("atscntrb_atshwxi_intinf")
 #make_entry("atscntrb_atshwxi_testing")
 
 ######
@@ -145,6 +146,8 @@ srcget_atslib_libats_ML:: SCRIPT/atslib_libats_ML.bash ; bash $<
 
 ######
 
+srcget_atscntrb:: srcget_atscntrb_atshwxi_intinf
+srcget_atscntrb_atshwxi_intinf:: SCRIPT/atscntrb_atshwxi_intinf.bash ; bash $<
 srcget_atscntrb:: srcget_atscntrb_atshwxi_testing
 srcget_atscntrb_atshwxi_testing:: SCRIPT/atscntrb_atshwxi_testing.bash ; bash $<
 

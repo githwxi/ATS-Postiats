@@ -43,11 +43,17 @@ cleanall:: ; $(RMF) prelude/*.?ats
 cleanall:: ; $(RMF) prelude/?ATS/*.?ats
 cleanall:: ; $(RMF) libc/?ATS/*.?ats
 cleanall:: ; $(RMF) libc/sys/?ATS/*.?ats
+cleanall:: ; $(RMF) libc/gdbm/?ATS/*.?ats
+cleanall:: ; $(RMF) libc/gdbm/?ATS/SHARE/*.?ats
 cleanall:: ; $(RMF) libats/?ATS/*.?ats
 cleanall:: ; $(RMF) libats/?ATS/SHARE/*.?ats
 cleanall:: ; $(RMF) libats/ML/?ATS/*.?ats
+cleanall:: ; $(RMF) contrib/atshwxi/intinf/?ATS/*.?ats
+cleanall:: ; $(RMF) contrib/atshwxi/testing/?ATS/*.?ats
 cleanall:: ; $(RMF) doc/EXAMPLE/INTRO/*
+cleanall:: ; $(RMF) doc/EXAMPLE/MISC/*
 cleanall:: ; $(RMF) doc/EXAMPLE/ATSLIB/*
+cleanall:: ; $(RMF) doc/EXAMPLE/PCPV/*
 
 ######
 

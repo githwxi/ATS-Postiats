@@ -441,7 +441,7 @@ case+ hfds of
     val-HDElam (hips_arg, hde_body) = hde_def.hidexp_node
     val+~list_vt_cons (flab, flabs) = flabs
 //
-    val isfnx = funkind_is_tailrecur(knd)
+    val isfnx = funkind_is_mutailrec(knd)
     val (
     ) = if not(isfnx) then {
       val () = ccompenv_inc_tailcalenv (env, flab)
@@ -491,7 +491,7 @@ val flabs =
   auxinit (env, lvl0, decarg, hfds)
 //
 //
-val isfnx = funkind_is_tailrecur (knd)
+val isfnx = funkind_is_mutailrec (knd)
 val () =
 if isfnx then let
   val flabs =

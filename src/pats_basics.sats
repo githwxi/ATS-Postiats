@@ -98,7 +98,7 @@ funkind =
 
 fun funkind_is_proof (x: funkind): bool
 fun funkind_is_recursive (x: funkind): bool
-fun funkind_is_tailrecur (x: funkind): bool
+fun funkind_is_mutailrec (x: funkind): bool
 
 fun fprint_funkind : fprint_type (funkind)
 

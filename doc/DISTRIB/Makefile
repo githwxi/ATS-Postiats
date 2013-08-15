@@ -100,6 +100,16 @@ cleanall:: ; $(RMF) SCRIPT/atslib_libats_ML.bash
 
 ######
 
+all_html:: HTML/atscntrb_atshwxi_intinf.html
+HTML/atscntrb_atshwxi_intinf.html: atscntrb_atshwxi_intinf_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_atshwxi_intinf.bash
+SCRIPT/atscntrb_atshwxi_intinf.bash: atscntrb_atshwxi_intinf_atxt.exe ; ./$< > $@
+atscntrb_atshwxi_intinf_atxt.dats: ATEXT/atscntrb_atshwxi_intinf.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_atshwxi_intinf_atxt.exe: atscntrb_atshwxi_intinf_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_atshwxi_intinf_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_atshwxi_intinf.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_atshwxi_intinf.bash
+
 all_html:: HTML/atscntrb_atshwxi_testing.html
 HTML/atscntrb_atshwxi_testing.html: atscntrb_atshwxi_testing_atxt.exe ; ./$< > $@
 all_script:: SCRIPT/atscntrb_atshwxi_testing.bash
@@ -223,6 +233,8 @@ srcget_atslib_libats_ML:: SCRIPT/atslib_libats_ML.bash ; bash $<
 
 ######
 
+srcget_atscntrb:: srcget_atscntrb_atshwxi_intinf
+srcget_atscntrb_atshwxi_intinf:: SCRIPT/atscntrb_atshwxi_intinf.bash ; bash $<
 srcget_atscntrb:: srcget_atscntrb_atshwxi_testing
 srcget_atscntrb_atshwxi_testing:: SCRIPT/atscntrb_atshwxi_testing.bash ; bash $<
 

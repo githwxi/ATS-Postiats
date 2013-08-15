@@ -161,9 +161,9 @@ case+ fk of
 end // end of [funkind_is_recursive]
 
 implement
-funkind_is_tailrecur fk =
-  case+ fk of FK_fnx () => true | _ => false
-// end of [funkind_is_tailrecur]
+funkind_is_mutailrec
+  (fk) = case+ fk of FK_fnx () => true | _ => false
+// end of [funkind_is_mutailrec]
 
 implement
 fprint_funkind
