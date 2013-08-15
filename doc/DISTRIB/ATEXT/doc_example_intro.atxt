@@ -177,11 +177,19 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
+#packfilename("mutailrec.dats")
+
+(* ****** ****** *)
+
 #packfilename("partmplt.dats")
 
 (* ****** ****** *)
 
 #packfilename("patrefas.dats")
+
+(* ****** ****** *)
+
+#packfilename("ordset.dats")
 
 (* ****** ****** *)
 
@@ -197,7 +205,19 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
+#packfilename("tailcal.dats")
+
+(* ****** ****** *)
+
+#packfilename("tally.dats")
+
+(* ****** ****** *)
+
 #packfilename("trywith.dats")
+
+(* ****** ****** *)
+
+#packfilename("weekday.dats")
 
 (* ****** ****** *)
 

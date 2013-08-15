@@ -108,6 +108,14 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("SATS/dynarray.sats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/refcount.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/ilist_prf.sats")
 #packfilename("SATS/gflist.sats")
 #packfilename("SATS/gflist_vt.sats")
@@ -124,18 +132,31 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("SATS/linset.sats")
+#packfilename("SATS/linset_listord.sats")
+#packfilename("SATS/linset_avltree.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/linmap.sats")
 #packfilename("SATS/linmap_list.sats")
 #packfilename("SATS/linmap_avltree.sats")
 #packfilename("SATS/linmap_randbst.sats")
 #packfilename("SATS/linmap_skiplist.sats")
-#packfilename("SATS/linset.sats")
-#packfilename("SATS/linset_listord.sats")
-#packfilename("SATS/linset_avltree.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/linheap.sats")
 #packfilename("SATS/linheap_binomial.sats")
 #packfilename("SATS/linheap_fibonacci.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/linhashtbl_chain.sats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/lindeque_dllist.sats")
 #packfilename("SATS/linralist_nested.sats")
 
 (* ****** ****** *)
@@ -149,10 +170,12 @@ The ATSLIB/libats library\
 #packfilename("SATS/SHARE/linset.hats")
 #packfilename("SATS/SHARE/linset_node.hats")
 #packfilename("SATS/SHARE/linheap.hats")
+#packfilename("SATS/SHARE/lindeque.hats")
 
 (* ****** ****** *)
 
 #packfilename("CATS/qlist.cats")
+#packfilename("CATS/dynarray.cats")
 
 (* ****** ****** *)
 
@@ -163,18 +186,11 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
-#packfilename("DATS/funmap_list.dats")
-#packfilename("DATS/funmap_avltree.dats")
+#packfilename("DATS/dynarray.dats")
 
 (* ****** ****** *)
 
-#packfilename("DATS/funset_listord.dats")
-#packfilename("DATS/funset_avltree.dats")
-
-(* ****** ****** *)
-
-#packfilename("DATS/funralist_nested.dats")
-#packfilename("DATS/fundeque_fingertree.dats")
+#packfilename("DATS/refcount.dats")
 
 (* ****** ****** *)
 
@@ -185,15 +201,30 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
-#packfilename("DATS/linmap.dats")
+#packfilename("DATS/funset_listord.dats")
+#packfilename("DATS/funset_avltree.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/funmap_list.dats")
+#packfilename("DATS/funmap_avltree.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/funralist_nested.dats")
+#packfilename("DATS/fundeque_fingertree.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/linset_listord.dats")
+#packfilename("DATS/linset_avltree.dats")
+
+(* ****** ****** *)
+
 #packfilename("DATS/linmap_list.dats")
 #packfilename("DATS/linmap_avltree.dats")
 #packfilename("DATS/linmap_randbst.dats")
 #packfilename("DATS/linmap_skiplist.dats")
-
-(* ****** ****** *)
-
-#packfilename("DATS/linset_avltree.dats")
 
 (* ****** ****** *)
 
@@ -203,6 +234,7 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("DATS/lindeque_dllist.dats")
 #packfilename("DATS/linralist_nested.dats")
 
 (* ****** ****** *)

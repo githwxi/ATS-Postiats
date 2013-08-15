@@ -105,6 +105,10 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
+#packfilename("autodiff.dats")
+
+(* ****** ****** *)
+
 #packfilename("coinflip.dats")
 
 (* ****** ****** *)
@@ -118,6 +122,10 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
+#packfilename("fourslot.dats")
+
+(* ****** ****** *)
+
 #packfilename("hanoi.dats")
 
 (* ****** ****** *)
@@ -126,11 +134,16 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
-#packfilename("queens_loop.dats")
+#packfilename("monad_maybe.dats")
+#packfilename("monad_state.dats")
 
 (* ****** ****** *)
 
 #packfilename("passwdgen.dats")
+
+(* ****** ****** *)
+
+#packfilename("queens_loop.dats")
 
 (* ****** ****** *)
 
@@ -143,6 +156,10 @@ The ATSHOME/doc/EXAMPLE/MISC\
 (* ****** ****** *)
 
 #packfilename("sllist_mapfree.dats")
+
+(* ****** ****** *)
+
+#packfilename("strmat.dats")
 
 (* ****** ****** *)
 

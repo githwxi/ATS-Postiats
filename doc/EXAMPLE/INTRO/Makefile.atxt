@@ -121,7 +121,13 @@ RMF=rm -f
 #make2_entry("intrange", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("linenmbr", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 #make2_entry("listfuns", "-DATS_MEMALLOC_LIBC", "")
+
+%{
+(*
 #make_entry("mutailrec")
+*)
+%}
+
 #make2_entry("ordset", "-DATS_MEMALLOC_LIBC", "")
 #make_entry("partmplt")
 #make2_entry("patrefas", "-DATS_MEMALLOC_LIBC", "")

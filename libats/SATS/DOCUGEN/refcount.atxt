@@ -1,0 +1,58 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../refcount.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_refcount")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/refcount\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+
+This package implements reference-counted values.
+
+')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("refcnt")
+#declnamesynop("refcnt_vt0ype_vtype")
+
+(* ****** ****** *)
+
+#declnamesynop("refcnt_make")
+
+(* ****** ****** *)
+
+#declnamesynop("refcnt_get_count")
+
+(* ****** ****** *)
+
+#declnamesynop("refcnt_incref")
+#declnamesynop("refcnt_decref")
+#declnamesynop("refcnt_decref_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("refcnt_vtakeout")
+#declnamesynop("refcnt_vttakeout")
+
+(* ****** ****** *)
+
+(* end of [refcount.atxt] *)

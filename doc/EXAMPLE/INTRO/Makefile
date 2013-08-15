@@ -223,13 +223,8 @@ clean:: ; $(RMF) listfuns_dats.o
 clean:: ; $(RMF) listfuns_dats.c
 cleanall:: ; $(RMF) listfuns listfuns.exe
 
-all:: mutailrec
-mutailrec: mutailrec.exe
-mutailrec.exe: mutailrec_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-mutailrec_dats.c: mutailrec.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output mutailrec_dats.c --dynamic mutailrec.dats
-clean:: ; $(RMF) mutailrec_dats.o
-clean:: ; $(RMF) mutailrec_dats.c
-cleanall:: ; $(RMF) mutailrec mutailrec.exe
+
+
 
 all:: ordset
 ordset: ordset.exe
@@ -278,14 +273,6 @@ strprefix_dats.c: strprefix.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --outp
 clean:: ; $(RMF) strprefix_dats.o
 clean:: ; $(RMF) strprefix_dats.c
 cleanall:: ; $(RMF) strprefix strprefix.exe
-
-all:: tailcal
-tailcal: tailcal.exe
-tailcal.exe: tailcal_dats.c ;   $(CCOPT) -D_GNU_SOURCE -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-tailcal_dats.c: tailcal.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output tailcal_dats.c --dynamic tailcal.dats
-clean:: ; $(RMF) tailcal_dats.o
-clean:: ; $(RMF) tailcal_dats.c
-cleanall:: ; $(RMF) tailcal tailcal.exe
 
 all:: tally
 tally: tally.exe
