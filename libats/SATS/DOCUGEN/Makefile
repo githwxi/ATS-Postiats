@@ -103,6 +103,15 @@ upload_dynarray:: ;   scp HTML/dynarray.html ats-hwxi,ats-lang@web.sourceforge.n
 clean:: ; $(RMF) dynarray_atxt.exe
 cleanall:: ; $(RMF) HTML/dynarray.html
 
+all_html:: HTML/refcount.html
+HTML/refcount.html:   refcount_atxt.exe ; ./$< > $@
+refcount_atxt.txt: refcount.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+refcount_atxt.exe: htmlgendecl_atxt.dats   refcount_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_refcount:: ;   scp HTML/refcount.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) refcount_atxt.exe
+cleanall:: ; $(RMF) HTML/refcount.html
+
+
 all_html:: HTML/ilist_prf.html
 HTML/ilist_prf.html:   ilist_prf_atxt.exe ; ./$< > $@
 ilist_prf_atxt.txt: ilist_prf.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@

@@ -43,11 +43,12 @@ ATS_STALOADFLAG 0 // no static loading at run-time
 #define ATS_EXTERN_PREFIX "atslib_"
 
 (* ****** ****** *)
-
-absvtype
+//
+absvtype // invariant
 refcnt_vt0ype_vtype (a:vt@ype) = ptr
-vtypedef refcnt (a: vt0p) = refcnt_vt0ype_vtype (a)
-
+//
+stadef refcnt = refcnt_vt0ype_vtype
+//
 (* ****** ****** *)
 
 fun{a:vt0p}

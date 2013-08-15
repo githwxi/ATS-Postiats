@@ -1,0 +1,100 @@
+%{
+//
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"integer_ptr.sats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+//
+#include "prelude_SATS_atext.hats"
+//
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/integer_ptr.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("January, 2013")
+
+#atscode_separator()
+//
+// HX: for unindexed integer types
+//
+#atscode_separator()
+
+sortdef tk = tkind
+
+#atscode_separator()
+
+typedef SHR(a:type) = a // for commenting purpose
+typedef NSH(a:type) = a // for commenting purpose
+
+#atscode_separator()
+//
+stadef intptrknd = intptr_kind
+stadef uintptrknd = uintptr_kind
+//
+#atscode_separator()
+//
+fun g0int2int_int_intptr (x: int):<> intptr = "mac\#%"
+fun g1int2int_int_intptr {i:int} (x: int i):<> intptr(i) = "mac\#%"
+//
+#atscode_separator()
+//
+fun g0int2uint_int_uintptr (x: int):<> uintptr = "mac\#%"
+fun g1int2uint_int_uintptr {i:nat} (x: int i):<> uintptr(i) = "mac\#%"
+//
+#atscode_separator()
+//
+fun g0uint2uint_uint_uintptr (x: uint):<> uintptr = "mac\#%"
+fun g1uint2uint_uint_uintptr {u:int} (x: uint u):<> uintptr(u) = "mac\#%"
+//
+#atscode_separator()
+//
+#fun_g0int_type_aop_cmp_decl("intptr", "intptr")\
+//
+#atscode_separator()
+//
+#fprint_print_prerr_decl("intptr", "intptr")\
+//
+#atscode_separator()
+//
+#fun_g0uint_type_aop_cmp_decl("uintptr", "uintptr")\
+//
+#atscode_separator()
+//
+#fprint_print_prerr_decl("uintptr", "uintptr")\
+//
+#atscode_separator()
+//
+#fun_g1int_type_aop_cmp_decl("intptr", "intptr")\
+//
+#atscode_separator()
+//
+#fun_g1uint_type_aop_cmp_decl("uintptr", "uintptr")\
+//
+#atscode_separator()
+//
+macdef i2ptr (x) = g1int2int_int_intptr (,(x))
+//
+macdef u2ptr (x) = g1uint2uint_uint_uintptr (,(x))
+//
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "integer_ptr_atxt.txt")
+%}\
