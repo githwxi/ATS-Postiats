@@ -34,6 +34,9 @@ types in practical programming.
 
 #declnamesynop("ralist")
 #declnamesynop("ralist_type")
+
+(* ****** ****** *)
+
 #declnamesynop("Ralist")
 
 (* ****** ****** *)

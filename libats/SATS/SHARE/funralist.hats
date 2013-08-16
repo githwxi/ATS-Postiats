@@ -58,11 +58,13 @@
 // HX: indexed by list length
 //
 abstype
-ralist_type (a:t@ype+, n:int)
+ralist_type (a:t@ype+, n:int) = ptr
+//
+(* ****** ****** *)
 //
 stadef ralist = ralist_type
-//
-typedef Ralist (a:t@ype) = [n:int] ralist (a, n)
+typedef ralist (a:t0p) = [n:int] ralist (a, n)
+typedef Ralist (a:t0p) = [n:int] ralist (a, n)
 //
 (* ****** ****** *)
 
@@ -72,18 +74,27 @@ prfun lemma_ralist_param
 
 (* ****** ****** *)
 
-fun{a:t0p}
-funralist_nil ():<> ralist (a, 0)
+fun{}
+funralist_nil{a:t0p}():<> ralist (a, 0)
+fun{}
+funralist_make_nil{a:t0p}():<> ralist (a, 0)
 
 (* ****** ****** *)
 
 fun{a:t0p}
-funralist_cons {n:int}
+funralist_make_list
+  {n:int}(xs: list (INV(a), n)): ralist (a, n)
+// end of [funralist_make_list]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+funralist_cons{n:int}
   (x: a, xs: ralist (INV(a), n)):<> ralist (a, n+1)
 // end of [funralist_cons]
 
 fun{a:t0p}
-funralist_uncons {n:pos}
+funralist_uncons{n:pos}
   (xs: &ralist (INV(a), n) >> ralist (a, n-1)):<!wrt> a
 // end of [funralist_uncons]
 
@@ -91,12 +102,12 @@ funralist_uncons {n:pos}
 
 fun{
 } funralist_is_nil
-  {a:t0p}{n:int} (xs: ralist (INV(a), n)):<> bool (n==0)
+  {a:t0p}{n:int} (xs: ralist (INV(a), n)):<> bool(n==0)
 // end of [funralist_is_nil]
 
 fun{
 } funralist_is_cons
-  {a:t0p}{n:int} (xs: ralist (INV(a), n)):<> bool (n > 0)
+  {a:t0p}{n:int} (xs: ralist (INV(a), n)):<> bool(n > 0)
 // end of [funralist_is_cons]
 
 (* ****** ****** *)
@@ -119,33 +130,31 @@ funralist_tail
 (* ****** ****** *)
 
 fun{a:t0p}
-funralist_get_at
-  {n:int} (
-  xs: ralist (INV(a), n), i: natLt n
-) :<> (a) // endfun
-
+funralist_get_at{n:int}
+  (xs: ralist (INV(a), n), i: natLt n):<> a
 fun{a:t0p}
-funralist_lookup
-  {n:int} (
-  xs: ralist (INV(a), n), i: natLt n
-) :<> (a) // endfun
-
+funralist_lookup{n:int}
+  (xs: ralist (INV(a), n), i: natLt n):<> a
+//
+overload [] with funralist_get_at
+//
 (* ****** ****** *)
 
 fun{a:t0p}
-funralist_set_at
-  {n:int} (
+funralist_set_at{n:int}
+(
   xs: ralist (INV(a), n), i: natLt n, x0: a
 ) :<> ralist (a, n) // endfun
-
 fun{a:t0p}
-funralist_update
-  {n:int} (
+funralist_update{n:int}
+(
   xs: ralist (INV(a), n), i: natLt n, x0: a
 ) :<> ralist (a, n) // endfun
 
 (* ****** ****** *)
 
+fun{}
+fprint_funralist$sep (out: FILEref): void
 fun{a:t0p}
 fprint_funralist
   (out: FILEref, xs: Ralist(INV(a))): void

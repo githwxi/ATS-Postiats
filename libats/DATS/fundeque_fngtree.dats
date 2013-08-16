@@ -28,8 +28,8 @@
 (* ****** ****** *)
 (*
 **
-** A functional concatenable deque implementation based on fingertrees.
-** Please see the JFP paper by Hinze and Paterson on fingertrees for more
+** A functional concatenable deque implementation based on finger-trees.
+** Please see the JFP paper by Hinze and Paterson on finger-trees for more
 ** details on this interesting data structure.
 **
 ** Contributed by Hongwei Xi (hwxi AT cs DOT bu DOT edu)
@@ -50,19 +50,20 @@
 (* ****** ****** *)
 
 #define
-ATS_DYNLOADFLAG 0 // no static loading at run-time
+ATS_PACKNAME "ATSLIB.libats.fundeque_fngtree"
+#define
+ATS_DYNLOADFLAG 0 // no dynamic loading at run-time
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
+staload
+_(*anon*) = "prelude/DATS/integer.dats"
 
 (* ****** ****** *)
 //
-staload _(*anon*) = "prelude/DATS/integer.dats"
-//
-(* ****** ****** *)
-//
-staload "libats/SATS/fundeque_fingertree.sats"
+staload "libats/SATS/fundeque_fngtree.sats"
 //
 (* ****** ****** *)
 //
@@ -114,10 +115,9 @@ ftdigit
 (* ****** ****** *)
 
 datatype
-fingertree
-(
+fngtree (
   a:t@ype, int(*d*), int(*n*)
-) = (* fingertree *)
+) = (* fngtree *)
   | {d:nat}
     FTemp (a, d, 0) of ()
   | {d:nat}
@@ -127,30 +127,31 @@ fingertree
     {npr,nm,nsf:nat}
     FTdeep (a, d, npr+nm+nsf) of
     (
-      ftdigit(a, d, npr), fingertree (a, d+1, nm), ftdigit (a, d, nsf)
+      ftdigit(a, d, npr), fngtree (a, d+1, nm), ftdigit (a, d, nsf)
     ) // end of [FTdeep]
-// end of [fingertree]
+// end of [fngtree]
 
 (* ****** ****** *)
-
+//
 extern
 fun{a:t0p}
-fprint_fingertree{d:int}{n:int}
-(
-  out: FILEref, xt: fingertree (INV(a), d, n)
-) : void // end of [fprint_fingertree]
-
+fprint_fngtree
+  {d:int}{n:int}
+  (out: FILEref, xt: fngtree (INV(a), d, n)): void
+//
 (* ****** ****** *)
 
 local
 
 fun{a:t0p}
-fprint_ftnode{d:int}{n:int}
+fprint_ftnode
+  {d:int}{n:int}
 (
   out: FILEref, xn: ftnode (INV(a), d, n)
 ) : void = let
 //
-macdef prstr (str) = fprint_string (out, ,(str))
+macdef
+prstr (str) = fprint_string (out, ,(str))
 //
 in
 //
@@ -183,12 +184,14 @@ case+ xn of
 end // end of [fprint_ftnode]
 
 fun{a:t0p}
-fprint_ftdigit{d:int}{n:int}
+fprint_ftdigit
+  {d:int}{n:int}
 (
   out: FILEref, xn: ftdigit (INV(a), d, n)
 ) : void = let
 //
-macdef prstr (str) = fprint_string (out, ,(str))
+macdef
+prstr (str) = fprint_string (out, ,(str))
 //
 in
 //
@@ -235,10 +238,11 @@ end // end of [fprint_ftdigit]
 in (* in of [local] *)
 
 implement{a}
-fprint_fingertree
+fprint_fngtree
   (out, xt) = let
 //
-macdef prstr (str) = fprint_string (out, ,(str))
+macdef
+prstr (str) = fprint_string (out, ,(str))
 //
 in
 //
@@ -255,13 +259,13 @@ case+ xt of
     val () = prstr "FTdeep("
     val () = fprint_ftdigit (out, xn1)
     val () = prstr ", "
-    val () = fprint_fingertree (out, xt2)
+    val () = fprint_fngtree (out, xt2)
     val () = prstr ", "
     val () = fprint_ftdigit (out, xn3)
     val () = prstr ")"
   }
 //
-end // end of [fprint_fingertree]
+end // end of [fprint_fngtree]
 
 end // end of [local]
 
@@ -304,18 +308,18 @@ ftdigit_prop_szpos
 (* ****** ****** *)
 
 prfun
-fingertree_prop1_sznat
+fngtree_prop1_sznat
   {a:t0p}
   {d:int}
   {n:int} .<>.
-  (xt: fingertree (a, d, n)): [n >= 0] void =
+  (xt: fngtree (a, d, n)): [n >= 0] void =
   case+ xt of
   | FTemp () => ()
   | FTsing (xn) => ftnode_prop_szpos (xn)
   | FTdeep (pr, m, sf) => {
       val () = ftdigit_prop_szpos (pr) and () = ftdigit_prop_szpos (sf)
     } // end of [FTdeep]
-// end of [fingertree_prop1_sznat]
+// end of [fngtree_prop1_sznat]
 
 (* ****** ****** *)
 
@@ -377,33 +381,34 @@ fun ftnode2ftdigit
 
 (* ****** ****** *)
 
-fun ftdigit2fingertree
+fun ftdigit2fngtree
   {a:t0p} {d:nat} {n:int} .<>.
-  (xd: ftdigit (a, d, n)):<> fingertree (a, d, n) =
+  (xd: ftdigit (a, d, n)):<> fngtree (a, d, n) =
   case+ xd of
   | FTD1 (xn1) => FTsing (xn1)
   | FTD2 (xn1, xn2) => FTdeep (FTD1 (xn1), FTemp(), FTD1 (xn2))
   | FTD3 (xn1, xn2, xn3) => FTdeep (FTD2 (xn1, xn2), FTemp(), FTD1 (xn3))
   | FTD4 (xn1, xn2, xn3, xn4) => FTdeep (FTD2 (xn1, xn2), FTemp(), FTD2 (xn3, xn4))
-// end of [ftdigit2fingertree]
+// end of [ftdigit2fngtree]
 
 (* ****** ****** *)
 
 extern
-fun fingertree_cons
+fun fngtree_cons
   {a:t0p}{d:nat}{n1,n2:int} (
-  xn: ftnode (a, d, n1), xt: fingertree (a, d, n2)
-) :<> fingertree (a, d, n1+n2) // end of [fingertree_cons]
+  xn: ftnode (a, d, n1), xt: fngtree (a, d, n2)
+) :<> fngtree (a, d, n1+n2) // end of [fngtree_cons]
 
 implement
-fingertree_cons{a}
+fngtree_cons{a}
   (xn, xt) = cons (xn, xt) where
 {
 //
 fun cons {d:nat}
-  {n1,n2:int | n2 >= 0} .<n2>. (
-  xn: ftnode (a, d, n1), xt: fingertree (a, d, n2)
-) :<> fingertree (a, d, n1+n2) = let
+  {n1,n2:int | n2 >= 0} .<n2>.
+(
+  xn: ftnode (a, d, n1), xt: fngtree (a, d, n2)
+) :<> fngtree (a, d, n1+n2) = let
   prval () = ftnode_prop_szpos (xn) in
   case+ xt of
   | FTemp () => FTsing (xn)
@@ -420,7 +425,7 @@ fun cons {d:nat}
         val pr = FTD2 (xn, xn1)
 //
         prval () = ftdigit_prop_szpos (sf)
-        prval () = fingertree_prop1_sznat (m)
+        prval () = fngtree_prop1_sznat (m)
 //
         val m = cons (FTN3 (xn2, xn3, xn4), m)
       in
@@ -429,29 +434,31 @@ fun cons {d:nat}
     ) // end of [FTdeep]
 end // end of [cons]
 //
-prval () = fingertree_prop1_sznat (xt)
+prval () = fngtree_prop1_sznat (xt)
 //
-} // end of [fingertree_cons]
+} // end of [fngtree_cons]
 
 (* ****** ****** *)
 
 extern
-fun fingertree_uncons
-  {a:t0p}{d:nat}{n:pos} (
-  xt: fingertree (a, d, n), r: &ptr? >> ftnode (a, d, n1)
-) :<!wrt> #[n1:nat] fingertree (a, d, n-n1)
-// end of [fingertree_uncons]
+fun fngtree_uncons
+  {a:t0p}{d:nat}{n:pos}
+(
+  xt: fngtree (a, d, n), r: &ptr? >> ftnode (a, d, n1)
+) :<!wrt> #[n1:nat] fngtree (a, d, n-n1)
+// end of [fngtree_uncons]
 
 implement
-fingertree_uncons{a}
+fngtree_uncons{a}
   (xt, r) = uncons (xt, r) where
 {
 //
 fun uncons
-  {d:nat}{n:pos} .<n>. (
-  xt: fingertree (a, d, n)
+  {d:nat}{n:pos} .<n>.
+(
+  xt: fngtree (a, d, n)
 , r: &ptr? >> ftnode (a, d, n1)
-) :<!wrt> #[n1:nat | n1 <= n] fingertree (a, d, n-n1) =
+) :<!wrt> #[n1:nat | n1 <= n] fngtree (a, d, n-n1) =
   case+ xt of
   | FTsing (xn) => let
       val () = r := xn in FTemp ()
@@ -463,12 +470,12 @@ fun uncons
         prval () = ftdigit_prop_szpos (sf)
       in
         case+ m of
-        | FTemp () => ftdigit2fingertree (sf)
+        | FTemp () => ftdigit2fngtree (sf)
         | FTsing (xn1) => FTdeep (ftnode2ftdigit (xn1), FTemp (), sf)
         | FTdeep (pr1, m1, sf1) => let
             var r1: ptr?
             prval () = ftdigit_prop_szpos (pr1)
-            prval () = fingertree_prop1_sznat (m1)
+            prval () = fngtree_prop1_sznat (m1)
             prval () = ftdigit_prop_szpos (sf1)
             val m = uncons (m, r1)
           in
@@ -486,18 +493,18 @@ fun uncons
       end // end of [FTD4]
     ) // end of [FTdeep]
 // end of [uncons]
-} // end of [fingertree_uncons]
+} // end of [fngtree_uncons]
 
 (* ****** ****** *)
 
 extern
-fun fingertree_get_atbeg
+fun fngtree_get_atbeg
   {a:t0p}{d:nat}{n:pos}
-  (xt: fingertree (a, d, n)) :<> [n1:nat] ftnode (a, d, n1)
-// end of [fingertree_get_atbeg]
+  (xt: fngtree (a, d, n)) :<> [n1:nat] ftnode (a, d, n1)
+// end of [fngtree_get_atbeg]
 
 implement
-fingertree_get_atbeg
+fngtree_get_atbeg
   (xt) = (case+ xt of
   | FTsing (xn) => xn
   | FTdeep (pr, m, sf) => (
@@ -507,25 +514,27 @@ fingertree_get_atbeg
     | FTD3 (xn, xn1, xn2) => xn
     | FTD4 (xn, xn1, xn2, xn3) => xn
     ) // end of [FTdeep]
-) // end of [fingertree_get_atbeg]
+) // end of [fngtree_get_atbeg]
 
 (* ****** ****** *)
 
 extern
-fun fingertree_snoc
-  {a:t0p}{d:nat}{n1,n2:int} (
-  xt: fingertree (a, d, n2), xn: ftnode (a, d, n1)
-) :<> fingertree (a, d, n1+n2) // end of [fingertree_snoc]
+fun fngtree_snoc
+  {a:t0p}{d:nat}{n1,n2:int}
+(
+  xt: fngtree (a, d, n2), xn: ftnode (a, d, n1)
+) :<> fngtree (a, d, n1+n2) // end of [fngtree_snoc]
 
 implement
-fingertree_snoc{a}
+fngtree_snoc{a}
   (xt, xn) = snoc (xt, xn) where
 {
 //
 fun snoc {d:nat}
-  {n1,n2:int | n2 >= 0} .<n2>. (
-  xt: fingertree (a, d, n2), xn: ftnode (a, d, n1)
-) :<> fingertree (a, d, n1+n2) = let
+  {n1,n2:int | n2 >= 0} .<n2>.
+(
+  xt: fngtree (a, d, n2), xn: ftnode (a, d, n1)
+) :<> fngtree (a, d, n1+n2) = let
   prval () = ftnode_prop_szpos (xn) in
   case+ xt of
   | FTemp () => FTsing (xn)
@@ -542,7 +551,7 @@ fun snoc {d:nat}
         val sf = FTD2 (xn4, xn)
 //
         prval () = ftdigit_prop_szpos (pr)
-        prval () = fingertree_prop1_sznat (m)
+        prval () = fngtree_prop1_sznat (m)
 //
         val m = snoc (m, FTN3 (xn1, xn2, xn3))
       in
@@ -551,29 +560,31 @@ fun snoc {d:nat}
     ) // end of [FTdeep]
 end // end of [snoc]
 //
-prval () = fingertree_prop1_sznat (xt)
+prval () = fngtree_prop1_sznat (xt)
 //
-} // end of [fingertree_snoc]
+} // end of [fngtree_snoc]
 
 (* ****** ****** *)
 
 extern
-fun fingertree_unsnoc
-  {a:t0p}{d:nat}{n:pos} (
-  xt: fingertree (a, d, n), r: &ptr? >> ftnode (a, d, n1)
-) :<!wrt> #[n1:nat] fingertree (a, d, n-n1)
-// end of [fingertree_unsnoc]
+fun fngtree_unsnoc
+  {a:t0p}{d:nat}{n:pos}
+(
+  xt: fngtree (a, d, n), r: &ptr? >> ftnode (a, d, n1)
+) :<!wrt> #[n1:nat] fngtree (a, d, n-n1)
+// end of [fngtree_unsnoc]
 
 implement
-fingertree_unsnoc{a}
+fngtree_unsnoc{a}
   (xt, r) = unsnoc (xt, r) where
 {
 //
 fun unsnoc
-  {d:nat}{n:pos} .<n>. (
-  xt: fingertree (a, d, n)
+  {d:nat}{n:pos} .<n>.
+(
+  xt: fngtree (a, d, n)
 , r: &ptr? >> ftnode (a, d, n1)
-) :<!wrt> #[n1:nat | n1 <= n] fingertree (a, d, n-n1) =
+) :<!wrt> #[n1:nat | n1 <= n] fngtree (a, d, n-n1) =
   case+ xt of
   | FTsing (xn) => let
       val () = r := xn in FTemp ()
@@ -585,12 +596,12 @@ fun unsnoc
         prval () = ftdigit_prop_szpos (sf)
       in
         case+ m of
-        | FTemp () => ftdigit2fingertree (pr)
+        | FTemp () => ftdigit2fngtree (pr)
         | FTsing (xn1) => FTdeep (pr, FTemp (), ftnode2ftdigit (xn1))
         | FTdeep (pr1, m1, sf1) => let
             var r1: ptr?
             prval () = ftdigit_prop_szpos (pr1)
-            prval () = fingertree_prop1_sznat (m1)
+            prval () = fngtree_prop1_sznat (m1)
             prval () = ftdigit_prop_szpos (sf1)
             val m = unsnoc (m, r1)
           in
@@ -608,18 +619,18 @@ fun unsnoc
       end // end of [FTD4]
     ) // end of [FTdeep]
 // end of [unsnoc]
-} // end of [fingertree_unsnoc]
+} // end of [fngtree_unsnoc]
 
 (* ****** ****** *)
 
 extern
-fun fingertree_get_atend
+fun fngtree_get_atend
   {a:t0p}{d:nat}{n:pos}
-  (xt: fingertree (a, d, n)) :<> [n1:nat] ftnode (a, d, n1)
-// end of [fingertree_get_atend]
+  (xt: fngtree (a, d, n)) :<> [n1:nat] ftnode (a, d, n1)
+// end of [fngtree_get_atend]
 
 implement
-fingertree_get_atend
+fngtree_get_atend
   (xt) = (case+ xt of
   | FTsing (xn) => xn
   | FTdeep (pr, m, sf) => (
@@ -629,20 +640,20 @@ fingertree_get_atend
     | FTD3 (xn1, xn2, xn) => xn
     | FTD4 (xn1, xn2, xn3, xn) => xn
     ) // end of [FTdeep]
-) // end of [fingertree_get_atend]
+) // end of [fngtree_get_atend]
 
 (* ****** ****** *)
 
 assume
-deque_t0ype_int_type
-  (a:t0p, n:int) = fingertree (a, 0, n)
-// end of [deque_t0ype_int_type]
+deque_type
+  (a:t0p, n:int) = fngtree (a, 0(*d*), n)
+// end of [deque_type]
 
 (* ****** ****** *)
 
 primplmnt
 lemma_deque_param
-  (xs) = fingertree_prop1_sznat (xs)
+  (xs) = fngtree_prop1_sznat (xs)
 // end of [lemma_deque_param]
 
 (* ****** ****** *)
@@ -654,7 +665,7 @@ fundeque_nil () = FTemp ((*void*))
 
 implement{a}
 fundeque_cons (x0, xs) =
-  fingertree_cons (FTN1{a}(x0), xs)
+  fngtree_cons (FTN1{a}(x0), xs)
 // end of [fundeque_cons]
 
 implement{a}
@@ -662,7 +673,7 @@ fundeque_uncons
   (xs) = x0 where
 {
   var xn: ptr?
-  val () = xs := fingertree_uncons (xs, xn)
+  val () = xs := fngtree_uncons (xs, xn)
   val+FTN1 (x0) = xn
 } // end of [fundeque_uncons]
 
@@ -670,7 +681,7 @@ fundeque_uncons
 
 implement{a}
 fundeque_snoc (xs, xn) =
-  fingertree_snoc (xs, FTN1{a}(xn))
+  fngtree_snoc (xs, FTN1{a}(xn))
 // end of [fundeque_snoc]
 
 implement{a}
@@ -678,23 +689,26 @@ fundeque_unsnoc
   (xs) = x0 where
 {
   var xn: ptr?
-  val () = xs := fingertree_unsnoc (xs, xn)
+  val () = xs := fngtree_unsnoc (xs, xn)
   val+FTN1 (x0) = xn
 } // end of [fundeque_unsnoc]
 
 (* ****** ****** *)
 
 implement{}
-fundeque_is_nil (xs) =
-  case+ xs of
-  | FTemp () => true
-  | FTsing (xn) => let
-      prval () = ftnode_prop_szpos (xn) in false
-    end // end of [FTsing]
-  | FTdeep (pr, _, _) => let
-      prval () = ftdigit_prop_szpos (pr) in false
-    end // end of [FTdeep]
-// end of [fundeque_is_nil]
+fundeque_is_nil (xs) = let
+in
+//
+case+ xs of
+| FTemp () => true
+| FTsing (xn) => let
+    prval () = ftnode_prop_szpos (xn) in false
+  end // end of [FTsing]
+| FTdeep (pr, _, _) => let
+    prval () = ftdigit_prop_szpos (pr) in false
+  end // end of [FTdeep]
+//
+end // end of [fundeque_is_nil]
 
 implement{}
 fundeque_is_cons (xs) = let
@@ -710,7 +724,7 @@ fundeque_size
 fun size
   {d:int}{n:nat} .<n>.
 (
-  xt: fingertree (a, d, n)
+  xt: fngtree (a, d, n)
 ) :<> size_t (n) = let
 in
 //
@@ -735,12 +749,12 @@ end // end of [fundeque_size]
 
 implement{a}
 fundeque_get_atbeg (xs) = let
-  val+FTN1 (x) = fingertree_get_atbeg{a}(xs) in (x)
+  val+FTN1 (x) = fngtree_get_atbeg{a}(xs) in (x)
 end // end of [fundeque_get_atbeg]
 
 implement{a}
 fundeque_get_atend (xs) = let
-  val+FTN1 (x) = fingertree_get_atend{a}(xs) in (x)
+  val+FTN1 (x) = fngtree_get_atend{a}(xs) in (x)
 end // end of [fundeque_get_atend]
 
 (* ****** ****** *)
@@ -749,80 +763,84 @@ local
 
 symintr ++
 infix (+) ++
-overload ++ with fingertree_cons
-overload ++ with fingertree_snoc
+overload ++ with fngtree_cons
+overload ++ with fngtree_snoc
 
 fun ftapp0
   {a:t0p}
   {d:int}
   {n1,n2:nat} (
-  xt1: fingertree (a, d, n1)
-, xt2: fingertree (a, d, n2)
-) : fingertree (a, d, n1+n2) =
+  xt1: fngtree (a, d, n1)
+, xt2: fngtree (a, d, n2)
+) : fngtree (a, d, n1+n2) =
+(
   case+ (xt1, xt2) of
   | (FTemp (), _) => xt2
   | (_, FTemp ()) => xt1
   | (FTsing xn1, _) => xn1 ++ xt2
   | (_, FTsing xn2) => xt1 ++ xn2
   | (FTdeep (pr1, m1, sf1),
-     FTdeep (pr2, m2, sf2)) =>
-      FTdeep (pr1, ftadd0 (m1, sf1, pr2, m2), sf2)
-// end of [ftapp0]
+     FTdeep (pr2, m2, sf2)) => FTdeep (pr1, ftadd0 (m1, sf1, pr2, m2), sf2)
+) // end of [ftapp0]
 
 and ftadd0
   {a:t0p}
   {d:int}
   {nm1,nm2:nat}
   {nsf1,npr2:nat} (
-  m1: fingertree (a, d+1, nm1)
+  m1: fngtree (a, d+1, nm1)
 , sf1: ftdigit (a, d, nsf1)
 , pr2: ftdigit (a, d, npr2)
-, m2: fingertree (a, d+1, nm2)
-) : fingertree (a, d+1, nm1+nsf1+npr2+nm2) =
-  case+ sf1 of
-  | FTD1 (xn1) => (case+ pr2 of
-    | FTD1 (xn_1) => ftapp1 (m1, FTN2 (xn1, xn_1), m2)
-    | FTD2 (xn_1, xn_2) => ftapp1 (m1, FTN3 (xn1, xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp2 (m1, FTN2 (xn1, xn_1), FTN2 (xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp2 (m1, FTN3 (xn1, xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
-    ) // end of [FTD1]
-  | FTD2 (xn1, xn2) => (case+ pr2 of
-    | FTD1 (xn_1) => ftapp1 (m1, FTN3 (xn1, xn2, xn_1), m2)
-    | FTD2 (xn_1, xn_2) => ftapp2 (m1, FTN2 (xn1, xn2), FTN2 (xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp2 (m1, FTN3 (xn1, xn2, xn_1), FTN2 (xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp2 (m1, FTN3 (xn1, xn2, xn_1), FTN3 (xn_2, xn_3, xn_4), m2)
-    ) // end of [FTD2]
-  | FTD3 (xn1, xn2, xn3) => (case+ pr2 of
-    | FTD1 (xn_1) => ftapp2 (m1, FTN2 (xn1, xn2), FTN2 (xn3, xn_1), m2)
-    | FTD2 (xn_1, xn_2) => ftapp2 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp2 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn_1, xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
-    ) // end of [FTD3]
-  | FTD4 (xn1, xn2, xn3, xn4) => (case+ pr2 of
-    | FTD1 (xn_1) => ftapp2 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xn4, xn_1), m2)
-    | FTD2 (xn_1, xn_2) => ftapp2 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xn4, xn_1), FTN2 (xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
-    ) // end of [FTD4]
-// end of [ftadd0]
+, m2: fngtree (a, d+1, nm2)
+) : fngtree (a, d+1, nm1+nsf1+npr2+nm2) = let
+in
+//
+case+ sf1 of
+| FTD1 (xn1) => (case+ pr2 of
+  | FTD1 (xn_1) => ftapp1 (m1, FTN2 (xn1, xn_1), m2)
+  | FTD2 (xn_1, xn_2) => ftapp1 (m1, FTN3 (xn1, xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp2 (m1, FTN2 (xn1, xn_1), FTN2 (xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp2 (m1, FTN3 (xn1, xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
+  ) // end of [FTD1]
+| FTD2 (xn1, xn2) => (case+ pr2 of
+  | FTD1 (xn_1) => ftapp1 (m1, FTN3 (xn1, xn2, xn_1), m2)
+  | FTD2 (xn_1, xn_2) => ftapp2 (m1, FTN2 (xn1, xn2), FTN2 (xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp2 (m1, FTN3 (xn1, xn2, xn_1), FTN2 (xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp2 (m1, FTN3 (xn1, xn2, xn_1), FTN3 (xn_2, xn_3, xn_4), m2)
+  ) // end of [FTD2]
+| FTD3 (xn1, xn2, xn3) => (case+ pr2 of
+  | FTD1 (xn_1) => ftapp2 (m1, FTN2 (xn1, xn2), FTN2 (xn3, xn_1), m2)
+  | FTD2 (xn_1, xn_2) => ftapp2 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp2 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn_1, xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
+  ) // end of [FTD3]
+| FTD4 (xn1, xn2, xn3, xn4) => (case+ pr2 of
+  | FTD1 (xn_1) => ftapp2 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xn4, xn_1), m2)
+  | FTD2 (xn_1, xn_2) => ftapp2 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xn4, xn_1), FTN2 (xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
+  ) // end of [FTD4]
+//
+end // end of [ftadd0]
 
 and ftapp1
   {a:t0p}
   {d:int}
   {n1,n2:nat}
   {na:nat} (
-  xt1: fingertree (a, d, n1)
+  xt1: fngtree (a, d, n1)
 , xna: ftnode (a, d, na)
-, xt2: fingertree (a, d, n2)
-) : fingertree (a, d, n1+na+n2) =
+, xt2: fngtree (a, d, n2)
+) : fngtree (a, d, n1+na+n2) =
+(
   case+ (xt1, xt2) of
   | (FTemp (), _) => xna ++ xt2
   | (_, FTemp ()) => xt1 ++ xna
@@ -830,7 +848,7 @@ and ftapp1
   | (_, FTsing xn2) => (xt1 ++ xna) ++ xn2
   | (FTdeep (pr1, m1, sf1), FTdeep (pr2, m2, sf2)) =>
       FTdeep (pr1, ftadd1 (m1, sf1, xna, pr2, m2), sf2)
-// end of [ftapp1]
+) // end of [ftapp1]
 
 and ftadd1
   {a:t0p}
@@ -838,58 +856,62 @@ and ftadd1
   {nm1,nm2:nat}
   {nsf1,npr2:nat}
   {na:nat} (
-  m1: fingertree (a, d+1, nm1)
+  m1: fngtree (a, d+1, nm1)
 , sf1: ftdigit (a, d, nsf1)
 , xna: ftnode (a, d, na)
 , pr2: ftdigit (a, d, npr2)
-, m2: fingertree (a, d+1, nm2)
-) : fingertree (a, d+1, nm1+nsf1+na+npr2+nm2) =
-  case+ sf1 of
-  | FTD1 (xn1) => (case+ pr2 of
-    | FTD1 (xn_1) => ftapp1 (m1, FTN3 (xn1, xna, xn_1), m2)
-    | FTD2 (xn_1, xn_2) => ftapp2 (m1, FTN2 (xn1, xna), FTN2 (xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp2 (m1, FTN3 (xn1, xna, xn_1), FTN2 (xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp2 (m1, FTN3 (xn1, xna, xn_1), FTN3 (xn_2, xn_3, xn_4), m2)
-    ) // end of [FTD1]
-  | FTD2 (xn1, xn2) => (case+ pr2 of
-    | FTD1 (xn_1) => ftapp2 (m1, FTN2 (xn1, xn2), FTN2 (xna, xn_1), m2)
-    | FTD2 (xn_1, xn_2) => ftapp2 (m1, FTN3 (xn1, xn2, xna), FTN2 (xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp2 (m1, FTN3 (xn1, xn2, xna), FTN3 (xn_1, xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xna), FTN2 (xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
-    ) // end of [FTD2]
-  | FTD3 (xn1, xn2, xn3) => (case+ pr2 of
-    | FTD1 (xn_1) => ftapp2 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xna, xn_1), m2)
-    | FTD2 (xn_1, xn_2) => ftapp2 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xna, xn_1), FTN2 (xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
-    ) // end of [FTD3]
-  | FTD4 (xn1, xn2, xn3, xn4) => (case+ pr2 of
-    | FTD1 (xn_1) => ftapp2 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xn_1), m2)
-    | FTD2 (xn_1, xn_2) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xn4, xna), FTN2 (xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xn_1), FTN2 (xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xn_1), FTN3 (xn_2, xn_3, xn_4), m2)
-    ) // end of [FTD4]
-// end of [ftadd1]
+, m2: fngtree (a, d+1, nm2)
+) : fngtree (a, d+1, nm1+nsf1+na+npr2+nm2) = let
+in
+//
+case+ sf1 of
+| FTD1 (xn1) => (case+ pr2 of
+  | FTD1 (xn_1) => ftapp1 (m1, FTN3 (xn1, xna, xn_1), m2)
+  | FTD2 (xn_1, xn_2) => ftapp2 (m1, FTN2 (xn1, xna), FTN2 (xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp2 (m1, FTN3 (xn1, xna, xn_1), FTN2 (xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp2 (m1, FTN3 (xn1, xna, xn_1), FTN3 (xn_2, xn_3, xn_4), m2)
+  ) // end of [FTD1]
+| FTD2 (xn1, xn2) => (case+ pr2 of
+  | FTD1 (xn_1) => ftapp2 (m1, FTN2 (xn1, xn2), FTN2 (xna, xn_1), m2)
+  | FTD2 (xn_1, xn_2) => ftapp2 (m1, FTN3 (xn1, xn2, xna), FTN2 (xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp2 (m1, FTN3 (xn1, xn2, xna), FTN3 (xn_1, xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xna), FTN2 (xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
+  ) // end of [FTD2]
+| FTD3 (xn1, xn2, xn3) => (case+ pr2 of
+  | FTD1 (xn_1) => ftapp2 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xna, xn_1), m2)
+  | FTD2 (xn_1, xn_2) => ftapp2 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xna, xn_1), FTN2 (xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
+  ) // end of [FTD3]
+| FTD4 (xn1, xn2, xn3, xn4) => (case+ pr2 of
+  | FTD1 (xn_1) => ftapp2 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xn_1), m2)
+  | FTD2 (xn_1, xn_2) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xn4, xna), FTN2 (xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xn_1), FTN2 (xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xn_1), FTN3 (xn_2, xn_3, xn_4), m2)
+  ) // end of [FTD4]
+//
+end // end of [ftadd1]
 
 and ftapp2
   {a:t0p}
   {d:int}
   {n1,n2:nat}
   {na,nb:nat} (
-  xt1: fingertree (a, d, n1)
+  xt1: fngtree (a, d, n1)
 , xna: ftnode (a, d, na)
 , xnb: ftnode (a, d, nb)
-, xt2: fingertree (a, d, n2)
-) : fingertree (a, d, n1+na+nb+n2) =
+, xt2: fngtree (a, d, n2)
+) : fngtree (a, d, n1+na+nb+n2) =
+(
   case+ (xt1, xt2) of
   | (FTemp (), _) => xna ++ (xnb ++ xt2)
   | (_, FTemp ()) => (xt1 ++ xna) ++ xnb
@@ -897,7 +919,7 @@ and ftapp2
   | (_, FTsing xn2) => ((xt1 ++ xna) ++ xnb) ++ xn2
   | (FTdeep (pr1, m1, sf1), FTdeep (pr2, m2, sf2)) =>
       FTdeep (pr1, ftadd2 (m1, sf1, xna, xnb, pr2, m2), sf2)
-// end of [ftapp2]
+) // end of [ftapp2]
 
 and ftadd2
   {a:t0p}
@@ -905,61 +927,65 @@ and ftadd2
   {nm1,nm2:nat}
   {nsf1,npr2:nat}
   {na,nb:nat} (
-  m1: fingertree (a, d+1, nm1)
+  m1: fngtree (a, d+1, nm1)
 , sf1: ftdigit (a, d, nsf1)
 , xna: ftnode (a, d, na)
 , xnb: ftnode (a, d, nb)
 , pr2: ftdigit (a, d, npr2)
-, m2: fingertree (a, d+1, nm2)
-) : fingertree (a, d+1, nm1+nsf1+na+nb+npr2+nm2) =
-  case+ sf1 of
-  | FTD1 (xn1) => (case+ pr2 of
-    | FTD1 (xn_1) => ftapp2 (m1, FTN2 (xn1, xna), FTN2 (xnb, xn_1), m2)
-    | FTD2 (xn_1, xn_2) => ftapp2 (m1, FTN3 (xn1, xna, xnb), FTN2 (xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp2 (m1, FTN3 (xn1, xna, xnb), FTN3 (xn_1, xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp3 (m1, FTN3 (xn1, xna, xnb), FTN2 (xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
-    ) // end of [FTD1]
-  | FTD2 (xn1, xn2) => (case+ pr2 of
-    | FTD1 (xn_1) => ftapp2 (m1, FTN3 (xn1, xn2, xna), FTN2 (xnb, xn_1), m2)
-    | FTD2 (xn_1, xn_2) => ftapp2 (m1, FTN3 (xn1, xn2, xna), FTN3 (xnb, xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xna), FTN2 (xnb, xn_1), FTN2 (xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xna), FTN3 (xnb, xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
-    ) // end of [FTD2]
-  | FTD3 (xn1, xn2, xn3) => (case+ pr2 of
-    | FTD1 (xn_1) => ftapp2 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xn_1), m2)
-    | FTD2 (xn_1, xn_2) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xna, xnb), FTN2 (xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xn_1), FTN2 (xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xn_1), FTN3 (xn_2, xn_3, xn_4), m2)
-    ) // end of [FTD3]
-  | FTD4 (xn1, xn2, xn3, xn4) => (case+ pr2 of
-    | FTD1 (xn_1) => ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xn4, xna), FTN2 (xnb, xn_1), m2)
-    | FTD2 (xn_1, xn_2) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN2 (xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN3 (xn_1, xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp4 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN2 (xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
-    ) // end of [FTD4]
-// end of [ftadd2]
+, m2: fngtree (a, d+1, nm2)
+) : fngtree (a, d+1, nm1+nsf1+na+nb+npr2+nm2) = let
+in
+//
+case+ sf1 of
+| FTD1 (xn1) => (case+ pr2 of
+  | FTD1 (xn_1) => ftapp2 (m1, FTN2 (xn1, xna), FTN2 (xnb, xn_1), m2)
+  | FTD2 (xn_1, xn_2) => ftapp2 (m1, FTN3 (xn1, xna, xnb), FTN2 (xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp2 (m1, FTN3 (xn1, xna, xnb), FTN3 (xn_1, xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp3 (m1, FTN3 (xn1, xna, xnb), FTN2 (xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
+  ) // end of [FTD1]
+| FTD2 (xn1, xn2) => (case+ pr2 of
+  | FTD1 (xn_1) => ftapp2 (m1, FTN3 (xn1, xn2, xna), FTN2 (xnb, xn_1), m2)
+  | FTD2 (xn_1, xn_2) => ftapp2 (m1, FTN3 (xn1, xn2, xna), FTN3 (xnb, xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xna), FTN2 (xnb, xn_1), FTN2 (xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xna), FTN3 (xnb, xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
+  ) // end of [FTD2]
+| FTD3 (xn1, xn2, xn3) => (case+ pr2 of
+  | FTD1 (xn_1) => ftapp2 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xn_1), m2)
+  | FTD2 (xn_1, xn_2) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xna, xnb), FTN2 (xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xn_1), FTN2 (xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xn_1), FTN3 (xn_2, xn_3, xn_4), m2)
+  ) // end of [FTD3]
+| FTD4 (xn1, xn2, xn3, xn4) => (case+ pr2 of
+  | FTD1 (xn_1) => ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xn4, xna), FTN2 (xnb, xn_1), m2)
+  | FTD2 (xn_1, xn_2) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN2 (xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN3 (xn_1, xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp4 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN2 (xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
+  ) // end of [FTD4]
+//
+end // end of [ftadd2]
 
 and ftapp3
   {a:t0p}
   {d:int}
   {n1,n2:nat}
   {na,nb,nc:nat} (
-  xt1: fingertree (a, d, n1)
+  xt1: fngtree (a, d, n1)
 , xna: ftnode (a, d, na)
 , xnb: ftnode (a, d, nb)
 , xnc: ftnode (a, d, nc)
-, xt2: fingertree (a, d, n2)
-) : fingertree (a, d, n1+na+nb+nc+n2) =
+, xt2: fngtree (a, d, n2)
+) : fngtree (a, d, n1+na+nb+nc+n2) =
+(
   case+ (xt1, xt2) of
   | (FTemp (), _) => xna ++ (xnb ++ (xnc ++ xt2))
   | (_, FTemp ()) => ((xt1 ++ xna) ++ xnb) ++ xnc
@@ -967,7 +993,7 @@ and ftapp3
   | (_, FTsing xn2) => (((xt1 ++ xna) ++ xnb) ++ xnc) ++ xn2
   | (FTdeep (pr1, m1, sf1), FTdeep (pr2, m2, sf2)) =>
       FTdeep (pr1, ftadd3 (m1, sf1, xna, xnb, xnc, pr2, m2), sf2)
-// end of [ftapp3]
+) // end of [ftapp3]
 
 and ftadd3
   {a:t0p}
@@ -975,64 +1001,68 @@ and ftadd3
   {nm1,nm2:nat}
   {nsf1,npr2:nat}
   {na,nb,nc:nat} (
-  m1: fingertree (a, d+1, nm1)
+  m1: fngtree (a, d+1, nm1)
 , sf1: ftdigit (a, d, nsf1)
 , xna: ftnode (a, d, na)
 , xnb: ftnode (a, d, nb)
 , xnc: ftnode (a, d, nc)
 , pr2: ftdigit (a, d, npr2)
-, m2: fingertree (a, d+1, nm2)
-) : fingertree (a, d+1, nm1+nsf1+na+nb+nc+npr2+nm2) =
-  case+ sf1 of
-  | FTD1 (xn1) => (case+ pr2 of
-    | FTD1 (xn_1) => ftapp2 (m1, FTN3 (xn1, xna, xnb), FTN2 (xnc, xn_1), m2)
-    | FTD2 (xn_1, xn_2) => ftapp2 (m1, FTN3 (xn1, xna, xnb), FTN3 (xnc, xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp3 (m1, FTN3 (xn1, xna, xnb), FTN2 (xnc, xn_1), FTN2 (xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp3 (m1, FTN3 (xn1, xna, xnb), FTN3 (xnc, xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
-    ) // end of [FTD1]
-  | FTD2 (xn1, xn2) => (case+ pr2 of
-    | FTD1 (xn_1) => ftapp2 (m1, FTN3 (xn1, xn2, xna), FTN3 (xnb, xnc, xn_1), m2)
-    | FTD2 (xn_1, xn_2) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xna), FTN2 (xnb, xnc), FTN2 (xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xna), FTN3 (xnb, xnc, xn_1), FTN2 (xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xna), FTN3 (xnb, xnc, xn_1), FTN3 (xn_2, xn_3, xn_4), m2)
-    ) // end of [FTD2]
-  | FTD3 (xn1, xn2, xn3) => (case+ pr2 of
-    | FTD1 (xn_1) => ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xna, xnb), FTN2 (xnc, xn_1), m2)
-    | FTD2 (xn_1, xn_2) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xnc), FTN2 (xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xnc), FTN3 (xn_1, xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp4 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xnc), FTN2 (xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
-    ) // end of [FTD3]
-  | FTD4 (xn1, xn2, xn3, xn4) => (case+ pr2 of
-    | FTD1 (xn_1) => ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN2 (xnc, xn_1), m2)
-    | FTD2 (xn_1, xn_2) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN3 (xnc, xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp4 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN2 (xnc, xn_1), FTN2 (xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp4 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN3 (xnc, xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
-    ) // end of [FTD4]
-// end of [ftadd3]
+, m2: fngtree (a, d+1, nm2)
+) : fngtree (a, d+1, nm1+nsf1+na+nb+nc+npr2+nm2) = let
+in
+//
+case+ sf1 of
+| FTD1 (xn1) => (case+ pr2 of
+  | FTD1 (xn_1) => ftapp2 (m1, FTN3 (xn1, xna, xnb), FTN2 (xnc, xn_1), m2)
+  | FTD2 (xn_1, xn_2) => ftapp2 (m1, FTN3 (xn1, xna, xnb), FTN3 (xnc, xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp3 (m1, FTN3 (xn1, xna, xnb), FTN2 (xnc, xn_1), FTN2 (xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp3 (m1, FTN3 (xn1, xna, xnb), FTN3 (xnc, xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
+  ) // end of [FTD1]
+| FTD2 (xn1, xn2) => (case+ pr2 of
+  | FTD1 (xn_1) => ftapp2 (m1, FTN3 (xn1, xn2, xna), FTN3 (xnb, xnc, xn_1), m2)
+  | FTD2 (xn_1, xn_2) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xna), FTN2 (xnb, xnc), FTN2 (xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xna), FTN3 (xnb, xnc, xn_1), FTN2 (xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xna), FTN3 (xnb, xnc, xn_1), FTN3 (xn_2, xn_3, xn_4), m2)
+  ) // end of [FTD2]
+| FTD3 (xn1, xn2, xn3) => (case+ pr2 of
+  | FTD1 (xn_1) => ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN2 (xna, xnb), FTN2 (xnc, xn_1), m2)
+  | FTD2 (xn_1, xn_2) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xnc), FTN2 (xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xnc), FTN3 (xn_1, xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp4 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xnc), FTN2 (xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
+  ) // end of [FTD3]
+| FTD4 (xn1, xn2, xn3, xn4) => (case+ pr2 of
+  | FTD1 (xn_1) => ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN2 (xnc, xn_1), m2)
+  | FTD2 (xn_1, xn_2) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN3 (xnc, xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp4 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN2 (xnc, xn_1), FTN2 (xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp4 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN3 (xnc, xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
+  ) // end of [FTD4]
+//
+end // end of [ftadd3]
 
 and ftapp4
   {a:t0p}
   {d:int}
   {n1,n2:nat}
   {na,nb,nc,nd:nat} (
-  xt1: fingertree (a, d, n1)
+  xt1: fngtree (a, d, n1)
 , xna: ftnode (a, d, na)
 , xnb: ftnode (a, d, nb)
 , xnc: ftnode (a, d, nc)
 , xnd: ftnode (a, d, nd)
-, xt2: fingertree (a, d, n2)
-) : fingertree (a, d, n1+na+nb+nc+nd+n2) =
+, xt2: fngtree (a, d, n2)
+) : fngtree (a, d, n1+na+nb+nc+nd+n2) =
+(
   case+ (xt1, xt2) of
   | (FTemp (), _) => xna ++ (xnb ++ (xnc ++ (xnd ++ xt2)))
   | (_, FTemp ()) => (((xt1 ++ xna) ++ xnb) ++ xnc) ++ xnd
@@ -1040,7 +1070,7 @@ and ftapp4
   | (_, FTsing xn2) => ((((xt1 ++ xna) ++ xnb) ++ xnc) ++ xnd) ++ xn2
   | (FTdeep (pr1, m1, sf1), FTdeep (pr2, m2, sf2)) =>
       FTdeep (pr1, ftadd4 (m1, sf1, xna, xnb, xnc, xnd, pr2, m2), sf2)
-// end of [ftapp4]
+) // end of [ftapp4]
 
 and ftadd4
   {a:t0p}
@@ -1048,56 +1078,59 @@ and ftadd4
   {nm1,nm2:nat}
   {nsf1,npr2:nat}
   {na,nb,nc,nd:nat} (
-  m1: fingertree (a, d+1, nm1)
+  m1: fngtree (a, d+1, nm1)
 , sf1: ftdigit (a, d, nsf1)
 , xna: ftnode (a, d, na)
 , xnb: ftnode (a, d, nb)
 , xnc: ftnode (a, d, nc)
 , xnd: ftnode (a, d, nd)
 , pr2: ftdigit (a, d, npr2)
-, m2: fingertree (a, d+1, nm2)
-) : fingertree (a, d+1, nm1+nsf1+na+nb+nc+nd+npr2+nm2) =
-  case+ sf1 of
-  | FTD1 (xn1) => (case+ pr2 of
-    | FTD1 (xn_1) => ftapp2 (m1, FTN3 (xn1, xna, xnb), FTN3 (xnc, xnd, xn_1), m2)
-    | FTD2 (xn_1, xn_2) =>
-        ftapp3 (m1, FTN3 (xn1, xna, xnb), FTN2 (xnc, xnd), FTN2 (xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp3 (m1, FTN3 (xn1, xna, xnb), FTN3 (xnc, xnd, xn_1), FTN2 (xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp3 (m1, FTN3 (xn1, xna, xnb), FTN3 (xnc, xnd, xn_1), FTN3 (xn_2, xn_3, xn_4), m2)
-    ) // end of [FTD1]
-  | FTD2 (xn1, xn2) => (case+ pr2 of
-    | FTD1 (xn_1) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xna), FTN2 (xnb, xnc), FTN2 (xnd, xn_1), m2)
-    | FTD2 (xn_1, xn_2) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xna), FTN3 (xnb, xnc, xnd), FTN2 (xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xna), FTN3 (xnb, xnc, xnd), FTN3 (xn_1, xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp4 (m1, FTN3 (xn1, xn2, xna), FTN3 (xnb, xnc, xnd), FTN2 (xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
-    ) // end of [FTD2]
-  | FTD3 (xn1, xn2, xn3) => (case+ pr2 of
-    | FTD1 (xn_1) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xnc), FTN2 (xnd, xn_1), m2)
-    | FTD2 (xn_1, xn_2) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xnc), FTN3 (xnd, xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp4 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xnc), FTN2 (xnd, xn_1), FTN2 (xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp4 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xnc), FTN3 (xnd, xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
-    ) // end of [FTD3]
-  | FTD4 (xn1, xn2, xn3, xn4) => (case+ pr2 of
-    | FTD1 (xn_1) =>
-        ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN3 (xnc, xnd, xn_1), m2)
-    | FTD2 (xn_1, xn_2) =>
-        ftapp4 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN2 (xnc, xnd), FTN2 (xn_1, xn_2), m2)
-    | FTD3 (xn_1, xn_2, xn_3) =>
-        ftapp4 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN3 (xnc, xnd, xn_1), FTN2 (xn_2, xn_3), m2)
-    | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
-        ftapp4 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN3 (xnc, xnd, xn_1), FTN3 (xn_2, xn_3, xn_4), m2)
-    ) // end of [FTD4]
-// end of [ftadd4]
+, m2: fngtree (a, d+1, nm2)
+) : fngtree (a, d+1, nm1+nsf1+na+nb+nc+nd+npr2+nm2) = let
+in
+//
+case+ sf1 of
+| FTD1 (xn1) => (case+ pr2 of
+  | FTD1 (xn_1) => ftapp2 (m1, FTN3 (xn1, xna, xnb), FTN3 (xnc, xnd, xn_1), m2)
+  | FTD2 (xn_1, xn_2) =>
+      ftapp3 (m1, FTN3 (xn1, xna, xnb), FTN2 (xnc, xnd), FTN2 (xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp3 (m1, FTN3 (xn1, xna, xnb), FTN3 (xnc, xnd, xn_1), FTN2 (xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp3 (m1, FTN3 (xn1, xna, xnb), FTN3 (xnc, xnd, xn_1), FTN3 (xn_2, xn_3, xn_4), m2)
+  ) // end of [FTD1]
+| FTD2 (xn1, xn2) => (case+ pr2 of
+  | FTD1 (xn_1) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xna), FTN2 (xnb, xnc), FTN2 (xnd, xn_1), m2)
+  | FTD2 (xn_1, xn_2) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xna), FTN3 (xnb, xnc, xnd), FTN2 (xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xna), FTN3 (xnb, xnc, xnd), FTN3 (xn_1, xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp4 (m1, FTN3 (xn1, xn2, xna), FTN3 (xnb, xnc, xnd), FTN2 (xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
+  ) // end of [FTD2]
+| FTD3 (xn1, xn2, xn3) => (case+ pr2 of
+  | FTD1 (xn_1) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xnc), FTN2 (xnd, xn_1), m2)
+  | FTD2 (xn_1, xn_2) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xnc), FTN3 (xnd, xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp4 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xnc), FTN2 (xnd, xn_1), FTN2 (xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp4 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xna, xnb, xnc), FTN3 (xnd, xn_1, xn_2), FTN2 (xn_3, xn_4), m2)
+  ) // end of [FTD3]
+| FTD4 (xn1, xn2, xn3, xn4) => (case+ pr2 of
+  | FTD1 (xn_1) =>
+      ftapp3 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN3 (xnc, xnd, xn_1), m2)
+  | FTD2 (xn_1, xn_2) =>
+      ftapp4 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN2 (xnc, xnd), FTN2 (xn_1, xn_2), m2)
+  | FTD3 (xn_1, xn_2, xn_3) =>
+      ftapp4 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN3 (xnc, xnd, xn_1), FTN2 (xn_2, xn_3), m2)
+  | FTD4 (xn_1, xn_2, xn_3, xn_4) =>
+      ftapp4 (m1, FTN3 (xn1, xn2, xn3), FTN3 (xn4, xna, xnb), FTN3 (xnc, xnd, xn_1), FTN3 (xn_2, xn_3, xn_4), m2)
+  ) // end of [FTD4]
+//
+end // end of [ftadd4]
 
 in (* in of [local] *)
 
@@ -1127,13 +1160,14 @@ local
 extern
 fun __free (p: ptr):<!wrt> void = "mac#ATS_MFREE"
 
-fun
-foreach{a:t0p}
-  {d:nat}{n:nat} .<n>.
+extern fun
+foreach{a:t0p}{d:nat}{n:nat}
 (
-  xt: fingertree (a, d, n)
-, f: ftnode (a, d) -<cloref> void
-) :<> void = let
+  xt: fngtree (a, d, n), f: ftnode (a, d) -<cloref> void
+) :<> void // end of [foreach]
+
+implement
+foreach{a}{d}{n} (xt, f) = let
 in
 //
 case+ xt of
@@ -1195,7 +1229,7 @@ fundeque_foreach_env
 //
 typedef ftnode = ftnode (a, 0)
 //
-prval () = fingertree_prop1_sznat (xs)
+prval () = fngtree_prop1_sznat (xs)
 //
 val p_env = addr@ (env)
 //
@@ -1228,13 +1262,14 @@ local
 extern
 fun __free (p: ptr):<!wrt> void = "mac#ATS_MFREE"
 
-fun
-rforeach{a:t0p}
-  {d:nat}{n:nat} .<n>.
+extern fun
+rforeach{a:t0p}{d:nat}{n:nat}
 (
-  xt: fingertree (a, d, n)
-, f: (ftnode (a, d)) -<cloref> void
-) :<> void = let
+  xt: fngtree (a, d, n), f: (ftnode (a, d)) -<cloref> void
+) :<> void // end of [rforeach]
+
+implement
+rforeach{a}{d}{n} (xt, f) = let
 in
 //
 case+ xt of
@@ -1296,7 +1331,7 @@ fundeque_rforeach_env
 //
 typedef ftnode = ftnode (a, 0)
 //
-prval () = fingertree_prop1_sznat (xs)
+prval () = fngtree_prop1_sznat (xs)
 //
 val p_env = addr@ (env)
 //
@@ -1323,4 +1358,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [fundeque_fingertree.dats] *)
+(* end of [fundeque_fngtree.dats] *)

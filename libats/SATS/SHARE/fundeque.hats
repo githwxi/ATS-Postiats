@@ -31,18 +31,20 @@
 //
 (* ****** ****** *)
 //
-// HX: shared by fundeque_fingertree
+// HX: shared by fundeque_fngtree
 //
 (* ****** ****** *)
 //
 // HX: indexed by deque size
 //
 abstype
-deque_t0ype_int_type (elt:t@ype+, n:int) = ptr
+deque_type (elt:t@ype+, n:int) = ptr
 //
-stadef deque = deque_t0ype_int_type
-typedef deque (a:t@ype) = [n:int] deque (a, n)
-typedef Deque (a:t@ype) = [n:int] deque (a, n)
+(* ****** ****** *)
+//
+stadef deque = deque_type
+typedef deque (a:t0p) = [n:int] deque (a, n)
+typedef Deque (a:t0p) = [n:int] deque (a, n)
 //
 (* ****** ****** *)
 

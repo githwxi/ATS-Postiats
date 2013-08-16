@@ -32,7 +32,7 @@
 (* ****** ****** *)
 
 #define
-ATS_PACKNAME "ATSLIB.libats.fundeque_fingertree"
+ATS_PACKNAME "ATSLIB.libats.fundeque_fngtree"
 #define
 ATS_STALOADFLAG 0 // no static loading at run-time
 
@@ -42,4 +42,4 @@ ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 
-(* end of [fundeque_fingertree.sats] *)
+(* end of [fundeque_fngtree.sats] *)

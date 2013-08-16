@@ -156,14 +156,6 @@ clean:: ; $(RMF) output/atslib_libc_unistd_dats.o
 ######
 
 all:: atslib_libats
-atslib_libats:: atslib_libats_funmap_list_dats
-atslib_libats_funmap_list_dats: output/atslib_libats_funmap_list_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libats_funmap_list_dats.c: ../../libats/DATS/funmap_list.dats ; $(PATSOPT) -o $@ --dynamic $<
-output/atslib_libats_funmap_list_dats.o: output/atslib_libats_funmap_list_dats.c ; \
-  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
-clean:: ; $(RMF) output/atslib_libats_funmap_list_dats.c
-clean:: ; $(RMF) output/atslib_libats_funmap_list_dats.o
-
 atslib_libats:: atslib_libats_funset_avltree_dats
 atslib_libats_funset_avltree_dats: output/atslib_libats_funset_avltree_dats.o ; $(ARR) lib/libatslib.a $<
 output/atslib_libats_funset_avltree_dats.c: ../../libats/DATS/funset_avltree.dats ; $(PATSOPT) -o $@ --dynamic $<
@@ -180,6 +172,30 @@ output/atslib_libats_funset_listord_dats.o: output/atslib_libats_funset_listord_
 clean:: ; $(RMF) output/atslib_libats_funset_listord_dats.c
 clean:: ; $(RMF) output/atslib_libats_funset_listord_dats.o
 
+atslib_libats:: atslib_libats_funmap_list_dats
+atslib_libats_funmap_list_dats: output/atslib_libats_funmap_list_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_funmap_list_dats.c: ../../libats/DATS/funmap_list.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_funmap_list_dats.o: output/atslib_libats_funmap_list_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_funmap_list_dats.c
+clean:: ; $(RMF) output/atslib_libats_funmap_list_dats.o
+
+atslib_libats:: atslib_libats_funmap_avltree_dats
+atslib_libats_funmap_avltree_dats: output/atslib_libats_funmap_avltree_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_funmap_avltree_dats.c: ../../libats/DATS/funmap_avltree.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_funmap_avltree_dats.o: output/atslib_libats_funmap_avltree_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_funmap_avltree_dats.c
+clean:: ; $(RMF) output/atslib_libats_funmap_avltree_dats.o
+
+atslib_libats:: atslib_libats_fundeque_fngtree_dats
+atslib_libats_fundeque_fngtree_dats: output/atslib_libats_fundeque_fngtree_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_fundeque_fngtree_dats.c: ../../libats/DATS/fundeque_fngtree.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_fundeque_fngtree_dats.o: output/atslib_libats_fundeque_fngtree_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_fundeque_fngtree_dats.c
+clean:: ; $(RMF) output/atslib_libats_fundeque_fngtree_dats.o
+
 atslib_libats:: atslib_libats_funralist_nested_dats
 atslib_libats_funralist_nested_dats: output/atslib_libats_funralist_nested_dats.o ; $(ARR) lib/libatslib.a $<
 output/atslib_libats_funralist_nested_dats.c: ../../libats/DATS/funralist_nested.dats ; $(PATSOPT) -o $@ --dynamic $<
@@ -188,13 +204,8 @@ output/atslib_libats_funralist_nested_dats.o: output/atslib_libats_funralist_nes
 clean:: ; $(RMF) output/atslib_libats_funralist_nested_dats.c
 clean:: ; $(RMF) output/atslib_libats_funralist_nested_dats.o
 
-atslib_libats:: atslib_libats_fundeque_fingertree_dats
-atslib_libats_fundeque_fingertree_dats: output/atslib_libats_fundeque_fingertree_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libats_fundeque_fingertree_dats.c: ../../libats/DATS/fundeque_fingertree.dats ; $(PATSOPT) -o $@ --dynamic $<
-output/atslib_libats_fundeque_fingertree_dats.o: output/atslib_libats_fundeque_fingertree_dats.c ; \
-  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
-clean:: ; $(RMF) output/atslib_libats_fundeque_fingertree_dats.c
-clean:: ; $(RMF) output/atslib_libats_fundeque_fingertree_dats.o
+
+######
 
 atslib_libats:: atslib_libats_linmap_list_dats
 atslib_libats_linmap_list_dats: output/atslib_libats_linmap_list_dats.o ; $(ARR) lib/libatslib.a $<

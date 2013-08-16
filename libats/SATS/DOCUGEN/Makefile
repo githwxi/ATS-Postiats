@@ -210,13 +210,13 @@ upload_funset_listord:: ;   scp HTML/funset_listord.html ats-hwxi,ats-lang@web.s
 clean:: ; $(RMF) funset_listord_atxt.exe
 cleanall:: ; $(RMF) HTML/funset_listord.html
 
-all_html:: HTML/fundeque_fingertree.html
-HTML/fundeque_fingertree.html:   fundeque_fingertree_atxt.exe ; ./$< > $@
-fundeque_fingertree_atxt.txt: fundeque_fingertree.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
-fundeque_fingertree_atxt.exe: htmlgendecl_atxt.dats   fundeque_fingertree_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
-upload_fundeque_fingertree:: ;   scp HTML/fundeque_fingertree.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
-clean:: ; $(RMF) fundeque_fingertree_atxt.exe
-cleanall:: ; $(RMF) HTML/fundeque_fingertree.html
+all_html:: HTML/fundeque_fngtree.html
+HTML/fundeque_fngtree.html:   fundeque_fngtree_atxt.exe ; ./$< > $@
+fundeque_fngtree_atxt.txt: fundeque_fngtree.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+fundeque_fngtree_atxt.exe: htmlgendecl_atxt.dats   fundeque_fngtree_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_fundeque_fngtree:: ;   scp HTML/fundeque_fngtree.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) fundeque_fngtree_atxt.exe
+cleanall:: ; $(RMF) HTML/fundeque_fngtree.html
 
 all_html:: HTML/funralist_nested.html
 HTML/funralist_nested.html:   funralist_nested_atxt.exe ; ./$< > $@
@@ -225,6 +225,7 @@ funralist_nested_atxt.exe: htmlgendecl_atxt.dats   funralist_nested_atxt.txt $(D
 upload_funralist_nested:: ;   scp HTML/funralist_nested.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
 clean:: ; $(RMF) funralist_nested_atxt.exe
 cleanall:: ; $(RMF) HTML/funralist_nested.html
+
 
 all_html:: HTML/linmap_list.html
 HTML/linmap_list.html:   linmap_list_atxt.exe ; ./$< > $@

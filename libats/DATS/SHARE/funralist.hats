@@ -38,6 +38,61 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+implement{a}
+funralist_make_list
+  (xs) = let
+//
+fun loop {m,n:nat} .<m>.
+(
+  xs: list_vt (a, m), res: ralist (a, n)
+) : ralist (a, m+n) =
+(
+  case+ xs of
+  | ~list_vt_cons
+      (x, xs) => loop (xs, funralist_cons (x, res))
+  | ~list_vt_nil ((*void*)) => res
+) // end of [loop]
+//
+prval () = lemma_list_param (xs)
+//
+in
+  loop (list_reverse (xs), funralist_nil ())
+end // end of [funralist_make_list]
+
+(* ****** ****** *)
+
+implement{a}
+fprint_funralist (out, xs) = let
+//
+typedef tenv = int
+//
+implement
+funralist_foreach$fwork<a><tenv>
+  (x, env) = let
+//
+val () =
+if env > 0 then
+  fprint_funralist$sep (out)
+// end of [val]
+val () = fprint_val<a> (out, x)
+val () = env := env + 1
+//
+in
+  // nothing
+end // end of [funralist_foreach$fwork]
+//
+var env: tenv = 0
+val () = funralist_foreach_env<a><tenv> (xs, env)
+//
+in
+  // nothing
+end // end of [fprint_funralist]
+
+implement{}
+fprint_funralist$sep (out) = fprint (out, ", ")
+
+(* ****** ****** *)
+
 local
 
 staload Q = "libats/SATS/qlist.sats"

@@ -1,20 +1,20 @@
 (* ****** ****** *)
 
 %{
-implement srcfilename_get () = "../fundeque_fingertree.sats"
+implement srcfilename_get () = "../fundeque_fngtree.sats"
 %}
 
 (* ****** ****** *)
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/libats_fundeque_fingertree")
+val () = patscode_prefix_set("TRYIT/libats_fundeque_fngtree")
 %}
 
 (* ****** ****** *)
 
 #decltitle("\
-ATSLIB/libats/fundeque_fingertree\
+ATSLIB/libats/fundeque_fngtree\
 ")
 
 (* ****** ****** *)
@@ -28,22 +28,12 @@ the so-called finger-tree structure.
 
 (* ****** ****** *)
 
-#declname("deque")
-#declsynop2('
-#para('\
-#pats2xhtmls('\
-stadef deque = deque_t0ype_int_type
-typedef deque (a:t@ype) = [n:int] deque (a, n)
-')')
-')
+#declnamesynop("deque")
+#declnamesynop("deque_type")
 
 (* ****** ****** *)
 
 #declnamesynop("Deque")
-
-(* ****** ****** *)
-
-#declnamesynop("deque_t0ype_int_type")
 
 (* ****** ****** *)
 
@@ -123,4 +113,4 @@ This function returns the last element of a given non-empty deque.")
 
 (* ****** ****** *)
 
-(* end of [fundeque_fingertree.atxt] *)
+(* end of [fundeque_fngtree.atxt] *)

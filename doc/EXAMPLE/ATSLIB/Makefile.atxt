@@ -162,7 +162,11 @@ RMF=rm -f
 #make2_entry("libats_funset_avltree", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libats_funmap_list", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libats_funmap_avltree", "-DATS_MEMALLOC_LIBC", "")
-#make2_entry("libats_fundeque_fingertree", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+
+######
+
+#make2_entry("libats_fundeque_fngtree", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+#make2_entry("libats_funralist_nested", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 
 ######
 

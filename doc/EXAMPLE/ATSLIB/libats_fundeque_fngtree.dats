@@ -1,5 +1,5 @@
 (*
-** for testing [libats/fundeque_fingertree]
+** for testing [libats/fundeque_fngtree]
 *)
 
 (* ****** ****** *)
@@ -16,9 +16,9 @@
 (* ****** ****** *)
 
 staload
-"libats/SATS/fundeque_fingertree.sats"
+"libats/SATS/fundeque_fngtree.sats"
 staload
-_(*anon*) = "libats/DATS/fundeque_fingertree.dats"
+_(*anon*) = "libats/DATS/fundeque_fngtree.dats"
 
 (* ****** ****** *)
 
@@ -56,4 +56,4 @@ implement main0 () = ()
 
 (* ****** ****** *)
 
-(* end of [libats_fundeque_fingertree.dats] *)
+(* end of [libats_fundeque_fngtree.dats] *)

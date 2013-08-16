@@ -41,6 +41,13 @@
 //
 (* ****** ****** *)
 
+#define
+ATS_PACKNAME "ATSLIB.libats.funralist_nested"
+#define
+ATS_DYNLOADFLAG 0 // no dynamic loading at run-time
+
+(* ****** ****** *)
+
 staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
@@ -77,7 +84,9 @@ datatype myralist
 (* ****** ****** *)
 
 assume
-ralist_type (a:t0p, n:int) = myralist (a, 0, n)
+ralist_type
+  (a:t0p, n:int) = myralist (a, 0, n)
+// end of [ralist_type]
 
 (* ****** ****** *)
 
@@ -92,17 +101,23 @@ end // end of [lemma_ralist_param]
 
 (* ****** ****** *)
 
-implement{a}
-funralist_nil () = RAnil{a}{0} ()
+implement{}
+funralist_nil{a} () = RAnil{a}{0}((*void*))
+implement{}
+funralist_make_nil{a} () = RAnil{a}{0}((*void*))
 
 (* ****** ****** *)
 
 local
 
+extern
 fun cons
-  {a:t0p}{d:nat}{n:nat} .<n>. (
+  {a:t0p}{d:nat}{n:nat}
+(
   x0: node (a, d), xs: myralist (a, d, n)
-) :<> myralist (a, d, n+1) = let
+) :<> myralist (a, d, n+1)
+implement
+cons{a}{d}{n} (x0, xs) = let
 in
 //
 case+ xs of
@@ -144,12 +159,12 @@ funralist_is_cons (xs) =
 
 local
 
-fun
-length{a:t0p}
-  {d:nat}{n:nat} .<n>.
-(
-  xs: myralist (a, d, n)
-) :<> int (n) = let
+extern
+fun length
+  {a:t0p}{d:nat}{n:nat}
+  (xs: myralist (a, d, n)):<> int (n)
+implement
+length{a}{d}{n} (xs) = let
 in
 //
 case+ xs of
@@ -159,7 +174,7 @@ case+ xs of
 | RAodd (_, xxs) => let
     val n2 = length (xxs) in 2 * n2 + 1
   end // end of [RAodd]
-| RAnil () => 0
+| RAnil ((*void*)) => (0)
 //
 end // end of [length]
 
@@ -180,18 +195,18 @@ end // end of [local]
 
 local
 
-fun
-head{a:t0p}
-  {d:nat}{n:pos} .<n>.
-(
-  xs: myralist (a, d, n)
-) :<> node (a, d) = let
+extern
+fun head
+  {a:t0p}{d:nat}{n:pos}
+  (xs: myralist (a, d, n)):<> node (a, d)
+implement
+head{a}{d}{n} (xs) = let
 in
 //
 case+ xs of
-| RAevn (xxs) => let
-    val+N2 (x, _) = head (xxs) in x
-  end // end of [RAevn]
+| RAevn (xxs) =>
+    let val+N2 (x, _) = head (xxs) in x end
+  // end of [RAevn]
 | RAodd (x, _) => x
 //
 end // end of [head]
@@ -218,12 +233,14 @@ funralist_tail
 
 local
 
-fun
-uncons{a:t0p}
-  {d:nat}{n:pos} .<n>.
+extern
+fun uncons
+  {a:t0p}{d:nat}{n:pos}
 (
   xs: myralist (a, d, n), x: &ptr? >> node (a, d)
-) :<!wrt> myralist (a, d, n-1) = let
+) :<!wrt> myralist (a, d, n-1)
+implement
+uncons{a}{d}{n} (xs, x) = let
 in
 //
 case+ xs of
@@ -268,12 +285,14 @@ end // end of [local]
 
 local
 
-fun
-get_at{a:t0p}
-  {d:nat}{n:nat} .<n>.
+extern
+fun get_at
+  {a:t0p}{d:nat}{n:nat}
 (
   xs: myralist (a, d, n), i: natLt n
-) :<> node (a, d) = let
+) :<> node (a, d) // endfun
+implement
+get_at{a}{d}{n} (xs, i) = let
 in
 //
 case+ xs of
@@ -320,14 +339,24 @@ local
 
 extern
 fun __free (p: ptr):<!wrt> void = "mac#ATS_MFREE"
-//
-fun
-fset_at{a:t0p}
-  {d:nat}{n:nat} .<n,1>.
+extern
+fun fset_at
+  {a:t0p}{d:nat}{n:nat}
 (
   xs: myralist (a, d, n)
 , i: natLt (n), f: node (a, d) -<cloref0> node (a, d)
-) :<> myralist (a, d, n) = let
+) :<> myralist (a, d, n)
+extern
+fun fset2_at
+  {a:t0p}{d:nat}{n2:pos}
+(
+  xxs: myralist (a, d+1, n2)
+, i: natLt (2*n2), f: node (a, d) -<cloref0> node (a, d)
+) :<> myralist (a, d+1, n2)
+
+implement
+fset_at{a}{d}{n}
+  (xs, i, f) = let
 in
   case+ xs of
   | RAevn (xxs) => RAevn (fset2_at (xxs, i, f))
@@ -335,14 +364,9 @@ in
       if i = 0 then RAodd (f x, xxs) else RAodd (x, fset2_at (xxs, i-1, f))
     // end of [RAodd]
 end // end of [fset_at]
-//
-and
-fset2_at{a:t0p}
-  {d:nat}{n2:pos} .<2*n2,0>.
-(
-  xxs: myralist (a, d+1, n2)
-, i: natLt (2*n2), f: node (a, d) -<cloref0> node (a, d)
-) :<> myralist (a, d+1, n2) = let
+implement
+fset2_at{a}{d}{n}
+  (xxs, i, f) = let
   typedef node = node (a, d+1)
 in
 //
@@ -395,12 +419,20 @@ local
 extern
 fun __free (p: ptr):<!wrt> void = "mac#ATS_MFREE"
 
-fun
-foreach{a:t0p}
-  {d:nat}{n:nat} .<n,1>.
+extern fun
+foreach{a:t0p}{d:nat}{n:nat}
 (
   xs: myralist (a, d, n), f: node (a, d) -<cloref0> void
-) :<> void = let
+) :<> void // end of [foreach]
+extern fun
+foreach2{a:t0p}{d:nat}{n2:pos}
+(
+  xxs: myralist (a, d+1, n2), f: node (a, d) -<cloref0> void
+) :<> void // end of [foreach2]
+
+implement
+foreach
+  {a}{d}{n}(xs, f) = let
 in
 //
 case+ xs of
@@ -414,13 +446,9 @@ case+ xs of
 | RAnil ((*void*)) => ()
 //
 end // end of [foreach]
-
-and
-foreach2{a:t0p}
-  {d:nat}{n2:pos} .<2*n2,0>.
-(
-  xxs: myralist (a, d+1, n2), f: node (a, d) -<cloref0> void
-) :<> void = let
+implement
+foreach2
+  {a}{d}{n2}(xxs, f) = let
 //
 typedef node = node (a, d+1)
 //

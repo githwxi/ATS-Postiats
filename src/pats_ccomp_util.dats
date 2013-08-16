@@ -81,7 +81,7 @@ primval_is_top (pmv) = (
 //
 // HX-2013-02:
 // [pmv] should not be assgined to a variable:
-// it is either a left-value or a field-section
+// it is either a left-value, a field-section, or a lamfix-value
 //
 implement
 primval_is_nshared
@@ -98,6 +98,8 @@ case+
 | PMVselect2 _ => true // field-selection
 //
 | PMVselptr _ => true // left-value
+//
+| PMVlamfix _ => true // lamfix-value
 //
 | PMVcastfn (d2c, pmv) => primval_is_nshared (pmv)
 //
