@@ -101,9 +101,9 @@ end // end of [lemma_ralist_param]
 (* ****** ****** *)
 
 implement{}
-linralist_nil{a}() = RAnil{a}{0}((*void*))
+linralist_nil{a} () = RAnil{a}{0}((*void*))
 implement{}
-linralist_make_nil{a}() = RAnil{a}{0}((*void*))
+linralist_make_nil{a} () = RAnil{a}{0}((*void*))
 
 (* ****** ****** *)
 

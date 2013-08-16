@@ -970,12 +970,15 @@ fun auxclo_init
 //
 val () = emit_text (out, "ATSstaticdec()\n")
 val () = emit_text (out, "atstype_cloptr\n")
+//
 val () = emit_funlab (out, flab)
 val () = emit_text (out, "$closureinit")
 val () = emit_text (out, "\n(\n")
+//
 val () = emit_funlab (out, flab)
 val () = emit_text (out, "$closure_t0ype *p_cenv")
 val n0 = aux2_envlst (out, d2es, 1, 0)
+//
 val () = emit_text (out, "\n)\n{\n")
 val () = aux5_envlst (out, d2es, 0)
 val () = emit_text (out, "p_cenv->cfun = ")
@@ -995,10 +998,14 @@ fun auxclo_create
 //
 val () = emit_text (out, "ATSstaticdec()\n")
 val () = emit_text (out, "atstype_cloptr\n")
+//
 val () = emit_funlab (out, flab)
 val () = emit_text (out, "$closurerize")
 val () = emit_text (out, "\n(\n")
+//
 val n0 = aux2_envlst (out, d2es, 0, 0)
+val () = if n0 = 0 then emit_text (out, "// argumentless")
+//
 val () = emit_text (out, "\n)\n{\n")
 val () = emit_text (out, "return ")
 val () = emit_funlab (out, flab)
