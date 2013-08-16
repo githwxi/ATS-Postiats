@@ -437,7 +437,12 @@ if err > 0 then
   case+ 0 of
   | _ when refval > 0 => auxerr (d3e0)
   | _ when s2exp_is_nonlin (s2e_new) => () // HX-2013-03: safely discarded
+(*
+//
+// HX-2013-08-16: this is commented out for the moment and maybe forever!
+//
   | _ when s2exp_fun_is_freeptr (s2e_new) => (freeknd := 1) // HX: leak if not freed
+*)
   | _ (* refval = 0 *) => auxerr (d3e0)
 ) // end of [if]
 ) : void // end of [val]

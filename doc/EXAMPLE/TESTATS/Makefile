@@ -13,10 +13,10 @@ all::
 
 ######
 
-all:: clofun
-clofun: clofun.dats ; \
+all:: clofuns
+clofuns: clofuns.dats ; \
   $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
-cleanall:: ; $(RMF) clofun
+cleanall:: ; $(RMF) clofuns
 
 ######
 

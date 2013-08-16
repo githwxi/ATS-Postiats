@@ -213,6 +213,8 @@ contrib/*/*/CATS/CODEGEN/*_atxt.txt
 contrib/*/*/CATS/CODEGEN/*_atxt.dats
 contrib/*/*/TEST/test??
 
+contrib/zlog/zlog-latest-stable/
+
 #
 # ATSHOME/doc/DISTRIB
 #
