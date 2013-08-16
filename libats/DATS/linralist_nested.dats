@@ -33,8 +33,20 @@
 
 (* ****** ****** *)
 
+#define
+ATS_PACKNAME "ATSLIB.libats.funralist_nested"
+#define
+ATS_DYNLOADFLAG 0 // no dynamic loading at run-time
+
+(* ****** ****** *)
+
 staload
 UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload
+_(*anon*) = "prelude/DATS/integer.dats"
 
 (* ****** ****** *)
 
@@ -44,9 +56,10 @@ staload "libats/SATS/linralist_nested.sats"
 //
 // HX-2013-01:
 //
-// this data structure is essentially due to Chris Okasaki
-// However, unlike Okasaki's formulation, [ralist] is *not*
-// a nested datatype!
+// this data structure is essentially based on
+// Chris Okasaki's random-access list (formulated
+// as a nested datatype). However, unlike Okasaki's
+// formulation, [ralist] is *not* a nested datatype.
 //
 (* ****** ****** *)
 
@@ -87,17 +100,23 @@ end // end of [lemma_ralist_param]
 
 (* ****** ****** *)
 
-implement{a}
-linralist_nil () = RAnil{a}{0} ()
+implement{}
+linralist_nil{a}() = RAnil{a}{0}((*void*))
+implement{}
+linralist_make_nil{a}() = RAnil{a}{0}((*void*))
 
 (* ****** ****** *)
 
 local
 
+extern
 fun cons
-  {a:vt0p}{d:nat}{n:nat} .<n>. (
+  {a:vt0p}{d:nat}{n:nat}
+(
   x0: node (a, d), xs: myralist (a, d, n)
-) :<> myralist (a, d, n+1) = let
+) :<> myralist (a, d, n+1)
+implement
+cons{a}{d}{n} (x0, xs) = let
 in
 //
 case+ xs of
@@ -125,12 +144,12 @@ end // end of [local]
 
 (* ****** ****** *)
 
-implement{a}
+implement{}
 linralist_is_nil (xs) =
   case+ xs of RAnil () => true | _ =>> false
 // end of [linralist_is_nil]
 
-implement{a}
+implement{}
 linralist_is_cons (xs) =
   case+ xs of RAnil () => false | _ =>> true
 // end of [linralist_is_cons]
@@ -139,23 +158,22 @@ linralist_is_cons (xs) =
 
 local
 
-fun
-length
-  {a:vt0p}
-  {d:nat}
-  {n:nat} .<n>. (
-  xs: !myralist (a, d, n)
-) :<> int (n) = let
+extern
+fun length
+  {a:vt0p}{d:nat}{n:nat}
+  (xs: !myralist (a, d, n)):<> int (n)
+implement
+length{a}{d}{n} (xs) = let
 in
 //
 case+ xs of
-| RAevn (xxs) => let
-    val n2 = length (xxs) in 2 * n2
-  end // end of [RAevn]
-| RAodd (_, xxs) => let
-    val n2 = length (xxs) in 2 * n2 + 1
-  end // end of [RAodd]
-| RAnil () => 0
+| RAevn (xxs) =>
+    let val n2 = length (xxs) in 2 * n2 end
+  // end of [RAevn]
+| RAodd (_, xxs) =>
+    let val n2 = length (xxs) in 2 * n2 + 1 end
+  // end of [RAodd]
+| RAnil ((*void*)) => (0)
 //
 end // end of [length]
 
@@ -183,19 +201,20 @@ implement{a}
 linralist_tail
   (xs) = xs1 where {
   var xs1 = xs
-  val _(*hd*) = linralist_uncons<a> (xs1)
+  val _(*hd*) = linralist_uncons (xs1)
 } // end of [linralist_tail]
 
 (* ****** ****** *)
 
 local
 
-fun
-uncons{
-a:vt0p}{d:nat}{n:pos
-} .<n>. (
+extern fun
+uncons{a:vt0p}{d:nat}{n:pos}
+(
   xs: myralist (a, d, n), x: &ptr? >> node (a, d)
-) :<!wrt> myralist (a, d, n-1) = let
+) :<!wrt> myralist (a, d, n-1)
+implement
+uncons{a}{d}{n} (xs, x) = let
 in
 //
 case+ xs of
@@ -239,11 +258,17 @@ end // end of [local]
 
 local
 
-fun getref_at
-  {a:vt0p}{d:nat}{n:nat} .<n>. (
+extern fun
+getref_at {a:vt0p}{d:nat}{n:nat}
+(
   xs: !myralist (a, d, n), i: natLt n
-) :<> Ptr1 = let
-  extern praxi __vfree : node (a,d+1) -<prf> void
+) :<> Ptr1 // end of [getref_at]
+implement
+getref_at
+  {a}{d}{n} (xs, i) = let
+//
+extern praxi __vfree : node (a,d+1) -<prf> void
+//
 in
 //
 case+ xs of
@@ -313,13 +338,13 @@ end // end of [local]
 implement{a}
 linralist_get_at
   (xs, i) = let
-  val p = linralist_getref_at<a> (xs, i) in $UN.cptr_get<a> (p)
+  val p = linralist_getref_at (xs, i) in $UN.cptr_get<a> (p)
 end // end of [linralist_get_at]
 
 implement{a}
 linralist_set_at
   (xs, i, x) = let
-  val p = linralist_getref_at<a> (xs, i) in $UN.cptr_set<a> (p, x)
+  val p = linralist_getref_at (xs, i) in $UN.cptr_set<a> (p, x)
 end // end of [linralist_set_at]
 
 (* ****** ****** *)

@@ -29,6 +29,10 @@
 
 absvtype
 deque_vtype (a:viewt@ype+, n:int) = ptr
+
+(* ****** ****** *)
+
+stadef deque = deque_vtype
 vtypedef deque (a:vt0p, n:int) = deque_vtype (a, n)
 vtypedef Deque (a:vt0p) = [n:int] deque (a, n)
 

@@ -35,9 +35,10 @@
 //
 // HX-2013-01:
 //
-// this data structure is essentially due to Chris Okasaki
-// However, unlike Okasaki's formulation, [ralist] is *not*
-// a nested datatype!
+// this data structure is essentially based on
+// Chris Okasaki's random-access list (formulated
+// as a nested datatype). However, unlike Okasaki's
+// formulation, [ralist] is *not* a nested datatype.
 //
 (* ****** ****** *)
 
@@ -48,11 +49,13 @@ ATS_DYNLOADFLAG 0 // no dynamic loading at run-time
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/integer.dats"
+staload
+_(*anon*) = "prelude/DATS/integer.dats"
 
 (* ****** ****** *)
 //
