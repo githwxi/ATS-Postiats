@@ -49,9 +49,28 @@
 
 /* ****** ****** */
 
+#include <zlog.h>
+
+/* ****** ****** */
+
 #define atscntrb_zlog_init(cfg) zlog_init(cfg)
 #define atscntrb_zlog_reload(ctx, cfg) zlog_reload(cfg)
-#define atscntrb_zlog_fini(ctx) zlog_fint()
+#define atscntrb_zlog_fini(ctx) zlog_fini()
+
+/* ****** ****** */
+
+#define atscntrb_zlog_profile(ctx) zlog_profile()
+
+/* ****** ****** */
+
+#define atscntrb_zlog_get_category(ctx, cname) zlog_get_category(cname)
+
+/* ****** ****** */
+
+#define atscntrb_zlog_get_mdc(ctx, key) zlog_get_mdc(key)
+#define atscntrb_zlog_put_mdc(ctx, key, val) zlog_put_mdc(key, val)
+#define atscntrb_zlog_remove_mdc(ctx, key) zlog_remove_mdc(key)
+#define atscntrb_zlog_clean_mdc(ctx) zlog_clean_mdc()
 
 /* ****** ****** */
 
@@ -59,5 +78,5 @@
 
 /* ****** ****** */
 
-/* end of [json.cats] */
+/* end of [zlog.cats] */
 

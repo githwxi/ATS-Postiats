@@ -50,6 +50,15 @@
 
 (* ****** ****** *)
 
+#define
+ATS_PACKNAME "ATSCNTRB.zlog"
+#define
+ATS_STALOADFLAG 0 // no need for staloading at run-time
+#define
+ATS_EXTERN_PREFIX "atscntrb_" // prefix for external names
+
+(* ****** ****** *)
+
 abst@ype
 zlog_level_t0ype = int
 
@@ -81,6 +90,10 @@ vtypedef zlgctx1 = [n:int | n >= 0] zlgctx (n)
 
 (* ****** ****** *)
 
+castfn zlgctx2int {n:int} (!zlgctx(n)):<> int(n)
+
+(* ****** ****** *)
+
 absvtype
 zlog_category_type (l:addr) = ptr(l)
 
@@ -108,7 +121,7 @@ fun zlog_fini (zlgctx0): void = "mac#%"
 
 (* ****** ****** *)
 
-fun zlog_profile ((*void*)): void = "mac#%"
+fun zlog_profile (!zlgctx1): void = "mac#%"
 
 (* ****** ****** *)
 
@@ -127,9 +140,10 @@ fun zlog_get_category
 
 (* ****** ****** *)
 
+fun zlog_get_mdc
+  (!zlgctx1, string(*key*)): vStrptr1 = "mac#%"
 fun zlog_put_mdc
   (!zlgctx1, string(*key*), string(*val*)): int = "mac#%"
-fun zlog_get_mdc (!zlgctx1, string(*key*)): vStrptr1 = "mac#%"
 
 fun zlog_remove_mdc (!zlgctx1, string(*key*)): void = "mac#%"
 
