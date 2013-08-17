@@ -141,7 +141,7 @@ fun zlog_get_category
 (* ****** ****** *)
 
 fun zlog_get_mdc
-  (!zlgctx1, string(*key*)): vStrptr1 = "mac#%"
+  (!zlgctx1, string(*key*)): vStrptr0 = "mac#%"
 fun zlog_put_mdc
   (!zlgctx1, string(*key*), string(*val*)): int = "mac#%"
 

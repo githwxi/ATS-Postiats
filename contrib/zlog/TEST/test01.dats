@@ -39,9 +39,19 @@ val () = assertloc (p_cat > 0)
 //
 val () = $extfcall (void, "zlog_info", p_cat, "%s, %d", "Hello World", 1024)
 //
-val () = zlog_clean_mdc (ctx)
 val ec = zlog_put_mdc (ctx, "mykey", "myval")
 val () = assertloc (ec = 0)
+//
+val (
+  fpf2 | myval
+) = zlog_get_mdc (ctx, "mykey")
+val () = assertloc (strptr2ptr (myval) > 0)
+prval () = fpf2 (myval)
+//
+val () = $extfcall (void, "zlog_info", p_cat, "%s, %d", "Hello World", 1024)
+//
+val () = zlog_remove_mdc (ctx, "mykey")
+//
 val () = $extfcall (void, "zlog_info", p_cat, "%s, %d", "Hello World", 1024)
 //
 prval () = minus_addback (fpf, cat | ctx)
