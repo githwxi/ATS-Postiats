@@ -220,6 +220,25 @@ case+ pmvs of
 //
 end // end of [emit_fparamlst]
 
+fun emit_fun_freeaft
+(
+  out: FILEref, pmv: primval
+) : void = let
+in
+//
+case+
+  pmv.primval_node of
+| PMVrefarg
+    (knd, freeknd, pmv) =>
+  if freeknd > 0 then
+  (
+    emit_text (out, "ATSINSfreeclo(");
+    emit_primval (out, pmv); emit_text (out, ") ;\n")
+  ) (* end of [PMVrefarg] *)
+| _ => ()
+//
+end // end of [emit_fun_freeaft]
+
 in (* in of [local] *)
 
 implement
@@ -265,7 +284,9 @@ val ln = aux_funenv (out, pmv_fun)
 val () = emit_fparamlst (out, ln, pmvs_arg)
 val () = emit_rparen (out)
 //
-val () = emit_text (out, ") ;")
+val () = emit_text (out, ") ;\n")
+//
+val () = emit_fun_freeaft (out, pmv_fun)
 //
 in
   // nothing

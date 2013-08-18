@@ -209,6 +209,7 @@
 //
 /* ****** ****** */
 
+#define ATSINSfreeclo(cloptr) ATS_MFREE(cloptr)
 #define ATSINSfreecon(datconptr) ATS_MFREE(datconptr)
 
 /* ****** ****** */

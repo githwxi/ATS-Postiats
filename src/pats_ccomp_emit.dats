@@ -1174,7 +1174,8 @@ implement
 emit_primval_refarg
   (out, pmv0) = let
 //
-val-PMVrefarg (knd, pmv) = pmv0.primval_node
+val-PMVrefarg
+  (knd, freeknd, pmv) = pmv0.primval_node
 //
 val () =
   if (knd = 0) then emit_text (out, "ATSPMVrefarg0(")

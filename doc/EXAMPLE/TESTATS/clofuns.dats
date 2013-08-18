@@ -79,7 +79,7 @@ val () = println! ("rt = ", rt)
 val rt2 = rtfind2 (lam (x) => (x+10)*(x-11))
 val () = println! ("rt2 = ", rt2)
 //
-val rt3 = rtfind3 (lam (x:int): int =<cloptr1> (x+10)*(x-11))
+val rt3 = rtfind3 (lam (x) =<cloptr1> (x+10)*(x-11))
 val () = println! ("rt3 = ", rt3)
 //
 } (* end of [main0] *)

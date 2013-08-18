@@ -109,9 +109,10 @@ fnx loop1
   {m:pos;n:nat} .<m,0>.
 (
   xs: list_vt (a, m), ys: list_vt (a, n)
-) :<!wrt> listLte_vt (a, m+n) = let
+) :<!wrt>
+  listLte_vt (a, m+n) = let
 //
-val-@list_vt_cons (x, xs1) = xs
+val-@cons_vt (x, xs1) = xs
 val x_ = x
 val xs1_ = xs1; val () = (xs1 := ys)
 prval () = fold@ (xs)
@@ -124,36 +125,39 @@ and loop2
   {m:nat;n:nat} .<m,1>.
 (
   x0: a, xs: list_vt (a, m), ys: list_vt (a, n)
-) :<!wrt> listLte_vt (a, m+n) = let
+) :<!wrt>
+  listLte_vt (a, m+n) = let
 in
 //
 case+ xs of
-| @list_vt_cons 
-    (x, xs1) => let
+| @cons_vt (x, xs1) => let
     val sgn = compare_elt_elt<a> (x0, x)
   in
-    if sgn < 0 then let // [xs] ascending!
-      prval () = fold@ (xs) in loop1 (xs, ys)
-    end else let
-      val xs1_ = xs1
-      val () = free@{a}{0}(xs) in loop2 (x0, xs1_, ys)
-    end // end of [if]
-  end (* end of [list_vt_cons] *)
-| ~list_vt_nil () => ys
+    if (sgn < 0)
+      then let // [xs] ascending!
+        prval () = fold@ (xs) in loop1 (xs, ys)
+      end // end of [then]
+      else let
+        val xs1_ = xs1
+        val () = free@{a}{0}(xs) in loop2 (x0, xs1_, ys)
+      end // end of [else]
+    // end of [if]
+  end (* end of [cons_vt] *)
+| ~nil_vt ((*void*)) => ys
 //
 end // end of [loop2]
 //
-in
+in (* in of [let] *)
 //
 case+ xs of
-| list_vt_cons _ => let
+| cons_vt _ => let
     val ys =
-      $effmask_wrt (loop1 (xs, list_vt_nil))
+      $effmask_wrt (loop1 (xs, nil_vt ()))
     // end of [val]
   in
     list_of_list_vt (ys)
-  end // end of [list_vt_cons]
-| ~list_vt_nil () => list_nil ()
+  end // end of [cons_vt]
+| ~nil_vt () => list_nil ()
 //
 end // end of [funset_make_list]
 

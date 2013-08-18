@@ -582,7 +582,7 @@ and primval_node =
   | PMVptrof of (primval)
   | PMVptrofsel of (primval, hisexp(*tyroot*), primlablst)
 //
-  | PMVrefarg of (int(*knd*), primval)
+  | PMVrefarg of (int(*knd*), int(*freeknd*), primval)
 //
   | PMVfunlab of (funlab)
   | PMVcfunlab of (int(*knd*), funlab)
@@ -874,8 +874,9 @@ fun primval_ptrofsel (
 (* ****** ****** *)
 
 fun primval_refarg
-  (loc: location, hse: hisexp, knd: int, pmv: primval): primval
-// end of [primval_refarg]
+(
+  loc: location, hse: hisexp, knd: int, freeknd: int, pmv: primval
+) : primval // end of [primval_refarg]
 
 (* ****** ****** *)
 

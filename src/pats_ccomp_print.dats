@@ -449,11 +449,13 @@ case+ x.primval_node of
     val () = prstr ")"    
   }
 | PMVrefarg
-    (knd, pmv) =>
+    (knd, freeknd, pmv) =>
   {
     val () = prstr "PMVrefarg("
     val () = fprint_int (out, knd)
-    val () = prstr ", "
+    val () = prstr "; "
+    val () = fprint_int (out, freeknd)
+    val () = prstr "; "
     val () = fprint_primval (out, pmv)
     val () = prstr ")"
   }

@@ -948,7 +948,7 @@ val-HDErefarg
 val pmv = hidexp_ccomp (env, res, hde)
 //
 in
-  primval_refarg (loc0, hse0, knd, pmv)
+  primval_refarg (loc0, hse0, knd, freeknd, pmv)
 end // end of [hidexp_ccomp_refarg]
 
 (* ****** ****** *)
@@ -1121,6 +1121,20 @@ pmv_fun.primval_node of
       end // end of [if]
     | _ (*ntl < 0*) => ((*void*))
   end // end of [PMVcfunlab]
+//
+| PMVd2vfunlab (d2v, fl) => let
+    val ntl = ccompenv_find_tailcalenv (env, fl)
+  in
+    case+ 0 of
+    | _ when ntl >= 0 => let
+        val ins = instr_fcall2 (loc0, tmpret, fl, ntl, hse_fun, pmvs_arg)
+        val () = added := added + 1
+        val () = instrseq_add (res, ins)
+      in
+        // nothing
+      end // end of [if]
+    | _ (*ntl < 0*) => ((*void*))
+  end // end of [PMVd2vfunlab]
 //
 | PMVtmpltcst (d2c, t2mas) => let
     val opt = ccompenv_find_tailcalenv_tmpcst (env, d2c, t2mas)

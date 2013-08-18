@@ -684,7 +684,9 @@ case+
   end // end of [PMVsizeof]
 //
 | PMVselcon
-    (pmv, hse_sum, lab) => let
+  (
+    pmv, hse_sum, lab
+  ) => let
     val pmv = fpmv (pmv)
     val hse_sum = hisexp_subst (sub, hse_sum)
   in
@@ -692,7 +694,9 @@ case+
   end // end of [PMVselcon]
 //
 | PMVselect
-    (pmv, hse_rt, pml) => let
+  (
+    pmv, hse_rt, pml
+  ) => let
     val pmv = fpmv (pmv)
     val hse_rt = hisexp_subst (sub, hse_rt)
     val pml = fpml (pml)
@@ -700,7 +704,9 @@ case+
     primval_select (loc0, hse0, pmv, hse_rt, pml)
   end // end of [PMVselect]
 | PMVselect2
-    (pmv, hse_rt, pmls) => let
+  (
+    pmv, hse_rt, pmls
+  ) => let
     val pmv = fpmv (pmv)
     val hse_rt = hisexp_subst (sub, hse_rt)
     val pmls = fpmlist (pmls)
@@ -709,7 +715,9 @@ case+
   end // end of [PMVselect2]
 //
 | PMVselptr
-    (pmv, hse_rt, pmls) => let
+  (
+    pmv, hse_rt, pmls
+  ) => let
     val pmv = fpmv (pmv)
     val hse_rt = hisexp_subst (sub, hse_rt)
     val pmls = fpmlist (pmls)
@@ -721,7 +729,9 @@ case+
     val pmv = fpmv (pmv) in primval_ptrof (loc0, hse0, pmv)
   end // end of [PMVptrof]
 | PMVptrofsel
-    (pmv, hse_rt, pmls) => let
+  (
+    pmv, hse_rt, pmls
+  ) => let
     val pmv = fpmv (pmv)
     val hse_rt = hisexp_subst (sub, hse_rt)
     val pmls = fpmlist (pmls)
@@ -730,8 +740,12 @@ case+
   end // end of [PMVptrof]
 //
 | PMVrefarg
-    (knd, pmv) => let
-    val pmv = fpmv (pmv) in primval_refarg (loc0, hse0, knd, pmv)
+  (
+    knd, freeknd, pmv
+  ) => let
+    val pmv = fpmv (pmv)
+  in
+    primval_refarg (loc0, hse0, knd, freeknd, pmv)
   end // of [PMVrefarg]
 //
 | PMVfunlab
