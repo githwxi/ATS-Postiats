@@ -306,7 +306,7 @@ val () =
 emit_text (out, "ATSINSmove_tlcal(")
 val () =
 (
-if ntl = 0
+if ntl <= 1
   then fprintf (out, "argx%i", @(i))
   else fprintf (out, "a%irgx%i", @(ntl, i))
 // end of [if]
@@ -347,14 +347,14 @@ val () =
 emit_text (out, "ATSINSargmove_tlcal(")
 val () =
 (
-if ntl = 0
+if ntl <= 1
   then fprintf (out, "arg%i", @(i))
   else fprintf (out, "a%irg%i", @(ntl, i))
 // end of [if]
 ) : void // end of [val]
 val () =
 (
-if ntl = 0
+if ntl <= 1
   then fprintf (out, ", argx%i", @(i))
   else fprintf (out, ", a%irgx%i", @(ntl, i))
 // end of [if]

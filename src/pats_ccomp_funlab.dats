@@ -106,12 +106,11 @@ funlab_struct =
 , funlab_origin= Option (ptr)
 , funlab_suffix= int
 //
-, funlab_tmparg= t2mpmarglst (* template use *)
+, funlab_tmparg= t2mpmarglst (* tmplt use *)
 //
 , funlab_funent= funentopt // function entry
-, funlab_tailjoin= tmpvarlst // tail-call optimization
 //
-, funlab_stamp= stamp
+, funlab_stamp= stamp (* stamp for unicity *)
 } // end of [funlab_struct]
 
 (* ****** ****** *)
@@ -163,7 +162,6 @@ val () = p->funlab_suffix := 0
 val () = p->funlab_tmparg := t2mas
 //
 val () = p->funlab_funent := None(*funent*)
-val () = p->funlab_tailjoin := list_nil(*tmpvarlst*)
 //
 val () = p->funlab_stamp := stamp
 //
@@ -212,20 +210,6 @@ funlab_get_d2vopt (flab) = let
 end // end of [funlab_get_d2vopt]
 
 implement
-funlab_get_tmparg (flab) = let
-  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_tmparg
-end // end of [funlab_get_tmparg]
-
-implement
-funlab_get_funent (flab) = let
-  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_funent
-end // end of [funlab_get_funent]
-implement
-funlab_set_funent (flab, opt) = let
-  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_funent := opt
-end // end of [funlab_set_funent]
-
-implement
 funlab_get_ncopy (flab) = let
   val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_ncopy
 end // end of [funlab_get_ncopy]
@@ -257,6 +241,20 @@ implement
 funlab_set_suffix (flab, sfx) = let
   val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_suffix := sfx
 end // end of [funlab_set_suffix]
+
+implement
+funlab_get_tmparg (flab) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_tmparg
+end // end of [funlab_get_tmparg]
+
+implement
+funlab_get_funent (flab) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_funent
+end // end of [funlab_get_funent]
+implement
+funlab_set_funent (flab, opt) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_funent := opt
+end // end of [funlab_set_funent]
 
 implement
 funlab_get_stamp

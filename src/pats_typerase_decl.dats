@@ -32,6 +32,11 @@
 //
 (* ****** ****** *)
 
+staload _ = "prelude/DATS/list.dats"
+staload _ = "prelude/DATS/list_vt.dats"
+
+(* ****** ****** *)
+
 staload UN = "prelude/SATS/unsafe.sats"
 staload _(*anon*) = "prelude/DATS/unsafe.dats"
 
@@ -205,7 +210,29 @@ implement
 d3eclist_tyer
   (d3cs) = let
 //
-val hids = list_map_fun (d3cs, d3ecl_tyer)
+vtypedef res = List_vt (hidecl)
+//
+fun loop
+  (d3cs: d3eclist, res: res): res = let
+in
+//
+case+ d3cs of
+| list_cons
+    (d3c, d3cs) => let
+    val hid = d3ecl_tyer (d3c)
+    val isemp = hidecl_is_empty (hid)
+  in
+    if isemp
+      then loop (d3cs, res)
+      else loop (d3cs, list_vt_cons (hid, res))
+    // end of [if]
+  end // end of [list_cons]
+| list_nil ((*void*)) => res
+//
+end // end of [loop]
+//
+val hids = loop (d3cs, list_vt_nil)
+val hids = list_vt_reverse<hidecl> (hids)
 //
 in
   list_of_list_vt (hids)
@@ -261,10 +288,14 @@ fun f3undec_tyer
 (
   imparg: s2varlst, f3d: f3undec
 ) : hifundec = let
+//
   val loc = f3d.f3undec_loc
+//
   val d2v_fun = f3d.f3undec_var
   val d3e_def = f3d.f3undec_def
+//
   val isprf = d3exp_is_prf (d3e_def)
+//
   val () = if isprf then let
     val () = prerr_error4_loc (loc)
     val () = prerr ": [fun] should be replaced with [prfun] as this is a proof binding."
@@ -282,7 +313,8 @@ end // end of [f3undec_tyer]
 
 fun f3undeclst_tyer
 (
-  knd: funkind, decarg: s2qualst, f3ds: f3undeclst
+  knd: funkind
+, decarg: s2qualst, f3ds: f3undeclst
 ) : hifundeclst = let
   val isprf = funkind_is_proof (knd)
 in
@@ -306,10 +338,13 @@ d3ecl_tyer_fundecs
 {
 //
 val loc0 = d3c0.d3ecl_loc
+//
 val-D3Cfundecs
   (knd, decarg, f3ds) = d3c0.d3ecl_node
+//
 val hfds = f3undeclst_tyer (knd, decarg, f3ds)
 val hdc0 = hidecl_fundecs (loc0, knd, decarg, hfds)
+//
 val () = hifundeclst_set_hideclopt (hfds, Some(hdc0))
 //
 } // end of [d3ecl_tyer_fundecs]
@@ -338,7 +373,8 @@ in
   hivaldec_make (loc, hip, hde_def)
 end // end of [v3aldec_tyer]
 
-fun v3aldeclst_tyer (
+fun v3aldeclst_tyer
+(
   knd: valkind, v3ds: v3aldeclst
 ) : hivaldeclst = let
   val isprf = valkind_is_proof (knd)

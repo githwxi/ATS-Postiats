@@ -52,6 +52,11 @@ overload = with $LAB.eq_label_label
 
 (* ****** ****** *)
 
+staload LOC = "./pats_location.sats"
+overload print with $LOC.print_location
+
+(* ****** ****** *)
+
 staload S2E = "./pats_staexp2.sats"
 staload D2E = "./pats_dynexp2.sats"
 overload = with $S2E.eq_d2con_d2con
@@ -61,6 +66,30 @@ overload = with $D2E.eq_d2var_d2var
 
 staload "./pats_histaexp.sats"
 staload "./pats_hidynexp.sats"
+
+(* ****** ****** *)
+
+implement
+hidecl_is_empty (hid) = let
+in
+//
+case+
+  hid.hidecl_node of
+//
+| HIDnone () => true
+//
+| HIDlist (xs) => list_is_nil (xs)
+//
+| HIDfundecs (_, _, xs) => list_is_nil (xs)
+//
+| HIDvaldecs (_, xs) => list_is_nil (xs)
+| HIDvaldecs_rec (_, xs) => list_is_nil (xs)
+(*
+| HIDvardecs (xs) => list_is_nil (xs)
+*)
+| _ => false
+//
+end // end of [hidecl_is_empty]
 
 (* ****** ****** *)
 //
@@ -458,7 +487,7 @@ case+ hde0.hidexp_node of
       | _ => HDEVEnone ()
     ) else HDEVEnone () // end of [if]
   ) (* end of [HIErec] *)
-| _ => HDEVEnone ()
+| _ => HDEVEnone ((*void*))
 //
 end // end of [hidexp_is_varemp]
 
@@ -491,7 +520,7 @@ case+ hip0.hipat_node of
       | _ => HABNDnone ()
     ) else HABNDnone () // end of [if]
   ) (* end of [HIPrec] *)
-| _ => HABNDnone ()
+| _ => HABNDnone ((*void*))
 //
 end // end of [aux]
 //

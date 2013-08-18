@@ -280,9 +280,10 @@ typedef funlabopt = Option (funlab)
 vtypedef funlabopt_vt = Option_vt (funlab)
 //
 fun print_funlab (x: funlab): void
-overload print with print_funlab
 fun prerr_funlab (x: funlab): void
+overload print with print_funlab
 overload prerr with prerr_funlab
+//
 fun fprint_funlab : fprint_type (funlab)
 overload fprint with fprint_funlab
 fun fprint_funlablst : fprint_type (funlablst)
@@ -415,6 +416,10 @@ fun funent_get_d2envlst (fent: funent): d2envlst
 fun funent_get_d2envlst_fin (fent: funent): Option (d2envlst)
 //
 fun funent_get_tmpvarlst (fent: funent): tmpvarlst
+//
+fun funent_get_fnxlablst (fent: funent): funlablst
+fun funent_set_fnxlablst
+  (fent: funent, fls: funlablst): void = "patsopt_funent_set_fnxlablst"
 //
 (* ****** ****** *)
 (*
@@ -1894,6 +1899,12 @@ fun emit_sizeof (out: FILEref, hselt: hisexp): void
 
 fun emit_tmplab (out: FILEref, tlab: tmplab): void
 fun emit_tmplabint (out: FILEref, tlab: tmplab, i: int): void
+
+(* ****** ****** *)
+
+fun emit_set_nfnx (n: int): void
+fun emit_funarg (out: FILEref, n: int): void
+fun emit_funargx (out: FILEref, n: int): void
 
 (* ****** ****** *)
 

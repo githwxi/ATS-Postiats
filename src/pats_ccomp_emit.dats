@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload _ = "prelude/DATS/reference.dats"
+
+(* ****** ****** *)
+
 staload UN = "prelude/SATS/unsafe.sats"
 staload _(*anon*) = "prelude/DATS/unsafe.dats"
 
@@ -629,6 +633,41 @@ end // end of [emit_tmplabint]
 
 local
 
+val the_nfnx = ref_make_elt<int> (0)
+
+in (* in of [local] *)
+
+implement
+emit_set_nfnx (nfnx) = (!the_nfnx := nfnx)
+
+implement
+emit_funarg
+  (out, narg) = let
+  val nfnx = !the_nfnx
+in
+  if nfnx <= 1
+    then fprintf (out, "arg%i", @(narg))
+    else fprintf (out, "a%irg%i", @(nfnx, narg))
+  // end of [val]
+end // end of [emit_funarg]
+
+implement
+emit_funargx
+  (out, narg) = let
+  val nfnx = !the_nfnx
+in
+  if nfnx <= 1
+    then fprintf (out, "argx%i", @(narg))
+    else fprintf (out, "a%irgx%i", @(nfnx, narg))
+  // end of [val]
+end // end of [emit_funargx]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
 fun auxtmp (
   out: FILEref, tmp: tmpvar
 ) : void = let
@@ -816,13 +855,13 @@ typedef
 emit_primval_type = (FILEref, primval) -> void
 
 (* ****** ****** *)
-
-extern fun emit_primval_tmp : emit_primval_type
-extern fun emit_primval_tmpref : emit_primval_type
 //
 extern fun emit_primval_arg : emit_primval_type
 extern fun emit_primval_argref : emit_primval_type
 extern fun emit_primval_argenv : emit_primval_type
+//
+extern fun emit_primval_tmp : emit_primval_type
+extern fun emit_primval_tmpref : emit_primval_type
 //
 extern fun emit_primval_env : emit_primval_type
 //
@@ -956,6 +995,42 @@ end // end of [emit_primvalist]
 (* ****** ****** *)
 
 implement
+emit_primval_arg
+  (out, pmv0) = let
+//
+val-PMVarg (n) = pmv0.primval_node
+//
+in
+  emit_funarg (out, n)
+end // end of [emit_primval_arg]
+
+(* ****** ****** *)
+
+implement
+emit_primval_argref
+  (out, pmv0) = let
+//
+val-PMVargref (n) = pmv0.primval_node
+//
+in
+  emit_funarg (out, n)
+end // end of [emit_primval_argref]
+
+(* ****** ****** *)
+
+implement
+emit_primval_argenv
+  (out, pmv0) = let
+//
+val-PMVargenv (nenv) = pmv0.primval_node
+//
+in
+  fprintf (out, "env%i", @(nenv))
+end // end of [emit_primval_argenv]
+
+(* ****** ****** *)
+
+implement
 emit_primval_tmp
   (out, pmv0) = let
 //
@@ -974,42 +1049,6 @@ val-PMVtmpref (tmp) = pmv0.primval_node
 in
   emit_tmpvar (out, tmp)
 end // end of [emit_primval_tmpref]
-
-(* ****** ****** *)
-
-implement
-emit_primval_arg
-  (out, pmv0) = let
-//
-val-PMVarg (narg) = pmv0.primval_node
-//
-in
-  fprintf (out, "arg%i", @(narg))
-end // end of [emit_primval_arg]
-
-(* ****** ****** *)
-
-implement
-emit_primval_argref
-  (out, pmv0) = let
-//
-val-PMVargref (narg) = pmv0.primval_node
-//
-in
-  fprintf (out, "arg%i", @(narg))
-end // end of [emit_primval_argref]
-
-(* ****** ****** *)
-
-implement
-emit_primval_argenv
-  (out, pmv0) = let
-//
-val-PMVargenv (nenv) = pmv0.primval_node
-//
-in
-  fprintf (out, "env%i", @(nenv))
-end // end of [emit_primval_argenv]
 
 (* ****** ****** *)
 

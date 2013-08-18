@@ -1414,7 +1414,8 @@ prval () = lemma_list_param (xs)
 prval () = lemma_list_param (ys)
 //
 fnx loop1
-  {m,n:nat} .<m,0,0>. (
+  {m,n:nat} .<m,0,0>.
+(
   xs: list (x, m)
 , ys: list (y, n)
 , res: &ptr? >> list_vt (xy, m*n)
@@ -1427,7 +1428,8 @@ in
 end // end of [loop1]
 
 and loop2
-  {m,n:nat}{n2:nat} .<m,n2,1>. (
+  {m,n,n2:nat} .<m,n2,1>.
+(
   xs: list (x, m)
 , ys: list (y, n)
 , x: x, ys2: list (y, n2)

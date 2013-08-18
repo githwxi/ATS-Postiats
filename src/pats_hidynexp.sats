@@ -820,6 +820,10 @@ fun hidecl_make_node
 
 (* ****** ****** *)
 
+fun hidecl_is_empty (hid: hidecl): bool
+
+(* ****** ****** *)
+
 fun hidecl_none (loc: location): hidecl
 fun hidecl_list (loc: location, hids: hideclist): hidecl
 

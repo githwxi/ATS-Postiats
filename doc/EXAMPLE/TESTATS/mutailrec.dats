@@ -15,19 +15,28 @@ staload "prelude/DATS/integer.dats"
 tail-recursively, that is, the recursive
 calls in their bodies are all tail-calls.
 *)
-fnx isevn (x: int): bool =
+fnx isevn
+  (x: int): bool = let
+  val () = println! ("isevn: x = ", x)
+in
   if x > 0 then isodd (x-1) else true
-and isodd (x: int): bool =
+end // end of [isevn]
+
+and isodd
+  (x: int): bool = let
+  val () = println! ("isodd: x = ", x)
+in
   if x > 0 then isevn (x-1) else false
-//
+end // end of [isodd]
+
 (* ****** ****** *)
 
 implement
 main (
-) = 0 where {
-  val N = 1000000
-  val () = assertloc (isevn (N))
-  val () = assertloc (isodd (N+1))
+) = 0 where
+{
+  val N = 9
+  val () = assertloc (~isevn(N))
 } // end of [main]
 
 (* ****** ****** *)

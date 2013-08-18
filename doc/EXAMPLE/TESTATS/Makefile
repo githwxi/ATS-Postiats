@@ -26,6 +26,12 @@ cleanall:: ; $(RMF) extfcall
 
 ######
 
+all:: mutailrec
+mutailrec: mutailrec.dats ; $(PATSCC) -cleanaft -o $@ $<
+cleanall:: ; $(RMF) mutailrec
+
+######
+
 all:: partmplt
 partmplt: partmplt.dats ; $(PATSCC) -cleanaft -o $@ $<
 cleanall:: ; $(RMF) partmplt

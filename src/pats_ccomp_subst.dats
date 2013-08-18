@@ -1492,24 +1492,27 @@ fun
 auxinit{n:nat}
 (
   env: !ccompenv
-, sub: !stasub, hfds: list (hifundec, n)
-) : list_vt (funlab, n) = let
+, sub: !stasub, hfds: list (hifundec, n), i: int
+) : list (funlab, n) = let
 in
 //
 case+ hfds of
 | list_cons
     (hfd, hfds) => let
+//
     val-Some (fl) =
       hifundec_get_funlabopt (hfd)
-    // end of [val]
-//
-    val sfx =
-      funlab_incget_ncopy (fl)
-    // end of [val]
-//
+    val sfx = funlab_incget_ncopy (fl)
     val fl2 = funlab_subst (sub, fl)
+//
     val () = funlab_set_suffix (fl2, sfx)
-    val () = the_funlablst_add (fl2)
+//
+// HX: only the first fnx-decl is added!
+//
+    val () = (
+      if i <= 1 then the_funlablst_add (fl2)
+    ) // end of [val]
+//
     val () = ccompenv_add_flabsetenv (env, fl2)
 //
     val loc = hfd.hifundec_loc
@@ -1518,11 +1521,14 @@ case+ hfds of
 //
     val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
 //
-    val fls2 = auxinit (env, sub, hfds)
+    val i2 = (
+      if i >= 1 then i+1 else i
+    ) : int // end of [val]
+    val fls2 = auxinit (env, sub, hfds, i2)
   in
-    list_vt_cons (fl2, fls2)
+    list_cons (fl2, fls2)
   end (* end of [list_cons] *)
-| list_nil () => list_vt_nil ()
+| list_nil ((*void*)) => list_nil ()
 //
 end // end of [auxinit]
 
@@ -1530,14 +1536,14 @@ fun
 auxmain{n:nat}
 (
   env: !ccompenv, sub: !stasub
-, hfds: list (hifundec, n), fls2: list_vt (funlab, n)
+, hfds: list (hifundec, n), fls2: list (funlab, n)
 ) : void = let
 in
 //
 case+ hfds of
 | list_cons
     (hfd, hfds) => let
-    val+~list_vt_cons (fl2, fls2) = fls2
+    val+list_cons (fl2, fls2) = fls2
     val-Some (fl) = funlab_get_origin (fl2)
     val-Some (fent) = funlab_get_funent (fl)
     val sfx = funlab_get_suffix (fl2)
@@ -1546,30 +1552,43 @@ case+ hfds of
   in
     auxmain (env, sub, hfds, fls2)
   end // end of [list_cons]
-| list_nil () => let
-    val+~list_vt_nil () = fls2 in (*nothing*)
-  end // end of [list_nil]
+| list_nil () =>
+    let val+list_nil () = fls2 in (*nothing*) end
+  // end of [list_nil]
 //
 end // end of [auxmain]
+
+fun auxfnxset
+(
+  fls: funlablst
+) : void = let
+//
+  val-list_cons (fl0, _) = fls
+  val opt = funlab_get_funent (fl0)
+  val-Some(fent) = opt
+  val () = funent_set_fnxlablst (fent, fls)
+in
+  // nothing
+end // end of [auxfnxset]
 
 in (* in of [local] *)
 
 implement
 ccompenv_add_fundecsloc_subst
-(
-  env, sub, knd, decarg, hfds
-) = let
+  (env, sub, knd, decarg, hfds) = let
 in
 //
 case+ decarg of
-| list_nil (
-  ) => let
-    val fls = auxinit (env, sub, hfds)
-    val ( ) = auxmain (env, sub, hfds, fls)
+| list_cons _ => ()
+| list_nil () => let
+    val isfnx = funkind_is_mutailrec (knd)
+    val i0 = (if isfnx then 1 else 0): int
+    val fls = auxinit (env, sub, hfds, i0)
+    val ((*void*)) = auxmain (env, sub, hfds, fls)
+    val ((*void*)) = if isfnx then auxfnxset (fls)
   in
     // nothing
   end // end of [list_nil]
-| list_cons _ => ()
 //
 end // end of [ccompenv_add_fundecsloc_subst]
 
