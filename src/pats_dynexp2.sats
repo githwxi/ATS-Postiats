@@ -660,6 +660,8 @@ d2ecl_node =
 //
   | D2Cdcstdecs of (dcstkind, d2cstlst) // dyn. const. declarations
 //
+  | D2Cimpdec of (int(*knd*), i2mpdec) // knd=0/1 : implement/primplmnt
+//
   | D2Cfundecs of (funkind, s2qualst, f2undeclst)
   | D2Cvaldecs of
       (valkind, v2aldeclst) // (nonrec) value declarations
@@ -670,8 +672,6 @@ d2ecl_node =
 //
   | D2Cvardecs of (v2ardeclst) // variable declarations
   | D2Cprvardecs of (prv2ardeclst) // proof variable declarations
-//
-  | D2Cimpdec of (int(*knd*), i2mpdec) // knd=0/1 : implement/primplmnt
 //
   | D2Cinclude of d2eclist (* file inclusion *)
 //

@@ -32,18 +32,27 @@
 //
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/pointer.dats"
-staload _(*anon*) = "prelude/DATS/reference.dats"
+staload
+_(*anon*) = "prelude/DATS/pointer.dats"
+staload
+_(*anon*) = "prelude/DATS/reference.dats"
+
+(* ****** ****** *)
+
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
 staload
 FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
+
+(* ****** ****** *)
 
 staload SYM = "./pats_symbol.sats"
 staload SYN = "./pats_syntax.sats"
@@ -1036,6 +1045,38 @@ implement
 the_d2expenv_add_dvarlst
   (d2vs) = list_app_fun (d2vs, the_d2expenv_add_dvar)
 // end of [the_d2expenv_add_dvarlst]
+
+(* ****** ****** *)
+
+implement
+the_d2expenv_add_fundeclst
+  (knd, f2ds) = let
+//
+fun auxlst
+  (f2ds: f2undeclst): void =
+(
+case+ f2ds of
+| list_cons
+    (f2d, f2ds) => let
+    val () = the_d2expenv_add_dvar (f2d.f2undec_var)
+  in
+    auxlst (f2ds)
+  end // end of [list_cons]
+| list_nil ((*none*)) => ()
+) (* end of [auxlist] *)
+//
+in
+//
+case+ f2ds of
+| list_cons
+    (f2d, f2ds) => let
+    val () = the_d2expenv_add_dvar (f2d.f2undec_var)
+  in
+    if not(funkind_is_mutailrec(knd)) then auxlst (f2ds)
+  end // end of [list_cons]
+| list_nil ((*none*)) => ()
+//
+end // end of [the_d2expenv_add_fundeclst]
 
 (* ****** ****** *)
 

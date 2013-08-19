@@ -270,13 +270,16 @@ datatype d1ecl_node =
   | D1Cdcstdecs of (dcstkind, q1marglst, d1cstdeclst) // dyn constants
 //
   | D1Cmacdefs of (int(*knd*), bool(*isrec*), m1acdeflst)
+//
+  | D1Cimpdec of
+      (int(*knd*), i1mparg, i1mpdec) // knd=0/1: implement/primplement
+    // end of [D1Cimpdec]
+//
   | D1Cfundecs of (funkind, q1marglst, f1undeclst) // function declaration
   | D1Cvaldecs of (valkind, bool(*isrec*), v1aldeclst) // val declarations
   | D1Cvardecs of
       (int(*knd*), v1ardeclst) (* variable declaration *) // knd=0/1:var/prvar
     // end of [D1Cvardecs]
-//
-  | D1Cimpdec of (int(*knd*), i1mparg, i1mpdec) // knd=0/1: implement/primplmnt
 //
   | D1Cinclude of d1eclist (* inclusion *)
   | D1Cstaload of (* staloading a file *)

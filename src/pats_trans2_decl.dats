@@ -919,7 +919,7 @@ d1atconlst_tr (
   | list_nil () => list_nil ()
 (* end of [d1atconlst_tr] *)
 
-in // in of [local]
+in (* in of [local] *)
 
 fn d1atdec_tr (
   s2c: s2cst, s2vss0: s2varlstlst, d1c: d1atdec
@@ -1185,7 +1185,7 @@ fun s2exp_get_arylst
   | _ => list_nil ()
 // end of [s2exp_get_arylst]
 
-in // in of [local]
+in (* in of [local] *)
 
 fun d1cstdec_tr
 (
@@ -1255,7 +1255,7 @@ fun trans2_env_add_m2acarglst
   (xs: m2acarglst): void = list_app_fun (xs, trans2_env_add_m2acarg)
 // end of [trans2_env_add_m2acarglst]
 
-in // in of [local]
+in (* in of [local] *)
 
 fn m1acdef_tr (
   knd: int, d2m: d2mac, d1c: m1acdef
@@ -1324,7 +1324,7 @@ fun m1acarglst_tr
   val m2as = list_map_fun (m1as, m1acarg_tr) in (l2l)m2as
 end // end of [m1acarglst_tr]
 
-in // in of [local]
+in (* in of [local] *)
 
 fun m1acdeflst_tr (
   knd: int, d1cs: m1acdeflst
@@ -1400,19 +1400,21 @@ in
 end // end of [f1undec_tr]
 
 fn f1undeclst_tr
-  {n:nat} (
+(
   knd: funkind
-, decarg: s2qualst
-, f1ds: list (f1undec, n)
+, decarg: s2qualst, f1ds: f1undeclst
 ) : f2undeclst = let
 //
   val isprf = funkind_is_proof (knd)
   val isrec = funkind_is_recursive (knd)
 //
   val d2vs = let
-    fun aux1 {n:nat} .<n>. (
-      isprf: bool, f1ds: list (f1undec, n)
-    ) : list (d2var, n) = 
+    fun aux1
+      {n:nat} .<n>.
+    (
+      isprf: bool
+    , f1ds: list (f1undec, n)
+    ) : list (d2var, n) =
       case+ f1ds of
       | list_cons
           (f1d, f1ds) => let
@@ -1612,7 +1614,7 @@ in
   | None _ => ()
 end // end of [auxwthck]
 
-in // in of [local]
+in (* in of [local] *)
 
 fun
 prv1ardec_tr
@@ -1897,16 +1899,35 @@ case+ d1c0.d1ecl_node of
     val () = m1acdeflst_tr (knd, d1cs) in d2ecl_none (loc0)
   end // end of [D1Cmacdefs]
 //
+| D1Cimpdec
+  (
+    knd, _arg, _dec
+  ) => let
+    val d2copt = i1mpdec_tr (d1c0)
+  in
+    case+ d2copt of
+    | ~Some_vt (impdec) => let
+        val () =
+          auxcheck_impdec (d1c0, knd, impdec)
+        // end of [val]
+      in
+        d2ecl_impdec (loc0, knd, impdec)
+      end // end of [Some_vt]
+//
+// HX: the error is already reported
+//
+    | ~None_vt () => d2ecl_none (loc0)
+  end // end of [D1Cimpdec]
+//
 | D1Cfundecs
   (
     funknd, decarg, f1ds
   ) => let
-    val (pfenv | ()) = the_s2expenv_push_nil ()
-    val (
-    ) = (
-      case+ decarg of
-      | list_cons _ => the_tmplev_inc () | list_nil _ => ()
-    ) // end of [val]
+//
+    val istmp = list_is_cons (decarg)
+    val () = if istmp then the_tmplev_inc ()
+//
+    val (pfenv | ()) = the_trans2_env_push ()
 //
     val tmplev = the_tmplev_get ()
     val s2qs = list_map_fun (decarg, q1marg_tr_dec)
@@ -1915,12 +1936,12 @@ case+ d1c0.d1ecl_node of
 //
     val f2ds = f1undeclst_tr (funknd, s2qs, f1ds)
 //
-    val () = the_s2expenv_pop_free (pfenv | (*none*))
-    val () =
-    (
-      case+ decarg of
-      | list_cons _ => the_tmplev_dec () | list_nil _ => ()
-    ) // end of [val]
+    val () = if istmp then the_tmplev_dec ()
+//
+    val () = the_trans2_env_pop (pfenv | (*none*))
+//
+    val () = the_d2expenv_add_fundeclst (funknd, f2ds)
+//
   in
     d2ecl_fundecs (loc0, funknd, s2qs, f2ds)
   end // end of [D1Cfundecs]
@@ -1946,26 +1967,6 @@ case+ d1c0.d1ecl_node of
       val v2ds = prv1ardeclst_tr (v1ds) in d2ecl_prvardecs (loc0, v2ds)
     end // end of [if]
   ) // end of [D1Cvardecs]
-//
-| D1Cimpdec
-  (
-    knd, _arg, _dec
-  ) => let
-    val d2copt = i1mpdec_tr (d1c0)
-  in
-    case+ d2copt of
-    | ~Some_vt (impdec) => let
-        val () =
-          auxcheck_impdec (d1c0, knd, impdec)
-        // end of [val]
-      in
-        d2ecl_impdec (loc0, knd, impdec)
-      end // end of [Some_vt]
-//
-// HX: the error is already reported
-//
-    | ~None_vt () => d2ecl_none (loc0)
-  end // end of [D1Cimpdec]
 //
 | D1Cinclude (d1cs) => let
     val d2cs = d1eclist_tr (d1cs) in d2ecl_include (loc0, d2cs)
