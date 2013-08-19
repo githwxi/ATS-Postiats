@@ -23,6 +23,7 @@ queue-sllist2:: ; make -C queue-sllist2 cleanall
 uploadall::
 uploadall::upload_file-copying
 uploadall::upload_queue-sllist2
+uploadall::upload_loop-as-tailrec
 
 ######
 
