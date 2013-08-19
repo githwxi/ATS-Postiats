@@ -68,30 +68,6 @@ staload "./pats_histaexp.sats"
 staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
-
-implement
-hidecl_is_empty (hid) = let
-in
-//
-case+
-  hid.hidecl_node of
-//
-| HIDnone () => true
-//
-| HIDlist (xs) => list_is_nil (xs)
-//
-| HIDfundecs (_, _, xs) => list_is_nil (xs)
-//
-| HIDvaldecs (_, xs) => list_is_nil (xs)
-| HIDvaldecs_rec (_, xs) => list_is_nil (xs)
-(*
-| HIDvardecs (xs) => list_is_nil (xs)
-*)
-| _ => false
-//
-end // end of [hidecl_is_empty]
-
-(* ****** ****** *)
 //
 implement
 d2cst_get2_hisexp (d2c) =
@@ -455,6 +431,30 @@ case+
 end // end of [hidexp_is_value]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+hidecl_is_empty (hid) = let
+in
+//
+case+
+  hid.hidecl_node of
+//
+| HIDnone () => true
+//
+| HIDlist (xs) => list_is_nil (xs)
+//
+| HIDfundecs (_, _, xs) => list_is_nil (xs)
+//
+| HIDvaldecs (_, xs) => list_is_nil (xs)
+| HIDvaldecs_rec (_, xs) => list_is_nil (xs)
+(*
+| HIDvardecs (xs) => list_is_nil (xs)
+*)
+| _ => false
+//
+end // end of [hidecl_is_empty]
 
 (* ****** ****** *)
 

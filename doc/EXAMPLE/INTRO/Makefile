@@ -208,15 +208,6 @@ clean:: ; $(RMF) listfuns_dats.c
 cleanall:: ; $(RMF) listfuns listfuns.exe
 
 
-all:: mutailrec
-mutailrec: mutailrec.exe
-mutailrec.exe: mutailrec_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-mutailrec_dats.c: mutailrec.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output mutailrec_dats.c --dynamic mutailrec.dats
-clean:: ; $(RMF) mutailrec_dats.o
-clean:: ; $(RMF) mutailrec_dats.c
-cleanall:: ; $(RMF) mutailrec mutailrec.exe
-
-
 all:: ordset
 ordset: ordset.exe
 ordset.exe: ordset_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 

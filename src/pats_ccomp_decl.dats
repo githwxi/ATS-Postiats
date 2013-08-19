@@ -448,7 +448,9 @@ case+ hfds of
     val+list_cons (flab, flabs) = flabs
 //
     val () = (
-      if i = 0 then ccompenv_inc_tailcalenv (env, flab)
+      if i = 0
+        then ccompenv_inc_tailcalenv (env, flab)
+      // end of [if]
     ) // end of [val]
 //
     val istmp = list_is_cons (decarg)
@@ -554,13 +556,14 @@ fun auxlst
 in
 //
 case+ hvds of
-| list_cons (hvd, hvds) => let
+| list_cons
+    (hvd, hvds) => let
     val () = aux (env, res, lvl0, knd, hvd)
     val () = auxlst (env, res, lvl0, knd, hvds)
   in
     // nothing
   end // end of [list_cons]
-| list_nil () => ()
+| list_nil ((*void*)) => ()
 //
 end // end of [auxlst]
 

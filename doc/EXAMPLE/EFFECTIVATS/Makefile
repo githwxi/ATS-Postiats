@@ -34,4 +34,9 @@ upload_file-copying:: ; scp file-copying/* \
 upload_queue-sllist2:: ; scp queue-sllist2/* \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/queue-sllist2/
 
+upload_loop-as-tailrec:: ; scp loop-as-tailrec/* \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/loop-as-tailrec/
+
+######
+
 ###### end of [Makefile] ######
