@@ -16,7 +16,7 @@
 extern
 fun{a:t0p}
 list_copy
-  {n:int} (xs: list (a, n)): list (a, n)
+  {n:int} (xs: list (INV(a), n)): list (a, n)
 // end of [list_copy]
 
 (* ****** ****** *)
@@ -34,7 +34,7 @@ in
 //
 case+ xs of
 | list_cons (x, xs) =>
-    list_cons (x, copy (xs))
+    list_cons{a}(x, copy (xs))
 | list_nil () => list_nil ()
 //
 end // end of [copy]
@@ -48,7 +48,7 @@ end // end of [list_copy]
 extern
 fun{a:t0p}
 list_rcopy
-  {n:int} (xs: list (a, n)): list_vt (a, n)
+  {n:int} (xs: list (INV(a), n)): list_vt (a, n)
 // end of [list_copy]
 
 (* ****** ****** *)
@@ -82,11 +82,56 @@ end // end of [list_rcopy]
 extern
 fun{a:t0p}
 list_copy2
-  {n:int} (xs: list (a, n)): list_vt (a, n)
+  {n:int} (xs: list (INV(a), n)): list_vt (a, n)
 // end of [list_copy2]
 
+(* ****** ****** *)
+//
+// HX: [list_copy2] does list-traversal twice
+//
 implement{a}
 list_copy2 (xs) = list_vt_reverse (list_rcopy (xs))
+
+(* ****** ****** *)
+
+extern
+fun{a:t0p}
+list_copy3
+  {n:int} (xs: list (INV(a), n)): list_vt (a, n)
+// end of [list_copy3]
+
+(* ****** ****** *)
+//
+// HX: [list_copy3] does list-traversal only once
+//
+implement{a}
+list_copy3 (xs) = let
+//
+fun loop{n:int}
+(
+  xs: list (a, n), res: &ptr? >> list_vt (a, n)
+) : void = let
+in
+//
+case xs of
+| list_cons (x, xs1) =>
+  {
+    val () =
+    res := list_vt_cons{a}{0}(x, _)
+    val+list_vt_cons (_, res1) = res
+    val ((*void*)) = loop (xs1, res1)
+    prval () = fold@ (res)
+  } 
+| list_nil ((*void*)) => res := list_vt_nil ()
+//
+end // end of [list_copy3]
+//
+var res: ptr
+val () = loop (xs, res)
+//
+in
+  res
+end // end of [list_copy3]
 
 (* ****** ****** *)
 
@@ -94,4 +139,4 @@ implement main0 () = ()
 
 (* ****** ****** *)
 
-(* end of [list_last.dats] *)
+(* end of [list_copy.dats] *)
