@@ -42,4 +42,20 @@ staload "libats/SATS/linhashtbl_chain.sats"
 
 (* ****** ****** *)
 
+datavtype hashtbl
+(
+  key:t@ype, itm:vt@ype+
+) =
+  {m:nat}
+  HASHTBL of (
+    arrayptr (chain (key, itm), m), size_t m, size_t
+  ) (* end of [HASHTBL] *)
+// end of [hashtbl]
+
+(* ****** ****** *)
+
+assume hashtbl_vtype (key:t0p, itm:vt0p) = hashtbl (key, itm)
+
+(* ****** ****** *)
+
 (* end of [linhashtbl_chain.dats] *)

@@ -50,6 +50,14 @@ equal_key_key (x1: key, x2: key):<> bool
 
 (* ****** ****** *)
 //
+// HX: the number of stored elements
+//
+fun hashtbl_get_size
+  {key:t0p;itm:vt0p} (p: !hashtbl (key, itm)):<> size_t
+// end of [hashtbl_get_size]
+
+(* ****** ****** *)
+//
 // HX: the array size of the hashtable
 //
 fun hashtbl_get_capacity

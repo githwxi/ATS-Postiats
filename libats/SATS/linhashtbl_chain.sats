@@ -60,4 +60,11 @@ ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 
+absvtype
+chain_vtype (key:t@ype, itm:vt@ype+)
+vtypedef
+chain (key:t0p, itm:vt0p) = chain_vtype (key, itm)
+
+(* ****** ****** *)
+
 (* end of [linhashtbl_chain.sats] *)
