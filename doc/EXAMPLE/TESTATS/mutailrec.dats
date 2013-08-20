@@ -22,6 +22,10 @@ in
   if x > 0 then isodd (x-1) else true
 end // end of [isevn]
 
+(*
+Note that [isodd] is *not* available for
+subsequent use.
+*)
 and isodd
   (x: int): bool = let
   val () = println! ("isodd: x = ", x)
@@ -32,8 +36,7 @@ end // end of [isodd]
 (* ****** ****** *)
 
 implement
-main (
-) = 0 where
+main () = 0 where
 {
   val N = 9
   val () = assertloc (~isevn(N))
