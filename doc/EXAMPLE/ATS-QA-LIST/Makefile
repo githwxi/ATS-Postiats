@@ -68,6 +68,13 @@ cleanall:: ; $(RMF) qa-list-64
 
 ######
 
+all:: qa-list-66
+qa-list-66: qa-list-66.dats ; \
+  $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) qa-list-66
+
+######
+
 all:: list_last
 list_last: list_last.dats ; \
   $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<

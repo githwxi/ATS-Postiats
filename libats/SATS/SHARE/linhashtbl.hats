@@ -35,11 +35,9 @@
 //
 absvtype
 hashtbl_vtype
-  (key:t@ype, itm:vt@ype+, l:addr) = ptr(l)
+  (key:t@ype, itm:vt@ype+) = ptr
 vtypedef hashtbl
-  (key:t0p, itm: vt0p, l:addr) = hashtbl_vtype (key, itm, l)
-vtypedef hashtbl
-  (key:t0p, itm: vt0p) = [l:addr] hashtbl_vtype (key, itm, l)
+  (key:t0p, itm: vt0p) = hashtbl_vtype (key, itm)
 //
 (* ****** ****** *)
 
@@ -61,8 +59,26 @@ fun hashtbl_get_size
 // HX: the array size of the hashtable
 //
 fun hashtbl_get_capacity
-  {key:t0p;itm:vt0p} (p: !hashtbl (key, itm)):<> size_t
+  {key:t0p;itm:vt0p} (p: !hashtbl (key, itm)):<> sizeGte(1)
 // end of [hashtbl_get_capacity]
+
+(* ****** ****** *)
+
+fun
+{key:t0p
+;itm:vt0p}
+{env:vt0p}
+hashtbl_foreach$fwork
+  (k: key, x: &itm >> _, &env >> _): void
+fun
+{key:t0p
+;itm:vt0p}
+hashtbl_foreach (tbl: &hashtbl (key, itm) >> _): void
+fun
+{key:t0p
+;itm:vt0p}
+{env:vt0p}
+hashtbl_foreach_env (tbl: &hashtbl (key, itm) >> _, &env >> _): void
 
 (* ****** ****** *)
 

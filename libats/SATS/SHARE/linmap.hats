@@ -177,19 +177,19 @@ key:t0p;itm:t0p
 
 (* ****** ****** *)
 
-fun{
-key:t0p;itm:vt0p
-}{
-env:vt0p
-} linmap_foreach$cont
+fun
+{key:t0p;
+itm:vt0p}
+{env:vt0p}
+linmap_foreach$cont
   (k: key, x: &itm, env: &env): bool
 // end of [linmap_foreach$cont]
 
-fun{
-key:t0p;itm:vt0p
-}{
-env:vt0p
-} linmap_foreach$fwork
+fun
+{key:t0p
+;itm:vt0p}
+{env:vt0p}
+linmap_foreach$fwork
   (k: key, x: &itm, env: &(env) >> _): void
 // end of [linmap_foreach$fwork]
 
@@ -199,11 +199,11 @@ key:t0p;itm:vt0p
   (map: !map (key, INV(itm))): void
 // end of [linmap_foreach]
 
-fun{
-key:t0p;itm:vt0p
-}{
-env:vt0p
-} linmap_foreach_env
+fun
+{key:t0p
+;itm:vt0p}
+{env:vt0p}
+linmap_foreach_env
   (map: !map (key, INV(itm)), env: &(env) >> _): void
 // end of [linmap_foreach_env]
 

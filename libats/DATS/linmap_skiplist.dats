@@ -957,7 +957,8 @@ case+ map of
 | ~SKIPLIST
     (N, lgN, nxa) => let
     val nx0 = nxa[0]
-    val () = $extfcall (void, "ATS_MFREE", nxa)
+    val () =
+    $extfcall (void, "ATS_MFREE", nxa)
   in
     $effmask_all (sknode_freelin (nx0))
   end // end of [SKIPLIST]

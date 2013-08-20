@@ -323,8 +323,8 @@ case+ x.instr_node of
 //
 | INSmove_arrpsz_ptr (tmp, _) => tmpadd (tmp)
 //
-| INSstore_arrpsz_asz (tmp, _) => ()
-| INSstore_arrpsz_ptr (tmp, _, _) => ()
+| INSstore_arrpsz_asz (tmp, _) => tmpadd (tmp)
+| INSstore_arrpsz_ptr (tmp, _, _) => tmpadd (tmp)
 //
 | INSupdate_ptrinc (tmp(*ptr*), _(*type*)) => ()
 | INSupdate_ptrdec (tmp(*ptr*), _(*type*)) => ()

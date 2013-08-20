@@ -1367,7 +1367,6 @@ case+
   end // end of [INStrywith]
 //
 (*
-//
 | INSmove_list_nil of (tmpvar) // tmp <- list_nil
 | INSpmove_list_nil of (tmpvar) // *tmp <- list_nil
 | INSpmove_list_cons of (tmpvar) // *tmp <- list_cons
@@ -1375,12 +1374,48 @@ case+
     (tmpvar(*hd*), tmpvar(*tl*), hisexp(*elt*))
 | INSupdate_list_tail of // tl_new <- &(tl_old->next)
     (tmpvar(*new*), tmpvar(*old*), hisexp(*elt*))
-//
-| INSmove_arrpsz of
-    (tmpvar, hisexp(*elt*), int(*asz*))
-| INSupdate_ptrinc of (tmpvar, hisexp(*elt*))
-//
 *)
+//
+| INSmove_arrpsz_ptr
+    (tmp1, tmp2) => let
+    val tmp1 = ftmp (tmp1)
+    val tmp2 = ftmp (tmp2)
+  in
+    instr_move_arrpsz_ptr (loc0, tmp1, tmp2)
+  end // end of [INSmove_arrpsz_ptr]
+//
+| INSstore_arrpsz_asz
+    (tmp, asz) => let
+    val tmp = ftmp (tmp)
+  in
+    instr_store_arrpsz_asz (loc0, tmp, asz)
+  end // end of [INSstore_arrpsz_asz]
+//
+| INSstore_arrpsz_ptr
+  (
+    tmp, hse_elt, asz
+  ) => let
+    val tmp = ftmp (tmp)
+    val hse_elt = hisexp_subst (sub, hse_elt)
+  in
+    instr_store_arrpsz_ptr (loc0, tmp, hse_elt, asz)
+  end // end of [INSstore_arrpsz_ptr]
+//
+| INSupdate_ptrinc
+    (tmp, hse_elt) => let
+    val tmp = ftmp (tmp)
+    val hse_elt = hisexp_subst (sub, hse_elt)
+  in
+    instr_update_ptrinc (loc0, tmp, hse_elt)
+  end // end of [INSupdate_ptrinc]
+| INSupdate_ptrdec
+    (tmp, hse_elt) => let
+    val tmp = ftmp (tmp)
+    val hse_elt = hisexp_subst (sub, hse_elt)
+  in
+    instr_update_ptrdec (loc0, tmp, hse_elt)
+  end // end of [INSupdate_ptrdec]
+//
 | _ => ins0
 //
 end // end of [instr_subst]

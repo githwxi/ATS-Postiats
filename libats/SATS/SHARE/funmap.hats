@@ -165,19 +165,19 @@ key,itm:t0p
 
 (* ****** ****** *)
 
-fun{
-key,itm:t0p
-}{
-env:vt0p
-} funmap_foreach$cont
+fun
+{key:t0p
+;itm:t0p}
+{env:vt0p}
+funmap_foreach$cont
   (k: key, x: itm, env: &env): bool
 // end of [funmap_foreach$cont]
 
-fun{
-key,itm:t0p
-}{
-env:vt0p
-} funmap_foreach$fwork
+fun
+{key:t0p
+;itm:t0p}
+{env:vt0p}
+funmap_foreach$fwork
   (k: key, x: itm, env: &(env) >> _): void
 // end of [funmap_foreach$fwork]
 
@@ -187,11 +187,11 @@ key,itm:t0p
   (map: map (key, INV(itm))): void
 // end of [funmap_foreach]
 
-fun{
-key,itm:t0p
-}{
-env:vt0p
-} funmap_foreach_env
+fun
+{key:t0p
+;itm:t0p}
+{env:vt0p}
+funmap_foreach_env
   (map: map (key, INV(itm)), env: &(env) >> _): void
 // end of [funmap_foreach_env]
 
