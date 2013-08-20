@@ -223,9 +223,11 @@ fun{a:vt0p}
 array_ptr_takeout
   {l:addr}{n:int}{i:nat | i < n}
 (
-  pf: array_v (a, l, n) | p: ptr l, i: size_t i
+  array_v (INV(a), l, n) | ptr l, size_t i
 ) : (
-  vtakeout (array_v (a, l, n), a @ (l+i*sizeof(a))) | ptr (l+i*sizeof(a))
+  a @ (l+i*sizeof(a))
+, a @ (l+i*sizeof(a)) -<lin,prf> array_v (a, l, n)
+| ptr (l+i*sizeof(a))
 ) // end of [array_ptr_takeout]
 
 #atscode_separator()

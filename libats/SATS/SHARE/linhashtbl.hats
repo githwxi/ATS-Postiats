@@ -64,6 +64,14 @@ fun hashtbl_get_capacity
 
 (* ****** ****** *)
 
+fun{
+key:t0p;itm:vt0p
+} hashtbl_insert_any
+  (!hashtbl (key, itm), key, itm): void
+// end of [hashtbl_insert_any]
+
+(* ****** ****** *)
+
 fun
 {key:t0p
 ;itm:vt0p}
@@ -73,12 +81,12 @@ hashtbl_foreach$fwork
 fun
 {key:t0p
 ;itm:vt0p}
-hashtbl_foreach (tbl: &hashtbl (key, itm) >> _): void
+hashtbl_foreach (tbl: !hashtbl (key, itm)): void
 fun
 {key:t0p
 ;itm:vt0p}
 {env:vt0p}
-hashtbl_foreach_env (tbl: &hashtbl (key, itm) >> _, &env >> _): void
+hashtbl_foreach_env (tbl: !hashtbl (key, itm), &env >> _): void
 
 (* ****** ****** *)
 

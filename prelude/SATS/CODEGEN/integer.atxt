@@ -604,6 +604,11 @@ fun g0uint2uint_uint_ulint (x: uint):<> ulint = "mac\#%"
 fun g0uint2uint_uint_ullint (x: uint):<> ullint = "mac\#%"
 fun g0uint2uint_uint_size (x: uint):<> size_t = "mac\#%"
 //
+fun g0uint2uint_ulint_uint (x: ulint):<> uint = "mac#%"
+fun g0uint2uint_ulint_ulint (x: ulint):<> ulint = "mac#%"
+fun g0uint2uint_ulint_ullint (x: ulint):<> ullint = "mac#%"
+fun g0uint2uint_ulint_size (x: ulint):<> size_t = "mac#%"
+//
 fun g0uint2uint_size_uint (x: size_t):<> uint = "mac\#%"
 fun g0uint2uint_size_ulint (x: size_t):<> ulint = "mac\#%"
 fun g0uint2uint_size_ullint (x: size_t):<> ullint = "mac\#%"
@@ -803,6 +808,11 @@ fun g1uint2uint_uint_uint : g1uint2uint_type (uintknd, uintknd) = "mac\#%"
 fun g1uint2uint_uint_ulint : g1uint2uint_type (uintknd, ulintknd) = "mac\#%"
 fun g1uint2uint_uint_ullint : g1uint2uint_type (uintknd, ullintknd) = "mac\#%"
 fun g1uint2uint_uint_size : g1uint2uint_type (uintknd, sizeknd) = "mac\#%"
+//
+fun g1uint2uint_ulint_uint : g1uint2uint_type (uintknd, uintknd) = "mac\#%"
+fun g1uint2uint_ulint_ulint : g1uint2uint_type (uintknd, ulintknd) = "mac\#%"
+fun g1uint2uint_ulint_ullint : g1uint2uint_type (uintknd, ullintknd) = "mac\#%"
+fun g1uint2uint_ulint_size : g1uint2uint_type (uintknd, sizeknd) = "mac\#%"
 //
 fun g1uint2uint_size_uint : g1uint2uint_type (sizeknd, uintknd) = "mac\#%"
 fun g1uint2uint_size_ulint : g1uint2uint_type (sizeknd, ulintknd) = "mac\#%"

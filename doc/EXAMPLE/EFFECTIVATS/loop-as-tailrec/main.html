@@ -85,7 +85,7 @@ equivalent one that is also tail-recursive. While there is a systematic
 approach to translating recursion into tail-recursion (CPS-translation),
 this approach is in general not what one wants to use if one's focus is on
 efficiency. Instead, one mostly relies on ad hoc methods or tricks to
-handle each individual function.
+handle each individual case.
 
 <h4>
 Example 1
@@ -197,14 +197,14 @@ end // end of [fib2]
 
 It is evident that the inner funtion [loop] in the body of [fib2] is
 tail-recursive. Suppose we want to evaluate fib2(100), which generates a
-call loop(0, 0, 1), which then generates a call loop(1, 1, 1), which then
-generates a call loop(2, 1, 2), etc.  If loop(i, f0, f1) is among this
-sequence of calls, then f0 is Fibonacci number i and f1 is Fibonacci number
-i+1. This implies that the value returned by the last call in this sequence
-is Fibonacci number 100 (as i reaches 100 at that point). This argument,
-though informal, should probably be enough to convince one that [fib] and
-[fib2] are equivalent, that is, they return the same result when applied to
-a given integer.
+call of the form loop(0, 0, 1), which then generates a call of the form
+loop(1, 1, 1), which then generates a call of the form loop(2, 1, 2), etc.
+If loop(i, f0, f1) is among this sequence of calls, then f0 is Fibonacci
+number i and f1 is Fibonacci number i+1. This implies that the value
+returned by the last call in this sequence is Fibonacci number 100 (as i
+reaches 100 at that point). This argument, though informal, should probably
+be enough to convince one that [fib] and [fib2] are equivalent, that is,
+they return the same result when applied to a given integer.
 
 <p>
 
@@ -236,27 +236,24 @@ case+ xs of
 ) // end of [list_append]
 </pre>
 
-Note that this is so-called functional list concatenation as neither of the
-input lists gets modified. Clearly, [list_append] is not tail-recursive as
-the recursive call in its body is not a tail-call. If the first argument of
-a call to [list_append] is long (e.g., containing 1M elements), then it is
-very likely that an execution of this call overflows the call stack and thus
-causes a crash.
+The type assigned to [list_append] means that the function returns a list
+of length m+n when applied to two lists xs and ys of length m and n,
+respectively.  Note that this is so-called functional list concatenation as
+neither of the input lists gets modified. Clearly, [list_append] is not
+tail-recursive as the recursive call in its body is not a tail-call. If the
+first argument of a call to [list_append] is long (e.g., containing 1M
+elements), then it is very likely that an execution of this call overflows
+the call stack and thus causes a crash.
 
 <p>
 
 In order to translate [list_append] into a tail-recursive implementation,
 we need some knowledge about list construction. There are essentially two
-steps involved in evaluation list_cons(x, xs); certain memory needs to be
+steps involved in evaluating list_cons(x, xs); certain memory needs to be
 first allocated for storing a list node; then this node is initialized with
 x and xs. In ATS, it is allowed to formally separate these two steps, and
 this separation is key to obtaining a proper tail-recursive implementation
-of list concatenation.
-
-<p>
-
-The following code gives a tail-recursive implementation of list
-concatenation:
+of list concatenation as is shown in the following code:
 
 <pre>
 fun

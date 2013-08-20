@@ -92,6 +92,35 @@ end // end of [local]
 
 (* ****** ****** *)
 
+fun{
+key:t0p;itm:vt0p
+} chainarrptr_insert
+  {n:int | n >= 1}
+(
+  A: !arrayptr(chain(key, itm), n), n: size_t n, k: key, x: itm
+) : void = let
+//
+val h = hash_key<key> (k)
+val h = g1ofg0 (g0uint2uint_ulint_size(h))
+val i = g1uint_mod (h, n)
+//
+val (
+  pf0 | p0
+) = arrayptr_takeout_viewptr (A)
+val (
+  pf, fpf | pi
+) = array_ptr_takeout (pf0 | p0, i)
+val (pf | pi) = viewptr_match (pf | pi)
+val () = chain_insert<key,itm> (!pi, k, x)
+prval () = pf0 := fpf (pf)
+prval () = arrayptr_addback (pf0 | A)
+//
+in
+  // nothing
+end // end of [chainarrptr_insert]
+
+(* ****** ****** *)
+
 datavtype hashtbl
 (
   key:t@ype, itm:vt@ype+
@@ -113,7 +142,7 @@ implement
 hashtbl_get_size
   (tbl) = let
 //
-val+HASHTBL(_, _, n) = tbl in (n)
+val+HASHTBL(A, cap, n) = tbl in (n)
 //
 end // end of [hashtbl_get_size]
 
@@ -123,9 +152,22 @@ implement
 hashtbl_get_capacity
   (tbl) = let
 //
-val+HASHTBL (_, cap, _) = tbl in (cap)
+val+HASHTBL (A, cap, n) = tbl in (cap)
 //
 end // end of [hashtbl_get_capacity]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+hashtbl_insert_any
+  (tbl, k, x) = let
+//
+val+HASHTBL (A, cap, n) = tbl
+//
+in
+  chainarrptr_insert<key,itm> (A, cap, k, x)
+end // end of [hashtbl_insert_any]
 
 (* ****** ****** *)
 
@@ -136,6 +178,33 @@ hashtbl_foreach
   var env: void = () in
   hashtbl_foreach_env<key,itm><void> (tbl, env)
 end // end of [hashtbl_foreach]
+
+(* ****** ****** *)
+
+implement
+{key,itm}{env}
+hashtbl_foreach_env
+  (tbl, env) = let
+//
+vtypedef
+chain = chain (key, itm)
+//
+val+HASHTBL (A, cap, _) = tbl
+//
+local
+implement{a}{env}
+array_foreach$cont (kxs, env) = true
+implement
+array_foreach$fwork<chain><env>
+  (kxs, env) =
+  chain_foreach_env<key,itm><env> (kxs, env)
+in(* in of [local]*)
+val _(*asz*) = arrayptr_foreach_env<chain><env> (A, cap, env)
+end // end of [local]
+//
+in
+  // nothing
+end // end of [hashtbl_foreach_env]
 
 (* ****** ****** *)
 

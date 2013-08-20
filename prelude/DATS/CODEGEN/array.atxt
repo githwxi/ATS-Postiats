@@ -117,11 +117,11 @@ end // end of [array_subcirculate]
 implement{a}
 array_ptr_takeout
   {l}{n}{i}(pf | p, i) = let
-  prval pfout =
+  prval (pf, fpf) =
     array_v_takeout {a}{l}{n}{i} (pf)
   // end of [prval]
 in
-  (pfout | ptr1_add_guint<a> (p, i))
+  (pf, fpf | ptr1_add_guint<a> (p, i))
 end // end of [array_ptr_takeout]
 
 #atscode_separator()
