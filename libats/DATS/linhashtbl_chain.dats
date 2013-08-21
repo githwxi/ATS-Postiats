@@ -33,6 +33,12 @@
 
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSLIB.libats.linhashtbl_chain"
+#define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
+#define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
+
+(* ****** ****** *)
+
 staload
 UN = "prelude/SATS/unsafe.sats"
 
@@ -42,12 +48,27 @@ staload "libats/SATS/linhashtbl_chain.sats"
 
 (* ****** ****** *)
 
+#include "./SHARE/linhashtbl.hats" // code reuse
+
+(* ****** ****** *)
+
+extern
+fun{} chain_nil
+  {key:t0p;itm:vt0p}((*void*)): chain (key, itm)
+// end of [chain_nil]
+
 extern
 fun{
 key:t0p;itm:vt0p
 } chain_insert
   (kxs: &chain (key, itm) >> _, key, itm): void
 // end of [chain_insert]
+
+extern
+fun{
+key:t0p;itm:vt0p
+} chain_listize_free (chain (key, itm)): List_vt @(key, itm)
+// end of [chain_listize_free]
 
 (* ****** ****** *)
 
@@ -72,6 +93,9 @@ chain_vtype (key:t0p, itm:vt0p) = $LM.map (key, itm)
 
 in (* in of [local] *)
 
+implement{
+} chain_nil () = $LM.linmap_nil ()
+
 implement
 {key,itm}
 chain_insert (kxs, k, x) = $LM.linmap_insert_any<key,itm> (kxs, k, x)
@@ -87,6 +111,10 @@ $LM.linmap_foreach$fwork<key,itm><env> = hashtbl_foreach$fwork<key,itm><env>
 in
   $LM.linmap_foreach_env<key,itm><env> (kxs, env)
 end // end of [chain_foreach_env]
+
+implement
+{key,itm}
+chain_listize_free (kxs) = $LM.linmap_listize_free (kxs)
 
 end // end of [local]
 
@@ -139,6 +167,27 @@ hashtbl_vtype (key:t0p, itm:vt0p) = hashtbl (key, itm)
 (* ****** ****** *)
 
 implement
+{key,itm}
+hashtbl_make_nil
+  (cap) = let
+//
+vtypedef chain = chain (key, itm)
+//
+prval [n0:int]
+  EQINT () = eqint_make_guint (cap)
+//
+val p0 =
+$UN.castvwtp0{ptr}(chain_nil{key,itm}())
+val A0 = arrayptr_make_elt<ptr> (cap, p0)
+val A0 = $UN.castvwtp0{arrayptr(chain, n0)}(A0)
+//
+in
+  HASHTBL (A0, cap, i2sz(0))
+end // end of [hashtbl_make_nil]
+
+(* ****** ****** *)
+
+implement
 hashtbl_get_size
   (tbl) = let
 //
@@ -163,10 +212,14 @@ implement
 hashtbl_insert_any
   (tbl, k, x) = let
 //
-val+HASHTBL (A, cap, n) = tbl
+val+@HASHTBL (A, cap, n) = tbl
+//
+val () = n := succ(n)
+val () = chainarrptr_insert<key,itm> (A, cap, k, x)
+prval () = fold@ (tbl)
 //
 in
-  chainarrptr_insert<key,itm> (A, cap, k, x)
+  // nothing
 end // end of [hashtbl_insert_any]
 
 (* ****** ****** *)
@@ -205,6 +258,49 @@ end // end of [local]
 in
   // nothing
 end // end of [hashtbl_foreach_env]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+hashtbl_listize_free
+  (tbl) = let
+//
+vtypedef
+chain = chain (key, itm)
+//
+val+~HASHTBL (A, cap, n) = tbl
+//
+typedef tenv = ptr
+//
+vtypedef ki = @(key, itm)
+vtypedef tenv2 = List_vt (ki)
+//
+local
+implement{a}{env}
+array_rforeach$cont (x, env) = true
+implement
+array_rforeach$fwork<chain><tenv>
+  (kxs, env) = let
+  val kxs = $UN.castvwtp1{chain}(kxs)
+  val kxs = chain_listize_free<key,itm> (kxs)
+  val kxs2 = list_vt_append (kxs, $UN.castvwtp0{tenv2}(env))
+  val () = env := $UN.castvwtp0{ptr}(kxs2)
+in
+  // nothing
+end // end of [array_rforeach$fwork]
+in(* in of [local] *)
+var env: ptr
+val () = env := $UN.castvwtp0{ptr}(list_vt_nil)
+val _(*cap*) = $effmask_all
+  (arrayptr_rforeach_env<chain><tenv> (A, cap, env))
+end // end of [local]
+//
+val () = arrayptr_free ($UN.castvwtp0{arrayptr(ptr,0)}(A))
+//
+in
+  $UN.castvwtp0{tenv2}(env)
+end // end of [hashtbl_listize_free]
 
 (* ****** ****** *)
 

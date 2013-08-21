@@ -41,9 +41,14 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-fun{
-} string_hash_33
-  (str: string): ulint = let
+extern
+fun{}
+string_hash_33 (str: string):<> ulint
+
+(* ****** ****** *)
+
+implement{}
+string_hash_33 (str) = let
 //
 #define CNUL '\000'
 //
@@ -61,34 +66,19 @@ in
 end else res // end of [if]
 //
 end // end of [loop]
-
 //
 in
+  $effmask_all(loop (string2ptr(str), 314159265359UL))
 end // end of [string_hash_33]
 
-atspre_string_hash_33 (ats_ptr_type s0) {
-  unsigned long int hash_val ; unsigned char *s; int c;
-  hash_val = 3141593UL ;
-//
-  s = (unsigned char*)s0 ;
-  while (1) {
-    c = *s ;
-    if (!c) break ; // the end of string is reached
-    hash_val = ((hash_val << 5) + hash_val) + c ; // hash_val = 33 * hash_val + c
-    s += 1 ;
-  } // end of [while]
-//
-  return hash_val ;
+(* ****** ****** *)
 
-impement
-hash_key<string> (x) = string_hash_33 (x)
-
+implement
+hash_key<string> = string_hash_33<>
 
 (* ****** ****** *)
 
-implmenet{key} equal_key_key = gequal_val<key>
-
-(* ****** ****** *)
+implement{key} equal_key_key = gequal_val<key>
 
 (* ****** ****** *)
 

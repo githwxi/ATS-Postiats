@@ -47,11 +47,17 @@ fun{key:t0p}
 equal_key_key (x1: key, x2: key):<> bool
 
 (* ****** ****** *)
+
+fun{
+key:t0p;itm:vt0p
+} hashtbl_make_nil (cap: sizeGte(1)): hashtbl (key, itm)
+
+(* ****** ****** *)
 //
 // HX: the number of stored elements
 //
 fun hashtbl_get_size
-  {key:t0p;itm:vt0p} (p: !hashtbl (key, itm)):<> size_t
+  {key:t0p;itm:vt0p} (p: !hashtbl (key, INV(itm))):<> size_t
 // end of [hashtbl_get_size]
 
 (* ****** ****** *)
@@ -59,7 +65,7 @@ fun hashtbl_get_size
 // HX: the array size of the hashtable
 //
 fun hashtbl_get_capacity
-  {key:t0p;itm:vt0p} (p: !hashtbl (key, itm)):<> sizeGte(1)
+  {key:t0p;itm:vt0p} (p: !hashtbl (key, INV(itm))):<> sizeGte(1)
 // end of [hashtbl_get_capacity]
 
 (* ****** ****** *)
@@ -67,7 +73,7 @@ fun hashtbl_get_capacity
 fun{
 key:t0p;itm:vt0p
 } hashtbl_insert_any
-  (!hashtbl (key, itm), key, itm): void
+  (!hashtbl (key, INV(itm)), key, itm): void
 // end of [hashtbl_insert_any]
 
 (* ****** ****** *)
@@ -81,12 +87,20 @@ hashtbl_foreach$fwork
 fun
 {key:t0p
 ;itm:vt0p}
-hashtbl_foreach (tbl: !hashtbl (key, itm)): void
+hashtbl_foreach (tbl: !hashtbl (key, INV(itm))): void
 fun
 {key:t0p
 ;itm:vt0p}
 {env:vt0p}
-hashtbl_foreach_env (tbl: !hashtbl (key, itm), &env >> _): void
+hashtbl_foreach_env (tbl: !hashtbl (key, INV(itm)), &env >> _): void
+
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:vt0p
+} hashtbl_listize_free
+  (tbl: hashtbl (key, INV(itm))):<!wrt> List_vt @(key, itm)
+// end of [hashtbl_listize_free]
 
 (* ****** ****** *)
 

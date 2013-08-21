@@ -176,6 +176,7 @@ RMF=rm -f
 #make2_entry("libats_linset_listord", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libats_linheap_binomial", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libats_lindeque_dllist", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_linhashtbl_chain", "-DATS_MEMALLOC_LIBC", "")
 
 ######
 

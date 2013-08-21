@@ -465,6 +465,14 @@ clean:: ; $(RMF) libats_lindeque_dllist_dats.o
 clean:: ; $(RMF) libats_lindeque_dllist_dats.c
 cleanall:: ; $(RMF) libats_lindeque_dllist.exe
 
+all:: libats_linhashtbl_chain
+libats_linhashtbl_chain: libats_linhashtbl_chain.exe
+libats_linhashtbl_chain.exe: libats_linhashtbl_chain_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_linhashtbl_chain_dats.c: libats_linhashtbl_chain.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_linhashtbl_chain_dats.c --dynamic libats_linhashtbl_chain.dats
+clean:: ; $(RMF) libats_linhashtbl_chain_dats.o
+clean:: ; $(RMF) libats_linhashtbl_chain_dats.c
+cleanall:: ; $(RMF) libats_linhashtbl_chain.exe
+
 
 ######
 
