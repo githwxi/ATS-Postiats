@@ -50,6 +50,14 @@ keys are represented as (singly or doubly) linked lists.
 
 (* ****** ****** *)
 
+#declnamesynop("hashtbl_reset_capacity")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl_adjust_capacity")
+
+(* ****** ****** *)
+
 #declnamesynop("fprint_hashtbl")
 #declnamesynop("fprint_hashtbl$sep")
 #declnamesynop("fprint_hashtbl$mapto")

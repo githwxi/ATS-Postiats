@@ -169,17 +169,31 @@ end // end of [local]
 
 (* ****** ****** *)
 
+extern
 fun{
 key:t0p;itm:vt0p
-} chainarrptr_insert
-  {n:int | n >= 1}
-(
-  A: !arrayptr(chain(key, itm), n), asz: size_t n, k: key, x: itm
-) : void = let
+} htable_insert_any
+  {m:int | m >= 1} (
+  A: !arrayptr (chain (key, itm), m), m: size_t m, k: key, x: itm
+) : void // end of [htable_insert_any]
+extern
+fun{
+key:t0p;itm:vt0p
+} htable_insert_chain
+  {m:int | m >= 1} (
+  A: !arrayptr (chain (key, itm), m), m: size_t m, kxs: chain (key, itm)
+) : void // end of [htable_insert_chain]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+htable_insert_any
+  (A, m, k, x) = let
 //
 val h = hash_key<key> (k)
-val h = g1ofg0 (g0uint2uint_ulint_size(h))
-val i = g1uint_mod (h, asz)
+val h = g0uint2uint_ulint_size(h)
+val i = g1uint_mod (g1ofg0(h), m)
 //
 val (
   pf0 | p0
@@ -194,7 +208,38 @@ prval () = arrayptr_addback (pf0 | A)
 //
 in
   // nothing
-end // end of [chainarrptr_insert]
+end // end of [htable_insert_any]
+
+implement
+{key,itm}
+htable_insert_chain
+  {m} (A, m, kxs) = let
+//
+vtypedef
+chain = chain (key, itm)
+//
+fun loop
+(
+  A: !arrayptr (chain, m), m: size_t m, kxs: List_vt @(key, itm)
+) : void = let
+in
+//
+case+ kxs of
+| ~list_vt_cons
+    ((k, x), kxs) => let
+    val () = htable_insert_any<key,itm> (A, m, k, x) in loop (A, m, kxs)
+  end // end of [list_vt_cons]
+| ~list_vt_nil ((*void*)) => ()
+//
+end // end of [loop]
+//
+val kxs =
+  chain_listize_free<key,itm> (kxs)
+val kxs = list_vt_reverse (kxs)
+//
+in
+  loop (A, m, kxs)
+end // end of [htable_insert_chain]
 
 (* ****** ****** *)
 
@@ -222,13 +267,13 @@ hashtbl_make_nil
 //
 vtypedef chain = chain (key, itm)
 //
-prval [n0:int]
+prval [m:int]
   EQINT () = eqint_make_guint (cap)
 //
 val p0 =
 $UN.castvwtp0{ptr}(chain_nil{key,itm}())
 val A0 = arrayptr_make_elt<ptr> (cap, p0)
-val A0 = $UN.castvwtp0{arrayptr(chain, n0)}(A0)
+val A0 = $UN.castvwtp0{arrayptr(chain, m)}(A0)
 //
 in
   HASHTBL (A0, cap, i2sz(0))
@@ -264,8 +309,8 @@ hashtbl_search_ref
 val+HASHTBL (A, cap, n) = tbl
 //
 val h = hash_key<key> (k)
-val h = g1ofg0 (g0uint2uint_ulint_size(h))
-val i = g1uint_mod (h, cap)
+val h = g0uint2uint_ulint_size(h)
+val i = g1uint_mod (g1ofg0(h), cap)
 //
 val (
   pf0 | p0
@@ -292,8 +337,8 @@ hashtbl_insert
 val+@HASHTBL (A, cap, n) = tbl
 //
 val h = hash_key<key> (k)
-val h = g1ofg0 (g0uint2uint_ulint_size(h))
-val i = g1uint_mod (h, cap)
+val h = g0uint2uint_ulint_size(h)
+val i = g1uint_mod (g1ofg0(h), cap)
 //
 val (
   pf0 | p0
@@ -303,13 +348,16 @@ val (
 ) = array_ptr_takeout (pf0 | p0, i)
 val (pf | pi) = viewptr_match (pf | pi)
 val ans = chain_insert<key,itm> (!pi, k, x, res)
-//
-val () = if not(ans) then n := succ(n) // inserted
-//
 prval () = pf0 := fpf (pf)
 prval () = arrayptr_addback (pf0 | A)
 //
+val () = if not(ans) then n := succ(n) // inserted
+//
 prval () = fold@ (tbl)
+//
+val () =
+if hashtbl$recapacitize() > 0
+  then ignoret(hashtbl_adjust_capacity<key,itm> (tbl))
 //
 in
   ans
@@ -324,9 +372,28 @@ hashtbl_insert_any
 //
 val+@HASHTBL (A, cap, n) = tbl
 //
-val () = n := succ(n)
-val () = chainarrptr_insert<key,itm> (A, cap, k, x)
+val h = hash_key<key> (k)
+val h = g0uint2uint_ulint_size(h)
+val i = g1uint_mod (g1ofg0(h), cap)
+//
+val (
+  pf0 | p0
+) = arrayptr_takeout_viewptr (A)
+val (
+  pf, fpf | pi
+) = array_ptr_takeout (pf0 | p0, i)
+val (pf | pi) = viewptr_match (pf | pi)
+val () = chain_insert_any<key,itm> (!pi, k, x)
+prval () = pf0 := fpf (pf)
+prval () = arrayptr_addback (pf0 | A)
+//
+val () = n := succ(n) // insertion is always done
+//
 prval () = fold@ (tbl)
+//
+val () =
+if hashtbl$recapacitize() > 0
+  then ignoret(hashtbl_adjust_capacity<key,itm> (tbl))
 //
 in
   // nothing
@@ -342,8 +409,8 @@ hashtbl_takeout
 val+@HASHTBL (A, cap, n) = tbl
 //
 val h = hash_key<key> (k)
-val h = g1ofg0 (g0uint2uint_ulint_size(h))
-val i = g1uint_mod (h, cap)
+val h = g0uint2uint_ulint_size(h)
+val i = g1uint_mod (g1ofg0(h), cap)
 //
 val (
   pf0 | p0
@@ -353,17 +420,86 @@ val (
 ) = array_ptr_takeout (pf0 | p0, i)
 val (pf | pi) = viewptr_match (pf | pi)
 val ans = chain_takeout<key,itm> (!pi, k, res)
-//
-val () = if ans then n := pred(n) // removed
-//
 prval () = pf0 := fpf (pf)
 prval () = arrayptr_addback (pf0 | A)
+//
+val () = if ans then n := pred(n) // removed
 //
 prval () = fold@ (tbl)
 //
 in
   ans
 end // end of [hashtbl_takeout]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+hashtbl_reset_capacity
+  (tbl, cap2) = let
+//
+vtypedef
+chain = chain (key, itm)
+//
+val+@HASHTBL (A0, cap0, n) = tbl
+//
+prval [m2:int]
+  EQINT () = eqint_make_guint (cap2)
+//
+val p0 =
+$UN.castvwtp0{ptr}(chain_nil{key,itm}())
+val A2 = arrayptr_make_elt<ptr> (cap2, p0)
+val A2 = $UN.castvwtp0{arrayptr(chain, m2)}(A2)
+//
+fun loop
+(
+  p: ptr, m: size_t
+, A2: !arrayptr (chain, m2)
+) : void = let
+in
+//
+if m > 0 then let
+//
+val kxs = $UN.ptr0_get<chain> (p)
+val () = htable_insert_chain<key,itm> (A2, cap2, kxs)
+//
+in
+  loop (ptr0_succ<chain> (p), pred(m), A2)
+end // end of [if]
+//
+end // end of [loop]
+//
+val A = A0
+val cap = cap0
+val () = loop (ptrcast(A), cap, A2)
+val () = arrayptr_free ($UN.castvwtp0{arrayptr(ptr,0)}(A))
+//
+val () = A0 := A2
+val () = cap0 := cap2
+//
+prval () = fold@ (tbl)
+//
+in
+  true(*always*)
+end // end of [hashtbl_reset_capacity]
+
+(* ****** ****** *)
+//
+// HX: please reimplement it if needed
+//
+implement
+{key,itm}
+hashtbl_adjust_capacity
+  (tbl) = let
+//
+val+HASHTBL (A, cap, n) = tbl
+//
+in
+//
+if i2sz(5) * cap <= n
+  then hashtbl_reset_capacity (tbl, cap + cap) else false
+//
+end // end of [hashtbl_adjust_capacity]
 
 (* ****** ****** *)
 

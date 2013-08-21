@@ -41,14 +41,42 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+(*
+** HX-2013-08:
+** This one by Robert Jenkins
+** is a full-avalanche hash function
+*)
+/*
+uint32_t
+atscntrb_inthash_jenkins
+  (uint32_t a)
+{
+  a = (a+0x7ed55d16) + (a<<12);
+  a = (a^0xc761c23c) ^ (a>>19);
+  a = (a+0x165667b1) + (a<< 5);
+  a = (a+0xd3a2646c) ^ (a<< 9);
+  a = (a+0xfd7046c5) + (a<< 3);
+  a = (a^0xb55a4f09) ^ (a>>16);
+  return a;
+}
+*/
 extern
 fun{}
-string_hash_33 (str: string):<> ulint
-
+inthash_jenkins (uint32): uint32
+implement{}
+inthash_jenkins (a) =
+  $extfcall (uint32, "atscntrb_inthash_jenkins", a)
+//
 (* ****** ****** *)
 
+extern
+fun{}
+string_hash_multiplier
+(
+  K: ulint, H0: ulint, str: string
+) :<> ulint // endfun
 implement{}
-string_hash_33 (str) = let
+string_hash_multiplier (K, H0, str) = let
 //
 #define CNUL '\000'
 //
@@ -59,26 +87,33 @@ fun loop
   val c = $UN.ptr0_get<char> (p)
 in
 //
-if c > CNUL then let
-  val res = (res << 5) + res
-in
-  loop (ptr_succ<char> (p), res + $UN.cast{ulint}(c))
-end else res // end of [if]
+if c > CNUL then
+(
+  loop (ptr_succ<char> (p), K*res + $UN.cast{ulint}(c))
+) else res // end of [if]
 //
 end // end of [loop]
 //
 in
-  $effmask_all(loop (string2ptr(str), 314159265359UL))
-end // end of [string_hash_33]
+  $effmask_all(loop (string2ptr(str), H0))
+end // end of [string_hash_multiplier]
 
 (* ****** ****** *)
-
+//
+// HX: 31 and 37 are top choices
+//
 implement
-hash_key<string> = string_hash_33<>
-
+hash_key<string> (str) =
+  string_hash_multiplier (31UL, 61803398875UL, str)
+//
 (* ****** ****** *)
 
 implement{key} equal_key_key = gequal_val<key>
+
+(* ****** ****** *)
+
+implement{}
+hashtbl$recapacitize () = 1 // default policy
 
 (* ****** ****** *)
 

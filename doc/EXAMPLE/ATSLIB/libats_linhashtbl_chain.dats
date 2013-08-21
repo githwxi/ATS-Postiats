@@ -39,7 +39,7 @@ val out = stdout_ref
 typedef key = string and itm = int
 //
 val tbl =
-  hashtbl_make_nil<key,itm>(i2sz(5))
+  hashtbl_make_nil<key,itm>(i2sz(1))
 //
 val () = hashtbl_insert_any (tbl, "a", 0)
 val-~Some_vt(0) = hashtbl_insert_opt (tbl, "a", 1)
@@ -55,32 +55,19 @@ val-~Some_vt(7) = hashtbl_takeout_opt (tbl, "g")
 //
 val () = fprintln! (out, "tbl = ", tbl)
 val () = fprintln! (out, "size(tbl) = ", hashtbl_get_size (tbl))
+val () = fprintln! (out, "capacity(tbl) = ", hashtbl_get_capacity (tbl))
 //
 val-~None_vt() = hashtbl_search_opt (tbl, "?")
 val-~Some_vt(1) = hashtbl_search_opt (tbl, "a")
 val-~Some_vt(2) = hashtbl_search_opt (tbl, "b")
 val-~Some_vt(3) = hashtbl_search_opt (tbl, "c")
 //
-val kxs = hashtbl_listize_free (tbl)
-val () = let
+val true =
+hashtbl_reset_capacity (tbl, i2sz(10))
+val () = fprintln! (out, "tbl = ", tbl)
+val () = fprintln! (out, "size(tbl) = ", hashtbl_get_size (tbl))
 //
-fun loop
-(
-  kxs: List_vt @(key, itm)
-) : void = (
-  case+ kxs of
-  | ~list_vt_cons
-      ((k, x), kxs) => let
-      val () = fprintln! (out, k, " -> ", x)
-    in
-      loop (kxs)
-    end // end of [list_vt_cons]
-  | ~list_vt_nil ((*void*)) => ()
-) (* end of [loop] *)
-//
-in
-  loop (kxs)
-end // end of [val]
+val () = list_vt_free<(key,itm)> (hashtbl_listize_free (tbl))
 //
 } (* end of [val] *)
 

@@ -47,6 +47,12 @@ fun{key:t0p}
 equal_key_key (x1: key, x2: key):<> bool
 
 (* ****** ****** *)
+//
+// HX: for recapacitizing policy
+//
+fun{} hashtbl$recapacitize (): int
+//
+(* ****** ****** *)
 
 fun{
 key:t0p;itm:vt0p
@@ -132,6 +138,20 @@ key:t0p;itm:t0p
 } hashtbl_remove (
   tbl: !hashtbl (key, INV(itm)), k0: key): bool
 // end of [hashtbl_remove]
+
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:vt0p
+} hashtbl_reset_capacity
+  (tbl: !hashtbl (key, INV(itm)), cap2: sizeGte(1)): bool
+// end of [hashtbl_reset_capacity]
+
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:vt0p
+} hashtbl_adjust_capacity (!hashtbl (key, INV(itm))): bool
 
 (* ****** ****** *)
 //
