@@ -37,14 +37,27 @@ val () =
 typedef key = string and itm = int
 //
 val tbl =
-  hashtbl_make_nil<key,itm>(i2sz(1024))
+  hashtbl_make_nil<key,itm>(i2sz(5))
+//
 val () = hashtbl_insert_any (tbl, "a", 0)
-val () = hashtbl_insert_any (tbl, "b", 1)
-val () = hashtbl_insert_any (tbl, "c", 2)
-val () = hashtbl_insert_any (tbl, "d", 3)
-val () = hashtbl_insert_any (tbl, "e", 4)
-val () = hashtbl_insert_any (tbl, "f", 5)
-val () = hashtbl_insert_any (tbl, "g", 6)
+val-~Some_vt(0) = hashtbl_insert_opt (tbl, "a", 1)
+//
+val () = hashtbl_insert_any (tbl, "b", 2)
+val () = hashtbl_insert_any (tbl, "c", 3)
+val () = hashtbl_insert_any (tbl, "d", 4)
+val () = hashtbl_insert_any (tbl, "e", 5)
+val () = hashtbl_insert_any (tbl, "f", 6)
+//
+val () = hashtbl_insert_any (tbl, "g", 7)
+val-~Some_vt(7) = hashtbl_takeout_opt (tbl, "g")
+//
+val () = println! ("size(tbl) = ", hashtbl_get_size (tbl))
+//
+val-~None_vt() = hashtbl_search_opt (tbl, "?")
+val-~Some_vt(1) = hashtbl_search_opt (tbl, "a")
+val-~Some_vt(2) = hashtbl_search_opt (tbl, "b")
+val-~Some_vt(3) = hashtbl_search_opt (tbl, "c")
+//
 val kxs = hashtbl_listize_free (tbl)
 val () = let
 //

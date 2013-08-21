@@ -82,4 +82,117 @@ implement{key} equal_key_key = gequal_val<key>
 
 (* ****** ****** *)
 
+implement
+{key,itm}
+hashtbl_search
+  (t, k0, res) = let
+//
+val p = hashtbl_search_ref (t, k0)
+//
+in
+//
+if cptr2ptr(p) > 0 then let
+  val (pf, fpf | p) = $UN.cptr_vtake (p)
+  val () = res := !p
+  prval () = fpf (pf)
+  prval () = opt_some {itm} (res)
+in
+  true
+end else let
+  prval () = opt_none {itm} (res)
+in
+  false
+end // end of [if]
+//
+end // end of [hashtbl_search]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+hashtbl_search_opt
+  (tbl, k0) = let
+  var res: itm?
+  val ans = hashtbl_search (tbl, k0, res)
+in
+//
+if ans then let
+  prval () = opt_unsome {itm} (res)
+in
+  Some_vt {itm} (res)
+end else let
+  prval () = opt_unnone {itm} (res)
+in
+  None_vt {itm} ((*void*))
+end // end of [if]
+//
+end // end of [hashtbl_search_opt]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+hashtbl_insert_opt
+  (tbl, k0, x0) = let
+//
+var res: itm?
+val ans =
+  hashtbl_insert (tbl, k0, x0, res)
+//
+in
+//
+if ans then let
+  prval () = opt_unsome {itm} (res)
+in
+  Some_vt {itm} (res)
+end else let
+  prval () = opt_unnone {itm} (res)
+in
+  None_vt {itm} ((*void*))
+end // end of [if]
+//
+end // end of [hashtbl_insert_opt]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+hashtbl_takeout_opt
+  (tbl, k0) = let
+//
+var res: itm?
+val ans = hashtbl_takeout (tbl, k0, res)
+//
+in
+//
+if ans then let
+  prval () = opt_unsome {itm} (res)
+in
+  Some_vt{itm}(res)
+end else let
+  prval () = opt_unnone {itm} (res)
+in
+  None_vt{itm}((*void*))
+end // end of [if]
+//
+end // end of [hashtbl_takeout_opt]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+hashtbl_remove
+  (tbl, k0) = let
+//
+var res: itm
+val takeout =
+  hashtbl_takeout<key,itm> (tbl, k0, res)
+prval () = opt_clear (res)
+//
+in
+  takeout(*removed*)
+end // end of [hashtbl_remove]
+
+(* ****** ****** *)
+
 (* end of [linhashtbl.hats] *)

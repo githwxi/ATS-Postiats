@@ -54,21 +54,41 @@ staload "libats/SATS/linhashtbl_chain.sats"
 
 extern
 fun{} chain_nil
-  {key:t0p;itm:vt0p}((*void*)): chain (key, itm)
+  {key:t0p;itm:vt0p} (): chain (key, itm)
 // end of [chain_nil]
 
 extern
 fun{
 key:t0p;itm:vt0p
-} chain_insert
-  (kxs: &chain (key, itm) >> _, key, itm): void
-// end of [chain_insert]
+} chain_search_ref
+  (kxs: !chain (key, itm), k0: key): cPtr0(itm)
+// end of [chain_search_ref]
+
+(* ****** ****** *)
 
 extern
 fun{
 key:t0p;itm:vt0p
-} chain_listize_free (chain (key, itm)): List_vt @(key, itm)
-// end of [chain_listize_free]
+} chain_insert (
+  &chain (key, INV(itm)) >> _
+, k0: key, x0: itm, res: &itm? >> opt (itm, b)
+) : #[b:bool] bool (b) // endfun
+
+extern
+fun{
+key:t0p;itm:vt0p
+} chain_insert_any
+  (kxs: &chain (key, itm) >> _, key, itm): void
+// end of [chain_insert_any]
+
+(* ****** ****** *)
+
+extern
+fun{
+key:t0p;itm:vt0p
+} chain_takeout (
+  &chain (key, INV(itm)) >> _, k0: key, res: &itm? >> opt (itm, b)
+) : #[b:bool] bool (b) // endfun
 
 (* ****** ****** *)
 
@@ -80,6 +100,14 @@ fun
 chain_foreach_env
   (kxs: !chain (key, itm) >> _, &env >> _): void
 // end of [chain_foreach_env]
+
+(* ****** ****** *)
+
+extern
+fun{
+key:t0p;itm:vt0p
+} chain_listize_free (chain (key, itm)): List_vt @(key, itm)
+// end of [chain_listize_free]
 
 (* ****** ****** *)
 
@@ -96,9 +124,28 @@ in (* in of [local] *)
 implement{
 } chain_nil () = $LM.linmap_nil ()
 
+(* ****** ****** *)
+
 implement
 {key,itm}
-chain_insert (kxs, k, x) = $LM.linmap_insert_any<key,itm> (kxs, k, x)
+chain_search_ref = $LM.linmap_search_ref<key,itm>
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+chain_insert = $LM.linmap_insert<key,itm>
+implement
+{key,itm}
+chain_insert_any = $LM.linmap_insert_any<key,itm>
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+chain_takeout = $LM.linmap_takeout<key,itm>
+
+(* ****** ****** *)
 
 implement
 {key,itm}{env}
@@ -111,6 +158,8 @@ $LM.linmap_foreach$fwork<key,itm><env> = hashtbl_foreach$fwork<key,itm><env>
 in
   $LM.linmap_foreach_env<key,itm><env> (kxs, env)
 end // end of [chain_foreach_env]
+
+(* ****** ****** *)
 
 implement
 {key,itm}
@@ -125,12 +174,12 @@ key:t0p;itm:vt0p
 } chainarrptr_insert
   {n:int | n >= 1}
 (
-  A: !arrayptr(chain(key, itm), n), n: size_t n, k: key, x: itm
+  A: !arrayptr(chain(key, itm), n), asz: size_t n, k: key, x: itm
 ) : void = let
 //
 val h = hash_key<key> (k)
 val h = g1ofg0 (g0uint2uint_ulint_size(h))
-val i = g1uint_mod (h, n)
+val i = g1uint_mod (h, asz)
 //
 val (
   pf0 | p0
@@ -139,7 +188,7 @@ val (
   pf, fpf | pi
 ) = array_ptr_takeout (pf0 | p0, i)
 val (pf | pi) = viewptr_match (pf | pi)
-val () = chain_insert<key,itm> (!pi, k, x)
+val () = chain_insert_any<key,itm> (!pi, k, x)
 prval () = pf0 := fpf (pf)
 prval () = arrayptr_addback (pf0 | A)
 //
@@ -187,8 +236,8 @@ end // end of [hashtbl_make_nil]
 
 (* ****** ****** *)
 
-implement
-hashtbl_get_size
+implement{
+} hashtbl_get_size
   (tbl) = let
 //
 val+HASHTBL(A, cap, n) = tbl in (n)
@@ -197,13 +246,74 @@ end // end of [hashtbl_get_size]
 
 (* ****** ****** *)
 
-implement
-hashtbl_get_capacity
+implement{
+} hashtbl_get_capacity
   (tbl) = let
 //
 val+HASHTBL (A, cap, n) = tbl in (cap)
 //
 end // end of [hashtbl_get_capacity]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+hashtbl_search_ref
+  (tbl, k) = let
+//
+val+HASHTBL (A, cap, n) = tbl
+//
+val h = hash_key<key> (k)
+val h = g1ofg0 (g0uint2uint_ulint_size(h))
+val i = g1uint_mod (h, cap)
+//
+val (
+  pf0 | p0
+) = arrayptr_takeout_viewptr (A)
+val (
+  pf, fpf | pi
+) = array_ptr_takeout (pf0 | p0, i)
+val (pf | pi) = viewptr_match (pf | pi)
+val cptr = chain_search_ref<key,itm> (!pi, k)
+prval () = pf0 := fpf (pf)
+prval () = arrayptr_addback (pf0 | A)
+//
+in
+  cptr
+end // end of [hashtbl_search_ref]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+hashtbl_insert
+  (tbl, k, x, res) = let
+//
+val+@HASHTBL (A, cap, n) = tbl
+//
+val h = hash_key<key> (k)
+val h = g1ofg0 (g0uint2uint_ulint_size(h))
+val i = g1uint_mod (h, cap)
+//
+val (
+  pf0 | p0
+) = arrayptr_takeout_viewptr (A)
+val (
+  pf, fpf | pi
+) = array_ptr_takeout (pf0 | p0, i)
+val (pf | pi) = viewptr_match (pf | pi)
+val ans = chain_insert<key,itm> (!pi, k, x, res)
+//
+val () = if not(ans) then n := succ(n) // inserted
+//
+prval () = pf0 := fpf (pf)
+prval () = arrayptr_addback (pf0 | A)
+//
+prval () = fold@ (tbl)
+//
+in
+  ans
+end // end of [hashtbl_insert]
 
 (* ****** ****** *)
 
@@ -221,6 +331,39 @@ prval () = fold@ (tbl)
 in
   // nothing
 end // end of [hashtbl_insert_any]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+hashtbl_takeout
+  (tbl, k, res) = let
+//
+val+@HASHTBL (A, cap, n) = tbl
+//
+val h = hash_key<key> (k)
+val h = g1ofg0 (g0uint2uint_ulint_size(h))
+val i = g1uint_mod (h, cap)
+//
+val (
+  pf0 | p0
+) = arrayptr_takeout_viewptr (A)
+val (
+  pf, fpf | pi
+) = array_ptr_takeout (pf0 | p0, i)
+val (pf | pi) = viewptr_match (pf | pi)
+val ans = chain_takeout<key,itm> (!pi, k, res)
+//
+val () = if ans then n := pred(n) // removed
+//
+prval () = pf0 := fpf (pf)
+prval () = arrayptr_addback (pf0 | A)
+//
+prval () = fold@ (tbl)
+//
+in
+  ans
+end // end of [hashtbl_takeout]
 
 (* ****** ****** *)
 

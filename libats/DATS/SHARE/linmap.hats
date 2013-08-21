@@ -52,7 +52,9 @@ implement
 {key,itm}
 linmap_search
   (t, k0, res) = let
-  val p = linmap_search_ref (t, k0)
+//
+val p = linmap_search_ref (t, k0)
+//
 in
 //
 if cptr2ptr(p) > 0 then let
@@ -76,8 +78,10 @@ implement
 {key,itm}
 linmap_search_opt
   (map, k0) = let
-  var res: itm?
-  val ans = linmap_search (map, k0, res)
+//
+var res: itm?
+val ans = linmap_search (map, k0, res)
+//
 in
 //
 if ans then let
@@ -123,8 +127,10 @@ implement
 {key,itm}
 linmap_insert_opt
   (map, k0, x0) = let
-  var res: itm?
-  val ans = linmap_insert (map, k0, x0, res)
+//
+var res: itm?
+val ans = linmap_insert (map, k0, x0, res)
+//
 in
 //
 if ans then let
@@ -170,8 +176,10 @@ implement
 {key,itm}
 linmap_takeout_opt
   (map, k0) = let
-  var res: itm?
-  val ans = linmap_takeout (map, k0, res)
+//
+var res: itm?
+val ans = linmap_takeout (map, k0, res)
+//
 in
 //
 if ans then let
@@ -192,9 +200,12 @@ implement
 {key,itm}
 linmap_remove
   (map, k0) = let
-  var res: itm
-  val takeout = linmap_takeout<key,itm> (map, k0, res)
-  prval () = opt_clear (res)
+//
+var res: itm
+val takeout =
+  linmap_takeout<key,itm> (map, k0, res)
+prval () = opt_clear (res)
+//
 in
   takeout(*removed*)
 end // end of [linmap_remove]

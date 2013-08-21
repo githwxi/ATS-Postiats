@@ -56,7 +56,7 @@ key:t0p;itm:vt0p
 //
 // HX: the number of stored elements
 //
-fun hashtbl_get_size
+fun{} hashtbl_get_size
   {key:t0p;itm:vt0p} (p: !hashtbl (key, INV(itm))):<> size_t
 // end of [hashtbl_get_size]
 
@@ -64,9 +64,44 @@ fun hashtbl_get_size
 //
 // HX: the array size of the hashtable
 //
-fun hashtbl_get_capacity
+fun{} hashtbl_get_capacity
   {key:t0p;itm:vt0p} (p: !hashtbl (key, INV(itm))):<> sizeGte(1)
 // end of [hashtbl_get_capacity]
+
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:t0p
+} hashtbl_search (
+  tbl: !hashtbl (key, INV(itm))
+, k0: key, res: &itm? >> opt (itm, b)
+) : #[b:bool] bool (b)(*found*) // end of [hashtbl_search]
+
+fun{
+key:t0p;itm:vt0p
+} hashtbl_search_ref
+  (tbl: !hashtbl (key, INV(itm)), k0: key): cPtr0 (itm)
+// end of [hashtbl_search_ref]
+
+fun{
+key:t0p;itm:t0p
+} hashtbl_search_opt
+  (tbl: !hashtbl (key, INV(itm)), k0: key): Option_vt (itm)
+// end of [hashtbl_search_opt]
+
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:vt0p
+} hashtbl_insert (
+  tbl: !hashtbl (key, INV(itm))
+, k0: key, x0: itm, res: &itm? >> opt (itm, b)
+) : #[b:bool] bool (b) // endfun
+fun{
+key:t0p;itm:vt0p
+} hashtbl_insert_opt
+  (tbl: !hashtbl (key, INV(itm)), k0: key, x0: itm): Option_vt (itm)
+// end of [hashtbl_insert_opt]
 
 (* ****** ****** *)
 
@@ -75,6 +110,28 @@ key:t0p;itm:vt0p
 } hashtbl_insert_any
   (!hashtbl (key, INV(itm)), key, itm): void
 // end of [hashtbl_insert_any]
+
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:vt0p
+} hashtbl_takeout (
+  tbl: !hashtbl (key, INV(itm))
+, k0: key, res: &itm? >> opt (itm, b)
+) : #[b:bool] bool (b) // endfun
+fun{
+key:t0p;itm:vt0p
+} hashtbl_takeout_opt
+  (tbl: !hashtbl (key, INV(itm)), k0: key): Option_vt (itm)
+// end of [hashtbl_takeout_opt]
+
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:t0p
+} hashtbl_remove (
+  tbl: !hashtbl (key, INV(itm)), k0: key): bool
+// end of [hashtbl_remove]
 
 (* ****** ****** *)
 
