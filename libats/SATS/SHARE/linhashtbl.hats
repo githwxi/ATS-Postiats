@@ -36,8 +36,8 @@
 absvtype
 hashtbl_vtype
   (key:t@ype, itm:vt@ype+) = ptr
-vtypedef hashtbl
-  (key:t0p, itm: vt0p) = hashtbl_vtype (key, itm)
+//
+stadef hashtbl = hashtbl_vtype
 //
 (* ****** ****** *)
 
@@ -133,6 +133,20 @@ key:t0p;itm:t0p
   tbl: !hashtbl (key, INV(itm)), k0: key): bool
 // end of [hashtbl_remove]
 
+(* ****** ****** *)
+//
+fun{
+} fprint_hashtbl$sep (out: FILEref): void // "; "
+fun{
+} fprint_hashtbl$mapto (out: FILEref): void // "->"
+//
+fun{
+key,itm:t@ype
+} fprint_hashtbl
+  (out: FILEref, tbl: !hashtbl (key, INV(itm))): void
+//
+overload fprint with fprint_hashtbl
+//
 (* ****** ****** *)
 
 fun

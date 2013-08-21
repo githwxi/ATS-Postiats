@@ -175,6 +175,11 @@ xs2.  The time complexity of this function is O(|xs1|+|xs2|).  ")
 
 (* ****** ****** *)
 
+#declnamesynop("fprint_funset")
+#declnamesynop("fprint_funset$sep")
+
+(* ****** ****** *)
+
 #declnamesynop("funset_listize")
 #decldescrpt("\
 

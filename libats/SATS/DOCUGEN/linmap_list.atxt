@@ -109,10 +109,10 @@ the given map, the original link is shadowed by the newly inserted link.
 
 (* ****** ****** *)
 
-#declnamesynop("linmap_foreach$cont")
-#declnamesynop("linmap_foreach$fwork")
 #declnamesynop("linmap_foreach")
 #declnamesynop("linmap_foreach_env")
+#declnamesynop("linmap_foreach$cont")
+#declnamesynop("linmap_foreach$fwork")
 
 (* ****** ****** *)
 

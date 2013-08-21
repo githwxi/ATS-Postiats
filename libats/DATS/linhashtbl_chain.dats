@@ -368,16 +368,6 @@ end // end of [hashtbl_takeout]
 (* ****** ****** *)
 
 implement
-{key,itm}
-hashtbl_foreach
-  (tbl) = let
-  var env: void = () in
-  hashtbl_foreach_env<key,itm><void> (tbl, env)
-end // end of [hashtbl_foreach]
-
-(* ****** ****** *)
-
-implement
 {key,itm}{env}
 hashtbl_foreach_env
   (tbl, env) = let

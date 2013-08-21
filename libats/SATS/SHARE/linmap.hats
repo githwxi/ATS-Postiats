@@ -59,26 +59,9 @@ compare_key_key (x1: key, x2: key):<> int
 
 fun{}
 linmap_nil {key:t0p;itm:vt0p} ():<> map (key, itm)
-
-(* ****** ****** *)
-
 fun{}
 linmap_make_nil {key:t0p;itm:vt0p} ():<!wrt> map (key, itm)
 
-(* ****** ****** *)
-//
-fun{
-} fprint_linmap$sep (out: FILEref): void // "; "
-fun{
-} fprint_linmap$mapto (out: FILEref): void // "->"
-//
-fun{
-key,itm:t@ype
-} fprint_linmap
-  (out: FILEref, map: !map (key, INV(itm))): void
-//
-overload fprint with fprint_linmap
-//
 (* ****** ****** *)
 
 fun{
@@ -176,6 +159,20 @@ key:t0p;itm:t0p
 // end of [linmap_remove]
 
 (* ****** ****** *)
+//
+fun{
+} fprint_linmap$sep (out: FILEref): void // "; "
+fun{
+} fprint_linmap$mapto (out: FILEref): void // "->"
+//
+fun{
+key,itm:t@ype
+} fprint_linmap
+  (out: FILEref, map: !map (key, INV(itm))): void
+//
+overload fprint with fprint_linmap
+//
+(* ****** ****** *)
 
 fun
 {key:t0p;
@@ -222,7 +219,8 @@ key:t0p;itm:vt0p
 
 (* ****** ****** *)
 //
-// HX: a linear map can be properly freed only if it is empty
+// HX:
+// a linmap can be properly freed only if it is empty
 //
 fun{
 key:t0p;itm:vt0p
@@ -239,7 +237,7 @@ fun{
 key:t0p;itm:vt0p
 } linmap_listize
   (map: !map (key, INV(itm))):<!wrt> List_vt @(key, itm)
-// end of [linmap_listize_copy]
+// end of [linmap_listize]
 
 (* ****** ****** *)
 

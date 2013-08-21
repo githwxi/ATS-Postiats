@@ -215,6 +215,14 @@ output/atslib_libats_linmap_list_dats.o: output/atslib_libats_linmap_list_dats.c
 clean:: ; $(RMF) output/atslib_libats_linmap_list_dats.c
 clean:: ; $(RMF) output/atslib_libats_linmap_list_dats.o
 
+atslib_libats:: atslib_libats_linmap_randbst_dats
+atslib_libats_linmap_randbst_dats: output/atslib_libats_linmap_randbst_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_linmap_randbst_dats.c: ../../libats/DATS/linmap_randbst.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_linmap_randbst_dats.o: output/atslib_libats_linmap_randbst_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_linmap_randbst_dats.c
+clean:: ; $(RMF) output/atslib_libats_linmap_randbst_dats.o
+
 atslib_libats:: atslib_libats_linmap_skiplist_dats
 atslib_libats_linmap_skiplist_dats: output/atslib_libats_linmap_skiplist_dats.o ; $(ARR) lib/libatslib.a $<
 output/atslib_libats_linmap_skiplist_dats.c: ../../libats/DATS/linmap_skiplist.dats ; $(PATSOPT) -o $@ --dynamic $<
@@ -222,6 +230,22 @@ output/atslib_libats_linmap_skiplist_dats.o: output/atslib_libats_linmap_skiplis
   $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
 clean:: ; $(RMF) output/atslib_libats_linmap_skiplist_dats.c
 clean:: ; $(RMF) output/atslib_libats_linmap_skiplist_dats.o
+
+atslib_libats:: atslib_libats_linhashtbl_chain_dats
+atslib_libats_linhashtbl_chain_dats: output/atslib_libats_linhashtbl_chain_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_linhashtbl_chain_dats.c: ../../libats/DATS/linhashtbl_chain.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_linhashtbl_chain_dats.o: output/atslib_libats_linhashtbl_chain_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_linhashtbl_chain_dats.c
+clean:: ; $(RMF) output/atslib_libats_linhashtbl_chain_dats.o
+
+atslib_libats:: atslib_libats_linralist_nested_dats
+atslib_libats_linralist_nested_dats: output/atslib_libats_linralist_nested_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_linralist_nested_dats.c: ../../libats/DATS/linralist_nested.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_linralist_nested_dats.o: output/atslib_libats_linralist_nested_dats.c ; \
+  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_linralist_nested_dats.c
+clean:: ; $(RMF) output/atslib_libats_linralist_nested_dats.o
 
 
 ######

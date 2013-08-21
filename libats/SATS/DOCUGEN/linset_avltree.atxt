@@ -54,6 +54,13 @@ is co-variant in its type argument.\
 
 (* ****** ****** *)
 
+#declnamesynop("linset_foreach")
+#declnamesynop("linset_foreach_env")
+#declnamesynop("linset_foreach$cont")
+#declnamesynop("linset_foreach$fwork")
+
+(* ****** ****** *)
+
 #declnamesynop("linset_avltree_height")
 #decldescrpt("\
 

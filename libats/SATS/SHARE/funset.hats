@@ -62,16 +62,6 @@ fun{a:t0p}
 funset_make_list (xs: List(INV(a))):<> set(a)
 
 (* ****** ****** *)
-//
-fun{
-} fprint_funset$sep (out: FILEref): void // ", "
-//
-fun{a:t0p}
-fprint_funset (out: FILEref, set: set(INV(a))): void
-//
-overload fprint with fprint_funset
-//
-(* ****** ****** *)
 
 fun{}
 funset_is_nil {a:t0p} (xs: set(INV(a))):<> bool
@@ -166,6 +156,16 @@ funset_is_subset (xs1: set(INV(a)), xs2: set(a)):<> bool
 fun{a:t0p}
 funset_is_supset (xs1: set(INV(a)), xs2: set(a)):<> bool
 
+(* ****** ****** *)
+//
+fun{
+} fprint_funset$sep (out: FILEref): void // ", "
+//
+fun{a:t0p}
+fprint_funset (out: FILEref, set: set(INV(a))): void
+//
+overload fprint with fprint_funset
+//
 (* ****** ****** *)
 //
 fun{

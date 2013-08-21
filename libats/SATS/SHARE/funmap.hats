@@ -59,20 +59,6 @@ fun{
 } funmap_make_nil {key,itm:t0p} ():<> map (key, itm)
 
 (* ****** ****** *)
-//
-fun{
-} fprint_funmap$sep (out: FILEref): void // "; "
-fun{
-} fprint_funmap$mapto (out: FILEref): void // "->"
-//
-fun{
-key,itm:t@ype
-} fprint_funmap
-  (out: FILEref, map: map (key, INV(itm))): void
-//
-overload fprint with fprint_funmap
-//
-(* ****** ****** *)
 
 fun{
 } funmap_is_nil
@@ -163,6 +149,20 @@ key,itm:t0p
   (map: &map (key, INV(itm)) >> _, k0: key): bool
 // end of [funmap_remove]
 
+(* ****** ****** *)
+//
+fun{
+} fprint_funmap$sep (out: FILEref): void // "; "
+fun{
+} fprint_funmap$mapto (out: FILEref): void // "->"
+//
+fun{
+key,itm:t@ype
+} fprint_funmap
+  (out: FILEref, map: map (key, INV(itm))): void
+//
+overload fprint with fprint_funmap
+//
 (* ****** ****** *)
 
 fun

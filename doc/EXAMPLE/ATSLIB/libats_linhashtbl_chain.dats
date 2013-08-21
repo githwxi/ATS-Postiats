@@ -34,6 +34,8 @@ val-~list_vt_nil () = hashtbl_listize_free (tbl)
 val () =
 {
 //
+val out = stdout_ref
+//
 typedef key = string and itm = int
 //
 val tbl =
@@ -51,7 +53,8 @@ val () = hashtbl_insert_any (tbl, "f", 6)
 val () = hashtbl_insert_any (tbl, "g", 7)
 val-~Some_vt(7) = hashtbl_takeout_opt (tbl, "g")
 //
-val () = println! ("size(tbl) = ", hashtbl_get_size (tbl))
+val () = fprintln! (out, "tbl = ", tbl)
+val () = fprintln! (out, "size(tbl) = ", hashtbl_get_size (tbl))
 //
 val-~None_vt() = hashtbl_search_opt (tbl, "?")
 val-~Some_vt(1) = hashtbl_search_opt (tbl, "a")
@@ -68,7 +71,7 @@ fun loop
   case+ kxs of
   | ~list_vt_cons
       ((k, x), kxs) => let
-      val () = println! (k, " -> ", x)
+      val () = fprintln! (out, k, " -> ", x)
     in
       loop (kxs)
     end // end of [list_vt_cons]

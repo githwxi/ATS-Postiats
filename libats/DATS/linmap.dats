@@ -145,14 +145,14 @@ linmap_listize_free = $AVL.linmap_listize_free
 
 implement
 {key,itm}
-linmap_listize_copy
+linmap_listize
   (map) = let
 //
 implement
 $AVL.linmap_listize$copy<itm> = linmap_listize$copy<itm>
 //
 in
-  $AVL.linmap_listize_copy (map)
+  $AVL.linmap_listize (map)
 end // end of [linmap_listize_copy]
 
 (* ****** ****** *)

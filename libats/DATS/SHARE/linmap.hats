@@ -242,9 +242,9 @@ end // end of [linmap_foreach]
 (* ****** ****** *)
 
 implement{}
-fprint_linmap$sep (out) = fprint_string (out, "; ")
+fprint_linmap$sep (out) = fprint (out, "; ")
 implement{}
-fprint_linmap$mapto (out) = fprint_string (out, "->")
+fprint_linmap$mapto (out) = fprint (out, "->")
 
 implement
 {key,itm}

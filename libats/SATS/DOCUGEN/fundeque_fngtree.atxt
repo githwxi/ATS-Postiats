@@ -101,6 +101,11 @@ This function returns the last element of a given non-empty deque.")
 
 (* ****** ****** *)
 
+#declnamesynop("fprint_fundeque")
+#declnamesynop("fprint_fundeque$sep")
+
+(* ****** ****** *)
+
 #declnamesynop("fundeque_foreach$fwork")
 #declnamesynop("fundeque_foreach")
 #declnamesynop("fundeque_foreach_env")

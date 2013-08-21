@@ -41,12 +41,14 @@ ATS_DYNLOADFLAG 0 // no dynamic loading at run-time
 (* ****** ****** *)
 
 staload
-UN = "prelude/SATS/unsafe.sats"
+_(*anon*) = "prelude/DATS/integer.dats"
 
 (* ****** ****** *)
 
 staload
-_(*anon*) = "prelude/DATS/integer.dats"
+UN = "prelude/SATS/unsafe.sats"
+staload
+_(*anon*) = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
 
@@ -137,7 +139,7 @@ linralist_cons
 prval () = lemma_ralist_param (xs)
 //
 in
-  cons{a} (N1(x), xs)
+  cons{a} (N1{a}(x), xs)
 end // end of [linralist_cons]
 
 end // end of [local]
