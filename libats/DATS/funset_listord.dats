@@ -609,9 +609,8 @@ funset_foreach_env
 //
 val xs = list_reverse (xs)
 //
-implement
-list_vt_foreach$cont<a><env> (x, env) =
-  funset_foreach$cont<a><env> (x, env)
+implement{a}{env}
+list_vt_foreach$cont (x, env) = true
 implement
 list_vt_foreach$fwork<a><env> (x, env) =
   funset_foreach$fwork<a><env> (x, env)

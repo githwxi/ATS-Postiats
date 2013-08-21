@@ -169,10 +169,6 @@ funset_is_supset (xs1, xs2) = funset_is_subset<a> (xs2, xs1)
 (* ****** ****** *)
 
 implement
-{a}{env}
-funset_foreach$cont (x, env) = true
-
-implement
 {a}(*tmp*)
 funset_foreach (xs) = let
 //
@@ -206,6 +202,20 @@ end // end of [fprint_funset]
 
 (* ****** ****** *)
 
+implement
+{a}(*tmp*)
+funset_listize
+  (xs) = let
+//
+implement
+funset_flistize$fopr<a><a> (x) = x
+//
+in
+  funset_flistize (xs)
+end // end of [funset_listize]
+
+(* ****** ****** *)
+
 local
 
 staload Q = "libats/SATS/qlist.sats"
@@ -213,26 +223,27 @@ staload Q = "libats/SATS/qlist.sats"
 in (* in of [local] *)
 
 implement
-{a}(*tmp*)
-funset_listize
-  (xs) = let
+{a}{b}(*tmp*)
+funset_flistize (xs) = let
 //
-vtypedef tenv = $Q.qstruct (a)
+vtypedef tenv = $Q.qstruct (b)
 //
 implement
 funset_foreach$fwork<a><tenv>
-  (x, env) = $Q.qstruct_insert<a> (env, x)
-// end of [funset_foreach$fwork]
+  (x, env) =
+(
+  $Q.qstruct_insert<b> (env, funset_flistize$fopr<a><b> (x))
+) (* end of [funset_foreach$fwork] *)
 //
 var env: $Q.qstruct
-val () = $Q.qstruct_initize{a}(env)
+val () = $Q.qstruct_initize{b}(env)
 val () = $effmask_all (funset_foreach_env (xs, env))
 val res = $Q.qstruct_takeout_list (env)
-prval () = $Q.qstruct_uninitize{a}(env)
+prval () = $Q.qstruct_uninitize{b}(env)
 //
 in
   res
-end // end of [funset_listize]
+end // end of [funset_flistize]
 
 end // end of [local]
 

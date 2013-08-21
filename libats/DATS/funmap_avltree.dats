@@ -623,8 +623,6 @@ implement
 funmap_foreach_env
   (xs, env) = let
 //
-exception DISCONT of ()
-//
 val p_env = addr@ (env)
 //
 fun foreach
@@ -642,14 +640,8 @@ case+ t of
     val (
       pf, fpf | p_env
     ) = $UN.ptr_vtake (p_env)
-    val cont =
-      funmap_foreach$cont<key,itm><env> (k, x, !p_env)
     val ((*void*)) =
-    (
-      if cont then
-        funmap_foreach$fwork<key,itm><env> (k, x, !p_env)
-      else $raise DISCONT()
-    ) : void // end of [val]
+      funmap_foreach$fwork<key,itm><env> (k, x, !p_env)
     prval () = fpf (pf)
 //
     val () = foreach (tr, p_env)
@@ -662,7 +654,7 @@ case+ t of
 end // end of [foreach]
 //
 in
-  try foreach (xs, p_env) with ~DISCONT() => ()
+  foreach (xs, p_env)
 end // end of [funmap_foreach_env]
 
 (* ****** ****** *)

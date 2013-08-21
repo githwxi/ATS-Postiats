@@ -917,8 +917,6 @@ implement{a}{env}
 funset_foreach_env
   (xs, env) = let
 //
-exception DISCONT of ()
-//
 val p_env = addr@ (env)
 //
 fun foreach
@@ -936,11 +934,7 @@ case+ t of
     val (
       pf, fpf | p_env
     ) = $UN.ptr_vtake (p_env)
-    val cont = funset_foreach$cont<a><env> (x, !p_env)
-    val ((*void*)) =
-    (
-      if cont then funset_foreach$fwork<a><env> (x, !p_env) else $raise DISCONT()
-    ) : void // end of [val]
+    val () = funset_foreach$fwork<a><env> (x, !p_env)
     prval () = fpf (pf)
 //
     val () = foreach (tr, p_env)
@@ -953,7 +947,7 @@ case+ t of
 end // end of [foreach]
 //
 in
-  try foreach (xs, p_env) with ~DISCONT() => ()
+  foreach (xs, p_env)
 end // end of [funset_foreach_env]
 
 (* ****** ****** *)

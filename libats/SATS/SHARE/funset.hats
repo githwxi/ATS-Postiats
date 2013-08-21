@@ -170,9 +170,6 @@ overload fprint with fprint_funset
 //
 fun{
 a:t0p}{env:vt0p
-} funset_foreach$cont (x: a, env: &env): bool
-fun{
-a:t0p}{env:vt0p
 } funset_foreach$fwork (x: a, env: &(env) >> _): void
 //
 fun{a:t0p}
@@ -187,6 +184,15 @@ a:t0p}{env:vt0p
 
 fun{a:t0p}
 funset_listize (xs: set(INV(a))):<!wrt> List_vt (a)
+
+(* ****** ****** *)
+
+fun{
+a:t0p}{b:t0p
+} funset_flistize$fopr (x: a): b
+fun{
+a:t0p}{b:t0p
+} funset_flistize (xs: set(INV(a))):<!wrt> List_vt (b)
 
 (* ****** ****** *)
 

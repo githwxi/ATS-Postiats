@@ -169,14 +169,6 @@ fun
 {key:t0p
 ;itm:t0p}
 {env:vt0p}
-funmap_foreach$cont
-  (k: key, x: itm, env: &env): bool
-// end of [funmap_foreach$cont]
-
-fun
-{key:t0p
-;itm:t0p}
-{env:vt0p}
 funmap_foreach$fwork
   (k: key, x: itm, env: &(env) >> _): void
 // end of [funmap_foreach$fwork]
@@ -202,6 +194,21 @@ key,itm:t0p
 } funmap_listize
   (xs: map (key, INV(itm))):<!wrt> List_vt @(key, itm)
 // end of [funmap_listize]
+
+(* ****** ****** *)
+
+fun
+{key:t0p
+;itm:t0p}
+{ki2:t0p}
+funmap_flistize$fopr (k: key, i: itm): ki2
+fun
+{key:t0p
+;itm:t0p}
+{ki2:t0p}
+funmap_flistize
+  (xs: map (key, INV(itm))):<!wrt> List_vt (ki2)
+// end of [funmap_flistize]
 
 (* ****** ****** *)
 

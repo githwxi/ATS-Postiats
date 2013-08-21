@@ -153,9 +153,6 @@ funset_is_supset (xs1: set(INV(a)), xs2: set(a)):<> bool
 //
 fun{
 a:t0p}{env:vt0p
-} funset_foreach$cont (x: a, env: &env): bool
-fun{
-a:t0p}{env:vt0p
 } funset_foreach$fwork (x: a, env: &(env) >> _): void
 //
 fun{a:t0p}

@@ -87,4 +87,9 @@ O(n). ")
 
 (* ****** ****** *)
 
+#declnamesynop("funmap_flistize")
+#declnamesynop("funmap_flistize$fopr")
+
+(* ****** ****** *)
+
 (* end of [funmap_list.atxt] *)

@@ -188,6 +188,17 @@ elements in xs.  The time complexity of this function is O(|xs|).  ")
 
 (* ****** ****** *)
 
+#declnamesynop("funset_flistize")
+#decldescrpt("\
+
+Given a set xs, this function returns a linear list consisting of all the
+elements returned by calling #dyncode("funset_flistize$fopr") on elements
+in xs.  ")
+
+#declnamesynop("funset_flistize$fopr")
+
+(* ****** ****** *)
+
 #declnamesynop("funset2list")
 #decldescrpt("\
 

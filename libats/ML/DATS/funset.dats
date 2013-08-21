@@ -285,10 +285,6 @@ funset_is_supset (xs1, xs2) = funset_is_subset (xs2, xs1)
 (* ****** ****** *)
 
 implement
-{a}{env}
-funset_foreach$cont (x, env) = true
-
-implement
 {a}(*tmp*)
 funset_foreach (xs) = let
 //
@@ -300,8 +296,6 @@ implement
 {a}{env}
 funset_foreach_env (xs, env) = let
 //
-implement
-funset_foreach$cont<a><env> = $FS.funset_foreach$cont<a><env>
 implement
 funset_foreach$fwork<a><env> = $FS.funset_foreach$fwork<a><env>
 //

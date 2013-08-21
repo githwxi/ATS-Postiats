@@ -125,12 +125,6 @@ end // end of [funmap_remove]
 (* ****** ****** *)
 
 implement
-{key,itm}{env}
-funmap_foreach$cont (k, x, env) = true
-
-(* ****** ****** *)
-
-implement
 {key,itm}
 funmap_foreach
   (map) = let
@@ -169,6 +163,22 @@ end // end of [fprint_funmap]
 
 (* ****** ****** *)
 
+implement
+{key,itm}
+funmap_listize
+  (xs) = let
+//
+typedef ki = @(key, itm)
+//
+implement
+funmap_flistize$fopr<key,itm><ki> (k, x) = @(k, x)
+//
+in
+  funmap_flistize (xs)
+end // end of [funmap_listize]
+
+(* ****** ****** *)
+
 local
 
 staload Q = "libats/SATS/qlist.sats"
@@ -176,28 +186,34 @@ staload Q = "libats/SATS/qlist.sats"
 in (* in of [local] *)
 
 implement
-{key,itm}
-funmap_listize
+{key,itm}{ki2}
+funmap_flistize
   (map) = let
 //
-typedef tki = @(key, itm)
+typedef ki = @(key, itm)
 //
-vtypedef tenv = $Q.qstruct (tki)
+vtypedef tenv = $Q.qstruct (ki2)
 //
 implement
 funmap_foreach$fwork<key,itm><tenv>
-  (k, x, env) = $Q.qstruct_insert<tki> (env, @(k, x))
-// end of [funmap_foreach$fwork]
+  (k, x, env) = let
+//
+val ki2 =
+  funmap_flistize$fopr<key,itm><ki2> (k, x)
+//
+in
+  $Q.qstruct_insert<ki2> (env, ki2)
+end // end of [funmap_foreach$fwork]
 //
 var env: $Q.qstruct
-val () = $Q.qstruct_initize {tki} (env)
+val () = $Q.qstruct_initize{ki2}(env)
 val () = $effmask_all (funmap_foreach_env (map, env))
 val res = $Q.qstruct_takeout_list (env)
-prval () = $Q.qstruct_uninitize {tki} (env)
+prval () = $Q.qstruct_uninitize{ki2}(env)
 //
 in
   res
-end // end of [funmap_listize]
+end // end of [funmap_flistize]
 
 end // end of [local]
 

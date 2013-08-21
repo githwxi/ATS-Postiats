@@ -88,6 +88,11 @@ O(n). ")
 
 (* ****** ****** *)
 
+#declnamesynop("funmap_flistize")
+#declnamesynop("funmap_flistize$fopr")
+
+(* ****** ****** *)
+
 #declnamesynop("funmap_avltree_height")
 
 (* ****** ****** *)

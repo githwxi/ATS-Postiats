@@ -194,9 +194,8 @@ funmap_foreach_env
 //
 vtypedef ki = @(key, itm)
 //
-implement
-list_foreach$cont<ki><env> (kx, env) =
-  funmap_foreach$cont<key,itm><env> (kx.0, kx.1, env)
+implement{ki}{env}
+list_foreach$cont (kx, env) = true
 implement
 list_foreach$fwork<ki><env> (kx, env) =
   funmap_foreach$fwork<key,itm><env> (kx.0, kx.1, env)
