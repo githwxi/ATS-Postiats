@@ -70,7 +70,13 @@ keys are represented as (singly or doubly) linked lists.
 
 (* ****** ****** *)
 
-#declnamesynop("hashtbl_listize_free")
+#declnamesynop("hashtbl_listize")
+#declnamesynop("hashtbl_flistize")
+#declnamesynop("hashtbl_flistize$fopr")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl_listize1")
 
 (* ****** ****** *)
 

@@ -225,22 +225,6 @@ end // end of [linmap_free]
 
 (* ****** ****** *)
 
-implement
-{key,itm}{env}
-linmap_foreach$cont (k, x, env) = true
-
-(* ****** ****** *)
-
-implement
-{key,itm}
-linmap_foreach
-  (map) = let
-  var env: void = () in
-  linmap_foreach_env<key,itm><void> (map, env)
-end // end of [linmap_foreach]
-
-(* ****** ****** *)
-
 implement{}
 fprint_linmap$sep (out) = fprint (out, "; ")
 implement{}
@@ -269,6 +253,16 @@ end // end of [fprint_linmap]
 
 (* ****** ****** *)
 
+implement
+{key,itm}
+linmap_foreach
+  (map) = let
+  var env: void = () in
+  linmap_foreach_env<key,itm><void> (map, env)
+end // end of [linmap_foreach]
+
+(* ****** ****** *)
+
 local
 
 staload Q = "libats/SATS/qlist.sats"
@@ -277,53 +271,30 @@ in (* in of [local] *)
 
 implement
 {key,itm}
-linmap_listize
+linmap_listize1
   (map) = let
 //
-vtypedef tki = @(key, itm)
-vtypedef tenv = $Q.qstruct (tki)
+vtypedef ki = @(key, itm)
+vtypedef tenv = $Q.qstruct (ki)
 //
 implement
 linmap_foreach$fwork<key,itm><tenv>
   (k, x, env) = let
-  val x2 = linmap_listize$copy (x)
 in
-  $Q.qstruct_insert<tki> (env, @(k, x2))
+  $Q.qstruct_insert<ki> (env, @(k, x))
 end // end of [linmap_foreach$fwork]
 //
 var env: $Q.qstruct
-val () = $Q.qstruct_initize {tki} (env)
+val () = $Q.qstruct_initize{ki}(env)
 val () = $effmask_all (linmap_foreach_env<key,itm><tenv> (map, env))
 val res = $Q.qstruct_takeout_list (env)
-prval () = $Q.qstruct_uninitize {tki} (env)
+prval () = $Q.qstruct_uninitize{ki}(env)
 //
 in
   res
-end // end of [linmap_listize_copy]
+end // end of [linmap_listize1]
 
 end // end of [local]
-
-(* ****** ****** *)
-
-implement
-{key,itm}
-linmap_listize_free
-  (map) = kxs where {
-//
-extern praxi __assert1 (x: &itm? >> itm): void
-extern praxi __assert2 (x: &(itm) >> itm?): void
-//
-implement
-linmap_listize$copy<itm> (x) =
-  let val x2 = x; prval () = __assert1 (x) in x2 end
-val kxs = linmap_listize (map)
-//
-implement
-linmap_freelin$clear<itm> (x) =
-  let prval () = __assert2 (x) in (* DoNothing *) end
-val () = linmap_freelin<key,itm> (map)
-//
-} // end of [linmap_listize_free]
 
 (* ****** ****** *)
 

@@ -60,4 +60,8 @@ linset_copy (xs: !set (a)):<!wrt> set (a)
 
 (* ****** ****** *)
 
+
+
+(* ****** ****** *)
+
 (* end of [linset.hats] *)

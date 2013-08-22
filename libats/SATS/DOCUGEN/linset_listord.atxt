@@ -1,20 +1,20 @@
 (* ****** ****** *)
 
 %{
-implement srcfilename_get () = "../linset_avltree.sats"
+implement srcfilename_get () = "../linset_listord.sats"
 %}
 
 (* ****** ****** *)
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/libats_linset_avltree")
+val () = patscode_prefix_set("TRYIT/libats_linset_listord")
 %}
 
 (* ****** ****** *)
 
 #decltitle("\
-ATSLIB/libats/linset_avltree\
+ATSLIB/libats/linset_listord\
 ")
 
 (* ****** ****** *)
@@ -23,8 +23,10 @@ ATSLIB/libats/linset_avltree\
 
 #para("\
 
-This package implements linear sets based on the AVL-tree structure.  Note
-that such sets are particularly efficient for supporting search operations.
+This package implements linear sets based on ordered lists.
+Note that this implementation should only be used for handling
+sets that are relatively small (e.g., containing less than 100
+elements).
 
 ")
 
@@ -60,12 +62,4 @@ is co-variant in its type argument.\
 
 (* ****** ****** *)
 
-#declnamesynop("linset_avltree_height")
-#decldescrpt("\
-
-Given a set xs represented by some AVL-tree, this function returns the
-height of the tree. ")
-
-(* ****** ****** *)
-
-(* end of [linset_avltree.atxt] *)
+(* end of [linset_listord.atxt] *)

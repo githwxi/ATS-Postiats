@@ -230,16 +230,6 @@ end // end of [hashtbl_remove]
 
 (* ****** ****** *)
 
-implement
-{key,itm}
-hashtbl_foreach
-  (tbl) = let
-  var env: void = () in
-  hashtbl_foreach_env<key,itm><void> (tbl, env)
-end // end of [hashtbl_foreach]
-
-(* ****** ****** *)
-
 implement{}
 fprint_hashtbl$sep (out) = fprint (out, "; ")
 implement{}
@@ -265,6 +255,16 @@ var env: int = 0
 in
   hashtbl_foreach_env<key,itm><int> (tbl, env)
 end // end of [fprint_hashtbl]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+hashtbl_foreach
+  (tbl) = let
+  var env: void = () in
+  hashtbl_foreach_env<key,itm><void> (tbl, env)
+end // end of [hashtbl_foreach]
 
 (* ****** ****** *)
 

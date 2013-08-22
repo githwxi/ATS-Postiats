@@ -26,7 +26,7 @@ val () =
 {
 val tbl =
   hashtbl_make_nil<string,string>(i2sz(1024))
-val-~list_vt_nil () = hashtbl_listize_free (tbl)
+val-~list_vt_nil () = hashtbl_listize (tbl)
 } // end of [val]
 
 (* ****** ****** *)
@@ -67,7 +67,7 @@ hashtbl_reset_capacity (tbl, i2sz(10))
 val () = fprintln! (out, "tbl = ", tbl)
 val () = fprintln! (out, "size(tbl) = ", hashtbl_get_size (tbl))
 //
-val () = list_vt_free<(key,itm)> (hashtbl_listize_free (tbl))
+val () = list_vt_free<(key,itm)> (hashtbl_listize (tbl))
 //
 } (* end of [val] *)
 

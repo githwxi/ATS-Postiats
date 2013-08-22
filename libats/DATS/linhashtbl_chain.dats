@@ -106,8 +106,8 @@ chain_foreach_env
 extern
 fun{
 key:t0p;itm:vt0p
-} chain_listize_free (chain (key, itm)): List_vt @(key, itm)
-// end of [chain_listize_free]
+} chain_listize (chain (key, itm)): List_vt @(key, itm)
+// end of [chain_listize]
 
 (* ****** ****** *)
 
@@ -163,7 +163,7 @@ end // end of [chain_foreach_env]
 
 implement
 {key,itm}
-chain_listize_free (kxs) = $LM.linmap_listize_free (kxs)
+chain_listize (kxs) = $LM.linmap_listize (kxs)
 
 end // end of [local]
 
@@ -234,7 +234,7 @@ case+ kxs of
 end // end of [loop]
 //
 val kxs =
-  chain_listize_free<key,itm> (kxs)
+  chain_listize<key,itm> (kxs)
 val kxs = list_vt_reverse (kxs)
 //
 in
@@ -532,7 +532,7 @@ end // end of [hashtbl_foreach_env]
 
 implement
 {key,itm}
-hashtbl_listize_free
+hashtbl_listize
   (tbl) = let
 //
 vtypedef
@@ -552,7 +552,7 @@ implement
 array_rforeach$fwork<chain><tenv>
   (kxs, env) = let
   val kxs = $UN.castvwtp1{chain}(kxs)
-  val kxs = chain_listize_free<key,itm> (kxs)
+  val kxs = chain_listize<key,itm> (kxs)
   val kxs2 = list_vt_append (kxs, $UN.castvwtp0{tenv2}(env))
   val () = env := $UN.castvwtp0{ptr}(kxs2)
 in
@@ -569,7 +569,7 @@ val () = arrayptr_free ($UN.castvwtp0{arrayptr(ptr,0)}(A))
 //
 in
   $UN.castvwtp0{tenv2}(env)
-end // end of [hashtbl_listize_free]
+end // end of [hashtbl_listize]
 
 (* ****** ****** *)
 

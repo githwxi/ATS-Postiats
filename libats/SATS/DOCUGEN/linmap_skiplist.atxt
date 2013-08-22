@@ -202,16 +202,20 @@ Otherwise, the function keeps the map and returns true. ")
 #decldescrpt("\
 
 This function returns a linear list of pairs consisting of keys and
-their associated items in a given map while keeping the map. ")
-#declnamesynop("linmap_listize$copy")
+their associated items in a given map while freeing the map. ")
 
 (* ****** ****** *)
 
-#declnamesynop("linmap_listize_free")
+#declnamesynop("linmap_flistize")
+#declnamesynop("linmap_flistize2fopr")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_listize1")
 #decldescrpt("\
 
 This function returns a linear list of pairs consisting of keys and
-their associated items in a given map while freeing the map. ")
+their associated items in a given map while keeping the map. ")
 
 (* ****** ****** *)
 

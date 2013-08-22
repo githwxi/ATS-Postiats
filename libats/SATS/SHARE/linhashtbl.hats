@@ -168,7 +168,7 @@ key,itm:t@ype
 overload fprint with fprint_hashtbl
 //
 (* ****** ****** *)
-
+//
 fun
 {key:t0p
 ;itm:vt0p}
@@ -183,15 +183,36 @@ fun
 {key:t0p
 ;itm:vt0p}
 {env:vt0p}
-hashtbl_foreach_env (tbl: !hashtbl (key, INV(itm)), &env >> _): void
+hashtbl_foreach_env
+  (tbl: !hashtbl (key, INV(itm)), &env >> _): void
+//
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:vt0p
+} hashtbl_listize
+  (tbl: hashtbl (key, INV(itm))):<!wrt> List_vt @(key, itm)
+// end of [hashtbl_listize]
+fun
+{key:t0p
+;itm:vt0p}
+{ki2:vt0p}
+hashtbl_flistize$fopr (k: key, x: itm): ki2
+fun
+{key:t0p
+;itm:vt0p}
+{ki2:vt0p}
+hashtbl_flistize
+  (tbl: hashtbl (key, INV(itm))):<!wrt> List_vt (ki2)
+// end of [hashtbl_flistize]
 
 (* ****** ****** *)
 
 fun{
 key:t0p;itm:vt0p
-} hashtbl_listize_free
-  (tbl: hashtbl (key, INV(itm))):<!wrt> List_vt @(key, itm)
-// end of [hashtbl_listize_free]
+} hashtbl_listize1
+  (tbl: !hashtbl (key, INV(itm))):<!wrt> List_vt @(key, itm)
+// end of [hashtbl_listize1]
 
 (* ****** ****** *)
 

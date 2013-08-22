@@ -876,23 +876,18 @@ sknode_foreach_env
   val p_nx = sknode2ptr (nx)
 in
 //
-if p_nx > nullp then let
+if p_nx > 0 then let
   val k = sknode_get_key (nx)
   val p_i = sknode_getref_item (nx)
   val nx1 = sknode_get_next<key,itm> (nx, 0)
 //
-  val (pf, fpf | p_i) = $UN.cptr_vtake {itm} (p_i)
+  val (pf, fpf | p_i) = $UN.cptr_vtake{itm}(p_i)
+  val () =
+    linmap_foreach$fwork<key,itm><env> (k, !p_i, env)
+  prval () = fpf (pf)
 //
-  val test = linmap_foreach$cont<key,itm><env> (k, !p_i, env)
 in
-  if test then let
-    val () = linmap_foreach$fwork<key,itm><env> (k, !p_i, env)
-    prval () = fpf (pf)
-  in
-    sknode_foreach_env (nx1, env)
-  end else let
-    prval () = fpf (pf) in (*nothing*)
-  end // end of [if]
+  sknode_foreach_env (nx1, env)
 end else () // end of [if]
 //
 end // end of [sknode_foreach_env]

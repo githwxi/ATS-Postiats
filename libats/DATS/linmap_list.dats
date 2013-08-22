@@ -146,9 +146,8 @@ linmap_foreach_env
 //
 vtypedef ki = @(key, itm)
 //
-implement
-list_vt_foreach$cont<ki><env>
-  (kx, env) = linmap_foreach$cont<key,itm><env> (kx.0, kx.1, env)
+implement{ki}{env}
+list_vt_foreach$cont (kx, env) = true
 implement
 list_vt_foreach$fwork<ki><env>
   (kx, env) = linmap_foreach$fwork<key,itm><env> (kx.0, kx.1, env)
@@ -163,7 +162,26 @@ end // end of [linmap_foreach_env]
 //
 implement
 {key,itm}
-linmap_listize_free (map) = map
+linmap_listize (map) = map
+
+implement
+{key,itm}{ki2}
+linmap_flistize (map) = let
+//
+vtypedef ki = @(key, itm) 
+implement
+list_vt_mapfree$fopr<ki><ki2>
+  (kx) = linmap_flistize$fopr<key,itm><ki2> (kx.0, kx.1)
+//
+in
+  list_vt_mapfree (map)
+end // end of [linmap_flistize]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_listize1 (map) = list_vt_copy<(key,itm)> (map)
 
 (* ****** ****** *)
 //

@@ -84,11 +84,12 @@ bstree (
 (* ****** ****** *)
 
 vtypedef
-bstree0 (key:t0p, itm:vt0p) = [n:nat] bstree (key, itm, n)
+bstree0 (k:t0p, i:vt0p) = [n:nat] bstree (k, i, n)
 
 (* ****** ****** *)
 
-assume map_vtype (key:t0p, itm:vt0p) = bstree0 (key, itm)
+assume
+map_vtype (key:t0p, itm:vt0p) = bstree0 (key, itm)
 
 (* ****** ****** *)
 
@@ -460,8 +461,6 @@ implement
 linmap_foreach_env
   (map, env) = let
 //
-exception DISCONT of ()
-//
 fun aux{n:nat} .<n>.
 (
   t: !bstree (key, itm, n), env: &(env) >> _
@@ -474,16 +473,13 @@ case+ t of
     n, k, x, tl, tr
   ) => let
     val () = aux (tl, env)
-    val () =
-      if ~linmap_foreach$cont<key,itm><env> (k, x, env) then $raise DISCONT()
-    // end of [val]
     val () = linmap_foreach$fwork<key,itm><env> (k, x, env)
     val () = aux (tr, env)
     prval () = fold@ (t)
   in
     // nothing
   end // end of [BSTcons]
-| BSTnil () => ()
+| BSTnil ((*void*)) => ()
 //
 end // end of [aux]
 //
@@ -506,7 +502,7 @@ end // end of [aux2]
 val map = $UN.castvwtp1{ptr}(map)
 //
 in
-  try aux2 (map, env) with ~DISCONT () => ()
+  aux2 (map, env)
 end // end of [linmap_foreach_env]
 
 (* ****** ****** *)
@@ -534,7 +530,7 @@ case+ t of
   in
     // nothing
   end // end of [BSTcons]
-| ~BSTnil () => ()
+| ~BSTnil ((*void*)) => ()
 //
 end // end of [aux]
 //
@@ -576,40 +572,44 @@ end // end of [linmap_free_ifnil]
 (* ****** ****** *)
 
 implement
-{key,itm}
-linmap_listize_free
+{key,itm}{ki2}
+linmap_flistize
   (map) = let
 //
 vtypedef ki = @(key, itm)
 //
 fun aux
   {m,n:nat} .<n>. (
-  t: bstree (key, itm, n), res: list_vt (ki, m)
-) :<!wrt> list_vt (ki, m+n) = let
+  t: bstree (key, itm, n), res: list_vt (ki2, m)
+) : list_vt (ki2, m+n) = let
 in
 //
 case+ t of
 | ~BSTcons
   (
-    _, k, i, tl, tr
+    _, k, x, tl, tr
   ) => res where {
-    val res = aux (tr, res)
-    val res = list_vt_cons{ki}((k, i), res)
     val res = aux (tl, res)
+    val kx2 =
+      linmap_flistize$fopr<key,itm><ki2> (k, x)
+    val res = list_vt_cons{ki2}(kx2, res)
+    val res = aux (tr, res)
   } // end of [BSTcons]
 | ~BSTnil () => res
 //
 end // end of [aux]
 //
+val res = aux (map, list_vt_nil ())
+//
 in
-  aux (map, list_vt_nil ())
-end // end of [linmap_listize_free]
+  list_vt_reverse (res)
+end // end of [linmap_flistize]
 
 (* ****** ****** *)
 
 implement
 {key,itm}
-linmap_listize
+linmap_listize1
   (map) = let
 //
 vtypedef ki = @(key, itm)
@@ -622,20 +622,21 @@ in
 //
 case+ t0 of
 | @BSTcons (
-    _, k, i, tl, tr
+    _, k, x, tl, tr
   ) => res where {
-    val res = aux (tr, res)
-    val i2 = linmap_listize$copy<itm> (i)
-    val res = list_vt_cons{ki}((k, i2), res)
     val res = aux (tl, res)
-    prval () = fold@ (t0)
+    val res = list_vt_cons{ki}((k, x), res)
+    val res = aux (tr, res)
+    prval ((*void*)) = fold@ (t0)
   } // end of [BSTcons]
 | BSTnil () => (res)
 //
 end // end of [aux]
 //
+val res = aux (map, list_vt_nil ())
+//
 in
-  aux (map, list_vt_nil ())
+  list_vt_reverse (res)
 end // end of [linmap_listize]
 
 (* ****** ****** *)

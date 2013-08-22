@@ -33,9 +33,7 @@
 
 (* ****** ****** *)
 
-staload "libats/SATS/linset.sats"
-
-(* ****** ****** *)
+staload "libats/SATS/linset_avltree.sats"
 
 (* ****** ****** *)
 
