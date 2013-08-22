@@ -192,7 +192,7 @@ a:t0p}{b:t0p
 } funset_flistize$fopr (x: a): b
 fun{
 a:t0p}{b:t0p
-} funset_flistize (xs: set(INV(a))):<!wrt> List_vt (b)
+} funset_flistize (xs: set(INV(a))): List_vt (b)
 
 (* ****** ****** *)
 

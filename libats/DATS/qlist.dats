@@ -401,9 +401,10 @@ prval ((*prf*)) = fold@ (q)
 
 (* ****** ****** *)
 
-implement{a}
+implement{}
 qlist_takeout_list
-  {n} (pq) = xs where {
+  {a}{n}(pq) = xs where
+{
 //
 val+@QLIST (nxf, p_nxr) = pq
 val () = $UN.ptr0_set<ptr> (p_nxr, the_null_ptr)
@@ -412,6 +413,22 @@ val () = p_nxr := addr@ (nxf)
 prval ((*prf*)) = fold@ (pq)
 //
 } // end of [qlist_takeout_list]
+
+implement{}
+qstruct_takeout_list
+  {a}{n}(que) = let
+//
+val pq = addr@(que)
+val pq2 = ptr2ptrlin (pq)
+prval pfngc = qstruct_objfize (view@(que) | pq2)
+val xs = qlist_takeout_list (pq2)
+prval pfat = qstruct_unobjfize (pfngc | pq, pq2)
+prval () = view@(que) := pfat
+prval () = ptrlin_free (pq2)
+//
+in
+  xs
+end // end of [qstruct_takeout_list]
 
 (* ****** ****** *)
 

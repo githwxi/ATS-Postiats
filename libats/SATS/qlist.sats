@@ -139,8 +139,9 @@ qlist_takeout_opt (q: !qlist (INV(a)) >> _):<!wrt> Option_vt(a)
 
 (* ****** ****** *)
 
-fun{a:vt0p}
-qlist_takeout_list{n:int}
+fun{
+} qlist_takeout_list
+  {a:vt0p}{n:int}
   (q: !qlist (INV(a), n) >> qlist (a, 0)):<!wrt> list_vt (a, n)
 // end of [qlist_takeout_list]
 
@@ -212,9 +213,13 @@ qstruct_insert{n:int}
 fun{a:vt0p}
 qstruct_takeout{n:pos}
   (q: &qstruct (INV(a), n) >> qstruct (a, n-1)):<!wrt> (a)
-fun{a:vt0p}
+
+(* ****** ****** *)
+
+fun{}
 qstruct_takeout_list
-  {n:int} (q: &qstruct (INV(a), n) >> qstruct (a, 0)):<!wrt> list_vt (a, n)
+  {a:vt0p}{n:int}
+  (q: &qstruct (INV(a), n) >> qstruct (a, 0)):<!wrt> list_vt (a, n)
 // end of [qstruct_takeout_list]
 
 (* ****** ****** *)
@@ -223,7 +228,8 @@ qstruct_takeout_list
 //
 (* ****** ****** *)
 
-absvtype qlist_node_vtype (a:vt@ype+, l:addr) = ptr
+absvtype
+qlist_node_vtype (a:vt@ype+, l:addr) = ptr
 
 (* ****** ****** *)
 

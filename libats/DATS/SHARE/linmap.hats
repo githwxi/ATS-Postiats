@@ -277,11 +277,18 @@ linmap_listize1
 vtypedef ki = @(key, itm)
 vtypedef tenv = $Q.qstruct (ki)
 //
-implement
-linmap_foreach$fwork<key,itm><tenv>
+implement(env)
+linmap_foreach$fwork<key,itm><env>
   (k, x, env) = let
+//
+val (
+  pf, fpf | p
+) = $UN.ptr_vtake{tenv}(addr@(env))
+val () = $Q.qstruct_insert<ki> (env, @(k, x))
+prval () = fpf (pf)
+//
 in
-  $Q.qstruct_insert<ki> (env, @(k, x))
+  // nothing
 end // end of [linmap_foreach$fwork]
 //
 var env: $Q.qstruct

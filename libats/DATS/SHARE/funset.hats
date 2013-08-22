@@ -211,7 +211,7 @@ implement
 funset_flistize$fopr<a><a> (x) = x
 //
 in
-  funset_flistize (xs)
+  $effmask_all (funset_flistize (xs))
 end // end of [funset_listize]
 
 (* ****** ****** *)
@@ -228,16 +228,24 @@ funset_flistize (xs) = let
 //
 vtypedef tenv = $Q.qstruct (b)
 //
-implement
-funset_foreach$fwork<a><tenv>
-  (x, env) =
-(
-  $Q.qstruct_insert<b> (env, funset_flistize$fopr<a><b> (x))
-) (* end of [funset_foreach$fwork] *)
+implement(env)
+funset_foreach$fwork<a><env>
+  (x, env) = let
+//
+val (
+  pf, fpf | p
+) = $UN.ptr_vtake{tenv}(addr@(env))
+val y = funset_flistize$fopr<a><b> (x)
+val () = $Q.qstruct_insert<b> (!p, y)
+prval () = fpf (pf)
+//
+in
+  // nothing
+end (* end of [funset_foreach$fwork] *)
 //
 var env: $Q.qstruct
 val () = $Q.qstruct_initize{b}(env)
-val () = $effmask_all (funset_foreach_env (xs, env))
+val () = funset_foreach_env<a><tenv> (xs, env)
 val res = $Q.qstruct_takeout_list (env)
 prval () = $Q.qstruct_uninitize{b}(env)
 //

@@ -16,7 +16,13 @@
 (* ****** ****** *)
 
 staload "libats/SATS/funmap_avltree.sats"
-staload _(*anon*) = "libats/DATS/funmap_avltree.dats"
+
+(* ****** ****** *)
+
+staload
+_(*anon*) = "libats/DATS/qlist.dats"
+staload
+_(*anon*) = "libats/DATS/funmap_avltree.dats"
 
 (* ****** ****** *)
 
@@ -81,13 +87,16 @@ typedef map = map (key, itm)
 //
 var map = funmap_make_nil {key,itm} ()
 //
-val-~None_vt() = funmap_insert_opt (map, 0, "0")
+val-~None_vt() = funmap_insert_opt (map, 0, "?")
+val-~Some_vt("?") = funmap_insert_opt (map, 0, "0")
 val-~None_vt() = funmap_insert_opt (map, 1, "1")
 val-~None_vt() = funmap_insert_opt (map, 2, "2")
 val-~None_vt() = funmap_insert_opt (map, 3, "3")
 val-~None_vt() = funmap_insert_opt (map, 4, "4")
 //
 val () = assertloc (funmap_size (map) = 5)
+//
+val () = list_vt_free (funmap_listize (map))
 //
 val () = fprintln! (stdout_ref, "map = ", map)
 //

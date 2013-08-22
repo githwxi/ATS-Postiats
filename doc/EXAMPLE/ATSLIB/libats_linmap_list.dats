@@ -92,6 +92,8 @@ val () = assertloc (linmap_size (map) = 5)
 //
 val () = fprintln! (stdout_ref, "map = ", map)
 //
+val () = list_vt_free (linmap_listize1 (map))
+//
 val-~Some_vt("0") = linmap_takeout_opt (map, 0)
 val-~Some_vt("1") = linmap_takeout_opt (map, 1)
 val-~Some_vt("2") = linmap_takeout_opt (map, 2)

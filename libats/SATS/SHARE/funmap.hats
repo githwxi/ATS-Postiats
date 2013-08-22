@@ -207,7 +207,7 @@ fun
 ;itm:t0p}
 {ki2:t0p}
 funmap_flistize
-  (xs: map (key, INV(itm))):<!wrt> List_vt (ki2)
+  (xs: map (key, INV(itm))): List_vt (ki2)
 // end of [funmap_flistize]
 
 (* ****** ****** *)

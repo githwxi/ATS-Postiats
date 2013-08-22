@@ -174,7 +174,7 @@ implement
 funmap_flistize$fopr<key,itm><ki> (k, x) = @(k, x)
 //
 in
-  funmap_flistize (xs)
+  $effmask_all (funmap_flistize<key,itm><ki> (xs))
 end // end of [funmap_listize]
 
 (* ****** ****** *)
@@ -194,20 +194,28 @@ typedef ki = @(key, itm)
 //
 vtypedef tenv = $Q.qstruct (ki2)
 //
-implement
-funmap_foreach$fwork<key,itm><tenv>
+implement(env)
+funmap_foreach$fwork<key,itm><env>
   (k, x, env) = let
+//
+val (
+  pf, fpf | p
+) = $UN.ptr_vtake{tenv}(addr@(env))
 //
 val ki2 =
   funmap_flistize$fopr<key,itm><ki2> (k, x)
 //
+val () = $Q.qstruct_insert<ki2> (!p, ki2)
+//
+prval () = fpf (pf)
+//
 in
-  $Q.qstruct_insert<ki2> (env, ki2)
+  // nothing
 end // end of [funmap_foreach$fwork]
 //
 var env: $Q.qstruct
 val () = $Q.qstruct_initize{ki2}(env)
-val () = $effmask_all (funmap_foreach_env (map, env))
+val () = funmap_foreach_env<key,itm><tenv> (map, env)
 val res = $Q.qstruct_takeout_list (env)
 prval () = $Q.qstruct_uninitize{ki2}(env)
 //

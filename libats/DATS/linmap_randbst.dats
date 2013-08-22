@@ -607,6 +607,7 @@ end // end of [linmap_flistize]
 
 (* ****** ****** *)
 
+(*
 implement
 {key,itm}
 linmap_listize1
@@ -637,7 +638,8 @@ val res = aux (map, list_vt_nil ())
 //
 in
   list_vt_reverse (res)
-end // end of [linmap_listize]
+end // end of [linmap_listize1]
+*)
 
 (* ****** ****** *)
 
