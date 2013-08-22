@@ -174,7 +174,7 @@ list_vt_mapfree$fopr<ki><ki2>
   (kx) = linmap_flistize$fopr<key,itm><ki2> (kx.0, kx.1)
 //
 in
-  list_vt_mapfree (map)
+  list_vt_mapfree<ki><ki2> (map)
 end // end of [linmap_flistize]
 
 (* ****** ****** *)

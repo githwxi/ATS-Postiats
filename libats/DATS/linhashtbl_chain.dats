@@ -104,10 +104,17 @@ chain_foreach_env
 (* ****** ****** *)
 
 extern
-fun{
-key:t0p;itm:vt0p
-} chain_listize (chain (key, itm)): List_vt @(key, itm)
-// end of [chain_listize]
+fun
+{key:t0p
+;itm:vt0p}
+chain_listize (chain (key, itm)): List_vt @(key, itm)
+
+extern
+fun
+{key:t0p
+;itm:vt0p}
+{ki2:vt0p}
+chain_flistize (kxs: chain (key, itm)): List_vt (ki2)
 
 (* ****** ****** *)
 
@@ -164,6 +171,17 @@ end // end of [chain_foreach_env]
 implement
 {key,itm}
 chain_listize (kxs) = $LM.linmap_listize (kxs)
+
+implement
+{key,itm}{ki2}
+chain_flistize (kxs) = let
+//
+implement
+$LM.linmap_flistize$fopr<key,itm><ki2> = hashtbl_flistize$fopr<key,itm><ki2>
+//
+in
+  $LM.linmap_flistize<key,itm><ki2> (kxs)
+end // end of [chain_flistize]
 
 end // end of [local]
 
@@ -531,8 +549,8 @@ end // end of [hashtbl_foreach_env]
 (* ****** ****** *)
 
 implement
-{key,itm}
-hashtbl_listize
+{key,itm}{ki2}
+hashtbl_flistize
   (tbl) = let
 //
 vtypedef
@@ -542,8 +560,7 @@ val+~HASHTBL (A, cap, n) = tbl
 //
 typedef tenv = ptr
 //
-vtypedef ki = @(key, itm)
-vtypedef tenv2 = List_vt (ki)
+vtypedef tenv2 = List_vt (ki2)
 //
 local
 implement{a}{env}
@@ -552,8 +569,8 @@ implement
 array_rforeach$fwork<chain><tenv>
   (kxs, env) = let
   val kxs = $UN.castvwtp1{chain}(kxs)
-  val kxs = chain_listize<key,itm> (kxs)
-  val kxs2 = list_vt_append (kxs, $UN.castvwtp0{tenv2}(env))
+  val kxs2 = chain_flistize<key,itm><ki2> (kxs)
+  val kxs2 = list_vt_append (kxs2, $UN.castvwtp0{tenv2}(env))
   val () = env := $UN.castvwtp0{ptr}(kxs2)
 in
   // nothing
