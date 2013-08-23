@@ -174,6 +174,7 @@ hashtbl_takeout_all
 val tbl = htdecode (tbl)
 val kxs = $HT.hashtbl_takeout_all (tbl)
 prval () = $UN.cast2void (tbl)
+val kxs = list0_of_list_vt{(key,itm)}(kxs)
 //
 } (* end of [hashtbl_takeout_all] *)
 
@@ -185,9 +186,12 @@ hashtbl_listize1
   (tbl) = kxs where
 {
 //
+typedef ki = @(key, itm)
+//
 val tbl = htdecode (tbl)
 val kxs = $HT.hashtbl_listize1 (tbl)
 prval () = $UN.cast2void (tbl)
+val kxs = list0_of_list_vt{(key,itm)}(kxs)
 //
 } (* end of [hashtbl_listize1] *)
 

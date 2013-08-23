@@ -33,6 +33,10 @@
 
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "libats/SATS/funmap_list.sats"
 
 (* ****** ****** *)

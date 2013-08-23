@@ -1,5 +1,5 @@
 //
-// Ordering words according to the numbers
+// ordering words according to the numbers
 // of their occurrences of in a given file
 //
 
@@ -15,12 +15,24 @@
 //
 (* ****** ****** *)
 
+staload _ = "libats/DATS/linmap_list.dats"
+staload _ = "libats/DATS/linhashtbl_chain.dats"
+
+(* ****** ****** *)
+
 staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
 staload "libats/ML/SATS/basis.sats"
+staload "libats/ML/SATS/list0.sats"
 staload "libats/ML/SATS/string.sats"
+
+(* ****** ****** *)
+
+staload _ = "libats/ML/DATS/list0.dats"
+staload _ = "libats/ML/DATS/string.dats"
+staload _ = "libats/ML/DATS/hashtbl.dats"
 
 (* ****** ****** *)
 
@@ -113,6 +125,69 @@ case+ cs of
 | cons0 _ => stropt_some (string_make_rlist (cs))
 //
 end // end of [word_get]
+
+(* ****** ****** *)
+
+local
+
+staload
+HT = "libats/ML/SATS/hashtbl.sats"
+
+assume wcmap_type = $HT.hashtbl (string, int)
+
+in (* in of [local] *)
+
+implement
+wcmap_create () =
+  $HT.hashtbl_make_nil (i2sz(1024))
+// end of [wcmap_create]
+
+implement
+wcmap_incby1
+  (map, w) = let
+//
+val opt = $HT.hashtbl_search (map, w)
+//
+in
+//
+case+ opt of
+| ~Some_vt (n) =>
+  {
+    val-~Some_vt _ = $HT.hashtbl_insert (map, w, n+1)
+  }
+| ~None_vt ((*void*)) => $HT.hashtbl_insert_any (map, w, 1)
+//
+end // end of [wcmap_incby1]
+
+implement
+wcmap_listize (map) = $HT.hashtbl_takeout_all (map)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+staload
+STDIO = "libc/SATS/stdio.sats"
+
+implement
+char_get () = $STDIO.getchar0 ()
+
+(* ****** ****** *)
+
+implement
+main0 () =
+{
+//
+val map = WordCounting ()
+val wcs = wcmap_listize (map)
+//
+typedef ki = @(string, int)
+implement
+fprint_val<ki> (out, wc) = fprint! (out, "(", wc.0, "->", wc.1, ")")
+//
+val () = fprintln! (stdout_ref, "wcs = ", wcs)
+//
+} // end of [main0]
 
 (* ****** ****** *)
 

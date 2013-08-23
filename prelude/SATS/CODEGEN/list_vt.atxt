@@ -210,9 +210,9 @@ list_vt_insert_at {n:int} (
 ) :<!wrt> void // end of [list_vt_insert_at]
 
 fun{x:vt0p}
-list_vt_remove_at {n:int}
+list_vt_takeout_at {n:int}
   (xs: &list_vt (INV(x), n) >> list_vt (x, n-1), i: natLt n):<!wrt> x
-// end of [list_vt_remove_at]
+// end of [list_vt_takeout_at]
 
 #atscode_separator()
 
@@ -269,18 +269,23 @@ macdef list_vt_unsnoc = list_vt_unextend
 
 #atscode_separator()
 
-fun{
-x:vt0p
-} list_vt_reverse
-  {n:int} (
-  xs: list_vt (INV(x), n)
-) :<!wrt> list_vt (x, n) // endfun
+fun{x:vt0p}
+list_vt_reverse{n:int}
+  (xs: list_vt (INV(x), n)):<!wrt> list_vt (x, n)
+// end of [list_vt_reverse]
 
 fun{a:vt0p}
-list_vt_reverse_append
-  {m,n:int} (
-  xs: list_vt (INV(a), m), ys: list_vt (a, n)
-) :<!wrt> list_vt (a, m+n) // endfun
+list_vt_reverse_append{m,n:int}
+  (list_vt (INV(a), m), list_vt (a, n)):<!wrt> list_vt (a, m+n)
+// end of [list_vt_reverse_append]
+
+#atscode_separator()
+
+fun{x:vt0p}
+list_vt_split_at
+  {n:int}{i:nat | i <= n}
+  (list_vt (INV(x), n), int i):<!wrt> (list_vt (x, i), list_vt (x, n-i))
+// end of [list_vt_split_at]
 
 #atscode_separator()
 
@@ -292,9 +297,9 @@ list_vt_concat
 #atscode_separator()
 
 fun{x:vt0p}
-list_vt_split$pred (x: &RD(x)): bool
+list_vt_separate$pred (x: &RD(x)): bool
 fun{x:vt0p}
-list_vt_split {n:int}
+list_vt_separate{n:int}
 (
   xs: &list_vt (INV(x), n) >> list_vt (x, n1)
 ) : \#[n1:nat|n1 <= n] list_vt (x, n-n1)

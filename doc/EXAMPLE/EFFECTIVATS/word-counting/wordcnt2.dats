@@ -1,8 +1,13 @@
 //
-// Ordering words according to the numbers
+// ordering words according to the numbers
 // of their occurrences of in a given file
 //
 
+(* ****** ****** *)
+//
+// HX-2013-08:
+// this is largely a functional implementation
+//
 (* ****** ****** *)
 //
 #include
@@ -19,208 +24,173 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-abstype wordcnt_type = ptr
-typedef wordcnt = wordcnt_type
+staload "libats/ML/SATS/basis.sats"
+staload "libats/ML/SATS/list0.sats"
+staload "libats/ML/SATS/string.sats"
 
-absvtype wctable_vtype = ptr
-vtypedef wctable = wctable_vtype
+(* ****** ****** *)
+
+staload _ = "libats/ML/DATS/list0.dats"
+staload _ = "libats/ML/DATS/string.dats"
+staload _ = "libats/ML/DATS/hashtbl.dats"
+
+(* ****** ****** *)
+
+abstype wcmap_type = ptr
+typedef wcmap = wcmap_type
 
 (* ****** ****** *)
 
 extern
-fun fileref_get_word (inp: FILEref): Stropt0
+fun{} word_get (): stropt
+
+(* ****** ****** *)
+
+extern fun wcmap_create (): wcmap
+extern fun wcmap_incby1 (map: wcmap, w: string): void
+extern fun wcmap_listize (map: wcmap): list0 @(string, int)
 
 (* ****** ****** *)
 
 extern
-fun wordcnt_make (string, int): wordcnt
-extern
-fun wordcnt_get_cnt (wc: wordcnt): int
-extern
-fun wordcnt_get_word (wc: wordcnt): string
-extern
-fun compare_wc_wc : (wordcnt, wordcnt) -<0> int
-overload compare with compare_wc_wc
-extern
-fun fprint_wordcnt (out: FILEref, wc: wordcnt): void
-overload fprint with fprint_wordcnt
+fun{} WordCounting (): wcmap
 
 (* ****** ****** *)
 
-extern
-fun wctable_make (): wctable
-extern
-fun wctable_add (tbl: !wctable, w: string): void
-extern
-fun wctable_listize (tbl: wctable): List_vt (wordcnt)
-extern
-fun fprint_wctable (out: FILEref, tbl: !wctable): void
-overload fprint with fprint_wctable
+implement{
+} WordCounting () = let
+//
+fun loop
+  (map: wcmap): void = let
+//
+val opt = word_get ()
+val issome = stropt_is_some (opt)
+//
+in
+  if issome then let
+    val () = wcmap_incby1 (map, stropt_unsome (opt)) in loop (map)
+  end else () // end of [if]
+end // end of [loop]
+//
+val map = wcmap_create ()
+val ((*void*)) = loop (map)
+//
+in
+  map
+end // end of [WordCounting]
 
 (* ****** ****** *)
 
-implement
-fileref_get_word
-  (inp) = let
+extern fun{} char_get (): int
+
+(* ****** ****** *)
+
+implement{
+} word_get () = let
 //
 vtypedef
-charlst = List0_vt(char)
+charlst = list0(char)
 //
 fnx loop
 (
-  inp: FILEref
+// argmentless
 ) : charlst = let
-  val i = fileref_getc (inp)
+  val i = char_get ()
 in
 //
-if i >= 0 then let
-  val c = int2char0 (i)
-in
-  if isalpha (c) then
-    loop2 (inp, cons_vt{char}(c, nil_vt))
-  else loop (inp)
-end else list_vt_nil((*void*))
+if i >= 0 then
+(
+  if isalpha (i) then
+    loop2 (cons0{char}(int2char0(i), nil0))
+  else loop () // end of [if]
+) else nil0((*void*))
 //
 end // end of [loop]
 
 and loop2
 (
-  inp: FILEref, res: charlst
+  res: charlst
 ) : charlst = let
-  val i = fileref_getc (inp)
+  val i = char_get ()
 in
-  if isalpha (i) then let
-    val res = cons_vt{char}(int2char0(i), res)
-  in
-    loop2 (inp, res)
-  end else res // end of [if]
+  if isalpha (i) then
+    loop2 (cons0{char}(int2char0(i), res)) else res
+  // end of [if]
 end // end of [loop2]
 //
-val cs = loop (inp)
-val cs2 = $UN.castvwtp1{List0(charNZ)}(cs)
-val opt =
-(
-case+ cs2 of
-| cons _ =>
-    strnptr2stropt(string_make_rlist (cs2))
-| nil () => stropt_none ()
-) : Stropt // end of [val]
-//
-val () = list_vt_free (cs)
+val cs = loop ()
 //
 in
-  opt
-end // end of [fileref_get_word]
+//
+case+ cs of
+| nil0 () => stropt_none ((*void*))
+| cons0 _ => stropt_some (string_make_rlist (cs))
+//
+end // end of [word_get]
 
 (* ****** ****** *)
 
 local
 
 staload
-LHT = "libats/SATS/linhashtbl_chain.sats"
+HT = "libats/ML/SATS/hashtbl.sats"
 
-assume
-wctable_vtype = $LHT.hashtbl (string, int)
-
-#define H0 i2sz(1024)
+assume wcmap_type = $HT.hashtbl (string, int)
 
 in (* in of [local] *)
 
 implement
-wctable_make () =
-   $LHT.hashtbl_make_nil<string,int> (H0)
-// end of [wctable_make]
+wcmap_create () =
+  $HT.hashtbl_make_nil (i2sz(1024))
+// end of [wcmap_create]
 
 implement
-wctable_add (tbl, w) = let
+wcmap_incby1
+  (map, w) = let
 //
-val cp =
-$LHT.hashtbl_search_ref (tbl, w)
+val opt = $HT.hashtbl_search (map, w)
 //
 in
 //
-if cptr2ptr(cp) > 0 then {
-  val (
-    pf, fpf | p
-  ) = $UN.cptr_vtake (cp)
-  val () = !p := !p + 1
-  prval () = fpf (pf)
-} else {
-  val () = $LHT.hashtbl_insert_any (tbl, w, 1)
-} (* end of [if] *)
+case+ opt of
+| ~Some_vt (n) =>
+  {
+    val-~Some_vt _ = $HT.hashtbl_insert (map, w, n+1)
+  }
+| ~None_vt ((*void*)) => $HT.hashtbl_insert_any (map, w, 1)
 //
-end // end of [wctable_add]
+end // end of [wcmap_incby1]
 
 implement
-wctable_listize (tbl) = let
-//
-implement
-$LHT.hashtbl_flistize$fopr<string,int><wordcnt> (w, c) = wordcnt_make (w, c)
-//
-in
-  $LHT.hashtbl_flistize<string,int><wordcnt> (tbl)
-end // end [wctable_lisize]
-
-implement
-fprint_wctable (out, tbl) = $LHT.fprint_hashtbl (out, tbl)
+wcmap_listize (map) = $HT.hashtbl_takeout_all (map)
 
 end // end of [local]
 
 (* ****** ****** *)
 
 extern
-fun fileref_counting
-  (inp: FILEref, tbl: !wctable): void
-implement
-fileref_counting (inp, tbl) = let
-//
-val opt = fileref_get_word (inp)
-val issome = stropt_is_some (opt)
-//
-in
-  if issome then let
-    val str = stropt_unsome (opt)
-    val ((*none*)) = wctable_add (tbl, str)
-  in
-    fileref_counting (inp, tbl)
-  end else () // end of [if]
-//  
-end // end of [fileref_counting]
+fun WordCounting_fileref (inp: FILEref): wcmap
 
 (* ****** ****** *)
 
 local
 
-datatype
-wordcnt = WC of (string, int)
-assume wordcnt_type = wordcnt
+staload
+STDIO = "libc/SATS/stdio.sats"
 
 in (* in of [local] *)
 
 implement
-wordcnt_make (w, c) = WC (w, c)
-
+WordCounting_fileref (inp) = let
+//
 implement
-compare_wc_wc
-  (wc1, wc2) = let
-  val WC (w1, c1) = wc1
-  val WC (w2, c2) = wc2
-  val sgn1 = compare (c1, c2)
+char_get<> () = $STDIO.fgetc0 (inp)
+//
 in
-  if sgn1 != 0 then sgn1 else compare (w2, w1)
-end // end of [compare_wc_wc]
-
-implement
-fprint_wordcnt (out, wc) =
-  let val WC (w, c) = wc in fprint! (out, w, "->", c) end
-// end of [fprint_wordcnt]
+  WordCounting ()
+end // end of [WordCounting_fileref
 
 end // end of [local]
-
-(* ****** ****** *)
-
-implement
-fprint_val<wordcnt> = fprint_wordcnt
 
 (* ****** ****** *)
 
@@ -229,30 +199,17 @@ main0 () =
 {
 //
 val inp = stdin_ref
+val map = WordCounting_fileref (inp)
+val wcs = wcmap_listize (map)
 //
-val tbl = wctable_make ()
-//
-val () = fileref_counting (inp, tbl)
-//
-val wcs = wctable_listize (tbl)
-//
-local
+typedef ki = @(string, int)
 implement
-list_vt_mergesort$cmp<wordcnt> (wc1, wc2) = ~compare (wc1, wc2)
-in (* in of [local] *)
-val wcs = list_vt_mergesort (wcs)
-end // end of [local]
+fprint_val<ki> (out, wc) = fprint! (out, "(", wc.0, "->", wc.1, ")")
 //
-(*
-val () = fprint (stdout_ref, "wcs(sorted) =\n")
-*)
-val () = fprint_list_vt_sep (stdout_ref, wcs, "\n")
-val () = fprint_newline (stdout_ref)
-//
-val () = list_vt_free (wcs)
+val () = fprintln! (stdout_ref, "wcs = ", wcs)
 //
 } // end of [main0]
 
 (* ****** ****** *)
 
-(* end of [wordcnt2.dats] *)
+(* end of [wordcnt.dats] *)

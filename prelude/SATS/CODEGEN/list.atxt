@@ -405,6 +405,15 @@ x:t0p
 #atscode_separator()
 
 fun{
+x:t0p
+} list_split_at
+  {n:int}{i:nat | i <= n}
+  (xs: SHR(list (INV(x), n)), i: int i):<> (list (x, i), list (x, n-i))
+// end of [list_split_at]
+
+#atscode_separator()
+
+fun{
 x:t0p}{env:vt0p
 } list_foreach$cont (x: x, env: &env): bool
 fun{

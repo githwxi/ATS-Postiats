@@ -15,7 +15,7 @@ Effective ATS: Word Counting
 
 I want to present in this article a program that counts the number of
 occurrences of each word in a given file. The focus of the presentation
-is on the process that finally leads to the consstruction of the program.
+is on the process that finally leads to the construction of the program.
 
 <h2>
 What kind of input is expected?
@@ -35,8 +35,8 @@ this means that [word_get] is a stateful function, that is, it maintains an
 internal state. In general, using stateful functions is considered a poor
 style of programming.  For instance, the function [strtok] in libc is
 infamous for its treachery of statefulness, and everyone bitten by it
-should know this very well. In ATS, there is a convenient approach to
-removing stateful functions by simply turing them into templates. which I
+should know this all too well. In ATS, there is a convenient approach to
+removing stateful functions by simply turing them into templates, which I
 will explain in details later in this article.  For the moment, let us
 focus on getting a running implementation.
 
@@ -131,6 +131,20 @@ calling [word_get] and then increase the count of the word by one; [loop]
 terminates when [word_get] returns a null pointer (which makes
 [stropt_is_some] to return false).
 
+<p>
+
+I hope that the reader can truly appreciate the top-down style of
+programming presented above, which makes effective use of abstract types in
+ATS.  My own observation says that most programmers employ a bottom-up
+style of progrmming in practice. When given the word-counting problem, they
+would focus on implementing [wcmap] (and the functions associated with it)
+and/or functions like [word_get]. For a simple problem like word-counting,
+a competent programmer can probably handle it with whatsoever approach he or
+she likes. However, when dealing with larger and more complex problems, one
+can easily lose focus with a bottom-up approach, writing code that is only
+to be abandoned later. To some extent, writing a program is like telling a
+story: The story can hardly be coherent if the storyteller is out of focus.
+
 <h2>
 How should [word_get] be implemented?
 </h2>
@@ -196,13 +210,179 @@ end // end of [word_get]
 </pre>
 
 Note that [loop] is called to skip non-alphabetical chars while [loop2] is
-called to accumulate alphabetical chars.  The function [string_make_rlist]
-creates a string consisting of the sequence of chars in the reverse of a
-given list. For instance, if the list consists of 'a', 'b' and 'c', then
-the string is "cba".
+called to accumulate alphabetical chars. The keywork [fnx] (in place of
+[fun]) means that [loop] and [loop2] are compiled jointly so that the
+tail-recursive calls in their bodies can all be turned into direct local
+jumps.  The function [string_make_rlist] creates a string consisting of the
+sequence of chars in the reverse of a given list. For instance, if the list
+consists of 'a', 'b' and 'c', then the string is "cba".
 
 <h2>
 How should [wcmap] be implemented?
+</h2>
+
+The following code gives a straightforward hashtable-based implementation
+of [wcmap]. Some details on various hashtable-functions can be found
+<a href="http://www.ats-lang.org/LIBRARY/libats/ML/hashtbl.html">on-line</a>.
+
+<pre>
+local
+//
+staload
+HT = "libats/ML/SATS/hashtbl.sats"
+//
+assume wcmap_type = $HT.hashtbl (string, int)
+//
+in (* in of [local] *)
+
+implement
+wcmap_create () =
+  $HT.hashtbl_make_nil (i2sz(1024))
+// end of [wcmap_create]
+
+implement
+wcmap_incby1
+  (map, w) = let
+//
+val opt = $HT.hashtbl_search (map, w)
+//
+in
+//
+case+ opt of
+| ~Some_vt (n) =>
+  {
+    val-~Some_vt _ = $HT.hashtbl_insert (map, w, n+1)
+  }
+| ~None_vt ((*void*)) => $HT.hashtbl_insert_any (map, w, 1)
+//
+end // end of [wcmap_incby1]
+
+implement
+wcmap_listize (map) = $HT.hashtbl_takeout_all (map)
+
+end // end of [local]
+</pre>
+
+A completed running program containing the entirety of the above
+presented code can be found in the file wordcnt.dats. There is also a
+Makefile for compiling it.
+
+<h2>
+A truncated result from a test run
+</h2>
+
+Following is a list of the 100 most frequently used words in the novel
+"Moby Dick" by Herman Melville:
+
+<pre>
+the	->	14515
+of	->	6673
+and	->	6464
+a	->	4799
+to	->	4683
+in	->	4210
+that	->	3080
+it	->	2533
+his	->	2513
+i	->	2127
+he	->	1894
+but	->	1822
+s	->	1816
+with	->	1765
+as	->	1750
+is	->	1748
+was	->	1645
+for	->	1637
+all	->	1535
+this	->	1431
+at	->	1331
+by	->	1211
+whale	->	1191
+not	->	1169
+from	->	1095
+so	->	1066
+be	->	1062
+on	->	1062
+him	->	1061
+you	->	953
+one	->	921
+there	->	864
+now	->	786
+or	->	783
+had	->	779
+have	->	772
+were	->	684
+they	->	667
+which	->	653
+like	->	647
+me	->	629
+then	->	628
+are	->	618
+their	->	618
+some	->	617
+what	->	617
+when	->	606
+an	->	600
+no	->	590
+my	->	586
+upon	->	566
+out	->	537
+man	->	527
+up	->	523
+into	->	522
+ship	->	513
+more	->	507
+ahab	->	501
+if	->	500
+them	->	471
+we	->	470
+ye	->	470
+sea	->	455
+old	->	449
+would	->	432
+other	->	427
+been	->	415
+over	->	408
+these	->	405
+will	->	397
+though	->	384
+its	->	381
+only	->	377
+down	->	376
+such	->	375
+who	->	366
+any	->	360
+yet	->	345
+head	->	344
+boat	->	333
+time	->	333
+her	->	332
+long	->	330
+captain	->	327
+very	->	323
+here	->	321
+about	->	317
+do	->	316
+still	->	312
+than	->	311
+great	->	306
+those	->	306
+said	->	303
+before	->	298
+has	->	293
+must	->	293
+two	->	292
+t	->	291
+most	->	285
+seemed	->	283
+</pre>
+
+Unsurprisingly, <u>whale</u> is the most frequently used noun in this
+novel, and the second one and third one are <u>ship</u> and <u>sea</u>,
+respectively.
+
+<h2>
+Turning stateful functions into stateless templates
 </h2>
 
 <hr size="2">

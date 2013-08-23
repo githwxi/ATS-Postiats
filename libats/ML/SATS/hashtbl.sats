@@ -49,7 +49,7 @@ staload "libats/ML/SATS/basis.sats"
 // HX: for maps of elements of type (a)
 //
 abstype
-hashtbl_type (key:t@ype, itm:t0ype+) = ptr
+hashtbl_type (key:t@ype, itm:t0ype) = ptr
 typedef
 hashtbl (key:t0p, itm:t0p) = hashtbl_type (key, itm)
 //
@@ -104,7 +104,7 @@ key,itm:t0p
 fun{
 key,itm:t0p
 } hashtbl_takeout_all
-  (tbl: hashtbl (key, itm)): List0_vt @(key, itm)
+  (tbl: hashtbl (key, itm)): list0 @(key, itm)
 // end of [hashtbl_takeout_all]
 
 (* ****** ****** *)
@@ -112,7 +112,7 @@ key,itm:t0p
 fun{
 key,itm:t0p
 } hashtbl_listize1
-  (tbl: hashtbl (key, itm)): List0_vt @(key, itm)
+  (tbl: hashtbl (key, itm)): list0 @(key, itm)
 // end of [hashtbl_listize1]
 
 (* ****** ****** *)

@@ -9,6 +9,7 @@ all::file-copying
 file-copying:: ; make -C file-copying all
 all::queue-sllist2
 queue-sllist2:: ; make -C queue-sllist2 all
+word-counting:: ; make -C word-counting all
 
 ######
 

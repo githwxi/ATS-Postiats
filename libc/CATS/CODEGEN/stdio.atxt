@@ -109,6 +109,12 @@ do { \\
 
 #atscode_separator_for_C()
 
+\#define atslib_getchar getchar
+\#define atslib_getchar0 atslib_getchar
+\#define atslib_getchar1 atslib_getchar
+
+#atscode_separator_for_C()
+
 \#define atslib_fputc fputc
 \#define atslib_fputc0_int atslib_fputc
 \#define atslib_fputc0_char(c, fp) atslib_fputc((int)c, fp)

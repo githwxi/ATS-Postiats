@@ -21,8 +21,8 @@ ATSLIB/libats/ML/hashtbl\
 
 #declpreamble("\
 
-This package implements functional associative maps based on ordered
-AVL-trees.\
+This package implements hashtables where the buckets associated with
+keys are represented as (singly or doubly) linked lists.
 
 ")
 
@@ -61,4 +61,4 @@ AVL-trees.\
 
 (* ****** ****** *)
 
-(* end of [funmap.atxt] *)
+(* end of [hashtbl.atxt] *)

@@ -12,8 +12,18 @@ all::wordcnt
 
 ######
 
-wordcnt: wordcnt.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -O2 -o $@ $<
-wordcnt2: wordcnt2.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -O2 -o $@ $<
+wordcnt: wordcnt.dats ; \
+  $(PATSCC) -DATS_MEMALLOC_LIBC -O2 -o $@ $< -L$(PATSHOME)/ccomp/atslib -latslib
+
+######
+
+wordcnt2: wordcnt2.dats ; \
+  $(PATSCC) -DATS_MEMALLOC_LIBC -O2 -o $@ $< -L$(PATSHOME)/ccomp/atslib -latslib
+
+######
+
+wordcnt_vt: wordcnt_vt.dats ; \
+  $(PATSCC) -DATS_MEMALLOC_LIBC -O2 -o $@ $< -L$(PATSHOME)/ccomp/atslib -latslib
 
 ######
 
@@ -30,6 +40,7 @@ clean:: ; $(RMF) *_?ats.c
 cleanall:: clean
 cleanall:: ; $(RMF) wordcnt
 cleanall:: ; $(RMF) wordcnt2
+cleanall:: ; $(RMF) wordcnt_vt
 
 ######
 
