@@ -182,10 +182,30 @@ val map = WordCounting ()
 val wcs = wcmap_listize (map)
 //
 typedef ki = @(string, int)
-implement
-fprint_val<ki> (out, wc) = fprint! (out, "(", wc.0, "->", wc.1, ")")
 //
-val () = fprintln! (stdout_ref, "wcs = ", wcs)
+local
+fn cmp
+(
+  wc1: ki, wc2: ki
+) :<0> int = let
+  val sgn1 = compare (wc2.1, wc1.1)
+in
+  if sgn1 != 0 then sgn1 else compare (wc1.0, wc2.0)
+end // end of [cmp]
+in (*in of [local]*)
+val wcs2 = list0_mergesort<ki> (wcs, lam (wc1, wc2) => cmp (wc1, wc2))
+end // end of [local]
+//
+val wcs2_100 = list0_take_exn (wcs2, 100)
+//
+local
+implement
+fprint_val<ki> (out, wc) = fprint! (out, wc.0, "\t->\t", wc.1)
+in (*in of [local]*)
+val () = fprint (stdout_ref, wcs2_100, "\n")
+end // end of [local]
+//
+val () = fprint_newline (stdout_ref)
 //
 } // end of [main0]
 
