@@ -14,10 +14,10 @@ word-counting:: ; make -C word-counting all
 ######
 
 cleanall::
-cleanall::file-copying
-file-copying:: ; make -C file-copying cleanall
-cleanall::queue-sllist2
-queue-sllist2:: ; make -C queue-sllist2 cleanall
+cleanall:: ; make -C file-copying cleanall
+cleanall:: ; make -C queue-sllist2 cleanall
+cleanall:: ; make -C loop-as-tailrec cleanall
+cleanall:: ; make -C word-counting cleanall
 
 ######
 

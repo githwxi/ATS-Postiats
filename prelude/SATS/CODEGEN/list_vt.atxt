@@ -222,7 +222,7 @@ list_vt_free (xs: List_vt (INV(x))):<!wrt> void
 fun{x:vt0p}
 list_vt_freelin$clear
   (x: &x >> x?):<!wrt> void
-fun{x:t0p}
+fun{x:vt0p}
 list_vt_freelin (xs: List_vt (INV(x))):<!wrt> void
 
 #atscode_separator()

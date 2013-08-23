@@ -166,11 +166,15 @@ end // end of [local]
 
 (* ****** ****** *)
 
-staload
-STDIO = "libc/SATS/stdio.sats"
+local
 
-implement
-char_get () = $STDIO.getchar0 ()
+staload STDIO = "libc/SATS/stdio.sats"
+
+in (* in of [local] *)
+
+implement char_get () = $STDIO.getchar0 ()
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -180,6 +184,8 @@ main0 () =
 //
 val map = WordCounting ()
 val wcs = wcmap_listize (map)
+//
+// for sorting the results
 //
 typedef ki = @(string, int)
 //
@@ -197,6 +203,9 @@ val wcs2 = list0_mergesort<ki> (wcs, lam (wc1, wc2) => cmp (wc1, wc2))
 end // end of [local]
 //
 val wcs2_100 = list0_take_exn (wcs2, 100)
+//
+// for listing the top 100
+// most frequently encountered words
 //
 local
 implement

@@ -202,6 +202,8 @@ val inp = stdin_ref
 val map = WordCounting_fileref (inp)
 val wcs = wcmap_listize (map)
 //
+// for sorting the results
+//
 typedef ki = @(string, int)
 //
 local
@@ -216,6 +218,9 @@ end // end of [cmp]
 in (*in of [local]*)
 val wcs2 = list0_mergesort (wcs, lam (wc1, wc2) => cmp (wc1, wc2))
 end // end of [local]
+//
+// for listing the top 100
+// most frequently encountered words
 //
 val wcs2_100 = list0_take_exn (wcs2, 100)
 //

@@ -263,9 +263,9 @@ wcmap_listize (map) = $HT.hashtbl_takeout_all (map)
 end // end of [local]
 </pre>
 
-A completed running program containing the entirety of the above
-presented code can be found in the file wordcnt.dats. There is also a
-Makefile for compiling it.
+A complete running program containing the entirety of the above presented
+code can be found in the file wordcnt.dats, and there is also a Makefile
+for compiling it.
 
 <h2>
 A truncated result from a test run
@@ -384,6 +384,86 @@ respectively.
 <h2>
 Turning stateful functions into stateless templates
 </h2>
+
+In the above implementation, the function [char_get] is stateful, that is,
+it posseses an internal state. If two threads call [char_get] around the
+same time, then a race-condition may happen. In ATS, we can eliminate a
+stateful function by turning it into a template. For instance, we can
+declare [char_get] as follows:
+
+<pre>
+fun{} char_get (): int
+</pre>
+
+Also, functions that call [char_get] directly or indirectly need to be
+declared as templates. This means that we need to turn [word_get] and
+[WordCounting] into templates as well:
+
+<pre>
+fun{} word_get (): stropt
+fun{} WordCounting (): wcmap
+</pre>
+
+Now let us declare a function
+[WordCounting_fileref] as follows:
+
+<pre>
+fun WordCounting_fileref (inp: FILEref): wcmap
+</pre>
+
+which is just variant of [WordCounting] that reads all the words from a
+given file handle. Then [WordCounting_fileref] can be implemented as follows:
+
+<pre>
+local
+
+staload
+STDIO = "libc/SATS/stdio.sats"
+
+in (* in of [local] *)
+
+implement
+WordCounting_fileref (inp) = let
+//
+implement
+char_get<> () = $STDIO.fgetc0 (inp)
+//
+in
+  WordCounting ()
+end // end of [WordCounting_fileref]
+
+end // end of [local]
+</pre>
+
+It is now safe for two threads call [WordCounting_fileref] on distint file
+handles.
+
+A complete running program containing the above implementation of
+[WordCounting_fileref] can be found in the file wordcnt2.dats, and there is
+also a Makefile for compiling it.
+
+<p>
+
+The template system of ATS is an advanced programming feature can greatly
+facilitate code organization and reuse. I will gradually present more
+progromming examples to illustrate effective use of templates in practice.
+
+<h2>
+A memory-clean implemenation of word-counting
+</h2>
+
+A program is considered a memory-clean implementation if all the
+dynamically allocated memory is freed immediately before the termination of
+the program. For instance, if you
+use <a href="http://valgrind.org">valgrind</a> to monitor an execution of
+this program, then the gathered statics should indicate that no leak is
+ever possible.
+
+<p>
+
+By making use of linear types, I modified the program in wordcnt.dats to
+make it a memory-clean implementation. Please see wordcnt_vt.dats for the
+entirety of the modified version. Also, there is a Makefile for compiling it.
 
 <hr size="2">
 
