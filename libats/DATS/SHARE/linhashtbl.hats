@@ -268,4 +268,46 @@ end // end of [hashtbl_foreach]
 
 (* ****** ****** *)
 
+local
+
+staload Q = "libats/SATS/qlist.sats"
+
+in (* in of [local] *)
+
+implement
+{key,itm}
+hashtbl_listize1
+  (tbl) = let
+//
+vtypedef ki = @(key, itm)
+vtypedef tenv = $Q.qstruct (ki)
+//
+implement(env)
+hashtbl_foreach$fwork<key,itm><env>
+  (k, x, env) = let
+//
+val (
+  pf, fpf | p
+) = $UN.ptr_vtake{tenv}(addr@(env))
+val () = $Q.qstruct_insert<ki> (env, @(k, x))
+prval () = fpf (pf)
+//
+in
+  // nothing
+end // end of [hashtbl_foreach$fwork]
+//
+var env: $Q.qstruct
+val () = $Q.qstruct_initize{ki}(env)
+val () = $effmask_all (hashtbl_foreach_env<key,itm><tenv> (tbl, env))
+val res = $Q.qstruct_takeout_list (env)
+prval () = $Q.qstruct_uninitize{ki}(env)
+//
+in
+  res
+end // end of [hashtbl_listize1]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 (* end of [linhashtbl.hats] *)

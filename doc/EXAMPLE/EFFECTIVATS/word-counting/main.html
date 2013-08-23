@@ -4,7 +4,7 @@
 
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-<title>Effectivats-file-copying</title>
+<title>Effectivats-word-counting</title>
 </head>
 
 <body>
@@ -12,6 +12,198 @@
 <h1>
 Effective ATS: Word Counting
 </h1>
+
+I want to present in this article a program that counts the number of
+occurrences of each word in a given file. The focus of the presentation
+is on the process that finally leads to the consstruction of the program.
+
+<h2>
+What kind of input is expected?
+</h2>
+
+Basically, the input is a stream of words. So let us assume that we have
+a function [word_get] of the following type:
+
+<pre>
+fun word_get (): stropt
+</pre>
+
+Note that [stropt] is the type for an optional string, which is either a
+valid string or a null pointer. If [word_get] returns a null pointer, then
+it indicates that the end of a given stream (of words) is reached. Clearly,
+this means that [word_get] is a stateful function, that is, it maintains an
+internal state. In general, using stateful functions is considered a poor
+style of programming.  For instance, the function [strtok] in libc is
+infamous for its treachery of statefulness, and everyone bitten by it
+should know this very well. In ATS, there is a convenient approach to
+removing stateful functions by simply turing them into templates. which I
+will explain in details later in this article.  For the moment, let us
+focus on getting a running implementation.
+
+<h2>
+What kind of output is expected?
+</h2>
+
+Let us say that we want to output all of the encountered words in an order
+such that a word appears ahead of another one if there are a larger number
+of occurrences of the former than the latter. This means that we need to
+build an associative map that associates each word with the number of the
+occurrences of this word. So we introduce the following abstract type
+[wcmap_type] for such a map and [wcmap] as a shorthand for [wcmap_type]:
+
+<pre>
+abstype wcmap_type = ptr
+typedef wcmap = wcmap_type
+</pre>
+
+Note that [wcmap_type] is a boxed type, that is, the size of this type is
+that of a pointer (of the type [ptr]).
+
+<p>
+
+How should a map of the type [wcmap] be created? We introduce a function
+for creating an empty map:
+
+<pre>
+fun wcmap_create (): wcmap
+</pre>
+
+If a word is encountered, we need to increase its number of occurrences by
+1. This is done by the following function:
+
+<pre>
+fun wcmap_incby1 (map: wcmap, w: string): void
+</pre>
+
+As we also need to sort words according to their numbers of occurrences,
+we introduce a function for doing it:
+
+<pre>
+fun wcmap_listize (map: wcmap): list0 @(string, int)
+</pre>
+
+In libats, which is a part of ATS library, there are many implementations
+of maps. For someone familiar with data structures, it should be clear that
+a good fit for [wcmap] is a hashtable-based map implementation. Of course,
+a map implementation based on some form of balanced-tree (e.g. AVL-tree)
+should work as well.
+
+<h2>
+Implementing WordCounting
+</h2>
+
+Let us declare the main function for counting words as follows:
+
+<pre>
+fun WordCounting (): wcmap
+</pre>
+
+So by calling [WordCounting], we generate a [wcmap] that maps each
+encountered word to its number of occurrences. An implementation of
+[WordCounting] is given as follows:
+
+<pre>
+implement
+WordCounting () = let
+//
+fun loop
+  (map: wcmap): void = let
+//
+val opt = word_get ()
+val issome = stropt_is_some (opt)
+//
+in
+  if issome then let
+    val () = wcmap_incby1 (map, stropt_unsome (opt)) in loop (map)
+  end else () // end of [if]
+end // end of [loop]
+//
+val map = wcmap_create ()
+val ((*void*)) = loop (map)
+//
+in
+  map
+end // end of [WordCounting]
+</pre>
+
+Essentially, what the inner function [loop] does is to enumerate a word by
+calling [word_get] and then increase the count of the word by one; [loop]
+terminates when [word_get] returns a null pointer (which makes
+[stropt_is_some] to return false).
+
+<h2>
+How should [word_get] be implemented?
+</h2>
+
+One possible way to implement [word_get] is to assume that
+we have a function [char_get] of the following type:
+
+<pre>
+fun char_get (): int
+</pre>
+
+If [char_get] returns a non-negative integer, then the integer is the ASCII
+encoding of a character; otherwise, it is the indication that no more
+character is available.
+
+<p>
+
+A possible implementation of [word_get] based on [char_get] is given as follows:
+
+<pre>
+implement
+word_get () = let
+//
+vtypedef
+charlst = list0(char)
+//
+fnx loop
+(
+// argmentless
+) : charlst = let
+  val i = char_get ()
+in
+//
+if i >= 0 then
+(
+  if isalpha (i) then
+    loop2 (cons0{char}(int2char0(i), nil0))
+  else loop () // end of [if]
+) else nil0((*void*))
+//
+end // end of [loop]
+
+and loop2
+(
+  res: charlst
+) : charlst = let
+  val i = char_get ()
+in
+  if isalpha (i) then
+    loop2 (cons0{char}(int2char0(i), res)) else res
+  // end of [if]
+end // end of [loop2]
+//
+val cs = loop ()
+//
+in
+//
+case+ cs of
+| nil0 () => stropt_none ((*void*))
+| cons0 _ => stropt_some (string_make_rlist (cs))
+//
+end // end of [word_get]
+</pre>
+
+Note that [loop] is called to skip non-alphabetical chars while [loop2] is
+called to accumulate alphabetical chars.  The function [string_make_rlist]
+creates a string consisting of the sequence of chars in the reverse of a
+given list. For instance, if the list consists of 'a', 'b' and 'c', then
+the string is "cba".
+
+<h2>
+How should [wcmap] be implemented?
+</h2>
 
 <hr size="2">
 

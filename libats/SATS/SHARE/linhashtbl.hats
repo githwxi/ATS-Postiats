@@ -128,16 +128,24 @@ key:t0p;itm:vt0p
 fun{
 key:t0p;itm:vt0p
 } hashtbl_takeout_opt
-  (tbl: !hashtbl (key, INV(itm)), k0: key): Option_vt (itm)
+  (!hashtbl (key, INV(itm)), key): Option_vt (itm)
 // end of [hashtbl_takeout_opt]
 
 (* ****** ****** *)
 
 fun{
 key:t0p;itm:t0p
-} hashtbl_remove (
-  tbl: !hashtbl (key, INV(itm)), k0: key): bool
+} hashtbl_remove
+  (tbl: !hashtbl (key, INV(itm)), k0: key): bool
 // end of [hashtbl_remove]
+
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:vt0p
+} hashtbl_takeout_all
+  (tbl: !hashtbl (key, INV(itm))): List0_vt @(key, itm)
+// end of [hashtbl_takeout_all]
 
 (* ****** ****** *)
 
@@ -184,15 +192,10 @@ fun
 ;itm:vt0p}
 {env:vt0p}
 hashtbl_foreach_env
-  (tbl: !hashtbl (key, INV(itm)), &env >> _): void
+  (tbl: !hashtbl (key, INV(itm)), env: &env >> _): void
 //
 (* ****** ****** *)
-
-fun{
-key:t0p;itm:vt0p
-} hashtbl_listize
-  (tbl: hashtbl (key, INV(itm))):<!wrt> List_vt @(key, itm)
-// end of [hashtbl_listize]
+//
 fun
 {key:t0p
 ;itm:vt0p}
@@ -203,15 +206,21 @@ fun
 ;itm:vt0p}
 {ki2:vt0p}
 hashtbl_flistize
-  (tbl: hashtbl (key, INV(itm))):<!wrt> List_vt (ki2)
-// end of [hashtbl_flistize]
-
+  (tbl: hashtbl (key, INV(itm))):<!wrt> List0_vt (ki2)
+//
 (* ****** ****** *)
 
+fun
+{key:t0p
+;itm:vt0p}
+hashtbl_listize
+  (tbl: hashtbl (key, INV(itm))):<!wrt> List0_vt @(key, itm)
+// end of [hashtbl_listize]
+
 fun{
-key:t0p;itm:vt0p
+key,itm:t0p
 } hashtbl_listize1
-  (tbl: !hashtbl (key, INV(itm))):<!wrt> List_vt @(key, itm)
+  (tbl: !hashtbl (key, INV(itm))):<!wrt> List0_vt @(key, itm)
 // end of [hashtbl_listize1]
 
 (* ****** ****** *)

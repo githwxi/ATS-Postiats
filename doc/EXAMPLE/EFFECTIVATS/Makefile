@@ -24,6 +24,7 @@ uploadall::
 uploadall::upload_file-copying
 uploadall::upload_queue-sllist2
 uploadall::upload_loop-as-tailrec
+uploadall::upload_word-counting
 
 ######
 
@@ -35,8 +36,15 @@ upload_file-copying:: ; scp file-copying/* \
 upload_queue-sllist2:: ; scp queue-sllist2/* \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/queue-sllist2/
 
+######
+
 upload_loop-as-tailrec:: ; scp loop-as-tailrec/* \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/loop-as-tailrec/
+
+######
+
+upload_word-counting:: ; scp word-counting/* \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/word-counting/
 
 ######
 

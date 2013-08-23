@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,9 +27,18 @@
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats.ML"
-#define ATS_STALOADFLAG 0 // no need for staloading at run-time
-#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
+(* Author: Hongwei Xi *)
+(* Authoremail: gmhwxi AT gmail DOT com *)
+(* Start time: August, 2013 *)
+
+(* ****** ****** *)
+
+#define
+ATS_PACKNAME "ATSLIB.libats.ML"
+#define
+ATS_STALOADFLAG 0 // no need for staloading at run-time
+#define
+ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
 
 (* ****** ****** *)
 
@@ -37,25 +46,53 @@ staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
 //
-// HX: for sets of elements of type a
+// HX: for maps of elements of type (a)
 //
-abstype map_type (key:t@ype, itm:t0ype+) = ptr
-typedef map (key:t0p, itm:t0p) = map_type (key, itm)
+abstype
+map_type (key:t@ype, itm:t0ype+) = ptr
+typedef
+map (key:t0p, itm:t0p) = map_type (key, itm)
 //
+(* ****** ****** *)
+
+fun funmap_nil{key,itm:t0p} (): map (key, itm)
+fun funmap_make_nil{key,itm:t0p} (): map (key, itm)
+
+(* ****** ****** *)
+
+fun{
+key,itm:t0p
+} funmap_search
+  (map: map (key, itm), k: key): Option_vt (itm)
+// end of [funmap_search]
+
 (* ****** ****** *)
 
 fun{
 key,itm:t0p
 } funmap_insert
-(
-  map: &map (key, itm) >> _, k: key, x: itm
-) : option0 (itm) // end of [funmap_insert]
+  (map: &map (key, itm) >> _, key, itm): Option_vt (itm)
+// end of [funmap_insert]
 
 (* ****** ****** *)
 
 fun{
 key,itm:t0p
-} funmap_listize (map: map (key, itm)):<> list0 @(key, itm)
+} funmap_takeout
+  (map: &map (key, itm) >> _, k: key): Option_vt (itm)
+// end of [funmap_takeout]
+
+(* ****** ****** *)
+
+fun{
+key,itm:t0p
+} funmap_remove (map: &map (key, itm) >> _, k: key): bool
+
+(* ****** ****** *)
+
+fun{
+key,itm:t0p
+} funmap_listize (map: map (key, itm)): list0 @(key, itm)
 
 (* ****** ****** *)
 

@@ -98,8 +98,9 @@ fun
 ;itm:vt0p}
 {env:vt0p}
 chain_foreach_env
-  (kxs: !chain (key, itm) >> _, &env >> _): void
-// end of [chain_foreach_env]
+(
+  kxs: !chain (key, itm) >> _, env: &env >> _
+) : void // end of [chain_foreach_env]
 
 (* ****** ****** *)
 
@@ -453,6 +454,51 @@ end // end of [hashtbl_takeout]
 
 implement
 {key,itm}
+hashtbl_takeout_all
+  (tbl) = let
+//
+vtypedef
+chain = chain (key, itm)
+//
+typedef tenv = ptr
+//
+vtypedef ki = @(key, itm)
+vtypedef tenv2 = List0_vt (ki)
+//
+val+@HASHTBL (A, cap, n) = tbl
+//
+local
+implement{a}{env}
+array_rforeach$cont (x, env) = true
+implement
+array_rforeach$fwork<chain><tenv>
+  (kxs, env) = let
+  val kxs = $UN.castvwtp1{chain}(kxs)
+  val kxs = chain_listize<key,itm> (kxs)
+  val kxs = list_vt_append (kxs, $UN.castvwtp0{tenv2}(env))
+  val () = env := $UN.castvwtp0{ptr}(kxs)
+in
+  // nothing
+end // end of [array_rforeach$fwork]
+in(* in of [local] *)
+var env: ptr
+val () = env := $UN.castvwtp0{ptr}(list_vt_nil)
+val _(*cap*) = $effmask_all
+  (arrayptr_rforeach_env<chain><tenv> (A, cap, env))
+end // end of [local]
+//
+val () = n := i2sz(0)
+//
+prval () = fold@ (tbl)
+//
+in
+  $UN.castvwtp0{tenv2}(env)
+end // end of [hashtbl_takeout_all]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
 hashtbl_reset_capacity
   (tbl, cap2) = let
 //
@@ -549,6 +595,49 @@ end // end of [hashtbl_foreach_env]
 (* ****** ****** *)
 
 implement
+{key,itm}
+hashtbl_listize
+  (tbl) = let
+//
+vtypedef
+chain = chain (key, itm)
+//
+val+~HASHTBL (A, cap, n) = tbl
+//
+typedef tenv = ptr
+//
+vtypedef ki = @(key, itm)
+vtypedef tenv2 = List0_vt (ki)
+//
+local
+implement{a}{env}
+array_rforeach$cont (x, env) = true
+implement
+array_rforeach$fwork<chain><tenv>
+  (kxs, env) = let
+  val kxs = $UN.castvwtp1{chain}(kxs)
+  val kxs2 = chain_listize<key,itm> (kxs)
+  val kxs2 = list_vt_append (kxs2, $UN.castvwtp0{tenv2}(env))
+  val () = env := $UN.castvwtp0{ptr}(kxs2)
+in
+  // nothing
+end // end of [array_rforeach$fwork]
+in(* in of [local] *)
+var env: ptr
+val () = env := $UN.castvwtp0{ptr}(list_vt_nil)
+val _(*cap*) = $effmask_all
+  (arrayptr_rforeach_env<chain><tenv> (A, cap, env))
+end // end of [local]
+//
+val () = arrayptr_free ($UN.castvwtp0{arrayptr(ptr,0)}(A))
+//
+in
+  $UN.castvwtp0{tenv2}(env)
+end // end of [hashtbl_listize]
+
+(* ****** ****** *)
+
+implement
 {key,itm}{ki2}
 hashtbl_flistize
   (tbl) = let
@@ -560,7 +649,7 @@ val+~HASHTBL (A, cap, n) = tbl
 //
 typedef tenv = ptr
 //
-vtypedef tenv2 = List_vt (ki2)
+vtypedef tenv2 = List0_vt (ki2)
 //
 local
 implement{a}{env}
@@ -586,7 +675,7 @@ val () = arrayptr_free ($UN.castvwtp0{arrayptr(ptr,0)}(A))
 //
 in
   $UN.castvwtp0{tenv2}(env)
-end // end of [hashtbl_listize]
+end // end of [hashtbl_flistize]
 
 (* ****** ****** *)
 

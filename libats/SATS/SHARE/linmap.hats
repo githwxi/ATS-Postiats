@@ -222,17 +222,11 @@ key:t0p;itm:vt0p
 ) :<!wrt> #[b:bool] bool (b)(*~freed*) // endfun
 //
 (* ****** ****** *)
-(*
 //
 // HX: traversal in the in-order fashion
 //
-*)
-fun{
-key:t0p;itm:vt0p
-} linmap_listize
-  (map: map (key, INV(itm))):<!wrt> List_vt @(key, itm)
-// end of [linmap_listize]
-
+(* ****** ****** *)
+//
 fun
 {key:t0p
 ;itm:vt0p}
@@ -243,11 +237,17 @@ fun
 ;itm:vt0p}
 {ki2:vt0p}
 linmap_flistize (map: map (key, INV(itm))): List_vt (ki2)
-
+//
 (* ****** ****** *)
 
+fun
+{key:t0p
+;itm:vt0p}
+linmap_listize
+  (map: map (key, INV(itm))):<!wrt> List_vt @(key, itm)
+// end of [linmap_listize]
 fun{
-key:t0p;itm:t0p
+key,itm:t0p
 } linmap_listize1
   (map: !map (key, INV(itm))):<!wrt> List_vt @(key, itm)
 // end of [linmap_listize1]

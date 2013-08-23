@@ -17,7 +17,8 @@ queue_vtype (a:viewt@ype+, n:int) = ptr
 
 (* ****** ****** *)
 
-vtypedef queue (a, n) = queue_vtype (a, n)
+vtypedef
+queue (a:vt0p, n:int) = queue_vtype (a, n)
 
 (* ****** ****** *)
 

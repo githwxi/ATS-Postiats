@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -28,63 +28,93 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: hwxi AT cs DOT bu DOT edu *)
-(* Start time: July, 2012 *)
+(* Authoremail: gmhwxi AT gmail DOT com *)
+(* Start time: August, 2013 *)
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats.ML"
-#define ATS_STALOADFLAG 0 // no need for staloading at run-time
-#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
+#define
+ATS_PACKNAME "ATSLIB.libats.ML"
+#define
+ATS_STALOADFLAG 0 // no need for staloading at run-time
+#define
+ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
 
 (* ****** ****** *)
 
 staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
+//
+// HX: for maps of elements of type (a)
+//
+abstype
+hashtbl_type (key:t@ype, itm:t0ype+) = ptr
+typedef
+hashtbl (key:t0p, itm:t0p) = hashtbl_type (key, itm)
+//
+(* ****** ****** *)
 
-typedef SHR(a:type) = a // for commenting purpose
-typedef NSH(a:type) = a // for commenting purpose
+fun{
+key,itm:t0p
+} hashtbl_make_nil (cap: sizeGte(1)): hashtbl (key, itm)
 
 (* ****** ****** *)
 
-fun string_copy (s: NSH(string)):<> string
+fun{
+key,itm:t0p
+} hashtbl_search
+  (hashtbl (key, itm), key): Option_vt (itm)
+// end of [hashtbl_search]
+
+fun{
+key,itm:t0p
+} hashtbl_search_ref
+  (tbl: hashtbl (key, itm), k: key): cPtr0 (itm)
+// end of [hashtbl_search_ref]
 
 (* ****** ****** *)
 
-fun string_make_list (cs: list0 (char)):<> string
-fun string_make_rlist (cs: list0 (char)):<> string
+fun{
+key,itm:t0p
+} hashtbl_insert
+  (hashtbl (key, itm), key, itm): Option_vt (itm)
+// end of [hashtbl_insert]
+
+fun{
+key,itm:t0p
+} hashtbl_insert_any (hashtbl (key, itm), key, itm): void
 
 (* ****** ****** *)
 
-fun string_make_substring
-  (s: NSH(string), st: size_t, ln: size_t):<> string
-// end of [string_make_substring]
+fun{
+key,itm:t0p
+} hashtbl_takeout
+  (hashtbl (key, itm), key): Option_vt (itm)
+// end of [hashtbl_takeout]
 
 (* ****** ****** *)
 
-fun string_append
-  (s1: NSH(string), s2: NSH(string)):<> string
-overload + with string_append
+fun{
+key,itm:t0p
+} hashtbl_remove (hashtbl (key, itm), key): bool
 
 (* ****** ****** *)
 
-fun stringlst_concat (xs: list0 (string)):<> string
+fun{
+key,itm:t0p
+} hashtbl_takeout_all
+  (tbl: hashtbl (key, itm)): List0_vt @(key, itm)
+// end of [hashtbl_takeout_all]
 
 (* ****** ****** *)
 
-fun string_explode (s: string):<> list0 (char)
-fun string_implode (cs: list0 (char)):<> string
+fun{
+key,itm:t0p
+} hashtbl_listize1
+  (tbl: hashtbl (key, itm)): List0_vt @(key, itm)
+// end of [hashtbl_listize1]
 
 (* ****** ****** *)
 
-fun string_tabulate
-  (n: size_t, f: (size_t) -<cloref1> charNZ): string
-
-(* ****** ****** *)
-
-fun string_foreach (s: string, f: cfun (char, void)): void
-
-(* ****** ****** *)
-
-(* end of [string.sats] *)
+(* end of [hashtbl.sats] *)

@@ -130,6 +130,14 @@ clean:: ; $(RMF) stdlib_atxt.exe
 cleanall:: ; $(RMF) HTML/stdlib.html
 
 
+all_html:: HTML/funset.html
+HTML/funset.html:   funset_atxt.exe ; ./$< > $@
+funset_atxt.txt: funset.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+funset_atxt.exe: htmlgendecl_atxt.dats   funset_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_funset:: ;   scp HTML/funset.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
+clean:: ; $(RMF) funset_atxt.exe
+cleanall:: ; $(RMF) HTML/funset.html
+
 all_html:: HTML/funmap.html
 HTML/funmap.html:   funmap_atxt.exe ; ./$< > $@
 funmap_atxt.txt: funmap.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
@@ -138,13 +146,13 @@ upload_funmap:: ;   scp HTML/funmap.html ats-hwxi,ats-lang@web.sourceforge.net:h
 clean:: ; $(RMF) funmap_atxt.exe
 cleanall:: ; $(RMF) HTML/funmap.html
 
-all_html:: HTML/funset.html
-HTML/funset.html:   funset_atxt.exe ; ./$< > $@
-funset_atxt.txt: funset.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
-funset_atxt.exe: htmlgendecl_atxt.dats   funset_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
-upload_funset:: ;   scp HTML/funset.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
-clean:: ; $(RMF) funset_atxt.exe
-cleanall:: ; $(RMF) HTML/funset.html
+all_html:: HTML/hashtbl.html
+HTML/hashtbl.html:   hashtbl_atxt.exe ; ./$< > $@
+hashtbl_atxt.txt: hashtbl.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+hashtbl_atxt.exe: htmlgendecl_atxt.dats   hashtbl_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_hashtbl:: ;   scp HTML/hashtbl.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
+clean:: ; $(RMF) hashtbl_atxt.exe
+cleanall:: ; $(RMF) HTML/hashtbl.html
 
 
 all_html:: HTML/monad_list.html

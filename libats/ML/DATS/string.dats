@@ -54,6 +54,11 @@ macdef
 prelude_string0_append = string0_append
 //
 macdef
+prelude_string_make_list = string_make_list
+macdef
+prelude_string_make_rlist = string_make_rlist
+//
+macdef
 prelude_string_make_substring = string_make_substring
 //
 macdef
@@ -87,6 +92,24 @@ in
   strptr2string (res)
 end // end of [string_copy]
 
+(* ****** ****** *)
+//
+implement
+string_make_list (cs) = let
+  val cs = $UN.cast{list0(charNZ)}(cs)
+  val str = prelude_string_make_list (g1ofg0_list (cs))
+in
+  strnptr2string (str)
+end // end of [string_make_list]
+//
+implement
+string_make_rlist (cs) = let
+  val cs = $UN.cast{list0(charNZ)}(cs)
+  val str = prelude_string_make_rlist (g1ofg0_list (cs))
+in
+  strnptr2string (str)
+end // end of [string_make_rlist]
+//
 (* ****** ****** *)
 
 implement
