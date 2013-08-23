@@ -169,10 +169,6 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
-#packfilename("mutailrec.dats")
-
-(* ****** ****** *)
-
 #packfilename("ordset.dats")
 
 (* ****** ****** *)

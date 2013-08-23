@@ -184,15 +184,29 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 #packfilename("libats_funset_avltree.dats")
 #packfilename("libats_funmap_list.dats")
 #packfilename("libats_funmap_avltree.dats")
-#packfilename("libats_fundeque_fingertree.dats")
+#packfilename("libats_fundeque_fngtree.dats")
+#packfilename("libats_funralist_nested.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_linset_listord.dats")
 
 (* ****** ****** *)
 
 #packfilename("libats_linmap_list.dats")
 #packfilename("libats_linmap_randbst.dats")
 #packfilename("libats_linmap_skiplist.dats")
-#packfilename("libats_linset_listord.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_linhashtbl_chain.dats")
+
+(* ****** ****** *)
+
 #packfilename("libats_linheap_binomial.dats")
+
+(* ****** ****** *)
+
 #packfilename("libats_lindeque_dllist.dats")
 
 (* ****** ****** *)

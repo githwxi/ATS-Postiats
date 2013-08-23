@@ -222,7 +222,8 @@ val (wcs1, wcs2) = list_vt_split_at (wcs, n2)
 //
 local
 implement
-fprint_ref<ki> (out, wc) = fprint! (out, wc.0, "\t->\t", wc.1)
+fprint_ref<ki>
+  (out, wc) = fprint! (out, wc.0, "\t->\t", wc.1)
 in (*in of [local]*)
 val () = fprint_list_vt_sep (stdout_ref, wcs1, "\n")
 end // end of [local]

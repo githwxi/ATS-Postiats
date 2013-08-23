@@ -13,9 +13,9 @@
 Effective ATS: Word Counting
 </h1>
 
-I want to present in this article a program that counts the number of
-occurrences of each word in a given file. The focus of the presentation
-is on the process that finally leads to the construction of the program.
+I would like to present in this article a program that counts the number of
+occurrences of each word in a given file. The focus of the presentation is
+on the process that finally leads to the construction of the program.
 
 <h2>
 What kind of input is expected?
@@ -435,8 +435,8 @@ end // end of [WordCounting_fileref]
 end // end of [local]
 </pre>
 
-It is now safe for two threads call [WordCounting_fileref] on distint file
-handles.
+It is now safe for two threads to simultaneously call
+[WordCounting_fileref] on distint file handles.
 
 A complete running program containing the above implementation of
 [WordCounting_fileref] can be found in the file wordcnt2.dats, and there is
@@ -444,9 +444,10 @@ also a Makefile for compiling it.
 
 <p>
 
-The template system of ATS is an advanced programming feature can greatly
-facilitate code organization and reuse. I will gradually present more
-progromming examples to illustrate effective use of templates in practice.
+The template system of ATS is an advanced programming feature that can
+greatly facilitate code organization and reuse. I will gradually present
+more progromming examples to illustrate effective use of templates in
+practice.
 
 <h2>
 A memory-clean implemenation of word-counting

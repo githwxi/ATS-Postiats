@@ -9,6 +9,8 @@ PATSCC=$(PATSHOME)/bin/patscc
 ######
 
 all::wordcnt
+all::wordcnt2
+all::wordcnt_vt
 
 ######
 

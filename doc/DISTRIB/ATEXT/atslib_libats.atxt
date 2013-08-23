@@ -123,22 +123,29 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
-#packfilename("SATS/funmap_list.sats")
-#packfilename("SATS/funmap_avltree.sats")
 #packfilename("SATS/funset_avltree.sats")
 #packfilename("SATS/funset_listord.sats")
-#packfilename("SATS/funralist_nested.sats")
-#packfilename("SATS/fundeque_fingertree.sats")
 
 (* ****** ****** *)
 
-#packfilename("SATS/linset.sats")
+#packfilename("SATS/funmap_list.sats")
+#packfilename("SATS/funmap_avltree.sats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/fundeque_fngtree.sats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/funralist_nested.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/linset_listord.sats")
 #packfilename("SATS/linset_avltree.sats")
 
 (* ****** ****** *)
 
-#packfilename("SATS/linmap.sats")
 #packfilename("SATS/linmap_list.sats")
 #packfilename("SATS/linmap_avltree.sats")
 #packfilename("SATS/linmap_randbst.sats")
@@ -146,31 +153,56 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
-#packfilename("SATS/linheap.sats")
+#packfilename("SATS/linhashtbl_chain.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/linheap_binomial.sats")
 #packfilename("SATS/linheap_fibonacci.sats")
 
 (* ****** ****** *)
 
-#packfilename("SATS/linhashtbl_chain.sats")
+#packfilename("SATS/lindeque_dllist.sats")
 
 (* ****** ****** *)
 
-#packfilename("SATS/lindeque_dllist.sats")
 #packfilename("SATS/linralist_nested.sats")
 
 (* ****** ****** *)
 
-#packfilename("SATS/SHARE/funmap.hats")
 #packfilename("SATS/SHARE/funset.hats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/SHARE/funmap.hats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/SHARE/fundeque.hats")
 #packfilename("SATS/SHARE/funralist.hats")
-#packfilename("SATS/SHARE/linmap.hats")
-#packfilename("SATS/SHARE/linmap_node.hats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/SHARE/linset.hats")
 #packfilename("SATS/SHARE/linset_node.hats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/SHARE/linmap.hats")
+#packfilename("SATS/SHARE/linmap_node.hats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/SHARE/linhashtbl.hats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/SHARE/linheap.hats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/SHARE/lindeque.hats")
+#packfilename("SATS/SHARE/linralist.hats")
 
 (* ****** ****** *)
 
@@ -211,8 +243,11 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("DATS/fundeque_fngtree.dats")
+
+(* ****** ****** *)
+
 #packfilename("DATS/funralist_nested.dats")
-#packfilename("DATS/fundeque_fingertree.dats")
 
 (* ****** ****** *)
 
@@ -228,6 +263,10 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("DATS/linhashtbl_chain.dats")
+
+(* ****** ****** *)
+
 #packfilename("DATS/linheap_binomial.dats")
 #packfilename("DATS/linheap_binomial2.dats")
 #packfilename("DATS/linheap_fibonacci.dats")
@@ -239,10 +278,18 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
-#packfilename("DATS/SHARE/funmap.hats")
 #packfilename("DATS/SHARE/funset.hats")
+#packfilename("DATS/SHARE/funmap.hats")
+
+(* ****** ****** *)
+
 #packfilename("DATS/SHARE/fundeque.hats")
+#packfilename("DATS/SHARE/funralist.hats")
+
+(* ****** ****** *)
+
 #packfilename("DATS/SHARE/linmap.hats")
+#packfilename("DATS/SHARE/linhashtbl.hats")
 #packfilename("DATS/SHARE/linheap.hats")
 
 (* ****** ****** *)
