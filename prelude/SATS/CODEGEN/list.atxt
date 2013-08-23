@@ -408,7 +408,7 @@ fun{
 x:t0p
 } list_split_at
   {n:int}{i:nat | i <= n}
-  (xs: SHR(list (INV(x), n)), i: int i):<> (list (x, i), list (x, n-i))
+  (xs: SHR(list (INV(x), n)), i: int i):<> (list_vt (x, i), list (x, n-i))
 // end of [list_split_at]
 
 #atscode_separator()
@@ -557,6 +557,8 @@ fun{x:t0p} list_equal (xs1: List (INV(x)), xs2: List(x)):<> bool
 
 #atscode_separator()
 
+fun{x:t0p} list_find
+  (xs: List (INV(x)), x: x? >> opt(x, b)):<> #[b: bool] bool(b)
 fun{x:t0p} list_find$pred (x):<> bool
 fun{x:t0p} list_find_exn (xs: List (INV(x))):<!exn> x
 fun{x:t0p} list_find_opt (xs: List (INV(x))):<> Option_vt (x)

@@ -494,6 +494,17 @@ or exceeds the length of its first argument.
 
 (* ****** ****** *)
 
+#declnamesynop("list_split_at")
+#decldescrpt('\
+
+Given a list xs of length n and an integer i between 0 and n, inclusive,
+this function returns a pair of lists of length i and n-i such that the
+concatenation of the pair equals the given list xs.
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("list_foreach")
 #decldescrpt("\
 
@@ -556,14 +567,14 @@ inclusive, and xs[i] (ys[i]) refers to element i in xs (ys).  ")
 
 #declnamesynop("list_foreach2_env")
 
-(* ****** ****** *)
-
-#declnamesynop("list_iforeach$cont")
+#declnamesynop("list_foreach2$cont")
 #decldescrpt('\
 The default implementation of this function always returns true.\
 ')
 
-#declnamesynop("list_iforeach$fwork")
+#declnamesynop("list_foreach2$fwork")
+
+(* ****** ****** *)
 
 #declnamesynop("list_iforeach")
 #decldescrpt("\
@@ -572,15 +583,13 @@ Given a list xs of length n, this function applies to each pair (i, xs[i])
 the function implemented by #dyncode("list_iforeach$fwork"), where i
 ranges from 0 until n-1, inclusive, and xs[i] refers to element i in xs.
 ")
-
 #declnamesynop("list_iforeach_env")
 
-#declnamesynop("list_foreach2$cont")
+#declnamesynop("list_iforeach$cont")
 #decldescrpt('\
 The default implementation of this function always returns true.\
 ')
-
-#declnamesynop("list_foreach2$fwork")
+#declnamesynop("list_iforeach$fwork")
 
 (* ****** ****** *)
 
@@ -595,8 +604,6 @@ inclusive, and xs[i] (ys[i]) refers to element i in xs (ys).  ")
 #declnamesynop("list_iforeach2_env")
 
 (* ****** ****** *)
-
-#declnamesynop("list_foldleft$fwork")
 
 #declnamesynop("list_foldleft")
 #decldescrpt("\
@@ -629,12 +636,7 @@ end // end of [factorial]
 ')
 ")
 
-#declnamesynop("list_iforeach2$cont")
-#decldescrpt('\
-The default implementation of this function always returns true.\
-')
-
-#declnamesynop("list_iforeach2$fwork")
+#declnamesynop("list_foldleft$fopr")
 
 (* ****** ****** *)
 
@@ -695,7 +697,18 @@ xs satisfies the predicate implemented by #dyncode("list_forall$pred").
 
 ')
 
+#declnamesynop("list_forall$pred")
+
 (* ****** ****** *)
+
+#declnamesynop("list_equal")
+#decldescrpt('\
+
+Given two lists xs1 and xs2 of length n1 and n2, respectively, this
+function returns true if and only if xs1 and xs2 are of the same length and
+the predicate implemented by #dyncode("list_equal$pred") holds on each
+pair (xs1[i], xs2[i]), where i ranges from 0 until n1-1, inclusive, and
+xs1[i] (xs2[i]) refers to element i in xs1 (xs2). ')
 
 #declnamesynop("list_equal$pred")
 #decldescrpt("\
@@ -709,18 +722,12 @@ implement{a}
 list_equal$pred (x, y) = gequal_val<a> (x, y)
 ")
 ")
-#declnamesynop("list_equal")
-#decldescrpt('\
-
-Given two lists xs1 and xs2 of length n1 and n2, respectively, this
-function returns true if and only if xs1 and xs2 are of the same length and
-the predicate implemented by #dyncode("list_equal$pred") holds on each
-pair (xs1[i], xs2[i]), where i ranges from 0 until n1-1, inclusive, and
-xs1[i] (xs2[i]) refers to element i in xs1 (xs2). ')
-
-#declnamesynop("list_forall$pred")
 
 (* ****** ****** *)
+
+#declnamesynop("list_find")
+
+#declnamesynop("list_find$pred")
 
 #declnamesynop("list_find_exn")
 #decldescrpt('\
@@ -755,8 +762,6 @@ val () = assertloc (1 = list_find_exn<int> (xs))
 This function is the optional version of #dyncode("list_find_exn").
 
 ')
-
-#declnamesynop("list_find$pred")
 
 (* ****** ****** *)
 
