@@ -116,11 +116,10 @@ end // end of [linset_is_member]
 
 (* ****** ****** *)
 
-implement{a} linset_copy (xs) = list_vt_copy<a> (xs)
-
-(* ****** ****** *)
-
-implement{a} linset_free (xs) = list_vt_free<a> (xs)
+implement{a}
+linset_copy (xs) = list_vt_copy<a> (xs)
+implement{a}
+linset_free (xs) = list_vt_free<a> (xs)
 
 (* ****** ****** *)
 

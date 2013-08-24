@@ -48,17 +48,17 @@ compare_elt_elt (x1: a, x2: a):<> int
 
 (* ****** ****** *)
 
-fun{} linset_nil{a:t0p} ():<> set (a)
-fun{} linset_make_nil{a:t0p} ():<> set (a)
+fun{} linset_nil{a:t0p} ():<> set(a)
+fun{} linset_make_nil{a:t0p} ():<> set(a)
 
 (* ****** ****** *)
 
-fun{a:t0p} linset_sing (x: a):<!wrt> set (a)
-fun{a:t0p} linset_make_sing (x: a):<!wrt> set (a)
+fun{a:t0p} linset_sing (x: a):<!wrt> set(a)
+fun{a:t0p} linset_make_sing (x: a):<!wrt> set(a)
 
 (* ****** ****** *)
 
-fun{a:t0p} linset_make_list (xs: List(INV(a))):<!wrt> set (a)
+fun{a:t0p} linset_make_list (xs: List(INV(a))):<!wrt> set(a)
 
 (* ****** ****** *)
 
@@ -81,10 +81,9 @@ linset_isnot_member (xs: !set(INV(a)), x0: a):<> bool
 (* ****** ****** *)
 
 fun{a:t0p}
-linset_free (xs: set(INV(a))):<!wrt> void
-
+linset_copy (!set(INV(a))):<!wrt> set(a)
 fun{a:t0p}
-linset_copy (xs: !set(INV(a))):<!wrt> set (a)
+linset_free (xs: set(INV(a))):<!wrt> void
 
 (* ****** ****** *)
 //

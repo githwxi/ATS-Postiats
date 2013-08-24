@@ -1,5 +1,5 @@
 (*
-** for testing [libats/linset_listord]
+** for testing [libats/linset_avltree]
 *)
 
 (* ****** ****** *)
@@ -15,8 +15,8 @@
 //
 (* ****** ****** *)
 
-staload "libats/SATS/linset_listord.sats"
-staload _(*anon*) = "libats/DATS/linset_listord.dats"
+staload "libats/SATS/linset_avltree.sats"
+staload _(*anon*) = "libats/DATS/linset_avltree.dats"
 
 (* ****** ****** *)
 
@@ -42,8 +42,6 @@ val () = assertloc (linset_isnot_member (xs, 4))
 var xs = xs
 val () = assertloc (~linset_insert (xs, 0))
 val () = assertloc ( linset_insert (xs, 1))
-val () = assertloc ( linset_remove (xs, 1))
-val () = assertloc (~linset_remove (xs, 4))
 //
 val () = fprintln! (out, "xs = ", xs)
 //
@@ -57,4 +55,4 @@ implement main0 () = ()
 
 (* ****** ****** *)
 
-(* end of [libats_linset_listord.dats] *)
+(* end of [libats_linset_avltree.dats] *)

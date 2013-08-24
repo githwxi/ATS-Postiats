@@ -896,7 +896,8 @@ end // end of [funset_is_subset]
 
 (* ****** ****** *)
 
-implement{a}{env}
+implement
+{a}{env}
 funset_foreach_env
   (xs, env) = let
 //
@@ -935,7 +936,8 @@ end // end of [funset_foreach_env]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 funset_listize
   (xs) = let
 //

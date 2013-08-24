@@ -175,6 +175,7 @@ RMF=rm -f
 ######
 
 #make2_entry("libats_linset_listord", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_linset_avltree", "-DATS_MEMALLOC_LIBC", "")
 
 ######
 

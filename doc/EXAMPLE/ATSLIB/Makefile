@@ -436,6 +436,14 @@ clean:: ; $(RMF) libats_linset_listord_dats.o
 clean:: ; $(RMF) libats_linset_listord_dats.c
 cleanall:: ; $(RMF) libats_linset_listord.exe
 
+all:: libats_linset_avltree
+libats_linset_avltree: libats_linset_avltree.exe
+libats_linset_avltree.exe: libats_linset_avltree_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_linset_avltree_dats.c: libats_linset_avltree.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_linset_avltree_dats.c --dynamic libats_linset_avltree.dats
+clean:: ; $(RMF) libats_linset_avltree_dats.o
+clean:: ; $(RMF) libats_linset_avltree_dats.c
+cleanall:: ; $(RMF) libats_linset_avltree.exe
+
 
 ######
 

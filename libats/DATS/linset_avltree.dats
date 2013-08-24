@@ -184,7 +184,8 @@ avltree_lrotate
 , t0: B_unfold (l, l_h, l_x, l_tl, l_tr)
 ) :<!wrt> avltree_inc (a, hr) = let
   val tr = !p_tr
-  val+@B{a}{hrl,hrr}(hr2, _, trl, trr) = tr
+  val+@B{..}{hrl,hrr}
+    (hr2, _, trl, trr) = tr
   val hrl = avlht(trl): int(hrl)
   and hrr = avlht(trr): int(hrr)
 in
@@ -200,7 +201,8 @@ in
     tr // B (1+max(hrl1,hrr), kr, xr, B (hrl1, k, x, tl, trl), trr)
   end else let // [hrl==hrr+HTDF1]: deep rotation
     val trl_ = trl
-    val+@B{a}{hrll,hrlr}(hrl, _, trll, trlr) = trl_
+    val+@B{..}{hrll,hrlr}
+      (hrl, _, trll, trlr) = trl_
     val hrll = avlht (trll) : int(hrll)
     and hrlr = avlht (trlr) : int(hrlr)
     val () = !p_h := 1+max(hl,hrll)
@@ -237,7 +239,8 @@ avltree_rrotate
 , t0: B_unfold (l, l_h, l_x, l_tl, l_tr)
 ) :<!wrt> avltree_inc (a, hl) = let
   val tl = !p_tl
-  val+@B{a}{hll,hlr}(hl2, _, tll, tlr) = tl
+  val+@B{..}{hll,hlr}
+    (hl2, _, tll, tlr) = tl
   val hll = avlht(tll): int(hll)
   and hlr = avlht(tlr): int(hlr)
 in
@@ -253,7 +256,8 @@ in
     tl // B (1+max(hll,hlr1), kl, xl, tll, B (hlr1, k, x, tlr, tr))
   end else let
     val tlr_ = tlr
-    val+@B{a}{hlrl,hlrr}(hlr, _, tlrl, tlrr) = tlr_
+    val+@B{..}{hlrl,hlrr}
+      (hlr, _, tlrl, tlrr) = tlr_
     val hlrl = avlht (tlrl): int(hlrl)
     val hlrr = avlht (tlrr): int(hlrr)
     val () = !p_h := 1+max(hlrr,hr)
@@ -274,6 +278,38 @@ end // end of [avltree_rrotate]
 (* ****** ****** *)
 
 implement{a}
+linset_copy (xs) = let
+//
+fun copy
+  {h:nat} .<h>.
+  (t: !avltree (a, h)):<!wrt> avltree (a, h) =
+(
+case+ t of
+| B (h, x, tl, tr) => B (h, x, copy (tl), copy (tr)) | E () => E ()
+) // end of [copy]
+in
+  copy (xs)
+end // end of [linset_copy]
+
+(* ****** ****** *)
+
+implement{a}
+linset_free (xs) = let
+//
+fun free
+  {h:nat} .<h>.
+  (t: avltree (a, h)):<!wrt> void =
+(
+case+ t of
+| ~B (_, _, tl, tr) => (free (tl); free (tr)) | ~E () => ()
+) // end of [free]
+in
+  free (xs)
+end // end of [linset_free]
+
+(* ****** ****** *)
+
+implement{a}
 linset_insert
   (xs, x0) = insert (xs, x0) where
 {
@@ -286,13 +322,13 @@ fun insert
 in
 //
 case+ t0 of
-| @B{a}{hl,hr}
+| @B{..}{hl,hr}
     (h, x, tl, tr) => let
     prval pf_h = view@h
     prval pf_x = view@x
     prval pf_tl = view@tl
     prval pf_tr = view@tr
-    val sgn = compare_elt_elt (x0, x)
+    val sgn = compare_elt_elt<a> (x0, x)
   in
     if sgn < 0 then let
       val ans = insert (tl, x0)
@@ -344,6 +380,73 @@ end // end of [insert]
 
 (* ****** ****** *)
 
+implement
+{a}{env}
+linset_foreach_env
+  (xs, env) = let
+//
+val p_env = addr@ (env)
+//
+fun foreach
+  {h:nat} .<h>.
+(
+  t: !avltree (a, h), p_env: ptr
+) : void = let
+in
+//
+case+ t of
+| B (_, x, tl, tr) => let
+//
+    val () = foreach (tl, p_env)
+//
+    val (
+      pf, fpf | p_env
+    ) = $UN.ptr_vtake (p_env)
+    val () = linset_foreach$fwork<a><env> (x, !p_env)
+    prval () = fpf (pf)
+//
+    val () = foreach (tr, p_env)
+//
+  in
+    // nothing
+  end // end of [B]
+| E ((*void*)) => ()
+//
+end // end of [foreach]
+//
+in
+  foreach (xs, p_env)
+end // end of [linset_foreach_env]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+linset_listize
+  (xs) = let
+//
+fun aux
+  {h:nat} .<h>.
+(
+  t: avltree (a, h), res: List0_vt(a)
+) :<> List0_vt(a) = let
+in
+//
+case+ t of
+| ~B (_, x, tl, tr) => let
+    val res = aux (tr, res)
+    val res = list_vt_cons{a}(x, res)
+    val res = aux (tl, res)
+  in
+    res
+  end // end of [B]
+| ~E ((*void*)) => res
+//
+end // end of [aux]
+//
+in
+  aux (xs, list_vt_nil)
+end // end of [linset_listize]
 
 (* ****** ****** *)
 
