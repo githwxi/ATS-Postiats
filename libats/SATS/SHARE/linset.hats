@@ -53,7 +53,11 @@ fun{} linset_make_nil{a:t0p} ():<> set (a)
 
 (* ****** ****** *)
 
+fun{a:t0p} linset_sing (x: a):<!wrt> set (a)
 fun{a:t0p} linset_make_sing (x: a):<!wrt> set (a)
+
+(* ****** ****** *)
+
 fun{a:t0p} linset_make_list (xs: List(INV(a))):<!wrt> set (a)
 
 (* ****** ****** *)

@@ -60,10 +60,9 @@ in
   | list_nil () => ()
 end // end of [loop]
 //
-var set
-  : set = funset_make_nil ()
+var set: set = funset_make_nil ()
 //
-val () = $effmask_all (loop (set, xs))
+val ((*void*)) = $effmask_all (loop (set, xs))
 //
 } // end of [funset_make_list]
 

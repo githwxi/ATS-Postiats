@@ -48,4 +48,9 @@ sortdef t0p = t@ype and vt0p = vt@ype
 
 (* ****** ****** *)
 
+castfn
+linset2list {a:t0p} (xs: set (INV(a))):<> List0_vt (a)
+
+(* ****** ****** *)
+
 (* end of [linset_listord.sats] *)

@@ -97,36 +97,6 @@ funset_make_sing (x) = B{a}(1, x, E, E)
 
 (* ****** ****** *)
 
-implement{a}
-funset_make_list
-  (xs) = res where
-{
-//
-fun loop
-  {n:nat} .<n>.
-(
-  xs: list (a, n), res: &set a >> _
-) : void = let
-in
-//
-case+ xs of
-| list_cons
-    (x, xs) => let
-    val _(*exi*) = funset_insert<a> (res, x)
-  in
-    loop (xs, res)
-  end // end of [list_cons]
-| list_nil () => ((*void*))
-end // end of [loop]
-//
-var res: set a = funset_nil ()
-prval () = lemma_list_param (xs)
-val () = $effmask_all (loop (xs, res))
-//
-} // end of [funset_make_list]
-
-(* ****** ****** *)
-
 implement
 {a}(*tmp*)
 funset_size
@@ -182,9 +152,6 @@ case+ t of
 end // end of [aux]
 //
 } // end of [funset_is_member]
-
-implement{a}
-funset_isnot_member (xs, x0) = ~funset_is_member (xs, x0)
 
 (* ****** ****** *)
 

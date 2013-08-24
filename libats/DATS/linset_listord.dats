@@ -64,6 +64,11 @@ linset_make_nil () = list_vt_nil ()
 
 (* ****** ****** *)
 
+implement
+{a}(*tmp*)
+linset_sing
+  (x) = list_vt_cons{a}(x, list_vt_nil)
+// end of [linset_sing]
 implement{a}
 linset_make_sing
   (x) = list_vt_cons{a}(x, list_vt_nil)
