@@ -110,10 +110,13 @@ fun loop
 in
 //
 case+ xs of
-| list_cons (x, xs) => let
-    val _(*inserted*) = funset_insert<a> (res, x) in loop (xs, res)
+| list_cons
+    (x, xs) => let
+    val _(*exi*) = funset_insert<a> (res, x)
+  in
+    loop (xs, res)
   end // end of [list_cons]
-| list_nil () => ()
+| list_nil () => ((*void*))
 end // end of [loop]
 //
 var res: set a = funset_nil ()
@@ -124,12 +127,14 @@ val () = $effmask_all (loop (xs, res))
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 funset_size
   (xs) = aux (xs) where
 {
 //
-fun aux {h:nat} .<h>.
+fun aux
+  {h:nat} .<h>.
   (t: avltree (a, h)):<> size_t =
 (
   case+ t of
@@ -142,9 +147,15 @@ fun aux {h:nat} .<h>.
 (* ****** ****** *)
 
 implement{}
-funset_is_nil (xs) = case+ xs of B _ => false | E () => true
+funset_is_nil (xs) =
+(
+  case+ xs of B _ => false | E () => true
+)
 implement{}
-funset_isnot_nil (xs) = case+ xs of B _ => true | E () => false 
+funset_isnot_nil (xs) =
+(
+  case+ xs of B _ => true | E () => false
+)
 
 (* ****** ****** *)
 
@@ -156,13 +167,18 @@ funset_is_member
 fun aux {h:nat} .<h>.
   (t: avltree (a, h)):<> bool = let
 in
-  case+ t of
-  | B (_, x, tl, tr) => let
-      val sgn = compare_elt_elt<a> (x0, x)
-    in
-      if sgn < 0 then aux (tl) else (if sgn > 0 then aux (tr) else true)
-    end // end of [B]
-  | E ((*void*)) => false
+//
+case+ t of
+| B (_, x, tl, tr) => let
+    val sgn = compare_elt_elt<a> (x0, x)
+  in
+    if sgn < 0
+      then aux (tl)
+      else (if sgn > 0 then aux (tr) else true)
+    // end of [if]
+  end // end of [B]
+| E ((*void*)) => false
+//
 end // end of [aux]
 //
 } // end of [funset_is_member]

@@ -157,14 +157,16 @@ end // end of [funset_takeoutmin_opt]
 (* ****** ****** *)
 
 implement{a}
-funset_equal (xs1, xs2) = let
+funset_equal
+  (xs1, xs2) = let
   val sgn = funset_compare<a> (xs1, xs2) in sgn = 0
 end // end of [funset_equal]
 
 (* ****** ****** *)
 
 implement{a}
-funset_is_supset (xs1, xs2) = funset_is_subset<a> (xs2, xs1)
+funset_is_supset
+  (xs1, xs2) = funset_is_subset<a> (xs2, xs1)
 
 (* ****** ****** *)
 

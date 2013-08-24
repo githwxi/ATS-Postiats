@@ -20,6 +20,39 @@ staload _(*anon*) = "libats/DATS/linset_listord.dats"
 
 (* ****** ****** *)
 
+val () =
+{
+//
+val out = stdout_ref
+//
+val xs =
+  $list{int}(1, 1, 1, 2, 3)
+//
+val xs = linset_make_list (xs)
+//
+val () = fprintln! (out, "xs = ", xs)
+val () = assertloc (linset_size(xs) = 3)
+//
+val () = assertloc (linset_is_member (xs, 1))
+val () = assertloc (linset_is_member (xs, 2))
+val () = assertloc (linset_is_member (xs, 3))
+val () = assertloc (linset_isnot_member (xs, 0))
+val () = assertloc (linset_isnot_member (xs, 4))
+//
+var xs = xs
+val () = assertloc ( linset_insert (xs, 1))
+val () = assertloc (~linset_insert (xs, 0))
+val () = assertloc ( linset_remove (xs, 1))
+val () = assertloc (~linset_remove (xs, 4))
+//
+val () = fprintln! (out, "xs = ", xs)
+//
+val () = linset_free (xs)
+//
+} // end of [val]
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

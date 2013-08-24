@@ -15,12 +15,12 @@
 //
 (* ****** ****** *)
 
-staload _ = "libats/DATS/linmap_list.dats"
-staload _ = "libats/DATS/linhashtbl_chain.dats"
+staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload _ = "libats/DATS/linmap_list.dats"
+staload _ = "libats/DATS/linhashtbl_chain.dats"
 
 (* ****** ****** *)
 

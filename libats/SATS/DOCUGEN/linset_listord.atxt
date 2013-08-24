@@ -56,9 +56,32 @@ is co-variant in its type argument.\
 
 (* ****** ****** *)
 
+#declnamesynop("linset_insert")
+#declnamesynop("linset_remove")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_takeoutmax")
+#declnamesynop("linset_takeoutmax_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_takeoutmin")
+#declnamesynop("linset_takeoutmin_opt")
+
+(* ****** ****** *)
+
 #declnamesynop("linset_foreach")
 #declnamesynop("linset_foreach_env")
 #declnamesynop("linset_foreach$fwork")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_listize")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_listize1")
 
 (* ****** ****** *)
 

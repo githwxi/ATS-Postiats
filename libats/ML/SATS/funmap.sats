@@ -55,15 +55,15 @@ map (key:t0p, itm:t0p) = map_type (key, itm)
 //
 (* ****** ****** *)
 
-fun funmap_nil{key,itm:t0p} (): map (key, itm)
-fun funmap_make_nil{key,itm:t0p} (): map (key, itm)
+fun{} funmap_nil{key,itm:t0p} (): map (key, itm)
+fun{} funmap_make_nil{key,itm:t0p} (): map (key, itm)
 
 (* ****** ****** *)
 
 fun{
 key,itm:t0p
 } funmap_search
-  (map: map (key, itm), k: key): Option_vt (itm)
+  (map: map (key, INV(itm)), k: key): Option_vt (itm)
 // end of [funmap_search]
 
 (* ****** ****** *)
@@ -71,7 +71,7 @@ key,itm:t0p
 fun{
 key,itm:t0p
 } funmap_insert
-  (map: &map (key, itm) >> _, key, itm): Option_vt (itm)
+  (map: &map (key, INV(itm)) >> _, key, itm): Option_vt (itm)
 // end of [funmap_insert]
 
 (* ****** ****** *)
@@ -79,20 +79,20 @@ key,itm:t0p
 fun{
 key,itm:t0p
 } funmap_takeout
-  (map: &map (key, itm) >> _, k: key): Option_vt (itm)
+  (map: &map (key, INV(itm)) >> _, k: key): Option_vt (itm)
 // end of [funmap_takeout]
 
 (* ****** ****** *)
 
 fun{
 key,itm:t0p
-} funmap_remove (map: &map (key, itm) >> _, k: key): bool
+} funmap_remove (map: &map (key, INV(itm)) >> _, k: key): bool
 
 (* ****** ****** *)
 
 fun{
 key,itm:t0p
-} funmap_listize (map: map (key, itm)): list0 @(key, itm)
+} funmap_listize (map: map (key, INV(itm))): list0 @(key, itm)
 
 (* ****** ****** *)
 

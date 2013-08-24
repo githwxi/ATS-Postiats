@@ -171,7 +171,8 @@ end // end of [p2at_trup_con]
 (* ****** ****** *)
 
 extern
-fun p3at_lincon_update (
+fun p3at_lincon_update
+(
   p3t0: p3at, d2c: d2con, p3ts_arg: p3atlst
 ) : void // end of [p3at_lincon_update]
 
@@ -413,51 +414,81 @@ case+ s2e_head.s2exp_node of
     if eq_s2cst_s2cst (s2c, s2c1) then flag := 0
 | S2Edatcontyp (d2c1, s2es) =>
     if eq_d2con_d2con (d2c, d2c1) then (flag := 1; s2es_arg_alt := s2es)
-| _ => ()
+| _ => ((*void*))
 ) // end of [val]
 //
 val () =
-if (flag > 0) then (
-  case+ pck of
-  | PCKfree () => let
-      val () = prerr_error3_loc (loc0)
-      val () = prerr ": the pattern decoration ~(freeing) is wrongly applied."
-      val () = prerr_newline ()
-    in
-      the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
-    end // end of [PCKfree]
-  | PCKunfold () => let
-      val () = prerr_error3_loc (loc0)
-      val () = prerr ": the pattern decoration @(unfolding) is wrongly applied."
-      val () = prerr_newline ()
-    in
-      the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
-    end // end of [PCKunfold]
-  | _ => ()
+if (flag > 0) then
+(
+case+ pck of
+| PCKfree () => let
+    val (
+    ) = prerr_error3_loc (loc0)
+    val () = prerr ": the pattern decoration ~(freeing) is wrongly applied."
+    val () = prerr_newline ((*void*))
+  in
+    the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
+  end // end of [PCKfree]
+| PCKunfold () => let
+    val (
+    ) = prerr_error3_loc (loc0)
+    val () = prerr ": the pattern decoration @(unfolding) is wrongly applied."
+    val () = prerr_newline ((*void*))
+  in
+    the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
+  end // end of [PCKunfold]
+| _ => ()
 ) // end of [if] // end of [val]
 //
 val () =
 if (flag < 0) then let
-  val () = prerr_error3_loc (loc0)
+  val (
+  ) = prerr_error3_loc (loc0)
   val () = prerr ": the constructor pattern cannot be assigned the type ["
   val () = pprerr_s2exp (s2e)
   val () = prerr "]."
-  val () = prerr_newline ()
+  val () = prerr_newline ((*void*))
 in
   the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
 end (* end of [if] // end of [val] *)
 //
-val flag_vwtp = (
+val flag_vwtp =
+(
   if flag > 0 then 1 else d2con_get_vwtp (d2c)
 ) : int // end of [val]
+//
 var pck: pckind = pck
-val () = if pck = PCKcon then
-  (if flag_vwtp > 0 then pck := PCKlincon)
-// end of [if] // end of [val]
+val (
+) = if pck = PCKcon then (if flag_vwtp > 0 then pck := PCKlincon)
+//
+val () =
+if flag_vwtp = 0 then
+(
+case+ pck of
+| PCKfree () => let
+    val (
+    ) = prerr_error3_loc (loc0)
+    val () = prerr ": pattern decoration ~(freeing) cannot be applied."
+    val () = prerr_newline ((*void*))
+  in
+    the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
+  end // end of [PCKfree]
+| PCKunfold () => let
+    val (
+    ) = prerr_error3_loc (loc0)
+    val () = prerr ": pattern decoration ~(unfolding) cannot be applied."
+    val () = prerr_newline ((*void*))
+  in
+    the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
+  end // end of [PCKunfold]
+| _ => ((*void*))
+) (* end of [if] *) // end of [val]
+//
 (*
 val () = println! ("p2at_trdn_con: pck = ", pck)
 val () = println! ("p2at_trdn_con: flag = ", flag)
 *)
+//
 val p3t0 =
 (
 case+ 0 of

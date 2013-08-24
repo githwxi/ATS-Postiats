@@ -56,9 +56,9 @@ map_type (key:t0p, itm:t0p) = $FM.map (key, itm)
 
 (* ****** ****** *)
 
-implement
+implement{}
 funmap_nil () = $FM.funmap_nil ()
-implement
+implement{}
 funmap_make_nil () = $FM.funmap_make_nil ()
 
 (* ****** ****** *)

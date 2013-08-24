@@ -36,18 +36,17 @@ internal state. In general, using stateful functions is considered a poor
 style of programming.  For instance, the function [strtok] in libc is
 infamous for its treachery of statefulness, and everyone bitten by it
 should know this all too well. In ATS, there is a convenient approach to
-removing stateful functions by simply turing them into templates, which I
-will explain in details later in this article.  For the moment, let us
-focus on getting a running implementation.
+removing stateful functions by simply turing them into templates.  For the
+moment, let us focus on getting a running implementation.
 
 <h2>
 What kind of output is expected?
 </h2>
 
 Let us say that we want to output all of the encountered words in an order
-such that a word appears ahead of another one if there are a larger number
-of occurrences of the former than the latter. This means that we need to
-build an associative map that associates each word with the number of the
+such that a word appears ahead of another one if there are more occurrences
+of the former than the latter. This means that we need to build an
+associative map that associates each word with the number of the
 occurrences of this word. So we introduce the following abstract type
 [wcmap_type] for such a map and [wcmap] as a shorthand for [wcmap_type]:
 
@@ -75,8 +74,8 @@ If a word is encountered, we need to increase its number of occurrences by
 fun wcmap_incby1 (map: wcmap, w: string): void
 </pre>
 
-As we also need to sort words according to their numbers of occurrences,
-we introduce a function for doing it:
+As we also need to sort words according to their numbers of occurrences, we
+introduce a function for sequentializing a [wcmap]:
 
 <pre>
 fun wcmap_listize (map: wcmap): list0 @(string, int)
@@ -86,7 +85,8 @@ In libats, which is a part of ATS library, there are many implementations
 of maps. For someone familiar with data structures, it should be clear that
 a good fit for [wcmap] is a hashtable-based map implementation. Of course,
 a map implementation based on some form of balanced-tree (e.g. AVL-tree)
-should work as well.
+should work as well. My own experiment showed that the former was about 2-3
+times faster than the latter.
 
 <h2>
 Implementing WordCounting
@@ -140,7 +140,7 @@ style of progrmming in practice. When given the word-counting problem, they
 would focus on implementing [wcmap] (and the functions associated with it)
 and/or functions like [word_get]. For a simple problem like word-counting,
 a competent programmer can probably handle it with whatsoever approach he or
-she likes. However, when dealing with larger and more complex problems, one
+she chooses. However, when dealing with larger and more complex problems, one
 can easily lose focus with a bottom-up approach, writing code that is only
 to be abandoned later. To some extent, writing a program is like telling a
 story: The story can hardly be coherent if the storyteller is out of focus.
@@ -149,8 +149,8 @@ story: The story can hardly be coherent if the storyteller is out of focus.
 How should [word_get] be implemented?
 </h2>
 
-One possible way to implement [word_get] is to assume that
-we have a function [char_get] of the following type:
+One way to implement [word_get] is to first assume that we have a function
+[char_get] of the following type:
 
 <pre>
 fun char_get (): int
@@ -267,12 +267,10 @@ A complete running program containing the entirety of the above presented
 code can be found in the file wordcnt.dats, and there is also a Makefile
 for compiling it.
 
-<h2>
-A truncated result from a test run
-</h2>
+<p>
 
-Following is a list of the 100 most frequently used words in the novel
-"Moby Dick" by Herman Melville:
+Following is a list of the 100 most frequently used words in the novel "Moby Dick"
+by Herman Melville:
 
 <pre>
 the	->	14515

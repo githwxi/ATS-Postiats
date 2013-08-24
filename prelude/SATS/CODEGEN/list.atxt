@@ -558,7 +558,7 @@ fun{x:t0p} list_equal (xs1: List (INV(x)), xs2: List(x)):<> bool
 #atscode_separator()
 
 fun{x:t0p} list_find
-  (xs: List (INV(x)), x: x? >> opt(x, b)):<> #[b: bool] bool(b)
+  (List (INV(x)), x: &x? >> opt(x, b)):<> #[b: bool] bool(b)
 fun{x:t0p} list_find$pred (x):<> bool
 fun{x:t0p} list_find_exn (xs: List (INV(x))):<!exn> x
 fun{x:t0p} list_find_opt (xs: List (INV(x))):<> Option_vt (x)
