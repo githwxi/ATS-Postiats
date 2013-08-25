@@ -598,7 +598,7 @@ case+ t of
     val res = list_vt_cons{ki2}(kx2, res)
     val res = aux (tr, res)
   } // end of [BSTcons]
-| ~BSTnil () => res
+| ~BSTnil ((*void*)) => res
 //
 end // end of [aux]
 //

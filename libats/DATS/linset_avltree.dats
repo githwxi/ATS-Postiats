@@ -610,23 +610,23 @@ implement
 linset_foreach_env
   (xs, env) = let
 //
-val p_env = addr@ (env)
+val p_env = addr@env
 //
 fun foreach
   {h:nat} .<h>.
 (
-  t: !avltree (a, h), p_env: ptr
+  t0: !avltree (a, h), p_env: ptr
 ) : void = let
 in
 //
-case+ t of
+case+ t0 of
 | B (h, x, tl, tr) => let
 //
     val () = foreach (tl, p_env)
 //
     val (
       pf, fpf | p_env
-    ) = $UN.ptr_vtake (p_env)
+    ) = $UN.ptr_vtake{env}(p_env)
     val () = linset_foreach$fwork<a><env> (x, !p_env)
     prval () = fpf (pf)
 //

@@ -64,6 +64,8 @@ prval () = opt_clear (res)
 val () = assertloc (not(ans)) // inserted
 val () = assertloc (linmap_size (map) = 3)
 //
+val () = fprintln! (stdout_ref, "map = ", map)
+//
 val () = linmap_free (map)
 //
 } (* end of [val] *)

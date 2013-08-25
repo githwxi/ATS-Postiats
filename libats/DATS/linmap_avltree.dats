@@ -432,6 +432,48 @@ end // end of [linmap_insert]
 (* ****** ****** *)
 
 implement
+{key,itm}{env}
+linmap_foreach_env
+  (xs, env) = let
+//
+val p_env = addr@env
+//
+fun foreach
+  {h:nat} .<h>.
+(
+  t0: !avltree (key, itm, h), p_env: ptr
+) : void = let
+in
+//
+case+ t0 of
+| @B (h, k, x, tl, tr) => let
+//
+    val () = foreach (tl, p_env)
+//
+    val (
+      pf, fpf | p_env
+    ) = $UN.ptr_vtake{env}(p_env)
+    val () = linmap_foreach$fwork<key,itm><env> (k, x, !p_env)
+    prval () = fpf (pf)
+//
+    val () = foreach (tr, p_env)
+//
+    prval () = fold@ (t0)
+//
+  in
+    // nothing
+  end // end of [B]
+| E ((*void*)) => ()
+//
+end // end of [foreach]
+//
+in
+  foreach (xs, p_env)
+end // end of [linmap_foreach_env]
+
+(* ****** ****** *)
+
+implement
 {key,itm}{ki2}
 linmap_flistize
   (map) = let
@@ -445,8 +487,7 @@ fun aux
 in
 //
 case+ t of
-| ~B
-  (
+| ~B (
     _, k, x, tl, tr
   ) => res where {
     val res = aux (tl, res)
