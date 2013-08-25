@@ -74,6 +74,55 @@ linset_isnot_member (xs, x0) = ~linset_is_member (xs, x0)
 
 (* ****** ****** *)
 
+implement
+{a}(*tmp*)
+linset_remove
+  (xs, x0) = let
+//
+val nx =
+  linset_takeout_ngc (xs, x0)
+val p_nx = mynode2ptr (nx)
+//
+in
+//
+if p_nx > 0
+  then let
+    val () = mynode_free (nx) in true
+  end // end of [then]
+  else let
+    prval () = mynode_free_null (nx) in false
+  end // end of [else]
+// end of [if]
+//
+end // end of [linset_remove]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+linset_takeout
+  (xs, x0, res) = let
+//
+val nx =
+  linset_takeout_ngc (xs, x0)
+val p_nx = mynode2ptr (nx)
+//
+in
+//
+if p_nx > 0 then let
+  val () =
+    res := mynode_getfree_elt (nx)
+  // end of [val]
+  prval () = opt_some{a}(res) in true
+end else let
+  prval () = mynode_free_null (nx)
+  prval () = opt_none{a}(res) in false
+end // end of [if]
+//
+end // end of [linset_takeout]
+
+(* ****** ****** *)
+
 implement{a}
 linset_takeoutmax_opt
   (xs) = let

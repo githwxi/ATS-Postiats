@@ -178,10 +178,11 @@ d2exp_trup
   (d2e0) = let
 val loc0 = d2e0.d2exp_loc
 (*
-val () = (
+val () =
+(
   println! ("d2exp_trup: loc0 = ", loc0);
   println! ("d2exp_trup: d2e0 = ", d2e0);
-) // end of [val]
+) (* end of [val] *)
 *)
 val d3e0 = (
 case+ d2e0.d2exp_node of
@@ -277,9 +278,10 @@ case+ d2e0.d2exp_node of
     | _ => d2exp_trup_applst (d2e0, _fun, _arg)
   end // end of [D2Eapplst]
 //
-| D2Eifhead (_, _, _, _else) => let
+| D2Eifhead
+    (_, _, _, opt(*else*)) => let
     val s2e_if = (
-      case+ _else of
+      case+ opt of
       | Some _ => s2exp_Var_make_srt (loc0, s2rt_t0ype)
       | None _ => s2exp_void_t0ype () // HX: missing else-branch
     ) : s2exp // end of [val]
@@ -386,9 +388,9 @@ case+ d2e0.d2exp_node of
 //
 | D2Eraise (d2e_exn) => let
     val err = the_effenv_check_exn (loc0)
-    val () = if (err > 0) then (
-      the_trans3errlst_add (T3E_d2exp_trup_exn (loc0))
-    ) // end of [if] // end of [val]
+    val () =
+      if (err > 0) then the_trans3errlst_add (T3E_d2exp_trup_exn (loc0))
+    // end of [val]
     val s2e_exn = s2exp_exception_vtype ()
     val d3e_exn = d2exp_trdn (d2e_exn, s2e_exn)
     val s2e_raise = s2exp_bottom_vt0ype_uni ()
@@ -399,10 +401,11 @@ case+ d2e0.d2exp_node of
 | D2Eeffmask _ => d2exp_trup_effmask (d2e0)
 //
 | D2Eshowtype
-    (d2e) => d3e where {
+    (d2e) => d3e where
+  {
     val d3e = d2exp_trup (d2e)
     val () = fshowtype_d3exp (d3e)
-  } // end of [D2Eshowtype]
+  } (* end of [D2Eshowtype] *)
 //
 | D2Evcopyenv _ => d2exp_trup_vcopyenv (d2e0)
 //
@@ -435,13 +438,19 @@ case+ d2e0.d2exp_node of
     d2exp_trup (d2e) // HX: [d2e] should be a value
   end // end of [D2Eann_seff]
 //
-| D2Eerr () => d3exp_err (loc0) // of type [s2exp_t0ype_err]
+| D2Esym _ => let
+    val () =
+      the_trans3errlst_add (T3E_d2exp_trup_sym (d2e0))
+    // end of [val]
+  in
+    d3exp_err (loc0) // : [s2exp_t0ype_err]
+  end // end of [D2Esym]
+//
+| D2Eerr () => d3exp_err (loc0) // : [s2exp_t0ype_err]
 //
 | _ => let
-    val () = (
-      println! ("d2exp_trup: loc0 = ", loc0);
-      println! ("d2exp_trup: d2e0 = ", d2e0);
-    ) // end of [val]
+    val () = println! ("d2exp_trup: loc0 = ", loc0)
+    val () = println! ("d2exp_trup: d2e0 = ", d2e0)
   in
     exitloc (1)
   end // end of [_]
@@ -449,9 +458,10 @@ case+ d2e0.d2exp_node of
 ) : d3exp // end of [val]
 (*
 val s2e0 = d3e0.d3exp_type
-val () = (
+val (
+) = (
   print "d2exp_trup: d3e0.d3exp_type = "; pprint_s2exp (s2e0); print_newline ()
-) // end of [val]
+) (* end of [val] *)
 *)
 in
 //

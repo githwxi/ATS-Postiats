@@ -1716,12 +1716,14 @@ loaded: int
   end // end of [None_vt]
 ) : filenv // end of [val]
 //
-val () =
-(
+val () = (
 case+ idopt of
-| Some id => the_s2expenv_add (id, S2ITMfil fenv)
-| None () => $NS.the_namespace_add (fenv) // opened file
+| Some id =>
+    the_s2expenv_add (id, S2ITMfilenv fenv)
+| None ((*void*)) =>
+    $NS.the_namespace_add (fenv) // opened file
 ) : void // end of [val]
+//
 val () = the_staload_level_pop (pflev | (*none*))
 //
 in

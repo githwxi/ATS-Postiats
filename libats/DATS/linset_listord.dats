@@ -136,7 +136,9 @@ fun ins
 case+ xs of
 | @list_vt_cons
     (x, xs1) => let
-    val sgn = compare_elt_elt<a> (x0, x)
+    val sgn =
+      compare_elt_elt<a> (x0, x)
+    // end of [val]
   in
     if sgn > 0 then let
       prval () = fold@ (xs)
@@ -148,7 +150,8 @@ case+ xs of
       prval () = fold@ (xs)
     in
       ans
-    end else let
+    end else let // [x0] is found
+      val () = x := x0
       prval () = fold@ (xs)
     in
       true (* [x0] in [xs] *)
@@ -180,7 +183,9 @@ fun rem
 case+ xs of
 | @list_vt_cons
     (x, xs1) => let
-    val sgn = compare_elt_elt<a> (x0, x)
+    val sgn =
+      compare_elt_elt<a> (x0, x)
+    // end of [val]
   in
     if sgn > 0 then let
       prval () = fold@ (xs)

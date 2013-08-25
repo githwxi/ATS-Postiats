@@ -281,7 +281,7 @@ case+ t of
       val hl = avlht(tl) : int hl
       and hr = avlht(tr) : int hr
     in
-      if hl - hr <= HTDF
+      if hl-hr <= HTDF
         then B{a}(1+max(hl,hr), x, tl, tr)
         else avltree_rrotate<a> (x, hl, tl, hr, tr)
       // end of [if]
@@ -290,7 +290,7 @@ case+ t of
       val hl = avlht(tl) : int hl
       and hr = avlht(tr) : int hr
     in
-      if hr - hl <= HTDF
+      if hr-hl <= HTDF
         then B{a}(1+max(hl, hr), x, tl, tr)
         else avltree_lrotate<a> (x, hl, tl, hr, tr)
       // end of [if]
@@ -327,7 +327,7 @@ case+ tr of
     val hl = avlht(tl) : int(hl)
     and hr = avlht(tr) : int(hr)
   in
-    if hl - hr <= HTDF
+    if hl-hr <= HTDF
       then B{a}(1+max(hl,hr), x, tl, tr)
       else avltree_rrotate<a> (x, hl, tl, hr, tr)
     // end of [if]
@@ -355,7 +355,7 @@ case+ tl of
     val hl = avlht(tl) : int(hl)
     and hr = avlht(tr) : int(hr)
   in
-    if hr - hl <= HTDF
+    if hr-hl <= HTDF
       then B{a}(1+max(hl,hr), x, tl, tr)
       else avltree_lrotate<a> (x, hl, tl, hr, tr)
     // end of [if]
@@ -515,7 +515,7 @@ case+ t of
         val hl = avlht(tl) : int hl
         and hr = avlht(tr) : int hr
       in
-        if hr - hl <= HTDF
+        if hr-hl <= HTDF
           then B{a}(1+max(hl,hr), x, tl, tr)
           else avltree_lrotate<a> (x, hl, tl, hr, tr)
         // end of [if]
@@ -525,7 +525,7 @@ case+ t of
         val hl = avlht(tl) : int hl
         and hr = avlht(tr) : int hr
       in
-        if hl - hr <= HTDF
+        if hl-hr <= HTDF
           then B{a}(1+max(hl,hr), x, tl, tr)
           else avltree_rrotate<a> (x, hl, tl, hr, tr)
         // end of [if]
@@ -540,7 +540,7 @@ case+ t of
             val hl = avlht(tl) : int (hl)
             and hr = avlht(tr) : int (hr)
           in
-            if hl - hr <= HTDF
+            if hl-hr <= HTDF
               then B{a}(1+max(hl,hr), xmin, tl, tr)
               else avltree_rrotate<a> (xmin, hl, tl, hr, tr)
             // end of [if]

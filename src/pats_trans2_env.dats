@@ -347,27 +347,31 @@ case+ q.s0rtq_node of
     val ans = the_s2expenv_find (sym)
   in
     case+ ans of
-    | ~Some_vt (s2i) => (case+ s2i of
-      | S2ITMfil (fenv) => let
-          val (pf, fpf | p_map) =
-            filenv_get_s2temap (fenv)
+    | ~Some_vt (s2i) => (
+      case+ s2i of
+      | S2ITMfilenv (fenv) => let
+          val (
+            pf, fpf | p_map
+          ) = filenv_get_s2temap (fenv)
           val ans = symmap_search (!p_map, id)
           prval () = minus_addback (fpf, pf | fenv)
         in
           ans
         end // en dof [S2ITMfil]
       | _ => let
-        val () = prerr_error2_loc (q.s0rtq_loc)
-        val () = prerr ": the qualifier ["
-        val () = $SYM.prerr_symbol (sym)
-        val () = prerr "] should refer to a filename but it does not."
-        val () = prerr_newline ()
-      in
-        None_vt ()
-      end
+          val loc = q.s0rtq_loc
+          val () = prerr_error2_loc (loc)
+          val () = prerr ": the qualifier ["
+          val () = $SYM.prerr_symbol (sym)
+          val () = prerr "] should refer to a filename but it does not."
+          val () = prerr_newline ()
+        in
+          None_vt ()
+        end
       ) // end of [Some_vt]
     | ~None_vt () => let
-        val () = prerr_error2_loc (q.s0rtq_loc)
+        val loc = q.s0rtq_loc
+        val () = prerr_error2_loc (loc)
         val () = prerr ": the qualifier ["
         val () = $SYM.prerr_symbol (sym)
         val () = prerr "] is unrecognized."
@@ -375,6 +379,7 @@ case+ q.s0rtq_node of
       in
         None_vt ()
       end
+    // end of [case]
   end // end of [S2RTsymdot]
 //
 end // end of [the_s2rtenv_find_qua]
@@ -535,27 +540,31 @@ case+ q.s0taq_node of
     val ans = the_s2expenv_find (sym)
   in
     case+ ans of
-    | ~Some_vt (s2i) => (case+ s2i of
-      | S2ITMfil (fenv) => let
-          val (pf, fpf | p_map) =
-            filenv_get_s2itmmap (fenv)
+    | ~Some_vt (s2i) => (
+      case+ s2i of
+      | S2ITMfilenv (fenv) => let
+          val (
+            pf, fpf | p_map
+          ) = filenv_get_s2itmmap (fenv)
           val ans = symmap_search (!p_map, id)
           prval () = minus_addback (fpf, pf | fenv)
         in
           ans
         end // en dof [S2ITMfil]
       | _ => let
-        val () = prerr_error2_loc (q.s0taq_loc)
-        val () = prerr ": the qualifier ["
-        val () = $SYM.prerr_symbol (sym)
-        val () = prerr "] should refer to a filename but it does not."
-        val () = prerr_newline ()
-      in
-        None_vt ()
-      end
+          val loc = q.s0taq_loc
+          val () = prerr_error2_loc (loc)
+          val () = prerr ": the qualifier ["
+          val () = $SYM.prerr_symbol (sym)
+          val () = prerr "] should refer to a filename but it does not."
+          val () = prerr_newline ()
+        in
+          None_vt ()
+        end
       ) // end of [Some_vt]
     | ~None_vt () => let
-        val () = prerr_error2_loc (q.s0taq_loc)
+        val loc = q.s0taq_loc
+        val () = prerr_error2_loc (loc)
         val () = prerr ": the qualifier ["
         val () = $SYM.prerr_symbol (sym)
         val () = prerr "] is unrecognized."
@@ -966,34 +975,38 @@ case+ q.d0ynq_node of
     val ans = the_s2expenv_find (sym)
   in
     case+ ans of
-    | ~Some_vt (s2i) => (case+ s2i of
-      | S2ITMfil (fenv) => let
-          val (pf, fpf | p_map) =
-            filenv_get_d2itmmap (fenv)
+    | ~Some_vt (s2i) => (
+      case+ s2i of
+      | S2ITMfilenv (fenv) => let
+          val (
+            pf, fpf | p_map
+          ) = filenv_get_d2itmmap (fenv)
           val ans = symmap_search (!p_map, id)
           prval () = minus_addback (fpf, pf | fenv)
         in
           ans
         end // en dof [S2ITMfil]
       | _ => let
-        val () = prerr_error2_loc (q.d0ynq_loc)
-        val () = prerr ": the qualifier ["
-        val () = $SYM.prerr_symbol (sym)
-        val () = prerr "] should refer to a filename but it does not."
-        val () = prerr_newline ()
-      in
-        None_vt ()
-      end
+          val loc = q.d0ynq_loc
+          val () = prerr_error2_loc (loc)
+          val () = prerr ": the qualifier ["
+          val () = $SYM.prerr_symbol (sym)
+          val () = prerr "] should refer to a filename but it does not."
+          val () = prerr_newline ()
+        in
+          None_vt ()
+        end
       ) // end of [Some_vt]
     | ~None_vt () => let
-        val () = prerr_error2_loc (q.d0ynq_loc)
+        val loc = q.d0ynq_loc
+        val () = prerr_error2_loc (loc)
         val () = prerr ": the qualifier ["
         val () = $SYM.prerr_symbol (sym)
         val () = prerr "] is unrecognized."
         val () = prerr_newline ()
       in
         None_vt ()
-      end
+      end // end of [None_vt]
   end // end of [S2RTsymdot]
 | $SYN.D0YNQsymcolon _ => None_vt ()
 | $SYN.D0YNQsymdotcolon _ => None_vt ()
@@ -1003,16 +1016,21 @@ end // end of [the_s2expenv_find_qua]
 (* ****** ****** *)
 
 implement
-the_d2expenv_add_dcon (d2c) = let
-  val id = d2con_get_sym d2c
-  val d2cs = (
-    case+ the_d2expenv_find (id) of
-    | ~Some_vt d2i => begin case+ d2i of
-      | D2ITMcon d2cs => d2cs | _ => list_nil ()
-      end // end of [Some_vt]
-    | ~None_vt () => list_nil ()
-  ) : d2conlst // end of [val]
-  val d2i = D2ITMcon (list_cons (d2c, d2cs))
+the_d2expenv_add_dcon
+  (d2c) = let
+//
+val id = d2con_get_sym d2c
+val d2cs =
+(
+case+
+  the_d2expenv_find (id) of
+| ~Some_vt d2i => (
+    case+ d2i of D2ITMcon d2cs => d2cs | _ => list_nil ()
+  ) // end of [Some_vt]
+| ~None_vt ((*void*)) => list_nil ()
+) : d2conlst // end of [val]
+val d2i = D2ITMcon (list_cons (d2c, d2cs))
+//
 in
   the_d2expenv_add (id, d2i)
 end // end of [the_d2expenv_add_dcon]
@@ -1053,8 +1071,9 @@ the_d2expenv_add_fundeclst
   (knd, f2ds) = let
 //
 fun auxlst
-  (f2ds: f2undeclst): void =
 (
+  f2ds: f2undeclst
+) : void = (
 case+ f2ds of
 | list_cons
     (f2d, f2ds) => let

@@ -164,6 +164,7 @@ fun s1explst_trdn_int (s1es: s1explst): s2explst
 fun s1explst_trdn_addr (s1es: s1explst): s2explst
 fun s1explst_trdn_bool (s1es: s1explst): s2explst
 fun s1explst_trdn_vt0ype (s1es: s1explst): s2explst
+fun s1explst_trdn_impred (s1es: s1explst): s2explst
 
 fun s1explst_trdn_err
   (s1es: s1explst, s2ts: s2rtlst, err: &int): s2explst

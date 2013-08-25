@@ -158,9 +158,19 @@ fprint_s2itm (out, x) = let
 in
 //
 case+ x of
+| S2ITMvar (s2v) => {
+    val () = prstr "S2ITMvar("
+    val () = fprint_s2var (out, s2v)
+    val () = prstr ")"
+  }
 | S2ITMcst (s2cs) => {
     val () = prstr "S2ITMcst("
     val () = fprint_s2cstlst (out, s2cs)
+    val () = prstr ")"
+  }
+| S2ITMe1xp (e1xp) => {
+    val () = prstr "S2ITMe1xp("
+    val () = fprint_e1xp (out, e1xp)
     val () = prstr ")"
   }
 | S2ITMdatconptr (d2c) => {
@@ -173,19 +183,9 @@ case+ x of
     val () = fprint_d2con (out, d2c)
     val () = prstr ")"
   }
-| S2ITMe1xp (e1xp) => {
-    val () = prstr "S2ITMe1xp("
-    val () = fprint_e1xp (out, e1xp)
-    val () = prstr ")"
-  }
-| S2ITMfil (fenv) => {
-    val () = prstr "S2ITMfil("
+| S2ITMfilenv (fenv) => {
+    val () = prstr "S2ITMfilenv("
     val () = $FIL.fprint_filename (out, filenv_get_name fenv)
-    val () = prstr ")"
-  }
-| S2ITMvar (s2v) => {
-    val () = prstr "S2ITMvar("
-    val () = fprint_s2var (out, s2v)
     val () = prstr ")"
   }
 //

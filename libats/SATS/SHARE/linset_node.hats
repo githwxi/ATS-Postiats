@@ -39,7 +39,7 @@
 (* ****** ****** *)
 
 absvtype
-linset_node_vtype (a:t@ype+, l:addr)
+linset_node_vtype (a:t@ype+, l:addr) = ptr
 
 (* ****** ****** *)
 //
@@ -61,12 +61,37 @@ mynode2ptr
 
 (* ****** ****** *)
 //
-fun{a:t0p}
-mynode_null (): mynode (a, null)
+fun{}
+mynode_null{a:t0p} ():<> mynode (a, null)
 //
 praxi
-mynode_free_null {a:t0p} (nx: mynode (a, null)): void
+mynode_free_null{a:t0p} (nx: mynode (a, null)): void
 //
+(* ****** ****** *)
+
+fun{}
+mynode_free{a:t0p} (mynode1 (a)):<!wrt> void
+
+(* ****** ****** *)
+
+fun{a:t0p}
+mynode_getfree_elt (nx: mynode1 (INV(a))):<!wrt> a
+
+(* ****** ****** *)
+
+fun{a:t0p}
+linset_insert_ngc
+(
+  set: &set(INV(a)) >> _, nx: mynode1 (a)
+) :<!wrt> mynode0 (a) // endfun
+
+(* ****** ****** *)
+
+fun{a:t0p}
+linset_takeout_ngc
+  (set: &set(INV(a)) >> _, x0: a):<!wrt> mynode0 (a)
+// end of [linset_takeout_ngc]
+
 (* ****** ****** *)
 
 (* end of [linset_node.hats] *)

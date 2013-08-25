@@ -89,17 +89,30 @@ linset_free (xs: set(INV(a))):<!wrt> void
 //
 fun{a:t0p}
 linset_insert
-  (xs: &set(INV(a)) >> _, x0: a):<!wrt> bool // [x0] in [xs]
+  (xs: &set(INV(a)) >> _, x0: a):<!wrt> bool
+//
+(* ****** ****** *)
+//
+fun{a:t0p}
+linset_takeout
+(
+  &set(INV(a)) >> _, a, res: &(a?) >> opt(a, b)
+) : #[b:bool] bool(b) // endfun
+fun{a:t0p}
+linset_takeout_opt (&set(INV(a)) >> _, a): Option_vt(a)
+//
+(* ****** ****** *)
+//
 fun{a:t0p}
 linset_remove
-  (xs: &set(INV(a)) >> _, x0: a):<!wrt> bool // [x0] in [xs]
+  (xs: &set(INV(a)) >> _, x0: a):<!wrt> bool
 //
 (* ****** ****** *)
 
 fun{a:t0p}
 linset_takeoutmax
 (
-  xs: &set(INV(a)) >> _, x0: &a? >> opt(a, b)
+  xs: &set(INV(a)) >> _, res: &a? >> opt(a, b)
 ) :<!wrt> #[b:bool] bool (b)
 fun{a:t0p}
 linset_takeoutmax_opt (xs: &set(INV(a)) >> _):<> Option_vt(a)
@@ -109,7 +122,7 @@ linset_takeoutmax_opt (xs: &set(INV(a)) >> _):<> Option_vt(a)
 fun{a:t0p}
 linset_takeoutmin
 (
-  xs: &set(INV(a)) >> _, x0: &a? >> opt(a, b)
+  xs: &set(INV(a)) >> _, res: &a? >> opt(a, b)
 ) :<!wrt> #[b:bool] bool (b)
 fun{a:t0p}
 linset_takeoutmin_opt (xs: &set(INV(a)) >> _):<> Option_vt(a)

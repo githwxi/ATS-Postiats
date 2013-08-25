@@ -15,6 +15,10 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "libats/SATS/linset_listord.sats"
 staload _(*anon*) = "libats/DATS/linset_listord.dats"
 
@@ -25,10 +29,12 @@ val () =
 //
 val out = stdout_ref
 //
-val xs =
-  $list{int}(1, 1, 1, 2, 3)
+val ints =
+  $list_vt{int}(1, 1, 1, 2, 3)
 //
-val xs = linset_make_list (xs)
+val xs = linset_make_list ($UN.list_vt2t(ints))
+//
+val () = list_vt_free (ints)
 //
 val () = fprintln! (out, "xs = ", xs)
 val () = assertloc (linset_size(xs) = 3)
@@ -44,6 +50,7 @@ val () = assertloc (~linset_insert (xs, 0))
 val () = assertloc ( linset_insert (xs, 1))
 val () = assertloc ( linset_remove (xs, 1))
 val () = assertloc (~linset_remove (xs, 4))
+val () = assertloc (~linset_insert (xs, 4))
 //
 val () = fprintln! (out, "xs = ", xs)
 //

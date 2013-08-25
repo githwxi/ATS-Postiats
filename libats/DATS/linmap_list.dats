@@ -189,8 +189,8 @@ linmap_listize1 (map) = list_vt_copy<(key,itm)> (map)
 //
 (* ****** ****** *)
 
-implement{}
-mynode_null
+implement{
+} mynode_null
   {key,itm} () = let
 //
 vtypedef
@@ -288,9 +288,8 @@ vtypedef ki = @(key, itm)
 val nx = $UN.castvwtp0{List1_vt(ki)}(nx)
 //
 val+~list_vt_cons (kx, nx2) = nx
-prval () = __assert (nx2) where {
-  extern praxi __assert : List0_vt(ki) -<prf> void
-} // end of [where] // end of [prval]
+//
+prval ((*void*)) = $UN.cast2void (nx2)
 //
 } // end of [mynode_getfree_itm]
 

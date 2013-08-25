@@ -57,11 +57,11 @@ if cptr2ptr(p) > 0 then let
   val (pf, fpf | p) = $UN.cptr_vtake (p)
   val () = res := !p
   prval () = fpf (pf)
-  prval () = opt_some {itm} (res)
+  prval () = opt_some{itm}(res)
 in
   true
 end else let
-  prval () = opt_none {itm} (res)
+  prval () = opt_none{itm}(res)
 in
   false
 end // end of [if]
@@ -158,10 +158,10 @@ if p_nx > 0 then let
   val () =
     res := mynode_getfree_itm (nx)
   // end of [val]
-  prval () = opt_some {itm} (res) in true
+  prval () = opt_some{itm}(res) in true
 end else let
   prval () = mynode_free_null (nx)
-  prval () = opt_none {itm} (res) in false
+  prval () = opt_none{itm}(res) in false
 end // end of [if]
 //
 end // end of [linmap_takeout]
