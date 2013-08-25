@@ -97,9 +97,9 @@ fun{a:t0p}
 linset_takeout
 (
   &set(INV(a)) >> _, a, res: &(a?) >> opt(a, b)
-) : #[b:bool] bool(b) // endfun
+) :<!wrt> #[b:bool] bool(b) // endfun
 fun{a:t0p}
-linset_takeout_opt (&set(INV(a)) >> _, a): Option_vt(a)
+linset_takeout_opt (&set(INV(a)) >> _, a):<!wrt> Option_vt(a)
 //
 (* ****** ****** *)
 //
@@ -115,7 +115,7 @@ linset_takeoutmax
   xs: &set(INV(a)) >> _, res: &a? >> opt(a, b)
 ) :<!wrt> #[b:bool] bool (b)
 fun{a:t0p}
-linset_takeoutmax_opt (xs: &set(INV(a)) >> _):<> Option_vt(a)
+linset_takeoutmax_opt (xs: &set(INV(a)) >> _):<!wrt> Option_vt(a)
 
 (* ****** ****** *)
 
@@ -125,7 +125,7 @@ linset_takeoutmin
   xs: &set(INV(a)) >> _, res: &a? >> opt(a, b)
 ) :<!wrt> #[b:bool] bool (b)
 fun{a:t0p}
-linset_takeoutmin_opt (xs: &set(INV(a)) >> _):<> Option_vt(a)
+linset_takeoutmin_opt (xs: &set(INV(a)) >> _):<!wrt> Option_vt(a)
 
 (* ****** ****** *)
 //

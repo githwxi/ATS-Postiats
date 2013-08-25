@@ -165,6 +165,11 @@ libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/fundeque_fngtree.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funralist_nested.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/funralist_nested.dats
 
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linset_listord.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linset_listord.dats
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linset_avltree.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linset_avltree.dats
+
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linmap_list.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linmap_list.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linmap_avltree.sats

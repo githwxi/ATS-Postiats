@@ -190,6 +190,7 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 (* ****** ****** *)
 
 #packfilename("libats_linset_listord.dats")
+#packfilename("libats_linset_avltree.dats")
 
 (* ****** ****** *)
 

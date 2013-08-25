@@ -176,7 +176,26 @@ xs2.  The time complexity of this function is O(|xs1|+|xs2|).  ")
 (* ****** ****** *)
 
 #declnamesynop("fprint_funset")
+#decldescrpt("\
+
+This function prints out the elements in a given set. It calls
+#dyncode("fprint_funset$sep") to print a separator between every two
+consecutive elements.  ")
+
 #declnamesynop("fprint_funset$sep")
+#decldescrpt("\
+
+This function template is called by #dyncode("fprint_funset"). It
+prints out the string \", \" (a comma followed by a space character)
+by default.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_foreach")
+#declnamesynop("funset_foreach_env")
+#declnamesynop("funset_foreach$fwork")
 
 (* ****** ****** *)
 

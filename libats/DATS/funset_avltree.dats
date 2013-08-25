@@ -165,7 +165,7 @@ case+ ,(t) of B (h, _, _, _) => h | E ((*void*)) => 0
 
 fun{a:t0p}
 avlmax{h:pos} .<h>.
-  (t: avltree (a, h)): a = let
+  (t: avltree (a, h)):<> a = let
 //
 val+B{..}{hl,hr}(h, x, tl, tr) = t
 //
@@ -179,7 +179,7 @@ end // end of [avlmax]
 
 fun{a:t0p}
 avlmin{h:pos} .<h>.
-  (t: avltree (a, h)): a = let
+  (t: avltree (a, h)):<> a = let
 //
 val+B{..}{hl,hr}(h, x, tl, tr) = t
 //
@@ -215,8 +215,8 @@ in
   B{a}(1+max(hrl1,hrr), xr, B{a}(hrl1, x, tl, trl), trr)
 end else let // [hrl=hrr+2]: deep rotation
   val+B{..}{hrll,hrlr}(_(*hrl*), xrl, trll, trlr) = trl
-  val hrll = avlht trll : int hrll
-  and hrlr = avlht trlr : int hrlr
+  val hrll = avlht(trll) : int hrll
+  and hrlr = avlht(trlr) : int hrlr
 in
   B{a}(hr, xrl, B{a}(1+max(hl,hrll), x, tl, trll), B{a}(1+max(hrlr,hrr), xr, trlr, trr))
 end // end of [if]
@@ -375,15 +375,15 @@ avltree_ljoin
 (
   x: a, tl: avltree (a, hl), tr: avltree (a, hr)
 ) :<> avltree_inc (a, hl) = let
-  val hl = avlht(tl): int hl
-  and hr = avlht(tr): int hr
+  val hl = avlht(tl) : int hl
+  and hr = avlht(tr) : int hr
 in
 //
 if hl >= hr + HTDF1 then let
   val+B{..}{hll, hlr}(_, xl, tll, tlr) = tl
   val [hlr:int] tlr = avltree_ljoin<a> (x, tlr, tr)
-  val hll = avlht(tll): int hll
-  and hlr = avlht(tlr): int hlr
+  val hll = avlht(tll) : int hll
+  and hlr = avlht(tlr) : int hlr
 in
   if hlr <= hll + HTDF
     then B{a}(max(hll,hlr)+1, xl, tll, tlr)
@@ -404,15 +404,15 @@ avltree_rjoin
 (
   x: a, tl: avltree (a, hl), tr: avltree (a, hr)
 ) :<> avltree_inc (a, hr) = let
-  val hl = avlht(tl): int hl
-  and hr = avlht(tr): int hr
+  val hl = avlht(tl) : int hl
+  and hr = avlht(tr) : int hr
 in
 //
 if hr >= hl + HTDF1 then let
   val+B{..}{hrl,hrr}(_, xr, trl, trr) = tr
   val [hrl:int] trl = avltree_rjoin<a> (x, tl, trl)
-  val hrl = avlht(trl): int hrl
-  and hrr = avlht(trr): int hrr
+  val hrl = avlht(trl) : int hrl
+  and hrr = avlht(trr) : int hrr
 in
   if hrl <= hrr + HTDF
     then B{a}(max(hrl,hrr)+1, xr, trl, trr)
@@ -425,25 +425,25 @@ end // end of [avltree_rjoin]
 (* ****** ****** *)
 
 fn{a:t0p}
-avltree_join
+avltree_join3
   {hl,hr:nat}
 (
   x: a, tl: avltree (a, hl), tr: avltree (a, hr)
 ) :<> [
   h:int | hl <= h; hr <= h; h <= max(hl,hr)+1
 ] avltree (a, h) = let
-  val hl = avlht(tl): int hl
-  and hr = avlht(tr): int hr
+  val hl = avlht(tl) : int hl
+  and hr = avlht(tr) : int hr
 in
   if hl >= hr then
     avltree_ljoin<a> (x, tl, tr) else avltree_rjoin<a> (x, tl, tr)
   // end of [if]
-end // end of [avltree_join]
+end // end of [avltree_join3]
 
 (* ****** ****** *)
 
 fn{a:t0p}
-avltree_concat
+avltree_join2
   {hl,hr:nat}
 (
   tl: avltree (a, hl), tr: avltree (a, hr)
@@ -457,9 +457,9 @@ case+
     var xmin: a // uninitialized
     val tr = $effmask_wrt (avlminout<a> (tr, xmin))
   in
-    avltree_join<a> (xmin, tl, tr)
+    avltree_join3<a> (xmin, tl, tr)
   end // end of [_, _]
-) // end of [avltree_concat]
+) // end of [avltree_join2]
 
 (* ****** ****** *)
 
@@ -480,11 +480,11 @@ case+ t of
     if sgn < 0 then let
       val i = avltree_split_at<a> (tl, x0, tl0, tr0)
     in
-      tr0 := avltree_join<a> (x, tr0, tr); i
+      tr0 := avltree_join3<a> (x, tr0, tr); i
     end else if sgn > 0 then let
       val i = avltree_split_at<a> (tr, x0, tl0, tr0)
     in
-      tl0 := avltree_join<a> (x, tl, tl0); i
+      tl0 := avltree_join3<a> (x, tl, tl0); i
     end else (
       tl0 := tl; tr0 := tr; 1 // [x] is found in [t]
     ) // end of [if]
@@ -665,7 +665,7 @@ fun aux
       val i = avltree_split_at<a> (t2, x1, t2l0, t2r0)
       val t12l = aux (t1l, t2l0) and t12r = aux (t1r, t2r0)
     in
-      avltree_join<a> (x1, t12l, t12r)
+      avltree_join3<a> (x1, t12l, t12r)
     end // end of [_, _]
 ) // end of [aux] // [aux] is a keyword
 //
@@ -699,7 +699,7 @@ case+
     val t12l = aux (t1l, t2l0) and t12r = aux (t1r, t2r0)
   in
     if i = 0 then
-      avltree_concat<a> (t12l, t12r) else avltree_join<a> (x1, t12l, t12r)
+      avltree_join2<a> (t12l, t12r) else avltree_join3<a> (x1, t12l, t12r)
     // end of [if]
   end // end of [_, _]
 end // end // end of [aux]
@@ -734,7 +734,7 @@ case+
     val t12l = aux (t1l, t2l0) and t12r = aux (t1r, t2r0)
   in
     if i > 0 then
-      avltree_concat<a> (t12l, t12r) else avltree_join<a> (x1, t12l, t12r)
+      avltree_join2<a> (t12l, t12r) else avltree_join3<a> (x1, t12l, t12r)
     // end of [if]
   end // end of [_, _]
 //
@@ -769,7 +769,7 @@ case+
     val t12l = aux (t1l, t2l0) and t12r = aux (t1r, t2r0)
   in
     if i > 0 then
-      avltree_concat<a> (t12l, t12r) else avltree_join<a> (x1, t12l, t12r)
+      avltree_join2<a> (t12l, t12r) else avltree_join3<a> (x1, t12l, t12r)
     // end of [if]
   end // end of [_, _]
 //

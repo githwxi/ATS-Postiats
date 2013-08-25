@@ -49,7 +49,7 @@ sortdef t0p = t@ype and vt0p = vt@ype
 (* ****** ****** *)
 
 fun{a:t0p}
-linset_avltree_height (xs: set (a)):<> intGte (0)
+linset_avltree_height (!set(INV(a))):<> intGte (0)
 
 (* ****** ****** *)
 

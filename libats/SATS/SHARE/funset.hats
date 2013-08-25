@@ -96,15 +96,19 @@ funset_remove
 
 fun{a:t0p}
 funset_getmax
-  (xs: set(INV(a)), x0: &a? >> opt(a, b)): #[b:bool] bool(b)
+(
+  xs: set(INV(a)), x0: &a? >> opt(a, b)
+) :<!wrt> #[b:bool] bool(b) // endfun
 fun{a:t0p}
-funset_getmax_opt (xs: set(INV(a))): Option_vt (a)
+funset_getmax_opt (xs: set(INV(a))):<> Option_vt (a)
 
 fun{a:t0p}
 funset_getmin
-  (xs: set(INV(a)), x0: &a? >> opt(a, b)): #[b:bool] bool(b)
+(
+  xs: set(INV(a)), x0: &a? >> opt(a, b)
+) :<!wrt> #[b:bool] bool(b) // endfun
 fun{a:t0p}
-funset_getmin_opt (xs: set(INV(a))): Option_vt (a)
+funset_getmin_opt (xs: set(INV(a))):<> Option_vt (a)
 
 (* ****** ****** *)
 

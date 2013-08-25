@@ -88,8 +88,7 @@ datatype avltree
 
 (* ****** ****** *)
 
-typedef
-avltree
+typedef avltree
   (key:t0p, itm:t0p) = [h:nat] avltree (key, itm, h)
 // end of [avltree]
 
@@ -106,7 +105,7 @@ typedef avltree_dec
 (* ****** ****** *)
 
 assume
-map_type (key:t0p, itm: vt0p) = avltree (key, itm)
+map_type (key:t0p, itm:t0p) = avltree (key, itm)
 // end of [map_type]
 
 (* ****** ****** *)
@@ -236,8 +235,8 @@ in
   )
 end else let // [hrl=hrr+2]: deep rotation
   val+B{..}{hrll,hrlr}(_(*hrl*), krl, xrl, trll, trlr) = trl
-  val hrll = avlht trll : int hrll
-  and hrlr = avlht trlr : int hrlr
+  val hrll = avlht(trll) : int hrll
+  and hrlr = avlht(trlr) : int hrlr
 in
   B{key,itm}
   (
@@ -301,8 +300,8 @@ funmap_insert
   map, k0, x0, res2
 ) = res where {
 //
-fun insert{h:nat} .<h>.
-(
+fun insert
+  {h:nat} .<h>. (
   t0: avltree (key, itm, h)
 , res: &bool? >> bool (b)
 , res2: &itm? >> opt (itm, b)
@@ -319,8 +318,8 @@ case+ t0 of
     | _ when sgn < 0 => let
         val [hl:int]
           tl = insert (tl, res, res2)
-        val hl = avlht (tl) : int (hl)
-        and hr = avlht (tr) : int (hr)
+        val hl = avlht(tl) : int (hl)
+        and hr = avlht(tr) : int (hr)
       in
         if hl - hr <= HTDF then
           B{key,itm}(1+max(hl,hr), k, x, tl, tr)
@@ -331,8 +330,8 @@ case+ t0 of
     | _ when sgn > 0 => let
         val [hr:int]
           tr = insert (tr, res, res2)
-        val hl = avlht (tl) : int (hl)
-        and hr = avlht (tr) : int (hr)
+        val hl = avlht(tl) : int (hl)
+        and hr = avlht(tr) : int (hr)
       in
         if hr - hl <= HTDF then
           B{key,itm}(1+max(hl, hr), k, x, tl, tr)
@@ -436,15 +435,15 @@ key,itm:t0p
 , tl: avltree (key, itm, hl)
 , tr: avltree (key, itm, hr)
 ) :<> avltree_inc (key, itm, hl) = let
-  val hl = avlht(tl): int hl
-  and hr = avlht(tr): int hr
+  val hl = avlht(tl) : int hl
+  and hr = avlht(tr) : int hr
 in
 //
 if hl >= hr + HTDF1 then let
   val+B{..}{hll, hlr}(_, kl, xl, tll, tlr) = tl
   val [hlr:int] tlr = avltree_ljoin<key,itm> (k, x, tlr, tr)
-  val hll = avlht(tll): int hll
-  and hlr = avlht(tlr): int hlr
+  val hll = avlht(tll) : int hll
+  and hlr = avlht(tlr) : int hlr
 in
   if hlr <= hll + HTDF
     then B{key,itm}(1+max(hll,hlr), kl, xl, tll, tlr)
@@ -468,15 +467,15 @@ key,itm:t0p
 , tl: avltree (key, itm, hl)
 , tr: avltree (key, itm, hr)
 ) :<> avltree_inc (key, itm, hr) = let
-  val hl = avlht(tl): int hl
-  and hr = avlht(tr): int hr
+  val hl = avlht(tl) : int hl
+  and hr = avlht(tr) : int hr
 in
 //
 if hr >= hl + HTDF1 then let
   val+B{..}{hrl,hrr}(_, kr, xr, trl, trr) = tr
   val [hrl:int] trl = avltree_rjoin<key,itm> (k, x, tl, trl)
-  val hrl = avlht(trl): int hrl
-  and hrr = avlht(trr): int hrr
+  val hrl = avlht(trl) : int hrl
+  and hrr = avlht(trr) : int hrr
 in
   if hrl <= hrr + HTDF
     then B{key,itm}(1+max(hrl,hrr), kr, xr, trl, trr)
@@ -490,7 +489,7 @@ end // end of [avltree_rjoin]
 
 fn{
 key,itm:t0p
-} avltree_join
+} avltree_join3
   {hl,hr:nat}
 (
   k: key, x: itm
@@ -502,19 +501,19 @@ key,itm:t0p
 ; hr <= h
 ; h <= 1+max(hl,hr)
 ] avltree (key, itm, h) = let
-  val hl = avlht(tl): int hl
-  and hr = avlht(tr): int hr
+  val hl = avlht(tl) : int hl
+  and hr = avlht(tr) : int hr
 in
   if hl >= hr then
     avltree_ljoin<key,itm> (k, x, tl, tr) else avltree_rjoin<key,itm> (k, x, tl, tr)
   // end of [if]
-end // end of [avltree_join]
+end // end of [avltree_join3]
 
 (* ****** ****** *)
 
 fn{
 key,itm:t0p
-} avltree_concat
+} avltree_join2
   {hl,hr:nat}
 (
   tl: avltree (key, itm, hl)
@@ -535,9 +534,9 @@ case+
       (avlminout<key,itm> (tr, kmin, xmin))
     // end of [val]
   in
-    avltree_join<key,itm> (kmin, xmin, tl, tr)
+    avltree_join3<key,itm> (kmin, xmin, tl, tr)
   end // end of [_, _]
-) // end of [avltree_concat]
+) // end of [avltree_join2]
 
 (* ****** ****** *)
 
@@ -548,8 +547,8 @@ funmap_takeout
   map, k0, res2
 ) = res where {
 //
-fun takeout{h:nat} .<h>.
-(
+fun takeout
+  {h:nat} .<h>. (
   t0: avltree (key, itm, h)
 , res: &bool? >> bool(b)
 , res2: &itm? >> opt(itm, b)

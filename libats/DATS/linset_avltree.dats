@@ -45,6 +45,10 @@ staload "libats/SATS/linset_avltree.sats"
 #include "./SHARE/linset.hats" // code reuse
 //
 (* ****** ****** *)
+
+stadef mytkind = $extkind"atslib_linset_avltree"
+
+(* ****** ****** *)
 //
 // HX: maximal height difference of two siblings
 //
@@ -672,6 +676,11 @@ end // end of [aux]
 in
   aux (xs, list_vt_nil)
 end // end of [linset_listize]
+
+(* ****** ****** *)
+
+implement{a}
+linset_avltree_height (xs) = avlht (xs)
 
 (* ****** ****** *)
 //

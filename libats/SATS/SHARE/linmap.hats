@@ -80,18 +80,16 @@ fun{
 //
 fun{
 key:t0p;itm:vt0p
-} linmap_size
-  (map: !map (key, INV(itm))):<> size_t
-// end of [linmap_size]
-
+} linmap_size (map: !map (key, INV(itm))):<> size_t
+//
 (* ****** ****** *)
 
 fun{
 key:t0p;itm:t0p
-} linmap_search (
-  map: !map (key, INV(itm))
-, k0: key, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool (b)(*found*) // end of [linmap_search]
+} linmap_search
+(
+  !map (key, INV(itm)), key, res: &itm? >> opt (itm, b)
+) : #[b:bool] bool (b)(*found*) // endfun
 
 fun{
 key:t0p;itm:vt0p

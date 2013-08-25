@@ -288,6 +288,7 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("DATS/SHARE/linset.hats")
 #packfilename("DATS/SHARE/linmap.hats")
 #packfilename("DATS/SHARE/linhashtbl.hats")
 #packfilename("DATS/SHARE/linheap.hats")

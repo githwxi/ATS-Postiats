@@ -56,8 +56,34 @@ is co-variant in its type argument.\
 
 (* ****** ****** *)
 
+#declnamesynop("linset_nil")
+#declnamesynop("linset_make_nil")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_sing")
+#declnamesynop("linset_make_sing")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_make_list")
+
+(* ****** ****** *)
+
 #declnamesynop("linset_insert")
+#declnamesynop("linset_takeout")
+#declnamesynop("linset_takeout_opt")
 #declnamesynop("linset_remove")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_getmax")
+#declnamesynop("linset_getmax_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_getmin")
+#declnamesynop("linset_getmin_opt")
 
 (* ****** ****** *)
 

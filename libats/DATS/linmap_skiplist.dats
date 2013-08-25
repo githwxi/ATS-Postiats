@@ -54,10 +54,6 @@ staload "libats/SATS/linmap_skiplist.sats"
 stadef mytkind = $extkind"atslib_linmap_randbst"
 
 (* ****** ****** *)
-//
-macdef i2sz (i) = g1int2uint (,(i))
-//
-(* ****** ****** *)
 
 %{^
 typedef long int lint ;
