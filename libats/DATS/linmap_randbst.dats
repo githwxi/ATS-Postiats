@@ -527,7 +527,7 @@ case+ t of
   (
     _, k, x, tl, tr
   ) => let
-    val () = linmap_freelin$clear (x)
+    val () = linmap_freelin$clear<itm> (x)
     val tl = tl and tr = tr
     val () = free@ {..}{0,0} (t)
     val () = aux (tl) and () = aux (tr)

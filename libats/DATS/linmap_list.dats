@@ -91,6 +91,29 @@ implement
 {key,itm}
 linmap_free (map) = list_vt_free<(key,itm)> (map)
 
+implement
+{key,itm}
+linmap_freelin (map) = let
+//
+vtypedef ki = @(key, itm)
+fun aux (kxs: List_vt(ki)): void =
+(
+case+ kxs of
+| @list_vt_cons
+    (kx, kxs1) => let
+    val kxs1 = kxs1
+    val () = linmap_freelin$clear<itm> (kx.1)
+    val () = free@{ki}{0}(kxs)
+  in
+    aux (kxs1)
+  end // end of [list_vt_cons]
+| ~list_vt_nil ((*void*)) => ()
+)
+//
+in
+  $effmask_all (aux (map))
+end // end of [linmap_freelin]
+
 (* ****** ****** *)
 
 implement

@@ -337,8 +337,8 @@ case+ t0 of
     case+ 0 of
     | _ when sgn < 0 => let
         val ans = insert (tl)
-        val hl = avltree_height<a>(tl)
-        and hr = avltree_height<a>(tr)
+        val hl = avltree_height<a> (tl)
+        and hr = avltree_height<a> (tr)
       in
         if hl-hr <= HTDF then let
           val () = h := 1+max(hl,hr)
@@ -356,8 +356,8 @@ case+ t0 of
       end // end of [sgn < 0]
     | _ when sgn > 0 => let
         val ans = insert (tr)
-        val hl = avltree_height<a>(tl)
-        and hr = avltree_height<a>(tr)
+        val hl = avltree_height<a> (tl)
+        and hr = avltree_height<a> (tr)
       in
         if hr-hl <= HTDF then let
           val () = h := 1+max(hl,hr)
@@ -393,7 +393,8 @@ end // end of [insert]
 (* ****** ****** *)
 
 fun{a:t0p}
-avltree_maxout {h:pos} .<h>.
+avltree_maxout
+  {h:pos} .<h>.
 (
   t0: &avltree (a, h) >> avltree_dec (a, h)
 ) :<!wrt> mynode1 (a) = let
@@ -434,7 +435,8 @@ end // end of [avltree_maxout]
 (* ****** ****** *)
 
 fun{a:t0p}
-avltree_minout {h:pos} .<h>.
+avltree_minout
+  {h:pos} .<h>.
 (
   t0: &avltree (a, h) >> avltree_dec (a, h)
 ) :<!wrt> mynode1 (a) = let
@@ -522,7 +524,7 @@ case+ tr of
       avltree_rrotate<a> (pf_h1, pf_x1, pf_tl1, pf_tr1 | p_h1, hl, p_tl1, hr, p_tr1, t1)
     end // end of [if]
   end // end of [B]
-| ~E () => tl
+| ~E ((*void*)) => tl
 ) (* end of [avltree_lrcon] *)
 
 (* ****** ****** *)

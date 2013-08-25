@@ -191,18 +191,34 @@ end // end of [linmap_search_ref]
 
 implement
 {key,itm}
-linmap_free (map) = let
+linmap_freelin
+  (map) = let
 //
-fun free
+fun aux
   {h:nat} .<h>.
-  (t: avltree (key, itm, h)):<!wrt> void =
 (
-case+ t of
-| ~B (h, k, x, tl, tr) => (free (tl); free (tr)) | ~E () => ()
-) // end of [free]
+  t: avltree (key, itm, h)
+) : void = let
 in
-  free (map)
-end // end of [linmap_free]
+//
+case+ t of
+| @B (
+    _, k, x, tl, tr
+  ) => let
+    val () = linmap_freelin$clear<itm> (x)
+    val tl = tl and tr = tr
+    val () = free@ {..}{0,0} (t)
+    val () = aux (tl) and () = aux (tr)
+  in
+    // nothing
+  end // end of [BSTcons]
+| ~E ((*void*)) => ()
+//
+end // end of [aux]
+//
+in
+  $effmask_all (aux (map))
+end // end of [linmap_freelin]
 
 (* ****** ****** *)
 
@@ -366,8 +382,8 @@ case+ t0 of
     case+ 0 of
     | _ when sgn < 0 => let
         val ans = insert (tl, k0, x0)
-        val hl = avltree_height<key,itm>(tl)
-        and hr = avltree_height<key,itm>(tr)
+        val hl = avltree_height<key,itm> (tl)
+        and hr = avltree_height<key,itm> (tr)
       in
         if hl-hr <= HTDF then let
           val () = h := 1+max(hl,hr)
@@ -385,8 +401,8 @@ case+ t0 of
       end // end of [sgn < 0]
     | _ when sgn > 0 => let
         val ans = insert (tr, k0, x0)
-        val hl = avltree_height<key,itm>(tl)
-        and hr = avltree_height<key,itm>(tr)
+        val hl = avltree_height<key,itm> (tl)
+        and hr = avltree_height<key,itm> (tr)
       in
         if hr-hl <= HTDF then let
           val () = h := 1+max(hl,hr)
@@ -428,6 +444,231 @@ val () = res := x0
 in
   insert (map, k0, res)
 end // end of [linmap_insert]
+
+(* ****** ****** *)
+
+fun
+{key:t0p
+;itm:vt0p}
+avltree_maxout
+  {h:pos} .<h>.
+(
+  t0: &avltree (key, itm, h) >> avltree_dec (key, itm, h)
+) :<!wrt> mynode1 (key, itm) = let
+  val+@B{..}{hl,hr}(h, k, x, tl, tr) = t0
+  prval pf_h = view@h
+  prval pf_k = view@k
+  prval pf_x = view@x
+  prval pf_tl = view@tl
+  prval pf_tr = view@tr
+in
+  case+ tr of
+  | B _ => let
+      val nx = avltree_maxout<key,itm> (tr)
+      val hl = avltree_height<key,itm> (tl)
+      and hr = avltree_height<key,itm> (tr)
+    in
+      if hl-hr <= HTDF then let
+        val () = h := 1+max(hl,hr)
+        prval () = fold@ (t0) // B (1+max(hl,hr), x, tl, tr)
+      in
+        nx
+      end else let
+        val p_h = addr@h
+        val p_tl = addr@tl
+        val p_tr = addr@tr
+        val () = t0 := avltree_rrotate<key,itm> (pf_h, pf_k, pf_x, pf_tl, pf_tr | p_h, hl, p_tl, hr, p_tr, t0)
+      in
+        nx
+      end // end of [if]
+    end // end of [B]
+  | ~E () => let
+      val t0_ = t0
+      val () = t0 := tl
+    in
+      $UN.castvwtp0{mynode1(key,itm)}((pf_h, pf_k, pf_x, pf_tl, pf_tr | t0_))
+    end // end of [E]
+end // end of [avltree_maxout]
+
+(* ****** ****** *)
+
+fun
+{key:t0p
+;itm:vt0p}
+avltree_minout
+  {h:pos} .<h>.
+(
+  t0: &avltree (key, itm, h) >> avltree_dec (key, itm, h)
+) :<!wrt> mynode1 (key, itm) = let
+  val+@B{..}{hl,hr}(h, k, x, tl, tr) = t0
+  prval pf_h = view@h
+  prval pf_k = view@k
+  prval pf_x = view@x
+  prval pf_tl = view@tl
+  prval pf_tr = view@tr
+in
+  case+ tl of
+  | B _ => let
+      val nx = avltree_minout<key,itm> (tl)
+      val hl = avltree_height<key,itm> (tl)
+      and hr = avltree_height<key,itm> (tr)
+    in
+      if hr-hl <= HTDF then let
+        val () = h := 1+max(hl,hr)
+        prval () = fold@ (t0) // B (1+max(hl,hr), x, tl, tr)
+      in
+        nx
+      end else let
+        val p_h = addr@h
+        val p_tl = addr@tl
+        val p_tr = addr@tr
+        val () = t0 := avltree_lrotate<key,itm> (pf_h, pf_k, pf_x, pf_tl, pf_tr | p_h, hl, p_tl, hr, p_tr, t0)
+      in
+        nx
+      end // end of [if]
+    end // end of [B]
+  | ~E () => let
+      val t0_ = t0
+      val () = t0 := tr
+    in
+      $UN.castvwtp0{mynode1(key,itm)}((pf_h, pf_k, pf_x, pf_tl, pf_tr | t0_))
+    end // end of [E]
+end // end of [avltree_minout]
+
+(* ****** ****** *)
+
+extern
+castfn
+mynode_decode
+  {key:t0p;itm:vt0p}{l:agz}
+  (nx: mynode(key, INV(itm), l)):<> B_pstruct (int?, key, itm, ptr?, ptr?)
+// end of [mynode_decode]
+
+(* ****** ****** *)
+
+fn
+{key:t0p
+;itm:vt0p}
+avltree_lrcon
+  {hl,hr:nat |
+   hl <= hr+HTDF;
+   hr <= hl+HTDF}
+(
+  tl: avltree (key, itm, hl)
+, tr: avltree (key, itm, hr)
+) :<!wrt> avltree_dec (key, itm, 1+max(hl,hr)) =
+(
+case+ tr of
+| B _ => let
+    var tr = tr
+    val nx =
+      avltree_minout<key,itm> (tr)
+    // end of [val]
+    val t1 = mynode_decode (nx)
+    val+B(h1, k1, x1, tl1, tr1) = t1
+    prval pf_h1 = view@h1
+    prval pf_k1 = view@k1
+    prval pf_x1 = view@x1
+    prval pf_tl1 = view@tl1
+    prval pf_tr1 = view@tr1
+    val hl = avltree_height<key,itm> (tl)
+    and hr = avltree_height<key,itm> (tr)
+    val () = tl1 := tl and () = tr1 := tr 
+  in
+    if hl-hr <= HTDF then let
+      val () = h1 := 1+max(hl,hr)
+      prval () = fold@ (t1)
+    in
+      t1
+    end else let
+      val p_h1 = addr@h1
+      val p_tl1 = addr@tl1
+      val p_tr1 = addr@tr1
+    in
+      avltree_rrotate<key,itm> (pf_h1, pf_k1, pf_x1, pf_tl1, pf_tr1 | p_h1, hl, p_tl1, hr, p_tr1, t1)
+    end // end of [if]
+  end // end of [B]
+| ~E ((*void*)) => tl
+) (* end of [avltree_lrcon] *)
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_takeout_ngc
+  (xs, k0) = let
+//
+fun takeout{h:nat} .<h>.
+(
+  t0: &avltree (key, itm, h) >> avltree_dec (key, itm, h)
+) :<!wrt> mynode0(key, itm) = let
+//
+in
+//
+case+ t0 of
+| @B{..}{hl,hr}
+    (h, k, x, tl, tr) => let
+    prval pf_h = view@h
+    prval pf_k = view@k
+    prval pf_x = view@x
+    prval pf_tl = view@tl
+    prval pf_tr = view@tr
+    val sgn = compare_key_key<key> (k0, k)
+  in
+    case+ 0 of
+    | _ when sgn < 0 => let
+        val nx = takeout (tl)
+        val hl = avltree_height<key,itm> (tl)
+        and hr = avltree_height<key,itm> (tr)
+      in
+        if hr-hl <= HTDF then let
+          val () = h := 1+max(hl,hr)
+          prval () = fold@ (t0)
+        in
+          nx
+        end else let
+          val p_h = addr@(h)
+          val p_tl = addr@(tl)
+          val p_tr = addr@(tr)
+          val () = t0 := avltree_lrotate<key,itm> (pf_h, pf_k, pf_x, pf_tl, pf_tr | p_h, hl, p_tl, hr, p_tr, t0)
+        in
+          nx
+        end // end of [if]
+      end // end of [sgn < 0]
+    | _ when sgn > 0 => let
+        val nx = takeout (tr)
+        val hl = avltree_height<key,itm> (tl)
+        and hr = avltree_height<key,itm> (tr)
+      in
+        if hl-hr <= HTDF then let
+          val () = h := 1+max(hl,hr)
+          prval () = fold@ (t0)
+        in
+          nx
+        end else let
+          val p_h = addr@(h)
+          val p_tl = addr@(tl)
+          val p_tr = addr@(tr)
+          val () = t0 := avltree_rrotate<key,itm> (pf_h, pf_k, pf_x, pf_tl, pf_tr | p_h, hl, p_tl, hr, p_tr, t0)
+        in
+          nx
+        end // end of [if]
+      end // end of [sgn > 0]
+    | _ (*[x0] is found*) => let
+        val t0_ = t0
+        val () = t0 := avltree_lrcon<key,itm> (tl, tr)
+      in
+        $UN.castvwtp0{mynode1(key,itm)}((pf_h, pf_k, pf_x, pf_tl, pf_tr | t0_))
+      end // end of [sgn = 0]
+    // end of [case]
+  end // end of [B]
+| E ((*void*)) => mynode_null ()
+//
+end // end of [takeout]
+//
+in
+  takeout (xs)
+end // end of [linmap_takeout_ngc]
 
 (* ****** ****** *)
 
@@ -504,6 +745,63 @@ val res = aux (map, list_vt_nil ())
 in
   list_vt_reverse (res)
 end // end of [linmap_flistize]
+
+(* ****** ****** *)
+//
+// HX: ngc-functions make no use of malloc/free!
+//
+(* ****** ****** *)
+
+implement{
+} mynode_null{key,itm} () =
+  $UN.castvwtp0{mynode(key,itm,null)}(the_null_ptr)
+// end of [mynode_null]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+mynode_getref_itm
+  (nx) = let
+//
+val t0 =
+  $UN.castvwtp1{avltree(key,itm,1)}(nx)
+val+@B(_, k, x, tl, tr) = t0; val p_x = addr@(x)
+prval ((*void*)) = fold@(t0)
+prval ((*void*)) = $UN.cast2void (t0)
+//
+in
+  $UN.ptr2cptr{itm}(p_x)
+end (* end of [mynode_getfree_itm] *)
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+mynode_free_keyitm
+  (nx, k0, x0) = () where
+{
+//
+val+~B(_, k, x, tl, tr) = $UN.castvwtp0{avltree(key,itm,1)}(nx)
+val () = k0 := k and () = x0 := x
+prval ((*void*)) = $UN.cast2void (tl)
+prval ((*void*)) = $UN.cast2void (tr)
+//
+} (* end of [mynode_free_keyitm] *)
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+mynode_getfree_itm (nx) = x where
+{
+//
+val+~B(_, k, x, tl, tr) = $UN.castvwtp0{avltree(key,itm,1)}(nx)
+//
+prval ((*void*)) = $UN.cast2void (tl)
+prval ((*void*)) = $UN.cast2void (tr)
+//
+} (* end of [mynode_getfree_itm] *)
 
 (* ****** ****** *)
 

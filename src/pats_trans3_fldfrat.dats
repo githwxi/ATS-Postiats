@@ -84,7 +84,7 @@ case+ s2es of
     ) // end of [val]
 *)
     var nerr: int = nerr
-    val islin = s2exp_is_lin (s2e)
+    val islin = s2exp_is_lin2 (s2e)
     val () = if islin then let
       val () = nerr := nerr + 1
       val () = prerr_error3_loc (loc0)
