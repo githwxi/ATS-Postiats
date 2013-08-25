@@ -190,7 +190,7 @@ case+ t of
     | _ when sgn > 0 => let
         val res = bstree_search_ref (tr, k0) in fold@ (t); res
       end // end of [_]
-    | _ => let
+    | _ (*sgn = 0*) => let
         val res = addr@ (x) in fold@ (t); $UN.cast{cPtr1(itm)}(res)
       end // end of [_]
   end // end of [BSTcons]
@@ -268,9 +268,9 @@ case+ t of
     end else let (* sgn = 0 *)
       val x_ = x
       val () = x := x0
-      prval () = fold@ (t)
       val () = x0 := x_
-      prval () = opt_some {itm} (x0)
+      prval () = fold@ (t)
+      prval () = opt_some{itm}(x0)
     in
       1 // replaced
     end // end of [if]
@@ -278,17 +278,18 @@ case+ t of
 | ~BSTnil () => let
     val x0_ = x0
     val () = t := BSTcons{key,itm}(1, k0, x0_, BSTnil (), BSTnil ())
-    prval () = opt_none {itm} (x0)
+    prval () = opt_none{itm}(x0)
   in
     0 // inserted
   end // end of [BSTnil]
 //
 end // end of [bstree_insert_atroot]
 
-fun{
-key:t0p;itm:vt0p
-} bstree_insert_random{n:nat} .<n>.
-(
+fun
+{key:t0p
+;itm:vt0p}
+bstree_insert_random
+  {n:nat} .<n>. (
   t: &bstree (key, INV(itm), n) >> bstree (key, itm, n+1-i), k0: key, x0: &itm >> opt(itm, i>0)
 ) : #[i:nat2] int (i) = let
 in
@@ -350,11 +351,11 @@ end // end of [linmap_insert]
 
 (* ****** ****** *)
 
-fun{
-key:t0p;itm:vt0p
-} bstree_join_random
-  {nl,nr:nat} .<nl+nr>.
-(
+fun
+{key:t0p
+;itm:vt0p}
+bstree_join_random
+  {nl,nr:nat} .<nl+nr>. (
   tl: bstree (key, INV(itm), nl), tr: bstree (key, itm, nr)
 ) : bstree (key, itm, nl+nr) = let
 in
@@ -402,10 +403,11 @@ end // end of [bstree_join_random]
 
 (* ****** ****** *)
 
-fun{
-key:t0p;itm:vt0p
-} bstree_takeout_random{n:nat} .<n>.
-(
+fun
+{key:t0p
+;itm:vt0p}
+bstree_takeout_random
+  {n:nat} .<n>. (
   t: &bstree (key, INV(itm), n) >> bstree (key, itm, n-i), k0: key, x0: &(itm?) >> opt (itm, i>0)
 ) : #[i:nat2 | i <= n] int (i) = let
 in
@@ -461,7 +463,8 @@ implement
 linmap_foreach_env
   (map, env) = let
 //
-fun aux{n:nat} .<n>.
+fun aux
+  {n:nat} .<n>.
 (
   t: !bstree (key, itm, n), env: &(env) >> _
 ) : void = let
@@ -512,7 +515,8 @@ implement
 linmap_freelin
   (map) = let
 //
-fun aux{n:nat} .<n>.
+fun aux
+  {n:nat} .<n>.
 (
   t: bstree (key, itm, n)
 ) : void = let
@@ -590,8 +594,7 @@ case+ t of
     _, k, x, tl, tr
   ) => res where {
     val res = aux (tl, res)
-    val kx2 =
-      linmap_flistize$fopr<key,itm><ki2> (k, x)
+    val kx2 = linmap_flistize$fopr<key,itm><ki2> (k, x)
     val res = list_vt_cons{ki2}(kx2, res)
     val res = aux (tr, res)
   } // end of [BSTcons]

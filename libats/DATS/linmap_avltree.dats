@@ -189,4 +189,281 @@ end // end of [linmap_search_ref]
 
 (* ****** ****** *)
 
+implement
+{key,itm}
+linmap_free (map) = let
+//
+fun free
+  {h:nat} .<h>.
+  (t: avltree (key, itm, h)):<!wrt> void =
+(
+case+ t of
+| ~B (h, k, x, tl, tr) => (free (tl); free (tr)) | ~E () => ()
+) // end of [free]
+in
+  free (map)
+end // end of [linmap_free]
+
+(* ****** ****** *)
+
+macdef
+avlht (t) =
+(
+case+ ,(t) of
+| B (h, _, _, _, _) => h | E ((*void*)) => 0
+) // end of [avlht]
+
+(* ****** ****** *)
+
+fn{
+key:t0p;itm:vt0p
+} avltree_height{h:int}
+  (t: !avltree (key, itm, h)):<> int (h) = avlht(t)
+
+(* ****** ****** *)
+
+(*
+** left rotation for restoring height invariant
+*)
+fn{
+key:t0p;itm:vt0p
+} avltree_lrotate
+  {hl,hr:nat | hl+HTDF1 == hr}
+  {l,l_h,l_k,l_x,l_tl,l_tr:addr}
+(
+  pf_h: (int?)@l_h
+, pf_k: key@l_k, pf_x: itm@l_x
+, pf_tl: avltree (key, itm, hl) @ l_tl
+, pf_tr: avltree (key, itm, hr) @ l_tr
+| p_h: ptr l_h
+, hl: int hl, p_tl: ptr l_tl
+, hr: int hr, p_tr: ptr l_tr
+, t0: B_unfold (l, l_h, l_k, l_x, l_tl, l_tr)
+) :<!wrt> avltree_inc (key, itm, hr) = let
+  val tr = !p_tr
+  val+@B{..}{hrl,hrr}
+    (hr2, _, _, trl, trr) = tr
+  val hrl = avlht(trl): int(hrl)
+  and hrr = avlht(trr): int(hrr)
+in
+  if hrl <= hrr+HTDF_1 then let
+    val hrl1 = hrl + 1
+    val () = !p_h := hrl1
+    val () = !p_tr := trl
+    prval () = fold@ (t0)
+    val () = hr2 := 1+max(hrl1, hrr)
+    val () = trl := t0
+    prval () = fold@ (tr)
+  in
+    tr // B (1+max(hrl1,hrr), kr, xr, B (hrl1, k, x, tl, trl), trr)
+  end else let // [hrl==hrr+HTDF1]: deep rotation
+    val trl_ = trl
+    val+@B{..}{hrll,hrlr}
+      (hrl, _, _, trll, trlr) = trl_
+    val hrll = avlht (trll) : int(hrll)
+    and hrlr = avlht (trlr) : int(hrlr)
+    val () = !p_h := 1+max(hl,hrll)
+    val () = !p_tr := trll
+    prval () = fold@ (t0)
+    val () = hr2 := 1+max(hrlr, hrr)
+    val () = trl := trlr
+    prval () = fold@ (tr)
+    val () = hrl := hr
+    val () = trll := t0
+    val () = trlr := tr
+    prval () = fold@ (trl_)
+  in
+    trl_ // B (hr, krl, xrl,
+         //    B (1+max(hl,hrll), k, x, tl, trll),
+         //    B (1+max(hrlr,hrr), kr, xr, trlr, trr))
+  end // end of [if]
+end // end of [avltree_lrotate]
+
+(* ****** ****** *)
+
+(*
+** right rotation for restoring height invariant
+*)
+fn{
+key:t0p;itm:vt0p
+} avltree_rrotate
+  {hl,hr:nat | hl == hr+HTDF1}
+  {l,l_h,l_k,l_x,l_tl,l_tr:addr}
+(
+  pf_h: (int?)@l_h
+, pf_k: key@l_k, pf_x: itm@l_x
+, pf_tl: avltree (key, itm, hl) @ l_tl
+, pf_tr: avltree (key, itm, hr) @ l_tr
+| p_h: ptr l_h
+, hl : int hl, p_tl: ptr l_tl
+, hr : int hr, p_tr: ptr l_tr
+, t0: B_unfold (l, l_h, l_k, l_x, l_tl, l_tr)
+) :<!wrt> avltree_inc (key, itm, hl) = let
+  val tl = !p_tl
+  val+@B{..}{hll,hlr}
+    (hl2, _, _, tll, tlr) = tl
+  val hll = avlht(tll): int(hll)
+  and hlr = avlht(tlr): int(hlr)
+in
+  if hll+HTDF_1 >= hlr then let
+    val hlr1 = hlr + 1
+    val () = !p_h := hlr1
+    val () = !p_tl := tlr
+    prval () = fold@ (t0)
+    val () = hl2 := 1+max(hll,hlr1)
+    val () = tlr := t0
+    prval () = fold@ (tl)
+  in
+    tl // B (1+max(hll,hlr1), kl, xl, tll, B (hlr1, x, tlr, tr))
+  end else let
+    val tlr_ = tlr
+    val+@B{..}{hlrl,hlrr}
+      (hlr, _, _, tlrl, tlrr) = tlr_
+    val hlrl = avlht (tlrl): int(hlrl)
+    val hlrr = avlht (tlrr): int(hlrr)
+    val () = !p_h := 1+max(hlrr,hr)
+    val () = !p_tl := tlrr
+    prval () = fold@ (t0)
+    val () = hl2 := 1+max(hll,hlrl)
+    val () = tlr := tlrl
+    prval () = fold@ (tl)
+    val () = hlr := hl
+    val () = tlrl := tl
+    val () = tlrr := t0
+    prval () = fold@ (tlr_)
+  in
+    tlr_ // B (hl, klr, xlr,
+         //    B (1+max(hll,hlrl), kl, xl, tll, tlrl),
+         //    B (1+max(hlrr,hr), k, x, tlrr, tr))
+  end // end of [if]
+end // end of [avltree_rrotate]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_insert
+  (map, k0, x0, res) = let
+//
+fun insert
+  {h:nat} .<h>.
+(
+  t0: &avltree (key, itm, h) >> avltree_inc (key, itm, h), k0: key, x0: &(itm) >> opt(itm, b)
+) :<!wrt> #[b:bool] bool(b) = let
+in
+//
+case+ t0 of
+//
+| @B{..}{hl,hr}
+    (h, k, x, tl, tr) => let
+    prval pf_h = view@h
+    prval pf_k = view@k
+    prval pf_x = view@x
+    prval pf_tl = view@tl
+    prval pf_tr = view@tr
+    val sgn = compare_key_key<key> (k0, k)
+  in
+    case+ 0 of
+    | _ when sgn < 0 => let
+        val ans = insert (tl, k0, x0)
+        val hl = avltree_height<key,itm>(tl)
+        and hr = avltree_height<key,itm>(tr)
+      in
+        if hl-hr <= HTDF then let
+          val () = h := 1+max(hl,hr)
+          prval () = fold@ (t0)
+        in
+          ans // B (1+max(hl,hr), k, x, tl, tr)
+        end else let // hl==hr+HTDF1
+          val p_h = addr@(h)
+          val p_tl = addr@(tl)
+          val p_tr = addr@(tr)
+          val () = t0 := avltree_rrotate<key,itm> (pf_h, pf_k, pf_x, pf_tl, pf_tr | p_h, hl, p_tl, hr, p_tr, t0)
+        in
+          ans
+        end // end of [if]
+      end // end of [sgn < 0]
+    | _ when sgn > 0 => let
+        val ans = insert (tr, k0, x0)
+        val hl = avltree_height<key,itm>(tl)
+        and hr = avltree_height<key,itm>(tr)
+      in
+        if hr-hl <= HTDF then let
+          val () = h := 1+max(hl,hr)
+          prval () = fold@ (t0)
+        in
+          ans // B (1+max(hl, hr), k, x, tl, tr)
+        end else let // hl+HTDF1==hr
+          val p_h = addr@(h)
+          val p_tl = addr@(tl)
+          val p_tr = addr@(tr)
+          val () = t0 := avltree_lrotate<key,itm> (pf_h, pf_k, pf_x, pf_tl, pf_tr | p_h, hl, p_tl, hr, p_tr, t0)
+        in
+          ans
+        end // end of [if]
+      end // end of [sgn > 0]
+    | _ (*[k0] is found*) => let
+        val x_ = x
+        val () = x := x0
+        val () = x0 := x_
+        prval () = fold@ (t0)
+        prval () = opt_some{itm}(x0)
+      in
+        true // B (h, k, x, tl, tr)
+      end // end of [sgn = 0]
+  end // end of [B]
+//
+| ~E () => let
+    val x0_ = x0
+    val () = t0 := B{key,itm}(1, k0, x0_, E (), E ())
+    prval () = opt_none{itm}(x0)
+  in
+    false
+  end // end of [E]
+//
+end // end of [insert]
+//
+val () = res := x0
+//
+in
+  insert (map, k0, res)
+end // end of [linmap_insert]
+
+(* ****** ****** *)
+
+implement
+{key,itm}{ki2}
+linmap_flistize
+  (map) = let
+//
+vtypedef ki = @(key, itm)
+//
+fun aux
+  {h:nat} .<h>. (
+  t: avltree (key, itm, h), res: List0_vt (ki2)
+) : List0_vt (ki2) = let
+in
+//
+case+ t of
+| ~B
+  (
+    _, k, x, tl, tr
+  ) => res where {
+    val res = aux (tl, res)
+    val kx2 = linmap_flistize$fopr<key,itm><ki2> (k, x)
+    val res = list_vt_cons{ki2}(kx2, res)
+    val res = aux (tr, res)
+  } // end of [BSTcons]
+| ~E ((*void*)) => res
+//
+end // end of [aux]
+//
+val res = aux (map, list_vt_nil ())
+//
+in
+  list_vt_reverse (res)
+end // end of [linmap_flistize]
+
+(* ****** ****** *)
+
 (* end of [linmap_avltree.dats] *)

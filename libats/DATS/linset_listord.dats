@@ -151,7 +151,6 @@ case+ xs of
     in
       ans
     end else let // [x0] is found
-      val () = x := x0
       prval () = fold@ (xs)
     in
       true (* [x0] in [xs] *)

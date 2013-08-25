@@ -110,7 +110,7 @@ fun aux
   (t: !avltree (a, h)):<> size_t =
 (
   case+ t of
-  | B (_, _, tl, tr) => succ(aux (tl) + aux (tr))
+  | B (h, x, tl, tr) => succ(aux (tl) + aux (tr))
   | E ((*void*)) => i2sz(0)
 ) (* end of [aux] *)
 //
@@ -141,7 +141,7 @@ fun aux {h:nat} .<h>.
 in
 //
 case+ t of
-| B (_, x, tl, tr) => let
+| B (h, x, tl, tr) => let
     val sgn = compare_elt_elt<a> (x0, x)
   in
     if sgn < 0
@@ -154,6 +154,38 @@ case+ t of
 end // end of [aux]
 //
 } // end of [linset_is_member]
+
+(* ****** ****** *)
+
+implement{a}
+linset_copy (xs) = let
+//
+fun copy
+  {h:nat} .<h>.
+  (t: !avltree (a, h)):<!wrt> avltree (a, h) =
+(
+case+ t of
+| B (h, x, tl, tr) => B (h, x, copy (tl), copy (tr)) | E () => E ()
+) // end of [copy]
+in
+  copy (xs)
+end // end of [linset_copy]
+
+(* ****** ****** *)
+
+implement{a}
+linset_free (xs) = let
+//
+fun free
+  {h:nat} .<h>.
+  (t: avltree (a, h)):<!wrt> void =
+(
+case+ t of
+| ~B (h, x, tl, tr) => (free (tl); free (tr)) | ~E () => ()
+) // end of [free]
+in
+  free (xs)
+end // end of [linset_free]
 
 (* ****** ****** *)
 
@@ -170,9 +202,6 @@ avltree_height{h:int}(t: !avltree (a, h)):<> int (h) = avlht(t)
 
 (* ****** ****** *)
 
-(*
-** left rotation for restoring height invariant
-*)
 (*
 ** left rotation for restoring height invariant
 *)
@@ -204,7 +233,7 @@ in
     val () = trl := t0
     prval () = fold@ (tr)
   in
-    tr // B (1+max(hrl1,hrr), kr, xr, B (hrl1, k, x, tl, trl), trr)
+    tr // B (1+max(hrl1,hrr), xr, B (hrl1, x, tl, trl), trr)
   end else let // [hrl==hrr+HTDF1]: deep rotation
     val trl_ = trl
     val+@B{..}{hrll,hrlr}
@@ -222,7 +251,7 @@ in
     val () = trlr := tr
     prval () = fold@ (trl_)
   in
-    trl_ // B (hr, krl, xrl, B (1+max(hl,hrll), k, x, tl, trll), B (1+max(hrlr,hrr), kr, xr, trlr, trr))
+    trl_ // B (hr, xrl, B (1+max(hl,hrll) x, tl, trll), B (1+max(hrlr,hrr), xr, trlr, trr))
   end // end of [if]
 end // end of [avltree_lrotate]
 
@@ -259,7 +288,7 @@ in
     val () = tlr := t0
     prval () = fold@ (tl)
   in
-    tl // B (1+max(hll,hlr1), kl, xl, tll, B (hlr1, k, x, tlr, tr))
+    tl // B (1+max(hll,hlr1), xl, tll, B (hlr1, x, tlr, tr))
   end else let
     val tlr_ = tlr
     val+@B{..}{hlrl,hlrr}
@@ -277,41 +306,9 @@ in
     val () = tlrr := t0
     prval () = fold@ (tlr_)
   in
-    tlr_ // B (hl, klr, xlr, B (1+max(hll,hlrl), kl, xl, tll, tlrl), B (1+max(hlrr,hr), k, x, tlrr, tr))
+    tlr_ // B (hl, xlr, B (1+max(hll,hlrl), xl, tll, tlrl), B (1+max(hlrr,hr), x, tlrr, tr))
   end // end of [if]
 end // end of [avltree_rrotate]
-
-(* ****** ****** *)
-
-implement{a}
-linset_copy (xs) = let
-//
-fun copy
-  {h:nat} .<h>.
-  (t: !avltree (a, h)):<!wrt> avltree (a, h) =
-(
-case+ t of
-| B (h, x, tl, tr) => B (h, x, copy (tl), copy (tr)) | E () => E ()
-) // end of [copy]
-in
-  copy (xs)
-end // end of [linset_copy]
-
-(* ****** ****** *)
-
-implement{a}
-linset_free (xs) = let
-//
-fun free
-  {h:nat} .<h>.
-  (t: avltree (a, h)):<!wrt> void =
-(
-case+ t of
-| ~B (_, _, tl, tr) => (free (tl); free (tr)) | ~E () => ()
-) // end of [free]
-in
-  free (xs)
-end // end of [linset_free]
 
 (* ****** ****** *)
 
@@ -347,7 +344,7 @@ case+ t0 of
           val () = h := 1+max(hl,hr)
           prval () = fold@ (t0)
         in
-          ans // B (1+max(hl,hr), k, x, tl, tr)
+          ans // B (1+max(hl,hr), x, tl, tr)
         end else let // hl==hr+HTDF1
           val p_h = addr@(h)
           val p_tl = addr@(tl)
@@ -366,7 +363,7 @@ case+ t0 of
           val () = h := 1+max(hl,hr)
           prval () = fold@ (t0)
         in
-          ans // B (1+max(hl, hr), k, x, tl, tr)
+          ans // B (1+max(hl, hr), x, tl, tr)
         end else let // hl+HTDF1==hr
           val p_h = addr@(h)
           val p_tl = addr@(tl)
@@ -377,10 +374,9 @@ case+ t0 of
         end // end of [if]
       end // end of [sgn > 0]
     | _ (*[x0] is found*) => let
-        val () = x := x0
         prval () = fold@ (t0)
       in
-        true // B (h, k, x0, tl, tr)
+        true // B (h, x0, tl, tr)
       end // end of [sgn = 0]
   end // end of [B]
 //
@@ -415,7 +411,7 @@ in
     in
       if hl-hr <= HTDF then let
         val () = h := 1+max(hl,hr)
-        prval () = fold@ (t0) // B (1+max(hl,hr), k, x, tl, tr)
+        prval () = fold@ (t0) // B (1+max(hl,hr), x, tl, tr)
       in
         nx
       end else let
@@ -456,7 +452,7 @@ in
     in
       if hr-hl <= HTDF then let
         val () = h := 1+max(hl,hr)
-        prval () = fold@ (t0) // B (1+max(hl,hr), k, x, tl, tr)
+        prval () = fold@ (t0) // B (1+max(hl,hr), x, tl, tr)
       in
         nx
       end else let
@@ -624,7 +620,7 @@ fun foreach
 in
 //
 case+ t of
-| B (_, x, tl, tr) => let
+| B (h, x, tl, tr) => let
 //
     val () = foreach (tl, p_env)
 //

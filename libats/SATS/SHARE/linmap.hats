@@ -221,7 +221,7 @@ key:t0p;itm:vt0p
 //
 (* ****** ****** *)
 //
-// HX: traversal in the in-order fashion
+// HX: traversal fashion is unspecified
 //
 (* ****** ****** *)
 //
