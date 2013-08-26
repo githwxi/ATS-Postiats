@@ -572,6 +572,8 @@ slnode_vtype
   (a:vt@ype+) = SLNODE of (a, ptr(*next*))
 // end of [slnode_vtype]
 
+(* ****** ****** *)
+
 vtypedef slnode (a:vt0p) = slnode_vtype (a)
 
 (* ****** ****** *)
@@ -663,6 +665,7 @@ gnode_link11<mytkind><a>
 // end of [gnode_link11]
 
 (* ****** ****** *)
+
 implement{a}
 sllist_cons_ngc
   (nx0, xs) = let

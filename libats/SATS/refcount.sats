@@ -33,14 +33,8 @@
 
 (* ****** ****** *)
 
-#define
-ATS_PACKNAME "ATSLIB.libats.refcount"
-#define
-ATS_STALOADFLAG 0 // no static loading at run-time
-
-(* ****** ****** *)
-
-#define ATS_EXTERN_PREFIX "atslib_"
+#define ATS_PACKNAME "ATSLIB.libats.refcount"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 //

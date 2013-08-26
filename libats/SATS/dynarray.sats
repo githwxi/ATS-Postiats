@@ -33,6 +33,11 @@
 
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSLIB.libats.dynarray"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
+
+(* ****** ****** *)
+
 %{#
 #include "libats/CATS/dynarray.cats"
 %} // end of [%{#]
@@ -41,7 +46,7 @@
 //
 // HX: for recapacitizing policy
 //
-fun{} dynarray$recapacitize (): int
+fun{} dynarray$recapacitize ((*void*)): int
 //
 (* ****** ****** *)
 

@@ -33,6 +33,12 @@
 
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSLIB.libats.strobjref"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
+#define ATS_EXTERN_PREFIX "atslib_" // for extern names
+
+(* ****** ****** *)
+
 absvtype strobjref_vtype (l:addr)
 vtypedef strobjref (l:addr) = strobjref_vtype (l)
 viewtypedef Strobjref = [l:addr] strobjref (l)
@@ -70,8 +76,7 @@ strobjref_get0_strptr
   minus (strobjref l, strptr l1) | strptr (l1)
 ) // end of [strobjref_get0_strptr]
 
-fun
-strobjref_get1_strptr (x: !Strobjref1): Strptr1
+fun strobjref_get1_strptr (x: !Strobjref1): Strptr1
 
 (* ****** ****** *)
 //

@@ -208,7 +208,7 @@ linmap_listize1 (map) = list_vt_copy<(key,itm)> (map)
 
 (* ****** ****** *)
 //
-// HX: ngc-functions make no use of malloc/free!
+// HX: functions for processing mynodes
 //
 (* ****** ****** *)
 

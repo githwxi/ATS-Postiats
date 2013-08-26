@@ -92,6 +92,8 @@ extern
 fun{a:vt0p}
 g2node_make_elt (x: a):<!wrt> g2node1 (a)
 
+(* ****** ****** *)
+
 extern
 fun{a:vt0p}
 g2node_free (nx: g2node1 (INV(a))):<!wrt> void
@@ -101,6 +103,7 @@ g2node_free_elt
   (nx: g2node1 (INV(a)), res: &a? >> a):<!wrt> void
 // end of [g2node_free_elt]
 
+(* ****** ****** *)
 
 extern
 fun{a:vt0p}
@@ -142,10 +145,13 @@ implement{a}
 gnode_compare
   (nx1, nx2) = sgn where {
   val p_x1 = gnode_getref_elt (nx1)
-  prval (pf1, fpf1) = $UN.cptr_vtake {a} (p_x1)
+  val (
+    pf1, fpf1 | p_x1
+  ) = $UN.cptr_vtake {a} (p_x1)
   val p_x2 = gnode_getref_elt (nx2)
-  prval (pf2, fpf2) = $UN.cptr_vtake {a} (p_x2)
-  val p_x1 = cptr2ptr (p_x1) and p_x2 = cptr2ptr (p_x2)
+  val (
+    pf2, fpf2 | p_x2
+  ) = $UN.cptr_vtake {a} (p_x2)
   val sgn = compare_elt_elt<a> (!p_x1, !p_x2)
   prval () = fpf1 (pf1) and () = fpf2 (pf2)
 } // end of [gnode_compare]
@@ -241,7 +247,7 @@ end else
 //
 end // end of [merge_gnode_gnodelst]
 
-in // in of [local]
+in (* in of [local] *)
 
 (*
 ** HX-2012-12:
@@ -271,7 +277,7 @@ if gnode_isnot_null (nxs1) then (
   in
     if r1 < r2 then let
       val () =
-        $UN.ptr_set<g2node1(a)> (res, nx1)
+        $UN.ptr1_set<g2node1(a)> (res, nx1)
       val res = gnode_getref_next (nx1)
       val nxs1 = $UN.cptr_get<g2node0(a)> (res)
       val res = cptr2ptr (res)
@@ -279,7 +285,7 @@ if gnode_isnot_null (nxs1) then (
       loop (nxs1, nxs2, res)
     end else if r1 > r2 then let
       val () = 
-        $UN.ptr_set<g2node1(a)> (res, nx2)
+        $UN.ptr1_set<g2node1(a)> (res, nx2)
       val res = gnode_getref_next (nx2)
       val nxs2 = $UN.cptr_get<g2node0(a)> (res)
       val res = cptr2ptr (res)
@@ -293,8 +299,8 @@ if gnode_isnot_null (nxs1) then (
     in
       loop (nxs1, nxs2, res)
     end // end of [if]
-  end else $UN.ptr_set<g2node0(a)> (res, nxs1)
-) else $UN.ptr_set<g2node0(a)> (res, nxs2)
+  end else $UN.ptr1_set<g2node0(a)> (res, nxs1)
+) else $UN.ptr1_set<g2node0(a)> (res, nxs2)
 //
 end // end of [loop]
 //
@@ -309,7 +315,7 @@ end // end of [local]
 
 (* ****** ****** *)
 
-assume heap_vtype (a: vt0p) = g2node0 (a)
+assume heap_vtype (a:vt0p) = g2node0 (a)
 
 (* ****** ****** *)
 
@@ -360,15 +366,16 @@ var nxs =
 val nx_min = loop (nxs, gnode_null ())
 //
 in
-  gnode2ptr (nx_min)
+  $UN.cast{cPtr1(a)}(nx_min)
 end // end of [linheap_getmin_ref]
 
 (* ****** ****** *)
 
 local
 
-fun{a:vt0p}
-auxrev (
+fun{
+a:vt0p
+} auxrev (
   nxs: g2node0 (a)
 ) : g2node0 (a) = let
 //
@@ -392,7 +399,7 @@ in
   $effmask_all (loop (nxs, gnode_null ()))
 end // end of [auxrev]
 
-in // end of [local]
+in (* in of [local] *)
 
 implement{a}
 linheap_delmin
@@ -402,7 +409,7 @@ fun loop (
   nxs_ref: Ptr1, nx0_ref: Ptr1, nx0: g2node1 (a)
 ) : g2node1 (a) = let
   val nxs =
-    $UN.ptr_get<g2node0(a)> (nxs_ref)
+    $UN.ptr1_get<g2node0(a)> (nxs_ref)
   val iscons = gnodelst_is_cons (nxs)
 in
 //
@@ -417,7 +424,7 @@ in
     loop (nxs_ref, nx0_ref, nx0) else loop (nxs_ref, nx_ref, nx)
   // end of [if]
 end else let
-  val () = $UN.ptr_set<g2node0(a)> (nx0_ref, gnode_get_next (nx0))
+  val () = $UN.ptr1_set<g2node0(a)> (nx0_ref, gnode_get_next (nx0))
 in
   nx0
 end // end of [if]
@@ -467,7 +474,8 @@ fun loop (
   nxs: g2node0 (a)
 ) : void = let
 //
-val iscons = gnodelst_is_cons (nxs)
+val iscons =
+  gnodelst_is_cons (nxs)
 //
 in
   if iscons then let
@@ -482,6 +490,21 @@ end // end of [loop]
 in
   $effmask_all (loop (hp0))
 end // end of [linheap_free]
+
+(* ****** ****** *)
+//
+// HX: functions for processing g2nodes
+//
+(* ****** ****** *)
+
+vtypedef
+hpnode_struct
+(
+  elt: vt0p
+) = // sknode_struct
+@{
+  elt= elt, rank= int, next= ptr, parent= ptr, child0= ptr
+} (* end of [hpnode_struct] *)
 
 (* ****** ****** *)
 

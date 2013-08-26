@@ -48,15 +48,14 @@
 //
 (* ****** ****** *)
 
-%{#
-#include "libats/CATS/qlist.cats"
-%} // end of [%{#]
+#define ATS_PACKNAME "ATSLIB.libats.qlist"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats"
-#define ATS_STALOADFLAG 0 // no static loading at run-time
-#define ATS_EXTERN_PREFIX "atslib_"
+%{#
+#include "libats/CATS/qlist.cats"
+%} // end of [%{#]
 
 (* ****** ****** *)
 

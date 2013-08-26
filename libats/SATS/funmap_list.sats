@@ -44,10 +44,8 @@
 //
 (* ****** ****** *)
 
-#define
-ATS_PACKNAME "ATSLIB.libats.funmap_list"
-#define
-ATS_STALOADFLAG 0 // no static loading at run-time
+#define ATS_PACKNAME "ATSLIB.libats.funmap_list"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 

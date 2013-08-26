@@ -748,7 +748,7 @@ end // end of [linmap_flistize]
 
 (* ****** ****** *)
 //
-// HX: ngc-functions make no use of malloc/free!
+// HX: functions for processing mynodes
 //
 (* ****** ****** *)
 
