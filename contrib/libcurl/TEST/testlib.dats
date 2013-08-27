@@ -16,19 +16,7 @@
 
 (* ****** ****** *)
 
-staload "zeromq/SATS/zmq.sats"
-
-(* ****** ****** *)
-
-local
-//
-#include "zeromq/DATS/zmq.dats"
-//
-in (* in of [local] *)
-//
-// HX: it is intentionally left to be empty
-//
-end // end of [local]
+staload "libcurl/SATS/curl.sats"
 
 (* ****** ****** *)
 

@@ -8,7 +8,7 @@
 
 (*
 ** ATS - Unleashing the Potential of Types!
-** Copyright (C) 2002-2012 Hongwei Xi, Boston University
+** Copyright (C) 2002-2013 Hongwei Xi, Boston University
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -187,7 +187,10 @@ gnode_compare10
 // end of [gnode_compare10]
 
 (* ****** ****** *)
-
+//
+// HX-2013-08:
+// [nx1] and [nx2] are of the same rank
+//
 extern
 fun{a:vt0p}
 join_gnode_gnode
@@ -196,9 +199,6 @@ implement{a}
 join_gnode_gnode
   (nx1, nx2) = let
   val r = g2node_get_rank (nx1)
-(*
-  val () = assertloc_debug (r = gnode_get_rank (nx2))
-*)
   val () = g2node_set_rank (nx1, r+1)
   val () = g2node_set_parent (nx2, nx1)
   val () = gnode_link10 (nx2, g2node_get_children (nx1))

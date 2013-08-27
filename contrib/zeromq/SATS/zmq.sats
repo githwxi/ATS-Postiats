@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -42,7 +42,7 @@
 
 #define ATS_PACKNAME "ATSCNTRB.zeromq"
 #define ATS_STALOADFLAG 0 // no static loading at run-time
-#define ATS_EXTERN_PREFIX "atscntrb_" // prefix for external names
+#define ATS_EXTERN_PREFIX "atscntrb_zeromq_" // prefix for external names
 
 (* ****** ****** *)
 
