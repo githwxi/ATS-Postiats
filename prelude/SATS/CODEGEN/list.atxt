@@ -31,20 +31,17 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-sortdef t0p = t@ype and vt0p = viewt@ype
-
-#atscode_separator()
-
 \#if(0)
 //
 // HX: these decls are available in [basic_dyn.sats]
 //
 datatype // t@ype+: covariant
 list_t0ype_int_type (a:t@ype+, int) =
-  | list_nil (a, 0) of ()
   | {n:int | n >= 0}
     list_cons (a, n+1) of (a, list_t0ype_int_type (a, n))
-// end of [datatype]
+  | list_nil (a, 0) of ((*void*))
+// end of [list_t0ype_int_type]
+//
 stadef list = list_t0ype_int_type
 typedef
 List (a:t0p) = [n:int] list (a, n)

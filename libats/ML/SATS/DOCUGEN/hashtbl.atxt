@@ -33,8 +33,12 @@ keys are represented as (singly or doubly) linked lists.
 
 (* ****** ****** *)
 
-#declnamesynop("hashtbl_nil")
 #declnamesynop("hashtbl_make_nil")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl_get_size")
+#declnamesynop("hashtbl_get_capacity")
 
 (* ****** ****** *)
 

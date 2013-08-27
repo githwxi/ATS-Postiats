@@ -71,7 +71,7 @@ fun{a:t0p}
 linheap_getmin
 (
   hp: !heap (INV(a)), res: &a? >> opt (a, b)
-) : #[b:bool] bool b // endfun
+) : #[b:bool] bool (b) // endfun
 
 fun{a:vt0p}
 linheap_getmin_ref (hp: !heap (INV(a))): cPtr0 (a)
@@ -105,7 +105,7 @@ linheap_free (hp: heap (INV(a))):<!wrt> void
 (* ****** ****** *)
 
 fun{x:vt0p}
-linmap_freelin$clear
+linheap_freelin$clear
   (x: &x >> x?):<!wrt> void
 fun{a:vt0p}
 linheap_freelin (hp: heap (INV(a))):<!wrt> void

@@ -102,4 +102,17 @@ end // end of [linheap_delmin_opt]
 
 (* ****** ****** *)
 
+implement
+{a}(*tmp*)
+linheap_free (hp) = let
+//
+implement
+linheap_freelin$clear<a> (x) = ()
+//
+in
+  linheap_freelin<a> (hp)
+end // end of [linheap_free]
+
+(* ****** ****** *)
+
 (* end of [linheap.hats] *)

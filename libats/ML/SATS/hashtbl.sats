@@ -61,6 +61,13 @@ key,itm:t0p
 
 (* ****** ****** *)
 
+fun{}
+hashtbl_get_size{key,itm:t0p} (hashtbl (key, itm)): size_t
+fun{}
+hashtbl_get_capacity{key,itm:t0p} (hashtbl (key, itm)): sizeGte(1)
+
+(* ****** ****** *)
+
 fun{
 key,itm:t0p
 } hashtbl_search

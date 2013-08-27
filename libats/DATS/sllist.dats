@@ -35,7 +35,10 @@
 
 staload
 UN = "prelude/SATS/unsafe.sats"
-// end of [staload]
+
+(* ****** ****** *)
+
+staload "libats/SATS/gnode.sats"
 
 (* ****** ****** *)
 
@@ -44,10 +47,6 @@ staload "libats/SATS/sllist.sats"
 (* ****** ****** *)
 
 #define nullp the_null_ptr
-
-(* ****** ****** *)
-
-staload "libats/SATS/gnode.sats"
 
 (* ****** ****** *)
 //

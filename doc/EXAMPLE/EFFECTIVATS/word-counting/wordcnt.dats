@@ -86,7 +86,7 @@ extern fun char_get (): int
 implement
 word_get () = let
 //
-vtypedef
+typedef
 charlst = list0(char)
 //
 fnx loop
