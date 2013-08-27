@@ -48,7 +48,6 @@
 
 #define ATS_PACKNAME "ATSLIB.libats.linheap_binomial2"
 #define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
-#define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 (* ****** ****** *)
 

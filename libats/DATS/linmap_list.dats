@@ -33,6 +33,11 @@
 
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSLIB.libats.linmap_list"
+#define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
+
+(* ****** ****** *)
+
 staload
 UN = "prelude/SATS/unsafe.sats"
 

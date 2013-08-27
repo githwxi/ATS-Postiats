@@ -682,7 +682,7 @@ linset_avltree_height (xs) = avlht (xs)
 
 (* ****** ****** *)
 //
-// HX: ngc-functions make no use of malloc/free!
+// HX: functions for handling mynodes
 //
 (* ****** ****** *)
 
