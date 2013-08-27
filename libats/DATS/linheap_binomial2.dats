@@ -537,6 +537,19 @@ end // end of [linheap_delmin]
 
 implement
 {a}(*tmp*)
+linheap_merge
+  (hp1, hp2) = let
+  val nxs1 = $UN.castvwtp0{g2node0(a)}(hp1)
+  val nxs2 = $UN.castvwtp0{g2node0(a)}(hp2)
+  val nxs12 = merge_gnodelst_gnodelst<a> (nxs1, nxs2)
+in
+  $UN.castvwtp0{heap(a)}(nxs12)
+end // end of [linheap_merge]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 linheap_freelin
   (hp) = let
 //
