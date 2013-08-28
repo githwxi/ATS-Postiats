@@ -5,7 +5,9 @@ Hello,
 
 So I have a simple example of a "type pun".
 
-In OpenGL, when using buffer objects (basically, arrays of flat elements residing in GPU memory), it is necessary to "explain" to the API the layout of an element in an array.
+In OpenGL, when using buffer objects (basically, arrays of flat elements
+residing in GPU memory), it is necessary to "explain" to the API the layout
+of an element in an array.
 
 For instance,
 
@@ -27,10 +29,28 @@ I'm wondering if offsetof can be given a type in ATS which is not too cumbersome
 *)
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload_tmpdef.hats"
+//
+(* ****** ****** *)
+
+%{^
+typedef
+struct {
+  float position[3]; float texcoord[3];
+} vertex_s ;
+
+#define vertex_s_get_position(x) (&((vertex_s*)x)->position[0])
+#define vertex_s_get_texcoord(x) (&((vertex_s*)x)->texcoord[0])
+%}
+
+(* ****** ****** *)
 
 abst@ype vertex_s = $extype"vertex_s"
 
 (* ****** ****** *)
+//
 (*
 vtypedef
 vtakeoutptr
@@ -38,19 +58,24 @@ vtakeoutptr
 *)
 typedef GL_FLOAT = float
 extern
-fun vertex_s_get_position (vs: &vertex_s): vtakeoutptr (array (GL_FLOAT, 3))
+fun vertex_s_get_position
+  (vs: &vertex_s): vtakeoutptr (array (GL_FLOAT, 3)) = "mac#"
 extern
-fun vertex_s_get_texcoord (vs: &vertex_s): vtakeoutptr (array (GL_FLOAT, 3))
-
+fun vertex_s_get_texcoord
+  (vs: &vertex_s): vtakeoutptr (array (GL_FLOAT, 3)) = "mac#"
+//
 (* ****** ****** *)
 
-extern fun position$fwork (&array(GL_FLOAT, 3)): void
+extern
+fun{}
+position$fwork (&array(GL_FLOAT, 3)): void
 
 extern
-fun vertex_foreach_position
+fun{}
+vertex_foreach_position
   {n:int} (!arrayptr (vertex_s, n), size_t n): void
 
-implement
+implement{}
 vertex_foreach_position (A, n) = let
 //
 implement(env)
@@ -66,6 +91,38 @@ val _(*asz*) = arrayptr_foreach (A, n)
 in
   // nothing
 end // end of [vertex_foreach_position]
+
+(* ****** ****** *)
+
+extern
+fun{}
+texcoord$fwork (&array(GL_FLOAT, 3)): void
+
+extern
+fun{}
+vertex_foreach_texcoord
+  {n:int} (!arrayptr (vertex_s, n), size_t n): void
+
+implement{}
+vertex_foreach_texcoord (A, n) = let
+//
+implement(env)
+array_foreach$fwork<vertex_s><env> (x, env) =
+{
+  val (pf, fpf | p) = vertex_s_get_texcoord (x)
+  val () = texcoord$fwork (!p)
+  prval () = fpf (pf)
+}
+//
+val _(*asz*) = arrayptr_foreach (A, n)
+//
+in
+  // nothing
+end // end of [vertex_foreach_texcoord]
+
+(* ****** ****** *)
+
+implement main0 () = ()
 
 (* ****** ****** *)
 
