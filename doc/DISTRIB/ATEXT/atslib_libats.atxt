@@ -158,7 +158,11 @@ The ATSLIB/libats library\
 (* ****** ****** *)
 
 #packfilename("SATS/linheap_binomial.sats")
+%{
+(*
 #packfilename("SATS/linheap_fibonacci.sats")
+*)
+%}
 
 (* ****** ****** *)
 
@@ -269,7 +273,11 @@ The ATSLIB/libats library\
 
 #packfilename("DATS/linheap_binomial.dats")
 #packfilename("DATS/linheap_binomial2.dats")
+%{
+(*
 #packfilename("DATS/linheap_fibonacci.dats")
+*)
+%}
 
 (* ****** ****** *)
 

@@ -20,11 +20,11 @@ DATSMEMALLOC=-DATS_MEMALLOC_LIBC
 
 ######
 
-all::
+all:: atslib
 
 ######
 
-all:: atslib_prelude
+atslib:: atslib_prelude
 atslib_prelude:: atslib_prelude_bool_dats
 atslib_prelude_bool_dats: output/atslib_prelude_bool_dats.o ; $(ARR) lib/libatslib.a $<
 output/atslib_prelude_bool_dats.c: ../../prelude/DATS/bool.dats ; $(PATSOPT) -o $@ --dynamic $<
@@ -87,7 +87,7 @@ clean:: ; $(RMF) output/atslib_prelude_filebas_dats.o
 
 ######
 
-all:: atslib_libc
+atslib:: atslib_libc
 atslib_libc:: atslib_libc_dirent_dats
 atslib_libc_dirent_dats: output/atslib_libc_dirent_dats.o ; $(ARR) lib/libatslib.a $<
 output/atslib_libc_dirent_dats.c: ../../libc/DATS/dirent.dats ; $(PATSOPT) -o $@ --dynamic $<
@@ -155,7 +155,7 @@ clean:: ; $(RMF) output/atslib_libc_unistd_dats.o
 
 ######
 
-all:: atslib_libats
+atslib:: atslib_libats
 atslib_libats:: atslib_libats_funset_avltree_dats
 atslib_libats_funset_avltree_dats: output/atslib_libats_funset_avltree_dats.o ; $(ARR) lib/libatslib.a $<
 output/atslib_libats_funset_avltree_dats.c: ../../libats/DATS/funset_avltree.dats ; $(PATSOPT) -o $@ --dynamic $<
@@ -250,7 +250,7 @@ clean:: ; $(RMF) output/atslib_libats_linralist_nested_dats.o
 
 ######
 
-all:: atslib_libats_ML
+atslib:: atslib_libats_ML
 atslib_libats_ML:: atslib_libats_ML_list0_dats
 atslib_libats_ML_list0_dats: output/atslib_libats_ML_list0_dats.o ; $(ARR) lib/libatslib.a $<
 output/atslib_libats_ML_list0_dats.c: ../../libats/ML/DATS/list0.dats ; $(PATSOPT) -o $@ --dynamic $<

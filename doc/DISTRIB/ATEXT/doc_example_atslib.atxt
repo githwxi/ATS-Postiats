@@ -195,6 +195,7 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 (* ****** ****** *)
 
 #packfilename("libats_linmap_list.dats")
+#packfilename("libats_linmap_avltree.dats")
 #packfilename("libats_linmap_randbst.dats")
 #packfilename("libats_linmap_skiplist.dats")
 
@@ -205,6 +206,7 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 (* ****** ****** *)
 
 #packfilename("libats_linheap_binomial.dats")
+#packfilename("libats_linheap_binomial2.dats")
 
 (* ****** ****** *)
 

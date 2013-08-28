@@ -382,7 +382,6 @@ fun_cmpz_decl (
 val fopr = (
   case+ opr of
   | "isgtz" => ">"
-  | "isgtez" => ">="
   | "iseqz" => "=="
   | "isneqz" => "!="
   | _ => opr
@@ -453,7 +452,6 @@ val () = res := list_cons (fun_aop_decl("mul", tnm), res)
 val () = res := list_cons (fun_aop_decl("div", tnm), res)
 //
 val () = res := list_cons (fun_cmpz_decl("isgtz", tnm), res)
-val () = res := list_cons (fun_cmpz_decl("isgtez", tnm), res)
 val () = res := list_cons (fun_cmpz_decl("iseqz", tnm), res)
 val () = res := list_cons (fun_cmpz_decl("isneqz", tnm), res)
 //

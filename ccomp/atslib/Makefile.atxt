@@ -109,11 +109,11 @@ DATSMEMALLOC=-DATS_MEMALLOC_LIBC
 
 ######
 
-all::
+all:: atslib
 
 ######
 
-all:: atslib_prelude
+atslib:: atslib_prelude
 #make_entry("prelude", "bool.dats")
 #make_entry("prelude", "char.dats")
 #make_entry("prelude", "integer.dats")
@@ -127,7 +127,7 @@ all:: atslib_prelude
 
 ######
 
-all:: atslib_libc
+atslib:: atslib_libc
 #make_entry("libc", "dirent.dats")
 #make_entry("libc", "fcntl.dats")
 #make_entry("libc", "stdio.dats")
@@ -139,7 +139,7 @@ all:: atslib_libc
 
 ######
 
-all:: atslib_libats
+atslib:: atslib_libats
 #make_entry("libats", "funset_avltree.dats")
 #make_entry("libats", "funset_listord.dats")
 #make_entry("libats", "funmap_list.dats")
@@ -157,7 +157,7 @@ all:: atslib_libats
 
 ######
 
-all:: atslib_libats_ML
+atslib:: atslib_libats_ML
 #make_entry("libats/ML", "list0.dats")
 #make_entry("libats/ML", "option0.dats")
 #make_entry("libats/ML", "array0.dats")

@@ -4,7 +4,9 @@
 #
 ######
 
-all:: bin/patsopt bin/patscc
+all:: bin/patsopt
+all:: bin/patscc
+all:: ccomp/atslib/lib/libatslib.a
 
 ######
 
@@ -15,6 +17,10 @@ bin/patsopt: src_patsopt ; cp -f src/patsopt bin/patsopt
 
 utl_atscc: ; make -C utils/atscc patscc
 bin/patscc: utl_atscc ; cp -f utils/atscc/patscc bin/patscc
+
+######
+
+ccomp/atslib/lib/libatslib.a: ; make -C ccomp/atslib atslib
 
 ######
 
