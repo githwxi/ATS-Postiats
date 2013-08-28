@@ -1236,6 +1236,6 @@ clean:: ; $(RMF) $(DIR)/*_?ats.o
 clean:: ; $(RMF) $(DIR)/*_?ats.c
 
 cleanall:: clean
-cleanall:: TAGATS
+cleanall:: ; $(RMF) TAGATS
 
 ###### end of [Makefile] ######
