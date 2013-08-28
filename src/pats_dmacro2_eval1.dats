@@ -27,8 +27,14 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: July, 2012
+//
+(* ****** ****** *)
+//
+staload
+ATSLIB = "./pats_atslib.dats"
 //
 (* ****** ****** *)
 

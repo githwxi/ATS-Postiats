@@ -446,7 +446,6 @@ local
 //
 staload Q = "libats/SATS/linqueue_arr.sats"
 //
-staload _(*anon*) = "prelude/DATS/array.dats"
 staload _(*anon*) = "libats/DATS/linqueue_arr.dats"
 staload _(*anon*) = "libats/ngc/DATS/deque_arr.dats"
 //

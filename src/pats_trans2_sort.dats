@@ -27,16 +27,22 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: May, 2011
 //
 (* ****** ****** *)
-
-staload ERR = "./pats_error.sats"
-
+//
+staload
+ATSLIB = "./pats_atslib.dats"
+//
 (* ****** ****** *)
 
 staload "./pats_basics.sats"
+
+(* ****** ****** *)
+
+staload ERR = "./pats_error.sats"
 
 (* ****** ****** *)
 

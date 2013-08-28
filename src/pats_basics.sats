@@ -32,10 +32,6 @@
 //
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/list.dats"
-
-(* ****** ****** *)
-
 typedef
 fprint_type (a: t@ype) = (FILEref, a) -> void
 typedef

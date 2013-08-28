@@ -32,6 +32,7 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 staload _(*anon*) = "prelude/DATS/option_vt.dats"
 

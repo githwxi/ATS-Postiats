@@ -27,9 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: January, 2013
 //
+(* ****** ****** *)
+//
+staload
+ATSLIB = "./pats_atslib.dats"
+//
+(* ****** ****** *)
+
+staload "pats_basics.sats"
+
 (* ****** ****** *)
 
 staload ERR = "./pats_error.sats"
@@ -39,10 +49,6 @@ staload ERR = "./pats_error.sats"
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_ccomp_emit2"
-
-(* ****** ****** *)
-
-staload "pats_basics.sats"
 
 (* ****** ****** *)
 //

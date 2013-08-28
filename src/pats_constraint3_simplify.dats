@@ -27,13 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: February, 2012
 //
 (* ****** ****** *)
+//
+staload
+ATSLIB = "./pats_atslib.dats"
+//
+(* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 

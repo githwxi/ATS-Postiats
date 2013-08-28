@@ -27,23 +27,27 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: May, 2011
 //
 (* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
+(* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/pointer.dats"
-staload _(*anon*) = "prelude/DATS/reference.dats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload STMP = "./pats_stamp.sats"
 staload SYM = "./pats_symbol.sats"
 overload = with $SYM.eq_symbol_symbol
 
 (* ****** ****** *)
 
-staload "./pats_basics.sats"
+staload STMP = "./pats_stamp.sats"
 
 (* ****** ****** *)
 

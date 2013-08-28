@@ -32,11 +32,6 @@
 //
 (* ****** ****** *)
 
-staload
-_ = "prelude/DATS/list.dats"
-
-(* ****** ****** *)
-
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
