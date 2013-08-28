@@ -1,0 +1,50 @@
+#
+# This directory contains code
+# used in the QA-forum for ats-lang-users:
+#
+# https://groups.google.com/forum/?fromgroups#!forum/ats-lang-users
+#
+#
+
+######
+
+qa-list-32:
+A simple example involving array-processing
+
+######
+
+qa-list-35:
+A simple example involving defined constants as patterns
+
+######
+
+qa-list-43: using closures (cloref)
+
+######
+
+qa-list-45: using views to process arrays
+
+######
+
+qa-list-57: special constants: $mylocation and $myfilename
+
+######
+
+qa-list-60: creating and destroying linear closures (cloptr)
+
+######
+
+qa-list-62: handling strbuf (t0ype)
+
+######
+
+qa-list-64: using views to process pointers
+
+######
+
+qa-list-66: an example involving arrayptr
+qa-list-67: an example involving destroying arrayptr
+
+######
+
+###### [end of [README] ######

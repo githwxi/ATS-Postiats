@@ -14,6 +14,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 %{^
+
 #include <string.h>
 
 #define _give_str give_str

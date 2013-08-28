@@ -1,0 +1,17 @@
+#
+# This directory contains code
+# used in discussion on ATS2 development
+#
+
+######
+
+offsetof:
+
+Time: 2013-08-27
+Raised by Artyom Shalkhakov
+
+Should we add support for [offsetof]?
+
+######
+
+###### [end of [README] ######
