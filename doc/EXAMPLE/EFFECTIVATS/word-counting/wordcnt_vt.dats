@@ -214,18 +214,20 @@ val wcs = list_vt_mergesort<ki> (wcs)
 end // end of [local]
 //
 val n = list_vt_length (wcs)
-val n2 = min (n, 100)
+val n2 = min (n, 500)
 val (wcs1, wcs2) = list_vt_split_at (wcs, n2)
 //
 // for listing the top 100
 // most frequently encountered words
 //
 local
-implement
-fprint_ref<ki>
-  (out, wc) = fprint! (out, wc.0, "\t->\t", wc.1)
+fun fprint_wordcnt
+  (out: FILEref, wc: &ki): void = fprint! (out, wc.0, "\t->\t", wc.1)
+overload fprint with fprint_wordcnt
+implement(env)
+list_vt_iforeach$fwork<ki><env> (i, wc, env) = fprintln! (stdout_ref, i+1, ".\t", wc)
 in (*in of [local]*)
-val () = fprint_list_vt_sep (stdout_ref, wcs1, "\n")
+val _(*len*) = list_vt_iforeach<ki> (wcs1)
 end // end of [local]
 //
 val () = fprint_newline (stdout_ref)
