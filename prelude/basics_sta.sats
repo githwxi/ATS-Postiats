@@ -568,6 +568,12 @@ viewdef vttakeout0 (vt:vt@ype) = vttakeout (void, vt)
 (* ****** ****** *)
 //
 vtypedef
+vtakeoutptr
+  (a:vt@ype) = [l:addr] (a@l, a@l -<lin,prf> void | ptr l)
+//
+(* ****** ****** *)
+//
+vtypedef
 vstrptr (l:addr) = vttakeout0 (strptr l)
 //
 vtypedef vStrptr0 = [l:addr] vstrptr (l)

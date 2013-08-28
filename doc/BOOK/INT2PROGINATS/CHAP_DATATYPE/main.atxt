@@ -544,8 +544,16 @@ for each node in the tree, the key stored in the node is greater than or
 equal to every key stored in the left child of the node and less than or
 equal to every key stored in the right child of the node. In other words, a
 binary tree is a binary search tree if a pre-order traversal encounters a
-list of keys ordered ascendingly (according to some ordering on keys).
-In practice, binary search trees are commonly employed to represent sets and maps.
+list of keys ordered non-descendingly (according to some ordering on keys).
+In practice, binary search trees are commonly employed to represent sets
+and maps.
+
+")
+
+#para("\
+
+The following declaration introduces a datatype #stacode("bstree") for
+binary search trees in which the stored keys are strings:
 
 ")
 
@@ -553,6 +561,14 @@ In practice, binary search trees are commonly employed to represent sets and map
 datatype bstree =
   | E of () | B of (bstree, string, bstree)
 // end of [bstree]
+")
+
+#para("\
+
+It should be noted that not every value of the type #stacode("bstree")
+represents a valid binary search tree as it is certainly possible to
+construct a value representing a binary tree but not a binary search tree.
+
 ")
 
 </sect1><!--id="example_binary_search_tree"-->
