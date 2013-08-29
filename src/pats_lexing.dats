@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: March, 2011
 //
 (* ****** ****** *)
@@ -35,9 +36,14 @@
 // HX: The implementation of lexing is plainly ad hoc
 //
 (* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
+(* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -1470,7 +1476,6 @@ end // end of [local]
 local
 
 staload "libats/SATS/linqueue_arr.sats"
-staload _(*anon*) = "prelude/DATS/array.dats"
 staload _(*anon*) = "libats/DATS/linqueue_arr.dats"
 staload _(*anon*) = "libats/ngc/DATS/deque_arr.dats"
 

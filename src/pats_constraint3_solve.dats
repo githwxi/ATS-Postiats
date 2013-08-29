@@ -27,17 +27,23 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: February, 2012
 //
 (* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
+(* ****** ****** *)
 
-#include "./pats_params.hats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
+#include "./pats_params.hats"
 
 (* ****** ****** *)
 
@@ -88,7 +94,8 @@ staload _(*anon*) = "./pats_lintprgm_solve.dats"
 staload _(*anon*) = "./pats_constraint3_icnstr.dats"
 
 fun{a:t@ype}
-indexset_make_s3exp {n:nat} (
+indexset_make_s3exp
+  {n:nat} (
   vim: !s2varindmap (n), s3e: s3exp
 ) : indexset (n+1) = let
   typedef res = indexset (n+1)

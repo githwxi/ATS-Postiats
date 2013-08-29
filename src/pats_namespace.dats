@@ -27,14 +27,15 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: May, 2011
 //
 (* ****** ****** *)
-
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
-staload _(*anon*) = "prelude/DATS/reference.dats"
-
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
 (* ****** ****** *)
 
 staload "./pats_namespace.sats"
