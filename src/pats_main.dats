@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: March, 2011
 //
 (* ****** ****** *)
@@ -47,17 +48,18 @@ macdef isdebug () = (debug_flag_get () > 0)
 //
 (* ****** ****** *)
 
-staload UT = "./pats_utils.sats"
-
-(* ****** ****** *)
-
 staload ERR = "./pats_error.sats"
 staload GLOB = "./pats_global.sats"
 
 (* ****** ****** *)
 
-staload FIL = "./pats_filename.sats"
-staload LOC = "./pats_location.sats"
+staload
+FIL = "./pats_filename.sats"
+staload
+LOC = "./pats_location.sats"
+
+(* ****** ****** *)
+
 staload SYM = "./pats_symbol.sats"
 
 (* ****** ****** *)

@@ -503,20 +503,15 @@ OBJECTS := \
 all:: patsopt
 
 ######
-# 
-# 
+#
+# AS-20130407: libats depends on libgmp (hence specified earlier);
+# link order matters to GNU ld
 #
 patsopt: \
   pats_main_dats.o $(OBJECTS) ; \
   $(ATSCC) $(ATSGCFLAG) $(ATSCCFLAGS) -o $@ pats_main_dats.o $(OBJECTS) -lats -lgmp
 cleanall:: ; $(RMF) patsopt
-
-patsopt2: \
-  pats_main_dats.o $(OBJECTS) ; \
-  $(CCOMP) $(ATSGCFLAG) $(ATSCCFLAGS) \
-    -I$(ATSHOME) -I$(ATSHOME)/ccomp/runtime -o $@ ./runtime/ats_prelude.c pats_main_dats.o $(OBJECTS) -lgmp
-cleanall:: ; $(RMF) patsopt
-
+#
 ######
 #
 # for building patsopt through CMake
@@ -525,6 +520,10 @@ BUILD/init: ; cd BUILD; cmake ..; cd ..
 BUILD/clean: ; make -C BUILD -f Makefile clean
 BUILD/patsopt: ; make -C BUILD -j8 -f Makefile patsopt
 #
+######
+
+CBOOT:: ; $(CPF) pats_*_?ats.c CBOOT
+
 ######
 
 TAGATS:: ; $(RMF) $@
@@ -1226,6 +1225,7 @@ include .depend
 ######
 
 DIR=.
+CPF=cp -f
 RMF=rm -f
 WCL=wc -l
 

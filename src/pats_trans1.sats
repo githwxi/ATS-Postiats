@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: April, 2011
 //
 (* ****** ****** *)
@@ -57,6 +58,8 @@ trans1err =
   | T1E_s0taload_tr of (d0ecl) // file for staloading is not available
   | T1E_d0ynload_tr of (d0ecl) // file for dynloading is not available
 // end of [trans1err]
+
+(* ****** ****** *)
 
 fun the_trans1errlst_add (x: trans1err): void
 fun the_trans1errlst_finalize (): void // cleanup all the errors

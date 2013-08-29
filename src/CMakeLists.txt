@@ -74,6 +74,8 @@ pats_syntax.dats
 pats_syntax_print.dats
 pats_depgen.sats
 pats_depgen.dats
+pats_taggen.sats
+pats_taggen.dats
 pats_tokbuf.sats
 pats_tokbuf.dats
 pats_tokbuf.cats
