@@ -506,10 +506,15 @@ all:: patsopt
 # 
 # 
 #
-patsopt: pats_main_dats.o $(OBJECTS) ; \
+patsopt: \
+  pats_main_dats.o $(OBJECTS) ; \
+  $(ATSCC) $(ATSGCFLAG) $(ATSCCFLAGS) -o $@ pats_main_dats.o $(OBJECTS) -lats -lgmp
+cleanall:: ; $(RMF) patsopt
+
+patsopt2: \
+  pats_main_dats.o $(OBJECTS) ; \
   $(CCOMP) $(ATSGCFLAG) $(ATSCCFLAGS) \
-    -I$(ATSHOME) -I$(ATSHOME)/ccomp/runtime \
-    -o $@ ./runtime/ats_prelude.c pats_main_dats.o $(OBJECTS) -lgmp
+    -I$(ATSHOME) -I$(ATSHOME)/ccomp/runtime -o $@ ./runtime/ats_prelude.c pats_main_dats.o $(OBJECTS) -lgmp
 cleanall:: ; $(RMF) patsopt
 
 ######

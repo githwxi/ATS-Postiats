@@ -34,7 +34,7 @@
 (* ****** ****** *)
 //
 staload
-ATSLIB = "./pats_atslib.dats"
+ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 //
