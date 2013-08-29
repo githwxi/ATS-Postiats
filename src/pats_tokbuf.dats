@@ -27,8 +27,14 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: March, 2011
+//
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 
@@ -39,7 +45,6 @@ viewtypedef lexbuf = $LBF.lexbuf
 (* ****** ****** *)
 //
 staload DQ = "libats/ngc/SATS/deque_arr.sats"
-staload _(*anon*) = "prelude/DATS/array.dats"
 staload _(*anon*) = "libats/ngc/DATS/deque_arr.dats"
 //
 stadef DEQUE = $DQ.DEQUE // double-ended queue

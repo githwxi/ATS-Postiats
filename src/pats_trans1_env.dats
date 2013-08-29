@@ -27,8 +27,14 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: April, 2011
+//
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 
@@ -383,7 +389,6 @@ local
 //
 staload UN = "prelude/SATS/unsafe.sats"
 staload LM = "libats/SATS/linmap_avltree.sats"
-staload _(*anon*) = "prelude/DATS/reference.dats"
 staload _(*anon*) = "libats/DATS/linmap_avltree.dats"
 //
 typedef key = uint

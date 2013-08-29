@@ -26,14 +26,19 @@
 *)
 
 (* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-
+//
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
+//
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
-staload _(*anon*) = "prelude/DATS/option_vt.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 

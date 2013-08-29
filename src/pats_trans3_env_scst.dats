@@ -27,17 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: March, 2012
 //
 (* ****** ****** *)
-
-staload "prelude/DATS/list_vt.dats"
-staload "prelude/DATS/reference.dats"
-
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
