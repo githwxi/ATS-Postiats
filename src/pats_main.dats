@@ -400,7 +400,7 @@ fn patsopt_version
   (out: FILEref, arg0: comarg): void =
 {
   val () = fprintf (out
-, "ATS/Postiats version %i.%i.%i with Copyright (c) 2011-20?? Hongwei Xi\n"
+, "ATS/Postiats version %i.%i.%i with Copyright (c) 2011-2013 Hongwei Xi\n"
 , @(PATS_MAJOR_VERSION, PATS_MINOR_VERSION, PATS_MICRO_VERSION)
   ) // end of [fprintf]
 } // end of [patsopt_version]
