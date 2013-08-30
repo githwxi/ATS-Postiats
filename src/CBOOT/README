@@ -1,0 +1,15 @@
+#
+# This directory contains
+# C-files used for bootstraping ATS2
+#
+
+######
+
+$ libtoolize --force
+$ aclocal
+$ autoheader
+$ automake --force-missing --add-missing
+$ autoconf
+$ ./configure
+
+###### end of [README] ######

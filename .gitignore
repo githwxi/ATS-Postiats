@@ -7,6 +7,14 @@
 *_?ats.o
 *_?ats.c
 
+config.h
+config.h.in
+config.mk
+config.log
+config.status
+install-sh
+configure
+
 #
 # The compiler for POSTIATS 
 #
@@ -21,6 +29,11 @@ src/TAGATS
 
 bin/patscc
 bin/patsopt
+
+#
+# boostrapping
+#
+src/CBOOT/pats*.?ats
 
 #
 # building patsopt thru CMake 

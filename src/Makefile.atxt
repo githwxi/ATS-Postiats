@@ -539,7 +539,10 @@ BUILD/patsopt: ; make -C BUILD -j8 -f Makefile patsopt
 #
 ######
 
-CBOOT:: ; $(CPF) pats_*_?ats.c CBOOT
+CBOOT:: ; $(CPF) pats_*.hats CBOOT
+CBOOT:: ; $(CPF) pats_*.cats CBOOT
+CBOOT:: ; $(CPF) pats_*_sats.c CBOOT
+CBOOT:: ; $(CPF) pats_*_dats.c CBOOT
 
 ######
 
