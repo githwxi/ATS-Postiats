@@ -59,6 +59,8 @@ mynode2ptr
   {a:t0p}{l:addr} (nx: !mynode (INV(a), l)):<> ptr (l)
 // end of [mynode2ptr]
 
+overload ptrcast with mynode2ptr
+
 (* ****** ****** *)
 //
 fun{}
@@ -69,8 +71,22 @@ mynode_free_null{a:t0p} (nx: mynode (a, null)): void
 //
 (* ****** ****** *)
 
+fun{a:t0p}
+mynode_make_elt (x: a):<!wrt> mynode1 (a)
+
+(* ****** ****** *)
+
 fun{}
 mynode_free{a:t0p} (mynode1 (a)):<!wrt> void
+
+(* ****** ****** *)
+
+fun{a:t0p}
+mynode_get_elt (nx: !mynode1 (INV(a))):<> a
+fun{a:t0p}
+mynode_set_elt{l:agz}
+  (nx: !mynode (a?, l) >> mynode (a, l), x0: a):<!wrt> void
+// end of [mynode_set_elt]
 
 (* ****** ****** *)
 

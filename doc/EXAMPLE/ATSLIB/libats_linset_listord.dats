@@ -60,6 +60,35 @@ val () = linset_free (xs)
 
 (* ****** ****** *)
 
+val () =
+{
+//
+val out = stdout_ref
+//
+vtypedef set = set(int)
+//
+var xs: set = linset_sing<int>(0)
+//
+val nx = linset_takeout_ngc (xs, 0)
+val () = println! ("ptrcast(nx) = ", ptrcast(nx))
+val () = assertloc (ptrcast(nx) > 0)
+//
+val () = mynode_set_elt<int> (nx, 1)
+val nx2 = linset_insert_ngc (xs, nx)
+val () = assertloc (ptrcast(nx2) = 0)
+prval () = mynode_free_null (nx2)
+//
+val nx = linset_takeout_ngc (xs, 1)
+val () = println! ("ptrcast(nx) = ", ptrcast(nx))
+val () = assertloc (ptrcast(nx) > 0)
+//
+val () = linset_free (xs)
+val (1) = mynode_getfree_elt (nx)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

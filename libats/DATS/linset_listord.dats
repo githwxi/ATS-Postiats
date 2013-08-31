@@ -127,6 +127,22 @@ implement{a}
 linset_insert
   (xs, x0) = let
 //
+fun
+mynode_cons
+  {n:nat} .<>.
+(
+  nx: mynode1 (a), xs: list_vt (a, n)
+) : list_vt (a, n+1) = let
+//
+val xs1 =
+$UN.castvwtp0{List1_vt(a)}(nx)
+val+@list_vt_cons (_, xs2) = xs1
+prval () = $UN.cast2void (xs2); val () = (xs2 := xs)
+//
+in
+  fold@ (xs1); xs1
+end // end of [mynode_cons]
+//
 fun ins
   {n:nat} .<n>. // tail-recursive
 (
@@ -142,7 +158,8 @@ case+ xs of
   in
     if sgn > 0 then let
       prval () = fold@ (xs)
-      val ((*void*)) = xs := list_vt_cons{a}(x0, xs)
+      val nx = mynode_make_elt<a> (x0)
+      val ((*void*)) = xs := mynode_cons (nx, xs)
     in
       false
     end else if sgn < 0 then let
@@ -157,7 +174,8 @@ case+ xs of
     end (* end of [if] *)
   end // end of [list_vt_cons]
 | list_vt_nil () => let
-    val ((*void*)) = xs := list_vt_cons{a}(x0, xs)
+    val nx = mynode_make_elt<a> (x0)
+    val ((*void*)) = xs := mynode_cons (nx, xs)
   in
     false
   end // end of [list_vt_nil]
@@ -169,6 +187,7 @@ end // end of [linset_insert]
 
 (* ****** ****** *)
 
+(*
 implement{a}
 linset_remove
   (xs, x0) = let
@@ -209,6 +228,7 @@ case+ xs of
 in
   $effmask_all (rem (xs))
 end // end of [linset_remove]
+*)
 
 (* ****** ****** *)
 
@@ -284,6 +304,186 @@ linset_listize (xs) = xs
 
 implement{a}
 linset_listize1 (xs) = list_vt_copy (xs)
+
+(* ****** ****** *)
+//
+// HX: functions for processing mynodes
+//
+(* ****** ****** *)
+
+implement{
+} mynode_null{a} () =
+  $UN.castvwtp0{mynode(a,null)}(the_null_ptr)
+// end of [mynode_null]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+mynode_make_elt
+  (x) = let
+//
+val nx = list_vt_cons{a}{0}(x, _ )
+//
+in
+  $UN.castvwtp0{mynode1(a)}(nx)
+end // end of [mynode_make_elt]
+
+(* ****** ****** *)
+
+implement{
+} mynode_free
+  {a}(nx) = () where {
+val nx =
+  $UN.castvwtp0{List1_vt(a)}(nx)
+//
+val+~list_vt_cons (_, nx2) = nx
+//
+prval ((*void*)) = $UN.cast2void (nx2)
+//
+} (* end of [mynode_free] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+mynode_get_elt
+  (nx) = (x) where {
+//
+val nx1 =
+  $UN.castvwtp1{List1_vt(a)}(nx)
+//
+val+list_vt_cons (x, _) = nx1
+//
+prval ((*void*)) = $UN.cast2void (nx1)
+//
+} (* end of [mynode_get_elt] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+mynode_set_elt
+  {l} (nx, x0) =
+{
+//
+val nx1 =
+  $UN.castvwtp1{List1_vt(a)}(nx)
+//
+val+@list_vt_cons (x, _) = nx1
+//
+val () = x := x0
+//
+prval () = fold@ (nx1)
+prval () = $UN.cast2void (nx1)
+//
+prval () = __assert (nx) where
+{
+  extern praxi __assert (nx: !mynode(a?, l) >> mynode (a, l)): void
+} (* end of [prval] *)
+//
+} (* end of [mynode_set_elt] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+mynode_getfree_elt
+  (nx) = (x) where {
+//
+val nx =
+  $UN.castvwtp0{List1_vt(a)}(nx)
+//
+val+~list_vt_cons (x, nx2) = nx
+//
+prval ((*void*)) = $UN.cast2void (nx2)
+//
+} (* end of [mynode_getfree_elt] *)
+
+(* ****** ****** *)
+
+(*
+fun{a:t0p}
+linset_insert_ngc
+(
+  set: &set(INV(a)) >> _, nx: mynode1 (a)
+) :<!wrt> mynode0 (a) // endfun
+*)
+implement{a}
+linset_insert_ngc
+  (set, nx) = let
+//
+val p = mynode2ptr (nx)
+//
+implement{a}
+mynode_make_elt
+  (x0) = $UN.castvwtp0{mynode1(a)}(p)
+// end of [mynode_make_elt]
+//
+var x0: a
+val ans = linset_insert (set, $UN.cast{a}(x0))
+//
+in (* in of [let] *)
+//
+if ans
+then nx else let
+  prval () = $UN.cast2void(nx) in mynode_null{a}((*void*))
+end // end of [if]
+//
+end // end of [linset_insert_ngc]
+
+(* ****** ****** *)
+
+(*
+fun{a:t0p}
+linset_takeout_ngc
+  (set: &set(INV(a)) >> _, x0: a):<!wrt> mynode0 (a)
+// end of [linset_takeout_ngc]
+*)
+implement
+{a}(*tmp*)
+linset_takeout_ngc
+  (set, x0) = let
+//
+fun takeout
+(
+  xs: &List0_vt (a) >> _
+) : mynode0(a) = let
+in
+//
+case+ xs of
+| @list_vt_cons
+    (x, xs1) => let
+    prval pf_x = view@x
+    prval pf_xs1 = view@xs1
+    val sgn =
+      compare_elt_elt<a> (x0, x)
+    // end of [val]
+  in
+    if sgn > 0 then let
+      prval () = fold@ (xs)
+    in
+      mynode_null{a}((*void*))
+    end else if sgn < 0 then let
+      val res = takeout (xs1)
+      prval ((*void*)) = fold@ (xs)
+    in
+      res
+    end else let // x0 = x
+      val xs1_ = xs1
+      val res = $UN.castvwtp0{mynode1(a)}((pf_x, pf_xs1 | xs))
+      val () = xs := xs1_
+    in
+      res // [x0] in [xs]
+    end (* end of [if] *)
+  end // end of [list_vt_cons]
+| list_vt_nil () => mynode_null{a}((*void*))
+//
+end (* end of [takeout] *)
+//
+in
+  $effmask_all (takeout (set))
+end // end of [linset_takeout_ngc]
 
 (* ****** ****** *)
 
