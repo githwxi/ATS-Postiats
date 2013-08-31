@@ -54,6 +54,16 @@ clean:: ; $(RMF) patsopt_src_atxt.exe
 cleanall:: ; $(RMF) HTML/patsopt_src.html
 cleanall:: ; $(RMF) SCRIPT/patsopt_src.bash
 
+all_html:: HTML/patsopt_src_cboot.html
+HTML/patsopt_src_cboot.html: patsopt_src_cboot_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/patsopt_src_cboot.bash
+SCRIPT/patsopt_src_cboot.bash: patsopt_src_cboot_atxt.exe ; ./$< > $@
+patsopt_src_cboot_atxt.dats: ATEXT/patsopt_src_cboot.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+patsopt_src_cboot_atxt.exe: patsopt_src_cboot_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) patsopt_src_cboot_atxt.exe
+cleanall:: ; $(RMF) HTML/patsopt_src_cboot.html
+cleanall:: ; $(RMF) SCRIPT/patsopt_src_cboot.bash
+
 
 ######
 
@@ -202,14 +212,21 @@ cleanall:: ; $(RMF) SCRIPT/doc_example_pcpv.bash
 
 ######
 
-srcgetall:: srcget_share
-srcgetall:: srcget_patsrc
-srcgetall:: srcget_atslib
-srcgetall:: srcget_atscntrb
-srcgetall:: srcget_ccomp_atslib
-srcgetall:: srcget_ccomp_runtime
-srcgetall:: srcget_utils_atscc
-srcgetall:: srcget_doc_example
+atspackage:: srcget_home
+atspackage:: srcget_share
+atspackage:: srcget_patsrc
+atspackage:: srcget_patsrc_cboot
+atspackage:: srcget_atslib
+atspackage:: srcget_atscntrb
+atspackage:: srcget_ccomp_atslib
+atspackage:: srcget_ccomp_runtime
+atspackage:: srcget_utils_atscc
+atspackage:: srcget_doc_example
+
+######
+
+srcget_home:: ; $(CPF) ../../configure.ac $(ATSDIST)/
+srcget_home:: ; $(CPF) ../../config.mk.in $(ATSDIST)/
 
 ######
 
@@ -219,6 +236,7 @@ srcget_share:: ; \
 ######
 
 srcget_patsrc:: SCRIPT/patsopt_src.bash ; bash $<
+srcget_patsrc_cboot:: SCRIPT/patsopt_src_cboot.bash ; bash $<
 
 ######
 

@@ -4,19 +4,27 @@
 #
 ######
 
-all:: bin/patsopt
-all:: bin/patscc
+all:: bin2_patsopt
+
+######
+
+all:: bin_patscc
 all:: ccomp/atslib/lib/libatslib.a
 
 ######
 
 src_patsopt: ; make -C src patsopt
-bin/patsopt: src_patsopt ; cp -f src/patsopt bin/patsopt
+bin_patsopt: src_patsopt ; cp -f src/patsopt bin/patsopt
+
+######
+
+src2_patsopt: ; make -C src/CBOOT patsopt
+bin2_patsopt: src2_patsopt ; cp -f src/CBOOT/patsopt bin/patsopt
 
 ######
 
 utl_atscc: ; make -C utils/atscc patscc
-bin/patscc: utl_atscc ; cp -f utils/atscc/patscc bin/patscc
+bin_patscc: utl_atscc ; cp -f utils/atscc/patscc bin/patscc
 
 ######
 
@@ -25,6 +33,7 @@ ccomp/atslib/lib/libatslib.a: ; make -C ccomp/atslib atslib
 ######
 
 RMF=rm -f
+RMRF=rm -rf
 
 ######
 
@@ -33,12 +42,35 @@ clean::
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) bin/*
+
+cleanall:: ; $(RMF) config*
+cleanall:: ; $(RMF) aclocal.m4
+cleanall:: ; $(RMF) missing
+cleanall:: ; $(RMF) install-sh
+cleanall:: ; $(RMRF) autom4te.cache
+cleanall:: ; $(RMF) bin/patscc
+cleanall:: ; $(RMF) bin/patsopt
 cleanall:: ; $(RMF) src/patsopt
 cleanall:: ; $(RMF) src/*.?ats
 cleanall:: ; $(RMF) src/*_?ats.c
 cleanall:: ; $(RMF) src/*_?ats.o
 cleanall:: ; $(RMF) src/Makefile
+cleanall:: ; $(RMF) src/CBOOT/pats*.cats
+cleanall:: ; $(RMF) src/CBOOT/pats*_?ats.c
+cleanall:: ; $(RMF) src/CBOOT/ccomp/runtime/ats*.h
+cleanall:: ; $(RMF) src/CBOOT/ccomp/runtime/ats*.c
+cleanall:: ; $(RMF) src/CBOOT/prelude/*_?ats.c
+cleanall:: ; $(RMF) src/CBOOT/prelude/CATS/*.cats
+cleanall:: ; $(RMF) src/CBOOT/libc/*_?ats.c
+cleanall:: ; $(RMF) src/CBOOT/libc/CATS/*.cats
+cleanall:: ; $(RMF) src/CBOOT/libc/sys/CATS/*.cats
+cleanall:: ; $(RMF) src/CBOOT/libats/*_?ats.c
+cleanall:: ; $(RMF) src/CBOOT/libats/CATS/*.cats
+cleanall:: ; $(RMF) src/CBOOT/libats/ngc/CATS/*.cats
+cleanall:: ; $(RMF) src/CBOOT/gcats1_all.cats
+cleanall:: ; $(RMF) src/CBOOT/ccomp/runtime/GCATS/*.?ats
+cleanall:: ; $(RMF) src/CBOOT/ccomp/runtime/GCATS/*_?ats.c
+
 cleanall:: ; $(RMF) ccomp/atslib/lib/*
 cleanall:: ; $(RMF) ccomp/atslib/lib64/*
 cleanall:: ; $(RMF) ccomp/atslib/output/*

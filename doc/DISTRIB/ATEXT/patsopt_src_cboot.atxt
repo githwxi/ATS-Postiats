@@ -1,0 +1,666 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+staload "libatsdoc/SATS/libatsdoc_atext.sats"
+//
+extern
+fun packpreamble (): atext
+extern
+fun packpostamble (): atext
+extern
+fun packtitle (x: string): atext
+extern
+fun packfilename (x: string): atext
+extern
+fun packfilesynop (x: string): atext
+//
+%}
+
+(* ****** ****** *)
+
+%{
+
+implement
+packpreamble () = let
+//
+val out = stdout_ref
+val () = fprint_string (out, "\
+#!/bin/bash\n\
+#\n\
+# This script is automatically generated.\n\
+#\n\
+\n\
+SOURCE=../../src/CBOOT\n\
+TARGET=ATS-Postiats/src/CBOOT\n\
+\n\
+srcget ()\n\
+{\n\
+cp -f ${SOURCE}/$1 ${TARGET}/$1 ;\n\
+}\n\
+\n\
+") // end of [val]
+//
+in
+  atext_nil ()
+end // end of [packpreamble]
+
+implement
+packpostamble () = let
+val out = stdout_ref
+val () = fprint_string (out, "\
+#\n\
+echo \"The PATSOPT-src-cboot files have been copied.\"\n\
+#\n\
+# end of the automatically generated script\n\
+#\n\
+")
+in
+  atext_nil ()
+end // end of [packpostamble]
+
+implement
+packtitle (x) = atext_nil ()
+
+implement
+packfilename (x) = let
+//
+val out = stdout_ref
+val () = fprintf (out, "srcget \"%s\" ;\n", @(x))
+//
+in
+  atext_nil ()
+end // end of [packfilename]
+
+implement
+packfilesynop (x) = atext_nil ()
+
+%}
+
+(* ****** ****** *)
+
+#packpreamble()
+
+(* ****** ****** *)
+
+#packtitle("\
+The ATS/Postiats C-Boostrapping\
+")
+
+(* ****** ****** *)
+
+#packfilename("Makefile")
+#packfilesynop("\
+")
+
+(* ****** ****** *)
+
+#packfilename("pats_main_dats.c")
+#packfilesynop("\
+")
+
+(* ****** ****** *)
+
+#packfilename("pats_error_sats.c")
+#packfilename("pats_error_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_intinf_sats.c")
+#packfilename("pats_intinf_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_counter_sats.c")
+#packfilename("pats_counter_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_utils_sats.c")
+#packfilename("pats_utils_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_global_sats.c")
+#packfilename("pats_global_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_basics_sats.c")
+#packfilename("pats_basics_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_stamp_sats.c")
+#packfilename("pats_stamp_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_symbol_sats.c")
+#packfilename("pats_symbol_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_filename_sats.c")
+#packfilename("pats_filename_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_location.cats")
+#packfilename("pats_location_sats.c")
+#packfilename("pats_location_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_errmsg_sats.c")
+#packfilename("pats_errmsg_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_reader.cats")
+#packfilename("pats_reader_sats.c")
+#packfilename("pats_reader_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_lexbuf.cats")
+#packfilename("pats_lexbuf_sats.c")
+#packfilename("pats_lexbuf_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_lexing.cats")
+#packfilesynop("\
+")
+#packfilename("pats_lexing_sats.c")
+#packfilesynop("\
+")
+#packfilename("pats_lexing_dats.c")
+#packfilesynop("\
+")
+#packfilename("pats_lexing_error_dats.c")
+#packfilesynop("\
+")
+#packfilename("pats_lexing_print_dats.c")
+#packfilesynop("\
+")
+#packfilename("pats_lexing_token_dats.c")
+#packfilesynop("\
+")
+
+(* ****** ****** *)
+
+#packfilename("pats_label_sats.c")
+#packfilename("pats_label_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_effect_sats.c")
+#packfilename("pats_effect_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_fixity_sats.c")
+#packfilename("pats_fixity_prec_dats.c")
+#packfilename("pats_fixity_fxty_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_syntax_sats.c")
+#packfilename("pats_syntax_dats.c")
+#packfilename("pats_syntax_print_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_depgen_sats.c")
+#packfilename("pats_depgen_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_taggen_sats.c")
+#packfilename("pats_taggen_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_tokbuf.cats")
+#packfilename("pats_tokbuf_sats.c")
+#packfilename("pats_tokbuf_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_parsing_sats.c")
+#packfilename("pats_parsing_dats.c")
+#packfilename("pats_parsing_util_dats.c")
+#packfilename("pats_parsing_error_dats.c")
+#packfilename("pats_parsing_base_dats.c")
+#packfilename("pats_parsing_kwds_dats.c")
+#packfilename("pats_parsing_e0xp_dats.c")
+#packfilename("pats_parsing_sort_dats.c")
+#packfilename("pats_parsing_staexp_dats.c")
+#packfilename("pats_parsing_p0at_dats.c")
+#packfilename("pats_parsing_dynexp_dats.c")
+#packfilename("pats_parsing_decl_dats.c")
+#packfilename("pats_parsing_toplevel_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_symmap_sats.c")
+#packfilename("pats_symmap_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_symenv_sats.c")
+#packfilename("pats_symenv_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_staexp1_sats.c")
+#packfilename("pats_staexp1_dats.c")
+#packfilename("pats_staexp1_print_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_dynexp1_sats.c")
+#packfilename("pats_dynexp1_dats.c")
+#packfilename("pats_dynexp1_print_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_trans1_sats.c")
+#packfilename("pats_trans1_env_sats.c")
+#packfilename("pats_trans1_env_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_e1xpval_sats.c")
+#packfilename("pats_e1xpval_dats.c")
+#packfilename("pats_e1xpval_error_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_trans1_error_dats.c")
+#packfilename("pats_trans1_e0xp_dats.c")
+#packfilename("pats_trans1_effect_dats.c")
+#packfilename("pats_trans1_sort_dats.c")
+#packfilename("pats_trans1_staexp_dats.c")
+#packfilename("pats_trans1_p0at_dats.c")
+#packfilename("pats_trans1_syndef_dats.c")
+#packfilename("pats_trans1_dynexp_dats.c")
+#packfilename("pats_trans1_decl_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_staexp2_sats.c")
+#packfilename("pats_staexp2_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_stacst2_sats.c")
+#packfilename("pats_stacst2_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_staexp2_print_dats.c")
+#packfilename("pats_staexp2_pprint_dats.c")
+#packfilename("pats_staexp2_sort_dats.c")
+#packfilename("pats_staexp2_scst_dats.c")
+#packfilename("pats_staexp2_svar_dats.c")
+#packfilename("pats_staexp2_svvar_dats.c")
+#packfilename("pats_staexp2_hole_dats.c")
+#packfilename("pats_staexp2_ctxt_dats.c")
+#packfilename("pats_staexp2_dcon_dats.c")
+#packfilename("pats_staexp2_skexp_dats.c")
+#packfilename("pats_staexp2_szexp_dats.c")
+#packfilename("pats_staexp2_util_sats.c")
+#packfilename("pats_staexp2_util1_dats.c")
+#packfilename("pats_staexp2_util2_dats.c")
+#packfilename("pats_staexp2_util3_dats.c")
+#packfilename("pats_staexp2_error_sats.c")
+#packfilename("pats_staexp2_error_dats.c")
+#packfilename("pats_staexp2_solve_sats.c")
+#packfilename("pats_staexp2_solve_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_patcst2_sats.c")
+#packfilename("pats_patcst2_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_dynexp2_sats.c")
+#packfilename("pats_dynexp2_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_dyncst2_sats.c")
+#packfilename("pats_dyncst2_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_dynexp2_print_dats.c")
+#packfilename("pats_dynexp2_dcst_dats.c")
+#packfilename("pats_dynexp2_dvar_dats.c")
+#packfilename("pats_dynexp2_dmac_dats.c")
+#packfilename("pats_dynexp2_util_sats.c")
+#packfilename("pats_dynexp2_util_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_trans2_sats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_namespace_sats.c")
+#packfilename("pats_namespace_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_trans2_env_sats.c")
+#packfilename("pats_trans2_env_dats.c")
+#packfilename("pats_trans2_error_dats.c")
+#packfilename("pats_trans2_sort_dats.c")
+#packfilename("pats_trans2_staexp_dats.c")
+#packfilename("pats_trans2_p1at_dats.c")
+#packfilename("pats_trans2_dynexp_dats.c")
+#packfilename("pats_trans2_impdec_dats.c")
+#packfilename("pats_trans2_decl_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_dynexp3_sats.c")
+#packfilename("pats_dynexp3_dats.c")
+#packfilename("pats_dynexp3_print_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_trans3_sats.c")
+#packfilename("pats_trans3_error_dats.c")
+#packfilename("pats_trans3_util_dats.c")
+#packfilename("pats_trans3_env_sats.c")
+#packfilename("pats_trans3_env_dats.c")
+#packfilename("pats_trans3_env_print_dats.c")
+#packfilename("pats_trans3_env_scst_dats.c")
+#packfilename("pats_trans3_env_svar_dats.c")
+#packfilename("pats_trans3_env_termet_dats.c")
+#packfilename("pats_trans3_env_effect_dats.c")
+#packfilename("pats_trans3_env_dvar_dats.c")
+#packfilename("pats_trans3_env_lamlp_dats.c")
+#packfilename("pats_trans3_env_pfman_dats.c")
+#packfilename("pats_trans3_env_lstate_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_dmacro2_sats.c")
+#packfilename("pats_dmacro2_dats.c")
+#packfilename("pats_dmacro2_print_dats.c")
+#packfilename("pats_dmacro2_eval0_dats.c")
+#packfilename("pats_dmacro2_eval1_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_trans3_p2at_dats.c")
+#packfilename("pats_trans3_patcon_dats.c")
+#packfilename("pats_trans3_syncst_dats.c")
+#packfilename("pats_trans3_dynexp_up_dats.c")
+#packfilename("pats_trans3_dynexp_dn_dats.c")
+#packfilename("pats_trans3_appsym_dats.c")
+#packfilename("pats_trans3_caseof_dats.c")
+#packfilename("pats_trans3_selab_dats.c")
+#packfilename("pats_trans3_ptrof_dats.c")
+#packfilename("pats_trans3_viewat_dats.c")
+#packfilename("pats_trans3_deref_dats.c")
+#packfilename("pats_trans3_assgn_dats.c")
+#packfilename("pats_trans3_xchng_dats.c")
+#packfilename("pats_trans3_lvalres_dats.c")
+#packfilename("pats_trans3_fldfrat_dats.c")
+#packfilename("pats_trans3_looping_dats.c")
+#packfilename("pats_trans3_decl_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_lintprgm_sats.c")
+#packfilename("pats_lintprgm_dats.c")
+#packfilename("pats_lintprgm_print_dats.c")
+#packfilename("pats_lintprgm_myint.cats")
+#packfilename("pats_lintprgm_myint_int_dats.c")
+#packfilename("pats_lintprgm_myint_intinf_dats.c")
+#packfilename("pats_lintprgm_solve_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_constraint3_sats.c")
+#packfilename("pats_constraint3_dats.c")
+#packfilename("pats_constraint3_init_dats.c")
+#packfilename("pats_constraint3_print_dats.c")
+#packfilename("pats_constraint3_simplify_dats.c")
+#packfilename("pats_constraint3_icnstr_dats.c")
+#packfilename("pats_constraint3_solve_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_histaexp_sats.c")
+#packfilename("pats_histaexp_dats.c")
+#packfilename("pats_histaexp_print_dats.c")
+#packfilename("pats_histaexp_funlab_dats.c")
+#packfilename("pats_hidynexp_sats.c")
+#packfilename("pats_hidynexp_dats.c")
+#packfilename("pats_hidynexp_print_dats.c")
+#packfilename("pats_hidynexp_util_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_typerase_sats.c")
+#packfilename("pats_typerase_error_dats.c")
+#packfilename("pats_typerase_staexp_dats.c")
+#packfilename("pats_typerase_dynexp_dats.c")
+#packfilename("pats_typerase_decl_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_ccomp_sats.c")
+#packfilename("pats_ccomp_dats.c")
+#packfilename("pats_ccomp_print_dats.c")
+#packfilename("pats_ccomp_hitype_dats.c")
+#packfilename("pats_ccomp_tmplab_dats.c")
+#packfilename("pats_ccomp_tmpvar_dats.c")
+#packfilename("pats_ccomp_d2env_dats.c")
+#packfilename("pats_ccomp_funlab_dats.c")
+#packfilename("pats_ccomp_funent_dats.c")
+#packfilename("pats_ccomp_util_dats.c")
+#packfilename("pats_ccomp_ccompenv_dats.c")
+#packfilename("pats_ccomp_instrseq_dats.c")
+#packfilename("pats_ccomp_hipat_dats.c")
+#packfilename("pats_ccomp_dynexp_dats.c")
+#packfilename("pats_ccomp_caseof_dats.c")
+#packfilename("pats_ccomp_trywith_dats.c")
+#packfilename("pats_ccomp_claulst_dats.c")
+#packfilename("pats_ccomp_looping_dats.c")
+#packfilename("pats_ccomp_decl_dats.c")
+#packfilename("pats_ccomp_subst_dats.c")
+#packfilename("pats_ccomp_environ_dats.c")
+#packfilename("pats_ccomp_template_dats.c")
+#packfilename("pats_ccomp_emit_dats.c")
+#packfilename("pats_ccomp_emit2_dats.c")
+#packfilename("pats_ccomp_emit3_dats.c")
+#packfilename("pats_ccomp_main_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_comarg_sats.c")
+#packfilename("pats_comarg_dats.c")
+
+(* ****** ****** *)
+//
+#packfilename("ccomp/runtime/ats_config.h")
+#packfilename("ccomp/runtime/ats_basics.h")
+#packfilename("ccomp/runtime/ats_types.h")
+#packfilename("ccomp/runtime/ats_exception.h")
+#packfilename("ccomp/runtime/ats_memory.h")
+//
+#packfilename("ccomp/runtime/ats_prelude.c")
+#packfilename("ccomp/runtime/ats_prelude_ngc.c")
+#packfilename("ccomp/runtime/ats_prelude_gcats.c")
+#packfilename("ccomp/runtime/ats_prelude_gcbdw.c")
+//
+(* ****** ****** *)
+
+#packfilename("prelude/basics_sta_sats.c")
+#packfilename("prelude/basics_dyn_sats.c")
+#packfilename("prelude/ats_main_prelude_dats.c")
+
+#packfilename("prelude/DATS_basics_dats.c")
+#packfilename("prelude/DATS_bool_dats.c")
+#packfilename("prelude/DATS_char_dats.c")
+
+#packfilename("prelude/DATS_float_dats.c")
+#packfilename("prelude/DATS_integer_dats.c")
+#packfilename("prelude/DATS_sizetype_dats.c")
+
+#packfilename("prelude/DATS_pointer_dats.c")
+#packfilename("prelude/DATS_reference_dats.c")
+
+#packfilename("prelude/DATS_string_dats.c")
+
+#packfilename("prelude/DATS_lazy_dats.c")
+#packfilename("prelude/DATS_lazy_vt_dats.c")
+
+#packfilename("prelude/DATS_printf_dats.c")
+#packfilename("prelude/DATS_filebas_dats.c")
+
+#packfilename("prelude/DATS_list0_dats.c")
+#packfilename("prelude/DATS_list_dats.c")
+#packfilename("prelude/DATS_list_vt_dats.c")
+
+#packfilename("prelude/DATS_option_dats.c")
+#packfilename("prelude/DATS_option_vt_dats.c")
+#packfilename("prelude/DATS_option0_dats.c")
+
+#packfilename("prelude/DATS_array_dats.c")
+#packfilename("prelude/DATS_array0_dats.c")
+
+#packfilename("prelude/DATS_matrix_dats.c")
+#packfilename("prelude/DATS_matrix0_dats.c")
+
+#packfilename("prelude/DATS_ptrarr_dats.c")
+
+#packfilename("prelude/DATS_unsafe_dats.c")
+
+#packfilename("prelude/CATS/basics.cats")
+#packfilename("prelude/CATS/bool.cats")
+#packfilename("prelude/CATS/char.cats")
+#packfilename("prelude/CATS/byte.cats")
+#packfilename("prelude/CATS/float.cats")
+#packfilename("prelude/CATS/integer.cats")
+#packfilename("prelude/CATS/integer_ptr.cats")
+#packfilename("prelude/CATS/integer_fixed.cats")
+#packfilename("prelude/CATS/sizetype.cats")
+#packfilename("prelude/CATS/pointer.cats")
+#packfilename("prelude/CATS/reference.cats")
+#packfilename("prelude/CATS/string.cats")
+#packfilename("prelude/CATS/lazy.cats")
+#packfilename("prelude/CATS/lazy_vt.cats")
+#packfilename("prelude/CATS/printf.cats")
+
+#packfilename("prelude/CATS/list.cats")
+#packfilename("prelude/CATS/option.cats")
+#packfilename("prelude/CATS/array.cats")
+#packfilename("prelude/CATS/matrix.cats")
+
+(* ****** ****** *)
+
+#packfilename("libc/SATS_errno_sats.c")
+
+#packfilename("libc/SATS_fcntl_sats.c")
+#packfilename("libc/DATS_fcntl_dats.c")
+
+#packfilename("libc/SATS_stdarg_sats.c")
+#packfilename("libc/SATS_stdio_sats.c")
+#packfilename("libc/SATS_stdlib_sats.c")
+#packfilename("libc/SATS_string_sats.c")
+
+#packfilename("libc/SATS_time_sats.c")
+
+#packfilename("libc/SATS_unistd_sats.c")
+#packfilename("libc/DATS_unistd_dats.c")
+
+#packfilename("libc/SATS_gmp_sats.c")
+#packfilename("libc/DATS_gmp_dats.c")
+
+#packfilename("libc/sys_SATS_stat_sats.c")
+#packfilename("libc/sys_SATS_types_sats.c")
+
+#packfilename("libc/CATS/errno.cats")
+#packfilename("libc/CATS/fcntl.cats")
+#packfilename("libc/CATS/stdarg.cats")
+#packfilename("libc/CATS/stdio.cats")
+#packfilename("libc/CATS/stdlib.cats")
+#packfilename("libc/CATS/string.cats")
+#packfilename("libc/CATS/time.cats")
+#packfilename("libc/CATS/unistd.cats")
+
+#packfilename("libc/CATS/gmp.cats")
+
+#packfilename("libc/sys/CATS/stat.cats")
+#packfilename("libc/sys/CATS/types.cats")
+
+(* ****** ****** *)
+
+#packfilename("libats/SATS_funmap_avltree_sats.c")
+#packfilename("libats/DATS_funmap_avltree_dats.c")
+
+#packfilename("libats/SATS_funset_avltree_sats.c")
+#packfilename("libats/DATS_funset_avltree_dats.c")
+#packfilename("libats/SATS_funset_listord_sats.c")
+#packfilename("libats/DATS_funset_listord_dats.c")
+
+#packfilename("libats/SATS_funmset_listord_sats.c")
+#packfilename("libats/DATS_funmset_listord_dats.c")
+
+#packfilename("libats/SATS_hashtable_linprb_sats.c")
+#packfilename("libats/DATS_hashtable_chain_dats.c")
+#packfilename("libats/SATS_hashtable_chain_sats.c")
+#packfilename("libats/DATS_hashtable_linprb_dats.c")
+
+#packfilename("libats/SATS_linqueue_arr_sats.c")
+#packfilename("libats/DATS_linqueue_arr_dats.c")
+#packfilename("libats/SATS_linqueue_lst_sats.c")
+#packfilename("libats/DATS_linqueue_lst_dats.c")
+
+#packfilename("libats/ngc_SATS_deque_arr_sats.c")
+#packfilename("libats/ngc_DATS_deque_arr_dats.c")
+
+#packfilename("libats/CATS/hashtable_chain.cats")
+#packfilename("libats/CATS/linqueue_arr.cats")
+#packfilename("libats/CATS/linqueue_lst.cats")
+#packfilename("libats/ngc/CATS/deque_arr.cats")
+
+(* ****** ****** *)
+
+#packfilename("gcats1_all.cats")
+#packfilename("ccomp/runtime/GCATS/gcats1.cats")
+#packfilename("ccomp/runtime/GCATS/gcats1_master.hats")
+#packfilename("ccomp/runtime/GCATS/gcats1_top_dats.c")
+#packfilename("ccomp/runtime/GCATS/gcats1_misc_dats.c")
+#packfilename("ccomp/runtime/GCATS/gcats1_freeitmlst_dats.c")
+#packfilename("ccomp/runtime/GCATS/gcats1_globalentry_dats.c")
+#packfilename("ccomp/runtime/GCATS/gcats1_autops_dats.c")
+#packfilename("ccomp/runtime/GCATS/gcats1_manops_dats.c")
+#packfilename("ccomp/runtime/GCATS/gcats1_chunk_dats.c")
+#packfilename("ccomp/runtime/GCATS/gcats1_marking_dats.c")
+#packfilename("ccomp/runtime/GCATS/gcats1_collecting_dats.c")
+
+(* ****** ****** *)
+
+#packpostamble()
+
+(* ****** ****** *)
+
+%{
+
+implement main () = ()
+
+%}
+
+(* ****** ****** *)
+
+(* end of [patsopt.atxt] *)

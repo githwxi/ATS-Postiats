@@ -1,7 +1,7 @@
 #
-# The main Makefile for CBOOT
+# The main Makefile
+# for ATS/Postiats C-bootstrapping
 #
-
 ######
 
 CCOMP=gcc

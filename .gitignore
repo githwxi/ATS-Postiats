@@ -238,13 +238,15 @@ doc/DISTRIB/*_atxt.txt
 doc/DISTRIB/*_atxt.dats
 doc/DISTRIB/HTML
 doc/DISTRIB/SCRIPT/*.bash
+doc/DISTRIB/ATS-Postiats/conf*
+doc/DISTRIB/ATS-Postiats/stamp*
 doc/DISTRIB/ATS-Postiats/bin/*
 doc/DISTRIB/ATS-Postiats/share/*
 doc/DISTRIB/ATS-Postiats/src/.depend
 doc/DISTRIB/ATS-Postiats/src/Makefile
 doc/DISTRIB/ATS-Postiats/src/pats_*.?ats
 doc/DISTRIB/ATS-Postiats/src/patsopt
-doc/DISTRIB/ATS-Postiats/src/ATS2C
+doc/DISTRIB/ATS-Postiats/src/CBOOT
 doc/DISTRIB/ATS-Postiats/ccomp/atslib/lib
 doc/DISTRIB/ATS-Postiats/ccomp/atslib/lib64
 doc/DISTRIB/ATS-Postiats/ccomp/atslib/output

@@ -50,7 +50,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The PATSOPT-source files have been copied.\"\n\
+echo \"The PATSOPT-src files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
