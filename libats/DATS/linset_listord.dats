@@ -485,7 +485,7 @@ in
 //
 case+ xs1 of
 | list_vt_cons _ =>
-    let val res = unsnoc (xs1) in fold@xs; res end
+    let val res = unsnoc(xs1) in fold@xs; res end
   // end of [list_vt_cons]
 | list_vt_nil () => let
     val xs_ = xs

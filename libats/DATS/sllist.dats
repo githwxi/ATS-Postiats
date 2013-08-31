@@ -70,11 +70,11 @@ g2node_getfree_elt (nx: g2node1 (INV(a))):<!wrt> (a)
 //
 extern
 castfn
-sllist_encode
+sllist0_encode
   : {a:vt0p}{n:int} (g2node0 (INV(a))) -<> sllist (a, n)
 extern
 castfn
-sllist_decode
+sllist0_decode
   : {a:vt0p}{n:int} (sllist (INV(a), n)) -<> g2node0 (a)
 //
 extern
@@ -89,7 +89,7 @@ sllist1_decode
 (* ****** ****** *)
 
 implement{}
-sllist_nil () = sllist_encode (gnode_null ())
+sllist_nil () = sllist0_encode (gnode_null ())
 
 implement{a}
 sllist_sing (x) = sllist_cons<a> (x, sllist_nil ())
@@ -125,9 +125,7 @@ in
 case+ xs of
 | list_cons
     (x, xs) => let
-    val nx1 =
-      g2node_make_elt<a> (x)
-    // end of [val]
+    val nx1 = g2node_make_elt<a> (x)
     val () = gnode_link11 (nx0, nx1)
   in
     loop (nx1, xs)
@@ -148,7 +146,7 @@ case+ xs of
     val nx0 = g2node_make_elt<a> (x)
     val () = $effmask_all (loop (nx0, xs))
   in
-    sllist_encode (nx0)
+    sllist0_encode (nx0)
   end // end of [list_cons]
 | list_nil () => sllist_nil ()
 //
@@ -322,13 +320,6 @@ end // end of [sllist_takeout_at]
 
 (* ****** ****** *)
 
-(*
-fun{a:vt0p}
-sllist_append
-  {n1,n2:int} (
-  xs1: sllist (INV(a), n1), xs2: sllist (a, n2)
-) :<!wrt> sllist (a, n1+n2) // end of [sllist_append]
-*)
 implement{a}
 sllist_append
   {n1,n2} (xs1, xs2) = let
@@ -343,22 +334,20 @@ in
 if iscons1 then let
   val iscons2 = sllist_is_cons (xs2)
 in
-  if iscons2 then let
-    val nxs1 = sllist1_decode (xs1)
-    val nxs2 = sllist_decode (xs2)
-    val nxs1_end = gnodelst_next_all (nxs1)
-    val () = gnode_link10 (nxs1_end, nxs2)
-  in
-    sllist_encode (nxs1)
-  end else let
-    prval () = sllist_free_nil (xs2)
-  in
-    xs1
-  end // end of [if]
-end else let
-  prval () = sllist_free_nil (xs1)
+//
+if iscons2 then let
+  val nxs1 = sllist1_decode (xs1)
+  val nxs2 = sllist0_decode (xs2)
+  val nxs1_end = gnodelst_next_all (nxs1)
+  val _void_ = gnode_link10 (nxs1_end, nxs2)
 in
-  xs2
+  sllist0_encode (nxs1)
+end else let
+  prval () = sllist_free_nil (xs2) in xs1
+end // end of [if]
+//
+end else let
+  prval () = sllist_free_nil (xs1) in xs2
 end // end of [if]
 //
 end // end of [sllist_append]
@@ -405,9 +394,9 @@ if iscons then let
   val nxs1 = sllist1_decode (xs1)
   val nx0 = nxs1
   val nxs1 = gnode_get_next (nx0)
-  val () = gnode_link10 (nx0, sllist_decode (xs2))
+  val () = gnode_link10 (nx0, sllist0_decode (xs2))
 in
-  sllist_encode ($effmask_all (loop (nxs1, nx0)))
+  sllist0_encode ($effmask_all (loop (nxs1, nx0)))
 end else let
   prval () = sllist_free_nil (xs1)
 in
@@ -430,7 +419,9 @@ val iscons = gnodelst_is_cons (nxs)
 in
 //
 if iscons then let
-  val nxs2 = gnode_get_next (nxs)
+  val nxs2 =
+    gnode_get_next (nxs)
+  // end of [val]
   val () = g2node_free (nxs)
 in
   loop (nxs2)
@@ -438,7 +429,7 @@ end else () // end of [if]
 //
 end // end of [loop]
 //
-val nxs = sllist_decode (xs)
+val nxs = sllist0_decode (xs)
 //
 in
   $effmask_all (loop (nxs))
@@ -448,7 +439,7 @@ end // end of [sllist_free]
 
 implement
 {a}{b}
-sllist_map {n} (xs) = let
+sllist_map{n} (xs) = let
 //
 fun loop
 (
@@ -669,11 +660,11 @@ implement{a}
 sllist_cons_ngc
   (nx0, xs) = let
 //
-val nxs = sllist_decode (xs)
-val ( ) = gnode_link10 (nx0, nxs)
+val nxs = sllist0_decode (xs)
+val _void_ = gnode_link10 (nx0, nxs)
 //
 in
-  sllist_encode (nx0)
+  sllist0_encode (nx0)
 end // end of [sllist_cons_ngc]
 
 implement{a}
@@ -682,11 +673,39 @@ sllist_uncons_ngc
 //
 val nxs = sllist1_decode (xs)
 val nxs2 = gnode_get_next (nxs)
-val ( ) = xs := sllist_encode (nxs2)
+val _void_ = xs := sllist0_encode (nxs2)
 //
 in
   nxs
 end // end of [sllist_uncons_ngc]
+
+(* ****** ****** *)
+
+implement{a}
+sllist_snoc_ngc
+  {n} (xs, nx0) = let
+//
+vtypedef res = sllist(a,n+1)
+//
+val () = gnode_set_next_null (nx0)
+//
+val nxs = sllist0_decode (xs)
+val iscons = gnodelst_is_cons (nxs)
+//
+in
+//
+if iscons then let
+//
+val nx_end = gnodelst_next_all (nxs)
+val _void_ = gnode_link11 (nx_end, nx0)
+//
+in
+  $UN.castvwtp0{res}(nxs)
+end else
+  $UN.castvwtp0{res}(nx0)
+// end of [if]
+//
+end // end of [sllist_snoc_ngc]
 
 (* ****** ****** *)
 

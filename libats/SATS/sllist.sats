@@ -277,4 +277,16 @@ sllist_uncons_ngc{n:pos}
 
 (* ****** ****** *)
 
+fun{a:vt0p}
+sllist_snoc_ngc{n:int}
+  (xs: sllist(INV(a), n), nx: g2node1(a)):<!wrt> sllist (a, n+1)
+// end of [sllist_snoc_ngc]
+
+fun{a:vt0p}
+sllist_unsnoc_ngc{n:pos}
+  (xs: &sllist (INV(a), n) >> sllist (a, n-1)):<!wrt> g2node1 (a)
+// end of [sllist_unsnoc_ngc]
+
+(* ****** ****** *)
+
 (* end of [sllist.sats] *)
