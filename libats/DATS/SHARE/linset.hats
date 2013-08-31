@@ -123,6 +123,31 @@ end // end of [linset_takeout]
 
 (* ****** ****** *)
 
+implement
+{a}(*tmp*)
+linset_takeoutmax
+  (xs, res) = let
+//
+val nx =
+  linset_takeoutmax_ngc (xs)
+val p_nx = mynode2ptr (nx)
+//
+in
+//
+if p_nx > 0 then let
+  val () =
+    res := mynode_getfree_elt (nx)
+  // end of [val]
+  prval () = opt_some{a}(res) in true
+end else let
+  prval () = mynode_free_null (nx)
+  prval () = opt_none{a}(res) in false
+end // end of [if]
+//
+end // end of [linset_takeoutmax]
+
+(* ****** ****** *)
+
 implement{a}
 linset_takeoutmax_opt
   (xs) = let
@@ -140,6 +165,31 @@ end else let
 end (* end of [if] *)
 //
 end // end of [linset_takeoutmax_opt]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+linset_takeoutmin
+  (xs, res) = let
+//
+val nx =
+  linset_takeoutmin_ngc (xs)
+val p_nx = mynode2ptr (nx)
+//
+in
+//
+if p_nx > 0 then let
+  val () =
+    res := mynode_getfree_elt (nx)
+  // end of [val]
+  prval () = opt_some{a}(res) in true
+end else let
+  prval () = mynode_free_null (nx)
+  prval () = opt_none{a}(res) in false
+end // end of [if]
+//
+end // end of [linset_takeoutmin]
 
 (* ****** ****** *)
 

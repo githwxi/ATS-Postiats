@@ -63,27 +63,35 @@ val () = linset_free (xs)
 val () =
 {
 //
-val out = stdout_ref
-//
 vtypedef set = set(int)
 //
-var xs: set = linset_sing<int>(0)
+var xs: set = linset_nil{int}()
 //
-val nx = linset_takeout_ngc (xs, 0)
-val () = println! ("ptrcast(nx) = ", ptrcast(nx))
-val () = assertloc (ptrcast(nx) > 0)
+val-false = linset_insert (xs, 0)
+val-false = linset_insert (xs, 1)
+val-false = linset_insert (xs, 2)
+val-false = linset_insert (xs, 3)
+val-false = linset_insert (xs, 4)
 //
-val () = mynode_set_elt<int> (nx, 1)
-val nx2 = linset_insert_ngc (xs, nx)
-val () = assertloc (ptrcast(nx2) = 0)
-prval () = mynode_free_null (nx2)
+val nx =
+linset_takeoutmin_ngc (xs)
+val p_nx = ptrcast(nx)
+val () = assertloc (p_nx > 0)
 //
-val nx = linset_takeout_ngc (xs, 1)
-val () = println! ("ptrcast(nx) = ", ptrcast(nx))
-val () = assertloc (ptrcast(nx) > 0)
+val () = mynode_set_elt<int> (nx, 9)
+val _0_ = linset_insert_ngc (xs, nx)
+val () = assertloc (ptrcast(_0_) = 0)
+prval () = mynode_free_null (_0_)
+//
+val nx2 =
+linset_takeoutmax_ngc (xs)
+val p_nx2 = ptrcast(nx2)
+val () = assertloc (p_nx2 > 0)
+//
+val () = assertloc (p_nx = p_nx2)
 //
 val () = linset_free (xs)
-val (1) = mynode_getfree_elt (nx)
+val-(9) = mynode_getfree_elt (nx2)
 //
 } (* end of [val] *)
 

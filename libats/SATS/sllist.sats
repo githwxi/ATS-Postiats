@@ -266,12 +266,12 @@ typedef g2node1 (a:vt0p) = gnode1 (mytkind, a)
 (* ****** ****** *)
 
 fun{a:vt0p}
-sllist_cons_ngc {n:int}
-  (nx: g2node1 (a), xs: sllist (INV(a), n)):<!wrt> sllist (a, n+1)
+sllist_cons_ngc{n:int}
+  (nx: g2node1(a), xs: sllist(INV(a), n)):<!wrt> sllist (a, n+1)
 // end of [sllist_cons_ngc]
 
 fun{a:vt0p}
-sllist_uncons_ngc {n:int | n > 0}
+sllist_uncons_ngc{n:pos}
   (xs: &sllist (INV(a), n) >> sllist (a, n-1)):<!wrt> g2node1 (a)
 // end of [sllist_uncons_ngc]
 

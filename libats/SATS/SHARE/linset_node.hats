@@ -43,7 +43,9 @@ linset_node_vtype (a:t@ype+, l:addr) = ptr
 
 (* ****** ****** *)
 //
-stadef mynode = linset_node_vtype // HX: local shorthand
+// HX: local shorthand
+//
+stadef mynode = linset_node_vtype
 //
 vtypedef
 mynode (a:t0p) = [l:addr] mynode (a, l)
@@ -107,6 +109,20 @@ fun{a:t0p}
 linset_takeout_ngc
   (set: &set(INV(a)) >> _, x0: a):<!wrt> mynode0 (a)
 // end of [linset_takeout_ngc]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+linset_takeoutmax_ngc
+  (set: &set(INV(a)) >> _):<!wrt> mynode0 (a)
+// end of [linset_takeoutmax]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+linset_takeoutmin_ngc
+  (set: &set(INV(a)) >> _):<!wrt> mynode0 (a)
+// end of [linset_takeoutmin]
 
 (* ****** ****** *)
 

@@ -188,6 +188,10 @@ end // end of [linset_insert]
 (* ****** ****** *)
 
 (*
+//
+HX-2013-08:
+[linset_remove] moved up
+//
 implement{a}
 linset_remove
   (xs, x0) = let
@@ -229,57 +233,6 @@ in
   $effmask_all (rem (xs))
 end // end of [linset_remove]
 *)
-
-(* ****** ****** *)
-
-implement
-{a}(*tmp*)
-linset_takeoutmax
-  (xs, res) = let
-in
-//
-case+ xs of
-| ~list_vt_cons
-    (x, xs1) => let
-    val () = xs := xs1
-    val () = res := x
-    prval () = opt_some{a}(res)
-  in
-    true
-  end // end of [list_vt_cons]
-| @list_vt_nil () => let
-    prval () = fold@ (xs)
-    prval () = opt_none{a}(res)
-  in
-    false
-  end // end of [list_vt_nil]
-//
-end // end of [linset_takeoutmax]
-
-(* ****** ****** *)
-
-implement
-{a}(*tmp*)
-linset_takeoutmin
-  (xs, res) = let
-in
-//
-case+ xs of
-| list_vt_cons _ => let
-    val x =
-      list_vt_unextend (xs)
-    val () = res := x
-    prval () = opt_some{a}(res)
-  in
-    true
-  end // end of [list_vt_cons]
-| list_vt_nil () => let
-    prval () = opt_none{a}(res)
-  in
-    false
-  end // end of [list_vt_nil]
-//
-end // end of [linset_takeoutmin]
 
 (* ****** ****** *)
 
@@ -420,8 +373,8 @@ mynode_make_elt
   (x0) = $UN.castvwtp0{mynode1(a)}(p)
 // end of [mynode_make_elt]
 //
-var x0: a
-val ans = linset_insert (set, $UN.cast{a}(x0))
+val x0 = mynode_get_elt (nx)
+val ans = linset_insert (set, x0)
 //
 in (* in of [let] *)
 //
@@ -484,6 +437,72 @@ end (* end of [takeout] *)
 in
   $effmask_all (takeout (set))
 end // end of [linset_takeout_ngc]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+linset_takeoutmax_ngc
+  (xs) = let
+in
+//
+case+ xs of
+| @list_vt_cons
+    (x, xs1) => let
+    prval pf_x = view@x
+    prval pf_xs1 = view@xs1
+    val xs_ = xs
+    val () = xs := xs1
+  in
+    $UN.castvwtp0{mynode1(a)}((pf_x, pf_xs1 | xs_))
+  end // end of [list_vt_cons]
+| @list_vt_nil () => let
+    prval () = fold@ (xs)
+  in
+    mynode_null{a}((*void*))
+  end // end of [list_vt_nil]
+//
+end // end of [linset_takeoutmax_ngc]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+linset_takeoutmin_ngc
+  (xs) = let
+//
+fun unsnoc
+  {n:pos} .<n>.
+(
+  xs: &list_vt (a, n) >> list_vt (a, n-1)
+) :<!wrt> mynode1 (a) = let
+//
+val+@list_vt_cons (x, xs1) = xs
+//
+prval pf_x = view@x and pf_xs1 = view@xs1
+//
+in
+//
+case+ xs1 of
+| list_vt_cons _ =>
+    let val res = unsnoc (xs1) in fold@xs; res end
+  // end of [list_vt_cons]
+| list_vt_nil () => let
+    val xs_ = xs
+    val () = xs := list_vt_nil{a}()
+  in
+    $UN.castvwtp0{mynode1(a)}((pf_x, pf_xs1 | xs_))
+  end // end of [list_vt_nil]
+//
+end // end of [unsnoc]
+//
+in
+//
+case+ xs of
+| list_vt_cons _ => unsnoc (xs)
+| list_vt_nil () => mynode_null{a}((*void*))
+//
+end // end of [linset_takeoutmin_ngc]
 
 (* ****** ****** *)
 

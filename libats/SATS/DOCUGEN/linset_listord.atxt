@@ -111,4 +111,24 @@ is co-variant in its type argument.\
 
 (* ****** ****** *)
 
+#declnamesynop("linset_node_vtype")
+
+(* ****** ****** *)
+
+#declnamesynop("mynode")
+#declnamesynop("mynode0")
+#declnamesynop("mynode1")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_insert_ngc")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_takeout_ngc")
+#declnamesynop("linset_takeoutmax_ngc")
+#declnamesynop("linset_takeoutmin_ngc")
+
+(* ****** ****** *)
+
 (* end of [linset_listord.atxt] *)
