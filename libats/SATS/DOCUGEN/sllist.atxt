@@ -65,6 +65,11 @@ singly-linked linear lists in ATS and vice versa.  ')
 
 (* ****** ****** *)
 
+#declnamesynop("sllist_snoc")
+#declnamesynop("sllist_unsnoc")
+
+(* ****** ****** *)
+
 #declnamesynop("sllist_is_nil")
 #declnamesynop("sllist_is_cons")
 
@@ -118,6 +123,22 @@ singly-linked linear lists in ATS and vice versa.  ')
 #declnamesynop("sllist_foreach_env")
 #declnamesynop("sllist_foreach$cont")
 #declnamesynop("sllist_foreach$fwork")
+
+(* ****** ****** *)
+
+#declnamesynop("mytkind")
+#declnamesynop("g2node0")
+#declnamesynop("g2node1")
+
+(* ****** ****** *)
+
+#declnamesynop("sllist_cons_ngc")
+#declnamesynop("sllist_uncons_ngc")
+
+(* ****** ****** *)
+
+#declnamesynop("sllist_snoc_ngc")
+#declnamesynop("sllist_unsnoc_ngc")
 
 (* ****** ****** *)
 //

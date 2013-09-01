@@ -96,7 +96,8 @@ sllist_sing (x) = sllist_cons<a> (x, sllist_nil ())
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_cons
   (x, xs) = let
 //
@@ -111,6 +112,25 @@ sllist_uncons
 val nx0 = sllist_uncons_ngc (xs) in g2node_getfree_elt<a> (nx0)
 //
 end // end of [sllist_uncons]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+sllist_snoc
+  (xs, x) = let
+//
+val nx = g2node_make_elt<a> (x) in sllist_snoc_ngc (xs, nx)
+//
+end // end of [sllist_snoc]
+
+implement{a}
+sllist_unsnoc
+  (xs) = let
+//
+val nx0 = sllist_unsnoc_ngc (xs) in g2node_getfree_elt<a> (nx0)
+//
+end // end of [sllist_unsnoc]
 
 (* ****** ****** *)
 
@@ -706,6 +726,49 @@ end else
 // end of [if]
 //
 end // end of [sllist_snoc_ngc]
+
+(* ****** ****** *)
+
+implement{a}
+sllist_unsnoc_ngc
+  {n} (xs) = let
+//
+fun loop
+(
+  xs: &Sllist1 (a) >> Sllist0(a)
+) : g2node1(a) = let
+//
+val p = sllist_getref_next (xs)
+//
+val (pf, fpf | p) = $UN.ptr_vtake{Sllist0(a)}(p)
+//
+val iscons = sllist_is_cons (!p)
+//
+in
+//
+if iscons
+  then let
+    val res = loop (!p)
+    prval () = fpf (pf) in res
+  end // end of [then]
+  else let
+    prval () = fpf (pf)
+    val nx = $UN.castvwtp0{g2node1(a)}(xs)
+    val () = xs := sllist_nil{a}((*void*)) in nx
+  end // end of [else]
+// end of [if]
+//
+end (* end of [loop] *)
+//
+val res = $effmask_all (loop (xs))
+//
+prval [l:addr] EQADDR () = eqaddr_make_ptr (addr@xs)
+//
+prval () = view@xs := $UN.castview0{sllist(a,n-1)@l}(view@xs)
+//
+in
+  res
+end // end of [sllist_unsnoc_ngc]
 
 (* ****** ****** *)
 

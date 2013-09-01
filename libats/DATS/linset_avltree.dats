@@ -43,6 +43,7 @@ staload "libats/SATS/linset_avltree.sats"
 (* ****** ****** *)
 //
 #include "./SHARE/linset.hats" // code reuse
+#include "./SHARE/linset_node.hats" // code reuse
 //
 (* ****** ****** *)
 

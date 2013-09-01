@@ -34,6 +34,9 @@
 (* ****** ****** *)
 //
 // HX: shared by linmap_list
+// HX: shared by linmap_avltree
+// HX: shared by linmap_randbst
+// HX: shared by linmap_skiplist
 //
 (* ****** ****** *)
 
@@ -96,31 +99,6 @@ end // end of [linmap_search_opt]
 
 implement
 {key,itm}
-linmap_search_ref
-  (map, k0) = let
-//
-val p0 = linmap_search_ngc (map, k0)
-//
-viewtypedef mynode1 = mynode1 (key,itm)
-//
-in
-//
-if p0 > 0 then let
-//
-val nx = $UN.castvwtp0{mynode1}{ptr}(p0)
-val p_elt = mynode_getref_itm<key,itm> (nx)
-val p0 = $UN.castvwtp0{ptr}{mynode1}(nx)
-//
-in
-  p_elt
-end else cptr_null () // end of [if]
-//
-end // end of [linmap_search_ref]
-
-(* ****** ****** *)
-
-implement
-{key,itm}
 linmap_insert_opt
   (map, k0, x0) = let
 //
@@ -140,31 +118,6 @@ in
 end // end of [if]
 //
 end // end of [linmap_insert_opt]
-
-(* ****** ****** *)
-
-implement
-{key,itm}
-linmap_takeout
-  (map, k0, res) = let
-//
-val nx =
-  linmap_takeout_ngc (map, k0)
-val p_nx = mynode2ptr (nx)
-//
-in
-//
-if p_nx > 0 then let
-  val () =
-    res := mynode_getfree_itm (nx)
-  // end of [val]
-  prval () = opt_some{itm}(res) in true
-end else let
-  prval () = mynode_free_null (nx)
-  prval () = opt_none{itm}(res) in false
-end // end of [if]
-//
-end // end of [linmap_takeout]
 
 (* ****** ****** *)
 

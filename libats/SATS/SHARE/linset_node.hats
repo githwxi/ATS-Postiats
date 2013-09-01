@@ -100,7 +100,7 @@ mynode_getfree_elt (nx: mynode1 (INV(a))):<!wrt> a
 fun{a:t0p}
 linset_insert_ngc
 (
-  set: &set(INV(a)) >> _, nx: mynode1 (a)
+  set: &set(INV(a)) >> _, nx0: mynode1 (a)
 ) :<!wrt> mynode0 (a) // endfun
 
 (* ****** ****** *)

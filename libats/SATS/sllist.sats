@@ -101,6 +101,18 @@ sllist_uncons {n:int | n > 0}
 
 (* ****** ****** *)
 
+fun{a:vt0p}
+sllist_snoc {n:int}
+  (xs: sllist (INV(a), n), x: a):<!wrt> sllist (a, n+1)
+// end of [sllist_snoc]
+
+fun{a:vt0p}
+sllist_unsnoc {n:int | n > 0}
+  (xs: &sllist (INV(a), n) >> sllist (a, n-1)):<!wrt> (a)
+// end of [sllist_unsnoc]
+
+(* ****** ****** *)
+
 fun{a:t0p}
 sllist_make_list
   {n:int} (xs: list (INV(a), n)):<!wrt> sllist (a, n)

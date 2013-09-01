@@ -26,9 +26,15 @@
 *)
 
 (* ****** ****** *)
+
+(* Author: Hongwei Xi *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Start time: December, 2012 *)
+
+(* ****** ****** *)
 //
-// HX: shared by linset_avltree
-// HX: shared by linset_listord
+// HX: shared by linset_listord (* ordered list *)
+// HX: shared by linset_avltree (* AVL-tree-based *)
 //
 (* ****** ****** *)
 //

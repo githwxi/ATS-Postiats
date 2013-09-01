@@ -82,7 +82,8 @@ val () = fprintln! (out, "ys = ", ys)
 val () = sllist_free (xs)
 val () = sllist_free (ys)
 //
-}
+} (* end of [val] *)
+
 (* ****** ****** *)
 
 val () =
@@ -111,6 +112,30 @@ val () = assertloc (0 = sllist_takeout_at (zs, 0))
 prval () = sllist_free_nil (zs)
 //
 } // end of [val]
+
+(* ****** ****** *)
+
+val () =
+{
+//
+typedef T = int
+//
+val out = stdout_ref
+//
+val xs = sllist_nil{T}()
+val xs = sllist_snoc (xs, 0)
+val xs = sllist_snoc (xs, 1)
+val xs = sllist_snoc (xs, 2)
+val () = fprintln! (out, "xs = ", xs)
+//
+var xs = xs
+val-(2) = sllist_unsnoc (xs)
+val-(1) = sllist_unsnoc (xs)
+val-(0) = sllist_unsnoc (xs)
+//
+val () = sllist_free (xs)
+//
+} (* end of [val] *)
 
 (* ****** ****** *)
 

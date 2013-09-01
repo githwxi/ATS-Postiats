@@ -207,15 +207,27 @@ their associated items in a given map while freeing the map. ")
 (* ****** ****** *)
 
 #declnamesynop("linmap_flistize")
-#declnamesynop("linmap_flistize2fopr")
+#decldescrpt("\
+
+What this function does is essentially to apply
+#dyncode("linmap_flistize$fopr") to each pair in the list returned by
+#dyncode("linmap_listize"). However, the actual implementation is more
+efficient.\
+
+")
+
+#declnamesynop("linmap_flistize$fopr")
 
 (* ****** ****** *)
 
 #declnamesynop("linmap_listize1")
 #decldescrpt("\
 
-This function returns a linear list of pairs consisting of keys and
-their associated items in a given map while keeping the map. ")
+This function returns a linear list of pairs consisting of keys and their
+associated items in a given map while keeping the map. Note that the items
+are assumed to be of a non-linear type.\
+
+")
 
 (* ****** ****** *)
 

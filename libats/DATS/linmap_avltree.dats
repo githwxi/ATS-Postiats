@@ -48,6 +48,7 @@ staload "libats/SATS/linmap_avltree.sats"
 (* ****** ****** *)
 
 #include "./SHARE/linmap.hats" // code reuse
+#include "./SHARE/linmap_node.hats" // code reuse
 
 (* ****** ****** *)
 

@@ -51,7 +51,7 @@ staload "libats/SATS/linmap_skiplist.sats"
 
 (* ****** ****** *)
 
-stadef mytkind = $extkind"atslib_linmap_randbst"
+stadef mytkind = $extkind"atslib_linmap_skiplist"
 
 (* ****** ****** *)
 

@@ -49,6 +49,7 @@ staload "libats/SATS/linset_listord.sats"
 (* ****** ****** *)
 
 #include "./SHARE/linset.hats" // code reuse
+#include "./SHARE/linset_node.hats" // code reuse
 
 (* ****** ****** *)
 
@@ -352,38 +353,6 @@ val+~list_vt_cons (x, nx2) = nx
 prval ((*void*)) = $UN.cast2void (nx2)
 //
 } (* end of [mynode_getfree_elt] *)
-
-(* ****** ****** *)
-
-(*
-fun{a:t0p}
-linset_insert_ngc
-(
-  set: &set(INV(a)) >> _, nx: mynode1 (a)
-) :<!wrt> mynode0 (a) // endfun
-*)
-implement{a}
-linset_insert_ngc
-  (set, nx) = let
-//
-val p = mynode2ptr (nx)
-//
-implement{a}
-mynode_make_elt
-  (x0) = $UN.castvwtp0{mynode1(a)}(p)
-// end of [mynode_make_elt]
-//
-val x0 = mynode_get_elt (nx)
-val ans = linset_insert (set, x0)
-//
-in (* in of [let] *)
-//
-if ans
-then nx else let
-  prval () = $UN.cast2void(nx) in mynode_null{a}((*void*))
-end // end of [if]
-//
-end // end of [linset_insert_ngc]
 
 (* ****** ****** *)
 
