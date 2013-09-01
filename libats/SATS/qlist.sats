@@ -8,7 +8,7 @@
 
 (*
 ** ATS - Unleashing the Potential of Types!
-** Copyright (C) 2002-2010 Hongwei Xi, Boston University
+** Copyright (C) 2011-2013 Hongwei Xi, Boston University
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -32,6 +32,12 @@
 (*
 **
 ** A list-based queue implementation
+**
+*)
+
+(* ****** ****** *)
+
+(*
 **
 ** Contributed by Hongwei Xi (hwxi AT cs DOT bu DOT edu)
 ** Time: July, 2010 // based on a version done in October, 2008
