@@ -60,6 +60,28 @@ val () = linset_free (xs)
 
 (* ****** ****** *)
 
+val () =
+{
+//
+vtypedef set = set(int)
+//
+var xs: set = linset_nil{int}()
+//
+val-false = linset_insert (xs, 0)
+val-false = linset_insert (xs, 1)
+val-false = linset_insert (xs, 2)
+val-false = linset_insert (xs, 3)
+val-false = linset_insert (xs, 4)
+//
+val-~Some_vt(0) = linset_takeoutmin_opt (xs)
+val-~Some_vt(4) = linset_takeoutmax_opt (xs)
+//
+val () = linset_free (xs)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

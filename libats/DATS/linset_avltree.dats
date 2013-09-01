@@ -720,4 +720,32 @@ prval ((*void*)) = $UN.cast2void (tr)
 
 (* ****** ****** *)
 
+implement
+{a}(*tmp*)
+linset_takeoutmax_ngc
+  (xs) = let
+in
+//
+case+ xs of
+| B _ => avltree_maxout<a> (xs)
+| E _ => mynode_null{a}((*void*))
+//
+end // end of [linset_takeoutmax]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+linset_takeoutmin_ngc
+  (xs) = let
+in
+//
+case+ xs of
+| B _ => avltree_minout<a> (xs)
+| E _ => mynode_null{a}((*void*))
+//
+end // end of [linset_takeoutmin]
+
+(* ****** ****** *)
+
 (* end of [linset_avltree.dats] *)
