@@ -172,6 +172,7 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
+#packfilename("libats_stkarray.dats")
 #packfilename("libats_dynarray.dats")
 
 (* ****** ****** *)

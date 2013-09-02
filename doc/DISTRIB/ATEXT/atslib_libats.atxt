@@ -108,6 +108,7 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("SATS/stkarray.sats")
 #packfilename("SATS/dynarray.sats")
 
 (* ****** ****** *)
@@ -211,6 +212,7 @@ The ATSLIB/libats library\
 (* ****** ****** *)
 
 #packfilename("CATS/qlist.cats")
+#packfilename("CATS/stkarray.cats")
 #packfilename("CATS/dynarray.cats")
 
 (* ****** ****** *)
@@ -222,6 +224,7 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("DATS/stkarray.dats")
 #packfilename("DATS/dynarray.dats")
 
 (* ****** ****** *)
@@ -297,7 +300,9 @@ The ATSLIB/libats library\
 (* ****** ****** *)
 
 #packfilename("DATS/SHARE/linset.hats")
+#packfilename("DATS/SHARE/linset_node.hats")
 #packfilename("DATS/SHARE/linmap.hats")
+#packfilename("DATS/SHARE/linmap_node.hats")
 #packfilename("DATS/SHARE/linhashtbl.hats")
 #packfilename("DATS/SHARE/linheap.hats")
 

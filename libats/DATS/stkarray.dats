@@ -110,6 +110,19 @@ end // end of [fprint_stkarray]
 
 (* ****** ****** *)
 
+implement{a}
+fprint_stkarray_sep
+  (out, stk, sep) = let
+//
+implement{}
+fprint_stkarray$sep (out) = fprint_string (out, sep)
+//
+in
+  fprint_stkarray<a> (out, stk)
+end // end of [fprint_stkarray_sep]
+
+(* ****** ****** *)
+
 local
 
 extern fun

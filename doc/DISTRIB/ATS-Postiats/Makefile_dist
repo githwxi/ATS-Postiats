@@ -44,6 +44,7 @@ clean::
 cleanall:: clean
 
 cleanall:: ; $(RMF) config*
+cleanall:: ; $(RMF) stamp-h1
 cleanall:: ; $(RMF) aclocal.m4
 cleanall:: ; $(RMF) missing
 cleanall:: ; $(RMF) install-sh
@@ -55,6 +56,7 @@ cleanall:: ; $(RMF) src/*.?ats
 cleanall:: ; $(RMF) src/*_?ats.c
 cleanall:: ; $(RMF) src/*_?ats.o
 cleanall:: ; $(RMF) src/Makefile
+cleanall:: ; make -C src/CBOOT cleanall
 cleanall:: ; $(RMF) src/CBOOT/pats*.cats
 cleanall:: ; $(RMF) src/CBOOT/pats*_?ats.c
 cleanall:: ; $(RMF) src/CBOOT/ccomp/runtime/ats*.h
