@@ -553,9 +553,11 @@ case+ s2e0.s2exp_node of
     val s2ze = s2zexp_make_s2exp (s2e) in S3Esizeof (s2ze)
   end // end of [S2Esizeof]
 | _ => let // an expression that cannot be handled
+(*
     val () = begin
       prerr "warning(3): s3exp_make_s2exp: s2e0 = "; prerr_s2exp (s2e0); prerr_newline ();
     end // end of [val]
+*)
   in
     s3exp_err (s2e0.s2exp_srt)
   end // end of [_]

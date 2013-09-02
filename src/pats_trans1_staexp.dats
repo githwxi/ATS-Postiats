@@ -364,9 +364,9 @@ aux_item (
       val body = s0exp_tr body
       val s1e_lam = s1exp_lam (loc0, arg, res, body)
 (*
-      val () = begin
-        print "s0exp_tr: S0Elam: s1e_lam = "; print s1e_lam; print_newline ()
-      end // end of [val]
+      val () =
+        println! ("s0exp_tr: S0Elam: s1e_lam = ", s1e_lam)
+      // end of [val]
 *)
     in
       FXITMatm (s1e_lam)
@@ -453,7 +453,7 @@ aux_item (
         print "s0e0 = "; fprint_s0exp (stdout_ref, s0e0); print_newline ()
       ) // end of [val]
       val () = assertloc (false) in $ERR.abort ()
-    end
+    end (* end of [_] *)
 *)
 end // end of [aux_item]
 //
@@ -628,12 +628,13 @@ val sym = d0c.d0atcon_sym
 val qua = d0c.d0atcon_qua
 val qua = q0marglst_tr (qua)
 (*
-val () = (
+val () =
+(
   print "d0atcon_tr: id = ";
   fprint_symbol (stdout_ref, sym); print_newline ();
   print "d0atcon_tr: qua = ";
   fprint_q1marglst (stdout_ref, qua); print_newline ();
-) // end of [val]
+) (* end of [val] *)
 *)
 var npf0: int = ~1 // HX: default
 val arg = (

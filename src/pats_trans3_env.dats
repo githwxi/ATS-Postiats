@@ -1381,12 +1381,12 @@ trans3_env_hypadd_patcstlstlst
     | ~list_vt_nil () => list_nil ()
   ) // end of [aux]
   val s3iss = aux (cp2tcss)
-// (*
+(*
   val n = list_length (s3iss)
   val () = (
     print "trans3_env_hypadd_patcstlstlst: ns3iss = "; print n; print_newline ()
   ) // end of [val]
-// *)
+*)
 in
   trans3_env_hypadd_disj (s3iss)
 end // end of [trans3_env_hypadd_p2atcstlstlst]

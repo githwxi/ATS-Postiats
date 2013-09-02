@@ -657,9 +657,11 @@ in
 //
 case+ 0 of
 | _ when unsolved = 0u => let
+(*
     val () = (
       prerr "typechecking is finished successfully!"; prerr_newline ()
     ) // end of [val]
+*)
   in
     // nothing
   end // end of [unsolved = 0]

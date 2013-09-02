@@ -259,9 +259,11 @@ implement
 s1arglst_trdn_err
   (s1as, s2ts, serr) = let
 (*
-  val () = (
-    print "s1arglst_trdn_err: serr"; print serr; print_newline ()
-  ) // end of [val]
+//
+val () = (
+  println! ("s1arglst_trdn_err: serr", serr)
+) (* end of [val] *)
+//
 *)
 in
 //
@@ -627,20 +629,25 @@ fun s2exp_app_wind (
 , s2e_fun: s2exp, s2ess_arg: List_vt (locs2explst)
 ) : s2exp = let
 (*
+//
 val () = (
-  print "s2exp_app_wind: aux: s1e0 = "; print_s1exp (s1e0); print_newline ();
-) // end of [val]
+  println! ("s2exp_app_wind: aux: s1e0 = ", s1e0)
+) (* end of [val] *)
+//
 *)
 fun aux (
   s1e0: s1exp, x: locs2exp, s2t: s2rt
 ) : s2exp = let
   val s2e = x.1
 (*
-  val () = (
-    print "s2exp_app_wind: aux: s2e = "; print_s2exp (s2e); print_newline ()
-  ) // end of [val]
+//
+val () = (
+  println! ("s2exp_app_wind: aux: s2e = ", s2e)
+) (* end of [val] *)
+//
 *)
-  val test = s2rt_ltmat1 (s2e.s2exp_srt, s2t)
+val test = s2rt_ltmat1 (s2e.s2exp_srt, s2t)
+//
 in
   if test then s2e else let
     val () = prerr_error2_loc (x.0)
@@ -888,9 +895,11 @@ implement
 s1exp_trup_arg
   (s1e0, ws1es) = let
 (*
-  val () = begin
-    print "s1exp_trup_arg: s1e0 = "; print_s1exp (s1e0); print_newline ()
-  end // end of [val]
+//
+val () = (
+  println! ("s1exp_trup_arg: s1e0 = ", s1e0)
+) (* end of [val] *)
+//
 *)
 in
 //
@@ -1434,10 +1443,11 @@ s1exp_trup_app_sqid_itm
 ) : s2exp = let
 //
 (*
-  val () = begin
-    print "s1exp_trup_app_sqid_itm: s1e0 = "; print_s1exp (s1e0); print_newline ();
-    print "s1exp_trup_app_sqid_itm: s1e0 = "; print_s2itm (s2i0); print_newline ();
-  end // end of [val]
+val () =
+(
+  println! ("s1exp_trup_app_sqid_itm: s1e0 = ", s1e0);
+  println! ("s1exp_trup_app_sqid_itm: s1e0 = ", s2i0);
+) (* end of [val] *)
 *)
 //
 in
@@ -1590,10 +1600,9 @@ fun s1exp_trup_tytup
   s1e0: s1exp, knd: int, npf: int, s1es: s1explst
 ) : s2exp = let
 (*
-val () =
-(
-  print "s1exp_trup_tytup: s1e0 = "; print_s1exp (s1e0); print_newline ()
-) // end of [val]
+val () = (
+  println! ("s1exp_trup_tytup: s1e0 = ", s1e0)
+) (* end of [val] *)
 *)
 in
 //
@@ -1700,18 +1709,22 @@ end // end of [aux23]
 
 in (* in of [local] *)
 
-fun s1exp_trup_tyrec
+fun
+s1exp_trup_tyrec
 (
-  s1e0: s1exp, knd: int, npf: int, ls1es: labs1explst
+  s1e0: s1exp
+, knd: int, npf: int, ls1es: labs1explst
 ) : s2exp = let
-// (*
-val () =
-(
+(*
+//
+val () = (
   println! ("s1exp_trup_tyrec: s1e0 = ", s1e0);
-  println! ("s1exp_trup_tyrec: knd = ", knd);
-  println! ("s1exp_trup_tyrec: npf = ", npf);
-)
-// *)
+) (* end of [val] *)
+//
+val () = println! ("s1exp_trup_tyrec: knd = ", knd)
+val () = println! ("s1exp_trup_tyrec: npf = ", npf)
+//
+*)
 in
 //
 case+ knd of
