@@ -1,0 +1,35 @@
+#!/bin/sh
+
+#
+# Author: Likai Liu (likai AT cs DOT bu DOT edu)
+#
+# Author2: Hongwei Xi (gmhwxi AT gmail DOT com) // September, 2013
+#
+
+PACKAGE_TARNAME=@PACKAGE_TARNAME@
+PACKAGE_VERSION=@PACKAGE_VERSION@
+prefix=@prefix@
+
+export PATSHOME="${prefix}/lib/${PACKAGE_TARNAME}-${PACKAGE_VERSION}"
+
+if [ ! -d "$PATSHOME" ]; then
+  echo "ATS-Postiats should be installed at '${PATSHOME}'"
+  exit 1
+fi
+
+prog=`basename $0`
+
+case $prog in
+  patscc)
+    exec "${prefix}/bin/$prog" "$@"
+    ;;
+  *)
+    echo "This is a script for patscc."
+    echo "The script should be named as [patscc]."
+    exit 1
+    ;;
+esac
+
+#
+# end of [patscc_env.sh.in]
+#

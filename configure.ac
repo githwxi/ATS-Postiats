@@ -46,10 +46,12 @@ dnl = checks for library functions
 dnl = checks for system services
 dnl = AC_CONFIG_FILES([file...])
 
-AC_INIT([ATS2/Postiats], [1.0.0], [gmpostiats@gmail.com])
-AC_CONFIG_FILES([config.mk])
+AC_INIT([ATS2/Postiats], [0.0.1], [gmpostiats@gmail.com])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
+AC_CONFIG_FILES([config.mk])
+AC_CONFIG_FILES([patscc_env.sh])
+AC_CONFIG_FILES([patsopt_env.sh])
 
 AM_INIT_AUTOMAKE
 

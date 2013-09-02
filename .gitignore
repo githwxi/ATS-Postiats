@@ -14,7 +14,11 @@ config.log
 config.status
 install-sh
 configure
+stamp-h1
+aclocal.m4
 autom4te.cache
+patscc_env.sh
+patsopt_env.sh
 
 #
 # The compiler for POSTIATS 
@@ -239,7 +243,9 @@ doc/DISTRIB/*_atxt.dats
 doc/DISTRIB/HTML
 doc/DISTRIB/SCRIPT/*.bash
 doc/DISTRIB/ATS-Postiats/conf*
-doc/DISTRIB/ATS-Postiats/stamp*
+doc/DISTRIB/ATS-Postiats/stamp-h1
+doc/DISTRIB/ATS-Postiats/patscc_env.sh.in
+doc/DISTRIB/ATS-Postiats/patsopt_env.sh.in
 doc/DISTRIB/ATS-Postiats/bin/*
 doc/DISTRIB/ATS-Postiats/share/*
 doc/DISTRIB/ATS-Postiats/src/.depend

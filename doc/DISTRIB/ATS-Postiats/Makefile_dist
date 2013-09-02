@@ -61,6 +61,62 @@ configure: configure.ac $(SRC_CONFIG_FILES)
 #
 ######
 
+-include config.mk
+
+######
+
+DIROOT :=
+export PATSHOME
+export PATSHOMEQ
+
+######
+#
+# HX-2011-06-01:
+# This part was originally writtend by Georg Bauhaus
+# (bauhaus AT arcor DOT de): It addresses the issue that
+# the [-D] option is not available for $(INSTALL) on MacOSX.
+#
+
+.PHONY: install_dirs
+.PHONY: install_files
+
+install:: install_files
+
+install_dirs:: config.mk ; \
+  cd $(abs_top_srcdir) && \
+  $(MKDIR_P) $(DIROOT)$(PATSHOMERELOC)/bin && \
+  if [ ! -d $(DIROOT)$(bindir) ] ; then $(MKDIR_P) $(DIROOT)$(bindir) ; fi && \
+  find ccomp share prelude libc libats contrib -type d -exec $(MKDIR_P) $(DIROOT)$(PATSHOMERELOC)/\{} \; -print
+
+install_files:: install_dirs ; \
+  for d in ccomp/runtime share prelude libc libats contrib/atshwxi; do \
+    cd $(abs_top_srcdir) && \
+    $(INSTALL) -d $(DIROOT)$(PATSHOMERELOC)/"$$d" && \
+    find "$$d" -name .git -prune -o -type l -exec cp -d \{} $(DIROOT)$(PATSHOMERELOC)/\{} \; -print && \
+    find "$$d" -name .git -prune -o -type f -exec $(INSTALL) -m 644 \{} $(DIROOT)$(PATSHOMERELOC)/\{} \; -print; \
+  done
+
+install_files:: bin/patscc ; \
+  $(INSTALL) -T -m 755 $< $(DIROOT)$(bindir)/patscc && echo $<
+install_files:: bin/patsopt ; \
+  $(INSTALL) -T -m 755 $< $(DIROOT)$(bindir)/patsopt && echo $<
+install_files:: patscc_env.sh ; \
+  $(INSTALL) -T -m 755 $< $(DIROOT)$(PATSHOMERELOC)/bin/patscc
+install_files:: patsopt_env.sh ; \
+  $(INSTALL) -T -m 755 $< $(DIROOT)$(PATSHOMERELOC)/bin/patsopt
+
+install_files:: ; \
+  for f in \
+    ccomp/atslib/lib/libatslib.a \
+    ccomp/atslib/lib64/libatslib.a ; \
+  do \
+    if [ -e "$$f" ] ; then \
+      $(INSTALL) -T -m 755 "$$f" $(DIROOT)$(PATSHOMERELOC)/"$$f" && echo "$$f"; \
+    fi; \
+  done
+
+######
+
 RMF=rm -f
 RMRF=rm -rf
 
