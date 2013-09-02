@@ -23,7 +23,7 @@ staload _(*anon*) = "libats/DATS/stkarray.dats"
 val () =
 {
 //
-val M = i2sz(10)
+val M = i2sz(2)
 //
 val stk =
 stkarray_make_cap<int> (M)
@@ -33,11 +33,18 @@ val () = assertloc (stkarray_get_capacity (stk) = M)
 //
 val () = stkarray_insert (stk, 0)
 val-(0) = stkarray_takeout (stk)
+val-~None_vt() = stkarray_takeout_opt (stk)
+//
+val () = assertloc (stkarray_get_size (stk) = 0)
 //
 val () = stkarray_insert (stk, 1)
 val () = stkarray_insert (stk, 2)
+val-~Some_vt(3) = stkarray_insert_opt (stk, 3)
+val () = assertloc (stkarray_get_size (stk) = 2)
 val-(2) = stkarray_takeout (stk)
 val-(1) = stkarray_takeout (stk)
+val-~None_vt() = stkarray_takeout_opt (stk)
+val () = assertloc (stkarray_get_size (stk) = 0)
 //
 val () = stkarray_free_nil (stk)
 //

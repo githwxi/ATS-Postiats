@@ -139,4 +139,36 @@ end // end of [local]
 
 (* ****** ****** *)
 
+implement{a}
+stkarray_insert_opt
+  (stk, x0) = let
+//
+val isnot = stkarray_isnot_full (stk)
+//
+in
+//
+if isnot then let
+  val () = stkarray_insert (stk, x0) in None_vt()
+end else Some_vt{a}(x0)
+//
+end // end of [stkarray_insert_opt]
+
+(* ****** ****** *)
+
+implement{a}
+stkarray_takeout_opt
+  (stk) = let
+//
+val isnot = stkarray_isnot_nil (stk)
+//
+in
+//
+if isnot then let
+  val x0 = stkarray_takeout (stk) in Some_vt{a}(x0)
+end else None_vt((*void*))
+//
+end // end of [stkarray_takeout_opt]
+
+(* ****** ****** *)
+
 (* end of [stkarray.dats] *)
