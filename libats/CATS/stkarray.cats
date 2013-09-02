@@ -94,6 +94,16 @@ atslib_stkarray_get_capacity__tsz
 
 ATSinline()
 atstype_ptr
+atslib_stkarray_get_ptrbeg
+  (atstype_ptr p)
+{
+  return ((atslib_stkarray_struct*)p)->stkarray_beg ;
+} // end of [atslib_stkarray_get_ptrbeg]
+
+/* ****** ****** */
+
+ATSinline()
+atstype_ptr
 atslib_stkarray_get_ptrcur
   (atstype_ptr p)
 {

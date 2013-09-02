@@ -39,6 +39,9 @@ val () = assertloc (stkarray_get_size (stk) = 0)
 //
 val () = stkarray_insert (stk, 1)
 val () = stkarray_insert (stk, 2)
+//
+val () = fprintln! (stdout_ref, "stk = ", stk)
+//
 val-~Some_vt(3) = stkarray_insert_opt (stk, 3)
 val () = assertloc (stkarray_get_size (stk) = 2)
 val-(2) = stkarray_takeout (stk)

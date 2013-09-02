@@ -128,6 +128,12 @@ stkarray_get_capacity
   {m,n:int} (stk: !stkarray (INV(a), m, n)):<> size_t(m)
 //
 (* ****** ****** *)
+
+fun stkarray_get_ptrbeg{a:vt0p}
+  {m,n:int} (stk: !stkarray (INV(a), m, n)):<> Ptr1 = "mac#%"
+// end of [stkarray_get_ptrbeg]
+
+(* ****** ****** *)
 //
 fun
 stkarray_is_nil
@@ -149,6 +155,19 @@ stkarray_isnot_full
   {a:vt0p}{m,n:int}
   (stk: !stkarray (INV(a), m, n)):<> bool (m > n) = "mac#%"
 //
+(* ****** ****** *)
+
+fun{}
+fprint_stkarray$sep (out: FILEref): void
+fun{a:vt0p}
+fprint_stkarray{m:int}
+  (out: FILEref, q: !stkarray (INV(a), m)): void
+fun{a:vt0p}
+fprint_stkarray_sep{m:int}
+  (out: FILEref, q: !stkarray (INV(a), m), sep: string): void
+overload fprint with fprint_stkarray
+overload fprint with fprint_stkarray_sep
+
 (* ****** ****** *)
 
 fun{a:vt0p}

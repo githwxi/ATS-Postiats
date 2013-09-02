@@ -57,8 +57,8 @@ fun{a:vt0p}
 stkarray_make_cap
   {m:int} (cap: size_t(m)):<!wrt> stkarray (a, m, 0)
 //
-fun{a:vt0p}
-stkarray_free{m:int} (stk: stkarray (a, m, 0)):<!wrt> void
+fun
+stkarray_free{a:vt0p}{m:int} (stkarray (a, m, 0)):<!wrt> void
 //
 </pre>
 

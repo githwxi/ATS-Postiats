@@ -95,6 +95,14 @@ upload_dllist:: ;   scp HTML/dllist.html ats-hwxi,ats-lang@web.sourceforge.net:h
 clean:: ; $(RMF) dllist_atxt.exe
 cleanall:: ; $(RMF) HTML/dllist.html
 
+all_html:: HTML/stkarray.html
+HTML/stkarray.html:   stkarray_atxt.exe ; ./$< > $@
+stkarray_atxt.txt: stkarray.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+stkarray_atxt.exe: htmlgendecl_atxt.dats   stkarray_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_stkarray:: ;   scp HTML/stkarray.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) stkarray_atxt.exe
+cleanall:: ; $(RMF) HTML/stkarray.html
+
 all_html:: HTML/dynarray.html
 HTML/dynarray.html:   dynarray_atxt.exe ; ./$< > $@
 dynarray_atxt.txt: dynarray.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@

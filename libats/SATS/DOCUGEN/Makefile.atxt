@@ -110,6 +110,7 @@ all_html::
 #make_entry("qlist")
 #make_entry("sllist")
 #make_entry("dllist")
+#make_entry("stkarray")
 #make_entry("dynarray")
 #make_entry("refcount")
 

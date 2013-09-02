@@ -86,6 +86,30 @@ end // end of [local]
 
 (* ****** ****** *)
 
+implement{}
+fprint_stkarray$sep (out) = fprint (out, "<-")
+
+implement{a}
+fprint_stkarray
+  (out, stk) = let
+//
+val n = stkarray_get_size (stk)
+prval [n:int] EQINT () = eqint_make_guint (n)
+//
+implement
+fprint_array$sep<> (out) = fprint_stkarray$sep (out)
+//
+val p_beg = stkarray_get_ptrbeg (stk)
+val (pf, fpf | p_beg) = $UN.ptr_vtake{array(a,n)}(p_beg)
+val () = fprint_array (out, !p_beg, n)
+prval () = fpf (pf) // end of [prval]
+//
+in
+  // nothing
+end // end of [fprint_stkarray]
+
+(* ****** ****** *)
+
 local
 
 extern fun
