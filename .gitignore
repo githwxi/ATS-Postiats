@@ -242,7 +242,11 @@ doc/DISTRIB/*_atxt.txt
 doc/DISTRIB/*_atxt.dats
 doc/DISTRIB/HTML
 doc/DISTRIB/SCRIPT/*.bash
-doc/DISTRIB/ATS-Postiats/conf*
+doc/DISTRIB/ATS-Postiats/AUTHORS
+doc/DISTRIB/ATS-Postiats/COPYING
+doc/DISTRIB/ATS-Postiats/INSTALL
+doc/DISTRIB/ATS-Postiats/VERSION.txt
+doc/DISTRIB/ATS-Postiats/config*
 doc/DISTRIB/ATS-Postiats/stamp-h1
 doc/DISTRIB/ATS-Postiats/patscc_env.sh.in
 doc/DISTRIB/ATS-Postiats/patsopt_env.sh.in

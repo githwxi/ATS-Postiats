@@ -66,8 +66,10 @@ configure: configure.ac $(SRC_CONFIG_FILES)
 ######
 
 DIROOT :=
-export PATSHOME
-export PATSHOMEQ
+#
+# export PATSHOME
+# export PATSHOMERELOC
+#
 
 ######
 #

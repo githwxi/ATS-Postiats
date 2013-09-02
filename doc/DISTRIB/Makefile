@@ -225,6 +225,10 @@ atspackage:: srcget_doc_example
 
 ######
 
+srcget_home:: ; $(CPF) ../../AUTHORS $(ATSDIST)/
+srcget_home:: ; $(CPF) ../../COPYING $(ATSDIST)/
+srcget_home:: ; $(CPF) ../../INSTALL $(ATSDIST)/
+srcget_home:: ; $(CPF) ../../VERSION.txt $(ATSDIST)/
 srcget_home:: ; $(CPF) ../../configure.ac $(ATSDIST)/
 srcget_home:: ; $(CPF) ../../config.mk.in $(ATSDIST)/
 srcget_home:: ; $(CPF) ../../patscc_env.sh.in $(ATSDIST)/
