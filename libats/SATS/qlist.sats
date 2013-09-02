@@ -168,7 +168,7 @@ a:vt0p}{env:vt0p
 (* ****** ****** *)
 //
 abst@ype
-qstruct_tsize = $extype"atslib_qlist_qstruct"
+qstruct_tsize = $extype"atslib_qlist_struct"
 absvt@ype
 qstruct_vt0ype (a:vt@ype+, n:int) = qstruct_tsize
 //

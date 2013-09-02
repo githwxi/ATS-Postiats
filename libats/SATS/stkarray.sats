@@ -53,6 +53,7 @@
 
 #define ATS_PACKNAME "ATSLIB.libats.stkarray"
 #define ATS_STALOADFLAG 0 // no static loading at run-time
+#define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 (* ****** ****** *)
 
@@ -74,30 +75,94 @@ stkarray (a:vt0p, m:int) = [n:int] stkarray_vtype (a, m, n)
 //
 (* ****** ****** *)
 
-fun{a:vt0p}
-stkarray_make
-  {m:int} (cap: size_t(m)):<!wrt> stkarray (a, m, 0)
-// end of [stkarray_make]
+abst@ype
+stkarray_tsize = $extype"atslib_stkarray_struct"
+
+(* ****** ****** *)
+
+praxi
+lemma_stkarray_param
+  {a:vt0p}{m,n:int}
+  (stkarray (INV(a), m, m)): [m >= n; n >= 0] void
+// end of [lemma_stkarray_param]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-stkarray_free{m:int} (stk: stkarray (a, m, 0)):<!wrt> void
+stkarray_make_cap
+  {m:int} (cap: size_t(m)):<!wrt> stkarray (a, m, 0)
+// end of [stkarray_make_cap]
 
+(* ****** ****** *)
+
+fun
+stkarray_make_ngc
+  {a:vt0p}
+  {l:addr}{m:int}
+(
+  stkarray_tsize? @ l
+| ptr(l), arrayptr(a?, m), size_t(m), sizeof_t(a)
+) :<!wrt> (mfree_ngc_v (l) | stkarray (a, m, 0)) = "mac#%"
+
+(* ****** ****** *)
+
+fun
+stkarray_free_nil
+  {a:vt0p}{m:int}
+  (stk: stkarray (a, m, 0)):<!wrt> void = "mac#%"
+// end of [stkarray_free_nil]
+
+fun
+stkarray_getfree_arrayptr
+  {a:vt0p}{m,n:int}
+  (stk: stkarray (a, m, n)):<!wrt> arrayptr (a, n) = "mac#%"
+// end of [stkarray_getfree_arrayptr]
+
+(* ****** ****** *)
+//
+fun{a:vt0p}
+stkarray_get_size
+  {m,n:int} (stk: !stkarray (INV(a), m, n)):<> size_t(n)
+fun{a:vt0p}
+stkarray_get_capacity
+  {m,n:int} (stk: !stkarray (INV(a), m, n)):<> size_t(m)
+//
+(* ****** ****** *)
+//
+fun
+stkarray_is_nil
+  {a:vt0p}{m,n:int}
+  (stk: !stkarray (INV(a), m, n)):<> bool (n==0) = "mac#%"
+fun
+stkarray_isnot_nil
+  {a:vt0p}{m,n:int}
+  (stk: !stkarray (INV(a), m, n)):<> bool (n > 0) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
+stkarray_is_full
+  {a:vt0p}{m,n:int}
+  (stk: !stkarray (INV(a), m, n)):<> bool (m==n) = "mac#%"
+fun
+stkarray_isnot_full
+  {a:vt0p}{m,n:int}
+  (stk: !stkarray (INV(a), m, n)):<> bool (m > n) = "mac#%"
+//
 (* ****** ****** *)
 
 fun{a:vt0p}
 stkarray_insert
   {m,n:int | m > n}
 (
-  stk: !stkarray (a, m, n) >> stkarray (a, m, n+1), x0: a
+  stk: !stkarray (INV(a), m, n) >> stkarray (a, m, n+1), x0: a
 ) :<!wrt> void // endfun
 
 (* ****** ****** *)
 
 fun{a:vt0p}
 stkarray_insert_opt{m:int}
-  (stk: !stkarray (a, m) >> _, x0: a):<!wrt> Option_vt (a)
+  (stk: !stkarray (INV(a), m) >> _, x0: a):<!wrt> Option_vt (a)
 // end of [stkarray_insert_opt]
 
 (* ****** ****** *)
@@ -106,12 +171,12 @@ fun{a:vt0p}
 stkarray_takeout
   {m,n:int | n > 0}
 (
-  stk: !stkarray (a, m, n) >> stkarray (a, m, n-1)
+  stk: !stkarray (INV(a), m, n) >> stkarray (a, m, n-1)
 ) :<!wrt> (a) // endfun
 
 fun{a:vt0p}
 stkarray_takeout_opt{m:int}
-  (stk: !stkarray (a, m) >> _):<!wrt> Option_vt (a)
+  (stk: !stkarray (INV(a), m) >> _):<!wrt> Option_vt (a)
 // end of [stkarray_takeout_opt]
 
 (* ****** ****** *)

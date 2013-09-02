@@ -337,6 +337,14 @@ clean:: ; $(RMF) libats_dllist_dats.o
 clean:: ; $(RMF) libats_dllist_dats.c
 cleanall:: ; $(RMF) libats_dllist.exe
 
+all:: libats_stkarray
+libats_stkarray: libats_stkarray.exe
+libats_stkarray.exe: libats_stkarray_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_stkarray_dats.c: libats_stkarray.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_stkarray_dats.c --dynamic libats_stkarray.dats
+clean:: ; $(RMF) libats_stkarray_dats.o
+clean:: ; $(RMF) libats_stkarray_dats.c
+cleanall:: ; $(RMF) libats_stkarray.exe
+
 all:: libats_dynarray
 libats_dynarray: libats_dynarray.exe
 libats_dynarray.exe: libats_dynarray_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 

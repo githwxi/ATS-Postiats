@@ -4,7 +4,7 @@
 
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-<title>Effectivats-array-queue</title>
+<title>Effectivats-stack-array</title>
 </head>
 
 <body>
@@ -18,8 +18,79 @@ Theorem-Proving</em> (PwTP) in which programs and proofs are syntactically
 intertwined.  As proof construction can be highly expensive in terms of
 both effort and time, making proper use of unsafe programming features (so
 as to avoid explicity proof construction) is often a necessary skill for a
-programmer who wants not just to be able to code in ATS but to do so
-productively.
+programmer who wants not just only to be able to code in ATS but also to do
+it productively. In this article, I would like to present a simple
+array-based stack implementation in which one can find certain typical uses
+of unsafe programming features in ATS.
+
+<h2>
+API for Array-Based Stacks
+</h2>
+
+As usual, let us first introduce an abstract type for array-based stacks:
+
+<pre>
+absvtype
+stkarray_vtype (a:vt@ype+, m:int, n:int) = ptr
+</pre>
+
+We then introduce some shorthands as follows:
+
+<pre>
+stadef stkarray = stkarray_vtype
+vtypedef
+stkarray (a:vt0p, m:int) = [n:int] stkarray_vtype (a, m, n)
+</pre>
+
+Given a type T, an integer M and another integer N, the type [stkarray(T,
+M, N)] is for an array-based stack such that (1) the elements stored in the
+stack are of type T, (2) the capacity of the stack is M, and (3) the
+current size of the stack is N.
+
+<p>
+
+As always, functions are needed for creating and destroying stkarray-values:
+
+<pre>
+//
+fun{a:vt0p}
+stkarray_make_cap
+  {m:int} (cap: size_t(m)):<!wrt> stkarray (a, m, 0)
+//
+fun{a:vt0p}
+stkarray_free{m:int} (stk: stkarray (a, m, 0)):<!wrt> void
+//
+</pre>
+
+For inserting an element, we have the following function:
+
+<pre>
+fun{a:vt0p}
+stkarray_insert
+  {m,n:int | m > n}
+(
+  stk: !stkarray (a, m, n) >> stkarray (a, m, n+1), x0: a
+) :<!wrt> void // endfun
+</pre>
+
+Note that [stkarray_insert] can only be called on a stack if its current
+size is strictly less than its capacity.
+
+<p>
+
+For taking out an element, we have the following function:
+
+<pre>
+fun{a:vt0p}
+stkarray_takeout
+  {m,n:int | n > 0}
+  (stk: !stkarray (a, m, n) >> stkarray (a, m, n-1)):<!wrt> (a)
+// end of [stkarray_takeout]
+</pre>
+
+Note that [stkarray_takeout] can only be called on a stack if its current
+size is positive.
+
 
 <hr size="2">
 
