@@ -75,7 +75,7 @@ that the proof attests to ys being the reverse of xs. ")
 #decldescrpt("\
 
 Given a list xs, this function returns a proof and another list ys such
-that the proof attests to ys being an ordered permutation of ys. ")
+that the proof attests to ys being an ordered permutation of xs. ")
 
 #declnamesynop("gflist_mergesort$cmp")
 #decldescrpt("\

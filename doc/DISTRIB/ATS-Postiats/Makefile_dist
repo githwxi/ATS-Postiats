@@ -4,6 +4,10 @@
 #
 ######
 
+all:: config.h
+
+######
+
 all:: bin2_patsopt
 
 ######
@@ -32,6 +36,31 @@ ccomp/atslib/lib/libatslib.a: ; make -C ccomp/atslib atslib
 
 ######
 
+#
+# integration with autoconf.
+#
+
+SRC_CONFIG_FILES := config.mk.in config.h.in
+BUILT_CONFIG_FILES := $(SRC_CONFIG_FILES:%.in=%)
+
+Makefile: config.mk
+
+config.h: config.status; ./config.status $@; touch $@
+config.mk: config.status; ./config.status $@; touch $@
+
+config.status: configure; ./configure; touch $@
+
+config.h.in: configure.ac; autoheader $<; touch $@
+
+#
+configure: configure.ac $(SRC_CONFIG_FILES)
+	aclocal
+	automake --add-missing --foreign || true
+	autoconf
+	touch $(BUILT_CONFIG_FILES)
+#
+######
+
 RMF=rm -f
 RMRF=rm -rf
 
@@ -49,13 +78,16 @@ cleanall:: ; $(RMF) aclocal.m4
 cleanall:: ; $(RMF) missing
 cleanall:: ; $(RMF) install-sh
 cleanall:: ; $(RMRF) autom4te.cache
+
 cleanall:: ; $(RMF) bin/patscc
 cleanall:: ; $(RMF) bin/patsopt
+
 cleanall:: ; $(RMF) src/patsopt
 cleanall:: ; $(RMF) src/*.?ats
 cleanall:: ; $(RMF) src/*_?ats.c
 cleanall:: ; $(RMF) src/*_?ats.o
 cleanall:: ; $(RMF) src/Makefile
+
 cleanall:: ; make -C src/CBOOT cleanall
 cleanall:: ; $(RMF) src/CBOOT/pats*.cats
 cleanall:: ; $(RMF) src/CBOOT/pats*_?ats.c
@@ -73,23 +105,33 @@ cleanall:: ; $(RMF) src/CBOOT/gcats1_all.cats
 cleanall:: ; $(RMF) src/CBOOT/ccomp/runtime/GCATS/*.?ats
 cleanall:: ; $(RMF) src/CBOOT/ccomp/runtime/GCATS/*_?ats.c
 
+cleanall:: ; $(RMF) ccomp/runtime/*
+
 cleanall:: ; $(RMF) ccomp/atslib/lib/*
 cleanall:: ; $(RMF) ccomp/atslib/lib64/*
 cleanall:: ; $(RMF) ccomp/atslib/output/*
 cleanall:: ; $(RMF) ccomp/atslib/Makefile
-cleanall:: ; $(RMF) ccomp/runtime/*
+
 cleanall:: ; $(RMF) utils/atscc/*
+
 cleanall:: ; $(RMF) prelude/*.?ats
 cleanall:: ; $(RMF) prelude/?ATS/*.?ats
+
 cleanall:: ; $(RMF) libc/?ATS/*.?ats
+
 cleanall:: ; $(RMF) libc/sys/?ATS/*.?ats
+
 cleanall:: ; $(RMF) libc/gdbm/?ATS/*.?ats
 cleanall:: ; $(RMF) libc/gdbm/?ATS/SHARE/*.?ats
+
 cleanall:: ; $(RMF) libats/?ATS/*.?ats
 cleanall:: ; $(RMF) libats/?ATS/SHARE/*.?ats
+
 cleanall:: ; $(RMF) libats/ML/?ATS/*.?ats
+
 cleanall:: ; $(RMF) contrib/atshwxi/intinf/?ATS/*.?ats
 cleanall:: ; $(RMF) contrib/atshwxi/testing/?ATS/*.?ats
+
 cleanall:: ; $(RMF) doc/EXAMPLE/INTRO/*
 cleanall:: ; $(RMF) doc/EXAMPLE/MISC/*
 cleanall:: ; $(RMF) doc/EXAMPLE/ATSLIB/*
@@ -97,4 +139,4 @@ cleanall:: ; $(RMF) doc/EXAMPLE/PCPV/*
 
 ######
 
-###### end of [Makefile.dist]
+###### end of [Makefile.dist] ######
