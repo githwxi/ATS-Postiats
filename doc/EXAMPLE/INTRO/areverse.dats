@@ -45,10 +45,13 @@ staload RG = "atshwxi/testing/SATS/randgen.sats"
 staload _(*anon*) = "atshwxi/testing/DATS/randgen.dats"
 //
 (* ****** ****** *)
-
 %{^
+//
 #include <time.h>
-#include <stdlib.h>
+//
+extern void srand48 (long int) ; // in [stdlib.h]
+extern double drand48 (/*void*/) ; // in [stdlib.h]
+//
 atsvoid_t0ype
 srand48_with_time ()
 {
@@ -56,7 +59,7 @@ srand48_with_time ()
 }
 %}
 extern fun srand48_with_time (): void = "ext#"
-
+//
 (* ****** ****** *)
 
 typedef T = double

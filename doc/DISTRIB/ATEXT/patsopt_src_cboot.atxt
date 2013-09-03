@@ -637,9 +637,9 @@ The ATS/Postiats C-Boostrapping\
 (* ****** ****** *)
 
 #packfilename("gcats1_all.cats")
+#packfilename("ccomp/runtime/GCATS/gcats1.cats")
 #packfilename("ccomp/runtime/GCATS/gcats1_master.hats")
 
-#packfilename("ccomp/runtime/GCATS/m32/gcats1.cats")
 #packfilename("ccomp/runtime/GCATS/m32/gcats1_top_dats.c")
 #packfilename("ccomp/runtime/GCATS/m32/gcats1_misc_dats.c")
 #packfilename("ccomp/runtime/GCATS/m32/gcats1_freeitmlst_dats.c")
@@ -650,7 +650,6 @@ The ATS/Postiats C-Boostrapping\
 #packfilename("ccomp/runtime/GCATS/m32/gcats1_marking_dats.c")
 #packfilename("ccomp/runtime/GCATS/m32/gcats1_collecting_dats.c")
 
-#packfilename("ccomp/runtime/GCATS/m64/gcats1.cats")
 #packfilename("ccomp/runtime/GCATS/m64/gcats1_top_dats.c")
 #packfilename("ccomp/runtime/GCATS/m64/gcats1_misc_dats.c")
 #packfilename("ccomp/runtime/GCATS/m64/gcats1_freeitmlst_dats.c")

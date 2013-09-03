@@ -54,11 +54,11 @@
 
 /* ****** ****** */
 
-__undef __WORDSIZE
+__include "config.h" // automatically generated in $(ATSHOME)
 
 /* ****** ****** */
 
-__include "config.h" // automatically generated in $(ATSHOME)
+__undef __WORDSIZE
 
 /* ****** ****** */
 

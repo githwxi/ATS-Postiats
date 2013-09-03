@@ -38,7 +38,6 @@
 #endif /* _ATS_PRELUDE_NONE */
 /* prologues from statically loaded files */
 
-#include "gcats1.cats"
 /* external codes at top */
 #line 39 "gcats1_chunk.dats"
 

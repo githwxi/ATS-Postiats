@@ -38,9 +38,6 @@
 #endif /* _ATS_PRELUDE_NONE */
 /* prologues from statically loaded files */
 
-#include "gcats1.cats"
-
-#include "gcats1.cats"
 /* external codes at top */
 #line 51 "gcats1_top.dats"
 
