@@ -52,6 +52,12 @@
 #define __print #print
 #define __undef #undef
 
+/* ****** ****** */
+
+__undef __WORDSIZE
+
+/* ****** ****** */
+
 __include "config.h" // automatically generated in $(ATSHOME)
 
 /* ****** ****** */
@@ -73,9 +79,9 @@ __endif
 // __WORDSIZE = 32 or 64
 // __print "__WORDSIZE = "; __print __WORDSIZE; __print "\n"
 
-__ifdef __WORDSIZE
+/* ****** ****** */
 
-// __assert (__WORDSIZE == SIZEOF_VOIDP * NBIT_PER_BYTE)
+__ifdef __WORDSIZE
 __if (__WORDSIZE != SIZEOF_VOIDP * NBIT_PER_BYTE)
 __error "#assert (__WORDSIZE == SIZEOF_VOIDP * NBIT_PER_BYTE)"
 __endif

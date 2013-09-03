@@ -67,15 +67,34 @@
 /* ****** ****** */
 
 #include "GCATS/gcats1.cats"
-#include "GCATS/gcats1_top_dats.c"
-#include "GCATS/gcats1_misc_dats.c"
-#include "GCATS/gcats1_freeitmlst_dats.c"
-#include "GCATS/gcats1_chunk_dats.c"
-#include "GCATS/gcats1_globalentry_dats.c"
-#include "GCATS/gcats1_marking_dats.c"
-#include "GCATS/gcats1_collecting_dats.c"
-#include "GCATS/gcats1_autops_dats.c"
-#include "GCATS/gcats1_manops_dats.c"
+
+/* ****** ****** */
+
+#if (__WORDSIZE==32)
+#include "GCATS/m32/gcats1_top_dats.c"
+#include "GCATS/m32/gcats1_misc_dats.c"
+#include "GCATS/m32/gcats1_freeitmlst_dats.c"
+#include "GCATS/m32/gcats1_chunk_dats.c"
+#include "GCATS/m32/gcats1_globalentry_dats.c"
+#include "GCATS/m32/gcats1_marking_dats.c"
+#include "GCATS/m32/gcats1_collecting_dats.c"
+#include "GCATS/m32/gcats1_autops_dats.c"
+#include "GCATS/m32/gcats1_manops_dats.c"
+#endif // __WORDSIZE==32)
+
+/* ****** ****** */
+
+#if (__WORDSIZE==64)
+#include "GCATS/m64/gcats1_top_dats.c"
+#include "GCATS/m64/gcats1_misc_dats.c"
+#include "GCATS/m64/gcats1_freeitmlst_dats.c"
+#include "GCATS/m64/gcats1_chunk_dats.c"
+#include "GCATS/m64/gcats1_globalentry_dats.c"
+#include "GCATS/m64/gcats1_marking_dats.c"
+#include "GCATS/m64/gcats1_collecting_dats.c"
+#include "GCATS/m64/gcats1_autops_dats.c"
+#include "GCATS/m64/gcats1_manops_dats.c"
+#endif // __WORDSIZE==64)
 
 /* ****** ****** */
 
