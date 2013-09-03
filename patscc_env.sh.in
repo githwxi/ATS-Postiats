@@ -10,18 +10,19 @@ PACKAGE_TARNAME=@PACKAGE_TARNAME@
 PACKAGE_VERSION=@PACKAGE_VERSION@
 prefix=@prefix@
 
-export PATSHOME="${prefix}/lib/${PACKAGE_TARNAME}-${PACKAGE_VERSION}"
+if [ ! "$PATSHOME" ] ; then
+  export PATSHOME="$prefix/lib/${PACKAGE_TARNAME}-${PACKAGE_VERSION}"
+fi
 
-if [ ! -d "$PATSHOME" ]; then
-  echo "ATS-Postiats should be installed at '${PATSHOME}'"
-  exit 1
+if [ ! -d "$PATSHOME" ] ; then
+  echo "ATS-Postiats should have been available at '${PATSHOME}'"; exit 1
 fi
 
 prog=`basename $0`
 
 case $prog in
   patscc)
-    exec "${prefix}/bin/$prog" "$@"
+    exec "$prefix/bin/$prog" "$@"
     ;;
   *)
     echo "This is a script for patscc."

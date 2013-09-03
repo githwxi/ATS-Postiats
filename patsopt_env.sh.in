@@ -10,26 +10,27 @@ PACKAGE_TARNAME=@PACKAGE_TARNAME@
 PACKAGE_VERSION=@PACKAGE_VERSION@
 prefix=@prefix@
 
-export PATSHOME="${prefix}/lib/${PACKAGE_TARNAME}-${PACKAGE_VERSION}"
+if [ ! "$PATSHOME" ] ; then
+  export PATSHOME="$prefix/lib/${PACKAGE_TARNAME}-${PACKAGE_VERSION}"
+fi
 
-if [ ! -d "$PATSHOME" ]; then
-  echo "ATS-Postiats should be installed at '${PATSHOME}'"
-  exit 1
+if [ ! -d "$PATSHOME" ] ; then
+  echo "ATS-Postiats should have been available at '${PATSHOME}'"; exit 1
 fi
 
 prog=`basename $0`
 
 case $prog in
-  patsopt)
-    exec "${prefix}/bin/$prog" "$@"
+  patscc)
+    exec "$prefix/bin/$prog" "$@"
     ;;
   *)
-    echo "This is a script for patsopt."
-    echo "The script should be named as [patsopt]."
+    echo "This is a script for patscc."
+    echo "The script should be named as [patscc]."
     exit 1
     ;;
 esac
 
 #
-# end of [patsopt_env.sh.in]
+# end of [patscc_env.sh.in]
 #

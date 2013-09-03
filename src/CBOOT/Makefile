@@ -8,7 +8,7 @@ CCOMP=gcc
 
 ######
 
-GCFLAGS=-D_ATS_GCATS
+GCFLAG=-D_ATS_GCATS
 
 ######
 
@@ -274,7 +274,7 @@ OBJECTSstadyn := $(OBJECTSsta) $(OBJECTSdyn)
 patsopt: \
   pats_main_dats.o $(OBJECTSstadyn) \
   prelude_libats.o libc_libats.o libats_libats.o gcats.o ; \
-  $(CCOMP) -O2 -I . $(GCFLAGS) -o $@ ccomp/runtime/ats_prelude.c $^ -lgmp
+  $(CCOMP) -O2 -I . $(GCFLAG) -o $@ ccomp/runtime/ats_prelude.c $^ -lgmp
 #
 ######
 

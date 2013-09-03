@@ -17,12 +17,12 @@ all:: ccomp/atslib/lib/libatslib.a
 
 ######
 
-src_patsopt: ; make -C src patsopt
+src_patsopt: ; make -j4 -C src patsopt
 bin_patsopt: src_patsopt ; cp -f src/patsopt bin/patsopt
 
 ######
 
-src2_patsopt: ; make -C src/CBOOT patsopt
+src2_patsopt: ; make -j4 -C src/CBOOT patsopt
 bin2_patsopt: src2_patsopt ; cp -f src/CBOOT/patsopt bin/patsopt
 
 ######
@@ -65,11 +65,8 @@ configure: configure.ac $(SRC_CONFIG_FILES)
 
 ######
 
-DIROOT :=
-#
-# export PATSHOME
-# export PATSHOMERELOC
-#
+export PATSHOME
+export PATSHOMERELOC
 
 ######
 #
@@ -86,26 +83,26 @@ install:: install_files
 
 install_dirs:: config.mk ; \
   cd $(abs_top_srcdir) && \
-  $(MKDIR_P) $(DIROOT)$(PATSHOMERELOC)/bin && \
-  if [ ! -d $(DIROOT)$(bindir) ] ; then $(MKDIR_P) $(DIROOT)$(bindir) ; fi && \
-  find ccomp share prelude libc libats contrib -type d -exec $(MKDIR_P) $(DIROOT)$(PATSHOMERELOC)/\{} \; -print
+  $(MKDIR_P) $(PATSHOMERELOC)/bin && \
+  if [ ! -d $(bindir) ] ; then $(MKDIR_P) $(bindir) ; fi && \
+  find ccomp share prelude libc libats contrib -type d -exec $(MKDIR_P) $(PATSHOMERELOC)/\{} \; -print
 
 install_files:: install_dirs ; \
   for d in ccomp/runtime share prelude libc libats contrib/atshwxi; do \
     cd $(abs_top_srcdir) && \
-    $(INSTALL) -d $(DIROOT)$(PATSHOMERELOC)/"$$d" && \
-    find "$$d" -name .git -prune -o -type l -exec cp -d \{} $(DIROOT)$(PATSHOMERELOC)/\{} \; -print && \
-    find "$$d" -name .git -prune -o -type f -exec $(INSTALL) -m 644 \{} $(DIROOT)$(PATSHOMERELOC)/\{} \; -print; \
+    $(INSTALL) -d $(PATSHOMERELOC)/"$$d" && \
+    find "$$d" -name .git -prune -o -type l -exec cp -d \{} $(PATSHOMERELOC)/\{} \; -print && \
+    find "$$d" -name .git -prune -o -type f -exec $(INSTALL) -m 644 \{} $(PATSHOMERELOC)/\{} \; -print; \
   done
 
 install_files:: bin/patscc ; \
-  $(INSTALL) -T -m 755 $< $(DIROOT)$(bindir)/patscc && echo $<
+  $(INSTALL) -T -m 755 $< $(bindir)/patscc && echo $<
 install_files:: bin/patsopt ; \
-  $(INSTALL) -T -m 755 $< $(DIROOT)$(bindir)/patsopt && echo $<
+  $(INSTALL) -T -m 755 $< $(bindir)/patsopt && echo $<
 install_files:: patscc_env.sh ; \
-  $(INSTALL) -T -m 755 $< $(DIROOT)$(PATSHOMERELOC)/bin/patscc
+  $(INSTALL) -T -m 755 $< $(PATSHOMERELOC)/bin/patscc
 install_files:: patsopt_env.sh ; \
-  $(INSTALL) -T -m 755 $< $(DIROOT)$(PATSHOMERELOC)/bin/patsopt
+  $(INSTALL) -T -m 755 $< $(PATSHOMERELOC)/bin/patsopt
 
 install_files:: ; \
   for f in \
@@ -113,7 +110,7 @@ install_files:: ; \
     ccomp/atslib/lib64/libatslib.a ; \
   do \
     if [ -e "$$f" ] ; then \
-      $(INSTALL) -T -m 755 "$$f" $(DIROOT)$(PATSHOMERELOC)/"$$f" && echo "$$f"; \
+      $(INSTALL) -T -m 755 "$$f" $(PATSHOMERELOC)/"$$f" && echo "$$f"; \
     fi; \
   done
 
