@@ -478,6 +478,12 @@ end // end of [local]
 (* ****** ****** *)
 
 %{$
+//
+extern
+ats_int_type
+atslib_fildes_read_all_err
+  (ats_int_type fd, ats_ref_type buf, ats_size_type ntot) ;
+//
 ats_ptr_type
 patsopt_file2strptr
   (ats_int_type fd) {
