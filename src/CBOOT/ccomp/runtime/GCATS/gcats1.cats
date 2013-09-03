@@ -51,7 +51,14 @@
 //
 extern void free (void*) ; // see [stdlib.h]
 extern void *malloc (size_t) ; // see [stdlib.h]
-extern void *memset (void *src, int c, size_t n) ; // see [string.h]
+//
+#ifdef memset
+//
+// HX: [memset] is a macro on MACOS
+//
+#else
+extern void *memset (void *src, int c, size_t n) ;
+#endif // memset
 //
 /* ****** ****** */
 
