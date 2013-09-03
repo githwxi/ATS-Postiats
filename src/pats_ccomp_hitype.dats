@@ -534,7 +534,7 @@ in (* in of [local] *)
 implement
 hitype_hash (hit) = let
   var hval
-    : ulint = 31415926536ul // HX: randomly chosen
+    : ulint = 618034ul // HX: randomly chosen
   val () = aux (hval, hit)
 in
   hval

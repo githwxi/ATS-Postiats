@@ -72,7 +72,7 @@ atslib_%s:: atslib_%s\n\
 atslib_%s: output/atslib_%s.o ; $(ARR) lib/libatslib.a $<\n\
 output/atslib_%s.c: ../../%s/DATS/%s ; $(PATSOPT) -o $@ --dynamic $<\n\
 output/atslib_%s.o: output/atslib_%s.c ; \\\n\
-  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<\n\
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<\n\
 clean:: ; $(RMF) output/atslib_%s.c\n\
 clean:: ; $(RMF) output/atslib_%s.o\n\
 ", 
@@ -98,15 +98,25 @@ end // end of [make_entry]
 
 ######
 
-PATSOPT=$(PATSHOME)/bin/patsopt
-PATSRUNTIME=$(PATSHOME)/ccomp/runtime
+PATSHOMEQ="$(PATSHOME)"
+PATSRUNTIME=$(PATSHOMEQ)/ccomp/runtime
 
 ######
 
-CCOPT=gcc
-CCFLAGS=-fPIC -O2
-DATSMEMALLOC=-DATS_MEMALLOC_LIBC
+PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
+######
+
+CCOMP=gcc
+CCFLAGS=-fPIC -O2
+
+######
+#
+DATSMEMALLOC=
+#
+# DATSMEMALLOC=-DATS_MEMALLOC_LIBC
+# DATSMEMALLOC=-DATS_MEMALLOC_GCBDW
+#
 ######
 
 all:: atslib
