@@ -103,9 +103,9 @@ install_files:: bin/patscc ; \
   $(INSTALL) -T -m 755 $< $(bindir)/patscc && echo $<
 install_files:: bin/patsopt ; \
   $(INSTALL) -T -m 755 $< $(bindir)/patsopt && echo $<
-install_files:: patscc_env.sh ; \
+install_files:: bin/patscc_env.sh ; \
   $(INSTALL) -T -m 755 $< $(PATSHOMERELOC)/bin/patscc
-install_files:: patsopt_env.sh ; \
+install_files:: bin/patsopt_env.sh ; \
   $(INSTALL) -T -m 755 $< $(PATSHOMERELOC)/bin/patsopt
 
 install_files:: ; \
