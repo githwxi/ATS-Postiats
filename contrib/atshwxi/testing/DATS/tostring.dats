@@ -35,7 +35,7 @@
 
 (* ****** ****** *)
 
-staload "atshwxi/testing/SATS/tostring.sats"
+staload "{}/contrib/atshwxi/testing/SATS/tostring.sats"
 
 (* ****** ****** *)
 

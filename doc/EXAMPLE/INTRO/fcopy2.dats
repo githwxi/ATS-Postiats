@@ -17,9 +17,9 @@ UN = "prelude/SATS/unsafe.sats"
 staload _(*anon*) = "prelude/DATS/integer.dats"
 
 (* ****** ****** *)
-
+//
 staload "libc/SATS/stdio.sats"
-
+//
 (* ****** ****** *)
 
 #define N 1024

@@ -35,7 +35,7 @@
 
 (* ****** ****** *)
 
-staload "atshwxi/testing/SATS/randgen.sats"
+staload "{}contrib/atshwxi/testing/SATS/randgen.sats"
 
 (* ****** ****** *)
 //
@@ -72,14 +72,17 @@ fun loop
 in
 //
 if n > 0 then let
-  val () = res :=
-    list_vt_cons{a}{0} (_, _)
-  val+ list_vt_cons (x, res1) = res
-  val () = randgen_ref<a> (x)
-  val () = loop (pred (n), res1)
+//
+val () =
+  res := cons_vt{a}{0} (_, _)
+// end of [val]
+val+ list_vt_cons (x, res1) = res
+val () = randgen_ref<a> (x)
+val () = loop (pred (n), res1)
+//
 in
   fold@ (res)
-end else (res := list_vt_nil)
+end else res := nil_vt((*void*))
 //
 end // end of [loop]
 //

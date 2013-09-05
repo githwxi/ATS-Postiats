@@ -39,7 +39,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "atshwxi/testing/SATS/foldleft.sats"
+staload "{}/contrib/atshwxi/testing/SATS/foldleft.sats"
 
 (* ****** ****** *)
 
@@ -51,10 +51,11 @@ fun loop
   {i:nat | i <= n} .<n-i>. (
   n: int n, i: int i, acc: res
 ) : res =
+(
   if i < n then let
     val acc = foldleft_int$fwork<res> (acc, i) in loop (n, succ(i), acc)
   end else acc // end of [if]
-(* end of [loop] *)
+) (* end of [loop] *)
 //
 in
   loop (n, 0, ini)
@@ -74,6 +75,7 @@ fun loop
 (
   xs: list (x, n), acc: res
 ) : res =
+(
   case+ xs of
   | list_cons
       (x, xs) => let
@@ -82,7 +84,7 @@ fun loop
       loop (xs, acc)
     end // end of [list_cons]
   | list_nil () => acc
-(* end of [loop] *)
+) (* end of [loop] *)
 //
 in
   loop (xs, ini)
@@ -101,6 +103,7 @@ fun loop
   {n:nat} .<n>. (
   xs: !list_vt (x, n), acc: res
 ) : res =
+(
   case+ xs of
   | @list_vt_cons
       (x, xs1) => let
@@ -111,7 +114,7 @@ fun loop
       res
     end // end of [list_cons]
   | list_vt_nil () => acc
-(* end of [loop] *)
+) (* end of [loop] *)
 //
 in
   loop (xs, ini)
@@ -130,8 +133,10 @@ fun loop
   {l:addr}
   {n:nat} .<n>.
 (
-  pf: !array_v (a, l, n) | p: ptr l, n: size_t n, acc: res
+  pf: !array_v (a, l, n)
+| p: ptr l, n: size_t n, acc: res
 ) : res =
+(
   if n > 0 then let
     prval (pf1, pf2) = array_v_uncons (pf)
     val acc = foldleft_array$fwork<a><res> (acc, !p)
@@ -140,7 +145,7 @@ fun loop
   in
     res
   end else acc // end of [if]
-(* end of [loop] *)
+) (* end of [loop] *)
 //
 in
   loop (view@(A) | addr@(A), n, ini)

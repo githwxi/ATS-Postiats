@@ -5,10 +5,6 @@
 
 ######
 
-CC=gcc
-
-######
-
 PATSHOMEQ="$(PATSHOME)"
 
 ######

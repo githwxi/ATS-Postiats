@@ -41,8 +41,10 @@ staload UN = "prelude/SATS/unsafe.sats"
 //
 staload STDLIB = "libc/SATS/stdlib.sats"
 //
-staload RG = "atshwxi/testing/SATS/randgen.sats"
-staload _(*anon*) = "atshwxi/testing/DATS/randgen.dats"
+(* ****** ****** *)
+//
+staload RG = "{}contrib/atshwxi/testing/SATS/randgen.sats"
+staload _(*anon*) = "{}contrib/atshwxi/testing/DATS/randgen.dats"
 //
 (* ****** ****** *)
 %{^
