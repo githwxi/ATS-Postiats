@@ -752,12 +752,14 @@ filenameopt_make_relative
 val ngurl = givename_get_ngurl (given)
 val given2 = givename_relocatize (given, ngurl)
 //
+(*
 val () = 
   println! ("filenameopt_make_relative: ngurl = ", ngurl)
 val () = 
   println! ("filenameopt_make_relative: given = ", given)
 val () = 
   println! ("filenameopt_make_relative: given2 = ", given2)
+*)
 //
 val opt =
 (

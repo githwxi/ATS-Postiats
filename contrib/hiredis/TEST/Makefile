@@ -29,14 +29,6 @@ cleanall:: ; $(RMF) test02
 
 ######
 
-all:: test03
-test03: test03.dats ; \
-  $(PATSCC) -cleanaft -IIATS $(PATSHOMEQ)/contrib \
-    -DATS_MEMALLOC_GCBDW -o $@ $< testlib.dats -lhiredis -lgc
-cleanall:: ; $(RMF) test03
-
-######
-
 all:: fact
 fact: fact.dats ; \
   $(PATSCC) -cleanaft -IIATS $(PATSHOMEQ)/contrib \

@@ -8,14 +8,14 @@
 //
 (* ****** ****** *)
 
-staload "hiredis/SATS/hiredis.sats"
-staload _(*anon*) = "hiredis/DATS/hiredis.dats"
+staload "{}contrib/hiredis/SATS/hiredis.sats"
+staload _ = "{}contrib/hiredis/DATS/hiredis.dats"
 
 (* ****** ****** *)
 
 val () =
 {
-val () = println! ("The version of [hiredis]: ", hiredis_version ())
+  val () = println! ("The version of [hiredis]: ", hiredis_version ())
 } (* end of [val] *)
 
 (* ****** ****** *)

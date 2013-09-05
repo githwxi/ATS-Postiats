@@ -45,7 +45,7 @@
 
 (* ****** ****** *)
 
-staload "hiredis/SATS/hiredis.sats"
+staload "{}contrib/hiredis/SATS/hiredis.sats"
 
 (* ****** ****** *)
 

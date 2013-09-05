@@ -6,18 +6,18 @@
 #define ATS_PACKNAME "testlib"
 
 (* ****** ****** *)
+
+#define ATS_DYNLOADFLAG 0 // no dynloading
+
+(* ****** ****** *)
 //
 #include
 "share/atspre_staload_tmpdef.hats"
 //
 (* ****** ****** *)
 
-staload "hiredis/SATS/hiredis.sats"
-staload "hiredis/SATS/hiredis_ML.sats"
-
-(* ****** ****** *)
-
-#define ATS_DYNLOADFLAG 0
+staload "{}contrib/hiredis/SATS/hiredis.sats"
+staload "{}contrib/hiredis/SATS/hiredis_ML.sats"
 
 (* ****** ****** *)
 

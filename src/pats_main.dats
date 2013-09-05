@@ -382,9 +382,9 @@ end // end of [patsopt_usage]
 
 (* ****** ****** *)
 //
-#define PATS_MAJOR_VERSION 1
+#define PATS_MAJOR_VERSION 0
 #define PATS_MINOR_VERSION 0
-#define PATS_MICRO_VERSION 0
+#define PATS_MICRO_VERSION 1
 (*
 //
 // HX-2011-04-27: this is supported in Postiats:

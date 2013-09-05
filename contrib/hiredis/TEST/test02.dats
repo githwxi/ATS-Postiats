@@ -7,14 +7,12 @@
 "share/atspre_staload_tmpdef.hats"
 //
 (* ****** ****** *)
-
-staload "hiredis/SATS/hiredis.sats"
-staload _(*anon*) = "hiredis/DATS/hiredis.dats"
-
-(* ****** ****** *)
-
-staload "hiredis/SATS/hiredis_ML.sats"
-
+//
+staload "{}contrib/hiredis/SATS/hiredis.sats"
+staload "{}contrib/hiredis/SATS/hiredis_ML.sats"
+//
+staload _ = "{}contrib/hiredis/DATS/hiredis.dats"
+//
 (* ****** ****** *)
 
 val () =

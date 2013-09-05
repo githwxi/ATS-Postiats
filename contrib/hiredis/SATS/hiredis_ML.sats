@@ -48,7 +48,7 @@ ATS_EXTERN_PREFIX "atscntrb_hiredis_ML_" // prefix for external names
 
 (* ****** ****** *)
 
-staload "hiredis/SATS/hiredis.sats"
+staload "{}contrib/hiredis/SATS/hiredis.sats"
 
 (* ****** ****** *)
 

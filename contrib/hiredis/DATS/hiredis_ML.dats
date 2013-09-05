@@ -53,8 +53,8 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "hiredis/SATS/hiredis.sats"
-staload "hiredis/SATS/hiredis_ML.sats"
+staload "{}contrib/hiredis/SATS/hiredis.sats"
+staload "{}contrib/hiredis/SATS/hiredis_ML.sats"
 
 (* ****** ****** *)
 
