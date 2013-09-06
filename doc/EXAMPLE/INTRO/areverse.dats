@@ -44,7 +44,7 @@ staload STDLIB = "libc/SATS/stdlib.sats"
 (* ****** ****** *)
 //
 staload RG = "{}contrib/atshwxi/testing/SATS/randgen.sats"
-staload _(*anon*) = "{}contrib/atshwxi/testing/DATS/randgen.dats"
+staload _(*RG*) = "{}contrib/atshwxi/testing/DATS/randgen.dats"
 //
 (* ****** ****** *)
 %{^

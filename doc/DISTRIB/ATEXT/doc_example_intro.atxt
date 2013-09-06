@@ -185,6 +185,10 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
+#packfilename("myatslib.dats")
+
+(* ****** ****** *)
+
 #packpostamble()
 
 (* ****** ****** *)

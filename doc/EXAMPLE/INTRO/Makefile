@@ -18,7 +18,7 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
-PATSCCOMP=$(CC) -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -L${ATSHOME}/ccomp/atslib/lib
+PATSCCOMP=$(CC) -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime
 
 ######
 
