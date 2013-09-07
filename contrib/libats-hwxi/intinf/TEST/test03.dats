@@ -15,8 +15,11 @@
 //
 (* ****** ****** *)
 
-staload "atshwxi/intinf/SATS/intinf_vt.sats"
-staload _ = "atshwxi/intinf/DATS/intinf_vt.dats"
+staload "./../SATS/intinf_vt.sats"
+
+(* ****** ****** *)
+
+staload _(*VT*) = "./../DATS/intinf_vt.dats"
 
 (* ****** ****** *)
 
