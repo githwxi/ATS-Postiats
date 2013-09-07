@@ -77,17 +77,20 @@ consisting of the reverse of the sequence of chars in its argument:
 #pats2xhtmld_tryit('\
 staload UN = "prelude/SATS/unsafe.sats"
 //
-fun string_reverse
-  {n:int} .<>. (
+fun
+string_reverse
+  {n:int} .<>.
+(
   str: string(n)
 ) : strnptr(n) = let
 //
-  prval () = lemma_string_param (str)
+prval () = lemma_string_param (str)
 //
-  val cs = string_explode (str)
-  val cs = list_vt_reverse (cs)
-  val res = string_make_list ($UN.list_vt2t(cs))
-  val () = list_vt_free (cs)
+val cs = string_explode (str)
+val cs = list_vt_reverse (cs)
+val res = string_make_list ($UN.list_vt2t(cs))
+val ((*void*)) = list_vt_free (cs)
+//
 in
   res
 end // end of [string_reverse]
@@ -104,7 +107,7 @@ taking the length of the given string as its second argument.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("string_make_list_rev")
+#declnamesynop("string_make_rlist")
 #decldescrpt('\
 
 This function returns a linear string consisting of the reverse of the
@@ -114,10 +117,10 @@ sequence of non-null chars in its argument.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("string_make_listlen_rev")
+#declnamesynop("string_make_rlistlen")
 #decldescrpt('\
 
-This function does the same as #dyncode("string_make_list_rev") except for
+This function does the same as #dyncode("string_make_rlist") except for
 taking the length of the given string as its second argument.  ')
 
 #declfunretval("A linear string is returned.")
@@ -212,24 +215,27 @@ The following code implements a function for computing the length of a
 given string:
 
 #pats2xhtmld_tryit('\
-fun string1_length
+fun
+string1_length
   {n:int} .<>.
-  (str: string n): size_t (n) = let
+  (str: string n): size_t(n) = let
 //
 \#define NUL \'\\\000\'
 //
 prval () = lemma_string_param (str)
 //
 fun loop
-  {i:nat | i <= n} .<n-i>. (
-  str: string n, i: size_t i
+  {i:nat | i <= n} .<n-i>.
+(
+  str: string (n), i: size_t (i)
 ) :<> size_t (n) = let
   val (pf | c) = string_test_at (str, i)
 in
   if c != NUL then let
-    prval string_index_p_gt () = pf in loop (str, succ(i))
+    prval
+    string_index_p_neqz () = pf in loop (str, succ(i))
   end else let
-    prval string_index_p_eq () = pf in i // HX: i equals n
+    prval string_index_p_eqz () = pf in i // HX: i equals n
   end // end of [if]
 end // end of [loop]
 //

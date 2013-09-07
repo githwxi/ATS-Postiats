@@ -186,9 +186,9 @@ case+ x of
   }
 | S2ITMfilenv (fenv) => {
     val () = prstr "S2ITMfilenv("
-    val () = $FIL.fprint_filename (out, filenv_get_name fenv)
+    val () = $FIL.fprint_filename_full (out, filenv_get_name fenv)
     val () = prstr ")"
-  }
+  } (* end of [S2ITMfilenv] *)
 //
 end // end of [fprint_s2itm]
 

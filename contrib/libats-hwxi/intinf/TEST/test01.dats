@@ -16,10 +16,8 @@
 //
 (* ****** ****** *)
 
-staload
-T = "atshwxi/intinf/SATS/intinf_t.sats"
-staload
-VT = "atshwxi/intinf/SATS/intinf_vt.sats"
+staload T = "./../SATS/intinf_t.sats"
+staload VT = "./../SATS/intinf_vt.sats"
 
 (* ****** ****** *)
 
@@ -28,10 +26,8 @@ overload print with $VT.print_intinf
 
 (* ****** ****** *)
 
-staload
-_(*anon*) = "atshwxi/intinf/DATS/intinf_t.dats"
-staload
-_(*anon*) = "atshwxi/intinf/DATS/intinf_vt.dats"
+staload _(*T*) = "./../DATS/intinf_t.dats"
+staload _(*VT*) = "./../DATS/intinf_vt.dats"
 
 (* ****** ****** *)
 

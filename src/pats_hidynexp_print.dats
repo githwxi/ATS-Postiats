@@ -697,6 +697,7 @@ in
 case+ hid.hidecl_node of
 //
 | HIDnone () => prstr "HIDnone()"
+//
 | HIDlist (hids) => {
     val () = prstr "HIDlist(\n"
     val () = $UT.fprintlst (out, hids, "\n", fprint_hidecl)
@@ -708,7 +709,7 @@ case+ hid.hidecl_node of
     val () = prstr "HIDextcode("
     val () = fprintf (out, "knd=%i, pos=%i, code=...", @(knd, pos))
     val () = prstr ")"
-  }
+  } (* end of [HIDextcode] *)
 //
 | HIDdatdecs
     (knd, s2cs) => {
@@ -718,6 +719,7 @@ case+ hid.hidecl_node of
     val () = fprint_s2cstlst (out, s2cs)
     val () = prstr ")"
   }
+//
 | HIDexndecs (d2cs) => {
     val () = prstr "HIDexndecs("
     val () = fprint_d2conlst (out, d2cs)
@@ -733,47 +735,51 @@ case+ hid.hidecl_node of
     val () = prstr ")"
   }
 //
-| HIDfundecs (
-    knd, decarg, hfds
-  ) => {
+| HIDfundecs
+    (knd, decarg, hfds) =>
+  {
     val () = prstr "HIDfundecs(\n"
     val () = $UT.fprintlst (out, hfds, "\n", fprint_hifundec)
     val () = prstr "\n)"
   } // end of [HIDfundec]
-| HIDvaldecs (knd, hvds) => {
+//
+| HIDvaldecs
+    (knd, hvds) => {
     val () = prstr "HIDvaldecs(\n"
     val () = $UT.fprintlst (out, hvds, "\n", fprint_hivaldec)
     val () = prstr "\n)"
   } // end of [HIDvaldec]
-| HIDvaldecs_rec (knd, hvds) => {
+| HIDvaldecs_rec
+    (knd, hvds) => {
     val () = prstr "HIDvaldecs_rec(\n"
     val () = $UT.fprintlst (out, hvds, "\n", fprint_hivaldec)
     val () = prstr "\n)"
   } // end of [HIDvaldec_rec]
+//
 | HIDvardecs (hvds) => {
     val () = prstr "HIDvardecs(\n"
     val () = $UT.fprintlst (out, hvds, "\n", fprint_hivardec)
     val () = prstr "\n)"
   } // end of [HIDvardec]
 //
-| HIDimpdec (knd, himpdec) => {
+| HIDimpdec
+    (knd, himpdec) => {
     val () = prstr "HIDimpdec(\n"
     val () = fprint_hiimpdec (out, himpdec)
     val () = prstr "\n)"
-  }
+  } (* end of [HIDimpdec] *)
 //
-| HIDinclude (hids) => {
+| HIDinclude (hids) =>
+  {
     val () = prstr "HIDinclude(\n"
     val () = $UT.fprintlst (out, hids, "\n", fprint_hidecl)
     val () = prstr "\n)"
-  }
+  } (* end of [HIDinclude] *)
 //
 | HIDstaload
-    (fname, _, _, _) => {
-    val () = prstr "HIDstaload("
-    val () = $FIL.fprint_filename (out, fname)
-    val () = prstr ")"
-  }
+    (fil, _, _, _) => (
+    prstr "HIDstaload("; $FIL.fprint_filename_full (out, fil); prstr ")"
+  ) (* end of [HIDstaload] *)
 //
 | _ => {
     val () = prstr "HID...(...)"

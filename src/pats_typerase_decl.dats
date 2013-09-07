@@ -55,8 +55,10 @@ implement prerr_FILENAME<> () = prerr "pats_typerase_decl"
 
 staload LOC = "./pats_location.sats"
 overload print with $LOC.print_location
+
+(* ****** ****** *)
+
 staload FIL = "./pats_filename.sats"
-overload print with $FIL.print_filename
 
 (* ****** ****** *)
 

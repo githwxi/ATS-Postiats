@@ -34,28 +34,18 @@
 //
 (* ****** ****** *)
 
-staload
-UN = "prelude/SATS/unsafe.sats"
+staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
-staload
-"atshwxi/intinf/SATS/intinf.sats"
+staload "./../SATS/intinf.sats"
+vtypedef intinf_vt (i:int) = intinf_vtype (i)
 //
 (* ****** ****** *)
 //
-staload VT =
-"atshwxi/intinf/SATS/intinf_vt.sats"
+staload "./../SATS/intinf_t.sats"
+staload VT = "./../SATS/intinf_vt.sats"
 //
-(* ****** ****** *)
-//
-staload
-"atshwxi/intinf/SATS/intinf_t.sats"
-//
-(* ****** ****** *)
-
-stadef intinf_vt = intinf_vtype
-
 (* ****** ****** *)
 //
 implement{}

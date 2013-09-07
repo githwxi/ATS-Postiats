@@ -30,12 +30,13 @@
 (* ****** ****** *)
 
 (*
-** Functions for generating random data
+** Functions
+** for generating random data
 *)
 
 (* ****** ****** *)
 
-staload "{}contrib/atshwxi/testing/SATS/randgen.sats"
+staload "./../SATS/randgen.sats"
 
 (* ****** ****** *)
 //

@@ -40,18 +40,16 @@ UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload
-GMP = "libgmp/SATS/gmp.sats"
-stadef mpz = $GMP.mpz_vt0ype
+GMP = "{$LIBGMP}/SATS/gmp.sats"
+
+(* ****** ****** *)
+
+vtypedef mpz = $GMP.mpz_vt0ype
 
 (* ****** ****** *)
 //
-staload
-"atshwxi/intinf/SATS/intinf.sats"
-//
-(* ****** ****** *)
-//
-staload
-"atshwxi/intinf/SATS/intinf_vt.sats"
+staload "./../SATS/intinf.sats"
+staload "./../SATS/intinf_vt.sats"
 //
 (* ****** ****** *)
 

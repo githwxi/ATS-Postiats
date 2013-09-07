@@ -668,23 +668,26 @@ fun parse_from_string
 
 (* ****** ****** *)
 
-fun parse_from_tokbuf_toplevel
+fun
+parse_from_tokbuf_toplevel
   (stadyn: int, buf: &tokbuf): d0eclist
 // end of [parse_from_tokbuf_toplevel]
+
+fun
+parse_from_fileref_toplevel
+  (stadyn: int, inp: FILEref): d0eclist
+// end of [parse_from_fileref_toplevel]
+
+fun parse_from_stdin_toplevel (stadyn: int): d0eclist
 
 fun parse_from_filename_toplevel
   (stadyn: int, fil: filename): d0eclist
 // end of [parse_from_filename_toplevel]
 
-fun parse_from_basename_toplevel (
-  stadyn: int, basename: string, filref: &filename? >> filename
-) : d0eclist // end of [parse_from_basename_toplevel]
-
-fun parse_from_fileref_toplevel
-  (stadyn: int, inp: FILEref): d0eclist
-// end of [parse_from_fileref_toplevel]
-
-fun parse_from_stdin_toplevel (stadyn: int): d0eclist
+fun parse_from_givename_toplevel
+(
+  stadyn: int, given: string, filref: &filename? >> filename
+) : d0eclist // end of [parse_from_givename_toplevel]
 
 (* ****** ****** *)
 

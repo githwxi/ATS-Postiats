@@ -49,8 +49,10 @@ staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
 
+(*
 typedef SHR(a:type) = a // for commenting purpose
 typedef NSH(a:type) = a // for commenting purpose
+*)
 
 (* ****** ****** *)
 
@@ -59,27 +61,35 @@ typedef NSH(a:type) = a // for commenting purpose
 
 (* ****** ****** *)
 
+#define list0_sing(x) list0_cons(x, list0_nil())
+#define list0_pair(x1, x2) list0_cons(x1, list0_cons (x2, list0_nil()))
+
+(* ****** ****** *)
+
 castfn
 list0_of_list{a:t@ype} (xs: List (INV(a))):<> list0 (a)
 castfn
-list0_of_list_vt{a:t@ype} (xs: List_vt (INV(a))):<> list0 (a)
+list0_of_list_vt{a:t@ype} (xs: List_vt (INV(a))):<!wrt> list0 (a)
 
 (* ****** ****** *)
-
+//
 castfn
 g0ofg1_list{a:t@ype} (xs: List (INV(a))):<> list0 (a)
+castfn
+g0ofg1_list_vt{a:t@ype} (xs: List_vt (INV(a))):<!wrt> list0 (a)
 overload g0ofg1 with g0ofg1_list
-
+overload g0ofg1 with g0ofg1_list_vt
+//
 castfn
 g1ofg0_list{a:t@ype} (xs: list0 (INV(a))):<> List0 (a)
 overload g1ofg0 with g1ofg0_list
-
+//
 (* ****** ****** *)
 
-#define list0_sing(x)
-  list0_cons(x, list0_nil())
-#define list0_pair(x1, x2)
-  list0_cons(x1, list0_cons (x2, list0_nil()))
+fun{a:t0p}
+list0_make_sing (x: a):<> list0 (a)
+fun{a:t0p}
+list0_make_pair (x1: a, x2: a):<> list0 (a)
 
 (* ****** ****** *)
 
@@ -90,42 +100,20 @@ list0_make_elt (n: int, x: a):<!exn> list0 (a)
 //
 symintr list0_make_intrange
 //
-fun{} list0_make_intrange_lr (l: int, r: int):<> list0 (int)
-fun{} list0_make_intrange_lrd (l: int, r: int, d: int):<!exn> list0 (int)
+fun{}
+list0_make_intrange_lr (l: int, r: int):<> list0 (int)
+fun{}
+list0_make_intrange_lrd (l: int, r: int, d: int):<!exn> list0 (int)
 overload list0_make_intrange with list0_make_intrange_lr
 overload list0_make_intrange with list0_make_intrange_lrd
-
+//
 (* ****** ****** *)
 //
 symintr list0
 //
 fun{a:t0p}
-list0_make_arrpsz
-  {n:int} (psz: arrpsz (INV(a), n)):<!wrt> list0 (a)
+list0_make_arrpsz{n:int} (psz: arrpsz (INV(a), n)):<!wrt> list0 (a)
 overload list0 with list0_make_arrpsz
-
-(* ****** ****** *)
-
-fun{a:t0p}
-print_list0 (xs: list0 (INV(a))): void
-fun{a:t0p}
-prerr_list0 (xs: list0 (INV(a))): void
-
-fun{a:t0p}
-fprint_list0
-(
-  out: FILEref, xs: list0 (INV(a))
-) : void // end of [fprint_list0]
-fun{a:t0p}
-fprint_list0_sep
-(
-  out: FILEref, xs: list0 (INV(a)), sep: NSH(string)
-) : void // end of [fprint_list0_sep]
-//
-overload print with print_list0
-overload prerr with prerr_list0
-overload fprint with fprint_list0
-overload fprint with fprint_list0_sep
 //
 (* ****** ****** *)
 
@@ -173,6 +161,30 @@ fun{a:t0p}
 list0_get_at_exn (xs: list0 (INV(a)), i: int):<!exn> a
 overload [] with list0_get_at_exn
 
+(* ****** ****** *)
+//
+fun{a:t0p}
+print_list0 (xs: list0 (INV(a))): void
+fun{a:t0p}
+prerr_list0 (xs: list0 (INV(a))): void
+//
+overload print with print_list0
+overload prerr with prerr_list0
+//
+fun{a:t0p}
+fprint_list0
+(
+  out: FILEref, xs: list0 (INV(a))
+) : void // end of [fprint_list0]
+fun{a:t0p}
+fprint_list0_sep
+(
+  out: FILEref, xs: list0 (INV(a)), sep: NSH(string)
+) : void // end of [fprint_list0_sep]
+//
+overload fprint with fprint_list0
+overload fprint with fprint_list0_sep
+//
 (* ****** ****** *)
 
 fun{a:t0p}

@@ -107,7 +107,7 @@ in
 case+ knd of
 | 0 (*local*) => let
     val fil = $FIL.filename_get_current ()
-    val pname = $FIL.filename_get_part (fil)
+    val pname = $FIL.filename_get_partname (fil)
     val pname2 = $FIL.filename_merge (pname, given)
     val isexi = test_file_exists ((p2s)pname2)
   in

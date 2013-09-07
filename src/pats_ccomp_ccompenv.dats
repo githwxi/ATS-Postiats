@@ -533,7 +533,7 @@ case+ xs of
       if i > 0 then fprint_string (out, ", ")
     )
     val fname = filenv_get_name (!p_x)
-    val () = $FIL.fprint_filename (out, fname)
+    val () = $FIL.fprint_filename_full (out, fname)
     val () = loop (out, !p_xs, i+1)
     prval () = fold@ (xs)
   in

@@ -103,6 +103,7 @@ val SOURCES =
 //
 , "pats_filename.sats"
 , "pats_filename.dats"
+, "pats_filename_reloc.dats"
 //
 , "pats_location.sats"
 , "pats_location.dats"

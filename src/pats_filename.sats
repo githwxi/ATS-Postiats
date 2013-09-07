@@ -61,17 +61,21 @@ fun theCurDir_get (): string // current directory
 fun givename_srchknd (given: string): int
 //
 (* ****** ****** *)
-//
-// HX-2013-09:
-// a gurled name looks like this:
-// {}prelude/SATS/string.sats
-// {http://ats-lang.org/LIBRARY}prelude/SATS/string.sats
-// {git@github.com:githwxi/ATS-Postiats.git}prelude/SATS/string.sats
-//
+
 fun givename_get_ngurl (given: string): int
-fun givename_relocatize (given: string, ngurl: int): string
-//
+
 (* ****** ****** *)
+
+fun pkgsrcname_relocatize (given: string, ngurl: int): string
+
+(* ****** ****** *)
+
+fun filename_get_givename (fil: filename): string
+fun filename_get_partname (fil: filename): string
+fun filename_get_fullname (fil: filename): $SYM.symbol
+
+(* ****** ****** *)
+(*
 //
 fun print_filename: filename -> void
 fun prerr_filename: filename -> void
@@ -81,15 +85,16 @@ overload print with print_filename
 overload prerr with prerr_filename
 overload fprint with fprint_filename
 //
+*)
 (* ****** ****** *)
 
 fun print_filename_full (fil: filename): void
+fun prerr_filename_full (fil: filename): void
 fun fprint_filename_full (out: FILEref, fil: filename): void
 
 (* ****** ****** *)
 
-fun filename_get_part (fil: filename): string
-fun filename_get_full (fil: filename): $SYM.symbol
+fun fprint_filename2_full (out: FILEref, fil: filename): void
 
 (* ****** ****** *)
 
@@ -167,8 +172,9 @@ fun the_prepathlst_push (p: path): void
 (* ****** ****** *)
 
 fun filename_make
-  (part: string, full: string) : filename
-// end of [filename_make]
+  (given: string, part: string, full: string): filename
+
+(* ****** ****** *)
 
 fun filenameopt_make_local (name: string): filenameopt_vt
 fun filenameopt_make_relative (name: string): filenameopt_vt

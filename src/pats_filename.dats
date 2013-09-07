@@ -96,6 +96,15 @@ in
   if strncmp (given, dir, len) = 0 then 0(*loc*) else 1(*ext*)
 end // end of [givename_srchknd]
 
+(* ****** ****** *)
+//
+// HX-2013-09:
+// a gurled name looks like this:
+// {}prelude/SATS/string.sats
+// {$ATSCNTRB}/libgmp/SATS/string.sats
+// {http://ats-lang.org/LIBRARY}prelude/SATS/string.sats
+// {git@github.com:githwxi/ATS-Postiats.git}prelude/SATS/string.sats
+//
 implement
 givename_get_ngurl
   (given) = let
@@ -125,10 +134,17 @@ val c0 = $UN.ptr0_get<char> (p0)
 //
 val p1 = (
 case+ 0 of
-| _ when c0 = '\{' =>
-    let val p = add_ptr_int (p0, 1) in loop (p, 1, c0, '}') end
-  // end of [_ when ...]
-| _ (*otherchars*) => null
+(*
+| _ when
+    c0 = '\(' => let
+    val p = add_ptr_int (p0, 1) in loop (p, 1, c0, ')')
+  end // end of [_ when ...]
+*)
+| _ when
+    c0 = '\{' => let
+    val p = add_ptr_int (p0, 1) in loop (p, 1, c0, '}')
+  end // end of [_ when ...]
+| _ (*rest-of-chars*) => null
 ) : ptr // end of [val]
 //
 val p0 = $UN.cast2Ptr1(p0)
@@ -136,85 +152,89 @@ val p1 = $UN.cast2Ptr1(p1)
 //
 in
   if p1 > p0 then $UN.cast2int(pdiff(p1, p0)) else ~1
-end // end of [givename_is_gurled]
+end // end of [givename_get_ngurl]
 
 end // end of [local]
 
 (* ****** ****** *)
 
-implement
-givename_relocatize
-  (given, ngurl) = let
-in
-//
-if ngurl >= 0 then let
-  val p0 = $UN.cast2ptr (given)
-  val pn = add_ptr_int (p0, ngurl)
-  val dirsep = theDirSep_get ()
-  val GURLRELOC = "/tmp/.MYATS-hwxi/"
-in
-  string0_append (GURLRELOC, $UN.cast{string}(pn))
-end else given // end of [if]
-//
-end // end of [givename_relocatize]
-
-(* ****** ****** *)
-
 assume
 filename_type = '{
-  filename_part= string
-, filename_full= symbol
-, filename_gurl= Option(string)
+  filename_givename= string
+, filename_partname= string, filename_fullname= symbol
 } // end of [filename]
 
 (* ****** ****** *)
 
-(*
 implement
-fprint_filename (out, fil) =
-  fprint_string (out, fil.filename_part)
-// end of [fprint_filename]
-*)
+filename_get_givename (fil) = fil.filename_givename
 implement
-fprint_filename (out, fil) =
-  $SYM.fprint_symbol (out, fil.filename_full)
-// end of [fprint_filename]
+filename_get_partname (fil) = fil.filename_partname
+implement
+filename_get_fullname (fil) = fil.filename_fullname
 
+(* ****** ****** *)
+(*
+//
+implement
+fprint_filename (out, fil) =
+  fprint_string (out, fil.filename_partname)
+//
 implement
 print_filename (fil) = fprint_filename (stdout_ref, fil)
 implement
 prerr_filename (fil) = fprint_filename (stderr_ref, fil)
-
+//
+*)
 (* ****** ****** *)
 
+implement
+print_filename_full
+  (fil) = fprint_filename_full (stdout_ref, fil)
+implement
+prerr_filename_full
+  (fil) = fprint_filename_full (stdout_ref, fil)
 implement
 fprint_filename_full
   (out, fil) = let
-  val name = $SYM.symbol_get_name (fil.filename_full)
+  val fname = $SYM.symbol_get_name (fil.filename_fullname)
 in
-  fprint_string (out, name)
+  fprint_string (out, fname)
 end // end of [fprint_filename_full]
-
-implement
-print_filename_full (fil) = fprint_filename_full (stdout_ref, fil)
 
 (* ****** ****** *)
 
-implement filename_get_part (fil) = fil.filename_part
-implement filename_get_full (fil) = fil.filename_full
+implement
+fprint_filename2_full
+  (out, fil) = let
+//
+val given = fil.filename_givename
+val ngurl = givename_get_ngurl (given)
+val fname = $SYM.symbol_get_name (fil.filename_fullname)
+//
+in
+//
+if ngurl < 0
+  then fprint_string (out, fname)
+  else fprintf (out, "%s(%s)", @(fname, given))
+// end of [if]
+//
+end // end of [fprint_filename2_full]
 
 (* ****** ****** *)
 
 implement
 eq_filename_filename
-  (x1, x2) = x1.filename_full = x2.filename_full
+  (x1, x2) = x1.filename_fullname = x2.filename_fullname
 // end of [eq_filename_filename]
+
+(* ****** ****** *)
 
 implement
 compare_filename_filename
   (x1, x2) = let
-  val f1 = $SYM.symbol_get_name (x1.filename_full)
-  val f2 = $SYM.symbol_get_name (x2.filename_full)
+  val f1 = $SYM.symbol_get_name (x1.filename_fullname)
+  val f2 = $SYM.symbol_get_name (x2.filename_fullname)
 in
   compare_string_string (f1, f2)
 end // end of [compare_filename_filename]
@@ -235,10 +255,10 @@ in (* in of [local] *)
 //
 implement
 filename_is_sats (fil) =
-  string_test_suffix (fil.filename_part, ".sats")
+  string_test_suffix (fil.filename_partname, ".sats")
 implement
 filename_is_dats (fil) =
-  string_test_suffix (fil.filename_part, ".dats")
+  string_test_suffix (fil.filename_partname, ".dats")
 //
 end // end of [local]
 
@@ -265,12 +285,14 @@ end // [givename_is_relative]
 
 implement
 filename_dummy = '{
-  filename_part= "", filename_full= $SYM.symbol_empty, filename_gurl= None()
+  filename_givename= ""
+, filename_partname= "", filename_fullname= $SYM.symbol_empty
 } // end of [filename_dummy]
 
 implement
 filename_stdin = '{
-  filename_part= "<STDIN>", filename_full= $SYM.symbol_empty, filename_gurl= None()
+  filename_givename= "__STDIN__"
+, filename_partname= "__STDIN__", filename_fullname= $SYM.symbol_empty
 } // end of [filename_stdin]
 
 (* ****** ****** *)
@@ -597,13 +619,14 @@ end // end of [local]
 implement
 filename_make
 (
-  pname, fname
+  given, pname, fname
 ) = let
 //
-val fsymb = $SYM.symbol_make_string (fname)
+val fname = $SYM.symbol_make_string (fname)
 //
 in '{
-  filename_part= pname, filename_full= fsymb, filename_gurl= None()
+  filename_givename= given
+, filename_partname= pname, filename_fullname= fname
 } end // end of [filename_make]
 
 (* ****** ****** *)
@@ -619,7 +642,7 @@ aux_local
   given: string
 ) : Stropt = let
   val fil = filename_get_current ()
-  val pname = filename_get_part (fil)
+  val pname = filename_get_partname (fil)
 (*
   val () = println! ("aux_local: pname = ", pname)
 *)
@@ -740,7 +763,7 @@ if issome then let
   val partname = stropt_unsome (opt)
   val fullname = partname_fullize (partname)
 in
-  Some_vt (filename_make (partname, fullname))
+  Some_vt (filename_make (given, partname, fullname))
 end else None_vt () // end of [if]
 //
 end // end of [filenameopt_make_local]
@@ -750,7 +773,7 @@ filenameopt_make_relative
   (given) = let
 //
 val ngurl = givename_get_ngurl (given)
-val given2 = givename_relocatize (given, ngurl)
+val given2 = pkgsrcname_relocatize (given, ngurl)
 //
 (*
 val () = 
@@ -782,7 +805,7 @@ if issome then let
   val partname = stropt_unsome (opt)
   val fullname = partname_fullize (partname)
 in
-  Some_vt (filename_make (partname, fullname))
+  Some_vt (filename_make (given, partname, fullname))
 end else None_vt () // end of [if]
 //
 end // end of [filenameopt_make_relative]

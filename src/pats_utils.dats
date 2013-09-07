@@ -391,6 +391,22 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+dirpath_append
+  (dir, path, sep) = let
+//
+val p0 = $UN.cast2ptr (path)
+val c0 = $UN.ptr0_get<char> (p0)
+//
+in
+  if c0 = sep
+    then sprintf ("%s%s", @(dir, path))
+    else sprintf("%s%c%s", @(dir, sep, path))
+  // end of [if]
+end // end of [dirpath_append]
+
+(* ****** ****** *)
+
+implement
 fprint_stropt
  (out, opt) = let
 in

@@ -29,26 +29,70 @@
 //
 // Author: Hongwei Xi
 // Authoremail: gmhwxi AT gmail DOT com
-// Start Time: August, 2012
+// Start Time: September, 2013
 //
 (* ****** ****** *)
 
-staload SYN = "./pats_syntax.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-fun depgen_eval (d0cs: $SYN.d0eclist): List_vt (string)
+staload UT = "./pats_utils.sats"
 
 (* ****** ****** *)
 
-fun fprint_target (out: FILEref, give: string): void
+staload FIL = "./pats_filename.sats"
 
 (* ****** ****** *)
 
-fun fprint_entry
-  (out: FILEref, given: string, ps: List_vt (string)): void
-// end of [fprint_entry]
+typedef
+pkginfo = @{
+//
+  pkgname=string
+, pkgauthor=stropt
+, pkgauthoremail=stropt
+, pkgsrcloc=string
+, pkgdstloc=stropt
+//
+} (* end of [pkginfo] *)
 
 (* ****** ****** *)
 
-(* end of [pats_depgen.sats] *)
+implement
+$FIL.pkgsrcname_relocatize
+  (given, ngurl) = let
+//
+extern
+fun PATSHOME_get (): string = "ext#patsopt_PATSHOME_get"
+extern
+fun PATSHOMERELOC_get (): Stropt = "ext#patsopt_PATSHOMERELOC_get"
+//
+in
+//
+if ngurl >= 0 then let
+  val p0 = $UN.cast2ptr (given)
+  val pn = add_ptr_int (p0, ngurl)
+  val opt = PATSHOMERELOC_get ()
+  val direloc =
+  (
+    if stropt_is_some (opt)
+      then stropt_unsome (opt) else PATSHOME_get ()
+    // end of [if]
+  ) : string // end of [val]
+  val dirsep = $FIL.theDirSep_get ()
+  val given2 = $UT.dirpath_append (direloc, $UN.cast{string}(pn), dirsep)
+//
+  val () = println! ("pkgsrcname_relocatize: given2 = ", given2)
+//
+in
+  string_of_strptr (given2)
+end else given // end of [if]
+//
+end // end of [pkgsrcname_relocatize]
+
+(* ****** ****** *)
+
+(* end of [pats_filename_reloc.sats] *)
+
+

@@ -87,7 +87,7 @@ in
 case+ x of
 | PMCSTSPmyfil (fil) => {
     val () = prstr ("$myfilename(")
-    val () = $FIL.fprint_filename (out, fil)
+    val () = $FIL.fprint_filename_full (out, fil)
     val () = prstr ")"
   }
 | PMCSTSPmyloc (loc) => {
@@ -214,7 +214,7 @@ case+ x.primdec_node of
     val-HIDstaload
       (fil, _, _, _) = hid.hidecl_node
     val () = prstr "PMDstaload("
-    val () = $FIL.fprint_filename (out, fil)
+    val () = $FIL.fprint_filename_full (out, fil)
     val () = prstr ")"
   }
 //
@@ -222,7 +222,7 @@ case+ x.primdec_node of
   {
     val-HIDdynload (fil) = hid.hidecl_node
     val () = prstr "PMDdynload("
-    val () = $FIL.fprint_filename (out, fil)
+    val () = $FIL.fprint_filename_full (out, fil)
     val () = prstr ")"
   }
 //

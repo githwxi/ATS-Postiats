@@ -71,11 +71,11 @@ export PATSHOME=`pwd`
 Step 3. Install the built package (optional)
 
 Assume that you want to install the package in a directory
-named /path/to/myats/.
+named /path/to/MYATS/.
 
 First please configure:
 
-./configure --prefix==/path/to/myats
+./configure --prefix==/path/to/MYATS
 
 After configuration is done, please execute
 
@@ -83,7 +83,6 @@ make install
 
 Please set PATSHOME as follows:
 
-export PATSHOME=/path/to/myats/lib/ats2-postiats-x.x.x
+export PATSHOME=/path/to/MYATS/lib/ats2-postiats-x.x.x
 
 ###### end of [INSTALL] ######
-

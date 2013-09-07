@@ -86,38 +86,16 @@ list-value of unindexed type to another list-value of indexed type.  ")
 
 (* ****** ****** *)
 
-#declnamesynop("list0_sing")
+#declnamesynop("list0_make_sing")
 #decldescrpt("\
 This function constructs a singleton list.
 ")
 
-#declnamesynop("list0_pair")
+#declnamesynop("list0_make_pair")
 #decldescrpt("\
 
 Given two elements x1 and x2, this function returns a list consisting of x1
 and x2 as its first and second elements, respectively.  ")
-
-(* ****** ****** *)
-
-#declnamesynop("list0_is_nil")
-#decldescrpt("\
-This function returns true if and only if its list argument is empty.
-")
-#declnamesynop("list0_is_cons")
-#decldescrpt("\
-This function returns true if and only if its list argument is not empty.
-")
-
-(* ****** ****** *)
-
-#declnamesynop("list0_is_empty")
-#decldescrpt("\
-This function does the same as #dyncode("list0_is_nil").
-")
-#declnamesynop("list0_isnot_empty")
-#decldescrpt("\
-This function does the same as #dyncode("list0_is_cons").
-")
 
 (* ****** ****** *)
 
@@ -162,7 +140,7 @@ The following code builds a list of digits and then prints them out:
 
 #pats2xhtmld_tryit('\
 //
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement
@@ -178,7 +156,25 @@ end // end of [main]
 
 (* ****** ****** *)
 
-#declnamesynop("fprint_list0_sep")
+#declnamesynop("list0_is_nil")
+#decldescrpt("\
+This function returns true if and only if its list argument is empty.
+")
+#declnamesynop("list0_is_cons")
+#decldescrpt("\
+This function returns true if and only if its list argument is not empty.
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_is_empty")
+#decldescrpt("\
+This function does the same as #dyncode("list0_is_nil").
+")
+#declnamesynop("list0_isnot_empty")
+#decldescrpt("\
+This function does the same as #dyncode("list0_is_cons").
+")
 
 (* ****** ****** *)
 
@@ -225,7 +221,7 @@ implementation of list concatenation:
 
 #pats2xhtmld_tryit('\
 //
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a}
@@ -259,6 +255,18 @@ This function is the optional version of #dyncode("list0_nth_exn").  ")
 This function, which overloads the symbol #dyncode("[]"), does the same as
 #dyncode("list0_nth_exn").  ")
 
+(* ****** ****** *)
+
+#declnamesynop("prerr_list0")
+#declnamesynop("print_list0")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_list0")
+#declnamesynop("fprint_list0_sep")
+
+(* ****** ****** *)
+
 #declnamesynop("list0_insert_at_exn")
 #decldescrpt("\
 
@@ -287,7 +295,7 @@ position i:
 
 #pats2xhtmld_tryit('\
 //
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement
@@ -341,7 +349,7 @@ equals the sum of their individual lengths:
 
 #pats2xhtmld_tryit("\
 //
-staload \"libats/SATS/ML_basis.sats\"
+staload \"libats/ML/SATS/basis.sats\"
 staload \"libats/ML/SATS/list0.sats\"
 //
 implement
@@ -374,7 +382,7 @@ function by a beginner of functional programming:
 
 #pats2xhtmld_tryit('\
 //
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a}
@@ -450,7 +458,7 @@ standard output channel:
 
 #pats2xhtmld_tryit('\
 //
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement
@@ -466,7 +474,7 @@ permutations of a given list:
 
 #pats2xhtmld_tryit('\
 //
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 fun{a:t0p}
@@ -533,7 +541,7 @@ The following code implements a function for printing out a given list:
 
 #pats2xhtmld_tryit('\
 //
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a}
@@ -592,7 +600,7 @@ function:
 
 #pats2xhtmld_tryit('\
 //
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a}
@@ -639,7 +647,7 @@ function:
 
 #pats2xhtmld_tryit('\
 //
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a}
@@ -679,7 +687,7 @@ all even:
 
 #pats2xhtmld_tryit('\
 //
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement
@@ -718,7 +726,7 @@ lists are equal based on a given equality funtion on list elements:
 
 #pats2xhtmld_tryit('\
 //
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a}
@@ -775,7 +783,7 @@ Following is a standard implementation of this function:
 
 #pats2xhtmld_tryit('\
 //
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a}
@@ -809,7 +817,7 @@ Following is a standard implementation of this function:
 
 #pats2xhtmld_tryit('\
 //
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a}{b}
@@ -854,7 +862,7 @@ Following is a standard implementation of this function:
 
 #pats2xhtmld_tryit('
 //
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a}{b}
@@ -892,7 +900,7 @@ Following is a standard implementation of this function:
 
 #pats2xhtmld_tryit('\
 //
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement{a1,a2}{b}
@@ -926,7 +934,7 @@ min(m,n)-1 and xs[i] (ys[i]) refers to element i in xs (ys).\
 
 #pats2xhtmld_tryit('\
 //
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement
@@ -973,7 +981,7 @@ The following code mergesorts a randomly generated list of integers:
 
 #pats2xhtmld_tryit('\
 //
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 staload "contrib/atshwxi/testing/SATS/randgen.sats"
 //
@@ -1017,7 +1025,7 @@ The following code mergesorts a randomly generated list of integers:
 
 #pats2xhtmld_tryit('\
 //
-staload "libats/SATS/ML_basis.sats"
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 staload "contrib/atshwxi/testing/SATS/randgen.sats"
 //

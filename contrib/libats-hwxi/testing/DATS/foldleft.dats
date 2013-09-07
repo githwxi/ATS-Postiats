@@ -30,16 +30,18 @@
 (* ****** ****** *)
 
 (*
-** Functions for left-folding aggregates
+** Functions
+** for left-folding aggregates
 *)
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "{}/contrib/atshwxi/testing/SATS/foldleft.sats"
+staload "./../SATS/foldleft.sats"
 
 (* ****** ****** *)
 

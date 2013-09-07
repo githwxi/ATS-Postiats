@@ -71,9 +71,7 @@ string_index_p
   n: int, int(*i*), int(*c*)
 ) =
   | string_index_p_eqz (n, n, 0)
-  | {i:int | n > i}
-    {c:int8 | c != 0}
-    string_index_p_neqz (n, i, c)
+  | {i:int | n > i}{c:int8 | c != 0} string_index_p_neqz (n, i, c)
 // end of [string_index_p]
 
 #atscode_separator()

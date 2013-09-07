@@ -60,6 +60,12 @@ fun float_get_nsfx (rep: string): uint // in the [rep]
 //
 (* ****** ****** *)
 
+fun dirpath_append
+  (dir: string, path: string, sep: char) : Strptr1
+// end of [dirpath_append]
+
+(* ****** ****** *)
+
 fun fprint_stropt (out: FILEref, opt: Stropt): void
 
 (* ****** ****** *)
@@ -110,9 +116,9 @@ fun lstord2list {a:type} (xs: lstord a): List (a)
 local
 
 staload
-Q = "libats/SATS/linqueue_arr.sats"
+QUEUE = "libats/SATS/linqueue_arr.sats"
 viewtypedef
-QUEUE (m:int, n:int) = $Q.QUEUE (uchar, m, n)
+QUEUE (m:int, n:int) = $QUEUE.QUEUE (uchar, m, n)
 
 in (* in of [local] *)
 

@@ -30,12 +30,13 @@
 (* ****** ****** *)
 
 (*
-** Functions for stringizing data
+** Functions
+** for stringizing data
 *)
 
 (* ****** ****** *)
 
-staload "{}/contrib/atshwxi/testing/SATS/tostring.sats"
+staload "./../SATS/tostring.sats"
 
 (* ****** ****** *)
 

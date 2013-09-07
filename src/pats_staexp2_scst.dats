@@ -55,10 +55,8 @@ overload compare with $STMP.compare_stamp_stamp
 
 (* ****** ****** *)
 
-staload
-FIL = "./pats_filename.sats"
-staload
-LOC = "./pats_location.sats"
+staload FIL = "./pats_filename.sats"
+staload LOC = "./pats_location.sats"
 
 (* ****** ****** *)
 
@@ -488,7 +486,7 @@ fprint_s2cst (out, x) = let
   val sym = s2cst_get_sym (x)
   val stmp = s2cst_get_stamp (x)
   val fil = s2cst_get_fil (x)
-  val () = $FIL.fprint_filename (out, fil)
+  val () = $FIL.fprint_filename_full (out, fil)
   val () = fprint_string (out, "::")
   val () = $SYM.fprint_symbol (out, sym)
   val () = fprint_string (out, "(")

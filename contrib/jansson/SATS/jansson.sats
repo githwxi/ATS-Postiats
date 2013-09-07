@@ -490,8 +490,8 @@ fun json_loadb
   {lb:addr}
   {n1,n2:int | n1 >= n2}
 (
-  pfbuf: !bytes(n1) @ lb
-| pbuf: ptr lb, n2: size_t n2
+  pf: !bytes(n1) @ lb
+| bufp: ptr lb, n2: size_t n2
 , flags: int
 , error: &json_err? >> json_err
 ) : JSONptr0 = "mac#%" // endfun

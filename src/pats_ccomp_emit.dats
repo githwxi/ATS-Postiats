@@ -75,7 +75,6 @@ FIL = "./pats_filename.sats"
 
 staload
 LOC = "./pats_location.sats"
-overload fprint with $LOC.fprint_location
 
 (* ****** ****** *)
 
@@ -427,12 +426,12 @@ end // end of [emit_labelext]
 implement
 emit_filename
   (out, fil) = let
-  val sym =
-    $FIL.filename_get_full (fil)
+  val fsymb =
+    $FIL.filename_get_fullname (fil)
   // end of [val]
-  val name = $SYM.symbol_get_name (sym)
+  val fname = $SYM.symbol_get_name (fsymb)
 in
-  emit_ident (out, name)
+  emit_ident (out, fname)
 end // end of [emit_filename]
 
 (* ****** ****** *)
@@ -448,7 +447,8 @@ case+ pmc of
       emit_text (
       out, "ATSCSTSPmyfil(\""
     ) // end of [val]
-    val () = $FIL.fprint_filename (out, fil)
+    val (
+    ) = $FIL.fprint_filename_full (out, fil)
     val () = emit_text (out, "\")")
   }
 | PMCSTSPmyloc (loc) => {
@@ -1475,9 +1475,12 @@ emit_instr
 //
 val loc0 = ins.instr_loc
 // (*
-val (
-) = fprintln!
-  (out, "/*\n", "emit_instr: loc0 = ", loc0, "\n*/")
+val () =
+(
+  fprint (out, "/*\n");
+  fprint (out, "emit_instr: loc0 = "); $LOC.fprint_location2 (out, loc0);
+  fprint (out, "\n*/\n");
+)
 // *)
 (*
 val (

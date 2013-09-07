@@ -111,10 +111,8 @@ fun the_trans1_env_restore (pf: trans1_env_save_v | (*none*)): void
 
 (* ****** ****** *)
 
-fun staload_file_insert
-  (fil: filename, loadflag: int, d1cs: d1eclist): void
-fun staload_file_search
-  (fil: filename): Option_vt @(int(*loadflag*), d1eclist)
+fun staload_file_search (fil: filename): Option_vt@(int(*ldflg*), d1eclist)
+fun staload_file_insert (fil: filename, loadflag: int, d1cs: d1eclist): void
 
 (* ****** ******* *)
 

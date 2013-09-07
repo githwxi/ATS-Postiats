@@ -1684,18 +1684,20 @@ fn s1taload_tr
 ) : filenv = let
 (*
 val () = print "s1taload_tr: staid = "
-val () = (case+ idopt of
-  | Some id => $SYM.print_symbol (id) | None () => print "(*none*)"
+val () = (
+case+ idopt of
+| Some id => $SYM.print_symbol (id) | None () => print "(*none*)"
 ) : void // end of [val]
 val () = print_newline ()
 val () = begin
-  print "s1taload_tr: filename = "; $FIL.print_filename fil; print_newline ()
+  print "s1taload_tr: filename = "; $FIL.print_filename_full fil; print_newline ()
 end // end of [val]
 *)
 //
-val filsym = $FIL.filename_get_full (fil)
+val fsymb =
+  $FIL.filename_get_fullname (fil)
 val (pflev | ()) = the_staload_level_push ()
-val ans = the_filenvmap_find (filsym)
+val ans = the_filenvmap_find (fsymb)
 //
 val fenv =
 (
@@ -1714,7 +1716,7 @@ loaded: int
     val () = $GLOB.the_PACKNAME_set (opt)
     val (m0, m1, m2) = the_trans2_env_restore (pfsave | (*none*))
     val fenv = filenv_make (fil, m0, m1, m2, d2cs)
-    val () = the_filenvmap_add (filsym, fenv)
+    val () = the_filenvmap_add (fsymb, fenv)
   in
     fenv
   end // end of [None_vt]

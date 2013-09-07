@@ -48,6 +48,7 @@ SOURCES := \
   pats_symbol.dats \
   pats_filename.sats \
   pats_filename.dats \
+  pats_filename_reloc.dats \
   pats_location.sats \
   pats_location.dats \
   pats_location.cats \
@@ -289,6 +290,7 @@ OBJECTS := \
   pats_symbol_dats.o \
   pats_filename_sats.o \
   pats_filename_dats.o \
+  pats_filename_reloc_dats.o \
   pats_location_sats.o \
   pats_location_dats.o \
   pats_errmsg_sats.o \
@@ -587,6 +589,9 @@ pats_filename_sats.o: pats_filename_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_filename_dats.c: pats_filename.dats; $(ATSCC) -cc $<
 pats_filename_dats.o: pats_filename_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_filename_reloc_dats.c: pats_filename_reloc.dats; $(ATSCC) -cc $<
+pats_filename_reloc_dats.o: pats_filename_reloc_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_location_sats.c: pats_location.sats; $(ATSCC) -cc $<
 pats_location_sats.o: pats_location_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<

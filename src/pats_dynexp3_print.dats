@@ -43,7 +43,6 @@ staload LEX = "./pats_lexing.sats"
 (* ****** ****** *)
 
 staload FIL = "./pats_filename.sats"
-macdef fprint_filename = $FIL.fprint_filename
 
 (* ****** ****** *)
 
@@ -664,7 +663,7 @@ case+ d3c0.d3ecl_node of
 | D3Cdynload (fil) =>
   {
     val () = prstr "D3Cdynload("
-    val () = fprint_filename (out, fil)
+    val () = $FIL.fprint_filename_full (out, fil)
     val () = prstr ")"
   }
 //

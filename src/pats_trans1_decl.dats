@@ -67,9 +67,6 @@ macdef ATS_MAINATSFLAG = $SYM.symbol_ATS_MAINATSFLAG
 (* ****** ****** *)
 
 staload FIL = "./pats_filename.sats"
-overload print with $FIL.print_filename
-overload prerr with $FIL.prerr_filename
-overload fprint with $FIL.fprint_filename
 
 (* ****** ****** *)
 
@@ -559,7 +556,7 @@ val (
   val () = $LOC.prerr_location (loc0)
   val () = prerr (": error(0)")
   val () = prerr (": including the file [");
-  val () = $FIL.prerr_filename (fil)
+  val () = $FIL.prerr_filename_full (fil)
   val () = prerr ("] generates the following looping trace:\n")
   val () = $FIL.fprint_the_filenamelst (stderr_ref)
   val () = the_trans1errlst_add (T1E_i0nclude_tr (d0c0))
@@ -638,34 +635,38 @@ fun auxload
 (
   fil: filename, loadflag: &int >> int
 ) : d1eclist = let
-  val pname = $FIL.filename_get_part (fil)
-  val isdats = string_suffix_is_dats (pname)
-  val flag = (if isdats then 1(*dyn*) else 0(*sta*)): int
-  val d0cs = $PAR.parse_from_filename_toplevel (flag, fil)
 //
-  val (pfsave | ()) = the_trans1_env_save ()
+val pname = $FIL.filename_get_partname (fil)
 //
-  val (pfpush | ()) = $FIL.the_filenamelst_push (fil)
-  val d1cs = d0eclist_tr (d0cs) // HX: it is done in [fil]
-  val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+val isdats = string_suffix_is_dats (pname)
+val flag = (if isdats then 1(*dyn*) else 0(*sta*)): int
+val d0cs = $PAR.parse_from_filename_toplevel (flag, fil)
 //
-  val packname = ats_packname_get ()
-  val d1c_pack = d1ecl_packname (packname)
-  val d1cs = list_cons{d1ecl}(d1c_pack, d1cs)
+val (pfsave | ()) = the_trans1_env_save ()
 //
-  val ans = the_e1xpenv_find (ATS_STALOADFLAG)
-  val () =
-  (
-    case+ ans of
-    | ~Some_vt e1xp => let
-        val v1al = e1xp_valize (e1xp) in if v1al_is_false v1al then loadflag := 0
-      end // end of [Some_vt]
-    | ~None_vt () => () // the default value
-  ) : void // end of [val]
+val (pfpush | ()) = $FIL.the_filenamelst_push (fil)
+val d1cs = d0eclist_tr (d0cs) // HX: it is done in [fil]
+val ((*void*)) = $FIL.the_filenamelst_pop (pfpush | (*none*))
 //
-  val () = the_trans1_env_restore (pfsave | (*none*))
+val packname = ats_packname_get ()
+val d1c_pack = d1ecl_packname (packname)
+val d1cs = list_cons{d1ecl}(d1c_pack, d1cs)
 //
-  val () = staload_file_insert (fil, loadflag, d1cs)
+val ans = the_e1xpenv_find (ATS_STALOADFLAG)
+//
+val () = (
+  case+ ans of
+  | ~Some_vt e1xp => let
+      val v1al = e1xp_valize (e1xp) in if v1al_is_false v1al then loadflag := 0
+    end // end of [Some_vt]
+  | ~None_vt () => () // the default value
+) : void // end of [val]
+//
+val (
+) = the_trans1_env_restore (pfsave | (*none*))
+//
+val () = staload_file_insert (fil, loadflag, d1cs)
+//
 in
   d1cs
 end // end of [s0taload_tr_load]
@@ -708,7 +709,7 @@ val (
   val () = $LOC.prerr_location (loc0)
   val () = prerr (": error(0)")
   val () = prerr (": staloading the file [");
-  val () = $FIL.prerr_filename (fil)
+  val () = $FIL.prerr_filename_full (fil)
   val () = prerr ("] generates the following looping trace:\n")
   val () = $FIL.fprint_the_filenamelst (stderr_ref)
   val () = the_trans1errlst_add (T1E_s0taload_tr (d0c0))
@@ -724,16 +725,14 @@ in
 //
 case+ opt of
 | ~Some_vt
-    (flagd1cs) => let
+    (flagd1cs) => flagd1cs.1 where
+  {
     val () = loadflag := flagd1cs.0
 (*
-    val (
-    ) = println! ("The file [", fil, " is already loaded.")
+    val () = println! ("The file [", fil, " is already loaded.")
 *)
-  in
-    flagd1cs.1
-  end // end of [Some_vt]
-| ~None_vt () => auxload (fil, loadflag)
+  } // end of [Some_vt]
+| ~None_vt ((*void*)) => auxload (fil, loadflag)
 //
 end // end of [s0taload_tr]
 
@@ -742,10 +741,9 @@ end // end of [local]
 (* ****** ****** *)
 
 extern
-fun d0ynload_tr
-(
-  d0c0: d0ecl, given: string
-) : filename // endfun
+fun  d0ynload_tr
+  (d0c0: d0ecl, given: string): filename
+// end of [d0ynload_tr]
 
 implement
 d0ynload_tr
