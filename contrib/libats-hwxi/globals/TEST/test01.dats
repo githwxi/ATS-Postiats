@@ -5,8 +5,8 @@
 
 (* ****** ****** *)
 
-staload I = "intvar.dats"
-staload F = "floatvar.dats"
+staload I = "./intvar.dats"
+staload F = "./floatvar.dats"
 
 (* ****** ****** *)
 

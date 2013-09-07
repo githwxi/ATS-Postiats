@@ -4,7 +4,7 @@ local
 
 in (* in of [local] *)
 
-#include "atshwxi/globals/HATS/gcount.hats"
+#include "./../HATS/gcount.hats"
 
 end // end of [local]
 
