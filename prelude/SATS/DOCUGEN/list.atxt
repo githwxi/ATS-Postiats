@@ -978,20 +978,21 @@ implement
 main0 () =
 {
 //
+typedef T = int
+//
 val xs = $list{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 val ys = $list{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 //
 val xys = list_make_intrange (0, 100) // = 0, 1, 2, ..., 99
 //
 implement
-list_crosswith$fopr<int,int><int> (x, y) = 10 * x + y
-val xys2 =
-  list_crosswith<int,int><int> (xs, ys) // = 0, 1, ..., 99
+list_crosswith$fopr<T,T><T> (x, y) = 10 * x + y
+val xys2 = list_crosswith<T,T><T> (xs, ys) // = 0, 1, ..., 99
 //
-val () = assertloc ($UN.list_vt2t(xys) = $UN.list_vt2t(xys2))
+val () = assertloc ($UN.list_vt2t{T}(xys) = $UN.list_vt2t(xys2))
 //
-val () = list_vt_free<int> (xys)
-val () = list_vt_free<int> (xys2)
+val () = list_vt_free<T> (xys)
+val () = list_vt_free<T> (xys2)
 //
 } (* end of [main] *)
 ')

@@ -115,7 +115,7 @@ list_vt2t
 castfn
 list_of_list_vt
   {x:t0p}{n:int}
-  (xs: list_vt (INV(x), n)):<> list (x, n)
+  (xs: list_vt (INV(x), n)):<!wrt> list (x, n)
 //
 #atscode_separator()
 

@@ -154,13 +154,10 @@ end // end of [loop2]
 in (* in of [let] *)
 //
 case+ xs of
-| cons_vt _ => let
-    val ys =
-      $effmask_wrt (loop1 (xs, nil_vt ()))
-    // end of [val]
-  in
-    list_of_list_vt (ys)
-  end // end of [cons_vt]
+| cons_vt _ =>
+  (
+    $effmask_wrt (list_of_list_vt(loop1 (xs, nil_vt())))
+  ) // end of [cons_vt]
 | ~nil_vt () => list_nil ()
 //
 end // end of [funset_make_list]
