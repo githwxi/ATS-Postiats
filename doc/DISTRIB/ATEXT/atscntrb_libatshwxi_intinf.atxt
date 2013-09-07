@@ -43,8 +43,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=../../contrib/atshwxi/intinf/\n\
-TARGET=ATS-Postiats/contrib/atshwxi/intinf/\n\
+SOURCE=../../contrib/libats-hwxi/intinf/\n\
+TARGET=ATS-Postiats/contrib/libats-hwxi/intinf/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -62,7 +62,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The ATSCNTRB-atshwxi-intinf files have been copied.\"\n\
+echo \"The ATSCNTRB-libatshwxi-intinf files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
@@ -96,7 +96,7 @@ packfilesynop (x) = atext_nil ()
 (* ****** ****** *)
 
 #packtitle("\
-The ATSCNTRB/atshwxi/intinf library\
+The ATSCNTRB/libats-hwxi/intinf library\
 ")
 
 (* ****** ****** *)
@@ -124,4 +124,4 @@ implement main () = ()
 
 (* ****** ****** *)
 
-(* end of [atscntrb_atshwxi_intinf.atxt] *)
+(* end of [atscntrb_libatshwxi_intinf.atxt] *)

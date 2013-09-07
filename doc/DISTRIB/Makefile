@@ -110,25 +110,25 @@ cleanall:: ; $(RMF) SCRIPT/atslib_libats_ML.bash
 
 ######
 
-all_html:: HTML/atscntrb_atshwxi_intinf.html
-HTML/atscntrb_atshwxi_intinf.html: atscntrb_atshwxi_intinf_atxt.exe ; ./$< > $@
-all_script:: SCRIPT/atscntrb_atshwxi_intinf.bash
-SCRIPT/atscntrb_atshwxi_intinf.bash: atscntrb_atshwxi_intinf_atxt.exe ; ./$< > $@
-atscntrb_atshwxi_intinf_atxt.dats: ATEXT/atscntrb_atshwxi_intinf.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_atshwxi_intinf_atxt.exe: atscntrb_atshwxi_intinf_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) atscntrb_atshwxi_intinf_atxt.exe
-cleanall:: ; $(RMF) HTML/atscntrb_atshwxi_intinf.html
-cleanall:: ; $(RMF) SCRIPT/atscntrb_atshwxi_intinf.bash
+all_html:: HTML/atscntrb_libatshwxi_intinf.html
+HTML/atscntrb_libatshwxi_intinf.html: atscntrb_libatshwxi_intinf_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_libatshwxi_intinf.bash
+SCRIPT/atscntrb_libatshwxi_intinf.bash: atscntrb_libatshwxi_intinf_atxt.exe ; ./$< > $@
+atscntrb_libatshwxi_intinf_atxt.dats: ATEXT/atscntrb_libatshwxi_intinf.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_libatshwxi_intinf_atxt.exe: atscntrb_libatshwxi_intinf_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_libatshwxi_intinf_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_libatshwxi_intinf.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_libatshwxi_intinf.bash
 
-all_html:: HTML/atscntrb_atshwxi_testing.html
-HTML/atscntrb_atshwxi_testing.html: atscntrb_atshwxi_testing_atxt.exe ; ./$< > $@
-all_script:: SCRIPT/atscntrb_atshwxi_testing.bash
-SCRIPT/atscntrb_atshwxi_testing.bash: atscntrb_atshwxi_testing_atxt.exe ; ./$< > $@
-atscntrb_atshwxi_testing_atxt.dats: ATEXT/atscntrb_atshwxi_testing.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_atshwxi_testing_atxt.exe: atscntrb_atshwxi_testing_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) atscntrb_atshwxi_testing_atxt.exe
-cleanall:: ; $(RMF) HTML/atscntrb_atshwxi_testing.html
-cleanall:: ; $(RMF) SCRIPT/atscntrb_atshwxi_testing.bash
+all_html:: HTML/atscntrb_libatshwxi_testing.html
+HTML/atscntrb_libatshwxi_testing.html: atscntrb_libatshwxi_testing_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_libatshwxi_testing.bash
+SCRIPT/atscntrb_libatshwxi_testing.bash: atscntrb_libatshwxi_testing_atxt.exe ; ./$< > $@
+atscntrb_libatshwxi_testing_atxt.dats: ATEXT/atscntrb_libatshwxi_testing.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_libatshwxi_testing_atxt.exe: atscntrb_libatshwxi_testing_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_libatshwxi_testing_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_libatshwxi_testing.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_libatshwxi_testing.bash
 
 
 ######
@@ -212,16 +212,16 @@ cleanall:: ; $(RMF) SCRIPT/doc_example_pcpv.bash
 
 ######
 
-atspackage:: srcget_home
-atspackage:: srcget_share
-atspackage:: srcget_patsrc
-atspackage:: srcget_patsrc_cboot
-atspackage:: srcget_atslib
-atspackage:: srcget_atscntrb
-atspackage:: srcget_ccomp_atslib
-atspackage:: srcget_ccomp_runtime
-atspackage:: srcget_utils_atscc
-atspackage:: srcget_doc_example
+atspackaging:: srcget_home
+atspackaging:: srcget_share
+atspackaging:: srcget_patsrc
+atspackaging:: srcget_patsrc_cboot
+atspackaging:: srcget_atslib
+atspackaging:: srcget_atscntrb
+atspackaging:: srcget_ccomp_atslib
+atspackaging:: srcget_ccomp_runtime
+atspackaging:: srcget_utils_atscc
+atspackaging:: srcget_doc_example
 
 ######
 
@@ -237,7 +237,9 @@ srcget_home:: ; $(CPF) ../../patsopt_env.sh.in $(ATSDIST)/bin/
 ######
 
 srcget_share:: ; \
-  $(CPF) ../../share/atspre_staload_tmpdef.hats $(ATSDIST)/share/
+  $(CPF) ../../share/atspre_define.hats $(ATSDIST)/share/
+srcget_share:: ; \
+  $(CPF) ../../share/atspre_staload.hats $(ATSDIST)/share/
 
 ######
 
@@ -257,10 +259,10 @@ srcget_atslib_libats_ML:: SCRIPT/atslib_libats_ML.bash ; bash $<
 
 ######
 
-srcget_atscntrb:: srcget_atscntrb_atshwxi_intinf
-srcget_atscntrb_atshwxi_intinf:: SCRIPT/atscntrb_atshwxi_intinf.bash ; bash $<
-srcget_atscntrb:: srcget_atscntrb_atshwxi_testing
-srcget_atscntrb_atshwxi_testing:: SCRIPT/atscntrb_atshwxi_testing.bash ; bash $<
+srcget_atscntrb:: srcget_atscntrb_libatshwxi_intinf
+srcget_atscntrb_libatshwxi_intinf:: SCRIPT/atscntrb_libatshwxi_intinf.bash ; bash $<
+srcget_atscntrb:: srcget_atscntrb_libatshwxi_testing
+srcget_atscntrb_libatshwxi_testing:: SCRIPT/atscntrb_libatshwxi_testing.bash ; bash $<
 
 ######
 

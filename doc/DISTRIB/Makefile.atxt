@@ -95,8 +95,8 @@ all_script::
 
 ######
 
-#make_entry("atscntrb_atshwxi_intinf")
-#make_entry("atscntrb_atshwxi_testing")
+#make_entry("atscntrb_libatshwxi_intinf")
+#make_entry("atscntrb_libatshwxi_testing")
 
 ######
 
@@ -141,7 +141,9 @@ srcget_home:: ; $(CPF) ../../patsopt_env.sh.in $(ATSDIST)/bin/
 ######
 
 srcget_share:: ; \\
-  $(CPF) ../../share/atspre_staload_tmpdef.hats $(ATSDIST)/share/
+  $(CPF) ../../share/atspre_define.hats $(ATSDIST)/share/
+srcget_share:: ; \\
+  $(CPF) ../../share/atspre_staload.hats $(ATSDIST)/share/
 
 ######
 
@@ -161,10 +163,10 @@ srcget_atslib_libats_ML:: SCRIPT/atslib_libats_ML.bash ; bash $<
 
 ######
 
-srcget_atscntrb:: srcget_atscntrb_atshwxi_intinf
-srcget_atscntrb_atshwxi_intinf:: SCRIPT/atscntrb_atshwxi_intinf.bash ; bash $<
-srcget_atscntrb:: srcget_atscntrb_atshwxi_testing
-srcget_atscntrb_atshwxi_testing:: SCRIPT/atscntrb_atshwxi_testing.bash ; bash $<
+srcget_atscntrb:: srcget_atscntrb_libatshwxi_intinf
+srcget_atscntrb_libatshwxi_intinf:: SCRIPT/atscntrb_libatshwxi_intinf.bash ; bash $<
+srcget_atscntrb:: srcget_atscntrb_libatshwxi_testing
+srcget_atscntrb_libatshwxi_testing:: SCRIPT/atscntrb_libatshwxi_testing.bash ; bash $<
 
 ######
 

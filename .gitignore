@@ -274,8 +274,8 @@ doc/DISTRIB/ATS-Postiats/libats/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/?ATS/SHARE/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/ML/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/ML/?ATS/SHARE/*.?ats
-doc/DISTRIB/ATS-Postiats/contrib/atshwxi/intinf/?ATS/*.?ats
-doc/DISTRIB/ATS-Postiats/contrib/atshwxi/testing/?ATS/*.?ats
+doc/DISTRIB/ATS-Postiats/contrib/libats-hwxi/intinf/?ATS/*.?ats
+doc/DISTRIB/ATS-Postiats/contrib/libats-hwxi/testing/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/*.?ats
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/ATSLIB/Makefile

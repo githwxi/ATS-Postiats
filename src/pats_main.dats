@@ -130,7 +130,6 @@ dynload "pats_stamp.dats"
 dynload "pats_symbol.dats"
 //
 dynload "pats_filename.dats"
-dynload "pats_filename_reloc.dats"
 //
 dynload "pats_location.dats"
 //
@@ -180,6 +179,8 @@ dynload "pats_trans1_env.dats"
 //
 dynload "pats_e1xpval.dats"
 dynload "pats_e1xpval_error.dats"
+//
+dynload "pats_filename_reloc.dats"
 //
 dynload "pats_trans1_error.dats"
 dynload "pats_trans1_e0xp.dats"

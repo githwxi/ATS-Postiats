@@ -33,9 +33,14 @@
 //
 (* ****** ****** *)
 
-staload FIX = "./pats_fixity.sats"
+staload
+FIX = "./pats_fixity.sats"
 typedef fxty = $FIX.fxty
-staload SYM = "./pats_symbol.sats"
+
+(* ****** ****** *)
+
+staload
+SYM = "./pats_symbol.sats"
 typedef symbol = $SYM.symbol
 
 (* ****** ****** *)
@@ -49,7 +54,7 @@ staload "./pats_dynexp1.sats"
 
 fun the_e1xpenv_add (id: symbol, e: e1xp): void
 fun the_e1xpenv_addperv (id: symbol, e: e1xp): void
-fun the_e1xpenv_find (id: symbol): Option_vt e1xp
+fun the_e1xpenv_find (id: symbol): Option_vt (e1xp)
 
 (* ****** ******* *)
 

@@ -155,38 +155,43 @@ end // end of [local]
 
 implement
 process_DATS_def (def) = let
-  val def = string1_of_string (def)
-  val opt =
-    $PAR.parse_from_string (def, $PAR.p_datsdef)
-  // end of [val]
+//
+val def = string1_of_string (def)
+val opt =
+  $PAR.parse_from_string (def, $PAR.p_datsdef)
+//
 in
 //
 case+ opt of
 | ~Some_vt (def) => let
-    val $SYN.DATSDEF (id, opt) = def
-    val e1xp = (case+ opt of
-      | Some x => $TRANS1.e0xp_tr (x)
+    val+$SYN.DATSDEF (key, opt) = def
+    val e1xp = (
+      case+ opt of
+      | Some v => $TRANS1.e0xp_tr (v)
       | None _ => e1xp_none ($LOC.location_dummy)
     ) : e1xp // end of [val]
   in
-    $TRENV1.the_e1xpenv_add (id, e1xp)
+    $TRENV1.the_e1xpenv_add (key, e1xp)
   end // end of [Some_vt]
 | ~None_vt () => let
     val () = prerr ("error(ATS)")
-    val () = prerr (": the command-line argument [")
-    val () = prerr (def)
-    val () = prerr ("] cannot be properly parsed.")
-    val () = prerr_newline ()
+    val () = prerrln! (": the command-line argument [", def, "] cannot be properly parsed.")
   in
     $ERR.abort ()
   end // end of [None_vt]
 //
 end // end of [process_DATS_def]
 
+(* ****** ****** *)
+//
+// HX: [ppush] means permanent push
+//
 implement
 process_IATS_dir (dir) = let
-  val () = $FIL.the_pathlst_ppush (dir)
-  val () = $GLOB.the_IATS_dirlst_ppush (dir)
+//
+val () = $FIL.the_pathlst_ppush (dir)
+val () = $GLOB.the_IATS_dirlst_ppush (dir)
+//
 in
   // nothing
 end (* end of [process_IATS_dir] *)

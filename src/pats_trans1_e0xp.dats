@@ -85,6 +85,42 @@ macdef list_sing (x) = list_cons (,(x), list_nil)
 (* ****** ****** *)
 
 implement
+do_e0xpact_prerr
+  (v) = case+ v of
+  | V1ALint i => prerr i
+  | V1ALchar c => prerr c
+  | V1ALstring s => prerr s
+  | V1ALfloat f => prerr f
+  | V1ALerr () => let
+      val () = assertloc (false) in (*deadcode*)
+    end (* end of [V1ALerr] *)
+// end of [do_e0xpact_prerr]
+
+(* ****** ****** *)
+
+implement
+do_e0xpact_error
+  (loc, v) = let
+//
+  val () = prerr_error1_loc (loc)
+  val () = prerr ": [#error] directive is encountered: "
+//
+  val () = (case+ v of
+    | V1ALint i => prerr i
+    | V1ALchar c => prerr c
+    | V1ALstring s => prerr s
+    | V1ALfloat f => prerr f
+    | V1ALerr () => let
+        val () = assertloc (false) in (*deadcode*)
+      end (* end of [V1ALerr] *)
+  ) : void // end of [val]
+in
+  exit {void} (1)
+end // end of [do_e0xpact_error]
+
+(* ****** ****** *)
+
+implement
 do_e0xpact_assert
   (loc, v) = let
   val is_false = (
@@ -108,38 +144,6 @@ in
     exit {void} (1)
   end // end of [if]
 end // end of [do_e0xpact_assert]
-
-implement
-do_e0xpact_error
-  (loc, v) = let
-//
-  val () = prerr_error1_loc (loc)
-  val () = prerr ": [#error] directive is encountered: "
-//
-  val () = (case+ v of
-    | V1ALint i => prerr i
-    | V1ALstring s => prerr s
-    | V1ALfloat f => prerr f
-    | V1ALchar c => prerr c
-    | V1ALerr () => let
-        val () = assertloc (false) in (*deadcode*)
-      end (* end of [V1ALerr] *)
-  ) : void // end of [val]
-in
-  exit {void} (1)
-end // end of [do_e0xpact_error]
-
-implement
-do_e0xpact_prerr
-  (v) = case+ v of
-  | V1ALint i => prerr i
-  | V1ALstring s => prerr s
-  | V1ALfloat f => prerr f
-  | V1ALchar c => prerr c
-  | V1ALerr () => let
-      val () = assertloc (false) in (*deadcode*)
-    end (* end of [V1ALerr] *)
-// end of [do_e0xpact_prerr]
 
 (* ****** ****** *)
 //
@@ -167,7 +171,7 @@ in
   FXITMatm (_app)
 end // end of [appf]
 
-in // in of [local]
+in (* in of [local] *)
 
 fn e1xpitm_app
   (loc: location): e1xpitm = fxitm_app (loc, appf)
@@ -175,26 +179,28 @@ fn e1xpitm_app
 
 end // end of [local]
 
+(* ****** ****** *)
+
 fn e1xp_get_loc (x: e1xp): location = x.e1xp_loc
 
 fn e1xp_make_opr (
   opr: e1xp, f: fxty
-) : e1xpitm = begin
+) : e1xpitm = (
   fxopr_make {e1xp} (
     e1xp_get_loc
   , lam (loc, x, loc_arg, xs) => e1xp_app (loc, x, loc_arg, xs)
   , opr, f
-  ) // end of [oper_make]
-end // end of [e1xp_make_opr]
+  ) // end of [e1xp_make_opr]
+) (* end of [e1xp_make_opr] *)
 
 fn e1xpitm_backslash
-  (loc_opr: location) = begin
+  (loc_opr: location) = (
   fxopr_make_backslash {e1xp} (
     lam x => x.e1xp_loc
   , lam (loc, x, loc_arg, xs) => e1xp_app (loc, x, loc_arg, xs)
   , loc_opr
-  ) // end of [oper_make_backslash]
-end // end of [e1xpitm_backslash]
+  ) // end of [fxopr_make_backslash]
+) (* end of [e1xpitm_backslash] *)
 
 (* ****** ****** *)
 
@@ -221,60 +227,82 @@ in
   // nothing
 end // end of [e0xp_tr_errmsg_float]
 
-in // in of [local]
+in (* in of [local] *)
   
 implement e0xp_tr (e0) = let
 //
 fun aux_item (e0: e0xp): e1xpitm = let
   val loc0 = e0.e0xp_loc in case+ e0.e0xp_node of
+//
   | E0XPide id when
       id = BACKSLASH => e1xpitm_backslash (loc0)
-  | E0XPide id => begin case+ the_fxtyenv_find id of
-    | ~Some_vt f => begin
-        let val e = e1xp_ide (loc0, id) in e1xp_make_opr (e, f) end
-      end // end of [Some_vt]
-    | ~None_vt () => FXITMatm (e1xp_ide (loc0, id))
-    end (* end of [E0XPide] *)
+  | E0XPide id => let
+      val opt = the_fxtyenv_find (id)
+    in
+      case+ opt of
+      | ~None_vt () => FXITMatm (e1xp_ide (loc0, id))
+      | ~Some_vt (fxty) => let
+          val e = e1xp_ide (loc0, id) in e1xp_make_opr (e, fxty)
+        end // end of [Some_vt]
+    end // E0XPide(non-backslash)
+//
   | E0XPint (x) => let
       val-T_INTEGER
         (base, rep, sfx) = x.token_node
-      // end of [val]
     in
       FXITMatm (e1xp_intrep (loc0, rep))
     end // end of [E0XPint]
+//
   | E0XPchar (x) => let
-      val-T_CHAR (c) = x.token_node in FXITMatm (e1xp_char (loc0, c))
+      val-T_CHAR (c) =
+        x.token_node in FXITMatm (e1xp_char (loc0, c))
+      // end of [val]
     end // end of [E0XPchar]
+//
+  | E0XPstring (x) => let
+      val-T_STRING (str) =
+        x.token_node in FXITMatm (e1xp_string (loc0, str))
+      // end of [val]
+    end // end of [E0XPstring]
+  | E0XPstringid (str) => FXITMatm (e1xp_string (loc0, str))
+//
   | E0XPfloat (x) => let
-      val-T_FLOAT (bas, rep, sfx) = x.token_node
-      val () = if bas != 10 then e0xp_tr_errmsg_float (e0)
+      val-T_FLOAT
+        (base, rep, sfx) = x.token_node
+      val () = if base != 10 then e0xp_tr_errmsg_float (e0)
     in
       FXITMatm (e1xp_float (loc0, rep))
     end // end of [E0XPfloat]
-  | E0XPstring (x) => let
-      val-T_STRING (str) = x.token_node in FXITMatm (e1xp_string (loc0, str))
-    end // end of [E0XPstring]
-  | E0XPstringid (str) => FXITMatm (e1xp_string (loc0, str))
+//
+  | E0XPlist (es) =>
+      FXITMatm (e1xp_list (loc0, e0xplst_tr (es)))
+//
   | E0XPapp _ => let
-      val e0_new = fixity_resolve (
+      val e0_new =
+      fixity_resolve (
         loc0, e1xp_get_loc, e1xpitm_app (loc0), aux_itemlst e0
       ) // end of [val]
     in
       FXITMatm (e0_new)
     end // end of [E0XPapp]
+//
   | E0XPfun (arg, body) =>
       FXITMatm (e1xp_fun (loc0, arg, e0xp_tr (body)))
-  | E0XPeval (e) => FXITMatm (e1xp_eval (loc0, e0xp_tr e))
-  | E0XPlist (es) => FXITMatm (e1xp_list (loc0, e0xplst_tr es))
-  | E0XPif (_cond, _then, _else) => let
-      val _cond = e0xp_tr (_cond)
-      val _then = e0xp_tr (_then)
-      val _else = (case _else of
-        | Some x => e0xp_tr (x) | None _ => e1xp_none (loc0)
-      ) : e1xp // end of [val]
+//
+  | E0XPif (
+      e0_cond, e0_then, e0_else
+    ) => let
+      val e1_cond = e0xp_tr (e0_cond)
+      val e1_then = e0xp_tr (e0_then)
+      val e1_else = (
+        case e0_else of Some x => e0xp_tr (x) | None _ => e1xp_none (loc0)
+      ) : e1xp (* end of [val] *)
     in
-      FXITMatm (e1xp_if (loc0, _cond, _then, _else))
+      FXITMatm (e1xp_if (loc0, e1_cond, e1_then, e1_else))
     end // end of [E0Xpif]
+//
+  | E0XPeval (e) => FXITMatm (e1xp_eval (loc0, e0xp_tr e))
+//
 end // end of [aux_item]
 //
 and aux_itemlst
