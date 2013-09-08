@@ -52,17 +52,18 @@ staload "./pats_dynexp1.sats"
 
 (* ****** ****** *)
 
-fun the_e1xpenv_add (id: symbol, e: e1xp): void
-fun the_e1xpenv_addperv (id: symbol, e: e1xp): void
-fun the_e1xpenv_find (id: symbol): Option_vt (e1xp)
+fun the_e1xpenv_add (k: symbol, x: e1xp): void
+fun the_e1xpenv_addperv (k: symbol, x: e1xp): void
+fun the_e1xpenv_find (k: symbol): Option_vt (e1xp)
 
 (* ****** ******* *)
-
+//
 absview e1xpenv_push_v
+//
 fun the_e1xpenv_pop
   (pf: e1xpenv_push_v | (*none*)): symmap (e1xp)
 fun the_e1xpenv_push_nil (): (e1xpenv_push_v | void)
-
+//
 (* ****** ******* *)
 
 fun the_EXTERN_PREFIX_get (): Stropt

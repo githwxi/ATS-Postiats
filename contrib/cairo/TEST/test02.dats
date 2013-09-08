@@ -28,7 +28,7 @@ _ = "prelude/DATS/float.dats"
 
 (* ****** ****** *)
 
-staload "cairo/SATS/cairo.sats"
+staload "./../SATS/cairo.sats"
 
 (* ****** ****** *)
 
@@ -36,9 +36,10 @@ stadef dbl = double
 
 (* ****** ****** *)
 
-fun draw_rounded_rectangle .<>. (
-    xr: !xr1, x: dbl, y: dbl, w: dbl, h:dbl, r: dbl
-  ) : void = let
+fun draw_rounded_rectangle .<>.
+(
+  xr: !xr1, x: dbl, y: dbl, w: dbl, h:dbl, r: dbl
+) : void = let
   val () = cairo_move_to (xr, x+r, y)
   val () = cairo_line_to (xr, x+w-r, y)
   val () = cairo_curve_to (xr, x+w, y, x+w, y, x+w, y+r)

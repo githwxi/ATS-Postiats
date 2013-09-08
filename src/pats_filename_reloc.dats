@@ -141,7 +141,65 @@ end // end of [pkgsrcname_get2_gurl]
 
 (* ****** ****** *)
 
+extern
+fun pkgtarget_eval (given: string): string
+implement
+pkgtarget_eval
+  (given) = let
+//
+val p0 = $UN.cast2ptr (given)
+val c0 = $UN.ptr0_get<char> (p0)
+//
+fun auxtrav1
+(
+  p: ptr, n: int
+) : int = let
+  val c = $UN.ptr0_get<char> (p)
+in
+  if char_isalnum(c)
+    then auxtrav1 (add_ptr_int (p, 1), n+1) else (n)
+  // end of [if]
+end (* end of [auxtrav1] *)
+//
+in
+//
+case+ c0 of
+| _ when
+    c0 = '$' => let
+    val p1 = add_ptr_int (p0, 1)
+    val nk = auxtrav1 (p1, 0(*n*))
+    val start = $UN.cast2size(1)
+    val length = $UN.cast2size(nk)
+    val key = __make_substring (given, start, length)
+    val key = string_of_strptr (key)
+(*
+    val () = println! ("pkgtarget_eval: key = ", key)
+*)
+    val key = $SYM.symbol_make_string (key)
+    val opt = $TRENV1.the_e1xpenv_find (key)
+  in
+    case+ opt of
+    | ~Some_vt (e) => (
+        case+ e.e1xp_node of
+        | E1XPstring (x) => let
+            val pn = add_ptr_int (p1, nk)
+            val given2 = sprintf("%s%s", @(x, $UN.cast{string}(pn)))
+          in
+            string_of_strptr (given2)
+          end (* end of [E1XPstring] *)
+        | _ (*nonstring*) => given
+      ) (* end of [Some_vt] *)
+    | ~None_vt ((*void*)) => given
+  end // end of [variable]
+| _ (*nonvariable*) => given
+//
+end // end of [pkgtarget_eval]
+
+(* ****** ****** *)
+
 end // end of [local]
+
+(* ****** ****** *)
 
 implement
 $FIL.pkgsrcname_relocatize
@@ -166,10 +224,14 @@ if ngurl >= 0 then let
 //
   val () = strptr_free (gurl)
 //
+  val given2 =
+    string_of_strptr (given2)
+  val () = println! ("pkgsrcname_relocatize: given2 = ", given2)
+  val given2 = pkgtarget_eval (given2)
   val () = println! ("pkgsrcname_relocatize: given2 = ", given2)
 //
 in
-  string_of_strptr (given2)
+  given2
 end else given // end of [if]
 //
 end // end of [pkgsrcname_relocatize]

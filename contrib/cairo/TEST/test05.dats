@@ -31,7 +31,7 @@ staload FLOAT = "prelude/DATS/float.dats"
 
 (* ****** ****** *)
 
-staload "cairo/SATS/cairo.sats"
+staload "./../SATS/cairo.sats"
 
 (* ****** ****** *)
 

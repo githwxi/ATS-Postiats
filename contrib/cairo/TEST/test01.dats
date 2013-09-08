@@ -23,7 +23,7 @@ HX: please use 'gthumb' or 'eog' to view the generated image file 'test01.png'
 
 (* ****** ****** *)
 
-staload "cairo/SATS/cairo.sats"
+staload "./../SATS/cairo.sats"
 
 (* ****** ****** *)
 

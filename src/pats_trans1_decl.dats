@@ -1139,9 +1139,6 @@ end // end of [local]
 
 %{$
 
-extern
-char *atspre_string_make_substring (char*, int, int) ;
-
 ats_bool_type
 patsopt_extnam_ismac (
   ats_ptr_type ext, ats_ptr_type ext_new

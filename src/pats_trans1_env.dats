@@ -63,13 +63,14 @@ staload "./pats_trans1_env.sats"
 (* ****** ****** *)
 
 local
-
+//
 vtypedef e1xpenv = symenv (e1xp)
+//
 val [l0:addr] (pf | p0) = symenv_make_nil ()
 val (pf0 | ()) = vbox_make_view_ptr{e1xpenv}(pf | p0)
-
+//
 assume e1xpenv_push_v = unit_v // HX: it is just a dummy
-
+//
 in (* in of [local] *)
 
 implement
@@ -480,11 +481,35 @@ prval () = opt_clear {itm} (res)
 end // end of [local]
 
 (* ****** ****** *)
+
+local
+
+%{^
+extern ats_ptr_type patsopt_PATSHOMERELOC_get () ;
+%} // end of [%{^]
+
+in (* in of [local] *)
+
+implement
+the_trans1_env_initialize () =
+{
 //
-// HX-2011-05-08:
-// the function does not do anything yet.
+val opt = get () where
+{
+  extern fun get (): Stropt = "mac#patsopt_PATSHOMERELOC_get"
+} (* end of [val] *)
+val issome = stropt_is_some (opt)
+val () =
+if issome then let
+  val k = $SYM.symbol_PATSHOMERELOC
+  val x = e1xp_string ($LOC.location_dummy, stropt_unsome(opt))
+in
+  the_e1xpenv_addperv (k, x)
+end // end of [if] // end of [val]
 //
-implement the_trans1_env_initialize () = ()
+} (* end of [the_trans1_env_initialize] *)
+
+end // end of [local]
 
 (* ****** ****** *)
 

@@ -66,10 +66,6 @@ fun givename_get_ngurl (given: string): int
 
 (* ****** ****** *)
 
-fun pkgsrcname_relocatize (given: string, ngurl: int): string
-
-(* ****** ****** *)
-
 fun filename_get_givename (fil: filename): string
 fun filename_get_partname (fil: filename): string
 fun filename_get_fullname (fil: filename): $SYM.symbol
@@ -173,6 +169,10 @@ fun the_prepathlst_push (p: path): void
 
 fun filename_make
   (given: string, part: string, full: string): filename
+
+(* ****** ****** *)
+
+fun pkgsrcname_relocatize (given: string, ngurl: int): string
 
 (* ****** ****** *)
 

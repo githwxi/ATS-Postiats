@@ -142,6 +142,11 @@ val symbol_ISCONS : symbol // iscons
 val symbol_ISNIL : symbol  // islist
 
 (* ****** ****** *)
+
+val symbol_PATSHOME : symbol
+val symbol_PATSHOMERELOC : symbol
+
+(* ****** ****** *)
 //
 val symbol_ATS_PACKNAME : symbol
 //

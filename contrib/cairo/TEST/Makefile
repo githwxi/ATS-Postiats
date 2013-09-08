@@ -44,8 +44,7 @@ cleanall:: ; $(RMF) cairo-multable
 
 ######
 
-%: %.dats ; \
-  $(PATSCC) -IIATS $(PATSHOMEQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+%: %.dats ; $(PATSCC) -I $(PATSHOMEQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 
 ######
 

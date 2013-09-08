@@ -312,6 +312,13 @@ implement symbol_TUPZ = symbol_make_string "tupz"
 (* ****** ****** *)
 
 implement
+symbol_PATSHOME = symbol_make_string "PATSHOME"
+implement
+symbol_PATSHOMERELOC = symbol_make_string "PATSHOMERELOC"
+
+(* ****** ****** *)
+
+implement
 symbol_ATS_PACKNAME = symbol_make_string "ATS_PACKNAME"
 
 implement

@@ -19,7 +19,8 @@ The generated postscript file [cairo-multable.ps] can be viewed with 'gv'
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -28,7 +29,7 @@ staload FLOAT = "prelude/DATS/float.dats"
 
 (* ****** ****** *)
 
-staload "contrib/cairo/SATS/cairo.sats"
+staload "./../SATS/cairo.sats"
 
 (* ****** ****** *)
 

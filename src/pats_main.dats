@@ -1251,13 +1251,13 @@ ATSinline()
 ats_void_type
 patsopt_PATSHOME_set () {
   patsopt_PATSHOME = getenv ("PATSHOME") ; return ;
-  if (!patsopt_PATSHOME) patsopt_PATSHOME = getenv ("PATSHOME") ;
+  if (!patsopt_PATSHOME) patsopt_PATSHOME = getenv ("ATSHOME") ;
 } // end of [patsopt_PATSHOME_set]
 ATSinline()
 ats_void_type
 patsopt_PATSHOMERELOC_set () {
   patsopt_PATSHOMERELOC = getenv ("PATSHOMERELOC") ;
-  if (!patsopt_PATSHOMERELOC) patsopt_PATSHOMERELOC = getenv ("PATSHOMERELOC") ;
+  if (!patsopt_PATSHOMERELOC) patsopt_PATSHOMERELOC = getenv ("ATSHOMERELOC") ;
   return ;
 } // end of [patsopt_PATSHOMERELOC_set]
 //

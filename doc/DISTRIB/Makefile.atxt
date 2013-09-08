@@ -116,16 +116,16 @@ all_script::
 
 ######
 
-atspackage:: srcget_home
-atspackage:: srcget_share
-atspackage:: srcget_patsrc
-atspackage:: srcget_patsrc_cboot
-atspackage:: srcget_atslib
-atspackage:: srcget_atscntrb
-atspackage:: srcget_ccomp_atslib
-atspackage:: srcget_ccomp_runtime
-atspackage:: srcget_utils_atscc
-atspackage:: srcget_doc_example
+atspackaging:: srcget_home
+atspackaging:: srcget_share
+atspackaging:: srcget_patsrc
+atspackaging:: srcget_patsrc_cboot
+atspackaging:: srcget_atslib
+atspackaging:: srcget_atscntrb
+atspackaging:: srcget_ccomp_atslib
+atspackaging:: srcget_ccomp_runtime
+atspackaging:: srcget_utils_atscc
+atspackaging:: srcget_doc_example
 
 ######
 
