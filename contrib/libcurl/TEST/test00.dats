@@ -4,7 +4,7 @@
 
 (* ****** ****** *)
 
-staload "libcurl/SATS/curl.sats"
+staload "./../SATS/curl.sats"
 
 (* ****** ****** *)
 
@@ -21,4 +21,4 @@ implement main0 () = ()
 
 (* ****** ****** *)
 
-(* end of [test01.dats] *)
+(* end of [test00.dats] *)

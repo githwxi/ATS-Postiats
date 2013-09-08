@@ -358,10 +358,10 @@ dynload "pats_comarg.dats"
 
 %{^
 //
+extern void patsopt_PATSHOME_set () ;
 extern char *patsopt_PATSHOME_get () ;
+extern void patsopt_PATSHOMERELOC_set () ;
 extern char *patsopt_PATSHOMERELOC_get () ;
-extern void patsopt_PATSHOME_set (char *val) ;
-extern void patsopt_PATSHOMERELOC_set (char *val) ;
 //
 %} // end of [%{^]
 

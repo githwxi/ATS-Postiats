@@ -17,7 +17,7 @@ ATS advocates a programming paradigm referred to as <em>Programming with
 Theorem-Proving</em> (PwTP) in which programs and proofs are syntactically
 intertwined.  As proof construction can be highly expensive in terms of
 both effort and time, making proper use of unsafe programming features (so
-as to avoid explicity proof construction) is often a necessary skill for a
+as to avoid explicit proof construction) is often a necessary skill for a
 programmer who wants not just only to be able to code in ATS but also to do
 it productively. In this article, I would like to present a simple
 array-based stack implementation in which one can find certain typical uses
@@ -45,7 +45,17 @@ stkarray (a:vt0p, m:int) = [n:int] stkarray_vtype (a, m, n)
 Given a type T, an integer M and another integer N, the type [stkarray(T,
 M, N)] is for an array-based stack such that (1) the elements stored in the
 stack are of type T, (2) the capacity of the stack is M, and (3) the
-current size of the stack is N.
+current size of the stack is N.  Clearly, M >= N and N >= 0 holds, and this
+property is encoded into the type of the following proof function
+[lemma_stkarray_param]:
+  
+<pre>
+praxi
+lemma_stkarray_param
+  {a:vt0p}{m,n:int}
+  (!stkarray (INV(a), m, m)): [m >= n; n >= 0] void
+// end of [lemma_stkarray_param]
+</pre>
 
 <p>
 
@@ -91,6 +101,26 @@ stkarray_takeout
 Note that [stkarray_takeout] can only be called on a stack if its current
 size is positive.
 
+<h2>
+Implementation of Array-Based Stacks
+</h2>
+
+We can use the following 3-pointer struct in C to reprensent an array-based
+stack:
+
+<pre>
+typedef
+struct {
+  atstype_ptr p_beg ; // the beg pointer
+  atstype_ptr p_end ; // the end pointer
+  atstype_ref p_cur ; // the current pointer
+} stkarray_struct ;
+</pre>
+
+The pointers [p_beg] and [p_end] point to the beginning and end of the base
+array while the pointer [p_cur] points the top of the current stack. Note
+that the beginning of the base array is the bottom of the represented
+stack.
 
 <hr size="2">
 

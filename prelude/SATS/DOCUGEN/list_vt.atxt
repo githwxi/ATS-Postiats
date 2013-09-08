@@ -336,9 +336,11 @@ case+ xs of
 //
     implement
     list_vt_separate$pred<a> (x) = let
-      prval (pf, fpf) = $UN.ptr_vtake{a}(p_x0)
-      val ans = cmp (x, x0) <= 0 // ascending order
-      prval () = fpf (pf)
+      val (
+        pf, fpf | p_x0
+      ) = $UN.ptr_vtake{a}(p_x0)
+      val ans = cmp (x, !p_x0) <= 0 // ascending order
+      prval ((*void*)) = fpf (pf)
     in
       ans
     end // end of [list_vt_separate$pred]

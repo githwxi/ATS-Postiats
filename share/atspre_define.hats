@@ -1,29 +1,14 @@
 (*
-** Some initial packge information
+** HX-2013-09:
+** This file contains toplevel defines
 *)
-//
 (* ****** ****** *)
-//
-// Author: Hongwei Xi
-// AuthorEmail: gmhwxiATgmailCOM
-//
-(* ****** ****** *)
-//
-#define
-LIBGMP_targetloc "$PATSHOMERELOC/contrib/libgmp"
-#define
-LIBGMP_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/libgmp"
-//
-#define
-JSONC_targetloc "$PATSHOMERELOC/contrib/json-c"
-#define
-JSONC_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/json-c"
-//
-#define
-LIBATSHWXI_targetloc "$PATSHOMERELOC/contrib/libats-hwxi"
-#define
-LIBATSHWXI_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/libats-hwxi"
-//
+
+(*
+** Various defines for packages
+*)
+#include "./atspre_define_pkgreloc.hats"
+
 (* ****** ****** *)
 
 (* end of [atspre_define.hats] *)

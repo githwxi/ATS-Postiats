@@ -59,9 +59,58 @@ vtypedef
 CURLptr1 = [l:addr | l > null] CURLptr_vtype (l)
 
 (* ****** ****** *)
+//
+castfn
+CURLptr2ptr{l:addr} (curl: !CURLptr(l)):<> ptr(l)
+//
+overload ptrcast with CURLptr2ptr
+//
+(* ****** ****** *)
 
 abst@ype CURLcode = $extype"CURLcode"
+absvt0ype CURLerror = $extype"CURLcode"
 
+(* ****** ****** *)
+
+castfn CURLerror2code (err: CURLerror):<> CURLcode
+
+(* ****** ****** *)
+//
+fun eq_CURLcode_CURLcode (CURLcode, CURLcode):<> bool = "mac#%"
+fun eq_CURLerror_CURLcode (CURLerror, CURLcode):<> bool = "mac#%"
+//
+overload = with eq_CURLcode_CURLcode
+overload = with eq_CURLerror_CURLcode
+//
+(* ****** ****** *)
+
+macdef CURLE_OK = $extval(CURLcode, "CURLE_OK")
+
+(* ****** ****** *)
+
+abst@ype CURLoption = $extype"CURLoption"
+
+(* ****** ****** *)
+//
+macdef CURLOPT_FILE = $extval(CURLoption, "CURLOPT_FILE") // 1
+macdef CURLOPT_URL = $extval(CURLoption, "CURLOPT_URL") // 2
+macdef CURLOPT_PORT = $extval(CURLoption, "CURLOPT_PORT") // 3
+macdef CURLOPT_PROXY = $extval(CURLoption, "CURLOPT_PROXY") // 4
+macdef CURLOPT_USERPWD = $extval(CURLoption, "CURLOPT_USERPWD") // 5
+macdef CURLOPT_PROXYUSERPWD = $extval(CURLoption, "CURLOPT_PROXYUSERPWD") // 6
+macdef CURLOPT_RANGE = $extval(CURLoption, "CURLOPT_RANGE") // 7
+// HX: [8] is not used
+macdef CURLOPT_INFILE = $extval(CURLoption, "CURLOPT_INFILE") // 9
+macdef CURLOPT_ERRORBUFFER = $extval(CURLoption, "CURLOPT_ERRORBUFFER") // 10
+macdef CURLOPT_WRITEFUNCTION = $extval(CURLoption, "CURLOPT_WRITEFUNCTION") // 11
+macdef CURLOPT_READFUNCTION = $extval(CURLoption, "CURLOPT_READFUNCTION") // 12
+macdef CURLOPT_TIMEOUT = $extval(CURLoption, "CURLOPT_TIMEOUT") // 13
+macdef CURLOPT_INFILESIZE = $extval(CURLoption, "CURLOPT_INFILESIZE") // 14
+macdef CURLOPT_POSTFIELDS = $extval(CURLoption, "CURLOPT_POSTFIELDS") // 15
+macdef CURLOPT_REFERER = $extval(CURLoption, "CURLOPT_REFERER") // 16
+macdef CURLOPT_FTPPORT = $extval(CURLoption, "CURLOPT_FTPPORT") // 17
+macdef CURLOPT_USERAGENT = $extval(CURLoption, "CURLOPT_USERAGENT") // 18
+//
 (* ****** ****** *)
 
 /*

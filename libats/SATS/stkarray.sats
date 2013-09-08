@@ -83,7 +83,7 @@ stkarray_tsize = $extype"atslib_stkarray_struct"
 praxi
 lemma_stkarray_param
   {a:vt0p}{m,n:int}
-  (stkarray (INV(a), m, m)): [m >= n; n >= 0] void
+  (!stkarray (INV(a), m, m)): [m >= n; n >= 0] void
 // end of [lemma_stkarray_param]
 
 (* ****** ****** *)
@@ -198,6 +198,30 @@ stkarray_takeout_opt{m:int}
   (stk: !stkarray (INV(a), m) >> _):<!wrt> Option_vt (a)
 // end of [stkarray_takeout_opt]
 
+(* ****** ****** *)
+
+fun{a:vt0p}
+stkarray_getref_top
+  {m,n:int | n > 0} (stk: !stkarray (INV(a), m, n)):<> cPtr1 (a)
+// end of [stkarray_getref_top]
+
+(* ****** ****** *)
+//
+symintr stkarray_getref_at
+//
+fun{a:vt0p}
+stkarray_getref_at_int
+  {m,n:int}{i:nat | i < n}
+  (stk: !stkarray(INV(a), m, n), i: int(i)):<> cPtr1 (a)
+//
+fun{a:vt0p}
+stkarray_getref_at_size
+  {m,n:int}{i:nat | i < n}
+  (stk: !stkarray(INV(a), m, n), i: size_t(i)):<> cPtr1 (a)
+//
+overload stkarray_getref_at with stkarray_getref_at_int
+overload stkarray_getref_at with stkarray_getref_at_size
+//
 (* ****** ****** *)
 
 (* end of [stkarray.sats] *)

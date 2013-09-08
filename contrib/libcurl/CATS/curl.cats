@@ -48,6 +48,18 @@
 
 /* ****** ****** */
 
+#define atscntrb_libcurl_eq_CURLcode_CURLcode atspre_eq_int_int
+#define atscntrb_libcurl_eq_CURLerror_CURLcode atspre_eq_int_int
+
+/* ****** ****** */
+
+#define atscntrb_libcurl_curl_easy_init curl_easy_init
+#define atscntrb_libcurl_curl_easy_setopt curl_easy_setopt
+#define atscntrb_libcurl_curl_easy_perform curl_easy_perform
+#define atscntrb_libcurl_curl_easy_cleanup curl_easy_cleanup
+
+/* ****** ****** */
+
 #endif // ifndef LIBCURL_CURL_CATS
 
 /* ****** ****** */

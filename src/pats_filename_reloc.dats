@@ -221,14 +221,16 @@ if ngurl >= 0 then let
   val p0 = $UN.cast2ptr (given)
   val pn = add_ptr_int (p0, ngurl)
   val given2 = $UT.dirpath_append ($UN.castvwtp1{string}(gurl), $UN.cast{string}(pn), dirsep)
+(*
+  val () = println! ("pkgsrcname_relocatize: given2 = ", given2)
+*)
 //
   val () = strptr_free (gurl)
 //
-  val given2 =
-    string_of_strptr (given2)
+  val given2 = pkgtarget_eval (string_of_strptr(given2))
+(*
   val () = println! ("pkgsrcname_relocatize: given2 = ", given2)
-  val given2 = pkgtarget_eval (given2)
-  val () = println! ("pkgsrcname_relocatize: given2 = ", given2)
+*)
 //
 in
   given2

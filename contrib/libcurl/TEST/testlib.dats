@@ -7,6 +7,7 @@
 
 (* ****** ****** *)
 //
+#include "share/atspre_define.hats"
 #include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
@@ -15,7 +16,7 @@
 
 (* ****** ****** *)
 
-staload "libcurl/SATS/curl.sats"
+staload "./../SATS/curl.sats"
 
 (* ****** ****** *)
 

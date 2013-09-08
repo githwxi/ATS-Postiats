@@ -18,7 +18,7 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
-PATSCCOMP=$(CC) -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime
+PATSCCOMP=$(CC) -D_XOPEN_SOURCE -I${PATSHOMEQ} -I${PATSHOMEQ}/ccomp/runtime
 
 ######
 
