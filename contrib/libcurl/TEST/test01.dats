@@ -38,7 +38,7 @@ val ((*void*)) = assertloc (p_curl > 0)
 val err = $extfcall (CURLerror, "curl_easy_setopt", p_curl, CURLOPT_URL, URL)
 val ((*void*)) = assertloc (err = CURLE_OK)
 //
-val err = $extfcall (CURLerror, "curl_easy_perform", p_curl)
+val err = curl_easy_perform (curl)
 val ((*void*)) = assertloc (err = CURLE_OK)
 //
 val () = curl_easy_cleanup (curl)

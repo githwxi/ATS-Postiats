@@ -28,8 +28,9 @@
 (* ****** ****** *)
 
 (*
-** Author: Hongwei Xi // MPZ and MPQ
-** Authoremail: hwxi AT cs DOT bu DOT edu
+** Author: Hongwei Xi
+** Authoremail: gmhwxiATgmailDOTcom
+** Start time: September, 2013
 *)
 
 (* ****** ****** *)
@@ -113,34 +114,25 @@ macdef CURLOPT_USERAGENT = $extval(CURLoption, "CURLOPT_USERAGENT") // 18
 //
 (* ****** ****** *)
 
-/*
-CURL *curl_easy_init();
-*/
-fun curl_easy_init (): CURLptr0 = "mac#%"
-fun curl_easy_init_exn (): CURLptr1 = "mac#%"
+abst@ype CURLINFO = $extype"CURLINFO"
 
 (* ****** ****** *)
-
-fun curl_easy_cleanup (curl: CURLptr1): void = "mac#%"
-
-(* ****** ****** *)
-
-/*
-CURLcode
-curl_easy_send
-(
-  CURL *curl , const void * buffer , size_t buflen , size_t *n
-) ; // end of [curl_easy_send]
-*/
-fun curl_easy_send
-  {m:int}{n:nat | n <= m}
-(
-  curl: !CURLptr1, buf: &bytes(m), len: size_t(m), n: &size_t(n) >> size_t(n2)
-) : #[n2:int] CURLcode // end of [curl_easy_send]
-
+//
+macdef CURLINFO_TEXT = $extval(CURLINFO, "CURLINFO_TEXT")
+macdef CURLINFO_HEADER_IN = $extval(CURLINFO, "CURLINFO_HEADER_IN")
+macdef CURLINFO_HEADER_OUT = $extval(CURLINFO, "CURLINFO_HEADER_OUT")
+macdef CURLINFO_DATA_IN = $extval(CURLINFO, "CURLINFO_DATA_IN")
+macdef CURLINFO_DATA_OUT = $extval(CURLINFO, "CURLINFO_DATA_OUT")
+macdef CURLINFO_SSL_DATA_IN = $extval(CURLINFO, "CURLINFO_SSL_DATA_IN")
+macdef CURLINFO_SSL_DATA_OUT = $extval(CURLINFO, "CURLINFO_SSL_DATA_OUT")
+//
 (* ****** ****** *)
 
 fun curl_version ((*void*)): string = "mac#%"
+
+(* ****** ****** *)
+
+#include "./easy.sats"
 
 (* ****** ****** *)
 

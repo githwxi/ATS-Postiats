@@ -60,6 +60,19 @@
 
 /* ****** ****** */
 
+#define atscntrb_libcurl_curl_easy_recv curl_easy_recv
+#define atscntrb_libcurl_curl_easy_send curl_easy_send
+
+/* ****** ****** */
+
+#define atscntrb_libcurl_curl_easy_duphandle curl_easy_duphandle
+
+/* ****** ****** */
+
+#define atscntrb_libcurl_curl_easy_reset curl_easy_reset
+
+/* ****** ****** */
+
 #endif // ifndef LIBCURL_CURL_CATS
 
 /* ****** ****** */
