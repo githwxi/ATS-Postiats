@@ -278,6 +278,10 @@ The ATS/Postiats C-Boostrapping\
 
 (* ****** ****** *)
 
+#packfilename("pats_filename_reloc_dats.c")
+
+(* ****** ****** *)
+
 #packfilename("pats_trans1_error_dats.c")
 #packfilename("pats_trans1_e0xp_dats.c")
 #packfilename("pats_trans1_effect_dats.c")

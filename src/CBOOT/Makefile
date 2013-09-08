@@ -4,7 +4,7 @@
 #
 ######
 #
-# CCOMP=gcc
+CCOMP=gcc
 #
 ######
 
@@ -118,6 +118,7 @@ SOURCES := \
   pats_e1xpval.sats \
   pats_e1xpval.dats \
   pats_e1xpval_error.dats \
+  pats_filename_reloc.dats \
   pats_trans1_error.dats \
   pats_trans1_e0xp.dats \
   pats_trans1_effect.dats \

@@ -345,10 +345,21 @@ atspre_string_index_of_string
 
 /* ****** ****** */
 
-extern ats_ptr_type
-atspre_string_make_char (
+extern
+ats_ptr_type
+atspre_string_make_char
+(
   ats_size_type n, const ats_char_type c
 ) ; // implemented in [prelude/DATS/string.dats]
+
+extern
+ats_ptr_type
+atspre_string_make_substring
+(
+  ats_ptr_type src0, ats_size_type start, ats_size_type len
+) ; // implemented in [prelude/DATS/string.dats]
+
+/* ****** ****** */
 
 ATSinline()
 ats_ptr_type

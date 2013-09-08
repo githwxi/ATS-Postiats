@@ -285,6 +285,10 @@ The ATS/Postiats (ATS2) Compiler\
 
 (* ****** ****** *)
 
+#packfilename("pats_filename_reloc.dats")
+
+(* ****** ****** *)
+
 #packfilename("pats_trans1_error.dats")
 #packfilename("pats_trans1_e0xp.dats")
 #packfilename("pats_trans1_effect.dats")
