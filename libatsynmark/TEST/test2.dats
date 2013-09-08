@@ -15,14 +15,13 @@ staload _ = "prelude/DATS/list.dats"
 staload _ = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
-
+//
 staload
-"libatsyntax/SATS/libatsyntax.sats"
-// end of [staload]
-
+"libatsynmark/SATS/libatsynmark.sats"
+//
 (* ****** ****** *)
 
-dynload "libatsyntax/dynloadall.dats"
+dynload "libatsynmark/dynloadall.dats"
 
 (* ****** ****** *)
 

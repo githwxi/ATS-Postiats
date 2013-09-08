@@ -10,14 +10,13 @@
 // HX: printing out all the tokens from the STDIN
 //
 (* ****** ****** *)
-
+//
 staload
-"libatsyntax/SATS/libatsyntax.sats"
-// end of [staload]
-
+"libatsynmark/SATS/libatsynmark.sats"
+//
 (* ****** ****** *)
 
-dynload "libatsyntax/dynloadall.dats"
+dynload "libatsynmark/dynloadall.dats"
 
 (* ****** ****** *)
 
