@@ -11,17 +11,15 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload_tmpdef.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
+//
+staload "libats/SATS/dllist.sats"
+//
 staload _ = "libats/DATS/gnode.dats"
 staload _ = "libats/DATS/dllist.dats"
-
-(* ****** ****** *)
-
-staload "libats/SATS/dllist.sats"
-
+//
 (* ****** ****** *)
 
 #define :: dllist_cons

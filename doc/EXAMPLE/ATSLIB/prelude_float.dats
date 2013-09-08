@@ -5,7 +5,7 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload_tmpdef.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -23,7 +23,7 @@ val () =
   val () = assertloc (abs (3. / 3.0 - 1.0) < EPSILON)
   val () = assertloc (abs (8. / (3 - 8.0 / 3) - 24.0) < EPSILON)
   val () = assertloc (abs (5. - 11. / 7.) * 7. - 24.0 < EPSILON)
-} // end of [val]
+} (* end of [val] *)
 
 (* ****** ****** *)
 
@@ -39,7 +39,7 @@ val () =
   val () = assertloc (compare (1.0, 9.0) = ~1)
   val () = assertloc (compare (5.0, 5.0) =  0)
   val () = assertloc (compare (9.0, 1.0) =  1)
-} // end of [val]
+} (* end of [val] *)
 
 (* ****** ****** *)
 
