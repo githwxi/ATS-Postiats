@@ -20,20 +20,13 @@
 
 (* ****** ****** *)
 
-#define
-ATS_PACKNAME "ATSCNTRB.jsonc_ML"
-#define
-ATS_STALOADFLAG 0 // no need for staloading at run-time
-#define
-ATS_EXTERN_PREFIX "atscntrb_jsonc_ML_" // prefix for external names
+#define ATS_PACKNAME "ATSCNTRB.jsonc_ML"
+#define ATS_STALOADFLAG 0 // no need for staloading at run-time
+#define ATS_EXTERN_PREFIX "atscntrb_jsonc_ML_" // prefix for external names
 
 (* ****** ****** *)
 
-staload "json-c/SATS/json.sats"
-
-(* ****** ****** *)
-
-typedef json_int = llint
+staload "./../SATS/json.sats"
 
 (* ****** ****** *)
 
@@ -50,6 +43,8 @@ jsonVal =
 // end of [jsonVal]
 
 where
+json_int = llint
+and
 labjsonVal = @(string, jsonVal)
 and
 labjsonValist = List0 (labjsonVal)

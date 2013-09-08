@@ -30,7 +30,7 @@ all:: %s\n\
     -o $@ $< \\\n\
     $(MYSQLLIBS) \n\
 %s_dats.c: %s.dats ; \\\n\
-  $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output %s_dats.c --dynamic %s.dats\n\
+  $(PATSOPT) --output %s_dats.c --dynamic %s.dats\n\
 clean:: ; $(RMF) %s_dats.o\n\
 clean:: ; $(RMF) %s_dats.c\n\
 cleanall:: ; $(RMF) %s.exe\n\

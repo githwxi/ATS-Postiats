@@ -5,13 +5,14 @@
 
 (* ****** ****** *)
 //
-// no run-time dynloading
-//
 #define ATS_DYNLOADFLAG 0
 //
 (* ****** ****** *)
 
-staload JNI = "JNI/SATS/jni.sats"
+staload JNI = "./../SATS/jni.sats"
+
+(* ****** ****** *)
+
 stadef JNIEnvPtr = $JNI.JNIEnvPtr
 stadef jstring (l:addr) = $JNI.jstring(l)
 stadef jobject (l:addr) = $JNI.jobject(l)

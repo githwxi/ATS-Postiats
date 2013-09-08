@@ -11,7 +11,7 @@ staload "libats/SATS/gmatrix_row.sats"
 
 (* ****** ****** *)
 
-staload "libfloats/SATS/blas.sats"
+staload "./../SATS/blas.sats"
 
 (* ****** ****** *)
 
@@ -39,7 +39,7 @@ prval (pf31, pf32) = gmatrow_v_uncons0 (pf3)
 //
 val k = !p1
 val (
-) = blas_axpy (k, !p2, !p3, n, d2, 1)
+) = blas_ax1y<a> (k, !p2, !p3, n, d2, 1)
 val (
 ) = loop
 (
@@ -94,7 +94,7 @@ prval (pf31, pf32) = gmatcol_v_uncons1 (pf3)
 //
 val alpha2 = gmul_val<a> (alpha, !p2)
 val (
-) = blas_axpy<a> (alpha2, !p1, !p3, m, d1, 1)
+) = blas_ax1y<a> (alpha2, !p1, !p3, m, d1, 1)
 val (
 ) = loop
 (

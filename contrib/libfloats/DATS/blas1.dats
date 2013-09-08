@@ -16,7 +16,7 @@ staload "libats/SATS/gmatrix_row.sats"
 
 (* ****** ****** *)
 
-staload "libfloats/SATS/blas.sats"
+staload "./../SATS/blas.sats"
 
 (* ****** ****** *)
 //

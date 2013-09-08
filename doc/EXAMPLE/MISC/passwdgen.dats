@@ -14,8 +14,8 @@
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_staload_tmpdef.hats"
+#include "share/atspre_define.hats"
+#include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -24,7 +24,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload STDLIB = "libc/SATS/stdlib.sats"
-staload RANDGEN = "atshwxi/testing/SATS/randgen.sats"
+staload RANDGEN = "{$LIBATSHWXI}/testing/SATS/randgen.sats"
 
 (* ****** ****** *)
 

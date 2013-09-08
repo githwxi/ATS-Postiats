@@ -10,15 +10,17 @@ PATSHOMEQ="$(PATSHOME)"
 ######
 
 all::
+all:: hwserver
+all:: hwclient
 
 ######
 
 hwserver: hwserver.dats ; \
-  $(PATSCC) -IIATS ${PATSHOME}/contrib -o $@  $< testlib.dats -lzmq
+  $(PATSCC) -I${PATSHOME}/contrib -o $@  $< testlib.dats -lzmq
 cleanall:: ; $(RMF) hwserver
 
 hwclient: hwclient.dats ; \
-  $(PATSCC) -IIATS ${PATSHOME}/contrib -o $@  $< testlib.dats -lzmq
+  $(PATSCC) -I${PATSHOME}/contrib -o $@  $< testlib.dats -lzmq
 cleanall:: ; $(RMF) hwclient
 
 ######

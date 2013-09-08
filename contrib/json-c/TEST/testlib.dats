@@ -8,12 +8,12 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload_tmpdef.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
-staload "json-c/SATS/json.sats"
-staload "json-c/SATS/json_ML.sats"
+staload "./../SATS/json.sats"
+staload "./../SATS/json_ML.sats"
 
 (* ****** ****** *)
 
@@ -23,8 +23,8 @@ staload "json-c/SATS/json_ML.sats"
 
 local
 //
-#include "json-c/DATS/json.dats"
-#include "json-c/DATS/json_ML.dats"
+#include "./../DATS/json.dats"
+#include "./../DATS/json_ML.dats"
 //
 in (* in of [local] *)
 //

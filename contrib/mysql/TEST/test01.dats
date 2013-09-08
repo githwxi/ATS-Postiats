@@ -3,7 +3,7 @@
 //
 (* ****** ****** *)
 //
-staload "mysql/SATS/mysql.sats"
+staload "./../SATS/mysql.sats"
 //
 (* ****** ****** *)
 

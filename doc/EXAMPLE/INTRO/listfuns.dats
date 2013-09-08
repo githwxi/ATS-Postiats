@@ -16,8 +16,7 @@
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_staload_tmpdef.hats"
+#include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -29,7 +28,7 @@ fun fromto
 
 (* ****** ****** *)
 
-fun{a:t@ype}
+fun{a:t0p}
 length (xs: List0 (INV(a))): int =
 (
 case+ xs of

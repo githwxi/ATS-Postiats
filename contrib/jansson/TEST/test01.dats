@@ -6,7 +6,7 @@
 
 (*
 ** Author: Hongwei Xi
-** Authoremail: gmhwxi AT gmail DOT edu
+** Authoremail: gmhwxiATgmailDOTcom
 ** Time: September, 2012
 *)
 
@@ -17,7 +17,7 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "jansson/SATS/jansson.sats"
+staload "./../SATS/jansson.sats"
 
 (* ****** ****** *)
 

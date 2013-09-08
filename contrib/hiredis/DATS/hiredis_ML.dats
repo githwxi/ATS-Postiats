@@ -44,8 +44,7 @@ ATS_PACKNAME "ATSCNTRB.hiredis_ML"
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_staload_tmpdef.hats"
+#include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -53,8 +52,8 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "{}contrib/hiredis/SATS/hiredis.sats"
-staload "{}contrib/hiredis/SATS/hiredis_ML.sats"
+staload "./../SATS/hiredis.sats"
+staload "./../SATS/hiredis_ML.sats"
 
 (* ****** ****** *)
 

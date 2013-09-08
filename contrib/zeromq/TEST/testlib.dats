@@ -8,7 +8,7 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload_tmpdef.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -16,13 +16,13 @@
 
 (* ****** ****** *)
 
-staload "zeromq/SATS/zmq.sats"
+staload "./../SATS/zmq.sats"
 
 (* ****** ****** *)
 
 local
 //
-#include "zeromq/DATS/zmq.dats"
+#include "./../DATS/zmq.dats"
 //
 in (* in of [local] *)
 //

@@ -12,12 +12,14 @@ staload _ = "prelude/DATS/integer.dats"
 
 (* ****** ****** *)
 //
-staload "mysql/SATS/mysql.sats"
-staload _ = "mysql/DATS/mysql.dats"
+staload "./../SATS/mysql.sats"
+staload _(*anon*) = "./../DATS/mysql.dats"
 //
 (* ****** ****** *)
 
 #define nullp the_null_ptr
+
+(* ****** ****** *)
 
 macdef strnone() = stropt_none()
 macdef strsome(x) = stropt_some(,(x))

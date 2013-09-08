@@ -6,22 +6,23 @@
 
 (*
 ** Author: Hongwei Xi
-** Authoremail: gmhwxi AT gmail DOT edu
+** Authoremail: gmhwxiATgmailDOTcom
 ** Time: September, 2012
 *)
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload.hats"
+//
+(* ****** ****** *)
 
-staload "jansson/SATS/jansson.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
-staload _ = "prelude/DATS/integer.dats"
-staload STR = "prelude/DATS/string.dats"
+staload "./../SATS/jansson.sats"
 
 (* ****** ****** *)
 

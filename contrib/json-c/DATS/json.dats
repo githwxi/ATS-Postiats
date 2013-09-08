@@ -40,13 +40,13 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "json-c/SATS/json.sats"
+staload "./../SATS/json.sats"
 overload ptrcast with json_object2ptr
 overload ptrcast with json_tokener2ptr
 
 (* ****** ****** *)
 
-staload "json-c/SATS/arraylist.sats"
+staload "./../SATS/arraylist.sats"
 overload ptrcast with array_list2ptr
   
 (* ****** ****** *)

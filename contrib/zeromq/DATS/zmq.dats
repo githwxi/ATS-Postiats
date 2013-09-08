@@ -40,7 +40,7 @@
 //
 (* ****** ****** *)
 
-staload "zeromq/SATS/zmq.sats"
+staload "./../SATS/zmq.sats"
 
 (* ****** ****** *)
 

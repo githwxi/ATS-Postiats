@@ -10,6 +10,7 @@ PATSHOMEQ="$(PATSHOME)"
 ######
 
 all::
+all:: test01
 
 ######
 

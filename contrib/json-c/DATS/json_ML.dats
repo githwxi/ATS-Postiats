@@ -9,8 +9,8 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "json-c/SATS/json.sats"
-staload "json-c/SATS/json_ML.sats"
+staload "./../SATS/json.sats"
+staload "./../SATS/json_ML.sats"
 
 (* ****** ****** *)
 

@@ -100,7 +100,7 @@ char *request (const char *url)
 
 (* ****** ****** *)
 
-staload "jansson/SATS/jansson.sats"
+staload "./../SATS/jansson.sats"
 
 (* ****** ****** *)
 
@@ -108,10 +108,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload _ = "prelude/DATS/integer.dats"
-
-(* ****** ****** *)
-
+staload INT = "prelude/DATS/integer.dats"
 staload STRING = "prelude/DATS/string.dats"
 staload STRPTR = "prelude/DATS/strptr.dats"
 

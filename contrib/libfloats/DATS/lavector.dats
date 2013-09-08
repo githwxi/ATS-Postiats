@@ -14,11 +14,8 @@ staload "libats/SATS/refcount.sats"
 
 (* ****** ****** *)
 
-staload "libfloats/SATS/blas.sats"
-
-(* ****** ****** *)
-
-staload "libfloats/SATS/lavector.sats"
+staload "./../SATS/blas.sats"
+staload "./../SATS/lavector.sats"
 
 (* ****** ****** *)
 
