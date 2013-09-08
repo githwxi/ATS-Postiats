@@ -22,12 +22,17 @@ staload STDIO = "libc/SATS/stdio.sats"
 
 (* ****** ****** *)
 
-staload "libatsyntax/SATS/libatsyntax.sats"
+staload "libatsynmark/SATS/libatsynmark.sats"
 
 (* ****** ****** *)
 
 implement
-libatsyntax_filename_set_current
+$FIL.pkgsrcname_relocatize (given, ngurl) = given
+
+(* ****** ****** *)
+
+implement
+libatsynmark_filename_set_current
   (name) = let
 //
 val opt = $FIL.filenameopt_make_local (name)
@@ -39,13 +44,13 @@ case+ opt of
     (fil) => $FIL.the_filenamelst_ppush (fil)
   // end of [Some_vt]
 | ~None_vt () => let
-    val () = prerr ": warning(libatsyntax)"
+    val () = prerr ": warning(libatsynmark)"
     val () = prerrln! (": the file [", name, "] is not available.")
   in
     $ERR.abort ()
   end // end of [None_vt]
 //
-end // end of [filename_set_current]
+end // end of [libatsynmark_filename_set_current]
 
 (* ****** ****** *)
 
@@ -451,10 +456,10 @@ if iseof then
   res := list_vt_nil ()
 else let
   val () = res :=
-    list_vt_cons {token}{0} (tok, ?)
+    list_vt_cons{token}{0}(tok, ?)
   val+ list_vt_cons (_, !p_res1) = res
   val () = loop (buf, !p_res1)
-  prval () = fold@ (res)
+  prval ((*void*)) = fold@ (res)
 in
   // nothing
 end // end of [if]
@@ -892,7 +897,7 @@ val fil = (
   | ~Some_vt filename => filename
   | ~None_vt () => let
       val () = $LOC.prerr_location (loc0)
-      val () = prerr ": error(libatsyntax)"
+      val () = prerr ": error(libatsynmark)"
       val () = prerrln! (": the file [", path, "] is not available for inclusion.")
       val () = $ERR.abort ()
     in
@@ -900,11 +905,12 @@ val fil = (
     end // end of [None_vt]
 ) : $FIL.filename // end of [val]
 //
-val fullname = $FIL.filename_get_full (fil)
-val fullname = $SYM.symbol_get_name (fullname)
+val fsym =
+  $FIL.filename_get_fullname (fil)
+val fname = $SYM.symbol_get_name (fsym)
 val (
   pffil | filp
-) = $STDIO.fopen_exn (fullname, file_mode_r)
+) = $STDIO.fopen_exn (fname, file_mode_r)
 val inp = char_list_vt_make_file ($UN.cast{FILEref}(filp))
 val () = $STDIO.fclose_exn (pffil | filp)
 //
@@ -1122,4 +1128,4 @@ end // end of [d0eclreplst_find_synop]
 
 (* ****** ****** *)
 
-(* end of [libatsyntax.dats] *)
+(* end of [libatsynmark.dats] *)

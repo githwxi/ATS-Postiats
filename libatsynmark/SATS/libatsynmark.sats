@@ -41,7 +41,7 @@ staload FIL = "src/pats_filename.sats"
 // HX-2012-12:
 // this is needed for [#include] and [staload]
 *)
-fun libatsyntax_filename_set_current (name: string): void
+fun libatsynmark_filename_set_current (name: string): void
 
 (* ****** ****** *)
 
@@ -210,9 +210,9 @@ typedef
 putc_type = (char) -<cloref1> int
 
 fun{} // a specific template
-psynmark_process (
-  psm: psynmark, putc: putc_type
-) : void // end of [psynmark_process]
+psynmark_process
+  (psm: psynmark, putc: putc_type): void
+// end of [psynmark_process]
 
 fun
 psynmark_process_xhtml_bground
@@ -227,14 +227,19 @@ psynmark_process_xhtml_embedded
 (* ****** ****** *)
 
 fun{} // this one is a generic
-psynmarklst_process (
+psynmarklst_process
+(
   pos0: lint, psms: &psynmarklst_vt, putc: putc_type
 ) : void // end of [psynmarklst_process]
 
+(* ****** ****** *)
+
 viewtypedef
 psynmarklstlst_vt = List_vt (psynmarklst_vt)
+
 fun{} // this one is a generic
-psynmarklstlst_process (
+psynmarklstlst_process
+(
   pos0: lint, psmss: &psynmarklstlst_vt, putc: putc_type
 ) : void // end of [psynmarklstlst_process]
 
@@ -246,17 +251,20 @@ fun fstring_putc (s: string, putc: putc_type): int(*nerr*)
 (* ****** ****** *)
 
 fun{}
-string_psynmarklstlst_process (
+string_psynmarklstlst_process
+(
   inp: string, psmss: psynmarklstlst_vt, putc: putc_type
 ) : void // end of [string_psynmarklstlst_process]
 
 fun{}
-fileref_psynmarklstlst_process (
+fileref_psynmarklstlst_process
+(
   inp: FILEref, psmss: psynmarklstlst_vt, putc: putc_type
 ) : void // end of [fileref_psynmarklstlst_process]
 
 fun{}
-charlst_psynmarklstlst_process (
+charlst_psynmarklstlst_process
+(
   inp: charlst_vt, psmss: psynmarklstlst_vt, putc: putc_type
 ) : void // end of [charlst_psynmarklstlst_process]
 
@@ -297,4 +305,4 @@ fun d0eclreplst_find_synop
 //
 (* ****** ****** *)
 
-(* end of [libatsyntax.sats] *)
+(* end of [libatsynmark.sats] *)

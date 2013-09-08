@@ -27,7 +27,7 @@ HTML/%s.html: \
 %s_atxt.exe: htmlgendecl_atxt.dats \
   %s_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ; \
   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $< \
-    $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+    $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsynmark/libatsynmark.a -latsdoc
 upload_%s:: ; \
   scp HTML/%s.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/contrib/libgmp
 clean:: ; $(RMF) %s_atxt.exe

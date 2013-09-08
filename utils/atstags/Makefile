@@ -20,7 +20,7 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 ######
 
 jsonlst2arr: jsonlst2arr.dats ; \
-  $(PATSCC) -DATS_MEMALLOC_LIBC -IIATS ${PATSHOME}/contrib -O2 -o $@ $< -ljson-c
+  $(PATSCC) -DATS_MEMALLOC_LIBC -I${PATSHOME}/contrib -O2 -o $@ $< -ljson-c
 
 ######
 

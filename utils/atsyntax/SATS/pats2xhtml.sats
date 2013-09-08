@@ -3,14 +3,17 @@
 *)
 
 (* ****** ****** *)
+//
+staload LSYNMK =
+"libatsynmark/SATS/libatsynmark.sats"
+//
+(* ****** ****** *)
 
-staload
-LSYN = "libatsyntax/SATS/libatsyntax.sats"
-typedef putc_type = $LSYN.putc_type
+typedef putc_type = $LSYNMK.putc_type
 
 (* ****** ****** *)
 
-macdef fstring_putc = $LSYN.fstring_putc
+macdef fstring_putc = $LSYNMK.fstring_putc
 
 (* ****** ****** *)
 

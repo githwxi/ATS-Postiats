@@ -12,12 +12,12 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 staload STDIO = "libc/SATS/stdio.sats"
 
 (* ****** ****** *)
-
-staload "libatsyntax/SATS/libatsyntax.sats"
+//
+staload
+  "libatsynmark/SATS/libatsynmark.sats"
 staload _(*anon*) =
-  "libatsyntax/DATS/libatsyntax_psynmark.dats"
-// end of [staload]
-
+  "libatsynmark/DATS/libatsynmark_psynmark.dats"
+//
 (* ****** ****** *)
 
 staload "../SATS/pats2xhtml.sats"

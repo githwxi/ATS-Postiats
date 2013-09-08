@@ -356,6 +356,17 @@ dynload "pats_comarg.dats"
 //
 (* ****** ****** *)
 
+%{^
+//
+extern char *patsopt_PATSHOME_get () ;
+extern char *patsopt_PATSHOMERELOC_get () ;
+extern void patsopt_PATSHOME_set (char *val) ;
+extern void patsopt_PATSHOMERELOC_set (char *val) ;
+//
+%} // end of [%{^]
+
+(* ****** ****** *)
+
 fn patsopt_usage
 (
   out: FILEref, arg0: comarg
@@ -1223,45 +1234,6 @@ state = @{
 val () = process_cmdline (state, arglst)
 //
 } // end of [main]
-
-(* ****** ****** *)
-
-%{^
-//
-// HX-2011-04-18:
-// there is no need for marking these variables as
-// GC roots because the values stored in them cannot be GCed
-//
-static char *patsopt_PATSHOME = (char*)0 ;
-static char *patsopt_PATSHOMERELOC = (char*)0 ;
-extern char *getenv (const char *name) ; // [stdlib.h]
-//
-ATSextfun()
-ats_ptr_type
-patsopt_PATSHOME_get () {
-  return patsopt_PATSHOME ; // optional string
-} // end of [patsopt_PATSHOME_get]
-ATSextfun()
-ats_ptr_type
-patsopt_PATSHOMERELOC_get () {
-  return patsopt_PATSHOMERELOC ; // optional string
-} // end of [patsopt_PATSHOMERELOC_get]
-//
-ATSinline()
-ats_void_type
-patsopt_PATSHOME_set () {
-  patsopt_PATSHOME = getenv ("PATSHOME") ; return ;
-  if (!patsopt_PATSHOME) patsopt_PATSHOME = getenv ("ATSHOME") ;
-} // end of [patsopt_PATSHOME_set]
-ATSinline()
-ats_void_type
-patsopt_PATSHOMERELOC_set () {
-  patsopt_PATSHOMERELOC = getenv ("PATSHOMERELOC") ;
-  if (!patsopt_PATSHOMERELOC) patsopt_PATSHOMERELOC = getenv ("ATSHOMERELOC") ;
-  return ;
-} // end of [patsopt_PATSHOMERELOC_set]
-//
-%} // end of [%{^]
 
 (* ****** ****** *)
 

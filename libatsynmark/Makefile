@@ -112,11 +112,11 @@ ATSLIB=$(ATSHOMEQ)/ccomp/lib64
 
 ######
 
-all:: libatsyntax
+all:: libatsynmark
 
 ######
 
-libatsyntax:: $(OBJECTS)
+libatsynmark:: $(OBJECTS)
 
 ######
 
@@ -125,38 +125,38 @@ AR=ar
 ######
 
 %_sats.o: $(PATSHOME)/src/%.sats
-	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
 %_dats.o: $(PATSHOME)/src/%.dats
-	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
 
 ######
 
-libatsyntax:: libatsyntax_sats.o
-libatsyntax_sats.o: SATS/libatsyntax.sats
-	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
+libatsynmark:: libatsynmark_sats.o
+libatsynmark_sats.o: SATS/libatsynmark.sats
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
 
-libatsyntax:: libatsyntax_dats.o
-libatsyntax_dats.o: DATS/libatsyntax.dats
-	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
+libatsynmark:: libatsynmark_dats.o
+libatsynmark_dats.o: DATS/libatsynmark.dats
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
 
-libatsyntax:: libatsyntax_psynmark_dats.o
-libatsyntax:: libatsyntax_pats2xhtml_dats.o
-libatsyntax:: libatsyntax_pats2xhtml_bground_dats.o
-libatsyntax:: libatsyntax_pats2xhtml_embedded_dats.o
-libatsyntax_psynmark_dats.o: DATS/libatsyntax_psynmark.dats
-	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-libatsyntax_pats2xhtml_dats.o: DATS/libatsyntax_pats2xhtml.dats
-	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-libatsyntax_pats2xhtml_bground_dats.o: DATS/libatsyntax_pats2xhtml_bground.dats
-	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-libatsyntax_pats2xhtml_embedded_dats.o: DATS/libatsyntax_pats2xhtml_embedded.dats
-	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
+libatsynmark:: libatsynmark_psynmark_dats.o
+libatsynmark:: libatsynmark_pats2xhtml_dats.o
+libatsynmark:: libatsynmark_pats2xhtml_bground_dats.o
+libatsynmark:: libatsynmark_pats2xhtml_embedded_dats.o
+libatsynmark_psynmark_dats.o: DATS/libatsynmark_psynmark.dats
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
+libatsynmark_pats2xhtml_dats.o: DATS/libatsynmark_pats2xhtml.dats
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
+libatsynmark_pats2xhtml_bground_dats.o: DATS/libatsynmark_pats2xhtml_bground.dats
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
+libatsynmark_pats2xhtml_embedded_dats.o: DATS/libatsynmark_pats2xhtml_embedded.dats
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
 
 ######
 
-libatsyntax:: dynloadall_dats.o
+libatsynmark:: dynloadall_dats.o
 dynloadall_dats.o: dynloadall.dats
-	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
 
 ######
 
@@ -168,7 +168,7 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.c *_?ats.o
 
 cleanall:: clean
-cleanall:: ; $(RMF) libatsyntax.a
+cleanall:: ; $(RMF) libatsynmark.a
 
 distclean:: cleanall
 

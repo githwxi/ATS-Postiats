@@ -11,7 +11,8 @@
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -20,7 +21,7 @@ staload _ = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload "libatsyntax/SATS/libatsyntax.sats"
+staload "libatsynmark/SATS/libatsynmark.sats"
 
 (* ****** ****** *)
 
@@ -1783,4 +1784,4 @@ end // end of [lexbufobj_level1_psynmarkize]
 
 (* ****** ****** *)
 
-(* end of [libatsyntax_psynmark.dats] *)
+(* end of [libatsynmark_psynmark.dats] *)

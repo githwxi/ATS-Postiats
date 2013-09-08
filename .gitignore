@@ -190,10 +190,10 @@ libatslex/SATS/DOCUGEN/HTML
 libatslex/SATS/DOCUGEN/TRYIT
 
 #
-# ATSLIB/libatsyntax
+# ATSLIB/libatsynmark
 #
 
-libatsyntax/libatsyntax.a
+libatsynmark/libatsynmark.a
 
 #
 # ATSLIB/contrib

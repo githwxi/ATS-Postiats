@@ -15,9 +15,9 @@
 //
 (* ****** ****** *)
 //
-staload "libatsyntax/SATS/libatsyntax.sats"
-staload "libatsyntax/DATS/libatsyntax_psynmark.dats"
-staload "libatsyntax/DATS/libatsyntax_pats2xhtml.dats"
+staload "libatsynmark/SATS/libatsynmark.sats"
+staload "libatsynmark/DATS/libatsynmark_psynmark.dats"
+staload "libatsynmark/DATS/libatsynmark_pats2xhtml.dats"
 //
 (* ****** ****** *)
 
@@ -48,4 +48,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [libatsyntax_pats2xhtml_bground.dats] *)
+(* end of [libatsynmark_pats2xhtml_bground.dats] *)

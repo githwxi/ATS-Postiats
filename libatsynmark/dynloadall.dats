@@ -44,11 +44,11 @@ dynload "src/pats_parsing_toplevel.dats"
 dynload "src/pats_syntax.dats"
 dynload "src/pats_syntax_print.dats"
 //
-dynload "libatsyntax/DATS/libatsyntax.dats"
-dynload "libatsyntax/DATS/libatsyntax_psynmark.dats"
-dynload "libatsyntax/DATS/libatsyntax_pats2xhtml.dats"
+dynload "libatsynmark/DATS/libatsynmark.dats"
+dynload "libatsynmark/DATS/libatsynmark_psynmark.dats"
+dynload "libatsynmark/DATS/libatsynmark_pats2xhtml.dats"
 (*
-dynload "libatsyntax/DATS/libatsyntax_pats2xhtml_spec.dats"
+dynload "libatsynmark/DATS/libatsynmark_pats2xhtml_spec.dats"
 *)
 //
 (* ****** ****** *)

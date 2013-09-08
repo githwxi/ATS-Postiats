@@ -7,7 +7,8 @@
 
 (* ****** ****** *)
 
-staload STDIO = "libc/SATS/stdio.sats"
+staload
+STDIO = "libc/SATS/stdio.sats"
 
 (* ****** ****** *)
 
@@ -230,10 +231,11 @@ in
 case+ opt of
 | ~Some_vt (fil) => let
     prval pfmod = file_mode_lte_r_r
-    val fullname = $FIL.filename_get_full (fil)
-    val fullname = $SYM.symbol_get_name (fullname)
+    val fsym =
+      $FIL.filename_get_fullname (fil)
+    val fname = $SYM.symbol_get_name (fsym)
     val [l:addr] (pf | p) =
-      $STDIO.fopen_exn (fullname, file_mode_r)
+      $STDIO.fopen_exn (fname, file_mode_r)
     val inp = __cast (pf | p) where {
       extern castfn __cast (pf: FILE r @ l | p: ptr l): FILEref
     } // end of [val]
@@ -482,13 +484,13 @@ dynload "src/pats_symmap.dats"
 dynload "src/pats_symenv.dats"
 dynload "src/pats_comarg.dats"
 dynload "src/pats_staexp1.dats"
+dynload "src/pats_trans1_env.dats"
 dynload "src/pats_trans1_error.dats"
 dynload "src/pats_trans1_e0xp.dats"
-dynload "src/pats_trans1_env.dats"
 
 (* ****** ****** *)
 
-dynload "libatsyntax/dynloadall.dats"
+dynload "libatsynmark/dynloadall.dats"
 
 (* ****** ****** *)
 

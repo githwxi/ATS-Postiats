@@ -21,7 +21,7 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload "libatsyntax/SATS/libatsyntax.sats"
+staload "libatsynmark/SATS/libatsynmark.sats"
 
 (* ****** ****** *)
 
@@ -55,7 +55,7 @@ SMextcode_beg "<span class=\"extcode\">"
 #define SMdynstr_beg "<span class=\"dynstr\">"
 #define SMdynstr_end "</span>"
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 psynmark_process_xhtml_bground
@@ -135,7 +135,7 @@ SMextcode_beg "<span class=\"patsyntaxextcode\">"
 #define SMdynstr_beg "<span class=\"patsyntaxdynstr\">"
 #define SMdynstr_end "</span>"
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 psynmark_process_xhtml_embedded
@@ -241,4 +241,4 @@ end // end of [charlst_pats2xhtmlize]
 
 (* ****** ****** *)
 
-(* end of [libatsyntax_pats2xhtml.dats] *)
+(* end of [libatsynmark_pats2xhtml.dats] *)
