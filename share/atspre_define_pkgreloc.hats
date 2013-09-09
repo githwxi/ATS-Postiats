@@ -11,6 +11,13 @@ LIBGMP_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/libgmp"
 (* ****** ****** *)
 //
 #define
+LIBATSHWXI_targetloc "$PATSHOMERELOC/contrib/libats-hwxi"
+#define
+LIBATSHWXI_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/libats-hwxi"
+//
+(* ****** ****** *)
+//
+#define
 ZLOG_targetloc "$PATSHOMERELOC/contrib/zlog"
 #define
 ZLOG_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/zlog"
@@ -32,9 +39,16 @@ LIBCURL_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/libcurl"
 (* ****** ****** *)
 //
 #define
-LIBATSHWXI_targetloc "$PATSHOMERELOC/contrib/libats-hwxi"
+GLIB_targetloc "$PATSHOMERELOC/contrib/glib"
 #define
-LIBATSHWXI_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/libats-hwxi"
+GLIB_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/glib"
+//
+(* ****** ****** *)
+//
+#define
+GTK3_targetloc "$PATSHOMERELOC/contrib/GTK3"
+#define
+GTK3_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/GTK3"
 //
 (* ****** ****** *)
 

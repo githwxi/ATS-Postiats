@@ -30,16 +30,6 @@ staload "./../SATS/cairo.sats"
 implement
 main () = 0 where {
 //
-val () = println! ("CAIRO_VERSION_MAJOR = ", CAIRO_VERSION_MAJOR)
-val () = println! ("CAIRO_VERSION_MINOR = ", CAIRO_VERSION_MINOR)
-val () = println! ("CAIRO_VERSION_MICRO = ", CAIRO_VERSION_MICRO)
-val CAIRO_VERSION =
-  CAIRO_VERSION_ENCODE (CAIRO_VERSION_MAJOR, CAIRO_VERSION_MINOR, CAIRO_VERSION_MICRO)
-val () = println! ("CAIRO_VERSION = ", CAIRO_VERSION)
-//
-val () = println! ("cairo:version:number = ", cairo_version())
-val () = println! ("cairo:version:string = ", cairo_version_string())
-//
 val surface =
   cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 250, 80)
 val cr = cairo_create (surface)

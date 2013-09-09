@@ -23,10 +23,8 @@ all::
 
 ######
 
+all:: test00
 all:: test01
-
-######
-
 all:: test02
 all:: test03
 all:: test04
@@ -35,6 +33,7 @@ all:: cairo-multable
 
 ######
 
+cleanall:: ; $(RMF) test00
 cleanall:: ; $(RMF) test01
 cleanall:: ; $(RMF) test02
 cleanall:: ; $(RMF) test03
@@ -44,7 +43,7 @@ cleanall:: ; $(RMF) cairo-multable
 
 ######
 
-%: %.dats ; $(PATSCC) -I $(PATSHOMEQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+%: %.dats ; $(PATSCC) -I$(PATSHOMEQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 
 ######
 
