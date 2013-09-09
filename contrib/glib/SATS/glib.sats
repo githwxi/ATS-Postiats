@@ -41,4 +41,14 @@
 //
 (* ****** ****** *)
 
+macdef GLIB_MAJOR_VERSION = $extval (int, "GLIB_MAJOR_VERSION")
+macdef GLIB_MINOR_VERSION = $extval (int, "GLIB_MINOR_VERSION")
+macdef GLIB_MICRO_VERSION = $extval (int, "GLIB_MICRO_VERSION")
+
+(* ****** ****** *)
+
+#include "./glib/gtypes.sats"
+
+(* ****** ****** *)
+
 (* end of [glib.sats] *)

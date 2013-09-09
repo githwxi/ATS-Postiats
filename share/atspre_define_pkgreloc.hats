@@ -51,5 +51,12 @@ GTK3_targetloc "$PATSHOMERELOC/contrib/GTK3"
 GTK3_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/GTK3"
 //
 (* ****** ****** *)
+//
+#define
+CAIRO_targetloc "$PATSHOMERELOC/contrib/cairo"
+#define
+CAIRO_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/cairo"
+//
+(* ****** ****** *)
 
 (* end of [atspre_define_pkgreloc.hats] *)

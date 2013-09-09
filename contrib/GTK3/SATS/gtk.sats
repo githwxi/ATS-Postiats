@@ -41,17 +41,45 @@
 //
 (* ****** ****** *)
 
-#include "share/atspre_define.hats"
-
-(* ****** ****** *)
-
 %{#
-#include "contrib/GTK3/CATS/gtk.cats"
+#include "GTK3/CATS/gtk.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSCNTRB.GTK3"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
+#define ATS_EXTERN_PREFIX "atscntrb_gtk3_" // prefix for external names
+
+(* ****** ****** *)
+
+#include "share/atspre_define.hats"
+
+(* ****** ****** *)
+
 staload GLIB = "{$GLIB}/SATS/glib.sats"
+
+(* ****** ****** *)
+
+typedef gint = $GLIB.gint
+typedef guint = $GLIB.guint
+typedef gboolean = $GLIB.gboolean
+typedef gchar = $GLIB.gchar
+typedef guchar = $GLIB.guchar
+
+(* ****** ****** *)
+
+typedef gstring = $GLIB.gstring
+typedef gstropt = $GLIB.gstropt
+vtypedef gstrptr (l:addr) = $GLIB.gstrptr (l)
+
+(* ****** ****** *)
+
+#include "./gtk/gtkmain.sats"
+
+(* ****** ****** *)
+
+#include "./gtk/gtkversion.sats"
 
 (* ****** ****** *)
 
