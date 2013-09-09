@@ -43,7 +43,7 @@ xmlStrptr(l:addr) = ptr(l) // xmlChar*
 vtypedef xmlStrptr0 = [l:agez] xmlStrptr(l)
 vtypedef xmlStrptr1 = [l:addr | l > null] xmlStrptr(l)
 
-castfn xmlStrptr2ptr : {l:addr} xmlStrptr(l) -> ptr(l)
+castfn xmlStrptr2ptr : {l:addr} xmlStrptr(l) -<> ptr(l)
 
 (* ****** ****** *)
 
@@ -52,7 +52,7 @@ xmlDocPtr(l:addr) = ptr(l) // xmlDocPtr
 vtypedef xmlDocPtr0 = [l:agez] xmlDocPtr(l)
 vtypedef xmlDocPtr1 = [l:addr | l > null] xmlDocPtr(l)
 
-castfn xmlDocPtr2ptr : {l:addr} xmlDocPtr(l) -> ptr(l)
+castfn xmlDocPtr2ptr : {l:addr} xmlDocPtr(l) -<> ptr(l)
 
 (* ****** ****** *)
 
@@ -61,7 +61,7 @@ xmlNodePtr(l:addr) = ptr(l) // xmlNodePtr
 vtypedef xmlNodePtr0 = [l:agez] xmlNodePtr(l)
 vtypedef xmlNodePtr1 = [l:addr | l > null] xmlNodePtr(l)
 
-castfn xmlNodePtr2ptr : {l:addr} xmlNodePtr(l) -> ptr(l)
+castfn xmlNodePtr2ptr : {l:addr} xmlNodePtr(l) -<> ptr(l)
 
 (* ****** ****** *)
 
@@ -72,4 +72,3 @@ overload ptrcast with xmlNodePtr2ptr
 (* ****** ****** *)
 
 (* end of [xml_header.sats] *)
-

@@ -11,9 +11,9 @@ LIBGMP_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/libgmp"
 (* ****** ****** *)
 //
 #define
-LIBCURL_targetloc "$PATSHOMERELOC/contrib/libcurl"
+ZLOG_targetloc "$PATSHOMERELOC/contrib/zlog"
 #define
-LIBCURL_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/libcurl"
+ZLOG_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/zlog"
 //
 (* ****** ****** *)
 //
@@ -21,6 +21,13 @@ LIBCURL_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/libcurl"
 JSONC_targetloc "$PATSHOMERELOC/contrib/json-c"
 #define
 JSONC_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/json-c"
+//
+(* ****** ****** *)
+//
+#define
+LIBCURL_targetloc "$PATSHOMERELOC/contrib/libcurl"
+#define
+LIBCURL_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/libcurl"
 //
 (* ****** ****** *)
 //

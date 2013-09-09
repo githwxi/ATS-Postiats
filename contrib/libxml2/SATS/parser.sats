@@ -40,12 +40,9 @@
 
 (* ****** ****** *)
 
-#define
-ATS_PACKNAME "ATSCNTRB.libxml2"
-#define
-ATS_STALOADFLAG 0 // no need for staloading at run-time
-#define
-ATS_EXTERN_PREFIX "atscntrb_" // prefix for external names
+#define ATS_PACKNAME "ATSCNTRB.libxml2"
+#define ATS_STALOADFLAG 0 // no need for staloading at run-time
+#define ATS_EXTERN_PREFIX "atscntrb_" // prefix for external names
 
 (* ****** ****** *)
 
