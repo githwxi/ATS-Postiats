@@ -34,6 +34,11 @@
 //
 (* ****** ****** *)
 
+#include
+"share/atspre_define.hats"
+
+(* ****** ****** *)
+
 staload
 UN = "prelude/SATS/unsafe.sats"
 
