@@ -40,17 +40,17 @@ staload "./pats_errmsg.sats"
 implement{}
 prerr_interror () =
 {
-  val () = prerr "INTERROR("
-  val () = prerr_FILENAME<> ()
-  val () = prerr ")"
+  val () = (
+    prerr "INTERROR("; prerr_FILENAME<> (); prerr ")"
+  ) (* end of [val] *)
 }
 implement{}
 prerr_interror_loc (loc) =
 {
   val () = $LOC.prerr_location (loc)
-  val () = prerr ": INTERROR("
-  val () = prerr_FILENAME<> ()
-  val () = prerr ")"
+  val () = (
+    prerr ": INTERROR("; prerr_FILENAME<> (); prerr ")"
+  ) (* end of [val] *)
 } // end of [prerr_interror_loc]
 
 (* ****** ****** *)

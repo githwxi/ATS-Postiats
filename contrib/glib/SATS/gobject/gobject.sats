@@ -31,7 +31,7 @@
 //
 // Author: Hongwei Xi
 // Authoremail: hwxiATcsDOTbuDOTedu
-// Start Time: February, 2010
+// Start Time: April, 2010
 //
 (* ****** ****** *)
 //
@@ -41,26 +41,24 @@
 //
 (* ****** ****** *)
 
-%{#
-#include "glib/CATS/glib.cats"
-%} // end of [%{#]
+fun g_object_is_floating
+  {c:cls | c <= GObject} (!gobjref1 (c)): bool = "mac#%"
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSCNTRB.glib"
-#define ATS_STALOADFLAG 0 // no static loading at run-time
-#define ATS_EXTERN_PREFIX "atscntrb_" // prefix for external names
+fun g_object_ref_count
+  {c:cls | c <= GObject} (x: !gobjref1 (c)): int = "mac#%"
 
 (* ****** ****** *)
 
-macdef GLIB_MAJOR_VERSION = $extval (int, "GLIB_MAJOR_VERSION")
-macdef GLIB_MINOR_VERSION = $extval (int, "GLIB_MINOR_VERSION")
-macdef GLIB_MICRO_VERSION = $extval (int, "GLIB_MICRO_VERSION")
+fun g_object_ref
+  {c:cls | c <= GObject}
+  {l:agz} (x: !gobjref (c, l)): gobjref (c, l) = "mac#%"
+// end of [g_object_ref]
+
+fun g_object_unref
+  {c:cls | c <= GObject}{l:agz} (x: gobjref (c, l)): void = "mac#%"
 
 (* ****** ****** *)
 
-#include "./glib/gtypes.sats"
-
-(* ****** ****** *)
-
-(* end of [glib.sats] *)
+(* end of [gobject.sats] *)

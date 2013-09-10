@@ -431,7 +431,7 @@ case+ xs1 of
 //
 end // end of [s3exp_imul_list]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s3exp_iadd

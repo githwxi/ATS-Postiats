@@ -124,14 +124,6 @@ fun test_show_all {n,i:nat | i <= n+1} {l:addr} .<n+1-i>.
 
 (* ****** ****** *)
 
-%{^
-#ifndef atslib_clock_type
-typedef clock_t atslib_clock_type ;
-#endif // end of [ifndef]
-%}
-
-(* ****** ****** *)
-
 #define M 4096
 #define N   32
 

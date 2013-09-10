@@ -201,6 +201,7 @@ overload print with print_s2rt
 fun prerr_s2rt (x: s2rt): void
 overload prerr with prerr_s2rt
 fun fprint_s2rt : fprint_type (s2rt)
+overload fprint with fprint_s2rt
 
 fun print_s2rtlst (xs: s2rtlst): void
 overload print with print_s2rtlst
@@ -618,21 +619,26 @@ fun s2cst_is_listlike (x: s2cst): bool
 fun s2cst_is_singular (x: s2cst): bool
 fun s2cst_is_binarian (x: s2cst): bool
 
+(* ****** ****** *)
+
 fun s2cst_subeq (s2c1: s2cst, s2c2: s2cst): bool
+fun s2cst_lte_cls_cls (s2c1: s2cst, s2c2: s2cst): bool
 
 (* ****** ****** *)
 
 fun print_s2cst (x: s2cst): void
-overload print with print_s2cst
 fun prerr_s2cst (x: s2cst): void
+overload print with print_s2cst
 overload prerr with prerr_s2cst
 fun fprint_s2cst : fprint_type (s2cst)
+overload fprint with fprint_s2cst
 
 fun print_s2cstlst (xs: s2cstlst): void
-overload print with print_s2cstlst
 fun prerr_s2cstlst (xs: s2cstlst): void
+overload print with print_s2cstlst
 overload prerr with prerr_s2cstlst
 fun fprint_s2cstlst : fprint_type (s2cstlst)
+overload fprint with fprint_s2cstlst
 
 (* ****** ****** *)
 //
@@ -690,16 +696,20 @@ fun compare_s2vsym_s2vsym (x1: s2var, x2: s2var):<> Sgn
 (* ****** ****** *)
 
 fun print_s2var (x: s2var): void
-overload print with print_s2var
 fun prerr_s2var (x: s2var): void
+overload print with print_s2var
 overload prerr with prerr_s2var
 fun fprint_s2var : fprint_type (s2var)
+overload fprint with fprint_s2var
+
+(* ****** ****** *)
 
 fun print_s2varlst (xs: s2varlst): void
-overload print with print_s2varlst
 fun prerr_s2varlst (xs: s2varlst): void
+overload print with print_s2varlst
 overload prerr with prerr_s2varlst
 fun fprint_s2varlst : fprint_type (s2varlst)
+overload fprint with fprint_s2varlst
 
 (* ****** ****** *)
 

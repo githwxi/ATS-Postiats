@@ -1149,29 +1149,36 @@ end // end of [e1xndeclst_tr]
 
 (* ****** ****** *)
 
-fn c1lassdec_tr (
+fun
+c1lassdec_tr
+(
   id: i0de, sup: s1expopt
 ) : void = () where {
-  val s2c = s2cst_make (
-      id.i0de_sym // sym
-    , id.i0de_loc // location
-    , s2rt_cls // srt
-    , None () // isabs
-    , false // iscon
-    , false // isrec
-    , false // isasp
-    , None () // islst
-    , list_nil () // argvar
-    , None () // def
-  ) // end of [s2cst_make]
-  val () = case+ sup of
-    | Some s1e => {
-        val s2e = s1exp_trdn (s1e, s2rt_cls)
-        val () = s2cst_add_supcls (s2c, s2e)
-      } // end of [Some]
-    | None () => ()
-  // end of [val]
-  val () = the_s2expenv_add_scst s2c
+//
+val s2c =
+s2cst_make
+(
+  id.i0de_sym // sym
+, id.i0de_loc // location
+, s2rt_cls // srt
+, None(*isabs*)
+, false(*iscon*), false(*isrec*), false(*isasp*)
+, None (*islst*)
+, list_nil () // argvar
+, None () // def
+) (* end of [s2cst_make] *)
+//
+val () = (
+case+ sup of
+| Some s1e => {
+    val s2e = s1exp_trdn (s1e, s2rt_cls)
+    val ((*void*)) = s2cst_add_supcls (s2c, s2exp_hnfize(s2e))
+  } // end of [Some]
+| None () => ()
+) (* end of [val] *)
+//
+val () = the_s2expenv_add_scst (s2c)
+//
 } // end of [c1lassdec_tr]
 
 (* ****** ****** *)

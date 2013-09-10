@@ -304,6 +304,13 @@ the_sub_addr_addr = s2cstref_make "sub_addr_addr"
 (* ****** ****** *)
 
 implement
+the_lte_cls_cls = s2cstref_make "lte_cls_cls"
+implement
+the_gte_cls_cls = s2cstref_make "gte_cls_cls"
+
+(* ****** ****** *)
+
+implement
 s2exp_agtz (s2l) = let
   val s2c =
     s2cstref_get_cst (the_gt_addr_addr)

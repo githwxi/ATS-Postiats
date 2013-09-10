@@ -7,14 +7,14 @@
 /************************************************************************/
 
 /*
-** ATS - Unleashing the Power of Types!
+** ATS - Unleashing the Potential of Types!
 ** Copyright (C) 2002-2010 Hongwei Xi, Boston University
 ** All rights reserved
 **
-** ATS is free software;  you can  redistribute it and/or modify it under
-** the terms of the GNU LESSER GENERAL PUBLIC LICENSE as published by the
-** Free Software Foundation; either version 2.1, or (at your option)  any
-** later version.
+** ATS is  free software;  you can redistribute it and/or modify it under
+** the  terms of the  GNU General Public License as published by the Free
+** Software Foundation; either version 2.1, or (at your option) any later
+** version.
 ** 
 ** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
 ** WARRANTY; without  even  the  implied  warranty  of MERCHANTABILITY or
@@ -31,7 +31,7 @@
 //
 // Author: Hongwei Xi
 // Authoremail: hwxiATcsDOTbuDOTedu
-// Start Time: April, 2010
+// Start Time: February, 2010
 //
 /* ****** ****** */
 //
@@ -41,26 +41,17 @@
 //
 /* ****** ****** */
 
-#ifndef ATSCNTRB_GTK3_GTK_CATS
-#define ATSCNTRB_GTK3_GTK_CATS
+#ifndef ATSCNTRB_GLIB_GLIB_CATS
+#define ATSCNTRB_GLIB_GLIB_CATS
 
 /* ****** ****** */
 
-#include <gtk-3.0/gtk/gtk.h>
+#include "glib.h"
 
 /* ****** ****** */
 
-#include "./gtk/gtkmain.cats"
+#endif /* ATSCNTRB_GLIB_GLIB_CATS */
 
 /* ****** ****** */
 
-#include "./gtk/gtkwidget.cats"
-#include "./gtk/gtkwindow.cats"
-
-/* ****** ****** */
-
-#endif // ATSCNTRB_GTK3_GTK_CATS
-
-/* ****** ****** */
-
-/* end of [gtk.cats] */
+/* end of [glib.cats] */

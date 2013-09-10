@@ -22,4 +22,9 @@ fun gtk_check_version
 
 (* ****** ****** *)
 
+fun gtk_main (): void = "mac#%"
+fun gtk_main_level (): guint = "mac#%"
+
+(* ****** ****** *)
+
 (* end of [gtkmain.sats] *)

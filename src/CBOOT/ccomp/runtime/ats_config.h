@@ -48,7 +48,7 @@
 /* ****** ****** */
 
 #ifndef __WORDSIZE
-#define __WORDSIZE (SIZEOF_VOIDP*NBIT_PER_BYTE)
+#define __WORDSIZE (SIZEOF_VOIDP * NBIT_PER_BYTE)
 #endif // end of [__WORDSIZE]
 
 /* ****** ****** */

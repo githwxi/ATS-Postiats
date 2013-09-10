@@ -52,13 +52,12 @@
 #define ATS_EXTERN_PREFIX "atscntrb_gtk3_" // prefix for external names
 
 (* ****** ****** *)
-
+//
 #include "share/atspre_define.hats"
-
-(* ****** ****** *)
-
+//
 staload GLIB = "{$GLIB}/SATS/glib.sats"
-
+staload GLIBOBJ = "{$GLIB}/SATS/glib-object.sats"
+//
 (* ****** ****** *)
 
 typedef gint = $GLIB.gint
@@ -75,11 +74,50 @@ vtypedef gstrptr (l:addr) = $GLIB.gstrptr (l)
 
 (* ****** ****** *)
 
+stadef gobjref = $GLIBOBJ.gobjref
+stadef gobjref0 = $GLIBOBJ.gobjref0
+stadef gobjref1 = $GLIBOBJ.gobjref1
+
+(* ****** ****** *)
+
+stadef GObject: cls = $GLIBOBJ.GObject
+stadef GInitiallyUnowned: cls = $GLIBOBJ.GInitiallyUnowned
+stadef GInterface: cls = $GLIBOBJ.GInterface
+
+(* ****** ****** *)
+
+classdec GtkObject : GInitiallyUnowned
+  classdec GtkWidget : GtkObject
+    classdec GtkContainer : GtkWidget
+      classdec GtkBin : GtkContainer
+        classdec GtkWindow_cls : GtkBin
+        // end of [GtkWindow]
+      // end of [GTKBin]
+    // end of [GTKContainer]
+  // end of [GTKWidget]
+// end of [GtkObject]
+
+(* ****** ****** *)
+//
+stadef GtkWindow = GtkWindow_cls
+//
+vtypedef GtkWindow (l:addr) = gobjref (GtkWindow, l)
+vtypedef GtkWindow0 = [l:agez] gobjref (GtkWindow, l)
+vtypedef GtkWindow1 = [l:addr | l > null] gobjref (GtkWindow, l)
+//
+(* ****** ****** *)
+
 #include "./gtk/gtkmain.sats"
 
 (* ****** ****** *)
 
+#include "./gtk/gtkenums.sats"
 #include "./gtk/gtkversion.sats"
+
+(* ****** ****** *)
+
+#include "./gtk/gtkwidget.sats"
+#include "./gtk/gtkwindow.sats"
 
 (* ****** ****** *)
 

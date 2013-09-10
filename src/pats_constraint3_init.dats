@@ -47,13 +47,18 @@ staload "./pats_stacst2.sats"
 
 (* ****** ****** *)
 
+staload "./pats_staexp2_util.sats"
+
+(* ****** ****** *)
+
 staload "./pats_constraint3.sats"
 
 (* ****** ****** *)
 
 local
 //
-fun f_identity (
+fun
+f_identity (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
   val-list_cons (s2e1, s2es) = s2es
@@ -63,7 +68,8 @@ end // end of [identity]
 //
 // HX: functions on static booleans
 //
-fun f_neg_bool (
+fun
+f_neg_bool (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
   val-list_cons (s2e, s2es) = s2es
@@ -72,7 +78,8 @@ in
   s3exp_bneg (s3be)
 end // end of [f_neg_bool]
 //
-fun f_add_bool_bool (
+fun
+f_add_bool_bool (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
   val-list_cons (s2e1, s2es) = s2es
@@ -83,7 +90,8 @@ in
   s3exp_badd (s3be1, s3be2)
 end // end of [f_add_bool_bool]
 //
-fun f_mul_bool_bool (
+fun
+f_mul_bool_bool (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
   val-list_cons (s2e1, s2es) = s2es
@@ -94,7 +102,8 @@ in
   s3exp_bmul (s3be1, s3be2)
 end // end of [f_mul_bool_bool]
 //
-fun f_eq_bool_bool (
+fun
+f_eq_bool_bool (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
   val-list_cons (s2e1, s2es) = s2es
@@ -105,7 +114,8 @@ in
   s3exp_beq (s3be1, s3be2)
 end // end of [f_eq_bool_bool]
 //
-fun f_neq_bool_bool (
+fun
+f_neq_bool_bool (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
   val-list_cons (s2e1, s2es) = s2es
@@ -118,7 +128,8 @@ end // end of [f_neq_bool_bool]
 //
 // HX: functions on static integers
 //
-fun f_neg_int (
+fun
+f_neg_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
   val-list_cons (s2e1, s2es) = s2es
@@ -127,7 +138,8 @@ in
   s3exp_ineg (s3ie1)
 end // end of [f_neg_int]
 //
-fun f_add_int_int (
+fun
+f_add_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
   val-list_cons (s2e1, s2es) = s2es
@@ -138,7 +150,8 @@ in
   s3exp_iadd (s3ie1, s3ie2)
 end // end of [f_add_int_int]
 //
-fun f_sub_int_int (
+fun
+f_sub_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
   val-list_cons (s2e1, s2es) = s2es
@@ -149,7 +162,8 @@ in
   s3exp_isub (s3ie1, s3ie2)
 end // end of [f_sub_int_int]
 //
-fun f_mul_int_int (
+fun
+f_mul_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
   val-list_cons (s2e1, s2es) = s2es
@@ -160,7 +174,8 @@ in
   s3exp_imul (s3ie1, s3ie2)
 end // end of [f_mul_int_int]
 //
-fun f_ndiv_int_int
+fun
+f_ndiv_int_int
 (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
@@ -169,7 +184,9 @@ fun f_ndiv_int_int
 in
   s3exp_var (s2v)
 end // end of [f_ndiv_int_int]
-fun f_idiv_int_int (
+fun
+f_idiv_int_int
+(
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
   val s2es0 = s2es
@@ -201,7 +218,8 @@ in
   if sgn >= 0 then s3e else s3exp_ineg (s3e)
 end // end of [f_idiv_int_int]
 //
-fun f_lt_int_int (
+fun
+f_lt_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
   val-list_cons (s2e1, s2es) = s2es
@@ -212,7 +230,8 @@ in
   s3exp_ilt (s3ie1, s3ie2)
 end // end of [f_lt_int_int]
 //
-fun f_lte_int_int (
+fun
+f_lte_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
   val-list_cons (s2e1, s2es) = s2es
@@ -223,7 +242,8 @@ in
   s3exp_ilte (s3ie1, s3ie2)
 end // end of [f_lte_int_int]
 //
-fun f_gt_int_int (
+fun
+f_gt_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
   val-list_cons (s2e1, s2es) = s2es
@@ -234,7 +254,8 @@ in
   s3exp_igt (s3ie1, s3ie2)
 end // end of [f_gt_int_int]
 //
-fun f_gte_int_int (
+fun
+f_gte_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
   val-list_cons (s2e1, s2es) = s2es
@@ -245,7 +266,8 @@ in
   s3exp_igte (s3ie1, s3ie2)
 end // end of [f_gte_int_int]
 //
-fun f_eq_int_int (
+fun
+f_eq_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
   val-list_cons (s2e1, s2es) = s2es
@@ -256,7 +278,8 @@ in
   s3exp_ieq (s3ie1, s3ie2)
 end // end of [f_eq_int_int]
 //
-fun f_neq_int_int (
+fun
+f_neq_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
   val-list_cons (s2e1, s2es) = s2es
@@ -285,7 +308,8 @@ in
   s3exp_var (s2v)
 end // end of [f_sgn_int]
 //
-fun f_max_int_int (
+fun
+f_max_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
   val s2c = s2cstref_get_cst (the_maxrel_int_int_int)
@@ -294,7 +318,8 @@ in
   s3exp_var (s2v)
 end // end of [f_max_int_int]
 //
-fun f_min_int_int (
+fun
+f_min_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
   val s2c = s2cstref_get_cst (the_minrel_int_int_int)
@@ -303,7 +328,9 @@ in
   s3exp_var (s2v)
 end // end of [f_min_int_int]
 //
-fun f_ifint_bool_int_int (
+fun
+f_ifint_bool_int_int
+(
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
   val s2c = s2cstref_get_cst (the_ifintrel_bool_int_int_int)
@@ -328,10 +355,43 @@ fun f_eq_addr_addr = f_eq_int_int
 fun f_neq_addr_addr = f_neq_int_int
 //
 *)
-
+//
+// HX: functions on static classes
+//
+fun
+f_lte_cls_cls (
+  env: &s2vbcfenv, s2es: s2explst
+) : s3exp = let 
+//
+val s2c = s2cstref_get_cst (the_lte_cls_cls)
+//
+val-list_cons (s2e1, s2es) = s2es
+val-list_cons (s2e2, s2es) = s2es
+//
+val s2e1 = s2exp_hnfize (s2e1)
+val s2e2 = s2exp_hnfize (s2e2)
+//
+in
+//
+case+
+(
+  s2e1.s2exp_node
+, s2e2.s2exp_node
+) of (* caseof *)
+| (S2Ecst (s2c1),
+   S2Ecst (s2c2)) =>
+  (
+    s3exp_bool (s2cst_lte_cls_cls (s2c1, s2c2))
+  )
+| (_, _) => s3exp_var (s2v) where
+  {
+    val s2v = s2vbcfenv_replace_cstapp (env, s2rt_bool, s2c, s2es)
+  } // end of [_, _]
+end // end of [f_lte_cls_cls]
+//
 (* ****** ****** *)
 
-in // in of [local]
+in (* in of [local] *)
 
 (* ****** ****** *)
 
@@ -400,6 +460,11 @@ val () = ins (map, the_gt_addr_addr, f_gt_int_int)
 val () = ins (map, the_gte_addr_addr, f_gte_int_int)
 val () = ins (map, the_eq_addr_addr, f_eq_int_int)
 val () = ins (map, the_neq_addr_addr, f_neq_int_int)
+//
+val () = ins (map, the_lte_cls_cls, f_lte_cls_cls)
+(*
+val () = ins (map, the_gte_cls_cls, f_gte_cls_cls)
+*)
 //
 in
   (*nothing*)

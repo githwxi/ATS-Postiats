@@ -41,21 +41,31 @@
 //
 (* ****** ****** *)
 
+%{#
+#include "glib/CATS/glib-object.cats"
+%} // end of [%{#]
+
+(* ****** ****** *)
+
+#define ATS_PACKNAME "ATSCNTRB.glibobj"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
+#define ATS_EXTERN_PREFIX "atscntrb_" // prefix for external names
+
+(* ****** ****** *)
+
 staload GLIB = "./glib.sats"
 
 (* ****** ****** *)
 
-(*
 stadef gint = $GLIB.gint
 stadef guint = $GLIB.guint
 stadef gboolean = $GLIB.gboolean
 stadef gpointer = $GLIB.gpointer
-*)
 
 (* ****** ****** *)
 //
 classdec GObject // super: none
-  classdec GInitiallyUnowned : GObject // HX: no floating reference in ATS
+  classdec GInitiallyUnowned : GObject // HX: no floating reference
 //
 classdec GInterface // super: none
 //
@@ -65,6 +75,10 @@ absvtype
 gobjref_vtype (c:cls, l:addr) = ptr
 vtypedef
 gobjref (c:cls, l:addr) = gobjref_vtype (c, l)
+vtypedef
+gobjref0 (c:cls) = [l:agez] gobjref (c, l)
+vtypedef
+gobjref1 (c:cls) = [l:addr | l > null] gobjref (c, l)
 
 (* ****** ****** *)
 //
@@ -90,10 +104,12 @@ g_object_vref
 //
 (* ****** ****** *)
 
-(*
-#include "./gobject/gsignal.sats"
+abstype GCallback = ptr // = (...) -<fun1> void
+
+(* ****** ****** *)
+
 #include "./gobject/gobject.sats"
-*)
+#include "./gobject/gsignal.sats"
 
 (* ****** ****** *)
 

@@ -31,7 +31,7 @@
 //
 // Author: Hongwei Xi
 // Authoremail: hwxiATcsDOTbuDOTedu
-// Start Time: February, 2010
+// Start Time: April, 2010
 //
 (* ****** ****** *)
 //
@@ -41,26 +41,32 @@
 //
 (* ****** ****** *)
 
-%{#
-#include "glib/CATS/glib.cats"
-%} // end of [%{#]
+abstype gsignal = ptr // gchar*
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSCNTRB.glib"
-#define ATS_STALOADFLAG 0 // no static loading at run-time
-#define ATS_EXTERN_PREFIX "atscntrb_" // prefix for external names
+castfn gsignal (x: string):<> gsignal
+
+(* ****** ****** *)
+//
+macdef
+GSIGNAL_ACTIVATE = $extval (gsignal, "\"activate\"")
+//
+macdef GSIGNAL_CLICKED = $extval (gsignal, "\"clicked\"")
+//
+macdef GSIGNAL_DESTROY = $extval (gsignal, "\"destroy\"")
+//
+macdef GSIGNAL_EVENT = $extval (gsignal, "\"event\"")
+macdef GSIGNAL_DELETE_EVENT = $extval (gsignal, "\"delete_event\"")
+//
+(* ****** ****** *)
+
+fun g_signal_connect
+  {c:cls | c <= GObject}
+(
+  x: !gobjref1 (c), sig: gsignal, handler: GCallback, data: gpointer
+) : guint = "mac#%" // endfun
 
 (* ****** ****** *)
 
-macdef GLIB_MAJOR_VERSION = $extval (int, "GLIB_MAJOR_VERSION")
-macdef GLIB_MINOR_VERSION = $extval (int, "GLIB_MINOR_VERSION")
-macdef GLIB_MICRO_VERSION = $extval (int, "GLIB_MICRO_VERSION")
-
-(* ****** ****** *)
-
-#include "./glib/gtypes.sats"
-
-(* ****** ****** *)
-
-(* end of [glib.sats] *)
+(* end of [gsignal.sats] *)

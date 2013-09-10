@@ -18,4 +18,8 @@ absvtype gstrptr (l:addr) = ptr (l)
 
 (* ****** ****** *)
 
+abstype gpointer = ptr
+
+(* ****** ****** *)
+
 (* end of [gtypes.sats] *)

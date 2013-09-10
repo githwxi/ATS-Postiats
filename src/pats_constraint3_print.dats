@@ -53,20 +53,24 @@ staload "./pats_constraint3.sats"
 
 implement
 fprint_s3exp (out, x) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
+//
+macdef prstr (str) = fprint_string (out, ,(str))
+//
 in
 //
 case+ x of
-| S3Evar (s2v) => {
-    val () = prstr "S3Evar("
-    val () = fprint_s2var (out, s2v)
-    val () = prstr ")" 
-  } // end of [S3Evar]
+//
 | S3Ecst (s2c) => {
     val () = prstr "S3Ecst("
-    val () = fprint_s2cst (out, s2c)
+    val () = fprint! (out, s2c, ":", s2cst_get_srt (s2c))
     val () = prstr ")" 
   } // end of [S3Ecst]
+//
+| S3Evar (s2v) => {
+    val () = prstr "S3Evar("
+    val () = fprint! (out, s2v, ":", s2var_get_srt (s2v))
+    val () = prstr ")" 
+  } // end of [S3Evar]
 //
 | S3Enull () => prstr "0"
 | S3Eunit () => prstr "1"

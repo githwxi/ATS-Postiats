@@ -355,19 +355,24 @@ end // end of [prlst]
 in
 //
 case+ casknd of
-| CK_case () => let
-    val () = prerr_warning3_loc (loc0)
-    val () = prerr ": pattern match is nonexhaustive:\n";
-  in
-    prlst (p2tcs)
-  end // end of [CK_case]
+//
 | CK_case_pos () => let
     val () = prerr_error3_loc (loc0)
     val () = prerr ": pattern match is nonexhaustive:\n";
   in
     prlst (p2tcs)
   end // end of [CK_case]
-| CK_case_neg => () // HX: ignored per the wish of the programmer
+| CK_case_neg () => () // HX: ignored per the wish of the programmer
+//
+// HX: this case is *not* recommended for use
+//
+| CK_case () => let
+    val () = prerr_warning3_loc (loc0)
+    val () = prerr ": pattern match is nonexhaustive:\n";
+  in
+    prlst (p2tcs)
+  end // end of [CK_case]
+//
 end // end of [prerr_case_exhaustiveness_errmsg]
 
 (* ****** ****** *)

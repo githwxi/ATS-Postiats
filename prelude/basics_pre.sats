@@ -262,6 +262,16 @@ stadef != = neq_addr_addr and <> = neq_addr_addr
 
 (* ****** ****** *)
 //
+// HX-2013-09:
+// for supporting inheritance in OOP
+//
+stacst lte_cls_cls : (cls, cls) -> bool
+stacst gte_cls_cls : (cls, cls) -> bool
+stadef <= = lte_cls_cls
+stadef >= = gte_cls_cls
+
+(* ****** ****** *)
+//
 // HX: this is a special constant!
 //
 stacst

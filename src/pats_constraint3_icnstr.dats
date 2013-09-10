@@ -42,6 +42,12 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_constraint3_icnstr"
+
+(* ****** ****** *)
+
 staload "./pats_intinf.sats"
 
 (* ****** ****** *)
@@ -289,8 +295,8 @@ case+ s3e0 of
 *)
 //
 | _ => let
-    val () = prerrln! ("s3exp2icnstr: loc0 = ", loc0)
-    val () = prerrln! ("s3exp2icnstr: s3e0 = ", s3e0)
+    val () = prerr_error3_loc (loc0)
+    val () = prerrln! (": this constraint cannot be s3exp2icnstr-handled: s3e0 = ", s3e0)
     val () = assertloc (false) in ICerr (loc0, $UN.cast(s3e0))
   end // end of [_]
 //

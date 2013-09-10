@@ -19,4 +19,9 @@
 
 /* ****** ****** */
 
+#define atscntrb_gtk3_gtk_main gtk_main
+#define atscntrb_gtk3_gtk_main_level gtk_main_level
+
+/* ****** ****** */
+
 /* end of [gtkmain.cats] */

@@ -458,7 +458,7 @@ fun main_void_0
   ((*void*)): void = "ext#mainats_void_0"
 fun main_argc_argv_0
   {n:int | n >= 1}
-  (argc: int n, argv: !argv n): void = "ext#mainats_argc_argv_0"
+  (argc: int n, argv: !argv(n)): void = "ext#mainats_argc_argv_0"
 overload main0 with main_void_0
 overload main0 with main_argc_argv_0
 //
@@ -470,7 +470,7 @@ fun main_void_int
   ((*void*)): int = "ext#mainats_void_int"
 fun main_argc_argv_int
   {n:int | n >= 1}
-  (argc: int n, argv: !argv n): int = "ext#mainats_argc_argv_int"
+  (argc: int n, argv: !argv(n)): int = "ext#mainats_argc_argv_int"
 fun main_argc_argv_envp_int
   {n:int | n >= 1}
   (argc: int n, argv: !argv n, envp: ptr): int = "ext#mainats_argc_argv_envp_int"
