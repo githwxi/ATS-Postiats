@@ -124,6 +124,7 @@ classdec GtkObject : GInitiallyUnowned
           classdec GtkStatusbar_cls : GtkHBox_cls
         // end of [GtkHBox]
       // end of [GtkBox]
+      classdec GtkTable_cls : GtkContainer_cls
     // end of [GTKContainer]
   // end of [GTKWidget]
 // end of [GtkObject]
@@ -164,6 +165,10 @@ classdec GtkObject : GInitiallyUnowned
 (* ****** ****** *)
 
 #include "./gtk/gtkhbox.sats"
+
+(* ****** ****** *)
+
+#include "./gtk/gtktable.sats"
 
 (* ****** ****** *)
 

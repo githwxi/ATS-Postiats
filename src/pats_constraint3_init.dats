@@ -391,7 +391,7 @@ case+
     val s2c_rel = s2cstref_get_cst (the_lterel_cls_cls)
     val s2v_res = s2vbcfenv_replace_cstapp (env, s2rt_bool, s2c_rel, s2es)
   in
-    s3exp_var (s2v_res)
+    s3exp_bvar (s2v_res)
   end // end of [_, _]
 end // end of [f_lte_cls_cls]
 //

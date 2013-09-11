@@ -78,6 +78,10 @@
 
 /* ****** ****** */
 
+#include "./gtk/gtktable.cats"
+
+/* ****** ****** */
+
 #endif // ATSCNTRB_GTK_GTK_CATS
 
 /* ****** ****** */

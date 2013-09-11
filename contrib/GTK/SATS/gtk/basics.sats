@@ -40,6 +40,15 @@ vtypedef GtkHBox1 = [c:cls;l:addr | c <= GtkHBox; l > null] gobjref (c, l)
 //
 (* ****** ****** *)
 //
+stadef GtkTable = GtkTable_cls
+//
+vtypedef
+GtkTable (l:addr) = [c:cls | c <= GtkTable] gobjref (c, l)
+vtypedef GtkTable0 = [c:cls;l:agez | c <= GtkTable] gobjref (c, l) 
+vtypedef GtkTable1 = [c:cls;l:addr | c <= GtkTable; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
+//
 stadef GtkButton = GtkButton_cls
 //
 vtypedef
