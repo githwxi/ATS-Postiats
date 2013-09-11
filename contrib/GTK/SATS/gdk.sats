@@ -42,14 +42,14 @@
 (* ****** ****** *)
 
 %{#
-#include "GTK3/CATS/gdk.cats"
+#include "GTK/CATS/gdk.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSCNTRB.GTK3"
+#define ATS_PACKNAME "ATSCNTRB.GTK"
 #define ATS_STALOADFLAG 0 // no static loading at run-time
-#define ATS_EXTERN_PREFIX "atscntrb_gtk3_" // prefix for external names
+#define ATS_EXTERN_PREFIX "atscntrb_" // prefix for external names
 
 (* ****** ****** *)
 //

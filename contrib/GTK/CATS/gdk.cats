@@ -41,45 +41,17 @@
 //
 /* ****** ****** */
 
-#ifndef ATSCNTRB_GTK3_GTK_CATS
-#define ATSCNTRB_GTK3_GTK_CATS
+#ifndef ATSCNTRB_GTK_GDK_CATS
+#define ATSCNTRB_GTK_GDK_CATS
 
 /* ****** ****** */
 
-#include <gtk-3.0/gtk/gtk.h>
+#include <gdk/gdk.h>
 
 /* ****** ****** */
 
-#include "./gtk/gtkmain.cats"
+#endif // ATSCNTRB_GTK_GDK_CATS
 
 /* ****** ****** */
 
-#include "./gtk/gtkwidget.cats"
-
-/* ****** ****** */
-
-#include "./gtk/gtkcontainer.cats"
-
-/* ****** ****** */
-
-#include "./gtk/gtkbutton.cats"
-
-/* ****** ****** */
-
-#include "./gtk/gtkwindow.cats"
-
-/* ****** ****** */
-
-#include "./gtk/gtkbox.cats"
-
-/* ****** ****** */
-
-#include "./gtk/gtkhbox.cats"
-
-/* ****** ****** */
-
-#endif // ATSCNTRB_GTK3_GTK_CATS
-
-/* ****** ****** */
-
-/* end of [gtk.cats] */
+/* end of [gdk.cats] */
