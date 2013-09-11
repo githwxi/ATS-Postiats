@@ -15,4 +15,9 @@
 
 /* ****** ****** */
 
+#define atscntrb_gtk3_gtk_window_get_title gtk_window_get_title
+#define atscntrb_gtk3_gtk_window_set_title gtk_window_set_title
+
+/* ****** ****** */
+
 /* end of [gtkwindow.cats] */

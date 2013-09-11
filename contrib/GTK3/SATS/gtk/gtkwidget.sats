@@ -5,6 +5,7 @@
 (* ****** ****** *)
 
 fun gtk_widget_show (!GtkWidget1): void = "mac#%"
+fun gtk_widget_show_unref (x: GtkWidget1): void = "mac#%"
 
 (* ****** ****** *)
 

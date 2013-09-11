@@ -70,6 +70,14 @@
 
 /* ****** ****** */
 
+#include "./gtk/gtkbox.cats"
+
+/* ****** ****** */
+
+#include "./gtk/gtkhbox.cats"
+
+/* ****** ****** */
+
 #endif // ATSCNTRB_GTK3_GTK_CATS
 
 /* ****** ****** */

@@ -109,6 +109,21 @@ classdec GtkObject : GInitiallyUnowned
         classdec GtkWindow_cls : GtkBin_cls
         // end of [GtkWindow]
       // end of [GTKBin]
+      classdec GtkBox_cls : GtkContainer_cls
+        classdec GtkBottonBox_cls : GtkBox_cls
+          classdec GtkBottonHBox_cls : GtkBottonBox_cls
+          classdec GtkBottonVBox_cls : GtkBottonBox_cls
+        // end of [GtkBottonBox]
+        classdec GtkVBox_cls : GtkBox_cls
+          classdec GtkFontSelection_cls : GtkVBox_cls
+          classdec GtkColorSelection_cls : GtkVBox_cls
+          classdec GtkGammarCurve_cls : GtkVBox_cls
+        // end of [GtkVBox]
+        classdec GtkHBox_cls : GtkBox_cls
+          classdec GtkCombo_cls : GtkHBox_cls
+          classdec GtkStatusbar_cls : GtkHBox_cls
+        // end of [GtkHBox]
+      // end of [GtkBox]
     // end of [GTKContainer]
   // end of [GTKWidget]
 // end of [GtkObject]
@@ -141,6 +156,14 @@ classdec GtkObject : GInitiallyUnowned
 (* ****** ****** *)
 
 #include "./gtk/gtkwindow.sats"
+
+(* ****** ****** *)
+
+#include "./gtk/gtkbox.sats"
+
+(* ****** ****** *)
+
+#include "./gtk/gtkhbox.sats"
 
 (* ****** ****** *)
 

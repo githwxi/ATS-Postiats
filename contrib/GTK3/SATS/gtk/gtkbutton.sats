@@ -1,5 +1,5 @@
 (*
-** source: gtkcontainer.h
+** source: gtkbutton.h
 *)
 
 (* ****** ****** *)

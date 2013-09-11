@@ -22,6 +22,24 @@ vtypedef GtkContainer1 = [c:cls;l:addr | c <= GtkContainer; l > null] gobjref (c
 //
 (* ****** ****** *)
 //
+stadef GtkBox = GtkBox_cls
+//
+vtypedef
+GtkBox (l:addr) = [c:cls | c <= GtkBox] gobjref (c, l)
+vtypedef GtkBox0 = [c:cls;l:agez | c <= GtkBox] gobjref (c, l) 
+vtypedef GtkBox1 = [c:cls;l:addr | c <= GtkBox; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
+//
+stadef GtkHBox = GtkHBox_cls
+//
+vtypedef
+GtkHBox (l:addr) = [c:cls | c <= GtkHBox] gobjref (c, l)
+vtypedef GtkHBox0 = [c:cls;l:agez | c <= GtkHBox] gobjref (c, l) 
+vtypedef GtkHBox1 = [c:cls;l:addr | c <= GtkHBox; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
+//
 stadef GtkButton = GtkButton_cls
 //
 vtypedef
