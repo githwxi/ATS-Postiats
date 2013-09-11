@@ -24,4 +24,8 @@
 
 /* ****** ****** */
 
+#define atscntrb_gtk3_gtk_main_quit gtk_main_quit
+
+/* ****** ****** */
+
 /* end of [gtkmain.cats] */

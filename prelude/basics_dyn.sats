@@ -63,6 +63,14 @@ val false_bool : bool (false) = "mac#atsbool_false" // = 0
 prfun false_elim {X:prop | false} (): X
 //
 (* ****** ****** *)
+//
+praxi
+lemma_subcls_reflexive {c:cls} (): [c <= c] void
+praxi
+lemma_subcls_transitive
+  {c1,c2,c3:cls | c1 <= c2; c2 <= c3} (): [c1 <= c3] void
+//
+(* ****** ****** *)
 
 dataprop
 EQINT (int, int) = {x:int} EQINT (x, x)

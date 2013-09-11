@@ -41,30 +41,9 @@
 //
 (* ****** ****** *)
 
-%{#
-#include "glib/CATS/glib.cats"
-%} // end of [%{#]
+macdef GTRUE = $extval (gboolean, "TRUE")
+macdef GFALSE = $extval (gboolean, "FALSE")
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSCNTRB.glib"
-#define ATS_STALOADFLAG 0 // no static loading at run-time
-#define ATS_EXTERN_PREFIX "atscntrb_" // prefix for external names
-
-(* ****** ****** *)
-
-macdef GLIB_MAJOR_VERSION = $extval (int, "GLIB_MAJOR_VERSION")
-macdef GLIB_MINOR_VERSION = $extval (int, "GLIB_MINOR_VERSION")
-macdef GLIB_MICRO_VERSION = $extval (int, "GLIB_MICRO_VERSION")
-
-(* ****** ****** *)
-
-#include "./glib/gtypes.sats"
-
-(* ****** ****** *)
-
-#include "./glib/glib_basics.sats"
-
-(* ****** ****** *)
-
-(* end of [glib.sats] *)
+(* end of [basics.sats] *)

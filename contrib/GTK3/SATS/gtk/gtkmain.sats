@@ -16,14 +16,22 @@ fun gtk_get_interface_age (): guint = "mac#%"
 (* ****** ****** *)
 
 fun gtk_check_version
-(
-  required_major: guint, required_minor: guint, required_micro: guint
-) : gstring // end of [gtk_check_version]
+  (major: guint, minor: guint, micro: guint) : gstring
+// end of [gtk_check_version]
 
 (* ****** ****** *)
 
 fun gtk_main (): void = "mac#%"
 fun gtk_main_level (): guint = "mac#%"
+
+(* ****** ****** *)
+
+fun gtk_main_iteration (): gboolean = "mac#%"
+fun gtk_main_iteration_do (blocking: gboolean): gboolean = "mac#%"
+
+(* ****** ****** *)
+
+fun gtk_main_quit (): void = "mac#%"
 
 (* ****** ****** *)
 

@@ -54,4 +54,4 @@ val ((*void*)) = gtk_widget_destroy0 (win) // can never be reached!!!
 
 (* ****** ****** *)
 
-(* end of [test00.dats] *)
+(* end of [test01.dats] *)

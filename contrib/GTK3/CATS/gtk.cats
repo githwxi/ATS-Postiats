@@ -55,6 +55,17 @@
 /* ****** ****** */
 
 #include "./gtk/gtkwidget.cats"
+
+/* ****** ****** */
+
+#include "./gtk/gtkcontainer.cats"
+
+/* ****** ****** */
+
+#include "./gtk/gtkbutton.cats"
+
+/* ****** ****** */
+
 #include "./gtk/gtkwindow.cats"
 
 /* ****** ****** */

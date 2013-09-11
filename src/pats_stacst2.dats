@@ -307,6 +307,10 @@ implement
 the_lte_cls_cls = s2cstref_make "lte_cls_cls"
 implement
 the_gte_cls_cls = s2cstref_make "gte_cls_cls"
+implement
+the_lterel_cls_cls = s2cstref_make "lterel_cls_cls"
+implement
+the_gterel_cls_cls = s2cstref_make "gterel_cls_cls"
 
 (* ****** ****** *)
 

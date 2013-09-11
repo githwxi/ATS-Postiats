@@ -7,14 +7,14 @@
 /************************************************************************/
 
 /*
-** ATS - Unleashing the Potential of Types!
+** ATS - Unleashing the Power of Types!
 ** Copyright (C) 2002-2010 Hongwei Xi, Boston University
 ** All rights reserved
 **
-** ATS is  free software;  you can redistribute it and/or modify it under
-** the  terms of the  GNU General Public License as published by the Free
-** Software Foundation; either version 2.1, or (at your option) any later
-** version.
+** ATS is free software;  you can  redistribute it and/or modify it under
+** the terms of the GNU LESSER GENERAL PUBLIC LICENSE as published by the
+** Free Software Foundation; either version 2.1, or (at your option)  any
+** later version.
 ** 
 ** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
 ** WARRANTY; without  even  the  implied  warranty  of MERCHANTABILITY or
@@ -41,40 +41,17 @@
 //
 /* ****** ****** */
 
-#ifndef ATSCNTRB_GLIB_GLIBOBJ_CATS
-#define ATSCNTRB_GLIB_GLIBOBJ_CATS
+#ifndef ATSCNTRB_GTK3_GDK_CATS
+#define ATSCNTRB_GTK3_GDK_CATS
 
 /* ****** ****** */
 
-#include "glib-object.h"
+#include <gtk-3.0/gdk/gdk.h>
 
 /* ****** ****** */
 
-#define atscntrb_g_object_ref g_object_ref
-#define atscntrb_g_object_unref g_object_unref
+#endif // ATSCNTRB_GTK3_GDK_CATS
 
 /* ****** ****** */
 
-ATSinline()
-atstype_int
-atscntrb_g_object_ref_count
-  (atstype_ptr x) {
-  return g_atomic_int_get ((int*)&((GObject*)x)->ref_count) ;
-} // end of [atscntrb_g_object_ref_count]
-
-/* ****** ****** */
-
-#define atscntrb_g_object_is_floating g_object_is_floating
-
-/* ****** ****** */
-
-#define atscntrb_g_signal_connect g_signal_connect
-#define atscntrb_g_signal_connect_swapped g_signal_connect_swapped
-
-/* ****** ****** */
-
-#endif /* ATSCNTRB_GLIB_GLIBOBJ_CATS */
-
-/* ****** ****** */
-
-/* end of [glib-object.cats] */
+/* end of [gdk.cats] */

@@ -21,6 +21,10 @@ all:: test01
 test01: test01.dats ; $(PATSCC) -I${PATSHOME}/contrib -o $@ $< $(GTKFLAGS)
 cleanall:: ; $(RMF) test01
 
+all:: test02
+test02: test02.dats ; $(PATSCC) -I${PATSHOME}/contrib -o $@ $< $(GTKFLAGS)
+cleanall:: ; $(RMF) test02
+
 ######
 
 RMF=rm -f

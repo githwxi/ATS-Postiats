@@ -62,7 +62,13 @@ staload GLIBOBJ = "{$GLIB}/SATS/glib-object.sats"
 
 typedef gint = $GLIB.gint
 typedef guint = $GLIB.guint
+
+(* ****** ****** *)
+
 typedef gboolean = $GLIB.gboolean
+
+(* ****** ****** *)
+
 typedef gchar = $GLIB.gchar
 typedef guchar = $GLIB.guchar
 
@@ -70,7 +76,9 @@ typedef guchar = $GLIB.guchar
 
 typedef gstring = $GLIB.gstring
 typedef gstropt = $GLIB.gstropt
-vtypedef gstrptr (l:addr) = $GLIB.gstrptr (l)
+vtypedef gstrptr(l:addr) = $GLIB.gstrptr (l)
+vtypedef gstrptr0 = $GLIB.gstrptr0
+vtypedef gstrptr1 = $GLIB.gstrptr1
 
 (* ****** ****** *)
 
@@ -87,10 +95,18 @@ stadef GInterface: cls = $GLIBOBJ.GInterface
 (* ****** ****** *)
 
 classdec GtkObject : GInitiallyUnowned
-  classdec GtkWidget : GtkObject
-    classdec GtkContainer : GtkWidget
-      classdec GtkBin : GtkContainer
-        classdec GtkWindow_cls : GtkBin
+  classdec GtkWidget_cls : GtkObject
+    classdec GtkContainer_cls : GtkWidget_cls
+      classdec GtkBin_cls : GtkContainer_cls
+        classdec GtkButton_cls : GtkBin_cls
+          classdec GtkToggleButton : GtkButton_cls
+            classdec GtkCheckButton : GtkToggleButton
+              classdec GtkRadioButton : GtkCheckButton
+            // end of [GtkCheckButton]
+          // end of [GtkToggleButton]
+          classdec GtkOptionMenu : GtkButton_cls
+        // end of [GtkButton]
+        classdec GtkWindow_cls : GtkBin_cls
         // end of [GtkWindow]
       // end of [GTKBin]
     // end of [GTKContainer]
@@ -98,13 +114,9 @@ classdec GtkObject : GInitiallyUnowned
 // end of [GtkObject]
 
 (* ****** ****** *)
-//
-stadef GtkWindow = GtkWindow_cls
-//
-vtypedef GtkWindow (l:addr) = gobjref (GtkWindow, l)
-vtypedef GtkWindow0 = [l:agez] gobjref (GtkWindow, l)
-vtypedef GtkWindow1 = [l:addr | l > null] gobjref (GtkWindow, l)
-//
+
+#include "./gtk/basics.sats"
+
 (* ****** ****** *)
 
 #include "./gtk/gtkmain.sats"
@@ -117,6 +129,17 @@ vtypedef GtkWindow1 = [l:addr | l > null] gobjref (GtkWindow, l)
 (* ****** ****** *)
 
 #include "./gtk/gtkwidget.sats"
+
+(* ****** ****** *)
+
+#include "./gtk/gtkcontainer.sats"
+
+(* ****** ****** *)
+
+#include "./gtk/gtkbutton.sats"
+
+(* ****** ****** *)
+
 #include "./gtk/gtkwindow.sats"
 
 (* ****** ****** *)

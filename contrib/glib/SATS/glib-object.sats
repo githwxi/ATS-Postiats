@@ -63,13 +63,6 @@ stadef gboolean = $GLIB.gboolean
 stadef gpointer = $GLIB.gpointer
 
 (* ****** ****** *)
-//
-classdec GObject // super: none
-  classdec GInitiallyUnowned : GObject // HX: no floating reference
-//
-classdec GInterface // super: none
-//
-(* ****** ****** *)
 
 absvtype
 gobjref_vtype (c:cls, l:addr) = ptr
@@ -103,8 +96,30 @@ g_object_vref
 // end of [g_object_vref]
 //
 (* ****** ****** *)
+//
+classdec GObject_cls // super: none
+  classdec GInitiallyUnowned_cls : GObject_cls // HX: no floating reference
+classdec GInterface_cls // super: none
+//
+(* ****** ****** *)
+//
+stadef GObject = GObject_cls
+stadef GInitiallyUnowned = GInitiallyUnowned_cls
+stadef GInterface = GInterface_cls
+//
+vtypedef
+GObject (l:addr) = [c:cls | c <= GObject] gobjref (c, l)
+vtypedef GObject0 = [c:cls;l:agez | c <= GObject] gobjref (c, l) 
+vtypedef GObject1 = [c:cls;l:addr | c <= GObject; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
 
-abstype GCallback = ptr // = (...) -<fun1> void
+abstype
+GCallback = ptr // = (...) -<fun1> void
+
+(* ****** ****** *)
+
+castfn G_CALLBACK {a:type} (x: a): GCallback // HX: unfortunately ...
 
 (* ****** ****** *)
 

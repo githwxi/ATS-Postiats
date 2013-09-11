@@ -4,18 +4,12 @@
 
 (* ****** ****** *)
 
-fun gtk_widget_show
-  {c:cls | c <= GtkWidget} (!gobjref0 (c)): void = "mac#%"
-// end of [gtk_widget_show]
+fun gtk_widget_show (!GtkWidget1): void = "mac#%"
 
 (* ****** ****** *)
 
-fun gtk_widget_destroy
-  {c:cls | c <= GtkWidget} (!gobjref0 (c)): void = "mac#%"
-// end of [gtk_widget_destroy]
-fun gtk_widget_destroy0
-  {c:cls | c <= GtkWidget} (x: gobjref0 (c)): void = "mac#%"
-// end of [gtk_widget_destroy0]
+fun gtk_widget_destroy (!GtkWidget0): void = "mac#%"
+fun gtk_widget_destroy0 (x: GtkWidget0): void = "mac#%"
 
 (* ****** ****** *)
 

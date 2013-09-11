@@ -31,7 +31,7 @@
 //
 // Author: Hongwei Xi
 // Authoremail: hwxiATcsDOTbuDOTedu
-// Start Time: February, 2010
+// Start Time: April, 2010
 //
 (* ****** ****** *)
 //
@@ -42,29 +42,43 @@
 (* ****** ****** *)
 
 %{#
-#include "glib/CATS/glib.cats"
+#include "GTK3/CATS/gdk.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSCNTRB.glib"
+#define ATS_PACKNAME "ATSCNTRB.GTK3"
 #define ATS_STALOADFLAG 0 // no static loading at run-time
-#define ATS_EXTERN_PREFIX "atscntrb_" // prefix for external names
+#define ATS_EXTERN_PREFIX "atscntrb_gtk3_" // prefix for external names
+
+(* ****** ****** *)
+//
+#include "share/atspre_define.hats"
+//
+staload GLIB = "{$GLIB}/SATS/glib.sats"
+staload GLIBOBJ = "{$GLIB}/SATS/glib-object.sats"
+//
+(* ****** ****** *)
+
+stadef gint = $GLIB.gint
+stadef guint = $GLIB.guint
 
 (* ****** ****** *)
 
-macdef GLIB_MAJOR_VERSION = $extval (int, "GLIB_MAJOR_VERSION")
-macdef GLIB_MINOR_VERSION = $extval (int, "GLIB_MINOR_VERSION")
-macdef GLIB_MICRO_VERSION = $extval (int, "GLIB_MICRO_VERSION")
+stadef gint8 = $GLIB.gint8
+stadef gint16 = $GLIB.gint16
+stadef gint32 = $GLIB.gint32
 
 (* ****** ****** *)
 
-#include "./glib/gtypes.sats"
+stadef guint8 = $GLIB.guint8
+stadef guint16 = $GLIB.guint16
+stadef guint32 = $GLIB.guint32
 
 (* ****** ****** *)
 
-#include "./glib/glib_basics.sats"
+#include "./gdk/gdkevents.sats"
 
 (* ****** ****** *)
 
-(* end of [glib.sats] *)
+(* end of [gdk.sats] *)

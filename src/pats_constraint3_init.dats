@@ -365,6 +365,10 @@ f_lte_cls_cls (
 //
 val s2c = s2cstref_get_cst (the_lte_cls_cls)
 //
+(*
+val () = println! ("f_lte_cls_cls: s2es = ", s2es)
+*)
+//
 val-list_cons (s2e1, s2es) = s2es
 val-list_cons (s2e2, s2es) = s2es
 //
@@ -383,10 +387,12 @@ case+
   (
     s3exp_bool (s2cst_lte_cls_cls (s2c1, s2c2))
   )
-| (_, _) => s3exp_var (s2v) where
-  {
-    val s2v = s2vbcfenv_replace_cstapp (env, s2rt_bool, s2c, s2es)
-  } // end of [_, _]
+| (_, _) => let
+    val s2c_rel = s2cstref_get_cst (the_lterel_cls_cls)
+    val s2v_res = s2vbcfenv_replace_cstapp (env, s2rt_bool, s2c_rel, s2es)
+  in
+    s3exp_var (s2v_res)
+  end // end of [_, _]
 end // end of [f_lte_cls_cls]
 //
 (* ****** ****** *)

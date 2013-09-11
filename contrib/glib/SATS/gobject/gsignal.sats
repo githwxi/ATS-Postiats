@@ -62,9 +62,15 @@ macdef GSIGNAL_DELETE_EVENT = $extval (gsignal, "\"delete_event\"")
 (* ****** ****** *)
 
 fun g_signal_connect
-  {c:cls | c <= GObject}
 (
-  x: !gobjref1 (c), sig: gsignal, handler: GCallback, data: gpointer
+  x: !GObject1, sig: gsignal, handler: GCallback, data: gpointer
+) : guint = "mac#%" // endfun
+
+(* ****** ****** *)
+
+fun g_signal_connect_swapped
+(
+  gobj: !GObject1, sig: gsignal, handler: GCallback, data: !GObject1
 ) : guint = "mac#%" // endfun
 
 (* ****** ****** *)
