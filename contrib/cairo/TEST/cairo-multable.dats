@@ -7,14 +7,19 @@
 **
 *)
 
+(* ****** ****** *)
+
 (*
-How to compile:
+** Ported to ATS2 by Hongwei Xi, April, 2013
+*)
 
-atscc -o test10 `pkg-config --cflags --libs cairo` cairo-multable.dats
+(* ****** ****** *)
 
-How to test: ./caior-multable
-
-The generated postscript file [cairo-multable.ps] can be viewed with 'gv'
+(*
+** How to compile:
+  atscc -o test10 `pkg-config --cflags --libs cairo` cairo-multable.dats
+** How to test: ./caior-multable
+** The generated postscript file [cairo-multable.ps] can be viewed with 'gv'
 *)
 
 (* ****** ****** *)

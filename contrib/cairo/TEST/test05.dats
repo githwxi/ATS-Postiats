@@ -7,14 +7,19 @@
 **
 *)
 
+(* ****** ****** *)
+
 (*
-**
-How to compile:
-atscc -o test05 `pkg-config --cflags --libs cairo` test05.dats
+** Ported to ATS2 by Hongwei Xi, April, 2013
+*)
 
-How to test: ./test05
+(* ****** ****** *)
 
-Note that 'eog' and 'gthumb' can be used to view the generated image file.
+(*
+** How to compile:
+   atscc -o test05 `pkg-config --cflags --libs cairo` test05.dats
+** How to test: ./test05
+** Note that 'eog' and 'gthumb' can be used to view the generated image file.
 **
 *)
 

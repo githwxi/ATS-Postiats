@@ -17,14 +17,9 @@
 
 (*
 ** how to compile:
-   atscc -o test07 \
-     `pkg-config --cflags --libs cairo` \
-     $ATSHOME/contrib/cairo/atsctrb_cairo.o \
-     test07.dats
-
-** how ot test:
-   ./test07
-   'gthumb' can be used to view the generated image file 'test07.png'
+   atscc -o test07 `pkg-config --cflags --libs cairo` test07.dats
+** how ot test: ./test07
+** Note that 'gthumb' can be used to view the generated image file
 *)
 
 (* ****** ****** *)

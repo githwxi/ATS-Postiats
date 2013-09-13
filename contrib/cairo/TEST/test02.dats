@@ -7,18 +7,19 @@
 **
 *)
 
+(* ****** ****** *)
+
 (*
-HX: how to compile:
+** Ported to ATS2 by Hongwei Xi, April, 2013
+*)
 
-atscc -o test2 \
-  `pkg-config --cflags --libs cairo` $ATSHOME/contrib/cairo/atscntrb_cairo.o \
-   test02.dats
+(* ****** ****** *)
 
-HX: how to test the generated executable:
-
-./test02
-
-HX: please use 'gthumb' or 'eog' to view the generated image file 'test02.png'
+(*
+** how to compile:
+   atscc -o test02 `pkg-config --cflags --libs cairo` test02.dats
+** how to test the generated executable: ./test02
+** please use 'gthumb' or 'eog' to view the generated image file 'test02.png'
 *)
 
 (* ****** ****** *)
