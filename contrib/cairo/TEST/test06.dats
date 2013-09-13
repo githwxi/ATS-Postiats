@@ -17,9 +17,9 @@
 (* ****** ****** *)
 
 (*
-** how to compile:
+** How to compile:
    atscc -o test06 `pkg-config --cflags --libs cairo` test06.dats
-** how ot test: ./test06
+** How to test: ./test06
 ** Note that 'gthumb' can be used to view the generated image file.
 *)
 

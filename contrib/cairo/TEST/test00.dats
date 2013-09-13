@@ -16,9 +16,9 @@
 (* ****** ****** *)
 
 (*
-** how to compile:
+** How to compile:
    atscc -o test00 `pkg-config --cflags --libs cairo` test00.dats
-** how ot test the generated executable: ./test00
+** How to test the generated executable: ./test00
 *)
 
 (* ****** ****** *)

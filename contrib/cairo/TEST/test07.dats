@@ -16,9 +16,9 @@
 (* ****** ****** *)
 
 (*
-** how to compile:
+** How to compile:
    atscc -o test07 `pkg-config --cflags --libs cairo` test07.dats
-** how ot test: ./test07
+** How to test: ./test07
 ** Note that 'gthumb' can be used to view the generated image file
 *)
 
@@ -43,7 +43,9 @@ stadef cr (l:addr) = cairo_ref l
 (* ****** ****** *)
 
 fn draw_hand {l:agz}
-  (cr: !cr l, bot: dbl, top:dbl, len: dbl): void = let
+(
+  cr: !cr l, bot: dbl, top: dbl, len: dbl
+) : void = let
   val () = cairo_move_to (cr, 0.0, bot/2)
   val () = cairo_line_to (cr, len, top/2)
   val () = cairo_line_to (cr, len, ~top/2)

@@ -222,7 +222,7 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
-#packfilename("libats_ML_filebase.dats")
+#packfilename("libats_ML_filebas.dats")
 
 (* ****** ****** *)
 

@@ -273,7 +273,7 @@ macdef CAIRO_ANTIALIAS_BES = $extval (cairo_antialias_t, "CAIRO_ANTIALIAS_BES")
 abst@ype cairo_fill_rule_t = $extype"cairo_fill_rule_t"
 //
 macdef CAIRO_FILL_RULE_WINDING = $extval (cairo_fill_rule_t, "CAIRO_FILL_RULE_WINDING")
-macdef CAIRO_FILL_RULE_EVEN_OD = $extval (cairo_fill_rule_t, "CAIRO_FILL_RULE_EVEN_OD")
+macdef CAIRO_FILL_RULE_EVEN_ODD = $extval (cairo_fill_rule_t, "CAIRO_FILL_RULE_EVEN_ODD")
 //
 (* ****** ****** *)
 //
@@ -289,7 +289,7 @@ abst@ype cairo_line_join_t = $extype"cairo_line_join_t"
 //
 macdef CAIRO_LINE_JOIN_MITER = $extval (cairo_line_join_t, "CAIRO_LINE_JOIN_MITER")
 macdef CAIRO_LINE_JOIN_ROUND = $extval (cairo_line_join_t, "CAIRO_LINE_JOIN_ROUND")
-macdef CAIRO_LINE_JOIN_BEVE = $extval (cairo_line_join_t, "CAIRO_LINE_JOIN_BEVE")
+macdef CAIRO_LINE_JOIN_BEVEL = $extval (cairo_line_join_t, "CAIRO_LINE_JOIN_BEVEL")
 //
 (* ****** ****** *)
 //

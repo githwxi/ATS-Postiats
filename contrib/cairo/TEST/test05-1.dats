@@ -17,17 +17,11 @@
 
 (*
 ** How to compile:
-   atscc -o test05 `pkg-config --cflags --libs cairo` test05.dats
-** How to test: ./test05
+   atscc -o test05-1 `pkg-config --cflags --libs cairo` test05-1.dats
+** How to test: ./test05-1
 ** Note that 'eog' and 'gthumb' can be used to view the generated image file.
 **
 *)
-
-(* ****** ****** *)
-
-%{^
-#include <math.h>
-%} // end of [%{]
 
 (* ****** ****** *)
 
@@ -92,7 +86,7 @@ val () = cairo_move_to (cr, x, 50.0)
 val () = cairo_line_to (cr, x, 200.0)
 val () = cairo_stroke (cr)
 //
-val status = cairo_surface_write_to_png (surface, "test05.png")
+val status = cairo_surface_write_to_png (surface, "test05-1.png")
 //
 val () = cairo_destroy (cr)
 val () = cairo_surface_destroy (surface)
@@ -100,7 +94,7 @@ val () = cairo_surface_destroy (surface)
 val () =
 (
 if status = CAIRO_STATUS_SUCCESS then begin
-  println! ("The image is written to the file [test05.png].")
+  println! ("The image is written to the file [test05-1.png].")
 end else
   println! ("exit(ATS): [cairo_surface_write_to_png] failed.")
 // end of [if]
@@ -110,4 +104,4 @@ end else
 
 (* ****** ****** *)
 
-(* end of [test05.dats] *)
+(* end of [test05-1.dats] *)
