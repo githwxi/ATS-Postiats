@@ -53,9 +53,11 @@ typedef stringlst0 = list0 (string)
 
 (* ****** ****** *)
 
+(*
 fun fileref_open_opt
   (path: NSH(string), fm: file_mode): option0 (FILEref)
 // end of [fileref_open_opt]
+*)
 
 (* ****** ****** *)
 
