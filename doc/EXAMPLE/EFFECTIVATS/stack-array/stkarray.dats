@@ -1,5 +1,18 @@
 //
-// An implementation of array-based stack
+// An array-based stack implementation
 //
-absvtype
-stkarray_vtype (a:vt@ype+, m:int, n:int) = ptr
+(* ****** ****** *)
+
+(*
+
+Please find the code in the following files:
+
+${ATSLIB}/libats/SATS/stkarray.sats
+${ATSLIB}/libats/DATS/stkarray.dats
+${ATSLIB}/libats/DATS/stkarray.cats
+
+*)
+
+(* ****** ****** *)
+
+(* end of [stkarray.dats] *)

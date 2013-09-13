@@ -35,7 +35,7 @@
 
 (*
 **
-** An array-based queue implementation
+** An array-based stack implementation
 **
 *)
 
