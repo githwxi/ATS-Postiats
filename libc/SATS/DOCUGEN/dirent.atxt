@@ -36,8 +36,33 @@ file in ATSLIB where these functions are declared.
 (* ****** ****** *)
 
 #declnamesynop("dirent_get_d_name")
+#decldescrpt('\
+
+This function returns the content of the #stacode("d_name") field in a
+given #stacode("dirent") struct.  Note that the string returned by this
+function must be given back.\
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("dirent_get_d_name_gc")
+#decldescrpt('\
+
+This function is a variant of #dyncode("dirent_get_d_name") in that
+it returns a linear copy of the string returned by #dyncode("dirent_get_d_name").
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("compare_dirent_string")
+#decldescrpt('\
+
+This is a convenient function for comparing the #stacode("d_name") field of
+a given #stacode("dirent") struct and a given string.
+
+')
 
 (* ****** ****** *)
 
@@ -52,7 +77,28 @@ file in ATSLIB where these functions are declared.
 (* ****** ****** *)
 
 #declnamesynop("readdir")
+#decldescrpt('\
+
+This function returns a pointer to a #stacode("dirent") structure
+representing the next directory entry in the directory stream pointed to by
+[dirp].  It returns NULL on reaching the end of the directory stream or if
+an error is encountered.
+
+')
+
+
+(* ****** ****** *)
+
 #declnamesynop("readdir_r")
+#decldescrpt('\
+
+This function is a reentrant version of #dyncode("readdir").  It reads the
+next directory entry from the directory stream [dirp], and returns it in
+the caller-allocated buffer pointed to by [entry]. Also, it places a
+pointer to the returned item in [result]. If the end of the directory
+stream was encountered, then NULL is instead placed in [result].\
+
+')
 
 (* ****** ****** *)
 

@@ -132,7 +132,10 @@ The ATSLIB/libats/ML library\
 #packfilename("DATS/array0.dats")
 #packfilename("DATS/string.dats")
 #packfilename("DATS/strarr.dats")
+
 #packfilename("DATS/filebas.dats")
+#packfilename("DATS/filebas_dirent.dats")
+
 #packfilename("DATS/funset.dats")
 #packfilename("DATS/funmap.dats")
 #packfilename("DATS/hashtbl.dats")

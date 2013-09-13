@@ -80,12 +80,11 @@ qlist (a:vt0p) = [n:int] qlist_vtype (a, n)
 //
 vtypedef
 qlist0 (a:vt0p) = [n:int | n >= 0] qlist (a, n)
-vtypedef
-qlist1 (a:vt0p) = [n:int | n >= 1] qlist (a, n)
 //
 (* ****** ****** *)
 
-praxi lemma_qlist_param
+praxi
+lemma_qlist_param
   {a:vt0p}{n:int} (q: !qlist (INV(a), n)): [n>=0] void
 // end of [lemma_qlist_param]
 
@@ -176,7 +175,9 @@ stadef qstruct = qstruct_vt0ype
 stadef qstruct = qstruct_tsize // HX: order significant
 //
 viewtypedef
-qstruct (a:vt0p) = [n:nat] qstruct (a, n)
+qstruct (a:vt0p) = [n:int] qstruct (a, n)
+viewtypedef
+qstruct0 (a:vt0p) = [n:nat] qstruct (a, n)
 //
 (* ****** ****** *)
 

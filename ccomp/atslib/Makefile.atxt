@@ -162,6 +162,8 @@ atslib:: atslib_libats
 #make_entry("libats", "linmap_list.dats")
 #make_entry("libats", "linmap_randbst.dats")
 #make_entry("libats", "linmap_skiplist.dats")
+#make_entry("libats", "linset_listord.dats")
+#make_entry("libats", "linset_avltree.dats")
 #make_entry("libats", "linhashtbl_chain.dats")
 #make_entry("libats", "linralist_nested.dats")
 
@@ -173,7 +175,11 @@ atslib:: atslib_libats_ML
 #make_entry("libats/ML", "array0.dats")
 #make_entry("libats/ML", "string.dats")
 #make_entry("libats/ML", "strarr.dats")
+
+######
+
 #make_entry("libats/ML", "filebas.dats")
+#make_entry("libats/ML", "filebas_dirent.dats")
 
 ######
 

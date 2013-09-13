@@ -77,4 +77,8 @@ fun fileref_get_lines_stringlst (filr: FILEref): stringlst0
 
 (* ****** ****** *)
 
+fun dirname_get_fnamelst (dirname: string): list0 (string)
+
+(* ****** ****** *)
+
 (* end of [filebas.sats] *)

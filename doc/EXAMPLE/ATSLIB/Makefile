@@ -555,6 +555,17 @@ cleanall:: ; $(RMF) libats_ML_strarr.exe
 
 ######
 
+all:: libats_ML_dirent
+libats_ML_dirent: libats_ML_dirent.exe
+libats_ML_dirent.exe: libats_ML_dirent_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_ML_dirent_dats.c: libats_ML_dirent.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_ML_dirent_dats.c --dynamic libats_ML_dirent.dats
+clean:: ; $(RMF) libats_ML_dirent_dats.o
+clean:: ; $(RMF) libats_ML_dirent_dats.c
+cleanall:: ; $(RMF) libats_ML_dirent.exe
+
+
+######
+
 all:: libats_ML_funset
 libats_ML_funset: libats_ML_funset.exe
 libats_ML_funset.exe: libats_ML_funset_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib

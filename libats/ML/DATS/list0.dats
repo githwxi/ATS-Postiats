@@ -33,8 +33,11 @@
 
 (* ****** ****** *)
 
-staload
-UN = "prelude/SATS/unsafe.sats"
+#define ATS_DYNLOADFLAG 0
+  
+(* ****** ****** *)
+  
+staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 

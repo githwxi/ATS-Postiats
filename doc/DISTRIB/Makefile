@@ -239,6 +239,8 @@ srcget_home:: ; $(CPF) ../../patsopt_env.sh.in $(ATSDIST)/bin/
 srcget_share:: ; \
   $(CPF) ../../share/atspre_define.hats $(ATSDIST)/share/
 srcget_share:: ; \
+  $(CPF) ../../share/atspre_define_pkgreloc.hats $(ATSDIST)/share/
+srcget_share:: ; \
   $(CPF) ../../share/atspre_staload.hats $(ATSDIST)/share/
 
 ######

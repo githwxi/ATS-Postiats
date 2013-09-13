@@ -166,7 +166,7 @@ fun copy
   (t: !avltree (a, h)):<!wrt> avltree (a, h) =
 (
 case+ t of
-| B (h, x, tl, tr) => B (h, x, copy (tl), copy (tr)) | E () => E ()
+| B (h, x, tl, tr) => B{a}(h, x, copy (tl), copy (tr)) | E () => E ()
 ) // end of [copy]
 in
   copy (xs)

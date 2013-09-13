@@ -29,86 +29,102 @@
 
 (* Author: Hongwei Xi *)
 (* Authoremail: hwxi AT cs DOT bu DOT edu *)
-(* Start time: January, 2013 *)
+(* Start time: September, 2013 *)
 
 (* ****** ****** *)
 
-#define ATS_DYNLOADFLAG 0 // no dynloading at run-time
-
+#define ATS_DYNLOADFLAG 0
+  
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/integer.dats"
-staload _(*anon*) = "prelude/DATS/filebas.dats"
+staload _(*INT*) = "prelude/DATS/integer.dats"
+staload _(*STRING*) = "prelude/DATS/string.dats"
+staload _(*STRING*) = "prelude/DATS/strptr.dats"
+staload _(*UNSAFE*) = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
-
-macdef
-prelude_fileref_open_opt = fileref_open_opt
-macdef
-prelude_fileref_get_line_charlst = fileref_get_line_charlst
-macdef
-prelude_fileref_get_lines_charlstlst = fileref_get_lines_charlstlst
-macdef
-prelude_fileref_get_line_string = fileref_get_line_string
-macdef
-prelude_fileref_get_lines_stringlst = fileref_get_lines_stringlst
-
-(* ****** ****** *)
-
+//
 staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
-staload "libats/ML/SATS/option0.sats"
-
-(* ****** ****** *)
-
+staload "libats/ML/SATS/string.sats"
+//
 staload "libats/ML/SATS/filebas.sats"
+//
+(* ****** ****** *)
+
+staload DIR = "libc/SATS/dirent.sats"
+staload _(*anon*) = "libc/DATS/dirent.dats"
+
+(* ****** ****** *)
+
+staload QUE = "libats/SATS/qlist.sats"
+staload _(*anon*) = "libats/DATS/qlist.dats"
+
+(* ****** ****** *)
+
+stadef dirent = $DIR.dirent
+stadef DIRptr1 = $DIR.DIRptr1
+stadef qstruct0 = $QUE.qstruct0
 
 (* ****** ****** *)
 
 implement
-fileref_open_opt
-  (path, mode) = let
-  val opt = prelude_fileref_open_opt (path, mode)
+dirname_get_fnamelst
+  (dirname) = let
+//
+vtypedef res = $QUE.qstruct0 (string)
+//
+fun loop
+(
+  dirp: !DIRptr1, res: &res >> _
+) : void = let
+//
+var ent: dirent?
+var result: ptr?
+//
+val err = $DIR.readdir_r (dirp, ent, result)
+//
 in
-  option0_of_option_vt (opt)
-end // end of [fileref_open_opt]
+//
+if result > 0 then let
+  prval () = opt_unsome{dirent}(ent)
+  val d_name = $DIR.dirent_get_d_name_gc (ent)
+  val () = $QUE.qstruct_insert (res, strptr2string(d_name))
+in
+  loop (dirp, res)
+end else let
+  prval () = opt_unnone{dirent}(ent)
+in
+  // nothing
+end // end of [if]
+//
+end // end of [loop]
+//
+val dirp = $DIR.opendir (dirname)
+//
+in
+//
+if $DIR.DIRptr2ptr(dirp) > 0 then let
+  var res: $QUE.qstruct
+  val () = $QUE.qstruct_initize{string}(res)
+  val () = loop (dirp, res)
+  val res2 = $QUE.qstruct_takeout_list (res)
+  prval () = $QUE.qstruct_uninitize{string}(res)
+  val () = $DIR.closedir_exn (dirp)
+in
+  g0ofg1_list_vt (res2)  
+end else let
+  prval () = $DIR.DIRptr_free_null (dirp)
+in
+  list0_nil(*void*)
+end // end of [if]
+//
+end // end of [dirname_get_fnamelst]
 
 (* ****** ****** *)
 
-implement
-fileref_get_line_charlst (filr) =
-  list0_of_list_vt (prelude_fileref_get_line_charlst (filr))
-// end of [fileref_get_line_charlst]
-
-implement
-fileref_get_lines_charlstlst (filr) =
-  $UN.castvwtp0{list0(charlst0)} (prelude_fileref_get_lines_charlstlst (filr))
-// end of [fileref_get_lines_charlstlst]
-
-(* ****** ****** *)
-
-local
-
-staload _(*anon*) = "prelude/DATS/strptr.dats"
-
-in (* in of [local] *)
-
-implement
-fileref_get_line_string (filr) =
-  strptr2string (prelude_fileref_get_line_string (filr))
-// end of [fileref_get_line_string]
-
-implement
-fileref_get_lines_stringlst (filr) =
-  $UN.castvwtp0{list0(string)}(prelude_fileref_get_lines_stringlst (filr))
-// end of [fileref_get_lines_stringlst]
-
-end // end of [local]
-
-(* ****** ****** *)
-
-(* end of [filebas.dats] *)
+(* end of [dirent.dats] *)
