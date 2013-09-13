@@ -33,7 +33,8 @@
 //
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSCNTRB.atshwxi.mydraw"
+#define
+ATS_PACKNAME "ATSCNTRB.libats-hwxi.teaching.mydraw"
 
 (* ****** ****** *)
 
@@ -123,12 +124,17 @@ overload .b with color_get_b
 
 (* ****** ****** *)
 
+#include
+"share/atspre_define.hats"
+
+(* ****** ****** *)
+
 (*
 import XR = ...
 staload XR = XR("SATS/cairo.sats")
 *)
 staload
-XR = "cairo/SATS/cairo.sats"
+XR = "{$CAIRO}/SATS/cairo.sats"
 stadef cairo_ref = $XR.cairo_ref
 stadef cairo_ref1 = $XR.cairo_ref1
 

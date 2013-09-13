@@ -32,11 +32,16 @@
 //
 (* ****** ****** *)
 
-staload "cairo/SATS/cairo.sats"
+#include
+"share/atspre_define.hats"
 
 (* ****** ****** *)
 
-staload "atshwxi/mydraw/SATS/mydraw.sats"
+staload "./../SATS/mydraw.sats"
+
+(* ****** ****** *)
+
+staload "{$CAIRO}/SATS/cairo.sats"
 
 (* ****** ****** *)
 

@@ -32,7 +32,7 @@
 //
 (* ****** ****** *)
 
-staload "atshwxi/mydraw/SATS/mydraw.sats"
+staload "./../SATS/mydraw.sats"
 
 (* ****** ****** *)
 

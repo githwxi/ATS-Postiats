@@ -19,7 +19,7 @@ XRCFLAGS=`pkg-config cairo --cflags`
 
 ######
 
-all::
+.PHONY: all
 
 ######
 
@@ -29,6 +29,8 @@ all:: test02
 all:: test03
 all:: test04
 all:: test05
+all:: test06
+all:: test07
 all:: cairo-multable
 
 ######
@@ -39,6 +41,8 @@ cleanall:: ; $(RMF) test02
 cleanall:: ; $(RMF) test03
 cleanall:: ; $(RMF) test04
 cleanall:: ; $(RMF) test05
+cleanall:: ; $(RMF) test06
+cleanall:: ; $(RMF) test07
 cleanall:: ; $(RMF) cairo-multable
 
 ######
