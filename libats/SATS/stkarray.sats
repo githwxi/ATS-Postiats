@@ -224,4 +224,21 @@ overload stkarray_getref_at with stkarray_getref_at_size
 //
 (* ****** ****** *)
 
+fun{
+a:vt0p}{env:vt0p
+} stkarray_foreach$cont (x: &a, env: &env): bool
+fun{
+a:vt0p}{env:vt0p
+} stkarray_foreach$fwork (x: &a >> _, env: &(env) >> _): void
+fun{
+a:vt0p
+} stkarray_foreach{m,n:int}
+  (stk: !stkarray (INV(a), m, n)): sizeLte(n)
+fun{
+a:vt0p}{env:vt0p
+} stkarray_foreach_env{m,n:int}
+  (stk: !stkarray (INV(a), m, n), env: &(env) >> _): sizeLte(n)
+
+(* ****** ****** *)
+
 (* end of [stkarray.sats] *)

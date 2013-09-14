@@ -1,5 +1,5 @@
 (*
-** for testing [libats/qlist]
+** for testing [libats/stkarray]
 *)
 
 (* ****** ****** *)

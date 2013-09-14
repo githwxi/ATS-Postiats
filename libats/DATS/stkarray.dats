@@ -208,4 +208,40 @@ end // end of [stkarray_takeout_opt]
 
 (* ****** ****** *)
 
+implement
+{a}{env}
+stkarray_foreach$cont (x, env) = true
+
+implement{a}
+stkarray_foreach (stk) = let
+  var env: void = () in stkarray_foreach_env<a><void> (stk, env)
+end // end of [stkarray_foreach]
+
+(* ****** ****** *)
+
+implement
+{a}{env}
+stkarray_foreach_env
+  (stk, env) = let
+//
+implement
+array_rforeach$cont<a><env>
+  (x, env) = stkarray_foreach$cont<a><env> (x, env)
+implement
+array_rforeach$fwork<a><env>
+  (x, env) = stkarray_foreach$fwork<a><env> (x, env)
+//
+val n = stkarray_get_size (stk)
+prval [n:int] EQINT () = eqint_make_guint (n)
+val p0 = stkarray_get_ptrbeg (stk)
+val (pf, fpf | p0) = $UN.ptr0_vtake{array(a,n)}(p0)
+val res = array_rforeach_env<a><env> (!p0, n, env)
+prval ((*void*)) = fpf (pf)
+//
+in
+  res
+end // end of [stkarray_foreach_env]
+
+(* ****** ****** *)
+
 (* end of [stkarray.dats] *)

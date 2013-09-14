@@ -500,7 +500,6 @@ such that element i in the list equals char i in the string for
 
 (* ****** ****** *)
 
-#declnamesynop("string_tabulate$fwork")
 #declnamesynop("string_tabulate")
 //
 #decldescrpt('\
@@ -536,10 +535,9 @@ end // end of [string_make_substring]
 ')
 ')
 
-(* ****** ****** *)
+#declnamesynop("string_tabulate$fopr")
 
-#declnamesynop("string_foreach$cont")
-#declnamesynop("string_foreach$fwork")
+(* ****** ****** *)
 
 #declnamesynop("string_foreach")
 //
@@ -611,8 +609,10 @@ a sequence of digits.
 
 (* ****** ****** *)
 
-#declnamesynop("string_rforeach$cont")
-#declnamesynop("string_rforeach$fwork")
+#declnamesynop("string_foreach$cont")
+#declnamesynop("string_foreach$fwork")
+
+(* ****** ****** *)
 
 #declnamesynop("string_rforeach")
 //
@@ -634,7 +634,7 @@ the index of the last occurrence of a char in a given string. If there is
 no such occurrence, then ~1 (negative 1) is returned.
 
 #pats2xhtmld_tryit('\
-implement
+implement{}
 strrchr (str, c0) = let
 //
 implement{env}
@@ -642,7 +642,7 @@ string_rforeach$cont (c, env) = c0 != c
 val i = $effmask_all (string_rforeach<> (str))
 //
 in
-  if string_is_atend (str, i) then g1i2u(~1) else g1u2i(i)
+  if string_is_atend (str, i) then g1i2i(~1) else g1u2i(i)
 end // end of [strrchr]
 ')
 ')
@@ -657,6 +657,11 @@ This function does essentially the same as #dyncode("string_rforeach")
 except for taking an additional argument that serves as an environment.  ')
 //
 #declfunretval("The number of processed chars is returned.")
+
+(* ****** ****** *)
+
+#declnamesynop("string_rforeach$cont")
+#declnamesynop("string_rforeach$fwork")
 
 (* ****** ****** *)
 

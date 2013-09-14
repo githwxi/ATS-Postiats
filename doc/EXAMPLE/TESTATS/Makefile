@@ -20,6 +20,13 @@ cleanall:: ; $(RMF) clofuns
 
 ######
 
+all:: dotset
+dotsel: dotsel.dats ; \
+  $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) dotsel
+
+######
+
 all:: extfcall
 extfcall: extfcall.dats ; $(PATSCC) -cleanaft -o $@ $<
 cleanall:: ; $(RMF) extfcall

@@ -112,16 +112,17 @@ typedef color = color_t0ype
 fun color_make (r: double, g: double, b: double):<> color
 
 (* ****** ****** *)
-
+//
 symintr .r .g .b
-
+//
 fun color_get_r (c: color):<> double
 fun color_get_g (c: color):<> double
 fun color_get_b (c: color):<> double
+//
 overload .r with color_get_r
 overload .g with color_get_g
 overload .b with color_get_b
-
+//
 (* ****** ****** *)
 
 #include
@@ -129,21 +130,19 @@ overload .b with color_get_b
 
 (* ****** ****** *)
 
-(*
-import XR = ...
-staload XR = XR("SATS/cairo.sats")
-*)
 staload
 XR = "{$CAIRO}/SATS/cairo.sats"
 stadef cairo_ref = $XR.cairo_ref
 stadef cairo_ref1 = $XR.cairo_ref1
 
 (* ****** ****** *)
-
-fun{} mydraw_get0_cairo (
+//
+fun{
+} mydraw_get0_cairo (
 ): [l:agz] vttakeout (void, cairo_ref (l))
+//
 fun{} mydraw_get1_cairo (): cairo_ref1
-
+//
 (* ****** ****** *)
 
 fun{} mydraw_new_path (): void

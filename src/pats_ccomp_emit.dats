@@ -2207,7 +2207,8 @@ in
   if l0 = l then x else auxfnd (l0, lxs)
 end // end of [auxfnd]
 
-fun auxsel (
+fun auxsel
+(
   hse0: hisexp, pml: primlab
 ) : hisexp = let
 in
@@ -2216,7 +2217,8 @@ case+
   pml.primlab_node of
 //
 | PMLlab (lab) => (
-  case+ hse0.hisexp_node of
+  case+
+    hse0.hisexp_node of
   | HSEtyrec
       (knd, lhses) => auxfnd (lab, lhses)
     // end of [HSEtyrec]
@@ -2235,11 +2237,12 @@ case+
     in
       $ERR.abort ()
     end // end of [_]
-  ) // end of [PMLlab]
+  ) (* end of [PMLlab] *)
+//
 | PMLind (ind) => let
-    val-HSEtyarr (hse_elt, s2es) = hse0.hisexp_node
-  in
-    hse_elt
+    val-HSEtyarr
+      (hse_elt, s2es) = hse0.hisexp_node in hse_elt
+    // end of [val]
   end // end of [PMLind]
 //
 end // end of [auxsel]
