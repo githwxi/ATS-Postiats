@@ -22,17 +22,37 @@ fun gtk_window_new1
 (* ****** ****** *)
 
 fun gtk_window_get_title
-  {l1:agz}
+  {c:cls |
+   c <= GtkWindow}
+  {l:agz}
 (
-  window: !GtkWindow(l1)
+  win: !gobjref (c, l)
 ) : [l2:addr]
 (
-  minus (GtkWindow(l1), gstrptr l2) | gstrptr l2
+  minus(gobjref(c, l), gstrptr l2) | gstrptr l2
 ) = "mac#%" // endfun
 
 fun gtk_window_set_title
   (!GtkWindow1, title: gstring): void = "mac#%"
 // end of [gtk_window_set_title]
+
+(* ****** ****** *)
+
+fun gtk_window_get_size
+(
+  win: !GtkWindow1
+, width: &gint? >> gint, height: &gint? >> gint
+) : void = "mac#%" // endfun
+
+(* ****** ****** *)
+//
+// HX-2010:
+// [width = -1] means unset
+// [height = -1] means unset
+//
+fun gtk_window_set_default_size
+  (!GtkWindow1, width: gint, height: gint): void = "mac#%"
+// end of [gtk_window_set_default_size]
 
 (* ****** ****** *)
 

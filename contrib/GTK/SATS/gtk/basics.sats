@@ -66,5 +66,14 @@ vtypedef GtkWindow0 = [c:cls;l:agez | c <= GtkWindow] gobjref (c, l)
 vtypedef GtkWindow1 = [c:cls;l:addr | c <= GtkWindow; l > null] gobjref (c, l) 
 //
 (* ****** ****** *)
+//
+stadef GtkDrawingArea = GtkDrawingArea_cls
+//
+vtypedef
+GtkDrawingArea (l:addr) = [c:cls | c <= GtkDrawingArea] gobjref (c, l)
+vtypedef GtkDrawingArea0 = [c:cls;l:agez | c <= GtkDrawingArea] gobjref (c, l) 
+vtypedef GtkDrawingArea1 = [c:cls;l:addr | c <= GtkDrawingArea; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
 
 (* end of [basics.sats] *)

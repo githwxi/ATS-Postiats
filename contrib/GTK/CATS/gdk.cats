@@ -50,6 +50,10 @@
 
 /* ****** ****** */
 
+#include "./gdk/gdkcairo.cats"
+
+/* ****** ****** */
+
 #endif // ATSCNTRB_GTK_GDK_CATS
 
 /* ****** ****** */

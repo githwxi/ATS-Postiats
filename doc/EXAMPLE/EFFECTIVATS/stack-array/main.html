@@ -39,7 +39,7 @@ We then introduce some shorthands as follows:
 <pre>
 stadef stkarray = stkarray_vtype
 vtypedef
-stkarray (a:vt0p, m:int) = [n:int] stkarray_vtype (a, m, n)
+stkarray (a:vt0p) = [m,n:int] stkarray_vtype (a, m, n)
 </pre>
 
 Given a type T, an integer M and another integer N, the type [stkarray(T,
@@ -53,7 +53,7 @@ property is encoded into the type of the following proof function
 praxi
 lemma_stkarray_param
   {a:vt0p}{m,n:int}
-  (!stkarray (INV(a), m, m)): [m >= n; n >= 0] void
+  (!stkarray (INV(a), m, n)): [m >= n; n >= 0] void
 // end of [lemma_stkarray_param]
 </pre>
 
@@ -160,7 +160,8 @@ val p_cur = stkarray_get_ptrcur (stk)
 val ((*void*)) = $UN.ptr0_set&lt;a&gt; (p_cur, x0)
 val ((*void*)) = stkarray_set_ptrcur (stk, ptr_succ&lt;a&gt; (p_cur))
 //
-prval () = __assert (stk) where
+prval () =
+__assert (stk) where
 {
 extern praxi __assert (!stkarray (a, m, n) >> stkarray (a, m, n+1)): void
 } (* end of [prval] *)
@@ -183,9 +184,10 @@ implementation for it is expected.
 
 The following implementation of [stkarray_takeout] makes use of [ptr0_get],
 which reads through a given pointer without requiring a proof (of some
-at-view) associated with the location. Like in the implementation of
-[stkarray_insert], a proof function is asserted for the sole purpose of
-making the implementation of [stkarray_takeout] pass typechecking.
+at-view) associated with the location. Also, just like in the
+implementation of [stkarray_insert], a proof function is asserted for the
+sole purpose of making the implementation of [stkarray_takeout] pass
+typechecking.
 
 <pre>
 implement{a}
@@ -194,11 +196,12 @@ stkarray_takeout
 {
 //
 val p_cur = stkarray_get_ptrcur (stk)
-val p1_cur = ptr_pred<a> (p_cur)
-val x0 = $UN.ptr0_get<a> (p1_cur)
+val p1_cur = ptr_pred&lt;a&gt; (p_cur)
+val x0 = $UN.ptr0_get&lt;a&gt; (p1_cur)
 val () = stkarray_set_ptrcur (stk, p1_cur)
 //
-prval () = __assert (stk) where
+prval () =
+__assert (stk) where
 {
 extern praxi __assert (!stkarray (a, m, n) >> stkarray (a, m, n-1)): void
 } (* end of [prval] *)
@@ -239,6 +242,63 @@ For more on array-based stack implementation, please see:
 <a href="http://sourceforge.net/p/ats2-lang/code/ci/master/tree/libats/DATS/stkarray.dats">stkarray.dats</a>
 , and
 <a href="http://sourceforge.net/p/ats2-lang/code/ci/master/tree/libats/CATS/stkarray.cats">stkarray.cats</a>.
+
+<h2>
+Some Stack-Functions of Convenience 
+</h2>
+
+If a caller attempts to insert an element into a stack that happens to be
+full, we may require that the element be returned to the caller. The
+following function [stkarray_insert_opt] does this precisely:
+
+<pre>
+extern
+fun{a:vt0p}
+stkarray_insert_opt
+  (stk: !stkarray (INV(a)) >> _, x0: a):<!wrt> Option_vt(a)
+implement{a}
+stkarray_insert_opt
+  (stk, x0) = let
+//
+val isnot = stkarray_isnot_full (stk)
+//
+in
+//
+if isnot then let
+  val () = stkarray_insert (stk, x0) in None_vt()
+end else Some_vt{a}(x0)
+//
+end // end of [stkarray_insert_opt]
+</pre>
+
+Similarly, a caller may attempt to take an element out of a stack that
+happens to be empty. The following function [stkarray_takeout_opt] returns
+an optional value so that its caller can tell whether an element has
+actually been taken out of a given stack:
+
+<pre>
+extern
+fun{a:vt0p}
+stkarray_takeout_opt
+  (stk: !stkarray (INV(a)) >> _):<!wrt> Option_vt(a)
+implement{a}
+stkarray_takeout_opt
+  (stk) = let
+//
+val isnot = stkarray_isnot_nil (stk)
+//
+in
+//
+if isnot then let
+  val x0 = stkarray_takeout (stk) in Some_vt{a}(x0)
+end else None_vt((*void*))
+//
+end // end of [stkarray_takeout_opt]
+</pre>
+
+For some sample code making use of the array-based stack implementation,
+please see postfix_eval.dats, where an evaluator of arithmetic expressions
+written in the postfix-notation is coded.
 
 <hr size="2">
 

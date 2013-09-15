@@ -20,4 +20,8 @@
 
 /* ****** ****** */
 
+#define atscntrb_gtk_window_set_default_size gtk_window_set_default_size
+
+/* ****** ****** */
+
 /* end of [gtkwindow.cats] */

@@ -46,9 +46,9 @@ GLIB_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/glib"
 (* ****** ****** *)
 //
 #define
-GTK3_targetloc "$PATSHOMERELOC/contrib/GTK3"
+GTK_targetloc "$PATSHOMERELOC/contrib/GTK"
 #define
-GTK3_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/GTK3"
+GTK_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/GTK"
 //
 (* ****** ****** *)
 //

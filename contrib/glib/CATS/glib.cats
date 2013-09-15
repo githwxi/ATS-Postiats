@@ -50,6 +50,10 @@
 
 /* ****** ****** */
 
+#define atscntrb_g_timeout_add g_timeout_add
+
+/* ****** ****** */
+
 #endif /* ATSCNTRB_GLIB_GLIB_CATS */
 
 /* ****** ****** */

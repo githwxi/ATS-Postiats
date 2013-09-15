@@ -82,15 +82,19 @@ vtypedef gstrptr1 = $GLIB.gstrptr1
 
 (* ****** ****** *)
 
+stadef GObject: cls = $GLIBOBJ.GObject
+stadef GInitiallyUnowned: cls = $GLIBOBJ.GInitiallyUnowned
+stadef GInterface: cls = $GLIBOBJ.GInterface
+
+(* ****** ****** *)
+
 stadef gobjref = $GLIBOBJ.gobjref
 stadef gobjref0 = $GLIBOBJ.gobjref0
 stadef gobjref1 = $GLIBOBJ.gobjref1
 
 (* ****** ****** *)
 
-stadef GObject: cls = $GLIBOBJ.GObject
-stadef GInitiallyUnowned: cls = $GLIBOBJ.GInitiallyUnowned
-stadef GInterface: cls = $GLIBOBJ.GInterface
+staload "./gdk.sats"
 
 (* ****** ****** *)
 
@@ -126,6 +130,10 @@ classdec GtkObject : GInitiallyUnowned
       // end of [GtkBox]
       classdec GtkTable_cls : GtkContainer_cls
     // end of [GTKContainer]
+    classdec GtkCalendar_cls : GtkWidget_cls
+    classdec GtkDrawingArea_cls : GtkWidget_cls
+      classdec GtkCurve_cls : GtkDrawingArea_cls
+    // end of [GtkDrawingArea]
   // end of [GTKWidget]
 // end of [GtkObject]
 
@@ -169,6 +177,10 @@ classdec GtkObject : GInitiallyUnowned
 (* ****** ****** *)
 
 #include "./gtk/gtktable.sats"
+
+(* ****** ****** *)
+
+#include "./gtk/gtkdrawingarea.sats"
 
 (* ****** ****** *)
 

@@ -3,7 +3,9 @@
 */
 
 /* ****** ****** */
-
+/*
+** There is a floating reference for GtkBoxes
+*/
 #define atscntrb_gtk_box_new(orient, spacing) \
   g_object_ref_sink(G_OBJECT(gtk_box_new(orient, spacing)))
 

@@ -77,6 +77,43 @@ stadef guint32 = $GLIB.guint32
 
 (* ****** ****** *)
 
+stadef GObject: cls = $GLIBOBJ.GObject
+stadef GInitiallyUnowned: cls = $GLIBOBJ.GInitiallyUnowned
+stadef GInterface: cls = $GLIBOBJ.GInterface
+
+(* ****** ****** *)
+
+stadef gobjref = $GLIBOBJ.gobjref
+stadef gobjref0 = $GLIBOBJ.gobjref0
+stadef gobjref1 = $GLIBOBJ.gobjref1
+
+(* ****** ****** *)
+
+classdec GdkObject : GObject
+  classdec GdkDrawable_cls : GdkObject
+    classdec GdkBitmap_cls : GdkDrawable_cls
+    classdec GdkPixmap_cls : GdkDrawable_cls
+    classdec GdkWindow_cls : GdkDrawable_cls
+  // end of [GdkDrawable]
+// end of [GdkObject]
+
+classdec GdkPixbuf : GObject
+classdec GdkColormap : GObject
+
+(* ****** ****** *)
+//
+stadef GdkDrawable: cls = GdkDrawable_cls
+//
+stadef GdkBitmap: cls = GdkBitmap_cls
+stadef GdkPixmap: cls = GdkPixmap_cls
+stadef GdkWindow: cls = GdkWindow_cls
+//
+(* ****** ****** *)
+
+#include "./gdk/gdkcairo.sats"
+
+(* ****** ****** *)
+
 #include "./gdk/gdkevents.sats"
 
 (* ****** ****** *)

@@ -55,6 +55,8 @@ in
   cairo_fill (cr)
 end // end of [draw_hand]
 
+(* ****** ****** *)
+
 fn draw_clock
   {l:agz}{w,h:nat}
 (

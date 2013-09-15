@@ -82,6 +82,17 @@ gobjref2ptr
 overload ptrcast with gobjref2ptr
 //
 (* ****** ****** *)
+//
+fun
+g_object_is_null
+  {c:cls}{l:addr}
+  (obj: !gobjref (c, l)):<> bool (l==null) = "mac#atspre_ptr_is_null"
+fun
+g_object_isnot_null
+  {c:cls}{l:addr}
+  (obj: !gobjref (c, l)):<> bool (l > null) = "mac#atspre_ptr_isnot_null"
+//
+(* ****** ****** *)
 
 praxi
 g_object_free_null{c:cls} (gobjref (c, null)):<prf> void

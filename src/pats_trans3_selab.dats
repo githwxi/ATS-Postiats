@@ -487,7 +487,9 @@ fun auxlab (
 //
 in
 //
-case+ s2e.s2exp_node of
+case+
+  s2e.s2exp_node of
+//
 | S2Etyrec (
     knd, npf, ls2es
   ) => let
@@ -521,6 +523,7 @@ case+ s2e.s2exp_node of
   in
     s2e1
   end // end of [S2Etyrec]
+//
 | _ => let
     val () = prerr ": the type ["
     val () = prerr_s2exp (s2e)
@@ -692,16 +695,19 @@ end // end of [local]
 (* ****** ****** *)
 
 extern
-fun d2var_trup_selab (
+fun d2var_trup_selab
+(
   loc0: location, locvar: location, d2v: d2var, d2ls: d2lablst
 ) : d3exp // end of [d2var_trup_selab]
 
 extern
-fun d2var_trup_selab_lin (
+fun d2var_trup_selab_lin
+(
   loc0: location, locvar: location, d2v: d2var, d2ls: d2lablst
 ) : d3exp // end of [d2var_trup_selab_lin]
 extern
-fun d2var_trup_selab_mut (
+fun d2var_trup_selab_mut
+(
   loc0: location, locvar: location, d2v: d2var, d2ls: d2lablst
 ) : d3exp // end of [d2var_trup_selab_mut]
 
@@ -803,7 +809,8 @@ d2var_trup_selab
 
 local
 
-fun auxerr_linrest (
+fun auxerr_linrest
+(
   loc0: location, d3e: d3exp, d3ls: d3lablst
 ) : void = let
   val () = prerr_error3_loc (loc0)

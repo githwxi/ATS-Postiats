@@ -71,7 +71,7 @@ stkarray_vtype (a:vt@ype+, m:int, n:int) = ptr
 stadef stkarray = stkarray_vtype
 //
 vtypedef
-stkarray (a:vt0p, m:int) = [n:int] stkarray_vtype (a, m, n)
+stkarray (a:vt0p) = [m,n:int] stkarray_vtype (a, m, n)
 //
 (* ****** ****** *)
 
@@ -83,7 +83,7 @@ stkarray_tsize = $extype"atslib_stkarray_struct"
 praxi
 lemma_stkarray_param
   {a:vt0p}{m,n:int}
-  (!stkarray (INV(a), m, m)): [m >= n; n >= 0] void
+  (!stkarray (INV(a), m, n)): [m >= n; n >= 0] void
 // end of [lemma_stkarray_param]
 
 (* ****** ****** *)
@@ -160,11 +160,11 @@ stkarray_isnot_full
 fun{}
 fprint_stkarray$sep (out: FILEref): void
 fun{a:vt0p}
-fprint_stkarray{m:int}
-  (out: FILEref, q: !stkarray (INV(a), m)): void
+fprint_stkarray
+  (out: FILEref, stk: !stkarray (INV(a))): void
 fun{a:vt0p}
-fprint_stkarray_sep{m:int}
-  (out: FILEref, q: !stkarray (INV(a), m), sep: string): void
+fprint_stkarray_sep
+  (out: FILEref, stk: !stkarray (INV(a)), sep: string): void
 overload fprint with fprint_stkarray
 overload fprint with fprint_stkarray_sep
 
@@ -180,8 +180,8 @@ stkarray_insert
 (* ****** ****** *)
 
 fun{a:vt0p}
-stkarray_insert_opt{m:int}
-  (stk: !stkarray (INV(a), m) >> _, x0: a):<!wrt> Option_vt (a)
+stkarray_insert_opt
+  (stk: !stkarray (INV(a)) >> _, x0: a):<!wrt> Option_vt (a)
 // end of [stkarray_insert_opt]
 
 (* ****** ****** *)
@@ -194,8 +194,8 @@ stkarray_takeout
 ) :<!wrt> (a) // endfun
 
 fun{a:vt0p}
-stkarray_takeout_opt{m:int}
-  (stk: !stkarray (INV(a), m) >> _):<!wrt> Option_vt (a)
+stkarray_takeout_opt
+  (stk: !stkarray (INV(a)) >> _):<!wrt> Option_vt (a)
 // end of [stkarray_takeout_opt]
 
 (* ****** ****** *)

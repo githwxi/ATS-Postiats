@@ -1,5 +1,5 @@
 //
-// Some code involving dot notation
+// Test code for dot overloading
 //
 (* ****** ****** *)
 
@@ -54,4 +54,4 @@ implement main0 () = ()
 
 (* ****** ****** *)
 
-(* end of [dotsel.dats] *)
+(* end of [dotoverld.dats] *)

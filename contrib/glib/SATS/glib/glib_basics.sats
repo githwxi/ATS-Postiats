@@ -49,15 +49,20 @@ macdef GFALSE = $extval (gboolean, "FALSE")
 symintr gint
 symintr guint
 //
-castfn gint_of_int (int): gint
-castfn guint_of_int (int): guint
-castfn guint_of_uint (uint): guint
+castfn gint_of_int (int):<> gint
+castfn guint_of_int (int):<> guint
+castfn guint_of_uint (uint):<> guint
 //
 overload gint with gint_of_int
 //
 overload guint with guint_of_int
 overload guint with guint_of_uint
 //
+(* ****** ****** *)
+
+castfn gint2int (gint):<> int
+castfn guint2uint (guint):<> uint
+
 (* ****** ****** *)
 //
 symintr gpointer
