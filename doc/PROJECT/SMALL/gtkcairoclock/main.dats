@@ -46,7 +46,7 @@ val () = $extfcall (void, "gtk_init", addr@(argc), addr@(argv))
 //
 local
 implement
-gtkcairoclock_timeout_interval<> () = 100U
+gtkcairoclock_timeout_interval<> () = 500U
 implement
 gtkcairoclock_mydraw<> (cr, width, height) = mydraw_clock (cr, width, height)
 in(* in of [local] *)

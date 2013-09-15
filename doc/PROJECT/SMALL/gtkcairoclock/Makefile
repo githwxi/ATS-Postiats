@@ -14,7 +14,7 @@ GTKFLAGS=`pkg-config gtk+-3.0 --cflags --libs`
 ######
 
 all:: main0
-main0: main0.dats myclock0.dats
+main0: main.dats myclock0.dats
 	$(PATSCC) -I${PATSHOME}/contrib -o $@ $^ $(GTKFLAGS)
 cleanall:: ; $(RMF) main0
 
