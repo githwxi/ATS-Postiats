@@ -65,7 +65,7 @@ fun loop
   val err = readdir_r (dirp, ent, res)
 in
 //
-if err = 0 then let
+if res > 0 then let
   prval () = opt_unsome (ent)
 in
 //
