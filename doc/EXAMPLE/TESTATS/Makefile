@@ -20,10 +20,17 @@ cleanall:: ; $(RMF) clofuns
 
 ######
 
-all:: dotset
-dotsel: dotsel.dats ; \
+all:: conjdisj
+conjdisj: conjdisj.dats ; \
   $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
-cleanall:: ; $(RMF) dotsel
+cleanall:: ; $(RMF) conjdisj
+
+######
+
+all:: dotoverld
+dotoverld: dotoverld.dats ; \
+  $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) dotoverld
 
 ######
 
