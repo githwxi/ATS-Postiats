@@ -13,10 +13,17 @@ GTKFLAGS=`pkg-config gtk+-3.0 --cflags --libs`
 
 ######
 
-all:: main0
-main0: main.dats myclock0.dats
-	$(PATSCC) -I${PATSHOME}/contrib -o $@ $^ $(GTKFLAGS)
-cleanall:: ; $(RMF) main0
+all:: myclock0
+myclock0: myclock0.dats
+	$(PATSCC) -I${PATSHOME}/contrib -o $@ main.dats $< $(GTKFLAGS)
+cleanall:: ; $(RMF) myclock0
+
+######
+
+all:: myclock1
+myclock1: myclock1.dats
+	$(PATSCC) -I${PATSHOME}/contrib -o $@ main.dats $< $(GTKFLAGS)
+cleanall:: ; $(RMF) myclock1
 
 ######
 

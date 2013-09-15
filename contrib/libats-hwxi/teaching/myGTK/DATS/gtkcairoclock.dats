@@ -45,6 +45,14 @@ staload "./../SATS/gtkcairoclock.sats"
 
 (* ****** ****** *)
 
+implement{}
+gtkcairoclock_title () = stropt_none ()
+
+implement{
+} gtkcairoclock_ntimeout_update () = ()
+
+(* ****** ****** *)
+
 fun{}
 draw_drawingarea
 (
@@ -96,8 +104,9 @@ implement{
 } ftimeout (darea) = let
 //
 val (
-  fpf_win | win
-) = gtk_widget_get_window (darea)
+) = gtkcairoclock_ntimeout_update ()
+//
+val (fpf_win | win) = gtk_widget_get_window (darea)
 //
 val isnot = g_object_isnot_null (win) 
 //
@@ -130,10 +139,19 @@ gtkcairoclock_main
 //
 val win0 =
   gtk_window_new (GTK_WINDOW_TOPLEVEL)
+val win0 = win0
 val () = assertloc (ptrcast(win0) > 0)
 val () = gtk_window_set_default_size (win0, (gint)400, (gint)400)
 //
-val () = gtk_window_set_title (win0, gstring("gtkcairoclock"))
+val opt = gtkcairoclock_title ()
+val issome = stropt_is_some(opt)
+//
+val () =
+if issome then let
+  val title = stropt_unsome (opt)
+in
+  gtk_window_set_title (win0, gstring(title))
+end // end of [if] // end of [val]
 //
 val darea =
   gtk_drawing_area_new ()

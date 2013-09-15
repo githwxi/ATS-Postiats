@@ -1,21 +1,24 @@
 (*
 **
-** A simple CAIRO example: a clock@home
+** A simple digital GTK/CAIRO-clock
 **
-** Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-** Time: December, 2009
+** Author: Hongwei Xi
+** Authoremail: hwxiATcsDOTbuDOTedu
+** Time: April, 2010
 **
 *)
 
 (* ****** ****** *)
 
 (*
-** Ported to ATS2 by Hongwei Xi, September, 2013
+//
+// It is ported to ATS2 by HX-2013-09
+//
 *)
 
 (* ****** ****** *)
 
-#define ATS_DYNLOADFLAG 0
+#define ATS_DYNLOADFLAG 0 // no dynloading at run-time
 
 (* ****** ****** *)
 
@@ -24,128 +27,21 @@
 
 (* ****** ****** *)
 
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload INT = "prelude/DATS/integer.dats"
 staload FLOAT = "prelude/DATS/float.dats"
 
 (* ****** ****** *)
 
-staload "libc/SATS/math.sats"
-
-macdef PI = M_PI and PI2 = M_PI / 2
+staload "libc/SATS/time.sats"
 
 (* ****** ****** *)
 
 staload "{$CAIRO}/SATS/cairo.sats"
-
-(* ****** ****** *)
-
-stadef dbl = double
-stadef cr (l:addr) = cairo_ref l
-
-(* ****** ****** *)
-
-fn draw_hand{l:agz}
-(
-  cr: !cr l
-, bot: dbl, top: dbl, len: dbl
-) : void = let
-  val () = cairo_move_to (cr, 0.0, bot/2)
-  val () = cairo_line_to (cr, len, top/2)
-  val () = cairo_line_to (cr, len, ~top/2)
-  val () = cairo_line_to (cr, 0.0, ~bot/2)
-  val () = cairo_close_path (cr)
-in
-  cairo_fill (cr)
-end // end of [draw_hand]
-
-(* ****** ****** *)
-
-fn draw_clock
-  {l:agz}{w,h:nat}
-(
-  cr: !cr l
-, wd: int w, ht: int h
-, h: natLt 24, m: natLt 60, s: natLt 60 // hour and minute
-) : void = let
-//
-  val wd = g0int2float_int_double(wd)
-  and ht = g0int2float_int_double(ht)
-  val dim = min (wd, ht)
-  val rad = 0.375 * dim
-//
-  val xc = wd / 2 and yc = ht / 2
-  val () = cairo_translate (cr, xc, yc)
-//
-  val h = (if h >= 12 then h - 12 else h): natLt 12
-  val s_ang = s * (PI / 30) - PI2
-  val m_ang = m * (PI / 30) - PI2
-  val h_ang = h * (PI / 6) + m * (PI / 360) - PI2
-//
-  val () = cairo_arc (cr, 0.0, 0.0, rad, 0.0, 2*PI)
-  val () = cairo_set_source_rgb (cr, 1.0, 1.0, 1.0)
-  val () = cairo_fill (cr)
-//
-  val () = cairo_arc (cr, 0.0, 0.0, rad, 0.0, 2*PI)
-  val () = cairo_set_source_rgb (cr, 0.0, 1.0, 0.0)
-  val () = cairo_set_line_width (cr, 10.0)
-  val () = cairo_stroke (cr)
-//
-  val rad1 = 0.90 * rad
-  val () = cairo_arc (cr, ~rad1, ~rad1, rad1,  0.0, PI2)
-  val () = cairo_arc (cr, ~rad1,  rad1, rad1, ~PI2,  0.)
-  val () = cairo_arc (cr,  rad1,  rad1, rad1, ~PI, ~PI2)
-  val () = cairo_arc (cr,  rad1, ~rad1, rad1,  PI2,  PI)
-  val () = cairo_fill (cr)
-//
-  val h_l = 0.60 * rad
-  val (pf | ()) = cairo_save (cr)
-  val () = cairo_set_source_rgb (cr, 0.0, 0.0, 0.0)
-  val () = cairo_rotate (cr, h_ang)
-  val () = draw_hand (cr, 7.0, 5.0, h_l)
-  val () = cairo_restore (pf | cr)
-  val (pf | ()) = cairo_save (cr)
-  val () = cairo_set_source_rgb (cr, 0.0, 0.0, 0.0)
-  val () = cairo_rotate (cr, h_ang+PI)
-  val () = draw_hand (cr, 3.0, 1.5, h_l/4)
-  val () = cairo_restore (pf | cr)
-//
-  val m_l = 0.85 * rad
-  val (pf | ()) = cairo_save (cr)
-  val () = cairo_set_source_rgb (cr, 0.0, 0.0, 0.0)
-  val () = cairo_rotate (cr, m_ang)
-  val () = draw_hand (cr, 5.0, 3.0, m_l)
-  val () = cairo_restore (pf | cr)
-  val (pf | ()) = cairo_save (cr)
-  val () = cairo_set_source_rgb (cr, 0.0, 0.0, 0.0)
-  val () = cairo_rotate (cr, m_ang+PI)
-  val () = draw_hand (cr, 2.0, 1.0, h_l/4)
-  val () = cairo_restore (pf | cr)
-//
-  val s_l = 0.85 * rad
-  val (pf | ()) = cairo_save (cr)
-  val () = cairo_set_source_rgb (cr, 1.0, 0.0, 0.0)
-  val () = cairo_rotate (cr, s_ang)
-  val () = draw_hand (cr, 4.0, 2.0, m_l)
-  val () = cairo_restore (pf | cr)
-  val (pf | ()) = cairo_save (cr)
-  val () = cairo_set_source_rgb (cr, 1.0, 0.0, 0.0)
-  val () = cairo_rotate (cr, s_ang+PI)
-  val () = draw_hand (cr, 1.0, 0.5, h_l/4)
-  val () = cairo_restore (pf | cr)
-//
-  val (pf | ()) = cairo_save (cr)
-  val () = cairo_set_source_rgb (cr, 0.0, 0.0, 0.0)
-  val () = cairo_new_sub_path (cr)
-  val () = cairo_arc (cr, 0.0, 0.0, 2.5, 0.0, 2 * PI)  
-  val () = cairo_fill (cr)
-  val () = cairo_restore (pf | cr)
-in
-  // nothing
-end // end of [draw_clock]
-
-(* ****** ****** *)
-
-staload "libc/SATS/time.sats"
 
 (* ****** ****** *)
 
@@ -156,37 +52,54 @@ fun mydraw_clock
 
 (* ****** ****** *)
 
+%{^
+typedef
+struct { char buf[32] ; } bytes32 ;
+%} // end of [%{^]
+abst@ype bytes32 = $extype"bytes32"
+
+(* ****** ****** *)
+
+%{^
+#define mystrftime(bufp, m, fmt, ptm) strftime((char*)bufp, m, fmt, ptm)
+%} // end of [%{^]
+
+(* ****** ****** *)
+
 implement
 mydraw_clock
   (cr, wd, ht) = let
+// HX: using a fixed-width font
+val () = cairo_select_font_face
+  (cr, "Courier", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD)
+val () = cairo_set_font_size (cr, 32.0)
 //
-val wd = g1ofg0 (wd)
-val ht = g1ofg0 (ht)
-val () = assertloc (wd >= 0)
-val () = assertloc (ht >= 0)
-//
-var t: time_t // unintialized
-val yn = time_getset (t)
+var time: time_t
+val yn = time_getset (time)
 val () = assert_errmsg (yn, $mylocation)
-prval () = opt_unsome {time_t} (t)
-var tm: tm_struct // unintialized
-val _ptr = localtime_r (t, tm)
-val () = assert_errmsg (_ptr > 0, $mylocation)
+prval () = opt_unsome{time_t}(time)
+var tm: tm_struct
+val ptr_ = localtime_r (time, tm)
+val () = assert_errmsg (ptr_ > 0, $mylocation)
 prval () = opt_unsome {tm_struct} (tm)
-val hr = tm.tm_hour
-and min = tm.tm_min
-val sec = tm.tm_sec
-val hr = g1ofg0_int (hr)
-and min = g1ofg0_int (min)
-and sec = g1ofg0_int (sec)
 //
-val () = assertloc ((0 <= hr) * (hr < 24))
-val () = assertloc ((0 <= min) * (min < 60))
-val () = assertloc ((0 <= sec) * (sec < 60))
+val () =
+{
+  var buf: bytes32?
+  val bufp = addr@(buf)
+  val _ = $extfcall (size_t, "mystrftime", bufp, 32, "%I:%M:%S %p", addr@(tm))
+//
+  var extents: cairo_text_extents_t
+  val () = cairo_text_extents (cr, $UN.castvwtp1{string}(bufp), extents)
+  val xc = (wd - extents.width) / 2 and yc = (ht - extents.height) / 2
+  val () = cairo_move_to (cr, xc - extents.x_bearing, yc - extents.y_bearing)
+  val () = cairo_set_source_rgb (cr, 0.0, 0.0, 1.0)
+  val () = cairo_show_text (cr, $UN.castvwtp1{string}(bufp))
+} (* end of [val] *)
 //
 in
-  draw_clock (cr, wd, ht, hr, min, sec)
-end (* end of [mydraw_clock] *)
+  // nothing
+end // end of [mydraw_clock]
 
 (* ****** ****** *)
 

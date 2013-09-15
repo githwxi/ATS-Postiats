@@ -149,6 +149,21 @@ fun asctime
 
 (* ****** ****** *)
 
+/*
+size_t
+strftime
+(
+  char *s, size_t max, const char *format, const struct tm *tm
+) ; // end of [strftime]
+*/
+fun strftime
+  {l:addr}{m:pos} (
+  pf: !b0ytes(m) @ l >> strbuf(m, n) @ l
+| p: ptr l, m: size_t m, fmt: string, tm: &RD(tm_struct)
+) :<> #[n:nat | n < m] size_t n = "mac#%" // endfun
+
+(* ****** ****** *)
+
 fun gmtime // non-reentrant
 (
   tval: &RD(time_t)

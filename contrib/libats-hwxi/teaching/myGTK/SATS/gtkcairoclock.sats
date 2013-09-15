@@ -44,10 +44,13 @@ staload "{$CAIRO}/SATS/cairo.sats"
 //
 fun{
 } gtkcairoclock_main (): void
+//
 fun{
 } gtkcairoclock_title (): stropt
 fun{
 } gtkcairoclock_timeout_interval (): uint
+fun{
+} gtkcairoclock_ntimeout_update (): void
 fun{
 } gtkcairoclock_mydraw
   (cr: !cairo_ref1, width: int, height: int): void
