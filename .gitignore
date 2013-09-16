@@ -200,6 +200,7 @@ libatsynmark/libatsynmark.a
 #
 
 contrib/cairo/cairo-1.12.*
+contrib/cairo/TUTORIAL/IMAGE
 contrib/zeromq/DOC/zguide
 
 contrib/*/atsctrb_*.o

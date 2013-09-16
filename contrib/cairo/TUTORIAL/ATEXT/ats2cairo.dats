@@ -15,11 +15,11 @@ fun ulink1
 (* ****** ****** *)
 
 #define MYDOCROOT
-"http://www.ats-lang.org/DOCUMENT/ATSCAIRO"
+"http://www.ats-lang.org/DOCUMENT/ATS2CAIRO"
 #define MYCODEROOT
-"http://www.ats-lang.org/DOCUMENT/ATSCAIRO/CODE"
+"http://www.ats-lang.org/DOCUMENT/ATS2CAIRO/CODE"
 #define MYIMAGEROOT
-"http://www.ats-lang.org/DOCUMENT/ATSCAIRO/IMAGE"
+"http://www.ats-lang.org/DOCUMENT/ATS2CAIRO/IMAGE"
 (*
 #define MYIMAGEROOT "IMAGE" // for generation pdf version
 *)

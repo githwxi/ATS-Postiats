@@ -19,7 +19,7 @@ Time of Generation: #timestamp()\
 The first program we present in this tutorial is given as follows:
 ")
 
-#atscodefil("CODE/tutprog_hw.dats.extract")
+#atscodefil("CODE/tutprog_hello.dats.extract")
 
 #para("\
 The functions in the cairo package are declared in the following file:
@@ -36,21 +36,21 @@ it is specified otherwise.
 
 #para('\
 
-Suppose that the presented program is stored in a file named
-#mycodelink("tutprog_hw.dats", "tutprog_hw.dats") the following
-command can be issued to compile the program to generate an executable
-#filename("tutprog_hw"):
+Suppose that the presented program is contained in a file named
+#mycodelink("tutprog_hello.dats", "tutprog_hello.dats").  The following
+command can be issued to compile the program to generate an executable of
+the name #filename("tutprog_hello"):
 
 <informalexample><programlisting>
-#command("atscc") -o tutprog_hw tutprog_hw.dats `pkg-config cairo --cflags --libs`
+#command("atscc") -o tutprog_hello tutprog_hello.dats `pkg-config cairo --cflags --libs`
 </programlisting></informalexample>
 
 ')
 
 #para("\
 
-By executing #filename("tutprog_hw"), we generate a PNG image file
-#myimagelink("tutprog_hw.png", "tutprog_hw.png"), which is included as
+We can execute #filename("tutprog_hello") to generate a PNG image file
+#myimagelink("tutprog_hello.png", "tutprog_hello.png"), which is included as
 follows:\
 
 ")
@@ -58,7 +58,7 @@ follows:\
 #para('\
 <inlinemediaobject>
 <imageobject>
-<imagedata fileref="#MYIMAGEROOTget()/tutprog_hw.png" format="PNG"/>
+<imagedata fileref="#MYIMAGEROOTget()/tutprog_hello.png" format="PNG"/>
 </imageobject>
 </inlinemediaobject>
 ')
@@ -72,14 +72,19 @@ PNG files.
 
 #para("\
 
-We now give a brief explanation on the program in
-#mycodelink("tutprog_hw.dats", "tutprog_hw.dats").  We first create a
-cairo surface for drawing:\
+We now give some brief explanation about the program contained in
+#mycodelink("tutprog_hello.dats", "tutprog_hello.dats").
+
+")
+
+#para("\
+
+We first create a cairo surface for drawing:\
 
 ")
 
 #atscode('\
-  val surface = // create a surface for drawing
+  val sf = // create a surface for drawing
     cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 250, 80)
 ')
 
@@ -88,7 +93,7 @@ We then use the surface to create a cairo context:
 ")
 
 #atscode('\
-  val cr = cairo_create (surface)
+  val cr = cairo_create (sf) // create a context for drawing
 ')
 
 #para("\
@@ -133,16 +138,16 @@ surface into a PNG file:
 ")
 
 #atscode('\
-  val status = cairo_surface_write_to_png (surface, "tutprog_hw.png")
+  val status = cairo_surface_write_to_png (sf, "tutprog_hello.png")
 ')
 
 #para("
-We now enter the cleanup phase, closing both the surface and the context:
+We now enter the cleanup phase, closing both the context and the surface:
 ")
 
 #atscode('\
-  val () = cairo_surface_destroy (surface) // a type error if omitted
   val () = cairo_destroy (cr) // a type error if omitted
+  val () = cairo_surface_destroy (sf) // a type error if omitted
 ')
 
 #para("\
@@ -173,13 +178,15 @@ mismanagement. For instance, if the following line:
 #para("\
 
 is removed from the program in
-#mycodelink("tutprog_hw.dats", "tutprog_hw.dats"),
+
+#mycodelink("tutprog_hello.dats", "tutprog_hello.dats"),
+
 then a type-error message is issued at compile-time to indicate that the
-resource #code("surface") is not properly freed.  A message as such can be
-of great value in practice for correcting potential memory leaks that may
+resource #code("sf") is not properly freed.  A message as such can be of
+great value in practice for correcting potential memory leaks that may
 otherwise readily go unnoticed.  ATS is a programming language that
 distinguishes itself in its practical and effective support for precise
-resource management.
+resource management.\
 
 ")
 

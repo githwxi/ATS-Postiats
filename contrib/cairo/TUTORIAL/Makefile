@@ -100,6 +100,13 @@ upload_html: html; scp -r HTML/*.html \
 
 ######
 
+upload_code: ; scp -r CODE/*.dats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2CAIRO/CODE
+upload_image: ; scp -r IMAGE/*.png \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2CAIRO/IMAGE
+
+######
+
 RMF=rm -f
 
 ######
@@ -109,5 +116,6 @@ clean:: ; $(RMF) *_?ats.c *_?ats.o
 
 cleanall:: clean
 cleanall:: ; $(RMF) HTML/*.html
+cleanall:: ; make -C CODE cleanall
 
 ###### end of [Makefile] ######
