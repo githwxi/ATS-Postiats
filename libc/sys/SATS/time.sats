@@ -92,7 +92,8 @@ fun gettimeofday_tv
 ) :<> #[i:int | i <= 0] int(i) = "mac#%"
 overload gettimeofday with gettimeofday_tv
 //
-fun gettimeofday_tz (
+fun gettimeofday_tz
+(
   tz: &timezone? >> opt (timezone, i==0)
 ) :<> #[i:int | i <= 0] int(i) = "mac#%"
 overload gettimeofday with gettimeofday_tz

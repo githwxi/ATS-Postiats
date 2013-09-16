@@ -72,6 +72,12 @@ cleanall:: ; $(RMF) sumodd
 
 ######
 
+all:: stkalloc
+stkalloc: stkalloc.dats ; $(PATSCC) -cleanaft -o $@ $<
+cleanall:: ; $(RMF) stkalloc
+
+######
+
 all:: trywith
 trywith: trywith.dats ; \
   $(PATSCC) -D_GNU_SOURCE -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<

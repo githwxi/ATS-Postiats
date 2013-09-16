@@ -24,6 +24,10 @@
 #include "share/atspre_staload.hats"
 
 (* ****** ****** *)
+
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
 //
 staload "libc/SATS/math.sats"
 staload _(*anon*) = "libc/DATS/math.dats"
@@ -97,7 +101,7 @@ fn draw_clock
 
 extern
 fun mydraw_clock
-  (cr: !cairo_ref1, width: int, height: int): void = "ext#"
+  (cr: !cairo_ref1, width: int, height: int): void
 // end of [mydraw_clock]
 
 (* ****** ****** *)
@@ -116,6 +120,40 @@ mydraw_clock
   val () = draw_clock (cr)
   val () = cairo_restore (pf0 | cr)
 } (* end of [mydraw_clock] *)
+
+(* ****** ****** *)
+
+%{^
+typedef char **charptrptr ;
+%} ;
+abstype charptrptr = $extype"charptrptr"
+
+(* ****** ****** *)
+
+staload "{$LIBATSHWXI}/teaching/myGTK/SATS/gtkcairoclock.sats"
+staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairoclock.dats"
+
+(* ****** ****** *)
+
+implement
+main0 (argc, argv) =
+{
+//
+var argc: int = argc
+var argv: charptrptr = $UN.castvwtp1{charptrptr}(argv)
+//
+val () = $extfcall (void, "gtk_init", addr@(argc), addr@(argv))
+//
+implement
+gtkcairoclock_title<> () = stropt_some"gtkcairoclock"
+implement
+gtkcairoclock_timeout_interval<> () = 500U // millisecs
+implement
+gtkcairoclock_mydraw<> (cr, width, height) = mydraw_clock (cr, width, height)
+//
+val ((*void*)) = gtkcairoclock_main ((*void*))
+//
+} (* end of [main0] *)
 
 (* ****** ****** *)
 

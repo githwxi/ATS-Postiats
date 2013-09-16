@@ -29,6 +29,11 @@
 
 (* ****** ****** *)
 
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "{$CAIRO}/SATS/cairo.sats"
 
 (* ****** ****** *)
@@ -58,20 +63,20 @@ triangle = @{
 
 (* ****** ****** *)
 
-staload
-STDLIB = "libc/SATS/stdlib.sats"
+staload TIME = "libc/SATS/time.sats"
+staload STDLIB = "libc/SATS/stdlib.sats"
 
 (* ****** ****** *)
 
 extern
-fun mydraw_clock
-  (cr: !cairo_ref1, width: int, height: int): void = "ext#"
-// end of [mydraw_clock]
+fun mydraw_triangle
+  (cr: !cairo_ref1, width: int, height: int): void
+// end of [mydraw_triangle]
 
 (* ****** ****** *)
 
 implement
-mydraw_clock
+mydraw_triangle
 (
   cr, width, height
 ) = () where
@@ -103,7 +108,42 @@ val () = cairo_set_line_width (cr, 2.5)
 val () = cairo_set_source_rgb (cr, 1-r, 1-g, 1-b)
 val () = cairo_stroke (cr)
 //
-} (* end of [mydraw_clock] *)
+} (* end of [mydraw_triangle] *)
+
+(* ****** ****** *)
+
+%{^
+typedef char **charptrptr ;
+%} ;
+abstype charptrptr = $extype"charptrptr"
+
+(* ****** ****** *)
+
+staload "{$LIBATSHWXI}/teaching/myGTK/SATS/gtkcairoclock.sats"
+staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairoclock.dats"
+
+(* ****** ****** *)
+
+implement
+main0 (argc, argv) =
+{
+//
+var argc: int = argc
+var argv: charptrptr = $UN.castvwtp1{charptrptr}(argv)
+//
+val () = $STDLIB.srand48 ($UN.cast2lint($TIME.time_get()))
+val () = $extfcall (void, "gtk_init", addr@(argc), addr@(argv))
+//
+implement
+gtkcairoclock_title<> () = stropt_some"gtkcairoclock"
+implement
+gtkcairoclock_timeout_interval<> () = 1000U // millisecs
+implement
+gtkcairoclock_mydraw<> (cr, width, height) = mydraw_triangle (cr, width, height)
+//
+val ((*void*)) = gtkcairoclock_main ((*void*))
+//
+} (* end of [main0] *)
 
 (* ****** ****** *)
 

@@ -174,13 +174,13 @@ val _sid = g_signal_connect
   win0, (gsignal)"destroy-event", G_CALLBACK(gtk_widget_destroy), (gpointer)nullp
 )
 //
-val int = gtkcairoclock_timeout_interval ()
-//
+val int =
+  gtkcairoclock_timeout_interval ()
 val _rid = g_timeout_add ((guint)int, (GSourceFunc)ftimeout, (gpointer)p_darea)
 //
 val () = gtk_widget_show_all (win0)
 //
-val () = g_object_unref (win0)
+val () = g_object_unref (win0) // HX: refcount of [win0] decreases from 2 to 1
 //
 val ((*void*)) = gtk_main ((*void*))
 //

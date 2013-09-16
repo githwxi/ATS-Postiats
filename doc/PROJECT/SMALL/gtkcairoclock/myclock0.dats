@@ -21,19 +21,16 @@
 #define ATS_DYNLOADFLAG 0 // no dynloading at run-time
 
 (* ****** ****** *)
-
+//
 #include
 "share/atspre_define.hats"
-
+#include
+"share/atspre_staload.hats"
+//
 (* ****** ****** *)
 
 staload
 UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
-staload INT = "prelude/DATS/integer.dats"
-staload FLOAT = "prelude/DATS/float.dats"
 
 (* ****** ****** *)
 
@@ -42,13 +39,6 @@ staload "libc/SATS/time.sats"
 (* ****** ****** *)
 
 staload "{$CAIRO}/SATS/cairo.sats"
-
-(* ****** ****** *)
-
-extern
-fun mydraw_clock
-  (cr: !cairo_ref1, width: int, height: int): void = "ext#"
-// end of [mydraw_clock]
 
 (* ****** ****** *)
 
@@ -63,6 +53,13 @@ abst@ype bytes32 = $extype"bytes32"
 %{^
 #define mystrftime(bufp, m, fmt, ptm) strftime((char*)bufp, m, fmt, ptm)
 %} // end of [%{^]
+
+(* ****** ****** *)
+
+extern
+fun mydraw_clock
+  (cr: !cairo_ref1, width: int, height: int): void
+// end of [mydraw_clock]
 
 (* ****** ****** *)
 
@@ -100,6 +97,40 @@ val () =
 in
   // nothing
 end // end of [mydraw_clock]
+
+(* ****** ****** *)
+
+%{^
+typedef char **charptrptr ;
+%} ;
+abstype charptrptr = $extype"charptrptr"
+
+(* ****** ****** *)
+
+staload "{$LIBATSHWXI}/teaching/myGTK/SATS/gtkcairoclock.sats"
+staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairoclock.dats"
+
+(* ****** ****** *)
+
+implement
+main0 (argc, argv) =
+{
+//
+var argc: int = argc
+var argv: charptrptr = $UN.castvwtp1{charptrptr}(argv)
+//
+val () = $extfcall (void, "gtk_init", addr@(argc), addr@(argv))
+//
+implement
+gtkcairoclock_title<> () = stropt_some"gtkcairoclock"
+implement
+gtkcairoclock_timeout_interval<> () = 500U // millisecs
+implement
+gtkcairoclock_mydraw<> (cr, width, height) = mydraw_clock (cr, width, height)
+//
+val ((*void*)) = gtkcairoclock_main ((*void*))
+//
+} (* end of [main0] *)
 
 (* ****** ****** *)
 
