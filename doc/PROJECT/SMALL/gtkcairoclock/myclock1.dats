@@ -1,10 +1,12 @@
 (*
 **
-** A simple CAIRO example: a clock@home
+** A GTK/Cairo-clock
 **
-** Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-** Time: December, 2009
+** Author: Hongwei Xi
+** Authoremail: hwxiATcsDOTbuDOTedu
+** Start Time: December, 2009
 **
+** The clock was drawn after my wall clock at home
 *)
 
 (* ****** ****** *)

@@ -34,6 +34,13 @@ cleanall:: ; $(RMF) myclock2
 
 ######
 
+all:: myclock3
+myclock3: myclock3.dats
+	$(PATSCC) -I${PATSHOME}/contrib -o $@ main.dats $< $(GTKFLAGS)
+cleanall:: ; $(RMF) myclock3
+
+######
+
 RMF=rm -f
 
 ######
