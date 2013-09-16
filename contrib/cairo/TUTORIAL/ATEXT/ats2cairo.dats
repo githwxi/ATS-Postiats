@@ -30,10 +30,10 @@ fun MYIMAGEROOTget () = atext_strcst (MYIMAGEROOT)
 
 (* ****** ****** *)
 
-#define ATSLANGSVNROOT
-"https://ats-lang.svn.sourceforge.net/svnroot/ats-lang/trunk"
+#define ATSLANGSRCROOT
+"http://www.ats-lang.org/DOCUMENT/ATS-Postiats"
 
-fun ATSLANGSVNROOTget () = atext_strcst (ATSLANGSVNROOT)
+fun ATSLANGSRCROOTget () = atext_strcst (ATSLANGSRCROOT)
 
 (* ****** ****** *)
 

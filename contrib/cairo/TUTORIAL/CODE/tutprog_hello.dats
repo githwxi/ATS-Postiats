@@ -88,7 +88,6 @@ val () = assertloc (status = CAIRO_STATUS_SUCCESS)
 //
 } (* end of [main0] *)
 
-
 (* ****** ****** *)
 
 (* end of [tutprog_hello.dats] *)
