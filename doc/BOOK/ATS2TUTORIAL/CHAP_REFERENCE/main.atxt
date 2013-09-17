@@ -18,8 +18,8 @@ Time of Generation: #timestamp()\
 
 A reference is essentially a heap-allocated array of size 1. It is
 persistent in the sense that the memory allocated for storing the content
-of a reference cannot be freed manually. Instead, it can only be reclaimed
-through garbage collection (GC).
+of a reference cannot be freed manually. Instead, it can only be (safely)
+reclaimed through garbage collection (GC).
 
 ")
 
@@ -30,7 +30,7 @@ Given a viewtype VT, the type for references to values of viewtype VT is
 is declared to be abstract in ATS. However, it can be defined as follows:
 
 #atscode('\
-typedef ref (a:viewt@ype) = [l:addr] (vbox (a @ l) | ptr l)
+typedef ref (a:vt@ype) = [l:addr] (vbox (a @ l) | ptr l)
 ')
 
 The interfaces for various functions on references can be found in
@@ -43,13 +43,13 @@ For creating a reference, the function template #dyncode("ref_make_elt") of
 the following interface can be called:
 
 #atscode('\
-fun{a:viewt@ype} ref_make_elt (x: a):<!wrt> ref a
+fun{a:vt@ype} ref_make_elt (x: a):<!wrt> ref a
 ')
 
 Note that the symbol #stacode("!wrt") indicates that the so-called
 #stacode("wrt")-effect may occur when #dyncode("ref_make_elt") is called.
 
-For reading from and writing to a reference, the function templates
+For reading writing through a reference, the function templates
 #dyncode("ref_get_elt") and #dyncode("ref_set_elt") can be used,
 respectively, which are assigned the following interfaces:
 
@@ -59,12 +59,11 @@ fun{a:t@ype} ref_set_elt (r: ref a, x: a):<!refwrt> void
 ')
 
 Note that the symbol #stacode("!ref") indicates that the so-called
-#stacode("ref")-effect may occur when #dyncode("ref_get_elt") is
-evaluated. Similarly, #stacode("!refwrt") means both #stacode("ref")-effect
-and #stacode("wrt")-effect may occur when #dyncode("ref_set_elt").  Given a
-reference #dyncode("r") and a value #dyncode("v"),
-#dyncode("ref_get_elt(r)") and #dyncode("ref_set_elt(r, v)") can be written
-as #dyncode("!r") and #dyncode("!r := v"), respectively.\
+ref-effect may occur when #dyncode("ref_get_elt") is evaluated. Similarly,
+#stacode("!refwrt") means both ref-effect and wrt-effect may occur when
+#dyncode("ref_set_elt").  Given a reference #dyncode("r") and a value
+#dyncode("v"), #dyncode("ref_get_elt(r)") and #dyncode("ref_set_elt(r, v)")
+can be written as #dyncode("!r") and #dyncode("!r := v"), respectively.\
 
 ")#comment("para")
 
@@ -80,7 +79,7 @@ local
 //
 val count = ref<int> (0)
 
-in // in of [local]
+in (* in of [local] *)
 
 fun getNewName
   (prfx: string): string = let
@@ -178,7 +177,7 @@ implement main () =
 {
 //
 val filr =
-  $STDIO.fopen_ref_exn ("chap_reference_extracted.dats", file_mode_w)
+  $STDIO.fopen_ref_exn ("../CODE/chap_reference.dats", file_mode_w)
 val () = fprint_theCodeLst (filr)
 val () = $STDIO.fclose_exn (filr)
 //
