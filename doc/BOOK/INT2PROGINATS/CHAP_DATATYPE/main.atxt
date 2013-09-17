@@ -573,13 +573,13 @@ construct a value representing a binary tree but not a binary search tree.
 
 #para("\
 
-The following function [bstree_preorder] does a preorder
-traversal of a given binary:
+The following function [bstree_inord] does a in-order traversal of a
+given binary tree:
 
 ")
 
 #atscode("\
-fun bstree_preorder
+fun bstree_inord
 (
   t0: bstree, fwork: string -<cloref1> void
 ) : void =
@@ -588,11 +588,11 @@ case+ t0 of
 | E () => ()
 | B (t1, k, t2) =>
   {
-    val () = bstree_preorder (t1, fwork)
+    val () = bstree_inord (t1, fwork)
     val () = fwork (k)
-    val () = bstree_preorder (t2, fwork)
+    val () = bstree_inord (t2, fwork)
   }
-) (* end of [bstree_preorder] *)
+) (* end of [bstree_inord] *)
 ")
 
 #para("\
@@ -660,7 +660,8 @@ case+ t0 of
 #para("\
 
 Note that [bstree_insert] inserts the key only if it is not already stored
-inside the given tree.
+inside the given tree. Also, if inserted, the key is always stored in a newly
+created leaf node.
 
 ")
 

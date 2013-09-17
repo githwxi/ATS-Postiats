@@ -75,7 +75,7 @@ For instance, following is such an example:
 #atscode_extract('\
 local
 //
-// [ref] is a shorthand for [ref_make_elt]
+// [ref]: shorthand for [ref_make_elt]
 //
 val count = ref<int> (0)
 
@@ -107,6 +107,7 @@ function is always a no-op at run-time.
 
 #para("\
 
+#strong("Misuse of References")
 References are commonly misused in practice. The following program is often
 written by a beginner of functional programming who has already learned
 (some) imperative programming:
@@ -160,6 +161,15 @@ end // end of [fact]
 
 Unless strong justification can be given, making extensive use of
 (dynamically created) references is often a sure sign of poor coding style.
+
+")#comment("para")
+
+#para("\
+
+#strong("Statically Allocated References")
+Creating a reference by calling #dyncode("ref_make_elt") involves dynamic
+memory allocation. If this is not desirable or even acceptable, it is
+possible to only employ statically allocated memory in a reference creation.
 
 ")#comment("para")
 
