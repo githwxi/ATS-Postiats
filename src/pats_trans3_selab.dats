@@ -94,7 +94,7 @@ case+ d2l.d2lab_node of
 //
 end // end of [aux]
 
-in // in of [loca]
+in (* in of [local] *)
 
 implement
 d2lablst_trup (d2ls) = let
@@ -107,13 +107,13 @@ end // end of [local]
 
 local
 
-fun arrbndck .<>. (
+fun arrbndck .<>.
+(
   d3e1: d3exp, s2i2: s2exp
 ) : s2explst_vt = let
 //
-fun auxerr (
-  d3e: d3exp
-) : void = let
+fun auxerr
+  (d3e: d3exp): void = let
   val loc = d3e.d3exp_loc
   val s2e = d3exp_get_type (d3e)
   val () = prerr_error3_loc (loc)
@@ -155,7 +155,7 @@ case+ opt of
 //
 end // end of [arrbndck]
 
-in // in of [local]
+in (* in of [local] *)
 
 fun arrbndlst_check (
   loc0: location, ind: d3explst, dim: s2explst
@@ -213,11 +213,11 @@ end // end of [local]
 
 local
 
-fun d3lab_is_over
+fun d3lab_is_overld
   (d3l: d3lab): bool =
 (
-  case+ d3l.d3lab_over of Some _ => true | None _ => false
-) // end of [d3lab_is_over]
+  case+ d3l.d3lab_overld of Some _ => true | None _ => false
+) // end of [d3lab_is_overld]
 
 fun lincheck
 (
@@ -228,14 +228,14 @@ in
 if linrest = 0 then
 (
 case+ ls2es of
+| list_nil () => ()
 | list_cons
     (ls2e, ls2es) => let
-    val SLABELED (_, _, s2e) = ls2e
+    val+SLABELED (_, _, s2e) = ls2e
     val () = if s2exp_is_lin (s2e) then linrest := linrest + 1
   in
     lincheck (ls2es, linrest)
   end // end of [list_cons]
-| list_nil () => ()
 ) else () // end of [if]
 //
 end // end of [lincheck]
@@ -248,7 +248,8 @@ labfind_lincheck
 in
 //
 case+ ls2es of
-| list_cons (ls2e, ls2es) => let
+| list_cons
+    (ls2e, ls2es) => let
     val SLABELED (l, _, s2e) = ls2e
   in
     if l0 = l then let
@@ -286,7 +287,9 @@ and auxlab_shnf (
   val s2e = s2hnf2exp (s2f)
 in
 //
-case+ s2e.s2exp_node of
+case+
+  s2e.s2exp_node of
+//
 | S2Etyrec
     (knd, npf, ls2es) => let
     var err: int = 0
@@ -308,20 +311,28 @@ case+ s2e.s2exp_node of
   in
     s2e1
   end // end of [S2Etyrec]
+//
 | S2Eexi _ => let
     val s2f = s2exp2hnf (s2e)
     val s2e = s2hnf_opn1exi_and_add (loc0, s2f)
   in
     auxlab_sexp (loc0, s2e, d3l, l0, linrest, sharing)
   end // end of [S2Eexi]
+//
 | _ when
-    d3lab_is_over (d3l) => let
-    val-Some (d2s) = d3l.d3lab_over
+    d3lab_is_overld (d3l) => let
+    val-Some (d2s) = d3l.d3lab_overld
     val _fun = d2exp_top (loc0)
     val d2e = d2exp_top2 (loc0, s2e)
     val d2a = D2EXPARGdyn (~1(*npf*), loc0, list_sing (d2e))
     val _arg = list_sing (d2a)
     val d3e_sel = d2exp_trup_applst_sym (_fun, d2s, _arg)
+// (*
+    val () =
+    println! (
+      "s2exp_get_dlablst_linrest_sharing: auxlab_shnf: d3e_sel = ", d3e_sel
+    ) (* end of [val] *)
+// *)
   in
     d3exp_get_type (d3e_sel)
   end // end of [_ when ...]
@@ -335,7 +346,8 @@ case+ s2e.s2exp_node of
 //
 end // end of [auxlab_shnf]
 
-fun auxind (
+fun auxind
+(
   loc0: location, s2e: s2exp, ind: d3explst
 ) : (
   s2exp(*elt*), s2explst_vt(*array-bounds-checking*)
@@ -344,19 +356,27 @@ fun auxind (
   val s2e = s2hnf2exp (s2f)
 in
 //
-case+ s2e.s2exp_node of
+case+
+  s2e.s2exp_node of
+//
 | S2Etyarr
-    (s2e_elt, s2es_dim) => let
-    val s2ps = arrbndlst_check (loc0, ind, s2es_dim)
+  (
+    s2e_elt, s2es_dim
+  ) => let
+    val s2ps =
+      arrbndlst_check (loc0, ind, s2es_dim)
+    // end of [val]
   in
     (s2e_elt, s2ps)
   end // end of [S2Etyarr]
+//
 | S2Eexi _ => let
     val s2f = s2exp2hnf (s2e)
     val s2e = s2hnf_opn1exi_and_add (loc0, s2f)
   in
     auxind (loc0, s2e, ind)
   end // end of [S2Eexi]
+//
 | _ => let
     val () =
       prerr_error3_loc (loc0)
@@ -383,7 +403,8 @@ fun auxsel
   val loc0 = d3l.d3lab_loc
 in
 //
-case+ d3l.d3lab_node of
+case+
+  d3l.d3lab_node of
 | D3LABlab (l0) => let
     val s2f = s2exp2hnf (s2e)
     val s2e = auxlab_shnf (loc0, s2f, d3l, l0, linrest, sharing)
@@ -417,7 +438,7 @@ case+ d3ls of
 //
 end // end of [auxselist]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s2exp_get_dlablst_linrest_sharing
@@ -656,7 +677,7 @@ case+ d3ls of
 //
 end // end of [auxselist]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s2exp_get_dlablst_context
@@ -722,21 +743,22 @@ implement
 d2var_trup_selab_lin
   (loc0, loc, d2v, d2ls) = let
 (*
-  val () = begin
-    print "d2exp_trup_selab: D2Evar(lin): d2v = "; print_d2var d2v; print_newline ()
-  end // end of [val]
+val () =
+  println! ("d2exp_trup_selab: D2Evar(lin): d2v = ", d2v)
+// end of [val]
 *)
-  val s2e =
-    d2var_get_type_some (loc, d2v)
-  val s2rt = s2e // HX: root type for selection
-  val d3ls = d2lablst_trup (d2ls)
-  var linrest: int = 0 and sharing: int = 0
-  val s2es2ps =
-    s2exp_get_dlablst_linrest_sharing (loc0, s2e, d3ls, linrest, sharing)
-  // end of [val]
-  val s2e_sel = s2exp_hnfize (s2es2ps.0)
-  val () = trans3_env_add_proplst_vt (loc0, s2es2ps.1)
-  val islin = s2exp_is_lin (s2e_sel)
+val s2e =
+  d2var_get_type_some (loc, d2v)
+val s2rt = s2e // HX: root type for selection
+val d3ls = d2lablst_trup (d2ls)
+var linrest: int = 0 and sharing: int = 0
+val s2es2ps =
+  s2exp_get_dlablst_linrest_sharing (loc0, s2e, d3ls, linrest, sharing)
+// end of [val]
+val s2e_sel = s2exp_hnfize (s2es2ps.0)
+val () = trans3_env_add_proplst_vt (loc0, s2es2ps.1)
+val islin = s2exp_is_lin (s2e_sel)
+//
 in
 //
 if islin then let
@@ -774,6 +796,8 @@ end else
 //
 end // end of [d2var_trup_selab_lin]
 
+(* ****** ****** *)
+
 (*
 ** HX-2012-05:
 ** [s2addr] is implemented in [pats_trans3_deref]
@@ -792,6 +816,7 @@ end // end of [d2var_trup_selab_mut]
 implement
 d2var_trup_selab
   (loc0, loc, d2v, d2ls) =
+(
   if d2var_is_linear (d2v) then
     d2var_trup_selab_lin (loc0, loc, d2v, d2ls)
   else if d2var_is_mutabl (d2v) then
@@ -803,7 +828,7 @@ d2var_trup_selab
   in
     d3exp_trup_selab (loc0, d3e, d3ls)
   end // end of [if]
-(* end of [d2var_trup_selab] *)
+) (* end of [d2var_trup_selab] *)
 
 (* ****** ****** *)
 
@@ -820,18 +845,23 @@ in
   the_trans3errlst_add (T3E_d3exp_selab_linrest (loc0, d3e, d3ls))
 end // end of [auxerr_linrest]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d3exp_trup_selab
   (loc0, d3e, d3ls) = let
+// (*
+val () = println! ("d3exp_trup_selab: d3e = ", d3e)
+// *)
 in
 //
 case+ d3ls of
 | list_cons _ => let
 //
     val s2e = d3exp_get_type (d3e)
-//
+// (*
+    val () = println! ("d3exp_trup_selab: s2e = ", s2e)
+// *)
     var linrest: int = 0 and sharing: int = 0
     val (s2e_sel, s2ps) =
       s2exp_get_dlablst_linrest_sharing (loc0, s2e, d3ls, linrest, sharing)
@@ -853,19 +883,21 @@ end // end of [local]
 implement
 d2exp_trup_selab
   (d2e0, d2e, d2ls) = let
-(*
-val () = (
-  print "d2exp_trup_selab: d2e0 = "; print_d2exp (d2e0); print_newline ()
-) // end of [val]
-*)
+// (*
+val (
+) = println!
+  ("d2exp_trup_selab: d2e0 = ", d2e0)
+// *)
 //
 val loc0 = d2e0.d2exp_loc
 //
 in
 //
-case+ d2e.d2exp_node of
+case+
+  d2e.d2exp_node of
 | D2Evar (d2v) => let
-    val loc = d2e.d2exp_loc in
+    val loc = d2e.d2exp_loc
+  in
     d2var_trup_selab (loc0, loc, d2v, d2ls)
   end // end of [D2Evar]
 | D2Ederef d2e =>

@@ -105,13 +105,17 @@ all_html::
 #make_entry("..", "cairo")
 #make_entry("..", "cairo_header")
 #make_entry("../Drawing", "cairo-cairo-t")
-#make_entry("../Drawing", "cairo-Paths"
-#make_entry("../Drawing", "cairo-cairo-pattern-t"
+#make_entry("../Drawing", "cairo-Paths")
+#make_entry("../Drawing", "cairo-Regions")
+#make_entry("../Drawing", "cairo-cairo-pattern-t")
 #make_entry("../Drawing", "cairo-Transformations")
 #make_entry("../Surfaces", "cairo-cairo-device-t")
 #make_entry("../Surfaces", "cairo-cairo-surface-t")
 #make_entry("../Surfaces", "cairo-Image-Surfaces")
+#make_entry("../Surfaces", "cairo-PDF-Surfaces")
 #make_entry("../Surfaces", "cairo-PNG-Support")
+#make_entry("../Surfaces", "cairo-PostScript-Surfaces")
+#make_entry("../Utilities", "cairo-cairo-matrix-t")
 
 ######
 

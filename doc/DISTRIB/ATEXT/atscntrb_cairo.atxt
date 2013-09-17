@@ -43,8 +43,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=./../../contrib/libats-hwxi/intinf/\n\
-TARGET=ATS-Postiats/contrib/libats-hwxi/intinf/\n\
+SOURCE=./../../contrib/cairo/\n\
+TARGET=ATS-Postiats/contrib/cairo/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -62,7 +62,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The ATSCNTRB-libatshwxi-intinf files have been copied.\"\n\
+echo \"The ATSCNTRB-cairo files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
@@ -95,20 +95,45 @@ packfilesynop (x) = atext_nil ()
 
 (* ****** ****** *)
 
-#packtitle("\
-ATSCNTRB/libats-hwxi/intinf\
-")
+#packtitle("ATSCNTRB/cairo")
 
 (* ****** ****** *)
 
-#packfilename("SATS/intinf.sats")
-#packfilename("SATS/intinf_t.sats")
-#packfilename("SATS/intinf_vt.sats")
+#packfilename("SATS/cairo.sats")
+#packfilename("SATS/cairo_header.sats")
 
 (* ****** ****** *)
 
-#packfilename("DATS/intinf_t.dats")
-#packfilename("DATS/intinf_vt.dats")
+#packfilename("SATS/Drawing/cairo-cairo-t.sats")
+#packfilename("SATS/Drawing/cairo-Paths.sats")
+#packfilename("SATS/Drawing/cairo-cairo-pattern-t.sats")
+#packfilename("SATS/Drawing/cairo-Regions.sats")
+#packfilename("SATS/Drawing/cairo-Transformations.sats")
+#packfilename("SATS/Drawing/cairo-text.sats")
+#packfilename("SATS/Drawing/cairo-Raster-Sources.sats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/Fonts/cairo-cairo-font-face-t.sats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/Surfaces/cairo-cairo-device-t.sats")
+#packfilename("SATS/Surfaces/cairo-cairo-surface-t.sats")
+#packfilename("SATS/Surfaces/cairo-Image-Surfaces.sats")
+#packfilename("SATS/Surfaces/cairo-PDF-Surfaces.sats")
+#packfilename("SATS/Surfaces/cairo-PNG-Support.sats")
+#packfilename("SATS/Surfaces/cairo-PostScript-Surfaces.sats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/Utilities/cairo-cairo-matrix-t.sats")
+#packfilename("SATS/Utilities/cairo-Error-Handling.sats")
+#packfilename("SATS/Utilities/cairo-Types.sats")
+
+(* ****** ****** *)
+
+#packfilename("CATS/cairo.cats")
 
 (* ****** ****** *)
 
@@ -124,4 +149,4 @@ implement main () = ()
 
 (* ****** ****** *)
 
-(* end of [atscntrb_libatshwxi_intinf.atxt] *)
+(* end of [atscntrb_cairo.atxt] *)

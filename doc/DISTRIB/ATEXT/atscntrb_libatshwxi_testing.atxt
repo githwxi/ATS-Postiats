@@ -43,7 +43,7 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=../../contrib/libats-hwxi/testing/\n\
+SOURCE=./../../contrib/libats-hwxi/testing/\n\
 TARGET=ATS-Postiats/contrib/libats-hwxi/testing/\n\
 \n\
 srcget ()\n\
@@ -96,7 +96,7 @@ packfilesynop (x) = atext_nil ()
 (* ****** ****** *)
 
 #packtitle("\
-The ATSCNTRB/libats-hwxi/testing library\
+ATSCNTRB/libats-hwxi/testing\
 ")
 
 (* ****** ****** *)

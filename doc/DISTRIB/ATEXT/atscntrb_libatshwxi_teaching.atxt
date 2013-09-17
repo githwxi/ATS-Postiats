@@ -43,8 +43,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=./../../contrib/libats-hwxi/intinf/\n\
-TARGET=ATS-Postiats/contrib/libats-hwxi/intinf/\n\
+SOURCE=./../../contrib/libats-hwxi/teaching/\n\
+TARGET=ATS-Postiats/contrib/libats-hwxi/teaching/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -62,7 +62,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The ATSCNTRB-libatshwxi-intinf files have been copied.\"\n\
+echo \"The ATSCNTRB-libatshwxi-teaching files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
@@ -96,19 +96,16 @@ packfilesynop (x) = atext_nil ()
 (* ****** ****** *)
 
 #packtitle("\
-ATSCNTRB/libats-hwxi/intinf\
+ATSCNTRB/libats-hwxi/teaching\
 ")
 
 (* ****** ****** *)
 
-#packfilename("SATS/intinf.sats")
-#packfilename("SATS/intinf_t.sats")
-#packfilename("SATS/intinf_vt.sats")
+#packfilename("myGTK/SATS/gtkcairoclock.sats")
 
 (* ****** ****** *)
 
-#packfilename("DATS/intinf_t.dats")
-#packfilename("DATS/intinf_vt.dats")
+#packfilename("myGTK/DATS/gtkcairoclock.dats")
 
 (* ****** ****** *)
 
@@ -124,4 +121,4 @@ implement main () = ()
 
 (* ****** ****** *)
 
-(* end of [atscntrb_libatshwxi_intinf.atxt] *)
+(* end of [atscntrb_libatshwxi_teaching.atxt] *)

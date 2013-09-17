@@ -95,11 +95,6 @@ all_script::
 
 ######
 
-#make_entry("atscntrb_libatshwxi_intinf")
-#make_entry("atscntrb_libatshwxi_testing")
-
-######
-
 #make_entry("ccomp_atslib")
 #make_entry("ccomp_runtime")
 
@@ -116,12 +111,20 @@ all_script::
 
 ######
 
+#make_entry("atscntrb_GTK")
+#make_entry("atscntrb_glib")
+#make_entry("atscntrb_cairo")
+#make_entry("atscntrb_libatshwxi_intinf")
+#make_entry("atscntrb_libatshwxi_testing")
+#make_entry("atscntrb_libatshwxi_teaching")
+
+######
+
 atspackaging:: srcget_home
 atspackaging:: srcget_share
 atspackaging:: srcget_patsrc
 atspackaging:: srcget_patsrc_cboot
 atspackaging:: srcget_atslib
-atspackaging:: srcget_atscntrb
 atspackaging:: srcget_ccomp_atslib
 atspackaging:: srcget_ccomp_runtime
 atspackaging:: srcget_utils_atscc
@@ -165,13 +168,6 @@ srcget_atslib_libats_ML:: SCRIPT/atslib_libats_ML.bash ; bash $<
 
 ######
 
-srcget_atscntrb:: srcget_atscntrb_libatshwxi_intinf
-srcget_atscntrb_libatshwxi_intinf:: SCRIPT/atscntrb_libatshwxi_intinf.bash ; bash $<
-srcget_atscntrb:: srcget_atscntrb_libatshwxi_testing
-srcget_atscntrb_libatshwxi_testing:: SCRIPT/atscntrb_libatshwxi_testing.bash ; bash $<
-
-######
-
 srcget_ccomp_atslib:: SCRIPT/ccomp_atslib.bash ; bash $<
 srcget_ccomp_runtime:: SCRIPT/ccomp_runtime.bash ; bash $<
 
@@ -189,6 +185,31 @@ srcget_doc_example_intro:: SCRIPT/doc_example_intro.bash ; bash $<
 srcget_doc_example_atslib:: SCRIPT/doc_example_atslib.bash ; bash $<
 srcget_doc_example_misc:: SCRIPT/doc_example_misc.bash ; bash $<
 srcget_doc_example_pcpv:: SCRIPT/doc_example_pcpv.bash ; bash $<
+
+######
+
+atscontribing:: srcget_atscntrb
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_GTK
+srcget_atscntrb_GTK:: SCRIPT/atscntrb_GTK.bash ; bash $<
+srcget_atscntrb:: srcget_atscntrb_glib
+srcget_atscntrb_glib:: SCRIPT/atscntrb_glib.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_cairo
+srcget_atscntrb_cairo:: SCRIPT/atscntrb_cairo.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_libatshwxi_intinf
+srcget_atscntrb_libatshwxi_intinf:: SCRIPT/atscntrb_libatshwxi_intinf.bash ; bash $<
+srcget_atscntrb:: srcget_atscntrb_libatshwxi_testing
+srcget_atscntrb_libatshwxi_testing:: SCRIPT/atscntrb_libatshwxi_testing.bash ; bash $<
+srcget_atscntrb:: srcget_atscntrb_libatshwxi_teaching
+srcget_atscntrb_libatshwxi_teaching:: SCRIPT/atscntrb_libatshwxi_teaching.bash ; bash $<
 
 ######
 

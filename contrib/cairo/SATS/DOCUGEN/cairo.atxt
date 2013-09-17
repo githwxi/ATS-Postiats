@@ -56,7 +56,13 @@ definitions and macros in the cairo package. ')
 #declname2("Surfaces/cairo-cairo-device-t.sats", "cairo-cairo-device-t.html")
 #declname2("Surfaces/cairo-cairo-surface-t.sats", "cairo-cairo-surface-t.html")
 #declname2("Surfaces/cairo-Image-Surfaces.sats", "cairo-Image-Surfaces.html")
+#declname2("Surfaces/cairo-PDF-Surfaces.sats", "cairo-PDF-Surfaces.html")
 #declname2("Surfaces/cairo-PNG-Support.sats", "cairo-PNG-Support.html")
+#declname2("Surfaces/cairo-PostScript-Surfaces.sats", "cairo-PostScript-Surfaces.html")
+
+(* ****** ****** *)
+
+#declname2("Utilities/cairo-cairo-matrix-t.sats", "cairo-cairo-matrix-t.html")
 
 (* ****** ****** *)
 

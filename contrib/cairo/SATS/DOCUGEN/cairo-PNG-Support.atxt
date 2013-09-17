@@ -2,7 +2,8 @@
 
 %{
 implement
-srcfilename_get () = "../Surfaces/cairo-PNG-Support.sats"
+srcfilename_get (
+) = "../Surfaces/cairo-PNG-Support.sats"
 %}
 
 (* ****** ****** *)

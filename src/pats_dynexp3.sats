@@ -415,7 +415,7 @@ and labd3explst = List (labd3exp)
 and d3lab = '{
   d3lab_loc= location
 , d3lab_node= d3lab_node
-, d3lab_over= d2symopt
+, d3lab_overld= d2symopt
 } // end of [d3lab]
 
 and d3lablst = List (d3lab)

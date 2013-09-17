@@ -292,14 +292,16 @@ case+ d2e0.d2exp_node of
     d2exp_trdn_ifhead (d2e0, s2f_if)
   end // end of [D2Eifhead]
 | D2Esifhead _ => let
-    val s2e_sif = s2exp_Var_make_srt (loc0, s2rt_t0ype)
+    val s2e_sif =
+    s2exp_Var_make_srt (loc0, s2rt_t0ype)
     val s2f_sif = s2exp2hnf_cast (s2e_sif)
   in
     d2exp_trdn_sifhead (d2e0, s2f_sif)
   end // end of [D2Esifhead]
 //
 | D2Ecasehead _ => let
-    val s2e_case = s2exp_Var_make_srt (loc0, s2rt_t0ype)
+    val s2e_case =
+    s2exp_Var_make_srt (loc0, s2rt_t0ype)
     val s2f_case = s2exp2hnf_cast (s2e_case)
   in
     d2exp_trdn_casehead (d2e0, s2f_case)

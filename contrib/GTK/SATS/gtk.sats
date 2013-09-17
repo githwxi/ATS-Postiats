@@ -139,16 +139,16 @@ classdec GtkObject : GInitiallyUnowned
 
 (* ****** ****** *)
 
-#include "./gtk/basics.sats"
+#include "./gtk/gtkenums.sats"
+#include "./gtk/gtkversion.sats"
+
+(* ****** ****** *)
+
+#include "./gtk/mybasics.sats"
 
 (* ****** ****** *)
 
 #include "./gtk/gtkmain.sats"
-
-(* ****** ****** *)
-
-#include "./gtk/gtkenums.sats"
-#include "./gtk/gtkversion.sats"
 
 (* ****** ****** *)
 
