@@ -18,8 +18,9 @@ Time of Generation: #timestamp()\
 #para('\
 
 In cairo, drawing often starts with the construction of a path consisting
-of a sequence of points. For example, the function #code("draw_triangle")
-for drawing a path connecting three points is given as follows:
+of a sequence of points. For example, the function
+#dyncode("draw_triangle") for drawing a path connecting three points is
+given as follows:
 
 ')
 
@@ -41,8 +42,8 @@ draw_triangle{l:agz}
 
 #para('\
 
-The functions involved in the body of #code("draw_triangle") are assigned
-the following types in ATS:
+The functions involved in the body of #dyncode("draw_triangle") are
+assigned the following types in ATS:
 
 ')
 
@@ -56,17 +57,17 @@ fun cairo_close_path {l:agz} (cr: !cairo_ref l): void
 
 #para('\
 
-When called, #code("cairo_move_to") starts a new (sub)path whose initial
-point is (x, y) and #code("cairo_line_to") connects the current point on
+When called, #dyncode("cairo_move_to") starts a new (sub)path whose initial
+point is (x, y) and #dyncode("cairo_line_to") connects the current point on
 the current path to (x, y) and then set (x, y) to be the current point. The
-function #code("cairo_close_path") simply adds a segment connecting the
+function #dyncode("cairo_close_path") simply adds a segment connecting the
 current point to the initial point of the current (sub)path.
 
 ')
 
 #para('\
 
-There is also a function #code("cairo_rel_line_to") of the following type:
+There is also a function #dyncode("cairo_rel_line_to") of the following type:
 
 ')
 
@@ -76,14 +77,14 @@ fun cairo_rel_line_to {l:agz} (cr: !cairo_ref l, x: double, y: double): void
 
 #para('\
 
-This function is similar to #code("cairo_line_to") except for (x, y) being
+This function is similar to #dyncode("cairo_line_to") except for (x, y) being
 relative to the current point on the current (sub)path.\
 
 ')
 
 #para('\
 
-Once a path is constructed, #code("cairo_stroke") can be called to draw
+Once a path is constructed, #dyncode("cairo_stroke") can be called to draw
 line segments along the path:
 
 #atscode('\
@@ -153,16 +154,17 @@ styles, respectively:
 ')
 
 #para('\
-There is also a function #code("cairo_set_dash") for setting up
+There is also a function #dyncode("cairo_set_dash") for setting up
 line dash pattern.
 ')
 
 #comment("
 #para('\
-Please find in
-#mycodelink("tutprog_triangle.dats", "tutprog_triangle.dats")
-a program with a GUI interface that employes the function
-#code("draw_triangle") to draw randomly generated triangles.
+
+Please find in #mycodelink("tutprog_triangle.dats",
+"tutprog_triangle.dats") a program with a GUI interface that employes the
+function #dyncode("draw_triangle") to draw randomly generated triangles.\
+
 ')
 ")
 

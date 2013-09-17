@@ -20,7 +20,7 @@ DBSRC= \
   chap_objtypes_atxt.db \
   chap_funtypes_atxt.db \
   chap_drawline_atxt.db \
-  chap_drawsqrcirc_atxt.db \
+  chap_drawrectcirc_atxt.db \
   chap_drawtext_atxt.db \
 
 ######
@@ -74,13 +74,13 @@ cleanall:: ; $(RMF) chap_drawline_atxt.*
 
 ######
 
-chap_drawsqrcirc.exe: \
-  chap_drawsqrcirc_atxt.dats; $(ATSCC) -D_ATS_GCATS -o $@ $< -latsdoc
-chap_drawsqrcirc_atxt.dats: \
-  ATEXT/chap_drawsqrcirc.atxt; $(ATSDOC) --outcode $@ -i $< > chap_drawsqrcirc_atxt.txt
-chap_drawsqrcirc_atxt.db: chap_drawsqrcirc.exe ; ./chap_drawsqrcirc.exe > $@
-clean:: ; $(RMF) chap_drawsqrcirc.exe
-cleanall:: ; $(RMF) chap_drawsqrcirc_atxt.*
+chap_drawrectcirc.exe: \
+  chap_drawrectcirc_atxt.dats; $(ATSCC) -D_ATS_GCATS -o $@ $< -latsdoc
+chap_drawrectcirc_atxt.dats: \
+  ATEXT/chap_drawrectcirc.atxt; $(ATSDOC) --outcode $@ -i $< > chap_drawrectcirc_atxt.txt
+chap_drawrectcirc_atxt.db: chap_drawrectcirc.exe ; ./chap_drawrectcirc.exe > $@
+clean:: ; $(RMF) chap_drawrectcirc.exe
+cleanall:: ; $(RMF) chap_drawrectcirc_atxt.*
 
 ######
 

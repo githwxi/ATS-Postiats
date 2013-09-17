@@ -278,6 +278,7 @@ doc/DISTRIB/ATS-Postiats/libats/ML/?ATS/SHARE/*.?ats
 doc/DISTRIB/ATS-Postiats/contrib/GTK/*
 doc/DISTRIB/ATS-Postiats/contrib/glib/*
 doc/DISTRIB/ATS-Postiats/contrib/cairo/*
+doc/DISTRIB/ATS-Postiats/contrib/libgmp/*
 doc/DISTRIB/ATS-Postiats/contrib/libats-hwxi/intinf/*
 doc/DISTRIB/ATS-Postiats/contrib/libats-hwxi/testing/*
 doc/DISTRIB/ATS-Postiats/contrib/libats-hwxi/teaching/*

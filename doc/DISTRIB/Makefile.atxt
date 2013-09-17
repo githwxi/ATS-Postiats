@@ -110,14 +110,17 @@ all_script::
 #make_entry("doc_example_pcpv")
 
 ######
-
+#
+#make_entry("atscntrb_libgmp")
+#
 #make_entry("atscntrb_GTK")
 #make_entry("atscntrb_glib")
 #make_entry("atscntrb_cairo")
+#
 #make_entry("atscntrb_libatshwxi_intinf")
 #make_entry("atscntrb_libatshwxi_testing")
 #make_entry("atscntrb_libatshwxi_teaching")
-
+#
 ######
 
 atspackaging:: srcget_home
@@ -189,6 +192,11 @@ srcget_doc_example_pcpv:: SCRIPT/doc_example_pcpv.bash ; bash $<
 ######
 
 atscontribing:: srcget_atscntrb
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_libgmp
+srcget_atscntrb_libgmp:: SCRIPT/atscntrb_libgmp.bash ; bash $<
 
 ######
 

@@ -188,7 +188,18 @@ cleanall:: ; $(RMF) SCRIPT/doc_example_pcpv.bash
 
 
 ######
+#
+all_html:: HTML/atscntrb_libgmp.html
+HTML/atscntrb_libgmp.html: atscntrb_libgmp_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_libgmp.bash
+SCRIPT/atscntrb_libgmp.bash: atscntrb_libgmp_atxt.exe ; ./$< > $@
+atscntrb_libgmp_atxt.dats: ATEXT/atscntrb_libgmp.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_libgmp_atxt.exe: atscntrb_libgmp_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_libgmp_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_libgmp.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_libgmp.bash
 
+#
 all_html:: HTML/atscntrb_GTK.html
 HTML/atscntrb_GTK.html: atscntrb_GTK_atxt.exe ; ./$< > $@
 all_script:: SCRIPT/atscntrb_GTK.bash
@@ -219,6 +230,7 @@ clean:: ; $(RMF) atscntrb_cairo_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_cairo.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_cairo.bash
 
+#
 all_html:: HTML/atscntrb_libatshwxi_intinf.html
 HTML/atscntrb_libatshwxi_intinf.html: atscntrb_libatshwxi_intinf_atxt.exe ; ./$< > $@
 all_script:: SCRIPT/atscntrb_libatshwxi_intinf.bash
@@ -249,7 +261,7 @@ clean:: ; $(RMF) atscntrb_libatshwxi_teaching_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_libatshwxi_teaching.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_libatshwxi_teaching.bash
 
-
+#
 ######
 
 atspackaging:: srcget_home
@@ -321,6 +333,11 @@ srcget_doc_example_pcpv:: SCRIPT/doc_example_pcpv.bash ; bash $<
 ######
 
 atscontribing:: srcget_atscntrb
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_libgmp
+srcget_atscntrb_libgmp:: SCRIPT/atscntrb_libgmp.bash ; bash $<
 
 ######
 

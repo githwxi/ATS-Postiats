@@ -17,9 +17,9 @@ Time of Generation: #timestamp()\
 
 #para('\
 
-We present a function #code("showtext") as follows that draws
-the text represented by a given string in a manner that puts the center of
-the drawing at the position (0, 0).\
+We present a function #dyncode("showtext") as follows that draws the text
+represented by a given string in a manner that puts the center of the
+drawing at the position (0, 0).\
 
 ')
 
@@ -60,9 +60,11 @@ fun showtext {l:agz}
 ')
 
 #para('\
+
 For instance, the following image is produced by calling
-#code("showtext") (see #mycodelink("tutprog_showtext.dats", "tutprog_showtext.dats"))
-for the entire code):
+#dyncode("showtext") (see #mycodelink("tutprog_showtext.dats", "tutprog_showtext.dats"))
+for the entire code):\
+
 ')
 
 #para('\
@@ -74,7 +76,7 @@ for the entire code):
 ')
 
 #para('\
-Given a string #code("utf8"), we can find out some properties
+Given a string #stacode("utf8"), we can find out some properties
 about the path that draws the text represented by the string as follows:
 ')
 
@@ -84,8 +86,10 @@ about the path that draws the text represented by the string as follows:
 ')
 
 #para('\
-The type #code("cairo_text_extents_t") is defined as an
-external struct type in ATS:\
+
+The type #stacode("cairo_text_extents_t") is defined as an external struct
+type in ATS:\
+
 ')
 
 #atscode('\
@@ -105,8 +109,8 @@ typedef cairo_text_extents_t =
 
 #para("\
 
-and the function #code("cairo_text_extents") is given the
-following type:\
+and the function #dyncode("cairo_text_extents") is given the following
+type:\
 
 ")
 
@@ -134,10 +138,9 @@ follows.\
 
 #para("\
 
-The function call #code("cairo_text_path(cr, utf8)") generates
-a path that draws the text represented by #code("utf8"), where
-the function #code("cairo_text_path") is given the following
-type in ATS:
+The function call #dyncode("cairo_text_path")(cr, utf8) generates a path
+that draws the text represented by #dyncode("utf8"), where the function
+#dyncode("cairo_text_path") is given the following type in ATS:
 
 ")
 
@@ -147,10 +150,9 @@ fun cairo_text_path {l:agz} (cr: !cairo_ref l, text: string): void
 
 #para("\
 
-Note that a call to #code("cairo_text_path") followed by
-a call to #code("cairo_fill") is essentially equivalent
-to a call to #code("cairo_show_text"), which is given the
-following type in ATS:
+Note that a call to #dyncode("cairo_text_path") followed by a call to
+#dyncode("cairo_fill") is essentially equivalent to a call to
+#dyncode("cairo_show_text"), which is given the following type in ATS:
 
 ")
 

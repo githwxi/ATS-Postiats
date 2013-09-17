@@ -25,10 +25,11 @@ absviewtype cairo_ref (l:addr) // = cairo_t*
 
 #para('\
 
-The type #code("cairo_ref(null)") is just for a null pointer.  Given an
-address #emph("L") that is not null, the type #code("cairo_ref")(#emph("L")) is for
-a reference to a cairo context located at #emph("L"). We introduce an
-abbreviation #code("cairo_ref1") as follows:\
+The type #stacode("cairo_ref(null)") is just for a null pointer.  Given an
+address #emph("L") that is not null, the type
+#stacode("cairo_ref")(#emph("L")) is for a reference to a cairo context
+located at #emph("L"). We introduce an abbreviation #stacode("cairo_ref1")
+as follows:\
 
 ')
 
@@ -38,8 +39,8 @@ viewtypedef cairo_ref1 = [l:addr | l > null] cairo_ref l
 
 #para('\
 
-Therefore, #code("cairo_ref1") essentially represents a type
-#code("cairo_ref")(#emph("L")) for some unknown #emph("L") that is not
+Therefore, #stacode("cairo_ref1") essentially represents a type
+#stacode("cairo_ref")(#emph("L")) for some unknown #emph("L") that is not
 null. Similarly, we have the following types in ATS for objects
 representing cairo surfaces, cairo patterns, and cairo font faces:\
 
