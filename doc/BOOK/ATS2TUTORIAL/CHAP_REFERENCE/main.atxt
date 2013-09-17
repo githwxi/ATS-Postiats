@@ -107,7 +107,7 @@ function is always a no-op at run-time.
 
 #para("\
 
-#strong("Misuse of References")
+#emphasis("Misuse of References")
 References are commonly misused in practice. The following program is often
 written by a beginner of functional programming who has already learned
 (some) imperative programming:
@@ -166,10 +166,27 @@ Unless strong justification can be given, making extensive use of
 
 #para("\
 
-#strong("Statically Allocated References")
+#emphasis("Statically Allocated References")
 Creating a reference by calling #dyncode("ref_make_elt") involves dynamic
 memory allocation. If this is not desirable or even acceptable, it is
-possible to only employ statically allocated memory in a reference creation.
+possible to only employ statically allocated memory in a reference creation
+as is shown below:
+
+#atscode_extract('\
+var myvar: int = 0
+val myref = ref_make_viewptr (view@(myvar) | addr@(myvar))
+')
+
+The function #dyncode("ref_make_viewptr") takes a pointer and a proof of
+some at-view associated with the pointer and returns a reference after
+consuming the proof. As #dyncode("ref_make_viewptr") is a cast-function, it
+causes no run-time overhead. In the above code, #dyncode("myvar") is
+statically allocated and it is no longer available after its at-view proof
+is consumed by #dyncode("ref_make_viewptr"). It should be interesting to
+observe that both #dyncode("myvar") and #dyncode("myref") are just the same
+pointer in C but they are the reification of fundamentally different
+concepts in ATS: the former is a linear variable while the latter is a
+non-linear reference.
 
 ")#comment("para")
 

@@ -101,9 +101,9 @@ CHMOD=chmod
 
 ######
 
-upload:: ; \
+upload_html:: ; \
   scp -r HTML ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2TUTORIAL
-uploadloc:: ; \
+uploadloc_html:: ; \
   $(SCPR) HTML hwxi@csa2.bu.edu:public_html/ATS/DOCUMENT/ATS2TUTORIAL
 
 ######
