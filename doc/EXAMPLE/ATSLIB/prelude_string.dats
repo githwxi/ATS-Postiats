@@ -134,9 +134,12 @@ val () = strptr_free (str)
 val () =
 {
 val out = stdout_ref
-val abcde = string_explode ("abcde")
-val () = fprintln! (out, "abcde = ", list_vt2t{char}(abcde))
-}
+val cs = string_explode ("abcde")
+val abcde = string_make_list ($UN.list_vt2t{charNZ}(cs))
+val () = list_vt_free (cs)
+val () = assertloc ("abcde" = $UN.strnptr2string(abcde))
+val () = strnptr_free (abcde)
+} (* end of [val] *)
 
 (* ****** ****** *)
 
