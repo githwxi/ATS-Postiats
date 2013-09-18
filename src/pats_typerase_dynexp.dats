@@ -180,8 +180,9 @@ in
 //
 case+ p3t0.p3at_node of
 //
-| P3Tany (d2v) =>
-    hipat_any (loc0, hse0)
+| P3Tany (d2v) => let
+    val d2v = d2var_tyer (d2v) in hipat_any (loc0, hse0, d2v)
+  end (* end of [P3Tvar] *)
 | P3Tvar (d2v) => let
     val d2v = d2var_tyer (d2v) in hipat_var (loc0, hse0, d2v)
   end (* end of [P3Tvar] *)

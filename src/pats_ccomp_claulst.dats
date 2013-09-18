@@ -1116,7 +1116,7 @@ in
 case+
   hip0.hipat_node of
 //
-| HIPany () => let
+| HIPany d2v => let
     val ptcmp0 = PTCMPany()
     val ptcmps = auxcomplst (lvl0, mtks)
   in

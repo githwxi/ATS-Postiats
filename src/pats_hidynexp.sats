@@ -70,7 +70,7 @@ fun d2var_get2_funclo (d2v: d2var): fcopt_vt
 
 datatype
 hipat_node =
-  | HIPany of () // wildcard
+  | HIPany of (d2var) // wildcard
   | HIPvar of (d2var) // mutability from the context
 //
   | HIPint of int
@@ -149,7 +149,7 @@ fun labhipatlst_is_unused (lhips: labhipatlst): bool
 fun hipat_make_node
   (loc: location, hse: hisexp, node: hipat_node): hipat
 
-fun hipat_any (loc: location, hse: hisexp): hipat
+fun hipat_any (loc: location, hse: hisexp, d2v: d2var): hipat
 fun hipat_var (loc: location, hse: hisexp, d2v: d2var): hipat
 
 fun hipat_con

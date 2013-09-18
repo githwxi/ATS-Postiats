@@ -514,11 +514,13 @@ fun aux
 in
 //
 case+ hip0.hipat_node of
-| HIPany () => HABNDsome_any (hde)
+| HIPany _ => HABNDsome_any (hde)
 | HIPvar (d2v) => HABNDsome_var (d2v, hde)
 | HIPempty () => HABNDsome_emp (hde)
-| HIPrec (knd, lhips, _) =>
+| HIPrec
   (
+    knd, lhips, hse_rec
+  ) => (
     if knd = 0 then (
       case+ lhips of
       | list_cons (lhip, list_nil ()) =>

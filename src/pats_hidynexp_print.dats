@@ -66,14 +66,16 @@ in
 //
 case+ x.hipat_node of
 //
-| HIPany () => {
-    val () = prstr "HIPany()"
-  }
+| HIPany (d2v) => {
+    val () = prstr "HIPany("
+    val () = fprint_d2var (out, d2v)
+    val () = prstr ")"
+  } (* end of [HIPany] *)
 | HIPvar (d2v) => {
     val () = prstr "HIPvar("
     val () = fprint_d2var (out, d2v)
     val () = prstr ")"
-  }
+  } (* end of [HIPvar] *)
 //
 | HIPcon (
     pck, d2c, hse_sum, lhips

@@ -69,7 +69,7 @@ fun f (
 ) : bool = let
   val LABHIPAT (_, hip) = lhip
 in
-  case+ hip.hipat_node of HIPany () => true | _ => false
+  case+ hip.hipat_node of HIPany _ => true | _ => false
 end // end of [f]
 //
 in
@@ -89,8 +89,8 @@ hipat_make_node (
 (* ****** ****** *)
 
 implement
-hipat_any (loc, hse) =
-  hipat_make_node (loc, hse, HIPany ())
+hipat_any (loc, hse, d2v) =
+  hipat_make_node (loc, hse, HIPany (d2v))
 // end of [hipat_any]
 
 implement
