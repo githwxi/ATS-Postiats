@@ -58,6 +58,21 @@ val () = fprint_newline (out)
 
 (* ****** ****** *)
 
+val () =
+{
+//
+val str = ""
+val cs = string_explode (str)
+val () = assertloc (str = string_implode(cs))
+//
+val str = "abcde"
+val cs = string_explode (str)
+val () = assertloc (str = string_implode(cs))
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)
