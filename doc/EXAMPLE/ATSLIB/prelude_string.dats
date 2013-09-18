@@ -133,6 +133,15 @@ val () = strptr_free (str)
 
 val () =
 {
+val out = stdout_ref
+val abcde = string_explode ("abcde")
+val () = fprintln! (out, "abcde = ", list_vt2t{char}(abcde))
+}
+
+(* ****** ****** *)
+
+val () =
+{
 //
 val ab = alphabet
 //

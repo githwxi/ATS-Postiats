@@ -504,9 +504,11 @@ such that element i in the list equals char i in the string for
 //
 #decldescrpt('\
 
-Given an integer n, this function returns a string of length n such that
-char i in the string equals f(i) for 0 &lt;= i &lt n, where f is the
-function implemented by #dyncode("string_tabulate$fwork"). ')
+Given an integer n, this function returns a string of length n
+such that char i in the string equals f(i) for 0 &lt;= i &lt n,
+where f is the function implemented by #dyncode("string_tabulate$fopr").\
+
+')
 //
 #declfunretval("A linear string is returned.")
 //
@@ -520,14 +522,14 @@ consisting of the chars in a segment of a given string:
 //
 staload UN = "prelude/SATS/unsafe.sats"
 //
-implement
+implement{}
 string_make_substring
   {n}{st,ln} (str, st, ln) = let
 //
 implement
-string_tabulate$fwork (i) = let
+string_tabulate$fopr<> (i) = let
   val i = $UN.cast{sizeLt(ln)} (i) in str[st+i]
-end // end of [string_tabulate$fwork]
+end // end of [string_tabulate$fopr]
 //
 in
   $effmask_all (string_tabulate (ln))
@@ -558,10 +560,10 @@ the length of the longest prefix of a given string consisting of only chars
 contained in the second argument of this function:
 
 #pats2xhtmld_tryit('\
-implement
+implement{}
 strspn (str, accept) = let
 //
-val accept = string1_of_string0 (accept)
+val accept = g1ofg0_string (accept)
 //
 implement{env}
 string_foreach$cont (c, env) = strchr (accept, c) >= 0
@@ -591,7 +593,7 @@ unsigned integer represented as a sequence of digits (of base 10):
 fun atoi
   (str: string): int = let
 //
-val str = string1_of_string0 (str)
+val str = g1ofg0_string (str)
 //
 var env: int = 0
 implement
