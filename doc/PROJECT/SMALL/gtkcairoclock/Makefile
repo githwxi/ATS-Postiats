@@ -48,6 +48,13 @@ cleanall:: ; $(RMF) mytriangle
 
 ######
 
+all:: mypascal
+mypascal: mypascal.dats
+	$(PATSCC) -DATS_MEMALLOC_LIBC -I${PATSHOME}/contrib -o $@ $< $(GTKFLAGS)
+cleanall:: ; $(RMF) mypascal
+
+######
+
 RMF=rm -f
 
 ######
