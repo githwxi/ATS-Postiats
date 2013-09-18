@@ -119,7 +119,7 @@ end // end of [arrayref_reverse]
 
 #para("\
 
-If the test #dyncode("i < n/2") is changed to #dyncode("i <= n/2"), a type-error
+If the test #dyncode("i < n2") is changed to #dyncode("i <= n2"), a type-error
 is to be reported. Why? The reason is that #dyncode("A[n-1-i]") becomes
 out-of-bounds array subscripting in the case where #dyncode("n") and
 #dyncode("i") both equal zero. Given that it is very unlikely to encounter a
