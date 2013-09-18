@@ -87,7 +87,7 @@ macdef castvwtp_trans = $UN.castvwtp0 // former name
 
 implement
 string_copy (str) = let
-  val res = $effmask_wrt (prelude_string0_copy (str))
+  val res = $effmask_wrt(prelude_string0_copy (str))
 in
   strptr2string (res)
 end // end of [string_copy]
@@ -97,7 +97,7 @@ end // end of [string_copy]
 implement
 string_make_list (cs) = let
   val cs = $UN.cast{list0(charNZ)}(cs)
-  val str = prelude_string_make_list (g1ofg0_list (cs))
+  val str = $effmask_wrt(prelude_string_make_list (g1ofg0_list(cs)))
 in
   strnptr2string (str)
 end // end of [string_make_list]
@@ -105,7 +105,7 @@ end // end of [string_make_list]
 implement
 string_make_rlist (cs) = let
   val cs = $UN.cast{list0(charNZ)}(cs)
-  val str = prelude_string_make_rlist (g1ofg0_list (cs))
+  val str = $effmask_wrt(prelude_string_make_rlist (g1ofg0_list(cs)))
 in
   strnptr2string (str)
 end // end of [string_make_rlist]
@@ -122,34 +122,34 @@ val lnx = string_length (str)
 //
 val st = min (st, lnx)
 //
+val substr =
+$effmask_wrt(prelude_string_make_substring (str, st, min (ln, lnx-st)))
+//
 in
-  $UN.castvwtp0{string}(prelude_string_make_substring (str, st, min (ln, lnx-st)))
+  $UN.castvwtp0{string}(substr)
 end // end of [string_make_substring]
 
 (* ****** ****** *)
 
 implement
-string_append (s1, s2) = let
-  val res = $effmask_wrt (prelude_string0_append (s1, s2))
+string_append
+  (str1, str2) = let
+  val res = $effmask_wrt (prelude_string0_append (str1, str2))
 in
   strptr2string (res)
 end // end of [string_append]
 
 (* ****** ****** *)
 
-(*
 implement
 stringlst_concat (xs) = let
-  val xs = list_of_list0 (xs)
-  val res = $effmask_wrt (prelude_stringlst_concat (xs))
+  val res = $effmask_wrt (prelude_stringlst_concat (g1ofg0_list(xs)))
 in
   strptr2string (res)
 end // end of [stringlst_concat]
-*)
 
 (* ****** ****** *)
 
-(*
 implement
 string_explode (str) = let
   val str = g1ofg0_string (str)
@@ -157,50 +157,11 @@ string_explode (str) = let
 in
   list0_of_list_vt (res)
 end // end of [string_explode]
-*)
 
 (* ****** ****** *)
 
-(*
-/*
-//
-#define NUL '\000'
-//
 implement
-string_implode (cs) = let
-//
-val [n:int]
-  cs = list_of_list0 (cs)
-//
-val n = list_length<char> (cs)
-val n1 = g1i2u (n + 1)
-val (pf, pfgc | p) = $effmask_wrt (malloc_gc (n1))
-//
-fun loop
-  {n:nat} .<n>.
-(
-  p: ptr, cs: list (char, n)
-) :<!wrt> void = let
-in
-//
-case+ cs of
-| list_cons
-    (c, cs) => let
-    val () = $UN.ptr0_set<char> (p, c)
-  in
-    loop (ptr0_succ<char> (p), cs)
-  end // end of [list_cons]
-| list_nil () => $UN.ptr0_set<char> (p, NUL)
-//
-end // end of [loop]
-//
-val () = $effmask_wrt (loop (p, cs))
-//
-in
-  castvwtp_trans {string} @(pf, pfgc | p)
-end // end of [string_implode]
-*/
-*)
+string_implode (cs) = string_make_list (cs)
 
 (* ****** ****** *)
 
