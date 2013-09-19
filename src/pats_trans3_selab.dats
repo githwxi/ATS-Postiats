@@ -327,12 +327,12 @@ case+
     val d2a = D2EXPARGdyn (~1(*npf*), loc0, list_sing (d2e))
     val _arg = list_sing (d2a)
     val d3e_sel = d2exp_trup_applst_sym (_fun, d2s, _arg)
-// (*
+(*
     val () =
     println! (
       "s2exp_get_dlablst_linrest_sharing: auxlab_shnf: d3e_sel = ", d3e_sel
     ) (* end of [val] *)
-// *)
+*)
   in
     d3exp_get_type (d3e_sel)
   end // end of [_ when ...]
@@ -850,18 +850,18 @@ in (* in of [local] *)
 implement
 d3exp_trup_selab
   (loc0, d3e, d3ls) = let
-// (*
+(*
 val () = println! ("d3exp_trup_selab: d3e = ", d3e)
-// *)
+*)
 in
 //
 case+ d3ls of
 | list_cons _ => let
 //
     val s2e = d3exp_get_type (d3e)
-// (*
+(*
     val () = println! ("d3exp_trup_selab: s2e = ", s2e)
-// *)
+*)
     var linrest: int = 0 and sharing: int = 0
     val (s2e_sel, s2ps) =
       s2exp_get_dlablst_linrest_sharing (loc0, s2e, d3ls, linrest, sharing)
@@ -883,11 +883,11 @@ end // end of [local]
 implement
 d2exp_trup_selab
   (d2e0, d2e, d2ls) = let
-// (*
+(*
 val (
 ) = println!
   ("d2exp_trup_selab: d2e0 = ", d2e0)
-// *)
+*)
 //
 val loc0 = d2e0.d2exp_loc
 //

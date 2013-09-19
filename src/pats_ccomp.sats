@@ -985,17 +985,33 @@ datatype patck =
 
 (* ****** ****** *)
 
-typedef
-tmpmov =
-@(
-  tmpvar(*src*), tmpvar(*dst*)
-) // end of [tmpmov]
-
-typedef tmpmovlst = List (tmpmov)
+datatype
+tmprimval =
+  | TPMVnone of (primval)
+  | TPMVsome of (tmpvar, primval)
+// end of [tmprimval]
 
 (* ****** ****** *)
 
-fun fprint_tmpmovlst (out: FILEref, xs: tmpmovlst): void
+fun fprint_tmprimval
+  (out: FILEref, x: tmprimval): void
+overload fprint with fprint_tmprimval
+
+(* ****** ****** *)
+
+typedef
+tmpmov = @(
+  tmprimval(*src*), tmpvar(*dst*)
+) (* end of [tmpmov] *)
+
+typedef tmpmovlst = List (tmpmov)
+vtypedef tmpmovlst_vt = List_vt (tmpmov)
+
+(* ****** ****** *)
+
+fun fprint_tmpmovlst
+  (out: FILEref, xs: tmpmovlst): void
+overload fprint with fprint_tmpmovlst
 
 (* ****** ****** *)
 

@@ -687,9 +687,9 @@ fun fpr
   out: FILEref, x: tmpmov
 ) : void =
 {
-  val () = fprint_tmpvar (out, x.0)
-  val () = fprint_string (out, "->")
   val () = fprint_tmpvar (out, x.1)
+  val () = fprint_string (out, "<-")
+  val () = fprint_tmprimval (out, x.0)
 }
 //
 in

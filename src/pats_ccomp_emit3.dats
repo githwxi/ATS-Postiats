@@ -293,11 +293,24 @@ end // end of [local]
 (* ****** ****** *)
 
 extern
-fun emit_tmpmovlst
-  (out: FILEref, tmvlst: tmpmovlst): void
+fun emit_tmprimval (out: FILEref, tpmv: tmprimval): void
+extern
+fun emit_tmpmovlst (out: FILEref, tmvlst: tmpmovlst): void
+
+(* ****** ****** *)
+
 implement
-emit_tmpmovlst
-  (out, tmvlst) = let
+emit_tmprimval (out, tpmv) =
+(
+case+ tpmv of
+| TPMVnone (pmv) => emit_primval (out, pmv)
+| TPMVsome (tmp, _) => emit_tmpvar (out, tmp)
+) (* end of [emit_tmprimval] *)
+
+(* ****** ****** *)
+
+implement
+emit_tmpmovlst (out, tmvlst) = let
 //
 fun auxlst
 (
@@ -311,7 +324,7 @@ case+ xs of
     val () = emit_text (out, "ATSINSmove(")
     val () = emit_tmpvar (out, x.1)
     val () = emit_text (out, ", ")
-    val () = emit_tmpvar (out, x.0)
+    val () = emit_tmprimval (out, x.0)
     val () = emit_text (out, ") ; ")
   in
     auxlst (out, i+1, xs)
