@@ -850,10 +850,12 @@ labd2exp_make (l, d2e) = $SYN.DL0ABELED (l, d2e)
 
 implement
 d2lab_lab
-  (loc, lab, opt) = '{
+(
+  loc, lab, opt
+) = '{
   d2lab_loc= loc
 , d2lab_node= D2LABlab (lab)
-, d2lab_over= opt
+, d2lab_overld= opt
 } // end of [d2lab_lab]
 
 implement
@@ -861,7 +863,7 @@ d2lab_ind
   (loc, ind) = '{
   d2lab_loc= loc
 , d2lab_node= D2LABind (ind)
-, d2lab_over= None (*void*)
+, d2lab_overld= None (*void*)
 } // end of [d2lab_ind]
 
 (* ****** ****** *)

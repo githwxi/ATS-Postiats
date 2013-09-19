@@ -416,6 +416,7 @@ and d3lab = '{
   d3lab_loc= location
 , d3lab_node= d3lab_node
 , d3lab_overld= d2symopt
+, d3lab_overld_app= d3expopt
 } // end of [d3lab]
 
 and d3lablst = List (d3lab)
@@ -637,9 +638,10 @@ fun d3exp_app_unista
   (loc: location, s2f: s2exp, d3e: d3exp): d3exp
 // end of [d3exp_app_unista]
 
-fun d3exp_app_dyn (
+fun d3exp_app_dyn
+(
   loc: location
-, s2f: s2exp, s2fe: s2eff, _fun: d3exp, npf: int, _arg: d3explst
+, s2f: s2exp, _fun: d3exp, npf: int, _arg: d3explst
 ) : d3exp // end of [d3exp_app_dyn]
 
 (* ****** ****** *)
@@ -850,6 +852,12 @@ fun d3exp_void_err (loc: location): d3exp
 fun d3lab_lab
   (loc: location, lab: label, opt: d2symopt): d3lab
 fun d3lab_ind (loc: location, ind: d3explst): d3lab
+
+(* ****** ****** *)
+
+fun d3lab_set_overld_app
+  (d3l: d3lab, opt: d3expopt): void = "patsopt_d3lab_set_overld_app"
+// end of [d3lab_set_overld_app]
 
 (* ****** ****** *)
 

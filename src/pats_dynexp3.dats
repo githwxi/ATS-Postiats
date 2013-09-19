@@ -503,8 +503,9 @@ end // end of [d3exp_app_unista]
 (* ****** ****** *)
 
 implement
-d3exp_app_dyn (
-  loc, s2f, s2fe, _fun, npf, _arg
+d3exp_app_dyn
+(
+  loc, s2f, _fun, npf, _arg
 ) = '{
   d3exp_loc= loc
 , d3exp_type= s2f
@@ -949,14 +950,22 @@ in '{
 
 implement
 d3lab_lab
-  (loc, lab, opt) = '{
-  d3lab_loc= loc, d3lab_node= D3LABlab (lab), d3lab_overld= opt
+(
+  loc, lab, opt
+) = '{
+  d3lab_loc= loc
+, d3lab_node= D3LABlab (lab)
+, d3lab_overld= opt
+, d3lab_overld_app= None(*void*)
 } // end of [d3lab_lab]
 
 implement
 d3lab_ind
   (loc, ind) = '{
-  d3lab_loc= loc, d3lab_node= D3LABind (ind), d3lab_overld= None
+  d3lab_loc= loc
+, d3lab_node= D3LABind (ind)
+, d3lab_overld= None(*void*)
+, d3lab_overld_app= None(*void*)
 } // end of [d3lab_ind]
 
 (* ****** ****** *)
@@ -1186,6 +1195,9 @@ d3ecl_local
 
 extern typedef "p3at_t" = p3at
 extern typedef "d3exp_t" = d3exp
+extern typedef "d3lab_t" = d3lab
+
+(* ****** ****** *)
 
 %{$
 
@@ -1216,6 +1228,14 @@ patsopt_d3exp_set_type (
 ) {
   ((d3exp_t)d3e)->atslab_d3exp_type = s2f ; return ;
 } // end of [patsopt_d3exp_set_type]
+
+ats_void_type
+patsopt_d3lab_set_overld_app
+(
+  ats_ptr_type d3l, ats_ptr_type opt
+) {
+  ((d3lab_t)d3l)->atslab_d3lab_overld_app = opt ; return ;
+} // end of [patsopt_d3lab_set_overld_app]
 
 %} // end of [%{$]
 

@@ -83,7 +83,7 @@ fun aux (
   d2l: d2lab
 ) : d3lab = let
   val loc = d2l.d2lab_loc
-  val opt = d2l.d2lab_over
+  val opt = d2l.d2lab_overld
 in
 //
 case+ d2l.d2lab_node of
@@ -327,6 +327,7 @@ case+
     val d2a = D2EXPARGdyn (~1(*npf*), loc0, list_sing (d2e))
     val _arg = list_sing (d2a)
     val d3e_sel = d2exp_trup_applst_sym (_fun, d2s, _arg)
+    val () = d3lab_set_overld_app (d3l, Some(d3e_sel))
 (*
     val () =
     println! (
@@ -845,6 +846,42 @@ in
   the_trans3errlst_add (T3E_d3exp_selab_linrest (loc0, d3e, d3ls))
 end // end of [auxerr_linrest]
 
+fun auxfinize
+(
+  loc0: location
+, s2e_sel: s2exp
+, d3e0: d3exp, d3ls0: d3lablst, d3ls: d3lablst, n: intGte(0)
+) : d3exp = let
+in
+//
+case+ d3ls of
+//
+| list_cons
+    (d3l, d3ls) => let
+    val opt = d3l.d3lab_overld_app
+  in
+    case+ opt of
+    | None () =>
+        auxfinize (loc0, s2e_sel, d3e0, d3ls0, d3ls, n+1)
+    | Some (d3e_app) => let
+        val d3ls_pre = list_take_exn (d3ls0, n)
+        val d3ls_pre = list_of_list_vt (d3ls_pre)
+        val s2e_app = d3exp_get_type (d3e_app)
+        val-D3Eapp_dyn (d3e_fun, npf, d3es_arg) = d3e_app.d3exp_node
+        val-list_cons (d3e_arg, d3es_arg) = d3es_arg
+        val s2e_arg = d3exp_get_type (d3e_arg)
+        val d3e_arg = d3exp_selab (loc0, s2e_arg, d3e0, d3ls_pre)
+        val d3es_arg = list_cons (d3e_arg, d3es_arg)
+        val d3e0_pre = d3exp_app_dyn (loc0, s2e_app, d3e_fun, npf, d3es_arg)
+      in
+        auxfinize (loc0, s2e_sel, d3e0_pre, d3ls, d3ls, 0)
+      end
+  end // end of [list_cons]
+//
+| list_nil ((*void*)) => d3exp_selab (loc0, s2e_sel, d3e0, d3ls0)
+//
+end // end of [auxfinize]
+
 in (* in of [local] *)
 
 implement
@@ -868,11 +905,12 @@ case+ d3ls of
     val s2e_sel = s2exp_hnfize (s2e_sel)
     val () = trans3_env_add_proplst_vt (loc0, s2ps)
     val () = if (linrest > 0) then auxerr_linrest (loc0, d3e, d3ls)
+    val+list_cons (d3l, d3ls1) = d3ls
 //
   in
-    d3exp_selab (loc0, s2e_sel, d3e, d3ls)
+    auxfinize (loc0, s2e_sel, d3e, d3ls, d3ls, 0)
   end // end of [list_cons]
-| list_nil () => d3e // HX: there is no need to open the type
+| list_nil ((*void*)) => d3e // HX: there is no need to open the type
 //
 end (* end of [d3exp_trup_selab] *)
 

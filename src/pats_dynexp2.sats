@@ -852,7 +852,7 @@ and d2exparglst = List (d2exparg)
 and d2lab = '{
   d2lab_loc= location
 , d2lab_node= d2lab_node
-, d2lab_over= d2symopt
+, d2lab_overld= d2symopt
 } // end of [d2lab]
 
 and d2lablst = List d2lab

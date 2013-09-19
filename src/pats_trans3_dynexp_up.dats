@@ -1079,7 +1079,7 @@ case+ s2e_fun.s2exp_node of
       the_trans3errlst_add (T3E_d23exp_trup_app23_eff (loc_app, s2fe_fun))
     ) // end of [if] // end of [val]
   in
-    d3exp_app_dyn (loc_app, s2e_res, s2fe_fun, d3e_fun, npf, d3es_arg)
+    d3exp_app_dyn (loc_app, s2e_res, d3e_fun, npf, d3es_arg)
   end // end of [S2Efun]
 | _ => let
     val () = d23explst_free (d23es_arg)

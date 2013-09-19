@@ -1712,7 +1712,9 @@ end // end of [labd0exp_tr]
 
 implement
 d1lab_tr (d1l0) = let
-  val loc0 = d1l0.d1lab_loc
+//
+val loc0 = d1l0.d1lab_loc
+//
 in
 //
 case+
@@ -1720,6 +1722,7 @@ case+
 | D1LABlab (lab) => let
     val dotid =
       $LAB.label_dotize (lab)
+    // end of [dotid]
     val ans = the_d2expenv_find (dotid)
     val opt = (
       case+ ans of
@@ -1732,8 +1735,8 @@ case+
             Some (d2s)
           end // end of [D2ITMsymdef]
         | _ => None ()
-        )
-      | ~None_vt () => None ()
+        ) (* end of [some_vt] *)
+      | ~None_vt ((*void*)) => None ()
     ) : d2symopt // end of [val]
   in
     d2lab_lab (loc0, lab, opt)

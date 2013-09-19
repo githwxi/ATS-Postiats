@@ -2,6 +2,11 @@
 // Test code for dot overloading
 //
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload.hats"
+//
+(* ****** ****** *)
 
 abstype point = ptr
 
@@ -41,12 +46,12 @@ overload .y with point_get_y
 
 (* ****** ****** *)
 
-val p0 = point_make (0, 0)
+val p0 = point_make (~1, 1)
 
 (* ****** ****** *)
 
-val () = assertloc (p0.x = 0)
-val () = assertloc (p0.y = 0)
+val () = assertloc (p0.x = ~1)
+val () = assertloc (p0.y =  1)
 
 (* ****** ****** *)
 

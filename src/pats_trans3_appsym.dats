@@ -257,6 +257,7 @@ d3exp_trup_applst
 in
 //
 case+ d3as of
+//
 | list_cons (d3a, d3as) => (
   case+ d3a of
   | D3EXPARGsta
@@ -293,33 +294,31 @@ case+ d3as of
       val d3es_arg = d3explst_trdn_arg (d3es_arg, s2es_fun_arg)
 //
       val (
-        iswth
-      , s2e_res
-      , wths2es
-      ) =
-        un_s2exp_wthtype (loc_app, s2e_fun_res)
-      // end of [val]
+        iswth, s2e_res, wths2es
+      ) = un_s2exp_wthtype (loc_app, s2e_fun_res)
 //
       val d3e_fun = d3exp_fun_restore (fc, d3e_fun)
-      val d3es_arg = (
-        if iswth then
-          d3explst_arg_restore (d3es_arg, s2es_fun_arg, wths2es)
-        else d3es_arg
+      val d3es_arg =
+      (
+        if iswth
+          then d3explst_arg_restore (d3es_arg, s2es_fun_arg, wths2es)
+          else d3es_arg
+        // end of [if]
       ) : d3explst // end of [val]
 //
       val err = the_effenv_check_s2eff (loc_app, s2fe_fun)
-      val () = if (err > 0) then (
+      val (
+      ) = if (err > 0) then (
         the_trans3errlst_add (T3E_d3exp_trup_applst_eff (loc_app, s2fe_fun))
       ) // end of [if] // end of [val]
 //
-      val d3e_fun =
-        d3exp_app_dyn (loc0, s2e_res, s2fe_fun, d3e_fun, npf, d3es_arg)
-      // end of [val]
+      val d3e_fun = d3exp_app_dyn (loc0, s2e_res, d3e_fun, npf, d3es_arg)
     in
       d3exp_trup_applst (d2e0, d3e_fun, d3as)
     end // end of [D3EXPARGdyn]
-  ) // end of [list_cons]
-| list_nil () => d3e_fun // end of [list_nil]
+  ) (* end of [list_cons] *)
+//
+| list_nil ((*void*)) => d3e_fun // end of [list_nil]
 //
 end // end of [d3exp_trup_applst]
 
