@@ -81,4 +81,4 @@ overload gstring with gstring_of_string
 //
 (* ****** ****** *)
 
-(* end of [glib_basics.sats] *)
+(* end of [mybasis.sats] *)

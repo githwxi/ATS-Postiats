@@ -144,7 +144,7 @@ classdec GtkObject : GInitiallyUnowned
 
 (* ****** ****** *)
 
-#include "./gtk/mybasics.sats"
+#include "./gtk/mybasis.sats"
 
 (* ****** ****** *)
 

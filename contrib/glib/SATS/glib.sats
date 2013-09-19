@@ -63,7 +63,7 @@ macdef GLIB_MICRO_VERSION = $extval (int, "GLIB_MICRO_VERSION")
 
 (* ****** ****** *)
 
-#include "./glib/mybasics.sats"
+#include "./glib/mybasis.sats"
 
 (* ****** ****** *)
 

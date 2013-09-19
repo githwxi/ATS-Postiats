@@ -4,7 +4,7 @@ ats2-postiats-0.0.2:
 
 <pre>
 
-Date: September 2, 2013
+Date: September 19, 2013
 
 This is the second release of ATS2, the successor of the ATS
 programming language. The compiler for ATS2 is given the name
@@ -22,6 +22,10 @@ Major releases of ATS2 are available at:
 
 https://sourceforge.net/projects/ats2-lang/
 
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
 Here is a list of major additions and changes since the last release:
 
 1. Support for classdec.
@@ -31,6 +35,25 @@ Here is a list of major additions and changes since the last release:
 2. Support for ATS-package relocation.
    This feature is primarily for renaming and relocating external ATS
    packages (mostly library APIs). It is supposed to work together with
-   atspkgreloc, a tool that does the actual package relocation.
+   atspkgreloc, a tool that does the actual package relocation. The tool
+   is yet to be implemented.
+
+3. Support for dot-notation overloading:
+//
+   symintr .x .y
+   extern fun point_get_x (p: point): int
+   extern fun point_get_y (p: point): int
+   overload .x with point_get_x
+   overload .y with point_get_y
+//
+   These declarations enable the following:
+   [p.x] translates into [point_get_x(p)]
+   [p.y] translates into [point_get_y(p)]
+
+4. Fixing a very serious bug in pattern-matching compilation
+
+5. Relocating contributed packages from ats2-lang to ats2-lang-contrib
+
+6. Improving atslib: adding code, fixing bugs, improving documentation, etc.
 
 </pre>

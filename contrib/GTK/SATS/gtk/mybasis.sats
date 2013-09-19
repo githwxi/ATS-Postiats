@@ -76,4 +76,4 @@ vtypedef GtkDrawingArea1 = [c:cls;l:addr | c <= GtkDrawingArea; l > null] gobjre
 //
 (* ****** ****** *)
 
-(* end of [basics.sats] *)
+(* end of [mybasis.sats] *)

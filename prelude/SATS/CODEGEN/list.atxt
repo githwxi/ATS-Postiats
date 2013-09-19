@@ -225,33 +225,25 @@ end // end of [fprintlst_mac]
 *)
 
 #atscode_separator()
-
+//
 fun{
 } list_is_nil
-  {x:t0p}{n:int} (xs: list (x, n)):<> bool (n==0)
-// end of [list_is_nil]
-
+  {x:t0p}{n:int} (xs: list (x, n)):<> bool(n==0)
 fun{
 } list_is_cons
-  {x:t0p}{n:int} (xs: list (x, n)):<> bool (n > 0)
-// end of [list_is_cons]
-
+  {x:t0p}{n:int} (xs: list (x, n)):<> bool(n > 0)
+//
 fun{x:t0p}
-list_is_sing
-  {n:int} (xs: list (INV(x), n)):<> bool (n==1)
-// end of [list_is_sing]
-
+list_is_sing{n:int} (xs: list (INV(x), n)):<> bool(n==1)
 fun{x:t0p}
-list_is_pair
-  {n:int} (xs: list (INV(x), n)):<> bool (n==2)
-// end of [list_is_pair]
-
+list_is_pair {n:int} (xs: list (INV(x), n)):<> bool(n==2)
+//
 #atscode_separator()
 
 fun{x:t0p}
-list_head{n:pos} (xs: list (INV(x), n)):<> x
+list_head{n:pos} (xs: list (INV(x), n)):<> (x)
 fun{x:t0p}
-list_head_exn{n:int} (xs: list (INV(x), n)):<!exn> x
+list_head_exn{n:int} (xs: list (INV(x), n)):<!exn> (x)
 
 #atscode_separator()
 //
@@ -265,9 +257,9 @@ list_tail_exn{n:int}
 #atscode_separator()
 
 fun{x:t0p}
-list_last{n:pos} (xs: list (INV(x), n)):<> x
+list_last{n:pos} (xs: list (INV(x), n)):<> (x)
 fun{x:t0p}
-list_last_exn{n:int} (xs: list (INV(x), n)):<!exn> x
+list_last_exn{n:int} (xs: list (INV(x), n)):<!exn> (x)
 
 #atscode_separator()
 //
