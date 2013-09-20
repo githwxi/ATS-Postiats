@@ -37,7 +37,7 @@
 (* ****** ****** *)
 //
 // How to compile:
-//   patscc -o illucircmot `pkg-config --cflags --libs cairo` illucircmot.dats
+//   patscc -DATS_MEMALLOC_LIBC -I${PATSHOME}/contrib -o illucircmot illucircmot.dats `pkg-config --cflags --libs cairo`
 //
 // How to test: ./illucircmot
 //   'gthumb' or 'eog' can be used to view the generated image file 'illucircmot.png'

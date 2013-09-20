@@ -10,6 +10,13 @@
 
 (* ****** ****** *)
 //
+// How to compile:
+//   patscc -I${PATSHOME}/contrib -o tutprog_linejoin tutprog_linejoin.dats `pkg-config cairo --cflags --libs`
+//
+// How to test: ./tutprog_linejoin
+//
+(* ****** ****** *)
+//
 #include
 "share/atspre_define.hats"
 #include

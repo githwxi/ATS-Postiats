@@ -1275,31 +1275,39 @@ end // end of [p_f0undec]
 (* ****** ****** *)
 
 (*
-v0ardec ::= {BANG} pi0de {COLON s0exp} {WITH pi0de} {EQ d0exp}
+v0ardec ::=
+  {BANG} pi0de {COLON s0exp} {WITH pi0de} {EQ d0exp}
 *)
-fun p_v0ardec (
+fun p_v0ardec
+(
   buf: &tokbuf, bt: int, err: &int
 ) : v0ardec = let
-  val err0 = err
-  val n0 = tokbuf_get_ntok (buf)
-  val ref = popt_fun {token} (buf, bt, p_BANG)
-  val pid = p_pi0de (buf, bt, err)
-  val ann = pif_fun (buf, bt, err, p_colons0expopt, err0)
-  val varwth = (
-    if err = err0 then
-      ptokentopt_fun (buf, is_WITH, p_pi0de) else None_vt ()
-    // end  of [if]
-  ) : Option_vt (i0de)
-  val def = pif_fun (buf, bt, err, p_eqd0expopt, err0)
-in
+//
+val err0 = err
+val n0 = tokbuf_get_ntok (buf)
+val ref = popt_fun {token} (buf, bt, p_BANG)
+val pid = p_pi0de (buf, bt, err)
+val ann = pif_fun (buf, bt, err, p_colons0expopt, err0)
+val varwth = (
   if err = err0 then
-    v0ardec_make ((t2t)ref, pid, ann, (t2t)varwth, def)
-  else let
+    ptokentopt_fun (buf, is_WITH, p_pi0de) else None_vt ()
+  // end  of [if]
+) : Option_vt (i0de)
+val def = pif_fun (buf, bt, err, p_eqd0expopt, err0)
+//
+in
+//
+if err = err0
+  then // succ
+    v0ardec_make ((t2t)ref, pid, (t2t)varwth, ann, def)
+  else let // fail
     val () = option_vt_free (ref)
     val () = option_vt_free (varwth)
   in
     tokbuf_set_ntok_null (buf, n0)
-  end (* end of [if] *)
+  end // end of [else]
+// end of [if]
+//
 end // end of [p_v0ardec]
 
 (* ****** ****** *)
@@ -1307,7 +1315,6 @@ end // end of [p_v0ardec]
 (*
 i0mpsvararg ::= LBRACE s0vararg RBRACE
 *)
-
 fun
 p_i0mpsvararg (
   buf: &tokbuf, bt: int, err: &int

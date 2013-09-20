@@ -10,6 +10,13 @@
 
 (* ****** ****** *)
 //
+// How to compile:
+//   patscc -I${PATSHOME}/contrib -o tutprog_linecap tutprog_linecap.dats `pkg-config cairo --cflags --libs`
+//
+// How to test: ./tutprog_linecap
+//
+(* ****** ****** *)
+//
 #include
 "share/atspre_define.hats"
 #include

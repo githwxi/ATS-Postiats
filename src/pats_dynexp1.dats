@@ -933,16 +933,17 @@ v1aldec_make
 } // end of [v1aldec_make]
 
 implement
-v1ardec_make (
-  loc, knd, id, loc_id, s1e, wth, ini
+v1ardec_make
+(
+  loc, knd, id, loc_id, wth, s1e, ini
 ) = '{
   v1ardec_loc= loc
 , v1ardec_knd= knd
 , v1ardec_sym= id
 , v1ardec_sym_loc= loc_id
-, v1ardec_type= s1e
 , v1ardec_wth= wth // i0deopt
-, v1ardec_ini= ini
+, v1ardec_type= s1e // type annotation
+, v1ardec_ini= ini // value for initialization
 } // end of [v1ardec_make]
 
 (* ****** ****** *)

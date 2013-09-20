@@ -484,14 +484,17 @@ end // end of [f0undeclst_tr]
 fn v0ardec_tr
   (d: v0ardec): v1ardec = let
   val loc = d.v0ardec_loc
-  val stadyn = d.v0ardec_knd
-  val s1eopt = s0expopt_tr (d.v0ardec_type)
+  val knd = d.v0ardec_knd
   val wth = d.v0ardec_wth // i0deopt
+  val s1eopt = s0expopt_tr (d.v0ardec_type)
   val d1eopt = d0expopt_tr d.v0ardec_ini
 in
-  v1ardec_make (
-    loc, stadyn, d.v0ardec_sym, d.v0ardec_sym_loc, s1eopt, wth, d1eopt
-  ) // end of [v1ardec_make]
+//
+v1ardec_make
+(
+  loc, knd, d.v0ardec_sym, d.v0ardec_sym_loc, wth, s1eopt, d1eopt
+) (* end of [v1ardec_make] *)
+//
 end // end of [v0ardec_tr]
 
 (* ****** ****** *)

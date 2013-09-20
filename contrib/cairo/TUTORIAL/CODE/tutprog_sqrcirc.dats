@@ -42,7 +42,7 @@
 (* ****** ****** *)
 //
 // How to compile:
-//   patscc -o tutprog_sqrcirc tutprog_sqrcirc.dats `pkg-config cairo --cflags --libs`
+//   patscc -I${PATSHOME}/contrib -o tutprog_sqrcirc tutprog_sqrcirc.dats `pkg-config cairo --cflags --libs`
 //
 // How to test: ./tutprog_sqrcirc
 //

@@ -1524,54 +1524,74 @@ fn v1ardec_tr
 (*
 // HX: toplevel stack allocation is supported.
 *)
-  val sym = v1d.v1ardec_sym
-  val loc_sym = v1d.v1ardec_sym_loc
-  val d2v_ptr = d2var_make (loc_sym, sym)
-  // [s2v_addr] is introduced as a static variable of the
-  val s2v_addr = s2var_make_id_srt (sym, s2rt_addr) // same name
-  val s2e_addr = s2exp_var (s2v_addr)
-  val () = d2var_set_addr (d2v_ptr, Some (s2e_addr))
-  val s2eopt = (
-    case+ v1d.v1ardec_type of
-    | Some s1e => let
-        val s2e = s1exp_trdn_impred (s1e) in Some (s2e)
-      end // end of [Some]
-    | None () => None ()
-  ) : s2expopt // end of [val]
-  val wth = (
-    case+ v1d.v1ardec_wth of
-    | Some (i0de) => let
-        val d2v = d2var_make (i0de.i0de_loc, i0de.i0de_sym)
-      in
-        Some (d2v)
-      end // end of [Some]
-    | None () => None ()
-  ) : d2varopt // end of [val]
-  val ini = d1expopt_tr (v1d.v1ardec_ini)
+val sym = v1d.v1ardec_sym
+val loc_sym = v1d.v1ardec_sym_loc
+//
+val d2v_ptr = d2var_make (loc_sym, sym)
+//
+// [s2v_addr] is introduced as a static variable of the
+//
+val s2v_addr = s2var_make_id_srt (sym, s2rt_addr) // same name
+//
+val s2e_addr = s2exp_var (s2v_addr)
+val () = d2var_set_addr (d2v_ptr, Some (s2e_addr))
+//
+val wth =
+(
+case+
+  v1d.v1ardec_wth of
+| None () => None ((*void*))
+| Some (i0de) => let
+    val d2v = d2var_make (i0de.i0de_loc, i0de.i0de_sym)
+  in
+    Some (d2v)
+  end // end of [Some]
+) : d2varopt // end of [val]
+//
+val s2eopt =
+(
+  case+
+    v1d.v1ardec_type of
+  | None () => None((*void*))
+  | Some s1e =>
+      let val s2e = s1exp_trdn_impred (s1e) in Some (s2e) end
+    // end of [Some]
+) : s2expopt // end of [val]
+//
+val ini = d1expopt_tr (v1d.v1ardec_ini)
+//
 in
-  v2ardec_make (
-    v1d.v1ardec_loc, v1d.v1ardec_knd, d2v_ptr, s2v_addr, s2eopt, wth, ini
-  ) // end of [v2ardec_make]
+//
+v2ardec_make
+(
+  v1d.v1ardec_loc
+, v1d.v1ardec_knd
+, s2v_addr, d2v_ptr, wth, s2eopt, ini
+) (* end of [v2ardec_make] *)
+//
 end // end of [v1ardec_tr]
 
 fn v1ardeclst_tr
 (
   v1ds: v1ardeclst
-) : v2ardeclst = v2ds where {
-  val v2ds =
-    l2l (list_map_fun (v1ds, v1ardec_tr))
-  // end of [val]
-  val () = list_app_fun (v2ds, f) where {
-    fn f (v2d: v2ardec): void = let
-      val () = the_s2expenv_add_svar (v2d.v2ardec_svar)
-      val () = the_d2expenv_add_dvar (v2d.v2ardec_dvar)
-    in
-      case+ v2d.v2ardec_wth of
-        Some (d2v) => the_d2expenv_add_dvar (d2v) | None () => ()
-      // end of [case]
-    end // end of [f]
-  } (* end of [val] *)
-} // end of [v1ardeclst_tr]
+) : v2ardeclst = v2ds where
+{
+val v2ds =
+  l2l (list_map_fun (v1ds, v1ardec_tr))
+//
+val () =
+  list_app_fun (v2ds, f) where
+{
+  fn f (v2d: v2ardec): void = let
+    val () = the_s2expenv_add_svar (v2d.v2ardec_svar)
+    val () = the_d2expenv_add_dvar (v2d.v2ardec_dvar)
+  in
+    case+ v2d.v2ardec_wth of
+      Some (d2v) => the_d2expenv_add_dvar (d2v) | None () => ()
+  end // end of [f]
+} (* end of [val] *)
+//
+} (* end of [v1ardeclst_tr] *)
 
 (* ****** ****** *)
 

@@ -108,6 +108,10 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("SATS/hashfun.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/stkarray.sats")
 #packfilename("SATS/dynarray.sats")
 
@@ -118,6 +122,9 @@ The ATSLIB/libats library\
 (* ****** ****** *)
 
 #packfilename("SATS/ilist_prf.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/gflist.sats")
 #packfilename("SATS/gflist_vt.sats")
 #packfilename("SATS/gfarray.sats")
@@ -221,6 +228,10 @@ The ATSLIB/libats library\
 #packfilename("DATS/qlist.dats")
 #packfilename("DATS/sllist.dats")
 #packfilename("DATS/dllist.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/hashfun.dats")
 
 (* ****** ****** *)
 

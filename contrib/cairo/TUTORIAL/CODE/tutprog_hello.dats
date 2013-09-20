@@ -41,7 +41,7 @@
 (* ****** ****** *)
 //
 // How to compile:
-//   patscc -o tutprog_hello tutprog_hello.dats `pkg-config cairo --cflags --libs`
+//   patscc -I${PATSHOME}/contrib -o tutprog_hello tutprog_hello.dats `pkg-config cairo --cflags --libs`
 //
 // How to test: ./tutprog_hello
 //

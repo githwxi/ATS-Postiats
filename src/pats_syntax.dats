@@ -2368,22 +2368,25 @@ in '{
 (* ****** ****** *)
 
 implement
-v0ardec_make (
-  tokopt, id, s0eopt, varwth, d0eopt
+v0ardec_make
+(
+  tokopt, id, varwth, s0eopt, ini
 ) = let
 //
 var knd: int = 0
 //
-val loc_hd = (
+val loc_hd =
+(
   case+ tokopt of
-  | Some tok => let
-      val () = knd := 1 in tok.token_loc
-    end
   | None () => id.i0de_loc
-) : location
+  | Some tok =>
+      let val () = knd := 1 in tok.token_loc end
+    // end of [Some]
+) : location // end of [val]
 //
-val loc_tl = (
-  case+ d0eopt of
+val loc_tl =
+(
+  case+ ini of
   | Some d0e => d0e.d0exp_loc
   | None () => (
     case+ varwth of
@@ -2401,9 +2404,9 @@ in '{
 , v0ardec_knd= knd
 , v0ardec_sym= id.i0de_sym
 , v0ardec_sym_loc= id.i0de_loc
-, v0ardec_type= s0eopt
 , v0ardec_wth= varwth
-, v0ardec_ini= d0eopt
+, v0ardec_type= s0eopt // type annotation
+, v0ardec_ini= ini // value for initialization
 } end // end of [v0ardec_make]
 
 (* ****** ****** *)

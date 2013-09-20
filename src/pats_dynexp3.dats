@@ -1036,7 +1036,8 @@ v3aldec_make
 (* ****** ****** *)
 
 implement
-v3ardec_make (
+v3ardec_make
+(
   loc, knd, d2v, d2vw, s2e, ini
 ) = '{
   v3ardec_loc= loc

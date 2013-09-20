@@ -41,6 +41,13 @@
 
 (* ****** ****** *)
 //
+// How to compile:
+//   patscc -DATS_MEMALLOC_LIBC -I${PATSHOME}/contrib -o illuwavy illuwavy.dats `pkg-config cairo --cflags --libs`
+//
+// How to test: ./illuwavy
+//
+(* ****** ****** *)
+//
 #include
 "share/atspre_define.hats"
 #include

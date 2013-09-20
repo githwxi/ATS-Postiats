@@ -1553,12 +1553,12 @@ and v0aldeclst: type = List v0aldec
 
 and v0ardec = '{
   v0ardec_loc= location
-, v0ardec_knd= int (* NO/BANG: knd=0/1 *)
+, v0ardec_knd= int (* knd=0/1:sta/dyn *)
 , v0ardec_sym= symbol
 , v0ardec_sym_loc= location
-, v0ardec_type= s0expopt
 , v0ardec_wth= i0deopt // proof of at-view
-, v0ardec_ini= d0expopt
+, v0ardec_type= s0expopt (* type annotation *)
+, v0ardec_ini= d0expopt // value for initialization
 } // end of [v0ardec]
 
 and v0ardeclst = List v0ardec
@@ -1898,12 +1898,13 @@ fun f0undec_make (
   
 (* ****** ****** *)
 
-fun v0ardec_make (
+fun v0ardec_make
+(
   opt: tokenopt // optional BANG
 , pid: i0de
-, s0eopt: s0expopt
 , varwth: i0deopt // proof of at-view
-, d0eopt: d0expopt
+, s0eopt: s0expopt // type annotation
+, d0eopt: d0expopt // value for initialization
 ) : v0ardec // end of [v0ardec_make]
 
 (* ****** ****** *)
