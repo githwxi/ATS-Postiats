@@ -26,6 +26,11 @@
 *)
 
 (* ****** ****** *)
+//
+// HX-2013-09:
+// A multi-set (mset) is like a set but elements can occur more than once
+//
+(* ****** ****** *)
 
 #define ATS_PACKNAME "ATSLIB.libats.ML"
 #define ATS_STALOADFLAG 0 // no need for staloading at run-time
@@ -36,8 +41,41 @@
 staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
+//
+abstype
+mset_type (a:t@ype+) = ptr
+//
+typedef mset (a:t0p) = mset_type (a)
+//
+(* ****** ****** *)
 
+fun{a:t0p}
+compare_elt_elt (x: a, y: a):<> int
 
+(* ****** ****** *)
+
+fun{a:t0p}
+funmset_size (xs: mset(a), x: a): size_t
+
+(* ****** ****** *)
+
+fun{a:t0p}
+funmset_insert (xs: mset(a), x: a): intGte(0)
+
+(* ****** ****** *)
+
+fun{a:t0p}
+funmset_remove (xs: mset(a), x: a): intGte(0)
+
+(* ****** ****** *)
+//
+// HX-2013-09:
+// if an element occurs n times in [xs],
+// then it occurs n times in the returned list
+//
+fun{a:t0p}
+funmset_listize (xs: mset(a)): list0 (a)
+//
 (* ****** ****** *)
 
 (* end of [funmset.dats] *)

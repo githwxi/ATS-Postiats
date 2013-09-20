@@ -52,7 +52,25 @@ staload "libats/ML/SATS/list0.sats"
 
 (* ****** ****** *)
 
+staload "libats/SATS/hashfun.sats"
 staload "libats/ML/SATS/hashtbl.sats"
+
+(* ****** ****** *)
+//
+// HX: 31 and 37 are top choices
+//
+implement
+hash_key<string> (str) =
+  string_hash_multiplier (31UL, 61803398875UL, str)
+//
+(* ****** ****** *)
+
+implement
+{key}(*tmp*)
+$HT.hash_key = hash_key<key>
+implement
+{key}(*tmp*)
+$HT.equal_key_key = equal_key_key<key>
 
 (* ****** ****** *)
 //

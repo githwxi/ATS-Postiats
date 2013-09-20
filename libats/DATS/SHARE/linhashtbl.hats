@@ -36,69 +36,6 @@
 // HX: shared by linhashtbl_chain
 //
 (* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
-(*
-** HX-2013-08:
-** This one by Robert Jenkins
-** is a full-avalanche hash function
-*)
-/*
-uint32_t
-atscntrb_inthash_jenkins
-  (uint32_t a)
-{
-  a = (a+0x7ed55d16) + (a<<12);
-  a = (a^0xc761c23c) ^ (a>>19);
-  a = (a+0x165667b1) + (a<< 5);
-  a = (a+0xd3a2646c) ^ (a<< 9);
-  a = (a+0xfd7046c5) + (a<< 3);
-  a = (a^0xb55a4f09) ^ (a>>16);
-  return a;
-}
-*/
-extern
-fun{}
-inthash_jenkins (uint32): uint32
-implement{}
-inthash_jenkins (a) =
-  $extfcall (uint32, "atscntrb_inthash_jenkins", a)
-//
-(* ****** ****** *)
-
-extern
-fun{}
-string_hash_multiplier
-(
-  K: ulint, H0: ulint, str: string
-) :<> ulint // endfun
-implement{}
-string_hash_multiplier (K, H0, str) = let
-//
-#define CNUL '\000'
-//
-fun loop
-(
-  p: ptr, res: ulint
-) : ulint = let
-  val c = $UN.ptr0_get<char> (p)
-in
-//
-if c > CNUL then
-(
-  loop (ptr_succ<char> (p), K*res + $UN.cast{ulint}(c))
-) else res // end of [if]
-//
-end // end of [loop]
-//
-in
-  $effmask_all(loop (string2ptr(str), H0))
-end // end of [string_hash_multiplier]
-
-(* ****** ****** *)
 //
 // HX: 31 and 37 are top choices
 //

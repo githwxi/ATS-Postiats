@@ -44,13 +44,15 @@ val-~None_vt() =
 val-~None_vt() =
   funmap_insert (map, 2, "c")
 //
-val () = assertloc (funmap_size (map) = 3)
+val () = assert (funmap_size (map) = 3)
 //
-val-~Some_vt("a") = funmap_takeout (map, 0)
+val () = assert (funmap_remove(map, 0))
+val-~None_vt() = funmap_takeout (map, 0)
+//
 val-~Some_vt("b") = funmap_takeout (map, 1)
 val-~Some_vt("c") = funmap_takeout (map, 2)
 //
-val () = assertloc (funmap_size (map) = 0)
+val () = assert (funmap_size (map) = 0)
 //
 } (* end of [val] *)
 

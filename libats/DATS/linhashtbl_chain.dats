@@ -44,6 +44,10 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload "libats/SATS/hashfun.sats"
+
+(* ****** ****** *)
+
 staload "libats/SATS/linhashtbl_chain.sats"
 
 (* ****** ****** *)
