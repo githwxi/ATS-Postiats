@@ -55,8 +55,28 @@ map (key:t0p, itm:t0p) = map_type (key, itm)
 //
 (* ****** ****** *)
 
-fun{} funmap_nil{key,itm:t0p} (): map (key, itm)
-fun{} funmap_make_nil{key,itm:t0p} (): map (key, itm)
+fun{key:t0p}
+compare_key_key (x1: key, x2: key):<> int
+
+(* ****** ****** *)
+
+fun{} funmap_nil{key,itm:t0p} ():<> map (key, itm)
+fun{} funmap_make_nil{key,itm:t0p} ():<> map (key, itm)
+
+(* ****** ****** *)
+
+fun{
+} funmap_is_nil
+  {key,itm:t0p} (map: map (key, INV(itm))):<> bool
+fun{
+} funmap_isnot_nil
+  {key,itm:t0p} (map: map (key, INV(itm))):<> bool
+
+(* ****** ****** *)
+
+fun{
+key,itm:t0p
+} funmap_size (map: map (key, INV(itm))):<> size_t
 
 (* ****** ****** *)
 

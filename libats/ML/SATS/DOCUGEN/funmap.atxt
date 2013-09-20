@@ -39,12 +39,10 @@ AVL-trees.\
 (* ****** ****** *)
 
 #declnamesynop("funmap_search")
-#declnamesynop("funmap_search_ref")
 
 (* ****** ****** *)
 
 #declnamesynop("funmap_insert")
-#declnamesynop("funmap_insert_any")
 
 (* ****** ****** *)
 
