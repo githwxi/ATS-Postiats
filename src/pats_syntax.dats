@@ -178,7 +178,7 @@ fn name_is_cloref0 (name: string): bool =
   if name = "cloref" then true else name = "cloref0"
 fn name_is_cloref1 (name: string): bool = name = "cloref1"
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 e0fftag_i0de (id) = let
@@ -752,7 +752,7 @@ fun loop {n:nat} .<n>. (
   | list_nil () => tok.token_loc + x.s0exp_loc
 // end of [loop]
 //
-in // in of [local]
+in (* in of [local] *)
 //
 implement
 s0exp_extype
@@ -2185,13 +2185,15 @@ in '{
 
 local
 
-fun d0exp_macsyn (
+fun
+d0exp_macsyn
+(
   loc: location, knd: macsynkind, d0e: d0exp
 ): d0exp = '{
   d0exp_loc= loc, d0exp_node= D0Emacsyn (knd, d0e)
 } // end of [d0exp_macsyn]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d0exp_macsyn_cross
@@ -2347,13 +2349,17 @@ in '{
 (* ****** ****** *)
 
 implement
-f0undec_make (
+f0undec_make
+(
   fid, arg, eff, res, def, ann
 ) = let
-  val loc = (case+ ann of
-    | WITHT0YPEnone () => fid.i0de_loc + def.d0exp_loc
-    | WITHT0YPEsome (knd, s0e) => fid.i0de_loc + s0e.s0exp_loc
-  ) : location // end of [val]
+//
+val loc = (
+case+ ann of
+| WITHT0YPEnone () => fid.i0de_loc + def.d0exp_loc
+| WITHT0YPEsome (knd, s0e) => fid.i0de_loc + s0e.s0exp_loc
+) : location // end of [val]
+//
 in '{
   f0undec_loc= loc
 , f0undec_sym= fid.i0de_sym
@@ -2397,6 +2403,7 @@ val loc_tl =
     ) // end of [None]
   )
 ) : location // end of [val]
+//
 val loc = loc_hd + loc_tl
 //
 in '{
@@ -2413,8 +2420,12 @@ in '{
 
 implement
 i0mpdec_make
-  (qid, arg, res, def) = let
-  val loc = qid.impqi0de_loc + def.d0exp_loc
+(
+  qid, arg, res, def
+) = let
+//
+val loc = qid.impqi0de_loc + def.d0exp_loc
+//
 in '{
   i0mpdec_loc= loc
 , i0mpdec_qid= qid
@@ -2427,7 +2438,9 @@ in '{
 
 local
 
-fun loop {n:nat} .<n>. (
+fun
+loop{n:nat} .<n>.
+(
   tok: token, id: i0de, ids: list (i0de, n)
 ) : location =
   case+ ids of

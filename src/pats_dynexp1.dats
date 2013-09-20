@@ -935,14 +935,14 @@ v1aldec_make
 implement
 v1ardec_make
 (
-  loc, knd, id, loc_id, wth, s1e, ini
+  loc, knd, id, loc_id, wth, s1eopt, ini
 ) = '{
   v1ardec_loc= loc
 , v1ardec_knd= knd
 , v1ardec_sym= id
 , v1ardec_sym_loc= loc_id
 , v1ardec_wth= wth // i0deopt
-, v1ardec_type= s1e // type annotation
+, v1ardec_type= s1eopt // type annotation
 , v1ardec_ini= ini // value for initialization
 } // end of [v1ardec_make]
 

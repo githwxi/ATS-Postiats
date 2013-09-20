@@ -835,17 +835,23 @@ fun sc1lau_make
 //
 (* ****** ****** *)
 
-fun m1acdef_make (
+fun
+m1acdef_make
+(
   loc: location, id: symbol, arg: m1acarglst, def: d1exp
 ) : m1acdef // end of [m1acdef_make]
 
 (* ****** ****** *)
 
-fun v1aldec_make
+fun
+v1aldec_make
   (loc: location, pat: p1at, def: d1exp, typ: witht1ype): v1aldec
 // end of [v1aldec_make]
 
-fun f1undec_make
+(* ****** ****** *)
+
+fun
+f1undec_make
 (
   loc: location, id: symbol, loc_id: location, def: d1exp, typ: witht1ype
 ) : f1undec // end of [f1undec_make]
@@ -860,7 +866,11 @@ fun v1ardec_make
 , wth: i0deopt, type: s1expopt, def: d1expopt
 ) : v1ardec // end of [v1ardec_make]
 
-fun i1mpdec_make (
+(* ****** ****** *)
+
+fun
+i1mpdec_make
+(
   loc: location
 , qid: impqi0de, tmparg: t1mpmarglst, def: d1exp
 ) : i1mpdec // end of [i1mpdec_make]
