@@ -44,7 +44,7 @@ val () = fprint_string (out, "\
 #\n\
 \n\
 SOURCE=./../../contrib/glib/\n\
-TARGET=ATS-Postiats/contrib/glib/\n\
+TARGET=ATS-Postiats-contrib/contrib/glib/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -101,7 +101,7 @@ packfilesynop (x) = atext_nil ()
 
 #packfilename("SATS/glib.sats")
 #packfilename("SATS/glib/gtypes.sats")
-#packfilename("SATS/glib/mybasics.sats")
+#packfilename("SATS/glib/mybasis.sats")
 #packfilename("SATS/glib/gmain.sats")
 
 (* ****** ****** *)

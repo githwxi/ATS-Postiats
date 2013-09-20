@@ -275,13 +275,7 @@ doc/DISTRIB/ATS-Postiats/libats/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/?ATS/SHARE/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/ML/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/ML/?ATS/SHARE/*.?ats
-doc/DISTRIB/ATS-Postiats/contrib/GTK/*
-doc/DISTRIB/ATS-Postiats/contrib/glib/*
-doc/DISTRIB/ATS-Postiats/contrib/cairo/*
-doc/DISTRIB/ATS-Postiats/contrib/libgmp/*
-doc/DISTRIB/ATS-Postiats/contrib/libats-hwxi/intinf/*
-doc/DISTRIB/ATS-Postiats/contrib/libats-hwxi/testing/*
-doc/DISTRIB/ATS-Postiats/contrib/libats-hwxi/teaching/*
+doc/DISTRIB/ATS-Postiats/contrib/*
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/*.?ats
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/ATSLIB/Makefile
@@ -290,6 +284,7 @@ doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/*.?ats
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/PCPV/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/PCPV/*.?ats
+doc/DISTRIB/ATS-Postiats-contrib/*
 
 #
 # ATSHOME/doc/EXAMPLE

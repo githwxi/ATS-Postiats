@@ -44,7 +44,7 @@ val () = fprint_string (out, "\
 #\n\
 \n\
 SOURCE=./../../contrib/GTK/\n\
-TARGET=ATS-Postiats/contrib/GTK/\n\
+TARGET=ATS-Postiats-contrib/contrib/GTK/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -113,7 +113,7 @@ packfilesynop (x) = atext_nil ()
 #packfilename("SATS/gtk.sats")
 #packfilename("SATS/gtk/gtkenums.sats")
 #packfilename("SATS/gtk/gtkversion.sats")
-#packfilename("SATS/gtk/mybasics.sats")
+#packfilename("SATS/gtk/mybasis.sats")
 #packfilename("SATS/gtk/gtkmain.sats")
 #packfilename("SATS/gtk/gtkwidget.sats")
 #packfilename("SATS/gtk/gtkcontainer.sats")

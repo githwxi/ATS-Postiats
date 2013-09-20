@@ -44,7 +44,7 @@ val () = fprint_string (out, "\
 #\n\
 \n\
 SOURCE=./../../contrib/libgmp/\n\
-TARGET=ATS-Postiats/contrib/libgmp/\n\
+TARGET=ATS-Postiats-contrib/contrib/libgmp/\n\
 \n\
 srcget ()\n\
 {\n\

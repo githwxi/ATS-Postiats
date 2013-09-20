@@ -44,7 +44,7 @@ val () = fprint_string (out, "\
 #\n\
 \n\
 SOURCE=./../../contrib/libats-hwxi/intinf/\n\
-TARGET=ATS-Postiats/contrib/libats-hwxi/intinf/\n\
+TARGET=ATS-Postiats-contrib/contrib/libats-hwxi/intinf/\n\
 \n\
 srcget ()\n\
 {\n\
