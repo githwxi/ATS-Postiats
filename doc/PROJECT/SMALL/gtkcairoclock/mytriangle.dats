@@ -110,6 +110,8 @@ val () = cairo_stroke (cr)
 
 %{^
 typedef char **charptrptr ;
+extern void srand48 (long int) ;
+extern double drand48 (/*void*/) ;
 %} ;
 abstype charptrptr = $extype"charptrptr"
 

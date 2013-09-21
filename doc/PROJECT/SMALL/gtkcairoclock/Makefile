@@ -5,52 +5,57 @@
 ######
 
 PATSHOMEQ="$(PATSHOME)"
+PATSHOMERELOCQ=\"$(PATSHOMERELOC)\"
 
 ######
 
 PATSCC=$(PATSHOMEQ)/bin/patscc
+PATSOPT=$(PATSHOMEQ)/bin/patsopt
+
+######
+
 GTKFLAGS=`pkg-config gtk+-3.0 --cflags --libs`
 
 ######
 
 all:: myclock0
 myclock0: myclock0.dats
-	$(PATSCC) -I$(PATSHOMERELOC)/contrib -o $@ $< $(GTKFLAGS)
+	$(PATSCC) -I$(PATSHOMERELOCQ)/contrib -o $@ $< $(GTKFLAGS)
 cleanall:: ; $(RMF) myclock0
 
 ######
 
 all:: myclock1
 myclock1: myclock1.dats
-	$(PATSCC) -I$(PATSHOMERELOC)/contrib -o $@ $< $(GTKFLAGS)
+	$(PATSCC) -I$(PATSHOMERELOCQ)/contrib -o $@ $< $(GTKFLAGS)
 cleanall:: ; $(RMF) myclock1
 
 ######
 
 all:: myclock2
 myclock2: myclock2.dats
-	$(PATSCC) -I$(PATSHOMERELOC)/contrib -o $@ $< $(GTKFLAGS)
+	$(PATSCC) -I$(PATSHOMERELOCQ)/contrib -o $@ $< $(GTKFLAGS)
 cleanall:: ; $(RMF) myclock2
 
 ######
 
 all:: myclock3
 myclock3: myclock3.dats
-	$(PATSCC) -I$(PATSHOMERELOC)/contrib -o $@ $< $(GTKFLAGS)
+	$(PATSCC) -I$(PATSHOMERELOCQ)/contrib -o $@ $< $(GTKFLAGS)
 cleanall:: ; $(RMF) myclock3
 
 ######
 
 all:: mytriangle
 mytriangle: mytriangle.dats
-	$(PATSCC) -I$(PATSHOMERELOC)/contrib -o $@ $< $(GTKFLAGS)
+	$(PATSCC) -I$(PATSHOMERELOCQ)/contrib -o $@ $< $(GTKFLAGS)
 cleanall:: ; $(RMF) mytriangle
 
 ######
 
 all:: mypascal
 mypascal: mypascal.dats
-	$(PATSCC) -DATS_MEMALLOC_LIBC -I$(PATSHOMERELOC)/contrib -o $@ $< $(GTKFLAGS)
+	$(PATSCC) -DATS_MEMALLOC_LIBC -I$(PATSHOMERELOCQ)/contrib -o $@ $< $(GTKFLAGS)
 cleanall:: ; $(RMF) mypascal
 
 ######
