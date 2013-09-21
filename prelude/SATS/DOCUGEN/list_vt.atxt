@@ -159,8 +159,8 @@ length 2.
 
 (* ****** ****** *)
 
-#declnamesynop("list_vt_unnil"
-#declnamesynop("list_vt_uncons"
+#declnamesynop("list_vt_unnil")
+#declnamesynop("list_vt_uncons")
 
 (* ****** ****** *)
 

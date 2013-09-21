@@ -156,8 +156,8 @@ return value of a call to #dyncode("matrix_tabulate$fopr").
 #declnamesynop("matrix_mapto")
 #declnamesynop("matrix_mapto$fwork")
 
-#declnamesynop("matrix_mapto2")
-#declnamesynop("matrix_mapto2$fwork")
+#declnamesynop("matrix_map2to")
+#declnamesynop("matrix_map2to$fwork")
 
 (* ****** ****** *)
 //
