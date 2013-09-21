@@ -284,7 +284,9 @@ doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/*.?ats
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/PCPV/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/PCPV/*.?ats
-doc/DISTRIB/ATS-Postiats-contrib/*
+doc/DISTRIB/ATS-Postiats-contrib/contrib/*
+doc/DISTRIB/ATS-Postiats-contrib/document/*
+doc/DISTRIB/ATS-Postiats-contrib/project/*
 
 #
 # ATSHOME/doc/EXAMPLE

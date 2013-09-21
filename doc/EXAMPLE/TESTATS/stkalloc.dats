@@ -11,14 +11,8 @@
 val () =
 {
 //
-var A = @[int](0, 0, 0)
-val () = A[1] := 1 and () = A[2] := 2
-//
-val out = stdout_ref
-//
-val () = fprint (out, "A = ")
-val () = fprint (out, A, i2sz(3))
-val () = fprint_newline (out)
+var A = @[int][3]()
+prval () = showlvaltype (A)
 //
 } (* end of [val] *)
 
@@ -27,8 +21,15 @@ val () = fprint_newline (out)
 val () =
 {
 //
-var A = @[int][3]()
-prval () = showlvaltype (A)
+var A = @[int](0, 0, 0)
+val () = A[1] := 1 and () = A[2] := 2
+//
+val out = stdout_ref
+//
+val () =
+(
+  fprint (out, "A = "); fprint (out, A, 3); fprint_newline (out)
+)
 //
 } (* end of [val] *)
 

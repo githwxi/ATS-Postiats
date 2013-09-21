@@ -200,7 +200,17 @@ implement{}
 fprint_array$sep (out) = fprint (out, ", ")
 
 implement{a}
-fprint_array
+fprint_array_int
+  (out, A, asz) = let
+//
+prval () = lemma_array_param (A)
+//
+in
+  fprint_array_size (out, A, i2sz(asz))
+end // end of [fprint_array_int]
+
+implement{a}
+fprint_array_size
   (out, A, asz) = let
 //
 typedef tenv = int
@@ -219,7 +229,7 @@ val _(*n*) = array_foreach_env<a><tenv> (A, asz, env)
 //
 in
   // nothing
-end // end of [fprint_array]
+end // end of [fprint_array_size]
 
 implement{a}
 fprint_array_sep

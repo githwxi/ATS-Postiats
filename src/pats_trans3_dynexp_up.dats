@@ -355,9 +355,12 @@ case+ d2e0.d2exp_node of
     d3exp_arrpsz (loc0, s2e_arrpsz, s2e, d3es, n)
   end // end of [D2Earrpsz]
 | D2Earrinit
-    (s2e_elt, opt, d2es) => let
+  (
+    s2e_elt, opt, d2es
+  ) => let
     var s2i_asz : s2exp
-    val d3e_asz : d3exp = (
+    val d3e_asz : d3exp =
+    (
       case+ opt of
       | Some (d2e_asz) => let
           val d3e_asz = d2exp_trup (d2e_asz)
@@ -375,19 +378,26 @@ case+ d2e0.d2exp_node of
         in
           d2exp_trup (d2e_asz)
         end // end of [Some]
-      | None () => let
+      | None ((*void*)) => let
           val n = list_length (d2es)
           val () = s2i_asz := s2exp_int (n)
           val s2e_asz = s2exp_int_index_t0ype (s2i_asz)
         in
           d3exp_int (loc0, s2e_asz, n)
         end // end of [None]
-    ) // end of [val]
+    ) (* end of [val d3e_asz] *)
+//
+    val s2e_elt = (
+      case+ d2es of
+      | list_cons _ => s2e_elt
+      | list_nil () => s2exp_top (0(*knd*), s2e_elt)
+    ) : s2exp // end of [val]
     val d3es = d2explst_trdn_elt (d2es, s2e_elt)
-    val s2es_dim = list_sing (s2i_asz)
-    val s2e_arr = s2exp_tyarr (s2e_elt, s2es_dim)
+//
+    val s2e_tyarr = s2exp_tyarr (s2e_elt, list_sing (s2i_asz))
+//
   in
-    d3exp_arrinit (loc0, s2e_arr, s2e_elt, d3e_asz, d3es)
+    d3exp_arrinit (loc0, s2e_tyarr, s2e_elt, d3e_asz, d3es)
   end // end of [D2Earrinit]
 //
 | D2Eraise (d2e_exn) => let

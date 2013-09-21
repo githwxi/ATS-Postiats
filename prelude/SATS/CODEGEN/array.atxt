@@ -251,10 +251,19 @@ fun{}
 fprint_array$sep (out: FILEref): void
 //
 fun{a:vt0p}
-fprint_array{n:int}
+fprint_array_int{n:int}
 (
-  out: FILEref, A: &RD(@[INV(a)][n]), n: size_t n
-) : void // end of [fprint_array]
+  out: FILEref, A: &RD(@[INV(a)][n]), n: int(n)
+) : void // end of [fprint_array_int]
+fun{a:vt0p}
+fprint_array_size{n:int}
+(
+  out: FILEref, A: &RD(@[INV(a)][n]), n: size_t(n)
+) : void // end of [fprint_array_size]
+//
+symintr fprint_array
+overload fprint_array with fprint_array_int
+overload fprint_array with fprint_array_size
 //
 fun{a:vt0p}
 fprint_array_sep{n:int}

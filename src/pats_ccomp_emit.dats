@@ -47,6 +47,11 @@ staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
+staload
+INTINF = "./pats_intinf.sats"
+
+(* ****** ****** *)
+
 staload ERR = "./pats_error.sats"
 
 (* ****** ****** *)
@@ -151,6 +156,8 @@ emit_location
 
 implement
 emit_int (out, x) = fprint_int (out, x)
+implement
+emit_intinf (out, x) = $INTINF.fprint_intinf (out, x)
 implement
 emit_ATSPMVint (out, x) = (
   emit_text (out, "ATSPMVint("); emit_int (out, x); emit_rparen (out)
@@ -824,6 +831,7 @@ in
 //
 case+ s2e.s2exp_node of
 | $S2E.S2Eint (n) => emit_int (out, n)
+| $S2E.S2Eintinf (n) => emit_intinf (out, n)
 | _(*nonint*) => emit_text (out, "???")
 //
 end // end of [aux]
