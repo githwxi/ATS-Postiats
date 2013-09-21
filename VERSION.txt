@@ -1,5 +1,77 @@
-0.0.1
+0.0.3
+<pre>
 
+Here is a list of major additions and changes since the last release:
+
+1. Support of stack-allocated array-variables:
+   var A = @[int][10]() // A: array(int?, 10) // uninitialized
+   var A = @[int][10](0) // A: array(int, 10) // intialized with 0's
+   var A = @[int](0, 1, 2, 3, 4, 5, 6, 7, 8, 9) // A: array(int, 10)
+
+</pre>
+
+######
+
+0.0.2
+<pre>
+
+Date: September 19, 2013
+
+This is the second release of ATS2, the successor of the ATS
+programming language. The compiler for ATS2 is given the name
+ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Support for classdec.
+   This feature is primarily for building APIs in ATS for external
+   packages written in the OOP-style.
+
+2. Support for ATS-package relocation.
+   This feature is primarily for renaming and relocating external ATS
+   packages (mostly library APIs). It is supposed to work together with
+   atspkgreloc, a tool that does the actual package relocation. The tool
+   is yet to be implemented.
+
+3. Support for dot-notation overloading:
+//
+   symintr .x .y
+   extern fun point_get_x (p: point): int
+   extern fun point_get_y (p: point): int
+   overload .x with point_get_x
+   overload .y with point_get_y
+//
+   These declarations enable the following:
+   [p.x] translates into [point_get_x(p)]
+   [p.y] translates into [point_get_y(p)]
+
+4. Fixing a very serious bug in pattern-matching compilation
+
+5. Relocating contributed packages from ats2-lang to ats2-lang-contrib
+
+6. Improving atslib: adding code, fixing bugs, improving documentation, etc.
+
+</pre>
+
+######
+
+0.0.1
 <pre>
 
 September 2, 2013
@@ -41,3 +113,5 @@ I will gradually list differences between ATS and ATS2, helping people
 make the transition from ATS1 to ATS2.
 
 </pre>
+
+###### end of [VERSION.txt] ######
