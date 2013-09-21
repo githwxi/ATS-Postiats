@@ -4,8 +4,12 @@
 
 ######
 
-PATSCC=patscc
 PATSHOMEQ="$(PATSHOME)"
+PATSHOMERELOCQ="$(PATSHOMERELOC)"
+
+######
+
+PATSCC=$(PATSHOMEQ)/bin/patscc
 
 ######
 
@@ -16,13 +20,13 @@ all:: test01
 ######
 
 test00: test00.dats ; \
-  $(PATSCC) -I${PATSHOME}/contrib -o $@  $< testlib.dats -lcurl
+  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib -o $@  $< testlib.dats -lcurl
 cleanall:: ; $(RMF) test00
 
 ######
 
 test01: test01.dats ; \
-  $(PATSCC) -I${PATSHOME}/contrib -o $@  $< testlib.dats -lcurl
+  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib -o $@  $< testlib.dats -lcurl
 cleanall:: ; $(RMF) test01
 
 ######

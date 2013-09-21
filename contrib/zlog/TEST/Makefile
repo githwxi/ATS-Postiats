@@ -4,8 +4,13 @@
 
 ######
 
-PATSCC=patscc
 PATSHOMEQ="$(PATSHOME)"
+PATSHOMERELOCQ="$(PATSHOMERELOC)"
+
+######
+
+PATSCC=$(PATSHOMEQ)/bin/patscc
+PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
@@ -15,7 +20,7 @@ all:: test01
 ######
 
 test01: test01.dats ; \
-  $(PATSCC) -cleanaft --gline -IIATS $(PATSHOMEQ)/contrib -o $@ $< -lzlog
+  $(PATSCC) -cleanaft --gline -IIATS $(PATSHOMERELOCQ)/contrib -o $@ $< -lzlog
 cleanall:: ; $(RMF) test01
 
 ######

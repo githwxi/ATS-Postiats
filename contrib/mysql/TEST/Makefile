@@ -9,16 +9,16 @@
 
 ######
 
-ATSHOMEQ="$(ATSHOME)"
-ATSCC=$(ATSHOMEQ)/bin/atscc
-ATSOPT=$(ATSHOMEQ)/bin/atsopt
-ATSDOC=$(ATSHOMEQ)/bin/atsdoc
+CCOPT=gcc
 
 ######
 
-GCC=gcc
 PATSHOMEQ="$(PATSHOME)"
-PATSOPT=$(PATSHOMEQ)/src/patsopt
+PATSHOMERELOCQ="$(PATSHOMERELOC)"
+
+######
+
+PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
@@ -40,10 +40,10 @@ RMF=rm -f
 all:: test01
 test01: test01.exe
 test01.exe: test01_dats.c ; \
-  $(GCC) $(CCFLAGS) \
+  $(CCOPT) $(CCFLAGS) \
     -I$(PATSHOMEQ) \
     -I$(PATSHOMEQ)/ccomp/runtime \
-    -I$(PATSHOMEQ)/contrib \
+    -I$(PATSHOMERELOCQ)/contrib \
     $(MYSQLCFLAGS) \
     -o $@ $< \
     $(MYSQLLIBS) 
@@ -56,10 +56,10 @@ cleanall:: ; $(RMF) test01.exe
 all:: test02
 test02: test02.exe
 test02.exe: test02_dats.c ; \
-  $(GCC) $(CCFLAGS) \
+  $(CCOPT) $(CCFLAGS) \
     -I$(PATSHOMEQ) \
     -I$(PATSHOMEQ)/ccomp/runtime \
-    -I$(PATSHOMEQ)/contrib \
+    -I$(PATSHOMERELOCQ)/contrib \
     $(MYSQLCFLAGS) \
     -o $@ $< \
     $(MYSQLLIBS) 
@@ -72,10 +72,10 @@ cleanall:: ; $(RMF) test02.exe
 all:: test03
 test03: test03.exe
 test03.exe: test03_dats.c ; \
-  $(GCC) $(CCFLAGS) \
+  $(CCOPT) $(CCFLAGS) \
     -I$(PATSHOMEQ) \
     -I$(PATSHOMEQ)/ccomp/runtime \
-    -I$(PATSHOMEQ)/contrib \
+    -I$(PATSHOMERELOCQ)/contrib \
     $(MYSQLCFLAGS) \
     -o $@ $< \
     $(MYSQLLIBS) 
@@ -88,10 +88,10 @@ cleanall:: ; $(RMF) test03.exe
 all:: test04
 test04: test04.exe
 test04.exe: test04_dats.c ; \
-  $(GCC) $(CCFLAGS) \
+  $(CCOPT) $(CCFLAGS) \
     -I$(PATSHOMEQ) \
     -I$(PATSHOMEQ)/ccomp/runtime \
-    -I$(PATSHOMEQ)/contrib \
+    -I$(PATSHOMERELOCQ)/contrib \
     $(MYSQLCFLAGS) \
     -o $@ $< \
     $(MYSQLLIBS) 
@@ -104,10 +104,10 @@ cleanall:: ; $(RMF) test04.exe
 all:: test05
 test05: test05.exe
 test05.exe: test05_dats.c ; \
-  $(GCC) $(CCFLAGS) \
+  $(CCOPT) $(CCFLAGS) \
     -I$(PATSHOMEQ) \
     -I$(PATSHOMEQ)/ccomp/runtime \
-    -I$(PATSHOMEQ)/contrib \
+    -I$(PATSHOMERELOCQ)/contrib \
     $(MYSQLCFLAGS) \
     -o $@ $< \
     $(MYSQLLIBS) 
@@ -120,10 +120,10 @@ cleanall:: ; $(RMF) test05.exe
 all:: test06
 test06: test06.exe
 test06.exe: test06_dats.c ; \
-  $(GCC) $(CCFLAGS) \
+  $(CCOPT) $(CCFLAGS) \
     -I$(PATSHOMEQ) \
     -I$(PATSHOMEQ)/ccomp/runtime \
-    -I$(PATSHOMEQ)/contrib \
+    -I$(PATSHOMERELOCQ)/contrib \
     $(MYSQLCFLAGS) \
     -o $@ $< \
     $(MYSQLLIBS) 

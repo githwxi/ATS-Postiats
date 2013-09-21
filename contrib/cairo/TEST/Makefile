@@ -6,6 +6,7 @@
 ######
 
 PATSHOMEQ="$(PATSHOME)"
+PATSHOMERELOCQ="$(PATSHOMERELOC)"
 
 ######
 
@@ -54,32 +55,32 @@ cleanall:: ; $(RMF) cairo-multable
 ######
 
 test00: test00.dats ; \
-  $(PATSCC) -I$(PATSHOMEQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 test01: test01.dats ; \
-  $(PATSCC) -I$(PATSHOMEQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 test02: test02.dats ; \
-  $(PATSCC) -I$(PATSHOMEQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 test03: test03.dats ; \
-  $(PATSCC) -I$(PATSHOMEQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 test04: test04.dats ; \
-  $(PATSCC) -I$(PATSHOMEQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 test05-1: test05-1.dats ; \
-  $(PATSCC) -I$(PATSHOMEQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 test05-2: test05-2.dats ; \
-  $(PATSCC) -I$(PATSHOMEQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 test06: test06.dats ; \
-  $(PATSCC) -I$(PATSHOMEQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 test07: test07.dats ; \
-  $(PATSCC) -I$(PATSHOMEQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 test08: test08.dats ; \
-  $(PATSCC) -DATS_MEMALLOC_LIBC -I$(PATSHOMEQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+  $(PATSCC) -DATS_MEMALLOC_LIBC -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 test09: test09.dats ; \
-  $(PATSCC) -I$(PATSHOMEQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 
 ######
 
 cairo-multable: cairo-multable.dats ; \
-  $(PATSCC) -I$(PATSHOMEQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 
 ######
 

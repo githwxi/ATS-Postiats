@@ -22,10 +22,10 @@ val ent = sprintf ("\
 all:: %s\n\
 %s: %s.exe\n\
 %s.exe: %s_dats.c ; \\\n\
-  $(GCC) $(CCFLAGS) \\\n\
+  $(CCOPT) $(CCFLAGS) \\\n\
     -I$(PATSHOMEQ) \\\n\
     -I$(PATSHOMEQ)/ccomp/runtime \\\n\
-    -I$(PATSHOMEQ)/contrib \\\n\
+    -I$(PATSHOMERELOCQ)/contrib \\\n\
     $(MYSQLCFLAGS) \\\n\
     -o $@ $< \\\n\
     $(MYSQLLIBS) \n\
@@ -54,16 +54,16 @@ end // end of [make_entry]
 
 ######
 
-ATSHOMEQ="$(ATSHOME)"
-ATSCC=$(ATSHOMEQ)/bin/atscc
-ATSOPT=$(ATSHOMEQ)/bin/atsopt
-ATSDOC=$(ATSHOMEQ)/bin/atsdoc
+CCOPT=gcc
 
 ######
 
-GCC=gcc
 PATSHOMEQ="$(PATSHOME)"
-PATSOPT=$(PATSHOMEQ)/src/patsopt
+PATSHOMERELOCQ="$(PATSHOMERELOC)"
+
+######
+
+PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
