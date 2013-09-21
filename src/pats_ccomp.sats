@@ -954,6 +954,7 @@ fun primval_make_d2vfunlab
 (* ****** ****** *)
 
 fun primval_make_tmp (loc: location, tmp: tmpvar): primval
+fun primval_make_tmpref (loc: location, tmp: tmpvar): primval
 
 (* ****** ****** *)
 

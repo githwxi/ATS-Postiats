@@ -94,6 +94,8 @@ staload
 S2E = "./pats_staexp2.sats"
 typedef s2cst = $S2E.s2cst
 typedef d2con = $S2E.d2con
+typedef s2exp = $S2E.s2exp
+typedef s2explst = $S2E.s2explst
 
 (* ****** ****** *)
 
@@ -807,30 +809,88 @@ end // end of [local]
 
 (* ****** ****** *)
 
+extern
+fun emit_arrdim
+  (out: FILEref, s2es: s2explst): void
+implement
+emit_arrdim
+  (out, s2es) = let
+//
+fun aux
+(
+  out: FILEref, s2e: s2exp
+) : void = let
+in
+//
+case+ s2e.s2exp_node of
+| $S2E.S2Eint (n) => emit_int (out, n)
+| _(*nonint*) => emit_text (out, "???")
+//
+end // end of [aux]
+//
+fun auxlst
+(
+  out: FILEref, s2es: s2explst, i: int
+) : void = let
+in
+//
+case+ s2es of
+| list_cons
+    (s2e, s2es) => let
+    val () =
+      if i > 0 then emit_text (out, "][")
+    val () = aux (out, s2e)
+  in
+    auxlst (out, s2es, i+1)
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end (* end of [auxlst] *)
+//
+in
+  emit_text (out, "["); auxlst (out, s2es, 0); emit_text (out, "]")
+end // end of [emit_arrdim]
+
+(* ****** ****** *)
+
 implement
 emit_tmpdec
   (out, tmp) = let
 //
 val hse = tmpvar_get_type (tmp)
-val isvoid = hisexp_is_void (hse)
 val knd = tmpvar_get_topknd (tmp)
+val isvoid = hisexp_is_void (hse)
 //
-val () =
-(
-  if knd = 0
-    then emit_text (out, "ATStmpdec") // local
-    else emit_text (out, "ATSstatmpdec") // toplevel
-  // end of [if]
+val () = (
+if knd = 0
+  then emit_text (out, "ATStmpdec") // local
+  else emit_text (out, "ATSstatmpdec") // toplevel
+// end of [if]
 ) : void // end of [val]
-val () =
-(
-  if isvoid then emit_text (out, "_void")
-)
+//
+val () = if isvoid then emit_text (out, "_void")
 //
 val () = emit_text (out, "(")
+//
 val () = emit_tmpvar (out, tmp)
+//
+val () =
+(
+case+ hse.hisexp_node of
+| HSEtyarr
+    (_(*elt*), s2es) => emit_arrdim (out, s2es)
+| _ (*nonarr*) => ((*nothing*))
+) (* end of [val] *)
+//
 val () = emit_text (out, ", ")
-val () = emit_hisexp (out, hse)
+//
+val () = (
+case+ hse.hisexp_node of
+| HSEtyarr
+    (hse_elt, _(*dim*)) => emit_hisexp (out, hse_elt)
+| _ (*nonarr*) => emit_hisexp (out, hse)
+) (* end of [val] *)
+//
 val () = emit_text (out, ") ;\n")
 //
 in
@@ -1191,18 +1251,23 @@ val test = testselptr0 (pmv)
 in
 //
 if test then let
-  val-PMVselptr
-    (pmv_ptr, _, _) = pmv.primval_node
-  // end of [val]
+//
+val-PMVselptr (pmv_ptr, _, _) = pmv.primval_node
+//
 in
   emit_primval (out, pmv_ptr)
 end else let
-  val isvoid = primval_is_void (pmv)
-  val () = emit_text (out, "ATSPMVptrof")
-  val () = if isvoid then emit_text (out, "_void")
-  val () = emit_lparen (out)
-  val () = emit_primval (out, pmv(*lvalue*))
-  val () = emit_rparen (out)
+//
+val isvoid = primval_is_void (pmv)
+val istyarr = hisexp_is_tyarr(pmv.primval_type)
+//
+val () = emit_text (out, "ATSPMVptrof")
+val () = if isvoid then emit_text (out, "_void")
+val () = emit_lparen (out)
+val () = emit_primval (out, pmv(*lvalue*))
+val () = if istyarr then emit_text (out, "[0]")
+val () = emit_rparen (out)
+//
 in
   // nothing
 end // end of [if]
@@ -1801,7 +1866,6 @@ case+ ins.instr_node of
     val () = emit_text (out, "/*\n")
     val () = emit_text (out, "ATSINStmpdec(")
     val () = emit_tmpvar (out, tmp)
-    val () = emit_rparen (out)
     val () = emit_text (out, ") ;")
     val () = emit_text (out, "\n*/")
   in

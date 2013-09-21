@@ -455,6 +455,12 @@ primval_make_tmp
   (loc, tmp) = let
   val hse = tmpvar_get_type (tmp) in primval_tmp (loc, hse, tmp)
 end // end of [primval_make_tmp]
+
+implement
+primval_make_tmpref
+  (loc, tmp) = let
+  val hse = tmpvar_get_type (tmp) in primval_tmpref (loc, hse, tmp)
+end // end of [primval_make_tmpref]
   
 (* ****** ****** *)
 

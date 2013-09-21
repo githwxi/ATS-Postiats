@@ -18,6 +18,11 @@ myclock0: myclock0.dats
 	$(PATSCC) -I${PATSHOME}/contrib -o $@ $< $(GTKFLAGS)
 cleanall:: ; $(RMF) myclock0
 
+all:: myclock0-2
+myclock0-2: myclock0-2.dats
+	$(PATSCC) -I${PATSHOME}/contrib -o $@ $< $(GTKFLAGS)
+cleanall:: ; $(RMF) myclock0-2
+
 ######
 
 all:: myclock1

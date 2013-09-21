@@ -41,20 +41,38 @@ array_getref_at
   val p = ptr0_add_guint<a> (addr@(A), i) in $UN.cast{cPtr1(a)}(p)
 end // end of [array_getref_at]
 
-implement{a}
-array_get_at_size (A, i) = let
+#atscode_separator()
+
+implement{a}{tk}
+array_get_at_gint (A, i) = let
+  val p = ptr0_add_gint<a> (addr@(A), i) in $UN.ptr0_get<a> (p)
+end // end of [array_get_at_gint]
+implement{a}{tk}
+array_get_at_guint (A, i) = let
   val p = ptr0_add_guint<a> (addr@(A), i) in $UN.ptr0_get<a> (p)
-end // end of [array_get_at_size]
+end // end of [array_get_at_guint]
 
-implement{a}
-array_set_at_size (A, i, x) = let
+#atscode_separator()
+
+implement{a}{tk}
+array_set_at_gint (A, i, x) = let
+  val p = ptr0_add_gint<a> (addr@(A), i) in $UN.ptr0_set<a> (p, x)
+end // end of [array_set_at_uint]
+implement{a}{tk}
+array_set_at_guint (A, i, x) = let
   val p = ptr0_add_guint<a> (addr@(A), i) in $UN.ptr0_set<a> (p, x)
-end // end of [array_set_at_size]
+end // end of [array_set_at_guint]
 
-implement{a}
-array_exch_at_size (A, i, x) = let
+#atscode_separator()
+
+implement{a}{tk}
+array_exch_at_gint (A, i, x) = let
+  val p = ptr0_add_gint<a> (addr@(A), i) in $UN.ptr0_exch<a> (p, x)
+end // end of [array_exch_at_gint]
+implement{a}{tk}
+array_exch_at_guint (A, i, x) = let
   val p = ptr0_add_guint<a> (addr@(A), i) in $UN.ptr0_exch<a> (p, x)
-end // end of [array_exch_at_size]
+end // end of [array_exch_at_guint]
 
 #atscode_separator()
 

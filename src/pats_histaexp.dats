@@ -229,6 +229,12 @@ end // end of [hisexp_fun_is_void]
 (* ****** ****** *)
 
 implement
+hisexp_is_tyarr (hse) = let
+in
+  case+ hse.hisexp_node of HSEtyarr _ => true | _ => false
+end // end of [hisexp_is_tyarr]
+
+implement
 hisexp_is_tyrecsin (hse) = let
 in
   case+ hse.hisexp_node of HSEtyrecsin _ => true | _ => false

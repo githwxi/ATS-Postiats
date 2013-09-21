@@ -168,6 +168,7 @@ fun hisexp_fun_is_noret (hse: hisexp): bool
 
 (* ****** ****** *)
 
+fun hisexp_is_tyarr (hse: hisexp): bool
 fun hisexp_is_tyrecsin (hse: hisexp): bool
 
 (* ****** ****** *)

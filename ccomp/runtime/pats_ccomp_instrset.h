@@ -145,13 +145,13 @@
 #define ATSfunclo_clo(pmv, targs, tres) ((tres(*)targs)(((ATStyclo()*)pmv)->cfun))
 
 /* ****** ****** */
-
+//
 #define ATStmpdec(tmp, hit) hit tmp
 #define ATStmpdec_void(tmp, hit)
-
+//
 #define ATSstatmpdec(tmp, hit) static hit tmp
 #define ATSstatmpdec_void(tmp, hit)
-
+//
 /* ****** ****** */
 
 #define ATSderef(pmv, hit) (*(hit*)pmv)

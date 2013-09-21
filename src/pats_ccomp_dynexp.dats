@@ -215,6 +215,7 @@ extern fun hidexp_ccomp_ret_rec : hidexp_ccomp_ret_funtype
 extern fun hidexp_ccomp_ret_seq : hidexp_ccomp_ret_funtype
 
 extern fun hidexp_ccomp_ret_arrpsz : hidexp_ccomp_ret_funtype
+extern fun hidexp_ccomp_ret_arrinit : hidexp_ccomp_ret_funtype
 
 extern fun hidexp_ccomp_ret_raise : hidexp_ccomp_ret_funtype
 
@@ -572,6 +573,7 @@ case+ hde0.hidexp_node of
 | HDExchng_ptr _ => auxval (env, res, tmpret, hde0)
 //
 | HDEarrpsz _ => hidexp_ccomp_ret_arrpsz (env, res, tmpret, hde0)
+| HDEarrinit _ => hidexp_ccomp_ret_arrinit (env, res, tmpret, hde0)
 //
 | HDEraise (hde_exn) => hidexp_ccomp_ret_raise (env, res, tmpret, hde0)
 //
@@ -1459,18 +1461,37 @@ val-HDEarrpsz
 //
 val ins =
   instr_store_arrpsz_asz (loc0, tmpret, asz)
-val () = instrseq_add (res, ins)
+val ((*void*)) = instrseq_add (res, ins)
 val ins =
   instr_store_arrpsz_ptr (loc0, tmpret, hse_elt, asz)
-val () = instrseq_add (res, ins)
+val ((*void*)) = instrseq_add (res, ins)
 //
 val arrp = tmpvar_make (loc0, hisexp_arrptr)
 val ins = instr_move_arrpsz_ptr (loc0, arrp, tmpret)
-val () = instrseq_add (res, ins)
+val ((*void*)) = instrseq_add (res, ins)
 //
 in
   auxlst (env, res, arrp, loc0, hse_elt, hdes)
 end // end of [hidexp_ccomp_ret_arrpsz]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_ret_arrinit
+  (env, res, tmpret, hde0) = let
+//
+val loc0 = hde0.hidexp_loc
+val-HDEarrinit
+  (hse_elt, hde_asz, hdes) = hde0.hidexp_node
+//
+val loc = tmpvar_get_loc (tmpret)
+val arrp = tmpvar_make (loc0, hisexp_arrptr)
+val ins = instr_move_val (loc0, arrp, primval_make_tmp (loc, tmpret))
+val ((*void*)) = instrseq_add (res, ins)
+//
+in
+  auxlst (env, res, arrp, loc0, hse_elt, hdes)
+end // end of [hidexp_ccomp_ret_arrinit]
 
 end // end of [local]
 
