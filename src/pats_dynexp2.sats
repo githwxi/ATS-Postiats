@@ -1394,16 +1394,29 @@ fun d2mac_set_def (x: d2mac, def: d2exp): void
 
 (* ****** ****** *)
 
+fun i2mpdec_make
+(
+  loc: location
+, locid: location
+, d2c: d2cst
+, imparg: s2varlst
+, tmparg: s2explstlst
+, tmpgua: s2explstlst
+, def: d2exp
+) : i2mpdec // end of [i2mpdec_make]
+
+(* ****** ****** *)
+
 fun f2undec_make
 (
-  loc: location, d2v_fun: d2var, def: d2exp, ann: s2expopt
+  loc: location, d2v: d2var, def: d2exp, ann: s2expopt
 ) : f2undec // end of [f2undec_make]
 
 (* ****** ****** *)
 
 fun v2aldec_make
 (
-  loc: location, p2t: p2at, def: d2exp, ann: s2expopt
+  loc: location, p2t0: p2at, def: d2exp, ann: s2expopt
 ) : v2aldec // end of [v2aldec_make]
 
 (* ****** ****** *)
@@ -1423,19 +1436,6 @@ fun prv2ardec_make
 (
   loc: location, d2v: d2var, type: s2expopt, ini: d2expopt
 ) : prv2ardec // end of [prv2ardec_make]
-
-(* ****** ****** *)
-
-fun i2mpdec_make
-(
-  loc: location
-, locid: location
-, d2c: d2cst
-, imparg: s2varlst
-, tmparg: s2explstlst
-, tmpgua: s2explstlst
-, def: d2exp
-) : i2mpdec // end of [i2mpdec_make]
 
 (* ****** ****** *)
 //

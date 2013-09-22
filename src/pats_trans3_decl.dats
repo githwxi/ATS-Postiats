@@ -365,7 +365,7 @@ case+ os2ts0 of
 //
 end // end of [termet_sortcheck]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 f2undeclst_tr
@@ -632,7 +632,7 @@ end // end of [if] // end of [val]
 //
 end // end of [auxInitCK]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 v2ardec_tr

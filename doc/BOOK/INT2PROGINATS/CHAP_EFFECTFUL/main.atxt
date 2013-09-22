@@ -70,6 +70,315 @@ code for testing is available #mycodelink("CHAP_EFFECTFUL/", "on-line").\
 
 ")
 
+<sect1
+id="exceptions">
+#title("Exceptions")
+
+#para("\
+
+The exception mechanism provides an efficient means for reporting a special
+condition encountered during program evaluation. Often such a special
+condition indicates an error, but it is not uncommon to employ exceptions
+to address issues that are not related to errors.\
+
+")
+
+#para("\
+
+The type #stacode("exn") is predefined in ATS. One may think of
+#stacode("exn") as an extensible datatype for which new constructors can
+always be declared. For instance, two exception constructors are declared
+as follows:
+
+#atscode("\
+exception FatalError0 of ()
+exception FatalError1 of (string)
+")
+
+The constructor #dyncode("FatalError0") is nullary while the constructor
+#dyncode("FatalError1") is unary.  Exception values, that is, values of
+the type #stacode("exn") can be formed by applying exception constructors
+to proper arguments. For instance, #dyncode("FatalError0()") and
+#dyncode('FatalError1("division-by-zero")') are two exception values (or
+simply exceptions). In the following program, a function for integer
+division is implemented:
+
+#atscode("\
+exception DivisionByZero of ()
+fun divexn (x: int, y: int): int =
+  if y <> 0 then then x / y else $raise DivisionByZero()
+// end of [divexn]
+")
+
+When the function call #dyncode("divexn(1, 0)") is evaluated, the exception
+#dyncode("DivisionByZero()") is raised. The keyword #dyncode("$raise") in ATS
+is solely for raising exceptions.\
+
+")#comment("para")
+
+#para("\
+
+A raise-expression is of the form (#dyncode("$raise") exp) for some
+expression exp.  Clearly, if the evaluation of exp returns a value, then
+the evaluation of (#dyncode("$raise") exp) leads to a raised
+exception. Therefore, the evaluation of a raise-expression can never return
+a value, and this justifies that a raise-expression can be given any type.\
+
+")#comment("para")
+
+#para("\
+
+A raised exception can be captured. If it is not captured, the raised
+exception aborts the program evaluation that issued it in the first
+place. In ATS, a try-expression is of the form (#dyncode("try") exp
+#dyncode("with") clseq), where #dyncode("try") is a keyword, exp is an
+expression, #dyncode("with") is also a keyword, and clseq is a sequence of
+matching clauses. When evaluating such a try-expression, we first evaluate
+exp. If the evaluation of exp leads to a value, then the value is also the
+value of the try-expression. If the evaluation of exp leads to a raised
+exception, then we match the exception against the guards of the matching
+clauses in clseq. If there is a match, the raised exception is caught and
+we continue to evaluate the body of the first clause whose guard is
+matched. If there is no match, the raised exception is uncaught. In a
+try-expression, the with-part is often referred to as an
+exception-handler.\
+
+")
+
+#para("\
+Let us now see an example that involves raising and capturing an
+exception. In the following program, three functions are defined to compute
+the product of the integers in a given list:
+
+#atscode("\
+fun listprod1
+  (xs: list0 (int)): int = case+ xs of
+  | list0_cons (x, xs) => x * listprod1 (xs) | list0_nil () => 1
+// end of [listprod1]
+
+fun listprod2
+  (xs: list0 (int)): int = case+ xs of
+  | list0_cons (x, xs) => if x = 0 then 0 else x * listprod2 (xs)
+  | list0_nil () => 1
+// end of [listprod2]
+
+fun listprod3
+  (xs: list0 (int)): int = let
+  exception ZERO of ()
+  fun aux (xs: list0 (int)): int =
+    case+ xs of
+    | list0_cons (x, xs) =>
+        if x = 0 then $raise ZERO() else x * aux (xs)
+    | list0_nil () => 1
+  // end of [aux]
+in
+  try aux (xs) with ~ZERO () => 0
+end // end of [listprod3]
+")
+
+While these functions can all be defined tail-recursively, they are not so
+as to make a point that should be clear shortly. Undoubtedly, we all know the
+following simple fact:
+
+<itemizedlist>
+
+<listitem>
+#para("\
+If the integer 0 occurs in a given list, then the product
+of the integers in the list is 0 regardless what other integers are.
+")
+</listitem>
+
+</itemizedlist>
+
+The function #dyncode("listprod1") is defined in a standard manner, and it
+does not make any use of the fact.  The function #dyncode("listprod2") is
+defined in a manner that makes only partial use of the fact. To see the
+reason, let us evaluate a call to #dyncode("listprod2") on #dyncode("[1, 2,
+3, 0, 4, 5, 6]"), which denotes a list consisting of the 7 mentioned
+integers. The evaluation of this call eventually leads to the evaluation of
+#dyncode("1*(2*(3*(listprod([0,4,5,6]))))"), which then leads to
+#dyncode("1*(2*(3*0))"), and then to #dyncode("1*(2*0)"), and then to
+#dyncode("1*0"), and finally to #dyncode("0"). However, what we really want
+is for the evaluation to return 0 immediately once the integer 0 is
+encountered in the list, and this is accomplished by the function
+#dyncode("listprod3"). When evaluating a call to #dyncode("listprod3") on
+#dyncode("[1, 2, 3, 0, 4, 5, 6]"), we eventually reach the evaluation of
+the following expression:
+
+#atscode("\
+try 1*(2*(3*(aux([0,4,5,6])))) with ~ZERO() => 0
+")
+
+Evaluating #dyncode("aux([0,4,5,6])") leads to the exception
+#dyncode("ZERO()") being raised, and the raised exception is caught and
+#dyncode("0") is returned as the value of the call to
+#dyncode("listprod3").  Note that the pattern guard of the matching clause
+following the keyword #dyncode("with") is #dyncode("~ZERO()").  I will
+explain the need for the tilde symbol #dyncode("~") elsewhere. For now, it
+suffices to say that #dyncode("exn") is a linear type and each exception
+value is a linear value, which must be consumed or re-raised. The tilde
+symbol #dyncode("~") indicates that the value matching the pattern
+following #dyncode("~") is consumed (and the memory for holding the value
+is freed).\
+
+")
+
+#para("\
+
+Exceptions are not a programming feature that is easy to master, and
+misusing exceptions is abundant in practice. So please be patient when
+learning the feature and be cautious when using it.\
+
+")
+
+</sect1><!--id="exceptions"-->
+
+<sect1
+id="example_testing_for_braun_trees">
+#title("Example: Testing for Braun Trees")
+
+#para("\
+
+Braun trees are special binary trees that can be defined
+inductively as follows:
+
+<itemizedlist>
+
+<listitem>
+#para("\
+If a binary tree is empty, then it is a Braun tree.
+")
+</listitem>
+
+<listitem>
+#para("\
+If both children of a binary tree are Braun trees and the
+size of the left child minus the size of the right child equals 0 or 1,
+then the binary tree is a Braun tree.
+")
+</listitem>
+
+</itemizedlist>
+
+Given a natural number n, there is exactly one Braun tree of size n.  It is
+straightforward to prove that Braun trees are balanced.\
+
+")
+
+#para("\
+
+A polymorphic datatype is declared as follows for representing binary trees:
+
+#atscode("\
+datatype tree (a:t@ype) =
+  | tree_nil of ((*void*))
+  | tree_cons of (a, tree(a)(*left*), tree(a)(*right*))
+// end of [tree] // end of [datatype]
+")
+
+The following defined function #dyncode("brauntest0") tests whether a
+given binary tree is a Braun tree:
+
+#atscode("\
+fun{
+a:t@ype
+} size (t: tree a): int = case+ t of
+  | tree_nil () => 0
+  | tree_cons (_, tl, tr) => 1 + size(tl) + size(tr)
+// end of [size]
+
+fun{
+a:t@ype
+} brauntest0
+  (t: tree a): bool =
+(
+case+ t of
+| tree_nil () => true
+| tree_cons (_, tl, tr) => let
+    val cond1 = brauntest0(tl) andalso brauntest0(tr)
+  in
+    if cond1 then let
+      val df = size(tl) - size(tr) in (df = 0) orelse (df = 1)
+    end else false
+  end // end of [tree_cons]
+) (* end of [brauntest0] *)
+")
+
+The implementation of #dyncode("brauntest0") follows the definition of
+Braun trees closely. If applied to binary trees of size n, the
+time-complexity of the function #dyncode("size") is O(n) and the
+time-complexity of the function #dyncode("brauntest0") is O(n(log(n))).\
+
+")#comment("para")
+
+#para("\
+
+In the following program, the defined function #dyncode("brauntest1") also
+tests whether a given binary tree is a Braun tree:
+
+#atscode("\
+fun{
+a:t@ype
+} brauntest1
+  (t: tree a): bool = let
+  exception Negative of ()
+  fun aux (t: tree a): int =
+  (
+    case+ t of
+    | tree_nil () => 0
+    | tree_cons (_, tl, tr) => let
+        val szl = aux (tl) and szr = aux (tr)
+        val df = szl - szr
+      in
+        if df = 0 orelse df = 1 then 1+szl+szr else $raise Negative()
+      end // end of [tree_cons]
+  ) (* end of [aux] *)
+in
+  try let
+    val _ = aux (t)
+  in
+    true // [t] is a Braun tree
+  end with
+    ~Negative() => false // [t] is not a Braun tree
+  // end of [try]
+end // end of [brauntest1]
+")
+
+Clearly, a binary tree cannot be a Braun tree if one of its subtrees,
+proper or improper, is not a Braun tree. The auxiliary function
+#dyncode("aux") is defined to return the size of a binary tree if the tree
+is a Braun tree or raise an exception otherwise. When the evaluation of the
+try-expression in the body of #dyncode("brauntest1") starts, the call to
+#dyncode("aux") on a binary tree t is first evaluated. If the evaluation of
+this call returns, then t is a Braun tree and the boolean value
+#dyncode("true") is returned as the value of the try-expression. Otherwise,
+the exception #dyncode("Negative()") is raised and then caught, and the
+boolean value #dyncode("false") is returned as the value of the
+try-expression.  The time complexity of #dyncode("brauntest1") is the same
+as that of #dyncode("aux"), which is O(n).\
+
+")
+
+#para("\
+
+The use of the exception mechanism in the implementation
+#dyncode("brauntest1") is a convincing one because the range between the
+point where an exception is raised and the point where the raised exception
+is captured can span many function calls. If this range is short (e.g.,
+spanning only one function call) in a case, then the programmer should
+probably investigate whether it is a sensible use of the exception
+mechanism.\
+
+")
+
+#para("\
+Please find the entire code in this section plus some additional
+code for testing #mycodelink("CHAPTER_EFFECTFUL/brauntest.dats", "on-line").
+")
+
+</sect1><!--id="example_testing_for_braun_trees"-->
+
 </chapter><!--id="effectful_programming_features"-->
 
 %{
