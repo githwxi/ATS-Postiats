@@ -106,7 +106,7 @@ division is implemented:
 #atscode("\
 exception DivisionByZero of ()
 fun divexn (x: int, y: int): int =
-  if y <> 0 then then x / y else $raise DivisionByZero()
+  if y != 0 then then x / y else $raise DivisionByZero()
 // end of [divexn]
 ")
 
@@ -152,18 +152,31 @@ the product of the integers in a given list:
 
 #atscode("\
 fun listprod1
-  (xs: list0 (int)): int = case+ xs of
-  | list0_cons (x, xs) => x * listprod1 (xs) | list0_nil () => 1
-// end of [listprod1]
+(
+  xs: list0 (int)
+): int =
+(
+  case+ xs of
+  | list0_nil () => 1
+  | list0_cons (x, xs) => x * listprod1 (xs)
+) (* end of [listprod1] *)
 
 fun listprod2
-  (xs: list0 (int)): int = case+ xs of
-  | list0_cons (x, xs) => if x = 0 then 0 else x * listprod2 (xs)
+(
+  xs: list0 (int)
+) : int =
+(
+  case+ xs of
   | list0_nil () => 1
-// end of [listprod2]
+  | list0_cons (x, xs) =>
+      if x = 0 then 0 else x * listprod2 (xs)
+    // end of [list0_cons]
+) (* end of [listprod2] *)
 
 fun listprod3
-  (xs: list0 (int)): int = let
+(
+  xs: list0 (int)
+) : int = let
   exception ZERO of ()
   fun aux (xs: list0 (int)): int =
     case+ xs of
@@ -192,11 +205,12 @@ of the integers in the list is 0 regardless what other integers are.
 </itemizedlist>
 
 The function #dyncode("listprod1") is defined in a standard manner, and it
-does not make any use of the fact.  The function #dyncode("listprod2") is
-defined in a manner that makes only partial use of the fact. To see the
-reason, let us evaluate a call to #dyncode("listprod2") on #dyncode("[1, 2,
-3, 0, 4, 5, 6]"), which denotes a list consisting of the 7 mentioned
-integers. The evaluation of this call eventually leads to the evaluation of
+does not make any use of the stated fact.  The function
+#dyncode("listprod2") is defined in a manner that makes only partial use of
+the stated fact. To see the reason, let us evaluate a call to
+#dyncode("listprod2") on #dyncode("[1, 2, 3, 0, 4, 5, 6]"), which denotes a
+list consisting of the 7 mentioned integers. The evaluation of this call
+eventually leads to the evaluation of
 #dyncode("1*(2*(3*(listprod([0,4,5,6]))))"), which then leads to
 #dyncode("1*(2*(3*0))"), and then to #dyncode("1*(2*0)"), and then to
 #dyncode("1*0"), and finally to #dyncode("0"). However, what we really want
@@ -211,7 +225,7 @@ try 1*(2*(3*(aux([0,4,5,6])))) with ~ZERO() => 0
 ")
 
 Evaluating #dyncode("aux([0,4,5,6])") leads to the exception
-#dyncode("ZERO()") being raised, and the raised exception is caught and
+#dyncode("ZERO()") being raised, and this raised exception is caught and
 #dyncode("0") is returned as the value of the call to
 #dyncode("listprod3").  Note that the pattern guard of the matching clause
 following the keyword #dyncode("with") is #dyncode("~ZERO()").  I will
@@ -374,10 +388,42 @@ mechanism.\
 
 #para("\
 Please find the entire code in this section plus some additional
-code for testing #mycodelink("CHAPTER_EFFECTFUL/brauntest.dats", "on-line").
+code for testing #mycodelink("CHAP_EFFECTFUL/brauntest.dats", "on-line").
 ")
 
 </sect1><!--id="example_testing_for_braun_trees"-->
+
+<sect1
+id="references">
+#title("References")
+
+#para("\
+
+A reference is just an array containing one element.  Given a type T, a
+reference for storing a value of the type T is given the type ref(T).  The
+following program makes use of all the essential functionalities on
+references:
+
+#atscode("\
+val intr = ref<int> (0) // create a ref and init. it with 0
+val () = !intr := !intr + 1 // increase the integer at [intr] by 1
+")
+
+The first line creates a reference for storing an integer and initializes
+it with the value 0 and then names it #dyncode("intr"). Note that this
+style of reference creation cannot be separated from its
+initialization. The second line updates the reference #dyncode("intr") with
+its current value plus 1. In general, given a reference r of type ref(T)
+for some T, the expression !r means to fetch the value stored at r, which
+is of the type T. However, !r can also be used as a left-value. For
+instance, the assignment (!r := exp) means to evaluate exp into a value and
+then store the value into r. Therefore, the value stored in
+#dyncode("intr") is 1 after the second line in the above program is
+evaluated.\
+
+")#comment("para")
+
+</sect1><!--id="references"-->
 
 </chapter><!--id="effectful_programming_features"-->
 
