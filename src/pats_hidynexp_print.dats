@@ -580,7 +580,7 @@ case+
     val () = prstr ")"
   }
 | HDEarrinit (
-    hse_elt, hde_asz, hdes_elt
+    hse_elt, hde_asz, hdes_elt, asz
   ) => {
     val () = prstr "HDEarrinit("
     val () = fprint_hisexp (out, hse_elt)

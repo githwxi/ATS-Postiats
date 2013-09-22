@@ -832,7 +832,7 @@ in
 case+ s2e.s2exp_node of
 | $S2E.S2Eint (n) => emit_int (out, n)
 | $S2E.S2Eintinf (n) => emit_intinf (out, n)
-| _(*nonint*) => emit_text (out, "???")
+| _(*nonint*) => emit_text (out, "ATSERRORarrdim()")
 //
 end // end of [aux]
 //
@@ -886,7 +886,9 @@ val () =
 (
 case+ hse.hisexp_node of
 | HSEtyarr
-    (_(*elt*), s2es) => emit_arrdim (out, s2es)
+  (
+    _(*elt*), s2es
+  ) => emit_arrdim (out, s2es)
 | _ (*nonarr*) => ((*nothing*))
 ) (* end of [val] *)
 //
@@ -895,7 +897,9 @@ val () = emit_text (out, ", ")
 val () = (
 case+ hse.hisexp_node of
 | HSEtyarr
-    (hse_elt, _(*dim*)) => emit_hisexp (out, hse_elt)
+  (
+    hse_elt, _(*dim*)
+  ) => emit_hisexp (out, hse_elt)
 | _ (*nonarr*) => emit_hisexp (out, hse)
 ) (* end of [val] *)
 //
@@ -1336,11 +1340,12 @@ val () =
 (
 if isenv then
   emit_text (out, "ATSERRORnotenvless(")
-)
+) (* end of [val] *)
 //
-val () = emit_text (out, "ATSPMVfunlab(")
-val () = emit_funlab (out, flab)
-val () = emit_rparen (out)
+val (
+) = emit_text (out, "ATSPMVfunlab(")
+val ((*void*)) = emit_funlab (out, flab)
+val ((*void*)) = emit_rparen (out)
 //
 val () = if isenv then emit_rparen (out)
 //

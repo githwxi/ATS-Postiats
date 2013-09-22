@@ -246,6 +246,10 @@ fun s2exp_intneq (s2i1: s2exp, s2i2: s2exp): s2exp
 fun s2exp_igtez (s2i: s2exp): s2exp // s2i >= 0
 
 (* ****** ****** *)
+
+fun un_s2exp_intconst (s2i: s2exp): Option_vt (int)
+
+(* ****** ****** *)
 //
 fun s2exp_int_t0ype (): s2exp // int0
 fun s2exp_uint_t0ype (): s2exp // uint0

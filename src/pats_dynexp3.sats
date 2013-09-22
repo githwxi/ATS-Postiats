@@ -737,14 +737,16 @@ fun d3exp_refarg (
 
 (* ****** ****** *)
 
-fun d3exp_arrpsz (
+fun d3exp_arrpsz
+(
   loc: location
-, s2e_arrpsz: s2exp, elt: s2exp, d3es: d3explst, asz: int
+, s2e_arrpsz: s2exp, elt: s2exp, d3es_elt: d3explst, asz: int
 ) : d3exp // end of [d3exp_arrpsz]
 
-fun d3exp_arrinit (
+fun d3exp_arrinit
+(
   loc: location
-, s2e_arr: s2exp, elt: s2exp, asz: d3exp, d3es: d3explst
+, s2e_arr: s2exp, elt: s2exp, d3e_asz: d3exp, d3es_elt: d3explst
 ) : d3exp // end of [d3exp_arrinit]
 
 (* ****** ****** *)

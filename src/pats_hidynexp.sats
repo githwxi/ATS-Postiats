@@ -340,7 +340,7 @@ and hidexp_node =
   | HDEarrpsz of (* arrsize construction *)
       (hisexp(*elt*), hidexplst(*elt*), int(*asz*))
   | HDEarrinit of (* array initialization *)
-      (hisexp(*elt*), hidexp(*asz*), hidexplst(*elt*))
+      (hisexp(*elt*), hidexp(*asz*), hidexplst(*elt*), int(*asz*))
 //
   | HDEraise of (hidexp(*exn*))
 //
@@ -699,26 +699,30 @@ fun hidexp_assgn_ptr (
 
 (* ****** ****** *)
 
-fun hidexp_xchng_var (
-  loc: location
-, hse: hisexp, d2v_l: d2var, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
+fun hidexp_xchng_var
+(
+  loc: location, hse: hisexp
+, d2v_l: d2var, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
 ) : hidexp // end of [hidexp_xchng_var]
 
-fun hidexp_xchng_ptr (
-  loc: location
-, hse: hisexp, hde_l: hidexp, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
+fun hidexp_xchng_ptr
+(
+  loc: location, hse: hisexp
+, hde_l: hidexp, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
 ) : hidexp // end of [hidexp_xchng_ptr]
 
 (* ****** ****** *)
 
-fun hidexp_arrpsz (
-  loc: location
-, hse: hisexp, hse_elt: hisexp, hdes_elt: hidexplst, asz: int
+fun hidexp_arrpsz
+(
+  loc: location, hse: hisexp
+, hse_elt: hisexp, hdes_elt: hidexplst, asz: int
 ) : hidexp // end of [hidexp_arrpsz]
 
-fun hidexp_arrinit (
-  loc: location
-, hse: hisexp, hse_elt: hisexp, hde_asz: hidexp, hdes_elt: hidexplst
+fun hidexp_arrinit
+(
+  loc: location, hse: hisexp
+, hse_elt: hisexp, hde_asz: hidexp, hdes_elt: hidexplst, asz: int
 ) : hidexp // end of [hidexp_arrinit]
 
 (* ****** ****** *)
@@ -759,6 +763,12 @@ fun hidexp_err (loc: location, hse: hisexp): hidexp
 
 (* ****** ****** *)
 
+(*
+fun un_hidexp_int (hde_int: hidexp): Option_vt (int)
+*)
+
+(* ****** ****** *)
+
 fun hilab_lab (loc: location, lab: label): hilab
 fun hilab_ind (loc: location, ind: hidexplst): hilab
 
@@ -766,7 +776,8 @@ fun hilab_ind (loc: location, ind: hidexplst): hilab
 
 fun higmat_make
   (loc: location, hde: hidexp, opt: hipatopt): higmat
-fun hiclau_make (
+fun hiclau_make
+(
   loc: location
 , hips: hipatlst, gua: higmatlst, seq: int, neg: int, body: hidexp
 ) : hiclau // end of [hiclau_make]
@@ -793,14 +804,16 @@ fun hivaldec_make
   (loc: location, pat: hipat, def: hidexp): hivaldec
 // end of [hivaldec_make]
 
-fun hivardec_make (
+fun hivardec_make
+(
   loc: location, knd: int
 , d2v: d2var, d2vw: d2var, type: hisexp, ini: hidexpopt
 ) : hivardec // end of [hivardec_make]
 
 (* ****** ****** *)
 
-fun hiimpdec_make (
+fun hiimpdec_make
+(
   loc: location
 , d2c: d2cst, imparg: s2varlst, tmparg: s2explstlst, def: hidexp
 ) : hiimpdec // end of [hiimpdec_make]
@@ -848,7 +861,8 @@ fun hidecl_impdec
   (loc: location, knd: int, himp: hiimpdec): hidecl
 // end of [hidecl_impdec]
 
-fun hidecl_fundecs (
+fun hidecl_fundecs
+(
   loc: location, knd: funkind, decarg: s2qualst, hfds: hifundeclst
 ) : hidecl // end of [hidecl_fundecs]
 

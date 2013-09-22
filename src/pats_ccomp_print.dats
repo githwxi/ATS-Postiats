@@ -1053,7 +1053,7 @@ case+ x.instr_node of
     val () = prstr "; "
     val () = fprint_hisexp (out, hse_elt)
     val () = prstr ")"
-  }
+  } (* end of [INSmove_list_phead] *)
 | INSmove_list_ptail
     (tmptl1, tmptl2, hse_elt) => {
     val () = prstr "INSmove_list_ptail("
@@ -1063,7 +1063,7 @@ case+ x.instr_node of
     val () = prstr "; "
     val () = fprint_hisexp (out, hse_elt)
     val () = prstr ")"
-  }
+  } (* end of [INSmove_list_ptail] *)
 //
 | INSstore_arrpsz_asz
     (tmp, asz) => {
@@ -1072,7 +1072,7 @@ case+ x.instr_node of
     val () = prstr "; "
     val () = fprint_int (out, asz)
     val () = prstr ")"
-  }
+  } (* end of [INSstore_arrpsz_asz] *)
 | INSstore_arrpsz_ptr
     (tmp, hse_elt, asz) => {
     val () = prstr "INSstore_arrpsz_ptr("
@@ -1082,16 +1082,17 @@ case+ x.instr_node of
     val () = prstr "; "
     val () = fprint_int (out, asz)
     val () = prstr ")"
-  }
+  } (* end of [INSstore_arrpsz_ptr] *)
 //
 | INSmove_arrpsz_ptr
-    (tmp1, tmp2) => {
+    (tmp1, tmp2) =>
+  {
     val () = prstr "INSmove_arrpsz_ptr("
     val () = fprint_tmpvar (out, tmp1)
     val () = prstr "; "
     val () = fprint_tmpvar (out, tmp2)
     val () = prstr ")"
-  }
+  } (* end of [INSmove_arrpsz_ptr] *)
 //
 | INSupdate_ptrinc
     (tmp, hse_elt) =>
@@ -1101,7 +1102,7 @@ case+ x.instr_node of
     val () = prstr "; "
     val () = fprint_hisexp (out, hse_elt)
     val () = prstr ")"
-  }
+  } (* end of [INSupdate_ptrinc] *)
 | INSupdate_ptrdec
     (tmp, hse_elt) =>
   {
@@ -1110,14 +1111,14 @@ case+ x.instr_node of
     val () = prstr "; "
     val () = fprint_hisexp (out, hse_elt)
     val () = prstr ")"
-  }
+  } (* end of [INSupdate_ptrdec] *)
 //
 | INStmpdec (tmp) =>
   {
     val () = prstr "INStmpdec("
     val () = fprint_tmpvar (out, tmp)
     val () = prstr ")"
-  }
+  } (* end of [INStmpdec] *)
 //
 | INSdcstdef (d2c, pmv) =>
   {
@@ -1126,7 +1127,7 @@ case+ x.instr_node of
     val () = prstr " = "
     val () = fprint_primval (out, pmv)
     val () = prstr ")"
-  }
+  } (* end of [INSdcstdef] *)
 //
 | _ => prstr "INS...(...)"
 //

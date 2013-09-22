@@ -754,24 +754,24 @@ d3exp_refarg (
 (* ****** ****** *)
 
 implement
-d3exp_arrinit
-(
-  loc, s2e_arr, elt, asz, d3es
-) = '{
-  d3exp_loc= loc
-, d3exp_type= s2e_arr
-, d3exp_node= D3Earrinit (elt, asz, d3es)
-} // end of [d3exp_arrinit]
-
-implement
 d3exp_arrpsz
 (
-  loc, s2f_arrpsz, s2e, d3es, asz
+  loc, s2f_arrpsz, s2e, d3es_elt, asz
 ) = '{
   d3exp_loc= loc
 , d3exp_type= s2f_arrpsz
-, d3exp_node= D3Earrpsz (s2e, d3es, asz)
+, d3exp_node= D3Earrpsz (s2e, d3es_elt, asz)
 } // end of [d3exp_arrpsz]
+
+implement
+d3exp_arrinit
+(
+  loc, s2e_arr, elt, d3e_asz, d3es_elt
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2e_arr
+, d3exp_node= D3Earrinit (elt, d3e_asz, d3es_elt)
+} // end of [d3exp_arrinit]
 
 (* ****** ****** *)
 

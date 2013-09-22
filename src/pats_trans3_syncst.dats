@@ -155,8 +155,10 @@ datatype intknd =
 in (* in of [local] *)
 
 fun
-intrepsfx_syn_type (
-  loc0: location, rep: string, sfx: uint
+intrepsfx_syn_type
+(
+  loc0: location
+, rep: string, sfx: uint
 ) : s2exp = let
 //
 var p_sfx: ptr = null
@@ -213,7 +215,8 @@ end // end of [intrepsfx_syn_type]
 fun
 intbaserepsfx_syn_type_ind
 (
-  loc0: location, base: int, rep: string, sfx: uint
+  loc0: location
+, base: int, rep: string, sfx: uint
 ) : s2exp = let
   var p_sfx: ptr = null
 //

@@ -558,14 +558,18 @@ hidexp_xchng_ptr
 
 implement
 hidexp_arrpsz
-  (loc, hse, hse_elt, hdes, asz) =
-  hidexp_make_node (loc, hse, HDEarrpsz (hse_elt, hdes, asz))
+(
+  loc, hse, hse_elt, hdes_elt, asz
+) = hidexp_make_node
+  (loc, hse, HDEarrpsz (hse_elt, hdes_elt, asz))
 // end of [hidexp_arrpsz]
 
 implement
 hidexp_arrinit
-  (loc, hse, hse_elt, asz, hdes_elt) =
-  hidexp_make_node (loc, hse, HDEarrinit (hse_elt, asz, hdes_elt))
+(
+  loc, hse, hse_elt, hde_asz, hdes_elt, asz
+) = hidexp_make_node
+  (loc, hse, HDEarrinit (hse_elt, hde_asz, hdes_elt, asz))
 // end of [hidexp_arrinit]
 
 (* ****** ****** *)

@@ -21,6 +21,23 @@ prval () = showlvaltype (A)
 val () =
 {
 //
+var A = @[int][3](1)
+prval () = showlvaltype (A)
+//
+val out = stdout_ref
+//
+val () =
+(
+  fprint (out, "A = "); fprint (out, A, 3); fprint_newline (out)
+)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
 var A = @[int](0, 0, 0)
 val () = A[1] := 1 and () = A[2] := 2
 //

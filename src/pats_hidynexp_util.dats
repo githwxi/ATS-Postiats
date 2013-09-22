@@ -440,6 +440,19 @@ end // end of [local]
 
 (* ****** ****** *)
 
+(*
+implement
+un_hidexp_int (hde) =
+(
+case+ hde.hidexp_node of
+| HDEint (int) => Some_vt (int)
+| HDEi0nt (tok) =>
+| _(*noninteger*) => None_vt((*void*))
+) (* end of [un_hidexp_int] *)
+*)
+
+(* ****** ****** *)
+
 implement
 hidecl_is_empty (hid) = let
 in

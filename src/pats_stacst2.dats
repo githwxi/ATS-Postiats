@@ -38,6 +38,11 @@ ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 
+staload
+INTINF = "./pats_intinf.sats"
+
+(* ****** ****** *)
+
 staload ERR = "./pats_error.sats"
 
 (* ****** ****** *)
@@ -396,6 +401,22 @@ implement
 s2exp_igtez (s2i) = let
   val _0 = s2exp_int (0) in s2exp_intgte (s2i, _0)
 end // end of [s2exp_igtez]
+
+(* ****** ****** *)
+
+implement
+un_s2exp_intconst (s2i) = let
+in
+//
+case+ s2i.s2exp_node of
+//
+| S2Eint (x) => Some_vt (x)
+//
+| S2Eintinf (x) => Some_vt ($INTINF.intinf_get_int(x))
+//
+| _(*noninteger*) => None_vt((*void*))
+//
+end // end of [un_s2exp_intconst]
 
 (* ****** ****** *)
 
