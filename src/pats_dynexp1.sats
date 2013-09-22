@@ -513,7 +513,7 @@ and v1aldeclst = List (v1aldec)
 
 and v1ardec = '{
   v1ardec_loc= location
-, v1ardec_knd= int (* knd=0/1:sta/dyn *)
+, v1ardec_knd= int (* knd=0/1:var/ptr *)
 , v1ardec_sym= symbol
 , v1ardec_sym_loc= location
 , v1ardec_wth= i0deopt // proof of at-view

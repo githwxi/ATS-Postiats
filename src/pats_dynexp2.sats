@@ -936,7 +936,7 @@ and v2aldeclst = List (v2aldec)
 
 and v2ardec = '{
   v2ardec_loc= location
-, v2ardec_knd= int (* knd=0/1:sta/dyn *)
+, v2ardec_knd= int (* knd=0/1:var/ptr *)
 , v2ardec_svar= s2var // static address
 , v2ardec_dvar= d2var // dynamic address
 , v2ardec_wth= d2varopt // proof of at-view
@@ -1411,7 +1411,7 @@ fun v2aldec_make
 fun v2ardec_make
 (
   loc: location
-, knd: int // knd=0/1:sta/dyn
+, knd: int // knd=0/1:var/ptr
 , s2v: s2var // static address
 , d2v: d2var // dynamic address
 , wth: d2varopt // proof of at-view

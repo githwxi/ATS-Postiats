@@ -490,12 +490,12 @@ and v3aldeclst = List (v3aldec)
 
 and v3ardec = '{
   v3ardec_loc= location
-, v3ardec_knd= int
+, v3ardec_knd= int // knd=0/1:var/ptr
 , v3ardec_dvar_ptr= d2var
 , v3ardec_dvar_view= d2var
-, v3ardec_type= s2exp
-, v3ardec_ini= d3expopt
-} // end of [v3ardec]
+, v3ardec_type= s2exp // type annotation
+, v3ardec_ini= d3expopt // value for initialization
+} (* end of [v3ardec] *)
 
 and v3ardeclst = List (v3ardec)
 
@@ -882,29 +882,34 @@ fun sc3lau_make (
 
 (* ****** ****** *)
 
-fun i3mpdec_make (
+fun i3mpdec_make
+(
   loc: location, d2c: d2cst
 , imparg: s2varlst, tmparg: s2explstlst, def: d3exp
 ) : i3mpdec // end of [i3mpdec_make]
 
 (* ****** ****** *)
 
-fun f3undec_make (
+fun f3undec_make
+(
   loc: location, d2v: d2var, def: d3exp
 ) : f3undec // end of [f3undec_make]
 
-fun v3aldec_make (
+fun v3aldec_make
+(
   loc: location, p3t: p3at, def: d3exp
 ) : v3aldec // end of [v3aldec_make]
 
 (* ****** ****** *)
 
-fun v3ardec_make (
-  loc: location, knd: int (*0/1:sta/dyn*)
+fun v3ardec_make
+(
+  loc: location, knd: int (*0/1:var/ptr*)
 , d2v: d2var, d2vw: d2var, s2e0: s2exp, ini: d3expopt
 ) : v3ardec // end of [v3ardec_make]
 
-fun prv3ardec_make (
+fun prv3ardec_make
+(
   loc: location, d2v: d2var, s2e0: s2exp, ini: d3exp
 ) : prv3ardec // end of [prv3ardec_make]
 

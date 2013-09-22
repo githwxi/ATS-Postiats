@@ -52,6 +52,15 @@ val () =
 
 (* ****** ****** *)
 
+val () =
+{
+var !p_x: int with pf_x = 0
+val p2_x = $showtype (p_x)
+prval () = showlvaltype (!p_x)
+}
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

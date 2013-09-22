@@ -144,14 +144,16 @@ elements contained in [hp] are assumed to be non-linear.  ")
 
 (* ****** ****** *)
 
-#declnamesynop("linmap_freelin$clear")
 #declnamesynop("linheap_freelin")
 #decldescrpt("\
 
 This function is called to free a given linear heap [hp]. It calls
-#dyncode("linmap_freelin$clear") to free the elements contained in [hp].
+#dyncode("linmap_freelin$clear") to free the elements contained in [hp].\
 
 ")
+#declnamesynop("linheap_freelin$clear")
+
+(* ****** ****** *)
 
 #declnamesynop("linheap_free_ifnil")
 #decldescrpt("\

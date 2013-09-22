@@ -1021,7 +1021,7 @@ v2ardec_make
   loc, knd, s2v, d2v, wth, s2eopt, ini
 ) = '{
   v2ardec_loc= loc
-, v2ardec_knd= knd // knd=0/1:sta/dyn
+, v2ardec_knd= knd // knd=0/1:var/ptr
 , v2ardec_svar= s2v // static address
 , v2ardec_dvar= d2v // dynamic address
 , v2ardec_wth= wth // proof of at-view
