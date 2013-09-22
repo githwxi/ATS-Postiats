@@ -198,7 +198,7 @@ fun myatscodelink (
   codepath: string, linkname: string
 ) : atext = let
   val res = sprintf (
-    "<ulink url=\"%s/ANAIRIATS/%s\">%s</ulink>", @(MYCODEROOT, codepath, linkname)
+    "<ulink url=\"%s/POSTIATS/%s\">%s</ulink>", @(MYCODEROOT, codepath, linkname)
   ) // end of [val]
   val res = string_of_strptr (res)
 in

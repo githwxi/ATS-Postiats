@@ -423,6 +423,22 @@ evaluated.\
 
 ")#comment("para")
 
+#para("\
+
+Various functions and function templates on references are declared in the
+file #myatscodelink("prelude/SATS/reference.sats", "reference.sats"), which
+is automatically loaded by <command>atsopt</command>. In particular, it is
+also possible to read from and write to a reference by using the function
+templates #dyncode("ref_get_elt") and #dyncode("ref_set_elt") of the following
+interfaces, respectively:
+
+#atscode("\
+fun{a:t@ype} ref_get_elt (r: ref a): a // !r
+fun{a:t@ype} ref_set_elt (r: ref a, x: a): void // !r := x
+")
+
+")#comment("para")
+
 </sect1><!--id="references"-->
 
 </chapter><!--id="effectful_programming_features"-->
