@@ -38,20 +38,12 @@ arrayptr2matrixptr_size (A, m, n) = $UN.castvwtp0 (A)
 #atscode_separator()
 
 implement{a}
-matrixptr_make_elt_int
+matrixptr_make_elt
   {m, n} (m, n, x0) = let
   val mn = $UN.cast{Size}(m * n)
 in
   $UN.castvwtp0{matrixptr(a,m,n)}(arrayptr_make_elt<a> (mn, x0))
-end // end of [matrixptr_make_elt_int]
-
-implement{a}
-matrixptr_make_elt_size
-  {m, n} (m, n, x0) = let
-  val mn = $UN.cast{Size}(m * n)
-in
-  $UN.castvwtp0{matrixptr(a,m,n)}(arrayptr_make_elt<a> (mn, x0))
-end // end of [matrixptr_make_elt_size]
+end // end of [matrixptr_make_elt]
 
 #atscode_separator()
 
@@ -147,6 +139,13 @@ end // end of [fprint_matrixptr_sep]
 (*
 implement matrixptr_free = ATS_MFREE
 *)
+
+#atscode_separator()
+
+implement{a}
+matrixptr_tabulate
+  (nrow, ncol) = matrixptr_encode2(matrix_ptr_tabulate<a> (nrow, ncol))
+// end of [matrixptr_tabulate]
 
 #atscode_separator()
 

@@ -23,6 +23,10 @@ ATSCCFLAGS=-D_GNU_SOURCE -DATS_MEMALLOC_LIBC
 ######
 
 all:: misc
+all:: brauntest
+all:: insort
+all:: permord
+all:: montecarlo
 
 ######
 
@@ -46,6 +50,11 @@ permord: permord_dats.c ; \
 
 ######
 
+montecarlo: montecarlo_dats.c ; \
+  $(PATSCC) $(ATSCCFLAGS) $(INCLUDES) $(CCFLAGS) -o $@ $< -lm || echo $@ ": ERROR!!!"
+
+######
+
 %_dats.c: %.dats ; $(PATSOPT) -o $@ --dynamic $< || echo $@ ": ERROR!!!"
 
 ######
@@ -62,6 +71,7 @@ cleanall:: ; $(RMF) misc
 cleanall:: ; $(RMF) brauntest
 cleanall:: ; $(RMF) insort
 cleanall:: ; $(RMF) permord
+cleanall:: ; $(RMF) montecarlo
 
 ######
 

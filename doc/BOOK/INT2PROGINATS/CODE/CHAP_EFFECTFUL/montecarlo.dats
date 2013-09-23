@@ -44,12 +44,21 @@
 *)
 
 (* ****** ****** *)
+//
+#include "share/atspre_define.hats"
+#include "share/atspre_staload.hats"
+//
+(* ****** ****** *)
 
 staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
 
 staload MATH = "libc/SATS/math.sats"
+staload _(*MATH*) = "libc/DATS/math.dats"
+
+(* ****** ****** *)
+
 staload TIME = "libc/SATS/time.sats"
 staload STDLIB = "libc/SATS/stdlib.sats"
 
@@ -81,7 +90,8 @@ end // end of [pntdist]
 
 (* ****** ****** *)
 
-fun nhit (
+fun nhit
+(
   p0: pnt, ps: pntlst, cnt: int
 ) : int =
   case+ ps of
@@ -142,7 +152,7 @@ fun do_one (): int = let
     // end of [if]
 //
   val cnt = loop1 (i0-1, 0)
-  val () = theGrid[i0,j0] := list0_cons (p0, theGrid[i0,j0])
+  val () = theGrid[i0,j0] := list0_cons{pnt}(p0, theGrid[i0,j0])
 //
 in
   cnt  

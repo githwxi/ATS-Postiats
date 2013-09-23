@@ -160,8 +160,10 @@ end // end of [arrayref_foreach_env]
 #atscode_separator()
 
 implement{a}
-arrayref_iforeach (A, asz) = let
-  var env: void = () in arrayref_iforeach_env<a><void> (A, asz, env)
+arrayref_iforeach
+  (A, asz) = let
+  var env: void = () in
+  arrayref_iforeach_env<a><void> (A, asz, env)
 end // end of [arrayref_iforeach]
 
 implement
@@ -176,8 +178,10 @@ end // end of [arrayref_iforeach_env]
 #atscode_separator()
 
 implement{a}
-arrayref_rforeach (A, asz) = let
-  var env: void = () in arrayref_rforeach_env<a><void> (A, asz, env)
+arrayref_rforeach
+  (A, asz) = let
+  var env: void = () in
+  arrayref_rforeach_env<a><void> (A, asz, env)
 end // end of [arrayref_rforeach]
 
 implement
@@ -193,7 +197,7 @@ end // end of [arrayref_rforeach_env]
 
 implement{a}
 arrayref_tabulate
-  (asz) = arrayptr_refize (arrayptr_tabulate (asz))
+  (asz) = arrayptr_refize (arrayptr_tabulate<a> (asz))
 // end of [arrayref_tabulate]
 
 #atscode_separator()
@@ -232,37 +236,32 @@ arrszref_make_arrayref (A, asz) = ARRSZREF (A, asz)
 #atscode_separator()
 
 implement{}
-arrszref_size
+arrszref_get_ref
   (ASZ) = let
-  val+ARRSZREF (_(*A*), asz) = ASZ in asz
-end // end of [arrszref_size]
-implement{}
-arrszref_get_size
-  (ASZ) = let
-  val+ARRSZREF (_(*A*), asz) = ASZ in asz
+//
+val+ARRSZREF
+  (A, asz) = ASZ in $UN.cast2Ptr1(A)
+//
 end // end of [arrszref_get_size]
 
 #atscode_separator()
 
 implement{}
-arrszref_get_ref
-  (ASZ) = let
-  val+ARRSZREF
-    (A, _) = ASZ in $UN.cast2Ptr1(A)
-  // end of [val]
-end // end of [arrszref_get_ref]
+arrszref_get_size (ASZ) =
+  let val+ARRSZREF (A, asz) = ASZ in asz end 
+// end of [arrszref_get_size]
 
 #atscode_separator()
 
 implement{}
 arrszref_get_refsize
-  (ASZ, aszr) = let
+  (ASZ, asz_r) = let
 //
 val+ARRSZREF (A, asz) = ASZ
 prval () = lemma_arrayref_param (A)
 //
 in
-  aszr := asz; A
+  asz_r := asz; A(*arrayref*)
 end // end of [arrszref_get_refsize]
 
 end // end of [local]

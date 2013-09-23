@@ -154,6 +154,12 @@ val ((*void*)) = assertloc (listprod3 (xs) = 0)
 #define N 1000
 val ((*void*)) = assertloc (sum (N) = N * (N+1) / 2)
 //
+implement
+matrix_tabulate$fopr<int>
+  (i, j) = g0uint2int_size_int(i + j)
+val M = mtrxszref_tabulate<int> (i2sz(5), i2sz(5))
+val () = mtrxszref_transpose (M)
+//
 } // end of [main]
 
 (* ****** ****** *)

@@ -634,8 +634,10 @@ is #dyncode("asz") and each cell in the array is initialized with the value
 #dyncode("init"). Given an array A of the type #stacode("arrszref(T)") for
 some T, #dyncode("arrszref_get_size(A)") returns the size of A, which is of
 the type #stacode("size_t"). For convenience,
-#dyncode("arrszref_get_size(A)") can also be written as #dyncode("A.size").
-\
+#dyncode("arrszref_get_size(A)") can be written as #dyncode("A.size").  As
+for array access and update, the functions #dyncode("arrszref_get_elt_at")
+and #dyncode("arrszref_set_elt_at") can be called. For convenience, the
+bracket notation can be used to call these functions.  \
 
 ")
 
@@ -952,7 +954,8 @@ which are both of the type #stacode("size_t"). For convenience,
 also be written as #dyncode("M.nrow") and #dyncode("M.ncol"), respectively.
 As for matrix access and update, the function templates
 #dyncode("mtrxszref_get_elt_at") and #dyncode("mtrxszref_set_elt_at") can
-be done by called, respectively.\
+be called, respectively. For convenience, bracket notation can used for
+these functions.\
 
 ")#comment("para")
 

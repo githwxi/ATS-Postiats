@@ -31,6 +31,14 @@ staload UN = "prelude/SATS/unsafe.sats"
 #atscode_separator()
 
 implement{a}
+matrixref_make_elt
+  (nrow, ncol, x) =
+  matrixptr_refize(matrixptr_make_elt<a> (nrow, ncol, x))
+// end of [matrixref_make_elt]
+
+#atscode_separator()
+
+implement{a}
 matrixref_get_at_size
   (A, i, n, j) = let
 //
@@ -57,6 +65,192 @@ vbox pf | p
 in
   matrix_set_at_size (!p, i, n, j, x)
 end // end of [matrixref_set_at_size]
+
+#atscode_separator()
+
+implement{a}
+matrixref_tabulate
+  (nrow, ncol) =
+  matrixptr_refize (matrixptr_tabulate<a> (nrow, ncol))
+// end of [matrixref_tabulate]
+
+#atscode_separator()
+
+local
+
+datatype
+mtrxszref
+(
+  a:viewt@ype
+) =
+  {m,n:int}
+  MTRXSZREF of
+  (
+    matrixref (a, m, n), size_t (m), size_t (n)
+  )
+// end of [mtrxszref]
+
+assume
+mtrxszref_vt0ype_type = mtrxszref
+
+in (* in of [local] *)
+
+implement{}
+mtrxszref_make_matrixref
+  (M, nrow, ncol) = MTRXSZREF (M, nrow, ncol)
+// end of [mtrxszref_make_matrixref]
+
+#atscode_separator()
+
+implement{}
+mtrxszref_get_ref (MSZ) = let
+  val+MTRXSZREF (M, nrow, ncol) = MSZ in $UN.cast2Ptr1(M)
+end // end of [mtrxszref_get_ref]
+
+#atscode_separator()
+
+implement{}
+mtrxszref_get_nrow (MSZ) = let
+  val+MTRXSZREF (M, nrow, ncol) = MSZ in nrow
+end // end of [mtrxszref_get_nrow]
+
+implement{}
+mtrxszref_get_ncol (MSZ) = let
+  val+MTRXSZREF (M, nrow, ncol) = MSZ in ncol
+end // end of [mtrxszref_get_ncol]
+
+#atscode_separator()
+
+implement{}
+mtrxszref_get_refsize
+   (MSZ, nrow_r, ncol_r) = let
+//
+val+MTRXSZREF (M, nrow, ncol) = MSZ
+prval ((*void*)) = lemma_matrixref_param (M)
+//
+in
+  nrow_r := nrow; ncol_r := ncol; M(*matrixref*)
+end // end of [mtrxszref_get_nrow]
+
+end // end of [local]
+
+#atscode_separator()
+
+implement{a}
+mtrxszref_make_elt
+  (nrow, ncol, x) = let
+  val nrow = g1ofg0_uint (nrow)
+  val ncol = g1ofg0_uint (ncol)
+  val M = matrixref_make_elt<a> (nrow, ncol, x)
+in
+  mtrxszref_make_matrixref (M, nrow, ncol)
+end // end of [mtrxszref_make_elt]
+
+#atscode_separator()
+
+implement{a}
+mtrxszref_get_at_size
+  (MSZ, i, j) = $effmask_wrt let
+//
+var nrow: size_t
+and ncol: size_t
+val M = mtrxszref_get_refsize (MSZ, nrow, ncol)
+val i = g1ofg0_uint (i)
+val j = g1ofg0_uint (j)
+//
+in
+//
+if nrow > i then (
+  if ncol > j then
+    matrixref_get_at_size (M, i, ncol, j)
+  else $raise ArraySubscriptExn((*void*))
+) else $raise ArraySubscriptExn((*void*))
+//
+end // end of [mtrxszref_get_at_size]
+
+implement
+{a}{tk}
+mtrxszref_get_at_gint
+  (ASZ, i, j) = let
+in
+//
+if i >= 0 then
+if j >= 0 then
+  mtrxszref_get_at_size (ASZ, g0i2u(i), g0i2u(j))
+else $raise ArraySubscriptExn((* j < 0 *))
+else $raise ArraySubscriptExn((* i < 0 *))
+//
+end // end of [mtrxszref_get_at_gint]
+
+implement
+{a}{tk}
+mtrxszref_get_at_guint
+  (ASZ, i, j) = let
+in
+//
+mtrxszref_get_at_size (ASZ, g0u2u(i), g0u2u(j))
+//
+end // end of [mtrxszref_get_at_gint]
+
+#atscode_separator()
+
+implement{a}
+mtrxszref_set_at_size
+  (MSZ, i, j, x) = $effmask_wrt let
+//
+var nrow: size_t
+and ncol: size_t
+val M = mtrxszref_get_refsize (MSZ, nrow, ncol)
+val i = g1ofg0_uint (i)
+val j = g1ofg0_uint (j)
+//
+in
+//
+if nrow > i then (
+  if ncol > j then
+    matrixref_set_at_size (M, i, ncol, j, x)
+  else $raise ArraySubscriptExn((*void*))
+) else $raise ArraySubscriptExn((*void*))
+//
+end // end of [mtrxszref_set_at_size]
+
+implement
+{a}{tk}
+mtrxszref_set_at_gint
+  (ASZ, i, j, x) = let
+in
+//
+if i >= 0 then
+if j >= 0 then
+  mtrxszref_set_at_size (ASZ, g0i2u(i), g0i2u(j), x)
+else $raise ArraySubscriptExn((* j < 0 *))
+else $raise ArraySubscriptExn((* i < 0 *))
+//
+end // end of [mtrxszref_set_at_gint]
+
+implement
+{a}{tk}
+mtrxszref_set_at_guint
+  (ASZ, i, j, x) = let
+in
+//
+mtrxszref_set_at_size (ASZ, g0u2u(i), g0u2u(j), x)
+//
+end // end of [mtrxszref_set_at_gint]
+
+#atscode_separator()
+
+implement{a}
+mtrxszref_tabulate
+  (nrow, ncol) = let
+  val nrow = g1ofg0_uint (nrow)
+  val ncol = g1ofg0_uint (ncol)
+  val M =
+    matrixref_tabulate<a> (nrow, ncol)
+  // end of [val]
+in 
+  mtrxszref_make_matrixref (M, nrow, ncol)
+end // end of [mtrxszref_tabulate]
 
 #atscode_separator()
 
