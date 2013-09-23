@@ -242,11 +242,6 @@ overload fprint with fprint_arrayptr_sep
 
 symintr arrayptr_get_at
 
-fun{a:t0p}
-arrayptr_get_at_size{n:int}
-  (A: !arrayptr (INV(a), n), i: sizeLt (n)):<> (a)
-// end of [arrayptr_get_at_size]
-
 fun{
 a:t0p}{tk:tk
 } arrayptr_get_at_gint
@@ -268,11 +263,6 @@ overload arrayptr_get_at with arrayptr_get_at_guint
 
 symintr arrayptr_set_at
 
-fun{a:t0p}
-arrayptr_set_at_size{n:int}
-  (A: !arrayptr (INV(a), n), i: sizeLt (n), x: a):<!wrt> void
-// end of [arrayptr_set_at_size]
-
 fun{
 a:t0p}{tk:tk
 } arrayptr_set_at_gint
@@ -293,11 +283,6 @@ overload arrayptr_set_at with arrayptr_set_at_guint of 0
 #atscode_separator()
 
 symintr arrayptr_exch_at
-
-fun{a:vt0p}
-arrayptr_exch_at_size{n:int}
-  (A: !arrayptr (INV(a), n), i: sizeLt (n), x: &a):<!wrt> void
-// end of [arrayptr_exch_at_size]
 
 fun{
 a:vt0p}{tk:tk

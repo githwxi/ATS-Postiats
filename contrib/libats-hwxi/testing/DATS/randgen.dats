@@ -61,7 +61,12 @@ randgen_ref (x) = x := randgen_val<a> ()
 (* ****** ****** *)
 
 implement{a}
-randgen_list
+randgen_list (n) =
+  list_vt2t(randgen_list_vt<a>(n))
+// end of [randgen_list]
+
+implement{a}
+randgen_list_vt
   (n) = res where
 {
 //
@@ -90,7 +95,7 @@ end // end of [loop]
 var res: ptr // uninitialized
 val () = loop (n, res)
 //
-} // end of [randgen_list]
+} // end of [randgen_list_vt]
 
 (* ****** ****** *)
 
@@ -108,6 +113,17 @@ val () = array_initize<a> (!(ptrcast(A)), n)
 prval () = arrayptr_addback (pf | A)
 //
 } // end of [randgen_arrayptr]
+
+implement{a}
+randgen_arrayref (n) =
+  arrayptr_refize(randgen_arrayptr<a> (n))
+// end of [randgen_arrayref]
+
+implement{a}
+randgen_arrszref (n) = let
+  val n = g1ofg0_uint (n) in
+  arrszref_make_arrayref (randgen_arrayref<a> (n), n)
+end // end of [randgen_arrszref]
 
 (* ****** ****** *)
 

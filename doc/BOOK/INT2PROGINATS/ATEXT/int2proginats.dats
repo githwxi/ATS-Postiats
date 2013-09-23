@@ -183,24 +183,32 @@ end // end of [local]
 
 #define MYCODEROOT "http://www.ats-lang.org/DOCUMENT"
 
-fun mycodelink (
+fun mycodelink
+(
   codepath: string, linkname: string
 ) : atext = let
-  val res = sprintf (
-    "<ulink url=\"%s/INT2PROGINATS/CODE/%s\">%s</ulink>", @(MYCODEROOT, codepath, linkname)
-  ) // end of [val]
-  val res = string_of_strptr (res)
+//
+val res = sprintf
+(
+  "<ulink url=\"%s/INT2PROGINATS/CODE/%s\">%s</ulink>", @(MYCODEROOT, codepath, linkname)
+) (* end of [val] *)
+val res = string_of_strptr (res)
+//
 in
   atext_strcst (res)
 end // end of [mycodelink]
 
-fun myatscodelink (
+fun myatscodelink
+(
   codepath: string, linkname: string
 ) : atext = let
-  val res = sprintf (
-    "<ulink url=\"%s/POSTIATS/%s\">%s</ulink>", @(MYCODEROOT, codepath, linkname)
-  ) // end of [val]
-  val res = string_of_strptr (res)
+//
+val res = sprintf
+(
+  "<ulink url=\"%s/ATS-Postiats/%s\">%s</ulink>", @(MYCODEROOT, codepath, linkname)
+) (* end of [val] *)
+val res = string_of_strptr (res)
+//
 in
   atext_strcst (res)
 end // end of [myatscodelink]

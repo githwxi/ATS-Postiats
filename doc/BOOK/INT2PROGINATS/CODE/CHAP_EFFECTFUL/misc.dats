@@ -98,6 +98,33 @@ in '{
 
 (* ****** ****** *)
 
+fun{
+a:t@ype
+} mtrxszref_transpose
+  (M: mtrxszref a): void = let
+//
+val nrow = mtrxszref_get_nrow (M)
+//
+fnx loop1
+  (i: size_t):<cloref1> void =
+  if i < nrow then loop2 (i, i2sz(0)) else ()
+//
+and loop2
+  (i: size_t, j: size_t):<cloref1> void =
+  if j < i then let
+    val tmp = M[i,j]
+  in
+    M[i,j] := M[j,i]; M[j,i] := tmp; loop2 (i, succ(j))
+  end else
+    loop1 (succ(i))
+  // end of [if]
+//
+in
+  loop1 (i2sz(0))
+end // end of [mtrxszref_transpose]
+
+(* ****** ****** *)
+
 staload "libc/SATS/stdlib.sats"
 
 (* ****** ****** *)

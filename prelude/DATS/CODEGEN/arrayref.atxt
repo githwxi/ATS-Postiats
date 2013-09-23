@@ -232,6 +232,19 @@ arrszref_make_arrayref (A, asz) = ARRSZREF (A, asz)
 #atscode_separator()
 
 implement{}
+arrszref_size
+  (ASZ) = let
+  val+ARRSZREF (_(*A*), asz) = ASZ in asz
+end // end of [arrszref_size]
+implement{}
+arrszref_get_size
+  (ASZ) = let
+  val+ARRSZREF (_(*A*), asz) = ASZ in asz
+end // end of [arrszref_get_size]
+
+#atscode_separator()
+
+implement{}
 arrszref_get_ref
   (ASZ) = let
   val+ARRSZREF
@@ -239,11 +252,7 @@ arrszref_get_ref
   // end of [val]
 end // end of [arrszref_get_ref]
 
-implement{}
-arrszref_get_size
-  (ASZ) = let
-  val+ARRSZREF (_(*A*), asz) = ASZ in asz
-end // end of [arrszref_get_size]
+#atscode_separator()
 
 implement{}
 arrszref_get_refsize
@@ -336,8 +345,8 @@ val i = g1ofg0_uint (i)
 in
 //
 if n > i
-  then arrayref_get_at_size (A, i)
-  else $raise ArraySubscriptExn((*fun*))
+then arrayref_get_at_guint (A, i)
+else $raise ArraySubscriptExn((*void*))
 //
 end // end of [arrszref_get_at_size]
 
@@ -348,8 +357,8 @@ arrszref_get_at_gint
 in
 //
 if i >= 0
-  then arrszref_get_at_size (ASZ, g0i2u(i))
-  else $raise ArraySubscriptExn((*fun*)) // i < 0
+then arrszref_get_at_size (ASZ, g0i2u(i))
+else $raise ArraySubscriptExn((* i < 0 *))
 //
 end // end of [arrszref_get_at_gint]
 
@@ -374,8 +383,8 @@ val i = g1ofg0_uint (i)
 in
 //
 if n > i
-  then arrayref_set_at_size (A, i, x)
-  else $raise ArraySubscriptExn((*fun*))
+then arrayref_set_at_guint (A, i, x)
+else $raise ArraySubscriptExn((*void*))
 //
 end // end of [arrszref_set_at_size]
 
@@ -386,8 +395,9 @@ arrszref_set_at_gint
 in
 //
 if i >= 0
-  then arrszref_set_at_size (ASZ, g0i2u(i), x)
-  else $raise ArraySubscriptExn((*fun*)) // i < 0
+then
+  arrszref_set_at_size (ASZ, g0i2u(i), x)
+else $raise ArraySubscriptExn((* i < 0 *))
 //
 end // end of [arrszref_set_at_gint]
 
@@ -412,8 +422,8 @@ val i = g1ofg0_uint (i)
 in
 //
 if n > i
-  then arrayref_exch_at_size (A, i, x)
-  else $raise ArraySubscriptExn((*fun*))
+then arrayref_exch_at_guint (A, i, x)
+else $raise ArraySubscriptExn((*void*))
 // end of [if]
 //
 end // end of [arrszref_exch_at_size]
@@ -425,8 +435,9 @@ arrszref_exch_at_gint
 in
 //
 if i >= 0
-  then arrszref_exch_at_size (ASZ, g0i2u(i), x)
-  else $raise ArraySubscriptExn((*fun*)) // i < 0
+then
+  arrszref_exch_at_size (ASZ, g0i2u(i), x)
+else $raise ArraySubscriptExn((* i < 0 *))
 //
 end // end of [arrszref_exch_at_gint]
 

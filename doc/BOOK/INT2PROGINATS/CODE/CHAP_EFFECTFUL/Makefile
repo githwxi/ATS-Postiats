@@ -36,6 +36,16 @@ brauntest: brauntest_dats.c ; \
 
 ######
 
+insort: insort_dats.c ; \
+  $(PATSCC) $(ATSCCFLAGS) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+
+######
+
+permord: permord_dats.c ; \
+  $(PATSCC) $(ATSCCFLAGS) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+
+######
+
 %_dats.c: %.dats ; $(PATSOPT) -o $@ --dynamic $< || echo $@ ": ERROR!!!"
 
 ######
@@ -50,6 +60,8 @@ clean:: ; $(RMF) *_?ats.c
 cleanall:: clean
 cleanall:: ; $(RMF) misc
 cleanall:: ; $(RMF) brauntest
+cleanall:: ; $(RMF) insort
+cleanall:: ; $(RMF) permord
 
 ######
 
