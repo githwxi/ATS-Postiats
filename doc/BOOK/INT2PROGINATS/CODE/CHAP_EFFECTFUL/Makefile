@@ -25,6 +25,7 @@ ATSCCFLAGS=-D_GNU_SOURCE -DATS_MEMALLOC_LIBC
 all:: misc
 all:: brauntest
 all:: insort
+all:: counter
 all:: permord
 all:: montecarlo
 
@@ -36,6 +37,11 @@ misc: misc_dats.c ; \
 ######
 
 brauntest: brauntest_dats.c ; \
+  $(PATSCC) $(ATSCCFLAGS) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+
+######
+
+counter: counter_dats.c ; \
   $(PATSCC) $(ATSCCFLAGS) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 
 ######
@@ -70,6 +76,7 @@ cleanall:: clean
 cleanall:: ; $(RMF) misc
 cleanall:: ; $(RMF) brauntest
 cleanall:: ; $(RMF) insort
+cleanall:: ; $(RMF) counter
 cleanall:: ; $(RMF) permord
 cleanall:: ; $(RMF) montecarlo
 
