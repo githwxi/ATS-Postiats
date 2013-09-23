@@ -748,23 +748,33 @@ extern
 fun fprint_v1ardec : fprint_type (v1ardec)
 implement
 fprint_v1ardec (out, x) = let
-  macdef prstr (str) = fprint_string (out, ,(str))
-  val () = fprint_int (out, x.v1ardec_knd)
-  val () = prstr "; "
-  val () = fprint_symbol (out, x.v1ardec_sym)
-  val () = (
-    case+ x.v1ardec_type of
-    | Some s1e => (prstr ": "; fprint_s1exp (out, s1e))
-    | None () => ()
-  ) // end of [val]
-  val () = (case+ x.v1ardec_wth of
-    | Some id => (prstr " with "; fprint_i0de (out, id))
-    | None () => ()
-  ) // end of [val]
-  val () = (case+ x.v1ardec_ini of
-    | Some d1e => (prstr " = "; fprint_d1exp (out, d1e))
-    | None () => ()
-  ) // end of [val]
+//
+macdef
+prstr (str) = fprint_string (out, ,(str))
+//
+val () = fprint_int (out, x.v1ardec_knd)
+val () = prstr "; "
+val () = fprint_symbol (out, x.v1ardec_sym)
+//
+val (
+) = (
+  case+ x.v1ardec_type of
+  | None () => ()
+  | Some s1e => (prstr ": "; fprint_s1exp (out, s1e))
+) (* end of [val] *)
+val (
+) = (
+  case+ x.v1ardec_pfat of
+  | None () => ()
+  | Some id => (prstr " with "; fprint_i0de (out, id))
+) (* end of [val] *)
+val (
+) = (
+  case+ x.v1ardec_init of
+  | None () => ()
+  | Some d1e => (prstr " = "; fprint_d1exp (out, d1e))
+) (* end of [val] *)
+//
 in
   // nothing
 end // end of [fprint_v1ardec]

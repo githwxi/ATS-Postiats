@@ -445,7 +445,7 @@ and hivardec = '{
 , hivardec_dvar_ptr= d2var
 , hivardec_dvar_view= d2var
 , hivardec_type= hisexp
-, hivardec_ini= hidexpopt
+, hivardec_init= hidexpopt
 } // end of [hivardec]
 
 and hivardeclst = List (hivardec)
@@ -807,7 +807,7 @@ fun hivaldec_make
 fun hivardec_make
 (
   loc: location, knd: int
-, d2v: d2var, d2vw: d2var, type: hisexp, ini: hidexpopt
+, d2v: d2var, d2vw: d2var, type: hisexp, init: hidexpopt
 ) : hivardec // end of [hivardec_make]
 
 (* ****** ****** *)

@@ -1018,25 +1018,25 @@ v2aldec_make (
 implement
 v2ardec_make
 (
-  loc, knd, s2v, d2v, wth, s2eopt, ini
+  loc, knd, s2v, d2v, pfat, s2eopt, init
 ) = '{
   v2ardec_loc= loc
 , v2ardec_knd= knd // knd=0/1:var/ptr
 , v2ardec_svar= s2v // static address
 , v2ardec_dvar= d2v // dynamic address
-, v2ardec_wth= wth // proof of at-view
+, v2ardec_pfat= pfat // proof of at-view
 , v2ardec_type= s2eopt // type annotation
-, v2ardec_ini= ini // value for initialization
+, v2ardec_init= init // value for initialization
 } // end of [v2ardec_make]
 
 implement
 prv2ardec_make (
-  loc, d2v, s2eopt, ini
+  loc, d2v, s2eopt, init
 ) = '{
   prv2ardec_loc= loc
 , prv2ardec_dvar= d2v
 , prv2ardec_type= s2eopt
-, prv2ardec_ini= ini
+, prv2ardec_init= init
 } // end of [prv2ardec_make]
 
 (* ****** ****** *)

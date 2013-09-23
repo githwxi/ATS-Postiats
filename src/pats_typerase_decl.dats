@@ -431,9 +431,9 @@ fun v3ardec_tyer
   val d2v = d2var_tyer (d2v)
   val d2vw = v3d.v3ardec_dvar_view
   val type = s2exp_tyer_shallow (loc, v3d.v3ardec_type)
-  val ini = d3expopt_tyer (v3d.v3ardec_ini)
+  val init = d3expopt_tyer (v3d.v3ardec_init)
 in
-  hivardec_make (loc, knd, d2v, d2vw, type, ini)
+  hivardec_make (loc, knd, d2v, d2vw, type, init)
 end // end of [v3ardec_tyer]
 
 in (* in of [local] *)

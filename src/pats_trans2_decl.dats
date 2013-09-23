@@ -1536,11 +1536,13 @@ val s2v_addr = s2var_make_id_srt (sym, s2rt_addr) // same name
 val s2e_addr = s2exp_var (s2v_addr)
 val () = d2var_set_addr (d2v_ptr, Some (s2e_addr))
 //
-val wth =
+val pfat =
 (
 case+
-  v1d.v1ardec_wth of
+v1d.v1ardec_pfat of
+//
 | None () => None ((*void*))
+//
 | Some (i0de) => let
     val d2v = d2var_make (i0de.i0de_loc, i0de.i0de_sym)
   in
@@ -1558,7 +1560,7 @@ val s2eopt =
     // end of [Some]
 ) : s2expopt // end of [val]
 //
-val ini = d1expopt_tr (v1d.v1ardec_ini)
+val init = d1expopt_tr (v1d.v1ardec_init)
 //
 in
 //
@@ -1566,7 +1568,7 @@ v2ardec_make
 (
   v1d.v1ardec_loc
 , v1d.v1ardec_knd
-, s2v_addr, d2v_ptr, wth, s2eopt, ini
+, s2v_addr, d2v_ptr, pfat, s2eopt, init
 ) (* end of [v2ardec_make] *)
 //
 end // end of [v1ardec_tr]
@@ -1586,7 +1588,7 @@ val () =
     val () = the_s2expenv_add_svar (v2d.v2ardec_svar)
     val () = the_d2expenv_add_dvar (v2d.v2ardec_dvar)
   in
-    case+ v2d.v2ardec_wth of
+    case+ v2d.v2ardec_pfat of
       Some (d2v) => the_d2expenv_add_dvar (d2v) | None () => ()
   end // end of [f]
 } (* end of [val] *)
@@ -1625,7 +1627,7 @@ auxwthck
 (
   v1d: v1ardec
 ) : void = let
-  val idopt = v1d.v1ardec_wth
+  val idopt = v1d.v1ardec_pfat
 in
   case+ idopt of
   | Some id => let
@@ -1636,13 +1638,13 @@ in
       val () = prerr ": the dynamic identifier ["
       val () = $SYN.prerr_i0de (id)
       val () = prerr "] is ignored."
-      val () = prerr_newline ()
+      val () = prerr_newline ((*void*))
     in
 (*
       the_trans2errlst_add (T2E_prv1ardec_tr (v1d))
 *)
     end // end of [Some]
-  | None _ => ()
+  | None ((*void*)) => ()
 end // end of [auxwthck]
 
 in (* in of [local] *)
@@ -1667,7 +1669,7 @@ val s2eopt = (
   | None () => None ()
 ) : s2expopt // end of [val]
 //
-val d2eopt = d1expopt_tr (v1d.v1ardec_ini)
+val d2eopt = d1expopt_tr (v1d.v1ardec_init)
 //
 in
   prv2ardec_make (v1d.v1ardec_loc, d2v, s2eopt, d2eopt)

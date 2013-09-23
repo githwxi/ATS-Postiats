@@ -1038,24 +1038,26 @@ v3aldec_make
 implement
 v3ardec_make
 (
-  loc, knd, d2v, d2vw, s2e, ini
+  loc, knd
+, d2v, d2vw, s2e, init
 ) = '{
   v3ardec_loc= loc
 , v3ardec_knd= knd
 , v3ardec_dvar_ptr= d2v
 , v3ardec_dvar_view= d2vw
 , v3ardec_type= s2e
-, v3ardec_ini= ini
+, v3ardec_init= init
 } // end of [v3ardec_make]
 
 implement
-prv3ardec_make (
-  loc, d2v, s2e, ini
+prv3ardec_make
+(
+  loc, d2v, s2e, init
 ) = '{
   prv3ardec_loc= loc
 , prv3ardec_dvar= d2v
 , prv3ardec_type= s2e
-, prv3ardec_ini= ini
+, prv3ardec_init= init
 } // end of [prv3ardec_make]
 
 (* ****** ****** *)

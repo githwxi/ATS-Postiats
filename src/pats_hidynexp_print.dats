@@ -850,7 +850,7 @@ fprint_hivardec
   val () = prstr " : "
   val () = fprint_hisexp (out, hvd.hivardec_type)
   val () = prstr " = "
-  val () = $UT.fprintopt (out, hvd.hivardec_ini, fprint_hidexp)
+  val () = $UT.fprintopt (out, hvd.hivardec_init, fprint_hidexp)
 in
   // nothing
 end // end of [fprint_hivardec]

@@ -939,10 +939,10 @@ and v2ardec = '{
 , v2ardec_knd= int (* knd=0/1:var/ptr *)
 , v2ardec_svar= s2var // static address
 , v2ardec_dvar= d2var // dynamic address
-, v2ardec_wth= d2varopt // proof of at-view
+, v2ardec_pfat= d2varopt // proof of at-view
 , v2ardec_type= s2expopt (* type annotation *)
-, v2ardec_ini= d2expopt // value for initialization
-} // end of [v2ardec]
+, v2ardec_init= d2expopt // value for initialization
+} (* end of [v2ardec] *)
 
 and v2ardeclst = List (v2ardec)
 
@@ -952,7 +952,7 @@ and prv2ardec = '{
   prv2ardec_loc= location
 , prv2ardec_dvar= d2var // dynamic address
 , prv2ardec_type= s2expopt (* optional type anno *)
-, prv2ardec_ini= d2expopt // initial value (optional)
+, prv2ardec_init= d2expopt // initial value (optional)
 } // end of [prv2ardec]
 
 and prv2ardeclst = List (prv2ardec)
@@ -1427,14 +1427,14 @@ fun v2ardec_make
 , knd: int // knd=0/1:var/ptr
 , s2v: s2var // static address
 , d2v: d2var // dynamic address
-, wth: d2varopt // proof of at-view
+, pfat: d2varopt // proof of at-view
 , type: s2expopt // type annotatio
-, ini: d2expopt // value for initialization
+, init: d2expopt // value for initialization
 ) : v2ardec // end of [v2ardec_make]
 
 fun prv2ardec_make
 (
-  loc: location, d2v: d2var, type: s2expopt, ini: d2expopt
+  loc: location, d2v: d2var, type: s2expopt, init: d2expopt
 ) : prv2ardec // end of [prv2ardec_make]
 
 (* ****** ****** *)

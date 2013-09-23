@@ -181,7 +181,7 @@ arrayref_interchange{n:int}
 
 Note that #dyncode("arrayref_interchange") can not be implemented in terms
 of #dyncode("arrayref_get_at") and #dyncode("arrayref_set_at") (unless some
-form of type-unsafe coding is empolyed).\
+form of type-unsafe code is empolyed).\
 
 ")
 

@@ -1469,30 +1469,33 @@ case+ d1e0.d1exp_node of
     d1exp_tr_arrsub (d1e0, arr, locind, ind)
   end // end of [D1Earrsub]
 | D1Earrpsz
-    (elt, ini) => let
+    (elt, init) => let
     val opt = s1expopt_trup (elt)
     val opt = (case+ opt of
       | Some s2e => Some (s2e) | None () => None ()
     ) : s2expopt
-    val ini = d1explst_tr (ini)
+    val init = d1explst_tr (init)
   in
-    d2exp_arrpsz (loc0, opt, ini)
+    d2exp_arrpsz (loc0, opt, init)
   end // end of [D1Earrpsz]
 //
 | D1Earrinit
-    (s1e_elt, asz, ini) => let
-    val s2t_elt = (case+ asz of
-      | Some _ => begin case+ ini of
+    (s1e_elt, asz, init) => let
+    val s2t_elt =
+    (
+      case+ asz of
+      | Some _ => (
+        case+ init of
         | list_cons _ => s2rt_t0ype // cannot be linear
         | list_nil () (*uninitialized*) => s2rt_vt0ype // can be linear
-        end // end of [Some]
+        ) (* end of [Some] *)
       | None () => s2rt_vt0ype // can be linear
     ) : s2rt // end of [val]
     val s2e_elt = s1exp_trdn (s1e_elt, s2t_elt)
     val asz = d1expopt_tr (asz)
-    val ini = d1explst_tr (ini)
+    val init = d1explst_tr (init)
   in
-    d2exp_arrinit (loc0, s2e_elt, asz, ini)
+    d2exp_arrinit (loc0, s2e_elt, asz, init)
   end // end of [D1Earrinit]
 //
 | D1Eraise (d1e) => d2exp_raise (loc0, d1exp_tr d1e)

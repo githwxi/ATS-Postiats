@@ -494,7 +494,7 @@ and v3ardec = '{
 , v3ardec_dvar_ptr= d2var
 , v3ardec_dvar_view= d2var
 , v3ardec_type= s2exp // type annotation
-, v3ardec_ini= d3expopt // value for initialization
+, v3ardec_init= d3expopt // value for initialization
 } (* end of [v3ardec] *)
 
 and v3ardeclst = List (v3ardec)
@@ -503,7 +503,7 @@ and v3ardeclst = List (v3ardec)
 
 and prv3ardec = '{
   prv3ardec_loc= location
-, prv3ardec_dvar= d2var, prv3ardec_type= s2exp, prv3ardec_ini= d3exp
+, prv3ardec_dvar= d2var, prv3ardec_type= s2exp, prv3ardec_init= d3exp
 } // end of [prv3ardec]
 
 and prv3ardeclst = List (prv3ardec)

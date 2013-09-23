@@ -685,9 +685,9 @@ val () = instrseq_add_tmpdec (res, loc_d2v, tmp)
 val () = 
 (
 case+
-  hvd.hivardec_ini of
-| Some (hde) => hidexp_ccomp_ret (env, res, tmp, hde)
+hvd.hivardec_init of
 | None ((*void*)) => ()
+| Some (hde) => hidexp_ccomp_ret (env, res, tmp, hde)
 ) : void // end of [val]
 //
 val pmv = primval_tmpref (loc, hse_elt, tmp)

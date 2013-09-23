@@ -717,15 +717,17 @@ hivaldec_make
 } // end of [hivaldec_make]
 
 implement
-hivardec_make (
-  loc, knd, d2v, d2vw, type, ini
+hivardec_make
+(
+  loc, knd
+, d2v, d2vw, type, init
 ) = '{
   hivardec_loc= loc
 , hivardec_knd= knd
 , hivardec_dvar_ptr= d2v
 , hivardec_dvar_view= d2vw
 , hivardec_type= type
-, hivardec_ini= ini
+, hivardec_init= init
 } // end of [hivardec_make]
 
 (* ****** ****** *)

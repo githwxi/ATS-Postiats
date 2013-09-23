@@ -516,9 +516,9 @@ and v1ardec = '{
 , v1ardec_knd= int (* knd=0/1:var/ptr *)
 , v1ardec_sym= symbol
 , v1ardec_sym_loc= location
-, v1ardec_wth= i0deopt // proof of at-view
+, v1ardec_pfat= i0deopt // proof of at-view
 , v1ardec_type= s1expopt (* type annotation *)
-, v1ardec_ini= d1expopt // value for initialization
+, v1ardec_init= d1expopt // value for initialization
 } // end of [v1ardec]
 
 and v1ardeclst = List v1ardec
@@ -863,7 +863,7 @@ fun v1ardec_make
   loc: location
 , knd: int (* BANG: knd = 1 *)
 , id: symbol, loc_id: location
-, wth: i0deopt, type: s1expopt, def: d1expopt
+, pfat: i0deopt, type: s1expopt, init: d1expopt
 ) : v1ardec // end of [v1ardec_make]
 
 (* ****** ****** *)
