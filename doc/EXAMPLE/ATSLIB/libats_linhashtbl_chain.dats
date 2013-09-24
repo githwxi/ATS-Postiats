@@ -16,6 +16,7 @@
 
 staload "libats/SATS/linhashtbl_chain.sats"
 //
+staload _(*anon*) = "libats/DATS/hashfun.dats"
 staload _(*anon*) = "libats/DATS/linmap_list.dats"
 staload _(*anon*) = "libats/DATS/linhashtbl_chain.dats"
 //

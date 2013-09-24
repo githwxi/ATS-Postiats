@@ -92,7 +92,7 @@ install_dirs:: config.mk ; \
   find ccomp share prelude libc libats contrib -type d -exec $(MKDIR_P) $(PATSHOMERELOC)/\{} \; -print
 
 install_files:: install_dirs ; \
-  for d in ccomp/runtime share prelude libc libats contrib/atshwxi; do \
+  for d in ccomp/runtime share prelude libc libats ; do \
     cd $(abs_top_srcdir) && \
     $(INSTALL) -d $(PATSHOMERELOC)/"$$d" && \
     find "$$d" -name .git -prune -o -type l -exec cp -d \{} $(PATSHOMERELOC)/\{} \; -print && \
@@ -187,9 +187,6 @@ cleanall:: ; $(RMF) libats/?ATS/*.?ats
 cleanall:: ; $(RMF) libats/?ATS/SHARE/*.?ats
 
 cleanall:: ; $(RMF) libats/ML/?ATS/*.?ats
-
-cleanall:: ; $(RMF) contrib/atshwxi/intinf/?ATS/*.?ats
-cleanall:: ; $(RMF) contrib/atshwxi/testing/?ATS/*.?ats
 
 cleanall:: ; $(RMF) doc/EXAMPLE/INTRO/*
 cleanall:: ; $(RMF) doc/EXAMPLE/MISC/*
