@@ -33,10 +33,10 @@ staload _(*anon*) =
 //
 (* ****** ****** *)
 
-extern fun inc (): void
-extern fun dec (): void
 extern fun get (): int
 extern fun set (x: int): void
+extern fun inc (): void
+extern fun dec (): void
 extern fun reset (): void
 
 (* ****** ****** *)
@@ -58,6 +58,9 @@ val r_val =
 
 in (* in of [local] *)
 
+implement get () = !r_val
+implement set (x) = !r_val := x
+
 implement inc () =
   let val n = !r_val in !r_val := n + 1 end
 // end of [inc]
@@ -65,10 +68,6 @@ implement inc () =
 implement dec () =
   let val n = !r_val in !r_val := n - 1 end
 // end of [dec]
-
-implement get () = !r_val
-
-implement set (x) = !r_val := x
 
 implement reset () = !r_val := 0
 

@@ -20,7 +20,7 @@ The type for cairo drawing contexts in ATS is declared as follows:\
 ')
 
 #atscode('\
-absviewtype cairo_ref (l:addr) // = cairo_t*
+absvtype cairo_ref (l:addr) // = cairo_t*
 ')
 
 #para('\
@@ -34,7 +34,7 @@ as follows:\
 ')
 
 #atscode('\
-viewtypedef cairo_ref1 = [l:addr | l > null] cairo_ref l
+vtypedef cairo_ref1 = [l:addr | l > null] cairo_ref l
 ')
 
 #para('\
@@ -47,13 +47,13 @@ representing cairo surfaces, cairo patterns, and cairo font faces:\
 ')
 
 #atscode('\
-absviewtype cairo_surface_ref (l:addr) // = cairo_surface_t*
+absvtype cairo_surface_ref (l:addr) // = cairo_surface_t*
 
-absviewtype cairo_pattern_ref (l:addr) // = cairo_pattern_t*
-viewtypedef cairo_pattern_ref1 = [l:addr | l > null] cairo_pattern_ref l
+absvtype cairo_pattern_ref (l:addr) // = cairo_pattern_t*
+vtypedef cairo_pattern_ref1 = [l:addr | l > null] cairo_pattern_ref l
 
-absviewtype cairo_font_face_ref (l:addr) // = cairo_font_face_t*
-viewtypedef cairo_font_face_ref1 = [l:addr | l > null] cairo_font_face_ref l
+absvtype cairo_font_face_ref (l:addr) // = cairo_font_face_t*
+vtypedef cairo_font_face_ref1 = [l:addr | l > null] cairo_font_face_ref l
 ')
 
 #para('\

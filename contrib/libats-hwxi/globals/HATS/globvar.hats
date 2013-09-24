@@ -59,4 +59,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [gvar.hats] *)
+(* end of [globvar.hats] *)

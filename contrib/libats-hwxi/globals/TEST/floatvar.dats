@@ -8,7 +8,7 @@ fun initize (x: &T? >> T): void = x := 0.0
 //
 in (* in of [local] *)
 
-#include "./../HATS/gvar.hats"
+#include "./../HATS/globvar.hats"
 
 end // end of [local]
 
