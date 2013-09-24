@@ -65,7 +65,7 @@ val () = assertloc (!r = 1)
 //
 // HX: this one is done in a deplorable style
 //
-fun sum
+fun sumup
   (n: int): int = let
 //
   val i = ref<int> (1)
@@ -76,7 +76,7 @@ fun sum
   // end of [loop]
 in
   loop (); !res
-end // end of [sum]
+end // end of [sumup]
 
 (* ****** ****** *)
 
@@ -152,7 +152,7 @@ val ((*void*)) = assertloc (listprod2 (xs) = 0)
 val ((*void*)) = assertloc (listprod3 (xs) = 0)
 //
 #define N 1000
-val ((*void*)) = assertloc (sum (N) = N * (N+1) / 2)
+val () = assertloc (sumup (N) = N * (N+1) / 2)
 //
 implement
 matrix_tabulate$fopr<int>

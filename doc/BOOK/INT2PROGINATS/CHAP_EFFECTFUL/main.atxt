@@ -445,12 +445,12 @@ References are often misused in practice, especially, by beginners of
 functional programming who had some previous exposure to imperative
 programming languages such C and Java. Such programmers often think that
 they can just \"translate\" their programs in C or Java into functional
-programs. For example, the following defined function #dyncode("sum") is
+programs. For example, the following defined function #dyncode("sumup") is
 such an example, which sums up all the integers between 1 and a given
 integer, inclusive:
 
 #atscode("\
-fun sum
+fun sumup
   (n: int): int = let
   val i = ref<int> (1)
   val res = ref<int> (0)
@@ -459,18 +459,18 @@ fun sum
   // end of [loop]
 in
   loop (); !res
-end // end of [sum]
+end // end of [sumup]
 ")
 
 This is a correct but poor implementation, and its style, though not the
 worst of its kind, is deplorable. As references are allocated in heap,
 reading from or writing to a reference can be much more time-consuming than
 reading from or writing to a register. So, this implementation of
-#dyncode("sum") is unlikely to be time-efficient.  Every call to
-#dyncode("sum") creates two references in heap and leaves them there when
+#dyncode("sumup") is unlikely to be time-efficient.  Every call to
+#dyncode("sumup") creates two references in heap and leaves them there when
 it returns, and the memory allocated for such references can only be
 reclaimed through garbage collection (GC). So, this implementation of
-#dyncode("sum") is not memory-efficient.  More importantly, a program
+#dyncode("sumup") is not memory-efficient.  More importantly, a program
 making heavy use of references is often difficult to reason about.\
 
 ")#comment("para")
@@ -495,8 +495,9 @@ id="example_counter_implementation">
 
 #para("\
 
-We implement a counter-like an object in object-oriented programming (OOP).
-The type #stacode("counter") for counters is defined as follows:
+Let us see as follows the implementation of a counter-like object in the
+style of object-oriented programming (OOP).  The type #stacode("counter")
+for counters is defined as follows:
 
 #atscode("\
 typedef
