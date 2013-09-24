@@ -423,17 +423,27 @@ end // end of [local]
 
 local
 
-fun v3ardec_tyer
-  (v3d: v3ardec): hivardec = let
-  val loc = v3d.v3ardec_loc
-  val knd = v3d.v3ardec_knd
-  val d2v = v3d.v3ardec_dvar_ptr
-  val d2v = d2var_tyer (d2v)
-  val d2vw = v3d.v3ardec_dvar_view
-  val type = s2exp_tyer_shallow (loc, v3d.v3ardec_type)
-  val init = d3expopt_tyer (v3d.v3ardec_init)
+fun
+v3ardec_tyer
+(
+  v3d: v3ardec
+) : hivardec = let
+//
+val loc = v3d.v3ardec_loc
+val knd = v3d.v3ardec_knd
+//
+val d2v = v3d.v3ardec_dvar_var
+val d2v = d2var_tyer (d2v)
+//
+val d2vw = v3d.v3ardec_dvar_view
+//
+val s2e = v3d.v3ardec_type
+val hse = s2exp_tyer_shallow (loc, s2e)
+//
+val init = d3expopt_tyer (v3d.v3ardec_init)
+//
 in
-  hivardec_make (loc, knd, d2v, d2vw, type, init)
+  hivardec_make (loc, knd, d2v, d2vw, hse, init)
 end // end of [v3ardec_tyer]
 
 in (* in of [local] *)

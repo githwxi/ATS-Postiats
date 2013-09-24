@@ -1524,25 +1524,33 @@ fn v1ardec_tr
 (*
 // HX: toplevel stack allocation is supported.
 *)
+val loc = v1d.v1ardec_loc
+val knd = v1d.v1ardec_knd
 val sym = v1d.v1ardec_sym
 val loc_sym = v1d.v1ardec_sym_loc
 //
-val d2v_ptr = d2var_make (loc_sym, sym)
+val d2v = d2var_make (loc_sym, sym)
 //
+val d2vopt =
+(
+if knd > 0 then let
+  val d2v = d2var_make (loc_sym, sym) in Some(d2v)
+end else None((*void*))
+) : d2varopt // end of [val]
+//
+// HX-2013:
 // [s2v_addr] is introduced as a static variable of the
-//
 val s2v_addr = s2var_make_id_srt (sym, s2rt_addr) // same name
 //
 val s2e_addr = s2exp_var (s2v_addr)
-val () = d2var_set_addr (d2v_ptr, Some (s2e_addr))
+val ((*void*)) = d2var_set_addr (d2v, Some (s2e_addr))
 //
 val pfat =
 (
 case+
 v1d.v1ardec_pfat of
 //
-| None () => None ((*void*))
-//
+| None () => None ()
 | Some (i0de) => let
     val d2v = d2var_make (i0de.i0de_loc, i0de.i0de_sym)
   in
@@ -1566,9 +1574,7 @@ in
 //
 v2ardec_make
 (
-  v1d.v1ardec_loc
-, v1d.v1ardec_knd
-, s2v_addr, d2v_ptr, pfat, s2eopt, init
+  loc, knd, s2v_addr, d2v, pfat, s2eopt, init, d2vopt
 ) (* end of [v2ardec_make] *)
 //
 end // end of [v1ardec_tr]
@@ -1587,6 +1593,11 @@ val () =
   fn f (v2d: v2ardec): void = let
     val () = the_s2expenv_add_svar (v2d.v2ardec_svar)
     val () = the_d2expenv_add_dvar (v2d.v2ardec_dvar)
+//
+// HX-2013-09:
+// if added, this one shadows the previously added d2var
+//
+    val () = the_d2expenv_add_dvaropt (v2d.v2ardec_dvaropt)
   in
     case+ v2d.v2ardec_pfat of
       Some (d2v) => the_d2expenv_add_dvar (d2v) | None () => ()

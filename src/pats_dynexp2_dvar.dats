@@ -105,7 +105,7 @@ local
 
 assume d2var_type = ref (d2var_struct)
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d2var_make (loc, id) = let
@@ -458,7 +458,7 @@ val cmp = lam (
 assume d2varset_type = $FS.set (d2var)
 assume d2varset_vtype = $LS.set (d2var)
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d2varset_nil () = $FS.funset_make_nil ()
@@ -528,7 +528,7 @@ d2varmap_type (a:type) = $FM.map (d2var, a)
 assume
 d2varmap_vtype (a:type) = $LM.map (d2var, a)
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d2varmap_nil () = $FM.funmap_make_nil ()

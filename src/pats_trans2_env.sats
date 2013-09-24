@@ -192,6 +192,7 @@ fun the_d2expenv_add_dmacvar (d2v: d2var): void
 fun the_d2expenv_add_dmacvarlst (d2vs: d2varlst): void
 fun the_d2expenv_add_dvar (d2v: d2var): void
 fun the_d2expenv_add_dvarlst (d2vs: d2varlst): void
+fun the_d2expenv_add_dvaropt (d2vopt: d2varopt): void
 //
 fun the_d2expenv_add_fundeclst (knd: funkind, f2ds: f2undeclst): void
 //

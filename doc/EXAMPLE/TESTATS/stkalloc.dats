@@ -10,6 +10,22 @@
 
 val () =
 {
+var x: int = 0
+prval () = showlvaltype (x)
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+var !p_x: int = 0
+prval () = showlvaltype (!p_x)
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
 //
 var A = @[int][3]()
 prval () = showlvaltype (A)

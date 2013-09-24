@@ -1039,14 +1039,16 @@ implement
 v3ardec_make
 (
   loc, knd
-, d2v, d2vw, s2e, init
+, d2v, d2vw
+, s2e0, init, d2vopt
 ) = '{
   v3ardec_loc= loc
 , v3ardec_knd= knd
-, v3ardec_dvar_ptr= d2v
+, v3ardec_dvar_var= d2v
 , v3ardec_dvar_view= d2vw
-, v3ardec_type= s2e
+, v3ardec_type= s2e0
 , v3ardec_init= init
+, v3ardec_dvaropt= d2vopt
 } // end of [v3ardec_make]
 
 implement

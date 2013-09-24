@@ -1041,6 +1041,8 @@ the_d2expenv_add_dcst (d2c) = let
   val id = d2cst_get_sym (d2c) in the_d2expenv_add (id, D2ITMcst d2c)
 end // end of [the_d2expenv_add_dcst]
 
+(* ****** ****** *)
+
 implement
 the_d2expenv_add_dmacdef (d2m) = let
   val id = d2mac_get_sym (d2m) in the_d2expenv_add (id, D2ITMmacdef d2m)
@@ -1054,6 +1056,8 @@ the_d2expenv_add_dmacvarlst
   (d2vs) = list_app_fun (d2vs, the_d2expenv_add_dmacvar)
 // end of [the_d2expenv_add_dmacvarlst]
 
+(* ****** ****** *)
+
 implement
 the_d2expenv_add_dvar (d2v) = let
   val id = d2var_get_sym (d2v) in the_d2expenv_add (id, D2ITMvar d2v)
@@ -1062,6 +1066,10 @@ implement
 the_d2expenv_add_dvarlst
   (d2vs) = list_app_fun (d2vs, the_d2expenv_add_dvar)
 // end of [the_d2expenv_add_dvarlst]
+implement
+the_d2expenv_add_dvaropt (opt) = (
+  case+ opt of Some (d2v) => the_d2expenv_add_dvar (d2v) | None () => ()
+) // end of [the_d2expenv_add_dvaropt]
 
 (* ****** ****** *)
 

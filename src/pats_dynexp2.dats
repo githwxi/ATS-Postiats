@@ -1018,7 +1018,8 @@ v2aldec_make (
 implement
 v2ardec_make
 (
-  loc, knd, s2v, d2v, pfat, s2eopt, init
+  loc, knd
+, s2v, d2v, pfat, s2eopt, init, d2vopt
 ) = '{
   v2ardec_loc= loc
 , v2ardec_knd= knd // knd=0/1:var/ptr
@@ -1027,6 +1028,7 @@ v2ardec_make
 , v2ardec_pfat= pfat // proof of at-view
 , v2ardec_type= s2eopt // type annotation
 , v2ardec_init= init // value for initialization
+, v2ardec_dvaropt= d2vopt // address of variable
 } // end of [v2ardec_make]
 
 implement

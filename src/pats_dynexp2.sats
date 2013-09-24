@@ -928,7 +928,7 @@ and v2aldec = '{
 , v2aldec_pat= p2at
 , v2aldec_def= d2exp
 , v2aldec_ann= s2expopt // [withtype] annotation
-} // end of [v2aldec]
+} (* end of [v2aldec] *)
 
 and v2aldeclst = List (v2aldec)
 
@@ -938,10 +938,11 @@ and v2ardec = '{
   v2ardec_loc= location
 , v2ardec_knd= int (* knd=0/1:var/ptr *)
 , v2ardec_svar= s2var // static address
-, v2ardec_dvar= d2var // dynamic address
+, v2ardec_dvar= d2var // dynamic variable
 , v2ardec_pfat= d2varopt // proof of at-view
 , v2ardec_type= s2expopt (* type annotation *)
 , v2ardec_init= d2expopt // value for initialization
+, v2ardec_dvaropt= d2varopt // address of variable
 } (* end of [v2ardec] *)
 
 and v2ardeclst = List (v2ardec)
@@ -1426,10 +1427,11 @@ fun v2ardec_make
   loc: location
 , knd: int // knd=0/1:var/ptr
 , s2v: s2var // static address
-, d2v: d2var // dynamic address
+, d2v: d2var // dynamic variable
 , pfat: d2varopt // proof of at-view
 , type: s2expopt // type annotatio
 , init: d2expopt // value for initialization
+, d2vopt: d2varopt // address of variable
 ) : v2ardec // end of [v2ardec_make]
 
 fun prv2ardec_make

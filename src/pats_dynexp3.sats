@@ -491,10 +491,11 @@ and v3aldeclst = List (v3aldec)
 and v3ardec = '{
   v3ardec_loc= location
 , v3ardec_knd= int // knd=0/1:var/ptr
-, v3ardec_dvar_ptr= d2var
+, v3ardec_dvar_var= d2var
 , v3ardec_dvar_view= d2var
 , v3ardec_type= s2exp // type annotation
 , v3ardec_init= d3expopt // value for initialization
+, v3ardec_dvaropt= d2varopt // address of variable
 } (* end of [v3ardec] *)
 
 and v3ardeclst = List (v3ardec)
@@ -863,20 +864,21 @@ fun d3lab_set_overld_app
 
 (* ****** ****** *)
 
-fun gm3at_make (
+fun gm3at_make
+(
   loc: location, d3e: d3exp, opt: p3atopt
 ) : gm3at // end of [gm3at_make]
 
-fun c3lau_make
-  {n:nat} (
+fun
+c3lau_make{n:nat}
+(
   loc: location
 , p3ts: list (p3at, n)
-, gua: gm3atlst
-, seq: int, neg: int
-, body: d3exp
+, gua: gm3atlst, seq: int, neg: int, body: d3exp
 ): c3lau (n) // end of [c3lau_make]
 
-fun sc3lau_make (
+fun sc3lau_make
+(
   loc: location, sp2t: sp2at, d3e: d3exp
 ) : sc3lau // end of [sc3lau_make]
 
@@ -904,8 +906,10 @@ fun v3aldec_make
 
 fun v3ardec_make
 (
-  loc: location, knd: int (*0/1:var/ptr*)
-, d2v: d2var, d2vw: d2var, s2e0: s2exp, ini: d3expopt
+  loc: location
+, knd: int (*0/1:var/ptr*)
+, d2v: d2var, d2vw: d2var
+, type: s2exp, init: d3expopt, d2vopt: d2varopt
 ) : v3ardec // end of [v3ardec_make]
 
 fun prv3ardec_make

@@ -701,8 +701,20 @@ val s2e0_top = s2exp_topize_0 (s2e0)
 val s2at0_top = s2exp_at (s2e0_top, s2l)
 val ((*void*)) = d2var_set_finknd (d2vw, D2VFINsome_lvar (s2at0_top))
 //
+val d2vopt = v2d.v2ardec_dvaropt
+val () =
+(
+case+ d2vopt of
+| None () => ()
+| Some (d2v2) =>
+  {
+    val () = d2var_set_type (d2v2, d2var_get_type (d2v))
+    val () = d2var_set_mastype (d2v2, d2var_get_mastype (d2v))
+  }
+) (* end of [val] *)
+//
 val d3c =
-  v3ardec_make (loc0, stadyn, d2v, d2vw, s2e0, init3)
+  v3ardec_make (loc0, stadyn, d2v, d2vw, s2e0, init3, d2vopt)
 // end of [val]
 val () = the_d2varenv_add_dvar (d2v)
 val () = the_pfmanenv_add_dvar (d2v)
