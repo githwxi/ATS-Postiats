@@ -23,6 +23,9 @@ val () =
   val () = assertloc (abs (3. / 3.0 - 1.0) < EPSILON)
   val () = assertloc (abs (8. / (3 - 8.0 / 3) - 24.0) < EPSILON)
   val () = assertloc (abs (5. - 11. / 7.) * 7. - 24.0 < EPSILON)
+  val () = assertloc (5.0 mod 3.0 = 2.0)
+  val () = assertloc (10.0 mod 3.0 = 1.0)
+  val () = assertloc (21.0 mod 3.0 = 0.0)
 } (* end of [val] *)
 
 (* ****** ****** *)

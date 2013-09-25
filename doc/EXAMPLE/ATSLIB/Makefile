@@ -33,6 +33,14 @@ clean:: ; $(RMF) prelude_basics_dats.o
 clean:: ; $(RMF) prelude_basics_dats.c
 cleanall:: ; $(RMF) prelude_basics.exe
 
+all:: prelude_integer
+prelude_integer: prelude_integer.exe
+prelude_integer.exe: prelude_integer_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+prelude_integer_dats.c: prelude_integer.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_integer_dats.c --dynamic prelude_integer.dats
+clean:: ; $(RMF) prelude_integer_dats.o
+clean:: ; $(RMF) prelude_integer_dats.c
+cleanall:: ; $(RMF) prelude_integer.exe
+
 all:: prelude_bool
 prelude_bool: prelude_bool.exe
 prelude_bool.exe: prelude_bool_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
@@ -51,19 +59,11 @@ cleanall:: ; $(RMF) prelude_char.exe
 
 all:: prelude_float
 prelude_float: prelude_float.exe
-prelude_float.exe: prelude_float_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+prelude_float.exe: prelude_float_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime  -o $@ $< -lm
 prelude_float_dats.c: prelude_float.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_float_dats.c --dynamic prelude_float.dats
 clean:: ; $(RMF) prelude_float_dats.o
 clean:: ; $(RMF) prelude_float_dats.c
 cleanall:: ; $(RMF) prelude_float.exe
-
-all:: prelude_integer
-prelude_integer: prelude_integer.exe
-prelude_integer.exe: prelude_integer_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-prelude_integer_dats.c: prelude_integer.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_integer_dats.c --dynamic prelude_integer.dats
-clean:: ; $(RMF) prelude_integer_dats.o
-clean:: ; $(RMF) prelude_integer_dats.c
-cleanall:: ; $(RMF) prelude_integer.exe
 
 all:: prelude_memory
 prelude_memory: prelude_memory.exe

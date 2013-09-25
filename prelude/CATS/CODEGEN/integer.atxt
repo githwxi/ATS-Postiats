@@ -345,13 +345,15 @@ fun_aop_decl
   opr: string, knd: string
 ) : atext = let
 //
-val fopr =
-(
+val fopr = (
   case+ opr of
-  | "add" => "+" | "sub" => "-"
-  | "mul" => "*" | "div" => "/"
-  | "mod" => "%" | "nmod" => "%"
-  | _ => opr
+  | "add" => "+"
+  | "sub" => "-"
+  | "mul" => "*"
+  | "div" => "/"
+  | "mod" => "%"
+  | "nmod" => "%"
+  | _(*rest*) => opr
 ) : string // end of [val]
 //
 val ent = sprintf
