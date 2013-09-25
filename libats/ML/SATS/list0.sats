@@ -134,31 +134,46 @@ list0_isnot_empty (xs: list0 a):<> bool
 overload isneqz with list0_isnot_empty
 
 (* ****** ****** *)
-
+//
 fun{a:t0p}
-list0_head_exn (xs: list0 (INV(a))):<!exn> a
+list0_head_exn (xs: list0 (INV(a))):<!exn> (a)
 fun{a:t0p}
-list0_head_opt (xs: list0 (INV(a))):<> Option_vt (a)
-
+list0_head_opt (xs: list0 (INV(a))):<> Option_vt(a)
+//
+(* ****** ****** *)
+//
 fun{a:t0p}
 list0_tail_exn
   (xs: SHR(list0 (INV(a)))):<!exn> list0 (a)
 fun{a:t0p}
 list0_tail_opt
-  (xs: SHR(list0 (INV(a)))):<> Option_vt (list0 (a))
-// end of [list0_tail_opt]
+  (xs: SHR(list0 (INV(a)))):<> Option_vt(list0(a))
+//
+(* ****** ****** *)
+//
+fun{a:t0p}
+list0_last_exn (xs: list0 (INV(a))):<!exn> (a)
+fun{a:t0p}
+list0_last_opt (xs: list0 (INV(a))):<> Option_vt(a)
+//
+(* ****** ****** *)
+//
+symintr .head .tail .last
+overload .head with list0_head_exn
+overload .tail with list0_tail_exn
+overload .last with list0_last_exn
+//
+(* ****** ****** *)
+
+fun{a:t0p}
+list0_nth_exn (xs: list0 (INV(a)), i: int):<!exn> (a)
+fun{a:t0p}
+list0_nth_opt (xs: list0 (INV(a)), i: int):<> Option_vt(a)
 
 (* ****** ****** *)
 
 fun{a:t0p}
-list0_nth_exn (xs: list0 (INV(a)), i: int):<!exn> a
-fun{a:t0p}
-list0_nth_opt (xs: list0 (INV(a)), i: int):<> Option_vt (a)
-
-(* ****** ****** *)
-
-fun{a:t0p}
-list0_get_at_exn (xs: list0 (INV(a)), i: int):<!exn> a
+list0_get_at_exn (xs: list0 (INV(a)), i: int):<!exn> (a)
 overload [] with list0_get_at_exn
 
 (* ****** ****** *)

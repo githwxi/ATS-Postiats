@@ -382,7 +382,22 @@ point where an exception is raised and the point where the raised exception
 is captured can span many function calls. If this range is short (e.g.,
 spanning only one function call) in a case, then the programmer should
 probably investigate whether it is a sensible use of the exception
-mechanism.\
+mechanism. For instance, the use of exception in the following example may
+seem interesting but it actually leads to very inefficient code:
+
+
+#atscode('\
+
+fun{
+a:t@ype
+} list0_length
+  (xs: list0 (a)): int =
+  try 1 + list0_length (xs.tail) with ~ListSubscriptExn() => 0
+// end of [list0_length]
+
+')
+
+Therefore, making use of exceptions in this style should be avoided.
 
 ")
 

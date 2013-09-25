@@ -26,6 +26,7 @@
 
 staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
+staload _(*anon*) = "libats/ML/DATS/list0.dats"
 
 (* ****** ****** *)
 
@@ -52,6 +53,15 @@ fun listprod3
 in
   try aux (xs) with ~ZERO () => 0
 end // end of [listprod3]
+
+(* ****** ****** *)
+
+fun{
+a:t@ype
+} list0_length
+  (xs: list0 (a)): int =
+  try 1 + list0_length<a> (xs.tail) with ~ListSubscriptExn() => 0
+// end of [list0_length]
 
 (* ****** ****** *)
 
@@ -149,6 +159,8 @@ val xs = g0ofg1_list (xs)
 val ((*void*)) = assertloc (listprod1 (xs) = 0)
 val ((*void*)) = assertloc (listprod2 (xs) = 0)
 val ((*void*)) = assertloc (listprod3 (xs) = 0)
+//
+val ((*void*)) = assertloc (list0_length<int> (xs) = 10)
 //
 #define N 1000
 val () = assertloc (sumup (N) = N * (N+1) / 2)

@@ -46,8 +46,14 @@ the following interface can be called:
 fun{a:vt@ype} ref_make_elt (x: a):<!wrt> ref a
 ')
 
-Note that the symbol #stacode("!wrt") indicates that the so-called
-#stacode("wrt")-effect may occur when #dyncode("ref_make_elt") is called.
+It is also allowed to use the shorthand #dyncode("ref") for
+#dyncode("ref_make_elt").  Note that the symbol #stacode("!wrt") indicates
+that the so-called #stacode("wrt")-effect may occur when
+#dyncode("ref_make_elt") is called.
+
+")
+
+#para("\
 
 For reading writing through a reference, the function templates
 #dyncode("ref_get_elt") and #dyncode("ref_set_elt") can be used,
@@ -74,9 +80,7 @@ For instance, following is such an example:
 
 #atscode_extract('\
 local
-//
-// [ref]: shorthand for [ref_make_elt]
-//
+
 val count = ref<int> (0)
 
 in (* in of [local] *)
