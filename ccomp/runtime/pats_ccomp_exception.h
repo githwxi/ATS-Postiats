@@ -78,7 +78,14 @@ extern atstype_bool atspre_isNotSomeExn (const atstype_exncon*) ;
 typedef
 struct atsexnframe
 {
+  jmp_buf env ;
+/*
+//
+// HX-2013-09:
+// not really needed
+//
   sigjmp_buf env ;
+*/
   atstype_exnconptr exn ;
   struct atsexnframe *prev ;
 } atsexnframe_t ;
@@ -136,15 +143,15 @@ do { \
   frame = atsexnframe_alloc() ; \
   framep = my_atsexnframe_getref() ; \
   my_atsexnframe_enter(frame, framep) ; \
-  flag = sigsetjmp(frame->env, 1) ; \
-  if (!flag) { /* normal */
+  flag = setjmp(frame->env) ; \
+  if (flag==0) { /* normal */
 
 #define \
 ATStrywith_with(tmpexn) \
     my_atsexnframe_leave(framep) ; \
-  } else { \
-    tmpexn = (*(atsexnframe_ptr*)framep)->exn ; \
-    my_atsexnframe_leave(framep) ; /* exceptional */
+  } else { /* flag<>0 : exceptional */ \
+    tmpexn = (*framep)->exn ; \
+    my_atsexnframe_leave(framep) ;
 
 #define \
 ATStrywith_end(tmpexn) \
