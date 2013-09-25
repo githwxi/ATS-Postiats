@@ -376,7 +376,7 @@ as that of #dyncode("aux"), which is O(n).\
 
 #para("\
 
-The use of the exception mechanism in the implementation
+The use of the exception mechanism in the implementation of
 #dyncode("brauntest1") is a convincing one because the range between the
 point where an exception is raised and the point where the raised exception
 is captured can span many function calls. If this range is short (e.g.,
@@ -387,8 +387,10 @@ mechanism.\
 ")
 
 #para("\
-Please find the entire code in this section plus some additional
-code for testing #mycodelink("CHAP_EFFECTFUL/brauntest.dats", "on-line").
+
+Please find the entirety of the code in this section plus some additional
+code for testing #mycodelink("CHAP_EFFECTFUL/brauntest.dats", "on-line").\
+
 ")
 
 </sect1><!--id="example_testing_for_braun_trees"-->
@@ -491,7 +493,7 @@ functional style yet.
 
 <sect1
 id="example_counter_implementation">
-#title("Example: A Counter Implemention")
+#title("Example: A Counter Implementation")
 
 #para("\
 
@@ -1073,6 +1075,232 @@ testing code is available #mycodelink("CHAP_EFFECTFUL/montecarlo.dats", "on-line
 ")
 
 </sect1><!--id="example_estimating_the_constant_pi"-->
+
+<!-- ****** ****** -->
+
+<sect1
+id="basic_input_and_output">
+#title("Simple Input and Output")
+
+#para("\
+
+Handling I/O in ATS properly requires the availability of both dependent
+types and linear types, which I will cover elsewhere. In this section, I
+only present a means for allowing the programmer to access certain very
+basic I/O functionalities.\
+
+")#comment("para")
+
+#para("\
+
+A file handle essentially associates a stream (of bytes) with a file
+identifier (represented as an integer).  In ATS, the type for file handles
+is #stacode("FILEref"). There are three standard file handles, which are
+listed as follows:
+
+")
+
+<itemizedlist>
+
+<listitem>
+#para("\
+#dyncode("stdin_ref"): standard input
+")
+</listitem>
+
+<listitem>
+#para("\
+#dyncode("stdout_ref"): standard output
+")
+</listitem>
+
+<listitem>
+#para("\
+#dyncode("stderr_ref"): standard error output
+")
+</listitem>
+
+</itemizedlist>
+
+#para("\
+
+Various functions on file handles are declared in the file
+#myatscodelink("prelude/SATS/filebas.sats", "filebas.sats"), which is
+automatically loaded by <command>atsopt</command>. For instance, the
+functions for opening and closing file handles have the following
+interfaces:\
+
+#atscode("\
+fun fileref_open_exn
+(
+  path: string, fm: file_mode
+) : FILEref // endfun
+
+fun fileref_close (fil: FILEref): void
+")
+
+Note that these two functions abort immediately whenever an error occurs.
+The following function is an optional version of
+#dyncode("fileref_open_exn"), and the caller needs to inspect the value
+returned by a call to #dyncode("fileref_open_opt") to see if a file handle
+is actually obtained.\
+
+#atscode("\
+fun fileref_open_opt
+  (path: string, fm: file_mode) : Option_vt (FILEref)
+")
+
+")
+
+#para("\
+The type #stacode("file_mode") is for values representing file modes,
+which are listed as follows:
+")
+
+<itemizedlist>
+
+<listitem>
+
+#para("\
+#dyncode("file_mode_r"): opening a file for reading and
+positioning the associated stream at the beginning of the file.
+")
+
+</listitem>
+
+<listitem>
+
+#para("\
+#dyncode("file_mode_rr"): opening a file for both reading and and
+writing and positioning the associated stream at the beginning of the file.
+")
+
+</listitem>
+
+<listitem>
+
+#para("\
+
+#dyncode("file_mode_w"): truncating a given file to zero length or creating
+a new one for writing and positioning the associated stream at the
+beginning of the file.\
+
+")
+
+</listitem>
+
+<listitem>
+
+#para("\
+
+#dyncode("file_mode_ww"): truncating a given file to zero length or
+creating a new one for both reading and writing and positioning the
+associated stream at the beginning of the file.\
+
+")
+
+</listitem>
+
+<listitem>
+
+#para("\
+
+#dyncode("file_mode_a"): opening a file for writing and positioning the
+associated stream at the end of the file.\
+
+")
+
+</listitem>
+
+<listitem>
+
+#para("\
+
+#dyncode("file_mode_aa"): opening a file for both reading and writing and
+positioning the associated stream at the beginning of the file for reading
+and at the end for writing.\
+
+")
+
+</listitem>
+
+</itemizedlist>
+
+#para("\
+
+As an example, the following short program opens a file handle, outputs the
+string \"Hello, world!\" plus a newline into the stream associated with the
+file handle and then closes the file handle:
+
+#atscode('\
+implement
+main0 () =
+{
+val out =
+  fileref_open_exn ("hello.txt", file_mode_w)
+val () = fprint_string (out, "Hello, world!\\\n")
+val () = fileref_close (out)
+//
+} (* end of [main0] *)
+')
+
+After executing the program, we obtain a file of the name \"hello.txt\" in
+the current working directory containing the expected content. There are
+various fprint-functions in ATS for printing out data into the stream
+associated with a given file handle. Often the programmer can simply use
+the name #dyncode("fprint") to refer to these functions due to the support
+for overloading in ATS.\
+
+")
+
+#para("\
+
+Another common I/O function is given the following interface:
+
+#atscode("\
+fun fileref_get_line_string (fil: FILEref): Strptr1
+")
+
+The function #dyncode("fileref_get_line_string") reads a line from the
+stream associated with a given file handle, and it returns a value of the
+type #stacode("Strptr1"). For the moment, I will just say that such a value
+is just like a string except that it needs to be freed explicitly. As an
+example, the following short program echos each line read from the standard
+input onto the standard output:
+
+
+#atscode('\
+implement
+main0 (
+// argumentless
+) = loop () where
+{
+//
+fun loop (): void = let
+  val isnot = fileref_isnot_eof (stdin_ref)
+in
+//
+if isnot then let
+  val line =
+    fileref_get_line_string (stdin_ref)
+  val ((*void*)) = fprintln! (stdout_ref, line)
+  val ((*void*)) = strptr_free (line)
+in
+  loop ()
+end else ((*loop exits as the end-of-file is reached*))
+//
+end (* end of [loop] *)
+//
+} (* end of [main0] *)
+')
+
+Note that the function #dyncode("strptr_free") is called to free a linear
+string (of the type #stacode("Strptr1")). Often, typing the CTRL-D
+character can terminate the above program for echoing each line of input.\
+
+")#comment("para")
+
+</sect1><!--id="basic_input_and_output"-->
 
 <!-- ****** ****** -->
 

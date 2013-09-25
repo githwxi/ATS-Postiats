@@ -61,6 +61,16 @@ montecarlo: montecarlo_dats.c ; \
 
 ######
 
+hello: hello_dats.c ; \
+  $(PATSCC) $(ATSCCFLAGS) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+
+######
+
+echoline: echoline_dats.c ; \
+  $(PATSCC) $(ATSCCFLAGS) $(INCLUDES) $(CCFLAGS) -o $@ $< -latslib || echo $@ ": ERROR!!!"
+
+######
+
 %_dats.c: %.dats ; $(PATSOPT) -o $@ --dynamic $< || echo $@ ": ERROR!!!"
 
 ######
@@ -79,6 +89,8 @@ cleanall:: ; $(RMF) insort
 cleanall:: ; $(RMF) counter
 cleanall:: ; $(RMF) permord
 cleanall:: ; $(RMF) montecarlo
+cleanall:: ; $(RMF) hello hello.txt
+cleanall:: ; $(RMF) echoline
 
 ######
 

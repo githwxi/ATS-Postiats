@@ -570,6 +570,15 @@ end // end of [g1uint_implist]
 //
 #atscode_separator()
 //
+implement g0int2string<intknd> = g0int2string_int
+implement g0int2string<lintknd> = g0int2string_lint
+implement g0int2string<llintknd> = g0int2string_llint
+(*
+implement g0int2string<ssizeknd> = g0int2string_ssize
+*)
+//
+#atscode_separator()
+//
 implement g0string2int<intknd> = g0string2int_int
 implement g0string2int<lintknd> = g0string2int_lint
 implement g0string2int<llintknd> = g0string2int_llint

@@ -1,12 +1,11 @@
 (*
-** Some code used in the book INT2PROGINATS
+** Some code
+** used in the book INT2PROGINATS
 *)
 
 (* ****** ****** *)
 
 (*
-** Example: Testing for Braun Trees
-**
 ** Author: Hongwei Xi
 ** Authoremail hwxiATcsDOTbuDOTedu
 ** Time: January, 2011

@@ -64,7 +64,19 @@ fun g0int2int_int_llint (x: int):<> llint = "mac\#%"
 fun g0int2int_int_ssize (x: int):<> ssize_t = "mac\#%"
 //
 #atscode_separator()
-
+//
+fun{tk:tk}
+g0int2string (x: g0int (tk)):<!wrt> Strptr1
+//
+fun g0int2string_int (x: int):<!wrt> Strptr1 = "mac\#%"
+fun g0int2string_lint (x: lint):<!wrt> Strptr1 = "mac\#%"
+fun g0int2string_llint (x: llint):<!wrt> Strptr1 = "mac\#%"
+(*
+fun g0int2string_ssize (x: ssize_t):<!wrt> Strptr1 = "mac\#%"
+*)
+//
+#atscode_separator()
+//
 fun{tk:tk}
 g0string2int (str: NSH(string)):<> g0int (tk)
 //
