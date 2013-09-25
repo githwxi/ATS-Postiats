@@ -283,6 +283,8 @@ val ((*void*)) = fprint_newline (out)
 #declnamesynop("list_head_exn")
 #declnamesynop("list_tail")
 #declnamesynop("list_tail_exn")
+#declnamesynop("list_last")
+#declnamesynop("list_last_exn")
 
 (* ****** ****** *)
 

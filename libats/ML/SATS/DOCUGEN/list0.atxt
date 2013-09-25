@@ -204,6 +204,20 @@ This function is the optional version of #dyncode("list0_tail_exn").  ")
 
 (* ****** ****** *)
 
+#declnamesynop("list0_last_exn")
+#decldescrpt("\
+
+This function returns the last element of a given list if the list is
+non-empty or raises an exception (#dyncode("ListSubscriptExn")) if the list
+is empty. ")
+
+#declnamesynop("list0_last_opt")
+#decldescrpt("\
+
+This function is the optional version of #dyncode("list0_last_exn").  ")
+
+(* ****** ****** *)
+
 #declnamesynop("list0_nth_exn")
 #decldescrpt("\
 
@@ -306,8 +320,8 @@ main () = let
 val i = N / 2
 val xs = list0_make_intrange (0, N)
 val ys = list0_insert_at_exn (list0_remove_at_exn (xs, i), i, xs[i])
-val iseq = list0_equal<int> (xs, ys, lam (x, y) => x = y)
-val () = assertloc (iseq)
+val iseq = list0_equal (xs, ys, lam (x, y) => x = y)
+val ((*void*)) = assertloc (iseq)
 //
 in
   0(*normalexit*)
