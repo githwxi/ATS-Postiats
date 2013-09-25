@@ -985,18 +985,20 @@ list_equal (xs1, xs2) = let
 in
 //
 case+ xs1 of
-| list_cons (x1, xs1) => (
-  case+ xs2 of
-  | list_cons (x2, xs2) => let
-      val iseq = list_equal$pred (x1, x2)
-    in
-      if iseq then list_equal<x> (xs1, xs2) else false
-    end
-  | list_nil () => false
+| list_cons (x1, xs1) =>
+  (
+    case+ xs2 of
+    | list_cons
+        (x2, xs2) => let
+        val iseq = list_equal$pred<x> (x1, x2)
+      in
+        if iseq then list_equal<x> (xs1, xs2) else false
+      end
+    | list_nil () => false
   ) // end of [list_cons]
-| list_nil () => (
-  case+ xs2 of
-  | list_cons _ => false | list_nil () => true
+| list_nil ((*void*)) =>
+  (
+    case+ xs2 of list_cons _ => false | list_nil () => true
   ) // end of [list_nil]
 //
 end // end of [list_equal]

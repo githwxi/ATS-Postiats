@@ -15,6 +15,7 @@
 <!ENTITY chap_progelem SYSTEM "CHAP_PROGELEM/main.db">
 <!ENTITY chap_function SYSTEM "CHAP_FUNCTION/main.db">
 <!ENTITY chap_datatype SYSTEM "CHAP_DATATYPE/main.db">
+<!ENTITY chap_polymorph SYSTEM "CHAP_POLYMORPH/main.db">
 <!ENTITY chap_effectful SYSTEM "CHAP_EFFECTFUL/main.db">
 <!ENTITY chap_deptypes SYSTEM "CHAP_DEPTYPES/main.db">
 ]>
@@ -41,6 +42,7 @@ id="basic-functional-programming">
 &chap_progelem;
 &chap_function;
 &chap_datatype;
+&chap_polymorph;
 </part>
 
 <part
