@@ -447,10 +447,10 @@ a:t@ype
 , ys: list0 a
 ) : list0 a =
 (
-  case+ xs of
-  | list0_cons (x, xs) =>
-      list0_cons{a}(x, list0_append<a> (xs, ys))
-  | list0_nil ((*void*)) => ys
+case+ xs of
+| list0_cons (x, xs) =>
+    list0_cons{a}(x, list0_append<a> (xs, ys))
+| list0_nil ((*void*)) => ys
 ) (* end of [list0_append] *)
 ")
 
@@ -481,10 +481,10 @@ a:t@ype
   xs: list0 a, ys: list0 a
 ) : list0 a =
 (
-  case+ xs of
-  | list0_cons (x, xs) =>
-      list0_reverse_append<a> (xs, list0_cons{a}(x, ys))
-  | list0_nil () => ys
+case+ xs of
+| list0_cons (x, xs) =>
+    list0_reverse_append<a> (xs, list0_cons{a}(x, ys))
+| list0_nil () => ys
 ) (* end of [list0_reverse_append] *)
 ")
 
@@ -536,10 +536,10 @@ list0_map
   xs: list0 a, f: a -<cloref1> b
 ) : list0 b =
 (
-  case+ xs of
-  | list0_cons (x, xs) =>
-      list0_cons{b}(f x, list0_map<a><b> (xs, f))
-  | list0_nil ((*void*)) => list0_nil ()
+case+ xs of
+| list0_cons (x, xs) =>
+    list0_cons{b}(f x, list0_map<a><b> (xs, f))
+| list0_nil ((*void*)) => list0_nil ()
 ) (* end of [list0_map] *)
 ")
 
@@ -570,13 +570,15 @@ a,b:t@ype
 ) : list0 @(a, b) = let
   typedef ab = @(a, b)
 in
-  case+ (xs, ys) of
-  | (list0_cons (x, xs),
-     list0_cons (y, ys)) =>
-    (
-      list0_cons{ab}((x, y), list0_zip<a,b> (xs, ys))
-    )
-  | (_, _) => list0_nil ()
+//
+case+ (xs, ys) of
+| (list0_cons (x, xs),
+   list0_cons (y, ys)) =>
+  (
+    list0_cons{ab}((x, y), list0_zip<a,b> (xs, ys))
+  )
+| (_, _) => list0_nil ()
+//
 end // end of [list0_zip]
 ")
 
@@ -613,13 +615,13 @@ list0_zipwith
 , f: (a, b) -<cloref1> c
 ) : list0 c =
 (
-  case+ (xs, ys) of
-  | (list0_cons (x, xs),
-     list0_cons (y, ys)) =>
-    (
-      list0_cons{c}(f (x, y), list0_zipwith<a,b><c> (xs, ys, f))
-    )
-  | (_, _) => list0_nil ()
+case+ (xs, ys) of
+| (list0_cons (x, xs),
+   list0_cons (y, ys)) =>
+  (
+    list0_cons{c}(f (x, y), list0_zipwith<a,b><c> (xs, ys, f))
+  )
+| (_, _) => list0_nil ()
 ) (* end of [list0_zipwith] *)
 ")
 
@@ -659,9 +661,9 @@ First, let us introduce abbreviations
 for the list constructors #dyncode("list0_nil") and #dyncode("list0_cons"):
 
 #atscode("\
-\#define nil list0_nil // writing [nil] for list0_nil
 \#define :: list0_cons // writing [::] for list0_cons
-\#define cons list0_cons // writing [cons] for list0_cons
+\#define cons0 list0_cons // writing [cons0] for list0_cons
+\#define nil0 list0_nil // writing [nil0] for list0_nil
 ")
 
 Note that the operator #dyncode("::") is already given the infix status.
@@ -669,10 +671,10 @@ For instance, the list consisting of the first 5 natural numbers can be
 constructed as follows:
 
 #atscode("\
-cons (0, cons (1, 2 :: 3 :: 4 :: nil ()))
+cons0 (0, cons0 (1, 2 :: 3 :: 4 :: nil0 ()))
 ")
 
-In practice, there is of course no point in mixing #dyncode("cons")
+In practice, there is of course no point in mixing #dyncode("cons0")
 with #dyncode("::").
 
 ')#comment("para")
@@ -691,19 +693,20 @@ a:t@ype
 } merge (
   xs: list0 a, ys: list0 a, lte: lte a
 ) : list0 a =
+(
   case+ xs of
-  | x :: xs1 => (
+  | cons0 (x, xs1) => (
     case+ ys of
-    | y :: ys1 =>
+    | cons0 (y, ys1) =>
         if x \lte y then
-          x :: merge (xs1, ys, lte))
+          cons0{a}(x, merge<a> (xs1, ys, lte))
         else
-          y :: merge (xs, ys1, lte))
+          cons0{a}(y, merge<a> (xs, ys1, lte))
         // end of [if]
-    | nil () => xs
-    ) // end of [::]
-  | nil () => ys
-// end of [merge]
+    | nil0 () => xs
+    ) // end of [cons0]
+  | nil0 () => ys
+) (* end of [merge] *)
 ")
 
 For instance, suppose that the two given lists are (1, 3, 4, 8) and (2, 5,
@@ -723,29 +726,35 @@ The following function template #dyncode("mergesort") implements the
 standard mergesort algorithm:
 
 #atscode("\
-fun{a:t@ype}
-mergesort
-  (xs: list0 a, lte: lte a): list0 a = let
+fun{
+a:t@ype
+} mergesort
+(
+  xs: list0 a, lte: lte a
+) : list0 a = let
 //
-  fun msort (
-    xs: list0 a, n: int, lte: lte a
-  ) : list0 a =
-    if n >= 2 then split (xs, n, lte, n/2, nil) else xs
-  and split (
-    xs: list0 a, n: int, lte: lte a, i: int, xsf: list0 a
-  ) : list0 a =
-    if i > 0 then let
-      val- cons (x, xs) = xs
-    in
-      split (xs, n, lte, i-1, cons (x, xsf))
-    end else let
-      val xsf = list0_reverse<a> (xsf) // make sorting stable!
-      val xsf = msort (xsf, n/2, lte) and xs = msort (xs, n-n/2, lte)
-    in
-      merge (xsf, xs, lte)
-    end // end of [if]
+val n = list0_length<a> (xs)
 //
-  val n = list0_length<a> (xs)
+fun msort
+(
+  xs: list0 a, n: int, lte: lte a
+) : list0 a =
+  if n >= 2 then split (xs, n, lte, n/2, nil0) else xs
+//
+and split
+(
+  xs: list0 a, n: int, lte: lte a, i: int, xsf: list0 a
+) : list0 a =
+  if i > 0 then let
+    val-cons0 (x, xs) = xs
+  in
+    split (xs, n, lte, i-1, cons0{a}(x, xsf))
+  end else let
+    val xsf = list0_reverse<a> (xsf) // make sorting stable!
+    val xsf = msort (xsf, n/2, lte) and xs = msort (xs, n-n/2, lte)
+  in
+    merge<a> (xsf, xs, lte)
+  end // end of [if]
 //
 in
   msort (xs, n, lte)
@@ -757,14 +766,14 @@ divide it into two lists: (8, 3, 4, 1) and (2, 7, 6, 5, 9); by performing
 mergesort on each of them, we obtain two ordered lists: (1, 3, 4, 8) and
 (2, 5, 6, 7, 9); by merging these two ordered list, we obtain the ordered
 list (1, 2, 3, 4, 5, 6, 7, 8, 9), which is a permutation of the original
-one.\
+list (8, 3, 4, 1, 2, 7, 6, 5, 9).\
 
 ")#comment("para")
 
 #para("\
 
 Note that the function template #dyncode("merge") is not tail-recursive as
-the call to #dyncode("merge") in its body is not a tail-call. This is a
+the call to #dyncode("merge") in its body is not a tail-call. This can be a
 serious problem in practice: It is almost certain that a stack overflow is
 to occur if the above implementation of mergesort is employed to sort a
 list that is very long (e.g., containing 1,000,000 elements or more). I

@@ -147,6 +147,10 @@ extern fun d2exp_trup_lam_met (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
+extern fun d2exp_trup_fix (d2e0: d2exp): d3exp
+
+(* ****** ****** *)
+
 extern fun d2exp_trup_delay (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
@@ -427,6 +431,8 @@ case+ d2e0.d2exp_node of
 | D2Elaminit_dyn _ => d2exp_trup_laminit_dyn (d2e0)
 | D2Elam_sta _ => d2exp_trup_lam_sta (d2e0)
 | D2Elam_met _ => d2exp_trup_lam_met (d2e0)
+//
+| D2Efix (knd, d2v, def) => d2exp_trup_fix (d2e0)
 //
 | D2Edelay _ => d2exp_trup_delay (d2e0)
 //
@@ -1568,6 +1574,24 @@ d2exp_trup_lam_met
 in
   d3exp_lam_met (loc0, s2es_met, d3e_body)
 end // end of [d2exp_trup_lam_met]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_fix (d2e0) = let
+//
+val loc0 = d2e0.d2exp_loc
+val-D2Efix
+  (knd, d2v, d2e_def) = d2e0.d2exp_node
+val s2e_def = d2exp_syn_type (d2e_def)
+val s2eopt_def = Some (s2e_def)
+val () = d2var_set_type (d2v, s2eopt_def)
+val () = d2var_set_mastype (d2v, s2eopt_def)
+val d3e_def = d2exp_trup (d2e_def)
+//
+in
+  d3exp_fix (loc0, s2e_def, knd, d2v, d3e_def)
+end // end of [d2exp_trup_fix]
 
 (* ****** ****** *)
 

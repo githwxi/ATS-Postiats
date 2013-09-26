@@ -554,6 +554,17 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
+| D3Efix
+    (knd, d2v, d3e) => {
+    val () = prstr "D3Efix("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_d2var (out, d2v)
+    val () = prstr "; "
+    val () = fprint_d3exp (out, d3e)
+    val () = prstr ")"
+  }
+//
 | D3Edelay (d3e) => {
     val () = prstr "D3Edelay("
     val () = fprint_d3exp (out, d3e)

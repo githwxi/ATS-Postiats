@@ -40,6 +40,12 @@ cleanall:: ; $(RMF) extfcall
 
 ######
 
+all:: fixedpoint
+fixedpoint: fixedpoint.dats ; $(PATSCC) -cleanaft -o $@ $<
+cleanall:: ; $(RMF) fixedpoint
+
+######
+
 all:: mutailrec
 mutailrec: mutailrec.dats ; $(PATSCC) -cleanaft -o $@ $<
 cleanall:: ; $(RMF) mutailrec

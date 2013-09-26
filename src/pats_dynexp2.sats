@@ -792,7 +792,7 @@ and d2exp_node =
   | D2Elam_sta of (s2varlst, s2explst(*s2ps*), d2exp) // static abstraction
 //
   | D2Efix of (
-      int(*knd: 0/1: flat/boxed*), d2var(*fixvar*), d2exp(*body*)
+      int(*knd=0/1:flat/boxed*), d2var(*fixvar*), d2exp(*def*)
     ) // end of [D2Efix]
 //
   | D2Edelay of (d2exp(*eval*)) // $delay
@@ -838,7 +838,8 @@ d2exp = '{
   d2exp_loc= location
 , d2exp_node= d2exp_node
 , d2exp_type= s2expopt
-}
+} // end of [d2exp]
+
 and d2explst = List (d2exp)
 and d2expopt = Option (d2exp)
 
@@ -1265,6 +1266,8 @@ fun d2exp_lam_met_new
 fun d2exp_lam_sta (
   loc: location, s2vs: s2varlst, s2ps: s2explst, body: d2exp
 ) : d2exp // end of [d2exp_lam_sta]
+
+(* ****** ****** *)
 
 fun d2exp_fix (loc: location, knd: int, f: d2var, body: d2exp): d2exp
 

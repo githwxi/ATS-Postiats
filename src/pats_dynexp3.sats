@@ -369,6 +369,10 @@ and d3exp_node =
       (s2varlst(*s2vs*), s2explst(*s2ps*), d3exp)
   | D3Elam_met of (s2explst(*met*), d3exp) // term. metric
 //
+  | D3Efix of (
+      int(*knd: 0/1: flat/boxed*), d2var(*fixvar*), d3exp(*def*)
+    ) // end of [D3Efix]
+//
   | D3Edelay of d3exp(*eval*) // delayed computation
   | D3Eldelay of (d3exp(*eval*), d3expopt(*free*)) // delayed LC
   | D3Elazy_force of (int(*lin*), d3exp) // lazy-value evaluation
@@ -792,23 +796,34 @@ fun d3exp_viewat_assgn
 
 (* ****** ****** *)
 
-fun d3exp_lam_dyn (
+fun d3exp_lam_dyn
+(
   loc: location, typ: s2exp
 , lin: int, npf: int, arg: p3atlst, body: d3exp
 ) : d3exp // end of [d3exp_lam_dyn]
-fun d3exp_laminit_dyn (
+fun d3exp_laminit_dyn
+(
   loc: location, typ: s2exp
 , lin: int, npf: int, arg: p3atlst, body: d3exp
 ) : d3exp // end of [d3exp_laminit_dyn]
 
-fun d3exp_lam_sta (
+fun d3exp_lam_sta
+(
   loc: location, typ: s2exp
 , s2vs: s2varlst, s2ps: s2explst, body: d3exp
 ) : d3exp // end of [d3exp_lam_sta]
 
-fun d3exp_lam_met (
-  loc: location, met: s2explst, body: d3exp
-) : d3exp // end of [d3exp_lam_met]
+fun d3exp_lam_met
+  (loc: location, met: s2explst, body: d3exp): d3exp
+// end of [d3exp_lam_met]
+
+(* ****** ****** *)
+
+fun d3exp_fix
+(
+  loc: location
+, s2e_def: s2exp, knd: int, f: d2var, d3e_def: d3exp
+) : d3exp // end of [d3exp_fix]
 
 (* ****** ****** *)
 

@@ -605,7 +605,19 @@ case+
     val () = prstr "; "
     val () = fprint_hidexp (out, _body)
     val () = prstr ")"
-  } // end of [DDElam]
+  } // end of [HDElam]
+//
+| HDEfix
+    (knd, f_d2v, hde_def) =>
+  {
+    val () = prstr "HDEfix("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_d2var (out, f_d2v)
+    val () = prstr "; "
+    val () = fprint_hidexp (out, hde_def)
+    val () = prstr ")"    
+  } // end of [HDEfix]
 //
 | HDEloop _ => {
     val () = prstr "HDEloop(...)"

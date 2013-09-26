@@ -790,7 +790,7 @@ case+
     val hips_arg = p3atlst_npf_tyer (npf, p3ts_arg)
     val hde_body = d3exp_tyer (d3e_body)
   in
-    hidexp_lam (loc0, hse_fun, hips_arg, hde_body)
+    hidexp_lam (loc0, hse_fun, 1(*boxed*), hips_arg, hde_body)
   end // end of [D3Elam_dyn]
 | D3Elam_sta
   (
@@ -811,6 +811,15 @@ case+
     hde_body
   end // end of [D3Elam_sta]
 | D3Elam_met (_(*met*), d3e) => d3exp_tyer (d3e)
+//
+| D3Efix
+  (
+    knd, f_d2v, d3e_def
+  ) => let
+    val hde_def = d3exp_tyer (d3e_def)
+  in
+    hidexp_fix (loc0, hse0, knd, f_d2v, hde_def)
+  end // end of [D3Efix]
 //
 | D3Eloop
   (

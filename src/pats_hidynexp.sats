@@ -346,6 +346,8 @@ and hidexp_node =
 //
   | HDElam of (hipatlst, hidexp) // HX: lam_dyn
 //
+  | HDEfix of (int(*knd=0/1:flat/boxed*), d2var, hidexp) // fixed-point
+//
   | HDEloop of (* for/while-loops *)
     (
       hidexpopt(*init*), hidexp(*test*), hidexpopt(*post*), hidexp(*body*)
@@ -735,8 +737,15 @@ fun hidexp_raise
 
 fun hidexp_lam
 (
-  loc: location, hse: hisexp, hips: hipatlst, hde: hidexp
+  loc: location, hse: hisexp, knd: int, hips: hipatlst, hde: hidexp
 ) : hidexp // end of [hidexp_lam]
+
+(* ****** ****** *)
+
+fun hidexp_fix
+(
+  loc: location, hse: hisexp, knd: int, f_d2v: d2var, hde_def: hidexp
+) : hidexp // end of [hidexp_fix]
 
 (* ****** ****** *)
 

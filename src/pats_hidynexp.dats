@@ -584,9 +584,20 @@ hidexp_raise
 
 implement
 hidexp_lam
-  (loc, hse, hips_arg, hde_body) =
+(
+  loc, hse, knd
+, hips_arg, hde_body
+) =
   hidexp_make_node (loc, hse, HDElam (hips_arg, hde_body))
 // end of [hidexp_lam]
+
+(* ****** ****** *)
+
+implement
+hidexp_fix
+  (loc, hse, knd, f_d2v, hde_def) =
+  hidexp_make_node (loc, hse, HDEfix (knd, f_d2v, hde_def))
+// end of [hidexp_fix]
 
 (* ****** ****** *)
 

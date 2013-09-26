@@ -853,6 +853,18 @@ d3exp_lam_met (
 (* ****** ****** *)
 
 implement
+d3exp_fix
+(
+  loc, s2e_def, knd, f_d2v, d3e_def
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2e_def
+, d3exp_node= D3Efix (knd, f_d2v, d3e_def)
+} // end of [d3exp_fix]
+
+(* ****** ****** *)
+
+implement
 d3exp_delay (
   loc, s2e, _eval
 ) = '{
