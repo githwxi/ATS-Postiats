@@ -1716,6 +1716,7 @@ hidexp_ccomp_funtype =
   (!ccompenv, !instrseq, hidexp) -> primval
 fun hidexp_ccomp : hidexp_ccomp_funtype
 fun hidexp_ccomp_lam : hidexp_ccomp_funtype
+fun hidexp_ccomp_fix : hidexp_ccomp_funtype
 fun hidexp_ccomp_loop : hidexp_ccomp_funtype
 fun hidexp_ccomp_loopexn : hidexp_ccomp_funtype
 

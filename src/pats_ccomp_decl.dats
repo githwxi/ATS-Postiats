@@ -390,7 +390,7 @@ case+ hfds of
       funlab_make_dvar_type (d2v, hse, fcopt)
     // end of [val]
 //
-// HX: only the first fnx-decl is added!
+// HX: only the first fnx-decl is added!!!
 //
     val () = (
       if i <= 1 then the_funlablst_add (flab)
@@ -404,8 +404,7 @@ case+ hfds of
       // end of [if]
     ) : primval // end of [val]
 //
-    val (
-    ) = ccompenv_add_vbindmapenvall (env, d2v, pmv)
+    val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
 //
     val istmp = (
       if tmplev > 0
@@ -445,10 +444,11 @@ case+ hfds of
     val d2v = hfd.hifundec_var
     val imparg = hfd.hifundec_imparg
     val hde_def = hfd.hifundec_def
-    val-HDElam (hips_arg, hde_body) = hde_def.hidexp_node
+    val-HDElam (knd, hips_arg, hde_body) = hde_def.hidexp_node
     val+list_cons (flab, flabs) = flabs
 //
-    val () = (
+    val (
+    ) = (
       if i = 0
         then ccompenv_inc_tailcalenv (env, flab)
       // end of [if]
@@ -752,7 +752,7 @@ val loc_fun = hde0.hidexp_loc
 val hse_fun = hde0.hidexp_type
 val fcopt = d2cst_get2_funclo (d2c)
 //
-val-HDElam (hips_arg, hde_body) = hde0.hidexp_node
+val-HDElam (knd, hips_arg, hde_body) = hde0.hidexp_node
 //
 val flab =
   funlab_make_dcst_type (d2c, hse_fun, fcopt)

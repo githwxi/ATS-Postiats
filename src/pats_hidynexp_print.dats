@@ -598,9 +598,11 @@ case+
   }
 //
 | HDElam
-    (_arg, _body) =>
+    (knd, _arg, _body) =>
   {
     val () = prstr "HDElam("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
     val () = fprint_hipatlst (out, _arg)
     val () = prstr "; "
     val () = fprint_hidexp (out, _body)

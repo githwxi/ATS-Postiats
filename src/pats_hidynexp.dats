@@ -587,8 +587,8 @@ hidexp_lam
 (
   loc, hse, knd
 , hips_arg, hde_body
-) =
-  hidexp_make_node (loc, hse, HDElam (hips_arg, hde_body))
+) = hidexp_make_node
+  (loc, hse, HDElam (knd, hips_arg, hde_body))
 // end of [hidexp_lam]
 
 (* ****** ****** *)

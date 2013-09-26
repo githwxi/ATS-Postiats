@@ -792,6 +792,16 @@ case+
   in
     hidexp_lam (loc0, hse_fun, 1(*boxed*), hips_arg, hde_body)
   end // end of [D3Elam_dyn]
+| D3Elaminit_dyn
+  (
+    lin, npf, p3ts_arg, d3e_body
+  ) => let
+    val hse_fun = s2exp_tyer_deep (loc0, s2e0)
+    val hips_arg = p3atlst_npf_tyer (npf, p3ts_arg)
+    val hde_body = d3exp_tyer (d3e_body)
+  in
+    hidexp_lam (loc0, hse_fun, 0(*unboxed*), hips_arg, hde_body)
+  end // end of [D3Elaminit_dyn]
 | D3Elam_sta
   (
     s2vs, s2ps, d3e_body

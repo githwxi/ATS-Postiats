@@ -360,6 +360,7 @@ case+ hde0.hidexp_node of
 | HDEraise (hde_exn) => auxret (env, res, hde0)
 //
 | HDElam _ => hidexp_ccomp_lam (env, res, hde0)
+| HDEfix _ => hidexp_ccomp_fix (env, res, hde0)
 //
 | HDEloop _ => hidexp_ccomp_loop (env, res, hde0)
 | HDEloopexn _ => hidexp_ccomp_loopexn (env, res, hde0)
@@ -1650,16 +1651,20 @@ end // end of [hidexp_ccomp_funlab_arg_body]
 
 (* ****** ****** *)
 
+extern
+fun hidexp_ccomp_lam_flab
+(
+  env: !ccompenv, res: !instrseq, hde0: hidexp, flab: funlab
+) : void // end of [hidexp_ccomp_lam_flab]
+
+(* ****** ****** *)
+
 implement
-hidexp_ccomp_lam
-  (env, res, hde0)  = let
+hidexp_ccomp_lam_flab
+  (env, res, hde0, flab) = let
 //
 val loc0 = hde0.hidexp_loc
-val hse0 = hde0.hidexp_type
-val-HDElam (hips_arg, hde_body) = hde0.hidexp_node
-//
-val flab =
-  funlab_make_type (hse0)
+val-HDElam (knd, hips_arg, hde_body) = hde0.hidexp_node
 //
 val () = the_funlablst_add (flab)
 val () = ccompenv_inc_tailcalenv (env, flab)
@@ -1692,13 +1697,46 @@ val () = fprintln! (out, "hidexp_ccomp_lam: find2es = ", find2es)
 val () = fprintln! (out, "hidexp_ccomp_lam: fent = ", fent)
 *)
 //
-val knd = 0(*lam*)
+in
+  // nothing
+end // end of [hidexp_ccomp_lam_flab]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_lam
+  (env, res, hde0)  = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val flab = funlab_make_type (hse0)
+val pmv0 = primval_make_funlab (loc0, flab)
+//
 val () = ccompenv_add_flabsetenv (env, flab)
-val pmv_funval = primval_make_funlab (loc0, flab)
+val () = hidexp_ccomp_lam_flab (env, res, hde0, flab)
 //
 in
-  primval_lamfix (knd, pmv_funval)
+  primval_lamfix (0(*lam*), pmv0)
 end // end of [hidexp_ccomp_lam]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_fix
+  (env, res, hde0)  = let
+//
+val loc0 = hde0.hidexp_loc
+val-HDEfix (knd, f_d2v, hde_def) = hde0.hidexp_node
+val hse0 = hde_def.hidexp_type
+val flab = funlab_make_type (hse0)
+val pmv0 = primval_make_funlab (loc0, flab)
+//
+val () = ccompenv_add_vbindmapenvall (env, f_d2v, pmv0)
+val () = hidexp_ccomp_lam_flab (env, res, hde_def, flab)
+//
+in
+  primval_lamfix (1(*fix*), pmv0)
+end // end of [hidexp_ccomp_fix]
 
 (* ****** ****** *)
 
