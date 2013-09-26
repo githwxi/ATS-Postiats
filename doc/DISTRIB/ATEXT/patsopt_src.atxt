@@ -50,7 +50,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The PATSOPT-source files have been copied.\"\n\
+echo \"The PATSOPT-src files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
@@ -222,6 +222,11 @@ The ATS/Postiats (ATS2) Compiler\
 
 (* ****** ****** *)
 
+#packfilename("pats_taggen.sats")
+#packfilename("pats_taggen.dats")
+
+(* ****** ****** *)
+
 #packfilename("pats_tokbuf.sats")
 #packfilename("pats_tokbuf.cats")
 #packfilename("pats_tokbuf.dats")
@@ -277,6 +282,10 @@ The ATS/Postiats (ATS2) Compiler\
 #packfilename("pats_e1xpval.sats")
 #packfilename("pats_e1xpval.dats")
 #packfilename("pats_e1xpval_error.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_filename_reloc.dats")
 
 (* ****** ****** *)
 

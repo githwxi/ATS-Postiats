@@ -80,18 +80,6 @@ arrszref_of_array0
   {a:vt0p} (A: array0 (a)):<> arrszref (a)
 //
 (* ****** ****** *)
-
-fun{}
-array0_get_ref {a:vt0p} (A: array0 a):<> Ptr1
-fun{}
-array0_get_size {a:vt0p} (A: array0 a):<> size_t
-
-fun{}
-array0_get_refsize{a:vt0p}
-  (A: array0 (a)):<> [n:nat] (arrayref (a, n), size_t (n))
-// end of [array0_get_refsize]
-
-(* ****** ****** *)
 //
 symintr array0
 //
@@ -108,11 +96,25 @@ array0_make_arrayref
 overload array0 with array0_make_arrayref
 //
 (* ****** ****** *)
-
+//
+fun{}
+array0_size {a:vt0p} (A: array0 a):<> size_t
+fun{}
+array0_get_size {a:vt0p} (A: array0 a):<> size_t
+//
+fun{}
+array0_get_ref {a:vt0p} (A: array0 a):<> Ptr1
+//
+fun{}
+array0_get_refsize{a:vt0p}
+  (A: array0 (a)):<> [n:nat] (arrayref (a, n), size_t (n))
+//
+(* ****** ****** *)
+//
 fun{a:t0p}
 array0_make_elt
   (asz: size_t, x: a):<!wrt> array0 (a)
-
+//
 (* ****** ****** *)
 
 fun{a:t0p}
@@ -135,14 +137,14 @@ array0_make_subarray
 
 fun{a:t0p}
 array0_get_at_size
-  (A: array0 (a), i: size_t):<!exn,!ref> a
+  (A: array0 (a), i: size_t):<!exnref> a
 fun{a:t0p}{tk:tk}
 array0_get_at_gint
-  (A: array0 (a), i: g0int(tk)):<!exn,!ref> a
+  (A: array0 (a), i: g0int(tk)):<!exnref> a
 overload [] with array0_get_at_gint
 fun{a:t0p}{tk:tk}
 array0_get_at_guint
-  (A: array0 (a), i: g0uint(tk)):<!exn,!ref> a
+  (A: array0 (a), i: g0uint(tk)):<!exnref> a
 overload [] with array0_get_at_guint
 //
 symintr array0_get_at

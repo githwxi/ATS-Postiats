@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,14 +27,20 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: September, 2012
 //
 (* ****** ****** *)
 //
 staload
-UN = "prelude/SATS/unsafe.sats"
+ATSPRE = "./pats_atspre.dats"
 //
+(* ****** ****** *)
+
+staload
+UN = "prelude/SATS/unsafe.sats"
+
 (* ****** ****** *)
 
 staload "./pats_basics.sats"
@@ -60,6 +66,7 @@ staload SYN = "./pats_syntax.sats"
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
+staload "./pats_stacst2.sats"
 
 (* ****** ****** *)
 
@@ -174,8 +181,9 @@ in
 //
 case+ p3t0.p3at_node of
 //
-| P3Tany (d2v) =>
-    hipat_any (loc0, hse0)
+| P3Tany (d2v) => let
+    val d2v = d2var_tyer (d2v) in hipat_any (loc0, hse0, d2v)
+  end (* end of [P3Tvar] *)
 | P3Tvar (d2v) => let
     val d2v = d2var_tyer (d2v) in hipat_var (loc0, hse0, d2v)
   end (* end of [P3Tvar] *)
@@ -735,7 +743,8 @@ case+
 //
 | D3Eviewat_assgn _ => hidexp_empty (loc0, hse0)
 //
-| D3Earrpsz (
+| D3Earrpsz
+  (
     s2e_elt, d3es_elt, asz
   ) => let
     val hse_elt = s2exp_tyer_shallow (loc0, s2e_elt)
@@ -744,15 +753,23 @@ case+
   in
     hidexp_arrpsz (loc0, hse0, hse_elt, hdes_elt, asz)
   end // end of [D3Earrpsz]
-| D3Earrinit (
-    s2e_elt, asz, d3es_elt
+| D3Earrinit
+  (
+    s2e_elt, d3e_asz, d3es_elt
   ) => let
     val hse_elt = s2exp_tyer_shallow (loc0, s2e_elt)
-    val asz = d3exp_tyer (asz)
+    val hde_asz = d3exp_tyer (d3e_asz)
+    val s2e_asz = d3exp_get_type (d3e_asz)
+    val s2f_asz = $S2UT.s2exp2hnf (s2e_asz)
+    val-~Some_vt(s2i) = un_s2exp_g1int_index_t0ype (s2f_asz)
+    val opt = un_s2exp_intconst (s2i)
+    val asz = (
+      case+ opt of | ~Some_vt (n) => n | ~None_vt () => ~1
+    ) : int // end of [val]
     val hdes_elt = list_map_fun (d3es_elt, d3exp_tyer)
     val hdes_elt = list_of_list_vt (hdes_elt)
   in
-    hidexp_arrinit (loc0, hse0, hse_elt, asz, hdes_elt)
+    hidexp_arrinit (loc0, hse0, hse_elt, hde_asz, hdes_elt, asz)
   end // end of [D3Earrinit]
 //
 | D3Eraise (d3e) => let
@@ -765,24 +782,28 @@ case+
     val () = d2var_inc_utimes (d2v) in hidexp_var (loc0, hse0, d2v)
   end // end of [D3Evcopyenv]
 //
-| D3Elam_dyn (
+| D3Elam_dyn
+  (
     lin, npf, p3ts_arg, d3e_body
   ) => let
     val hse_fun = s2exp_tyer_deep (loc0, s2e0)
     val hips_arg = p3atlst_npf_tyer (npf, p3ts_arg)
     val hde_body = d3exp_tyer (d3e_body)
   in
-    hidexp_lam (loc0, hse_fun, hips_arg, hde_body)
+    hidexp_lam (loc0, hse_fun, 1(*boxed*), hips_arg, hde_body)
   end // end of [D3Elam_dyn]
-| D3Elam_sta (
+| D3Elam_sta
+  (
     s2vs, s2ps, d3e_body
   ) => let
     val hde_body = d3exp_tyer (d3e_body)
     val isval = hidexp_is_value (hde_body)
-    val () = if not(isval) then let
+    val () =
+    if not(isval) then let
       val () = prerr_error4_loc (loc0)
-      val () = prerr ": a non-value body for static lambda-abstraction is not supported."
-      val () = prerr_newline ()
+      val () = prerrln! (
+        ": a non-value body for static lambda-abstraction is not supported."
+      ) (* end of [val] *)
     in
       the_trans4errlst_add (T4E_d3exp_tyer_isnotval (d3e_body))
     end (* end of [if] *)
@@ -791,7 +812,17 @@ case+
   end // end of [D3Elam_sta]
 | D3Elam_met (_(*met*), d3e) => d3exp_tyer (d3e)
 //
-| D3Eloop (
+| D3Efix
+  (
+    knd, f_d2v, d3e_def
+  ) => let
+    val hde_def = d3exp_tyer (d3e_def)
+  in
+    hidexp_fix (loc0, hse0, knd, f_d2v, hde_def)
+  end // end of [D3Efix]
+//
+| D3Eloop
+  (
     init, test, post, body
   ) => let
     val init = d3expopt_tyer (init)
@@ -964,12 +995,11 @@ val loc0 = d3l.d3lab_loc
 in
 //
 case+ d3l.d3lab_node of
-| D3LABlab (l) =>
-    hilab_lab (loc0, l)
-  // end of [D3LABlab]
+| D3LABlab (l) => hilab_lab (loc0, l)
 | D3LABind (d3es_ind) => let
     val hdes_ind =
       list_map_fun (d3es_ind, d3exp_tyer)
+    // end of [val]
     val hdes_ind = list_of_list_vt (hdes_ind)
   in
     hilab_ind (loc0, hdes_ind)

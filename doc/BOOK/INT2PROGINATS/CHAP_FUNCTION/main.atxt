@@ -506,6 +506,7 @@ id="tail-call-and-tail-recursion">
 #title("Tail-Call and Tail-Recursion")
 
 #para("\
+
 Suppose that a function foo makes a call in its body to a function
 bar, where foo and bar may be the same function. If the return value of the
 call to bar is also the return value of foo, then this call to bar is a
@@ -519,10 +520,12 @@ fun f91 (n: int): int =
 ")
 
 where the outer recursive call is a self tail-call while the inner one is
-not.
+not.\
+
 ")#comment("para")
 
 #para("\
+
 If each recursive call in the body of a function is a tail-call,
 then this function is a tail-recursive function. For instance, the
 following function #dyncode("sum_iter") is tail-recursive:
@@ -534,10 +537,13 @@ fun sum_iter
 // end of [sum_iter]
 ")
 
-A tail-recursive function is often referred to as an iterative function.
+A tail-recursive function is often referred to as an iterative function.\
+
 ")#comment("para")
 
-#para("\ In ATS, the single most important optimization is probably the one
+#para("\
+
+In ATS, the single most important optimization is probably the one
 that turns a self tail-call into a local jump. This optimization
 effectively turns every tail-recursive function into the equivalent of a
 loop. Although ATS provides direct syntactic support for constructing

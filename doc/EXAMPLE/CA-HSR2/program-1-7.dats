@@ -4,8 +4,8 @@
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_staload_tmpdef.hats"
+#include "share/atspre_define.hats"
+#include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -31,8 +31,8 @@ end // end of [RSum]
 
 (* ****** ****** *)
 
-staload "atshwxi/testing/SATS/randgen.sats"
-staload _ = "atshwxi/testing/DATS/randgen.dats"
+staload RG = "{$LIBATSHWXI}/testing/SATS/randgen.sats"
+staload _(*RG*) = "{$LIBATSHWXI}/testing/DATS/randgen.dats"
 
 (* ****** ****** *)
 
@@ -51,8 +51,8 @@ typedef T = float
 val asz = g1int2uint (N)
 //
 implement
-randgen_val<T> () = g0float2float (drand48 ())
-val A = randgen_arrayptr<T> (asz)
+$RG.randgen_val<T> () = g0float2float (drand48 ())
+val A = $RG.randgen_arrayptr<T> (asz)
 //
 val p = arrayptr2ptr (A)
 prval pfarr = arrayptr_takeout (A)

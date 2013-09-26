@@ -28,43 +28,8 @@ lists that are assigned the fully indexed list type.
 
 (* ****** ****** *)
 
-#declname("gflist_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-datatype
-gflist (
-  a:t@ype+, ilist(*ind*)
-) =
-  | gflist_nil (a, ilist_nil) of ()
-  | {x:int}{xs:ilist}
-    gflist_cons
-      (a, ilist_cons (x, xs)) of (stamped_t (a, x), gflist (a, xs))
-    // end of [gflist_cons]
-// end of [gflist]
-')
-')
-')
-
-(* ****** ****** *)
-
-#declname("gflist_vt")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-datavtype
-gflist_vt (
-  a:vt@ype+, ilist(*ind*)
-) =
-  | gflist_vt_nil (a, ilist_nil) of ()
-  | {x:int}{xs:ilist}
-    gflist_vt_cons
-      (a, ilist_cons (x, xs)) of (stamped_vt (a, x), gflist_vt (a, xs))
-    // end of [gflist_vt_cons]
-// end of [gflist_vt]
-')
-')
-')
+#declnamesynop("gflist")
+#declnamesynop("gflist_vt")
 
 (* ****** ****** *)
 
@@ -110,7 +75,7 @@ that the proof attests to ys being the reverse of xs. ")
 #decldescrpt("\
 
 Given a list xs, this function returns a proof and another list ys such
-that the proof attests to ys being an ordered permutation of ys. ")
+that the proof attests to ys being an ordered permutation of xs. ")
 
 #declnamesynop("gflist_mergesort$cmp")
 #decldescrpt("\

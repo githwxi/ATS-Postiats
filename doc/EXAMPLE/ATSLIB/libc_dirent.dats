@@ -5,7 +5,7 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload_tmpdef.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -65,7 +65,7 @@ fun loop
   val err = readdir_r (dirp, ent, res)
 in
 //
-if err = 0 then let
+if res > 0 then let
   prval () = opt_unsome (ent)
 in
 //
@@ -149,7 +149,7 @@ val nitm = scandir (dirp, namelst, $UNSAFE.cast{filter}(0), $UNSAFE.cast{compar}
 val () = assertloc (nitm >= 0)
 val () = println! ("scandir(...) = ", nitm)
 //
-extern fun direntp_free (x: ptr): void = "mac#atslib_mfree_libc"
+extern fun direntp_free (x: ptr): void = "mac#atsruntime_mfree_libc"
 //
 implement
 array_uninitize$clear<ptr> (i, x) = direntp_free (x)

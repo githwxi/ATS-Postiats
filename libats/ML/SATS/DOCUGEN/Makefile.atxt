@@ -27,7 +27,7 @@ HTML/%s.html: \
 %s_atxt.exe: htmlgendecl_atxt.dats \
   %s_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ; \
   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $< \
-    $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+    $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsynmark/libatsynmark.a -latsdoc
 upload_%s:: ; \
   scp HTML/%s.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
 clean:: ; $(RMF) %s_atxt.exe
@@ -117,8 +117,9 @@ all_html::
 #make_entry("filebas")
 #make_entry("stdlib")
 
-#make_entry("funmap")
 #make_entry("funset")
+#make_entry("funmap")
+#make_entry("hashtbl")
 
 #make_entry("monad_list")
 #make_entry("monad_maybe")

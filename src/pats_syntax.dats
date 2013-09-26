@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,14 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: March, 2011
 //
 (* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
+(* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -173,7 +178,7 @@ fn name_is_cloref0 (name: string): bool =
   if name = "cloref" then true else name = "cloref0"
 fn name_is_cloref1 (name: string): bool = name = "cloref1"
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 e0fftag_i0de (id) = let
@@ -747,7 +752,7 @@ fun loop {n:nat} .<n>. (
   | list_nil () => tok.token_loc + x.s0exp_loc
 // end of [loop]
 //
-in // in of [local]
+in (* in of [local] *)
 //
 implement
 s0exp_extype
@@ -1976,11 +1981,11 @@ in '{
 
 implement
 d0exp_arrinit (
-  t_beg, elt, dim, ini, t_end
+  t_beg, elt, dim, init, t_end
 ) = let
   val loc = t_beg.token_loc + t_end.token_loc
 in '{
-  d0exp_loc= loc, d0exp_node= D0Earrinit (elt, dim, ini)
+  d0exp_loc= loc, d0exp_node= D0Earrinit (elt, dim, init)
 } end // end of [d0exp_arrinit]
 
 implement
@@ -1988,12 +1993,14 @@ d0exp_arrpsz (
   t_beg, os0e, t_lp, d0es, t_rp
 ) = let
   val loc = t_beg.token_loc + t_rp.token_loc
-  val d0e_ini = (case+ d0es of
+  val d0e_init =
+  (
+    case+ d0es of
     | list_cons (d0e, list_nil ()) => d0e
     | _ => d0exp_list (t_lp, ~1(*npf*), d0es, t_rp)
   ) : d0exp // end of [val]
 in '{
-  d0exp_loc= loc, d0exp_node= D0Earrpsz (os0e, d0e_ini)
+  d0exp_loc= loc, d0exp_node= D0Earrpsz (os0e, d0e_init)
 } end // end of [d0exp_arrpsz]
 
 (* ****** ****** *)
@@ -2180,13 +2187,15 @@ in '{
 
 local
 
-fun d0exp_macsyn (
+fun
+d0exp_macsyn
+(
   loc: location, knd: macsynkind, d0e: d0exp
 ): d0exp = '{
   d0exp_loc= loc, d0exp_node= D0Emacsyn (knd, d0e)
 } // end of [d0exp_macsyn]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d0exp_macsyn_cross
@@ -2246,16 +2255,17 @@ d0arrind_cons
 (* ****** ****** *)
 
 implement
-initestpost_make (
+initestpost_make
+(
   t_beg
-, _ini, t_sep1, _test, t_sep2, _post
+, init, t_sep1, test, t_sep2, post
 , t_end
 ) = let
-  val _ini = d0exp_seq (t_beg, _ini, t_sep1)
-  val _test = d0exp_seq (t_sep1, _test, t_sep2)
-  val _post = d0exp_seq (t_sep2, _post, t_end)
+  val init = d0exp_seq (t_beg, init, t_sep1)
+  val test = d0exp_seq (t_sep1, test, t_sep2)
+  val post = d0exp_seq (t_sep2, post, t_end)
 in '{
-  itp_ini= _ini, itp_test= _test, itp_post= _post
+  itp_init= init, itp_test= test, itp_post= post
 } end // end of [initestpost_make]
 
 (* ****** ****** *)
@@ -2342,13 +2352,17 @@ in '{
 (* ****** ****** *)
 
 implement
-f0undec_make (
+f0undec_make
+(
   fid, arg, eff, res, def, ann
 ) = let
-  val loc = (case+ ann of
-    | WITHT0YPEnone () => fid.i0de_loc + def.d0exp_loc
-    | WITHT0YPEsome (knd, s0e) => fid.i0de_loc + s0e.s0exp_loc
-  ) : location // end of [val]
+//
+val loc = (
+case+ ann of
+| WITHT0YPEnone () => fid.i0de_loc + def.d0exp_loc
+| WITHT0YPEsome (knd, s0e) => fid.i0de_loc + s0e.s0exp_loc
+) : location // end of [val]
+//
 in '{
   f0undec_loc= loc
 , f0undec_sym= fid.i0de_sym
@@ -2363,25 +2377,28 @@ in '{
 (* ****** ****** *)
 
 implement
-v0ardec_make (
-  tokopt, id, s0eopt, varwth, d0eopt
+v0ardec_make
+(
+  tokopt, id, pfat, s0eopt, init
 ) = let
 //
 var knd: int = 0
 //
-val loc_hd = (
+val loc_hd =
+(
   case+ tokopt of
-  | Some tok => let
-      val () = knd := 1 in tok.token_loc
-    end
   | None () => id.i0de_loc
-) : location
+  | Some tok =>
+      let val () = knd := 1 in tok.token_loc end
+    // end of [Some]
+) : location // end of [val]
 //
-val loc_tl = (
-  case+ d0eopt of
+val loc_tl =
+(
+  case+ init of
   | Some d0e => d0e.d0exp_loc
   | None () => (
-    case+ varwth of
+    case+ pfat of
     | Some id2 => id2.i0de_loc
     | None () => (
       case+ s0eopt of
@@ -2389,6 +2406,7 @@ val loc_tl = (
     ) // end of [None]
   )
 ) : location // end of [val]
+//
 val loc = loc_hd + loc_tl
 //
 in '{
@@ -2396,17 +2414,21 @@ in '{
 , v0ardec_knd= knd
 , v0ardec_sym= id.i0de_sym
 , v0ardec_sym_loc= id.i0de_loc
-, v0ardec_type= s0eopt
-, v0ardec_wth= varwth
-, v0ardec_ini= d0eopt
+, v0ardec_pfat= pfat
+, v0ardec_type= s0eopt // type annotation
+, v0ardec_init= init // value for initialization
 } end // end of [v0ardec_make]
 
 (* ****** ****** *)
 
 implement
 i0mpdec_make
-  (qid, arg, res, def) = let
-  val loc = qid.impqi0de_loc + def.d0exp_loc
+(
+  qid, arg, res, def
+) = let
+//
+val loc = qid.impqi0de_loc + def.d0exp_loc
+//
 in '{
   i0mpdec_loc= loc
 , i0mpdec_qid= qid
@@ -2419,7 +2441,9 @@ in '{
 
 local
 
-fun loop {n:nat} .<n>. (
+fun
+loop{n:nat} .<n>.
+(
   tok: token, id: i0de, ids: list (i0de, n)
 ) : location =
   case+ ids of

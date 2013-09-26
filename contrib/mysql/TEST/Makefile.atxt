@@ -22,15 +22,15 @@ val ent = sprintf ("\
 all:: %s\n\
 %s: %s.exe\n\
 %s.exe: %s_dats.c ; \\\n\
-  $(GCC) $(CCFLAGS) \\\n\
+  $(CCOPT) $(CCFLAGS) \\\n\
     -I$(PATSHOMEQ) \\\n\
     -I$(PATSHOMEQ)/ccomp/runtime \\\n\
-    -I$(PATSHOMEQ)/contrib \\\n\
+    -I$(PATSHOMERELOCQ)/contrib \\\n\
     $(MYSQLCFLAGS) \\\n\
     -o $@ $< \\\n\
     $(MYSQLLIBS) \n\
 %s_dats.c: %s.dats ; \\\n\
-  $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output %s_dats.c --dynamic %s.dats\n\
+  $(PATSOPT) --output %s_dats.c --dynamic %s.dats\n\
 clean:: ; $(RMF) %s_dats.o\n\
 clean:: ; $(RMF) %s_dats.c\n\
 cleanall:: ; $(RMF) %s.exe\n\
@@ -54,20 +54,16 @@ end // end of [make_entry]
 
 ######
 
-ATSHOMEQ="$(ATSHOME)"
-ATSCC=$(ATSHOMEQ)/bin/atscc
-ATSOPT=$(ATSHOMEQ)/bin/atsopt
-ATSDOC=$(ATSHOMEQ)/bin/atsdoc
+CCOPT=gcc
 
 ######
 
-GCC=gcc
 PATSHOMEQ="$(PATSHOME)"
-PATSOPT=$(PATSHOMEQ)/src/patsopt
+PATSHOMERELOCQ="$(PATSHOMERELOC)"
 
 ######
 
-ATSGCFLAG=-D_ATS_GCATS
+PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 

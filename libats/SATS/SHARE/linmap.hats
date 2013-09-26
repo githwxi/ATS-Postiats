@@ -59,26 +59,9 @@ compare_key_key (x1: key, x2: key):<> int
 
 fun{}
 linmap_nil {key:t0p;itm:vt0p} ():<> map (key, itm)
-
-(* ****** ****** *)
-
 fun{}
 linmap_make_nil {key:t0p;itm:vt0p} ():<!wrt> map (key, itm)
 
-(* ****** ****** *)
-//
-fun{
-} fprint_linmap$sep (out: FILEref): void // "; "
-fun{
-} fprint_linmap$mapto (out: FILEref): void // "->"
-//
-fun{
-key,itm:t@ype
-} fprint_linmap
-  (out: FILEref, map: !map (key, INV(itm))): void
-//
-overload fprint with fprint_linmap
-//
 (* ****** ****** *)
 
 fun{
@@ -97,18 +80,16 @@ fun{
 //
 fun{
 key:t0p;itm:vt0p
-} linmap_size
-  (map: !map (key, INV(itm))):<> size_t
-// end of [linmap_size]
-
+} linmap_size (map: !map (key, INV(itm))):<> size_t
+//
 (* ****** ****** *)
 
 fun{
 key:t0p;itm:t0p
-} linmap_search (
-  map: !map (key, INV(itm))
-, k0: key, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool (b)(*found*) // end of [linmap_search]
+} linmap_search
+(
+  !map (key, INV(itm)), key, res: &itm? >> opt (itm, b)
+) : #[b:bool] bool (b)(*found*) // endfun
 
 fun{
 key:t0p;itm:vt0p
@@ -131,11 +112,10 @@ key:t0p;itm:t0p
 //
 fun{
 key:t0p;itm:vt0p
-} linmap_insert (
-  map: &map (key, INV(itm)) >> _
-, k0: key, x0: itm, res: &itm? >> opt (itm, b)
+} linmap_insert
+(
+  &map (key, INV(itm)) >> _, key, itm, res: &itm? >> opt (itm, b)
 ) : #[b:bool] bool (b) // endfun
-
 fun{
 key:t0p;itm:vt0p
 } linmap_insert_opt
@@ -158,16 +138,17 @@ key:t0p;itm:vt0p
 
 fun{
 key:t0p;itm:vt0p
-} linmap_takeout (
-  map: &map (key, INV(itm)) >> _
-, k0: key, res: &itm? >> opt (itm, b)
+} linmap_takeout
+(
+  &map (key, INV(itm)) >> _, key, res: &itm? >> opt (itm, b)
 ) : #[b:bool] bool (b) // endfun
-
 fun{
 key:t0p;itm:vt0p
 } linmap_takeout_opt
   (map: &map (key, INV(itm)) >> _, k0: key): Option_vt (itm)
 // end of [linmap_takeout_opt]
+
+(* ****** ****** *)
 
 fun{
 key:t0p;itm:t0p
@@ -176,20 +157,26 @@ key:t0p;itm:t0p
 // end of [linmap_remove]
 
 (* ****** ****** *)
-
+//
 fun{
-key:t0p;itm:vt0p
-}{
-env:vt0p
-} linmap_foreach$cont
-  (k: key, x: &itm, env: &env): bool
-// end of [linmap_foreach$cont]
-
+} fprint_linmap$sep (out: FILEref): void // "; "
 fun{
-key:t0p;itm:vt0p
-}{
-env:vt0p
-} linmap_foreach$fwork
+} fprint_linmap$mapto (out: FILEref): void // "->"
+//
+fun{
+key,itm:t@ype
+} fprint_linmap
+  (out: FILEref, map: !map (key, INV(itm))): void
+//
+overload fprint with fprint_linmap
+//
+(* ****** ****** *)
+
+fun
+{key:t0p
+;itm:vt0p}
+{env:vt0p}
+linmap_foreach$fwork
   (k: key, x: &itm, env: &(env) >> _): void
 // end of [linmap_foreach$fwork]
 
@@ -199,11 +186,11 @@ key:t0p;itm:vt0p
   (map: !map (key, INV(itm))): void
 // end of [linmap_foreach]
 
-fun{
-key:t0p;itm:vt0p
-}{
-env:vt0p
-} linmap_foreach_env
+fun
+{key:t0p
+;itm:vt0p}
+{env:vt0p}
+linmap_foreach_env
   (map: !map (key, INV(itm)), env: &(env) >> _): void
 // end of [linmap_foreach_env]
 
@@ -222,7 +209,8 @@ key:t0p;itm:vt0p
 
 (* ****** ****** *)
 //
-// HX: a linear map can be properly freed only if it is empty
+// HX:
+// a linmap can be properly freed only if it is empty
 //
 fun{
 key:t0p;itm:vt0p
@@ -232,26 +220,35 @@ key:t0p;itm:vt0p
 ) :<!wrt> #[b:bool] bool (b)(*~freed*) // endfun
 //
 (* ****** ****** *)
+//
+// HX: traversal fashion is unspecified
+//
+(* ****** ****** *)
+//
+fun
+{key:t0p
+;itm:vt0p}
+{ki2:vt0p}
+linmap_flistize$fopr (k: key, x: itm): ki2
+fun
+{key:t0p
+;itm:vt0p}
+{ki2:vt0p}
+linmap_flistize (map: map (key, INV(itm))): List_vt (ki2)
+//
+(* ****** ****** *)
 
-(*
-//
-// HX: listization is done in the in-order fashion
-//
-*)
-//
-fun{
-key:t0p;itm:vt0p
-} linmap_listize_free
+fun
+{key:t0p
+;itm:vt0p}
+linmap_listize
   (map: map (key, INV(itm))):<!wrt> List_vt @(key, itm)
-// end of [linmap_listize_free]
-
-fun{itm:vt0p}
-linmap_listize$copy (x: &itm):<!wrt> itm
+// end of [linmap_listize]
 fun{
-key:t0p;itm:vt0p
-} linmap_listize_copy
+key,itm:t0p
+} linmap_listize1
   (map: !map (key, INV(itm))):<!wrt> List_vt @(key, itm)
-// end of [linmap_listize_copy]
+// end of [linmap_listize1]
 
 (* ****** ****** *)
 

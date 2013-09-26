@@ -339,8 +339,11 @@ fun jsob_object_object_length (jso: !json_object1): intGte(0) = "mac#%"
 (* ****** ****** *)
 
 (*
-void json_object_object_add
-  (struct json_object* jso, const char *key, struct json_object *val)
+void
+json_object_object_add
+(
+  struct json_object* jso, const char *key, struct json_object *val
+)
 *)
 fun json_object_object_add
 (

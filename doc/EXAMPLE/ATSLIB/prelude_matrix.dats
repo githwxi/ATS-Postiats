@@ -4,8 +4,7 @@
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_staload_tmpdef.hats"
+#include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -16,6 +15,31 @@ staload UN = "prelude/SATS/unsafe.sats"
 postfix 0 sz SZ
 macdef sz (x) = i2sz ,(x)
 macdef SZ (x) = i2sz ,(x)
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val m = 2 and n = 2
+//
+implement
+matrix_tabulate$fopr<int> (i, j) = 0
+val (pfmat, pfgc | p) = matrix_ptr_tabulate<int> ((m)sz, (n)sz)
+//
+val () = matrix_set_at_int (!p, 0, n, 0, 00)
+val () = matrix_set_at_int (!p, 0, n, 1, 01)
+val () = matrix_set_at_int (!p, 1, n, 0, 10)
+val () = matrix_set_at_int (!p, 1, n, 1, 11)
+//
+val out = stdout_ref
+val () = fprint (out, "!p = ")
+val () = fprint (out, !p, (m)sz, (n)sz)
+val () = fprint_newline (out)
+//
+val ((*void*)) = matrix_ptr_free (pfmat, pfgc | p)
+//
+} (* end of [val] *)
 
 (* ****** ****** *)
 
@@ -93,9 +117,9 @@ val (pfmat3, pfgc3 | p3) = matrix_ptr_alloc<int> (m, n)
 //
 local
 implement
-addto_matrix_matrix$addto<int,int><int> (x, y, z) = z := x + y
+matrix_map2to$fwork<int,int><int> (x, y, z) = z := x + y
 in
-val () = addto_matrix_matrix<int,int><int> (!p1, !p2, !p3, m, n)
+val () = matrix_map2to<int,int><int> (!p1, !p2, !p3, m, n)
 end // end of [local]
 //
 val () = fprintln! (stdout_ref, "M1 = ")

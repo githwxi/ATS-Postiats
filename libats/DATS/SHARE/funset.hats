@@ -33,10 +33,13 @@
 
 (* ****** ****** *)
 
+implement{a}
+compare_elt_elt = gcompare_val<a>
+
+(* ****** ****** *)
+
 implement{}
-funset_isnot_empty
-  (xs) = not (funset_is_empty<> (xs))
-// end of [funset_isnot_empty]
+funset_isnot_nil (xs) = not(funset_is_nil (xs))
 
 (* ****** ****** *)
 
@@ -52,15 +55,14 @@ fun loop (
 in
   case+ xs of
   | list_cons (x, xs) => let
-      val _(*exi*) = funset_insert (set, x) in loop (set, xs)
+      val _(*exi*) = funset_insert<a> (set, x) in loop (set, xs)
     end // end of [list_cons]
   | list_nil () => ()
 end // end of [loop]
 //
-var set
-  : set = funset_make_nil ()
+var set: set = funset_make_nil ()
 //
-val () = $effmask_all (loop (set, xs))
+val ((*void*)) = $effmask_all (loop (set, xs))
 //
 } // end of [funset_make_list]
 
@@ -74,16 +76,185 @@ funset_isnot_member
 (* ****** ****** *)
 
 implement{a}
-funset_is_supset
-  (xs1, xs2) = funset_is_subset<a> (xs2, xs1)
-// end of [funset_is_supset]
+funset_getmax_opt
+  (xs) = let
+//
+var x0: a?
+val ans =
+  $effmask_wrt (funset_getmax<a> (xs, x0))
+//
+in
+//
+if ans then let
+  prval () = opt_unsome{a}(x0) in Some_vt{a}(x0)
+end else let
+  prval () = opt_unnone{a}(x0) in None_vt(*void*)
+end (* end of [if] *)
+//
+end // end of [funset_getmax_opt]
 
 (* ****** ****** *)
 
 implement{a}
-funset_is_equal (xs1, xs2) = let
-  val sgn = funset_compare (xs1, xs2) in sgn = 0
+funset_getmin_opt
+  (xs) = let
+//
+var x0: a?
+val ans =
+  $effmask_wrt (funset_getmin<a> (xs, x0))
+//
+in
+//
+if ans then let
+  prval () = opt_unsome{a}(x0) in Some_vt{a}(x0)
+end else let
+  prval () = opt_unnone{a}(x0) in None_vt(*void*)
+end (* end of [if] *)
+//
+end // end of [funset_getmin_opt]
+
+(* ****** ****** *)
+
+implement{a}
+funset_takeoutmax_opt
+  (xs) = let
+//
+var x0: a?
+val ans =
+  $effmask_wrt (funset_takeoutmax<a> (xs, x0))
+//
+in
+//
+if ans then let
+  prval () = opt_unsome{a}(x0) in Some_vt{a}(x0)
+end else let
+  prval () = opt_unnone{a}(x0) in None_vt(*void*)
+end (* end of [if] *)
+//
+end // end of [funset_takeoutmax_opt]
+
+(* ****** ****** *)
+
+implement{a}
+funset_takeoutmin_opt
+  (xs) = let
+//
+var x0: a?
+val ans =
+  $effmask_wrt (funset_takeoutmin<a> (xs, x0))
+//
+in
+//
+if ans then let
+  prval () = opt_unsome{a}(x0) in Some_vt{a}(x0)
+end else let
+  prval () = opt_unnone{a}(x0) in None_vt(*void*)
+end (* end of [if] *)
+//
+end // end of [funset_takeoutmin_opt]
+
+(* ****** ****** *)
+
+implement{a}
+funset_equal
+  (xs1, xs2) = let
+  val sgn = funset_compare<a> (xs1, xs2) in sgn = 0
 end // end of [funset_equal]
+
+(* ****** ****** *)
+
+implement{a}
+funset_is_supset
+  (xs1, xs2) = funset_is_subset<a> (xs2, xs1)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+funset_foreach (xs) = let
+//
+var env: void = () in funset_foreach_env<a><void> (xs, env)
+//
+end // end of [funset_foreach]
+
+(* ****** ****** *)
+
+implement{}
+fprint_funset$sep
+  (out) = fprint_string (out, ", ")
+implement
+{a}(*tmp*)
+fprint_funset
+  (out, xs) = let
+//
+implement
+funset_foreach$fwork<a><int>
+  (x, env) = {
+  val () = if env > 0 then fprint_funset$sep (out)
+  val () = env := env + 1
+  val () = fprint_val<a> (out, x)
+} (* end of [funset_foreach$fwork] *)
+//
+var env: int = 0
+//
+in
+  funset_foreach_env<a><int> (xs, env)
+end // end of [fprint_funset]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+funset_listize
+  (xs) = let
+//
+implement
+funset_flistize$fopr<a><a> (x) = x
+//
+in
+  $effmask_all (funset_flistize (xs))
+end // end of [funset_listize]
+
+(* ****** ****** *)
+
+local
+
+staload Q = "libats/SATS/qlist.sats"
+
+in (* in of [local] *)
+
+implement
+{a}{b}(*tmp*)
+funset_flistize (xs) = let
+//
+vtypedef tenv = $Q.qstruct (b)
+//
+implement(env)
+funset_foreach$fwork<a><env>
+  (x, env) = let
+//
+val (
+  pf, fpf | p
+) = $UN.ptr_vtake{tenv}(addr@(env))
+val y = funset_flistize$fopr<a><b> (x)
+val () = $Q.qstruct_insert<b> (!p, y)
+prval () = fpf (pf)
+//
+in
+  // nothing
+end (* end of [funset_foreach$fwork] *)
+//
+var env: $Q.qstruct
+val () = $Q.qstruct_initize{b}(env)
+val () = funset_foreach_env<a><tenv> (xs, env)
+val res = $Q.qstruct_takeout_list (env)
+prval () = $Q.qstruct_uninitize{b}(env)
+//
+in
+  res
+end // end of [funset_flistize]
+
+end // end of [local]
 
 (* ****** ****** *)
 

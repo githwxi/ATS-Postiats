@@ -38,7 +38,8 @@
 
 (* ****** ****** *)
 //
-// License: LGPL 3.0 (available at http://www.gnu.org/licenses/lgpl.txt)
+// License:
+// LGPL 3.0 (available at http://www.gnu.org/licenses/lgpl.txt)
 //
 (* ****** ****** *)
 //
@@ -46,14 +47,8 @@
 //
 (* ****** ****** *)
 
-#define
-ATS_PACKNAME "ATSLIB.libats.funmap_avltree"
-#define
-ATS_STALOADFLAG 0 // no static loading at run-time
-
-(* ****** ****** *)
-
-#define COMPARE_KEY_KEY 1
+#define ATS_PACKNAME "ATSLIB.libats.funmap_avltree"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 

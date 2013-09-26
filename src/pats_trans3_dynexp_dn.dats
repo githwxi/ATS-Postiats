@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,17 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: November, 2011
 //
 (* ****** ****** *)
-
-staload _(*anon*) = "prelude/DATS/reference.dats"
-
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/option_vt.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -69,6 +71,7 @@ staload "./pats_dynexp3.sats"
 
 (* ****** ****** *)
 
+staload MAC = "./pats_dmacro2.sats"
 staload SOL = "./pats_staexp2_solve.sats"
 
 (* ****** ****** *)
@@ -156,10 +159,13 @@ fun d2exp_trdn_trywith (d2e0: d2exp, s2f: s2hnf): d3exp
 (* ****** ****** *)
 
 implement
-d2exp_trdn (d2e0, s2e0) = let
+d2exp_trdn
+  (d2e0, s2e0) = let
+//
 (*
+val loc0 = d2e0.d2exp_loc
 val () = println! ("d2exp_trdn: d2e0 = ", d2e0)
-val () = println! ("d2exp_trdn: loc0 = ", d2e0.d2exp_loc)
+val () = println! ("d2exp_trdn: loc0 = ", loc0)
 val () = println! ("d2exp_trdn: s2e0(bef) = ", s2e0)
 *)
 val s2f0 = s2exp2hnf (s2e0)
@@ -176,6 +182,45 @@ case+ d2e0.d2exp_node of
     d2exp_trdn_top (d2e0, s2f0)
   // end of [D2Etop]
 //
+| D2Elet (d2cs, d2e) =>
+    d2exp_trdn_letwhere (d2e0, s2f0, d2cs, d2e)
+  // end of [D2Elet]
+| D2Ewhere (d2e, d2cs) =>
+    d2exp_trdn_letwhere (d2e0, s2f0, d2cs, d2e)
+  // end of [D2Ewhere]
+//
+| D2Eapplst
+    (_fun, _arg) => let
+    val loc0 = d2e0.d2exp_loc
+(*
+    val () = (
+      fprintln! (stdout_ref, "d2exp_trdn: D2Eapplst: _fun = ", _fun);
+      fprintln! (stdout_ref, "d2exp_trdn: D2Eapplst: _arg = ", _arg);
+    ) // end of [val]
+*)
+  in
+    case+ _fun.d2exp_node of
+    | D2Emac d2m => let
+(*
+        val () = (
+          println! ("d2exp_trdn: D2Eapplst: D2Emac(bef): d2e0 = ", d2e0)
+        ) // end of [val]
+*)
+        val d2e0 =
+          $MAC.dmacro_eval_app_short (loc0, d2m, _arg)
+        // end of [val]
+(*
+        val () = (
+          println! ("d2exp_trdn: D2Eapplst: D2Emac(aft): loc0 = ", loc0);
+          println! ("d2exp_trdn: D2Eapplst: D2Emac(aft): d2e0 = ", d2e0);
+        ) // end of [val]
+*)
+      in
+        d2exp_trdn (d2e0, s2e0)
+      end // end of [D2Emac]
+    | _ => d2exp_trdn_rest (d2e0, s2f0)
+  end // end of [D2Eapplst]
+//
 | D2Eifhead _ =>
     d2exp_trdn_ifhead (d2e0, s2f0)
   // end of [D2Eifhead]
@@ -190,17 +235,11 @@ case+ d2e0.d2exp_node of
     d2exp_trdn_scasehead (d2e0, s2f0)
   // end of [D2Escasehead]
 //
-| D2Elet (d2cs, d2e) =>
-    d2exp_trdn_letwhere (d2e0, s2f0, d2cs, d2e)
-  // end of [D2Elet]
-| D2Ewhere (d2e, d2cs) =>
-    d2exp_trdn_letwhere (d2e0, s2f0, d2cs, d2e)
-  // end of [D2Ewhere]
-//
-| D2Elist (npf, d2es) => let
+| D2Elist
+    (npf, d2es) => let
     val loc0 = d2e0.d2exp_loc
     val d2e0 =
-      d2exp_tup_flt (loc0, npf,d2es) in d2exp_trdn (d2e0, s2e0)
+      d2exp_tup_flt (loc0, npf, d2es) in d2exp_trdn (d2e0, s2e0)
     // end of [val]
   end // end of [D2Elist]
 //

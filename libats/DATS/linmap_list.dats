@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -33,6 +33,11 @@
 
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSLIB.libats.linmap_list"
+#define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
+
+(* ****** ****** *)
+
 staload
 UN = "prelude/SATS/unsafe.sats"
 
@@ -43,6 +48,7 @@ staload "libats/SATS/linmap_list.sats"
 (* ****** ****** *)
 
 #include "./SHARE/linmap.hats" // code reuse
+#include "./SHARE/linmap_node.hats" // code reuse
 
 (* ****** ****** *)
 
@@ -90,6 +96,29 @@ linmap_size (map) = g1int2uint (list_vt_length (map))
 implement
 {key,itm}
 linmap_free (map) = list_vt_free<(key,itm)> (map)
+
+implement
+{key,itm}
+linmap_freelin (map) = let
+//
+vtypedef ki = @(key, itm)
+fun aux (kxs: List_vt(ki)): void =
+(
+case+ kxs of
+| @list_vt_cons
+    (kx, kxs1) => let
+    val kxs1 = kxs1
+    val () = linmap_freelin$clear<itm> (kx.1)
+    val () = free@{ki}{0}(kxs)
+  in
+    aux (kxs1)
+  end // end of [list_vt_cons]
+| ~list_vt_nil ((*void*)) => ()
+)
+//
+in
+  $effmask_all (aux (map))
+end // end of [linmap_freelin]
 
 (* ****** ****** *)
 
@@ -146,9 +175,8 @@ linmap_foreach_env
 //
 vtypedef ki = @(key, itm)
 //
-implement
-list_vt_foreach$cont<ki><env>
-  (kx, env) = linmap_foreach$cont<key,itm><env> (kx.0, kx.1, env)
+implement{ki}{env}
+list_vt_foreach$cont (kx, env) = true
 implement
 list_vt_foreach$fwork<ki><env>
   (kx, env) = linmap_foreach$fwork<key,itm><env> (kx.0, kx.1, env)
@@ -163,16 +191,35 @@ end // end of [linmap_foreach_env]
 //
 implement
 {key,itm}
-linmap_listize_free (map) = map
+linmap_listize (map) = map
+
+implement
+{key,itm}{ki2}
+linmap_flistize (map) = let
+//
+vtypedef ki = @(key, itm) 
+implement
+list_vt_mapfree$fopr<ki><ki2>
+  (kx) = linmap_flistize$fopr<key,itm><ki2> (kx.0, kx.1)
+//
+in
+  list_vt_mapfree<ki><ki2> (map)
+end // end of [linmap_flistize]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_listize1 (map) = list_vt_copy<(key,itm)> (map)
 
 (* ****** ****** *)
 //
-// HX: ngc-functions make no use of malloc/free!
+// HX: functions for processing mynodes
 //
 (* ****** ****** *)
 
-implement{}
-mynode_null
+implement{
+} mynode_null
   {key,itm} () = let
 //
 vtypedef
@@ -270,9 +317,8 @@ vtypedef ki = @(key, itm)
 val nx = $UN.castvwtp0{List1_vt(ki)}(nx)
 //
 val+~list_vt_cons (kx, nx2) = nx
-prval () = __assert (nx2) where {
-  extern praxi __assert : List0_vt(ki) -<prf> void
-} // end of [where] // end of [prval]
+//
+prval ((*void*)) = $UN.cast2void (nx2)
 //
 } // end of [mynode_getfree_itm]
 

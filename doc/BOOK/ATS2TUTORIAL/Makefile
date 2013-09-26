@@ -48,6 +48,7 @@ allchap:: CHAP_SYNCLR
 allchap:: CHAP_FILENAME
 allchap:: CHAP_FILEINCL
 allchap:: CHAP_FIXITY
+allchap:: CHAP_HORDFUN
 allchap:: CHAP_REFERENCE
 allchap:: CHAP_ARRAYREF
 
@@ -75,6 +76,13 @@ CHAP_FIXITY:: ; \
 
 ######
 
+CHAP_HORDFUN:: ; \
+  make -C CHAP_HORDFUN -f ../Makefile.chap main.db
+CHAP_HORDFUN:: ; \
+  make -C CHAP_HORDFUN -f ../Makefile.chap clean
+
+######
+
 CHAP_REFERENCE:: ; \
   make -C CHAP_REFERENCE -f ../Makefile.chap main.db
 CHAP_REFERENCE:: ; \
@@ -93,10 +101,12 @@ CHMOD=chmod
 
 ######
 
-upload:: ; \
+upload_html:: ; \
   scp -r HTML ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2TUTORIAL
-uploadloc:: ; \
+uploadloc_html:: ; \
   $(SCPR) HTML hwxi@csa2.bu.edu:public_html/ATS/DOCUMENT/ATS2TUTORIAL
+
+######
 
 upload_pdf:: ; \
   scp -r PDF ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2TUTORIAL/
@@ -121,5 +131,6 @@ cleanall:: clean
 cleanall:: ; $(RMF) preface.db
 cleanall:: ; $(RMF) HTML/*.html
 cleanall:: ; $(RMF) PDF/main.pdf
+cleanall:: ; $(RMF) CODE/chap_*.dats
 
 ###### end of [Makefile] ######

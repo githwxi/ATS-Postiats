@@ -55,19 +55,23 @@ fun aexp_eval (ae: aexp): double
 // In case of parsing error, a run-time exception is
 // raised.
 //
-fun aexp_parse_string (inp: string): aexp
+fun aexp_parse_string (inp: string): Option_vt (aexp)
 //
+(* ****** ****** *)
+
+typedef size = size_t
+
 (* ****** ****** *)
 //
 // abstract type
 // for streams character
 //
-abstype cstream_type
+abstype cstream_type = ptr
 typedef cstream = cstream_type
 //
 (* ****** ****** *)
 
-fun cstream_make_string (str: string): cstream
+fun cstream_make_string (string): cstream
 
 (* ****** ****** *)
 
@@ -81,34 +85,71 @@ fun cstream_getinc (cs: cstream): int // get and inc
 
 (* ****** ****** *)
 
-fun cstream_get_at (cs: cstream, i: int): char
-fun cstream_getinc_at (cs: cstream, i: int): char
+fun cstream_get_pos (cs: cstream): size
 
 (* ****** ****** *)
 
-fun cstream_get_range (cs: cstream, i: int, j: int): string
+fun cstream_get_at (cs: cstream, i: size): char
+
+(* ****** ****** *)
+
+fun cstream_get_range (cs: cstream, i: size, j: size): string
+
+(* ****** ****** *)
+
+fun cstream_skip (cs: cstream, f: int -> bool): void
+fun cstream_skip_WS (cs: cstream): void // skipping white space
+
+(* ****** ****** *)
+
+fun cstream_get_int (cs: cstream): int
+fun cstream_get_ident (cs: cstream): string
+fun cstream_get_symbol (cs: cstream): string
 
 (* ****** ****** *)
 
 datatype token =
-  | TOKint of int | TOKopr of string | TOKeof of ()
+  | TOKint of int
+  | TOKopr of string
+  | TOKlpar of () | TOKrpar of ()
+  | TOKunknown of char
+  | TOKeof of ()
 // end of [token]
 
 (* ****** ****** *)
 
-fun print_token (tok: token): void
+fun token_is_add (token): bool
+fun token_is_sub (token): bool
+fun token_is_mul (token): bool
+fun token_is_div (token): bool
+
+(* ****** ****** *)
+
+fun print_token (token): void
 overload print with print_token
-fun fprint_token (out: FILEref, tok: token): void
+fun fprint_token (FILEref, token): void
 overload fprint with fprint_token
+
+(* ****** ****** *)
+
+fun cstream_get_token (cs: cstream): token
 
 (* ****** ****** *)
 //
 // abstract type
 // for streams of tokens
 //
-abstype tstream_type
+abstype tstream_type = ptr
 typedef tstream = tstream_type
 //
+(* ****** ****** *)
+
+fun tstream_make_string (string): tstream
+
+fun tstream_get (tstream): token
+fun tstream_inc (ts: tstream): void
+fun tstream_getinc (ts: tstream): token
+
 (* ****** ****** *)
 
 (* end of [calculator.sats] *)

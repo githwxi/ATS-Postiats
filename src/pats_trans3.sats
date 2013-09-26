@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: October, 2011
 //
 (* ****** ****** *)
@@ -91,6 +92,7 @@ datatype trans3err =
   | T3E_d23exp_trup_app23_fun of (location(*fun*), s2exp(*fun*))
   | T3E_d23exp_trup_app23_eff of (location(*app*), s2eff(*eff*))
 //
+  | T3E_d2exp_trup_sym of (d2exp) // non-applied sym
   | T3E_d2exp_trup_applst_sym_nil of (d2exp, d2sym) // found none
   | T3E_d2exp_trup_applst_sym_cons2 of (d2exp, d2sym) // found too many
 //

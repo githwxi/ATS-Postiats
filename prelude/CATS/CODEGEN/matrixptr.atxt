@@ -33,9 +33,6 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-%{
-implement main () = fprint_filsub (stdout_ref, "matrixptr_atxt.txt")
-%}\
 ATSinline()
 atsvoid_t0ype
 atspre_matrixptr_free
@@ -49,3 +46,8 @@ atspre_matrixptr_free
 #atscode_separator_for_C()
 
 #atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "matrixptr_atxt.txt")
+%}\
+

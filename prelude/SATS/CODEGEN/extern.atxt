@@ -38,15 +38,16 @@ sortdef vt0p = viewt@ype
 // repeatedly for otherwise safety may be potentially compromised.
 //
 absview
-minus_viewt0ype_view
-  (vt1: vt0p, v2: view) = vt1
-stadef minus = minus_viewt0ype_view
+minus_viewt0ype_view_view (vt1: vt0p, v2: view) = vt1
+viewdef
+minus(vt1:vt0p, v2:view) = minus_viewt0ype_view_view(vt1, v2)
+//
 praxi minus_addback
   {vt1:vt0p}{v2:view} (pf1: minus (vt1, v2), pf2: v2 | x: !vt1): void
-// end of [minus_addback]
+//
+#atscode_separator()
 
-viewtypedef
-vtget0 (vt1:vt0p, vt2: vt0p) = (minus (vt1, vt2) | vt2)
+vtypedef vtget0 (vt1:vt0p, vt2: vt0p) = (minus (vt1, vt2) | vt2)
 
 #atscode_separator()
 

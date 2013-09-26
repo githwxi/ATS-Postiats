@@ -35,24 +35,20 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload_tmpdef.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
+#define ATS_DYNLOADFLAG 0 // no dynloading at run-time
+
+(* ****** ****** *)
+//
 staload
-UN = "prelude/SATS/unsafe.sats"
-
+UN="prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
 
-staload "mysql/SATS/mysql.sats"
-
-(* ****** ****** *)
-
-#define ATS_DYNLOADFLAG 0 // no static loading at run-time
-
-(* ****** ****** *)
-
-macdef null = the_null_ptr
+staload "./../SATS/mysql.sats"
 
 (* ****** ****** *)
 
@@ -86,7 +82,7 @@ fun loop1
   val p = MYSQLFIELDptr2ptr (fld)
 in
 //
-if p > null then let
+if p > 0 then let
   val name = mysqlfield_get_name (fld)
   prval () = mysqlres_unfetch_field (res, fld)
   val () = if i > 0 then fprint_mysqlres$sep1 (out)
@@ -110,7 +106,7 @@ fun loop2
   val prow = MYSQLROW2ptr (row)
 in
 //
-if prow > null then let
+if prow > 0 then let
   val (
   ) = if i > 0 then fprint_mysqlres$sep2 (out)
   val () = let
@@ -171,7 +167,7 @@ fun loop
       if i > 0 then fprint_mysqlrow$sep (out)
     val p = mysqlrow_get_at (pfrow | row, i)
     val () = (
-      if (p > null) then
+      if (p > 0) then
         fprint_string (out, $UN.cast{string}(p)) else fprint_string (out, "NULL")
       // end of [if]
     ) : void // end of [val]

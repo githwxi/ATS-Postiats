@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: April, 2011
 //
 (* ****** ****** *)
@@ -36,11 +37,17 @@ staload
 INTINF = "./pats_intinf.sats"
 typedef intinf = $INTINF.intinf
 
-staload FIL = "./pats_filename.sats"
+staload
+FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
-staload LOC = "./pats_location.sats"
+staload
+LOC = "./pats_location.sats"
 typedef location = $LOC.location
-staload SYM = "./pats_symbol.sats"
+
+(* ****** ****** *)
+
+staload
+SYM = "./pats_symbol.sats"
 typedef symbol = $SYM.symbol
 typedef symbolist = $SYM.symbolist
 typedef symbolopt = $SYM.symbolopt
@@ -64,7 +71,7 @@ typedef s0rtq = $SYN.s0rtq
 typedef s0taq = $SYN.s0taq
 typedef sqi0de = $SYN.sqi0de
 typedef l0ab = $SYN.l0ab
-typedef l0abeled (a:type) = $SYN.l0abeled (a)
+typedef l0abeled(a:type) = $SYN.l0abeled (a)
 typedef dcstextdef = $SYN.dcstextdef
 *)
 staload "./pats_syntax.sats"
@@ -145,7 +152,6 @@ fun e1xp_ide (loc: location, sym: symbol): e1xp
 //
 fun e1xp_int (loc: location, i: int): e1xp
 fun e1xp_intrep (loc: location, rep: string): e1xp
-//
 fun e1xp_char (loc: location, c: char): e1xp
 fun e1xp_string (loc: location, str: string): e1xp
 fun e1xp_float (loc: location, rep: string): e1xp

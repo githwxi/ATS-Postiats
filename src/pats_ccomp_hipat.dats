@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: October, 2012
 //
 (* ****** ****** *)
@@ -229,20 +230,21 @@ case+ hip.hipat_node of
       | HIPrefas
           (d2v, hip) => hip where
         {
-          val () =
+          val isnot =
+            not(d2var_is_mutabl(d2v))
+          val ((*void*)) =
           (
-            if not(d2var_is_mutabl(d2v))
-              then let
-                val () = use := use + 1
-              in
-                ccompenv_add_vbindmapenvall (env, d2v, pmv)
-              end else let
-                val pml = primlab_lab (loc, lab)
-                val pmv_ref = primval_make_ptrofsel (loc, pmv0, hse_sum, list_sing(pml))
-              in
-                ccompenv_add_vbindmapenvall (env, d2v, pmv_ref)
-              end // end of [else]
-            // end of [if]
+            if isnot then let
+              val () = use := use + 1
+            in
+              ccompenv_add_vbindmapenvall (env, d2v, pmv)
+            end else let
+              val pmv =
+                primval_selcon (loc, hse, pmv0, hse_sum, lab)
+              val pmv_ref = primval_ptrof (loc, hisexp_typtr, pmv)
+            in
+              ccompenv_add_vbindmapenvall (env, d2v, pmv_ref)
+            end // end of [if]
           ) : void // end of [val]
         } (* end of [HIPrefas] *)
       | _ => hip

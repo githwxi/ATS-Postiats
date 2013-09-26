@@ -27,91 +27,146 @@
 
 (* ****** ****** *)
 
-staload "libats/ML/SATS/basis.sats"
+#define ATS_PACKNAME "ATSLIB.libats.ML"
+#define ATS_STALOADFLAG 0 // no need for staloading at run-time
+#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
 
 (* ****** ****** *)
 
-sortdef t0p = t@ype
+staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
 //
 // HX: for sets of elements of type a
 //
-abstype set_t0ype_type (a: t@ype+)
-typedef set (a:t0p) = set_t0ype_type (a)
+abstype set_type (a:t@ype+) = ptr
+typedef set (a:t0p) = set_type (a)
 //
 (* ****** ****** *)
 
-typedef cmp (a:t0p) = (a, a) -<cloref0> (int)
+fun{a:t0p}
+compare_elt_elt (x: a, y: a):<> int
+
+(* ****** ****** *)
+
+fun{} funset_nil{a:t0p} ():<> set(a)
+fun{} funset_make_nil{a:t0p} ():<> set(a)
+
+(* ****** ****** *)
+
+fun{a:t0p} funset_sing (x: a): set(a)
+fun{a:t0p} funset_make_sing (x: a): set(a)
 
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_is_member (xs: set a, x0: a, cmp: cmp a):<> bool
+funset_make_list (xs: list0(INV(a))): set(a)
+
+(* ****** ****** *)
+//
+fun{
+} fprint_funset$sep (out: FILEref): void // ", "
+//
 fun{a:t0p}
-funset_isnot_member (xs: set a, x0: a, cmp: cmp a):<> bool
+fprint_funset (out: FILEref, set: set(INV(a))): void
+//
+overload fprint with fprint_funset
+//
+(* ****** ****** *)
+
+fun{}
+funset_is_nil {a:t0p} (xs: set(INV(a))):<> bool
+fun{}
+funset_isnot_nil {a:t0p} (xs: set(INV(a))):<> bool
+
+(* ****** ****** *)
+
+fun{a:t0p}
+funset_size (xs: set(INV(a))):<> size_t
+
+(* ****** ****** *)
+
+fun{a:t0p}
+funset_is_member (xs: set(INV(a)), x0: a):<> bool
+fun{a:t0p}
+funset_isnot_member (xs: set(INV(a)), x0: a):<> bool
 
 (* ****** ****** *)
 
 fun{a:t0p}
 funset_insert
-  (xs: &set (a) >> _, x0: a, cmp: cmp (a)): bool(*[x0] in [xs]*)
+  (xs: &set(INV(a)) >> _, x0: a): bool(*[x0] in [xs]*)
 // end of [funset_insert]
+
+(* ****** ****** *)
 
 fun{a:t0p}
 funset_remove
-  (xs: &set (a) >> _, x0: a, cmp: cmp (a)): bool(*[x0] is [xs]*)
+  (xs: &set(INV(a)) >> _, x0: a): bool(*[x0] is [xs]*)
 // end of [funset_remove]
 
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_union
-  (xs1: set (a), xs2: set (a), cmp: cmp a):<> set (a)
-// end of [funset_union]
+funset_getmax_opt (xs: set(INV(a))): Option_vt (a)
 fun{a:t0p}
-funset_intersect
-  (xs1: set (a), xs2: set (a), cmp: cmp a):<> set (a)
-// end of [funset_intersect]
-fun{a:t0p}
-funset_diff
-  (xs1: set (a), xs2: set (a), cmp: cmp a):<> set (a)
-// end of [funset_diff]
-fun{a:t0p}
-funset_symdiff
-  (xs1: set (a), xs2: set (a), cmp: cmp a):<> set (a)
-// end of [funset_symdiff]
+funset_getmin_opt (xs: set(INV(a))): Option_vt (a)
 
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_is_equal
-  (xs1: set (a), xs2: set (a), cmp: cmp a):<> bool
-// end of [funset_is_equal]
+funset_takeoutmax_opt (xs: &set(INV(a)) >> _): Option_vt (a)
+fun{a:t0p}
+funset_takeoutmin_opt (xs: &set(INV(a)) >> _): Option_vt (a)
+
+(* ****** ****** *)
 
 fun{a:t0p}
-funset_is_subset
-  (xs1: set (a), xs2: set (a), cmp: cmp a):<> bool
-// end of [funset_is_subset]
+funset_union (xs1: set(INV(a)), xs2: set(a)):<> set(a)
+fun{a:t0p}
+funset_intersect (xs1: set(INV(a)), xs2: set(a)):<> set(a)
+fun{a:t0p}
+funset_diff (xs1: set(INV(a)), xs2: set(a)):<> set(a)
+fun{a:t0p}
+funset_symdiff (xs1: set(INV(a)), xs2: set(a)):<> set(a)
+
+(* ****** ****** *)
 
 fun{a:t0p}
-funset_is_supset
-  (xs1: set (a), xs2: set (a), cmp: cmp a):<> bool
-// end of [funset_is_supset]
+funset_equal (xs1: set(INV(a)), xs2: set(a)):<> bool
 
 (* ****** ****** *)
 //
-// set ordering induced by the ordering on elements
+// HX: set ordering induced by the ordering on elements
 //
 fun{a:t0p}
-funset_compare
-  (xs1: set (a), xs2: set (a), cmp: cmp a):<> int
-// end of [funset_compare]
+funset_compare (xs1: set(INV(a)), xs2: set(a)):<> int
 
+(* ****** ****** *)
+//
+fun{a:t0p}
+funset_is_subset (xs1: set(INV(a)), xs2: set(a)):<> bool
+fun{a:t0p}
+funset_is_supset (xs1: set(INV(a)), xs2: set(a)):<> bool
+//
+(* ****** ****** *)
+//
+fun{
+a:t0p}{env:vt0p
+} funset_foreach$fwork (x: a, env: &(env) >> _): void
+//
+fun{a:t0p}
+funset_foreach (set: set(INV(a))): void
+fun{
+a:t0p}{env:vt0p
+} funset_foreach_env
+  (set: set(INV(a)), env: &(env) >> _): void
+// end of [funset_foreach_env]
+//
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_listize (xs: set (a)):<> list0 (a)
+funset_listize (xs: set(INV(a))):<> list0 (a)
 
 (* ****** ****** *)
 

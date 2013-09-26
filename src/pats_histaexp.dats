@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,14 +27,15 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: July, 2012
 //
 (* ****** ****** *)
-
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
-
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
 (* ****** ****** *)
 
 staload "./pats_basics.sats"
@@ -226,6 +227,12 @@ case+ hse_fun.hisexp_node of
 end // end of [hisexp_fun_is_void]
 
 (* ****** ****** *)
+
+implement
+hisexp_is_tyarr (hse) = let
+in
+  case+ hse.hisexp_node of HSEtyarr _ => true | _ => false
+end // end of [hisexp_is_tyarr]
 
 implement
 hisexp_is_tyrecsin (hse) = let

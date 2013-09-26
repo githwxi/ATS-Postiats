@@ -2,8 +2,8 @@
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-dynload "libatsyntax/dynloadall.dats"
-staload "libatsyntax/SATS/libatsyntax.sats"
+dynload "libatsynmark/dynloadall.dats"
+staload "libatsynmark/SATS/libatsynmark.sats"
 //
 #include "utils/atsdoc/HATS/pats2xhtmlatxt.hats"
 //
@@ -46,7 +46,7 @@ htmlgendecl_initize () = let
 val name = srcfilename_get ()
 val filr =
   open_file_exn (name, file_mode_r)
-val () = libatsyntax_filename_set_current (name)
+val () = libatsynmark_filename_set_current (name)
 val () = theDeclrepLst_initize (filr)
 val () = close_file_exn (filr)
 //

@@ -17,12 +17,9 @@ staload "libats/SATS/refcount.sats"
 
 (* ****** ****** *)
 
-staload "libfloats/SATS/blas.sats"
-
-(* ****** ****** *)
-
-staload "libfloats/SATS/lavector.sats"
-staload "libfloats/SATS/lamatrix.sats"
+staload "./../SATS/blas.sats"
+staload "./../SATS/lavector.sats"
+staload "./../SATS/lamatrix.sats"
 
 (* ****** ****** *)
 
@@ -123,7 +120,7 @@ val d2 = ld+1-d
 val () = d0 := d
 //
 prval [d:int]
-  INTEQ () = inteq_make_gint (d)
+  EQINT () = eqint_make_gint (d)
 //
 in
   $UN.ptr_vtake{gvector(a,n,d)}(ptr_add<a> (gmp,i*d2))
@@ -147,7 +144,7 @@ val d2 = ld+1-d
 val () = d0 := d
 //
 prval [d:int]
-  INTEQ () = inteq_make_gint (d)
+  EQINT () = eqint_make_gint (d)
 //
 in
   $UN.ptr_vtake{gvector(a,m,d)}(ptr_add<a> (gmp,j*d2))
@@ -166,7 +163,7 @@ val+LAGMAT
 val () = ld0 := ld
 //
 prval [ld:int]
-  INTEQ () = inteq_make_gint (ld)
+  EQINT () = eqint_make_gint (ld)
 //
 in
   $UN.ptr_vtake{gmatrix(a,mo,m,n,ld)}(gmp)

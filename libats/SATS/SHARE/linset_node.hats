@@ -39,11 +39,13 @@
 (* ****** ****** *)
 
 absvtype
-linset_node_vtype (a:t@ype+, l:addr)
+linset_node_vtype (a:t@ype+, l:addr) = ptr
 
 (* ****** ****** *)
 //
-stadef mynode = linset_node_vtype // HX: local shorthand
+// HX: local shorthand
+//
+stadef mynode = linset_node_vtype
 //
 vtypedef
 mynode (a:t0p) = [l:addr] mynode (a, l)
@@ -59,14 +61,69 @@ mynode2ptr
   {a:t0p}{l:addr} (nx: !mynode (INV(a), l)):<> ptr (l)
 // end of [mynode2ptr]
 
+overload ptrcast with mynode2ptr
+
 (* ****** ****** *)
 //
-fun{a:t0p}
-mynode_null (): mynode (a, null)
+fun{}
+mynode_null{a:t0p} ():<> mynode (a, null)
 //
 praxi
-mynode_free_null {a:t0p} (nx: mynode (a, null)): void
+mynode_free_null{a:t0p} (nx: mynode (a, null)): void
 //
+(* ****** ****** *)
+
+fun{a:t0p}
+mynode_make_elt (x: a):<!wrt> mynode1 (a)
+
+(* ****** ****** *)
+
+fun{}
+mynode_free{a:t0p} (mynode1 (a)):<!wrt> void
+
+(* ****** ****** *)
+
+fun{a:t0p}
+mynode_get_elt (nx: !mynode1 (INV(a))):<> a
+fun{a:t0p}
+mynode_set_elt{l:agz}
+  (nx: !mynode (a?, l) >> mynode (a, l), x0: a):<!wrt> void
+// end of [mynode_set_elt]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+mynode_getfree_elt (nx: mynode1 (INV(a))):<!wrt> a
+
+(* ****** ****** *)
+
+fun{a:t0p}
+linset_insert_ngc
+(
+  set: &set(INV(a)) >> _, nx0: mynode1 (a)
+) :<!wrt> mynode0 (a) // endfun
+
+(* ****** ****** *)
+
+fun{a:t0p}
+linset_takeout_ngc
+  (set: &set(INV(a)) >> _, x0: a):<!wrt> mynode0 (a)
+// end of [linset_takeout_ngc]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+linset_takeoutmax_ngc
+  (set: &set(INV(a)) >> _):<!wrt> mynode0 (a)
+// end of [linset_takeoutmax]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+linset_takeoutmin_ngc
+  (set: &set(INV(a)) >> _):<!wrt> mynode0 (a)
+// end of [linset_takeoutmin]
+
 (* ****** ****** *)
 
 (* end of [linset_node.hats] *)

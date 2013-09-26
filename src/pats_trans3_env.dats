@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,19 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: October, 2011
+//
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
 staload _(*anon*) = "prelude/DATS/unsafe.dats"
-
-(* ****** ****** *)
-
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
-staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
@@ -1381,12 +1381,12 @@ trans3_env_hypadd_patcstlstlst
     | ~list_vt_nil () => list_nil ()
   ) // end of [aux]
   val s3iss = aux (cp2tcss)
-// (*
+(*
   val n = list_length (s3iss)
   val () = (
     print "trans3_env_hypadd_patcstlstlst: ns3iss = "; print n; print_newline ()
   ) // end of [val]
-// *)
+*)
 in
   trans3_env_hypadd_disj (s3iss)
 end // end of [trans3_env_hypadd_p2atcstlstlst]

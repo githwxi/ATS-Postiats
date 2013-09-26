@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: May, 2011
 //
 (* ****** ****** *)
@@ -660,6 +661,8 @@ d2ecl_node =
 //
   | D2Cdcstdecs of (dcstkind, d2cstlst) // dyn. const. declarations
 //
+  | D2Cimpdec of (int(*knd*), i2mpdec) // knd=0/1 : implement/primplmnt
+//
   | D2Cfundecs of (funkind, s2qualst, f2undeclst)
   | D2Cvaldecs of
       (valkind, v2aldeclst) // (nonrec) value declarations
@@ -670,8 +673,6 @@ d2ecl_node =
 //
   | D2Cvardecs of (v2ardeclst) // variable declarations
   | D2Cprvardecs of (prv2ardeclst) // proof variable declarations
-//
-  | D2Cimpdec of (int(*knd*), i2mpdec) // knd=0/1 : implement/primplmnt
 //
   | D2Cinclude of d2eclist (* file inclusion *)
 //
@@ -741,11 +742,13 @@ and d2exp_node =
   | D2Esifhead of // static conditional
       (i2nvresstate, s2exp, d2exp, d2exp)
 //
-  | D2Ecasehead of ( // dynamic case-expression
+  | D2Ecasehead of
+    ( // dynamic case-expression
       caskind, i2nvresstate, d2explst, c2laulst
     ) // end of [D2Ecaseof]
-  | D2Escasehead of ( // static case-expression
-      i2nvresstate, s2exp, sc2laulst
+  | D2Escasehead of
+    (
+      i2nvresstate, s2exp, sc2laulst // static case-expression
     ) // end of [D2Escaseof]
 //
   | D2Elist of (int(*pfarity*), d2explst) // temporary
@@ -789,7 +792,7 @@ and d2exp_node =
   | D2Elam_sta of (s2varlst, s2explst(*s2ps*), d2exp) // static abstraction
 //
   | D2Efix of (
-      int(*knd: 0/1: flat/boxed*), d2var(*fixvar*), d2exp(*body*)
+      int(*knd=0/1:flat/boxed*), d2var(*fixvar*), d2exp(*def*)
     ) // end of [D2Efix]
 //
   | D2Edelay of (d2exp(*eval*)) // $delay
@@ -835,7 +838,8 @@ d2exp = '{
   d2exp_loc= location
 , d2exp_node= d2exp_node
 , d2exp_type= s2expopt
-}
+} // end of [d2exp]
+
 and d2explst = List (d2exp)
 and d2expopt = Option (d2exp)
 
@@ -849,30 +853,27 @@ and d2exparglst = List (d2exparg)
 and d2lab = '{
   d2lab_loc= location
 , d2lab_node= d2lab_node
-, d2lab_over= d2symopt
+, d2lab_overld= d2symopt
 } // end of [d2lab]
 
 and d2lablst = List d2lab
 
 (* ****** ****** *)
 
-and i2nvarg =
-'{
+and i2nvarg = '{
   i2nvarg_var= d2var, i2nvarg_type= s2expopt
 } // end of [i2nvarg]
 
 and i2nvarglst = List i2nvarg
 
-and i2nvresstate =
-'{
+and i2nvresstate = '{
   i2nvresstate_svs= s2varlst
 , i2nvresstate_gua= s2explst
 , i2nvresstate_arg= i2nvarglst
 , i2nvresstate_met= s2explstopt
 } // end of [i2nvresstate]
 
-and loopi2nv =
-'{
+and loopi2nv = '{
   loopi2nv_loc= location
 , loopi2nv_svs= s2varlst
 , loopi2nv_gua= s2explst
@@ -883,8 +884,7 @@ and loopi2nv =
 
 (* ****** ****** *)
 
-and gm2at =
-'{
+and gm2at = '{
   gm2at_loc= location, gm2at_exp= d2exp, gm2at_pat= p2atopt
 } // end of [gm2at]
 
@@ -929,7 +929,7 @@ and v2aldec = '{
 , v2aldec_pat= p2at
 , v2aldec_def= d2exp
 , v2aldec_ann= s2expopt // [withtype] annotation
-} // end of [v2aldec]
+} (* end of [v2aldec] *)
 
 and v2aldeclst = List (v2aldec)
 
@@ -937,13 +937,14 @@ and v2aldeclst = List (v2aldec)
 
 and v2ardec = '{
   v2ardec_loc= location
-, v2ardec_knd= int (* knd=0/1:sta/dyn *)
-, v2ardec_dvar= d2var // dynamic address
+, v2ardec_knd= int (* knd=0/1:var/ptr *)
 , v2ardec_svar= s2var // static address
-, v2ardec_type= s2expopt (* optional type anno *)
-, v2ardec_wth= d2varopt // proof var of @-view
-, v2ardec_ini= d2expopt // initial value (optional)
-} // end of [v2ardec]
+, v2ardec_dvar= d2var // dynamic variable
+, v2ardec_pfat= d2varopt // proof of at-view
+, v2ardec_type= s2expopt (* type annotation *)
+, v2ardec_init= d2expopt // value for initialization
+, v2ardec_dvaropt= d2varopt // address of variable
+} (* end of [v2ardec] *)
 
 and v2ardeclst = List (v2ardec)
 
@@ -953,7 +954,7 @@ and prv2ardec = '{
   prv2ardec_loc= location
 , prv2ardec_dvar= d2var // dynamic address
 , prv2ardec_type= s2expopt (* optional type anno *)
-, prv2ardec_ini= d2expopt // initial value (optional)
+, prv2ardec_init= d2expopt // initial value (optional)
 } // end of [prv2ardec]
 
 and prv2ardeclst = List (prv2ardec)
@@ -1266,6 +1267,8 @@ fun d2exp_lam_sta (
   loc: location, s2vs: s2varlst, s2ps: s2explst, body: d2exp
 ) : d2exp // end of [d2exp_lam_sta]
 
+(* ****** ****** *)
+
 fun d2exp_fix (loc: location, knd: int, f: d2var, body: d2exp): d2exp
 
 (* ****** ****** *)
@@ -1395,38 +1398,6 @@ fun d2mac_set_def (x: d2mac, def: d2exp): void
 
 (* ****** ****** *)
 
-fun f2undec_make
-(
-  loc: location, d2v_fun: d2var, def: d2exp, ann: s2expopt
-) : f2undec // end of [f2undec_make]
-
-(* ****** ****** *)
-
-fun v2aldec_make
-(
-  loc: location, p2t: p2at, def: d2exp, ann: s2expopt
-) : v2aldec // end of [v2aldec_make]
-
-(* ****** ****** *)
-
-fun v2ardec_make
-(
-  loc: location
-, knd: int
-, d2v: d2var
-, s2v: s2var
-, type: s2expopt
-, wth: d2varopt
-, ini: d2expopt
-) : v2ardec // end of [v2ardec_make]
-
-fun prv2ardec_make
-(
-  loc: location, d2v: d2var, type: s2expopt, ini: d2expopt
-) : prv2ardec // end of [prv2ardec_make]
-
-(* ****** ****** *)
-
 fun i2mpdec_make
 (
   loc: location
@@ -1437,6 +1408,39 @@ fun i2mpdec_make
 , tmpgua: s2explstlst
 , def: d2exp
 ) : i2mpdec // end of [i2mpdec_make]
+
+(* ****** ****** *)
+
+fun f2undec_make
+(
+  loc: location, d2v: d2var, def: d2exp, ann: s2expopt
+) : f2undec // end of [f2undec_make]
+
+(* ****** ****** *)
+
+fun v2aldec_make
+(
+  loc: location, p2t0: p2at, def: d2exp, ann: s2expopt
+) : v2aldec // end of [v2aldec_make]
+
+(* ****** ****** *)
+
+fun v2ardec_make
+(
+  loc: location
+, knd: int // knd=0/1:var/ptr
+, s2v: s2var // static address
+, d2v: d2var // dynamic variable
+, pfat: d2varopt // proof of at-view
+, type: s2expopt // type annotatio
+, init: d2expopt // value for initialization
+, d2vopt: d2varopt // address of variable
+) : v2ardec // end of [v2ardec_make]
+
+fun prv2ardec_make
+(
+  loc: location, d2v: d2var, type: s2expopt, init: d2expopt
+) : prv2ardec // end of [prv2ardec_make]
 
 (* ****** ****** *)
 //

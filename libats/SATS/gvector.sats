@@ -32,6 +32,11 @@
 (* Start time: July, 2013 *)
 
 (* ****** ****** *)
+
+#define ATS_PACKNAME "ATSLIB.libats.gvector"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
+
+(* ****** ****** *)
 //
 // HX-2013-07:
 // generic vector:

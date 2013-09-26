@@ -105,6 +105,10 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
+#packfilename("prelude_basics.dats")
+
+(* ****** ****** *)
+
 #packfilename("prelude_char.dats")
 #packfilename("prelude_bool.dats")
 #packfilename("prelude_integer.dats")
@@ -113,6 +117,11 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 #packfilename("prelude_pointer.dats")
 #packfilename("prelude_string.dats")
 #packfilename("prelude_reference.dats")
+
+(* ****** ****** *)
+
+#packfilename("prelude_filebas.dats")
+#packfilename("prelude_intrange.dats")
 
 (* ****** ****** *)
 
@@ -129,7 +138,9 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 #packfilename("prelude_array.dats")
 #packfilename("prelude_arrayptr.dats")
 #packfilename("prelude_arrayref.dats")
+#packfilename("prelude_matrix.dats")
 #packfilename("prelude_matrixptr.dats")
+#packfilename("prelude_matrixref.dats")
 
 (* ****** ****** *)
 
@@ -137,9 +148,70 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
+#packfilename("libc_dirent.dats")
+#packfilename("libc_fcntl.dats")
+#packfilename("libc_fnmatch.dats")
+#packfilename("libc_malloc.dats")
+#packfilename("libc_math.dats")
+#packfilename("libc_stdio.dats")
+#packfilename("libc_stdlib.dats")
+#packfilename("libc_string.dats")
+#packfilename("libc_strings.dats")
+#packfilename("libc_time.dats")
+#packfilename("libc_unistd.dats")
+
+(* ****** ****** *)
+
+#packfilename("libc_gdbm_gdbm.dats")
+
+(* ****** ****** *)
+
 #packfilename("libats_qlist.dats")
 #packfilename("libats_sllist.dats")
 #packfilename("libats_dllist.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_stkarray.dats")
+#packfilename("libats_dynarray.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_refcount.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_funset_listord.dats")
+#packfilename("libats_funset_avltree.dats")
+#packfilename("libats_funmap_list.dats")
+#packfilename("libats_funmap_avltree.dats")
+#packfilename("libats_fundeque_fngtree.dats")
+#packfilename("libats_funralist_nested.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_linset_listord.dats")
+#packfilename("libats_linset_avltree.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_linmap_list.dats")
+#packfilename("libats_linmap_avltree.dats")
+#packfilename("libats_linmap_randbst.dats")
+#packfilename("libats_linmap_skiplist.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_linhashtbl_chain.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_linheap_binomial.dats")
+#packfilename("libats_linheap_binomial2.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_lindeque_dllist.dats")
 
 (* ****** ****** *)
 
@@ -150,16 +222,16 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
-#packfilename("libc_dirent.dats")
-#packfilename("libc_fcntl.dats")
-#packfilename("libc_fnmatch.dats")
-#packfilename("libc_malloc.dats")
-#packfilename("libc_stdio.dats")
-#packfilename("libc_stdlib.dats")
-#packfilename("libc_string.dats")
-#packfilename("libc_strings.dats")
-#packfilename("libc_time.dats")
-#packfilename("libc_unistd.dats")
+#packfilename("libats_ML_filebas.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_ML_funset.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_ML_monad_list.dats")
+#packfilename("libats_ML_monad_maybe.dats")
 
 (* ****** ****** *)
 

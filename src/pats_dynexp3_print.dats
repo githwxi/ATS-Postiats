@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: May, 2012
 //
 (* ****** ****** *)
@@ -42,7 +43,6 @@ staload LEX = "./pats_lexing.sats"
 (* ****** ****** *)
 
 staload FIL = "./pats_filename.sats"
-macdef fprint_filename = $FIL.fprint_filename
 
 (* ****** ****** *)
 
@@ -554,6 +554,17 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
+| D3Efix
+    (knd, d2v, d3e) => {
+    val () = prstr "D3Efix("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_d2var (out, d2v)
+    val () = prstr "; "
+    val () = fprint_d3exp (out, d3e)
+    val () = prstr ")"
+  }
+//
 | D3Edelay (d3e) => {
     val () = prstr "D3Edelay("
     val () = fprint_d3exp (out, d3e)
@@ -663,7 +674,7 @@ case+ d3c0.d3ecl_node of
 | D3Cdynload (fil) =>
   {
     val () = prstr "D3Cdynload("
-    val () = fprint_filename (out, fil)
+    val () = $FIL.fprint_filename_full (out, fil)
     val () = prstr ")"
   }
 //

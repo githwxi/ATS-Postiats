@@ -1,0 +1,71 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../zlog.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_zlog_zlog")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/zlog/zlog\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+#para('\
+
+This package contains an API for <a
+href="http://hardysimpson.github.io/zlog/">zlog</a> in ATS.  ')
+
+")#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("zlgctx")
+#declnamesynop("zlog_context_t0ype")
+#declnamesynop("zlgctx0")
+#declnamesynop("zlgctx1")
+
+(* ****** ****** *)
+
+#declnamesynop("zlgctx2int")
+
+(* ****** ****** *)
+
+#declnamesynop("zlgcat")
+#declnamesynop("zlog_category_type")
+#declnamesynop("zlgcat1")
+
+(* ****** ****** *)
+
+#declnamesynop("zlgcat2ptr")
+
+(* ****** ****** *)
+
+#declnamesynop("zlog_init")
+#declnamesynop("zlog_reload")
+#declnamesynop("zlog_fini")
+
+(* ****** ****** *)
+
+#declnamesynop("zlog_get_category")
+
+(* ****** ****** *)
+
+#declnamesynop("zlog_get_mdc")
+#declnamesynop("zlog_put_mdc")
+#declnamesynop("zlog_remove_mdc")
+#declnamesynop("zlog_clean_mdc")
+
+(* ****** ****** *)
+
+(* end of [zlog.atxt] *)

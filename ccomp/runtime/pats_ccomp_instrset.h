@@ -79,6 +79,11 @@
 
 /* ****** ****** */
 
+#define ATStailcalbeg() do {
+#define ATStailcalend() } while (0) ;
+
+/* ****** ****** */
+
 #define ATSPMVint(i) i
 #define ATSPMVintrep(str) str
 
@@ -140,13 +145,13 @@
 #define ATSfunclo_clo(pmv, targs, tres) ((tres(*)targs)(((ATStyclo()*)pmv)->cfun))
 
 /* ****** ****** */
-
+//
 #define ATStmpdec(tmp, hit) hit tmp
 #define ATStmpdec_void(tmp, hit)
-
+//
 #define ATSstatmpdec(tmp, hit) static hit tmp
 #define ATSstatmpdec_void(tmp, hit)
-
+//
 /* ****** ****** */
 
 #define ATSderef(pmv, hit) (*(hit*)pmv)
@@ -204,6 +209,7 @@
 //
 /* ****** ****** */
 
+#define ATSINSfreeclo(cloptr) ATS_MFREE(cloptr)
 #define ATSINSfreecon(datconptr) ATS_MFREE(datconptr)
 
 /* ****** ****** */
@@ -236,6 +242,11 @@
 #define ATSINSmove_exn1(tmp, tyexn) (tmp = ATS_MALLOC(sizeof(tyexn)))
 #define ATSINSstore_exntag(tmp, d2c) (((ATStyexn()*)tmp)->exntag = (&(d2c))->exntag)
 #define ATSINSstore_exnmsg(tmp, d2c) (((ATStyexn()*)tmp)->exnmsg = (&(d2c))->exnmsg)
+
+/* ****** ****** */
+
+#define ATSINSmove_tlcal(argx, tmp) (argx = tmp)
+#define ATSINSargmove_tlcal(arg, argx) (arg = argx)
 
 /* ****** ****** */
 

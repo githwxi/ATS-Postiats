@@ -2,8 +2,8 @@
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-dynload "libatsyntax/dynloadall.dats"
-staload "libatsyntax/SATS/libatsyntax.sats"
+dynload "libatsynmark/dynloadall.dats"
+staload "libatsynmark/SATS/libatsynmark.sats"
 //
 #include "utils/atsdoc/HATS/docbookatxt.hats"
 #include "utils/atsdoc/HATS/pats2dbookatxt.hats"

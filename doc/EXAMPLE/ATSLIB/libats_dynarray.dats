@@ -10,8 +10,7 @@
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_staload_tmpdef.hats"
+#include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -20,8 +19,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload "libats/SATS/dynarray.sats"
-staload
-_(*anon*) = "libats/DATS/dynarray.dats"
+staload _(*anon*) = "libats/DATS/dynarray.dats"
 
 (* ****** ****** *)
 

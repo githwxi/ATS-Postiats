@@ -134,10 +134,6 @@ array_getref_at
 //
 #atscode_separator()
 
-fun{a:t0p}
-array_get_at_size
-  {n:int} (A: &RD(@[INV(a)][n]), i: sizeLt n):<> a
-
 fun{
 a:t0p}{tk:tk
 } array_get_at_gint
@@ -156,10 +152,6 @@ overload array_get_at with array_get_at_guint of 0
 
 #atscode_separator()
 
-fun{a:t0p}
-array_set_at_size
-  {n:int} (A: &(@[INV(a)][n]), i: sizeLt n, x: a):<!wrt> void
-
 fun{
 a:t0p}{tk:tk
 } array_set_at_gint
@@ -177,12 +169,6 @@ overload array_set_at with array_set_at_gint of 0
 overload array_set_at with array_set_at_guint of 0
 
 #atscode_separator()
-
-fun{a:vt0p}
-array_exch_at_size{n:int}
-(
-  A: &(@[INV(a)][n]), i: sizeLt n, x: &a >> _
-) :<!wrt> void // end of [array_exch_at_size]
 
 fun{
 a:vt0p}{tk:tk
@@ -223,9 +209,11 @@ fun{a:vt0p}
 array_ptr_takeout
   {l:addr}{n:int}{i:nat | i < n}
 (
-  pf: array_v (a, l, n) | p: ptr l, i: size_t i
+  array_v (INV(a), l, n) | ptr l, size_t i
 ) : (
-  vtakeout (array_v (a, l, n), a @ (l+i*sizeof(a))) | ptr (l+i*sizeof(a))
+  a @ (l+i*sizeof(a))
+, a @ (l+i*sizeof(a)) -<lin,prf> array_v (a, l, n)
+| ptr (l+i*sizeof(a))
 ) // end of [array_ptr_takeout]
 
 #atscode_separator()
@@ -258,23 +246,36 @@ array_ptr_tabulate
 // end of [arrayptr_tabulate]
 
 #atscode_separator()
-
-fun{a:vt0p}
-fprint_array{n:int}
-(
-  out: FILEref, A: &RD(@[INV(a)][n]), n: size_t n
-) : void // end of [fprint_array]
+//
 fun{}
 fprint_array$sep (out: FILEref): void
-
-#atscode_separator()
-
+//
+fun{a:vt0p}
+fprint_array_int{n:int}
+(
+  out: FILEref, A: &RD(@[INV(a)][n]), n: int(n)
+) : void // end of [fprint_array_int]
+fun{a:vt0p}
+fprint_array_size{n:int}
+(
+  out: FILEref, A: &RD(@[INV(a)][n]), n: size_t(n)
+) : void // end of [fprint_array_size]
+//
+symintr fprint_array
+overload fprint_array with fprint_array_int
+overload fprint_array with fprint_array_size
+//
 fun{a:vt0p}
 fprint_array_sep{n:int}
 (
   out: FILEref
 , A: &RD(@[INV(a)][n]), n: size_t n, sep: NSH(string)
 ) : void // end of [fprint_array_sep]
+//
+#atscode_separator()
+
+overload fprint with fprint_array
+overload fprint with fprint_array_sep
 
 #atscode_separator()
 
@@ -602,7 +603,7 @@ fun
 array_mapto$fwork
 (
   x: &a, y: &b? >> b
-) : void // [array_mapto2$fwork]
+) : void // [array_mapto$fwork]
 fun
 {a:vt0p}
 {b:vt0p}
@@ -618,20 +619,20 @@ array_mapto{n:int}
 fun
 {a,b:vt0p}
 {c:vt0p}
-array_mapto2$fwork
+array_map2to$fwork
 (
   x: &a, y: &b, z: &c? >> c
-) : void // [array_mapto2$fwork]
+) : void // [array_map2to$fwork]
 fun
 {a,b:vt0p}
 {c:vt0p}
-array_mapto2{n:int}
+array_map2to{n:int}
 (
   A: &array(INV(a), n)
 , B: &array(INV(b), n)
 , C: &array(c?, n) >> array (c, n)
 , n: size_t (n)
-) : void // end of [array_mapto2]
+) : void // end of [array_map2to]
 
 #atscode_separator()
 

@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,8 +27,14 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: April, 2011
+//
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 
@@ -358,9 +364,9 @@ aux_item (
       val body = s0exp_tr body
       val s1e_lam = s1exp_lam (loc0, arg, res, body)
 (*
-      val () = begin
-        print "s0exp_tr: S0Elam: s1e_lam = "; print s1e_lam; print_newline ()
-      end // end of [val]
+      val () =
+        println! ("s0exp_tr: S0Elam: s1e_lam = ", s1e_lam)
+      // end of [val]
 *)
     in
       FXITMatm (s1e_lam)
@@ -447,7 +453,7 @@ aux_item (
         print "s0e0 = "; fprint_s0exp (stdout_ref, s0e0); print_newline ()
       ) // end of [val]
       val () = assertloc (false) in $ERR.abort ()
-    end
+    end (* end of [_] *)
 *)
 end // end of [aux_item]
 //
@@ -622,12 +628,13 @@ val sym = d0c.d0atcon_sym
 val qua = d0c.d0atcon_qua
 val qua = q0marglst_tr (qua)
 (*
-val () = (
+val () =
+(
   print "d0atcon_tr: id = ";
   fprint_symbol (stdout_ref, sym); print_newline ();
   print "d0atcon_tr: qua = ";
   fprint_q1marglst (stdout_ref, qua); print_newline ();
-) // end of [val]
+) (* end of [val] *)
 *)
 var npf0: int = ~1 // HX: default
 val arg = (

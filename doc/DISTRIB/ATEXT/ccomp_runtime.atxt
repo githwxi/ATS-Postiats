@@ -118,6 +118,7 @@ ATS/ccomp/runtime
 //
 #packfilename("pats_ccomp_runtime.c")
 #packfilename("pats_ccomp_runtime2_dats.c")
+#packfilename("pats_ccomp_runtime_memalloc.c")
 #packfilename("pats_ccomp_runtime_trywith.c")
 //
 (* ****** ****** *)

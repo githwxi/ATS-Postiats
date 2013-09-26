@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: October, 2012
 //
 (* ****** ****** *)
@@ -79,7 +80,7 @@ typedef tmpvar = '{
 assume tmpvar_type = tmpvar
 extern typedef "tmpvar_t" = tmpvar
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 tmpvar_make
@@ -124,6 +125,11 @@ tmpvar_get_stamp (tmp) = tmp.tmpvar_stamp
 (* ****** ****** *)
 
 implement
+tmpvar_get_tailcal (tmp) = tmp.tmpvar_ret
+
+(* ****** ****** *)
+
+implement
 eq_tmpvar_tmpvar (tmp1, tmp2) =
   $STMP.eq_stamp_stamp (tmp1.tmpvar_stamp, tmp2.tmpvar_stamp)
 // end of [eq_tmpvar_tmpvar]
@@ -138,12 +144,14 @@ compare_tmpvar_tmpvar (tmp1, tmp2) =
 end // end of [local]
 
 (* ****** ****** *)
-
+//
 implement
-print_tmpvar (tmp) = fprint_tmpvar (stdout_ref, tmp)
+print_tmpvar
+  (tmp) = fprint_tmpvar (stdout_ref, tmp)
 implement
-prerr_tmpvar (tmp) = fprint_tmpvar (stderr_ref, tmp)
-
+prerr_tmpvar
+  (tmp) = fprint_tmpvar (stderr_ref, tmp)
+//
 implement
 fprint_tmpvar
   (out, tmp) = let
@@ -159,11 +167,11 @@ fprint_tmpvar
 in
   // nothing
 end // end of [fprint_tmpvar]
-
+//
 implement
 fprint_tmpvaropt
   (out, opt) = $UT.fprintopt (out, opt, fprint_tmpvar)
-
+//
 (* ****** ****** *)
 
 local
@@ -177,7 +185,7 @@ fun tmpvar_set_ret
   (tmp: tmpvar, ret: int): void = "patsopt_tmpvar_set_ret"
 // end of [tmpvar_set_ret]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 tmpvar_make_ref
@@ -192,6 +200,13 @@ tmpvar_make_ret
   val tmp = tmpvar_make (loc, hse)
   val () = tmpvar_set_ret (tmp, 1(*ret*))
 } // end of [tmpvar_make_ret]
+
+implement
+tmpvar_inc_tailcal
+  (tmp) = ((*void*)) where {
+  val n = tmpvar_get_tailcal (tmp)
+  val () = tmpvar_set_ret (tmp, n+1(*ret*))
+} // end of [tmpvar_inc_tailcal]
 
 end // end of [local]
 
@@ -216,13 +231,14 @@ assume tmpvarmap_vtype (a:vt@ype) = $LM.map (tmpvar, a)
 
 (* ****** ****** *)
 
-val cmp = lam (
+val cmp = lam
+(
   tmp1: tmpvar, tmp2: tmpvar
 ) : int =<cloref>
   compare_tmpvar_tmpvar (tmp1, tmp2)
 // end of [val]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 tmpvarset_vt_nil () = $LS.linset_make_nil ()

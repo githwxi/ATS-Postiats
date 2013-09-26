@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,13 +27,15 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: April, 2011
 //
 (* ****** ****** *)
-
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
-
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
 (* ****** ****** *)
 
 staload
@@ -105,33 +107,44 @@ case+ tok.token_node of
 //
 | _ => let
     val () = tokbuf_incby1 (buf) in pskip_tokbuf (buf)
-  end
+  end (* end of [_] *)
 //
 end // end of [pskip_tokbuf]
 
 fun pskip1_tokbuf_reset
   (buf: &tokbuf): token = let
 //
-  val tok = tokbuf_get_token (buf)
-  val () = (case+ tok.token_node of
-    | T_EOF () => ()
-    | node when tnode_is_comment (node) => ()
-    | _ => {
-        val err = parerr_make (tok.token_loc, PE_DISCARD)
-        val () = the_parerrlst_add (err)
-      } // end of [_]
-  ) : void // end of [val]
-  val () = tokbuf_incby1 (buf)
+val tok = tokbuf_get_token (buf)
 //
-  val tok = pskip_tokbuf (buf)
-  val () = tokbuf_reset (buf)
+val () =
+(
+case+
+  tok.token_node of
+| T_EOF ((*void*)) => ()
+| tnode
+  when tnode_is_comment (tnode) => ()
+| _ => {
+    val loc = tok.token_loc
+    val err = parerr_make (loc, PE_DISCARD)
+    val ((*void*)) = the_parerrlst_add (err)
+  } // end of [_]
+) : void // end of [val]
+//
+val () = tokbuf_incby1 (buf)
+//
+val tok = pskip_tokbuf (buf)
+//
+val ((*void*)) = tokbuf_reset (buf)
+//
 in
   tok
 end // end of [pskip1_tokbuf_reset]
 
 (* ****** ****** *)
 
-fun p_toplevel_fun (
+fun
+p_toplevel_fun
+(
   buf: &tokbuf
 , nerr: &int? >> int
 , f: parser (d0ecl)
@@ -147,7 +160,8 @@ fun p_toplevel_fun (
     val x = f (buf, 1(*bt*), nerr)
   in
     case+ 0 of
-    | _ when nerr > nerr0 => let
+    | _ when
+        nerr > nerr0 => let
         val tok0 = tokbuf_get_token (buf)
 //
         val () = (
@@ -160,9 +174,9 @@ fun p_toplevel_fun (
 //
       in
         case+ tok.token_node of
-        | T_EOF () => res := list_vt_nil | _ => loop (buf, res, nerr, f)
-      end
-    | _ => () where {
+        | T_EOF () => res := list_vt_nil () | _ => loop (buf, res, nerr, f)
+      end // end of [_ when ...]
+    | _ (*noerror*) => let
 //
         val () = tokbuf_reset (buf)
 //
@@ -170,19 +184,23 @@ fun p_toplevel_fun (
         val () = list_vt_free (semilst)
 //
         val () =
-          res := list_vt_cons {a}{0} (x, ?)
+          res := list_vt_cons{a}{0}(x, ?)
         // end of [val]
         val+list_vt_cons (_, !p_res1) = res
         val () = loop (buf, !p_res1, nerr, f)
         prval () = fold@ (res)
-      } // end of [_]
+      in
+        // nothing
+      end // end of [_]
    end (* end of [loop] *)
   val () = nerr := 0
   var res: d0eclist_vt
   val () = loop (buf, res, nerr, f)
-  val _(*EOF*) = p_EOF (buf, 0, nerr) // HX: tokens are all consumed
+//
+  val _(*EOF*) = p_EOF (buf, 0, nerr) // HX: no more tokens 
+//
 in
-  (l2l)res
+  list_of_list_vt(res)
 end // end of [p_toplevel_fun]
 
 (* ****** ****** *)

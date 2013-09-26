@@ -49,14 +49,20 @@
 //
 (* ****** ****** *)
 
-#define
-ATS_PACKNAME "ATSLIB.libats.linhashtbl_chain"
-#define
-ATS_STALOADFLAG 0 // no static loading at run-time
+#define ATS_PACKNAME "ATSLIB.libats.linhashtbl_chain"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 
-#define ATS_EXTERN_PREFIX "atslib_"
+#include "./SHARE/linhashtbl.hats"
+
+(* ****** ****** *)
+
+absvtype chain_vtype (key:t@ype, itm:vt@ype+) = ptr
+
+(* ****** ****** *)
+
+vtypedef chain (key:t0p, itm:vt0p) = chain_vtype (key, itm)
 
 (* ****** ****** *)
 

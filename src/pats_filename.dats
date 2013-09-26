@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,14 +27,21 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: March, 2011
 //
 (* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
+(* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
-staload _(*anon*) = "prelude/DATS/reference.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
+staload
+_(*UN*) = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
 
@@ -62,7 +69,7 @@ val theParDir: string = "../"
 //
 #endif
 
-in // in of [local]
+in (* in of [local] *)
 
 implement theDirSep_get () = theDirSep
 implement theCurDir_get () = theCurDir
@@ -78,16 +85,74 @@ staload
 STR = "libc/SATS/string.sats"
 macdef strncmp = $STR.strncmp
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
-path_get_srchknd
-  (path) = let
+givename_srchknd
+  (given) = let
   val dir = theCurDir_get ()
   val len = string_length (dir)
 in
-  if strncmp (path, dir, len) = 0 then 0(*loc*) else 1(*ext*)
-end // end of [path_get_srchknd]
+  if strncmp (given, dir, len) = 0 then 0(*loc*) else 1(*ext*)
+end // end of [givename_srchknd]
+
+(* ****** ****** *)
+//
+// HX-2013-09:
+// a gurled name looks like this:
+// {}prelude/SATS/string.sats
+// {$ATSCNTRB}/libgmp/SATS/string.sats
+// {http://ats-lang.org/LIBRARY}prelude/SATS/string.sats
+// {git@github.com:githwxi/ATS-Postiats.git}prelude/SATS/string.sats
+//
+implement
+givename_get_ngurl
+  (given) = let
+//
+fun loop
+(
+  p: ptr, n: int
+, c0: char, c1: char
+) : ptr = let
+//
+val c = $UN.ptr0_get<char> (p)
+val p1 = add_ptr_size (p, sizeof<char>)
+//
+in
+//
+case+ 0 of
+| _ when c = c0 =>
+    loop (p1, n+1, c0, c1)
+| _ when c = c1 =>
+    if n > 1 then loop (p1, n-1, c0, c1) else p1
+| _ => if c != '\000' then loop (p1, n, c0, c1) else null
+//
+end (* end of [loop] *)
+//
+val p0 = $UN.cast2ptr (given)
+val c0 = $UN.ptr0_get<char> (p0)
+//
+val p1 = (
+case+ 0 of
+(*
+| _ when
+    c0 = '\(' => let
+    val p = add_ptr_int (p0, 1) in loop (p, 1, c0, ')')
+  end // end of [_ when ...]
+*)
+| _ when
+    c0 = '\{' => let
+    val p = add_ptr_int (p0, 1) in loop (p, 1, c0, '}')
+  end // end of [_ when ...]
+| _ (*rest-of-chars*) => null
+) : ptr // end of [val]
+//
+val p0 = $UN.cast2Ptr1(p0)
+val p1 = $UN.cast2Ptr1(p1)
+//
+in
+  if p1 > p0 then $UN.cast2int(pdiff(p1, p0)) else ~1
+end // end of [givename_get_ngurl]
 
 end // end of [local]
 
@@ -95,58 +160,81 @@ end // end of [local]
 
 assume
 filename_type = '{
-  filename_part= string
-, filename_full= symbol
+  filename_givename= string
+, filename_partname= string, filename_fullname= symbol
 } // end of [filename]
 
 (* ****** ****** *)
 
-(*
 implement
-fprint_filename (out, fil) =
-  fprint_string (out, fil.filename_part)
-// end of [fprint_filename]
-*)
+filename_get_givename (fil) = fil.filename_givename
 implement
-fprint_filename (out, fil) =
-  $SYM.fprint_symbol (out, fil.filename_full)
-// end of [fprint_filename]
+filename_get_partname (fil) = fil.filename_partname
+implement
+filename_get_fullname (fil) = fil.filename_fullname
 
+(* ****** ****** *)
+(*
+//
+implement
+fprint_filename (out, fil) =
+  fprint_string (out, fil.filename_partname)
+//
 implement
 print_filename (fil) = fprint_filename (stdout_ref, fil)
 implement
 prerr_filename (fil) = fprint_filename (stderr_ref, fil)
-
+//
+*)
 (* ****** ****** *)
 
+implement
+print_filename_full
+  (fil) = fprint_filename_full (stdout_ref, fil)
+implement
+prerr_filename_full
+  (fil) = fprint_filename_full (stdout_ref, fil)
 implement
 fprint_filename_full
   (out, fil) = let
-  val name = $SYM.symbol_get_name (fil.filename_full)
+  val fname = $SYM.symbol_get_name (fil.filename_fullname)
 in
-  fprint_string (out, name)
+  fprint_string (out, fname)
 end // end of [fprint_filename_full]
-
-implement
-print_filename_full (fil) = fprint_filename_full (stdout_ref, fil)
 
 (* ****** ****** *)
 
-implement filename_get_part (fil) = fil.filename_part
-implement filename_get_full (fil) = fil.filename_full
+implement
+fprint_filename2_full
+  (out, fil) = let
+//
+val given = fil.filename_givename
+val ngurl = givename_get_ngurl (given)
+val fname = $SYM.symbol_get_name (fil.filename_fullname)
+//
+in
+//
+if ngurl < 0
+  then fprint_string (out, fname)
+  else fprintf (out, "%s(%s)", @(fname, given))
+// end of [if]
+//
+end // end of [fprint_filename2_full]
 
 (* ****** ****** *)
 
 implement
 eq_filename_filename
-  (x1, x2) = x1.filename_full = x2.filename_full
+  (x1, x2) = x1.filename_fullname = x2.filename_fullname
 // end of [eq_filename_filename]
+
+(* ****** ****** *)
 
 implement
 compare_filename_filename
   (x1, x2) = let
-  val f1 = $SYM.symbol_get_name (x1.filename_full)
-  val f2 = $SYM.symbol_get_name (x2.filename_full)
+  val f1 = $SYM.symbol_get_name (x1.filename_fullname)
+  val f2 = $SYM.symbol_get_name (x2.filename_fullname)
 in
   compare_string_string (f1, f2)
 end // end of [compare_filename_filename]
@@ -167,41 +255,44 @@ in (* in of [local] *)
 //
 implement
 filename_is_sats (fil) =
-  string_test_suffix (fil.filename_part, ".sats")
+  string_test_suffix (fil.filename_partname, ".sats")
 implement
 filename_is_dats (fil) =
-  string_test_suffix (fil.filename_part, ".dats")
+  string_test_suffix (fil.filename_partname, ".dats")
 //
 end // end of [local]
 
 (* ****** ****** *)
 
 extern
-fun fname_is_relative (name: string): bool
+fun givename_is_relative (given: string): bool
 implement
-fname_is_relative
-  (name) = let
-  val name = string1_of_string (name)
-  fn aux {n,i:nat | i <= n} (
-    name: string n, i: size_t i, dirsep: char
+givename_is_relative
+  (given) = let
+  fn aux {n,i:nat | i <= n}
+  (
+    given: string n, i: size_t i, dirsep: char
   ) : bool =
-    if string_isnot_atend (name, i) then (name[i] != dirsep) else false 
+    if string_isnot_atend (given, i) then (given[i] != dirsep) else false 
   // end of [aux]
   val dirsep = theDirSep_get ()
+  val given = string1_of_string (given)
 in
-  aux (name, 0, dirsep)
-end // [fname_is_relative]
+  aux (given, 0, dirsep)
+end // [givename_is_relative]
 
 (* ****** ****** *)
 
 implement
 filename_dummy = '{
-  filename_part= "", filename_full= $SYM.symbol_empty
+  filename_givename= ""
+, filename_partname= "", filename_fullname= $SYM.symbol_empty
 } // end of [filename_dummy]
 
 implement
 filename_stdin = '{
-  filename_part= "<STDIN>", filename_full= $SYM.symbol_empty
+  filename_givename= "__STDIN__"
+, filename_partname= "__STDIN__", filename_fullname= $SYM.symbol_empty
 } // end of [filename_stdin]
 
 (* ****** ****** *)
@@ -321,10 +412,15 @@ path_normalize (s0) =
 
 (* ****** ****** *)
 
+local
+
+extern castfn p2s {l:agz} (x: !strptr l):<> string
+
+in (* in of [local] *)
+
 fun partname_fullize
   (pname: string): string = let
-  extern castfn p2s {l:agz} (x: !strptr l):<> string
-  val isrel = fname_is_relative (pname)
+  val isrel = givename_is_relative (pname)
 in
   if isrel then let
     val cwd = $UNISTD.getcwd0 ()
@@ -338,6 +434,8 @@ in
     fname_nf
   end else pname // HX: it is absolute
 end // end of [partname_fullize]
+
+end (* end of [local] *)
 
 (* ****** ****** *)
 
@@ -369,7 +467,7 @@ in
   loop (!p, f0)
 end // end of [filename_occurs]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement filename_get_current () = !the_filename
 
@@ -454,7 +552,7 @@ assume the_pathlst_push_v = unit_v
 val the_pathlst = ref_make_elt<pathlst_vt> (list_vt_nil)
 val the_prepathlst = ref_make_elt<pathlst_vt> (list_vt_nil)
 //
-in // in of [local]
+in (* in of [local] *)
 
 fun the_pathlst_get
   (): pathlst_vt = xs where {
@@ -519,14 +617,16 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-filename_make (
-  pname, fname
+filename_make
+(
+  given, pname, fname
 ) = let
-  val fsymb =
-    $SYM.symbol_make_string (fname)
-  // end of [val]
+//
+val fname = $SYM.symbol_make_string (fname)
+//
 in '{
-  filename_part= pname, filename_full= fsymb
+  filename_givename= given
+, filename_partname= pname, filename_fullname= fname
 } end // end of [filename_make]
 
 (* ****** ****** *)
@@ -536,15 +636,17 @@ local
 extern castfn s2s (x: string):<> String
 extern castfn p2s {l:agz} (x: !strptr l):<> String
 
-fun aux_local (
-  basename: string
+fun
+aux_local
+(
+  given: string
 ) : Stropt = let
   val fil = filename_get_current ()
-  val pname = filename_get_part (fil)
+  val pname = filename_get_partname (fil)
 (*
   val () = println! ("aux_local: pname = ", pname)
 *)
-  val pname2 = filename_merge (pname, basename)
+  val pname2 = filename_merge (pname, given)
   val pname2_nf = path_normalize_vt ((p2s)pname2)
   val () = strptr_free (pname2)
 (*
@@ -561,26 +663,28 @@ end // end of [aux_local]
 
 (* ****** ****** *)
 
-fun aux_try
-  {n:nat} .<n,0>. (
-  paths: list (path, n), basename: string
+fun
+aux_try
+  {n:nat} .<n,0>.
+(
+  paths: list (path, n), given: string
 ) : Stropt = let
 in
 //
 case+ paths of
 | list_cons (
     path, paths
-  ) => aux2_try (path, paths, basename)
+  ) => aux2_try (path, paths, given)
 | list_nil () => stropt_none
 //
 end // end of [aux_try]
 
 and aux2_try
   {n:nat} .<n,1>. (
-  path: path, paths: list (path, n), basename: string
+  path: path, paths: list (path, n), given: string
 ) : Stropt = let
   val partname =
-    filename_append (path, basename)
+    filename_append (path, given)
   val isexi = test_file_exists ((p2s)partname)
 (*
   val () = begin
@@ -592,7 +696,7 @@ in
 if isexi then (
   stropt_of_strptr (partname)
 ) else let
-  val () = strptr_free (partname) in aux_try (paths, basename)
+  val () = strptr_free (partname) in aux_try (paths, given)
 end // end of [if]
 //
 end // end of [aux2_try]
@@ -600,11 +704,11 @@ end // end of [aux2_try]
 (* ****** ****** *)
 
 fun aux_try_pathlst
-  (basename: string): Stropt = let
+  (given: string): Stropt = let
   val path = theCurDir_get ()
   val paths = the_pathlst_get ()
   val ans = // HX: search the current directory first
-    aux2_try (path, $UN.castvwtp1{pathlst}(paths), basename)
+    aux2_try (path, $UN.castvwtp1{pathlst}(paths), given)
   // end of [val]
   val () = the_pathlst_set (paths)
 in
@@ -612,10 +716,10 @@ in
 end // end of [aux_try_pathlst]
 
 fun aux_try_prepathlst
-  (basename: string): Stropt = let
+  (given: string): Stropt = let
   val paths = the_prepathlst_get ()
   val ans =
-    aux_try ($UN.castvwtp1{pathlst}(paths), basename)
+    aux_try ($UN.castvwtp1{pathlst}(paths), given)
   val () = the_prepathlst_set (paths)
 in
   ans
@@ -623,63 +727,87 @@ end // end of [aux_try_prepathlst]
 
 (* ****** ****** *)
 
-fun aux_relative (
-  basename: string
+fun
+aux_relative
+(
+  given: string
 ) : Stropt = let
-  val basename = (s2s)basename
-  val knd = path_get_srchknd (basename)
+//
+val given = (s2s)given
+val knd = givename_srchknd (given)
+//
 in
 //
 case+ knd of
-| 0 (*local*) => aux_local (basename)
+| 0 (*local*) => aux_local (given)
 | _ (*external*) => let
-    val opt = aux_try_pathlst (basename)
+    val opt = aux_try_pathlst (given)
   in
-    if stropt_is_some (opt) then opt else aux_try_prepathlst (basename)
+    if stropt_is_some (opt) then opt else aux_try_prepathlst (given)
   end // end of [_]
 //
 end // end of [aux_relative]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 filenameopt_make_local
-  (basename) = let
-  val opt = aux_local (basename)
-  val issome = stropt_is_some (opt)
+  (given) = let
+//
+val opt = aux_local (given)
+val issome = stropt_is_some (opt)
+//
 in
-  if issome then let
-    val partname = stropt_unsome (opt)
-    val fullname = partname_fullize (partname)
-  in
-    Some_vt (filename_make (partname, fullname))
-  end else None_vt () // end of [if]
+//
+if issome then let
+  val partname = stropt_unsome (opt)
+  val fullname = partname_fullize (partname)
+in
+  Some_vt (filename_make (given, partname, fullname))
+end else None_vt () // end of [if]
+//
 end // end of [filenameopt_make_local]
 
 implement
-filenameopt_make_relative (basename) = let
+filenameopt_make_relative
+  (given) = let
+//
+val ngurl = givename_get_ngurl (given)
+val given2 = pkgsrcname_relocatize (given, ngurl)
+//
+(*
+val () = 
+  println! ("filenameopt_make_relative: ngurl = ", ngurl)
+val () = 
+  println! ("filenameopt_make_relative: given = ", given)
+val () = 
+  println! ("filenameopt_make_relative: given2 = ", given2)
+*)
 //
 val opt =
 (
 case+ 0 of
 | _ when
-    fname_is_relative (basename) => aux_relative (basename)
+    givename_is_relative (given2) => aux_relative (given2)
+  // end of [_ when ...]
 | _ => let
-    val isexi = test_file_exists (basename)
+    val isexi = test_file_exists (given2)
   in
-    if isexi then stropt_some (basename) else stropt_none(*void*)
+    if isexi then stropt_some (given2) else stropt_none(*void*)
   end // end of [_]
 ) : Stropt // end of [val]
 //
 val issome = stropt_is_some (opt)
 //
 in
-  if issome then let
-    val partname = stropt_unsome (opt)
-    val fullname = partname_fullize (partname)
-  in
-    Some_vt (filename_make (partname, fullname))
-  end else None_vt () // end of [if]
+//
+if issome then let
+  val partname = stropt_unsome (opt)
+  val fullname = partname_fullize (partname)
+in
+  Some_vt (filename_make (given, partname, fullname))
+end else None_vt () // end of [if]
+//
 end // end of [filenameopt_make_relative]
 
 end // end of [local]

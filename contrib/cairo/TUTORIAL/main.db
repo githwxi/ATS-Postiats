@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+<!--
+-->
+<!ENTITY bookinfo SYSTEM "bookinfo.db">
+<!ENTITY preface SYSTEM "preface.db">
+<!ENTITY chap_hello SYSTEM "chap_hello_atxt.db">
+<!ENTITY chap_objtypes SYSTEM "chap_objtypes_atxt.db">
+<!ENTITY chap_funtypes SYSTEM "chap_funtypes_atxt.db">
+<!ENTITY chap_drawline SYSTEM "chap_drawline_atxt.db">
+<!ENTITY chap_drawrectcirc SYSTEM "chap_drawrectcirc_atxt.db">
+<!ENTITY chap_drawtext SYSTEM "chap_drawtext_atxt.db">
+]>
+<book id="atscairo-tutorial" lang="en">
+&bookinfo;
+
+<!--
+<dedication>
+<para></para>
+</dedication>
+-->
+
+&preface;
+<toc></toc>
+<!-- We are done with the preliminaries, now we can start with the body of the document -->
+
+<part id="basic_tutorial_topics">
+<title>Basic Tutorial Topics</title>
+&chap_hello;
+&chap_objtypes;
+&chap_funtypes;
+&chap_drawline;
+&chap_drawrectcirc;
+&chap_drawtext;
+</part><!--"basic_tutorial_topics"-->
+
+</book>

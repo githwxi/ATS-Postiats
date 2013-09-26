@@ -120,6 +120,9 @@ The ATSLIB/libc library\
 #packfilename("sys/SATS/stat.sats")
 #packfilename("sys/SATS/types.sats")
 
+#packfilename("gdbm/SATS/gdbm.sats")
+#packfilename("gdbm/SATS/SHARE/datum.hats")
+
 (* ****** ****** *)
 
 #packfilename("CATS/dirent.cats")
@@ -138,6 +141,9 @@ The ATSLIB/libc library\
 #packfilename("sys/CATS/stat.cats")
 #packfilename("sys/CATS/types.cats")
 
+#packfilename("gdbm/CATS/gdbm.cats")
+#packfilename("gdbm/CATS/datum.cats")
+
 (* ****** ****** *)
 
 #packfilename("DATS/dirent.dats")
@@ -154,6 +160,12 @@ The ATSLIB/libc library\
 (*
 #packfilename("sys/DATS/stat.dats")
 #packfilename("sys/DATS/types.dats")
+*)
+%}
+
+%{
+(*
+#packfilename("gdbm/DATS/gdbm.dats")
 *)
 %}
 

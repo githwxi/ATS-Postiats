@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,13 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: May, 2011
 //
 (* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
+(* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -1463,30 +1469,33 @@ case+ d1e0.d1exp_node of
     d1exp_tr_arrsub (d1e0, arr, locind, ind)
   end // end of [D1Earrsub]
 | D1Earrpsz
-    (elt, ini) => let
+    (elt, init) => let
     val opt = s1expopt_trup (elt)
     val opt = (case+ opt of
       | Some s2e => Some (s2e) | None () => None ()
     ) : s2expopt
-    val ini = d1explst_tr (ini)
+    val init = d1explst_tr (init)
   in
-    d2exp_arrpsz (loc0, opt, ini)
+    d2exp_arrpsz (loc0, opt, init)
   end // end of [D1Earrpsz]
 //
 | D1Earrinit
-    (s1e_elt, asz, ini) => let
-    val s2t_elt = (case+ asz of
-      | Some _ => begin case+ ini of
+    (s1e_elt, asz, init) => let
+    val s2t_elt =
+    (
+      case+ asz of
+      | Some _ => (
+        case+ init of
         | list_cons _ => s2rt_t0ype // cannot be linear
         | list_nil () (*uninitialized*) => s2rt_vt0ype // can be linear
-        end // end of [Some]
+        ) (* end of [Some] *)
       | None () => s2rt_vt0ype // can be linear
     ) : s2rt // end of [val]
     val s2e_elt = s1exp_trdn (s1e_elt, s2t_elt)
     val asz = d1expopt_tr (asz)
-    val ini = d1explst_tr (ini)
+    val init = d1explst_tr (init)
   in
-    d2exp_arrinit (loc0, s2e_elt, asz, ini)
+    d2exp_arrinit (loc0, s2e_elt, asz, init)
   end // end of [D1Earrinit]
 //
 | D1Eraise (d1e) => d2exp_raise (loc0, d1exp_tr d1e)
@@ -1706,7 +1715,9 @@ end // end of [labd0exp_tr]
 
 implement
 d1lab_tr (d1l0) = let
-  val loc0 = d1l0.d1lab_loc
+//
+val loc0 = d1l0.d1lab_loc
+//
 in
 //
 case+
@@ -1714,6 +1725,7 @@ case+
 | D1LABlab (lab) => let
     val dotid =
       $LAB.label_dotize (lab)
+    // end of [dotid]
     val ans = the_d2expenv_find (dotid)
     val opt = (
       case+ ans of
@@ -1726,8 +1738,8 @@ case+
             Some (d2s)
           end // end of [D2ITMsymdef]
         | _ => None ()
-        )
-      | ~None_vt () => None ()
+        ) (* end of [some_vt] *)
+      | ~None_vt ((*void*)) => None ()
     ) : d2symopt // end of [val]
   in
     d2lab_lab (loc0, lab, opt)

@@ -9,7 +9,8 @@
 
 (* ****** ****** *)
 
-staload "prelude/DATS/integer.dats"
+staload
+_(*INT*) = "prelude/DATS/integer.dats"
 
 (* ****** ****** *)
 

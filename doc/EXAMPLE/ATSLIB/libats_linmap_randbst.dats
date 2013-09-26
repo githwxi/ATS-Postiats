@@ -10,13 +10,18 @@
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_staload_tmpdef.hats"
+#include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
 staload "libats/SATS/linmap_randbst.sats"
-staload _(*anon*) = "libats/DATS/linmap_randbst.dats"
+
+(* ****** ****** *)
+
+staload
+_(*anon*) = "libats/DATS/qlist.dats"
+staload
+_(*anon*) = "libats/DATS/linmap_randbst.dats"
 
 (* ****** ****** *)
 
@@ -87,13 +92,16 @@ vtypedef map = map (key, itm)
 //
 var map = linmap_make_nil {key,itm} ()
 //
-val-~None_vt() = linmap_insert_opt (map, 0, "0")
+val-~None_vt() = linmap_insert_opt (map, 0, "?")
+val-~Some_vt("?") = linmap_insert_opt (map, 0, "0")
 val-~None_vt() = linmap_insert_opt (map, 1, "1")
 val-~None_vt() = linmap_insert_opt (map, 2, "2")
 val-~None_vt() = linmap_insert_opt (map, 3, "3")
 val-~None_vt() = linmap_insert_opt (map, 4, "4")
 //
 val () = assertloc (linmap_size (map) = 5)
+//
+val () = list_vt_free (linmap_listize1 (map))
 //
 val () = fprintln! (stdout_ref, "map = ", map)
 //

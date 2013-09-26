@@ -40,8 +40,10 @@
 //
 // [orelse] and [andalso] are declared as infix ops
 //
-macdef orelse (x, y) = if ,(x) then true else ,(y)
-macdef andalso (x, y) = if ,(x) then ,(y) else false
+macdef
+orelse (x, y) = (if ,(x) then true else ,(y)): bool
+macdef
+andalso (x, y) = (if ,(x) then ,(y) else false): bool
 //
 (* ****** ****** *)
 

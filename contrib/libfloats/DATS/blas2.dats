@@ -16,7 +16,7 @@ staload "libats/SATS/gmatrix_row.sats"
 
 (* ****** ****** *)
 
-staload "libfloats/SATS/blas.sats"
+staload "./../SATS/blas.sats"
 
 (* ****** ****** *)
 //
@@ -24,7 +24,7 @@ staload "libfloats/SATS/blas.sats"
 // 
 (* ****** ****** *)
 //
-// It is yet empty
+// HX-2013-09: It is yet empty
 //
 (* ****** ****** *)
 

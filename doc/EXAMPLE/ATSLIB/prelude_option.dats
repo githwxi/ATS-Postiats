@@ -5,7 +5,7 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload_tmpdef.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -23,7 +23,7 @@ val () = fprintln! (out, "opt = ", opt)
 val+Some x = opt
 val () = assertloc (x = 0)
 //
-}
+} (* end of [val] *)
 
 (* ****** ****** *)
 

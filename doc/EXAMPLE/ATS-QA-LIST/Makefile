@@ -1,18 +1,11 @@
 #
-#
-# This Makefile is automatically generated
-# from executing the following command-line:
-#
-# make -f Makefile.gen
-#
+# A simple Makefile
 #
 
 ######
 
-CCOPT=gcc -std=c99
+PATSCC=patscc
 PATSHOMEQ="$(PATSHOME)"
-PATSOPT=$(PATSHOMEQ)/bin/patsopt
-PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 
 ######
 
@@ -20,51 +13,103 @@ all::
 
 ######
 
-LNS=ln -s
+all:: qa-list-32
+qa-list-32: qa-list-32.dats ; \
+  $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) qa-list-32
+
+######
+
+all:: qa-list-35
+qa-list-35: qa-list-35.dats ; \
+  $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) qa-list-35
+
+######
+
+all:: qa-list-43
+qa-list-43: qa-list-43.dats ; \
+  $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) qa-list-43
+
+######
+
+all:: qa-list-45
+qa-list-45: qa-list-45.dats ; \
+  $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) qa-list-45
+
+######
+
+all:: qa-list-57
+qa-list-57: qa-list-57.dats ; \
+  $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) qa-list-57
+
+######
+
+all:: qa-list-60
+qa-list-60: qa-list-60.dats ; \
+  $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) qa-list-60
+
+######
+
+all:: qa-list-62
+qa-list-62: qa-list-62.dats ; \
+  $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) qa-list-62
+
+######
+
+all:: qa-list-64
+qa-list-64: qa-list-64.dats ; $(PATSCC) -cleanaft -o $@ $<
+cleanall:: ; $(RMF) qa-list-64
+
+######
+
+all:: qa-list-66
+qa-list-66: qa-list-66.dats ; \
+  $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) qa-list-66
+
+######
+
+all:: qa-list-67
+qa-list-67: qa-list-67.dats ; \
+  $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) qa-list-67
+
+######
+
+all:: list_last
+list_last: list_last.dats ; \
+  $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) list_last
+
+######
+
+all:: list_copy
+list_copy: list_copy.dats ; \
+  $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) list_copy
+
+######
+
+all:: for-0install
+for-0install: for-0install.dats ; \
+  $(PATSCC) -IIATS ${PATSHOME}/contrib -cleanaft -DATS_MEMALLOC_LIBC -o $@ $< -ljson-c
+cleanall:: ; $(RMF) for-0install
+
+######
+
 RMF=rm -f
 
 ######
 
-all:: qa-list-32
-qa-list-32: qa-list-32.exe
-qa-list-32.exe: qa-list-32_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-qa-list-32_dats.c: qa-list-32.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output qa-list-32_dats.c --dynamic qa-list-32.dats
-clean:: ; $(RMF) qa-list-32_dats.o
-clean:: ; $(RMF) qa-list-32_dats.c
-cleanall:: ; $(RMF) qa-list-32.exe
-
-all:: qa-list-35
-qa-list-35: qa-list-35.exe
-qa-list-35.exe: qa-list-35_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-qa-list-35_dats.c: qa-list-35.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output qa-list-35_dats.c --dynamic qa-list-35.dats
-clean:: ; $(RMF) qa-list-35_dats.o
-clean:: ; $(RMF) qa-list-35_dats.c
-cleanall:: ; $(RMF) qa-list-35.exe
-
-all:: for-0install
-for-0install: for-0install.exe
-for-0install.exe: for-0install_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -I$(PATSHOME)/contrib -o $@ $< -ljson-c
-for-0install_dats.c: for-0install.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output for-0install_dats.c --dynamic for-0install.dats
-clean:: ; $(RMF) for-0install_dats.o
-clean:: ; $(RMF) for-0install_dats.c
-cleanall:: ; $(RMF) for-0install.exe
-
-all:: qa-list-43
-qa-list-43: qa-list-43.exe
-qa-list-43.exe: qa-list-43_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-qa-list-43_dats.c: qa-list-43.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output qa-list-43_dats.c --dynamic qa-list-43.dats
-clean:: ; $(RMF) qa-list-43_dats.o
-clean:: ; $(RMF) qa-list-43_dats.c
-cleanall:: ; $(RMF) qa-list-43.exe
-
-
-######
-
 clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.o *_?ats.c
-clean:: ; $(RMF) *_atxt.txt
-clean:: ; $(RMF) *_atxt.dats
-clean:: ; $(RMF) Makefile.exe
+clean:: ; $(RMF) *_?ats.c
+clean:: ; $(RMF) *_?ats.o
 
 cleanall:: clean
 

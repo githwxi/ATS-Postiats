@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -34,17 +34,16 @@
 (* ****** ****** *)
 //
 // HX: shared by linmap_list
+// HX: shared by linmap_avltree
+// HX: shared by linmap_randbst
+// HX: shared by linmap_skiplist
 //
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
 implement{key}
-equal_key_key (k1, k2) = gequal_val<key> (k1, k2)
+equal_key_key = gequal_val<key>
 implement{key}
-compare_key_key (k1, k2) = gcompare_val<key> (k1, k2)
+compare_key_key = gcompare_val<key>
 
 (* ****** ****** *)
 
@@ -52,18 +51,20 @@ implement
 {key,itm}
 linmap_search
   (t, k0, res) = let
-  val p = linmap_search_ref (t, k0)
+//
+val p = linmap_search_ref (t, k0)
+//
 in
 //
 if cptr2ptr(p) > 0 then let
   val (pf, fpf | p) = $UN.cptr_vtake (p)
   val () = res := !p
   prval () = fpf (pf)
-  prval () = opt_some {itm} (res)
+  prval () = opt_some{itm}(res)
 in
   true
 end else let
-  prval () = opt_none {itm} (res)
+  prval () = opt_none{itm}(res)
 in
   false
 end // end of [if]
@@ -76,8 +77,10 @@ implement
 {key,itm}
 linmap_search_opt
   (map, k0) = let
-  var res: itm?
-  val ans = linmap_search (map, k0, res)
+//
+var res: itm?
+val ans = linmap_search (map, k0, res)
+//
 in
 //
 if ans then let
@@ -96,35 +99,12 @@ end // end of [linmap_search_opt]
 
 implement
 {key,itm}
-linmap_search_ref
-  (map, k0) = let
-//
-val p0 = linmap_search_ngc (map, k0)
-//
-viewtypedef mynode1 = mynode1 (key,itm)
-//
-in
-//
-if p0 > 0 then let
-//
-val nx = $UN.castvwtp0{mynode1}{ptr}(p0)
-val p_elt = mynode_getref_itm<key,itm> (nx)
-val p0 = $UN.castvwtp0{ptr}{mynode1}(nx)
-//
-in
-  p_elt
-end else cptr_null () // end of [if]
-//
-end // end of [linmap_search_ref]
-
-(* ****** ****** *)
-
-implement
-{key,itm}
 linmap_insert_opt
   (map, k0, x0) = let
-  var res: itm?
-  val ans = linmap_insert (map, k0, x0, res)
+//
+var res: itm?
+val ans = linmap_insert (map, k0, x0, res)
+//
 in
 //
 if ans then let
@@ -143,35 +123,12 @@ end // end of [linmap_insert_opt]
 
 implement
 {key,itm}
-linmap_takeout
-  (map, k0, res) = let
-//
-val nx =
-  linmap_takeout_ngc (map, k0)
-val p_nx = mynode2ptr (nx)
-//
-in
-//
-if p_nx > 0 then let
-  val () =
-    res := mynode_getfree_itm (nx)
-  // end of [val]
-  prval () = opt_some {itm} (res) in true
-end else let
-  prval () = mynode_free_null (nx)
-  prval () = opt_none {itm} (res) in false
-end // end of [if]
-//
-end // end of [linmap_takeout]
-
-(* ****** ****** *)
-
-implement
-{key,itm}
 linmap_takeout_opt
   (map, k0) = let
-  var res: itm?
-  val ans = linmap_takeout (map, k0, res)
+//
+var res: itm?
+val ans = linmap_takeout (map, k0, res)
+//
 in
 //
 if ans then let
@@ -192,9 +149,12 @@ implement
 {key,itm}
 linmap_remove
   (map, k0) = let
-  var res: itm
-  val takeout = linmap_takeout<key,itm> (map, k0, res)
-  prval () = opt_clear (res)
+//
+var res: itm
+val takeout =
+  linmap_takeout<key,itm> (map, k0, res)
+prval () = opt_clear (res)
+//
 in
   takeout(*removed*)
 end // end of [linmap_remove]
@@ -214,84 +174,10 @@ end // end of [linmap_free]
 
 (* ****** ****** *)
 
-implement
-{key,itm}{env}
-linmap_foreach$cont (k, x, env) = true
-
-(* ****** ****** *)
-
-implement
-{key,itm}
-linmap_foreach
-  (map) = let
-  var env: void = () in
-  linmap_foreach_env<key,itm><void> (map, env)
-end // end of [linmap_foreach]
-
-(* ****** ****** *)
-
-implement
-{key,itm}
-linmap_listize_free
-  (map) = kxs where {
-//
-extern praxi __assert1 (x: &itm? >> itm): void
-extern praxi __assert2 (x: &(itm) >> itm?): void
-//
-implement
-linmap_listize$copy<itm> (x) =
-  let val x2 = x; prval () = __assert1 (x) in x2 end
-val kxs = linmap_listize_copy (map)
-//
-implement
-linmap_freelin$clear<itm> (x) =
-  let prval () = __assert2 (x) in (* DoNothing *) end
-val () = linmap_freelin<key,itm> (map)
-//
-} // end of [linmap_listize_free]
-
-(* ****** ****** *)
-
-local
-
-staload Q = "libats/SATS/qlist.sats"
-
-in // in of [local]
-
-implement
-{key,itm}
-linmap_listize_copy
-  (map) = let
-//
-vtypedef tki = @(key, itm)
-vtypedef tenv = $Q.qstruct (tki)
-//
-implement
-linmap_foreach$fwork<key,itm><tenv>
-  (k, x, env) = let
-  val x2 = linmap_listize$copy (x)
-in
-  $Q.qstruct_insert<tki> (env, @(k, x2))
-end // end of [linmap_foreach$fwork]
-//
-var env: $Q.qstruct
-val () = $Q.qstruct_initize {tki} (env)
-val () = $effmask_all (linmap_foreach_env<key,itm><tenv> (map, env))
-val res = $Q.qstruct_takeout_list (env)
-prval () = $Q.qstruct_uninitize {tki} (env)
-//
-in
-  res
-end // end of [linmap_listize_copy]
-
-end // end of [local]
-
-(* ****** ****** *)
-
 implement{}
-fprint_linmap$sep (out) = fprint_string (out, "; ")
+fprint_linmap$sep (out) = fprint (out, "; ")
 implement{}
-fprint_linmap$mapto (out) = fprint_string (out, "->")
+fprint_linmap$mapto (out) = fprint (out, "->")
 
 implement
 {key,itm}
@@ -313,6 +199,58 @@ var env: int = 0
 in
   linmap_foreach_env<key,itm><int> (map, env)
 end // end of [fprint_linmap]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_foreach
+  (map) = let
+  var env: void = () in
+  linmap_foreach_env<key,itm><void> (map, env)
+end // end of [linmap_foreach]
+
+(* ****** ****** *)
+
+local
+
+staload Q = "libats/SATS/qlist.sats"
+
+in (* in of [local] *)
+
+implement
+{key,itm}
+linmap_listize1
+  (map) = let
+//
+vtypedef ki = @(key, itm)
+vtypedef tenv = $Q.qstruct (ki)
+//
+implement(env)
+linmap_foreach$fwork<key,itm><env>
+  (k, x, env) = let
+//
+val (
+  pf, fpf | p
+) = $UN.ptr_vtake{tenv}(addr@(env))
+val () = $Q.qstruct_insert<ki> (env, @(k, x))
+prval () = fpf (pf)
+//
+in
+  // nothing
+end // end of [linmap_foreach$fwork]
+//
+var env: $Q.qstruct
+val () = $Q.qstruct_initize{ki}(env)
+val () = $effmask_all (linmap_foreach_env<key,itm><tenv> (map, env))
+val res = $Q.qstruct_takeout_list (env)
+prval () = $Q.qstruct_uninitize{ki}(env)
+//
+in
+  res
+end // end of [linmap_listize1]
+
+end // end of [local]
 
 (* ****** ****** *)
 

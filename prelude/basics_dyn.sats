@@ -63,36 +63,44 @@ val false_bool : bool (false) = "mac#atsbool_false" // = 0
 prfun false_elim {X:prop | false} (): X
 //
 (* ****** ****** *)
-
-dataprop
-INTEQ (int, int) = {x:int} INTEQ (x, x)
 //
-prfun inteq_make {x,y:int | x == y} (): INTEQ (x, y)
-//
-prfun
-inteq_make_gint
-  {tk:tk}{x:int} (x: g1int (tk, x)): [y:int] INTEQ (x, y)
-prfun
-inteq_make_guint
-  {tk:tk}{x:int} (x: g1uint (tk, x)): [y:int] INTEQ (x, y)
+praxi
+lemma_subcls_reflexive {c:cls} (): [c <= c] void
+praxi
+lemma_subcls_transitive
+  {c1,c2,c3:cls | c1 <= c2; c2 <= c3} (): [c1 <= c3] void
 //
 (* ****** ****** *)
 
 dataprop
-ADDREQ (addr, addr) = {x:addr} ADDREQ (x, x)
+EQINT (int, int) = {x:int} EQINT (x, x)
 //
-prfun addreq_make {x,y:addr | x == y} (): ADDREQ (x, y)
+prfun eqint_make {x,y:int | x == y} (): EQINT (x, y)
 //
-prfun addreq_make_ptr {x:addr} (x: ptr (x)): [y:addr] ADDREQ (x, y)
+prfun
+eqint_make_gint
+  {tk:tk}{x:int} (x: g1int (tk, x)): [y:int] EQINT (x, y)
+prfun
+eqint_make_guint
+  {tk:tk}{x:int} (x: g1uint (tk, x)): [y:int] EQINT (x, y)
 //
 (* ****** ****** *)
 
 dataprop
-BOOLEQ (bool, bool) = {x:bool} BOOLEQ (x, x)
+EQADDR (addr, addr) = {x:addr} EQADDR (x, x)
 //
-prfun booleq_make {x,y:bool | x == y} (): BOOLEQ (x, y)
+prfun eqaddr_make {x,y:addr | x == y} (): EQADDR (x, y)
 //
-prfun booleq_make_bool {x:bool} (x: bool (x)): [y:bool] BOOLEQ (x, y)
+prfun eqaddr_make_ptr {x:addr} (x: ptr (x)): [y:addr] EQADDR (x, y)
+//
+(* ****** ****** *)
+
+dataprop
+EQBOOL (bool, bool) = {x:bool} EQBOOL (x, x)
+//
+prfun eqbool_make {x,y:bool | x == y} (): EQBOOL (x, y)
+//
+prfun eqbool_make_bool {x:bool} (x: bool (x)): [y:bool] EQBOOL (x, y)
 //
 (* ****** ****** *)
 
@@ -102,6 +110,11 @@ prfun prop_verify_and_add {b:bool | b} ():<prf> [b] void
 (* ****** ****** *)
 
 prfun pridentity {a:vt@ype} (x: !INV(a)): void
+
+(* ****** ****** *)
+
+dataprop
+EQTYPE (vt@ype, vt@ype) = {a:vt@ype} EQTYPE (a, a)
 
 (* ****** ****** *)
 
@@ -453,7 +466,7 @@ fun main_void_0
   ((*void*)): void = "ext#mainats_void_0"
 fun main_argc_argv_0
   {n:int | n >= 1}
-  (argc: int n, argv: !argv n): void = "ext#mainats_argc_argv_0"
+  (argc: int n, argv: !argv(n)): void = "ext#mainats_argc_argv_0"
 overload main0 with main_void_0
 overload main0 with main_argc_argv_0
 //
@@ -465,7 +478,7 @@ fun main_void_int
   ((*void*)): int = "ext#mainats_void_int"
 fun main_argc_argv_int
   {n:int | n >= 1}
-  (argc: int n, argv: !argv n): int = "ext#mainats_argc_argv_int"
+  (argc: int n, argv: !argv(n)): int = "ext#mainats_argc_argv_int"
 fun main_argc_argv_envp_int
   {n:int | n >= 1}
   (argc: int n, argv: !argv n, envp: ptr): int = "ext#mainats_argc_argv_envp_int"

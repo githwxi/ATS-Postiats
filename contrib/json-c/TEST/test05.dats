@@ -11,15 +11,9 @@
 *)
 
 (* ****** ****** *)
-
-%{^
-#include "json-c/CATS/json.cats"
-%}
-
-(* ****** ****** *)
 //
 #include
-"share/atspre_staload_tmpdef.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -28,8 +22,8 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "json-c/SATS/json.sats"
-staload _(*anon*) = "json-c/DATS/json.dats"
+staload "./../SATS/json.sats"
+staload _(*anon*) = "./../DATS/json.dats"
 
 (* ****** ****** *)
 

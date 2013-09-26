@@ -1,0 +1,472 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>Effectivats-word-counting</title>
+</head>
+
+<body>
+
+<h1>
+Effective ATS: Word Counting
+</h1>
+
+I would like to present in this article a program that counts the number of
+occurrences of each word in a given file. The focus of the presentation is
+on the process that finally leads to the construction of the program.
+
+<h2>
+What kind of input is expected?
+</h2>
+
+Basically, the input is a stream of words. So let us assume that we have
+a function [word_get] of the following type:
+
+<pre>
+fun word_get (): stropt
+</pre>
+
+Note that [stropt] is the type for an optional string, which is either a
+valid string or a null pointer. If [word_get] returns a null pointer, then
+it indicates that the end of a given stream (of words) is reached. Clearly,
+this means that [word_get] is a stateful function, that is, it maintains an
+internal state. In general, using stateful functions is considered a poor
+style of programming.  For instance, the function [strtok] in libc is
+infamous for its treachery of statefulness, and everyone bitten by it
+should know this all too well. In ATS, there is a convenient approach to
+removing stateful functions by simply turing them into templates.  For the
+moment, let us focus on getting a running implementation.
+
+<h2>
+What kind of output is expected?
+</h2>
+
+Let us say that we want to output all of the encountered words in an order
+such that a word appears ahead of another one if there are more occurrences
+of the former than the latter. This means that we need to build an
+associative map that associates each word with the number of the
+occurrences of this word. So we introduce the following abstract type
+[wcmap_type] for such a map and [wcmap] as a shorthand for [wcmap_type]:
+
+<pre>
+abstype wcmap_type = ptr
+typedef wcmap = wcmap_type
+</pre>
+
+Note that [wcmap_type] is a boxed type, that is, the size of this type is
+that of a pointer (of the type [ptr]).
+
+<p>
+
+How should a map of the type [wcmap] be created? We introduce a function
+for creating an empty map:
+
+<pre>
+fun wcmap_create (): wcmap
+</pre>
+
+If a word is encountered, we need to increase its number of occurrences by
+1. This is done by the following function:
+
+<pre>
+fun wcmap_incby1 (map: wcmap, w: string): void
+</pre>
+
+As we also need to sort words according to their numbers of occurrences, we
+introduce a function for sequentializing a [wcmap]:
+
+<pre>
+fun wcmap_listize (map: wcmap): list0 @(string, int)
+</pre>
+
+In libats, which is a part of ATS library, there are many implementations
+of maps. For someone familiar with data structures, it should be clear that
+a good fit for [wcmap] is a hashtable-based map implementation. Of course,
+a map implementation based on some form of balanced-tree (e.g. AVL-tree)
+should work as well. My own experiment showed that the former was about 2-3
+times faster than the latter.
+
+<h2>
+Implementing WordCounting
+</h2>
+
+Let us declare the main function for counting words as follows:
+
+<pre>
+fun WordCounting (): wcmap
+</pre>
+
+So by calling [WordCounting], we generate a [wcmap] that maps each
+encountered word to its number of occurrences. An implementation of
+[WordCounting] is given as follows:
+
+<pre>
+implement
+WordCounting () = let
+//
+fun loop
+  (map: wcmap): void = let
+//
+val opt = word_get ()
+val issome = stropt_is_some (opt)
+//
+in
+  if issome then let
+    val () = wcmap_incby1 (map, stropt_unsome (opt)) in loop (map)
+  end else () // end of [if]
+end // end of [loop]
+//
+val map = wcmap_create ()
+val ((*void*)) = loop (map)
+//
+in
+  map
+end // end of [WordCounting]
+</pre>
+
+Essentially, what the inner function [loop] does is to enumerate a word by
+calling [word_get] and then increase the count of the word by one; [loop]
+terminates when [word_get] returns a null pointer (which makes
+[stropt_is_some] to return false).
+
+<p>
+
+I hope that the reader can truly appreciate the top-down style of
+programming presented above, which makes effective use of abstract types in
+ATS.  My own observation says that most programmers employ a bottom-up
+style of progrmming in practice. When given the word-counting problem, they
+would focus on implementing [wcmap] (and the functions associated with it)
+and/or functions like [word_get]. For a simple problem like word-counting,
+a competent programmer can probably handle it with whatsoever approach he or
+she chooses. However, when dealing with larger and more complex problems, one
+can easily lose focus with a bottom-up approach, writing code that is only
+to be abandoned later. To some extent, writing a program is like telling a
+story: The story can hardly be coherent if the storyteller is out of focus.
+
+<h2>
+How should [word_get] be implemented?
+</h2>
+
+One way to implement [word_get] is to first assume that we have a function
+[char_get] of the following type:
+
+<pre>
+fun char_get (): int
+</pre>
+
+If [char_get] returns a non-negative integer, then the integer is the ASCII
+encoding of a character; otherwise, it is the indication that no more
+character is available.
+
+<p>
+
+A possible implementation of [word_get] based on [char_get] is given as follows:
+
+<pre>
+implement
+word_get () = let
+//
+typedef
+charlst = list0(char)
+//
+fnx loop
+(
+// argmentless
+) : charlst = let
+  val i = char_get ()
+in
+//
+if i >= 0 then
+(
+  if isalpha (i) then
+    loop2 (cons0{char}(int2char0(i), nil0))
+  else loop () // end of [if]
+) else nil0((*void*))
+//
+end // end of [loop]
+
+and loop2
+(
+  res: charlst
+) : charlst = let
+  val i = char_get ()
+in
+  if isalpha (i) then
+    loop2 (cons0{char}(int2char0(i), res)) else res
+  // end of [if]
+end // end of [loop2]
+//
+val cs = loop ()
+//
+in
+//
+case+ cs of
+| nil0 () => stropt_none ((*void*))
+| cons0 _ => stropt_some (string_make_rlist (cs))
+//
+end // end of [word_get]
+</pre>
+
+Note that [loop] is called to skip non-alphabetical chars while [loop2] is
+called to accumulate alphabetical chars. The keywork [fnx] (in place of
+[fun]) means that [loop] and [loop2] are compiled jointly so that the
+tail-recursive calls in their bodies can all be turned into direct local
+jumps.  The function [string_make_rlist] creates a string consisting of the
+sequence of chars in the reverse of a given list. For instance, if the list
+consists of 'a', 'b' and 'c', then the string is "cba".
+
+<h2>
+How should [wcmap] be implemented?
+</h2>
+
+The following code gives a straightforward hashtable-based implementation
+of [wcmap]. Some details on various hashtable-functions can be found
+<a href="http://www.ats-lang.org/LIBRARY/libats/ML/hashtbl.html">on-line</a>.
+
+<pre>
+local
+//
+staload
+HT = "libats/ML/SATS/hashtbl.sats"
+//
+assume wcmap_type = $HT.hashtbl (string, int)
+//
+in (* in of [local] *)
+
+implement
+wcmap_create () =
+  $HT.hashtbl_make_nil (i2sz(1024))
+// end of [wcmap_create]
+
+implement
+wcmap_incby1
+  (map, w) = let
+//
+val opt = $HT.hashtbl_search (map, w)
+//
+in
+//
+case+ opt of
+| ~Some_vt (n) =>
+  {
+    val-~Some_vt _ = $HT.hashtbl_insert (map, w, n+1)
+  }
+| ~None_vt ((*void*)) => $HT.hashtbl_insert_any (map, w, 1)
+//
+end // end of [wcmap_incby1]
+
+implement
+wcmap_listize (map) = $HT.hashtbl_takeout_all (map)
+
+end // end of [local]
+</pre>
+
+A complete running program containing the entirety of the above presented
+code can be found in the file wordcnt.dats, and there is also a Makefile
+for compiling it.
+
+<p>
+
+Following is a list of the 100 most frequently used words in the novel "Moby Dick"
+by Herman Melville:
+
+<pre>
+the	->	14515
+of	->	6673
+and	->	6464
+a	->	4799
+to	->	4683
+in	->	4210
+that	->	3080
+it	->	2533
+his	->	2513
+i	->	2127
+he	->	1894
+but	->	1822
+s	->	1816
+with	->	1765
+as	->	1750
+is	->	1748
+was	->	1645
+for	->	1637
+all	->	1535
+this	->	1431
+at	->	1331
+by	->	1211
+whale	->	1191
+not	->	1169
+from	->	1095
+so	->	1066
+be	->	1062
+on	->	1062
+him	->	1061
+you	->	953
+one	->	921
+there	->	864
+now	->	786
+or	->	783
+had	->	779
+have	->	772
+were	->	684
+they	->	667
+which	->	653
+like	->	647
+me	->	629
+then	->	628
+are	->	618
+their	->	618
+some	->	617
+what	->	617
+when	->	606
+an	->	600
+no	->	590
+my	->	586
+upon	->	566
+out	->	537
+man	->	527
+up	->	523
+into	->	522
+ship	->	513
+more	->	507
+ahab	->	501
+if	->	500
+them	->	471
+we	->	470
+ye	->	470
+sea	->	455
+old	->	449
+would	->	432
+other	->	427
+been	->	415
+over	->	408
+these	->	405
+will	->	397
+though	->	384
+its	->	381
+only	->	377
+down	->	376
+such	->	375
+who	->	366
+any	->	360
+yet	->	345
+head	->	344
+boat	->	333
+time	->	333
+her	->	332
+long	->	330
+captain	->	327
+very	->	323
+here	->	321
+about	->	317
+do	->	316
+still	->	312
+than	->	311
+great	->	306
+those	->	306
+said	->	303
+before	->	298
+has	->	293
+must	->	293
+two	->	292
+t	->	291
+most	->	285
+seemed	->	283
+</pre>
+
+Unsurprisingly, <u>whale</u> is the most frequently used noun in this
+novel, and the second one and third one are <u>ship</u> and <u>sea</u>,
+respectively.
+
+<h2>
+Turning stateful functions into stateless templates
+</h2>
+
+In the above implementation, the function [char_get] is stateful, that is,
+it posseses an internal state. If two threads call [char_get] around the
+same time, then a race-condition may happen. In ATS, we can eliminate a
+stateful function by turning it into a template. For instance, we can
+declare [char_get] as follows:
+
+<pre>
+fun{} char_get (): int
+</pre>
+
+Also, functions that call [char_get] directly or indirectly need to be
+declared as templates. This means that we need to turn [word_get] and
+[WordCounting] into templates as well:
+
+<pre>
+fun{} word_get (): stropt
+fun{} WordCounting (): wcmap
+</pre>
+
+Now let us declare a function
+[WordCounting_fileref] as follows:
+
+<pre>
+fun WordCounting_fileref (inp: FILEref): wcmap
+</pre>
+
+which is just variant of [WordCounting] that reads all the words from a
+given file handle. Then [WordCounting_fileref] can be implemented as follows:
+
+<pre>
+local
+
+staload
+STDIO = "libc/SATS/stdio.sats"
+
+in (* in of [local] *)
+
+implement
+WordCounting_fileref (inp) = let
+//
+implement
+char_get<> () = $STDIO.fgetc0 (inp)
+//
+in
+  WordCounting ()
+end // end of [WordCounting_fileref]
+
+end // end of [local]
+</pre>
+
+It is now safe for two threads to simultaneously call
+[WordCounting_fileref] on distint file handles.
+
+A complete running program containing the above implementation of
+[WordCounting_fileref] can be found in the file wordcnt2.dats, and there is
+also a Makefile for compiling it.
+
+<p>
+
+The template system of ATS is an advanced programming feature that can
+greatly facilitate code organization and reuse. I will gradually present
+more progromming examples to illustrate effective use of templates in
+practice.
+
+<h2>
+A memory-clean implemenation of word-counting
+</h2>
+
+A program is considered a memory-clean implementation if all the
+dynamically allocated memory is freed immediately before the termination of
+the program. For instance, if you
+use <a href="http://valgrind.org">valgrind</a> to monitor an execution of
+this program, then the gathered statics should indicate that no leak is
+ever possible.
+
+<p>
+
+By making use of linear types, I modified the program in wordcnt.dats to
+make it a memory-clean implementation. Please see wordcnt_vt.dats for the
+entirety of the modified version. Also, there is a Makefile for compiling it.
+
+<hr size="2">
+
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+
+</body>
+</html>

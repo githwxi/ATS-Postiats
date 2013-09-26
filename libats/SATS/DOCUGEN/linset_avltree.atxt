@@ -1,7 +1,7 @@
 (* ****** ****** *)
 
 %{
-implement srcfilename_get () = "../linset.sats"
+implement srcfilename_get () = "../linset_avltree.sats"
 %}
 
 (* ****** ****** *)
@@ -23,8 +23,8 @@ ATSLIB/libats/linset_avltree\
 
 #para("\
 
-This package implements linear maps based on the AVL-tree structure.  Note
-that such maps are particularly efficient for supporting search operations.
+This package implements linear sets based on the AVL-tree structure.  Note
+that such sets are particularly efficient for supporting search operations.
 
 ")
 
@@ -41,10 +41,9 @@ The type constructor #stacode("set") is a shorthand for
 #declnamesynop("set_vtype")
 #decldescrpt("\
 
-Given a kind tk and a type T, the abstract viewtype
-#stacode("set_vtype(tk, T)") is for a set storing elements
-of the type T. Note that #stacode("set_vtype") is co-variant
-in its second type argument.\
+Given a type T, the abstract viewtype #stacode("set_vtype(T)")
+is for a set storing elements of the type T. Note that #stacode("set_vtype")
+is co-variant in its type argument.\
 
 ")
 
@@ -52,6 +51,78 @@ in its second type argument.\
 
 #declnamesynop("compare_elt_elt")
 #decldescrpt("This function is for comparing set elements.")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_nil")
+#declnamesynop("linset_make_nil")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_sing")
+#declnamesynop("linset_make_sing")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_is_nil")
+#declnamesynop("linset_isnot_nil")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_is_member")
+#declnamesynop("linset_isnot_member")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_copy")
+#declnamesynop("linset_free")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_insert")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_takeout")
+#declnamesynop("linset_takeout_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_remove")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_takeoutmax")
+#declnamesynop("linset_takeoutmax_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_takeoutmin")
+#declnamesynop("linset_takeoutmin_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_linset")
+#declnamesynop("fprint_linset$sep")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_foreach")
+#declnamesynop("linset_foreach_env")
+#declnamesynop("linset_foreach$fwork")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_listize")
+#declnamesynop("linset_listize1")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_avltree_height")
+#decldescrpt("\
+
+Given a set xs represented by some AVL-tree, this function returns the
+height of the tree. ")
 
 (* ****** ****** *)
 

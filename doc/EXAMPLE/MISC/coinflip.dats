@@ -17,7 +17,7 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload_tmpdef.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -121,14 +121,6 @@ fun test_show_all {n,i:nat | i <= n+1} {l:addr} .<n+1-i>.
     (test_show_one (array_int_ptr_get (pf | A, i)); test_show_all (pf | A, n, i+1))
   else ()
 // end of [test_show_all]
-
-(* ****** ****** *)
-
-%{^
-#ifndef atslib_clock_type
-typedef clock_t atslib_clock_type ;
-#endif // end of [ifndef]
-%}
 
 (* ****** ****** *)
 

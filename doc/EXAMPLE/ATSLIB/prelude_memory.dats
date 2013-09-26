@@ -5,7 +5,7 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload_tmpdef.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -41,7 +41,7 @@ val () = assertloc (p > 0)
 //
 val () = mfree_gc (pfat, pfgc | p)
 //
-} // end of [val]
+} (* end of [val] *)
 
 (* ****** ****** *)
 

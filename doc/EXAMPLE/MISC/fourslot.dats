@@ -4,12 +4,13 @@
 //
 (* ****** ****** *)
 //
-// Implemented by Hongwei Xi in May, 2013
+// Author: Hongwei Xi
+// Authoremail: gmhwxiATgmailDOTcom
+// Start time: May, 2013
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_staload_tmpdef.hats"
+#include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 

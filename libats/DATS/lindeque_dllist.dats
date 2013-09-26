@@ -75,16 +75,16 @@ deque1_decode
 (* ****** ****** *)
 
 implement{}
-lindeque_nil {a} () = $UN.castvwtp0{deque(a,0)}(nullp)
+lindeque_nil{a} () = $UN.castvwtp0{deque(a,0)}(nullp)
 
 (* ****** ****** *)
 //
 implement{}
-lindeque_is_nil {a}{n} (dq) =
+lindeque_is_nil{a}{n} (dq) =
   $UN.cast{bool(n==0)}($UN.castvwtp1{ptr}(dq) = nullp)
 //
 implement{}
-lindeque_isnot_nil {a}{n} (dq) =
+lindeque_isnot_nil{a}{n} (dq) =
   $UN.cast{bool(n > 0)}($UN.castvwtp1{ptr}(dq) > nullp)
 //
 (* ****** ****** *)
@@ -193,6 +193,10 @@ in
   $UN.castvwtp0{dllist(a,0,n)}(nxs)
 end // end of [lindeque2dllist]
 
+(* ****** ****** *)
+//
+// HX: ngc-functions should not involve malloc/free!
+//
 (* ****** ****** *)
 
 implement{a}

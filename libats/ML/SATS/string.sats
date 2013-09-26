@@ -52,6 +52,11 @@ fun string_copy (s: NSH(string)):<> string
 
 (* ****** ****** *)
 
+fun string_make_list (cs: list0 (char)):<> string
+fun string_make_rlist (cs: list0 (char)):<> string
+
+(* ****** ****** *)
+
 fun string_make_substring
   (s: NSH(string), st: size_t, ln: size_t):<> string
 // end of [string_make_substring]

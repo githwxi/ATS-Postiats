@@ -1,6 +1,12 @@
 (* ****** ****** *)
 
 %{
+implement srcfilename_get () = "../libpq-fe.sats"
+%}
+
+(* ****** ****** *)
+
+%{
 val () = patscode_count_reset()
 val () = patscode_prefix_set("TRYIT/contrib_postgresql_libpq-fe")
 %}

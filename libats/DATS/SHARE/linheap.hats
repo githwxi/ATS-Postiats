@@ -34,9 +34,7 @@
 (* ****** ****** *)
 
 implement{a}
-compare_elt_elt
-  (x1, x2) = gcompare_ref<a> (x1, x2)
-// end of [compare_elt_elt]
+compare_elt_elt = gcompare_ref<a>
 
 (* ****** ****** *)
 
@@ -101,6 +99,19 @@ end else let
 end // end of [if]
 //
 end // end of [linheap_delmin_opt]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+linheap_free (hp) = let
+//
+implement
+linheap_freelin$clear<a> (x) = ()
+//
+in
+  linheap_freelin<a> (hp)
+end // end of [linheap_free]
 
 (* ****** ****** *)
 

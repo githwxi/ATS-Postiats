@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,18 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: December, 2011
+//
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 
 staload
 UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
-staload "prelude/DATS/list.dats"
-staload "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
@@ -330,7 +331,7 @@ in
           S2ZEapp (s2ze_fun, aux_arglst (env, s2es_arg))
         end // HX: can be incorrect for certain constructors
     end (* end of [S2Ecst] *)
-  | _ => S2ZEbot () (* HX: ??? *)
+  | _ => S2ZEbot () (* HX: really??? *)
 end // end of [aux_s2exp_app]
 
 and aux_arglst (

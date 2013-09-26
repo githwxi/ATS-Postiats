@@ -27,24 +27,18 @@
 
 (* ****** ****** *)
 
-#define
-ATS_PACKNAME "ATSLIB.libats.linset_listord"
-#define
-ATS_STALOADFLAG 0 // no static loading at run-time
-
-(* ****** ****** *)
-
-#define ATS_EXTERN_PREFIX "atslib_"
-
-(* ****** ****** *)
-
-sortdef tk = tkind
-sortdef t0p = t@ype and vt0p = vt@ype
+#define ATS_PACKNAME "ATSLIB.libats.linset_listord"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 
 #include "./SHARE/linset.hats"
 #include "./SHARE/linset_node.hats"
+
+(* ****** ****** *)
+
+castfn
+linset2list {a:t0p} (xs: set (INV(a))):<> List0_vt (a)
 
 (* ****** ****** *)
 

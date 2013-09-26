@@ -40,19 +40,20 @@
 
 /* ****** ****** */
 
+#ifndef strncmp
 extern
-int
-strncmp
-(
-  const char *s1, const char *s2, size_t n
-) ; // end of [strncmp]
+int strncmp (const char *s1, const char *s2, size_t n) ;
+#endif // ifndef(strncmp)
 
 /* ****** ****** */
 
-extern
-void *memchr(const void *s, int c, size_t n);
-extern
-void *memcpy(void *dst, const void *src, size_t n);
+#ifndef memchr
+extern void *memchr(const void *s, int c, size_t n) ;
+#endif // ifndef(memchr)
+
+#ifndef memcpy
+extern void *memcpy(void *dst, const void *src, size_t n) ;
+#endif // ifndef(memcpy)
 
 /* ****** ****** */
 

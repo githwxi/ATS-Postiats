@@ -18,8 +18,8 @@ Time of Generation: #timestamp()\
 
 A reference is essentially a heap-allocated array of size 1. It is
 persistent in the sense that the memory allocated for storing the content
-of a reference cannot be freed manually. Instead, it can only be reclaimed
-through garbage collection (GC).
+of a reference cannot be freed manually. Instead, it can only be (safely)
+reclaimed through garbage collection (GC).
 
 ")
 
@@ -30,7 +30,7 @@ Given a viewtype VT, the type for references to values of viewtype VT is
 is declared to be abstract in ATS. However, it can be defined as follows:
 
 #atscode('\
-typedef ref (a:viewt@ype) = [l:addr] (vbox (a @ l) | ptr l)
+typedef ref (a:vt@ype) = [l:addr] (vbox (a @ l) | ptr l)
 ')
 
 The interfaces for various functions on references can be found in
@@ -43,13 +43,19 @@ For creating a reference, the function template #dyncode("ref_make_elt") of
 the following interface can be called:
 
 #atscode('\
-fun{a:viewt@ype} ref_make_elt (x: a):<!wrt> ref a
+fun{a:vt@ype} ref_make_elt (x: a):<!wrt> ref a
 ')
 
-Note that the symbol #stacode("!wrt") indicates that the so-called
-#stacode("wrt")-effect may occur when #dyncode("ref_make_elt") is called.
+It is also allowed to use the shorthand #dyncode("ref") for
+#dyncode("ref_make_elt").  Note that the symbol #stacode("!wrt") indicates
+that the so-called #stacode("wrt")-effect may occur when
+#dyncode("ref_make_elt") is called.
 
-For reading from and writing to a reference, the function templates
+")
+
+#para("\
+
+For reading writing through a reference, the function templates
 #dyncode("ref_get_elt") and #dyncode("ref_set_elt") can be used,
 respectively, which are assigned the following interfaces:
 
@@ -59,12 +65,11 @@ fun{a:t@ype} ref_set_elt (r: ref a, x: a):<!refwrt> void
 ')
 
 Note that the symbol #stacode("!ref") indicates that the so-called
-#stacode("ref")-effect may occur when #dyncode("ref_get_elt") is
-evaluated. Similarly, #stacode("!refwrt") means both #stacode("ref")-effect
-and #stacode("wrt")-effect may occur when #dyncode("ref_set_elt").  Given a
-reference #dyncode("r") and a value #dyncode("v"),
-#dyncode("ref_get_elt(r)") and #dyncode("ref_set_elt(r, v)") can be written
-as #dyncode("!r") and #dyncode("!r := v"), respectively.\
+ref-effect may occur when #dyncode("ref_get_elt") is evaluated. Similarly,
+#stacode("!refwrt") means both ref-effect and wrt-effect may occur when
+#dyncode("ref_set_elt").  Given a reference #dyncode("r") and a value
+#dyncode("v"), #dyncode("ref_get_elt(r)") and #dyncode("ref_set_elt(r, v)")
+can be written as #dyncode("!r") and #dyncode("!r := v"), respectively.\
 
 ")#comment("para")
 
@@ -75,12 +80,10 @@ For instance, following is such an example:
 
 #atscode_extract('\
 local
-//
-// [ref] is a shorthand for [ref_make_elt]
-//
+
 val count = ref<int> (0)
 
-in // in of [local]
+in (* in of [local] *)
 
 fun getNewName
   (prfx: string): string = let
@@ -108,6 +111,7 @@ function is always a no-op at run-time.
 
 #para("\
 
+#emphasis("Misuse of References")
 References are commonly misused in practice. The following program is often
 written by a beginner of functional programming who has already learned
 (some) imperative programming:
@@ -164,6 +168,32 @@ Unless strong justification can be given, making extensive use of
 
 ")#comment("para")
 
+#para("\
+
+#emphasis("Statically Allocated References")
+Creating a reference by calling #dyncode("ref_make_elt") involves dynamic
+memory allocation. If this is not desirable or even acceptable, it is
+possible to only employ statically allocated memory in a reference creation
+as is shown below:
+
+#atscode_extract('\
+var myvar: int = 0
+val myref = ref_make_viewptr (view@(myvar) | addr@(myvar))
+')
+
+The function #dyncode("ref_make_viewptr") takes a pointer and a proof of
+some at-view associated with the pointer and returns a reference after
+consuming the proof. As #dyncode("ref_make_viewptr") is a cast-function, it
+causes no run-time overhead. In the above code, #dyncode("myvar") is
+statically allocated and it is no longer available after its at-view proof
+is consumed by #dyncode("ref_make_viewptr"). It should be interesting to
+observe that both #dyncode("myvar") and #dyncode("myref") are just the same
+pointer in C but they are the reification of fundamentally different
+concepts in ATS: the former is a linear variable while the latter is a
+non-linear reference.
+
+")#comment("para")
+
 </chapter><!--"reference"-->
 
 #comment(" ****** ****** ")
@@ -178,7 +208,7 @@ implement main () =
 {
 //
 val filr =
-  $STDIO.fopen_ref_exn ("chap_reference_extracted.dats", file_mode_w)
+  $STDIO.fopen_ref_exn ("../CODE/chap_reference.dats", file_mode_w)
 val () = fprint_theCodeLst (filr)
 val () = $STDIO.fclose_exn (filr)
 //

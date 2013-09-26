@@ -63,8 +63,11 @@ extern void *atsruntime_realloc_undef (void *ptr, size_t bsz) ;
 //
 #include "pats_ccomp_memalloc_libc.h"
 //
+#define ATS_MINIT atsruntime_minit_libc
 #define ATS_MFREE atsruntime_mfree_libc
 #define ATS_MALLOC atsruntime_malloc_libc_exn
+#define ATS_CALLOC atsruntime_calloc_libc_exn
+#define ATS_REALLOC atsruntime_realloc_libc_exn
 //
 #endif // end of [ATS_MEMALLOC_LIBC]
 
@@ -76,8 +79,11 @@ extern void *atsruntime_realloc_undef (void *ptr, size_t bsz) ;
 //
 #include "pats_ccomp_memalloc_gcbdw.h"
 //
+#define ATS_MINIT atsruntime_minit_gcbdw
 #define ATS_MFREE atsruntime_mfree_gcbdw
 #define ATS_MALLOC atsruntime_malloc_gcbdw_exn
+#define ATS_CALLOC atsruntime_calloc_gcbdw_exn
+#define ATS_REALLOC atsruntime_realloc_gcbdw_exn
 //
 #endif // end of [ATS_MEMALLOC_GCBDW]
 
@@ -89,8 +95,11 @@ extern void *atsruntime_realloc_undef (void *ptr, size_t bsz) ;
 //
 #include "pats_ccomp_memalloc_user.h"
 //
+#define ATS_MINIT atsruntime_minit_user
 #define ATS_MFREE atsruntime_mfree_user
 #define ATS_MALLOC atsruntime_malloc_user
+#define ATS_CALLOC atsruntime_calloc_user
+#define ATS_REALLOC atsruntime_realloc_user
 //
 #endif // end of [ATS_MEMALLOC_USER]
 
@@ -99,8 +108,11 @@ extern void *atsruntime_realloc_undef (void *ptr, size_t bsz) ;
 #ifndef ATS_MEMALLOC_FLAG
 #define ATS_MEMALLOC_FLAG
 //
+#define ATS_MINIT atsruntime_minit_undef
 #define ATS_MFREE atsruntime_mfree_undef
 #define ATS_MALLOC atsruntime_malloc_undef
+#define ATS_CALLOC atsruntime_calloc_undef
+#define ATS_REALLOC atsruntime_realloc_undef
 //
 #endif // end of [ATS_MEMALLOC_FLAG]
 

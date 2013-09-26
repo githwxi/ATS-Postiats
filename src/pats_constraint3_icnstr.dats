@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,13 +27,24 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: February, 2012
+//
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
+
+(* ****** ****** *)
+
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_constraint3_icnstr"
 
 (* ****** ****** *)
 
@@ -42,6 +53,7 @@ staload "./pats_intinf.sats"
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
+overload prerr with $LOC.prerr_location
 
 (* ****** ****** *)
 
@@ -283,9 +295,8 @@ case+ s3e0 of
 *)
 //
 | _ => let
-(*
-    val () = println! ("s3exp2icnstr: s3e0 = ", s3e0)
-*)
+    val () = prerr_error3_loc (loc0)
+    val () = prerrln! (": this constraint cannot be s3exp2icnstr-handled: s3e0 = ", s3e0)
     val () = assertloc (false) in ICerr (loc0, $UN.cast(s3e0))
   end // end of [_]
 //

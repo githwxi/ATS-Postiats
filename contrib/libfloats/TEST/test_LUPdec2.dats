@@ -9,8 +9,7 @@
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_staload_tmpdef.hats"
+#include "share/atspre_staload.hats"
 //
 staload _ = "prelude/DATS/gnumber.dats"
 //
@@ -19,31 +18,30 @@ staload _ = "prelude/DATS/gnumber.dats"
 staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
+//
 staload "libats/SATS/gvector.sats"
 staload "libats/SATS/gmatrix.sats"
 staload "libats/SATS/gmatrix_row.sats"
+//
 staload _ = "libats/DATS/gvector.dats"
 staload _ = "libats/DATS/gmatrix.dats"
 staload _ = "libats/DATS/gmatrix_row.dats"
 staload _ = "libats/DATS/gmatrix_col.dats"
 staload _ = "libats/DATS/refcount.dats"
-
+//
 (* ****** ****** *)
-
-staload "libfloats/SATS/blas.sats"
-staload _ = "libfloats/DATS/blas0.dats"
-staload _ = "libfloats/DATS/blas1.dats"
-staload _ = "libfloats/DATS/blas_gemv.dats"
-staload _ = "libfloats/DATS/blas_gemm.dats"
-
-(* ****** ****** *)
-
-staload "libfloats/SATS/lavector.sats"
-staload "libfloats/SATS/lamatrix.sats"
-staload _ = "libfloats/DATS/lavector.dats"
-staload _ = "libfloats/DATS/lamatrix.dats"
-
+//
+staload "./../SATS/blas.sats"
+staload "./../SATS/lavector.sats"
+staload "./../SATS/lamatrix.sats"
+//
+staload _ = "./../DATS/blas0.dats"
+staload _ = "./../DATS/blas1.dats"
+staload _ = "./../DATS/blas_gemv.dats"
+staload _ = "./../DATS/blas_gemm.dats"
+staload _ = "./../DATS/lavector.dats"
+staload _ = "./../DATS/lamatrix.dats"
+//
 (* ****** ****** *)
 
 extern

@@ -1,0 +1,25 @@
+<preface>
+<title>Preface</title>
+
+<para>
+
+ATS is a rich programming language equipped with a highly expressive type
+system for specifying and enforcing program invariants. In particular, both
+dependent and linear types are available in ATS to support practical
+programming.  ATS/Cairo provide an API in ATS for
+
+<ulink url="http://www.cairographics.org">cairo</ulink>,
+
+a comprehensive drawing package supporting 2D graphics. While there are
+already many on-line tutorials on using cairo (e.g., <ulink
+url="http://www.cairographics.org/tutorial">this one</ulink>), the current
+one focuses on employing types in ATS to facilitate safe and reliable
+programming with cairo.  In particular, it is demonstrated concretely here
+that linear types can be used effectively to prevent resources (e.g.,
+contexts and surfaces created for drawing) from being leaked due to
+programming errors. The reader of the tutorial is assumed to have already
+acquired certain level of familiarity with ATS.
+
+</para>
+
+</preface>

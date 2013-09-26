@@ -25,10 +25,10 @@ all:: %s\n\
   $(CCOPT) \
   -I$(PATSHOMEQ) \
   -I$(PATSHOMEQ)/ccomp/runtime \
-  -I$(PATSHOMEQ)/contrib \
+  -I$(PATSHOMERELOCQ)/contrib \
   -DATS_MEMALLOC_LIBC %s -o $@ $< %s\n\
 %s_dats.c: %s.dats ; \
-  $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output %s_dats.c --dynamic %s.dats\n\
+  $(PATSOPT) -IATS$(PATSHOMERELOCQ)/contrib --output %s_dats.c --dynamic %s.dats\n\
 clean:: ; $(RMF) %s_dats.o\n\
 clean:: ; $(RMF) %s_dats.c\n\
 cleanall:: ; $(RMF) %s.exe\n\
@@ -53,20 +53,16 @@ end // end of [make2_entry]
 
 ######
 
-ATSHOMEQ="$(ATSHOME)"
-ATSCC=$(ATSHOMEQ)/bin/atscc
-ATSOPT=$(ATSHOMEQ)/bin/atsopt
-ATSDOC=$(ATSHOMEQ)/bin/atsdoc
-
-######
-
 CCOPT=gcc
-PATSHOMEQ="$(PATSHOME)"
-PATSOPT=$(PATSHOMEQ)/src/patsopt
 
 ######
 
-ATSGCFLAG=-D_ATS_GCATS
+PATSHOMEQ="$(PATSHOME)"
+PATSHOMERELOCQ="$(PATSHOMERELOC)"
+
+######
+
+PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
@@ -92,7 +88,6 @@ clean:: ; $(RMF) *_atxt.dats
 clean:: ; $(RMF) Makefile.exe
 
 cleanall:: clean
-cleanall:: ; $(RMF) *.png
 
 ###### end of [Makefile] ######
 \

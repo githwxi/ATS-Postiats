@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,15 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: April, 2011
 //
 (* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
+(* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -657,12 +661,12 @@ case+ d0e0.d0exp_node of
   in
     FXITMatm (d1exp_arrpsz (loc0, elt, d1es_elts))
   end // end of [D0Earrpsz]
-| D0Earrinit (elt, asz, ini) => let
+| D0Earrinit (elt, asz, init) => let
     val elt = s0exp_tr (elt)
     val asz = d0expopt_tr (asz)
-    val ini = d0explst_tr (ini)
+    val init = d0explst_tr (init)
   in
-    FXITMatm (d1exp_arrinit (loc0, elt, asz, ini))
+    FXITMatm (d1exp_arrinit (loc0, elt, asz, init))
   end // end of [D0Earrinit]
 //
 | D0Eraise (d0e) => FXITMatm (d1exp_raise (loc0, d0exp_tr (d0e)))
@@ -796,12 +800,12 @@ case+ d0e0.d0exp_node of
     val inv = (case+ invopt of
       | Some x => loopi0nv_tr (loc_inv, x) | None _ => loopi1nv_nil (loc_inv)
     ) : loopi1nv // end of [val]
-    val ini = d0exp_tr itp.itp_ini
+    val init = d0exp_tr itp.itp_init
     val test = d0exp_tr itp.itp_test
     val post = d0exp_tr itp.itp_post
     val body = d0exp_tr body
   in 
-    FXITMatm (d1exp_for (loc0, inv, ini, test, post, body))
+    FXITMatm (d1exp_for (loc0, inv, init, test, post, body))
   end // end of [D0Efor]
 | D0Ewhile (
     invopt, loc_inv, test, body

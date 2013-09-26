@@ -119,15 +119,17 @@ present.\
 
 This function creates a matrix of a given dimension.  For each valid
 index-pair (i, j), the content of matrix-cell (i, j) is initialized by the
-return value of a call to #dyncode("matrix_tabulate$fwork").
+return value of a call to #dyncode("matrix_tabulate$fopr").
 
 ')
 
-#declnamesynop("matrix_tabulate$fwork")
+#declnamesynop("matrix_tabulate$fopr")
 
 (* ****** ****** *)
 
 #declnamesynop("fprint_matrix")
+#declnamesynop("fprint_matrix_int")
+#declnamesynop("fprint_matrix_size")
 #declnamesynop("fprint_matrix$sep1")
 #declnamesynop("fprint_matrix$sep2")
 #declnamesynop("fprint_matrix_sep")
@@ -154,8 +156,8 @@ return value of a call to #dyncode("matrix_tabulate$fwork").
 #declnamesynop("matrix_mapto")
 #declnamesynop("matrix_mapto$fwork")
 
-#declnamesynop("matrix_mapto2")
-#declnamesynop("matrix_mapto2$fwork")
+#declnamesynop("matrix_map2to")
+#declnamesynop("matrix_map2to$fwork")
 
 (* ****** ****** *)
 //

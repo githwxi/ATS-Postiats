@@ -1,5 +1,5 @@
 (*
-** Some code used in the book PROGINATS
+** Some code used in the book INT2PROGINATS
 *)
 
 (* ****** ****** *)
@@ -10,7 +10,7 @@ staload _(*anon*) = "prelude/DATS/integer.dats"
 (* ****** ****** *)
 
 datatype IEXP =
-  | IEXPcst of int // integer constants
+  | IEXPcst of int // constants
   | IEXPneg of (IEXP) // negation
   | IEXPadd of (IEXP, IEXP) // addition
   | IEXPsub of (IEXP, IEXP) // subtraction
@@ -86,8 +86,7 @@ macdef bgte (x, y) = BEXPgte (,(x), ,(y))
 val
 iexp1 = IEXPadd
 (
-  IEXPneg(IEXPnum(1))
-, IEXPmul(IEXPsub(IEXPnum(2), IEXP(3)), IEXP(4))
+  IEXPneg(I(1)), IEXPmul(IEXPsub(I(2), I(3)), I(4))
 )
 
 val

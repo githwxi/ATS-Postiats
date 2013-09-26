@@ -44,10 +44,16 @@ The type constructor #stacode("set") is a shorthand for
 
 #declnamesynop("funset_nil")
 #decldescrpt("This function forms an empty set.")
+#declnamesynop("funset_make_nil")
+#decldescrpt("This function is the same as #dyncode("funset_nil").")
+
+(* ****** ****** *)
 
 #declnamesynop("funset_sing")
 #decldescrpt("Given an element x, this function forms the singleton set
 containing x.")
+#declnamesynop("funset_make_sing")
+#decldescrpt("This function is the same as #dyncode("funset_sing").")
 
 (* ****** ****** *)
 
@@ -60,11 +66,16 @@ xs. Note that duplicated elements in xs are all removed in the formed set.
 
 (* ****** ****** *)
 
+#declnamesynop("funset_is_nil")
+#declnamesynop("funset_isnot_nil")
+
+(* ****** ****** *)
+
 #declnamesynop("funset_size")
 #decldescrpt("\
 
 This function returns the size of a given set xs. Its time complexity is
-O(1). ")
+O(n). ")
 
 (* ****** ****** *)
 
@@ -106,6 +117,20 @@ actually removed from the set xs. ")
 
 (* ****** ****** *)
 
+#declnamesynop("funset_getmax")
+#declnamesynop("funset_getmax_opt")
+#declnamesynop("funset_getmin")
+#declnamesynop("funset_getmin_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_takeoutmax")
+#declnamesynop("funset_takeoutmax_opt")
+#declnamesynop("funset_takeoutmin")
+#declnamesynop("funset_takeoutmin_opt")
+
+(* ****** ****** *)
+
 #declnamesynop("funset_union")
 #decldescrpt("\
 
@@ -132,20 +157,7 @@ between xs1 and xs2.  ")
 
 (* ****** ****** *)
 
-#declnamesynop("funset_is_subset")
-#decldescrpt("\
-
-Given sets xs1 and xs2, this function tests whether xs1 is a subset of xs2.  ")
-
-#declnamesynop("funset_is_supset")
-#decldescrpt("\
-
-Given sets xs1 and xs2, this function tests whether xs1 is a superset of
-xs2. ")
-
-(* ****** ****** *)
-
-#declnamesynop("funset_is_equal")
+#declnamesynop("funset_equal")
 #decldescrpt("\
 
 This function tests whether two given sets xs1 and xs2 are equal. ")
@@ -161,11 +173,67 @@ elements.  ")
 
 (* ****** ****** *)
 
+#declnamesynop("funset_is_subset")
+#decldescrpt("\
+
+Given sets xs1 and xs2, this function tests whether xs1 is a subset of xs2.  ")
+
+#declnamesynop("funset_is_supset")
+#decldescrpt("\
+
+Given sets xs1 and xs2, this function tests whether xs1 is a superset of
+xs2. ")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_funset")
+#decldescrpt("\
+
+This function prints out the elements in a given set. It calls
+#dyncode("fprint_funset$sep") to print a separator between every two
+consecutive elements.  ")
+
+#declnamesynop("fprint_funset$sep")
+#decldescrpt("\
+
+This function template is called by #dyncode("fprint_funset"). It
+prints out the string \", \" (a comma followed by a space character)
+by default.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_foreach")
+#declnamesynop("funset_foreach_env")
+#declnamesynop("funset_foreach$fwork")
+
+(* ****** ****** *)
+
 #declnamesynop("funset_listize")
 #decldescrpt("\
 
 Given a set xs, this function returns a linear list consisting of all the
 elements in xs.  ")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_flistize")
+#decldescrpt("\
+
+Given a set xs, this function returns a linear list consisting of all the
+elements returned by calling #dyncode("funset_flistize$fopr") on elements
+in xs.  ")
+
+#declnamesynop("funset_flistize$fopr")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_avltree_height")
+#decldescrpt("\
+
+Given a set represented by some AVL-tree, this function returns the
+height of the tree. ")
 
 (* ****** ****** *)
 

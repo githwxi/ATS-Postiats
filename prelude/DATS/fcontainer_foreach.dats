@@ -73,7 +73,7 @@ foreach_clo
   (xs, f) = let
   typedef clo_t = (x) -<clo,fe> void
   val p_f = addr@(f)
-  prval [f:addr] ADDREQ () = ptr_get_index (p_f)  
+  prval [f:addr] EQADDR () = ptr_get_index (p_f)  
   viewdef v = clo_t @ f
   fn app (pf: !v | x: x, p_f: !ptr f):<fe> void = !p_f (x)
 in
@@ -87,7 +87,7 @@ foreach_vclo
   (pfv | xs, f) = let
   typedef clo_t = (!v | x) -<clo,fe> void
   val p_f = addr@(f)
-  prval [f:addr] ADDREQ () = ptr_get_index (p_f)  
+  prval [f:addr] EQADDR () = ptr_get_index (p_f)  
   viewdef v2 = (v, clo_t @ f)
   fn app (pf: !v2 | x: x, p_f: !ptr f):<fe> void = () where {
     val () = !p_f (pf.0 | x)
@@ -197,7 +197,7 @@ iforeach_clo
   (xs, f) = let
   typedef clo_t = (int, x) -<clo,fe> void
   val p_f = addr@(f)
-  prval [f:addr] ADDREQ () = ptr_get_index (p_f)  
+  prval [f:addr] EQADDR () = ptr_get_index (p_f)  
   viewdef v = clo_t @ f
   fn app (pf: !v | i: int, x: x, p_f: !ptr f):<fe> void = !p_f (i, x)
 in
@@ -211,7 +211,7 @@ iforeach_vclo
   (pfv | xs, f) = let
   typedef clo_t = (!v | int, x) -<clo,fe> void
   val p_f = addr@(f)
-  prval [f:addr] ADDREQ () = ptr_get_index (p_f)  
+  prval [f:addr] EQADDR () = ptr_get_index (p_f)  
   viewdef v2 = (v, clo_t @ f)
   fn app (
     pf: !v2 | i: int, x: x, p_f: !ptr f

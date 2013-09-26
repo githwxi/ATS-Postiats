@@ -1,11 +1,32 @@
 (*
-** Some code used in the book PROGINATS
+** Some code
+** used in the book INT2PROGINATS
 *)
 
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/matrix0.dats"
-staload _(*anon*) = "prelude/DATS/reference.dats"
+(*
+** Author: Hongwei Xi
+** Authoremail hwxiATcsDOTbuDOTedu
+** Time: January, 2011
+*)
+
+(* ****** ****** *)
+
+(*
+** Ported to ATS2 by HX-2013-09
+*)
+
+(* ****** ****** *)
+//
+#include "share/atspre_define.hats"
+#include "share/atspre_staload.hats"
+//
+(* ****** ****** *)
+
+staload "libats/ML/SATS/basis.sats"
+staload "libats/ML/SATS/list0.sats"
+staload _(*anon*) = "libats/ML/DATS/list0.dats"
 
 (* ****** ****** *)
 
@@ -35,6 +56,15 @@ end // end of [listprod3]
 
 (* ****** ****** *)
 
+fun{
+a:t@ype
+} list0_length
+  (xs: list0 (a)): int =
+  try 1 + list0_length<a> (xs.tail) with ~ListSubscriptExn() => 0
+// end of [list0_length]
+
+(* ****** ****** *)
+
 val r = ref<int> (0) // creating a reference and init. it with 0
 val () = assertloc (!r = 0)
 val () = !r := !r + 1 // increasing the value stored at [r] by 1
@@ -44,7 +74,7 @@ val () = assertloc (!r = 1)
 //
 // HX: this one is done in a deplorable style
 //
-fun sum
+fun sumup
   (n: int): int = let
 //
   val i = ref<int> (1)
@@ -55,7 +85,7 @@ fun sum
   // end of [loop]
 in
   loop (); !res
-end // end of [sum]
+end // end of [sumup]
 
 (* ****** ****** *)
 
@@ -77,90 +107,69 @@ in '{
 
 (* ****** ****** *)
 
-local
-
-val counter = newCounter ()
-
-in (* in of [local] *)
-
-fun getNewVar (): string = let
-  val n = counter.get (); val () = counter.inc ()
+fun{
+a:t@ype
+} mtrxszref_transpose
+  (M: mtrxszref a): void = let
+//
+val nrow = mtrxszref_get_nrow (M)
+//
+fnx loop1
+  (i: size_t):<cloref1> void =
+  if i < nrow then loop2 (i, i2sz(0)) else ()
+//
+and loop2
+  (i: size_t, j: size_t):<cloref1> void =
+  if j < i then let
+    val tmp = M[i,j]
+  in
+    M[i,j] := M[j,i]; M[j,i] := tmp; loop2 (i, succ(j))
+  end else
+    loop1 (succ(i))
+  // end of [if]
+//
 in
-  "X" + tostring (n)
-end // end of [getNewVar]
-
-end // end of [local]
+  loop1 (i2sz(0))
+end // end of [mtrxszref_transpose]
 
 (* ****** ****** *)
 
-fun{a:t@ype}
-matrix0_transpose
-  (M: matrix0 a): void = let
-//
-  val nrow = matrix0_row (M)
-//
-  fn* loop1
-    (i: size_t):<cloref1> void =
-    if i < nrow then loop2 (i, 0) else ()
-  and loop2
-    (i: size_t, j: size_t):<cloref1> void =
-    if j < i then let
-      val tmp = M[i,j]
-    in
-      M[i,j] := M[j,i]; M[j,i] := tmp; loop2 (i, j+1)
-    end else
-      loop1 (i+1)
-    // end of [if]
-//
-in
-  loop1 (0)
-end // end of [matrix0_transpose]
+staload "libc/SATS/stdlib.sats"
 
 (* ****** ****** *)
 
-staload "libc/SATS/random.sats"
-
-staload "contrib/testing/SATS/randgen.sats"
-staload _(*anon*) = "contrib/testing/DATS/randgen.dats"
-staload "contrib/testing/SATS/fprint.sats"
-staload _(*anon*) = "contrib/testing/DATS/fprint.dats"
+staload "{$LIBATSHWXI}/testing/SATS/randgen.sats"
+staload _(*anon*) = "{$LIBATSHWXI}/testing/DATS/randgen.dats"
 
 (* ****** ****** *)
 
 typedef T = double
-implement randgen<T> () = drand48 ()
-implement fprint_elt<T> (out, x) = fprint_double (out, x)
+implement randgen_val<T> () = drand48 ()
 
 (* ****** ****** *)
 
 implement
-main () = () where {
+main0 () =
+{
 //
-  val xs = $lst {int} (tupz! 1 3 5 7 9 0 2 4 6 8)
-  val xs = list0_of_list1 (xs)
-  val () = assertloc (listprod1 (xs) = 0)
-  val () = assertloc (listprod2 (xs) = 0)
-  val () = assertloc (listprod3 (xs) = 0)
+val xs =
+$list{int}(1, 3, 5, 7, 9, 0, 2, 4, 6, 8)
+val xs = g0ofg1_list (xs)
 //
-  #define N 1000
-  val () = assertloc (sum (N) = N * (N+1) / 2)
+val ((*void*)) = assertloc (listprod1 (xs) = 0)
+val ((*void*)) = assertloc (listprod2 (xs) = 0)
+val ((*void*)) = assertloc (listprod3 (xs) = 0)
 //
-  val () = println! (getNewVar ())
-  val () = println! (getNewVar ())
-  val () = println! (getNewVar ())
-  val () = print_newline ()
+val ((*void*)) = assertloc (list0_length<int> (xs) = 10)
 //
-  val () = srand48_with_time ()
+#define N 1000
+val () = assertloc (sumup (N) = N * (N+1) / 2)
 //
-  #define NROW 5; #define NCOL 5
-  val M = matrix0_randgen<T> (NROW, NCOL)
-  val () = print ("M =\n")
-  val () = matrix0_fprint_elt (stdout_ref, M, ", ", "\n")
-  val () = print_newline ()
-  val () = matrix0_transpose (M)
-  val () = print ("M(transposed) =\n")
-  val () = matrix0_fprint_elt (stdout_ref, M, ", ", "\n")
-  val () = print_newline ()
+implement
+matrix_tabulate$fopr<int>
+  (i, j) = g0uint2int_size_int(i + j)
+val M = mtrxszref_tabulate<int> (i2sz(5), i2sz(5))
+val () = mtrxszref_transpose (M)
 //
 } // end of [main]
 

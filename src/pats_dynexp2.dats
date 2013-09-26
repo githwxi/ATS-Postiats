@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,17 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: May, 2011
 //
 (* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
-staload _(*anon*) = "prelude/DATS/reference.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -848,10 +850,12 @@ labd2exp_make (l, d2e) = $SYN.DL0ABELED (l, d2e)
 
 implement
 d2lab_lab
-  (loc, lab, opt) = '{
+(
+  loc, lab, opt
+) = '{
   d2lab_loc= loc
 , d2lab_node= D2LABlab (lab)
-, d2lab_over= opt
+, d2lab_overld= opt
 } // end of [d2lab_lab]
 
 implement
@@ -859,7 +863,7 @@ d2lab_ind
   (loc, ind) = '{
   d2lab_loc= loc
 , d2lab_node= D2LABind (ind)
-, d2lab_over= None (*void*)
+, d2lab_overld= None (*void*)
 } // end of [d2lab_ind]
 
 (* ****** ****** *)
@@ -1012,26 +1016,29 @@ v2aldec_make (
 (* ****** ****** *)
 
 implement
-v2ardec_make (
-  loc, knd, d2v, s2v, s2eopt, wth, ini
+v2ardec_make
+(
+  loc, knd
+, s2v, d2v, pfat, s2eopt, init, d2vopt
 ) = '{
   v2ardec_loc= loc
-, v2ardec_knd= knd
-, v2ardec_dvar= d2v
-, v2ardec_svar= s2v
-, v2ardec_type= s2eopt
-, v2ardec_wth= wth
-, v2ardec_ini= ini
+, v2ardec_knd= knd // knd=0/1:var/ptr
+, v2ardec_svar= s2v // static address
+, v2ardec_dvar= d2v // dynamic address
+, v2ardec_pfat= pfat // proof of at-view
+, v2ardec_type= s2eopt // type annotation
+, v2ardec_init= init // value for initialization
+, v2ardec_dvaropt= d2vopt // address of variable
 } // end of [v2ardec_make]
 
 implement
 prv2ardec_make (
-  loc, d2v, s2eopt, ini
+  loc, d2v, s2eopt, init
 ) = '{
   prv2ardec_loc= loc
 , prv2ardec_dvar= d2v
 , prv2ardec_type= s2eopt
-, prv2ardec_ini= ini
+, prv2ardec_init= init
 } // end of [prv2ardec_make]
 
 (* ****** ****** *)

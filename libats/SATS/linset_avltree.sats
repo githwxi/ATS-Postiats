@@ -27,19 +27,8 @@
 
 (* ****** ****** *)
 
-#define
-ATS_PACKNAME "ATSLIB.libats.linset_avltree"
-#define
-ATS_STALOADFLAG 0 // no static loading at run-time
-
-(* ****** ****** *)
-
-#define ATS_EXTERN_PREFIX "atslib_"
-
-(* ****** ****** *)
-
-sortdef tk = tkind
-sortdef t0p = t@ype and vt0p = vt@ype
+#define ATS_PACKNAME "ATSLIB.libats.linset_avltree"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 
@@ -49,7 +38,7 @@ sortdef t0p = t@ype and vt0p = vt@ype
 (* ****** ****** *)
 
 fun{a:t0p}
-linset_avltree_height (xs: set (a)):<> intGte (0)
+linset_avltree_height (!set(INV(a))):<> intGte (0)
 
 (* ****** ****** *)
 

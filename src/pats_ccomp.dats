@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: October, 2012
 //
 (* ****** ****** *)
@@ -365,8 +366,8 @@ primval_ptrofsel (
 
 implement
 primval_refarg
-  (loc, hse, knd, pmv) =
-  primval_make_node (loc, hse, PMVrefarg (knd, pmv))
+  (loc, hse, knd, freeknd, pmv) =
+  primval_make_node (loc, hse, PMVrefarg (knd, freeknd, pmv))
 // end of [primval_refarg]
 
 (* ****** ****** *)
@@ -411,21 +412,19 @@ primval_tmpltcst
   (loc, hse, d2c, t2mas) =
   primval_make_node (loc, hse, PMVtmpltcst (d2c, t2mas))
 // end of [primval_tmpltcst]
-
-implement
-primval_tmpltcstmat
-  (loc, hse, d2c, t2mas, mat) =
-  primval_make_node (loc, hse, PMVtmpltcstmat (d2c, t2mas, mat))
-// end of [primval_tmpltcstmat]
-
-(* ****** ****** *)
-
 implement
 primval_tmpltvar
   (loc, hse, d2v, t2mas) =
   primval_make_node (loc, hse, PMVtmpltvar (d2v, t2mas))
 // end of [primval_tmpltvar]
 
+(* ****** ****** *)
+
+implement
+primval_tmpltcstmat
+  (loc, hse, d2c, t2mas, mat) =
+  primval_make_node (loc, hse, PMVtmpltcstmat (d2c, t2mas, mat))
+// end of [primval_tmpltcstmat]
 implement
 primval_tmpltvarmat
   (loc, hse, d2v, t2mas, mat) =
@@ -456,6 +455,12 @@ primval_make_tmp
   (loc, tmp) = let
   val hse = tmpvar_get_type (tmp) in primval_tmp (loc, hse, tmp)
 end // end of [primval_make_tmp]
+
+implement
+primval_make_tmpref
+  (loc, tmp) = let
+  val hse = tmpvar_get_type (tmp) in primval_tmpref (loc, hse, tmp)
+end // end of [primval_make_tmpref]
   
 (* ****** ****** *)
 
@@ -565,6 +570,14 @@ instr_fcall
 ) = instr_make_node
   (loc, INSfcall (tmpret, hde_fun, hse_fun, hdes_arg))
 // end of [instr_fcall]
+
+implement
+instr_fcall2
+(
+  loc, tmpret, flab, ntl ,hse_fun, hdes_arg
+) = instr_make_node
+  (loc, INSfcall2 (tmpret, flab, ntl, hse_fun, hdes_arg))
+// end of [instr_fcall2]
 
 implement
 instr_extfcall

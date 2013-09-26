@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,8 +27,14 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: October, 2011
+//
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 //
@@ -497,8 +503,9 @@ end // end of [d3exp_app_unista]
 (* ****** ****** *)
 
 implement
-d3exp_app_dyn (
-  loc, s2f, s2fe, _fun, npf, _arg
+d3exp_app_dyn
+(
+  loc, s2f, _fun, npf, _arg
 ) = '{
   d3exp_loc= loc
 , d3exp_type= s2f
@@ -747,24 +754,24 @@ d3exp_refarg (
 (* ****** ****** *)
 
 implement
-d3exp_arrinit
-(
-  loc, s2e_arr, elt, asz, d3es
-) = '{
-  d3exp_loc= loc
-, d3exp_type= s2e_arr
-, d3exp_node= D3Earrinit (elt, asz, d3es)
-} // end of [d3exp_arrinit]
-
-implement
 d3exp_arrpsz
 (
-  loc, s2f_arrpsz, s2e, d3es, asz
+  loc, s2f_arrpsz, s2e, d3es_elt, asz
 ) = '{
   d3exp_loc= loc
 , d3exp_type= s2f_arrpsz
-, d3exp_node= D3Earrpsz (s2e, d3es, asz)
+, d3exp_node= D3Earrpsz (s2e, d3es_elt, asz)
 } // end of [d3exp_arrpsz]
+
+implement
+d3exp_arrinit
+(
+  loc, s2e_arr, elt, d3e_asz, d3es_elt
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2e_arr
+, d3exp_node= D3Earrinit (elt, d3e_asz, d3es_elt)
+} // end of [d3exp_arrinit]
 
 (* ****** ****** *)
 
@@ -842,6 +849,18 @@ d3exp_lam_met (
 , d3exp_type= d3e_body.d3exp_type
 , d3exp_node= D3Elam_met (s2es_met, d3e_body)
 } // end of [d3exp_lam_met]
+
+(* ****** ****** *)
+
+implement
+d3exp_fix
+(
+  loc, s2e_def, knd, f_d2v, d3e_def
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2e_def
+, d3exp_node= D3Efix (knd, f_d2v, d3e_def)
+} // end of [d3exp_fix]
 
 (* ****** ****** *)
 
@@ -943,14 +962,22 @@ in '{
 
 implement
 d3lab_lab
-  (loc, lab, opt) = '{
-  d3lab_loc= loc, d3lab_node= D3LABlab (lab), d3lab_over= opt
+(
+  loc, lab, opt
+) = '{
+  d3lab_loc= loc
+, d3lab_node= D3LABlab (lab)
+, d3lab_overld= opt
+, d3lab_overld_app= None(*void*)
 } // end of [d3lab_lab]
 
 implement
 d3lab_ind
   (loc, ind) = '{
-  d3lab_loc= loc, d3lab_node= D3LABind (ind), d3lab_over= None
+  d3lab_loc= loc
+, d3lab_node= D3LABind (ind)
+, d3lab_overld= None(*void*)
+, d3lab_overld_app= None(*void*)
 } // end of [d3lab_ind]
 
 (* ****** ****** *)
@@ -1021,25 +1048,30 @@ v3aldec_make
 (* ****** ****** *)
 
 implement
-v3ardec_make (
-  loc, knd, d2v, d2vw, s2e, ini
+v3ardec_make
+(
+  loc, knd
+, d2v, d2vw
+, s2e0, init, d2vopt
 ) = '{
   v3ardec_loc= loc
 , v3ardec_knd= knd
-, v3ardec_dvar_ptr= d2v
+, v3ardec_dvar_var= d2v
 , v3ardec_dvar_view= d2vw
-, v3ardec_type= s2e
-, v3ardec_ini= ini
+, v3ardec_type= s2e0
+, v3ardec_init= init
+, v3ardec_dvaropt= d2vopt
 } // end of [v3ardec_make]
 
 implement
-prv3ardec_make (
-  loc, d2v, s2e, ini
+prv3ardec_make
+(
+  loc, d2v, s2e, init
 ) = '{
   prv3ardec_loc= loc
 , prv3ardec_dvar= d2v
 , prv3ardec_type= s2e
-, prv3ardec_ini= ini
+, prv3ardec_init= init
 } // end of [prv3ardec_make]
 
 (* ****** ****** *)
@@ -1180,6 +1212,9 @@ d3ecl_local
 
 extern typedef "p3at_t" = p3at
 extern typedef "d3exp_t" = d3exp
+extern typedef "d3lab_t" = d3lab
+
+(* ****** ****** *)
 
 %{$
 
@@ -1210,6 +1245,14 @@ patsopt_d3exp_set_type (
 ) {
   ((d3exp_t)d3e)->atslab_d3exp_type = s2f ; return ;
 } // end of [patsopt_d3exp_set_type]
+
+ats_void_type
+patsopt_d3lab_set_overld_app
+(
+  ats_ptr_type d3l, ats_ptr_type opt
+) {
+  ((d3lab_t)d3l)->atslab_d3lab_overld_app = opt ; return ;
+} // end of [patsopt_d3lab_set_overld_app]
 
 %} // end of [%{$]
 

@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxiATgmailDOTcom
 // Start Time: May, 2012
 //
 (* ****** ****** *)
@@ -54,7 +55,7 @@ atslib_fopen_exn
   filp = fopen ((char*)path, (char*)mode) ;
   if (!filp) ATSLIBfailexit("fopen") ; // HX: failure
   return filp ;
-} // end of [atslib_fopen_exn]
+} /* end of [atslib_fopen_exn] */
 %}
 
 (* ****** ****** *)
@@ -68,7 +69,7 @@ atslib_fclose_exn
   err = fclose ((FILE*)filp) ;
   if (0 > err) ATSLIBfailexit("fclose") ;
   return ;
-} // end of [atslib_fclose_exn]
+} /* end of [atslib_fclose_exn] */
 %}
 
 (* ****** ****** *)
@@ -99,7 +100,7 @@ atslib_fputc_exn
   err = fputc(c, (FILE*)filp) ;
   if (0 > err) {
     ATSLIBfailexit("fputc") ; // abnormal exit
-  } /* end of [if] */
+  } // end of [if]
   return ;  
 } /* end of [atslib_fputc_exn] */
 %}
@@ -126,7 +127,7 @@ atslib_fgets_exn
     } else {
       ATSLIBfailexit("fgets") ; // abnormal exit
     } // end of [if]
-  } /* end of [if] */
+  } // end of [if]
   return ;  
 } /* end of [atslib_fgets_exn] */
 %}
@@ -167,9 +168,9 @@ atslib_fgets_gc
     buf = atspre_malloc_gc(bsz) ;
     memcpy(buf, buf2, ofs) ;
     atspre_mfree_gc(buf2) ;
-  }
+  } // end of [while]
   return buf ; // HX: deadcode
-} // end of [atslib_fgets_gc]
+} /* end of [atslib_fgets_gc] */
 %}
 
 (* ****** ****** *)
@@ -185,7 +186,7 @@ atslib_fputs_exn
   err = fputs((char*)str, (FILE*)filp) ;
   if (0 > err) {
     ATSLIBfailexit("fputs") ; // abnormal exit
-  } /* end of [if] */
+  } // end of [if]
   return ;  
 } /* end of [atslib_fputs_exn] */
 %}
@@ -203,7 +204,7 @@ atslib_puts_exn
   err = puts((char*)str) ;
   if (0 > err) {
     ATSLIBfailexit("puts") ; // abnormal exit
-  } /* end of [if] */
+  } // end of [if]
   return ;  
 } /* end of [atslib_puts_exn] */
 %}
@@ -222,9 +223,9 @@ atslib_popen_exn
   filp = popen((char*)cmd, (char*)type) ;
   if (!filp) {
     ATSLIBfailexit("popen") ; // abnormal exit
-  } /* end of [if] */
+  } // end of [if]
   return filp ;
-} /* end of [atslib_popen_exn]
+} /* end of [atslib_popen_exn] */
 %}
 
 (* ****** ****** *)
@@ -240,9 +241,9 @@ atslib_pclose_exn
   res = pclose((FILE*)filp) ;
   if (0 > res) {
     ATSLIBfailexit("pclose") ; // abnormal exit
-  } /* end of [if] */
+  } // end of [if]
   return res ;
-} /* end of [atslib_pclose_exn]
+} /* end of [atslib_pclose_exn] */
 %}
 
 (* ****** ****** *)
@@ -255,7 +256,7 @@ atslib_tmpfile_exn(
   FILE *filp = tmpfile() ;
   if (!filp) ATSLIBfailexit("tmpfile") ;
   return (filp) ;
-} // end of [atslib_tmpfile_exn]
+} /* end of [atslib_tmpfile_exn] */
 %}
 
 (* ****** ****** *)

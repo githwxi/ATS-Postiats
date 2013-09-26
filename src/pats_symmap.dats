@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,25 +27,38 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: April, 2011
 //
 (* ****** ****** *)
 
 #define SYMMAP_AVLTREE 1
-(*
-#define SYMMAP_HTLINPRB 1
-*)
+#define SYMMAP_HTLINPRB 0
 
 (* ****** ****** *)
 
-#ifdef SYMMAP_AVLTREE
+#assert(SYMMAP_AVLTREE >= 0)
+#assert(SYMMAP_AVLTREE <= 1)
+
+(* ****** ****** *)
+
+#assert(SYMMAP_HTLINPRB >= 0)
+#assert(SYMMAP_HTLINPRB <= 1)
+
+(* ****** ****** *)
+
+#assert(SYMMAP_AVLTREE+SYMMAP_HTLINPRB==1)
+
+(* ****** ****** *)
+
+#if(SYMMAP_AVLTREE)
 #include "./pats_symmap_avltree.hats"
 #endif // end of [SYMMAP_AVLTREE]
 
 (* ****** ****** *)
 
-#ifdef SYMMAP_HTLINPRB
+#if(SYMMAP_HTLINPRB)
 #include "./pats_symmap_htlinprb.hats" // HX: hashtable for experiment
 #endif // end of [SYMMAP_HTLINPRB]
   

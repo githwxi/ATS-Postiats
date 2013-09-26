@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,8 +27,14 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: November, 2012
+//
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 
@@ -38,6 +44,11 @@ staload _(*anon*) = "prelude/DATS/unsafe.dats"
 (* ****** ****** *)
 
 staload "./pats_basics.sats"
+
+(* ****** ****** *)
+
+staload
+INTINF = "./pats_intinf.sats"
 
 (* ****** ****** *)
 
@@ -64,6 +75,9 @@ STMP = "./pats_stamp.sats"
 
 staload
 FIL = "./pats_filename.sats"
+
+(* ****** ****** *)
+
 staload
 LOC = "./pats_location.sats"
 
@@ -85,6 +99,8 @@ staload
 S2E = "./pats_staexp2.sats"
 typedef s2cst = $S2E.s2cst
 typedef d2con = $S2E.d2con
+typedef s2exp = $S2E.s2exp
+typedef s2explst = $S2E.s2explst
 
 (* ****** ****** *)
 
@@ -140,6 +156,8 @@ emit_location
 
 implement
 emit_int (out, x) = fprint_int (out, x)
+implement
+emit_intinf (out, x) = $INTINF.fprint_intinf (out, x)
 implement
 emit_ATSPMVint (out, x) = (
   emit_text (out, "ATSPMVint("); emit_int (out, x); emit_rparen (out)
@@ -417,12 +435,12 @@ end // end of [emit_labelext]
 implement
 emit_filename
   (out, fil) = let
-  val sym =
-    $FIL.filename_get_full (fil)
+  val fsymb =
+    $FIL.filename_get_fullname (fil)
   // end of [val]
-  val name = $SYM.symbol_get_name (sym)
+  val fname = $SYM.symbol_get_name (fsymb)
 in
-  emit_ident (out, name)
+  emit_ident (out, fname)
 end // end of [emit_filename]
 
 (* ****** ****** *)
@@ -438,7 +456,8 @@ case+ pmc of
       emit_text (
       out, "ATSCSTSPmyfil(\""
     ) // end of [val]
-    val () = $FIL.fprint_filename (out, fil)
+    val (
+    ) = $FIL.fprint_filename_full (out, fil)
     val () = emit_text (out, "\")")
   }
 | PMCSTSPmyloc (loc) => {
@@ -625,6 +644,41 @@ end // end of [emit_tmplabint]
 
 local
 
+val the_nfnx = ref_make_elt<int> (0)
+
+in (* in of [local] *)
+
+implement
+emit_set_nfnx (nfnx) = (!the_nfnx := nfnx)
+
+implement
+emit_funarg
+  (out, narg) = let
+  val nfnx = !the_nfnx
+in
+  if nfnx <= 1
+    then fprintf (out, "arg%i", @(narg))
+    else fprintf (out, "a%irg%i", @(nfnx, narg))
+  // end of [val]
+end // end of [emit_funarg]
+
+implement
+emit_funargx
+  (out, narg) = let
+  val nfnx = !the_nfnx
+in
+  if nfnx <= 1
+    then fprintf (out, "argx%i", @(narg))
+    else fprintf (out, "a%irgx%i", @(nfnx, narg))
+  // end of [val]
+end // end of [emit_funargx]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
 fun auxtmp (
   out: FILEref, tmp: tmpvar
 ) : void = let
@@ -762,30 +816,93 @@ end // end of [local]
 
 (* ****** ****** *)
 
+extern
+fun emit_arrdim
+  (out: FILEref, s2es: s2explst): void
+implement
+emit_arrdim
+  (out, s2es) = let
+//
+fun aux
+(
+  out: FILEref, s2e: s2exp
+) : void = let
+in
+//
+case+ s2e.s2exp_node of
+| $S2E.S2Eint (n) => emit_int (out, n)
+| $S2E.S2Eintinf (n) => emit_intinf (out, n)
+| _(*nonint*) => emit_text (out, "ATSERRORarrdim()")
+//
+end // end of [aux]
+//
+fun auxlst
+(
+  out: FILEref, s2es: s2explst, i: int
+) : void = let
+in
+//
+case+ s2es of
+| list_cons
+    (s2e, s2es) => let
+    val () =
+      if i > 0 then emit_text (out, "][")
+    val () = aux (out, s2e)
+  in
+    auxlst (out, s2es, i+1)
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end (* end of [auxlst] *)
+//
+in
+  emit_text (out, "["); auxlst (out, s2es, 0); emit_text (out, "]")
+end // end of [emit_arrdim]
+
+(* ****** ****** *)
+
 implement
 emit_tmpdec
   (out, tmp) = let
 //
 val hse = tmpvar_get_type (tmp)
-val isvoid = hisexp_is_void (hse)
 val knd = tmpvar_get_topknd (tmp)
+val isvoid = hisexp_is_void (hse)
 //
-val () =
-(
-  if knd = 0
-    then emit_text (out, "ATStmpdec") // local
-    else emit_text (out, "ATSstatmpdec") // toplevel
-  // end of [if]
+val () = (
+if knd = 0
+  then emit_text (out, "ATStmpdec") // local
+  else emit_text (out, "ATSstatmpdec") // toplevel
+// end of [if]
 ) : void // end of [val]
-val () =
-(
-  if isvoid then emit_text (out, "_void")
-)
+//
+val () = if isvoid then emit_text (out, "_void")
 //
 val () = emit_text (out, "(")
+//
 val () = emit_tmpvar (out, tmp)
+//
+val () =
+(
+case+ hse.hisexp_node of
+| HSEtyarr
+  (
+    _(*elt*), s2es
+  ) => emit_arrdim (out, s2es)
+| _ (*nonarr*) => ((*nothing*))
+) (* end of [val] *)
+//
 val () = emit_text (out, ", ")
-val () = emit_hisexp (out, hse)
+//
+val () = (
+case+ hse.hisexp_node of
+| HSEtyarr
+  (
+    hse_elt, _(*dim*)
+  ) => emit_hisexp (out, hse_elt)
+| _ (*nonarr*) => emit_hisexp (out, hse)
+) (* end of [val] *)
+//
 val () = emit_text (out, ") ;\n")
 //
 in
@@ -812,13 +929,13 @@ typedef
 emit_primval_type = (FILEref, primval) -> void
 
 (* ****** ****** *)
-
-extern fun emit_primval_tmp : emit_primval_type
-extern fun emit_primval_tmpref : emit_primval_type
 //
 extern fun emit_primval_arg : emit_primval_type
 extern fun emit_primval_argref : emit_primval_type
 extern fun emit_primval_argenv : emit_primval_type
+//
+extern fun emit_primval_tmp : emit_primval_type
+extern fun emit_primval_tmpref : emit_primval_type
 //
 extern fun emit_primval_env : emit_primval_type
 //
@@ -952,6 +1069,42 @@ end // end of [emit_primvalist]
 (* ****** ****** *)
 
 implement
+emit_primval_arg
+  (out, pmv0) = let
+//
+val-PMVarg (n) = pmv0.primval_node
+//
+in
+  emit_funarg (out, n)
+end // end of [emit_primval_arg]
+
+(* ****** ****** *)
+
+implement
+emit_primval_argref
+  (out, pmv0) = let
+//
+val-PMVargref (n) = pmv0.primval_node
+//
+in
+  emit_funarg (out, n)
+end // end of [emit_primval_argref]
+
+(* ****** ****** *)
+
+implement
+emit_primval_argenv
+  (out, pmv0) = let
+//
+val-PMVargenv (nenv) = pmv0.primval_node
+//
+in
+  fprintf (out, "env%i", @(nenv))
+end // end of [emit_primval_argenv]
+
+(* ****** ****** *)
+
+implement
 emit_primval_tmp
   (out, pmv0) = let
 //
@@ -970,42 +1123,6 @@ val-PMVtmpref (tmp) = pmv0.primval_node
 in
   emit_tmpvar (out, tmp)
 end // end of [emit_primval_tmpref]
-
-(* ****** ****** *)
-
-implement
-emit_primval_arg
-  (out, pmv0) = let
-//
-val-PMVarg (narg) = pmv0.primval_node
-//
-in
-  fprintf (out, "arg%i", @(narg))
-end // end of [emit_primval_arg]
-
-(* ****** ****** *)
-
-implement
-emit_primval_argref
-  (out, pmv0) = let
-//
-val-PMVargref (narg) = pmv0.primval_node
-//
-in
-  fprintf (out, "arg%i", @(narg))
-end // end of [emit_primval_argref]
-
-(* ****** ****** *)
-
-implement
-emit_primval_argenv
-  (out, pmv0) = let
-//
-val-PMVargenv (nenv) = pmv0.primval_node
-//
-in
-  fprintf (out, "env%i", @(nenv))
-end // end of [emit_primval_argenv]
 
 (* ****** ****** *)
 
@@ -1146,18 +1263,23 @@ val test = testselptr0 (pmv)
 in
 //
 if test then let
-  val-PMVselptr
-    (pmv_ptr, _, _) = pmv.primval_node
-  // end of [val]
+//
+val-PMVselptr (pmv_ptr, _, _) = pmv.primval_node
+//
 in
   emit_primval (out, pmv_ptr)
 end else let
-  val isvoid = primval_is_void (pmv)
-  val () = emit_text (out, "ATSPMVptrof")
-  val () = if isvoid then emit_text (out, "_void")
-  val () = emit_lparen (out)
-  val () = emit_primval (out, pmv(*lvalue*))
-  val () = emit_rparen (out)
+//
+val isvoid = primval_is_void (pmv)
+val istyarr = hisexp_is_tyarr(pmv.primval_type)
+//
+val () = emit_text (out, "ATSPMVptrof")
+val () = if isvoid then emit_text (out, "_void")
+val () = emit_lparen (out)
+val () = emit_primval (out, pmv(*lvalue*))
+val () = if istyarr then emit_text (out, "[0]")
+val () = emit_rparen (out)
+//
 in
   // nothing
 end // end of [if]
@@ -1170,7 +1292,8 @@ implement
 emit_primval_refarg
   (out, pmv0) = let
 //
-val-PMVrefarg (knd, pmv) = pmv0.primval_node
+val-PMVrefarg
+  (knd, freeknd, pmv) = pmv0.primval_node
 //
 val () =
   if (knd = 0) then emit_text (out, "ATSPMVrefarg0(")
@@ -1217,11 +1340,12 @@ val () =
 (
 if isenv then
   emit_text (out, "ATSERRORnotenvless(")
-)
+) (* end of [val] *)
 //
-val () = emit_text (out, "ATSPMVfunlab(")
-val () = emit_funlab (out, flab)
-val () = emit_rparen (out)
+val (
+) = emit_text (out, "ATSPMVfunlab(")
+val ((*void*)) = emit_funlab (out, flab)
+val ((*void*)) = emit_rparen (out)
 //
 val () = if isenv then emit_rparen (out)
 //
@@ -1428,10 +1552,18 @@ emit_instr
   (out, ins) = let
 //
 val loc0 = ins.instr_loc
-//
+// (*
+val () =
+(
+  fprint (out, "/*\n");
+  fprint (out, "emit_instr: loc0 = "); $LOC.fprint_location2 (out, loc0);
+  fprint (out, "\n*/\n");
+)
+// *)
 (*
 val (
-) = println! ("emit_instr: ins = ", ins)
+) = fprintln!
+  (out, "/*\n", "emit_instr: ins = ", ins, "\n*/")
 *)
 //
 // generating #line progma for debugging
@@ -1493,6 +1625,7 @@ case+ ins.instr_node of
   // end of [INSpmove_val]
 //
 | INSfcall _ => emit_instr_fcall (out, ins)
+| INSfcall2 _ => emit_instr_fcall2 (out, ins)
 | INSextfcall _ => emit_instr_extfcall (out, ins)
 //
 | INScond
@@ -1746,7 +1879,6 @@ case+ ins.instr_node of
     val () = emit_text (out, "/*\n")
     val () = emit_text (out, "ATSINStmpdec(")
     val () = emit_tmpvar (out, tmp)
-    val () = emit_rparen (out)
     val () = emit_text (out, ") ;")
     val () = emit_text (out, "\n*/")
   in
@@ -2152,7 +2284,8 @@ in
   if l0 = l then x else auxfnd (l0, lxs)
 end // end of [auxfnd]
 
-fun auxsel (
+fun auxsel
+(
   hse0: hisexp, pml: primlab
 ) : hisexp = let
 in
@@ -2161,7 +2294,8 @@ case+
   pml.primlab_node of
 //
 | PMLlab (lab) => (
-  case+ hse0.hisexp_node of
+  case+
+    hse0.hisexp_node of
   | HSEtyrec
       (knd, lhses) => auxfnd (lab, lhses)
     // end of [HSEtyrec]
@@ -2180,11 +2314,12 @@ case+
     in
       $ERR.abort ()
     end // end of [_]
-  ) // end of [PMLlab]
+  ) (* end of [PMLlab] *)
+//
 | PMLind (ind) => let
-    val-HSEtyarr (hse_elt, s2es) = hse0.hisexp_node
-  in
-    hse_elt
+    val-HSEtyarr
+      (hse_elt, s2es) = hse0.hisexp_node in hse_elt
+    // end of [val]
   end // end of [PMLind]
 //
 end // end of [auxsel]
@@ -2382,9 +2517,14 @@ emit_instr_store_ptrofs
 val-INSstore_ptrofs
   (pmv_l, hse_rt, pmls, pmv_r) = ins.instr_node
 //
-val xys = auxselist (hse_rt, pmls)
 val () = emit_text (out, "ATSINSstore(")
-val () = auxmain (out, 1(*non*), pmv_l, hse_rt, xys, 0)
+//
+val () = let
+  val xys = auxselist (hse_rt, pmls)
+in
+  auxmain (out, 1(*ptr*), pmv_l, hse_rt, xys, 0)
+end // end of [val]
+//
 val () = emit_text (out, ", ")
 val () = emit_primval (out, pmv_r)
 val () = emit_text (out, ") ;")

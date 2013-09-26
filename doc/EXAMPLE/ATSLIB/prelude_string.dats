@@ -4,8 +4,7 @@
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_staload_tmpdef.hats"
+#include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -129,6 +128,18 @@ val () = fprintln! (out, "str = ", str)
 val () = strptr_free (str)
 //
 } // end of [val]
+
+(* ****** ****** *)
+
+val () =
+{
+val out = stdout_ref
+val cs = string_explode ("abcde")
+val abcde = string_make_list ($UN.list_vt2t{charNZ}(cs))
+val () = list_vt_free (cs)
+val () = assertloc ("abcde" = $UN.strnptr2string(abcde))
+val () = strnptr_free (abcde)
+} (* end of [val] *)
 
 (* ****** ****** *)
 

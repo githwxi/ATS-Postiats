@@ -33,12 +33,13 @@
 
 (* ****** ****** *)
 
-typedef SHR(a:type) = a // for commenting purpose
-typedef NSH(a:type) = a // for commenting purpose
+#define ATS_PACKNAME "ATSLIB.libats.sllist"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 
-sortdef t0p = t@ype and vt0p = viewt@ype
+typedef SHR(a:type) = a // for commenting purpose
+typedef NSH(a:type) = a // for commenting purpose
 
 (* ****** ****** *)
 
@@ -97,6 +98,18 @@ fun{a:vt0p}
 sllist_uncons {n:int | n > 0}
   (xs: &sllist (INV(a), n) >> sllist (a, n-1)):<!wrt> (a)
 // end of [sllist_uncons]
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+sllist_snoc {n:int}
+  (xs: sllist (INV(a), n), x: a):<!wrt> sllist (a, n+1)
+// end of [sllist_snoc]
+
+fun{a:vt0p}
+sllist_unsnoc {n:int | n > 0}
+  (xs: &sllist (INV(a), n) >> sllist (a, n-1)):<!wrt> (a)
+// end of [sllist_unsnoc]
 
 (* ****** ****** *)
 
@@ -265,14 +278,26 @@ typedef g2node1 (a:vt0p) = gnode1 (mytkind, a)
 (* ****** ****** *)
 
 fun{a:vt0p}
-sllist_cons_ngc {n:int}
-  (nx: g2node1 (a), xs: sllist (INV(a), n)):<!wrt> sllist (a, n+1)
+sllist_cons_ngc{n:int}
+  (nx: g2node1(a), xs: sllist(INV(a), n)):<!wrt> sllist (a, n+1)
 // end of [sllist_cons_ngc]
 
 fun{a:vt0p}
-sllist_uncons_ngc {n:int | n > 0}
+sllist_uncons_ngc{n:pos}
   (xs: &sllist (INV(a), n) >> sllist (a, n-1)):<!wrt> g2node1 (a)
 // end of [sllist_uncons_ngc]
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+sllist_snoc_ngc{n:int}
+  (xs: sllist(INV(a), n), nx: g2node1(a)):<!wrt> sllist (a, n+1)
+// end of [sllist_snoc_ngc]
+
+fun{a:vt0p}
+sllist_unsnoc_ngc{n:pos}
+  (xs: &sllist (INV(a), n) >> sllist (a, n-1)):<!wrt> g2node1 (a)
+// end of [sllist_unsnoc_ngc]
 
 (* ****** ****** *)
 

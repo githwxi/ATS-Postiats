@@ -97,25 +97,24 @@ MYSQLROWLEN1
   (l1:addr) = [l2:addr| l2 > null] MYSQLROWLEN (l1, l2)
 
 (* ****** ****** *)
-
+//
 castfn
-MYSQLptr2ptr {l:addr} (x: !MYSQLptr l):<> ptr (l)
+MYSQLptr2ptr{l:addr} (x: !MYSQLptr l):<> ptr (l)
 castfn
-MYSQLRESptr2ptr {l:addr} (x: !MYSQLRESptr (l)):<> ptr (l)
+MYSQLRESptr2ptr{l:addr} (x: !MYSQLRESptr (l)):<> ptr (l)
 castfn
-MYSQLFIELDptr2ptr {l1,l2:addr} (x: !MYSQLFIELDptr (l1, l2)):<> ptr (l2)
-
+MYSQLFIELDptr2ptr{l1,l2:addr} (x: !MYSQLFIELDptr (l1, l2)):<> ptr (l2)
+//
 overload ptrcast with MYSQLptr2ptr
 overload ptrcast with MYSQLRESptr2ptr
 overload ptrcast with MYSQLFIELDptr2ptr
-
+//
 (* ****** ****** *)
-
+//
 castfn
-MYSQLROW2ptr {l1,l2:addr} (x: !MYSQLROW (l1, l2)):<> ptr (l2)
-
+MYSQLROW2ptr{l1,l2:addr} (x: !MYSQLROW (l1, l2)):<> ptr (l2)
 overload ptrcast with MYSQLROW2ptr
-
+//
 (* ****** ****** *)
 
 abstype query = string

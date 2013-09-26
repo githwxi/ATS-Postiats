@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,13 +27,10 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: March, 2011
 //
-(* ****** ****** *)
-
-staload _(*anon*) = "prelude/DATS/list.dats"
-
 (* ****** ****** *)
 
 typedef
@@ -98,7 +95,7 @@ funkind =
 
 fun funkind_is_proof (x: funkind): bool
 fun funkind_is_recursive (x: funkind): bool
-fun funkind_is_tailrecur (x: funkind): bool
+fun funkind_is_mutailrec (x: funkind): bool
 
 fun fprint_funkind : fprint_type (funkind)
 

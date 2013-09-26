@@ -14,11 +14,8 @@ staload "libats/SATS/refcount.sats"
 
 (* ****** ****** *)
 
-staload "libfloats/SATS/blas.sats"
-
-(* ****** ****** *)
-
-staload "libfloats/SATS/lavector.sats"
+staload "./../SATS/blas.sats"
+staload "./../SATS/lavector.sats"
 
 (* ****** ****** *)
 
@@ -60,7 +57,7 @@ val+LAGVEC
   (_, _, gvp, n, d) = V
 val () = (d0 := d)
 prval [d:int]
-  INTEQ () = inteq_make_gint (d)
+  EQINT () = eqint_make_gint (d)
 //
 in
   $UN.ptr0_vtake{gvector(a,n,d)}(gvp)

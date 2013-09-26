@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: October, 2011
 //
 (* ****** ****** *)
@@ -368,6 +369,10 @@ and d3exp_node =
       (s2varlst(*s2vs*), s2explst(*s2ps*), d3exp)
   | D3Elam_met of (s2explst(*met*), d3exp) // term. metric
 //
+  | D3Efix of (
+      int(*knd: 0/1: flat/boxed*), d2var(*fixvar*), d3exp(*def*)
+    ) // end of [D3Efix]
+//
   | D3Edelay of d3exp(*eval*) // delayed computation
   | D3Eldelay of (d3exp(*eval*), d3expopt(*free*)) // delayed LC
   | D3Elazy_force of (int(*lin*), d3exp) // lazy-value evaluation
@@ -414,7 +419,8 @@ and labd3explst = List (labd3exp)
 and d3lab = '{
   d3lab_loc= location
 , d3lab_node= d3lab_node
-, d3lab_over= d2symopt
+, d3lab_overld= d2symopt
+, d3lab_overld_app= d3expopt
 } // end of [d3lab]
 
 and d3lablst = List (d3lab)
@@ -488,12 +494,13 @@ and v3aldeclst = List (v3aldec)
 
 and v3ardec = '{
   v3ardec_loc= location
-, v3ardec_knd= int
-, v3ardec_dvar_ptr= d2var
+, v3ardec_knd= int // knd=0/1:var/ptr
+, v3ardec_dvar_var= d2var
 , v3ardec_dvar_view= d2var
-, v3ardec_type= s2exp
-, v3ardec_ini= d3expopt
-} // end of [v3ardec]
+, v3ardec_type= s2exp // type annotation
+, v3ardec_init= d3expopt // value for initialization
+, v3ardec_dvaropt= d2varopt // address of variable
+} (* end of [v3ardec] *)
 
 and v3ardeclst = List (v3ardec)
 
@@ -501,7 +508,7 @@ and v3ardeclst = List (v3ardec)
 
 and prv3ardec = '{
   prv3ardec_loc= location
-, prv3ardec_dvar= d2var, prv3ardec_type= s2exp, prv3ardec_ini= d3exp
+, prv3ardec_dvar= d2var, prv3ardec_type= s2exp, prv3ardec_init= d3exp
 } // end of [prv3ardec]
 
 and prv3ardeclst = List (prv3ardec)
@@ -636,9 +643,10 @@ fun d3exp_app_unista
   (loc: location, s2f: s2exp, d3e: d3exp): d3exp
 // end of [d3exp_app_unista]
 
-fun d3exp_app_dyn (
+fun d3exp_app_dyn
+(
   loc: location
-, s2f: s2exp, s2fe: s2eff, _fun: d3exp, npf: int, _arg: d3explst
+, s2f: s2exp, _fun: d3exp, npf: int, _arg: d3explst
 ) : d3exp // end of [d3exp_app_dyn]
 
 (* ****** ****** *)
@@ -734,14 +742,16 @@ fun d3exp_refarg (
 
 (* ****** ****** *)
 
-fun d3exp_arrpsz (
+fun d3exp_arrpsz
+(
   loc: location
-, s2e_arrpsz: s2exp, elt: s2exp, d3es: d3explst, asz: int
+, s2e_arrpsz: s2exp, elt: s2exp, d3es_elt: d3explst, asz: int
 ) : d3exp // end of [d3exp_arrpsz]
 
-fun d3exp_arrinit (
+fun d3exp_arrinit
+(
   loc: location
-, s2e_arr: s2exp, elt: s2exp, asz: d3exp, d3es: d3explst
+, s2e_arr: s2exp, elt: s2exp, d3e_asz: d3exp, d3es_elt: d3explst
 ) : d3exp // end of [d3exp_arrinit]
 
 (* ****** ****** *)
@@ -786,23 +796,34 @@ fun d3exp_viewat_assgn
 
 (* ****** ****** *)
 
-fun d3exp_lam_dyn (
+fun d3exp_lam_dyn
+(
   loc: location, typ: s2exp
 , lin: int, npf: int, arg: p3atlst, body: d3exp
 ) : d3exp // end of [d3exp_lam_dyn]
-fun d3exp_laminit_dyn (
+fun d3exp_laminit_dyn
+(
   loc: location, typ: s2exp
 , lin: int, npf: int, arg: p3atlst, body: d3exp
 ) : d3exp // end of [d3exp_laminit_dyn]
 
-fun d3exp_lam_sta (
+fun d3exp_lam_sta
+(
   loc: location, typ: s2exp
 , s2vs: s2varlst, s2ps: s2explst, body: d3exp
 ) : d3exp // end of [d3exp_lam_sta]
 
-fun d3exp_lam_met (
-  loc: location, met: s2explst, body: d3exp
-) : d3exp // end of [d3exp_lam_met]
+fun d3exp_lam_met
+  (loc: location, met: s2explst, body: d3exp): d3exp
+// end of [d3exp_lam_met]
+
+(* ****** ****** *)
+
+fun d3exp_fix
+(
+  loc: location
+, s2e_def: s2exp, knd: int, f: d2var, d3e_def: d3exp
+) : d3exp // end of [d3exp_fix]
 
 (* ****** ****** *)
 
@@ -852,48 +873,62 @@ fun d3lab_ind (loc: location, ind: d3explst): d3lab
 
 (* ****** ****** *)
 
-fun gm3at_make (
+fun d3lab_set_overld_app
+  (d3l: d3lab, opt: d3expopt): void = "patsopt_d3lab_set_overld_app"
+// end of [d3lab_set_overld_app]
+
+(* ****** ****** *)
+
+fun gm3at_make
+(
   loc: location, d3e: d3exp, opt: p3atopt
 ) : gm3at // end of [gm3at_make]
 
-fun c3lau_make
-  {n:nat} (
+fun
+c3lau_make{n:nat}
+(
   loc: location
 , p3ts: list (p3at, n)
-, gua: gm3atlst
-, seq: int, neg: int
-, body: d3exp
+, gua: gm3atlst, seq: int, neg: int, body: d3exp
 ): c3lau (n) // end of [c3lau_make]
 
-fun sc3lau_make (
+fun sc3lau_make
+(
   loc: location, sp2t: sp2at, d3e: d3exp
 ) : sc3lau // end of [sc3lau_make]
 
 (* ****** ****** *)
 
-fun i3mpdec_make (
+fun i3mpdec_make
+(
   loc: location, d2c: d2cst
 , imparg: s2varlst, tmparg: s2explstlst, def: d3exp
 ) : i3mpdec // end of [i3mpdec_make]
 
 (* ****** ****** *)
 
-fun f3undec_make (
+fun f3undec_make
+(
   loc: location, d2v: d2var, def: d3exp
 ) : f3undec // end of [f3undec_make]
 
-fun v3aldec_make (
+fun v3aldec_make
+(
   loc: location, p3t: p3at, def: d3exp
 ) : v3aldec // end of [v3aldec_make]
 
 (* ****** ****** *)
 
-fun v3ardec_make (
-  loc: location, knd: int (*0/1:sta/dyn*)
-, d2v: d2var, d2vw: d2var, s2e0: s2exp, ini: d3expopt
+fun v3ardec_make
+(
+  loc: location
+, knd: int (*0/1:var/ptr*)
+, d2v: d2var, d2vw: d2var
+, type: s2exp, init: d3expopt, d2vopt: d2varopt
 ) : v3ardec // end of [v3ardec_make]
 
-fun prv3ardec_make (
+fun prv3ardec_make
+(
   loc: location, d2v: d2var, s2e0: s2exp, ini: d3exp
 ) : prv3ardec // end of [prv3ardec_make]
 

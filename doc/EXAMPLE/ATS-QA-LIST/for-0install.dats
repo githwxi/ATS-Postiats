@@ -45,7 +45,8 @@ staload _(*anon*) = "json-c/DATS/json.dats"
 (* ****** ****** *)
 
 implement
-main {n} (argc, argv) = let
+main{n}
+  (argc, argv) = let
 //
 val out = stdout_ref
 //
@@ -95,7 +96,7 @@ json_object_iforeach$fwork
 in
   // nothing
 end // end of [json_object_iforeach$fwork]
-in(* in of [local] *)
+in (* in of [local] *)
 val () = json_object_iforeach (jso)
 end // end of [local]
 //

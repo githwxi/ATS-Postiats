@@ -5,9 +5,9 @@
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSCNTRB.json"
+#define ATS_PACKNAME "ATSCNTRB.jsonc"
 #define ATS_STALOADFLAG 0 // no need for staloading at run-time
-#define ATS_EXTERN_PREFIX "atscntrb_" // prefix for external names
+#define ATS_EXTERN_PREFIX "atscntrb_jsonc_" // prefix for external names
 
 (* ****** ****** *)
 
@@ -53,7 +53,8 @@ struct
 lh_table*
 lh_table_new
 (
-  int size, const char *name
+  int size
+, const char *name
 , lh_entry_free_fn *free_fn
 , lh_hash_fn *hash_fn, lh_equal_fn *equal_fn
 )
@@ -127,7 +128,8 @@ fun lh_table_length (t: !lh_table1):<> intGte(0) = "mac#%"
 (* ****** ****** *)
 
 (*
-int lh_table_delete (struct lh_table *t, const void *k)
+int lh_table_delete
+  (struct lh_table *t, const void *k)
 *)
 fun lh_table_delete
   (t: !lh_table1, k: Ptr0): int(*err*) = "mac#%"
@@ -135,7 +137,8 @@ fun lh_table_delete
 (* ****** ****** *)
 
 (*
-int lh_table_delete_entry (struct lh_table *t, struct lh_entry *e)
+int lh_table_delete_entry
+  (struct lh_table *t, struct lh_entry *e)
 *)
 fun lh_table_delete_entry
   (t: !lh_table1, e: Ptr0): int(*err*) = "mac#%"
@@ -143,7 +146,8 @@ fun lh_table_delete_entry
 (* ****** ****** *)
 
 (*
-int lh_table_insert (struct lh_table *t, void *k, const void *v)
+int lh_table_insert
+  (struct lh_table *t, void *k, const void *v)
 *)
 fun lh_table_insert
   (t: !lh_table1, k: Ptr0, v: Ptr0): int(*err*) = "mac#%"
@@ -184,10 +188,12 @@ fun lh_table_lookup_entry
 (* ****** ****** *)
 
 (*
-void lh_table_resize (struct lh_table *t, int new_size)
+void
+lh_table_resize (struct lh_table *t, int new_size)
 *)
 fun lh_table_resize
   (t: !lh_table1, new_size: intGte(0)): void = "mac#%"
+// end of [lh_table_resize]
 
 (* ****** ****** *)
 

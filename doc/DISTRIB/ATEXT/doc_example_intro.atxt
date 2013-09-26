@@ -107,6 +107,7 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 #packfilename("acker1.dats")
 #packfilename("acker2.dats")
+#packfilename("acker3.dats")
 
 (* ****** ****** *)
 
@@ -119,7 +120,7 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
-#packfilename("extfcall.dats")
+#packfilename("bintree.dats")
 
 (* ****** ****** *)
 
@@ -156,7 +157,19 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
-#packfilename("partmplt.dats")
+#packfilename("intrange.dats")
+
+(* ****** ****** *)
+
+#packfilename("linenmbr.dats")
+
+(* ****** ****** *)
+
+#packfilename("listfuns.dats")
+
+(* ****** ****** *)
+
+#packfilename("ordset.dats")
 
 (* ****** ****** *)
 
@@ -168,7 +181,11 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
-#packfilename("trywith.dats")
+#packfilename("tally.dats")
+
+(* ****** ****** *)
+
+#packfilename("myatslib.dats")
 
 (* ****** ****** *)
 

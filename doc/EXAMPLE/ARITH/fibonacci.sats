@@ -56,7 +56,7 @@ prfun fib_isfun
 // end of [fib_isfun]
 prfun fib_isfun2
   {n:nat}{r1,r2:int}
-  (pf1: FIB (n, r1), pf2: FIB (n, r2)): INTEQ (r1, r2)
+  (pf1: FIB (n, r1), pf2: FIB (n, r2)): EQINT (r1, r2)
 // end of [fib_isfun2]
 
 (* ****** ****** *)

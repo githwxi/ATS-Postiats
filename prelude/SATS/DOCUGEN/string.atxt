@@ -77,17 +77,20 @@ consisting of the reverse of the sequence of chars in its argument:
 #pats2xhtmld_tryit('\
 staload UN = "prelude/SATS/unsafe.sats"
 //
-fun string_reverse
-  {n:int} .<>. (
+fun
+string_reverse
+  {n:int} .<>.
+(
   str: string(n)
 ) : strnptr(n) = let
 //
-  prval () = lemma_string_param (str)
+prval () = lemma_string_param (str)
 //
-  val cs = string_explode (str)
-  val cs = list_vt_reverse (cs)
-  val res = string_make_list ($UN.list_vt2t(cs))
-  val () = list_vt_free (cs)
+val cs = string_explode (str)
+val cs = list_vt_reverse (cs)
+val res = string_make_list ($UN.list_vt2t(cs))
+val ((*void*)) = list_vt_free (cs)
+//
 in
   res
 end // end of [string_reverse]
@@ -104,7 +107,7 @@ taking the length of the given string as its second argument.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("string_make_list_rev")
+#declnamesynop("string_make_rlist")
 #decldescrpt('\
 
 This function returns a linear string consisting of the reverse of the
@@ -114,10 +117,10 @@ sequence of non-null chars in its argument.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("string_make_listlen_rev")
+#declnamesynop("string_make_rlistlen")
 #decldescrpt('\
 
-This function does the same as #dyncode("string_make_list_rev") except for
+This function does the same as #dyncode("string_make_rlist") except for
 taking the length of the given string as its second argument.  ')
 
 #declfunretval("A linear string is returned.")
@@ -212,24 +215,27 @@ The following code implements a function for computing the length of a
 given string:
 
 #pats2xhtmld_tryit('\
-fun string1_length
+fun
+string1_length
   {n:int} .<>.
-  (str: string n): size_t (n) = let
+  (str: string n): size_t(n) = let
 //
 \#define NUL \'\\\000\'
 //
 prval () = lemma_string_param (str)
 //
 fun loop
-  {i:nat | i <= n} .<n-i>. (
-  str: string n, i: size_t i
+  {i:nat | i <= n} .<n-i>.
+(
+  str: string (n), i: size_t (i)
 ) :<> size_t (n) = let
   val (pf | c) = string_test_at (str, i)
 in
   if c != NUL then let
-    prval string_index_p_gt () = pf in loop (str, succ(i))
+    prval
+    string_index_p_neqz () = pf in loop (str, succ(i))
   end else let
-    prval string_index_p_eq () = pf in i // HX: i equals n
+    prval string_index_p_eqz () = pf in i // HX: i equals n
   end // end of [if]
 end // end of [loop]
 //
@@ -494,14 +500,15 @@ such that element i in the list equals char i in the string for
 
 (* ****** ****** *)
 
-#declnamesynop("string_tabulate$fwork")
 #declnamesynop("string_tabulate")
 //
 #decldescrpt('\
 
-Given an integer n, this function returns a string of length n such that
-char i in the string equals f(i) for 0 &lt;= i &lt n, where f is the
-function implemented by #dyncode("string_tabulate$fwork"). ')
+Given an integer n, this function returns a string of length n
+such that char i in the string equals f(i) for 0 &lt;= i &lt n,
+where f is the function implemented by #dyncode("string_tabulate$fopr").\
+
+')
 //
 #declfunretval("A linear string is returned.")
 //
@@ -515,14 +522,14 @@ consisting of the chars in a segment of a given string:
 //
 staload UN = "prelude/SATS/unsafe.sats"
 //
-implement
+implement{}
 string_make_substring
   {n}{st,ln} (str, st, ln) = let
 //
 implement
-string_tabulate$fwork (i) = let
+string_tabulate$fopr<> (i) = let
   val i = $UN.cast{sizeLt(ln)} (i) in str[st+i]
-end // end of [string_tabulate$fwork]
+end // end of [string_tabulate$fopr]
 //
 in
   $effmask_all (string_tabulate (ln))
@@ -530,10 +537,9 @@ end // end of [string_make_substring]
 ')
 ')
 
-(* ****** ****** *)
+#declnamesynop("string_tabulate$fopr")
 
-#declnamesynop("string_foreach$cont")
-#declnamesynop("string_foreach$fwork")
+(* ****** ****** *)
 
 #declnamesynop("string_foreach")
 //
@@ -554,10 +560,10 @@ the length of the longest prefix of a given string consisting of only chars
 contained in the second argument of this function:
 
 #pats2xhtmld_tryit('\
-implement
+implement{}
 strspn (str, accept) = let
 //
-val accept = string1_of_string0 (accept)
+val accept = g1ofg0_string (accept)
 //
 implement{env}
 string_foreach$cont (c, env) = strchr (accept, c) >= 0
@@ -587,7 +593,7 @@ unsigned integer represented as a sequence of digits (of base 10):
 fun atoi
   (str: string): int = let
 //
-val str = string1_of_string0 (str)
+val str = g1ofg0_string (str)
 //
 var env: int = 0
 implement
@@ -605,8 +611,10 @@ a sequence of digits.
 
 (* ****** ****** *)
 
-#declnamesynop("string_rforeach$cont")
-#declnamesynop("string_rforeach$fwork")
+#declnamesynop("string_foreach$cont")
+#declnamesynop("string_foreach$fwork")
+
+(* ****** ****** *)
 
 #declnamesynop("string_rforeach")
 //
@@ -628,7 +636,7 @@ the index of the last occurrence of a char in a given string. If there is
 no such occurrence, then ~1 (negative 1) is returned.
 
 #pats2xhtmld_tryit('\
-implement
+implement{}
 strrchr (str, c0) = let
 //
 implement{env}
@@ -636,7 +644,7 @@ string_rforeach$cont (c, env) = c0 != c
 val i = $effmask_all (string_rforeach<> (str))
 //
 in
-  if string_is_atend (str, i) then g1i2u(~1) else g1u2i(i)
+  if string_is_atend (str, i) then g1i2i(~1) else g1u2i(i)
 end // end of [strrchr]
 ')
 ')
@@ -651,6 +659,11 @@ This function does essentially the same as #dyncode("string_rforeach")
 except for taking an additional argument that serves as an environment.  ')
 //
 #declfunretval("The number of processed chars is returned.")
+
+(* ****** ****** *)
+
+#declnamesynop("string_rforeach$cont")
+#declnamesynop("string_rforeach$fwork")
 
 (* ****** ****** *)
 

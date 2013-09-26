@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,8 +27,14 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: April, 2011
+//
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 
@@ -40,22 +46,27 @@ staload ERR = "./pats_error.sats"
 staload GLOB = "./pats_global.sats"
 
 (* ****** ****** *)
-
+//
 staload SYM = "./pats_symbol.sats"
+//
 overload = with $SYM.eq_symbol_symbol
+//
+overload print with $SYM.print_symbol
+overload prerr with $SYM.prerr_symbol
+overload fprint with $SYM.fprint_symbol
+//
 macdef ADD = $SYM.symbol_ADD
 macdef SUB = $SYM.symbol_SUB
+//
 macdef ATS_PACKNAME = $SYM.symbol_ATS_PACKNAME
+//
 macdef ATS_STALOADFLAG = $SYM.symbol_ATS_STALOADFLAG
 macdef ATS_DYNLOADFLAG = $SYM.symbol_ATS_DYNLOADFLAG
 macdef ATS_MAINATSFLAG = $SYM.symbol_ATS_MAINATSFLAG
-
+//
 (* ****** ****** *)
 
 staload FIL = "./pats_filename.sats"
-overload print with $FIL.print_filename
-overload prerr with $FIL.prerr_filename
-overload fprint with $FIL.fprint_filename
 
 (* ****** ****** *)
 
@@ -102,10 +113,7 @@ fn prec_make_err () = prec_make_int (0)
 fn prec_tr_errmsg_fxty
   (opr: i0de): void = let
   val () = prerr_error1_loc (opr.i0de_loc)
-  val () = prerr ": the operator ["
-  val () = $SYM.prerr_symbol (opr.i0de_sym)
-  val () = prerr "] is given no fixity";
-  val () = prerr_newline ()
+  val () = prerrln! (": the operator [", opr.i0de_sym, "] is given no fixity")
   val () = the_trans1errlst_add (T1E_prec_tr (opr))
 in
   // nothing
@@ -114,8 +122,7 @@ end // end of [prec_tr_errmsg_fxty]
 fn prec_tr_errmsg_adj
   (opr: i0de): void = let
   val () = prerr_error1_loc (opr.i0de_loc)
-  val () = prerr ": the operator for adjusting precedence can only be [+] or [-]."
-  val () = prerr_newline ()
+  val () = prerrln! ": the operator for adjusting precedence can only be [+] or [-]."
   val () = the_trans1errlst_add (T1E_prec_tr (opr))
 in
   // nothing
@@ -182,7 +189,7 @@ fn f0xty_tr
   | F0XTYpos p0 => let val p = p0rec_tr p0 in fxty_pos p end
 // end of [f0xty_tr]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d0ecl_fixity_tr (f0xty, ids) = let
@@ -477,14 +484,17 @@ end // end of [f0undeclst_tr]
 fn v0ardec_tr
   (d: v0ardec): v1ardec = let
   val loc = d.v0ardec_loc
-  val stadyn = d.v0ardec_knd
+  val knd = d.v0ardec_knd
+  val pfat = d.v0ardec_pfat // i0deopt
   val s1eopt = s0expopt_tr (d.v0ardec_type)
-  val wth = d.v0ardec_wth // i0deopt
-  val d1eopt = d0expopt_tr d.v0ardec_ini
+  val d1eopt = d0expopt_tr d.v0ardec_init
 in
-  v1ardec_make (
-    loc, stadyn, d.v0ardec_sym, d.v0ardec_sym_loc, s1eopt, wth, d1eopt
-  ) // end of [v1ardec_make]
+//
+v1ardec_make
+(
+  loc, knd, d.v0ardec_sym, d.v0ardec_sym_loc, pfat, s1eopt, d1eopt
+) (* end of [v1ardec_make] *)
+//
 end // end of [v0ardec_tr]
 
 (* ****** ****** *)
@@ -511,29 +521,29 @@ end // end of [i0mpdec_tr]
 extern
 fun i0nclude_tr
 (
-  d0c0: d0ecl, stadyn: int, path: string
-) : d1eclist // end of [i0nclude_tr]
+  d0c0: d0ecl, stadyn: int, given: string
+) : d1eclist // endfun
 
 implement
 i0nclude_tr
-  (d0c0, stadyn, path) = d1cs where
+  (d0c0, stadyn, given) = d1cs where
 {
 //
 val loc0 = d0c0.d0ecl_loc
-val filopt = $FIL.filenameopt_make_relative (path)
+val filopt = $FIL.filenameopt_make_relative (given)
 //
 val fil =
 (
 case+ filopt of
-| ~Some_vt filename => filename
-| ~None_vt () => let
-    val () = prerr_error1_loc (loc0)
-    val () = prerr ": the file ["
-    val () = prerr path;
-    val () = prerr "] is not available for inclusion."
-    val () = prerr_newline ()
-    val () = the_trans1errlst_add (T1E_i0nclude_tr (d0c0))
-    val () = $ERR.abort ()
+| ~Some_vt (fil) => fil
+| ~None_vt ((*void*)) => let
+    val (
+    ) = prerr_error1_loc (loc0)
+    val (
+    ) = prerrln! (": the file [", given, "] is not available for inclusion.")
+    val (
+    ) = the_trans1errlst_add (T1E_i0nclude_tr (d0c0))
+    val () = $ERR.abort ((*void*))
   in
     $FIL.filename_dummy
   end // end of [None_vt]
@@ -541,8 +551,7 @@ case+ filopt of
 //
 val d0cs = $PAR.parse_from_filename_toplevel (stadyn, fil)
 //
-val
-(
+val (
   pfpush | isexi
 ) = $FIL.the_filenamelst_push_check (fil)
 val (
@@ -550,7 +559,7 @@ val (
   val () = $LOC.prerr_location (loc0)
   val () = prerr (": error(0)")
   val () = prerr (": including the file [");
-  val () = $FIL.prerr_filename (fil)
+  val () = $FIL.prerr_filename_full (fil)
   val () = prerr ("] generates the following looping trace:\n")
   val () = $FIL.fprint_the_filenamelst (stderr_ref)
   val () = the_trans1errlst_add (T1E_i0nclude_tr (d0c0))
@@ -618,7 +627,7 @@ extern
 fun s0taload_tr
 (
   d0c0: d0ecl
-, idopt: symbolopt, path: string
+, idopt: symbolopt, given: string
 , loadflag: &int? >> int
 , filref: &filename? >> filename
 ) : d1eclist // end of [s0taload_tr]
@@ -629,34 +638,38 @@ fun auxload
 (
   fil: filename, loadflag: &int >> int
 ) : d1eclist = let
-  val pname = $FIL.filename_get_part (fil)
-  val isdats = string_suffix_is_dats (pname)
-  val flag = (if isdats then 1(*dyn*) else 0(*sta*)): int
-  val d0cs = $PAR.parse_from_filename_toplevel (flag, fil)
 //
-  val (pfsave | ()) = the_trans1_env_save ()
+val pname = $FIL.filename_get_partname (fil)
 //
-  val (pfpush | ()) = $FIL.the_filenamelst_push (fil)
-  val d1cs = d0eclist_tr (d0cs) // HX: it is done in [fil]
-  val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+val isdats = string_suffix_is_dats (pname)
+val flag = (if isdats then 1(*dyn*) else 0(*sta*)): int
+val d0cs = $PAR.parse_from_filename_toplevel (flag, fil)
 //
-  val packname = ats_packname_get ()
-  val d1c_pack = d1ecl_packname (packname)
-  val d1cs = list_cons{d1ecl}(d1c_pack, d1cs)
+val (pfsave | ()) = the_trans1_env_save ()
 //
-  val ans = the_e1xpenv_find (ATS_STALOADFLAG)
-  val () =
-  (
-    case+ ans of
-    | ~Some_vt e1xp => let
-        val v1al = e1xp_valize (e1xp) in if v1al_is_false v1al then loadflag := 0
-      end // end of [Some_vt]
-    | ~None_vt () => () // the default value
-  ) : void // end of [val]
+val (pfpush | ()) = $FIL.the_filenamelst_push (fil)
+val d1cs = d0eclist_tr (d0cs) // HX: it is done in [fil]
+val ((*void*)) = $FIL.the_filenamelst_pop (pfpush | (*none*))
 //
-  val () = the_trans1_env_restore (pfsave | (*none*))
+val packname = ats_packname_get ()
+val d1c_pack = d1ecl_packname (packname)
+val d1cs = list_cons{d1ecl}(d1c_pack, d1cs)
 //
-  val () = staload_file_insert (fil, loadflag, d1cs)
+val ans = the_e1xpenv_find (ATS_STALOADFLAG)
+//
+val () = (
+  case+ ans of
+  | ~Some_vt e1xp => let
+      val v1al = e1xp_valize (e1xp) in if v1al_is_false v1al then loadflag := 0
+    end // end of [Some_vt]
+  | ~None_vt () => () // the default value
+) : void // end of [val]
+//
+val (
+) = the_trans1_env_restore (pfsave | (*none*))
+//
+val () = staload_file_insert (fil, loadflag, d1cs)
+//
 in
   d1cs
 end // end of [s0taload_tr_load]
@@ -665,34 +678,33 @@ in (* in of [local] *)
 
 implement s0taload_tr
 (
-  d0c0, idopt, path, loadflag, filref
+  d0c0, idopt, given, loadflag, filref
 ) = let
 //
 val loc0 = d0c0.d0ecl_loc
 //
 val () = loadflag := 1 // HX: for ATS_STALOADFLAG
 //
-val filopt = $FIL.filenameopt_make_relative (path)
+val filopt = $FIL.filenameopt_make_relative (given)
 //
 val fil =
 (
 case+ filopt of
-| ~Some_vt fil => fil
+| ~Some_vt (fil) => fil
 | ~None_vt ((*void*)) => let
-    val () = prerr_error1_loc (loc0)
-    val () = prerr ": the file ["
-    val () = prerr path;
-    val () = prerr "] is not available for static loading."
-    val () = prerr_newline ()
-    val () = the_trans1errlst_add (T1E_s0taload_tr (d0c0))
+    val (
+    ) = prerr_error1_loc (loc0)
+    val (
+    ) = prerrln! (": the file [", given, "] is not available for static loading.")
+    val (
+    ) = the_trans1errlst_add (T1E_s0taload_tr (d0c0))
     val () = $ERR.abort ((*void*))
   in
     $FIL.filename_dummy
   end // end of [None_vt]
 ) : filename // end of [val]
 //
-val
-(
+val (
   pfpush | isexi
 ) = $FIL.the_filenamelst_push_check (fil)
 val (
@@ -700,7 +712,7 @@ val (
   val () = $LOC.prerr_location (loc0)
   val () = prerr (": error(0)")
   val () = prerr (": staloading the file [");
-  val () = $FIL.prerr_filename (fil)
+  val () = $FIL.prerr_filename_full (fil)
   val () = prerr ("] generates the following looping trace:\n")
   val () = $FIL.fprint_the_filenamelst (stderr_ref)
   val () = the_trans1errlst_add (T1E_s0taload_tr (d0c0))
@@ -710,25 +722,20 @@ val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
 //
 val () = filref := fil
 //
-val flagd1csopt = staload_file_search (fil)
+val opt = staload_file_search (fil)
 //
 in
 //
-case+ flagd1csopt of
-| ~Some_vt (flagd1cs) => let
-(*
-    val () = {
-      val () = print "The file ["
-      val () = print_filename (fil)
-      val () = print " is already loaded."
-      val () = print_newlint ()
-    ) // end of [val]
-*)
+case+ opt of
+| ~Some_vt
+    (flagd1cs) => flagd1cs.1 where
+  {
     val () = loadflag := flagd1cs.0
-  in
-    flagd1cs.1
-  end // end of [Some_vt]
-| ~None_vt () => auxload (fil, loadflag)
+(*
+    val () = println! ("The file [", fil, " is already loaded.")
+*)
+  } // end of [Some_vt]
+| ~None_vt ((*void*)) => auxload (fil, loadflag)
 //
 end // end of [s0taload_tr]
 
@@ -737,30 +744,30 @@ end // end of [local]
 (* ****** ****** *)
 
 extern
-fun d0ynload_tr
-  (d0c0: d0ecl, path: string): filename
+fun  d0ynload_tr
+  (d0c0: d0ecl, given: string): filename
 // end of [d0ynload_tr]
 
 implement
 d0ynload_tr
-  (d0c0, path) = fil where
+  (d0c0, given) = fil where
 {
 //
 val loc0 = d0c0.d0ecl_loc
-val filopt = $FIL.filenameopt_make_relative (path)
+val filopt = $FIL.filenameopt_make_relative (given)
 val fil =
 (
 case+ filopt of
-| ~Some_vt filename => filename
-| ~None_vt () => let
-    val () = prerr_error1_loc (loc0)
-    val () = prerr ": the file ["
-    val () = prerr path;
-    val () = prerr "] is not available for dynamic loading"
-    val () = prerr_newline ()
-    val () = the_trans1errlst_add (T1E_d0ynload_tr (d0c0))
+| ~Some_vt (fil) => fil
+| ~None_vt ((*void*)) => let
+    val (
+    ) = prerr_error1_loc (loc0)
+    val (
+    ) = prerrln! (": the file [", given, "] is not available for dynamic loading")
+    val (
+    ) = the_trans1errlst_add (T1E_d0ynload_tr (d0c0))
 (*
-    val () = $ERR.abort () // HX: it is meaningful to continue
+    val () = $ERR.abort ((*void*)) // HX: it is still meaningful to continue
 *)
   in
     $FIL.filename_dummy
@@ -971,37 +978,34 @@ case+ d0c0.d0ecl_node of
   end // end of [D0Cimpdec]
 //
 | D0Cinclude
-    (pfil, stadyn, path) => let
-    val
-    (
+    (pfil, stadyn, given) => let
+    val (
       pfpush | ()
     ) = $FIL.the_filenamelst_push (pfil)
-    val d1cs = i0nclude_tr (d0c0, stadyn, path)
+    val d1cs = i0nclude_tr (d0c0, stadyn, given)
     val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
   in
     d1ecl_include (loc0, d1cs)
   end // end of [D0Cinclude]
 | D0Cstaload
-    (pfil, idopt, path) => let
+    (pfil, idopt, given) => let
     var loadflag: int // unitialized
     var fil: filename // unitialized
 //
-    val
-    (
+    val (
       pfpush | ()
     ) = $FIL.the_filenamelst_push (pfil)
-    val d1cs = s0taload_tr (d0c0, idopt, path, loadflag, fil)
+    val d1cs = s0taload_tr (d0c0, idopt, given, loadflag, fil)
     val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
 //
   in
     d1ecl_staload (loc0, idopt, fil, loadflag, d1cs)
   end // end of [D0Cstaload]
-| D0Cdynload (pfil, path) => let
-    val
-    (
+| D0Cdynload (pfil, given) => let
+    val (
       pfpush | ()
     ) = $FIL.the_filenamelst_push (pfil)
-    val cfil = d0ynload_tr (d0c0, path)
+    val cfil = d0ynload_tr (d0c0, given)
     val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
   in
     d1ecl_dynload (loc0, cfil)
@@ -1137,9 +1141,6 @@ end // end of [local]
 (* ****** ****** *)
 
 %{$
-
-extern
-char *atspre_string_make_substring (char*, int, int) ;
 
 ats_bool_type
 patsopt_extnam_ismac (

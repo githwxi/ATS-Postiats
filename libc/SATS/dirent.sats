@@ -98,9 +98,12 @@ vtypedef Direntp0 = [l:addr] direntp (l)
 vtypedef Direntp1 = [l:addr | l > null] direntp (l)
 
 (* ****** ****** *)
-
+//
 castfn
-direntp2ptr {l:addr} (x: !direntp (l)):<> ptr (l)
+direntp2ptr{l:addr} (x: !direntp (l)):<> ptr (l)
+overload ptrcast with direntp2ptr
+//
+(* ****** ****** *)
 
 castfn
 direntp_get_viewptr{l:agz}
@@ -174,12 +177,11 @@ fun readdir
 fun readdir_r
 (
   dirp: !DIRptr1
-, ent: &dirent? >> opt (dirent, i==0)
-, result: &ptr? >> ptr
-) :<!wrt> #[i:int | i >= 0] int(i) = "mac#%"
+, ent: &dirent? >> opt (dirent, l > null)
+, result: &ptr? >> ptr(l)
+) :<!wrt> #[l:addr;i:int | i >= 0] int(i) = "mac#%"
 
-fun{}
-readdir_r_gc (dirp: !DIRptr1): Direntp0
+fun{} readdir_r_gc (dirp: !DIRptr1): Direntp0
 
 (* ****** ****** *)
 

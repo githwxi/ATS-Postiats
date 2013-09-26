@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: April, 2011
 //
 (* ****** ****** *)
@@ -92,11 +93,17 @@ parse_from_filename_toplevel
 //
 var buf: tokbuf
 prval pfmod = file_mode_lte_r_r
-val fullname = $FIL.filename_get_full (fil)
-val fullname = $SYM.symbol_get_name (fullname)
+//
+local
+val fname =
+  $FIL.filename_get_fullname (fil)
+in (* in of [local] *)
+val fname = $SYM.symbol_get_name (fname)
+end // end of [local]
+//
 val (
   pffil | filp
-) = $STDIO.fopen_exn (fullname, file_mode_r)
+) = $STDIO.fopen_exn (fname, file_mode_r)
 val () =
   tokbuf_initialize_filp (pfmod, pffil | buf, filp)
 // end of [val]
@@ -112,11 +119,11 @@ in
 end // end of [parser_from_filename_toplevel]
 
 implement
-parse_from_basename_toplevel
-  (stadyn, basename, filref) = let
+parse_from_givename_toplevel
+  (stadyn, given, filref) = let
 //
 val filopt =
-  $FIL.filenameopt_make_local (basename)
+  $FIL.filenameopt_make_local (given)
 // end of [val]
 in
 //
@@ -131,11 +138,9 @@ case+ filopt of
   end // end of [Some_vt]
 | ~None_vt () => let
     val () = filref := $FIL.filename_dummy
-    val () = prerr "error(ATS)"
-    val () = prerr ": the file of the name ["
-    val () = prerr (basename)
-    val () = prerr "] is not available."
-    val () = prerr_newline ()
+    val () = prerrln! (
+      "error(ATS): the file of the name [", given, "] is not available."
+    ) (* end of [val] *)
 (*
     val () = assertloc (false) // HX: immediately abort!
 *)
@@ -143,7 +148,7 @@ case+ filopt of
     list_nil ()
   end // end of [None_vt]
 //
-end // end of [parse_from_basename_toplevel]
+end // end of [parse_from_givename_toplevel]
 
 (* ****** ****** *)
 

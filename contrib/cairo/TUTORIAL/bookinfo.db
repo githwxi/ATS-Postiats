@@ -1,0 +1,60 @@
+<bookinfo>
+<title>ATS/Cairo Tutorial</title>
+<subtitle></subtitle>
+
+<authorgroup>
+<author>
+<firstname>Hongwei</firstname>
+<surname>Xi</surname>
+<affiliation><address><email>hwxiATcsDOTbuDOTedu</email></address></affiliation>
+</author>
+</authorgroup>
+
+<date>2010-04-21</date>
+<releaseinfo>0.0.1</releaseinfo>
+
+<abstract>
+<para>
+
+This tutorial focuses on employing types in ATS to facilitate safe and
+reliable programming with
+
+<ulink url="http://www.cairographics.org">cairo</ulink>,
+
+a comprehensive drawing package supporting 2D graphics, through the API for
+cairo in ATS. In particular, it is demonstrated concretely that linear
+types can be used effectively to prevent resources (such as contexts and
+surfaces created for drawing) from being leaked due to programming
+errors. It is assumed that the reader have already acquired certain level
+of familiarity with ATS.
+
+</para>
+</abstract>
+
+<copyright>
+<year>2010-2013</year>
+<holder>Hongwei Xi</holder>
+</copyright>
+
+<legalnotice>
+<para>
+
+Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.1 or any later
+version published by the Free Software Foundation; with no Invariant
+Sections, with no Front-Cover texts, and with no Back-Cover Texts. A copy
+of the license is included in the section entitled "GNU Free Documentation
+License".
+
+</para>
+</legalnotice>
+
+<keywordset>
+<keyword>ATS</keyword>
+<keyword>ATS2</keyword>
+<keyword>Cairo</keyword>
+<keyword>2D</keyword>
+<keyword>Graphics</keyword>
+</keywordset>
+
+</bookinfo>

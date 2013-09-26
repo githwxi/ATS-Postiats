@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,8 +27,14 @@
 
 (* ****** ****** *)
 
-(* Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu) *) // MPZ and MPQ
-(* Author: Shivkumar Chandrasekaran (shiv AT ece DOT ucsb DOT edu) *) // MPF
+(*
+** Author: Hongwei Xi // MPZ and MPQ
+** Authoremail: hwxi AT cs DOT bu DOT edu
+*)
+(*
+** Author: Shivkumar Chandrasekaran // MPF
+** Authoremail: shiv AT ece DOT ucsb DOT edu)
+*)
 
 (* ****** ****** *)
 
@@ -40,7 +46,7 @@
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSCNTRB.libevent"
+#define ATS_PACKNAME "ATSCNTRB.libgmp"
 #define ATS_STALOADFLAG 0 // no static loading at run-time
 #define ATS_EXTERN_PREFIX "atscntrb_libgmp_" // prefix for external names
 

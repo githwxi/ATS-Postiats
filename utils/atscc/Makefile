@@ -27,7 +27,7 @@ patscc: \
   patscc_dats.c \
   atscc_main_dats.c \
   atscc_print_dats.c ; \
-  $(CC) -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -DATS_MEMALLOC_LIBC -O2 -o $@ $^
+  $(CC) -I${PATSHOMEQ} -I${PATSHOMEQ}/ccomp/runtime -DATS_MEMALLOC_LIBC -O2 -o $@ $^
 
 ######
 

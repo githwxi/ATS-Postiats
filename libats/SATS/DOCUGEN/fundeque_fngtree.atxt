@@ -1,0 +1,121 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../fundeque_fngtree.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_fundeque_fngtree")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/fundeque_fngtree\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package implements a functional deque (double-ended queue) based on
+the so-called finger-tree structure.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("deque")
+#declnamesynop("deque_type")
+
+(* ****** ****** *)
+
+#declnamesynop("Deque")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_deque_param")
+
+(* ****** ****** *)
+
+#declnamesynop("fundeque_nil")
+#decldescrpt("This function creates an empty deque.")
+
+(* ****** ****** *)
+
+#declnamesynop("fundeque_cons")
+#decldescrpt("\
+
+This function adds an element to the front-end of a given deque.")
+
+#declnamesynop("fundeque_uncons")
+#decldescrpt("\
+
+This function does the opposite of what #dyncode("fundeque_cons") does.")
+
+(* ****** ****** *)
+
+#declnamesynop("fundeque_snoc")
+#decldescrpt("\
+
+This function adds an element to the rear-end of a given deque.")
+
+#declnamesynop("fundeque_unsnoc")
+#decldescrpt("\
+
+This function does the opposite of what #dyncode("fundeque_unsnoc") does.")
+
+(* ****** ****** *)
+
+#declnamesynop("fundeque_is_nil")
+#decldescrpt("This function test whether a given dequen is empty.")
+#declnamesynop("fundeque_is_cons")
+#decldescrpt("This function test whether a given dequen is non-empty.")
+
+(* ****** ****** *)
+
+#declnamesynop("fundeque_size")
+#decldescrpt("\
+
+This function returns the number of elements contained in a given deque.")
+
+(* ****** ****** *)
+
+#declnamesynop("fundeque_get_atbeg")
+#decldescrpt("\
+
+This function returns the first element of a given non-empty deque.")
+
+#declnamesynop("fundeque_get_atend")
+#decldescrpt("\
+
+This function returns the last element of a given non-empty deque.")
+
+
+(* ****** ****** *)
+
+#declnamesynop("fundeque_append")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_fundeque")
+#declnamesynop("fprint_fundeque$sep")
+
+(* ****** ****** *)
+
+#declnamesynop("fundeque_foreach$fwork")
+#declnamesynop("fundeque_foreach")
+#declnamesynop("fundeque_foreach_env")
+
+(* ****** ****** *)
+
+#declnamesynop("fundeque_rforeach$fwork")
+#declnamesynop("fundeque_rforeach")
+#declnamesynop("fundeque_rforeach_env")
+
+(* ****** ****** *)
+
+(* end of [fundeque_fngtree.atxt] *)

@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: April, 2011
 //
 (* ****** ****** *)
@@ -747,23 +748,33 @@ extern
 fun fprint_v1ardec : fprint_type (v1ardec)
 implement
 fprint_v1ardec (out, x) = let
-  macdef prstr (str) = fprint_string (out, ,(str))
-  val () = fprint_int (out, x.v1ardec_knd)
-  val () = prstr "; "
-  val () = fprint_symbol (out, x.v1ardec_sym)
-  val () = (
-    case+ x.v1ardec_type of
-    | Some s1e => (prstr ": "; fprint_s1exp (out, s1e))
-    | None () => ()
-  ) // end of [val]
-  val () = (case+ x.v1ardec_wth of
-    | Some id => (prstr " with "; fprint_i0de (out, id))
-    | None () => ()
-  ) // end of [val]
-  val () = (case+ x.v1ardec_ini of
-    | Some d1e => (prstr " = "; fprint_d1exp (out, d1e))
-    | None () => ()
-  ) // end of [val]
+//
+macdef
+prstr (str) = fprint_string (out, ,(str))
+//
+val () = fprint_int (out, x.v1ardec_knd)
+val () = prstr "; "
+val () = fprint_symbol (out, x.v1ardec_sym)
+//
+val (
+) = (
+  case+ x.v1ardec_type of
+  | None () => ()
+  | Some s1e => (prstr ": "; fprint_s1exp (out, s1e))
+) (* end of [val] *)
+val (
+) = (
+  case+ x.v1ardec_pfat of
+  | None () => ()
+  | Some id => (prstr " with "; fprint_i0de (out, id))
+) (* end of [val] *)
+val (
+) = (
+  case+ x.v1ardec_init of
+  | None () => ()
+  | Some d1e => (prstr " = "; fprint_d1exp (out, d1e))
+) (* end of [val] *)
+//
 in
   // nothing
 end // end of [fprint_v1ardec]
@@ -966,33 +977,6 @@ case+ d1c0.d1ecl_node of
     val () = prstr "\n)"
   }
 //
-| D1Cvaldecs (knd, isrec, ds) => {
-    val () = prstr "D1Cvaldecs("
-    val () = fprint_valkind (out, knd)
-    val () = prstr "; "
-    val () = fprint_bool (out, isrec)
-    val () = prstr "\n"
-    val () = $UT.fprintlst (out, ds, "\n", fprint_v1aldec)
-    val () = prstr "\n)"
-  }
-| D1Cfundecs
-    (knd, q1mas, ds) => {
-    val () = prstr "D1Cfundecs("
-    val () = fprint_funkind (out, knd)
-    val () = prstr "; "
-    val () = $UT.fprintlst (out, q1mas, "; ", fprint_q1marg)
-    val () = prstr "\n"
-    val () = prstr "..."
-    val () = prstr "\n)"
-  }
-| D1Cvardecs (knd, ds) => {
-    val () = prstr "D1Cvardecs("
-    val () = fprint_int (out, knd)
-    val () = prstr "\n"
-    val () = $UT.fprintlst (out, ds, "\n", fprint_v1ardec)
-    val () = prstr "\n)"
-  }
-//
 | D1Cimpdec (knd, imparg, d) => {
     val qid = d.i1mpdec_qid
     val () = prstr "D1Cimpdec["
@@ -1006,6 +990,34 @@ case+ d1c0.d1ecl_node of
 //
     val () = prstr "; "
     val () = fprint_d1exp (out, d.i1mpdec_def)
+    val () = prstr "\n)"
+  }
+//
+| D1Cfundecs
+    (knd, q1mas, ds) => {
+    val () = prstr "D1Cfundecs("
+    val () = fprint_funkind (out, knd)
+    val () = prstr "; "
+    val () = $UT.fprintlst (out, q1mas, "; ", fprint_q1marg)
+    val () = prstr "\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
+| D1Cvaldecs
+    (knd, isrec, ds) => {
+    val () = prstr "D1Cvaldecs("
+    val () = fprint_valkind (out, knd)
+    val () = prstr "; "
+    val () = fprint_bool (out, isrec)
+    val () = prstr "\n"
+    val () = $UT.fprintlst (out, ds, "\n", fprint_v1aldec)
+    val () = prstr "\n)"
+  }
+| D1Cvardecs (knd, ds) => {
+    val () = prstr "D1Cvardecs("
+    val () = fprint_int (out, knd)
+    val () = prstr "\n"
+    val () = $UT.fprintlst (out, ds, "\n", fprint_v1ardec)
     val () = prstr "\n)"
   }
 //

@@ -7,17 +7,19 @@
 **
 *)
 
+(* ****** ****** *)
+
 (*
-HX: how to compile:
-atscc -o test04 \
-  `pkg-config --cflags --libs cairo` $ATSHOME/contrib/cairo/atscntrb_cairo.o \
-  test04.dats
+** Ported to ATS2 by Hongwei Xi, April, 2013
+*)
 
-HX: how to test the generated executable:
+(* ****** ****** *)
 
-./test04
-
-HX: please use 'gthumb' or 'eog' to view the generated image file 'test04.png'
+(*
+** how to compile:
+   atscc -o test04 `pkg-config --cflags --libs cairo` test04.dats
+** how to test the generated executable: ./test04
+** please use 'gthumb' or 'eog' to view the generated image file 'test04.png'
 *)
 
 (* ****** ****** *)
@@ -33,7 +35,7 @@ staload FLOAT = "prelude/DATS/float.dats"
 
 (* ****** ****** *)
 
-staload "cairo/SATS/cairo.sats"
+staload "./../SATS/cairo.sats"
 
 (* ****** ****** *)
 

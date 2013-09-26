@@ -18,28 +18,36 @@ fun{} not_json_bool (tf: json_bool): json_bool
 //
 (* ****** ****** *)
 
-absvtype lh_entry_vtype (l:addr) = ptr
-vtypedef lh_entry (l:addr) = lh_entry_vtype (l)
+absvtype
+lh_entry_vtype (l:addr) = ptr
 vtypedef
-lh_entry0 = [l:addr | l >= null] lh_entry (l)
+lh_entry (l:addr) = lh_entry_vtype (l)
 vtypedef
-lh_entry1 = [l:addr | l >  null] lh_entry (l)
+lh_entry0 = [l:agez] lh_entry (l)
+vtypedef
+lh_entry1 = [l:addr | l > null] lh_entry (l)
 
-absvtype lh_table_vtype (l:addr) = ptr
-vtypedef lh_table (l:addr) = lh_table_vtype (l)
+absvtype
+lh_table_vtype (l:addr) = ptr
 vtypedef
-lh_table0 = [l:addr | l >= null] lh_table (l)
+lh_table (l:addr) = lh_table_vtype (l)
 vtypedef
-lh_table1 = [l:addr | l >  null] lh_table (l)
+lh_table0 = [l:agez] lh_table (l)
+vtypedef
+lh_table1 = [l:addr | l > null] lh_table (l)
 
 (* ****** ****** *)
 
-absvtype array_list_vtype (l:addr) = ptr
-vtypedef array_list (l:addr) = array_list_vtype (l)
+absvtype
+array_list_vtype (l:addr) = ptr
 vtypedef
-array_list0 = [l:addr | l >= null] array_list (l)
+array_list (l:addr) = array_list_vtype (l)
 vtypedef
-array_list1 = [l:addr | l >  null] array_list (l)
+array_list0 = [l:agez] array_list (l)
+vtypedef
+array_list1 = [l:addr | l > null] array_list (l)
+
+(* ****** ****** *)
 
 typedef free_fn_type = (Ptr1(*data*)) -> void
 
@@ -67,12 +75,14 @@ lh_equal_fn_type = (Ptr0, Ptr0) -<> int
 
 (* ****** ****** *)
 
-absvtype printbuf_vtype (l:addr) = ptr
-vtypedef printbuf (l:addr) = printbuf_vtype (l)
+absvtype
+printbuf_vtype (l:addr) = ptr
 vtypedef
-printbuf0 = [l:addr | l >= null] printbuf (l)
+printbuf (l:addr) = printbuf_vtype (l)
 vtypedef
-printbuf1 = [l:addr | l >  null] printbuf (l)
+printbuf0 = [l:agez] printbuf (l)
+vtypedef
+printbuf1 = [l:addr | l > null] printbuf (l)
 
 (* ****** ****** *)
 
@@ -89,12 +99,10 @@ json_type_int,
 json_type_object,
 json_type_array,
 json_type_string,
-} json_type;
+} json_type ;
 *)
-
-abst@ype json_type_type = int
 //
-typedef json_type = json_type_type
+typedef json_type = int
 //
 macdef json_type_null = $extval(json_type, "json_type_null")
 macdef json_type_boolean = $extval(json_type, "json_type_boolean")
@@ -106,12 +114,14 @@ macdef json_type_object = $extval(json_type, "json_type_object")
 //
 (* ****** ****** *)
 
-absvtype json_object_vtype (l:addr) = ptr
-vtypedef json_object (l:addr) = json_object_vtype (l)
+absvtype
+json_object_vtype (l:addr) = ptr
 vtypedef
-json_object0 = [l:addr | l >= null] json_object (l)
+json_object (l:addr) = json_object_vtype (l)
 vtypedef
-json_object1 = [l:addr | l >  null] json_object (l)
+json_object0 = [l:agez] json_object (l)
+vtypedef
+json_object1 = [l:addr | l > null] json_object (l)
 
 (* ****** ****** *)
 
@@ -121,7 +131,6 @@ json_object1 = [l:addr | l >  null] json_object (l)
 absvt0ype
 json_object_iterator_vt0ype
   (l:addr) = $extype"json_object_iterator_struct"
-// end of [absvt0ype]
 vtypedef
 json_object_iterator (l:addr) = json_object_iterator_vt0ype (l)
 vtypedef json_object_iterator = [l:addr] json_object_iterator (l)
@@ -176,12 +185,14 @@ macdef json_tokener_state_object_field_start_after_sep = $extval (int, "json_tok
 
 (* ****** ****** *)
 
-absvtype json_tokener_vtype (l:addr) = ptr
-vtypedef json_tokener (l:addr) = json_tokener_vtype (l)
+absvtype
+json_tokener_vtype (l:addr) = ptr
 vtypedef
-json_tokener0 = [l:addr | l >= null] json_tokener (l)
+json_tokener (l:addr) = json_tokener_vtype (l)
 vtypedef
-json_tokener1 = [l:addr | l >  null] json_tokener (l)
+json_tokener0 = [l:agez] json_tokener (l)
+vtypedef
+json_tokener1 = [l:addr | l > null] json_tokener (l)
 
 (* ****** ****** *)
 

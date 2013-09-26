@@ -5,7 +5,7 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload_tmpdef.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -121,6 +121,31 @@ val () = assertloc ((0x00000000ULL lor x) = x)
 val () = assertloc ((0xFFFFFFFFULL land x) = x)
 //
 } // end of [val]
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val out = stdout_ref
+//
+val rep = g0int2string (1)
+val ((*void*)) = fprintln! (out, "rep(1) = ", rep)
+val ((*void*)) = strptr_free (rep)
+//
+val rep = g0int2string (~123456789)
+val ((*void*)) = fprintln! (out, "rep(-123456789) = ", rep)
+val ((*void*)) = strptr_free (rep)
+//
+val rep = g0int2string (987654321000000000L)
+val ((*void*)) = fprintln! (out, "rep(987654321000000000L) = ", rep)
+val ((*void*)) = strptr_free (rep)
+//
+val rep = g0int2string (987654321000000000LL)
+val ((*void*)) = fprintln! (out, "rep(987654321000000000LL) = ", rep)
+val ((*void*)) = strptr_free (rep)
+//
+} (* end of [val] *)
 
 (* ****** ****** *)
 

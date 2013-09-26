@@ -53,7 +53,6 @@
 
 #define ATS_PACKNAME "ATSLIB.libats.linheap_binomial"
 #define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
-#define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 (* ****** ****** *)
 
@@ -81,10 +80,9 @@ staload "libats/SATS/linheap_binomial.sats"
 // btree(a, n) is for a binomial tree of rank(n)
 //
 datavtype
-btree
-(
-  a:vt@ype+, int(*rank*)
-) =
+btree (
+a:vt@ype+, int(*rank*)
+) = // btree
   | {n:nat}
     btnode (a, n) of (int (n), a, btreelst (a, n))
 // end of [btree]
@@ -101,10 +99,9 @@ and btreelst
 (* ****** ****** *)
 
 datavtype
-bheap
-(
+bheap (
   a:vt@ype+, int(*rank*), int(*size*)
-) =
+) = // bheap
   | {n:nat}
     bheap_nil (a, n, 0) of ()
   | {n:nat}{p:int}{sz:nat}{n1:int | n1 > n}

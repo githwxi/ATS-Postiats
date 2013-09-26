@@ -43,15 +43,8 @@
 //
 (* ****** ****** *)
 
-#define
-ATS_PACKNAME "ATSLIB.libats.linheap_binomial"
-#define
-ATS_STALOADFLAG 0 // no static loading at run-time
-
-(* ****** ****** *)
-
-sortdef tk = tkind
-sortdef t0p = t@ype and vt0p = vt@ype
+#define ATS_PACKNAME "ATSLIB.libats.linheap_binomial"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 

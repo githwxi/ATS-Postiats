@@ -1,28 +1,11 @@
 #
-#
-# This Makefile is automatically generated
-# from executing the following command-line:
-#
-# make -f Makefile.gen
-#
+# A simple Makefile
 #
 
 ######
 
-ATSHOMEQ="$(ATSHOME)"
-ATSCC=$(ATSHOMEQ)/bin/atscc
-ATSOPT=$(ATSHOMEQ)/bin/atsopt
-ATSDOC=$(ATSHOMEQ)/bin/atsdoc
-
-######
-
-GCC=gcc
+PATSCC=patscc
 PATSHOMEQ="$(PATSHOME)"
-PATSOPT=$(PATSHOMEQ)/src/patsopt
-
-######
-
-ATSGCFLAG=-D_ATS_GCATS
 
 ######
 
@@ -30,25 +13,23 @@ all::
 
 ######
 
-LNS=ln -s
-RMF=rm -f
+all:: tally
+tally:: ; $(PATSCC) -tcats tally.dats
 
 ######
 
 all:: fibonacci
-fibonacci:: fibonacci.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --typecheck --dynamic fibonacci.dats
+fibonacci:: ; $(PATSCC) -tcats fibonacci.dats
 
-all:: tally
-tally:: tally.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --typecheck --dynamic tally.dats
+######
 
+RMF=rm -f
 
 ######
 
 clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.o *_?ats.c
-clean:: ; $(RMF) *_atxt.txt
-clean:: ; $(RMF) *_atxt.dats
-clean:: ; $(RMF) Makefile.exe
+clean:: ; $(RMF) *_?ats.c
+clean:: ; $(RMF) *_?ats.o
 
 cleanall:: clean
 

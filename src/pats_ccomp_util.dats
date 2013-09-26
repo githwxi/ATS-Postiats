@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,17 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: October, 2012
 //
 (* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -81,7 +83,7 @@ primval_is_top (pmv) = (
 //
 // HX-2013-02:
 // [pmv] should not be assgined to a variable:
-// it is either a left-value or a field-section
+// it is either a left-value, a field-section, or a lamfix-value
 //
 implement
 primval_is_nshared
@@ -98,6 +100,8 @@ case+
 | PMVselect2 _ => true // field-selection
 //
 | PMVselptr _ => true // left-value
+//
+| PMVlamfix _ => true // lamfix-value
 //
 | PMVcastfn (d2c, pmv) => primval_is_nshared (pmv)
 //
@@ -192,6 +196,53 @@ end // end of [tmpsub_append]
 
 (* ****** ****** *)
 
+#if(0)
+
+extern
+fun tailcalck (
+  env: !ccompenv
+, tmpret: tmpvar, pmv: primval, ntl0: &int? >> int
+) : funlabopt_vt // end of [tailcalck]
+
+implement
+tailcalck
+  (env, tmpret, pmv, ntl0) = let
+//
+val () = ntl0 := ~1
+val isret = tmpvar_isret (tmpret)
+//
+in
+//
+if isret then
+(
+case+
+  pmv.primval_node of
+| PMVcst (d2c) => let
+    val () = ntl0 := 0
+  in
+    ccompenv_find_tailcalenv_cst (env, d2c)
+  end // end of [PMVcst]
+| PMVfunlab (fl) => let
+    val ntl = ccompenv_find_tailcalenv (env, fl)
+    val () = ntl0 := ntl
+  in
+    if ntl >= 0 then Some_vt (fl) else None_vt ()
+  end // end of [PMVfunlab]
+| PMVcfunlab (knd, fl) => let
+    val ntl = ccompenv_find_tailcalenv (env, fl)
+    val () = ntl0 := ntl
+  in
+    if ntl >= 0 then Some_vt (fl) else None_vt ()
+  end // end of [PMVcfunlab]
+| _ => None_vt ()
+) else None_vt () // end of [if]
+//
+end // end of [tailcalck]
+
+#endif // #if(0)
+
+(* ****** ****** *)
+
 local
 
 fun aux
@@ -217,6 +268,7 @@ case+ x.instr_node of
 | INSmove_arg_val _ => ()
 //
 | INSfcall (tmp, _, _, _) => tmpadd (tmp)
+| INSfcall2 (tmp, _, _, _, _) => tmpadd (tmp)
 | INSextfcall (tmp, _fun, _arg) => tmpadd (tmp)
 //    
 | INScond
@@ -273,8 +325,8 @@ case+ x.instr_node of
 //
 | INSmove_arrpsz_ptr (tmp, _) => tmpadd (tmp)
 //
-| INSstore_arrpsz_asz (tmp, _) => ()
-| INSstore_arrpsz_ptr (tmp, _, _) => ()
+| INSstore_arrpsz_asz (tmp, _) => tmpadd (tmp)
+| INSstore_arrpsz_ptr (tmp, _, _) => tmpadd (tmp)
 //
 | INSupdate_ptrinc (tmp(*ptr*), _(*type*)) => ()
 | INSupdate_ptrdec (tmp(*ptr*), _(*type*)) => ()

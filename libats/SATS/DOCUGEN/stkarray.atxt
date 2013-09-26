@@ -1,0 +1,86 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../stkarray.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_dlist")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/stkarray\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+#para("\
+
+This package implements array-based linear stacks.
+
+")
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("stkarray")
+#declnamesynop("stkarray_vtype")
+
+(* ****** ****** *)
+
+#declnamesynop("stkarray_make_cap")
+#declnamesynop("stkarray_make_ngc")
+#declnamesynop("stkarray_free_nil")
+
+(* ****** ****** *)
+
+#declnamesynop("stkarray_is_nil")
+#declnamesynop("stkarray_isnot_nil")
+
+(* ****** ****** *)
+
+#declnamesynop("stkarray_is_full")
+#declnamesynop("stkarray_isnot_full")
+
+(* ****** ****** *)
+
+#declnamesynop("stkarray_get_size")
+#declnamesynop("stkarray_get_capacity")
+
+(* ****** ****** *)
+
+#declnamesynop("stkarray_insert")
+#declnamesynop("stkarray_insert_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("stkarray_takeout")
+#declnamesynop("stkarray_takeout_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_stkarray")
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
+
+(* ****** ****** *)
+
+(* end of [stkarray.atxt] *)

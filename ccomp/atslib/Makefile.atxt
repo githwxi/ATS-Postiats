@@ -72,7 +72,7 @@ atslib_%s:: atslib_%s\n\
 atslib_%s: output/atslib_%s.o ; $(ARR) lib/libatslib.a $<\n\
 output/atslib_%s.c: ../../%s/DATS/%s ; $(PATSOPT) -o $@ --dynamic $<\n\
 output/atslib_%s.o: output/atslib_%s.c ; \\\n\
-  $(CCOPT) -I$(PATSHOME) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<\n\
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<\n\
 clean:: ; $(RMF) output/atslib_%s.c\n\
 clean:: ; $(RMF) output/atslib_%s.o\n\
 ", 
@@ -98,22 +98,32 @@ end // end of [make_entry]
 
 ######
 
-PATSOPT=$(PATSHOME)/bin/patsopt
-PATSRUNTIME=$(PATSHOME)/ccomp/runtime
+PATSHOMEQ="$(PATSHOME)"
+PATSRUNTIME=$(PATSHOMEQ)/ccomp/runtime
 
 ######
 
-CCOPT=gcc
-CCFLAGS=-O2
-DATSMEMALLOC=-DATS_MEMALLOC_LIBC
+PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
-all::
+CCOMP=gcc
+CCFLAGS=-fPIC -O2
+
+######
+#
+DATSMEMALLOC=
+#
+# DATSMEMALLOC=-DATS_MEMALLOC_LIBC
+# DATSMEMALLOC=-DATS_MEMALLOC_GCBDW
+#
+######
+
+all:: atslib
 
 ######
 
-all:: atslib_prelude
+atslib:: atslib_prelude
 #make_entry("prelude", "bool.dats")
 #make_entry("prelude", "char.dats")
 #make_entry("prelude", "integer.dats")
@@ -127,7 +137,7 @@ all:: atslib_prelude
 
 ######
 
-all:: atslib_libc
+atslib:: atslib_libc
 #make_entry("libc", "dirent.dats")
 #make_entry("libc", "fcntl.dats")
 #make_entry("libc", "stdio.dats")
@@ -139,19 +149,37 @@ all:: atslib_libc
 
 ######
 
-all:: atslib_libats
+atslib:: atslib_libats
+#make_entry("libats", "funset_avltree.dats")
+#make_entry("libats", "funset_listord.dats")
 #make_entry("libats", "funmap_list.dats")
-#make_entry("libats", "fundeque_fingertree.dats")
-#make_entry("libats", "linmap_list.dats")
-#make_entry("libats", "linmap_skiplist.dats")
+#make_entry("libats", "funmap_avltree.dats")
+#make_entry("libats", "fundeque_fngtree.dats")
+#make_entry("libats", "funralist_nested.dats")
 
 ######
 
-all:: atslib_libats_ML
+#make_entry("libats", "linmap_list.dats")
+#make_entry("libats", "linmap_randbst.dats")
+#make_entry("libats", "linmap_skiplist.dats")
+#make_entry("libats", "linset_listord.dats")
+#make_entry("libats", "linset_avltree.dats")
+#make_entry("libats", "linhashtbl_chain.dats")
+#make_entry("libats", "linralist_nested.dats")
+
+######
+
+atslib:: atslib_libats_ML
+#make_entry("libats/ML", "list0.dats")
+#make_entry("libats/ML", "option0.dats")
 #make_entry("libats/ML", "array0.dats")
 #make_entry("libats/ML", "string.dats")
 #make_entry("libats/ML", "strarr.dats")
+
+######
+
 #make_entry("libats/ML", "filebas.dats")
+#make_entry("libats/ML", "filebas_dirent.dats")
 
 ######
 

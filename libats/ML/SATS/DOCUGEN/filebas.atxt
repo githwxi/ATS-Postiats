@@ -28,17 +28,75 @@ convenience.  For full-fledged IO support, please see [ATSLIB/libc/SATS/stdio.sa
 
 (* ****** ****** *)
 
+%{
+(*
 #declnamesynop("fileref_open_opt")
+*)
+%}
 
 (* ****** ****** *)
 
 #declnamesynop("fileref_get_line_charlst")
+#decldescrpt("\
+
+This function returns a list of chars representing the current line of a
+given file handle. Note that each line ends with the newline symbol (EOL)
+or EOF, and the returned list representing the line does not contain either
+EOL or EOF.  This function should only be applied to file handles for text
+files.\
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("fileref_get_lines_charlstlst")
+#decldescrpt("\
+
+This function returns a list of lists of chars representing the content of
+a given file handle from its current point until its end point. Note that
+this list of lists is essentially obtained by calling the function
+#dyncode("fileref_get_line_charlst") on the given file handle repeatedly
+until EOF is reached.  This function should only be applied to file handles
+for text files.\
+
+")
 
 (* ****** ****** *)
 
 #declnamesynop("fileref_get_line_string")
+#decldescrpt("\
+
+This function returns a string representing the current line of a given
+file handle. Note that each line ends with the newline symbol (EOL) or EOF,
+and the returned string representing the line does not contain either EOL
+or EOF. This function should only be applied to file handles for text
+files.\
+
+")
+
 #declnamesynop("fileref_get_lines_stringlst")
+
+#decldescrpt("\
+
+This function returns a list of strings representing the content of a given
+file handle from its current point until its end point. Note that this list
+is essentially obtained by calling the function
+#dyncode("fileref_get_line_string") on the given file handle repeatedly
+until EOF is reached.  This function should only be applied to file handles
+for text files.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("dirname_get_fnamelst")
+#decldescrpt("\
+
+Given a name, this function returns a list of file names contained in the
+directory of that name. Note that the empty list is returned in case of any
+errors.\
+
+")
 
 (* ****** ****** *)
 

@@ -7,19 +7,25 @@
 **
 *)
 
+(* ****** ****** *)
+
 (*
-How to compile:
-
-atscc -o test10 `pkg-config --cflags --libs cairo` cairo-multable.dats
-
-How to test: ./caior-multable
-
-The generated postscript file [cairo-multable.ps] can be viewed with 'gv'
+** Ported to ATS2 by Hongwei Xi, April, 2013
 *)
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+(*
+** How to compile:
+  atscc -o test10 `pkg-config --cflags --libs cairo` cairo-multable.dats
+** How to test: ./caior-multable
+** The generated postscript file [cairo-multable.ps] can be viewed with 'gv'
+*)
+
+(* ****** ****** *)
+
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -28,7 +34,7 @@ staload FLOAT = "prelude/DATS/float.dats"
 
 (* ****** ****** *)
 
-staload "contrib/cairo/SATS/cairo.sats"
+staload "./../SATS/cairo.sats"
 
 (* ****** ****** *)
 

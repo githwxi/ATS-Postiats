@@ -4,13 +4,14 @@
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_staload_tmpdef.hats"
+#include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
 staload "libats/ML/SATS/list0.sats"
 staload _ = "libats/ML/DATS/list0.dats"
+
+(* ****** ****** *)
 
 staload "libats/ML/SATS/monad_list.sats"
 staload _ = "libats/ML/DATS/monad_list.dats"

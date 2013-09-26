@@ -27,25 +27,54 @@ staload "./calculator.sats"
 (* ****** ****** *)
 
 implement
-fprint_token
-  (out, tok) = let
-//
-macdef prstr (x) = fprint_string (out, ,(x))
-//
+token_is_add (tok) = let
 in
 //
 case+ tok of
-| TOKint (int) =>
-  (
-    prstr "TOKint("; fprint_int (out, int); prstr ")"
-  )
-| TOKopr (opr) =>
-  (
-    prstr "TOKint("; fprint_string (out, opr); prstr ")"
-  )
-| TOKeof () => prstr "TOKeof()"
+| TOKopr ("+") => true
+| TOKopr ("add") => true
+| _ => false
 //
-end // end of [fprint_token]
+end // end of [token_is_add]
+
+(* ****** ****** *)
+
+implement
+token_is_sub (tok) = let
+in
+//
+case+ tok of
+| TOKopr ("-") => true
+| TOKopr ("sub") => true
+| _ => false
+//
+end // end of [token_is_sub]
+
+(* ****** ****** *)
+
+implement
+token_is_mul (tok) = let
+in
+//
+case+ tok of
+| TOKopr ("*") => true
+| TOKopr ("mul") => true
+| _ => false
+//
+end // end of [token_is_mul]
+
+(* ****** ****** *)
+
+implement
+token_is_div (tok) = let
+in
+//
+case+ tok of
+| TOKopr ("/") => true
+| TOKopr ("div") => true
+| _ => false
+//
+end // end of [token_is_div]
 
 (* ****** ****** *)
 

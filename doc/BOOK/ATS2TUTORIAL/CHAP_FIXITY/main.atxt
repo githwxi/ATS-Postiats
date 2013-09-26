@@ -19,7 +19,7 @@ Time of Generation: #timestamp()\
 Given a function #emphasis("f"), the standard syntax for applying
 #emphasis("f") to an argument #emphasis("v") is #emphasis("f(v)"); for two
 arguments #emphasis("v1") and #emphasis("v2"), the syntax is
-#emphasis("f(v1, v2)"). However, it is allowed in ATS to use infix notation
+#emphasis("f(v1, v2)"). Also, it is allowed in ATS to use infix notation
 for a binary function application, and prefix/postifix notation for a unary
 function application.\
 

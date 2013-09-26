@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,28 +27,27 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: August, 2012
 //
 (* ****** ****** *)
 
-staload
-SYN = "./pats_syntax.sats"
-typedef d0eclist = $SYN.d0eclist
+staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
 
-fun depgen_eval (d0cs: d0eclist): List_vt (string)
+fun depgen_eval (d0cs: $SYN.d0eclist): List_vt (string)
 
 (* ****** ****** *)
 
-fun fprint_target (out: FILEref, basename: string): void
+fun fprint_target (out: FILEref, give: string): void
 
 (* ****** ****** *)
 
-fun fprint_entry (
-  out: FILEref, basename: string, ps: List_vt (string)
-) : void // end of [fprint_depgen]
+fun fprint_entry
+  (out: FILEref, given: string, ps: List_vt (string)): void
+// end of [fprint_entry]
 
 (* ****** ****** *)
 

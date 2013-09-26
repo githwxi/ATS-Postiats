@@ -1,0 +1,358 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>Effectivats-loop-as-tailrec</title>
+</head>
+
+<body>
+
+<h1>
+Effective ATS: Loops as Tail-Recursive Functions
+</h1>
+
+Although language constructs are available in ATS to support direct
+construction of for-loops and while-loops, it is strongly recommended that
+loops be implemented as tail-recursive functions (a.k.a. iterative
+functions). A primary advantage of doing so is that this style of loop
+implementation can be readily combined with theorem-proving as is supported
+in ATS, thus facilitating program verification involving loops.
+
+<p>
+
+Please see tailrec.dats for the entirety of the code given in the
+followng presentation.
+
+<h2>
+What is tail-recursion?
+</h2>
+
+Suppose that [foo] and [bar] are two functions and there is a call to [bar]
+in the body of [foo]. This call is a tail-call if what it returns is also
+the return value of [foo]. In other words, a function call in the body of
+some calling function is a tail-call if the return value of the call is
+also the return value of the calling function. For instance, the call to
+[bar] is a tail-call in the following code but the call to [baz] is not:
+
+<pre>
+fun foo (x: int): int =
+  if x > 0 then bar(x) else baz(x)+1
+</pre>
+
+By the way, even if baz(x)+1 is changed into baz(x)+0, the call to
+[baz] is still not considered a tail-call unless baz(x)+0 can somehow be
+translated into baz(x).
+
+<p>
+
+If the calling function calls itself in a tail-call, then this tail-call is
+often referred to as a tail-recursive call. A function is tail-recursive if
+every recursive call in its body is a tail-call. Note that a tail-recursive
+function is also referred to as an iterative function in the literature.
+In the following example, the outside call to [f91] is tail-recursive but
+the inside one is not:
+
+<pre>
+fun f91 (x: int): int =
+  if x >= 101 then x-10 else f91(f91(x+11))
+</pre>
+
+By definition, [f91] is not a tail-recursive function.
+
+<h2>
+Why is tail-recursion desirable?
+</h2>
+
+Each tail-recursive function can be readily implemented as a loop.  Assume
+that a call stack is employed to implement function calls, which is by far
+the most common implementation strategy in practice.  Then calling a
+tail-recursive function only requires a fixed amount of stack space. In a
+setting where stack space is greatly limited (e.g., low-level embedded
+programming), tail-recursion is often the only form of recursion that is
+legally allowed.  In short, tail-recursion is desirable because it can be
+implemented in a much more efficient manner, both time-wise and
+memory-wise, when compared with general recursion.
+
+<h2>
+Translating recursion into tail-recursion
+</h2>
+
+Given the advantage of tail-recursion, it is natural to encounter the need
+for turning a recursive (but not tail-recursive) function into an
+equivalent one that is also tail-recursive. While there is a systematic
+approach to translating recursion into tail-recursion (CPS-translation),
+this approach is in general not what one wants to use if one's focus is on
+efficiency. Instead, one mostly relies on ad hoc methods or tricks to
+handle each individual case.
+
+<h4>
+Example 1
+</h4>
+Let us now take a look at a concrete example. The following code implements
+a function [tally] that sums up all the integers between 1 and a given
+number n, inclusive:
+
+<pre>
+fun tally (n: int): int =
+  if n > 0 then n + tally (n-1) else 0
+</pre>
+
+Clearly, [tally] is not tail-recursive. If we translate this implementation
+of [tally] into C, we essentially obtain the following code:
+
+<pre>
+int tally (int n)
+{
+  return (n > 0) ? n + tally (n-1) : 0 ;
+}
+</pre>
+
+This implementation of [tally] in C is a bit unusual as a standard one is
+expected to be based on a for-loop:
+
+<pre>
+int tally2 (int n)
+{
+  int i ;
+  int res = 0 ;
+  for (i = n ; i > 0 ; i--) res += i ;
+  return res ;
+}
+</pre>
+
+It should be pointed out that the equivalence between [tally] and [tally2]
+relies on the fact that integer addition is <em>associative</em>. If
+addition is replaced with subtraction, which is not associative, then these
+two implementations are no longer equivalent.
+
+<p>
+
+A straightforward translation of the above implementation of [tally2] in C
+into ATS yields the following code:
+
+<pre>
+fun tally2
+  (n: int): int = let
+//
+fun loop
+  (n: int, res: int): int =
+  if n > 0 then loop (n-1, res+n) else res
+//
+in
+  loop (n, 0)
+end // end of [tally2]
+</pre>
+
+Please note that the inner function [loop] is tail-recursive. The
+compiler of ATS (ATS/Postiats) essentially compiles [loop] into
+some code in C that is equivalent to the for-loop mentioned above.
+
+<p>
+
+In general, the process of translating a recursive function into a
+tail-recursive one hinges on finding an efficient way to encode the stack
+generated during the execution of the function. For instance, suppose we
+call [tally] on 100; this call generates a recursive call on 99, and then
+a recursive call on 98, and so on; when [tally] is called on 50, the call
+stack essentially represents the following evaluation context:
+
+<pre>
+100 + (99 + (98 + (... + (51 + []) ...)))
+</pre>
+
+where the symbol [] is to be replaced with the return value of tally(50).
+As integer addition is associative, we can use the sum (100+99+98+...+51)
+to represent this evaluation context. This is precisely the idea behind the
+implementation of the inner function [loop] in the body of [tally2].
+
+<h4>
+Example 2
+</h4>
+Let us take a look at another example. The following code implements
+a function named [fib] for computing Fibonacci numbers:
+
+<pre>
+fun fib (n: int): int =
+  if n >= 2 then fib(n-1) + fib(n-2) else n
+</pre>
+
+Clearly, neither of the two recursive calls in the body of [fib] is
+tail-recursive. Another function named [fib2] is presented as follows for
+computing Fibonacci numbers:
+
+<pre>
+fun fib2
+  (n: int): int = let
+//
+fun loop
+  (i: int, f0: int, f1: int): int =
+  if i < n then loop (i+1, f1, f0+f1) else f0
+//
+in
+  loop (0, 0, 1)
+end // end of [fib2]
+</pre>
+
+It is evident that the inner funtion [loop] in the body of [fib2] is
+tail-recursive. Suppose we want to evaluate fib2(100), which generates a
+call of the form loop(0, 0, 1), which then generates a call of the form
+loop(1, 1, 1), which then generates a call of the form loop(2, 1, 2), etc.
+If loop(i, f0, f1) is among this sequence of calls, then f0 is Fibonacci
+number i and f1 is Fibonacci number i+1. This implies that the value
+returned by the last call in this sequence is Fibonacci number 100 (as i
+reaches 100 at that point). This argument, though informal, should probably
+be enough to convince one that [fib] and [fib2] are equivalent, that is,
+they return the same result when applied to a given integer.
+
+<p>
+
+The very idea behind translating [fib] into [fib2] lies in the simple
+observation that only the two previously computed Fibonacci numbers need to
+be kept in order to compute Fibonacci number n for every n >= 2.
+
+<h4>
+Example 3
+</h4>
+
+The next example we see involves list-processing.
+The following code implements the standard concatenation of two given
+lists:
+
+<pre>
+fun
+{a:t@ype}
+list_append
+  {m,n:nat} (
+  xs: list (a, m)
+, ys: list (a, n)
+) : list (a, m+n) =
+(
+case+ xs of
+| list_cons
+    (x, xs) => list_cons (x, list_append (xs, ys))
+| list_nil ((*void*)) => ys
+) // end of [list_append]
+</pre>
+
+The type assigned to [list_append] means that the function returns a list
+of length m+n when applied to two lists xs and ys of length m and n,
+respectively.  Note that this is so-called functional list concatenation as
+neither of the input lists gets modified. Clearly, [list_append] is not
+tail-recursive as the recursive call in its body is not a tail-call. If the
+first argument of a call to [list_append] is long (e.g., containing 1M
+elements), then it is very likely that an execution of this call overflows
+the call stack and thus causes a crash.
+
+<p>
+
+In order to translate [list_append] into a tail-recursive implementation,
+we need some knowledge about list construction. There are essentially two
+steps involved in evaluating list_cons(x, xs); certain memory needs to be
+first allocated for storing a list node; then this node is initialized with
+x and xs. In ATS, it is allowed to formally separate these two steps, and
+this separation is key to obtaining a proper tail-recursive implementation
+of list concatenation as is shown in the following code:
+
+<pre>
+fun
+{a:t@ype}
+list_append2
+  {m,n:nat} (
+  xs: list (a, m)
+, ys: list (a, n)
+) : list (a, m+n) = let
+//
+fun loop{m:nat}
+(
+  xs: list (a, m)
+, ys: list (a, n)
+, res: &ptr? >> list (a, m+n)
+) : void =
+(
+case+ xs of
+| list_cons
+    (x, xs1) => let
+    val () = // allocate a list node with
+    res := list_cons{a}{0}(x, _) // uninitialized tail
+    val+list_cons (_, res1) = res // [res1] points to the tail
+    // put into [res1] the concatenation
+    val () = loop (xs1, ys, res1) // of [xs1] and [ys]
+  in
+    fold@(res) // folding translates into a no-op at run-time
+  end // end of [list_cons]
+| list_nil ((*void*)) => res := ys
+)
+//
+var res: ptr
+val () = loop (xs, ys, res)
+//
+in
+  res
+end // end of [list_append2]
+</pre>
+
+Given xs, ys, and res, what the inner function [loop] does is to put the
+concatenation of xs and ys into res.  In the body of [loop], we see that
+the expression fold@(res) follows the recursive call to [loop].  However,
+this call is considered a tail-call as fold@(res) is solely used for the
+purpose of typechecking and erased afterwards.  Therefore, [loop] is a
+tail-recursive function.
+
+<p>
+
+By the way, the style of recursion employed in the implementation of [loop]
+is often dubbed <em>tail-recursion modulo allocation</em>, which commonly
+appears in untyped or weakly-typed languages (e.g., LISP and C) but rarely
+in a typed language (due to the great difficulty in properly typing it).
+
+<h2>
+Mutually tail-recursive functions
+</h2>
+
+Sometimes, we need to combine functions together in order to turn mutully
+tail-recursive calls into local jumps. For instance, in the following code,
+[isevn] and [isodd] are defined mutually recursively:
+
+<pre>
+fun isevn (n: int): bool =
+  if n > 0 then isodd (n-1) else true
+and isodd (n: int): bool =
+  if n > 0 then isevn (n-1) else false
+</pre>
+
+The call to [isodd] in the body of [isevn] and the call to [isevn] in the
+body of [isadd] are both tail-calls. As they are also mutually recursive
+calls, they are referred to as mutually tail-recursive calls.
+
+<p>
+
+When compiling this implementation of [isevn] and [isadd], the ATS compiler
+(ATS/Postiats) handles [isevn] and [isodd] separately and thus
+is <em>unable</em> to turn the call to [isodd] ([isevn]) in the body of
+[isevn] ([isodd]) into a local jump. In order to indicate to the compiler
+that these two functions need to be combined for compilation, the keyword
+[fun] should be replaced with another keyword [fnx]:
+
+<pre>
+fnx isevn (n: int): bool =
+  if n > 0 then isodd (n-1) else true
+and isodd (n: int): bool =
+  if n > 0 then isevn (n-1) else false
+</pre>
+
+When compiling the above code, the ATS compiler puts inside the body of
+[isevn] a copy of the body of [isodd] so that mutually tail-recursive calls
+in the bodies of these two functions can be translated into local jumps.
+Also, please note that only the first of a sequence of mutually defined
+functions following the keyword [fnx] is available for subsequent use. In
+the above case, only the function [isevn] is available for subsequent use
+whereas the function [isodd] is not.
+
+<hr size="2">
+
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+
+</body>
+</html>

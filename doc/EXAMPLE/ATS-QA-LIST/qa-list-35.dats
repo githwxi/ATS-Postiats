@@ -29,6 +29,13 @@ end // end of [display_case]
 
 (* ****** ****** *)
 
+val () = display_case (GL_INVALID_ENUM)
+val () = display_case (GL_INVALID_VALUE)
+val () = display_case (GL_INVALID_OPERATION)
+val () = display_case (GL_STACK_OVERFLOW)
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

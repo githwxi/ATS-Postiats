@@ -117,7 +117,12 @@ Otherwise, the function keeps the map and returns true. ")
 (* ****** ****** *)
 
 #declnamesynop("linmap_listize")
-#declnamesynop("linmap_listize_free")
+#declnamesynop("linmap_flistize")
+#declnamesynop("linmap_flistize$opr")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_listize1")
 
 (* ****** ****** *)
 

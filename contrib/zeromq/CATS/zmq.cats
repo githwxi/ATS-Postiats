@@ -44,7 +44,86 @@
 
 /* ****** ****** */
 
-// HX-2013-02: it is still empty
+#define atscntrb_zeromq_zmq_errno zmq_errno
+
+#define atscntrb_zeromq_zmq_ctx_new zmq_ctx_new
+#define atscntrb_zeromq_zmq_ctx_destroy zmq_ctx_destroy
+
+#define atscntrb_zeromq_zmq_ctx_get zmq_ctx_get
+#define atscntrb_zeromq_zmq_ctx_set zmq_ctx_set
+
+/* ****** ****** */
+
+#define atscntrb_zeromq_zmq_socket zmq_socket
+
+/* ****** ****** */
+
+#define atscntrb_zeromq_zmq_getsockopt zmq_getsockopt
+#define atscntrb_zeromq_zmq_getsockopt2 zmq_getsockopt
+#define atscntrb_zeromq_zmq_setsockopt zmq_setsockopt
+
+/* ****** ****** */
+
+#define atscntrb_zeromq_zmq_bind zmq_bind
+#define atscntrb_zeromq_zmq_unbind zmq_unbind
+
+/* ****** ****** */
+
+#define atscntrb_zeromq_zmq_connect zmq_connect
+#define atscntrb_zeromq_zmq_disconnect zmq_disconnect
+
+/* ****** ****** */
+
+#define atscntrb_zeromq_zmq_close zmq_close
+
+/* ****** ****** */
+
+#define atscntrb_zeromq_zmq_send zmq_send
+#define atscntrb_zeromq_zmq_recv zmq_recv
+
+/* ****** ****** */
+
+#define atscntrb_zeromq_zmq_msg_size zmq_msg_size
+#define atscntrb_zeromq_zmq_msg_data zmq_msg_data
+#define atscntrb_zeromq_zmq_msg_more zmq_msg_more
+
+/* ****** ****** */
+
+#define atscntrb_zeromq_zmq_msg_get zmq_msg_get
+#define atscntrb_zeromq_zmq_msg_set zmq_msg_set
+
+/* ****** ****** */
+
+#define atscntrb_zeromq_zmq_msg_init zmq_msg_init
+#define atscntrb_zeromq_zmq_msg_init_size zmq_msg_init_size
+#define atscntrb_zeromq_zmq_msg_init_data zmq_msg_init_data
+
+/* ****** ****** */
+
+#define atscntrb_zeromq_zmq_msg_close zmq_msg_close
+
+/* ****** ****** */
+
+#define atscntrb_zeromq_zmq_msg_copy zmq_msg_copy
+#define atscntrb_zeromq_zmq_msg_move zmq_msg_move
+
+/* ****** ****** */
+
+#define atscntrb_zeromq_zmq_msg_send zmq_msg_send
+#define atscntrb_zeromq_zmq_msg_recv zmq_msg_recv
+
+/* ****** ****** */
+
+#define atscntrb_zeromq_zmq_version zmq_version
+
+/* ****** ****** */
+
+#define atscntrb_zeromq_zmq_term zmq_term
+
+/* ****** ****** */
+
+#define atscntrb_zeromq_zmq_sendmsg zmq_sendmsg
+#define atscntrb_zeromq_zmq_recvmsg zmq_recvmsg
 
 /* ****** ****** */
 

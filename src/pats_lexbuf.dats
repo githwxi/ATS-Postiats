@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,12 +27,18 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: March, 2011
 //
 (* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
+(* ****** ****** *)
 
-staload UTL = "./pats_utils.sats"
+staload UT = "./pats_utils.sats"
 staload LOC = "./pats_location.sats"
 
 (* ****** ****** *)
@@ -40,7 +46,6 @@ staload LOC = "./pats_location.sats"
 staload
 Q = "libats/SATS/linqueue_arr.sats"
 stadef QUEUE = $Q.QUEUE
-staload _(*anon*) = "prelude/DATS/array.dats"
 staload _(*anon*) = "libats/DATS/linqueue_arr.dats"
 staload _(*anon*) = "libats/ngc/DATS/deque_arr.dats"
 
@@ -363,7 +368,7 @@ lexbuf_get_substrptr0
 in
 //
 if i + k <= n then
-  $UTL.queue_get_strptr1 (buf.cbuf, i, k)
+  $UT.queue_get_strptr1 (buf.cbuf, i, k)
 else
   strptr_null ()
 // end of [if]

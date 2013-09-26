@@ -44,10 +44,10 @@ OBJECTS := \
   pats_staexp1_dats.o \
   pats_dynexp1_sats.o \
   pats_trans1_sats.o \
-  pats_trans1_error_dats.o \
-  pats_trans1_e0xp_dats.o \
   pats_trans1_env_sats.o \
   pats_trans1_env_dats.o \
+  pats_trans1_error_dats.o \
+  pats_trans1_e0xp_dats.o \
   pats2xhtml_sats.o \
   pats2xhtml_dats.o \
   pats2xhtml_level1_dats.o \
@@ -57,7 +57,7 @@ OBJECTS := \
 pats2xhtml: \
   DATS/pats2xhtml_main.dats $(OBJECTS) ; \
   $(ATSCC) -O2 $(INCLUDE) $(INCLATS) \
-    -o $@ $< $(OBJECTS) -L $(PATSHOME)/libatsyntax -latsyntax -lgmp
+    -o $@ $< $(OBJECTS) -L $(PATSHOME)/libatsynmark -latsynmark -lgmp
 cleanall:: ; $(RMF) pats2xhtml
 
 ######

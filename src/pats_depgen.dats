@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,14 +27,15 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: August, 2012
 //
 (* ****** ****** *)
-
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
-
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
 (* ****** ****** *)
 
 staload
@@ -59,29 +60,30 @@ viewtypedef pathlst_vt = List_vt (path)
 (* ****** ****** *)
 
 extern
-fun pathtry_basename
-  (basename: string): Option_vt (string)
-// end of [pathtry_basename]
+fun pathtry_givename
+  (give: string): Option_vt (string)
+// end of [pathtry_givename]
 
 (* ****** ****** *)
 
 implement
-pathtry_basename
-  (name: string): Option_vt (string) = let
+pathtry_givename
+  (given: string): Option_vt (string) = let
 //
 extern castfn p2s {l:agz} (x: !strptr l):<> string
 //
 (*
-val () = printf ("pathtry_basename: name = %s\n", @(name))
+val () = printf ("pathtry_givename: given = %s\n", @(given))
 *)
 //
-fun loop (
-  ps: List (string), name: string
+fun loop
+(
+  ps: List (string), given: string
 ) : Option_vt(string) =
   case+ ps of
   | list_cons (p, ps) => let
       val pname =
-        $FIL.filename_append (p, name)
+        $FIL.filename_append (p, given)
       val test = test_file_exists ((p2s)pname)
     in
       if test then let
@@ -92,35 +94,35 @@ fun loop (
       end else let
         val () = strptr_free (pname)
       in
-        loop (ps, name)
+        loop (ps, given)
       end // end of [if]
     end // end of [list_cons]
   | list_nil () => None_vt ()
 // end of [loop]
 //
-val knd = $FIL.path_get_srchknd (name)
+val knd = $FIL.givename_srchknd (given)
 //
 in
 //
 case+ knd of
 | 0 (*local*) => let
-    val filename = $FIL.filename_get_current ()
-    val partname = $FIL.filename_get_part (filename)
-    val partname2 = $FIL.filename_merge (partname, name)
-    val isexi = test_file_exists ((p2s)partname2)
+    val fil = $FIL.filename_get_current ()
+    val pname = $FIL.filename_get_partname (fil)
+    val pname2 = $FIL.filename_merge (pname, given)
+    val isexi = test_file_exists ((p2s)pname2)
   in
     if isexi then let
-      val partname2_norm = $FIL.path_normalize ((p2s)partname2)
-      val () = strptr_free (partname2)
+      val pname2_norm = $FIL.path_normalize ((p2s)pname2)
+      val () = strptr_free (pname2)
     in
-      Some_vt (partname2_norm)
+      Some_vt (pname2_norm)
     end else let
-      val () = strptr_free (partname2) in None_vt ()
+      val () = strptr_free (pname2) in None_vt ()
     end // end of [if]
   end // end of [0]
-| _ (*external*) => loop ($GLOB.the_IATS_dirlst_get (), name)
+| _ (*extern*) => loop ($GLOB.the_IATS_dirlst_get (), given)
 //
-end // end of [pathtry_basename]
+end // end of [pathtry_givename]
 
 (* ****** ****** *)
 
@@ -272,16 +274,16 @@ case+
   d0c0.d0ecl_node of
 //
 | D0Cinclude
-    (cfil, _, basename) => let
-    val opt = pathtry_basename (basename)
+    (cfil, _, given) => let
+    val opt = pathtry_givename (given)
   in
     case+ opt of
     | ~Some_vt (pname) => res := list_vt_cons (pname, res)
     | ~None_vt () => ()
   end // end of [DOCinclude]
 | D0Cstaload
-    (cfil, _, basename) => let
-    val opt = pathtry_basename (basename)
+    (cfil, _, given) => let
+    val opt = pathtry_givename (given)
   in
     case+ opt of
     | ~Some_vt (pname) => res := list_vt_cons (pname, res)
@@ -360,38 +362,38 @@ end // end of [depgen_eval]
 
 implement
 fprint_target
-  (out, basename) = let
+  (out, given) = let
 //
-val [n:int]
-  basename = string1_of_string (basename)
-val k =
-  string_index_of_char_from_right (basename, '.')
+val [n:int] given = string1_of_string (given)
+//
+val k = string_index_of_char_from_right (given, '.')
 //
 in
 //
 case+ 0 of
 | _ when k >= 0 => let
-    val k = size_of_ssize (k)
     fun fpr
-      {i:nat | i <= n} .<n-i>. (
+      {i:nat | i <= n} .<n-i>.
+    (
       out: FILEref
-    , basename: string n, k: size_t, i: size_t i
+    , given: string n, k: size_t, i: size_t i
     ) : void = let
-      val notend = string_isnot_atend (basename, i)
+      val notend = string_isnot_atend (given, i)
     in
       if notend then let
-        val c = (
-          if i = k then '_' else basename[i]
+        val c =
+        (
+          if i = k then '_' else given[i]
         ) : char // end of [val]
-        val () = fprint_char (out, c)
       in
-        fpr (out, basename, k, i+1)
+        fprint_char (out, c); fpr (out, given, k, i+1)
       end // end of [if]
-    end // end of [fpr]
+    end (* end of [fpr] *)
+    val k = size_of_ssize (k)
   in
-    fpr (out, basename, k, 0); fprint_string (out, ".o")
+    fpr (out, given, k, 0); fprint_string (out, ".o")
   end // end of [_ when ...]
-| _ => fprint_string (out, basename)
+| _ (*notfound*) => fprint_string (out, given)
 //
 end // end of [fprint_target]
 
@@ -399,7 +401,7 @@ end // end of [fprint_target]
 
 implement
 fprint_entry
-  (out, basename, ents) = let
+  (out, given, ents) = let
 //
 fun loop
 (
@@ -423,7 +425,7 @@ case+ ents of
 end
 //
 val () =
-  fprint_target (out, basename)
+  fprint_target (out, given)
 val () = fprint_string (out, " : ")
 val () = loop (out, 0, ents)
 val () = fprint_newline (out)

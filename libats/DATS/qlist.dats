@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -70,7 +70,8 @@ val () = __mfree (pq) where
 (* ****** ****** *)
 
 implement{a}
-qlist_insert (pq, x) = let
+qlist_insert
+  (pq, x) = let
   val nx = mynode_make_elt<a> (x) in qlist_insert_ngc<a> (pq, nx)
 end // end of [qlist_insert]
 
@@ -94,8 +95,16 @@ end // end of [qstruct_insert]
 
 implement{a}
 qlist_takeout (pq) = let
-  val nx0 = qlist_takeout_ngc (pq) in mynode_getfree_elt (nx0)
+  val nx0 = qlist_takeout_ngc (pq) in mynode_getfree_elt<a> (nx0)
 end // end of [qlist_takeout]
+
+implement{a}
+qlist_takeout_opt (pq) =
+(
+if qlist_isnot_nil (pq) then Some_vt{a}(qlist_takeout(pq)) else None_vt{a}()
+) // end of [qlist_takeout_opt]
+
+(* ****** ****** *)
 
 implement{a}
 qstruct_takeout
@@ -392,9 +401,10 @@ prval ((*prf*)) = fold@ (q)
 
 (* ****** ****** *)
 
-implement{a}
+implement{}
 qlist_takeout_list
-  {n} (pq) = xs where {
+  {a}{n}(pq) = xs where
+{
 //
 val+@QLIST (nxf, p_nxr) = pq
 val () = $UN.ptr0_set<ptr> (p_nxr, the_null_ptr)
@@ -403,6 +413,22 @@ val () = p_nxr := addr@ (nxf)
 prval ((*prf*)) = fold@ (pq)
 //
 } // end of [qlist_takeout_list]
+
+implement{}
+qstruct_takeout_list
+  {a}{n}(que) = let
+//
+val pq = addr@(que)
+val pq2 = ptr2ptrlin (pq)
+prval pfngc = qstruct_objfize (view@(que) | pq2)
+val xs = qlist_takeout_list (pq2)
+prval pfat = qstruct_unobjfize (pfngc | pq, pq2)
+prval () = view@(que) := pfat
+prval () = ptrlin_free (pq2)
+//
+in
+  xs
+end // end of [qstruct_takeout_list]
 
 (* ****** ****** *)
 

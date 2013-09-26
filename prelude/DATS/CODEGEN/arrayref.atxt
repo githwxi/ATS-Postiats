@@ -49,82 +49,64 @@ arrayref_make_rlist (asz, xs) =
 
 #atscode_separator()
 
-implement{a}
-arrayref_get_at_size
+implement
+{a}{tk}(*tmp*)
+arrayref_get_at_gint
   (A, i) = let
 //
-val
-(
-vbox pf | p
-) = arrayref_get_viewptr (A)
-//
-in
-  array_get_at_size (!p, i)
-end // end of [arrayref_get_at_size]
-
-implement{a}{tk}
-arrayref_get_at_gint
-  (A, i) =
-(
-  arrayref_get_at_size (A, g1i2u(i))
-) // end of [arrayref_get_at_gint]
-
-implement{a}{tk}
+val (vbox pf | p) =
+  arrayref_get_viewptr (A) in array_get_at_gint (!p, i)
+end // end of [arrayref_get_at_gint]
+implement
+{a}{tk}(*tmp*)
 arrayref_get_at_guint
-  (A, i) =
-(
-  arrayref_get_at_size (A, g1u2u(i))
-) // end of [arrayref_get_at_guint]
+  (A, i) = let
+//
+val (vbox pf | p) =
+  arrayref_get_viewptr (A) in array_get_at_guint (!p, i)
+end // end of [arrayref_get_at_guint]
 
 #atscode_separator()
 
-implement{a}
-arrayref_set_at_size
-  (A, i, x) = let
-//
-val (vbox pf | p) =
-  arrayref_get_viewptr (A) in array_set_at_size (!p, i, x)
-//
-end // end of [arrayref_set_at_size]
-
-implement{a}{tk}
+implement
+{a}{tk}(*tmp*)
 arrayref_set_at_gint
-  (A, i, x) =
-(
-  arrayref_set_at_size (A, g1i2u(i), x)
-) // end of [arrayref_set_at_gint]
-
-implement{a}{tk}
-arrayref_set_at_guint
-  (A, i, x) =
-(
-  arrayref_set_at_size (A, g1u2u(i), x)
-) // end of [arrayref_set_at_guint]
-
-#atscode_separator()
-
-implement{a}
-arrayref_exch_at_size
   (A, i, x) = let
 //
 val (vbox pf | p) =
-  arrayref_get_viewptr (A) in array_exch_at_size (!p, i, x)
+  arrayref_get_viewptr (A) in array_set_at_gint (!p, i, x)
 //
-end // end of [arrayref_exch_at_size]
+end // end of [arrayref_set_at_gint]
+implement
+{a}{tk}(*tmp*)
+arrayref_set_at_guint
+  (A, i, x) = let
+//
+val (vbox pf | p) =
+  arrayref_get_viewptr (A) in array_set_at_guint (!p, i, x)
+//
+end // end of [arrayref_set_at_guint]
 
-implement{a}{tk}
+#atscode_separator()
+
+implement
+{a}{tk}(*tmp*)
 arrayref_exch_at_gint
-  (A, i, x) =
-(
-  arrayref_exch_at_size (A, g1i2u(i), x)
-) // end of [arrayref_exch_at_gint]
-
-implement{a}{tk}
+  (A, i, x) = let
+//
+val (vbox pf | p) =
+  arrayref_get_viewptr (A) in array_exch_at_gint (!p, i, x)
+//
+end // end of [arrayref_exch_at_gint]
+implement
+{a}{tk}(*tmp*)
 arrayref_exch_at_guint
-  (A, i, x) =
-(
-  arrayref_exch_at_size (A, g1u2u(i), x)
-) // end of [arrayref_exch_at_guint]
+  (A, i, x) = let
+//
+val (vbox pf | p) =
+  arrayref_get_viewptr (A) in array_exch_at_guint (!p, i, x)
+//
+end // end of [arrayref_exch_at_guint]
 
 #atscode_separator()
 
@@ -178,8 +160,10 @@ end // end of [arrayref_foreach_env]
 #atscode_separator()
 
 implement{a}
-arrayref_iforeach (A, asz) = let
-  var env: void = () in arrayref_iforeach_env<a><void> (A, asz, env)
+arrayref_iforeach
+  (A, asz) = let
+  var env: void = () in
+  arrayref_iforeach_env<a><void> (A, asz, env)
 end // end of [arrayref_iforeach]
 
 implement
@@ -194,8 +178,10 @@ end // end of [arrayref_iforeach_env]
 #atscode_separator()
 
 implement{a}
-arrayref_rforeach (A, asz) = let
-  var env: void = () in arrayref_rforeach_env<a><void> (A, asz, env)
+arrayref_rforeach
+  (A, asz) = let
+  var env: void = () in
+  arrayref_rforeach_env<a><void> (A, asz, env)
 end // end of [arrayref_rforeach]
 
 implement
@@ -211,7 +197,7 @@ end // end of [arrayref_rforeach_env]
 
 implement{a}
 arrayref_tabulate
-  (asz) = arrayptr_refize (arrayptr_tabulate (asz))
+  (asz) = arrayptr_refize (arrayptr_tabulate<a> (asz))
 // end of [arrayref_tabulate]
 
 #atscode_separator()
@@ -252,26 +238,30 @@ arrszref_make_arrayref (A, asz) = ARRSZREF (A, asz)
 implement{}
 arrszref_get_ref
   (ASZ) = let
-  val+ARRSZREF
-    (A, _) = ASZ in $UN.cast2Ptr1(A)
-  // end of [val]
-end // end of [arrszref_get_ref]
+//
+val+ARRSZREF
+  (A, asz) = ASZ in $UN.cast2Ptr1(A)
+//
+end // end of [arrszref_get_size]
+
+#atscode_separator()
 
 implement{}
-arrszref_get_size
-  (ASZ) = let
-  val+ARRSZREF (_(*A*), asz) = ASZ in asz
-end // end of [arrszref_get_size]
+arrszref_get_size (ASZ) =
+  let val+ARRSZREF (A, asz) = ASZ in asz end 
+// end of [arrszref_get_size]
+
+#atscode_separator()
 
 implement{}
 arrszref_get_refsize
-  (ASZ, aszr) = let
+  (ASZ, asz_r) = let
 //
 val+ARRSZREF (A, asz) = ASZ
 prval () = lemma_arrayref_param (A)
 //
 in
-  aszr := asz; A
+  asz_r := asz; A(*arrayref*)
 end // end of [arrszref_get_refsize]
 
 end // end of [local]
@@ -354,8 +344,8 @@ val i = g1ofg0_uint (i)
 in
 //
 if n > i
-  then arrayref_get_at_size (A, i)
-  else $raise ArraySubscriptExn((*fun*))
+then arrayref_get_at_guint (A, i)
+else $raise ArraySubscriptExn((*void*))
 //
 end // end of [arrszref_get_at_size]
 
@@ -366,8 +356,8 @@ arrszref_get_at_gint
 in
 //
 if i >= 0
-  then arrszref_get_at_size (ASZ, g0i2u(i))
-  else $raise ArraySubscriptExn((*fun*)) // i < 0
+then arrszref_get_at_size (ASZ, g0i2u(i))
+else $raise ArraySubscriptExn((* i < 0 *))
 //
 end // end of [arrszref_get_at_gint]
 
@@ -392,8 +382,8 @@ val i = g1ofg0_uint (i)
 in
 //
 if n > i
-  then arrayref_set_at_size (A, i, x)
-  else $raise ArraySubscriptExn((*fun*))
+then arrayref_set_at_guint (A, i, x)
+else $raise ArraySubscriptExn((*void*))
 //
 end // end of [arrszref_set_at_size]
 
@@ -404,8 +394,9 @@ arrszref_set_at_gint
 in
 //
 if i >= 0
-  then arrszref_set_at_size (ASZ, g0i2u(i), x)
-  else $raise ArraySubscriptExn((*fun*)) // i < 0
+then
+  arrszref_set_at_size (ASZ, g0i2u(i), x)
+else $raise ArraySubscriptExn((* i < 0 *))
 //
 end // end of [arrszref_set_at_gint]
 
@@ -430,8 +421,8 @@ val i = g1ofg0_uint (i)
 in
 //
 if n > i
-  then arrayref_exch_at_size (A, i, x)
-  else $raise ArraySubscriptExn((*fun*))
+then arrayref_exch_at_guint (A, i, x)
+else $raise ArraySubscriptExn((*void*))
 // end of [if]
 //
 end // end of [arrszref_exch_at_size]
@@ -443,8 +434,9 @@ arrszref_exch_at_gint
 in
 //
 if i >= 0
-  then arrszref_exch_at_size (ASZ, g0i2u(i), x)
-  else $raise ArraySubscriptExn((*fun*)) // i < 0
+then
+  arrszref_exch_at_size (ASZ, g0i2u(i), x)
+else $raise ArraySubscriptExn((* i < 0 *))
 //
 end // end of [arrszref_exch_at_gint]
 

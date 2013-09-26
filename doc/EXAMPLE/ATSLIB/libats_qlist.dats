@@ -10,8 +10,7 @@
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_staload_tmpdef.hats"
+#include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -20,7 +19,8 @@ staload _(*anon*) = "libats/DATS/qlist.dats"
 
 (* ****** ****** *)
 
-val () = {
+val (
+) = {
 //
 typedef T = int
 //
@@ -57,7 +57,7 @@ val () = assertloc (x2 = y2)
 //
 val () = qlist_free_nil (xs)
 //
-} // end of [val]
+} (* end of [val] *)
 
 (* ****** ****** *)
 

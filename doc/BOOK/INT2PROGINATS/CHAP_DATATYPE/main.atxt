@@ -349,13 +349,14 @@ run-time: If a value of the type #stacode("wday") does not match either of
 
 <sect1
 id="recursive_datatypes">
-<title>Recursive Datatypes</title>
+<title>Recursively Defined Datatypes</title>
 
 #para("\
 
-A recursive datatype is one such that its associated constructors may form
-values by applying to values of the datatype itself. For instance, the
-following declared datatype #stacode("charlst") is recursive:
+A recursively defined datatype (or recursive datatype for short) is one
+such that its associated constructors may form values by applying to values
+of the datatype itself. For instance, the following declared datatype
+#stacode("charlst") is recursive:
 
 #atscode("\
 datatype charlst =
@@ -533,7 +534,152 @@ non-empty list.\
 #comment(" ****** ****** ")
 
 <sect1
-id="example_evaluating_arithmetic_expressions">
+id="example_binary_search_tree">
+<title>Example: Binary Search Tree</title>
+
+#para("\
+
+A binary search tree is a binary tree satisfying the following property:
+for each node in the tree, the key stored in the node is greater than or
+equal to every key stored in the left child of the node and less than or
+equal to every key stored in the right child of the node. In other words, a
+binary tree is a binary search tree if a pre-order traversal encounters a
+sequence of keys ordered ascendingly (according to some ordering on keys). In
+practice, binary search trees are commonly employed to represent sets and
+maps.
+
+")
+
+#para("\
+
+The following declaration introduces a datatype #stacode("bstree") for
+binary search trees in which the stored keys are strings:
+
+")
+
+#atscode("\
+datatype bstree =
+  | E of () | B of (bstree, string, bstree)
+// end of [bstree]
+")
+
+#para("\
+
+It should be noted that not every value of the type #stacode("bstree")
+represents a valid binary search tree as it is certainly possible to
+construct a value representing a binary tree but not a binary search tree.
+
+")
+
+#para("\
+
+The following function [bstree_inord] does a in-order traversal of a
+given binary tree:
+
+")
+
+#atscode("\
+fun bstree_inord
+(
+  t0: bstree, fwork: string -<cloref1> void
+) : void =
+(
+case+ t0 of
+| E () => ()
+| B (t1, k, t2) =>
+  {
+    val () = bstree_inord (t1, fwork)
+    val () = fwork (k)
+    val () = bstree_inord (t2, fwork)
+  }
+) (* end of [bstree_inord] *)
+")
+
+#para("\
+
+If [t0] is a binary search tree, then the sequence of
+keys processed by [fwork] are ordered ascendingly.
+
+")
+
+#para("\
+
+Given a binary search tree and a key, the following function
+[bstree_search] checks whether the key is stored inside the tree:
+
+")
+
+#atscode("\
+fun bstree_search
+  (t0: bstree, k0: string): bool =
+(
+case+ t0 of
+| E () => false
+| B (t1, k, t2) => let
+    val sgn = compare (k0, k)
+  in
+    case+ 0 of
+    | _ when sgn < 0 => bstree_search (t1, k0)
+    | _ when sgn > 0 => bstree_search (t2, k0)
+    | _ (*k0 = k*) => true
+  end // end of [B]
+) (* end of [bstree_search] *)
+")
+
+#para("\
+
+Note that [bstree_search] returns true if the given key is
+found. Otherwise, it returns false.
+
+")
+
+#para("\
+
+Given a binary search tree and a key, the following function
+[bstree_insert] inserts the key into the tree:
+
+")
+
+#atscode("\
+fun bstree_insert
+  (t0: bstree, k0: string): bstree =
+(
+case+ t0 of
+| E () => B (E, k0, E)
+| B (t1, k, t2) => let
+    val sgn = compare (k0, k)
+  in
+    case+ 0 of
+    | _ when sgn < 0 => B (bstree_insert (t1, k0), k, t2)
+    | _ when sgn > 0 => B (t1, k, bstree_insert (t2, k0))
+    | _ (*k0 = k*) => t0 // [k0] found and no actual insertion
+  end // end of [B]
+) (* end of [bstree_insert] *)
+")
+
+#para("\
+
+Note that [bstree_insert] inserts the key only if it is not already stored
+inside the given tree. Also, if inserted, the key is always stored in a newly
+created leaf node.
+
+")
+
+#para("\
+
+Please find
+#mycodelink("CHAP_DATATYPE/bstree.dats", "on-line")
+the entirety of the code in this section plus some additional code for
+testing.\
+
+")
+
+</sect1><!--id="example_binary_search_tree"-->
+
+#comment(" ****** ****** ")
+
+<sect1
+id="example_evaluating_integer_expressions">
 <title>Example: Evaluating Integer Expressions</title>
 
 #para("\
@@ -543,7 +689,7 @@ For representing integer expressions, we declare a datatype
 
 #atscode("\
 datatype IEXP =
-  | IEXPnum of int // numeral
+  | IEXPcst of int // constants
   | IEXPneg of (IEXP) // negative
   | IEXPadd of (IEXP, IEXP) // addition
   | IEXPsub of (IEXP, IEXP) // subtraction
@@ -558,7 +704,7 @@ abstract syntax tree. For instance, the abstract syntax tree for the
 expression (~1+(2-3)*4) is the following one:
 
 #atscode("\
-IEXPadd(IEXPneg(IEXPnum(1)), IEXPmul(IEXPsub(IEXPnum(2), IEXP(3)), IEXP(4)))
+IEXPadd(IEXPneg(IEXPcst(1)), IEXPmul(IEXPsub(IEXPcst(2), IEXPcst(3)), IEXPcst(4)))
 ")
 
 Translating an integer expression written in some string form into an
@@ -569,7 +715,7 @@ the expression:
 
 #atscode("\
 fun eval_iexp (e0: IEXP): int = case+ e0 of
-  | IEXPnum n => n
+  | IEXPcst (n) => n
   | IEXPneg (e) => ~eval_iexp (e)
   | IEXPadd (e1, e2) => eval_iexp (e1) + eval_iexp (e2)
   | IEXPsub (e1, e2) => eval_iexp (e1) - eval_iexp (e2)
@@ -669,7 +815,16 @@ functional programming language like the core of ATS can be implemented.\
 
 ")
 
-</sect1><!--id="example_evaluating_arithmetic_expressions"-->
+#para("\
+
+Please find
+#mycodelink("CHAP_DATATYPE/intexp.dats", "on-line")
+the entirety of the code in this section plus some additional code for
+testing.\
+
+")
+
+</sect1><!--id="example_evaluating_integer_expressions"-->
 
 #comment(" ****** ****** ")
 

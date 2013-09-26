@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,14 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: February, 2012
 //
 (* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
+(* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/option_vt.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -333,7 +338,7 @@ and synlte_s2hnf_s2explst
   | list_nil () => false
 // end of [synlte_s2hnf_s2explst]
 
-in // in of [local]
+in (* in of [local] *)
 
 fun s2exp_synlt (
   s2e1: s2exp, s2e2: s2exp
@@ -427,7 +432,7 @@ case+ s2es1 of
 | list_nil () => s2exp_bool (false)
 end // end of [auxlst]
 
-in // in of [local]
+in (* in of [local] *)
 
 fun s2exp_metdec_reduce (
   met: s2explst, met_bound: s2explst
@@ -485,7 +490,7 @@ in
   s3be
 end // end of [aux_bind]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s3exp_make
@@ -548,9 +553,11 @@ case+ s2e0.s2exp_node of
     val s2ze = s2zexp_make_s2exp (s2e) in S3Esizeof (s2ze)
   end // end of [S2Esizeof]
 | _ => let // an expression that cannot be handled
+(*
     val () = begin
       prerr "warning(3): s3exp_make_s2exp: s2e0 = "; prerr_s2exp (s2e0); prerr_newline ();
     end // end of [val]
+*)
   in
     s3exp_err (s2e0.s2exp_srt)
   end // end of [_]
@@ -605,7 +612,7 @@ assume
 s2vbcfenv_viewtype = s2vbclst
 assume s2vbcfenv_push_v = unit_v
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s2vbcfenv_nil () = S2VBCFLSTnil ()
@@ -892,20 +899,24 @@ in
   s2vbcfenv_add2_cstapp (env, s2c, s2es_arg, s3es_arg, s2v)
 end // end of [s2vbcfenv_add_cstapp]
 
+(* ****** ****** *)
+
 implement
 s2vbcfenv_replace_cstapp
   (env, s2t, s2c, s2es_arg) = let
 //
 val s3es_arg =
   s3explst_make (env, s2es_arg)
-// end of [val]
-val ans = s2vbcfenv_find_cstapp (env, s2c, s3es_arg)
+//
+val ans =
+  s2vbcfenv_find_cstapp (env, s2c, s3es_arg)
 //
 in
 //
 case+ ans of
 | ~Some_vt (s2v) => s2v
-| ~None_vt () => s2v where {
+| ~None_vt ((*void*)) => s2v where
+  {
     val s2v = s2var_make_srt (s2t)
     val () = s2vbcfenv_add2_cstapp (env, s2c, s2es_arg, s3es_arg, s2v)
   } // end of [None_vt]
@@ -939,14 +950,16 @@ local
 stadef env = s2vbcfenv
 typedef tfun = (&env, s2explst) -<fun1> s3exp
 
-assume
-s2cfunmap = s2cstmap (tfun)
-var the_s2cfunmap: s2cfunmap = s2cstmap_nil ()
-val (pf_the_s2cfunmap | ()) =
-  vbox_make_view_ptr {s2cfunmap} (view@ (the_s2cfunmap) | &the_s2cfunmap)
-// end of [val]
+assume s2cfunmap = s2cstmap (tfun)
 
-in // in of [local]
+var
+the_s2cfunmap: s2cfunmap = s2cstmap_nil ((*void*))
+val
+(
+  pf_the_s2cfunmap | ()
+) = vbox_make_view_ptr{s2cfunmap}(view@(the_s2cfunmap) | &the_s2cfunmap)
+
+in (* in of [local] *)
 
 implement
 s3exp_make_s2cst_s2explst
@@ -979,6 +992,8 @@ constraint3_initialize () = let
   prval vbox (pf) = pf_the_s2cfunmap in
   $effmask_ref (constraint3_initialize_map (the_s2cfunmap))
 end // end of [constraint3_initialize]
+
+(* ****** ****** *)
 
 end // end of [local]
 

@@ -42,11 +42,14 @@ staload UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload _(*anon*) = "prelude/DATS/integer.dats"
+staload _(*anon*) = "prelude/DATS/filebas.dats"
 
 (* ****** ****** *)
 
+(*
 macdef
 prelude_fileref_open_opt = fileref_open_opt
+*)
 macdef
 prelude_fileref_get_line_charlst = fileref_get_line_charlst
 macdef
@@ -68,6 +71,7 @@ staload "libats/ML/SATS/filebas.sats"
 
 (* ****** ****** *)
 
+(*
 implement
 fileref_open_opt
   (path, mode) = let
@@ -75,6 +79,7 @@ fileref_open_opt
 in
   option0_of_option_vt (opt)
 end // end of [fileref_open_opt]
+*)
 
 (* ****** ****** *)
 
@@ -93,7 +98,6 @@ fileref_get_lines_charlstlst (filr) =
 local
 
 staload _(*anon*) = "prelude/DATS/strptr.dats"
-staload _(*anon*) = "prelude/DATS/filebas.dats"
 
 in (* in of [local] *)
 

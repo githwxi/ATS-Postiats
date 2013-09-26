@@ -67,6 +67,28 @@ matrices without dimension information attached.
 
 (* ****** ****** *)
 //
+// Matrices with dimension information
+//
+(* ****** ****** *)
+
+#declnamesynop("mtrxszref")
+#declnamesynop("mtrxszref_vt0ype_type")
+
+(* ****** ****** *)
+
+#declnamesynop(".ref")
+#declnamesynop("mtrxszref_get_ref")
+#declnamesynop(".nrow")
+#declnamesynop("mtrxszref_get_nrow")
+#declnamesynop(".ncol")
+#declnamesynop("mtrxszref_get_ncol")
+
+(* ****** ****** *)
+
+#declnamesynop("mtrxszref_get_refsize")
+
+(* ****** ****** *)
+//
 // HX: various overloaded symbols
 //
 (* ****** ****** *)

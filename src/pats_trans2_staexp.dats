@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,18 +27,25 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: May, 2011
 //
 (* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
+(* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
 staload UT = "./pats_utils.sats"
+
+(* ****** ****** *)
 
 staload ERR = "./pats_error.sats"
 staload INT = "./pats_intinf.sats"
@@ -252,9 +259,11 @@ implement
 s1arglst_trdn_err
   (s1as, s2ts, serr) = let
 (*
-  val () = (
-    print "s1arglst_trdn_err: serr"; print serr; print_newline ()
-  ) // end of [val]
+//
+val () = (
+  println! ("s1arglst_trdn_err: serr", serr)
+) (* end of [val] *)
+//
 *)
 in
 //
@@ -620,20 +629,25 @@ fun s2exp_app_wind (
 , s2e_fun: s2exp, s2ess_arg: List_vt (locs2explst)
 ) : s2exp = let
 (*
+//
 val () = (
-  print "s2exp_app_wind: aux: s1e0 = "; print_s1exp (s1e0); print_newline ();
-) // end of [val]
+  println! ("s2exp_app_wind: aux: s1e0 = ", s1e0)
+) (* end of [val] *)
+//
 *)
 fun aux (
   s1e0: s1exp, x: locs2exp, s2t: s2rt
 ) : s2exp = let
   val s2e = x.1
 (*
-  val () = (
-    print "s2exp_app_wind: aux: s2e = "; print_s2exp (s2e); print_newline ()
-  ) // end of [val]
+//
+val () = (
+  println! ("s2exp_app_wind: aux: s2e = ", s2e)
+) (* end of [val] *)
+//
 *)
-  val test = s2rt_ltmat1 (s2e.s2exp_srt, s2t)
+val test = s2rt_ltmat1 (s2e.s2exp_srt, s2t)
+//
 in
   if test then s2e else let
     val () = prerr_error2_loc (x.0)
@@ -666,27 +680,33 @@ case+ xs of
   | list_nil () => let
       val () = prerr_error2_loc (x.0)
       val () = filprerr_ifdebug "s1exp_app_wind"
-      val () = prerr ": arity mismatch: the static argument is discarded."
-      val () = prerr_newline ()
+      val (
+      ) = prerrln! (
+        ": arity mismatch: the static argument is discarded."
+      ) (* end of [val] *)
       val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
     in
       auxlst (s1e0, xs, s2ts)
     end // end of [list_nil]
-  ) // end of [list_cons]
-| list_nil () => (
+  ) (* end of [list_cons] *)
+| list_nil ((*void*)) => (
   case+ s2ts of
-  | list_cons (s2t, s2ts) => let
+  | list_cons
+      (s2t, s2ts) => let
       val () = prerr_error2_loc (s1e0.s1exp_loc)
       val () = filprerr_ifdebug "s1exp_app_wind"
-      val () = prerr ": arity mismatch: more static arguments are needed."
-      val () = prerr_newline ()
+      val (
+      ) = prerrln! (
+        ": arity mismatch: more static arguments are needed."
+      ) (* end of [val] *)
       val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
       val s2e = s2exp_err (s2t) // HX: a placeholder for continuing
     in
       list_cons (s2e, auxlst (s1e0, xs, s2ts))
     end // end of [list_cons]
   | list_nil () => list_nil ()
-  ) // end of [list_nil]
+  ) (* end of [list_nil] *)
+//
 end // end of [auxlst]
 //
 fun loop (
@@ -694,29 +714,33 @@ fun loop (
 , s2t: s2rt
 , xss: List_vt (locs2explst)
 , s2e: s2exp
-) : s2exp =
-  case+ xss of
-  | ~list_vt_cons (xs, xss) =>
-      if s2rt_is_fun (s2t) then let
-        val-S2RTfun (s2ts, s2t) = s2t
-        var err: int = 0
-        val s2es = auxlst (s1e0, xs, s2ts)
-        val s2e = s2exp_app_srt (s2t, s2e, s2es)
-      in
-        loop (s1e0, s2t, xss, s2e)
-      end else let
-        val () = list_vt_free (xss)
-        val () = prerr_error2_loc (s1e0.s1exp_loc)
-        val () = filprerr_ifdebug "s1exp_app_wind"
-        val () = prerr ": the static term is overly applied."
-        val () = prerr_newline ()
-        val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
-      in
-        s2exp_err (s2t)
-      end // end of [if]
-    // end of [list_cons]
-  | ~list_vt_nil () => s2e
-(* end if [loop] *)
+) : s2exp = let
+in
+//
+case+ xss of
+| ~list_vt_cons
+    (xs, xss) => (
+    if s2rt_is_fun (s2t) then let
+      val-S2RTfun (s2ts, s2t) = s2t
+      var err: int = 0
+      val s2es = auxlst (s1e0, xs, s2ts)
+      val s2e = s2exp_app_srt (s2t, s2e, s2es)
+    in
+      loop (s1e0, s2t, xss, s2e)
+    end else let
+      val () = list_vt_free (xss)
+      val () = prerr_error2_loc (s1e0.s1exp_loc)
+      val () = filprerr_ifdebug "s1exp_app_wind"
+      val () = prerr ": the static term is overly applied."
+      val () = prerr_newline ()
+      val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
+    in
+      s2exp_err (s2t)
+    end // end of [if]
+  ) // end of [list_cons]
+| ~list_vt_nil () => s2e
+//
+end (* end if [loop] *)
 //
 in
   loop (s1e0, s2e_fun.s2exp_srt, s2ess_arg, s2e_fun)
@@ -732,25 +756,30 @@ locs1explst = @(location, s1explst)
 fun s1exp_app_unwind
 (
   s1e0: s1exp, xs: &List_vt (locs1explst)
-) : s1exp = begin
-  case+ s1e0.s1exp_node of
-  | S1Eapp (s1e, larg, s1es) => let
-      val x = (larg, s1es)
-      val () = xs := list_vt_cons (x, xs)
-    in
-      s1exp_app_unwind (s1e, xs)
-    end // end of [S1Eapp]
-  | S1Eide (id) => let
-      val ans = the_s2expenv_find (id)
-    in
-      case+ ans of
-      | ~Some_vt s2i => begin case+ s2i of
-        | S2ITMe1xp e0 => s1exp_app_unwind_e1xp (s1e0, e0, xs)
-        | _ => s1e0
-        end // end of [Some_vt]
-      | ~None_vt () => s1e0
-    end (* end of [S1Eide] *)
-  | _ => s1e0 // end of [_]
+) : s1exp = let
+in
+//
+case+ s1e0.s1exp_node of
+| S1Eapp (
+    s1e, larg, s1es
+  ) => let
+    val x = (larg, s1es)
+    val () = xs := list_vt_cons (x, xs)
+  in
+    s1exp_app_unwind (s1e, xs)
+  end // end of [S1Eapp]
+| S1Eide (id) => let
+    val ans = the_s2expenv_find (id)
+  in
+    case+ ans of
+    | ~Some_vt s2i => (
+      case+ s2i of
+      | S2ITMe1xp e0 => s1exp_app_unwind_e1xp (s1e0, e0, xs) | _ => s1e0
+      ) // end of [Some_vt]
+    | ~None_vt () => s1e0
+  end (* end of [S1Eide] *)
+| _ => s1e0 // end of [_]
+//
 end // end of [s1exp_app_unwind]
 
 and s1exp_app_unwind_e1xp
@@ -762,7 +791,8 @@ and s1exp_app_unwind_e1xp
 in
 //
 case+ e0.e1xp_node of
-| E1XPfun _ when nxs > 0 => let
+| E1XPfun _
+  when nxs > 0 => let
     val+~list_vt_cons (x, xs1) = xs
     val () = xs := xs1
 //
@@ -865,9 +895,11 @@ implement
 s1exp_trup_arg
   (s1e0, ws1es) = let
 (*
-  val () = begin
-    print "s1exp_trup_arg: s1e0 = "; print_s1exp (s1e0); print_newline ()
-  end // end of [val]
+//
+val () = (
+  println! ("s1exp_trup_arg: s1e0 = ", s1e0)
+) (* end of [val] *)
+//
 *)
 in
 //
@@ -1210,6 +1242,81 @@ end // end of [s1exp_trup_app]
 
 (* ****** ****** *)
 
+fun s1exp_trup_app_datcontyp
+(
+  s1e0: s1exp
+, s1opr: s1exp
+, d2c: d2con, xs: List_vt (locs1explst)
+) : s2exp = let
+//
+fun auxck1 (
+  s1e0: s1exp
+, d2c: d2con, xs: List_vt (locs1explst)
+) : int(*nerr*) = let
+in
+//
+case+ xs of
+| ~list_vt_cons
+    (x, xs) => let
+    val () = prerr_error2_loc (x.0)
+    val () = prerr ": overly supplied static argument group."
+    val () = prerr_newline ()
+  in
+    auxck1 (s1e0, d2c, xs) + 1
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => (0)
+//
+end // end of [auxck1]
+//
+fun auxck2 (
+  s1e0: s1exp
+, d2c: d2con, s1es: s1explst
+) : void = let
+  val n = list_length (s1es)
+  val arity = d2con_get_arity_full (d2c)
+  val sgn = n - arity
+in
+//
+if sgn != 0 then let
+  val loc0 = s1e0.s1exp_loc
+  val () = prerr_error2_loc (loc0)
+  val () = prerr ": the type constructor ["
+  val () = prerr_d2con (d2c)
+  val () = if sgn < 0 then prerr "] expects more arguments.";
+  val () = if sgn > 0 then prerr "] expects fewer arguments.";
+  val () = prerr_newline ()
+in
+  the_trans2errlst_add (T2E_s1exp_trup (s1e0))
+end // end of [if]
+//
+end // end of [auxck2]
+//
+val s1es =
+(
+case+ xs of
+| ~list_vt_cons
+    (x, xs) => let
+    val nerr = auxck1 (s1e0, d2c, xs)
+    val () = (
+      if nerr > 0 then
+        the_trans2errlst_add (T2E_s1exp_trup (s1e0))
+      // end of [if]
+    ) // end of [val]
+  in
+    x.1
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => list_nil ()
+) : s1explst // end of [val]
+//
+val () = auxck2 (s1e0, d2c, s1es)
+val s2es = s1explst_trdn_impred (s1es)
+//
+in
+  s2exp_datcontyp (d2c, s2es)
+end // end of [s1exp_trup_app_datcontyp]
+
+(* ****** ****** *)
+
 fun s1exp_trup_app_datconptr
 (
   s1e0: s1exp
@@ -1259,20 +1366,21 @@ end // end of [if]
 //
 end // end of [auxck2]
 //
-val s1es = (
-  case+ xs of
-  | ~list_vt_cons
-   (x, xs) => let
-      val nerr = auxck1 (s1e0, d2c, xs)
-      val () = (
-        if nerr > 0 then
-          the_trans2errlst_add (T2E_s1exp_trup (s1e0))
-        // end of [if]
-      ) // end of [val]
-    in
-      x.1
-    end // end of [list_vt_cons]
-  | ~list_vt_nil () => list_nil ()
+val s1es =
+(
+case+ xs of
+| ~list_vt_cons
+    (x, xs) => let
+    val nerr = auxck1 (s1e0, d2c, xs)
+    val () = (
+      if nerr > 0 then
+        the_trans2errlst_add (T2E_s1exp_trup (s1e0))
+      // end of [if]
+    ) // end of [val]
+  in
+    x.1
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => list_nil ()
 ) : s1explst // end of [val]
 //
 val () = auxck2 (s1e0, d2c, s1es)
@@ -1286,7 +1394,8 @@ end // end [s1exp_trup_app_datconptr]
 (* ****** ****** *)
 
 fun
-s1exp_trup_app_sqid (
+s1exp_trup_app_sqid
+(
   s1e0: s1exp
 , s1opr: s1exp
 , sq: s0taq, id: symbol
@@ -1325,7 +1434,8 @@ case+ spsid of
 end // end of [s1exp_trup_app_sqid]
 
 and
-s1exp_trup_app_sqid_itm (
+s1exp_trup_app_sqid_itm
+(
   s1e0: s1exp
 , s1opr: s1exp
 , sq: s0taq, id: symbol, s2i0: s2itm
@@ -1333,10 +1443,11 @@ s1exp_trup_app_sqid_itm (
 ) : s2exp = let
 //
 (*
-  val () = begin
-    print "s1exp_trup_app_sqid_itm: s1e0 = "; print_s1exp (s1e0); print_newline ();
-    print "s1exp_trup_app_sqid_itm: s1e0 = "; print_s2itm (s2i0); print_newline ();
-  end // end of [val]
+val () =
+(
+  println! ("s1exp_trup_app_sqid_itm: s1e0 = ", s1e0);
+  println! ("s1exp_trup_app_sqid_itm: s1e0 = ", s2i0);
+) (* end of [val] *)
 *)
 //
 in
@@ -1382,14 +1493,13 @@ case+ s2i0 of
     s1exp_trup_app (s1e0, s1opr, s2exp_var (s2v), xs)
   end // end of [S2ITEMvar]
 //
-| S2ITMdatconptr d2c => s1exp_trup_app_datconptr (s1e0, s1opr, d2c, xs)
-(*
 | S2ITMdatcontyp d2c => s1exp_trup_app_datcontyp (s1e0, s1opr, d2c, xs)
-*)
+| S2ITMdatconptr d2c => s1exp_trup_app_datconptr (s1e0, s1opr, d2c, xs)
 //
 | _ => let
     val () = list_vt_free (xs)
     val () = prerr_interror_loc (s1opr.s1exp_loc)
+    val () = prerr_newline ()
     val () = (prerr ": NIY: s1exp_trup_app_sqid_itm: s1e0 = "; prerr_s1exp s1e0)
     val () = prerr_newline ()
     val () = (prerr ": NIY: s1exp_trup_app_sqid_itm: s2i0 = "; prerr_s2itm s2i0)
@@ -1490,10 +1600,9 @@ fun s1exp_trup_tytup
   s1e0: s1exp, knd: int, npf: int, s1es: s1explst
 ) : s2exp = let
 (*
-val () =
-(
-  print "s1exp_trup_tytup: s1e0 = "; print_s1exp (s1e0); print_newline ()
-) // end of [val]
+val () = (
+  println! ("s1exp_trup_tytup: s1e0 = ", s1e0)
+) (* end of [val] *)
 *)
 in
 //
@@ -1600,18 +1709,22 @@ end // end of [aux23]
 
 in (* in of [local] *)
 
-fun s1exp_trup_tyrec
+fun
+s1exp_trup_tyrec
 (
-  s1e0: s1exp, knd: int, npf: int, ls1es: labs1explst
+  s1e0: s1exp
+, knd: int, npf: int, ls1es: labs1explst
 ) : s2exp = let
-// (*
-val () =
-(
+(*
+//
+val () = (
   println! ("s1exp_trup_tyrec: s1e0 = ", s1e0);
-  println! ("s1exp_trup_tyrec: knd = ", knd);
-  println! ("s1exp_trup_tyrec: npf = ", npf);
-)
-// *)
+) (* end of [val] *)
+//
+val () = println! ("s1exp_trup_tyrec: knd = ", knd)
+val () = println! ("s1exp_trup_tyrec: npf = ", npf)
+//
+*)
 in
 //
 case+ knd of
@@ -2032,6 +2145,11 @@ implement
 s1explst_trdn_vt0ype
   (s1es) = l2l (list_map_fun (s1es, s1exp_trdn_vt0ype))
 // end of [s1explst_trdn_vt0ype]
+
+implement
+s1explst_trdn_impred
+  (s1es) = l2l (list_map_fun (s1es, s1exp_trdn_impred))
+// end of [s1explst_trdn_impred]
 
 (* ****** ****** *)
 

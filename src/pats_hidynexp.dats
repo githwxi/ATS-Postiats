@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,8 +27,14 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: July, 2012
+//
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 
@@ -63,7 +69,7 @@ fun f (
 ) : bool = let
   val LABHIPAT (_, hip) = lhip
 in
-  case+ hip.hipat_node of HIPany () => true | _ => false
+  case+ hip.hipat_node of HIPany _ => true | _ => false
 end // end of [f]
 //
 in
@@ -83,8 +89,8 @@ hipat_make_node (
 (* ****** ****** *)
 
 implement
-hipat_any (loc, hse) =
-  hipat_make_node (loc, hse, HIPany ())
+hipat_any (loc, hse, d2v) =
+  hipat_make_node (loc, hse, HIPany (d2v))
 // end of [hipat_any]
 
 implement
@@ -552,14 +558,18 @@ hidexp_xchng_ptr
 
 implement
 hidexp_arrpsz
-  (loc, hse, hse_elt, hdes, asz) =
-  hidexp_make_node (loc, hse, HDEarrpsz (hse_elt, hdes, asz))
+(
+  loc, hse, hse_elt, hdes_elt, asz
+) = hidexp_make_node
+  (loc, hse, HDEarrpsz (hse_elt, hdes_elt, asz))
 // end of [hidexp_arrpsz]
 
 implement
 hidexp_arrinit
-  (loc, hse, hse_elt, asz, hdes_elt) =
-  hidexp_make_node (loc, hse, HDEarrinit (hse_elt, asz, hdes_elt))
+(
+  loc, hse, hse_elt, hde_asz, hdes_elt, asz
+) = hidexp_make_node
+  (loc, hse, HDEarrinit (hse_elt, hde_asz, hdes_elt, asz))
 // end of [hidexp_arrinit]
 
 (* ****** ****** *)
@@ -574,9 +584,20 @@ hidexp_raise
 
 implement
 hidexp_lam
-  (loc, hse, hips_arg, hde_body) =
+(
+  loc, hse, knd
+, hips_arg, hde_body
+) =
   hidexp_make_node (loc, hse, HDElam (hips_arg, hde_body))
 // end of [hidexp_lam]
+
+(* ****** ****** *)
+
+implement
+hidexp_fix
+  (loc, hse, knd, f_d2v, hde_def) =
+  hidexp_make_node (loc, hse, HDEfix (knd, f_d2v, hde_def))
+// end of [hidexp_fix]
 
 (* ****** ****** *)
 
@@ -707,15 +728,17 @@ hivaldec_make
 } // end of [hivaldec_make]
 
 implement
-hivardec_make (
-  loc, knd, d2v, d2vw, type, ini
+hivardec_make
+(
+  loc, knd
+, d2v, d2vw, type, init
 ) = '{
   hivardec_loc= loc
 , hivardec_knd= knd
 , hivardec_dvar_ptr= d2v
 , hivardec_dvar_view= d2vw
 , hivardec_type= type
-, hivardec_ini= ini
+, hivardec_init= init
 } // end of [hivardec_make]
 
 (* ****** ****** *)

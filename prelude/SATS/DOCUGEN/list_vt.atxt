@@ -159,8 +159,8 @@ length 2.
 
 (* ****** ****** *)
 
-#declnamesynop("list_vt_unnil"
-#declnamesynop("list_vt_uncons"
+#declnamesynop("list_vt_unnil")
+#declnamesynop("list_vt_uncons")
 
 (* ****** ****** *)
 
@@ -294,11 +294,22 @@ val () = list_vt_free<T> (xs123)
 
 (* ****** ****** *)
 
-#declnamesynop("list_vt_split")
+#declnamesynop("list_vt_split_at")
+#decldescrpt('\
+
+Given a linear list xs of length n and an integer i between 0 and n,
+inclusive, the function returns a prefix and a suffix of xs of length
+i and n-i, respectively.\
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt_separate")
 #decldescrpt('\
 
 This function splits a given linear list xs into two according to the
-predicate implemented by #dyncode("list_vt_split$pred"): the elements
+predicate implemented by #dyncode("list_vt_separate$pred"): the elements
 left in xs satisfy the predicate while those in the returned list do not.
 
 ')
@@ -324,17 +335,19 @@ case+ xs of
     val p_x0 = addr@(x0)
 //
     implement
-    list_vt_split$pred<a> (x) = let
-      prval (pf, fpf) = $UN.ptr_vtake{a}(p_x0)
-      val ans = cmp (x, x0) <= 0 // ascending order
-      prval () = fpf (pf)
+    list_vt_separate$pred<a> (x) = let
+      val (
+        pf, fpf | p_x0
+      ) = $UN.ptr_vtake{a}(p_x0)
+      val ans = cmp (x, !p_x0) <= 0 // ascending order
+      prval ((*void*)) = fpf (pf)
     in
       ans
-    end // end of [list_vt_split$pred]
+    end // end of [list_vt_separate$pred]
 //
     var xs11 = xs1
     // HX: xs11/xs12: <= x0 / > x0
-    val xs12 = list_vt_split<a> (xs11)
+    val xs12 = list_vt_separate<a> (xs11)
     val xs11 = list_vt_qsort (xs11, cmp)
     val xs12 = list_vt_qsort (xs12, cmp)
     val () = xs1 := xs12
@@ -355,7 +368,7 @@ the input as linear elements cannot be either discarded or duplicated.
 
 ')
 
-#declnamesynop("list_vt_split$pred")
+#declnamesynop("list_vt_separate$pred")
 
 (* ****** ****** *)
 

@@ -37,15 +37,15 @@
 //
 (* ****** ****** *)
 
+#define ATS_PACKNAME "ATSLIB.libats.dllist"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
+
+(* ****** ****** *)
+
 typedef SHR(a:type) = a // for commenting purpose
 typedef NSH(a:type) = a // for commenting purpose
 
 (* ****** ****** *)
-
-sortdef t0p = t@ype and vt0p = viewt@ype
-
-(* ****** ****** *)
-
 (*
 **
 ** HX-2012-02-29:

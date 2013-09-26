@@ -1,0 +1,88 @@
+#
+#
+# Build and Install
+#
+#
+
+######
+
+Author: Hongwei Xi
+Authoremail: gmhwxi AT gmail DOT com
+
+######
+
+Start time: 2013-09-02
+
+######
+
+Last recorded update: 2013-09-02
+
+######
+
+Step 1: Get the package 
+Step 2: Build the package
+Step 3: Install the built package (optional)
+
+######
+
+Step 1: Get the package
+
+The current release of ATS2 can be cloned by executing
+the following command:
+
+git clone git://git.code.sf.net/p/ats2-lang/code ATS-Postiats
+
+It can also be downloaded by following the link:
+
+http://sourceforge.net/projects/ats2-lang/download
+
+Say the tarball you download is named
+
+ats2-lang-postiats-x.x.x.tgz
+
+where x.x.x is the version of the package. You can untar it by
+issuing the following command-line:
+
+tar vxfz ats2-lang-postiats-x.x.x.tgz
+
+which creates a directory named ATS-Postiats
+
+######
+
+Step 2: Build the package
+
+First enter the directory containing the package:
+
+cd ATS-Postiats
+
+Then issue the next command-line:
+
+make all
+
+After 'make' is finsihed, the two commands 'patscc' and 'patsopt' for
+compiling ATS source code can be found in ATS-Postiats/bin. In order to
+use this build, please set the environment variable PATSHOME as follows
+(assuming the current directory is still ATS-Postiats):
+
+export PATSHOME=`pwd`
+
+######
+
+Step 3. Install the built package (optional)
+
+Assume that you want to install the package in a directory
+named /path/to/MYATS/.
+
+First please configure:
+
+./configure --prefix==/path/to/MYATS
+
+After configuration is done, please execute
+
+make install
+
+Please set PATSHOME as follows:
+
+export PATSHOME=/path/to/MYATS/lib/ats2-postiats-x.x.x
+
+###### end of [INSTALL] ######

@@ -168,9 +168,10 @@ the function:
 
 #pats2xhtmld_tryit('\
 implement
-fileref_puts (out, str) = let
+fileref_puts
+  (out, str) = let
 //
-val str = string1_of_string0 (str)
+val str = g1ofg0_string(str)
 //
 implement{env}
 string_foreach$cont (c, env) = true
@@ -383,8 +384,10 @@ end // end of [main]
 #decldescrpt('\
 
 This function reads chars from a given file handle until either the number
-of chars being read reaches n (the second argument) or no char is left, and
-it then returns a linear list of the chars in the order they were read.
+of chars being read reaches n (the value of the second argument) or no
+char is left. It then returns a linear list consisting of the chars in the
+order they were read and also updates the second argument with the length
+of the returned list, that is, the number of chars being actually read.\
 
 ')
 

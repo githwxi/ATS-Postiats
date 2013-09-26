@@ -146,15 +146,14 @@ val [l:addr] (pf, pfgc | p) = malloc_gc (bsz)
 prval pf = $UN.castview0{(dirent?)@l}(pf)
 var res: ptr
 val err = readdir_r (dirp, !p, res)
-val () = assert_errmsg (err = 0, "[readdir_r] failed.")
-prval () = opt_unsome {dirent} (!p)
 //
 in
 //
 if res > 0 then
   $UN.castvwtp0{Direntp1}@(pf, pfgc | p)
 else let
-  val () = ptr_free{dirent}(pfgc, pf | p)
+  prval () = opt_clear{dirent}(!p)
+  val () = ptr_free{dirent?}(pfgc, pf | p)
 in
   $UN.castvwtp0{Direntp0}(the_null_ptr)
 end (* end of [if] *)

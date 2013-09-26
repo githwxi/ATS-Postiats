@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: March, 2011
 //
 (* ****** ****** *)
@@ -38,6 +39,45 @@ staload _(*anon*) = "prelude/DATS/unsafe.dats"
 (* ****** ****** *)
 
 staload "./pats_utils.sats"
+
+(* ****** ****** *)
+
+%{^
+//
+// HX-2011-04-18:
+// there is no need for marking these variables as
+// GC roots because the values stored in them cannot be GCed
+//
+static char *patsopt_PATSHOME = (char*)0 ;
+static char *patsopt_PATSHOMERELOC = (char*)0 ;
+extern char *getenv (const char *name) ; // [stdlib.h]
+//
+ATSextfun()
+ats_ptr_type
+patsopt_PATSHOME_get () {
+  return patsopt_PATSHOME ; // optional string
+} // end of [patsopt_PATSHOME_get]
+ATSextfun()
+ats_ptr_type
+patsopt_PATSHOMERELOC_get () {
+  return patsopt_PATSHOMERELOC ; // optional string
+} // end of [patsopt_PATSHOMERELOC_get]
+//
+ATSextfun()
+ats_void_type
+patsopt_PATSHOME_set () {
+  patsopt_PATSHOME = getenv ("PATSHOME") ; return ;
+  if (!patsopt_PATSHOME) patsopt_PATSHOME = getenv ("ATSHOME") ;
+} // end of [patsopt_PATSHOME_set]
+ATSextfun()
+ats_void_type
+patsopt_PATSHOMERELOC_set () {
+  patsopt_PATSHOMERELOC = getenv ("PATSHOMERELOC") ;
+  if (!patsopt_PATSHOMERELOC) patsopt_PATSHOMERELOC = getenv ("ATSHOMERELOC") ;
+  return ;
+} // end of [patsopt_PATSHOMERELOC_set]
+//
+%} // end of [%{^]
 
 (* ****** ****** *)
 
@@ -390,6 +430,22 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+dirpath_append
+  (dir, path, sep) = let
+//
+val p0 = $UN.cast2ptr (path)
+val c0 = $UN.ptr0_get<char> (p0)
+//
+in
+  if c0 = sep
+    then sprintf ("%s%s", @(dir, path))
+    else sprintf("%s%c%s", @(dir, sep, path))
+  // end of [if]
+end // end of [dirpath_append]
+
+(* ****** ****** *)
+
+implement
 fprint_stropt
  (out, opt) = let
 in
@@ -446,7 +502,6 @@ local
 //
 staload Q = "libats/SATS/linqueue_arr.sats"
 //
-staload _(*anon*) = "prelude/DATS/array.dats"
 staload _(*anon*) = "libats/DATS/linqueue_arr.dats"
 staload _(*anon*) = "libats/ngc/DATS/deque_arr.dats"
 //
@@ -478,6 +533,12 @@ end // end of [local]
 (* ****** ****** *)
 
 %{$
+//
+extern
+ats_int_type
+atslib_fildes_read_all_err
+  (ats_int_type fd, ats_ref_type buf, ats_size_type ntot) ;
+//
 ats_ptr_type
 patsopt_file2strptr
   (ats_int_type fd) {

@@ -38,8 +38,15 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator_for_C()
 
 typedef mode_t atslib_mode_type ;
-typedef time_t atslib_time_type ;
 
+#atscode_separator_for_C()
+//
+// HX-2013-8:
+// [atslib_time_type] is already
+// defined in [libc/CATS/time.cats]
+//
+typedef time_t atslib_types_time_type ;
+//
 #atscode_separator_for_C()
 
 \#if(0)
@@ -90,7 +97,8 @@ ATSinline()
 atstype_bool
 atslib_lt_time_time
 (
-  atslib_time_type t1, atslib_time_type t2
+  atslib_types_time_type t1
+, atslib_types_time_type t2
 )
 {
   return (t1 < t2 ? atsbool_true : atsbool_false) ;
@@ -99,7 +107,8 @@ ATSinline()
 atstype_bool
 atslib_lte_time_time
 (
-  atslib_time_type t1, atslib_time_type t2
+  atslib_types_time_type t1
+, atslib_types_time_type t2
 )
 {
   return (t1 <= t2 ? atsbool_true : atsbool_false) ;
@@ -112,7 +121,8 @@ ATSinline()
 atstype_bool
 atslib_eq_time_time
 (
-  atslib_time_type t1, atslib_time_type t2
+  atslib_types_time_type t1
+, atslib_types_time_type t2
 )
 {
   return (t1 == t2 ? atsbool_true : atsbool_false) ;
@@ -121,7 +131,8 @@ ATSinline()
 atstype_bool
 atslib_neq_time_time
 (
-  atslib_time_type t1, atslib_time_type t2
+  atslib_types_time_type t1
+, atslib_types_time_type t2
 )
 {
   return (t1 != t2 ? atsbool_true : atsbool_false) ;

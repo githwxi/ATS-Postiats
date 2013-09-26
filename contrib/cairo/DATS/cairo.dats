@@ -34,7 +34,7 @@
 
 (* ****** ****** *)
 
-staload "cairo/SATS/cairo.sats"
+staload "./../SATS/cairo.sats"
 
 (* ****** ****** *)
 
@@ -42,7 +42,7 @@ implement
 cairo_get1_source (ctx) = let
   val (
     fpf | xrpat
-  ) = cairo_get0_source (ctx)
+  ) = cairo_get_source (ctx)
   val xrpat1 = cairo_pattern_reference (xrpat)
   prval () = minus_addback (fpf, xrpat | ctx)
 in
@@ -55,7 +55,7 @@ implement
 cairo_get1_target (ctx) = let
   val (
     fpf | xrsf
-  ) = cairo_get0_target (ctx)
+  ) = cairo_get_target (ctx)
   val xrsf1 = cairo_surface_reference (xrsf)
   prval () = minus_addback (fpf, xrsf | ctx)
 in

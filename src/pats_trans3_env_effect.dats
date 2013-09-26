@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,14 +27,15 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: March, 2012
 //
 (* ****** ****** *)
-
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
-staload _(*anon*) = "prelude/DATS/reference.dats"
-
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
 (* ****** ****** *)
 
 staload "./pats_basics.sats"
@@ -48,6 +49,11 @@ implement prerr_FILENAME<> () = prerr "pats_trans3_env_effect"
 (* ****** ****** *)
 
 staload "./pats_effect.sats"
+overload print with print_effset
+overload prerr with prerr_effset
+
+(* ****** ****** *)
+
 staload "./pats_staexp2.sats"
 staload "./pats_staexp2_util.sats"
 staload "./pats_stacst2.sats"
@@ -234,23 +240,23 @@ implement
 the_effenv_check_set
   (loc0, efs0) = let
 (*
-val () = begin
-  print "the_effenv_check_set: efs0 = "; print_effset (efs0); print_newline ()
-end // end of [val]
+val () =
+  println! ("the_effenv_check_set: efs0 = ", efs0)
+// end of [val]
 *)
-fun auxerr (
+fun auxerr
+(
   efs: effset
 ) :<cloref1> void = let
   val () = prerr_error3_loc (loc0)
   val () = filprerr_ifdebug "the_effenv_check_set"
-  val () = prerr ": some disallowed effects may be incurred: "
-  val () = prerr_effset (efs)
-  val () = prerr_newline ()
+  val () = prerrln! (": some disallowed effects may be incurred: ", efs)
 in
   the_trans3errlst_add (T3E_effenv_check_set (loc0, efs0))
 end (* end of [auxerr] *)
 //  
-fun auxcheck (
+fun auxcheck
+(
   efis: !effenvitmlst, efs0: effset(*isnotnil*)
 ) :<cloref1> int =
   case+ efis of
@@ -349,19 +355,17 @@ the_effenv_caskind_check_exn
 implement
 the_effenv_check_sexp
   (loc0, s2e0) = let
-// (*
-val () = begin
-  print "the_effenv_check_sexp: s2e0 = "; print_s2exp (s2e0); print_newline ()
-end // end of [val]
-// *)
+(*
+val () =
+  println! ("the_effenv_check_sexp: s2e0 = ", s2e0)
+// end of [val]
+*)
 fun auxerr (
   s2e0: s2exp
 ) :<cloref1> void = let
   val () = prerr_error3_loc (loc0)
   val () = filprerr_ifdebug "the_effenv_check_sexp"
-  val () = prerr ": some disallowed effects may be incurred: "
-  val () = prerr_s2exp (s2e0)
-  val () = prerr_newline ()
+  val () = prerrln! (": some disallowed effects may be incurred: ", s2e0)
 in
   the_trans3errlst_add (T3E_effenv_check_sexp (loc0, s2e0))
 end (* end of [auxerr] *)
@@ -415,9 +419,9 @@ implement
 the_effenv_check_s2eff
   (loc0, s2fe0) = let
 (*
-val () = begin
-  print "the_effenv_check_s2eff: s2fe0 = "; print_s2eff (s2fe0); print_newline ()
-end // end of [val]
+val () =
+  println! ("the_effenv_check_s2eff: s2fe0 = ", s2fe0)
+// end of [val]
 *)
 val s2fe0 = s2eff_hnfize (s2fe0)
 //

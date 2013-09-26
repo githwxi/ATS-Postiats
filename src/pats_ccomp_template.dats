@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,9 +27,20 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: November, 2012
 //
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
+(* ****** ****** *)
+
+staload
+UN = "prelude/SATS/unsafe.sats"
+
 (* ****** ****** *)
 
 staload "./pats_basics.sats"
@@ -198,8 +209,15 @@ end // end of [s2hnf_is_err]
 (* ****** ****** *)
 
 extern
-fun impenv_make_svarlst
-  (s2vs: s2varlst): impenv
+fun impenv_make_nil (): impenv
+extern
+fun impenv_make_svarlst (s2vs: s2varlst): impenv
+
+(* ****** ****** *)
+
+implement
+impenv_make_nil () = IMPENVnil
+
 implement
 impenv_make_svarlst (s2vs) = let
 in
@@ -424,14 +442,15 @@ case+ s2ess of
 | list_cons
     (s2es, s2ess) => (
     case+ t2mas of
-    | list_cons (t2ma, t2mas) => let
+    | list_cons
+        (t2ma, t2mas) => let
         val ans =
           auxmatlst (env, s2es, t2ma.t2mpmarg_arg)
         // end of [val]
       in
         if ans then auxmatlstlst (env, s2ess, t2mas) else false
       end // end of [list_cons]
-    | list_nil () => true // HX: deadcode
+    | list_nil ((*void*)) => true // HX: deadcode
   ) // end of [list_cons]
 | list_nil () => true
 //
@@ -472,6 +491,23 @@ case+ s2es of
 end // end of [auxbndlstlst2]
 
 in (* in of [local] *)
+
+implement
+funlab_tmpcst_match
+  (fl0, d2c0, t2mas) = let
+//
+val env = impenv_make_nil ()
+val xs = funlab_get_tmparg (fl0)
+val s2ess = list_map_fun<t2mpmarg><s2explst> (xs, lam x =<1> x.t2mpmarg_arg)
+val ans = auxmatlstlst (env, $UN.linlst2lst(s2ess), t2mas)
+val () = list_vt_free (s2ess)
+val ((*env*)) = impenv_free (env)
+//
+in
+  ans
+end // end of [funlab_tmpcst_match]
+
+(* ****** ****** *)
 
 implement
 hiimpdec_tmpcst_match
@@ -752,8 +788,11 @@ end // end of [ccomp_funlab_tmpsubst_some]
 extern
 fun ccomp_tmpcstmat_some
 (
-  env: !ccompenv, loc0: location, hse0: hisexp, d2c: d2cst, t2mas: t2mpmarglst, mat: tmpcstmat
+  env: !ccompenv
+, loc0: location, hse0: hisexp, d2c: d2cst, t2mas: t2mpmarglst, mat: tmpcstmat
 ) : primval // end of [ccomp_tmpcstmat_some]
+
+(* ****** ****** *)
 
 implement
 ccomp_tmpcstmat
@@ -811,6 +850,8 @@ fun ccomp_tmpvarmat_some
 , loc0: location, hse0: hisexp, d2v: d2var, t2mas: t2mpmarglst, mat: tmpvarmat
 ) : primval // end of [ccomp_tmpvarmat_some]
 
+(* ****** ****** *)
+
 implement
 ccomp_tmpvarmat
   (env, loc0, hse0, d2v, t2mas, mat) = let
@@ -861,7 +902,7 @@ case+ opt of
   end // end of [None]
 | Some _ => ()
 )
-val-Some (flab) = hifundec_get_funlabopt (hfd)
+val-Some(flab) = hifundec_get_funlabopt (hfd)
 //
 in
   ccomp_funlab_tmpsubst (env, loc0, hse0, flab, tsub)

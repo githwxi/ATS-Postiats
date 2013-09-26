@@ -8,7 +8,7 @@
 
 (*
 ** ATS - Unleashing the Potential of Types!
-** Copyright (C) 2002-2010 Hongwei Xi, Boston University
+** Copyright (C) 2011-2013 Hongwei Xi, Boston University
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -33,6 +33,12 @@
 **
 ** A list-based queue implementation
 **
+*)
+
+(* ****** ****** *)
+
+(*
+**
 ** Contributed by Hongwei Xi (hwxi AT cs DOT bu DOT edu)
 ** Time: July, 2010 // based on a version done in October, 2008
 **
@@ -48,15 +54,14 @@
 //
 (* ****** ****** *)
 
-%{#
-#include "libats/CATS/qlist.cats"
-%} // end of [%{#]
+#define ATS_PACKNAME "ATSLIB.libats.qlist"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats"
-#define ATS_STALOADFLAG 0 // no static loading at run-time
-#define ATS_EXTERN_PREFIX "atslib_"
+%{#
+#include "libats/CATS/qlist.cats"
+%} // end of [%{#]
 
 (* ****** ****** *)
 
@@ -72,14 +77,14 @@ qlist (a:vt0p, n:int) = qlist_vtype (a, n)
 //
 vtypedef
 qlist (a:vt0p) = [n:int] qlist_vtype (a, n)
+//
 vtypedef
 qlist0 (a:vt0p) = [n:int | n >= 0] qlist (a, n)
-vtypedef
-qlist1 (a:vt0p) = [n:int | n >= 1] qlist (a, n)
 //
 (* ****** ****** *)
 
-praxi lemma_qlist_param
+praxi
+lemma_qlist_param
   {a:vt0p}{n:int} (q: !qlist (INV(a), n)): [n>=0] void
 // end of [lemma_qlist_param]
 
@@ -97,7 +102,7 @@ qlist_is_nil
   {n:int} (q: !qlist (a, n)):<> bool (n == 0)
 fun{a:vt0p}
 qlist_isnot_nil
-  {n:nat} (q: !qlist (INV(a), n)):<> bool (n > 0)
+  {n:int} (q: !qlist (INV(a), n)):<> bool (n > 0)
 //
 overload iseqz with qlist_is_nil
 overload isneqz with qlist_isnot_nil
@@ -123,21 +128,25 @@ overload fprint with fprint_qlist_sep
 (* ****** ****** *)
 
 fun{a:vt0p}
-qlist_insert (*last*)
-  {n:int} (
+qlist_insert{n:int}
+(
   q: !qlist (INV(a), n) >> qlist (a, n+1), x: a
 ) :<!wrt> void // end of [qlist_insert]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-qlist_takeout (*first*)
-  {n:int | n > 0} (q: !qlist (INV(a), n) >> qlist (a, n-1)):<!wrt> (a)
-// end of [qlist_takeout]
-
+qlist_takeout{n:pos}
+  (q: !qlist (INV(a), n) >> qlist (a, n-1)):<!wrt> (a)
 fun{a:vt0p}
-qlist_takeout_list
-  {n:int} (q: !qlist (INV(a), n) >> qlist (a, 0)):<!wrt> list_vt (a, n)
+qlist_takeout_opt (q: !qlist (INV(a)) >> _):<!wrt> Option_vt(a)
+
+(* ****** ****** *)
+
+fun{
+} qlist_takeout_list
+  {a:vt0p}{n:int}
+  (q: !qlist (INV(a), n) >> qlist (a, 0)):<!wrt> list_vt (a, n)
 // end of [qlist_takeout_list]
 
 (* ****** ****** *)
@@ -158,7 +167,7 @@ a:vt0p}{env:vt0p
 (* ****** ****** *)
 //
 abst@ype
-qstruct_tsize = $extype"atslib_qlist_qstruct"
+qstruct_tsize = $extype"atslib_qlist_struct"
 absvt@ype
 qstruct_vt0ype (a:vt@ype+, n:int) = qstruct_tsize
 //
@@ -166,7 +175,9 @@ stadef qstruct = qstruct_vt0ype
 stadef qstruct = qstruct_tsize // HX: order significant
 //
 viewtypedef
-qstruct (a:vt0p) = [n:nat] qstruct (a, n)
+qstruct (a:vt0p) = [n:int] qstruct (a, n)
+viewtypedef
+qstruct0 (a:vt0p) = [n:nat] qstruct (a, n)
 //
 (* ****** ****** *)
 
@@ -199,18 +210,22 @@ qstruct_unobjfize
 (* ****** ****** *)
 
 fun{a:vt0p}
-qstruct_insert (*last*)
-  {n:int} (q: &qstruct (INV(a), n) >> qstruct (a, n+1), x: a):<!wrt> void
+qstruct_insert{n:int}
+  (q: &qstruct (INV(a), n) >> qstruct (a, n+1), x: a):<!wrt> void
 // end of [qstruct_insert]
 
-fun{a:vt0p}
-qstruct_takeout (*first*)
-  {n:int | n > 0} (q: &qstruct (INV(a), n) >> qstruct (a, n-1)):<!wrt> (a)
-// end of [qstruct_takeout]
+(* ****** ****** *)
 
 fun{a:vt0p}
+qstruct_takeout{n:pos}
+  (q: &qstruct (INV(a), n) >> qstruct (a, n-1)):<!wrt> (a)
+
+(* ****** ****** *)
+
+fun{}
 qstruct_takeout_list
-  {n:int} (q: &qstruct (INV(a), n) >> qstruct (a, 0)):<!wrt> list_vt (a, n)
+  {a:vt0p}{n:int}
+  (q: &qstruct (INV(a), n) >> qstruct (a, 0)):<!wrt> list_vt (a, n)
 // end of [qstruct_takeout_list]
 
 (* ****** ****** *)
@@ -219,7 +234,8 @@ qstruct_takeout_list
 //
 (* ****** ****** *)
 
-absvtype qlist_node_vtype (a:vt@ype+, l:addr) = ptr
+absvtype
+qlist_node_vtype (a:vt@ype+, l:addr) = ptr
 
 (* ****** ****** *)
 

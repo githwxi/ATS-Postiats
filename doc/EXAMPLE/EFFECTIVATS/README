@@ -1,4 +1,8 @@
-HX-2013-04-25:
+######
+#
+# HX-2013-04-25:
+#
+######
 
 While ATS is a rich and powerful programming language, it is also a complex
 and demanding language. For most people, learning ATS can be difficult and
@@ -19,3 +23,5 @@ demonstrate some common approaches to effectively employing programming
 features of ATS in the construction of high-quality programs. I hope that
 this effort can greatly help people both learn ATS and make effective use
 of it in practice.
+
+###### end of [README] ######

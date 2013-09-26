@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,9 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: January, 2013
 //
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
+(* ****** ****** *)
+
+staload "pats_basics.sats"
+
 (* ****** ****** *)
 
 staload ERR = "./pats_error.sats"
@@ -39,10 +49,6 @@ staload ERR = "./pats_error.sats"
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_ccomp_emit2"
-
-(* ****** ****** *)
-
-staload "pats_basics.sats"
 
 (* ****** ****** *)
 //
@@ -287,11 +293,24 @@ end // end of [local]
 (* ****** ****** *)
 
 extern
-fun emit_tmpmovlst
-  (out: FILEref, tmvlst: tmpmovlst): void
+fun emit_tmprimval (out: FILEref, tpmv: tmprimval): void
+extern
+fun emit_tmpmovlst (out: FILEref, tmvlst: tmpmovlst): void
+
+(* ****** ****** *)
+
 implement
-emit_tmpmovlst
-  (out, tmvlst) = let
+emit_tmprimval (out, tpmv) =
+(
+case+ tpmv of
+| TPMVnone (pmv) => emit_primval (out, pmv)
+| TPMVsome (tmp, _) => emit_tmpvar (out, tmp)
+) (* end of [emit_tmprimval] *)
+
+(* ****** ****** *)
+
+implement
+emit_tmpmovlst (out, tmvlst) = let
 //
 fun auxlst
 (
@@ -305,7 +324,7 @@ case+ xs of
     val () = emit_text (out, "ATSINSmove(")
     val () = emit_tmpvar (out, x.1)
     val () = emit_text (out, ", ")
-    val () = emit_tmpvar (out, x.0)
+    val () = emit_tmprimval (out, x.0)
     val () = emit_text (out, ") ; ")
   in
     auxlst (out, i+1, xs)
@@ -970,12 +989,15 @@ fun auxclo_init
 //
 val () = emit_text (out, "ATSstaticdec()\n")
 val () = emit_text (out, "atstype_cloptr\n")
+//
 val () = emit_funlab (out, flab)
 val () = emit_text (out, "$closureinit")
 val () = emit_text (out, "\n(\n")
+//
 val () = emit_funlab (out, flab)
 val () = emit_text (out, "$closure_t0ype *p_cenv")
 val n0 = aux2_envlst (out, d2es, 1, 0)
+//
 val () = emit_text (out, "\n)\n{\n")
 val () = aux5_envlst (out, d2es, 0)
 val () = emit_text (out, "p_cenv->cfun = ")
@@ -995,10 +1017,14 @@ fun auxclo_create
 //
 val () = emit_text (out, "ATSstaticdec()\n")
 val () = emit_text (out, "atstype_cloptr\n")
+//
 val () = emit_funlab (out, flab)
 val () = emit_text (out, "$closurerize")
 val () = emit_text (out, "\n(\n")
+//
 val n0 = aux2_envlst (out, d2es, 0, 0)
+val () = if n0 = 0 then emit_text (out, "// argumentless")
+//
 val () = emit_text (out, "\n)\n{\n")
 val () = emit_text (out, "return ")
 val () = emit_funlab (out, flab)
@@ -1033,6 +1059,279 @@ val () = emit_newline (out)
 in
   // nothing
 end // end of [emit_funent_closure]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+extern fun
+emit_funlab_funarg
+  (out: FILEref, flab: funlab): void
+implement
+emit_funlab_funarg (out, flab) = let
+//
+fun auxlst
+(
+  out: FILEref, hses: hisexplst, i: int
+) : void = let
+in
+//
+case+ hses of
+| list_cons
+    (hse, hses) => let
+    val (
+    ) = emit_text (out, "ATStmpdec(")
+    val () = (
+      emit_funarg (out, i); emit_text (out, ", "); emit_hisexp (out, hse)
+    ) (* end of [val] *)
+    val () = emit_text (out, ") ;\n")
+  in
+    auxlst (out, hses, i+1)
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [auxlst]
+//
+val hses = funlab_get_type_arg (flab)
+//
+in
+  auxlst (out, hses, 0(*i*))
+end // end of [emit_funlab_funarg]
+
+(* ****** ****** *)
+
+extern fun
+emit_funlab_funargx
+  (out: FILEref, flab: funlab): void
+implement
+emit_funlab_funargx (out, flab) = let
+//
+fun auxlst
+(
+  out: FILEref, hses: hisexplst, i: int
+) : void = let
+in
+//
+case+ hses of
+| list_cons
+    (hse, hses) => let
+    val (
+    ) = emit_text (out, "ATStmpdec(")
+    val () = (
+      emit_funargx (out, i); emit_text (out, ", "); emit_hisexp (out, hse)
+    ) (* end of [val] *)
+    val () = emit_text (out, ") ;\n")
+  in
+    auxlst (out, hses, i+1)
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [auxlst]
+//
+val hses = funlab_get_type_arg (flab)
+//
+in
+  auxlst (out, hses, 0(*i*))
+end // end of [emit_funlab_funargx]
+
+(* ****** ****** *)
+
+extern
+fun emit_funent_fundec
+  (out: FILEref, fent: funent): void
+implement
+emit_funent_fundec
+  (out, fent) = let
+//
+val flab = funent_get_lab (fent)
+//
+val tmpret = funent_get_tmpret (fent)
+val ntlcal = tmpvar_get_tailcal (tmpret)
+//
+val () = emit_text (out, "/* tmpvardeclst(beg) */\n")
+val () = if ntlcal >= 2 then emit_funlab_funargx (out, flab)
+val () = emit_tmpdeclst (out, funent_get_tmpvarlst (fent))
+val () = emit_text (out, "/* tmpvardeclst(end) */\n")
+//
+in
+  // nothing
+end // end of [emit_funent_fundec]
+
+(* ****** ****** *)
+
+extern
+fun emit_funent_funbody
+  (out: FILEref, fent: funent): void
+implement
+emit_funent_funbody (out, fent) = let
+//
+val () = emit_text (out, "/* funbodyinstrlst(beg) */\n")
+val () = emit_instrlst_ln (out, funent_get_instrlst (fent))
+val () = emit_text (out, "/* funbodyinstrlst(end) */\n")
+//
+val tmpret = funent_get_tmpret (fent)
+val () = let
+  val isvoid = tmpvar_is_void (tmpret)
+in
+  if ~isvoid
+    then emit_text(out, "ATSreturn(") else emit_text(out, "ATSreturn_void(")
+  // end of [if]
+end : void // end of [let] // end of [val]
+//
+val (
+) = emit_tmpvar (out, tmpret)
+val () = emit_text (out, ") ;\n")
+//
+in
+  // nothing
+end // end of [emit_funent_funbody]
+
+(* ****** ****** *)
+
+extern
+fun emit_funent_fnxdeclst (out: FILEref, fent0: funent): void
+extern
+fun emit_funent_fnxbodylst (out: FILEref, fent0: funent): void
+
+(* ****** ****** *)
+
+local
+
+fun auxfl
+(
+  out: FILEref
+, fent0: funent, fl: funlab
+) : void = let
+//
+val opt = funlab_get_funent (fl)
+//
+in
+//
+case+ opt of
+| Some (fent) => let
+    val () = emit_funlab_funarg (out, fl)
+    val () = emit_funent_fundec (out, fent)
+  in
+    // nothing
+  end // end of [Some]
+| None ((*void*)) => ()
+//
+end // end of [auxfl]
+
+and auxflist
+(
+  out: FILEref
+, fent0: funent, fls: funlablst, i: int
+) : void = let
+in
+//
+case+ fls of
+| list_cons
+    (fl, fls) => let
+    val () = emit_set_nfnx (i)
+    val () = auxfl (out, fent0, fl)
+    val () = emit_set_nfnx (0)
+    val () = auxflist (out, fent0, fls, i+1)
+  in
+    // nothing
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [auxflist]
+
+in (* in of [local] *)
+
+implement
+emit_funent_fnxdeclst
+  (out, fent0) = let
+//
+val fls = funent_get_fnxlablst (fent0)
+//
+val () = (
+case+ fls of
+| list_cons _ =>
+  emit_text (out, "/*\nemit_funent_fnxdeclst:\n*/\n")
+| _ => ((*void*))
+) : void // end of [val]
+//
+in
+//
+case+ fls of
+| list_cons
+    (fl0, fls) => auxflist (out, fent0, fls, 2(*i*))
+  // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [emit_funent_fnxdeclst]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fun auxfl
+(
+  out: FILEref
+, fent0: funent, fl: funlab
+) : void = let
+//
+val opt = funlab_get_funent (fl)
+//
+in
+//
+case+ opt of
+| Some (fent) =>
+    emit_funent_funbody (out, fent)
+| None ((*void*)) => ()
+//
+end // end of [auxfl]
+
+and auxflist
+(
+  out: FILEref
+, fent0: funent, fls: funlablst, i: int
+) : void = let
+in
+//
+case+ fls of
+| list_cons
+    (fl, fls) => let
+    val () = emit_set_nfnx (i)
+    val () = auxfl (out, fent0, fl)
+    val () = emit_set_nfnx (0)
+    val () = auxflist (out, fent0, fls, i+1)
+  in
+    // nothing
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [auxflist]
+
+in (* in of [local] *)
+
+implement
+emit_funent_fnxbodylst
+  (out, fent0) = let
+//
+val fls = funent_get_fnxlablst (fent0)
+//
+val () = (
+case+ fls of
+| list_cons _ =>
+  emit_text (out, "/*\nemit_funent_fnxbodylst:\n*/\n")
+| _ => ((*void*))
+) : void // end of [val]
+//
+in
+//
+case+ fls of
+| list_cons
+    (fl0, fls) => auxflist (out, fent0, fls, 2(*i*))
+  // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [emit_funent_fnxbodylst]
 
 end // end of [local]
 
@@ -1107,8 +1406,6 @@ val () = emit_text (out, "*/\n")
 val hse_res = funlab_get_type_res (flab)
 val hses_arg = funlab_get_type_arg (flab)
 //
-val tmpret = funent_get_tmpret (fent)
-//
 // function header
 //
 val qopt = funlab_get_d2copt (flab)
@@ -1142,37 +1439,19 @@ val nenv = emit_funenvlst (out, d2es)
 val () = emit_funarglst (out, nenv, hses_arg)
 val () = emit_text (out, ")\n")
 //
+// tmpvardec and funbody
+//
 val () = funent_varbindmap_initize (fent)
 //
-// function body
-//
 val () = emit_text (out, "{\n")
-val tmplst = funent_get_tmpvarlst (fent)
-val () = emit_text (out, "/* tmpvardeclst(beg) */\n")
-val () = emit_tmpdeclst (out, tmplst)
-val () = emit_text (out, "/* tmpvardeclst(end) */\n")
-val () = emit_text (out, "/* funbodyinstrlst(beg) */\n")
-val body_inss = funent_get_instrlst (fent)
-val () = emit_instrlst (out, body_inss)
-val () = emit_text (out, "\n")
-val () = emit_text (out, "/* funbodyinstrlst(end) */\n")
 //
-// function return
+val () = emit_funent_fundec (out, fent)
+val () = emit_funent_fnxdeclst (out, fent)
 //
-val isvoid = tmpvar_is_void (tmpret)
-val () = (
-  if ~isvoid
-    then emit_text(out, "ATSreturn(")
-    else emit_text(out, "ATSreturn_void(")
-  // end of [if]
-) : void // end of [val]
+val () = emit_funent_funbody (out, fent)
+val () = emit_funent_fnxbodylst (out, fent)
 //
-val () = emit_tmpvar (out, tmpret)
-val () = emit_text (out, ") ;")
-//
-val () = emit_text (out, "\n}")
-val () =
-  emit_text (out, " /* end of [")
+val () = emit_text (out, "} /* end of [")
 val () = emit_funlab (out, flab)
 val () = emit_text (out, "] */\n")
 //

@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -25,6 +25,17 @@
 ** 02110-1301, USA.
 *)
 
+(* ****** ****** *)
+//
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
+// Start Time: October, 2011
+//
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
 (* ****** ****** *)
 
 staload "./pats_basics.sats"

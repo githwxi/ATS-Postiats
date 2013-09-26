@@ -20,7 +20,63 @@ ATSLIB/libats/linhashtbl_chain\
 (* ****** ****** *)
 
 This package implements linear hashtables where the buckets associated with
-keys are represented as doubly-linked lists.
+keys are represented as (singly or doubly) linked lists.
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl")
+#declnamesynop("hashtbl_vtype")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl_search")
+#declnamesynop("hashtbl_search_ref")
+#declnamesynop("hashtbl_search_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl_insert")
+#declnamesynop("hashtbl_insert_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl_insert_any")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl_takeout")
+#declnamesynop("hashtbl_takeout_opt")
+#declnamesynop("hashtbl_remove")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl_reset_capacity")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl_adjust_capacity")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_hashtbl")
+#declnamesynop("fprint_hashtbl$sep")
+#declnamesynop("fprint_hashtbl$mapto")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl_foreach")
+#declnamesynop("hashtbl_foreach_env")
+#declnamesynop("hashtbl_foreach$fwork")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl_listize")
+#declnamesynop("hashtbl_flistize")
+#declnamesynop("hashtbl_flistize$fopr")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl_listize1")
 
 (* ****** ****** *)
 

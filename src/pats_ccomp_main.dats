@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,17 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: October, 2012
+//
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
 staload _(*anon*) = "prelude/DATS/unsafe.dats"
-
-(* ****** ****** *)
-
-staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
@@ -107,12 +109,19 @@ val () = emit_text (out, "#ifndef _ATS_CCOMP_PRELUDE_NONE\n")
 //
 val () = emit_text (out, "//\n")
 val () = emit_text (out, "#include \"prelude/CATS/basics.cats\"\n")
+//
 val () = emit_text (out, "#include \"prelude/CATS/integer.cats\"\n")
-val () = emit_text (out, "#include \"prelude/CATS/memory.cats\"\n")
+//
 val () = emit_text (out, "#include \"prelude/CATS/pointer.cats\"\n")
+//
 val () = emit_text (out, "#include \"prelude/CATS/bool.cats\"\n")
 val () = emit_text (out, "#include \"prelude/CATS/char.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/integer_ptr.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/integer_fixed.cats\"\n")
 val () = emit_text (out, "#include \"prelude/CATS/float.cats\"\n")
+//
+val () = emit_text (out, "#include \"prelude/CATS/memory.cats\"\n")
+//
 val () = emit_text (out, "#include \"prelude/CATS/string.cats\"\n")
 val () = emit_text (out, "#include \"prelude/CATS/strptr.cats\"\n")
 //
@@ -868,6 +877,7 @@ val () = emit_text (out, "\n*/\n")
 val () = emit_text (out, "#ifndef _ATS_CCOMP_RUNTIME_NONE\n")
 val () = emit_text (out, "#include \"pats_ccomp_runtime.c\"\n")
 val () = emit_text (out, "#include \"pats_ccomp_runtime2_dats.c\"\n")
+val () = emit_text (out, "#include \"pats_ccomp_runtime_memalloc.c\"\n")
 val () = emit_text (out, "#include \"pats_ccomp_runtime_trywith.c\"\n")
 val () = emit_text (out, "#endif /* _ATS_CCOMP_RUNTIME_NONE */\n")
 //

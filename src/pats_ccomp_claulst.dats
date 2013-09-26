@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,22 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: January, 2013
+//
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 
 staload
 UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
-staload
-_(*anon*) = "prelude/DATS/list.dats"
-staload
-_(*anon*) = "prelude/DATS/list_vt.dats"
-staload
-_(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
@@ -114,14 +111,6 @@ p2atcst =
 
 (* ****** ****** *)
 
-datatype
-tmprimval =
-  | TPMVnone of (primval)
-  | TPMVsome of (tmpvar, primval)
-// end of [tmprimval]
-
-(* ****** ****** *)
-
 (*
 extern
 fun tmprimval_make_none (pmv: primval): tmprimval
@@ -189,12 +178,7 @@ case+ tpmv of
     end // end of [if]
   ) // end of [TPMVsome]
 //
-end // end of [tmprimval2pmv]
-
-(* ****** ****** *)
-
-extern
-fun fprint_tmprimval (out: FILEref, x: tmprimval): void
+end // end of [tmprimval2pmv2]
 
 (* ****** ****** *)
 
@@ -227,11 +211,6 @@ end // end of [fprint_tmprimval]
 
 (* ****** ****** *)
 
-vtypedef
-tmpmovlst_vt = List_vt (tmpmov)
-
-(* ****** ****** *)
-
 extern
 fun tmpmovlst_add
 (
@@ -253,15 +232,11 @@ val () = fprintln! (out, "tmpmovlst_add: tpmv2 = ", tpmv2)
 //
 in
 //
-case+ tpmv1 of
+case+ tpmv2 of
 | TPMVnone _ => ()
-| TPMVsome (tmp1, _) =>
+| TPMVsome (tmp2, _) =>
   (
-    case+ tpmv2 of
-    | TPMVnone _ => ()
-    | TPMVsome (tmp2, _) =>
-        tmvlst := list_vt_cons ((tmp1, tmp2), tmvlst)
-      // end of [TPMVsome]
+    tmvlst := list_vt_cons ((tpmv1, tmp2), tmvlst)
   )
 end // end of [tmpmovlst_add]
 
@@ -299,7 +274,7 @@ patckontref_make () = ref_make_elt<patckont> (PTCKNTnone)
 datatype
 patcomp =
 //
-  | PTCMPany of ()
+  | PTCMPany of (d2var)
   | PTCMPvar of (d2var, tmprimval)
   | PTCMPasvar of (d2var, tmprimval)
 //
@@ -341,9 +316,11 @@ in
 //
 case+ x0 of
 //
-| PTCMPany () =>
+| PTCMPany (d2v) =>
   {
-    val () = prstr "PTCMPany()"
+    val () = prstr "PTCMPany("
+    val () = fprint_d2var (out, d2v)
+    val () = prstr ")"
   }
 | PTCMPvar (d2v, tpmv) =>
   {
@@ -726,7 +703,9 @@ val+list_cons (x2, xs2) = xs20
 val out = stdout_ref
 (*
 val () = fprintln! (out, "auxlst2: x1 = ", x1)
+val () = fprintln! (out, "auxlst2: xs1 = ", xs1)
 val () = fprintln! (out, "auxlst2: x2 = ", x2)
+val () = fprintln! (out, "auxlst2: xs2 = ", xs2)
 *)
 //
 in
@@ -766,9 +745,7 @@ case+ x2 of
         (lab1) => let
         val sgn = compare (lab1, lab2)
       in
-        if sgn = 0
-          then auxlst (xs1, xs2, tmvlst) else None_vt ()
-        // end of [if]
+        if sgn = 0 then auxlst (xs1, xs2, tmvlst) else None_vt ()
       end // end of [PTCMPlablparen]
     | _ => None_vt ()
   )
@@ -789,7 +766,7 @@ case+ x2 of
         in
           if isbin then Some_vt (xs2) else Some_vt (xs20)
         end // end of [else] // end of [if]
-      end // end of [PTCMPnegcon]
+      end // end of [PTCMPpatneg]
     | PTCMPpatlparen
         (ptck1, tpmv1, _, _, _) => let
         val ismat = patck_ismat (ptck1, ptck2)
@@ -807,6 +784,34 @@ case+ x2 of
 //
 end // end of [auxlst2]
 
+fun auxmovfin
+(
+  xs2: patcomplst, tmvlst: &tmpmovlst_vt
+) : void = let
+in
+//
+case+ xs2 of
+| list_cons (x2, xs2) =>
+  (
+    case+ x2 of
+    | PTCMPpatlparen
+        (_, tpmv2, _, _, _) =>
+      (
+        case+ tpmv2 of
+        | TPMVsome
+            (tmp, pmv) => let
+            val tpmv1 = TPMVnone (pmv)
+          in
+            tmpmovlst_add (tmvlst, tpmv1, tpmv2)
+          end // end of [TPMVsome]
+        | TPMVnone (pmv) => ()
+      )
+    | _ => auxmovfin (xs2, tmvlst)
+  )
+| list_nil ((*void*)) => ()
+//
+end // end of [auxmovfin]
+
 in (* in of [local] *)
 
 implement
@@ -823,13 +828,14 @@ case+
 :(
   tmvlst: tmpmovlst_vt?
 ) => opt of
-| ~Some_vt (xs) => let
+| ~Some_vt (xs2) => let
+    val () = auxmovfin (xs2, tmvlst)
     val tmvlst = list_vt_reverse (tmvlst)
     val tmvlst = list_of_list_vt (tmvlst)
-    val-~Some_vt(tlab) = patcomplst_find_tmplab (xs)
+    val-~Some_vt(tlab) = patcomplst_find_tmplab (xs2)
   in
     PTCKNTtmplabmov (tlab, tmvlst)
-  end
+  end // end of [some_vt]
 | ~None_vt () => let
     val () = list_vt_free<tmpmov> (tmvlst) in PTCKNTnone ()
   end // end of [None_vt]
@@ -1119,8 +1125,8 @@ in
 case+
   hip0.hipat_node of
 //
-| HIPany () => let
-    val ptcmp0 = PTCMPany()
+| HIPany d2v => let
+    val ptcmp0 = PTCMPany(d2v)
     val ptcmps = auxcomplst (lvl0, mtks)
   in
     list_vt_cons (ptcmp0, ptcmps)
@@ -1132,7 +1138,7 @@ case+
     val ptcmp0 =
     (
       if nused > 0
-        then PTCMPvar(d2v, tpmv) else PTCMPany()
+        then PTCMPvar(d2v, tpmv) else PTCMPany(d2v)
       // end of [if]
     ) : patcomp // end of [val]
     val ptcmps = auxcomplst (lvl0, mtks)
@@ -1509,7 +1515,7 @@ and fptcmplst2
 in
 //
 case+ x of
-| PTCMPany () =>
+| PTCMPany (d2v) =>
     fptcmplst (env, xs, res1, res2)
 | PTCMPvar (d2v, tpmv) => let
     val pmv = tmprimval2pmv2 (tpmv, d2v)

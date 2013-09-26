@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: April, 2011
 //
 (* ****** ****** *)
@@ -270,13 +271,16 @@ datatype d1ecl_node =
   | D1Cdcstdecs of (dcstkind, q1marglst, d1cstdeclst) // dyn constants
 //
   | D1Cmacdefs of (int(*knd*), bool(*isrec*), m1acdeflst)
+//
+  | D1Cimpdec of
+      (int(*knd*), i1mparg, i1mpdec) // knd=0/1: implement/primplement
+    // end of [D1Cimpdec]
+//
   | D1Cfundecs of (funkind, q1marglst, f1undeclst) // function declaration
   | D1Cvaldecs of (valkind, bool(*isrec*), v1aldeclst) // val declarations
   | D1Cvardecs of
       (int(*knd*), v1ardeclst) (* variable declaration *) // knd=0/1:var/prvar
     // end of [D1Cvardecs]
-//
-  | D1Cimpdec of (int(*knd*), i1mparg, i1mpdec) // knd=0/1: implement/primplmnt
 //
   | D1Cinclude of d1eclist (* inclusion *)
   | D1Cstaload of (* staloading a file *)
@@ -509,12 +513,12 @@ and v1aldeclst = List (v1aldec)
 
 and v1ardec = '{
   v1ardec_loc= location
-, v1ardec_knd= int (* knd=0/1:sta/dyn *)
+, v1ardec_knd= int (* knd=0/1:var/ptr *)
 , v1ardec_sym= symbol
 , v1ardec_sym_loc= location
-, v1ardec_type= s1expopt (* optional type anno *)
-, v1ardec_wth= i0deopt // proof var of @-view
-, v1ardec_ini= d1expopt // optional initial value.
+, v1ardec_pfat= i0deopt // proof of at-view
+, v1ardec_type= s1expopt (* type annotation *)
+, v1ardec_init= d1expopt // value for initialization
 } // end of [v1ardec]
 
 and v1ardeclst = List v1ardec
@@ -831,28 +835,42 @@ fun sc1lau_make
 //
 (* ****** ****** *)
 
-fun m1acdef_make (
+fun
+m1acdef_make
+(
   loc: location, id: symbol, arg: m1acarglst, def: d1exp
 ) : m1acdef // end of [m1acdef_make]
 
 (* ****** ****** *)
 
-fun v1aldec_make
+fun
+v1aldec_make
   (loc: location, pat: p1at, def: d1exp, typ: witht1ype): v1aldec
 // end of [v1aldec_make]
 
-fun f1undec_make (
+(* ****** ****** *)
+
+fun
+f1undec_make
+(
   loc: location, id: symbol, loc_id: location, def: d1exp, typ: witht1ype
 ) : f1undec // end of [f1undec_make]
 
-fun v1ardec_make (
+(* ****** ****** *)
+
+fun v1ardec_make
+(
   loc: location
 , knd: int (* BANG: knd = 1 *)
 , id: symbol, loc_id: location
-, typ: s1expopt, wth: i0deopt, def: d1expopt
+, pfat: i0deopt, type: s1expopt, init: d1expopt
 ) : v1ardec // end of [v1ardec_make]
 
-fun i1mpdec_make (
+(* ****** ****** *)
+
+fun
+i1mpdec_make
+(
   loc: location
 , qid: impqi0de, tmparg: t1mpmarglst, def: d1exp
 ) : i1mpdec // end of [i1mpdec_make]

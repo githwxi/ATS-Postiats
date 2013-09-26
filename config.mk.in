@@ -1,0 +1,20 @@
+INSTALL := @INSTALL@
+PACKAGE_TARNAME := @PACKAGE_TARNAME@
+PACKAGE_VERSION := @PACKAGE_VERSION@
+
+prefix := @prefix@
+exec_prefix := @exec_prefix@
+bindir := @bindir@
+
+abs_top_srcdir := @abs_top_srcdir@
+
+AR := ar
+CC := @CC@
+LN_S := @LN_S@
+INSTALL := @INSTALL@
+MKDIR_P := @MKDIR_P@
+
+PATSHOME := $(abs_top_srcdir)
+PATSHOMERELOC := $(prefix)/lib/$(PACKAGE_TARNAME)-$(PACKAGE_VERSION)
+
+HAVE_LIBGMP := @HAVE_LIBGMP@

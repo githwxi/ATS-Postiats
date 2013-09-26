@@ -50,6 +50,7 @@ allchap:: CHAP_START
 allchap:: CHAP_PROGELEM
 allchap:: CHAP_FUNCTION
 allchap:: CHAP_DATATYPE
+allchap:: CHAP_POLYMORPH
 #
 ######
 #
@@ -84,6 +85,11 @@ CHAP_DATATYPE:: ; \
   make -C CHAP_DATATYPE -f ../Makefile.chap main.db
 CHAP_DATATYPE:: ; \
   make -C CHAP_DATATYPE -f ../Makefile.chap clean
+
+CHAP_POLYMORPH:: ; \
+  make -C CHAP_POLYMORPH -f ../Makefile.chap main.db
+CHAP_POLYMORPH:: ; \
+  make -C CHAP_POLYMORPH -f ../Makefile.chap clean
 
 ######
 

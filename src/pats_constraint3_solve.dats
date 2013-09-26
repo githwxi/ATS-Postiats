@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,17 +27,23 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: February, 2012
 //
 (* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
+(* ****** ****** *)
 
-#include "./pats_params.hats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
+#include "./pats_params.hats"
 
 (* ****** ****** *)
 
@@ -88,7 +94,8 @@ staload _(*anon*) = "./pats_lintprgm_solve.dats"
 staload _(*anon*) = "./pats_constraint3_icnstr.dats"
 
 fun{a:t@ype}
-indexset_make_s3exp {n:nat} (
+indexset_make_s3exp
+  {n:nat} (
   vim: !s2varindmap (n), s3e: s3exp
 ) : indexset (n+1) = let
   typedef res = indexset (n+1)
@@ -187,7 +194,7 @@ ans // ~1: contradiction reached; 0: undecided yet
 //
 end // end of [auxsolve]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s3explst_solve_s2exp
@@ -320,7 +327,8 @@ c3nstr_solve_itmlst_disj (
 (* ****** ****** *)
 
 extern
-fun prerr_case_exhaustiveness_errmsg (
+fun prerr_case_exhaustiveness_errmsg
+(
   loc0: location, casknd: caskind, p2tcs: p2atcstlst
 ) : void // end of [prerr_case_exhaustiveness_errmsg]
 implement
@@ -347,19 +355,24 @@ end // end of [prlst]
 in
 //
 case+ casknd of
-| CK_case () => let
-    val () = prerr_warning3_loc (loc0)
-    val () = prerr ": pattern match is nonexhaustive:\n";
-  in
-    prlst (p2tcs)
-  end // end of [CK_case]
+//
 | CK_case_pos () => let
     val () = prerr_error3_loc (loc0)
     val () = prerr ": pattern match is nonexhaustive:\n";
   in
     prlst (p2tcs)
   end // end of [CK_case]
-| CK_case_neg => () // HX: ignored per the wish of the programmer
+| CK_case_neg () => () // HX: ignored per the wish of the programmer
+//
+// HX: this case is *not* recommended for use
+//
+| CK_case () => let
+    val () = prerr_warning3_loc (loc0)
+    val () = prerr ": pattern match is nonexhaustive:\n";
+  in
+    prlst (p2tcs)
+  end // end of [CK_case]
+//
 end // end of [prerr_case_exhaustiveness_errmsg]
 
 (* ****** ****** *)
@@ -649,9 +662,11 @@ in
 //
 case+ 0 of
 | _ when unsolved = 0u => let
+(*
     val () = (
       prerr "typechecking is finished successfully!"; prerr_newline ()
     ) // end of [val]
+*)
   in
     // nothing
   end // end of [unsolved = 0]

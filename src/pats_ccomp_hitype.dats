@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,19 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: January, 2013
+//
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
 staload _(*anon*) = "prelude/DATS/unsafe.dats"
-
-(* ****** ****** *)
-
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
-staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
@@ -534,7 +534,7 @@ in (* in of [local] *)
 implement
 hitype_hash (hit) = let
   var hval
-    : ulint = 31415926536ul // HX: randomly chosen
+    : ulint = 618034ul // HX: randomly chosen
   val () = aux (hval, hit)
 in
   hval
@@ -714,8 +714,9 @@ emit_hitype
 in
 //
 case+ hit0 of
-| HITnmd
-    (name) => emit_text (out, name)
+//
+| HITnmd (name) => emit_text (out, name)
+//
 | HITapp
     (_fun, _arg) => let
     val () = emit_hitype (out, _fun)
@@ -728,21 +729,24 @@ case+ hit0 of
 //
 | HITtyarr
     (hit, _) => {
-    val () = emit_text (out, "atstype_tyarr(")
-    val () = emit_hitype (out, hit)
-    val () = emit_text (out, ")")
-  } // end of [HITtyarr]
+    val () =
+      emit_text (out, "atstyarr_type(")
+    val ((*void*)) = emit_hitype (out, hit)
+    val ((*void*)) = emit_text (out, ")")
+  } (* end of [HITtyarr] *)
 //
-| HITtyrec _ => emit_text (out, "atstype_tyrec(*ERROR*)")
-| HITtysum _ => emit_text (out, "atstype_tysum(*ERROR*)")
-| HITtyexn _ => emit_text (out, "atstype_tyexn(*ERROR*)")
+| HITtyrec _ => emit_text (out, "atstyrec_type(*ERROR*)")
+| HITtysum _ => emit_text (out, "atstysum_type(*ERROR*)")
+| HITtyexn _ => emit_text (out, "atstyexn_type(*ERROR*)")
 //
 | HITtyvar (s2v) => {
     val () = emit_text (out, "atstyvar_type")
-    val () = emit_lparen (out)
-    val () = emit_s2var (out, s2v)
-    val () = emit_rparen (out)
-  }
+    val (
+    ) = (
+      emit_lparen (out); emit_s2var (out, s2v); emit_rparen (out)
+    ) (* end of [val] *)
+  } (* end of [HITtyvar] *)
+//
 | HITrefarg (knd, hit) => let
     val () = (
       if knd = 0
@@ -755,10 +759,12 @@ case+ hit0 of
   in
     // nothing
   end // end of [HITrefarg]
+//
 | HITundef (_, hse) => let
-    val () = emit_text (out, "postiats_undef(")
-    val () = fprint_hisexp (out, hse)
-    val () = emit_text (out, ")")
+    val () =
+      emit_text (out, "postiats_undef(")
+    val ((*void*)) = fprint_hisexp (out, hse)
+    val ((*void*)) = emit_text (out, ")")
   in
     // nothing
   end // end of [HITundef]

@@ -33,6 +33,14 @@ clean:: ; $(RMF) prelude_basics_dats.o
 clean:: ; $(RMF) prelude_basics_dats.c
 cleanall:: ; $(RMF) prelude_basics.exe
 
+all:: prelude_integer
+prelude_integer: prelude_integer.exe
+prelude_integer.exe: prelude_integer_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+prelude_integer_dats.c: prelude_integer.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_integer_dats.c --dynamic prelude_integer.dats
+clean:: ; $(RMF) prelude_integer_dats.o
+clean:: ; $(RMF) prelude_integer_dats.c
+cleanall:: ; $(RMF) prelude_integer.exe
+
 all:: prelude_bool
 prelude_bool: prelude_bool.exe
 prelude_bool.exe: prelude_bool_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
@@ -49,17 +57,9 @@ clean:: ; $(RMF) prelude_char_dats.o
 clean:: ; $(RMF) prelude_char_dats.c
 cleanall:: ; $(RMF) prelude_char.exe
 
-all:: prelude_integer
-prelude_integer: prelude_integer.exe
-prelude_integer.exe: prelude_integer_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-prelude_integer_dats.c: prelude_integer.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_integer_dats.c --dynamic prelude_integer.dats
-clean:: ; $(RMF) prelude_integer_dats.o
-clean:: ; $(RMF) prelude_integer_dats.c
-cleanall:: ; $(RMF) prelude_integer.exe
-
 all:: prelude_float
 prelude_float: prelude_float.exe
-prelude_float.exe: prelude_float_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+prelude_float.exe: prelude_float_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime  -o $@ $< -lm
 prelude_float_dats.c: prelude_float.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_float_dats.c --dynamic prelude_float.dats
 clean:: ; $(RMF) prelude_float_dats.o
 clean:: ; $(RMF) prelude_float_dats.c
@@ -337,6 +337,14 @@ clean:: ; $(RMF) libats_dllist_dats.o
 clean:: ; $(RMF) libats_dllist_dats.c
 cleanall:: ; $(RMF) libats_dllist.exe
 
+all:: libats_stkarray
+libats_stkarray: libats_stkarray.exe
+libats_stkarray.exe: libats_stkarray_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_stkarray_dats.c: libats_stkarray.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_stkarray_dats.c --dynamic libats_stkarray.dats
+clean:: ; $(RMF) libats_stkarray_dats.o
+clean:: ; $(RMF) libats_stkarray_dats.c
+cleanall:: ; $(RMF) libats_stkarray.exe
+
 all:: libats_dynarray
 libats_dynarray: libats_dynarray.exe
 libats_dynarray.exe: libats_dynarray_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
@@ -359,24 +367,25 @@ cleanall:: ; $(RMF) libats_refcount.exe
 
 ######
 
-all:: libats_gvector
-libats_gvector: libats_gvector.exe
-libats_gvector.exe: libats_gvector_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-libats_gvector_dats.c: libats_gvector.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_gvector_dats.c --dynamic libats_gvector.dats
-clean:: ; $(RMF) libats_gvector_dats.o
-clean:: ; $(RMF) libats_gvector_dats.c
-cleanall:: ; $(RMF) libats_gvector.exe
-
-all:: libats_gmatrix
-libats_gmatrix: libats_gmatrix.exe
-libats_gmatrix.exe: libats_gmatrix_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-libats_gmatrix_dats.c: libats_gmatrix.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_gmatrix_dats.c --dynamic libats_gmatrix.dats
-clean:: ; $(RMF) libats_gmatrix_dats.o
-clean:: ; $(RMF) libats_gmatrix_dats.c
-cleanall:: ; $(RMF) libats_gmatrix.exe
 
 
 ######
+
+all:: libats_funset_listord
+libats_funset_listord: libats_funset_listord.exe
+libats_funset_listord.exe: libats_funset_listord_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_funset_listord_dats.c: libats_funset_listord.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_funset_listord_dats.c --dynamic libats_funset_listord.dats
+clean:: ; $(RMF) libats_funset_listord_dats.o
+clean:: ; $(RMF) libats_funset_listord_dats.c
+cleanall:: ; $(RMF) libats_funset_listord.exe
+
+all:: libats_funset_avltree
+libats_funset_avltree: libats_funset_avltree.exe
+libats_funset_avltree.exe: libats_funset_avltree_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_funset_avltree_dats.c: libats_funset_avltree.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_funset_avltree_dats.c --dynamic libats_funset_avltree.dats
+clean:: ; $(RMF) libats_funset_avltree_dats.o
+clean:: ; $(RMF) libats_funset_avltree_dats.c
+cleanall:: ; $(RMF) libats_funset_avltree.exe
 
 all:: libats_funmap_list
 libats_funmap_list: libats_funmap_list.exe
@@ -386,13 +395,62 @@ clean:: ; $(RMF) libats_funmap_list_dats.o
 clean:: ; $(RMF) libats_funmap_list_dats.c
 cleanall:: ; $(RMF) libats_funmap_list.exe
 
-all:: libats_fundeque_fingertree
-libats_fundeque_fingertree: libats_fundeque_fingertree.exe
-libats_fundeque_fingertree.exe: libats_fundeque_fingertree_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
-libats_fundeque_fingertree_dats.c: libats_fundeque_fingertree.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_fundeque_fingertree_dats.c --dynamic libats_fundeque_fingertree.dats
-clean:: ; $(RMF) libats_fundeque_fingertree_dats.o
-clean:: ; $(RMF) libats_fundeque_fingertree_dats.c
-cleanall:: ; $(RMF) libats_fundeque_fingertree.exe
+all:: libats_funmap_avltree
+libats_funmap_avltree: libats_funmap_avltree.exe
+libats_funmap_avltree.exe: libats_funmap_avltree_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_funmap_avltree_dats.c: libats_funmap_avltree.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_funmap_avltree_dats.c --dynamic libats_funmap_avltree.dats
+clean:: ; $(RMF) libats_funmap_avltree_dats.o
+clean:: ; $(RMF) libats_funmap_avltree_dats.c
+cleanall:: ; $(RMF) libats_funmap_avltree.exe
+
+
+######
+
+all:: libats_fundeque_fngtree
+libats_fundeque_fngtree: libats_fundeque_fngtree.exe
+libats_fundeque_fngtree.exe: libats_fundeque_fngtree_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_fundeque_fngtree_dats.c: libats_fundeque_fngtree.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_fundeque_fngtree_dats.c --dynamic libats_fundeque_fngtree.dats
+clean:: ; $(RMF) libats_fundeque_fngtree_dats.o
+clean:: ; $(RMF) libats_fundeque_fngtree_dats.c
+cleanall:: ; $(RMF) libats_fundeque_fngtree.exe
+
+all:: libats_funralist_nested
+libats_funralist_nested: libats_funralist_nested.exe
+libats_funralist_nested.exe: libats_funralist_nested_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_funralist_nested_dats.c: libats_funralist_nested.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_funralist_nested_dats.c --dynamic libats_funralist_nested.dats
+clean:: ; $(RMF) libats_funralist_nested_dats.o
+clean:: ; $(RMF) libats_funralist_nested_dats.c
+cleanall:: ; $(RMF) libats_funralist_nested.exe
+
+
+######
+
+all:: libats_linhashtbl_chain
+libats_linhashtbl_chain: libats_linhashtbl_chain.exe
+libats_linhashtbl_chain.exe: libats_linhashtbl_chain_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_linhashtbl_chain_dats.c: libats_linhashtbl_chain.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_linhashtbl_chain_dats.c --dynamic libats_linhashtbl_chain.dats
+clean:: ; $(RMF) libats_linhashtbl_chain_dats.o
+clean:: ; $(RMF) libats_linhashtbl_chain_dats.c
+cleanall:: ; $(RMF) libats_linhashtbl_chain.exe
+
+
+######
+
+all:: libats_linset_listord
+libats_linset_listord: libats_linset_listord.exe
+libats_linset_listord.exe: libats_linset_listord_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_linset_listord_dats.c: libats_linset_listord.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_linset_listord_dats.c --dynamic libats_linset_listord.dats
+clean:: ; $(RMF) libats_linset_listord_dats.o
+clean:: ; $(RMF) libats_linset_listord_dats.c
+cleanall:: ; $(RMF) libats_linset_listord.exe
+
+all:: libats_linset_avltree
+libats_linset_avltree: libats_linset_avltree.exe
+libats_linset_avltree.exe: libats_linset_avltree_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_linset_avltree_dats.c: libats_linset_avltree.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_linset_avltree_dats.c --dynamic libats_linset_avltree.dats
+clean:: ; $(RMF) libats_linset_avltree_dats.o
+clean:: ; $(RMF) libats_linset_avltree_dats.c
+cleanall:: ; $(RMF) libats_linset_avltree.exe
 
 
 ######
@@ -404,6 +462,14 @@ libats_linmap_list_dats.c: libats_linmap_list.dats ;   $(PATSOPT) -IATS$(PATSHOM
 clean:: ; $(RMF) libats_linmap_list_dats.o
 clean:: ; $(RMF) libats_linmap_list_dats.c
 cleanall:: ; $(RMF) libats_linmap_list.exe
+
+all:: libats_linmap_avltree
+libats_linmap_avltree: libats_linmap_avltree.exe
+libats_linmap_avltree.exe: libats_linmap_avltree_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_linmap_avltree_dats.c: libats_linmap_avltree.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_linmap_avltree_dats.c --dynamic libats_linmap_avltree.dats
+clean:: ; $(RMF) libats_linmap_avltree_dats.o
+clean:: ; $(RMF) libats_linmap_avltree_dats.c
+cleanall:: ; $(RMF) libats_linmap_avltree.exe
 
 all:: libats_linmap_randbst
 libats_linmap_randbst: libats_linmap_randbst.exe
@@ -421,13 +487,8 @@ clean:: ; $(RMF) libats_linmap_skiplist_dats.o
 clean:: ; $(RMF) libats_linmap_skiplist_dats.c
 cleanall:: ; $(RMF) libats_linmap_skiplist.exe
 
-all:: libats_linset_listord
-libats_linset_listord: libats_linset_listord.exe
-libats_linset_listord.exe: libats_linset_listord_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-libats_linset_listord_dats.c: libats_linset_listord.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_linset_listord_dats.c --dynamic libats_linset_listord.dats
-clean:: ; $(RMF) libats_linset_listord_dats.o
-clean:: ; $(RMF) libats_linset_listord_dats.c
-cleanall:: ; $(RMF) libats_linset_listord.exe
+
+######
 
 all:: libats_linheap_binomial
 libats_linheap_binomial: libats_linheap_binomial.exe
@@ -436,6 +497,17 @@ libats_linheap_binomial_dats.c: libats_linheap_binomial.dats ;   $(PATSOPT) -IAT
 clean:: ; $(RMF) libats_linheap_binomial_dats.o
 clean:: ; $(RMF) libats_linheap_binomial_dats.c
 cleanall:: ; $(RMF) libats_linheap_binomial.exe
+
+all:: libats_linheap_binomial2
+libats_linheap_binomial2: libats_linheap_binomial2.exe
+libats_linheap_binomial2.exe: libats_linheap_binomial2_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_linheap_binomial2_dats.c: libats_linheap_binomial2.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_linheap_binomial2_dats.c --dynamic libats_linheap_binomial2.dats
+clean:: ; $(RMF) libats_linheap_binomial2_dats.o
+clean:: ; $(RMF) libats_linheap_binomial2_dats.c
+cleanall:: ; $(RMF) libats_linheap_binomial2.exe
+
+
+######
 
 all:: libats_lindeque_dllist
 libats_lindeque_dllist: libats_lindeque_dllist.exe
@@ -480,6 +552,38 @@ clean:: ; $(RMF) libats_ML_strarr_dats.o
 clean:: ; $(RMF) libats_ML_strarr_dats.c
 cleanall:: ; $(RMF) libats_ML_strarr.exe
 
+
+######
+
+all:: libats_ML_filebas
+libats_ML_filebas: libats_ML_filebas.exe
+libats_ML_filebas.exe: libats_ML_filebas_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_ML_filebas_dats.c: libats_ML_filebas.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_ML_filebas_dats.c --dynamic libats_ML_filebas.dats
+clean:: ; $(RMF) libats_ML_filebas_dats.o
+clean:: ; $(RMF) libats_ML_filebas_dats.c
+cleanall:: ; $(RMF) libats_ML_filebas.exe
+
+
+######
+
+all:: libats_ML_funset
+libats_ML_funset: libats_ML_funset.exe
+libats_ML_funset.exe: libats_ML_funset_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_ML_funset_dats.c: libats_ML_funset.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_ML_funset_dats.c --dynamic libats_ML_funset.dats
+clean:: ; $(RMF) libats_ML_funset_dats.o
+clean:: ; $(RMF) libats_ML_funset_dats.c
+cleanall:: ; $(RMF) libats_ML_funset.exe
+
+all:: libats_ML_funmap
+libats_ML_funmap: libats_ML_funmap.exe
+libats_ML_funmap.exe: libats_ML_funmap_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_ML_funmap_dats.c: libats_ML_funmap.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_ML_funmap_dats.c --dynamic libats_ML_funmap.dats
+clean:: ; $(RMF) libats_ML_funmap_dats.o
+clean:: ; $(RMF) libats_ML_funmap_dats.c
+cleanall:: ; $(RMF) libats_ML_funmap.exe
+
+
+######
 
 all:: libats_ML_monad_list
 libats_ML_monad_list: libats_ML_monad_list.exe

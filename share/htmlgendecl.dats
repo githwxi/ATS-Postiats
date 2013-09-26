@@ -60,7 +60,7 @@ case+ css of
 | ~list_vt_cons
     (cs, css) => let
     val str =
-      $LSYN.charlst_pats2xhtmlize_bground (stadyn, cs)
+      $LSYNMK.charlst_pats2xhtmlize_bground (stadyn, cs)
     // end of [val]
     val strlst = auxlst (stadyn, css, i+1)
   in
@@ -84,7 +84,7 @@ val () = println! ("declname_find_synopsis: name = ", name)
 val sym =
   $SYM.symbol_make_string (name)
 val xs = theDeclrepLst_get ()
-val css = $LSYN.d0eclreplst_find_synop (xs, sym)
+val css = $LSYNMK.d0eclreplst_find_synop (xs, sym)
 //
 in
 //

@@ -15,9 +15,8 @@
 (* Start time: July, 2013 *)
 
 (* ****** ****** *)
-
-#include
-"share/atspre_staload_tmpdef.hats"
+//
+#include "share/atspre_staload.hats"
 //
 staload _ = "prelude/DATS/gnumber.dats"
 //
@@ -36,17 +35,17 @@ staload _ = "libats/DATS/refcount.dats"
 
 (* ****** ****** *)
 
-staload "libfloats/SATS/lavector.sats"
-staload "libfloats/SATS/lamatrix.sats"
+staload "./../SATS/lavector.sats"
+staload "./../SATS/lamatrix.sats"
 
 (* ****** ****** *)
 
-staload _ = "libfloats/DATS/blas0.dats"
-staload _ = "libfloats/DATS/blas1.dats"
-staload _ = "libfloats/DATS/blas_gemv.dats"
-staload _ = "libfloats/DATS/blas_gemm.dats"
-staload _ = "libfloats/DATS/lavector.dats"
-staload _ = "libfloats/DATS/lamatrix.dats"
+staload _ = "./../DATS/blas0.dats"
+staload _ = "./../DATS/blas1.dats"
+staload _ = "./../DATS/blas_gemv.dats"
+staload _ = "./../DATS/blas_gemm.dats"
+staload _ = "./../DATS/lavector.dats"
+staload _ = "./../DATS/lamatrix.dats"
 
 (* ****** ****** *)
 //

@@ -76,17 +76,10 @@ matrixref_get_viewptr
 
 fun{
 a:t0p
-} matrixref_make_elt_int
-  {m,n:nat} (m: int m, n: int n, x: a):<!wrt> matrixref (a, m, n)
-fun{
-a:t0p
-} matrixref_make_elt_size
-  {m,n:int} (m: size_t m, n: size_t n, x: a):<!wrt> matrixref (a, m, n)
-//
-symintr matrixref_make_elt
-overload matrixref_make_elt with matrixref_make_elt_int
-overload matrixref_make_elt with matrixref_make_elt_size
-//
+} matrixref_make_elt{m,n:int}
+  (m: size_t m, n: size_t n, x: a):<!wrt> matrixref (a, m, n)
+// end of [matrixref_make_elt]
+
 #atscode_separator()
 
 fun{a:t0p}
@@ -150,6 +143,109 @@ matrixref_exch_at_size
 symintr matrixref_exch_at
 overload matrixref_exch_at with matrixref_exch_at_int of 0
 overload matrixref_exch_at with matrixref_exch_at_size of 0
+
+#atscode_separator()
+(*
+fun{a:vt0p}
+matrix_tabulate$fopr (i: size_t, j: size_t): (a)
+*)
+fun{a:vt0p}
+matrixref_tabulate
+  {m,n:int} (nrow: size_t m, ncol: size_t n): matrixref (a, m, n)
+//
+#atscode_separator()
+//
+// mtrxszref: a reference to a matrix with size information attached
+//
+#atscode_separator()
+
+abstype // in-variant
+mtrxszref_vt0ype_type (a: vt@ype) = ptr
+stadef mtrxszref = mtrxszref_vt0ype_type
+
+#atscode_separator()
+
+fun{}
+mtrxszref_make_matrixref
+  {a:vt0p}{m,n:int}
+(
+  M: matrixref (a, m, n), m: size_t m, n: size_t n
+) :<!wrt> mtrxszref (a) // endfun
+
+#atscode_separator()
+
+fun{
+} mtrxszref_get_ref{a:vt0p} (M: mtrxszref (a)):<> Ptr1
+fun{
+} mtrxszref_get_nrow{a:vt0p} (M: mtrxszref (a)):<> size_t
+fun{
+} mtrxszref_get_ncol{a:vt0p} (M: mtrxszref (a)):<> size_t
+
+#atscode_separator()
+
+symintr .ref .nrow .ncol
+overload .ref with mtrxszref_get_ref
+overload .nrow with mtrxszref_get_nrow
+overload .ncol with mtrxszref_get_ncol
+
+#atscode_separator()
+
+fun{}
+mtrxszref_get_refsize{a:vt0p}
+(
+  M: mtrxszref (a)
+, nrol: &size_t? >> size_t m, ncol: &size_t? >> size_t (n)
+) :<!wrt> #[m,n:nat] matrixref (a, m, n) // endfun
+
+#atscode_separator()
+
+fun{a:t0p}
+mtrxszref_make_elt
+  (nrow: size_t, ncol: size_t, init: a):<!wrt> mtrxszref (a)
+// end of [mtrxszref_make_elt]
+
+#atscode_separator()
+
+fun{a:t0p}
+mtrxszref_get_at_size
+  (M: mtrxszref(a), i: size_t, j: size_t):<!exnref> a
+fun{
+a:t0p}{tk:tk
+} mtrxszref_get_at_gint
+  (M: mtrxszref(a), i: g0int(tk), j: g0int(tk)):<!exnref> a
+overload [] with mtrxszref_get_at_gint of 0
+fun{
+a:t0p}{tk:tk
+} mtrxszref_get_at_guint
+  (M: mtrxszref(a), i: g0uint(tk), j: g0uint(tk)):<!exnref> a
+overload [] with mtrxszref_get_at_guint of 0
+
+#atscode_separator()
+
+fun{a:t0p}
+mtrxszref_set_at_size
+  (M: mtrxszref(a), i: size_t, j: size_t, x: a):<!exnref> void
+fun{
+a:t0p}{tk:tk
+} mtrxszref_set_at_gint
+  (M: mtrxszref(a), i: g0int(tk), j: g0int(tk), x: a):<!exnref> void
+overload [] with mtrxszref_set_at_gint of 0
+fun{
+a:t0p}{tk:tk
+} mtrxszref_set_at_guint
+  (M: mtrxszref(a), i: g0uint(tk), j: g0uint(tk), x: a):<!exnref> void
+overload [] with mtrxszref_set_at_guint of 0
+
+#atscode_separator()
+
+(*
+fun{a:vt0p}
+matrix_tabulate$fopr (i: size_t, j: size_t): (a)
+*)
+fun{a:vt0p}
+mtrxszref_tabulate (nrow: size_t, ncol: size_t): mtrxszref (a)
+//
+#atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
 

@@ -196,9 +196,9 @@ ifintrel_bool_int_int_int
 (* ****** ****** *)
 
 stadef
-int_of_bool (b: bool): int = ifint (b, 1, 0)
-stadef bool_of_int (i: int): bool = (i != 0)
-stadef b2i = int_of_bool and i2b = bool_of_int
+bool2int (b: bool): int = ifint (b, 1, 0)
+stadef int2bool (i: int): bool = (i != 0)
+stadef b2i = bool2int and i2b = int2bool
 
 (*
 ** HX: [char] = [int8]
@@ -259,6 +259,18 @@ stacst eq_addr_addr : (addr, addr) -> bool
 stacst neq_addr_addr : (addr, addr) -> bool
 stadef == = eq_addr_addr
 stadef != = neq_addr_addr and <> = neq_addr_addr
+
+(* ****** ****** *)
+//
+// HX-2013-09:
+// for supporting inheritance in OOP
+//
+stacst lte_cls_cls : (cls, cls) -> bool
+stacst gte_cls_cls : (cls, cls) -> bool
+stadef lterel_cls_cls (c1: cls, c2: cls, v: bool): bool = v
+stadef gterel_cls_cls (c1: cls, c2: cls, v: bool): bool = v
+stadef <= = lte_cls_cls
+stadef >= = gte_cls_cls
 
 (* ****** ****** *)
 //
@@ -375,14 +387,6 @@ absvt@ype
 clo_t0ype_t0ype (a: t@ype) = a
 absvt@ype
 clo_vt0ype_vt0ype (a: vt@ype) = a
-//
-absvtype
-cloptr_vt0ype_vtype (a: vt@ype)
-stadef cloptr = cloptr_vt0ype_vtype
-//
-abstype
-cloref_t0ype_type (a: t@ype)
-stadef cloref = cloref_t0ype_type
 //
 (* ****** ****** *)
 

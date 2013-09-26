@@ -1,0 +1,198 @@
+######
+#
+# HX-2013-03: for compiling a distribution of ATS-Postiats
+#
+######
+
+all:: config.h
+
+######
+
+all:: bin2_patsopt
+
+######
+
+all:: bin_patscc
+all:: ccomp/atslib/lib/libatslib.a
+
+######
+
+src_patsopt: ; make -j4 -C src patsopt
+bin_patsopt: src_patsopt ; cp -f src/patsopt bin/patsopt
+
+######
+#
+CCOMP=gcc
+GCFLAG=-D_ATS_GCATS
+#
+src2_patsopt: ; \
+  make -j4 -C src/CBOOT CCOMP=$(CCOMP) GCFLAG=$(GCFLAG) patsopt
+bin2_patsopt: src2_patsopt ; cp -f src/CBOOT/patsopt bin/patsopt
+#
+######
+
+utl_atscc: ; make -C utils/atscc patscc
+bin_patscc: utl_atscc ; cp -f utils/atscc/patscc bin/patscc
+
+######
+
+ccomp/atslib/lib/libatslib.a: ; make -C ccomp/atslib atslib
+
+######
+
+#
+# integration with autoconf.
+#
+
+SRC_CONFIG_FILES := config.mk.in config.h.in
+BUILT_CONFIG_FILES := $(SRC_CONFIG_FILES:%.in=%)
+
+Makefile: config.mk
+
+config.h: config.status; ./config.status $@; touch $@
+config.mk: config.status; ./config.status $@; touch $@
+
+config.status: configure; ./configure; touch $@
+
+config.h.in: configure.ac; autoheader $<; touch $@
+
+#
+configure: configure.ac $(SRC_CONFIG_FILES)
+	aclocal
+	automake --add-missing --foreign || true
+	autoconf
+	touch $(BUILT_CONFIG_FILES)
+#
+######
+
+-include config.mk
+
+######
+
+export PATSHOME
+export PATSHOMERELOC
+
+######
+#
+# HX-2011-06-01:
+# This part was originally writtend by Georg Bauhaus
+# (bauhaus AT arcor DOT de): It addresses the issue that
+# the [-D] option is not available for $(INSTALL) on MacOSX.
+#
+
+.PHONY: install_dirs
+.PHONY: install_files
+
+install:: install_files
+
+install_dirs:: config.mk ; \
+  cd $(abs_top_srcdir) && \
+  $(MKDIR_P) $(PATSHOMERELOC)/bin && \
+  if [ ! -d $(bindir) ] ; then $(MKDIR_P) $(bindir) ; fi && \
+  find ccomp share prelude libc libats contrib -type d -exec $(MKDIR_P) $(PATSHOMERELOC)/\{} \; -print
+
+install_files:: install_dirs ; \
+  for d in ccomp/runtime share prelude libc libats ; do \
+    cd $(abs_top_srcdir) && \
+    $(INSTALL) -d $(PATSHOMERELOC)/"$$d" && \
+    find "$$d" -name .git -prune -o -type l -exec cp -d \{} $(PATSHOMERELOC)/\{} \; -print && \
+    find "$$d" -name .git -prune -o -type f -exec $(INSTALL) -m 644 \{} $(PATSHOMERELOC)/\{} \; -print; \
+  done
+
+install_files:: bin/patscc ; \
+  $(INSTALL) -T -m 755 $< $(bindir)/patscc && echo $<
+install_files:: bin/patsopt ; \
+  $(INSTALL) -T -m 755 $< $(bindir)/patsopt && echo $<
+install_files:: bin/patscc_env.sh ; \
+  $(INSTALL) -T -m 755 $< $(PATSHOMERELOC)/bin/patscc
+install_files:: bin/patsopt_env.sh ; \
+  $(INSTALL) -T -m 755 $< $(PATSHOMERELOC)/bin/patsopt
+
+install_files:: ; \
+  for f in \
+    ccomp/atslib/lib/libatslib.a \
+    ccomp/atslib/lib64/libatslib.a ; \
+  do \
+    if [ -e "$$f" ] ; then \
+      $(INSTALL) -T -m 755 "$$f" $(PATSHOMERELOC)/"$$f" && echo "$$f"; \
+    fi; \
+  done
+
+######
+
+RMF=rm -f
+RMRF=rm -rf
+
+######
+
+clean::
+
+######
+
+cleanall:: clean
+
+cleanall:: ; $(RMF) config*
+cleanall:: ; $(RMF) stamp-h1
+cleanall:: ; $(RMF) aclocal.m4
+cleanall:: ; $(RMF) missing
+cleanall:: ; $(RMF) install-sh
+cleanall:: ; $(RMRF) autom4te.cache
+
+cleanall:: ; $(RMF) bin/patscc
+cleanall:: ; $(RMF) bin/patsopt
+
+cleanall:: ; $(RMF) src/patsopt
+cleanall:: ; $(RMF) src/*.?ats
+cleanall:: ; $(RMF) src/*_?ats.c
+cleanall:: ; $(RMF) src/*_?ats.o
+cleanall:: ; $(RMF) src/Makefile
+
+cleanall:: ; make -C src/CBOOT cleanall
+cleanall:: ; $(RMF) src/CBOOT/pats*.cats
+cleanall:: ; $(RMF) src/CBOOT/pats*_?ats.c
+cleanall:: ; $(RMF) src/CBOOT/ccomp/runtime/ats*.h
+cleanall:: ; $(RMF) src/CBOOT/ccomp/runtime/ats*.c
+cleanall:: ; $(RMF) src/CBOOT/prelude/*_?ats.c
+cleanall:: ; $(RMF) src/CBOOT/prelude/CATS/*.cats
+cleanall:: ; $(RMF) src/CBOOT/libc/*_?ats.c
+cleanall:: ; $(RMF) src/CBOOT/libc/CATS/*.cats
+cleanall:: ; $(RMF) src/CBOOT/libc/sys/CATS/*.cats
+cleanall:: ; $(RMF) src/CBOOT/libats/*_?ats.c
+cleanall:: ; $(RMF) src/CBOOT/libats/CATS/*.cats
+cleanall:: ; $(RMF) src/CBOOT/libats/ngc/CATS/*.cats
+cleanall:: ; $(RMF) src/CBOOT/gcats1_all.cats
+cleanall:: ; $(RMF) src/CBOOT/ccomp/runtime/GCATS/*.?ats
+cleanall:: ; $(RMF) src/CBOOT/ccomp/runtime/GCATS/*_?ats.c
+
+cleanall:: ; $(RMF) ccomp/runtime/*
+
+cleanall:: ; $(RMF) ccomp/atslib/lib/*
+cleanall:: ; $(RMF) ccomp/atslib/lib64/*
+cleanall:: ; $(RMF) ccomp/atslib/output/*
+cleanall:: ; $(RMF) ccomp/atslib/Makefile
+
+cleanall:: ; $(RMF) utils/atscc/*
+
+cleanall:: ; $(RMF) prelude/*.?ats
+cleanall:: ; $(RMF) prelude/?ATS/*.?ats
+
+cleanall:: ; $(RMF) libc/?ATS/*.?ats
+
+cleanall:: ; $(RMF) libc/sys/?ATS/*.?ats
+
+cleanall:: ; $(RMF) libc/gdbm/?ATS/*.?ats
+cleanall:: ; $(RMF) libc/gdbm/?ATS/SHARE/*.?ats
+
+cleanall:: ; $(RMF) libats/?ATS/*.?ats
+cleanall:: ; $(RMF) libats/?ATS/SHARE/*.?ats
+
+cleanall:: ; $(RMF) libats/ML/?ATS/*.?ats
+
+cleanall:: ; $(RMF) doc/EXAMPLE/INTRO/*
+cleanall:: ; $(RMF) doc/EXAMPLE/MISC/*
+cleanall:: ; $(RMF) doc/EXAMPLE/ATSLIB/*
+cleanall:: ; $(RMF) doc/EXAMPLE/PCPV/*
+
+######
+
+###### end of [Makefile.dist] ######

@@ -4,18 +4,20 @@
 *)
 
 (* ****** ****** *)
-
-staload
-LSYN = "libatsyntax/SATS/libatsyntax.sats"
-typedef d0eclreplst = $LSYN.d0eclreplst
-
-(* ****** ****** *)
-
-staload
-LDOC = "libatsdoc/SATS/libatsdoc_atext.sats"
+//
+staload LDOC =
+"libatsdoc/SATS/libatsdoc_atext.sats"
+//
 typedef atext = $LDOC.atext
 typedef atextlst = $LDOC.atextlst
-
+//
+(* ****** ****** *)
+//
+staload LSYNMK =
+"libatsynmark/SATS/libatsynmark.sats"
+//
+typedef d0eclreplst = $LSYNMK.d0eclreplst
+//
 (* ****** ****** *)
 
 datatype

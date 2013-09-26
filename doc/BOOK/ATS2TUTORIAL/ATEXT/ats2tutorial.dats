@@ -98,18 +98,7 @@ end // end of [local]
 (* ****** ****** *)
 
 macdef
-head (x) = xmltagging ("head", ,(x))
-macdef
 title (x) = xmltagging ("title", ,(x))
-macdef
-body (x) = xmltagging ("body", ,(x))
-
-(* ****** ****** *)
-
-macdef H1 (x) = xmltagging ("h1", ,(x))
-macdef H2 (x) = xmltagging ("h2", ,(x))
-macdef H3 (x) = xmltagging ("h3", ,(x))
-macdef H4 (x) = xmltagging ("h4", ,(x))
 
 (* ****** ****** *)
 

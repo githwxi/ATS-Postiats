@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,17 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: November, 2011
 //
 (* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -145,6 +147,10 @@ extern fun d2exp_trup_lam_met (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
+extern fun d2exp_trup_fix (d2e0: d2exp): d3exp
+
+(* ****** ****** *)
+
 extern fun d2exp_trup_delay (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
@@ -178,10 +184,11 @@ d2exp_trup
   (d2e0) = let
 val loc0 = d2e0.d2exp_loc
 (*
-val () = (
+val () =
+(
   println! ("d2exp_trup: loc0 = ", loc0);
   println! ("d2exp_trup: d2e0 = ", d2e0);
-) // end of [val]
+) (* end of [val] *)
 *)
 val d3e0 = (
 case+ d2e0.d2exp_node of
@@ -242,9 +249,19 @@ case+ d2e0.d2exp_node of
 *)
   in
     case+ _fun.d2exp_node of    
+//
     | D2Esym (d2s) =>
         d2exp_trup_applst_sym (d2e0, d2s, _arg)
       // end of [D2Esym]
+    | D2Etmpid (
+        d2e, t2mas
+      ) when
+        d2exp_is_sym (d2e) => let
+        val-D2Esym (d2s) = d2e.d2exp_node
+      in
+        d2exp_trup_applst_tmpsym (d2e0, d2s, t2mas, _arg)
+      end // end of [D2Etmpid when ...]
+//
     | D2Emac (d2m) => let
 (*
         val () = (
@@ -263,20 +280,14 @@ case+ d2e0.d2exp_node of
       in
         d2exp_trup (d2e0)
       end // end of [D2Emac]
-    | D2Etmpid (
-        d2e, t2mas
-      ) when
-        d2exp_is_sym (d2e) => let
-        val-D2Esym (d2s) = d2e.d2exp_node
-      in
-        d2exp_trup_applst_tmpsym (d2e0, d2s, t2mas, _arg)
-      end // end of [D2Etmpid when ...]
+//
     | _ => d2exp_trup_applst (d2e0, _fun, _arg)
   end // end of [D2Eapplst]
 //
-| D2Eifhead (_, _, _, _else) => let
+| D2Eifhead
+    (_, _, _, opt(*else*)) => let
     val s2e_if = (
-      case+ _else of
+      case+ opt of
       | Some _ => s2exp_Var_make_srt (loc0, s2rt_t0ype)
       | None _ => s2exp_void_t0ype () // HX: missing else-branch
     ) : s2exp // end of [val]
@@ -285,14 +296,16 @@ case+ d2e0.d2exp_node of
     d2exp_trdn_ifhead (d2e0, s2f_if)
   end // end of [D2Eifhead]
 | D2Esifhead _ => let
-    val s2e_sif = s2exp_Var_make_srt (loc0, s2rt_t0ype)
+    val s2e_sif =
+    s2exp_Var_make_srt (loc0, s2rt_t0ype)
     val s2f_sif = s2exp2hnf_cast (s2e_sif)
   in
     d2exp_trdn_sifhead (d2e0, s2f_sif)
   end // end of [D2Esifhead]
 //
 | D2Ecasehead _ => let
-    val s2e_case = s2exp_Var_make_srt (loc0, s2rt_t0ype)
+    val s2e_case =
+    s2exp_Var_make_srt (loc0, s2rt_t0ype)
     val s2f_case = s2exp2hnf_cast (s2e_case)
   in
     d2exp_trdn_casehead (d2e0, s2f_case)
@@ -346,9 +359,12 @@ case+ d2e0.d2exp_node of
     d3exp_arrpsz (loc0, s2e_arrpsz, s2e, d3es, n)
   end // end of [D2Earrpsz]
 | D2Earrinit
-    (s2e_elt, opt, d2es) => let
+  (
+    s2e_elt, opt, d2es
+  ) => let
     var s2i_asz : s2exp
-    val d3e_asz : d3exp = (
+    val d3e_asz : d3exp =
+    (
       case+ opt of
       | Some (d2e_asz) => let
           val d3e_asz = d2exp_trup (d2e_asz)
@@ -366,26 +382,33 @@ case+ d2e0.d2exp_node of
         in
           d2exp_trup (d2e_asz)
         end // end of [Some]
-      | None () => let
+      | None ((*void*)) => let
           val n = list_length (d2es)
           val () = s2i_asz := s2exp_int (n)
           val s2e_asz = s2exp_int_index_t0ype (s2i_asz)
         in
           d3exp_int (loc0, s2e_asz, n)
         end // end of [None]
-    ) // end of [val]
+    ) (* end of [val d3e_asz] *)
+//
+    val s2e_elt = (
+      case+ d2es of
+      | list_cons _ => s2e_elt
+      | list_nil () => s2exp_top (0(*knd*), s2e_elt)
+    ) : s2exp // end of [val]
     val d3es = d2explst_trdn_elt (d2es, s2e_elt)
-    val s2es_dim = list_sing (s2i_asz)
-    val s2e_arr = s2exp_tyarr (s2e_elt, s2es_dim)
+//
+    val s2e_tyarr = s2exp_tyarr (s2e_elt, list_sing (s2i_asz))
+//
   in
-    d3exp_arrinit (loc0, s2e_arr, s2e_elt, d3e_asz, d3es)
+    d3exp_arrinit (loc0, s2e_tyarr, s2e_elt, d3e_asz, d3es)
   end // end of [D2Earrinit]
 //
 | D2Eraise (d2e_exn) => let
     val err = the_effenv_check_exn (loc0)
-    val () = if (err > 0) then (
-      the_trans3errlst_add (T3E_d2exp_trup_exn (loc0))
-    ) // end of [if] // end of [val]
+    val () =
+      if (err > 0) then the_trans3errlst_add (T3E_d2exp_trup_exn (loc0))
+    // end of [val]
     val s2e_exn = s2exp_exception_vtype ()
     val d3e_exn = d2exp_trdn (d2e_exn, s2e_exn)
     val s2e_raise = s2exp_bottom_vt0ype_uni ()
@@ -396,10 +419,11 @@ case+ d2e0.d2exp_node of
 | D2Eeffmask _ => d2exp_trup_effmask (d2e0)
 //
 | D2Eshowtype
-    (d2e) => d3e where {
+    (d2e) => d3e where
+  {
     val d3e = d2exp_trup (d2e)
     val () = fshowtype_d3exp (d3e)
-  } // end of [D2Eshowtype]
+  } (* end of [D2Eshowtype] *)
 //
 | D2Evcopyenv _ => d2exp_trup_vcopyenv (d2e0)
 //
@@ -407,6 +431,8 @@ case+ d2e0.d2exp_node of
 | D2Elaminit_dyn _ => d2exp_trup_laminit_dyn (d2e0)
 | D2Elam_sta _ => d2exp_trup_lam_sta (d2e0)
 | D2Elam_met _ => d2exp_trup_lam_met (d2e0)
+//
+| D2Efix (knd, d2v, def) => d2exp_trup_fix (d2e0)
 //
 | D2Edelay _ => d2exp_trup_delay (d2e0)
 //
@@ -432,13 +458,19 @@ case+ d2e0.d2exp_node of
     d2exp_trup (d2e) // HX: [d2e] should be a value
   end // end of [D2Eann_seff]
 //
-| D2Eerr () => d3exp_err (loc0) // of type [s2exp_t0ype_err]
+| D2Esym _ => let
+    val () =
+      the_trans3errlst_add (T3E_d2exp_trup_sym (d2e0))
+    // end of [val]
+  in
+    d3exp_err (loc0) // : [s2exp_t0ype_err]
+  end // end of [D2Esym]
+//
+| D2Eerr () => d3exp_err (loc0) // : [s2exp_t0ype_err]
 //
 | _ => let
-    val () = (
-      println! ("d2exp_trup: loc0 = ", loc0);
-      println! ("d2exp_trup: d2e0 = ", d2e0);
-    ) // end of [val]
+    val () = println! ("d2exp_trup: loc0 = ", loc0)
+    val () = println! ("d2exp_trup: d2e0 = ", d2e0)
   in
     exitloc (1)
   end // end of [_]
@@ -446,9 +478,10 @@ case+ d2e0.d2exp_node of
 ) : d3exp // end of [val]
 (*
 val s2e0 = d3e0.d3exp_type
-val () = (
+val (
+) = (
   print "d2exp_trup: d3e0.d3exp_type = "; pprint_s2exp (s2e0); print_newline ()
-) // end of [val]
+) (* end of [val] *)
 *)
 in
 //
@@ -1062,7 +1095,7 @@ case+ s2e_fun.s2exp_node of
       the_trans3errlst_add (T3E_d23exp_trup_app23_eff (loc_app, s2fe_fun))
     ) // end of [if] // end of [val]
   in
-    d3exp_app_dyn (loc_app, s2e_res, s2fe_fun, d3e_fun, npf, d3es_arg)
+    d3exp_app_dyn (loc_app, s2e_res, d3e_fun, npf, d3es_arg)
   end // end of [S2Efun]
 | _ => let
     val () = d23explst_free (d23es_arg)
@@ -1541,6 +1574,24 @@ d2exp_trup_lam_met
 in
   d3exp_lam_met (loc0, s2es_met, d3e_body)
 end // end of [d2exp_trup_lam_met]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_fix (d2e0) = let
+//
+val loc0 = d2e0.d2exp_loc
+val-D2Efix
+  (knd, d2v, d2e_def) = d2e0.d2exp_node
+val s2e_def = d2exp_syn_type (d2e_def)
+val s2eopt_def = Some (s2e_def)
+val () = d2var_set_type (d2v, s2eopt_def)
+val () = d2var_set_mastype (d2v, s2eopt_def)
+val d3e_def = d2exp_trup (d2e_def)
+//
+in
+  d3exp_fix (loc0, s2e_def, knd, d2v, d3e_def)
+end // end of [d2exp_trup_fix]
 
 (* ****** ****** *)
 

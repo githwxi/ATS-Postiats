@@ -248,7 +248,7 @@ end (* end of [auxsplit_lr] *)
 
 (* ****** ****** *)
 //
-// HX: quick sorting
+// HX: quick-sorting
 //
 fun auxqsort
 (
@@ -305,14 +305,8 @@ void qsort
 implement{a}
 array_quicksort_stdlib
   (A, asz, cmp) = let
-//
-extern fun qsort
-(
-  base: ptr, asz: size_t, tsz: size_t, cmp: cmpref (a)
-) :<> void = "mac\#atslib_qsort"
-//
 in
-  qsort (addr@(A), asz, sizeof<a>, cmp)
+  $extfcall (void, "atspre_array_qsort", addr@(A), asz, sizeof<a>, cmp)
 end (* end of [array_quicksort_stdlib] *)
 
 #atscode_separator()

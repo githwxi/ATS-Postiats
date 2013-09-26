@@ -95,6 +95,12 @@ atspre_fprint_strptr
 
 #atscode_separator_for_C()
 
+\#define atspre_fprint_strbuf atspre_fprint_strptr
+\#define atspre_print_strbuf(x) atspre_fprint_strbuf(stdout, (x))
+\#define atspre_prerr_strbuf(x) atspre_fprint_strbuf(stderr, (x))
+
+#atscode_separator_for_C()
+
 \#endif // ifndef ATSLIB_PRELUDE_STRPTR_CATS
 
 #atscode_separator_for_C()

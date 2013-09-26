@@ -70,6 +70,1255 @@ code for testing is available #mycodelink("CHAP_EFFECTFUL/", "on-line").\
 
 ")
 
+<sect1
+id="exceptions">
+#title("Exceptions")
+
+#para("\
+
+The exception mechanism provides an efficient means for reporting a special
+condition encountered during program evaluation. Often such a special
+condition indicates an error, but it is not uncommon to employ exceptions
+to address issues that are not related to errors.\
+
+")
+
+#para("\
+
+The type #stacode("exn") is predefined in ATS. One may think of
+#stacode("exn") as an extensible datatype for which new constructors can
+always be declared. For instance, two exception constructors are declared
+as follows:
+
+#atscode("\
+exception FatalError0 of ()
+exception FatalError1 of (string)
+")
+
+The constructor #dyncode("FatalError0") is nullary while the constructor
+#dyncode("FatalError1") is unary.  Exception values, that is, values of
+the type #stacode("exn") can be formed by applying exception constructors
+to proper arguments. For instance, #dyncode("FatalError0()") and
+#dyncode('FatalError1("division-by-zero")') are two exception values (or
+simply exceptions). In the following program, a function for integer
+division is implemented:
+
+#atscode("\
+exception DivisionByZero of ()
+fun divexn (x: int, y: int): int =
+  if y != 0 then then x / y else $raise DivisionByZero()
+// end of [divexn]
+")
+
+When the function call #dyncode("divexn(1, 0)") is evaluated, the exception
+#dyncode("DivisionByZero()") is raised. The keyword #dyncode("$raise") in ATS
+is solely for raising exceptions.\
+
+")#comment("para")
+
+#para("\
+
+A raise-expression is of the form (#dyncode("$raise") exp) for some
+expression exp.  Clearly, if the evaluation of exp returns a value, then
+the evaluation of (#dyncode("$raise") exp) leads to a raised
+exception. Therefore, the evaluation of a raise-expression can never return
+a value, and this justifies that a raise-expression can be given any type.\
+
+")#comment("para")
+
+#para("\
+
+A raised exception can be captured. If it is not captured, the raised
+exception aborts the program evaluation that issued it in the first
+place. In ATS, a try-expression is of the form (#dyncode("try") exp
+#dyncode("with") clseq), where #dyncode("try") is a keyword, exp is an
+expression, #dyncode("with") is also a keyword, and clseq is a sequence of
+matching clauses. When evaluating such a try-expression, we first evaluate
+exp. If the evaluation of exp leads to a value, then the value is also the
+value of the try-expression. If the evaluation of exp leads to a raised
+exception, then we match the exception against the guards of the matching
+clauses in clseq. If there is a match, the raised exception is caught and
+we continue to evaluate the body of the first clause whose guard is
+matched. If there is no match, the raised exception is uncaught. In a
+try-expression, the with-part is often referred to as an
+exception-handler.\
+
+")
+
+#para("\
+Let us now see an example that involves raising and capturing an
+exception. In the following program, three functions are defined to compute
+the product of the integers in a given list:
+
+#atscode("\
+fun listprod1
+(
+  xs: list0 (int)
+): int =
+(
+  case+ xs of
+  | list0_nil () => 1
+  | list0_cons (x, xs) => x * listprod1 (xs)
+) (* end of [listprod1] *)
+
+fun listprod2
+(
+  xs: list0 (int)
+) : int =
+(
+  case+ xs of
+  | list0_nil () => 1
+  | list0_cons (x, xs) =>
+      if x = 0 then 0 else x * listprod2 (xs)
+    // end of [list0_cons]
+) (* end of [listprod2] *)
+
+fun listprod3
+(
+  xs: list0 (int)
+) : int = let
+  exception ZERO of ()
+  fun aux (xs: list0 (int)): int =
+    case+ xs of
+    | list0_cons (x, xs) =>
+        if x = 0 then $raise ZERO() else x * aux (xs)
+    | list0_nil () => 1
+  // end of [aux]
+in
+  try aux (xs) with ~ZERO () => 0
+end // end of [listprod3]
+")
+
+While these functions can all be defined tail-recursively, they are not so
+as to make a point that should be clear shortly. Undoubtedly, we all know the
+following simple fact:
+
+<itemizedlist>
+
+<listitem>
+#para("\
+If the integer 0 occurs in a given list, then the product
+of the integers in the list is 0 regardless what other integers are.
+")
+</listitem>
+
+</itemizedlist>
+
+The function #dyncode("listprod1") is defined in a standard manner, and it
+does not make any use of the stated fact.  The function
+#dyncode("listprod2") is defined in a manner that makes only partial use of
+the stated fact. To see the reason, let us evaluate a call to
+#dyncode("listprod2") on #dyncode("[1, 2, 3, 0, 4, 5, 6]"), which denotes a
+list consisting of the 7 mentioned integers. The evaluation of this call
+eventually leads to the evaluation of
+#dyncode("1*(2*(3*(listprod([0,4,5,6]))))"), which then leads to
+#dyncode("1*(2*(3*0))"), and then to #dyncode("1*(2*0)"), and then to
+#dyncode("1*0"), and finally to #dyncode("0"). However, what we really want
+is for the evaluation to return 0 immediately once the integer 0 is
+encountered in the list, and this is accomplished by the function
+#dyncode("listprod3"). When evaluating a call to #dyncode("listprod3") on
+#dyncode("[1, 2, 3, 0, 4, 5, 6]"), we eventually reach the evaluation of
+the following expression:
+
+#atscode("\
+try 1*(2*(3*(aux([0,4,5,6])))) with ~ZERO() => 0
+")
+
+Evaluating #dyncode("aux([0,4,5,6])") leads to the exception
+#dyncode("ZERO()") being raised, and this raised exception is caught and
+#dyncode("0") is returned as the value of the call to
+#dyncode("listprod3").  Note that the pattern guard of the matching clause
+following the keyword #dyncode("with") is #dyncode("~ZERO()").  I will
+explain the need for the tilde symbol #dyncode("~") elsewhere. For now, it
+suffices to say that #dyncode("exn") is a linear type and each exception
+value is a linear value, which must be consumed or re-raised. The tilde
+symbol #dyncode("~") indicates that the value matching the pattern
+following #dyncode("~") is consumed (and the memory for holding the value
+is freed).\
+
+")
+
+#para("\
+
+Exceptions are not a programming feature that is easy to master, and
+misusing exceptions is abundant in practice. So please be patient when
+learning the feature and be cautious when using it.\
+
+")
+
+</sect1><!--id="exceptions"-->
+
+<sect1
+id="example_testing_for_braun_trees">
+#title("Example: Testing for Braun Trees")
+
+#para("\
+
+Braun trees are special binary trees that can be defined
+inductively as follows:
+
+<itemizedlist>
+
+<listitem>
+#para("\
+If a binary tree is empty, then it is a Braun tree.
+")
+</listitem>
+
+<listitem>
+#para("\
+If both children of a binary tree are Braun trees and the
+size of the left child minus the size of the right child equals 0 or 1,
+then the binary tree is a Braun tree.
+")
+</listitem>
+
+</itemizedlist>
+
+Given a natural number n, there is exactly one Braun tree of size n.  It is
+straightforward to prove that Braun trees are balanced.\
+
+")
+
+#para("\
+
+A polymorphic datatype is declared as follows for representing binary trees:
+
+#atscode("\
+datatype tree (a:t@ype) =
+  | tree_nil of ((*void*))
+  | tree_cons of (a, tree(a)(*left*), tree(a)(*right*))
+// end of [tree] // end of [datatype]
+")
+
+The following defined function #dyncode("brauntest0") tests whether a
+given binary tree is a Braun tree:
+
+#atscode("\
+fun{
+a:t@ype
+} size (t: tree a): int = case+ t of
+  | tree_nil () => 0
+  | tree_cons (_, tl, tr) => 1 + size(tl) + size(tr)
+// end of [size]
+
+fun{
+a:t@ype
+} brauntest0
+  (t: tree a): bool =
+(
+case+ t of
+| tree_nil () => true
+| tree_cons (_, tl, tr) => let
+    val cond1 = brauntest0(tl) andalso brauntest0(tr)
+  in
+    if cond1 then let
+      val df = size(tl) - size(tr) in (df = 0) orelse (df = 1)
+    end else false
+  end // end of [tree_cons]
+) (* end of [brauntest0] *)
+")
+
+The implementation of #dyncode("brauntest0") follows the definition of
+Braun trees closely. If applied to binary trees of size n, the
+time-complexity of the function #dyncode("size") is O(n) and the
+time-complexity of the function #dyncode("brauntest0") is O(n(log(n))).\
+
+")#comment("para")
+
+#para("\
+
+In the following program, the defined function #dyncode("brauntest1") also
+tests whether a given binary tree is a Braun tree:
+
+#atscode("\
+fun{
+a:t@ype
+} brauntest1
+  (t: tree a): bool = let
+  exception Negative of ()
+  fun aux (t: tree a): int =
+  (
+    case+ t of
+    | tree_nil () => 0
+    | tree_cons (_, tl, tr) => let
+        val szl = aux (tl) and szr = aux (tr)
+        val df = szl - szr
+      in
+        if df = 0 orelse df = 1 then 1+szl+szr else $raise Negative()
+      end // end of [tree_cons]
+  ) (* end of [aux] *)
+in
+  try let
+    val _ = aux (t)
+  in
+    true // [t] is a Braun tree
+  end with
+    ~Negative() => false // [t] is not a Braun tree
+  // end of [try]
+end // end of [brauntest1]
+")
+
+Clearly, a binary tree cannot be a Braun tree if one of its subtrees,
+proper or improper, is not a Braun tree. The auxiliary function
+#dyncode("aux") is defined to return the size of a binary tree if the tree
+is a Braun tree or raise an exception otherwise. When the evaluation of the
+try-expression in the body of #dyncode("brauntest1") starts, the call to
+#dyncode("aux") on a binary tree t is first evaluated. If the evaluation of
+this call returns, then t is a Braun tree and the boolean value
+#dyncode("true") is returned as the value of the try-expression. Otherwise,
+the exception #dyncode("Negative()") is raised and then caught, and the
+boolean value #dyncode("false") is returned as the value of the
+try-expression.  The time complexity of #dyncode("brauntest1") is the same
+as that of #dyncode("aux"), which is O(n).\
+
+")
+
+#para("\
+
+The use of the exception mechanism in the implementation of
+#dyncode("brauntest1") is a convincing one because the range between the
+point where an exception is raised and the point where the raised exception
+is captured can span many function calls. If this range is short (e.g.,
+spanning only one function call) in a case, then the programmer should
+probably investigate whether it is a sensible use of the exception
+mechanism. For instance, the use of exception in the following example may
+seem interesting but it actually leads to very inefficient code:
+
+
+#atscode('\
+
+fun{
+a:t@ype
+} list0_length
+  (xs: list0 (a)): int =
+  try 1 + list0_length (xs.tail) with ~ListSubscriptExn() => 0
+// end of [list0_length]
+
+')
+
+Therefore, making use of exceptions in this style should be avoided.
+
+")
+
+#para("\
+
+Please find the entirety of the code in this section plus some additional
+code for testing #mycodelink("CHAP_EFFECTFUL/brauntest.dats", "on-line").\
+
+")
+
+</sect1><!--id="example_testing_for_braun_trees"-->
+
+<sect1
+id="references">
+#title("References")
+
+#para("\
+
+A reference is just an array containing one element.  Given a type T, a
+reference for storing a value of the type T is given the type ref(T).  The
+following program makes use of all the essential functionalities on
+references:
+
+#atscode("\
+val intr = ref<int> (0) // create a ref and init. it with 0
+val () = !intr := !intr + 1 // increase the integer at [intr] by 1
+")
+
+The first line creates a reference for storing an integer and initializes
+it with the value 0 and then names it #dyncode("intr"). Note that this
+style of reference creation cannot be separated from its
+initialization. The second line updates the reference #dyncode("intr") with
+its current value plus 1. In general, given a reference r of type ref(T)
+for some T, the expression !r means to fetch the value stored at r, which
+is of the type T. However, !r can also be used as a left-value. For
+instance, the assignment (!r := exp) means to evaluate exp into a value and
+then store the value into r. Therefore, the value stored in
+#dyncode("intr") is 1 after the second line in the above program is
+evaluated.\
+
+")#comment("para")
+
+#para("\
+
+Various functions and function templates on references are declared in the
+file #myatscodelink("prelude/SATS/reference.sats", "reference.sats"), which
+is automatically loaded by <command>atsopt</command>. In particular, it is
+also possible to read from and write to a reference by using the function
+templates #dyncode("ref_get_elt") and #dyncode("ref_set_elt") of the following
+interfaces, respectively:
+
+#atscode("\
+fun{a:t@ype} ref_get_elt (r: ref a): a // !r
+fun{a:t@ype} ref_set_elt (r: ref a, x: a): void // !r := x
+")
+
+")#comment("para")
+
+#para("\
+
+References are often misused in practice, especially, by beginners of
+functional programming who had some previous exposure to imperative
+programming languages such C and Java. Such programmers often think that
+they can just \"translate\" their programs in C or Java into functional
+programs. For example, the following defined function #dyncode("sumup") is
+such an example, which sums up all the integers between 1 and a given
+integer, inclusive:
+
+#atscode("\
+fun sumup
+  (n: int): int = let
+  val i = ref<int> (1)
+  val res = ref<int> (0)
+  fun loop ():<cloref1> void =
+    if !i <= n then (!res := !res + !i; !i := !i + 1; loop ())
+  // end of [loop]
+in
+  loop (); !res
+end // end of [sumup]
+")
+
+This is a correct but poor implementation, and its style, though not the
+worst of its kind, is deplorable. As references are allocated in heap,
+reading from or writing to a reference can be much more time-consuming than
+reading from or writing to a register. So, this implementation of
+#dyncode("sumup") is unlikely to be time-efficient.  Every call to
+#dyncode("sumup") creates two references in heap and leaves them there when
+it returns, and the memory allocated for such references can only be
+reclaimed through garbage collection (GC). So, this implementation of
+#dyncode("sumup") is not memory-efficient.  More importantly, a program
+making heavy use of references is often difficult to reason about.\
+
+")#comment("para")
+
+#para("\
+
+I consider references a dangerous feature in functional
+programming. If you want to run your program without GC, please do not
+create references in the body of a function (besides many other
+restrictions). If you find that you are in need of references to
+\"translate\" imperative programs into functional ones, then it is most
+likely that you are lost and you have not learned well to program in a
+functional style yet.
+
+")#comment("para")
+
+</sect1><!--id="references"-->
+
+<sect1
+id="example_counter_implementation">
+#title("Example: A Counter Implementation")
+
+#para("\
+
+Let us see as follows the implementation of a counter-like object in the
+style of object-oriented programming (OOP).  The type #stacode("counter")
+for counters is defined as follows:
+
+#atscode("\
+typedef
+counter = '{
+  get= () -<cloref1> int
+, inc= () -<cloref1> void
+, reset= () -<cloref1> void
+} // end of [counter]
+")
+
+The three fields of #stacode("counter") are closure functions that
+correspond to methods associated with an object: getting the count of the
+counter, increasing the count of the counter by 1 and resetting the count
+of the counter to 0. The following defined function #dyncode("newCounter")
+is for creating a counter object (represented as a boxed record of closure
+functions):
+
+#atscode("\
+fun newCounter
+(
+// argumentless
+) : counter = let
+  val count = ref<int> (0)
+in '{
+  get= lam () => !count
+, inc= lam () => !count := !count + 1
+, reset= lam () => !count := 0
+} end // end of [newCounter]
+")
+
+The state of each created counter object is stored in a reference, which
+can only be accessed by the three closure functions in the record that
+represents the object. This is often referred to as state encapsulation
+in OOP.\
+
+")
+
+#para("\
+
+I myself think that the above counter implementation is of a rather poor
+style.  It is also possible to protect the integrity of a state by simply
+making it abstract.  I will present elsewhere another counter
+implementation based on a linear abstract type (that is, abstract viewtype
+in ATS), where counters can be created and then safely freed.
+
+")
+
+</sect1><!--id="example_counter_implementation"-->
+
+<!-- ****** ****** -->
+
+<sect1
+id="arrays">
+
+#title("Arrays")
+
+#para("\
+
+I mentioned earlier that a reference is just an array of size 1.  I would
+now like to state that an array of size n is just n references allocated
+consecutively.  These references can also be called cells, and they are
+numbered from 0 until n-1, inclusive.\
+
+")
+
+#para("\
+
+Given an array of size n, an integer is a valid index for this array if it
+is a natural number strictly less than n. Otherwise, the integer is out of
+the bounds of the array.  For an array named A, the expression A[i] means
+to fetch the content of the cell in A that is numbered i if i is a valid
+index for A. The expression A[i] can also be used as a left value. For
+instance, the assignment (A[i] := exp) means to evaluate exp to a value and
+then store the value into the cell in A that is numbered i if i is a valid
+index.\
+
+")
+
+#para("\
+
+What happens if the index i in A[i] is invalid, that is, it is out of the
+bounds of the array A?  In this case, A[i] is referred to as out-of-bounds
+array subscription and evaluating A[i] leads to a raised exception where
+the exception is #dyncode("ArraySubscriptExn()").  One simple and reliable
+way to tell whether an integer is a valid index for a given array is to
+compare it with the size of the array at run-time.  Given a type T, the
+type #stacode("arrszref(T)") is for an array paired with its size in which
+elements of the type T are stored. I will loosely refer to values of the
+type #stacode("arrszref(T)") as arrays from now on.  In case there is a
+clear need to avoid potential confusion, I may also refer to them as
+array0-values.\
+
+")
+
+#para("\
+
+Various functions and function templates on array0-values are declared in
+the file #myatscodelink("prelude/SATS/arrayref.sats", "arrayref.sats"),
+which is automatically loaded by <command>atsopt</command>. For instance,
+three function templates and one polymorphic function on arrays are
+depicted by the following interfaces:
+
+#atscode("\
+fun{a:t@ype} // a template
+arrszref_make_elt
+  (asz: size_t, x: a): arrszref a // array creation
+
+// a polymorphic function
+fun arrszref_get_size
+  {a:t@ype} (A: arrszref a): size_t // size of an array
+
+fun{a:t@ype} // a template
+arrszref_get_elt_at (A: arrszref a, i: size_t): a // A[i]
+
+fun{a:t@ype} // a template
+arrszref_set_elt_at (A: arrszref a, i: size_t, x: a): void // A[i] := x
+")
+
+As for programming with arrays that carry no size information,
+it is a topic to be covered after dependent types are introduced.
+
+")#comment("para")
+
+#para("\
+
+Like in C, there are many types of integer values in ATS. The type
+#stacode("size_t") is essentially for unsigned long integers. The functions
+for converting between the type #stacode("int") and the type
+#stacode("size_t") are #dyncode("g0int2uint_int_size") and
+#dyncode("g0uint2int_size_int").  Given a type T and two values
+#dyncode("asz") and #dyncode("init") of the types #dyncode("size_t") and T,
+respectively, #dyncode("arrszref_make_elt&lt;T&gt; (asz, init)") returns an
+array of the type #stacode("arrszref(T)") such that the size of the array
+is #dyncode("asz") and each cell in the array is initialized with the value
+#dyncode("init"). Given an array A of the type #stacode("arrszref(T)") for
+some T, #dyncode("arrszref_get_size(A)") returns the size of A, which is of
+the type #stacode("size_t"). For convenience,
+#dyncode("arrszref_get_size(A)") can be written as #dyncode("A.size").  As
+for array access and update, the functions #dyncode("arrszref_get_elt_at")
+and #dyncode("arrszref_set_elt_at") can be called. For convenience, the
+bracket notation can be used to call these functions.  \
+
+")
+
+#para("\
+
+In the following program, the function template
+#dyncode("insertion_sort") implements the standard insertion sort on
+arrays:
+
+#atscode("\
+fun{
+a:t@ype
+} insertion_sort
+(
+  A: arrszref (a)
+, cmp: (a, a) -> int
+) : void = let
+  val n = g0uint2int_size_int (A.size)
+  fun ins (x: a, i: int):<cloref1> void =
+    if i >= 0 then
+    (
+      if cmp (x, A[i]) < 0
+        then (A[i+1] := A[i]; ins (x, i-1)) else A[i+1] := x
+      // end of [if]
+    ) else A[0] := x // end of [if]
+  // end of [ins]
+  fun loop (i: int):<cloref1> void =
+    if i < n then (ins (A[i], i-1); loop (i+1)) else ()
+  // end of [loop]
+in
+  loop (1)
+end // end of [insertion_sort]
+")
+
+The comparison function #dyncode("cmp") should return 1, -1, and 0 if its
+first argument is greater than, less than and equal to its second one,
+respectively.
+
+")#comment("para")
+
+#para("\
+
+Note that the entire code in this section plus some additional code
+for testing is available #mycodelink("CHAP_EFFECTFUL/insort.dats", "on-line").\
+
+")
+
+</sect1><!--id="arrays"-->
+
+<!-- ****** ****** -->
+
+<sect1
+id="example_ordering_permutations">
+
+#title("Example: Ordering Permutations")
+
+#para("\
+Given a natural number n, we want to print out all the permutations
+consisting of integers ranging from 1 to n, inclusive. In addition, we
+want to print them out according to the lexicographic ordering on integer
+sequences. For instance, we want the following output to be generated when
+n is 3:
+
+#atscode("\
+1, 2, 3
+1, 3, 2
+2, 1, 3
+2, 3, 1
+3, 1, 2
+3, 2, 1
+")
+")
+
+<!--
+#para("\
+#atscode("\
+1, 2, 3, 4
+1, 2, 4, 3
+1, 3, 2, 4
+1, 3, 4, 2
+1, 4, 2, 3
+1, 4, 3, 2
+2, 1, 3, 4
+2, 1, 4, 3
+2, 3, 1, 4
+2, 3, 4, 1
+2, 4, 1, 3
+2, 4, 3, 1
+3, 1, 2, 4
+3, 1, 4, 2
+3, 2, 1, 4
+3, 2, 4, 1
+3, 4, 1, 2
+3, 4, 2, 1
+4, 1, 2, 3
+4, 1, 3, 2
+4, 2, 1, 3
+4, 2, 3, 1
+4, 3, 1, 2
+4, 3, 2, 1
+")
+")
+-->
+
+#para("\
+Let us first define a function as follows for printing out an array
+of integers:
+
+#atscode('
+fun print_intarray
+  (A: arrszref (int)): void = let
+  val asz = g0uint2int_size_int (A.size)
+//
+// The integers are to be separated by the string [sep]
+//
+  fun loop (i: int, sep: string):<cloref1> void =
+    if i < asz then
+      (if i > 0 then print sep; print A[i]; loop (i+1, sep))
+    // end of [if]
+in
+  loop (0, ", ")
+end // end of [print_intarray]
+')
+")#comment("para")
+
+#para("\
+
+We next implement two functions #dyncode("lrotate") and #dyncode("rrotate")
+for rearranging the elements in a given integer array:
+
+#atscode("\
+fun lrotate (
+  A: arrszref int, i: int, j: int
+) : void = let
+  fun lshift (
+    A: arrszref int, i: int, j: int
+  ) : void =
+  if i < j then (A[i] := A[i+1]; lshift (A, i+1, j))
+in
+  if i < j then let
+    val tmp = A[i] in lshift (A, i, j); A[j] := tmp
+  end // end of [if]
+end // end of [lrotate]
+
+fun rrotate (
+  A: arrszref int, i: int, j: int
+) : void = let
+  fun rshift (
+    A: arrszref int, i: int, j: int
+  ) : void =
+  if i < j then (A[j] := A[j-1]; rshift (A, i, j-1))
+in
+  if i < j then let
+    val tmp = A[j] in rshift (A, i, j); A[i] := tmp
+  end // end of [if]
+end // end of [rrotate]
+")
+
+When applied to an array and two valid indexes i and j for the array such
+that i is less than or equal to j, #dyncode("lrotate") moves simultaneously
+the content of cell i into cell j and the content of cell k to cell k-1 for
+k ranging from i+1 to j, inclusive. The function #dyncode("rrotate") is
+similar to #dyncode("lrotate") but shuffles elements in the opposite
+direction.\
+
+")#comment("para")
+
+#para("\
+Given a natural number n, the following defined function
+#dyncode("permute") prints out all the permutations consisting of integers
+ranging from 1 to n, inclusive while arranging the output according to
+the lexicographic ordering on integer sequences.
+
+#atscode("\
+
+fun permute
+  (n: int): void = let
+//
+  \#define i2sz g0int2uint_int_size
+//
+// Creating array A of size n
+//
+  val A = arrszref_make_elt<int> (i2sz(n), 0)
+//
+// Initializing A with integers from 1 to n, inclusive
+//
+  val () = init (0) where
+  {
+    fun init (i: int):<cloref1> void =
+      if i < n then (A[i] := i+1; init (i+1))
+  } // end of [where] // end of [val]
+//
+  fun aux
+    (i: int):<cloref1> void =
+  (
+    if i <= n
+      then aux2 (i, i) else (
+      print_intarray (A); print_newline ()
+    ) // end of [if]
+  ) (* end of [aux] *)
+//
+  and aux2
+    (
+      i: int, j: int
+    ) :<cloref1> void =
+  (
+    if j <= n then let
+      val () = (
+        rrotate (A, i-1, j-1); aux (i+1); lrotate (A, i-1, j-1)
+      ) // end of [val]
+    in
+      aux2 (i, j+1)
+    end // end of [if]
+  ) (* end of [aux2] *)
+//
+in
+  aux (1)
+end // end of [permute]
+")
+
+Note that #dyncode("where") is a keyword, and the expression
+(exp #dyncode("where") #dyncode("{") decseq #dyncode("}"))
+for some expression exp and declaration sequence decseq is equivalent to
+the let-expression of the form (#dyncode("let") decseq #dyncode("in") exp
+#dyncode("end")). To understand the behavior of the function
+#dyncode("aux"), let us evaluate #dyncode("aux(1)") while assuming that
+#dyncode("n") is 4 and the 4 elements of the array #dyncode("A") are 1, 2,
+3, and 4. It should be fairly straightforward to see that this evaluation
+leads to the evaluation of #dyncode("aux(2)") for 4 times: the array
+#dyncode("A") contains (1, 2, 3, 4) for the first time, and (2, 1, 3, 4)
+for the second time, and (3, 1, 2, 4) for the third time, and (4, 1, 2, 3)
+for the fourth time. With some inductive reasoning, it should not be
+difficult to see that evaluating #dyncode("aux(1)") indeed leads to all the
+permutations being output according to the lexicographic ordering on
+integer sequences.\
+
+")#comment("para")
+
+#para("\
+
+Please find the entire code in this section plus some additional
+code for testing #mycodelink("CHAP_EFFECTFUL/permord.dats", "on-line").\
+
+")
+
+</sect1><!--id="example_ordering_permutations"-->
+
+<!-- ****** ****** -->
+
+<sect1
+id="matrices">
+
+#title("Matrices")
+
+#para("\
+
+A matrix in ATS is just a two-dimensional array but it is represented by a
+one-dimensional array and the representation is of the row-major style (in
+contrast to the column-major style).  Given a type T, the type
+#stacode("mtrxszref(T)") is for a matrix combined with its number of rows
+and number of columns such that each element stored in the matrix is of the
+type T. I will loosely refer to values of the type #stacode("mtrxszref(T)")
+as matrices from now on.  If there is a clear need to avoid potential
+confusion, I may also refer to them as matrix0-values.\
+
+")#comment("para")
+
+#para("\
+Given a matrix M of dimension m by n, the expression M[i,j] means to
+fetch the content of the cell in M that is indexed by (i, j), where i and j
+are natural numbers strictly less than m and n, respectively.  The
+expression M[i,j] can also be used as a left value. For instance, the
+assignment (M[i,j] := exp) means to evaluate exp to a value and then store
+the value into the cell in M that is indexed by (i, j).
+")#comment("para")
+
+#para("\
+Various functions and function templates on matrix0-values are declared in
+the file #myatscodelink("prelude/SATS/matrixref.sats", "matrixref.sats"),
+which is automatically loaded by <command>atsopt</command>. For instance,
+three function templates and two polymorphic functions on matrices are
+depicted by the following interfaces:
+
+#atscode("\
+fun{a:t@ype} // template
+mtrxszref_make_elt
+  (row: size_t, col: size_t, x: a): mtrxszref (a)
+
+fun mtrxszref_get_nrow{a:t@ype} (M: mtrxszref a): size_t // polyfun
+fun mtrxszref_get_ncol{a:t@ype} (M: mtrxszref a): size_t // polyfun
+
+fun{a:t@ype}
+mtrxszref_get_elt_at // template
+  (M: mtrxszref a, i: size_t, j: size_t): a // M[i,j]
+fun{a:t@ype}
+mtrxszref_set_elt_at // template
+  (M: mtrxszref a, i: size_t, j: size_t, x: a): void // M[i,j] := x
+")
+")#comment("para")
+
+#para("\
+
+Given a type T and three values #dyncode("nrow"), #dyncode("ncol") and
+#dyncode("init") of the types #stacode("size_t"), #stacode("size_t") and T,
+respectively, #dyncode("mtrxszref_make_elt&lt;T&gt; (row, col, init)")
+returns a matrix of the type #stacode("mtrxszref(T)") such that the
+dimension of the matrix is #dyncode("nrow") by #dyncode("ncol") and each
+cell in the matrix is initialized with the value #dyncode("init"). Given a
+matrix M of the type #stacode("mtrxszref(T)") for some T,
+#dyncode("mtrxszref_get_nrow(M)") and #dyncode("mtrxszref_get_ncol(M)")
+return the number of rows and the number of columns of M, respectively,
+which are both of the type #stacode("size_t"). For convenience,
+#dyncode("mtrxszref_get_nrow(M)") and #dyncode("mtrxszref_get_ncol(M)") can
+also be written as #dyncode("M.nrow") and #dyncode("M.ncol"), respectively.
+As for matrix access and update, the function templates
+#dyncode("mtrxszref_get_elt_at") and #dyncode("mtrxszref_set_elt_at") can
+be called, respectively. For convenience, bracket notation can used for
+these functions.\
+
+")#comment("para")
+
+#para("\
+
+Let us now take a look at an example. The following defined function
+#dyncode("mtrxszref_transpose") turns a given matrix into its transpose:
+
+#atscode("\
+fun{a:t@ype}
+mtrxszref_transpose
+  (M: mtrxszref a): void = let
+//
+val nrow = mtrxszref_get_nrow (M)
+//
+fnx loop1
+  (i: size_t):<cloref1> void =
+  if i < nrow then loop2 (i, 0) else ()
+//
+and loop2
+  (i: size_t, j: size_t):<cloref1> void =
+  if j < i then let
+    val tmp = M[i,j]
+  in
+    M[i,j] := M[j,i]; M[j,i] := tmp; loop2 (i, j+1)
+  end else
+    loop1 (i+1)
+  // end of [if]
+//
+in
+  loop1 (0)
+end // end of [mtrxszref_transpose]
+")
+
+The matrix M is assumed to be a square, that is, its number of rows equals
+its number of columns. Note that the two functions #dyncode("loop1") and
+#dyncode("loop2") are defined mutually tail-recursively, and the keyword
+#dyncode("fnx") indicates the need to combine the bodies of
+#dyncode("loop1") and #dyncode("loop2") so that mutual recursive tail-calls
+in these function bodies can be compiled into direct local jumps.\
+
+")#comment("para")
+
+</sect1><!--id="matrices"-->
+
+<!-- ****** ****** -->
+
+<sect1
+id="example_estimating_the_constant_pi">
+
+#title("Example: Estimating the Constant Pi")
+
+#para("\
+
+I present as follows a Monte Carlo approach to estimating the constant Pi,
+the ratio of the circumference of a circle over its diameter.\
+
+")#comment("para")
+
+#para("\
+
+Assume that we have a square of the dimension N by N, where N is a
+relatively large natural number (e.g., 1000), and a disk of radius 1 that
+is contained in the square. Let N2 stand for N*N, that is, the square of N.
+If we randomly choose a point inside the square, then the probability for
+the point to hit the disk is Pi/N2.\
+
+")#comment("para")
+
+#para("\
+
+The experiment we use to estimate the constant Pi can be described as
+follows.  Given a natural number K, let us randomly choose K points inside
+the square in K rounds. In each round, we choose exactly one point. If the
+point chosen in round k hits on the disk centered at a previously chosen
+point, then we record one hit. Clearly, the expected number of hits
+recorded in round k is (k-1)*Pi/N2 as k-1 points have already being chosen
+in the previous rounds. Therefore, in K rounds, the expected total number
+of hits is (K*(K-1)/2)*Pi/N2. If K is fixed to be N2, then the expected
+total number of hits is (N2-1)*Pi/2. It can be proven that the total number
+of hits divided by N2 converges to Pi/2 (with probability 1) as N
+approaches infinity.\
+
+")#comment("para")
+
+#para("\
+
+If we implement the above experiment directly based on the given
+description, the time-complexity of the implementation is evidently
+proportional to N2*N2 as the time spent in round k is proportional to k,
+where k ranges from 1 to N2. An implementation as such is simply
+impractical for handling N around the order 1000 (and thus N2 around the
+order of 1,000,000). To address the issue, we can impose a grid on the
+square, dividing it into N2 unit squares (of the dimension 1 by 1).  We
+then associate with each unit square a list of chosen points that are
+inside it. In each round, we first choose a point randomly inside the
+original square; we next locate the unit square that contains this point;
+we then only search the lists associated with the unit square or any of its
+neighbors to count the number of hits generated by the point chosen in this
+round as this point cannot hit any disks centered at points that are not on
+these lists.  As each unit square can have at most 8 neighbors and the
+average length of the list associated with each square is less than 1
+during the experiment, the time spent during each round is O(1), that is,
+bounded by a constant. Hence, the time taken by the entire experiment is
+O(N2).\
+
+")#comment("para")
+
+#para("\
+
+An implementation that precisely matches the above description plus some
+testing code is available #mycodelink("CHAP_EFFECTFUL/montecarlo.dats", "on-line").\
+
+")
+
+</sect1><!--id="example_estimating_the_constant_pi"-->
+
+<!-- ****** ****** -->
+
+<sect1
+id="basic_input_and_output">
+#title("Simple Input and Output")
+
+#para("\
+
+Handling I/O in ATS properly requires the availability of both dependent
+types and linear types, which I will cover elsewhere. In this section, I
+only present a means for allowing the programmer to access certain very
+basic I/O functionalities.\
+
+")#comment("para")
+
+#para("\
+
+A file handle essentially associates a stream (of bytes) with a file
+identifier (represented as an integer).  In ATS, the type for file handles
+is #stacode("FILEref"). There are three standard file handles, which are
+listed as follows:
+
+")
+
+<itemizedlist>
+
+<listitem>
+#para("\
+#dyncode("stdin_ref"): standard input
+")
+</listitem>
+
+<listitem>
+#para("\
+#dyncode("stdout_ref"): standard output
+")
+</listitem>
+
+<listitem>
+#para("\
+#dyncode("stderr_ref"): standard error output
+")
+</listitem>
+
+</itemizedlist>
+
+#para("\
+
+Various functions on file handles are declared in the file
+#myatscodelink("prelude/SATS/filebas.sats", "filebas.sats"), which is
+automatically loaded by <command>atsopt</command>. For instance, the
+functions for opening and closing file handles have the following
+interfaces:\
+
+#atscode("\
+fun fileref_open_exn
+(
+  path: string, fm: file_mode
+) : FILEref // endfun
+
+fun fileref_close (fil: FILEref): void
+")
+
+Note that these two functions abort immediately whenever an error occurs.
+The following function is an optional version of
+#dyncode("fileref_open_exn"), and the caller needs to inspect the value
+returned by a call to #dyncode("fileref_open_opt") to see if a file handle
+is actually obtained.\
+
+#atscode("\
+fun fileref_open_opt
+  (path: string, fm: file_mode) : Option_vt (FILEref)
+")
+
+")
+
+#para("\
+The type #stacode("file_mode") is for values representing file modes,
+which are listed as follows:
+")
+
+<itemizedlist>
+
+<listitem>
+
+#para("\
+#dyncode("file_mode_r"): opening a file for reading and
+positioning the associated stream at the beginning of the file.
+")
+
+</listitem>
+
+<listitem>
+
+#para("\
+#dyncode("file_mode_rr"): opening a file for both reading and and
+writing and positioning the associated stream at the beginning of the file.
+")
+
+</listitem>
+
+<listitem>
+
+#para("\
+
+#dyncode("file_mode_w"): truncating a given file to zero length or creating
+a new one for writing and positioning the associated stream at the
+beginning of the file.\
+
+")
+
+</listitem>
+
+<listitem>
+
+#para("\
+
+#dyncode("file_mode_ww"): truncating a given file to zero length or
+creating a new one for both reading and writing and positioning the
+associated stream at the beginning of the file.\
+
+")
+
+</listitem>
+
+<listitem>
+
+#para("\
+
+#dyncode("file_mode_a"): opening a file for writing and positioning the
+associated stream at the end of the file.\
+
+")
+
+</listitem>
+
+<listitem>
+
+#para("\
+
+#dyncode("file_mode_aa"): opening a file for both reading and writing and
+positioning the associated stream at the beginning of the file for reading
+and at the end for writing.\
+
+")
+
+</listitem>
+
+</itemizedlist>
+
+#para("\
+
+As an example, the following short program opens a file handle, outputs the
+string \"Hello, world!\" plus a newline into the stream associated with the
+file handle and then closes the file handle:
+
+#atscode('\
+implement
+main0 () =
+{
+val out =
+  fileref_open_exn ("hello.txt", file_mode_w)
+val () = fprint_string (out, "Hello, world!\\\n")
+val () = fileref_close (out)
+//
+} (* end of [main0] *)
+')
+
+After executing the program, we obtain a file of the name \"hello.txt\" in
+the current working directory containing the expected content. There are
+various fprint-functions in ATS for printing out data into the stream
+associated with a given file handle. Often the programmer can simply use
+the name #dyncode("fprint") to refer to these functions due to the support
+for overloading in ATS.\
+
+")
+
+#para("\
+
+Another common I/O function is given the following interface:
+
+#atscode("\
+fun fileref_get_line_string (fil: FILEref): Strptr1
+")
+
+The function #dyncode("fileref_get_line_string") reads a line from the
+stream associated with a given file handle, and it returns a value of the
+type #stacode("Strptr1"). For the moment, I will just say that such a value
+is just like a string except that it needs to be freed explicitly. As an
+example, the following short program echos each line read from the standard
+input onto the standard output:
+
+
+#atscode('\
+implement
+main0 (
+// argumentless
+) = loop () where
+{
+//
+fun loop (): void = let
+  val isnot = fileref_isnot_eof (stdin_ref)
+in
+//
+if isnot then let
+  val line =
+    fileref_get_line_string (stdin_ref)
+  val ((*void*)) = fprintln! (stdout_ref, line)
+  val ((*void*)) = strptr_free (line)
+in
+  loop ()
+end else ((*loop exits as the end-of-file is reached*))
+//
+end (* end of [loop] *)
+//
+} (* end of [main0] *)
+')
+
+Note that the function #dyncode("strptr_free") is called to free a linear
+string (of the type #stacode("Strptr1")). Often, typing the CTRL-D
+character can terminate the above program for echoing each line of input.\
+
+")#comment("para")
+
+</sect1><!--id="basic_input_and_output"-->
+
+<!-- ****** ****** -->
+
 </chapter><!--id="effectful_programming_features"-->
 
 %{

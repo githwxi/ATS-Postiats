@@ -104,8 +104,7 @@ end // end of [Perm_aux]
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_staload_tmpdef.hats"
+#include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -116,8 +115,8 @@ Perm$fwork (A, n) =
 prval () = lemma_array_param (A)
 //
 val out = stdout_ref
-val () = fprint_array (out, A, i2sz(n))
-val () = fprint_newline (out)
+val ((*void*)) = fprint_array (out, A, i2sz(n))
+val ((*void*)) = fprint_newline (out)
 } // end of [Perm$fwork]  
 
 (* ****** ****** *)

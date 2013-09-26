@@ -1,0 +1,154 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+staload "libatsdoc/SATS/libatsdoc_atext.sats"
+//
+extern
+fun comment (x: string): atext
+//
+extern
+fun packpreamble (): atext
+extern
+fun packpostamble (): atext
+extern
+fun packtitle (x: string): atext
+extern
+fun packfilename (x: string): atext
+extern
+fun packfilesynop (x: string): atext
+//
+%}
+
+(* ****** ****** *)
+
+%{
+
+implement
+comment (x) = atext_nil ()
+
+%}
+
+(* ****** ****** *)
+
+%{
+
+implement
+packpreamble () = let
+//
+val out = stdout_ref
+val () = fprint_string (out, "\
+#!/bin/bash\n\
+#\n\
+# This script is automatically generated.\n\
+#\n\
+\n\
+SOURCE=./../../contrib/GTK/\n\
+TARGET=ATS-Postiats-contrib/contrib/GTK/\n\
+\n\
+srcget ()\n\
+{\n\
+cp -f ${SOURCE}/$1 ${TARGET}/$1 ;\n\
+}\n\
+\n\
+") // end of [val]
+//
+in
+  atext_nil ()
+end // end of [packpreamble]
+
+implement
+packpostamble () = let
+val out = stdout_ref
+val () = fprint_string (out, "\
+#\n\
+echo \"The ATSCNTRB-GTK files have been copied.\"\n\
+#\n\
+# end of the automatically generated script\n\
+#\n\
+")
+in
+  atext_nil ()
+end // end of [packpostamble]
+
+implement
+packtitle (x) = atext_nil ()
+
+implement
+packfilename (x) = let
+//
+val out = stdout_ref
+val () = fprintf (out, "srcget \"%s\" ;\n", @(x))
+//
+in
+  atext_nil ()
+end // end of [packfilename]
+
+implement
+packfilesynop (x) = atext_nil ()
+
+%}
+
+(* ****** ****** *)
+
+#packpreamble()
+
+(* ****** ****** *)
+
+#packtitle("ATSCNTRB/GTK")
+
+(* ****** ****** *)
+
+#packfilename("SATS/gdk.sats")
+#packfilename("SATS/gdk/gdkcairo.sats")
+#packfilename("SATS/gdk/gdkevents.sats")
+
+(* ****** ****** *)
+
+#packfilename("CATS/gdk.cats")
+#packfilename("CATS/gdk/gdkcairo.cats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/gtk.sats")
+#packfilename("SATS/gtk/gtkenums.sats")
+#packfilename("SATS/gtk/gtkversion.sats")
+#packfilename("SATS/gtk/mybasis.sats")
+#packfilename("SATS/gtk/gtkmain.sats")
+#packfilename("SATS/gtk/gtkwidget.sats")
+#packfilename("SATS/gtk/gtkcontainer.sats")
+#packfilename("SATS/gtk/gtkbutton.sats")
+#packfilename("SATS/gtk/gtkwindow.sats")
+#packfilename("SATS/gtk/gtkbox.sats")
+#packfilename("SATS/gtk/gtkhbox.sats")
+#packfilename("SATS/gtk/gtktable.sats")
+#packfilename("SATS/gtk/gtkdrawingarea.sats")
+
+(* ****** ****** *)
+
+#packfilename("CATS/gtk.cats")
+#packfilename("CATS/gtk/gtkmain.cats")
+#packfilename("CATS/gtk/gtkwidget.cats")
+#packfilename("CATS/gtk/gtkcontainer.cats")
+#packfilename("CATS/gtk/gtkbutton.cats")
+#packfilename("CATS/gtk/gtkwindow.cats")
+#packfilename("CATS/gtk/gtkbox.cats")
+#packfilename("CATS/gtk/gtkhbox.cats")
+#packfilename("CATS/gtk/gtktable.cats")
+#packfilename("CATS/gtk/gtkdrawingarea.cats")
+
+(* ****** ****** *)
+
+#packpostamble()
+
+(* ****** ****** *)
+
+%{
+
+implement main () = ()
+
+%}
+
+(* ****** ****** *)
+
+(* end of [atscntrb_GTK.atxt] *)

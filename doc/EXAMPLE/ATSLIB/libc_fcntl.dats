@@ -5,7 +5,7 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload_tmpdef.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -15,6 +15,7 @@ UNSAFE = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload "libc/SATS/fcntl.sats"
+staload "libc/SATS/unistd.sats"
 
 (* ****** ****** *)
 

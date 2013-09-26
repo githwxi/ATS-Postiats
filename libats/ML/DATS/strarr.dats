@@ -39,7 +39,7 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload_tmpdef.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -148,6 +148,76 @@ strarr_get_at_guint
   $effmask_ref (array0_get_at_guint<char> (str, i))
 end // end of [strarr_get_at_guint]
 
+(* ****** ****** *)
+
+implement
+strarr_get_range
+  (str, i0, i1) = let
+//
+#define CNUL '\000'
+//
+val n = strarr_get_size (str)
+val i0 = min (i0, n) and i1 = min (i1, n)
+//
+val pa = strarr_get_ref (str)
+val p0 = add_ptr_bsz (pa, i0)
+val p1 = add_ptr_bsz (pa, i1)
+//
+fun loop_inc
+(
+  p0: ptr, p1: ptr, pb: ptr
+) : void =
+(
+  if p0 < p1 then let
+    val c = $UN.ptr0_get<char> (p0)
+    val p0 = ptr_succ<char> (p0)
+    val () = $UN.ptr0_set<char> (pb, c)
+    val pb = ptr_succ<char> (pb)
+  in
+    loop_inc (p0, p1, pb)
+  end else let
+    val () = $UN.ptr0_set<char> (pb, CNUL)
+  in
+    // nothing
+  end (* end of [if] *)
+)
+fun loop_dec
+(
+  p0: ptr, p1: ptr, pb: ptr
+) : void =
+(
+  if p0 > p1 then let
+    val p0 = ptr_pred<char> (p0)
+    val c = $UN.ptr0_get<char> (p0)
+    val () = $UN.ptr0_set<char> (pb, c)
+    val pb = ptr_succ<char> (pb)
+  in
+    loop_dec (p0, p1, pb)
+  end else let
+    val () = $UN.ptr0_set<char> (pb, CNUL)
+  in
+    // nothing
+  end (* end of [if] *)
+)
+//
+in
+//
+if i0 <= i1 then let
+  val df = g1ofg0(i1 - i0)
+  val (pf, pfgc | pb) = malloc_gc (df)
+  val () = loop_inc (p0, p1, pb)
+in
+  $UN.castvwtp0{string}((pf, pfgc | pb))
+end else let
+  val df = g1ofg0(i0 - i1)
+  val (pf, pfgc | pb) = malloc_gc (df)  
+  val () = loop_dec (p0, p1, pb)
+in
+  $UN.castvwtp0{string}((pf, pfgc | pb))
+end // end of [if]
+//
+end // end of [strarr_get_range]
+  
 (* ****** ****** *)
 
 implement

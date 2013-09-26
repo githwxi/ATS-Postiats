@@ -9,8 +9,7 @@
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_staload_tmpdef.hats"
+#include "share/atspre_staload.hats"
 //
 staload _ = "prelude/DATS/gnumber.dats"
 //
@@ -19,28 +18,30 @@ staload _ = "prelude/DATS/gnumber.dats"
 staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
+//
 staload "libats/SATS/gvector.sats"
 staload "libats/SATS/gmatrix.sats"
 staload "libats/SATS/gmatrix_row.sats"
+//
 staload _ = "libats/DATS/gvector.dats"
 staload _ = "libats/DATS/gmatrix.dats"
 staload _ = "libats/DATS/gmatrix_row.dats"
-
+//
 (* ****** ****** *)
-
-staload "libfloats/SATS/blas.sats"
-staload _ = "libfloats/DATS/blas0.dats"
-staload _ = "libfloats/DATS/blas1.dats"
-staload _ = "libfloats/DATS/blas_gemv.dats"
-staload _ = "libfloats/DATS/blas_gemm.dats"
-
+//
+staload "./../SATS/blas.sats"
+//
+staload _ = "./../DATS/blas0.dats"
+staload _ = "./../DATS/blas1.dats"
+staload _ = "./../DATS/blas_gemv.dats"
+staload _ = "./../DATS/blas_gemm.dats"
+//
 (* ****** ****** *)
 
 val () =
 {
 //
-typedef T = double
+typedef T = float
 //
 val out = stdout_ref
 //
@@ -64,6 +65,10 @@ val () = blas_gemm_row_nt (gint(1), !pM, !pM, gint(0), !pM2, M, N, M, N, N, M)
 //
 prval () = gmatrow2matrix (!pM)
 prval () = gmatrow2matrix (!pM2)
+//
+implement
+fprint_val<T> (out, x) =
+  ignoret ($extfcall (int, "fprintf", out, "%.2f", x))
 //
 val () = fprintln! (out, "M =")
 val () = fprint_matrix_sep (out, !pM, i2sz(M), i2sz(N), "; ", "\n")

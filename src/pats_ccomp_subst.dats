@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,8 +27,14 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: November, 2012
+//
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 
@@ -36,9 +42,6 @@ staload
 UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 staload "./pats_basics.sats"
 
@@ -163,9 +166,11 @@ fun tmpvarlst_subst
 local
 
 extern
-fun tmpvar_set_origin (
-  tmp: tmpvar, opt: tmpvaropt
-) : void  = "patsopt_tmpvar_set_origin"
+fun tmpvar_set_ret
+  (tmp: tmpvar, ret: int): void  = "patsopt_tmpvar_set_ret"
+extern
+fun tmpvar_set_origin
+  (tmp: tmpvar, opt: tmpvaropt): void  = "patsopt_tmpvar_set_origin"
 extern
 fun tmpvar_set_suffix
   (tmp: tmpvar, sfx: int): void = "patsopt_tmpvar_set_suffix"
@@ -181,7 +186,10 @@ tmpvar_subst
   val hse = hisexp_subst (sub, hse)
   val tmp2 = tmpvar_make (loc, hse)
   val () =
-    tmpvar_set_origin (tmp2, Some (tmp))
+    if tmpvar_isret (tmp) then tmpvar_set_ret (tmp2, 1)
+  // end of [val]
+  val () =
+    tmpvar_set_origin (tmp2, Some(tmp))
   // end of [val]
   val () = tmpvar_set_suffix (tmp2, sfx)
 in
@@ -557,10 +565,8 @@ val () = let
 in
 //
 case+ opt of
-| Some (d2v) =>
-  ccompenv_add_tmpvarmat
-  (
-    env, TMPVARMATsome2 (d2v, tmparg2, flab2)
+| Some (d2v) => (
+    ccompenv_add_tmpvarmat (env, TMPVARMATsome2 (d2v, tmparg2, flab2))
   ) (* end of [Some] *)
 | None ((*void*)) => ()
 //
@@ -681,7 +687,9 @@ case+
   end // end of [PMVsizeof]
 //
 | PMVselcon
-    (pmv, hse_sum, lab) => let
+  (
+    pmv, hse_sum, lab
+  ) => let
     val pmv = fpmv (pmv)
     val hse_sum = hisexp_subst (sub, hse_sum)
   in
@@ -689,7 +697,9 @@ case+
   end // end of [PMVselcon]
 //
 | PMVselect
-    (pmv, hse_rt, pml) => let
+  (
+    pmv, hse_rt, pml
+  ) => let
     val pmv = fpmv (pmv)
     val hse_rt = hisexp_subst (sub, hse_rt)
     val pml = fpml (pml)
@@ -697,7 +707,9 @@ case+
     primval_select (loc0, hse0, pmv, hse_rt, pml)
   end // end of [PMVselect]
 | PMVselect2
-    (pmv, hse_rt, pmls) => let
+  (
+    pmv, hse_rt, pmls
+  ) => let
     val pmv = fpmv (pmv)
     val hse_rt = hisexp_subst (sub, hse_rt)
     val pmls = fpmlist (pmls)
@@ -706,7 +718,9 @@ case+
   end // end of [PMVselect2]
 //
 | PMVselptr
-    (pmv, hse_rt, pmls) => let
+  (
+    pmv, hse_rt, pmls
+  ) => let
     val pmv = fpmv (pmv)
     val hse_rt = hisexp_subst (sub, hse_rt)
     val pmls = fpmlist (pmls)
@@ -718,7 +732,9 @@ case+
     val pmv = fpmv (pmv) in primval_ptrof (loc0, hse0, pmv)
   end // end of [PMVptrof]
 | PMVptrofsel
-    (pmv, hse_rt, pmls) => let
+  (
+    pmv, hse_rt, pmls
+  ) => let
     val pmv = fpmv (pmv)
     val hse_rt = hisexp_subst (sub, hse_rt)
     val pmls = fpmlist (pmls)
@@ -727,8 +743,12 @@ case+
   end // end of [PMVptrof]
 //
 | PMVrefarg
-    (knd, pmv) => let
-    val pmv = fpmv (pmv) in primval_refarg (loc0, hse0, knd, pmv)
+  (
+    knd, freeknd, pmv
+  ) => let
+    val pmv = fpmv (pmv)
+  in
+    primval_refarg (loc0, hse0, knd, freeknd, pmv)
   end // of [PMVrefarg]
 //
 | PMVfunlab
@@ -764,7 +784,7 @@ case+
     in
       ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, tmpmat)
     end else
-      pmv0 // HX-2013-01: maximal tmprecdepth is reached!
+      pmv0 // HX-2013-01: maximal tmprecdepth has been reached!
     // end of [if]
   end // end of [PMVtmpltcst]
 //
@@ -1155,6 +1175,17 @@ case+
   in
     instr_fcall (loc0, tmp, _fun, hse, _arg)
   end // end of [INSfcall]
+//
+| INSfcall2
+    (tmp, flab, ntl, hse, _arg) => let
+    val tmp = ftmp (tmp)
+    val () = tmpvar_inc_tailcal (tmp)
+    val hse = hisexp_subst (sub, hse)
+    val _arg = fpmvlst (_arg)
+  in
+    instr_fcall2 (loc0, tmp, flab, ntl, hse, _arg)
+  end // end of [INSfcall2]
+//
 | INSextfcall
     (tmp, fnm, args) => let
     val tmp = ftmp (tmp)
@@ -1339,7 +1370,6 @@ case+
   end // end of [INStrywith]
 //
 (*
-//
 | INSmove_list_nil of (tmpvar) // tmp <- list_nil
 | INSpmove_list_nil of (tmpvar) // *tmp <- list_nil
 | INSpmove_list_cons of (tmpvar) // *tmp <- list_cons
@@ -1347,12 +1377,48 @@ case+
     (tmpvar(*hd*), tmpvar(*tl*), hisexp(*elt*))
 | INSupdate_list_tail of // tl_new <- &(tl_old->next)
     (tmpvar(*new*), tmpvar(*old*), hisexp(*elt*))
-//
-| INSmove_arrpsz of
-    (tmpvar, hisexp(*elt*), int(*asz*))
-| INSupdate_ptrinc of (tmpvar, hisexp(*elt*))
-//
 *)
+//
+| INSmove_arrpsz_ptr
+    (tmp1, tmp2) => let
+    val tmp1 = ftmp (tmp1)
+    val tmp2 = ftmp (tmp2)
+  in
+    instr_move_arrpsz_ptr (loc0, tmp1, tmp2)
+  end // end of [INSmove_arrpsz_ptr]
+//
+| INSstore_arrpsz_asz
+    (tmp, asz) => let
+    val tmp = ftmp (tmp)
+  in
+    instr_store_arrpsz_asz (loc0, tmp, asz)
+  end // end of [INSstore_arrpsz_asz]
+//
+| INSstore_arrpsz_ptr
+  (
+    tmp, hse_elt, asz
+  ) => let
+    val tmp = ftmp (tmp)
+    val hse_elt = hisexp_subst (sub, hse_elt)
+  in
+    instr_store_arrpsz_ptr (loc0, tmp, hse_elt, asz)
+  end // end of [INSstore_arrpsz_ptr]
+//
+| INSupdate_ptrinc
+    (tmp, hse_elt) => let
+    val tmp = ftmp (tmp)
+    val hse_elt = hisexp_subst (sub, hse_elt)
+  in
+    instr_update_ptrinc (loc0, tmp, hse_elt)
+  end // end of [INSupdate_ptrinc]
+| INSupdate_ptrdec
+    (tmp, hse_elt) => let
+    val tmp = ftmp (tmp)
+    val hse_elt = hisexp_subst (sub, hse_elt)
+  in
+    instr_update_ptrdec (loc0, tmp, hse_elt)
+  end // end of [INSupdate_ptrdec]
+//
 | _ => ins0
 //
 end // end of [instr_subst]
@@ -1464,24 +1530,27 @@ fun
 auxinit{n:nat}
 (
   env: !ccompenv
-, sub: !stasub, hfds: list (hifundec, n)
-) : list_vt (funlab, n) = let
+, sub: !stasub, hfds: list (hifundec, n), i: int
+) : list (funlab, n) = let
 in
 //
 case+ hfds of
 | list_cons
     (hfd, hfds) => let
+//
     val-Some (fl) =
       hifundec_get_funlabopt (hfd)
-    // end of [val]
-//
-    val sfx =
-      funlab_incget_ncopy (fl)
-    // end of [val]
-//
+    val sfx = funlab_incget_ncopy (fl)
     val fl2 = funlab_subst (sub, fl)
+//
     val () = funlab_set_suffix (fl2, sfx)
-    val () = the_funlablst_add (fl2)
+//
+// HX: only the first fnx-decl is added!
+//
+    val () = (
+      if i <= 1 then the_funlablst_add (fl2)
+    ) // end of [val]
+//
     val () = ccompenv_add_flabsetenv (env, fl2)
 //
     val loc = hfd.hifundec_loc
@@ -1490,11 +1559,14 @@ case+ hfds of
 //
     val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
 //
-    val fls2 = auxinit (env, sub, hfds)
+    val i2 = (
+      if i >= 1 then i+1 else i
+    ) : int // end of [val]
+    val fls2 = auxinit (env, sub, hfds, i2)
   in
-    list_vt_cons (fl2, fls2)
+    list_cons (fl2, fls2)
   end (* end of [list_cons] *)
-| list_nil () => list_vt_nil ()
+| list_nil ((*void*)) => list_nil ()
 //
 end // end of [auxinit]
 
@@ -1502,14 +1574,14 @@ fun
 auxmain{n:nat}
 (
   env: !ccompenv, sub: !stasub
-, hfds: list (hifundec, n), fls2: list_vt (funlab, n)
+, hfds: list (hifundec, n), fls2: list (funlab, n)
 ) : void = let
 in
 //
 case+ hfds of
 | list_cons
     (hfd, hfds) => let
-    val+~list_vt_cons (fl2, fls2) = fls2
+    val+list_cons (fl2, fls2) = fls2
     val-Some (fl) = funlab_get_origin (fl2)
     val-Some (fent) = funlab_get_funent (fl)
     val sfx = funlab_get_suffix (fl2)
@@ -1518,30 +1590,43 @@ case+ hfds of
   in
     auxmain (env, sub, hfds, fls2)
   end // end of [list_cons]
-| list_nil () => let
-    val+~list_vt_nil () = fls2 in (*nothing*)
-  end // end of [list_nil]
+| list_nil () =>
+    let val+list_nil () = fls2 in (*nothing*) end
+  // end of [list_nil]
 //
 end // end of [auxmain]
+
+fun auxfnxset
+(
+  fls: funlablst
+) : void = let
+//
+  val-list_cons (fl0, _) = fls
+  val opt = funlab_get_funent (fl0)
+  val-Some(fent) = opt
+  val () = funent_set_fnxlablst (fent, fls)
+in
+  // nothing
+end // end of [auxfnxset]
 
 in (* in of [local] *)
 
 implement
 ccompenv_add_fundecsloc_subst
-(
-  env, sub, knd, decarg, hfds
-) = let
+  (env, sub, knd, decarg, hfds) = let
 in
 //
 case+ decarg of
-| list_nil (
-  ) => let
-    val fls = auxinit (env, sub, hfds)
-    val ( ) = auxmain (env, sub, hfds, fls)
+| list_cons _ => ()
+| list_nil () => let
+    val isfnx = funkind_is_mutailrec (knd)
+    val i0 = (if isfnx then 1 else 0): int
+    val fls = auxinit (env, sub, hfds, i0)
+    val ((*void*)) = auxmain (env, sub, hfds, fls)
+    val ((*void*)) = if isfnx then auxfnxset (fls)
   in
     // nothing
   end // end of [list_nil]
-| list_cons _ => ()
 //
 end // end of [ccompenv_add_fundecsloc_subst]
 

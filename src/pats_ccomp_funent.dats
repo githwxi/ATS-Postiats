@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: October, 2012
 //
 (* ****** ****** *)
@@ -90,12 +91,14 @@ funent =
 //
 , funent_tmpvarlst= tmpvarlst // tmpvars in function body
 //
+, funent_fnxlablst= funlablst // mutually tail-recursive funs
+//
 } // end of [funent]
 
 assume funent_type = funent
 extern typedef "funent_t" = funent
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 funent_make
@@ -116,16 +119,18 @@ in '{
 , funent_tmpret= tmpret
 //
 , funent_flablst= fls0
-, funent_flablst_fin= None ()
+, funent_flablst_fin= None()
 //
 , funent_d2envlst= d2es
-, funent_d2envlst_fin= None ()
+, funent_d2envlst_fin= None()
 //
 , funent_vbindmap= vbmap
 //
 , funent_instrlst= inss
 //
 , funent_tmpvarlst= tmplst
+//
+, funent_fnxlablst= list_nil()
 //
 } end // end of [funent_make]
 
@@ -175,6 +180,11 @@ funent_get_tmpvarlst (fent) = fent.funent_tmpvarlst
 
 (* ****** ****** *)
 
+implement
+funent_get_fnxlablst (fent) = fent.funent_fnxlablst
+
+(* ****** ****** *)
+
 end // end of [local]
 
 (* ****** ****** *)
@@ -183,7 +193,8 @@ implement
 funent_make2
 (
   loc, flab
-, imparg, tmparg, tmpret, fls0, d2es, vbmap, inss
+, imparg, tmparg
+, tmpret, fls0, d2es, vbmap, inss
 ) = let
   val tmps = instrlst_get_tmpvarset (inss)
   val tmps = tmpvarset_vt_add (tmps, tmpret)
@@ -295,6 +306,15 @@ patsopt_funent_set_d2envlst_fin
 ) {
   ((funent_t)fent)->atslab_funent_d2envlst_fin = opt ; return ;
 } // end of [patsopt_funent_set_d2envlst_fin]
+
+extern
+ats_void_type
+patsopt_funent_set_fnxlablst
+(
+  ats_ptr_type fent, ats_ptr_type fls
+) {
+  ((funent_t)fent)->atslab_funent_fnxlablst = fls ; return ;
+} // end of [patsopt_funent_set_fnxlablst]
 
 %} // end of [%{$]
 

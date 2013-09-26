@@ -4,8 +4,7 @@
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_staload_tmpdef.hats"
+#include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -304,10 +303,10 @@ val out = stdout_ref
 local
 //
 implement
-array_mapto2$fwork<T,T><T> (x, y, z) = z := (x * y)
+array_map2to$fwork<T,T><T> (x, y, z) = z := (x * y)
 in
 //
-val () = array_mapto2 (!p, !p, !p, asz)
+val () = array_map2to (!p, !p, !p, asz)
 //
 end (* end of [local] *)
 //

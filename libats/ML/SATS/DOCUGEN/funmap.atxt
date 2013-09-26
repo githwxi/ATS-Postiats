@@ -33,6 +33,27 @@ AVL-trees.\
 
 (* ****** ****** *)
 
+#declnamesynop("funmap_nil")
+#declnamesynop("funmap_make_nil")
+
+(* ****** ****** *)
+
+#declnamesynop("funmap_search")
+
+(* ****** ****** *)
+
+#declnamesynop("funmap_insert")
+
+(* ****** ****** *)
+
+#declnamesynop("funmap_takeout")
+
+(* ****** ****** *)
+
+#declnamesynop("funmap_remove")
+
+(* ****** ****** *)
+
 #declnamesynop("funmap_listize")
 
 (* ****** ****** *)

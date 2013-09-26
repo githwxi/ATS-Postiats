@@ -123,7 +123,7 @@ foldleft_clo
   // end of [typedef]
   val p_f = addr@ (f)
   prval [lf:addr]
-    ADDREQ () = ptr_get_index (p_f)
+    EQADDR () = ptr_get_index (p_f)
   viewdef v = clo_t @ lf
   fn app (
     pf: !v | init: init, x: x, p_f: !ptr(lf)
@@ -142,7 +142,7 @@ foldleft_vclo
   // end of [typedef]
   val p_f = addr@ (f)
   prval [lf:addr]
-    ADDREQ () = ptr_get_index (p_f)
+    EQADDR () = ptr_get_index (p_f)
   viewdef v2 = (v, clo_t @ lf)
   fn app (
     pf: !v2
@@ -209,7 +209,7 @@ foldright_clo
   // end of [typedef]
   val p_f = addr@ (f)
   prval [lf:addr]
-    ADDREQ () = ptr_get_index (p_f)
+    EQADDR () = ptr_get_index (p_f)
   viewdef v = clo_t @ lf
   fn app (
     pf: !v | x: x, sink: sink, p_f: !ptr(lf)
@@ -227,7 +227,7 @@ foldright_vclo
   // end of [typedef]
   val p_f = addr@ (f)
   prval [lf:addr]
-    ADDREQ () = ptr_get_index (p_f)
+    EQADDR () = ptr_get_index (p_f)
   viewdef v2 = (v, clo_t @ lf)
   fn app (
     pf: !v2 | x: x, sink: sink, p_f: !ptr lf

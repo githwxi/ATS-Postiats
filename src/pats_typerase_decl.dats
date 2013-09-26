@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,8 +27,14 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: September, 2012
+//
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 
@@ -49,8 +55,10 @@ implement prerr_FILENAME<> () = prerr "pats_typerase_decl"
 
 staload LOC = "./pats_location.sats"
 overload print with $LOC.print_location
+
+(* ****** ****** *)
+
 staload FIL = "./pats_filename.sats"
-overload print with $FIL.print_filename
 
 (* ****** ****** *)
 
@@ -205,7 +213,29 @@ implement
 d3eclist_tyer
   (d3cs) = let
 //
-val hids = list_map_fun (d3cs, d3ecl_tyer)
+vtypedef res = List_vt (hidecl)
+//
+fun loop
+  (d3cs: d3eclist, res: res): res = let
+in
+//
+case+ d3cs of
+| list_cons
+    (d3c, d3cs) => let
+    val hid = d3ecl_tyer (d3c)
+    val isemp = hidecl_is_empty (hid)
+  in
+    if isemp
+      then loop (d3cs, res)
+      else loop (d3cs, list_vt_cons (hid, res))
+    // end of [if]
+  end // end of [list_cons]
+| list_nil ((*void*)) => res
+//
+end // end of [loop]
+//
+val hids = loop (d3cs, list_vt_nil)
+val hids = list_vt_reverse<hidecl> (hids)
 //
 in
   list_of_list_vt (hids)
@@ -261,10 +291,14 @@ fun f3undec_tyer
 (
   imparg: s2varlst, f3d: f3undec
 ) : hifundec = let
+//
   val loc = f3d.f3undec_loc
+//
   val d2v_fun = f3d.f3undec_var
   val d3e_def = f3d.f3undec_def
+//
   val isprf = d3exp_is_prf (d3e_def)
+//
   val () = if isprf then let
     val () = prerr_error4_loc (loc)
     val () = prerr ": [fun] should be replaced with [prfun] as this is a proof binding."
@@ -282,7 +316,8 @@ end // end of [f3undec_tyer]
 
 fun f3undeclst_tyer
 (
-  knd: funkind, decarg: s2qualst, f3ds: f3undeclst
+  knd: funkind
+, decarg: s2qualst, f3ds: f3undeclst
 ) : hifundeclst = let
   val isprf = funkind_is_proof (knd)
 in
@@ -306,10 +341,13 @@ d3ecl_tyer_fundecs
 {
 //
 val loc0 = d3c0.d3ecl_loc
+//
 val-D3Cfundecs
   (knd, decarg, f3ds) = d3c0.d3ecl_node
+//
 val hfds = f3undeclst_tyer (knd, decarg, f3ds)
 val hdc0 = hidecl_fundecs (loc0, knd, decarg, hfds)
+//
 val () = hifundeclst_set_hideclopt (hfds, Some(hdc0))
 //
 } // end of [d3ecl_tyer_fundecs]
@@ -338,7 +376,8 @@ in
   hivaldec_make (loc, hip, hde_def)
 end // end of [v3aldec_tyer]
 
-fun v3aldeclst_tyer (
+fun v3aldeclst_tyer
+(
   knd: valkind, v3ds: v3aldeclst
 ) : hivaldeclst = let
   val isprf = valkind_is_proof (knd)
@@ -384,17 +423,27 @@ end // end of [local]
 
 local
 
-fun v3ardec_tyer
-  (v3d: v3ardec): hivardec = let
-  val loc = v3d.v3ardec_loc
-  val knd = v3d.v3ardec_knd
-  val d2v = v3d.v3ardec_dvar_ptr
-  val d2v = d2var_tyer (d2v)
-  val d2vw = v3d.v3ardec_dvar_view
-  val type = s2exp_tyer_shallow (loc, v3d.v3ardec_type)
-  val ini = d3expopt_tyer (v3d.v3ardec_ini)
+fun
+v3ardec_tyer
+(
+  v3d: v3ardec
+) : hivardec = let
+//
+val loc = v3d.v3ardec_loc
+val knd = v3d.v3ardec_knd
+//
+val d2v = v3d.v3ardec_dvar_var
+val d2v = d2var_tyer (d2v)
+//
+val d2vw = v3d.v3ardec_dvar_view
+//
+val s2e = v3d.v3ardec_type
+val hse = s2exp_tyer_shallow (loc, s2e)
+//
+val init = d3expopt_tyer (v3d.v3ardec_init)
+//
 in
-  hivardec_make (loc, knd, d2v, d2vw, type, ini)
+  hivardec_make (loc, knd, d2v, d2vw, hse, init)
 end // end of [v3ardec_tyer]
 
 in (* in of [local] *)

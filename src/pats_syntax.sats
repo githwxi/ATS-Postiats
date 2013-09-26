@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,14 +27,10 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: March, 2011
 //
-(* ****** ****** *)
-
-staload
-_ = "prelude/DATS/list.dats"
-
 (* ****** ****** *)
 
 staload "./pats_basics.sats"
@@ -1445,8 +1441,8 @@ and d0arrind = '{
 (* ****** ****** *)
 
 and initestpost = '{
-  itp_ini= d0exp, itp_test= d0exp, itp_post= d0exp
-}
+  itp_init= d0exp, itp_test= d0exp, itp_post= d0exp
+} // end of [initestpost]
 
 (* ****** ****** *)
 
@@ -1557,12 +1553,12 @@ and v0aldeclst: type = List v0aldec
 
 and v0ardec = '{
   v0ardec_loc= location
-, v0ardec_knd= int (* NO/BANG: knd=0/1 *)
+, v0ardec_knd= int (* knd=0/1:var/ptr *)
 , v0ardec_sym= symbol
 , v0ardec_sym_loc= location
-, v0ardec_type= s0expopt
-, v0ardec_wth= i0deopt // proof of at-view
-, v0ardec_ini= d0expopt
+, v0ardec_pfat= i0deopt // proof of at-view
+, v0ardec_type= s0expopt (* type annotation *)
+, v0ardec_init= d0expopt // value for initialization
 } // end of [v0ardec]
 
 and v0ardeclst = List v0ardec
@@ -1838,9 +1834,15 @@ fun d0arrind_cons (d0es: d0explst, ind: d0arrind): d0arrind
 
 (* ****** ****** *)
 
-fun initestpost_make (
+fun
+initestpost_make
+(
   t_beg: token
-, _ini: d0explst, t_sep: token, _test: d0explst, t_sep: token, _post: d0explst
+, init: d0explst
+, t_sep: token
+, test: d0explst
+, t_sep: token
+, post: d0explst
 , t_end: token
 ) : initestpost // end of [initestpost_make]
 
@@ -1902,12 +1904,13 @@ fun f0undec_make (
   
 (* ****** ****** *)
 
-fun v0ardec_make (
+fun v0ardec_make
+(
   opt: tokenopt // optional BANG
 , pid: i0de
-, s0eopt: s0expopt
-, varwth: i0deopt // proof of at-view
-, d0eopt: d0expopt
+, pfat: i0deopt // proof of at-view
+, s0eopt: s0expopt // type annotation
+, d0eopt: d0expopt // value for initialization
 ) : v0ardec // end of [v0ardec_make]
 
 (* ****** ****** *)

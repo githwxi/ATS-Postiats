@@ -20,11 +20,11 @@ test:: contrib_jansson
 test:: contrib_atshwxi
 
 test:: fact2
-test:: revarr
+test:: areverse
 
 test:: isqrt
-test:: fibver_rec
 test:: fibver_loop
+test:: fibver_trec
 test:: ferryman
 test:: hanoi
 test:: morse_enum
@@ -149,21 +149,26 @@ libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/gmatrix_col.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/gmatrix_row.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/gmatrix_row.dats
 
-libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funmap_list.sats
-libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/funmap_list.dats
-libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funmap_avltree.sats
-libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/funmap_avltree.dats
-
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funset_avltree.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/funset_avltree.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funset_listord.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/funset_listord.dats
 
-libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/fundeque_fingertree.sats
-libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/fundeque_fingertree.dats
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funmap_list.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/funmap_list.dats
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funmap_avltree.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/funmap_avltree.dats
+
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/fundeque_fngtree.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/fundeque_fngtree.dats
 
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funralist_nested.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/funralist_nested.dats
+
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linset_listord.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linset_listord.dats
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linset_avltree.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linset_avltree.dats
 
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linmap_list.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linmap_list.dats
@@ -173,6 +178,9 @@ libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linmap_randbst.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linmap_randbst.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linmap_skiplist.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linmap_skiplist.dats
+
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linhashtbl_chain.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linhashtbl_chain.dats
 
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linheap_binomial.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linheap_binomial.dats
@@ -225,10 +233,6 @@ contrib_jansson:: ; $(PATSOPT) -tc -s $(PATSHOME)/contrib/jansson/SATS/jansson.s
 
 IATS=-IATS $(PATSHOME)/contrib
 contrib_atshwxi:: ; \
-  $(PATSOPT) $(IATS) -tc -s $(PATSHOME)/contrib/atshwxi/testing/SATS/foreach.sats
-contrib_atshwxi:: ; \
-  $(PATSOPT) $(IATS) -tc -d $(PATSHOME)/contrib/atshwxi/testing/DATS/foreach.dats
-contrib_atshwxi:: ; \
   $(PATSOPT) $(IATS) -tc -s $(PATSHOME)/contrib/atshwxi/testing/SATS/foldleft.sats
 contrib_atshwxi:: ; \
   $(PATSOPT) $(IATS) -tc -d $(PATSHOME)/contrib/atshwxi/testing/DATS/foldleft.dats
@@ -245,8 +249,8 @@ ICONTRIB=-IATS${PATSHOME}/contrib
 
 fact2: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/fact2.dats
-revarr: ; \
-  $(PATSOPT) ${ICONTRIB} -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/revarr.dats
+areverse: ; \
+  $(PATSOPT) ${ICONTRIB} -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/areverse.dats
 bintree: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/bintree.dats
 intrange: ; \
@@ -254,8 +258,8 @@ intrange: ; \
 
 auto_diff: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/auto_diff.dats
-fibver_rec: ; \
-  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/fibver_rec.dats
+fibver_trec: ; \
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/fibver_trec.dats
 fibver_loop: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/fibver_loop.dats
 ferryman: ; \

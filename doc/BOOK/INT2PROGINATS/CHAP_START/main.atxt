@@ -175,10 +175,11 @@ ATSCCFLAGS=
 \# [-flto] enables link-time optimization such as inlining lib functions
 \#
 \#ATSCCFLAGS=-O2 -flto
+\#
 
 \#\#\#\#\#\#
 
-distclean::
+cleanall::
 
 \#\#\#\#\#\#
 
@@ -189,7 +190,7 @@ distclean::
 
 \# foo: foo.dats ; \\\\
 \#   $(ATSCC) $(ATSCCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
-\# distclean:: ; $(RMF) foo
+\# cleanall:: ; $(RMF) foo
 
 \#\#\#\#\#\#
 
@@ -210,7 +211,7 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
 
-distclean:: clean
+cleanall:: clean
 
 \#\#\#\#\#\# end of [Makefile] \#\#\#\#\#\#
 ')#comment("atscode")

@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: April, 2013
 //
 (* ****** ****** *)
@@ -100,6 +101,7 @@ case+ pmv_fun.primval_node of
 | PMVtmpltvar _ => emit_primval (out, pmv_fun)
 //
 | PMVtmpltcstmat _ => emit_primval (out, pmv_fun)
+| PMVtmpltvarmat _ => emit_primval (out, pmv_fun)
 //
 | _(*funval*) => aux_funval2 (out, pmv_fun, hse_fun, isclo)
 //
@@ -219,6 +221,25 @@ case+ pmvs of
 //
 end // end of [emit_fparamlst]
 
+fun emit_fun_freeaft
+(
+  out: FILEref, pmv: primval
+) : void = let
+in
+//
+case+
+  pmv.primval_node of
+| PMVrefarg
+    (knd, freeknd, pmv) =>
+  if freeknd > 0 then
+  (
+    emit_text (out, "ATSINSfreeclo(");
+    emit_primval (out, pmv); emit_text (out, ") ;\n")
+  ) (* end of [PMVrefarg] *)
+| _ => ()
+//
+end // end of [emit_fun_freeaft]
+
 in (* in of [local] *)
 
 implement
@@ -264,11 +285,141 @@ val ln = aux_funenv (out, pmv_fun)
 val () = emit_fparamlst (out, ln, pmvs_arg)
 val () = emit_rparen (out)
 //
-val () = emit_text (out, ") ;")
+val () = emit_text (out, ") ;\n")
+//
+val () = emit_fun_freeaft (out, pmv_fun)
 //
 in
   // nothing
 end // end of [emit_instr_fcall]
+
+(* ****** ****** *)
+
+local
+
+fun aux1
+(
+  out: FILEref
+, ntl: int, pmv: primval, i: int
+) : void = let
+//
+val () =
+emit_text (out, "ATSINSmove_tlcal(")
+val () =
+(
+if ntl <= 1
+  then fprintf (out, "argx%i", @(i))
+  else fprintf (out, "a%irgx%i", @(ntl, i))
+// end of [if]
+) : void // end of [val]
+val () = emit_text (out, ", ")
+val () = emit_primval (out, pmv)
+val () = emit_text (out, ") ;\n")
+//
+in
+  // nothing
+end // end of [aux1]
+
+fun aux1lst
+(
+  out: FILEref
+, ntl: int, pmvs: primvalist, i: int
+) : void = let
+in
+//
+case+ pmvs of
+| list_cons
+    (pmv, pmvs) =>
+  (
+    aux1 (out, ntl, pmv, i);
+    aux1lst (out, ntl, pmvs, i+1)
+  )
+| list_nil () => ()
+//
+end // end of [aux1lst]
+
+fun aux2
+(
+  out: FILEref
+, ntl: int, pmv: primval, i: int
+) : void = let
+//
+val () =
+emit_text (out, "ATSINSargmove_tlcal(")
+val () =
+(
+if ntl <= 1
+  then fprintf (out, "arg%i", @(i))
+  else fprintf (out, "a%irg%i", @(ntl, i))
+// end of [if]
+) : void // end of [val]
+val () =
+(
+if ntl <= 1
+  then fprintf (out, ", argx%i", @(i))
+  else fprintf (out, ", a%irgx%i", @(ntl, i))
+// end of [if]
+) : void // end of [val]
+val () = emit_text (out, ") ;\n")
+//
+in
+  // nothing
+end // end of [aux2]
+
+fun aux2lst
+(
+  out: FILEref
+, ntl: int, pmvs: primvalist, i: int
+) : void = let
+in
+//
+case+ pmvs of
+| list_cons
+    (pmv, pmvs) =>
+  (
+    aux2 (out, ntl, pmv, i);
+    aux2lst (out, ntl, pmvs, i+1)
+  )
+| list_nil () => ()
+//
+end // end of [aux2lst]
+
+fun auxgoto
+(
+  out: FILEref, flab: funlab
+) : void = let
+//
+val (
+) = emit_text (out, "ATSgoto(")
+val (
+) = emit_text (out, "__patsflab_")
+val () = emit2_funlab (out, flab)
+val () = emit_text (out, ") ;\n")
+//
+in
+  // nothing
+end // end of [auxgoto]
+
+in (* in of [local] *)
+
+implement
+emit_instr_fcall2
+  (out, ins) = let
+//
+val-INSfcall2
+  (tmp, flab, ntl, hse_fun, pmvs_arg) = ins.instr_node
+//
+val () = emit_text (out, "ATStailcalbeg()\n")
+val () = aux1lst (out, ntl, pmvs_arg, 0(*i*))
+val () = aux2lst (out, ntl, pmvs_arg, 0(*i*))
+val () = auxgoto (out, flab) // HX: loop again
+val () = emit_text (out, "ATStailcalend()\n")
+//
+in
+  // nothing
+end // end of [emit_instr_fcall2]
+
+end // end of [local]
 
 (* ****** ****** *)
 

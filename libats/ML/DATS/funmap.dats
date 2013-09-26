@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -28,17 +28,18 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: hwxi AT cs DOT bu DOT edu *)
-(* Start time: December, 2012 *)
+(* Authoremail: gmhwxi AT gmail DOT com *)
+(* Start time: August, 2013 *)
 
 (* ****** ****** *)
 //
-// HX-2012-12: the map implementation is based on AVL trees
+// HX-2012-12:
+// the map implementation is based on AVL trees
 //
 (* ****** ****** *)
 
-staload FM =
-"libats/SATS/funmap_avltree.sats"
+staload
+FM = "libats/SATS/funmap_avltree.sats"
 
 (* ****** ****** *)
 
@@ -51,13 +52,69 @@ staload "libats/ML/SATS/funmap.sats"
 (* ****** ****** *)
 
 assume
-map_type (key:t0p, itm: t0p) = $FM.map (key, itm)
+map_type (key:t0p, itm:t0p) = $FM.map (key, itm)
 
 (* ****** ****** *)
 
-implement{key,itm}
-funmap_listize (xs) = let
-  val xs = $effmask_wrt ($FM.funmap_listize (xs))
+implement{a}
+compare_key_key = gcompare_val<a>
+implement{a}
+$FM.compare_key_key = compare_key_key<a>
+
+(* ****** ****** *)
+
+implement{}
+funmap_nil () = $FM.funmap_nil ()
+implement{}
+funmap_make_nil () = $FM.funmap_make_nil ()
+
+(* ****** ****** *)
+
+implement{}
+funmap_is_nil (map) = $FM.funmap_is_nil (map)
+implement{}
+funmap_isnot_nil (map) = $FM.funmap_isnot_nil (map)
+
+(* ****** ****** *)
+//
+implement
+{key,itm}
+funmap_size (map) = $FM.funmap_size (map)
+//
+(* ****** ****** *)
+//
+implement
+{key,itm}
+funmap_search
+  (map, k) = $FM.funmap_search_opt (map, k)
+//
+(* ****** ****** *)
+//
+implement
+{key,itm}
+funmap_insert
+  (map, k, x) = $FM.funmap_insert_opt (map, k, x)
+//
+(* ****** ****** *)
+//
+implement
+{key,itm}
+funmap_takeout
+  (map, k) = $FM.funmap_takeout_opt (map, k)
+//
+(* ****** ****** *)
+//
+implement
+{key,itm}
+funmap_remove (map, k) = $FM.funmap_remove (map, k)
+//
+(* ****** ****** *)
+
+implement
+{key,itm}
+funmap_listize
+  (map) = let
+  val xs = $effmask_wrt ($FM.funmap_listize (map))
 in
   list0_of_list_vt (xs)
 end // end of [funmap_listize]

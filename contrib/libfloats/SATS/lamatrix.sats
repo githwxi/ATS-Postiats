@@ -15,7 +15,7 @@ staload "libats/SATS/gmatrix.sats"
 
 (* ****** ****** *)
 
-staload "contrib/libfloats/SATS/lavector.sats"
+staload "./../SATS/lavector.sats"
 
 (* ****** ****** *)
 

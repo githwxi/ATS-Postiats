@@ -55,6 +55,12 @@ extern void *realloc(void *ptr, size_t bsz) ;
 //
 ATSinline()
 atsvoid_t0ype
+atsruntime_minit_libc() { return ; }
+//
+/* ****** ****** */
+
+ATSinline()
+atsvoid_t0ype
 atsruntime_mfree_libc
   (atstype_ptr ptr) { free(ptr) ; return ; }
 // end of [atsruntime_mfree_libc]

@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,23 +27,31 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: May, 2011
 //
 (* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
+(* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/pointer.dats"
-staload _(*anon*) = "prelude/DATS/reference.dats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
 staload
 FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
+
+(* ****** ****** *)
 
 staload SYM = "./pats_symbol.sats"
 staload SYN = "./pats_syntax.sats"
@@ -338,27 +346,31 @@ case+ q.s0rtq_node of
     val ans = the_s2expenv_find (sym)
   in
     case+ ans of
-    | ~Some_vt (s2i) => (case+ s2i of
-      | S2ITMfil (fenv) => let
-          val (pf, fpf | p_map) =
-            filenv_get_s2temap (fenv)
+    | ~Some_vt (s2i) => (
+      case+ s2i of
+      | S2ITMfilenv (fenv) => let
+          val (
+            pf, fpf | p_map
+          ) = filenv_get_s2temap (fenv)
           val ans = symmap_search (!p_map, id)
           prval () = minus_addback (fpf, pf | fenv)
         in
           ans
         end // en dof [S2ITMfil]
       | _ => let
-        val () = prerr_error2_loc (q.s0rtq_loc)
-        val () = prerr ": the qualifier ["
-        val () = $SYM.prerr_symbol (sym)
-        val () = prerr "] should refer to a filename but it does not."
-        val () = prerr_newline ()
-      in
-        None_vt ()
-      end
+          val loc = q.s0rtq_loc
+          val () = prerr_error2_loc (loc)
+          val () = prerr ": the qualifier ["
+          val () = $SYM.prerr_symbol (sym)
+          val () = prerr "] should refer to a filename but it does not."
+          val () = prerr_newline ()
+        in
+          None_vt ()
+        end
       ) // end of [Some_vt]
     | ~None_vt () => let
-        val () = prerr_error2_loc (q.s0rtq_loc)
+        val loc = q.s0rtq_loc
+        val () = prerr_error2_loc (loc)
         val () = prerr ": the qualifier ["
         val () = $SYM.prerr_symbol (sym)
         val () = prerr "] is unrecognized."
@@ -366,6 +378,7 @@ case+ q.s0rtq_node of
       in
         None_vt ()
       end
+    // end of [case]
   end // end of [S2RTsymdot]
 //
 end // end of [the_s2rtenv_find_qua]
@@ -526,27 +539,31 @@ case+ q.s0taq_node of
     val ans = the_s2expenv_find (sym)
   in
     case+ ans of
-    | ~Some_vt (s2i) => (case+ s2i of
-      | S2ITMfil (fenv) => let
-          val (pf, fpf | p_map) =
-            filenv_get_s2itmmap (fenv)
+    | ~Some_vt (s2i) => (
+      case+ s2i of
+      | S2ITMfilenv (fenv) => let
+          val (
+            pf, fpf | p_map
+          ) = filenv_get_s2itmmap (fenv)
           val ans = symmap_search (!p_map, id)
           prval () = minus_addback (fpf, pf | fenv)
         in
           ans
         end // en dof [S2ITMfil]
       | _ => let
-        val () = prerr_error2_loc (q.s0taq_loc)
-        val () = prerr ": the qualifier ["
-        val () = $SYM.prerr_symbol (sym)
-        val () = prerr "] should refer to a filename but it does not."
-        val () = prerr_newline ()
-      in
-        None_vt ()
-      end
+          val loc = q.s0taq_loc
+          val () = prerr_error2_loc (loc)
+          val () = prerr ": the qualifier ["
+          val () = $SYM.prerr_symbol (sym)
+          val () = prerr "] should refer to a filename but it does not."
+          val () = prerr_newline ()
+        in
+          None_vt ()
+        end
       ) // end of [Some_vt]
     | ~None_vt () => let
-        val () = prerr_error2_loc (q.s0taq_loc)
+        val loc = q.s0taq_loc
+        val () = prerr_error2_loc (loc)
         val () = prerr ": the qualifier ["
         val () = $SYM.prerr_symbol (sym)
         val () = prerr "] is unrecognized."
@@ -957,34 +974,38 @@ case+ q.d0ynq_node of
     val ans = the_s2expenv_find (sym)
   in
     case+ ans of
-    | ~Some_vt (s2i) => (case+ s2i of
-      | S2ITMfil (fenv) => let
-          val (pf, fpf | p_map) =
-            filenv_get_d2itmmap (fenv)
+    | ~Some_vt (s2i) => (
+      case+ s2i of
+      | S2ITMfilenv (fenv) => let
+          val (
+            pf, fpf | p_map
+          ) = filenv_get_d2itmmap (fenv)
           val ans = symmap_search (!p_map, id)
           prval () = minus_addback (fpf, pf | fenv)
         in
           ans
         end // en dof [S2ITMfil]
       | _ => let
-        val () = prerr_error2_loc (q.d0ynq_loc)
-        val () = prerr ": the qualifier ["
-        val () = $SYM.prerr_symbol (sym)
-        val () = prerr "] should refer to a filename but it does not."
-        val () = prerr_newline ()
-      in
-        None_vt ()
-      end
+          val loc = q.d0ynq_loc
+          val () = prerr_error2_loc (loc)
+          val () = prerr ": the qualifier ["
+          val () = $SYM.prerr_symbol (sym)
+          val () = prerr "] should refer to a filename but it does not."
+          val () = prerr_newline ()
+        in
+          None_vt ()
+        end
       ) // end of [Some_vt]
     | ~None_vt () => let
-        val () = prerr_error2_loc (q.d0ynq_loc)
+        val loc = q.d0ynq_loc
+        val () = prerr_error2_loc (loc)
         val () = prerr ": the qualifier ["
         val () = $SYM.prerr_symbol (sym)
         val () = prerr "] is unrecognized."
         val () = prerr_newline ()
       in
         None_vt ()
-      end
+      end // end of [None_vt]
   end // end of [S2RTsymdot]
 | $SYN.D0YNQsymcolon _ => None_vt ()
 | $SYN.D0YNQsymdotcolon _ => None_vt ()
@@ -994,16 +1015,21 @@ end // end of [the_s2expenv_find_qua]
 (* ****** ****** *)
 
 implement
-the_d2expenv_add_dcon (d2c) = let
-  val id = d2con_get_sym d2c
-  val d2cs = (
-    case+ the_d2expenv_find (id) of
-    | ~Some_vt d2i => begin case+ d2i of
-      | D2ITMcon d2cs => d2cs | _ => list_nil ()
-      end // end of [Some_vt]
-    | ~None_vt () => list_nil ()
-  ) : d2conlst // end of [val]
-  val d2i = D2ITMcon (list_cons (d2c, d2cs))
+the_d2expenv_add_dcon
+  (d2c) = let
+//
+val id = d2con_get_sym d2c
+val d2cs =
+(
+case+
+  the_d2expenv_find (id) of
+| ~Some_vt d2i => (
+    case+ d2i of D2ITMcon d2cs => d2cs | _ => list_nil ()
+  ) // end of [Some_vt]
+| ~None_vt ((*void*)) => list_nil ()
+) : d2conlst // end of [val]
+val d2i = D2ITMcon (list_cons (d2c, d2cs))
+//
 in
   the_d2expenv_add (id, d2i)
 end // end of [the_d2expenv_add_dcon]
@@ -1014,6 +1040,8 @@ implement
 the_d2expenv_add_dcst (d2c) = let
   val id = d2cst_get_sym (d2c) in the_d2expenv_add (id, D2ITMcst d2c)
 end // end of [the_d2expenv_add_dcst]
+
+(* ****** ****** *)
 
 implement
 the_d2expenv_add_dmacdef (d2m) = let
@@ -1028,6 +1056,8 @@ the_d2expenv_add_dmacvarlst
   (d2vs) = list_app_fun (d2vs, the_d2expenv_add_dmacvar)
 // end of [the_d2expenv_add_dmacvarlst]
 
+(* ****** ****** *)
+
 implement
 the_d2expenv_add_dvar (d2v) = let
   val id = d2var_get_sym (d2v) in the_d2expenv_add (id, D2ITMvar d2v)
@@ -1036,6 +1066,43 @@ implement
 the_d2expenv_add_dvarlst
   (d2vs) = list_app_fun (d2vs, the_d2expenv_add_dvar)
 // end of [the_d2expenv_add_dvarlst]
+implement
+the_d2expenv_add_dvaropt (opt) = (
+  case+ opt of Some (d2v) => the_d2expenv_add_dvar (d2v) | None () => ()
+) // end of [the_d2expenv_add_dvaropt]
+
+(* ****** ****** *)
+
+implement
+the_d2expenv_add_fundeclst
+  (knd, f2ds) = let
+//
+fun auxlst
+(
+  f2ds: f2undeclst
+) : void = (
+case+ f2ds of
+| list_cons
+    (f2d, f2ds) => let
+    val () = the_d2expenv_add_dvar (f2d.f2undec_var)
+  in
+    auxlst (f2ds)
+  end // end of [list_cons]
+| list_nil ((*none*)) => ()
+) (* end of [auxlist] *)
+//
+in
+//
+case+ f2ds of
+| list_cons
+    (f2d, f2ds) => let
+    val () = the_d2expenv_add_dvar (f2d.f2undec_var)
+  in
+    if not(funkind_is_mutailrec(knd)) then auxlst (f2ds)
+  end // end of [list_cons]
+| list_nil ((*none*)) => ()
+//
+end // end of [the_d2expenv_add_fundeclst]
 
 (* ****** ****** *)
 

@@ -10,12 +10,15 @@
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_staload_tmpdef.hats"
+#include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
 staload "libats/SATS/linmap_skiplist.sats"
+
+(* ****** ****** *)
+
+staload _(*anon*) = "libats/DATS/qlist.dats"
 staload _(*anon*) = "libats/DATS/linmap_skiplist.dats"
 
 (* ****** ****** *)
@@ -65,6 +68,8 @@ val ans =
 prval () = opt_clear (res)
 val () = assertloc (not(ans)) // inserted
 val () = assertloc (linmap_size (map) = 3)
+//
+val () = list_vt_free (linmap_listize1 (map))
 //
 val () = fprintln! (stdout_ref, "map = ", map)
 //

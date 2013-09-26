@@ -4,7 +4,7 @@
 #if (ATSCODEFORMAT == "txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"integer.sats"
+val _thisfilename = atext_strcst"integer_fixed.sats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 //
 #include "prelude_SATS_atext.hats"
@@ -43,49 +43,69 @@ typedef NSH(a:type) = a // for commenting purpose
 
 #atscode_separator()
 //
-stadef intptrknd = intptr_kind
-stadef uintptrknd = uintptr_kind
+stadef int8knd = int8_kind
+stadef int16knd = int16_kind
+stadef int32knd = int32_kind
+stadef int64knd = int64_kind
+//
+stadef uint8knd = uint8_kind
+stadef uint16knd = uint16_kind
+stadef uint32knd = uint32_kind
+stadef uint64knd = uint64_kind
 //
 #atscode_separator()
 //
-fun g0int2int_int_intptr (x: int):<> intptr = "mac\#%"
-fun g1int2int_int_intptr {i:int} (x: int i):<> intptr (i) = "mac\#%"
+#fun_g0int_type_aop_cmp_decl("int8", "int8")\
+//
+#fun_g0int_type_aop_cmp_decl("int16", "int16")\
+//
+#fun_g0int_type_aop_cmp_decl("int32", "int32")\
+//
+#fun_g0int_type_aop_cmp_decl("int64", "int64")\
+//
+#atscode_separator()
+
+#fprint_print_prerr_decl("int8", "int8")
+#fprint_print_prerr_decl("int16", "int16")
+#fprint_print_prerr_decl("int32", "int32")
+#fprint_print_prerr_decl("int64", "int64")
+
+#atscode_separator()
+//
+#fun_g0uint_type_aop_cmp_decl("uint8", "uint8")\
+//
+#fun_g0uint_type_aop_cmp_decl("uint16", "uint16")\
+//
+#fun_g0uint_type_aop_cmp_decl("uint32", "uint32")\
+//
+#fun_g0uint_type_aop_cmp_decl("uint64", "uint64")\
+//
+#atscode_separator()
+
+#fprint_print_prerr_decl("uint8", "uint8")
+#fprint_print_prerr_decl("uint16", "uint16")
+#fprint_print_prerr_decl("uint32", "uint32")
+#fprint_print_prerr_decl("uint64", "uint64")
+
+#atscode_separator()
+//
+#fun_g1int_type_aop_cmp_decl("int8", "int8")\
+//
+#fun_g1int_type_aop_cmp_decl("int16", "int16")\
+//
+#fun_g1int_type_aop_cmp_decl("int32", "int32")\
+//
+#fun_g1int_type_aop_cmp_decl("int64", "int64")\
 //
 #atscode_separator()
 //
-fun g0int2uint_int_uintptr (x: int):<> uintptr = "mac\#%"
-fun g1int2uint_int_uintptr {i:nat} (x: int i):<> uintptr (i) = "mac\#%"
+#fun_g1uint_type_aop_cmp_decl("uint8", "uint8")\
 //
-#atscode_separator()
+#fun_g1uint_type_aop_cmp_decl("uint16", "uint16")\
 //
-fun g0uint2uint_uint_uintptr (x: uint):<> uintptr = "mac\#%"
-fun g1uint2uint_uint_uintptr {u:int} (x: uint u):<> uintptr (u) = "mac\#%"
+#fun_g1uint_type_aop_cmp_decl("uint32", "uint32")\
 //
-#atscode_separator()
-//
-#fun_g0int_type_aop_cmp_decl("intptr", "intptr")\
-//
-#atscode_separator()
-//
-#fprint_print_prerr_decl("intptr", "intptr")\
-//
-#atscode_separator()
-//
-#fun_g0uint_type_aop_cmp_decl("uintptr", "uintptr")\
-//
-#atscode_separator()
-//
-#fprint_print_prerr_decl("uintptr", "uintptr")\
-//
-#atscode_separator()
-//
-#fun_g1uint_type_aop_cmp_decl("uintptr", "uintptr")\
-//
-#atscode_separator()
-//
-macdef i2ptr (x) = g1int2int_int_intptr (,(x))
-//
-macdef u2ptr (x) = g1uint2uint_uint_uintptr (,(x))
+#fun_g1uint_type_aop_cmp_decl("uint64", "uint64")\
 //
 #atscode_separator()
 

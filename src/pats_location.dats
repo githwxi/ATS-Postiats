@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: March, 2011
 //
 (* ****** ****** *)
@@ -174,9 +175,16 @@ location_get_filename (loc) = loc.filename
 (* ****** ****** *)
 
 implement
-fprint_location
-  (out, loc) = () where {
-  val () = $FIL.fprint_filename (out, loc.filename)
+print_location (loc) = fprint_location (stdout_ref, loc)
+implement
+prerr_location (loc) = fprint_location (stderr_ref, loc)
+
+local
+
+fun prloc
+(
+  out: FILEref, loc: location
+) : void = () where {
   val () = fprint_string (out, ": ")
   val () = fprint_lint (out, loc.beg_ntot+1L)
   val () = fprint_string (out, "(line=")
@@ -190,12 +198,25 @@ fprint_location
   val () = fprint_string (out, ", offs=")
   val () = fprint_int (out, loc.end_ncol+1)
   val () = fprint_string (out, ")")
-} // end of [fprint_location]
+} (* end of [prloc] *)
+
+in (* in of [local] *)
 
 implement
-print_location (loc) = fprint_location (stdout_ref, loc)
+fprint_location
+  (out, loc) =
+(
+  $FIL.fprint_filename_full (out, loc.filename); prloc (out, loc)
+) (* end of [fprint_location] *)
+
 implement
-prerr_location (loc) = fprint_location (stderr_ref, loc)
+fprint_location2
+  (out, loc) =
+(
+  $FIL.fprint_filename2_full (out, loc.filename); prloc (out, loc)
+) (* end of [fprint_location2] *)
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -336,9 +357,9 @@ val line = loc.beg_nrow
 val () =
   if line >= 0 then let
   val () = fprint_string (out, "#line ")
-  val () = fprint_int (out, line+1) // HX: counting from 1
+  val () = fprint_int (out, line+1) // counting from 1
   val () = fprint_string (out, " \"")
-  val () = $FIL.fprint_filename (out, loc.filename)
+  val () = $FIL.fprint_filename_full (out, loc.filename)
   val () = fprint_string (out, "\"\n")
 in
   // nothing

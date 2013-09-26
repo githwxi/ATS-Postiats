@@ -61,24 +61,6 @@ stadef
 mytkind = $extkind"atslib_linmap_randbst"
 
 (* ****** ****** *)
-
-implement{}
-linmap_randbst_initize () =
-(
-  $STDLIB.srand48 ($UN.cast{lint}($TIME.time_get()))
-) // end of [linmap_randbst_initize]
-
-(* ****** ****** *)
-
-implement{}
-linmap_randbst_random_m_n
-  (m, n) = let
-  val r = $STDLIB.drand48 ()
-in
-  if g0i2f (m+n) * r <= g0i2f (m) then 0 else 1
-end // end of [linmap_random_m_n]
-
-(* ****** ****** *)
 //
 // HX: for linear binary search trees
 //
@@ -102,11 +84,12 @@ bstree (
 (* ****** ****** *)
 
 vtypedef
-bstree0 (key:t0p, itm:vt0p) = [n:nat] bstree (key, itm, n)
+bstree0 (k:t0p, i:vt0p) = [n:nat] bstree (k, i, n)
 
 (* ****** ****** *)
 
-assume map_vtype (key:t0p, itm:vt0p) = bstree0 (key, itm)
+assume
+map_vtype (key:t0p, itm:vt0p) = bstree0 (key, itm)
 
 (* ****** ****** *)
 
@@ -207,7 +190,7 @@ case+ t of
     | _ when sgn > 0 => let
         val res = bstree_search_ref (tr, k0) in fold@ (t); res
       end // end of [_]
-    | _ => let
+    | _ (*sgn = 0*) => let
         val res = addr@ (x) in fold@ (t); $UN.cast{cPtr1(itm)}(res)
       end // end of [_]
   end // end of [BSTcons]
@@ -285,9 +268,9 @@ case+ t of
     end else let (* sgn = 0 *)
       val x_ = x
       val () = x := x0
-      prval () = fold@ (t)
       val () = x0 := x_
-      prval () = opt_some {itm} (x0)
+      prval () = fold@ (t)
+      prval () = opt_some{itm}(x0)
     in
       1 // replaced
     end // end of [if]
@@ -295,17 +278,18 @@ case+ t of
 | ~BSTnil () => let
     val x0_ = x0
     val () = t := BSTcons{key,itm}(1, k0, x0_, BSTnil (), BSTnil ())
-    prval () = opt_none {itm} (x0)
+    prval () = opt_none{itm}(x0)
   in
     0 // inserted
   end // end of [BSTnil]
 //
 end // end of [bstree_insert_atroot]
 
-fun{
-key:t0p;itm:vt0p
-} bstree_insert_random{n:nat} .<n>.
-(
+fun
+{key:t0p
+;itm:vt0p}
+bstree_insert_random
+  {n:nat} .<n>. (
   t: &bstree (key, INV(itm), n) >> bstree (key, itm, n+1-i), k0: key, x0: &itm >> opt(itm, i>0)
 ) : #[i:nat2] int (i) = let
 in
@@ -367,11 +351,11 @@ end // end of [linmap_insert]
 
 (* ****** ****** *)
 
-fun{
-key:t0p;itm:vt0p
-} bstree_join_random
-  {nl,nr:nat} .<nl+nr>.
-(
+fun
+{key:t0p
+;itm:vt0p}
+bstree_join_random
+  {nl,nr:nat} .<nl+nr>. (
   tl: bstree (key, INV(itm), nl), tr: bstree (key, itm, nr)
 ) : bstree (key, itm, nl+nr) = let
 in
@@ -419,10 +403,11 @@ end // end of [bstree_join_random]
 
 (* ****** ****** *)
 
-fun{
-key:t0p;itm:vt0p
-} bstree_takeout_random{n:nat} .<n>.
-(
+fun
+{key:t0p
+;itm:vt0p}
+bstree_takeout_random
+  {n:nat} .<n>. (
   t: &bstree (key, INV(itm), n) >> bstree (key, itm, n-i), k0: key, x0: &(itm?) >> opt (itm, i>0)
 ) : #[i:nat2 | i <= n] int (i) = let
 in
@@ -478,9 +463,8 @@ implement
 linmap_foreach_env
   (map, env) = let
 //
-exception DISCONT of ()
-//
-fun aux{n:nat} .<n>.
+fun aux
+  {n:nat} .<n>.
 (
   t: !bstree (key, itm, n), env: &(env) >> _
 ) : void = let
@@ -492,16 +476,13 @@ case+ t of
     n, k, x, tl, tr
   ) => let
     val () = aux (tl, env)
-    val () =
-      if ~linmap_foreach$cont<key,itm><env> (k, x, env) then $raise DISCONT()
-    // end of [val]
     val () = linmap_foreach$fwork<key,itm><env> (k, x, env)
     val () = aux (tr, env)
     prval () = fold@ (t)
   in
     // nothing
   end // end of [BSTcons]
-| BSTnil () => ()
+| BSTnil ((*void*)) => ()
 //
 end // end of [aux]
 //
@@ -524,7 +505,7 @@ end // end of [aux2]
 val map = $UN.castvwtp1{ptr}(map)
 //
 in
-  try aux2 (map, env) with ~DISCONT () => ()
+  aux2 (map, env)
 end // end of [linmap_foreach_env]
 
 (* ****** ****** *)
@@ -534,7 +515,8 @@ implement
 linmap_freelin
   (map) = let
 //
-fun aux{n:nat} .<n>.
+fun aux
+  {n:nat} .<n>.
 (
   t: bstree (key, itm, n)
 ) : void = let
@@ -545,14 +527,14 @@ case+ t of
   (
     _, k, x, tl, tr
   ) => let
-    val () = linmap_freelin$clear (x)
+    val () = linmap_freelin$clear<itm> (x)
     val tl = tl and tr = tr
     val () = free@ {..}{0,0} (t)
     val () = aux (tl) and () = aux (tr)
   in
     // nothing
   end // end of [BSTcons]
-| ~BSTnil () => ()
+| ~BSTnil ((*void*)) => ()
 //
 end // end of [aux]
 //
@@ -594,40 +576,44 @@ end // end of [linmap_free_ifnil]
 (* ****** ****** *)
 
 implement
-{key,itm}
-linmap_listize_free
+{key,itm}{ki2}
+linmap_flistize
   (map) = let
 //
 vtypedef ki = @(key, itm)
 //
 fun aux
   {m,n:nat} .<n>. (
-  t: bstree (key, itm, n), res: list_vt (ki, m)
-) :<!wrt> list_vt (ki, m+n) = let
+  t: bstree (key, itm, n), res: list_vt (ki2, m)
+) : list_vt (ki2, m+n) = let
 in
 //
 case+ t of
 | ~BSTcons
   (
-    _, k, i, tl, tr
+    _, k, x, tl, tr
   ) => res where {
-    val res = aux (tr, res)
-    val res = list_vt_cons{ki}((k, i), res)
     val res = aux (tl, res)
+    val kx2 = linmap_flistize$fopr<key,itm><ki2> (k, x)
+    val res = list_vt_cons{ki2}(kx2, res)
+    val res = aux (tr, res)
   } // end of [BSTcons]
-| ~BSTnil () => res
+| ~BSTnil ((*void*)) => res
 //
 end // end of [aux]
 //
+val res = aux (map, list_vt_nil ())
+//
 in
-  aux (map, list_vt_nil ())
-end // end of [linmap_listize_free]
+  list_vt_reverse (res)
+end // end of [linmap_flistize]
 
 (* ****** ****** *)
 
+(*
 implement
 {key,itm}
-linmap_listize_copy
+linmap_listize1
   (map) = let
 //
 vtypedef ki = @(key, itm)
@@ -640,21 +626,41 @@ in
 //
 case+ t0 of
 | @BSTcons (
-    _, k, i, tl, tr
+    _, k, x, tl, tr
   ) => res where {
-    val res = aux (tr, res)
-    val i2 = linmap_listize$copy<itm> (i)
-    val res = list_vt_cons{ki}((k, i2), res)
     val res = aux (tl, res)
-    prval () = fold@ (t0)
+    val res = list_vt_cons{ki}((k, x), res)
+    val res = aux (tr, res)
+    prval ((*void*)) = fold@ (t0)
   } // end of [BSTcons]
 | BSTnil () => (res)
 //
 end // end of [aux]
 //
+val res = aux (map, list_vt_nil ())
+//
 in
-  aux (map, list_vt_nil ())
-end // end of [linmap_listize_copy]
+  list_vt_reverse (res)
+end // end of [linmap_listize1]
+*)
+
+(* ****** ****** *)
+
+implement{}
+linmap_randbst_initize () =
+(
+  $STDLIB.srand48 ($UN.cast{lint}($TIME.time_get()))
+) // end of [linmap_randbst_initize]
+
+(* ****** ****** *)
+
+implement{}
+linmap_randbst_random_m_n
+  (m, n) = let
+  val r = $STDLIB.drand48 ()
+in
+  if g0i2f (m+n) * r <= g0i2f (m) then 0 else 1
+end // end of [linmap_random_m_n]
 
 (* ****** ****** *)
 

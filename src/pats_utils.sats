@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: March, 2011
 //
 (* ****** ****** *)
@@ -57,6 +58,12 @@ fun intrep_get_nsfx (rep: string): uint // in the [rep]
 // HX: finding the length of the suffix [FfLl]*
 fun float_get_nsfx (rep: string): uint // in the [rep]
 //
+(* ****** ****** *)
+
+fun dirpath_append
+  (dir: string, path: string, sep: char) : Strptr1
+// end of [dirpath_append]
+
 (* ****** ****** *)
 
 fun fprint_stropt (out: FILEref, opt: Stropt): void
@@ -109,9 +116,9 @@ fun lstord2list {a:type} (xs: lstord a): List (a)
 local
 
 staload
-Q = "libats/SATS/linqueue_arr.sats"
+QUEUE = "libats/SATS/linqueue_arr.sats"
 viewtypedef
-QUEUE (m:int, n:int) = $Q.QUEUE (uchar, m, n)
+QUEUE (m:int, n:int) = $QUEUE.QUEUE (uchar, m, n)
 
 in (* in of [local] *)
 

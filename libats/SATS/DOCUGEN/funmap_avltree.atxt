@@ -71,14 +71,32 @@ O(n). ")
 
 (* ****** ****** *)
 
-#declnamesynop("funmap_foreach$cont")
-#declnamesynop("funmap_foreach$fwork")
+#declnamesynop("fprint_funmap")
+#declnamesynop("fprint_funmap$sep")
+#declnamesynop("fprint_funmap$mapto")
+
+(* ****** ****** *)
+
 #declnamesynop("funmap_foreach")
 #declnamesynop("funmap_foreach_env")
+#declnamesynop("funmap_foreach$fwork")
 
 (* ****** ****** *)
 
 #declnamesynop("funmap_listize")
+
+(* ****** ****** *)
+
+#declnamesynop("funmap_flistize")
+#declnamesynop("funmap_flistize$fopr")
+
+(* ****** ****** *)
+
+#declnamesynop("funmap_avltree_height")
+#decldescrpt("\
+
+Given a map represented by some AVL-tree, this function returns the
+height of the tree. ")
 
 (* ****** ****** *)
 

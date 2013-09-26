@@ -29,9 +29,6 @@
 
 (* ****** ****** *)
 
-(* Author: Hanwen Wu *)
-(* Authoremail: hwwu AT cs DOT bu DOT edu *)
-
 (* Author: Hongwei Xi *)
 (* Authoremail: hwxi AT cs DOT bu DOT edu *)
 (* Start time: November, 2011 *)
@@ -42,7 +39,7 @@
 //
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats"
+#define ATS_PACKNAME "ATSLIB.libats.linheap_fibonacci"
 #define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)

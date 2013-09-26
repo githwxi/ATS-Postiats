@@ -16,7 +16,7 @@
 
 (* ****** ****** *)
 
-staload "libfloats/SATS/blas.sats"
+staload "./../SATS/blas.sats"
 
 (* ****** ****** *)
 

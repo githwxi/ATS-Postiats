@@ -1,0 +1,203 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../hiredis_ML.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_hiredis_hiredis_ML")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/hiredis/hiredis_ML\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+
+This package contains an API in ATS of ML-style
+for the <a href="https://github.com/redis/hiredis/">hiredis</a> package.\
+
+')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("redisVal")
+
+(* ****** ****** *)
+
+#declnamesynop("redisReply2Val0")
+#declnamesynop("redisReply2Val1")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_redisVal")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_auth")
+#declnamesynop("redis_ping")
+#declnamesynop("redis_echo")
+#declnamesynop("redis_quit")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_keys")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_flushdb")
+#declnamesynop("redis_flushall")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_del")
+#declnamesynop("redis_del1")
+#declnamesynop("redis_del2")
+#declnamesynop("redis_del3")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_exists")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_get")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_set_int")
+#declnamesynop("redis_set_string")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_setnx_int")
+#declnamesynop("redis_setnx_string")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_getset_int")
+#declnamesynop("redis_getset_string")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_decr")
+#declnamesynop("redis_decrby")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_incr")
+#declnamesynop("redis_incrby")
+#declnamesynop("redis_incrbyfloat")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_rename")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_llen")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_lpop")
+#declnamesynop("redis_lpush_int")
+#declnamesynop("redis_lpush_string")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_rpop")
+#declnamesynop("redis_rpush_int")
+#declnamesynop("redis_rpush_string")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_lindex")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_lrange")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_scard")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_sadd_int")
+#declnamesynop("redis_sadd_string")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_srem_int")
+#declnamesynop("redis_srem_string")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_smove_int")
+#declnamesynop("redis_smove_string")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_spop")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_smembers")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_sismember_int")
+#declnamesynop("redis_sismember_string")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_hlen")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_hkeys")
+#declnamesynop("redis_hvals")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_hexists")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_hdel")
+#declnamesynop("redis_hdel1")
+#declnamesynop("redis_hdel2")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_hget")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_hset_int")
+#declnamesynop("redis_hset_string")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_hsetnx_int")
+#declnamesynop("redis_hsetnx_string")
+
+(* ****** ****** *)
+
+#declnamesynop("redis_hincrby")
+#declnamesynop("redis_hincrbyfloat")
+
+(* ****** ****** *)
+
+(* end of [hiredis.atxt] *)

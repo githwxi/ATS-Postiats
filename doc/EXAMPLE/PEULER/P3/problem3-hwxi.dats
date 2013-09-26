@@ -12,13 +12,17 @@
 // HX-2013-06: ported to ATS2
 //
 (* ****** ****** *)
+
+#include "share/atspre_define.hats"
+
+(* ****** ****** *)
 //
-staload "atshwxi/intinf/SATS/intinf_t.sats"
+staload "{$LIBATSHWXI}/intinf/SATS/intinf_t.sats"
 //
 staload _(*anon*) = "prelude/DATS/integer.dats"
 staload _(*anon*) = "prelude/DATS/pointer.dats"
-staload _(*anon*) = "atshwxi/intinf/DATS/intinf_t.dats"
-staload _(*anon*) = "atshwxi/intinf/DATS/intinf_vt.dats"
+staload _(*anon*) = "{$LIBATSHWXI}/intinf/DATS/intinf_t.dats"
+staload _(*anon*) = "{$LIBATSHWXI}/intinf/DATS/intinf_vt.dats"
 //
 (* ****** ****** *)
 

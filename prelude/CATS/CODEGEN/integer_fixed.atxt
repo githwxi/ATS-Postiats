@@ -37,21 +37,22 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+typedef int8_t atstype_int8 ;
+typedef int16_t atstype_int16 ;
+typedef int32_t atstype_int32 ;
+typedef int64_t atstype_int64 ;
+
+typedef uint8_t atstype_uint8 ;
+typedef uint16_t atstype_uint16 ;
+typedef uint32_t atstype_uint32 ;
+typedef uint64_t atstype_uint64 ;
+
+#atscode_separator_for_C()
+
 extern
 int fprintf (FILE *stream, const char *format, ...) ;
 // in [stdio.h]
 
-#atscode_separator_for_C()
-//
-\#define atspre_g0int2int_int_intptr(x) ((atstype_intptr)(x))
-\#define atspre_g1int2int_int_intptr atspre_g0int2int_int_intptr
-//
-\#define atspre_g0int2uint_int_uintptr(x) ((atstype_uintptr)(x))
-\#define atspre_g1int2uint_int_uintptr atspre_g0int2uint_int_uintptr
-//
-\#define atspre_g0uint2uint_uint_uintptr(x) ((atstype_uintptr)(x))
-\#define atspre_g1uint2uint_uint_uintptr atspre_g0uint2uint_uint_uintptr
-//
 #atscode_separator_for_C()
 
 %{
@@ -263,23 +264,68 @@ end // end of [local]
 //
 %}\
 \
-#g0int_implist("intptr")\
+#g0int_implist("int8")\
+#g0int_implist("int16")\
+#g0int_implist("int32")\
+#g0int_implist("int64")\
 //
 #atscode_separator_for_C()
 
 ATSinline()
 atsvoid_t0ype
-atspre_fprint_intptr
+atspre_fprint_int8
 (
-  atstype_ref r, atstype_intptr x
+  atstype_ref r, atstype_int8 x
 ) {
   int err ;
-  err = fprintf((FILE*)r, "%lli", (atsptr_llint)x) ;
+  err = fprintf((FILE*)r, "%i", (atstype_int)x) ;
   return ;
-} // end [atspre_fprint_intptr]
+} // end [atspre_fprint_int8]
 
-\#define atspre_print_intptr(x) atspre_fprint_intptr(stdout, (x))
-\#define atspre_prerr_intptr(x) atspre_fprint_intptr(stderr, (x))
+\#define atspre_print_int8(x) atspre_fprint_int8(stdout, (x))
+\#define atspre_prerr_int8(x) atspre_fprint_int8(stderr, (x))
+
+ATSinline()
+atsvoid_t0ype
+atspre_fprint_int16
+(
+  atstype_ref r, atstype_int16 x
+) {
+  int err ;
+  err = fprintf((FILE*)r, "%i", (atstype_int)x) ;
+  return ;
+} // end [atspre_fprint_int16]
+
+\#define atspre_print_int16(x) atspre_fprint_int16(stdout, (x))
+\#define atspre_prerr_int16(x) atspre_fprint_int16(stderr, (x))
+
+ATSinline()
+atsvoid_t0ype
+atspre_fprint_int32
+(
+  atstype_ref r, atstype_int32 x
+) {
+  int err ;
+  err = fprintf((FILE*)r, "%li", (atstype_lint)x) ;
+  return ;
+} // end [atspre_fprint_int32]
+
+\#define atspre_print_int32(x) atspre_fprint_int32(stdout, (x))
+\#define atspre_prerr_int32(x) atspre_fprint_int32(stderr, (x))
+
+ATSinline()
+atsvoid_t0ype
+atspre_fprint_int64
+(
+  atstype_ref r, atstype_int64 x
+) {
+  int err ;
+  err = fprintf((FILE*)r, "%lli", (atstype_llint)x) ;
+  return ;
+} // end [atspre_fprint_int64]
+
+\#define atspre_print_int64(x) atspre_fprint_int64(stdout, (x))
+\#define atspre_prerr_int64(x) atspre_fprint_int64(stderr, (x))
 
 #atscode_separator_for_C()
 
@@ -377,7 +423,6 @@ fun_cmpz_decl (
 val fopr = (
   case+ opr of
   | "isgtz" => ">"
-  | "isgtez" => ">="
   | "iseqz" => "=="
   | "isneqz" => "!="
   | _ => opr
@@ -448,7 +493,6 @@ val () = res := list_cons (fun_aop_decl("mul", tnm), res)
 val () = res := list_cons (fun_aop_decl("div", tnm), res)
 //
 val () = res := list_cons (fun_cmpz_decl("isgtz", tnm), res)
-val () = res := list_cons (fun_cmpz_decl("isgtez", tnm), res)
 val () = res := list_cons (fun_cmpz_decl("iseqz", tnm), res)
 val () = res := list_cons (fun_cmpz_decl("isneqz", tnm), res)
 //
@@ -468,23 +512,68 @@ end // end of [g0uint_implist]
 end // end of [local]
 %}\
 \
-#g0uint_implist("uintptr")\
+#g0uint_implist("uint8")\
+#g0uint_implist("uint16")\
+#g0uint_implist("uint32")\
+#g0uint_implist("uint64")\
 //
 #atscode_separator_for_C()
 
 ATSinline()
 atsvoid_t0ype
-atspre_fprint_uintptr
+atspre_fprint_uint8
 (
-  atstype_ref r, atstype_uintptr x
+  atstype_ref r, atstype_uint8 x
+) {
+  int err ;
+  err = fprintf((FILE*)r, "%u", (atstype_uint)x) ;
+  return ;
+} // end [atspre_fprint_uint8]
+
+\#define atspre_print_uint8(x) atspre_fprint_uint8(stdout, (x))
+\#define atspre_prerr_uint8(x) atspre_fprint_uint8(stderr, (x))
+
+ATSinline()
+atsvoid_t0ype
+atspre_fprint_uint16
+(
+  atstype_ref r, atstype_uint16 x
+) {
+  int err ;
+  err = fprintf((FILE*)r, "%u", (atstype_uint)x) ;
+  return ;
+} // end [atspre_fprint_uint16]
+
+\#define atspre_print_uint16(x) atspre_fprint_uint16(stdout, (x))
+\#define atspre_prerr_uint16(x) atspre_fprint_uint16(stderr, (x))
+
+ATSinline()
+atsvoid_t0ype
+atspre_fprint_uint32
+(
+  atstype_ref r, atstype_uint32 x
+) {
+  int err ;
+  err = fprintf((FILE*)r, "%lu", (atstype_ulint)x) ;
+  return ;
+} // end [atspre_fprint_uint32]
+
+\#define atspre_print_uint32(x) atspre_fprint_uint32(stdout, (x))
+\#define atspre_prerr_uint32(x) atspre_fprint_uint32(stderr, (x))
+
+ATSinline()
+atsvoid_t0ype
+atspre_fprint_uint64
+(
+  atstype_ref r, atstype_uint64 x
 ) {
   int err ;
   err = fprintf((FILE*)r, "%llu", (atstype_ullint)x) ;
   return ;
-} // end [atspre_fprint_uintptr]
+} // end [atspre_fprint_uint64]
 
-\#define atspre_print_uintptr(x) atspre_fprint_uintptr(stdout, (x))
-\#define atspre_prerr_uintptr(x) atspre_fprint_uintptr(stderr, (x))
+\#define atspre_print_uint64(x) atspre_fprint_uint64(stdout, (x))
+\#define atspre_prerr_uint64(x) atspre_fprint_uint64(stderr, (x))
 
 #atscode_separator_for_C()
 

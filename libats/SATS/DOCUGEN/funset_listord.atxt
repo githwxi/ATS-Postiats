@@ -65,8 +65,8 @@ xs. Note that duplicated elements in xs are all removed in the formed set.
 
 (* ****** ****** *)
 
-#declnamesynop("funset_is_empty")
-#declnamesynop("funset_isnot_empty")
+#declnamesynop("funset_is_nil")
+#declnamesynop("funset_isnot_nil")
 
 (* ****** ****** *)
 
@@ -143,21 +143,7 @@ O(|xs1|+|xs2|).  ")
 
 (* ****** ****** *)
 
-#declnamesynop("funset_is_subset")
-#decldescrpt("\
-
-Given sets xs1 and xs2, this function tests whether xs1 is a subset of xs2.
-The time complexity of this function is O(|xs1|+|xs2|).  ")
-
-#declnamesynop("funset_is_supset")
-#decldescrpt("\
-
-Given sets xs1 and xs2, this function tests whether xs1 is a superset of
-xs2.  The time complexity of this function is O(|xs1|+|xs2|).  ")
-
-(* ****** ****** *)
-
-#declnamesynop("funset_is_equal")
+#declnamesynop("funset_equal")
 #decldescrpt("\
 
 This function tests whether two given sets xs1 and xs2 are equal.  The time
@@ -175,11 +161,60 @@ O(|xs1|+|xs2|).  ")
 
 (* ****** ****** *)
 
+#declnamesynop("funset_is_subset")
+#decldescrpt("\
+
+Given sets xs1 and xs2, this function tests whether xs1 is a subset of xs2.
+The time complexity of this function is O(|xs1|+|xs2|).  ")
+
+#declnamesynop("funset_is_supset")
+#decldescrpt("\
+
+Given sets xs1 and xs2, this function tests whether xs1 is a superset of
+xs2.  The time complexity of this function is O(|xs1|+|xs2|).  ")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_funset")
+#decldescrpt("\
+
+This function prints out the elements in a given set. It calls
+#dyncode("fprint_funset$sep") to print a separator between every two
+consecutive elements.  ")
+
+#declnamesynop("fprint_funset$sep")
+#decldescrpt("\
+
+This function template is called by #dyncode("fprint_funset"). It
+prints out the string \", \" (a comma followed by a space character)
+by default.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_foreach")
+#declnamesynop("funset_foreach_env")
+#declnamesynop("funset_foreach$fwork")
+
+(* ****** ****** *)
+
 #declnamesynop("funset_listize")
 #decldescrpt("\
 
 Given a set xs, this function returns a linear list consisting of all the
 elements in xs.  The time complexity of this function is O(|xs|).  ")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_flistize")
+#decldescrpt("\
+
+Given a set xs, this function returns a linear list consisting of all the
+elements returned by calling #dyncode("funset_flistize$fopr") on elements
+in xs.  ")
+
+#declnamesynop("funset_flistize$fopr")
 
 (* ****** ****** *)
 

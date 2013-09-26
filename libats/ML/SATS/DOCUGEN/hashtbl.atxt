@@ -1,0 +1,68 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../hashtbl.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_ML_hashtbl")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/ML/hashtbl\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package implements hashtables where the buckets associated with
+keys are represented as (singly or doubly) linked lists.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl")
+#declnamesynop("hashtbl_type")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl_make_nil")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl_get_size")
+#declnamesynop("hashtbl_get_capacity")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl_search")
+#declnamesynop("hashtbl_search_ref")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl_insert")
+#declnamesynop("hashtbl_insert_any")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl_takeout")
+#declnamesynop("hashtbl_takeout_all")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl_remove")
+
+(* ****** ****** *)
+
+#declnamesynop("hashtbl_listize1")
+
+(* ****** ****** *)
+
+(* end of [hashtbl.atxt] *)

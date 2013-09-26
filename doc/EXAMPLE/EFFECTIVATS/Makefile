@@ -1,77 +1,79 @@
 #
+# A simple Makefile
 #
-# This Makefile is automatically generated
-# from executing the following command-line:
-#
-# make -f Makefile.gen
-#
-#
-
-######
-
-CCOPT=gcc -std=c99 -D_XOPEN_SOURCE
-
-######
-
-PATSHOMEQ="$(PATSHOME)"
-PATSOPT=$(PATSHOMEQ)/src/patsopt
-PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 
 ######
 
 all::
+all::file-copying
+file-copying:: ; make -C file-copying all
+all::queue-sllist2
+queue-sllist2:: ; make -C queue-sllist2 all
+word-counting:: ; make -C word-counting all
 
 ######
 
-LNS=ln -s
-RMF=rm -f
+cleanall::
+cleanall:: ; make -C file-copying cleanall
+cleanall:: ; make -C queue-sllist2 cleanall
+cleanall:: ; make -C loop-as-tailrec cleanall
+cleanall:: ; make -C word-counting cleanall
 
 ######
 
-all:: fcopy1
-fcopy1: fcopy1.exe
-fcopy1.exe: fcopy1_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime  -o $@ $< 
-fcopy1_dats.c: fcopy1.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fcopy1_dats.c --dynamic fcopy1.dats
-clean:: ; $(RMF) fcopy1_dats.o
-clean:: ; $(RMF) fcopy1_dats.c
-cleanall:: ; $(RMF) fcopy1.exe
-
-all:: fcopy2
-fcopy2: fcopy2.exe
-fcopy2.exe: fcopy2_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-fcopy2_dats.c: fcopy2.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fcopy2_dats.c --dynamic fcopy2.dats
-clean:: ; $(RMF) fcopy2_dats.o
-clean:: ; $(RMF) fcopy2_dats.c
-cleanall:: ; $(RMF) fcopy2.exe
-
-all:: fcopy3
-fcopy3: fcopy3.exe
-fcopy3.exe: fcopy3_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-fcopy3_dats.c: fcopy3.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fcopy3_dats.c --dynamic fcopy3.dats
-clean:: ; $(RMF) fcopy3_dats.o
-clean:: ; $(RMF) fcopy3_dats.c
-cleanall:: ; $(RMF) fcopy3.exe
-
+uploadall::
+uploadall::upload_stack-array
+uploadall::upload_file-copying
+uploadall::upload_queue-sllist2
+uploadall::upload_loop-as-tailrec
+uploadall::upload_word-counting
 
 ######
 
-all:: queue-sllist2
-queue-sllist2: queue-sllist2.exe
-queue-sllist2.exe: queue-sllist2_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-queue-sllist2_dats.c: queue-sllist2.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output queue-sllist2_dats.c --dynamic queue-sllist2.dats
-clean:: ; $(RMF) queue-sllist2_dats.o
-clean:: ; $(RMF) queue-sllist2_dats.c
-cleanall:: ; $(RMF) queue-sllist2.exe
-
+upload_stack-array:: ; \
+  scp \
+  stack-array/Makefile \
+  stack-array/main.html \
+  stack-array/*.?ats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/stack-array/
 
 ######
 
-clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.o *_?ats.c
-clean:: ; $(RMF) *_atxt.txt
-clean:: ; $(RMF) *_atxt.dats
-clean:: ; $(RMF) Makefile.exe
+upload_queue-sllist2:: ; \
+  scp \
+  queue-sllist2/Makefile \
+  queue-sllist2/main.html \
+  queue-sllist2/*.?ats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/queue-sllist2/
 
-cleanall:: clean
+######
+
+upload_file-copying:: ; \
+  scp \
+  file-copying/Makefile \
+  file-copying/main.html \
+  file-copying/*.?ats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/file-copying/
+
+######
+
+upload_loop-as-tailrec:: ; \
+  scp \
+  loop-as-tailrec/Makefile \
+  loop-as-tailrec/main.html \
+  loop-as-tailrec/*.?ats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/loop-as-tailrec/
+
+######
+
+upload_word-counting:: ; \
+  scp \
+  word-counting/Makefile \
+  word-counting/main.html \
+  word-counting/*.?ats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/word-counting/
+
+######
+
 
 ###### end of [Makefile] ######

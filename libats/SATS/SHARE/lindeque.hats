@@ -28,7 +28,11 @@
 (* ****** ****** *)
 
 absvtype
-deque_vtype (a:viewt@ype+, n:int) = ptr
+deque_vtype (a:vt@ype+, n:int) = ptr
+
+(* ****** ****** *)
+
+stadef deque = deque_vtype
 vtypedef deque (a:vt0p, n:int) = deque_vtype (a, n)
 vtypedef Deque (a:vt0p) = [n:int] deque (a, n)
 
@@ -78,7 +82,8 @@ lindeque_insert_atend{n:int}
 (* ****** ****** *)
 //
 fun{a:vt0p}
-lindeque_takeout_at{n:int}{i:nat | i < n}
+lindeque_takeout_at
+  {n:int}{i:nat | i < n}
 (
   dq: &deque (INV(a), n) >> deque (a, n-1), i: int i
 ) : a // end of [lindeque_takeout_at]

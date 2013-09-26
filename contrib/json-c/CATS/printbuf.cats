@@ -28,8 +28,8 @@
 
 /* ****** ****** */
 
-#ifndef JSON_PRINTBUF_CATS
-#define JSON_PRINTBUF_CATS
+#ifndef JSONC_PRINTBUF_CATS
+#define JSONC_PRINTBUF_CATS
 
 /* ****** ****** */
 
@@ -39,35 +39,35 @@
 
 ATSinline()
 atstype_ptr
-atscntrb_printbuf_get_buf
+atscntrb_jsonc_printbuf_get_buf
   (atstype_ptr pb)
 {
   return ((struct printbuf*)pb)->buf ;
-} // end of [atscntrb_printbuf_get_buf]
+} // end of [atscntrb_jsonc_printbuf_get_buf]
 
 ATSinline()
 atstype_int
-atscntrb_printbuf_get_size
+atscntrb_jsonc_printbuf_get_size
   (atstype_ptr pb)
 {
   return ((struct printbuf *)pb)->size ;
-} // end of [atscntrb_printbuf_get_size]
+} // end of [atscntrb_jsonc_printbuf_get_size]
 
 /* ****** ****** */
 
-#define atscntrb_printbuf_new printbuf_new
-#define atscntrb_printbuf_free printbuf_free
-#define atscntrb_printbuf_reset printbuf_reset
-#define atscntrb_printbuf_length printbuf_length
-#define atscntrb_printbuf_memappend printbuf_memappend
-#define atscntrb_printbuf_memset printbuf_memset
+#define atscntrb_jsonc_printbuf_new printbuf_new
+#define atscntrb_jsonc_printbuf_free printbuf_free
+#define atscntrb_jsonc_printbuf_reset printbuf_reset
+#define atscntrb_jsonc_printbuf_length printbuf_length
+#define atscntrb_jsonc_printbuf_memappend printbuf_memappend
+#define atscntrb_jsonc_printbuf_memset printbuf_memset
 /*
-#define atscntrb_sprintbuf sprintbuf
+#define atscntrb_jsonc_sprintbuf sprintbuf
 */
 
 /* ****** ****** */
 
-#endif // ifndef JSON_PRINTBUF_CATS
+#endif // ifndef JSONC_PRINTBUF_CATS
 
 /* ****** ****** */
 

@@ -8,7 +8,7 @@ implement srcfilename_get () = "../json.sats"
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/contrib_json-c_json")
+val () = patscode_prefix_set("TRYIT/contrib_jsonc_json")
 %}
 
 (* ****** ****** *)
@@ -98,9 +98,6 @@ This file contains the API for functions declared in [json_object_iterator.h]. '
 #declsynop2('\
 
 This file contains the API for functions declared in [json_tokener.h]. ')
-
-(* ****** ****** *)
-
 
 (* ****** ****** *)
 

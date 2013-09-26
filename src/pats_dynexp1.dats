@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: April, 2011
 //
 (* ****** ****** *)
@@ -932,17 +933,18 @@ v1aldec_make
 } // end of [v1aldec_make]
 
 implement
-v1ardec_make (
-  loc, knd, id, loc_id, s1e, wth, ini
+v1ardec_make
+(
+  loc, knd, id, loc_id, pfat, s1eopt, init
 ) = '{
   v1ardec_loc= loc
-, v1ardec_knd= knd
+, v1ardec_knd= knd // knd=0/1:var/ptr
 , v1ardec_sym= id
 , v1ardec_sym_loc= loc_id
-, v1ardec_type= s1e
-, v1ardec_wth= wth // i0deopt
-, v1ardec_ini= ini
-} // end of [v1ardec_make]
+, v1ardec_pfat= pfat // i0deopt
+, v1ardec_type= s1eopt // type annotation
+, v1ardec_init= init // value for initialization
+} (* end of [v1ardec_make] *)
 
 (* ****** ****** *)
 

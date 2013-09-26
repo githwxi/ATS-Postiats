@@ -114,17 +114,41 @@ handled by calling the function #dyncode("fprint_ref").
 #declnamesynop("arrayref_tabulate")
 
 (* ****** ****** *)
+//
+// Arrays with size information
+//
+(* ****** ****** *)
 
 #declnamesynop("arrszref")
 #declnamesynop("arrszref_vt0ype_type")
 
 (* ****** ****** *)
 
+#declnamesynop("arrszref_make_arrpsz")
 #declnamesynop("arrszref_make_arrayref")
 #decldescrpt("\
 
 This function combines an arrayref-value and its size into an
 arrszref-value. ")
+
+(* ****** ****** *)
+
+#declnamesynop(".ref")
+#declnamesynop("arrszref_get_ref")
+#decldescrpt("\
+
+This function returns the pointer to the arrayref-value inside a given
+arrszref-value.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop(".size")
+#declnamesynop("arrszref_get_size")
+#decldescrpt("This function returns the size of a given arrszref-value.")
+
+(* ****** ****** *)
 
 #declnamesynop("arrszref_get_refsize")
 #decldescrpt("\

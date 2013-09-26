@@ -60,6 +60,21 @@ bytes_v_unsplit
 // end of [bytes_v_unsplit]
 
 #atscode_separator()
+//
+// HX-2013-08:
+// for memory initialization
+//
+fun minit_gc (): void = "mac\#%"
+//
+#atscode_separator()
+
+fun mfree_gc
+  {l:addr}{n:int}
+(
+  pfat: b0ytes n @ l, pfgc: mfree_gc_v (l) | ptr l
+) :<!wrt> void = "mac\#%" // endfun
+
+#atscode_separator()
 
 fun malloc_gc
   {n:int}
@@ -70,14 +85,6 @@ fun malloc_gc
 (
   b0ytes n @ l, mfree_gc_v (l) | ptr l
 ) = "mac\#%" // endfun
-
-#atscode_separator()
-
-fun mfree_gc
-  {l:addr}{n:int}
-(
-  pfat: b0ytes n @ l, pfgc: mfree_gc_v (l) | ptr l
-) :<!wrt> void = "mac\#%" // endfun
 
 #atscode_separator()
 

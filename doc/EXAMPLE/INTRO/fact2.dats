@@ -80,7 +80,7 @@ main (
   argc, argv
 ) = let
   val n = (
-    if argc >= 2 then g1int_of_string (argv[1]) else 10(*default*)
+    if argc >= 2 then g1string2int (argv[1]) else 10(*default*)
   ) : Int // end of [val]
   val () = assertexn (n >= 0)
   val pfr = fact (n)

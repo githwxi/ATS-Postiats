@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: March, 2011
 //
 (* ****** ****** *)
@@ -57,34 +58,50 @@ fun theCurDir_get (): string // current directory
 // HX-2012-08:
 // 0/1: intepreted locally/externally
 // 
-fun path_get_srchknd (path: string): int
+fun givename_srchknd (given: string): int
+//
+(* ****** ****** *)
+
+fun givename_get_ngurl (given: string): int
 
 (* ****** ****** *)
 
-fun print_filename (fil: filename): void
-overload print with print_filename
-fun prerr_filename (fil: filename): void
-overload prerr with prerr_filename
-fun fprint_filename (out: FILEref, fil: filename): void
-overload fprint with fprint_filename
+fun filename_get_givename (fil: filename): string
+fun filename_get_partname (fil: filename): string
+fun filename_get_fullname (fil: filename): $SYM.symbol
 
+(* ****** ****** *)
+(*
+//
+fun print_filename: filename -> void
+fun prerr_filename: filename -> void
+fun fprint_filename : (FILEref, filename) -> void
+//
+overload print with print_filename
+overload prerr with prerr_filename
+overload fprint with fprint_filename
+//
+*)
 (* ****** ****** *)
 
 fun print_filename_full (fil: filename): void
+fun prerr_filename_full (fil: filename): void
 fun fprint_filename_full (out: FILEref, fil: filename): void
 
 (* ****** ****** *)
 
-fun filename_get_part (fil: filename): string
-fun filename_get_full (fil: filename): $SYM.symbol
+fun fprint_filename2_full (out: FILEref, fil: filename): void
 
 (* ****** ****** *)
 
-fun filename_merge (
-  fil: string, bas: string
+fun filename_merge
+(
+  fil: string, givename: string
 ) : strptr1 = "patsopt_filename_merge"
-fun filename_append (
-  dir: string, bas: string
+
+fun filename_append
+(
+  dir: string, givename: string
 ) :<> strptr1 = "patsopt_filename_append"
 
 (* ****** ****** *)
@@ -151,8 +168,13 @@ fun the_prepathlst_push (p: path): void
 (* ****** ****** *)
 
 fun filename_make
-  (part: string, full: string) : filename
-// end of [filename_make]
+  (given: string, part: string, full: string): filename
+
+(* ****** ****** *)
+
+fun pkgsrcname_relocatize (given: string, ngurl: int): string
+
+(* ****** ****** *)
 
 fun filenameopt_make_local (name: string): filenameopt_vt
 fun filenameopt_make_relative (name: string): filenameopt_vt

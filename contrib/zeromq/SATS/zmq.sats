@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -42,7 +42,7 @@
 
 #define ATS_PACKNAME "ATSCNTRB.zeromq"
 #define ATS_STALOADFLAG 0 // no static loading at run-time
-#define ATS_EXTERN_PREFIX "atscntrb_" // prefix for external names
+#define ATS_EXTERN_PREFIX "atscntrb_zeromq_" // prefix for external names
 
 (* ****** ****** *)
 
@@ -51,16 +51,26 @@ typedef NSH(x:type) = x // for commenting purpose
 
 (* ****** ****** *)
 
-absviewtype zmqctx (l:addr)
-
-viewtypedef zmqctx0 = [l:addr] zmqctx (l)
-viewtypedef zmqctx1 = [l:addr | l > null] zmqctx (l)
-
-castfn zmqctx2ptr {l:addr} (ctx: !zmqctx (l)):<> ptr (l)
+absvtype zmqctx_vtype (l:addr) = ptr(l)
+vtypedef zmqctx (l:addr) = zmqctx_vtype(l)
+vtypedef zmqctx = [l:addr] zmqctx_vtype(l)
+vtypedef zmqctx0 = [l:agez] zmqctx_vtype(l)
+vtypedef zmqctx1 = [l:addr | l > null] zmqctx_vtype(l)
 
 (* ****** ****** *)
+//
+castfn
+zmqctx2ptr{l:addr} (!zmqctx (l)):<> ptr(l)
+overload ptrcast with zmqctx2ptr
+//
+(* ****** ****** *)
 
-absviewtype zmqctxopt (l:addr, b:bool)
+absvtype
+zmqctxopt_vtype (l:addr, b:bool) = ptr
+vtypedef
+zmqctxopt (l:addr, b:bool) = zmqctxopt_vtype(l, b)
+
+(* ****** ****** *)
 
 castfn
 zmqctxopt_unsome
@@ -77,11 +87,16 @@ zmqctxopt_unnone
 macdef ZMQ_REP = $extval(int, "ZMQ_REP")
 macdef ZMQ_REQ = $extval(int, "ZMQ_REQ")
 
-absviewtype zmqsock (l:addr)
-viewtypedef zmqsock0 = [l:addr] zmqsock (l)
-viewtypedef zmqsock1 = [l:addr | l > null] zmqsock (l)
+absvtype zmqsock (l:addr) = ptr
+vtypedef zmqsock = [l:addr] zmqsock(l)
+vtypedef zmqsock0 = [l:agez] zmqsock(l)
+vtypedef zmqsock1 = [l:addr | l > null] zmqsock(l)
 
-castfn zmqsock2ptr {l:addr} (sock: !zmqsock (l)): ptr (l)
+(* ****** ****** *)
+
+castfn
+zmqsock2ptr{l:addr} (!zmqsock (l)):<> ptr(l)
+overload ptrcast with zmqsock2ptr
 
 (* ****** ****** *)
 

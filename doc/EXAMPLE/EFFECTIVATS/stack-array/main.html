@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>Effectivats-stack-array</title>
+</head>
+
+<body>
+
+<h1>
+Effective ATS: An Array-Based Stack Implementation
+</h1>
+
+ATS advocates a programming paradigm referred to as <em>Programming with
+Theorem-Proving</em> (PwTP) in which programs and proofs are syntactically
+intertwined.  As proof construction can be highly expensive in terms of
+both effort and time, making proper use of unsafe programming features (so
+as to avoid explicit proof construction) is often a necessary skill for a
+programmer who wants not just only to be able to code in ATS but also to do
+it productively. In this article, I would like to present a simple
+array-based stack implementation in which one can find certain typical uses
+of unsafe programming features in ATS.
+
+<h2>
+API for Array-Based Stacks
+</h2>
+
+As usual, let us first introduce an abstract type for array-based stacks:
+
+<pre>
+absvtype
+stkarray_vtype (a:vt@ype+, m:int, n:int) = ptr
+</pre>
+
+We then introduce some shorthands as follows:
+
+<pre>
+stadef stkarray = stkarray_vtype
+vtypedef
+stkarray (a:vt0p) = [m,n:int] stkarray_vtype (a, m, n)
+</pre>
+
+Given a type T, an integer M and another integer N, the type [stkarray(T,
+M, N)] is for an array-based stack such that (1) the elements stored in the
+stack are of type T, (2) the capacity of the stack is M, and (3) the
+current size of the stack is N.  Clearly, M >= N and N >= 0 holds, and this
+property is encoded into the type of the following proof function
+[lemma_stkarray_param]:
+  
+<pre>
+praxi
+lemma_stkarray_param
+  {a:vt0p}{m,n:int}
+  (!stkarray (INV(a), m, n)): [m >= n; n >= 0] void
+// end of [lemma_stkarray_param]
+</pre>
+
+<p>
+
+As always, functions are needed for creating and destroying (linear)
+stkarray-values:
+
+<pre>
+//
+fun{a:vt0p}
+stkarray_make_cap
+  {m:int} (cap: size_t(m)):<!wrt> stkarray (a, m, 0)
+//
+fun
+stkarray_free{a:vt0p}{m:int} (stkarray (a, m, 0)):<!wrt> void
+//
+</pre>
+
+Given a size M, [stkarray_make_cap] creates an empty stack of capacity M.
+As linear elements stored in a stack are leaked after the stack is freed,
+the type of [stkarray_free] indicates that the function can only be applied
+to a stack containing no elements.
+
+<p>
+
+For inserting an element, we have the following function:
+
+<pre>
+fun{a:vt0p}
+stkarray_insert
+  {m,n:int | m > n}
+(
+  stk: !stkarray (a, m, n) >> stkarray (a, m, n+1), x0: a
+) :<!wrt> void // endfun
+</pre>
+
+Note that [stkarray_insert] can only be called on a stack if its current
+size is strictly less than its capacity. The type of [stkarray_insert]
+states that the size of a stack argument is increased by 1 after an
+element is inserted into it.
+
+<p>
+
+For taking out an element, we have the following function:
+
+<pre>
+fun{a:vt0p}
+stkarray_takeout
+  {m,n:int | n > 0}
+  (stk: !stkarray (a, m, n) >> stkarray (a, m, n-1)):<!wrt> (a)
+// end of [stkarray_takeout]
+</pre>
+
+Note that [stkarray_takeout] can only be called on a stack if its current
+size is positive. The type of [stkarray_takeout] states that the size of a
+stack is decreased by 1 after an element is taken out of it.
+
+<h2>
+Implementation of Array-Based Stacks
+</h2>
+
+We can use the following 3-pointer struct in C to reprensent an array-based
+stack:
+
+<pre>
+typedef
+struct {
+  atstype_ptr stkarray_beg ; // the beg pointer
+  atstype_ptr stkarray_end ; // the end pointer
+  atstype_ref stkarray_cur ; // the current pointer
+} atslib_stkarray_struct ;
+</pre>
+
+The pointers [stkarray_beg] and [stkarray_end] point to the beginning and
+end of the base array while the pointer [stkarray_cur] points the top of
+the current stack. Note that the beginning of the base array is the bottom
+of the represented stack.
+
+<p>
+
+Let us introduce the folllowing two functions for getting and setting
+the pointer [stkarray_cur]:
+
+<pre>
+extern fun
+stkarray_get_ptrcur{a:vt0p}
+  {m,n:int} (stk: !stkarray (INV(a), m, n)):<> ptr = "mac#atslib_stkarray_get_ptrcur"
+extern fun
+stkarray_set_ptrcur{a:vt0p}
+  {m,n:int} (stk: !stkarray (INV(a), m, n), ptr):<!wrt> void = "mac#atslib_stkarray_set_ptrcur"
+</pre>
+
+As can be expected, these two functions are to be implemented in C
+directly. The following implementation of [stkarray_insert] makes use of
+these two functions as well as an unsafe function of the name [ptr0_set]:
+
+<pre>
+implement{a}
+stkarray_insert
+  {m,n} (stk, x0) = let
+//
+val p_cur = stkarray_get_ptrcur (stk)
+val ((*void*)) = $UN.ptr0_set&lt;a&gt; (p_cur, x0)
+val ((*void*)) = stkarray_set_ptrcur (stk, ptr_succ&lt;a&gt; (p_cur))
+//
+prval () =
+__assert (stk) where
+{
+extern praxi __assert (!stkarray (a, m, n) >> stkarray (a, m, n+1)): void
+} (* end of [prval] *)
+//
+in
+  // nothing
+end // end of [stkarray_insert]
+</pre>
+
+Note that [ptr0_set] writes a value (its 2nd argument) to a given memory
+location (its 1st argument) without requiring a proof (of some at-view)
+associated with the location. In other words, [ptr0_set] performs a memory
+update precisely in the same way as it is done in C. Also note that a proof
+function [__assert] is introduced so as to make it possible for the
+implementation to pass typechecking. The keyword [praxi] means that the
+introduced proof function should be treated as an assertion and no
+implementation for it is expected.
+
+<p>
+
+The following implementation of [stkarray_takeout] makes use of [ptr0_get],
+which reads through a given pointer without requiring a proof (of some
+at-view) associated with the location. Also, just like in the
+implementation of [stkarray_insert], a proof function is asserted for the
+sole purpose of making the implementation of [stkarray_takeout] pass
+typechecking.
+
+<pre>
+implement{a}
+stkarray_takeout
+  {m,n} (stk) = x0 where
+{
+//
+val p_cur = stkarray_get_ptrcur (stk)
+val p1_cur = ptr_pred&lt;a&gt; (p_cur)
+val x0 = $UN.ptr0_get&lt;a&gt; (p1_cur)
+val () = stkarray_set_ptrcur (stk, p1_cur)
+//
+prval () =
+__assert (stk) where
+{
+extern praxi __assert (!stkarray (a, m, n) >> stkarray (a, m, n-1)): void
+} (* end of [prval] *)
+//
+} // end of [stkarray_takeout]
+</pre>
+
+The C code implementing [stkarray_get_ptrcur] and [stkarray_set_ptrcur] is
+given below:
+
+<pre>
+ATSinline()
+atstype_ptr
+atslib_stkarray_get_ptrcur
+  (atstype_ptr p)
+{
+  return ((atslib_stkarray_struct*)p)->stkarray_cur ;
+} // end of [atslib_stkarray_get_ptrcur]
+
+ATSinline()
+atsvoid_t0ype
+atslib_stkarray_set_ptrcur
+  (atstype_ptr p, atstype_ptr p2)
+{
+  ((atslib_stkarray_struct*)p)->stkarray_cur = p2 ; return ;
+} // end of [atslib_stkarray_set_ptrcur]
+</pre>
+
+The C-names for [stkarray_get_ptrcur] and [stkarray_set_ptrcur] are
+chosen to be [atslib_stkarray_get_ptrcur] and [atslib_stkarray_set_ptrcur],
+respectively.
+
+<p>
+
+For more on array-based stack implementation, please see:
+<a href="http://sourceforge.net/p/ats2-lang/code/ci/master/tree/libats/SATS/stkarray.sats">stkarray.sats</a>
+,
+<a href="http://sourceforge.net/p/ats2-lang/code/ci/master/tree/libats/DATS/stkarray.dats">stkarray.dats</a>
+, and
+<a href="http://sourceforge.net/p/ats2-lang/code/ci/master/tree/libats/CATS/stkarray.cats">stkarray.cats</a>.
+
+<h2>
+Some Stack-Functions of Convenience 
+</h2>
+
+If a caller attempts to insert an element into a stack that happens to be
+full, we may require that the element be returned to the caller. The
+following function [stkarray_insert_opt] does this precisely:
+
+<pre>
+extern
+fun{a:vt0p}
+stkarray_insert_opt
+  (stk: !stkarray (INV(a)) >> _, x0: a):<!wrt> Option_vt(a)
+implement{a}
+stkarray_insert_opt
+  (stk, x0) = let
+//
+val isnot = stkarray_isnot_full (stk)
+//
+in
+//
+if isnot then let
+  val () = stkarray_insert (stk, x0) in None_vt()
+end else Some_vt{a}(x0)
+//
+end // end of [stkarray_insert_opt]
+</pre>
+
+Similarly, a caller may attempt to take an element out of a stack that
+happens to be empty. The following function [stkarray_takeout_opt] returns
+an optional value so that its caller can tell whether an element has
+actually been taken out of a given stack:
+
+<pre>
+extern
+fun{a:vt0p}
+stkarray_takeout_opt
+  (stk: !stkarray (INV(a)) >> _):<!wrt> Option_vt(a)
+implement{a}
+stkarray_takeout_opt
+  (stk) = let
+//
+val isnot = stkarray_isnot_nil (stk)
+//
+in
+//
+if isnot then let
+  val x0 = stkarray_takeout (stk) in Some_vt{a}(x0)
+end else None_vt((*void*))
+//
+end // end of [stkarray_takeout_opt]
+</pre>
+
+For some sample code making use of the array-based stack implementation,
+please see postfix_eval.dats, where an evaluator of arithmetic expressions
+written in the postfix-notation is coded.
+
+<hr size="2">
+
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+
+</body>
+</html>

@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,14 +27,20 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: April, 2011
 //
 (* ****** ****** *)
 
-staload FIX = "./pats_fixity.sats"
+staload
+FIX = "./pats_fixity.sats"
 typedef fxty = $FIX.fxty
-staload SYM = "./pats_symbol.sats"
+
+(* ****** ****** *)
+
+staload
+SYM = "./pats_symbol.sats"
 typedef symbol = $SYM.symbol
 
 (* ****** ****** *)
@@ -46,17 +52,18 @@ staload "./pats_dynexp1.sats"
 
 (* ****** ****** *)
 
-fun the_e1xpenv_add (id: symbol, e: e1xp): void
-fun the_e1xpenv_addperv (id: symbol, e: e1xp): void
-fun the_e1xpenv_find (id: symbol): Option_vt e1xp
+fun the_e1xpenv_add (k: symbol, x: e1xp): void
+fun the_e1xpenv_addperv (k: symbol, x: e1xp): void
+fun the_e1xpenv_find (k: symbol): Option_vt (e1xp)
 
 (* ****** ******* *)
-
+//
 absview e1xpenv_push_v
+//
 fun the_e1xpenv_pop
   (pf: e1xpenv_push_v | (*none*)): symmap (e1xp)
 fun the_e1xpenv_push_nil (): (e1xpenv_push_v | void)
-
+//
 (* ****** ******* *)
 
 fun the_EXTERN_PREFIX_get (): Stropt
@@ -110,10 +117,8 @@ fun the_trans1_env_restore (pf: trans1_env_save_v | (*none*)): void
 
 (* ****** ****** *)
 
-fun staload_file_insert
-  (fil: filename, loadflag: int, d1cs: d1eclist): void
-fun staload_file_search
-  (fil: filename): Option_vt @(int(*loadflag*), d1eclist)
+fun staload_file_search (fil: filename): Option_vt@(int(*ldflg*), d1eclist)
+fun staload_file_insert (fil: filename, loadflag: int, d1cs: d1eclist): void
 
 (* ****** ******* *)
 

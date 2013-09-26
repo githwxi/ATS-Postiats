@@ -41,7 +41,7 @@ fun bool2int0
 fun int2bool1
   {i:int} (i: int i):<> bool (i != 0) = "mac\#%"
 fun bool2int1
-  {b:bool} (b: bool b):<> int (int_of_bool b) = "mac\#%"
+  {b:bool} (b: bool b):<> int (bool2int(b)) = "mac\#%"
 //
 #atscode_separator()
 
@@ -252,7 +252,7 @@ compare_bool1_bool1
   {b1,b2:bool} // HX: this one is a function
 (
  b1: bool b1, b2: bool b2
-) :<> int (int_of_bool b1 - int_of_bool b2) = "mac\#%"
+) :<> int (bool2int(b1) - bool2int(b2)) = "mac\#%"
 overload compare with compare_bool1_bool1 of 20
 
 #atscode_separator()

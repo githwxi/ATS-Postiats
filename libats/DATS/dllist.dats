@@ -39,11 +39,6 @@
 
 staload
 UN = "prelude/SATS/unsafe.sats"
-// end of [staload]
-
-(* ****** ****** *)
-
-#define nullp the_null_ptr
 
 (* ****** ****** *)
 
@@ -52,6 +47,10 @@ staload "libats/SATS/gnode.sats"
 (* ****** ****** *)
 
 staload "libats/SATS/dllist.sats"
+
+(* ****** ****** *)
+
+#define nullp the_null_ptr
 
 (* ****** ****** *)
 //
@@ -774,6 +773,10 @@ end // end of [fprint_rdllist]
 datavtype
 dlnode_vtype (a:vt@ype+) =
   | DLNODE of (a, ptr(*next*), ptr(*prev*))
+// end of [dlnode_vtype]
+
+(* ****** ****** *)
+
 vtypedef dlnode (a:vt0p) = dlnode_vtype (a)
 
 (* ****** ****** *)

@@ -39,6 +39,15 @@ integer_atxt.dats: integer.atxt
 clean:: ; $(RMF) integer_atxt.exe
 cleanall:: ; $(RMF) integer.cats
 
+all:: integer_ptr.cats
+integer_ptr.cats: integer_ptr_atxt.exe ; ./$< > $@
+integer_ptr_atxt.exe: integer_ptr_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ integer_ptr_atxt.dats -latsdoc
+integer_ptr_atxt.dats: integer_ptr.atxt
+	$(ATSDOC) --outcode $@ -i integer_ptr.atxt > integer_ptr_atxt.txt
+clean:: ; $(RMF) integer_ptr_atxt.exe
+cleanall:: ; $(RMF) integer_ptr.cats
+
 all:: integer_fixed.cats
 integer_fixed.cats: integer_fixed_atxt.exe ; ./$< > $@
 integer_fixed_atxt.exe: integer_fixed_atxt.dats

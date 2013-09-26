@@ -32,10 +32,18 @@ staload _(*anon*) = "prelude/DATS/unsafe.dats"
 #atscode_separator()
 
 implement{x}
+list_make_sing (x) = list_vt_cons{x}(x, list_vt_nil)
+implement{x}
+list_make_pair (x1, x2) = list_vt_cons{x}(x1, list_vt_cons{x}(x2, list_vt_nil))
+
+#atscode_separator()
+
+implement{x}
 list_make_elt
   {n} (n, x) = let
   fun loop
-    {i:nat | i <= n} .<i>. (
+    {i:nat | i <= n} .<i>.
+  (
     i: int i, x: x, res: list_vt (x, n-i)
   ) :<> list_vt (x, n) = (
     if i > 0 then
@@ -230,6 +238,20 @@ implement{x}
 list_tail (xs) =
   let val+list_cons (_, xs) = xs in xs end
 // end of [list_tail]
+implement{x}
+list_last (xs) = let
+//
+fun loop
+  (xs: List1 (x)): x = let
+  val+list_cons (x, xs) = xs
+in
+  case+ xs of
+  | list_cons _ => loop (xs) | list_nil _ => x
+end // end of [loop]
+//
+in
+  $effmask_all (loop (xs))
+end // end of [list_last]
 
 #atscode_separator()
 
@@ -246,6 +268,13 @@ list_tail_exn (xs) =
 case+ xs of
 | list_cons (_, xs) => xs | _ => $raise ListSubscriptExn()
 ) (* end of [list_tail_exn] *)
+
+implement{x}
+list_last_exn (xs) =
+(
+case+ xs of
+| list_cons _ => list_last (xs) | _ => $raise ListSubscriptExn()
+) (* end of [list_last_exn] *)
 
 #atscode_separator()
 
@@ -322,7 +351,8 @@ end // end of [list_length]
 
 #atscode_separator()
 
-implement{x}
+implement
+{x}(*tmp*)
 list_copy
   (xs) = res where {
 //
@@ -330,22 +360,28 @@ vtypedef res = List0_vt (x)
 prval () = lemma_list_param (xs)
 //
 fun loop
-  {n:nat} .<n>. (
+  {n:nat} .<n>.
+(
   xs: list (x, n)
 , res: &res? >> list_vt (x, n)
-) :<!wrt> void = case+ xs of
-  | list_cons (x, xs) => let
-      val () = res :=
-        list_vt_cons{x}{0}(x, _(*?*))
-      val+list_vt_cons
-        (_, res1) = res // res1 = res.1
-      val () = loop (xs, res1)
-      prval () = fold@ (res)
-    in
-      // nothing
-    end // end of [cons]
-  | list_nil () => res := list_vt_nil ()
-// end of [loop]
+) :<!wrt> void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = res :=
+      list_vt_cons{x}{0}(x, _(*?*))
+    val+list_vt_cons
+      (_, res1) = res // res1 = res.1
+    val () = loop (xs, res1)
+    prval () = fold@ (res)
+  in
+    // nothing
+  end // end of [cons]
+| list_nil () => res := list_vt_nil ()
+//
+end // end of [loop]
 //
 var res: res? ; val () = loop (xs, res)
 //
@@ -353,14 +389,16 @@ var res: res? ; val () = loop (xs, res)
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 list_append
   {m,n} (xs, ys) = let
   val ys = __cast (ys) where {
     extern castfn __cast (ys: list (a, n)):<> list_vt (a, n)
   } // end of [where] // end of [val]
 in
-$effmask_wrt (
+$effmask_wrt
+(
   list_of_list_vt (list_append2_vt (xs, ys))
 ) // end of [$effmask_wrt]
 end // end of [list_append]
@@ -657,119 +695,6 @@ end // end of [list_drop_exn]
 
 #atscode_separator()
 
-implement{x}
-list_exists (xs) = let
-in
-//
-case+ xs of
-| list_cons (x, xs) =>
-    if list_exists$pred<x> (x) then true else list_exists<x> (xs)
-| list_nil () => false
-//
-end // end of [list_exists]
-
-implement{x}
-list_forall (xs) = let
-in
-//
-case+ xs of
-| list_cons (x, xs) =>
-    if list_forall$pred<x> (x) then list_forall<x> (xs) else false
-| list_nil () => true
-//
-end // end of [list_forall]
-
-#atscode_separator()
-
-implement{a}
-list_equal$pred (x1, x2) = gequal_val<a> (x1, x2)
-
-implement{x}
-list_equal (xs1, xs2) = let
-in
-//
-case+ xs1 of
-| list_cons (x1, xs1) => (
-  case+ xs2 of
-  | list_cons (x2, xs2) => let
-      val iseq = list_equal$pred (x1, x2)
-    in
-      if iseq then list_equal<x> (xs1, xs2) else false
-    end
-  | list_nil () => false
-  ) // end of [list_cons]
-| list_nil () => (
-  case+ xs2 of
-  | list_cons _ => false | list_nil () => true
-  ) // end of [list_nil]
-//
-end // end of [list_equal]
-
-#atscode_separator()
-
-implement{x}
-list_find_exn (xs) = let
-in
-//
-case+ xs of
-| list_cons (x, xs) =>
-    if list_find$pred<x> (x) then x else list_find_exn<x> (xs)
-| list_nil () => $raise NotFoundExn()
-//
-end // end of [list_find_exn]
-
-implement{x}
-list_find_opt (xs) = let
-in
-//
-case+ xs of
-| list_cons (x, xs) =>
-    if list_find$pred<x> (x) then Some_vt{x}(x) else list_find_opt<x> (xs)
-| list_nil () => None_vt(*void*)
-//
-end // end of [list_find_opt]
-
-#atscode_separator()
-
-implement{x}
-list_filter {n} (xs) = let
-//
-prval () = lemma_list_param (xs)
-//
-fun loop
-  {n:nat} .<n>. (
-  xs: list (x, n)
-, res: &ptr? >> listLte_vt (x, n)
-) : void = (
-  case+ xs of
-  | list_cons (x, xs) => let
-      val test = list_filter$pred<x> (x)
-    in
-      case+ test of
-      | true => let
-          val () = res :=
-            list_vt_cons{x}{0}(x, _(*?*))
-          val+list_vt_cons
-            (_, res1) = res // res1 = res.1
-          val () = loop (xs, res1)
-          prval () = fold@ (res)
-        in
-          // nothing
-        end // end of [true]
-      | false => loop (xs, res)
-    end // end of [list_cons]
-  | list_nil () => (res := list_vt_nil)
-) // end of [loop]
-//
-var res: ptr
-val () = loop (xs, res)
-//
-in
-  res (*listLte_vt(x, n)*)
-end // end of [list_filter]
-
-#atscode_separator()
-
 implement
 {x}{env}
 list_foreach$cont (x, env) = true
@@ -1025,6 +950,121 @@ fun loop
 in
   loop (xs, ini)
 end // end of [list_foldleft]
+
+#atscode_separator()
+
+implement{x}
+list_exists (xs) = let
+in
+//
+case+ xs of
+| list_cons (x, xs) =>
+    if list_exists$pred<x> (x) then true else list_exists<x> (xs)
+| list_nil () => false
+//
+end // end of [list_exists]
+
+implement{x}
+list_forall (xs) = let
+in
+//
+case+ xs of
+| list_cons (x, xs) =>
+    if list_forall$pred<x> (x) then list_forall<x> (xs) else false
+| list_nil () => true
+//
+end // end of [list_forall]
+
+#atscode_separator()
+
+implement{a}
+list_equal$pred (x1, x2) = gequal_val<a> (x1, x2)
+
+implement{x}
+list_equal (xs1, xs2) = let
+in
+//
+case+ xs1 of
+| list_cons (x1, xs1) =>
+  (
+    case+ xs2 of
+    | list_cons
+        (x2, xs2) => let
+        val iseq = list_equal$pred<x> (x1, x2)
+      in
+        if iseq then list_equal<x> (xs1, xs2) else false
+      end
+    | list_nil () => false
+  ) // end of [list_cons]
+| list_nil ((*void*)) =>
+  (
+    case+ xs2 of list_cons _ => false | list_nil () => true
+  ) // end of [list_nil]
+//
+end // end of [list_equal]
+
+#atscode_separator()
+
+implement{x}
+list_find_exn (xs) = let
+in
+//
+case+ xs of
+| list_cons (x, xs) =>
+    if list_find$pred<x> (x) then x else list_find_exn<x> (xs)
+| list_nil () => $raise NotFoundExn()
+//
+end // end of [list_find_exn]
+
+implement{x}
+list_find_opt (xs) = let
+in
+//
+case+ xs of
+| list_cons (x, xs) =>
+    if list_find$pred<x> (x) then Some_vt{x}(x) else list_find_opt<x> (xs)
+| list_nil () => None_vt(*void*)
+//
+end // end of [list_find_opt]
+
+#atscode_separator()
+
+implement{x}
+list_filter {n} (xs) = let
+//
+prval () = lemma_list_param (xs)
+//
+fun loop
+  {n:nat} .<n>. (
+  xs: list (x, n)
+, res: &ptr? >> listLte_vt (x, n)
+) : void = (
+  case+ xs of
+  | list_cons (x, xs) => let
+      val test = list_filter$pred<x> (x)
+    in
+      case+ test of
+      | true => let
+          val () = res :=
+            list_vt_cons{x}{0}(x, _(*?*))
+          val+list_vt_cons
+            (_, res1) = res // res1 = res.1
+          val () = loop (xs, res1)
+          prval () = fold@ (res)
+        in
+          // nothing
+        end // end of [true]
+      | false => loop (xs, res)
+    end // end of [list_cons]
+  | list_nil () => (res := list_vt_nil)
+) // end of [loop]
+//
+var res: ptr
+val () = loop (xs, res)
+//
+in
+  res (*listLte_vt(x, n)*)
+end // end of [list_filter]
 
 #atscode_separator()
 
@@ -1384,7 +1424,8 @@ prval () = lemma_list_param (xs)
 prval () = lemma_list_param (ys)
 //
 fnx loop1
-  {m,n:nat} .<m,0,0>. (
+  {m,n:nat} .<m,0,0>.
+(
   xs: list (x, m)
 , ys: list (y, n)
 , res: &ptr? >> list_vt (xy, m*n)
@@ -1397,7 +1438,8 @@ in
 end // end of [loop1]
 
 and loop2
-  {m,n:nat}{n2:nat} .<m,n2,1>. (
+  {m,n,n2:nat} .<m,n2,1>.
+(
   xs: list (x, m)
 , ys: list (y, n)
 , x: x, ys2: list (y, n2)

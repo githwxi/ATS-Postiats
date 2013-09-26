@@ -33,15 +33,11 @@
 
 (* ****** ****** *)
 
-staload "libats/SATS/funmap_list.sats"
+staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-implement
-{key}(*tmp*)
-equal_key_key
-  (k1, k2) = gequal_val<key> (k1, k2)
-// end of [equal_key_key]
+staload "libats/SATS/funmap_list.sats"
 
 (* ****** ****** *)
 //
@@ -57,9 +53,6 @@ map_type
 (* ****** ****** *)
 
 implement{} funmap_nil () = list_nil ()
-
-(* ****** ****** *)
-
 implement{} funmap_make_nil () = list_nil ()
 
 (* ****** ****** *)
@@ -205,9 +198,8 @@ funmap_foreach_env
 //
 vtypedef ki = @(key, itm)
 //
-implement
-list_foreach$cont<ki><env> (kx, env) =
-  funmap_foreach$cont<key,itm><env> (kx.0, kx.1, env)
+implement{ki}{env}
+list_foreach$cont (kx, env) = true
 implement
 list_foreach$fwork<ki><env> (kx, env) =
   funmap_foreach$fwork<key,itm><env> (kx.0, kx.1, env)

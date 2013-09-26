@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -25,6 +25,12 @@
 ** 02110-1301, USA.
 *)
 
+(* ****** ****** *)
+//
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
+// Start Time: November, 2011
+//
 (* ****** ****** *)
 //
 // HX-2011-11-17:
@@ -149,8 +155,10 @@ datatype intknd =
 in (* in of [local] *)
 
 fun
-intrepsfx_syn_type (
-  loc0: location, rep: string, sfx: uint
+intrepsfx_syn_type
+(
+  loc0: location
+, rep: string, sfx: uint
 ) : s2exp = let
 //
 var p_sfx: ptr = null
@@ -207,7 +215,8 @@ end // end of [intrepsfx_syn_type]
 fun
 intbaserepsfx_syn_type_ind
 (
-  loc0: location, base: int, rep: string, sfx: uint
+  loc0: location
+, base: int, rep: string, sfx: uint
 ) : s2exp = let
   var p_sfx: ptr = null
 //

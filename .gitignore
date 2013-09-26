@@ -7,6 +7,19 @@
 *_?ats.o
 *_?ats.c
 
+config.h
+config.h.in
+config.mk
+config.log
+config.status
+install-sh
+configure
+stamp-h1
+aclocal.m4
+autom4te.cache
+patscc_env.sh
+patsopt_env.sh
+
 #
 # The compiler for POSTIATS 
 #
@@ -15,9 +28,17 @@ src/.depend
 src/Makefile.exe
 src/Makefile_atxt.dats
 src/Makefile_atxt.txt
+src/TAGS
+src/tags
+src/TAGATS
 
 bin/patscc
 bin/patsopt
+
+#
+# boostrapping
+#
+src/CBOOT/pats*.?ats
 
 #
 # building patsopt thru CMake 
@@ -169,8 +190,18 @@ libatslex/SATS/DOCUGEN/HTML
 libatslex/SATS/DOCUGEN/TRYIT
 
 #
+# ATSLIB/libatsynmark
+#
+
+libatsynmark/libatsynmark.a
+
+#
 # ATSLIB/contrib
 #
+
+contrib/cairo/cairo-1.12.*
+contrib/cairo/TUTORIAL/IMAGE
+contrib/zeromq/DOC/zguide
 
 contrib/*/atsctrb_*.o
 contrib/*/SATS/DOCUGEN/*.exe
@@ -201,9 +232,7 @@ contrib/*/*/CATS/CODEGEN/*_atxt.txt
 contrib/*/*/CATS/CODEGEN/*_atxt.dats
 contrib/*/*/TEST/test??
 
-contrib/cairo/cairo-1.12.*
-
-libatsyntax/libatsyntax.a
+contrib/zlog/zlog-latest-stable/
 
 #
 # ATSHOME/doc/DISTRIB
@@ -214,13 +243,21 @@ doc/DISTRIB/*_atxt.txt
 doc/DISTRIB/*_atxt.dats
 doc/DISTRIB/HTML
 doc/DISTRIB/SCRIPT/*.bash
+doc/DISTRIB/ATS-Postiats/AUTHORS
+doc/DISTRIB/ATS-Postiats/COPYING
+doc/DISTRIB/ATS-Postiats/INSTALL
+doc/DISTRIB/ATS-Postiats/VERSION.txt
+doc/DISTRIB/ATS-Postiats/config*
+doc/DISTRIB/ATS-Postiats/stamp-h1
+doc/DISTRIB/ATS-Postiats/patscc_env.sh.in
+doc/DISTRIB/ATS-Postiats/patsopt_env.sh.in
 doc/DISTRIB/ATS-Postiats/bin/*
 doc/DISTRIB/ATS-Postiats/share/*
 doc/DISTRIB/ATS-Postiats/src/.depend
 doc/DISTRIB/ATS-Postiats/src/Makefile
 doc/DISTRIB/ATS-Postiats/src/pats_*.?ats
 doc/DISTRIB/ATS-Postiats/src/patsopt
-doc/DISTRIB/ATS-Postiats/src/ATS2C
+doc/DISTRIB/ATS-Postiats/src/CBOOT
 doc/DISTRIB/ATS-Postiats/ccomp/atslib/lib
 doc/DISTRIB/ATS-Postiats/ccomp/atslib/lib64
 doc/DISTRIB/ATS-Postiats/ccomp/atslib/output
@@ -232,9 +269,13 @@ doc/DISTRIB/ATS-Postiats/prelude/*.?ats
 doc/DISTRIB/ATS-Postiats/prelude/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libc/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libc/sys/?ATS/*.?ats
+doc/DISTRIB/ATS-Postiats/libc/gdbm/?ATS/*.?ats
+doc/DISTRIB/ATS-Postiats/libc/gdbm/?ATS/SHARE/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/?ATS/SHARE/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/ML/?ATS/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/ML/?ATS/SHARE/*.?ats
+doc/DISTRIB/ATS-Postiats/contrib/*
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/*.?ats
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/ATSLIB/Makefile
@@ -243,6 +284,9 @@ doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/*.?ats
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/PCPV/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/PCPV/*.?ats
+doc/DISTRIB/ATS-Postiats-contrib/contrib/*
+doc/DISTRIB/ATS-Postiats-contrib/document/*
+doc/DISTRIB/ATS-Postiats-contrib/project/*
 
 #
 # ATSHOME/doc/EXAMPLE
@@ -275,6 +319,6 @@ doc/BOOK/ATS2TUTORIAL/*_atxt.dats
 doc/BOOK/ATS2TUTORIAL/*/main.db
 doc/BOOK/ATS2TUTORIAL/HTML
 doc/BOOK/ATS2TUTORIAL/CODE/*.html
-doc/BOOK/ATS2TUTORIAL/*/*_extracted.dats
+doc/BOOK/ATS2TUTORIAL/CODE/chap_*.dats
 
 ###### end of [.gitignore] ######

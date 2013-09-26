@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: October, 2012
 //
 (* ****** ****** *)
@@ -42,12 +43,14 @@ typedef stamp = $STMP.stamp
 
 (* ****** ****** *)
 
-staload LAB = "./pats_label.sats"
+staload
+LAB = "./pats_label.sats"
 typedef label = $LAB.label
 
 (* ****** ****** *)
 //
-staload FIL = "./pats_filename.sats"
+staload
+FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
 //
 staload LOC = "./pats_location.sats"
@@ -73,7 +76,8 @@ staload "./pats_staexp2.sats"
 (* ****** ****** *)
 
 staload
-S2EUT = "./pats_staexp2_util.sats"
+S2EUT =
+"./pats_staexp2_util.sats"
 vtypedef stasub = $S2EUT.stasub 
 
 (* ****** ****** *)
@@ -187,7 +191,12 @@ fun tmpvar_get_topknd
 fun tmpvar_get_origin (tmp: tmpvar): tmpvaropt
 fun tmpvar_get_suffix (tmp: tmpvar): int
 
-fun tmpvar_get_stamp (tmp: tmpvar): stamp
+fun tmpvar_get_stamp (tmp: tmpvar): stamp // unicity
+
+(* ****** ****** *)
+
+fun tmpvar_get_tailcal (tmp: tmpvar): int // if >= 2
+fun tmpvar_inc_tailcal (tmp: tmpvar): void // incby 1
 
 (* ****** ****** *)
 //
@@ -269,11 +278,13 @@ typedef funlab = ccomp_funlab_type
 typedef funlablst = List (funlab)
 vtypedef funlablst_vt = List_vt (funlab)
 typedef funlabopt = Option (funlab)
+vtypedef funlabopt_vt = Option_vt (funlab)
 //
 fun print_funlab (x: funlab): void
-overload print with print_funlab
 fun prerr_funlab (x: funlab): void
+overload print with print_funlab
 overload prerr with prerr_funlab
+//
 fun fprint_funlab : fprint_type (funlab)
 overload fprint with fprint_funlab
 fun fprint_funlablst : fprint_type (funlablst)
@@ -360,8 +371,8 @@ fun funlabset_vt_nil (): funlabset_vt
 fun funlabset_vt_free (fls: funlabset_vt): void
 fun funlabset_vt_ismem (fls: !funlabset_vt, fl: funlab): bool
 fun funlabset_vt_add (fls: funlabset_vt, fl: funlab): funlabset_vt
-fun funlabset_vt_listize (fls: !funlabset_vt): List_vt (funlab)
-fun funlabset_vt_listize_free (fls: funlabset_vt): List_vt (funlab)
+fun funlabset_vt_listize (fls: !funlabset_vt): funlablst_vt
+fun funlabset_vt_listize_free (fls: funlabset_vt): funlablst_vt
 
 fun funlablst2set (fls: funlablst): funlabset_vt
 
@@ -406,6 +417,10 @@ fun funent_get_d2envlst (fent: funent): d2envlst
 fun funent_get_d2envlst_fin (fent: funent): Option (d2envlst)
 //
 fun funent_get_tmpvarlst (fent: funent): tmpvarlst
+//
+fun funent_get_fnxlablst (fent: funent): funlablst
+fun funent_set_fnxlablst
+  (fent: funent, fls: funlablst): void = "patsopt_funent_set_fnxlablst"
 //
 (* ****** ****** *)
 (*
@@ -573,7 +588,7 @@ and primval_node =
   | PMVptrof of (primval)
   | PMVptrofsel of (primval, hisexp(*tyroot*), primlablst)
 //
-  | PMVrefarg of (int(*knd*), primval)
+  | PMVrefarg of (int(*knd*), int(*freeknd*), primval)
 //
   | PMVfunlab of (funlab)
   | PMVcfunlab of (int(*knd*), funlab)
@@ -583,8 +598,9 @@ and primval_node =
   | PMVlamfix of (int(*knd*), primval) // knd=0/1:lam/fix
 //
   | PMVtmpltcst of (d2cst, t2mpmarglst) // for template constants
-  | PMVtmpltcstmat of (d2cst, t2mpmarglst, tmpcstmat) // for matched template constants
   | PMVtmpltvar of (d2var, t2mpmarglst) // for template variables
+//
+  | PMVtmpltcstmat of (d2cst, t2mpmarglst, tmpcstmat) // for matched template constants
   | PMVtmpltvarmat of (d2var, t2mpmarglst, tmpvarmat) // for matched template variables
 //
   | PMVerr of ()
@@ -864,8 +880,9 @@ fun primval_ptrofsel (
 (* ****** ****** *)
 
 fun primval_refarg
-  (loc: location, hse: hisexp, knd: int, pmv: primval): primval
-// end of [primval_refarg]
+(
+  loc: location, hse: hisexp, knd: int, freeknd: int, pmv: primval
+) : primval // end of [primval_refarg]
 
 (* ****** ****** *)
 
@@ -937,6 +954,7 @@ fun primval_make_d2vfunlab
 (* ****** ****** *)
 
 fun primval_make_tmp (loc: location, tmp: tmpvar): primval
+fun primval_make_tmpref (loc: location, tmp: tmpvar): primval
 
 (* ****** ****** *)
 
@@ -968,17 +986,33 @@ datatype patck =
 
 (* ****** ****** *)
 
-typedef
-tmpmov =
-@(
-  tmpvar(*src*), tmpvar(*dst*)
-) // end of [tmpmov]
-
-typedef tmpmovlst = List (tmpmov)
+datatype
+tmprimval =
+  | TPMVnone of (primval)
+  | TPMVsome of (tmpvar, primval)
+// end of [tmprimval]
 
 (* ****** ****** *)
 
-fun fprint_tmpmovlst (out: FILEref, xs: tmpmovlst): void
+fun fprint_tmprimval
+  (out: FILEref, x: tmprimval): void
+overload fprint with fprint_tmprimval
+
+(* ****** ****** *)
+
+typedef
+tmpmov = @(
+  tmprimval(*src*), tmpvar(*dst*)
+) (* end of [tmpmov] *)
+
+typedef tmpmovlst = List (tmpmov)
+vtypedef tmpmovlst_vt = List_vt (tmpmov)
+
+(* ****** ****** *)
+
+fun fprint_tmpmovlst
+  (out: FILEref, xs: tmpmovlst): void
+overload fprint with fprint_tmpmovlst
 
 (* ****** ****** *)
 
@@ -1026,9 +1060,10 @@ instr_node =
 //
   | INSmove_arg_val of (int(*arg*), primval)
 //
-  | INSfcall of
+  | INSfcall of // regular funcall
       (tmpvar, primval(*fun*), hisexp, primvalist(*arg*))
-    // end of [INSfcall]
+  | INSfcall2 of // tail-recursive funcall // ntl: 0/1+ : fun/fnx
+      (tmpvar, funlab, int(*ntl*), hisexp, primvalist(*arg*))
   | INSextfcall of (tmpvar, string(*fun*), primvalist(*arg*))
 //    
   | INScond of ( // conditinal instruction
@@ -1174,6 +1209,14 @@ fun instr_fcall
 , tmpret: tmpvar
 , pmv_fun: primval, hse_fun: hisexp, pmvs_arg: primvalist
 ) : instr // end of [instr_fcall]
+
+fun instr_fcall2
+(
+  loc: location
+, tmpret: tmpvar
+, fl: funlab, ntl: int, hse_fun: hisexp
+, pmvs_arg: primvalist
+) : instr // end of [instr_fcall2]
 
 fun instr_extfcall
 (
@@ -1531,6 +1574,20 @@ fun ccompenv_inc_loopexnenv
 fun ccompenv_dec_loopexnenv (env: !ccompenv): void
 
 (* ****** ****** *)
+//
+fun ccompenv_dec_tailcalenv (env: !ccompenv): void
+//
+fun ccompenv_inc_tailcalenv (env: !ccompenv, fl: funlab): void
+fun ccompenv_inc_tailcalenv_fnx (env: !ccompenv, fls: funlablst_vt): void
+//
+fun ccompenv_find_tailcalenv (env: !ccompenv, fl: funlab): int
+//
+fun ccompenv_find_tailcalenv_cst
+  (env: !ccompenv, d2c: d2cst): funlabopt_vt
+fun ccompenv_find_tailcalenv_tmpcst
+  (env: !ccompenv, d2c: d2cst, t2mas: t2mpmarglst): funlabopt_vt
+//
+(* ****** ****** *)
 
 (*
 fun ccompenv_get_funlevel (env: !ccompenv): int (* function level *)
@@ -1770,6 +1827,7 @@ fun emit_location (out: FILEref, x: location): void
 (* ****** ****** *)
 
 fun emit_int (out: FILEref, x: int): void
+fun emit_intinf (out: FILEref, x: intinf): void
 fun emit_bool (out: FILEref, x: bool): void
 fun emit_char (out: FILEref, x: char): void
 fun emit_float (out: FILEref, x: double): void
@@ -1863,6 +1921,12 @@ fun emit_tmplabint (out: FILEref, tlab: tmplab, i: int): void
 
 (* ****** ****** *)
 
+fun emit_set_nfnx (n: int): void
+fun emit_funarg (out: FILEref, n: int): void
+fun emit_funargx (out: FILEref, n: int): void
+
+(* ****** ****** *)
+
 fun emit_tmpvar (out: FILEref, tmp: tmpvar): void
 
 (* ****** ****** *)
@@ -1939,6 +2003,7 @@ emit_instr_type = (FILEref, instr) -> void
 fun emit_instr : emit_instr_type
 //
 fun emit_instr_fcall : emit_instr_type
+fun emit_instr_fcall2 : emit_instr_type
 fun emit_instr_extfcall : emit_instr_type
 //
 fun emit_instr_patck : emit_instr_type
@@ -1984,6 +2049,12 @@ fun emit_funent_implmnt (out: FILEref, fent: funent): void
 (* ****** ****** *)
 
 fun emit_primdeclst (out: FILEref, pmds: primdeclst): void
+
+(* ****** ****** *)
+
+fun funlab_tmpcst_match
+  (fl: funlab, d2c: d2cst, t2mas: t2mpmarglst): bool
+// end of [funlab_tmpcst_match]
 
 (* ****** ****** *)
 

@@ -5,12 +5,8 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload_tmpdef.hats"
+"share/atspre_staload.hats"
 //
-(* ****** ****** *)
-
-#define EOF ~1
-
 (* ****** ****** *)
 
 staload
@@ -19,6 +15,10 @@ UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload "libc/SATS/stdio.sats"
+
+(* ****** ****** *)
+
+#define EOF ~1
 
 (* ****** ****** *)
 

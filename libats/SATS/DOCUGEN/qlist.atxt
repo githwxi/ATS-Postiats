@@ -73,6 +73,10 @@ queue is not empty, and returns true. Otherwise, it returns false. ")
 
 (* ****** ****** *)
 
+#declnamesynop("qlist_takeout_opt")
+
+(* ****** ****** *)
+
 #declnamesynop("qlist_takeout_list")
 #decldescrpt("\
 

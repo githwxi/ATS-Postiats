@@ -81,6 +81,7 @@ The default implementation of this function always returns true.\
 ')
 
 #declnamesynop("intrange_foreach$fwork")
+#decldescrpt('By default, this function is unimplemented.')
 
 (* ****** ****** *)
 
@@ -111,6 +112,7 @@ The default implementation of this function always returns true.\
 ')
 
 #declnamesynop("intrange_rforeach$fwork")
+#decldescrpt('By default, this function is unimplemented.')
 
 (* ****** ****** *)
 

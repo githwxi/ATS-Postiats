@@ -1,0 +1,54 @@
+#
+# Implementing a simple calculator
+#
+
+######
+
+This example demonstrates a way to organize a (small)
+project in ATS2. The code is written in a straightforward
+style that should be readily accessible.
+
+######
+
+calculator.sats:
+This file contains all declarations.
+
+calculator_aexp.sats:
+This file contains the code implementing a function for
+evaluating AST for arithmetic expressions.
+
+calculator_token.sats:
+This file contains the code implementing various functions
+for manipulating tokens.
+
+calculator_cstream.sats:
+This file contains the code implementing various functions
+for manipulating char streams.
+
+calculator_tstream.sats:
+This file contains the code implementing various functions
+for manipulating token streams.
+
+calculator_parsing.sats:
+This file contains the code implementing a parser of the so-called
+recursive decent style.
+
+calculator_print.sats:
+This file contains the code implementing various printing
+functions (mostly for the purpose of debugging).
+
+######
+
+Here is a running session:
+
+./calc
+
+>> 1+2*3/4
+eval(1+2*3/4) = 2.500000
+>> 1*2*3*4*5*6*7*8*9
+eval(1*2*3*4*5*6*7*8*9) = 362880.000000
+>>   C-c C-c
+
+######
+
+###### end of [README] ######

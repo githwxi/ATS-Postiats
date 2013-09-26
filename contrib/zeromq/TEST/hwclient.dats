@@ -41,8 +41,13 @@ int main (void)
 *)
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload.hats"
+//
+(* ****** ****** *)
 
-staload "zeromq/SATS/zmq.sats"
+staload "./../SATS/zmq.sats"
 
 (* ****** ****** *)
 
@@ -51,6 +56,12 @@ staload "zeromq/SATS/zmq.sats"
 (* ****** ****** *)
 
 postfix SZ; macdef SZ (i) = g1int2uint (,(i))
+
+(* ****** ****** *)
+
+%{^
+extern unsigned int sleep (unsigned int) ;
+%} // end of [%{^]
 
 (* ****** ****** *)
 
@@ -104,10 +115,7 @@ in
   loop (0, requester, request, reply)
 end // end of [val]
 //
-val _ =
-  sleep (2) where {
-  extern fun sleep: int -> uint = "mac#atslib_sleep"
-} // end of [val]
+val _ = $extfcall (uint, "sleep", 2)
 //
 val () = zmq_close_exn (requester)
 val () = assertloc (zmq_ctx_destroy (context) >= 0)

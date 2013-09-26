@@ -31,20 +31,17 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-sortdef t0p = t@ype and vt0p = viewt@ype
-
-#atscode_separator()
-
 \#if(0)
 //
 // HX: these decls are available in [basic_dyn.sats]
 //
 datatype // t@ype+: covariant
 list_t0ype_int_type (a:t@ype+, int) =
-  | list_nil (a, 0) of ()
   | {n:int | n >= 0}
     list_cons (a, n+1) of (a, list_t0ype_int_type (a, n))
-// end of [datatype]
+  | list_nil (a, 0) of ((*void*))
+// end of [list_t0ype_int_type]
+//
 stadef list = list_t0ype_int_type
 typedef
 List (a:t0p) = [n:int] list (a, n)
@@ -118,7 +115,7 @@ list_vt2t
 castfn
 list_of_list_vt
   {x:t0p}{n:int}
-  (xs: list_vt (INV(x), n)):<> list (x, n)
+  (xs: list_vt (INV(x), n)):<!wrt> list (x, n)
 //
 #atscode_separator()
 
@@ -126,6 +123,13 @@ list_of_list_vt
   list_cons(x, list_nil())
 \#define list_pair(x1, x2)
   list_cons(x1, list_cons (x2, list_nil()))
+
+#atscode_separator()
+
+fun{x:t0p}
+list_make_sing (x: x):<!wrt> list_vt (x, 1)
+fun{x:t0p}
+list_make_pair (x1: x, x2: x):<!wrt> list_vt (x, 2)
 
 #atscode_separator()
 
@@ -221,45 +225,51 @@ end // end of [fprintlst_mac]
 *)
 
 #atscode_separator()
-
+//
 fun{
 } list_is_nil
-  {x:t0p}{n:int} (xs: list (x, n)):<> bool (n==0)
-// end of [list_is_nil]
-
+  {x:t0p}{n:int} (xs: list (x, n)):<> bool(n==0)
 fun{
 } list_is_cons
-  {x:t0p}{n:int} (xs: list (x, n)):<> bool (n > 0)
-// end of [list_is_cons]
-
-fun{x:t0p}
-list_is_sing
-  {n:int} (xs: list (INV(x), n)):<> bool (n==1)
-// end of [list_is_sing]
-
-fun{x:t0p}
-list_is_pair
-  {n:int} (xs: list (INV(x), n)):<> bool (n==2)
-// end of [list_is_pair]
-
-#atscode_separator()
-
-fun{x:t0p}
-list_head{n:pos} (xs: list (INV(x), n)):<> x
-fun{x:t0p}
-list_head_exn{n:int} (xs: list (INV(x), n)):<!exn> x
-
-#atscode_separator()
+  {x:t0p}{n:int} (xs: list (x, n)):<> bool(n > 0)
 //
+fun{x:t0p}
+list_is_sing{n:int} (xs: list (INV(x), n)):<> bool(n==1)
+fun{x:t0p}
+list_is_pair {n:int} (xs: list (INV(x), n)):<> bool(n==2)
+//
+#atscode_separator()
+
+fun{x:t0p}
+list_head{n:pos} (xs: list (INV(x), n)):<> (x)
+fun{x:t0p}
+list_head_exn{n:int} (xs: list (INV(x), n)):<!exn> (x)
+
+#atscode_separator()
+
 fun{x:t0p}
 list_tail{n:pos}
   (xs: SHR(list (INV(x), n))):<> list (x, n-1)
 fun{x:t0p}
 list_tail_exn{n:int}
   (xs: SHR(list (INV(x), n))):<!exn> list (x, n-1)
-//
+
+#atscode_separator()
+
+fun{x:t0p}
+list_last{n:pos} (xs: list (INV(x), n)):<> (x)
+fun{x:t0p}
+list_last_exn{n:int} (xs: list (INV(x), n)):<!exn> (x)
+
 #atscode_separator()
 //
+symintr .head .tail .last
+overload .head with list_head
+overload .tail with list_tail
+overload .last with list_last
+//
+#atscode_separator()
+
 fun{
 x:t0p
 } list_nth{n:int}
@@ -395,6 +405,15 @@ x:t0p
   {n:int}{i:nat} // it may raise [ListSubscriptException]
   (xs: SHR(list (INV(x), n)), i: int i):<!exn> [i <= n] list (x, n-i)
 //
+#atscode_separator()
+
+fun{
+x:t0p
+} list_split_at
+  {n:int}{i:nat | i <= n}
+  (xs: SHR(list (INV(x), n)), i: int i):<> (list_vt (x, i), list (x, n-i))
+// end of [list_split_at]
+
 #atscode_separator()
 
 fun{
@@ -536,15 +555,24 @@ fun{x:t0p} list_forall (xs: List (INV(x))):<> bool
 
 #atscode_separator()
 
-fun{x:t0p} list_equal$pred (x, x):<> bool
-fun{x:t0p} list_equal (xs1: List (INV(x)), xs2: List(x)):<> bool
+fun{x:t0p}
+list_equal$pred (x, x):<> bool
+fun{x:t0p}
+list_equal (xs1: List (INV(x)), xs2: List(x)):<> bool
+overload = with list_equal
 
 #atscode_separator()
-
+//
 fun{x:t0p} list_find$pred (x):<> bool
+//
+fun{
+x:t0p
+} list_find
+  (List (INV(x)), x: &x? >> opt(x, b)):<> #[b: bool] bool(b)
+//
 fun{x:t0p} list_find_exn (xs: List (INV(x))):<!exn> x
 fun{x:t0p} list_find_opt (xs: List (INV(x))):<> Option_vt (x)
-
+//
 #atscode_separator()
 
 fun{
@@ -674,10 +702,10 @@ x:t0p}{y:t0p
 
 fun{
 a:vt0p
-} list_tabulate$fopr (i: int): a
+} list_tabulate$fopr (i: int): (a)
 fun{
 a:vt0p
-} list_tabulate {n:nat} (n: int n): list_vt (a, n)
+} list_tabulate{n:nat} (n: int n): list_vt (a, n)
 
 #atscode_separator()
 
@@ -689,11 +717,11 @@ x,y:t0p
 
 fun{
 x,y:t0p}{xy:vt0p
-} list_zipwith$fopr (x, y): xy
+} list_zipwith$fopr (x, y): (xy)
 fun{
 x,y:t0p}{xy:vt0p
-} list_zipwith
-  {m,n:int} (
+} list_zipwith{m,n:int}
+(
   xs: list (INV(x), m), ys: list (INV(y), n)
 ) : list_vt (xy, min(m,n)) // endfun
 
@@ -701,18 +729,18 @@ x,y:t0p}{xy:vt0p
 
 fun{
 x,y:t0p
-} list_cross
-  {m,n:int} (
+} list_cross{m,n:int}
+(
   xs: list (INV(x), m), ys: list (INV(y), n)
-) :<!wrt> list_vt ((x, y), m*n) // end of [list_cross]
+) :<!wrt> list_vt ((x, y), m*n) // endfun
 
 fun{
 x,y:t0p}{xy:vt0p
-} list_crosswith$fopr (x, y): xy
+} list_crosswith$fopr (x, y): (xy)
 fun{
 x,y:t0p}{xy:vt0p
-} list_crosswith
-  {m,n:int} (
+} list_crosswith{m,n:int}
+(
   xs: list (INV(x), m), ys: list (INV(y), n)
 ) : list_vt (xy, m*n) // end of [list_crosswith]
 

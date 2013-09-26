@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: March, 2011
 //
 (* ****** ****** *)
@@ -161,9 +162,9 @@ case+ fk of
 end // end of [funkind_is_recursive]
 
 implement
-funkind_is_tailrecur fk =
-  case+ fk of FK_fnx () => true | _ => false
-// end of [funkind_is_tailrecur]
+funkind_is_mutailrec
+  (fk) = case+ fk of FK_fnx () => true | _ => false
+// end of [funkind_is_mutailrec]
 
 implement
 fprint_funkind

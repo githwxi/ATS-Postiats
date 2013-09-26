@@ -312,14 +312,16 @@ typedef sizeof_t (a:vt@ype) = size_t (sizeof(a?))
 
 (* ****** ****** *)
 //
-tkindef int8_kind = "atstype_int8"
+tkindef
+int8_kind = "atstype_int8"
 typedef int8_0 = g0int (int8_kind)
 typedef int8_1 (i:int) = g1int (int8_kind, i)
 stadef int8 = int8_1 // 2nd-select
 stadef int8 = int8_0 // 1st-select
 stadef Int8 = [i:int] int8_1 (i)
 //
-tkindef uint8_kind = "atstype_uint8"
+tkindef
+uint8_kind = "atstype_uint8"
 typedef uint8_0 = g0uint (uint8_kind)
 typedef uint8_1 (i:int) = g1uint (uint8_kind, i)
 stadef uint8 = uint8_1 // 2nd-select
@@ -328,14 +330,16 @@ stadef uInt8 = [i:nat] uint8_1 (i)
 
 (* ****** ****** *)
 //
-tkindef int16_kind = "atstype_int16"
+tkindef
+int16_kind = "atstype_int16"
 typedef int16_0 = g0int (int16_kind)
 typedef int16_1 (i:int) = g1int (int16_kind, i)
 stadef int16 = int16_1 // 2nd-select
 stadef int16 = int16_0 // 1st-select
 stadef Int16 = [i:int] int16_1 (i)
 //
-tkindef uint16_kind = "atstype_uint16"
+tkindef
+uint16_kind = "atstype_uint16"
 typedef uint16_0 = g0uint (uint16_kind)
 typedef uint16_1 (i:int) = g1uint (uint16_kind, i)
 stadef uint16 = uint16_1 // 2nd-select
@@ -344,14 +348,16 @@ stadef uInt16 = [i:nat] uint16_1 (i)
 
 (* ****** ****** *)
 //
-tkindef int32_kind = "atstype_int32"
+tkindef
+int32_kind = "atstype_int32"
 typedef int32_0 = g0int (int32_kind)
 typedef int32_1 (i:int) = g1int (int32_kind, i)
 stadef int32 = int32_1 // 2nd-select
 stadef int32 = int32_0 // 1st-select
 stadef Int32 = [i:int] int32_1 (i)
 //
-tkindef uint32_kind = "atstype_uint32"
+tkindef
+uint32_kind = "atstype_uint32"
 typedef uint32_0 = g0uint (uint32_kind)
 typedef uint32_1 (i:int) = g1uint (uint32_kind, i)
 stadef uint32 = uint32_1 // 2nd-select
@@ -360,14 +366,16 @@ stadef uInt32 = [i:nat] uint32_1 (i)
 
 (* ****** ****** *)
 //
-tkindef int64_kind = "atstype_int64"
+tkindef
+int64_kind = "atstype_int64"
 typedef int64_0 = g0int (int64_kind)
 typedef int64_1 (i:int) = g1int (int64_kind, i)
 stadef int64 = int64_1 // 2nd-select
 stadef int64 = int64_0 // 1st-select
 stadef Int64 = [i:int] int64_1 (i)
 //
-tkindef uint64_kind = "atstype_uint64"
+tkindef
+uint64_kind = "atstype_uint64"
 typedef uint64_0 = g0uint (int64_kind)
 typedef uint64_1 (i:int) = g1uint (int64_kind, i)
 stadef uint64 = uint64_1 // 2nd-select
@@ -506,6 +514,17 @@ viewdef b0ytes_v (l:addr, n:int) = b0ytes (n) @ l
 
 (* ****** ****** *)
 //
+abstype
+cloref_t0ype_type (a:t@ype) = ptr
+stadef cloref = cloref_t0ype_type
+//
+absvtype
+cloptr_vt0ype_vtype (a:t@ype) = ptr
+stadef cloptr = cloptr_vt0ype_vtype
+vtypedef cloptr0 = cloptr_vt0ype_vtype (void)
+//
+(* ****** ****** *)
+//
 // HX: for memory deallocation (with/without GC)
 //
 absview
@@ -545,6 +564,12 @@ viewdef vtakeout0 (v:view) = vtakeout (void, v)
 vtypedef vttakeout
   (vt1: vt@ype, vt2: vt@ype) = (vt2 -<lin,prf> vt1 | vt2)
 viewdef vttakeout0 (vt:vt@ype) = vttakeout (void, vt)
+//
+(* ****** ****** *)
+//
+vtypedef
+vtakeoutptr
+  (a:vt@ype) = [l:addr] (a@l, a@l -<lin,prf> void | ptr l)
 //
 (* ****** ****** *)
 //

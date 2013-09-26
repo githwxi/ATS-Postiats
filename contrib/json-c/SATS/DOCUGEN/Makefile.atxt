@@ -27,7 +27,7 @@ HTML/%s.html: \
 %s_atxt.exe: htmlgendecl_atxt.dats \
   %s_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ; \
   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $< \
-    $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+    $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsynmark/libatsynmark.a -latsdoc
 upload_%s:: ; \
   scp HTML/%s.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/contrib/json-c
 clean:: ; $(RMF) %s_atxt.exe
@@ -102,6 +102,8 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ; \
 
 all_html::
 
+######
+
 #make_entry("json")
 #make_entry("json_header")
 #make_entry("linkhash")
@@ -111,6 +113,10 @@ all_html::
 #make_entry("json_object")
 #make_entry("json_object_iterator")
 #make_entry("json_tokener")
+
+######
+
+#make_entry("json_ML")
 
 ######
 

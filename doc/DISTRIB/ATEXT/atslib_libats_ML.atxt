@@ -111,8 +111,19 @@ The ATSLIB/libats/ML library\
 #packfilename("SATS/string.sats")
 #packfilename("SATS/strarr.sats")
 #packfilename("SATS/filebas.sats")
-#packfilename("SATS/funmap.sats")
 #packfilename("SATS/funset.sats")
+#packfilename("SATS/funmap.sats")
+#packfilename("SATS/hashtbl.sats")
+#packfilename("SATS/monad_list.sats")
+#packfilename("SATS/monad_maybe.sats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/SHARE/monad.hats")
+
+(* ****** ****** *)
+
+#packfilename("CATS/strarr.cats")
 
 (* ****** ****** *)
 
@@ -121,13 +132,19 @@ The ATSLIB/libats/ML library\
 #packfilename("DATS/array0.dats")
 #packfilename("DATS/string.dats")
 #packfilename("DATS/strarr.dats")
+
 #packfilename("DATS/filebas.dats")
-#packfilename("DATS/funmap.dats")
+#packfilename("DATS/filebas_dirent.dats")
+
 #packfilename("DATS/funset.dats")
+#packfilename("DATS/funmap.dats")
+#packfilename("DATS/hashtbl.dats")
+#packfilename("DATS/monad_list.dats")
+#packfilename("DATS/monad_maybe.dats")
 
 (* ****** ****** *)
 
-#packfilename("CATS/strarr.cats")
+#packfilename("DATS/SHARE/monad.hats")
 
 (* ****** ****** *)
 

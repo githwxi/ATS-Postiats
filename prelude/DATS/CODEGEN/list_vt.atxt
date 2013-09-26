@@ -319,7 +319,7 @@ end // end of [list_vt_insert_at]
 #atscode_separator()
 
 implement{a}
-list_vt_remove_at
+list_vt_takeout_at
 {n} (xs, i) = x1 where
 {
 //
@@ -335,7 +335,7 @@ prval () = __assert (xs) where
   praxi __assert (xs: &list_vt (a, n) >> list_vt (a, n-1)): void
 } // end of [prval]
 //
-} // end of [list_vt_remove_at]
+} // end of [list_vt_takeout_at]
 
 #atscode_separator()
 
@@ -446,10 +446,49 @@ in
   res
 end // end of [list_vt_append]
 
+#atscode_separator()
+
 implement{a}
 list_vt_extend
   (xs, y) = list_vt_append<a> (xs, cons_vt{a}(y, nil_vt()))
 // end of [list_vt_extend]
+
+#atscode_separator()
+
+implement{a}
+list_vt_unextend
+  (xs) = let
+//
+fun loop
+  {n:pos} .<n>.
+(
+  xs: &list_vt (a, n) >> list_vt (a, n-1)
+) :<!wrt> (a) = let
+//
+val+@list_vt_cons (x, xs1) = xs
+//
+in
+//
+case+ xs1 of
+| list_vt_cons _ => let
+    val x = loop (xs1)
+    prval () = fold@ (xs)
+  in
+    x
+  end // end of [list_vt_cons]
+| list_vt_nil () => let
+    val x = x
+    val xs1 = xs1
+    val () = free@{a}{0}(xs)
+  in
+    xs := xs1; x
+  end // end of [list_vt_nil]
+//
+end // end of [loop]
+//
+in
+  loop (xs)
+end // end of [list_vt_unextend]
 
 #atscode_separator()
 
@@ -484,6 +523,43 @@ fun loop
 in
   loop (xs, ys)
 end // end of [list_vt_reverse_append]
+
+#atscode_separator()
+
+implement
+{x}(*tmp*)
+list_vt_split_at
+  (xs, i) = let
+//
+fun loop
+  {n:int}
+  {i:nat | i <= n} .<n>.
+(
+  xs: &list_vt (x, n) >> list_vt (x, i), i: int i
+) :<!wrt> list_vt (x, n-i) =
+(
+if i > 0 then let
+//
+val+@cons_vt (x, xs1) = xs
+val res = loop (xs1, i-1)
+prval ((*void*)) = fold@ (xs)
+//
+in
+  res
+end else let
+  val res = xs
+  val () = xs := list_vt_nil((*void*))
+in
+  res
+end // end of [if]
+) // end of [loop]
+//
+var xs = xs
+val res = loop (xs, i)
+//
+in
+  (xs, res)
+end // end of [list_split_vt_at]
 
 #atscode_separator()
 
@@ -524,7 +600,7 @@ end // end of [list_vt_concat]
 #atscode_separator()
 
 implement{a}
-list_vt_split (xs) = let
+list_vt_separate (xs) = let
 //
 prval () = lemma_list_vt_param (xs)
 //
@@ -540,7 +616,7 @@ case+ xs of
 | @list_vt_cons
     (x, xs_tl) => let
     val xs_tl_v = xs_tl
-    val test = list_vt_split$pred (x)
+    val test = list_vt_separate$pred (x)
   in
     if test then let
       val () = res1 := xs
@@ -567,7 +643,7 @@ val () = xs := res1
 //
 in
   res2
-end // end of [list_vt_split]
+end // end of [list_vt_separate]
 
 #atscode_separator()
 
@@ -871,14 +947,12 @@ fun loop
 ) : void = let
 in
   case+ xs of
-  | @list_vt_cons
+  | ~list_vt_cons
       (x, xs1) => let
-      val xs1 = xs1
       val y =
         list_vt_mapfree$fopr<a><b> (x)
-      // end of [val]
-      val () = free@ {a}{0} (xs)
-      val () = res := list_vt_cons{b}{0}(y, _)
+      val () =
+        res := list_vt_cons{b}{0}(y, _)
       val+list_vt_cons (_, res1) = res
       val () = loop (xs1, res1)
       prval () = fold@ (res)

@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,15 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: May, 2011
 //
 (* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
+(* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -598,26 +602,30 @@ p1t_fun.p1at_node of
 end // end of [p1at_tr_app_sta_dyn]
 
 (* ****** ****** *)
-//
-// HX: free=0/unfold=2
-//
-fun p1at_tr_free_unfold (
+
+fun
+p1at_tr_free_unfold
+(
   pck: pckind, p1t0: p1at, p1t: p1at
 ) : p2at = let
-  val loc0 = p1t0.p1at_loc
-  val p2t = p1at_tr (p1t)
+//
+val p2t = p1at_tr (p1t)
+//
 in
 //
 case+ p2t.p2at_node of
 | P2Tcon (
     PCKcon (), d2c, s2qs, s2e, npf, darg
-  ) =>
+  ) => let
+    val loc0 = p1t0.p1at_loc
+  in
     p2at_con (loc0, pck, d2c, s2qs, s2e, npf, darg)
-  // end of [P2Tcon]
+  end // end of [P2Tcon]
 | _ => let
+    val loc0 = p1t0.p1at_loc
     val () = prerr_error2_loc (loc0)
-    val () = filprerr_ifdebug ("p1at_tr_free")
-    val () = prerr ": the pattern is expected to formed with a constructor (of dataviewtype)."
+    val () = filprerr_ifdebug ("p1at_tr_free_unfold")
+    val () = prerr ": the pattern is expected to formed with a constructor (of datavtype)."
     val () = prerr_newline ()
     val () = the_trans2errlst_add (T2E_p1at_tr (p1t0))
   in

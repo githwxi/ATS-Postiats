@@ -33,12 +33,14 @@
 *)
 
 (* ****** ****** *)
-
-staload "zeromq/SATS/zmq.sats"
-
+//
+// HX: no dynloading
+//
+#define ATS_DYNLOADFLAG 0
+//
 (* ****** ****** *)
 
-#define ATS_DYNLOADFLAG 0 // no static loading at run-time
+staload "./../SATS/zmq.sats"
 
 (* ****** ****** *)
 
@@ -47,7 +49,9 @@ staload "zeromq/SATS/zmq.sats"
 (* ****** ****** *)
 
 (*
-fun zmq_socket_exn (ctx: !zmqctx1, type: int): zmqsock1
+fun zmq_socket_exn
+  (ctx: !zmqctx1, type: int): zmqsock1
+// end of [zmq_socket_exn]
 *)
 implement
 zmq_socket_exn
@@ -63,8 +67,9 @@ end // end of [zmq_socket_exn]
 
 (*
 fun zmq_bind_exn
-  (sock: !zmqsock1, endpt: NSH(string)): void
-// end of [zmq_bind_exn]
+(
+  sock: !zmqsock1, endpt: NSH(string)
+) : void // end of [zmq_bind_exn]
 *)
 implement
 zmq_bind_exn
@@ -77,8 +82,9 @@ zmq_bind_exn
 
 (*
 fun zmq_connect_exn
-  (sock: !zmqsock1, endpt: NSH(string)): void
-// end of [zmq_connect_exn]
+(
+  sock: !zmqsock1, endpt: NSH(string)
+) : void // end of [zmq_connect_exn]
 *)
 implement
 zmq_connect_exn
@@ -102,7 +108,8 @@ zmq_close_exn
 (* ****** ****** *)
 
 (*
-fun zmq_msg_init_exn (msg: &zmqmsg? >> zmqmsg): void
+fun zmq_msg_init_exn
+  (msg: &zmqmsg? >> zmqmsg): void
 *)
 implement
 zmq_msg_init_exn
@@ -115,7 +122,8 @@ zmq_msg_init_exn
 (* ****** ****** *)
 
 (*
-fun zmq_msg_init_size_exn (msg: &zmqmsg? >> zmqmsg, n: size_t): void
+fun zmq_msg_init_size_exn
+  (msg: &zmqmsg? >> zmqmsg, n: size_t): void
 *)
 implement
 zmq_msg_init_size_exn
@@ -128,7 +136,8 @@ zmq_msg_init_size_exn
 (* ****** ****** *)
 
 (*
-fun zmq_msg_close_exn (msg: &zmqmsg >> zmqmsg?): void
+fun zmq_msg_close_exn
+  (msg: &zmqmsg >> zmqmsg?): void
 *)
 implement
 zmq_msg_close_exn
@@ -142,8 +151,9 @@ zmq_msg_close_exn
 
 (*
 fun zmq_msg_send_exn
-  (msg: &zmqmsg, sock: !zmqsock1, flags: int): intGte(0)
-// end of [zmq_msg_send_exn]
+(
+  msg: &zmqmsg, sock: !zmqsock1, flags: int
+) : intGte(0) // end of [zmq_msg_send_exn]
 *)
 implement
 zmq_msg_send_exn (
@@ -157,8 +167,9 @@ zmq_msg_send_exn (
 
 (*
 fun zmq_msg_recv_exn
-  (msg: &zmqmsg, sock: !zmqsock1, flags: int): intGte(0)
-// end of [zmq_msg_recv_exn]
+(
+  msg: &zmqmsg, sock: !zmqsock1, flags: int
+) : intGte(0) // end of [zmq_msg_recv_exn]
 *)
 implement
 zmq_msg_recv_exn (

@@ -84,16 +84,25 @@ all_script::
 ######
 
 #make_entry("patsopt_src")
+#make_entry("patsopt_src_cboot")
+
+######
 
 #make_entry("atslib_prelude")
 #make_entry("atslib_libc")
 #make_entry("atslib_libats")
 #make_entry("atslib_libats_ML")
 
+######
+
 #make_entry("ccomp_atslib")
 #make_entry("ccomp_runtime")
 
+######
+
 #make_entry("utils_atscc")
+
+######
 
 #make_entry("doc_example_intro")
 #make_entry("doc_example_atslib")
@@ -101,23 +110,53 @@ all_script::
 #make_entry("doc_example_pcpv")
 
 ######
+#
+#make_entry("atscntrb_libgmp")
+#
+#make_entry("atscntrb_GTK")
+#make_entry("atscntrb_glib")
+#make_entry("atscntrb_cairo")
+#
+#make_entry("atscntrb_libatshwxi_intinf")
+#make_entry("atscntrb_libatshwxi_testing")
+#make_entry("atscntrb_libatshwxi_teaching")
+#
+######
 
-srcgetall:: srcget_share
-srcgetall:: srcget_patsrc
-srcgetall:: srcget_atslib
-srcgetall:: srcget_ccomp_atslib
-srcgetall:: srcget_ccomp_runtime
-srcgetall:: srcget_utils_atscc
-srcgetall:: srcget_doc_example
+atspackaging:: srcget_home
+atspackaging:: srcget_share
+atspackaging:: srcget_patsrc
+atspackaging:: srcget_patsrc_cboot
+atspackaging:: srcget_atslib
+atspackaging:: srcget_ccomp_atslib
+atspackaging:: srcget_ccomp_runtime
+atspackaging:: srcget_utils_atscc
+atspackaging:: srcget_doc_example
+
+######
+
+srcget_home:: ; $(CPF) ../../AUTHORS $(ATSDIST)/
+srcget_home:: ; $(CPF) ../../COPYING $(ATSDIST)/
+srcget_home:: ; $(CPF) ../../INSTALL $(ATSDIST)/
+srcget_home:: ; $(CPF) ../../VERSION.txt $(ATSDIST)/
+srcget_home:: ; $(CPF) ../../configure.ac $(ATSDIST)/
+srcget_home:: ; $(CPF) ../../config.mk.in $(ATSDIST)/
+srcget_home:: ; $(CPF) ../../patscc_env.sh.in $(ATSDIST)/bin/
+srcget_home:: ; $(CPF) ../../patsopt_env.sh.in $(ATSDIST)/bin/
 
 ######
 
 srcget_share:: ; \\
-  $(CPF) ../../share/atspre_staload_tmpdef.hats $(ATSDIST)/share/
+  $(CPF) ../../share/atspre_define.hats $(ATSDIST)/share/
+srcget_share:: ; \\
+  $(CPF) ../../share/atspre_define_pkgreloc.hats $(ATSDIST)/share/
+srcget_share:: ; \\
+  $(CPF) ../../share/atspre_staload.hats $(ATSDIST)/share/
 
 ######
 
 srcget_patsrc:: SCRIPT/patsopt_src.bash ; bash $<
+srcget_patsrc_cboot:: SCRIPT/patsopt_src_cboot.bash ; bash $<
 
 ######
 
@@ -149,6 +188,36 @@ srcget_doc_example_intro:: SCRIPT/doc_example_intro.bash ; bash $<
 srcget_doc_example_atslib:: SCRIPT/doc_example_atslib.bash ; bash $<
 srcget_doc_example_misc:: SCRIPT/doc_example_misc.bash ; bash $<
 srcget_doc_example_pcpv:: SCRIPT/doc_example_pcpv.bash ; bash $<
+
+######
+
+atscontribing:: srcget_atscntrb
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_libgmp
+srcget_atscntrb_libgmp:: SCRIPT/atscntrb_libgmp.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_GTK
+srcget_atscntrb_GTK:: SCRIPT/atscntrb_GTK.bash ; bash $<
+srcget_atscntrb:: srcget_atscntrb_glib
+srcget_atscntrb_glib:: SCRIPT/atscntrb_glib.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_cairo
+srcget_atscntrb_cairo:: SCRIPT/atscntrb_cairo.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_libatshwxi_intinf
+srcget_atscntrb_libatshwxi_intinf:: SCRIPT/atscntrb_libatshwxi_intinf.bash ; bash $<
+srcget_atscntrb:: srcget_atscntrb_libatshwxi_testing
+srcget_atscntrb_libatshwxi_testing:: SCRIPT/atscntrb_libatshwxi_testing.bash ; bash $<
+srcget_atscntrb:: srcget_atscntrb_libatshwxi_teaching
+srcget_atscntrb_libatshwxi_teaching:: SCRIPT/atscntrb_libatshwxi_teaching.bash ; bash $<
 
 ######
 

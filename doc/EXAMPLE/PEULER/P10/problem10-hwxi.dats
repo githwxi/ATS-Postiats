@@ -16,7 +16,7 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload_tmpdef.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -24,7 +24,7 @@ fun sumprimes
   {m:nat} (m: int m): ulint = let
 //
 local
-implement array_tabulate$fwork<bool> (i) = true
+implement array_tabulate$fopr<bool> (i) = true
 in (* in of [local] *)
 val [l:addr] (pf, pfgc | A) = array_ptr_tabulate<bool> (i2sz(m))
 end // end of [local]

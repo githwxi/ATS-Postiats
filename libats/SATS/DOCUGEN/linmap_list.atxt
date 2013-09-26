@@ -57,12 +57,14 @@ co-variant in its second argument.\
 (* ****** ****** *)
 
 #declnamesynop("compare_key_key")
-#decldescrpt("This function is not avaiable.")
+#decldescrpt("This function is not available.")
 
 (* ****** ****** *)
 
 #declnamesynop("linmap_nil")
 #decldescrpt("This function creates an empty map.")
+#declnamesynop("linmap_make_nil")
+#decldescrpt("This function is the same as #dyncode("linmap_nil").")
 
 (* ****** ****** *)
 
@@ -107,10 +109,10 @@ the given map, the original link is shadowed by the newly inserted link.
 
 (* ****** ****** *)
 
-#declnamesynop("linmap_foreach$cont")
-#declnamesynop("linmap_foreach$fwork")
 #declnamesynop("linmap_foreach")
 #declnamesynop("linmap_foreach_env")
+#declnamesynop("linmap_foreach$cont")
+#declnamesynop("linmap_foreach$fwork")
 
 (* ****** ****** *)
 
@@ -134,12 +136,13 @@ Otherwise, the function keeps the map and returns true. ")
 
 (* ****** ****** *)
 
-#declnamesynop("linmap_listize_free")
+#declnamesynop("linmap_listize")
+#declnamesynop("linmap_flistize")
+#declnamesynop("linmap_flistize$fopr")
 
 (* ****** ****** *)
 
-#declnamesynop("linmap_listize$copy")
-#declnamesynop("linmap_listize_copy")
+#declnamesynop("linmap_listize1")
 
 (* ****** ****** *)
 

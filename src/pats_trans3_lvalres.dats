@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,18 +27,23 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: May, 2012
 //
 (* ****** ****** *)
 //
-// for handling left-value type restoration after a function call
+// HX: for handling left-value type restoration after a function call
+//
+(* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -137,7 +142,7 @@ case+ ctxtopt of
 //
 end // end of [auxmain]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s2addr_exch_type
@@ -190,7 +195,7 @@ fun d2var_refval_check
   end // end of [if]
 // end of [d2var_refval_check]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d3lval_set_type_err
@@ -496,7 +501,7 @@ end // end of [auxres]
 
 #define CLO 0; #define CLOPTR 1; #define CLOREF ~1
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d3exp_fun_restore
@@ -521,7 +526,19 @@ end // end of [local]
 
 local
 
-fun aux1
+fun auxerr
+(
+  d3e0: d3exp
+) : void = let
+  val loc0 = d3e0.d3exp_loc
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": the function argument needs to be a left-value."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_d3lval_funarg (d3e0))
+end // end of [_]
+
+fun auxlst1
 (
   d3es: d3explst
 , s2es_arg: s2explst
@@ -529,11 +546,11 @@ fun aux1
 ) : d3explst =
   case d3es of
   | list_cons _ =>
-      aux2 (d3es, s2es_arg, wths2es)
+      auxlst2 (d3es, s2es_arg, wths2es)
   | list_nil () => list_nil ()
-// end of [aux1]
+// end of [auxlst1]
 
-and aux2
+and auxlst2
 (
   d3es: d3explst
 , s2es_arg: s2explst
@@ -551,8 +568,9 @@ case+ wths2es of
     val-S2Erefarg (refval, s2e_res) = s2e_arg.s2exp_node
     val freeknd =
       d3lval_arg_set_type (refval, d3e, s2e_res)
+    val ((*void*)) = if freeknd > 0 then auxerr (d3e)
     val d3e = d3exp_refarg (loc, s2e_res, refval, freeknd, d3e)
-    val d3es = aux1 (d3es, s2es_arg, wths2es)
+    val d3es = auxlst1 (d3es, s2es_arg, wths2es)
   in
     list_cons (d3e, d3es)
   end // end of [WTHS2EXPLSTcons_invar]
@@ -566,15 +584,16 @@ case+ wths2es of
     val s2e_res = s2hnf_opnexi_and_add (loc, s2f_res)
 (*
     val () = (
-      println! ("d3explst_arg_restore: aux2: d3e = ", d3e);
-      println! ("d3explst_arg_restore: aux2: d3e.type = ", d3e.d3exp_type);
-      println! ("d3explst_arg_restore: aux2: s2e_res = ", s2e_res);
+      println! ("d3explst_arg_restore: auxlst2: d3e = ", d3e);
+      println! ("d3explst_arg_restore: auxlst2: d3e.type = ", d3e.d3exp_type);
+      println! ("d3explst_arg_restore: auxlst2: s2e_res = ", s2e_res);
     ) // end of [val]
 *)
     val freeknd =
       d3lval_arg_set_type (refval, d3e, s2e_res)
+    val ((*void*)) = if freeknd > 0 then auxerr (d3e)
     val d3e = d3exp_refarg (loc, s2e_res, refval, freeknd, d3e)
-    val d3es = aux1 (d3es, s2es_arg, wths2es)
+    val d3es = auxlst1 (d3es, s2es_arg, wths2es)
   in
     list_cons (d3e, d3es)
   end // end of [WTHS2EXPLSTcons_trans]
@@ -583,7 +602,7 @@ case+ wths2es of
     (wths2es) => let
     val-list_cons (d3e, d3es) = d3es
     val-list_cons (s2e_arg, s2es_arg) = s2es_arg
-    val d3es = aux1 (d3es, s2es_arg, wths2es)
+    val d3es = auxlst1 (d3es, s2es_arg, wths2es)
   in
     list_cons (d3e, d3es)
   end // end of [WTHS2EXPLSTcons_none]
@@ -592,10 +611,10 @@ case+ wths2es of
 //
 end // end of [d3explst_arg_restore]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
-d3explst_arg_restore (d3es, s2es, wths2es) = aux1 (d3es, s2es, wths2es)
+d3explst_arg_restore (d3es, s2es, wths2es) = auxlst1 (d3es, s2es, wths2es)
 
 end // end of [local]
 

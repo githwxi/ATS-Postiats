@@ -1,0 +1,134 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../linset_listord.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_linset_listord")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/linset_listord\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+#para("\
+
+This package implements linear sets based on ordered lists.
+Note that this implementation should only be used for handling
+sets that are relatively small (e.g., containing less than 100
+elements).
+
+")
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("set")
+#decldescrpt("\
+
+The type constructor #stacode("set") is a shorthand for
+#stacode("set_vtype").  ")
+
+#declnamesynop("set_vtype")
+#decldescrpt("\
+
+Given a type T, the abstract viewtype #stacode("set_vtype(T)")
+is for a set storing elements of the type T. Note that #stacode("set_vtype")
+is co-variant in its type argument.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("compare_elt_elt")
+#decldescrpt("This function is for comparing set elements.")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_nil")
+#declnamesynop("linset_make_nil")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_sing")
+#declnamesynop("linset_make_sing")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_make_list")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_insert")
+#declnamesynop("linset_takeout")
+#declnamesynop("linset_takeout_opt")
+#declnamesynop("linset_remove")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_getmax")
+#declnamesynop("linset_getmax_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_getmin")
+#declnamesynop("linset_getmin_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_takeoutmax")
+#declnamesynop("linset_takeoutmax_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_takeoutmin")
+#declnamesynop("linset_takeoutmin_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_foreach")
+#declnamesynop("linset_foreach_env")
+#declnamesynop("linset_foreach$fwork")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_listize")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_listize1")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_node_vtype")
+
+(* ****** ****** *)
+
+#declnamesynop("mynode")
+#declnamesynop("mynode0")
+#declnamesynop("mynode1")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_insert_ngc")
+
+(* ****** ****** *)
+
+#declnamesynop("linset_takeout_ngc")
+#declnamesynop("linset_takeoutmax_ngc")
+#declnamesynop("linset_takeoutmin_ngc")
+
+(* ****** ****** *)
+
+(* end of [linset_listord.atxt] *)

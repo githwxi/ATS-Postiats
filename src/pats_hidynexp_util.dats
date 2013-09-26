@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,13 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: September, 2012
 //
 (* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
+(* ****** ****** *)
 
-staload UN = "./prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/list.dats"
+staload
+UN = "./prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -52,9 +58,15 @@ overload = with $LAB.eq_label_label
 
 (* ****** ****** *)
 
+staload LOC = "./pats_location.sats"
+overload print with $LOC.print_location
+
+(* ****** ****** *)
+
 staload S2E = "./pats_staexp2.sats"
 staload D2E = "./pats_dynexp2.sats"
 overload = with $S2E.eq_d2con_d2con
+overload = with $D2E.eq_d2var_d2var
 
 (* ****** ****** *)
 
@@ -427,11 +439,193 @@ end // end of [hidexp_is_value]
 end // end of [local]
 
 (* ****** ****** *)
+
+(*
+implement
+un_hidexp_int (hde) =
+(
+case+ hde.hidexp_node of
+| HDEint (int) => Some_vt (int)
+| HDEi0nt (tok) =>
+| _(*noninteger*) => None_vt((*void*))
+) (* end of [un_hidexp_int] *)
+*)
+
+(* ****** ****** *)
+
+implement
+hidecl_is_empty (hid) = let
+in
 //
+case+
+  hid.hidecl_node of
+//
+| HIDnone () => true
+//
+| HIDlist (xs) => list_is_nil (xs)
+//
+| HIDfundecs (_, _, xs) => list_is_nil (xs)
+//
+| HIDvaldecs (_, xs) => list_is_nil (xs)
+| HIDvaldecs_rec (_, xs) => list_is_nil (xs)
+(*
+| HIDvardecs (xs) => list_is_nil (xs)
+*)
+| _ => false
+//
+end // end of [hidecl_is_empty]
+
+(* ****** ****** *)
+
+local
+
+typedef d2var = $D2E.d2var
+
+datavtype
+hdevaremp =
+  | HDEVEnone of ()
+  | HDEVEsome_var of (d2var)
+  | HDEVEsome_emp of ((*void*))
+// end of [hdevaremp]
+
+fun hidexp_is_varemp
+  (hde0: hidexp): hdevaremp = let
+in
+//
+case+ hde0.hidexp_node of
+| HDEvar d2v => HDEVEsome_var (d2v)
+| HDEempty () => HDEVEsome_emp ((*void*))
+| HDEfoldat () => HDEVEsome_emp ((*void*))
+| HDErec (knd, lhdes, _) =>
+  (
+    if knd = 0 then (
+      case+ lhdes of
+      | list_cons (lhde, list_nil ()) => let
+          val+LABHIDEXP (lab, hde) = lhde in hidexp_is_varemp (hde)
+        end  // end of [list_cons (_, list_nil)]
+      | _ => HDEVEnone ()
+    ) else HDEVEnone () // end of [if]
+  ) (* end of [HIErec] *)
+| _ => HDEVEnone ((*void*))
+//
+end // end of [hidexp_is_varemp]
+
+datavtype
+hianybind =
+  | HABNDnone of ()
+  | HABNDsome_any of hidexp
+  | HABNDsome_var of (d2var, hidexp)
+  | HABNDsome_emp of hidexp
+
+fun hidecl_is_anybind
+  (hid0: hidecl): hianybind = let
+//
+fun aux
+(
+  hip0: hipat, hde: hidexp
+) : hianybind = let
+in
+//
+case+ hip0.hipat_node of
+| HIPany _ => HABNDsome_any (hde)
+| HIPvar (d2v) => HABNDsome_var (d2v, hde)
+| HIPempty () => HABNDsome_emp (hde)
+| HIPrec
+  (
+    knd, lhips, hse_rec
+  ) => (
+    if knd = 0 then (
+      case+ lhips of
+      | list_cons (lhip, list_nil ()) =>
+          let val+LABHIPAT (lab, hip) = lhip in aux (hip, hde) end
+      | _ => HABNDnone ()
+    ) else HABNDnone () // end of [if]
+  ) (* end of [HIPrec] *)
+| _ => HABNDnone ((*void*))
+//
+end // end of [aux]
+//
+in
+//
+case+ hid0.hidecl_node of
+| HIDvaldecs (_, hvds) => (
+  case+ hvds of
+  | list_cons (
+      hvd, list_nil ()
+    ) => aux (hvd.hivaldec_pat, hvd.hivaldec_def)
+  | _ => HABNDnone ((*void*))
+  ) (* end of [HIDvaldecs] *)
+| _ => HABNDnone ()
+//
+end // end of [hidecl_is_anybind]
+
+fun dropz{n:pos}
+(
+  xs: list (hidecl, n)
+) : list (hidecl, n-1) = let
+//
+val+list_cons (x, xs1) = xs
+//
+in
+//
+case+ xs1 of
+| list_cons _ =>
+    list_cons (x, dropz (xs1))
+| list_nil () => list_nil ()
+//
+end // end of [dropz]
+
+in (* in of [local] *)
+
 implement
 hidexp_let_simplify
-  (loc, hse, hids, hde) = hidexp_let (loc, hse, hids, hde)
+  (loc, hse, hids, hde) = let
+in
 //
+case+ hids of
+//
+| list_cons _ => let
+    val opt = hidexp_is_varemp (hde)
+  in
+    case+ opt of
+    | ~HDEVEsome_var (d2v) => let
+        val hid = list_last (hids)
+        val opt2 = hidecl_is_anybind (hid)
+      in
+        case+ opt2 of
+        | ~HABNDnone () =>
+            hidexp_let (loc, hse, hids, hde) 
+        | ~HABNDsome_var
+            (d2v2, hde2) =>
+            if not(d2v=d2v2)
+              then hidexp_let (loc, hse, hids, hde)
+              else hidexp_let (loc, hse, dropz(hids), hde2)
+            // end of [if]
+        | ~HABNDsome_any _ => hidexp_let (loc, hse, hids, hde)
+        | ~HABNDsome_emp _ => hidexp_let (loc, hse, hids, hde)
+      end // end of [HDEVEsome_var]        
+    | ~HDEVEsome_emp ((*void*)) => let
+        val hid = list_last (hids)
+        val opt2 = hidecl_is_anybind (hid)
+      in
+        case+ opt2 of
+        | ~HABNDnone () =>
+            hidexp_let (loc, hse, hids, hde)
+        | ~HABNDsome_emp (hde2) =>
+            hidexp_let (loc, hse, dropz (hids), hde2)
+          // end of [HABNDsome_emp]
+        | ~HABNDsome_any _ => hidexp_let (loc, hse, hids, hde)
+        | ~HABNDsome_var _ => hidexp_let (loc, hse, hids, hde)
+      end // end of [HDEVEsome_emp]
+    | ~HDEVEnone () => hidexp_let (loc, hse, hids, hde)
+  end // end of [list_cons]
+//
+| list_nil ((*void*)) => hde
+//
+end // end of [hidexp_let_simplify]
+
+end // end of [local]
+
 (* ****** ****** *)
 
 (* end of [pats_hidynexp_util.dats] *)

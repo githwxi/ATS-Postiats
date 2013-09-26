@@ -25,8 +25,8 @@ A Simple Interface for Queues
 Let us first declare a linear abstract type for queues as follows:
 
 <pre>
-absvtype queue_vtype (a:viewt@ype, n:int)
-vtypedef queue (a, n) = queue_vtype (a, n)
+absvtype queue_vtype (a:viewt@ype, n:int) = ptr
+vtypedef queue (a:vt0p, n:int) = queue_vtype (a, n)
 </pre>
 
 The full name of the declared abstract type is [queue_vtype] and it is
@@ -277,6 +277,10 @@ dequeueing.
 
 For a running implementation, please find in queue-sllist2.dats the
 entirety of the above presented code plus some code for testing.
+
+<hr size="2">
+
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
 </body>
 </html>

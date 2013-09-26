@@ -87,7 +87,7 @@ typedef T = int
 //
 local
 implement
-array_tabulate$fwork<T> (i) = LEN-g0u2i(i)
+array_tabulate$fopr<T> (i) = LEN-g0u2i(i)
 in (* in of [local] *)
 val A = arrayptr_tabulate<T> (asz)
 end // end of [local]
@@ -103,7 +103,7 @@ typedef T = float
 //
 local
 implement
-array_tabulate$fwork<T> (i) = g0i2f(LEN-g0u2i(i))
+array_tabulate$fopr<T> (i) = g0i2f(LEN-g0u2i(i))
 in (* in of [local] *)
 val A = arrayptr_tabulate<T> (asz)
 end // end of [local]

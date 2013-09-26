@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: February, 2012
 //
 (* ****** ****** *)
@@ -52,20 +53,24 @@ staload "./pats_constraint3.sats"
 
 implement
 fprint_s3exp (out, x) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
+//
+macdef prstr (str) = fprint_string (out, ,(str))
+//
 in
 //
 case+ x of
-| S3Evar (s2v) => {
-    val () = prstr "S3Evar("
-    val () = fprint_s2var (out, s2v)
-    val () = prstr ")" 
-  } // end of [S3Evar]
+//
 | S3Ecst (s2c) => {
     val () = prstr "S3Ecst("
-    val () = fprint_s2cst (out, s2c)
+    val () = fprint! (out, s2c, ":", s2cst_get_srt (s2c))
     val () = prstr ")" 
   } // end of [S3Ecst]
+//
+| S3Evar (s2v) => {
+    val () = prstr "S3Evar("
+    val () = fprint! (out, s2v, ":", s2var_get_srt (s2v))
+    val () = prstr ")" 
+  } // end of [S3Evar]
 //
 | S3Enull () => prstr "0"
 | S3Eunit () => prstr "1"

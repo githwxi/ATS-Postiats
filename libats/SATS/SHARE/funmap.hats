@@ -46,15 +46,10 @@ typedef map (key:t0p, itm:t0p) = map_type (key, itm)
 
 (* ****** ****** *)
 
-#ifdef EQUAL_KEY_KEY
 fun{key:t0p}
 equal_key_key (x1: key, x2: key):<> bool
-#endif // end of [EQUAL_KEY_KEY]
-
-#ifdef COMPARE_KEY_KEY
 fun{key:t0p}
 compare_key_key (x1: key, x2: key):<> int
-#endif // end of [COMPARE_KEY_KEY]
 
 (* ****** ****** *)
 
@@ -63,20 +58,6 @@ fun{
 fun{
 } funmap_make_nil {key,itm:t0p} ():<> map (key, itm)
 
-(* ****** ****** *)
-//
-fun{
-} fprint_funmap$sep (out: FILEref): void // "; "
-fun{
-} fprint_funmap$mapto (out: FILEref): void // "->"
-//
-fun{
-key,itm:t@ype
-} fprint_funmap
-  (out: FILEref, map: map (key, INV(itm))): void
-//
-overload fprint with fprint_funmap
-//
 (* ****** ****** *)
 
 fun{
@@ -169,20 +150,26 @@ key,itm:t0p
 // end of [funmap_remove]
 
 (* ****** ****** *)
-
+//
 fun{
-key,itm:t0p
-}{
-env:vt0p
-} funmap_foreach$cont
-  (k: key, x: itm, env: &env): bool
-// end of [funmap_foreach$cont]
-
+} fprint_funmap$sep (out: FILEref): void // "; "
 fun{
-key,itm:t0p
-}{
-env:vt0p
-} funmap_foreach$fwork
+} fprint_funmap$mapto (out: FILEref): void // "->"
+//
+fun{
+key,itm:t@ype
+} fprint_funmap
+  (out: FILEref, map: map (key, INV(itm))): void
+//
+overload fprint with fprint_funmap
+//
+(* ****** ****** *)
+
+fun
+{key:t0p
+;itm:t0p}
+{env:vt0p}
+funmap_foreach$fwork
   (k: key, x: itm, env: &(env) >> _): void
 // end of [funmap_foreach$fwork]
 
@@ -192,11 +179,11 @@ key,itm:t0p
   (map: map (key, INV(itm))): void
 // end of [funmap_foreach]
 
-fun{
-key,itm:t0p
-}{
-env:vt0p
-} funmap_foreach_env
+fun
+{key:t0p
+;itm:t0p}
+{env:vt0p}
+funmap_foreach_env
   (map: map (key, INV(itm)), env: &(env) >> _): void
 // end of [funmap_foreach_env]
 
@@ -207,6 +194,21 @@ key,itm:t0p
 } funmap_listize
   (xs: map (key, INV(itm))):<!wrt> List_vt @(key, itm)
 // end of [funmap_listize]
+
+(* ****** ****** *)
+
+fun
+{key:t0p
+;itm:t0p}
+{ki2:t0p}
+funmap_flistize$fopr (k: key, i: itm): ki2
+fun
+{key:t0p
+;itm:t0p}
+{ki2:t0p}
+funmap_flistize
+  (xs: map (key, INV(itm))): List_vt (ki2)
+// end of [funmap_flistize]
 
 (* ****** ****** *)
 
