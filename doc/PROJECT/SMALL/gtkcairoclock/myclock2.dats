@@ -35,6 +35,7 @@ macdef _2PI = 2*PI
 (* ****** ****** *)
 
 staload "libc/SATS/time.sats"
+staload "libc/sys/SATS/time.sats"
 
 (* ****** ****** *)
 
@@ -47,6 +48,33 @@ stadef cr (l:addr) = cairo_ref (l)
 
 (* ****** ****** *)
 
+extern
+fun mytime_get (
+): @(dbl, dbl, dbl)
+implement
+mytime_get () = let
+//
+var tv: timeval?
+val err = gettimeofday (tv)
+val () = assertloc (err >= 0)
+prval () = opt_unsome (tv)
+//
+var tm: tm_struct // unintialized
+val ptr_ = localtime_r (tv.tv_sec, tm)
+val () = assert_errmsg (ptr_ > 0, $mylocation)
+prval () = opt_unsome (tm)
+val sec = tm.tm_sec
+val msec = $UN.cast2int(tv.tv_usec)
+val ss = (1.0 * sec + 1.0 * msec / 1000000) * PI / 30
+val ms = tm.tm_min * PI / 30 + ss / 60
+val hs = tm.tm_hour * PI / 6 + ms / 12
+//
+in
+  (hs, ms, ss)
+end // end of [mytime_get]
+
+(* ****** ****** *)
+
 fn draw_clock
   (cr: !cairo_ref1): void = () where {
 //
@@ -55,6 +83,7 @@ fn draw_clock
   val () = assert_errmsg (yn, $mylocation)
   prval () = opt_unsome{time_t}(t)
 //
+(*
   var tm: tm_struct // unintialized
   val ptr_ = localtime_r (t, tm)
   val () = assert_errmsg (ptr_ > 0, $mylocation)
@@ -62,6 +91,8 @@ fn draw_clock
   val ss = tm.tm_sec * PI / 30
   val ms = tm.tm_min * PI / 30 // + ss / 60
   val hs = tm.tm_hour * PI / 6 + ms / 12
+*)
+  val (hs, ms, ss) = mytime_get ()
 //
   val () = cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 1.0)
   val () = cairo_paint (cr)
@@ -143,7 +174,7 @@ val () = $extfcall (void, "gtk_init", addr@(argc), addr@(argv))
 implement
 gtkcairoclock_title<> () = stropt_some"gtkcairoclock"
 implement
-gtkcairoclock_timeout_interval<> () = 500U // millisecs
+gtkcairoclock_timeout_interval<> () = 40U // millisecs
 implement
 gtkcairoclock_mydraw<> (cr, width, height) = mydraw_clock (cr, width, height)
 //

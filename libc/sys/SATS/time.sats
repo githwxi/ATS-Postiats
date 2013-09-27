@@ -54,10 +54,11 @@ typedef suseconds_t = $TYPES.suseconds_t
 
 typedef
 timeval_struct =
-$extype_struct"atslib_timeval_type" of
+$extype_struct
+"atslib_timeval_type" of
 { // = struct timeval
   tv_sec= time_t // seconds  
-, tv_usec=  suseconds_t // microseconds
+, tv_usec= suseconds_t // microseconds
 } // end of [timeval_struct]
 typedef timeval = timeval_struct
 
