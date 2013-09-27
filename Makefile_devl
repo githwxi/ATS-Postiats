@@ -1,0 +1,25 @@
+#
+# A few simple steps to build ATS2
+# This is primarily for people developing ATS2
+#
+
+######
+#
+# author: Hongwei Xi (gmhwxiATgmailDOTcom)
+# author: Brandon Barker (Brandon.BarkerATgmailDOTcom)
+#
+######
+
+all:: bin_patscc
+all:: atslib_update
+
+######
+
+src_depend: ; touch src/.depend
+src_cleanall: ; make -C src cleanall
+bin_patscc: bin_patsopt ; make -C utils/atscc
+bin_patsopt: src_patsopt ; cp -f src/patsopt bin/patsopt
+src_patsopt: src_depend src_cleanall ; make -C src -f Makefile all
+atslib_update: ; make -f codegen/Makefile_atslib
+
+###### end of [Makefile_devl] ######

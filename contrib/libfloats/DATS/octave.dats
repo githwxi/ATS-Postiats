@@ -9,8 +9,6 @@
 //
 // Currently it is empty
 //
-// How best to support both LAg and blas?
-//
 (* ****** ****** *)
 
 
@@ -22,11 +20,11 @@
 
 
 
-// Define diag
+// Implement diag
 
-// Define triu
+// Implement triu
 
-// Define tril
+// Implement tril
 
 // Implement fminsearch
 // As in matlab, default is Nelder-mead simplex
