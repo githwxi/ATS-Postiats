@@ -131,7 +131,11 @@ clean::
 
 cleanall:: clean
 
-cleanall:: ; $(RMF) config*
+cleanall:: ; $(RMF) config.h
+cleanall:: ; $(RMF) config.h.in
+cleanall:: ; $(RMF) config.mk
+cleanall:: ; $(RMF) config.log
+cleanall:: ; $(RMF) configure
 cleanall:: ; $(RMF) stamp-h1
 cleanall:: ; $(RMF) aclocal.m4
 cleanall:: ; $(RMF) missing

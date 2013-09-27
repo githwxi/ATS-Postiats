@@ -621,6 +621,28 @@ case+
     val () = prstr ")"    
   } // end of [HDEfix]
 //
+| HDEdelay (hde) => {
+    val () = prstr "HDEdelay("
+    val () = fprint_hidexp (out, hde)
+    val () = prstr ")"
+  }
+| HDEldelay (hde, hdeopt) => {
+    val () = prstr "HDEldelay("
+    val () = fprint_hidexp (out, hde)
+    val () = prstr ", "
+    val () = fprint_hidexpopt (out, hdeopt)
+    val () = prstr ")"
+  }
+//
+| HDElazy_force
+    (lin, hde) => {
+    val () = prstr "HDElazy_force("
+    val () = fprint_int (out, lin)
+    val () = prstr ", "
+    val () = fprint_hidexp (out, hde)
+    val () = prstr ")"
+  }
+//
 | HDEloop _ => {
     val () = prstr "HDEloop(...)"
   }
@@ -660,6 +682,11 @@ implement
 fprint_hidexplst
   (out, xs) = $UT.fprintlst (out, xs, "; ", fprint_hidexp)
 // end of [fprint_hidexplst]
+
+implement
+fprint_hidexpopt
+  (out, opt) = $UT.fprintopt (out, opt, fprint_hidexp)
+// end of [fprint_hidexpopt]
 
 (* ****** ****** *)
 

@@ -602,6 +602,25 @@ hidexp_fix
 (* ****** ****** *)
 
 implement
+hidexp_delay
+  (loc, hse, hde) =
+  hidexp_make_node (loc, hse, HDEdelay (hde))
+// end of [hidexp_delay]
+implement
+hidexp_ldelay
+  (loc, hse, _eval, _free) =
+  hidexp_make_node (loc, hse, HDEldelay (_eval, _free))
+// end of [hidexp_ldelay]
+
+implement
+hidexp_lazy_force
+  (loc, hse, lin, hde) =
+  hidexp_make_node (loc, hse, HDElazy_force (lin, hde))
+// end of [hidexp_lazy_force]
+
+(* ****** ****** *)
+
+implement
 hidexp_loop
   (loc, hse, init, test, post, body) =
   hidexp_make_node (loc, hse, HDEloop (init, test, post, body))

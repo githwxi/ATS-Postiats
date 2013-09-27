@@ -73,15 +73,22 @@ cleanall:: ; $(RMF) patrefas
 
 ######
 
-all:: sumodd
-sumodd: sumodd.dats ; $(PATSCC) -cleanaft -o $@ $<
-cleanall:: ; $(RMF) sumodd
+all:: sieve_lazy
+sieve_lazy: sieve_lazy.dats ; \
+  $(PATSCC) -D_GNU_SOURCE -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) sieve_lazy
 
 ######
 
 all:: stkalloc
 stkalloc: stkalloc.dats ; $(PATSCC) -cleanaft -o $@ $<
 cleanall:: ; $(RMF) stkalloc
+
+######
+
+all:: sumodd
+sumodd: sumodd.dats ; $(PATSCC) -cleanaft -o $@ $<
+cleanall:: ; $(RMF) sumodd
 
 ######
 

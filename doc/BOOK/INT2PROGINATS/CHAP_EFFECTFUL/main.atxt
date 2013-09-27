@@ -130,18 +130,18 @@ a value, and this justifies that a raise-expression can be given any type.\
 
 A raised exception can be captured. If it is not captured, the raised
 exception aborts the program evaluation that issued it in the first
-place. In ATS, a try-expression is of the form (#dyncode("try") exp
-#dyncode("with") clseq), where #dyncode("try") is a keyword, exp is an
-expression, #dyncode("with") is also a keyword, and clseq is a sequence of
-matching clauses. When evaluating such a try-expression, we first evaluate
-exp. If the evaluation of exp leads to a value, then the value is also the
-value of the try-expression. If the evaluation of exp leads to a raised
-exception, then we match the exception against the guards of the matching
-clauses in clseq. If there is a match, the raised exception is caught and
-we continue to evaluate the body of the first clause whose guard is
-matched. If there is no match, the raised exception is uncaught. In a
-try-expression, the with-part is often referred to as an
-exception-handler.\
+place. In ATS, a try-expression (or try-with-expression) is of the form
+(#dyncode("try") exp #dyncode("with") clseq), where #dyncode("try") is a
+keyword, exp is an expression, #dyncode("with") is also a keyword, and
+clseq is a sequence of matching clauses. When evaluating such a
+try-expression, we first evaluate exp. If the evaluation of exp leads to a
+value, then the value is also the value of the try-expression. If the
+evaluation of exp leads to a raised exception, then we match the exception
+against the guards of the matching clauses in clseq. If there is a match,
+the raised exception is caught and we continue to evaluate the body of the
+first clause whose guard is matched. If there is no match, the raised
+exception is uncaught. In a try-expression, the with-part is often referred
+to as an exception-handler.\
 
 ")
 

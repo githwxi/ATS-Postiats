@@ -348,6 +348,10 @@ and hidexp_node =
 //
   | HDEfix of (int(*knd=0/1:flat/boxed*), d2var(*fixvar*), hidexp) // fixed-point
 //
+  | HDEdelay of hidexp(*eval*) // delayed computation
+  | HDEldelay of (hidexp(*eval*), hidexpopt(*free*)) // delayed LC
+  | HDElazy_force of (int(*lin*), hidexp) // lazy-value evaluation
+//
   | HDEloop of (* for/while-loops *)
     (
       hidexpopt(*init*), hidexp(*test*), hidexpopt(*post*), hidexp(*body*)
@@ -475,6 +479,7 @@ fun prerr_hidexp (x: hidexp): void
 overload prerr with prerr_hidexp
 
 fun fprint_hidexplst : fprint_type (hidexplst)
+fun fprint_hidexpopt : fprint_type (hidexpopt)
 fun fprint_labhidexplst : fprint_type (labhidexplst)
 
 (* ****** ****** *)
@@ -747,6 +752,16 @@ fun hidexp_fix
   loc: location, hse: hisexp, knd: int, f_d2v: d2var, hde_def: hidexp
 ) : hidexp // end of [hidexp_fix]
 
+(* ****** ****** *)
+//
+fun hidexp_delay
+  (loc: location, hse: hisexp, hde: hidexp): hidexp
+fun hidexp_ldelay
+  (loc: location, hse: hisexp, _eval: hidexp, _free: hidexpopt): hidexp
+//
+fun hidexp_lazy_force
+  (loc: location, hse: hisexp, lin: int, hde: hidexp): hidexp
+//
 (* ****** ****** *)
 
 fun hidexp_loop
