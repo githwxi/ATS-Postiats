@@ -53,6 +53,13 @@
 #define ATStyclo() struct{ void *cfun; }
 
 /* ****** ****** */
+//
+// HX: for supporting lazy-evaluation
+//
+#define ATStylazy(tyval) \
+  struct{ int flag; union{ void* thunk; tyval saved; } lazy; }
+//
+/* ****** ****** */
 
 #define ATSempty()
 
@@ -286,9 +293,38 @@
 #define ATSINSraise_exn(tmp, pmv) atsruntime_raise(pmv)
 
 #define ATSINScaseof_fail(msg) atsruntime_handle_unmatchedval(msg)
+
 /*
 #define ATSINSfunarg_fail(msg) ...
 */
+
+/* ****** ****** */
+
+#define \
+ATSfcall_thunk(tyval, pmv_thk) \
+  ATSfcall(ATSfunclo_clo(pmv_thk, (atstype_cloptr), tyval), (pmv_thk))
+
+#define \
+ATSINSmove_delay(tmp, tyval, pmv_thk) \
+do { \
+  tmp = ATS_MALLOC(sizeof(ATStylazy(tyval))) ; \
+  (*(ATStylazy(tyval)*)tmp).flag = 0 ; \
+  (*(ATStylazy(tyval)*)tmp).lazy.thunk = pmv_thk ; \
+} while (0) ; /* end of [do ... while ...] */
+
+#define \
+ATSINSmove_lazyeval(tmp, tyval, pmv_lazy) \
+do { \
+  if ( \
+    (*(ATStylazy(tyval)*)pmv_lazy).flag==0 \
+  ) { \
+    (*(ATStylazy(tyval)*)pmv_lazy).flag += 1 ; \
+    tmp = ATSfcall_thunk(tyval, (*(ATStylazy(tyval)*)pmv_lazy).lazy.thunk) ; \
+    (*(ATStylazy(tyval)*)pmv_lazy).lazy.saved = tmp ; \
+  } else { \
+    tmp = (*(ATStylazy(tyval)*)pmv_lazy).lazy.saved ; \
+  } /* end of [if] */ \
+} while (0) /* end of [do ... while ...] */
 
 /* ****** ****** */
 

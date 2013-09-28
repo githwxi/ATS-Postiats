@@ -577,9 +577,10 @@ case+ d3e0.d3exp_node of
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }
-| D3Elazy_force (lin, d3e) => {
-    val () = prstr "D3Elazy_force("
+| D3Elazyeval (lin, d3e) => {
+    val () = prstr "D3Elazyeval("
     val () = fprint_int (out, lin)
+    val () = prstr "; "
     val () = fprint_d3exp (out, d3e)
     val () = prstr ")"
   }

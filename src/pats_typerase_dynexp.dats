@@ -831,6 +831,13 @@ case+
     hidexp_fix (loc0, hse0, knd, f_d2v, hde_def)
   end // end of [D3Efix]
 //
+| D3Edelay (d3e) => let
+    val hde = d3exp_tyer (d3e) in hidexp_delay (loc0, hse0, hde)
+  end // end of [D3Edelay]
+| D3Elazyeval (lin, d3e) => let
+    val hde = d3exp_tyer (d3e) in hidexp_lazyeval (loc0, hse0, lin, hde)
+  end // end of [D3Elazyeval]
+//
 | D3Eloop
   (
     init, test, post, body

@@ -1350,6 +1350,27 @@ case+
     instr_xstore_ptrofs (loc0, tmp, pmv_l, hse_rt, pmls, pmv_r)
   end // end of [INSxstore_ptrofs]
 //
+| INSmove_delay
+  (
+    tmp, lin, hse, pmv_thunk
+  ) => let
+    val tmp = ftmp (tmp)
+    val hse = hisexp_subst (sub, hse)
+    val pmv_thunk = fpmv (pmv_thunk)
+  in
+    instr_move_delay (loc0, tmp, lin, hse, pmv_thunk)
+  end // end of [INSmove_delay]
+| INSmove_lazyeval
+  (
+    tmp, lin, hse, pmv_lazyval
+  ) => let
+    val tmp = ftmp (tmp)
+    val hse = hisexp_subst (sub, hse)
+    val pmv_thunk = fpmv (pmv_lazyval)
+  in
+    instr_move_lazyeval (loc0, tmp, lin, hse, pmv_lazyval)
+  end // end of [INSmove_lazyeval]
+//
 | INSraise
     (tmp, pmv_exn) => let
     val tmp = ftmp (tmp)

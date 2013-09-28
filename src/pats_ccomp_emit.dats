@@ -1480,6 +1480,9 @@ extern fun emit_instr_xstore_ptrofs : emit_instr_type
 //
 extern fun emit_instr_raise : emit_instr_type
 //
+extern fun emit_instr_move_delay : emit_instr_type
+extern fun emit_instr_move_lazyeval : emit_instr_type
+//
 (* ****** ****** *)
 
 extern
@@ -1790,6 +1793,9 @@ case+ ins.instr_node of
 | INSxstore_ptrofs _ => emit_instr_xstore_ptrofs (out, ins)
 //
 | INSraise _ => emit_instr_raise (out, ins)
+//
+| INSmove_delay _ => emit_instr_move_delay (out, ins)
+| INSmove_lazyeval _ => emit_instr_move_lazyeval (out, ins)
 //
 | INSmove_list_nil (tmp) => {
     val () = emit_text (out, "ATSINSmove_list_nil(")
@@ -2568,8 +2574,8 @@ emit_instr_raise
 val-INSraise
   (tmp, pmv_exn) = ins.instr_node
 //
-val (
-) = emit_text (out, "ATSINSraise_exn(")
+val () = emit_text (out, "ATSINSraise_exn(")
+//
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
 val () = emit_primval (out, pmv_exn)
@@ -2578,6 +2584,56 @@ val () = emit_text (out, ") ;")
 in
   // nothing
 end // end of [emit_instr_raise]
+
+(* ****** ****** *)
+
+implement
+emit_instr_move_delay
+  (out, ins) = let
+//
+val-INSmove_delay
+  (tmp, lin, hse, thunk) = ins.instr_node
+//
+val (
+) = if (lin = 0) then emit_text (out, "ATSINSmove_delay(")
+val (
+) = if (lin > 0) then emit_text (out, "ATSINSmove_ldelay(")
+//
+val () = emit_tmpvar (out, tmp)
+val () = emit_text (out, ", ")
+val () = emit_hisexp (out, hse)
+val () = emit_text (out, ", ")
+val () = emit_primval (out, thunk)
+val () = emit_text (out, ") ;")
+//
+in
+  // nothing
+end // end of [emit_instr_move_delay]
+
+(* ****** ****** *)
+
+implement
+emit_instr_move_lazyeval
+  (out, ins) = let
+//
+val-INSmove_lazyeval
+  (tmp, lin, hse, pmv_lazy) = ins.instr_node
+//
+val (
+) = if (lin = 0) then emit_text (out, "ATSINSmove_lazyeval(")
+val (
+) = if (lin > 0) then emit_text (out, "ATSINSmove_llazyeval(")
+//
+val () = emit_tmpvar (out, tmp)
+val () = emit_text (out, ", ")
+val () = emit_hisexp (out, hse)
+val () = emit_text (out, ", ")
+val () = emit_primval (out, pmv_lazy)
+val () = emit_text (out, ") ;")
+//
+in
+  // nothing
+end // end of [emit_instr_move_lazyeval]
 
 (* ****** ****** *)
 

@@ -66,6 +66,8 @@ ATSLIB_056$prelude_ListSubscriptExn = { 50, "ListSubscriptException" } ;
 atstype_exncon
 ATSLIB_056$prelude_ArraySubscriptExn = { 60, "ArraySubscriptException" } ;
 atstype_exncon ATSLIB_056$prelude_NotSomeExn = { 70, "NotSomeException" } ;
+atstype_exncon
+ATSLIB_056$prelude_StreamSubscriptExn = { 80, "StreamSubscriptException" } ;
 
 /* ****** ****** */
 

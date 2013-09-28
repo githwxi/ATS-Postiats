@@ -634,11 +634,11 @@ case+
     val () = prstr ")"
   }
 //
-| HDElazy_force
+| HDElazyeval
     (lin, hde) => {
-    val () = prstr "HDElazy_force("
+    val () = prstr "HDElazyeval("
     val () = fprint_int (out, lin)
-    val () = prstr ", "
+    val () = prstr "; "
     val () = fprint_hidexp (out, hde)
     val () = prstr ")"
   }

@@ -1005,13 +1005,43 @@ case+ x.instr_node of
 | INSxstore_ptrofs _ => prstr "INSxstore_ptrofs(...)"
 //
 | INSraise
-    (tmp, pmv_exn) => {
+    (tmp, pmv_exn) =>
+  {
     val () = prstr "INSraise("
     val () = fprint_tmpvar (out, tmp)
-    val () = prstr ", "
+    val () = prstr "; "
     val () = fprint_primval (out, pmv_exn)
     val () = prstr ")"
-  } // end of [INSraise]
+  } (* end of [INSraise] *)
+//
+| INSmove_delay
+  (
+    tmp, lin, hse, pmv_thk
+  ) => {
+    val () = prstr "INSmove_delay("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr "; "
+    val () = fprint_int (out, lin)
+    val () = prstr "; "
+    val () = fprint_hisexp (out, hse)
+    val () = prstr "; "
+    val () = fprint_primval (out, pmv_thk)
+    val () = prstr ")"
+  } (* end of [INSmove_delay] *)
+| INSmove_lazyeval
+  (
+    tmp, lin, hse, pmv_lazy
+  ) => {
+    val () = prstr "INSmove_lazyeval("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr "; "
+    val () = fprint_int (out, lin)
+    val () = prstr "; "
+    val () = fprint_hisexp (out, hse)
+    val () = prstr "; "
+    val () = fprint_primval (out, pmv_lazy)
+    val () = prstr ")"
+  } (* end of [INSmove_lazyeval] *)
 //
 | INStrywith
   (

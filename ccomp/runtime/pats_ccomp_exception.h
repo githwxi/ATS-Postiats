@@ -54,13 +54,13 @@ extern void *alloca (size_t bsz) ;
 
 /* ****** ****** */
 
+/*
 extern
 atstype_exncon *atspre_AssertExn_make() ;
 extern
 atstype_exncon *atspre_NotFoundExn_make() ;
 extern
 atstype_exncon *atspre_IllegalArgExn_make(const char*) ;
-
 extern
 atstype_exncon *atspre_ListSubscriptExn_make() ;
 extern
@@ -69,9 +69,15 @@ extern
 atstype_exncon *atspre_ArraySubscriptExn_make() ;
 extern
 atstype_bool atspre_isArraySubscriptExn (const atstype_exncon*) ;
-
+//
 extern atstype_exncon *atspre_NotSomeExn_make() ;
 extern atstype_bool atspre_isNotSomeExn (const atstype_exncon*) ; 
+//
+extern
+atstype_exncon *atspre_StreamSubscriptExn_make() ;
+extern
+atstype_bool atspre_isStreamSubscriptExn (const atstype_exncon*) ;
+*/
 
 /* ****** ****** */
 

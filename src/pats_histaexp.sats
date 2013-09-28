@@ -181,7 +181,8 @@ fun hisexp_tyabs (sym: symbol): hisexp
 
 (* ****** ****** *)
 
-fun hisexp_fun (
+fun hisexp_fun
+(
   fc: funclo, arg: hisexplst, res: hisexp
 ) : hisexp // end of [hisexp_fun]
 

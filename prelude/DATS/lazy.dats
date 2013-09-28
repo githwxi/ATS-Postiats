@@ -42,24 +42,27 @@
 
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 implement{a}
 stream2list (xs) = let
 //
-fun loop (
+fun loop
+(
   xs: stream (a), res: &ptr? >> List0_vt (a)
 ) : void = let
 in
   case+ !xs of
   | stream_cons
       (x, xs) => let
-      val () = res :=
-        list_vt_cons{a}{0} (x, _)
-      // end of [val]
-      val+ list_vt_cons (_, res1) = res
-      val () = loop (xs, res1)
-      prval () = fold@ (res)
+      val () =
+      res := list_vt_cons{a}{0}(x, _)
+      val+list_vt_cons (_, res1) = res
+      val ((*void*)) = loop (xs, res1)
     in
-      // nothing
+      fold@ (res)
     end // end of [stream_cons]
   | stream_nil () => res := list_vt_nil ()
 end // end of [loop]
@@ -77,32 +80,21 @@ stream_nth_exn
   (xs, n) = let
 in
   case+ !xs of
-  | stream_cons (x, xs) =>
-      if n > 0 then stream_nth_exn<a> (xs, pred(n)) else x
+  | stream_cons
+      (x, xs) =>
+    (
+      if n > 0
+        then stream_nth_exn<a> (xs, pred(n)) else (x)
+      // end of [if]
+    )
   | stream_nil () => $raise StreamSubscriptExn()
 end // end of [stream_nth_exn]
 
 implement{a}
 stream_nth_opt
   (xs, n) = let
-//
-fn handle
-  (exn: exn):<> Option_vt (a) = let
 in
-  if isStreamSubscriptExn (exn) then let
-    prval (
-    ) = __assert (exn) where {
-      extern praxi __assert : (exn) -<prf> void
-    } // end of [prval]
-  in
-    None_vt ()
-  end else
-    $effmask_exn ($raise (exn)) // HX: deadcode
-  // end of [if]
-end // end of [handle]
-//
-in
-  try Some_vt (stream_nth_exn<a> (xs, n)) with exn => handle (exn)
+  try Some_vt(stream_nth_exn<a> (xs, n)) with ~StreamSubscriptExn() => None_vt()
 end // end of [stream_nth_opt]
 
 (* ****** ****** *)
@@ -111,16 +103,17 @@ implement{a}
 stream_take_exn
   (xs, n) = let
 //
-fun loop {n:nat} (
+fun loop{n:nat}
+(
   xs: stream a, res: &ptr? >> list_vt (a, n-k), n: int n
 ) : #[k:nat | k <= n] int k =
   if n > 0 then (
     case+ !xs of
     | stream_cons
         (x, xs) => let
-        val () = res :=
-          list_vt_cons{a}{0} (x, _)
-        val+ list_vt_cons (_, res1) = res
+        val () =
+        res := list_vt_cons{a}{0}(x, _)
+        val+list_vt_cons (_, res1) = res
         val k = loop (xs, res1, pred(n))
         prval () = fold@ (res)
       in
@@ -152,12 +145,15 @@ implement{a}
 stream_drop_exn
   (xs, n) = let
 in
-  if n > 0 then (
-    case+ !xs of
-    | stream_cons
-        (_, xs) => stream_drop_exn (xs, pred(n))
-    | stream_nil () => $raise StreamSubscriptExn()
-  ) else xs // end of [if]
+//
+if n > 0 then
+(
+  case+ !xs of
+  | stream_cons
+      (_, xs) => stream_drop_exn (xs, pred(n))
+  | stream_nil () => $raise StreamSubscriptExn()
+) else (xs) // end of [if]
+//
 end // end of [stream_drop_exn]
 
 (* ****** ****** *)
@@ -166,31 +162,33 @@ local
 
 fun{a:t0p}
 stream_filter_con
-  (xs: stream a): stream_con a = let
+  (xs: stream a): stream_con(a) = let
 in
-  case+ !xs of
-  | stream_cons (x, xs) => (
-      if stream_filter$pred (x) then
-        stream_cons (x, stream_filter<a> (xs))
-      else
-        stream_filter_con (xs)
-      // end of [if]
-    ) // end of [stream_cons]
-  | stream_nil () => stream_nil ()
+//
+case+ !xs of
+| stream_cons
+    (x, xs) =>
+  (
+    if stream_filter$pred<a> (x)
+      then stream_cons{a}(x, stream_filter<a> (xs)) else stream_filter_con<a> (xs)
+    // end of [if]
+  ) // end of [stream_cons]
+| stream_nil () => stream_nil ()
+//
 end // end of [stream_filter_con]
 
-in // local]
+in (* in of [local] *)
 
 implement{a}
-stream_filter
-  (xs) = $delay (stream_filter_con<a> (xs))
+stream_filter (xs) =
+  $delay (stream_filter_con<a> (xs))
 // end of [stream_filter]
 
 implement{a}
 stream_filter_fun (xs, p) = let
 //
-implement
-stream_filter$pred<a> (x) = p (x)
+implement{a2}
+stream_filter$pred (x) = p ($UN.cast{a}(x))
 //
 in
   stream_filter (xs)
@@ -199,8 +197,8 @@ end // end of [stream_filter_fun]
 implement{a}
 stream_filter_cloref (xs, p) = let
 //
-implement
-stream_filter$pred<a> (x) = p (x)
+implement{a2}
+stream_filter$pred (x) = p ($UN.cast{a}(x))
 //
 in
   stream_filter (xs)
@@ -218,9 +216,9 @@ stream_map
 case+ !xs of
 | stream_cons
     (x, xs) => let
-    val y = stream_map$fwork<a><b> (x)
+    val y = stream_map$fopr<a><b> (x)
   in
-    stream_cons (y, stream_map<a><b> (xs))
+    stream_cons{b}(y, stream_map<a><b> (xs))
   end // end of [stream_cons]
 | stream_nil () => stream_nil ()
 //
@@ -232,7 +230,7 @@ stream_map_fun
   (xs, f) = let
 //
 implement
-stream_map$fwork<a><b> (x) = f (x)
+stream_map$fopr<a><b> (x) = f (x)
 //
 in
   stream_map (xs)
@@ -244,7 +242,7 @@ stream_map_cloref
   (xs, f) = let
 //
 implement
-stream_map$fwork<a><b> (x) = f (x)
+stream_map$fopr<a><b> (x) = f (x)
 //
 in
   stream_map (xs)
@@ -256,7 +254,7 @@ local
 
 #define :: stream_cons
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 {a1,a2}{b}
@@ -268,10 +266,10 @@ case+ !xs1 of
   case+ !xs2 of
   | x2 :: xs2 => let
       val y =
-        stream_map2$fwork<a1,a2><b> (x1, x2)
+        stream_map2$fopr<a1,a2><b> (x1, x2)
       // end of [val]
     in
-      stream_cons (y, stream_map2<a1,a2><b> (xs1, xs2))
+      stream_cons{b}(y, stream_map2<a1,a2><b> (xs1, xs2))
     end // end of [::]
   | stream_nil () => stream_nil ()
   ) // end of [::]
@@ -287,7 +285,7 @@ stream_map2_fun
   (xs1, xs2, f) = let
 //
 implement
-stream_map2$fwork<a1,a2><b> (x1, x2) = f (x1, x2)
+stream_map2$fopr<a1,a2><b> (x1, x2) = f (x1, x2)
 //
 in
   stream_map2 (xs1, xs2)
@@ -299,7 +297,7 @@ stream_map2_cloref
   (xs1, xs2, f) = let
 //
 implement
-stream_map2$fwork<a1,a2><b> (x1, x2) = f (x1, x2)
+stream_map2$fopr<a1,a2><b> (x1, x2) = f (x1, x2)
 //
 in
   stream_map2 (xs1, xs2)
@@ -311,26 +309,27 @@ local
 
 #define :: stream_cons
 
-in // in of [local]
+in (* in of [local] *)
 
 implement{a}
 stream_merge
-  (xs10, xs20) = $delay (
-//
+  (xs10, xs20) = $delay
+(
 case+ !xs10 of
 | x1 :: xs1 => (
   case+ !xs20 of
   | x2 :: xs2 => let
       val sgn =
         stream_merge$cmp (x1, x2)
+      // end of [val]
     in
       if sgn <= 0 then
-        x1 :: stream_merge (xs1, xs20)
+        stream_cons{a}(x1, stream_merge (xs1, xs20))
       else
-        x2 :: stream_merge (xs10, xs2)
+        stream_cons{a}(x2, stream_merge (xs10, xs2))
       // end of [if]
     end // end of [::]
-  | stream_nil () => x1 :: xs1
+  | stream_nil () => stream_cons{a}(x1, xs1)
   ) (* end of [::] *)
 | stream_nil () => !xs20
 ) // end of [stream_merge]

@@ -47,6 +47,14 @@ cleanall:: ; $(RMF) fixedpoint
 
 ######
 
+all:: lazytest
+lazytest: lazytest_dats.c ; \
+  $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
+lazytest_dats.c: lazytest.dats ; $(PATSCC) -ccats $<
+cleanall:: ; $(RMF) lazytest
+
+######
+
 all:: mutailrec
 mutailrec: mutailrec.dats ; $(PATSCC) -cleanaft -o $@ $<
 cleanall:: ; $(RMF) mutailrec
@@ -70,13 +78,6 @@ all:: patrefas
 patrefas: patrefas.dats ; \
   $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
 cleanall:: ; $(RMF) patrefas
-
-######
-
-all:: sieve_lazy
-sieve_lazy: sieve_lazy.dats ; \
-  $(PATSCC) -D_GNU_SOURCE -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
-cleanall:: ; $(RMF) sieve_lazy
 
 ######
 

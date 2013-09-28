@@ -738,9 +738,15 @@ end // end of [instr_select2]
 
 implement
 instr_move_ptrofsel
-  (loc, tmp, pmv, hse_rt, hils) =
-  instr_make_node (loc, INSmove_ptrofsel (tmp, pmv, hse_rt, hils))
-// end of [instr_move_ptrofsel]
+(
+  loc, tmp, pmv, hse_rt, hils
+) = let
+//
+val ins = INSmove_ptrofsel (tmp, pmv, hse_rt, hils)
+//
+in
+  instr_make_node (loc, ins)
+end // end of [instr_move_ptrofsel]
 
 (* ****** ****** *)
 
@@ -756,15 +762,27 @@ instr_load_ptrofs
 
 implement
 instr_store_ptrofs
-  (loc, pmv_l, hse_rt, ofs, pmv_r) =
-  instr_make_node (loc, INSstore_ptrofs (pmv_l, hse_rt, ofs, pmv_r))
-// end of [instr_store_ptrofs]
+(
+  loc, pmv_l, hse_rt, ofs, pmv_r
+) = let
+//
+val ins = INSstore_ptrofs (pmv_l, hse_rt, ofs, pmv_r)
+//
+in
+  instr_make_node (loc, ins)
+end // end of [instr_store_ptrofs]
 
 implement
 instr_xstore_ptrofs
-  (loc, tmp, pmv_l, hse_rt, ofs, pmv_r) =
-  instr_make_node (loc, INSxstore_ptrofs (tmp, pmv_l, hse_rt, ofs, pmv_r))
-// end of [instr_xstore_ptrofs]
+(
+  loc, tmp, pmv_l, hse_rt, ofs, pmv_r
+) = let
+//
+val ins = INSxstore_ptrofs (tmp, pmv_l, hse_rt, ofs, pmv_r)
+//
+in
+  instr_make_node (loc, ins)
+end // end of [instr_xstore_ptrofs]
 
 (* ****** ****** *)
 
@@ -773,6 +791,22 @@ instr_raise
   (loc, tmp, pmv_exn) =
   instr_make_node (loc, INSraise (tmp, pmv_exn))
 // end of [instr_raise]
+
+(* ****** ****** *)
+
+implement
+instr_move_delay
+  (loc, tmp, lin, hse, thunk) = let
+in
+  instr_make_node (loc, INSmove_delay (tmp, lin, hse, thunk))
+end // end of [instr_move_delay]
+
+implement
+instr_move_lazyeval
+  (loc, tmp, lin, hse, pmv_lazy) = let
+in
+  instr_make_node (loc, INSmove_lazyeval (tmp, lin, hse, pmv_lazy))
+end // end of [instr_move_lazyeval]
 
 (* ****** ****** *)
 

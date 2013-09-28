@@ -53,6 +53,7 @@ all:: intrange
 all:: linenmbr
 all:: listfuns
 all:: ordset
+all:: sieve_lazy
 all:: staref
 all:: strprefix
 all:: tally
@@ -82,6 +83,7 @@ cleanall:: ; $(RMF) intrange
 cleanall:: ; $(RMF) linenmbr
 cleanall:: ; $(RMF) listfuns
 cleanall:: ; $(RMF) ordset
+cleanall:: ; $(RMF) sieve_lazy
 cleanall:: ; $(RMF) staref
 cleanall:: ; $(RMF) strprefix
 cleanall:: ; $(RMF) tally
@@ -153,6 +155,11 @@ listfuns: listfuns.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 ######
 
 ordset: ordset.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+
+######
+
+sieve_lazy: sieve_lazy.dats ; \
+  $(PATSCC) -cleanaft -D_GNU_SOURCE -DATS_MEMALLOC_GCBDW -o $@ $< -lgc
 
 ######
 

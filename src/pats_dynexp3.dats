@@ -885,13 +885,13 @@ d3exp_ldelay (
 (* ****** ****** *)
 
 implement
-d3exp_lazy_force (
+d3exp_lazyeval (
   loc, s2e_res, lin, delayed
 ) = '{
   d3exp_loc= loc
 , d3exp_type= s2e_res
-, d3exp_node= D3Elazy_force (lin, delayed)
-} // end of [d3exp_lazy_force]
+, d3exp_node= D3Elazyeval (lin, delayed)
+} // end of [d3exp_lazyeval]
 
 (* ****** ****** *)
 

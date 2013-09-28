@@ -600,7 +600,7 @@ hidexp_fix
 // end of [hidexp_fix]
 
 (* ****** ****** *)
-
+//
 implement
 hidexp_delay
   (loc, hse, hde) =
@@ -611,13 +611,13 @@ hidexp_ldelay
   (loc, hse, _eval, _free) =
   hidexp_make_node (loc, hse, HDEldelay (_eval, _free))
 // end of [hidexp_ldelay]
-
+//
 implement
-hidexp_lazy_force
+hidexp_lazyeval
   (loc, hse, lin, hde) =
-  hidexp_make_node (loc, hse, HDElazy_force (lin, hde))
-// end of [hidexp_lazy_force]
-
+  hidexp_make_node (loc, hse, HDElazyeval (lin, hde))
+// end of [hidexp_lazyeval]
+//
 (* ****** ****** *)
 
 implement

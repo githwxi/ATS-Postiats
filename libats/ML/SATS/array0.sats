@@ -98,12 +98,13 @@ overload array0 with array0_make_arrayref
 (* ****** ****** *)
 //
 fun{}
-array0_size {a:vt0p} (A: array0 a):<> size_t
+array0_get_ref{a:vt0p} (A: array0 a):<> Ptr1
 fun{}
-array0_get_size {a:vt0p} (A: array0 a):<> size_t
+array0_get_size{a:vt0p} (A: array0 a):<> size_t
 //
-fun{}
-array0_get_ref {a:vt0p} (A: array0 a):<> Ptr1
+symintr .ref .size
+overload .ref with array0_get_ref
+overload .size with array0_get_size
 //
 fun{}
 array0_get_refsize{a:vt0p}
@@ -112,20 +113,15 @@ array0_get_refsize{a:vt0p}
 (* ****** ****** *)
 //
 fun{a:t0p}
-array0_make_elt
-  (asz: size_t, x: a):<!wrt> array0 (a)
+array0_make_elt (asz: size_t, x: a):<!wrt> array0 (a)
 //
 (* ****** ****** *)
-
+//
 fun{a:t0p}
-array0_make_list
-  (xs: list0 (INV(a))):<!wrt> array0 (a)
-
+array0_make_list (xs: list0 (INV(a))):<!wrt> array0 (a)
 fun{a:t0p}
-array0_make_rlist
-  (xs: list0 (INV(a))):<!wrt> array0 (a)
-// end of [array0_make_rlist]
-
+array0_make_rlist (xs: list0 (INV(a))):<!wrt> array0 (a)
+//
 (* ****** ****** *)
 
 fun{a:t0p}

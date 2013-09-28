@@ -1122,7 +1122,13 @@ instr_node =
   | INSxstore_ptrofs of
       (tmpvar, primval(*left*), hisexp(*tyroot*), primlablst(*ofs*), primval(*right*))
 //
-  | INSraise of (tmpvar(*uninitized*), primval) // raising an exception
+  | INSraise of (tmpvar(*dummy*), primval) // raising an exception
+//
+  | INSmove_delay of
+      (tmpvar, int(*lin*), hisexp, primval(*thunk*)) // suspending evaluation
+  | INSmove_lazyeval of
+      (tmpvar, int(*lin*), hisexp, primval(*lazyval*)) // evaluating lazy-values
+//
   | INStrywith of (tmpvar(*exn*), instrlst, ibranchlst) // for try-with expressions
 //
   | INSmove_list_nil of (tmpvar)
@@ -1318,8 +1324,8 @@ fun instr_move_select2 (
 
 fun instr_move_ptrofsel
 (
-  loc: location
-, tmp: tmpvar, pmv: primval, hse_rt: hisexp, pmls: primlablst
+  loc: location, tmp: tmpvar
+, pmv: primval, hse_rt: hisexp, pmls: primlablst
 ) : instr // end of [instr_move_ptrofsel]
 
 (* ****** ****** *)
@@ -1327,8 +1333,8 @@ fun instr_move_ptrofsel
 (*
 fun instr_load_ptrofs
 (
-  loc: location
-, tmp: tmpvar, pmv: primval, hse_rt: hisexp, pmls: primlablst
+  loc: location, tmp: tmpvar
+, pmv: primval, hse_rt: hisexp, pmls: primlablst
 ) : instr // end of [instr_load_ptrofs]
 *)
 
@@ -1337,13 +1343,15 @@ fun instr_load_ptrofs
 fun instr_store_ptrofs
 (
   loc: location
-, pmv_l: primval, hse_rt: hisexp, pmls: primlablst, pmv_r: primval
+, pmv_l: primval, hse_rt: hisexp, pmls: primlablst
+, pmv_r: primval
 ) : instr // end of [instr_store_ptrofs]
 
 fun instr_xstore_ptrofs
 (
   loc: location, tmp: tmpvar
-, pmv_l: primval, hse_rt: hisexp, pmls: primlablst, pmv_r: primval
+, pmv_l: primval, hse_rt: hisexp, pmls: primlablst
+, pmv_r: primval
 ) : instr // end of [instr_xstore_ptrofs]
 
 (* ****** ****** *)
@@ -1352,6 +1360,18 @@ fun instr_raise
 (
   loc: location, tmp: tmpvar, pmv_exn: primval
 ) : instr // end of [instr_raise]
+
+(* ****** ****** *)
+
+fun instr_move_delay
+(
+  loc: location, tmp: tmpvar, lin: int, hse: hisexp, thunk: primval
+) : instr // end of [instr_move_delay]
+
+fun instr_move_lazyeval
+(
+  loc: location, tmp: tmpvar, lin: int, hse: hisexp, pmv_lazy: primval
+) : instr // end of [instr_move_lazyeval]
 
 (* ****** ****** *)
 
@@ -1725,10 +1745,19 @@ fun hidexp_ccomp_loopexn : hidexp_ccomp_funtype
 typedef
 hidexp_ccomp_ret_funtype =
   (!ccompenv, !instrseq, tmpvar(*ret*), hidexp) -> void
+//
 fun hidexp_ccomp_ret : hidexp_ccomp_ret_funtype
+//
 fun hidexp_ccomp_ret_case : hidexp_ccomp_ret_funtype
+//
+fun hidexp_ccomp_ret_raise : hidexp_ccomp_ret_funtype
+//
+fun hidexp_ccomp_ret_delay : hidexp_ccomp_ret_funtype
+fun hidexp_ccomp_ret_ldelay : hidexp_ccomp_ret_funtype
+fun hidexp_ccomp_ret_lazyeval : hidexp_ccomp_ret_funtype
+//
 fun hidexp_ccomp_ret_trywith : hidexp_ccomp_ret_funtype
-
+//
 (* ****** ****** *)
 
 fun hidexplst_ccomp

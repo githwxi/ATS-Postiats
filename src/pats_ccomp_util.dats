@@ -311,6 +311,9 @@ case+ x.instr_node of
 | INSstore_ptrofs _ => ()
 | INSxstore_ptrofs (tmp, _, _, _, _) => tmpadd (tmp)
 //
+| INSmove_delay (tmp, _, _, _) => tmpadd (tmp)
+| INSmove_lazyeval (tmp, _, _, _) => tmpadd (tmp)
+//
 | INSraise _ => ()
 | INStrywith (tmp, _try, _with) =>
   (

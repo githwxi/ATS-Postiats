@@ -43,6 +43,10 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload "./pats_basics.sats"
+
+(* ****** ****** *)
+
 staload
 LOC = "./pats_location.sats"
 overload
@@ -217,8 +221,6 @@ extern fun hidexp_ccomp_ret_seq : hidexp_ccomp_ret_funtype
 extern fun hidexp_ccomp_ret_arrpsz : hidexp_ccomp_ret_funtype
 extern fun hidexp_ccomp_ret_arrinit : hidexp_ccomp_ret_funtype
 
-extern fun hidexp_ccomp_ret_raise : hidexp_ccomp_ret_funtype
-
 (* ****** ****** *)
 
 local
@@ -361,6 +363,10 @@ case+ hde0.hidexp_node of
 //
 | HDElam _ => hidexp_ccomp_lam (env, res, hde0)
 | HDEfix _ => hidexp_ccomp_fix (env, res, hde0)
+//
+| HDEdelay _ => auxret (env, res, hde0)
+| HDEldelay _ => auxret (env, res, hde0)
+| HDElazyeval _ => auxret (env, res, hde0)
 //
 | HDEloop _ => hidexp_ccomp_loop (env, res, hde0)
 | HDEloopexn _ => hidexp_ccomp_loopexn (env, res, hde0)
@@ -579,6 +585,13 @@ case+ hde0.hidexp_node of
 | HDEraise (hde_exn) => hidexp_ccomp_ret_raise (env, res, tmpret, hde0)
 //
 | HDElam _ => auxval (env, res, tmpret, hde0)
+| HDEfix _ => auxval (env, res, tmpret, hde0)
+//
+| HDEdelay _ => hidexp_ccomp_ret_delay (env, res, tmpret, hde0)
+(*
+| HDEldelay _ => hidexp_ccomp_ret_ldelay (env, res, tmpret, hde0)
+*)
+| HDElazyeval _ => hidexp_ccomp_ret_lazyeval (env, res, tmpret, hde0)
 //
 | HDEloop _ => auxval (env, res, tmpret, hde0)
 | HDEloopexn _ => auxval (env, res, tmpret, hde0)
@@ -1666,12 +1679,10 @@ hidexp_ccomp_lam_flab
 val loc0 = hde0.hidexp_loc
 val-HDElam (knd, hips_arg, hde_body) = hde0.hidexp_node
 //
-val () = the_funlablst_add (flab)
 val () = ccompenv_inc_tailcalenv (env, flab)
 //
 val tmplev = ccompenv_get_tmplevel (env)
-val () =
-  if tmplev > 0 then funlab_set_tmpknd (flab, 1)
+val () = if tmplev > 0 then funlab_set_tmpknd (flab, 1)
 //
 val fent = let
   val imparg = list_nil(*s2vs*)
@@ -1683,8 +1694,7 @@ in
     (env, flab, imparg, tmparg, prolog, loc0, hips_arg, hde_body)
   // end of [hidexp_ccomp_funlab_arg_body]
 end // end of [val]
-val () =
-  funlab_set_funent (flab, Some(fent))
+val () = funlab_set_funent (flab, Some(fent))
 //
 val () = ccompenv_dec_tailcalenv (env)
 //
@@ -1712,6 +1722,7 @@ val hse0 = hde0.hidexp_type
 val flab = funlab_make_type (hse0)
 val pmv0 = primval_make_funlab (loc0, flab)
 //
+val () = the_funlablst_add (flab)
 val () = ccompenv_add_flabsetenv (env, flab)
 val () = hidexp_ccomp_lam_flab (env, res, hde0, flab)
 //
@@ -1731,7 +1742,10 @@ val hse0 = hde_def.hidexp_type
 val flab = funlab_make_type (hse0)
 val pmv0 = primval_make_funlab (loc0, flab)
 //
+val () = the_funlablst_add (flab)
+val () = ccompenv_add_flabsetenv (env, flab)
 val () = ccompenv_add_vbindmapenvall (env, f_d2v, pmv0)
+//
 val () = hidexp_ccomp_lam_flab (env, res, hde_def, flab)
 //
 in

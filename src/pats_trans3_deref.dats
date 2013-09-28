@@ -243,14 +243,14 @@ in
 //
 case+ opt of
 | ~Some_vt (s2e) =>
-    d3exp_lazy_force (loc0, s2e, 0(*lin*), d3e)
+    d3exp_lazyeval (loc0, s2e, 0(*lin*), d3e)
 | ~None_vt () => let
     val opt = un_s2exp_lazy_vt0ype_vtype (s2f0)
   in
   //
   case+ opt of
   | ~Some_vt (s2e) =>
-      d3exp_lazy_force (loc0, s2e, 1(*lin*), d3e)
+      d3exp_lazyeval (loc0, s2e, 1(*lin*), d3e)
   | ~None_vt () => let
       val () = auxerr_nonderef (loc0, d3e) in d3exp_err (loc0)
     end // end of [None_vt]

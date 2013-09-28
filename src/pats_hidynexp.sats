@@ -350,7 +350,7 @@ and hidexp_node =
 //
   | HDEdelay of hidexp(*eval*) // delayed computation
   | HDEldelay of (hidexp(*eval*), hidexpopt(*free*)) // delayed LC
-  | HDElazy_force of (int(*lin*), hidexp) // lazy-value evaluation
+  | HDElazyeval of (int(*lin*), hidexp) // lazy-value evaluation
 //
   | HDEloop of (* for/while-loops *)
     (
@@ -759,7 +759,7 @@ fun hidexp_delay
 fun hidexp_ldelay
   (loc: location, hse: hisexp, _eval: hidexp, _free: hidexpopt): hidexp
 //
-fun hidexp_lazy_force
+fun hidexp_lazyeval
   (loc: location, hse: hisexp, lin: int, hde: hidexp): hidexp
 //
 (* ****** ****** *)
