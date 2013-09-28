@@ -373,8 +373,8 @@ and d3exp_node =
       int(*knd: 0/1: flat/boxed*), d2var(*fixvar*), d3exp(*def*)
     ) // end of [D3Efix]
 //
-  | D3Edelay of d3exp(*eval*) // delayed computation
-  | D3Eldelay of (d3exp(*eval*), d3expopt(*free*)) // delayed LC
+  | D3Edelay of d3exp(*eval*) // delayed evaluation
+  | D3Eldelay of (d3exp(*eval*), d3exp(*free*)) // delayed evaluation
   | D3Elazyeval of (int(*lin*), d3exp) // lazy-value evaluation
 //
   | D3Eloop of (* for/while-loops *)
@@ -831,7 +831,7 @@ fun d3exp_delay
   (loc: location, s2e: s2exp, _eval: d3exp): d3exp
 fun d3exp_ldelay
 (
-  loc: location, s2e: s2exp, _eval: d3exp, _free: d3expopt
+  loc: location, s2e: s2exp, _eval: d3exp, _free: d3exp
 ) : d3exp // end of [d3exp_ldelay]
 //
 fun d3exp_lazyeval

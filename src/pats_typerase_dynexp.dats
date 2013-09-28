@@ -834,6 +834,10 @@ case+
 | D3Edelay (d3e) => let
     val hde = d3exp_tyer (d3e) in hidexp_delay (loc0, hse0, hde)
   end // end of [D3Edelay]
+| D3Eldelay (d3e1, d3e2) => let
+    val hde1 = d3exp_tyer (d3e1)
+    val hde2 = d3exp_tyer (d3e2) in hidexp_ldelay (loc0, hse0, hde1, hde2)
+  end // end of [D3Eldelay]
 | D3Elazyeval (lin, d3e) => let
     val hde = d3exp_tyer (d3e) in hidexp_lazyeval (loc0, hse0, lin, hde)
   end // end of [D3Elazyeval]

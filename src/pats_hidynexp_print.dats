@@ -626,13 +626,14 @@ case+
     val () = fprint_hidexp (out, hde)
     val () = prstr ")"
   }
-| HDEldelay (hde, hdeopt) => {
+| HDEldelay
+    (hde1, hde2) => {
     val () = prstr "HDEldelay("
-    val () = fprint_hidexp (out, hde)
-    val () = prstr ", "
-    val () = fprint_hidexpopt (out, hdeopt)
+    val () = fprint_hidexp (out, hde1)
+    val () = prstr "; "
+    val () = fprint_hidexp (out, hde2)
     val () = prstr ")"
-  }
+  } (* end of [HDEldelay] *)
 //
 | HDElazyeval
     (lin, hde) => {

@@ -152,6 +152,7 @@ extern fun d2exp_trup_fix (d2e0: d2exp): d3exp
 (* ****** ****** *)
 
 extern fun d2exp_trup_delay (d2e0: d2exp): d3exp
+extern fun d2exp_trup_ldelay (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
@@ -285,9 +286,9 @@ case+ d2e0.d2exp_node of
   end // end of [D2Eapplst]
 //
 | D2Eifhead
-    (_, _, _, opt(*else*)) => let
+    (_, _, _, d2eopt) => let
     val s2e_if = (
-      case+ opt of
+      case+ d2eopt of
       | Some _ => s2exp_Var_make_srt (loc0, s2rt_t0ype)
       | None _ => s2exp_void_t0ype () // HX: missing else-branch
     ) : s2exp // end of [val]
@@ -435,6 +436,7 @@ case+ d2e0.d2exp_node of
 | D2Efix (knd, d2v, def) => d2exp_trup_fix (d2e0)
 //
 | D2Edelay _ => d2exp_trup_delay (d2e0)
+| D2Eldelay _ => d2exp_trup_ldelay (d2e0)
 //
 | D2Efor _ => d2exp_trup_for (d2e0)
 | D2Ewhile _ => d2exp_trup_while (d2e0)
@@ -1452,7 +1454,8 @@ val () = (
 val (pfenv | ()) = trans3_env_push ()
 //
 var fc: funclo = fc0
-val d2e_body = d2exp_funclo_of_d2exp (d2e_body, fc)
+val d2e_body =
+  d2exp_funclo_of_d2exp (d2e_body, fc)
 var s2fe: s2eff = s2eff_nil
 val d2e_body = d2exp_s2eff_of_d2exp (d2e_body, s2fe)
 //
@@ -1599,32 +1602,92 @@ implement
 d2exp_trup_delay (d2e0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val-D2Edelay (d2e_body) = d2e0.d2exp_node
-val fc0 = FUNCLOfun () // default
+val-D2Edelay (d2e_eval) = d2e0.d2exp_node
+val fc0 = FUNCLOfun () // HX: this is ignored
 val lin = 0
 val npf = ~1
 val p2ts_arg = list_nil {p2at} ()
-val s2ep3tsd3e = d2exp_trup_arg_body (loc0, fc0, lin, npf, p2ts_arg, d2e_body)
+val s2ep3tsd3e =
+  d2exp_trup_arg_body (loc0, fc0, lin, npf, p2ts_arg, d2e_eval)
 val s2e_fun = s2ep3tsd3e.0
 val p3ts_arg = s2ep3tsd3e.1
-val d3e_body = s2ep3tsd3e.2
+val d3e_eval = s2ep3tsd3e.2
 //
-val s2e_body = d3exp_get_type (d3e_body)
-val s2e_lazy = s2exp_lazy_t0ype_type (s2e_body)
+val s2e_eval = d3exp_get_type (d3e_eval)
+val s2e_lazy = s2exp_lazy_t0ype_type (s2e_eval)
 //
 val islin =
-  s2exp_is_lin (s2e_body)
-val () = if islin then let
+  s2exp_is_lin (s2e_eval)
+val () =
+if islin then let
   val () = prerr_error3_loc (loc0)
-  val () = prerr ": it is not allowed to apply $delay to a linear value."
-  val () = prerr_newline ()
+  val () = prerrln! (": it is not allowed to apply $delay to a linear value.")
 in
-  the_trans3errlst_add (T3E_d3exp_delay (loc0, d3e_body))
+  the_trans3errlst_add (T3E_d3exp_delay (loc0, d3e_eval))
 end // end of [val]
 //
 in
-  d3exp_delay (loc0, s2e_lazy, d3e_body)
+  d3exp_delay (loc0, s2e_lazy, d3e_eval)
 end // end of [d2exp_delay_trup]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_ldelay (d2e0) = let
+//
+val loc0 = d2e0.d2exp_loc
+val-D2Eldelay (d2e_eval, opt) = d2e0.d2exp_node
+//
+val lsbis =
+  the_d2varenv_save_lstbefitmlst ()
+var lsaft = lstaftc3nstr_initize (lsbis)
+//
+val loc_eval = d2e_eval.d2exp_loc
+val ctr = c3nstroptref_make_none (loc_eval)
+val d3e_eval = let
+  val (pfpush | ()) = trans3_env_push ()
+  val d3e_eval = d2exp_trup (d2e_eval)
+  val () = trans3_env_add_cnstr_ref (ctr)
+  val () = trans3_env_pop_and_add_main (pfpush | loc_eval)
+in
+  d3e_eval
+end // end of [val]
+val () = lstaftc3nstr_update (lsaft, ctr)
+//
+val () = lstbefitmlst_restore_type (lsbis)
+//
+val d2e_free =
+(
+case opt of Some (d2e) => d2e | None () => d2exp_empty (loc_eval)
+) : d2exp // end of [val]
+//
+val loc_free = d2e_free.d2exp_loc
+val ctr = c3nstroptref_make_none (loc_free)
+val d3e_free = let
+  val (pfpush | ()) = trans3_env_push ()
+  val s2e_void = s2exp_void_t0ype ((*void*))
+  val d3e_free = d2exp_trdn (d2e_free, s2e_void)
+  val () = trans3_env_add_cnstr_ref (ctr)
+  val () = trans3_env_pop_and_add_main (pfpush | loc_free)
+in
+  d3e_free
+end // end of [val]
+val () = lstaftc3nstr_update (lsaft, ctr)
+//
+val invres = i2nvresstate_nil
+//
+val () =
+  lstaftc3nstr_process (lsaft, invres)
+val () = lstaftc3nstr_finalize (lsaft)
+//
+val () = i2nvresstate_update (loc0, invres)
+//
+val s2e_eval = d3exp_get_type (d3e_eval)
+val s2e_lazy = s2exp_lazy_vt0ype_vtype (s2e_eval)
+//
+in
+  d3exp_ldelay (loc0, s2e_lazy, d3e_eval, d3e_free)
+end // end of [d2exp_trup_ldelay]
 
 (* ****** ****** *)
 

@@ -1,6 +1,6 @@
 (*
 // Lazy-evaluation:
-// Erathosthene's sieve
+// Erathosthene's sieve for primes
 *)
 (* ****** ****** *)
 //
@@ -63,7 +63,7 @@ macdef prime_get (n) = stream_nth_exn (primes, ,(n))
 //
 
 implement
-main0 (argc, argv) = begin
+main0 () = begin
 //
 println! ("prime 1000 = ", prime_get (1000)) ; // = 7927
 println! ("prime 5000 = ", prime_get (5000)) ; // = 48619

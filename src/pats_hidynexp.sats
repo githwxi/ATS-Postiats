@@ -348,8 +348,8 @@ and hidexp_node =
 //
   | HDEfix of (int(*knd=0/1:flat/boxed*), d2var(*fixvar*), hidexp) // fixed-point
 //
-  | HDEdelay of hidexp(*eval*) // delayed computation
-  | HDEldelay of (hidexp(*eval*), hidexpopt(*free*)) // delayed LC
+  | HDEdelay of hidexp(*eval*) // delayed evaluation
+  | HDEldelay of (hidexp(*eval*), hidexp(*free*)) // delayed evaluation
   | HDElazyeval of (int(*lin*), hidexp) // lazy-value evaluation
 //
   | HDEloop of (* for/while-loops *)
@@ -757,7 +757,7 @@ fun hidexp_fix
 fun hidexp_delay
   (loc: location, hse: hisexp, hde: hidexp): hidexp
 fun hidexp_ldelay
-  (loc: location, hse: hisexp, _eval: hidexp, _free: hidexpopt): hidexp
+  (loc: location, hse: hisexp, _eval: hidexp, _free: hidexp): hidexp
 //
 fun hidexp_lazyeval
   (loc: location, hse: hisexp, lin: int, hde: hidexp): hidexp

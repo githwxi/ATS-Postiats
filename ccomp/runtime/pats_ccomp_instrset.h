@@ -301,28 +301,26 @@
 /* ****** ****** */
 
 #define \
-ATSfcall_thunk(tyval, pmv_thk) \
-  ATSfcall(ATSfunclo_clo(pmv_thk, (atstype_cloptr), tyval), (pmv_thk))
-
-#define \
-ATSINSmove_delay(tmp, tyval, pmv_thk) \
+ATSINSmove_delay(tmpret, tyval, pmv_thk) \
 do { \
-  tmp = ATS_MALLOC(sizeof(ATStylazy(tyval))) ; \
-  (*(ATStylazy(tyval)*)tmp).flag = 0 ; \
-  (*(ATStylazy(tyval)*)tmp).lazy.thunk = pmv_thk ; \
+  tmpret = \
+    ATS_MALLOC(sizeof(ATStylazy(tyval))) ; \
+  (*(ATStylazy(tyval)*)tmpret).flag = 0 ; \
+  (*(ATStylazy(tyval)*)tmpret).lazy.thunk = pmv_thk ; \
 } while (0) ; /* end of [do ... while ...] */
 
 #define \
-ATSINSmove_lazyeval(tmp, tyval, pmv_lazy) \
+ATSINSmove_lazyeval(tmpret, tyval, pmv_lazy) \
 do { \
   if ( \
     (*(ATStylazy(tyval)*)pmv_lazy).flag==0 \
   ) { \
     (*(ATStylazy(tyval)*)pmv_lazy).flag += 1 ; \
-    tmp = ATSfcall_thunk(tyval, (*(ATStylazy(tyval)*)pmv_lazy).lazy.thunk) ; \
-    (*(ATStylazy(tyval)*)pmv_lazy).lazy.saved = tmp ; \
+    atstype_cloptr __thunk = (*(ATStylazy(tyval)*)pmv_lazy).lazy.thunk ; \
+    tmpret = ATSfcall(ATSfunclo_clo(__thunk, (atstype_cloptr), tyval), (__thunk)) ; \
+    (*(ATStylazy(tyval)*)pmv_lazy).lazy.saved = tmpret ; \
   } else { \
-    tmp = (*(ATStylazy(tyval)*)pmv_lazy).lazy.saved ; \
+    tmpret = (*(ATStylazy(tyval)*)pmv_lazy).lazy.saved ; \
   } /* end of [if] */ \
 } while (0) /* end of [do ... while ...] */
 
