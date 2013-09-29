@@ -256,8 +256,9 @@ SOURCES := \
   pats_ccomp_hipat.dats \
   pats_ccomp_dynexp.dats \
   pats_ccomp_caseof.dats \
-  pats_ccomp_trywith.dats \
   pats_ccomp_claulst.dats \
+  pats_ccomp_lazyeval.dats \
+  pats_ccomp_trywith.dats \
   pats_ccomp_looping.dats \
   pats_ccomp_decl.dats \
   pats_ccomp_subst.dats \

@@ -49,12 +49,10 @@ BUILT_CONFIG_FILES := $(SRC_CONFIG_FILES:%.in=%)
 
 Makefile: config.mk
 
+config.h.in: configure.ac; autoheader $<; touch $@
+config.status: configure; ./configure; touch $@
 config.h: config.status; ./config.status $@; touch $@
 config.mk: config.status; ./config.status $@; touch $@
-
-config.status: configure; ./configure; touch $@
-
-config.h.in: configure.ac; autoheader $<; touch $@
 
 #
 configure: configure.ac $(SRC_CONFIG_FILES)
@@ -198,5 +196,7 @@ cleanall:: ; $(RMF) doc/EXAMPLE/ATSLIB/*
 cleanall:: ; $(RMF) doc/EXAMPLE/PCPV/*
 
 ######
+
+distclean:: cleanall
 
 ###### end of [Makefile.dist] ######

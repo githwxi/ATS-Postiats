@@ -1,0 +1,49 @@
+<H2>
+ats2-postiats-0.0.2:
+</H2>
+
+<pre>
+
+Date: September 29, 2013
+
+This is the third release of ATS2, the successor of the ATS
+programming language. The compiler for ATS2 is given the name
+ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Support for stack-allocated array-variables:
+   var A = @[int][10]() // A: array(int?, 10) // uninitialized
+   var A = @[int][10](0) // A: array(int, 10) // intialized with 0's
+   var A = @[int](0, 1, 2, 3, 4, 5, 6, 7, 8, 9) // A: array(int, 10)
+
+2. Support for ptr-style of stack-allocated variables:
+   var !p_x: int = 0
+   var !p_x: int with pf_x = @[int](1, 2, 3, 4, 5)
+
+3. Support for fixed-point expressions:
+   val fact = fix f (x: int): int => if x > 0 then x * f (x-1) else 1
+
+4. Support for lazy-evaluation: $delay
+   See ${PATSHOME}/doc/EXAMPLE/INTRO/sieve_lazy.dats
+
+5. Support for linear lazy-evaluation: $ldelay
+   See ${PATSHOME}/doc/EXAMPLE/INTRO/sieve_llazy.dats
+
+</pre>

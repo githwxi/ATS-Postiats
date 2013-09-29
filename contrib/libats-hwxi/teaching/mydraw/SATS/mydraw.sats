@@ -152,7 +152,7 @@ fun{} mydraw_close_path (): void
 (* ****** ****** *)
 
 fun{} mydraw_move_to (p: point): void
-fun{} mydraw_line_to (p: point): void
+fun{} mydraw_line_to (v: vector): void
 
 (* ****** ****** *)
 

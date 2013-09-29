@@ -173,6 +173,11 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
+#packfilename("sieve_lazy.dats")
+#packfilename("sieve_llazy.dats")
+
+(* ****** ****** *)
+
 #packfilename("staref.dats")
 
 (* ****** ****** *)

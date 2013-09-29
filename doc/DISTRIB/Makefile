@@ -362,6 +362,11 @@ srcget_atscntrb_libatshwxi_teaching:: SCRIPT/atscntrb_libatshwxi_teaching.bash ;
 
 ######
 
+atspacktar:: ; tar -chzvf ATS-Postiats.tgz ATS-Postiats
+atscntrbtar:: ; tar -chzvf ATS-Postiats-contrib.tgz ATS-Postiats-contrib
+
+######
+
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o *_?ats.c
 clean:: ; $(RMF) *_atxt.txt

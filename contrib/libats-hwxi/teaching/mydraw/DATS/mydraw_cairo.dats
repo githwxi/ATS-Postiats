@@ -73,12 +73,14 @@ in
   // nothing
 end // end of [mydraw_move_to]
 
+(* ****** ****** *)
+
 implement{
-} mydraw_line_to (p) = let
+} mydraw_line_to (v) = let
   val (
     fpf | cr
   ) = mydraw_get0_cairo<> ()
-  val () = cairo_line_to (cr, p.x, p.y)
+  val () = cairo_line_to (cr, v.x, v.y)
   prval () = fpf (cr)
 in
   // nothing
