@@ -64,12 +64,12 @@ typedef N2 = intGte(2)
 
 fun sieve_con
   (ns: stream_vt N2)
-  :<!laz> stream_vt_con (N2) = let
+  : stream_vt_con (N2) = let
   val ns_con = !ns
   val-@cons(n, ns2) = ns_con; val p = n
   val ps = sieve
   (
-    stream_vt_filter_cloptr<N2> (ns2, lam x => g1int_nmod(x, p) > 0)
+    stream_vt_filter_cloptr (ns2, lam x => g1int_nmod(x, p) > 0)
   ) (* end of [val] *)
   val () = (ns2 := ps)
 in
@@ -77,7 +77,7 @@ in
 end // end of [sieve_con]
 
 and sieve
-  (ns: stream_vt N2):<!laz> stream_vt (N2) = $ldelay (sieve_con ns, ~ns)
+  (ns: stream_vt N2): stream_vt (N2) = $ldelay (sieve_con ns, ~ns)
 // end of [sieve]
 
 (* ****** ****** *)
@@ -90,12 +90,14 @@ fn prime_get (n: Nat): Nat = stream_vt_nth<N2> (primes (), n)
 implement
 main0 () = begin
 //
+(*
 println! ("prime 1000 = ", prime_get (1000)) ; // = 7927
 println! ("prime 5000 = ", prime_get (5000)) ; // = 48619
+*)
 println! ("prime 10000 = ", prime_get (10000)) ; // = 104743
 //
 end // end of [main0]
 
 (* ****** ****** *)
 
-(* end of [sieve_llazyt.dats] *)
+(* end of [sieve_llazy.dats] *)

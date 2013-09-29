@@ -276,6 +276,7 @@ and hidexp_node =
 //
   | HDEtop of () // for uninitialized
   | HDEempty of () // for the void value
+  | HDEignore of (hidexp) // ignoring the value of hidexp
 //
   | HDEextval of (string(*name*)) // externally named values
   | HDEcastfn of (d2cst, hidexp(*arg*)) // castfn application
@@ -562,6 +563,8 @@ fun hidexp_top
   (loc: location, hse: hisexp): hidexp
 fun hidexp_empty
   (loc: location, hse: hisexp): hidexp
+fun hidexp_ignore
+  (loc: location, hse: hisexp, hde: hidexp): hidexp
 
 (* ****** ****** *)
 

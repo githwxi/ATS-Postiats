@@ -6,8 +6,6 @@
 #include
 "share/atspre_staload.hats"
 //
-staload "prelude/DATS/lazy.dats"
-//
 (* ****** ****** *)
 //
 fun

@@ -32,6 +32,11 @@ staload _ = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
+staload _ = "prelude/DATS/lazy.dats"
+staload _ = "prelude/DATS/lazy_vt.dats"
+
+(* ****** ****** *)
+
 staload _ = "prelude/DATS/filebas.dats"
 staload _ = "prelude/DATS/intrange.dats"
 

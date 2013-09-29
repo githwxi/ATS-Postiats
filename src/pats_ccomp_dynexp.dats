@@ -280,12 +280,17 @@ case+ hde0.hidexp_node of
 //
 | HDEtop () => primval_top (loc0, hse0)
 | HDEempty () => primval_empty (loc0, hse0)
+| HDEignore (hde) => hidexp_ccomp (env, res, hde)
 //
 | HDEextval (name) => primval_extval (loc0, hse0, name)
 //
 | HDEcastfn
-    (d2c_fun, hde_arg) => let
-    val pmv_arg = hidexp_ccomp (env, res, hde_arg)
+  (
+    d2c_fun, hde_arg
+  ) => let
+    val pmv_arg =
+      hidexp_ccomp (env, res, hde_arg)
+    // end of [val]
   in
     primval_castfn (loc0, hse0, d2c_fun, pmv_arg)
   end // end of [HDEcastfn]
@@ -511,7 +516,11 @@ case+ hde0.hidexp_node of
 | HDEi0nt _ => auxval (env, res, tmpret, hde0)
 | HDEf0loat _ => auxval (env, res, tmpret, hde0)
 //
+| HDEtop _ => ()
 | HDEempty _ => auxval (env, res, tmpret, hde0)
+| HDEignore (hde) => let
+    val _ = hidexp_ccomp (env, res, hde) in (*nothing*)
+  end (* end of [HDEignore] *)
 //
 | HDEextval _ => auxval (env, res, tmpret, hde0)
 | HDEcastfn _ => auxval (env, res, tmpret, hde0)

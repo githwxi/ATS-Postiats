@@ -289,6 +289,12 @@ case+
 //
 | HDEtop () => prstr "HDEtop()"
 | HDEempty () => prstr "HDEempty()"
+| HDEignore (hde) =>
+  {
+    val () = prstr "HDEignore("
+    val () = fprint_hidexp (out, hde)
+    val () = prstr ")"
+  }
 //
 | HDEextval (name) =>
   {

@@ -336,6 +336,12 @@ hidexp_empty (loc, hse) =
   hidexp_make_node (loc, hse, HDEempty ())
 // end of [hidexp_empty]
 
+implement
+hidexp_ignore
+  (loc, hse, hde) = 
+  hidexp_make_node (loc, hse, HDEignore (hde))
+// end of [hidexp_ignore]
+
 (* ****** ****** *)
 
 implement

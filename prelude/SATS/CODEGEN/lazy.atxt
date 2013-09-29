@@ -37,8 +37,8 @@ typedef lazy (a:t0p) = lazy_t0ype_type (a)
 //
 datatype
 stream_con (a:t@ype+) =
-  | stream_cons (a) of (a, stream a) | stream_nil (a) of ()
-where stream (a:t@ype) = lazy (stream_con a)
+  | stream_nil of ((*void*)) | stream_cons of (a, stream(a))
+where stream (a:t@ype) = lazy (stream_con(a))
 //
 #atscode_separator()
 
