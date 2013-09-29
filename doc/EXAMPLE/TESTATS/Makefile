@@ -52,6 +52,11 @@ lazytest: lazytest_dats.c ; \
   $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
 lazytest_dats.c: lazytest.dats ; $(PATSCC) -ccats $<
 cleanall:: ; $(RMF) lazytest
+all:: llazytest
+llazytest: llazytest_dats.c ; \
+  $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
+llazytest_dats.c: llazytest.dats ; $(PATSCC) -ccats $<
+cleanall:: ; $(RMF) llazytest
 
 ######
 
@@ -64,6 +69,13 @@ cleanall:: ; $(RMF) mutailrec
 all:: partmplt
 partmplt: partmplt.dats ; $(PATSCC) -cleanaft -o $@ $<
 cleanall:: ; $(RMF) partmplt
+
+######
+
+all:: patguard
+patguard: patguard.dats ; \
+  $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) patguard
 
 ######
 

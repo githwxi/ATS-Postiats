@@ -143,9 +143,13 @@ val hisexp_undefined : hisexp
 //
 (* ****** ****** *)
 
+fun hisexp_int_t0ype () : hisexp
 fun hisexp_bool_t0ype () : hisexp
-fun hisexp_void_t0ype () : hisexp
 fun hisexp_size_t0ype () : hisexp
+
+(* ****** ****** *)
+
+fun hisexp_void_t0ype () : hisexp
 
 (* ****** ****** *)
 

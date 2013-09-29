@@ -146,7 +146,8 @@ intrange: intrange.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 
 ######
 
-linenmbr: linenmbr.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< myatslib.dats 
+linenmbr: linenmbr.dats ; \
+  $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< myatslib.dats 
 
 ######
 
@@ -160,6 +161,10 @@ ordset: ordset.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 
 sieve_lazy: sieve_lazy.dats ; \
   $(PATSCC) -cleanaft -D_GNU_SOURCE -DATS_MEMALLOC_GCBDW -o $@ $< -lgc
+
+sieve_llazy: sieve_llazy_dats.c ; \
+  $(PATSCC) -cleanaft -D_GNU_SOURCE -DATS_MEMALLOC_GCBDW -o $@ $< -lgc
+sieve_llazy_dats.c: sieve_llazy.dats ; $(PATSCC) -ccats $<
 
 ######
 

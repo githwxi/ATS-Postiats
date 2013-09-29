@@ -140,6 +140,8 @@ val the_atstkind_t0ype : s2cstref
 val the_bool_t0ype : s2cstref
 val the_bool_bool_t0ype : s2cstref
 //
+(* ****** ****** *)
+//
 val the_int_kind : s2cstref
 val the_uint_kind : s2cstref
 val the_lint_kind : s2cstref
@@ -370,6 +372,17 @@ fun s2exp_bottom_vt0ype_exi (): s2exp // = [a:vt@ype | false] (a)
 fun s2exp_vcopyenv_v (s2e: s2exp): s2exp
 fun s2exp_vcopyenv_vt (s2e: s2exp): s2exp
 
+(* ****** ****** *)
+//
+// HX-2013-09:
+// only for internal use!
+//
+val the_atstype_int : s2cstref
+val the_atstype_bool : s2cstref
+val the_atstype_uint : s2cstref
+val the_atstype_size : s2cstref
+val the_atstype_ssize : s2cstref
+//
 (* ****** ****** *)
 
 val the_effnil : s2cstref

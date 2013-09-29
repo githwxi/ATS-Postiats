@@ -38,19 +38,21 @@ stream_vt_nth
 in
 //
 case+ xs0_con of
-| ~(x :: xs) => (
+| ~(x :: xs) =>
+  (
     if i = 0
-      then (~xs; x) else stream_vt_nth (xs, i-1)
+      then (~xs; x) else stream_vt_nth<a> (xs, i-1)
     // end of [if]
   ) // end of [::]
-| ~nil ((*void*)) => $raise StreamSubscriptExn ()
+| ~nil ((*void*)) => $raise StreamSubscriptExn(*void*)
 end // end of [stream_vt_nth]
 
 (* ****** ****** *)
 
 fun
 from_con{n:int} (n: int n)
-  :<!laz> stream_vt_con (intGte n) = n :: from (n+1)
+  :<!laz> stream_vt_con (intGte n) =
+  stream_vt_cons{intGte(n)}(n, from (n+1))
 and from{n:int} (n: int n)
   :<!laz> stream_vt (intGte n) = $ldelay (from_con n)
 
@@ -81,7 +83,7 @@ and sieve
 (* ****** ****** *)
 
 fn primes (): stream_vt N2 = sieve (from 2)
-fn prime_get (n: Nat): Nat = stream_vt_nth (primes (), n)
+fn prime_get (n: Nat): Nat = stream_vt_nth<N2> (primes (), n)
 
 (* ****** ****** *)
 

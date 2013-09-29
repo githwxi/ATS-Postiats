@@ -588,9 +588,7 @@ case+ hde0.hidexp_node of
 | HDEfix _ => auxval (env, res, tmpret, hde0)
 //
 | HDEdelay _ => hidexp_ccomp_ret_delay (env, res, tmpret, hde0)
-(*
 | HDEldelay _ => hidexp_ccomp_ret_ldelay (env, res, tmpret, hde0)
-*)
 | HDElazyeval _ => hidexp_ccomp_ret_lazyeval (env, res, tmpret, hde0)
 //
 | HDEloop _ => auxval (env, res, tmpret, hde0)

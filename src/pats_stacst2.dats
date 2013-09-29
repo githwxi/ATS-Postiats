@@ -427,6 +427,11 @@ the_atstkind_t0ype = s2cstref_make "atstkind_t0ype"
 
 (* ****** ****** *)
 
+(*
+implement
+the_bool_kind = s2cstref_make "bool_kind"
+*)
+
 implement
 s2exp_bool (b) = let
   val s2cref = (
@@ -1352,6 +1357,21 @@ in
   s2cst_set_def (s2c, Some s2e_def)
 end // end of [invar_vt0ype_vt0ype_assume]
 
+(* ****** ****** *)
+//
+// HX-2013-09: for internal use
+//
+implement
+the_atstype_int = s2cstref_make "atstype_int"
+implement
+the_atstype_bool = s2cstref_make "atstype_bool"
+implement
+the_atstype_uint = s2cstref_make "atstype_uint"
+implement
+the_atstype_size = s2cstref_make "atstype_size"
+implement
+the_atstype_ssize = s2cstref_make "atstype_ssize"
+//
 (* ****** ****** *)
 
 (* end of [pats_stacst2.dats] *)

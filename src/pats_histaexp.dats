@@ -315,10 +315,23 @@ in '{
 (* ****** ****** *)
 
 implement
+hisexp_int_t0ype () = let
+//
+val s2c =
+  $S2C.s2cstref_get_cst ($S2C.the_atstype_int)
+//
+in '{
+  hisexp_name= HITNAM_TYABS, hisexp_node= HSEcst (s2c)
+} end // end of [hisexp_int_t0ype]
+
+(* ****** ****** *)
+
+implement
 hisexp_bool_t0ype () = let
-  val s2c =
-    $S2C.s2cstref_get_cst ($S2C.the_bool_t0ype)
-  // end of [val]
+//
+val s2c =
+  $S2C.s2cstref_get_cst ($S2C.the_atstype_bool)
+//
 in '{
   hisexp_name= HITNAM_TYABS, hisexp_node= HSEcst (s2c)
 } end // end of [hisexp_bool_t0ype]
@@ -326,30 +339,47 @@ in '{
 (* ****** ****** *)
 
 implement
+hisexp_size_t0ype () = let
+//
+val s2c =
+  $S2C.s2cstref_get_cst ($S2C.the_atstype_size)
+//
+in '{
+  hisexp_name= HITNAM_TYABS, hisexp_node= HSEcst (s2c)
+} end // end of [hisexp_size_t0ype]
+
+(*
+implement
+hisexp_size_t0ype () = let
+//
+val s2c1 =
+  $S2C.s2cstref_get_cst ($S2C.the_atstkind_t0ype)
+val hse1 = hisexp_cst (s2c1)
+val s2c2 = $S2C.s2cstref_get_cst ($S2C.the_size_kind)
+val hse2 = hisexp_cst (s2c2)
+//
+in 
+  hisexp_app (hse1, list_sing(hse2))
+end (* end of [hisexp_size_t0ype] *)
+*)
+
+(* ****** ****** *)
+
+implement
 hisexp_void_t0ype () = let
-  val s2c =
-    $S2C.s2cstref_get_cst ($S2C.the_atsvoid_t0ype)
-  // end of [val]
+//
+val s2c =
+  $S2C.s2cstref_get_cst ($S2C.the_atsvoid_t0ype)
+//
 in '{
   hisexp_name= HITNAM_TYABS, hisexp_node= HSEcst (s2c)
 } end // end of [hisexp_void_t0ype]
 
 (* ****** ****** *)
 
-implement
-hisexp_size_t0ype () = let
-  val s2c1 =
-    $S2C.s2cstref_get_cst ($S2C.the_atstkind_t0ype)
-  val hse1 = hisexp_cst (s2c1)
-  val s2c2 = $S2C.s2cstref_get_cst ($S2C.the_size_kind)
-  val hse2 = hisexp_cst (s2c2)
-in 
-  hisexp_app (hse1, list_sing (hse2))
-end // end of [hisexp_size_t0ype]
-
-(* ****** ****** *)
-
-fun hisexp_make_node (
+fun
+hisexp_make_node
+(
   hit: hitnam, node: hisexp_node
 ) : hisexp = '{
   hisexp_name= hit, hisexp_node= node

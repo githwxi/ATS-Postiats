@@ -326,6 +326,26 @@ do { \
 
 /* ****** ****** */
 
+#define \
+ATSINSmove_ldelay(tmpret, tyval, pmv_thk) ATSINSmove(tmpret, pmv_thk)
+
+#define \
+ATSINSmove_llazyeval(tmpret, tyval, __thunk) \
+do { \
+ tmpret = \
+ ATSfcall(ATSfunclo_clo(__thunk, (atstype_cloptr, atstype_bool), tyval), (__thunk, atsbool_true)) ; \
+ ATS_MFREE(__thunk) ; \
+} while (0) /* end of [do ... while ...] */
+
+#define \
+atspre_lazy_vt_free(__thunk) \
+do { \
+  ATSfcall(ATSfunclo_clo(__thunk, (atstype_cloptr, atstype_bool), void), (__thunk, atsbool_false)) ; \
+  ATS_MFREE(__thunk) ; \
+} while (0) /* atspre_lazy_vt_free */
+
+/* ****** ****** */
+
 #endif /* PATS_CCOMP_INSTRSET_H */
 
 /* ****** ****** */
