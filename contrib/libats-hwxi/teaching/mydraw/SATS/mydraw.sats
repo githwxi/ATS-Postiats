@@ -82,6 +82,16 @@ fun dotprod (v1: vector, v2: vector): real
 
 (* ****** ****** *)
 
+fun point2vector (p: point): vector
+fun vector2point (v: vector): point
+
+(* ****** ****** *)
+
+fun sub_point_point (p1: point, p2: point): vector
+overload - with sub_point_point
+
+(* ****** ****** *)
+
 fun add_point_vector (p1: point, v2: vector): point
 fun sub_point_vector (p1: point, v2: vector): point
 overload + with add_point_vector
@@ -97,9 +107,9 @@ overload - with sub_vector_vector
 (* ****** ****** *)
 
 fun mul_scalar_vector (k: real, v: vector): vector
-fun div_scalar_vector (k: real, v: vector): vector
+fun mul_vector_scalar (v: vector, k: real): vector
 overload * with mul_scalar_vector
-overload / with div_scalar_vector
+overload * with mul_vector_scalar
 
 (* ****** ****** *)
 

@@ -54,12 +54,14 @@ config.status: configure; ./configure; touch $@
 #
 ######
 
--include config.mk
+-include config.mk2
 
 ######
-
+#
+# This variable is to be set externally
+#
 DESTDIR :=
-
+#
 ######
 
 export PATSHOME
