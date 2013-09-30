@@ -49,9 +49,10 @@ typedef uint64_t atstype_uint64 ;
 
 #atscode_separator_for_C()
 
+\#ifndef fprintf
 extern
 int fprintf (FILE *stream, const char *format, ...) ;
-// in [stdio.h]
+\#endif // end of [ifndef]
 
 #atscode_separator_for_C()
 

@@ -49,9 +49,10 @@ extern int toascii (int c) ; // _XOPEN_SOURCE
 
 #atscode_separator_for_C()
 
+\#ifndef fprintf
 extern
 int fprintf (FILE *stream, const char *format, ...) ;
-// in [stdio.h]
+\#endif // end of [ifndef]
 
 #atscode_separator_for_C()
 

@@ -42,9 +42,10 @@ typedef uintptr_t atstype_uintptr ;
 
 #atscode_separator_for_C()
 
+\#ifndef fprintf
 extern
 int fprintf (FILE *stream, const char *format, ...) ;
-// in [stdio.h]
+\#endif // end of [ifndef]
 
 #atscode_separator_for_C()
 //

@@ -33,9 +33,10 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+\#ifndef fprintf
 extern
 int fprintf (FILE *stream, const char *format, ...) ;
-// in [stdio.h]
+\#endif // end of [ifndef]
 
 #atscode_separator_for_C()
 
