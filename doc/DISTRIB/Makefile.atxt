@@ -116,6 +116,7 @@ all_script::
 #make_entry("atscntrb_GTK")
 #make_entry("atscntrb_glib")
 #make_entry("atscntrb_cairo")
+#make_entry("atscntrb_hiredis")
 #
 #make_entry("atscntrb_libatshwxi_intinf")
 #make_entry("atscntrb_libatshwxi_testing")
@@ -132,6 +133,7 @@ atspackaging:: srcget_ccomp_atslib
 atspackaging:: srcget_ccomp_runtime
 atspackaging:: srcget_utils_atscc
 atspackaging:: srcget_doc_example
+atspackaging:: ; make -C ATS-Postiats -f Makefile_conf
 
 ######
 
@@ -212,6 +214,11 @@ srcget_atscntrb_cairo:: SCRIPT/atscntrb_cairo.bash ; bash $<
 
 ######
 
+srcget_atscntrb:: srcget_atscntrb_hiredis
+srcget_atscntrb_hiredis:: SCRIPT/atscntrb_hiredis.bash ; bash $<
+
+######
+
 srcget_atscntrb:: srcget_atscntrb_libatshwxi_intinf
 srcget_atscntrb_libatshwxi_intinf:: SCRIPT/atscntrb_libatshwxi_intinf.bash ; bash $<
 srcget_atscntrb:: srcget_atscntrb_libatshwxi_testing
@@ -221,8 +228,17 @@ srcget_atscntrb_libatshwxi_teaching:: SCRIPT/atscntrb_libatshwxi_teaching.bash ;
 
 ######
 
-atspacktar:: ; tar -vchfz ATS-Postiats.tgz ATS-Postiats
-atscntrbtar:: ; tar -vchfz ATS-Postiats-contrib.tgz ATS-Postiats-contrib
+PACKNAME=ATS2-Postiats-0.0.3
+atspacktar:: ; rm -rf $(PACKNAME)
+atspacktar:: ; cp -rf ATS-Postiats $(PACKNAME)
+atspacktar:: ; $(RMF) $(PACKNAME)/missing ; $(CPF) ATS-Postiats/missing $(PACKNAME)/
+atspacktar:: ; $(RMF) $(PACKNAME)/install-sh ; $(CPF) ATS-Postiats/install-sh $(PACKNAME)/
+atspacktar:: ; tar -zvcf  $(PACKNAME).tgz  $(PACKNAME)/
+
+CNTRBNAME=ATS2-Postiats-contrib-0.0.2
+atscntrbtar:: ; rm -rf $(CNTRBNAME)
+atscntrbtar:: ; cp -rf ATS-Postiats-contrib $(CNTRBNAME)
+atscntrbtar:: ; tar -zvcf  $(CNTRBNAME).tgz  $(CNTRBNAME)/
 
 ######
 

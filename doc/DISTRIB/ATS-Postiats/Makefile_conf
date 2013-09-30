@@ -1,0 +1,22 @@
+######
+#
+# Preparing for making a distribution package 
+#
+######
+
+all:: configure
+
+######
+#
+SRC_CONFIG_FILES := config.mk.in config.h.in
+BUILT_CONFIG_FILES := $(SRC_CONFIG_FILES:%.in=%)
+#
+configure: configure.ac $(SRC_CONFIG_FILES)
+	aclocal
+	automake --add-missing --foreign || true
+	autoconf
+	touch $(BUILT_CONFIG_FILES)
+#
+config.h.in: configure.ac; autoheader $<; touch $@
+#
+###### end of [Makefile_configure] ######

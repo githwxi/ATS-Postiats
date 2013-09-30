@@ -230,6 +230,16 @@ clean:: ; $(RMF) atscntrb_cairo_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_cairo.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_cairo.bash
 
+all_html:: HTML/atscntrb_hiredis.html
+HTML/atscntrb_hiredis.html: atscntrb_hiredis_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_hiredis.bash
+SCRIPT/atscntrb_hiredis.bash: atscntrb_hiredis_atxt.exe ; ./$< > $@
+atscntrb_hiredis_atxt.dats: ATEXT/atscntrb_hiredis.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_hiredis_atxt.exe: atscntrb_hiredis_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_hiredis_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_hiredis.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_hiredis.bash
+
 #
 all_html:: HTML/atscntrb_libatshwxi_intinf.html
 HTML/atscntrb_libatshwxi_intinf.html: atscntrb_libatshwxi_intinf_atxt.exe ; ./$< > $@
@@ -273,6 +283,7 @@ atspackaging:: srcget_ccomp_atslib
 atspackaging:: srcget_ccomp_runtime
 atspackaging:: srcget_utils_atscc
 atspackaging:: srcget_doc_example
+atspackaging:: ; make -C ATS-Postiats -f Makefile_conf
 
 ######
 
@@ -353,6 +364,11 @@ srcget_atscntrb_cairo:: SCRIPT/atscntrb_cairo.bash ; bash $<
 
 ######
 
+srcget_atscntrb:: srcget_atscntrb_hiredis
+srcget_atscntrb_hiredis:: SCRIPT/atscntrb_hiredis.bash ; bash $<
+
+######
+
 srcget_atscntrb:: srcget_atscntrb_libatshwxi_intinf
 srcget_atscntrb_libatshwxi_intinf:: SCRIPT/atscntrb_libatshwxi_intinf.bash ; bash $<
 srcget_atscntrb:: srcget_atscntrb_libatshwxi_testing
@@ -362,8 +378,17 @@ srcget_atscntrb_libatshwxi_teaching:: SCRIPT/atscntrb_libatshwxi_teaching.bash ;
 
 ######
 
-atspacktar:: ; tar -chzvf ATS-Postiats.tgz ATS-Postiats
-atscntrbtar:: ; tar -chzvf ATS-Postiats-contrib.tgz ATS-Postiats-contrib
+PACKNAME=ATS2-Postiats-0.0.3
+atspacktar:: ; rm -rf $(PACKNAME)
+atspacktar:: ; cp -rf ATS-Postiats $(PACKNAME)
+atspacktar:: ; $(RMF) $(PACKNAME)/missing ; $(CPF) ATS-Postiats/missing $(PACKNAME)/
+atspacktar:: ; $(RMF) $(PACKNAME)/install-sh ; $(CPF) ATS-Postiats/install-sh $(PACKNAME)/
+atspacktar:: ; tar -zvcf  $(PACKNAME).tgz  $(PACKNAME)/
+
+CNTRBNAME=ATS2-Postiats-contrib-0.0.2
+atscntrbtar:: ; rm -rf $(CNTRBNAME)
+atscntrbtar:: ; cp -rf ATS-Postiats-contrib $(CNTRBNAME)
+atscntrbtar:: ; tar -zvcf  $(CNTRBNAME).tgz  $(CNTRBNAME)/
 
 ######
 

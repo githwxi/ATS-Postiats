@@ -12,6 +12,7 @@ config.h.in
 config.mk
 config.log
 config.status
+missing
 install-sh
 configure
 stamp-h1
@@ -237,12 +238,14 @@ contrib/zlog/zlog-latest-stable/
 #
 # ATSHOME/doc/DISTRIB
 #
-
 doc/DISTRIB/*.exe
 doc/DISTRIB/*_atxt.txt
 doc/DISTRIB/*_atxt.dats
 doc/DISTRIB/HTML
 doc/DISTRIB/SCRIPT/*.bash
+#
+# ATSHOME/doc/DISTRIB/ATS-Postiats
+#
 doc/DISTRIB/ATS-Postiats/AUTHORS
 doc/DISTRIB/ATS-Postiats/COPYING
 doc/DISTRIB/ATS-Postiats/INSTALL
@@ -284,14 +287,21 @@ doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/*.?ats
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/PCPV/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/PCPV/*.?ats
+doc/DISTRIB/ATS2-Postiats-0.0.1
+doc/DISTRIB/ATS2-Postiats-0.0.2
+doc/DISTRIB/ATS2-Postiats-0.0.3
+#
+# ATSHOME/doc/DISTRIB/ATS-Postiats-contrib
+#
 doc/DISTRIB/ATS-Postiats-contrib/contrib/*
 doc/DISTRIB/ATS-Postiats-contrib/document/*
 doc/DISTRIB/ATS-Postiats-contrib/project/*
+doc/DISTRIB/ATS2-Postiats-contrib-0.0.1
+doc/DISTRIB/ATS2-Postiats-contrib-0.0.2
 
 #
 # ATSHOME/doc/EXAMPLE
 #
-
 doc/EXAMPLE/*/*_atxt.txt
 doc/EXAMPLE/*/*_atxt.dats
 doc/EXAMPLE/*/Makefile.exe

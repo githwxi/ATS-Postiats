@@ -101,11 +101,11 @@ ATSCNTRB/libgmp\
 
 (* ****** ****** *)
 
-#packfilename("SATS/gmp.sats")
+#packfilename("CATS/gmp.cats")
 
 (* ****** ****** *)
 
-#packfilename("CATS/gmp.cats")
+#packfilename("SATS/gmp.sats")
 
 (* ****** ****** *)
 

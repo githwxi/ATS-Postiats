@@ -43,8 +43,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=./../../contrib/GTK/\n\
-TARGET=ATS-Postiats-contrib/contrib/GTK/\n\
+SOURCE=./../../contrib/hiredis/\n\
+TARGET=ATS-Postiats-contrib/contrib/hiredis/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -62,7 +62,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The ATSCNTRB-GTK files have been copied.\"\n\
+echo \"The ATSCNTRB-hiredis files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
@@ -95,47 +95,23 @@ packfilesynop (x) = atext_nil ()
 
 (* ****** ****** *)
 
-#packtitle("ATSCNTRB/GTK")
+#packtitle("\
+ATSCNTRB/hiredis\
+")
 
 (* ****** ****** *)
 
-#packfilename("CATS/gdk.cats")
-#packfilename("CATS/gdk/gdkcairo.cats")
+#packfilename("CATS/hiredis.cats")
 
 (* ****** ****** *)
 
-#packfilename("SATS/gdk.sats")
-#packfilename("SATS/gdk/gdkcairo.sats")
-#packfilename("SATS/gdk/gdkevents.sats")
+#packfilename("SATS/hiredis.sats")
+#packfilename("SATS/hiredis_ML.sats")
 
 (* ****** ****** *)
 
-#packfilename("CATS/gtk.cats")
-#packfilename("CATS/gtk/gtkmain.cats")
-#packfilename("CATS/gtk/gtkwidget.cats")
-#packfilename("CATS/gtk/gtkcontainer.cats")
-#packfilename("CATS/gtk/gtkbutton.cats")
-#packfilename("CATS/gtk/gtkwindow.cats")
-#packfilename("CATS/gtk/gtkbox.cats")
-#packfilename("CATS/gtk/gtkhbox.cats")
-#packfilename("CATS/gtk/gtktable.cats")
-#packfilename("CATS/gtk/gtkdrawingarea.cats")
-
-(* ****** ****** *)
-
-#packfilename("SATS/gtk.sats")
-#packfilename("SATS/gtk/gtkenums.sats")
-#packfilename("SATS/gtk/gtkversion.sats")
-#packfilename("SATS/gtk/mybasis.sats")
-#packfilename("SATS/gtk/gtkmain.sats")
-#packfilename("SATS/gtk/gtkwidget.sats")
-#packfilename("SATS/gtk/gtkcontainer.sats")
-#packfilename("SATS/gtk/gtkbutton.sats")
-#packfilename("SATS/gtk/gtkwindow.sats")
-#packfilename("SATS/gtk/gtkbox.sats")
-#packfilename("SATS/gtk/gtkhbox.sats")
-#packfilename("SATS/gtk/gtktable.sats")
-#packfilename("SATS/gtk/gtkdrawingarea.sats")
+#packfilename("DATS/hiredis.dats")
+#packfilename("DATS/hiredis_ML.dats")
 
 (* ****** ****** *)
 
@@ -151,4 +127,4 @@ implement main () = ()
 
 (* ****** ****** *)
 
-(* end of [atscntrb_GTK.atxt] *)
+(* end of [atscntrb_libgmp.atxt] *)

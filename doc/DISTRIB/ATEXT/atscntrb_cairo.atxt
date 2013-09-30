@@ -99,6 +99,10 @@ packfilesynop (x) = atext_nil ()
 
 (* ****** ****** *)
 
+#packfilename("CATS/cairo.cats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/cairo.sats")
 #packfilename("SATS/cairo_header.sats")
 
@@ -130,10 +134,6 @@ packfilesynop (x) = atext_nil ()
 #packfilename("SATS/Utilities/cairo-cairo-matrix-t.sats")
 #packfilename("SATS/Utilities/cairo-Error-Handling.sats")
 #packfilename("SATS/Utilities/cairo-Types.sats")
-
-(* ****** ****** *)
-
-#packfilename("CATS/cairo.cats")
 
 (* ****** ****** *)
 

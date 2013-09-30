@@ -99,6 +99,11 @@ packfilesynop (x) = atext_nil ()
 
 (* ****** ****** *)
 
+#packfilename("CATS/glib.cats")
+#packfilename("CATS/glib-object.cats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/glib.sats")
 #packfilename("SATS/glib/gtypes.sats")
 #packfilename("SATS/glib/mybasis.sats")
@@ -109,11 +114,6 @@ packfilesynop (x) = atext_nil ()
 #packfilename("SATS/glib-object.sats")
 #packfilename("SATS/gobject/gobject.sats")
 #packfilename("SATS/gobject/gsignal.sats")
-
-(* ****** ****** *)
-
-#packfilename("CATS/glib.cats")
-#packfilename("CATS/glib-object.cats")
 
 (* ****** ****** *)
 

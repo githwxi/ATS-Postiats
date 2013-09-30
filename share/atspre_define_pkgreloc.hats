@@ -1,5 +1,5 @@
 (*
-** Some ATS2-packge information for relocation
+** Some ATS2-package information for relocation
 *)
 (* ****** ****** *)
 //
@@ -7,13 +7,6 @@
 LIBGMP_targetloc "$PATSHOMERELOC/contrib/libgmp"
 #define
 LIBGMP_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/libgmp"
-//
-(* ****** ****** *)
-//
-#define
-LIBATSHWXI_targetloc "$PATSHOMERELOC/contrib/libats-hwxi"
-#define
-LIBATSHWXI_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/libats-hwxi"
 //
 (* ****** ****** *)
 //
@@ -28,6 +21,13 @@ ZLOG_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/zlog"
 JSONC_targetloc "$PATSHOMERELOC/contrib/json-c"
 #define
 JSONC_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/json-c"
+//
+(* ****** ****** *)
+//
+#define
+HIREDIS_targetloc "$PATSHOMERELOC/contrib/hiredis"
+#define
+HIREDIS_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/hiredis"
 //
 (* ****** ****** *)
 //
@@ -56,6 +56,13 @@ GTK_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/GTK"
 CAIRO_targetloc "$PATSHOMERELOC/contrib/cairo"
 #define
 CAIRO_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/cairo"
+//
+(* ****** ****** *)
+//
+#define
+LIBATSHWXI_targetloc "$PATSHOMERELOC/contrib/libats-hwxi"
+#define
+LIBATSHWXI_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/libats-hwxi"
 //
 (* ****** ****** *)
 
