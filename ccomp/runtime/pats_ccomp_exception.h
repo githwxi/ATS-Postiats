@@ -47,6 +47,12 @@ use -D_XOPEN_SOURCE
 
 /* ****** ****** */
 
+#define atspre_jmp_buf jmp_buf
+#define atspre_setjmp(env, mask)  setjmp(env)
+#define atspre_longjmp longjmp
+
+/* ****** ****** */
+
 /*
 #include <alloca.h>
 */
@@ -78,7 +84,7 @@ extern atstype_bool atspre_isNotSomeExn (const atstype_exncon*) ;
 typedef
 struct atsexnframe
 {
-  sigjmp_buf env ;
+  atspre_jmp_buf env ;
   atstype_exnconptr exn ;
   struct atsexnframe *prev ;
 } atsexnframe_t ;
@@ -136,7 +142,7 @@ do { \
   frame = atsexnframe_alloc() ; \
   framep = my_atsexnframe_getref() ; \
   my_atsexnframe_enter(frame, framep) ; \
-  flag = sigsetjmp(frame->env, 1) ; \
+  flag = atspre_setjmp(frame->env, 1) ; \
   if (!flag) { /* normal */
 
 #define \

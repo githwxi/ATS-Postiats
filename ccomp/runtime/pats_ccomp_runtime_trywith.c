@@ -72,7 +72,7 @@ atsruntime_raise
   do {
     if (!frame) break ;
     (frame)->exn = (atstype_exnconptr)exn0 ;
-    siglongjmp((frame)->env, 1) ;
+    atspre_longjmp((frame)->env, 1) ;
   } while (0) ; // end of [do]
 //
   atsruntime_handle_uncaughtexn(exn0) ;
