@@ -55,7 +55,7 @@ statically that otherwise would be difficult and error prone.
 ## Dependencies
 
 First, you'll need  the latest ATS compiler which you  can find on the
-ATS [website](download-ats).
+ATS [website][download-ats].
 
 Next,   install   clang  and   the   (emscripten)[download-emscripten]
 compiler. If you want to run  your compiled javascript programs from a
