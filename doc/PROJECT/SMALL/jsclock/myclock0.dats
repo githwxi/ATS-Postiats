@@ -36,12 +36,15 @@ fun wallclock_now (_: &wallclock? >> wallclock): void = "ext#"
 
 fun start_animation (): void = let
   val ctx = $cnvs.make_context ("clock")
-  fun step (timestamp: double, ctx: context): void =
-    if render_frame (timestamp, ctx) then
-      $cnvs.request_animation_frame (step, ctx)
-    else
-      $cnvs.free_context (ctx)
-in $cnvs.request_animation_frame (step, ctx) end
+in 
+  $cnvs.request_animation_frame (
+    fix step(timestamp: double, ctx: context): void =>
+      if render_frame (timestamp, ctx) then
+        $cnvs.request_animation_frame (step, ctx)
+      else
+        $cnvs.free_context (ctx)
+  , ctx)
+end
 
 (* ****** ***** *)
 
