@@ -36,34 +36,97 @@ staload "./../SATS/mydraw.sats"
 
 (* ****** ****** *)
 
-implement
+local
+
+assume
+point_t0ype = real2
+
+in (* in of [local] *)
+//
+implement{}
+point_make (x, y) = @(x, y)
+//
+implement{} point_get_x (p) = p.0
+implement{} point_get_y (p) = p.1
+//
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+assume
+vector_t0ype = real2
+
+in (* in of [local] *)
+//
+implement{}
+vector_make (x, y) = @(x, y)
+//
+implement{} vector_get_x (p) = p.0
+implement{} vector_get_y (p) = p.1
+//
+end // end of [local]
+
+(* ****** ****** *)
+
+implement{}
 dotprod (v1, v2) = v1.x * v2.x + v1.y * v2.y
 
 (* ****** ****** *)
 
-implement
+implement{}
+sub_point_point
+  (p1, p2) = vector_make (p1.x - p2.x, p1.y - p2.y)
+// end of [sub_point_point]
+
+(* ****** ****** *)
+
+implement{}
 add_point_vector
   (p1, v2) = point_make (p1.x + v2.x, p1.y + v2.y)
-implement
+// end of [add_point_vector]
+implement{}
 sub_point_vector
   (p1, v2) = point_make (p1.x - v2.x, p1.y - v2.y)
+// end of [sub_point_vector]
 
 (* ****** ****** *)
 
-implement
+implement{}
 add_vector_vector
   (v1, v2) = vector_make (v1.x + v2.x, v1.y + v2.y)
-implement
+// end of [add_vector_vector]
+implement{}
 sub_vector_vector
   (v1, v2) = vector_make (v1.x - v2.x, v1.y - v2.y)
+// end of [sub_vector_vector]
 
 (* ****** ****** *)
 
-implement
+implement{}
 mul_scalar_vector (k, v) = vector_make (k * v.x, k * v.y)
-implement
-div_scalar_vector (k, v) = vector_make (v.x / k, v.y / k)
+implement{}
+mul_vector_scalar (v, k) = vector_make (k * v.x, k * v.y)
 
 (* ****** ****** *)
 
-(* end of [mydraw_basics.dats] *)
+local
+
+assume
+color_t0ype = real3
+
+in (* in of [local] *)
+//
+implement{}
+color_make (r, g, b) = @(r, g, b)
+//
+implement{} color_get_r (clr) = clr.0
+implement{} color_get_g (clr) = clr.1
+implement{} color_get_b (clr) = clr.2
+//
+end // end of [local]
+
+(* ****** ****** *)
+
+(* end of [mydraw.dats] *)

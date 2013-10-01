@@ -38,106 +38,127 @@ ATS_PACKNAME "ATSCNTRB.libats-hwxi.teaching.mydraw"
 
 (* ****** ****** *)
 
-typedef real = double
+#include
+"share/atspre_define.hats"
 
 (* ****** ****** *)
 
-abst@ype
-point_t0ype = $extype"point_t"
+typedef real = double
+typedef real2 = @(real, real)
+typedef real3 = @(real, real, real)
+
+(* ****** ****** *)
+//
+abst@ype point_t0ype = real2
+abst@ype vector_t0ype = real2
+//
 typedef point = point_t0ype
-
-abst@ype
-vector_t0ype = $extype"vector_t"
 typedef vector = vector_t0ype
-
+//
 (* ****** ****** *)
 
 symintr .x .y
 
 (* ****** ****** *)
 
-fun point_make (x: real, y: real): point
+fun{}
+point_make (x: real, y: real): point
 
 (* ****** ****** *)
-
-fun point_get_x (p: point): real
+//
+fun{}
+point_get_x (p: point): real
+fun{}
+point_get_y (p: point): real
+//
 overload .x with point_get_x
-fun point_get_y (p: point): real
 overload .y with point_get_y
-
+//
 (* ****** ****** *)
 
-fun vector_make (x: real, y: real): vector
+fun{}
+vector_make (x: real, y: real): vector
 
 (* ****** ****** *)
-
-fun vector_get_x (v: vector): real
+//
+fun{}
+vector_get_x (v: vector): real
+fun{}
+vector_get_y (v: vector): real
+//
 overload .x with vector_get_x
-fun vector_get_y (v: vector): real
 overload .y with vector_get_y
+//
+(* ****** ****** *)
+
+fun{}
+dotprod (v1: vector, v2: vector): real
 
 (* ****** ****** *)
 
-fun dotprod (v1: vector, v2: vector): real
+castfn point2vector (p: point):<> vector
+castfn vector2point (v: vector):<> point
 
 (* ****** ****** *)
 
-fun point2vector (p: point): vector
-fun vector2point (v: vector): point
-
-(* ****** ****** *)
-
-fun sub_point_point (p1: point, p2: point): vector
+fun{}
+sub_point_point (p1: point, p2: point): vector
 overload - with sub_point_point
 
 (* ****** ****** *)
 
-fun add_point_vector (p1: point, v2: vector): point
-fun sub_point_vector (p1: point, v2: vector): point
+fun{}
+add_point_vector (p1: point, v2: vector): point
+fun{}
+sub_point_vector (p1: point, v2: vector): point
 overload + with add_point_vector
 overload - with sub_point_vector
 
 (* ****** ****** *)
 
-fun add_vector_vector (v1: vector, v2: vector): vector
-fun sub_vector_vector (v1: vector, v2: vector): vector
+fun{}
+add_vector_vector (v1: vector, v2: vector): vector
+fun{}
+sub_vector_vector (v1: vector, v2: vector): vector
 overload + with add_vector_vector
 overload - with sub_vector_vector
 
 (* ****** ****** *)
 
-fun mul_scalar_vector (k: real, v: vector): vector
-fun mul_vector_scalar (v: vector, k: real): vector
+fun{}
+mul_scalar_vector (k: real, v: vector): vector
+fun{}
+mul_vector_scalar (v: vector, k: real): vector
 overload * with mul_scalar_vector
 overload * with mul_vector_scalar
 
 (* ****** ****** *)
-
+//
 abst@ype
-color_t0ype = $extype"color_t"
+color_t0ype = real3
+//
 typedef color = color_t0ype
-
+//
 (* ****** ****** *)
 
-fun color_make (r: double, g: double, b: double):<> color
+fun{}
+color_make (r: double, g: double, b: double):<> color
 
 (* ****** ****** *)
 //
 symintr .r .g .b
 //
-fun color_get_r (c: color):<> double
-fun color_get_g (c: color):<> double
-fun color_get_b (c: color):<> double
+fun{}
+color_get_r (c: color):<> double
+fun{}
+color_get_g (c: color):<> double
+fun{}
+color_get_b (c: color):<> double
 //
 overload .r with color_get_r
 overload .g with color_get_g
 overload .b with color_get_b
 //
-(* ****** ****** *)
-
-#include
-"share/atspre_define.hats"
-
 (* ****** ****** *)
 
 staload
@@ -149,7 +170,7 @@ stadef cairo_ref1 = $XR.cairo_ref1
 //
 fun{
 } mydraw_get0_cairo (
-): [l:agz] vttakeout (void, cairo_ref (l))
+) : [l:agz] vttakeout0 (cairo_ref (l))
 //
 fun{} mydraw_get1_cairo (): cairo_ref1
 //
@@ -183,7 +204,13 @@ fun{
 } mydraw_arc_neg
   (pc: point, rad: real, angle_beg: real, angle_end: real): void
 
-fun{} mydraw_circle (pc: point, rad: real): void
+fun{}
+mydraw_circle (pc: point, rad: real): void
+
+(* ****** ****** *)
+
+fun{}
+mydraw_set_source_color (clr: color): void
 
 (* ****** ****** *)
 

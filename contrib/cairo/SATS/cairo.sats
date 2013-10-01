@@ -59,6 +59,18 @@ fun cairo_version_string ((*void*)): string = "mac#%"
 
 (* ****** ****** *)
 
+castfn
+cairo_ref2ptr{l:addr}
+  (cr: !cairo_ref(l)):<> ptr (l)
+overload ptrcast with cairo_ref2ptr
+
+castfn
+cairo_surface_ref2ptr{l:addr}
+  (cr: !cairo_surface_ref(l)):<> ptr (l)
+overload ptrcast with cairo_surface_ref2ptr
+
+(* ****** ****** *)
+
 (*
 Drawing
 cairo_t — The cairo drawing context

@@ -158,4 +158,42 @@ end // end of [mydraw_circle]
 
 (* ****** ****** *)
 
+implement{
+} mydraw_set_source_color
+  (clr) = let
+  val (
+    fpf | cr
+  ) = mydraw_get0_cairo<> ()
+  val () = cairo_set_source_rgb (cr, clr.r, clr.g, clr.b)
+  prval () = fpf (cr)
+in
+  // nothing
+end // end of [mydraw_set_source_color]
+
+(* ****** ****** *)
+
+implement{
+} mydraw_fill () = let
+  val (
+    fpf | cr
+  ) = mydraw_get0_cairo<> ()
+  val ((*void*)) = cairo_fill (cr)
+  prval ((*void*)) = fpf (cr)
+in
+  // nothing
+end // end of [mydraw_fill]
+
+implement{
+} mydraw_stroke () = let
+  val (
+    fpf | cr
+  ) = mydraw_get0_cairo<> ()
+  val ((*void*)) = cairo_stroke (cr)
+  prval ((*void*)) = fpf (cr)
+in
+  // nothing
+end // end of [mydraw_stroke]
+
+(* ****** ****** *)
+
 (* end of [mydraw_cairo.dats] *)

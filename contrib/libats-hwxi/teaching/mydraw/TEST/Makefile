@@ -4,7 +4,18 @@
 
 ######
 
-PATSCC=patscc
+PATSHOMEQ="$(PATSHOME)"
+PATSHOMERELOCQ="$(PATSHOMERELOC)"
+
+######
+
+PATSCC=$(PATSHOMEQ)/bin/patscc
+PATSOPT=$(PATSHOMEQ)/bin/patsopt
+
+######
+
+XRLIBS=`pkg-config cairo --libs`
+XRCFLAGS=`pkg-config cairo --cflags`
 
 ######
 
@@ -13,12 +24,10 @@ PATSCC=patscc
 ######
 
 all:: test01
-
-######
-
 test01: test01.dats ; \
-  $(PATSCC) -cleanaft -IATS $(PATSHOME)/contrib -o $@ $<
+  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 cleanall:: ; $(RMF) test01
+cleanall:: ; $(RMF) test01.png
 
 ######
 
