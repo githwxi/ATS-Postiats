@@ -56,10 +56,23 @@ implement{
     fpf | cr
   ) = mydraw_get0_cairo<> ()
   val cr2 = cairo_reference (cr)
-  prval () = fpf (cr)
+  prval ((*void*)) = fpf (cr)
 in
   cr2
 end // end of [mydraw_get1_cairo]
+
+(* ****** ****** *)
+
+implement{
+} mydraw_new_path () = let
+  val (
+    fpf | cr
+  ) = mydraw_get0_cairo<> ()
+  val () = cairo_new_path (cr)
+  prval ((*void*)) = fpf (cr)
+in
+  // nothing
+end // end of [mydraw_new_path]
 
 (* ****** ****** *)
 

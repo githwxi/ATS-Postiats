@@ -1,0 +1,47 @@
+#
+# Contributing to ATS2
+#
+######
+
+HX-2013-10:
+
+I have set up a project at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+This project primarily consists of external contributions made to the
+ATS2 programming language system in the forms of library packages, tutorials,
+examples, and all sorts of documentation, etc.
+
+######
+#
+# Guidelines for contributing to ATS2
+#
+######
+
+First, please choose a libats userid. For instance, my own libats user id
+is 'hwxi' and my contributed code goes into a directory named libats-hwxi.
+You can essentially put anything in your own libats directory. However,
+there are certain conventions that I strongly recommend to be followed so
+as to greatly facilitate the use of contributed code.
+
+Say that you want to contribute a package called MYLIB. You should usually
+create the following directories (if applicable):
+
+SATS: This directory is for storing sats files. Normally, various abstract
+types and function interfaces are declared in these sats files.
+
+DATS: This directory is for storing dats files. Normally, various functions
+declared in the previously mentioned sats files are implemented in these
+dats files.
+
+CATS: This directory is for storing cats files, which need to be included
+in the C targe code generated from ATS source code making use of MYLIB.
+
+HATS: This directory is for storing hats files, which are often some files
+that need to be included in the previously mentioned dats files. Note that
+the need for this directory is less common.
+
+######
+
+###### end of [README] ######
