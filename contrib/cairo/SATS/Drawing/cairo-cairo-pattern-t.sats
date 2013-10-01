@@ -1,6 +1,7 @@
 (*
+** Author: Hongwei Xi
+** Authoremail: gmhwxiATgmailDOTcom
 ** Start Time: September, 2012
-** Author: Hongwei Xi (gmhwxi AT gmail DOT com)
 *)
 
 (* ****** ****** *)

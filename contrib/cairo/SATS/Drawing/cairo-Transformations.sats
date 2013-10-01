@@ -1,6 +1,7 @@
 (*
+** Author: Hongwei Xi
+** Authoremail: gmhwxiATgmailDOTcom
 ** Start Time: September, 2012
-** Author: Hongwei Xi (gmhwxi AT gmail DOT com)
 *)
 
 (* ****** ****** *)
@@ -19,6 +20,7 @@ fun cairo_translate
   (ctx: !xr1, tx: double, ty: double) : void = "mac#%"
 // end of [cairo_translate]
 
+(* ****** ****** *)
 
 /*
 void cairo_scale
@@ -30,10 +32,14 @@ fun cairo_scale
   (ctx: !xr1, sx: double, sy: double) : void = "mac#%"
 // end of [cairo_scale]
 
+(* ****** ****** *)
+
 /*
 void cairo_rotate (cairo_t *cr, double angle);
 */
 fun cairo_rotate (ctx: !xr1, angle: double) : void = "mac#%"
+
+(* ****** ****** *)
 
 /*
 void cairo_transform
@@ -42,7 +48,7 @@ cairo_t *cr, const cairo_matrix_t *matrix
 ) ;
 */
 fun cairo_transform
-  (ctx: !xr1, matrix: &cairo_matrix_t): void = "mac#%"
+  (ctx: !xr1, matrix: &RD(xrmat)): void = "mac#%"
 // end of [cairo_transform]
 
 (* ****** ****** *)
@@ -55,7 +61,7 @@ cairo_t *cr, const cairo_matrix_t *matrix
 ) ;
 */
 fun cairo_set_matrix
-  (ctx: !xr1, matrix: &cairo_matrix_t): void = "mac#%"
+  (ctx: !xr1, matrix: &RD(xrmat)): void = "mac#%"
 // end of [cairo_set_matrix]
 
 /*
@@ -63,15 +69,13 @@ void
 cairo_get_matrix (cairo_t *cr, cairo_matrix_t *matrix)
 */
 fun cairo_get_matrix
-(
-  ctx: !xr1, matrix: &cairo_matrix_t? >> cairo_matrix_t
-) : void = "mac#%" // endfun
+  (ctx: !xr1, matrix: &xrmat? >> xrmat): void = "mac#%"
+// end of [cairo_get_matrix]
 
 (* ****** ****** *)
 
 /*
 void cairo_identity_matrix (cairo_t *cr) ;
-
 */
 fun cairo_identity_matrix (ctx: !xr1): void = "mac#%"
 
@@ -80,9 +84,7 @@ fun cairo_identity_matrix (ctx: !xr1): void = "mac#%"
 /*
 void
 cairo_user_to_device
-(
-cairo_t *cr, double *x, double *y
-) ;
+  (cairo_t *cr, double *x, double *y) ;
 */
 fun cairo_user_to_device
 (
@@ -95,9 +97,7 @@ fun cairo_user_to_device
 /*
 void
 cairo_user_to_device_distance
-(
-cairo_t *cr, double *dx, double *dy
-) ;
+  (cairo_t *cr, double *dx, double *dy) ;
 */
 fun cairo_user_to_device_distance
 (
@@ -112,9 +112,7 @@ fun cairo_user_to_device_distance
 /*
 void
 cairo_device_to_user
-(
-cairo_t *cr, double *x, double *y
-) ;
+  (cairo_t *cr, double *x, double *y) ;
 */
 fun cairo_device_to_user
 (
@@ -127,9 +125,7 @@ fun cairo_device_to_user
 /*
 void
 cairo_device_to_user_distance
-(
-cairo_t *cr, double *dx, double *dy
-) ;
+  (cairo_t *cr, double *dx, double *dy) ;
 */
 fun cairo_device_to_user_distance
 (
