@@ -35,7 +35,6 @@ all:: test06
 all:: test07
 all:: test08
 all:: test09
-all:: cairo-multable
 
 ######
 
@@ -50,7 +49,6 @@ cleanall:: ; $(RMF) test06
 cleanall:: ; $(RMF) test07
 cleanall:: ; $(RMF) test08
 cleanall:: ; $(RMF) test09
-cleanall:: ; $(RMF) cairo-multable
 
 ######
 
@@ -79,8 +77,17 @@ test09: test09.dats ; \
 
 ######
 
+all:: cairo-multable
 cairo-multable: cairo-multable.dats ; \
   $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+cleanall:: ; $(RMF) cairo-multable
+
+######
+
+all:: cairo-Bulge02c
+cairo-Bulge02c: cairo-Bulge02c.dats ; \
+  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+cleanall:: ; $(RMF) cairo-Bulge02c
 
 ######
 

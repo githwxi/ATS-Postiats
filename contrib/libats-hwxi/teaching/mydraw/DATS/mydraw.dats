@@ -53,6 +53,13 @@ end // end of [local]
 
 (* ****** ****** *)
 
+implement{}
+point_hshift (p, x) = point_make (p.x + x, p.y)
+implement{}
+point_vshift (p, y) = point_make (p.x, p.y + y)
+
+(* ****** ****** *)
+
 local
 
 assume
@@ -126,6 +133,13 @@ implement{} color_get_g (clr) = clr.1
 implement{} color_get_b (clr) = clr.2
 //
 end // end of [local]
+
+(* ****** ****** *)
+
+implement{}
+color_complement (clr) =
+  color_make (1.0 - clr.r, 1.0 - clr.g, 1.0 - clr.b)
+// end of [color_complement]
 
 (* ****** ****** *)
 

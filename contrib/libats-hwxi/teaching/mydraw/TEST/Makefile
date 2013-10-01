@@ -31,6 +31,14 @@ cleanall:: ; $(RMF) test01.png
 
 ######
 
+all:: test02
+test02: test02.dats ; \
+  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+cleanall:: ; $(RMF) test02
+cleanall:: ; $(RMF) test02.png
+
+######
+
 RMF=rm -f
 
 ######

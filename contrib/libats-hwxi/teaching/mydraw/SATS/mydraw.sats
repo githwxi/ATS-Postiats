@@ -77,6 +77,13 @@ overload .y with point_get_y
 (* ****** ****** *)
 
 fun{}
+point_hshift (p: point, x: real): point
+fun{}
+point_vshift (p: point, y: real): point
+
+(* ****** ****** *)
+
+fun{}
 vector_make (x: real, y: real): vector
 
 (* ****** ****** *)
@@ -142,23 +149,28 @@ typedef color = color_t0ype
 (* ****** ****** *)
 
 fun{}
-color_make (r: double, g: double, b: double):<> color
+color_make (r: real, g: real, b: real):<> color
 
 (* ****** ****** *)
 //
 symintr .r .g .b
 //
 fun{}
-color_get_r (c: color):<> double
+color_get_r (c: color):<> real
 fun{}
-color_get_g (c: color):<> double
+color_get_g (c: color):<> real
 fun{}
-color_get_b (c: color):<> double
+color_get_b (c: color):<> real
 //
 overload .r with color_get_r
 overload .g with color_get_g
 overload .b with color_get_b
 //
+(* ****** ****** *)
+
+fun{}
+color_complement (c: color):<> color
+
 (* ****** ****** *)
 
 staload
@@ -188,12 +200,14 @@ fun{} mydraw_line_to (v: vector): void
 (* ****** ****** *)
 
 fun{
-} mydraw_triangle (p1: point, p2: point, p3: point): void
+} mydraw_triangle
+  (p1: point, p2: point, p3: point): void
+// end of [mydraw_triangle]
 
 (* ****** ****** *)
 
 fun{
-} mydraw_rectangle (pul: point, w: double, h: double): void
+} mydraw_rectangle (pul: point, w: real, h: real): void
 
 (* ****** ****** *)
 
