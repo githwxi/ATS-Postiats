@@ -260,6 +260,23 @@ atscntrb_cairo_version_string()
 #atscntrb_define("cairo_ps_surface_dsc_comment")
 //
 #atscode_separator_for_C()
+//
+// Utilities: cairo-cairo-matrix-t
+//
+#atscntrb_define("cairo_matrix_init")
+#atscntrb_define("cairo_matrix_init_identity")
+#atscntrb_define("cairo_matrix_init_translate")
+#atscntrb_define("cairo_matrix_init_scale")
+#atscntrb_define("cairo_matrix_init_rotate")
+#atscntrb_define("cairo_matrix_translate")
+#atscntrb_define("cairo_matrix_scale")
+#atscntrb_define("cairo_matrix_rotate")
+#atscntrb_define("cairo_matrix_invert")
+#atscntrb_define("cairo_matrix_multiply")
+#atscntrb_define("cairo_matrix_transform_distance")
+#atscntrb_define("cairo_matrix_transform_point")
+//
+#atscode_separator_for_C()
 
 \#endif // ifndef CAIRO_CAIRO_CATS
 
