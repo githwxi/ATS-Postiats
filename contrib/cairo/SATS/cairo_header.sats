@@ -441,6 +441,7 @@ $extype_struct"cairo_matrix_t" of
 , xy= double, yy= double
 , x0= double, y0= double
 } // end of [cairo_matrix_t]
+typedef xrmat = cairo_matrix_t
 
 (* ****** ****** *)
 //

@@ -15,19 +15,21 @@
 ** Authoremail: wdblairATbuDOTedu
 *)
 
+(* ****** ****** *)
+
 (*
-
-Please implement a program in ATS that can generate
-the following image:
-
-http://www.psy.ritsumei.ac.jp/~akitaoka/Bulge02c.jpg
-
+** Ported to ATS2 by HX-2013-10-01
 *)
 
 (* ****** ****** *)
 
 (*
-** Ported to ATS2 by HX-2013-10-01
+//
+Please implement a program in ATS that can generate
+the following image:
+//
+http://www.psy.ritsumei.ac.jp/~akitaoka/Bulge02c.jpg
+//
 *)
 
 (* ****** ****** *)
@@ -270,11 +272,13 @@ val () = cairo_scale (cr, CELL, CELL)
 val () = draw_checkerboard (cr)
 val () = cairo_restore (pf0 | cr)
 //
-val status = cairo_surface_write_to_png (surface, "cairo-Bulge02c.png")
+val status =
+cairo_surface_write_to_png (surface, "cairo-Bulge02c.png")
+val () = cairo_destroy (cr) // a type error is issued if omitted
 val () = cairo_surface_destroy (surface) // a type error if omitted
-val () = cairo_destroy (cr) // a type error if omitted
 //
 // in case of a failure ...
+//
 val () = assert_errmsg (status = CAIRO_STATUS_SUCCESS, $mylocation)
 } (* end of [main0] *)
 
