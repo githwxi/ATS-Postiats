@@ -38,6 +38,7 @@
 (* ****** ****** *)
 
 staload "./../SATS/mydraw.sats"
+staload "./../SATS/mydraw_cairo.sats"
 
 (* ****** ****** *)
 
@@ -63,45 +64,87 @@ end // end of [mydraw_get1_cairo]
 (* ****** ****** *)
 
 implement{
+} mydraw_close_path () = let
+  val (
+    fpf | cr
+  ) = mydraw_get0_cairo<> ()
+  val () = cairo_close_path (cr)
+  prval ((*void*)) = fpf (cr)
+in
+  // nothing
+end // end of [mydraw_close_path]
+
+(* ****** ****** *)
+
+implement{
 } mydraw_move_to (p) = let
   val (
     fpf | cr
   ) = mydraw_get0_cairo<> ()
   val () = cairo_move_to (cr, p.x, p.y)
-  prval () = fpf (cr)
+  prval ((*void*)) = fpf (cr)
 in
   // nothing
 end // end of [mydraw_move_to]
 
-(* ****** ****** *)
-
 implement{
-} mydraw_line_to (v) = let
+} mydraw_move_to_xy (x, y) = let
   val (
     fpf | cr
   ) = mydraw_get0_cairo<> ()
-  val () = cairo_line_to (cr, v.x, v.y)
-  prval () = fpf (cr)
+  val () = cairo_move_to (cr, x, y)
+  prval ((*void*)) = fpf (cr)
+in
+  // nothing
+end // end of [mydraw_move_to_xy]
+
+(* ****** ****** *)
+
+implement{
+} mydraw_line_to (p) = let
+  val (
+    fpf | cr
+  ) = mydraw_get0_cairo<> ()
+  val () = cairo_line_to (cr, p.x, p.y)
+  prval ((*void*)) = fpf (cr)
 in
   // nothing
 end // end of [mydraw_line_to]
 
-(* ****** ****** *)
-
 implement{
-} mydraw_triangle
-  (p1, p2, p3) = let
+} mydraw_line_to_xy (x, y) = let
   val (
     fpf | cr
   ) = mydraw_get0_cairo<> ()
-  val () = cairo_move_to (cr, p1.x, p1.y)
-  val () = cairo_line_to (cr, p2.x, p2.y)
-  val () = cairo_line_to (cr, p3.x, p3.y)
-  val () = cairo_close_path (cr)
-  prval () = fpf (cr)
+  val () = cairo_line_to (cr, x, y)
+  prval ((*void*)) = fpf (cr)
 in
   // nothing
-end // end of [mydraw_triangle]
+end // end of [mydraw_line_to_xy]
+
+(* ****** ****** *)
+
+implement{
+} mydraw_rel_line_to (v) = let
+  val (
+    fpf | cr
+  ) = mydraw_get0_cairo<> ()
+  val () = cairo_rel_line_to (cr, v.x, v.y)
+  prval ((*void*)) = fpf (cr)
+in
+  // nothing
+end // end of [mydraw_rel_line_to]
+
+implement{
+} mydraw_rel_line_to_dxy (dx, dy) = let
+  val (
+    fpf | cr
+  ) = mydraw_get0_cairo<> ()
+  val () = cairo_rel_line_to (cr, dx, dy)
+  prval ((*void*)) = fpf (cr)
+in
+  // nothing
+end // end of [mydraw_rel_line_to_dxy]
 
 (* ****** ****** *)
 
@@ -112,7 +155,7 @@ implement{
     fpf | cr
   ) = mydraw_get0_cairo<> ()
   val () = cairo_rectangle (cr, pul.x, pul.y, w, h)
-  prval () = fpf (cr)
+  prval ((*void*)) = fpf (cr)
 in
   // nothing
 end // end of [mydraw_rectangle]
@@ -126,7 +169,7 @@ implement{
     fpf | cr
   ) = mydraw_get0_cairo<> ()
   val () = cairo_arc (cr, pc.x, pc.y, rad, ang1, ang2)
-  prval () = fpf (cr)
+  prval ((*void*)) = fpf (cr)
 in
   // nothing
 end // end of [mydraw_arc]
@@ -138,7 +181,7 @@ implement{
     fpf | cr
   ) = mydraw_get0_cairo<> ()
   val () = cairo_arc_negative (cr, pc.x, pc.y, rad, ang1, ang2)
-  prval () = fpf (cr)
+  prval ((*void*)) = fpf (cr)
 in
   // nothing
 end // end of [mydraw_arc_neg]
@@ -151,7 +194,7 @@ implement{
   ) = mydraw_get0_cairo<> ()
   val () = cairo_new_sub_path (cr)
   val () = cairo_arc (cr, pc.x, pc.y, rad, 0.0, PI)
-  prval () = fpf (cr)
+  prval ((*void*)) = fpf (cr)
 in
   // nothing
 end // end of [mydraw_circle]
@@ -165,7 +208,7 @@ implement{
     fpf | cr
   ) = mydraw_get0_cairo<> ()
   val () = cairo_set_source_rgb (cr, clr.r, clr.g, clr.b)
-  prval () = fpf (cr)
+  prval ((*void*)) = fpf (cr)
 in
   // nothing
 end // end of [mydraw_set_source_color]

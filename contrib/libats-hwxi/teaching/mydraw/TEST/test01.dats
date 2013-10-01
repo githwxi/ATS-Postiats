@@ -13,10 +13,13 @@
 //
 (* ****** ****** *)
 //
-staload "./../SATS/mydraw.sats"
-staload _(*anon*) = "./../DATS/mydraw.dats"
-//
 staload "{$CAIRO}/SATS/cairo.sats"
+//
+(* ****** ****** *)
+//
+staload "./../SATS/mydraw.sats"
+staload "./../SATS/mydraw_cairo.sats"
+staload _(*anon*) = "./../DATS/mydraw.dats"
 staload _(*anon*) = "./../DATS/mydraw_cairo.dats"
 //
 (* ****** ****** *)

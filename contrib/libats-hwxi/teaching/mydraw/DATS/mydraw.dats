@@ -77,8 +77,8 @@ end // end of [local]
 
 (* ****** ****** *)
 
-implement{}
-dotprod (v1, v2) = v1.x * v2.x + v1.y * v2.y
+implement{
+} dotprod (v1, v2) = v1.x * v2.x + v1.y * v2.y
 
 (* ****** ****** *)
 
@@ -140,6 +140,19 @@ implement{}
 color_complement (clr) =
   color_make (1.0 - clr.r, 1.0 - clr.g, 1.0 - clr.b)
 // end of [color_complement]
+
+(* ****** ****** *)
+
+implement{
+} mydraw_triangle
+  (p1, p2, p3) = let
+  val () = mydraw_move_to (p1)
+  val () = mydraw_line_to (p2)
+  val () = mydraw_line_to (p3)
+  val () = mydraw_close_path ()
+in
+  // nothing
+end // end of [mydraw_triangle]
 
 (* ****** ****** *)
 

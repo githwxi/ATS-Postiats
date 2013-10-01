@@ -38,11 +38,6 @@ ATS_PACKNAME "ATSCNTRB.libats-hwxi.teaching.mydraw"
 
 (* ****** ****** *)
 
-#include
-"share/atspre_define.hats"
-
-(* ****** ****** *)
-
 typedef real = double
 typedef real2 = @(real, real)
 typedef real3 = @(real, real, real)
@@ -173,21 +168,6 @@ color_complement (c: color):<> color
 
 (* ****** ****** *)
 
-staload
-XR = "{$CAIRO}/SATS/cairo.sats"
-stadef cairo_ref = $XR.cairo_ref
-stadef cairo_ref1 = $XR.cairo_ref1
-
-(* ****** ****** *)
-//
-fun{
-} mydraw_get0_cairo (
-) : [l:agz] vttakeout0 (cairo_ref (l))
-//
-fun{} mydraw_get1_cairo (): cairo_ref1
-//
-(* ****** ****** *)
-
 fun{} mydraw_new_path (): void
 fun{} mydraw_new_sub_path (): void
 fun{} mydraw_close_path (): void
@@ -195,7 +175,15 @@ fun{} mydraw_close_path (): void
 (* ****** ****** *)
 
 fun{} mydraw_move_to (p: point): void
-fun{} mydraw_line_to (v: vector): void
+fun{} mydraw_move_to_xy (x: real, y: real): void
+
+(* ****** ****** *)
+
+fun{} mydraw_line_to (p: point): void
+fun{} mydraw_line_to_xy (x: real, y: real): void
+
+fun{} mydraw_rel_line_to (v: vector): void
+fun{} mydraw_rel_line_to_dxy (dx: real, dy: real): void
 
 (* ****** ****** *)
 
