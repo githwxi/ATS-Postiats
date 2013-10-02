@@ -58,6 +58,11 @@ staload GLOB = "./pats_global.sats"
 
 (* ****** ****** *)
 
+staload LOC = "./pats_location.sats"
+overload print with $LOC.print_location
+
+(* ****** ****** *)
+
 staload "./pats_staexp2.sats"
 staload "./pats_staexp2_util.sats"
 staload "./pats_dynexp2.sats"
@@ -475,7 +480,9 @@ end // end of [tmpvarlst_reset_alias]
 
 extern
 fun funent_funlablst_update
-  (env: !ccompenv, fls: funlablst): funlablst_vt
+(
+  env: !ccompenv, fls: funlablst
+) : funlablst_vt // end-of-fun
 implement
 funent_funlablst_update (env, fls) = let
 //
@@ -488,7 +495,15 @@ in
 //
 case+ opt of
 | Some (d2v) => let
-    val-~Some_vt (pmv) = ccompenv_find_vbindmapall (env, d2v)
+//
+(*
+    val () = println! ("funent_funlablst_update: aux: fl = ", fl)
+    val () = println! ("funent_funlablst_update: aux: d2v = ", d2v)
+    val loc = d2var_get_loc (d2v)
+    val () = println! ("funent_funlablst_update: aux: d2v.loc = ", loc)
+*)
+//
+    val-~Some_vt(pmv) = ccompenv_find_vbindmapall (env, d2v)
   in
     case+ pmv.primval_node of
     | PMVfunlab (fl) => fl | PMVcfunlab (knd, fl) => fl | _ => fl

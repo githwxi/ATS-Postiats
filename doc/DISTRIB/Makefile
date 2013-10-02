@@ -283,7 +283,7 @@ atspackaging:: srcget_ccomp_atslib
 atspackaging:: srcget_ccomp_runtime
 atspackaging:: srcget_utils_atscc
 atspackaging:: srcget_doc_example
-atspackaging:: ; make -C ATS-Postiats -f Makefile_conf
+#atspackaging:: ; make -C ATS-Postiats -f Makefile_conf
 
 ######
 
@@ -292,7 +292,6 @@ srcget_home:: ; $(CPF) ../../COPYING $(ATSDIST)/
 srcget_home:: ; $(CPF) ../../INSTALL $(ATSDIST)/
 srcget_home:: ; $(CPF) ../../VERSION.txt $(ATSDIST)/
 srcget_home:: ; $(CPF) ../../configure.ac $(ATSDIST)/
-srcget_home:: ; $(CPF) ../../config.mk $(ATSDIST)/
 srcget_home:: ; $(CPF) ../../config.mk.in $(ATSDIST)/
 srcget_home:: ; $(CPF) ../../patscc_env.sh.in $(ATSDIST)/bin/
 srcget_home:: ; $(CPF) ../../patsopt_env.sh.in $(ATSDIST)/bin/

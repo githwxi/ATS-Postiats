@@ -46,6 +46,7 @@ all:: fcopy2
 all:: fib1
 all:: fib2
 all:: fibmem
+all:: fprintlst2
 all:: gfact
 all:: hello
 all:: intecho
@@ -77,6 +78,7 @@ cleanall:: ; $(RMF) fcopy2
 cleanall:: ; $(RMF) fib1
 cleanall:: ; $(RMF) fib2
 cleanall:: ; $(RMF) fibmem
+cleanall:: ; $(RMF) fprintlst2
 cleanall:: ; $(RMF) gfact
 cleanall:: ; $(RMF) hello
 cleanall:: ; $(RMF) intecho
@@ -129,6 +131,10 @@ fcopy2: fcopy2.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< myatslib.dats
 fib1: fib1.dats ; $(PATSCC) -o $@ $<
 fib2: fib2.dats ; $(PATSCC) -o $@ $<
 fibmem: fibmem.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+
+######
+
+fprintlst2: fprintlst2.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 
 ######
 

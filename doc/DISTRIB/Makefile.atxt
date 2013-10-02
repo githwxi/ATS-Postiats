@@ -133,7 +133,7 @@ atspackaging:: srcget_ccomp_atslib
 atspackaging:: srcget_ccomp_runtime
 atspackaging:: srcget_utils_atscc
 atspackaging:: srcget_doc_example
-atspackaging:: ; make -C ATS-Postiats -f Makefile_conf
+\#atspackaging:: ; make -C ATS-Postiats -f Makefile_conf
 
 ######
 
