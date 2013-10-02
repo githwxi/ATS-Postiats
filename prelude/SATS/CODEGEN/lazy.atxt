@@ -141,7 +141,8 @@ a1,a2:t0p}{b:t0p
 // end of [stream_map2]
 fun{
 a1,a2:t0p}{b:t0p
-} stream_map2_fun (
+} stream_map2_fun
+(
   xs1: stream (INV(a1))
 , xs2: stream (INV(a2))
 , f: (a1, a2) -<fun,!laz> b
@@ -149,7 +150,8 @@ a1,a2:t0p}{b:t0p
 // end of [stream_map2_fun]
 fun{
 a1,a2:t0p}{b:t0p
-} stream_map2_cloref (
+} stream_map2_cloref
+(
   xs1: stream (INV(a1))
 , xs2: stream (INV(a2))
 , f: (a1, a2) -<cloref,!laz> b
@@ -164,11 +166,13 @@ fun{a:t0p}
 stream_merge
   (xs1: stream (INV(a)), xs2: stream (a)):<> stream (a)
 fun{a:t0p}
-stream_merge_fun (
+stream_merge_fun
+(
   xs1: stream (INV(a)), xs2: stream (a), (a, a) -<fun> int
 ) :<> stream (a) // end of [stream_merge_fun]
 fun{a:t0p}
-stream_merge_cloref (
+stream_merge_cloref
+(
   xs1: stream (INV(a)), xs2: stream (a), (a, a) -<cloref> int
 ) :<> stream (a) // end of [stream_merge_cloref]
 

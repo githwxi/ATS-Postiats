@@ -36,7 +36,7 @@ declared in the previously mentioned sats files are implemented in these
 dats files.
 
 CATS: This directory is for storing cats files, which need to be included
-in the C targe code generated from ATS source code making use of MYLIB.
+in the C target code generated from ATS source code that makes use of MYLIB.
 
 HATS: This directory is for storing hats files, which are often some files
 that need to be included in the previously mentioned dats files. Note that
