@@ -283,7 +283,7 @@ atspackaging:: srcget_ccomp_atslib
 atspackaging:: srcget_ccomp_runtime
 atspackaging:: srcget_utils_atscc
 atspackaging:: srcget_doc_example
-#atspackaging:: ; make -C ATS-Postiats -f Makefile_conf
+atspackaging:: ; (cd ATS-Postiats && ./autogen.sh)
 
 ######
 
@@ -381,8 +381,10 @@ srcget_atscntrb_libatshwxi_teaching:: SCRIPT/atscntrb_libatshwxi_teaching.bash ;
 PACKNAME=ATS2-Postiats-0.0.3
 atspacktar:: ; rm -rf $(PACKNAME)
 atspacktar:: ; cp -rf ATS-Postiats $(PACKNAME)
+atspacktar:: ; $(RMF) $(PACKNAME)/Makefile_conf
 atspacktar:: ; $(RMF) $(PACKNAME)/missing ; $(CPF) ATS-Postiats/missing $(PACKNAME)/
 atspacktar:: ; $(RMF) $(PACKNAME)/install-sh ; $(CPF) ATS-Postiats/install-sh $(PACKNAME)/
+atspacktar:: ; make -C $(PACKNAME) cleanall
 atspacktar:: ; tar -zvcf  $(PACKNAME).tgz  $(PACKNAME)/
 
 CNTRBNAME=ATS2-Postiats-contrib-0.0.2
