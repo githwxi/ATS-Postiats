@@ -49,37 +49,45 @@ typedef NSH(a:type) = a // for commenting purpose
 (* ****** ****** *)
 
 fun{
-} iota (x: int):<> string
+} itoa (x: int):<> string
 
 (* ****** ****** *)
 
-fun string_copy (s: NSH(string)):<> string
+fun{
+} string_copy (s: NSH(string)):<> string
 
 (* ****** ****** *)
 
-fun string_make_list (cs: list0 (char)):<> string
-fun string_make_rlist (cs: list0 (char)):<> string
+fun{
+} string_make_list (cs: list0 (char)):<> string
+fun{
+} string_make_rlist (cs: list0 (char)):<> string
 
 (* ****** ****** *)
 
-fun string_make_substring
+fun{
+} string_make_substring
   (s: NSH(string), st: size_t, ln: size_t):<> string
 // end of [string_make_substring]
 
 (* ****** ****** *)
 
-fun string_append
+fun{
+} string_append
   (s1: NSH(string), s2: NSH(string)):<> string
 overload + with string_append
 
 (* ****** ****** *)
 
-fun stringlst_concat (xs: list0 (string)):<> string
+fun{
+} stringlst_concat (xs: list0 (string)):<> string
 
 (* ****** ****** *)
 
-fun string_explode (s: string):<> list0 (char)
-fun string_implode (cs: list0 (char)):<> string
+fun{
+} string_explode (s: string):<> list0 (char)
+fun{
+} string_implode (cs: list0 (char)):<> string
 
 (* ****** ****** *)
 

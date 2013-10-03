@@ -28,7 +28,7 @@ C-style strings in functional programming.
 
 (* ****** ****** *)
 
-#declnamesynop("iota")
+#declnamesynop("itoa")
 #decldescrpt("\
 
 This function is for turning integers into their string representations.\

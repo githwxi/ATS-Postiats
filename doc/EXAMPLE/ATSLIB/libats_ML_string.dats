@@ -27,6 +27,13 @@ val alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 val () =
 {
+val () = assertloc (itoa (12345) = "12345")
+}
+
+(* ****** ****** *)
+
+val () =
+{
 //
 val () = assertloc (length (alphabet) = 26)
 val () = assertloc (alphabet = string_copy (alphabet))
