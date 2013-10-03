@@ -81,12 +81,20 @@ staload "libats/ML/SATS/string.sats"
 
 (* ****** ****** *)
 
-macdef castvwtp_trans = $UN.castvwtp0 // former name
+macdef
+castvwtp_trans = $UN.castvwtp0 // former name
 
 (* ****** ****** *)
 
-implement
-string_copy (str) = let
+implement{
+} itoa (int) =
+  $effmask_wrt(strptr2string(g0int2string_int(int)))
+// end of [iota]
+
+(* ****** ****** *)
+
+implement{
+} string_copy (str) = let
   val res = $effmask_wrt(prelude_string0_copy (str))
 in
   strptr2string (res)
@@ -94,16 +102,16 @@ end // end of [string_copy]
 
 (* ****** ****** *)
 //
-implement
-string_make_list (cs) = let
+implement{
+} string_make_list (cs) = let
   val cs = $UN.cast{list0(charNZ)}(cs)
   val str = $effmask_wrt(prelude_string_make_list (g1ofg0_list(cs)))
 in
   strnptr2string (str)
 end // end of [string_make_list]
 //
-implement
-string_make_rlist (cs) = let
+implement{
+} string_make_rlist (cs) = let
   val cs = $UN.cast{list0(charNZ)}(cs)
   val str = $effmask_wrt(prelude_string_make_rlist (g1ofg0_list(cs)))
 in
@@ -112,8 +120,8 @@ end // end of [string_make_rlist]
 //
 (* ****** ****** *)
 
-implement
-string_make_substring
+implement{
+} string_make_substring
   (str, st, ln) = let
 //
 val str = g1ofg0_string(str)
@@ -131,8 +139,8 @@ end // end of [string_make_substring]
 
 (* ****** ****** *)
 
-implement
-string_append
+implement{
+} string_append
   (str1, str2) = let
   val res = $effmask_wrt (prelude_string0_append (str1, str2))
 in
@@ -141,8 +149,8 @@ end // end of [string_append]
 
 (* ****** ****** *)
 
-implement
-stringlst_concat (xs) = let
+implement{
+} stringlst_concat (xs) = let
   val res = $effmask_wrt (prelude_stringlst_concat (g1ofg0_list(xs)))
 in
   strptr2string (res)
@@ -150,8 +158,8 @@ end // end of [stringlst_concat]
 
 (* ****** ****** *)
 
-implement
-string_explode (str) = let
+implement{
+} string_explode (str) = let
   val str = g1ofg0_string (str)
   val res = $effmask_wrt (prelude_string_explode (str))
 in
@@ -160,8 +168,8 @@ end // end of [string_explode]
 
 (* ****** ****** *)
 
-implement
-string_implode (cs) = string_make_list (cs)
+implement{
+} string_implode (cs) = string_make_list (cs)
 
 (* ****** ****** *)
 

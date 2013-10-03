@@ -33,6 +33,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 implement{a}
 list_vt_quicksort$cmp (x1, x2) = gcompare_ref<a> (x1, x2)
 
+#atscode_separator()
 (*
 ** HX-2012-05:
 ** copy a list into an array, perform quicksort on the

@@ -829,11 +829,13 @@ list_iforeach_env
 prval () = lemma_list_param (xs)
 //
 fun loop
-  {n:nat}{i:int} .<n>. (
+  {n:nat}
+  {i:int} .<n>. (
   i: int i, xs: list (x, n), env: &env
 ) : intBtwe(i,n+i) =
   case+ xs of
-  | list_cons (x, xs) => let
+  | list_cons
+      (x, xs) => let
       val test =
         list_iforeach$cont<x><env> (i, x, env)
       // end of [test]
@@ -844,12 +846,14 @@ fun loop
         loop (succ(i), xs, env)
       end else (i) // end of [if]
     end // end of [list_cons]
-  | list_nil () => i // the number of processed elements
+  | list_nil () => (i) // number of processed elements
 // end of [loop]
 //
 in
   loop (0, xs, env)
 end // end of [list_iforeach_env]
+
+#atscode_separator()
 
 implement{x}
 list_iforeach_funenv

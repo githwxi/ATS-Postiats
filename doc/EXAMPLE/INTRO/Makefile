@@ -48,6 +48,7 @@ all:: fib2
 all:: fibmem
 all:: fib_lazy
 all:: fib_llazy
+all:: fprintlst2
 all:: gfact
 all:: hello
 all:: intecho
@@ -81,6 +82,7 @@ cleanall:: ; $(RMF) fib2
 cleanall:: ; $(RMF) fibmem
 cleanall:: ; $(RMF) fib_lazy
 cleanall:: ; $(RMF) fib_llazy
+cleanall:: ; $(RMF) fprintlst2
 cleanall:: ; $(RMF) gfact
 cleanall:: ; $(RMF) hello
 cleanall:: ; $(RMF) intecho
@@ -138,6 +140,10 @@ fibmem: fibmem.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 
 fib_lazy: fib_lazy.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 fib_llazy: fib_llazy.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+
+######
+
+fprintlst2: fprintlst2.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 
 ######
 

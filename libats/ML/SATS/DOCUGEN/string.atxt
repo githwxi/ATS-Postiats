@@ -28,6 +28,15 @@ C-style strings in functional programming.
 
 (* ****** ****** *)
 
+#declnamesynop("itoa")
+#decldescrpt("\
+
+This function is for turning integers into their string representations.\
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("string_copy")
 #decldescrpt("Given a string, this function returns a copy of it.")
 #declexample("\

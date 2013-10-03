@@ -64,12 +64,12 @@ stream_vt_free (xs: stream_vt a):<!wrt> void
 fun{
 a:vt0p}{env:vt0p
 } stream_vt_foreach$fwork
-  (x: &a >> a?!, env: &env): void // lin-cleared
+  (x: &a >> a?!, env: &env >> _): void // lin-cleared
 fun{a:vt0p}
 stream_vt_foreach (xs: stream_vt (INV(a))): void
 fun{
 a:vt0p}{env:vt0p
-} stream_vt_foreach_env (xs: stream_vt (a), &env): void
+} stream_vt_foreach_env (xs: stream_vt (INV(a)), &env >> _): void
 
 #atscode_separator()
 //
@@ -126,14 +126,16 @@ a1,a2:vt0p}{b:vt0p
 //
 fun{
 a1,a2:vt0p}{b:vt0p
-} stream_vt_map2_fun (
+} stream_vt_map2_fun
+(
   xs1: stream_vt (INV(a1))
 , xs2: stream_vt (INV(a2))
 , f: (&a1 >> a1?!, &a2 >> a2?!) -<fun> b
 ) : stream_vt (b) // end of [stream_vt_map2_fun]
 fun{
 a1,a2:vt0p}{b:vt0p
-} stream_vt_map2_cloptr (
+} stream_vt_map2_cloptr
+(
   xs1: stream_vt (INV(a1))
 , xs2: stream_vt (INV(a2))
 , f: (&a1 >> a1?!, &a2 >> a2?!) -<cloptr> b

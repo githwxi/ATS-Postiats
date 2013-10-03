@@ -21,16 +21,16 @@ fi
 prog=`basename $0`
 
 case $prog in
-  patscc)
-    exec "$prefix/bin/$prog" "$@"
+  patsopt)
+    exec "$PATSHOME/bin/$prog" "$@"
     ;;
   *)
-    echo "This is a script for patscc."
-    echo "The script should be symbolically named as [patscc]."
+    echo "This is a script for patsopt."
+    echo "The script should be symbolically named as [patsopt]."
     exit 1
     ;;
 esac
 
 #
-# end of [patscc_env.sh.in]
+# end of [patsopt_env.sh.in]
 #

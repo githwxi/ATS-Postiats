@@ -34,27 +34,8 @@ bin_patscc: utl_atscc ; cp -f utils/atscc/patscc bin/patscc
 ccomp/atslib/lib/libatslib.a: ; make -C ccomp/atslib atslib
 
 ######
-#
-# integration with autoconf.
-#
-SRC_CONFIG_FILES := config.mk.in config.h.in
-BUILT_CONFIG_FILES := $(SRC_CONFIG_FILES:%.in=%)
-#
-configure: configure.ac $(SRC_CONFIG_FILES)
-	aclocal
-	automake --add-missing --foreign || true
-	autoconf
-	touch $(BUILT_CONFIG_FILES)
-#
-config.h.in: configure.ac; autoheader $<; touch $@
-#
-config.h: config.status; ./config.status $@; touch $@
-config.mk: config.status; ./config.status $@; touch $@
-config.status: configure; ./configure; touch $@
-#
-######
 
--include config.mk2
+-include config.mk
 
 ######
 #
@@ -93,7 +74,7 @@ install_files: \
   install_files_4 \
   install_files_5 \
 
-install_dirs: config.mk ; \
+install_dirs: ; \
   cd $(abs_top_srcdir) && \
   $(MKDIR_P) $(PATSLIBHOME2)/bin && \
   if [ ! -d $(bindir2) ] ; then $(MKDIR_P) $(bindir2) ; fi && \
@@ -108,13 +89,13 @@ install_files_0: install_dirs ; \
   done
 
 install_files_1: bin/patscc ; \
-  $(INSTALL) -T -m 755 $< $(bindir2)/patscc && echo $<
+  $(INSTALL) -T -m 755 $< $(PATSLIBHOME2)/bin/patscc && echo $<
 install_files_2: bin/patsopt ; \
-  $(INSTALL) -T -m 755 $< $(bindir2)/patsopt && echo $<
+  $(INSTALL) -T -m 755 $< $(PATSLIBHOME2)/bin/patsopt && echo $<
 install_files_3: bin/patscc_env.sh ; \
-  $(INSTALL) -T -m 755 $< $(PATSLIBHOME2)/bin/patscc
+  $(INSTALL) -T -m 755 $< $(bindir2)/patscc && echo $<
 install_files_4: bin/patsopt_env.sh ; \
-  $(INSTALL) -T -m 755 $< $(PATSLIBHOME2)/bin/patsopt
+  $(INSTALL) -T -m 755 $< $(bindir2)/patsopt && echo $<
 
 install_files_5: ; \
   for f in \
@@ -139,11 +120,21 @@ clean::
 
 cleanall:: clean
 
+cleanall:: ; $(RMF) config.h
+cleanall:: ; $(RMF) config.mk
+cleanall:: ; $(RMF) config.log
+cleanall:: ; $(RMF) config.status
+cleanall:: ; $(RMF) stamp-h1
+cleanall:: ; $(RMRF) autom4te.cache
+
 cleanall:: ; $(RMF) bin/patscc
 cleanall:: ; $(RMF) bin/patsopt
+cleanall:: ; $(RMF) bin/patscc_env.sh
+cleanall:: ; $(RMF) bin/patsopt_env.sh
 
 cleanall:: ; make -C src -f Makefile cleanall
 cleanall:: ; make -C src/CBOOT -f Makefile cleanall
+cleanall:: ; make -C utils/atscc -f Makefile cleanall
 
 cleanall:: ; $(RMF) ccomp/atslib/lib/*
 cleanall:: ; $(RMF) ccomp/atslib/lib64/*
