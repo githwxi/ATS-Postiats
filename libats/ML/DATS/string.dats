@@ -81,7 +81,15 @@ staload "libats/ML/SATS/string.sats"
 
 (* ****** ****** *)
 
-macdef castvwtp_trans = $UN.castvwtp0 // former name
+macdef
+castvwtp_trans = $UN.castvwtp0 // former name
+
+(* ****** ****** *)
+
+implement{
+} iota (int) =
+  $effmask_wrt(strptr2string(g0int2string_int(int)))
+// end of [iota]
 
 (* ****** ****** *)
 

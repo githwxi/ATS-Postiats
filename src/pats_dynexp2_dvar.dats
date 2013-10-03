@@ -377,65 +377,71 @@ d2var_ptr_viewat_make_none
 (* ****** ****** *)
 
 implement
+print_d2var (d2v) = fprint_d2var (stdout_ref, d2v)
+implement
+prerr_d2var (d2v) = fprint_d2var (stderr_ref, d2v)
+
+implement
 fprint_d2var (out, d2v) = let
   val () = $SYM.fprint_symbol (out, d2var_get_sym d2v)
-// (*
+//
   val () = fprint_string (out, "$")
   val () = $STMP.fprint_stamp (out, d2var_get_stamp d2v)
-// *)
-// (*
+//
   val () = fprint_string (out, "(")
   val () = fprint_int (out, d2var_get_level d2v)
   val () = fprint_string (out, ")")
-// *)
+//
 in
   // nothing
 end // end of [fprint_d2var]
 
-implement print_d2var (x) = fprint_d2var (stdout_ref, x)
-implement prerr_d2var (x) = fprint_d2var (stderr_ref, x)
-
 implement
 fprint_d2varlst
-  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_d2var)
+  (out, d2vs) = $UT.fprintlst (out, d2vs, ", ", fprint_d2var)
 // end of [fprint_d2varlst]
 
 (* ****** ****** *)
 
 implement
-fprint_d2vfin
-  (out, d2vfin) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
-in
-  case+ d2vfin of
-  | D2VFINnone () =>
-      prstr "D2VFINnone()"
-  | D2VFINsome (s2e) => {
-      val () = prstr "D2VFINsome("
-      val () = fprint_s2exp (out, s2e)
-      val () = prstr ")"
-    }
-  | D2VFINsome_lvar (s2e) => {
-      val () = prstr "D2VFINsome_lvar("
-      val () = fprint_s2exp (out, s2e)
-      val () = prstr ")"
-    }
-  | D2VFINsome_vbox (s2e) => {
-      val () = prstr "D2VFINsome_vbox("
-      val () = fprint_s2exp (out, s2e)
-      val () = prstr ")"
-    }
-  | D2VFINdone (d2vfin) => {
-      val () = prstr "D2VFINdone("
-      val () = fprint_d2vfin (out, d2vfin)
-      val () = prstr ")"
-    }
-end // end of [fprint_d2vfin]
-
-implement
 print_d2vfin (x) = fprint_d2vfin (stdout_ref, x)
 implement
 prerr_d2vfin (x) = fprint_d2vfin (stderr_ref, x)
+
+implement
+fprint_d2vfin
+  (out, d2vfin) = let
+//
+macdef
+prstr (str) = fprint_string (out, ,(str))
+//
+in
+//
+case+ d2vfin of
+| D2VFINnone () =>
+    prstr "D2VFINnone()"
+| D2VFINsome (s2e) => {
+    val () = prstr "D2VFINsome("
+    val () = fprint_s2exp (out, s2e)
+    val () = prstr ")"
+  }
+| D2VFINsome_lvar (s2e) => {
+    val () = prstr "D2VFINsome_lvar("
+    val () = fprint_s2exp (out, s2e)
+    val () = prstr ")"
+  }
+| D2VFINsome_vbox (s2e) => {
+    val () = prstr "D2VFINsome_vbox("
+    val () = fprint_s2exp (out, s2e)
+    val () = prstr ")"
+  }
+| D2VFINdone (d2vfin) => {
+    val () = prstr "D2VFINdone("
+    val () = fprint_d2vfin (out, d2vfin)
+    val () = prstr ")"
+  } (* end of [D2FINdone] *)
+//
+end // end of [fprint_d2vfin]
 
 (* ****** ****** *)
 

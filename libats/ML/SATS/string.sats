@@ -48,6 +48,11 @@ typedef NSH(a:type) = a // for commenting purpose
 
 (* ****** ****** *)
 
+fun{
+} iota (x: int):<> string
+
+(* ****** ****** *)
+
 fun string_copy (s: NSH(string)):<> string
 
 (* ****** ****** *)

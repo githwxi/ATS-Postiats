@@ -134,7 +134,8 @@ cleanall:: ; $(RMF) bin/patsopt_env.sh
 
 cleanall:: ; make -C src -f Makefile cleanall
 cleanall:: ; make -C src/CBOOT -f Makefile cleanall
-
+cleanall:: ; make -C utils/atscc cleanall
+ 
 cleanall:: ; $(RMF) ccomp/atslib/lib/*
 cleanall:: ; $(RMF) ccomp/atslib/lib64/*
 cleanall:: ; $(RMF) ccomp/atslib/output/*
