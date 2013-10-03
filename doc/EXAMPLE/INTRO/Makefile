@@ -46,6 +46,8 @@ all:: fcopy2
 all:: fib1
 all:: fib2
 all:: fibmem
+all:: fib_lazy
+all:: fib_llazy
 all:: gfact
 all:: hello
 all:: intecho
@@ -77,6 +79,8 @@ cleanall:: ; $(RMF) fcopy2
 cleanall:: ; $(RMF) fib1
 cleanall:: ; $(RMF) fib2
 cleanall:: ; $(RMF) fibmem
+cleanall:: ; $(RMF) fib_lazy
+cleanall:: ; $(RMF) fib_llazy
 cleanall:: ; $(RMF) gfact
 cleanall:: ; $(RMF) hello
 cleanall:: ; $(RMF) intecho
@@ -129,6 +133,11 @@ fcopy2: fcopy2.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< myatslib.dats
 fib1: fib1.dats ; $(PATSCC) -o $@ $<
 fib2: fib2.dats ; $(PATSCC) -o $@ $<
 fibmem: fibmem.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+
+######
+
+fib_lazy: fib_lazy.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+fib_llazy: fib_llazy.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 
 ######
 

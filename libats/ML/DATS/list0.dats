@@ -296,7 +296,7 @@ case+ xs of
 | list0_cons
     (x, xs) =>
   (
-    if i > 0 then loop (xs, i-1) else x
+    if i > 0 then loop<a> (xs, i-1) else x
   ) // end of [list0_cons]
 | list0_nil () => $raise ListSubscriptExn()
 //

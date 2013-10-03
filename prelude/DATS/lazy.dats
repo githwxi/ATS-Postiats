@@ -188,7 +188,7 @@ implement{a}
 stream_filter_fun (xs, p) = let
 //
 implement{a2}
-stream_filter$pred (x) = p ($UN.cast{a}(x))
+stream_filter$pred (x) = p($UN.cast{a}(x))
 //
 in
   stream_filter (xs)
@@ -198,7 +198,7 @@ implement{a}
 stream_filter_cloref (xs, p) = let
 //
 implement{a2}
-stream_filter$pred (x) = p ($UN.cast{a}(x))
+stream_filter$pred (x) = p($UN.cast{a}(x))
 //
 in
   stream_filter (xs)
@@ -230,10 +230,11 @@ stream_map_fun
   (xs, f) = let
 //
 implement
-stream_map$fopr<a><b> (x) = f (x)
+{a2}{b2}
+stream_map$fopr (x) = $UN.cast{b2}(f($UN.cast{a}(x)))
 //
 in
-  stream_map (xs)
+  stream_map<a><b> (xs)
 end // end of [stream_map_fun]
 
 implement
@@ -242,10 +243,11 @@ stream_map_cloref
   (xs, f) = let
 //
 implement
-stream_map$fopr<a><b> (x) = f (x)
+{a2}{b2}
+stream_map$fopr (x) = $UN.cast{b2}(f($UN.cast{a}(x)))
 //
 in
-  stream_map (xs)
+  stream_map<a><b> (xs)
 end // end of [stream_map_cloref]
 
 (* ****** ****** *)
@@ -259,8 +261,10 @@ in (* in of [local] *)
 implement
 {a1,a2}{b}
 stream_map2
-  (xs1, xs2) = $delay (
-//
+(
+  xs1, xs2
+) = $delay (
+(
 case+ !xs1 of
 | x1 :: xs1 => (
   case+ !xs2 of
@@ -274,7 +278,7 @@ case+ !xs1 of
   | stream_nil () => stream_nil ()
   ) // end of [::]
 | stream_nil () => stream_nil ()
-//
+) : stream_con(b)
 ) // end of [stream_map2]
 
 end // end of [local]
@@ -285,10 +289,12 @@ stream_map2_fun
   (xs1, xs2, f) = let
 //
 implement
-stream_map2$fopr<a1,a2><b> (x1, x2) = f (x1, x2)
+{a12,a22}{b2}
+stream_map2$fopr (x1, x2) =
+  $UN.cast{b2}(f($UN.cast{a1}(x1), $UN.cast{a2}(x2)))
 //
 in
-  stream_map2 (xs1, xs2)
+  stream_map2<a1,a2><b> (xs1, xs2)
 end // end of [stream_map2_fun]
 
 implement
@@ -297,10 +303,12 @@ stream_map2_cloref
   (xs1, xs2, f) = let
 //
 implement
-stream_map2$fopr<a1,a2><b> (x1, x2) = f (x1, x2)
+{a12,a22}{b2}
+stream_map2$fopr (x1, x2) =
+  $UN.cast{b2}(f($UN.cast{a1}(x1), $UN.cast{a2}(x2)))
 //
 in
-  stream_map2 (xs1, xs2)
+  stream_map2<a1,a2><b> (xs1, xs2)
 end // end of [stream_map2_cloref]
 
 (* ****** ****** *)
@@ -320,7 +328,7 @@ case+ !xs10 of
   case+ !xs20 of
   | x2 :: xs2 => let
       val sgn =
-        stream_merge$cmp (x1, x2)
+        stream_merge$cmp<a> (x1, x2)
       // end of [val]
     in
       if sgn <= 0 then
@@ -340,8 +348,9 @@ implement{a}
 stream_merge_fun
   (xs1, xs2, cmp) = let
 //
-implement
-stream_merge$cmp<a> (x1, x2) = cmp (x1, x2)
+implement{a2}
+stream_merge$cmp (x1, x2) =
+  cmp ($UN.cast{a}(x1), $UN.cast{a}(x2))
 //
 in
   stream_merge (xs1, xs2)
@@ -351,8 +360,9 @@ implement{a}
 stream_merge_cloref
   (xs1, xs2, cmp) = let
 //
-implement
-stream_merge$cmp<a> (x1, x2) = cmp (x1, x2)
+implement{a2}
+stream_merge$cmp (x1, x2) =
+  cmp ($UN.cast{a}(x1), $UN.cast{a}(x2))
 //
 in
   stream_merge (xs1, xs2)
