@@ -52,8 +52,30 @@ stream_vt_free (xs) = ~(xs)
 (* ****** ****** *)
 
 implement{a}
-stream_vt_foreach (xs) = let
-  var env: void = () in stream_vt_foreach_env<a><void> (xs, env)
+stream_vt_drop
+  (xs, n) = let
+in
+//
+if n > 0 then
+(
+case+ !xs of
+| ~stream_vt_cons
+    (_, xs) => stream_vt_drop (xs, n-1)
+| ~stream_vt_nil ((*void*)) => None_vt ()
+) else (
+  Some_vt{stream_vt(a)}(xs)
+) (* end of [if] *)
+//
+end // end of [stream_vt_drop]
+
+(* ****** ****** *)
+
+implement{a}
+stream_vt_foreach
+  (xs) = let
+  var env: void = ()
+in
+  stream_vt_foreach_env<a><void> (xs, env)
 end // end of [stream_vt_foreach]
 
 implement{a}{env}
@@ -221,6 +243,66 @@ stream_vt_filter_cloptr
 ) (* end of [stream_vt_filter_cloptr] *)
 
 end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fun{
+a:vt0p}{b:vt0p
+} stream_vt_map_con
+(
+  xs: stream_vt (a)
+) : stream_vt_con (b) = let
+  val xs_con = !xs
+in
+//
+case+ xs_con of
+| @stream_vt_cons (x, xs) => let
+    val y = stream_vt_map$fopr<a><b> (x)
+    val xs = xs
+    val ((*void*)) = free@ (xs_con)
+  in
+    stream_vt_cons{b}(y, stream_vt_map<a><b> (xs))
+  end (* end of [stream_vt_con] *)
+| ~stream_vt_nil ((*void*)) => stream_vt_nil ()
+//
+end // end of [stream_vt_map_con]
+
+in (* in of [local] *)
+
+implement
+{a}{b}(*tmp*)
+stream_vt_map (xs) = $ldelay (stream_vt_map_con<a><b> (xs), ~xs)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+{a}{b}(*tmp*)
+stream_vt_map_fun
+  (xs, f) = let
+//
+implement
+{a2}{b2}
+stream_vt_map$fopr (x) = let
+  prval () = __assert (x) where
+  {
+    extern praxi __assert (x: &a2 >> a2?!): void
+  }
+  val (
+    pf, fpf | p_x
+  ) = $UN.ptr0_vtake{a}(addr@x)
+  val res = $UN.castvwtp0{b2}(f(!p_x))
+  prval () = $UN.castview0{void}(@(fpf, pf))
+in
+  res
+end (* end of [stream_vt_map$fopr] *)
+//
+in
+  stream_vt_map<a><b> (xs)
+end // end of [stream_vt_map_fun]
 
 (* ****** ****** *)
 

@@ -49,6 +49,11 @@ where stream_vt (a:vt@ype) = lazy_vt (stream_vt_con(a))
 //
 #atscode_separator()
 
+vtypedef
+streamopt_vt (a:vt0p) = Option_vt(stream_vt(a))
+
+#atscode_separator()
+
 fun{a:vt0p}
 stream2list_vt
   (xs: stream_vt (INV(a))): List0_vt (a)
@@ -58,6 +63,13 @@ stream2list_vt
 
 fun{a:t0p}
 stream_vt_free (xs: stream_vt a):<!wrt> void
+
+#atscode_separator()
+
+fun{a:t0p}
+stream_vt_drop
+  (xs: stream_vt(INV(a)), n: intGte(0)): streamopt_vt(a)
+// end of [stream_vt_drop]
 
 #atscode_separator()
 

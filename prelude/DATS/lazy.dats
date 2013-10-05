@@ -212,7 +212,7 @@ implement
 {a}{b}
 stream_map
   (xs) = $delay (
-//
+(
 case+ !xs of
 | stream_cons
     (x, xs) => let
@@ -221,7 +221,7 @@ case+ !xs of
     stream_cons{b}(y, stream_map<a><b> (xs))
   end // end of [stream_cons]
 | stream_nil () => stream_nil ()
-//
+) : stream_con (b)
 ) // end of [stream_map]
 
 implement
