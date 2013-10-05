@@ -278,7 +278,7 @@ case+ !xs1 of
   | stream_nil () => stream_nil ()
   ) // end of [::]
 | stream_nil () => stream_nil ()
-) : stream_con(b)
+) : stream_con (b)
 ) // end of [stream_map2]
 
 end // end of [local]
@@ -323,6 +323,7 @@ implement{a}
 stream_merge
   (xs10, xs20) = $delay
 (
+(
 case+ !xs10 of
 | x1 :: xs1 => (
   case+ !xs20 of
@@ -340,6 +341,7 @@ case+ !xs10 of
   | stream_nil () => stream_cons{a}(x1, xs1)
   ) (* end of [::] *)
 | stream_nil () => !xs20
+) : stream_con (a)
 ) // end of [stream_merge]
 
 end // end of [local]
