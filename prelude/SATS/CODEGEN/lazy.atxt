@@ -114,26 +114,26 @@ stream_filter_cloref
 
 fun{
 a:t0p}{b:t0p
-} stream_map$fopr (x: a):<!laz> b
+} stream_map$fopr (x: a):<> b
 fun{
 a:t0p}{b:t0p
 } stream_map (xs: stream (INV(a))):<> stream (b)
 fun{
 a:t0p}{b:t0p
 } stream_map_fun
-  (xs: stream (INV(a)), f: (a) -<fun,!laz> b):<> stream (b)
+  (xs: stream (INV(a)), f: (a) -<fun> b):<> stream (b)
 // end of [stream_map_fun]
 fun{
 a:t0p}{b:t0p
 } stream_map_cloref
-  (xs: stream (INV(a)), f: (a) -<cloref,!laz> b):<> stream (b)
+  (xs: stream (INV(a)), f: (a) -<cloref> b):<> stream (b)
 // end of [stream_map_cloref]
 
 #atscode_separator()
 
 fun{
 a1,a2:t0p}{b:t0p
-} stream_map2$fopr (x1: a1, x2: a2):<!laz> b
+} stream_map2$fopr (x1: a1, x2: a2):<> b
 fun{
 a1,a2:t0p}{b:t0p
 } stream_map2
@@ -144,8 +144,7 @@ a1,a2:t0p}{b:t0p
 } stream_map2_fun
 (
   xs1: stream (INV(a1))
-, xs2: stream (INV(a2))
-, f: (a1, a2) -<fun,!laz> b
+, xs2: stream (INV(a2)), f: (a1, a2) -<fun> b
 ) :<> stream (b)
 // end of [stream_map2_fun]
 fun{
@@ -153,8 +152,7 @@ a1,a2:t0p}{b:t0p
 } stream_map2_cloref
 (
   xs1: stream (INV(a1))
-, xs2: stream (INV(a2))
-, f: (a1, a2) -<cloref,!laz> b
+, xs2: stream (INV(a2)), f: (a1, a2) -<cloref> b
 ) :<> stream (b)
 // end of [stream_map2_cloref]
 
