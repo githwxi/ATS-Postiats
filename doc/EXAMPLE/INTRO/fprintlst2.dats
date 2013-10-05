@@ -11,10 +11,31 @@ staload _ = "libats/ML/DATS/list0.dats"
 
 (* ****** ****** *)
 
-(*
-implement{a}
-fprint_list0_sep (out, xs, sep) = ()
-*)
+implement
+{x}{env}
+list_iforeach_env
+  (xs, env) = let
+//
+prval () = lemma_list_param (xs)
+//
+fun loop
+  {n:nat}
+  {i:int} .<n>. (
+  i: int i, xs: list (x, n), env: &env
+) : intBtwe(i,n+i) =
+  case+ xs of
+  | list_cons
+      (x, xs) => let
+      val () = list_iforeach$fwork<x><env> (i, x, env)
+    in
+      loop (succ(i), xs, env)
+    end // end of [list_cons]
+  | list_nil () => (i) // number of processed elements
+// end of [loop]
+//
+in
+  loop (0, xs, env)
+end // end of [list_iforeach_env]
 
 (* ****** ****** *)
 

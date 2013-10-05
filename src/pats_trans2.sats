@@ -92,6 +92,8 @@ datatype trans2err =
 //
   | T2E_d1ecl_tr_impdec of (d1ecl)
   | T2E_d1ecl_tr_overload of (d1ecl)
+  | T2E_d1ecl_tr_overload_def of (location)
+//
 // end of [trans2err]
 
 fun the_trans2errlst_add (x: trans2err): void

@@ -644,7 +644,7 @@ d2ecl_node =
   | D2Csymintr of ($SYN.i0delst)
   | D2Csymelim of ($SYN.i0delst) // for temporary use
   | D2Coverload of // symbol overloading
-      ($SYN.i0de, d2itmopt) // [None] indicates error
+      ($SYN.i0de, int(*pval*), d2itmopt) // [None] indicates error
     // end of [D2Coverload]
 //
 (*
@@ -1456,7 +1456,7 @@ fun d2ecl_symintr
 fun d2ecl_symelim
   (loc: location, ids: $SYN.i0delst): d2ecl
 fun d2ecl_overload
-  (loc: location, id: $SYN.i0de, opt: d2itmopt): d2ecl
+  (loc: location, id: $SYN.i0de, pval: int, opt: d2itmopt): d2ecl
 // end of [d2ecl_overload]
 
 (*

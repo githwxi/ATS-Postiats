@@ -142,7 +142,7 @@ case+ d2c0.d2ecl_node of
 //
 | D2Csymintr _ => d3ecl_none (loc0)
 | D2Csymelim _ => d3ecl_none (loc0)
-| D2Coverload (id, _) => d3ecl_none (loc0)
+| D2Coverload (id, _, _) => d3ecl_none (loc0)
 //
 | D2Csaspdec (d2c) => let
     val loc = d2c.s2aspdec_loc

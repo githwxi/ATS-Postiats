@@ -1029,13 +1029,18 @@ case+ x.d2ecl_node of
     val () = prstr "\n)"
   } // end of [D2Clist]
 //
-| D2Coverload (id, opt) => {
+| D2Coverload
+    (id, pval, opt) => {
     val () = prstr "D2Coverload("
-    val () = fprint_i0de (out, id)
-    val () = prstr ", "
-    val () = (case+ opt of
+    val (
+    ) = fprint_i0de (out, id)
+    val () = prstr "("
+    val () = fprint_int (out, pval)
+    val () = prstr "); "
+    val () = (
+      case+ opt of
       | Some d2i => fprint_d2itm (out, d2i)
-      | None () => fprint_string (out, "*ERROR*")
+      | None ((*void*)) => fprint_string (out, "*ERROR*")
     ) : void // end of [val]
     val () = prstr ")"
   } // end of [D2Coverload]

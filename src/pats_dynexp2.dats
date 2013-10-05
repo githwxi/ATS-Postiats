@@ -1075,7 +1075,9 @@ d2ecl_symelim
 
 implement
 d2ecl_overload
-  (loc, id, def) = d2ecl_make_node (loc, D2Coverload (id, def))
+(
+  loc, id, pval, def
+) = d2ecl_make_node (loc, D2Coverload (id, pval, def))
 // end of [d2ecl_overload]
 
 (* ****** ****** *)

@@ -1613,7 +1613,9 @@ ccompenv_push (env) = let
 //
   val CCOMPENV (!p) = env
 //
-  val () = p->ccompenv_markenvlst := MARKENVLSTmark (p->ccompenv_markenvlst)
+  val () = (
+    p->ccompenv_markenvlst := MARKENVLSTmark (p->ccompenv_markenvlst)
+  ) (* end of [val] *)
 //
   prval () = fold@ (env)
 //

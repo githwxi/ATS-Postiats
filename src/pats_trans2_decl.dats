@@ -140,34 +140,40 @@ in
 end // end of [symelim_tr]
 
 (* ****** ****** *)
-
+//
 extern
-fun overload_tr (
-  d1c0: d1ecl
-, id: i0de, dqid: dqi0de, pval: int
+fun overload_tr
+(
+  d1c0: d1ecl, id: i0de, dqid: dqi0de, pval: int
 ) : d2itmopt // end of [overload_tr]
+//
 extern
-fun overload_tr_def (
-  d1c0:d1ecl, id: i0de, pval: int, def: d2itm
-) : void // end of [overload_tr_def]
-extern
-fun overload_tr_d2eclist (d2cs: d2eclist): void
-
+fun overload_tr_def
+  (loc0: location, id: i0de, pval: int, def: d2itm): void
+// end of [overload_tr_def]
+//
+extern fun overload_tr_d2eclist (d2cs: d2eclist): void
+//
 (* ****** ****** *)
 
 implement
 overload_tr
-  (d1c0, id, dqid, pval) = let
+(
+  d1c0, id, dqid, pval
+) = let
+//
+val loc0 = d1c0.d1ecl_loc
 //
 (*
-  val () = {
-    val () = print "overload_tr: id = "
-    val () = $SYN.print_i0de (id)
-    val () = print_newline ()
-    val () = print "overload_tr: dqid = "
-    val () = $SYN.print_dqi0de (dqid)
-    val () = print_newline ();
-  } // end of [val]
+val () =
+{
+  val () = print "overload_tr: id = "
+  val () = $SYN.print_i0de (id)
+  val () = print_newline ()
+  val () = print "overload_tr: dqid = "
+  val () = $SYN.print_dqi0de (dqid)
+  val () = print_newline ();
+} (* end of [val] *)
 *)
 //
 fn auxerr (
@@ -184,26 +190,31 @@ in
   the_trans2errlst_add (T2E_d1ecl_tr_overload (d1c0))
 end (* end of [auxerr] *)
 //
-  val ans = 
-    the_d2expenv_find_qua (dqid.dqi0de_qua, dqid.dqi0de_sym)
-  // end of [val]
-  val ans = option_of_option_vt (ans)
-  val () = (case+ ans of
-    | Some (d2i) => overload_tr_def (d1c0, id, pval, d2i)
-    | None () => auxerr (d1c0, dqid)
-  ) // end of [val]
+val qua = dqid.dqi0de_qua
+and sym = dqid.dqi0de_sym
+val ans = the_d2expenv_find_qua (qua, sym)
+//
+val ans = option_of_option_vt (ans)
+val () = (
+  case+ ans of
+  | Some (d2i) =>
+      overload_tr_def (loc0, id, pval, d2i)
+  | None ((*void*)) => auxerr (d1c0, dqid)
+) (* end of [val] *)
+//
 in
   ans
 end // end of [overload_tr]
 
 implement
 overload_tr_def
-  (d1c0, id, pval, def) = let
+  (loc0, id, pval, def) = let
 //
   var err: int = 0
 //
-fn auxerr1 (
-  d1c0: d1ecl, id: i0de, err: &int
+fn auxerr1
+(
+  loc0: location, id: i0de, err: &int
 ) : void = let
   val () = err := err + 1
   val () = prerr_error2_loc (id.i0de_loc)
@@ -213,11 +224,12 @@ fn auxerr1 (
   val () = prerr "] should refer to a symbol but it does not."
   val () = prerr_newline ()
 in
-  the_trans2errlst_add (T2E_d1ecl_tr_overload (d1c0))
+  the_trans2errlst_add (T2E_d1ecl_tr_overload_def (loc0))
 end // end of [auxerr1]
 //
-fn auxerr2 (
-  d1c0: d1ecl, id: i0de, err: &int
+fn auxerr2
+(
+  loc0: location, id: i0de, err: &int
 ) : void = let
   val () = err := err + 1
   val () = prerr_error2_loc (id.i0de_loc)
@@ -227,7 +239,7 @@ fn auxerr2 (
   val () = prerr "] is unrecognized."
   val () = prerr_newline ()
 in
-  the_trans2errlst_add (T2E_d1ecl_tr_overload (d1c0))
+  the_trans2errlst_add (T2E_d1ecl_tr_overload_def (loc0))
 end // end of [auxerr2]
 //
 val sym = id.i0de_sym
@@ -238,18 +250,18 @@ val ans = ans where {
     | Some_vt _ => (fold@ ans; ans)
     | ~None_vt () => the_d2expenv_pervasive_find (sym)
   ) : d2itmopt_vt
-} // end of [val]
+} // end of [where] // end of [val]
 val d2pis = (
   case+ ans of
   | ~Some_vt d2i => (
     case+ d2i of
     | D2ITMsymdef (sym, d2pis) => d2pis
     | _ => let
-        val () = auxerr1 (d1c0, id, err) in list_nil ()
+        val () = auxerr1 (loc0, id, err) in list_nil ()
       end // end of [_]
     ) // end of [Some_vt]
   | ~None_vt () => let
-      val () = auxerr2 (d1c0, id, err) in list_nil ()
+      val () = auxerr2 (loc0, id, err) in list_nil ()
     end // end of [None_vt]
 ) : d2pitmlst // end of [val]
 (*
@@ -1779,6 +1791,41 @@ end // end of [s1taload_tr]
 (* ****** ****** *)
 
 implement
+overload_tr_d2eclist
+  (d2cs) = let
+in
+//
+case+ d2cs of
+| list_nil ((*void*)) => ()
+| list_cons (d2c, d2cs) => let
+    val () = (
+      case+ d2c.d2ecl_node of
+//
+      | D2Csymintr ids => symintr_tr (ids)
+(*
+      | D2Csymelim ids => symelim_tr (ids) // HX: is this really needed?
+*)
+      | D2Coverload
+          (id, pval, opt) => let
+          val loc = d2c.d2ecl_loc in
+          case+ opt of
+          | Some (d2i) => overload_tr_def (loc, id, pval, d2i) | None () => ()
+        end (* end of [D2Coverload] *)
+//
+      | D2Cinclude (d2cs2) => overload_tr_d2eclist (d2cs2)
+//
+      | _ (*ignored*) => ()
+//
+    ) : void // end of [val]
+  in
+    overload_tr_d2eclist (d2cs)
+  end // end of [list_cons]
+//
+end // end of [overload_tr_d2eclist]
+
+(* ****** ****** *)
+
+implement
 d1ecl_tr (d1c0) = let
   val loc0 = d1c0.d1ecl_loc
 (*
@@ -1839,7 +1886,7 @@ case+ d1c0.d1ecl_node of
       overload_tr (d1c0, id, dqid, pval)
     // end of [val]
   in
-    d2ecl_overload (loc0, id, d2iopt)
+    d2ecl_overload (loc0, id, pval, d2iopt)
   end // end of [D1Coverload]
 //
 | D1Ce1xpdef (id, def) => let
@@ -2028,6 +2075,8 @@ case+ d1c0.d1ecl_node of
     val fenv =
       s1taload_tr (loc0, idopt, fil, loadflag, d1cs, loaded)
     // end of [val]
+    val d2cs = filenv_get_d2eclist (fenv)
+    val ((*void*)) = overload_tr_d2eclist (d2cs)
   in
     d2ecl_staload (loc0, idopt, fil, loadflag, fenv, loaded)
   end // end of [D1Cstaload]
