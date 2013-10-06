@@ -69,6 +69,14 @@ vtypedef canvas2d0 = [l:agez] canvas2d (l)
 vtypedef canvas2d1 = [l:addr | l > null] canvas2d (l)
 
 (* ****** ****** *)
+//
+fun{
+} mydraw_get0_canvas2d (
+) : [l:agz] vttakeout0 (canvas2d (l))
+//
+fun{} mydraw_get1_canvas2d (): canvas2d1
+//
+(* ****** ****** *)
 
 fun
 canvas2d_make (id: string): canvas2d0 = "mac#%"
@@ -92,9 +100,24 @@ fun
 canvas2d_closePath (!canvas2d1): void = "mac#%"
 
 (* ****** ****** *)
+//
+fun canvas2d_moveTo
+  (!canvas2d1, x: double, y: double): void = "mac#%"
+//
+fun canvas2d_lineTo
+  (!canvas2d1, x: double, y: double): void = "mac#%"
+//
+(* ****** ****** *)
 
-fun canvas2d_moveTo (!canvas2d1): void = "mac#%"
-fun canvas2d_lineTo (!canvas2d1): void = "mac#%"
+fun
+canvas2d_rect
+(
+  !canvas2d1
+, xul: double
+, yul: double
+, width: double
+, height: double
+) : void = "mac#%"
 
 (* ****** ****** *)
 
@@ -138,4 +161,4 @@ canvas2d_restore{l:agz}
 //
 (* ****** ****** *)
 
-(* end of [mydraw_html5_canvas_2d.sats] *)
+(* end of [mydraw_html5_canvas2d.sats] *)
