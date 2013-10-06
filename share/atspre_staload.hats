@@ -32,11 +32,6 @@ staload _ = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-staload _ = "prelude/DATS/lazy.dats"
-staload _ = "prelude/DATS/lazy_vt.dats"
-
-(* ****** ****** *)
-
 staload _ = "prelude/DATS/filebas.dats"
 staload _ = "prelude/DATS/intrange.dats"
 
@@ -57,6 +52,8 @@ staload _ = "prelude/DATS/list_vt_quicksort.dats"
 staload _ = "prelude/DATS/option.dats"
 staload _ = "prelude/DATS/option_vt.dats"
 //
+(* ****** ****** *)
+//
 staload _ = "prelude/DATS/array.dats"
 staload _ = "prelude/DATS/array_bsearch.dats"
 staload _ = "prelude/DATS/array_quicksort.dats"
@@ -64,9 +61,16 @@ staload _ = "prelude/DATS/array_quicksort.dats"
 staload _ = "prelude/DATS/arrayptr.dats"
 staload _ = "prelude/DATS/arrayref.dats"
 //
+(* ****** ****** *)
+//
 staload _ = "prelude/DATS/matrix.dats"
 staload _ = "prelude/DATS/matrixptr.dats"
 staload _ = "prelude/DATS/matrixref.dats"
+//
+(* ****** ****** *)
+//
+staload _ = "prelude/DATS/stream.dats"
+staload _ = "prelude/DATS/stream_vt.dats"
 //
 (* ****** ****** *)
 

@@ -37,7 +37,7 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [lazy.dats] starts!\n"
+#print "Loading [stream.dats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
@@ -373,9 +373,9 @@ end // end of [stream_merge_cloref]
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [lazy.dats] finishes!\n"
+#print "Loading [stream.dats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-(* end of [lazy.dats] *)
+(* end of [stream.dats] *)

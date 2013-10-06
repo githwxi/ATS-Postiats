@@ -200,21 +200,21 @@ clean:: ; $(RMF) prelude_matrixref_dats.c
 cleanall:: ; $(RMF) prelude_matrixref.exe
 
 
-all:: prelude_lazy
-prelude_lazy: prelude_lazy.exe
-prelude_lazy.exe: prelude_lazy_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-prelude_lazy_dats.c: prelude_lazy.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_lazy_dats.c --dynamic prelude_lazy.dats
-clean:: ; $(RMF) prelude_lazy_dats.o
-clean:: ; $(RMF) prelude_lazy_dats.c
-cleanall:: ; $(RMF) prelude_lazy.exe
+all:: prelude_stream
+prelude_stream: prelude_stream.exe
+prelude_stream.exe: prelude_stream_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+prelude_stream_dats.c: prelude_stream.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_stream_dats.c --dynamic prelude_stream.dats
+clean:: ; $(RMF) prelude_stream_dats.o
+clean:: ; $(RMF) prelude_stream_dats.c
+cleanall:: ; $(RMF) prelude_stream.exe
 
-all:: prelude_lazy_vt
-prelude_lazy_vt: prelude_lazy_vt.exe
-prelude_lazy_vt.exe: prelude_lazy_vt_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-prelude_lazy_vt_dats.c: prelude_lazy_vt.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_lazy_vt_dats.c --dynamic prelude_lazy_vt.dats
-clean:: ; $(RMF) prelude_lazy_vt_dats.o
-clean:: ; $(RMF) prelude_lazy_vt_dats.c
-cleanall:: ; $(RMF) prelude_lazy_vt.exe
+all:: prelude_stream_vt
+prelude_stream_vt: prelude_stream_vt.exe
+prelude_stream_vt.exe: prelude_stream_vt_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+prelude_stream_vt_dats.c: prelude_stream_vt.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_stream_vt_dats.c --dynamic prelude_stream_vt.dats
+clean:: ; $(RMF) prelude_stream_vt_dats.o
+clean:: ; $(RMF) prelude_stream_vt_dats.c
+cleanall:: ; $(RMF) prelude_stream_vt.exe
 
 
 all:: prelude_gprint

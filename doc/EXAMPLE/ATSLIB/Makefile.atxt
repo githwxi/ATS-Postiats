@@ -116,8 +116,8 @@ RMF=rm -f
 #make2_entry("prelude_matrixptr", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("prelude_matrixref", "-DATS_MEMALLOC_LIBC", "")
 
-#make2_entry("prelude_lazy", "-DATS_MEMALLOC_LIBC", "")
-#make2_entry("prelude_lazy_vt", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("prelude_stream", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("prelude_stream_vt", "-DATS_MEMALLOC_LIBC", "")
 
 #make_entry("prelude_gprint")
 

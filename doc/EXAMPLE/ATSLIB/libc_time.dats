@@ -14,7 +14,6 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 staload
 TYPES = "libc/sys/SATS/types.sats"
-overload = with $TYPES.eq_time_time
 
 (* ****** ****** *)
 

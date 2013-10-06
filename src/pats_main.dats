@@ -701,9 +701,6 @@ val () = pervasive_load (PATSHOME, "prelude/SATS/reference.sats")
 val () = pervasive_load (PATSHOME, "prelude/SATS/filebas.sats")
 val () = pervasive_load (PATSHOME, "prelude/SATS/intrange.sats")
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/lazy.sats")
-val () = pervasive_load (PATSHOME, "prelude/SATS/lazy_vt.sats")
-//
 val () = pervasive_load (PATSHOME, "prelude/SATS/gorder.sats")
 val () = pervasive_load (PATSHOME, "prelude/SATS/gnumber.sats")
 //
@@ -725,6 +722,9 @@ val () = pervasive_load (PATSHOME, "prelude/SATS/arrayref.sats")
 val () = pervasive_load (PATSHOME, "prelude/SATS/matrix.sats")
 val () = pervasive_load (PATSHOME, "prelude/SATS/matrixptr.sats")
 val () = pervasive_load (PATSHOME, "prelude/SATS/matrixref.sats")
+//
+val () = pervasive_load (PATSHOME, "prelude/SATS/stream.sats")
+val () = pervasive_load (PATSHOME, "prelude/SATS/stream_vt.sats")
 //
 val () = pervasive_load (PATSHOME, "prelude/SATS/gprint.sats")
 //

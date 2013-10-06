@@ -19,8 +19,6 @@
 #include
 "share/atspre_staload.hats"
 //
-staload "prelude/DATS/lazy_vt.dats"
-//
 (* ****** ****** *)
 
 #define :: stream_vt_cons

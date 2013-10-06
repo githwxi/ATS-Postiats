@@ -1,5 +1,5 @@
 (*
-** for testing [prelude/lazy]
+** for testing [prelude/stream]
 *)
 
 (* ****** ****** *)
@@ -50,4 +50,4 @@ implement main0 () = ()
 
 (* ****** ****** *)
 
-(* end of [prelude_lazy.dats] *)
+(* end of [prelude_stream.dats] *)

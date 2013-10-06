@@ -3,7 +3,7 @@
 #if (ATSCODEFORMAT == "txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"lazy_vt.sats"
+val _thisfilename = atext_strcst"stream_vt.sats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
@@ -14,7 +14,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 (*
 ** Source:
-** $PATSHOME/prelude/SATS/CODEGEN/lazy_vt.atxt
+** $PATSHOME/prelude/SATS/CODEGEN/stream_vt.atxt
 ** Time of generation: #timestamp()
 *)
 
@@ -126,31 +126,31 @@ a:vt0p}{b:vt0p
 #atscode_separator()
 //
 fun{
-a1,a2:vt0p}{b:vt0p
+a1,a2:t0p}{b:vt0p
 } stream_vt_map2$fopr
-  (x1: &a1 >> a1?!, x2: &a2 >> a2?!): b
+  (x1: &a1 >> _, x2: &a2 >> _): b
 fun{
-a1,a2:vt0p}{b:vt0p
+a1,a2:t0p}{b:vt0p
 } stream_vt_map2 (
   xs1: stream_vt (INV(a1))
 , xs2: stream_vt (INV(a2))
 ) : stream_vt (b) // end of [stream_vt_map2]
 //
 fun{
-a1,a2:vt0p}{b:vt0p
+a1,a2:t0p}{b:vt0p
 } stream_vt_map2_fun
 (
   xs1: stream_vt (INV(a1))
 , xs2: stream_vt (INV(a2))
-, f: (&a1 >> a1?!, &a2 >> a2?!) -<fun> b
+, f: (&a1 >> _, &a2 >> _) -<fun> b
 ) : stream_vt (b) // end of [stream_vt_map2_fun]
 fun{
-a1,a2:vt0p}{b:vt0p
+a1,a2:t0p}{b:vt0p
 } stream_vt_map2_cloptr
 (
   xs1: stream_vt (INV(a1))
 , xs2: stream_vt (INV(a2))
-, f: (&a1 >> a1?!, &a2 >> a2?!) -<cloptr> b
+, f: (&a1 >> _, &a2 >> _) -<cloptr> b
 ) : stream_vt (b) // end of [stream_vt_map2_cloptr]
 //
 #atscode_separator()
@@ -158,5 +158,5 @@ a1,a2:vt0p}{b:vt0p
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "lazy_vt_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "stream_vt_atxt.txt")
 %}\

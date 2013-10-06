@@ -3,7 +3,7 @@
 #if (ATSCODEFORMAT == "txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"lazy.sats"
+val _thisfilename = atext_strcst"stream.sats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
@@ -14,7 +14,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 (*
 ** Source:
-** $PATSHOME/prelude/SATS/CODEGEN/lazy.atxt
+** $PATSHOME/prelude/SATS/CODEGEN/stream.atxt
 ** Time of generation: #timestamp()
 *)
 
@@ -179,5 +179,5 @@ stream_merge_cloref
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "lazy_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "stream_atxt.txt")
 %}\

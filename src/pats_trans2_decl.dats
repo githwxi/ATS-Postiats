@@ -2072,11 +2072,16 @@ case+ d1c0.d1ecl_node of
     idopt, fil, loadflag, d1cs
   ) => let
     var loaded: int
+//
     val fenv =
-      s1taload_tr (loc0, idopt, fil, loadflag, d1cs, loaded)
-    // end of [val]
-    val d2cs = filenv_get_d2eclist (fenv)
-    val ((*void*)) = overload_tr_d2eclist (d2cs)
+    s1taload_tr
+      (loc0, idopt, fil, loadflag, d1cs, loaded)
+//
+    val () = {
+      val d2cs = filenv_get_d2eclist (fenv)
+      val ((*void*)) = overload_tr_d2eclist (d2cs)
+    } (* end of [if] *)
+//
   in
     d2ecl_staload (loc0, idopt, fil, loadflag, fenv, loaded)
   end // end of [D1Cstaload]

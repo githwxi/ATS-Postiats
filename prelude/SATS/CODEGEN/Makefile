@@ -146,25 +146,6 @@ clean:: ; $(RMF) strptr_atxt.exe
 cleanall:: ; $(RMF) strptr.sats
 
 
-all:: lazy.sats
-lazy.sats: lazy_atxt.exe ; ./$< > $@
-lazy_atxt.exe: lazy_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ lazy_atxt.dats -latsdoc
-lazy_atxt.dats: lazy.atxt
-	$(ATSDOC) --outcode $@ -i lazy.atxt > lazy_atxt.txt
-clean:: ; $(RMF) lazy_atxt.exe
-cleanall:: ; $(RMF) lazy.sats
-
-all:: lazy_vt.sats
-lazy_vt.sats: lazy_vt_atxt.exe ; ./$< > $@
-lazy_vt_atxt.exe: lazy_vt_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ lazy_vt_atxt.dats -latsdoc
-lazy_vt_atxt.dats: lazy_vt.atxt
-	$(ATSDOC) --outcode $@ -i lazy_vt.atxt > lazy_vt_atxt.txt
-clean:: ; $(RMF) lazy_vt_atxt.exe
-cleanall:: ; $(RMF) lazy_vt.sats
-
-
 all:: filebas.sats
 filebas.sats: filebas_atxt.exe ; ./$< > $@
 filebas_atxt.exe: filebas_atxt.dats
@@ -314,6 +295,25 @@ matrixref_atxt.dats: matrixref.atxt
 	$(ATSDOC) --outcode $@ -i matrixref.atxt > matrixref_atxt.txt
 clean:: ; $(RMF) matrixref_atxt.exe
 cleanall:: ; $(RMF) matrixref.sats
+
+
+all:: stream.sats
+stream.sats: stream_atxt.exe ; ./$< > $@
+stream_atxt.exe: stream_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ stream_atxt.dats -latsdoc
+stream_atxt.dats: stream.atxt
+	$(ATSDOC) --outcode $@ -i stream.atxt > stream_atxt.txt
+clean:: ; $(RMF) stream_atxt.exe
+cleanall:: ; $(RMF) stream.sats
+
+all:: stream_vt.sats
+stream_vt.sats: stream_vt_atxt.exe ; ./$< > $@
+stream_vt_atxt.exe: stream_vt_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ stream_vt_atxt.dats -latsdoc
+stream_vt_atxt.dats: stream_vt.atxt
+	$(ATSDOC) --outcode $@ -i stream_vt.atxt > stream_vt_atxt.txt
+clean:: ; $(RMF) stream_vt_atxt.exe
+cleanall:: ; $(RMF) stream_vt.sats
 
 
 all:: gprint.sats
