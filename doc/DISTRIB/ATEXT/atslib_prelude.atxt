@@ -139,9 +139,6 @@ The ATSLIB/prelude library\
 #packfilename("SATS/filebas.sats")
 #packfilename("SATS/intrange.sats")
 
-#packfilename("SATS/lazy.sats")
-#packfilename("SATS/lazy_vt.sats")
-
 (* ****** ****** *)
 
 #packfilename("SATS/gorder.sats")
@@ -167,6 +164,8 @@ The ATSLIB/prelude library\
 #packfilename("SATS/matrix.sats")
 #packfilename("SATS/matrixptr.sats")
 #packfilename("SATS/matrixref.sats")
+#packfilename("SATS/stream.sats")
+#packfilename("SATS/stream_vt.sats")
 
 #packfilename("SATS/gprint.sats")
 
@@ -231,9 +230,6 @@ The ATSLIB/prelude library\
 #packfilename("DATS/filebas.dats")
 #packfilename("DATS/intrange.dats")
 
-#packfilename("DATS/lazy.dats")
-#packfilename("DATS/lazy_vt.dats")
-
 (* ****** ****** *)
 
 #packfilename("DATS/gorder.dats")
@@ -277,6 +273,9 @@ The ATSLIB/prelude library\
 #packfilename("DATS/matrix.dats")
 #packfilename("DATS/matrixptr.dats")
 #packfilename("DATS/matrixref.dats")
+
+#packfilename("DATS/stream.dats")
+#packfilename("DATS/stream_vt.dats")
 
 #packfilename("DATS/gprint.dats")
 

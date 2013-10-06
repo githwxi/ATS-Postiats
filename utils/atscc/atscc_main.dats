@@ -751,7 +751,7 @@ local
 #define CNUL '\0'
 #define SPACE " "
 
-overload + with add_ptr_bsz
+overload + with add_ptr0_bsz of 10
 
 (* ****** ****** *)
 
