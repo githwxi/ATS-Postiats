@@ -145,6 +145,11 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
+#packfilename("fib_lazy.dats")
+#packfilename("fib_llazy.dats")
+
+(* ****** ****** *)
+
 #packfilename("gfact.dats")
 
 (* ****** ****** *)

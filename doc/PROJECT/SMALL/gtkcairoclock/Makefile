@@ -46,6 +46,13 @@ cleanall:: ; $(RMF) myclock3
 
 ######
 
+all:: myclock4
+myclock4: myclock4.dats
+	$(PATSCC) -I$(PATSHOMERELOCQ)/contrib -o $@ $< $(GTKFLAGS)
+cleanall:: ; $(RMF) myclock4
+
+######
+
 all:: mytriangle
 mytriangle: mytriangle.dats
 	$(PATSCC) -I$(PATSHOMERELOCQ)/contrib -o $@ $< $(GTKFLAGS)
