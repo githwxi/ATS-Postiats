@@ -71,8 +71,9 @@ fun mydraw_clock
 
 (* ****** ****** *)
 
-fn draw_hand{l:agz}
-(
+fun
+draw_hand
+  {l:agz} (
   cr: !cr l, bot: dbl, top: dbl, len: dbl
 ) : void = let
   val () = cairo_move_to (cr, 0.0, bot/2)
@@ -87,7 +88,7 @@ end // end of [draw_hand]
 (* ****** ****** *)
 
 fun
-drop_number
+draw_number
   {l:agz} (
   cr: !cr l
 , str: string
@@ -111,7 +112,9 @@ drop_number
 //
   val () = cairo_restore (pf | cr)
 //
-} (* end of [drop_number] *)
+} (* end of [draw_number] *)
+
+(* ****** ****** *)
 
 fun
 draw_clock
@@ -144,18 +147,18 @@ val () = cairo_set_font_size (cr, 8.0)
 //
 val () = cairo_set_source_rgb (cr, 0.0, 0.0, 0.0)
 //
-val () = drop_number(cr,  "1", rad,  2*PI/6)
-val () = drop_number(cr,  "2", rad,  1*PI/6)
-val () = drop_number(cr,  "3", rad,  0*PI/6)
-val () = drop_number(cr,  "4", rad, ~1*PI/6)
-val () = drop_number(cr,  "5", rad, ~2*PI/6)
-val () = drop_number(cr,  "6", rad, ~3*PI/6)
-val () = drop_number(cr,  "7", rad, ~4*PI/6)
-val () = drop_number(cr,  "8", rad, ~5*PI/6)
-val () = drop_number(cr,  "9", rad,  6*PI/6)
-val () = drop_number(cr, "10", rad,  5*PI/6)
-val () = drop_number(cr, "11", rad,  4*PI/6)
-val () = drop_number(cr, "12", rad,  3*PI/6)
+val () = draw_number(cr,  "1", rad,  2*PI/6)
+val () = draw_number(cr,  "2", rad,  1*PI/6)
+val () = draw_number(cr,  "3", rad,  0*PI/6)
+val () = draw_number(cr,  "4", rad, ~1*PI/6)
+val () = draw_number(cr,  "5", rad, ~2*PI/6)
+val () = draw_number(cr,  "6", rad, ~3*PI/6)
+val () = draw_number(cr,  "7", rad, ~4*PI/6)
+val () = draw_number(cr,  "8", rad, ~5*PI/6)
+val () = draw_number(cr,  "9", rad,  6*PI/6)
+val () = draw_number(cr, "10", rad,  5*PI/6)
+val () = draw_number(cr, "11", rad,  4*PI/6)
+val () = draw_number(cr, "12", rad,  3*PI/6)
 //
 val h_l = 0.60 * rad
 val (pf | ()) = cairo_save (cr)

@@ -49,7 +49,7 @@ var LibraryClock = {
         Clock.contexts[ptr].translate(x, y);
     },
     scale: function(ptr, x, y) {
-        Clock.contexts[ptr].translate(x, y);
+        Clock.contexts[ptr].scale(x, y);
     },
     save: function (ptr) {
         Clock.contexts[ptr].save();
