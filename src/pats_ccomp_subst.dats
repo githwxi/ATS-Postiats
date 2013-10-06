@@ -486,8 +486,10 @@ fun funent_funlablst_update
 implement
 funent_funlablst_update (env, fls) = let
 //
+(*
 val () = fprintln!
   (stdout_ref, "funent_funlablst_update: fls = ", fls)
+*)
 //
 fun aux
 (
@@ -498,16 +500,16 @@ in
 //
 case+ opt of
 | Some (d2v) => let
-//
+(*
     val () = println! ("funent_funlablst_update: aux: fl = ", fl)
     val () = println! ("funent_funlablst_update: aux: d2v = ", d2v)
     val loc = d2var_get_loc (d2v)
     val () = println! ("funent_funlablst_update: aux: d2v.loc = ", loc)
-//
+*)
     val-~Some_vt(pmv) = ccompenv_find_vbindmapall (env, d2v)
-//
+(*
     val () = println! ("funent_funlablst_update: aux: pmv = ", pmv)
-//
+*)
   in
     case+ pmv.primval_node of
     | PMVfunlab (fl) => fl | PMVcfunlab (knd, fl) => fl | _ => fl
