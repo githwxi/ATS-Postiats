@@ -60,13 +60,22 @@ ATS_PACKNAME "ATSCNTRB.libats-hwxi.teaching.mydraw"
 //
 (* ****** ****** *)
 
-absvtype canvas2d_vtype (l:addr) = ptr (l)
+absvtype
+canvas2d_vtype (l:addr) = ptr (l)
 
 (* ****** ****** *)
-
-vtypedef canvas2d (l:addr) = canvas2d_vtype (l)
+//
+vtypedef
+canvas2d (l:addr) = canvas2d_vtype (l)
+//
 vtypedef canvas2d0 = [l:agez] canvas2d (l)
 vtypedef canvas2d1 = [l:addr | l > null] canvas2d (l)
+//
+(* ****** ****** *)
+
+castfn
+canvas2d2ptr {l:addr} (!canvas2d (l)):<> ptr (l)
+overload ptrcast with canvas2d2ptr
 
 (* ****** ****** *)
 //
@@ -130,12 +139,16 @@ canvas2d_arc
 , rad: double
 , angle_beg: double
 , angle_end: double
-, anticlockwise : bool
+, counterclockwise: bool
 ) : void = "mac#%"
 
 (* ****** ****** *)
 
 fun canvas2d_fill (!canvas2d1): void = "mac#%"
+fun canvas2d_fillStyle (!canvas2d1, style: string): void = "mac#%"
+
+(* ****** ****** *)
+
 fun canvas2d_stroke (!canvas2d1): void = "mac#%"
 
 (* ****** ****** *)

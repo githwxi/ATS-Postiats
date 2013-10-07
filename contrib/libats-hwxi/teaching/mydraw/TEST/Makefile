@@ -23,19 +23,23 @@ XRCFLAGS=`pkg-config cairo --cflags`
 
 ######
 
-all:: test01
-test01: test01.dats ; \
+all:: test01-cairo
+test01-cairo: test01-cairo.dats ; \
   $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
-cleanall:: ; $(RMF) test01
-cleanall:: ; $(RMF) test01.png
+cleanall:: ; $(RMF) test01-cairo test01.png
 
 ######
 
-all:: test02
-test02: test02.dats ; \
+all:: test01-canvas2d
+test01-canvas2d: test01-canvas2d.dats ; \
+  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -ccats $<
+
+######
+
+all:: test02-cairo
+test02-cairo: test02-cairo.dats ; \
   $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
-cleanall:: ; $(RMF) test02
-cleanall:: ; $(RMF) test02.png
+cleanall:: ; $(RMF) test02-cairo test02.png
 
 ######
 
