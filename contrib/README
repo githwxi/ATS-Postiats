@@ -10,6 +10,10 @@ Authoremail: gmhwxiATgmailDOTcom
 
 HX-2013-10:
 
+In order to make ATS a truly useful language/tool for developing software,
+we urgently need people to contribute to the development of ATS. I drafted
+some guidelines as follows for those interested in doing so.
+
 I have set up a project at:
 
 https://sourceforge.net/projects/ats2-lang-contrib/
@@ -24,7 +28,8 @@ those trying to learn ATS and also for those wanting to make effective use
 of ATS in general practice of programming.
 
 I have the right to not accept a particular contribution made to
-ATS2-contrib due to issues that may or may not be explicitly specified.
+ATS2-contrib due to issues or concerns that may or may not be explicitly
+specified.
 
 ######
 #
@@ -55,13 +60,30 @@ HATS: This directory is for storing hats files, which are often some files
 that need to be included in the previously mentioned dats files. Note that
 the need for this directory is less common.
 
+When you try to create an API in ATS for some external package, say, XYZ,
+the single most important thing is to make sure that the abstract types are
+properly formed. There is really no need to handle every single function in
+the package XYZ as a reasonable user should be able to handle a function he
+or she needs once the related abstract types are given.  In most cases, XYZ
+is probably written in C and calling a function in C in ATS is
+straightforward.
+
+To do a good job, you in general need to make concrete use of the API you
+create. There are already plenty examples that you can study and possibly
+follow. Also, please feel free to ask questions on the QA forum for ATS-users
+or send them to the ATS-user's mailing-list.
+
 ######
 #
 # Licensing your contribution
 #
 ######
 
-You own the copyright of your code and you can choose whatever licences
-you prefer.
+You own the copyright of your code and you can choose whatever licences you
+prefer. However, as is stated above, I have the right to not accept a
+particular contribution made to ATS2-contrib due to issues or concerns that
+may or may not be explicitly specified.
 
-###### endl of [README] ######
+######
+
+###### end of [README] ######

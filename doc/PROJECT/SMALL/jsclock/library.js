@@ -75,28 +75,30 @@ var LibraryClock = {
     atspre_g0float_mod_double: function (a, m) {
         return a % m;
     },
+
     request_animation_frame_none: function (ptr) {
         var func = Runtime.getFuncWrapper(ptr, 'vi');
 
-        var requestAnimationFrame = window.requestAnimationFrame ||
+        var window_requestAnimationFrame =
+	    window.requestAnimationFrame ||
             window.mozRequestAnimationFrame ||
             window.webkitRequestAnimationFrame ||
             window.msRequestAnimationFrame;
 
-        window.requestAnimationFrame(func);
+        window_requestAnimationFrame(func);
     },
     request_animation_frame_env: function (ptr, env) {
         var func = Runtime.getFuncWrapper(ptr, 'vii');
 
-        var requestAnimationFrame = window.requestAnimationFrame ||
+        var window_requestAnimationFrame =
+	    window.requestAnimationFrame ||
             window.mozRequestAnimationFrame ||
             window.webkitRequestAnimationFrame ||
             window.msRequestAnimationFrame;
 
-        window.requestAnimationFrame(function (time) {
-            func(time, env);
-        });
+        window_requestAnimationFrame(function (time) { func(time, env); });
     },
+
     wallclock_now: function (ptr) {
         /* 
            Assuming that the layout of a struct in memory isn't
