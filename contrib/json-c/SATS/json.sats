@@ -22,7 +22,7 @@
 
 (*
 **
-** Author Hongwei Xi
+** Author: Hongwei Xi
 ** Authoremail: gmhwxi AT gmail DOT com
 ** Start Time: May, 2013
 **
