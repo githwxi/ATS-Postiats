@@ -37,6 +37,10 @@
 
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "./../SATS/mydraw.sats"
 staload "./../SATS/mydraw_cairo.sats"
 
@@ -215,20 +219,6 @@ end // end of [mydraw_circle]
 (* ****** ****** *)
 
 implement{
-} mydraw_set_source_color
-  (clr) = let
-  val (
-    fpf | cr
-  ) = mydraw_get0_cairo<> ()
-  val () = cairo_set_source_rgb (cr, clr.r, clr.g, clr.b)
-  prval ((*void*)) = fpf (cr)
-in
-  // nothing
-end // end of [mydraw_set_source_color]
-
-(* ****** ****** *)
-
-implement{
 } mydraw_fill () = let
   val (
     fpf | cr
@@ -240,6 +230,32 @@ in
 end // end of [mydraw_fill]
 
 implement{
+} mydraw_fill_set_rgb
+  (r, g, b) = let
+  val (
+    fpf | cr
+  ) = mydraw_get0_cairo<> ()
+  val () = cairo_set_source_rgb (cr, r, g, b)
+  prval ((*void*)) = fpf (cr)
+in
+  // nothing
+end // end of [mydraw_fill_set_rgb]
+
+implement{
+} mydraw_fill_set_rgba
+  (r, g, b, a) = let
+  val (
+    fpf | cr
+  ) = mydraw_get0_cairo<> ()
+  val () = cairo_set_source_rgba (cr, r, g, b, a)
+  prval ((*void*)) = fpf (cr)
+in
+  // nothing
+end // end of [mydraw_fill_set_rgba]
+
+(* ****** ****** *)
+
+implement{
 } mydraw_stroke () = let
   val (
     fpf | cr
@@ -249,6 +265,63 @@ implement{
 in
   // nothing
 end // end of [mydraw_stroke]
+
+implement{
+} mydraw_stroke_set_rgb
+  (r, g, b) = let
+  val (
+    fpf | cr
+  ) = mydraw_get0_cairo<> ()
+  val () = cairo_set_source_rgb (cr, r, g, b)
+  prval ((*void*)) = fpf (cr)
+in
+  // nothing
+end // end of [mydraw_stroke_set_rgb]
+
+implement{
+} mydraw_stroke_set_rgba
+  (r, g, b, a) = let
+  val (
+    fpf | cr
+  ) = mydraw_get0_cairo<> ()
+  val () = cairo_set_source_rgba (cr, r, g, b, a)
+  prval ((*void*)) = fpf (cr)
+in
+  // nothing
+end // end of [mydraw_stroke_set_rgba]
+
+(* ****** ****** *)
+
+local
+
+assume mydraw_save_v = unit_v
+
+in (* in of [local] *)
+
+implement{
+} mydraw_save () = let
+  val (
+    fpf | cr
+  ) = mydraw_get0_cairo<> ()
+  val (pf | ()) = cairo_save (cr)
+  prval pf = $UN.castview0{unit_v}(pf)
+  prval ((*void*)) = fpf (cr)
+in
+  (pf | ())
+end // end of [mydraw_save]
+
+implement{
+} mydraw_restore (pf | (*void*)) = let
+  val [l:addr]
+    (fpf | cr) = mydraw_get0_cairo<> ()
+  prval pf = $UN.castview0{cairo_save_v(l)}(pf)
+  val () = cairo_restore (pf | cr)
+  prval ((*void*)) = fpf (cr)
+in
+  // nothing
+end // end of [mydraw_restore]
+
+end // end of [local]
 
 (* ****** ****** *)
 

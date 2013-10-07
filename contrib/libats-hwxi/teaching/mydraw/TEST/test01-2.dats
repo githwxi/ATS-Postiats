@@ -13,11 +13,11 @@ staload _(*anon*) = "./../DATS/mydraw.dats"
 //
 extern
 fun{}
-draw3_solid (point, point, point, color): void
+draw3_solid (point, point, point, color: string): void
 extern
 fun{}
 draw3_sierpinski
-  (point, point, point, color, color, int(*level*)): void
+  (point, point, point, color: string, color: string, int(*level*)): void
 //
 (* ****** ****** *)
 
@@ -27,8 +27,9 @@ implement{
   p1, p2, p3, clr
 ) = let
 //
-val () = mydraw_triangle (p1, p2, p3)
-val () = mydraw_fill_set_rgb (clr.r, clr.g, clr.b)
+val (
+) = mydraw_triangle (p1, p2, p3)
+val () = mydraw_fill_set_string (clr)
 val () = mydraw_fill ()
 //
 in
@@ -48,7 +49,9 @@ if n > 0 then let
   val p12 = p1 + 0.5 * (p2 - p1)
   val p23 = p2 + 0.5 * (p3 - p2)
   val p31 = p3 + 0.5 * (p1 - p3)
+(*
   val () = draw3_solid (p12, p23, p31, clr2)
+*)
   val () = draw3_sierpinski (p1, p12, p31, clr1, clr2, n-1)
   val () = draw3_sierpinski (p12, p2, p23, clr1, clr2, n-1)
   val () = draw3_sierpinski (p31, p23, p3, clr1, clr2, n-1)
@@ -60,4 +63,4 @@ end // end of [draw3_sierpinski]
 
 (* ****** ****** *)
 
-(* end of [test01.dats] *)
+(* end of [test01-2.dats] *)

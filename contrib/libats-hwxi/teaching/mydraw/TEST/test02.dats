@@ -32,16 +32,16 @@ implement{
 fun loop
 (
   pul: point
-, c1: color, c2: color
+, clr1: color, clr2: color
 , n: intGte(0)
 ) : void =
   if n > 0 then let
     val (
     ) = mydraw_rectangle (pul, 1.0, 1.0)
-    val () = mydraw_set_source_color (c1)
+    val () = mydraw_fill_set_rgb (clr1.r, clr1.g, clr1.b)
     val () = mydraw_fill ()
   in
-    loop (point_hshift (pul, 1.0), c2, c1, pred(n))
+    loop (point_hshift (pul, 1.0), clr2, clr1, pred(n))
   end else () // end of [if]
 //
 in

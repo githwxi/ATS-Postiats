@@ -37,6 +37,10 @@
 
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "./../SATS/mydraw.sats"
 staload "./../SATS/mydraw_html5_canvas2d.sats"
 
@@ -49,10 +53,10 @@ macdef PI = 3.1415926535898
 implement{
 } mydraw_new_path () = let
   val (
-    fpf | cr
+    fpf | ctx
   ) = mydraw_get0_canvas2d<> ()
-  val () = canvas2d_beginPath (cr)
-  prval ((*void*)) = fpf (cr)
+  val () = canvas2d_beginPath (ctx)
+  prval ((*void*)) = fpf (ctx)
 in
   // nothing
 end // end of [mydraw_new_path]
@@ -62,10 +66,10 @@ end // end of [mydraw_new_path]
 implement{
 } mydraw_close_path () = let
   val (
-    fpf | cr
+    fpf | ctx
   ) = mydraw_get0_canvas2d<> ()
-  val () = canvas2d_closePath (cr)
-  prval ((*void*)) = fpf (cr)
+  val () = canvas2d_closePath (ctx)
+  prval ((*void*)) = fpf (ctx)
 in
   // nothing
 end // end of [mydraw_close_path]
@@ -75,10 +79,10 @@ end // end of [mydraw_close_path]
 implement{
 } mydraw_move_to (p) = let
   val (
-    fpf | cr
+    fpf | ctx
   ) = mydraw_get0_canvas2d<> ()
-  val () = canvas2d_moveTo (cr, p.x, p.y)
-  prval ((*void*)) = fpf (cr)
+  val () = canvas2d_moveTo (ctx, p.x, p.y)
+  prval ((*void*)) = fpf (ctx)
 in
   // nothing
 end // end of [mydraw_move_to]
@@ -86,10 +90,10 @@ end // end of [mydraw_move_to]
 implement{
 } mydraw_move_to_xy (x, y) = let
   val (
-    fpf | cr
+    fpf | ctx
   ) = mydraw_get0_canvas2d<> ()
-  val () = canvas2d_moveTo (cr, x, y)
-  prval ((*void*)) = fpf (cr)
+  val () = canvas2d_moveTo (ctx, x, y)
+  prval ((*void*)) = fpf (ctx)
 in
   // nothing
 end // end of [mydraw_move_to_xy]
@@ -99,10 +103,10 @@ end // end of [mydraw_move_to_xy]
 implement{
 } mydraw_line_to (p) = let
   val (
-    fpf | cr
+    fpf | ctx
   ) = mydraw_get0_canvas2d<> ()
-  val () = canvas2d_lineTo (cr, p.x, p.y)
-  prval ((*void*)) = fpf (cr)
+  val () = canvas2d_lineTo (ctx, p.x, p.y)
+  prval ((*void*)) = fpf (ctx)
 in
   // nothing
 end // end of [mydraw_line_to]
@@ -110,10 +114,10 @@ end // end of [mydraw_line_to]
 implement{
 } mydraw_line_to_xy (x, y) = let
   val (
-    fpf | cr
+    fpf | ctx
   ) = mydraw_get0_canvas2d<> ()
-  val () = canvas2d_lineTo (cr, x, y)
-  prval ((*void*)) = fpf (cr)
+  val () = canvas2d_lineTo (ctx, x, y)
+  prval ((*void*)) = fpf (ctx)
 in
   // nothing
 end // end of [mydraw_line_to_xy]
@@ -124,10 +128,10 @@ implement{
 } mydraw_rectangle
   (pul, w, h) = let
   val (
-    fpf | cr
+    fpf | ctx
   ) = mydraw_get0_canvas2d<> ()
-  val () = canvas2d_rect (cr, pul.x, pul.y, w, h)
-  prval ((*void*)) = fpf (cr)
+  val () = canvas2d_rect (ctx, pul.x, pul.y, w, h)
+  prval ((*void*)) = fpf (ctx)
 in
   // nothing
 end // end of [mydraw_rectangle]
@@ -138,10 +142,10 @@ implement{
 } mydraw_arc
   (pc, rad, ang1, ang2) = let
   val (
-    fpf | cr
+    fpf | ctx
   ) = mydraw_get0_canvas2d<> ()
-  val () = canvas2d_arc (cr, pc.x, pc.y, rad, ang1, ang2, true)
-  prval ((*void*)) = fpf (cr)
+  val () = canvas2d_arc (ctx, pc.x, pc.y, rad, ang1, ang2, true)
+  prval ((*void*)) = fpf (ctx)
 in
   // nothing
 end // end of [mydraw_arc]
@@ -150,10 +154,10 @@ implement{
 } mydraw_arc_neg
   (pc, rad, ang1, ang2) = let
   val (
-    fpf | cr
+    fpf | ctx
   ) = mydraw_get0_canvas2d<> ()
-  val () = canvas2d_arc (cr, pc.x, pc.y, rad, ang1, ang2, false)
-  prval ((*void*)) = fpf (cr)
+  val () = canvas2d_arc (ctx, pc.x, pc.y, rad, ang1, ang2, false)
+  prval ((*void*)) = fpf (ctx)
 in
   // nothing
 end // end of [mydraw_arc_neg]
@@ -163,26 +167,81 @@ end // end of [mydraw_arc_neg]
 implement{
 } mydraw_fill () = let
   val (
-    fpf | cr
+    fpf | ctx
   ) = mydraw_get0_canvas2d<> ()
-  val ((*void*)) = canvas2d_fill (cr)
-  prval ((*void*)) = fpf (cr)
+  val ((*void*)) = canvas2d_fill (ctx)
+  prval ((*void*)) = fpf (ctx)
 in
   // nothing
 end // end of [mydraw_fill]
+
+implement{
+} mydraw_fill_set_string (style) = let
+  val (
+    fpf | ctx
+  ) = mydraw_get0_canvas2d<> ()
+  val ((*void*)) = canvas2d_fillStyle_string (ctx, style)
+  prval ((*void*)) = fpf (ctx)
+in
+  // nothing
+end // end of [mydraw_fill_set_string]
 
 (* ****** ****** *)
 
 implement{
 } mydraw_stroke () = let
   val (
-    fpf | cr
+    fpf | ctx
   ) = mydraw_get0_canvas2d<> ()
-  val ((*void*)) = canvas2d_stroke (cr)
-  prval ((*void*)) = fpf (cr)
+  val ((*void*)) = canvas2d_stroke (ctx)
+  prval ((*void*)) = fpf (ctx)
 in
   // nothing
 end // end of [mydraw_stroke]
+
+implement{
+} mydraw_stroke_set_string (style) = let
+  val (
+    fpf | ctx
+  ) = mydraw_get0_canvas2d<> ()
+  val ((*void*)) = canvas2d_strokeStyle_string (ctx, style)
+  prval ((*void*)) = fpf (ctx)
+in
+  // nothing
+end // end of [mydraw_stroke_set_string]
+
+(* ****** ****** *)
+
+local
+
+assume mydraw_save_v = unit_v
+
+in (* in of [local] *)
+
+implement{
+} mydraw_save () = let
+  val (
+    fpf | ctx
+  ) = mydraw_get0_canvas2d<> ()
+  val (pf | ()) = canvas2d_save (ctx)
+  prval pf = $UN.castview0{unit_v}(pf)
+  prval ((*void*)) = fpf (ctx)
+in
+  (pf | ())
+end // end of [mydraw_save]
+
+implement{
+} mydraw_restore (pf | (*void*)) = let
+  val [l:addr]
+    (fpf | ctx) = mydraw_get0_canvas2d<> ()
+  prval pf = $UN.castview0{canvas2d_save_v(l)}(pf)
+  val () = canvas2d_restore (pf | ctx)
+  prval ((*void*)) = fpf (ctx)
+in
+  // nothing
+end // end of [mydraw_restore]
+
+end // end of [local]
 
 (* ****** ****** *)
 

@@ -14,6 +14,10 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
+PATSCCOMP2=emcc -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime
+
+######
+
 XRLIBS=`pkg-config cairo --libs`
 XRCFLAGS=`pkg-config cairo --cflags`
 
@@ -30,9 +34,9 @@ cleanall:: ; $(RMF) test01-cairo test01.png
 
 ######
 
-all:: test01-canvas2d
-test01-canvas2d: test01-canvas2d.dats ; \
-  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -ccats $<
+test01-canvas2d.js: test01-canvas2d.dats ; \
+  $(PATSCC) -atsccomp "$(PATSCCOMP2)" --js-library ../JS/mydraw_html5_canvas2d.js -o $@ $<
+cleanall:: ; $(RMF) test01-canvas2d.js
 
 ######
 

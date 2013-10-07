@@ -25,7 +25,7 @@ var mydraw_html5_canvas2d =
         if (canvas.getContext) {
             MyCanvas.contexts[ptr] = canvas.getContext("2d");
         } else {
-            throw "mydraw_html5_canvas2d: 2d-canvas is not supported";
+            throw "mydraw_html5_canvas2d: 2D-canvas is not supported";
         }
         return ptr; 
     },
@@ -79,15 +79,20 @@ var mydraw_html5_canvas2d =
     function (ptr) {
         MyCanvas.contexts[ptr].fill();
     },
-    atscntrb_libatshwxi_canvas2d_fillStyle:
-    function (ptr, strptr) {
-        var style = Pointer_stringify(strptr);
+    atscntrb_libatshwxi_canvas2d_fillStyle_string:
+    function (ptr, string) {
+        var style = Pointer_stringify(string);
         MyCanvas.contexts[ptr].fillStyle = style;
     },
 
     atscntrb_libatshwxi_canvas2d_stroke:
     function (ptr) {
         MyCanvas.contexts[ptr].stroke();
+    },
+    atscntrb_libatshwxi_canvas2d_strokeStyle_string:
+    function (ptr, string) {
+        var style = Pointer_stringify(string);
+        MyCanvas.contexts[ptr].strokeStyle = style;
     },
 
     atscntrb_libatshwxi_canvas2d_save:
@@ -99,6 +104,11 @@ var mydraw_html5_canvas2d =
         MyCanvas.contexts[ptr].restore();
     },
 }
+
+/* ****** ****** */
+
+autoAddDeps(mydraw_html5_canvas2d, '$MyCanvas');
+mergeInto(LibraryManager.library, mydraw_html5_canvas2d);
 
 /* ****** ****** */
 

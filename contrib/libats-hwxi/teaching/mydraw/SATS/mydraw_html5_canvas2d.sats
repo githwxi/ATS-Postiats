@@ -88,9 +88,9 @@ fun{} mydraw_get1_canvas2d (): canvas2d1
 (* ****** ****** *)
 
 fun
-canvas2d_make (id: string): canvas2d0 = "mac#%"
+canvas2d_make (id: string): canvas2d0 = "ext#%"
 fun
-canvas2d_free (canvas: canvas2d0): void = "mac#%"
+canvas2d_free (canvas: canvas2d0): void = "ext#%"
 
 (* ****** ****** *)
 
@@ -99,22 +99,22 @@ canvas2d_clearRect
 (
   !canvas2d1
 , x: double, y: double, wd: double, ht: double
-) : void = "mac#%" // endfun
+) : void = "ext#%" // endfun
 
 (* ****** ****** *)
 
 fun
-canvas2d_beginPath (!canvas2d1): void = "mac#%"
+canvas2d_beginPath (!canvas2d1): void = "ext#%"
 fun
-canvas2d_closePath (!canvas2d1): void = "mac#%"
+canvas2d_closePath (!canvas2d1): void = "ext#%"
 
 (* ****** ****** *)
 //
 fun canvas2d_moveTo
-  (!canvas2d1, x: double, y: double): void = "mac#%"
+  (!canvas2d1, x: double, y: double): void = "ext#%"
 //
 fun canvas2d_lineTo
-  (!canvas2d1, x: double, y: double): void = "mac#%"
+  (!canvas2d1, x: double, y: double): void = "ext#%"
 //
 (* ****** ****** *)
 
@@ -126,7 +126,7 @@ canvas2d_rect
 , yul: double
 , width: double
 , height: double
-) : void = "mac#%"
+) : void = "ext#%"
 
 (* ****** ****** *)
 
@@ -140,26 +140,27 @@ canvas2d_arc
 , angle_beg: double
 , angle_end: double
 , counterclockwise: bool
-) : void = "mac#%"
+) : void = "ext#%"
 
 (* ****** ****** *)
 
-fun canvas2d_fill (!canvas2d1): void = "mac#%"
-fun canvas2d_fillStyle (!canvas2d1, style: string): void = "mac#%"
+fun canvas2d_fill (!canvas2d1): void = "ext#%"
+fun canvas2d_fillStyle_string (!canvas2d1, style: string): void = "ext#%"
 
 (* ****** ****** *)
 
-fun canvas2d_stroke (!canvas2d1): void = "mac#%"
+fun canvas2d_stroke (!canvas2d1): void = "ext#%"
+fun canvas2d_strokeStyle_string (!canvas2d1, style: string): void = "ext#%"
 
 (* ****** ****** *)
 
 fun
 canvas2d_translate
-  (!canvas2d1, x: double, y: double): void = "mac#%"
+  (!canvas2d1, x: double, y: double): void = "ext#%"
 fun
-canvas2d_scale (!canvas2d1, sx: double, sy: double): void = "mac#%"
+canvas2d_scale (!canvas2d1, sx: double, sy: double): void = "ext#%"
 fun
-canvas2d_rotate (!canvas2d1, angle: double): void = "mac#%"
+canvas2d_rotate (!canvas2d1, angle: double): void = "ext#%"
 
 (* ****** ****** *)
 //
@@ -167,10 +168,10 @@ absview canvas2d_save_v (l:addr)
 //
 fun
 canvas2d_save{l:agz}
-  (canvas: !canvas2d l): (canvas2d_save_v l | void) = "mac#%"
+  (canvas: !canvas2d l): (canvas2d_save_v l | void) = "ext#%"
 fun
 canvas2d_restore{l:agz}
-  (pf: canvas2d_save_v l | canvas: canvas2d l): void = "mac#%"
+  (pf: canvas2d_save_v l | canvas: !canvas2d l): void = "ext#%"
 //
 (* ****** ****** *)
 

@@ -13,15 +13,15 @@ PATSCC=$(PATSHOMEQ)/bin/patscc
 ######
 
 ## Set the C compiler to be emscripten
-export PATSCCOMP := emcc -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -L${PATSHOME}/ccomp/atslib/lib -I${PATSHOME}/contrib
+PATSCCOMP2=emcc -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime
 
 ######
 
 all:: myclock0.js
 
-myclock0.js: myclock0.dats library.js
-	@echo ${PATSCCOMP}
-	$(PATSCC) -I${PATSHOME}/contrib --js-library library.js  -o $@ $<
+myclock0.js: myclock0.dats
+	@echo ${PATSCCOMP2}
+	$(PATSCC) -atsccomp "$(PATSCCOMP2)" -I${PATSHOME}/contrib --js-library library.js  -o $@ $<
 
 .Phony: clean
 

@@ -37,13 +37,13 @@ cairo_draw3_sierpinski
   {l:agz}
 (
   cr: !cairo_ref (l)
-, p1: point, p2: point, p3: point, c1: color, c2: color
+, p1: point, p2: point, p3: point, clr1: color, clr2: color
 , level: int
 ) : void // end of [cairo_draw3_sierpinski]
 
 implement
 cairo_draw3_sierpinski
-  (cr, p1, p2, p3, c1, c2, n) = let
+  (cr, p1, p2, p3, clr1, clr2, n) = let
 //
 val p_cr = ptrcast (cr)
 //
@@ -51,14 +51,14 @@ implement
 mydraw_get0_cairo<> () = let
 //
 extern
-castfn __cast {l:addr} (ptr (l)): vttakeout (void, cairo_ref(l))
+castfn __cast {l:addr} (ptr(l)): vttakeout (void, cairo_ref(l))
 //
 in
   __cast (p_cr)
 end // end of [mydraw_get0_cairo]
 //
 in
-  draw3_sierpinski (p1, p2, p3, c1, c2, n)
+  draw3_sierpinski (p1, p2, p3, clr1, clr2, n)
 end // end of [cairo_draw3_sierpinski]
 
 (* ****** ****** *)
@@ -85,8 +85,10 @@ val (pf0 | ()) = cairo_save (cr)
 val p1 = point_make (~WH2,  WH2)
 val p2 = point_make ( 0.0, ~WH2)
 val p3 = point_make ( WH2,  WH2)
+//
 val clr1 = color_make (1.0, 1.0, 0.0)
 val clr2 = color_complement (clr1)
+//
 val () = cairo_draw3_sierpinski (cr, p1, p2, p3, clr1, clr2, 4)
 //
 val () = cairo_restore (pf0 | cr)

@@ -211,14 +211,31 @@ mydraw_circle (pc: point, rad: real): void
 
 (* ****** ****** *)
 
-fun{}
-mydraw_set_source_color (clr: color): void
+fun{} mydraw_fill (): void
+
+fun{} mydraw_fill_set_rgb
+  (r: double, g: double, b: double): void
+fun{} mydraw_fill_set_rgba
+  (r: double, g: double, b: double, alpha: double): void
+fun{} mydraw_fill_set_string (style: string): void
 
 (* ****** ****** *)
 
-fun{} mydraw_fill (): void
 fun{} mydraw_stroke (): void
 
+fun{} mydraw_stroke_set_rgb
+  (r: double, g: double, b: double): void
+fun{} mydraw_stroke_set_rgba
+  (r: double, g: double, b: double, alpha: double): void
+fun{} mydraw_stroke_set_string (style: string): void
+
+(* ****** ****** *)
+//
+absview mydraw_save_v
+//
+fun{} mydraw_save (): (mydraw_save_v | void)
+fun{} mydraw_restore (pf: mydraw_save_v | (*void*)): void
+//
 (* ****** ****** *)
 
 (* end of [mydraw.sats] *)
