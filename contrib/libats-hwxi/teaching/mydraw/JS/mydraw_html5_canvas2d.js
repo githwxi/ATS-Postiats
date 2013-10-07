@@ -30,7 +30,6 @@ var mydraw_html5_canvas2d =
         }
         return ptr; 
     },
-
     atscntrb_libatshwxi_canvas2d_free:
     function (ptr) {
         MyCanvas.contexts[ptr] = null;
@@ -69,7 +68,7 @@ var mydraw_html5_canvas2d =
 
     atscntrb_libatshwxi_canvas2d_rect:
     function (ptr, xul, yul, width, height) {
-        MyCanvas.contexts[ptr].rec(xul, yul, width, height);
+        MyCanvas.contexts[ptr].rect(xul, yul, width, height);
     },
     atscntrb_libatshwxi_canvas2d_arc:
     function (ptr, xc, yc, rad, angle_beg, angle_end, CCW) {
