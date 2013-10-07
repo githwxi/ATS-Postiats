@@ -30,7 +30,6 @@ var mydraw_html5_canvas2d =
         }
         return ptr; 
     },
-
     atscntrb_libatshwxi_canvas2d_free:
     function (ptr) {
         MyCanvas.contexts[ptr] = null;

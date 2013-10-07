@@ -23,7 +23,7 @@ myclock0.js: myclock0.dats
 	@echo ${PATSCCOMP2}
 	$(PATSCC) -atsccomp "$(PATSCCOMP2)" -I${PATSHOME}/contrib --js-library library.js  -o $@ $<
 
-.Phony: clean
+.phony: clean
 
 clean: 
 	rm myclock0.js myclock0.js.map myclock0_dats.c

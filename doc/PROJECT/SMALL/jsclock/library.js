@@ -77,10 +77,22 @@ var LibraryClock = {
     },
     request_animation_frame_none: function (ptr) {
         var func = Runtime.getFuncWrapper(ptr, 'vi');
+
+        var requestAnimationFrame = window.requestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.msRequestAnimationFrame;
+
         window.requestAnimationFrame(func);
     },
     request_animation_frame_env: function (ptr, env) {
         var func = Runtime.getFuncWrapper(ptr, 'vii');
+
+        var requestAnimationFrame = window.requestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.msRequestAnimationFrame;
+
         window.requestAnimationFrame(function (time) {
             func(time, env);
         });
