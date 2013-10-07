@@ -3,6 +3,11 @@
 #
 ######
 
+Author: Hongwei Xi
+Authoremail: gmhwxiATgmailDOTcom
+
+######
+
 HX-2013-10:
 
 I have set up a project at:
@@ -12,6 +17,14 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 This project primarily consists of external contributions made to the
 ATS2 programming language system in the forms of library packages, tutorials,
 examples, and all sorts of documentation, etc.
+
+ATS2-contrib acts as a hosting place for helping ATS-users share and
+compare ATS-related packages. It is also a valuable information source for
+those trying to learn ATS and also for those wanting to make effective use
+of ATS in general practice of programming.
+
+I have the right to not accept a particular contribution made to
+ATS2-contrib due to issues that may or may not be explicitly specified.
 
 ######
 #
@@ -25,7 +38,7 @@ You can essentially put anything in your own libats directory. However,
 there are certain conventions that I strongly recommend to be followed so
 as to greatly facilitate the use of contributed code.
 
-Say that you want to contribute a package called MYLIB. You should usually
+Say that you want to contribute a package called MYLIB. You usually should
 create the following directories (if applicable):
 
 SATS: This directory is for storing sats files. Normally, various abstract
@@ -43,5 +56,12 @@ that need to be included in the previously mentioned dats files. Note that
 the need for this directory is less common.
 
 ######
+#
+# Licensing your contribution
+#
+######
 
-###### end of [README] ######
+You own the copyright of your code and you can choose whatever licences
+you prefer.
+
+###### endl of [README] ######
