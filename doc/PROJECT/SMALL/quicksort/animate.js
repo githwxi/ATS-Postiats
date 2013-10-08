@@ -13,7 +13,7 @@ Animation = {
             window.webkitRequestAnimationFrame ||
             window.msRequestAnimationFrame;
 
-        window.requestAnimationFrame(func);
+        requestAnimationFrame(func);
     },
     document_documentElement_clientWidth: function () {
         return document.documentElement.clientWidth;
