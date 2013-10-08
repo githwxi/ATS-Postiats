@@ -18,7 +18,7 @@ staload _(*anon*) = "./../DATS/mydraw.dats"
 //
 (* ****** ****** *)
 //
-staload "./test01-2.dats"
+staload "./test01.dats"
 
 (* ****** ****** *)
 //
@@ -33,7 +33,7 @@ canvas2d_draw3_sierpinski
   {l:agz}
 (
   cr: !canvas2d (l)
-, p1: point, p2: point, p3: point, clr1: string, clr2: string
+, p1: point, p2: point, p3: point, clr1: color, clr2: color
 , level: int
 ) : void // end of [canvas2d_draw3_sierpinski]
 
@@ -85,9 +85,10 @@ val p1 = point_make (~WH2,  WH2)
 val p2 = point_make ( 0.0, ~WH2)
 val p3 = point_make ( WH2,  WH2)
 //
-val clr1 = "blue" and clr2 = "yellow"
+val clr1 = color_make (0.0, 0.0, 1.0)
+val clr2 = color_complement (clr1)
 //
-val () = canvas2d_draw3_sierpinski (ctx, p1, p2, p3, clr1, clr2, 4)
+val () = canvas2d_draw3_sierpinski (ctx, p1, p2, p3, clr1, clr2, 5)
 //
 val () = canvas2d_restore (pf0 | ctx)
 //

@@ -86,7 +86,7 @@ val p1 = point_make (~WH2,  WH2)
 val p2 = point_make ( 0.0, ~WH2)
 val p3 = point_make ( WH2,  WH2)
 //
-val clr1 = color_make (1.0, 1.0, 0.0)
+val clr1 = color_make (0.0, 0.0, 1.0)
 val clr2 = color_complement (clr1)
 //
 val () = cairo_draw3_sierpinski (cr, p1, p2, p3, clr1, clr2, 4)

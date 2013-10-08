@@ -36,10 +36,12 @@ fun loop
 , n: intGte(0)
 ) : void =
   if n > 0 then let
+    val () = mydraw_new_path ()
     val (
     ) = mydraw_rectangle (pul, 1.0, 1.0)
     val () = mydraw_fill_set_rgb (clr1.r, clr1.g, clr1.b)
     val () = mydraw_fill ()
+    val () = mydraw_close_path ()
   in
     loop (point_hshift (pul, 1.0), clr2, clr1, pred(n))
   end else () // end of [if]

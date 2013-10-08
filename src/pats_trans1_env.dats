@@ -281,9 +281,11 @@ the_fxtyenv_localjoin
 (* ****** ****** *)
 
 implement
-the_fxtyenv_pervasive_joinwth (map) = let
-  prval vbox (pf) = pf0 in symenv_pervasive_joinwth (!p0, map)
-end // end of [fun]
+the_fxtyenv_pervasive_joinwth (map) =
+{
+  prval vbox (pf) = pf0
+  val () = symenv_pervasive_joinwth0 (!p0, map)
+} // end of [the_fxtyenv_pervasive_joinwth]
 
 (* ****** ****** *)
 

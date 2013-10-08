@@ -28,15 +28,18 @@ XRCFLAGS=`pkg-config cairo --cflags`
 ######
 
 all:: test01-cairo
-test01-cairo: test01-cairo.dats ; \
+test01-cairo: \
+  test01-cairo.dats test01.dats ; \
   $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 cleanall:: ; $(RMF) test01-cairo test01.png
 
 ######
 
-test01-canvas2d.js: test01-canvas2d.dats ; \
+test01-canvas2d.js: \
+  test01-canvas2d.dats test01.dats ; \
   $(PATSCC) -atsccomp "$(PATSCCOMP2)" --js-library ../JS/mydraw_html5_canvas2d.js -o $@ $<
 cleanall:: ; $(RMF) test01-canvas2d.js
+cleanall:: ; $(RMF) test01-canvas2d.js.map
 
 ######
 
@@ -44,6 +47,14 @@ all:: test02-cairo
 test02-cairo: test02-cairo.dats ; \
   $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 cleanall:: ; $(RMF) test02-cairo test02.png
+
+######
+
+test02-canvas2d.js: \
+  test02-canvas2d.dats test02.dats ; \
+  $(PATSCC) -atsccomp "$(PATSCCOMP2)" --js-library ../JS/mydraw_html5_canvas2d.js -o $@ $<
+cleanall:: ; $(RMF) test02-canvas2d.js
+cleanall:: ; $(RMF) test02-canvas2d.js.map
 
 ######
 

@@ -319,9 +319,13 @@ end // end of [the_s2rtenv_restore]
 (* ****** ****** *)
 
 implement
-the_s2rtenv_pervasive_joinwth (map) = let
-  prval vbox pf = pf0 in symenv_pervasive_joinwth (!p0, map)
-end // end of [fun]
+the_s2rtenv_pervasive_joinwth0 (map) = let
+  prval vbox pf = pf0 in symenv_pervasive_joinwth0 (!p0, map)
+end // end of [the_s2rtenv_pervasive_joinwth0]
+implement
+the_s2rtenv_pervasive_joinwth1 (map) = let
+  prval vbox pf = pf0 in symenv_pervasive_joinwth1 (!p0, map)
+end // end of [the_s2rtenv_pervasive_joinwth1]
 
 (* ****** ****** *)
 
@@ -515,9 +519,13 @@ end // end of [the_s2expenv_restore]
 (* ****** ****** *)
 
 implement
-the_s2expenv_pervasive_joinwth (map) = let
-  prval vbox pf = pf0 in symenv_pervasive_joinwth (!p0, map)
-end // end of [fun]
+the_s2expenv_pervasive_joinwth0 (map) = let
+  prval vbox pf = pf0 in symenv_pervasive_joinwth0 (!p0, map)
+end // end of [the_s2expenv_pervasive_joinwth0]
+implement
+the_s2expenv_pervasive_joinwth1 (map) = let
+  prval vbox pf = pf0 in symenv_pervasive_joinwth1 (!p0, map)
+end // end of [the_s2expenv_pervasive_joinwth1]
 
 end // end of [local]
 
@@ -950,9 +958,13 @@ end // end of [the_d2expenv_restore]
 (* ****** ****** *)
 
 implement
-the_d2expenv_pervasive_joinwth (map) = let
-  prval vbox pf = pf0 in symenv_pervasive_joinwth (!p0, map)
-end // end of [fun]
+the_d2expenv_pervasive_joinwth0 (map) = let
+  prval vbox pf = pf0 in symenv_pervasive_joinwth0 (!p0, map)
+end // end of [the_d2expenv_pervasive_joinwth0]
+implement
+the_d2expenv_pervasive_joinwth1 (map) = let
+  prval vbox pf = pf0 in symenv_pervasive_joinwth1 (!p0, map)
+end // end of [the_d2expenv_pervasive_joinwth1]
 
 end // end of [local]
 
@@ -1204,13 +1216,18 @@ the_trans2_env_localjoin
 
 implement
 the_trans2_env_pervasive_joinwth
-  (pfenv | (*none*)) = {
-  val map = the_s2rtenv_pop (pfenv.0 | (*none*))
-  val () = the_s2rtenv_pervasive_joinwth (map)
-  val map = the_s2expenv_pop (pfenv.1 | (*none*))
-  val () = the_s2expenv_pervasive_joinwth (map)
-  val map = the_d2expenv_pop (pfenv.2 | (*none*))
-  val () = the_d2expenv_pervasive_joinwth (map)
+  (pfenv | fil, d2cs) = {
+  val m0 = the_s2rtenv_pop (pfenv.0 | (*none*))
+  val () = the_s2rtenv_pervasive_joinwth1 (m0)
+  val m1 = the_s2expenv_pop (pfenv.1 | (*none*))
+  val () = the_s2expenv_pervasive_joinwth1 (m1)
+  val m2 = the_d2expenv_pop (pfenv.2 | (*none*))
+  val () = the_d2expenv_pervasive_joinwth1 (m2)
+//
+  val fsymb = $FIL.filename_get_fullname (fil)
+  val fenv = filenv_make (fil, m0, m1, m2, d2cs)
+  val ((*void*)) = the_filenvmap_add (fsymb, fenv)
+//
 } // end of [the_trans2_env_pervasive_joinwth]
 
 end // end of [local]
@@ -1288,10 +1305,8 @@ the_s2rtenv_initialize (): void = {
 //
   val () = the_s2rtenv_add ($SYM.symbol_TYPES, S2TEsrt s2rt_types)
 //
-  val map =
-    the_s2rtenv_pop (pfenv | (*none*))
-  // end of [val]
-  val () = the_s2rtenv_pervasive_joinwth (map)
+  val map = the_s2rtenv_pop (pfenv | (*none*))
+  val ((*void*)) = the_s2rtenv_pervasive_joinwth0 (map)
 //
 } // end of [trans2_env_initialize]
 

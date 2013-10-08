@@ -176,6 +176,43 @@ in
 end // end of [mydraw_fill]
 
 implement{
+} mydraw_fill_set_rgb (r, g, b) = let
+//
+val one = 0.999999
+//
+val r = (
+  if (r > 1.0) then one else if (r < 0.0) then 0.0 else r
+) : double
+val g = (
+  if (g > 1.0) then one else if (g < 0.0) then 0.0 else g
+) : double
+val b = (
+  if (b > 1.0) then one else if (b < 0.0) then 0.0 else b
+) : double
+//
+val r = $UN.cast{int}(r * 0xFF)
+val g = $UN.cast{int}(g * 0xFF)
+val b = $UN.cast{int}(b * 0xFF)
+//
+#define BSZ 32
+var rgb = @[byte][BSZ]()
+val p_rgb = addr@(rgb)
+//
+abstype charptr = $extype"char*"
+//
+val
+len = $extfcall
+(
+  int, "snprintf", $UN.cast{charptr}(p_rgb), BSZ, "rgb(%i,%i,%i)", r, g, b
+) : int // end of [val]
+//
+val () = mydraw_fill_set_string<> ($UN.cast{string}(p_rgb))
+//
+in
+  // nothing
+end // end of [mydraw_fill_set_rgb]
+
+implement{
 } mydraw_fill_set_string (style) = let
   val (
     fpf | ctx
@@ -198,6 +235,43 @@ implement{
 in
   // nothing
 end // end of [mydraw_stroke]
+
+implement{
+} mydraw_stroke_set_rgb (r, g, b) = let
+//
+val one = 0.999999
+//
+val r = (
+  if (r > 1.0) then one else if (r < 0.0) then 0.0 else r
+) : double
+val g = (
+  if (g > 1.0) then one else if (g < 0.0) then 0.0 else g
+) : double
+val b = (
+  if (b > 1.0) then one else if (b < 0.0) then 0.0 else b
+) : double
+//
+val r = $UN.cast{int}(r * 0xFF)
+val g = $UN.cast{int}(g * 0xFF)
+val b = $UN.cast{int}(b * 0xFF)
+//
+#define BSZ 32
+var rgb = @[byte][BSZ]()
+val p_rgb = addr@(rgb)
+//
+abstype charptr = $extype"char*"
+//
+val
+len = $extfcall
+(
+  int, "snprintf", $UN.cast{charptr}(p_rgb), BSZ, "rgb(%i,%i,%i)", r, g, b
+) : int // end of [val]
+//
+val () = mydraw_stroke_set_string<> ($UN.cast{string}(p_rgb))
+//
+in
+  // nothing
+end // end of [mydraw_stroke_set_rgb]
 
 implement{
 } mydraw_stroke_set_string (style) = let

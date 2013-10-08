@@ -67,7 +67,9 @@ viewtypedef s2temap = symmap (s2rtext)
 viewtypedef s2itmmap = symmap (s2itm)
 viewtypedef d2itmmap = symmap (d2itm)
 
-fun filenv_make (
+fun
+filenv_make
+(
   fil: filename
 , m0: s2temap, m1: s2itmmap, m2: d2itmmap, d2cs: d2eclist
 ) : filenv // end of [filenv_make]
@@ -116,10 +118,12 @@ fun the_s2rtenv_pop_free (pf: s2rtenv_push_v | (*none*)): void
 fun the_s2rtenv_push_nil (): (s2rtenv_push_v | void)
 
 fun the_s2rtenv_localjoin
-  (pf1: s2rtenv_push_v, pf2: s2rtenv_push_v | (*none*)): void
-// end of [the_s2rtenv_localjoin]
+(
+  pf1: s2rtenv_push_v, pf2: s2rtenv_push_v | (*none*)
+) : void // end of [the_s2rtenv_localjoin]
 
-fun the_s2rtenv_pervasive_joinwth (map: s2temap): void
+fun the_s2rtenv_pervasive_joinwth0 (map: s2temap): void
+fun the_s2rtenv_pervasive_joinwth1 (map: !s2temap): void
 
 (* ****** ****** *)
 
@@ -144,10 +148,12 @@ fun the_s2expenv_pop_free (pf: s2expenv_push_v | (*none*)): void
 fun the_s2expenv_push_nil (): (s2expenv_push_v | void)
 
 fun the_s2expenv_localjoin
-  (pf1: s2expenv_push_v, pf2: s2expenv_push_v | (*none*)): void
-// end of [the_s2expenv_localjoin]
+(
+  pf1: s2expenv_push_v, pf2: s2expenv_push_v | (*none*)
+) : void // end of [the_s2expenv_localjoin]
 
-fun the_s2expenv_pervasive_joinwth (map: s2itmmap): void
+fun the_s2expenv_pervasive_joinwth0 (map: s2itmmap): void
+fun the_s2expenv_pervasive_joinwth1 (map: !s2itmmap): void
 
 (* ****** ****** *)
 
@@ -214,10 +220,13 @@ fun the_d2expenv_push_nil (): (d2expenv_push_v | void)
 //
 (* ****** ****** *)
 
-fun the_d2expenv_localjoin (
+fun the_d2expenv_localjoin
+(
   pf1: d2expenv_push_v, pf2: d2expenv_push_v | (*none*)
 ) : void // end of [the_d2expenv_localjoin]
-fun the_d2expenv_pervasive_joinwth (map: d2itmmap): void
+
+fun the_d2expenv_pervasive_joinwth0 (map: d2itmmap): void
+fun the_d2expenv_pervasive_joinwth1 (map: !d2itmmap): void
 
 (* ****** ****** *)
 
@@ -256,7 +265,7 @@ fun the_trans2_env_restore
 (* ****** ****** *)
 
 fun the_trans2_env_pervasive_joinwth
-  (pf: trans2_env_push_v | (*none*)): void
+  (pf: trans2_env_push_v | fil: filename, d2cs: d2eclist): void
 // end of [the_trans2_env_pervasive_joinwth]
 
 (* ****** ****** *)

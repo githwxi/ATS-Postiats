@@ -68,7 +68,7 @@ symmap_insert
 (* ****** ****** *)
 
 fun symmap_joinwth
-  {itm:type} (m1: &symmap itm, m2: symmap itm):<> void
+  {itm:type} (m1: &symmap itm, m2: !symmap itm):<> void
 // end of [symmap_joinwth]
 
 (* ****** ****** *)

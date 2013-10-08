@@ -1973,16 +1973,26 @@ case+ xs of
   end // end of [MARKENVLSTcons_impdec2]
 //
 | MARKENVLSTcons_staload
-    (fenv, !p_xs) => tmpmat where
-  {
-    val-Some (map) =
-      filenv_get_tmpcstimpmapopt (fenv)
-    // end of [val]
-    val implst = tmpcstimpmap_find (map, d2c0)
-    val tmpmat = hiimpdeclst_tmpcst_match (implst, d2c0, t2mas)
-    val tmpmat = auxcont (tmpmat, !p_xs, d2c0, t2mas)
-    prval () = fold@ (xs)
-  } (* end of [MARKENVLSTcons_fundec] *)
+    (fenv, !p_xs) => let
+    val opt = filenv_get_tmpcstimpmapopt (fenv)
+  in
+    case+ opt of
+    | Some (map) => let
+        val implst = tmpcstimpmap_find (map, d2c0)
+        val tmpmat = hiimpdeclst_tmpcst_match (implst, d2c0, t2mas)
+        val tmpmat = auxcont (tmpmat, !p_xs, d2c0, t2mas)
+      in
+        fold@ (xs); tmpmat
+      end // end of [Some]
+//
+// HX-2013-10-08: pervasive SATS
+//
+    | None ((*void*)) => let
+        val tmpmat = auxlst (!p_xs, d2c0, t2mas)
+      in
+        fold@ (xs); tmpmat
+      end // end of [None]
+  end (* end of [MARKENVLSTcons_staload] *)
 //
 | MARKENVLSTcons_tmpsub (_, !p_xs) => let
     val res = auxlst (!p_xs, d2c0, t2mas) in fold@ (xs); res

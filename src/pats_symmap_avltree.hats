@@ -120,7 +120,7 @@ case+ kis of
 //
 end // end of [loop]
 //
-val kis = linmap_listize_free<key,itm> (map2)
+val kis = linmap_listize<key,itm> (map2)
 //
 in
   loop (map1, kis)

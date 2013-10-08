@@ -46,10 +46,8 @@ val p_cr = cairo_ref2ptr (cr)
 //
 val WH = min (W, H)
 val WH = g0int2float_int_double (WH)
-val WH2 = WH / 2
 //
-val p0 =
-point_make ((W-WH)/2, (W-WH)/2)
+val p0 = point_make (0.0, 0.0)
 //
 val (pf0 | ()) = cairo_save (cr)
 //
@@ -63,10 +61,10 @@ in
   __cast (p_cr)
 end // end of [mydraw_get0_cairo]
 //
-val c1 = color_make (1.0, 1.0, 1.0)
-val c2 = color_make (0.0, 0.0, 0.0)
+val clr1 = color_make (1.0, 1.0, 1.0)
+val clr2 = color_make (0.0, 0.0, 0.0)
 //
-val () = draw_mrow (p0, c1, c2, M, N)
+val () = draw_mrow (p0, clr1, clr2, M, N)
 //
 val () = cairo_restore (pf0 | cr)
 //

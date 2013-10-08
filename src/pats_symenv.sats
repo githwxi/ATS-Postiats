@@ -110,9 +110,14 @@ fun symenv_pervasive_insert
   {itm:type} (env: &symenv itm, k: symbol, i: itm):<> void
 // end of [symenv_pervasive_insert]
 
-fun symenv_pervasive_joinwth
-  {itm:type} (env: &symenv itm, map: symmap itm):<> void
-// end of [symenv_pervasive_join]
+(* ****** ****** *)
+
+fun symenv_pervasive_joinwth0
+  {itm:type} (env: &symenv itm, map:  symmap itm):<> void
+// end of [symenv_pervasive_joinwth0]
+fun symenv_pervasive_joinwth1
+  {itm:type} (env: &symenv itm, map: !symmap itm):<> void
+// end of [symenv_pervasive_joinwth1]
 
 (* ****** ****** *)
 

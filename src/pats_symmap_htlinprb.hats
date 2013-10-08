@@ -173,7 +173,7 @@ case+ kis of
 //
 end // end of [loop]
 //
-val kis = hashtbl_listize_free<key,itm> (map2)
+val kis = hashtbl_listize<key,itm> (map2)
 //
 in
   loop (map1, kis)
