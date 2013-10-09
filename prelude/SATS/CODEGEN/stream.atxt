@@ -93,21 +93,21 @@ fun{a:t0p}
 stream_foreach (xs: stream (a)): void
 fun{
 a:t0p}{env:vt0p
-} stream_foreach_env (xs: stream (a), &env): void
+} stream_foreach_env (xs: stream (a), &env >> _): void
 
 #atscode_separator()
 
 fun{a:t0p}
 stream_filter$pred (x: a):<> bool
 fun{a:t0p}
-stream_filter (xs: stream (INV(a))):<> stream (a)
+stream_filter (xs: stream (INV(a))):<!laz> stream (a)
 fun{a:t0p}
 stream_filter_fun
-  (xs: stream (INV(a)), pred: (a) -<> bool):<> stream (a)
+  (xs: stream (INV(a)), pred: (a) -<fun> bool):<!laz> stream (a)
 // end of [stream_filter_fun]
 fun{a:t0p}
 stream_filter_cloref
-  (xs: stream (INV(a)), pred: (a) -<cloref> bool):<> stream (a)
+  (xs: stream (INV(a)), pred: (a) -<cloref> bool):<!laz> stream (a)
 // end of [stream_filter_cloref]
 
 (* ****** ****** *)
@@ -117,16 +117,16 @@ a:t0p}{b:t0p
 } stream_map$fopr (x: a):<> b
 fun{
 a:t0p}{b:t0p
-} stream_map (xs: stream (INV(a))):<> stream (b)
+} stream_map (xs: stream (INV(a))):<!laz> stream (b)
 fun{
 a:t0p}{b:t0p
 } stream_map_fun
-  (xs: stream (INV(a)), f: (a) -<fun> b):<> stream (b)
+  (xs: stream (INV(a)), f: (a) -<fun> b):<!laz> stream (b)
 // end of [stream_map_fun]
 fun{
 a:t0p}{b:t0p
 } stream_map_cloref
-  (xs: stream (INV(a)), f: (a) -<cloref> b):<> stream (b)
+  (xs: stream (INV(a)), f: (a) -<cloref> b):<!laz> stream (b)
 // end of [stream_map_cloref]
 
 #atscode_separator()
@@ -137,24 +137,24 @@ a1,a2:t0p}{b:t0p
 fun{
 a1,a2:t0p}{b:t0p
 } stream_map2
-  (xs1: stream (INV(a1)), xs2: stream (INV(a2))):<> stream (b)
-// end of [stream_map2]
+(
+  xs1: stream (INV(a1))
+, xs2: stream (INV(a2))
+) :<!laz> stream (b) // endfun
 fun{
 a1,a2:t0p}{b:t0p
 } stream_map2_fun
 (
   xs1: stream (INV(a1))
 , xs2: stream (INV(a2)), f: (a1, a2) -<fun> b
-) :<> stream (b)
-// end of [stream_map2_fun]
+) :<!laz> stream (b) // endfun
 fun{
 a1,a2:t0p}{b:t0p
 } stream_map2_cloref
 (
   xs1: stream (INV(a1))
 , xs2: stream (INV(a2)), f: (a1, a2) -<cloref> b
-) :<> stream (b)
-// end of [stream_map2_cloref]
+) :<!laz> stream (b) // endfun
 
 #atscode_separator()
 
@@ -162,17 +162,17 @@ fun{a:t0p}
 stream_merge$cmp (x1: a, x2: a):<> int
 fun{a:t0p}
 stream_merge
-  (xs1: stream (INV(a)), xs2: stream (a)):<> stream (a)
+  (xs1: stream (INV(a)), xs2: stream (a)):<!laz> stream (a)
 fun{a:t0p}
 stream_merge_fun
 (
   xs1: stream (INV(a)), xs2: stream (a), (a, a) -<fun> int
-) :<> stream (a) // end of [stream_merge_fun]
+) :<!laz> stream (a) // end of [stream_merge_fun]
 fun{a:t0p}
 stream_merge_cloref
 (
   xs1: stream (INV(a)), xs2: stream (a), (a, a) -<cloref> int
-) :<> stream (a) // end of [stream_merge_cloref]
+) :<!laz> stream (a) // end of [stream_merge_cloref]
 
 #atscode_separator()
 

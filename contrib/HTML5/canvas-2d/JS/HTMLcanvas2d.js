@@ -10,7 +10,7 @@
 
 /* ****** ****** */
 
-var atscntrb_html5_canvas =
+var atscntrb_html5_canvas2d =
 {
     $Canvas: {
         PI: Math.PI,
@@ -19,6 +19,7 @@ var atscntrb_html5_canvas =
         */
         contexts: {}
     },
+
     atscntrb_html5_canvas2d_make:
     function (ptr) {
 	var id = Pointer_stringify(ptr);
@@ -31,7 +32,7 @@ var atscntrb_html5_canvas =
         if (canvas.getContext) {
             Canvas.contexts[ptr] = canvas.getContext("2d");
         } else {
-            throw "mydraw_html5_canvas2d: 2D-canvas is not supported";
+            throw "atscntrb_html5_canvas2d: 2D-canvas is not supported";
         }
         return ptr; 
     },
@@ -75,22 +76,23 @@ var atscntrb_html5_canvas =
     function (ptr, xul, yul, width, height) {
         Canvas.contexts[ptr].rect(xul, yul, width, height);
     },
-    atscntrb_html5_canvas2d_fillRect:
-    function (ptr, xul, yul, width, height) {
-        Canvas.contexts[ptr].fillRect(xul, yul, width, height);
-    },
-    atscntrb_html5_canvas2d_clearRect:
-    function (ptr, xul, yul, width, height) {
-        Canvas.contexts[ptr].fillRect(xul, yul, width, height);
-    },
     atscntrb_html5_canvas2d_arc:
     function (ptr, xc, yc, rad, angle_beg, angle_end, CCW) {
         Canvas.contexts[ptr].arc(xc, yc, rad, angle_beg, angle_end, CCW);
     },
 
+    atscntrb_html5_canvas2d_clearRect:
+    function (ptr, xul, yul, width, height) {
+        Canvas.contexts[ptr].clearRect(xul, yul, width, height);
+    },
+
     atscntrb_html5_canvas2d_fill:
     function (ptr) {
         Canvas.contexts[ptr].fill();
+    },
+    atscntrb_html5_canvas2d_fillRect:
+    function (ptr, xul, yul, width, height) {
+        Canvas.contexts[ptr].fillRect(xul, yul, width, height);
     },
     atscntrb_html5_canvas2d_fillStyle_string:
     function (ptr, string) {
@@ -107,6 +109,7 @@ var atscntrb_html5_canvas =
         var style = Pointer_stringify(string);
         Canvas.contexts[ptr].strokeStyle = style;
     },
+
     atscntrb_html5_canvas2d_save:
     function (ptr) {
         Canvas.contexts[ptr].save() ;
@@ -115,6 +118,7 @@ var atscntrb_html5_canvas =
     function (ptr) {
         Canvas.contexts[ptr].restore();
     },
+
     atscntrb_html5_canvas2d_set_size:
     function (ptr, width, height) {
         var id = Pointer_stringify(ptr);
@@ -126,8 +130,11 @@ var atscntrb_html5_canvas =
 
 /* ****** ****** */
 
-autoAddDeps(atscntrb_html5_canvas, '$Canvas');
-mergeInto(LibraryManager.library, atscntrb_html5_canvas);
+autoAddDeps(atscntrb_html5_canvas2d, '$Canvas');
+
+/* ****** ****** */
+
+mergeInto(LibraryManager.library, atscntrb_html5_canvas2d);
 
 /* ****** ****** */
 

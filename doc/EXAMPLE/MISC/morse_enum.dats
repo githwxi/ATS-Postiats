@@ -10,10 +10,10 @@
 *)
 
 (* ****** ****** *)
-
-staload "prelude/DATS/list.dats"
-staload "prelude/DATS/lazy.dats"
-
+//
+#include
+"share/atspre_staload.hats"
+//
 (* ****** ****** *)
 
 staload "libats/ML/SATS/string.sats"
@@ -39,7 +39,8 @@ fun morse
   fn add_dot  (str: string):<> string = "." + str
   fn add_dash (str: string):<> string = "-" + str
 //
-  fn go (n: Nat):<!laz> sstring = (
+  fn go (n: Nat):<> sstring = $effmask_all
+  (
     case+ n of
     | 0 => $delay (""  :: $delay (nil))
     | 1 => $delay ("." :: $delay (nil))

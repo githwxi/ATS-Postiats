@@ -23,7 +23,7 @@ staload _ = "libats/ML/DATS/array0.dats"
 //
 (* ****** ****** *)
 
-staload "contrib/HTML/canvas-2d/SATS/canvas.sats"
+staload "{$HTML5canvas2d}/SATS/canvas2d.sats"
 
 (* ****** ****** *)
 
@@ -198,27 +198,58 @@ end // end of [local]
 
 (* ****** ****** *)
 
-val next_render = ref<double> (0.0)
+extern
+fun thePivot_get (): size_t
+and thePivot_set (size_t): void
+extern
+fun thePartition_get (): range_t
+and thePartition_set (range_t): void
+extern
+fun theNextRender_get (): double
+and theNextRender_set (double): void
+and theNextRender_incby (double): void
 
-typedef state_t = @{
-  partition=range_t,
-  pivot=size_t,
-  next_render = double
-}
+(* ****** ****** *)
 
-val state = ref<state_t> ( @{
-  partition= @(u2sz(0u), u2sz(0u)),
-  pivot= u2sz(0u),
-  next_render= 0.0
-})
+local
+
+val
+thePivot = ref<size_t> (i2sz(0))
+and
+thePartition = ref<range_t> @(i2sz(0), i2sz(0))
+
+val
+theNextRender = ref<double> (0.0)
+
+in (* in of [local] *)
 
 implement
-qsort_partition_render<int> (A, part, p) = let
+thePartition_get () = !thePartition
+implement
+thePartition_set (x) = !thePartition := x
+
+implement
+thePivot_get () = !thePivot
+implement
+thePivot_set (x) = !thePivot := x
+
+implement
+theNextRender_get () = !theNextRender
+implement
+theNextRender_incby (x) = !theNextRender := !theNextRender + x
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+qsort_partition_render<int>
+  (A, part, p) = let
   val A'   = array0_copy(A)
   val snap = SelectPivot (A', part, p)
+  val ()   = thePartition_set (part)
+  val ()   = thePivot_set (p)
 in
-  !state.partition := part;
-  !state.pivot := p;
   snapshot_push(snap);
 end
 
@@ -229,10 +260,10 @@ implement
 array0_swap<int>
   (A, i, j) =
 {
-  val () = snapshot_push (Swap(A', r, p, @(i,j))) where {
+  val () = snapshot_push (Swap(A', part, p, @(i,j))) where {
     val A' = array0_copy(A)
-    val r = !state.partition
-    val p = !state.pivot
+    val part = thePartition_get ()
+    val p = thePivot_get ()
   }
   val tmp = A[i]
   val () = A[i] := A[j]
@@ -323,11 +354,11 @@ in
   implement start_animation () =
     window_request_animation_frame (
       fix step (timestamp:double): void => begin
-        if !state.next_render < timestamp then let
+        if theNextRender_get() < timestamp then let
           val event = snapshot_pop ()
-          val () = !state.next_render := !state.next_render + dt
+          val () = theNextRender_incby (dt)
           // render the event
-          val cnv = canvas2d_make ("quicksort")
+          val cnv = canvas2d_make ("QuicksortAnim")
           val () = assertloc (ptr_isnot_null(ptrcast(cnv)))
           //Get the latest dimensions of the viewport
           val W = document_documentElement_clientWidth()

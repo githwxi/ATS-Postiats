@@ -32,6 +32,8 @@ test01-cairo: \
   test01-cairo.dats test01.dats ; \
   $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 cleanall:: ; $(RMF) test01-cairo test01.png
+upload_test01:: ; scp test01.html test01-canvas2d.js \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/TEMPATS/JavaScripts/mydraw/
 
 ######
 
@@ -40,6 +42,8 @@ test01-canvas2d.js: \
   $(PATSCC) -atsccomp "$(PATSCCOMP2)" --js-library ../JS/mydraw_html5_canvas2d.js -o $@ $<
 cleanall:: ; $(RMF) test01-canvas2d.js
 cleanall:: ; $(RMF) test01-canvas2d.js.map
+upload_test02:: ; scp test02.html test02-canvas2d.js \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/TEMPATS/JavaScripts/mydraw/
 
 ######
 
