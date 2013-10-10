@@ -25,11 +25,12 @@ staload "{$HTML5canvas2d}/SATS/canvas2d.sats"
 
 (* ****** ****** *)
 
-#define PI 3.1415926535898
+#define
+PI 3.1415926535898
 
 (* ****** ****** *)
 
-val PI2 = PI / 2
+val PI2 = PI / 2.0
 
 (* ****** ****** *)
 

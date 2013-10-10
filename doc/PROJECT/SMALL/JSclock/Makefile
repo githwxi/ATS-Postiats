@@ -14,7 +14,7 @@ PATSCC=$(PATSHOMEQ)/bin/patscc
 ##
 ## Set the C compiler to be emscripten
 ##
-PATSCCOMP2=emcc -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime
+PATSCCOMP2=emcc -Wno-warn-absolute-paths -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime
 ##
 ######
 
@@ -22,7 +22,7 @@ all:: myclock0.js
 
 myclock0.js: myclock0.dats ; \
   $(PATSCC) -atsccomp "$(PATSCCOMP2)" -I${PATSHOME}/contrib \
-    --js-library myclocklib.js --js-library ${PATSHOME}/contrib/HTML5/canvas-2d/JS/HTMLcanvas2d.js -o $@ $<
+    --js-library myclock0_lib.js --js-library ${PATSHOME}/contrib/HTML5/canvas-2d/JS/HTMLcanvas2d.js -o $@ $<
 
 ######
 

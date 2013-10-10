@@ -1,11 +1,11 @@
-# Running ATS in the Browser
+# Generating Javascript code for ATS source
 
 ## About
 
 This tutorial gives  a simple overview of how to  compile ATS programs
 into Javascript  that can be run  in all the major  browsers available
 today. We'll  go through what tools  you'll need and provide  a simple
-graphical clock using ATS, Javascript, and the HTML5 Canvas API.
+wall clock implementation based on ATS, Javascript, and the HTML5 Canvas API.
 
 This is a work in progress and is by no means complete.
 
