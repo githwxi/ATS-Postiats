@@ -1,56 +1,58 @@
-# Generating Javascript code for ATS source
+# Generating JS code from ATS source
 
 ## About
 
-This tutorial gives  a simple overview of how to  compile ATS programs
-into Javascript  that can be run  in all the major  browsers available
-today. We'll  go through what tools  you'll need and provide  a simple
-wall clock implementation based on ATS, Javascript, and the HTML5 Canvas API.
+This tutorial gives a simple overview of an approach to compiling ATS
+programs into Javascript that can be run in all the major web browsers
+available today. We will go through what tools you need and provide a
+simple wall clock implementation based on ATS, Javascript, and the HTML5
+Canvas API.
 
-This is a work in progress and is by no means complete.
+This is a work in progress and we encourage interested people to
+participate.
 
 ## Motivation
 
-Since its inception, ATS has been used primarily for low level systems
-programming in areas suitable for  C. The combination of dependent and
-linear  types provide  a  system where  programmers may  automatically
-enforce high  level constraints on  their applications as  an integral
-part of development.
+Since its inception, ATS has been used primarily for low-level systems
+programming in areas suitable for C. The availability of advanced types in
+ATS such as dependent types and linear types provides a highly expressive
+and flexible means for programmers to capture (sophisticated) invariants in
+their programs as an integral part of program construction.
 
-Javascript has  become the  language of  the new  web. For  the client
-portion  of web  applications,  it  is highly  portable  and now  very
-efficient thanks to optimizing engines such as V8 and Spidermonkey. As
-more and  more services  are implemented in  the browser,  people have
-been  interested  in  seeing  Javascript  as  a  target  language  for
-traditional compilers. In  fact, the asm.js project seeks  to define a
-small subset of Javascript to serve as a simple assembly language than
-ahead-of-time  compiling interpreter  could translate  to native  code
-very efficiently.
+Javascript (JS) has become the de facto language of the new web. For the
+client portion of web applications, JS is not only highly portable but also
+very efficient due to optimizing engines such as V8 and Spidermonkey. As
+more and more services are implemented in web browsers, people have been
+interested in seeing JS as a target language for traditional compilers. In
+fact, the asm.js project seeks to define a small subset of JS to serve as a
+simple assembly language that can be efficiently translated to native code
+by an ahead-of-time compiling interpreter
 
-Naturally, it  is an  interesting idea  to take  existing applications
-written in  C and compiling  them down to this  Javascript "assembly".
-The  obvious  advantage  is   portability,  this  program  should,  in
-principle, run  in most  of the browsers  available today.  Aside from
-existing applications, new programs written  in C could perform faster
-than  their  Javascript  equivalents.  This  claim  may  require  some
-explanation. In our "assembly" subset, all  data from the C program is
-outside of garbage collection since it exists in a large static array.
-In addition,  most operations in  the code will  be in a  small subset
-that an interpreter should easily translate to native code, instead of
-the more cumbersome translation of more feature rich javascript.
+Naturally, it is an interesting idea to take existing applications written
+in C and compiling them down to this JS "assembly".  The obvious advantage
+is portability, since this program should, in principle, run in most of the
+browsers available today.  Aside from existing applications, new programs
+written in C can perform more efficiently, both time-wise and memory-wise,
+than their counterparts written in JS directly.  In this "assembly" subset
+of JS, all data from the C program is outside of garbage collection since
+it exists in a large static array.  Also, most operations in the code will
+be in a small subset that should be much more suitable for an ahead-of-time
+compiling interpreter to perform efficient translation than the general
+feature-rich JS.
 
-With  any  performance gains  we  wish  to see  comes  responsibility.
-Suddenly, we  are faced  with all  the nasty  pitfalls that  come from
-writing  native code  such as  pointer arithmetic,  memory leaks,  and
-buffer overflows. Fortunately, ATS was  developed as a tool to address
-these problems.  Using this  Javascript backend, we'd  like to  make a
-case for writing efficient and reliable programs for the browser.
+With any performance gains we wish to see comes responsibility as we are
+faced with all the pitfalls that are often associated with writing native
+code such as erroneous pointer arithmetic, memory leaks, and buffer
+overflows. Fortunately, ATS has been developed precisely as a tool to
+effectively address these programming pitfalls. With this JS backend, we
+would like to make a convincing case for writing efficient and reliable
+programs to run on web browsers.
 
-Furthermore,   Javascript  applications   have   become  advanced   as
-manipulating binary  data for audio/video, websockets,  and the canvas
-provide  low level  and feature  rich APIs.  Here, both  dependent and
-linear  types can  provide  great advantage  in enforcing  constraints
-statically that otherwise would be difficult and error prone.
+Furthermore, JS applications have become advanced as manipulating binary
+data for audio/video, websockets, and canvases provide low-level and
+feature-rich APIs.  We expect that advanced types such as dependent linear
+and linear types to provide great advantages in enforcing constraints
+statically that would otherwise be difficult and error-prone to do.
 
 ## Dependencies
 
