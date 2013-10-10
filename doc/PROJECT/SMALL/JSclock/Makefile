@@ -20,9 +20,9 @@ PATSCCOMP2=emcc -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime
 
 all:: myclock0.js
 
-myclock0.js: myclock0.dats
-	@echo ${PATSCCOMP2}
-	$(PATSCC) -atsccomp "$(PATSCCOMP2)" -I${PATSHOME}/contrib --js-library library.js  -o $@ $<
+myclock0.js: myclock0.dats ; \
+  $(PATSCC) -atsccomp "$(PATSCCOMP2)" -I${PATSHOME}/contrib \
+    --js-library myclocklib.js --js-library ${PATSHOME}/contrib/HTML5/canvas-2d/JS/HTMLcanvas2d.js -o $@ $<
 
 ######
 

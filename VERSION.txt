@@ -41,6 +41,10 @@ Here is a list of major additions and changes since the last release:
 5. Support for linear lazy-evaluation: $ldelay
    See ${PATSHOME}/doc/EXAMPLE/INTRO/sieve_llazy.dats
 
+6. Fixing a serious bug in closure compilation: the environment of a
+   deeply embedded function could be miscomputed and then cause the C
+   code generated from ATS source to contain errors.
+
 </pre>
 
 ######

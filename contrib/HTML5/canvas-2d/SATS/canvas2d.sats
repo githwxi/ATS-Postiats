@@ -38,15 +38,9 @@ ATS_PACKNAME "ATSCNTRB.HTML"
 
 (* ****** ****** *)
 
-#define ATS_STALOADFLAG 0 // no need for staloading at run-time
+#define ATS_STALOADFLAG 0 // no staloading at run-time
 #define ATS_EXTERN_PREFIX "atscntrb_html5_" // prefix for external names
 
-(* ****** ****** *)
-
-//
-#include
-"share/atspre_define.hats"
-//
 (* ****** ****** *)
 
 absvtype
@@ -87,7 +81,7 @@ fun
 canvas2d_clearRect
 (
   !canvas2d1
-, x: int, y: int, wd: int, ht: int
+, x: double, y: double, wd: double, ht: double
 ) : void = "ext#%" // endfun
 
 (* ****** ****** *)
@@ -100,10 +94,10 @@ canvas2d_closePath (!canvas2d1): void = "ext#%"
 (* ****** ****** *)
 //
 fun canvas2d_moveTo
-  (!canvas2d1, x: int, y: int): void = "ext#%"
+  (!canvas2d1, x: double, y: double): void = "ext#%"
 //
 fun canvas2d_lineTo
-  (!canvas2d1, x: int, y: int): void = "ext#%"
+  (!canvas2d1, x: double, y: double): void = "ext#%"
 //
 (* ****** ****** *)
 
@@ -111,20 +105,20 @@ fun
 canvas2d_rect
 (
   !canvas2d1
-, xul: int
-, yul: int
-, width: int
-, height: int
+, xul: double
+, yul: double
+, width: double
+, height: double
 ) : void = "ext#%"
 //
 fun
 canvas2d_fillRect
 (
   !canvas2d1
-, xul: int
-, yul: int
-, width: int
-, height: int
+, xul: double
+, yul: double
+, width: double
+, height: double
 ) : void = "ext#%"
 
 (* ****** ****** *)
@@ -133,11 +127,11 @@ fun
 canvas2d_arc
 (
   !canvas2d1
-, xc: int
-, yc: int
-, rad: int
-, angle_beg: int
-, angle_end: int
+, xc: double
+, yc: double
+, rad: double
+, angle_beg: double
+, angle_end: double
 , counterclockwise: bool
 ) : void = "ext#%"
 
@@ -152,15 +146,17 @@ fun canvas2d_stroke (!canvas2d1): void = "ext#%"
 fun canvas2d_strokeStyle_string (!canvas2d1, style: string): void = "ext#%"
 
 (* ****** ****** *)
-
+//
 fun
 canvas2d_translate
-  (!canvas2d1, x: int, y: int): void = "ext#%"
+  (!canvas2d1, x: double, y: double): void = "ext#%"
 fun
-canvas2d_scale (!canvas2d1, sx: double, sy: double): void = "ext#%"
+canvas2d_scale
+  (!canvas2d1, sx: double, sy: double): void = "ext#%"
 fun
-canvas2d_rotate (!canvas2d1, angle: double): void = "ext#%"
-
+canvas2d_rotate
+  (!canvas2d1, angle: double(*radian*)): void = "ext#%"
+//
 (* ****** ****** *)
 //
 absview canvas2d_save_v (l:addr)
@@ -176,8 +172,9 @@ canvas2d_restore{l:agz}
 
 fun 
 canvas2d_set_size
-  (!canvas2d1, width: int, height: int): void = "ext#%"
+  (!canvas2d1, width: int(*px*), height: int(*px*)): void = "ext#%"
+// end of [canvas2d_set_size]
 
 (* ****** ****** *)
 
-(* end of [canvas.sats] *)
+(* end of [canvas2d.sats] *)

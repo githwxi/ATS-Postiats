@@ -139,4 +139,3 @@ mergeInto(LibraryManager.library, atscntrb_html5_canvas2d);
 /* ****** ****** */
 
 /* end of [HTMLcanvas2d.js] */
-
