@@ -1035,12 +1035,10 @@ implement
 ccompenv_inc_tailcalenv
   (env, fl) = () where
 {
-//
 (*
 val (
 ) = println! ("ccompenv_inc_tailcalenv: fl = ", fl)
 *)
-//
 val CCOMPENV (!p) = env
 val tci = TCIfun (fl)
 val tcis = p->ccompenv_tailcalenv
@@ -1321,13 +1319,16 @@ prval () = fold@ (env)
 implement
 ccompenv_inc_flabsetenv
   (env) = let
-  val CCOMPENV (!p) = env
-  val flset = funlabset_vt_nil ()
-  val () =
-  (
-    p->ccompenv_flabsetenv := list_vt_cons (flset, p->ccompenv_flabsetenv)
-  )
-  prval () = fold@ (env)
+(*
+val () = println! ("ccompenv_inc_flabsetenv")
+*)
+val CCOMPENV (!p) = env
+val flset = funlabset_vt_nil ()
+val () = (
+  p->ccompenv_flabsetenv := list_vt_cons (flset, p->ccompenv_flabsetenv)
+) (* end of [val] *)
+prval () = fold@ (env)
+//
 in
   // nothing
 end // end of [ccompenv_inc_flabsetenv]
@@ -1341,7 +1342,9 @@ val CCOMPENV (!p) = env
 val-~list_vt_cons (fls, flss) = p->ccompenv_flabsetenv
 val () = p->ccompenv_flabsetenv := flss
 prval () = fold@ (env)
-//
+(*
+val () = fprintln! (stdout_ref, "ccompenv_getdec_flabsetenv: fls = ", fls)
+*)
 } // end of [ccompenv_getdec_flabsetenv]
 
 (* ****** ****** *)
@@ -1350,8 +1353,13 @@ implement
 ccompenv_add_flabsetenv
   (env, fl) = ((*void*)) where
 {
+(*
+val () =
+println! ("ccompenv_add_flabsetenv: fl = ", fl)
+*)
 //
 val CCOMPENV (!p) = env
+//
 val-list_vt_cons
   (!p_fls, _) = p->ccompenv_flabsetenv
 val () = !p_fls := funlabset_vt_add (!p_fls, fl)
@@ -1666,8 +1674,7 @@ ccompenv_add_vbindmapall
   (env, d2v, pmv) = let
 //
 (*
-val () =
-(
+val () = (
   println! ("ccompenv_add_vbindmapall: d2v = ", d2v);
   println! ("ccompenv_add_vbindmapall: pmv = ", pmv);
 ) : void // end of [val]

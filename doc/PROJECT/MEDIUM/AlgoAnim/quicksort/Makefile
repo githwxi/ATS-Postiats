@@ -26,7 +26,7 @@ quicksort_anim.js: quicksort_anim.dats ; \
 ######
 
 upload:: ; scp quicksort_anim.html quicksort_anim.js \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/TEMPATS/JavaScripts/AlgoAnim/quicksort/
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/TEMPATS/JS/AlgoAnim/quicksort/
 
 ######
 
@@ -37,7 +37,10 @@ clean:: ; rm -f *_?ats.o
 clean:: ; rm -f *_?ats.c
 clean:: ; rm -f *.map
 
+######
+
 cleanall:: clean
 cleanall:: ; rm -f quicksort_anim.js
+cleanall:: ; rm -f quicksort_anim.js.map
 
 ###### end of [Makefile] ######

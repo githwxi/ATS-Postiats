@@ -382,6 +382,7 @@ case+ hfds of
     (hfd, hfds) => let
     val loc = hfd.hifundec_loc
     val d2v = hfd.hifundec_var
+//
     val () = d2var_set_level (d2v, lvl0)
     val-Some(hse) = d2var_get2_hisexp (d2v)
     val fcopt = None_vt() // HX: by [hse]

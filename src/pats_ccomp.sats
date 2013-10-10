@@ -376,6 +376,9 @@ fun funlabset_vt_listize_free (fls: funlabset_vt): funlablst_vt
 
 fun funlablst2set (fls: funlablst): funlabset_vt
 
+fun fprint_funlabset_vt (out: FILEref, fls: !funlabset_vt): void
+overload fprint with fprint_funlabset_vt
+
 (* ****** ****** *)
 //
 // HX: function entry

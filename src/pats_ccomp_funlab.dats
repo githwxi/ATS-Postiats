@@ -497,7 +497,7 @@ val () = $UT.fprintlst (out, fls, ", ", fprint_funlab)
 //
 in
   // nothing
-end // end of [fprint_funlabset]
+end // end of [fprint_funlablst]
 
 (* ****** ****** *)
 
@@ -564,6 +564,18 @@ end (* end of [loop] *)
 in
   loop (fls, funlabset_vt_nil ())
 end // end of [funlablst2set]
+
+(* ****** ****** *)
+
+implement
+fprint_funlabset_vt
+  (out, fls) = let
+  val fls = funlabset_vt_listize (fls)
+  val ((*void*)) = fprint_funlablst (out, $UN.linlst2lst(fls))
+  val ((*void*)) = list_vt_free (fls)
+in
+  // nothing
+end // end of [fprint_funlabset_vt]
 
 (* ****** ****** *)
 
