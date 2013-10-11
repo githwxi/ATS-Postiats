@@ -1,15 +1,18 @@
 (*
-//
-// The 5th assignment
-// BU CAS CS520, Fall, 2013
-//
+** closure compilation bug
 *)
 
 (* ****** ****** *)
 
+(*
+** Status: Fixed by Hongwei Xi
+*)
+
+(* ****** ****** *)
+//
 #include
 "share/atspre_staload.hats"
-
+//
 (* ****** ****** *)
 
 #define :: stream_cons
@@ -22,28 +25,18 @@ typedef int2 = (int, int)
 
 (* ****** ****** *)
 
-(*
 extern
-fun foo
-  (f: (int) -<fun> int): stream (int)
-implement
-foo (f) = let
-//
-fun fapp (): int = f (0)
-fun fapp2 (): int = fapp ()
-//
-fun aux (): stream(int) = $delay (cons{int}(fapp2(), aux()))
-//
-in
-  aux()
-end // end of [foo]
-*)
+fun
+foo (x: int): int
 
 (* ****** ****** *)
-
-extern
-fun foo
-  (x: int): int
+//
+// HX: closure environment
+// for [bar] was computed incorrectly
+// this bug was first triggered by some
+// code of a student (Li DongQi) taking
+// CS520, Fall 2013.
+//
 implement
 foo (x) = let
 //

@@ -656,14 +656,17 @@ val the_mainatsflag = $GLOB.the_MAINATSFLAG_get ()
 //
 in
 //
-if the_mainatsflag = 0 then let
-  val opt = the_mainats_d2copt_get ()
-in
+if the_mainatsflag = 0
+  then let
+    val opt = the_mainats_d2copt_get ()
+  in
 //
-case+ opt of
-| Some _ => 0 | None () => $GLOB.the_DYNLOADFLAG_get ()
+  case+ opt of
+  | Some _ => (~1)
+  | None () => $GLOB.the_DYNLOADFLAG_get ()
 //
-end else 0 // HX: mainatsflag overrules dynloadflag
+  end // end of [then]
+  else (~1) // HX: mainatsflag overrules dynloadflag
 //
 end // end of [the_dynloadflag_get]
 
@@ -690,7 +693,8 @@ end // end of [emit_main_arglst_err]
 (* ****** ****** *)
 
 extern
-fun emit_dynload
+fun
+emit_dynload
   (out: FILEref, infil: $FIL.filename): void
 implement
 emit_dynload
@@ -701,7 +705,8 @@ emit_dynload
 }
 
 extern
-fun emit_dynloadflag
+fun
+emit_dynloadflag
   (out: FILEref, infil: $FIL.filename): void
 implement
 emit_dynloadflag
@@ -822,15 +827,17 @@ aux_dynload_def
 //
 val flag = the_dynloadflag_get ()
 //
-val () = emit_text (out, "\n/*\n")
+val () = if flag = 0 then emit_text (out, "#if(0)\n")
+//
+val () = emit_text (out, "/*\n")
 val () = emit_text (out, "** for initialization(dynloading)")
 val () = emit_text (out, "\n*/\n")
 //
 val () = emit_text (out, "atsvoid_t0ype\n")
 val () = emit_dynload (out, infil)
 val () = emit_text (out, "()\n{\n")
-val () = if flag = 0 then emit_text (out, "ATSdynload0(\n")
-val () = if flag > 0 then emit_text (out, "ATSdynload1(\n")
+val () = if flag <= 0 then emit_text (out, "ATSdynload0(\n")
+val () = if flag >= 1 then emit_text (out, "ATSdynload1(\n")
 val () = emit_dynloadflag (out, infil)
 val () = emit_text (out, "\n) ;\n")
 val () = emit_text (out, "ATSif(\n")
@@ -858,6 +865,8 @@ val () = emit_text (out, fbody)
 val () = emit_text (out, "} /* ATSendif */\n")
 val () = emit_text (out, "ATSreturn_void() ;\n")
 val () = emit_text (out, "} /* end of [*_dynload] */\n")
+//
+val () = if flag = 0 then emit_text (out, "#endif // end of [#if(0)]\n")
 //
 in
   // nothing
