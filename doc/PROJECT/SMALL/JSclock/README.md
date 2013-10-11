@@ -63,19 +63,19 @@ Next,   install   clang  and   the   (emscripten)[download-emscripten]
 compiler. If you want to run  your compiled javascript programs from a
 console, you can run them from node.js, which emscripten requires.
 
-## Hello World
+## Hello, world!
 
-After installing  emscripten, you'll  now have  a C/C++  compiler that
-outputs  javascript.  For  ATS,  we'll mostly  concerned  with  the  C
-functionality provided  by emcc. Make sure  emcc is in your  path, and
-try the following small example
+After installing emscripten, you'll now have a C/C++ compiler that outputs
+javascript.  For ATS, we'll mostly concerned with the C functionality
+provided by emcc. Make sure emcc is in your path, and try the following
+small example
 
-    implement main0 = {
+    implement main0 () = {
       val () = println! "Hello, world!"
     }
 
-Save this to hello.dats. Next, we'll  need to tell the ATS compiler to
-use our alternative C compiler.
+Save this to hello.dats. Next, we'll need to tell the ATS compiler to use
+our alternative C compiler.
 
     export PATSCCOMP="emcc -Wno-warn-absolute-paths -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime"
 
@@ -90,30 +90,29 @@ able to utilize all the features found in ATS2 for writing programs.
 
 ## Utilizing Javascript Interfaces
 
-Almost  any  client side  application  needs  to interface  with  APIs
-provided  by  the  browser.  Some  examples  include  websockets,  DOM
-elements, and the 2D/3D canvas. Here, we outline a couple helpful tips
-for  working  with Javascript  Since  ATS  interfaces simply  with  C,
-refering  to  emscripten's  documentation  will  be  most  helpful  if
-something doesn't work  right. In the future, we would  like to remove
-the dependency on emscripten and compile ATS right to Javascript.
+Almost any client side application needs to interface with APIs provided by
+the browser.  Some examples include websockets, DOM elements, and the 2D/3D
+canvas. Here, we outline a couple helpful tips for working with Javascript.
+Since ATS interfaces simply with C, refering to emscripten's documentation
+will be most helpful if something does not work right. In the future, we
+would like to remove the dependency on emscripten and compile ATS right to
+Javascript.
 
 ### Functions in Javascript
 
-Suppose there's some functionality we would like that's implemented in
-the browser, such  as refreshing a div container. Obviously,  C has no
-notion of the  DOM, so we wrap this function  in an external function.
-In ATS, we use the following declaration.
+Suppose there's some functionality we would like that's implemented in the
+browser, such as refreshing a div container. Obviously, C has no notion of
+the DOM, so we wrap this function in an external function.  In ATS, we use
+the following declaration.
 
     extern fun update_display (): void = "ext#"
 
-This designates "update_display" to  be externally defined. This means
-that the  C compiler will  generate a stub for  it and let  the linker
-resolve it to  the correct symbol. We can tell  emscripten to look for
-this symbol  in a special javascript  file we designate as  a library.
-To get a good idea of how this works, check out the library.js file in
-this directory that wraps the HTML5 Canvas API with functions ATS can
-understand. 
+This designates "update_display" to be externally defined. This means that
+the C compiler will generate a stub for it and let the linker resolve it to
+the correct symbol. We can tell emscripten to look for this symbol in a
+special javascript file we designate as a library.  To get a good idea of
+how this works, check out the library.js file in this directory that wraps
+the HTML5 Canvas API with functions ATS can understand.
 
 To make a library.js for the simple update display example, add the
 following to it
@@ -129,8 +128,8 @@ following to it
     /* Merge our library with the default */
     mergeInto(LibraryManager.library, LibraryUpdate);
 
-Now, we need  to tell emscripten where to find  our library. Modifying
-our call to patscc will do the trick.
+Now, we need to tell emscripten where to find our library. Modifying our
+call to patscc will do the trick.
 
   patscc --js-libary library.js -o update.html update.dats
 
@@ -139,80 +138,75 @@ standalone html file with your Javascript program embedded in it.
 
 ### Javascript Objects
 
-The only  types we can  share between  Javascript and C  are primitive
-types such as  integers, floats, and doubles. So how  then can we work
-with things like HTML documents, or DOM elements? One easy solution is
-to use integers as offsets into  containers you have in Javascript. We
-use this technique in keeping track  of drawing contexts which have no
-representation in C.
+The only types we can share between Javascript and C are primitive types
+such as integers, floats, and doubles. So how then can we work with things
+like HTML documents, or DOM elements? One easy solution is to use integers
+as offsets into containers you have in Javascript. We use this technique in
+keeping track of drawing contexts which have no representation in C.
 
-Let's create an  abstract linear type in ATS to  represent our drawing
+Let's create an abstract linear type in ATS to represent our drawing
 context.
 
-    absvtype context
+    absvtype canvas2d
 
-Since it's abstract  and boxed, a context is  automatically a pointer.
-When we create a context, we give the id of the canvas providing it.
+Since it's abstract and boxed, a context is automatically a pointer.  When
+we create a context, we give the id of the canvas providing it.
   
-    extern fun make_canvas (id: string): context
+    extern fun make_canvas (id: string): canvas2d
 
-In Javascript,  we are  given a  pointer to a  string. Let's  use that
-pointer as an id for the context.
+In Javascript, we are given a pointer to a string. Let's use that pointer
+as an id for the context.
 
-    Clock: {
+    Canvas: {
       contexts: {},
     },
-    make_context: function (ptr) {
+
+    canvas2d_make: function (ptr) {
         var id = Pointer_stringify(ptr);
         var canvas = document.getElementById(id);
 
         if(canvas.getContext) {
-            Clock.contexts[ptr] = canvas.getContext("2d");
+            Canvas.contexts[ptr] = canvas.getContext("2d");
         } else {
-            throw "HTML5 Canvas is not supported";
+            throw "canvas2d_make: HTML5 Canvas is not supported";
         }
         
         return ptr; 
     }
 
-Now, when we call a function on our context, we use the value in ATS as
-a key into our contexts lookup table. For example, here's the wrapper
-for rotating rotating the orientation of our canvas.
+When we call a function on our context, we use the value in ATS as a
+key into the lookup table for contexts. For example, here's the wrapper for
+rotating rotating the orientation of our canvas.
 
-    fun rotate (_: !context, radians: double): void = "ext#"
+    fun rotate (!canvas2d, angle: double): void = "ext#"
 
-    rotate: function (ptr, radians) {
-        Clock.contexts[ptr].rotate(radians);
-    }
+    rotate: function (ptr, angle) { Canvas.contexts[ptr].rotate(angle); }
 
-When it  comes time to free  our context, which is  required for every
-linear type in ATS,  we just set the context refered to  by the key to
-null. If  context were some regular  object, it could now  possibly be
-reclaimed by garbage collection.
+When it comes time to free our context, which is required for every linear
+type in ATS, we just set the context refered to by the key to null. If
+context were some regular object, it could now possibly be reclaimed by
+garbage collection.
 
-    fun free_context (_: context): void = "ext#"
+    fun canvas2d_free (canvas2d): void = "ext#"
 
-    free_context: function (ptr) {
-        Clock.contexts[ptr] = null;
-    }
+    canvas2d_free: function (ptr) { Canvas.contexts[ptr] = null; }
 
-This gives  you a  simple example  of how  to wrap  Javascript objects
-through abstract types in ATS.
+This gives you a simple example of how to wrap Javascript objects through
+abstract types in ATS.
 
 ### Modifying ATS Records
 
-A record in ATS boils down to a  regular C struct. If we want to fetch
-some information  from Javascript, such as  from a timer, we  can only
-pass a  pointer to the struct  to our external functional.  Using this
-pointer (which  is, after all  just an  integer) we use  the functions
-provided by  the emscripten  library to "dereference"  it and  set the
-fields appropriately.
+A record in ATS boils down to a regular C struct. If we want to fetch some
+information from Javascript, such as from a timer, we can only pass a
+pointer to the struct to our external functional.  Using this pointer
+(which is, after all just an integer) we use the functions provided by the
+emscripten library to "dereference" it and set the fields appropriately.
 
-For example,  when we make a  clock we want the  current hour, minute,
-second, and, since  we want a nice analog  looking clock, millisecond.
-Of course,  we can do  this all in C,  but since the  library function
-gets deferred in Javascript anyway, let's  make a nice wrapper. In ATS
-a point in time is represented by the following type:
+For example, when we make a clock we want the current hour, minute, second,
+and, since we want a nice analog looking clock, millisecond.  Of course, we
+can do this all in C, but since the library function gets deferred in
+Javascript anyway, let's make a nice wrapper. In ATS a point in time is
+represented by the following type:
 
     typedef wallclock = @{
       hours= double,
@@ -223,15 +217,15 @@ a point in time is represented by the following type:
     extern
     fun wallclock_now (_: &wallclock? >> wallclock): void = "ext#"
 
-This is just a  regular struct of doubles. Using a  double lets us put
-the hands at points between numbers and gives a nice smooth transition
-of  time. The  initialize function  "wallclock_now" takes  a reference
-(pointer) to a wallclock record and initializes its fields. We now see
-how we implement this in our library.js file.
+This is just a regular struct of doubles. Using a double lets us put the
+hands at points between numbers and gives a nice smooth transition of
+time. The initialize function "wallclock_now" takes a reference (pointer)
+to a wallclock record and initializes its fields. We now see how we
+implement this in our library.js file.
 
     wallclock_now: function (ptr) {
         /* 
-           Assume that the layout of a struct in memory isn't
+           Assume that the layout of a struct in memory is not
            changed by alignment optimizations.
         */
         var now = new Date();
@@ -250,21 +244,21 @@ how we implement this in our library.js file.
         Module.setValue(ptr + 16, secs, "double");
     }
 
-After  calling "wallclock_now",  the struct  pointed at  by "ptr"  now
-contains the  hour, minute, and  second given  by the Date  object. Of
-course, this  isn't very convenient  or easy  to use, but  with proper
-library support it could be made simpler.
+After calling "wallclock_now", the struct pointed at by "ptr" now contains
+the hour, minute, and second given by the Date object. Of course, this is
+not very convenient or easy to use, but with proper library support it
+could be made simpler.
 
 ## Code Example: A Wall Clock
 
-In this folder you'll see all these  ideas put into practice to make a
-simple clock using  the HTML5 Canvas API. Rendering is  done using the
-requestAnimationFrame   interface    which   makes    an   interesting
-demonstration of higher order functions between ATS and Javascript.
+In this folder you'll see all these ideas put into practice to make a
+simple clock based the HTML5 Canvas API. Rendering is done using the
+requestAnimationFrame interface which makes an interesting demonstration of
+passing higher-order functions between ATS and Javascript.
 
-You can  compile the clock  yourself or view  it [here][running-clock]
-through any browser. To see how it works, check out myclock0.dats.
+You can compile the clock yourself or view it [here][running-clock] through
+a commonly available browser. To see how it works, check out myclock0.dats.
 
 [download-ats]: http://www.ats-lang.org/DOWNLOAD/#ATS_packages
 [download-emscripten]: http://github.com/kripken/emscripten
-[running-clock]: http://cs-people.bu.edu/wdblair/jsclock/myclock0.html
+[running-clock]: http://www.ats-lang.org/TEMPATS/JS/JSclock/myclock0.html
