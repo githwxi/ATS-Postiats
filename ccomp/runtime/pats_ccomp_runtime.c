@@ -101,7 +101,10 @@ the_atsexncon_initize
 #endif // end of [_ATS_EXCEPTION_NONE]
 
 /* ****** ****** */
-
+//
+// HX-2013:
+// for reporting pattern matching failure
+//
 extern
 void
 atsruntime_handle_unmatchedval

@@ -104,7 +104,8 @@ acker3: acker3.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 
 ######
 
-areverse: areverse.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+areverse: areverse.dats ; \
+  $(PATSCC) -D_ATS_EXCEPTION_NONE -DATS_MEMALLOC_LIBC -o $@ $<
 
 ######
 
@@ -193,7 +194,7 @@ strprefix: strprefix.dats ; $(PATSCC) -o $@ $<
 
 ######
 
-tally: tally.dats ; $(PATSCC) -o $@ $<
+tally: tally.dats ; $(PATSCC) -D_ATS_EXCEPTION_NONE -o $@ $<
 
 ######
 
