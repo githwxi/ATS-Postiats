@@ -12,6 +12,10 @@ all: \
 
 ######
 
+config.h : ; ./configure
+
+######
+
 src_patsopt: ; make -j4 -C src patsopt
 bin_patsopt: src_patsopt ; cp -f src/patsopt bin/patsopt
 

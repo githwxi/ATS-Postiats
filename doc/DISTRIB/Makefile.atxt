@@ -118,6 +118,8 @@ all_script::
 #make_entry("atscntrb_cairo")
 #make_entry("atscntrb_hiredis")
 #
+#make_entry("atscntrb_HTML5_canvas2d")
+#
 #make_entry("atscntrb_libatshwxi_intinf")
 #make_entry("atscntrb_libatshwxi_testing")
 #make_entry("atscntrb_libatshwxi_teaching")
@@ -216,6 +218,11 @@ srcget_atscntrb_cairo:: SCRIPT/atscntrb_cairo.bash ; bash $<
 
 srcget_atscntrb:: srcget_atscntrb_hiredis
 srcget_atscntrb_hiredis:: SCRIPT/atscntrb_hiredis.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_HTML5_canvas2d
+srcget_atscntrb_HTML5_canvas2d:: SCRIPT/atscntrb_HTML5_canvas2d.bash ; bash $<
 
 ######
 
