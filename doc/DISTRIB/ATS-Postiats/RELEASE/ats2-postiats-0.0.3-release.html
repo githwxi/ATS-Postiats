@@ -30,7 +30,7 @@ Here is a list of major additions and changes since the last release:
 
 1. Support for stack-allocated array-variables:
    var A = @[int][10]() // A: array(int?, 10) // uninitialized
-   var A = @[int][10](0) // A: array(int, 10) // intialized with 0's
+   var A = @[int][10](0) // A: array(int, 10) // initialized with 0's
    var A = @[int](0, 1, 2, 3, 4, 5, 6, 7, 8, 9) // A: array(int, 10)
 
 2. Support for ptr-style of stack-allocated variables:
@@ -45,5 +45,9 @@ Here is a list of major additions and changes since the last release:
 
 5. Support for linear lazy-evaluation: $ldelay
    See ${PATSHOME}/doc/EXAMPLE/INTRO/sieve_llazy.dats
+
+6. Fixing a serious bug in closure compilation: the environment of a
+   deeply embedded function could be miscomputed, causing the C target
+   code generated from ATS source to contain errors.
 
 </pre>

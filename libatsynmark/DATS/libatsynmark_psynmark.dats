@@ -1324,12 +1324,12 @@ case+ ds of
 | list_cons (d, ds) => let
     val () = s0expopt_mark (d.v0ardec_type, res)
     val () = (
-      case+ d.v0ardec_wth of
+      case+ d.v0ardec_pfat of
       | Some (id) =>
           psynmark_ins_begend (SMprfexp, id.i0de_loc, res)
       | None () => ()
     ) : void // end of [val]
-    val () = d0expopt_mark (d.v0ardec_ini, res)
+    val () = d0expopt_mark (d.v0ardec_init, res)
   in
     v0ardeclst_mark (ds, res)
   end // end of [list_cons]

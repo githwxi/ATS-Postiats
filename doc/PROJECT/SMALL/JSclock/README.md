@@ -196,7 +196,7 @@ abstract types in ATS.
 
 ### Reading the Current Time in JS
 
-Clearly, we need to be able read the current time in order to make a
+Clearly, we need to be able to read the current time in order to make a
 running clock. Let us first declare as follows the interface of a function
 for reading the current time:
 

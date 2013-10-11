@@ -41,7 +41,10 @@ fun Math_floor (_: double): int = "ext#"
 staload "{$LIBATSHWXI}/testing/SATS/randgen.sats"
 staload _ = "{$LIBATSHWXI}/testing/DATS/randgen.dats"
 
-implement{} randint{n}(n) = let
+(* ****** ****** *)
+
+implement{
+} randint{n}(n) = let
   val r = Math_random ()
   val sample = Math_floor (r * n)
 in $UN.cast{natLt(n)} (sample) end
@@ -141,8 +144,6 @@ val () = array0_swap (A, k1, last)
 in
   (k1 - st)
 end // end of [qort_partition]
-
-(* ****** ****** *)
 
 (* ****** ****** *)
 
@@ -295,100 +296,110 @@ fun draw_array {l:agz} (
 ): void
 
 local
-  val dt = 100.0
-in
 
-  implement draw_array {l} (cnv, A, W, H, range, p) = let
-    val n = A.size
-    val asz = A.size
-    val sx = g0i2f(W) / $UN.cast{double}(asz)
-    val sy = g0i2f(H) / $UN.cast{double}(MYMAX)
-    val (pf | ()) = canvas2d_save (cnv)
-    val () = canvas2d_scale (cnv, sx, sy)
-    //
-    fun loop (
-      cnv: !canvas2d l, i: size_t
-    ): void =
-      if i < n then let
-        val v = A[i]
-        val xul = g0uint2int(i)
-        val yul = MYMAX - v
-        val color = (let
-            val normal = "rgb(200, 200, 200)"
-          in
-            case+ p of 
-              | _ when p = ~1 => normal
-              | _  =>> 
-                if p = g0uint2int(i) then
-                "rgb(255, 0, 0)"
-               else
-                 normal
-          end
-        ): string
-      in
-        canvas2d_fillStyle_string (cnv, color);
-        canvas2d_fillRect (cnv, xul, yul, 1, v);
-        loop (cnv, succ(i))
-      end
-    val () = loop (cnv, i2sz(0))
-    val part_start = g0uint2int(range.0) and part_len = g0uint2int(range.1)
-    val () =
-    //draw a blue line to indicate the pivot
-      if p > ~1 then let
-        val v  = A[$UN.cast{size_t}(p)]
-        val (pf' | ()) = canvas2d_save (cnv)
-      in
-        canvas2d_beginPath (cnv);
-        canvas2d_moveTo (cnv, part_start, MYMAX - v);
-        canvas2d_lineTo (cnv, part_start + part_len, MYMAX - v);
-        canvas2d_strokeStyle_string (cnv, "rgb(0,0,255)");
-        canvas2d_stroke (cnv);
-        canvas2d_restore (pf' | cnv)
-      end    
-    val () = canvas2d_fillStyle_string (cnv, "rgba(0, 0, 0, 0.1)")
-    val () = canvas2d_fillRect (cnv, part_start, 0, part_len , MYMAX)
+val dt = 100.0
+
+in (* in of [local] *)
+
+implement
+draw_array{l}
+(
+  cnv, A, W, H, range, p
+) = let
+//
+val n = A.size
+val asz = A.size
+val sx = g0i2f(W) / $UN.cast{double}(asz)
+val sy = g0i2f(H) / $UN.cast{double}(MYMAX)
+val (pf | ()) = canvas2d_save (cnv)
+val () = canvas2d_scale (cnv, sx, sy)
+//
+fun loop
+(
+  cnv: !canvas2d l, i: size_t
+) : void =
+  if i < n then let
+    val v = A[i]
+    val xul = g0uint2int(i)
+    val yul = MYMAX - v
+    val color = let
+      val normal = "rgb(200, 200, 200)"
+    in
+      case+ p of 
+      | _ when p = ~1 => normal
+      | _  =>> if p = g0uint2int(i) then "rgb(255, 0, 0)" else normal
+    end : string
   in
-    canvas2d_restore (pf | cnv)
+    canvas2d_fillStyle_string (cnv, color);
+    canvas2d_fillRect (cnv, 1.0 * xul, 1.0 * yul, 1.0, 1.0 * v);
+    loop (cnv, succ(i))
   end
-
-  implement start_animation () =
-    window_request_animation_frame (
-      fix step (timestamp:double): void => begin
-        if theNextRender_get() < timestamp then let
-          val event = snapshot_pop ()
-          val () = theNextRender_incby (dt)
-          // render the event
-          val cnv = canvas2d_make ("QuicksortAnim")
-          val () = assertloc (ptr_isnot_null(ptrcast(cnv)))
-          //Get the latest dimensions of the viewport
-          val W = document_documentElement_clientWidth()
-          val H = document_documentElement_clientHeight()
-          //Resize our canvas 
-          val () = canvas2d_set_size (cnv, W, H)
-          val () = canvas2d_clearRect (cnv, 0, 0, W, H)
-          val () = canvas2d_fillStyle_string (cnv, "rgb(255,255,255)")
-          val () = canvas2d_fillRect (cnv, 0, 0, W, H)
-        in (
-          case+ event of 
-          | Normal (A) => begin
-            draw_array (cnv, A, W, H, @(i2sz(0),i2sz(0)), ~1);
-            canvas2d_free (cnv);
-          end
-          | SelectPivot (A, range, p) => begin
-            draw_array (cnv, A, W, H, range, g0uint2int(p));
-            canvas2d_free (cnv)
-          end
-          | Swap (A, range, p , _) => begin
-            draw_array (cnv, A, W, H, range, g0uint2int(p)); 
-            canvas2d_free (cnv);
-          end
-        )
-       end;
-        window_request_animation_frame (step);
-      end
-    )
-
+//
+val () = loop (cnv, i2sz(0))
+val part_start = g0uint2int(range.0) and part_len = g0uint2int(range.1)
+val () = //draw a blue line to indicate the pivot
+if p > ~1 then let
+   val v  = A[$UN.cast{size_t}(p)]
+   val (pf' | ()) = canvas2d_save (cnv)
+in
+   canvas2d_beginPath (cnv);
+   canvas2d_moveTo (cnv, 1.0 * part_start, 1.0 * (MYMAX - v));
+   canvas2d_lineTo (cnv, 1.0 * (part_start + part_len), 1.0 * (MYMAX - v));
+   canvas2d_strokeStyle_string (cnv, "rgb(0,0,255)");
+   canvas2d_stroke (cnv);
+   canvas2d_closePath (cnv);
+   canvas2d_restore (pf' | cnv)
+end    
+//
+val () = canvas2d_fillStyle_string (cnv, "rgba(0, 0, 0, 0.1)")
+val () = canvas2d_fillRect (cnv, 1.0 * part_start, 0.0, 1.0 * part_len, 1.0 * MYMAX)
+//
+in
+  canvas2d_restore (pf | cnv)
 end
+
+implement
+start_animation () =
+window_request_animation_frame
+(
+fix step (timestamp:double): void =>
+(
+  if theNextRender_get() < timestamp then let
+    val event = snapshot_pop ()
+    val () = theNextRender_incby (dt)
+    // render the event
+    val cnv = canvas2d_make ("QuicksortAnim")
+    val () = assertloc (ptr_isnot_null(ptrcast(cnv)))
+    // Get the latest dimensions of the viewport
+    val W = document_documentElement_clientWidth()
+    val H = document_documentElement_clientHeight()
+    // Resize our canvas 
+    val () = canvas2d_set_size (cnv, W, H)
+    val (
+    ) = canvas2d_clearRect (cnv, 0.0, 0.0, 1.0 * W, 1.0 * H)
+    val () = canvas2d_fillStyle_string (cnv, "rgb(255,255,255)")
+    val () = canvas2d_fillRect (cnv, 0.0, 0.0, 1.0 * W, 1.0 * H)
+  in (
+    case+ event of 
+    | Normal (A) => begin
+        draw_array (cnv, A, W, H, @(i2sz(0),i2sz(0)), ~1);
+        canvas2d_free (cnv);
+      end
+    | SelectPivot (A, range, p) => begin
+        draw_array (cnv, A, W, H, range, g0uint2int(p));
+        canvas2d_free (cnv)
+      end
+    | Swap (A, range, p , _) => begin
+        draw_array (cnv, A, W, H, range, g0uint2int(p)); 
+        canvas2d_free (cnv);
+      end
+   ) end; window_request_animation_frame (step);
+)
+) // end of [window_request_animation_frame]
+
+end // end of [local]
+
+(* ****** ****** *)
   
 implement
 main0 () = let

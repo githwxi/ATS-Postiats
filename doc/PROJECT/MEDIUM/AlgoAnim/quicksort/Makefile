@@ -13,7 +13,7 @@ all:: quicksort_anim.js
 
 ######
 
-PATSCCOMP2="emcc -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime"
+PATSCCOMP2=emcc -Wno-warn-absolute-paths -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime
 
 ######
 
