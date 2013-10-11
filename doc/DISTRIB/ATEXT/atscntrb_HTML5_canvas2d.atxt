@@ -43,8 +43,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=./../../contrib/hiredis/\n\
-TARGET=ATS-Postiats-contrib/contrib/hiredis/\n\
+SOURCE=./../../contrib/HTML5/canvas-2d/\n\
+TARGET=ATS-Postiats-contrib/contrib/HTML5/canvas-2d/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -62,7 +62,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The ATSCNTRB-hiredis files have been copied.\"\n\
+echo \"The ATSCNTRB-HTML5-canvas-2d files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
@@ -96,22 +96,13 @@ packfilesynop (x) = atext_nil ()
 (* ****** ****** *)
 
 #packtitle("\
-ATSCNTRB/hiredis\
+ATSCNTRB/HTML5/canvas-2d\
 ")
 
 (* ****** ****** *)
 
-#packfilename("CATS/hiredis.cats")
-
-(* ****** ****** *)
-
-#packfilename("SATS/hiredis.sats")
-#packfilename("SATS/hiredis_ML.sats")
-
-(* ****** ****** *)
-
-#packfilename("DATS/hiredis.dats")
-#packfilename("DATS/hiredis_ML.dats")
+#packfilename("JS/HTMLcanvas2d.js")
+#packfilename("SATS/canvas2d.sats")
 
 (* ****** ****** *)
 
@@ -127,4 +118,4 @@ implement main () = ()
 
 (* ****** ****** *)
 
-(* end of [atscntrb_hiredis.atxt] *)
+(* end of [atscntrb_HTML5_canvas2d.atxt] *)

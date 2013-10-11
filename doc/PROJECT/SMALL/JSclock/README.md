@@ -40,10 +40,10 @@ be in a small subset that should be much more suitable for an ahead-of-time
 compiling interpreter to perform efficient translation than the general
 feature-rich JS.
 
-With any performance gains we wish to see comes responsibility as we are
-faced with all the pitfalls that are often associated with writing native
-code such as erroneous pointer arithmetic, memory leaks, and buffer
-overflows. Fortunately, ATS has been developed precisely as a tool to
+With any performance gains we wish to see comes potential responsibility as
+we are faced with all the pitfalls that are often associated with writing
+native code such as erroneous pointer arithmetic, memory leaks, and buffer
+overflows. Fortunately, ATS has long been developed as a tool to
 effectively address these programming pitfalls. With this JS backend, we
 would like to make a convincing case for writing efficient and reliable
 programs to run on web browsers.
@@ -71,22 +71,22 @@ functionality provided  by emcc. Make sure  emcc is in your  path, and
 try the following small example
 
     implement main0 = {
-      val () = println! "Hello World"
+      val () = println! "Hello, world!"
     }
 
 Save this to hello.dats. Next, we'll  need to tell the ATS compiler to
 use our alternative C compiler.
 
-    export PATSCCOMP="emcc -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -L${PATSHOME}/ccomp/atslib/lib -I${PATSHOME}/contrib"
+    export PATSCCOMP="emcc -Wno-warn-absolute-paths -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime"
 
 and finally, produce and run our final js file.
 
     patscc -o hello.js hello.dats
     node hello.js
 
-If all is well, you'll see the hello message displayed in the console.
-With most of the standard libc at your finger tips, you should be able
-to utilize all the features found in ATS2 for writing programs.
+If all goes well, you'll see the message "Hello, world!" displayed in the
+console.  With most of the standard libc at your finger tips, you should be
+able to utilize all the features found in ATS2 for writing programs.
 
 ## Utilizing Javascript Interfaces
 
