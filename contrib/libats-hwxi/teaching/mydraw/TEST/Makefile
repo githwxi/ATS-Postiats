@@ -33,7 +33,7 @@ test01-cairo: \
   $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 cleanall:: ; $(RMF) test01-cairo test01.png
 upload_test01:: ; scp test01.html test01-canvas2d.js \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/TEMPATS/JavaScripts/mydraw/
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/TEMPATS/JS/mydraw/
 
 ######
 
@@ -43,7 +43,7 @@ test01-canvas2d.js: \
 cleanall:: ; $(RMF) test01-canvas2d.js
 cleanall:: ; $(RMF) test01-canvas2d.js.map
 upload_test02:: ; scp test02.html test02-canvas2d.js \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/TEMPATS/JavaScripts/mydraw/
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/TEMPATS/JS/mydraw/
 
 ######
 
