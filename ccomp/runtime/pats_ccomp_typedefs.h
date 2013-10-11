@@ -119,13 +119,16 @@ typedef void* atstype_datcontyp ;
 
 /* ****** ****** */
 
+#ifndef _ATS_EXCEPTION_NONE
+//
 typedef
 struct
 {
   int exntag ; char *exnmsg ;
 } atstype_exncon ;
-
 typedef atstype_exncon *atstype_exnconptr ;
+//
+#endif // end of [_ATS_EXCEPTION_NONE]
 
 /* ****** ****** */
 /*

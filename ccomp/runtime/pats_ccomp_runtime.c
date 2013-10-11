@@ -50,15 +50,21 @@ extern void exit (int) ; // in [stdlib.h]
 //
 /* ****** ****** */
 
+#ifndef _ATS_EXCEPTION_NONE
+//
 atstype_exncon
 ATSLIB_056$prelude_AssertExn = { 10, "AssertException" } ;
 atstype_exncon
 ATSLIB_056$prelude_GenerallyExn = { 20, "GenerallyException" } ;
 atstype_exncon
 ATSLIB_056$prelude_IllegalArgExn = { 30, "IllegalArgException" } ;
+//
+#endif // end of [_ATS_EXCEPTION_NONE]
 
 /* ****** ****** */
 
+#ifndef _ATS_EXCEPTION_NONE
+//
 atstype_exncon
 ATSLIB_056$prelude_NotFoundExn = { 40, "NotFoundException" } ;
 atstype_exncon
@@ -68,9 +74,13 @@ ATSLIB_056$prelude_ArraySubscriptExn = { 60, "ArraySubscriptException" } ;
 atstype_exncon ATSLIB_056$prelude_NotSomeExn = { 70, "NotSomeException" } ;
 atstype_exncon
 ATSLIB_056$prelude_StreamSubscriptExn = { 80, "StreamSubscriptException" } ;
+//
+#endif // end of [_ATS_EXCEPTION_NONE]
 
 /* ****** ****** */
 
+#ifndef _ATS_EXCEPTION_NONE
+//
 extern
 void
 the_atsexncon_initize
@@ -87,6 +97,8 @@ the_atsexncon_initize
   d2c->exntag = exntag ; d2c->exnmsg = exnmsg ;
   return ;
 } // end of [the_atsexncon_initize]
+//
+#endif // end of [_ATS_EXCEPTION_NONE]
 
 /* ****** ****** */
 
@@ -104,6 +116,8 @@ atsruntime_handle_unmatchedval
 
 /* ****** ****** */
 
+#ifndef _ATS_EXCEPTION_NONE
+//
 extern
 void
 atsruntime_handle_uncaughtexn_rest
@@ -115,6 +129,8 @@ atsruntime_handle_uncaughtexn_rest
   ) ; exit(1) ;
   return ; // deadcode
 } /* end of [atsruntime_handle_uncaughtexn_rest] */
+//
+#endif // end of [_ATS_EXCEPTION_NONE]
 
 /* ****** ****** */
 
