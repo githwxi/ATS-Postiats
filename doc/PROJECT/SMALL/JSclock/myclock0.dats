@@ -34,17 +34,11 @@ val PI2 = PI / 2.0
 
 (* ****** ****** *)
 
-abst@ype wallclock
-
-typedef
-wallclock_struct = @{
-  hours= double, minutes= double, seconds= double
-} // end of [wallclock_struct]
-
-assume wallclock = wallclock_struct
-
 extern
-fun wallclock_now (_: &wallclock? >> wallclock): void = "ext#"
+fun wallclock_now
+(
+  nhr: &double? >> double, nmin: &double? >> double, nsec: &double? >> double
+) : void = "ext#"
 
 (* ****** ***** *)
 
@@ -75,18 +69,19 @@ draw_hand
 fun
 draw_clock
 (
-  ctx: !canvas2d1, time: &wallclock
+  ctx: !canvas2d1
+, nhr: double, nmin: double, nsec: double
 ) : void = {
 //
 val rad = 280.0
 //
-val s_angle = time.seconds * (PI / 30) - PI2
-val m_angle = time.minutes * (PI / 30) - PI2
-val h_angle = time.hours * (PI / 6) - PI2
+val h_angle = nhr * (PI / 6) - PI2
+val m_angle = nmin * (PI / 30) - PI2
+val s_angle = nsec * (PI / 30) - PI2
 //
 val h_l = 0.60 * rad
 val m_l = 0.85 * rad
-val s_l = m_l
+val s_l = 0.85 * rad
 //    
 val () = canvas2d_clearRect (ctx, ~xc, ~yc, w, h)
 val () = canvas2d_beginPath (ctx)
@@ -103,17 +98,17 @@ val () = canvas2d_fill (ctx)
 val () = canvas2d_fillStyle_string (ctx, "rgb(175, 185, 185)");
 val (pf | ()) = canvas2d_save (ctx)
 val () = canvas2d_rotate (ctx, h_angle)
-val () = draw_hand (ctx, 4.0, 2.5, h_l)
+val () = draw_hand (ctx, 6.0, 3.5, h_l)
 val () = canvas2d_rotate (ctx, PI)
-val () = draw_hand (ctx, 4.0, 2.5, h_l / 4)
+val () = draw_hand (ctx, 6.0, 3.5, h_l / 6)
 val () = canvas2d_restore (pf | ctx)
 //
 val () = canvas2d_fillStyle_string (ctx, "rgb(175, 185, 185)")
 val (pf | ()) = canvas2d_save (ctx)
 val () = canvas2d_rotate (ctx, m_angle)
-val () = draw_hand (ctx, 3.0, 2.0, m_l)
+val () = draw_hand (ctx, 4.0, 3.0, m_l)
 val () = canvas2d_rotate (ctx, PI)
-val () = draw_hand (ctx, 3.0, 2.0, m_l / 4)
+val () = draw_hand (ctx, 4.0, 3.0, m_l / 6)
 val () = canvas2d_restore (pf | ctx)
 //
 val () = canvas2d_fillStyle_string (ctx, "rgb(198, 198, 198)");
@@ -121,7 +116,7 @@ val (pf | ()) = canvas2d_save (ctx)
 val () = canvas2d_rotate (ctx, s_angle)
 val () = draw_hand (ctx, 2.0, 1.5, s_l)
 val () = canvas2d_rotate (ctx, PI)
-val () = draw_hand (ctx, 2.0, 1.5, s_l / 4)
+val () = draw_hand (ctx, 2.0, 1.5, s_l / 6)
 val () = canvas2d_restore (pf | ctx)
 //
 } (* end of [draw_clock] *)
@@ -152,9 +147,12 @@ render_frame
 //
   val () = canvas2d_scale (ctx, alpha, alpha)
 //
-  var localtime: wallclock
-  val () = wallclock_now (localtime)
-  val () = draw_clock (ctx, localtime);
+  var nhr: double
+  and nmin: double
+  and nsec: double
+//
+  val () = wallclock_now (nhr, nmin, nsec)
+  val () = draw_clock (ctx, nhr, nmin, nsec)
   val () = canvas2d_restore (pf | ctx)
 //
 in

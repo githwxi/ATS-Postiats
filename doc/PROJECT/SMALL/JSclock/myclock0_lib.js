@@ -18,23 +18,15 @@ var MyClockLib =
         window_requestAnimationFrame(function (time) { func(time, env); });
     },
 
-    wallclock_now: function (ptr) {
-        /* 
-           Assuming that the layout of a struct in memory isn't
-           changed by alignment optimizations.
-        */
+    wallclock_now: function (nhr, nmin, nsec) {
         var now = new Date();
         var mils = now.getMilliseconds();
         var secs = now.getSeconds() + mils / 1000.0;
         var mins = now.getMinutes() + secs / 60.0;
         var hours = (now.getHours() % 12) + mins / 60.0;
-        /*
-          Note that we have to do pointer arithmetic to set the fields
-          of our struct.
-        */
-        Module.setValue(ptr, hours, "double");
-        Module.setValue(ptr + 8, mins, "double");
-        Module.setValue(ptr + 16, secs, "double");
+        Module.setValue(nhr, hours, "double");
+        Module.setValue(nmin, mins, "double");
+        Module.setValue(nsec, secs, "double");
     }
 };
 

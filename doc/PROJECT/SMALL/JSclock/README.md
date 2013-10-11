@@ -194,60 +194,35 @@ garbage collection.
 This gives you a simple example of how to wrap Javascript objects through
 abstract types in ATS.
 
-### Modifying ATS Records
+### Reading the Current Time in JS
 
-A record in ATS boils down to a regular C struct. If we want to fetch some
-information from Javascript, such as from a timer, we can only pass a
-pointer to the struct to our external functional.  Using this pointer
-(which is, after all just an integer) we use the functions provided by the
-emscripten library to "dereference" it and set the fields appropriately.
-
-For example, when we make a clock we want the current hour, minute, second,
-and, since we want a nice analog looking clock, millisecond.  Of course, we
-can do this all in C, but since the library function gets deferred in
-Javascript anyway, let's make a nice wrapper. In ATS a point in time is
-represented by the following type:
-
-    typedef wallclock = @{
-      hours= double,
-      minutes= double,
-      seconds= double
-    }
+Clearly, we need to be able read the current time in order to make a
+running clock. Let us first declare as follows the interface of a function
+for reading the current time:
 
     extern
-    fun wallclock_now (_: &wallclock? >> wallclock): void = "ext#"
+    fun wallclock_now
+    (
+      nhr: &double? >> double, nmin: &double? >> double, nsec: &double? >> double
+    ) : void = "ext#"
 
-This is just a regular struct of doubles. Using a double lets us put the
-hands at points between numbers and gives a nice smooth transition of
-time. The initialize function "wallclock_now" takes a reference (pointer)
-to a wallclock record and initializes its fields. We now see how we
-implement this in our library.js file.
+While we can certainly implement such a function in C, implementing it in JS
+seems more convenient (though it may be much less efficient):
 
-    wallclock_now: function (ptr) {
-        /* 
-           Assume that the layout of a struct in memory is not
-           changed by alignment optimizations.
-        */
+    wallclock_now: function (nhr, nmin, nsec) {
         var now = new Date();
-
         var mils = now.getMilliseconds();
         var secs = now.getSeconds() + mils / 1000.0;
         var mins = now.getMinutes() + secs / 60.0;
         var hours = (now.getHours() % 12) + mins / 60.0;
-        
-        /*
-          Note that we have to do pointer arithmetic to set the fields
-          of our struct.
-        */
-        Module.setValue(ptr, hours, "double");
-        Module.setValue(ptr + 8, mins, "double");
-        Module.setValue(ptr + 16, secs, "double");
+        Module.setValue(nhr, hours, "double");
+        Module.setValue(nmin, mins, "double");
+        Module.setValue(nsec, secs, "double");
     }
 
-After calling "wallclock_now", the struct pointed at by "ptr" now contains
-the hour, minute, and second given by the Date object. Of course, this is
-not very convenient or easy to use, but with proper library support it
-could be made simpler.
+After wallclock_now is called on three given pointers nhr, nmin
+and nsec, the memory locations to which they point are set to contain
+doubles representing the current hour, minute, and second, respectively.
 
 ## Code Example: A Wall Clock
 
@@ -257,7 +232,9 @@ requestAnimationFrame interface which makes an interesting demonstration of
 passing higher-order functions between ATS and Javascript.
 
 You can compile the clock yourself or view it [here][running-clock] through
-a commonly available browser. To see how it works, check out myclock0.dats.
+a commonly available browser. To see how it works, check out both
+myclock0.dats and myclock0_lib.js. There is also a Makefile available for
+compilation.
 
 [download-ats]: http://www.ats-lang.org/DOWNLOAD/#ATS_packages
 [download-emscripten]: http://github.com/kripken/emscripten
