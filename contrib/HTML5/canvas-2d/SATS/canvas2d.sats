@@ -110,16 +110,6 @@ canvas2d_rect
 , width: double
 , height: double
 ) : void = "ext#%"
-//
-fun
-canvas2d_fillRect
-(
-  !canvas2d1
-, xul: double
-, yul: double
-, width: double
-, height: double
-) : void = "ext#%"
 
 (* ****** ****** *)
 
@@ -138,12 +128,25 @@ canvas2d_arc
 (* ****** ****** *)
 
 fun canvas2d_fill (!canvas2d1): void = "ext#%"
-fun canvas2d_fillStyle_string (!canvas2d1, style: string): void = "ext#%"
+fun canvas2d_stroke (!canvas2d1): void = "ext#%"
 
 (* ****** ****** *)
 
-fun canvas2d_stroke (!canvas2d1): void = "ext#%"
-fun canvas2d_strokeStyle_string (!canvas2d1, style: string): void = "ext#%"
+fun
+canvas2d_fillRect
+(
+  !canvas2d1
+, xul: double, yul: double, width: double, height: double
+) : void = "ext#%"
+
+(* ****** ****** *)
+
+fun
+canvas2d_fillText
+  (!canvas2d1, text: string, x: double, y: double): void = "ext#%"
+fun
+canvas2d_fillText2
+  (!canvas2d1, text: string, x: double, y: double, maxWidth: double): void = "ext#%"
 
 (* ****** ****** *)
 //
@@ -170,10 +173,20 @@ canvas2d_restore{l:agz}
 //
 (* ****** ****** *)
 
-fun 
-canvas2d_set_size
+fun canvas2d_set_font_string (!canvas2d1, font: string): void = "ext#%"
+fun canvas2d_set_textAlign_string (!canvas2d1, value: string): void = "ext#%"
+fun canvas2d_set_textBaseline_string (!canvas2d1, value: string): void = "ext#%"
+
+(* ****** ****** *)
+
+fun canvas2d_set_fillStyle_string (!canvas2d1, style: string): void = "ext#%"
+fun canvas2d_set_strokeStyle_string (!canvas2d1, style: string): void = "ext#%"
+
+(* ****** ****** *)
+
+fun canvas2d_set_size_int
   (!canvas2d1, width: int(*px*), height: int(*px*)): void = "ext#%"
-// end of [canvas2d_set_size]
+// end of [canvas2d_set_size_int]
 
 (* ****** ****** *)
 

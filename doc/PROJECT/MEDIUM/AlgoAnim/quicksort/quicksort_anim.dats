@@ -330,7 +330,7 @@ fun loop
       | _  =>> if p = g0uint2int(i) then "rgb(255, 0, 0)" else normal
     end : string
   in
-    canvas2d_fillStyle_string (cnv, color);
+    canvas2d_set_fillStyle_string (cnv, color);
     canvas2d_fillRect (cnv, 1.0 * xul, 1.0 * yul, 1.0, 1.0 * v);
     loop (cnv, succ(i))
   end
@@ -345,13 +345,13 @@ in
    canvas2d_beginPath (cnv);
    canvas2d_moveTo (cnv, 1.0 * part_start, 1.0 * (MYMAX - v));
    canvas2d_lineTo (cnv, 1.0 * (part_start + part_len), 1.0 * (MYMAX - v));
-   canvas2d_strokeStyle_string (cnv, "rgb(0,0,255)");
+   canvas2d_set_strokeStyle_string (cnv, "rgb(0,0,255)");
    canvas2d_stroke (cnv);
    canvas2d_closePath (cnv);
    canvas2d_restore (pf' | cnv)
 end    
 //
-val () = canvas2d_fillStyle_string (cnv, "rgba(0, 0, 0, 0.1)")
+val () = canvas2d_set_fillStyle_string (cnv, "rgba(0, 0, 0, 0.1)")
 val () = canvas2d_fillRect (cnv, 1.0 * part_start, 0.0, 1.0 * part_len, 1.0 * MYMAX)
 //
 in
@@ -374,10 +374,10 @@ fix step (timestamp:double): void =>
     val W = document_documentElement_clientWidth()
     val H = document_documentElement_clientHeight()
     // Resize our canvas 
-    val () = canvas2d_set_size (cnv, W, H)
+    val () = canvas2d_set_size_int (cnv, W, H)
     val (
     ) = canvas2d_clearRect (cnv, 0.0, 0.0, 1.0 * W, 1.0 * H)
-    val () = canvas2d_fillStyle_string (cnv, "rgb(255,255,255)")
+    val () = canvas2d_set_fillStyle_string (cnv, "rgb(255,255,255)")
     val () = canvas2d_fillRect (cnv, 0.0, 0.0, 1.0 * W, 1.0 * H)
   in (
     case+ event of 

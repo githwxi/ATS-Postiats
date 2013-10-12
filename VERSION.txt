@@ -25,6 +25,9 @@ Here is a list of major additions and changes since the last release:
 
 1. Fixing a glitch in the support for ATS_DYNLOADFLAG (reported by MD)
 
+2. Adding -D_ATS_EXCEPTION_NONE support for eliminating the code in the
+   run-time of ATS2 that deals with exceptions.
+
 </pre>
 
 ######

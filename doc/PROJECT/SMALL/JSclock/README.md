@@ -59,9 +59,9 @@ statically that would otherwise be difficult and error-prone to do.
 First, you'll need  the latest ATS compiler which you  can find on the
 ATS [website][download-ats].
 
-Next,   install   clang  and   the   (emscripten)[download-emscripten]
-compiler. If you want to run  your compiled javascript programs from a
-console, you can run them from node.js, which emscripten requires.
+Next, install clang and the [emscripten][download-emscripten] compiler. If
+you want to run your compiled javascript programs from a console, you can
+run them from node.js, which emscripten requires.
 
 ## Hello, world!
 
