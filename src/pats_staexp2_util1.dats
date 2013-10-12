@@ -1063,7 +1063,7 @@ case+ s2e0.s2exp_node of
     if flag > f0 then s2exp_wth (s2e, ws2es) else s2e0
   end // end of [S2Ewth]
 //
-| S2Eerr _ => s2e0
+| S2Eerr ((*void*)) => s2e0
 // end of [case]
 end // end of [s2exp_subst_flag]
 

@@ -719,7 +719,7 @@ case+ ld2es of
     case+ ls2es of
     | list_cons
         (ls2e, ls2es) => let
-        val+SLABELED (l, name, s2e) = ls2e
+        val+SLABELED (_, name, s2e) = ls2e
         val d3e = d2exp_trdn (d2e, s2e)
         val ld3e = $SYN.DL0ABELED (l0, d3e)
         val ld3es = auxrec (ld2es, ls2es, serr)

@@ -106,6 +106,12 @@ ATSCNTRB/HTML5/canvas-2d\
 
 (* ****** ****** *)
 
+#packfilename("TEST/Makefile")
+#packfilename("TEST/test01.dats")
+#packfilename("TEST/test01.html")
+
+(* ****** ****** *)
+
 #packpostamble()
 
 (* ****** ****** *)

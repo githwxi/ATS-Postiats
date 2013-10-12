@@ -6,7 +6,7 @@ multiplication or division; one mixes r1 with the remaining two numbers and
 chooses two of them to generate a rational number r2 using either addition,
 subtraction, multiplication or division; one then takes r2 and the last
 remaining number to get a rational number r3 using addition, subtraction,
-multiplication, or division; if there is a way to make r3 equal 24, then
+multiplication, or division; if there exists a way to make r3 equal 24, then
 we say that (n1, n2, n3, n4) is a good quad.  For instance, (10,10,4,4) is
 a good quad since we have
 
@@ -16,7 +16,7 @@ Similarly, (5,7,7,11) is a good quad since we have
 
 ( 5 - 11 / 7) * 7 = 24
 
-Game of 24 is a game that determines whether four given natural numbers
+Game-of-24 is a game that determines whether four given natural numbers
 are a good quad.
 
 *)
