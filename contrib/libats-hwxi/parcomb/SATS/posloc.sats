@@ -49,14 +49,15 @@ abstype filename_type = ptr
 typedef filename = filename_type
 
 (* ****** ****** *)
-
+//
 fun print_filename (filename): void
-overload print with print_filename
 fun prerr_filename (filename): void
+overload print with print_filename
 overload prerr with prerr_filename
+//
 fun fprint_filename (out: FILEref, fil: filename): void
 overload fprint with fprint_filename
-
+//
 (* ****** ****** *)
 
 fun filename_make_string (name: string): filename
@@ -78,23 +79,17 @@ typedef position = position_type
 
 (* ****** ****** *)
 
-fun position_line (p: position):<> int
-fun position_loff (p: position):<> int
-fun position_toff (p: position):<> lint
-
-(* ****** ****** *)
-
 fun fprint_position
   (fil: FILEref, pos: position): void
 overload fprint with fprint_position
-fun print_position (pos: position): void = "lexing_print_position"
+fun print_position (pos: position): void
 overload print with print_position
-fun prerr_position (pos: position): void = "lexing_prerr_position"
+fun prerr_position (pos: position): void
 overload prerr with prerr_position
 
 (* ****** ****** *)
 
-val position_origin: position
+fun position_make_none (): position
 fun position_next (p: position, c: char):<> position
 
 fun lt_position_position (p1: position, p2: position):<> bool
@@ -114,7 +109,7 @@ typedef location = location_type
 
 (* ****** ****** *)
 
-val location_none: location
+fun location_make_none (): location
 fun location_make (position, position): location
 fun location_combine (location, location): location
 

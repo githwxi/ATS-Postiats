@@ -37,16 +37,28 @@ val () = assertloc (p_ctx > 0)
 //
 val (pf | ())= canvas2d_save (ctx)
 //
-val () = canvas2d_translate (ctx, W/2, H/2)
+(*
+val () =
+canvas2d_set_fillStyle_string (ctx, "gray")
+val () = canvas2d_fillRect (ctx, 0.0, 0.0, W, H)
+*)
+//
+val (
+) = canvas2d_translate (ctx, W/2, H/2)
+val () = canvas2d_scale (ctx, 1.25, 1.25)
 //
 val w = 200.0 and h = 50.0
+//
 val () =
 canvas2d_set_fillStyle_string (ctx, "blue")
-val () = canvas2d_fillRect (ctx, ~w, ~h, w, h)
+val () = canvas2d_fillRect (ctx, ~w/2, ~h/2, w, h)
+val () =
+canvas2d_set_strokeStyle_string (ctx, "black")
+val () = canvas2d_strokeRect (ctx, ~w/2, ~h/2, w, h)
 //
 val () = canvas2d_set_font_string (ctx, "20pt Ariel")
 val () = canvas2d_set_fillStyle_string (ctx, "yellow")
-val () = canvas2d_fillText (ctx, "Hello, world!", ~187.5, ~18.0)
+val () = canvas2d_fillText (ctx, "Hello, world!", ~178.0/2, 8.0)
 //
 val ((*void*))= canvas2d_restore (pf | ctx)
 //

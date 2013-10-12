@@ -28,56 +28,29 @@
 *)
 
 (* ****** ****** *)
-
 (*
-** Functions for generating random data
+** For recording
+** location information on concrete syntax
 *)
+//
+// Author: Hongwei Xi
+// Authoremail: hwxiATcsDOTbuDOTedu
+// Start Time: October 2013
+//
+(* ****** ****** *)
+
+abstype filename_type = ptr
+typedef filename = filename_type
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSCNTRB.atshwxi.testing"
+fun print_filename (filename): void
+fun prerr_filename (filename): void
+overload print with print_filename
+overload prerr with prerr_filename
+fun fprint_filename (out: FILEref, x: filename): void
+overload fprint with fprint_filename
 
 (* ****** ****** *)
 
-sortdef t0p = t@ype and vt0p = viewt@ype
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-randgen_val (): a // for randval generation
-fun{a:vt0p}
-randgen_ref (x: &a? >> a): void // for randval initialization
-
-(* ****** ****** *)
-
-fun{}
-randint {n:pos} (n: int n): natLt (n)
-
-(* ****** ****** *)
-
-fun{a:t0p}
-randgen_list {n:nat} (n: int n): list (a, n)
-fun{a:vt0p}
-randgen_list_vt {n:nat} (n: int n): list_vt (a, n)
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-randgen_arrayptr
-  {n:int} (n: size_t(n)): arrayptr (a, n)
-fun{a:vt0p}
-randgen_arrayref
-  {n:int} (n: size_t(n)): arrayref (a, n)
-fun{a:vt0p}
-randgen_arrszref (n: size_t): arrszref (a)
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-randarr_initize
-  {n:int} (A: &(@[a?][n]) >> @[a][n], n: size_t n): void
-// end of [randarr_initize]
-
-(* ****** ****** *)
-
-(* end of [randgen.sats] *)
+(* end of [filename.sats]

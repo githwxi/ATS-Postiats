@@ -4,6 +4,12 @@
 
 (* ****** ****** *)
 
+(*
+** Status: it is not yet fixed (HX-2013-10-12)
+*)
+
+(* ****** ****** *)
+
 extern fun fact (x: int): int
 
 (* ****** ****** *)

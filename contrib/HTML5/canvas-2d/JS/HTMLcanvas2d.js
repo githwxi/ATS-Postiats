@@ -25,11 +25,10 @@ var atscntrb_html5_canvas2d =
 	var id = Pointer_stringify(ptr);
         var canvas = document.getElementById(id);
 
-        if(!canvas) {
-            return 0;
-        }
+        if(!canvas) return 0;
 
-        if (canvas.getContext) {
+        if(canvas.getContext)
+	{
             Canvas.contexts[ptr] = canvas.getContext("2d");
         } else {
             throw "atscntrb_html5_canvas2d: 2D-canvas is not supported";
@@ -64,7 +63,10 @@ var atscntrb_html5_canvas2d =
     },
 //
     atscntrb_html5_canvas2d_arc:
-    function (ptr, xc, yc, rad, angle_beg, angle_end, CCW) {
+    function
+    (
+      ptr, xc, yc, rad, angle_beg, angle_end, CCW
+    ) {
         Canvas.contexts[ptr].arc(xc, yc, rad, angle_beg, angle_end, CCW);
     },
     atscntrb_html5_canvas2d_rect:
@@ -85,6 +87,10 @@ var atscntrb_html5_canvas2d =
     atscntrb_html5_canvas2d_fillRect:
     function (ptr, xul, yul, width, height) {
         Canvas.contexts[ptr].fillRect(xul, yul, width, height);
+    },
+    atscntrb_html5_canvas2d_strokeRect:
+    function (ptr, xul, yul, width, height) {
+        Canvas.contexts[ptr].strokeRect(xul, yul, width, height);
     },
 //
     atscntrb_html5_canvas2d_fillText:
@@ -127,8 +133,12 @@ var atscntrb_html5_canvas2d =
     function (id, width, height) {
         var id2 = Pointer_stringify(id)
         var elt = document.getElementById(id2);
-        if (!elt) { elt.width = width; elt.height = height; }
-    }
+        if(elt)
+	{
+	    elt.width = width; elt.height = height;
+	}
+	return ;
+    },
 //
 } ; // end of [atscntrb_html5_canvas2d]
 

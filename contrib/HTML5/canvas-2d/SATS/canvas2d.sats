@@ -138,6 +138,12 @@ canvas2d_fillRect
   !canvas2d1
 , xul: double, yul: double, width: double, height: double
 ) : void = "ext#%"
+fun
+canvas2d_strokeRect
+(
+  !canvas2d1
+, xul: double, yul: double, width: double, height: double
+) : void = "ext#%"
 
 (* ****** ****** *)
 
