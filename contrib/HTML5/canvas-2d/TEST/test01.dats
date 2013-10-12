@@ -1,5 +1,12 @@
+(*
+** Author: Hongwei Xi
+** Authoremail: gmhwxiATgmailDOTcom
+** Start time: October, 2013
+*)
+(* ****** ****** *)
 //
 // Hello, world!
+// A simple example of ATS/HTML5-canvas-2d
 //
 (* ****** ****** *)
 //
