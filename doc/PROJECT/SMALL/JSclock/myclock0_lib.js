@@ -5,7 +5,7 @@
  */
 var MyClockLib =
 {
-    request_animation_frame:
+    JS_request_animation_frame:
     function (ptr, env) {
         var func = Runtime.getFuncWrapper(ptr, 'vii');
 
@@ -18,7 +18,8 @@ var MyClockLib =
         window_requestAnimationFrame(function (time) { func(time, env); });
     },
 
-    wallclock_now: function (nhr, nmin, nsec) {
+    JS_wallclock_now:
+    function (nhr, nmin, nsec) {
         var now = new Date();
         var mils = now.getMilliseconds();
         var secs = now.getSeconds() + mils / 1000.0;

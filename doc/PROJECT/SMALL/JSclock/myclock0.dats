@@ -38,7 +38,7 @@ extern
 fun wallclock_now
 (
   nhr: &double? >> double, nmin: &double? >> double, nsec: &double? >> double
-) : void = "ext#"
+) : void = "ext#JS_wallclock_now"
 
 (* ****** ***** *)
 
@@ -85,34 +85,35 @@ val s_l = 0.85 * rad
 //    
 val () = canvas2d_clearRect (ctx, ~xc, ~yc, w, h)
 val () = canvas2d_beginPath (ctx)
+val () = canvas2d_set_fillStyle_string (ctx, "rgb(25, 25, 25)")
 val () = canvas2d_arc (ctx, 0.0, 0.0, rad, 0.0, 2.0*PI, true)
-val () = canvas2d_fillStyle_string (ctx, "rgb(0, 0, 0)")
 val () = canvas2d_fill (ctx)
 val () = canvas2d_closePath (ctx)
 //
 val () = canvas2d_beginPath (ctx)
+val () = canvas2d_set_fillStyle_string (ctx, "rgba(200, 200, 200, 0.50)")
 val () = canvas2d_arc (ctx, 0.0, 0.0, 10.0, 0.0, 2.0*PI, true)
-val () = canvas2d_fillStyle_string (ctx, "rgb(198, 198, 198)")
 val () = canvas2d_fill (ctx)
+val () = canvas2d_closePath (ctx)
 //
-val () = canvas2d_fillStyle_string (ctx, "rgb(175, 185, 185)");
 val (pf | ()) = canvas2d_save (ctx)
+val () = canvas2d_set_fillStyle_string (ctx, "rgb(150, 150, 150)");
 val () = canvas2d_rotate (ctx, h_angle)
 val () = draw_hand (ctx, 6.0, 3.5, h_l)
 val () = canvas2d_rotate (ctx, PI)
 val () = draw_hand (ctx, 6.0, 3.5, h_l / 6)
 val () = canvas2d_restore (pf | ctx)
 //
-val () = canvas2d_fillStyle_string (ctx, "rgb(175, 185, 185)")
 val (pf | ()) = canvas2d_save (ctx)
+val () = canvas2d_set_fillStyle_string (ctx, "rgb(175, 175, 175)")
 val () = canvas2d_rotate (ctx, m_angle)
 val () = draw_hand (ctx, 4.0, 3.0, m_l)
 val () = canvas2d_rotate (ctx, PI)
 val () = draw_hand (ctx, 4.0, 3.0, m_l / 6)
 val () = canvas2d_restore (pf | ctx)
 //
-val () = canvas2d_fillStyle_string (ctx, "rgb(198, 198, 198)");
 val (pf | ()) = canvas2d_save (ctx)
+val () = canvas2d_set_fillStyle_string (ctx, "rgb(200, 200, 200)");
 val () = canvas2d_rotate (ctx, s_angle)
 val () = draw_hand (ctx, 2.0, 1.5, s_l)
 val () = canvas2d_rotate (ctx, PI)
@@ -125,16 +126,14 @@ val () = canvas2d_restore (pf | ctx)
 
 extern 
 fun render_frame
-(
-  timestamp: double, ctx: !canvas2d1
-) : bool = "ext#" // end-of-fun
-
+  (timestamp: double, ctx: !canvas2d1) : bool
+//
 (* ****** ***** *)
 //
 extern
 fun request_animation_frame // JS-function
   {a:vtype}
-  (callback: (double, a) -> void, ctx: a): void = "ext#"
+  (callback: (double, a) -> void, ctx: a): void = "ext#JS_request_animation_frame"
 //
 (* ****** ***** *)
 
@@ -187,7 +186,7 @@ end // end of [start_animation]
 (* ****** ***** *)
 
 implement
-main0 () =
+main0 ((*void*)) =
 {
 //
 val ID = "MyClock0"

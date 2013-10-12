@@ -28,26 +28,15 @@ staload "{$HTML5canvas2d}/SATS/canvas2d.sats"
 (* ****** ****** *)
 
 (*
-  Generate a number between 0 (inclusive) and 1 (exclusive)
+** Generate a number in [0, 1)
 *)
 extern
-fun Math_random (): double = "ext#"
-
-extern
-fun Math_floor (_: double): int = "ext#"
+fun Math_random ((*void*)): double = "ext#JS_Math_random"
 
 (* ****** ****** *)
 
 staload "{$LIBATSHWXI}/testing/SATS/randgen.sats"
 staload _ = "{$LIBATSHWXI}/testing/DATS/randgen.dats"
-
-(* ****** ****** *)
-
-implement{
-} randint{n}(n) = let
-  val r = Math_random ()
-  val sample = Math_floor (r * n)
-in $UN.cast{natLt(n)} (sample) end
 
 (* ****** ****** *)
 
@@ -102,13 +91,22 @@ end else () // end of [if]
 
 (* ****** ****** *)
 
-#define MYMAX 1000
+#define MYMAX 165
 
 (* ****** ****** *)
 
 implement
 gcompare_val<int>
-  (x1, x2) = g0int_compare_int (x1, x2) // end of [gcompare_val]
+  (x1, x2) = g0int_compare_int (x1, x2)
+// end of [gcompare_val]
+
+(* ****** ****** *)
+
+implement{
+} randint{n}(n) =
+(
+  $UN.cast{natLt(n)} (n * Math_random ())
+)
 
 (* ****** ****** *)
 
@@ -261,14 +259,18 @@ implement
 array0_swap<int>
   (A, i, j) =
 {
-  val () = snapshot_push (Swap(A', part, p, @(i,j))) where {
-    val A' = array0_copy(A)
-    val part = thePartition_get ()
-    val p = thePivot_get ()
-  }
-  val tmp = A[i]
-  val () = A[i] := A[j]
-  val () = A[j] := tmp
+val () = let
+  val A = array0_copy(A)
+  val part = thePartition_get ()
+  val pivot = thePivot_get ()
+in
+  snapshot_push (Swap(A, part, pivot, @(i,j)))
+end // end of [val]
+//
+val tmp = A[i]
+val () = A[i] := A[j]
+val () = A[j] := tmp
+//
 }
 //
 in
@@ -291,9 +293,11 @@ fun start_animation (): void = "ext#"
 (* ****** ****** *)
 
 extern
-fun draw_array {l:agz} (
-  cnv: !canvas2d l, A: array0(int), W: int, H: int, _: range_t, _: int
-): void
+fun
+draw_array0
+  {l:agz} (
+  cnv: !canvas2d(l), A: array0(int), W: int, H: int, _: range_t, _: int
+) : void // end of [draw_array0]
 
 local
 
@@ -302,7 +306,7 @@ val dt = 100.0
 in (* in of [local] *)
 
 implement
-draw_array{l}
+draw_array0{l}
 (
   cnv, A, W, H, range, p
 ) = let
@@ -356,7 +360,9 @@ val () = canvas2d_fillRect (cnv, 1.0 * part_start, 0.0, 1.0 * part_len, 1.0 * MY
 //
 in
   canvas2d_restore (pf | cnv)
-end
+end (* end of [draw_array0] *)
+
+(* ****** ****** *)
 
 implement
 start_animation () =
@@ -365,9 +371,9 @@ window_request_animation_frame
 fix step (timestamp:double): void =>
 (
   if theNextRender_get() < timestamp then let
-    val event = snapshot_pop ()
+    val shot = snapshot_pop ()
     val () = theNextRender_incby (dt)
-    // render the event
+    // render the shot
     val cnv = canvas2d_make ("QuicksortAnim")
     val () = assertloc (ptr_isnot_null(ptrcast(cnv)))
     // Get the latest dimensions of the viewport
@@ -380,24 +386,30 @@ fix step (timestamp:double): void =>
     val () = canvas2d_set_fillStyle_string (cnv, "rgb(255,255,255)")
     val () = canvas2d_fillRect (cnv, 0.0, 0.0, 1.0 * W, 1.0 * H)
   in (
-    case+ event of 
-    | Normal (A) => begin
-        draw_array (cnv, A, W, H, @(i2sz(0),i2sz(0)), ~1);
-        canvas2d_free (cnv);
+    case+ shot of 
+    | Normal (A) => let
+        val range = (i2sz(0), i2sz(0))
+      in
+        draw_array0 (cnv, A, W, H, range, ~1); canvas2d_free (cnv);
       end
     | SelectPivot (A, range, p) => begin
-        draw_array (cnv, A, W, H, range, g0uint2int(p));
-        canvas2d_free (cnv)
+        draw_array0 (cnv, A, W, H, range, g0uint2int(p)); canvas2d_free (cnv)
       end
     | Swap (A, range, p , _) => begin
-        draw_array (cnv, A, W, H, range, g0uint2int(p)); 
-        canvas2d_free (cnv);
+        draw_array0 (cnv, A, W, H, range, g0uint2int(p));  canvas2d_free (cnv);
       end
    ) end; window_request_animation_frame (step);
 )
 ) // end of [window_request_animation_frame]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+(*
+staload TIME = "libc/SATS/time.sats"
+staload STDLIB = "libc/SATS/stdlib.sats"
+*)
 
 (* ****** ****** *)
   
@@ -407,50 +419,39 @@ main0 () = let
 val N = 150
 val N = g1ofg0_int (N)
 val () = assertloc (N > 0)
-val N' = N
-val N = i2sz (N)
+//
+(*
+val () =
+$STDLIB.srand48 ($UN.cast{lint}($TIME.time_get()))
+*)
 //
 (* 
-  Get a random permutation of [1,2,...,N]
+** Generate a random permutation of the array [1,2,...,N]
 *)
-fun gen (): array0(int) = let
-  fun loop (i: int, res: list0(int)): list0(int) = 
-    if i > N' then 
-      res
-    else let
-      val frac = Math_floor(g0i2f(i) / $UN.cast{double}(N) * g0i2f(MYMAX))
-    in loop (succ(i), list0_cons{int}(frac, res)) end
-  val sequence =  loop (1, list0_nil())
-  val sequence = array0_make_list<int> (sequence)
-  //
-  fun shuffle (i: size_t): void =
-    if i = i2sz(0) then 
-      ()
-    else let
-      val r = randint(succ($UN.cast{[n:nat] int n}(i)))
-      val tmp = sequence[r]
-      val () = sequence[r] := sequence[i]
-      val () = sequence[i] := tmp
-    in shuffle (pred(i)) end
-  //
-in
-  shuffle(pred(N));
-  sequence
-end
 //
-val A = gen()
+val A =
+  arrayptr_make_intrange (1, N+1)
+val p = ptrcast (A)
+prval pf = arrayptr_takeout{int} (A)
+implement{}
+array_permute$randint{n}(n) = g1i2u(randint(g1u2i(n)))
+//
+val N = i2sz(N)
+//
+val () = array_permute (!p, N)
+//
+prval () = arrayptr_addback (pf | A)
+//
+val A = arrayptr_refize (A)
+val A = array0_make_arrayref (A, N)
 //
 val out = stdout_ref
 //
-val () = snapshot_push (Normal(A')) where {
-  val A' = array0_copy(A)
-}
+val () = snapshot_push (Normal(A)) where { val A = array0_copy(A) }
 //
 val () = intqsort (A)
-// The finished product
-val () = snapshot_push (Normal(A')) where {
-  val A' = array0_copy (A)
-}
+//
+val () = snapshot_push (Normal(A)) where { val A = array0_copy (A) }
 //
 val () = snapshot_reverse ()
 //

@@ -37,6 +37,13 @@ arrayref_make_elt (asz, x) =
 
 #atscode_separator()
 
+implement{}
+arrayref_make_intrange (l, r) =
+  arrayptr_refize{int}(arrayptr_make_intrange (l, r))
+// end of [arrayref_make_intrange]
+
+#atscode_separator()
+
 implement{a}
 arrayref_make_list (asz, xs) =
   arrayptr_refize(arrayptr_make_list<a> (asz, xs))
