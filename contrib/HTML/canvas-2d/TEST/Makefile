@@ -14,7 +14,8 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
-PATSCCOMP2=emcc -Wno-warn-absolute-paths -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime
+PATSCCOMP2=\
+"emcc -Wno-warn-absolute-paths -I${PATSHOME} -I${PATSHOME}/ccomp/runtime"
 
 ######
 
@@ -24,7 +25,7 @@ PATSCCOMP2=emcc -Wno-warn-absolute-paths -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSH
 
 test01.js: \
   test01.dats; \
-  $(PATSCC) -atsccomp "$(PATSCCOMP2)" --js-library ../JS/HTMLcanvas2d.js -o $@ $<
+  $(PATSCC) -atsccomp $(PATSCCOMP2) --js-library ../JS/HTML5canvas2d.js -o $@ $<
 cleanall:: ; $(RMF) test01.js
 cleanall:: ; $(RMF) test01.js.map
 

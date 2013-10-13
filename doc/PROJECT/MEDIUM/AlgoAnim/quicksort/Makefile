@@ -20,7 +20,8 @@ PATSCCOMP2=emcc -Wno-warn-absolute-paths -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSH
 quicksort_anim.js: quicksort_anim.dats ; \
   $(PATSCC) -atsccomp $(PATSCCOMP2) \
         --js-library random.js --js-library animate.js \
-	--js-library ${PATSHOME}/contrib/HTML5/canvas-2d/JS/HTMLcanvas2d.js \
+	--js-library ${PATSHOME}/contrib/HTML/JS/HTMLdocument.js \
+	--js-library ${PATSHOME}/contrib/HTML/canvas-2d/JS/HTML5canvas2d.js \
 	-DATS_MEMALLOC_LIBC -I${PATSHOME}/contrib -o $@ $<
 
 ######

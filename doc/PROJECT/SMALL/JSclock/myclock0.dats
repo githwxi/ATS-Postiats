@@ -123,20 +123,11 @@ val () = canvas2d_restore (pf | ctx)
 } (* end of [draw_clock] *)
 
 (* ****** ****** *)
-
+//
 extern 
 fun render_frame
   (timestamp: double, ctx: !canvas2d1) : bool
 //
-(* ****** ***** *)
-//
-extern
-fun request_animation_frame // JS-function
-  {a:vtype}
-  (callback: (double, a) -> void, ctx: a): void = "ext#JS_request_animation_frame"
-//
-(* ****** ***** *)
-
 implement
 render_frame
   (timestamp, ctx) = let
@@ -158,6 +149,13 @@ in
   true
 end // end of [render_frame]
 
+(* ****** ***** *)
+//
+extern
+fun request_animation_frame // JS-function
+  {a:vtype}
+  (callback: (double, a) -> void, ctx: a): void = "ext#JS_request_animation_frame"
+//
 (* ****** ***** *)
 
 fun

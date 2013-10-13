@@ -1,5 +1,5 @@
 (*
-** API in ATS for HTML/canvas-2d
+** API in ATS for HTML5/canvas-2d
 *)
 
 (* ****** ****** *)
@@ -34,7 +34,7 @@
 (* ****** ****** *)
 
 #define
-ATS_PACKNAME "ATSCNTRB.HTML"
+ATS_PACKNAME "ATSCNTRB.HTML5"
 
 (* ****** ****** *)
 
@@ -178,6 +178,14 @@ canvas2d_restore{l:agz}
   (pf: canvas2d_save_v l | canvas: !canvas2d l): void = "ext#%"
 //
 (* ****** ****** *)
+//
+symintr canvas2d_set_lineWidth
+fun canvas2d_set_lineWidth_int (!canvas2d1, int): void = "ext#%"
+fun canvas2d_set_lineWidth_double (!canvas2d1, double): void = "ext#%"
+overload canvas2d_set_lineWidth with canvas2d_set_lineWidth_int
+overload canvas2d_set_lineWidth with canvas2d_set_lineWidth_double
+//
+(* ****** ****** *)
 
 fun canvas2d_set_font_string (!canvas2d1, font: string): void = "ext#%"
 fun canvas2d_set_textAlign_string (!canvas2d1, value: string): void = "ext#%"
@@ -189,10 +197,50 @@ fun canvas2d_set_fillStyle_string (!canvas2d1, style: string): void = "ext#%"
 fun canvas2d_set_strokeStyle_string (!canvas2d1, style: string): void = "ext#%"
 
 (* ****** ****** *)
+//
+fun canvas2d_set_shadowColor (!canvas2d1, color: string): void = "ext#%"
+//
+symintr canvas2d_set_shadowBlur
+fun canvas2d_set_shadowBlur_int (!canvas2d1, int): void = "ext#%"
+fun canvas2d_set_shadowBlur_double (!canvas2d1, double): void = "ext#%"
+overload canvas2d_set_shadowBlur with canvas2d_set_shadowBlur_int
+overload canvas2d_set_shadowBlur with canvas2d_set_shadowBlur_double
+//
+symintr canvas2d_set_shadowOffsetX
+symintr canvas2d_set_shadowOffsetY
+fun canvas2d_set_shadowOffsetX_int (!canvas2d1, int): void = "ext#%"
+fun canvas2d_set_shadowOffsetX_double (!canvas2d1, double): void = "ext#%"
+fun canvas2d_set_shadowOffsetY_int (!canvas2d1, int): void = "ext#%"
+fun canvas2d_set_shadowOffsetY_double (!canvas2d1, double): void = "ext#%"
+overload canvas2d_set_shadowOffsetX with canvas2d_set_shadowOffsetX_int
+overload canvas2d_set_shadowOffsetX with canvas2d_set_shadowOffsetX_double
+overload canvas2d_set_shadowOffsetY with canvas2d_set_shadowOffsetY_int
+overload canvas2d_set_shadowOffsetY with canvas2d_set_shadowOffsetY_double
+//
+(* ****** ****** *)
 
 fun canvas2d_set_size_int
   (!canvas2d1, width: int(*px*), height: int(*px*)): void = "ext#%"
 // end of [canvas2d_set_size_int]
+
+(* ****** ****** *)
+
+absvtype gradient_vtype = ptr
+vtypedef gradient = gradient_vtype
+
+fun canvas2d_createLinearGradient
+(
+  !canvas2d1
+, x0: double, y0: double, x1: double, y1: double
+) : gradient = "ext#%" // end-of-fun
+
+fun canvas2d_gradient_free (gradient): void = "ext#%"
+
+fun canvas2d_gradient_addColorStop
+  (!gradient, stop: double, color: string): void = "ext#%"
+
+fun canvas2d_set_fillStyle_gradient (!canvas2d1, style: !gradient): void = "ext#%"
+fun canvas2d_set_strokeStyle_gradient (!canvas2d1, style: !gradient): void = "ext#%"
 
 (* ****** ****** *)
 

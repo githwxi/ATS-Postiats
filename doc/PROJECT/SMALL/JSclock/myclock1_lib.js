@@ -37,4 +37,4 @@ mergeInto(LibraryManager.library, MyClockLib);
 
 /* ****** ****** */
 
-/* end of [myclock0_lib.js] */
+/* end of [myclock1_lib.js] */

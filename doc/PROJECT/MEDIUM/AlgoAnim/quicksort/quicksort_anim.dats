@@ -23,6 +23,7 @@ staload _ = "libats/ML/DATS/array0.dats"
 //
 (* ****** ****** *)
 
+staload "{$HTML}/SATS/document.sats"
 staload "{$HTML5canvas2d}/SATS/canvas2d.sats"
 
 (* ****** ****** *)
@@ -280,15 +281,7 @@ end // end of [intqsort]
 (* ****** ****** *)
 
 extern
-fun document_documentElement_clientWidth(): int = "ext#"
-extern
-fun document_documentElement_clientHeight(): int = "ext#"
-
-extern
-fun window_request_animation_frame (_: (double)-> void): void = "ext#"
-
-extern
-fun start_animation (): void = "ext#"
+fun window_requestAnimationFrame (f: (double)-> void): void = "ext#"
 
 (* ****** ****** *)
 
@@ -322,6 +315,7 @@ fun loop
 (
   cnv: !canvas2d l, i: size_t
 ) : void =
+(
   if i < n then let
     val v = A[i]
     val xul = g0uint2int(i)
@@ -338,10 +332,11 @@ fun loop
     canvas2d_fillRect (cnv, 1.0 * xul, 1.0 * yul, 1.0, 1.0 * v);
     loop (cnv, succ(i))
   end
+) (* end of [loop] *)
 //
 val () = loop (cnv, i2sz(0))
 val part_start = g0uint2int(range.0) and part_len = g0uint2int(range.1)
-val () = //draw a blue line to indicate the pivot
+val () = // draw a blue line to indicate the pivot
 if p > ~1 then let
    val v  = A[$UN.cast{size_t}(p)]
    val (pf' | ()) = canvas2d_save (cnv)
@@ -353,7 +348,7 @@ in
    canvas2d_stroke (cnv);
    canvas2d_closePath (cnv);
    canvas2d_restore (pf' | cnv)
-end    
+end // end of [if] // end of [val]
 //
 val () = canvas2d_set_fillStyle_string (cnv, "rgba(0, 0, 0, 0.1)")
 val () = canvas2d_fillRect (cnv, 1.0 * part_start, 0.0, 1.0 * part_len, 1.0 * MYMAX)
@@ -364,9 +359,12 @@ end (* end of [draw_array0] *)
 
 (* ****** ****** *)
 
+extern
+fun
+start_animation (): void
 implement
 start_animation () =
-window_request_animation_frame
+window_requestAnimationFrame
 (
 fix step (timestamp:double): void =>
 (
@@ -377,14 +375,15 @@ fix step (timestamp:double): void =>
     val cnv = canvas2d_make ("QuicksortAnim")
     val () = assertloc (ptr_isnot_null(ptrcast(cnv)))
     // Get the latest dimensions of the viewport
-    val W = document_documentElement_clientWidth()
-    val H = document_documentElement_clientHeight()
+    val W = document_get_documentElement_clientWidth()
+    val H = document_get_documentElement_clientHeight()
     // Resize our canvas 
     val () = canvas2d_set_size_int (cnv, W, H)
+    val Wf = g0i2f(W) and Hf = g0i2f(H)
     val (
-    ) = canvas2d_clearRect (cnv, 0.0, 0.0, 1.0 * W, 1.0 * H)
+    ) = canvas2d_clearRect (cnv, 0.0, 0.0, Wf, Hf)
     val () = canvas2d_set_fillStyle_string (cnv, "rgb(255,255,255)")
-    val () = canvas2d_fillRect (cnv, 0.0, 0.0, 1.0 * W, 1.0 * H)
+    val () = canvas2d_fillRect (cnv, 0.0, 0.0, Wf, Hf)
   in (
     case+ shot of 
     | Normal (A) => let
@@ -398,9 +397,9 @@ fix step (timestamp:double): void =>
     | Swap (A, range, p , _) => begin
         draw_array0 (cnv, A, W, H, range, g0uint2int(p));  canvas2d_free (cnv);
       end
-   ) end; window_request_animation_frame (step);
+   ) end; window_requestAnimationFrame (step);
 )
-) // end of [window_request_animation_frame]
+) // end of [window_requestAnimationFrame]
 
 end // end of [local]
 

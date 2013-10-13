@@ -49,8 +49,12 @@ val () = canvas2d_scale (ctx, 1.25, 1.25)
 //
 val w = 200.0 and h = 50.0
 //
-val () =
-canvas2d_set_fillStyle_string (ctx, "blue")
+val grad =
+canvas2d_createLinearGradient (ctx, ~w/2, ~h/2, w/2, h/2)
+val () = canvas2d_gradient_addColorStop (grad, 0.0, "rgb(0,0,64)")
+val () = canvas2d_gradient_addColorStop (grad, 1.0, "rgb(100,100,255)")
+val () = canvas2d_set_fillStyle_gradient (ctx, grad)
+val () = canvas2d_gradient_free (grad)
 val () = canvas2d_fillRect (ctx, ~w/2, ~h/2, w, h)
 val () =
 canvas2d_set_strokeStyle_string (ctx, "black")

@@ -5,22 +5,18 @@
    Date: October 2013
  */
 Animation = {
-    window_request_animation_frame: function (ptr) {
-        var func = Runtime.getFuncWrapper(ptr, 'vi');
-        
-        var requestAnimationFrame = window.requestAnimationFrame ||
+    window_requestAnimationFrame:
+    function (ptr)
+    {
+        var func =
+	    Runtime.getFuncWrapper(ptr, 'vi');
+        var _requestAnimationFrame =
+	    window.requestAnimationFrame ||
             window.mozRequestAnimationFrame ||
             window.webkitRequestAnimationFrame ||
             window.msRequestAnimationFrame;
-
-        requestAnimationFrame(func);
+        _requestAnimationFrame(func);
     },
-    document_documentElement_clientWidth: function () {
-        return document.documentElement.clientWidth;
-    },
-    document_documentElement_clientHeight: function () {
-        return document.documentElement.clientHeight;
-    }
 };
 
 mergeInto(LibraryManager.library, Animation);

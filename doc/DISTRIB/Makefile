@@ -241,15 +241,15 @@ cleanall:: ; $(RMF) HTML/atscntrb_hiredis.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_hiredis.bash
 
 #
-all_html:: HTML/atscntrb_HTML5_canvas2d.html
-HTML/atscntrb_HTML5_canvas2d.html: atscntrb_HTML5_canvas2d_atxt.exe ; ./$< > $@
-all_script:: SCRIPT/atscntrb_HTML5_canvas2d.bash
-SCRIPT/atscntrb_HTML5_canvas2d.bash: atscntrb_HTML5_canvas2d_atxt.exe ; ./$< > $@
-atscntrb_HTML5_canvas2d_atxt.dats: ATEXT/atscntrb_HTML5_canvas2d.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_HTML5_canvas2d_atxt.exe: atscntrb_HTML5_canvas2d_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) atscntrb_HTML5_canvas2d_atxt.exe
-cleanall:: ; $(RMF) HTML/atscntrb_HTML5_canvas2d.html
-cleanall:: ; $(RMF) SCRIPT/atscntrb_HTML5_canvas2d.bash
+all_html:: HTML/atscntrb_HTML_canvas2d.html
+HTML/atscntrb_HTML_canvas2d.html: atscntrb_HTML_canvas2d_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_HTML_canvas2d.bash
+SCRIPT/atscntrb_HTML_canvas2d.bash: atscntrb_HTML_canvas2d_atxt.exe ; ./$< > $@
+atscntrb_HTML_canvas2d_atxt.dats: ATEXT/atscntrb_HTML_canvas2d.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_HTML_canvas2d_atxt.exe: atscntrb_HTML_canvas2d_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_HTML_canvas2d_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_HTML_canvas2d.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_HTML_canvas2d.bash
 
 #
 all_html:: HTML/atscntrb_libatshwxi_intinf.html
@@ -380,8 +380,8 @@ srcget_atscntrb_hiredis:: SCRIPT/atscntrb_hiredis.bash ; bash $<
 
 ######
 
-srcget_atscntrb:: srcget_atscntrb_HTML5_canvas2d
-srcget_atscntrb_HTML5_canvas2d:: SCRIPT/atscntrb_HTML5_canvas2d.bash ; bash $<
+srcget_atscntrb:: srcget_atscntrb_HTML_canvas2d
+srcget_atscntrb_HTML_canvas2d:: SCRIPT/atscntrb_HTML_canvas2d.bash ; bash $<
 
 ######
 

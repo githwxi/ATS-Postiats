@@ -60,9 +60,14 @@ CAIRO_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/cairo"
 (* ****** ****** *)
 //
 #define
-HTML5canvas2d_targetloc "$PATSHOMERELOC/contrib/HTML5/canvas-2d"
+HTML_targetloc "$PATSHOMERELOC/contrib/HTML"
 #define
-HTML5canvas2d_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/HTML5/canvas-2d"
+HTML_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/HTML"
+//
+#define
+HTML5canvas2d_targetloc "$PATSHOMERELOC/contrib/HTML/canvas-2d"
+#define
+HTML5canvas2d_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/HTML/canvas-2d"
 //
 (* ****** ****** *)
 //
