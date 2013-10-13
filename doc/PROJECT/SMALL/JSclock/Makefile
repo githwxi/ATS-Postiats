@@ -47,6 +47,7 @@ RMF=rm -f
 
 .PHONY: clean
 
+clean:: ; $(RMF) *~
 clean:: ; $(RMF) myclock0_dats.c
 clean:: ; $(RMF) myclock1_dats.c
 

@@ -8,14 +8,7 @@ var MyClockLib =
     JS_request_animation_frame:
     function (ptr, env) {
         var func = Runtime.getFuncWrapper(ptr, 'vii');
-
-        var window_requestAnimationFrame =
-	    window.requestAnimationFrame ||
-            window.mozRequestAnimationFrame ||
-            window.webkitRequestAnimationFrame ||
-            window.msRequestAnimationFrame;
-
-        window_requestAnimationFrame(function (time) { func(time, env); });
+        window.setTimeout(function (time) { func(time, env); }, 40);
     },
 
     JS_wallclock_now:
