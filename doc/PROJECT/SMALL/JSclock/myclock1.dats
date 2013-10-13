@@ -6,7 +6,9 @@ Author: Hongwei Xi
 Authoremail: hwxi AT cs DOT bu DOT edu
 Start Time: October 2013
 //
-The original JS code for this clock is at
+This example is essentially translated from
+the JS code at the following site:
+//
 http://www.neilwallis.com/projects/html5/clock/
 //
 *)

@@ -48,10 +48,6 @@ var atscntrb_html5_canvas2d =
     atscntrb_html5_canvas2d_lineTo:
     function (idx, x, y) { MyCanvas.contexts[idx].lineTo(x, y); },
 //
-    atscntrb_html5_canvas2d_translate:
-    function (idx, x, y) {
-        MyCanvas.contexts[idx].translate(x, y);
-    },
     atscntrb_html5_canvas2d_scale:
     function (idx, sx, sy) {
         MyCanvas.contexts[idx].scale(sx, sy);
@@ -59,6 +55,10 @@ var atscntrb_html5_canvas2d =
     atscntrb_html5_canvas2d_rotate:
     function (idx, angle) {
         MyCanvas.contexts[idx].rotate(angle);
+    },
+    atscntrb_html5_canvas2d_translate:
+    function (idx, x, y) {
+        MyCanvas.contexts[idx].translate(x, y);
     },
 //
     atscntrb_html5_canvas2d_arc:

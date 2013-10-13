@@ -157,14 +157,14 @@ canvas2d_fillText2
 (* ****** ****** *)
 //
 fun
-canvas2d_translate
-  (!canvas2d1, x: double, y: double): void = "ext#%"
-fun
 canvas2d_scale
   (!canvas2d1, sx: double, sy: double): void = "ext#%"
 fun
 canvas2d_rotate
   (!canvas2d1, angle: double(*radian*)): void = "ext#%"
+fun
+canvas2d_translate
+  (can: !canvas2d1, x: double, y: double): void = "ext#%"
 //
 (* ****** ****** *)
 //
