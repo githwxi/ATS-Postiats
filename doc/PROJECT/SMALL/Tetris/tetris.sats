@@ -9,7 +9,7 @@
 (*
 **
 ** Author: Chen GUO
-** Authoremail: ...
+** Authoremail: gessichenATgmailDOTcom
 ** Author: Hongwei XI
 ** Authoremail: gmhwxiATgmailDOTcom
 **
