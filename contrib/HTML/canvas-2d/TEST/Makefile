@@ -22,6 +22,11 @@ PATSCCOMP2=\
 
 ######
 
+all:: test01.js
+all:: quicksort_anim.js
+
+######
+
 test01.js: \
   test01.dats; \
   $(PATSCC) -atsccomp $(PATSCCOMP2) \
