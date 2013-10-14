@@ -57,7 +57,18 @@ overload ptrcast with element2ptr
 //
 (* ****** ****** *)
 
-fun document_element_free (elt: element0): void
+absvtype event_vtype (l:addr) = ptr(l)
+
+vtypedef event (l:addr) = event_vtype (l)
+vtypedef event0 = [l:agez] event (l)
+vtypedef event1 = [l:addr | l > null] event (l)
+
+
+fun document_event_free (evnt: event0): void = "ext#%"
+
+(* ****** ****** *)
+
+fun document_element_free (elt: element0): void = "ext#%"
 
 (* ****** ****** *)
 
@@ -74,6 +85,20 @@ fun document_element_set_height (!element1, height: int): void = "ext#%"
 
 fun document_get_documentElement_clientWidth (): int = "ext#%"
 fun document_get_documentElement_clientHeight (): int = "ext#%"
+
+(* ****** ****** *)
+
+fun document_element_addEventListener (
+  !element1, type: string, func: (event1) -> void
+): void = "ext#%"
+
+fun document_element_get_value_string (!element1): string = "ext#%"
+fun document_element_get_value_int (!element1): int = "ext#%"
+  
+(* ****** ****** *)
+
+fun document_event_get_keyCode (!event1): int = "ext#%"
+fun document_event_get_target (!event1): element1 = "ext#%"
 
 (* ****** ****** *)
 
