@@ -15,11 +15,6 @@
 //
 (* ****** ****** *)
 
-staload "./../SATS/hiredis.sats"
-staload "./../SATS/hiredis_ML.sats"
-
-(* ****** ****** *)
-
 local
 //
 #include "./../DATS/hiredis_ML.dats"

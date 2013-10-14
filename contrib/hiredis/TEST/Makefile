@@ -17,6 +17,14 @@ all::
 
 ######
 
+all:: test00
+test00: test00.dats ; \
+  $(PATSCC) -cleanaft \
+    -IIATS $(PATSHOMERELOCQ)/contrib -o $@ $< -lhiredis
+cleanall:: ; $(RMF) test00
+
+######
+
 all:: test01
 test01: test01.dats ; \
   $(PATSCC) -cleanaft \

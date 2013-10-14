@@ -1,0 +1,17 @@
+#
+# Testing hiredis and hiredis_ML
+#
+
+######
+
+test00: getting started
+test01: testing hiredis
+test02: testing hiredis_ML
+
+######
+
+fact: implementing the factorial based on hiredis
+
+######
+
+###### end of [README] ######

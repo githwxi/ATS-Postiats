@@ -19,13 +19,6 @@ staload _(*anon*) = "./../DATS/hiredis.dats"
 
 val () =
 {
-  val () = println! ("The version of [hiredis]: ", hiredis_version ())
-} (* end of [val] *)
-
-(* ****** ****** *)
-
-val () =
-{
 //
 val ctx =
 redisConnectWithTimeout ("127.0.0.1", 6379, 1.0)
