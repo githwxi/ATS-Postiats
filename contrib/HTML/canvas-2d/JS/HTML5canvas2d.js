@@ -156,17 +156,6 @@ var atscntrb_html5_canvas2d =
     atscntrb_html5_canvas2d_set_shadowOffsetY_double:
     function (idx, value) { MyCanvas.contexts[idx].shadowOffsetY = value; },
 //
-    atscntrb_html5_canvas2d_set_size_int:
-    function (id, width, height) {
-        var id2 = Pointer_stringify(id)
-        var elt = document.getElementById(id2);
-        if(elt)
-	{
-	    elt.width = width; elt.height = height;
-	}
-	return ;
-    },
-//
     atscntrb_html5_canvas2d_createLinearGradient:
     function (idx, x0, y0, x1, y1) {
 	var idx2 = (MyCanvas.objcnt += 1);

@@ -35,11 +35,19 @@
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSCNTRB.atshwxi.testing"
+#define
+ATS_PACKNAME "ATSCNTRB.atshwxi.testing"
 
 (* ****** ****** *)
 
+(*
 sortdef t0p = t@ype and vt0p = viewt@ype
+*)
+
+(* ****** ****** *)
+
+fun{}
+randint{n:pos} (n: int n): natLt (n)
 
 (* ****** ****** *)
 
@@ -47,11 +55,6 @@ fun{a:vt0p}
 randgen_val (): a // for randval generation
 fun{a:vt0p}
 randgen_ref (x: &a? >> a): void // for randval initialization
-
-(* ****** ****** *)
-
-fun{}
-randint {n:pos} (n: int n): natLt (n)
 
 (* ****** ****** *)
 

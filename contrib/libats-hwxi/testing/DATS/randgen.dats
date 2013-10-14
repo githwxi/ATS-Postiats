@@ -36,7 +36,40 @@
 
 (* ****** ****** *)
 
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "./../SATS/randgen.sats"
+
+(* ****** ****** *)
+
+local
+
+staload
+STDLIB =
+"libc/SATS/stdlib.sats"
+
+(*
+For seeding, please use
+//
+fun srandom(seed: uint):<!ref> void
+//
+*)
+
+in (* in of [local] *)
+
+implement{
+} randint{n}(n) = let
+//
+val N = $STDLIB.random ()
+//
+in
+  $UN.cast{natLt(n)}(g0i2i(N) mod n)
+end // end of [randint]
+
+end // end of [local]
 
 (* ****** ****** *)
 //

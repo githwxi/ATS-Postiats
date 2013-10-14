@@ -290,7 +290,7 @@ end // end of [val]
 in
 //
 if pres > 0 then let
-  prval (pf, fpf) = $UN.ptr_vtake {mi} (pres)
+  val (pf, fpf | p) = $UN.ptr1_vtake {mi} (pres)
   val () = println! (pres->name, ": month \#", pres->nr)
   prval () = fpf (pf)
 in

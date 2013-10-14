@@ -219,12 +219,6 @@ overload canvas2d_set_shadowOffsetY with canvas2d_set_shadowOffsetY_double
 //
 (* ****** ****** *)
 
-fun canvas2d_set_size_int
-  (!canvas2d1, width: int(*px*), height: int(*px*)): void = "ext#%"
-// end of [canvas2d_set_size_int]
-
-(* ****** ****** *)
-
 absvtype gradient_vtype = ptr
 vtypedef gradient = gradient_vtype
 

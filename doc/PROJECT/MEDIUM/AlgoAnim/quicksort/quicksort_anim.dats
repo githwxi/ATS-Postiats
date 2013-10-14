@@ -116,9 +116,12 @@ qsort_partition
   (A, st, len) = let
 //
 val last = pred(st+len)
+//
 // Pick a pivot uniformly at random 
-val n = $UN.cast{[n:pos] int n}(len)
-val offset = $UN.cast{size_t}(randint(n))
+//
+val n = g1ofg0(g0u2i(len))
+val () = assertloc (n > 0)
+val offset = i2sz(randint(n))
 val pivot = A[st + offset]
 val () = array0_swap (A, st + offset, last)
 //
@@ -281,11 +284,6 @@ end // end of [intqsort]
 (* ****** ****** *)
 
 extern
-fun window_requestAnimationFrame (f: (double)-> void): void = "ext#"
-
-(* ****** ****** *)
-
-extern
 fun
 draw_array0
   {l:agz} (
@@ -358,6 +356,19 @@ in
 end (* end of [draw_array0] *)
 
 (* ****** ****** *)
+//
+extern
+fun canvas2d_set_size_int
+(
+  id: string
+, width: int(*px*), height: int(*px*)
+) : void = "ext#JS_canvas2d_set_size_int"
+//
+extern
+fun window_requestAnimationFrame
+  (f: (double)-> void): void = "ext#JS_window_requestAnimationFrame"
+//
+(* ****** ****** *)
 
 extern
 fun
@@ -378,7 +389,7 @@ fix step (timestamp:double): void =>
     val W = document_get_documentElement_clientWidth()
     val H = document_get_documentElement_clientHeight()
     // Resize our canvas 
-    val () = canvas2d_set_size_int (cnv, W, H)
+    val () = canvas2d_set_size_int ("QuicksortAnim", W, H)
     val Wf = g0i2f(W) and Hf = g0i2f(H)
     val (
     ) = canvas2d_clearRect (cnv, 0.0, 0.0, Wf, Hf)
