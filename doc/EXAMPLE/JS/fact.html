@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+  <title>Event Handling in ATS->C->Javascript</title>
+  <style>
+    #output {
+       margin: 0 auto; width: 920px; height: 400px;
+       border-style: solid;
+       overflow: scroll;
+    }
+    #input {
+       width:3em;
+    }
+    .pull-left {
+       float: left;
+    }
+    .cb {
+       clear: both;
+    }
+  </style>
+</head>
+<body>
+  <h1>Event Handling in ATS->C->Javascript</h1>
+  <label class="pull-left">n = </label>
+  <input id="input" class="pull-left" type="text" maxlength="3">
+  <button id="calc" class="pull-left">Calculate</button>
+  <div class="cb"></div>
+  <pre id="output"></pre>
+<script src="fact.js"></script>
+</body>
+</html>

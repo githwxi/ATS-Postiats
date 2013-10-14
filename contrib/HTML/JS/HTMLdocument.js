@@ -19,11 +19,13 @@ var atscntrb_html_document =
 //
     atscntrb_html_document_element_free:
     function (idx) { delete MyDocument.contexts[idx]; },
+    atscntrb_html_document_event_free:
+    function (idx) { delete MyDocument.contexts[idx]; },
 //
     atscntrb_html_document_getElementById:
     function (id) {
 	var id2 = Pointer_stringify(id);
-	var idx = (MyCanvas.objcnt += 1);
+	var idx = (MyDocument.objcnt += 1);
 	MyDocument.contexts[idx] = document.getElementById(id2);
 	return idx;
     },
@@ -43,7 +45,47 @@ var atscntrb_html_document =
     atscntrb_html_document_get_documentElement_clientHeight:
     function () { return document.documentElement.clientHeight; },
 //
+    atscntrb_html_document_element_addEventListener:
+    function (idx, typec, funcptr) {
+        var func = 
+            Runtime.getFuncWrapper(funcptr, 'vi');
+        var event_type = Pointer_stringify(typec);
+        MyDocument.contexts[idx].addEventListener(event_type, function(evnt) {
+            var idx = (MyDocument.objcnt += 1);
+            MyDocument.contexts[idx] = evnt;
+            
+            func(idx);
+        });
+    },
+    atscntrb_html_document_element_get_value_string:
+    function (idx) {
+        var value = MyDocument.contexts[idx].value;
+        return allocate(intArrayFromString(value), 'i8', ALLOC_STACK);
+    },
+    atscntrb_html_document_element_get_value_int:
+    function (idx) {
+        var text = MyDocument.contexts[idx].value;
+        var res = parseInt(text);
+        if (isNaN(res)) {
+            return -1;
+        }
+        return res;
+    },
+    atscntrb_html_document_event_get_keyCode:
+    function (idx) {
+        return MyDocument.contexts[idx].keyCode;
+    },
+    atscntrb_html_document_event_get_target:
+    function (idx) {
+        var idx1 = (MyDocument.objcnt += 1);
+        MyDocument.contexts[idx1] = MyDocument.contexts[idx].target;
+        return idx1;
+    }
 } ; // end of [atscntrb_html_document]
+
+/* ****** ****** */
+
+autoAddDeps(atscntrb_html_document, '$MyDocument');
 
 /* ****** ****** */
 
