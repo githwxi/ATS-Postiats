@@ -42,6 +42,35 @@ ATS_PACKNAME "ATSCNTRB.HTML"
 #define ATS_EXTERN_PREFIX "atscntrb_html_" // prefix for external names
 
 (* ****** ****** *)
+//
+absvtype element_vtype (l:addr) = ptr(l)
+//
+vtypedef element (l:addr) = element_vtype (l)
+vtypedef element0 = [l:agez] element (l)
+vtypedef element1 = [l:addr | l > null] element (l)
+//
+(* ****** ****** *)
+//
+castfn
+element2ptr{l:addr} (elt: !element(l)):<> ptr(l)
+overload ptrcast with element2ptr
+//
+(* ****** ****** *)
+
+fun document_element_free (elt: element0): void
+
+(* ****** ****** *)
+
+fun document_getElementById (id: string): element0 = "ext#%"
+
+(* ****** ****** *)
+
+fun document_element_get_width (!element1): int = "ext#%"
+fun document_element_get_height (!element1): int = "ext#%"
+fun document_element_set_width (!element1, width: int): void = "ext#%"
+fun document_element_set_height (!element1, height: int): void = "ext#%"
+
+(* ****** ****** *)
 
 fun document_get_documentElement_clientWidth (): int = "ext#%"
 fun document_get_documentElement_clientHeight (): int = "ext#%"

@@ -206,17 +206,14 @@ extern
 fun snapshot_push (A: array0(myint)): void
 extern
 fun snapshot_reverse (): void
-(*
-implement
-snapshot_push (A) =
-  fprintln! (stdout_ref, "snapshot: A = ", A)
-// end of [snapshot_push]
-*)
+extern
+fun snapshot_hasmore (): bool
 
 local
 //
 val theSnapshots =
   ref<list0(array0(myint))> (list0_nil)
+val theSnapshots_hasmore = ref<bool> (true)
 //
 in (* in of [local] *)
 
@@ -225,7 +222,9 @@ snapshot_pop () = x where
 {
   val-cons0(x, xs) = !theSnapshots
   val () = (
-    case+ xs of cons0 _ => !theSnapshots := xs | nil0 () => ()
+    case+ xs of
+    | cons0 _ => !theSnapshots := xs
+    | nil0 () => !theSnapshots_hasmore := false
   ) : void (* end of [val] *)
 }
 
@@ -238,6 +237,9 @@ end // end of [snapshot_push]
 
 implement
 snapshot_reverse () = !theSnapshots := list0_reverse (!theSnapshots)
+
+implement
+snapshot_hasmore () = !theSnapshots_hasmore
 
 end // end of [local]
 
@@ -381,7 +383,7 @@ val () =
 ) (* end of [val] *)
 //
 in
-  request_animation_frame (step)
+  if snapshot_hasmore () then request_animation_frame (step)
 end // end of [fix]
 ) (* end of [request_animation_frame] *)
 

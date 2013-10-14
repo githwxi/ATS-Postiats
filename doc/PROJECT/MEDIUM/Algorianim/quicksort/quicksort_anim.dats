@@ -164,18 +164,20 @@ datatype snapshot =
 (* ****** ****** *)
 
 extern
-fun snapshot_pop (): snapshot
+fun
+snapshot_pop (): snapshot
 extern
-fun snapshot_push (
-  snap: snapshot
-): void
+fun snapshot_push (snap: snapshot): void
 extern
 fun snapshot_reverse (): void
+extern
+fun snapshot_hasmore (): bool
 
 local
 //
 val theSnapshots =
   ref<list0(snapshot)> (list0_nil)
+val theSnapshots_hasmore = ref<bool> (true)
 //
 in (* in of [local] *)
 
@@ -196,6 +198,9 @@ end // end of [snapshot_push]
 
 implement
 snapshot_reverse () = !theSnapshots := list0_reverse (!theSnapshots)
+
+implement
+snapshot_hasmore () = !theSnapshots_hasmore
 
 end // end of [local]
 
@@ -324,7 +329,7 @@ fun loop
       case+ p of 
       | _ when p = ~1 => normal
       | _  =>> if p = g0uint2int(i) then "rgb(255, 0, 0)" else normal
-    end : string
+    end : string // end of [val]
   in
     canvas2d_set_fillStyle_string (cnv, color);
     canvas2d_fillRect (cnv, 1.0 * xul, 1.0 * yul, 1.0, 1.0 * v);
@@ -342,7 +347,8 @@ in
    canvas2d_beginPath (cnv);
    canvas2d_moveTo (cnv, 1.0 * part_start, 1.0 * (MYMAX - v));
    canvas2d_lineTo (cnv, 1.0 * (part_start + part_len), 1.0 * (MYMAX - v));
-   canvas2d_set_strokeStyle_string (cnv, "rgb(0,0,255)");
+   canvas2d_set_lineWidth (cnv, 0.25);
+   canvas2d_set_strokeStyle_string (cnv, "#0000FF");
    canvas2d_stroke (cnv);
    canvas2d_closePath (cnv);
    canvas2d_restore (pf' | cnv)
@@ -384,7 +390,7 @@ fix step (timestamp:double): void =>
     val () = theNextRender_incby (dt)
     // render the shot
     val cnv = canvas2d_make ("QuicksortAnim")
-    val () = assertloc (ptr_isnot_null(ptrcast(cnv)))
+    val ((*void*)) = assertloc (ptrcast(cnv) > 0)
     // Get the latest dimensions of the viewport
     val W = document_get_documentElement_clientWidth()
     val H = document_get_documentElement_clientHeight()
@@ -393,7 +399,7 @@ fix step (timestamp:double): void =>
     val Wf = g0i2f(W) and Hf = g0i2f(H)
     val (
     ) = canvas2d_clearRect (cnv, 0.0, 0.0, Wf, Hf)
-    val () = canvas2d_set_fillStyle_string (cnv, "rgb(255,255,255)")
+    val () = canvas2d_set_fillStyle_string (cnv, "#FFFFFF")
     val () = canvas2d_fillRect (cnv, 0.0, 0.0, Wf, Hf)
   in (
     case+ shot of 
@@ -408,7 +414,7 @@ fix step (timestamp:double): void =>
     | Swap (A, range, p , _) => begin
         draw_array0 (cnv, A, W, H, range, g0uint2int(p));  canvas2d_free (cnv);
       end
-   ) end; window_requestAnimationFrame (step);
+  ) end ; if snapshot_hasmore () then window_requestAnimationFrame (step) ;
 )
 ) // end of [window_requestAnimationFrame]
 
