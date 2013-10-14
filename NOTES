@@ -169,5 +169,262 @@ revapp {m,n:nat} .<m>. (
 *)
 
 ######
+#
+# The following was in the old README
+#
+######
+
+Project Title: ATS/Postiats
+
+Project Description:
+Another Implementation of ATS!
+
+######
+
+//
+// HX-2011-03-07: syntax design:
+//
+
+&? >> T for &T? >> T
+This can be &set(T)
+
+&T >> ?! for &T >> T?! 
+This can be &get(T)
+
+&T >> ? for &T >> T?
+This can be &clr(T)
+
+######
+//
+// HX-2011-03-13
+//
+Optmizing pattern matching compilation
+
+######
+//
+// HX-2011-03-14
+//
+Each type should be given a generic name as well as a specific name;
+the former for generic template instantiation and the latter for specific
+template implementation.
+
+######
+//
+// HX-2011-03-16
+//
+Handling read-only access.
+
+fun f (x: &READ(Int)): bool
+
+######
+//
+// HX-2011-03-20
+//
+Some kind of sort inferencing (for impredicative sorts).
+
+######
+//
+// HX-2011-03-21
+//
+Supporting user-defined effects
+
+######
+//
+// HX-2011-03-30
+//
+Supporting invariant types:
+
+fun{a1,a2:t@ype} f (x: INV(a1), y: INV(a2)): (a1, a2)
+
+######
+//
+// HX-2011-04-15
+//
+Macro support for patterns.
+(*
+HX-2011-04-27:
+there is now support for functional C-like macros. For instance,
+the following declaration is now available, which I plan to turn
+into limited macro support for patterns:
+//
+#define list_sing (x) list_cons (x, list_nil ())
+//
+*)
+
+######
+//
+// HX-2011-08
+//
+fold/unfold are proof functions
+encode/decode are casting functions (castfn)
+
+ifbrk $test then $exp
+
+for
+
+if $test then ($exp; break)
+
+ifcnt $test then $exp
+
+for
+
+if $test then ($exp; continue)
+
+######
+//
+// HX-2011-08
+//
+
+logging errors of lib functions of the names *_exn?
+
+######
+//
+// HX-2011-08
+//
+
+mutability: 
+
+structbox = '{
+  name= string, width= !int, height= !int
+} // it is just like a ref!
+
+######
+//
+// HX-2011-09
+//
+
+A flag for allocation-only GCATS.
+
+######
+
+From matthias_berndt@gmx.de Sun Sep  4 16:50:34 2011
+Date: Sun, 4 Sep 2011 22:50:19 +0200
+From: Matthias Berndt <matthias_berndt@gmx.de>
+To:  <ats-lang-users@lists.sourceforge.net>
+Subject: Re: [ats-lang-users] Error code checking with linear types
+
+Hi Hongwei, 
+
+> >>Wouldn't it be possible to just DWIM in that case? For example, an
+> >>expression like
+> >>case x of
+> >>
+> >>  | (a | b) => ...
+> >>  | (c | d) => ...
+> >>
+> >>could automatically be transformed into something like
+> >>let val+ (x1 | x2) = x in
+> >>
+> >>  case x2 of
+> >>  
+> >>  | b => let prval a = x1 in ... end
+> >>  | d => let prval c = x1 in ... end
+> 
+> When [b] matches [x2], [a] may not be the only pattern that matches x1;
+> if it is the only one, then yes.
+Yes, this would be a shorthand for the (common?) case where the fact that 
+x2 matches b also implies that x1 matches a. For all other cases, one needs 
+to resort to the solution we have now. 
+
+> By the way, what does 'DWIM' stand for?
+"Do What I Mean".
+
+######
+//
+// HX: this form of pseudo abstract type can also be useful
+//
+abst@ype
+E (a:t@ype, x:elt) = !a
+assume E (a:t@ype, x:elt) = top // ignored
+
+######
+//
+// HX-2011-10-01: supporting offsetof?
+//
+######
+
+######
+//
+// HX-2011-10-18: proof management?
+//
+
+#proof (?@l)
+#proof (array_v(?, ?, l))
+#typeof (exp)
+
+let
+
+prfun tyeq {a:t@ype} (x: INV(a)): void
+prfun tyeq_vt {a:t@ype} (x: !INV(a)): void
+
+prval pf = #proof(?@l)
+prval pf = #proof(free_v_gc(?, l))
+stavar i: int and j: int
+prval () = tyeq {int(i)} (x+y)
+val x = ptrget (pf | p)
+
+in
+
+end // end of [
+
+######
+//
+// HX-2012-02-08: caseof-expressions
+//
+fun fact
+  (x: int): int =
+  caseof x > 0 => x * f (x-1) | (*else*) => 1
+// end of [fact]
+
+######
+
+explicit wthtype syntax:
+
+(int? >> opt (int i, b)) -> #[i:nat;b:bool] bool (b)
+
+######
+
+A convenient syntax for handling folding/unfolding:
+
+fun{
+a:viewt@ype
+} list_vt_length
+  (xs: !list_vt (a, n)): int n =
+  case+ xs of
+  | list_vt_cons (x, xs) => 1 + list_vt_length (xs)
+  | list_vt_nil () => 0
+// end of [list_vt_length]
+
+fun{
+a:viewt@ype
+} list_vt_append
+  {m,n:int | m > 0} (
+  xs: !list_vt (a, m) >> list_vt (a, m+n)
+, ys: list_vt (a, n)
+) : void = let
+  val @list_vt_cons (_, xs1) = xs
+in
+  case+ xs1 of
+  | list_cons _ => let
+      val () = list_vt_append (xs1, ys) in fold@ (xs)
+    end // end of [list_cons]
+  | ~list_vt_nil () => xs1 := ys
+end // end of [list_vt_append]
+
+######
+
+HX-2013-06-20:
+
+Is it a good practice to allow the use of wildcards (_ or ...)
+for discarding resources:
+
+Pro: Very easy to use
+Con: Maybe it is too easy to allow unintential leak of resources 
+
+######
+#
+# end of [README]
+#
+######
 
 ###### end of [NOTES] ######
