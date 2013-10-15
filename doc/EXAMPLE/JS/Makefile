@@ -27,7 +27,7 @@ RMF=rm -f
 
 all:: fact
 fact: fact.js
-fact.js: fact_dats.c ;   $(CCOPT) --pre-js pre.js --js-library $(PATSHOMEQ)/contrib/HTML/JS/HTMLdocument.js     -D_GNU_SOURCE -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+fact.js: fact_dats.c ;   $(CCOPT) --pre-js pre.js --js-library $(PATSHOMEQ)/contrib/HTML/JS/HTMLdocument.js     -D_GNU_SOURCE -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -I $(PATSHOMEQ)/contrib -I ./gmp/include -o $@ $< ./gmp/lib/libgmp.a
 fact_dats.c: fact.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fact_dats.c --dynamic fact.dats
 clean:: ; $(RMF) fact_dats.o
 clean:: ; $(RMF) fact_dats.c
