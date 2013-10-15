@@ -55,6 +55,10 @@ end // end of [fact_handle_keypress_fun]
 (* ****** ****** *)
 
 (*
+//
+// HX-2013:
+// this one works, but may not be of a good style ...
+//
 implement
 main0 ((*void*)) =
 {

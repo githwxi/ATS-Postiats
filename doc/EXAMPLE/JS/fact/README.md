@@ -25,18 +25,18 @@ useful for responding to user input, but also for other applications like
 animation, web workers, and network communication (either through AJAX or
 Websockets). As the JS code always runs in a single threaded context, doing
 things like busy waiting should typically be avoided as event handlers can
-otherwise be blocked from occuring.
+otherwise be blocked from occurring.
 
-In this example, computing the factorial of a given number typically take
-very little time. For tasks requiring longer time to complete, it is
-sensible to move computation into a Web Worker so that the browser does not
-become unresponsive.
+In this example, computing the factorial of a given number takes very
+little time. For tasks requiring longer time to complete, it is sensible to
+move computation into a Web Worker so that the browser does not become
+unresponsive.
 
 ### Multiple Precision Arithmetic
 
-For computing the factorial of large integer, one can employ the GNU
-Multiple Precision library, which is already successfully compiled to
-Javascript by the emscripten compiler. More information can be found
-[on-line][kripken-gmp.js].
+For computing the factorial of a large integer, one can employ the GNU
+Multiple Precision library (gmplib), which is already successfully compiled
+to Javascript by the emscripten compiler. Please find further related
+information [on-line][kripken-gmp.js].
 
 [kripken-gmp.js]: https://github.com/kripken/gmp.js
