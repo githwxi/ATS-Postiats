@@ -13,6 +13,11 @@
 //
 (* ****** ****** *)
 
+#define
+ATS_EXTERN_PREFIX "ATSJS_"
+
+(* ****** ****** *)
+
 staload "{$HTML}/SATS/document.sats"
 
 (* ****** ****** *)
@@ -28,23 +33,38 @@ fun fact (n: int): int =
 
 extern
 fun fact_handle_keypress_fun
-  (event: event1): void = "ext#"
-  
-(* ****** ****** *)
-
-implement fact_handle_keypress_fun (event) = let
-  val key = document_event_get_keyCode (event)
-  val (
-  ) = if key = ENTER then
-  {
-    val input = document_event_get_target (event)
-    val n = document_element_get_value_int (input)
-    val () = println! ("fact(", n, ") = ", fact(n))
-    val () = document_element_free (input)
-  }
+  (event: event1): void = "ext#%"
+implement
+fact_handle_keypress_fun
+  (event) = let
+//
+val key = document_event_get_keyCode (event)
+val (
+) = if key = ENTER then
+{
+  val input = document_event_get_target (event)
+  val funarg = document_element_get_value_int (input)
+  val ((*void*)) = println! ("fact(", funarg, ") = ", fact(funarg))
+  val ((*void*)) = document_element_free (input)
+} (* end of [if] *) // end of [val]
+//
 in
   document_event_free (event)
 end // end of [fact_handle_keypress_fun]
+
+(* ****** ****** *)
+
+(*
+implement
+main0 ((*void*)) =
+{
+val input = document_getElementById ("input")
+val ((*void*)) = assertloc (ptrcast(input) > 0)
+val ((*void*)) =
+  document_element_addEventListener_fun (input, "keypress", fact_handle_keypress_fun)
+val ((*void*)) = document_element_free (input)
+} (* end of [main0] *)
+*)
 
 (* ****** ****** *)
 

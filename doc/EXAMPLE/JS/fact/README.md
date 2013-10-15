@@ -1,41 +1,42 @@
-# Computing Factorials in a Browser
+## Computing Factorials in a Browser
 
 This example, which computes the factorial of a given number, demonstrates
 an approach to handling user-generated events within ATS for the purpose of
-collecting input to functions implemented in ATS. This approach is clearly
+collecting input to functions implemented in ATS. This approach can be
 very useful for providing service that can be performed entirely in a web
 browser alone. In particular, the service requires no communication between
 the browser and any server.
 
-## Method
+### Method
 
-Unlike in console  programming, we don't read our input  from stdin or
-argv. Instead, we provide the user with some GUI elements and wait for
-them to  notify our  program that  input is  ready. In  Javascript, we
-receive these notifications through Event Listeners. In ATS we provide
-a simple wrapper around the native Javascript interface.
+For this simple factorial service, an input box is provided for the user to
+provide input.  When a key is pressed and the input box has focus, the
+event listener attached to the input box is triggered. If the code of the
+pressed key equals ENTER, the string in the input box is turned into an
+integer and then passed to the factorial function (implemented in ATS), and
+the integer value returned by the factorial function is printed out in the
+output box.
 
-For  our simple  factorial  service, we  just provide  a  text box  to
-calculate the factorial  of the number given. This is  easy enough, we
-bind a function to the "keypress"  action for our text box. Every time
-the user  presses a  key for  that box, the  browser will  generate an
-event and pass  it to our handler.  When the key pressed  is the enter
-key, we grab the current value, compute the factorial, and display the
-output.  This  asynchronous   style  is  a  very   important  part  of
-programming in a browser. Instead of  blocking on user input, our main
-function simply  binds functions to  the appropriate events  which are
-called later as necessary.
+### Discussion
 
-## Discussion
+In general, it is important for the programmer to think in this
+asynchronous style when working within the browser.  This is not only
+useful for responding to user input, but also for other applications like
+animation, web workers, and network communication (either through AJAX or
+Websockets). As the JS code always runs in a single threaded context, doing
+things like busy waiting should typically be avoided as event handlers can
+otherwise be blocked from occuring.
 
-In general, it is useful to think in this asynchronous style when working
-within the browser.  This is useful when responding to user input, but also
-for other applications like animation, web workers, and network
-communication (either through AJAX or Websockets). Our javascript always
-runs in a single threaded context. Therefore, doing things like busy
-waiting are typically toxic as they block event handlers from occuring.
-
-In this example, computing the factorial of a given number typically take a
-very short time.  For tasks that take longer time to complete, it is
+In this example, computing the factorial of a given number typically take
+very little time. For tasks requiring longer time to complete, it is
 sensible to move computation into a Web Worker so that the browser does not
 become unresponsive.
+
+### Multiple Precision Arithmetic
+
+For computing the factorial of large integer, one can employ the GNU
+Multiple Precision library, which is already successfully compiled to
+Javascript by the emscripten compiler. More information can be found
+[on-line][kripken-gmp.js].
+
+[kripken-gmp.js]: https://github.com/kripken/gmp.js

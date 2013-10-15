@@ -6,14 +6,16 @@
 */
 
 /* 
-   This  is a  standard idiom  in JS  so we  don't pollute  the global
-   namespace with our local variable.
-*/
-(function () {
-    var input = document.getElementById("input");
+  This standard idiom in JS prevents the global namespace from being
+  polluted with local variables.
 
+*/
+(
+function()
+{
+    var input = document.getElementById("input");
     input.addEventListener("keypress", function(event) {
-        var ptr = MyDocument.objadd(event);
-        _fact_handle_keypress_fun(ptr);
+        _ATSJS_fact_handle_keypress_fun(MyDocument.objadd(event));
     });
-})();
+}
+)(/*void*/);
