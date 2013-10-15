@@ -11,19 +11,32 @@
 "share/atspre_staload.hats"
 
 staload "contrib/HTML/SATS/document.sats"
+staload "contrib/libgmp/SATS/gmp.sats"
 
-fun fact (n: int): int = let
-  fun loop (i: int, r: int): int =
-    if i > 1 then 
-      loop(pred(i), i*r)
-    else
-      r
-in loop(n, 1) end
+fun fact_gmp (n: int): Strptr1 = let
+  var res: mpz
+  val () = mpz_init_set (res, 1)
+  fun loop (i: int, res: &mpz >> mpz?): Strptr1 =
+    if i > 1 then let
+      val () = mpz_mul (res, i)
+    in
+      loop (pred(i), res)
+    end
+    else let
+      val str = mpz_get_str_null (10, res)
+      val () = mpz_clear (res)
+    in
+      str
+    end
+in loop(n, res) end
 
-fun print_fact (input: !element1): void = {
+fun print_fact (input: !element1): void = let
   val n = document_element_get_value_int (input)
-  val () = println! ("fact(", n, ") = ", fact(n))
-}
+  val fact_n = fact_gmp (n)
+in
+  println! ("fact(", n, ") = ", fact_n);
+  strptr_free (fact_n)
+end
 
 fun handle_calc (evnt: event1): void = let
   val input = document_getElementById ("input")

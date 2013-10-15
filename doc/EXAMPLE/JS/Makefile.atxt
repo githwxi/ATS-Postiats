@@ -88,7 +88,7 @@ RMF=rm -f
 
 ######
 
-#make2_entry("fact", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("fact", "-DATS_MEMALLOC_LIBC -I $(PATSHOMEQ)/contrib -I ./gmp/include", "./gmp/lib/libgmp.a")
 
 ######
 
