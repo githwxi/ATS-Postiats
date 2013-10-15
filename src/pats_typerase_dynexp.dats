@@ -672,7 +672,11 @@ case+
     hidexp_selptr (loc0, hse0, hde, hse_rt, hils)
   end // end of [D3Esel_ref]
 //
-| D3Eassgn_var (
+| D3Eassgn_var
+    (_, _, _, d3e_r)
+    when d3exp_is_prf (d3e_r) => hidexp_empty (loc0, hse0)
+| D3Eassgn_var
+  (
     d2v_l, s2rt, d3ls, d3e_r
   ) => let
     val () = d2var_inc_utimes (d2v_l)
@@ -682,6 +686,10 @@ case+
   in
     hidexp_assgn_var (loc0, hse0, d2v_l, hse_rt, hils, hde_r)
   end // end of [D3Eassgn_var]
+//
+| D3Eassgn_ptr
+    (_, _, _, d3e_r)
+    when d3exp_is_prf (d3e_r) => hidexp_empty (loc0, hse0)
 | D3Eassgn_ptr
   (
     d3e_l, s2rt, d3ls, d3e_r
@@ -693,6 +701,7 @@ case+
   in
     hidexp_assgn_ptr (loc0, hse0, hde_l, hse_rt, hils, hde_r)
   end // end of [D3Eassgn_ptr]
+//
 | D3Eassgn_ref
   (
     d3e_l, s2rt, d3ls, d3e_r
