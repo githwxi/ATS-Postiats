@@ -21,7 +21,7 @@ os.execv(args[0], args + sys.argv[1:])
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload_tmpdef.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 

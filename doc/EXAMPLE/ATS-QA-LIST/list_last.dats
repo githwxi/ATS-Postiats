@@ -15,7 +15,7 @@
 // HX: the current plan is for this
 // to reside in the "cloud" eventually.
 //
-#include "share/atspre_staload_tmpdef.hats"
+#include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 

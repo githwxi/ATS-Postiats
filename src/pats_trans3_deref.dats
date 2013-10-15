@@ -163,7 +163,9 @@ end // end of [local]
 
 local
 
-fun auxerr_nonderef (
+fun
+auxerr_nonderef
+(
   loc0: location, d3e: d3exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
@@ -173,7 +175,9 @@ in
   the_trans3errlst_add (T3E_d3exp_nonderef (d3e))
 end // end of [auxerr_nonderef]
 
-fun auxerr_reflinsel (
+fun
+auxerr_reflinsel
+(
   loc0: location
 , d3e: d3exp, d3ls: d3lablst, s2e_sel: s2exp
 ) : void = let
@@ -183,12 +187,14 @@ in
   the_trans3errlst_add (T3E_d3exp_deref_reflinsel (d3e, d3ls))
 end // end of [auxerr_reflinsel]
 
-fun aux1 (
+fun aux1
+(
   loc0: location
-, s2f0: s2hnf
-, d3e: d3exp, d3ls: d3lablst
+, s2f0: s2hnf, d3e: d3exp, d3ls: d3lablst
 ) : d3exp = let
+//
   val opt = un_s2exp_ptr_addr_type (s2f0)
+//
 in
 //
 case+ opt of
@@ -204,12 +210,14 @@ case+ opt of
 //
 end // end of [aux1]
 
-and aux2 (
+and aux2
+(
   loc0: location
-, s2f0: s2hnf
-, d3e: d3exp, d3ls: d3lablst
+, s2f0: s2hnf, d3e: d3exp, d3ls: d3lablst
 ) : d3exp = let
+//
   val opt = un_s2exp_ref_vt0ype_type (s2f0)
+//
 in
 //
 case+ opt of

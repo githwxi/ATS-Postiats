@@ -82,6 +82,13 @@ cleanall:: ; $(RMF) qa-list-67
 
 ######
 
+all:: qa-list-91
+qa-list-91: qa-list-91.dats ; \
+  $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) qa-list-91
+
+######
+
 all:: list_last
 list_last: list_last.dats ; \
   $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
@@ -98,7 +105,7 @@ cleanall:: ; $(RMF) list_copy
 
 all:: for-0install
 for-0install: for-0install.dats ; \
-  $(PATSCC) -IIATS ${PATSHOME}/contrib -cleanaft -DATS_MEMALLOC_LIBC -o $@ $< -ljson-c
+  $(PATSCC) -D_BSD_SOURCE -IIATS ${PATSHOME}/contrib -DATS_MEMALLOC_LIBC -o $@ $< -ljson-c
 cleanall:: ; $(RMF) for-0install
 
 ######
