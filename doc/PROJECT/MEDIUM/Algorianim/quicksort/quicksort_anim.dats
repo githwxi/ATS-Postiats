@@ -186,7 +186,9 @@ snapshot_pop () = x where
 {
   val-cons0(x, xs) = !theSnapshots
   val () = (
-    case+ xs of cons0 _ => !theSnapshots := xs | nil0 () => ()
+    case+ xs of
+    | cons0 _ => !theSnapshots := xs
+    | nil0 () => !theSnapshots_hasmore := false
   ) : void (* end of [val] *)
 }
 

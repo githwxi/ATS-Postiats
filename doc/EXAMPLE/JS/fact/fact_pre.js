@@ -7,7 +7,7 @@ var Module = {
     print: function (str) {
         var output = document.getElementById("output");
         
-        var cleaned =   str
+        var cleaned = str
          .replace(/&/g, "&amp;")
          .replace(/</g, "&lt;")
          .replace(/>/g, "&gt;")

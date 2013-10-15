@@ -12,10 +12,17 @@
 
 var atscntrb_html5_canvas2d =
 {
+//
     $MyCanvas: {
-	objcnt: 0, contexts: {}
+	objcnt: 0,
+	contexts: {},
+	objadd: function (obj) {
+	    var idx = ++MyCanvas.objcnt;
+	    MyCanvas.contexts[idx] = obj;
+	    return idx;
+	}
     },
-
+//
     atscntrb_html5_canvas2d_make:
     function (id) {
 	var idx = 0;
@@ -26,8 +33,7 @@ var atscntrb_html5_canvas2d =
 
         if(canvas.getContext)
 	{
-	    idx = (MyCanvas.objcnt += 1);
-	    MyCanvas.contexts[idx] = canvas.getContext("2d") ;
+	    idx = MyCanvas.objadd(canvas.getContext("2d"));
         } else {
             throw "atscntrb_html5_canvas2d: 2D-canvas is not supported";
         }
@@ -158,10 +164,9 @@ var atscntrb_html5_canvas2d =
 //
     atscntrb_html5_canvas2d_createLinearGradient:
     function (idx, x0, y0, x1, y1) {
-	var idx2 = (MyCanvas.objcnt += 1);
-	MyCanvas.contexts[idx2] =
-	    MyCanvas.contexts[idx].createLinearGradient (x0, y0, x1, y1);
-	return idx2;
+	var grad =
+	    MyCanvas.contexts[idx].createLinearGradient(x0, y0, x1, y1);
+	return MyCanvas.objadd(grad);
     },
     atscntrb_html5_canvas2d_gradient_free:
     function (idx) { delete MyCanvas.contexts[idx] ; },

@@ -19,12 +19,13 @@
 ######
 
 ATS/Postiats (or ATS2/Postiats) is the name for the current compiler of
-ATS2, the successor of ATS.
+ATS2, the successor of ATS (or ATS1).
 
-The actual implementation of ATS/Postiats started in the March of 2011,
-and it took about two and one-half years to reach this stage. As of now,
-the code base for the compiler of ATS2 consists of 140,000+ lines of code
-(LOC), which are nearly all written in ATS.
+The actual implementation of ATS/Postiats started in the March of 2011, and
+it took about two and one-half years to reach the first release of ATS2 at
+the beginning of September, 2013. As of now, the code base for the compiler
+of ATS2 consists of 140,000+ lines of code (LOC), which are nearly all
+written in ATS1.
 
 When compared to ATS1, the single most important new feature is the
 template system of ATS2. This is a feature that could potentially change
