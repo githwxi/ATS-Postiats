@@ -26,8 +26,13 @@ fun fact (n: int): int =
 
 (* ****** ****** *)
 
+extern
 fun fact_handle_keypress_fun
-  (event: event1): void = let
+  (event: event1): void = "ext#"
+  
+(* ****** ****** *)
+
+implement fact_handle_keypress_fun (event) = let
   val key = document_event_get_keyCode (event)
   val (
   ) = if key = ENTER then
@@ -40,17 +45,6 @@ fun fact_handle_keypress_fun
 in
   document_event_free (event)
 end // end of [fact_handle_keypress_fun]
-
-(* ****** ****** *)
-
-implement
-main0 ((*void*)) =
-{
-  val input = document_getElementById ("input")
-  val ((*void*)) = assertloc (ptrcast(input) > 0)
-  val () = document_element_addEventListener_fun (input, "keypress", fact_handle_keypress_fun)
-  val () = document_element_free (input)
-} (* end of [main0] *)
 
 (* ****** ****** *)
 

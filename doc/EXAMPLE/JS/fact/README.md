@@ -15,23 +15,16 @@ them to  notify our  program that  input is  ready. In  Javascript, we
 receive these notifications through Event Listeners. In ATS we provide
 a simple wrapper around the native Javascript interface.
 
-For our  simple factorial service,  we just provide  a text box  and a
-button to  calculate the factorial of  the number given. This  is easy
-enough, we bind a function to  the "click" action for our button. When
-the  user clicks  it, the  browser will  generate an  event, call  our
-function, and  generate the result  the user wants.  This asynchronous
-style is a very important part of programming in a browser. Instead of
-blocking on  user input, our  main function simply binds  functions to
-the appropriate events which are called later as necessary.
-
-This is  a little  clunky for  the user  though. Who  wants to  type a
-number, get  their mouse,  and then  click a  button? Using  the event
-listener interface,  we can  bind actions to  specific key  presses so
-that the Enter  key triggers a calculation to occur.  Looking over the
-code, this is  as simple as binding an action  to the "keypress" event
-for our  input box. Any time  a key is  pressed and the input  box has
-focus (i.e. the user is typing in  it), our function is called. If the
-keycode matches the Enter key, we can kick off our calculation.
+For  our simple  factorial  service, we  just provide  a  text box  to
+calculate the factorial  of the number given. This is  easy enough, we
+bind a function to the "keypress"  action for our text box. Every time
+the user  presses a  key for  that box, the  browser will  generate an
+event and pass  it to our handler.  When the key pressed  is the enter
+key, we grab the current value, compute the factorial, and display the
+output.  This  asynchronous   style  is  a  very   important  part  of
+programming in a browser. Instead of  blocking on user input, our main
+function simply  binds functions to  the appropriate events  which are
+called later as necessary.
 
 ## Discussion
 
@@ -46,19 +39,3 @@ In this example, computing the factorial of a given number typically take a
 very short time.  For tasks that take longer time to complete, it is
 sensible to move computation into a Web Worker so that the browser does not
 become unresponsive.
-
-## Arbitrary Precision Arithmetic
-
-You'll notice that your browser seems pretty capable of computing large
-factorials. That's because it's using the GNU Multiple Precision library
-compiled to Javascript from emscripten.  This is a pretty interesting
-example of leveraging existing C libraries to provide functionality not
-typically present in a Browser environment.  If there's a C library you're
-interested in making available to Javascript, checkout the emscripten
-project for generic instructions.  Usually some tweaking is required. For
-example, the instructions for compiling GMP can be found [here][gmp.js].
-
-For your convenience, we include the necessary GMP library in llvm bitcode
-in this directory so you only need emscripten to try it out.
-
-[gmp.js]: https://github.com/kripken/gmp.js
