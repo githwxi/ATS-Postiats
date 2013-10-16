@@ -24,15 +24,6 @@ sortdef t0p = t@ype
 
 #atscode_separator()
 //
-// HX: [lazy(T)] :
-// suspended evaluation of type T
-//
-abstype lazy_t0ype_type (t@ype+) = ptr
-//
-typedef lazy (a:t0p) = lazy_t0ype_type (a)
-//
-#atscode_separator()
-//
 // HX: lazy streams
 //
 datatype

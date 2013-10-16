@@ -389,7 +389,6 @@ absvt@ype
 clo_vt0ype_vt0ype (a: vt@ype) = a
 //
 (* ****** ****** *)
-
 (*
 absview
 read_view_int_int_view

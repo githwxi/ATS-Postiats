@@ -154,12 +154,20 @@ mfree_gcngc_v_nullify
 ) : void // end of [mfree_gcngc_nullify_v]
 
 (* ****** ****** *)
-
-fun cloptr_free
-  {a:t@ype} (p: cloptr a):<!wrt> void = "mac#%"
-// end of [cloptr_free]
-
+//
+fun
+cloptr_free{a:t0p}
+  (pclo: cloptr (a)):<!wrt> void = "mac#%"
+//
 (* ****** ****** *)
+//
+fun
+lazy_vt_free{a:vt0p}
+  (lazyval: lazy_vt (a)):<!wrt> void = "mac#%"
+overload ~ with lazy_vt_free
+//
+(* ****** ****** *)
+
 (*
 // HX-2012-05-23: this seems TOO complicated!
 (*

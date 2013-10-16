@@ -1,20 +1,20 @@
 (* ****** ****** *)
 
 %{
-implement srcfilename_get () = "../lazy.sats"
+implement srcfilename_get () = "../stream.sats"
 %}
 
 (* ****** ****** *)
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/prelude_lazy")
+val () = patscode_prefix_set("TRYIT/prelude_stream")
 %}
 
 (* ****** ****** *)
 
 #decltitle("\
-ATSLIB/prelude/lazy\
+ATSLIB/prelude/stream\
 ")
 
 (* ****** ****** *)
@@ -25,7 +25,15 @@ ATSLIB/prelude/lazy\
 
 (* ****** ****** *)
 
-#declnamesynop("lazy")
+#declname("stream")
+#declsynop2('\
+#pats2xhtmls('\
+typedef
+stream (a:t0p) = lazy (stream_con(a))
+')
+')
+
+#declnamesynop("stream_con")
 
 (* ****** ****** *)
 
@@ -78,4 +86,4 @@ ATSLIB/prelude/lazy\
 
 (* ****** ****** *)
 
-(* end of [lazy.atxt] *)
+(* end of [stream.atxt] *)

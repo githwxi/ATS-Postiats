@@ -663,6 +663,24 @@ stadef cmpref = cmpref_fun
 stadef cmpref = cmpref_funenv
 
 (* ****** ****** *)
+//
+// HX: [lazy(T)] :
+// suspended evaluation of type T
+//
+abstype
+lazy_t0ype_type (t@ype+) = ptr
+typedef lazy (a:t@ype) = lazy_t0ype_type (a)
+//
+(* ****** ****** *)
+//
+// HX: [lazy_vt(VT)] :
+// suspended computation of viewtype VT
+//
+absvtype
+lazy_vt0ype_vtype (vt@ype+) = ptr
+vtypedef lazy_vt (a: vt@ype)= lazy_vt0ype_vtype (a)
+//
+(* ****** ****** *)
 
 abst@ype
 undefined_t0ype = $extype"atstype_undefined"

@@ -24,22 +24,6 @@ sortdef t0p = t@ype and vt0p = vt@ype
 
 #atscode_separator()
 //
-// HX: [lazy_vt(VT)] :
-// suspended computation of viewtype VT
-//
-absvtype lazy_vt0ype_vtype (vt@ype+) = ptr
-//
-vtypedef lazy_vt (a: vt0p)= lazy_vt0ype_vtype (a)
-//
-#atscode_separator()
-//
-fun
-lazy_vt_free{a:vt0p}
-  (lazyval: lazy_vt (a)):<!wrt> void = "mac\#atspre_lazy_vt_free"
-overload ~ with lazy_vt_free
-//
-#atscode_separator()
-//
 // HX: lazy linear streams
 //
 datavtype
