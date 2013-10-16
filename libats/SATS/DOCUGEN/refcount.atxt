@@ -24,6 +24,8 @@ ATSLIB/libats/refcount\
 #para('\
 
 This package implements reference-counted values.
+Note that this implementation is only good for use in
+sequential programs.
 
 ')
 
@@ -32,26 +34,86 @@ This package implements reference-counted values.
 (* ****** ****** *)
 
 #declnamesynop("refcnt")
+#decldescrpt('\
+
+Given a viewtype VT, #stacode("refcnt(VT)") is for a reference-counted
+value that wraps around a value of the type VT with a ref-count.\
+
+')
+
 #declnamesynop("refcnt_vt0ype_vtype")
 
 (* ****** ****** *)
 
 #declnamesynop("refcnt_make")
+#decldescrpt('\
+
+Given a value, which is usually linear, this function returns a
+reference-counted value that wraps around the given value with a ref-count
+equal to 1.
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("refcnt_get_count")
+#decldescrpt('\
+
+This function returns the ref-count of a given reference-counted value.
+Note that the returned ref-count must be positive.
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("refcnt_incref")
+#decldescrpt('\
+
+This function increases the ref-count of a given reference-counted value.
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("refcnt_decref")
+#decldescrpt('\
+
+This function decreases the ref-count of a given reference-counted
+value. If the ref-count reaches 0, then the value contained in the
+reference-counted value is put into the second argument of the function and
+the memory holding the reference-counted value is freed. The returned
+boolean indicates whether the given reference-counted value has been freed.
+
+')
+
 #declnamesynop("refcnt_decref_opt")
+#decldescrpt('\
+
+This function is just a slight variant of the function #dyncode("refcnt_decref").
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("refcnt_vtakeout")
+#decldescrpt('\
+
+This function is called to borrow a proof of at-view for the value
+contained in a given reference-counted value. Note that borrowing of
+this style is fundamentally unsafe but can be of great convenience
+in practice.
+
+')
+
 #declnamesynop("refcnt_vttakeout")
+#decldescrpt('\
+
+This function is called to borrow the value
+contained in a given reference-counted value. Note that borrowing of
+this style is fundamentally unsafe but can be of great convenience
+in practice.
+
+')
 
 (* ****** ****** *)
 

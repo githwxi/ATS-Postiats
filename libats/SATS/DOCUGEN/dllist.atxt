@@ -60,6 +60,11 @@ doubly linked linear lists in ATS and vice versa.  ')
 (* ****** ****** *)
 
 #declnamesynop("dllist_sing")
+#decldescrpt('\
+
+Given a value, this function returns a singleton list containing the value.\
+
+")
 
 (* ****** ****** *)
 
@@ -74,12 +79,38 @@ doubly linked linear lists in ATS and vice versa.  ')
 (* ****** ****** *)
 
 #declnamesynop("dllist_is_nil")
+#decldescrpt('\
+
+This function tests whether a given list is empty.
+
+')
+
 #declnamesynop("dllist_is_cons")
+#decldescrpt('\
+
+This function tests whether a given list is non-empty.\
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("dllist_is_atbeg")
+#decldescrpt('\
+
+This function tests whether the segment before the current pointer of a
+given list is empty.\
+
+')
+
 #declnamesynop("dllist_is_atend")
+#decldescrpt('\
+
+This function tests whether the segment after the current pointer of a
+given list is singleton.\
+
+')
+
+(* ****** ****** *)
 
 #declnamesynop("rdllist_is_atbeg")
 #declnamesynop("rdllist_is_atend")
@@ -110,7 +141,20 @@ doubly linked linear lists in ATS and vice versa.  ')
 (* ****** ****** *)
 
 #declnamesynop("dllist_insert_next")
+#decldescrpt('\
+
+This function inserts a node into a given list immediately
+after the current node (to which the current pointer points).
+
+')
+
 #declnamesynop("dllist_insert_prev")
+#decldescrpt('\
+
+This function inserts a node into a given list immediately
+before the current node (to which the current pointer points).
+
+')
 
 (* ****** ****** *)
 

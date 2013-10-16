@@ -44,4 +44,24 @@ fun gmstate_handle_event (gmevent): void
 
 (* ****** ****** *)
 
+abstype gmshape_type = ptr
+typedef gmshape = gmshape_type
+
+fun gmshape_get_X (gmshape): int // nrow
+fun gmshape_get_Y (gmshape): int // ncol
+
+fun gmshape_locate (knd: int): gmshape
+
+(* ****** ****** *)
+
+abstype gmregion_type = ptr
+typedef gmregion = gmregion_type
+
+fun gmregion_get_X (gmregion): int // nrow
+fun gmregion_get_Y (gmregion): int // ncol
+
+fun gmregion_get_at (gmregion, int, int): int(*kind*)
+
+(* ****** ****** *)
+
 (* end of [tetris.sats] *)

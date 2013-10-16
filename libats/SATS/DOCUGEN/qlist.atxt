@@ -47,7 +47,18 @@ appear in the same order as they are accumulated.
 (* ****** ****** *)
 
 #declnamesynop("qlist_is_nil")
+#decldescrpt("\
+
+This function tests whether a given queue is empty.
+
+")
+
 #declnamesynop("qlist_isnot_nil")
+#decldescrpt("\
+
+This function tests whether a given queue is non-empty.
+
+")
 
 (* ****** ****** *)
 
@@ -61,7 +72,9 @@ This function computes the length of a given queue.")
 #declnamesynop("qlist_insert")
 #decldescrpt("\
 
-This function inserts an element at the end of a given queue.")
+This function inserts an element at the end of a given queue.\
+
+")
 
 (* ****** ****** *)
 
@@ -69,11 +82,16 @@ This function inserts an element at the end of a given queue.")
 #decldescrpt("\
 
 This function takes out the element at the front of a given queue if the
-queue is not empty, and returns true. Otherwise, it returns false. ")
+queue is not empty, and returns true. Otherwise, it returns false.\
+
+")
 
 (* ****** ****** *)
 
 #declnamesynop("qlist_takeout_opt")
+#decldescrpt("\
+This function is the optional version of #dyncode("qlist_takeout").\
+")
 
 (* ****** ****** *)
 
