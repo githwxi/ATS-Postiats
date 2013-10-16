@@ -21,40 +21,52 @@ ATSLIB/libats/gfarray\
 
 #declpreamble("\
 
-This package contains various functions for manipulating generic
-arrays that are assigned the fully indexed list type.
+This package contains various functions for manipulating
+generic arrays that are assigned the fully indexed array type.
 
 ")
 
 (* ****** ****** *)
 
-#declname("gfarray_v")
-#declsynop2('\
-#para('\
-#pats2xhtmls('\
-dataview
-gfarray_v (
-  a:vt@ype+, addr, ilist
-) =
-  | {l:addr}
-    gfarray_v_nil (a, l, ilist_nil) of ()
-  | {x:int} {xs:ilist} {l:addr}
-    gfarray_v_cons (a, l, ilist_cons (x, xs)) of
-      (stamped_vt (a, x) @ l, gfarray_v (a, l+sizeof(a), xs))
-// end of [gfarray_v]
-')
-')
-')
+#declnamesynop("gfarray_v")
 
 (* ****** ****** *)
 
 #declnamesynop("gfarray_v_sing")
+#decldescrpt("\
+
+This proof function turns a proof of at-view into another proof of
+singleton array-view.
+
+")
 #declnamesynop("gfarray_v_unsing")
+#decldescrpt("\
+
+This proof function turns a proof of singleton array-view into another
+proof of at-view.
+
+")
 
 (* ****** ****** *)
 
 #declnamesynop("gfarray_v_split")
+#decldescrpt("\
+
+This proof function splits a given proof of some array-view into
+two proofs of adjacent array-views that are contained in the original
+array-view.\
+
+")
+
 #declnamesynop("gfarray_v_unsplit")
+#decldescrpt("\
+
+This proof function does precisely the opposite of what
+#dyncode("gfarray_v_split") does: It turns two proofs of adjacent
+array-views into one proof of array-view that is the union of the two
+adjacent array-views.\
+
+")
 
 (* ****** ****** *)
 
@@ -64,11 +76,24 @@ gfarray_v (
 (* ****** ****** *)
 
 #declnamesynop("gfarray_get_at")
+#decldescrpt("\
+This function returns the value stored at cell i of a given array.\
+")
+
+
+(* ****** ****** *)
+
 #declnamesynop("gfarray_set_at")
+#decldescrpt("\
+This function stores a given value x into cell i of a given array.\
+")
 
 (* ****** ****** *)
 
 #declnamesynop("gfarray_exch_at")
+#decldescrpt("\
+This function exchanges values between a reference and a given array cell.\
+")
 
 (* ****** ****** *)
 

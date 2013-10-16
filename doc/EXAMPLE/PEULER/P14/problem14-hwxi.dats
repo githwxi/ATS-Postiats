@@ -12,20 +12,16 @@
 // HX-2013-06: ported to ATS2
 //
 (* ****** ****** *)
-
-staload "libgmp/SATS/gmp.sats"
-
+//
+#include
+"share/atspre_define.hats"
+#include
+"share/atspre_staload.hats"
+//
 (* ****** ****** *)
-//
-staload _(*anon*) = "prelude/DATS/integer.dats"
-staload _(*anon*) = "prelude/DATS/pointer.dats"
-//
-staload _(*anon*) = "prelude/DATS/array.dats"
-staload _(*anon*) = "prelude/DATS/arrayptr.dats"
-staload _(*anon*) = "prelude/DATS/arrayref.dats"
-//
-staload _(*anon*) = "prelude/DATS/unsafe.dats"
-//
+
+staload "{$LIBGMP}/SATS/gmp.sats"
+
 (* ****** ****** *)
 
 #define N 1000000

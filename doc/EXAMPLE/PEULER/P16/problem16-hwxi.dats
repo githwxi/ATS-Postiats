@@ -16,6 +16,8 @@
 (* ****** ****** *)
 //
 #include
+"share/atspre_define.hats"
+#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
@@ -25,7 +27,7 @@ UN="prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "libgmp/SATS/gmp.sats"
+staload "{$LIBGMP}/SATS/gmp.sats"
 
 (* ****** ****** *)
 

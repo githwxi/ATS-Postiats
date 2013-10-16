@@ -42,7 +42,7 @@ all::P2
 
 P2:: problem2-hwxi
 problem2-hwxi:: \
-  P2/problem2-hwxi.dats ; $(PATSOPT) -IATS${PATSHOME}/contrib -o $@_dats.c -d $<
+  P2/problem2-hwxi.dats ; $(PATSOPT) -o $@_dats.c -d $<
 problem2-hwxi:: \
   problem2-hwxi_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC \
@@ -62,7 +62,7 @@ all::P3
 
 P3:: problem3-hwxi
 problem3-hwxi:: \
-  P3/problem3-hwxi.dats ; $(PATSOPT) -IATS${PATSHOME}/contrib -o $@_dats.c -d $<
+  P3/problem3-hwxi.dats ; $(PATSOPT) -o $@_dats.c -d $<
 problem3-hwxi:: \
   problem3-hwxi_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC \
@@ -130,7 +130,7 @@ all::P14
 
 P14:: problem14-hwxi
 problem14-hwxi:: \
-  P14/problem14-hwxi.dats ; $(PATSOPT) -IATS${PATSHOME}/contrib -o $@_dats.c -d $<
+  P14/problem14-hwxi.dats ; $(PATSOPT) -o $@_dats.c -d $<
 problem14-hwxi:: \
   problem14-hwxi_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC \
@@ -143,7 +143,7 @@ all::P16
 
 P16:: problem16-hwxi
 problem16-hwxi:: \
-  P16/problem16-hwxi.dats ; $(PATSOPT) -IATS${PATSHOME}/contrib -o $@_dats.c -d $<
+  P16/problem16-hwxi.dats ; $(PATSOPT) -o $@_dats.c -d $<
 problem16-hwxi:: \
   problem16-hwxi_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC \

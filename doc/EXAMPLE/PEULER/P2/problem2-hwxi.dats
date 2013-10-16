@@ -16,11 +16,13 @@
 (* ****** ****** *)
 //
 #include
+"share/atspre_define.hats"
+#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
-staload "libgmp/SATS/gmp.sats"
+staload "{$LIBGMP}/SATS/gmp.sats"
 
 (* ****** ****** *)
 
