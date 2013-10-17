@@ -8,7 +8,11 @@ PATSCC=$(PATSHOME)/bin/patscc
 
 ######
 
-hello: hello.m print_hello.dats; $(PATSCC) -o $@ $^ -lobjc
+hello: hello.m print_hello.dats; \
+  $(PATSCC) -x objective-c \
+    -I/usr/include/GNUstep \
+    -D_NATIVE_OBJC_EXCEPTIONS \
+    -o $@ $^ -lgnustep-base -fconstant-string-class=NSConstantString
 
 ######
 

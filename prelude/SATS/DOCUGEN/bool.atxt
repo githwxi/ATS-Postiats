@@ -63,6 +63,13 @@ This function returns the disjunction of two given boolean values.
 Note that the two arguments of this function are evaluated before they
 are passed.
 ')
+#declnamesynop("add_bool1_bool1")
+#decldescrpt('\
+This function does the same as #dyncode("add_bool0_bool0") except for
+having a more informative type.\
+')
+
+(* ****** ****** *)
 
 #declnamesynop("mul_bool0_bool0")
 #decldescrpt('\
@@ -70,6 +77,18 @@ This function returns the conjunction of two given boolean values.
 Note that the two arguments of this function are evaluated before they
 are passed.
 ')
+#declnamesynop("mul_bool1_bool1")
+#decldescrpt('\
+This function does the same as #dyncode("mul_bool0_bool0") except for
+having a more informative type.\
+')
+
+(* ****** ****** *)
+
+#declnamesynop("lt_bool0_bool0")
+#declnamesynop("lte_bool0_bool0")
+#declnamesynop("gt_bool0_bool0")
+#declnamesynop("gte_bool0_bool0")
 
 (* ****** ****** *)
 

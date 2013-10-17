@@ -26,13 +26,14 @@ void ATS_print_hello () ;
 
 @end
 
+#import <Foundation/Foundation.h>
+
 int main(void)
 {
   id myGreeter;
+  NSLog (@"Hello from NSLog") ;
   myGreeter=[Greeter new];
-
   [myGreeter greet];
-
   [myGreeter free];
   return 0;
 }
