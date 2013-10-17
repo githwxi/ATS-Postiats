@@ -34,7 +34,7 @@ references may be inadvertently leaked.
 #declnamesynop("ref_get_ptr")
 #decldescrpt('\
 This cast function (castfn) returns the pointer associated with a given
-reference. Note that the returned pointer is guranteed to be non-null.
+reference. Note that the returned pointer is guaranteed to be non-null.
 ')
 
 (* ****** ****** *)
@@ -149,6 +149,17 @@ these values can be linear.  ')
 
 #declnamesynop("ref_app_fun")
 #declnamesynop("ref_app_funenv")
+
+(* ****** ****** *)
+
+#declnamesynop("ref_vtakeout")
+#decldescrpt('\
+
+This function is called to borrow a proof of at-view for the value to which
+a given reference points. Note that borrowing of this style is
+fundamentally unsafe but can be of great convenience in practice.
+
+')
 
 (* ****** ****** *)
 

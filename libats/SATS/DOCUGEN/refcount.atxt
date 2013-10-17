@@ -105,16 +105,6 @@ in practice.
 
 ')
 
-#declnamesynop("refcnt_vttakeout")
-#decldescrpt('\
-
-This function is called to borrow the value
-contained in a given reference-counted value. Note that borrowing of
-this style is fundamentally unsafe but can be of great convenience
-in practice.
-
-')
-
 (* ****** ****** *)
 
 (* end of [refcount.atxt] *)

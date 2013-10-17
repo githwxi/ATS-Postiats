@@ -151,16 +151,4 @@ end // end of [refcnt_vtakeout]
 
 (* ****** ****** *)
 
-implement{a}
-refcnt_vttakeout
-  (rfc) = let
-//
-val+REFCNT (_, x) = rfc
-//
-in
-  $UN.vttakeout_void(x)
-end // end of [refcnt_vttakeout]
-
-(* ****** ****** *)
-
 (* end of [refcount.dats] *)

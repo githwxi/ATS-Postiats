@@ -58,7 +58,30 @@ This function does the same as #dyncode("bool2int0") at run-time.
 (* ****** ****** *)
 
 #declnamesynop("add_bool0_bool0")
+#decldescrpt('\
+This function returns the disjunction of two given boolean values.
+Note that the two arguments of this function are evaluated before they
+are passed.
+')
+
 #declnamesynop("mul_bool0_bool0")
+#decldescrpt('\
+This function returns the conjunction of two given boolean values.
+Note that the two arguments of this function are evaluated before they
+are passed.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("eq_bool0_bool0")
+#decldescrpt('\
+This function tests whether two given booleans are equal.
+')
+
+#declnamesynop("neq_bool0_bool0")
+#decldescrpt('\
+This function tests whether two given booleans are not equal.
+')
 
 (* ****** ****** *)
 
@@ -83,6 +106,11 @@ This function does the same as #dyncode("bool2int0") at run-time.
 
 #declnamesynop("+")
 #declnamesynop("*")
+
+(* ****** ****** *)
+
+#declnamesynop("=")
+#declnamesynop("!=")
 
 (* ****** ****** *)
 

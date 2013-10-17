@@ -99,14 +99,18 @@ respectively.\
 #decldescrpt('\
 
 By convention, this exception is raised to indicate a situation where a
-list expected to be non-empty is actually empty.  ')
+list expected to be non-empty is actually empty.\
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("lemma_list_param")
 #decldescrpt('\
+
 This proof function establishes that the integer n in any list type
-#stacode("list(T, n)") is a natural number, where T is a nonlinear type.
+#stacode("list(T, n)") is a natural number, where T is a nonlinear type.\
+
 ')
 
 (* ****** ****** *)

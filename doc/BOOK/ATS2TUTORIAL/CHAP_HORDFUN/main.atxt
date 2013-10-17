@@ -66,7 +66,8 @@ Given a function f of some simple type T, we say that f is a
 instance, a function of the type (int, int) -&gt; int is 1st-order, and a
 function of the type int -&gt; (int -&gt; int) is also 1st-order, and a
 function of the type ((int -&gt; int), int) -&gt; int is 2nd-order.  In
-practice, most higher-order functions are 2nd-order.
+practice, most functions are 1st-order and most higher-order functions are
+2nd-order.
 
 ")#comment("para")
 

@@ -123,6 +123,8 @@ end // end of [fun_bool_cmp0_decl]
 #fun_bool_cmp0_decl("neq")
 overload <> with neq_bool0_bool0 of 0
 
+#atscode_separator()
+
 fun compare_bool0_bool0
   (b1: bool, b2: bool):<> Sgn = "mac\#%"
 overload compare with compare_bool0_bool0

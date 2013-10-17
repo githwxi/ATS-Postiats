@@ -74,9 +74,6 @@ refcnt_vtakeout
 : [l:addr] (a @ l, a @ l -<lin,prf> void | ptr l)
 // end of [refcnt_vtakeout]
 
-fun{a:vt0p}
-refcnt_vttakeout (!refcnt (a)): (a -<lin,prf> void | a)
-
 (* ****** ****** *)
 
 (* end of [refcount.sats] *)
