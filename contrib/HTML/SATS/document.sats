@@ -102,10 +102,4 @@ fun document_event_get_target (e: !event1): element1 = "ext#%"
 
 (* ****** ****** *)
 
-fun document_element_addEventListener_fun
-  (!element1, type: string, func: (event1) -> void): void = "ext#%"
-// end of [document_element_addEventListener_fun]
-
-(* ****** ****** *)
-
 (* end of [document.sats] *)

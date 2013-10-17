@@ -34,4 +34,8 @@ QuicksortAnimLib =
     },
 } ; /* end of [QuicksortAnimLib] */
 
+/* ****** ****** */
+
 mergeInto(LibraryManager.library, QuicksortAnimLib);
+
+/* ****** ****** */

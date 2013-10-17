@@ -23,6 +23,11 @@ var atscntrb_html_document =
 	}
     },
 //
+    atscntrb_html_document_encode:
+    function(obj) { return MyDocument.objadd(obj) ; },
+    atscntrb_html_document_decode:
+    function(idx) { return MyDocument.contexts[idx] ; },
+//
     atscntrb_html_document_get_documentElement_clientWidth:
     function () { return document.documentElement.clientWidth; },
     atscntrb_html_document_get_documentElement_clientHeight:
@@ -53,16 +58,6 @@ var atscntrb_html_document =
     function (idx) {
         var res = parseInt(MyDocument.contexts[idx].value);
         if (isNaN(res)) { return -1000000; } else { return res; }
-    },
-//
-    atscntrb_html_document_element_addEventListener_fun:
-    function (idx, type, func) {
-        var type2 = Pointer_stringify(type);
-        var func2 = Runtime.getFuncWrapper(func, 'vi');
-        MyDocument.contexts[idx].addEventListener
-	(
-	    type2, function(event) { func2(MyDocument.objadd(event)); return; }
-	);
     },
 //
     atscntrb_html_document_event_get_keyCode:
