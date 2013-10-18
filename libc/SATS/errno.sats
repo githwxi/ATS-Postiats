@@ -162,6 +162,8 @@ fun the_errno_set (eno: errno_t):<> void = "mac#%"
 //
 fun the_errno_reset ():<> void = "mac#%"
 //
+fun the_errno_test (errno_t):<> bool = "mac#%"
+//
 (* ****** ****** *)
 
 (* end of [errno.sats] *)

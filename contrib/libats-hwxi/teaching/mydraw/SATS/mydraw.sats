@@ -29,7 +29,8 @@
 (* ****** ****** *)
 //
 // HX-2013-02:
-// A simple drawing package based on cairo
+// A simple drawing package
+// based on cairo and HTML5-canvas-2d
 //
 (* ****** ****** *)
 

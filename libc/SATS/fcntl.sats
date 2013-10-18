@@ -88,11 +88,34 @@ fun fildes_iget_int
 typedef fcntlflags = int
 
 (* ****** ****** *)
+//
+fun
+fcntlflags_lor
+  (fcntlflags, fcntlflags): fcntlflags = "mac#%"
+overload lor with fcntlflags_lor
+//
+(* ****** ****** *)
+
+macdef O_CREAT  = $extval (fcntlflags, "O_CREAT")
+macdef O_EXCL   = $extval (fcntlflags, "O_EXCL")
+macdef O_TRUNC  = $extval (fcntlflags, "O_TRUNC")
+macdef O_APPEND = $extval (fcntlflags, "O_APPEND")
+
+(* ****** ****** *)
 
 macdef O_RDWR   = $extval (fcntlflags, "O_RDWR")
 macdef O_RDONLY = $extval (fcntlflags, "O_RDONLY")
 macdef O_WRONLY = $extval (fcntlflags, "O_WRONLY")
 
+(* ****** ****** *)
+
+macdef O_SYNC   = $extval (fcntlflags, "O_SYNC")
+macdef O_ASYNC  = $extval (fcntlflags, "O_ASYNC")
+
+(* ****** ****** *)
+  
+macdef O_NOCTTY = $extval (fcntlflags, "O_NOCTTY")
+  
 (* ****** ****** *)
 
 fun open_flags

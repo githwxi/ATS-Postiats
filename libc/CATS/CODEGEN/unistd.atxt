@@ -46,8 +46,6 @@ do { \\
 
 #atscode_separator_for_C()
 
-#atscode_separator_for_C()
-
 \#define atslib_close close
 \#define atslib_close0 atslib_close
 \#define atslib_close1 atslib_close

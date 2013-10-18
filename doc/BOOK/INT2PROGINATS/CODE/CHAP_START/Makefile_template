@@ -5,13 +5,22 @@
 ##
 
 ######
+#
+# Note that
+# certain installations require the following changes:
+#
+# atscc -> patscc
+# atsopt -> patsopt
+# ATSHOME -> PATSHOME
+#
+######
 
 ATSHOMEQ="$(ATSHOME)"
 
 ######
 
-ATSCC=$(ATSUSRQ)/bin/atscc
-ATSOPT=$(ATSUSRQ)/bin/atsopt
+ATSCC=$(ATSHOMEQ)/bin/atscc
+ATSOPT=$(ATSHOMEQ)/bin/atsopt
 
 ######
 

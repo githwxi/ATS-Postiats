@@ -52,6 +52,10 @@ atslib_fildes_isgtez
 
 #atscode_separator_for_C()
 
+\#define atslib_fcntlflags_lor(x1, x2) ((x1)|(x2))
+
+#atscode_separator_for_C()
+
 \#define atslib_open_flags(path, flags) open((char*)path, flags)
 \#define atslib_open_flags_mode(path, flags, mode) open((char*)path, flags, mode)
 
