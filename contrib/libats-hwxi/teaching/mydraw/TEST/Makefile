@@ -37,7 +37,7 @@ cleanall:: ; $(RMF) test01-cairo test01.png
 
 test01-canvas2d.js: \
   test01-canvas2d.dats test01.dats ; \
-  $(PATSCC) -atsccomp "$(PATSCCOMP2)" --js-library ../JS/mydraw_html5_canvas2d.js -o $@ $<
+  $(PATSCC) -atsccomp "$(PATSCCOMP2)" --js-library ../JS/mydraw_HTML5_canvas2d.js -o $@ $<
 cleanall:: ; $(RMF) test01-canvas2d.js
 cleanall:: ; $(RMF) test01-canvas2d.js.map
 upload_test01:: ; scp test01.html test01-canvas2d.js \
@@ -54,7 +54,7 @@ cleanall:: ; $(RMF) test02-cairo test02.png
 
 test02-canvas2d.js: \
   test02-canvas2d.dats test02.dats ; \
-  $(PATSCC) -atsccomp "$(PATSCCOMP2)" --js-library ../JS/mydraw_html5_canvas2d.js -o $@ $<
+  $(PATSCC) -atsccomp "$(PATSCCOMP2)" --js-library ../JS/mydraw_HTML5_canvas2d.js -o $@ $<
 cleanall:: ; $(RMF) test02-canvas2d.js
 cleanall:: ; $(RMF) test02-canvas2d.js.map
 upload_test02:: ; scp test02.html test02-canvas2d.js \

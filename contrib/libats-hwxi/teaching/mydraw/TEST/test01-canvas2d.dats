@@ -21,8 +21,8 @@ staload "./test01.dats"
 
 (* ****** ****** *)
 //
-staload "./../SATS/mydraw_html5_canvas2d.sats"
-staload _(*anon*) = "./../DATS/mydraw_html5_canvas2d.dats"
+staload "./../SATS/mydraw_HTML5_canvas2d.sats"
+staload _(*anon*) = "./../DATS/mydraw_HTML5_canvas2d.dats"
 //
 (* ****** ****** *)
 

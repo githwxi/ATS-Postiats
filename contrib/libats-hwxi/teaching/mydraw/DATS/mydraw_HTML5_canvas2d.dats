@@ -42,7 +42,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload "./../SATS/mydraw.sats"
-staload "./../SATS/mydraw_html5_canvas2d.sats"
+staload "./../SATS/mydraw_HTML5_canvas2d.sats"
 
 (* ****** ****** *)
 

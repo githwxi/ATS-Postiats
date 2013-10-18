@@ -100,12 +100,24 @@ ATSCNTRB/libats-hwxi/teaching\
 ")
 
 (* ****** ****** *)
+//
+#packfilename("mydraw/SATS/mydraw.sats")
+#packfilename("mydraw/SATS/mydraw_cairo.sats")
+#packfilename("mydraw/SATS/mydraw_HTML5_canvas2d.sats")
+//
+#packfilename("mydraw/DATS/mydraw.dats")
+#packfilename("mydraw/DATS/mydraw_cairo.dats")
+#packfilename("mydraw/DATS/mydraw_HTML5_canvas2d.dats")
+//
+(* ****** ****** *)
 
 #packfilename("myGTK/SATS/gtkcairoclock.sats")
+#packfilename("myGTK/DATS/gtkcairoclock.dats")
 
 (* ****** ****** *)
 
-#packfilename("myGTK/DATS/gtkcairoclock.dats")
+#packfilename("fileAsLock/SATS/fileAsLock.sats")
+#packfilename("fileAsLock/DATS/fileAsLock.dats")
 
 (* ****** ****** *)
 
