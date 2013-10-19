@@ -48,9 +48,9 @@ fun{
 fun{
 } gtkcairoclock_title (): stropt
 fun{
-} gtkcairoclock_timeout_interval (): uint
+} gtkcairoclock_timeout_update (): void
 fun{
-} gtkcairoclock_ntimeout_update (): void
+} gtkcairoclock_timeout_interval (): uint
 //
 fun{
 } gtkcairoclock_mydraw

@@ -279,14 +279,14 @@ doc/DISTRIB/ATS-Postiats/libats/?ATS/SHARE/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/ML/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/ML/?ATS/SHARE/*.?ats
 doc/DISTRIB/ATS-Postiats/contrib/*
-doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/*.?ats
-doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/ATSLIB/Makefile
+doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/ATSLIB/*.?ats
-doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/Makefile
+doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/ATSLIB/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/*.?ats
-doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/PCPV/Makefile
+doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/PCPV/*.?ats
+doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/PCPV/Makefile
 doc/DISTRIB/ATS2-Postiats-0.0.1
 doc/DISTRIB/ATS2-Postiats-0.0.2
 doc/DISTRIB/ATS2-Postiats-0.0.3
@@ -305,6 +305,8 @@ doc/DISTRIB/ATS2-Postiats-contrib-0.0.2
 doc/EXAMPLE/*/*_atxt.txt
 doc/EXAMPLE/*/*_atxt.dats
 doc/EXAMPLE/*/Makefile.exe
+doc/EXAMPLE/EFFECTIVATS/*/.depend
+doc/EXAMPLE/EFFECTIVATS/*/.depend?
 
 #
 # INT2PROGINATS

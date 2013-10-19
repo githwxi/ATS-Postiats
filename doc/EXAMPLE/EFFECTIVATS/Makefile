@@ -27,6 +27,7 @@ uploadall::upload_file-copying
 uploadall::upload_queue-sllist2
 uploadall::upload_loop-as-tailrec
 uploadall::upload_word-counting
+uploadall::upload_DiningPhil
 
 ######
 
@@ -75,5 +76,16 @@ upload_word-counting:: ; \
 
 ######
 
+upload_DiningPhil:: ; \
+  scp \
+  DiningPhil/Makefile \
+  DiningPhil/main.html \
+  DiningPhil/DiningPhil.dats \
+  DiningPhil/DiningPhil_fork.dats \
+  DiningPhil/DiningPhil_eat.dats \
+  DiningPhil/DiningPhil_think.dats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/DiningPhil/
+
+######
 
 ###### end of [Makefile] ######

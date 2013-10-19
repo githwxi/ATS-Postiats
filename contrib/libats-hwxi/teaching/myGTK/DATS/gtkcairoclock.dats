@@ -47,13 +47,13 @@ staload "{$CAIRO}/SATS/cairo.sats"
 staload "./../SATS/gtkcairoclock.sats"
 
 (* ****** ****** *)
-
+//
 implement{}
-gtkcairoclock_title () = stropt_none ()
-
-implement{
-} gtkcairoclock_ntimeout_update () = ()
-
+gtkcairoclock_title () = stropt_none()
+//
+implement{}
+gtkcairoclock_timeout_update () = ((*void*))
+//
 (* ****** ****** *)
 
 fun{}
@@ -107,7 +107,7 @@ implement{
 } ftimeout (darea) = let
 //
 val (
-) = gtkcairoclock_ntimeout_update ()
+) = gtkcairoclock_timeout_update ()
 //
 val (fpf_win | win) = gtk_widget_get_window (darea)
 //
