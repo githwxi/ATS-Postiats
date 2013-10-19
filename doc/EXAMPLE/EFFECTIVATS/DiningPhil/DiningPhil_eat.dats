@@ -41,9 +41,11 @@ end // end of [phil_eat]
 implement
 phil_eat2 (n, lf, rf) =
 {
+//
 val () = println! ("Phil(", n, ") starts eating") 
 val () = randsleep (3)
 val () = println! ("Phil(", n, ") finishes eating") 
+//
 } (* end of [phil_eat2] *)
 
 (* ****** ****** *)

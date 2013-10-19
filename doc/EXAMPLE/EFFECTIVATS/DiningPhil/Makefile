@@ -37,6 +37,17 @@ cleanall::
 
 ######
 
+SOURCESsta := \
+  DiningPhil.sats \
+
+SOURCESdyn := \
+  DiningPhil.dats \
+  DiningPhil_fork.dats \
+  DiningPhil_eat.dats \
+  DiningPhil_think.dats \
+
+######
+
 test: \
   DiningPhil_dats.o \
   DiningPhil_fork_dats.o \
@@ -51,8 +62,15 @@ cleanall:: ; $(RMF) test
 # You may find these rules useful
 #
 
-%_sats.o: %.sats ; $(PATSCC) $(ATSCCFLAGS) -DATS_MEMALLOC_LIBC -c $< || echo $@ ": ERROR!!!"
-%_dats.o: %.dats ; $(PATSCC) $(ATSCCFLAGS) -DATS_MEMALLOC_LIBC -c $< || echo $@ ": ERROR!!!"
+%_sats.o: %.sats ; $(PATSCC) -DATS_MEMALLOC_LIBC -c $< || echo $@ ": ERROR!!!"
+%_dats.o: %.dats ; $(PATSCC) -D_BSD_SOURCE -DATS_MEMALLOC_LIBC $(ATSCCFLAGS) -c $< || echo $@ ": ERROR!!!"
+
+######
+
+depend:: ; $(PATSOPT) -o .depend1 --depgen -s $(SOURCESsta)
+depend:: ; $(PATSOPT) -o .depend2 --depgen -d $(SOURCESdyn)
+-include .depend1
+-include .depend2
 
 ######
 
@@ -65,5 +83,7 @@ clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
+cleanall:: ; $(RMF) .depend1
+cleanall:: ; $(RMF) .depend2
 
 ###### end of [Makefile] ######

@@ -1,0 +1,42 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../mman.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libc_mman")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libc/sys/mman\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are mostly the API for the
+corresponding libc-functions declared in [sys/mman.h],  and many more
+details on these functions can often be found in the Linux Programmer's
+manual.  See #myatscodelink("libc/sys/SATS/mman.sats", "sys/mman.sats") for
+the SATS file in ATSLIB where these functions are declared.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("shm_open")
+
+(* ****** ****** *)
+
+#declnamesynop("shm_unlink")
+
+(* ****** ****** *)
+
+(* end of [mman.atxt] *)
