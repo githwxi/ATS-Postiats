@@ -1,10 +1,16 @@
 (* ****** ****** *)
 //
-// HX-2013-10-17
+// HX-2013-10-18
+//
+// A straightforward implementation
+// of the problem of Dining Philosophers
 //
 (* ****** ****** *)
 
-#define NPHIL 2
+%{#
+#define NPHIL 5
+%} // end of [%{#]
+#define NPHIL 5
 
 (* ****** ****** *)
 
@@ -22,6 +28,10 @@ fork_vtype = int
 //
 vtypedef fork = fork_vtype
 //
+(* ****** ****** *)
+
+fun the_forkarr_get (): arrayref(int, NPHIL)
+
 (* ****** ****** *)
 
 fun randsleep (n: intGte(1)): void

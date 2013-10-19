@@ -1,6 +1,9 @@
 (* ****** ****** *)
 //
-// HX-2013-10-17
+// HX-2013-10-18
+//
+// A straightforward implementation
+// of the problem of Dining Philosophers
 //
 (* ****** ****** *)
 

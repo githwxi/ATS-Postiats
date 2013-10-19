@@ -42,7 +42,7 @@ test: \
   DiningPhil_fork_dats.o \
   DiningPhil_eat_dats.o \
   DiningPhil_think_dats.o ; \
-  $(PATSCC) $(ATSCCFLAGS) -o $@ $^ -L$(PATSLIB) -latslib || echo $@ ": ERROR!!!"
+  $(PATSCC) $(ATSCCFLAGS) -o $@ $^ -L$(PATSLIB) -lrt -latslib || echo $@ ": ERROR!!!"
 cleanall:: ; $(RMF) test
 
 ######

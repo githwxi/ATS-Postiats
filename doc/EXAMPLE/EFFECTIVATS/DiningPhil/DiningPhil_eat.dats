@@ -1,6 +1,9 @@
 (* ****** ****** *)
 //
-// HX-2013-10-17
+// HX-2013-10-18
+//
+// A straightforward implementation
+// of the problem of Dining Philosophers
 //
 (* ****** ****** *)
 
@@ -21,7 +24,7 @@ implement
 phil_eat (n) = let
 //
   val lf = phil_acquire_lfork (n)
-  val () = randsleep (10)
+  val () = randsleep (3) // HX: increasing the chance of deadlocking
   val rf = phil_acquire_rfork (n)
 //
   val () = phil_eat2 (n, lf, rf)

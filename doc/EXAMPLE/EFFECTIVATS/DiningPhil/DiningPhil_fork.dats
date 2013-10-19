@@ -1,6 +1,9 @@
 (* ****** ****** *)
 //
-// HX-2013-10-17
+// HX-2013-10-18
+//
+// A straightforward implementation
+// of the problem of Dining Philosophers
 //
 (* ****** ****** *)
 //
@@ -66,13 +69,21 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-extern
-fun forkarr_takeout (n: natLt(NPHIL)): int
-and forkarr_addback (n: natLt(NPHIL), f: int): void
-
-(* ****** ****** *)
-
 local
+//
+fun forkarr_takeout
+  (n: natLt(NPHIL)): int = f where
+{
+  val A = the_forkarr_get ()
+  val f = A[n]
+  val ((*void*)) = if f > 0 then A[n] := 0
+}
+fun forkarr_addback
+  (n: natLt(NPHIL), f: int): void =
+{
+  val A = the_forkarr_get ()
+  val ((*void*)) = A[n] := (f)
+}
 //
 val lock = lock_create ("DiningPhil_forkarr")
 //
@@ -121,16 +132,6 @@ end else
 end // end of [fork_release]
 
 (* ****** ****** *)
-
-end // end of [local]
-
-(* ****** ****** *)
-
-local
-
-
-
-in (* in of [local] *)
 
 end // end of [local]
 
