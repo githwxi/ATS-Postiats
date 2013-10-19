@@ -509,6 +509,8 @@ case+ hde0.hidexp_node of
 | HDEcst _ => auxval (env, res, tmpret, hde0)
 //
 | HDEint _ => auxval (env, res, tmpret, hde0)
+| HDEintrep _ => auxval (env, res, tmpret, hde0)
+//
 | HDEbool _ => auxval (env, res, tmpret, hde0)
 | HDEchar _ => auxval (env, res, tmpret, hde0)
 | HDEfloat _ => auxval (env, res, tmpret, hde0)

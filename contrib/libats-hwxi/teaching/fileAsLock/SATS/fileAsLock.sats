@@ -46,6 +46,10 @@ fun{} lock_create (name: string): lock
 
 (* ****** ****** *)
 
+fun{} lock_initiate (lock: lock): int(*err*)
+
+(* ****** ****** *)
+
 fun{} lock_acquire (lock): int // ~1/0/1: error/fail/succ
 fun{} lock_release (lock): int // ~1/0/1: error/fail/succ
 

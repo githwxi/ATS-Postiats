@@ -37,6 +37,32 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+\#define atslib__Exit _Exit
+\#define atslib_atexit atexit
+
+#atscode_separator_for_C()
+
+\#define atslib_abort abort
+
+#atscode_separator_for_C()
+
+\#define atslib_abs abs
+\#define atslib_labs labs
+\#define atslib_llabs llabs
+
+#atscode_separator_for_C()
+
+\#define atslib_div div
+\#define atslib_ldiv ldiv
+\#define atslib_lldiv lldiv
+
+#atscode_separator_for_C()
+
+\#define atslib_a64l a64l
+\#define atslib_l64a l64a
+
+#atscode_separator_for_C()
+
 \#define atslib_atoi atoi
 \#define atslib_atol atol
 \#define atslib_atoll atoll

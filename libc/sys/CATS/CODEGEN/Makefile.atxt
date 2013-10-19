@@ -51,6 +51,7 @@ all::
 
 ######
 
+#make_entry("mman")
 #make_entry("stat")
 #make_entry("time")
 #make_entry("types")

@@ -66,6 +66,14 @@ do { \\
 
 #atscode_separator_for_C()
 
+\#define atslib_encrypt encrypt
+
+#atscode_separator_for_C()
+
+\#define atslib_fork fork
+
+#atscode_separator_for_C()
+
 \#define atslib_getcwd getcwd
 
 #atscode_separator_for_C()

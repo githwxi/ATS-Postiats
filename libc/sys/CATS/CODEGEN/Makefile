@@ -17,6 +17,15 @@ all::
 
 ######
 
+all:: mman.cats
+mman.cats: mman_atxt.exe ; ./$< > $@
+mman_atxt.exe: mman_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ mman_atxt.dats -latsdoc
+mman_atxt.dats: mman.atxt
+	$(ATSDOC) --outcode $@ -i mman.atxt > mman_atxt.txt
+clean:: ; $(RMF) mman_atxt.exe
+cleanall:: ; $(RMF) mman.cats
+
 all:: stat.cats
 stat.cats: stat_atxt.exe ; ./$< > $@
 stat_atxt.exe: stat_atxt.dats

@@ -62,6 +62,11 @@ end // end of [lock_create]
 (* ****** ****** *)
 
 implement{
+} lock_initiate (lock) = unlink (lock)
+
+(* ****** ****** *)
+
+implement{
 } lock_acquire
   (lock) = let
   val flags =

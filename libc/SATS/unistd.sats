@@ -168,7 +168,7 @@ void encrypt(char block[64], int edflag);
 fun encrypt
 (
   block: &(@[char][64]), edflag: int
-) :<!ref> void = "mac#atslib_encrypt"
+) :<!ref> void = "mac#%" // endfun
 
 (* ****** ****** *)
 

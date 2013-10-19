@@ -40,7 +40,8 @@ randsleep2 (
 
 fun testlock () = let
 //
-val lock = lock_create ("myFileAsLock")
+val lock =
+  lock_create ("myFileAsLock")
 //
 fun loop
 (
