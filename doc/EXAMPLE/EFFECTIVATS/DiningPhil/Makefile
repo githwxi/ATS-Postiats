@@ -48,12 +48,13 @@ SOURCESdyn := \
 
 ######
 
-test: \
-  DiningPhil_dats.o \
-  DiningPhil_fork_dats.o \
-  DiningPhil_eat_dats.o \
-  DiningPhil_think_dats.o ; \
-  $(PATSCC) $(ATSCCFLAGS) -o $@ $^ -L$(PATSLIB) -lrt -latslib || echo $@ ": ERROR!!!"
+OBJECTS := $(SOURCESdyn)
+OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))
+
+######
+
+test: $(OBJECTS) ; \
+  $(PATSCC) $(ATSCCFLAGS) -o $@ $^ -L$(PATSLIB) -lrt -latslib
 cleanall:: ; $(RMF) test
 
 ######

@@ -68,6 +68,8 @@ in (* in of [local] *)
 
 implement
 phil_loop (n) = let
+  val pid = getpid ()
+  val () = srand ($UN.cast2uint(pid))
   val status = lock_acquire (lock)
 in
 //
@@ -105,7 +107,11 @@ case+ 0 of
   in
     (_Exit (0); ~1)
   end // end of [loop]
-| _ when pid > 0 => loop (i+1)
+| _ when pid > 0 => let
+    val () = println! ("Parent: forked child: ", pid)
+  in
+    loop (i+1)
+  end // end of [pid > 0]
 | _ (*error*) => i
 //
 end else ntot // end of [if]

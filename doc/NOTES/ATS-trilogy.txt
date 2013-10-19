@@ -23,9 +23,9 @@ speaking, it is some kind of feature that allows the programmer to quickly
 produce code that would otherwise take much more time and effort to write.
 
 I first turned to OOP for such a high-mechanism, but the effort did not
-work out at the end. The system of function templates in ATS2 is another
-effort of mine in seeking such a high-mechanism, and I hope that it will
-work out this time.
+turn into fruition at the end. The system of function templates in ATS2 is
+another effort of mine in seeking such a high-mechanism, and I hope that it
+will work out this time.
 
 (* ****** ****** *)
 
@@ -38,3 +38,5 @@ Haskell            type-classes (monads are not)
 SML/Ocaml          modules and functors
 
 (* ****** ****** *)
+
+(* end of [ATS-trilogy.txt] *)

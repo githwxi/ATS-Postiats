@@ -24,7 +24,7 @@ implement
 phil_eat (n) = let
 //
   val lf = phil_acquire_lfork (n)
-  val () = randsleep (3) // HX: increasing the chance of deadlocking
+  val () = randsleep (1) // HX: increasing the chance of deadlocking
   val rf = phil_acquire_rfork (n)
 //
   val () = phil_eat2 (n, lf, rf)
