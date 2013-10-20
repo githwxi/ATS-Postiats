@@ -385,7 +385,7 @@ implement
 fprint_d2var (out, d2v) = let
   val () = $SYM.fprint_symbol (out, d2var_get_sym d2v)
 //
-  val () = fprint_string (out, "$")
+  val () = fprint_string (out, "_")
   val () = $STMP.fprint_stamp (out, d2var_get_stamp d2v)
 //
   val () = fprint_string (out, "(")
