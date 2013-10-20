@@ -377,7 +377,7 @@ in
   case+ 0 of
   | _ when isalnum_ => fprint_char (out, c)
   | _ => {
-      val () = fprintf (out, "_%.3o$", @($UN.cast2uint(c)))
+      val () = fprintf (out, "_%.3o_", @($UN.cast2uint(c)))
     } // end of [_]
 end // end of [aux]
 
@@ -413,7 +413,7 @@ emit_label
 implement
 emit_atslabel
   (out, lab) = () where {
-  val () = emit_text (out, "atslab$")
+  val () = emit_text (out, "atslab_")
   val () = $LAB.fprint_label (out, lab)
 } // end of [emit_atslabel]
 
@@ -635,7 +635,7 @@ implement
 emit_tmplabint
   (out, tlab, i) = let
   val () = emit_tmplab (out, tlab)
-  val () = fprintf (out, "$%i", @(i))
+  val () = fprintf (out, "_%i", @(i))
 in
   // nothing
 end // end of [emit_tmplabint]
@@ -712,7 +712,7 @@ case+ opt of
     val sfx = tmpvar_get_suffix (tmp)
     val stmp = tmpvar_get_stamp (tmpp)
     val () = $STMP.fprint_stamp (out, stmp)
-    val () = fprintf (out, "$%i", @(sfx))
+    val () = fprintf (out, "_%i", @(sfx))
   in
     // nothing
   end // end of [Some]
@@ -764,7 +764,7 @@ val tmpknd =
   funlab_get_tmpknd (flab)
 val () =
   if tmpknd > 0 then {
-  val () = emit_text (out, "$")
+  val () = emit_text (out, "_")
   val stamp = funlab_get_stamp (flab)
   val () = $STMP.fprint_stamp (out, stamp)
 } // end of [val]
@@ -788,7 +788,7 @@ val () = (
   | None () => auxmain (out, flab)
 ) // end of [val]
 val sfx = funlab_get_suffix (flab)
-val () = if sfx > 0 then fprintf (out, "$%i", @(sfx))
+val () = if sfx > 0 then fprintf (out, "_%i", @(sfx))
 //
 in
   // nothing
