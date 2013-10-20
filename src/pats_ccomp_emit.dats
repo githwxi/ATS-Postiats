@@ -371,13 +371,20 @@ fun aux
 (
   out: FILEref, c: char
 ) = let
-  val isalnum = char_isalnum (c)
 in
-  case+ 0 of
-  | _ when isalnum => fprint_char (out, c)
-  | _ => {
-      val () = fprintf (out, "_%.3o_", @($UN.cast2uint(c)))
-    } // end of [_]
+//
+case+ 0 of
+//
+| _ when
+    char_isalnum (c) => fprint_char (out, c)
+//
+| _ when (c = '_') => fprint_char (out, '_')
+| _ when (c = '$') => fprint_string (out, "__")
+//
+| _ => {
+    val () = fprintf (out, "_%.3o_", @($UN.cast2uint(c)))
+  } (* end of [_] *)
+//
 end // end of [aux]
 
 in (* in of [local] *)
