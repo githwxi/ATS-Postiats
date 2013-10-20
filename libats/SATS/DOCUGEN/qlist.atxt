@@ -8,7 +8,7 @@ implement srcfilename_get () = "../qlist.sats"
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/libats_dlist")
+val () = patscode_prefix_set("TRYIT/libats_qlist")
 %}
 
 (* ****** ****** *)

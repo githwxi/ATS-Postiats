@@ -1,0 +1,39 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../deqarray.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_deqarray")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/deqarray\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+#para("\
+
+This package implements array-based linear deques
+
+")
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("deqarray")
+#declnamesynop("deqarray_vtype")
+
+(* ****** ****** *)
+
+(* end of [deqarray.atxt] *)

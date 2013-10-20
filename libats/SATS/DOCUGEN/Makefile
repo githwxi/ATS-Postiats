@@ -103,6 +103,14 @@ upload_stkarray:: ;   scp HTML/stkarray.html ats-hwxi,ats-lang@web.sourceforge.n
 clean:: ; $(RMF) stkarray_atxt.exe
 cleanall:: ; $(RMF) HTML/stkarray.html
 
+all_html:: HTML/deqarray.html
+HTML/deqarray.html:   deqarray_atxt.exe ; ./$< > $@
+deqarray_atxt.txt: deqarray.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+deqarray_atxt.exe: htmlgendecl_atxt.dats   deqarray_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsynmark/libatsynmark.a -latsdoc
+upload_deqarray:: ;   scp HTML/deqarray.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) deqarray_atxt.exe
+cleanall:: ; $(RMF) HTML/deqarray.html
+
 all_html:: HTML/dynarray.html
 HTML/dynarray.html:   dynarray_atxt.exe ; ./$< > $@
 dynarray_atxt.txt: dynarray.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
