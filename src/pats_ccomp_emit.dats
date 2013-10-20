@@ -367,17 +367,16 @@ end // end of [local]
 
 local
 
-fun aux (
+fun aux
+(
   out: FILEref, c: char
 ) = let
-  val isalnum_ = 
-    if char_isalnum (c) then true else (c = '_')
-  // end of [val]
+  val isalnum = char_isalnum (c)
 in
   case+ 0 of
-  | _ when isalnum_ => fprint_char (out, c)
+  | _ when isalnum => fprint_char (out, c)
   | _ => {
-      val () = fprintf (out, "_%.3o$", @($UN.cast2uint(c)))
+      val () = fprintf (out, "_%.3o_", @($UN.cast2uint(c)))
     } // end of [_]
 end // end of [aux]
 
@@ -413,7 +412,7 @@ emit_label
 implement
 emit_atslabel
   (out, lab) = () where {
-  val () = emit_text (out, "atslab$")
+  val () = emit_text (out, "atslab__")
   val () = $LAB.fprint_label (out, lab)
 } // end of [emit_atslabel]
 
@@ -527,7 +526,7 @@ implement
 emit_s2cst
   (out, s2c) = let
   val () = aux_prfx (out, s2c)
-  val () = emit_text (out, "_")
+  val () = emit_text (out, "__")
   val name = $S2E.s2cst_get_name (s2c)
   val () = emit_ident (out, name)
 in
@@ -570,13 +569,13 @@ emit_d2con
   val fil = $S2E.d2con_get_fil (d2c)
   val packopt = $S2E.d2con_get_pack (d2c)
   val () = aux_prfx (out, fil, packopt)
-  val () = emit_text (out, "_")
+  val () = emit_text (out, "__")
   val name = $S2E.d2con_get_name (d2c)
   val () = emit_ident (out, name)
   val tag = $S2E.d2con_get_tag (d2c)
   val () = if
     tag >= 0 then let // HX: not exncon
-    val () = fprintf (out, "_%i", @(tag))
+    val () = fprintf (out, "__%i", @(tag))
   in
     // nothing
   end // end of [val]
@@ -599,7 +598,7 @@ case+ extdef of
     val fil = $D2E.d2cst_get_fil (d2c)
     val packopt = $D2E.d2cst_get_pack (d2c)
     val () = aux_prfx (out, fil, packopt)
-    val () = emit_text (out, "_")
+    val () = emit_text (out, "__")
     val name = $D2E.d2cst_get_name (d2c)
     val () = emit_ident (out, name)
   in
@@ -626,7 +625,9 @@ emit2_d2cst
 implement
 emit_tmplab
   (out, tlab) = let
-  val () = emit_text (out, "__patstlab_")
+//
+val () = emit_text (out, "__atstmplab")
+//
 in
   $STMP.fprint_stamp (out, tmplab_get_stamp (tlab))
 end // end of [emit_tmplab]
@@ -635,7 +636,7 @@ implement
 emit_tmplabint
   (out, tlab, i) = let
   val () = emit_tmplab (out, tlab)
-  val () = fprintf (out, "$%i", @(i))
+  val () = fprintf (out, "__%i", @(i))
 in
   // nothing
 end // end of [emit_tmplabint]
@@ -712,7 +713,7 @@ case+ opt of
     val sfx = tmpvar_get_suffix (tmp)
     val stmp = tmpvar_get_stamp (tmpp)
     val () = $STMP.fprint_stamp (out, stmp)
-    val () = fprintf (out, "$%i", @(sfx))
+    val () = fprintf (out, "__%i", @(sfx))
   in
     // nothing
   end // end of [Some]
@@ -764,7 +765,7 @@ val tmpknd =
   funlab_get_tmpknd (flab)
 val () =
   if tmpknd > 0 then {
-  val () = emit_text (out, "$")
+  val () = emit_text (out, "__")
   val stamp = funlab_get_stamp (flab)
   val () = $STMP.fprint_stamp (out, stamp)
 } // end of [val]
@@ -788,7 +789,7 @@ val () = (
   | None () => auxmain (out, flab)
 ) // end of [val]
 val sfx = funlab_get_suffix (flab)
-val () = if sfx > 0 then fprintf (out, "$%i", @(sfx))
+val () = if sfx > 0 then fprintf (out, "__%i", @(sfx))
 //
 in
   // nothing

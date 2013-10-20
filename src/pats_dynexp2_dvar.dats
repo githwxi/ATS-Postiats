@@ -382,19 +382,20 @@ implement
 prerr_d2var (d2v) = fprint_d2var (stderr_ref, d2v)
 
 implement
-fprint_d2var (out, d2v) = let
-  val () = $SYM.fprint_symbol (out, d2var_get_sym d2v)
+fprint_d2var
+  (out, d2v) = {
 //
-  val () = fprint_string (out, "$")
-  val () = $STMP.fprint_stamp (out, d2var_get_stamp d2v)
+val () =
+  $SYM.fprint_symbol (out, d2var_get_sym d2v)
 //
-  val () = fprint_string (out, "(")
-  val () = fprint_int (out, d2var_get_level d2v)
-  val () = fprint_string (out, ")")
+val () = fprint_string (out, "$")
+val () = $STMP.fprint_stamp (out, d2var_get_stamp d2v)
 //
-in
-  // nothing
-end // end of [fprint_d2var]
+val () = fprint_string (out, "(")
+val () = fprint_int (out, d2var_get_level d2v)
+val () = fprint_string (out, ")")
+//
+} (* end of [fprint_d2var] *)
 
 implement
 fprint_d2varlst
