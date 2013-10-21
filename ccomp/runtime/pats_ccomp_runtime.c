@@ -53,11 +53,11 @@ extern void exit (int) ; // in [stdlib.h]
 #ifndef _ATS_EXCEPTION_NONE
 //
 atstype_exncon
-ATSLIB_056$prelude_AssertExn = { 10, "AssertException" } ;
+ATSLIB_056_prelude__AssertExn = { 10, "AssertException" } ;
 atstype_exncon
-ATSLIB_056$prelude_GenerallyExn = { 20, "GenerallyException" } ;
+ATSLIB_056_prelude__GenerallyExn = { 20, "GenerallyException" } ;
 atstype_exncon
-ATSLIB_056$prelude_IllegalArgExn = { 30, "IllegalArgException" } ;
+ATSLIB_056_prelude__IllegalArgExn = { 30, "IllegalArgException" } ;
 //
 #endif // end of [_ATS_EXCEPTION_NONE]
 
@@ -66,14 +66,18 @@ ATSLIB_056$prelude_IllegalArgExn = { 30, "IllegalArgException" } ;
 #ifndef _ATS_EXCEPTION_NONE
 //
 atstype_exncon
-ATSLIB_056$prelude_NotFoundExn = { 40, "NotFoundException" } ;
+ATSLIB_056_prelude__NotFoundExn = { 40, "NotFoundException" } ;
+//
 atstype_exncon
-ATSLIB_056$prelude_ListSubscriptExn = { 50, "ListSubscriptException" } ;
+ATSLIB_056_prelude__ListSubscriptExn = { 50, "ListSubscriptException" } ;
+//
 atstype_exncon
-ATSLIB_056$prelude_ArraySubscriptExn = { 60, "ArraySubscriptException" } ;
-atstype_exncon ATSLIB_056$prelude_NotSomeExn = { 70, "NotSomeException" } ;
+ATSLIB_056_prelude__ArraySubscriptExn = { 60, "ArraySubscriptException" } ;
+//
+atstype_exncon ATSLIB_056_prelude__NotSomeExn = { 70, "NotSomeException" } ;
+//
 atstype_exncon
-ATSLIB_056$prelude_StreamSubscriptExn = { 80, "StreamSubscriptException" } ;
+ATSLIB_056_prelude__StreamSubscriptExn = { 80, "StreamSubscriptException" } ;
 //
 #endif // end of [_ATS_EXCEPTION_NONE]
 
