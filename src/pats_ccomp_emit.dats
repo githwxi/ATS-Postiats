@@ -572,23 +572,33 @@ in (* in of [local] *)
 
 implement
 emit_d2con
-  (out, d2c) = let
-  val fil = $S2E.d2con_get_fil (d2c)
-  val packopt = $S2E.d2con_get_pack (d2c)
-  val () = aux_prfx (out, fil, packopt)
-  val () = emit_text (out, "__")
-  val name = $S2E.d2con_get_name (d2c)
-  val () = emit_ident (out, name)
-  val tag = $S2E.d2con_get_tag (d2c)
-  val () = if
-    tag >= 0 then let // HX: not exncon
-    val () = fprintf (out, "__%i", @(tag))
-  in
-    // nothing
-  end // end of [val]
-in
-  // nothing
-end // end of [emit_d2con]
+  (out, d2c) =
+{
+//
+val fil =
+  $S2E.d2con_get_fil (d2c)
+val packopt =
+  $S2E.d2con_get_pack (d2c)
+val () = aux_prfx (out, fil, packopt)
+//
+val name =
+  $S2E.d2con_get_name (d2c)
+val () = emit_text (out, "__")
+val () = emit_ident (out, name)
+//
+val tag = $S2E.d2con_get_tag (d2c)
+val () =
+(
+  if tag >= 0
+    then let // HX: not exncon
+      val () = fprintf (out, "__%i", @(tag))
+    in
+      // nothing
+    end // end of [then]
+  // end of [if]
+) (* end of [val] *)
+//
+} (* end of [emit_d2con] *)
 
 (* ****** ****** *)
 

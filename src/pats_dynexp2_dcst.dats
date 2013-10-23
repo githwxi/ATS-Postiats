@@ -282,6 +282,14 @@ d2cst_is_static (d2c) =
 (* ****** ****** *)
 
 implement
+d2cst_is_fundec (d2c) =
+  dcstkind_is_fun (d2cst_get_kind (d2c))
+// end of [d2cst_is_fundec]
+implement
+d2cst_is_valdec (d2c) =
+  dcstkind_is_val (d2cst_get_kind (d2c))
+// end of [d2cst_is_valdec]
+implement
 d2cst_is_castfn (d2c) =
   dcstkind_is_castfn (d2cst_get_kind (d2c))
 // end of [d2cst_is_castfn]

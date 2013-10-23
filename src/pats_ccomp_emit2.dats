@@ -92,7 +92,14 @@ in
 //
 case+ pmv_fun.primval_node of
 //
-| PMVcst (d2c) => emit_d2cst (out, d2c)
+| PMVcst (d2c) => let
+    val isfun = $D2E.d2cst_is_fundec (d2c)
+  in
+    if isfun
+      then emit_d2cst (out, d2c)
+      else aux_funval2 (out, pmv_fun, hse_fun, isclo)
+    // end of [if]
+  end // end of [PMVcst]
 //
 | PMVfunlab (flab) => emit_funlab (out, flab)
 | PMVcfunlab (knd, flab) => emit_funlab (out, flab)

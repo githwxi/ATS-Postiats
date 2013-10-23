@@ -57,6 +57,7 @@ allchap:: CHAP_POLYMORPH
 # PART II
 #
 allchap:: CHAP_EFFECTFUL
+allchap:: CHAP_MODULARITY
 #
 ######
 #
@@ -97,6 +98,13 @@ CHAP_EFFECTFUL:: ; \
   make -C CHAP_EFFECTFUL -f ../Makefile.chap main.db
 CHAP_EFFECTFUL:: ; \
   make -C CHAP_EFFECTFUL -f ../Makefile.chap clean
+
+######
+
+CHAP_MODULARITY:: ; \
+  make -C CHAP_MODULARITY -f ../Makefile.chap main.db
+CHAP_MODULARITY:: ; \
+  make -C CHAP_MODULARITY -f ../Makefile.chap clean
 
 ######
 
