@@ -363,9 +363,14 @@ functions.  For example, the following syntax declares an interface in a
 dynamic file for a function template of the name #dyncode("list0_fold_left"):
 
 #atscode('\
-extern fun{a:t@ype}{b:t@ype}
+extern fun{a:t0p}{b:t0p}
 list0_fold_left (f: (a, b) -<cloref1> a, init: a, xs: list0 b): a
 ')
+
+where #stacode("t0p") is a shorthand for #stacode("t@ype").\
+")
+
+#para("\
 
 If the same interface is declared in a static file, the keyword
 #keycode("extern") should be dropped. Implementing an interface for a
@@ -394,7 +399,7 @@ short example:
 #atscode("\
 extern
 fun
-{a,b:t@ype}{c:t@ype}
+{a,b:t0p}{c:t0p}
 app2 (f: (a, b) -<cloref1> c, x: a, y: b): c
 
 implement{a,b}{c} app2 (f, x, y) = f (x, y)
@@ -412,6 +417,125 @@ specific template implementation.\
 ")
 
 </sect1><!--id="generic_template_implementation"-->
+
+<!-- ****** ****** -->
+
+<sect1 id="specific_template_implementation">
+<title>
+Specific Template Implementation
+</title>
+
+#para("\
+
+Implementing an interface for a function template specifically means to
+give an implementation for a fixed instance of the template. For instance,
+the following interface is for a function template of the name
+#dyncode("eq_elt_elt"):
+
+#atscode("\
+fun{a:t0p}
+eq_elt_elt (x: a, y: a): bool // a generic equality
+")
+
+There is no meaningful generic implementation for #dyncode("eq_elt_elt") as
+equality test for values of a type T depends on T.  Two specific template
+implementations are given as follows for the instances
+#dyncode("eq_elt_elt&lt;int&gt;") and #dyncode("eq_elt_elt&lt;double&gt;"):
+
+#atscode("\
+implement eq_elt_elt<int> (x, y) = eq_int_int (x, y)
+implement eq_elt_elt<double> (x, y) = eq_double_double (x, y)
+")
+
+where #dyncode("eq_int_int") and #dyncode("eq_double_double") are equality
+functions for values of the type #stacode("int") and #stacode("double"),
+respectively. It is also possible to give the implementations as follows:
+
+#atscode("\
+implement eq_elt_elt<int> (x, y) = (x = y)
+implement eq_elt_elt<double> (x, y) = (x = y)
+")
+
+This is allowed as the symbol #dyncode("=") is already overloaded with
+#dyncode("eq_int_int") and #dyncode("eq_double_double") (in addition to
+many other functions).\
+
+")#comment("para")
+
+#para("\
+
+Let us now see a typical use of specific template implementation.  The
+following defined function template #dyncode("listeq") implements an
+equality function on lists:
+
+#atscode("\
+fun{
+a:t0p
+} listeq
+(
+  xs: list0 a
+, ys: list0 a
+) : bool = (
+  case+ (xs, ys) of
+  | (list0_cons (x, xs), list0_cons (y, ys)) => 
+      if eq_elt_elt<a> (x, y) then listeq (xs, ys) else false
+  | (list0_nil (), list0_nil ()) => true
+  | (_, _) => false
+) (* end of [listeq] *)
+")
+
+Given two lists xs and ys, #dyncode("listeq") returns #dyncode("true") if
+and only if xs and ys are of the same length and each element in xs equals
+the corresponding one in ys based on a call to #dyncode("eq_elt_elt").
+Given a type T, it is clear that the instance
+#dyncode("eq_elt_elt&lt;T&gt;") is needed if #dyncode("listeq") is called
+on two lists of the type #stacode("list0(T)"). In other words, a specific
+implementation for #dyncode("eq_elt_elt&lt;T&gt;") should be given if a
+call to #dyncode("listeq") is to be made on two lists of the type
+#stacode("list0(T)"). Note that the implementation for an instance of a
+function template is required to be present in the same file where the
+instance is called.\
+
+")
+
+#comment("para")
+
+#para("\
+As a comparison, the following defined function template
+#dyncode("listeqf") also implements equality test on two given lists:
+
+#atscode("\
+fun{
+a:t0p
+} listeqf
+(
+  xs: list0 a
+, ys: list0 a
+, eq: (a, a) -> bool
+) : bool = (
+  case+ (xs, ys) of
+  | (list0_cons (x, xs), list0_cons (y, ys)) => 
+      if eq (x, y) then listeqf (xs, ys, eq) else false
+  | (list0_nil (), list0_nil ()) => true
+  | (_, _) => false
+) (* end of [listeqf] *)
+")
+
+In this case, #dyncode("listeqf") takes an additional argument
+#dyncode("eq") that tests whether two list elements are equal.  As
+#dyncode("listeq") is a first-order function while #dyncode("listeqf") is a
+higher-order one, it is likely for the former to be compiled into more
+efficient object code. I would like to point out that the library of ATS
+makes pervasive use of specifically implemented templates.
+
+")#comment("para")
+
+#para("\
+Please find the code presented in this section plus some additional
+testing code available #mycodelink("CHAPTER_MODULARITY/listeq.dats", "on-line").
+")
+
+</sect1><!--id="specific_template_implementation"-->
 
 <!-- ****** ****** -->
 
@@ -750,7 +874,7 @@ If applied to a given module of integer operations, the function
 that the integers in the former and the latter modules have the same
 representation. Therefore, #dyncode("ratmod_make_intmod") behaves like a
 functor in SML.  In the following code, we implement two modules
-#dyncode("ratmod_int") and #dyncode("ratmod_double") of rational operations in
+#dyncode("ratmod_int") and #dyncode("ratmod_dbl") of rational operations in
 which integers are represented as values of the types #stacode("int") and
 #stacode("double"), respectively:
 
@@ -759,7 +883,7 @@ staload M = "libc/SATS/math.sats" // for [fmod]
 
 val intmod_int = \'{
   ofint= lam (i) => i
-, fprint= lam (out, x) => fprintf (out, "%i", @(x))
+, fprint= lam (out, x) => $extfcall (void, "fprintf", out, "%i", x)
 , neg= lam (x) => ~x
 , add= lam (x, y) => x + y
 , sub= lam (x, y) => x - y
@@ -771,275 +895,29 @@ val intmod_int = \'{
 
 val ratmod_int = ratmod_make_intmod<int> (intmod_int)
 
-val intmod_double = \'{
-  ofint= lam (i) => double_of (i)
-, fprint= lam (out, x) => fprintf (out, "%0.f", @(x))
+val intmod_dbl = \'{
+  ofint= lam (i) => g0i2f(i)
+, fprint= lam (out, x) => $extfcall (void, "fprintf", out, "%0.f", x)
 , neg= lam (x) => ~x
 , add= lam (x, y) => x + y
 , sub= lam (x, y) => x - y
 , mul= lam (x, y) => x * y
-, div= lam (x, y) => $M.trunc (x/y) // trunc: truncation
-, mod= lam (x, y) => $M.fmod (x, y) // the modulo function
+, div= lam (x, y) => $M.trunc (x / y) // truncation
+, mod= lam (x, y) => $M.fmod (x, y)
 , cmp= lam (x, y) => compare (x, y)
 } : intmod (double) // end of [val]
 
-val ratmod_double = ratmod_make_intmod<double> (intmod_double)
+val ratmod_dbl = ratmod_make_intmod<double> (intmod_dbl)
 ')
 
 An implementation of the function #dyncode("ratmod_make_intmod") is
-available #mycodelink("CHAP_MODULARITY/ratfun_rec.dats", "on-line") and
-there is some related testing code available
-#mycodelink("CHAP_MODULARITY/test_ratfun_rec.dats", "on-line") as well.\
+available #mycodelink("CHAP_MODULARITY/ratfun.dats", "on-line") and there
+is some related testing code available
+#mycodelink("CHAP_MODULARITY/test_ratfun.dats", "on-line") as well.\
 
 ")#comment("para")
 
 </sect1><!--id="example_a_functorial_package_for_rationals"-->
-
-<!-- ****** ****** -->
-
-<sect1 id="specific_template_implementation">
-<title>
-Specific Template Implementation
-</title>
-
-#para("\
-Implementing an interface for a function template specifically means
-to give an implementation for a fixed instance of the template. For
-instance, the following interface is for a function template of the name
-#dyncode("eq_elt_elt"):
-
-#atscode("\
-fun{a:t@ype} eq_elt_elt (x: a, y: a): bool // a generic equality
-")
-
-There is no meaningful generic implementation for #dyncode("eq_elt_elt") as
-equality test for values of a type T depends on T.  Two specific template
-implementations are given as follows for the instances
-#dyncode("eq_elt_elt&lt;int&gt;") and #dyncode("eq_elt_elt&lt;double&gt;"):
-
-#atscode("\
-implement eq_elt_elt<int> (x, y) = eq_int_int (x, y)
-implement eq_elt_elt<double> (x, y) = eq_double_double (x, y)
-")
-
-where #dyncode("eq_int_int") and #dyncode("eq_double_double") are equality
-functions for values of the type #stacode("int") and #stacode("double"),
-respectively. It is also possible to give the implementations as follows:
-
-#atscode("\
-implement eq_elt_elt<int> (x, y) = (x = y)
-implement eq_elt_elt<double> (x, y) = (x = y)
-")
-
-This is allowed as the symbol #dyncode("=") is already overloaded with
-#dyncode("eq_int_int") and #dyncode("eq_double_double") (in addition to
-many other functions).\
-
-")#comment("para")
-
-#para("\
-Let us now see a typical use of specific template implementation.
-The following defined function template #dyncode("listeq") implements
-an equality function on lists:
-
-#atscode("\
-fun{a:t@ype}
-listeq (xs: list0 a, ys: list0 a): bool =
-  case+ (xs, ys) of
-  | (list0_cons (x, xs), list0_cons (y, ys)) => 
-      if eq_elt_elt<a> (x, y) then listeq (xs, ys) else false
-  | (list0_nil (), list0_nil ()) => true
-  | (_, _) => false
-// end of [listeq]
-")
-
-Given two lists xs and ys, #dyncode("listeq") returns #dyncode("true") if
-and only if xs and ys are of the same length and each element in xs equals
-the corresponding one in ys based on a call to #dyncode("eq_elt_elt").
-Given a type T, it is clear that the instance
-#dyncode("eq_elt_elt&lt;T&gt;") is needed if #dyncode("listeq") is called
-on two lists of the type #stacode("list0(T)"). In other words, a specific
-implementation for #dyncode("eq_elt_elt&lt;T&gt;") should be given if a
-call to #dyncode("listeq") is to be made on two lists of the type
-#stacode("list0(T)"). Note that the implementation for an instance of a
-function template is required to be present in the same file where the
-instance is called.\
-
-")#comment("para")
-
-#para("\
-As a comparison, the following defined function template
-#dyncode("listeqf") also implements equality test on two given lists:
-
-#atscode("\
-fun{a:t@ype}
-listeqf (
-  xs: list0 a, ys: list0 a, eq: (a, a) -> bool
-) : bool =
-  case+ (xs, ys) of
-  | (list0_cons (x, xs), list0_cons (y, ys)) => 
-      if eq (x, y) then listeqf (xs, ys, eq) else false
-  | (list0_nil (), list0_nil ()) => true
-  | (_, _) => false
-// end of [listeqf]
-")
-
-In this case, #dyncode("listeqf") takes an additional argument
-#dyncode("eq") that tests whether two list elements are equal.  Both
-#dyncode("listeq") and #dyncode("listeqf") have advantages over the other. The
-former is a first-order function while the latter is a higher-order one,
-and thus it is likely for the former to be compiled into more efficient
-object code. However, the latter often seems more convenient for use in
-practice.  ")#comment("para")
-
-#para("\
-Please find the code presented in this section plus some additional
-testing code available #mycodelink("CHAP_MODULARITY/listeq.dats", "on-line").
-")
-
-</sect1>
-
-<!-- ****** ****** -->
-
-<sect1 id="example_a_temptorial_package_for_rationals">
-<title>
-Example: A Temptorial Package for Rationals
-</title>
-
-#para("\
-As I have great difficulty in naming the style of programming I am
-about to present in this section, I coin a word
-<emphasis>temptorial</emphasis> (as a shorthand for template-functorial) to
-refer to this style, which makes essential use of function templates that
-are implemented generically as well as specifically.
-")
-
-#para("\
-Suppose that we have interfaces for two function templates foo and
-bar.  We give a generic template implementation for bar that makes use of
-foo but we cannot or do not want to implement foo generically. When an
-instance of bar is called, certain instances of foo may need to be
-implemented specifically so as to support the call. Let us now imagine a
-design where foo and bar are replaced with collections of function
-templates corresponding to various operations on integers and rationals.
-This is precisely the idea employed in the design of a temptorial package
-for rationals.
-")
-
-#para("\
-The following interfaces for function templates are declared in a
-file named #filename("ratfun_tmp.sats"), which is available
-#mycodelink("CHAP_MODULARITY/ratfun_tmp.sats", "on-line"):
-
-#atscode("\
-fun{a:t@ype} ofint: int -> a
-fun{a:t@ype} fprint_int (out: FILEref, x: a): void
-
-fun{a:t@ype} intneg: a -> a
-fun{a:t@ype} intadd: (a, a) -> a
-fun{a:t@ype} intsub: (a, a) -> a
-fun{a:t@ype} intmul: (a, a) -> a
-fun{a:t@ype} intdiv: (a, a) -> a
-fun{a:t@ype} intmod: (a, a) -> a
-
-fun{a:t@ype} intcmp: (a, a) -> int
-
-(* ^^^^^^ ^^^^^^ *)
-//
-// the following templates are implemented based on the above ones
-//
-(* vvvvvv vvvvvv *)
-
-fun{a:t@ype} intgcd: (a, a) -> a
-
-fun{a:t@ype} intlt: (a, a) -> bool
-fun{a:t@ype} intlte: (a, a) -> bool
-fun{a:t@ype} intgt: (a, a) -> bool
-fun{a:t@ype} intgte: (a, a) -> bool
-fun{a:t@ype} inteq: (a, a) -> bool
-fun{a:t@ype} intneq: (a, a) -> bool
-
-abst@ype rat (a: t@ype) = (a, a)
-
-fun{a:t@ype} rat_make_int_int (p: int, q: int): rat a
-fun{a:t@ype} rat_make_numer_denom (p: a, q: a): rat a
-
-fun{a:t@ype} fprint_rat (out: FILEref, x: rat a): void
-
-fun{a:t@ype} rat_numer (x: rat a): a
-fun{a:t@ype} rat_denom (x: rat a): a
-
-fun{a:t@ype} ratneg: (rat a) -> rat a
-fun{a:t@ype} ratadd: (rat a, rat a) -> rat a
-fun{a:t@ype} ratsub: (rat a, rat a) -> rat a
-fun{a:t@ype} ratmul: (rat a, rat a) -> rat a
-fun{a:t@ype} ratdiv: (rat a, rat a) -> rat a
-
-fun{a:t@ype} ratcmp: (rat a, rat a) -> int
-")
-
-In another file named #filename("ratfun_tmp.dats"), which is also
-available #mycodelink("CHAP_MODULARITY/ratfun_tmp.dats", "on-line"), the
-second half of the above interfaces for function templates are implemented
-based on the function templates for which the interfaces are declared in
-the first half. As an example, the function template
-#dyncode("rat_make_numer_denom") is implemented as follows:
-
-#atscode("\
-implement{a}
-rat_make_numer_denom (p, q) = let
-  fun make (p: a, q: a): rat a = let
-    val r = intgcd (p, q) in (p \intdiv r, q \intdiv r)
-  end // end of [make]
-in
-  if intgtz (q)
-    then make (p, q) else make (intneg p, intneg q)
-  // end of [if]
-end // end of [rat_make_numer_denom]
-")
-
-Note that the backslash symbol (#keycode("\\\\")) temporarily assigns the
-infix status to the identifier immediately following it.  For instance, the
-syntax #dyncode("p \intdiv r") simply stands for the function application
-#dyncode("intdiv(p, r)").\
-
-")#comment("para")
-
-#para("\
-
-There is some testing code available
-#mycodelink("CHAP_MODULARITY/test_ratfun_tmp.dats", "on-line") that
-demonstrates a typical way to use a temptorial package. For instance, if we
-want to use a package for rationals where integers are represented as
-values of the type #stacode("double"), then we can first give the following
-specific implementations for instances of function templates corresponding
-to certain integer operations:
-
-#atscode('\
-staload M = "libc/SATS/math.sats" // for [fmod]
-
-typedef T = double
-implement ofint<T> (x) = double_of (x)
-implement fprint_int<T> (out, x) = fprintf (out, "%.0f", @(x))
-
-implement intneg<T> (x) = ~x
-implement intadd<T> (x, y) = x + y
-implement intsub<T> (x, y) = x - y
-implement intmul<T> (x, y) = x * y
-implement intdiv<T> (x, y) = $M.trunc (x/y) // trunc: truncation
-implement intmod<T> (x, y) = $M.fmod (x, y) // modulo operation
-
-implement intcmp<T> (x, y) = compare (x, y)
-')
-
-With these implementations, we can call the corresponding instances of
-those function templates in #filename("ratfun_tmp.sats") (e.g.,
-#dyncode("ratadd&lt;double&gt;") and #dyncode("ratsub&lt;double&gt;")) that
-have already been implemented generically.\
-
-")#comment("para")
-
-</sect1><!--id="example_a_temptorial_package_for_rationals"-->
 
 </chapter><!--id="modularity"-->
 

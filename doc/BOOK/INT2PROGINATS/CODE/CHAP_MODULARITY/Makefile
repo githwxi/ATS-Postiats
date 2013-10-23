@@ -29,8 +29,7 @@ checkall:: test_acker ; ./test_acker
 checkall:: test_acker2 ; ./test_acker2
 checkall:: test_intset ; ./test_intset
 checkall:: test_ratmod ; ./test_ratmod
-checkall:: test_ratfun_rec ; ./test_ratfun_rec
-checkall:: test_ratfun_tmp ; ./test_ratfun_tmp
+checkall:: test_ratfun ; ./test_ratfun
 
 ######
 
@@ -94,26 +93,14 @@ cleanall:: ; $(RMF) test_ratmod
 ######
 
 RATFUN_REC_SRC=\
-  ratfun_rec.sats ratfun_rec.dats test_ratfun_rec.dats
+  ratfun.sats ratfun.dats test_ratfun.dats
 RATFUN_REC_OBJ := $(RATFUN_REC_SRC)
 RATFUN_REC_OBJ := $(patsubst %.sats, %_sats.o, $(RATFUN_REC_OBJ))
 RATFUN_REC_OBJ := $(patsubst %.dats, %_dats.o, $(RATFUN_REC_OBJ))
 
-test_ratfun_rec: $(RATFUN_REC_OBJ)
+test_ratfun: $(RATFUN_REC_OBJ)
 	$(PATSCC) $(ATSCCFLAGS) -o $@ $^ -lm || touch $@
-cleanall:: ; $(RMF) test_ratfun_rec
-
-######
-
-RATFUN_TMP_SRC=\
-  ratfun_tmp.sats ratfun_tmp.dats test_ratfun_tmp.dats
-RATFUN_TMP_OBJ := $(RATFUN_TMP_SRC)
-RATFUN_TMP_OBJ := $(patsubst %.sats, %_sats.o, $(RATFUN_TMP_OBJ))
-RATFUN_TMP_OBJ := $(patsubst %.dats, %_dats.o, $(RATFUN_TMP_OBJ))
-
-test_ratfun_tmp: $(RATFUN_TMP_OBJ)
-	$(PATSCC) $(ATSCCFLAGS) -o $@ $^ -lm || touch $@
-cleanall:: ; $(RMF) test_ratfun_tmp
+cleanall:: ; $(RMF) test_ratfun
 
 ######
 
@@ -121,7 +108,7 @@ cleanall:: ; $(RMF) test_ratfun_tmp
 	$(PATSCC) $(ATSCCFLAGS) -c $< || touch $@
 
 %_dats.o: %.dats
-	$(PATSCC) $(ATSCCFLAGS) -c $< || touch $@
+	$(PATSCC) -DATS_MEMALLOC_LIBC $(ATSCCFLAGS) -c $< || touch $@
 
 ######
 

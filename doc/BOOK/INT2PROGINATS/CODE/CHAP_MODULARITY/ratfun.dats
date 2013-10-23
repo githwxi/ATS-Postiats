@@ -34,8 +34,13 @@
 *)
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload.hats"
+//
+(* ****** ****** *)
 
-staload "ratfun_rec.sats"
+staload "ratfun.sats"
 
 (* ****** ****** *)
 
@@ -43,8 +48,9 @@ assume rat (a:t@ype) = (a, a)
 
 (* ****** ****** *)
 
-fun{a:t@ype}
-intgcd (
+fun{
+a:t@ype
+} intgcd (
   int: intmod a, x: a, y: a
 ) : a = let
 //
@@ -78,7 +84,7 @@ ratmod_make_intmod (int) = let
   macdef intgtz (x) = intcmp (,(x), int.ofint(0)) > 0
 //
   fun make0 (p: a, q: a):<cloref1> rat a = let
-    val r = intgcd (int, p, q) in (p \intdiv r, q \intdiv r)
+    val r = intgcd<a> (int, p, q) in (p \intdiv r, q \intdiv r)
   end // end of [make]
   fun make (p: a, q: a):<cloref1> rat a =
     if intgtz (q)
@@ -125,4 +131,4 @@ in '{
 
 (* ****** ****** *)
 
-(* end of [ratfun_rec.dats] *)
+(* end of [ratfun.dats] *)

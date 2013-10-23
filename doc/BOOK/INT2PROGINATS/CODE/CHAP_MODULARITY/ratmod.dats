@@ -33,6 +33,11 @@
 *)
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload.hats"
+//
+(* ****** ****** *)
 
 staload "ratmod.sats"
 
@@ -42,7 +47,21 @@ assume rat = (int, int)
 
 (* ****** ****** *)
 
-extern fun gcd : (int, int) -> int
+extern
+fun gcd : (int, int) -> int
+implement
+gcd (m, n) = let
+//
+fun aux (m: int, n: int): int =
+  if n > 0 then aux (n, m mod n) else m
+//
+in
+  if m >= 0 then
+    if n >= 0 then aux (m, n) else aux (m, ~n)
+  else
+    if n >= 0 then aux (~m, n) else aux (~m, ~n)
+  // end of [if]
+end // end of [gcd]
 
 (* ****** ****** *)
 

@@ -46,9 +46,11 @@ exception DivisionByZero
 fun rat_make_int_int (p: int, q: int): rat
 
 (* ****** ****** *)
-
+//
 fun fprint_rat (out: FILEref, x: rat): void
-
+//
+overload fprint with fprint_rat
+//
 (* ****** ****** *)
 
 fun rat_numer (x: rat): int // numerator of [x]

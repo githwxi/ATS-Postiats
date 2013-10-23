@@ -78,4 +78,4 @@ ratmod_make_intmod (int: intmod a): ratmod a
 
 (* ****** ****** *)
 
-(* end of [ratfun_rec.sats] *)
+(* end of [ratfun.sats] *)
