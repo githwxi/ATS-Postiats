@@ -55,6 +55,7 @@ all::
 #make_entry("stat")
 #make_entry("time")
 #make_entry("types")
+#make_entry("wait")
 
 ######
 

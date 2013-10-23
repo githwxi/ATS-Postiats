@@ -30,10 +30,6 @@ vtypedef fork = fork_vtype
 //
 (* ****** ****** *)
 
-fun the_forkarr_get (): arrayref(int, NPHIL)
-
-(* ****** ****** *)
-
 fun randsleep (n: intGte(1)): void
 
 (* ****** ****** *)

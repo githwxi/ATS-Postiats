@@ -148,6 +148,11 @@ dynload "DiningPhil_fork.dats"
 
 (* ****** ****** *)
 
+extern
+fun the_forkarr_get (): arrayref(int, NPHIL) = "ext#"
+
+(* ****** ****** *)
+
 %{^
 typedef int forkarr_t[NPHIL] ;
 %}
@@ -157,7 +162,8 @@ forkarr = $extype"forkarr_t"
 val theForkArr_ref = ref<ptr> (the_null_ptr)
 //
 implement
-the_forkarr_get () = $UN.cast{arrayref(int,NPHIL)}(!theForkArr_ref)
+the_forkarr_get () =
+  $UN.cast{arrayref(int,NPHIL)}(!theForkArr_ref)
 //
 fun
 the_forkarr_init () = let

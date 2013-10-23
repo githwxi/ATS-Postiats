@@ -71,6 +71,11 @@ UN = "prelude/SATS/unsafe.sats"
 
 local
 //
+extern
+fun
+the_forkarr_get (
+) : arrayref(int, NPHIL) = "ext#"
+//
 fun forkarr_takeout
   (n: natLt(NPHIL)): int = f where
 {
