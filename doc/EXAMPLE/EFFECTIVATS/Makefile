@@ -5,15 +5,19 @@
 ######
 
 all::
+all::DiningPhil
+DiningPhil:: ; make -C DiningPhil all
 all::file-copying
 file-copying:: ; make -C file-copying all
 all::queue-sllist2
 queue-sllist2:: ; make -C queue-sllist2 all
+all::word-counting
 word-counting:: ; make -C word-counting all
 
 ######
 
 cleanall::
+cleanall:: ; make -C DiningPhil cleanall
 cleanall:: ; make -C file-copying cleanall
 cleanall:: ; make -C queue-sllist2 cleanall
 cleanall:: ; make -C loop-as-tailrec cleanall
@@ -82,7 +86,7 @@ upload_DiningPhil:: ; \
   DiningPhil/main.html \
   DiningPhil/DiningPhil.dats \
   DiningPhil/DiningPhil_fork.dats \
-  DiningPhil/DiningPhil_eat.dats \
+  DiningPhil/DiningPhil_dine.dats \
   DiningPhil/DiningPhil_think.dats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/DiningPhil/
 

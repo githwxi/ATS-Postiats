@@ -59,6 +59,36 @@ stadef fildes = $FCNTL.fildes
 vtypedef Fildes = $FCNTL.Fildes
 //
 (* ****** ****** *)
+//
+abst@ype protflags = int
+//
+macdef PROT_NONE = $extval (protflags, "PROT_NONE")
+macdef PROT_EXEC = $extval (protflags, "PROT_EXEC")
+macdef PROT_READ = $extval (protflags, "PROT_READ")
+macdef PROT_WRITE = $extval (protflags, "PROT_WRITE")
+//                      
+fun lor_protflags_protflags
+  : (protflags, protflags) -<> protflags = "ext#atspre_lor_int_int"
+overload lor with lor_protflags_protflags
+//
+(* ****** ****** *)
+//
+abst@ype mmapflags = int
+//
+macdef MAP_SHARED = $extval (mmapflags, "MAP_SHARED")
+macdef MAP_PRIVATE = $extval (mmapflags, "MAP_PRIVATE")
+//
+macdef MAP_ANONYMOUS = $extval (mmapflags, "MAP_ANONYMOUS")
+//
+fun lor_mmapflags_mmapflags
+  : (mmapflags, mmapflags) -<> mmapflags = "ext#atspre_lor_int_int"
+overload lor with lor_mmapflags_mmapflags
+//
+(* ****** ****** *)
+
+macdef MAP_FAILED = $extval (ptr, "MAP_FAILED") // = (void*)-1
+
+(* ****** ****** *)
 
 (*
 /*

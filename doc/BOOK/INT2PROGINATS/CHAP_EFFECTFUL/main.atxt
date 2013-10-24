@@ -1278,10 +1278,10 @@ fun fileref_get_line_string (fil: FILEref): Strptr1
 
 The function #dyncode("fileref_get_line_string") reads a line from the
 stream associated with a given file handle, and it returns a value of the
-type #stacode("Strptr1"). For the moment, I will just say that such a value
-is just like a string except that it needs to be freed explicitly. As an
-example, the following short program echos each line read from the standard
-input onto the standard output:
+type #stacode("Strptr1"). For the moment, I will simply say that such a
+value is just like a string except that it needs to be freed explicitly. As
+an example, the following short program echos onto the standard output each
+line read from the standard input:
 
 
 #atscode('\

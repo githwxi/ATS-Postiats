@@ -108,6 +108,8 @@ macdef H4 (x) = xmltagging ("h4", ,(x))
 (* ****** ****** *)
 
 macdef
+keycode (x) = xmltagging ("code", ,(x))
+macdef
 dyncode (x) = xmltagging ("code", ,(x))
 macdef
 stacode (x) = xmltagging ("code", ,(x))

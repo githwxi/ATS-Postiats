@@ -53,6 +53,15 @@ types_atxt.dats: types.atxt
 clean:: ; $(RMF) types_atxt.exe
 cleanall:: ; $(RMF) types.cats
 
+all:: wait.cats
+wait.cats: wait_atxt.exe ; ./$< > $@
+wait_atxt.exe: wait_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ wait_atxt.dats -latsdoc
+wait_atxt.dats: wait.atxt
+	$(ATSDOC) --outcode $@ -i wait.atxt > wait_atxt.txt
+clean:: ; $(RMF) wait_atxt.exe
+cleanall:: ; $(RMF) wait.cats
+
 
 ######
 

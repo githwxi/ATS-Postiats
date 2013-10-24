@@ -229,7 +229,9 @@ fun d2cst_is_fun (d2c: d2cst): bool // function
 //
 fun d2cst_is_static (d2c: d2cst): bool // static
 //
-fun d2cst_is_castfn (d2c: d2cst): bool // cast fun
+fun d2cst_is_fundec (d2c: d2cst): bool // fun declaration
+fun d2cst_is_valdec (d2c: d2cst): bool // val declaration
+fun d2cst_is_castfn (d2c: d2cst): bool // castfn declaration
 //
 fun d2cst_is_mainats (d2c: d2cst): bool // a [mainats] fun
 //

@@ -17,6 +17,7 @@
 <!ENTITY chap_datatype SYSTEM "CHAP_DATATYPE/main.db">
 <!ENTITY chap_polymorph SYSTEM "CHAP_POLYMORPH/main.db">
 <!ENTITY chap_effectful SYSTEM "CHAP_EFFECTFUL/main.db">
+<!ENTITY chap_modularity SYSTEM "CHAP_MODULARITY/main.db">
 <!ENTITY chap_deptypes SYSTEM "CHAP_DEPTYPES/main.db">
 ]>
 <book id="proginats" lang="en">
@@ -49,6 +50,7 @@ id="basic-functional-programming">
 id="support-for-practical-programming">
 <title>Support for Practical Programming</title>
 &chap_effectful;
+&chap_modularity;
 </part>
 
 <part

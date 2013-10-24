@@ -117,8 +117,10 @@ The ATSLIB/libc library\
 #packfilename("SATS/unistd_sysconf.sats")
 #packfilename("SATS/unistd_pathconf.sats")
 
+#packfilename("sys/SATS/mman.sats")
 #packfilename("sys/SATS/stat.sats")
 #packfilename("sys/SATS/types.sats")
+#packfilename("sys/SATS/wait.sats")
 
 #packfilename("gdbm/SATS/gdbm.sats")
 #packfilename("gdbm/SATS/SHARE/datum.hats")
@@ -138,8 +140,10 @@ The ATSLIB/libc library\
 #packfilename("CATS/time.cats")
 #packfilename("CATS/unistd.cats")
 
+#packfilename("sys/CATS/mman.cats")
 #packfilename("sys/CATS/stat.cats")
 #packfilename("sys/CATS/types.cats")
+#packfilename("sys/CATS/wait.cats")
 
 #packfilename("gdbm/CATS/gdbm.cats")
 #packfilename("gdbm/CATS/datum.cats")

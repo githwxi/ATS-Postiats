@@ -43,7 +43,7 @@ SOURCESsta := \
 SOURCESdyn := \
   DiningPhil.dats \
   DiningPhil_fork.dats \
-  DiningPhil_eat.dats \
+  DiningPhil_dine.dats \
   DiningPhil_think.dats \
 
 ######

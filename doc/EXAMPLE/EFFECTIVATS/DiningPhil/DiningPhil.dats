@@ -137,7 +137,7 @@ end // end of [local]
 implement
 phil_loop2 (n) = let
   val () = phil_think (n)
-  val ((*void*)) = phil_eat (n)
+  val ((*void*)) = phil_dine (n)
 in
   phil_loop (n)
 end // end of [phil_loop2]
@@ -145,6 +145,11 @@ end // end of [phil_loop2]
 (* ****** ****** *)
 
 dynload "DiningPhil_fork.dats"
+
+(* ****** ****** *)
+
+extern
+fun the_forkarr_get (): arrayref(int, NPHIL) = "ext#"
 
 (* ****** ****** *)
 
@@ -157,7 +162,8 @@ forkarr = $extype"forkarr_t"
 val theForkArr_ref = ref<ptr> (the_null_ptr)
 //
 implement
-the_forkarr_get () = $UN.cast{arrayref(int,NPHIL)}(!theForkArr_ref)
+the_forkarr_get () =
+  $UN.cast{arrayref(int,NPHIL)}(!theForkArr_ref)
 //
 fun
 the_forkarr_init () = let
@@ -175,22 +181,14 @@ implement
 main0 ((*void*)) =
 {
 //
-val fs = O_CREAT lor O_RDWR
-val mode = S_IRUSR lor S_IWUSR
-val fd = shm_open ("DiningPhil", fs, mode)
-val i_fd = fildes_get_int(fd)
-val () = assertloc (i_fd >= 0)
-val () = assertloc (ftruncate(fd, $UN.cast{off_t}(sizeof<forkarr>)) >= 0)
-//
-val prot = $extval (int, "PROT_READ | PROT_WRITE")
-val flag = $extval (int, "MAP_SHARED")
-val p0 = $extfcall (ptr, "mmap", 0(*null*), sizeof<forkarr>, prot, flag, i_fd, 0)
+val p0 = $extfcall
+(
+  ptr, "mmap", 0(*null*), sizeof<forkarr>
+, PROT_READ lor PROT_WRITE, MAP_SHARED lor MAP_ANONYMOUS, ~1(*fd*), 0(*ofs*)
+) (* end of [val] *)
 val () = assertloc (p0 != $extval (ptr, "MAP_FAILED"))
 //
 val () = !theForkArr_ref := p0
-//
-val () = close1_exn (fd)
-val err = shm_unlink ("DiningPhil")
 //
 val () = the_forkarr_init ()
 //

@@ -1644,7 +1644,7 @@ emit_d2cst_extdec
 macdef
 ismac = $D2E.d2cst_is_mac
 macdef
-isfun = $D2E.d2cst_is_fun
+isfundec = $D2E.d2cst_is_fundec
 //
 macdef
 iscastfn = $D2E.d2cst_is_castfn
@@ -1661,7 +1661,7 @@ case+ 0 of
     // nothing
   end // end of [ismac]
 | _ when
-    isfun (d2c) => let
+    isfundec (d2c) => let
     val issta = $D2E.d2cst_is_static (d2c)
     val () =
     (
@@ -1691,7 +1691,7 @@ case+ 0 of
 //
   in
     // nothing
-  end // end of [isfun]
+  end // end of [isfundec]
 //
 | _ when
     iscastfn (d2c) => let

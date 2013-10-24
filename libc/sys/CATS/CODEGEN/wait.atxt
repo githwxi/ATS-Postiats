@@ -1,0 +1,52 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"wait.cats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_LGPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/libc/sys/CATS/CODEGEN/wait.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator_for_C()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("October, 2013")
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSLIB_LIBC_SYS_WAIT_CATS
+\#define ATSLIB_LIBC_SYS_WAIT_CATS
+
+#atscode_separator_for_C()
+//
+\#include <sys/wait.h>
+//
+#atscode_separator_for_C()
+//
+// HX: it is yet empty
+//
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSLIB_LIBC_SYS_WAIT_CATS
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "wait_atxt.txt")
+%}\
