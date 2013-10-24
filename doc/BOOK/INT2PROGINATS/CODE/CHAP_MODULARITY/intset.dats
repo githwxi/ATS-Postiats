@@ -3,6 +3,11 @@
 *)
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload.hats"
+//
+(* ****** ****** *)
 
 staload "intset.sats"
 
@@ -23,7 +28,7 @@ assume intset = list0 (int)
 (* ****** ****** *)
 
 implement intset_nil () = list0_nil
-implement intset_make_sing (x) = list0_cons (x, list0_nil)
+implement intset_make_sing (x) = list0_cons{int}(x, list0_nil)
 
 (* ****** ****** *)
 
@@ -63,12 +68,12 @@ intset_add
   case+ xs of
   | list0_cons (x, xs1) =>
       if x0 < x then
-        list0_cons (x0, xs)
+        list0_cons{int}(x0, xs)
       else if x0 > x then
-        list0_cons (x, intset_add (xs1, x0))
+        list0_cons{int}(x, intset_add (xs1, x0))
       else xs
   | list0_nil () =>
-      list0_cons (x0, list0_nil)
+      list0_cons{int}(x0, list0_nil)
 ) (* end of [intset_add] *)
 
 (* ****** ****** *)
@@ -81,10 +86,15 @@ intset_del
 case+ xs of
 | list0_cons
     (x, xs1) =>
-    if x0 < x then xs else
-      if x0 > x then list0_cons (x, intset_del (xs1, x0)) else xs1
-    // end of [if]
-| list0_nil () => list0_cons (x0, list0_nil)
+    if x0 < x
+      then xs else
+    (
+      if x0 > x
+        then list0_cons{int}(x, intset_del (xs1, x0))
+        else xs1
+      // end of [if]
+    ) (* end of [if] *)
+| list0_nil () => list0_cons{int}(x0, list0_nil)
 //
 ) (* end of [intset_del] *)
 
@@ -98,10 +108,12 @@ case+ (xs1, xs2) of
 | (list0_cons (x1, xs11),
    list0_cons (x2, xs21)) =>
     if x1 < x2 then
-      list0_cons (x1, intset_union (xs11, xs2))
+      list0_cons{int}(x1, intset_union (xs11, xs2))
     else if x1 > x2 then
-      list0_cons (x2, intset_union (xs1, xs21))
-    else list0_cons (x1, intset_union (xs11, xs21))
+      list0_cons{int}(x2, intset_union (xs1, xs21))
+    else
+      list0_cons{int}(x1, intset_union (xs11, xs21))
+    // end of [if]
 | (list0_nil (), _) => xs2
 | (_, list0_nil ()) => xs1
 //
@@ -120,7 +132,9 @@ case+ (xs1, xs2) of
       intset_inter (xs11, xs2)
     else if x1 > x2 then
       intset_inter (xs1, xs21)
-    else list0_cons (x1, intset_inter (xs11, xs21))
+    else
+      list0_cons{int}(x1, intset_inter (xs11, xs21))
+    // end of [if]
 | (list0_nil (), _) => list0_nil
 | (_, list0_nil ()) => list0_nil
 //
@@ -136,11 +150,13 @@ case+ (xs1, xs2) of
 | (list0_cons (x1, xs11),
    list0_cons (x2, xs21)) =>
     if x1 < x2 then
-      list0_cons (x1, intset_differ (xs11, xs2))
+      list0_cons{int}(x1, intset_differ (xs11, xs2))
     else if x1 > x2 then
       intset_differ (xs1, xs21)
-    else intset_differ (xs11, xs21)
-| (list0_nil (), _) => list0_nil
+    else
+      intset_differ (xs11, xs21)
+    // end of [if]
+| (list0_nil (), _) => list0_nil(*void*)
 | (_, list0_nil ()) => xs1
 //
 ) (* end of [intset_differ] *)

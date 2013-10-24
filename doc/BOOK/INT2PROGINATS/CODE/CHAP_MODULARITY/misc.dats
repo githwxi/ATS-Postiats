@@ -30,8 +30,9 @@ implement fact (x) = if x > 0 then x * fact (x-1) else 1
 (* ****** ****** *)
 //
 extern
-fun{a:t@ype}{b:t@ype}
-list0_fold_left
+fun{
+a:t0p}{b:t0p
+} list0_fold_left
   (xs: list0 b, f: (a, b) -<cloref1> a, init: a): a
 //
 implement{a}{b}
@@ -41,11 +42,12 @@ list0_fold_left
 fun loop
 (
   xs: list0 b, res: a
-) :<cloref1> a =
+) : a =
+(
   case+ xs of
-  | list0_cons
-      (x, xs) => loop (xs, f (res, x))
-  | list0_nil () => res
+  | list0_nil ((*void*)) => res
+  | list0_cons (x, xs) => loop (xs, f (res, x))
+) (* end of [loop] *)
 //
 in
   loop (xs, init)

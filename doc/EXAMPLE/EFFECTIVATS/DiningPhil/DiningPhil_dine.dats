@@ -16,38 +16,38 @@ staload "./DiningPhil.sats"
 (* ****** ****** *)
 
 extern
-fun phil_eat2 (n: phil, lf: !fork, rf: !fork): void
+fun phil_dine2 (n: phil, lf: !fork, rf: !fork): void
 
 (* ****** ****** *)
 
 implement
-phil_eat (n) = let
+phil_dine (n) = let
 //
   val lf = phil_acquire_lfork (n)
   val () = randsleep (1) // HX: increasing the chance of deadlocking
   val rf = phil_acquire_rfork (n)
 //
-  val () = phil_eat2 (n, lf, rf)
+  val () = phil_dine2 (n, lf, rf)
 //
   val () = phil_release_lfork (n, lf)
   val () = phil_release_rfork (n, rf)
 //
 in
   // nothing
-end // end of [phil_eat]
+end // end of [phil_dine]
 
 (* ****** ****** *)
 
 implement
-phil_eat2 (n, lf, rf) =
+phil_dine2 (n, lf, rf) =
 {
 //
-val () = println! ("Phil(", n, ") starts eating") 
+val () = println! ("Phil(", n, ") starts dineing") 
 val () = randsleep (3)
-val () = println! ("Phil(", n, ") finishes eating") 
+val () = println! ("Phil(", n, ") finishes dineing") 
 //
-} (* end of [phil_eat2] *)
+} (* end of [phil_dine2] *)
 
 (* ****** ****** *)
 
-(* end of [DiningPhil_eat.dats] *)
+(* end of [DiningPhil_dine.dats] *)

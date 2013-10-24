@@ -79,14 +79,15 @@ instance, the above interface for #dyncode("fact") specifies that
 #dyncode("fact") is a function that takes one argument required to be an
 integer and returns a value guaranteed to be an integer. What is so special
 about this form of specification is that it is formally enforced in ATS
-through typechecking: Any implementation of #dyncode("fact") in ATS must
-possess the interface declared for it.  Of course, this is not a precise
-specification for #dyncode("fact") as there are (infinitely) many functions
-that can be given the same interface. This kind of imprecision can,
-however, be reduced or even eliminated, sometimes. After dependent types
-are introduced, I will present an interface for #dyncode("fact") such that
-any implementation of the interface is guaranteed to implement precisely
-the factorial function as is defined by the following two equations:
+through typechecking: Any well-typed implementation of #dyncode("fact") in
+ATS must possess the interface declared for it.  Of course, this interface
+for #dyncode("fact") is not a precise specification as there are
+(infinitely) many functions that can be given the same interface. This kind
+of imprecision can, however, be reduced or even eliminated,
+sometimes. After dependent types are introduced, I will present an
+interface for #dyncode("fact") such that any implementation of the
+interface is guaranteed to implement precisely the factorial function as is
+defined by the following two equations:
 
 <itemizedlist>
 
@@ -170,6 +171,27 @@ and #stacode("b") to #dyncode("swap_boxed") simultaneously. As neither
 #stacode("a") nor #stacode("b") is actually used in the body of
 #dyncode("swap_boxed"), it is allowed to drop #stacode("{a,b}") in this
 case.\
+
+")#comment("para")
+
+#para("\
+
+As yet another example, the following code declares an interface for a
+function template named #dyncode("swap_tmplt"):
+
+#atscode('\
+extern
+fun{a,b:t@ype} swap_tmplt (xy: (a, b)): (b, a)
+')
+
+Note that both type variables #stacode("a") and #stacode("b") are of the
+sort #stacode("t@ype"), indicating that they can be of any size.
+
+An implementation for #dyncode("swap_tmplt") is given as follows:
+
+#atscode('\
+implement{a,b} swap_tmplt (xy) = (xy.1, xy.0)
+')
 
 ")#comment("para")
 
@@ -363,8 +385,11 @@ functions.  For example, the following syntax declares an interface in a
 dynamic file for a function template of the name #dyncode("list0_fold_left"):
 
 #atscode('\
-extern fun{a:t0p}{b:t0p}
-list0_fold_left (f: (a, b) -<cloref1> a, init: a, xs: list0 b): a
+extern
+fun{
+a:t0p}{b:t0p
+} list0_fold_left
+  (xs: list0 b, f: (a, b) -<cloref1> a, init: a): a
 ')
 
 where #stacode("t0p") is a shorthand for #stacode("t@ype").\
@@ -380,14 +405,21 @@ implementation in the following code:
 
 #atscode('\
 implement{a}{b}
-list0_fold_left (f, init, xs) = let
-  fun loop (init: a, xs: list0 b):<cloref1> a =
-    case+ xs of
-    | list0_cons (x, xs) => loop (f (init, x), xs)
-    | list0_nil () => init
-  // end of [loop]
+list0_fold_left
+  (xs, f, init) = let
+//
+fun loop
+(
+  xs: list0 b, res: a
+) : a =
+(
+  case+ xs of
+  | list0_nil () => res
+  | list0_cons (x, xs) => loop (xs, f (res, x))
+) (* end of [loop] *)
+//
 in
-  loop (init, xs)
+  loop (xs, init)
 end // end of [list0_fold_left]
 ')
 
@@ -648,17 +680,26 @@ as follows:
 
 #atscode("\
 implement
-intset_union (xs1, xs2) =
-  case+ (xs1, xs2) of
-  | (list0_cons (x1, xs11), list0_cons (x2, xs21)) =>
-      if x1 < x2 then
-        list0_cons (x1, intset_union (xs11, xs2))
-      else if x1 > x2 then
-        list0_cons (x2, intset_union (xs1, xs21))
-      else list0_cons (x1, intset_union (xs11, xs21))
-  | (list0_nil (), _) => xs2
-  | (_, list0_nil ()) => xs1
-// end of [intset_union]
+intset_union
+  (xs1, xs2) = (
+case+ (xs1, xs2) of
+| (list0_cons (x1, xs11),
+   list0_cons (x2, xs21)) =>
+  let
+    val sgn = compare (x1, x2)
+  in
+    case+ 0 of
+    | _ when sgn < 0 =>
+        list0_cons{int}(x1, intset_union (xs11, xs2))
+    | _ when sgn > 0 =>
+        list0_cons{int}(x2, intset_union (xs1, xs21))
+    | _ (* sgn = 0 *) =>
+        list0_cons{int}(x1, intset_union (xs11, xs21))
+    // end of [case]
+  end // end of [(cons, cons)]
+| (list0_nil (), _) => xs2
+| (_, list0_nil ()) => xs1
+) (* end of [intset_union] *)
 ")
 
 There is also some testing code available
@@ -735,8 +776,8 @@ fun ratdiv: (rat, rat) -> rat // division
 The exception #dyncode("Denominator") is for reporting an erroneous
 occasion where a rational number is to be formed with a denominator equal
 to zero.  Given two integers representing the numerator and denominator of
-a rational number, the function #dyncode("rat_make_int_int") returns a value
-representing the rational number. The following implementation of
+a rational number, the function #dyncode("rat_make_int_int") returns a
+value representing the rational number. The following implementation of
 #dyncode("rat_make_int_int") can be found in a file named
 #filename("ratmod.dats"), which is also available
 #mycodelink("CHAP_MODULARITY/ratmod.dats", "on-line").
@@ -869,7 +910,7 @@ now be given the following interface:
 fun{a:t@ype} ratmod_make_intmod (int: intmod a): ratmod a
 ")
 
-If applied to a given module of integer operations, the function
+If applied to a given module of integer operations,
 #dyncode("ratmod_make_intmod") returns a module of rational operations such
 that the integers in the former and the latter modules have the same
 representation. Therefore, #dyncode("ratmod_make_intmod") behaves like a
@@ -879,8 +920,10 @@ which integers are represented as values of the types #stacode("int") and
 #stacode("double"), respectively:
 
 #atscode('\
-staload M = "libc/SATS/math.sats" // for [fmod]
+staload M = "libc/SATS/math.sats"
 
+val ratmod_int = let
+//
 val intmod_int = \'{
   ofint= lam (i) => i
 , fprint= lam (out, x) => $extfcall (void, "fprintf", out, "%i", x)
@@ -892,9 +935,13 @@ val intmod_int = \'{
 , mod= lam (x, y) => op mod (x, y)
 , cmp= lam (x, y) => compare (x, y)
 } : intmod (int) // end of [val]
+//
+in
+  ratmod_make_intmod<int> (intmod_int)
+end // end of [val]
 
-val ratmod_int = ratmod_make_intmod<int> (intmod_int)
-
+val ratmod_dbl = let
+//
 val intmod_dbl = \'{
   ofint= lam (i) => g0i2f(i)
 , fprint= lam (out, x) => $extfcall (void, "fprintf", out, "%0.f", x)
@@ -906,8 +953,10 @@ val intmod_dbl = \'{
 , mod= lam (x, y) => $M.fmod (x, y)
 , cmp= lam (x, y) => compare (x, y)
 } : intmod (double) // end of [val]
-
-val ratmod_dbl = ratmod_make_intmod<double> (intmod_dbl)
+//
+in
+  ratmod_make_intmod<double> (intmod_dbl)
+end // end of [ratmod_dbl]
 ')
 
 An implementation of the function #dyncode("ratmod_make_intmod") is

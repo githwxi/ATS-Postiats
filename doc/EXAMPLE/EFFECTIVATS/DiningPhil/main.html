@@ -10,13 +10,61 @@
 <body>
 
 <h1>
-Effective ATS: Introduction to Linearity
+Effective ATS: Dining Philosophers
 </h1>
 
 The three most distinguished features of ATS are dependent types, linear
 types, and localizable templates. In this article, I present an
 implementation of the famous problem of 5-Dining-Philosophers by Dijkstra
 that makes simple but convincing use of linear types.
+
+<h2>
+Description of the Problem 
+</h2>
+
+There are five philosophers sitting around a table and there are also 5
+forks placed on the table such that each fork is located between the left
+hand of a philosopher and the right hand of another philosopher. Each
+philosopher does the following routine repeatedly: thinking and dining.  In
+order to dine, a philosopher needs to first acquire two forks: one located
+on his left-hand side and the other on his right-hand side. After
+finishing dining, a philosopher puts the two acquired forks onto the table:
+one on his left-hand side and the other on his right-hand side.
+
+<h2>
+Linear Types for Resources
+</h2>
+
+First, let us introduce a type definition as follows:
+
+<pre>
+typedef phil = int
+</pre>
+
+The sole purpose of using [phil] instead of [int] as the type for
+philosophers is to make it easier to comprehend the presented code.
+
+<p>
+
+Let us next introduce as follows a linear abstract type for forks (which
+are resources):
+
+<pre>
+absvt@ype fork = int
+</pre>
+
+Note that this declaration means that [fork] is an abstract viewtype
+(that is, a linear abstract type) whose size equals the size of [int].
+
+<pre>
+fun phil_acquire_lfork (n: phil): fork
+fun phil_release_lfork (n: phil, f: fork): void
+</pre>
+
+<pre>
+fun phil_acquire_rfork (n: phil): fork
+fun phil_release_rfork (n: phil, f: fork): void
+</pre>
 
 </body>
 </html>

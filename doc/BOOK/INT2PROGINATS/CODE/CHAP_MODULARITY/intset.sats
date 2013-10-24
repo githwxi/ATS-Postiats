@@ -11,7 +11,7 @@ typedef list0 (a:t@ype) = $ML.list0 (a)
 //
 (* ****** ****** *)
 
-abstype intset // this is a boxed abstract type
+abstype intset = ptr // this is a boxed abstract type
 
 (* ****** ****** *)
 

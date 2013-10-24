@@ -53,13 +53,13 @@ implement
 phil_release_lfork (n, f) = 
 {
   val () = fork_release (phil_left(n), f)
-  val () = println! ("Phil(", n, ") release left fork.")
+  val () = println! ("Phil(", n, ") releases left fork.")
 }
 implement
 phil_release_rfork (n, f) =
 {
   val () = fork_release (phil_right(n), f)
-  val () = println! ("Phil(", n, ") release right fork.")
+  val () = println! ("Phil(", n, ") releases right fork.")
 }
 
 (* ****** ****** *)
