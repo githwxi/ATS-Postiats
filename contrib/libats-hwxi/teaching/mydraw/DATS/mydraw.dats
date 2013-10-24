@@ -32,6 +32,11 @@
 //
 (* ****** ****** *)
 
+staload
+M = "libc/SATS/math.sats"
+
+(* ****** ****** *)
+
 staload "./../SATS/mydraw.sats"
 
 (* ****** ****** *)
@@ -110,11 +115,36 @@ sub_vector_vector
 // end of [sub_vector_vector]
 
 (* ****** ****** *)
+//
+implement{}
+mul_scalar_vector
+  (k, v) = vector_make (k * v.x, k * v.y)
+//
+implement{}
+div_vector_scalar (v, k) = let
+  val _1k = 1.0 / k in vector_make (_1k * v.x, _1k * v.y)
+end // end of [div_vector_scalar]
+//
+(* ****** ****** *)
 
 implement{}
-mul_scalar_vector (k, v) = vector_make (k * v.x, k * v.y)
+vector_length (v) = let
+  val x = v.x and y = v.y in $M.sqrt (x*x + y*y)
+end // end of [vector_length]
+
+(* ****** ****** *)
+
 implement{}
-mul_vector_scalar (v, k) = vector_make (k * v.x, k * v.y)
+vector_rotate
+  (v, delta) = let
+  val len = vector_length (v)
+  val angle = $M.acos (v.x / len)
+  val angle2 = angle + delta
+  val x2 = len * $M.cos (angle2)
+  val y2 = len * $M.sin (angle2)
+in
+  vector_make (x2, y2)
+end // end of [vector_rotate]
 
 (* ****** ****** *)
 

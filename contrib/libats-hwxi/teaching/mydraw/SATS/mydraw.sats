@@ -131,9 +131,26 @@ overload - with sub_vector_vector
 fun{}
 mul_scalar_vector (k: real, v: vector): vector
 fun{}
-mul_vector_scalar (v: vector, k: real): vector
+div_vector_scalar (v: vector, k: real): vector
 overload * with mul_scalar_vector
-overload * with mul_vector_scalar
+overload / with div_vector_scalar
+
+(* ****** ****** *)
+
+
+(* ****** ****** *)
+//
+fun{}
+vector_length (v: vector): real
+//
+(* ****** ****** *)
+//
+// HX: counterclockwise
+//
+fun{}
+vector_rotate
+  (v: vector, delta: real(*radian*)): vector
+// end of [vector_rotate]
 
 (* ****** ****** *)
 //

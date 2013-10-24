@@ -62,6 +62,14 @@ upload_test02:: ; scp test02.html test02-canvas2d.js \
 
 ######
 
+all:: test03-cairo
+test03-cairo: \
+  test03-cairo.dats test03.dats ; \
+  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+cleanall:: ; $(RMF) test03-cairo test03.png
+
+######
+
 RMF=rm -f
 
 ######
