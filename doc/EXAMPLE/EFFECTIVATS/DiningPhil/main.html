@@ -32,7 +32,7 @@ finishing dining, a philosopher puts the two acquired forks onto the table:
 one on his left-hand side and the other on his right-hand side.
 
 <h2>
-Linear Types for Resources
+A Linear Type for Resources
 </h2>
 
 First, let us introduce a type definition as follows:
@@ -42,19 +42,21 @@ typedef phil = int
 </pre>
 
 The sole purpose of using [phil] instead of [int] as the type for
-philosophers is to make it easier to comprehend the presented code.
+philosophers is to make the presented code easier to follow.
 
 <p>
 
-Let us next introduce as follows a linear abstract type for forks (which
-are resources):
+Let us next introduce a linear abstract type for forks (which are
+resources):
 
 <pre>
 absvt@ype fork = int
 </pre>
 
-Note that this declaration means that [fork] is an abstract viewtype
-(that is, a linear abstract type) whose size equals the size of [int].
+Note that this declaration means that [fork] is an abstract viewtype (that
+is, a linear abstract type) whose size equals the size of [int].  Note that
+the information on [fork] and [int] being of the same size is not available
+until after typechecking when abstract types are replaced with concrete types.
 
 <p>
 
@@ -77,6 +79,20 @@ forks should in general involve some sort of locking mechanism. If a fork
 is acquired, then it should be released after its use. By assigning a
 linear type to forks, we can rely on the type system of ATS to keep track
 of forks, ensuring their being handled properly.
+
+<h2>
+Philosopher Implemented as a Loop 
+</h2>
+
+<pre>
+fun phil_dine (n: phil): void
+fun phil_think (n: phil): void
+</pre>
+
+<pre>
+fun phil_loop (n: phil): void
+</pre>
+
 
 <hr size="2">
 

@@ -97,12 +97,12 @@ fun fprint_filename2_full (out: FILEref, fil: filename): void
 fun filename_merge
 (
   fil: string, givename: string
-) : strptr1 = "patsopt_filename_merge"
+) : Strptr1 = "patsopt_filename_merge"
 
 fun filename_append
 (
   dir: string, givename: string
-) :<> strptr1 = "patsopt_filename_append"
+) :<> Strptr1 = "patsopt_filename_append"
 
 (* ****** ****** *)
 

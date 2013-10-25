@@ -425,8 +425,8 @@ case+ opt of
 | ~None_vt () => let
 //
     val loc = tmpvar_get_loc (tmp)
-    val () = prerr_errccomp_loc (loc)
-    val () = prerr ": toplevel non-global code is not allowed in template."
+    val () = prerr_warnccomp_loc (loc)
+    val () = prerr ": toplevel non-global code shoulld not be used in template."
     val () = prerr_newline ()
 //
 (*

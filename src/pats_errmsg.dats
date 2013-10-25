@@ -114,4 +114,12 @@ prerr_warning3_loc (loc) =
 
 (* ****** ****** *)
 
+implement{}
+prerr_warnccomp_loc (loc) =
+(
+  $LOC.prerr_location (loc); prerr ": warning(ccomp)"
+) // end of [prerr_warnccomp_loc]
+
+(* ****** ****** *)
+
 (* end of [pats_errmsg.dats] *)

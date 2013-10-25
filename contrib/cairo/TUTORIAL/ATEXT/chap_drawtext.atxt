@@ -24,8 +24,11 @@ drawing at the position (0, 0).\
 ')
 
 #atscode('\
-fun showtext {l:agz}
-  (cr: !cairo_ref l, utf8: string): void = () where {
+fun
+showtext{l:agz}
+(
+  cr: !cairo_ref l, utf8: string
+) : void = () where {
   var te : cairo_text_extents_t
   val () = cairo_text_extents (cr, utf8, te)
 //
@@ -96,7 +99,8 @@ type in ATS:\
 //
 // This external struct type is originally defined in [cairo.h]:
 //
-typedef cairo_text_extents_t =
+typedef
+cairo_text_extents_t =
   $extype_struct "cairo_text_extents_t" of {
   x_bearing= double
 , y_bearing= double
@@ -115,10 +119,12 @@ type:\
 ")
 
 #atscode('\
-fun cairo_text_extents {l:agz} (
+fun
+cairo_text_extents{l:agz}
+(
   cr: !cairo_ref l, utf8: string
 , extents: &cairo_text_extents_t? >> cairo_text_extents_t
-) : void
+) : void // end of [cairo_text_extents]
 ')
 
 #para("\
