@@ -56,15 +56,31 @@ absvt@ype fork = int
 Note that this declaration means that [fork] is an abstract viewtype
 (that is, a linear abstract type) whose size equals the size of [int].
 
+<p>
+
+For a philosopher to acquire and release his left fork, the following
+functions can be called:
 <pre>
 fun phil_acquire_lfork (n: phil): fork
 fun phil_release_lfork (n: phil, f: fork): void
 </pre>
 
+For a philosopher to acquire and release his right fork, the following
+functions can be called:
 <pre>
 fun phil_acquire_rfork (n: phil): fork
 fun phil_release_rfork (n: phil, f: fork): void
 </pre>
+
+As forks are shared resources, these functions for acquiring and releasing
+forks should in general involve some sort of locking mechanism. If a fork
+is acquired, then it should be released after its use. By assigning a
+linear type to forks, we can rely on the type system of ATS to keep track
+of forks, ensuring their being handled properly.
+
+<hr size="2">
+
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
 </body>
 </html>

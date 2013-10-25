@@ -42,9 +42,9 @@ implement
 phil_dine2 (n, lf, rf) =
 {
 //
-val () = println! ("Phil(", n, ") starts dineing") 
+val () = println! ("Phil(", n, ") starts dining.")
 val () = randsleep (3)
-val () = println! ("Phil(", n, ") finishes dineing") 
+val () = println! ("Phil(", n, ") finishes dining.")
 //
 } (* end of [phil_dine2] *)
 

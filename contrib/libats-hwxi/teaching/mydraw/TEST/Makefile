@@ -70,6 +70,16 @@ cleanall:: ; $(RMF) test03-cairo test03.png
 
 ######
 
+test03-canvas2d.js: \
+  test03-canvas2d.dats test03.dats ; \
+  $(PATSCC) -atsccomp "$(PATSCCOMP2)" --js-library ../JS/mydraw_HTML5_canvas2d.js -o $@ $<
+cleanall:: ; $(RMF) test03-canvas2d.js
+cleanall:: ; $(RMF) test03-canvas2d.js.map
+upload_test03:: ; scp test03.html test03-canvas2d.js \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/TEMPATS/JS/mydraw/
+
+######
+
 RMF=rm -f
 
 ######

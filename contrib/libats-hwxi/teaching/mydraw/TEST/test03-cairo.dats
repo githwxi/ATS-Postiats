@@ -22,6 +22,10 @@ staload _(*anon*) = "./../DATS/mydraw.dats"
 //
 (* ****** ****** *)
 
+staload _(*M*) = "libc/DATS/math.dats"
+
+(* ****** ****** *)
+
 staload "./test03.dats"
 
 (* ****** ****** *)
@@ -81,14 +85,15 @@ val cr = cairo_create (sf)
 val WH = min (W, H)
 val WH = g0int2float_int_double (WH)
 val WH2 = WH / 2
+val WH3 = WH / 3
 //
 val () =
-cairo_translate (cr, WH2, WH2)
+cairo_translate (cr, WH2, (WH2+WH3)/2)
 val (pf0 | ()) = cairo_save (cr)
 //
-val p1 = point_make (~WH2,  WH2)
-val p2 = point_make ( 0.0, ~WH2)
-val p3 = point_make ( WH2,  WH2)
+val p1 = point_make (~WH3,  WH3)
+val p2 = point_make ( 0.0, ~WH3)
+val p3 = point_make ( WH3,  WH3)
 //
 val clr = color_make (0.0, 0.0, 1.0)
 //

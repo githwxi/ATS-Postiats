@@ -12,7 +12,6 @@ staload _(*anon*) = "./../DATS/mydraw.dats"
 (* ****** ****** *)
 
 #define PI 3.1415926535898
-staload _(*M*) = "libc/DATS/math.dats"
 
 (* ****** ****** *)
 //
@@ -53,7 +52,7 @@ in
 if n > 0 then let
   val v0 = (p2 - p1) / 3.0
   val q1 = p1 + v0
-  val q2 = q1 + vector_rotate (v0, PI/3)
+  val q2 = q1 + vector_rotate (v0, ~PI/3)
   val q3 = p2 - v0
   val () = draw_koch (p1, q1, clr, n-1)
   val () = draw_koch (q1, q2, clr, n-1)

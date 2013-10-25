@@ -137,13 +137,10 @@ end // end of [vector_length]
 implement{}
 vector_rotate
   (v, delta) = let
-  val len = vector_length (v)
-  val angle = $M.acos (v.x / len)
-  val angle2 = angle + delta
-  val x2 = len * $M.cos (angle2)
-  val y2 = len * $M.sin (angle2)
+  val dx = v.x and dy = v.y
+  val c0 = $M.cos (delta) and s0 = $M.sin (delta)
 in
-  vector_make (x2, y2)
+  vector_make (c0 * dx - s0 * dy, s0 * dx + c0 * dy)
 end // end of [vector_rotate]
 
 (* ****** ****** *)
