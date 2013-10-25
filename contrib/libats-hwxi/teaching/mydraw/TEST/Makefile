@@ -80,6 +80,24 @@ upload_test03:: ; scp test03.html test03-canvas2d.js \
 
 ######
 
+all:: test04-cairo
+test04-cairo: \
+  test04-cairo.dats test04.dats ; \
+  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+cleanall:: ; $(RMF) test04-cairo test04.png
+
+######
+
+test04-canvas2d.js: \
+  test04-canvas2d.dats test04.dats ; \
+  $(PATSCC) -atsccomp "$(PATSCCOMP2)" --js-library ../JS/mydraw_HTML5_canvas2d.js -o $@ $<
+cleanall:: ; $(RMF) test04-canvas2d.js
+cleanall:: ; $(RMF) test04-canvas2d.js.map
+upload_test04:: ; scp test04.html test04-canvas2d.js \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/TEMPATS/JS/mydraw/
+
+######
+
 RMF=rm -f
 
 ######
