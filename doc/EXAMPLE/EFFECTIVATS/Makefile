@@ -84,6 +84,7 @@ upload_DiningPhil:: ; \
   scp \
   DiningPhil/Makefile \
   DiningPhil/main.html \
+  DiningPhil/DiningPhil.sats \
   DiningPhil/DiningPhil.dats \
   DiningPhil/DiningPhil_fork.dats \
   DiningPhil/DiningPhil_dine.dats \

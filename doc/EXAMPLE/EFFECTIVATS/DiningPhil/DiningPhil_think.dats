@@ -20,7 +20,7 @@ phil_think (n) =
 {
 //
 val () = println! ("Phil(", n, ") starts thinking") 
-val () = randsleep (6)
+val () = randsleep (10)
 val () = println! ("Phil(", n, ") finishes thinking") 
 //
 } (* end of [phil_think] *)

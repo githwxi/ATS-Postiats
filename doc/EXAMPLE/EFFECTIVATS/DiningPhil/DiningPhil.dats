@@ -139,7 +139,7 @@ phil_loop2 (n) = let
   val () = phil_think (n)
   val ((*void*)) = phil_dine (n)
 in
-  phil_loop (n)
+  phil_loop2 (n)
 end // end of [phil_loop2]
 
 (* ****** ****** *)

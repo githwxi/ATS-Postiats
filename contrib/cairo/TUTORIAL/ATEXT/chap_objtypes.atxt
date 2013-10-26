@@ -63,7 +63,7 @@ words, there is a reference count in each object that is assgined one of
 these types. When such an object is created, the initial count is 1. This
 count can increase or decrease depending on operations performed on the
 object, and the object is freed once the count drops to 0. In ATS, we can
-employ linear typs to track reference counts. Compared to various other
+employ linear types to track reference counts. Compared to various other
 APIs for cairo, the ability to track reference counts statically, that is,
 at compile-time, is arguably the greatest benefit one receives when
 programming with ATS/Cairo.\

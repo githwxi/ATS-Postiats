@@ -75,6 +75,13 @@ depend:: ; $(PATSOPT) -o .depend2 --depgen -d $(SOURCESdyn)
 
 ######
 
+upload_main: ; \
+  scp main.html \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/DiningPhil/
+
+
+######
+
 RMF=rm -f
 
 ######

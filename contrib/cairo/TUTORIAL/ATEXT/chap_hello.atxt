@@ -201,13 +201,13 @@ identical to using them in C (modulo syntatical difference). However, what
 happens at the level of typechecking in ATS is far more sophisticated than
 in C. In particular, linear types are assigned to cairo objects (e.g.,
 contexts, surfaces, patterns, font faces) in ATS to allow them to be
-tracked statically, that is, at compile-time, preventing potential memory
-mismanagement. For instance, if the following line:
+tracked statically, that is, at compile-time, preventing potential
+mismanagement of such objects. For instance, if the following line:
 
 ")
 
 #atscode("\
-  val () = cairo_surface_destroy (surface) // a type error if omitted
+  val () = cairo_surface_destroy (sf) // a type error if omitted
 ")
 
 #para("\
