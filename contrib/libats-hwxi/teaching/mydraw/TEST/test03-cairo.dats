@@ -1,7 +1,7 @@
 (*
 ** Author: Hongwei Xi
 ** Authoremail: gmhwxiATgmailDOTcom
-** Start time: September, 2013
+** Start time: October, 2013
 *)
 
 (* ****** ****** *)
@@ -41,13 +41,14 @@ cairo_draw_koch
   {l:agz}
 (
   cr: !cairo_ref (l)
-, p1: point, p2: point, p3: point, clr: color
+, p1: point, p2: point, p3: point
+, clr1: color, clr2: color, clr3: color
 , level: int
 ) : void // end of [cairo_draw_koch]
 
 implement
 cairo_draw_koch
-  (cr, p1, p2, p3, clr, n) = let
+  (cr, p1, p2, p3, clr1, clr2, clr3, n) = let
 //
 val p_cr = ptrcast (cr)
 //
@@ -61,9 +62,9 @@ in
   __cast (p_cr)
 end // end of [mydraw_get0_cairo]
 //
-val () = draw_koch (p1, p2, clr, n)
-val () = draw_koch (p2, p3, clr, n)
-val () = draw_koch (p3, p1, clr, n)
+val () = draw_koch (p1, p2, clr1, n)
+val () = draw_koch (p2, p3, clr2, n)
+val () = draw_koch (p3, p1, clr3, n)
 //
 in
   // nothing
@@ -74,7 +75,7 @@ end // end of [cairo_draw3_sierpinski]
 implement
 main0 () = () where {
 //
-val W = 250 and H = 250
+val W = 400 and H = 400
 //
 // create a sf for drawing
 //
@@ -95,9 +96,11 @@ val p1 = point_make (~WH3,  WH3)
 val p2 = point_make ( 0.0, ~WH3)
 val p3 = point_make ( WH3,  WH3)
 //
-val clr = color_make (0.0, 0.0, 1.0)
+val clr1 = color_make (1.0, 0.0, 0.0)
+val clr2 = color_make (0.0, 1.0, 0.0)
+val clr3 = color_make (0.0, 0.0, 1.0)
 //
-val () = cairo_draw_koch (cr, p1, p2, p3, clr, 6)
+val () = cairo_draw_koch (cr, p1, p2, p3, clr1, clr2, clr3, 6)
 //
 val () = cairo_restore (pf0 | cr)
 //

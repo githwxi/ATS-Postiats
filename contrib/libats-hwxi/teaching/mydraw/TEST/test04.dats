@@ -1,7 +1,7 @@
 (*
 ** Author: Hongwei Xi
 ** Authoremail: gmhwxiATgmailDOTcom
-** Start time: September, 2013
+** Start time: October, 2013
 *)
 
 (* ****** ****** *)
@@ -38,10 +38,14 @@ implement{
   p1, p2, clr
 ) = let
 //
+val () = mydraw_new_path ()
+//
 val () = mydraw_move_to (p1)
 val () = mydraw_line_to (p2)
 val () = mydraw_stroke_set_rgb (clr.r, clr.g, clr.b)
 val () = mydraw_stroke ()
+//
+val () = mydraw_close_path ()
 //
 in
   // nothing

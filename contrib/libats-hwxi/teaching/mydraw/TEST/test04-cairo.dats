@@ -1,7 +1,7 @@
 (*
 ** Author: Hongwei Xi
 ** Authoremail: gmhwxiATgmailDOTcom
-** Start time: September, 2013
+** Start time: October, 2013
 *)
 
 (* ****** ****** *)
@@ -72,7 +72,7 @@ end // end of [cairo_draw3_sierpinski]
 implement
 main0 () = () where {
 //
-val W = 250 and H = 250
+val W = 400 and H = 400
 //
 // create a sf for drawing
 //

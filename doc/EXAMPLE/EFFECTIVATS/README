@@ -24,4 +24,19 @@ features of ATS in the construction of high-quality programs. I hope that
 this effort can greatly help people both learn ATS and make effective use
 of it in practice.
 
+######
+
+file-copying: copying files
+
+loop-as-tailrec: loop as tail-recursive functions
+
+stack-array: array-based stack implementation
+queue-sllist2: two-list-based queue implementation
+
+word-counting: couting the numbers of ocurrences of words in a given file
+
+DiningPhil: implementing the 5-Dining-Philosophers problem by Dijkstra
+
+######
+
 ###### end of [README] ######

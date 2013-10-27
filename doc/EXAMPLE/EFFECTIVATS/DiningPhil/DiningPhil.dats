@@ -6,10 +6,6 @@
 // of the problem of Dining Philosophers
 //
 (* ****** ****** *)
-
-#define ATS_DYNLOADFLAG 0
-
-(* ****** ****** *)
 //
 #include
 "share/atspre_define.hats"

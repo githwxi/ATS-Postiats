@@ -109,6 +109,8 @@ ATSCNTRB/libats-hwxi/teaching\
 #packfilename("mydraw/DATS/mydraw_cairo.dats")
 #packfilename("mydraw/DATS/mydraw_HTML5_canvas2d.dats")
 //
+#packfilename("mydraw/JS/mydraw_HTML5_canvas2d.js")
+//
 (* ****** ****** *)
 
 #packfilename("myGTK/SATS/gtkcairoclock.sats")
