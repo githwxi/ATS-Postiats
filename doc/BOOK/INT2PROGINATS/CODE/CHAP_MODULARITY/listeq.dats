@@ -21,6 +21,9 @@ fun{a:t@ype} eq_elt_elt (x: a, y: a): bool
 implement eq_elt_elt<int> (x, y) = g0int_eq (x, y)
 implement eq_elt_elt<double> (x, y) = g0float_eq (x, y)
 
+implement eq_elt_elt<int> (x, y) = (x = y)
+implement eq_elt_elt<double> (x, y) = (x = y)
+
 (* ****** ****** *)
 
 fun{a:t@ype}

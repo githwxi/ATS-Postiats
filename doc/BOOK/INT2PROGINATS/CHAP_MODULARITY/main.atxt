@@ -200,7 +200,7 @@ implement{a,b} swap_tmplt (xy) = (xy.1, xy.0)
 It is a standard practice for a programmer to first design interfaces for
 the functions to be supported in a package before actually implementing any
 of these functions. When such interfaces are available, application
-programs can be constructed to check whether the interface design makes
+programs can be constructed to test whether the interface design makes
 sense or is convenient for practical use. Please remember that a superb
 implementation of a poor design cannot make the design any
 better. Therefore, testing a design before actually implementing it is
@@ -243,7 +243,7 @@ the following function interface:
 fun acker (m: int, n: int): int
 ')
 
-Please note that we should not use the keyword #keycode("extern") when
+Please note that one should not use the keyword #keycode("extern") when
 declaring an interface for either a function or a value in a static file.
 Then in a dynamic file named #filename("acker.dats") (or any other legal
 filename), we can give the following implementation:
@@ -261,11 +261,12 @@ acker (m, n) =
 ')
 
 The keyword #stacode("staload") indicates to the ATS typechecker that the
-file following it is to be statically loaded. Essentially, statically
-loading a file means to put the content of the file in a namespace that can
-be accessed by the code that follows. It is important to note that static
-loading is different from plain file inclusion. The latter is also
-supported in ATS, and it is a feature I will cover elsewhere.\
+file following it is to be statically loaded during
+typechecking. Essentially, statically loading a file means to put the
+content of the file in a namespace that can be accessed by the following
+code.  It is important to note that static loading is different from plain
+file inclusion. The latter is also supported in ATS, and it is a feature I
+will cover elsewhere.\
 
 ")#comment("para")
 
@@ -301,30 +302,34 @@ declared entity can be readily tracked down.\
 
 #para("\
 
-In another file named #filename("test_acker.dats"), let use
+In another file named #filename("test_acker.dats"), let us
 write the following code:
 
 #atscode('\
+//
+\#include
+"share/atspre_staload.hats"
+//
 staload "acker.sats"
 dynload "acker.dats"
 
 implement
-main () = () where {
+main0 () = () where {
 //
 // acker (3, 3) should return 61
 //
   val () = assertloc (acker (3, 3) = 61)
-} // end of [main]
+} // end of [main0]
 ')
 
 The keyword #dyncode("dynload") indicates to the ATS compiler to generate a
 call to the initializing function associated with the file
-#filename("acker.dats"). This is mandatory as an error would
-otherwise be reported at link-time. Usually, calling the initializing
-function associated with a dynamic file is necessary only if there is a
-value implemented in the file. In this case, there is only a function
-implemented in #filename("acker.dats"). If we include the following
-line somewhere inside #filename("acker.dats"):
+#filename("acker.dats"). This is mandatory as an error would otherwise be
+reported at link-time. Usually, calling the initializing function
+associated with a dynamic file is necessary only if there is a value
+implemented in the file. In this case, there is only a function implemented
+in #filename("acker.dats"). If we include the following line somewhere
+inside #filename("acker.dats"):
 
 #atscode('\
 \#define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
@@ -346,15 +351,14 @@ happens.\
 
 #para("\
 
-The simplest way to compile the three files #filename("acker.sats"),
-#filename("acker.dats") and #filename("test_acker.dats") is to issue the
-following command-line:
+The simplest way to compile the two files #filename("acker.dats") and
+#filename("test_acker.dats") is to issue the following command-line:
 
 <informalexample><programlisting>
 <command>atscc</command> -o test_acker acker.dats test_acker.dats
 </programlisting></informalexample>
 
-The generate excutable #filename("test_acker") is in the current
+The generated excutable #filename("test_acker") is in the current
 working directory.  The compilation can also be performed separately as is
 demonstrated below:
 
@@ -475,8 +479,8 @@ implementations are given as follows for the instances
 #dyncode("eq_elt_elt&lt;int&gt;") and #dyncode("eq_elt_elt&lt;double&gt;"):
 
 #atscode("\
-implement eq_elt_elt<int> (x, y) = eq_int_int (x, y)
-implement eq_elt_elt<double> (x, y) = eq_double_double (x, y)
+implement eq_elt_elt<int> (x, y) = g0int_eq (x, y)
+implement eq_elt_elt<double> (x, y) = g0float_eq (x, y)
 ")
 
 where #dyncode("eq_int_int") and #dyncode("eq_double_double") are equality
@@ -489,8 +493,8 @@ implement eq_elt_elt<double> (x, y) = (x = y)
 ")
 
 This is allowed as the symbol #dyncode("=") is already overloaded with
-#dyncode("eq_int_int") and #dyncode("eq_double_double") (in addition to
-many other functions).\
+#dyncode("g0int_eq") and #dyncode("g0float_eq") (in addition to many other
+functions).\
 
 ")#comment("para")
 
@@ -509,7 +513,8 @@ a:t0p
 , ys: list0 a
 ) : bool = (
   case+ (xs, ys) of
-  | (list0_cons (x, xs), list0_cons (y, ys)) => 
+  | (list0_cons (x, xs),
+     list0_cons (y, ys)) => 
       if eq_elt_elt<a> (x, y) then listeq (xs, ys) else false
   | (list0_nil (), list0_nil ()) => true
   | (_, _) => false
@@ -518,14 +523,14 @@ a:t0p
 
 Given two lists xs and ys, #dyncode("listeq") returns #dyncode("true") if
 and only if xs and ys are of the same length and each element in xs equals
-the corresponding one in ys based on a call to #dyncode("eq_elt_elt").
+the corresponding one in ys (according to #dyncode("eq_elt_elt")).
 Given a type T, it is clear that the instance
 #dyncode("eq_elt_elt&lt;T&gt;") is needed if #dyncode("listeq") is called
 on two lists of the type #stacode("list0(T)"). In other words, a specific
 implementation for #dyncode("eq_elt_elt&lt;T&gt;") should be given if a
 call to #dyncode("listeq") is to be made on two lists of the type
 #stacode("list0(T)"). Note that the implementation for an instance of a
-function template is required to be present in the same file where the
+function template is required to be accessible from the file where the
 instance is called.\
 
 ")
@@ -546,7 +551,8 @@ a:t0p
 , eq: (a, a) -> bool
 ) : bool = (
   case+ (xs, ys) of
-  | (list0_cons (x, xs), list0_cons (y, ys)) => 
+  | (list0_cons (x, xs),
+     list0_cons (y, ys)) => 
       if eq (x, y) then listeqf (xs, ys, eq) else false
   | (list0_nil (), list0_nil ()) => true
   | (_, _) => false
@@ -564,7 +570,7 @@ makes pervasive use of specifically implemented templates.
 
 #para("\
 Please find the code presented in this section plus some additional
-testing code available #mycodelink("CHAPTER_MODULARITY/listeq.dats", "on-line").
+testing code available #mycodelink("CHAP_MODULARITY/listeq.dats", "on-line").
 ")
 
 </sect1><!--id="specific_template_implementation"-->

@@ -29,30 +29,77 @@
 (* ****** ****** *)
 //
 // HX-2013-10:
-// A simple mutex/condvar interface
+// A simple thread interface
+//
+(* ****** ****** *)
+//
+abst@ype
+thread_type = lint
+//
+typedef thread = thread_type
 //
 (* ****** ****** *)
 
-abstype mutex_type(v:view) = ptr
-typedef mutex(v:view) = mutex_type(v)
+absview mutex_v (l:addr)
 
 (* ****** ****** *)
 
-fun mutex_make{v:view} (pf: v | (*void*)): mutex (v)
-fun mutex_make_unlocked{v:view} ((*void*)): mutex (v)
+abstype mutex_type (l:addr) = ptr (l)
+typedef mutex (l:addr) = mutex_type (l)
+typedef mutex0 = [l:agez] mutex_type(l)
+typedef mutex1 = [l:addr | l > null] mutex_type(l)
 
 (* ****** ****** *)
 
-fun mutex_acquire{v:view} (mutex(v)): (v | (*void*))
-fun mutex_release{v:view} (pf: v | x: mutex(v)): void
+castfn
+mutex2ptr {l:addr} (mutex(l)):<> ptr (l)
+overload ptrcast with mutex2ptr
 
 (* ****** ****** *)
-
-abstype condvar_type = ptr
-typedef condvar = condvar_type
-
-fun condvar_wait{v:view} (pf: !v | cv: condvar, p: mutex (v)): void
-
+//
+fun mutex_create ((*void*)): mutex0
+//
+fun mutex_create_exn ((*void*)): mutex1
+//
+(* ****** ****** *)
+//
+fun
+mutex_lock{l:agz} (m: mutex(l)): (mutex_v (l) | void)
+fun
+mutex_trylock
+  {l:agz}(m: mutex(l)): [b:bool] (option_v(mutex_v(l), b) | bool(b))
+//
+fun
+mutex_unlock{l:agz} (pf: mutex_v(l) | m: mutex(l)): void
+//
+(* ****** ****** *)
+//
+abstype condvar_type(l:addr) = ptr(l)
+//
+typedef condvar (l:addr) = condvar_type(l)
+typedef condvar0 = [l:agez] condvar_type(l)
+typedef condvar1 = [l:addr | l > null] condvar_type(l)
+//
 (* ****** ****** *)
 
-(* end of [mutex.sats] *)
+castfn
+condvar2ptr {l:addr} (condvar(l)):<> ptr (l)
+overload ptrcast with condvar2ptr
+
+(* ****** ****** *)
+//
+fun condvar_create (): condvar0
+fun condvar_create_exn (): condvar1
+//
+fun
+condvar_signal{l:agz} (pf: !mutex_v (l) | cv: condvar1): void
+fun
+condvar_broadcast{l:agz} (pf: !mutex_v (l) | cv: condvar1): void
+//
+fun
+condvar_wait
+  {l:agz} (pf: !mutex_v (l) | cv: condvar1, p: mutex (l)): void
+//
+(* ****** ****** *)
+
+(* end of [mythread.sats] *)

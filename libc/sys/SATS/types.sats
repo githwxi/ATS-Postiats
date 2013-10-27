@@ -226,4 +226,11 @@ castfn susec2lint (x: suseconds_t):<> lint
 
 (* ****** ****** *)
 
+abst@ype
+pthread_t =
+$extype"atslib_pthread_type"
+castfn pthread2lint (x: pthread_t):<> lint
+
+(* ****** ****** *)
+
 (* end of [types.sats] *)
