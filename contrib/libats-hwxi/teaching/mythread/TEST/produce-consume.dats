@@ -127,10 +127,17 @@ fun sbuffer_release{a:vt0p} (sbuffer(INV(a)), buffer(a)): void
 //
 extern
 fun{a:vt0p}
+<<<<<<< HEAD
 sbuffer_insert (sbuffer(INV(a)), x: a): void
 extern
 fun{a:vt0p}
 sbuffer_takeout (sbuf: sbuffer(INV(a))): (a)
+=======
+sbuffer_insert (sbuffer(a), x: a): void
+extern
+fun{a:vt0p}
+sbuffer_takeout (sbuf: sbuffer(a)): (a)
+>>>>>>> 8ae9efe5ce65e8ea8654a99141de887e5656b037
 //
 (* ****** ****** *)
 
