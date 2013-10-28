@@ -649,9 +649,12 @@ The interface for the function #dyncode("string_test_at") is given as
 follows:
 
 #atscode("\
-fun string_test_at {n:int}
-  {i:nat | i <= n} (str: string n, i: size_t i)
-  : [c:char | (c != NUL && i < n) || (c == NUL && i >= n)] char c
+fun
+string_test_at
+  {n:int}{i:nat | i <= n}
+(
+  str: string (n), i: size_t (i)
+) : [c:char | (c != NUL && i < n) || (c == NUL && i >= n)] char c
 // end of [string_test_at]
 ")
 
