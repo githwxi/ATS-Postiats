@@ -67,6 +67,12 @@ allchap:: CHAP_CINTERACT
 allchap:: CHAP_DEPTYPES
 #
 ######
+#
+# PART IV
+#
+allchap:: CHAP_VVTINTRO
+#
+######
 
 CHAP_START:: ; \
   make -C CHAP_START -f ../Makefile.chap main.db
@@ -120,6 +126,13 @@ CHAP_DEPTYPES:: ; \
   make -C CHAP_DEPTYPES -f ../Makefile.chap main.db
 CHAP_DEPTYPES:: ; \
   make -C CHAP_DEPTYPES -f ../Makefile.chap clean
+
+######
+
+CHAP_VVTINTRO:: ; \
+  make -C CHAP_VVTINTRO -f ../Makefile.chap main.db
+CHAP_VVTINTRO:: ; \
+  make -C CHAP_VVTINTRO -f ../Makefile.chap clean
 
 ######
 

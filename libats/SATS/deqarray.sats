@@ -217,4 +217,21 @@ overload deqarray_getref_at with deqarray_getref_at_size
 //
 (* ****** ****** *)
 
+fun{
+a:vt0p}{env:vt0p
+} deqarray_foreach$cont (x: &a, env: &env): bool
+fun{
+a:vt0p}{env:vt0p
+} deqarray_foreach$fwork (x: &a >> _, env: &(env) >> _): void
+fun{
+a:vt0p
+} deqarray_foreach{m,n:int}
+  (deq: !deqarray (INV(a), m, n)): sizeLte(n)
+fun{
+a:vt0p}{env:vt0p
+} deqarray_foreach_env{m,n:int}
+  (deq: !deqarray (INV(a), m, n), env: &(env) >> _): sizeLte(n)
+
+(* ****** ****** *)
+
 (* end of [deqarray.sats] *)
