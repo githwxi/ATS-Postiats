@@ -5,7 +5,7 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload_tmpdef.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -13,14 +13,13 @@ sortdef nat = {a: int | a >= 0} // for natural numbers
 sortdef pos = {a: int | a >  0} // for positive numbers
 sortdef neg = {a: int | a <  0} // for negative numbers
 
-sortdef two = {a: int | 0 <= a; a <= 1} // for 0 or 1
-sortdef three = {a: int | 0 <= a; a <= 2} // for 0, 1 or 2
+sortdef nat1 = {a: nat | a < 1} // for 0
+sortdef nat2 = {a: nat | a < 2} // for 0, 1
+sortdef nat3 = {a: nat | a < 3} // for 0, 1, 2
+sortdef nat4 = {a: nat | a < 4} // for 0, 1, 2, 3
 
-sortdef two = {a: int | a == 0 || a == 1} // for 0 or 1
-sortdef three = {a: int | 0 <= a && a <= 2} // for 0, 1 or 2
-
-sortdef two = {a: nat | a <= 1} // for 0 or 1
-sortdef three = {a: nat | a <= 2} // for 0, 1 or 2
+sortdef nat2 = {a: int | a == 0 || a == 1} // for 0 or 1
+sortdef nat3 = {a: int | 0 <= a && a <= 2} // for 0, 1 or 2
 
 (* ****** ****** *)
 
@@ -75,7 +74,8 @@ fun string_isnot_atend
 // end of [string_isnot_atend]
 *)
 
-fun string_length{n:nat}
+fun
+string_length{n:nat}
   (str: string n): size_t n = let
   fun loop {i:nat | i <= n} .<n-i>.
     (str: string n, i: size_t i): size_t (n) =
@@ -107,36 +107,49 @@ fun string_find{n:nat}
 (
   str: string n, c0: char
 ) : Option (sizeLt n) = let
+  typedef res = sizeLt (n)
   fun loop{i:nat | i <= n}
   (
     str: string n, c0: char, i: size_t i
-  ) : Option (sizeLt n) =
+  ) : Option (res) =
+  (
     if string_isnot_atend (str, i) then
-      if (c0 = str[i]) then Some (i) else loop (str, c0, succ(i))
+      if (c0 = str[i]) then Some{res}(i) else loop (str, c0, succ(i))
     else None () // end of [if]
-  // end of [loop]
+  ) (* end of [loop] *)
 in
   loop (str, c0, i2sz(0))
 end // end of [string_find]
 
 (* ****** ****** *)
 
-fun string_find2{n:nat}
+extern
+fun string_test_at {n:int}
+  {i:nat | i <= n} (str: string n, i: size_t i)
+  : [c:int | (c != 0 && i < n) || (c == 0 && i >= n)] char c
+// end of [string_test_at]
+
+fun
+string_find2{n:nat}
 (
   str: string n, c0: char
 ) : Option (sizeLt n) = let
-  fun loop{i:nat | i <= n}
+//
+fun
+loop{i:nat | i <= n}
+(
+  str: string n
+, c0: char, i: size_t i
+) : Option (sizeLt n) = let
+  typedef res = sizeLt (n)
+  val c = string_test_at (str, i)
+in
+  if c != '\000' then
   (
-    str: string n, c0: char, i: size_t i
-  ) : Option (sizeLt n) = let
-    val (pf | c) = string_test_at (str, i)
-  in
-    if c != '\000' then let
-      prval string_index_p_neqz () = pf
-    in
-      if (c0 = c) then Some (i) else loop (str, c0, succ(i))
-    end else None () // end of [if]
-  end // end of [loop]
+    if (c0 = c) then Some{res}(i) else loop (str, c0, succ(i))
+  ) else None ((*void*)) // end of [if]
+end // end of [loop]
+//
 in
   loop (str, c0, i2sz(0))
 end // end of [string_find2]

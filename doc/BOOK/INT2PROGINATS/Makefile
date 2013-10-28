@@ -58,6 +58,7 @@ allchap:: CHAP_POLYMORPH
 #
 allchap:: CHAP_EFFECTFUL
 allchap:: CHAP_MODULARITY
+allchap:: CHAP_CINTERACT
 #
 ######
 #
@@ -105,6 +106,13 @@ CHAP_MODULARITY:: ; \
   make -C CHAP_MODULARITY -f ../Makefile.chap main.db
 CHAP_MODULARITY:: ; \
   make -C CHAP_MODULARITY -f ../Makefile.chap clean
+
+######
+
+CHAP_CINTERACT:: ; \
+  make -C CHAP_CINTERACT -f ../Makefile.chap main.db
+CHAP_CINTERACT:: ; \
+  make -C CHAP_CINTERACT -f ../Makefile.chap clean
 
 ######
 

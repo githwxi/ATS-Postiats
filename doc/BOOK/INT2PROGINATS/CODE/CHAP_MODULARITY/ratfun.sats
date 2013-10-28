@@ -53,7 +53,7 @@ intmod (a:t@ype) = '{
 , sub= (a, a) -> a // subtraction
 , mul= (a, a) -> a // multiplication
 , div= (a, a) -> a // division
-, mod= (a, a) -> a // modulo
+, mod= (a, a) -> a // modulo operation
 , cmp= (a, a) -> int // comparison
 } // end of [intmod]
 

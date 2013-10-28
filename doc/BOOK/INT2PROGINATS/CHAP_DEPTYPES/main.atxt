@@ -35,7 +35,646 @@ Please find #mycodelink("CHAP_DEPTYPES/", "on-line")
 the code employed for illustration in this chapter plus some additional
 code for testing.\
 
+")#comment("para")
+
+<!-- ****** ****** -->
+
+<sect1
+id="enhanced_expressiveness_for_specification">
+#title("Enhanced Expressiveness for Specification")
+
+#para("\
+
+The primary purpose of introducing dependent types into the type system of
+ATS is to greatly enhance the expressiveness of types so that they can be
+employed to capture program invariants with much greater precision.
+Generally speaking, dependent types are types dependent on values of
+expressions. For instance, #stacode("bool") is a type constructor in ATS
+that forms a type #stacode("bool(b)") when applied to a given boolean value
+b. As this type can only be assigned to a boolean expression of the value
+b, it is often referred to as a singleton type, that is, a type for exactly
+one value. Clearly, the meaning of #stacode("bool(b)") depends on the
+boolean value b.  Similarly, #stacode("int") is a type constructor in ATS
+that forms a type #stacode("int(i)") when applied to a given integer
+i. This type is also a singleton type as it can only be assigned to an
+integer expression of the value i. Please note that both #stacode("bool")
+and #stacode("int") are overloaded as they also refer to (non-dependent)
+types.  I will gradually introduce many other examples of dependent types.
+In particular, I will present a flexible means for the programmer to
+declare dependent datatypes.\
+
+")#comment("para")
+
+#para("\
+
+The statics of ATS is a simply-typed language, and the types in this
+language are called #emphasis("sorts") so as to avoid some
+potential confusion (with the types for dynamic terms). The following four
+listed sorts are commonly used:
+
+<itemizedlist>
+
+<listitem>
+#para("
+#emphasis("bool"): for static terms of boolean values
 ")
+</listitem>
+
+<listitem>
+#para("
+#emphasis("int"): for static terms of integer values
+")
+</listitem>
+
+<listitem>
+#para("
+#emphasis("type"): for static terms representing boxed types (for dynamic terms)
+")
+</listitem>
+
+<listitem>
+#para("
+#emphasis("t@ype"): for static terms representing unboxed types (for dynamic terms)
+")
+</listitem>
+
+</itemizedlist>
+
+The sorts #emphasis("bool") and #emphasis("int") are classified as
+predicative sorts while the sorts #emphasis("type") and #emphasis("t@ype")
+are impredicative. A boxed type is a static term of the sort
+#emphasis("type") while an unboxed type is a static term of the sort
+#emphasis("t@ype"). As types, #stacode("bool") and #stacode("int") are
+static terms of the sort #emphasis("t@ype"). As type constructors,
+#stacode("bool") and #stacode("int") are static terms of the sorts
+(#emphasis("bool -&gt; t@ype")) and (#emphasis("int -&gt; t@ype")),
+respectively.  Also note that the type constructor #stacode("list0") is of
+the sort (#emphasis("t@ype -&gt; type")), which indicates that
+#stacode("list0") forms a boxed type when applied to an unboxed one.  There
+are also various built-in static functions in ATS for constructing static
+terms of the sorts #emphasis("bool") and #emphasis("int"), and I list as
+follows some of these functions together with the sorts assigned to them:
+
+<itemizedlist>
+
+<listitem>
+#para("
+~ (integer negation): #emphasis("(int) -&gt; int")
+")
+</listitem>
+
+<listitem>
+#para("
++ (addition): #emphasis("(int, int) -&gt; int")
+")
+</listitem>
+
+<listitem>
+#para("
+- (subtraction): #emphasis("(int, int) -&gt; int")
+")
+</listitem>
+
+<listitem>
+#para("
+* (multiplication): #emphasis("(int, int) -&gt; int")
+")
+</listitem>
+
+<listitem>
+#para("
+/ (division): #emphasis("(int, int) -&gt; int")
+")
+</listitem>
+
+<listitem>
+#para("
+> (greater-than): #emphasis("(int, int) -&gt; bool")
+")
+</listitem>
+
+<listitem>
+#para("
+>= (greater-than-or-equal-to): #emphasis("(int, int) -&gt; bool")
+")
+</listitem>
+
+<listitem>
+#para("
+< (less-than): #emphasis("(int, int) -&gt; bool")
+")
+</listitem>
+
+<listitem>
+#para("
+<= (less-than-or-equal-to): #emphasis("(int, int) -&gt; bool")
+")
+</listitem>
+
+<listitem>
+#para("
+== (equal-to): #emphasis("(int, int) -&gt; bool")
+")
+</listitem>
+
+<listitem>
+#para("
+!= (not-equal-to): #emphasis("(int, int) -&gt; bool")
+")
+</listitem>
+
+<listitem>
+#para("
+<> (not-equal-to): #emphasis("(int, int) -&gt; bool")
+")
+</listitem>
+
+<listitem>
+#para("
+~ (boolean negation): #emphasis("(bool) -&gt; bool")
+")
+</listitem>
+
+<listitem>
+#para("
+|| (disjunction): #emphasis("(bool, bool) -&gt; bool")
+")
+</listitem>
+
+<listitem>
+#para("
+&& (conjunction) : #emphasis("(bool, bool) -&gt; bool")
+")
+</listitem>
+
+</itemizedlist>
+
+By combining a sort with one or more predicates, we can define a subset
+sort. For instance, the following subset sorts are defined in the file
+#myatscodelink("prelude/basics_pre.sats", "basics_pre.sats"), which is
+automatically loaded by the ATS compiler:
+
+#atscode("\
+sortdef nat = {a: int | a >= 0} // for natural numbers
+sortdef pos = {a: int | a > 0}  // for positive numbers
+sortdef neg = {a: int | a < 0}  // for negative numbers
+
+sortdef nat1 = {a: nat | a < 1} // for 0
+sortdef nat2 = {a: nat | a < 2} // for 0, 1
+sortdef nat3 = {a: nat | a < 3} // for 0, 1, 2
+sortdef nat4 = {a: nat | a < 4} // for 0, 1, 2, 3
+")
+
+Note that predicates can be sequenced together with the semicolon symbol
+(;).  It is also possible to define the subset sorts #emphasis("nat2") and
+#emphasis("nat3") as follows:
+
+#atscode("\
+sortdef nat2 = {a: int | a == 0 || a == 1} // for 0, 1
+sortdef nat3 = {a: int | 0 <= a && a <= 2} // for 0, 1, 2
+")
+
+Following is another commonly encoutered subset sort:
+
+#atscode("\
+sortdef sgn = { i:int | ~1 <= i; i <= 1 }
+")
+
+")#comment("para")
+
+<!-- ****** ****** -->
+
+#para("\
+In order to unleash the expressiveness of dependent types, we need
+to employ both universal and existential quantification over static
+variables. For instance, the type #stacode("Int") in ATS is defined as
+follows:
+
+#atscode("\
+typedef Int = [a:int] int (a) // for unspecified integers
+")
+
+where the syntax #stacode("[a:int]") means existential quantification over
+a static variable #stacode("a") of the sort
+#emphasis("int"). Essentially, this means that for each value of
+the type #stacode("Int"), there exists an integer I such that the value is
+of the type #stacode("int(I)"). Therefore, any value that can be given the
+type #stacode("int") can also be given the type #stacode("Int"). A type
+like #stacode("Int") is often referred to as an existentially quantified
+type.  As another example, the type #stacode("Nat") in ATS is defined as
+follows:
+
+#atscode("\
+typedef Nat = [a:int | a >= 0] int (a) // for natural numbers
+")
+
+where the syntax #stacode("[a:int | a >= 0]") means existential
+quantification over a static variable #stacode("a") of the sort
+#emphasis("int") that satisfies the constraint #stacode("a >= 0").
+Therefore, each value of the type #stacode("Nat") can be assigned the type
+#stacode("int(I)") for some integer I satisfying I >= 0. Given that
+#stacode("int(I)") is a singleton type, the value equals I and thus is a
+natural number. This means that the type #stacode("Nat") is for natural
+numbers. The definition of #stacode("Nat") can also be given as follows:
+
+#atscode("\
+typedef Nat = [a:nat] int (a) // for natural numbers
+")
+
+where the syntax #stacode("[a:nat]") is just a form of syntactic sugar that
+automatically expands into #stacode("[a:int | a >= 0]").\
+
+")#comment("para")
+
+#para("\
+At this point, types have already become much more expressive. For
+instance, we could only assign the type #stacode("(int) -&gt; int") to a
+function that maps integers to natural numbers (e.g., the function that
+computes the absolute value of a given integer), but we can now do better
+by assigning it the type #stacode("(Int) -&gt; Nat"), which is clearly more
+precise. In order to relate at the level of types the return value of a
+function to its arguments, we need universal quantification. For instance,
+the following universally quantified type is for a function that returns
+the successor of its integer argument:
+
+#atscode("\
+{i:int} int (i) -> int (i+1)
+")
+
+where the syntax #stacode("{i:int}") means universal quantification over a
+static variable #stacode("i") of the sort #stacode("int") and the scope
+of this quantification is the function type following it.  One may think
+that this function type is also a singleton type as the only function of
+this type is the successor function on integers. Actually, there are
+infinitely may partial functions that can be given this type as well.  For
+the successor function on natural numbers, we can use the following type:
+
+#atscode("\
+{i:int | i >= 0} int (i) -> int (i+1)
+")
+
+where the syntax #stacode("{i:int | i >= 0}") means universal
+quantification over a static variable #stacode("i") of the sort
+#emphasis("int") that satisfies the constraint #stacode("i >= 0").
+This type can also be written as follows:
+
+#atscode("\
+{i:nat} int (i) -> int (i+1)
+")
+
+where the syntax #stacode("{i:nat}") automatically expands into
+#stacode("{i:int | i >= 0}").  I list as follows the interfaces for some
+commonly used functions on integers:
+
+#atscode("\
+fun g1int_neg {i:int} (int i): int (~i) // negation
+fun g1int_add {i,j:int} (int i, int j): int (i+j) // addition
+fun g1int_sub {i,j:int} (int i, int j): int (i-j) // subtraction
+fun g1int_mul {i,j:int} (int i, int j): int (i*j) // multiplication
+fun g1int_div {i,j:int} (int i, int j): int (i/j) // division
+
+fun g1int_lt {i,j:int} (int i, int j): bool (i &lt; j) // less-than
+fun g1int_lte {i,j:int} (int i, int j): bool (i &lt;= j) // less-than-or-equal-to
+fun g1int_gt {i,j:int} (int i, int j): bool (i &gt; j) // greater-than
+fun g1int_gte {i,j:int} (int i, int j): bool (i &gt;= j) // greater-than-or-equal-to
+fun g1int_eq {i,j:int} (int i, int j): bool (i == j) // equal-to
+fun g1int_neq {i,j:int} (int i, int j): bool (i != j) // not-equal-to
+")
+
+These interfaces are all declared in the file
+#myatscodelink("prelude/SATS/integer.sats", "integer.sats"), which is
+automatically loaded by the ATS compiler. Note that
+the functions listed here can all be referred to by their
+standard names:
+~ for g1int_neg,
++ for g1int_add,
+- for g1int_sub,
+* for g1int_mul,
+/ for g1int_div,
+&lt; for g1int_lt,
+&lt;= for g1int_lte,
+&gt; for g1int_gt,
+&gt;= for g1int_gte,
+= for g1int_eq,
+!= for g1int_neq,
+&lt;&gt; for g1int_neq (most of the time).
+
+")#comment("para")
+
+#para("\
+
+It is now a proper moment for me to raise an interesting question: What
+does a dependently typed interface for the factorial function look like?
+After seeing the above examples, it is natural for one to expect something
+along the following line of thought:
+
+#atscode("\
+fun g1int_fact {i:nat} (i: int i): int (fact (i))
+")
+
+where #emphasis("fact") is a static version of the factorial function. The
+problem with this solution is that a static function like #emphasis("fact")
+cannot be defined in ATS.  The statics of ATS is a simply-typed language
+that does not allow any recursive means to be employed in the construction
+of static terms. This design is adopted primarily to ensure that the
+equality on static terms can be decided based on a practical algorithm. As
+typechecking involving dependent types essentially turns into verifying
+whether a set of equalities (and some built-in predicates) on static terms
+hold, such a design is of vital importance to the goal of supporting
+practical programming with dependent types.
+
+In order to assign an interface to the factorial function that precisely
+matches the definition of the function, we need to employ a mechanism in ATS
+for combining programming with theorem-proving.  This is a topic I will
+cover later.\
+
+")#comment("para")
+
+</sect1><!--id="enhanced_expressiveness_for_specification"-->
+
+<!-- ****** ****** -->
+
+<sect1
+id="constraint-solving_during_typechecking">
+#title("Constraint-Solving during Typechecking")
+
+#para("\
+
+
+Typechecking in ATS involves generating and solving constraints.
+As an example, the code below implements the well-known factorial
+function:
+
+#atscode("\
+fun
+fact{n:nat}
+  (x: int n): [r:nat] int r = if x > 0 then x * fact (x-1) else 1
+// end of [fact]
+")
+
+In this implementation, the function #dyncode("fact") is assigned the
+following type:
+
+#atscode("\
+{n:nat} int(n) -> [r:nat] int(r)
+")
+
+which means that #dyncode("fact") returns a natural number r when applied
+to a natural number n. When the code is typechecked, the following
+constraints need to be solved:
+
+<itemizedlist>
+
+<listitem>
+#para("
+For each natural number n, n &gt; 0 implies n - 1 &gt;= 0
+")
+</listitem>
+
+<listitem>
+#para("\
+For each natural number n and each natural number r#sub("1"), n &gt; 0 implies n * r#sub("1")&gt;= 0
+")
+</listitem>
+
+<listitem>
+#para("
+For each natural number n, 1 &gt;= 0 holds.
+")
+</listitem>
+
+</itemizedlist>
+
+The first constraint is generated due to the call #dyncode("fact(x-1)"),
+which requires that #dyncode("x-1") be a natural number. The second
+constraint is generated in order to verify that #dyncode("x * fact(x-1)")
+is a natural number under the assumption that #dyncode("fact(x-1)") is a
+natural number.  The third constraint is generated in order to verify that
+#dyncode("1") is a natural number.  The first and the third constraints can
+be readily solved by the constraint solver in ATS, which is based on the
+Fourier-Motzkin variable elimination method. However, the second constraint
+cannot be handled by the constraint solver as it is nonlinear: The
+constraint cannot be turned into a linear integer programming problem due
+to the occurrence of the nonlinear term (n*r#sub("1")).  While nonlinear
+constraints cannot be handled automatically by the constraint solver in
+ATS, the programmer can verify them by constructing proofs in ATS
+explicitly. I will cover the issue of explicit proof construction in an
+elaborated manner elsewhere.\
+
+")#comment("para")
+
+#para("\
+
+By default, the constraint-solver implemented for ATS/Postiats makes use of
+the standard arithmetic of infinite precision.  For the sake of efficiency,
+one may also choose to use machine-level arithmetic for solving integer
+constraints. Due to potential arithmetic overflow, results returned by the
+constraint-solver that uses machine-level arithmetic can be incorrect (but
+we have so far never knowingly encountered such a situation in practice).\
+
+")#comment("para")
+
+</sect1><!--id="constraint-solving_during_typechecking"-->
+
+<!-- ****** ****** -->
+
+<sect1
+id="example_string_processing">
+#title("Example: String Processing")
+
+#para("\
+
+A string in ATS is represented in the same manner as in C: It is sequence
+of adjacently stored non-null characters followed by the null character,
+and its length is the number of non-null characters in the sequence.
+Conventionally, such strings are often referred to as C-style strings,
+which are notoriously difficult to be processed safely (as indicated by so
+many bugs and breaches due to misusing such strings). As a matter of fact,
+ATS is the first practical programming language that I know can fully
+support safe processing of C-style strings. In ATS, #stacode("string") is a
+type constructor of the sort #emphasis("(int) -&gt; type").
+
+Given a static integer n, #stacode("string(n)") is the type for strings of
+the length n. Note that #stacode("string") also refers to a non-dependent
+type for strings of unspecified length, which is basically equivalent to
+the type #stacode("String") defined as follows:
+
+#atscode("\
+typedef String = [n:nat] string (n)
+")
+
+The following two functions are commonly used for traversing a given string:
+
+#atscode("\
+fun string_is_atend
+  {n:int} {i:nat | i <= n}
+  (str: string (n), i: size_t (i)): bool (i==n)
+// end of [string_is_atend]
+
+fun string_isnot_atend
+  {n:int} {i:nat | i <= n}
+  (str: string (n), i: size_t (i)): bool (i < n)
+// end of [string_isnot_atend]
+")
+
+Obviously, either one of them can be implemented based on the other. As an
+example, the following code implements a function that computes the length
+of a given string:
+
+#atscode("\
+fun
+string_length
+  {n:nat} (
+  str: string (n)
+) : size_t (n) = let
+  fun loop {i:nat | i <= n} .<n-i>.
+    (str: string n, i: size_t i): size_t (n) =
+    if string_isnot_atend (str, i) then loop (str, succ(i)) else i
+  // end of [loop]
+in
+  loop (str, i2sz(0))
+end // end of [string_length]
+")
+
+Note that the function #dyncode("loop") in the body of
+#dyncode("string_length") is defined tail-recursively, which can then be
+translated into a genuine loop in the generated C code.  Although this
+implementation of #dyncode("string_length") looks fairly plain right now,
+it was actually an exciting achievement in the pursuit of practical
+programming with dependent types.\
+
+")#comment("para")
+
+#para("\
+
+The following two functions are for accessing and updating characters
+stored in strings:
+
+#atscode("\
+typedef charNZ = [c:char | c <> '\\\\000'] char (c)
+
+fun
+string_get_at{n:int}
+  {i:nat | i < n} (str: string n, i: size_t i): charNZ
+overload [] with string_get_at
+
+fun
+string_set_char_at{n:int}
+  {i:nat | i < n} (str: string n, i: size_t i, c: charNZ): void
+overload [] with string_set_char_at
+")
+
+The type constructor #stacode("char") is of the sort
+#emphasis("(char) -&gt; t@ype"), which takes a static
+character c to form a singleton type #stacode("char(c)") for the only
+character equal to c. Thus, the type #stacode("charNZ") is for all non-null
+characters. The following defined function #dyncode("string_find")
+traverses a string from left to right to see whether a given character
+occurs in the string:
+
+#atscode("\
+//
+typedef
+sizeLt (n:int) = [i:nat | i < n] size_t (i)
+//
+fun string_find{n:nat}
+(
+  str: string n, c0: char
+) : Option (sizeLt n) = let
+  typedef res = sizeLt (n)
+  fun loop{i:nat | i <= n}
+  (
+    str: string n, c0: char, i: size_t i
+  ) : Option (res) =
+  (
+    if string_isnot_atend (str, i) then
+      if (c0 = str[i]) then Some{res}(i) else loop (str, c0, succ(i))
+    else None () // end of [if]
+  ) (* end of [loop] *)
+in
+  loop (str, c0, i2sz(0))
+end // end of [string_find]
+//
+")
+
+If the character #dyncode("c0") occurs in the string #dyncode("str"), then
+a value of the form #dyncode("Some(i)") is returned, when i refers to the
+position of the first occurrence of #dyncode("c0") (counting from left to
+right). Otherwise, the value #dyncode("None()") is returned.\
+
+")#comment("para")
+
+#para("\
+
+There is some inherent inefficiency in the implementation of
+#dyncode("string_find"): A given position #dyncode("i") is first checked to
+see if it is strictly less than the length of the string #dyncode("str") by
+calling #dyncode("string_isnot_atend"), and, if it is, the character stored
+at the position in the string is fetched by calling
+#dyncode("string_get_at"). These two function calls are merged into one in
+the following implementation:
+
+#atscode("\
+//
+// This implementation does the same as [string_find]
+// but should be more efficient.
+//
+fun
+string_find2{n:nat}
+(
+  str: string n, c0: char
+) : Option (sizeLt n) = let
+//
+fun
+loop{i:nat | i <= n}
+(
+  str: string n
+, c0: char, i: size_t i
+) : Option (sizeLt n) = let
+  typedef res = sizeLt (n)
+  val c = string_test_at (str, i)
+in
+  if c != '\\\\000' then
+  (
+    if (c0 = c) then Some{res}(i) else loop (str, c0, succ(i))
+  ) else None ((*void*)) // end of [if]
+end // end of [loop]
+//
+in
+  loop (str, c0, i2sz(0))
+end // end of [string_find2]
+")
+
+The interface for the function #dyncode("string_test_at") is given as
+follows:
+
+#atscode("\
+fun string_test_at {n:int}
+  {i:nat | i <= n} (str: string n, i: size_t i)
+  : [c:char | (c != NUL && i < n) || (c == NUL && i >= n)] char c
+// end of [string_test_at]
+")
+
+By checking the return value of a call to #dyncode("string_test_at"),
+we can readily tell whether the position #dyncode("i") is at the end of
+the string #dyncode("str").\
+
+")#comment("para")
+
+#para("\
+
+Handling strings safely and efficiently is a complicated matter in
+programming language design, and a great deal of information about a
+programming language can often be revealed by simply studying its treatment
+of strings. In ATS, properly processing C-style strings also makes
+essential use of linear types, which I will cover in another part of this
+book.\
+
+")#comment("para")
+
+</sect1><!--id="example_string_processing"-->
+
+<!-- ****** ****** -->
 
 </chapter>
 <!--id="introduction_to_dependent_types"-->
