@@ -30,6 +30,13 @@ fun buffer_isful{a:vt0p}
   {m,n:int} (!buffer (INV(a), m, n)): bool (m==n)
 
 (* ****** ****** *)
+
+(*
+fun{a:vt0p}
+buffer_make_nil{m:pos} (cap: int m): buffer (a, m, 0)
+*)
+
+(* ****** ****** *)
 //
 fun{a:vt0p}
 buffer_insert{m,n:int | n < m}
@@ -43,13 +50,6 @@ buffer_takeout{m,n:int | n > 0}
 //
 (* ****** ****** *)
 //
-fun{a:vt0p}
-buffer_insert2 (!buffer(INV(a)) >> _, x: a): void
-fun{a:vt0p}
-buffer_takeout2 (buf: !buffer (INV(a)) >> _): (a)
-//
-(* ****** ****** *)
-
 fun
 buffer_cond_wait_isnil
   {a:vt0p}{m:int} (!buffer(INV(a), m, 0) >> buffer (a)): void
@@ -62,16 +62,25 @@ buffer_cond_wait_isful
 (* ****** ****** *)
 //
 fun
-buffer_cond_signal_isnil{a:vt0p}{m,n:int} (!buffer (INV(a), m, n)): void
+buffer_cond_signal_isnil
+  {a:vt0p}{m,n:int} (!buffer (INV(a), m, n)): void
 fun
-buffer_cond_signal_isful{a:vt0p}{m,n:int} (!buffer (INV(a), m, n)): void
+buffer_cond_signal_isful
+  {a:vt0p}{m,n:int} (!buffer (INV(a), m, n)): void
+//
+(* ****** ****** *)
+//
+fun{a:vt0p}
+buffer_insert2 (!buffer(INV(a)) >> _, x: a): void
+fun{a:vt0p}
+buffer_takeout2 (buf: !buffer (INV(a)) >> _): (a)
 //
 (* ****** ****** *)
 //
 // HX: shared buffer
 //
 abstype
-sbuffer_type (a:vt@ype+) = ptr
+sbuffer_type (a:vt@ype) = ptr
 //
 typedef sbuffer (a:vt0p) = sbuffer_type (a)
 //
@@ -79,16 +88,21 @@ typedef sbuffer (a:vt0p) = sbuffer_type (a)
 //
 // HX: locking/unlocking a shared buffer
 //
-fun sbuffer_acquire{a:vt0p} (sbuffer(INV(a))): buffer (a)
-fun sbuffer_release{a:vt0p} (sbuffer(INV(a)), buffer(a)): void
-//
-(* ****** ****** *)
-//
-fun{a:vt0p}
-sbuffer_insert (sbuffer(INV(a)), x: a): void
-fun{a:vt0p}
-sbuffer_takeout (sbuf: sbuffer(INV(a))): (a)
+fun sbuffer_acquire{a:vt0p} (sbuf: sbuffer(a)): buffer (a)
+fun sbuffer_release{a:vt0p} (sbuf: sbuffer(a), buf: buffer(a)): void
 //
 (* ****** ****** *)
 
-(* end of [sbuffer.dats] *)
+fun{a:vt0p}
+sbuffer_make_nil (cap: intGte(1)): sbuffer (a)
+
+(* ****** ****** *)
+//
+fun{a:vt0p}
+sbuffer_insert (sbuffer(a), x: a): void // called by producer
+fun{a:vt0p}
+sbuffer_takeout (sbuf: sbuffer(a)): (a) // called by consumer
+//
+(* ****** ****** *)
+
+(* end of [sbuffer.sats] *)
