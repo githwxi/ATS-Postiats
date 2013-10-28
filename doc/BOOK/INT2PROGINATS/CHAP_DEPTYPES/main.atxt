@@ -679,6 +679,109 @@ book.\
 
 <!-- ****** ****** -->
 
+<sect1
+id="example_binary_search_on_arrays">
+#title("Example: Binary Search on Arrays")
+
+#para("\
+
+Given a type T (of the sort #emphasis("t@ype") and a static integer I
+(i.e., a static term of the sort #emphasis("int")), #stacode("array(T, I)")
+is a boxed type for arrays of size I in which each stored element is of the
+type T. Note that such arrays are without size information attached to
+them. The following interface is for a function template
+#dyncode("array_make_elt") that can be called to create an array (with no size
+information attached to it):
+
+#atscode("\
+fun{a:t@ype}
+array_make_elt{n:int} (asz: size_t n, elt: a): arrayref (a, n)
+")
+
+Given a static integer I, the type #stacode("size_t(I)") is a singleton
+type for the value of the type size_t in C that represents the integer
+equal to I. The function templates for reading from and writing to an array
+cell have the following interfaces:
+
+#atscode("\
+fun{a:t@ype}
+arrayref_get_at
+  {n:int}{i:nat | i < n} (A: arrayref (a, n), i: size_t i): a
+overload [] with arrayref_get_at
+
+fun{a:t@ype}
+arrayref_set_at
+  {n:int}{i:nat | i < n} (A: arrayref (a, n), i: size_t i, x: a): void
+overload [] with arrayref_set_at
+")
+
+Note that these two function templates do not incur any run-time
+array-bounds checking: The types assigned to them guarantee that each index
+used for array subscripting is always legal, that is, within the bounds of
+the array being subscripted.\
+
+")#comment("para")
+
+#para("\
+
+As a convincing example of practical programming with dependent types, the
+following code implements the standard binary search algorithms on an
+ordered array:
+
+#atscode("\
+fun{
+a:t@ype
+} bsearch_arr{n:nat}
+(
+  A: arrayref (a, n), n: int n, x0: a, cmp: (a, a) -> int
+) : int = let
+//
+fun loop
+  {i,j:int |
+   0 <= i; i <= j+1; j+1 <= n}
+(
+  A: arrayref (a, n), l: int i, u: int j
+) :<cloref1> int =
+(
+  if l <= u then let
+    val m = l + half (u - l)
+    val x = A[m]
+    val sgn = cmp (x0, x)
+  in
+    if sgn >= 0 then loop (A, m+1, u) else loop (A, l, m-1)
+  end else u // end of [if]
+) (* end of [loop] *)
+//
+in
+  loop (A, 0, n-1)
+end // end of [bsearch_arr]
+")
+
+The function #dyncode("loop") defined in the body of
+#dyncode("bsearch_arr") searches the segment of the array #dyncode("A")
+between the indices #dyncode("l") and #dyncode("u"), inclusively.  Clearly,
+the type assigned to #dyncode("loop") indicates that the integer values i
+and j of the arguments #dyncode("l") and #dyncode("u") must satisfy the
+precondition consisting of the constraints 0 <= i, i <= j+1, and j+1 <= n,
+where n is the size of the array being searched.  The progress we have made
+by introducing dependent types into ATS should be evident in this example:
+We can not only specify much more precisely than before but also enforce
+effectively the enhanced precision in specification.\
+
+")#comment("para")
+
+#para("\
+
+Please find #mycodelink("CHAP_DEPTYPES/bsearch_arr.dats", "on-line") the
+code employed for illustration in this section plus some additional code
+for testing.\
+
+")#comment("para")
+
+</sect1><!--id="example_binary_search_on_arrays"-->
+
+<!-- ****** ****** -->
+
 </chapter>
 <!--id="introduction_to_dependent_types"-->
 

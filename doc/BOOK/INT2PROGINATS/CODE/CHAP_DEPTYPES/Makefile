@@ -27,6 +27,11 @@ misc: misc_dats.c ; \
 
 ######
 
+bsearch_arr: bsearch_arr_dats.c ; \
+  $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+
+######
+
 %_dats.c: %.dats ; \
   $(PATSOPT) $(ATSCCFLAGS) -o $@ --dynamic $< || echo $@ ": ERROR!!!"
 
@@ -41,6 +46,7 @@ clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) misc
+cleanall:: ; $(RMF) bsearch_arr
 
 ######
 
