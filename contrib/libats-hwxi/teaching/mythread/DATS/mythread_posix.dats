@@ -46,7 +46,91 @@ staload "./../SATS/mythread.sats"
 staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
+//
+assume
+mutex_v (l:addr) = unit_v
+//
+(* ****** ****** *)
 
+implement
+mutex_create () = let
+//
+typedef
+pthread_mutex_t = $extype"pthread_mutex_t"
+///
+val (pfat, pfgc | p) = ptr_alloc<pthread_mutex_t> ()
+val err = $extfcall (int, "pthread_mutex_init", p, 0(*attr*))
+//
+in
+//
+if err = 0
+  then
+    $UN.castvwtp0{mutex1}((pfat, pfgc | p))
+  else let
+    val () = ptr_free (pfgc, pfat | p) in $UN.castvwtp0{mutex0}(0)
+  end // end of [else]
+//
+end // end of [mutex_create]
+  
+(* ****** ****** *)
+
+implement
+mutex_lock (mtx) = let
+//
+val err = $extfcall
+  (int, "pthread_mutex_lock", $UN.cast{ptr}(mtx))
+//
+(*
+val ((*void*)) = assertloc (err = 0)
+*)
+//
+in
+  (unit_v () | ())
+end // end of [mutex_lock]
+  
+(* ****** ****** *)
+  
+implement
+mutex_unlock
+  (pf | mtx) = let
+//
+prval unit_v () = pf
+//
+val err = $extfcall
+  (int, "pthread_mutex_unlock", $UN.cast{ptr}(mtx))
+//
+(*
+val ((*void*)) = assertloc (err = 0)
+*)
+//
+in
+  // nothing
+end // end of [mutex_unlock]
+
+(* ****** ****** *)
+
+implement
+condvar_create () = let
+//
+typedef
+pthread_cond_t = $extype"pthread_cond_t"
+//
+val (pfat, pfgc | p) = ptr_alloc<pthread_cond_t> ()
+val err = $extfcall (int, "pthread_cond_init", p, 0(*attr*))
+//
+in
+//
+if err = 0
+  then
+    $UN.castvwtp0{condvar1}((pfat, pfgc | p))
+  else let
+    val () = ptr_free (pfgc, pfat | p) in $UN.castvwtp0{condvar0}(0)
+  end // end of [else]
+//
+end // end of [condvar_create]
+
+(* ****** ****** *)
+  
 implement
 condvar_signal
   (pf | cvr) = let
@@ -56,7 +140,7 @@ val err = (
 ) (* end of [val] *)
 //
 (*
-val () = assertloc (err = 0)
+val ((*void*)) = assertloc (err = 0)
 *)
 //
 in
@@ -74,7 +158,7 @@ val err = (
 ) (* end of [val] *)
 //
 (*
-val () = assertloc (err = 0)
+val ((*void*)) = assertloc (err = 0)
 *)
 //
 in
