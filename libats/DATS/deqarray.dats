@@ -29,7 +29,7 @@
 
 (* Author: Hongwei Xi *)
 (* Authoremail: hwxi AT cs DOT bu DOT edu *)
-(* Start time: September, 2013 *)
+(* Start time: October, 2013 *)
 
 (* ****** ****** *)
   
@@ -54,7 +54,9 @@ deqarray_make_cap
   (cap) = deq where
 {
 //
-val A = arrayptr_make_uninitized<a> (cap)
+val cap1 = succ (cap)
+//
+val A = arrayptr_make_uninitized<a> (cap1)
 //
 val (pfat, pfgc | p) = ptr_alloc<deqarray_tsize> ()
 //
@@ -81,6 +83,74 @@ implement{a}
 deqarray_get_size (deq) = deqarray_get_size__tsz (deq, sizeof<a>)
 implement{a}
 deqarray_get_capacity (deq) = deqarray_get_capacity__tsz (deq, sizeof<a>)
+
+end // end of [local]
+
+(* ****** ****** *)
+//
+extern
+fun deqarray_get_ptrfrnt{a:vt0p}
+  {m,n:int} (deq: !deqarray (INV(a), m, n)):<> Ptr1 = "mac#%"
+extern
+fun deqarray_set_ptrfrnt{a:vt0p}
+  {m,n:int} (deq: !deqarray (INV(a), m, n), p: ptr):<!wrt> void = "mac#%"
+//
+extern
+fun deqarray_get_ptrrear{a:vt0p}
+  {m,n:int} (deq: !deqarray (INV(a), m, n)):<> Ptr1 = "mac#%"
+extern
+fun deqarray_set_ptrrear{a:vt0p}
+  {m,n:int} (deq: !deqarray (INV(a), m, n), p: ptr):<!wrt> void = "mac#%"
+//
+(* ****** ****** *)
+//
+extern
+fun{a:vt0p}
+deqarray_ptr_succ{m,n:int} (deq: !deqarray (INV(a), m, n), p: ptr):<> ptr
+extern
+fun{a:vt0p}
+deqarray_ptr_pred{m,n:int} (deq: !deqarray (INV(a), m, n), p: ptr):<> ptr
+//
+(* ****** ****** *)
+
+local
+
+in (* in of [local] *)
+
+implement{a}
+deqarray_insert_atbeg
+  {m,n} (deq, x0) = let
+//
+val p_rear = deqarray_get_ptrrear (deq)
+val p1_rear = deqarray_ptr_pred<a> (deq, p_rear)
+val ((*void*)) = $UN.ptr0_set<a> (p1_rear, x0)
+val ((*void*)) = deqarray_set_ptrrear (deq, p1_rear)
+//
+prval () = __assert (deq) where
+{
+extern praxi __assert (!deqarray (a, m, n) >> deqarray (a, m, n+1)): void
+} (* end of [prval] *)
+//
+in
+  // nothing
+end // end of [deqarray_insert_atbeg]
+
+implement{a}
+deqarray_insert_atend
+  {m,n} (deq, x0) = let
+//
+val p_frnt = deqarray_get_ptrfrnt (deq)
+val ((*void*)) = $UN.ptr0_set<a> (p_frnt, x0)
+val ((*void*)) = deqarray_set_ptrfrnt (deq, deqarray_ptr_succ<a> (deq, p_frnt))
+//
+prval () = __assert (deq) where
+{
+extern praxi __assert (!deqarray (a, m, n) >> deqarray (a, m, n+1)): void
+} (* end of [prval] *)
+//
+in
+  // nothing
+end // end of [deqarray_insert_atend]
 
 end // end of [local]
 

@@ -101,7 +101,7 @@ deqarray_make_ngc
   {l:addr}{m:int}
 (
   deqarray_tsize? @ l
-| ptr(l), arrayptr(a?, m), size_t(m), sizeof_t(a)
+| ptr(l), arrayptr(a?, m+1), size_t(m), sizeof_t(a)
 ) :<!wrt> (mfree_ngc_v (l) | deqarray (a, m, 0)) = "mac#%"
 
 (* ****** ****** *)
@@ -159,7 +159,14 @@ overload fprint with fprint_deqarray_sep
 (* ****** ****** *)
 
 fun{a:vt0p}
-deqarray_insert
+deqarray_insert_atbeg
+  {m,n:int | m > n}
+(
+  deq: !deqarray (INV(a), m, n) >> deqarray (a, m, n+1), x0: a
+) :<!wrt> void // endfun
+
+fun{a:vt0p}
+deqarray_insert_atend
   {m,n:int | m > n}
 (
   deq: !deqarray (INV(a), m, n) >> deqarray (a, m, n+1), x0: a
@@ -168,35 +175,28 @@ deqarray_insert
 (* ****** ****** *)
 
 fun{a:vt0p}
-deqarray_insert_opt{m:int}
-  (deq: !deqarray (INV(a), m) >> _, x0: a):<!wrt> Option_vt (a)
-// end of [deqarray_insert_opt]
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-deqarray_takeout
+deqarray_takeout_atbeg
   {m,n:int | n > 0}
-(
-  deq: !deqarray (INV(a), m, n) >> deqarray (a, m, n-1)
-) :<!wrt> (a) // endfun
+  (deq: !deqarray (INV(a), m, n) >> deqarray (a, m, n-1)):<!wrt> (a)
+// end of [deqarray_takeout_atbeg]
 
 fun{a:vt0p}
-deqarray_takeout_opt{m:int}
-  (deq: !deqarray (INV(a), m) >> _):<!wrt> Option_vt (a)
-// end of [deqarray_takeout_opt]
+deqarray_takeout_atend
+  {m,n:int | n > 0}
+  (deq: !deqarray (INV(a), m, n) >> deqarray (a, m, n-1)):<!wrt> (a)
+// end of [deqarray_takeout_atend]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-deqarray_getref_top
+deqarray_getref_atbeg
   {m,n:int | n > 0} (deq: !deqarray (INV(a), m, n)):<> cPtr1 (a)
-// end of [deqarray_getref_top]
+// end of [deqarray_getref_atbeg]
 
 fun{a:vt0p}
-deqarray_getref_bot
+deqarray_getref_atend
   {m,n:int | n > 0} (deq: !deqarray (INV(a), m, n)):<> cPtr1 (a)
-// end of [deqarray_getref_bot]
+// end of [deqarray_getref_atend]
 
 (* ****** ****** *)
 //
