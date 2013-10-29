@@ -65,10 +65,13 @@ var mydraw_html5_canvas2d =
     function (ptr, angle) {
         MyCanvas.contexts[ptr].rotate(angle);
     },
-
     atscntrb_libatshwxi_canvas2d_rect:
     function (ptr, xul, yul, width, height) {
         MyCanvas.contexts[ptr].rect(xul, yul, width, height);
+    },
+    atscntrb_libatshwxi_canvas2d_clearRect:
+    function (ptr, xul, yul, width, height) {
+        MyCanvas.contexts[ptr].clearRect(xul, yul, width, height);
     },
     atscntrb_libatshwxi_canvas2d_arc:
     function (ptr, xc, yc, rad, angle_beg, angle_end, CCW) {
