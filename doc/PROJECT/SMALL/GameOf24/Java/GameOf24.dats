@@ -38,6 +38,10 @@ staload JNI = "JNI/SATS/jni.sats"
 
 (* ****** ****** *)
 
+stadef jint = $JNI.jint
+
+(* ****** ****** *)
+
 stadef JNIEnvPtr = $JNI.JNIEnvPtr
 stadef jstring (l:addr) = $JNI.jstring(l)
 stadef jobject (l:addr) = $JNI.jobject(l)
@@ -50,7 +54,7 @@ stadef jobject (l:addr) = $JNI.jobject(l)
 extern
 fun JNI_play24{l:addr}
 (
-  env: !JNIEnvPtr, obj: !jobject l, n1: int, n2: int, n3: int, n4: int
+  env: !JNIEnvPtr, obj: !jobject l, n1: jint, n2: jint, n3: jint, n4: jint
 ) : void = "ext#Java_GameOf24_play24" // endfun
 
 (* ****** ****** *)

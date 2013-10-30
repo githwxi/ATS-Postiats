@@ -1,6 +1,6 @@
 (*
 ** A simple implementation of
-** Game-of-24 in ATS for use in Java
+** Game-of-24 in ATS for use in Objective-C
 *)
 
 (* ****** ****** *)
@@ -49,11 +49,6 @@ OBJC_GameOf24_play24
 (
   n1, n2, n3, n4
 ) = let
-//
-val n1 = $UN.cast{int}(n1)
-val n2 = $UN.cast{int}(n2)
-val n3 = $UN.cast{int}(n3)
-val n4 = $UN.cast{int}(n4)
 //
 val out = stdout_ref
 val res = play24 (n1, n2, n3, n4)
