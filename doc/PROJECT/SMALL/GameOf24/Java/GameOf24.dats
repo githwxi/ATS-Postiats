@@ -10,18 +10,22 @@
 #define ATS_DYNLOADFLAG 0
 //
 (* ****** ****** *)
-
-staload "../GameOf24.sats"
-
+//
+local
+#include "../GameOf24_card.dats"
+in (*nothing*) end
+//
+local
+#include "../GameOf24_cardset.dats"
+in (*nothing*) end
+//
+local
+#include "../GameOf24_solve.dats"
+in (*nothing*) end
+//
 (* ****** ****** *)
 
-local
-//
-#include "../GameOf24_card.dats"
-#include "../GameOf24_cardset.dats"
-#include "../GameOf24_solve.dats"
-//
-in (*nothing*) end
+staload "../GameOf24.sats"
 
 (* ****** ****** *)
 

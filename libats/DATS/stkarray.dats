@@ -58,7 +58,7 @@ val A = arrayptr_make_uninitized<a> (cap)
 //
 val (pfat, pfgc | p) = ptr_alloc<stkarray_tsize> ()
 //
-val (pfngc | stk) = stkarray_make_ngc (pfat | p, A, cap, sizeof<a>)
+val (pfngc | stk) = stkarray_make_ngc__tsz (pfat | p, A, cap, sizeof<a>)
 //
 prval ((*void*)) = mfree_gcngc_v_nullify (pfgc, pfngc)
 //

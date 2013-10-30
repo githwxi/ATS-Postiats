@@ -96,7 +96,7 @@ deqarray_make_cap
 (* ****** ****** *)
 
 fun
-deqarray_make_ngc
+deqarray_make_ngc__tsz
   {a:vt0p}
   {l:addr}{m:int}
 (

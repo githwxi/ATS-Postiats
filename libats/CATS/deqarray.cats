@@ -52,7 +52,7 @@ struct {
 
 ATSinline()
 atstype_ptr
-atslib_deqarray_make_ngc
+atslib_deqarray_make_ngc__tsz
 (
   atstype_ptr p
 , atstype_ptr A
@@ -69,7 +69,7 @@ atslib_deqarray_make_ngc
 //
   return p_deq ;
 //
-} // end of [atslib_deqarray_make_ngc]
+} // end of [atslib_deqarray_make_ngc__tsz]
 
 /* ****** ****** */
 

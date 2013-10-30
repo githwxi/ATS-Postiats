@@ -37,7 +37,10 @@ This package implements array-based linear stacks.
 (* ****** ****** *)
 
 #declnamesynop("stkarray_make_cap")
-#declnamesynop("stkarray_make_ngc")
+#declnamesynop("stkarray_make_ngc__tsz")
+
+(* ****** ****** *)
+
 #declnamesynop("stkarray_free_nil")
 
 (* ****** ****** *)

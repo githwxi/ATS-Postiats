@@ -71,7 +71,8 @@ stkarray_vtype (a:vt@ype+, m:int, n:int) = ptr
 stadef stkarray = stkarray_vtype
 //
 vtypedef
-stkarray (a:vt0p) = [m,n:int] stkarray_vtype (a, m, n)
+stkarray
+  (a:vt0p) = [m,n:int] stkarray_vtype (a, m, n)
 //
 (* ****** ****** *)
 
@@ -96,7 +97,7 @@ stkarray_make_cap
 (* ****** ****** *)
 
 fun
-stkarray_make_ngc
+stkarray_make_ngc__tsz
   {a:vt0p}
   {l:addr}{m:int}
 (

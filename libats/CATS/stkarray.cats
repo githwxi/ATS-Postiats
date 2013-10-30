@@ -51,7 +51,7 @@ struct {
 
 ATSinline()
 atstype_ptr
-atslib_stkarray_make_ngc
+atslib_stkarray_make_ngc__tsz
 (
   atstype_ptr p
 , atstype_ptr A
@@ -64,7 +64,7 @@ atslib_stkarray_make_ngc
   p_stk->stkarray_end = (char*)A + m * tsz ;
   p_stk->stkarray_cur = A ;
   return p_stk ;
-} // end of [atslib_stkarray_make_ngc]
+} // end of [atslib_stkarray_make_ngc__tsz]
 
 /* ****** ****** */
 

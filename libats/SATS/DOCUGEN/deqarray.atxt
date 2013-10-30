@@ -23,7 +23,7 @@ ATSLIB/libats/deqarray\
 
 #para("\
 
-This package implements array-based linear deques
+This package implements array-based linear double-ended queues (deques).
 
 ")
 
@@ -33,6 +33,57 @@ This package implements array-based linear deques
 
 #declnamesynop("deqarray")
 #declnamesynop("deqarray_vtype")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_deqarray_param")
+
+(* ****** ****** *)
+
+#declnamesynop("deqarray_make_cap")
+#declnamesynop("deqarray_make_ngc__tsz")
+
+(* ****** ****** *)
+
+#declnamesynop("deqarray_free_nil")
+
+(* ****** ****** *)
+
+#declnamesynop("deqarray_get_size")
+#declnamesynop("deqarray_get_capacity")
+
+(* ****** ****** *)
+
+#declnamesynop("deqarray_insert_atbeg")
+#declnamesynop("deqarray_insert_atbeg_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("deqarray_insert_atend")
+#declnamesynop("deqarray_insert_atend_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("deqarray_takeout_atbeg")
+#declnamesynop("deqarray_takeout_atbeg_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("deqarray_takeout_atend")
+#declnamesynop("deqarray_takeout_atend_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("deqarray_getref_at")
+#declnamesynop("deqarray_getref_at_int")
+#declnamesynop("deqarray_getref_at_size")
+
+(* ****** ****** *)
+
+#declnamesynop("deqarray_foreach")
+#declnamesynop("deqarray_foreach_env")
+#declnamesynop("deqarray_foreach$cont")
+#declnamesynop("deqarray_foreach$fwork")
 
 (* ****** ****** *)
 

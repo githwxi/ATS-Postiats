@@ -60,7 +60,7 @@ val A = arrayptr_make_uninitized<a> (cap1)
 //
 val (pfat, pfgc | p) = ptr_alloc<deqarray_tsize> ()
 //
-val (pfngc | deq) = deqarray_make_ngc (pfat | p, A, cap, sizeof<a>)
+val (pfngc | deq) = deqarray_make_ngc__tsz (pfat | p, A, cap, sizeof<a>)
 //
 prval ((*void*)) = mfree_gcngc_v_nullify (pfgc, pfngc)
 //
