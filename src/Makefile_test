@@ -131,6 +131,12 @@ libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/sllist.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/dllist.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/dllist.dats
 
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/stkarray.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/stkarray.dats
+
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/deqarray.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/deqarray.dats
+
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/ilist_prf.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/ilist_prf.dats
 

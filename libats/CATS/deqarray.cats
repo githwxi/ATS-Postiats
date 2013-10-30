@@ -206,7 +206,7 @@ atslib_deqarray_ptr_succ__tsz
   atslib_deqarray_struct *p_deq ;
   p_deq = (atslib_deqarray_struct*)p ;
   char *p1_elt = (char*)p_elt+tsz ;
-  return (p1_elt < p_deq->deqarray_end) ? p1_elt : p_deq->deqarray_beg ;
+  return (p1_elt < (char*)p_deq->deqarray_end) ? p1_elt : p_deq->deqarray_beg ;
 } // end of [atslib_deqarray_ptr_succ__tsz]
 
 ATSinline()
@@ -218,7 +218,8 @@ atslib_deqarray_ptr_pred__tsz
 ) {
   atslib_deqarray_struct *p_deq ;
   p_deq = (atslib_deqarray_struct*)p ;
-  return (p_elt > p_deq->deqarray_beg) ? (char*)p_elt-tsz : (char*)p_deq->deqarray_beg-tsz ;
+  char *p_beg = (char*)p_deq->deqarray_beg ;
+  return ((char*)p_elt > p_beg) ? (char*)p_elt-tsz : (char*)p_deq->deqarray_end-tsz ;
 } // end of [atslib_deqarray_ptr_pred__tsz]
 
 /* ****** ****** */
@@ -228,15 +229,27 @@ atstype_bool
 atslib_deqarray_is_full__tsz
   (atstype_ptr p, atstype_size tsz)
 {
+  atslib_deqarray_struct *p_deq ;
+  p_deq = (atslib_deqarray_struct*)p ;
 //
   void *p_frnt = p_deq->deqarray_frnt ;
   void *p_rear = p_deq->deqarray_rear ;
 //
   void *p1_frnt =
-  atslib_deqarray_ptr_succ__tsz(p, p_frnt, tsz)
+  atslib_deqarray_ptr_succ__tsz(p_deq, p_frnt, tsz) ;
 //
-  return (p1_frnt == p_rear ? atsbool_true : atsbool_false) ;
+  return (p1_frnt==p_rear ? atsbool_true : atsbool_false) ;
 } // end of [atslib_deqarray_is_full__tsz]
+
+#if(0)
+ATSinline()
+atstype_bool
+atslib_deqarray_isnot_full__tsz
+  (atstype_ptr p, atstype_size tsz)
+{
+  return (atslib_deqarray_is_full__tsz(p, tsz)) ? atsbool_false : atsbool_true ;
+} // end of [atslib_deqarray_isnot_full__tsz]
+#endif
 
 /* ****** ****** */
 

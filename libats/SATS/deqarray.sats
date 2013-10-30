@@ -71,7 +71,7 @@ deqarray_vtype (a:vt@ype+, m:int, n:int) = ptr
 stadef deqarray = deqarray_vtype
 //
 vtypedef
-deqarray (a:vt0p, m:int) = [n:int] deqarray_vtype (a, m, n)
+deqarray (a:vt0p) = [m,n:int] deqarray_vtype (a, m, n)
 //
 (* ****** ****** *)
 
@@ -83,7 +83,7 @@ deqarray_tsize = $extype"atslib_deqarray_struct"
 praxi
 lemma_deqarray_param
   {a:vt0p}{m,n:int}
-  (!deqarray (INV(a), m, m)): [m >= n; n >= 0] void
+  (!deqarray (INV(a), m, n)): [m >= n; n >= 0] void
 // end of [lemma_deqarray_param]
 
 (* ****** ****** *)
@@ -134,13 +134,11 @@ deqarray_isnot_nil
 //
 (* ****** ****** *)
 //
-fun
-deqarray_is_full
-  {a:vt0p}{m,n:int}
+fun{a:vt0p}
+deqarray_is_full{m,n:int}
   (deq: !deqarray (INV(a), m, n)):<> bool (m==n) = "mac#%"
-fun
-deqarray_isnot_full
-  {a:vt0p}{m,n:int}
+fun{a:vt0p}
+deqarray_isnot_full{m,n:int}
   (deq: !deqarray (INV(a), m, n)):<> bool (m > n) = "mac#%"
 //
 (* ****** ****** *)
@@ -148,11 +146,11 @@ deqarray_isnot_full
 fun{}
 fprint_deqarray$sep (out: FILEref): void
 fun{a:vt0p}
-fprint_deqarray{m:int}
-  (out: FILEref, q: !deqarray (INV(a), m)): void
+fprint_deqarray
+  (out: FILEref, q: !deqarray (INV(a))): void
 fun{a:vt0p}
-fprint_deqarray_sep{m:int}
-  (out: FILEref, q: !deqarray (INV(a), m), sep: string): void
+fprint_deqarray_sep
+  (out: FILEref, q: !deqarray (INV(a)), sep: string): void
 overload fprint with fprint_deqarray
 overload fprint with fprint_deqarray_sep
 
@@ -166,11 +164,23 @@ deqarray_insert_atbeg
 ) :<!wrt> void // endfun
 
 fun{a:vt0p}
+deqarray_insert_atbeg_opt
+  (deq: !deqarray (INV(a)) >> _, x0: a):<!wrt> Option_vt (a)
+// end of [deqarray_insert_atbeg_opt]
+
+(* ****** ****** *)
+
+fun{a:vt0p}
 deqarray_insert_atend
   {m,n:int | m > n}
 (
   deq: !deqarray (INV(a), m, n) >> deqarray (a, m, n+1), x0: a
 ) :<!wrt> void // endfun
+
+fun{a:vt0p}
+deqarray_insert_atend_opt
+  (deq: !deqarray (INV(a)) >> _, x0: a):<!wrt> Option_vt (a)
+// end of [deqarray_insert_atend_opt]
 
 (* ****** ****** *)
 
@@ -181,10 +191,22 @@ deqarray_takeout_atbeg
 // end of [deqarray_takeout_atbeg]
 
 fun{a:vt0p}
+deqarray_takeout_atbeg_opt
+  (deq: !deqarray (INV(a)) >> _):<!wrt> Option_vt (a)
+// end of [deqarray_takeout_atbeg_opt]
+
+(* ****** ****** *)
+
+fun{a:vt0p}
 deqarray_takeout_atend
   {m,n:int | n > 0}
   (deq: !deqarray (INV(a), m, n) >> deqarray (a, m, n-1)):<!wrt> (a)
 // end of [deqarray_takeout_atend]
+
+fun{a:vt0p}
+deqarray_takeout_atend_opt
+  (deq: !deqarray (INV(a)) >> _):<!wrt> Option_vt (a)
+// end of [deqarray_takeout_atend_opt]
 
 (* ****** ****** *)
 

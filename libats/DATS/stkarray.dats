@@ -123,8 +123,6 @@ end // end of [fprint_stkarray_sep]
 
 (* ****** ****** *)
 
-local
-
 extern fun
 stkarray_get_ptrcur{a:vt0p}
   {m,n:int} (stk: !stkarray (INV(a), m, n)):<> ptr = "mac#%"
@@ -134,7 +132,7 @@ stkarray_set_ptrcur{a:vt0p}
   {m,n:int} (stk: !stkarray (INV(a), m, n), ptr):<!wrt> void = "mac#%"
 // end of [stkarray_set_ptrcur]
 
-in (* in of [local] *)
+(* ****** ****** *)
 
 implement{a}
 stkarray_insert
@@ -156,6 +154,22 @@ end // end of [stkarray_insert]
 (* ****** ****** *)
 
 implement{a}
+stkarray_insert_opt
+  (stk, x0) = let
+//
+val isnot = stkarray_isnot_full (stk)
+//
+in
+//
+if isnot then let
+  val () = stkarray_insert (stk, x0) in None_vt()
+end else Some_vt{a}(x0)
+//
+end // end of [stkarray_insert_opt]
+
+(* ****** ****** *)
+
+implement{a}
 stkarray_takeout
   {m,n} (stk) = x0 where
 {
@@ -171,24 +185,6 @@ extern praxi __assert (!stkarray (a, m, n) >> stkarray (a, m, n-1)): void
 } (* end of [prval] *)
 //
 } // end of [stkarray_takeout]
-
-end // end of [local]
-
-(* ****** ****** *)
-
-implement{a}
-stkarray_insert_opt
-  (stk, x0) = let
-//
-val isnot = stkarray_isnot_full (stk)
-//
-in
-//
-if isnot then let
-  val () = stkarray_insert (stk, x0) in None_vt()
-end else Some_vt{a}(x0)
-//
-end // end of [stkarray_insert_opt]
 
 (* ****** ****** *)
 

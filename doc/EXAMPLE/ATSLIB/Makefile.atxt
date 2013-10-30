@@ -144,7 +144,14 @@ RMF=rm -f
 #make2_entry("libats_qlist", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libats_sllist", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libats_dllist", "-DATS_MEMALLOC_LIBC", "")
+
+######
+
 #make2_entry("libats_stkarray", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_deqarray", "-DATS_MEMALLOC_LIBC", "")
+
+######
+
 #make2_entry("libats_dynarray", "-DATS_MEMALLOC_LIBC", "")
 
 ######

@@ -69,10 +69,6 @@ var mydraw_html5_canvas2d =
     function (ptr, xul, yul, width, height) {
         MyCanvas.contexts[ptr].rect(xul, yul, width, height);
     },
-    atscntrb_libatshwxi_canvas2d_clearRect:
-    function (ptr, xul, yul, width, height) {
-        MyCanvas.contexts[ptr].clearRect(xul, yul, width, height);
-    },
     atscntrb_libatshwxi_canvas2d_arc:
     function (ptr, xc, yc, rad, angle_beg, angle_end, CCW) {
         MyCanvas.contexts[ptr].arc(xc, yc, rad, angle_beg, angle_end, CCW);
@@ -96,6 +92,11 @@ var mydraw_html5_canvas2d =
     function (ptr, string) {
         var style = Pointer_stringify(string);
         MyCanvas.contexts[ptr].strokeStyle = style;
+    },
+
+    atscntrb_libatshwxi_canvas2d_clearRect:
+    function (ptr, xul, yul, width, height) {
+        MyCanvas.contexts[ptr].clearRect(xul, yul, width, height);
     },
 
     atscntrb_libatshwxi_canvas2d_save:
