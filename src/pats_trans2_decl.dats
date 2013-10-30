@@ -2077,10 +2077,17 @@ case+ d1c0.d1ecl_node of
     s1taload_tr
       (loc0, idopt, fil, loadflag, d1cs, loaded)
 //
-    val () = {
-      val d2cs = filenv_get_d2eclist (fenv)
-      val ((*void*)) = overload_tr_d2eclist (d2cs)
-    } (* end of [if] *)
+// HX-2013-10-30:
+// Overloading declarations cannot permeate a NAMED namespace!!!
+//
+    val () = (
+    case+ idopt of
+    | None () => {
+        val d2cs = filenv_get_d2eclist (fenv)
+        val ((*void*)) = overload_tr_d2eclist (d2cs)
+      } (* end of [None] *)
+    | Some id => ()
+    ) (* end of [val] *)
 //
   in
     d2ecl_staload (loc0, idopt, fil, loadflag, fenv, loaded)

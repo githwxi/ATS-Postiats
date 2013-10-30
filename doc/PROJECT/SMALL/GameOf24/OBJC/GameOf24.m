@@ -1,6 +1,8 @@
 //
 #import <stdio.h>
 //
+// implemented in ATS
+//
 extern
 void
 OBJC_GameOf24_play24

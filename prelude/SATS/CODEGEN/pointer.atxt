@@ -100,7 +100,6 @@ fun sub_ptr0_bsz
 overload add_ptr_bsz with add_ptr0_bsz of 0
 overload sub_ptr_bsz with sub_ptr0_bsz of 0
 //
-
 #atscode_separator()
 
 fun sub_ptr0_ptr0
