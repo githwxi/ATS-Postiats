@@ -36,14 +36,20 @@ mi_t months[] = {
 #define nr_of_months (sizeof(months)/sizeof(struct mi))
 %}
 
+(* ****** ****** *)
+
 typedef mi =
   $extype_struct "mi_t" of { nr= int, name= string }
 // end of [typedef]
+
+(* ****** ****** *)
 
 stacst N: int
 val months = $extval (arrayref (mi, N), "months")
 val nr_of_months = $extval (int(N), "nr_of_months")
 val () = assertloc (nr_of_months = 12)
+
+(* ****** ****** *)
 
 fn mi_init (
   mi: &mi? >> _
@@ -83,6 +89,13 @@ in
 end // end of [if]
 //
 end // end of [name2nr]
+
+(* ****** ****** *)
+//
+// How to test:
+// ./stdlib_bsearch.exe jan feb mar apr may jun jul aug sep oct nov dec
+//
+(* ****** ****** *)
 
 implement
 main {n} (
