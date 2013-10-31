@@ -100,8 +100,15 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#define atslib_qsort qsort
-\#define atslib_bsearch bsearch
+\#define \\
+atslib_qsort(base, nmemb, size, compar) \\
+  qsort(base, nmemb, size, (void*)compar)
+
+#atscode_separator_for_C()
+
+\#define \\
+atslib_bsearch(key, base, nmemb, size, compar) \\
+  bsearch(key, base, nmemb, size, (void*)compar)
 
 #atscode_separator_for_C()
 

@@ -148,6 +148,14 @@ clean:: ; $(RMF) sllist_mapfree_dats.o
 clean:: ; $(RMF) sllist_mapfree_dats.c
 cleanall:: ; $(RMF) sllist_mapfree sllist_mapfree.exe
 
+all:: stdlib_bsearch
+stdlib_bsearch: stdlib_bsearch.exe
+stdlib_bsearch.exe: stdlib_bsearch_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+stdlib_bsearch_dats.c: stdlib_bsearch.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output stdlib_bsearch_dats.c --dynamic stdlib_bsearch.dats
+clean:: ; $(RMF) stdlib_bsearch_dats.o
+clean:: ; $(RMF) stdlib_bsearch_dats.c
+cleanall:: ; $(RMF) stdlib_bsearch stdlib_bsearch.exe
+
 all:: strmat
 strmat: strmat.exe
 strmat.exe: strmat_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 

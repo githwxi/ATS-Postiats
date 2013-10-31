@@ -23,12 +23,18 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 
 Here is a list of major additions and changes since the last release:
 
-1. Fixing a glitch in the support for ATS_DYNLOADFLAG (reported by MD)
+1. Fixing a glitch in handling ATS_DYNLOADFLAG (bug-2013-10-11)
 
 2. Adding -D_ATS_EXCEPTION_NONE support for eliminating the code in the
    run-time of ATS2 that are exception-related.
 
-3. Fixing a glitch in proof-assignment compilation.
+3. Fixing a glitch in proof-assignment compilation (reported by MD)
+
+4. Allowing overloading declarations to permeates OPENED namespace.
+
+5. Fixing a glitch in handling overloading (bug-2013-10-30 reported by WB)
+
+6. Fixing a glitch in handling flat arrays (bug-2013-10-30-2 reported by WB)
 
 </pre>
 

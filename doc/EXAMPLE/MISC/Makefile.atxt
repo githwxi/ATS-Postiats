@@ -106,6 +106,7 @@ RMF=rm -f
 #make2_entry("readdirall", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 #make2_entry("sieve", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("sllist_mapfree", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("stdlib_bsearch", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("strmat", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("wclines", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 
