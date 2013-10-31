@@ -5,15 +5,25 @@
 ######
 
 all: \
-  config.h \
+  config.mk \
   bin2_patsopt \
   bin_patscc \
   ccomp/atslib/lib/libatslib.a \
 
 ######
 
-config.h : ; ./configure
+configure : ; /bin/bash autogen.sh
 
+######
+#
+# HX: this seems to be working
+#
+# config.mk : configure ; ./configure
+#
+#######
+#
+config.mk : configure ; echo "Please execute './configure'." ; exit 1 ;
+#
 ######
 
 src_patsopt: ; make -j4 -C src patsopt
