@@ -1,6 +1,8 @@
 (*
-** Overloading bug
-** reported by Will Blair
+** Bug in handling overloading
+*)
+(*
+** Source: reported by Will Blair
 *)
 
 (*
@@ -16,7 +18,9 @@
 //
 (* ****** ****** *)
 
-overload + with add_ptr_bsz of 20
+overload + with add_ptr_bsz of 20 // HX: this is now needed
+
+(* ****** ****** *)
 
 fun{a:t@ype}
 loop {n:nat} {l:addr} (
@@ -35,7 +39,7 @@ if n = 0
     loop (pftail | p + sizeof<a>, pred (n));
     pf := array_v_cons {a} (pfh, pftail);
   end
-)
+) (* end of [loop] *)
 
 (* ****** ****** *)
 

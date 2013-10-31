@@ -2395,16 +2395,21 @@ case+ xys of
     val hse = xy.0
     val pml = xy.1
 //
-    var hse: hisexp = hse
-    var pmv: primval = pmv
+(*
+    val () = fprintln! (stdout_ref, "auxmain: hse = ", hse)
+    val () = fprintln! (stdout_ref, "auxmain: pml = ", pml)
+*)
+//
+    var hse2: hisexp = hse
+    var pmv2: primval = pmv
     val () = (
       case+
         hse.hisexp_node of
       | HSEtyarr
           (hse_elt, _) => {
-          val () = hse := hse_elt
+          val () = hse2 := hse_elt
           val () =
-            pmv := primval_ptrof (pmv.primval_loc, hisexp_typtr, pmv)
+            pmv2 := primval_ptrof (pmv.primval_loc, hisexp_typtr, pmv)
           // end of [val]
         } // end of [HSEtyarr]
       | _ => () // end of [_]
@@ -2432,10 +2437,10 @@ case+ xys of
       // end of [if]
     ) : void // end of [val]
 //
-    val () = auxmain (out, knd, pmv, hse_rt, xys, i + 1)
+    val () = auxmain (out, knd, pmv2, hse_rt, xys, i + 1)
 //
     val () = emit_text (out, ", ")
-    val () = emit_hisexp_sel (out, hse)
+    val () = emit_hisexp_sel (out, hse2)
     val () = emit_text (out, ", ")
     val extknd = hisexp_get_extknd (hse)
     val () = emit_primlab (out, extknd, pml)

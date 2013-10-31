@@ -4,16 +4,17 @@
 
 (* ****** ****** *)
 //
-#include "share/atspre_staload.hats"
+#include
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload
-TYPES = "libc/sys/SATS/types.sats"
+staload "libc/sys/SATS/types.sats"
 
 (* ****** ****** *)
 
