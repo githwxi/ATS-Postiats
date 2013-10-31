@@ -200,7 +200,23 @@ pointer requires great caution. ')
 (* ****** ****** *)
 
 #declnamesynop("list_vt_insert_at")
-#declnamesynop("list_vt_remove_at")
+#decldescrpt('\
+
+Given a linear list xs of length n, a natural number i <= n, and an element
+x, this inserts x into xs immediately after the first i elements so that x
+becomes element i+1 in the returned list.\
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt_takeout_at")
+#decldescrpt('\
+
+Given a linear list xs of length n and a natural number i < n, this function
+takes out element i from xs.\
+
+')
 
 (* ****** ****** *)
 
