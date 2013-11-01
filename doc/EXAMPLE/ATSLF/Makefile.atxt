@@ -21,7 +21,7 @@ fun make_entry
 val ent = sprintf ("\
 all:: %s\n\
 %s:: %s.dats ; \
-  $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --typecheck --dynamic %s.dats\n\
+  $(PATSCC) -IATS$(PATSHOMEQ)/contrib -tcats %s.dats\n\
 ", @(nm, nm, nm, nm)
 ) // end of [val]
 //
@@ -42,16 +42,12 @@ end // end of [make_entry]
 
 ######
 
-ATSHOMEQ="$(ATSHOME)"
-ATSCC=$(ATSHOMEQ)/bin/atscc
-ATSOPT=$(ATSHOMEQ)/bin/atsopt
-ATSDOC=$(ATSHOMEQ)/bin/atsdoc
+PATSHOMEQ="$(PATSHOME)"
 
 ######
 
-GCC=gcc
-PATSHOMEQ="$(PATSHOME)"
-PATSOPT=$(PATSHOMEQ)/src/patsopt
+PATSCC=$(PATSHOMEQ)/bin/patscc
+PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 

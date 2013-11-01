@@ -9,16 +9,12 @@
 
 ######
 
-ATSHOMEQ="$(ATSHOME)"
-ATSCC=$(ATSHOMEQ)/bin/atscc
-ATSOPT=$(ATSHOMEQ)/bin/atsopt
-ATSDOC=$(ATSHOMEQ)/bin/atsdoc
+PATSHOMEQ="$(PATSHOME)"
 
 ######
 
-GCC=gcc
-PATSHOMEQ="$(PATSHOME)"
-PATSOPT=$(PATSHOMEQ)/src/patsopt
+PATSCC=$(PATSHOMEQ)/bin/patscc
+PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
@@ -31,43 +27,43 @@ RMF=rm -f
 ######
 
 all:: Ackermann
-Ackermann:: Ackermann.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --typecheck --dynamic Ackermann.dats
+Ackermann:: Ackermann.dats ;   $(PATSCC) -IATS$(PATSHOMEQ)/contrib -tcats Ackermann.dats
 
 all:: BinaryTreeLemmas
-BinaryTreeLemmas:: BinaryTreeLemmas.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --typecheck --dynamic BinaryTreeLemmas.dats
+BinaryTreeLemmas:: BinaryTreeLemmas.dats ;   $(PATSCC) -IATS$(PATSHOMEQ)/contrib -tcats BinaryTreeLemmas.dats
 
 all:: CPS
-CPS:: CPS.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --typecheck --dynamic CPS.dats
+CPS:: CPS.dats ;   $(PATSCC) -IATS$(PATSHOMEQ)/contrib -tcats CPS.dats
 
 all:: CutElimIL
-CutElimIL:: CutElimIL.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --typecheck --dynamic CutElimIL.dats
+CutElimIL:: CutElimIL.dats ;   $(PATSCC) -IATS$(PATSHOMEQ)/contrib -tcats CutElimIL.dats
 
 all:: CutElimILL
-CutElimILL:: CutElimILL.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --typecheck --dynamic CutElimILL.dats
+CutElimILL:: CutElimILL.dats ;   $(PATSCC) -IATS$(PATSHOMEQ)/contrib -tcats CutElimILL.dats
 
 all:: HilbertCalc
-HilbertCalc:: HilbertCalc.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --typecheck --dynamic HilbertCalc.dats
+HilbertCalc:: HilbertCalc.dats ;   $(PATSCC) -IATS$(PATSHOMEQ)/contrib -tcats HilbertCalc.dats
 
 all:: infprime
-infprime:: infprime.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --typecheck --dynamic infprime.dats
+infprime:: infprime.dats ;   $(PATSCC) -IATS$(PATSHOMEQ)/contrib -tcats infprime.dats
 
 all:: irrationality-of-sqrt2
-irrationality-of-sqrt2:: irrationality-of-sqrt2.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --typecheck --dynamic irrationality-of-sqrt2.dats
+irrationality-of-sqrt2:: irrationality-of-sqrt2.dats ;   $(PATSCC) -IATS$(PATSHOMEQ)/contrib -tcats irrationality-of-sqrt2.dats
 
 all:: KolmogorovTrans
-KolmogorovTrans:: KolmogorovTrans.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --typecheck --dynamic KolmogorovTrans.dats
+KolmogorovTrans:: KolmogorovTrans.dats ;   $(PATSCC) -IATS$(PATSHOMEQ)/contrib -tcats KolmogorovTrans.dats
 
 all:: naive-set
-naive-set:: naive-set.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --typecheck --dynamic naive-set.dats
+naive-set:: naive-set.dats ;   $(PATSCC) -IATS$(PATSHOMEQ)/contrib -tcats naive-set.dats
 
 all:: PHP
-PHP:: PHP.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --typecheck --dynamic PHP.dats
+PHP:: PHP.dats ;   $(PATSCC) -IATS$(PATSHOMEQ)/contrib -tcats PHP.dats
 
 all:: SMI
-SMI:: SMI.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --typecheck --dynamic SMI.dats
+SMI:: SMI.dats ;   $(PATSCC) -IATS$(PATSHOMEQ)/contrib -tcats SMI.dats
 
 all:: STLC-SN-foas
-STLC-SN-foas:: STLC-SN-foas.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --typecheck --dynamic STLC-SN-foas.dats
+STLC-SN-foas:: STLC-SN-foas.dats ;   $(PATSCC) -IATS$(PATSHOMEQ)/contrib -tcats STLC-SN-foas.dats
 
 
 ######
