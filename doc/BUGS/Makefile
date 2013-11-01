@@ -51,6 +51,13 @@ cleanall:: ; $(RMF) bug-2013-10-11_dats.c
 
 ######
 
+all:: bug-2013-10-11-2
+bug-2013-10-11-2: \
+  bug-2013-10-11-2.dats ; $(PATSCC) -o $@ -DATS_MEMALLOC_LIBC $<
+cleanall:: ; $(RMF) bug-2013-10-11-2
+
+######
+
 all:: bug-2013-10-30
 bug-2013-10-30: \
   bug-2013-10-30.dats ; $(PATSCC) -ccats -DATS_MEMALLOC_LIBC $<
