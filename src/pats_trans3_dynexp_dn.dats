@@ -427,6 +427,9 @@ case+ s2e0.s2exp_node of
 //
     val d3e_body = d2exp_trdn (d2e_body, s2e_res)
 //
+    val () = the_d2varenv_check (loc0)
+    val () = if lin > 0 then the_d2varenv_check_llam (loc0)
+//
     val () = the_effenv_pop (pfeff | (*none*))
     val () = the_d2varenv_pop (pfd2v | (*none*))
     val () = the_pfmanenv_pop (pfman | (*none*))
