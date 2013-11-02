@@ -2396,6 +2396,7 @@ case+ xys of
     val pml = xy.1
 //
 (*
+    val () = fprintln! (stdout_ref, "auxmain: pmv = ", pmv)
     val () = fprintln! (stdout_ref, "auxmain: hse = ", hse)
     val () = fprintln! (stdout_ref, "auxmain: pml = ", pml)
 *)
@@ -2408,11 +2409,13 @@ case+ xys of
       | HSEtyarr
           (hse_elt, _) => {
           val () = hse2 := hse_elt
+          val islast = list_vt_is_nil (xys)
           val () =
+          if islast then (
             pmv2 := primval_ptrof (pmv.primval_loc, hisexp_typtr, pmv)
-          // end of [val]
+          ) // end of if // end of [val]
         } // end of [HSEtyarr]
-      | _ => () // end of [_]
+      | _(*HSEtyrec*) => () // end of [_]
     ) : void // end of [val]
 //
     var issin: bool = false
@@ -2437,7 +2440,7 @@ case+ xys of
       // end of [if]
     ) : void // end of [val]
 //
-    val () = auxmain (out, knd, pmv2, hse_rt, xys, i + 1)
+    val () = auxmain (out, knd, pmv2, hse_rt, xys, i+1)
 //
     val () = emit_text (out, ", ")
     val () = emit_hisexp_sel (out, hse2)

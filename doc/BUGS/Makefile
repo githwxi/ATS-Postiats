@@ -45,30 +45,32 @@ cleanall:: ; $(RMF) bug-2013-10-09
 ######
 
 all:: bug-2013-10-11
-bug-2013-10-11: \
-  bug-2013-10-11.dats ; $(PATSCC) -ccats -DATS_MEMALLOC_LIBC $<
+bug-2013-10-11: bug-2013-10-11.dats ; $(PATSCC) -ccats $<
 cleanall:: ; $(RMF) bug-2013-10-11_dats.c
 
 ######
 
 all:: bug-2013-10-11-2
-bug-2013-10-11-2: \
-  bug-2013-10-11-2.dats ; $(PATSCC) -o $@ -DATS_MEMALLOC_LIBC $<
+bug-2013-10-11-2: bug-2013-10-11-2.dats ; $(PATSCC) -o $@ $<
 cleanall:: ; $(RMF) bug-2013-10-11-2
 
 ######
 
 all:: bug-2013-10-30
-bug-2013-10-30: \
-  bug-2013-10-30.dats ; $(PATSCC) -ccats -DATS_MEMALLOC_LIBC $<
+bug-2013-10-30: bug-2013-10-30.dats ; $(PATSCC) -ccats $<
 cleanall:: ; $(RMF) bug-2013-10-30_dats.c
 
 ######
 
 all:: bug-2013-10-30-2
-bug-2013-10-30-2: \
-  bug-2013-10-30-2.dats ; $(PATSCC) -o $@ -DATS_MEMALLOC_LIBC $<
+bug-2013-10-30-2: bug-2013-10-30-2.dats ; $(PATSCC) -o $@ $<
 cleanall:: ; $(RMF) bug-2013-10-30-2
+
+######
+
+all:: bug-2013-11-01
+bug-2013-11-01: bug-2013-11-01.dats ; $(PATSCC) -o $@ $<
+cleanall:: ; $(RMF) bug-2013-11-01
 
 ######
 
