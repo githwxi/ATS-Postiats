@@ -9,15 +9,21 @@
 *)
 
 (* ****** ****** *)
-
-#include "share/atspre_staload.hats"
-
+//
+// Ported to ATS2 by WB-2013-11-01
+//
+(* ****** ****** *)
+//
+#include
+"share/atspre_staload.hats"
+//
 staload "libc/SATS/math.sats"
 staload _ = "libc/DATS/math.dats"
-
+//
 (* ****** ****** *)
 
-typedef planet = @{
+typedef
+planet = @{
   x= double, y= double, z= double
 , vx= double, vy= double, vz= double
 , mass= double
@@ -165,29 +171,28 @@ sta l_theBodies: addr
 extern prval pfbox_theBodies: vbox (planetarr(N) @ l_theBodies)
 val p_theBodies = $extval (ptr (l_theBodies), "&theBodies[0]")
 
-implement main0 (argc, argv) = () where {
-  val () = assert (argc = 2)
-  val (pf, takeout | commandline) = argv_takeout_strarr (argv)
-  val n =  g1string2int (!commandline.[1]); val () = assert (n >= 2)
-  prval () = minus_addback (takeout, pf | argv)
+implement
+main0 (argc, argv) =
+{
+  val () = assertloc (argc >= 2)
+  val n = g1string2int (argv[1])
+  val () = assertloc (n >= 2)
   prval vbox (pf_theBodies) = pfbox_theBodies
   val () = offmoment (!p_theBodies, N)
   val e_beg = energy (!p_theBodies, N)
-  val _ = $effmask_ref (
-    $extfcall (int, "printf", "%.9f\n", e_beg)
-  )
+  val () = ignoret ($extfcall (int, "printf", "%.9f\n", e_beg))
   var i: int // unintialized ()
   val dt = 0.01
   val () = for (i := 0; i < n; i := i + 1) advance (!p_theBodies, N, dt)
   val e_fin = energy (!p_theBodies, N)
-  val _ = $effmask_ref (
-    $extfcall (int, "printf", "%.9f\n", e_fin)
-  )
-} // end of [main]
+  val () = ignoret ($extfcall (int, "printf", "%.9f\n", e_fin))
+} (* end of [main0] *)
 
 (* ****** ****** *)
-
+//
 // reuse some existing C code for initialization
+//
+(* ****** ****** *)
 
 %{^ // put at the beginning
 
@@ -247,4 +252,4 @@ struct planet theBodies[NBODY] = {
 
 (* ****** ****** *)
 
-(* end of [n-body2.dats] *)
+(* end of [n-body.dats] *)

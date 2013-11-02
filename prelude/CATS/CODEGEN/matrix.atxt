@@ -8,7 +8,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
 #atscode_banner_for_C()
-#atscode_copyright_LGPL_for_C()
+#atscode_copyright_GPL_for_C()
 
 #atscode_separator_for_C()
 

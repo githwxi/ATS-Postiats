@@ -29,7 +29,7 @@ end // end of [fprint_print_prerr_decl]
 %}\
 \
 #atscode_banner()
-#atscode_copyright_LGPL()
+#atscode_copyright_GPL()
 \
 #atscode_separator()
 
