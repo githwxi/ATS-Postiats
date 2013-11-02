@@ -2409,9 +2409,9 @@ case+ xys of
       | HSEtyarr
           (hse_elt, _) => {
           val () = hse2 := hse_elt
-          val islast = list_vt_is_nil (xys)
+          val istop = list_vt_is_nil (xys)
           val () =
-          if islast then (
+          if istop then (
             pmv2 := primval_ptrof (pmv.primval_loc, hisexp_typtr, pmv)
           ) // end of if // end of [val]
         } // end of [HSEtyarr]
