@@ -40,6 +40,13 @@ cleanall:: ; $(RMF) extfcall
 
 ######
 
+all:: fieldarr
+fieldarr: fieldarr.dats ; \
+  $(PATSCC) -DATS_MEMALLOC_LIBC -cleanaft -o $@ $<
+cleanall:: ; $(RMF) fieldarr
+
+######
+
 all:: fixedpoint
 fixedpoint: fixedpoint.dats ; \
   $(PATSCC) -DATS_MEMALLOC_LIBC -cleanaft -o $@ $<
