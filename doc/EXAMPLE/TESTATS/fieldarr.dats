@@ -1,6 +1,6 @@
 //
 // A simple example of
-// array as a field of a struct
+// array-as-a-field-in-a-struct
 //
 // Author: Hongwei Xi (Nov, 2013)
 //
