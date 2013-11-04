@@ -19,12 +19,106 @@ id="Cinteraction">
 
 ATS and C share precisely the same native/flat/unboxed data representation.
 As a consequence, there is no need for wrapping/unwrapping or
-boxing/unboxing when calling from C a function in ATS or vice versa, and
-there is also no run-time overhead for doing so. To a large extent, ATS can
-be considered a front-end to C that is equipped with a highly expressive
-type system and a localizable template system.
+boxing/unboxing when calling from C a function implemented in ATS or vice
+versa, and there is also no run-time overhead for doing so. To a large
+extent, ATS can be considered a front-end to C that is equipped with a
+highly expressive type system and a localizable template system.
 
 ')#comment("para")
+
+<!-- ****** ****** -->
+
+<sect1
+id="external_name">
+<title>
+External Global Names
+</title>
+
+#para("\
+
+A function declared in ATS can be given a C-like global name so as to allow
+the function to appear both in ATS code and C code.  In particular, the
+function can be implemented in ATS and then called in C or vice versa.
+
+")
+
+</sect1><!--id="external_global_names"-->
+
+<!-- ****** ****** -->
+
+<sect1
+id="external_types_and_values">
+<title>
+External Types and Values in ATS
+</title>
+
+#para("\
+
+External types and values can be readily formed in ATS to refer to types
+and values declared in C.
+
+")
+
+#para("\
+
+Suppose that there is a type in C of the name #stacode("some_type_in_c"),
+then this type can be referred to in ATS as $extype\"some_type_in_c\". For
+instance, type definitions are introduced in the following code for
+some external types in C:
+
+#atscode('\
+typedef Cint = $extype"int"
+typedef Clint = $extype"long int"
+typedef Cllint = $extype"long long int"
+typedef Cint2 = $extype"struct{ int x; int y; }"
+')
+
+Suppose that there is a value in C of the name #dyncode("some_value_in_c"),
+then this value can be referred to in ATS as $extval(T, \"some_value_in_c\"),
+where T is a type in ATS assigned to this value.
+For instance, macro definitions are introduced in the following code for
+some external values in C:
+
+#atscode('\
+macdef NULL = $extype(ptr, "0")
+macdef stdin_ref = $extype(FILEref, "stdin")
+macdef stdout_ref = $extype(FILEref, "stdout")
+')
+
+External value can also be formed to refer to functions in C as done
+in the following code:
+
+#atscode('\
+macdef atoi = $extype(string -> int, "atoi")
+macdef atol = $extype(string -> lint, "atol")
+macdef atof = $extype(string -> double, "atof")
+')
+
+Note that there are other ways in ATS that are often more approriate for
+directly referring to functions in C.  Typically, the primary purpose of
+forming an external value in ATS is to allow a constant declared in C to be
+directly referred to in ATS code.
+
+")
+
+</sect1><!--id="external_types_and_values"-->
+
+<!-- ****** ****** -->
+
+<sect1
+id="inclusion_of_external_code">
+<title>
+Inclusion of External Code in ATS
+</title>
+
+#para("\
+
+Just like including assembly inside C code, it is straightforward to
+include C code inside ATS code.
+
+")
+
+</sect1><!--id="inclusion_of_external_code"-->
 
 </chapter>
 

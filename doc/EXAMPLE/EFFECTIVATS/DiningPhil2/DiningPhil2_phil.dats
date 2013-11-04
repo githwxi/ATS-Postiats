@@ -17,9 +17,9 @@ staload "./DiningPhil2.sats"
 
 implement
 phil_acquire_lfork
-  (phil) = let
+  (ph) = let
 //
-val sf = phil_get_lshfork (phil)
+val sf = phil_get_lshfork (ph)
 //
 in
   shfork_acquire_fork (sf)
@@ -29,9 +29,9 @@ end // end of [phil_acquire_lfork]
 
 implement
 phil_acquire_rfork
-  (phil) = let
+  (ph) = let
 //
-val sf = phil_get_rshfork (phil)
+val sf = phil_get_rshfork (ph)
 //
 in
   shfork_acquire_fork (sf)
@@ -41,12 +41,12 @@ end // end of [phil_acquire_rfork]
 
 implement
 phil_release_lfork
-  (phil, lf) = the_forkbuf_insert (lf)
+  (ph, lf) = the_forkbuf_insert (lf)
 // end of [phil_release_lfork]
 
 implement
 phil_release_rfork
-  (phil, rf) = the_forkbuf_insert (rf)
+  (ph, rf) = the_forkbuf_insert (rf)
 // end of [phil_release_rfork]
 
 (* ****** ****** *)

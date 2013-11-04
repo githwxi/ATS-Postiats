@@ -609,11 +609,11 @@ abstype intset // a boxed abstract type
 ")
 
 The keyword #stacode("abstype") indicates that the declared abstract type
-#stacode("intset") is boxed, that is, the size of #stacode("intset") is the same
-as a pointer.  There is a related keyword #stacode("abst@ype") for introducing
-unboxed abstract types, which will be explained elsewhere.  We next present
-an interface for each function or value that we want to implement in the
-package:
+#stacode("intset") is boxed, that is, the size of #stacode("intset") is the
+same as that of a pointer.  There is a related keyword #stacode("abst@ype")
+for introducing unboxed abstract types, which will be explained elsewhere.
+We next present an interface for each function or value that we want to
+implement in the package:
 
 #atscode("\
 // empty set
@@ -657,14 +657,15 @@ above interfaces are all stored in a file named #filename("intset.sats")
 ")#comment("para")
 
 #para("\
-Usually, a realistic implementation for finite sets is based on some
-kind of balanced trees (e.g., AVL trees, red-black trees). For the purpose
-of illustration, we give an implementation in which finite sets of integers
-are represented as ordered lists of integers. This implementation is
-contained in a file named #filename("intset.dats"), which is
-available #mycodelink("CHAP_MODULARITY/intset.dats", "on-line").
-In order to construct values of an abstract type, we need to concretize it
-temporarily by using the following form of declaration:
+
+Usually, a realistic implementation for finite sets is based on some kind
+of balanced trees (e.g., AVL trees, red-black trees). For the purpose of
+illustration, I hereby give an implementation in which finite sets of
+integers are represented as ordered lists of integers. This implementation
+is contained in a file named #filename("intset.dats"), which is available
+#mycodelink("CHAP_MODULARITY/intset.dats", "on-line").  In order to
+construct values of an abstract type, we need to concretize it temporarily
+by using the following form of declaration:
 
 #atscode("\
 assume intset = list0 (int)
@@ -730,13 +731,13 @@ Example: A Package for Rationals
 
 #para("\
 
-We are to represent a rational number as a pair of integers.  If we declare
-a boxed abstract type #stacode("rat") for values representing rational
+Let us represent a rational number as a pair of integers.  If we declare a
+boxed abstract type #stacode("rat") for values representing rational
 numbers, then each value of the type #stacode("rat") is stored in
 heap-allocated memory, which can only be reclaimed through garbage
 collection (GC). Instead, we follow an alternative approach by declaring
-#stacode("rat") as an unboxed abstract type. Therefore, a declaration like the
-following one is expected:
+#stacode("rat") as an unboxed abstract type. Therefore, a declaration like
+the following one is expected:
 
 #atscode("\
 abst@ype rat
@@ -746,7 +747,7 @@ The problem with this declaration is that it is too abstract. As there is
 not information given about the size of the type #stacode("rat"), the ATS
 compiler does not even know how much memory is needed for storing a value
 of the type #stacode("rat"). However, the programmer should not assume that
-such a form of declaration is useless. There are actually circumstances
+such a form of declaration is useless. There are realistic circumstances
 where a declaration of this form can be of great importance, and this is a
 topic I will cover elsewhere. For now, let us declare an unboxed abstract
 type as follows:
@@ -831,10 +832,11 @@ implement
 ratmul (x, y) = rat_make_int_int (x.0 * y.0, x.1 * y.1)
 
 implement
-ratdiv (x, y) =
-  if y.0 > 0 then rat_make_int_int (x.0 * y.1, x.1 * y.0)
-  else $raise DivisionByZero
-// end of [ratdiv]
+ratdiv (x, y) = (
+if y.0 > 0
+  then rat_make_int_int (x.0 * y.1, x.1 * y.0) else $raise DivisionByZero()
+// end of [if]
+) (* end of [ratdiv] *)
 ")
 
 There is also some testing code available
@@ -864,9 +866,10 @@ such integers. It is clearly advantageous to avoid this style of
 programming as it involves code duplication to a great extent.  ")
 
 #para("\
-The approach we take in this section to implement a package for
-rational numbers that can address the aforementioned limitation follows the
-idea of functors in the programming language Standard ML (SML). We first
+
+The approach I employ in this section to implement a package for rational
+numbers that can address the aforementioned limitation follows the idea of
+functors in the programming language Standard ML (SML). Let us first
 introduce a type definition as follows:
 
 #atscode("\
@@ -887,8 +890,8 @@ intmod (a:t@ype) = '{
 Given a type T, #stacode("intmod(T)") is a boxed record type in which each
 field is a function type. A value of the type #stacode("intmod(T)") is
 supposed to represent a module of integer operations on integers
-represented by values of the type T. Similarly, we introduce another type
-definition as follows:
+represented by values of the type T. Similarly, let us introduce another
+type definition as follows:
 
 #atscode("\
 abst@ype rat (a:t@ype) = (a, a)
@@ -921,7 +924,7 @@ If applied to a given module of integer operations,
 #dyncode("ratmod_make_intmod") returns a module of rational operations such
 that the integers in the former and the latter modules have the same
 representation. Therefore, #dyncode("ratmod_make_intmod") behaves like a
-functor in SML.  In the following code, we implement two modules
+functor in SML.  In the following code, let us implement two modules
 #dyncode("ratmod_int") and #dyncode("ratmod_dbl") of rational operations in
 which integers are represented as values of the types #stacode("int") and
 #stacode("double"), respectively:

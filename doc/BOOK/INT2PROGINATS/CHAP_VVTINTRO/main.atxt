@@ -19,7 +19,7 @@ id="introduction-to-views-and-viewtypes">
 
 #para('\
 
-Probably the single greatest motivation behind the development of ATS is to
+Probably the single greatest motivation behind the development of ATS is
 the desire to make ATS a programming language that can be employed
 effectively to construct safe and reliable programs running in the kernels
 of operating systems. Instead of following seemingly natural approaches
