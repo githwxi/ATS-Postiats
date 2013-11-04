@@ -1,25 +1,12 @@
-######
-#
-# Makefile a CLBG benchmark
-#
-######
-
-all: n-body
+all: n-body n-bodyc
 
 n-body: n-body.dats
-	patscc -msse2 -mfpmath=sse -O3 n-body.dats -o n-body -lm
+	patscc -g -fomit-frame-pointer -march=native -pipe -msse3 -mfpmath=sse -O3 -DATS_MEMALLOC_LIBC $< -o $@ -lm
 
-######
-
-RMF=rm -f
-
-######
+n-bodyc: n-body.c
+	gcc -pipe -Wall -O3 -fomit-frame-pointer -march=native -mfpmath=sse -msse3 $< -o $@ -lm
 
 .phony: clean
 
-clean: ; $(RMF) *_dats.c
-
-cleanall:: clean
-cleanall:: ; $(RMF) n-body
-
-###### end of [Makefile] ######
+clean: 
+	rm n-body n-bodyc *_dats.c
