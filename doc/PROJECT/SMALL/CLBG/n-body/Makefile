@@ -1,12 +1,37 @@
-all: n-body n-bodyc
+######
+#
+# Makefile a CLBG benchmark
+#
+######
+
+all:: n-body
+all:: n-body-2
+all:: n-body_c
+
+######
 
 n-body: n-body.dats
-	patscc -g -fomit-frame-pointer -march=native -pipe -msse3 -mfpmath=sse -O3 -DATS_MEMALLOC_LIBC $< -o $@ -lm
+	patscc -msse2 -mfpmath=sse -O3 n-body.dats -o n-body -lm
 
-n-bodyc: n-body.c
+n-body-2: n-body-2.dats
+	patscc -fomit-frame-pointer -march=native -pipe -msse3 -mfpmath=sse -O3 -DATS_MEMALLOC_LIBC $< -o $@ -lm
+
+n-body_c: n-body.c
 	gcc -pipe -Wall -O3 -fomit-frame-pointer -march=native -mfpmath=sse -msse3 $< -o $@ -lm
+
+######
+
+RMF=rm -f
+
+######
 
 .phony: clean
 
-clean: 
-	rm n-body n-bodyc *_dats.c
+clean: ; $(RMF) *_dats.c
+
+cleanall:: clean
+cleanall:: ; $(RMF) n-body
+cleanall:: ; $(RMF) n-body-2
+cleanall:: ; $(RMF) n-body_c
+
+###### end of [Makefile] ######
