@@ -40,22 +40,24 @@ size_t strlen (const char *str) ;
 extern
 int // (sign)
 strcmp (const char *x1, const char *x2) ;
-
+//
 extern
 char *strchr(const char *str1, int c2) ;
 extern
 char *strrchr(const char *str1, int c2) ;
 extern
 char *strstr(const char *str1, const char *str2) ;
-
+//
 extern
 size_t strspn(const char *str1, const char *acc2) ;
 extern
 size_t strcspn(const char *str1, const char *rej2) ;
-
+//
+\#ifndef memcpy
 extern
 void *memcpy(void *dest, const void *src, size_t n) ;
-
+\#endif // \#ifndef
+//
 #atscode_separator_for_C()
 //
 // [stdio.h]

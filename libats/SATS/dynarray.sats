@@ -207,7 +207,7 @@ dynarray_filterlin (DA: !dynarray (INV(a))): void
 
 fun{a:vt0p}
 dynarray_reset_capacity
-  (DA: !dynarray (INV(a)), m2: sizeGte(1)): bool(*done/ignored*)
+  (DA: !dynarray (INV(a)), m2: sizeGte(1)):<!wrt> bool(*done/ignored*)
 // end of [dynarray_reset_capacity]
 
 (* ****** ****** *)

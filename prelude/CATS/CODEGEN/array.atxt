@@ -57,10 +57,14 @@ void *bsearch
 //
 // [string.h]
 //
+\#ifndef memcpy
 extern
 void *memcpy(void *dst, const void *src, size_t n) ;
+\#endif // \#ifndef
+\#ifndef memmove
 extern
 void *memmove(void *dst, const void *src, size_t n) ;
+\#endif // \#ifndef
 //
 \#define atspre_array_memcpy memcpy
 \#define atspre_array_memmove memmove

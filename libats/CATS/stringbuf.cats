@@ -49,6 +49,114 @@ struct {
 
 /* ****** ****** */
 
+ATSinline()
+atstype_size
+atslib_stringbuf_get_size
+(
+  atstype_ptr p
+) {
+  atstype_ptr p_beg ;
+  atstype_ptr p_cur ;
+  p_beg = ((atslib_stringbuf_struct*)p)->stringbuf_beg ;
+  p_cur = ((atslib_stringbuf_struct*)p)->stringbuf_cur ;
+  return ((char*)p_cur - (char*)p_beg) ;
+} // end of [atslib_stringbuf_get_size]
+
+ATSinline()
+atstype_size
+atslib_stringbuf_get_capacity
+(
+  atstype_ptr p
+) {
+  atstype_ptr p_beg ;
+  atstype_ptr p_end ;
+  p_beg = ((atslib_stringbuf_struct*)p)->stringbuf_beg ;
+  p_end = ((atslib_stringbuf_struct*)p)->stringbuf_end ;
+  return ((char*)p_end - (char*)p_beg) ;
+} // end of [atslib_stringbuf_get_capacity]
+
+/* ****** ****** */
+
+ATSinline()
+atstype_ptr
+atslib_stringbuf_make_ngc
+(
+  atstype_ptr p
+, atstype_ptr A
+, atstype_size m
+) {
+  atslib_stringbuf_struct *p_buf ;
+  p_buf = (atslib_stringbuf_struct*)p ;
+//
+  p_buf->stringbuf_beg = A ;
+  p_buf->stringbuf_end = (char*)A + m ;
+  p_buf->stringbuf_cur = A ;
+//
+  return p_buf ;
+//
+} // end of [atslib_stringbuf_make_ngc]
+
+/* ****** ****** */
+
+ATSinline()
+atsvoid_t0ype
+atslib_stringbuf_free
+  (atstype_ptr p)
+{
+  atstype_ptr p_beg ;
+  p_beg = ((atslib_stringbuf_struct*)p)->stringbuf_beg ;
+  ATS_MFREE(p) ; ATS_MFREE(p_beg) ;
+  return ;
+} // end of [atslib_stringbuf_free]
+
+/* ****** ****** */
+
+ATSinline()
+atstype_string
+atslib_stringbuf_getfree_strnptr
+  (atstype_ptr p, atstype_ptr n)
+{
+  atstype_ptr p_beg ;
+  atstype_ptr p_cur ;
+  p_beg = ((atslib_stringbuf_struct*)p)->stringbuf_beg ;
+  p_cur = ((atslib_stringbuf_struct*)p)->stringbuf_cur ;
+  *(char*)p_cur = (char)0 ; *(size_t*)n = (char*)p_cur - (char*)p_beg ;
+  ATS_MFREE(p) ;
+  return p_beg ;
+} // end of [atslib_stringbuf_getfree_strnptr]
+
+/* ****** ****** */
+
+#define atspre_stringbuf_memcpy memcpy
+
+/* ****** ****** */
+
+ATSinline()
+atstype_bool
+atslib_stringbuf_reset_capacity
+  (atstype_ptr p, atstype_size m2)
+{
+  atstype_ptr p_beg ;
+  atstype_ptr p_cur ;
+  atstype_ptr p2_beg ;
+  p_beg = ((atslib_stringbuf_struct*)p)->stringbuf_beg ;
+  p_cur = ((atslib_stringbuf_struct*)p)->stringbuf_cur ;
+  atstype_size n = (char*)p_cur - (char*)p_beg ;
+//
+  if (m2 < n) return atsbool_false ; // HX-2013-11: ignored
+//
+  p2_beg = atspre_malloc_gc(m2+1) ;
+  atspre_stringbuf_memcpy(p2_beg, p_beg, n) ;
+  atspre_mfree_gc(p_beg) ;
+  ((atslib_stringbuf_struct*)p)->stringbuf_beg = p2_beg ;
+  ((atslib_stringbuf_struct*)p)->stringbuf_end = (char*)p2_beg+m2 ;
+  ((atslib_stringbuf_struct*)p)->stringbuf_cur = (char*)p2_beg+n ;
+  return atsbool_true ;
+//
+} // end of [atslib_stringbuf_reset_capacity]
+
+/* ****** ****** */
+
 #endif // ifndef ATSHOME_LIBATS_STRINGBUF_CATS
 
 /* ****** ****** */

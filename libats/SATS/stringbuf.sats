@@ -35,6 +35,7 @@
 
 #define ATS_PACKNAME "ATSLIB.libats.stringbuf"
 #define ATS_STALOADFLAG 0 // no static loading at run-time
+#define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 (* ****** ****** *)
 
@@ -69,14 +70,19 @@ stringbuf_make_ngc
 
 (* ****** ****** *)
 
-fun{}
+fun
 stringbuf_get_size (sbf: !stringbuf): size_t = "mac#%"
-fun{}
+fun
 stringbuf_get_capacity (sbf: !stringbuf): size_t = "mac#%"
 
 (* ****** ****** *)
 
-fun{}
+fun
+stringbuf_free (sbf: stringbuf):<!wrt> void = "mac#%"
+
+(* ****** ****** *)
+
+fun
 stringbuf_getfree_strnptr
   (sbf: stringbuf, n: &size_t? >> size_t(n)):<!wrt> #[n:nat] strnptr(n)
 // end of [stringbuf_getfree_strnptr]
@@ -98,12 +104,11 @@ fun{}
 stringbuf_insert_double (sbf: !stringbuf, x: double): int
 
 (* ****** ****** *)
-
-fun{}
+//
+fun
 stringbuf_reset_capacity
-  (sbf: !stringbuf, m2: sizeGte(1)): bool(*done/ignored*)
-// end of [stringbuf_reset_capacity]
-
+  (sbf: !stringbuf, m2: sizeGte(1)):<!wrt> bool(*done/ignored*) = "mac#%"
+//
 (* ****** ****** *)
 
 (* end of [stringbuf.sats] *)
