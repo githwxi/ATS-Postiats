@@ -2,18 +2,19 @@
 ** The Computer Language Benchmarks Game
 ** http://benchmarksgame.alioth.debian.org/
 **
-** contributed by Will Blair
-** converted from C code from Mark C. Lewis' submission
+** contributed by Will Blair (2013-11)
+** converted from C code by Mark C. Lewis' submission
 **
-** compilation command:
-**   patscc -msse2 -mfpmath=sse -O3 n-body.dats -o n-body -lm
+** How to compile:
+** patscc -pipe -O3 -fomit-frame-pointer \
+**   -march=native -msse3 -mfpmath=sse -o n-body-2 n-body-2.dats -lm
 *)
 
 (* ****** ****** *)
-
+//
 #include
 "share/atspre_staload.hats"
-
+//
 (* ****** ****** *)
 
 staload _ = "prelude/DATS/gnumber.dats"
@@ -238,9 +239,12 @@ praxi initialize_lemma {a:t@ype} (_: &a? >> a): void
 
 (* ****** ****** *)
 
-typedef planetarr (n:int) = @[planet][n]
+typedef
+distarr = @[rel_t][1000]
+typedef
+planetarr (n:int) = @[planet][n]
 
-typedef distances = @[rel_t][1000]
+(* ****** ****** *)
 
 local 
 //
@@ -254,21 +258,23 @@ val rel' = ref_make_viewptr (view@rel | addr@rel)
 //
 end (* end of [local] *)
 
+(* ****** ****** *)
+
 fun advance
   {n:pos | n <= 5} .<>.
 (
   bodies: &planetarr(n), n: int n, dt: double
 ): void = {
-  val (vbox (pfr) | r) = ref_get_viewptr {distances} (rel')
+  val (vbox (pfr) | r) = ref_get_viewptr{distarr}(rel')
   //
   implement
-  array_iforeach_pair$fwork<planet><distances> (i, l, r, rel) = {
+  array_iforeach_pair$fwork<planet><distarr> (i, l, r, rel) = {
     val i = $UN.cast{natLt(n)}(i)
     val () = vdiff<double> (rel.[i].dx, l.x, r.x)
   }
   //
   val () = $effmask_all (
-    array_iforeach_pair_env<planet><distances> (bodies, i2sz(n), !r)
+    array_iforeach_pair_env<planet><distarr> (bodies, i2sz(n), !r)
   )
   //
   val N = (n*pred(n))/2
@@ -337,7 +343,7 @@ fun advance
   val () = $effmask_all (loop_pairs (pfr , pf_mag | r, p_mag, i2sz(N)))
   //
   implement
-  array_iforeach_pair$fwork<planet><distances>
+  array_iforeach_pair$fwork<planet><distarr>
     (i, p0, p1, rel) =
   {
     val i = $UN.cast{natLt(1000)}(i)
@@ -364,7 +370,7 @@ fun advance
     val () = loop (i2sz(0), p0.v, p1.v, rel.[i].dx)
   }
   val () = $effmask_all (
-    array_iforeach_pair_env<planet><distances> (bodies, i2sz(n), !r)
+    array_iforeach_pair_env<planet><distarr> (bodies, i2sz(n), !r)
   )
   //
   implement
@@ -380,6 +386,8 @@ fun advance
   val _ = $effmask_all (array_foreach<planet> (bodies, i2sz(n)))
   prval () = free (pf_mag);
 } // end of [advance]
+
+(* ****** ****** *)
 
 fun energy
   {n:pos | n <= 5} .<>.
@@ -550,3 +558,7 @@ theBodies[NBODY] = {
 } ;
 
 %}
+
+(* ****** ****** *)
+
+(* end of [n-body-2.dats] *)
