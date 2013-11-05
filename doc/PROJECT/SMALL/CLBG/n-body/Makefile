@@ -14,10 +14,10 @@ n-body: n-body.dats
 	patscc -msse2 -mfpmath=sse -O3 n-body.dats -o n-body -lm
 
 n-body-2: n-body-2.dats
-	patscc -fomit-frame-pointer -march=native -pipe -msse3 -mfpmath=sse -O3 -DATS_MEMALLOC_LIBC $< -o $@ -lm
+	patscc -pipe -O3 -fomit-frame-pointer -march=native -msse3 -mfpmath=sse $< -o $@ -lm
 
 n-body_c: n-body.c
-	gcc -pipe -Wall -O3 -fomit-frame-pointer -march=native -mfpmath=sse -msse3 $< -o $@ -lm
+	gcc -pipe -Wall -O3 -fomit-frame-pointer -march=native -msse3 -mfpmath=sse $< -o $@ -lm
 
 ######
 

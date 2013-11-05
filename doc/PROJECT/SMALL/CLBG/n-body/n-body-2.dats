@@ -11,101 +11,113 @@
 
 (* ****** ****** *)
 
-#include "share/atspre_staload.hats"
+#include
+"share/atspre_staload.hats"
 
-staload "libc/SATS/math.sats"
-staload _ = "libc/DATS/math.dats"
+(* ****** ****** *)
+
+staload _ = "prelude/DATS/gnumber.dats"
+
+(* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-abst@ype vector_t0ype (a:t@ype, n:int) = @[a][n]
-typedef vector (a:t@ype, n:int) = vector_t0ype (a, n)
-
-abst@ype vector3d (a:t@ype)
-
-assume vector_t0ype (a:t@ype, n:int) = @[a][n]
-assume vector3d (a:t@ype) = vector (a, 3)
-
-symintr vdiff
-
-extern
-fun {a:t@ype}
-vector3d_difference (
-  res: &vector3d(a?) >> vector3d(a) , v1: &vector3d(a), v2: &vector3d(a)
-): void
-
-overload vdiff with vector3d_difference
-
-symintr vdistance
-
-extern 
-fun {a:t@ype}
-vector3d_distance (res: &vector3d(a)): a
-
-overload vdistance with vector3d_distance
+staload "libc/SATS/math.sats"
+staload _ = "libc/DATS/math.dats"
 
 (* ****** ****** *)
 
-typedef _m128d = $extype "__m128d"
+typedef v3d (a:t@ype) = @[a][3]
+
+(* ****** ****** *)
+
+extern
+fun{a:t@ype}
+vector3d_diff
+(
+  res: &v3d(a?) >> v3d(a), v1: &v3d(a), v2: &v3d(a)
+) : void // end of [vector3d_diff]
+
+symintr vdiff
+overload vdiff with vector3d_diff
+
+(* ****** ****** *)
+
+extern 
+fun{a:t@ype}
+vector3d_dist (res: &v3d(a)): a
+
+symintr vdist
+overload vdist with vector3d_dist
+
+(* ****** ****** *)
+
 typedef _m128 = $extype "__m128"
+typedef _m128d = $extype "__m128d"
+
+(* ****** ****** *)
 
 extern
-fun _mm_loadl_pd (_: _m128d?, _: &double): _m128d = "mac#"
-
+fun _mm_loadl_pd (_m128d?, &double): _m128d = "mac#"
 extern
-fun _mm_loadh_pd (_: _m128d, _: &double): _m128d = "mac#"
+fun _mm_loadh_pd (_m128d?, &double): _m128d = "mac#"
+
+(* ****** ****** *)
 
 extern
 fun _mm_rsqrt_ps (_: _m128): _m128 = "mac#"
-
 extern
 fun _mm_cvtpd_ps (_: _m128d): _m128 = "mac#"
-
 extern
 fun _mm_cvtps_pd (_: _m128): _m128d = "mac#"
-
 extern
 fun _mm_set1_pd (_: double): _m128d = "mac#"
 
-extern
-fun _mm_store_pd {l:addr} (
-  pf: !double @ l | _: ptr l, _: _m128d
-): void = "mac#"
-
-extern
-fun _m128d_mul_m128d (_: _m128d, _: _m128d): _m128d = "mac#"
-
-overload * with _m128d_mul_m128d of 20
-
-extern
-fun _m128d_add_m128d (_: _m128d, _: _m128d): _m128d = "mac#"
-
-overload + with _m128d_add_m128d of 20
-
-extern
-fun _m128d_sub_m128d (_: _m128d, _: _m128d): _m128d = "mac#"
-
-overload - with _m128d_sub_m128d of 20
-
-extern
-fun _m128d_div_m128d (_: _m128d, _: _m128d): _m128d = "mac#"
-
-overload / with _m128d_div_m128d of 20
-
 (* ****** ****** *)
 
-typedef planet = $extype_struct "struct planet" of {
-  x= vector3d (double),
-  fill= double,
-  v = vector3d (double),
-  mass= double
+extern
+fun _mm_store_pd{l:addr}
+  (pf: !double @ l | _: ptr l, _: _m128d) : void = "mac#"
+// end of [_mm_store_pd]
+
+(* ****** ****** *)
+//
+%{^
+#define add_m128d_m128d(a,b) ((a)+(b))
+#define sub_m128d_m128d(a,b) ((a)-(b))
+#define mul_m128d_m128d(a,b) ((a)*(b))
+#define div_m128d_m128d(a,b) ((a)/(b))
+%}
+//
+extern
+fun add_m128d_m128d (_: _m128d, _: _m128d): _m128d = "mac#"
+extern
+fun sub_m128d_m128d (_: _m128d, _: _m128d): _m128d = "mac#"
+extern
+fun mul_m128d_m128d (_: _m128d, _: _m128d): _m128d = "mac#"
+extern
+fun div_m128d_m128d (_: _m128d, _: _m128d): _m128d = "mac#"
+//
+overload + with add_m128d_m128d of 20
+overload - with sub_m128d_m128d of 20
+overload * with mul_m128d_m128d of 20
+overload / with div_m128d_m128d of 20
+//
+(* ****** ****** *)
+
+typedef planet =
+$extype_struct "planet_t" of
+{
+  x= v3d(double), fill= double,
+  v= v3d(double), mass= double
 } // end of [planet]
 
-typedef rel_t = $extype_struct "rel_t" of {
-  dx= vector3d (double),
-  fill= double
+typedef rel_t =
+$extype_struct "rel_t" of
+{
+  dx= v3d(double), fill= double
 }
 
 typedef planetarr (n:int) = @[planet][n]
@@ -115,107 +127,95 @@ typedef planetarr (n:int) = @[planet][n]
 
 (* ****** ****** *)
 
-infix 0 += -=  // for similar C notation
+infix 0 += -= // for similar C notation
 macdef += (x, d) = (,(x) := ,(x) + ,(d))
 macdef -= (x, d) = (,(x) := ,(x) - ,(d))
 
 (* ****** ****** *)
 
-implement vector3d_difference<double> (res, l, r) = let
-  fun loop {ld,ll,lr: addr} {n:nat | n <= 3} .<n>. (
-    pfd: !array_v (double?, ld, n) >> array_v (double, ld, n), pfl: !array_v (double, ll, n), pfr: !array_v (double, lr, n) |
-    d: ptr ld,  l: ptr ll, r: ptr lr, n: size_t n
-  ):<!wrt> void = 
-    if n = 0 then {
-      prval () = pfd := array_v_unnil_nil (pfd)
-    }
-    else let
-      prval (pfdh, pfdd) = array_v_uncons (pfd)
-      prval (pflh, pfll) = array_v_uncons (pfl)
-      prval (pfrh, pfrr) = array_v_uncons (pfr)
-      val () = !d := !l - !r
-    in
-      loop (pfdd, pfll, pfrr | 
-        ptr_succ<double>(d), ptr_succ<double>(l), ptr_succ<double>(r), pred (n)
-      );
-      pfd := array_v_cons (pfdh, pfdd);
-      pfl := array_v_cons (pflh, pfll);
-      pfr := array_v_cons (pfrh, pfrr);
-    end
+implement{a}
+vector3d_diff
+  (res, l, r) = let
+//
+macdef gsub = gsub_val<a>
+//
+prval (
+) = __assert (res) where
+{
+  extern praxi __assert (&v3d(a?) >> v3d(a)): void
+} (* end of [prval] *)
+//
 in
-  loop (view@ res, view@ l, view@ r | addr@ res, addr@ l, addr@ r, i2sz(3))
+  res.[0] := gsub (l.[0], r.[0]);
+  res.[1] := gsub (l.[1], r.[1]);
+  res.[2] := gsub (l.[2], r.[2]);
 end
 
-implement vector3d_distance<double> (v) = let
-  var dsum : double = 0.0
-  //
-  implement array_foreach$fwork<double><double> (v_i, sum) =
-    sum += v_i * v_i
-  //
-  val _ = array_foreach_env<double><double> (v, i2sz(3), dsum)
+(* ****** ****** *)
+
+implement
+vector3d_dist<double> (v) = let
+//
+val v_0 = v.[0] and v_1 = v.[1] and v_2 = v.[2]
+//
 in
-  sqrt (dsum)
+  sqrt (v_0*v_0 + v_1*v_1 + v_2*v_2)
 end
 
-
-implement vector3d_distance<_m128d> (v) = let
-  var dsum : _m128d = _mm_set1_pd (0.0)
-  //
-  implement array_foreach$fwork<_m128d><_m128d> (v_i, sum) =
-    sum += v_i * v_i
-  //
-  val _ = array_foreach_env<_m128d><_m128d> (v, i2sz(3), dsum)
+implement
+vector3d_dist<_m128d> (v) = let
+//
+val v_0 = v.[0] and v_1 = v.[1] and v_2 = v.[2]
+//
 in
-  _mm_cvtps_pd(_mm_rsqrt_ps(_mm_cvtpd_ps(dsum)))
+  _mm_cvtps_pd(_mm_rsqrt_ps(_mm_cvtpd_ps(v_0*v_0 + v_1*v_1 + v_2*v_2)))
 end
 
 (* ****** ****** *)
 
 extern
-fun {a:viewt@ype}{env:viewt@ype}
-array_iforeach_pair$element (
-  i: size_t, x: &a, env: &env
-): void
+fun{a:vt0p}{env:vt0p}
+array_iforeach_pair$element (i: size_t, x: &a, env: &env >> _): void
 
-implement{a}{env} array_iforeach_pair$element(i, x, env) = ()
+implement{a}{env}
+array_iforeach_pair$element(i, x, env) = ()
 
 extern
-fun {a:viewt@ype}{env:viewt@ype}
-array_iforeach_pair$fwork (
-  i: size_t, a0: &a, a1: &a, env: &env
-): void
+fun{a:vt0p}{env:vt0p}
+array_iforeach_pair$fwork (i: size_t, a0: &a, a1: &a, env: &env >> _): void
 
 (*
   array_iforeach_pair: 
     Perform some action on each pair of items in an array.
     Optionally, a callback can be given for each individual element as well
 *)
-fun {a:viewt@ype} {env:viewt@ype}
-array_iforeach_pair_env {n0:nat} (
+fun{a:vt0p}{env:vt0p}
+array_iforeach_pair_env{n0:nat}
+(
   arr: &(@[a][n0]), n: size_t n0, env: &env
-): void = let
+) : void = let
   fun outer_loop {l:addr} {n:nat | n <= n0} .<n>. (
     pf: !array_v (a, l, n) | p: ptr l, n: size_t n, i: size_t, e: &env
-  ): void =
-    if n = 0 then
-      ()
-    else let
+  ) : void =
+    if n = 0 then () else let
       prval (pfh, pftail) = array_v_uncons (pf)
       //
-      fun inner_loop {l1:addr} {m:nat | m <= n} .<m>. (
-        pfpiv: !(a @ l), pf: !array_v (a, l1, m) | 
-        pivot: ptr l, tail: ptr l1, m: size_t m, i: size_t, e: &env
-      ): void =
+      fun inner_loop
+        {l1:addr} {m:nat | m <= n} .<m>.
+      (
+        pfpiv: !(a @ l), pf: !array_v (a, l1, m)
+      | pivot: ptr l, tail: ptr l1, m: size_t m, i: size_t, e: &env
+      ) : void =
         if m = 0 then
           ()
         else let
           prval (pfh, pftail) = array_v_uncons (pf)
           val () = array_iforeach_pair$fwork<a><env> (i, !pivot, !tail, e)
+          val () = inner_loop
+            (pfpiv, pftail | pivot, ptr_succ<a> (tail), pred (m), succ (i), e);
+          prval () = pf := array_v_cons (pfh, pftail)
         in
-          inner_loop (pfpiv, pftail | 
-            pivot, ptr_succ<a> (tail), pred (m), succ (i), e
-          );
-          pf := array_v_cons (pfh, pftail)
+          // nothing
         end
       //
     in 
@@ -223,9 +223,9 @@ array_iforeach_pair_env {n0:nat} (
       inner_loop (pfh, pftail | p, ptr_succ<a> (p), pred (n), i, e);
       outer_loop (pftail | ptr_succ<a> (p), pred (n), i + pred (n), e);
       pf := array_v_cons (pfh, pftail)
-    end
+    end // end of [if]
  in
-  outer_loop (view@ arr | addr@ arr, n, i2sz(0), env)
+   outer_loop (view@ arr | addr@ arr, n, i2sz(0), env)
  end
 
 (* ****** ****** *)
@@ -236,11 +236,6 @@ array_iforeach_pair_env {n0:nat} (
 extern
 praxi initialize_lemma {a:t@ype} (_: &a? >> a): void
 
-extern 
-praxi array_length_lemma {a:t@ype} {n,i:nat} (
-  _: @[a][n], _: size_t i
-): [i < n] void
-
 (* ****** ****** *)
 
 typedef planetarr (n:int) = @[planet][n]
@@ -248,48 +243,55 @@ typedef planetarr (n:int) = @[planet][n]
 typedef distances = @[rel_t][1000]
 
 local 
-  var rel = @[rel_t][1000]()
-  
-  // All static variables are initialized
-  prval () = initialize_lemma (rel)
+//
+var rel = @[rel_t][1000]()
+// All static variables are initialized
+prval () = initialize_lemma (rel)
+//
 in
-  val rel' = ref_make_viewptr (view@ rel | addr@ rel)
-end
+//
+val rel' = ref_make_viewptr (view@rel | addr@rel)
+//
+end (* end of [local] *)
 
-fun advance {n:pos | n <= 5} .<>. (
-  bodies: &planetarr(n), nbodies: int n, dt: double
+fun advance
+  {n:pos | n <= 5} .<>.
+(
+  bodies: &planetarr(n), n: int n, dt: double
 ): void = {
   val (vbox (pfr) | r) = ref_get_viewptr {distances} (rel')
   //
-  implement array_iforeach_pair$fwork<planet><distances> (i, l, r, rel) = {
-    val i = g1ofg0 (i)
-    prval () = array_length_lemma (rel, i)
+  implement
+  array_iforeach_pair$fwork<planet><distances> (i, l, r, rel) = {
+    val i = $UN.cast{natLt(n)}(i)
     val () = vdiff<double> (rel.[i].dx, l.x, r.x)
   }
   //
   val () = $effmask_all (
-    array_iforeach_pair_env<planet><distances> (bodies, i2sz(nbodies), !r)
+    array_iforeach_pair_env<planet><distances> (bodies, i2sz(n), !r)
   )
   //
-  val N = ((nbodies - 1) * (nbodies))/2
-  val () = assertloc (N < (1000 - 1))
+  val N = (n*pred(n))/2
   val () = assertloc (N >= 0)
+  val () = assertloc (N < (1000 - 1))
   //
-  fun loop_pairs {ls,ld:addr} {n0,n:nat | n0 <= n} (
-    source: !array_v (rel_t, ls, n), dest: !array_v (double, ld, n) |
-      s: ptr ls, d: ptr ld, n: size_t n0
-  ): void =
-    if n < 2 then
-      ()
-    else {
+  fun loop_pairs
+    {ls,ld:addr}
+    {n0,n:nat | n0 <= n}
+  (
+    src: !array_v (rel_t, ls, n)
+  , dst: !array_v (double, ld, n)
+  | s: ptr ls, d: ptr ld, n: size_t n0
+  ) : void =
+    if n < 2 then () else {
       var dx = @[_m128d][3]()
       //
-      implement array_initize$init<_m128d> (i, dx) = {
-        val i = g1ofg0 (i)
+      implement
+      array_initize$init<_m128d>
+        (i, dx) = {
+        val i = $UN.cast{natLt(3)}(i)
         val (pfl, freel | l) = $UN.ptr0_vtake {rel_t} (s)
         val (pfh, freeh | h) = $UN.ptr0_vtake {rel_t} (ptr_succ<rel_t>(s))
-        prval () = array_length_lemma (!l.dx, i)
-        prval () = array_length_lemma (!h.dx, i)
         val () = dx := _mm_loadl_pd (dx, !l.dx.[i])
         val () = dx := _mm_loadh_pd (dx, !h.dx.[i])
         prval () = freel (pfl)
@@ -297,8 +299,8 @@ fun advance {n:pos | n <= 5} .<>. (
       }
       val () = array_initize<_m128d> (dx, i2sz(3))
       //
-      prval (pfs, pfss) = array_v_uncons (source)
-      prval (pfd, pfdd) = array_v_uncons (dest)
+      prval (pfs, pfss) = array_v_uncons (src)
+      prval (pfd, pfdd) = array_v_uncons (dst)
       //
       prval (pfs', pfss) = array_v_uncons (pfss)
       prval (pfd', pfdd) = array_v_uncons (pfdd)
@@ -306,51 +308,44 @@ fun advance {n:pos | n <= 5} .<>. (
       val dsquared = dx.[0] * dx[0] + dx.[1] * dx.[1] + dx.[2] * dx.[2]
       val distance = _mm_cvtps_pd(_mm_rsqrt_ps(_mm_cvtpd_ps(dsquared)))
       //
-      val distance = revise_distance (distance, 0) where {
-        fun revise_distance (
-          d: _m128d, i: int
-        ): _m128d =
-          if i = 2 then
-            d
-          else let
-            val distance = d * _mm_set1_pd (1.5) 
-              - ((_mm_set1_pd(0.5) * dsquared) * d)
-              * (d * d)
+      val distance = let
+        fun revise_distance
+          (d: _m128d, i: int): _m128d =
+          if i = 2 then d else let
+            val d = d * _mm_set1_pd (1.5) - ((_mm_set1_pd(0.5) * dsquared) * d) * (d * d)
           in
-            revise_distance (distance, succ (i))
+            revise_distance (d, succ (i))
           end
-      }
+      in
+        revise_distance (distance, 0)
+      end // end of [val]
       //
-      val dmag = _mm_set1_pd (dt) / (dsquared) * distance
-      
+      val dmag =
+        _mm_set1_pd (dt) / (dsquared) * distance
       val () = _mm_store_pd (pfd | d, dmag)
       //
-      val () = loop_pairs (pfss, pfdd |
-        ptr_add<rel_t> (s, 2), ptr_add<double> (d, 2), n - i2sz(2)
+      val () = loop_pairs (
+        pfss, pfdd | ptr_add<rel_t> (s, 2), ptr_add<double> (d, 2), n-i2sz(2)
       )
-      prval () = source := array_v_cons (pfs, array_v_cons (pfs', pfss))
-      prval () = dest := array_v_cons (pfd, array_v_cons (pfd', pfdd))
-   }
+      prval () = src := array_v_cons (pfs, array_v_cons (pfs', pfss))
+      prval () = dst := array_v_cons (pfd, array_v_cons (pfd', pfdd))
+    }
   //
   val p = $extval (ptr, "&mag[0]")
-  val (pf_mag, free | p_mag) = $UN.ptr_vtake{@[double][1000]} (p)
-  
-  val () = $effmask_all (
-    loop_pairs (pfr , pf_mag | r, p_mag, i2sz(N))
-  )
-  implement 
-    array_iforeach_pair$fwork<planet><distances> (i, p0, p1, rel) = {
-    val i = g1ofg0 (i)
-    prval () = array_length_lemma (rel, i)
-    //
+  val (pf_mag, free | p_mag) = $UN.ptr_vtake{@[double][1000]}(p)
+  //
+  val () = $effmask_all (loop_pairs (pfr , pf_mag | r, p_mag, i2sz(N)))
+  //
+  implement
+  array_iforeach_pair$fwork<planet><distances>
+    (i, p0, p1, rel) =
+  {
+    val i = $UN.cast{natLt(1000)}(i)
     val p = $extval (ptr, "&mag[0]")
-    val (pf_mag, free | p_mag) = $UN.ptr_vtake{@[double][1000]} (p)
-    prval () = array_length_lemma (!p_mag, i)
-        
+    val (pf_mag, free | p_mag) = $UN.ptr_vtake{@[double][1000]}(p)
     val mag = !p_mag.[i]
     val scale0 = p0.mass * mag
     val scale1 = p1.mass * mag
-    
     prval () = free (pf_mag)
     //
     fun loop {i:nat | i <= 3} (
@@ -369,62 +364,83 @@ fun advance {n:pos | n <= 5} .<>. (
     val () = loop (i2sz(0), p0.v, p1.v, rel.[i].dx)
   }
   val () = $effmask_all (
-    array_iforeach_pair_env<planet><distances> (bodies, i2sz(nbodies), !r)
+    array_iforeach_pair_env<planet><distances> (bodies, i2sz(n), !r)
   )
   //
-  implement array_foreach$fwork<planet><void> (p, v) = {
-    implement array_foreach2$fwork<double,double><void> (x, v, dummy) = {
+  implement
+  array_foreach$fwork<planet><void> (p, v) =
+  {
+    implement
+    array_foreach2$fwork<double,double><void> (x, v, dummy) = {
       val () = x += dt * v
     }
     val _ = array_foreach2<double,double> (p.x, p.v, i2sz(3))
   }
-  val _ = $effmask_all (
-    array_foreach<planet> (bodies, i2sz(nbodies))
-  )
+  //
+  val _ = $effmask_all (array_foreach<planet> (bodies, i2sz(n)))
   prval () = free (pf_mag);
 } // end of [advance]
 
-fun energy {n:pos | n <= 5} .<>. (
-  bodies: &planetarr (n), nbodies: int n
-):<!wrt> double = let
-  var e : double = 0.0
-  implement 
-    array_iforeach_pair$element<planet><double> (i, body, e) = {
-      val () = e += body.mass * (
-        body.v.[0] * body.v.[0] + 
-        body.v.[1] * body.v.[1] + 
-        body.v.[2] * body.v.[2]
-      ) / 2.0
-  }
-  implement
-    array_iforeach_pair$fwork<planet><double> (i, p0, p1, e) = let
-      var dx : vector3d(double) = @[double][3]()
-      val () = vdiff<double> (dx, p0.x, p1.x)
-      val distance = vdistance<double> (dx)
-  in
-    e -= (p0.mass * p1.mass) / distance
-  end
+fun energy
+  {n:pos | n <= 5} .<>.
+(
+  bodies: &planetarr (n), n: int n
+) :<!wrt> double = let
+//
+var e : double = 0.0
+//
+implement 
+array_iforeach_pair$element<planet><double>
+  (i, body, e) = {
+//
+val (
+) = e +=
+  body.mass * (
+  body.v.[0] * body.v.[0] + 
+  body.v.[1] * body.v.[1] + 
+  body.v.[2] * body.v.[2] ) / 2.0
+}
+implement
+array_iforeach_pair$fwork<planet><double>
+  (i, p0, p1, e) = let
+  var dx : v3d(double) = @[double][3]()
+  val () = vdiff<double> (dx, p0.x, p1.x)
+  val distance = vdist<double> (dx)
+in
+  e -= (p0.mass * p1.mass) / distance
+end
   
-  val _ = $effmask_all (
-    array_iforeach_pair_env<planet><double> (bodies, i2sz(nbodies), e)
-  )
+val _ = $effmask_all
+(
+  array_iforeach_pair_env<planet><double> (bodies, i2sz(n), e)
+)
+//
 in
   e
 end // end of [energy]
 
+(* ****** ****** *)
+
 fn offmoment {n:pos}
   (bodies: &planetarr n, n: int n):<!wrt> void = {
-  
-  implement array_foreach$fwork<planet><planet> (curr, sun) = {
-    val bmass = curr.mass
-    implement array_foreach2$fwork<double,double><void> (bv, sv, dummy) =
-      sv -= bv * bmass / SOLAR_MASS
-    //
-    val _ = array_foreach2<double,double> (curr.v, sun.v, i2sz(3))
-  }
-  val _ = $effmask_all (
-    array_foreach_env<planet><planet> (bodies, i2sz(n), bodies.[0])
-  )
+//  
+implement
+array_foreach$fwork<planet><planet> (curr, sun) =
+{
+//
+val bmass = curr.mass
+implement
+array_foreach2$fwork<double,double><void>
+  (bv, sv, dummy) = sv -= bv * bmass / SOLAR_MASS
+val _ = array_foreach2<double,double> (curr.v, sun.v, i2sz(3))
+//
+}
+//
+val _ = $effmask_all
+(
+  array_foreach_env<planet><planet> (bodies, i2sz(n), bodies.[0])
+)
+//
 } // end of [offmoment]
 
 #define N 5
@@ -433,10 +449,12 @@ sta l_theBodies: addr
 extern prval pfbox_theBodies: vbox (planetarr(N) @ l_theBodies)
 val p_theBodies = $extval (ptr (l_theBodies), "&theBodies[0]")
 
-implement main0 (argc, argv) = () where {
-  val () = assert (argc = 2)
-  val str = argv[1]
-  val n = g1string2int<intknd>(str)
+implement
+main0 (
+  argc, argv
+) = () where {
+  val () = assert (argc >= 2)
+  val n = g0string2int_int (argv[1])
   val () = assert (n >= 2)
   prval vbox (pf0) = pfbox_theBodies
   val () = offmoment (!p_theBodies, N)
@@ -465,19 +483,24 @@ implement main0 (argc, argv) = () where {
 #define SOLAR_MASS ( 4 * PI * PI )
 #define DAYS_PER_YEAR 365.24
 
-struct planet {
+typedef
+struct
+planet {
   double x[3], fill, v[3], mass;
-};
+} planet_t ;
 
 #define NBODY 5
 
-typedef struct {
-    double dx[3], fill;
-} rel_t;
+typedef
+struct {
+  double dx[3], fill;
+} rel_t ;
 
 static  __attribute__((aligned(16))) double mag[1000];
 
-static struct planet theBodies[NBODY] = {
+static
+planet_t
+theBodies[NBODY] = {
    /* sun */
    {
       .x = { 0., 0., 0. },
@@ -526,19 +549,4 @@ static struct planet theBodies[NBODY] = {
    }
 } ;
 
-inline __m128d _m128d_mul_m128d (__m128d a, __m128d b) {
-   return a * b;
-}
-
-inline __m128d _m128d_add_m128d (__m128d a, __m128d b) {
-   return a + b;
-}
-
-inline __m128d _m128d_sub_m128d (__m128d a, __m128d b) {
-   return a - b;
-}
-
-inline __m128d _m128d_div_m128d (__m128d a, __m128d b) {
-   return a / b;
-}
 %}

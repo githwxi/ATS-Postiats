@@ -40,10 +40,11 @@ macdef -= (x, d) = (,(x) := ,(x) - ,(d))
 fn advance {n:pos}
   (bodies: &planetarr n, n: int n, dt: double):<!wrt> void = () where {  
   fun loop_inner
-    {l1:addr} {n2:nat} {l2:addr} .<n2>. (
+    {l1:addr} {n2:nat} {l2:addr} .<n2>.
+  (
       pf1: !planet @ l1, pf2: !planetarr n2 @ l2
     | p1: ptr l1, p2: ptr l2, n2: int n2, dt: double
-    ) :<!wrt> void =
+  ) :<!wrt> void =
     if n2 > 0 then let
       prval (pf21, pf22) = array_v_uncons {planet} (pf2)
       val dx = p1->x - p2->x and dy = p1->y - p2->y and dz = p1->z - p2->z
@@ -145,23 +146,28 @@ fn energy {n:pos}
 typedef point = @{x=double, y=double, z=double}
 
 fn offmoment {n:pos}
-  (bodies: &planetarr n, n: int n):<!wrt> void = () where {
-  var p: point = @{x=0.0, y=0.0, z=0.0}
-  
-  implement array_foreach$fwork<planet><point> (planet, p) = {
-    val mass = planet.mass
-    val () = p.x += planet.vx * mass
-    val () = p.y += planet.vy * mass
-    val () = p.z += planet.vz * mass    
-  }
-  
-  val sz = $effmask_all (
-    array_foreach_env<planet><point> (bodies, i2sz(n), p)
-  )
-  val () = bodies.[0].vx := ~ p.x / SOLAR_MASS
-  val () = bodies.[0].vy := ~ p.y / SOLAR_MASS
-  val () = bodies.[0].vz := ~ p.z / SOLAR_MASS    
-} // end of [offset]
+(
+  bodies: &planetarr n, n: int n
+) :<!wrt> void = () where {
+//
+var p: point = @{x=0.0, y=0.0, z=0.0}
+//  
+implement
+array_foreach$fwork<planet><point> (planet, p) = {
+  val mass = planet.mass
+  val () = p.x += planet.vx * mass
+  val () = p.y += planet.vy * mass
+  val () = p.z += planet.vz * mass    
+}
+//  
+val sz = $effmask_all (
+  array_foreach_env<planet><point> (bodies, i2sz(n), p)
+)
+val () = bodies.[0].vx := ~ p.x / SOLAR_MASS
+val () = bodies.[0].vy := ~ p.y / SOLAR_MASS
+val () = bodies.[0].vz := ~ p.z / SOLAR_MASS    
+//
+} (* end of [offset] *)
 
 (* ****** ****** *)
 
@@ -203,7 +209,8 @@ main0 (argc, argv) =
 #define NBODY 5
 
 struct planet {
-  double x; double y; double z; double vx; double vy; double vz; double mass;
+  double x; double y; double z;
+  double vx; double vy; double vz; double mass;
 } ;
 
 struct planet theBodies[NBODY] = {
