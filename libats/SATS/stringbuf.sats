@@ -38,6 +38,12 @@
 
 (* ****** ****** *)
 
+%{#
+#include "libats/CATS/stringbuf.cats"
+%} // end of [%{#]
+
+(* ****** ****** *)
+
 absvtype stringbuf_vtype = ptr
 vtypedef stringbuf = stringbuf_vtype
 

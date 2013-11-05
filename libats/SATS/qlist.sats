@@ -58,10 +58,6 @@
 %} // end of [%{#]
 
 (* ****** ****** *)
-
-sortdef t0p = t@ype and vt0p = viewt@ype
-
-(* ****** ****** *)
 //
 absvtype
 qlist_vtype (a:vt@ype+, n:int) = ptr

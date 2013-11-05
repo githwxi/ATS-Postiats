@@ -193,7 +193,7 @@ array_iforeach_pair$fwork (i: size_t, a0: &a, a1: &a, env: &env >> _): void
 fun{a:vt0p}{env:vt0p}
 array_iforeach_pair_env{n0:nat}
 (
-  arr: &(@[a][n0]), n: size_t n0, env: &env
+  arr: &(@[a][n0]), n: size_t n0, env: &env >> _
 ) : void = let
   fun outer_loop {l:addr} {n:nat | n <= n0} .<n>. (
     pf: !array_v (a, l, n) | p: ptr l, n: size_t n, i: size_t, e: &env
