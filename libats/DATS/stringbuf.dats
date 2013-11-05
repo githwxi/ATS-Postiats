@@ -47,23 +47,78 @@ UN = "prelude/SATS/unsafe.sats"
 staload "libats/SATS/stringbuf.sats"
 
 (* ****** ****** *)
+//
+// HX:
+// recapacitizing policy
+// 0: manual
+// 1: automatic doubling
+//
+implement{}
+stringbuf$recapacitize () = 1 // default policy
+//
+(* ****** ****** *)
+//
+datavtype
+stringbuf =
+{m:nat}
+STRINGBUF of (arrayptr(char, m+1), ptr(*cur*), size_t(m))
+//
+(* ****** ****** *)
+
+assume stringbuf_vtype = stringbuf
+
+(* ****** ****** *)
+
+implement{
+} stringbuf_get_size
+  (sbf) = let
+  val+STRINGBUF (A, p, _) = sbf
+in
+  $UN.cast{size_t}(p - ptrcast(A))
+end // end of [stringbuf_get_size]
+
+implement{
+} stringbuf_get_capacity
+  (sbf) =
+  let val+STRINGBUF (_, _, cap) = sbf in cap end
+// end of [stringbuf_get_capacity]
+
+(* ****** ****** *)
 
 implement{
 } stringbuf_make_cap
   (cap) = (sbf) where
 {
 //
-val cap1 = succ(cap)
+prval [m:int] EQINT() = g1uint_get_index (cap)
 //
-val A = arrayptr_make_uninitized<char> (cap1)
+val A = arrayptr_make_uninitized<char> (succ(cap))
 //
-val (pfat, pfgc | p) = ptr_alloc<stringbuf_tsize> ()
+val p_A = ptrcast (A)
 //
-val (pfngc | sbf) = stringbuf_make_ngc (pfat | p, A, cap)
-//
-prval ((*void*)) = mfree_gcngc_v_nullify (pfgc, pfngc)
+val sbf = STRINGBUF ($UN.castvwtp0{arrayptr(char,m+1)}(A), p_A, cap)
 //
 } // end of [stringbuf_make_cap]
+
+(* ****** ****** *)
+
+implement{
+} stringbuf_free (sbf) =
+  let val+~STRINGBUF (A, _, _) = sbf in arrayptr_free (A) end
+// end of [stringbuf_free]
+
+(* ****** ****** *)
+
+implement{
+} stringbuf_getfree_strnptr
+  (sbf, n0) = let
+  val+~STRINGBUF (A, p, _) = sbf
+  val () = $UN.ptr0_set<char>(p, '\000')
+  val [n:int] n = $UN.cast{sizeGte(0)}(p - ptrcast(A))
+  val ((*void*)) = n0 := n
+in
+  $UN.castvwtp0{strnptr(n)}(A)
+end // end of [stringbuf_getfree_strnptr]
 
 (* ****** ****** *)
 

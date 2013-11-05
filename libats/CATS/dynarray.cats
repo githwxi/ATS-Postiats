@@ -44,8 +44,8 @@
 
 /* ****** ****** */
 
-#define atslib_memcpy memcpy
-#define atslib_memmove memmove
+#define atslib_dynarray_memcpy memcpy
+#define atslib_dynarray_memmove memmove
 
 /* ****** ****** */
 

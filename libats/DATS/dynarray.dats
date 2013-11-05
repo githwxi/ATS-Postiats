@@ -47,11 +47,9 @@ staload "libats/SATS/dynarray.sats"
 // 0: manual
 // 1: automatic doubling
 //
-(* ****** ****** *)
-
 implement{}
 dynarray$recapacitize () = 1 // default policy
-
+//
 (* ****** ****** *)
 
 local
@@ -257,9 +255,9 @@ in
 if i <= n then let
 //
 extern fun memcpy
-  : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_memcpy"
+  : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_dynarray_memcpy"
 extern fun memmove
-  : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_memmove"
+  : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_dynarray_memmove"
 //
 in
 //
@@ -395,12 +393,13 @@ in
 if m2 >= n then let
 //
 val A2 = arrayptr_make_uninitized<a> (m2)
+//
 val ptr = memcpy
 (
   arrayptr2ptr(A2), arrayptr2ptr(A), n*sizeof<a>
 ) where {
   extern fun memcpy
-    : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_memcpy"
+    : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_dynarray_memcpy"
 } (* end of [val] *)
 //
 extern castfn __cast {n:int} (arrayptr (a, n)):<> arrayptr (a?, n)

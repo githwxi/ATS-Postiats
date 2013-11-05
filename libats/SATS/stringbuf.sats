@@ -49,10 +49,11 @@ absvtype stringbuf_vtype = ptr
 vtypedef stringbuf = stringbuf_vtype
 
 (* ****** ****** *)
-
-abst@ype
-stringbuf_tsize = $extype"atslib_stringbuf_struct"
-
+//
+// HX: for recapacitizing policy
+//
+fun{} stringbuf$recapacitize ((*void*)): int
+//
 (* ****** ****** *)
 
 fun{}
@@ -60,29 +61,19 @@ stringbuf_make_cap (cap: sizeGte(1)): stringbuf
 
 (* ****** ****** *)
 
-fun
-stringbuf_make_ngc
-  {l:addr}{m:int}
-(
-  stringbuf_tsize? @ l
-| ptr(l), bufp: arrayptr(char?, m+1), cap: size_t(m)
-) :<!wrt> (mfree_ngc_v (l) | stringbuf) = "mac#%"
-
-(* ****** ****** *)
-
-fun
+fun{}
 stringbuf_get_size (sbf: !stringbuf): size_t = "mac#%"
-fun
+fun{}
 stringbuf_get_capacity (sbf: !stringbuf): size_t = "mac#%"
 
 (* ****** ****** *)
 
-fun
+fun{}
 stringbuf_free (sbf: stringbuf):<!wrt> void = "mac#%"
 
 (* ****** ****** *)
 
-fun
+fun{}
 stringbuf_getfree_strnptr
   (sbf: stringbuf, n: &size_t? >> size_t(n)):<!wrt> #[n:nat] strnptr(n)
 // end of [stringbuf_getfree_strnptr]
