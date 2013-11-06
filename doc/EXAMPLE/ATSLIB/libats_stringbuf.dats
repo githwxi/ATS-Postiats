@@ -43,11 +43,20 @@ val () =
 {
 val sbf = stringbuf_make_cap (i2sz(2))
 //
-val () = stringbuf_insert_char (sbf, 'a')
-val () = stringbuf_insert_char (sbf, 'b')
-val () = stringbuf_insert_char (sbf, 'c')
+val-1 = stringbuf_insert_char (sbf, 'a')
+val-1 = stringbuf_insert_char (sbf, 'b')
+val ((*void*)) = assertloc (stringbuf_get_capacity (sbf) = 2)
 //
-val ((*void*)) = stringbuf_free (sbf)
+val-1 = stringbuf_insert_char (sbf, 'c')
+val ((*void*)) = assertloc (stringbuf_get_capacity (sbf) = 4)
+//
+var n: size_t
+val str = stringbuf_getfree_strnptr (sbf, n)
+val str = strnptr2strptr (str)
+//
+val () = println! ("str = ", str)
+//
+val ((*void*)) = strptr_free (str)
 //
 } (* end of [val] *)
 

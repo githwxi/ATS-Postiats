@@ -62,21 +62,19 @@ stringbuf_make_cap (cap: sizeGte(1)): stringbuf
 (* ****** ****** *)
 
 fun{}
-stringbuf_get_size (sbf: !stringbuf): size_t = "mac#%"
-fun{}
-stringbuf_get_capacity (sbf: !stringbuf): size_t = "mac#%"
-
-(* ****** ****** *)
-
-fun{}
-stringbuf_free (sbf: stringbuf):<!wrt> void = "mac#%"
-
-(* ****** ****** *)
+stringbuf_free (sbf: stringbuf):<!wrt> void
 
 fun{}
 stringbuf_getfree_strnptr
   (sbf: stringbuf, n: &size_t? >> size_t(n)):<!wrt> #[n:nat] strnptr(n)
 // end of [stringbuf_getfree_strnptr]
+
+(* ****** ****** *)
+
+fun{}
+stringbuf_get_size (sbf: !stringbuf):<> size_t
+fun{}
+stringbuf_get_capacity (sbf: !stringbuf):<> size_t
 
 (* ****** ****** *)
 
@@ -95,11 +93,12 @@ fun{}
 stringbuf_insert_double (sbf: !stringbuf, x: double): int
 
 (* ****** ****** *)
-//
-fun
+
+fun{}
 stringbuf_reset_capacity
-  (sbf: !stringbuf, m2: sizeGte(1)):<!wrt> bool(*done/ignored*) = "mac#%"
-//
+  (sbf: !stringbuf, m2: sizeGte(1)):<!wrt> bool(*done/ignored*)
+// end of [stringbuf_reset_capacity]
+
 (* ****** ****** *)
 
 (* end of [stringbuf.sats] *)

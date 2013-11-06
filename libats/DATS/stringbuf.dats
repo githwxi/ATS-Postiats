@@ -60,28 +60,12 @@ stringbuf$recapacitize () = 1 // default policy
 //
 datavtype
 stringbuf =
-{m:nat}
+{m:pos}
 STRINGBUF of (arrayptr(char, m+1), ptr(*cur*), size_t(m))
 //
 (* ****** ****** *)
 
 assume stringbuf_vtype = stringbuf
-
-(* ****** ****** *)
-
-implement{
-} stringbuf_get_size
-  (sbf) = let
-  val+STRINGBUF (A, p, _) = sbf
-in
-  $UN.cast{size_t}(p - ptrcast(A))
-end // end of [stringbuf_get_size]
-
-implement{
-} stringbuf_get_capacity
-  (sbf) =
-  let val+STRINGBUF (_, _, cap) = sbf in cap end
-// end of [stringbuf_get_capacity]
 
 (* ****** ****** *)
 
@@ -119,6 +103,92 @@ implement{
 in
   $UN.castvwtp0{strnptr(n)}(A)
 end // end of [stringbuf_getfree_strnptr]
+
+(* ****** ****** *)
+
+implement{
+} stringbuf_get_size
+  (sbf) = let
+  val+STRINGBUF (A, p, _) = sbf
+in
+  $UN.cast{size_t}(p - ptrcast(A))
+end // end of [stringbuf_get_size]
+
+implement{
+} stringbuf_get_capacity
+  (sbf) =
+  let val+STRINGBUF (_, _, cap) = sbf in cap end
+// end of [stringbuf_get_capacity]
+
+(* ****** ****** *)
+
+implement{
+} stringbuf_reset_capacity
+  (sbf, m2) = let
+//
+val n = stringbuf_get_size (sbf)
+//
+prval [m2:int] EQINT () = g1uint_get_index (m2)
+//
+in
+//
+if m2 >= n then let
+//
+val+@STRINGBUF (A, p, m) = sbf
+//
+val A2 =
+  arrayptr_make_uninitized<char> (succ(m2))
+val p_A2 = ptrcast(A2)
+val _(*ptr*) =
+  memcpy (p_A2, ptrcast(A), n) where {
+  extern fun memcpy (ptr, ptr, size_t):<!wrt> ptr = "mac#atslib_stringbuf_memcpy"
+} (* end of [val] *)
+//
+val () = arrayptr_free (A)
+//
+val () = m := m2
+val () = p := add_ptr_bsz (p_A2, n)
+val () = A := $UN.castvwtp0{arrayptr(char,m2+1)}(A2)
+prval () = fold@ (sbf)
+//
+in
+  true
+end else
+  false
+// end of [if]
+//
+end // end of [stringbuf_reset_capacity]
+
+(* ****** ****** *)
+
+implement{
+} stringbuf_insert_char
+  (sbf, x) = let
+//
+val+@STRINGBUF (A, p, m) = sbf
+val m = m
+val n = $UN.cast{size_t}(p - ptrcast(A))
+//
+in
+//
+case+ 0 of
+| _ when n < m => let
+    val () = $UN.ptr0_set<char> (p, x)
+    val () = p := ptr_succ<char> (p)
+    prval () = fold@ (sbf)
+  in
+    1
+  end // end of [n < m]
+| _ (*n >= m*) => let
+    val recap = stringbuf$recapacitize ()
+    prval () = fold@ (sbf)
+  in
+    if recap >= 1 then let
+      val _ = stringbuf_reset_capacity (sbf, m+m) in stringbuf_insert_char (sbf, x)
+    end else 0(*~inserted*) // end of [if]
+  end // end of [n >= m]
+//
+end // end of [stringbuf_insert_char]
 
 (* ****** ****** *)
 
