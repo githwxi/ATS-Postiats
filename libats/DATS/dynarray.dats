@@ -245,7 +245,7 @@ fun pow2min
 ) : sizeGte(1) =
 (
   if s1 >= s2 then s1 else pow2min (s1+s1, s2)
-) (* end of [recap] *)
+) (* end of [pow2min] *)
 //
 val i = g1ofg0_uint (i)
 val+@DYNARRAY (A, m, n) = DA

@@ -82,6 +82,8 @@ fun{}
 stringbuf_insert_char (sbf: !stringbuf, x: charNZ): int
 fun{}
 stringbuf_insert_string (sbf: !stringbuf, x: string): int
+fun{}
+stringbuf_insert_strlen{n:int} (!stringbuf, string(n), size_t(n)): int
 
 (* ****** ****** *)
 

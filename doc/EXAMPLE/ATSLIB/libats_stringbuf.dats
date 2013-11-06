@@ -41,6 +41,7 @@ val ((*void*)) = stringbuf_free (sbf)
 
 val () =
 {
+//
 val sbf = stringbuf_make_cap (i2sz(2))
 //
 val-1 = stringbuf_insert_char (sbf, 'a')
@@ -52,9 +53,31 @@ val ((*void*)) = assertloc (stringbuf_get_capacity (sbf) = 4)
 //
 var n: size_t
 val str = stringbuf_getfree_strnptr (sbf, n)
-val str = strnptr2strptr (str)
+val ((*void*)) = assertloc (g0u2i(n) = strnptr_length (str))
 //
-val () = println! ("str = ", str)
+val str = strnptr2strptr (str)
+val ((*void*)) = println! ("str = ", str)
+//
+val ((*void*)) = strptr_free (str)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val sbf = stringbuf_make_cap (i2sz(1))
+//
+val _ = stringbuf_insert_string (sbf, "Hello")
+val _ = stringbuf_insert_string (sbf, ", world!")
+//
+var n: size_t
+val str = stringbuf_getfree_strnptr (sbf, n)
+val ((*void*)) = assertloc (g0u2i(n) = strnptr_length (str))
+//
+val str = strnptr2strptr (str)
+val ((*void*)) = println! ("str = ", str)
 //
 val ((*void*)) = strptr_free (str)
 //
