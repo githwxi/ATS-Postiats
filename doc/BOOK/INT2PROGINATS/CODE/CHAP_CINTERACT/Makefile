@@ -31,9 +31,13 @@ distclean:: cleanall
 
 ######
 
-misc: misc_dats.c
-	$(PATSCC) $(ATSCCFAGS) -o $@ $<
+misc: misc_dats.c; $(PATSCC) $(ATSCCFAGS) -o $@ $<
 cleanall:: ; $(RMF) misc
+
+######
+
+fact: fact_dats.c fact2.c ; $(PATSCC) $(ATSCCFAGS) -o $@ $^
+cleanall:: ; $(RMF) fact
 
 ######
 
