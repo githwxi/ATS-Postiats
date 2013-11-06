@@ -394,7 +394,12 @@ case+ pmd.primdec_node of
 | PMDdatdecs _ => ()
 | PMDexndecs _ => ()
 //
-| PMDimpdec _ => ()
+| PMDimpdec (impdec) => let
+    val opt = hiimpdec_get_instrlstopt (impdec)
+  in
+    case+ opt of
+    | None () => () | Some (inss) => auxlst (res, inss)
+  end // end of [PMDimpdec]
 //
 | PMDfundecs _ => ()
 //

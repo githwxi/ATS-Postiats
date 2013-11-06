@@ -98,6 +98,7 @@ fun t2mpmarglst_mhnfize (t2mas: t2mpmarglst): t2mpmarglst
 (* ****** ****** *)
 
 fun d2var_tyer (d2v: d2var): d2var
+fun d2cst_tyer (d2c: d2cst): d2cst
 
 (* ****** ****** *)
 

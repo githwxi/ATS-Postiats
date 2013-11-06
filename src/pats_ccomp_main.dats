@@ -531,6 +531,7 @@ case+
     val opt = hiimpdec_get_instrlstopt (imp)
   in
     case+ opt of
+    | None _ => ((*void*))
     | Some _ => let
         val d2c = imp.hiimpdec_cst
         val-Some(hse) = d2cst_get2_hisexp (d2c)
@@ -542,7 +543,6 @@ case+
       in
         // nothing
       end // end of [Some]
-    | None _ => ()
   end (* end of [PMDimpdec] *)
 //
 | PMDlocal (xs_head, xs_body) => auxlst (out, xs_body)

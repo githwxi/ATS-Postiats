@@ -165,6 +165,27 @@ end // end of [d2var_tyer]
 (* ****** ****** *)
 
 implement
+d2cst_tyer (d2c) = let
+//
+val opt = d2cst_get2_hisexp (d2c)
+//
+in
+//
+case+ opt of
+| Some _ => d2c
+| None _ => d2c where
+  {
+    val loc = d2cst_get_loc (d2c)
+    val s2e = d2cst_get_type (d2c)
+    val hse = s2exp_tyer_deep (loc, s2e)
+    val ((*void*)) = d2cst_set2_hisexp (d2c, Some (hse))
+  } (* end of [None] *)
+//
+end // end of [d2cst_tyer]
+
+(* ****** ****** *)
+
+implement
 p3at_tyer (p3t0) = let
 //
 val loc0 = p3t0.p3at_loc
@@ -1049,29 +1070,6 @@ end // end of [d3lablst_tyer]
 
 (* ****** ****** *)
 
-local
-
-fun aux_tyer
-  (d2c: d2cst): void = let
-//
-val opt = d2cst_get2_hisexp (d2c)
-//
-in
-//
-case+ opt of
-| Some _ => ()
-| None _ => let
-    val loc = d2cst_get_loc (d2c)
-    val s2e = d2cst_get_type (d2c)
-    val hse = s2exp_tyer_deep (loc, s2e)
-  in
-    d2cst_set2_hisexp (d2c, Some (hse))
-  end // end of [None]
-//
-end // end of [aux_tyer]
-
-in (* in of [local] *)
-
 implement
 d3exp_tyer_cst
   (loc0, hse0, d2c) = let
@@ -1088,14 +1086,10 @@ case+ sym of
     $SYM.symbol_FALSE_BOOL =>
     hidexp_bool (loc0, hse0, false)
 | _ => let
-    val () = aux_tyer (d2c)
-  in
-    hidexp_cst (loc0, hse0, d2c)
+    val d2c = d2cst_tyer (d2c) in hidexp_cst (loc0, hse0, d2c)
   end // end of [_]
 //
 end // end of [d3exp_tyer_cst]
-
-end // end of [local]
 
 (* ****** ****** *)
 
