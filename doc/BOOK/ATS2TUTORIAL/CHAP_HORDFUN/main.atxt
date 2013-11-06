@@ -154,7 +154,7 @@ sharing that is both common and flexible. As function arguments are often
 represented as heap-allocated closures that can only be reclaimed through
 garbage collection (GC), higher-order functions are used infrequently, if
 at all, in a setting where GC is not present. In ATS, linear closures,
-which can be manually freed if needed, are available to support
+which can be freed explictly in a safe manner, are available to support
 higher-order functions in the absence of GC, making it possible to employ
 higher-order functions extensively in systems programming (where GC is
 unavailable or simply disallowed). The details on linear closures are to be

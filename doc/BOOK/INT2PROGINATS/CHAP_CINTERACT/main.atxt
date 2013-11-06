@@ -36,11 +36,98 @@ External Global Names
 
 #para("\
 
-A function declared in ATS can be given a C-like global name so as to allow
-the function to appear both in ATS code and C code.  In particular, the
-function can be implemented in ATS and then called in C or vice versa.
+A function declared in ATS can be given a global name of C-style so as to
+allow the function to appear both in ATS code and C code.  In particular,
+the function can be implemented in ATS and then called in C or vice versa.\
 
 ")
+
+#para("\
+
+In the following code, we see that two functions are declared:
+
+#atscode('\
+extern
+fun fact (n: int): int
+extern
+fun fact2 (n: int, res: int): int = "ext\#fact2_in_c"
+')
+
+The first function #dyncode("fact") does not have a global name while the
+second function #dyncode("fact2") is assigned a global name
+#dyncode("fact2_in_c").  The symbol #keycode("ext\#") indicates that
+#dyncode("fact2_in_c") is treated as a global extern function in C and its
+prototype needs to be given before it can be called.
+
+")
+
+#para("\
+
+Let us assume that #dyncode("fact") can be implemented as follows:
+
+#atscode('\
+implement fact (n) = fact2 (n, 1)
+')
+
+When compiling this implementation, the ATS compiler needs to form function
+names in the generated C code to refer to #dyncode("fact") and
+#dyncode("fact2").  For the former, the function name in the C code is
+determined by a set of rules.  For the latter, the function name is simply
+chosen to be the assigned global name #dyncode("fact2_in_c"). As is
+suggested by the name of #dyncode("fact2_in_c"), this function can be
+directly implemented in C as follows:
+
+<informalexample><programlisting>
+<![CDATA[int
+fact2_in_c (int n, int res)
+{
+  while (n > 0) { res *= n ; n -= 1 ; } ; return res ;
+}
+]]></programlisting></informalexample>
+
+Of course, it is also allowed to implement #dyncode("fact2") in ATS
+directly as is shown below:
+
+#atscode('\
+implement
+fact2 (n, res) = if n > 0 then fact2 (n-1, n*res) else res
+')
+
+This implementation of #dyncode("fact2") can be called in C
+through the name #dyncode("fact2_in_c").\
+
+")
+
+#para('\
+
+One can also declare #dyncode("fact2") as follows:
+
+#atscode('\
+extern
+fun fact2 (n: int, res: int): int = "mac\#fact2_in_c"
+')
+
+The symbol #keycode("mac\#") indicates that #dyncode("fact2_in_c") is
+treated like a macro in C. In particular, #dyncode("fact2_in_c") can be
+called without its prototype being declared first (it may not even have a
+prototype). This naturally implies that #dyncode("fact2_in_c") is expected
+to be implemented in C directly.\
+
+')
+
+#para('\
+
+It is also allowed to use #keycode("sta\#") in place of #keycode("mac\#"):
+
+#atscode('\
+extern
+fun fact2 (n: int, res: int): int = "sta\#fact2_in_c"
+')
+
+If declared in this style, which occurs very rarely in practice, then
+#dyncode("fact2_in_c") is treated like a static function in C.
+
+')
 
 </sect1><!--id="external_global_names"-->
 
