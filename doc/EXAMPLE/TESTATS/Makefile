@@ -47,6 +47,14 @@ cleanall:: ; $(RMF) fieldarr
 
 ######
 
+all:: findexn
+findexn: findexn_dats.c ; \
+  $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
+findexn_dats.c: findexn.dats ; $(PATSCC) -ccats $<
+cleanall:: ; $(RMF) findexn
+
+######
+
 all:: fixedpoint
 fixedpoint: fixedpoint.dats ; \
   $(PATSCC) -DATS_MEMALLOC_LIBC -cleanaft -o $@ $<

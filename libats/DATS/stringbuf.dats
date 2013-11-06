@@ -76,7 +76,7 @@ assume stringbuf_vtype = stringbuf
 (* ****** ****** *)
 
 implement{
-} stringbuf_make_cap
+} stringbuf_make_nil
   (cap) = (sbf) where
 {
 //
@@ -249,6 +249,20 @@ case+ 0 of
   end // end of [n2 >= m]
 //
 end // end of [stringbuf_insert_char]
+
+(* ****** ****** *)
+
+implement{
+} stringbuf_insert_bool
+  (sbf, x) = let
+in
+//
+if x
+  then stringbuf_insert_strlen (sbf, "true", i2sz(4))
+  else stringbuf_insert_strlen (sbf, "false", i2sz(5))
+// end of [if]
+//
+end // end of [stringbuf_insert_bool]
 
 (* ****** ****** *)
 

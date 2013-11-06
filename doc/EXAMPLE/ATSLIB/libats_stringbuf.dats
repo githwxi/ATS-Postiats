@@ -26,7 +26,7 @@ staload _(*anon*) = "libats/DATS/stringbuf.dats"
 
 val () =
 {
-val sbf = stringbuf_make_cap (i2sz(1))
+val sbf = stringbuf_make_nil (i2sz(1))
 //
 val ((*void*)) = assertloc (stringbuf_get_size (sbf) = 0)
 val ((*void*)) = assertloc (stringbuf_get_capacity (sbf) = 1)
@@ -42,13 +42,14 @@ val ((*void*)) = stringbuf_free (sbf)
 val () =
 {
 //
-val sbf = stringbuf_make_cap (i2sz(2))
+val sbf =
+  stringbuf_make_nil (i2sz(2))
 //
-val-1 = stringbuf_insert_char (sbf, 'a')
-val-1 = stringbuf_insert_char (sbf, 'b')
+val-1 = stringbuf_insert (sbf, 'a')
+val-1 = stringbuf_insert (sbf, 'b')
 val ((*void*)) = assertloc (stringbuf_get_capacity (sbf) = 2)
 //
-val-1 = stringbuf_insert_char (sbf, 'c')
+val-1 = stringbuf_insert (sbf, 'c')
 val ((*void*)) = assertloc (stringbuf_get_capacity (sbf) = 4)
 //
 var n: size_t
@@ -67,10 +68,11 @@ val ((*void*)) = strptr_free (str)
 val () =
 {
 //
-val sbf = stringbuf_make_cap (i2sz(1))
+val sbf = stringbuf_make_nil (i2sz(1))
 //
-val _ = stringbuf_insert_string (sbf, "Hello")
-val _ = stringbuf_insert_string (sbf, ", world!")
+val _ = stringbuf_insert (sbf, true)
+val _ = stringbuf_insert (sbf, " + ")
+val _ = stringbuf_insert (sbf, false)
 //
 var n: size_t
 val str = stringbuf_getfree_strnptr (sbf, n)

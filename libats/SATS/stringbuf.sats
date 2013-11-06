@@ -57,7 +57,7 @@ fun{} stringbuf$recapacitize ((*void*)): int
 (* ****** ****** *)
 
 fun{}
-stringbuf_make_cap (cap: sizeGte(1)): stringbuf
+stringbuf_make_nil (cap: sizeGte(1)): stringbuf
 
 (* ****** ****** *)
 
@@ -78,6 +78,10 @@ stringbuf_get_capacity (sbf: !stringbuf):<> size_t
 
 (* ****** ****** *)
 
+symintr stringbuf_insert
+
+(* ****** ****** *)
+
 fun{}
 stringbuf_insert_char (sbf: !stringbuf, x: charNZ): int
 fun{}
@@ -87,12 +91,23 @@ stringbuf_insert_strlen{n:int} (!stringbuf, string(n), size_t(n)): int
 
 (* ****** ****** *)
 
+overload stringbuf_insert with stringbuf_insert_char
+overload stringbuf_insert with stringbuf_insert_string
+
+(* ****** ****** *)
+
 fun{}
 stringbuf_insert_int (sbf: !stringbuf, x: int): int
 fun{}
 stringbuf_insert_bool (sbf: !stringbuf, x: bool): int
 fun{}
 stringbuf_insert_double (sbf: !stringbuf, x: double): int
+
+(* ****** ****** *)
+
+overload stringbuf_insert with stringbuf_insert_int
+overload stringbuf_insert with stringbuf_insert_bool
+overload stringbuf_insert with stringbuf_insert_double
 
 (* ****** ****** *)
 

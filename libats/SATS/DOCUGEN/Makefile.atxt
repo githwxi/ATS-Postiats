@@ -114,6 +114,7 @@ all_html::
 #make_entry("deqarray")
 #make_entry("dynarray")
 #make_entry("refcount")
+#make_entry("stringbuf")
 
 #make_entry("ilist_prf")
 #make_entry("gflist")

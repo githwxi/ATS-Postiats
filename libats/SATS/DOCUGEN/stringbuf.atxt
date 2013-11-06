@@ -1,0 +1,87 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../stringbuf.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_stringbuf")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/stringbuf\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+
+This package implements string buffers that can grow or shrink.
+A typical use of such a buffer is for turning a value into some
+form of string representation (stringization).
+
+')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("stringbuf")
+#declnamesynop("stringbuf_vtype")
+
+(* ****** ****** *)
+
+#declnamesynop("stringbuf$recapacitize")
+#decldescrpt('\
+
+The value returned by this function determines whether the capacity of a
+string buffer is allowed to be expanded automatically if needed.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("stringbuf_make_nil")
+#decldescrpt('\
+
+Given a size m, this function returns a string buffer of capacity m and
+size 0.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("stringbuf_free")
+#declnamesynop("stringbuf_getfree_strnptr")
+
+(* ****** ****** *)
+
+#declnamesynop("stringbuf_get_size")
+#declnamesynop("stringbuf_get_capacity")
+
+(* ****** ****** *)
+
+#declnamesynop("stringbuf_insert_char")
+#declnamesynop("stringbuf_insert_string")
+#declnamesynop("stringbuf_insert_strlen")
+
+(* ****** ****** *)
+
+#declnamesynop("stringbuf_insert_int")
+#declnamesynop("stringbuf_insert_bool")
+#declnamesynop("stringbuf_insert_double")
+
+(* ****** ****** *)
+
+#declnamesynop("stringbuf_reset_capacity")
+
+(* ****** ****** *)
+
+(* end of [stringbuf.atxt] *)

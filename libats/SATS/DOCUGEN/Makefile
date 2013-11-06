@@ -127,6 +127,14 @@ upload_refcount:: ;   scp HTML/refcount.html ats-hwxi,ats-lang@web.sourceforge.n
 clean:: ; $(RMF) refcount_atxt.exe
 cleanall:: ; $(RMF) HTML/refcount.html
 
+all_html:: HTML/stringbuf.html
+HTML/stringbuf.html:   stringbuf_atxt.exe ; ./$< > $@
+stringbuf_atxt.txt: stringbuf.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+stringbuf_atxt.exe: htmlgendecl_atxt.dats   stringbuf_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsynmark/libatsynmark.a -latsdoc
+upload_stringbuf:: ;   scp HTML/stringbuf.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) stringbuf_atxt.exe
+cleanall:: ; $(RMF) HTML/stringbuf.html
+
 
 all_html:: HTML/ilist_prf.html
 HTML/ilist_prf.html:   ilist_prf_atxt.exe ; ./$< > $@
