@@ -166,9 +166,9 @@ and values declared in C.
 #para("\
 
 Suppose that there is a type in C of the name #stacode("some_type_in_c"),
-then this type can be referred to in ATS as $extype\"some_type_in_c\". For
-instance, type definitions are introduced in the following code for
-some external types in C:
+then this type can be referred to in ATS as
+#stacode('$extype"some_type_in_c"'). For instance, type definitions are
+introduced in the following code for some external types in C:
 
 #atscode('\
 typedef Cint = $extype"int"
@@ -178,10 +178,10 @@ typedef Cint2 = $extype"struct{ int x; int y; }"
 ')
 
 Suppose that there is a value in C of the name #dyncode("some_value_in_c"),
-then this value can be referred to in ATS as $extval(T, \"some_value_in_c\"),
-where T is a type in ATS assigned to this value.
-For instance, macro definitions are introduced in the following code for
-some external values in C:
+then this value can be referred to in ATS as #dyncode('$extval(#stacode('T'), "some_value_in_c")'),
+where T is a type in ATS assigned to this value.  For instance, macro
+definitions are introduced in the following code for some external values
+in C:
 
 #atscode('\
 macdef NULL = $extype(ptr, "0")
@@ -215,12 +215,39 @@ id="inclusion_of_external_code">
 Inclusion of External Code in ATS
 </title>
 
-#para("\
+#para('\
 
-Just like including assembly inside C code, it is straightforward to
-include C code inside ATS code.
+Just like including assembly code inside C code, it is straightforward to
+include C code inside ATS code. For instance, the example appearing at the
+beginning of this chapter can be written as follows in a single file:
 
-")
+#atscode('\
+extern
+fun fact (n: int): int
+extern
+fun fact2 (n: int, res: int): int = "ext\#fact2_in_c"
+
+implement fact (n) = fact2 (n, 1)
+
+%{
+int
+fact2_in_c (int n, int res)
+{
+  while (n > 0) { res *= n ; n -= 1 ; } ; return res ;
+}
+%}
+')#comment("atscode")
+
+For C code to appear inside ATS code, it needs to enclosed by the symbols
+#keycode("%{") (opening) and #keycode("%}") (closing). Essentially,
+whatever code appearing between these two symbols is pasted into the
+generated C code at an unspecified position. If the enclosed code is
+intended to be put at the beginning of the generated C code, then the
+symbol #keycode("%{^") should be used in place of #keycode("%{").  If the
+enclosed code is intended to be put at the bottom of the generated C code,
+then the symbol #keycode("%{$") should be used in place of #keycode("%{").
+
+')
 
 </sect1><!--id="inclusion_of_external_code"-->
 

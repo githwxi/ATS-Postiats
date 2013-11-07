@@ -14,9 +14,15 @@ fun fact (n: int): int
 extern
 fun fact2 (n: int, res: int): int = "ext#fact2_in_c"
 
-(* ****** ****** *)
-
 implement fact (n) = fact2 (n, 1)
+
+%{
+int
+fact2_in_c (int n, int res)
+{
+  while (n > 0) { res *= n ; n -= 1 ; } ; return res ;
+}
+%}
 
 (* ****** ****** *)
 
@@ -32,4 +38,4 @@ val () = println! ("fact(", N, ") = ", fact(N))
 
 (* ****** ****** *)
 
-(* end of [fact.dats] *)
+(* end of [factext.dats] *)
