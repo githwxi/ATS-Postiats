@@ -754,6 +754,13 @@ case+ d2en0 of
     d2exp_exist (loc0, eval1sexparg (s2a), eval1dexp (d2e))
   // end of [D2Eexist]
 //
+| D2Elam_dyn
+    (lin, npf, p2ts, d2e) => let
+    val p2ts = eval1_p2atlst (loc0, ctx, env, p2ts)
+  in
+    d2exp_lam_dyn (loc0, lin, npf, p2ts, eval1dexp (d2e))
+  end // end of [D2Elam_dyn]
+//
 | D2Edelay (d2e) => d2exp_delay (loc0, eval1dexp (d2e))
 | D2Eldelay (d2e, opt) => // (eval, free)
     d2exp_ldelay (loc0, eval1dexp (d2e), eval1dexpopt (opt))
