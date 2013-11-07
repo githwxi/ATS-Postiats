@@ -843,9 +843,9 @@ this metric suffices for verifying the termination of #dyncode("f91").\
 ")#comment("para")
 
 #para("\
-As another example, the following code implements the Ackermann's
-function, which is well-known for being recursive but not primitive
-recursive:
+
+As another example, the following code implements the Ackermann's function,
+which is well-known for being recursive but not primitive recursive:
 
 #atscode("\
 fun acker
@@ -869,18 +869,19 @@ pairs of natural numbers.\
 ")#comment("para")
 
 #para("\
-Termination-checking for mutually recursive functions is similar.
-In the following example, #dyncode("isevn") and #dyncode("isodd") are
-defined mutually recursively:
+
+Termination-checking for mutually recursive functions is similar.  In the
+following example, #dyncode("isevn") and #dyncode("isodd") are defined
+mutually recursively:
 
 #atscode("\
 fun isevn
   {n:nat} .<2*n>.
-  (n: int n): bool =
+  (n: int n) : bool =
   if n = 0 then true else isodd (n-1)
 and isodd
   {n:nat} .<2*n+1>.
-  (n: int n): bool = not (isevn n)
+  (n: int n) : bool = not (isevn (n))
 ")
 
 The metrics supplied for verifying the termination of #dyncode("isevn") and
@@ -896,6 +897,133 @@ recursively defined functions be tuples of the same length.\
 ")#comment("para")
 
 </sect1><!--id="termination-checking_for_recursive_functions"-->
+
+<!-- ****** ****** -->
+
+<sect1
+id="dependent_types_for_debugging">
+#title("Example: Dependent Types for Debugging")
+
+#para("\
+
+Given an integer x >= 0, the integer square root of x is the greatest
+integer i satisfying i * i <= x.  An implementation of the integer square
+root function is given as follows based on the method of binary search:
+
+#atscode("\
+fun isqrt
+  (x: int): int = let
+//
+fun search
+(
+  x: int, l: int, r: int
+) : int = let
+  val diff = r - l
+in
+  case+ 0 of
+  | _ when diff > 0 => let
+      val m = l + (diff / 2)
+    in
+      // x < m * m is more efficient but can overflow easily
+      if x / m < m then search (x, l, m) else search (x, m, r)
+    end // end of [if]
+  | _ => l (* the result is found *)
+end // end of [search]
+//
+in
+  search (x, 0, x)
+end // end of [isqrt]
+")
+
+This implementation passes typechecking, but it seems to be looping forever
+when tested. Instead of going into the standard routine of debugging (e.g.,
+by inserting calls to some printing functions), let us attempt to identify
+the cause for infinite looping by proving the termination of the function
+#dyncode("search") through the use of dependent types. Clearly, the
+function #dyncode("search") is assigned the function type #stacode("(int,
+int, int) -&gt; int"), meaning that #dyncode("search") takes three integers as
+its arguments and returns an integer as its result, and there is not much
+else that can be gathered from a non-dependent type as such. However, the
+programmer may have thought that the function #dyncode("search") should
+possess the following invariants (if implemented correctly):
+
+<itemizedlist>
+
+<listitem>
+#para("
+l * l &lt;= x and x &lt;= r * r must hold when #dyncode("search(x, l, r)") is called.
+")
+</listitem>
+
+<listitem>
+#para("\
+
+Assume l * l &lt;= x &lt; r * r for some integers x, l, r.  If a recursive
+call #dyncode("search(x, l1, r1)") for some integers l1 and r1 is
+encountered in the body of #dyncode("search(x, l, r)"), then r1-l1 &lt; r-l
+must hold. This invariant implies that #dyncode("search") is terminating.\
+
+")
+</listitem>
+
+</itemizedlist>
+
+Though the first invariant can be captured in the type system of ATS, it is
+somewhat involved to do so due to the need for handling nonlinear
+constraints. Instead, let us try to assign #dyncode("search") the following
+dependent function type:
+
+#atscode("\
+{x:nat} {l,r:nat | l < r} .<r-l>. (int(x), int(l), int(r)) -> int
+")
+
+which captures a weaker invariant stating that l &lt; r must hold when
+#dyncode("search(x, l, r)") is called. The termination metric
+#stacode(".&lt;r-l&gt;.") is provided for checking that the function
+#dyncode("search") is terminating. When we assign #dyncode("search") the
+dependent function type, we have to modify its body as certain errors are
+otherwise reported during typechecking. The following code we obtain after
+proper modification does pass typechecking:
+
+#atscode("\
+fun isqrt {x:nat}
+  (x: int x): int = let
+  fun search
+    {x,l,r:nat | l < r} .<r-l>.
+    (x: int x, l: int l, r: int r): int = let
+    val diff = r - l
+  in
+    case+ 0 of
+    | _ when diff > 1 => let
+        val m = l + (diff / 2)
+      in
+        if x / m < m then search (x, l, m) else search (x, m, r)
+      end // end of [if]
+    | _ => l (* the result is found *)
+  end // end of [search]
+in
+  if x > 0 then search (x, 0, x) else 0
+end // end of [isqrt]
+")
+
+It is now rather clear that infinite looping in the previous implementation
+of #dyncode("search") may happen if #dyncode("search(x, l, r)") is called
+in a situaltion where r-l equals 1 as this call can potentially lead to
+another call to #dyncode("search") of the same arguments. However, such a call
+leads to a type-error after #dyncode("search") is assigned the aforementioned
+dependent function type.\
+
+")#comment("para")
+
+#para("\
+
+By being precise and being able to enforce precision effectively, the
+programmer will surely notice that his or her need for run-time debugging
+is diminishing rapidly.\
+
+")
+
+</sect1><!--id="dependent_types_for_debugging"-->
 
 <!-- ****** ****** -->
 
