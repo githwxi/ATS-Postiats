@@ -64,7 +64,8 @@ datatype rbtree
 
 datatype
 rbtree (
-  a: t@ype, int(*c*), int(*bh*), int(*v*)
+  a: t@ype
+, int(*c*), int(*bh*), int(*v*)
 ) = // element type, color, black height, violations
   | rbtree_nil (a, BLK, 0, 0) of ()
   | {c,cl,cr:clr} {bh:nat} {v:int}
@@ -192,7 +193,7 @@ prtree (t) where
     | cons (
         c, tl, x, tr
       ) => {
-        val () = if c = BLK then print ("B(") else print ("R(")
+        val () = (if c = BLK then print ("B(") else print ("R(")): void
         val () = prtree (tl)
         val () = print ", "
         val () = print (x)

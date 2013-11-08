@@ -245,58 +245,89 @@ vtypedef tmpmap = tmpvarmap_vt (tmpvar)
 extern
 fun primval_subst
 (
-  env: !ccompenv, map: !tmpmap, sub: !stasub, pmv: primval, sfx: int
+  env: !ccompenv
+, map: !tmpmap, sub: !stasub, pmv: primval, sfx: int
 ) : primval // end of [primval_subst]
 extern
-fun primvalist_subst
+fun
+primvalist_subst
 (
-  env: !ccompenv, map: !tmpmap, sub: !stasub, pmvs: primvalist, sfx: int
+  env: !ccompenv
+, map: !tmpmap, sub: !stasub, pmvs: primvalist, sfx: int
 ) : primvalist // end of [primvalist_subst]
 //
 extern
 fun primlab_subst
 (
-  env: !ccompenv, map: !tmpmap, sub: !stasub, pml: primlab, sfx: int
+  env: !ccompenv
+, map: !tmpmap, sub: !stasub, pml: primlab, sfx: int
 ) : primlab // end of [primlab_subst]
 extern
-fun primlablst_subst
+fun
+primlablst_subst
 (
-  env: !ccompenv, map: !tmpmap, sub: !stasub, pmls: primlablst, sfx: int
+  env: !ccompenv
+, map: !tmpmap, sub: !stasub, pmls: primlablst, sfx: int
 ) : primlablst // end of [primlablst_subst]
 //
 extern
-fun labprimval_subst
+fun
+labprimval_subst
 (
-  env: !ccompenv, map: !tmpmap, sub: !stasub, lpmv: labprimval, sfx: int
+  env: !ccompenv
+, map: !tmpmap, sub: !stasub, lpmv: labprimval, sfx: int
 ) : labprimval // end of [labprimval_subst]
 extern
-fun labprimvalist_subst
+fun
+labprimvalist_subst
 (
-  env: !ccompenv, map: !tmpmap, sub: !stasub, lpmvs: labprimvalist, sfx: int
+  env: !ccompenv
+, map: !tmpmap, sub: !stasub, lpmvs: labprimvalist, sfx: int
 ) : labprimvalist // end of [labprimvalist_subst]
+//
+extern
+fun
+tmprimval_subst
+(
+  env: !ccompenv
+, map: !tmpmap, sub: !stasub, tpmv: tmprimval, sfx: int
+) : tmprimval // end of [tmprimval_subst]
+extern
+fun
+tmpmovlst_subst
+(
+  env: !ccompenv
+, map: !tmpmap, sub: !stasub, tmvlst: tmpmovlst, sfx: int
+) : tmpmovlst // end of [tmpmovlst_subst]
 //
 extern
 fun patckont_subst
 (
-  env: !ccompenv, map: !tmpmap, sub: !stasub, kont: patckont, sfx: int
+  env: !ccompenv
+, map: !tmpmap, sub: !stasub, kont: patckont, sfx: int
 ) : patckont // end of [patckont_subst]
 //
 extern
 fun primdec_subst
 (
-  env: !ccompenv, map: !tmpmap, sub: !stasub, pmd: primdec, sfx: int
+  env: !ccompenv
+, map: !tmpmap, sub: !stasub, pmd: primdec, sfx: int
 ) : primdec // end of [primdec_subst]
 extern
 fun primdeclst_subst
 (
-  env: !ccompenv, map: !tmpmap, sub: !stasub, pmds: primdeclst, sfx: int
+  env: !ccompenv
+, map: !tmpmap, sub: !stasub, pmds: primdeclst, sfx: int
 ) : primdeclst // end of [primdeclst_subst]
 //
 extern
 fun vbindmap_subst
 (
-  env: !ccompenv, map: !tmpmap, sub: !stasub, vbmap: vbindmap, sfx: int
+  env: !ccompenv
+, map: !tmpmap, sub: !stasub, vbmap: vbindmap, sfx: int
 ) : vbindmap // end of [vbindmap_subst]
+//
+(* ****** ****** *)
 //
 extern
 fun instr_subst
@@ -308,6 +339,18 @@ fun instrlst_subst
 extern
 fun ibranchlst_subst
   (env: !ccompenv, map: !tmpmap, sub: !stasub, ibrs: ibranchlst, sfx: int): ibranchlst
+//
+(* ****** ****** *)
+//
+typedef
+instrlst0 = ccomp_instrlst_type
+//
+extern
+fun instrlst0_subst
+(
+  env: !ccompenv
+, map: !tmpmap, sub: !stasub, inss: instrlst0, sfx: int
+) : instrlst0 // [instrlst0_subst]
 //
 (* ****** ****** *)
 
@@ -931,21 +974,76 @@ end // end of [primvalist_subst]
 
 (* ****** ****** *)
 
-typedef instrlst0 = ccomp_instrlst_type
+implement
+tmprimval_subst
+(
+  env, map, sub, tpmv, sfx
+) = let
+//
+macdef ftmp (x) = tmpvar2var (map, ,(x))
+macdef fpmv (x) = primval_subst (env, map, sub, ,(x), sfx)
+//
+in
+//
+case+ tpmv of
+| TPMVnone (pmv) => TPMVnone (fpmv(pmv))
+| TPMVsome (tmp, pmv) => TPMVsome (ftmp(tmp), fpmv(pmv))
+//
+end // end of [tmprimval_subst]
 
-extern
-fun instrlst0_subst (
-  env: !ccompenv, map: !tmpmap, sub: !stasub, inss: instrlst0, sfx: int
-) : instrlst0 // [ccomp_instrlst_subst]
+(* ****** ****** *)
 
 implement
-instrlst0_subst
-  (env, map, sub, inss, sfx) = let
-  val inss = $UN.cast{instrlst} (inss)
-  val inss = instrlst_subst (env, map, sub, inss, sfx)
+tmpmovlst_subst
+(
+  env, map, sub, tmvs, sfx
+) = let
+//
+macdef ftmp (x) = tmpvar2var (map, ,(x))
+macdef ftpmv (x) = tmprimval_subst (env, map, sub, ,(x), sfx)
 in
-  $UN.cast{instrlst0} (inss)
-end // end of [instrlst0_subst]
+//
+case+ tmvs of
+| list_nil () => list_nil ()
+| list_cons (tmv, tmvs) => let
+    val tmv = (ftpmv(tmv.0), ftmp(tmv.1))
+    val tmvs = tmpmovlst_subst (env, map, sub, tmvs, sfx)
+  in
+    list_cons (tmv, tmvs)
+  end // end of [list_cons]
+//
+end // end of [tmpmovlst_subst]
+
+(* ****** ****** *)
+
+implement
+patckont_subst
+(
+  env, map, sub, kont, sfx
+) = let
+//
+macdef ftmp (x) = tmpvar2var (map, ,(x))
+macdef fpmv (x) = primval_subst (env, map, sub, ,(x), sfx)
+macdef ftmvlst (xs) = tmpmovlst_subst (env, map, sub, ,(xs), sfx)
+//
+in
+//
+case+ kont of
+(*
+| PTCKNTnone of ()
+| PTCKNTtmplab of tmplab
+| PTCKNTtmplabint of (tmplab, int)
+*)
+| PTCKNTtmplabmov
+    (tl, xs) => PTCKNTtmplabmov (tl, ftmvlst (xs))
+(*
+| PTCKNTcaseof_fail of (location)
+| PTCKNTfunarg_fail of (location, funlab)
+*)
+| PTCKNTraise (tmp, pmv) => PTCKNTraise (ftmp(tmp), fpmv(pmv))
+| _ => kont
+//
+end // end of [patckont_subst]
 
 (* ****** ****** *)
 
@@ -1105,33 +1203,6 @@ val () = auxlst (env, map, sub, vblst, sfx, res)
 } // end of [vbindmap_subst]
 
 end (* end of [local] *)
-
-(* ****** ****** *)
-
-implement
-patckont_subst
-(
-  env, map, sub, kont, sfx
-) = let
-//
-macdef ftmp (x) = tmpvar2var (map, ,(x))
-macdef fpmv (x) = primval_subst (env, map, sub, ,(x), sfx)
-//
-in
-//
-case+ kont of
-(*
-| PTCKNTnone of ()
-| PTCKNTtmplab of tmplab
-| PTCKNTtmplabint of (tmplab, int)
-| PTCKNTtmplabmov of (tmplab, tmpmovlst)
-| PTCKNTcaseof_fail of (location)
-| PTCKNTfunarg_fail of (location, funlab)
-*)
-| PTCKNTraise (tmp, pmv) => PTCKNTraise (ftmp(tmp), fpmv(pmv))
-| _ => kont
-//
-end // end of [patckont_subst]
 
 (* ****** ****** *)
 
@@ -1527,6 +1598,17 @@ case+ ibrs of
 | list_nil () => list_nil ()
 //
 end (* end of [ibranchlst_subst] *)
+
+(* ****** ****** *)
+
+implement
+instrlst0_subst
+  (env, map, sub, inss, sfx) = let
+  val inss = $UN.cast{instrlst} (inss)
+  val inss = instrlst_subst (env, map, sub, inss, sfx)
+in
+  $UN.cast{instrlst0} (inss)
+end // end of [instrlst0_subst]
 
 (* ****** ****** *)
 
