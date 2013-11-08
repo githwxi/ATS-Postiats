@@ -26,6 +26,17 @@ highly expressive type system and a localizable template system.
 
 ')
 
+#para('\
+
+As it can be expected, C code that appears directly in ATS does not go
+through the kind of rigorous typechecking like ATS code should. So it is
+recommended that the programmer be extra cautious when making direct use of
+C code inside ATS code. In practice, my own experience clearly indicates
+that the portion of C code inside my ATS code is likely to be the culprit for most of
+encountered bugs.
+
+')
+
 #para("\
 
 The code employed for illustration in this chapter plus some additional

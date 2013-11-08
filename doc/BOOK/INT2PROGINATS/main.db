@@ -20,6 +20,7 @@
 <!ENTITY chap_modularity SYSTEM "CHAP_MODULARITY/main.db">
 <!ENTITY chap_cinteract SYSTEM "CHAP_CINTERACT/main.db">
 <!ENTITY chap_deptypes SYSTEM "CHAP_DEPTYPES/main.db">
+<!ENTITY chap_depdtref SYSTEM "CHAP_DEPDTREF/main.db">
 <!ENTITY chap_vvtintro SYSTEM "CHAP_VVTINTRO/main.db">
 ]>
 <book id="proginats" lang="en">
@@ -60,6 +61,7 @@ id="support-for-practical-programming">
 id="programming-with-dependent-types">
 <title>Programming with Dependent Types</title>
 &chap_deptypes;
+&chap_depdtref;
 </part>
 
 <part

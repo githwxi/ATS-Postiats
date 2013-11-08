@@ -65,6 +65,7 @@ allchap:: CHAP_CINTERACT
 # PART III
 #
 allchap:: CHAP_DEPTYPES
+allchap:: CHAP_DEPDTREF
 #
 ######
 #
@@ -126,6 +127,13 @@ CHAP_DEPTYPES:: ; \
   make -C CHAP_DEPTYPES -f ../Makefile.chap main.db
 CHAP_DEPTYPES:: ; \
   make -C CHAP_DEPTYPES -f ../Makefile.chap clean
+
+######
+
+CHAP_DEPDTREF:: ; \
+  make -C CHAP_DEPDTREF -f ../Makefile.chap main.db
+CHAP_DEPDTREF:: ; \
+  make -C CHAP_DEPDTREF -f ../Makefile.chap clean
 
 ######
 
