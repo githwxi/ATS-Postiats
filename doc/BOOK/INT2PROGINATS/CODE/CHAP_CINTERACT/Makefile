@@ -46,6 +46,11 @@ cleanall:: ; $(RMF) factext
 
 ######
 
+extfcall: extfcall_dats.c ; $(PATSCC) $(ATSCCFAGS) -o $@ $^
+cleanall:: ; $(RMF) extfcall
+
+######
+
 %_dats.c: %.dats
 	$(PATSCC) -DATS_MEMALLOC_LIBC $(ATSCCFLAGS) -ccats $< || touch $@
 

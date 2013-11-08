@@ -249,7 +249,73 @@ then the symbol #keycode("%{$") should be used in place of #keycode("%{").
 
 ')
 
+#para('\
+
+It is also allowed to put C code between the symbols
+#keycode("%{#") and #keycode("%}"). Suppose that there is a file of the
+name #filename("foo.sats") that contains C code included in this manner.
+If #filename("foo.sats") is staloaded in another file of the name
+#filename("foo.dats"), then the lines between #keycode("%{#") and
+#keycode("%}") in #filename("foo.sats") are pasted into the C code
+generated from compiling #filename("foo.dats").
+
+')
+
 </sect1><!--id="inclusion_of_external_code"-->
+
+<!-- ****** ****** -->
+
+<sect1
+id="calling_external_functions">
+<title>
+Calling External Functions in ATS
+</title>
+
+#para('\
+
+It is straightforward to make calls to external functions in ATS.
+For instance, the following code demonstrates a typical way to do so:
+
+#atscode('\
+local
+extern
+fun __fprintf
+  : (FILEref, string(*fmt*), int, int) -> int = "mac\#fprintf"
+in (* in of [local] *)
+//
+val N = 12
+val _ = __fprintf (stdout_ref, "fact(%i) = %i\\\\n", N, fact(N))
+//
+end // end of [local]
+')
+
+where the function #dyncode("fprintf") (declared in #filename("stdio.h"))
+is given a (local) name #dyncode("__fprintf") and an interface appropriate
+for the call to be made.
+
+')
+
+#para('\
+
+There is also built-in support for calling external functions in ATS directly.
+For instance, the following code does essentially the same as the code
+presented above:
+
+#atscode('\
+val N = 12
+val _ = $extfcall(int, "fprintf", stdout_ref, "fact(%i) = %i\\\\n", N, fact(N))
+')
+
+When #dyncode("$extfcall") is employed to make an external function call,
+its first argument is the return type of the call, and its second argument
+is the name of the called function (represented as a string), and its rest
+of arguments are the arguments of the called function.
+
+')
+
+</sect1><!--id="calling_external_functions"-->
+
+<!-- ****** ****** -->
 
 </chapter>
 
