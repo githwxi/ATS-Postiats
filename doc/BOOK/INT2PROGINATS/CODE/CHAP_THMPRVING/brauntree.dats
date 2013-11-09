@@ -1,18 +1,24 @@
 (*
-** Some code used in the book PROGINATS
+** Some code used in INT2PROGINATS
 *)
 
 (* ****** ****** *)
 
 datasort tree = E of () | B of (tree, tree)
 
-dataprop SZ (tree, int) =
+(* ****** ****** *)
+
+dataprop
+SZ (tree, int) =
   | SZE (E (), 0) of ()
   | {tl,tr:tree}{sl,sr:nat}
     SZB (B (tl, tr), 1+sl+sr) of (SZ (tl, sl), SZ (tr, sr))
 // end of [SZ]
 
-dataprop HT (tree, int) =
+(* ****** ****** *)
+
+dataprop
+HT (tree, int) =
   | HTE (E (), 0) of ()
   | {tl,tr:tree}{hl,hr:nat}
     HTB (B (tl, tr), 1+max(hl,hr)) of (HT (tl, hl), HT (tr, hr))

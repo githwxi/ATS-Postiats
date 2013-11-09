@@ -158,7 +158,8 @@ upper right corner of M^n.
 
 *)
 
-fun fib {n:nat}
+fun
+fib{n:nat}
   (n: int n): int = let
   val M = make_mat2x2 (0, 1, 1, 1)
   val Mn = fastpow_mat2x2_int (M, n)

@@ -72,8 +72,9 @@ A function template #dyncode("list_concat") is implemented as follows:
 //
 // [list_concat] does not typecheck!!!
 //
-fun{a:t@ype}
-list_concat {m,n:nat}
+fun{
+a:t@ype
+} list_concat{m,n:nat}
   (xss: list (list (a, n), m)): list (a, m * n) =
   case+ xss of
   | list_cons (xs, xss) => list_append<a> (xs, list_concat xss)
@@ -84,7 +85,9 @@ list_concat {m,n:nat}
 where the interface for #dyncode("list_append") is given below:
 
 #atscode("\
-fun{a:t@ype} list_append {n1,n2:nat}
+fun{
+a:t@ype
+} list_append {n1,n2:nat}
   (xs: list (a, n1), ys: list (a, n2)): list (a, n1+n2)
 ")
 
@@ -99,15 +102,17 @@ essentially like the following one:
 m = m1 + 1 implying n + (m1 * n) = m * n holds for all natural numbers m, m1 and n.
 ")
 
-This contraint may look simple, but it is rejected by the ATS constraint
-solver as it contains nonlinear integer terms (e.g., #stacode("m1*n") and
-#stacode("m*n")). In order to overcome (or rather circumvent) the
-limitation, we make use of theorem-proving. Another implementation of
-#dyncode("list_concat") is given as follows:
+This contraint may look simple, but it was once rejected by the ATS
+constraint solver as it contains nonlinear integer terms (e.g.,
+#stacode("m1*n") and #stacode("m*n")). In order to overcome (or rather
+circumvent) the limitation, we can make use of theorem-proving. Another
+implementation of #dyncode("list_concat") is given as follows:
 
 #atscode("\
-fun{a:t@ype}
-list_concat {m,n:nat} (
+fun{
+a:t@ype
+} list_concat{m,n:nat}
+(
   xss: list (list (a, n), m)
 ) : [p:nat] (MUL (m, n, p) | list (a, p)) =
   case+ xss of
@@ -349,13 +354,16 @@ implementation of factorial that is also tail-recursive. This can be done
 as follows:
 
 #atscode("\
-fun ifact2 {n:nat} .<>.
-  (n: int n): [r:int] (FACT (n, r) | int r) = let
+fun ifact2
+  {n:nat} .<>.
+(
+  n: int (n)
+) :<> [r:int] (FACT (n, r) | int r) = let
   fun loop
     {i:nat | i <= n}{r:int} .<n-i>.
   (
     pf: FACT (i, r) | n: int n, i: int i, r: int r
-  ) : [r:int] (FACT (n, r) | int r) =
+  ) :<> [r:int] (FACT (n, r) | int r) =
     if n - i > 0 then let
       val (pfmul | r1) = (i+1) imul2 r in loop (FACTind (pf, pfmul) | n, i+1, r1)
     end else (pf | r) // end of [if]
@@ -383,18 +391,20 @@ in
 end // end of [ifact2]
 ")
 
-When the inner function #dyncode("loop") is called on three arguments n, i and
-r, the precondition for this call is that i is natural number less than or
-equal to n and r equals #dyncode("fact(i)"), that is, the value of the
-factorial function on i. This precondition is captured by the type assigned
-to #dyncode("loop") and thus enforced at each call site of #dyncode("loop") in
+When the inner function #dyncode("loop") is called on three arguments n, i
+and r, the precondition for this call is that i is natural number less than
+or equal to n and r equals fact(i), that is, the value of the factorial
+function on i. This precondition is captured by the type assigned to
+#dyncode("loop") and thus enforced at each call site of #dyncode("loop") in
 the implementation of #dyncode("ifact2").
 
 ")#comment("para")
 
 #para("\
+
 Please find #mycodelink("CHAP_PRGTHMPRV/ifact23.dats", "on-line")
-the entirety of the above presented code plus some testing code.
+the entirety of the above presented code plus some testing code.\
+
 ")
 
 </sect1><!--"example_another_verified_factorial"-->
@@ -477,10 +487,10 @@ mul_elt_elt {x,y:elt}
 // end of [mul_elt_elt]
 ")
 
-Please do not confuse #stacode("MUL") with the one of the same name
-that is declared in #myatscodelink("prelude/SATS/arith.sats",
-"prelude/SATS/arith.sats"). To state that the encoded multiplication
-is associative, we can introduce the following proof function:
+Please do not confuse #stacode("MUL") with the one of the same name that is
+declared in #myatscodelink("prelude/SATS/arith_prf.sats", "arith_prf.sats"). To
+state that the encoded multiplication is associative, we can introduce the
+following proof function:
 
 #atscode("\
 praxi mul_assoc
@@ -595,7 +605,7 @@ entirety of the above presented code.
 
 #para("\
 
-Now we have implemented #dyncode("fastpow_elt_int"). How can we use it?
+Now we have implemented #dyncode("fastpow_elt_int"). How can it be used?
 Please find #mycodelink("CHAP_PRGTHMPRV/test_fastexp.dats", "on-line") an
 example in which #dyncode("fastpow_elt_int") is called to implement fast
 exponentiation on a 2-by-2 matrix so that Fibonacci numbers can be computed
