@@ -35,7 +35,7 @@ enhanced precision.\
 #para("\
 
 The code employed for illustration in this chapter plus some additional
-code for testing is available #mycodelink("CHAPTER_DEPDTREF/", "on-line").
+code for testing is available #mycodelink("CHAP_DEPDTREF/", "on-line").
 
 ")
 
@@ -287,7 +287,7 @@ assign more accurate types to these templates.
 
 #para("\
 Please find the entire code in this section plus some additional
-code for testing #mycodelink("CHAPTER_DEPDTREF/listfun.dats", "on-line").
+code for testing #mycodelink("CHAP_DEPDTREF/listfuns.dats", "on-line").
 ")
 
 <sect2 id="list_append">
@@ -591,7 +591,7 @@ are elsewhere.\
 
 #para("\
 Please find the entire code in this section plus some additional
-code for testing #mycodelink("CHAPTER_DEPREFDTS/mergesort.dats", "on-line").
+code for testing #mycodelink("CHAP_DEPDTREF/mergesort.dats", "on-line").
 ")
 
 </sect1><!--id="example_mergesort_redux"-->
@@ -774,9 +774,10 @@ datatype rbtree
       int c, rbtree0 (a, cl, bh), a, rbtree0 (a, cr, bh)
     ) (* end of [rbtree_cons] *)
 // end of [rbtree]
-')
 
 where rbtree0 (a:t@ype, c:int, bh:int) = rbtree (a, c, bh, 0)
+
+')
 
 #para('\
 
@@ -969,7 +970,7 @@ being a valid red-black tree (containing no color violations).
 #para("\
 
 Please find the entire code in this section plus some additional code for
-testing #mycodelink("CHAPTER_DEPREFDTS/rbtree.dats", "on-line").
+testing #mycodelink("CHAP_DEPDTREF/rbtree.dats", "on-line").
 
 ")
 

@@ -21,6 +21,8 @@
 <!ENTITY chap_cinteract SYSTEM "CHAP_CINTERACT/main.db">
 <!ENTITY chap_deptypes SYSTEM "CHAP_DEPTYPES/main.db">
 <!ENTITY chap_depdtref SYSTEM "CHAP_DEPDTREF/main.db">
+<!ENTITY chap_thmprving SYSTEM "CHAP_THMPRVING/main.db">
+<!ENTITY chap_prgthmprv SYSTEM "CHAP_PRGTHMPRV/main.db">
 <!ENTITY chap_vvtintro SYSTEM "CHAP_VVTINTRO/main.db">
 ]>
 <book id="proginats" lang="en">
@@ -62,6 +64,8 @@ id="programming-with-dependent-types">
 <title>Programming with Dependent Types</title>
 &chap_deptypes;
 &chap_depdtref;
+&chap_thmprving;
+&chap_prgthmprv;
 </part>
 
 <part

@@ -5,6 +5,7 @@
 ######
 
 CCOPT=gcc -std=c99
+PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
@@ -19,6 +20,9 @@ ATSCCFLAGS=
 ######
 
 all:: misc
+all:: listfuns
+all:: mergesort
+all:: rbtree
 
 ######
 

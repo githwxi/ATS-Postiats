@@ -338,10 +338,10 @@ fun g1int_sub {i,j:int} (int i, int j): int (i-j) // subtraction
 fun g1int_mul {i,j:int} (int i, int j): int (i*j) // multiplication
 fun g1int_div {i,j:int} (int i, int j): int (i/j) // division
 
-fun g1int_lt {i,j:int} (int i, int j): bool (i &lt; j) // less-than
-fun g1int_lte {i,j:int} (int i, int j): bool (i &lt;= j) // less-than-or-equal-to
-fun g1int_gt {i,j:int} (int i, int j): bool (i &gt; j) // greater-than
-fun g1int_gte {i,j:int} (int i, int j): bool (i &gt;= j) // greater-than-or-equal-to
+fun g1int_lt {i,j:int} (int i, int j): bool (i < j) // less-than
+fun g1int_lte {i,j:int} (int i, int j): bool (i <= j) // less-than-or-equal-to
+fun g1int_gt {i,j:int} (int i, int j): bool (i > j) // greater-than
+fun g1int_gte {i,j:int} (int i, int j): bool (i >= j) // greater-than-or-equal-to
 fun g1int_eq {i,j:int} (int i, int j): bool (i == j) // equal-to
 fun g1int_neq {i,j:int} (int i, int j): bool (i != j) // not-equal-to
 ")

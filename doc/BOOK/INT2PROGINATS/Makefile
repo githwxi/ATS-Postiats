@@ -66,6 +66,8 @@ allchap:: CHAP_CINTERACT
 #
 allchap:: CHAP_DEPTYPES
 allchap:: CHAP_DEPDTREF
+allchap:: CHAP_THMPRVING
+allchap:: CHAP_PRGTHMPRV
 #
 ######
 #
@@ -134,6 +136,20 @@ CHAP_DEPDTREF:: ; \
   make -C CHAP_DEPDTREF -f ../Makefile.chap main.db
 CHAP_DEPDTREF:: ; \
   make -C CHAP_DEPDTREF -f ../Makefile.chap clean
+
+######
+
+CHAP_THMPRVING:: ; \
+  make -C CHAP_THMPRVING -f ../Makefile.chap main.db
+CHAP_THMPRVING:: ; \
+  make -C CHAP_THMPRVING -f ../Makefile.chap clean
+
+######
+
+CHAP_PRGTHMPRV:: ; \
+  make -C CHAP_PRGTHMPRV -f ../Makefile.chap main.db
+CHAP_PRGTHMPRV:: ; \
+  make -C CHAP_PRGTHMPRV -f ../Makefile.chap clean
 
 ######
 

@@ -159,14 +159,16 @@ end // end of [rbtree_insert]
 implement
 main0 () = () where {
 //
-val cmp = $extval (cmp(int), "0")
-implement compare<int> (x, y, _) = x - y
+typedef T = int
+//
+val cmp = $extval (cmp(T), "0")
+implement compare<T> (x, y, _) = x - y
 //
 #define nil rbtree_nil
 #define cons rbtree_cons
 //
 var t = nil ()
-macdef insert (x) = t := rbtree_insert<int> (t, ,(x), cmp)
+macdef insert (x) = t := rbtree_insert<T> (t, ,(x), cmp)
 val () = insert (0)
 val () = insert (3)
 val () = insert (2)
@@ -181,7 +183,6 @@ val () = insert (1)
 val () =
 prtree (t) where
 {
-  typedef T = int
   fun prtree
     {c:clr}{bh:int}
   (
@@ -193,7 +194,12 @@ prtree (t) where
     | cons (
         c, tl, x, tr
       ) => {
-        val () = (if c = BLK then print ("B(") else print ("R(")): void
+        val () =
+        (
+          if c = BLK
+            then print ("B(") else print ("R(")
+          // end of [if]
+        ) : void
         val () = prtree (tl)
         val () = print ", "
         val () = print (x)
