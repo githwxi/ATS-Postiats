@@ -6,7 +6,8 @@
 
 (* ****** ****** *)
 //
-#include "share/atspre_staload_tmpdef.hats"
+#include "share/atspre_define.hats"
+#include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -16,7 +17,8 @@
 
 (* ****** ****** *)
 
-implement main0 () = () // a dummy implementation for [main]
+implement
+main0 () = () // a dummy implementation for [main0]
 
 (* ****** ****** *)
 

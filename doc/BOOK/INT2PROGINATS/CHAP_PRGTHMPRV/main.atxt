@@ -171,9 +171,10 @@ implement{a}
 matrix_get (A, n, i, j) = A[i*n+j] // it fails to typecheck!!!
 ")#comment("para")
 
-as the ATS constraint solver cannot automatically verify that i*n+j is a
-natural number strictly less than m*n. An implementation of
-#dyncode("matrix_get") that typechecks can be given as follows:
+The simple reason for this failure is due to the ATS constraint solver not
+being able to automatically verify that i*n+j is a natural number strictly
+less than m*n. An implementation of #dyncode("matrix_get") that typechecks
+can be given as follows:
 
 #atscode("\
 implement

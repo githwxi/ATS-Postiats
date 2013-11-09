@@ -3,7 +3,8 @@
 //
 (* ****** ****** *)
 //
-#include "share/atspre_staload.hats"
+#include
+"share/atspre_staload.hats"
 //
 staload _ = "prelude/DATS/gnumber.dats"
 //

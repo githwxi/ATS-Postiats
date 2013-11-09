@@ -98,7 +98,7 @@ id="a_template_for_single-file_programs"
 
 #para("
 The following code template, which is available
-#mycodelink("CHAPTER_START/mytest.dats", "on-line"), is designed for constructing a
+#mycodelink("CHAP_START/mytest.dats", "on-line"), is designed for constructing a
 single-file program in ATS:
 
 #atscode('\
@@ -110,7 +110,8 @@ single-file program in ATS:
 
 (* ****** ****** *)
 //
-\#include "share/atspre_staload_tmpdef.hats"
+\#include "share/atspre_define.hats"
+\#include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -125,9 +126,9 @@ implement main0 () = () // a dummy implementation for [main]
 ')#comment("atscode")
 
 The line starting with the keyword #dyncode("\#include") enables the ATS
-compiler #command("atsopt") to gain access to the definition of certain
-library functions. I will cover elsewhere in the book the topic on
-programming with library functions in ATS.\
+compiler #command("atsopt") to gain access to certain external library
+packages and the definitions of various library functions. I will cover
+elsewhere in the book the topic on making use of library in ATS.\
 
 ")#comment("para")
 

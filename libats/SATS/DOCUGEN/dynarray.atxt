@@ -255,10 +255,13 @@ This function is called in the implementation of
 elements, and its default implementation is based on
 #dyncode("gcompare_ref"):
 
-#pats2xhtmld_tryit("\
+#pats2xhtmld_tryit('\
+//
+staload "libats/SATS/dynarray.sats"
+//
 implement{a}
 dynarray_quicksort$cmp (x, y) = gcompare_ref<a> (x, y)
-")
+')
 ")
 
 (* ****** ****** *)

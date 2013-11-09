@@ -226,7 +226,7 @@ relation #stacode("MUL"). The following code gives an implementation of
 #dyncode("mul_istot"):
 
 #atscode("\
-implement
+primplement
 mul_istot {m,n} () = let
   prfun istot
     {m:nat;n:int} .<m>. (): [p:int] MUL (m, n, p) =
@@ -237,11 +237,13 @@ in
 end // end of [mul_istot]  
 ")
 
-Note that the inner proof function #dyncode("istot") encodes a proof
-showing that there exists an integer p for any given natural number m and
-integer n such that m, n and p are related (according to #stacode("MUL")).
-The keyword #keycode("sif") is used for forming a conditional (proof)
-expression in which the test is a static expression.  The proof encoded by
+Note that the keyword #keycode("primplement") (instead of
+#keycode("implement")) initiates the implementation of a proof.  The inner
+proof function #dyncode("istot") encodes a proof showing that there exists
+an integer p for any given natural number m and integer n such that m, n
+and p are related (according to #stacode("MUL")).  The keyword
+#keycode("sif") is used for forming a conditional (proof) expression in
+which the test is a static expression.  The proof encoded by
 #dyncode("istot") proceeds by induction on m; if m > 0 holds, then there
 exists an integer p1 such that m-1, n and p1 are related by induction
 hypothesis (on m-1) and thus m, n and p are related for p = p1+n according
@@ -353,7 +355,7 @@ p1+p2 if the product of m and n1 is p1 and the product of m and n2 is p2.
 An implementation of #dyncode("mul_distribute") is given as follows:
 
 #atscode("\
-implement
+primplement
 mul_distribute
   {m}{n1,n2}{p1,p2} (pf1, pf2) = let
   prfun aux
@@ -522,7 +524,7 @@ The function #dyncode("lemma_tree_size_height") can be implemented
 as follows:
 
 #atscode("\
-implement
+primplement
 lemma_tree_size_height
   (pf1, pf2, pf3) = let
 //
@@ -538,7 +540,7 @@ lemma{t:tree}
   scase t of
   | B (tl, tr) => let
       prval SZB (pf1l, pf1r) = pf1
-      prval HTB {tl,tr} {hl,hr} (pf2l, pf2r) = pf2
+      prval HTB {tl,tr}{hl,hr} (pf2l, pf2r) = pf2
       prval POW2ind (pf31) = pf3
       prval pf3l = pow2_istot {hl} ()
       prval pf3r = pow2_istot {hr} ()
@@ -621,7 +623,7 @@ and the size of t is n. The following code gives an implementation of
 #dyncode("lemma_existence"):
 
 #atscode("\
-implement
+primplement
 lemma_existence {n} () = let
   prfun lemma {n:nat} .<n>.
     (): [t:tree] (isBraun (t), SZ (t, n)) =
@@ -677,7 +679,7 @@ An implementation of the proof function #dyncode("lemma_unicity") is presented
 as follows:
 
 #atscode("\
-implement
+primplement
 lemma_unicity
   (pf1, pf2, pf3, pf4) = let
   prfun lemma{n:nat}{t1,t2:tree} .<n>.
@@ -739,7 +741,7 @@ As a comparison, the following code gives another implementation of
 #dyncode("lemma_unicity") that is of a different (and rather unusual) style:
 
 #atscode("\
-implement
+primplement
 lemma_unicity
   (pf1, pf2, pf3, pf4) = let
   prfun lemma{n:nat}{t1,t2:tree} .<t1>.
