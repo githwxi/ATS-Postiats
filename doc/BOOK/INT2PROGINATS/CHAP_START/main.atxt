@@ -150,12 +150,15 @@ familiar with the #command("make") utility, you could readily find plenty
 resources on-line to help yourself learn it.
 
 #atscode('\
-\#\#
-\#\#
-\#\# A Makefile template for compiling ATS programs
-\#\#
-\#\#
-
+\#\#\#\#\#\#
+\#
+\# Note that
+\# certain installations require the following changes:
+\#
+\# atscc -> patscc
+\# atsopt -> patsopt
+\# ATSHOME -> PATSHOME
+\#
 \#\#\#\#\#\#
 
 ATSHOMEQ="$(ATSHOME)"
@@ -168,12 +171,12 @@ ATSOPT=$(ATSHOMEQ)/bin/atsopt
 \#\#\#\#\#\#
 
 \#
-\# Please uncomment the one you want, or skip it entirely
+\# HX: Please uncomment the one you want, or skip it entirely
 \#
 ATSCCFLAGS=
 \#ATSCCFLAGS=-O2
 \#
-\# [-flto] enables link-time optimization such as inlining lib functions
+\# \'-flto\' enables link-time optimization such as inlining lib functions
 \#
 \#ATSCCFLAGS=-O2 -flto
 \#
@@ -189,7 +192,7 @@ cleanall::
 \# with the name of the file you want to compile
 \#
 
-\# foo: foo.dats ; \\\\
+\# foo: foo.dats ; \
 \#   $(ATSCC) $(ATSCCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 \# cleanall:: ; $(RMF) foo
 
