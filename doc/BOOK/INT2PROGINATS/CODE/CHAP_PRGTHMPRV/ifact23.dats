@@ -29,8 +29,8 @@ imul2{i,j:int}
 (* ****** ****** *)
 //
 // HX:
-// this is a verified implementation of factorial
-// that is also tail-recursive.
+// this is a verified implementation of
+// factorial that is also tail-recursive.
 //
 fun ifact2
   {n:nat} .<>.
@@ -50,8 +50,8 @@ end // end of [ifact2]
 (* ****** ****** *)
 //
 // HX:
-// this is another verified implementation of factorial
-// that also happens to be tail-recursive.
+// this is another verified implementation of
+// factorial that is also to be tail-recursive.
 //
 fun ifact3 {n:nat} .<>.
   (n: int n): [r:int] (FACT (n, r) | int r) = let
@@ -60,18 +60,21 @@ extern
 prfun
 lemma{p,q:int}{r:int} (): [qr:int | (p*q)*r==p*(qr)] MUL (q, r, qr)
 //
-  fun loop
-    {n:nat} {r0:int} .<n>. (
-    n: int n, r0: int r0
-  ) : [r:int] (FACT (n, r) | int (r0*r)) =
-    if n > 0 then let
-      val [r1:int] (pf1 | res) = loop (n-1, r0*n) // pf1: FACT(n-1, r1); res = (r0*n)*r1
-      prval pfmul = lemma {r0,n} {r1} () // pfmul: MUL (n, r1, r); res = r0*r for some r
-    in (
-      FACTind (pf1, pfmul) | res
-    ) end else (
-      FACTbas () | r0
-    ) // end of [if]
+fun loop
+  {n:nat}
+  {r0:int} .<n>.
+(
+  n: int n, r0: int r0
+) : [r:int] (FACT (n, r) | int (r0*r)) =
+  if n > 0 then let
+    val [r1:int]
+      (pf1 | res) = loop (n-1, r0*n) // pf1: FACT(n-1, r1); res = (r0*n)*r1
+    prval pfmul = lemma {r0,n}{r1} () // pfmul: MUL (n, r1, r); res = r0*r for some r
+  in (
+    FACTind (pf1, pfmul) | res
+  ) end else (
+    FACTbas () | r0
+  ) // end of [if]
 in
   loop (n, 1)
 end // end of [ifact3]
@@ -79,13 +82,13 @@ end // end of [ifact3]
 (* ****** ****** *)
 
 implement
-main0 () = () where
+main0 () =
 {
   val (pf | res) = ifact2 (10)
   val () = assertloc (res = 10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1 * 1)
   val (pf | res) = ifact3 (10)
   val () = assertloc (res = 10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1 * 1)
-} // end of [main]
+} // end of [main0]
 
 (* ****** ****** *)
 

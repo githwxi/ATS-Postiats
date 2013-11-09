@@ -457,7 +457,8 @@ a,b:t@ype
 , ys: list (b, n)
 , f: (a, b) -<cloref1> c
 ) : list (c, n) = case+ (xs, ys) of
-  | (list_cons (x, xs), list_cons (y, ys)) =>
+  | (list_cons (x, xs),
+     list_cons (y, ys)) =>
       list_cons (f (x, y), list_zipwith (xs, ys, f))
   | (list_nil (), list_nil ()) => list_nil ()
 // end of [list_zipwith]

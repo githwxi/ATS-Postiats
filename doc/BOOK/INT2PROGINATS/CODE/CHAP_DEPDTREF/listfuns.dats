@@ -52,6 +52,8 @@ a:t@ype
       list_cons{a}(x, list_append<a> (xs, ys))
 // end of [list_append]
 
+(* ****** ****** *)
+
 fun{
 a:t@ype
 } list_reverse_append
@@ -63,11 +65,15 @@ a:t@ype
   | list_nil () => ys
 // end of [list_reverse_append]
 
+(* ****** ****** *)
+
 fun{
 a:t@ype
 } list_reverse {n:nat}
   (xs: list (a, n)): list (a, n) = list_reverse_append<a> (xs, list_nil)
 // end of [list_reverse]
+
+(* ****** ****** *)
 
 fun{
 a:t@ype}
@@ -79,17 +85,23 @@ a:t@ype}
   | list_nil () => list_nil ()
 // end of [list_map]
 
+(* ****** ****** *)
+
 fun{
 a,b:t@ype
 } list_zip {n:nat} .<n>.
 (
   xs: list (a, n), ys: list (b, n)
-) : list ((a, b), n) = case+ (xs, ys) of
+) : list ((a, b), n) =
+(
+  case+ (xs, ys) of
   | (list_cons (x, xs),
      list_cons (y, ys)) =>
       list_cons{(a, b)}((x, y), list_zip<a,b> (xs, ys))
   | (list_nil (), list_nil ()) => list_nil ()
-// end of [list_zip]
+) (* end of [list_zip] *)
+
+(* ****** ****** *)
 
 fun{
 a,
@@ -102,7 +114,8 @@ b:t@ype}
 , ys: list (b, n)
 , f: (a, b) -<cloref1> c
 ) : list (c, n) = case+ (xs, ys) of
-  | (list_cons (x, xs), list_cons (y, ys)) =>
+  | (list_cons (x, xs),
+     list_cons (y, ys)) =>
       list_cons{c}(f (x, y), list_zipwith<a,b><c> (xs, ys, f))
   | (list_nil (), list_nil ()) => list_nil ()
 // end of [list_zipwith]
