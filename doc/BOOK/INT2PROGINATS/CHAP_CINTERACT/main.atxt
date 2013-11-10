@@ -347,10 +347,11 @@ There are always occasions where one may find it sensible to program in
 unsafe C-style. Sometimes, one just wants to get a running implementation
 and then relies on testing to detect and fix bugs. Sometimes, one simply
 does not know enough of ATS needed to implement a function in a safe
-programming manner. This list of occasions can be easily extended. I see
-that the skill to program in ATS in unsafe C-style is often necessary for a
-programmer who not just only wants to be able to write code in ATS but also
-wants to do it productively.
+programming manner. This list of occasions can be readily extended as one
+wishes. I myself do unsafe C-style programming in ATS frequently, and I see
+it as a necessary skill for anyone who not just only wants to be able to
+write code in ATS but also wants to do it highly productively. Let us
+now see some a concrete example of unsafe C-style programming in ATS.
 
 ")
 
@@ -400,22 +401,28 @@ end (* end of [loop] *)
 in
   loop (string2ptr(str1), string2ptr(str2))
 end (* end of [strcmp] *)
-  
 ')
 
 For a programmer familar with C, the above implementation of
 #dyncode("strcmp") should be easily accessible.  There are a variety of
 unsafe functions declared in #myatscodelink("prelude/SATS/unsafe.sats",
 "unsafe.sats"). Given a type T and a pointer p, #dyncode("ptr0_get&lt;T&gt;
-(p)") fetches the value of the type T stored at the location p points to.
-Note that #dyncode("ptr0_get") is inherently unsafe as there is simply no
-guarantee that p actually points to a valid memory location where a value
-of the type T is stored.  The function #dyncode("cast"), which is also
-inherently unsafe, casts the type of a given value into any chosen type.
-The function template #dyncode("ptr0_succ"), which is declared in
+(p)") fetches the value of the type T stored at the location to which p
+points.  Note that #dyncode("ptr0_get") is inherently unsafe as there is
+simply no guarantee that p actually points to a valid memory location where
+a value of the type T is stored.  The function #dyncode("cast"), which is
+also inherently unsafe, casts the type of a given value into any chosen
+type.  The function template #dyncode("ptr0_succ"), which is declared in
 #myatscodelink("prelude/SATS/pointer.sats", "pointer.sats"), is
 type-safe. Given a type T, #dyncode("ptr0_succ&lt;T&gt; (p)") returns the
 pointer that is n bytes after p, where n equals the size of T.
+
+")
+
+#para("\
+
+Please find the entire code for this example
+#mycodelink("CHAP_CINTERACT/strcmp.dats", "on-line").
 
 ")
 
@@ -447,7 +454,7 @@ C code directly. For instance, there is direct support in ATS but not in C
 for implementing function templates.  In C, one is essentially forced to
 rely on rather involved use of macros to implement function templates,
 which makes the code not only difficult to follow but also notoriously
-error-prone.
+error-prone. Let us now see a concrete example that makes this point explicitly.
 
 ")
 
@@ -503,13 +510,20 @@ end // end of [array_copy_from_list]
 ')
 
 Given a type T, a pointer p, and a value x of the type T,
-#dyncode("ptr0_set&lt;T&gt; (p, x)") stores the value x at the location p
-points to.  Like #dyncode("ptr0_get"), #dyncode("ptr0_set") is inherently
-unsafe as there is simply no guarantee that p actually points to a valid
-memory location where a value of the type T can be stored.  The function
-#dyncode("array0_get_ref"), which is declared in
+#dyncode("ptr0_set&lt;T&gt; (p, x)") stores the value x at the location to
+which p points.  Like #dyncode("ptr0_get"), #dyncode("ptr0_set") is
+inherently unsafe as there is simply no guarantee that p actually points to
+a valid memory location where a value of the type T can be stored.  The
+function #dyncode("array0_get_ref"), which is declared in
 #myatscodelink("libats/ML/SATS/array0.sats", "array0.sats"), returns the
 pointer to the C-style array associated with a given array0-value.
+
+")
+
+#para("\
+
+Please find the entire code for this example
+#mycodelink("CHAP_CINTERACT/ArrayCopyFromList.dats", "on-line").
 
 ")
 
