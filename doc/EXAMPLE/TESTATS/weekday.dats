@@ -3,9 +3,9 @@
 //
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
-//
-// Start time: May 2013
+// Author: Hongwei Xi
+// Authoremail: gmhwxiATgmailDOTcom
+// Start time: May, 2013
 //
 (* ****** ****** *)
 

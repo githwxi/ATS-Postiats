@@ -127,6 +127,12 @@ cleanall:: ; $(RMF) trywith
 
 ######
 
+all:: union
+union: union.dats ; $(PATSCC) -cleanaft -o $@ $<
+cleanall:: ; $(RMF) union
+
+######
+
 all:: weekday
 weekday: weekday.dats ; $(PATSCC) -cleanaft -o $@ $<
 cleanall:: ; $(RMF) weekday
