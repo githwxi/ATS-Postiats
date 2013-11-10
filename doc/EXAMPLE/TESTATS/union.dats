@@ -35,10 +35,10 @@ fun intfloat_get_float (x: &intfloat(1)): double = "mac#"
 //
 extern
 fun intfloat_set_int
-  {tag:int} (x: &intfloat? >> intfloat(0), i: int): void = "mac#"
+  (x: &intfloat? >> intfloat(0), i: int): void = "mac#"
 extern
 fun intfloat_set_float
-  {tag:int} (x: &intfloat? >> intfloat(1), f: double): void = "mac#"
+  (x: &intfloat? >> intfloat(1), f: double): void = "mac#"
 //
 (* ****** ****** *)
 

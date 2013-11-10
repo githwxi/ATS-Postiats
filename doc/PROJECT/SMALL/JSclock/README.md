@@ -209,7 +209,8 @@ for reading the current time:
 While we can certainly implement such a function in C, implementing it in JS
 seems more convenient (though it may be much less efficient):
 
-    wallclock_now: function (nhr, nmin, nsec) {
+    wallclock_now:
+    function (nhr, nmin, nsec) {
         var now = new Date();
         var mils = now.getMilliseconds();
         var secs = now.getSeconds() + mils / 1000.0;
