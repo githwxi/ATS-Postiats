@@ -19,11 +19,12 @@ ATSCCFLAGS=-O2
 
 ######
 
-all: checkall cleanall
-
-######
-
-checkall:: misc ; ./misc
+all:: misc
+all:: fact
+all:: factext
+all:: extfcall
+all:: strcmp
+all:: ArrayCopyFromList
 
 ######
 
@@ -48,6 +49,16 @@ cleanall:: ; $(RMF) factext
 
 extfcall: extfcall_dats.c ; $(PATSCC) $(ATSCCFAGS) -o $@ $^
 cleanall:: ; $(RMF) extfcall
+
+######
+
+strcmp: strcmp_dats.c ; $(PATSCC) $(ATSCCFAGS) -o $@ $^
+cleanall:: ; $(RMF) strcmp
+
+######
+
+ArrayCopyFromList: ArrayCopyFromList_dats.c ; $(PATSCC) $(ATSCCFAGS) -o $@ $^
+cleanall:: ; $(RMF) ArrayCopyFromList
 
 ######
 

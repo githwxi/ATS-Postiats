@@ -22,7 +22,11 @@ As a consequence, there is no need for wrapping/unwrapping or
 boxing/unboxing when calling from C a function implemented in ATS or vice
 versa, and there is also no run-time overhead for doing so. To a large
 extent, ATS can be considered a front-end to C that is equipped with a
-highly expressive type system and a localizable template system.
+highly expressive type system and a localizable template system. In
+particular, ATS can often be effectively employed to turn a large task into
+subtasks of coherent interfaces, which can be implemented in ATS, C or some
+other langauges and then be assembled to form a solution to the orginal
+task.\
 
 ')
 
@@ -32,8 +36,8 @@ As it can be expected, C code that appears directly in ATS does not go
 through the kind of rigorous typechecking like ATS code should. So it is
 recommended that the programmer be extra cautious when making direct use of
 C code inside ATS code. In practice, my own experience clearly indicates
-that the portion of C code inside my ATS code is likely to be the culprit for most of
-encountered bugs.
+that the portion of C code inside my ATS code is highly likely to be the
+culprit for most of encountered bugs.
 
 ')
 
@@ -48,9 +52,7 @@ code for testing is available #mycodelink("CHAP_CINTERACT/", "on-line").\
 
 <sect1
 id="external_name">
-<title>
-External Global Names
-</title>
+#title("External Global Names")
 
 #para("\
 
@@ -163,9 +165,7 @@ then #dyncode("fact2_in_c") is treated like a static function in C.\
 
 <sect1
 id="external_types_and_values">
-<title>
-External Types and Values in ATS
-</title>
+#title("External Types and Values in ATS")
 
 #para("\
 
@@ -222,9 +222,7 @@ directly referred to in ATS code.
 
 <sect1
 id="inclusion_of_external_code">
-<title>
-Inclusion of External Code in ATS
-</title>
+#title("Inclusion of External Code in ATS")
 
 #para('\
 
@@ -278,9 +276,7 @@ generated from compiling #filename("foo.dats").
 
 <sect1
 id="calling_external_functions">
-<title>
-Calling External Functions in ATS
-</title>
+#title("Calling External Functions in ATS")
 
 #para('\
 
@@ -328,9 +324,200 @@ of arguments are the arguments of the called function.
 
 <!-- ****** ****** -->
 
-</chapter>
+<sect1
+id="unsafe_c-style_programming_in_ats">
+#title("Unsafe C-style programming in ATS")
 
-#comment(" ****** ****** ")
+#para("\
+
+ATS is probably not a programming language easy for one to write code in.
+While ATS provides many features to support safe (low-level) programming,
+it may take a long time and some great efforts for a programmer to learn
+and then master these features before he or she can make effective use of
+them.  In this section, I would like to present some ATS code written in
+C-style that makes typical use of certan unsafe programming features in
+ATS. This is a programming style that should be familiar to any programmer
+who can write C code competently.
+
+")
+
+#para("\
+
+There are always occasions where one may find it sensible to program in
+unsafe C-style. Sometimes, one just wants to get a running implementation
+and then relies on testing to detect and fix bugs. Sometimes, one simply
+does not know enough of ATS needed to implement a function in a safe
+programming manner. This list of occasions can be easily extended. I see
+that the skill to program in ATS in unsafe C-style is often necessary for a
+programmer who not just only wants to be able to write code in ATS but also
+wants to do it productively.
+
+")
+
+#para("\
+
+Suppose that we want to implement a function for comparing two given
+strings according to the standard lexicographic ordering. Let us name
+the function #dyncode("strcmp") and give it the following interface:
+
+#atscode('\
+fun strcmp (str1: string, str2: string): int
+')
+
+Given two strings #dyncode("str1") and #dyncode("str2"),
+#dyncode("strcmp(str1, str2)") is expected to return 1, -1, and 0 if
+#dyncode("str1") is greater than, less than, and equal to #dyncode("str2"),
+respectively. An implementation of #dyncode("strcmp") is given as follows:
+
+#atscode('\
+
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+implement
+strcmp (str1, str2) = let
+//
+fun loop
+  (p1: ptr, p2: ptr): int = let
+//
+val c1 = $UN.ptr0_get<uchar> (p1)
+val c2 = $UN.ptr0_get<uchar> (p2)
+//
+in
+  case+ 0 of
+  | _ when c1 > c2 =>  1
+  | _ when c1 < c2 => ~1
+  | _ (* c1 = c2 *) =>
+    (
+      if $UN.cast{int}(c1) = 0
+        then 0 else loop (ptr0_succ<uchar> (p1), ptr0_succ<uchar> (p2))
+      // end of [if]
+    )
+end (* end of [loop] *)
+//
+in
+  loop (string2ptr(str1), string2ptr(str2))
+end (* end of [strcmp] *)
+  
+')
+
+For a programmer familar with C, the above implementation of
+#dyncode("strcmp") should be easily accessible.  There are a variety of
+unsafe functions declared in #myatscodelink("prelude/SATS/unsafe.sats",
+"unsafe.sats"). Given a type T and a pointer p, #dyncode("ptr0_get&lt;T&gt;
+(p)") fetches the value of the type T stored at the location p points to.
+Note that #dyncode("ptr0_get") is inherently unsafe as there is simply no
+guarantee that p actually points to a valid memory location where a value
+of the type T is stored.  The function #dyncode("cast"), which is also
+inherently unsafe, casts the type of a given value into any chosen type.
+The function template #dyncode("ptr0_succ"), which is declared in
+#myatscodelink("prelude/SATS/pointer.sats", "pointer.sats"), is
+type-safe. Given a type T, #dyncode("ptr0_succ&lt;T&gt; (p)") returns the
+pointer that is n bytes after p, where n equals the size of T.
+
+")
+
+#para("\
+
+For a function like #dyncode("strcmp"), one can readily implement it in C
+directly. For instance, an implementation of #dyncode("strcmp") in C, which
+is essentially a translation of the above implementation of #dyncode("strcmp")
+in ATS, is given as follows:
+
+#atscode('\
+int strcmp (char *p1, char *p2)
+{
+  int res ;
+  unsigned char c1, c2;
+  while (1)
+  {
+    c1 = *p1; c2 = *p2;
+    if (c1 > c2) { res =  1; break; } ;
+    if (c1 < c2) { res = -1; break; } ;
+    if ((int)c1==0) { res = 0 ; break ; } else { p1++; p2++; } ;
+  }
+  return res ;
+}
+')
+
+However, writing ATS code in C-style can often have advantages over writing
+C code directly. For instance, there is direct support in ATS but not in C
+for implementing function templates.  In C, one is essentially forced to
+rely on rather involved use of macros to implement function templates,
+which makes the code not only difficult to follow but also notoriously
+error-prone.
+
+")
+
+#para("\
+
+Suppose we want a function for copying into a given array the elements
+stored in a list. Let us name the function #dyncode("array_copy_from_list")
+and give it the following interface:
+
+#atscode('\
+fun{a:t@ype}
+array_copy_from_list (A: array0(a), xs: list0(a)): void
+')
+
+Given a type T, #stacode("array0(T)") is for an array0-value containing a
+pointer p and a size n such that p points to a C-style array storing n
+elements of the type T.
+
+")
+
+#para("\
+
+For the moment, let us require that the size of the array A equals the
+length of the list xs when #dyncode("array_copy_from_list(A, xs)") is
+called.  Following is an implementation of #dyncode("array_copy_from_list")
+in ATS that makes use of an unsafe function (#dyncode("ptr0_set")) declared
+in #myatscodelink("prelude/SATS/unsafe.sats", "unsafe.sats"):
+
+#atscode('\
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+implement{a}
+array_copy_from_list (A, xs) = let
+//
+fun loop
+(
+  p: ptr, xs: list0 (a)
+) : void =
+(
+case+ xs of
+| list0_nil () => ()
+| list0_cons (x, xs) => let
+    val () = $UN.ptr0_set<a> (p, x) in loop (ptr0_succ<a> (p), xs)
+  end // end of [list0_cons]
+) (* end of [loop] *)
+//
+in
+  loop (array0_get_ref(A), xs)
+end // end of [array_copy_from_list]
+')
+
+Given a type T, a pointer p, and a value x of the type T,
+#dyncode("ptr0_set&lt;T&gt; (p, x)") stores the value x at the location p
+points to.  Like #dyncode("ptr0_get"), #dyncode("ptr0_set") is inherently
+unsafe as there is simply no guarantee that p actually points to a valid
+memory location where a value of the type T can be stored.  The function
+#dyncode("array0_get_ref"), which is declared in
+#myatscodelink("libats/ML/SATS/array0.sats", "array0.sats"), returns the
+pointer to the C-style array associated with a given array0-value.
+
+")
+
+</sect1><!--id="unsafe_c-style_programming_in_ats"-->
+
+<!-- ****** ****** -->
+
+</chapter>
 
 #comment(" end of [main.atxt] ")
 
