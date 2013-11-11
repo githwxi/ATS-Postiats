@@ -12,6 +12,9 @@
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 staload _(*anon*) = "prelude/DATS/pointer.dats"
@@ -25,7 +28,9 @@ staload STDIO = "libc/SATS/stdio.sats"
 staload "libatsynmark/SATS/libatsynmark.sats"
 
 (* ****** ****** *)
-
+//
+// HX: a placeholder-implementation
+//
 implement
 $FIL.pkgsrcname_relocatize (given, ngurl) = given
 
@@ -55,7 +60,8 @@ end // end of [libatsynmark_filename_set_current]
 (* ****** ****** *)
 
 implement
-fhtml_putc (c, putc) = let
+fhtml_putc
+  (c, putc) = let
   macdef fpr (s) = fstring_putc (,(s), putc)
 in
   case+ c of
@@ -68,7 +74,8 @@ end // end of [fhtml_putc]
 (* ****** ****** *)
 
 implement
-fstring_putc (x, putc) = let
+fstring_putc
+  (x, putc) = let
 //
 fun loop{n:int}
   {i:nat | i <= n} .<n-i>.

@@ -93,6 +93,9 @@ SOURCES = \
   pats_fixity.sats \
   pats_fixity_prec.dats \
   pats_fixity_fxty.dats \
+  pats_syntax.sats \
+  pats_syntax.dats \
+  pats_syntax_print.dats \
   pats_tokbuf.sats \
   pats_tokbuf.dats \
   pats_parsing.sats \
@@ -108,9 +111,6 @@ SOURCES = \
   pats_parsing_dynexp.dats \
   pats_parsing_decl.dats \
   pats_parsing_toplevel.dats \
-  pats_syntax.sats \
-  pats_syntax.dats \
-  pats_syntax_print.dats \
 
 ######
 
