@@ -108,8 +108,9 @@ As an example of programming with dependent datatypes, the following code
 implements a function template for computing the length of a given list:
 
 #atscode("\
-fun{a:t@ype}
-list_length
+fun{
+a:t@ype
+} list_length
   {n:nat} .<n>.
   // .<n>. is a termination metric
   (xs: list (a, n)): int (n) = case+ xs of

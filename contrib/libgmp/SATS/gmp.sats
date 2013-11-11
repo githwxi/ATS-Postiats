@@ -368,6 +368,29 @@ overload mpz_mul with mpz_mul3_uint
 overload mpz_mul with mpz_mul3_ulint
 //
 (* ****** ****** *)
+
+(*
+**
+** Author: Zhiqiang Ren
+** Authoremail: arenATcsDOTbuDOTedu
+**
+** Description:
+** Set res to arg * (2 ^ exp)
+** The same object can be passed for both res and arg1.
+** It's up to an application to call functions like mpz_mul_2exp when appropriate.
+** General purpose functions like mpz_mul make no attempt to identify powers of two
+** or other special forms.
+**
+*)
+//
+symintr mpz_mul_2exp
+//
+fun mpz_mul3_2exp
+  (res: &mpz, arg: &mpz, exp: ulint): void = "mac#%"
+//
+overload mpz_mul_2exp with mpz_mul3_2exp 
+//
+(* ****** ****** *)
 //
 // trunc-division-functions
 //
@@ -421,25 +444,25 @@ overload mpz_tdiv_r with mpz_tdiv3_r_ulint
 //
 symintr mpz_tdiv_qr
 //
-fun mpz_tdiv3_r_mpz
+fun mpz_tdiv3_qr_mpz
   (xq: &mpz >> _, xr: &mpz >> _, y: &mpz): void = "mac#%"
-fun mpz_tdiv3_r_uint
+fun mpz_tdiv3_qr_uint
   (xq: &mpz >> _, xr: &mpz >> _, y: uint): void = "mac#%"
-fun mpz_tdiv3_r_ulint
+fun mpz_tdiv3_qr_ulint
   (xq: &mpz >> _, xr: &mpz >> _, y: ulint): void = "mac#%"
-fun mpz_tdiv4_r_mpz
+fun mpz_tdiv4_qr_mpz
   (xq: &mpz >> _, xr: &mpz >> _, y: &mpz, z: &mpz): void = "mac#%"
-fun mpz_tdiv4_r_uint
+fun mpz_tdiv4_qr_uint
   (xq: &mpz >> _, xr: &mpz >> _, y: &mpz, z: uint): void = "mac#%"
-fun mpz_tdiv4_r_ulint
+fun mpz_tdiv4_qr_ulint
   (xq: &mpz >> _, xr: &mpz >> _, y: &mpz, z: ulint): void = "mac#%"
 //
-overload mpz_tdiv_qr with mpz_tdiv3_r_mpz
-overload mpz_tdiv_qr with mpz_tdiv3_r_uint
-overload mpz_tdiv_qr with mpz_tdiv3_r_ulint
-overload mpz_tdiv_qr with mpz_tdiv4_r_mpz
-overload mpz_tdiv_qr with mpz_tdiv4_r_uint
-overload mpz_tdiv_qr with mpz_tdiv4_r_ulint
+overload mpz_tdiv_qr with mpz_tdiv3_qr_mpz
+overload mpz_tdiv_qr with mpz_tdiv3_qr_uint
+overload mpz_tdiv_qr with mpz_tdiv3_qr_ulint
+overload mpz_tdiv_qr with mpz_tdiv4_qr_mpz
+overload mpz_tdiv_qr with mpz_tdiv4_qr_uint
+overload mpz_tdiv_qr with mpz_tdiv4_qr_ulint
 //
 (* ****** ****** *)
 //
@@ -471,6 +494,37 @@ overload mpz_fdiv_q with mpz_fdiv2_q_uint
 overload mpz_fdiv_q with mpz_fdiv2_q_ulint
 overload mpz_fdiv_q with mpz_fdiv3_q_uint
 overload mpz_fdiv_q with mpz_fdiv3_q_ulint
+//
+(* ****** ****** *)
+(*
+**
+**
+** Author: Zhiqiang Ren
+** Authoremail: arenATcsDOTbuDOTedu
+**
+** Description:
+** Set quot and rem so that dividend = quot * divisor + rem
+** Rounds quot down towards negative infinity, and rem will
+** have the same sign as divisor, and 0 <= |rem| < |divisor|.
+** The same object cannot be passed for both quot and rem, or the result will be
+** unpredictable. No other constraints on the passing arguments.
+*)
+//
+symintr mpz_fdiv_qr
+//
+fun
+mpz_fdiv4_qr_mpz
+(
+  quot: &mpz, rem: &mpz, dividend: &mpz, divisor: &mpz
+) :<> void = "mac#%"
+fun
+mpz_fdiv4_qr_ulint
+(
+  quot: &mpz, rem: &mpz, dividend: &mpz, divisor: ulint
+) :<> ulint = "mac#%"
+//
+overload mpz_fdiv_qr with mpz_fdiv4_qr_mpz
+overload mpz_fdiv_qr with mpz_fdiv4_qr_ulint
 //
 (* ****** ****** *)
 //
@@ -525,6 +579,40 @@ fun mpz_mod3_ulint
   (r: &mpz >> _, n: &mpz, d: ulint): ulint = "mac#%"
 overload mpz_mod with mpz_mod3_ulint
 
+(* ****** ****** *)
+//
+// add/mul combination
+// addmul (x, y, z): x := x + y * z
+//
+symintr mpz_addmul
+//
+fun mpz_addmul3_mpz
+  (x: &mpz >> _, y: &mpz, z: &mpz): void = "mac#%"
+fun mpz_addmul3_uint
+  (x: &mpz >> _, y: &mpz, z: uint): void = "mac#%"
+fun mpz_addmul3_ulint
+  (x: &mpz >> _, y: &mpz, z: ulint): void = "mac#%"
+//
+overload mpz_addmul with mpz_addmul3_mpz
+overload mpz_addmul with mpz_addmul3_uint
+overload mpz_addmul with mpz_addmul3_ulint
+//
+// sub/mul combination
+// submul (x, y, z): x := x - y * z
+//
+symintr mpz_submul
+//
+fun mpz_submul3_mpz
+  (x: &mpz >> _, y: &mpz, z: &mpz): void = "mac#%"
+fun mpz_submul3_uint
+  (x: &mpz >> _, y: &mpz, z: uint): void = "mac#%"
+fun mpz_submul3_ulint
+  (x: &mpz >> _, y: &mpz, z: ulint): void = "mac#%"
+//
+overload mpz_submul with mpz_submul3_mpz
+overload mpz_submul with mpz_submul3_uint
+overload mpz_submul with mpz_submul3_ulint
+//
 (* ****** ****** *)
 //
 // comparison-functions
