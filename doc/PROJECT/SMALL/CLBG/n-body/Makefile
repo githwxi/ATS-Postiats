@@ -27,7 +27,10 @@ RMF=rm -f
 
 .phony: clean
 
-clean: ; $(RMF) *_dats.c
+clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_dats.c
+
+######
 
 cleanall:: clean
 cleanall:: ; $(RMF) n-body

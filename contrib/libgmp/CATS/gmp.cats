@@ -285,11 +285,15 @@ mpz_sub_si
 #define atscntrb_libgmp_mpz_mod3_ulint(x, y, z) mpz_mod_ui(x, y, z)
 //
 /* ****** ****** */
-
+//
+#define atscntrb_libgmp_mpz_addmul3_mpz(x, y, z) mpz_addmul(x, y, z)
+#define atscntrb_libgmp_mpz_addmul3_uint(x, y, z) mpz_addmul_ui(x, y, z)
+#define atscntrb_libgmp_mpz_addmul3_ulint(x, y, z) mpz_addmul_ui(x, y, z)
+//
 #define atscntrb_libgmp_mpz_submul3_mpz(x, y, z) mpz_submul(x, y, z)
 #define atscntrb_libgmp_mpz_submul3_uint(x, y, z) mpz_submul_ui(x, y, z)
 #define atscntrb_libgmp_mpz_submul3_ulint(x, y, z) mpz_submul_ui(x, y, z)
-
+//
 /* ****** ****** */
 //
 // comparison-functions
