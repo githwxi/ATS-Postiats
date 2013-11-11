@@ -11,7 +11,8 @@
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -21,11 +22,12 @@ staload _(*anon*) = "prelude/DATS/pointer.dats"
 
 (* ****** ****** *)
 
-staload STDIO = "libc/SATS/stdio.sats"
+staload
+STDIO = "libc/SATS/stdio.sats"
 
 (* ****** ****** *)
 
-staload "libatsynmark/SATS/libatsynmark.sats"
+staload "./../SATS/libatsynmark.sats"
 
 (* ****** ****** *)
 //

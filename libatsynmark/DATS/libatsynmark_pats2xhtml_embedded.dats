@@ -15,9 +15,10 @@
 //
 (* ****** ****** *)
 //
-staload "libatsynmark/SATS/libatsynmark.sats"
-staload "libatsynmark/DATS/libatsynmark_psynmark.dats"
-staload "libatsynmark/DATS/libatsynmark_pats2xhtml.dats"
+staload "./../SATS/libatsynmark.sats"
+//
+staload "./libatsynmark_psynmark.dats"
+staload "./libatsynmark_pats2xhtml.dats"
 //
 (* ****** ****** *)
 

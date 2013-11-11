@@ -21,7 +21,7 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload "libatsynmark/SATS/libatsynmark.sats"
+staload "./../SATS/libatsynmark.sats"
 
 (* ****** ****** *)
 
