@@ -39,22 +39,22 @@ staload "./../SATS/libatsyn2json.sats"
 (* ****** ****** *)
 
 implement
-jsonize_p2at
-  (out, p2t0) = let
+jsonize_d2exp
+  (out, d2e0) = let
 in
 //
-case+ p2t0.p2at_node of
+case+ d2e0.d2exp_node of
 | _ => let
     val () = (
-      prerrln! ("jsonize_p2at: p2t0 = ", p2t0)
+      prerrln! ("jsonize_d2exp: d2e0 = ", d2e0)
     ) (* end of [val] *)
     val ((*void*)) = assertloc (false)
   in
     exit (1)
   end // end of [_]
 //
-end // end of [jsonize_p2at]
+end // end of [jsonize_d2exp]
   
 (* ****** ****** *)
 
-(* end of [libatsyn2json_p2at.dats] *)
+(* end of [libatsyn2json_d2exp.dats] *)
