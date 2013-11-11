@@ -197,6 +197,12 @@ libatslex/SATS/DOCUGEN/TRYIT
 libatsynmark/libatsynmark.a
 
 #
+# ATSLIB/libatsyn2json
+#
+
+libatsyn2json/libatsyn2json.a
+
+#
 # ATSLIB/contrib
 #
 

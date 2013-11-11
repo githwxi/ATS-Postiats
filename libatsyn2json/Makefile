@@ -202,6 +202,16 @@ libatsyn2json:: $(OBJECTS)
 
 ######
 
+libatsyn2json:: libatsyn2json_p2at_dats.o
+libatsyn2json_p2at_dats.o: DATS/libatsyn2json_p2at.dats
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyn2json.a $@
+
+libatsyn2json:: libatsyn2json_d2exp_dats.o
+libatsyn2json_d2exp_dats.o: DATS/libatsyn2json_d2exp.dats
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyn2json.a $@
+
+######
+
 AR=ar
 RMF=rm -f
 
