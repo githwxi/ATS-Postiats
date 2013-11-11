@@ -70,8 +70,8 @@ fprintln! (out, "where a <command> is of one of the following forms:\n");
 fprintln! (out, "  -h (for printing out this help usage)");
 fprintln! (out, "  --help (for printing out this help usage)");
 //
-fprintln! (out, "  -i filenames (for compiling (many) static <filenames>)");
-fprintln! (out, "  --input filenames (for compiling (many) static <filenames>)");
+fprintln! (out, "  -i filenames (for processing (many) static <filenames>)");
+fprintln! (out, "  --input filenames (for processing (many) static <filenames>)");
 //
 fprintln! (out, "  -o filename (output into <filename>)");
 fprintln! (out, "  --output filename (output into <filename>)");

@@ -87,7 +87,7 @@ RMF=rm -f
 
 ######
 
-#make2_entry("linenumbering", "", "-L$(PATSLIB) -latslib")
+#make2_entry("linenumbering", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 
 ######
 

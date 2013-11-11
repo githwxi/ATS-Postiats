@@ -20,7 +20,7 @@ staload _(*anon*) =
 //
 (* ****** ****** *)
 
-staload "../SATS/pats2xhtml.sats"
+staload "./../SATS/pats2xhtml.sats"
 
 (* ****** ****** *)
 

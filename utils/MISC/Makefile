@@ -27,7 +27,7 @@ RMF=rm -f
 
 all:: linenumbering
 linenumbering: linenumbering.exe
-linenumbering.exe: linenumbering_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime  -o $@ $< -L$(PATSLIB) -latslib
+linenumbering.exe: linenumbering_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
 linenumbering_dats.c: linenumbering.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output linenumbering_dats.c --dynamic linenumbering.dats
 clean:: ; $(RMF) linenumbering_dats.o
 clean:: ; $(RMF) linenumbering_dats.c

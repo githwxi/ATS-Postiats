@@ -494,8 +494,8 @@ dynload "libatsynmark/dynloadall.dats"
 
 (* ****** ****** *)
 
-dynload "utils/atsyntax/DATS/pats2xhtml.dats"
-dynload "utils/atsyntax/DATS/pats2xhtml_level1.dats"
+dynload "./pats2xhtml.dats"
+dynload "./pats2xhtml_level1.dats"
 
 (* ****** ****** *)
 
