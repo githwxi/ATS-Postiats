@@ -12,11 +12,28 @@
 (* ****** ****** *)
 //
 staload
-"libatsynmark/SATS/libatsynmark.sats"
+"./../SATS/libatsynmark.sats"
 //
 (* ****** ****** *)
 
-dynload "libatsynmark/dynloadall.dats"
+dynload "./../dynloadall.dats"
+
+(* ****** ****** *)
+
+fun fileref_get_tokenlst
+  (inp: FILEref): tokenlst_vt = let
+//
+val cs = char_list_vt_make_file (inp)
+//
+val lbf = lexbufobj_make_charlst_vt (cs)
+//
+val toks = lexbufobj_get_tokenlst (lbf)
+//
+val ((*void*)) = lexbufobj_free (lbf) 
+//
+in
+  toks
+end // end of [fileref_get_tokenlst]
 
 (* ****** ****** *)
 
@@ -41,10 +58,10 @@ in
   | ~list_vt_nil () => ()
 end // end of [loop]
 //
-val xs = fileref_get_tokenlst (stdin_ref)
+val toks = fileref_get_tokenlst (stdin_ref)
 //
 in
-  loop (xs)
+  loop (toks)
 end // end of [main]
 
 (* ****** ****** *)

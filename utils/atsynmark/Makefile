@@ -22,6 +22,10 @@ CCFLAGS=-fPIC -O2
 
 ######
 
+all:: pats2xhtml
+
+######
+
 OBJECTS := \
   pats_utils_sats.o \
   pats_utils_dats.o \
@@ -49,43 +53,29 @@ OBJECTS := \
   pats_trans1_error_dats.o \
   pats_trans1_e0xp_dats.o \
   pats2xhtml_sats.o \
-  pats2xhtml_dats.o \
   pats2xhtml_level1_dats.o \
 
 ######
 
-pats2xhtml: \
-  DATS/pats2xhtml_main.dats $(OBJECTS) ; \
-  $(ATSCC) -O2 $(INCLUDE) $(INCLATS) \
-    -o $@ $< $(OBJECTS) -L $(PATSHOME)/libatsynmark -latsynmark -lgmp
-cleanall:: ; $(RMF) pats2xhtml
-
-######
-
-%_sats.o: $(PATSHOME)/src/%.sats
-	$(ATSCC) $(INCLUDE) $(INCLATS) $(CCFLAGS) -c $<
-%_dats.o: $(PATSHOME)/src/%.dats
-	$(ATSCC) $(INCLUDE) $(INCLATS) $(CCFLAGS) -c $<
+%_sats.o: \
+  $(PATSHOME)/src/%.sats; $(ATSCC) $(INCLUDE) $(INCLATS) $(CCFLAGS) -c $<
+%_dats.o: \
+  $(PATSHOME)/src/%.dats; $(ATSCC) $(INCLUDE) $(INCLATS) $(CCFLAGS) -c $<
 
 ######
 
 pats2xhtml_sats.o: \
   SATS/pats2xhtml.sats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
 
-pats2xhtml_dats.o: \
-  DATS/pats2xhtml.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
-
 pats2xhtml_level1_dats.o: \
   DATS/pats2xhtml_level1.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
 
 ######
 
-Makefile_test: Makefile_test.exe ; ./$< > $@
-
-Makefile_test.exe: Makefile_test_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ $< -latsdoc
-Makefile_test_atxt.dats: Makefile_test.atxt
-	$(ATSDOC) -do $@ -i $< > Makefile_test_atxt.txt
+pats2xhtml: \
+  DATS/pats2xhtml_main.dats $(OBJECTS) ; \
+  $(ATSCC) -O2 $(INCLUDE) $(INCLATS) -o $@ $< $(OBJECTS) -L $(PATSHOME)/libatsynmark -latsynmark -lgmp
+cleanall:: ; $(RMF) pats2xhtml
 
 ######
 
@@ -97,7 +87,6 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.c *_?ats.o
 clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
-clean:: ; $(RMF) Makefile_test.exe
 
 cleanall:: clean
 

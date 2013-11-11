@@ -1,9 +1,10 @@
 (*
 **
 ** Some utility functions
-** for manipulating the syntax of ATS2
+** for marking the syntax of ATS2
 **
-** Contributed by Hongwei Xi (gmhwxi AT gmail DOT com)
+** Author: Hongwei Xi
+** Authoremail: gmhwxiATgmailDOTcom
 **
 ** Start Time: June, 2012
 **
@@ -15,20 +16,22 @@ typedef charlst = List (char)
 viewtypedef charlst_vt = List_vt (char)
 
 (* ****** ****** *)
-
+//
 staload ERR = "src/pats_error.sats"
-
+//
 (* ****** ****** *)
-
+//
 staload SYM = "src/pats_symbol.sats"
+//
 typedef symbol = $SYM.symbol
-
+//
 (* ****** ****** *)
-
+//
 staload LOC = "src/pats_location.sats"
+//
 typedef position = $LOC.position
 typedef location = $LOC.location
-
+//
 (* ****** ****** *)
 
 fun fprint_position (out: FILEref, x: position): void
@@ -44,13 +47,14 @@ staload FIL = "src/pats_filename.sats"
 fun libatsynmark_filename_set_current (name: string): void
 
 (* ****** ****** *)
-
+//
 absviewtype lexbufobj
+//
 fun lexbufobj_make_string (inp: string): lexbufobj
 fun lexbufobj_make_fileref (inp: FILEref): lexbufobj
 fun lexbufobj_make_charlst_vt (inp: charlst_vt): lexbufobj
 fun lexbufobj_free (lbf: lexbufobj): void // endfun
-
+//
 (* ****** ****** *)
 
 staload
@@ -62,6 +66,8 @@ viewtypedef tokenlst_vt = List_vt (token)
 (* ****** ****** *)
 
 fun token_get_loc (x: token): location
+
+(* ****** ****** *)
 
 fun fprint_token (out: FILEref, x: token): void
 
@@ -82,12 +88,14 @@ fun token_is_string (x: token): bool
 fun lexbufobj_get_tokenlst (lbf: !lexbufobj): tokenlst_vt
 
 (* ****** ****** *)
-
+//
 absviewtype tokbufobj
+//
 fun tokbufobj_make_lexbufobj (lbf: lexbufobj): tokbufobj
-fun tokbufobj_free (tbf: tokbufobj): void // endfun
+//
+fun tokbufobj_free (tbf: tokbufobj): void
 fun tokbufobj_unget_token (tbf: !tokbufobj, tok: token): void
-
+//
 (* ****** ****** *)
 
 staload
@@ -163,13 +171,15 @@ synmark =
 fun fprint_synmark (out: FILEref, sm: synmark): void
 
 (* ****** ****** *)
-
+//
 datatype
 psynmark = PSM of
-  (lint, synmark, int(*knd*)) // knd: 0/1: beg/end
-// end of [psynmark]
+  (lint, synmark, int(*knd*)) // knd = 0/1: beg / end
+//
 typedef psynmarklst = List (psynmark)
 viewtypedef psynmarklst_vt = List_vt (psynmark)
+//
+(* ****** ****** *)
 
 fun fprint_psynmark (out: FILEref, psm: psynmark): void
 
@@ -208,6 +218,8 @@ fun tokbufobj_get_psynmarklst
 
 typedef
 putc_type = (char) -<cloref1> int
+
+(* ****** ****** *)
 
 fun{} // a specific template
 psynmark_process
@@ -290,6 +302,8 @@ fun string_pats2xhtmlize_bground
   (stadyn: int, code: string): strptr1
 fun charlst_pats2xhtmlize_bground
   (stadyn: int, code: charlst): strptr1
+
+(* ****** ****** *)
 
 fun string_pats2xhtmlize_embedded
   (stadyn: int, code: string): strptr1

@@ -17,7 +17,12 @@ staload FIL = "src/pats_filename.sats"
 
 (* ****** ****** *)
 
-staload "../SATS/pats2xhtml.sats"
+staload "./../SATS/pats2xhtml.sats"
+
+(* ****** ****** *)
+
+implement
+fileref2charlst (fil) = char_list_vt_make_file (fil)
 
 (* ****** ****** *)
 
@@ -246,10 +251,7 @@ case+ opt of
   end // end of [Some_vt]
 | ~None_vt () => let
     val () = prerr "error(ATS)"
-    val () = prerr ": the file of the name ["
-    val () = prerr (basename)
-    val () = prerr "] is not available."
-    val () = prerr_newline ()
+    val () = prerrln! (": the file of the name [", basename, "] is not available.")
   in
     state.nerror := state.nerror + 1
   end // end of [None_vt]
@@ -494,7 +496,6 @@ dynload "libatsynmark/dynloadall.dats"
 
 (* ****** ****** *)
 
-dynload "./pats2xhtml.dats"
 dynload "./pats2xhtml_level1.dats"
 
 (* ****** ****** *)

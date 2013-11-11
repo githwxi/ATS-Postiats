@@ -17,11 +17,28 @@ staload _ = "prelude/DATS/list_vt.dats"
 (* ****** ****** *)
 //
 staload
-"libatsynmark/SATS/libatsynmark.sats"
+"./../SATS/libatsynmark.sats"
 //
 (* ****** ****** *)
 
-dynload "libatsynmark/dynloadall.dats"
+dynload "./../dynloadall.dats"
+
+(* ****** ****** *)
+
+fun fileref_get_tokenlst
+  (inp: FILEref): tokenlst_vt = let
+//
+val cs = char_list_vt_make_file (inp)
+//
+val lbf = lexbufobj_make_charlst_vt (cs)
+//
+val toks = lexbufobj_get_tokenlst (lbf)
+//
+val ((*void*)) = lexbufobj_free (lbf) 
+//
+in
+  toks
+end // end of [fileref_get_tokenlst]
 
 (* ****** ****** *)
 
@@ -57,12 +74,10 @@ val () = (
   ) // end of [if]
 ) : void // end of [val]
 //
-val toks = fileref_get_tokenlst (stdin_ref)
+val inp = stdin_ref
+val toks = fileref_get_tokenlst (inp)
 val psms = listize_token2psynmark (toks)
 val () = list_vt_free (toks)
-val () = loop (psms)
-//
-val psms = fileref_get_psynmarklst (stadyn, stdin_ref)
 val () = loop (psms)
 //
 in

@@ -436,6 +436,8 @@ in
   ptr_free (pfgc, pfat | p)
 end // end of [lexbufobj_free]
 
+(* ****** ****** *)
+
 implement
 lexbufobj_get_tokenlst
   (lbf) = let
@@ -488,18 +490,25 @@ stadef tokbuf = $TBF.tokbuf
 implement
 tokbufobj_make_lexbufobj
   (lbf) = let
-  val (pfgc1, pfat1 | p1) = let
-    extern castfn __cast (lbf: lexbufobj)
-    : [l:addr] (free_gc_v (lexbuf?, l), lexbuf @ l | ptr l)
-  in
-    __cast (lbf)
-  end // end of [val]
-  val [l2:addr] (pfgc2, pfat2 | p2) = ptr_alloc<tokbuf> ()
-  val () = $TBF.tokbuf_initialize_lexbuf (!p2, !p1)
-  val () = ptr_free (pfgc1, pfat1 | p1)
+//
+val (pfgc1, pfat1 | p1) = let
   extern castfn __cast
-    (pf1: free_gc_v (tokbuf?, l2), pf2: tokbuf @ l2 | p: ptr l2): tokbufobj
-  // end of [extern]
+    (lbf: lexbufobj): [l:addr] (free_gc_v(lexbuf?, l), lexbuf@l | ptr l)
+  // end of [castfn] // end of [extern]
+in
+  __cast (lbf)
+end // end of [val]
+//
+val [l2:addr]
+  (pfgc2, pfat2 | p2) = ptr_alloc<tokbuf> ()
+val () = $TBF.tokbuf_initialize_lexbuf (!p2, !p1)
+//
+val ((*void*)) = ptr_free (pfgc1, pfat1 | p1)
+//
+extern castfn __cast
+  (pf1: free_gc_v (tokbuf?, l2), pf2: tokbuf @ l2 | p: ptr l2): tokbufobj
+// end of [castfn] // end of [extern]
+//
 in
   __cast (pfgc2, pfat2 | p2)
 end // end of [tokbufobj_make_lexbufobj]
@@ -508,10 +517,13 @@ end // end of [tokbufobj_make_lexbufobj]
 
 implement
 tokbufobj_free (tbf) = let
-  extern castfn __cast (tbf: tokbufobj)
-    : [l:addr] (free_gc_v (tokbuf?, l), tokbuf @ l | ptr l)
-  val (pfgc, pfat | p) = __cast (tbf)
-  val () = $TBF.tokbuf_uninitialize (!p)
+//
+extern castfn __cast
+  (tbf: tokbufobj): [l:addr] (free_gc_v (tokbuf?, l), tokbuf @ l | ptr l)
+val (pfgc, pfat | p) = __cast (tbf)
+//
+val () = $TBF.tokbuf_uninitialize (!p)
+//
 in
   ptr_free (pfgc, pfat | p)
 end // end of [tokbufobj_free]
@@ -522,12 +534,14 @@ implement
 tokbufobj_unget_token
   (tbf, tok) = let
 //
-val (pf, fpf | p) =
-  __cast (tbf) where {
+val (pf, fpf | p) = __cast (tbf) where
+{
   extern castfn __cast (tbf: !tokbufobj)
     : [l:addr] (tokbuf @ l, tokbuf @ l -<lin,prf> void | ptr l)
-} // end of [val]
+} (* end of [val] *)
+//
 val () = $TBF.tokbuf_unget_token (!p, tok)
+//
 prval () = fpf (pf)
 //
 in
