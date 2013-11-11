@@ -454,7 +454,8 @@ C code directly. For instance, there is direct support in ATS but not in C
 for implementing function templates.  In C, one is essentially forced to
 rely on rather involved use of macros to implement function templates,
 which makes the code not only difficult to follow but also notoriously
-error-prone. Let us now see a concrete example that makes this point explicitly.
+error-prone. Let us now see as follows a function template implementation
+in ATS that is partly type-unsafe.
 
 ")
 

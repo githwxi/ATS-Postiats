@@ -23,15 +23,15 @@ glVertexPointer(3, GL_FLOAT, sizeof(vertex_s), 0);
 glTexturePointer(2, GL_FLOAT, sizeof(vertex_s), offsetof(vertex_s, texcoord));
 // actual drawing calls omitted
 
-So, we just specified that an array of vertices can be seen as two separate arrays with "holes" between elements.
-
-I'm wondering if offsetof can be given a type in ATS which is not too cumbersome to use?
+So, we just specified that an array of vertices can be seen as two separate
+arrays with "holes" between elements. I'm wondering if offsetof can be given
+a type in ATS which is not too cumbersome to use?
 *)
 
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload_tmpdef.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 

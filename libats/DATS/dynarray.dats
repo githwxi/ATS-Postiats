@@ -154,7 +154,7 @@ in
 //
 if i <= n then let
   extern fun memmove
-    : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_memmove"
+    : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_dynarray_memmove"
   // end of [extern]
 in
 //

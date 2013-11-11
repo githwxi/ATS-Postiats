@@ -159,6 +159,10 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
+#packfilename("stdlib_bsearch.dats")
+
+(* ****** ****** *)
+
 #packfilename("strmat.dats")
 
 (* ****** ****** *)
