@@ -92,7 +92,10 @@ val () =
 //
 val sbf = stringbuf_make_nil (i2sz(1))
 //
-val _ = stringbuf_insert (sbf, "123456789")
+val _ = stringbuf_insert (sbf, 1234)
+val _ = stringbuf_insert (sbf, 56789u)
+val _ = stringbuf_insert (sbf, 123456789l)
+val _ = stringbuf_insert (sbf, 1234567890ul)
 //
 var n: size_t
 val str = stringbuf_getfree_strnptr (sbf, n)
