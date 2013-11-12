@@ -686,6 +686,54 @@ end // end of [stropt_length]
 implement fprint_val<string> = fprint_string
 implement fprint_val<stropt> = fprint_stropt
 
+#atscode_separator()
+
+\%{
+//
+atstype_string
+atspre_string_make_snprintf
+(
+  atstype_string fmt, ...
+) {
+  char *res ;
+  va_list ap0 ;
+  va_start(ap0, fmt) ;
+//
+// HX: [8] is kind of randomly chosen
+//
+  res = atspre_string_make_vsnprintf (8, fmt, ap0) ;
+  va_end(ap0) ;
+  return (res) ;
+} // end of [atspre_string_make_snprintf]
+//
+atstype_string
+atspre_string_make_vsnprintf
+(
+  atstype_size bsz
+, atstype_string fmt, va_list ap0
+) {
+  int ntot ;
+  char *res ;
+  va_list ap1 ;
+  res = atspre_malloc_gc(bsz) ;
+  va_copy(ap1, ap0) ;
+  ntot = vsnprintf(res, bsz, (char*)fmt, ap1) ;
+  va_end(ap1) ;
+  if (ntot < 0) {
+    atspre_mfree_gc(res) ; return (char*)0 ;
+  }
+  if (ntot < bsz) return res ;
+  bsz = ntot + 1 ;
+  res = atspre_realloc_gc(res, bsz) ;
+  ntot = vsnprintf(res, bsz, (char*)fmt, ap0) ;
+  if (ntot < 0) {
+    atspre_mfree_gc(res) ; return (char*)0 ;
+  }
+  return (res) ;
+} // end of [atspre_string_make_vsnprintf]
+//
+\%}
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

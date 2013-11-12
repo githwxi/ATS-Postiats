@@ -190,6 +190,21 @@ atspre_fprint_stropt
 \#define atspre_prerr_stropt(x) atspre_fprint_stropt(stderr, (x))
 
 #atscode_separator_for_C()
+//
+\#include <stdarg.h>
+//
+// HX-2013-11:
+// these are implemented in [string.dats]
+//
+extern
+atstype_string
+atspre_string_make_snprintf(atstype_string fmt, ...) ;
+extern
+atstype_string
+atspre_string_make_vsnprintf
+  (atstype_size bsz, atstype_string fmt, va_list ap0) ;
+//
+#atscode_separator_for_C()
 
 \#endif // ifndef ATSLIB_PRELUDE_STRING_CATS
 
