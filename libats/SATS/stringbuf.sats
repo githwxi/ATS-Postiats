@@ -78,6 +78,13 @@ stringbuf_get_capacity (sbf: !stringbuf):<> size_t
 
 (* ****** ****** *)
 
+fun{}
+stringbuf_reset_capacity
+  (sbf: !stringbuf, m2: sizeGte(1)):<!wrt> bool(*done/ignored*)
+// end of [stringbuf_reset_capacity]
+
+(* ****** ****** *)
+
 symintr stringbuf_insert
 
 (* ****** ****** *)
@@ -125,10 +132,13 @@ stringbuf_insert_snprintf
 *)
 (* ****** ****** *)
 
-fun{}
-stringbuf_reset_capacity
-  (sbf: !stringbuf, m2: sizeGte(1)):<!wrt> bool(*done/ignored*)
-// end of [stringbuf_reset_capacity]
+fun{a:t0p}
+stringbuf_insert_val (sbf: !stringbuf, x: a): int
+
+(* ****** ****** *)
+
+fun{a:t0p}
+stringbuf_insert_list (sbf: !stringbuf, x: List(a)): int
 
 (* ****** ****** *)
 

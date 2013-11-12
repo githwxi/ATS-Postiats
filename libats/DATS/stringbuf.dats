@@ -307,6 +307,51 @@ end // end of [stringbuf_insert_ulint]
 
 (* ****** ****** *)
 //
+implement
+stringbuf_insert_val<int> = stringbuf_insert_int
+//
+implement
+stringbuf_insert_val<bool> = stringbuf_insert_bool
+//
+implement
+stringbuf_insert_val<uint> = stringbuf_insert_uint
+implement
+stringbuf_insert_val<lint> = stringbuf_insert_lint
+implement
+stringbuf_insert_val<ulint> = stringbuf_insert_ulint
+//
+implement
+stringbuf_insert_val<string> = stringbuf_insert_string
+//
+(* ****** ****** *)
+
+implement{a}
+stringbuf_insert_list
+  (sbf, xs) = let
+//
+fun loop
+(
+  sbf: !stringbuf, xs: List(a), res: int
+) : int = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val n = stringbuf_insert_val<a> (sbf, x)
+  in
+    loop (sbf, xs, res + n)
+  end (* end of [list_cons] *)
+| list_nil () => res
+//
+end // end of [loop]
+//
+in
+  loop (sbf, xs, 0)
+end // end of [stringbuf_insert_list]
+
+(* ****** ****** *)
+//
 extern
 fun _stringbuf_get_size (!stringbuf): size_t = "ext#%"
 extern
