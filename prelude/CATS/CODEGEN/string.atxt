@@ -197,12 +197,12 @@ atspre_fprint_stropt
 // these are implemented in [string.dats]
 //
 extern
-atstype_string
+atstype_string // Strptr0
 atspre_string_make_snprintf(atstype_string fmt, ...) ;
 extern
-atstype_string
+atstype_string // Strptr0
 atspre_string_make_vsnprintf
-  (atstype_size bsz, atstype_string fmt, va_list ap0) ;
+  (atstype_size bsz0, atstype_string fmt, va_list ap0) ;
 //
 #atscode_separator_for_C()
 

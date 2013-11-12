@@ -87,6 +87,26 @@ val ((*void*)) = strptr_free (str)
 
 (* ****** ****** *)
 
+val () =
+{
+//
+val sbf = stringbuf_make_nil (i2sz(1))
+//
+val _ = stringbuf_insert (sbf, "123456789")
+//
+var n: size_t
+val str = stringbuf_getfree_strnptr (sbf, n)
+val ((*void*)) = assertloc (g0u2i(n) = strnptr_length (str))
+//
+val str = strnptr2strptr (str)
+val ((*void*)) = println! ("str = ", str)
+//
+val ((*void*)) = strptr_free (str)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

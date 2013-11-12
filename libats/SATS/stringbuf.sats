@@ -78,6 +78,11 @@ stringbuf_get_capacity (sbf: !stringbuf):<> size_t
 
 (* ****** ****** *)
 
+fun{}
+stringbuf_get_ptrcur (sbf: !stringbuf):<> Ptr1
+
+(* ****** ****** *)
+
 symintr stringbuf_insert
 
 (* ****** ****** *)

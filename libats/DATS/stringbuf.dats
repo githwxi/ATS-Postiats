@@ -38,6 +38,16 @@
 #define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
   
 (* ****** ****** *)
+//
+staload
+_ = "prelude/DATS/integer.dats"
+//
+staload
+_ = "prelude/DATS/array.dats"
+staload
+_ = "prelude/DATS/arrayptr.dats"
+//
+(* ****** ****** *)
 
 staload
 UN = "prelude/SATS/unsafe.sats"
@@ -129,6 +139,14 @@ implement{
 (* ****** ****** *)
 
 implement{
+} stringbuf_get_ptrcur
+  (sbf) =
+  let val+STRINGBUF (_, p, _) = sbf in $UN.cast{Ptr1}(p) end
+// end of [stringbuf_get_ptrcur]
+
+(* ****** ****** *)
+
+implement{
 } stringbuf_reset_capacity
   (sbf, m2) = let
 //
@@ -206,15 +224,11 @@ end // end of [stringbuf_insert_string]
 (* ****** ****** *)
 //
 extern
-fun{}
-pow2min
-  (s1: sizeGte(1), s2: size_t): sizeGte(1)
-//
-implement{
-} pow2min (s1, s2) =
-(
-  if s1 >= s2 then s1 else pow2min (s1+s1, s2)
-) (* end of [pow2min] *)
+fun _stringbuf_pow2min
+  (s1: sizeGte(1), s2: size_t): sizeGte(1) = "ext#%"
+implement
+_stringbuf_pow2min (s1, s2) =
+   if s1 >= s2 then s1 else _stringbuf_pow2min (s1+s1, s2)
 //
 (* ****** ****** *)
 
@@ -243,7 +257,7 @@ case+ 0 of
     prval () = fold@ (sbf)
   in
     if recap >= 1 then let
-      val m2 = pow2min (m, n2)
+      val m2 = _stringbuf_pow2min (m, n2)
       val _ = stringbuf_reset_capacity (sbf, m2) in stringbuf_insert_strlen (sbf, x, nx)
     end else 0(*~inserted*) // end of [if]
   end // end of [n2 >= m]
@@ -263,6 +277,97 @@ if x
 // end of [if]
 //
 end // end of [stringbuf_insert_bool]
+
+(* ****** ****** *)
+
+implement{
+} stringbuf_insert_int
+  (sbf, x) = let
+  val sbf = $UN.castvwtp1{ptr}(sbf)
+  val recap = stringbuf$recapacitize ()
+in
+  $extfcall (int, "atslib_stringbuf_insert_snprintf", sbf, recap, "%i", x)
+end // end of [stringbuf_insert_int]
+
+(* ****** ****** *)
+//
+extern
+fun _stringbuf_get_size (sbf: !stringbuf): size_t = "ext#%"
+extern
+fun _stringbuf_get_capacity (sbf: !stringbuf): size_t = "ext#%"
+//
+implement
+_stringbuf_get_size (sbf) = stringbuf_get_size<> (sbf)
+implement
+_stringbuf_get_capacity (sbf) = stringbuf_get_capacity<> (sbf)
+//
+(* ****** ****** *)
+
+extern
+fun _stringbuf_get_ptrcur (sbf: !stringbuf): ptr = "ext#%"
+implement
+_stringbuf_get_ptrcur (sbf) = stringbuf_get_ptrcur<> (sbf)
+
+(* ****** ****** *)
+
+extern
+fun _stringbuf_reset_capacity
+  (sbf: !stringbuf, m2: sizeGte(1)): bool = "ext#%"
+implement
+_stringbuf_reset_capacity (sbf, m2) = stringbuf_reset_capacity<> (sbf, m2)
+
+(* ****** ****** *)
+
+%{$
+//
+atstype_int
+atslib_stringbuf_insert_snprintf
+(
+  atstype_ptr sbf, atstype_int recap, atstype_string fmt, ...
+) {
+  int ntot ;
+  va_list ap0 ;
+  va_start(ap0, fmt) ;
+  ntot = atslib_stringbuf_insert_vsnprintf (sbf, recap, fmt, ap0) ;
+  va_end(ap0) ;
+  return (ntot) ;
+} // end of [atslib_stringbuf_insert_snprintf]
+//
+atstype_int
+atslib_stringbuf_insert_vsnprintf
+(
+  atstype_ptr sbf, atstype_int recap, atstype_string fmt, va_list ap0
+) {
+  size_t m ;
+  size_t n ;
+  void *p_cur ;
+  int ntot ;
+  va_list ap1 ;
+//
+  m = atslib__stringbuf_get_capacity (sbf) ;
+  n = atslib__stringbuf_get_size (sbf) ;
+  p_cur = atslib__stringbuf_get_ptrcur (sbf) ;
+//
+  va_copy(ap1, ap0) ;
+  ntot = vsnprintf ((char*)p_cur, m-n+1, (char*)fmt, ap1) ;
+  va_end(ap1) ;
+//
+  if (ntot <= m-n) return ntot ;
+//
+  if (recap >= 1)
+  {
+    m = atslib__stringbuf_pow2min (m, ntot) ;
+    atslib__stringbuf_reset_capacity (sbf, m) ;
+    n = atslib__stringbuf_get_size (sbf) ;
+    p_cur = atslib__stringbuf_get_ptrcur (sbf) ;
+    ntot = vsnprintf ((char*)p_cur, m-n+1, (char*)fmt, ap0) ;
+  }
+//
+  return (ntot) ;
+//
+} // end of [atslib_stringbuf_insert_snprintf]
+//
+%}
 
 (* ****** ****** *)
 

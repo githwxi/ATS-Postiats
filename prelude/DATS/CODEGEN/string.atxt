@@ -688,7 +688,7 @@ implement fprint_val<stropt> = fprint_stropt
 
 #atscode_separator()
 
-\%{
+\%{$
 //
 atstype_string
 atspre_string_make_snprintf

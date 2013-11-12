@@ -40,11 +40,25 @@
 
 /* ****** ****** */
 
+#include <stdarg.h>
 #include <string.h>
 
 /* ****** ****** */
 
 #define atslib_stringbuf_memcpy memcpy
+
+/* ****** ****** */
+
+extern
+atstype_int
+atslib_stringbuf_insert_snprintf
+  (atstype_ptr sbf, atstype_int recap, atstype_string fmt, ...) ;
+extern
+atstype_int
+atslib_stringbuf_insert_vsnprintf
+(
+  atstype_ptr sbf, atstype_int recap, atstype_string fmt, va_list ap
+) ; // end of [atslib_stringbuf_insert_vsnprintf]
 
 /* ****** ****** */
 

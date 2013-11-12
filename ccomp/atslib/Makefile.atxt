@@ -124,6 +124,9 @@ all:: atslib
 ######
 
 atslib:: atslib_prelude
+
+######
+
 #make_entry("prelude", "bool.dats")
 #make_entry("prelude", "char.dats")
 #make_entry("prelude", "integer.dats")
@@ -138,6 +141,9 @@ atslib:: atslib_prelude
 ######
 
 atslib:: atslib_libc
+
+######
+
 #make_entry("libc", "dirent.dats")
 #make_entry("libc", "fcntl.dats")
 #make_entry("libc", "stdio.dats")
@@ -150,6 +156,13 @@ atslib:: atslib_libc
 ######
 
 atslib:: atslib_libats
+
+######
+
+#make_entry("libats", "stringbuf.dats")
+
+######
+
 #make_entry("libats", "funset_avltree.dats")
 #make_entry("libats", "funset_listord.dats")
 #make_entry("libats", "funmap_list.dats")
