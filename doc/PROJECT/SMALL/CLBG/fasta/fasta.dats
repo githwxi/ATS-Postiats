@@ -48,14 +48,14 @@ macdef IM = 139968U
 
 #define BUFLEN 60
 #define BUFLEN1 61
-#define LOOKUP_SIZE 4096
+#define LOOKUP 4096
 
 (* ****** ****** *)
 
 macdef
 float(x) = $UN.cast{float}(,(x))
 macdef
-LOOKUP_SCALE = (float)(LOOKUP_SIZE - 1)
+LOOKUP_SCALE = (float)(LOOKUP - 1)
 
 (* ****** ****** *)
 
@@ -161,7 +161,7 @@ overload + with add_ptr_bsz of 20
 fun
 fill_lookuparr{n0:pos}
 (
-  lookuparr: &(@[ptr?][LOOKUP_SIZE]) >> @[ptr][LOOKUP_SIZE]
+  lookuparr: &(@[ptr?][LOOKUP]) >> @[ptr][LOOKUP]
 , aminoarr: &aminoarr(n0), n0: size_t n0
 ) : void = let
 //
@@ -220,7 +220,7 @@ fun loop2
 val () = loop2
 (
   view@lookuparr
-| aminoarr, addr@lookuparr, i2sz(LOOKUP_SIZE), (float)0, 0
+| aminoarr, addr@lookuparr, i2sz(LOOKUP), (float)0, 0
 ) (* end of [val] *)
 //
 in
@@ -229,7 +229,7 @@ end // end of [fill_lookuparr]
 
 (* ****** ****** *)
 
-typedef lookuparr = @[ptr][LOOKUP_SIZE]
+typedef lookuparr = @[ptr][LOOKUP]
 
 (* ****** ****** *)
 
@@ -250,46 +250,47 @@ randomize
   // end of [fwrite_byte]
 //
   var buf = @[char?][BUFLEN1]()
-  val p_buf = addr@buf
-  var lookuparr = @[ptr][LOOKUP_SIZE]()
+  var lookuparr = @[ptr][LOOKUP]()
   val () = buf[BUFLEN] := '\n'
   val () = fill_lookuparr (lookuparr, aminoarr, n0)
   var i: Nat = 0 and j: natLte (BUFLEN) = 0
   val () = while (i < n) let
     val () = if :(j: natLt (BUFLEN)) =>
       (j = BUFLEN) then
-      (fwrite_byte (p_buf, BUFLEN+1, stdout_ref); j := 0)
+      (fwrite_byte (addr@buf, BUFLEN1, stdout_ref); j := 0)
     // end of [if]
 //
     val r = random_next_lookup (seed)
     val ri = g0float2int_float_int (r)
     val [ri:int] ri = g1ofg0_int (ri)
     prval () = _meta_info () where {
-      extern praxi _meta_info (): [0 <= ri && ri < LOOKUP_SIZE] void
+      extern praxi _meta_info (): [0 <= ri && ri < LOOKUP] void
     } // end of [prval]
 //
     typedef T = amino_acid
     var u: ptr = lookuparr[ri]
 //
-    extern castfn __cast (u: ptr)
-      :<> [l:addr] (T @ l, T @ l -<lin,prf> void | ptr l)
     val () = while (true) let
-      val (pf, fpf | u1) = __cast (u)
+      val (
+        pf, fpf | u1
+      ) = $UN.ptr0_vtake{T}(u)
       val r1 = u1->cprob_lookup
       prval () = fpf (pf)
     in
       if unlikely0(r1 < r) then u := u + sizeof<T> else $break
     end // end of [val]
 //
-    val (pf, fpf | u1) = __cast (u)
-    val () = p_buf->[j] := u1->sym
+    val (
+      pf, fpf | u1
+    ) = $UN.ptr0_vtake{T}(u)
+    val () = buf[j] := u1->sym
     prval () = fpf (pf)
 //
   in
     i := i + 1; j := j + 1
   end // end of [while]
-  val () = p_buf->[j] := '\n'
-  val () = fwrite_byte (p_buf, j+1, stdout_ref)
+  val () = buf[j] := '\n'
+  val () = fwrite_byte (addr@buf, j+1, stdout_ref)
 } (* end of [randomize] *)
 
 (* ****** ****** *)
