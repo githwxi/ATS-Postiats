@@ -11,7 +11,7 @@ all:: n-body_c
 ######
 
 n-body: n-body.dats
-	patscc -msse2 -mfpmath=sse -O3 n-body.dats -o n-body -lm
+	patscc -O3 -msse2 -mfpmath=sse -o $@ $< -lm
 
 n-body-2: n-body-2.dats
 	patscc -pipe -O3 -fomit-frame-pointer -march=native -msse3 -mfpmath=sse $< -o $@ -lm

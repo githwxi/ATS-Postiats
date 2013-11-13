@@ -8,8 +8,7 @@ all:: mandelbrot
 
 ######
 
-mandelbrot: mandelbrot.dats ; \
-  patscc -O3 -msse2 -o mandelbrot mandelbrot.dats
+mandelbrot: mandelbrot.dats ; patscc -O3 -msse2 -o $@ $<
 
 ######
 

@@ -4,12 +4,12 @@
 #
 ######
 
-all:: fasta
+all:: reverse-complement
 
 ######
 
-fasta: fasta.dats ; \
-  patscc -D_BSD_SOURCE -O3 -msse2 -mfpmath=sse -o $@ $<
+reverse-complement: \
+  reverse-complement.dats ; patscc -O3 -fomit-frame-pointer -o $@ $<
 
 ######
 
@@ -23,6 +23,6 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_dats.c
 
 cleanall:: clean
-cleanall:: ; $(RMF) fasta
+cleanall:: ; $(RMF) reverse-complement
 
 ###### end of [Makefile] ######
