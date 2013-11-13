@@ -154,6 +154,16 @@ case+ d2c0.d2ecl_node of
     d3ecl_saspdec (loc0, d2c)
   end // end of [D2Csaspec]
 //
+| D2Cextype
+    (name, s2e_def) =>
+    d3ecl_extype (d2c0.d2ecl_loc, name, s2e_def)
+| D2Cextval
+    (name, d2e_def) => let
+    val d3e_def = d2exp_trup (d2e_def)
+  in
+    d3ecl_extval (d2c0.d2ecl_loc, name, d3e_def)
+  end // end of [D2Cextval]
+//
 | D2Cextcode (
     knd, pos, code
   ) => d3ecl_extcode (loc0, knd, pos, code)

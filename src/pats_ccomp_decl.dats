@@ -88,6 +88,16 @@ fun hisaspdec_ccomp
 // end of [hidsaspdec_ccomp]
 
 extern
+fun hiextval_ccomp
+  (env: !ccompenv, hid0: hidecl): primdec
+// end of [hidextval_ccomp]
+
+extern
+fun hiextype_ccomp
+  (env: !ccompenv, hid0: hidecl): primdec
+// end of [hidextype_ccomp]
+
+extern
 fun hiextcode_ccomp
   (env: !ccompenv, hid0: hidecl): primdec
 // end of [hidextcode_ccomp]
@@ -142,6 +152,8 @@ case+ hid0.hidecl_node of
 //
 | HIDsaspdec _ => hisaspdec_ccomp (env, hid0)
 //
+| HIDextype _ => hiextype_ccomp (env, hid0)
+| HIDextval _ => hiextval_ccomp (env, hid0)
 | HIDextcode _ => hiextcode_ccomp (env, hid0)
 //
 | HIDdatdecs _ => hidatdecs_ccomp (env, hid0)
@@ -322,6 +334,31 @@ end // end of [hisaspdec_ccomp]
 (* ****** ****** *)
 
 implement
+hiextype_ccomp
+  (env, hid0) = let
+//
+val loc0 = hid0.hidecl_loc
+val () = the_extypelst_add (hid0)
+//
+in
+  primdec_none (loc0)
+end // end of [hiextype_ccomp]
+
+(* ****** ****** *)
+
+implement
+hiextval_ccomp
+  (env, hid0) = let
+//
+val loc0 = hid0.hidecl_loc
+//
+in
+  primdec_none (loc0)
+end // end of [hiextval_ccomp]
+
+(* ****** ****** *)
+
+implement
 hiextcode_ccomp
   (env, hid0) = let
 //
@@ -330,7 +367,7 @@ val () = the_extcodelst_add (hid0)
 //
 in
   primdec_none (loc0)
-end // end of [hiextcod_ccomp]
+end // end of [hiextcode_ccomp]
 
 (* ****** ****** *)
 

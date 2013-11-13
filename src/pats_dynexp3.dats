@@ -1103,6 +1103,18 @@ d3ecl_saspdec (loc, d2c) =
 (* ****** ****** *)
 
 implement
+d3ecl_extype
+  (loc, name, s2e_def) =
+  d3ecl_make_node (loc, D3Cextype (name, s2e_def))
+// end of [d3ecl_extype]
+
+implement
+d3ecl_extval
+  (loc, name, d3e_def) =
+  d3ecl_make_node (loc, D3Cextval (name, d3e_def))
+// end of [d3ecl_extval]
+
+implement
 d3ecl_extcode
   (loc, knd, pos, code) =
   d3ecl_make_node (loc, D3Cextcode (knd, pos, code))

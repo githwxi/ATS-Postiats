@@ -1027,6 +1027,8 @@ in
   (* nothing *)
 end // end of [aux_exndeclst]
 
+(* ****** ****** *)
+
 fun
 aux_saspdeclst
   (out: FILEref): void = let
@@ -1059,6 +1061,42 @@ val () = emit_text (out, "*/\n")
 in
   (* nothing *)
 end // end of [aux_saspdeclst]
+
+(* ****** ****** *)
+
+fun
+aux_extypelst
+  (out: FILEref): void = let
+//
+fun loop
+(
+  out: FILEref, xs: hideclist
+) : void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = emit_extype (out, x) in loop (out, xs)
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [loop]
+//
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "extypelst-declaration(beg)\n")
+val () = emit_text (out, "*/\n")
+//
+val hids = the_extypelst_get ()
+val ((*void*)) = loop (out, hids)
+//
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "extypelst-declaration(end)\n")
+val () = emit_text (out, "*/\n")
+//
+in
+  (* nothing *)
+end // end of [aux_extypelst]
 
 in (* in of [local] *)
 
@@ -1113,6 +1151,8 @@ val () = emit_the_primdeclst_valimp (out)
 //
 val () = aux_exndeclst (out)
 val () = aux_saspdeclst (out)
+//
+val () = aux_extypelst (out)
 //
 val (
 ) = aux_extcodelst_if (out, lam (pos) => pos < DYNMID)

@@ -809,6 +809,18 @@ hidecl_saspdec (loc, d2c) =
 (* ****** ****** *)
 
 implement
+hidecl_extype
+  (loc, name, hse_def) =
+  hidecl_make_node (loc, HIDextype (name, hse_def))
+// end of [hidecl_extype]
+
+implement
+hidecl_extval
+  (loc, name, hde_def) =
+  hidecl_make_node (loc, HIDextval (name, hde_def))
+// end of [hidecl_extval]
+
+implement
 hidecl_extcode
   (loc, knd, pos, code) =
   hidecl_make_node (loc, HIDextcode (knd, pos, code))

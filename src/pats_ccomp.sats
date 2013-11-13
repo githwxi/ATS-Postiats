@@ -101,6 +101,11 @@ fun the_saspdeclst_add (hid: hidecl): void
 
 (* ****** ****** *)
 
+fun the_extypelst_get (): hideclist
+fun the_extypelst_add (hid: hidecl): void
+
+(* ****** ****** *)
+
 fun the_extcodelst_get (): hideclist
 fun the_extcodelst_add (hid: hidecl): void
 
@@ -1935,6 +1940,7 @@ fun emit_saspdec (out: FILEref, hid: hidecl): void
 
 (* ****** ****** *)
 
+fun emit_extype (out: FILEref, hid: hidecl): void
 fun emit_extcode (out: FILEref, hid: hidecl): void
 
 (* ****** ****** *)

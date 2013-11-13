@@ -226,6 +226,8 @@ hidecl_node =
 //
   | HIDsaspdec of (s2aspdec)
 //
+  | HIDextype of (string(*name*), hisexp)
+  | HIDextval of (string(*name*), hidexp)
   | HIDextcode of
       (int(*knd*), int(*pos*), string(*code*))
     // end of [HIDextcode]
@@ -870,9 +872,18 @@ fun hidecl_list (loc: location, hids: hideclist): hidecl
 
 fun hidecl_saspdec (loc: location, d2c: s2aspdec): hidecl
 
+(* ****** ****** *)
+
+fun hidecl_extype
+  (loc: location, name: string, hse_def: hisexp): hidecl
+fun hidecl_extval
+  (loc: location, name: string, hde_def: hidexp): hidecl
+
 fun hidecl_extcode
   (loc: location, knd: int, pos: int, code: string): hidecl
 // end of [hidecl_extcode]
+
+(* ****** ****** *)
 
 fun hidecl_datdecs
   (loc: location, knd: int, s2cs: s2cstlst) : hidecl

@@ -227,6 +227,8 @@ d3ecl_node =
 //
   | D3Csaspdec of (s2aspdec)
 //
+  | D3Cextype of (string(*name*), s2exp(*def*))
+  | D3Cextval of (string(*name*), d3exp(*def*))
   | D3Cextcode of (int(*knd*), int(*pos*), string(*code*))  
 //
   | D3Cdatdecs of (int(*knd*), s2cstlst)
@@ -957,6 +959,14 @@ fun d3ecl_list (loc: location, xs: d3eclist): d3ecl
 fun d3ecl_saspdec (loc: location, d2c: s2aspdec): d3ecl
 
 (* ****** ****** *)
+
+fun d3ecl_extype
+  (loc: location, name: string, s2e_def: s2exp): d3ecl
+// end of [d3ecl_extype]
+
+fun d3ecl_extval
+  (loc: location, name: string, d3e_def: d3exp): d3ecl
+// end of [d3ecl_extval]
 
 fun d3ecl_extcode
   (loc: location, knd: int, pos: int, code: string): d3ecl

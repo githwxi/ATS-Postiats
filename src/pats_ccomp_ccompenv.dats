@@ -142,6 +142,46 @@ end // end of [local]
 local
 
 vtypedef
+extypelst_vt = List_vt (hidecl)
+
+val the_extypelst =
+  ref_make_elt<extypelst_vt> (list_vt_nil ())
+// end of [val]
+
+in (* in of [local] *)
+
+implement
+the_extypelst_add (x) = let
+//
+val (
+  vbox pf | p
+) = ref_get_view_ptr (the_extypelst)
+//
+in
+  !p := list_vt_cons (x, !p)
+end // end of [the_extypelst_add]
+
+implement
+the_extypelst_get () = let
+//
+val (
+  vbox pf | p
+) = ref_get_view_ptr (the_extypelst)
+val xs = !p
+val () = !p := list_vt_nil ()
+val xs = list_vt_reverse<hidecl> (xs)
+//
+in
+  list_of_list_vt (xs)
+end // end of [the_extypelst_get]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+vtypedef
 extcodelst_vt = List_vt (hidecl)
 
 val the_extcodelst =

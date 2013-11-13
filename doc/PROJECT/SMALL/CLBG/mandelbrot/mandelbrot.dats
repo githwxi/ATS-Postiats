@@ -56,7 +56,7 @@ fun p
     and i2 = i * i
   in
     if r2+i2 <= LIMIT2
-      then if k=0 then true else lp (r2-i2+Cr, 2.0*r*i+Ci, k-1)
+      then (if k=0 then true else lp (r2-i2+Cr, 2.0*r*i+Ci, k-1))
       else false
     // end of [if]
   end

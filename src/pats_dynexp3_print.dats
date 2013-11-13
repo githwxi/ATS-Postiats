@@ -652,6 +652,8 @@ case+ d3c0.d3ecl_node of
 //
 | D3Csaspdec _ => prstr "D3Csaspdec(...)"
 //
+| D3Cextype _ => prstr "D3Cextype(...)"
+| D3Cextval _ => prstr "D3Cextval(...)"
 | D3Cextcode _ => prstr "D3Cextcode(...)"
 //
 | D3Cdatdecs _ => prstr "D3Cdatdecs(...)"

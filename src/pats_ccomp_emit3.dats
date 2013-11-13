@@ -151,6 +151,30 @@ end // end of [emit_saspdec]
 (* ****** ****** *)
 
 implement
+emit_extype
+  (out, hid) = let
+//
+val loc0 = hid.hidecl_loc
+val-HIDextype (name, hse_def) = hid.hidecl_node
+//
+val () = emit_text (out, "/*\n")
+val () = emit_location (out, loc0)
+val () = emit_text (out, "\n*/\n")
+//
+val () = emit_text (out, "typedef\n")
+val () =
+(
+  emit_hisexp (out, hse_def); emit_text (out, "\n")
+) (* end of [val] *)
+val () = (emit_text (out, name); emit_text (out, " ;\n"))
+//
+in
+  // nothing
+end // end of [emit_extype]
+
+(* ****** ****** *)
+
+implement
 emit_extcode
   (out, hid) = let
 //
