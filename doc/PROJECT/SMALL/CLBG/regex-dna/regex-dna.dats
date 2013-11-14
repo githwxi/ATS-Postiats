@@ -41,10 +41,10 @@ atsvoid_t0ype free_atm (atstype_ptr p) { free (p) ; return ; }
 //
 extern
 fun malloc_atm {n:nat}
-  (n: int n): [l:addr] @(bytes_v (n, l) | ptr l) = "mac#"
+  (n: int n): [l:addr] @(bytes_v (n, l) | ptr l) = "ext#"
 extern
 fun free_atm
-  {n:int}{l:addr} (pf: bytes_v (n, l) | p: ptr l): void = "mac#"
+  {n:int}{l:addr} (pf: bytes_v (n, l) | p: ptr l): void = "ext#"
 //
 (* ****** ****** *)
 
@@ -57,18 +57,17 @@ datavtype blocklst (int) =
 viewtypedef blocklst = [n:nat] blocklst (n)
 
 (* ****** ****** *)
-
+//
 extern
 vtypedef
-"blocklst_cons_pstruct" =
-  blocklst_cons_pstruct (void | int, ptr, blocklst)
-
+"blocklst_cons_pstruct" = blocklst_cons_pstruct (void | int, ptr, blocklst)
+//
 (* ****** ****** *)
 
 extern
 fun fread_stdin_block
   {sz:nat}{l:addr}
-  (pf: !block_v (sz, l) | sz: int sz, p: ptr l): natLte sz = "mac#"
+  (pf: !block_v (sz, l) | sz: int sz, p: ptr l): natLte sz = "ext#"
 
 (* ****** ****** *)
 
@@ -129,7 +128,7 @@ end // end of [fread_stdin_blocklst]
 
 extern
 fun blocklst_concat_and_free{n:nat}
-  (n: int n, blks: blocklst): [l:addr] @(bytes_v (n, l) | ptr l) = "mac#"
+  (n: int n, blks: blocklst): [l:addr] @(bytes_v (n, l) | ptr l) = "ext#"
 
 (* ****** ****** *)
 
@@ -144,16 +143,16 @@ blocklst_concat_and_free
   lft = tot ; res0 = res = malloc_atm (tot) ;
 
   while (blks) {
-    sz = ((blocklst_cons_pstruct)blks)->atslab_0 ;
-    p_blk = ((blocklst_cons_pstruct)blks)->atslab_1 ;
+    sz = ((blocklst_cons_pstruct)blks)->atslab__1 ;
+    p_blk = ((blocklst_cons_pstruct)blks)->atslab__2 ;
     if (sz < lft) {
       memcpy (res, p_blk, sz) ;
     } else {
       memcpy (res, p_blk, lft) ; lft = 0 ; break ;
     }
     res += sz ; lft -= sz ;
-    blks_nxt = ((blocklst_cons_pstruct)blks)->atslab_2 ;
-    free_atm (p_blk) ; ATS_FREE (blks) ;
+    blks_nxt = ((blocklst_cons_pstruct)blks)->atslab__3 ;
+    free_atm (p_blk) ; ATS_MFREE (blks) ;
     blks = blks_nxt ;
   }
   return res0 ;
@@ -192,7 +191,7 @@ extern
 fun
 count_pattern_match
   {n:nat}{l:addr}
-  (pf: !bytes_v (n, l) | n: int n, p: ptr l, pat: string): int = "mac#"
+  (pf: !bytes_v (n, l) | n: int n, p: ptr l, pat: string): int = "ext#"
 //
 (* ****** ****** *)
 
@@ -246,7 +245,7 @@ fun
 seglst_cons_make
 (
   beg: int, len: int
-) : seglst_cons_pstruct (int, int, seglst0?) = "mac#"
+) : seglst_cons_pstruct (int, int, seglst0?) = "ext#"
 //
 implement
 seglst_cons_make (beg, len) = seglst_cons{0}(beg, len, _)
@@ -263,11 +262,11 @@ atsvoid_t0ype subst_copy
   int ofs, beg, len ; seglst_cons_pstruct sgs_nxt ;
   for (ofs = 0 ; ; ) {
     if (!sgs) break ;
-    beg = sgs->atslab_0 ; len = beg - ofs ;
+    beg = sgs->atslab__0 ; len = beg - ofs ;
     memcpy (dst, src, len) ; dst += len ; src += len ; ofs = beg ;
-    len = sgs->atslab_1 ;
+    len = sgs->atslab__1 ;
     memcpy (dst, sub, nsub) ; dst += nsub ; src += len ; ofs += len ;
-    sgs_nxt = sgs->atslab_2 ; ATS_FREE (sgs); sgs = sgs_nxt ;
+    sgs_nxt = sgs->atslab__2 ; ATS_MFREE (sgs); sgs = sgs_nxt ;
   }
   len = nsrc - ofs ;  memcpy (dst, src, len) ; return ;
 } /* end of [subst_copy] */
@@ -295,13 +294,13 @@ subst_pattern_string
       beg = m[0] ; pos = m[1] ;
       len = pos - beg ; ndst -= len ; ndst += nsub ;
       sgs = (seglst_cons_pstruct)seglst_cons_make (beg, len) ;
-      *sgs_ptr = sgs ; sgs_ptr = (seglst_cons_pstruct*)&(sgs->atslab_2) ;
+      *sgs_ptr = sgs ; sgs_ptr = (seglst_cons_pstruct*)&(sgs->atslab__2) ;
     } else {
      *sgs_ptr = (seglst_cons_pstruct)0 ; break ;
     }
   } // end of [for]
   dst = malloc_atm (ndst) ;
-  ans.atslab_1 = ndst ; ans.atslab_2 = dst ;
+  ans.atslab__1 = ndst ; ans.atslab__2 = dst ;
   subst_copy (dst, src, nsrc, sgs0, sub, nsub) ;
   return ans ;
 } /* end of [subst_pattern_string] */
@@ -370,7 +369,7 @@ main0 () = let
   val _ = $extfcall (int, "printf", "\n%i\n%i\n%i\n", n0, n1, n_last)
 in
   // nothing
-end // end of [main]
+end // end of [main0]
 
 (* ****** ****** *)
 

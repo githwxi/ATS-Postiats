@@ -112,6 +112,18 @@ fun s2exp_tyer_fun
 (* ****** ****** *)
 
 extern
+fun s2exp_tyer_datconptr
+  (loc: location, flag: int, s2e: s2exp): hisexp
+// end of [s2exp_tyer_datconptr]
+
+extern
+fun s2exp_tyer_datcontyp
+  (loc: location, flag: int, s2e: s2exp): hisexp
+// end of [s2exp_tyer_datcontyp]
+
+(* ****** ****** *)
+
+extern
 fun s2exp_tyer_tyarr
   (loc: location, flag: int, s2e: s2exp): hisexp
 // end of [s2exp_tyer_tyarr]
@@ -175,8 +187,10 @@ case+
     s2cst_tyer (loc0, flag, s2c)
 | S2Evar (s2v) => hisexp_tyvar (s2v)
 //
-| S2Edatconptr _ => hisexp_datconptr
-| S2Edatcontyp _ => hisexp_datcontyp
+| S2Edatconptr _ =>
+    s2exp_tyer_datconptr (loc0, flag, s2e0)
+| S2Edatcontyp _ =>
+    s2exp_tyer_datcontyp (loc0, flag, s2e0)
 //
 | S2Eapp (
     s2e_fun, s2es_arg
@@ -359,23 +373,54 @@ end // end of [s2exp_tyer_fun]
 (* ****** ****** *)
 
 implement
+s2exp_tyer_datconptr
+  (loc0, flag, s2e0) = hisexp_datconptr
+
+(* ****** ****** *)
+
+implement
+s2exp_tyer_datcontyp
+  (loc0, flag, s2e0) = let
+//
+val-S2Edatcontyp
+  (d2c, s2es) = s2e0.s2exp_node
+//
+in
+//
+if flag > 0 then let
+  val npf = d2con_get_npf (d2c)
+  val lhses = s2explst_npf_tyer_labize (loc0, npf, s2es)
+in
+  hisexp_tysum (d2c, lhses)
+end else hisexp_datcontyp
+//
+end // end of [s2exp_tyer_datcontyp]
+
+(* ****** ****** *)
+
+implement
 s2exp_tyer_tyarr
   (loc0, flag, s2e0) = let
-  val-S2Etyarr
-    (s2e_elt, dim) = s2e0.s2exp_node
-  val hse_elt = s2exp_tyer (loc0, flag, s2e_elt)
+//
+val-S2Etyarr
+  (s2e_elt, dim) = s2e0.s2exp_node
+val hse_elt = s2exp_tyer (loc0, flag, s2e_elt)
+//
 in
   hisexp_tyarr (hse_elt, dim)
 end // end of [s2exp_tyer_tyarr]
 
+(* ****** ****** *)
+
 implement
 s2exp_tyer_tyrec
   (loc0, flag, s2e0) = let
-  val-S2Etyrec
-    (knd, npf, ls2es) = s2e0.s2exp_node
-  val lhses =
-    labs2explst_npf_tyer (loc0, flag, npf, ls2es)
-  // end of [val]
+//
+val-S2Etyrec
+  (knd, npf, ls2es) = s2e0.s2exp_node
+val lhses =
+  labs2explst_npf_tyer (loc0, flag, npf, ls2es)
+//
 in
 //
 case knd of

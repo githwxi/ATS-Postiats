@@ -9,7 +9,7 @@ all:: regex-dna
 ######
 
 regex-dna: regex-dna.dats ; \
-  patscc -O3 -msse2 -mfpmath=sse -o $@ $< -lpcre
+  patscc -DATS_MEMALLOC_LIBC -O3 -msse2 -mfpmath=sse -o $@ $< -lpcre
 
 ######
 
