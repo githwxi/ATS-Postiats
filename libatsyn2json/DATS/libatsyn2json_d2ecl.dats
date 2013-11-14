@@ -72,6 +72,7 @@ case+ d2cs of
     val () =
       jsonize_d2ecl (out, d2c)
     // end of [val]
+    val () = fprint_newline (out)
   in
     jsonize_d2eclist (out, d2cs)
   end // end of [list_cons]
