@@ -24,17 +24,17 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 Here is a list of major additions and changes since the last release:
 
 1. Fixing a glitch in handling ATS_DYNLOADFLAG (bug-2013-10-11)
-
 2. Adding -D_ATS_EXCEPTION_NONE support for eliminating the code in the
    run-time of ATS2 that are exception-related.
-
 3. Fixing a glitch in proof-assignment compilation (reported by MD)
-
 4. Allowing overloading declarations to permeates OPENED namespace.
-
 5. Fixing a glitch in handling overloading (bug-2013-10-30 reported by WB)
-
 6. Fixing a glitch in handling flat arrays (bug-2013-10-30-2 reported by WB)
+7. Fixing a glitch in handling arrays in structs (bug-2013-11-01 reported by WB)
+8. Fixing a glitch in handling implementation of values (bug-2013-11-06 reported by HX)
+9. All the occurances of LGPL-2.1 in ATS2/Postiats have been changed to GPL-3.
+   LGPL-2.1 still occurs in certain packages contained in ats2-lang-contrib   
+10. Supporting that ATS-types be exported for use in C (extern typedef ...)
 
 </pre>
 

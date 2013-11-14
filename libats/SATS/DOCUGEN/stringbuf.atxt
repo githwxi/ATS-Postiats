@@ -59,28 +59,113 @@ size 0.
 (* ****** ****** *)
 
 #declnamesynop("stringbuf_free")
+#decldescrpt('This function frees a given string buffer.')
+
 #declnamesynop("stringbuf_getfree_strnptr")
+#decldescrpt('\
+
+This function returns the string associated with a given string buffer
+after freeing the buffer, and ot stores the length of the returned string
+in its second (call-by-reference) parameter.
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("stringbuf_get_size")
+#decldescrpt('\
+
+Given a string buffer, this function returns its current size, that is, the
+number of characters stored in the buffer.\
+
+')
+
 #declnamesynop("stringbuf_get_capacity")
+#decldescrpt('\
+
+Given a string buffer, this function returns its current capacity, that is,
+the maximal number of characters that can be stored in the buffer.\
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("stringbuf_insert_char")
+#decldescrpt('\
+
+This function inserts a non-null character into a given string buffer.
+If the character is inserted, then 1 is returned. Otherwise, 0 is returned
+(due to the buffer being full but not allowed to recapacitize).
+
+')
+
+
 #declnamesynop("stringbuf_insert_string")
+#decldescrpt('\
+
+This function inserts a string into a given string buffer.
+If the string is inserted, then the length of the string is returned.
+Otherwise, 0 is returned.
+
+')
+
 #declnamesynop("stringbuf_insert_strlen")
+#decldescrpt('\
+
+This function is a slight variant of #dyncode("stringbuf_insert_string").
+
+')
+
+#declnamesynop("stringbuf_insert_bool")
+#decldescrpt('\
+
+Given a string buffer and a boolean, this function inserts a string
+representation of the boolean into the buffer.
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("stringbuf_insert_int")
-#declnamesynop("stringbuf_insert_bool")
-#declnamesynop("stringbuf_insert_double")
+#decldescrpt('\
+
+Given a string buffer and an integer, this function inserts a string
+representation of the integer into the buffer.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("stringbuf_insert_uint")
+#decldescrpt('\
+
+This function is a slight variant of #dyncode("stringbuf_insert_int").
+
+')
+#declnamesynop("stringbuf_insert_lint")
+#decldescrpt('\
+
+This function is a slight variant of #dyncode("stringbuf_insert_int").
+
+')
+#declnamesynop("stringbuf_insert_ulint")
+#decldescrpt('\
+
+This function is a slight variant of #dyncode("stringbuf_insert_int").
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("stringbuf_reset_capacity")
+#decldescrpt('\
+
+Given a string buffer and a size m2, this function resets the capacity of
+the buffer to m2. Note that m2 is expected to be greater than or equal to
+the current size of the buffer for otherwise this function returns false
+to indicate the capacity of the buffer is not reset.
+
+')
 
 (* ****** ****** *)
 
