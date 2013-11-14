@@ -44,6 +44,8 @@ jsonize_d2ecl
 in
 //
 case+ d2c0.d2ecl_node of
+| _ => fprint_d2ecl (out, d2c0)
+(*
 | _ => let
     val () = (
       prerrln! ("jsonize_d2ecl: d2c0 = ", d2c0)
@@ -52,6 +54,7 @@ case+ d2c0.d2ecl_node of
   in
     exit (1)
   end // end of [_]
+*)
 //
 end // end of [jsonize_d2ecl]
   

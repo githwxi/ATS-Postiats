@@ -7,13 +7,13 @@ ATSCC=$(ATSHOME)/bin/atscc
 
 ######
 
-all:: test1
+all:: mytest
 
 ######
 
-test1: test1.dats
+mytest: mytest.dats
 	$(ATSCC) -I$(PATSHOME)/src -IATS $(PATSHOME) -IATS $(ATSHOME) -o $@ $< -L $(PATSHOME)/libatsyn2json -latsyn2json -lgmp
-cleanall:: ; $(RMF) test1
+cleanall:: ; $(RMF) mytest
 
 ######
 

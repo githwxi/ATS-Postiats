@@ -736,4 +736,4 @@ val () = process_cmdline (state, arglst)
 
 (* ****** ****** *)
 
-(* end of [test1.dats] *)
+(* end of [mytest.dats] *)
