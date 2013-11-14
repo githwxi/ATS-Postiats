@@ -4,12 +4,12 @@
 #
 ######
 
-all:: spectral-norm
+all:: regex-dna
 
 ######
 
-spectral-norm: spectral-norm.dats ; \
-  patscc -O3 -msse2 -mfpmath=sse -o $@ $< -lm
+regex-dna: regex-dna.dats ; \
+  patscc -O3 -msse2 -mfpmath=sse -o $@ $< -lpcre
 
 ######
 
@@ -23,6 +23,6 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_dats.c
 
 cleanall:: clean
-cleanall:: ; $(RMF) spectral-norm
+cleanall:: ; $(RMF) regex-dna
 
 ###### end of [Makefile] ######
