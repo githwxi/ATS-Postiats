@@ -81,6 +81,7 @@ fun jsonize_d2exp (out: FILEref, d2e: d2exp): void
 (* ****** ****** *)
 
 fun jsonize_d2ecl (out: FILEref, d2c: d2ecl): void
+fun jsonize_d2eclist (out: FILEref, d2cs: d2eclist): void
 
 (* ****** ****** *)
 

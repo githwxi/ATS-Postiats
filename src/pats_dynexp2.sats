@@ -188,12 +188,12 @@ fun d2cst_make
 // HX: implemented in [pats_dynexp2_dcst.dats]
 //
 fun print_d2cst (x: d2cst): void
-overload print with print_d2cst
 fun prerr_d2cst (x: d2cst): void
+overload print with print_d2cst
 overload prerr with prerr_d2cst
 fun fprint_d2cst : fprint_type (d2cst)
-overload fprint with fprint_d2cst
 fun fprint_d2cstlst : fprint_type (d2cstlst)
+overload fprint with fprint_d2cst
 overload fprint with fprint_d2cstlst
 
 (* ****** ****** *)
@@ -1029,7 +1029,10 @@ fun fprint_i2nvresstate : fprint_type (i2nvresstate)
 
 fun print_d2ecl (x: d2ecl): void
 fun prerr_d2ecl (x: d2ecl): void
+overload print with print_d2ecl
+overload prerr with prerr_d2ecl
 fun fprint_d2ecl : fprint_type (d2ecl)
+overload fprint with fprint_d2ecl
 
 (* ****** ****** *)
 

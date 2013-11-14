@@ -67,18 +67,27 @@ all:: libatsyn2json
 SOURCES = \
   pats_error.sats \
   pats_error.dats \
+  pats_intinf.sats \
+  pats_intinf.dats \
+  pats_counter.sats \
+  pats_counter.dats \
   pats_utils.sats \
   pats_utils.dats \
   pats_global.sats \
   pats_global.dats \
   pats_basics.sats \
   pats_basics.dats \
+  pats_stamp.sats \
+  pats_stamp.dats \
   pats_symbol.sats \
   pats_symbol.dats \
   pats_filename.sats \
   pats_filename.dats \
+  pats_filename_reloc.dats \
   pats_location.sats \
   pats_location.dats \
+  pats_errmsg.sats \
+  pats_errmsg.dats \
   pats_reader.sats \
   pats_reader.dats \
   pats_lexbuf.sats \
@@ -90,6 +99,8 @@ SOURCES = \
   pats_lexing_error.dats \
   pats_label.sats \
   pats_label.dats \
+  pats_effect.sats \
+  pats_effect.dats \
   pats_fixity.sats \
   pats_fixity_prec.dats \
   pats_fixity_fxty.dats \
@@ -183,6 +194,8 @@ SOURCES = \
   pats_trans2_dynexp.dats \
   pats_trans2_impdec.dats \
   pats_trans2_decl.dats \
+  pats_comarg.sats \
+  pats_comarg.dats \
 
 ######
 
@@ -202,12 +215,30 @@ libatsyn2json:: $(OBJECTS)
 
 ######
 
+libatsyn2json:: libatsyn2json_sats.o
+libatsyn2json_sats.o: SATS/libatsyn2json.sats
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyn2json.a $@
+
+libatsyn2json:: libatsyn2json_dats.o
+libatsyn2json_dats.o: DATS/libatsyn2json.dats
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyn2json.a $@
+
 libatsyn2json:: libatsyn2json_p2at_dats.o
 libatsyn2json_p2at_dats.o: DATS/libatsyn2json_p2at.dats
 	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyn2json.a $@
 
 libatsyn2json:: libatsyn2json_d2exp_dats.o
 libatsyn2json_d2exp_dats.o: DATS/libatsyn2json_d2exp.dats
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyn2json.a $@
+
+libatsyn2json:: libatsyn2json_d2ecl_dats.o
+libatsyn2json_d2ecl_dats.o: DATS/libatsyn2json_d2ecl.dats
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyn2json.a $@
+
+######
+
+libatsyn2json:: dynloadall_dats.o
+dynloadall_dats.o: dynloadall.dats
 	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyn2json.a $@
 
 ######
