@@ -5,7 +5,16 @@
 
 (* ****** ****** *)
 
+#include
+"share/atspre_staload.hats"
+
+(* ****** ****** *)
+
 staload "./../utfpl.sats"
+
+(* ****** ****** *)
+
+staload "./eval_subst.sats"
 
 (* ****** ****** *)
 //
@@ -16,19 +25,53 @@ staload "./../utfpl.sats"
 extern
 fun
 d2exp_subst
-  (d2e0: d2exp, d2v: d2var, d2e: d2exp): d2exp
+  (d2e0: d2exp, sub: subst): d2exp
 //
+(* ****** ****** *)
+
+extern
+fun
+d2varlst_contains (d2varlst, d2var): bool
+
+implement
+d2varlst_contains
+  (d2vs, d2v0) = let
+//
+implement
+list_exists$pred<d2var> (d2v) = d2v0 = d2v
+//
+in
+  list_exists<d2var> (d2vs)
+end // end of [d2varlst_contains]
+
+(* ****** ****** *)
+
+extern
+fun
+subst_d2varlst_find
+  (subst, d2varlst, d2var): Option_vt(d2exp)
+// end of [subst_d2varlst_find]
+
+implement
+subst_d2varlst_find
+  (sub, d2vs, d2v0) = let
+//
+val isexi = d2varlst_contains (d2vs, d2v0)
+//
+in
+  if isexi then None_vt(*void*) else subst_find (sub, d2v0)
+end // end of [subst_d2varlst_find]
+
 (* ****** ****** *)
 
 implement
 d2exp_subst
-(
-  d2e0, d2v, d2e
-) = let
+  (d2e0, sub) = let
 //
 fun aux
 (
-  d2e0: d2exp, flag: &int >> _
+  d2e0: d2exp
+, d2vs: d2varlst, flag: &int >> _
 ) : d2exp = let
   val loc0 = d2e0.d2exp_loc
 in
@@ -36,16 +79,17 @@ in
 case+
 d2e0.d2exp_node of
 //
-| D2Evar (d2v1) =>
-    if d2v = d2v1
-      then let val () = flag := flag + 1 in d2e end
-      else d2e0 // end of [else]
-    // end of [if]
+| D2Evar (d2v) => let
+    val opt = subst_d2varlst_find (sub, d2vs, d2v)
+  in
+    case+ opt of
+    | ~Some_vt (d2e) => d2e | ~None_vt () => d2e0
+  end // end of [D2Evar]
 | D2Ecst _ => d2e0
 | D2Eapp (d2e1, d2es2) => let
     val flag0 = flag
-    val d2e1 = aux (d2e1, flag)
-    val d2es2 = auxlst (d2es2, flag)
+    val d2e1 = aux (d2e1, d2vs, flag)
+    val d2es2 = auxlst (d2es2, d2vs, flag)
   in
     if flag > flag0 then d2exp_app (loc0, d2e1, d2es2) else d2e0
   end // end of [D2Eapp]
@@ -58,7 +102,7 @@ end // end of [aux]
 //
 and auxlst
 (
-  d2es0: d2explst, flag: &int >> _
+  d2es0: d2explst, d2vs: d2varlst, flag: &int >> _
 ) : d2explst = let
 in
 //
@@ -66,8 +110,8 @@ case+ d2es0 of
 | list_cons
     (d2e, d2es) => let
     val flag0 = flag
-    val d2e = aux (d2e, flag)
-    val d2es = auxlst (d2es, flag)
+    val d2e = aux (d2e, d2vs, flag)
+    val d2es = auxlst (d2es, d2vs, flag)
   in
     if flag > flag0 then list_cons{d2exp}(d2e, d2es) else d2es0
   end // end of [list_cons]
@@ -78,7 +122,7 @@ end // end of [auxlst]
 var flag: int = 0
 //
 in
-  aux (d2e0, flag)
+  aux (d2e0, list_nil(*d2vs*), flag)
 end // end of [d2exp_subst]
 
 (* ****** ****** *)

@@ -29,9 +29,9 @@ overload fprint with fprint_d2var
 
 (* ****** ****** *)
 //
-fun eq_d2var_d2var : (d2var, d2var) -> bool
-fun neq_d2var_d2var : (d2var, d2var) -> bool
-fun compare_d2var_d2var : (d2var, d2var) -> int
+fun eq_d2var_d2var : (d2var, d2var) -<> bool
+fun neq_d2var_d2var : (d2var, d2var) -<> bool
+fun compare_d2var_d2var : (d2var, d2var) -<> int
 //
 overload = with eq_d2var_d2var
 overload != with eq_d2var_d2var
