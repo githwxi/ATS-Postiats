@@ -17,17 +17,6 @@ staload "./../utfpl.sats"
 staload "./eval_subst.sats"
 
 (* ****** ****** *)
-//
-// HX-2013-11:
-// [d2e] is assumed to be closed
-// d2exp_subst(d2e0, d2v, d2e) = d2e0[d2v->d2e]
-//
-extern
-fun
-d2exp_subst
-  (d2e0: d2exp, sub: subst): d2exp
-//
-(* ****** ****** *)
 
 extern
 fun
@@ -49,7 +38,7 @@ end // end of [d2varlst_contains]
 extern
 fun
 subst_d2varlst_find
-  (subst, d2varlst, d2var): Option_vt(d2exp)
+  (subst, d2varlst, d2var): Option_vt (d2exp)
 // end of [subst_d2varlst_find]
 
 implement
@@ -124,6 +113,35 @@ var flag: int = 0
 in
   aux (d2e0, list_nil(*d2vs*), flag)
 end // end of [d2exp_subst]
+
+(* ****** ****** *)
+
+local
+//
+typedef
+d2varexp = @(d2var, d2exp)
+//
+assume subst_type = List0 (d2varexp)
+//
+in (* end of [local] *)
+
+implement
+subst_find (sub, d2v0) = let
+//
+fun loop
+(
+  xs: List0(d2varexp)
+) : Option_vt (d2exp) =
+  case+ xs of
+  | list_cons (x, xs) =>
+      if d2v0 = x.0 then Some_vt{d2exp}(x.1) else loop (xs)
+  | list_nil ((*void*)) => None_vt ()
+//
+in
+  loop (sub)
+end // end of [subst_find]
+
+end // end of [local]
 
 (* ****** ****** *)
 
