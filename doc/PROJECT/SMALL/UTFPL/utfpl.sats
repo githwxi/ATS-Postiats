@@ -11,9 +11,21 @@ location = location_type
 
 (* ****** ****** *)
 
+fun fprint_location
+  (out: FILEref, loc: location): void
+overload fprint with fprint_location
+
+(* ****** ****** *)
+
 abstype d2var_type = ptr
 typedef d2var = d2var_type
 typedef d2varlst = List0 (d2var)
+
+(* ****** ****** *)
+
+fun fprint_d2var
+  (out: FILEref, d2v: d2var): void
+overload fprint with fprint_d2var
 
 (* ****** ****** *)
 //
@@ -30,6 +42,12 @@ overload compare with compare_d2var_d2var
 abstype d2cst_type = ptr
 typedef d2cst = d2cst_type
 typedef d2cstlst = List0 (d2cst)
+
+(* ****** ****** *)
+
+fun fprint_d2cst
+  (out: FILEref, d2c: d2cst): void
+overload fprint with fprint_d2cst
 
 (* ****** ****** *)
 

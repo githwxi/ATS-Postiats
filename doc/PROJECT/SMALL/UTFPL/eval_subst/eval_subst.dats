@@ -1,5 +1,6 @@
 (*
-** Implementing Untyped Functional PL
+** Implementing UTFPL
+** with substitution-based evaluation
 *)
 
 (* ****** ****** *)
@@ -81,4 +82,4 @@ end // end of [d2exp_subst]
 
 (* ****** ****** *)
 
-(* end of [eval_subst.sats] *)
+(* end of [eval_subst.dats] *)
