@@ -15,7 +15,8 @@ staload "./../utfpl.sats"
 //
 extern
 fun
-d2exp_subst (d2e0: d2exp, d2v: d2var, d2e: d2exp): d2exp
+d2exp_subst
+  (d2e0: d2exp, d2v: d2var, d2e: d2exp): d2exp
 //
 (* ****** ****** *)
 

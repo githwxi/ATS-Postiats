@@ -9,4 +9,9 @@ staload "./../utfpl.sats"
 
 (* ****** ****** *)
 
-(* end of [eval_closure.dats] *)
+abstype cloenv_type = ptr
+typedef cloenv = cloenv_type
+
+(* ****** ****** *)
+
+(* end of [eval_cloenv.dats] *)
