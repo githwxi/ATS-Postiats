@@ -10,6 +10,10 @@
 
 (* ****** ****** *)
 //
+// Ported to ATS2 by HX-2013-11-15
+//
+(* ****** ****** *)
+//
 #include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
@@ -202,7 +206,7 @@ main0 (argc, argv) = let
   val _ = $extfcall (int, "printf", "Pfannkuchen(%i) = %i\n", n, ans)
 in
   // nothing
-end (* end of [main] *)
+end (* end of [main0] *)
 
 (* ****** ****** *)
 

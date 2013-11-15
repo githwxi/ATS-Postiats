@@ -10,6 +10,10 @@
 
 (* ****** ****** *)
 //
+// Ported to ATS2 by HX-2013-11-12
+//
+(* ****** ****** *)
+//
 #include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
