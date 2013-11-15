@@ -16,6 +16,16 @@ typedef d2var = d2var_type
 typedef d2varlst = List0 (d2var)
 
 (* ****** ****** *)
+//
+fun eq_d2var_d2var : (d2var, d2var) -> bool
+fun neq_d2var_d2var : (d2var, d2var) -> bool
+fun compare_d2var_d2var : (d2var, d2var) -> int
+//
+overload = with eq_d2var_d2var
+overload != with eq_d2var_d2var
+overload compare with compare_d2var_d2var
+//
+(* ****** ****** *)
 
 abstype d2cst_type = ptr
 typedef d2cst = d2cst_type
@@ -48,6 +58,12 @@ d2exp = '{
 } (* end of [d2exp] *)
 
 and d2explst = List0 (d2exp)
+
+(* ****** ****** *)
+
+fun d2exp_app
+  (loc: location, d2e1: d2exp, d2es2: d2explst): d2exp
+// end of [d2exp_app]
 
 (* ****** ****** *)
 
