@@ -59,7 +59,7 @@ d2exp_node =
 //
   | D2Eint of (int)
   | D2Echar of (char)
-  | D2Efloat of (float)
+  | D2Efloat of (double)
   | D2Estring of (string)
 //
   | D2Elam of (d2varlst, d2exp)
@@ -76,6 +76,18 @@ d2exp = '{
 } (* end of [d2exp] *)
 
 and d2explst = List0 (d2exp)
+
+(* ****** ****** *)
+
+fun d2exp_lam
+  (loc: location, d2vs: d2varlst, d2e: d2exp): d2exp
+// end of [d2exp_lam]
+
+(* ****** ****** *)
+
+fun d2exp_fix
+  (loc: location, d2v: d2var, d2vs: d2varlst, d2e: d2exp): d2exp
+// end of [d2exp_fix]
 
 (* ****** ****** *)
 

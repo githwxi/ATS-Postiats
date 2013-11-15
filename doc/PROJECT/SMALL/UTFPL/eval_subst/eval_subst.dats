@@ -60,7 +60,7 @@ d2exp_subst
 fun aux
 (
   d2e0: d2exp
-, d2vs: d2varlst, flag: &int >> _
+, d2vs0: d2varlst, flag: &int >> _
 ) : d2exp = let
   val loc0 = d2e0.d2exp_loc
 in
@@ -69,16 +69,33 @@ case+
 d2e0.d2exp_node of
 //
 | D2Evar (d2v) => let
-    val opt = subst_d2varlst_find (sub, d2vs, d2v)
+    val opt = subst_d2varlst_find (sub, d2vs0, d2v)
   in
     case+ opt of
     | ~Some_vt (d2e) => d2e | ~None_vt () => d2e0
   end // end of [D2Evar]
 | D2Ecst _ => d2e0
-| D2Eapp (d2e1, d2es2) => let
+//
+| D2Eint _ => d2e0
+| D2Echar _ => d2e0
+| D2Efloat _ => d2e0
+| D2Estring _ => d2e0
+//
+| D2Elam
+    (d2vs, d2e) => let
     val flag0 = flag
-    val d2e1 = aux (d2e1, d2vs, flag)
-    val d2es2 = auxlst (d2es2, d2vs, flag)
+    val d2vs0 =
+      list_reverse_append (d2vs, d2vs0)
+    val d2e = aux (d2e, d2vs0, flag)
+  in
+    if flag > flag0 then d2exp_lam (loc0, d2vs, d2e) else d2e0
+  end // end of [D2Elam]
+//
+| D2Eapp
+    (d2e1, d2es2) => let
+    val flag0 = flag
+    val d2e1 = aux (d2e1, d2vs0, flag)
+    val d2es2 = auxlst (d2es2, d2vs0, flag)
   in
     if flag > flag0 then d2exp_app (loc0, d2e1, d2es2) else d2e0
   end // end of [D2Eapp]
@@ -91,7 +108,7 @@ end // end of [aux]
 //
 and auxlst
 (
-  d2es0: d2explst, d2vs: d2varlst, flag: &int >> _
+  d2es0: d2explst, d2vs0: d2varlst, flag: &int >> _
 ) : d2explst = let
 in
 //
@@ -99,8 +116,8 @@ case+ d2es0 of
 | list_cons
     (d2e, d2es) => let
     val flag0 = flag
-    val d2e = aux (d2e, d2vs, flag)
-    val d2es = auxlst (d2es, d2vs, flag)
+    val d2e = aux (d2e, d2vs0, flag)
+    val d2es = auxlst (d2es, d2vs0, flag)
   in
     if flag > flag0 then list_cons{d2exp}(d2e, d2es) else d2es0
   end // end of [list_cons]
