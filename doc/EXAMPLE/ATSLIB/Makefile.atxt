@@ -161,7 +161,11 @@ RMF=rm -f
 ######
 
 #make2_entry("libats_stringbuf", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+%{
+(*
 #make2_entry("libats_strobjref", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+*)
+%}
 
 ######
 

@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>Effectivats-producer-consumer</title>
+</head>
+
+<body>
+
+<h1>
+Effective ATS: Producer-Consumer
+</h1>
+
+The Producer-Consumer problem is a classic one in concurrent programming.
+In this article, I present an implementation of this problem that makes
+highly effective use of dependent types and linear types.  Due to great
+difficulty in debugging concurrent programs, relying on static checking to
+detect and fix bugs is of much more significance in concurrent programing
+than in sequential programming.  While the style of programming I employ
+here may take time for one to master, the great advantages it brings can be
+readily appreciated. In general, ATS shines more brightly in contexts where
+dynamic testing becomes more difficult to perform and/or control.
+
+<h2>
+Description of the Problem 
+</h2>
+
+Given a buffer of finite capacity, there are multiple producers who insert
+items into the buffer and also multiple consumers who take out items from
+the buffer. If a producer wants to insert an item but the buffer is full,
+the producer is blocked until the buffer becomes not full. If a consumer
+wants to take out an item but the buffer is empty, then the consumer is
+blocked until the buffer is not empty.
+
+<h2>
+Interface for Linear Buffer
+</h2>
+
+Let us first declare as follows a linear abstract type for buffers:
+
+<pre>
+//
+absvtype
+buffer_vtype (a:vt@ype+, m:int, n: int) = ptr
+//
+vtypedef
+buffer (a:vt0p) = [m,n:int] buffer_vtype (a, m, n)
+vtypedef
+buffer (a:vt0p, m:int, n:int) = buffer_vtype (a, m, n)
+//
+</pre>
+
+Given a type T and two integers M and N, the type [buffer(T, M, N)] is for
+a buffer of capacity M in which N elements of the type T are stored.  The
+following lemma can be used to establish the property that M >= N and N >=
+0 (for the purpose of constraint-solving):
+
+<pre>
+praxi
+lemma_buffer_param{a:vt0p}
+  {m,n:int}(!buffer (INV(a), m, n)): [m >= n; n >= 0] void
+</pre>
+
+The function [buffer_make_nil] can be called to create a linear buffer of a
+given capacity that contains no elements:
+
+<pre>
+fun{a:vt0p}
+buffer_make_nil{m:pos} (cap: int m): buffer (a, m, 0)
+</pre>
+
+The functions [buffer_isnil] and [buffer_isful] can be called to test
+whether a given buffer is empty and full, respectively:
+
+<pre>
+fun buffer_isnil{a:vt0p}
+  {m,n:int} (!buffer (INV(a), m, n)): bool (n==0)
+fun buffer_isful{a:vt0p}
+  {m,n:int} (!buffer (INV(a), m, n)): bool (m==n)
+</pre>
+
+The function [buffer_insert] is for inserting an element into
+a buffer that is not full:
+
+<pre>
+fun{a:vt0p}
+buffer_insert{m,n:int | n < m}
+(
+  !buffer (INV(a), m, n) >> buffer (a, m, n+1), x: a
+) : void // end of [buffer_insert]
+</pre>
+
+The function [buffer_insert] is for taking out an element from
+a buffer that is not empty:
+
+<pre>
+fun{a:vt0p}
+buffer_takeout{m,n:int | n > 0}
+  (buf: !buffer (INV(a), m, n) >> buffer (a, m, n-1)): (a)
+</pre>
+
+<h2>
+Interface for Shared Buffer
+</h2>
+
+In terms of implementation, a shared buffer wraps a protection mechanism
+around a linear buffer that consists of a mutex and two conditional
+variables. The mutex is for protecting the linear buffer and the
+conditional variables are introduced to avoid busy-waiting. I will present
+more details on the protection mechanism later.
+
+<p>
+
+Let us now introduce an abstract type for shared buffers:
+
+<pre>
+//
+abstype
+sbuffer_type (a:vt@ype) = ptr
+//
+typedef sbuffer (a:vt0p) = sbuffer_type (a)
+//
+</pre>
+
+Please note that [sbuffer] is a non-linear type. This means that a shared
+buffer cannot be freed explicitly after its creation. It is also possible
+to make [sbuffer] a reference-counted linear type so that a shared buffer
+can be freed. The interested reader is encouraged to give this alternative
+design a try, which should only lead to slightly more involved implementation.
+
+<p>
+
+Given a linear buffer, [sbuffer_make_buffer] turns it into a shared buffer
+(by wrapping a protection mechanism around it):
+
+<pre>
+fun{a:vt0p}
+sbuffer_make_buffer (buffer(a)): sbuffer (a)
+</pre>
+
+The function [sbuffer_insert] inserts an element into
+a shared buffer:
+
+<pre>
+fun{a:vt0p}
+sbuffer_insert (sbuffer(a), x: a): void // called by producer
+</pre>
+
+Note that a call to [sbuffer_insert] may be blocked due to the linear
+buffer inside the shared buffer is full.
+
+<p>
+
+The function [sbuffer_takeout] takes out an element from
+a shared buffer:
+
+<pre>
+fun{a:vt0p}
+sbuffer_takeout (sbuf: sbuffer(a)): (a) // called by consumer
+</pre>
+
+Note that a call to [sbuffer_takeout] may be blocked due to the linear
+buffer inside the shared buffer is empty.
+
+<h2>
+Implementation of Shared Buffer
+</h2>
+
+The linear buffer inside a shared buffer is protected by a mutex.
+
+<p>
+
+The function [sbuffer_acquire] is for acquiring the linear buffer inside a
+given shared buffer:
+
+<pre>
+fun sbuffer_acquire{a:vt0p} (sbuf: sbuffer(a)): buffer (a)
+</pre>
+
+The function [sbuffer_release] is for releasing a linear buffer (to the
+same shared buffer from which the linear buffer was previously acquired):
+
+<pre>
+fun sbuffer_release{a:vt0p} (sbuf: sbuffer(a), buf: buffer(a)): void
+</pre>
+
+
+Let us now declare two functions as follows:
+
+<pre>
+fun{a:vt0p}
+sbuffer_insert2 (sbuffer(a), !buffer(INV(a)) >> _, x: a): void
+fun{a:vt0p}
+sbuffer_takeout2 (sbf: sbuffer(a), buf: !buffer (INV(a)) >> _): (a)
+</pre>
+
+A call to the function [sbuffer_insert2] tries to insert an element into a
+given linear buffer. In the case where the linear buffer is full, the
+caller is blocked to wait on some conditional variable until being notified
+that the linear buffer is no longer full.
+
+<p>
+
+A call to the function [sbuffer_takeout2] tries to take out an element from
+a given linear buffer. In the case where the linear buffer is empty, the
+caller is blocked to wait on some conditional variable until being notified
+that the linear buffer is no longer empty.
+
+<p>
+
+It is straightforward to implement [sbuffer_insert] and [sbuffer_takeout]
+based on [sbuffer_insert2] and [sbuffer_takeout2], respectively:
+
+<pre>
+implement{a}
+sbuffer_insert (sbuf, x) =
+{
+  val buf = sbuffer_acquire (sbuf)
+  val ((*void*)) = sbuffer_insert2 (sbuf, buf, x)
+  val ((*void*)) = sbuffer_release (sbuf, buf)
+}
+
+implement{a}
+sbuffer_takeout (sbuf) = x where
+{
+  val buf = sbuffer_acquire (sbuf)
+  val x(*a*) = sbuffer_takeout2 (sbuf, buf)
+  val ((*void*)) = sbuffer_release (sbuf, buf)
+}
+</pre>
+
+There are two conditional variables (CVs) inside a shared buffer.  One of
+them is for handling the condition of the linear buffer (inside the shared
+buffer) being empty, and the other CV is for handling the condition of the
+linear buffer being full. The following functions are implemented directly
+based on these two conditional variables:
+
+<pre>
+//
+fun
+sbuffer_cond_wait_isnil
+  {a:vt0p}{m:int} (sbuffer(a), !buffer(a, m, 0) >> buffer(a)): void
+fun sbuffer_cond_signal_isnil{a:vt0p}{m,n:int} (sbuf: sbuffer(a)): void
+//
+fun
+sbuffer_cond_wait_isful
+  {a:vt0p}{m:int} (sbuffer(a), !buffer(a, m, m) >> buffer(a)): void
+fun sbuffer_cond_signal_isful{a:vt0p}{m,n:int} (sbuf: sbuffer(a)): void
+//
+</pre>
+
+The type assigned to the function [sbuffer_cond_wait_isnil] means that its
+caller must have possession of a linear buffer when calling it and the
+caller should still have possession of the linear buffer, which may be
+empty, when the call returns. The reason for the linear buffer being empty
+at the moment when a call to [sbuffer_cond_wait_isnil] returns is that
+other callers (consumers) may have gained access to the linear buffer
+earlier.
+
+<p>
+
+The type assigned to the function [sbuffer_cond_wait_isful] can be
+explained similarly.
+
+<hr size="2">
+
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+
+</body>
+</html>

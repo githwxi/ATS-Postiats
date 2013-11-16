@@ -42,6 +42,15 @@ staload "libats/SATS/dynarray.sats"
 
 (* ****** ****** *)
 //
+extern
+fun memcpy
+  : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_dynarray_memcpy"
+extern
+fun memmove
+  : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_dynarray_memmove"
+//
+(* ****** ****** *)
+//
 // HX:
 // recapacitizing policy
 // 0: manual
@@ -153,9 +162,9 @@ val+@DYNARRAY (A, m, n) = DA
 in
 //
 if i <= n then let
-  extern fun memmove
-    : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_dynarray_memmove"
-  // end of [extern]
+//
+// HX: [i] is a valid position
+//
 in
 //
 if m > n then let
@@ -254,10 +263,7 @@ in
 //
 if i <= n then let
 //
-extern fun memcpy
-  : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_dynarray_memcpy"
-extern fun memmove
-  : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_dynarray_memmove"
+// HX: [i] is a valid position
 //
 in
 //
@@ -313,9 +319,6 @@ val+@DYNARRAY (A, m, n) = DA
 in
 //
 if i < n then let
-  extern fun memmove
-    : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_memmove"
-  // end of [extern]
   val p1 = ptr_add<a> (arrayptr2ptr(A), i)
   val p2 = ptr_succ<a> (p1)
   val n1 = pred (n)
@@ -397,10 +400,7 @@ val A2 = arrayptr_make_uninitized<a> (m2)
 val ptr = memcpy
 (
   arrayptr2ptr(A2), arrayptr2ptr(A), n*sizeof<a>
-) where {
-  extern fun memcpy
-    : (ptr, ptr, size_t) -<0,!wrt> ptr = "mac#atslib_dynarray_memcpy"
-} (* end of [val] *)
+) (* end of [val] *)
 //
 extern castfn __cast {n:int} (arrayptr (a, n)):<> arrayptr (a?, n)
 extern castfn __cast2 {n:int} (arrayptr (a?, n)):<> arrayptr (a, n)

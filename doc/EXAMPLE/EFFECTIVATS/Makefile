@@ -5,23 +5,26 @@
 ######
 
 all::
-all::DiningPhil
-DiningPhil:: ; make -C DiningPhil all
 all::file-copying
 file-copying:: ; make -C file-copying all
 all::queue-sllist2
 queue-sllist2:: ; make -C queue-sllist2 all
 all::word-counting
 word-counting:: ; make -C word-counting all
+all::DiningPhil
+DiningPhil:: ; make -C DiningPhil all
+all::Producer-Consumer
+Producer-Consumer:: ; make -C Producer-Consumer all
 
 ######
 
 cleanall::
-cleanall:: ; make -C DiningPhil cleanall
 cleanall:: ; make -C file-copying cleanall
 cleanall:: ; make -C queue-sllist2 cleanall
 cleanall:: ; make -C loop-as-tailrec cleanall
 cleanall:: ; make -C word-counting cleanall
+cleanall:: ; make -C DiningPhil cleanall
+cleanall:: ; make -C Producer-Consumer cleanall
 
 ######
 
@@ -32,6 +35,7 @@ uploadall::upload_queue-sllist2
 uploadall::upload_loop-as-tailrec
 uploadall::upload_word-counting
 uploadall::upload_DiningPhil
+uploadall::upload_Producer-Consumer
 
 ######
 
@@ -90,6 +94,16 @@ upload_DiningPhil:: ; \
   DiningPhil/DiningPhil_dine.dats \
   DiningPhil/DiningPhil_think.dats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/DiningPhil/
+
+######
+
+upload_Producer-Consumer:: ; \
+  scp \
+  Producer-Consumer/Makefile \
+  Producer-Consumer/main.html \
+  Producer-Consumer/sbuffer.sats \
+  Producer-Consumer/sbuffer.dats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/Producer-Consumer/
 
 ######
 

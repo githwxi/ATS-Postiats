@@ -406,13 +406,6 @@ clean:: ; $(RMF) libats_stringbuf_dats.o
 clean:: ; $(RMF) libats_stringbuf_dats.c
 cleanall:: ; $(RMF) libats_stringbuf.exe
 
-all:: libats_strobjref
-libats_strobjref: libats_strobjref.exe
-libats_strobjref.exe: libats_strobjref_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
-libats_strobjref_dats.c: libats_strobjref.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_strobjref_dats.c --dynamic libats_strobjref.dats
-clean:: ; $(RMF) libats_strobjref_dats.o
-clean:: ; $(RMF) libats_strobjref_dats.c
-cleanall:: ; $(RMF) libats_strobjref.exe
 
 
 ######
