@@ -97,6 +97,10 @@ fun location_get_bchar (loc: location): lint
 
 (* ****** ****** *)
 
+fun location_beg_nrow (loc: location): int // beg row count
+
+(* ****** ****** *)
+
 fun location_beg_ntot (loc: location): lint // beg char count
 fun location_end_ntot (loc: location): lint // end char count
 
