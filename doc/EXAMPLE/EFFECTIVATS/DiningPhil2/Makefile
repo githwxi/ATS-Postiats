@@ -43,8 +43,8 @@ SOURCESsta := \
 SOURCESdyn := \
   DiningPhil2.dats \
   DiningPhil2_fork.dats \
-  DiningPhil2_phil.dats \
-  DiningPhil2_cleaner.dats \
+  DiningPhil2_dine.dats \
+  DiningPhil2_think.dats \
 
 ######
 
@@ -77,7 +77,7 @@ depend:: ; $(PATSOPT) -o .depend2 --depgen -d $(SOURCESdyn)
 
 upload_main: ; \
   scp main.html \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/DiningPhil/
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/DiningPhil2/
 
 
 ######

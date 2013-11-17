@@ -886,6 +886,15 @@ case+ 0 of
 end // end of [do_transfinal]
 
 (* ****** ****** *)
+//
+extern
+fun process_depgen
+  (state: &cmdstate, d0cs: d0eclist, given: string): void
+extern
+fun process_taggen
+  (state: &cmdstate, d0cs: d0eclist, given: string): void
+//
+(* ****** ****** *)
 
 fn*
 process_cmdline
@@ -922,18 +931,14 @@ case+ arglst of
         val istaggen = state.taggenflag > 0
         val () = if istaggen then istrans := false
 //
-        val () = (
-        if isdepgen then let
-          val ents = $DEPGEN.depgen_eval (d0cs)
-          val filr = outchan_get_filr (state.outchan)
-        in
-          $DEPGEN.fprint_entry (filr, "<STDIN>", ents)
-        end // end of [if]
-        ) (* end of [val] *)
+        val given = "<STDIN>"
 //
-        val () = (
-        if istrans then do_transfinal (state, "<STDIN>", d0cs)
-        ) (* end of [val] *)
+        val () =
+          if isdepgen then process_depgen (state, d0cs, given)
+        val () =
+          if istaggen then process_taggen (state, d0cs, given)
+//
+        val () = if istrans then do_transfinal (state, given, d0cs)
 //
       } // end of [_ when ...]
     | _ => ()
@@ -981,18 +986,12 @@ case+ arg of
         val istaggen = state.taggenflag > 0
         val () = if istaggen then istrans := false
 //
-        val () = (
-        if isdepgen then let
-          val ents = $DEPGEN.depgen_eval (d0cs)
-          val filr = outchan_get_filr (state.outchan)
-        in
-          $DEPGEN.fprint_entry (filr, given, ents)
-        end // end of [if]
-        ) (* end of [val] *)
-//
         val () =
-          if istrans then do_transfinal (state, given, d0cs)
-        // end of [val]
+          if isdepgen then process_depgen (state, d0cs, given)
+        val () =
+          if istaggen then process_taggen (state, d0cs, given)
+//
+        val () = if istrans then do_transfinal (state, given, d0cs)
 //
       in
         process_cmdline (state, arglst)
@@ -1171,6 +1170,26 @@ case+ key of
 in
   process_cmdline (state, arglst)
 end // end of [process_cmdline2_COMARGkey2]
+
+(* ****** ****** *)
+
+implement
+process_depgen
+  (state, d0cs, given) = let
+  val ents = $DEPGEN.depgen_eval (d0cs)
+  val filr = outchan_get_filr (state.outchan)
+in
+  $DEPGEN.fprint_entlst (filr, given, ents)
+end // end of [process_depgen]
+
+implement
+process_taggen
+  (state, d0cs, given) = let
+  val ents = $TAGGEN.taggen_proc (d0cs)
+  val filr = outchan_get_filr (state.outchan)
+in
+  $TAGGEN.fprint_entlst (filr, given, ents)
+end // end of [process_taggen]
 
 (* ****** ****** *)
 

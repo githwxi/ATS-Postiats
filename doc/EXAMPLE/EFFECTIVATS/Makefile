@@ -13,6 +13,8 @@ all::word-counting
 word-counting:: ; make -C word-counting all
 all::DiningPhil
 DiningPhil:: ; make -C DiningPhil all
+all::DiningPhil
+DiningPhil2:: ; make -C DiningPhil2 all
 all::Producer-Consumer
 Producer-Consumer:: ; make -C Producer-Consumer all
 
@@ -24,6 +26,7 @@ cleanall:: ; make -C queue-sllist2 cleanall
 cleanall:: ; make -C loop-as-tailrec cleanall
 cleanall:: ; make -C word-counting cleanall
 cleanall:: ; make -C DiningPhil cleanall
+cleanall:: ; make -C DiningPhil2 cleanall
 cleanall:: ; make -C Producer-Consumer cleanall
 
 ######
@@ -35,6 +38,7 @@ uploadall::upload_queue-sllist2
 uploadall::upload_loop-as-tailrec
 uploadall::upload_word-counting
 uploadall::upload_DiningPhil
+uploadall::upload_DiningPhil2
 uploadall::upload_Producer-Consumer
 
 ######
@@ -94,6 +98,14 @@ upload_DiningPhil:: ; \
   DiningPhil/DiningPhil_dine.dats \
   DiningPhil/DiningPhil_think.dats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/DiningPhil/
+
+######
+
+upload_DiningPhil2:: ; \
+  scp \
+  DiningPhil2/Makefile \
+  DiningPhil2/main.html \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/DiningPhil2/
 
 ######
 

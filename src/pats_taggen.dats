@@ -41,4 +41,59 @@ staload "./pats_taggen.sats"
 
 (* ****** ****** *)
 
+typedef
+tagent = '{
+  tagent_sym= symbol
+, tagent_loc= location
+} // end of [tagent]
+
+(* ****** ****** *)
+//
+fun TAGENT
+(
+  sym: symbol, loc: location
+) : tagent = '{
+  tagent_sym= sym, tagent_loc= loc
+} (* end of [TAGENT] *)
+//
+(* ****** ****** *)
+
+assume tagent_type = tagent
+
+(* ****** ****** *)
+
+typedef
+taggen_type
+  (a: type) = (a, &tagentlst_vt) -> void
+// end of [depgen_type]
+
+(* ****** ****** *)
+
+extern fun taggen_d0ecl : taggen_type (d0ecl)
+
+(* ****** ****** *)
+
+implement
+taggen_d0ecl
+  (d0c0, res) = let
+in
+end // end of [taggen_d0ecl]
+
+(* ****** ****** *)
+
+implement
+taggen_proc (d0cs) = list_vt_nil(*void*)
+
+(* ****** ****** *)
+
+implement
+fprint_entlst
+  (out, given, xs) = let
+  val-~list_vt_nil () = xs
+in
+  // nothing
+end // end of [fprint_entlst]
+
+(* ****** ****** *)
+
 (* end of [pats_taggen.dats] *)

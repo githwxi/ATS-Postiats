@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>Effectivats-DiningPhil</title>
+</head>
+
+<body>
+
+<h1>
+Effective ATS: Dining Philosophers
+</h1>
+
+In this article, I present an implementation of a slight variant of the
+famous problem of 5-Dining-Philosophers by Dijkstra that makes simple but
+convincing use of linear types.
+
+<h2>
+The Original Problem 
+</h2>
+
+There are five philosophers sitting around a table and there are also 5
+forks placed on the table such that each fork is located between the left
+hand of a philosopher and the right hand of another philosopher. Each
+philosopher does the following routine repeatedly: thinking and dining.  In
+order to dine, a philosopher needs to first acquire two forks: one located
+on his left-hand side and the other on his right-hand side. After
+finishing dining, a philosopher puts the two acquired forks onto the table:
+one on his left-hand side and the other on his right-hand side.
+
+<h2>
+A Variant of the Original Problem 
+</h2>
+
+The following twist is added to the original version:
+
+<p>
+
+After a fork is used, it becomes a "dirty" fork and needs to be put in a
+tray for dirty forks. There is a cleaner who cleans dirty forks and then
+puts them back on the table.
+
+<hr size="2">
+
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+
+</body>
+</html>
