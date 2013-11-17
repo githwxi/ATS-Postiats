@@ -96,6 +96,17 @@ extern fun taggen_d0eclist : taggen_type (d0eclist)
 
 (* ****** ****** *)
 
+fun
+tagentlst_add_symloc
+(
+  res: &tagentlst_vt
+, sym: symbol, loc: location
+) : void =
+  tagentlst_add (res, TAGENT (sym, loc))
+// end of [tagentlst_add_symloc]
+
+(* ****** ****** *)
+
 implement
 taggen_d0ecl
   (d0c0, res) = let
@@ -105,6 +116,10 @@ val loc0 = d0c0.d0ecl_loc
 in
 //
 case+ d0c0.d0ecl_node of
+| D0Ce0xpdef (sym, _) =>
+    tagentlst_add_symloc (res, sym, loc0)
+| D0Ce0xpundef (sym) =>
+    tagentlst_add_symloc (res, sym, loc0)
 | _ =>
   (
     tagentlst_add (res, TAGENT (symbol_empty, loc0))

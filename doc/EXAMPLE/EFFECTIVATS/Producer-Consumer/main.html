@@ -363,13 +363,14 @@ struct
 }
 </pre>
 
-Instead of writing C code directly, the rest of my implementation makes use
-of some unsafe programming features in ATS. Please find the entirety of the
-code in the files sbuffer.sats and sbuffer.dats. There is no testing code
-in my implementation as I feel so confident about its correctness. A
-primary reason for programming in ATS is that one can make effective use of
-types in ATS to convince oneself that his or her code should perform as
-expected. I feel that I have done it in this case.
+Instead of being coded in C directly, the rest of my implementation is also
+written in ATS but it makes pervasive use of some unsafe programming
+features. Please find the entirety of the code in the files sbuffer.sats
+and sbuffer.dats. There is no testing code in my implementation as I feel
+highly confident about its correctness. A primary reason for programming in
+ATS is that one can make effective use of types in ATS so as to convince
+oneself that his or her code should perform as expected. I feel that I have
+done it in this case.
 
 <h2>
 Generalized Processing of Shared Resources

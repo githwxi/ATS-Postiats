@@ -243,6 +243,7 @@ datatype d1ecl_node =
 //
   | D1Cdatsrts of d1atsrtdeclst // datasorts
   | D1Csrtdefs of s1rtdeflst // sort definitions
+//
   | D1Cstacsts of s1tacstlst // static constants
   | D1Cstacons of (int(*knd*), s1taconlst) // static constructors
 (*

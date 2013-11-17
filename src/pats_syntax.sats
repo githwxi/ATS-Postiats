@@ -1249,7 +1249,7 @@ d0ecl_node =
   | D0Ce0xpundef of (symbol) (* undefinition *)
   | D0Ce0xpact of (e0xpactkind, e0xp)
 //
-  | D0Cdatsrts of d0atsrtdeclst (* datasort declaration *)
+  | D0Cdatsrts of d0atsrtdeclst (* datasorts *)
   | D0Csrtdefs of s0rtdeflst (* sort definition *)
 //
   | D0Cstacsts of (s0tacstlst) (* static constants *)
