@@ -19,7 +19,7 @@ src_depend: ; touch src/.depend
 src_cleanall: ; make -C src cleanall
 #
 bin_patscc: src_patscc ; cp -f utils/atscc/patscc bin/patscc
-src_patscc: bin_patsopt ; make -C utils/atscc
+src_patscc: bin_patsopt ; make -C utils/atscc -f Makefile all
 #
 bin_patsopt: src_patsopt ; cp -f src/patsopt bin/patsopt
 src_patsopt: src_depend src_cleanall ; make -C src -f Makefile all

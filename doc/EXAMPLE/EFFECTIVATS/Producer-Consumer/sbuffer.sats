@@ -1,7 +1,6 @@
-//
 (* ****** ****** *)
 //
-// HX-2013-10-28
+// HX-2013-10-28(start)
 //
 // A shared buffer implementation
 //

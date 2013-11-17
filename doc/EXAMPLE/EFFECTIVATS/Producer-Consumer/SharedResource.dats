@@ -1,6 +1,6 @@
 (* ****** ****** *)
 //
-// A Generalized Processing of Resources
+// Generalized Processing of Shared Resources
 //
 (* ****** ****** *)
 
