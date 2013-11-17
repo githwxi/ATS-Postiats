@@ -264,6 +264,117 @@ earlier.
 The type assigned to the function [sbuffer_cond_wait_isful] can be
 explained similarly.
 
+<p>
+
+<h4>
+Implementing [sbuffer_insert2]
+</h4>
+
+An implementation of [sbuffer_insert2] is given as follows:
+
+<pre>
+implement{a}
+sbuffer_insert2
+  (sbuf, buf, x) = let
+//
+val isful = buffer_isful (buf)
+//
+prval () = lemma_buffer_param (buf)
+//
+in
+//
+if isful
+  then let
+    val () =
+      sbuffer_cond_wait_isful (sbuf, buf)
+    // end of [val]
+  in
+    sbuffer_insert2 (sbuf, buf, x)
+  end // end of [then]
+  else let
+    val isnil = buffer_isnil (buf)
+    val ((*void*)) = buffer_insert (buf, x)
+    val ((*void*)) = if isnil then sbuffer_cond_signal_isnil (sbuf)
+  in
+    // nothing
+  end // end of [else]
+//  
+end // end of [sbuffer_insert2]
+</pre>
+
+The code should be self-explaining. Please note that inserting an element
+into an empty buffer requires a signal to be sent to the CV handling the
+condition of buffer being empty. If this is not done, then a deadlock may
+occur as the consumers waiting on the CV can never be awakened.
+
+<h4>
+Implementing [sbuffer_takeout2]
+</h4>
+
+<pre>
+implement{a}
+sbuffer_takeout2
+  (sbuf, buf) = let
+//
+val isnil = buffer_isnil (buf)
+prval () = lemma_buffer_param (buf)
+//
+in
+//
+if isnil
+  then let
+    val () =
+      sbuffer_cond_wait_isnil (sbuf, buf)
+    // end of [val]
+  in
+    sbuffer_takeout2 (sbuf, buf)
+  end // end of [then]
+  else x where
+  {
+    val isful = buffer_isful (buf)
+    val x(*a*) = buffer_takeout (buf)
+    val ((*void*)) = if isful then sbuffer_cond_signal_isful (sbuf)
+  } (* end of [else] *)
+//  
+end // end of [sbuffer_takeout2]
+</pre>
+
+The code should be self-explaining. Please note that taking out an element
+from a full buffer requires a signal to be sent to the CV handling the
+condition of buffer being full. If this is not done, then a deadlock may
+occur as the producers waiting on the CV can never be awakened.
+
+<h4>
+Summary of the Remaining Implementation
+</h4>
+
+The remaining implementation of the producer-consumer problem can be
+readily done in C (based on pthread support for mutexes and conditional
+variables). For instance, [sbuffer] can be represented as a pointer to
+a value of the following struct type:
+
+<pre>
+struct
+{
+  void *buffer ;
+  mutex_t mutex ;
+  cond_t CVisnil ;
+  cond_t CVisful ;
+}
+</pre>
+
+Instead of writing C code directly, the rest of my implementation makes use
+of some unsafe programming features in ATS. Please find the entirety of the
+code in the files sbuffer.sats and sbuffer.dats. There is no testing code
+in my implementation as I feel so confident about its correctness. A
+primary reason for programming in ATS is that one can make effective use of
+types in ATS to convince oneself that his or her code should perform as
+expected. I feel that I have done it in this case.
+
+<h2>
+Generalization of Producer-Consumer
+</h2>
+
 <hr size="2">
 
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.

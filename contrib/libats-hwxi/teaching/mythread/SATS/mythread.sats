@@ -91,14 +91,12 @@ overload ptrcast with condvar2ptr
 fun condvar_create (): condvar0
 fun condvar_create_exn (): condvar1
 //
-fun
-condvar_signal{l:agz} (pf: !mutex_v (l) | cv: condvar1): void
-fun
-condvar_broadcast{l:agz} (pf: !mutex_v (l) | cv: condvar1): void
+fun condvar_signal (cv: condvar1): void
+fun condvar_broadcast (cv: condvar1): void
 //
 fun
-condvar_wait
-  {l:agz} (pf: !mutex_v (l) | cv: condvar1, p: mutex (l)): void
+condvar_wait{l:agz}
+  (pf: !mutex_v (l) | cv: condvar1, p: mutex (l)): void
 //
 (* ****** ****** *)
 
