@@ -85,22 +85,29 @@ assume tagent_type = tagent
 (* ****** ****** *)
 
 typedef
-taggen_type
+taggen_ftype
   (a: type) = (a, &tagentlst_vt) -> void
 // end of [depgen_type]
 
 (* ****** ****** *)
 
-extern fun taggen_d0ecl : taggen_type (d0ecl)
-extern fun taggen_d0eclist : taggen_type (d0eclist)
+extern fun taggen_d0ecl : taggen_ftype (d0ecl)
+extern fun taggen_d0eclist : taggen_ftype (d0eclist)
 
 (* ****** ****** *)
 //
 extern
-fun taggen_d0cstdeclst : taggen_type (d0cstdeclst)
+fun taggen_s0expdeflst : taggen_ftype (s0expdeflst)
 //
-extern fun taggen_f0undeclst : taggen_type (f0undeclst)
-extern fun taggen_v0aldeclst : taggen_type (v0aldeclst)
+extern fun taggen_e0xndeclst : taggen_ftype (e0xndeclst)
+extern fun taggen_d0atdeclst : taggen_ftype (d0atdeclst)
+//
+extern fun taggen_d0cstdeclst : taggen_ftype (d0cstdeclst)
+//
+extern fun taggen_m0acdeflst : taggen_ftype (m0acdeflst)
+//
+extern fun taggen_f0undeclst : taggen_ftype (f0undeclst)
+extern fun taggen_v0aldeclst : taggen_ftype (v0aldeclst)
 //
 (* ****** ****** *)
 
@@ -158,6 +165,14 @@ case+ d0c0.d0ecl_node of
 | D0Ce0xpundef (sym) =>
     tagentlst_add_symloc (res, sym, loc0)
 //
+| D0Cexndecs
+    (d0cs) => taggen_e0xndeclst (d0cs, res)
+| D0Cdatdecs (_, d0cs, sdfs) =>
+  {
+    val () = taggen_d0atdeclst (d0cs, res)
+    val () = taggen_s0expdeflst (sdfs, res)
+  } (* end of [D0Cdatdecs] *)
+//
 | D0Cdcstdecs
     (_, _, _, d0cs) => taggen_d0cstdeclst (d0cs, res)
 //
@@ -167,12 +182,21 @@ case+ d0c0.d0ecl_node of
     tagentlst_add_symloc (res, qid.impqi0de_sym, qid.impqi0de_loc)
   end // end of [D0Cimpdec]
 //
+| D0Cmacdefs (_, _, mds) => taggen_m0acdeflst (mds, res)
+//
 | D0Cfundecs (_, _, fds) => taggen_f0undeclst (fds, res)
 | D0Cvaldecs (_, _, vds) => taggen_v0aldeclst (vds, res)
 //
 | D0Cinclude _ => ()
 | D0Cstaload _ => ()
 | D0Cdynload _ => ()
+//
+| D0Clocal
+    (d0cs_head, d0cs_body) =>
+  {
+    val () = taggen_d0eclist (d0cs_head, res)
+    val () = taggen_d0eclist (d0cs_head, res)
+  } (* end of [D0Clocal] *)
 //
 | _ =>
   (
@@ -204,6 +228,72 @@ end // end of [taggen_d0eclist]
 (* ****** ****** *)
 
 implement
+taggen_s0expdeflst
+  (sdfs, res) = let
+in
+//
+case+ sdfs of
+| list_cons
+    (sdf, sdfs) => let
+    val sym = sdf.s0expdef_sym
+    val loc = sdf.s0expdef_loc_id
+    val () =
+      tagentlst_add_symloc (res, sym, loc)
+    // end of [val]
+  in
+    taggen_s0expdeflst (sdfs, res)
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [taggen_s0expdeflst]
+
+(* ****** ****** *)
+
+implement
+taggen_e0xndeclst
+  (d0cs, res) = let
+in
+//
+case+ d0cs of
+| list_cons
+    (d0c, d0cs) => let
+    val sym = d0c.e0xndec_sym
+    val loc = d0c.e0xndec_loc
+    val () =
+      tagentlst_add_symloc (res, sym, loc)
+    // end of [val]
+  in
+    taggen_e0xndeclst (d0cs, res)
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [taggen_e0xndeclst]
+
+(* ****** ****** *)
+
+implement
+taggen_d0atdeclst
+  (d0cs, res) = let
+in
+//
+case+ d0cs of
+| list_cons
+    (d0c, d0cs) => let
+    val sym = d0c.d0atdec_sym
+    val loc = d0c.d0atdec_loc
+    val () =
+      tagentlst_add_symloc (res, sym, loc)
+    // end of [val]
+  in
+    taggen_d0atdeclst (d0cs, res)
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [taggen_d0atdeclst]
+
+(* ****** ****** *)
+
+implement
 taggen_d0cstdeclst
   (d0cs, res) = let
 in
@@ -222,6 +312,26 @@ case+ d0cs of
 | list_nil ((*void*)) => ()
 //
 end // end of [taggen_d0cstdeclst]
+
+(* ****** ****** *)
+
+implement
+taggen_m0acdeflst
+  (mds, res) = let
+in
+//
+case+ mds of
+| list_cons
+    (md, mds) => let
+    val sym = md.m0acdef_sym
+    val loc = md.m0acdef_loc
+    val () = tagentlst_add_symloc (res, sym, loc)
+  in
+    taggen_m0acdeflst (mds, res)
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [taggen_m0acdeflst]
 
 (* ****** ****** *)
 

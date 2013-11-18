@@ -128,20 +128,20 @@ end // end of [pathtry_givename]
 (* ****** ****** *)
 
 typedef
-depgen_type
+depgen_ftype
   (a: type) = (a, &pathlst_vt) -> void
-// end of [depgen_type]
+// end of [depgen_ftype]
 
 (* ****** ****** *)
 
-extern fun depgen_d0exp : depgen_type (d0exp)
-extern fun depgen_d0explst : depgen_type (d0explst)
-extern fun depgen_d0expopt : depgen_type (d0expopt)
-extern fun depgen_labd0explst : depgen_type (labd0explst)
+extern fun depgen_d0exp : depgen_ftype (d0exp)
+extern fun depgen_d0explst : depgen_ftype (d0explst)
+extern fun depgen_d0expopt : depgen_ftype (d0expopt)
+extern fun depgen_labd0explst : depgen_ftype (labd0explst)
 
-extern fun depgen_d0ecl : depgen_type (d0ecl)
-extern fun depgen_d0eclist : depgen_type (d0eclist)
-extern fun depgen_guad0ecl_node : depgen_type (guad0ecl_node)
+extern fun depgen_d0ecl : depgen_ftype (d0ecl)
+extern fun depgen_d0eclist : depgen_ftype (d0eclist)
+extern fun depgen_guad0ecl_node : depgen_ftype (guad0ecl_node)
 
 (* ****** ****** *)
 
