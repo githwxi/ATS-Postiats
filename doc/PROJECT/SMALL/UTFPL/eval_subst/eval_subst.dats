@@ -69,10 +69,13 @@ case+
 d2e0.d2exp_node of
 //
 | D2Evar (d2v) => let
-    val opt = subst_d2varlst_find (sub, d2vs0, d2v)
+    val opt =
+      subst_d2varlst_find (sub, d2vs0, d2v)
+    // end of [val]
   in
     case+ opt of
-    | ~Some_vt (d2e) => d2e | ~None_vt () => d2e0
+    | ~None_vt () => d2e0
+    | ~Some_vt (d2e) => (flag := flag + 1; d2e)
   end // end of [D2Evar]
 | D2Ecst _ => d2e0
 //
