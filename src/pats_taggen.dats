@@ -95,6 +95,14 @@ extern fun taggen_d0ecl : taggen_type (d0ecl)
 extern fun taggen_d0eclist : taggen_type (d0eclist)
 
 (* ****** ****** *)
+//
+extern
+fun taggen_d0cstdeclst : taggen_type (d0cstdeclst)
+//
+extern fun taggen_f0undeclst : taggen_type (f0undeclst)
+extern fun taggen_v0aldeclst : taggen_type (v0aldeclst)
+//
+(* ****** ****** *)
 
 fun
 tagentlst_add_symloc
@@ -107,6 +115,34 @@ tagentlst_add_symloc
 
 (* ****** ****** *)
 
+fun
+tagentlst_add_p0at
+(
+  res: &tagentlst_vt, p0t0: p0at
+) : void = let
+//
+val loc0 = p0t0.p0at_loc
+//
+in
+//
+case+
+p0t0.p0at_node of
+//
+| P0Tide (sym) =>
+    tagentlst_add_symloc (res, sym, loc0)
+| P0Tdqid (d0q, sym) =>
+    tagentlst_add_symloc (res, sym, loc0)
+| P0Topid (sym) =>
+    tagentlst_add_symloc (res, sym, loc0)
+//
+| P0Tann (p0t, _) => tagentlst_add_p0at (res, p0t)
+//
+| _ => ((*void*)) // HX-2013-11-17: ignored
+//
+end // end of [tagentlst_add_symloc]
+
+(* ****** ****** *)
+
 implement
 taggen_d0ecl
   (d0c0, res) = let
@@ -116,10 +152,28 @@ val loc0 = d0c0.d0ecl_loc
 in
 //
 case+ d0c0.d0ecl_node of
+//
 | D0Ce0xpdef (sym, _) =>
     tagentlst_add_symloc (res, sym, loc0)
 | D0Ce0xpundef (sym) =>
     tagentlst_add_symloc (res, sym, loc0)
+//
+| D0Cdcstdecs
+    (_, _, _, d0cs) => taggen_d0cstdeclst (d0cs, res)
+//
+| D0Cimpdec (_, _, impdec) => let
+    val qid = impdec.i0mpdec_qid
+  in
+    tagentlst_add_symloc (res, qid.impqi0de_sym, qid.impqi0de_loc)
+  end // end of [D0Cimpdec]
+//
+| D0Cfundecs (_, _, fds) => taggen_f0undeclst (fds, res)
+| D0Cvaldecs (_, _, vds) => taggen_v0aldeclst (vds, res)
+//
+| D0Cinclude _ => ()
+| D0Cstaload _ => ()
+| D0Cdynload _ => ()
+//
 | _ =>
   (
     tagentlst_add (res, TAGENT (symbol_empty, loc0))
@@ -146,6 +200,67 @@ case+ d0cs of
 | list_nil () => ()
 //
 end // end of [taggen_d0eclist]
+
+(* ****** ****** *)
+
+implement
+taggen_d0cstdeclst
+  (d0cs, res) = let
+in
+//
+case+ d0cs of
+| list_cons
+    (d0c, d0cs) => let
+    val sym = d0c.d0cstdec_sym
+    val loc = d0c.d0cstdec_loc
+    val () =
+      tagentlst_add_symloc (res, sym, loc)
+    // end of [val]
+  in
+    taggen_d0cstdeclst (d0cs, res)
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [taggen_d0cstdeclst]
+
+(* ****** ****** *)
+
+implement
+taggen_f0undeclst
+  (fds, res) = let
+in
+//
+case+ fds of
+| list_cons
+    (fd, fds) => let
+    val sym = fd.f0undec_sym
+    val loc = fd.f0undec_sym_loc
+    val () = tagentlst_add_symloc (res, sym, loc)
+  in
+    taggen_f0undeclst (fds, res)
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [taggen_f0undeclst]
+
+(* ****** ****** *)
+
+implement
+taggen_v0aldeclst
+  (vds, res) = let
+in
+//
+case+ vds of
+| list_cons
+    (vd, vds) => let
+    val p0t = vd.v0aldec_pat
+    val () = tagentlst_add_p0at (res, p0t)
+  in
+    taggen_v0aldeclst (vds, res)
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [taggen_v0aldeclst]
 
 (* ****** ****** *)
 
@@ -188,9 +303,9 @@ fun fprint_ent
   val () = fprint (out, "name: ")
   val () = fprint_name (out, ent.tagent_sym)
   val () = fprint (out, ", nrow: ")
-  val () = fprint_int (out, location_beg_nrow(loc))
+  val () = fprint_int (out, location_beg_nrow(loc)+1)
   val () = fprint (out, ", nchar: ")
-  val () = fprint_lint (out, location_beg_ntot(loc))
+  val () = fprint_lint (out, location_beg_ntot(loc)+1L)
 //
   val () = fprint_string (out, "\n}\n")
 //

@@ -1275,17 +1275,18 @@ d0ecl_node =
 //
   | D0Cdcstdecs of (int(*knd*), token, q0marglst, d0cstdeclst)
 //
+  | D0Cimpdec of
+      (int(*knd*), i0mparg, i0mpdec) // knd=0/1: implement/primplmnt
+    // end of [D0Cimpdec]
+//
   | D0Cmacdefs of
       (int(*knd*), bool(*rec*), m0acdeflst) // macro definitions
+//
   | D0Cfundecs of (funkind, q0marglst, f0undeclst) // fun declarations
   | D0Cvaldecs of (valkind, bool(*isrec*), v0aldeclst) // val declarations
   | D0Cvardecs of
       (int(*knd*), v0ardeclst) // variable declarations // knd=0/1:var/prvar
     // end of [D0Cvardec]
-//
-  | D0Cimpdec of
-      (int(*knd*), i0mparg, i0mpdec) // knd=0/1: implement/primplmnt
-    // end of [D0Cimpdec]
 //
   | D0Cinclude of (* file inclusion *)
       (filename(*pfil*), int(*0:sta/1:dyn*), string(*filename*))

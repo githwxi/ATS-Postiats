@@ -1309,6 +1309,13 @@ case+ x.d0ecl_node of
     val () = prstr "..."
     val () = prstr "\n)"
   }
+//
+| D0Cimpdec _ => {
+    val () = prstr "D0Cimpdec(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
+//
 | D0Cvaldecs _ => {
     val () = prstr "D0Cvaldecs(\n"
     val () = prstr "..."
@@ -1321,11 +1328,6 @@ case+ x.d0ecl_node of
   }
 | D0Cvardecs _ => {
     val () = prstr "D0Cvardecs(\n"
-    val () = prstr "..."
-    val () = prstr "\n)"
-  }
-| D0Cimpdec _ => {
-    val () = prstr "D0Cimpdec(\n"
     val () = prstr "..."
     val () = prstr "\n)"
   }
