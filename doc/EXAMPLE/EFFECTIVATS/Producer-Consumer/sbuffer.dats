@@ -170,7 +170,8 @@ implement
 sbuffer_cond_wait_isnil
   (sbuf, buf) = let
 //
-val+SBUFFER{l1,l2,l3}(_, mut, cvr, _) = sbuf
+val+SBUFFER
+  {l1,l2,l3}(_, mut, cvr, _) = sbuf
 prval (pfmut, fpf) = __assert () where
 {
   extern praxi __assert (): vtakeout0($T.mutex_v(l1))
@@ -198,7 +199,8 @@ implement
 sbuffer_cond_wait_isful
   (sbuf, buf) = let
 //
-val+SBUFFER{l1,l2,l3}(_, mut, _, cvr) = sbuf
+val+SBUFFER
+  {l1,l2,l3}(_, mut, _, cvr) = sbuf
 prval (pfmut, fpf) = __assert () where
 {
   extern praxi __assert (): vtakeout0($T.mutex_v(l1))
@@ -214,7 +216,7 @@ implement
 sbuffer_cond_signal_isful
   (sbuf) = let
 //
-val+SBUFFER(_, mut, cvr, _) = sbuf
+val+SBUFFER(_, mut, _, cvr) = sbuf
 //
 in
   $T.condvar_signal (cvr)

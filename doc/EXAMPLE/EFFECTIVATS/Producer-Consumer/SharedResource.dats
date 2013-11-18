@@ -1,6 +1,6 @@
 (* ****** ****** *)
 //
-// Generalized Processing of Shared Resources
+// Safe Programming with Shared Resources
 //
 (* ****** ****** *)
 
@@ -9,10 +9,8 @@ abstype SharedResource
 
 (* ****** ****** *)
 
-extern // it never blocks
-fun Resource_process (R: !Resource >> _): bool
-extern // it may block the caller
-fun SharedResource_process (SR: SharedResource): void
+extern
+fun SharedResource_make (R: Resource): SharedResource
 
 (* ****** ****** *)
 
@@ -23,11 +21,13 @@ fun SharedResource_release (SR: SharedResource, R: Resource): void
 
 (* ****** ****** *)
 
-extern
-fun SharedResource_cond_wait
-  (SR: SharedResource, R: !Resource >> _): void
-extern
-fun SharedResource_cond_signal (SR: SharedResource): void
+extern // it never blocks
+fun Resource_process (R: !Resource >> _): bool
+extern // it may block the caller
+fun SharedResource_process (SR: SharedResource): void
+
+(* ****** ****** *)
+
 extern
 fun SharedResource_process2 (SR: SharedResource, R: !Resource >> _): void
 
@@ -41,6 +41,16 @@ SharedResource_process
   val () = SharedResource_process2 (SR, R)
   val () = SharedResource_release (SR, R)
 }
+
+(* ****** ****** *)
+//
+extern
+fun SharedResource_cond_wait
+  (SR: SharedResource, R: !Resource >> _): void
+extern
+fun SharedResource_cond_signal (SR: SharedResource): void
+//
+(* ****** ****** *)
 
 implement
 SharedResource_process2

@@ -373,8 +373,116 @@ oneself that his or her code should perform as expected. I feel that I have
 done it in this case.
 
 <h2>
-Generalized Processing of Shared Resources
+Safe Programming with Shared Resources
 </h2>
+
+In the rest of the article, I would like to outline a general approach
+to safe programming with shared resources that can be seen as a generalization
+of the implementation of the producer-consumer problem presented above.
+
+<p>
+
+Suppose we have a linear type [Resource] for values that we want to share:
+
+<pre>
+absvtype Resource
+</pre>
+
+Let us introduce a (non-linear) type [SharedResource] for values that are
+formed by wrapping some kind of protection mechnism around linear values of
+the type [Resource]:
+
+<pre>
+abstype SharedResource
+</pre>
+
+The function that does the wrapping can be given the following type:
+
+<pre>
+fun SharedResource_create (R: Resource): SharedResource
+</pre>
+
+The linear resource inside a shared resource is protected by a lock,
+and the following two functions are for taking out the linear resource
+and return it back:
+
+<pre>
+fun SharedResource_acquire (SR: SharedResource): Resource
+fun SharedResource_release (SR: SharedResource, R: Resource): void
+</pre>
+
+Let us now assume that we have the following function for processing
+a linear resource:
+
+<pre>
+fun Resource_process (R: !Resource >> _): bool
+</pre>
+
+If a call to [Resource_process] returns true, then the resource has been
+processed properly. Otherwise, it is an indication that the state of the
+resource needs to be changed before it is suitable for processing.
+
+<p>
+
+What we want to implement is the following function:
+
+<pre>
+fun SharedResource_process (SR: SharedResource): void
+</pre>
+
+When called, [SharedResource_process] tries to process the linear resource
+inside it by calling [Resource_process].
+
+<p>
+
+A sketched implementation of [SharedResource_process] is given as follows:
+
+<pre>
+extern
+fun SharedResource_process2 (SR: SharedResource, R: !Resource >> _): void
+
+implement
+SharedResource_process
+  (SR) = () where
+{
+  val R = SharedResource_acquire (SR)
+  val () = SharedResource_process2 (SR, R)
+  val () = SharedResource_release (SR, R)
+}
+
+extern
+fun SharedResource_cond_wait (SR: SharedResource, R: !Resource >> _): void
+
+implement
+SharedResource_process2
+  (SR, R) = let
+  val ans = Resource_process (R)
+in
+//
+if ans
+  then
+  (
+    // may need to send signals
+    // to some conditional variables
+  )
+  else let
+    val () = SharedResource_cond_wait (SR, R)
+  in
+    SharedResource_process2 (SR, R)
+  end // end of [else]
+//
+end // end of [SharedResource_process2]
+</pre>
+
+A call to [SharedResource_cond_wait] puts the caller on the waiting-list
+of some conditional variable to avoid busy-waiting. Whenever the condition
+needed for [Resource_process] to do proper processing is met, a signal should
+be sent to the conditional variable.
+
+<p>
+
+Please find in the file SharedResource.dats the entirety of the code
+presented in this section.
 
 <hr size="2">
 

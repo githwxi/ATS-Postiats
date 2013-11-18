@@ -115,6 +115,7 @@ upload_Producer-Consumer:: ; \
   Producer-Consumer/main.html \
   Producer-Consumer/sbuffer.sats \
   Producer-Consumer/sbuffer.dats \
+  Producer-Consumer/SharedResource.dats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/Producer-Consumer/
 
 ######
