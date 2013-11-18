@@ -108,6 +108,7 @@ extern fun taggen_m0acdeflst : taggen_ftype (m0acdeflst)
 //
 extern fun taggen_f0undeclst : taggen_ftype (f0undeclst)
 extern fun taggen_v0aldeclst : taggen_ftype (v0aldeclst)
+extern fun taggen_v0ardeclst : taggen_ftype (v0ardeclst)
 //
 (* ****** ****** *)
 
@@ -119,6 +120,35 @@ tagentlst_add_symloc
 ) : void =
   tagentlst_add (res, TAGENT (sym, loc))
 // end of [tagentlst_add_symloc]
+
+(* ****** ****** *)
+
+fun
+tagentlst_add_i0de
+(
+  res: &tagentlst_vt, id: i0de
+) : void = (
+  tagentlst_add_symloc (res, id.i0de_sym, id.i0de_loc)
+) (* end of [tagentlst_add_i0de] *)
+
+(* ****** ****** *)
+
+fun
+tagentlst_add_i0delst
+(
+  res: &tagentlst_vt, ids: i0delst
+) : void = (
+case+ ids of
+| list_cons
+    (id, ids) => let
+    val () =
+      tagentlst_add_i0de (res, id)
+    // end of [val]
+  in
+    tagentlst_add_i0delst (res, ids)
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+) (* end of [tagentlst_add_i0delst] *)
 
 (* ****** ****** *)
 
@@ -160,10 +190,30 @@ in
 //
 case+ d0c0.d0ecl_node of
 //
+| D0Cfixity _ => ()
+| D0Cnonfix _ => ()
+//
+| D0Csymintr (ids) => tagentlst_add_i0delst (res, ids)
+| D0Csymelim (ids) => tagentlst_add_i0delst (res, ids)
+| D0Coverload (id, _, _) => tagentlst_add_i0de (res, id)
+//
 | D0Ce0xpdef (sym, _) =>
     tagentlst_add_symloc (res, sym, loc0)
 | D0Ce0xpundef (sym) =>
     tagentlst_add_symloc (res, sym, loc0)
+//
+| D0Ctkindef (tkd) => let
+    val sym = tkd.t0kindef_sym
+    val loc = tkd.t0kindef_loc_id
+  in
+    tagentlst_add_symloc (res, sym, loc)
+  end // end of [D0Ctkindef]
+| D0Csexpdefs (_, sdfs) => taggen_s0expdeflst (sdfs, res)
+| D0Csaspdec (sasp) => let
+    val qid = sasp.s0aspdec_qid
+  in
+    tagentlst_add_symloc (res, qid.sqi0de_sym, qid.sqi0de_loc)
+  end // end of [D0Csaspdec]
 //
 | D0Cexndecs
     (d0cs) => taggen_e0xndeclst (d0cs, res)
@@ -186,6 +236,7 @@ case+ d0c0.d0ecl_node of
 //
 | D0Cfundecs (_, _, fds) => taggen_f0undeclst (fds, res)
 | D0Cvaldecs (_, _, vds) => taggen_v0aldeclst (vds, res)
+| D0Cvardecs (_(*knd*), vds) => taggen_v0ardeclst (vds, res)
 //
 | D0Cinclude _ => ()
 | D0Cstaload _ => ()
@@ -371,6 +422,26 @@ case+ vds of
 | list_nil ((*void*)) => ()
 //
 end // end of [taggen_v0aldeclst]
+
+(* ****** ****** *)
+
+implement
+taggen_v0ardeclst
+  (vds, res) = let
+in
+//
+case+ vds of
+| list_cons
+    (vd, vds) => let
+    val sym = vd.v0ardec_sym
+    val loc = vd.v0ardec_sym_loc
+    val () = tagentlst_add_symloc (res, sym, loc)
+  in
+    taggen_v0ardeclst (vds, res)
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [taggen_v0ardeclst]
 
 (* ****** ****** *)
 

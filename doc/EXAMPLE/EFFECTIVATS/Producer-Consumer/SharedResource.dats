@@ -10,7 +10,7 @@ abstype SharedResource
 (* ****** ****** *)
 
 extern
-fun SharedResource_make (R: Resource): SharedResource
+fun SharedResource_create (R: Resource): SharedResource
 
 (* ****** ****** *)
 
@@ -59,7 +59,12 @@ SharedResource_process2
 in
 //
 if ans
-  then ()
+  then
+  (
+    // processing done properly
+    // may need to send signals
+    // to some conditional variables
+  )
   else let
     val () = SharedResource_cond_wait (SR, R)
   in

@@ -430,12 +430,12 @@ What we want to implement is the following function:
 fun SharedResource_process (SR: SharedResource): void
 </pre>
 
-When called, [SharedResource_process] tries to process the linear resource
-inside it by calling [Resource_process].
+When called on a shared resource, [SharedResource_process] tries to process
+the linear resource inside it by calling [Resource_process].
 
 <p>
 
-A sketched implementation of [SharedResource_process] is given as follows:
+An implementation of [SharedResource_process] is sketched as follows:
 
 <pre>
 extern
@@ -462,6 +462,7 @@ in
 if ans
   then
   (
+    // processing done properly
     // may need to send signals
     // to some conditional variables
   )
@@ -477,7 +478,7 @@ end // end of [SharedResource_process2]
 A call to [SharedResource_cond_wait] puts the caller on the waiting-list
 of some conditional variable to avoid busy-waiting. Whenever the condition
 needed for [Resource_process] to do proper processing is met, a signal should
-be sent to the conditional variable.
+be sent to the conditional variable (by another caller).
 
 <p>
 

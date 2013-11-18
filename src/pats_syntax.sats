@@ -888,7 +888,8 @@ fun s0expdef_make
 
 (* ****** ****** *)
 
-typedef s0aspdec = '{
+typedef
+s0aspdec = '{
   s0aspdec_loc= location
 , s0aspdec_qid= sqi0de
 , s0aspdec_arg= s0marglst
