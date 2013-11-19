@@ -113,6 +113,13 @@ ATSCNTRB/libats-hwxi/teaching\
 //
 (* ****** ****** *)
 
+#packfilename("mythread/SATS/mythread.sats")
+#packfilename("mythread/DATS/mythread.dats")
+#packfilename("mythread/SATS/mychannel.sats")
+#packfilename("mythread/DATS/mychannel.dats")
+
+(* ****** ****** *)
+
 #packfilename("myGTK/SATS/gtkcairoclock.sats")
 #packfilename("myGTK/DATS/gtkcairoclock.dats")
 

@@ -415,7 +415,7 @@ atspacktar:: ; $(RMF) $(PACKNAME)/install-sh ; $(CPF) ATS-Postiats/install-sh $(
 atspacktar:: ; make -C $(PACKNAME) cleanall
 atspacktar:: ; tar -zvcf  $(PACKNAME).tgz  $(PACKNAME)/
 
-CNTRBNAME=ATS2-Postiats-contrib-0.0.2
+CNTRBNAME=ATS2-Postiats-contrib-0.0.3
 atscntrbtar:: ; rm -rf $(CNTRBNAME)
 atscntrbtar:: ; cp -rf ATS-Postiats-contrib $(CNTRBNAME)
 atscntrbtar:: ; tar -zvcf  $(CNTRBNAME).tgz  $(CNTRBNAME)/
