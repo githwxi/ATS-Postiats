@@ -145,9 +145,10 @@ dynload "DiningPhil2_thread.dats"
 (* ****** ****** *)
 
 local
-
-staload "{$LIBATSHWXI}/teaching/mythread/SATS/mythread.sats"
-
+//
+staload
+"{$LIBATSHWXI}/teaching/mythread/SATS/mythread.sats"
+//
 in (* in of [local] *)
 //
 val () = mythread_create_cloptr (llam () => phil_loop (0))

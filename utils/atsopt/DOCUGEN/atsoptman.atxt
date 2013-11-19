@@ -98,6 +98,14 @@ This flag indicates that a call to the ATS-compiler is for generateing
 file-dependency information, which is often needed for contructing a Makefile.
 
 <li>
+#uemph("-tag"): It is a shorthand for #uemph("--taggen").
+<li>
+#uemph("--taggen"):
+This flag indicates that a call to the ATS-compiler is for generateing
+syntax-tagging information, which can then be used to generate ctags for
+vim and etags for emacs.
+
+<li>
 #uemph("--DATS"):
 This flag indicates that the next argument, which should be name or
 name/value pair (separated by the symbol =), is to be passed as a toplevel

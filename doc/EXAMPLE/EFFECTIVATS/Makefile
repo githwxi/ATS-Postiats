@@ -105,6 +105,10 @@ upload_DiningPhil2:: ; \
   scp \
   DiningPhil2/Makefile \
   DiningPhil2/main.html \
+  DiningPhil2/DiningPhil2.sats \
+  DiningPhil2/DiningPhil2.dats \
+  DiningPhil2/DiningPhil2_fork.dats \
+  DiningPhil2/DiningPhil2_thread.dats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/DiningPhil2/
 
 ######

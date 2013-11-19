@@ -394,7 +394,9 @@ fprintln! (out, "  --output filename (output into <filename>)");
 fprintln! (out, "  -tc (for typechecking only)");
 fprintln! (out, "  --typecheck (for typechecking only)");
 fprintln! (out, "  --gline (for generating line pragma information in target code)");
+fprintln! (out, "  -dep (for generating information on file dependencices)");
 fprintln! (out, "  --depgen (for generating information on file dependencices)");
+fprintln! (out, "  -tag (for generating tagging information on syntactic entities)");
 fprintln! (out, "  --taggen (for generating tagging information on syntactic entities)");
 fprint_newline (out);
 //
@@ -405,6 +407,7 @@ end // end of [patsopt_usage]
 (*
 HX: VERSION-0.0.1 released on September 2, 2013
 HX: VERSION-0.0.2 released on September 19, 2013
+HX: VERSION-0.0.3 released in the October of 2013
 *)
 #define PATS_MAJOR_VERSION 0
 #define PATS_MINOR_VERSION 0
@@ -1081,6 +1084,9 @@ case+ key of
 | "-dep" => {
     val () = state.depgenflag := 1
   } // end of [-dep]
+| "-tag" => {
+    val () = state.taggenflag := 1
+  } // end of [-tag]
 //
 | _ when
     is_DATS_flag (key) => let
