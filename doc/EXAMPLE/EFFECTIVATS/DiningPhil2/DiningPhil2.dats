@@ -84,7 +84,12 @@ val ch_lfork = fork_changet (nl)
 val ch_rfork = fork_changet (nr)
 //
 val lf = channel_takeout (ch_lfork)
+val () = println! ("phil_loop(", n, ") picks left fork")
+//
+val () = randsleep (2) // HX: try to actively induce deadlock
+//
 val rf = channel_takeout (ch_rfork)
+val () = println! ("phil_loop(", n, ") picks right fork")
 //
 val () = phil_dine (n, lf, rf)
 //
@@ -139,11 +144,30 @@ dynload "DiningPhil2_thread.dats"
 
 (* ****** ****** *)
 
+local
+
+staload "{$LIBATSHWXI}/teaching/mythread/SATS/mythread.sats"
+
+in (* in of [local] *)
+//
+val () = mythread_create_cloptr (llam () => phil_loop (0))
+val () = mythread_create_cloptr (llam () => phil_loop (1))
+val () = mythread_create_cloptr (llam () => phil_loop (2))
+val () = mythread_create_cloptr (llam () => phil_loop (3))
+val () = mythread_create_cloptr (llam () => phil_loop (4))
+//
+val () = mythread_create_cloptr (llam () => cleaner_loop ())
+//
+end // end of [local]
+
+(* ****** ****** *)
+
 implement
 main0 () =
 {
 //
 val () = println! ("DiningPhil2: starting")
+val ((*void*)) = while (true) ignoret (sleep(1))
 //
 } (* end of [main0] *)
 

@@ -99,5 +99,12 @@ condvar_wait{l:agz}
   (pf: !mutex_v (l) | cv: condvar1, p: mutex (l)): void
 //
 (* ****** ****** *)
+//
+fun mythread_create_funenv
+  {env:vtype} (fwork: (env) -> void, env: env): void
+//
+fun mythread_create_cloptr (fwork: () -<lincloptr1> void): void
+//
+(* ****** ****** *)
 
 (* end of [mythread.sats] *)

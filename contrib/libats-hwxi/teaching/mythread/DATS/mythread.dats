@@ -88,4 +88,20 @@ end // end of [condvar_create_exn]
 
 (* ****** ****** *)
 
+implement
+mythread_create_cloptr (fwork) = let
+//
+fun app
+(
+  f: () -<lincloptr1> void
+): void = let
+  val () = f () in cloptr_free($UN.castvwtp0{cloptr0}(f))
+end // end of [app]
+//
+in
+  mythread_create_funenv (app, fwork)
+end // end of [mythread_create_cloptr]
+
+(* ****** ****** *)
+
 (* end of [mythread.dats] *)

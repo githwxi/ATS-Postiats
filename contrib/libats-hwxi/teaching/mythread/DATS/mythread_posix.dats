@@ -184,4 +184,42 @@ end // end of [condvar_wait]
     
 (* ****** ****** *)
 
+abst@ype pthread_t = $extype"pthread_t"
+abst@ype pthread_attr_t = $extype"pthread_attr_t"
+
+(* ****** ****** *)
+
+implement
+mythread_create_funenv
+  (fwork, env) = let
+//
+var tid: pthread_t
+var attr: pthread_attr_t
+val err = $extfcall
+  (int, "pthread_attr_init", addr@attr)
+//
+val err = $extfcall
+(
+  int
+, "pthread_attr_setdetachstate"
+, addr@attr, $extval(int, "PTHREAD_CREATE_DETACHED")
+)
+//
+val err = $extfcall
+(
+  int
+, "pthread_create"
+, addr@tid, addr@attr, fwork, $UN.castvwtp0{ptr}(env)
+)
+//
+val ((*void*)) = assertloc (err = 0)
+//
+val err = $extfcall (int, "pthread_attr_destroy", addr@attr)
+//
+in
+  // nothing
+end // end of [mythread_create_funenv]
+
+(* ****** ****** *)
+
 (* end of [mythread_posix.dats] *)
