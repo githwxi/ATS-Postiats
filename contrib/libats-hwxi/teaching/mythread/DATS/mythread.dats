@@ -45,7 +45,7 @@ implement
 mutex_create_exn () = let
 //
 val mtx = mutex_create ()
-val p_mtx = ptrcast (mtx)
+val p_mtx = mutex2ptr (mtx)
 val () =
 if p_mtx = the_null_ptr then
 {
@@ -69,7 +69,7 @@ condvar_create_exn () = let
 //
 val cvr = condvar_create ()
 //
-val p_cvr = ptrcast (cvr)
+val p_cvr = condvar2ptr (cvr)
 val () =
 if p_cvr = the_null_ptr then
 {

@@ -133,7 +133,7 @@ end // end of [condvar_create]
   
 implement
 condvar_signal
-  (pf | cvr) = let
+  (cvr) = let
 //
 val err = (
   $extfcall (int, "pthread_cond_signal", $UN.cast{ptr}(cvr))
@@ -151,7 +151,7 @@ end // end of [condvar_signal]
 
 implement
 condvar_broadcast
-  (pf | cvr) = let
+  (cvr) = let
 //
 val err = (
   $extfcall (int, "pthread_cond_broadcast", $UN.cast{ptr}(cvr))

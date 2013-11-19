@@ -40,7 +40,7 @@ fun cleaner_loop ((*void*)): void
 
 (* ****** ****** *)
 
-absvtype fork_vtype
+absvtype fork_vtype = ptr
 vtypedef fork = fork_vtype
 
 (* ****** ****** *)

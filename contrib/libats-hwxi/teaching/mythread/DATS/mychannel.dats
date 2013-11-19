@@ -61,7 +61,7 @@ assume channel_type (a:vt0p) = channel
 implement{a}
 channel_create_exn (cap) = let
 //
-val deq = deqarray_make_cap (cap)
+val deq = deqarray_make_cap<a> (cap)
 val mut = mutex_create_exn ()
 val CVisnil = condvar_create_exn ()
 val CVisful = condvar_create_exn ()
@@ -74,7 +74,7 @@ end // end of [channel_create_exn]
 
 extern
 fun{a:vt0p}
-channel_insert2 (channel (a), !deqarray(a) >> _, a): void
+channel_insert2 (channel(a), !deqarray(a) >> _, a): void
 
 (* ****** ****** *)
 
@@ -87,7 +87,7 @@ val+CHANNEL{l1,l2,l3}
 val (pfmut | ()) = mutex_lock (mut)
 val deq =
   $UN.castvwtp0{deqarray(a)}((pfmut | deq))
-val ((*void*)) = channel_insert2 (chan, deq, x0)
+val ((*void*)) = channel_insert2<a> (chan, deq, x0)
 prval pfmut = $UN.castview0{mutex_v(l1)}(deq)
 val ((*void*)) = mutex_unlock (pfmut | mut)
 //
@@ -134,7 +134,7 @@ end // end of [channel_insert2]
 
 extern
 fun{a:vt0p}
-channel_takeout2 (channel (a), !deqarray(a) >> _): (a)
+channel_takeout2 (channel(a), !deqarray(a) >> _): (a)
 
 (* ****** ****** *)
 
@@ -148,7 +148,7 @@ val+CHANNEL{l1,l2,l3}
 val (pfmut | ()) = mutex_lock (mut)
 val deq =
   $UN.castvwtp0{deqarray(a)}((pfmut | deq))
-val x0 = channel_takeout2 (chan, deq)
+val x0 = channel_takeout2<a> (chan, deq)
 prval pfmut = $UN.castview0{mutex_v(l1)}(deq)
 val ((*void*)) = mutex_unlock (pfmut | mut)
 //

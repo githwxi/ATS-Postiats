@@ -14,7 +14,22 @@
 //
 (* ****** ****** *)
 
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload "libc/SATS/stdlib.sats"
+staload "libc/SATS/unistd.sats"
+
+(* ****** ****** *)
+
 staload "{$LIBATSHWXI}/teaching/mythread/SATS/mychannel.sats"
+
+(* ****** ****** *)
+
+staload _ = "libats/DATS/deqarray.dats"
+staload _ = "{$LIBATSHWXI}/teaching/mythread/DATS/mychannel.dats"
 
 (* ****** ****** *)
 
@@ -24,6 +39,36 @@ staload "./DiningPhil2.sats"
 
 implement phil_left (n) = n
 implement phil_right (n) = (n+1) \nmod NPHIL
+
+(* ****** ****** *)
+//
+extern
+fun randsleep (n: intGte(1)): void
+//
+implement
+randsleep (n) =
+  ignoret (sleep($UN.cast{uInt}(rand() mod n + 1)))
+// end of [randsleep]
+//
+(* ****** ****** *)
+
+implement
+phil_think (n) =
+{
+val () = println! ("phil_think(", n, ") starts")
+val () = randsleep (6)
+val () = println! ("phil_think(", n, ") finishes")
+}
+
+(* ****** ****** *)
+
+implement
+phil_dine (n, lf, rf) =
+{
+val () = println! ("phil_dine(", n, ") starts")
+val () = randsleep (3)
+val () = println! ("phil_dine(", n, ") finishes")
+}
 
 (* ****** ****** *)
 
@@ -54,6 +99,17 @@ end // end of [phil_loop]
 (* ****** ****** *)
 
 implement
+cleaner_wash (f) =
+{
+val f = fork_get_num (f)
+val () = println! ("cleaner_wash(", f, ") starts")
+val () = randsleep (1)
+val () = println! ("cleaner_wash(", f, ") finishes")
+}
+
+(* ****** ****** *)
+
+implement
 cleaner_return (f) =
 {
   val n = fork_get_num (f)
@@ -75,6 +131,21 @@ val () = cleaner_return (f)
 in
   cleaner_loop ()
 end // end of [cleaner_loop]
+
+(* ****** ****** *)
+
+dynload "DiningPhil2_fork.dats"
+dynload "DiningPhil2_thread.dats"
+
+(* ****** ****** *)
+
+implement
+main0 () =
+{
+//
+val () = println! ("DiningPhil2: starting")
+//
+} (* end of [main0] *)
 
 (* ****** ****** *)
 

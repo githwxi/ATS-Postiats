@@ -33,7 +33,7 @@
 //
 (* ****** ****** *)
 
-abstype channel_type (a: vt@ype+)
+abstype channel_type (a:vt@ype) = ptr
 typedef channel (a: vt0p) = channel_type (a)
 
 (* ****** ****** *)

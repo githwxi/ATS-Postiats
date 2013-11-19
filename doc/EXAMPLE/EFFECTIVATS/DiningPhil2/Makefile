@@ -43,8 +43,7 @@ SOURCESsta := \
 SOURCESdyn := \
   DiningPhil2.dats \
   DiningPhil2_fork.dats \
-  DiningPhil2_dine.dats \
-  DiningPhil2_think.dats \
+  DiningPhil2_thread.dats \
 
 ######
 
@@ -54,7 +53,7 @@ OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))
 ######
 
 test: $(OBJECTS) ; \
-  $(PATSCC) $(ATSCCFLAGS) -o $@ $^ -L$(PATSLIB) -latslib
+  $(PATSCC) $(ATSCCFLAGS) -o $@ $^ -L$(PATSLIB) -lrt -latslib
 cleanall:: ; $(RMF) test
 
 ######
