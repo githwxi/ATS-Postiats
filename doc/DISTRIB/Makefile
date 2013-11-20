@@ -200,6 +200,17 @@ cleanall:: ; $(RMF) HTML/atscntrb_libgmp.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_libgmp.bash
 
 #
+all_html:: HTML/atscntrb_zeromq.html
+HTML/atscntrb_zeromq.html: atscntrb_zeromq_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_zeromq.bash
+SCRIPT/atscntrb_zeromq.bash: atscntrb_zeromq_atxt.exe ; ./$< > $@
+atscntrb_zeromq_atxt.dats: ATEXT/atscntrb_zeromq.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_zeromq_atxt.exe: atscntrb_zeromq_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_zeromq_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_zeromq.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_zeromq.bash
+
+#
 all_html:: HTML/atscntrb_libcurl.html
 HTML/atscntrb_libcurl.html: atscntrb_libcurl_atxt.exe ; ./$< > $@
 all_script:: SCRIPT/atscntrb_libcurl.bash
@@ -241,6 +252,7 @@ clean:: ; $(RMF) atscntrb_cairo_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_cairo.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_cairo.bash
 
+#
 all_html:: HTML/atscntrb_hiredis.html
 HTML/atscntrb_hiredis.html: atscntrb_hiredis_atxt.exe ; ./$< > $@
 all_script:: SCRIPT/atscntrb_hiredis.bash
@@ -381,6 +393,11 @@ atscontribing:: srcget_atscntrb
 
 srcget_atscntrb:: srcget_atscntrb_libgmp
 srcget_atscntrb_libgmp:: SCRIPT/atscntrb_libgmp.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_zeromq
+srcget_atscntrb_zeromq:: SCRIPT/atscntrb_zeromq.bash ; bash $<
 
 ######
 
