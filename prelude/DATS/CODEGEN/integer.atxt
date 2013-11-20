@@ -249,13 +249,24 @@ end // end of [let] // end of [g1int_ndiv]
 #atscode_separator()
 
 implement{tk}
+g1int_ndiv2 {i,j} (x, y) = let
+  val [q:int] q = g1int_div (x, y)
+  prval [q2:int,r:int] pf = divmod_istot{i,j}()
+  prval EQINT() = $UN.castview0{EQINT(q,q2)}(0)
+in
+  (pf | q)
+end // end of [let] // end of [g1int_ndiv2]
+
+#atscode_separator()
+
+implement{tk}
 g1int_nmod2 {i,j} (x, y) = let
   val [r:int] r = g1int_nmod (x, y)
   prval [q:int,r2:int] pf = divmod_istot{i,j}()
   prval EQINT() = $UN.castview0{EQINT(r,r2)}(0)
 in
   (pf | r)
-end // end of [g1int_nmod2]
+end // end of [let] // end of [g1int_nmod2]
 
 #atscode_separator()
 
