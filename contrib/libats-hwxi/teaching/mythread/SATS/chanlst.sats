@@ -29,23 +29,29 @@
 (* ****** ****** *)
 //
 // HX-2013-11:
-// An array-based channel implementation
+// A list-based channel implementation
 //
 (* ****** ****** *)
 
-abstype channel_type (a:vt@ype) = ptr
-typedef channel (a: vt0p) = channel_type (a)
+abstype chanlst_type (a:vt@ype) = ptr
+typedef chanlst (a: vt0p) = chanlst_type (a)
+
+(* ****** ****** *)
+
+absvtype chanode_type (a:vt@ype) = ptr
+vtypedef chanode (a: vt0p) = chanode_type (a)
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-channel_create_exn (cap: sizeGte(1)): channel (a)
+chanlst_insert (chanlst (a), chanode(a)): void
 
 (* ****** ****** *)
 
-fun{a:vt0p} channel_insert (channel (a), a): void
-fun{a:vt0p} channel_takeout (chan: channel (a)): (a) 
+fun{
+a:vt0p
+} chanlst_takeout (chan: chanlst (a)): chanode(a) 
 
 (* ****** ****** *)
 
-(* end of [channel.sats] *)
+(* end of [chanlst.sats] *)

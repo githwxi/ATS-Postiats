@@ -391,8 +391,13 @@ s2exp_node =
 //
   | S2Eint of int // integer
   | S2Eintinf of intinf // integer of flexible precision
+//
 (*
-  | S2Echar of char // character
+  | S2Echar of char // chars have been removed for now
+*)
+//
+(*
+  | S2Ereal of double // static reals are yet to be supported
 *)
 //
   | S2Ecst of s2cst // constant
