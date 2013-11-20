@@ -362,7 +362,8 @@ end // end of [local]
 
 local
 
-fun auxlt (
+fun auxlt
+(
   isint: bool
 , s2e1: s2exp, s2e2: s2exp
 , lt: &int(0) >> int
@@ -377,7 +378,8 @@ fun auxlt (
   end // end of [if]
 // end of [auxlt]
 //
-fun auxlte (
+fun auxlte
+(
   isint: bool
 , s2e1: s2exp, s2e2: s2exp
 , lte: &int(0) >> int
@@ -391,13 +393,16 @@ fun auxlte (
     s2exp_bool (islte)
   end // end of [if]
 //
-fun auxlst (
+fun auxlst
+(
   s2es1: s2explst, s2es2: s2explst
 ) : s2exp = let
 (*
-  val () = (
-    print "s2exp_metdec_reduce: auxlst"; print_newline ()
-  ) // end of [val]
+//
+val () = (
+  println! ("s2exp_metdec_reduce: auxlst: s2es1 = ", s2es1);
+  println! ("s2exp_metdec_reduce: auxlst: s2es2 = ", s2es2);
+) (* end of [val] *)
 *)
 in
 //
@@ -414,31 +419,35 @@ case+ s2es1 of
       in
         case+ lt of
         | _ when lt > 0 => s2p_lt (*true*)
-        | _ (* lt <= 0 *) => let
-            val s2p_lte = auxlte (isint, s2e1, s2e2, lte)
+        | _ when lt = 0 => let
+            val s2p_lte =
+              auxlte (isint, s2e1, s2e2, lte)
+            // end of [val]
+            val s2p_rest = auxlst (s2es1, s2es2)
           in
-            if lt = 0 then let
-              val s2p_rest = auxlst (s2es1, s2es2)
-            in
-              s2exp_badd (s2p_lt, s2exp_bmul (s2p_lte, s2p_rest))
-            end else ( // lt < 0 // HX: lte != 0
-              if lte >= 0 then auxlst (s2es1, s2es2) else s2p_lte (*false*)
-            ) // end of [if]
-          end // end of [lt <= 0]
-        // end of [case]
+            s2exp_badd (s2p_lt, s2exp_bmul (s2p_lte, s2p_rest))
+          end // end of [lt = 0]
+        | _ (* lt < 0 *) => let
+            val s2p_lte =
+              auxlte (isint, s2e1, s2e2, lte)
+            // end of [val]
+          in
+            if lte >= 0
+              then auxlst (s2es1, s2es2) else s2p_lte (*false*)
+            // end of [if]
+          end // end of [lt < 0]
       end // end of [list_cons]
     | list_nil () => s2exp_bool (true)
   end (* end of [list_cons] *)
 | list_nil () => s2exp_bool (false)
+//
 end // end of [auxlst]
 
 in (* in of [local] *)
 
-fun s2exp_metdec_reduce (
-  met: s2explst, met_bound: s2explst
-) : s2exp = (
-  auxlst (met, met_bound)
-) // end of [s2exp_metdec_reduce]
+fun s2exp_metdec_reduce
+  (met: s2explst, met_bound: s2explst): s2exp = auxlst (met, met_bound)
+// end of [s2exp_metdec_reduce]
 
 end // end of [local]
 
