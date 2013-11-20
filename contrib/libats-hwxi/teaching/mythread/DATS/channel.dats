@@ -43,8 +43,11 @@ staload "libats/SATS/deqarray.sats"
 (* ****** ****** *)
 
 staload "./../SATS/mythread.sats"
-staload "./../SATS/mychannel.sats"
 
+(* ****** ****** *)
+//
+staload "./../SATS/channel.sats"
+//
 (* ****** ****** *)
 //
 datatype
@@ -191,4 +194,4 @@ end // end of [channel_takeout2]
 
 (* ****** ****** *)
 
-(* end of [mychannel.dats] *)
+(* end of [channel.dats] *)

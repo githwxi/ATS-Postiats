@@ -48,4 +48,4 @@ fun{a:vt0p} channel_takeout (chan: channel (a)): (a)
 
 (* ****** ****** *)
 
-(* end of [mychannel.sats] *)
+(* end of [channel.sats] *)

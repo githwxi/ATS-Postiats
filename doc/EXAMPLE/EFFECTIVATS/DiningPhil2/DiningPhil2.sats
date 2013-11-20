@@ -12,7 +12,7 @@
 
 (* ****** ****** *)
 
-staload "{$LIBATSHWXI}/teaching/mythread/SATS/mychannel.sats"
+staload "{$LIBATSHWXI}/teaching/mythread/SATS/channel.sats"
 
 (* ****** ****** *)
 

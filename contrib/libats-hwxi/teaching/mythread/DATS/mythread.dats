@@ -50,9 +50,11 @@ val () =
 if p_mtx = the_null_ptr then
 {
 //
-val () = fprintln!
+val (
+) = fprintln!
 (
-  stderr_ref, "libats-hwxi: mythread: [mutex_create]: failed."
+  stderr_ref
+, "libats-hwxi: mythread: [mutex_create]: failed."
 )
 val ((*void*)) = assertloc (false)
 //
@@ -74,9 +76,11 @@ val () =
 if p_cvr = the_null_ptr then
 {
 //
-val () = fprintln!
+val (
+) = fprintln!
 (
-  stderr_ref, "libats-hwxi: mythread: [condvar_create]: failed."
+  stderr_ref
+, "libats-hwxi: mythread: [condvar_create]: failed."
 )
 val ((*void*)) = assertloc (false)
 //

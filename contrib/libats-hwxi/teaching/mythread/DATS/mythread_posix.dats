@@ -29,7 +29,8 @@
 (* ****** ****** *)
 //
 // HX-2013-10:
-// A simple thread interface implmented via pthreads
+// A simple thread interface
+// implemented on top of pthreads
 //
 (* ****** ****** *)
 
@@ -39,11 +40,12 @@
 
 (* ****** ****** *)
 
-staload "./../SATS/mythread.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload "./../SATS/mythread.sats"
 
 (* ****** ****** *)
 //

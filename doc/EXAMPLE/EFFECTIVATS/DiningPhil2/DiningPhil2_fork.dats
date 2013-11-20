@@ -19,12 +19,12 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "{$LIBATSHWXI}/teaching/mythread/SATS/mychannel.sats"
+staload "{$LIBATSHWXI}/teaching/mythread/SATS/channel.sats"
 
 (* ****** ****** *)
 
 staload _ = "libats/DATS/deqarray.dats"
-staload _ = "{$LIBATSHWXI}/teaching/mythread/DATS/mychannel.dats"
+staload _ = "{$LIBATSHWXI}/teaching/mythread/DATS/channel.dats"
 
 (* ****** ****** *)
 
