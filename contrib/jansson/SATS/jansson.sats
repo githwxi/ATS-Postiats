@@ -27,7 +27,7 @@
 
 %{#
 #include "jansson/CATS/jansson.cats"
-%}
+%} // end of [%{#]
 
 (* ****** ****** *)
 
@@ -259,17 +259,17 @@ fun json_array_set
 
 fun json_array_set_new
 (
-  json: !JSONptr1, index: size_t, value: JSONptr0 /*consumed*/
+  json: !JSONptr1, index: size_t, value: (JSONptr0)/*consumed*/
 ) : int(*err*) = "mac#%"
 
 fun json_array_append
 (
-  json: !JSONptr1, index: size_t, value: !JSONptr0(*preserved*)
+  json: !JSONptr1, value: !JSONptr0(*preserved*)
 ) : int(*err*) = "mac#%"
 
 fun json_array_append_new
 (
-  json: !JSONptr1, index: size_t, value: JSONptr0 /*consumed*/
+  json: !JSONptr1, value: (JSONptr0)/*consumed*/
 ) : int(*err*) = "mac#%"
 
 fun json_array_insert
@@ -279,7 +279,7 @@ fun json_array_insert
 
 fun json_array_insert_new
 (
-  json: !JSONptr1, index: size_t, value: JSONptr0 /*consumed*/
+  json: !JSONptr1, index: size_t, value: (JSONptr0)/*consumed*/
 ) : int(*err*) = "mac#%"
 
 fun json_array_remove
@@ -288,7 +288,7 @@ fun json_array_remove
 fun json_array_clear (json: !JSONptr1): int(*0*) = "mac#%"
 
 fun json_array_extend
-  (json1: !JSONptr1, json2: !JSONptr1): int(*err*) = "mac#%"
+  (json1: !JSONptr1, json2: !JSONptr0): int(*err*) = "mac#%"
 // end of [json_array_extend]
 
 (* ****** ****** *)
@@ -346,12 +346,12 @@ fun json_object_set_nocheck
 
 fun json_object_set_new
 (
-  json: !JSONptr1, key: NSH(string), value: JSONptr0 /*consumed*/
+  json: !JSONptr1, key: NSH(string), value: (JSONptr0)/*consumed*/
 ) : int(*err*) = "mac#%"
 
 fun json_object_set_new_nocheck
 (
-  json: !JSONptr1, key: NSH(string), value: JSONptr0 /*consumed*/
+  json: !JSONptr1, key: NSH(string), value: (JSONptr0)/*consumed*/
 ) : int(*err*) = "mac#%"
 
 fun json_object_del
@@ -405,34 +405,36 @@ fun JSONiter_isnot_null
 overload ~ with JSONiter_isnot_null
 
 (* ****** ****** *)
-
-fun json_object_iter
+//
+fun
+json_object_iter
   {l:agz} (json: !JSONptr (l)) : JSONiter0 (l) = "mac#%"
-
-fun json_object_iter_at
-  {l:agz} (json: !JSONptr (l), key: NSH(string)): JSONiter0 (l) = "mac#%"
-// end of [json_object_iter_at]
-
-fun json_object_iter_next
-  {l1,l2:agz} (
-  json: !JSONptr l1, iter: !JSONiter (l1, l2)
-) : JSONiter0 (l1) = "mac#%" // endfun
-
-fun json_object_iter_nextret
-  {l1,l2:agz} (
-  json: !JSONptr l1, iter:  JSONiter (l1, l2)
-) : JSONiter0 (l1) = "mac#%" // endfun
-
+//
+fun
+json_object_iter_at{l:agz}
+  (json: !JSONptr (l), key: NSH(string)): JSONiter0 (l) = "mac#%"
+//
+fun
+json_object_iter_next{l1,l2:agz}
+  (json: !JSONptr l1, iter: !JSONiter (l1, l2)): JSONiter0 (l1) = "mac#%"
+fun
+json_object_iter_nextret{l1,l2:agz}
+  (json: !JSONptr l1, iter: (JSONiter (l1, l2))): JSONiter0 (l1) = "mac#%"
+//
 (* ****** ****** *)
 
 absvtype
 objkey_addr_vtype (l:addr) = ptr
 stadef objkey = objkey_addr_vtype
 
+(* ****** ****** *)
+
 praxi
 objkey_return
   {l:addr} (json: !JSONptr l, key: objkey l):<> void
 // end of [objkey_return]
+
+(* ****** ****** *)
 
 fun json_object_iter_key
   {l1,l2:agz} (iter: !JSONiter (l1, l2)): objkey l1 = "mac#%"
@@ -442,14 +444,16 @@ fun json_object_iter_value
 
 (* ****** ****** *)
 
-fun json_object_iter_set
+fun
+json_object_iter_set
   {l1,l2,l3:agz} (
   json: !JSONptr l1
 , iter: !JSONiter (l1, l2)
 , value: !JSONptr l3(*preserved*)
 ) : int(*err*) = "mac#%" // endfun
 
-fun json_object_iter_set_new
+fun
+json_object_iter_set_new
   {l1,l2,l3:agz} (
   json: !JSONptr l1
 , iter: !JSONiter (l1, l2)
@@ -517,14 +521,10 @@ fun json_dumps
 // end of [json_dumps]
 
 fun json_dumpf
-(
-  root: !JSONptr1, out: FILEref, flags: int
-) : int(*err*) = "mac#%"
+  (root: !JSONptr1, out: FILEref, flags: int): int(*err*) = "mac#%"
 
 fun json_dump_file
-(
-  root: !JSONptr1, path: NSH(string), flags: int
-) : int(*err*) = "mac#%"
+  (root: !JSONptr1, path: NSH(string), flags: int): int(*err*) = "mac#%"
 
 (* ****** ****** *)
 //
@@ -532,4 +532,4 @@ fun json_dump_file
 //
 (* ****** ****** *)
 
-(* end of [jasson.sats] *)
+(* end of [jansson.sats] *)

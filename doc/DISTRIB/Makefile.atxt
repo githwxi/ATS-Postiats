@@ -113,6 +113,8 @@ all_script::
 #
 #make_entry("atscntrb_libgmp")
 #
+#make_entry("atscntrb_libcurl")
+#
 #make_entry("atscntrb_GTK")
 #make_entry("atscntrb_glib")
 #make_entry("atscntrb_cairo")
@@ -202,6 +204,11 @@ atscontribing:: srcget_atscntrb
 
 srcget_atscntrb:: srcget_atscntrb_libgmp
 srcget_atscntrb_libgmp:: SCRIPT/atscntrb_libgmp.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_libcurl
+srcget_atscntrb_libcurl:: SCRIPT/atscntrb_libcurl.bash ; bash $<
 
 ######
 

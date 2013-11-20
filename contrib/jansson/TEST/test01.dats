@@ -22,7 +22,8 @@ staload "./../SATS/jansson.sats"
 (* ****** ****** *)
 
 implement
-main0 () = let
+main0 () =
+{
 //
 var err: json_err? 
 //
@@ -37,9 +38,7 @@ val out = stdout_ref
 val _(*err*) = json_dumpf (rt, out, 0)
 val () = fprint_newline (out)
 val () = json_decref(rt)
-in
-  // nothing
-end // end of [main]
+} (* end of [main0] *)
 
 (* ****** ****** *)
 

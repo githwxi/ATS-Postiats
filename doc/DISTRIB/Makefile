@@ -200,6 +200,17 @@ cleanall:: ; $(RMF) HTML/atscntrb_libgmp.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_libgmp.bash
 
 #
+all_html:: HTML/atscntrb_libcurl.html
+HTML/atscntrb_libcurl.html: atscntrb_libcurl_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_libcurl.bash
+SCRIPT/atscntrb_libcurl.bash: atscntrb_libcurl_atxt.exe ; ./$< > $@
+atscntrb_libcurl_atxt.dats: ATEXT/atscntrb_libcurl.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_libcurl_atxt.exe: atscntrb_libcurl_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_libcurl_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_libcurl.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_libcurl.bash
+
+#
 all_html:: HTML/atscntrb_GTK.html
 HTML/atscntrb_GTK.html: atscntrb_GTK_atxt.exe ; ./$< > $@
 all_script:: SCRIPT/atscntrb_GTK.bash
@@ -370,6 +381,11 @@ atscontribing:: srcget_atscntrb
 
 srcget_atscntrb:: srcget_atscntrb_libgmp
 srcget_atscntrb_libgmp:: SCRIPT/atscntrb_libgmp.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_libcurl
+srcget_atscntrb_libcurl:: SCRIPT/atscntrb_libcurl.bash ; bash $<
 
 ######
 

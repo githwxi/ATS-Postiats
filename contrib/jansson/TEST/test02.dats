@@ -53,8 +53,8 @@ main0 () = let
   val () = json_decref(a)
 in
   // nothing
-end // end of [main]
+end // end of [main0]
 
 (* ****** ****** *)
 
-(* end of [test01.dats] *)
+(* end of [test02.dats] *)
