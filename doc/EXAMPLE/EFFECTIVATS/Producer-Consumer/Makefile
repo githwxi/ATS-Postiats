@@ -50,9 +50,7 @@ OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))
 
 ######
 
-test: $(OBJECTS) ; \
-  $(PATSCC) $(ATSCCFLAGS) -o $@ $^ -L$(PATSLIB) -latslib
-cleanall:: ; $(RMF) test
+test: $(OBJECTS)
 
 ######
 

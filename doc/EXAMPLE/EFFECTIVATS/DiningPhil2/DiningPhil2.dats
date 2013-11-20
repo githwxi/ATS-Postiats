@@ -128,10 +128,10 @@ implement
 cleaner_loop () = let
 //
 val ch = forktray_changet ()
+val f0 = channel_takeout (ch)
 //
-val f = channel_takeout (ch)
-val () = cleaner_wash (f)
-val () = cleaner_return (f)
+val () = cleaner_wash (f0)
+val () = cleaner_return (f0)
 //
 in
   cleaner_loop ()

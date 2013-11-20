@@ -62,7 +62,7 @@ fun cleaner_return (f: fork): void
 
 (* ****** ****** *)
 //
-fun fork_changet (nphil): channel(fork)
+fun fork_changet (n: nphil): channel(fork)
 //
 fun forktray_changet ((*void*)): channel(fork)
 //
