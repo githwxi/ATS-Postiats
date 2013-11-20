@@ -465,7 +465,9 @@ case+ 0 of
 | _ when s2rt_is_int (s2t1) => s3exp_ieq (s3e1, s3e2)
 | _ when s2rt_is_addr (s2t1) => s3exp_ieq (s3e1, s3e2)
 | _ when s2rt_is_bool (s2t1) => s3exp_beq (s3e1, s3e2)
+(*
 | _ when s2rt_is_char (s2t1) => s3exp_ieq (s3e1, s3e2)
+*)
 | _ => (
     if s2exp_syneq (s2e1, s2e2) then s3exp_true else s3exp_err (s2rt_bool)
   ) // end of [_]

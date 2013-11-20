@@ -1284,8 +1284,13 @@ the_s2rtenv_initialize (): void = {
 (*
   val () = the_s2rtenv_add ($SYM.symbol_CHAR, S2TEsrt s2rt_char)
 *)
+//
+  val () = the_s2rtenv_add ($SYM.symbol_REAL, S2TEsrt s2rt_real)
+//
   val () = the_s2rtenv_add ($SYM.symbol_CLS, S2TEsrt s2rt_cls)
+//
   val () = the_s2rtenv_add ($SYM.symbol_EFF, S2TEsrt s2rt_eff)
+//
   val () = the_s2rtenv_add ($SYM.symbol_TKIND, S2TEsrt s2rt_tkind)
 //
 // HX: pre-defined impredicative sorts

@@ -269,9 +269,14 @@ implement symbol_REFAT = symbol_make_string "ref@"
 implement symbol_INT = symbol_make_string "int"
 implement symbol_BOOL = symbol_make_string "bool"
 implement symbol_ADDR = symbol_make_string "addr"
+(*
 implement symbol_CHAR = symbol_make_string "char"
+*)
+//
+implement symbol_REAL = symbol_make_string "real"
 //
 implement symbol_CLS = symbol_make_string "cls" // nominal classes
+//
 implement symbol_EFF = symbol_make_string "eff" // sets of effects
 //
 implement symbol_TKIND = symbol_make_string "tkind" // template args

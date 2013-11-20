@@ -98,7 +98,12 @@ val symbol_REFAT : symbol // ref@
 val symbol_INT : symbol
 val symbol_BOOL : symbol
 val symbol_ADDR : symbol
+//
+(*
 val symbol_CHAR : symbol
+*)
+//
+val symbol_REAL : symbol
 //
 val symbol_CLS : symbol // for nominal classes
 //

@@ -213,12 +213,14 @@ fun fprint_s2rtlst : fprint_type (s2rtlst)
 //
 // HX: pre-defined predicative sorts
 //
-val s2rt_int : s2rt
-val s2rt_bool : s2rt
-val s2rt_addr : s2rt
+val s2rt_int : s2rt // integers
+val s2rt_bool : s2rt // booleans
+val s2rt_addr : s2rt // addresses
 (*
-val s2rt_char : s2rt
+val s2rt_char : s2rt // = s2rt_int
 *)
+//
+val s2rt_real : s2rt // real numbers
 //
 val s2rt_cls : s2rt // nominal classes
 //
@@ -255,20 +257,26 @@ val s2rt_vt0ype_neg : s2rt
 val s2rt_types : s2rt
 //
 (* ****** ****** *)
-
+//
 fun s2rt_impred (knd: int): s2rt // selecting impredicative sorts
-
+//
 fun s2rt_fun (_arg: s2rtlst, _res: s2rt): s2rt // forming function sorts
 fun s2rt_tup (s2ts: s2rtlst): s2rt (* HX: tuple sorts are not yet supported *)
-
+//
 fun s2rt_err (): s2rt // HX: a placeholder indicating error
-
+//
 fun s2rt_is_int (x: s2rt): bool
 fun s2rt_is_addr (x: s2rt): bool
 fun s2rt_is_bool (x: s2rt): bool
+//
+(*
 fun s2rt_is_char (x: s2rt): bool
+*)
+//
+fun s2rt_is_real (x: s2rt): bool
+//
 fun s2rt_is_dat (x: s2rt): bool
-
+//
 fun s2rt_is_fun (x: s2rt): bool
 fun s2rt_is_prf (x: s2rt): bool // is proof?
 fun s2rt_is_lin (x: s2rt): bool
@@ -278,10 +286,10 @@ fun s2rt_is_boxed (x: s2rt): bool // is boxed?
 fun s2rt_is_prgm (x: s2rt): bool // is program?
 fun s2rt_is_impred (x: s2rt): bool // is impredicative?
 fun s2rt_is_tkind (x: s2rt): bool // is tkind?
-
+//
 fun s2rt_is_boxed_fun (x: s2rt): bool // is (... ->) boxed?
 fun s2rt_is_tkind_fun (x: s2rt): bool // is (... ->) tkind?
-
+//
 (* ****** ****** *)
 
 fun s2rt_get_pol (x: s2rt): int // neg/neu/pos: -1/0/1

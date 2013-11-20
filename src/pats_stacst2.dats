@@ -1226,30 +1226,37 @@ the_effwrt = s2cstref_make "effwrt"
 
 implement
 s2eff_hnfize (s2fe) = let
-  fun aux .<>. (
-    s2fe: s2eff, s2e: s2exp
-  ) : s2eff = let
-    val s2f = s2exp2hnf (s2e)
-    val s2e = s2hnf2exp (s2f)
-  in
-    case+ s2e.s2exp_node of
-    | S2Ecst (s2c) => (
-      case+ 0 of
-      | _ when s2cstref_equ_cst (the_effnil, s2c) => s2eff_effset (effset_nil)
-      | _ when s2cstref_equ_cst (the_effall, s2c) => s2eff_effset (effset_all)
-      | _ when s2cstref_equ_cst (the_effntm, s2c) => s2eff_effset (effset_ntm)
-      | _ when s2cstref_equ_cst (the_effexn, s2c) => s2eff_effset (effset_exn)
-      | _ when s2cstref_equ_cst (the_effref, s2c) => s2eff_effset (effset_ref)
-      | _ when s2cstref_equ_cst (the_effwrt, s2c) => s2eff_effset (effset_wrt)
-      | _ => s2fe
-      ) // end of [S2Ecst]
-    | S2Evar (s2v) => s2fe
-    | S2EVar (s2v) => s2fe
-    | S2Eeff (s2fe) => s2fe
-    | _ => let
-        val s2e = s2exp_err (s2rt_eff) in s2eff_exp (s2e)
-      end // end of [_]
-  end // end of [aux]
+//
+fun aux .<>.
+(
+  s2fe: s2eff, s2e: s2exp
+) : s2eff = let
+  val s2f = s2exp2hnf (s2e)
+  val s2e = s2hnf2exp (s2f)
+in
+//
+case+
+s2e.s2exp_node of
+//
+| S2Ecst (s2c) => (
+    case+ 0 of
+    | _ when s2cstref_equ_cst (the_effnil, s2c) => s2eff_effset (effset_nil)
+    | _ when s2cstref_equ_cst (the_effall, s2c) => s2eff_effset (effset_all)
+    | _ when s2cstref_equ_cst (the_effntm, s2c) => s2eff_effset (effset_ntm)
+    | _ when s2cstref_equ_cst (the_effexn, s2c) => s2eff_effset (effset_exn)
+    | _ when s2cstref_equ_cst (the_effref, s2c) => s2eff_effset (effset_ref)
+    | _ when s2cstref_equ_cst (the_effwrt, s2c) => s2eff_effset (effset_wrt)
+    | _ => s2fe
+  ) // end of [S2Ecst]
+| S2Evar (s2v) => s2fe
+| S2EVar (s2v) => s2fe
+| S2Eeff (s2fe) => s2fe
+| _ => let
+    val s2e = s2exp_err (s2rt_eff) in s2eff_exp (s2e)
+  end // end of [_]
+//
+end (* end of [aux] *)
+//
 in
 //
 case+ s2fe of
@@ -1275,7 +1282,7 @@ stacst2_initialize () = () where {
 //
   val () = sizeof_t0ype_int_assume () // sizeof(VT)
 //
-  val () = at_vt0ype_addr_view_assume ()
+  val () = at_vt0ype_addr_view_assume () // VT @ L
 //
   val () = invar_t0ype_t0ype_assume ()
   val () = invar_vt0ype_vt0ype_assume ()

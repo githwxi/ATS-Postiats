@@ -123,7 +123,12 @@ local
 val s2tb_int: s2rtbas = S2RTBASpre ($SYM.symbol_INT)
 val s2tb_bool: s2rtbas = S2RTBASpre ($SYM.symbol_BOOL)
 val s2tb_addr: s2rtbas = S2RTBASpre ($SYM.symbol_ADDR)
+//
+(*
 val s2tb_char: s2rtbas = S2RTBASpre ($SYM.symbol_CHAR)
+*)
+//
+val s2tb_real: s2rtbas = S2RTBASpre ($SYM.symbol_REAL)
 //
 val s2tb_cls
   : s2rtbas = S2RTBASpre ($SYM.symbol_CLS) // for nominal classes
@@ -139,9 +144,12 @@ in // in of [local]
 implement s2rt_int = S2RTbas s2tb_int
 implement s2rt_bool = S2RTbas s2tb_bool
 implement s2rt_addr = S2RTbas s2tb_addr
+//
 (*
 implement s2rt_char = S2RTbas s2tb_char
 *)
+//
+implement s2rt_real = S2RTbas s2tb_real
 //
 implement s2rt_cls = S2RTbas s2tb_cls
 //
@@ -284,8 +292,11 @@ case+ s2t of
   | S2RTBASpre (sym) => sym = $SYM.symbol_BOOL | _ => false
   ) // end of [S2RTbas]
 | _ => false
-) // end of [s2rt_is_int]
+) // end of [s2rt_is_bool]
 
+(* ****** ****** *)
+
+(*
 implement
 s2rt_is_char (s2t) =
 (
@@ -295,7 +306,23 @@ case+ s2t of
   | S2RTBASpre (sym) => sym = $SYM.symbol_CHAR | _ => false
   ) // end of [S2RTbas]
   | _ => false
-) // end of [s2rt_is_int]
+) // end of [s2rt_is_char]
+*)
+
+(* ****** ****** *)
+
+implement
+s2rt_is_real (s2t) =
+(
+case+ s2t of
+| S2RTbas s2tb => (
+  case+ s2tb of
+  | S2RTBASpre (sym) => sym = $SYM.symbol_REAL | _ => false
+  ) // end of [S2RTbas]
+  | _ => false
+) // end of [s2rt_is_real]
+
+(* ****** ****** *)
 
 implement
 s2rt_is_dat (s2t) =
