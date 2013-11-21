@@ -24,17 +24,24 @@
 //
 (* ****** ****** *)
 
-dataprop MUL1 (int, int, int) =
-  | {n:int}
-      MUL1bas (0, n, 0)
-  | {m,n,p:int | m >= 0}
-      MUL1ind (m+1, n, p+n) of MUL1 (m, n, p)
-  | {m,n,p:int | m > 0}
-      MUL1neg (~m, n, ~p) of MUL1 (m, n, p)
+dataprop
+MUL1 (int, int, int) =
+| {n:int}
+  MUL1bas (0, n, 0)
+| {m:nat;n:int}{p:int}
+  MUL1ind (m+1, n, p+n) of MUL1 (m, n, p)
+| {m:pos;n:int}{p:int}
+  MUL1neg (~m, n, ~p) of MUL1 (m, n, p)
 // end of [MUL1]
 
+(* ****** ****** *)
+//
 // m * 0 = x implies x = 0
-prfun lemma00 {m:nat} {x:int} .<m>. (pf: MUL1 (m, 0, x)): [x == 0] void =
+//
+prfun
+lemma00
+  {m:nat}{x:int} .<m>.
+  (pf: MUL1 (m, 0, x)): [x == 0] void =
   sif m > 0 then begin
     let prval MUL1ind pf1 = pf in lemma00 pf1 end
   end else begin
@@ -42,7 +49,10 @@ prfun lemma00 {m:nat} {x:int} .<m>. (pf: MUL1 (m, 0, x)): [x == 0] void =
   end // end of [sif]
 // end of [lemma00]
 
+(* ****** ****** *)
+//
 // m * n = x implies m * (n-1) = x - m
+//
 prfun lemma01 {m,n:nat} {x:int} .<m>. (pf: MUL1 (m, n, x))
   : MUL1 (m, n-1, x-m) =
   sif m > 0 then begin
@@ -52,10 +62,15 @@ prfun lemma01 {m,n:nat} {x:int} .<m>. (pf: MUL1 (m, n, x))
   end // end of [sif]
 // end of [lemma01]
 
+(* ****** ****** *)
+//
 // commutativity of multiplication
 // m * n = x implies n * m = x
-prfun lemma_commute {m,n:nat} {x:int} .<n>. (pf: MUL1 (m, n, x))
-  :<prf> MUL1 (n, m, x) =
+prfun
+lemma_commute
+  {m,n:nat}{x:int} .<n>.
+  (pf: MUL1 (m, n, x)):<prf> MUL1 (n, m, x) =
+(
   sif n > 0 then begin
     let prval pf1 = lemma01 (pf) in
       MUL1ind (lemma_commute {m,n-1} (pf1))
@@ -63,11 +78,18 @@ prfun lemma_commute {m,n:nat} {x:int} .<n>. (pf: MUL1 (m, n, x))
   end else begin
     let prval () = lemma00 (pf) in MUL1bas () end
   end // end of [sif]
-// end of [lemma_commute]
+) (* end of [lemma_commute] *)
 
+(* ****** ****** *)
+//
 // (p + p) * (p + p) = x implies x = 4 * x4 for some x4
-prfun lemma1 {p:nat} {x:int} .<p>.
-  (pf: MUL1 (p+p, p+p, x)):<prf> [x4:int | x == 4*x4] MUL1 (p, p, x4) =
+//
+prfun
+lemma1
+  {p:nat}{x:int} .<p>.
+(
+  pf: MUL1 (p+p, p+p, x)
+) :<prf> [x4:int | x == 4*x4] MUL1 (p, p, x4) =
   sif p > 0 then let
     prval MUL1ind pf1 = pf
     prval MUL1ind pf2 = pf1
@@ -88,10 +110,18 @@ prfun lemma1 {p:nat} {x:int} .<p>.
   end // end of [sif]
 // end of [lemma1]
 
-// [x <= 0 || x >= 1] is an example of manual splitting!
+(* ****** ****** *)
+//
+// [x <= 0 || x >= 1]
+// is an example of manual splitting!
 // p * p = x + x implies p = 2 * p2 for some p2
-prfun lemma2 {p:nat} {x:int} .<p>.
-  (pf: MUL1 (p, p, x+x)):<prf> [p2:int | p == 2*p2] void =
+//
+prfun
+lemma2
+  {p:nat}{x:int} .<p>.
+(
+  pf: MUL1 (p, p, x+x)
+) :<prf> [p2:int | p == 2*p2] void =
   sif p >= 2 then let
     prval MUL1ind pf1 = pf
     prval MUL1ind pf2 = pf1
@@ -115,27 +145,35 @@ prfun lemma2 {p:nat} {x:int} .<p>.
     #[0 | ()]
   end // end of [sif]
 
+(* ****** ****** *)
 
 (*
-
 (q/p) * (q/p) = 2 => contradiction
 if p * p = x and q * q = 2x, then x = 0
-
 *)
-
+//
 // (p * p = x and q * q = x + x) implies x = 0
-prfun lemma_main {p,q:nat} {x:int} .<p>.
-  (pf1: MUL1 (p, p, x), pf2: MUL1 (q, q, x+x)): [x == 0] void =
-  sif p > 0 then let
-    prval [q2:int] () = lemma2 {q} {x} (pf2) // q = 2*q2
-    prval [x2:int] pf2' = lemma1 {q2} {x+x} (pf2) // x+x = 4*x2
-    prval [p2:int] () = lemma2 {p} {x2} (pf1) // p = 2*p2
-    prval [x4:int] pf1' = lemma1 {p2} {x2+x2} (pf1) // x2+x2 = 4*x4
-  in
-    lemma_main {p2,q2} {x4} (pf1', pf2')
-  end else begin
-    let prval MUL1bas () = pf1 in () end
-  end
+//
+prfun
+lemma_main
+  {p,q:nat}{x:int} .<p>.
+(
+  pf1: MUL1 (p, p, x), pf2: MUL1 (q, q, x+x)
+) : [x == 0] void = let
+in
+//
+sif p > 0 then let
+  prval [q2:int] () = lemma2 {q} {x} (pf2) // q = 2*q2
+  prval [x2:int] pf2' = lemma1 {q2} {x+x} (pf2) // x+x = 4*x2
+  prval [p2:int] () = lemma2 {p} {x2} (pf1) // p = 2*p2
+  prval [x4:int] pf1' = lemma1 {p2} {x2+x2} (pf1) // x2+x2 = 4*x4
+in
+  lemma_main {p2,q2} {x4} (pf1', pf2')
+end else begin
+  let prval MUL1bas () = pf1 in () end
+end // end of [sif]
+//
+end // end of [lemma_main]
 
 (* ****** ****** *)
 

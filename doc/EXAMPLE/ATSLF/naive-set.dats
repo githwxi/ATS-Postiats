@@ -1,7 +1,9 @@
 (*
 **
 ** some native set-theoretic stuff
-** Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+**
+** Author: Hongwei Xi
+** Ahthoremail: hwxiATcsDOTbuDOTedu
 ** TIme: December 21, 2009
 **
 *)
@@ -18,22 +20,24 @@ propdef PROPEQ
 stadef == = PROPEQ
 
 (* ****** ****** *)
-
+//
 datasort elt = // abstract
 datasort set = // abstract
-
+//
 absprop IN (elt, set)
-
+//
 (* ****** ****** *)
 
 dataprop SETEQ
   (set, set) = {x:set} SETEQ (x, x)
 // end of [SETEQ]
 
+(* ****** ****** *)
+//
 extern praxi
 extensionality {X1,X2:set}
   (pf: {x:elt} IN (x, X1) == IN (x, X2)): SETEQ (X1, X2)
-
+//
 (* ****** ****** *)
 
 sta union_set_set: (set, set) -> set
@@ -43,8 +47,11 @@ stadef * = inter_set_set
 
 (* ****** ****** *)
 
-dataprop por (A: prop, B: prop) =
+dataprop
+por (A: prop, B: prop) =
   inl (A, B) of A | inr (A, B) of B
+
+(* ****** ****** *)
 
 extern
 praxi union_intr1 {X,Y:set}
