@@ -200,7 +200,7 @@ fun json_integer_set
 
 (* ****** ****** *)
 
-fun json_real (value: int) : JSONptr0 = "mac#%"
+fun json_real (value: double): JSONptr0 = "mac#%"
 
 fun json_real_value (json: !JSONptr1): double = "mac#%"
 
