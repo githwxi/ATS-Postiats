@@ -19,6 +19,7 @@ staload "./eval_cloenv.sats"
 (* ****** ****** *)
 
 staload "libats/SATS/funmap_list.sats"
+staload _ = "libats/DATS/funmap_list.dats"
 
 (* ****** ****** *)
 //
@@ -49,6 +50,28 @@ cloenv_extend
 var env = env
 val () = funmap_insert_any<key,itm> (env, d2v, _val)
 } (* end of [cloenv_extend] *)
+
+(* ****** ****** *)
+
+implement
+cloenv_extendlst
+  (env, xs, vs) = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) =>
+  (
+    case+ vs of
+    | list_cons (v, vs) => let
+        val env =
+          cloenv_extend (env, x, v) in cloenv_extendlst (env, xs, vs)
+      end // end of [list_cons]
+    | list_nil ((*void*)) => env
+  )
+| list_nil ((*void*)) => env
+//
+end // end of [cloenv_extendlst]
 
 (* ****** ****** *)
 

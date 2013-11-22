@@ -20,12 +20,12 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
-all:: test
+all:: main
 
 ######
 
-test: \
-  test_dats.o \
+main: \
+  main_dats.o \
   eval_subst_dats.o ; \
   $(CCOPT) \
     -I${PATSHOME} \
@@ -57,7 +57,7 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
 cleanall:: clean
-cleanall:: ; $(RMF) test
+cleanall:: ; $(RMF) main
 
 ######
 

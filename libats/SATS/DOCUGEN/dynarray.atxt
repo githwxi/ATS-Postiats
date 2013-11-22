@@ -148,7 +148,7 @@ function is O(n), where n is the current size of DA.
 #declnamesynop("dynarray_insert_at_opt")
 #decldescrpt('\
 
-This function is just an optional variant of #dyncode("dynarray_insert_at").
+This function is the optional variant of #dyncode("dynarray_insert_at").
 
 ')
 
@@ -201,7 +201,7 @@ this function is O(n), where n is the current size of DA.\
 #declnamesynop("dynarray_takeout_at_opt")
 #decldescrpt('\
 
-This function is just an optional variant of #dyncode("dynarray_takeout_at").
+This function is the optional variant of #dyncode("dynarray_takeout_at").
 
 ')
 

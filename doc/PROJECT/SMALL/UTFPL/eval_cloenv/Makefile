@@ -20,12 +20,13 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
-all:: test
+all:: main
 
 ######
 
-test: \
-  test_dats.o \
+main: \
+  main_dats.o \
+  eval_cloenv_sats.o \
   print_dats.o \
   cloenv_dats.o \
   eval_cloenv_dats.o ; \
@@ -36,6 +37,8 @@ test: \
     -O2 -o $@ $^ $(LGC) -latslib
 
 ######
+
+%_sats.o: %.sats ; $(PATSCC) -c $<
 
 %_dats.c: \
   %.dats eval_cloenv.sats ; $(PATSCC) -ccats $<
@@ -59,7 +62,7 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
 cleanall:: clean
-cleanall:: ; $(RMF) test
+cleanall:: ; $(RMF) main
 
 ######
 

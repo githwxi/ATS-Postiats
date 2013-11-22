@@ -21,11 +21,14 @@ exception UnboundVarExn of d2var
 datatype value =
   | VALint of int
   | VALchar of char
-  | VALdouble of double
+  | VALfloat of double
+  | VALstring of string
   | VALcst of d2cst
   | VALlam of (d2exp, cloenv)
   | VALfix of (d2exp, cloenv)
 // end of [value]
+
+typedef valuelst = List (value)
 
 (* ****** ****** *)
 //
@@ -39,9 +42,14 @@ overload fprint with fprint_value
 //
 fun cloenv_nil (): cloenv
 fun cloenv_extend (cloenv, d2var, value): cloenv
+fun cloenv_extendlst (cloenv, d2varlst, valuelst): cloenv
 //
 fun cloenv_find_exn (env: cloenv, d2v: d2var): value
 //
+(* ****** ****** *)
+
+fun eval0_cloenv (d2exp): value
+
 (* ****** ****** *)
 
 (* end of [eval_cloenv.sats] *)

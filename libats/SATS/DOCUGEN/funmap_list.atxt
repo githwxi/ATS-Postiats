@@ -60,13 +60,43 @@ O(n). ")
 (* ****** ****** *)
 
 #declnamesynop("funmap_search")
+#decldescrpt('\
+
+Given a map and a key, this function returns a boolean value to indicate
+whether an item associated with the key has been found in the map. If found, the
+item is stored in the third (call-by-reference) argument of the function.
+The time complexity of #dyncode("funmap_search") is O(log(n)).
+
+')
+
 #declnamesynop("funmap_search_opt")
+#decldescrpt('\
+
+This function is the optional variant of the function #dyncode("funmap_search").
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("funmap_insert")
 #declnamesynop("funmap_insert_opt")
+#decldescrpt('\
+
+This function is the optional variant of the function #dyncode("funmap_insert").
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("funmap_insert_any")
+#decldescrpt("\
+
+Given a map, a key and an item, this function inserts the key-item pair
+into the map. Note that the insertion is carried out even in the case where
+the given key is already associated with some item in the map.
+The time complexity of #dyncode("funmap_insert_any") is O(n).
+
+")
 
 (* ****** ****** *)
 

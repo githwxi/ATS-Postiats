@@ -67,7 +67,6 @@ d2exp_node =
 //
   | D2Eapp of (d2exp, d2explst)
 //
-  | D2Elet of (d2var, d2exp, d2exp)
 // end of [d2exp_node]
 
 where

@@ -26,7 +26,8 @@ in
 case+ x0 of
 | VALint (i) => fprintln! (out, "VALint(", i, ")")
 | VALchar (c) => fprintln! (out, "VALchar(", c, ")")
-| VALdouble (d) => fprintln! (out, "VALdouble(", d, ")")
+| VALfloat (d) => fprintln! (out, "VALfloat(", d, ")")
+| VALstring (str) => fprintln! (out, "VALstring(", str, ")")
 | VALcst (d2c) => fprintln! (out, "VALcst(...)")
 | VALlam (d2e, env) => fprintln! (out, "VALlam(...)")
 | VALfix (d2e, env) => fprintln! (out, "VALfix(...)")

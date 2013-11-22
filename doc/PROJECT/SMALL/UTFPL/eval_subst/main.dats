@@ -1,6 +1,6 @@
 (*
 ** Implementing UTFPL
-** with closure-based evaluation
+** with substitution-based evaluation
 *)
 
 (* ****** ****** *)
@@ -14,13 +14,11 @@ staload "./../utfpl.sats"
 
 (* ****** ****** *)
 
-staload "./eval_cloenv.sats"
+staload "./eval_subst.sats"
 
 (* ****** ****** *)
 
-dynload "./print.dats"
-dynload "./cloenv.dats"
-dynload "./eval_cloenv.dats"
+dynload "./eval_subst.dats"
 
 (* ****** ****** *)
 
@@ -34,4 +32,4 @@ val () = println! ("Hello from [eval_cloenv]!")
 
 (* ****** ****** *)
 
-(* end of [test.dats] *)
+(* end of [main.dats] *)
