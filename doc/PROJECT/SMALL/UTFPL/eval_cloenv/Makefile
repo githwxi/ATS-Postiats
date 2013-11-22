@@ -26,7 +26,9 @@ all:: test
 
 test: \
   test_dats.o \
-  eval_subst_dats.o ; \
+  print_dats.o \
+  cloenv_dats.o \
+  eval_cloenv_dats.o ; \
   $(CCOPT) \
     -I${PATSHOME} \
     -I${PATSHOME}/ccomp/runtime \
@@ -36,7 +38,7 @@ test: \
 ######
 
 %_dats.c: \
-  %.dats eval_subst.sats ; $(PATSCC) -ccats $<
+  %.dats eval_cloenv.sats ; $(PATSCC) -ccats $<
 %_dats.o: %_dats.c; $(PATSCC) $(DATSMEMALLOC) -c $<
 
 ######

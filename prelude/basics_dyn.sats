@@ -413,13 +413,16 @@ praxi opt_some
 praxi opt_unsome
   {a:vt0p} (x: !opt (INV(a), true) >> a):<prf> void
 //
+fun{a:vt0p}
+opt_unsome_get (x: &opt (INV(a), true) >> a?): (a)
+//
 praxi opt_none
   {a:vt0p} (x: !(a?) >> opt (a, false)):<prf> void
 praxi opt_unnone
   {a:vt0p} (x: !opt (INV(a), false) >> a?):<prf> void
 //
 praxi opt_clear
-  {a:t0p} {b:bool} (x: !opt (INV(a), b) >> a?):<prf> void
+  {a:t0p}{b:bool} (x: !opt (INV(a), b) >> a?):<prf> void
 //
 (* ****** ****** *)
 //

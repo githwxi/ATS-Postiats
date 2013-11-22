@@ -9,8 +9,7 @@ staload "./../utfpl.sats"
 
 (* ****** ****** *)
 
-abstype cloenv_type = ptr
-typedef cloenv = cloenv_type
+staload "./eval_cloenv.sats"
 
 (* ****** ****** *)
 

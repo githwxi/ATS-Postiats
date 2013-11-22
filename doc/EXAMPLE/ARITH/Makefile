@@ -13,6 +13,11 @@ all::
 
 ######
 
+all:: gcd
+gcd:: ; $(PATSCC) -tcats gcd.dats
+
+######
+
 all:: tally
 tally:: ; $(PATSCC) -tcats tally.dats
 
