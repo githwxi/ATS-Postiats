@@ -27,7 +27,8 @@ all:: utfpl.o
 utfpl.o: \
   utfpl_sats.o \
   utfpl_d2var_dats.o \
-  utfpl_d2exp_dats.o ; \
+  utfpl_d2exp_dats.o \
+  dynloadall_dats.o ; \
   ld -r -o $@ $^
 
 ######

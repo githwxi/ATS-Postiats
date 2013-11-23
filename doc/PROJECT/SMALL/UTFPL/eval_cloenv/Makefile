@@ -34,7 +34,7 @@ main: \
     -I${PATSHOME} \
     -I${PATSHOME}/ccomp/runtime \
     -L${PATSHOME}/ccomp/atslib/lib \
-    -O2 -o $@ $^ $(LGC) -latslib
+    -O2 -o $@ ../utfpl.o $^ $(LGC) -latslib
 
 ######
 
