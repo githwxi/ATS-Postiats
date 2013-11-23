@@ -235,8 +235,10 @@ end // end of [cr1]
 (* CR4 *)
 and cr4 {T:tp} {n:nat} .<n, 2>.
   (tp: TP (T, n)): R (tmvar 0, T) = let
-  prfn fr {t:tm} (red: RED0 (tmvar 0, t)): R (t, T) =
-    case+ red of REDlam _ =/=> ()
+//
+prfn fr{t:tm}
+  (red: RED0 (tmvar 0, t)): R (t, T) = case+ red of REDlam _ =/=> ()
+//
 in
   cr3 (NEUvar (), tp, fr)
 end // end of [cr4]

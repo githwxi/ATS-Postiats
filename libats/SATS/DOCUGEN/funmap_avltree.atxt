@@ -89,7 +89,6 @@ The time complexity of #dyncode("funmap_insert") is O(log(n)).
 ')
 
 #declnamesynop("funmap_insert_opt")
-
 #decldescrpt('\
 
 This function is the optional variant of the function #dyncode("funmap_insert").
@@ -111,18 +110,67 @@ The time complexity of #dyncode("funmap_insert_any") is O(log(n)).
 (* ****** ****** *)
 
 #declnamesynop("funmap_takeout")
+#decldescrpt('\
+
+Given a map and a key, this function returns a boolean value to indicate
+whether a key-item pair whose key equals the given key is removed from the
+map. Note that the first argument of the function is call-by-reference, and
+the updated map is stored in it after the function returns.  In the case
+where a key-item pair is removed, then the item in the pair is stored in
+the third (call-by-reference) argument of the function.\
+
+')
+
 #declnamesynop("funmap_takeout_opt")
+#decldescrpt('\
+
+This function is the optional variant of the function #dyncode("funmap_takeout").
+
+')
+
 #declnamesynop("funmap_remove")
+#decldescrpt('\
+
+This function is like #dyncode("funmap_takeout") except that it does not
+return of the removed item.
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("fprint_funmap")
+#decldescrpt('\
+
+This function prints out a given map.
+
+')
+
 #declnamesynop("fprint_funmap$sep")
+#decldescrpt('\
+
+This function is called by #dyncode("fprint_funmap") to print out the
+separator between key-item pairs.
+
+')
+
 #declnamesynop("fprint_funmap$mapto")
+#decldescrpt('\
+
+This function is called by #dyncode("fprint_funmap") to print out the
+separator between the key and the item in a key-item pair.
+
+')
+
 
 (* ****** ****** *)
 
 #declnamesynop("funmap_foreach")
+#decldescrpt('\
+
+This function traverse a given map.
+
+')
+
 #declnamesynop("funmap_foreach_env")
 #declnamesynop("funmap_foreach$fwork")
 
