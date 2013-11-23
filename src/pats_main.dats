@@ -408,6 +408,7 @@ end // end of [patsopt_usage]
 HX: VERSION-0.0.1 released on September 2, 2013
 HX: VERSION-0.0.2 released on September 19, 2013
 HX: VERSION-0.0.3 released in the October of 2013
+HX: VERSION-0.0.4 released in the November of 2013
 *)
 #define PATS_MAJOR_VERSION 0
 #define PATS_MINOR_VERSION 0

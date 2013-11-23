@@ -123,7 +123,7 @@ through the name #dyncode("fact2_in_c").\
 #para('\
 
 If both #dyncode("fact2") and #dyncode("fact2_in_c") are implemented (the
-former in ATS and the latter in C), then a linking-time error is to be
+former in ATS and the latter in C), then a link-time error is to be
 issued to indicate that #dyncode("fact2_in_c") is implemented repeatedly.\
 
 ')
@@ -350,8 +350,8 @@ does not know enough of ATS needed to implement a function in a safe
 programming manner. This list of occasions can be readily extended as one
 wishes. I myself do unsafe C-style programming in ATS frequently, and I see
 it as a necessary skill for anyone who not just only wants to be able to
-write code in ATS but also wants to do it highly productively. Let us
-now see some a concrete example of unsafe C-style programming in ATS.
+write code in ATS but also wants to do it highly productively. Let us now
+see a concrete example of unsafe C-style programming in ATS.
 
 ")
 

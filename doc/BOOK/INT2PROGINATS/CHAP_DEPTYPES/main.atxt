@@ -489,15 +489,16 @@ id="example_string_processing">
 
 #para("\
 
-A string in ATS is represented in the same manner as in C: It is sequence
+A string in ATS is represented in the same manner as in C: It is a sequence
 of adjacently stored non-null characters followed by the null character,
 and its length is the number of non-null characters in the sequence.
 Conventionally, such strings are often referred to as C-style strings,
-which are notoriously difficult to be processed safely (as indicated by so
-many bugs and breaches due to misusing such strings). As a matter of fact,
-ATS is the first practical programming language that I know can fully
-support safe processing of C-style strings. In ATS, #stacode("string") is a
-type constructor of the sort #emphasis("(int) -&gt; type").
+which are notoriously difficult to be processed safely (as is clearly
+indicated by so many bugs and breaches due to misusing such strings). As a
+matter of fact, ATS is the first practical programming language that I know
+can fully support safe processing of C-style strings. In ATS,
+#stacode("string") is a type constructor of the sort #emphasis("(int) -&gt;
+type").
 
 Given a static integer n, #stacode("string(n)") is the type for strings of
 the length n. Note that #stacode("string") also refers to a non-dependent
