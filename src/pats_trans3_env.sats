@@ -571,8 +571,8 @@ fun the_pfmanenv_push_try (): (pfmanenv_push_v | void)
 fun the_pfmanenv_pop (pf: pfmanenv_push_v | (*none*)): void
 
 fun the_pfmanenv_add_dvar (d2v: d2var): void
-fun the_pfmanenv_add_dvarlst (d2vs: d2varlst): void
 fun the_pfmanenv_add_dvaropt (opt: d2varopt): void
+fun the_pfmanenv_add_dvarlst (d2vs: d2varlst): void
 fun the_pfmanenv_add_p3at (p3t: p3at): void
 fun the_pfmanenv_add_p3atlst (p3ts: p3atlst): void
 

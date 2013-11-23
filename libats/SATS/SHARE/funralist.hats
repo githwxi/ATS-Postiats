@@ -33,10 +33,6 @@
 
 (* ****** ****** *)
 //
-// License: LGPL 3.0 (available at http://www.gnu.org/licenses/lgpl.txt)
-//
-(* ****** ****** *)
-//
 // HX: shared by funralist_nested
 //
 (* ****** ****** *)

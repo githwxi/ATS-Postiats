@@ -38,11 +38,6 @@
 // the decrease-key operation.
 //
 (* ****** ****** *)
-//
-// License: LGPL 3.0
-// available at http://www.gnu.org/licenses/lgpl.txt
-//
-(* ****** ****** *)
 
 #define ATS_PACKNAME "ATSLIB.libats.linheap_binomial2"
 #define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
