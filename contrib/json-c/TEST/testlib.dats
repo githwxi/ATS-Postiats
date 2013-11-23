@@ -12,11 +12,6 @@
 //
 (* ****** ****** *)
 
-staload "./../SATS/json.sats"
-staload "./../SATS/json_ML.sats"
-
-(* ****** ****** *)
-
 #define ATS_DYNLOADFLAG 0
 
 (* ****** ****** *)

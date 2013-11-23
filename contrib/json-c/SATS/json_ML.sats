@@ -31,53 +31,53 @@ staload "./../SATS/json.sats"
 (* ****** ****** *)
 
 datatype
-jsonVal =
+jsonval =
   | JSONnul of ()
   | JSONint of (json_int)
   | JSONbool of (json_bool)
+  | JSONfloat of (double)
   | JSONstring of (string)
-  | JSONdouble of (double)
   | {n:nat}
-    JSONarray of (arrayref (jsonVal, n), size_t (n))
-  | JSONobject of labjsonValist
-// end of [jsonVal]
+    JSONarray of (arrayref (jsonval, n), size_t (n))
+  | JSONobject of labjsonvalist
+// end of [jsonval]
 
 where
 json_int = llint
 and
-labjsonVal = @(string, jsonVal)
+labjsonval = @(string, jsonval)
 and
-labjsonValist = List0 (labjsonVal)
+labjsonvalist = List0 (labjsonval)
 
 (* ****** ****** *)
 
-typedef jsonValist = List0 (jsonVal)
-vtypedef jsonValist_vt = List0_vt (jsonValist)
+typedef jsonvalist = List0 (jsonval)
+vtypedef jsonvalist_vt = List0_vt (jsonvalist)
 
 (* ****** ****** *)
 //
-fun print_jsonVal (jsonVal): void
-fun prerr_jsonVal (jsonVal): void
-fun fprint_jsonVal (out: FILEref, x: jsonVal): void
+fun print_jsonval (jsonval): void
+fun prerr_jsonval (jsonval): void
+fun fprint_jsonval (out: FILEref, x: jsonval): void
 //
-overload print with print_jsonVal
-overload prerr with prerr_jsonVal
-overload fprint with fprint_jsonVal
-//
-(* ****** ****** *)
-//
-fun fprint_labjsonValist
-  (out: FILEref, lxs: labjsonValist): void
+overload print with print_jsonval
+overload prerr with prerr_jsonval
+overload fprint with fprint_jsonval
 //
 (* ****** ****** *)
+//
+fun fprint_labjsonvalist
+  (out: FILEref, lxs: labjsonvalist): void
+//
+(* ****** ****** *)
 
-fun jsonVal_ofstring (str: string): jsonVal
-fun jsonVal_tostring (jsv: jsonVal): Strptr1
+fun jsonval_ofstring (str: string): jsonval
+fun jsonval_tostring (jsv: jsonval): Strptr1
 
 (* ****** ****** *)
 
-fun json_object2val0 (jso: json_object0): jsonVal
-fun json_object2val1 (jso: !json_object0): jsonVal
+fun json_object2val0 (jso: json_object0): jsonval
+fun json_object2val1 (jso: !json_object0): jsonval
 
 (* ****** ****** *)
 

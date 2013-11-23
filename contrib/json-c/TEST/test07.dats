@@ -36,7 +36,7 @@ fun
 json_object2val0_list
 (
   xs: List_vt (json_object0)
-) : List0_vt (jsonVal) = let
+) : List0_vt (jsonval) = let
 in
 //
 case+ xs of
@@ -47,7 +47,7 @@ case+ xs of
     val vs =
       json_object2val0_list (xs)
   in
-    list_vt_cons{jsonVal} (v, vs)
+    list_vt_cons{jsonval} (v, vs)
   end // end of [list_vt_cons]
 | ~list_vt_nil () => list_vt_nil ()
 //
@@ -58,19 +58,19 @@ end // end of [json_object2val0_list]
 val () =
 {
 //
-val x = jsonVal_ofstring "1"
+val x = jsonval_ofstring "1"
 val () = fprintln! (stdout_ref, "x = ", x)
 //
-val x = jsonVal_ofstring "1.0"
+val x = jsonval_ofstring "1.0"
 val () = fprintln! (stdout_ref, "x = ", x)
 //
-val x = jsonVal_ofstring "'foo'"
+val x = jsonval_ofstring "'foo'"
 val () = fprintln! (stdout_ref, "x = ", x)
 //
-val x = jsonVal_ofstring "[1, 2, 3]"
+val x = jsonval_ofstring "[1, 2, 3]"
 val () = fprintln! (stdout_ref, "x = ", x)
 //
-val x = jsonVal_ofstring "{'a':1, 'b':2, 'c':3}"
+val x = jsonval_ofstring "{'a':1, 'b':2, 'c':3}"
 val () = fprintln! (stdout_ref, "x = ", x)
 //
 } (* end of [val] *)
@@ -92,7 +92,7 @@ json_tokener_parse_list ("\
 val vs = json_object2val0_list (xs)
 //
 val (
-) = fprint_list_vt_sep<jsonVal> (out, vs, "\n")
+) = fprint_list_vt_sep<jsonval> (out, vs, "\n")
 val () = list_vt_free (vs)
 val () = fprint_newline (out)
 //

@@ -15,19 +15,19 @@ staload "./../SATS/json_ML.sats"
 (* ****** ****** *)
 
 implement
-print_jsonVal (x) = fprint (stdout_ref, x)
+print_jsonval (x) = fprint_jsonval (stdout_ref, x)
 implement
-prerr_jsonVal (x) = fprint (stderr_ref, x)
+prerr_jsonval (x) = fprint_jsonval (stderr_ref, x)
 
 (* ****** ****** *)
 
 implement
-fprint_val<jsonVal> = fprint_jsonVal
+fprint_val<jsonval> = fprint_jsonval
 
 (* ****** ****** *)
 
 implement
-fprint_jsonVal
+fprint_jsonval
   (out, jsv) = let
 in
 //
@@ -38,10 +38,10 @@ case+ jsv of
     fprint! (out, "JSONint(", lli, ")")
 | JSONbool (bool) =>
     fprint! (out, "JSONbool(", bool, ")")
+| JSONfloat (dbl) =>
+    fprint! (out, "JSONfloat(", dbl, ")")
 | JSONstring (str) =>
     fprint! (out, "JSONstring(", str, ")")
-| JSONdouble (dbl) =>
-    fprint! (out, "JSONdouble(", dbl, ")")
 | JSONarray (A, n) =>
   {
     val () = fprint (out, "JSONarray(")
@@ -51,16 +51,16 @@ case+ jsv of
 | JSONobject (lxs) =>
   {
     val () = fprint (out, "JSONobject(")
-    val () = fprint_labjsonValist (out, lxs)
+    val () = fprint_labjsonvalist (out, lxs)
     val () = fprint (out, ")")
   }
 //
-end // end of [fprint_jsonVal]
+end // end of [fprint_jsonval]
 
 (* ****** ****** *)
 
 implement
-fprint_labjsonValist
+fprint_labjsonvalist
   (out, lxs) = let
 //
 macdef SEP = "; "
@@ -68,7 +68,7 @@ macdef MAPTO = ":"
 //
 fun loop
 (
-  out: FILEref, lxs: labjsonValist, i: int
+  out: FILEref, lxs: labjsonvalist, i: int
 ) : void = let
 //
 in
@@ -88,14 +88,14 @@ end // end of [loop]
 //
 in
   loop (out, lxs, 0)
-end // end of [fprint_labjsonValist]
+end // end of [fprint_labjsonvalist]
 
 (* ****** ****** *)
 
 implement
-jsonVal_ofstring (str) = let
+jsonval_ofstring (str) = let
   val jso = json_tokener_parse (str) in json_object2val0 (jso)
-end // end of [jsonVal_ofstring]
+end // end of [jsonval_ofstring]
 
 (* ****** ****** *)
 
@@ -144,7 +144,7 @@ case+ 0 of
     ) = __assert_agz (jso) 
     val dbl = json_object_get_double (jso)
   in
-    JSONdouble(dbl)
+    JSONfloat(dbl)
   end // end of [json_type_double]
 | _ when type =
     json_type_string => let
@@ -163,20 +163,20 @@ case+ 0 of
     prval (
     ) = __assert_agz (jso) 
     val [n:int] n = json_object_array_length (jso)
-    val (pf, pfgc | p) = array_ptr_alloc<jsonVal> (i2sz(n))
+    val (pf, pfgc | p) = array_ptr_alloc<jsonval> (i2sz(n))
     local
     implement(env)
     json_object_iforeach$fwork<env>
       (i, v, env) =
     {
       val v2 = json_object2val1 (v)
-      val p_i = ptr_add<jsonVal> (p, i)
+      val p_i = ptr_add<jsonval> (p, i)
       val () = $UN.ptr0_set (p_i, v2)
     }
     in (* in of [local] *)
     val () = json_object_iforeach (jso)
     end // end of [local]
-    val A = $UN.castvwtp0{arrayref(jsonVal,n)}((pf, pfgc | p))
+    val A = $UN.castvwtp0{arrayref(jsonval,n)}((pf, pfgc | p))
   in
     JSONarray(A, i2sz(n))
   end // end of [json_type_array]
@@ -193,16 +193,16 @@ case+ 0 of
       val k2 = strptr1_copy(k)
       val k2 = strptr2string(k2)
       val v2 = json_object2val1 (v)
-      val kvs = $UN.cast{labjsonValist}(env)
-      val kvs = list_cons{labjsonVal}((k2, v2), kvs)
+      val kvs = $UN.cast{labjsonvalist}(env)
+      val kvs = list_cons{labjsonval}((k2, v2), kvs)
       val ((*void*)) = env := $UN.cast2ptr (kvs)
     }
     in (* in of [local] *)
     var env: tenv = the_null_ptr
     val () = json_object_kforeach_env<tenv> (jso, env)
     end // end of [local]
-    val kvs = $UN.castvwtp0{List0_vt(labjsonVal)}(env)
-    val kvs = list_vt_reverse<labjsonVal> (kvs)
+    val kvs = $UN.castvwtp0{List0_vt(labjsonval)}(env)
+    val kvs = list_vt_reverse<labjsonval> (kvs)
   in
     JSONobject(list_vt2t(kvs))
   end // end of [json_type_object]

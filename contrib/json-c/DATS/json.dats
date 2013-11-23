@@ -190,6 +190,8 @@ json_object_kforeach_env
 stadef jso = json_object
 stadef iter(l:addr) = json_object_iterator(l)
 //
+overload != with json_object_iter_notequal of 10
+//
 fun loop{l:addr}
 (
   jso: !jso(l)
@@ -336,7 +338,7 @@ case+ 0 of
 end // end of [loop2]
 //
 val tok = json_tokener_new ()
-val ((*void*)) = assertloc (ptrcast(tok) > 0)
+val () = assertloc (json_tokener2ptr(tok) > 0)
 //
 var res: ptr
 val len = length(inp)
