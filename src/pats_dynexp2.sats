@@ -174,11 +174,13 @@ vtypedef d2itmopt_vt = Option_vt (d2itm)
 
 (* ****** ****** *)
 
-typedef d2sym = '{
+typedef
+d2sym = '{
   d2sym_loc= location
 , d2sym_qua= $SYN.d0ynq, d2sym_sym= symbol
 , d2sym_pitmlst= d2pitmlst
 } // end of [d2sym]
+
 typedef d2symopt = Option (d2sym)
 
 (* ****** ****** *)
@@ -1648,6 +1650,7 @@ fun d2exp_lvalize
 
 (* ****** ****** *)
 
+fun jsonize_d2ecl (d2c: d2ecl): jsonval
 fun jsonize_d2eclist (d2cs: d2eclist): jsonval
 
 (* ****** ****** *)

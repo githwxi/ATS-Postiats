@@ -230,6 +230,8 @@ val SOURCES =
 , "pats_staexp2_util2.dats"
 , "pats_staexp2_util3.dats"
 //
+, "pats_staexp2_jsonize.dats"
+//
 , "pats_staexp2_error.sats"
 , "pats_staexp2_error.dats"
 //

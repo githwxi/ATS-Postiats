@@ -144,6 +144,7 @@ SOURCES := \
   pats_staexp2_util1.dats \
   pats_staexp2_util2.dats \
   pats_staexp2_util3.dats \
+  pats_staexp2_jsonize.dats \
   pats_staexp2_error.sats \
   pats_staexp2_error.dats \
   pats_staexp2_solve.sats \
@@ -382,6 +383,7 @@ OBJECTS := \
   pats_staexp2_util1_dats.o \
   pats_staexp2_util2_dats.o \
   pats_staexp2_util3_dats.o \
+  pats_staexp2_jsonize_dats.o \
   pats_staexp2_error_sats.o \
   pats_staexp2_error_dats.o \
   pats_staexp2_solve_sats.o \
@@ -862,6 +864,9 @@ pats_staexp2_util2_dats.o: pats_staexp2_util2_dats.c; $(ATSCC) $(ATSCCFLAGS) -c 
 
 pats_staexp2_util3_dats.c: pats_staexp2_util3.dats; $(ATSCC) -cc $<
 pats_staexp2_util3_dats.o: pats_staexp2_util3_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_staexp2_jsonize_dats.c: pats_staexp2_jsonize.dats; $(ATSCC) -cc $<
+pats_staexp2_jsonize_dats.o: pats_staexp2_jsonize_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_staexp2_error_sats.c: pats_staexp2_error.sats; $(ATSCC) -cc $<
 pats_staexp2_error_sats.o: pats_staexp2_error_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<

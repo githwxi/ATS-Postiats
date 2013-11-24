@@ -217,6 +217,8 @@ dynload "pats_staexp2_util1.dats"
 dynload "pats_staexp2_util2.dats"
 dynload "pats_staexp2_util3.dats"
 //
+dynload "pats_staexp2_jsonize.dats"
+//
 dynload "pats_staexp2_error.dats"
 dynload "pats_staexp2_solve.dats"
 //
