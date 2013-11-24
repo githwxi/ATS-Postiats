@@ -109,6 +109,9 @@ val SOURCES =
 , "pats_location.dats"
 , "pats_location.cats"
 //
+, "pats_jsonize.sats"
+, "pats_jsonize.dats"
+//
 , "pats_errmsg.sats"
 , "pats_errmsg.dats"
 //
@@ -246,8 +249,8 @@ val SOURCES =
 , "pats_dynexp2_dcst.dats"
 , "pats_dynexp2_dvar.dats"
 , "pats_dynexp2_dmac.dats"
-, "pats_dynexp2_util.sats"
 , "pats_dynexp2_util.dats"
+, "pats_dynexp2_jsonize.dats"
 //
 , "pats_trans2.sats"
 //

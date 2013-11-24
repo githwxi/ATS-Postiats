@@ -182,10 +182,11 @@ fun fprint_symbol (out: FILEref, x: symbol): void
 
 (* ****** ****** *)
 
-typedef stamp = uint
-
 fun symbol_get_name (x: symbol):<> string
-fun symbol_get_stamp (x: symbol):<> stamp
+fun symbol_get_stamp (x: symbol):<> uint
+
+(* ****** ****** *)
+
 fun symbol_make_string (name: string): symbol
 
 (* ****** ****** *)

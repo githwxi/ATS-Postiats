@@ -41,13 +41,14 @@ ATSPRE = "./pats_atspre.dats"
 staload "./pats_staexp1.sats"
 staload "./pats_dynexp1.sats"
 
+(* ****** ****** *)
+
 staload "./pats_staexp2.sats"
 staload "./pats_staexp2_util.sats"
-staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-staload "./pats_dynexp2_util.sats"
+staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 

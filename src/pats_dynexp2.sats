@@ -42,25 +42,31 @@ staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload LOC = "./pats_location.sats"
-typedef location = $LOC.location
-
-(* ****** ****** *)
-
 staload
 LAB = "./pats_label.sats"
 typedef label = $LAB.label
+
+(* ****** ****** *)
 
 staload
 FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
 
 staload
+LOC = "./pats_location.sats"
+typedef location = $LOC.location
+
+(* ****** ****** *)
+
+staload
 SYM = "./pats_symbol.sats"
 typedef symbol = $SYM.symbol
 typedef symbolopt = $SYM.symbolopt
 
-staload SYN = "./pats_syntax.sats"
+(* ****** ****** *)
+
+staload
+SYN = "./pats_syntax.sats"
 typedef i0nt = $SYN.i0nt
 typedef c0har = $SYN.c0har
 typedef f0loat = $SYN.f0loat
@@ -69,6 +75,12 @@ typedef l0ab = $SYN.l0ab
 typedef dl0abeled (a:type) = $SYN.dl0abeled (a)
 typedef dcstextdef = $SYN.dcstextdef
 typedef macsynkind = $SYN.macsynkind
+
+(* ****** ****** *)
+
+staload
+JSON = "./pats_jsonize.sats"
+typedef jsonval = $JSON.jsonval
 
 (* ****** ****** *)
 
@@ -646,6 +658,7 @@ fun fprint_labp2atlst : fprint_type (labp2atlst)
 
 datatype
 d2ecl_node =
+//
   | D2Cnone of () // for something already erased
   | D2Clist of d2eclist // for list of declarations
 //
@@ -660,6 +673,7 @@ d2ecl_node =
 *)
 //
   | D2Csaspdec of s2aspdec (* for static assumption *)
+//
   | D2Cextype of (string(*name*), s2exp(*def*))
   | D2Cextval of (string(*name*), d2exp(*def*))
   | D2Cextcode of (int(*knd*), int(*pos*), string(*code*))
@@ -1616,6 +1630,26 @@ dynexp2_tmpcstimpmap_type // placeholer for [tmpcstimpmap]
 abstype
 dynexp2_tmpvardecmap_type // placeholer for [tmpvardecmap]
 //
+(* ****** ****** *)
+(*
+** HX-2013-13:
+** these are implemented in [pats_dynexp2_util.dats]
+*)
+
+fun d2exp_is_varlamcst (d2e: d2exp): bool
+
+fun d2con_select_arity (d2cs: d2conlst, n: int): d2conlst
+
+fun d2cst_match_def (d2c: d2cst, def: d1exp): bool
+
+fun d2exp_lvalize
+  (d2e: d2exp): d2lval // HX: translating [d2e] into a left-value
+// end of [d2exp_lvalize]
+
+(* ****** ****** *)
+
+fun jsonize_d2eclist (d2cs: d2eclist): jsonval
+
 (* ****** ****** *)
 
 (* end of [pats_dynexp2.sats] *)

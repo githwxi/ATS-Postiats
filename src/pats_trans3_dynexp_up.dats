@@ -73,9 +73,17 @@ staload "./pats_lexing.sats"
 staload "./pats_staexp2.sats"
 staload "./pats_staexp2_error.sats"
 staload "./pats_staexp2_util.sats"
+
+(* ****** ****** *)
+  
 staload "./pats_stacst2.sats"
+  
+(* ****** ****** *)
+
 staload "./pats_dynexp2.sats"
-staload "./pats_dynexp2_util.sats"
+
+(* ****** ****** *)
+
 staload "./pats_dynexp3.sats"
 
 (* ****** ****** *)

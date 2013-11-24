@@ -52,6 +52,8 @@ SOURCES := \
   pats_location.sats \
   pats_location.dats \
   pats_location.cats \
+  pats_jsonize.sats \
+  pats_jsonize.dats \
   pats_errmsg.sats \
   pats_errmsg.dats \
   pats_reader.sats \
@@ -156,8 +158,8 @@ SOURCES := \
   pats_dynexp2_dcst.dats \
   pats_dynexp2_dvar.dats \
   pats_dynexp2_dmac.dats \
-  pats_dynexp2_util.sats \
   pats_dynexp2_util.dats \
+  pats_dynexp2_jsonize.dats \
   pats_trans2.sats \
   pats_namespace.sats \
   pats_namespace.dats \
@@ -294,6 +296,8 @@ OBJECTS := \
   pats_filename_reloc_dats.o \
   pats_location_sats.o \
   pats_location_dats.o \
+  pats_jsonize_sats.o \
+  pats_jsonize_dats.o \
   pats_errmsg_sats.o \
   pats_errmsg_dats.o \
   pats_reader_sats.o \
@@ -392,8 +396,8 @@ OBJECTS := \
   pats_dynexp2_dcst_dats.o \
   pats_dynexp2_dvar_dats.o \
   pats_dynexp2_dmac_dats.o \
-  pats_dynexp2_util_sats.o \
   pats_dynexp2_util_dats.o \
+  pats_dynexp2_jsonize_dats.o \
   pats_trans2_sats.o \
   pats_namespace_sats.o \
   pats_namespace_dats.o \
@@ -600,6 +604,12 @@ pats_location_sats.o: pats_location_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_location_dats.c: pats_location.dats; $(ATSCC) -cc $<
 pats_location_dats.o: pats_location_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_jsonize_sats.c: pats_jsonize.sats; $(ATSCC) -cc $<
+pats_jsonize_sats.o: pats_jsonize_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_jsonize_dats.c: pats_jsonize.dats; $(ATSCC) -cc $<
+pats_jsonize_dats.o: pats_jsonize_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_errmsg_sats.c: pats_errmsg.sats; $(ATSCC) -cc $<
 pats_errmsg_sats.o: pats_errmsg_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
@@ -895,11 +905,11 @@ pats_dynexp2_dvar_dats.o: pats_dynexp2_dvar_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 pats_dynexp2_dmac_dats.c: pats_dynexp2_dmac.dats; $(ATSCC) -cc $<
 pats_dynexp2_dmac_dats.o: pats_dynexp2_dmac_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
-pats_dynexp2_util_sats.c: pats_dynexp2_util.sats; $(ATSCC) -cc $<
-pats_dynexp2_util_sats.o: pats_dynexp2_util_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
-
 pats_dynexp2_util_dats.c: pats_dynexp2_util.dats; $(ATSCC) -cc $<
 pats_dynexp2_util_dats.o: pats_dynexp2_util_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_dynexp2_jsonize_dats.c: pats_dynexp2_jsonize.dats; $(ATSCC) -cc $<
+pats_dynexp2_jsonize_dats.o: pats_dynexp2_jsonize_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_trans2_sats.c: pats_trans2.sats; $(ATSCC) -cc $<
 pats_trans2_sats.o: pats_trans2_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
