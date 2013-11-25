@@ -512,9 +512,11 @@ p2at_node =
   | P2Tany of () // wildcard
   | P2Tvar of d2var // mutability determined by the context
 //
-  | P2Tcon of ( // constructor pattern
+// constructor pattern
+//
+  | P2Tcon of (
       pckind, d2con, s2qualst, s2exp(*con*), int(*npf*), p2atlst
-    ) // end of [P2Tcon]
+    ) (* end of [P2Tcon] *)
 //
   | P2Tint of int
   | P2Tintrep of string
@@ -567,8 +569,9 @@ and labp2atlst = List (labp2at)
 (* ****** ****** *)
 
 fun p2at_set_type
-  (p2t: p2at, opt: s2expopt): void = "patsopt_p2at_set_type"
-// end of [p2at_set_type]
+(
+  p2t: p2at, opt: s2expopt
+) : void = "ext#patsopt_p2at_set_type"
 
 (* ****** ****** *)
 
@@ -1063,8 +1066,9 @@ fun fprint_d2lval : fprint_type (d2lval)
 (* ****** ****** *)
 
 fun d2exp_set_type
-  (d2e: d2exp, opt: s2expopt): void = "patsopt_d2exp_set_type"
-// end of [d2exp_set_type]
+(
+  d2e: d2exp, opt: s2expopt
+) : void = "ext#patsopt_d2exp_set_type"
 
 (* ****** ****** *)
 

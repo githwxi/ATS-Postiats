@@ -290,8 +290,27 @@ case+ p2t0.p2at_node of
     jsonval_labval2 ("p2at_name", name, "p2at_arglst", arglst)
   end // end of [P2Tcon]
 //
-| P2Tint (int) => aux1 ("P2Tint", jsonval_int (int))
+| P2Tint (i) => aux1 ("P2Tint", jsonval_int (i))
 | P2Tintrep (rep) => aux1 ("P2Tint", jsonval_string (rep))
+//
+| P2Tbool (b) => aux1 ("P2Tbool", jsonval_bool (b))
+| P2Tchar (c) => aux1 ("P2Tbool", jsonval_int (int_of_char(c)))
+| P2Tfloat (rep) => aux1 ("P2Tfloat", jsonval_string (rep))
+| P2Tstring (str) => aux1 ("P2Tstring", jsonval_string (str))
+//
+| P2Ti0nt (tok) => aux1 ("P2Ti0nt", jsonize_i0nt (tok))
+| P2Tf0loat (tok) => aux1 ("P2Tf0loat", jsonize_f0loat (tok))
+//
+| P2Tempty () => aux0 ("P2Tempty")
+//
+| P2Trefas (d2v, p2t) =>
+  (
+    aux2 ("P2Trefas", jsonize_d2var (d2v), jsonize_p2at (p2t))
+  ) (* end of [P2Trefas] *)
+//
+| P2Tvbox (d2v) => aux1 ("P2Tvbox", jsonize_d2var (d2v))
+//
+| P2Terr ((*void*)) => aux0 ("P2Terr")
 //
 | _ => jsonize_anon (p2t0)
 //
