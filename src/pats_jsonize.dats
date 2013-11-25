@@ -52,6 +52,9 @@ jsonval_int (i) =
   JSONint (lint_of_int(i))
 
 implement
+jsonval_bool (b) = JSONbool (b)
+
+implement
 jsonval_double (d) = JSONfloat (d)
 
 implement

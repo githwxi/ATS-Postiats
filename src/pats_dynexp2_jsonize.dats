@@ -283,7 +283,7 @@ case+ p2t0.p2at_node of
     val jsv5 = jsonval_int (npf)
     val jsv6 = jsonize_p2atlst (p2ts)
     val arglst =
-      jsonval_list (
+    jsonval_list (
       jsv1 :: jsv2 :: jsv3 :: jsv4 :: jsv5 :: jsv6 :: nil ()
     ) (* end of [val] *)
   in
@@ -383,7 +383,18 @@ fun aux3
   val arglst = jsonval_list (arg1 :: arg2 :: arg3 :: nil ())
 in
   jsonval_labval2 ("d2exp_name", name, "d2exp_arglst", arglst)
-end // end of [aux2]
+end // end of [aux3]
+
+fun aux4
+(
+  name: string
+, arg1: jsonval, arg2: jsonval, arg3: jsonval, arg4: jsonval
+) : jsonval = let
+  val name = jsonval_string (name)
+  val arglst = jsonval_list (arg1 :: arg2 :: arg3 :: arg4 :: nil ())
+in
+  jsonval_labval2 ("d2exp_name", name, "d2exp_arglst", arglst)
+end // end of [aux4]
 
 in (* in of [local] *)
 
@@ -422,6 +433,19 @@ d2e0.d2exp_node of
   in
     aux2 ("D2Eapplst", jsv1, jsv2)
   end // end of [D2Eapplst]
+//
+| D2Elam_dyn
+  (
+    lin, npf, p2ts_arg, d2e_body
+  ) => let
+    val jsv1 = jsonval_int (lin)
+    val jsv2 = jsonval_int (npf)
+    val jsv3 = jsonize_p2atlst (p2ts_arg)
+    val jsv4 = jsonize_d2exp (d2e_body)
+  in
+    aux4 ("D2Elam_dyn", jsv1, jsv2, jsv3, jsv4)
+  end // end of [D2Elam_dyn]
+//
 | _ => jsonize_anon (d2e0)
 //
 end // end of [auxmain]
