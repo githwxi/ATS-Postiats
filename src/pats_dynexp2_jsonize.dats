@@ -104,6 +104,8 @@ extern
 fun jsonize_d2exp : jsonize_type (d2exp)
 extern
 fun jsonize_d2explst : jsonize_type (d2explst)
+extern
+fun jsonize_d2expopt : jsonize_type (d2expopt)
   
 (* ****** ****** *)
 
@@ -185,6 +187,11 @@ in
 jsonval_labval2 ("d2var_name", sym, "d2var_stamp", stamp)
 //
 end // end of [jsonize_d2var]
+
+(* ****** ****** *)
+
+extern fun jsonize_f2undec : jsonize_type (f2undec)
+extern fun jsonize_f2undeclst : jsonize_type (f2undeclst)
 
 (* ****** ****** *)
 
@@ -434,6 +441,18 @@ d2e0.d2exp_node of
     aux2 ("D2Eapplst", jsv1, jsv2)
   end // end of [D2Eapplst]
 //
+| D2Eifhead
+  (
+    inv, _test, _then, _else
+  ) => let
+    val jsv1 = jsonize_anon (inv)
+    val jsv2 = jsonize_d2exp (_test)
+    val jsv3 = jsonize_d2exp (_then)
+    val jsv4 = jsonize_d2expopt (_else)
+  in
+    aux4 ("D2Eifhead", jsv1, jsv2, jsv3, jsv4)
+  end // end of [D2Eifhead]
+//
 | D2Elam_dyn
   (
     lin, npf, p2ts_arg, d2e_body
@@ -445,6 +464,28 @@ d2e0.d2exp_node of
   in
     aux4 ("D2Elam_dyn", jsv1, jsv2, jsv3, jsv4)
   end // end of [D2Elam_dyn]
+//
+| D2Eann_type
+    (d2e, s2e) => let
+    val jsv1 = jsonize_d2exp (d2e)
+    val jsv2 = jsonize_s2exp (s2e)
+  in
+    aux2 ("D2Eann_type", jsv1, jsv2)
+  end // end of [D2Eann_type]
+| D2Eann_seff
+    (d2e, s2fe) => let
+    val jsv1 = jsonize_d2exp (d2e)
+    val jsv2 = jsonize_s2eff (s2fe)
+  in
+    aux2 ("D2Eann_seff", jsv1, jsv2)
+  end // end of [D2Eann_seff]
+| D2Eann_funclo
+    (d2e, funclo) => let
+    val jsv1 = jsonize_d2exp (d2e)
+    val jsv2 = jsonize_funclo (funclo)
+  in
+    aux2 ("D2Eann_funclo", jsv1, jsv2)
+  end // end of [D2Eann_funclo]
 //
 | _ => jsonize_anon (d2e0)
 //
@@ -472,6 +513,17 @@ val jsvs =
 in
   jsonval_list (list_of_list_vt (jsvs))
 end // end of [jsonize_d2explst]
+
+implement
+jsonize_d2expopt
+  (opt) = let
+in
+//
+case+ opt of
+| None () => jsonval_none ()
+| Some (d2e) => jsonval_some (jsonize_d2exp (d2e))
+//
+end // end of [jsonize_d2expopt]
 
 (* ****** ****** *)
 
@@ -580,6 +632,16 @@ d2c0.d2ecl_node of
     aux1 ("D2Clist", jsonize_d2eclist (d2cs))
   // end of [D2Clist]
 //
+| D2Cfundecs
+  (
+    knd, s2qs, f2ds
+  ) => let
+    val knd = jsonize_funkind (knd)
+    val f2ds = jsonize_f2undeclst (f2ds)
+  in
+    aux2 ("D2Cfundecs", knd, f2ds)
+  end // end of [D2Cfundecs]
+//
 | D2Cvaldecs
     (knd, v2ds) => let
     val knd = jsonize_valkind (knd)
@@ -609,6 +671,51 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+jsonize_d2eclist
+  (d2cs) = let
+//
+val jsvs =
+  list_map_fun (d2cs, jsonize_d2ecl)
+//
+in
+  jsonval_list (list_of_list_vt (jsvs))
+end // end of [jsonize_d2eclist]
+
+(* ****** ****** *)
+
+implement
+jsonize_f2undec
+  (f2d) = let
+//
+val loc = jsonize_loc (f2d.f2undec_loc)
+val d2v = jsonize_d2var (f2d.f2undec_var)
+val def = jsonize_d2exp (f2d.f2undec_def)
+val ann = jsonize_anon (f2d.f2undec_ann)
+//
+in
+//
+jsonval_labval4 (
+  "f2undec_loc", loc, "f2undec_var", d2v, "f2undec_def", def, "f2undec_ann", ann
+) (* end of [jsonize_labval4] *)
+//
+end // end of [json_f2undec]
+
+(* ****** ****** *)
+
+implement
+jsonize_f2undeclst
+  (d2cs) = let
+//
+val jsvs =
+  list_map_fun (d2cs, jsonize_f2undec)
+//
+in
+  jsonval_list (list_of_list_vt (jsvs))
+end // end of [jsonize_f2undeclst]
+
+(* ****** ****** *)
+
+implement
 jsonize_v2aldec
   (v2d) = let
 //
@@ -624,19 +731,6 @@ jsonval_labval4 (
 ) (* end of [jsonize_labval4] *)
 //
 end // end of [json_v2aldec]
-
-(* ****** ****** *)
-
-implement
-jsonize_d2eclist
-  (d2cs) = let
-//
-val jsvs =
-  list_map_fun (d2cs, jsonize_d2ecl)
-//
-in
-  jsonval_list (list_of_list_vt (jsvs))
-end // end of [jsonize_d2eclist]
 
 (* ****** ****** *)
 

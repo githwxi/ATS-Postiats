@@ -73,6 +73,15 @@ fun jsonize_d2con : jsonize_type (d2con)
 
 (* ****** ****** *)
 
+extern
+fun jsonize_s2exp : jsonize_type (s2exp)
+extern
+fun jsonize_s2explst : jsonize_type (s2explst)
+extern
+fun jsonize_s2eff : jsonize_type (s2eff)
+
+(* ****** ****** *)
+
 implement
 jsonize_d2con
   (d2c) = let
@@ -85,6 +94,16 @@ in
 jsonval_labval2 ("d2con_name", sym, "d2con_stamp", stamp)
 //
 end // end of [jsonize_d2con]
+
+(* ****** ****** *)
+
+implement
+jsonize_s2exp (s2e) = jsonize_anon (s2e)
+
+(* ****** ****** *)
+
+implement
+jsonize_s2eff (s2fe) = jsonize_anon (s2fe)
 
 (* ****** ****** *)
 

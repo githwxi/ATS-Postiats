@@ -57,6 +57,7 @@ jsonval =
   | JSONloc of (location)
   | JSONlist of (jsonvalist)
   | JSONlablist of labjsonvalist
+  | JSONoption of (jsonvalopt)
 // end of [jsonval]
 
 where
@@ -65,6 +66,8 @@ and
 labjsonval = @(string, jsonval)
 and
 labjsonvalist = List0 (labjsonval)
+and
+jsonvalopt = Option (jsonval)
 
 (* ****** ****** *)
 
@@ -112,6 +115,11 @@ jsonval_labval4
 //
 (* ****** ****** *)
 //
+fun jsonval_none (): jsonval
+fun jsonval_some (x: jsonval): jsonval
+//
+(* ****** ****** *)
+//
 fun fprint_jsonval
   (out: FILEref, x: jsonval): void
 fun fprint_jsonvalist
@@ -126,6 +134,10 @@ overload fprint with fprint_labjsonvalist
 (* ****** ****** *)
 
 fun jsonize_anon{a:type} (x: a): jsonval
+
+(* ****** ****** *)
+
+fun jsonize_funclo : jsonize_type (funclo)
 
 (* ****** ****** *)
 
