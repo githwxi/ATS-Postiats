@@ -27,6 +27,7 @@ all:: utfpl.o
 utfpl.o: \
   utfpl_sats.o \
   utfpl_stamp_dats.o \
+  utfpl_print_dats.o \
   utfpl_p2at_dats.o \
   utfpl_d2var_dats.o \
   utfpl_d2exp_dats.o \

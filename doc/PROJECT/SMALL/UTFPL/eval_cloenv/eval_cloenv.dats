@@ -111,6 +111,29 @@ case+ v_fun of
 end // end of [aux_d2exp_app]
 
 implement
+aux_d2exp_ifopt
+  (env, d2e0) = let
+//
+val-D2Eifopt
+  (d2e1, d2e2, d2eopt3) = d2e0.d2exp_node
+//
+val-VALbool(test) = aux_d2exp (env, d2e1)
+//
+in
+//
+if test
+  then
+    aux_d2exp (env, d2e2)
+  else (
+    case+ d2eopt3 of
+    | Some (d2e3) =>
+        aux_d2exp (env, d2e3)
+    | None () => VALvoid ()
+  ) (* end of [else] *)
+//
+end // end of [aux_d2exp_ifopt]
+
+implement
 auxlst_d2exp
   (env, d2es) = let
 //

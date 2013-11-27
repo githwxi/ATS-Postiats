@@ -24,6 +24,7 @@ datatype value =
   | VALchar of char
   | VALfloat of double
   | VALstring of string
+  | VALvoid of ((*void*))
   | VALcst of d2cst
   | VALlam of (d2exp, cloenv)
   | VALfix of (d2exp, cloenv)

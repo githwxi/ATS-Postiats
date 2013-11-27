@@ -83,6 +83,7 @@ overload fprint with fprint_d2cst
 datatype
 p2at_node =
   | P2Tvar of (d2var)
+  | P2Terr of ((*void*))
 
 where
 p2at = '{
@@ -91,6 +92,12 @@ p2at = '{
 
 and
 p2atlst = List0 (p2at)
+
+(* ****** ****** *)
+
+fun fprint_p2at
+  (out: FILEref, p2t: p2at): void
+overload fprint with fprint_p2at
 
 (* ****** ****** *)
 
@@ -119,6 +126,8 @@ and d2exp_node =
   | D2Elam of (p2atlst, d2exp)
   | D2Efix of (d2var, p2atlst, d2exp)
 //
+  | D2Eerr of ((*void*))
+//
 // end of [d2exp_node]
 
 where
@@ -143,6 +152,26 @@ and f2undec = '{
 } (* end of [f2undec] *)
 
 and f2undeclst = List0 (f2undec)
+
+(* ****** ****** *)
+
+fun fprint_d2exp
+  (out: FILEref, d2e: d2exp): void
+overload fprint with fprint_d2exp
+
+fun fprint_d2explst
+  (out: FILEref, d2es: d2explst): void
+overload fprint with fprint_d2explst
+
+(* ****** ****** *)
+
+fun fprint_d2ecl
+  (out: FILEref, d2c: d2ecl): void
+overload fprint with fprint_d2ecl
+
+fun fprint_d2eclist
+  (out: FILEref, d2cs: d2eclist): void
+overload fprint with fprint_d2eclist
 
 (* ****** ****** *)
 
