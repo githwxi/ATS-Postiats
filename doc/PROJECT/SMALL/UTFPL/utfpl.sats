@@ -175,6 +175,24 @@ overload fprint with fprint_d2eclist
 
 (* ****** ****** *)
 
+fun d2exp_cst (loc: location, d2c: d2cst): d2exp
+fun d2exp_var (loc: location, d2v: d2var): d2exp
+
+(* ****** ****** *)
+
+fun d2exp_app
+  (loc: location, d2e1: d2exp, d2es2: d2explst): d2exp
+// end of [d2exp_app]
+
+(* ****** ****** *)
+
+fun d2exp_ifopt
+(
+  loc: location, d2exp(*test*), d2exp(*then*), d2expopt(*else*)
+) : d2exp // end of [d2exp_ifopt]
+
+(* ****** ****** *)
+
 fun d2exp_lam
   (loc: location, p2ts: p2atlst, d2e: d2exp): d2exp
 // end of [d2exp_lam]
@@ -183,14 +201,8 @@ fun d2exp_lam
 
 fun d2exp_fix
 (
-  loc: location, d2v: d2var, d2vs: d2varlst, d2e: d2exp
+  loc: location, d2v: d2var, p2ts: p2atlst, d2e: d2exp
 ) : d2exp // end of [d2exp_fix]
-
-(* ****** ****** *)
-
-fun d2exp_app
-  (loc: location, d2e1: d2exp, d2es2: d2explst): d2exp
-// end of [d2exp_app]
 
 (* ****** ****** *)
 
