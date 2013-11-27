@@ -51,7 +51,7 @@ of randomly generated values:
 
 #pats2xhtmld_tryit('\
 //
-staload R = "contrib/atshwxi/testing/SATS/randgen.sats"
+staload R = "contrib/libats-hwxi/testing/SATS/randgen.sats"
 //
 fun{a:t@ype}
 list_randgen

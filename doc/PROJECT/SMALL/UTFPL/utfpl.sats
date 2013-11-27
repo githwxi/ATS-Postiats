@@ -81,7 +81,10 @@ overload fprint with fprint_d2cst
 (* ****** ****** *)
 
 datatype
-d2exp_node =
+d2ecl_node =
+  | D2Cfundecs of f2undeclst
+
+and d2exp_node =
 //
   | D2Evar of (d2var)
   | D2Ecst of (d2cst)
@@ -99,11 +102,26 @@ d2exp_node =
 // end of [d2exp_node]
 
 where
+d2ecl = '{
+  d2ecl_loc= location, d2ecl_node= d2ecl_node
+} (* end of [d2ecl] *)
+
+and d2eclist = List0 (d2ecl)
+
+and
 d2exp = '{
   d2exp_loc= location, d2exp_node= d2exp_node
 } (* end of [d2exp] *)
 
 and d2explst = List0 (d2exp)
+
+and f2undec = '{
+  f2undec_loc= location
+, f2undec_var= d2var
+, f2undec_def= d2exp
+} (* end of [f2undec] *)
+
+and f2undeclst = List0 (f2undec)
 
 (* ****** ****** *)
 

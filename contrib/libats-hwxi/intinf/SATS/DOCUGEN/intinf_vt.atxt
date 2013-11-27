@@ -8,13 +8,13 @@ implement srcfilename_get () = "../intinf_vt.sats"
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/atshwxi_intinf_vt")
+val () = patscode_prefix_set("TRYIT/libats-hwxi_intinf_vt")
 %}
 
 (* ****** ****** *)
 
 #decltitle("\
-ATSLIB/contrib/atshwxi/intinf_vt\
+ATSLIB/contrib/libats-hwxi/intinf_vt\
 ")
 
 (* ****** ****** *)

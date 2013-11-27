@@ -552,7 +552,7 @@ except for taking an additional argument that serves as an environment.  ')
 #declexample("\
 #pats2xhtmld_tryit('\
 //
-staload "contrib/atshwxi/testing/SATS/randgen.sats"
+staload "contrib/libats-hwxi/testing/SATS/randgen.sats"
 //
 implement
 main () = let

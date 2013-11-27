@@ -38,7 +38,10 @@ jsonval =
   | JSONfloat of (double)
   | JSONstring of (string)
   | {n:nat}
-    JSONarray of (arrayref (jsonval, n), size_t (n))
+    JSONarray of
+    (
+      arrayref (jsonval, n), size_t (n)
+    ) (* end of [JSONarray] *)
   | JSONobject of labjsonvalist
 // end of [jsonval]
 
@@ -77,6 +80,9 @@ fun jsonval_tostring (jsv: jsonval): Strptr1
 (* ****** ****** *)
 
 fun json_object2val0 (jso: json_object0): jsonval
+
+(* ****** ****** *)
+
 fun json_object2val1 (jso: !json_object0): jsonval
 
 (* ****** ****** *)

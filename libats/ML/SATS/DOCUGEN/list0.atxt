@@ -997,7 +997,7 @@ The following code mergesorts a randomly generated list of integers:
 //
 staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
-staload "contrib/atshwxi/testing/SATS/randgen.sats"
+staload "contrib/libats-hwxi/testing/SATS/randgen.sats"
 //
 implement
 main0 () =
@@ -1041,7 +1041,7 @@ The following code mergesorts a randomly generated list of integers:
 //
 staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
-staload "contrib/atshwxi/testing/SATS/randgen.sats"
+staload "contrib/libats-hwxi/testing/SATS/randgen.sats"
 //
 implement
 main0 () =
