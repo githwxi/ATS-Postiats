@@ -54,28 +54,6 @@ val () = funmap_insert_any<key,itm> (env, d2v, _val)
 (* ****** ****** *)
 
 implement
-cloenv_extendlst
-  (env, xs, vs) = let
-in
-//
-case+ xs of
-| list_cons
-    (x, xs) =>
-  (
-    case+ vs of
-    | list_cons (v, vs) => let
-        val env =
-          cloenv_extend (env, x, v) in cloenv_extendlst (env, xs, vs)
-      end // end of [list_cons]
-    | list_nil ((*void*)) => env
-  )
-| list_nil ((*void*)) => env
-//
-end // end of [cloenv_extendlst]
-
-(* ****** ****** *)
-
-implement
 cloenv_find_exn (env, d2v) = let
 //
 var res: value?

@@ -17,7 +17,10 @@ staload "./../utfpl.sats"
 staload "./eval_subst.sats"
 
 (* ****** ****** *)
-
+//
+dynload "../dynloadall.dats"
+//
+dynload "./eval_subst.sats"
 dynload "./eval_subst.dats"
 
 (* ****** ****** *)

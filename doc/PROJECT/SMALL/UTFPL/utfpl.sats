@@ -4,10 +4,10 @@
 
 (* ****** ****** *)
 
-abstype
-stamp_type = ptr
+abst0ype
+stamp_t0ype = int
 typedef
-stamp = stamp_type
+stamp = stamp_t0ype
 
 (* ****** ****** *)
 //
@@ -81,6 +81,24 @@ overload fprint with fprint_d2cst
 (* ****** ****** *)
 
 datatype
+p2at_node =
+  | P2Tvar of (d2var)
+
+where
+p2at = '{
+  p2at_loc= location, p2at_node= p2at_node
+} (* end of [p2at] *)
+
+and
+p2atlst = List0 (p2at)
+
+(* ****** ****** *)
+
+fun p2at_var (loc: location, d2v: d2var): p2at
+
+(* ****** ****** *)
+
+datatype
 d2ecl_node =
   | D2Cfundecs of f2undeclst
 
@@ -94,10 +112,12 @@ and d2exp_node =
   | D2Efloat of (double)
   | D2Estring of (string)
 //
-  | D2Elam of (d2varlst, d2exp)
-  | D2Efix of (d2var, d2varlst, d2exp)
-//
   | D2Eapp of (d2exp, d2explst)
+//
+  | D2Eifopt of (d2exp(*test*), d2exp(*then*), d2expopt(*else*))
+//
+  | D2Elam of (p2atlst, d2exp)
+  | D2Efix of (d2var, p2atlst, d2exp)
 //
 // end of [d2exp_node]
 
@@ -114,6 +134,7 @@ d2exp = '{
 } (* end of [d2exp] *)
 
 and d2explst = List0 (d2exp)
+and d2expopt = Option (d2exp)
 
 and f2undec = '{
   f2undec_loc= location
@@ -126,20 +147,30 @@ and f2undeclst = List0 (f2undec)
 (* ****** ****** *)
 
 fun d2exp_lam
-  (loc: location, d2vs: d2varlst, d2e: d2exp): d2exp
+  (loc: location, p2ts: p2atlst, d2e: d2exp): d2exp
 // end of [d2exp_lam]
 
 (* ****** ****** *)
 
 fun d2exp_fix
-  (loc: location, d2v: d2var, d2vs: d2varlst, d2e: d2exp): d2exp
-// end of [d2exp_fix]
+(
+  loc: location, d2v: d2var, d2vs: d2varlst, d2e: d2exp
+) : d2exp // end of [d2exp_fix]
 
 (* ****** ****** *)
 
 fun d2exp_app
   (loc: location, d2e1: d2exp, d2es2: d2explst): d2exp
 // end of [d2exp_app]
+
+(* ****** ****** *)
+
+fun f2undec_make
+  (loc: location, d2v: d2var, d2e: d2exp): f2undec
+
+(* ****** ****** *)
+
+fun d2ecl_fundeclst (loc: location, f2ds: f2undeclst): d2ecl
 
 (* ****** ****** *)
 

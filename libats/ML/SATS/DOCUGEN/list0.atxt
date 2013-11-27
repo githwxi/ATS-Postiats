@@ -1007,7 +1007,7 @@ typedef T = int
 val out = stdout_ref
 //
 val xs =
-  list0_of_list_vt (randgen_list<T> (N))
+  list0_of_list (randgen_list<T> (N))
 val () =
   fprint_string (out, "xs(bef) = ")
 val () = fprint_list0_sep (out, xs, ", ")
@@ -1051,7 +1051,7 @@ typedef T = int
 val out = stdout_ref
 //
 val xs =
-  list0_of_list_vt (randgen_list<T> (N))
+  list0_of_list (randgen_list<T> (N))
 val () =
   fprint_string (out, "xs(bef) = ")
 val () = fprint_list0_sep (out, xs, ", ")

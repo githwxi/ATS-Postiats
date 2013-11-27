@@ -38,6 +38,7 @@ extern fun aux_d2cst : aux_type (d2cst)
 extern fun aux_d2var : aux_type (d2var)
 extern fun aux_d2exp : aux_type (d2exp)
 extern fun aux_d2exp_app : aux_type (d2exp)
+extern fun aux_d2exp_ifopt : aux_type (d2exp)
 
 typedef
 auxlst_type (a:type) = (cloenv, List(a)) -> valuelst
@@ -64,10 +65,12 @@ case+ d2e0.d2exp_node of
 | D2Efloat (d) => VALfloat (d)
 | D2Estring (str) => VALstring (str)
 //
+| D2Eapp _ => aux_d2exp_app (env, d2e0)
+//
+| D2Eifopt _ => aux_d2exp_ifopt (env, d2e0)
+//
 | D2Elam _ => VALlam (d2e0, env)
 | D2Efix _ => VALfix (d2e0, env)
-//
-| D2Eapp _ => aux_d2exp_app (env, d2e0)
 //
 end // end of [aux_d2exp]
 
@@ -87,8 +90,8 @@ case+ v_fun of
 | VALlam
     (d2e, env) => let
     val-D2Elam
-      (d2vs_arg, d2e_body) = d2e.d2exp_node
-    val env = cloenv_extendlst (env, d2vs_arg, vs_arg)
+      (p2ts_arg, d2e_body) = d2e.d2exp_node
+    val env = cloenv_extend_arglst (env, p2ts_arg, vs_arg)
   in
     aux_d2exp (env, d2e_body)
   end // end of [VALlam]
@@ -96,9 +99,9 @@ case+ v_fun of
 | VALfix
     (d2e, env) => let
     val-D2Efix
-      (d2v_fun, d2vs_arg, d2e_body) = d2e.d2exp_node
+      (d2v_fun, p2ts_arg, d2e_body) = d2e.d2exp_node
     val env = cloenv_extend (env, d2v_fun, v_fun)
-    val env = cloenv_extendlst (env, d2vs_arg, vs_arg)
+    val env = cloenv_extend_arglst (env, p2ts_arg, vs_arg)
   in
     aux_d2exp (env, d2e_body)
   end // end of [VALfix]

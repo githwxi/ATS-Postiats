@@ -26,14 +26,17 @@ all:: main
 
 main: \
   main_dats.o \
+  eval_subst_sats.o \
   eval_subst_dats.o ; \
   $(CCOPT) \
     -I${PATSHOME} \
     -I${PATSHOME}/ccomp/runtime \
     -L${PATSHOME}/ccomp/atslib/lib \
-    -O2 -o $@ $^ $(LGC) -latslib
+    -O2 -o $@ ../utfpl.o $^ $(LGC) -latslib
 
 ######
+
+%_sats.o: %.sats ; $(PATSCC) -c $<
 
 %_dats.c: \
   %.dats eval_subst.sats ; $(PATSCC) -ccats $<

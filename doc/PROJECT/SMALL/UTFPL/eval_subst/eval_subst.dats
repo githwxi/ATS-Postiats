@@ -53,6 +53,40 @@ end // end of [subst_d2varlst_find]
 
 (* ****** ****** *)
 
+fun d2varlst_add_p2at
+(
+  d2vs: d2varlst, p2t: p2at
+) : d2varlst = let
+in
+//
+case+ p2t.p2at_node of
+//
+| P2Tvar (d2v) =>
+    list_cons{d2var}(d2v, d2vs)
+//
+end // end of [d2varlst_add_p2atlst]
+
+and d2varlst_add_p2atlst
+(
+  d2vs: d2varlst, p2ts: p2atlst
+) : d2varlst = let
+in
+//
+case+ p2ts of
+| list_cons
+    (p2t, p2ts) => let
+    val d2vs =
+      d2varlst_add_p2at (d2vs, p2t)
+    // end of [val]
+  in
+    d2varlst_add_p2atlst (d2vs, p2ts)
+  end // end of [list_cons]
+| list_nil ((*void*)) => d2vs
+//
+end // end of [d2varlst_add_p2atlst]
+
+(* ****** ****** *)
+
 implement
 d2exp_subst
   (d2e0, sub) = let
@@ -85,13 +119,13 @@ d2e0.d2exp_node of
 | D2Estring _ => d2e0
 //
 | D2Elam
-    (d2vs, d2e) => let
+    (p2ts, d2e) => let
     val flag0 = flag
     val d2vs0 =
-      list_reverse_append (d2vs, d2vs0)
+      d2varlst_add_p2atlst (d2vs0, p2ts)
     val d2e = aux (d2e, d2vs0, flag)
   in
-    if flag > flag0 then d2exp_lam (loc0, d2vs, d2e) else d2e0
+    if flag > flag0 then d2exp_lam (loc0, p2ts, d2e) else d2e0
   end // end of [D2Elam]
 //
 | D2Eapp

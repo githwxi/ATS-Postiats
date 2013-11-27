@@ -37,10 +37,10 @@
 // the map implementation is based on AVL trees
 //
 (* ****** ****** *)
-
-staload
-FM = "libats/SATS/funmap_avltree.sats"
-
+//
+staload FM =
+"libats/SATS/funmap_avltree.sats"
+//
 (* ****** ****** *)
 
 staload "libats/ML/SATS/list0.sats"

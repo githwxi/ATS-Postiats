@@ -25,6 +25,7 @@ in
 //
 case+ x0 of
 | VALint (i) => fprintln! (out, "VALint(", i, ")")
+| VALbool (b) => fprintln! (out, "VALbool(", b, ")")
 | VALchar (c) => fprintln! (out, "VALchar(", c, ")")
 | VALfloat (d) => fprintln! (out, "VALfloat(", d, ")")
 | VALstring (str) => fprintln! (out, "VALstring(", str, ")")

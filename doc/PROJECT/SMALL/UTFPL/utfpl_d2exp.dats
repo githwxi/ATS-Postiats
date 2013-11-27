@@ -26,4 +26,11 @@ d2exp_app
 //
 (* ****** ****** *)
 
+implement
+d2exp_lam
+  (loc, p2ts_arg, d2e_body) =
+  d2exp_make_node (loc, D2Elam (p2ts_arg, d2e_body))
+//
+(* ****** ****** *)
+
 (* end of [utfpl_d2exp.dats] *)

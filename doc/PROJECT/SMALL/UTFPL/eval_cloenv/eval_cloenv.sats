@@ -20,6 +20,7 @@ exception UnboundVarExn of d2var
 
 datatype value =
   | VALint of int
+  | VALbool of bool
   | VALchar of char
   | VALfloat of double
   | VALstring of string
@@ -42,7 +43,7 @@ overload fprint with fprint_value
 //
 fun cloenv_nil (): cloenv
 fun cloenv_extend (cloenv, d2var, value): cloenv
-fun cloenv_extendlst (cloenv, d2varlst, valuelst): cloenv
+fun cloenv_extend_arglst (cloenv, p2atlst, valuelst): cloenv
 //
 fun cloenv_find_exn (env: cloenv, d2v: d2var): value
 //
