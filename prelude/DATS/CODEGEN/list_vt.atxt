@@ -647,156 +647,6 @@ end // end of [list_vt_separate]
 
 #atscode_separator()
 
-implement
-{x}{env}
-list_vt_foreach$cont (x, env) = true
-
-implement{x}
-list_vt_foreach (xs) = let
-  var env: void = () in list_vt_foreach_env<x><void> (xs, env)
-end // end of [list_vt_foreach]
-
-implement
-{x}{env}
-list_vt_foreach_env
-  (xs, env) = let
-//
-prval () = lemma_list_vt_param (xs)
-//
-fun loop
-  {n:nat} .<n>. (
-  xs: !list_vt (x, n), env: &env
-) : void = let
-in
-  case+ xs of
-  | @list_vt_cons
-      (x, xs1) => let
-      val test = list_vt_foreach$cont (x, env)
-    in
-      if test then let
-        val () = list_vt_foreach$fwork<x><env> (x, env)
-        val () = loop (xs1, env)
-        prval () = fold@ (xs)
-      in
-        // nothing
-      end else let
-        prval () = fold@ (xs) in (*nothing*)
-      end // end of [if]
-    end // end of [list_vt_cons]
-  | list_vt_nil () => ()
-end // end of [loop]
-//
-in
-  loop (xs, env)
-end // end of [list_vt_foreach_env]
-
-#atscode_separator()
-
-implement{a}
-list_vt_foreach_fun
-  {fe} (xs, f) = let
-//
-prval () = lemma_list_vt_param (xs)
-//
-fun loop
-  {n:nat} .<n>. (
-  xs: !list_vt (a, n), f: (&a) -<fe> void
-) :<fe> void =
-  case+ xs of
-  | @list_vt_cons
-      (x, xs1) => let
-      val () = f (x)
-      val () = loop (xs1, f)
-    in
-      fold@ (xs)
-    end // end of [list_vt_cons]
-  | list_vt_nil () => ()
-// end of [loop]
-in
-  loop (xs, f)
-end // end of [list_vt_foreach_fun]
-
-implement{a}
-list_vt_foreach_funenv
-  {v}{vt}{fe}
-  (pf | xs, f, env) = let
-//
-prval () = lemma_list_vt_param (xs)
-//
-fun loop
-  {n:nat} .<n>. (
-  pf: !v
-| xs: !list_vt (a, n)
-, f: (!v | &a, !vt) -<fe> void
-, env: !vt
-) :<fe> void =
-  case+ xs of
-  | @list_vt_cons
-      (x, xs1) => let
-      val () = f (pf | x, env)
-      val () = loop (pf | xs1, f, env)
-    in
-      fold@ (xs)
-    end // end of [list_vt_cons]
-  | list_vt_nil () => ()
-// end of [loop]
-//
-in
-  loop (pf | xs, f, env)
-end // end of [list_vt_foreach_funenv]
-
-#atscode_separator()
-
-implement
-{x}{env}
-list_vt_iforeach$cont (i, x, env) = true
-
-implement{x}
-list_vt_iforeach (xs) = let
-  var env: void = () in list_vt_iforeach_env<x><void> (xs, env)
-end // end of [list_vt_iforeach]
-
-implement
-{x}{env}
-list_vt_iforeach_env
-  (xs, env) = let
-//
-prval () = lemma_list_vt_param (xs)
-//
-fun loop
-  {n:nat}{i:int} .<n>. (
-  i: int i, xs: !list_vt (x, n), env: &env
-) : intBtwe(i, n+i) = let
-in
-  case+ xs of
-  | @list_vt_cons (x, xs1) => let
-      val test =
-        list_vt_iforeach$cont<x><env> (i, x, env)
-      // end of [val]
-    in
-      if test then let
-        val () =
-          list_vt_iforeach$fwork<x><env> (i, x, env)
-        // end of [val]
-        val i = loop (succ(i), xs1, env)
-        prval () = fold@ (xs)
-      in
-        i // the number of processed elements
-      end else let
-        prval () = fold@ (xs)
-      in
-        i // the number of processed elements
-      end // end of [if]
-    end // end of [list_vt_cons]
-  | list_vt_nil () => i // the number of processed elements
-end // end of [loop]
-//
-in
-  loop (0, xs, env)
-end // end of [list_vt_iforeach_env]
-
-#atscode_separator()
-
 implement{a}
 list_vt_filter (xs) = let
 //
@@ -968,6 +818,156 @@ val () = loop (xs, res)
 in
   res
 end // end of [list_vt_mapfree]
+
+#atscode_separator()
+
+implement
+{x}{env}
+list_vt_foreach$cont (x, env) = true
+
+implement{x}
+list_vt_foreach (xs) = let
+  var env: void = () in list_vt_foreach_env<x><void> (xs, env)
+end // end of [list_vt_foreach]
+
+implement
+{x}{env}
+list_vt_foreach_env
+  (xs, env) = let
+//
+prval () = lemma_list_vt_param (xs)
+//
+fun loop
+  {n:nat} .<n>. (
+  xs: !list_vt (x, n), env: &env
+) : void = let
+in
+  case+ xs of
+  | @list_vt_cons
+      (x, xs1) => let
+      val test = list_vt_foreach$cont (x, env)
+    in
+      if test then let
+        val () = list_vt_foreach$fwork<x><env> (x, env)
+        val () = loop (xs1, env)
+        prval () = fold@ (xs)
+      in
+        // nothing
+      end else let
+        prval () = fold@ (xs) in (*nothing*)
+      end // end of [if]
+    end // end of [list_vt_cons]
+  | list_vt_nil () => ()
+end // end of [loop]
+//
+in
+  loop (xs, env)
+end // end of [list_vt_foreach_env]
+
+#atscode_separator()
+
+implement{a}
+list_vt_foreach_fun
+  {fe} (xs, f) = let
+//
+prval () = lemma_list_vt_param (xs)
+//
+fun loop
+  {n:nat} .<n>. (
+  xs: !list_vt (a, n), f: (&a) -<fe> void
+) :<fe> void =
+  case+ xs of
+  | @list_vt_cons
+      (x, xs1) => let
+      val () = f (x)
+      val () = loop (xs1, f)
+    in
+      fold@ (xs)
+    end // end of [list_vt_cons]
+  | list_vt_nil () => ()
+// end of [loop]
+in
+  loop (xs, f)
+end // end of [list_vt_foreach_fun]
+
+implement{a}
+list_vt_foreach_funenv
+  {v}{vt}{fe}
+  (pf | xs, f, env) = let
+//
+prval () = lemma_list_vt_param (xs)
+//
+fun loop
+  {n:nat} .<n>. (
+  pf: !v
+| xs: !list_vt (a, n)
+, f: (!v | &a, !vt) -<fe> void
+, env: !vt
+) :<fe> void =
+  case+ xs of
+  | @list_vt_cons
+      (x, xs1) => let
+      val () = f (pf | x, env)
+      val () = loop (pf | xs1, f, env)
+    in
+      fold@ (xs)
+    end // end of [list_vt_cons]
+  | list_vt_nil () => ()
+// end of [loop]
+//
+in
+  loop (pf | xs, f, env)
+end // end of [list_vt_foreach_funenv]
+
+#atscode_separator()
+
+implement
+{x}{env}
+list_vt_iforeach$cont (i, x, env) = true
+
+implement{x}
+list_vt_iforeach (xs) = let
+  var env: void = () in list_vt_iforeach_env<x><void> (xs, env)
+end // end of [list_vt_iforeach]
+
+implement
+{x}{env}
+list_vt_iforeach_env
+  (xs, env) = let
+//
+prval () = lemma_list_vt_param (xs)
+//
+fun loop
+  {n:nat}{i:int} .<n>. (
+  i: int i, xs: !list_vt (x, n), env: &env
+) : intBtwe(i, n+i) = let
+in
+  case+ xs of
+  | @list_vt_cons (x, xs1) => let
+      val test =
+        list_vt_iforeach$cont<x><env> (i, x, env)
+      // end of [val]
+    in
+      if test then let
+        val () =
+          list_vt_iforeach$fwork<x><env> (i, x, env)
+        // end of [val]
+        val i = loop (succ(i), xs1, env)
+        prval () = fold@ (xs)
+      in
+        i // the number of processed elements
+      end else let
+        prval () = fold@ (xs)
+      in
+        i // the number of processed elements
+      end // end of [if]
+    end // end of [list_vt_cons]
+  | list_vt_nil () => i // the number of processed elements
+end // end of [loop]
+//
+in
+  loop (0, xs, env)
+end // end of [list_vt_iforeach_env]
 
 #atscode_separator()
 

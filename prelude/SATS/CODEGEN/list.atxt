@@ -416,137 +416,6 @@ x:t0p
 
 #atscode_separator()
 
-fun{
-x:t0p}{env:vt0p
-} list_foreach$cont (x: x, env: &env): bool
-fun{
-x:t0p}{env:vt0p
-} list_foreach$fwork (x: x, env: &(env) >> _): void
-fun{
-x:t0p
-} list_foreach (xs: List (INV(x))): void
-fun{
-x:t0p}{env:vt0p
-} list_foreach_env (xs: List (INV(x)), env: &(env) >> _): void
-
-fun{x:t0p}
-list_foreach_funenv
-  {v:view}{env:viewtype}{fe:eff} (
-  pfv: !v
-| xs: List (INV(x))
-, f: (!v | x, !env) -<fun,fe> void
-, env: !env
-) :<fe> void // end of [list_foreach_funenv]
-
-fun{x:t0p}
-list_foreach_fun
-  {fe:eff} (
-  xs: List (INV(x)), f: (x) -<fun,fe> void
-) :<fe> void // end of [list_foreach_fun]
-
-fun{x:t0p}
-list_foreach_clo
-  {fe:eff} (
-  xs: List (INV(x)), f: &(x) -<clo,fe> void
-) :<fe> void // end of [list_foreach_clo]
-fun{x:t0p}
-list_foreach_vclo
-  {v:view}{fe:eff} (
-  pf: !v | xs: List (INV(x)), f: &(!v | x) -<clo,fe> void
-) :<fe> void // end of [list_foreach_vclo]
-
-fun{x:t0p}
-list_foreach_cloptr
-  {fe:eff} (
-  xs: List (INV(x)), f: !(x) -<cloptr,fe> void
-) :<fe> void // end of [list_foreach_cloptr]
-fun{x:t0p}
-list_foreach_vcloptr
-  {v:view}{fe:eff} (
-  pf: !v | xs: List (INV(x)), f: !(!v | x) -<cloptr,fe> void
-) :<fe> void // end of [list_foreach_vcloptr]
-
-fun{x:t0p}
-list_foreach_cloref
-  {fe:eff} (
-  xs: List (INV(x)), f: (x) -<cloref,fe> void
-) :<fe> void // end of [list_foreach_cloref]
-
-#atscode_separator()
-
-fun{
-x,y:t0p}{env:vt0p
-} list_foreach2$cont (x: x, y: y, env: &env): bool
-fun{
-x,y:t0p}{env:vt0p
-} list_foreach2$fwork (x: x, y: y, env: &(env) >> _): void
-fun{
-x,y:t0p
-} list_foreach2 (xs: List (INV(x)), ys: List (INV(y))): void
-fun{
-x,y:t0p}{env:vt0p
-} list_foreach2_env (xs: List (INV(x)), ys: List (INV(y)), env: &(env) >> _): void
-
-#atscode_separator()
-
-fun{
-x:t0p}{env:vt0p
-} list_iforeach$cont (i: int, x: x, env: &env): bool
-fun{
-x:t0p}{env:vt0p
-} list_iforeach$fwork (i: int, x: x, env: &(env) >> _): void
-fun{
-x:t0p
-} list_iforeach {n:int} (xs: list (INV(x), n)): natLte(n)
-fun{
-x:t0p}{env:vt0p
-} list_iforeach_env {n:int} (xs: list (INV(x), n), env: &(env) >> _): natLte(n)
-
-fun{
-x:t0p // type for elements
-} list_iforeach_funenv
-  {v:view}{vt:viewtype}{n:int}{fe:eff} (
-  pfv: !v |
-  xs: list (INV(x), n)
-, f: (!v | natLt(n), x, !vt) -<fun,fe> void, env: !vt
-) :<fe> int (n) // end of [list_iforeach_funenv]
-
-#atscode_separator()
-
-fun{
-x,y:t0p}{env:vt0p
-} list_iforeach2$cont (i: int, x: x, y: y, env: &env): bool
-fun{
-x,y:t0p}{env:vt0p
-} list_iforeach2$fwork (i: int, x: x, y: y, env: &(env) >> _): void
-fun{
-x,y:t0p
-} list_iforeach2 {m,n:int}
-  (xs: list (INV(x), m), ys: list(INV(y), n)): natLte(min(m,n))
-fun{
-x,y:t0p}{env:vt0p
-} list_iforeach2_env {m,n:int}
-  (xs: list (INV(x), m), ys: list(INV(y), n), env: &(env) >> _): natLte(min(m,n))
-// end of [list_iforeach2_env]
-
-#atscode_separator()
-
-fun{
-res:vt0p}{x:t0p
-} list_foldleft$fopr (acc: res, x: x): res
-fun{
-res:vt0p}{x:t0p
-} list_foldleft (xs: List (INV(x)), ini: res): res
-
-fun{
-x:t0p}{res:vt0p
-} list_foldright$fopr (x: x, acc: res): res
-fun{
-x:t0p}{res:vt0p
-} list_foldright (xs: List (INV(x)), snk: res): res
-
-#atscode_separator()
-
 fun{x:t0p} list_exists$pred (x):<> bool
 fun{x:t0p} list_exists (xs: List (INV(x))):<> bool
 
@@ -556,7 +425,7 @@ fun{x:t0p} list_forall (xs: List (INV(x))):<> bool
 #atscode_separator()
 
 fun{x:t0p}
-list_equal$feq (x, x):<> bool
+list_equal$eqfn (x, x):<> bool
 fun{x:t0p}
 list_equal (xs1: List (INV(x)), xs2: List(x)):<> bool
 overload = with list_equal
@@ -576,7 +445,7 @@ fun{x:t0p} list_find_opt (xs: List (INV(x))):<> Option_vt (x)
 #atscode_separator()
 //
 fun{key:t0p}
-list_assoc$feq (k1: key, k2: key):<> bool
+list_assoc$eqfn (k1: key, k2: key):<> bool
 //
 fun{
 key,itm:t0p
@@ -760,6 +629,137 @@ x,y:t0p}{xy:vt0p
 (
   xs: list (INV(x), m), ys: list (INV(y), n)
 ) : list_vt (xy, m*n) // end of [list_crosswith]
+
+#atscode_separator()
+
+fun{
+x:t0p}{env:vt0p
+} list_foreach$cont (x: x, env: &env): bool
+fun{
+x:t0p}{env:vt0p
+} list_foreach$fwork (x: x, env: &(env) >> _): void
+fun{
+x:t0p
+} list_foreach (xs: List (INV(x))): void
+fun{
+x:t0p}{env:vt0p
+} list_foreach_env (xs: List (INV(x)), env: &(env) >> _): void
+
+fun{x:t0p}
+list_foreach_funenv
+  {v:view}{env:viewtype}{fe:eff} (
+  pfv: !v
+| xs: List (INV(x))
+, f: (!v | x, !env) -<fun,fe> void
+, env: !env
+) :<fe> void // end of [list_foreach_funenv]
+
+fun{x:t0p}
+list_foreach_fun
+  {fe:eff} (
+  xs: List (INV(x)), f: (x) -<fun,fe> void
+) :<fe> void // end of [list_foreach_fun]
+
+fun{x:t0p}
+list_foreach_clo
+  {fe:eff} (
+  xs: List (INV(x)), f: &(x) -<clo,fe> void
+) :<fe> void // end of [list_foreach_clo]
+fun{x:t0p}
+list_foreach_vclo
+  {v:view}{fe:eff} (
+  pf: !v | xs: List (INV(x)), f: &(!v | x) -<clo,fe> void
+) :<fe> void // end of [list_foreach_vclo]
+
+fun{x:t0p}
+list_foreach_cloptr
+  {fe:eff} (
+  xs: List (INV(x)), f: !(x) -<cloptr,fe> void
+) :<fe> void // end of [list_foreach_cloptr]
+fun{x:t0p}
+list_foreach_vcloptr
+  {v:view}{fe:eff} (
+  pf: !v | xs: List (INV(x)), f: !(!v | x) -<cloptr,fe> void
+) :<fe> void // end of [list_foreach_vcloptr]
+
+fun{x:t0p}
+list_foreach_cloref
+  {fe:eff} (
+  xs: List (INV(x)), f: (x) -<cloref,fe> void
+) :<fe> void // end of [list_foreach_cloref]
+
+#atscode_separator()
+
+fun{
+x,y:t0p}{env:vt0p
+} list_foreach2$cont (x: x, y: y, env: &env): bool
+fun{
+x,y:t0p}{env:vt0p
+} list_foreach2$fwork (x: x, y: y, env: &(env) >> _): void
+fun{
+x,y:t0p
+} list_foreach2 (xs: List (INV(x)), ys: List (INV(y))): void
+fun{
+x,y:t0p}{env:vt0p
+} list_foreach2_env (xs: List (INV(x)), ys: List (INV(y)), env: &(env) >> _): void
+
+#atscode_separator()
+
+fun{
+x:t0p}{env:vt0p
+} list_iforeach$cont (i: int, x: x, env: &env): bool
+fun{
+x:t0p}{env:vt0p
+} list_iforeach$fwork (i: int, x: x, env: &(env) >> _): void
+fun{
+x:t0p
+} list_iforeach {n:int} (xs: list (INV(x), n)): natLte(n)
+fun{
+x:t0p}{env:vt0p
+} list_iforeach_env {n:int} (xs: list (INV(x), n), env: &(env) >> _): natLte(n)
+
+fun{
+x:t0p // type for elements
+} list_iforeach_funenv
+  {v:view}{vt:viewtype}{n:int}{fe:eff} (
+  pfv: !v |
+  xs: list (INV(x), n)
+, f: (!v | natLt(n), x, !vt) -<fun,fe> void, env: !vt
+) :<fe> int (n) // end of [list_iforeach_funenv]
+
+#atscode_separator()
+
+fun{
+x,y:t0p}{env:vt0p
+} list_iforeach2$cont (i: int, x: x, y: y, env: &env): bool
+fun{
+x,y:t0p}{env:vt0p
+} list_iforeach2$fwork (i: int, x: x, y: y, env: &(env) >> _): void
+fun{
+x,y:t0p
+} list_iforeach2 {m,n:int}
+  (xs: list (INV(x), m), ys: list(INV(y), n)): natLte(min(m,n))
+fun{
+x,y:t0p}{env:vt0p
+} list_iforeach2_env {m,n:int}
+  (xs: list (INV(x), m), ys: list(INV(y), n), env: &(env) >> _): natLte(min(m,n))
+// end of [list_iforeach2_env]
+
+#atscode_separator()
+
+fun{
+res:vt0p}{x:t0p
+} list_foldleft$fopr (acc: res, x: x): res
+fun{
+res:vt0p}{x:t0p
+} list_foldleft (xs: List (INV(x)), ini: res): res
+
+fun{
+x:t0p}{res:vt0p
+} list_foldright$fopr (x: x, acc: res): res
+fun{
+x:t0p}{res:vt0p
+} list_foldright (xs: List (INV(x)), snk: res): res
 
 #atscode_separator()
 

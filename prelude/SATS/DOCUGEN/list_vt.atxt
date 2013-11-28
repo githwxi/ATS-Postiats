@@ -388,46 +388,6 @@ the input as linear elements cannot be either discarded or duplicated.
 
 (* ****** ****** *)
 
-#declnamesynop("list_vt_foreach")
-#decldescrpt("\
-
-Given a list xs of length n, this function traverses xs, applying to xs[i]
-the function implemented by #dyncode("list_vt_foreach$fwork"), where i
-ranges from 0 until n-1, inclusive, and xs[i], treated as a left-value,
-refers to element i in xs.  The traversal stops if the function implemented
-by #dyncode("list_vt_foreach$cont") returns false.  ")
-
-#declnamesynop("list_vt_foreach_env")
-
-#declnamesynop("list_vt_foreach$cont")
-#decldescrpt('\
-The default implementation of this function always returns true.\
-')
-
-#declnamesynop("list_vt_foreach$fwork")
-
-(* ****** ****** *)
-
-#declnamesynop("list_vt_iforeach")
-#decldescrpt("\
-
-Given a linear list xs of length n, this function traverses xs, applying to
-(i, xs[i]) the function implemented by #dyncode("list_vt_iforeach$fwork"),
-where i ranges from 0 until n-1, inclusive, and xs[i], treated as a
-left-value, refers to element i in xs.  The traversal stops if the function
-implemented by #dyncode("list_vt_foreach$cont") returns false.  ")
-
-#declnamesynop("list_vt_iforeach_env")
-
-#declnamesynop("list_vt_iforeach$cont")
-#decldescrpt('\
-The default implementation of this function always returns true.\
-')
-
-#declnamesynop("list_vt_iforeach$fwork")
-
-(* ****** ****** *)
-
 #declnamesynop("list_vt_filter")
 #declnamesynop("list_vt_filter$pred")
 
@@ -465,6 +425,46 @@ list node after applying to the node the function implemented by
 #dyncode("list_vt_mapfree$fopr"). ")
 
 #declnamesynop("list_vt_mapfree$fopr")
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt_foreach")
+#decldescrpt("\
+
+Given a list xs of length n, this function traverses xs, applying to xs[i]
+the function implemented by #dyncode("list_vt_foreach$fwork"), where i
+ranges from 0 until n-1, inclusive, and xs[i], treated as a left-value,
+refers to element i in xs.  The traversal stops if the function implemented
+by #dyncode("list_vt_foreach$cont") returns false.  ")
+
+#declnamesynop("list_vt_foreach_env")
+
+#declnamesynop("list_vt_foreach$cont")
+#decldescrpt('\
+The default implementation of this function always returns true.\
+')
+
+#declnamesynop("list_vt_foreach$fwork")
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt_iforeach")
+#decldescrpt("\
+
+Given a linear list xs of length n, this function traverses xs, applying to
+(i, xs[i]) the function implemented by #dyncode("list_vt_iforeach$fwork"),
+where i ranges from 0 until n-1, inclusive, and xs[i], treated as a
+left-value, refers to element i in xs.  The traversal stops if the function
+implemented by #dyncode("list_vt_foreach$cont") returns false.  ")
+
+#declnamesynop("list_vt_iforeach_env")
+
+#declnamesynop("list_vt_iforeach$cont")
+#decldescrpt('\
+The default implementation of this function always returns true.\
+')
+
+#declnamesynop("list_vt_iforeach$fwork")
 
 (* ****** ****** *)
 
