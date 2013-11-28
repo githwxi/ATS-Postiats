@@ -25,17 +25,46 @@ neq_d2var_d2var
 typedef
 d2var_struct =
 @{
-  d2var_sym= symbol
+  d2var_name= symbol
 , d2var_stamp= stamp
 } (* end of [d2var_struct] *)
 
 (* ****** ****** *)
 
 local
-
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
 assume d2var_type = ref (d2var_struct)
-
+//
 in (* in of [local] *)
+
+implement
+d2var_make
+  (name, stamp) = let
+//
+val (
+  pfat, pfgc | p
+) = ptr_alloc<d2var_struct> ()
+//
+val () = p->d2var_name := name
+val () = p->d2var_stamp := stamp
+//
+in
+  $UN.castvwtp0{d2var}((pfat, pfgc | p))
+end // end of [d2var_make]
+
+implement
+d2var_get_name
+  (d2v) = $effmask_ref
+(
+let
+  val (vbox _ | p) = ref_get_viewptr (d2v)
+in
+  p->d2var_name
+end // end of [let]
+) (* end of [d2var_get_name] *)
 
 implement
 d2var_get_stamp
@@ -49,6 +78,14 @@ end // end of [let]
 ) (* end of [d2var_get_stamp] *)
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+fprint_d2var
+  (out, d2v) =
+  fprint! (out, d2v.name, "(", d2v.stamp, ")")
+// end of [fprint_d2var]
 
 (* ****** ****** *)
 

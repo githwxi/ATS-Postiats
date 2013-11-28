@@ -13,24 +13,26 @@ staload "./utfpl.sats"
 
 (* ****** ****** *)
 
-assume stamp_t0ype = int
+assume symbol_type = string
 
 (* ****** ****** *)
 
-implement stamp_make (x) = x
-
-(* ****** ****** *)
-
-implement
-fprint_stamp
-  (out, stamp) = fprint_int (out, stamp)
-// end of [fprint_stamp]
+implement symbol_make (x) = x
 
 (* ****** ****** *)
 
 implement
-compare_stamp_stamp (s1, s2) = g0int_compare (s1, s2)
+fprint_symbol
+  (out, sym) = fprint_string (out, sym)
+// end of [fprint_symbol]
 
 (* ****** ****** *)
 
-(* end of [utfpl_stamp.dats] *)
+implement
+compare_symbol_symbol
+  (s1, s2) = compare_string_string (s1, s2)
+// end of [compare_symbol_symbol]
+
+(* ****** ****** *)
+
+(* end of [utfpl_symbol.dats] *)

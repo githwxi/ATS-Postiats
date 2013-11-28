@@ -17,6 +17,12 @@ staload "{$JSONC}/SATS/json_ML.sats"
 
 (* ****** ****** *)
 
+fun parse_stamp (jsv: jsonval): stamp
+fun parse_symbol (jsv: jsonval): symbol
+fun parse_location: jsonval -> location
+
+(* ****** ****** *)
+
 fun parse_d2cst (jsv: jsonval): d2cst
 fun parse_d2var (jsv: jsonval): d2var
 

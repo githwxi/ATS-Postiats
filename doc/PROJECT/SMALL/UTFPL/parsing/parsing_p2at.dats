@@ -6,6 +6,8 @@
 //
 #include
 "share/atspre_define.hats"
+#include
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 //
@@ -33,8 +35,7 @@ parse_p2at
 //
 val-~Some_vt(jsv) =
   jsonval_get_field (jsv0, "p2at_loc") 
-val-JSONstring(loc) = jsv
-val loc = location_make (loc)
+val loc = parse_location (jsv)
 val-~Some_vt(jsv) =
   jsonval_get_field (jsv0, "p2at_node") 
 val node = parse_p2at_node (jsv)

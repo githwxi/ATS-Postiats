@@ -11,6 +11,12 @@ stamp = stamp_t0ype
 
 (* ****** ****** *)
 
+fun fprint_stamp
+  : (FILEref, stamp) -> void
+overload fprint with fprint_stamp
+
+(* ****** ****** *)
+
 fun stamp_make (int): stamp
 
 (* ****** ****** *)
@@ -18,7 +24,6 @@ fun stamp_make (int): stamp
 fun
 compare_stamp_stamp
   : (stamp, stamp) -<fun0> int
-//
 overload compare with compare_stamp_stamp
 //
 (* ****** ****** *)
@@ -30,6 +35,23 @@ symbol = symbol_type
 
 (* ****** ****** *)
 
+fun fprint_symbol
+  : (FILEref, symbol) -> void
+overload fprint with fprint_symbol
+
+(* ****** ****** *)
+
+fun symbol_make (string): symbol
+
+(* ****** ****** *)
+//
+fun
+compare_symbol_symbol
+  : (symbol, symbol) -<fun0> int
+overload compare with compare_symbol_symbol
+//
+(* ****** ****** *)
+
 abstype
 location_type = ptr
 typedef
@@ -38,13 +60,46 @@ location = location_type
 (* ****** ****** *)
 
 fun fprint_location
-  (out: FILEref, loc: location): void
+  : (FILEref, location) -> void
 overload fprint with fprint_location
 
 (* ****** ****** *)
 
 fun location_make (rep: string): location
 
+(* ****** ****** *)
+
+abstype d2cst_type = ptr
+typedef d2cst = d2cst_type
+typedef d2cstlst = List0 (d2cst)
+typedef d2cstopt = Option (d2cst)
+vtypedef d2cstopt_vt = Option_vt (d2cst)
+
+(* ****** ****** *)
+
+fun fprint_d2cst
+  : (FILEref, d2cst) -> void
+overload fprint with fprint_d2cst
+
+(* ****** ****** *)
+
+fun d2cst_make (symbol, stamp): d2cst
+
+(* ****** ****** *)
+//
+fun d2cst_get_name (d2cst):<> symbol
+fun d2cst_get_stamp (d2cst):<> stamp
+//
+(* ****** ****** *)
+//
+fun eq_d2cst_d2cst : (d2cst, d2cst) -<> bool
+fun neq_d2cst_d2cst : (d2cst, d2cst) -<> bool
+fun compare_d2cst_d2cst : (d2cst, d2cst) -<> int
+//
+overload = with eq_d2cst_d2cst
+overload != with eq_d2cst_d2cst
+overload compare with compare_d2cst_d2cst
+//
 (* ****** ****** *)
 
 abstype d2var_type = ptr
@@ -56,9 +111,18 @@ vtypedef d2varopt_vt = Option_vt (d2var)
 (* ****** ****** *)
 
 fun fprint_d2var
-  (out: FILEref, d2v: d2var): void
+  : (FILEref, d2var) -> void
 overload fprint with fprint_d2var
 
+(* ****** ****** *)
+
+fun d2var_make (symbol, stamp): d2var
+
+(* ****** ****** *)
+//
+fun d2var_get_name (d2var):<> symbol
+fun d2var_get_stamp (d2var):<> stamp
+//
 (* ****** ****** *)
 //
 fun eq_d2var_d2var : (d2var, d2var) -<> bool
@@ -69,25 +133,6 @@ overload = with eq_d2var_d2var
 overload != with eq_d2var_d2var
 overload compare with compare_d2var_d2var
 //
-(* ****** ****** *)
-//
-fun d2var_get_stamp (d2var):<> stamp
-//
-symintr .stamp
-overload .stamp with d2var_get_stamp
-//
-(* ****** ****** *)
-
-abstype d2cst_type = ptr
-typedef d2cst = d2cst_type
-typedef d2cstlst = List0 (d2cst)
-
-(* ****** ****** *)
-
-fun fprint_d2cst
-  (out: FILEref, d2c: d2cst): void
-overload fprint with fprint_d2cst
-
 (* ****** ****** *)
 
 datatype
@@ -106,7 +151,7 @@ p2atlst = List0 (p2at)
 (* ****** ****** *)
 
 fun fprint_p2at
-  (out: FILEref, p2t: p2at): void
+  : (FILEref, p2at) -> void
 overload fprint with fprint_p2at
 
 (* ****** ****** *)
@@ -120,9 +165,16 @@ fun p2at_var (loc: location, d2v: d2var): p2at
 
 (* ****** ****** *)
 
+fun p2at_err (loc: location): p2at // HX: error-handling
+
+(* ****** ****** *)
+
 datatype
 d2ecl_node =
+//
   | D2Cfundecs of f2undeclst
+//
+  | D2Cerr of ((*void*))
 
 and d2exp_node =
 //
@@ -171,21 +223,21 @@ and f2undeclst = List0 (f2undec)
 (* ****** ****** *)
 
 fun fprint_d2exp
-  (out: FILEref, d2e: d2exp): void
+  : (FILEref, d2exp) -> void
 overload fprint with fprint_d2exp
 
 fun fprint_d2explst
-  (out: FILEref, d2es: d2explst): void
+  : (FILEref, d2explst) -> void
 overload fprint with fprint_d2explst
 
 (* ****** ****** *)
 
 fun fprint_d2ecl
-  (out: FILEref, d2c: d2ecl): void
+  : (FILEref, d2ecl) -> void
 overload fprint with fprint_d2ecl
 
 fun fprint_d2eclist
-  (out: FILEref, d2cs: d2eclist): void
+  : (FILEref, d2eclist) -> void
 overload fprint with fprint_d2eclist
 
 (* ****** ****** *)
@@ -226,13 +278,36 @@ fun d2exp_fix
 
 (* ****** ****** *)
 
+fun d2exp_err (loc: location): d2exp // HX: error-handling
+
+(* ****** ****** *)
+
 fun f2undec_make
   (loc: location, d2v: d2var, d2e: d2exp): f2undec
 
 (* ****** ****** *)
+//
+fun d2ecl_make_node
+  (loc: location, node: d2ecl_node): d2ecl
+//
+(* ****** ****** *)
 
 fun d2ecl_fundeclst (loc: location, f2ds: f2undeclst): d2ecl
 
+(* ****** ****** *)
+
+fun d2ecl_err (loc: location): d2ecl // HX: error-handling
+
+(* ****** ****** *)
+//
+symintr .name
+overload .name with d2cst_get_name
+overload .name with d2var_get_name
+//
+symintr .stamp
+overload .stamp with d2cst_get_stamp
+overload .stamp with d2var_get_stamp
+//
 (* ****** ****** *)
 
 (* end of [utfpl.sats] *)

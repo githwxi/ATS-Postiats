@@ -72,6 +72,10 @@ case+ d2e0.d2exp_node of
 | D2Elam _ => VALlam (d2e0, env)
 | D2Efix _ => VALfix (d2e0, env)
 //
+| D2Eerr () =>
+    let val () = assertloc (false) in exit(1) end
+  // end of [D2Eerr]
+//
 end // end of [aux_d2exp]
 
 implement

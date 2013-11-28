@@ -793,9 +793,12 @@ fun loop
       val iseq = list_assoc$eqfn<key> (k0, kx.0)
     in
       if iseq
-        then (
-          x0 := kx.1; opt_some{itm}(x0); true
-        ) (* end of [then] *)
+        then let
+          val () = x0 := kx.1
+          prval () = opt_some{itm}(x0)
+        in
+          true
+        end // end of [then]
         else loop (kxs, k0, x0)
       // end of [if]
     end // end of [list_cons]
@@ -840,10 +843,10 @@ in
 //
 if ans
   then let
-    prval () = opt_unsome{itm}(x0) in Some_vt(x0)
+    prval () = opt_unsome{itm}(x0) in Some_vt{itm}(x0)
   end // end of [then]
   else let
-    prval () = opt_unnone{itm}(x0) in None_vt(*void*)
+    prval () = opt_unnone{itm}(x0) in None_vt((*void*))
   end // end of [else]
 //
 end // end of [list_assoc_opt]

@@ -6,6 +6,8 @@
 //
 #include
 "share/atspre_define.hats"
+#include
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 //
@@ -33,8 +35,7 @@ parse_d2exp
 //
 val-~Some_vt (jsv) =
   jsonval_get_field (jsv0, "d2exp_loc") 
-val-JSONstring (loc) = jsv
-val loc = location_make (loc)
+val loc = parse_location (jsv)
 val-~Some_vt (jsv) =
   jsonval_get_field (jsv0, "d2exp_node") 
 val node = parse_d2exp_node (jsv)
@@ -79,11 +80,14 @@ val-JSONstring(name) = jsv1
 in
 //
 case+ name of
+//
 | "D2Ecst" => parse_D2Ecst (jsv2)
 | "D2Evar" => parse_D2Evar (jsv2)
+(*
 | "D2Eifhead" => parse_D2Eifopt (jsv2)
 | "D2Eapplst" => parse_D2Eapplst (jsv2)
 | "D2Elam_dyn" => parse_D2Elam (jsv2)
+*)
 //
 | _(*rest*) => parse_D2Eerr (jsv2)
 //
