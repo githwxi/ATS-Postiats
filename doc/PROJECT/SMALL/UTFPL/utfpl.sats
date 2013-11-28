@@ -10,6 +10,10 @@ typedef
 stamp = stamp_t0ype
 
 (* ****** ****** *)
+
+fun stamp_make (int): stamp
+
+(* ****** ****** *)
 //
 fun
 compare_stamp_stamp
@@ -39,9 +43,15 @@ overload fprint with fprint_location
 
 (* ****** ****** *)
 
+fun location_make (rep: string): location
+
+(* ****** ****** *)
+
 abstype d2var_type = ptr
 typedef d2var = d2var_type
 typedef d2varlst = List0 (d2var)
+typedef d2varopt = Option (d2var)
+vtypedef d2varopt_vt = Option_vt (d2var)
 
 (* ****** ****** *)
 
@@ -99,6 +109,11 @@ fun fprint_p2at
   (out: FILEref, p2t: p2at): void
 overload fprint with fprint_p2at
 
+(* ****** ****** *)
+//
+fun p2at_make_node
+  (loc: location, node: p2at_node): p2at
+//
 (* ****** ****** *)
 
 fun p2at_var (loc: location, d2v: d2var): p2at
@@ -172,6 +187,11 @@ overload fprint with fprint_d2ecl
 fun fprint_d2eclist
   (out: FILEref, d2cs: d2eclist): void
 overload fprint with fprint_d2eclist
+
+(* ****** ****** *)
+
+fun d2exp_make_node
+  (loc: location, node: d2exp_node): d2exp
 
 (* ****** ****** *)
 

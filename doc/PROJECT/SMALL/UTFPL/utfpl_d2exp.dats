@@ -8,12 +8,9 @@ staload "./utfpl.sats"
 
 (* ****** ****** *)
 
-fun
+implement
 d2exp_make_node
-(
-  loc: location
-, node: d2exp_node
-) : d2exp = '{
+  (loc, node) = '{
   d2exp_loc= loc, d2exp_node= node
 } (* end of [d2exp_make_node] *)
 

@@ -982,10 +982,12 @@ end // end of [list_forall]
 #atscode_separator()
 
 implement{a}
-list_equal$pred (x1, x2) = gequal_val<a> (x1, x2)
+list_equal$feq = gequal_val<a>
 
-implement{x}
-list_equal (xs1, xs2) = let
+implement
+{x}(*tmp*)
+list_equal
+  (xs1, xs2) = let
 in
 //
 case+ xs1 of
@@ -994,7 +996,7 @@ case+ xs1 of
     case+ xs2 of
     | list_cons
         (x2, xs2) => let
-        val iseq = list_equal$pred<x> (x1, x2)
+        val iseq = list_equal$feq<x> (x1, x2)
       in
         if iseq then list_equal<x> (xs1, xs2) else false
       end
@@ -1030,6 +1032,83 @@ case+ xs of
 | list_nil () => None_vt(*void*)
 //
 end // end of [list_find_opt]
+
+#atscode_separator()
+
+implement{key}
+list_assoc$feq = gequal_val<key>
+
+implement
+{key,itm}
+list_assoc
+  (kxs, k0, x0) = let
+//
+fun loop
+(
+  kxs: List @(key, itm)
+, k0: key, x0: &itm? >> opt (itm, b)
+) : #[b:bool] bool(b) =
+(
+  case+ kxs of
+  | list_cons
+      (kx, kxs) => let
+      val iseq = list_assoc$feq<key> (k0, kx.0)
+    in
+      if iseq
+        then (
+          x0 := kx.1; opt_some{itm}(x0); true
+        ) (* end of [then] *)
+        else loop (kxs, k0, x0)
+      // end of [if]
+    end // end of [list_cons]
+  | list_nil ((*void*)) =>
+      let prval () = opt_none{itm}(x0) in false end 
+    // end of [list_nil]
+) (* end of [loop] *)
+//
+in
+  $effmask_all (loop (kxs, k0, x0))
+end // end of [list_assoc]
+
+#atscode_separator()
+
+implement
+{key,itm}
+list_assoc_exn
+  (kxs, k0) = let
+  var x0: itm?
+  val ans = list_assoc<key,itm> (kxs, k0, x0)
+in
+//
+if ans
+  then let
+    prval () = opt_unsome{itm}(x0) in x0
+  end // end of [then]
+  else let
+    prval () = opt_unnone{itm}(x0) in $raise NotFoundExn()
+  end // end of [else]
+//
+end // end of [list_assoc_exn]
+
+#atscode_separator()
+
+implement
+{key,itm}
+list_assoc_opt
+  (kxs, k0) = let
+  var x0: itm?
+  val ans = list_assoc<key,itm> (kxs, k0, x0)
+in
+//
+if ans
+  then let
+    prval () = opt_unsome{itm}(x0) in Some_vt(x0)
+  end // end of [then]
+  else let
+    prval () = opt_unnone{itm}(x0) in None_vt(*void*)
+  end // end of [else]
+//
+end // end of [list_assoc_opt]
 
 #atscode_separator()
 

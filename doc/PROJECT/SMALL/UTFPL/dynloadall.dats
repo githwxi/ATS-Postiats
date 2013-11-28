@@ -2,6 +2,7 @@
 //
 dynload "./utfpl.sats"
 dynload "./utfpl_stamp.dats"
+dynload "./utfpl_location.dats"
 dynload "./utfpl_print.dats"
 dynload "./utfpl_p2at.dats"
 dynload "./utfpl_d2var.dats"

@@ -8,12 +8,9 @@ staload "./utfpl.sats"
 
 (* ****** ****** *)
 
-fun
+implement
 p2at_make_node
-(
-  loc: location
-, node: p2at_node
-) : p2at = '{
+  (loc, node) = '{
   p2at_loc= loc, p2at_node= node
 } (* end of [p2at_make_node] *)
 
