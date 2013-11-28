@@ -40,9 +40,36 @@ staload _(*FM*) =
 //
 typedef map = $FM.map (stamp, d2var)
 //
-var the_d2varmap: map = $FM.funmap_nil ()
+var mymap: map = $FM.funmap_nil ()
+val the_d2varmap =
+  ref_make_viewptr{map} (view@mymap | addr@mymap)
+//
+implement
+$FM.compare_key_key<stamp> = compare_stamp_stamp
 //
 in (* in of [local] *)
+
+implement
+the_d2varmap_find
+  (k0) = let
+//
+val (vbox(pf) | p) = ref_get_viewptr (the_d2varmap)
+//
+in
+  $effmask_ref ($FM.funmap_search_opt (!p, k0))
+end // end of [the_d2varmap_find]
+
+implement
+the_d2varmap_insert
+  (d2v0) = let
+//
+val k0 = d2v0.stamp
+val (vbox(pf) | p) = ref_get_viewptr (the_d2varmap)
+val~None_vt ((*void*)) = $effmask_ref ($FM.funmap_insert_opt (!p, k0, d2v0))
+//
+in
+  // nothing
+end // end of [the_d2varmap_find]
 
 end // end of [local]
 

@@ -23,6 +23,14 @@ fun parse_location: jsonval -> location
 
 (* ****** ****** *)
 
+fun{
+a:t@ype
+} parse_list
+  (jsv: jsonval, f: jsonval -> a): List0_vt (a)
+// end of[parse_list]
+
+(* ****** ****** *)
+
 fun parse_d2cst (jsv: jsonval): d2cst
 fun parse_d2var (jsv: jsonval): d2var
 
@@ -37,6 +45,7 @@ fun parse_d2exp (jsv: jsonval): d2exp
 (* ****** ****** *)
 
 fun parse_d2ecl (jsv: jsonval): d2ecl
+fun parse_d2eclist (jsv: jsonval): d2eclist
 
 (* ****** ****** *)
 

@@ -32,15 +32,17 @@ main: \
   main_dats.o \
   parsing_sats.o \
   parsing_dats.o \
+  parsing_d2cst_dats.o \
   parsing_d2var_dats.o \
   parsing_p2at_dats.o \
   parsing_d2exp_dats.o \
-  parsing_d2ecl_dats.o ; \
+  parsing_d2ecl_dats.o \
+  parsing_mylib_dats.o ; \
   $(CCOPT) \
     -I${PATSHOME} \
     -I${PATSHOME}/ccomp/runtime \
     -L${PATSHOME}/ccomp/atslib/lib \
-    -O2 -o $@ ../utfpl.o $^ $(LGC) -latslib
+    -O2 -o $@ ../utfpl.o $^ -latslib $(LGC) $(LJSONC)
 
 ######
 
@@ -56,6 +58,7 @@ main: \
 #DATSMEMALLOC=-DATS_MEMALLOC_LIBC
 #
 LGC=-lgc
+LJSONC=-ljson-c
 DATSMEMALLOC=-DATS_MEMALLOC_GCBDW
 #
 ######

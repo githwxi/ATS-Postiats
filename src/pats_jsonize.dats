@@ -204,14 +204,16 @@ in
 //
 case+ lxs0 of
 | list_nil () => ()
-| list_cons ((l, x), lxs) => let
+| list_cons
+    (lx, lxs) => let
     val () =
       if i > 0
         then fprint (out, ", ")
       // end of [if]
-    val () = fprint_string (out, l)
+    val () =
+      fprintf (out, "\"%s\"", @(lx.0))
     val () = fprint_string (out, ": ")
-    val () = fprint_jsonval (out, x)
+    val () = fprint_jsonval (out, lx.1)
   in
     aux (out, lxs, i+1)
   end // end of [list_cons]

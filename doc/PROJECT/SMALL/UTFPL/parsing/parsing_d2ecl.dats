@@ -45,6 +45,15 @@ in
 end // end of [parse_d2ecl]
 
 (* ****** ****** *)
+//
+implement
+parse_d2eclist
+  (jsv0) = list_vt2t
+(
+  parse_list<d2ecl> (jsv0, parse_d2ecl)
+)
+//
+(* ****** ****** *)
 
 extern
 fun parse_D2Cerr (jsonval): d2ecl_node
@@ -69,6 +78,11 @@ case+ name of
 | _(*rest*) => parse_D2Cerr (jsv2)
 //
 end // end of [parse_d2ecl_node]
+
+(* ****** ****** *)
+
+implement
+parse_D2Cerr (jsv) = D2Cerr ((*void*))
 
 (* ****** ****** *)
 

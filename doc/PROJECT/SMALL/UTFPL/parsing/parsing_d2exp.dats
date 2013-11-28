@@ -25,6 +25,11 @@ staload "./parsing.dats"
 (* ****** ****** *)
 
 extern
+fun parse_d2explst (jsv: jsonval): d2explst
+
+(* ****** ****** *)
+
+extern
 fun parse_d2exp_node (jsv: jsonval): d2exp_node
 
 (* ****** ****** *)
@@ -44,6 +49,15 @@ in
   d2exp_make_node (loc, node)
 end // end of [parse_d2exp]
 
+(* ****** ****** *)
+//
+implement
+parse_d2explst
+  (jsv0) = list_vt2t
+(
+  parse_list<d2exp> (jsv0, parse_d2exp)
+)
+//
 (* ****** ****** *)
 
 extern
@@ -92,6 +106,37 @@ case+ name of
 | _(*rest*) => parse_D2Eerr (jsv2)
 //
 end // end of [parse_d2exp_node]
+
+(* ****** ****** *)
+
+implement
+parse_D2Ecst (jsv) = let
+//
+val-JSONarray(A, n) = jsv
+val () = assertloc (n >= 1)
+val d2c = parse_d2cst (A[0])
+//
+in
+  D2Ecst (d2c)
+end // end of [parse_D2Ecst]
+
+(* ****** ****** *)
+
+implement
+parse_D2Evar (jsv) = let
+//
+val-JSONarray(A, n) = jsv
+val () = assertloc (n >= 1)
+val d2v = parse_d2var (A[0])
+//
+in
+  D2Evar (d2v)
+end // end of [parse_D2Evar]
+
+(* ****** ****** *)
+
+implement
+parse_D2Eerr (jsv) = D2Eerr ((*void*))
 
 (* ****** ****** *)
 

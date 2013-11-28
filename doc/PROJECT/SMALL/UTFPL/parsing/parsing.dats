@@ -72,4 +72,21 @@ end // end of [parse_location]
 
 (* ****** ****** *)
 
+implement
+{a}(*tmp*)
+parse_list
+  (jsv0, f) = let
+//
+val-JSONarray{n}(A, n) = jsv0
+//
+implement
+list_tabulate$fopr<a> (i) =
+  let val i = $UN.cast{natLt(n)}(i) in f (A[i]) end
+//
+in
+  list_tabulate<a> (g1u2i(n))
+end // end of [parse_list]
+
+(* ****** ****** *)
+
 (* end of [parsing.dats] *)

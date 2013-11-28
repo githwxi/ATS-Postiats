@@ -165,7 +165,7 @@ fun{
 (* ****** ****** *)
 //
 extern
-fun jsonlst2arr_parse
+fun jsonlst2arr_cmdline
   {n:int} (argc: int n, argv: !argv(n)): commarglst
 // 
 (* ****** ****** *)
@@ -302,7 +302,7 @@ end // end of [aux1_delim]
 in (* in of [local] *)
 
 implement
-jsonlst2arr_parse
+jsonlst2arr_cmdline
   (argc, argv) = let
 //
 prval (
@@ -314,7 +314,7 @@ val res = list_vt_reverse (res)
 //
 in
   list_vt2t(res)
-end // end of [jsonlst2arr_commline]
+end // end of [jsonlst2arr_cmdline]
 
 end // end of [local]
 
@@ -513,7 +513,7 @@ main0 (argc, argv) =
 {
 //
 val cas =
-  jsonlst2arr_parse (argc, argv)
+  jsonlst2arr_cmdline (argc, argv)
 val-list_cons (_, cas) = cas
 //
 val ((*void*)) = jsonlst2arr_proc (argv[0], cas)
