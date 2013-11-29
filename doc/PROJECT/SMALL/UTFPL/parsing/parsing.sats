@@ -42,10 +42,12 @@ fun parse_d2var (jsv: jsonval): d2var
 (* ****** ****** *)
 
 fun parse_p2at (jsv: jsonval): p2at
+fun parse_p2atlst (jsv: jsonval): p2atlst
 
 (* ****** ****** *)
 
 fun parse_d2exp (jsv: jsonval): d2exp
+fun parse_d2explst (jsv: jsonval): d2explst
 
 (* ****** ****** *)
 

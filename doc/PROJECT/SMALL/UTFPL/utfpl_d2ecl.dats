@@ -13,6 +13,50 @@ staload "./utfpl.sats"
 
 (* ****** ****** *)
 
+extern
+fun fprint_f2undec (FILEref, f2undec): void
+extern
+fun fprint_f2undeclst (FILEref, f2undeclst): void
+
+extern
+fun fprint_v2aldec (FILEref, v2aldec): void
+
+(* ****** ****** *)
+
+implement
+fprint_f2undec
+  (out, f2d) =
+{
+  val () =
+    fprint! (out, "f2undec{")
+  val () = fprint! (out, "d2v= ", f2d.f2undec_var)
+  val () = fprint! (out, "; ")
+  val () = fprint! (out, "def= ", f2d.f2undec_def)
+  val () = fprint! (out, "}")
+} (* end of [fprint_f2undec] *)
+
+(* ****** ****** *)
+
+implement
+fprint_f2undeclst
+  (out, f2ds) = let
+in
+//
+case+ f2ds of
+| list_cons
+    (f2d, f2ds) => let
+    val () =
+      fprint_f2undec (out, f2d)
+    val () = fprint_newline (out)
+  in
+    fprint_f2undeclst (out, f2ds)
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [fprint_f2undeclst]
+
+(* ****** ****** *)
+
 implement
 fprint_d2ecl
   (out, d2c0) = let
@@ -20,7 +64,14 @@ in
 //
 case+ d2c0.d2ecl_node of
 //
-| D2Cfundecs _ => fprint! (out, "D2Cfundecs(...)")
+| D2Cfundecs
+    (knd, f2ds) =>
+  {
+    val () =
+      fprint! (out, "D2Cfundecs(\n")
+    val () = fprint_f2undeclst (out, f2ds)
+    val () = fprint! (out, ")")
+  }
 | D2Cvaldecs _ => fprint! (out, "D2Cvaldecs(...)")
 //
 | D2Cerr((*void*)) => fprint! (out, "D2Cerr(", ")")

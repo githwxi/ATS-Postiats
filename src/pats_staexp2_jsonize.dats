@@ -98,12 +98,12 @@ end // end of [jsonize_d2con]
 (* ****** ****** *)
 
 implement
-jsonize_s2exp (s2e) = jsonize_anon (s2e)
+jsonize_s2exp (s2e) = jsonize_ignored (s2e)
 
 (* ****** ****** *)
 
 implement
-jsonize_s2eff (s2fe) = jsonize_anon (s2fe)
+jsonize_s2eff (s2fe) = jsonize_ignored (s2fe)
 
 (* ****** ****** *)
 

@@ -172,11 +172,13 @@ and
 p2atlst = List0 (p2at)
 
 (* ****** ****** *)
-
-fun fprint_p2at
-  : (FILEref, p2at) -> void
+//
+fun fprint_p2at: (FILEref, p2at) -> void
+fun fprint_p2atlst: (FILEref, p2atlst) -> void
+//
 overload fprint with fprint_p2at
-
+overload fprint with fprint_p2atlst of 10
+//
 (* ****** ****** *)
 //
 fun p2at_make_node
@@ -209,6 +211,8 @@ and d2exp_node =
   | D2Echar of (char)
   | D2Efloat of (double)
   | D2Estring of (string)
+//
+  | D2Eexp of (d2exp) // dummy
 //
   | D2Eapp of (d2exp, d2explst)
 //
@@ -255,25 +259,21 @@ and v2aldec = '{
 and v2aldeclst = List0 (v2aldec)
 
 (* ****** ****** *)
-
-fun fprint_d2exp
-  : (FILEref, d2exp) -> void
+//
+fun fprint_d2exp: (FILEref, d2exp) -> void
+fun fprint_d2explst: (FILEref, d2explst) -> void
+//
 overload fprint with fprint_d2exp
-
-fun fprint_d2explst
-  : (FILEref, d2explst) -> void
 overload fprint with fprint_d2explst of 10
-
+//
 (* ****** ****** *)
-
-fun fprint_d2ecl
-  : (FILEref, d2ecl) -> void
+//
+fun fprint_d2ecl: (FILEref, d2ecl) -> void
+fun fprint_d2eclist : (FILEref, d2eclist) -> void
+//
 overload fprint with fprint_d2ecl
-
-fun fprint_d2eclist
-  : (FILEref, d2eclist) -> void
 overload fprint with fprint_d2eclist of 10
-
+//
 (* ****** ****** *)
 
 fun d2exp_make_node
@@ -283,6 +283,10 @@ fun d2exp_make_node
 
 fun d2exp_cst (loc: location, d2c: d2cst): d2exp
 fun d2exp_var (loc: location, d2v: d2var): d2exp
+
+(* ****** ****** *)
+
+fun d2exp_exp (loc: location, d2e: d2exp): d2exp
 
 (* ****** ****** *)
 

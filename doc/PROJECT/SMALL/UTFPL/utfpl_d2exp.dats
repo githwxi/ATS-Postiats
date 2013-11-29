@@ -20,7 +20,16 @@ in
 //
 case+ d2e0.d2exp_node of
 //
-| D2Evar (d2v) => fprint! (out, "D2Evar(", d2v, ")")
+| D2Ecst (d2c) =>
+    fprint! (out, "D2Evar(", d2c, ")")
+| D2Evar (d2v) =>
+    fprint! (out, "D2Evar(", d2v, ")")
+//
+| D2Eexp (d2e) =>
+    fprint! (out, "D2Eexp(", d2e, ")")
+//
+| D2Elam (p2ts, d2e_body) =>
+    fprint! (out, "D2Elam(", p2ts, "; ", d2e_body)
 //
 | D2Eerr ((*void*)) => fprint! (out, "D2Eerr(", ")")
 //
@@ -62,6 +71,13 @@ implement
 d2exp_var
   (loc, d2v) =
   d2exp_make_node (loc, D2Evar (d2v))
+//
+(* ****** ****** *)
+//
+implement
+d2exp_exp
+  (loc, d2e) =
+  d2exp_make_node (loc, D2Eexp (d2e))
 //
 (* ****** ****** *)
 //

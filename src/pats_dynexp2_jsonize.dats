@@ -285,8 +285,8 @@ case+ p2t0.p2at_node of
     val jsv1 =
       jsonize_pckind (pcknd)
     val jsv2 = jsonize_d2con (d2c)
-    val jsv3 = jsonize_anon (s2qs)
-    val jsv4 = jsonize_anon (s2e_con)
+    val jsv3 = jsonize_ignored (s2qs)
+    val jsv4 = jsonize_ignored (s2e_con)
     val jsv5 = jsonval_int (npf)
     val jsv6 = jsonize_p2atlst (p2ts)
     val arglst =
@@ -319,7 +319,7 @@ case+ p2t0.p2at_node of
 //
 | P2Terr ((*void*)) => aux0 ("P2Terr")
 //
-| _ => jsonize_anon (p2t0)
+| _ => jsonize_ignored (p2t0)
 //
 end // end of [auxmain]
 //
@@ -445,7 +445,7 @@ d2e0.d2exp_node of
   (
     inv, _test, _then, _else
   ) => let
-    val jsv1 = jsonize_anon (inv)
+    val jsv1 = jsonize_ignored (inv)
     val jsv2 = jsonize_d2exp (_test)
     val jsv3 = jsonize_d2exp (_then)
     val jsv4 = jsonize_d2expopt (_else)
@@ -487,7 +487,7 @@ d2e0.d2exp_node of
     aux2 ("D2Eann_funclo", jsv1, jsv2)
   end // end of [D2Eann_funclo]
 //
-| _ => jsonize_anon (d2e0)
+| _ => jsonize_ignored (d2e0)
 //
 end // end of [auxmain]
 //
@@ -637,7 +637,7 @@ d2c0.d2ecl_node of
     knd, s2qs, f2ds
   ) => let
     val knd = jsonize_funkind (knd)
-    val s2qs = jsonize_anon (s2qs)
+    val s2qs = jsonize_ignored (s2qs)
     val f2ds = jsonize_f2undeclst (f2ds)
   in
     aux3 ("D2Cfundecs", knd, s2qs, f2ds)
@@ -655,7 +655,7 @@ d2c0.d2ecl_node of
     aux1 ("D2Cinclude", jsonize_d2eclist (d2cs))
   // end of [D2Cinclude]
 //
-| _ => jsonize_anon (d2c0)
+| _ => jsonize_ignored (d2c0)
 //
 end // end of [auxmain]
 //
@@ -691,7 +691,7 @@ jsonize_f2undec
 val loc = jsonize_loc (f2d.f2undec_loc)
 val d2v = jsonize_d2var (f2d.f2undec_var)
 val def = jsonize_d2exp (f2d.f2undec_def)
-val ann = jsonize_anon (f2d.f2undec_ann)
+val ann = jsonize_ignored (f2d.f2undec_ann)
 //
 in
 //
@@ -723,7 +723,7 @@ jsonize_v2aldec
 val loc = jsonize_loc (v2d.v2aldec_loc)
 val pat = jsonize_p2at (v2d.v2aldec_pat)
 val def = jsonize_d2exp (v2d.v2aldec_def)
-val ann = jsonize_anon (v2d.v2aldec_ann)
+val ann = jsonize_ignored (v2d.v2aldec_ann)
 //
 in
 //

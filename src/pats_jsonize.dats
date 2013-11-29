@@ -227,7 +227,7 @@ end // end of [fprint_labjsonvalist]
 (* ****** ****** *)
 
 implement
-jsonize_anon (x0) = JSONnul () 
+jsonize_ignored (x0) = JSONnul () 
 
 (* ****** ****** *)
 

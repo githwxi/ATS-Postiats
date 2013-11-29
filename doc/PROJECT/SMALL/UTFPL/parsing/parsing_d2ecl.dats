@@ -59,6 +59,8 @@ fun parse_f2undec (jsonval): f2undec
 extern
 fun parse_v2aldec (jsonval): v2aldec
 
+(* ****** ****** *)
+
 extern
 fun parse_D2Cfundecs (jsonval): d2ecl_node
 
@@ -90,6 +92,50 @@ case+ name of
 | _(*not-yet-processed*) => parse_D2Cerr (jsv2)
 //
 end // end of [parse_d2ecl_node]
+
+(* ****** ****** *)
+
+implement
+parse_f2undec
+  (jsv0) = let
+//
+val-~Some_vt(loc) = 
+  jsonval_get_field (jsv0, "f2undec_loc")
+val-~Some_vt(d2v) =
+  jsonval_get_field (jsv0, "f2undec_var")
+val-~Some_vt(def) = 
+  jsonval_get_field (jsv0, "f2undec_def")
+//
+val loc =
+  parse_location (loc)
+val d2v = parse_d2var (d2v)
+val def = parse_d2exp (def)
+//
+in
+  f2undec_make (loc, d2v, def)
+end // end of [parse_f2undec]
+
+(* ****** ****** *)
+
+implement
+parse_v2aldec
+  (jsv0) = let
+//
+val-~Some_vt(loc) = 
+  jsonval_get_field (jsv0, "v2aldec_loc")
+val-~Some_vt(p2t) =
+  jsonval_get_field (jsv0, "v2aldec_pat")
+val-~Some_vt(def) = 
+  jsonval_get_field (jsv0, "v2aldec_def")
+//
+val loc =
+  parse_location (loc)
+val p2t = parse_p2at (p2t)
+val def = parse_d2exp (def)
+//
+in
+  v2aldec_make (loc, p2t, def)
+end // end of [parse_v2aldec]
 
 (* ****** ****** *)
 

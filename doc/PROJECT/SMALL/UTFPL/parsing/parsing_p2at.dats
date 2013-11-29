@@ -45,6 +45,14 @@ in
 end // end of [parse_p2at]
 
 (* ****** ****** *)
+//
+implement
+parse_p2atlst
+  (jsv0) = (
+  parse_list<p2at> (jsv0, parse_p2at)
+) (* end of [parse_p2atlst] *)
+//
+(* ****** ****** *)
 
 extern
 fun parse_P2Tvar (jsonval): p2at_node
@@ -59,9 +67,9 @@ parse_p2at_node
   (jsv0) = let
 //
 val-~Some_vt(jsv1) =
-  jsonval_get_field (jsv0, "d2exp_name")
+  jsonval_get_field (jsv0, "p2at_name")
 val-~Some_vt(jsv2) =
-  jsonval_get_field (jsv0, "d2exp_arglst")
+  jsonval_get_field (jsv0, "p2at_arglst")
 //
 val-JSONstring(name) = jsv1
 //

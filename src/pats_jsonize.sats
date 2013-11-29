@@ -133,7 +133,8 @@ overload fprint with fprint_labjsonvalist
 //
 (* ****** ****** *)
 
-fun jsonize_anon{a:type} (x: a): jsonval
+fun
+jsonize_ignored{a:type} (x: a): jsonval
 
 (* ****** ****** *)
 
