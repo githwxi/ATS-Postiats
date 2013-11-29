@@ -4,10 +4,35 @@
 
 (* ****** ****** *)
 
+datatype
+funkind = 
+datatype
+funkind =
+//
+  | FK_fn // nonrec fun
+  | FK_fnx // tailrec fun
+  | FK_fun // recursive fun
+//
+  | FK_err // error handling
+// end of [funkind]
+
+(* ****** ****** *)
+
+datatype
+valkind =
+//
+  | VK_val // val
+  | VK_val_pos // val+
+  | VK_val_neg // val-
+//
+  | VK_err // error handling
+// end of [valkind]
+
+(* ****** ****** *)
+
 abst0ype
 stamp_t0ype = int
-typedef
-stamp = stamp_t0ype
+typedef stamp = stamp_t0ype
 
 (* ****** ****** *)
 
@@ -28,10 +53,8 @@ overload compare with compare_stamp_stamp
 //
 (* ****** ****** *)
 
-abstype
-symbol_type = ptr
-typedef
-symbol = symbol_type
+abstype symbol_type = ptr
+typedef symbol = symbol_type
 
 (* ****** ****** *)
 
@@ -172,7 +195,8 @@ fun p2at_err (loc: location): p2at // HX: error-handling
 datatype
 d2ecl_node =
 //
-  | D2Cfundecs of f2undeclst
+  | D2Cfundecs of (funkind, f2undeclst)
+  | D2Cvaldecs of (valkind, v2aldeclst)
 //
   | D2Cerr of ((*void*))
 
@@ -188,7 +212,9 @@ and d2exp_node =
 //
   | D2Eapp of (d2exp, d2explst)
 //
-  | D2Eifopt of (d2exp(*test*), d2exp(*then*), d2expopt(*else*))
+  | D2Eifopt of (
+      d2exp(*test*), d2exp(*then*), d2expopt(*else*)
+    ) (* end of [D2Eifopt] *)
 //
   | D2Elam of (p2atlst, d2exp)
   | D2Efix of (d2var, p2atlst, d2exp)
@@ -220,6 +246,14 @@ and f2undec = '{
 
 and f2undeclst = List0 (f2undec)
 
+and v2aldec = '{
+  v2aldec_loc= location
+, v2aldec_pat= p2at
+, v2aldec_def= d2exp
+} (* end of [v2aldec] *)
+
+and v2aldeclst = List0 (v2aldec)
+
 (* ****** ****** *)
 
 fun fprint_d2exp
@@ -228,7 +262,7 @@ overload fprint with fprint_d2exp
 
 fun fprint_d2explst
   : (FILEref, d2explst) -> void
-overload fprint with fprint_d2explst
+overload fprint with fprint_d2explst of 10
 
 (* ****** ****** *)
 
@@ -238,7 +272,7 @@ overload fprint with fprint_d2ecl
 
 fun fprint_d2eclist
   : (FILEref, d2eclist) -> void
-overload fprint with fprint_d2eclist
+overload fprint with fprint_d2eclist of 10
 
 (* ****** ****** *)
 
@@ -282,8 +316,11 @@ fun d2exp_err (loc: location): d2exp // HX: error-handling
 
 (* ****** ****** *)
 
-fun f2undec_make
-  (loc: location, d2v: d2var, d2e: d2exp): f2undec
+fun f2undec_make (location, d2var, def: d2exp): f2undec
+
+(* ****** ****** *)
+
+fun v2aldec_make (location, p2t0: p2at, def: d2exp): v2aldec
 
 (* ****** ****** *)
 //
@@ -292,7 +329,10 @@ fun d2ecl_make_node
 //
 (* ****** ****** *)
 
-fun d2ecl_fundeclst (loc: location, f2ds: f2undeclst): d2ecl
+fun d2ecl_fundeclst
+  (loc: location, knd: funkind, f2ds: f2undeclst): d2ecl
+fun d2ecl_valdeclst
+  (loc: location, knd: valkind, v2ds: v2aldeclst): d2ecl
 
 (* ****** ****** *)
 

@@ -64,6 +64,10 @@ val () = fprint_newline (stdout_ref)
 //
 val d2cs = parse_d2eclist (jsv)
 //
+val () =
+  fprint! (stdout_ref, "d2cs=", d2cs)
+val () = fprint_newline (stdout_ref)
+//
 } (* end of [main0] *)
 
 (* ****** ****** *)

@@ -52,6 +52,44 @@ end // end of [jsonval_get_field]
 (* ****** ****** *)
 
 implement
+parse_funkind
+  (jsv0) = let
+//
+val-JSONstring(knd) = jsv0
+//
+in
+//
+case+ knd of
+| "FK_fn" => FK_fn ()
+| "FK_fnx" => FK_fnx ()
+| "FK_fun" => FK_fun ()
+//
+| _ => FK_err () // error-handling
+//
+end // end of [parse_funkind]
+
+(* ****** ****** *)
+
+implement
+parse_valkind
+  (jsv0) = let
+//
+val-JSONstring(knd) = jsv0
+//
+in
+//
+case+ knd of
+| "VK_val" => VK_val ()
+| "VK_val_pos" => VK_val_pos ()
+| "VK_val_neg" => VK_val_neg ()
+//
+| _ => VK_err () // error-handling
+//
+end // end of [parse_valkind]
+
+(* ****** ****** *)
+
+implement
 parse_stamp (jsv0) = let
   val-JSONint(lli) = jsv0 in stamp_make ($UN.cast{int}(lli))
 end // end of [parse_stamp]
@@ -84,7 +122,7 @@ list_tabulate$fopr<a> (i) =
   let val i = $UN.cast{natLt(n)}(i) in f (A[i]) end
 //
 in
-  list_tabulate<a> (g1u2i(n))
+  list_vt2t (list_tabulate<a> (g1u2i(n)))
 end // end of [parse_list]
 
 (* ****** ****** *)

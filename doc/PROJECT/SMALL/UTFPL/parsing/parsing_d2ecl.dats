@@ -48,12 +48,22 @@ end // end of [parse_d2ecl]
 //
 implement
 parse_d2eclist
-  (jsv0) = list_vt2t
-(
+  (jsv0) = (
   parse_list<d2ecl> (jsv0, parse_d2ecl)
-)
+) (* end of [parse_d2eclist] *)
 //
 (* ****** ****** *)
+
+extern
+fun parse_f2undec (jsonval): f2undec
+extern
+fun parse_v2aldec (jsonval): v2aldec
+
+extern
+fun parse_D2Cfundecs (jsonval): d2ecl_node
+
+extern
+fun parse_D2Cvaldecs (jsonval): d2ecl_node
 
 extern
 fun parse_D2Cerr (jsonval): d2ecl_node
@@ -75,14 +85,46 @@ in
 //
 case+ name of
 //
-| _(*rest*) => parse_D2Cerr (jsv2)
+| "D2Cfundecs" => parse_D2Cfundecs (jsv2)
+| "D2Cvaldecs" => parse_D2Cvaldecs (jsv2)
+| _(*not-yet-processed*) => parse_D2Cerr (jsv2)
 //
 end // end of [parse_d2ecl_node]
 
 (* ****** ****** *)
 
 implement
-parse_D2Cerr (jsv) = D2Cerr ((*void*))
+parse_D2Cfundecs
+  (jsv0) = let
+//
+val-JSONarray(A, n) = jsv0
+val () = assertloc (n >= 3)
+val knd = parse_funkind (A[0])
+val f2ds = parse_list<f2undec> (A[2], parse_f2undec)
+//
+in
+  D2Cfundecs (knd, f2ds)
+end // end of [parse_D2Cfundecs]
+
+(* ****** ****** *)
+
+implement
+parse_D2Cvaldecs
+  (jsv0) = let
+//
+val-JSONarray(A, n) = jsv0
+val () = assertloc (n >= 2)
+val knd = parse_valkind (A[0])
+val v2ds = parse_list<v2aldec> (A[1], parse_v2aldec)
+//
+in
+  D2Cvaldecs (knd, v2ds)
+end // end of [parse_D2Cvaldecs]
+
+(* ****** ****** *)
+
+implement
+parse_D2Cerr (jsv0) = D2Cerr ((*void*))
 
 (* ****** ****** *)
 

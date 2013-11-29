@@ -17,6 +17,11 @@ staload "{$JSONC}/SATS/json_ML.sats"
 
 (* ****** ****** *)
 
+fun parse_funkind: jsonval -> funkind
+fun parse_valkind: jsonval -> valkind
+
+(* ****** ****** *)
+
 fun parse_stamp (jsv: jsonval): stamp
 fun parse_symbol (jsv: jsonval): symbol
 fun parse_location: jsonval -> location
@@ -26,7 +31,7 @@ fun parse_location: jsonval -> location
 fun{
 a:t@ype
 } parse_list
-  (jsv: jsonval, f: jsonval -> a): List0_vt (a)
+  (jsv: jsonval, f: jsonval -> a): List0 (a)
 // end of[parse_list]
 
 (* ****** ****** *)

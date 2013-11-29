@@ -53,10 +53,9 @@ end // end of [parse_d2exp]
 //
 implement
 parse_d2explst
-  (jsv0) = list_vt2t
-(
+  (jsv0) = (
   parse_list<d2exp> (jsv0, parse_d2exp)
-)
+) (* end of [parse_d2explst] *)
 //
 (* ****** ****** *)
 

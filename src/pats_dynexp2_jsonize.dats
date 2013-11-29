@@ -637,9 +637,10 @@ d2c0.d2ecl_node of
     knd, s2qs, f2ds
   ) => let
     val knd = jsonize_funkind (knd)
+    val s2qs = jsonize_anon (s2qs)
     val f2ds = jsonize_f2undeclst (f2ds)
   in
-    aux2 ("D2Cfundecs", knd, f2ds)
+    aux3 ("D2Cfundecs", knd, s2qs, f2ds)
   end // end of [D2Cfundecs]
 //
 | D2Cvaldecs
