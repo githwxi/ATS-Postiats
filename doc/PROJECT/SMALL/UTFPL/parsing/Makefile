@@ -69,6 +69,13 @@ DATSMEMALLOC=-DATS_MEMALLOC_GCBDW
 #
 ######
 
+data: \
+DATA/test01_dats.json
+DATA/test01_dats.json: \
+  DATA/test01.dats ; ${PATSOPT} --json=2 -o $@ -d $<
+
+######
+
 RMF=rm -f
 
 ######
@@ -78,6 +85,7 @@ clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
 cleanall:: clean
 cleanall:: ; $(RMF) main
+cleanall:: ; $(RMF) DATA/test??_dats.json
 
 ######
 
