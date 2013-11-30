@@ -277,7 +277,7 @@ fun aux3
   val arglst = jsonval_list (arg1 :: arg2 :: arg3 :: nil ())
 in
   jsonval_labval2 ("p2at_name", name, "p2at_arglst", arglst)
-end // end of [aux2]
+end // end of [aux3]
 
 in (* in of [local] *)
 
@@ -648,7 +648,7 @@ fun aux3
   val arglst = jsonval_list (arg1 :: arg2 :: arg3 :: nil ())
 in
   jsonval_labval2 ("d2ecl_name", name, "d2ecl_arglst", arglst)
-end // end of [aux2]
+end // end of [aux3]
 
 in (* in of [local] *)
 

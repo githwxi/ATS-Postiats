@@ -390,7 +390,7 @@ datatype
 s2exp_node =
 //
   | S2Eint of int // integer
-  | S2Eintinf of intinf // integer of flexible precision
+  | S2Eintinf of intinf // integer of flex precision
 //
 (*
   | S2Echar of char // chars have been removed for now

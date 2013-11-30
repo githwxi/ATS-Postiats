@@ -69,6 +69,18 @@ jsonize_loc (x) = jsonize_location (,(x))
 (* ****** ****** *)
 
 extern
+fun jsonize_s2rt : jsonize_type (s2rt)
+
+(* ****** ****** *)
+
+extern
+fun jsonize_s2cst : jsonize_type (s2cst)
+extern
+fun jsonize_s2var : jsonize_type (s2var)
+
+(* ****** ****** *)
+
+extern
 fun jsonize_d2con : jsonize_type (d2con)
 
 (* ****** ****** *)
@@ -79,6 +91,45 @@ extern
 fun jsonize_s2explst : jsonize_type (s2explst)
 extern
 fun jsonize_s2eff : jsonize_type (s2eff)
+
+(* ****** ****** *)
+
+implement
+jsonize_s2rt
+  (s2t) = let
+in
+  jsonize_ignored (s2t)
+end // end of [jsonize_s2rt]
+  
+(* ****** ****** *)
+
+implement
+jsonize_s2cst
+  (s2c) = let
+//
+val sym = jsonize_symbol (s2cst_get_sym (s2c))
+val stamp = jsonize_stamp (s2cst_get_stamp (s2c))
+//
+in
+//
+jsonval_labval2 ("s2cst_name", sym, "s2cst_stamp", stamp)
+//
+end // end of [jsonize_s2cst]
+
+(* ****** ****** *)
+
+implement
+jsonize_s2var
+  (s2v) = let
+//
+val sym = jsonize_symbol (s2var_get_sym (s2v))
+val stamp = jsonize_stamp (s2var_get_stamp (s2v))
+//
+in
+//
+jsonval_labval2 ("s2var_name", sym, "s2var_stamp", stamp)
+//
+end // end of [jsonize_s2var]
 
 (* ****** ****** *)
 
@@ -97,8 +148,107 @@ end // end of [jsonize_d2con]
 
 (* ****** ****** *)
 
+local
+
+fun aux0
+(
+  name: string
+) : jsonval = let
+  val name = jsonval_string (name)
+  val arglst = jsonval_list (list_nil)
+in
+  jsonval_labval2 ("s2exp_name", name, "s2exp_arglst", arglst)
+end // end of [aux0]
+
+fun aux1
+(
+  name: string, arg: jsonval
+) : jsonval = let
+  val name = jsonval_string (name)
+  val arglst = jsonval_sing (arg)
+in
+  jsonval_labval2 ("s2exp_name", name, "s2exp_arglst", arglst)
+end // end of [aux1]
+
+fun aux2
+(
+  name: string
+, arg1: jsonval, arg2: jsonval
+) : jsonval = let
+  val name = jsonval_string (name)
+  val arglst = jsonval_pair (arg1, arg2)
+in
+  jsonval_labval2 ("s2exp_name", name, "s2exp_arglst", arglst)
+end // end of [aux2]
+
+fun aux3
+(
+  name: string
+, arg1: jsonval, arg2: jsonval, arg3: jsonval
+) : jsonval = let
+  val name = jsonval_string (name)
+  val arglst = jsonval_list (arg1 :: arg2 :: arg3 :: nil ())
+in
+  jsonval_labval2 ("s2exp_name", name, "s2exp_arglst", arglst)
+end // end of [aux3]
+
+in (* in of [local] *)
+
 implement
-jsonize_s2exp (s2e) = jsonize_ignored (s2e)
+jsonize_s2exp
+  (s2e0) = let
+//
+fun auxmain
+  (s2e0: s2exp): jsonval = let
+in
+//
+case+ s2e0.s2exp_node of
+//
+| S2Eint (i) =>
+    aux1 ("S2Eint", jsonval_int (i))
+//
+| S2Ecst (s2c) =>
+    aux1 ("S2Ecst", jsonize_s2cst (s2c))
+//
+| S2Evar (s2v) =>
+    aux1 ("S2Evar", jsonize_s2var (s2v))
+//
+| S2Eapp
+  (
+    s2e_fun, s2es_arg
+  ) => let
+    val s2e_fun = jsonize_s2exp (s2e_fun)
+    val s2es_arg = jsonize_s2explst (s2es_arg)
+  in
+    aux2 ("S2Eapp", s2e_fun, s2es_arg)
+  end // end of [S2Eapp]
+//
+| _(*yet-to-be-processed*) => aux0 ("S2Eignored")
+//
+end // end of [auxmain]
+//
+val s2t0 = s2e0.s2exp_srt
+val s2t0 = jsonize_s2rt (s2t0)
+val s2e0 = auxmain (s2e0)
+//
+in
+  jsonval_labval2 ("s2exp_srt", s2t0, "s2exp_node", s2e0)
+end // end of [jsonize_s2exp]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+jsonize_s2explst
+  (s2es) = let
+//
+val jsvs =
+  list_map_fun (s2es, jsonize_s2exp)
+//
+in
+  jsonval_list (list_of_list_vt (jsvs))
+end // end of [jsonize_s2explst]
 
 (* ****** ****** *)
 

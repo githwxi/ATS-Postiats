@@ -49,14 +49,16 @@ main0 (argc, argv) =
 {
 //
 val () =
-println! ("Hello from [parsing]!")
+println! ("Hello from [UTFPL/parsing]!")
 //
 val inp = stdin_ref
-val cs = fileref_get_file_string (inp)
 //
 val D = 1024 // depth
 val tkr = json_tokener_new_ex (D)
 val () = assertloc (json_tokener2ptr (tkr) > 0)
+//
+val cs =
+  fileref_get_file_string (inp)
 //
 val jso = let
 //
