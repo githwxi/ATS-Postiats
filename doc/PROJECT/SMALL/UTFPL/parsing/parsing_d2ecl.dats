@@ -63,12 +63,12 @@ fun parse_v2aldec (jsonval): v2aldec
 
 extern
 fun parse_D2Cfundecs (jsonval): d2ecl_node
-
 extern
 fun parse_D2Cvaldecs (jsonval): d2ecl_node
 
-extern
-fun parse_D2Cerr (jsonval): d2ecl_node
+(* ****** ****** *)
+
+extern fun parse_D2Cerror (jsonval): d2ecl_node
 
 (* ****** ****** *)
 
@@ -89,7 +89,7 @@ case+ name of
 //
 | "D2Cfundecs" => parse_D2Cfundecs (jsv2)
 | "D2Cvaldecs" => parse_D2Cvaldecs (jsv2)
-| _(*not-yet-processed*) => parse_D2Cerr (jsv2)
+| _(*not-yet-processed*) => parse_D2Cerror (jsv2)
 //
 end // end of [parse_d2ecl_node]
 
@@ -170,7 +170,7 @@ end // end of [parse_D2Cvaldecs]
 (* ****** ****** *)
 
 implement
-parse_D2Cerr (jsv0) = D2Cerr ((*void*))
+parse_D2Cerror (jsv0) = D2Cerror ((*void*))
 
 (* ****** ****** *)
 

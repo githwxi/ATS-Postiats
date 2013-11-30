@@ -58,7 +58,7 @@ extern
 fun parse_P2Tvar (jsonval): p2at_node
 
 extern
-fun parse_P2Terr (jsonval): p2at_node
+fun parse_P2Terror (jsonval): p2at_node
 
 (* ****** ****** *)
 
@@ -77,7 +77,7 @@ in
 //
 case+ name of
 | "P2Tvar" => parse_P2Tvar (jsv2)
-| _(*rest*) => parse_P2Terr (jsv2)
+| _(*rest*) => parse_P2Terror (jsv2)
 //
 end // end of [parse_p2at_node]
 
@@ -97,7 +97,7 @@ end // end of [parse_P2Tvar]
 (* ****** ****** *)
 
 implement
-parse_P2Terr (jsv) = P2Terr ((*void*))
+parse_P2Terror (jsv) = P2Terror ((*void*))
 
 (* ****** ****** *)
 

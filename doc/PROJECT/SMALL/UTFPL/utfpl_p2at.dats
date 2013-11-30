@@ -22,7 +22,7 @@ case+ p2t0.p2at_node of
 //
 | P2Tvar (d2v) => fprint! (out, "P2Tvar(", d2v, ")")
 //
-| P2Terr ((*void*)) => fprint! (out, "P2Terr(", ")")
+| P2Terror ((*void*)) => fprint! (out, "P2Terror(", ")")
 //
 end // end of [fprint_p2at]
 
@@ -58,7 +58,7 @@ p2at_var (loc, d2v) =
 (* ****** ****** *)
 
 implement
-p2at_err (loc) = p2at_make_node (loc, P2Terr())
+p2at_error (loc) = p2at_make_node (loc, P2Terror())
 
 (* ****** ****** *)
 

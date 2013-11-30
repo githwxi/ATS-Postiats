@@ -93,7 +93,7 @@ extern
 fun parse_D2Eann_seff (jsonval): d2exp_node
 
 extern
-fun parse_D2Eerr (jsonval): d2exp_node
+fun parse_D2Eerror (jsonval): d2exp_node
 
 (* ****** ****** *)
 
@@ -140,7 +140,7 @@ case+ name of
 //
 | "D2Eann_seff" => parse_D2Eann_seff (jsv2)
 //
-| _(*rest*) => parse_D2Eerr (jsv2)
+| _(*rest*) => parse_D2Eerror (jsv2)
 //
 end // end of [parse_d2exp_node]
 
@@ -292,7 +292,7 @@ end // end of [parse_D2Elam_dyn]
 (* ****** ****** *)
 
 implement
-parse_D2Eerr (jsv) = D2Eerr ((*void*))
+parse_D2Eerror (jsv) = D2Eerror ((*void*))
 
 (* ****** ****** *)
 

@@ -118,7 +118,7 @@ case+ d2c0.d2ecl_node of
     val () = fprint! (out, ")")
   }
 //
-| D2Cerr((*void*)) => fprint! (out, "D2Cerr(", ")")
+| D2Cerror((*void*)) => fprint! (out, "D2Cerror(", ")")
 //
 (*
 | _ (*temporary*) => fprint! (out, "D2C...(", "...", ")")
@@ -186,7 +186,7 @@ d2ecl_valdeclst
 (* ****** ****** *)
 
 implement
-d2ecl_err (loc) = d2ecl_make_node (loc, D2Cerr())
+d2ecl_error (loc) = d2ecl_make_node (loc, D2Cerror())
 
 (* ****** ****** *)
 

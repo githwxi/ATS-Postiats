@@ -4,32 +4,6 @@
 
 (* ****** ****** *)
 
-datatype
-funkind = 
-datatype
-funkind =
-//
-  | FK_fn // nonrec fun
-  | FK_fnx // tailrec fun
-  | FK_fun // recursive fun
-//
-  | FK_err // error handling
-// end of [funkind]
-
-(* ****** ****** *)
-
-datatype
-valkind =
-//
-  | VK_val // val
-  | VK_val_pos // val+
-  | VK_val_neg // val-
-//
-  | VK_err // error handling
-// end of [valkind]
-
-(* ****** ****** *)
-
 abst0ype
 stamp_t0ype = int
 typedef stamp = stamp_t0ype
@@ -89,6 +63,32 @@ overload fprint with fprint_location
 (* ****** ****** *)
 
 fun location_make (rep: string): location
+
+(* ****** ****** *)
+
+datatype
+funkind = 
+datatype
+funkind =
+//
+  | FK_fn // nonrec fun
+  | FK_fnx // tailrec fun
+  | FK_fun // recursive fun
+//
+  | FK_err // error handling
+// end of [funkind]
+
+(* ****** ****** *)
+
+datatype
+valkind =
+//
+  | VK_val // val
+  | VK_val_pos // val+
+  | VK_val_neg // val-
+//
+  | VK_err // error handling
+// end of [valkind]
 
 (* ****** ****** *)
 
@@ -180,7 +180,8 @@ fun d2sym_get_name (d2sym):<> symbol
 datatype
 p2at_node =
   | P2Tvar of (d2var)
-  | P2Terr of ((*void*))
+  | P2Terror of ((*void*))
+// end of [p2at_node]
 
 where
 p2at = '{
@@ -209,7 +210,7 @@ fun p2at_var (loc: location, d2v: d2var): p2at
 
 (* ****** ****** *)
 
-fun p2at_err (loc: location): p2at // HX: error-handling
+fun p2at_error (loc: location): p2at // HX: error-handling
 
 (* ****** ****** *)
 
@@ -219,7 +220,8 @@ d2ecl_node =
   | D2Cfundecs of (funkind, f2undeclst)
   | D2Cvaldecs of (valkind, v2aldeclst)
 //
-  | D2Cerr of ((*void*))
+  | D2Cerror of ((*void*)) // HX: error-handling
+// end of [d2ecl_node]
 
 and d2exp_node =
 //
@@ -247,7 +249,7 @@ and d2exp_node =
   | D2Elam of (p2atlst, d2exp)
   | D2Efix of (d2var, p2atlst, d2exp)
 //
-  | D2Eerr of ((*void*))
+  | D2Eerror of ((*void*)) // HX: error-handling
 //
 // end of [d2exp_node]
 
@@ -364,7 +366,7 @@ fun d2exp_fix
 
 (* ****** ****** *)
 
-fun d2exp_err (loc: location): d2exp // HX: error-handling
+fun d2exp_error (loc: location): d2exp // HX: error-handling
 
 (* ****** ****** *)
 
@@ -388,7 +390,7 @@ fun d2ecl_valdeclst
 
 (* ****** ****** *)
 
-fun d2ecl_err (loc: location): d2ecl // HX: error-handling
+fun d2ecl_error (loc: location): d2ecl // HX: error-handling
 
 (* ****** ****** *)
 //
