@@ -109,6 +109,11 @@ jsonval_labval4
 ) : jsonval // end of [jsonval_labval4]
 //
 (* ****** ****** *)
+
+fun
+jsonval_lablist (lxs: labjsonvalist): jsonval
+
+(* ****** ****** *)
 //
 fun jsonval_none (): jsonval
 fun jsonval_some (x: jsonval): jsonval

@@ -20,9 +20,12 @@ in
 //
 case+ p2t0.p2at_node of
 //
+| P2Tany () => fprint! (out, "P2Tany(", ")")
 | P2Tvar (d2v) => fprint! (out, "P2Tvar(", d2v, ")")
 //
-| P2Terror ((*void*)) => fprint! (out, "P2Terror(", ")")
+| P2Tpat (p2t) => fprint! (out, "P2Tpat(", p2t, ")")
+//
+| P2Tignored ((*void*)) => fprint! (out, "P2Tignored(", ")")
 //
 end // end of [fprint_p2at]
 
@@ -58,7 +61,7 @@ p2at_var (loc, d2v) =
 (* ****** ****** *)
 
 implement
-p2at_error (loc) = p2at_make_node (loc, P2Terror())
+p2at_ignored (loc) = p2at_make_node (loc, P2Tignored())
 
 (* ****** ****** *)
 

@@ -91,9 +91,13 @@ fun parse_D2Elam_dyn (jsonval): d2exp_node
 
 extern
 fun parse_D2Eann_seff (jsonval): d2exp_node
+extern
+fun parse_D2Eann_type (jsonval): d2exp_node
+extern
+fun parse_D2Eann_funclo (jsonval): d2exp_node
 
 extern
-fun parse_D2Eerror (jsonval): d2exp_node
+fun parse_D2Eignored (jsonval): d2exp_node
 
 (* ****** ****** *)
 
@@ -139,8 +143,10 @@ case+ name of
 | "D2Elam_dyn" => parse_D2Elam_dyn (jsv2)
 //
 | "D2Eann_seff" => parse_D2Eann_seff (jsv2)
+| "D2Eann_type" => parse_D2Eann_type (jsv2)
+| "D2Eann_funclo" => parse_D2Eann_funclo (jsv2)
 //
-| _(*rest*) => parse_D2Eerror (jsv2)
+| _(*rest*) => parse_D2Eignored (jsv2)
 //
 end // end of [parse_d2exp_node]
 
@@ -287,12 +293,40 @@ val d2e = parse_d2exp (A[0])
 //
 in
   D2Eexp (d2e)
-end // end of [parse_D2Elam_dyn]
+end // end of [parse_D2Eann_seff]
 
 (* ****** ****** *)
 
 implement
-parse_D2Eerror (jsv) = D2Eerror ((*void*))
+parse_D2Eann_type
+  (jsv0) = let
+//
+val-JSONarray(A, n) = jsv0
+val () = assertloc (n >= 2)
+val d2e = parse_d2exp (A[0])
+//
+in
+  D2Eexp (d2e)
+end // end of [parse_D2Eann_type]
+
+(* ****** ****** *)
+
+implement
+parse_D2Eann_funclo
+  (jsv0) = let
+//
+val-JSONarray(A, n) = jsv0
+val () = assertloc (n >= 2)
+val d2e = parse_d2exp (A[0])
+//
+in
+  D2Eexp (d2e)
+end // end of [parse_D2Eann_funclo]
+
+(* ****** ****** *)
+
+implement
+parse_D2Eignored (jsv) = D2Eignored ((*void*))
 
 (* ****** ****** *)
 

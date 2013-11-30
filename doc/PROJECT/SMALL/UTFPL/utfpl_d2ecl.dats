@@ -14,6 +14,11 @@ staload "./utfpl.sats"
 (* ****** ****** *)
 
 extern
+fun fprint_i2mpdec (FILEref, i2mpdec): void
+
+(* ****** ****** *)
+
+extern
 fun fprint_f2undec (FILEref, f2undec): void
 extern
 fun fprint_f2undeclst (FILEref, f2undeclst): void
@@ -22,6 +27,20 @@ extern
 fun fprint_v2aldec (FILEref, v2aldec): void
 extern
 fun fprint_v2aldeclst (FILEref, v2aldeclst): void
+
+(* ****** ****** *)
+
+implement
+fprint_i2mpdec
+  (out, imp) =
+{
+  val () =
+    fprint! (out, "i2mpdec{")
+  val () = fprint! (out, "d2c= ", imp.i2mpdec_cst)
+  val () = fprint! (out, "; ")
+  val () = fprint! (out, "def= ", imp.i2mpdec_def)
+  val () = fprint! (out, "}")
+} (* end of [fprint_i2mpdec] *)
 
 (* ****** ****** *)
 
@@ -100,6 +119,15 @@ in
 //
 case+ d2c0.d2ecl_node of
 //
+| D2Cimpdec
+    (knd, imp) =>
+  {
+    val () =
+      fprint! (out, "D2Cimpdec(\n")
+    val () = fprint_i2mpdec (out, imp)
+    val () = fprint! (out, "\n)")
+  }
+//
 | D2Cfundecs
     (knd, f2ds) =>
   {
@@ -118,7 +146,7 @@ case+ d2c0.d2ecl_node of
     val () = fprint! (out, ")")
   }
 //
-| D2Cerror((*void*)) => fprint! (out, "D2Cerror(", ")")
+| D2Cignored((*void*)) => fprint! (out, "D2Cignored(", ")")
 //
 (*
 | _ (*temporary*) => fprint! (out, "D2C...(", "...", ")")
@@ -140,6 +168,19 @@ fprint_list$sep<> (out) = fprint_string (out, ", ")
 in
   fprint_list<d2ecl> (out, d2cs)
 end // end of [fprint_d2eclist]
+
+(* ****** ****** *)
+
+implement
+i2mpdec_make
+(
+  loc, locid, d2c, d2e
+) = '{
+  i2mpdec_loc= loc
+, i2mpdec_locid= locid
+, i2mpdec_cst= d2c
+, i2mpdec_def= d2e
+} (* end of [i2mpdec_make] *)
 
 (* ****** ****** *)
 
@@ -186,7 +227,7 @@ d2ecl_valdeclst
 (* ****** ****** *)
 
 implement
-d2ecl_error (loc) = d2ecl_make_node (loc, D2Cerror())
+d2ecl_ignored (loc) = d2ecl_make_node (loc, D2Cignored())
 
 (* ****** ****** *)
 

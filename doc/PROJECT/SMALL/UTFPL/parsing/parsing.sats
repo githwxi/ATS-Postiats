@@ -24,7 +24,7 @@ fun parse_string (jsv: jsonval): string
 
 fun parse_stamp (jsv: jsonval): stamp
 fun parse_symbol (jsv: jsonval): symbol
-fun parse_location: jsonval -> location
+fun parse_location (jsv: jsonval): loc_t
 
 (* ****** ****** *)
 

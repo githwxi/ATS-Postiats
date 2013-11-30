@@ -55,11 +55,17 @@ parse_d2eclist
 (* ****** ****** *)
 
 extern
+fun parse_i2mpdec (jsonval): i2mpdec
+
+extern
 fun parse_f2undec (jsonval): f2undec
 extern
 fun parse_v2aldec (jsonval): v2aldec
 
 (* ****** ****** *)
+
+extern
+fun parse_D2Cimpdec (jsonval): d2ecl_node
 
 extern
 fun parse_D2Cfundecs (jsonval): d2ecl_node
@@ -68,7 +74,7 @@ fun parse_D2Cvaldecs (jsonval): d2ecl_node
 
 (* ****** ****** *)
 
-extern fun parse_D2Cerror (jsonval): d2ecl_node
+extern fun parse_D2Cignored (jsonval): d2ecl_node
 
 (* ****** ****** *)
 
@@ -87,12 +93,40 @@ in
 //
 case+ name of
 //
+| "D2Cimpdec" => parse_D2Cimpdec (jsv2)
+//
 | "D2Cfundecs" => parse_D2Cfundecs (jsv2)
 | "D2Cvaldecs" => parse_D2Cvaldecs (jsv2)
 //
-| _(*not-yet-processed*) => parse_D2Cerror (jsv2)
+| _(*not-yet-processed*) => parse_D2Cignored (jsv2)
 //
 end // end of [parse_d2ecl_node]
+
+(* ****** ****** *)
+
+implement
+parse_i2mpdec
+  (jsv0) = let
+//
+val-~Some_vt(loc) = 
+  jsonval_get_field (jsv0, "i2mpdec_loc")
+val-~Some_vt(locid) = 
+  jsonval_get_field (jsv0, "i2mpdec_locid")
+val-~Some_vt(d2c) =
+  jsonval_get_field (jsv0, "i2mpdec_cst")
+val-~Some_vt(def) = 
+  jsonval_get_field (jsv0, "i2mpdec_def")
+//
+val loc =
+  parse_location (loc)
+val locid =
+  parse_location (locid)
+val d2c = parse_d2cst (d2c)
+val def = parse_d2exp (def)
+//
+in
+  i2mpdec_make (loc, locid, d2c, def)
+end // end of [parse_i2mpdec]
 
 (* ****** ****** *)
 
@@ -141,6 +175,21 @@ end // end of [parse_v2aldec]
 (* ****** ****** *)
 
 implement
+parse_D2Cimpdec
+  (jsv0) = let
+//
+val-JSONarray(A, n) = jsv0
+val () = assertloc (n >= 2)
+val knd = parse_int (A[0])
+val imp = parse_i2mpdec (A[1])
+//
+in
+  D2Cimpdec (knd, imp)
+end // end of [parse_D2Cfundecs]
+
+(* ****** ****** *)
+
+implement
 parse_D2Cfundecs
   (jsv0) = let
 //
@@ -171,7 +220,7 @@ end // end of [parse_D2Cvaldecs]
 (* ****** ****** *)
 
 implement
-parse_D2Cerror (jsv0) = D2Cerror ((*void*))
+parse_D2Cignored (jsv0) = D2Cignored ((*void*))
 
 (* ****** ****** *)
 

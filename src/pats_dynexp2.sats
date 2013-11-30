@@ -710,7 +710,7 @@ d2ecl_node =
 //
   | D2Clocal of (d2eclist(*head*), d2eclist(*body*)) // local declaration
 //
-  | D2Cerrdec of () // indication of error
+  | D2Cerrdec of () // HX: indication of error
 // end of [d2ecl_node]
 
 and d2exp_node =

@@ -14,12 +14,15 @@ and fact12 = fact (12)
 
 (* ****** ****** *)
 
-fun
-ack (m, n) =
+extern
+fun acker (m: int, n: int): int
+
+implement
+acker (m, n) =
 (
 if m > 0
   then
-    if n > 0 then ack (m-1, ack (m, n-1)) else ack (m-1, 1)
+    if n > 0 then acker (m-1, acker (m, n-1)) else acker (m-1, 1)
   else n+1
 // end of [if]
 )

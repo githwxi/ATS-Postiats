@@ -47,7 +47,7 @@ case+ d2e0.d2exp_node of
 | D2Elam (p2ts, d2e_body) =>
     fprint! (out, "D2Elam(", p2ts, "; ", d2e_body)
 //
-| D2Eerror ((*void*)) => fprint! (out, "D2Eerror(", ")")
+| D2Eignored ((*void*)) => fprint! (out, "D2Eignored(", ")")
 //
 | _ (*temporary*) => fprint! (out, "D2E...(", "...", ")")
 //
@@ -192,7 +192,7 @@ d2exp_fix
 (* ****** ****** *)
 
 implement
-d2exp_error (loc) = d2exp_make_node (loc, D2Eerror())
+d2exp_ignored (loc) = d2exp_make_node (loc, D2Eignored())
 
 (* ****** ****** *)
 

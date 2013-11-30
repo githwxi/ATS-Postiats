@@ -55,10 +55,15 @@ parse_p2atlst
 (* ****** ****** *)
 
 extern
+fun parse_P2Tany (jsonval): p2at_node
+extern
 fun parse_P2Tvar (jsonval): p2at_node
 
 extern
-fun parse_P2Terror (jsonval): p2at_node
+fun parse_P2Tann (jsonval): p2at_node
+
+extern
+fun parse_P2Tignored (jsonval): p2at_node
 
 (* ****** ****** *)
 
@@ -76,10 +81,26 @@ val-JSONstring(name) = jsv1
 in
 //
 case+ name of
+//
+| "P2Tany" => parse_P2Tany (jsv2)
 | "P2Tvar" => parse_P2Tvar (jsv2)
-| _(*rest*) => parse_P2Terror (jsv2)
+//
+| "P2Tann" => parse_P2Tann (jsv2)
+//
+| _(*yet-to-be-processed*) => parse_P2Tignored (jsv2)
 //
 end // end of [parse_p2at_node]
+
+(* ****** ****** *)
+
+implement
+parse_P2Tany (jsv2) = let
+//
+val-JSONarray(A, n) = jsv2
+//
+in
+  P2Tany ()
+end // end of [parse_P2Tany]
 
 (* ****** ****** *)
 
@@ -97,7 +118,20 @@ end // end of [parse_P2Tvar]
 (* ****** ****** *)
 
 implement
-parse_P2Terror (jsv) = P2Terror ((*void*))
+parse_P2Tann (jsv2) = let
+//
+val-JSONarray(A, n) = jsv2
+val () = assertloc (n >= 2)
+val p2t = parse_p2at (A[0])
+//
+in
+  P2Tpat (p2t)
+end // end of [parse_P2Tann]
+
+(* ****** ****** *)
+
+implement
+parse_P2Tignored (jsv) = P2Tignored ((*void*))
 
 (* ****** ****** *)
 

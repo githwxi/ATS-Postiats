@@ -209,6 +209,10 @@ end // end of [jsonize_d2sym]
 
 (* ****** ****** *)
 
+extern fun jsonize_i2mpdec : jsonize_type (i2mpdec)
+
+(* ****** ****** *)
+
 extern fun jsonize_f2undec : jsonize_type (f2undec)
 extern fun jsonize_f2undeclst : jsonize_type (f2undeclst)
 
@@ -288,6 +292,7 @@ in
 case+ p2t0.p2at_node of
 //
 | P2Tany () => aux0 ("P2Tany")
+//
 | P2Tvar (d2v) => let
     val jsv1 = jsonize_d2var (d2v)
   in
@@ -336,9 +341,14 @@ case+ p2t0.p2at_node of
 //
 | P2Tvbox (d2v) => aux1 ("P2Tvbox", jsonize_d2var (d2v))
 //
+| P2Tann (p2t, ann) =>
+  (
+    aux2 ("P2Tann", jsonize_p2at (p2t), jsonize_ignored (ann))
+  ) (* end of [P2Tann] *)
+//
 | P2Terr ((*void*)) => aux0 ("P2Terr")
 //
-| _ => jsonize_ignored (p2t0)
+| _ (*yet-to-be-processed*) => aux0 ("P2Tignored")
 //
 end // end of [auxmain]
 //
@@ -513,7 +523,7 @@ d2e0.d2exp_node of
     aux2 ("D2Eann_funclo", jsv1, jsv2)
   end // end of [D2Eann_funclo]
 //
-| _ => jsonize_ignored (d2e0)
+| _ (*yet-to-be-processed*) => aux0 ("D2Eignored")
 //
 end // end of [auxmain]
 //
@@ -658,6 +668,14 @@ d2c0.d2ecl_node of
     aux1 ("D2Clist", jsonize_d2eclist (d2cs))
   // end of [D2Clist]
 //
+| D2Cimpdec
+    (knd, i2mp) => let
+    val knd = jsonval_int (knd)
+    val i2mp = jsonize_i2mpdec (i2mp)
+  in
+    aux2 ("D2Cimpdec", knd, i2mp)
+  end // end of [D2Cimpdec]
+//
 | D2Cfundecs
   (
     knd, s2qs, f2ds
@@ -681,7 +699,7 @@ d2c0.d2ecl_node of
     aux1 ("D2Cinclude", jsonize_d2eclist (d2cs))
   // end of [D2Cinclude]
 //
-| _ => jsonize_ignored (d2c0)
+| _ (*yet-to-be-processed*) => aux0 ("D2Cignored")
 //
 end // end of [auxmain]
 //
@@ -707,6 +725,39 @@ val jsvs =
 in
   jsonval_list (list_of_list_vt (jsvs))
 end // end of [jsonize_d2eclist]
+
+(* ****** ****** *)
+
+implement
+jsonize_i2mpdec
+  (i2mp) = let
+//
+val loc = jsonize_loc (i2mp.i2mpdec_loc)
+val locid = jsonize_loc (i2mp.i2mpdec_locid)
+//
+val d2c = jsonize_d2cst (i2mp.i2mpdec_cst)
+//
+val imparg = jsonize_ignored (i2mp.i2mpdec_imparg)
+val tmparg = jsonize_ignored (i2mp.i2mpdec_tmparg)
+val tmpgua = jsonize_ignored (i2mp.i2mpdec_tmpgua)
+//
+val def = jsonize_d2exp (i2mp.i2mpdec_def)
+//
+in
+//
+jsonval_lablist
+(
+   (   "i2mpdec_loc" , loc)
+:: ( "i2mpdec_locid" , locid)
+:: (   "i2mpdec_cst" , d2c)
+:: ("i2mpdec_imparg" , imparg)
+:: ("i2mpdec_tmparg" , tmparg)
+:: ("i2mpdec_tmpgua" , tmpgua)
+:: (   "i2mpdec_def" , def)
+:: list_nil () // end-of-list
+) (* end of [jsonval_lablist] *)
+//
+end // end of [i2mpdec]
 
 (* ****** ****** *)
 

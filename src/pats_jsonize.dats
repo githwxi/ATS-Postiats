@@ -78,28 +78,33 @@ jsonval_pair (x1, x2) = JSONlist (list_pair(x1, x2))
 (* ****** ****** *)
 //
 implement
-jsonval_labval1 (l, v) =
-  JSONlablist (list_cons((l, v), list_nil))
+jsonval_labval1 (l, x) =
+  JSONlablist (list_cons((l, x), list_nil))
 implement
-jsonval_labval2 (l1, v1, l2, v2) =
-  JSONlablist (list_cons((l1, v1), list_cons((l2, v2), list_nil)))
+jsonval_labval2 (l1, x1, l2, x2) =
+  JSONlablist (list_cons((l1, x1), list_cons((l2, x2), list_nil)))
 implement
 jsonval_labval3
 (
-  l1, v1, l2, v2, l3, v3
+  l1, x1, l2, x2, l3, x3
 ) = JSONlablist
 (
-  list_cons((l1, v1), list_cons((l2, v2), list_cons((l3, v3), list_nil)))
+  list_cons((l1, x1), list_cons((l2, x2), list_cons((l3, x3), list_nil)))
 ) (* end of [jsonval_labval3] *)
 implement
 jsonval_labval4
 (
-  l1, v1, l2, v2, l3, v3, l4, v4
+  l1, x1, l2, x2, l3, x3, l4, x4
 ) = JSONlablist
 (
-  list_cons((l1, v1), list_cons((l2, v2), list_cons((l3, v3), list_cons((l4, v4), list_nil))))
+  list_cons((l1, x1), list_cons((l2, x2), list_cons((l3, x3), list_cons((l4, x4), list_nil))))
 ) (* end of [jsonval_labval3] *)
 //
+(* ****** ****** *)
+
+implement
+jsonval_lablist (lxs) = JSONlablist (lxs)
+
 (* ****** ****** *)
 //
 implement

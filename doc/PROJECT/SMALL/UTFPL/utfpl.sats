@@ -49,20 +49,18 @@ overload compare with compare_symbol_symbol
 //
 (* ****** ****** *)
 
-abstype
-location_type = ptr
-typedef
-location = location_type
+abstype location_type = ptr
+typedef loc_t = location_type
 
 (* ****** ****** *)
 
 fun fprint_location
-  : (FILEref, location) -> void
+  : (FILEref, loc_t) -> void
 overload fprint with fprint_location
 
 (* ****** ****** *)
 
-fun location_make (rep: string): location
+fun location_make (rep: string): loc_t
 
 (* ****** ****** *)
 
@@ -75,7 +73,7 @@ funkind =
   | FK_fnx // tailrec fun
   | FK_fun // recursive fun
 //
-  | FK_err // error handling
+  | FK_ignored // error-handling
 // end of [funkind]
 
 (* ****** ****** *)
@@ -87,7 +85,7 @@ valkind =
   | VK_val_pos // val+
   | VK_val_neg // val-
 //
-  | VK_err // error handling
+  | VK_ignored // error-handling
 // end of [valkind]
 
 (* ****** ****** *)
@@ -179,13 +177,18 @@ fun d2sym_get_name (d2sym):<> symbol
 
 datatype
 p2at_node =
+//
+  | P2Tany of ()
   | P2Tvar of (d2var)
-  | P2Terror of ((*void*))
+//
+  | P2Tpat of (p2at)
+//
+  | P2Tignored of ((*void*))
 // end of [p2at_node]
 
 where
 p2at = '{
-  p2at_loc= location, p2at_node= p2at_node
+  p2at_loc= loc_t, p2at_node= p2at_node
 } (* end of [p2at] *)
 
 and
@@ -202,25 +205,27 @@ overload fprint with fprint_p2atlst of 10
 (* ****** ****** *)
 //
 fun p2at_make_node
-  (loc: location, node: p2at_node): p2at
+  (loc: loc_t, node: p2at_node): p2at
 //
 (* ****** ****** *)
 
-fun p2at_var (loc: location, d2v: d2var): p2at
+fun p2at_var (loc: loc_t, d2v: d2var): p2at
 
 (* ****** ****** *)
 
-fun p2at_error (loc: location): p2at // HX: error-handling
+fun p2at_ignored (loc_t): p2at // error-handling
 
 (* ****** ****** *)
 
 datatype
 d2ecl_node =
 //
+  | D2Cimpdec of (int(*knd*), i2mpdec)
+//
   | D2Cfundecs of (funkind, f2undeclst)
   | D2Cvaldecs of (valkind, v2aldeclst)
 //
-  | D2Cerror of ((*void*)) // HX: error-handling
+  | D2Cignored of ((*void*)) // HX: error-handling
 // end of [d2ecl_node]
 
 and d2exp_node =
@@ -249,25 +254,25 @@ and d2exp_node =
   | D2Elam of (p2atlst, d2exp)
   | D2Efix of (d2var, p2atlst, d2exp)
 //
-  | D2Eerror of ((*void*)) // HX: error-handling
+  | D2Eignored of ((*void*)) // HX: error-handling
 //
 // end of [d2exp_node]
 
 and d2exparg =
   | D2EXPARGsta of ()
-  | D2EXPARGdyn of (int, location, d2explst)
+  | D2EXPARGdyn of (int, loc_t, d2explst)
 // end of [d2exparg]
 
 where
 d2ecl = '{
-  d2ecl_loc= location, d2ecl_node= d2ecl_node
+  d2ecl_loc= loc_t, d2ecl_node= d2ecl_node
 } (* end of [d2ecl] *)
 
 and d2eclist = List0 (d2ecl)
 
 and
 d2exp = '{
-  d2exp_loc= location, d2exp_node= d2exp_node
+  d2exp_loc= loc_t, d2exp_node= d2exp_node
 } (* end of [d2exp] *)
 
 and d2explst = List0 (d2exp)
@@ -275,8 +280,15 @@ and d2expopt = Option (d2exp)
 
 and d2exparglst = List0 (d2exparg)
 
+and i2mpdec = '{
+  i2mpdec_loc= loc_t
+, i2mpdec_locid= loc_t
+, i2mpdec_cst= d2cst
+, i2mpdec_def= d2exp
+} (* end of [i2mpdec] *)
+
 and f2undec = '{
-  f2undec_loc= location
+  f2undec_loc= loc_t
 , f2undec_var= d2var
 , f2undec_def= d2exp
 } (* end of [f2undec] *)
@@ -284,7 +296,7 @@ and f2undec = '{
 and f2undeclst = List0 (f2undec)
 
 and v2aldec = '{
-  v2aldec_loc= location
+  v2aldec_loc= loc_t
 , v2aldec_pat= p2at
 , v2aldec_def= d2exp
 } (* end of [v2aldec] *)
@@ -320,77 +332,85 @@ overload fprint with fprint_d2eclist of 10
 (* ****** ****** *)
 
 fun d2exp_make_node
-  (loc: location, node: d2exp_node): d2exp
+  (loc: loc_t, node: d2exp_node): d2exp
 
 (* ****** ****** *)
 
-fun d2exp_cst (loc: location, d2c: d2cst): d2exp
-fun d2exp_var (loc: location, d2v: d2var): d2exp
-fun d2exp_sym (loc: location, d2s: d2sym): d2exp
+fun d2exp_cst (loc: loc_t, d2c: d2cst): d2exp
+fun d2exp_var (loc: loc_t, d2v: d2var): d2exp
+fun d2exp_sym (loc: loc_t, d2s: d2sym): d2exp
 
 (* ****** ****** *)
 
-fun d2exp_i0nt (loc: location, rep: string): d2exp
-fun d2exp_f0loat (loc: location, rep: string): d2exp
-fun d2exp_s0tring (loc: location, rep: string): d2exp
+fun d2exp_i0nt (loc: loc_t, rep: string): d2exp
+fun d2exp_f0loat (loc: loc_t, rep: string): d2exp
+fun d2exp_s0tring (loc: loc_t, rep: string): d2exp
 
 (* ****** ****** *)
 
-fun d2exp_exp (loc: location, d2e: d2exp): d2exp
+fun d2exp_exp (loc: loc_t, d2e: d2exp): d2exp
 
 (* ****** ****** *)
 
 fun d2exp_applst
-  (loc: location, d2e: d2exp, d2as: d2exparglst): d2exp
+  (loc: loc_t, d2e: d2exp, d2as: d2exparglst): d2exp
 // end of [d2exp_applst]
 
 (* ****** ****** *)
 
 fun d2exp_ifopt
 (
-  loc: location, d2exp(*test*), d2exp(*then*), d2expopt(*else*)
+  loc: loc_t, d2exp(*test*), d2exp(*then*), d2expopt(*else*)
 ) : d2exp // end of [d2exp_ifopt]
 
 (* ****** ****** *)
 
 fun d2exp_lam
-  (loc: location, p2ts: p2atlst, d2e: d2exp): d2exp
+  (loc: loc_t, p2ts: p2atlst, d2e: d2exp): d2exp
 // end of [d2exp_lam]
 
 (* ****** ****** *)
 
 fun d2exp_fix
 (
-  loc: location, d2v: d2var, p2ts: p2atlst, d2e: d2exp
+  loc: loc_t, d2v: d2var, p2ts: p2atlst, d2e: d2exp
 ) : d2exp // end of [d2exp_fix]
 
 (* ****** ****** *)
 
-fun d2exp_error (loc: location): d2exp // HX: error-handling
+fun d2exp_ignored (loc_t): d2exp // error-handling
 
 (* ****** ****** *)
 
-fun f2undec_make (location, d2var, def: d2exp): f2undec
+fun
+i2mpdec_make
+(
+  loc: loc_t, locid: loc_t, d2cst, def: d2exp
+) : i2mpdec // end of [i2mpdec_make]
 
 (* ****** ****** *)
 
-fun v2aldec_make (location, p2t0: p2at, def: d2exp): v2aldec
+fun f2undec_make (loc_t, d2var, def: d2exp): f2undec
+
+(* ****** ****** *)
+
+fun v2aldec_make (loc_t, p2t0: p2at, def: d2exp): v2aldec
 
 (* ****** ****** *)
 //
 fun d2ecl_make_node
-  (loc: location, node: d2ecl_node): d2ecl
+  (loc: loc_t, node: d2ecl_node): d2ecl
 //
 (* ****** ****** *)
 
 fun d2ecl_fundeclst
-  (loc: location, knd: funkind, f2ds: f2undeclst): d2ecl
+  (loc: loc_t, knd: funkind, f2ds: f2undeclst): d2ecl
 fun d2ecl_valdeclst
-  (loc: location, knd: valkind, v2ds: v2aldeclst): d2ecl
+  (loc: loc_t, knd: valkind, v2ds: v2aldeclst): d2ecl
 
 (* ****** ****** *)
 
-fun d2ecl_error (loc: location): d2ecl // HX: error-handling
+fun d2ecl_ignored (loc_t): d2ecl // error-handling
 
 (* ****** ****** *)
 //

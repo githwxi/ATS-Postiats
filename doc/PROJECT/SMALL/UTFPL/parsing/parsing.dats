@@ -98,7 +98,7 @@ case+ knd of
 | "FK_fnx" => FK_fnx ()
 | "FK_fun" => FK_fun ()
 //
-| _ => FK_err () // error-handling
+| _ => FK_ignored () // error-handling
 //
 end // end of [parse_funkind]
 
@@ -118,7 +118,7 @@ case+ knd of
 | "VK_val_pos" => VK_val_pos ()
 | "VK_val_neg" => VK_val_neg ()
 //
-| _ => VK_err () // error-handling
+| _ => VK_ignored () // error-handling
 //
 end // end of [parse_valkind]
 
