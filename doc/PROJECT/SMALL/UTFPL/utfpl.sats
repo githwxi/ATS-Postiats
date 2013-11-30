@@ -158,6 +158,25 @@ overload compare with compare_d2var_d2var
 //
 (* ****** ****** *)
 
+abstype d2sym_type = ptr
+typedef d2sym = d2sym_type
+
+(* ****** ****** *)
+
+fun fprint_d2sym
+  : (FILEref, d2sym) -> void
+overload fprint with fprint_d2sym
+
+(* ****** ****** *)
+
+fun d2sym_make (sym: symbol): d2sym
+
+(* ****** ****** *)
+
+fun d2sym_get_name (d2sym):<> symbol
+
+(* ****** ****** *)
+
 datatype
 p2at_node =
   | P2Tvar of (d2var)
@@ -204,17 +223,22 @@ d2ecl_node =
 
 and d2exp_node =
 //
-  | D2Evar of (d2var)
   | D2Ecst of (d2cst)
+  | D2Evar of (d2var)
+  | D2Esym of (d2sym)
 //
   | D2Eint of (int)
   | D2Echar of (char)
   | D2Efloat of (double)
   | D2Estring of (string)
 //
+  | D2Ei0nt of (string)
+  | D2Ef0loat of (string)
+  | D2Es0tring of (string)
+//
   | D2Eexp of (d2exp) // dummy
 //
-  | D2Eapp of (d2exp, d2explst)
+  | D2Eapplst of (d2exp, d2exparglst)
 //
   | D2Eifopt of (
       d2exp(*test*), d2exp(*then*), d2expopt(*else*)
@@ -226,6 +250,11 @@ and d2exp_node =
   | D2Eerr of ((*void*))
 //
 // end of [d2exp_node]
+
+and d2exparg =
+  | D2EXPARGsta of ()
+  | D2EXPARGdyn of (int, location, d2explst)
+// end of [d2exparg]
 
 where
 d2ecl = '{
@@ -241,6 +270,8 @@ d2exp = '{
 
 and d2explst = List0 (d2exp)
 and d2expopt = Option (d2exp)
+
+and d2exparglst = List0 (d2exparg)
 
 and f2undec = '{
   f2undec_loc= location
@@ -262,9 +293,19 @@ and v2aldeclst = List0 (v2aldec)
 //
 fun fprint_d2exp: (FILEref, d2exp) -> void
 fun fprint_d2explst: (FILEref, d2explst) -> void
+fun fprint_d2expopt: (FILEref, d2expopt) -> void
 //
 overload fprint with fprint_d2exp
 overload fprint with fprint_d2explst of 10
+overload fprint with fprint_d2expopt of 10
+//
+(* ****** ****** *)
+//
+fun fprint_d2exparg: (FILEref, d2exparg) -> void
+fun fprint_d2exparglst: (FILEref, d2exparglst) -> void
+//
+overload fprint with fprint_d2exparg
+overload fprint with fprint_d2exparglst of 10
 //
 (* ****** ****** *)
 //
@@ -283,6 +324,13 @@ fun d2exp_make_node
 
 fun d2exp_cst (loc: location, d2c: d2cst): d2exp
 fun d2exp_var (loc: location, d2v: d2var): d2exp
+fun d2exp_sym (loc: location, d2s: d2sym): d2exp
+
+(* ****** ****** *)
+
+fun d2exp_i0nt (loc: location, rep: string): d2exp
+fun d2exp_f0loat (loc: location, rep: string): d2exp
+fun d2exp_s0tring (loc: location, rep: string): d2exp
 
 (* ****** ****** *)
 
@@ -290,9 +338,9 @@ fun d2exp_exp (loc: location, d2e: d2exp): d2exp
 
 (* ****** ****** *)
 
-fun d2exp_app
-  (loc: location, d2e1: d2exp, d2es2: d2explst): d2exp
-// end of [d2exp_app]
+fun d2exp_applst
+  (loc: location, d2e: d2exp, d2as: d2exparglst): d2exp
+// end of [d2exp_applst]
 
 (* ****** ****** *)
 
@@ -347,6 +395,7 @@ fun d2ecl_err (loc: location): d2ecl // HX: error-handling
 symintr .name
 overload .name with d2cst_get_name
 overload .name with d2var_get_name
+overload .name with d2sym_get_name
 //
 symintr .stamp
 overload .stamp with d2cst_get_stamp

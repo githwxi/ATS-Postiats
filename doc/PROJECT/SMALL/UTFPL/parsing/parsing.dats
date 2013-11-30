@@ -50,43 +50,17 @@ case+ jsv0 of
 end // end of [jsonval_get_field]
 
 (* ****** ****** *)
-
+//
 implement
-parse_funkind
+parse_int
   (jsv0) = let
+  val-JSONint (lli) = jsv0 in $UN.cast{int}(lli)
+end // end of [parse_int]
 //
-val-JSONstring(knd) = jsv0
-//
-in
-//
-case+ knd of
-| "FK_fn" => FK_fn ()
-| "FK_fnx" => FK_fnx ()
-| "FK_fun" => FK_fun ()
-//
-| _ => FK_err () // error-handling
-//
-end // end of [parse_funkind]
-
-(* ****** ****** *)
-
 implement
-parse_valkind
-  (jsv0) = let
+parse_string
+  (jsv0) = let val-JSONstring (str) = jsv0 in str end
 //
-val-JSONstring(knd) = jsv0
-//
-in
-//
-case+ knd of
-| "VK_val" => VK_val ()
-| "VK_val_pos" => VK_val_pos ()
-| "VK_val_neg" => VK_val_neg ()
-//
-| _ => VK_err () // error-handling
-//
-end // end of [parse_valkind]
-
 (* ****** ****** *)
 
 implement
@@ -111,6 +85,46 @@ end // end of [parse_location]
 (* ****** ****** *)
 
 implement
+parse_funkind
+  (jsv0) = let
+//
+val-JSONstring(knd) = jsv0
+//
+in
+//
+case+ knd of
+//
+| "FK_fn" => FK_fn ()
+| "FK_fnx" => FK_fnx ()
+| "FK_fun" => FK_fun ()
+//
+| _ => FK_err () // error-handling
+//
+end // end of [parse_funkind]
+
+(* ****** ****** *)
+
+implement
+parse_valkind
+  (jsv0) = let
+//
+val-JSONstring(knd) = jsv0
+//
+in
+//
+case+ knd of
+//
+| "VK_val" => VK_val ()
+| "VK_val_pos" => VK_val_pos ()
+| "VK_val_neg" => VK_val_neg ()
+//
+| _ => VK_err () // error-handling
+//
+end // end of [parse_valkind]
+
+(* ****** ****** *)
+
+implement
 {a}(*tmp*)
 parse_list
   (jsv0, f) = let
@@ -124,6 +138,19 @@ list_tabulate$fopr<a> (i) =
 in
   list_vt2t (list_tabulate<a> (g1u2i(n)))
 end // end of [parse_list]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+parse_option
+  (jsv0, f) = let
+//
+val-JSONarray{n}(A, n) = jsv0
+//
+in
+  if n > 0 then Some{a}(f(A[0])) else None((*void*))
+end // end of [parse_option]
 
 (* ****** ****** *)
 

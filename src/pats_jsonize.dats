@@ -78,8 +78,8 @@ jsonval_pair (x1, x2) = JSONlist (list_pair(x1, x2))
 (* ****** ****** *)
 //
 implement
-jsonval_labval (l, jsv) =
-  JSONlablist (list_cons((l, jsv), list_nil))
+jsonval_labval1 (l, v) =
+  JSONlablist (list_cons((l, v), list_nil))
 implement
 jsonval_labval2 (l1, v1, l2, v2) =
   JSONlablist (list_cons((l1, v1), list_cons((l2, v2), list_nil)))
@@ -226,11 +226,6 @@ end // end of [fprint_labjsonvalist]
 
 (* ****** ****** *)
 
-implement
-jsonize_ignored (x0) = JSONnul () 
-
-(* ****** ****** *)
-
 local
 
 fun aux0
@@ -308,6 +303,10 @@ implement
 jsonize_symbol
   (sym) = jsonval_string (symbol_get_name (sym))
 //
+(* ****** ****** *)
+
+implement jsonize_ignored (x0) = JSONnul () 
+
 (* ****** ****** *)
 
 (* end of [pats_jsonize.dats] *)

@@ -88,6 +88,8 @@ extern
 fun jsonize_d2cst : jsonize_type (d2cst)
 extern
 fun jsonize_d2var : jsonize_type (d2var)
+extern
+fun jsonize_d2sym : jsonize_type (d2sym)
 
 (* ****** ****** *)
 
@@ -164,8 +166,10 @@ implement
 jsonize_d2cst
   (d2c) = let
 //
-val sym = jsonize_symbol (d2cst_get_sym (d2c))
-val stamp = jsonize_stamp (d2cst_get_stamp (d2c))
+val sym =
+  jsonize_symbol (d2cst_get_sym (d2c))
+val stamp =
+  jsonize_stamp (d2cst_get_stamp (d2c))
 //
 in
 //
@@ -179,14 +183,29 @@ implement
 jsonize_d2var
   (d2v) = let
 //
-val sym = jsonize_symbol (d2var_get_sym (d2v))
-val stamp = jsonize_stamp (d2var_get_stamp (d2v))
+val sym =
+  jsonize_symbol (d2var_get_sym (d2v))
+val stamp =
+  jsonize_stamp (d2var_get_stamp (d2v))
 //
 in
 //
 jsonval_labval2 ("d2var_name", sym, "d2var_stamp", stamp)
 //
 end // end of [jsonize_d2var]
+
+(* ****** ****** *)
+
+implement
+jsonize_d2sym
+  (d2s) = let
+//
+val sym =
+  jsonize_symbol (d2s.d2sym_sym)
+//
+in
+  jsonval_labval1 ("d2sym_name", sym)
+end // end of [jsonize_d2sym]
 
 (* ****** ****** *)
 
@@ -432,6 +451,13 @@ d2e0.d2exp_node of
 //
 | D2Ei0nt (tok) =>
     aux1 ("D2Ei0nt", jsonize_i0nt (tok))
+| D2Ef0loat (tok) =>
+    aux1 ("D2Ef0loat", jsonize_f0loat (tok))
+| D2Es0tring (tok) =>
+    aux1 ("D2Es0tring", jsonize_s0tring (tok))
+//
+| D2Esym (d2s) =>
+    aux1 ("D2Esym", jsonize_d2sym (d2s))
 //
 | D2Eapplst
     (d2e, d2as) => let

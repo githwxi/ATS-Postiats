@@ -179,7 +179,7 @@ d2sym = '{
   d2sym_loc= location
 , d2sym_qua= $SYN.d0ynq, d2sym_sym= symbol
 , d2sym_pitmlst= d2pitmlst
-} // end of [d2sym]
+} (* end of [d2sym] *)
 
 typedef d2symopt = Option (d2sym)
 

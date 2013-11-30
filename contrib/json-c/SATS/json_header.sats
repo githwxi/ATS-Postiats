@@ -5,8 +5,8 @@
 
 (* ****** ****** *)
 
-#ifndef JSON_JSON_HEADER_SATS
-#define JSON_JSON_HEADER_SATS
+#ifndef JSONC_JSON_HEADER_SATS
+#define JSONC_JSON_HEADER_SATS
 
 (* ****** ****** *)
 //
@@ -14,7 +14,8 @@ typedef json_bool = int
 //
 macdef json_true = 1 and json_false = 0
 //
-fun{} not_json_bool (tf: json_bool): json_bool
+fun{
+} not_json_bool (tf: json_bool): json_bool
 //
 (* ****** ****** *)
 
@@ -196,7 +197,7 @@ json_tokener1 = [l:addr | l > null] json_tokener (l)
 
 (* ****** ****** *)
 
-#endif // end of [JSON_JSON_HEADER_SATS]
+#endif // end of [JSONC_JSON_HEADER_SATS]
 
 (* ****** ****** *)
 

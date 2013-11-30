@@ -34,6 +34,7 @@ main: \
   parsing_dats.o \
   parsing_d2cst_dats.o \
   parsing_d2var_dats.o \
+  parsing_d2sym_dats.o \
   parsing_p2at_dats.o \
   parsing_d2exp_dats.o \
   parsing_d2ecl_dats.o \

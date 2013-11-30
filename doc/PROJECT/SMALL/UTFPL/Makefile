@@ -31,6 +31,7 @@ utfpl.o: \
   utfpl_location_dats.o \
   utfpl_d2cst_dats.o \
   utfpl_d2var_dats.o \
+  utfpl_d2sym_dats.o \
   utfpl_p2at_dats.o \
   utfpl_d2exp_dats.o \
   utfpl_d2ecl_dats.o \

@@ -70,11 +70,6 @@ and
 jsonvalopt = Option (jsonval)
 
 (* ****** ****** *)
-
-typedef
-jsonize_type (a:t@ype) = (a) -> jsonval
-
-(* ****** ****** *)
 //
 fun jsonval_int (x: int): jsonval
 fun jsonval_bool (x: bool): jsonval
@@ -87,7 +82,7 @@ fun jsonval_sing (x: jsonval): jsonval
 fun jsonval_pair (x1: jsonval, x2: jsonval): jsonval
 fun jsonval_list (xs: jsonvalist): jsonval
 //
-fun jsonval_labval
+fun jsonval_labval1
   (l1: string, x1: jsonval): jsonval
 //
 fun jsonval_labval2
@@ -133,8 +128,8 @@ overload fprint with fprint_labjsonvalist
 //
 (* ****** ****** *)
 
-fun
-jsonize_ignored{a:type} (x: a): jsonval
+typedef
+jsonize_type (a:t@ype) = (a) -> jsonval
 
 (* ****** ****** *)
 
@@ -150,6 +145,10 @@ fun jsonize_valkind : jsonize_type (valkind)
 fun jsonize_stamp : jsonize_type (stamp)
 fun jsonize_symbol : jsonize_type (symbol)
 fun jsonize_location : jsonize_type (location)
+
+(* ****** ****** *)
+
+fun jsonize_ignored : {a:type} jsonize_type (a)
 
 (* ****** ****** *)
 

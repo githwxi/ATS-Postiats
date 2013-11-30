@@ -17,8 +17,8 @@ staload "{$JSONC}/SATS/json_ML.sats"
 
 (* ****** ****** *)
 
-fun parse_funkind: jsonval -> funkind
-fun parse_valkind: jsonval -> valkind
+fun parse_int (jsv: jsonval): int
+fun parse_string (jsv: jsonval): string
 
 (* ****** ****** *)
 
@@ -28,16 +28,30 @@ fun parse_location: jsonval -> location
 
 (* ****** ****** *)
 
+fun parse_funkind: jsonval -> funkind
+fun parse_valkind: jsonval -> valkind
+
+(* ****** ****** *)
+
 fun{
 a:t@ype
 } parse_list
   (jsv: jsonval, f: jsonval -> a): List0 (a)
-// end of[parse_list]
+// end of [parse_list]
+
+(* ****** ****** *)
+
+fun{
+a:t@ype
+} parse_option
+  (jsv: jsonval, f: jsonval -> a): Option (a)
+// end of [parse_option]
 
 (* ****** ****** *)
 
 fun parse_d2cst (jsv: jsonval): d2cst
 fun parse_d2var (jsv: jsonval): d2var
+fun parse_d2sym (jsv: jsonval): d2sym
 
 (* ****** ****** *)
 
@@ -48,6 +62,7 @@ fun parse_p2atlst (jsv: jsonval): p2atlst
 
 fun parse_d2exp (jsv: jsonval): d2exp
 fun parse_d2explst (jsv: jsonval): d2explst
+fun parse_d2expopt (jsv: jsonval): d2expopt
 
 (* ****** ****** *)
 
