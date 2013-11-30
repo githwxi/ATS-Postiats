@@ -1057,7 +1057,10 @@ overload fprint with fprint_d2ecl
 
 fun print_d2lval (x: d2lval): void
 and prerr_d2lval (x: d2lval): void
+overload print with print_d2lval
+overload prerr with prerr_d2lval
 fun fprint_d2lval : fprint_type (d2lval)
+overload fprint with fprint_d2lval
 
 (* ****** ****** *)
 //

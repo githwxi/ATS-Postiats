@@ -54,13 +54,13 @@ staload "./pats_basics.sats"
 
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans3_lstate"
+implement
+prerr_FILENAME<> () = prerr "pats_trans3_lstate"
 
 (* ****** ****** *)
 
 staload
 LOC = "./pats_location.sats"
-typedef location = $LOC.location
 
 (* ****** ****** *)
 
@@ -593,7 +593,7 @@ local
 
 fun auxerr_some
 (
-  loc: location, d2v: d2var, s2e0: s2exp
+  loc: loc_t, d2v: d2var, s2e0: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc)
   val () = prerr ": the dynamic variable ["
@@ -608,7 +608,7 @@ end // end of [auxerr_some]
 
 fun auxerr_none
 (
-  loc: location, d2v: d2var, s2e: s2exp
+  loc: loc_t, d2v: d2var, s2e: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc)
   val () = prerr ": the dynamic variable ["
@@ -623,7 +623,7 @@ end // end of [auxerr_none]
 
 fun auxerr_some2
 (
-  loc: location, d2v: d2var, s2e0: s2exp, s2e: s2exp
+  loc: loc_t, d2v: d2var, s2e0: s2exp, s2e: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc)
   val () = prerr ": the dynamic variable ["
@@ -637,7 +637,7 @@ end // end of [auxerr_some2]
 
 fun auxsait
 (
-  loc: location
+  loc: loc_t
 , d2v: d2var (* perform merge for [d2v] *)
 , knd: int // HX: 0/1/2 : skip/merge/sub+merge
 , sub: !stasub

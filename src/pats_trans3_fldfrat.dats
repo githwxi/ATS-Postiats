@@ -51,7 +51,6 @@ implement prerr_FILENAME<> () = prerr "pats_trans3_fldfrat"
 
 staload
 LOC = "./pats_location.sats"
-typedef location = $LOC.location
 
 (* ****** ****** *)
 
@@ -75,7 +74,7 @@ local
 
 fun auxck_free
 (
-  loc0: location
+  loc0: loc_t
 , s2es: s2explst, nerr: int
 ) : int = let
 in
@@ -110,7 +109,7 @@ end // end of [auxck_free]
 
 fun auxfind
 (
-  loc0: location, s2ls: s2explst
+  loc0: loc_t, s2ls: s2explst
 ) : s2explst = let
 in
 //
@@ -155,7 +154,7 @@ end // end of [auxfind]
 
 fun auxmain
 (
-  loc0: location
+  loc0: loc_t
 , opknd: int // 0/1 free/fold
 , s2as: s2exparglst, d2e: d2exp
 ) : d3exp = let

@@ -58,11 +58,14 @@ INTINF = "./pats_intinf.sats"
 
 (* ****** ****** *)
 
-staload LAB = "./pats_label.sats"
+staload
+LAB = "./pats_label.sats"
 overload = with $LAB.eq_label_label
 
-staload LOC = "./pats_location.sats"
-macdef print_location = $LOC.print_location
+staload
+LOC = "./pats_location.sats"
+macdef
+print_location = $LOC.print_location
 
 (* ****** ****** *)
 
@@ -807,8 +810,9 @@ end // end of [p2at_trdn_string]
 
 local
 
-fun auxcheck (
-  loc0: location, s2e: s2exp, s2e_pat: s2exp, nerr: &int
+fun auxcheck
+(
+  loc0: loc_t, s2e: s2exp, s2e_pat: s2exp, nerr: &int
 ) : void = let
 //
 val-S2Eapp
@@ -949,8 +953,10 @@ end // end of [p2at_trdn_empty]
 (* ****** ****** *)
 
 extern
-fun labp2atlst_trdn (
-  loc0: location
+fun
+labp2atlst_trdn
+(
+  loc0: loc_t
 , lp2ts: labp2atlst, ls2es: labs2explst, nerr: &int
 ) : labp3atlst // end of [labp2atlst_trdn_labs2explst]
 
@@ -1210,8 +1216,9 @@ end // end of [p2at_trdn_refas]
 
 local
 
-fun auxerr1 (
-  loc0: location
+fun auxerr1
+(
+  loc0: loc_t
 , s2v1: s2var, s2v2: s2var
 ) : void = let
   val s2t1 = s2var_get_srt (s2v1)
@@ -1229,8 +1236,9 @@ in
   // nothing
 end // end of [auxerr1]
 //
-fun auxerr2 (
-  loc0: location, s2v1: s2var
+fun auxerr2
+(
+  loc0: loc_t, s2v1: s2var
 ) : void = let
    val () = prerr_error3_loc (loc0)
    val () = prerr ": there is no binding for the static variable [";
@@ -1241,8 +1249,9 @@ in
   // nothing
 end // end of [auxerr2]
 //
-fun auxbind (
-  loc0: location
+fun auxbind
+(
+  loc0: loc_t
 , sub: &stasub, s2vs1: s2varlst, s2vs2: s2varlst
 , err: &int
 ) : void = let
@@ -1441,8 +1450,9 @@ p3at_mutablize
   (p3t0) = let
   val loc0 = p3t0.p3at_loc
 //
-fun auxvar (
-  loc0: location, d2v: d2var
+fun auxvar
+(
+  loc0: loc_t, d2v: d2var
 ) : void = let
   val-Some
     (s2e0) = d2var_get_mastype (d2v)

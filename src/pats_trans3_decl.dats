@@ -622,8 +622,10 @@ end // end of [v2aldeclst_rec_tr]
 
 local
 
-fun auxInitCK (
-  loc0: location
+fun
+auxInitCK
+(
+  loc0: loc_t
 , d2v: d2var, s2e1: s2exp, s2e2: s2exp
 ) : void = let
   val tszeq = s2exp_tszeq (s2e1, s2e2)

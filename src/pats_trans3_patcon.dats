@@ -111,7 +111,7 @@ end // end of [val]
 //
 val () = let
   fun loop (
-    loc0: location, s2qs: s2qualst
+    loc0: loc_t, s2qs: s2qualst
   ) : void = case+ s2qs of
     | list_cons (s2q, s2qs) => let
         val () = trans3_env_hypadd_proplst (loc0, s2q.s2qua_sps)

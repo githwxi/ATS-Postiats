@@ -43,9 +43,10 @@ LAB = "./pats_label.sats"
 overload = with $LAB.eq_label_label
 macdef prerr_label = $LAB.prerr_label
 
+(* ****** ****** *)
+
 staload
 LOC = "./pats_location.sats"
-stadef location = $LOC.location
 
 (* ****** ****** *)
 
@@ -70,8 +71,10 @@ staload "./pats_trans3_env.sats"
 
 local
 
-fun auxerr_pfobj (
-  loc0: location, s2l: s2exp
+fun
+auxerr_pfobj
+(
+  loc0: loc_t, s2l: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": dereference cannot be performed"
@@ -83,8 +86,10 @@ in
   the_trans3errlst_add (T3E_pfobj_search_none (loc0, s2l))
 end // end of [auxerr_pfobj]
 
-fun auxmain .<>. (
-  loc0: location
+fun
+auxmain .<>.
+(
+  loc0: loc_t
 , pfobj: pfobj
 , d3ls: d3lablst
 , s2rt: &s2exp? >> s2exp
@@ -166,7 +171,7 @@ local
 fun
 auxerr_nonderef
 (
-  loc0: location, d3e: d3exp
+  loc0: loc_t, d3e: d3exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": the dynamic expression cannot be dereferenced."
@@ -178,7 +183,7 @@ end // end of [auxerr_nonderef]
 fun
 auxerr_reflinsel
 (
-  loc0: location
+  loc0: loc_t
 , d3e: d3exp, d3ls: d3lablst, s2e_sel: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
@@ -189,7 +194,7 @@ end // end of [auxerr_reflinsel]
 
 fun aux1
 (
-  loc0: location
+  loc0: loc_t
 , s2f0: s2hnf, d3e: d3exp, d3ls: d3lablst
 ) : d3exp = let
 //
@@ -212,7 +217,7 @@ end // end of [aux1]
 
 and aux2
 (
-  loc0: location
+  loc0: loc_t
 , s2f0: s2hnf, d3e: d3exp, d3ls: d3lablst
 ) : d3exp = let
 //
@@ -238,8 +243,9 @@ case+ opt of
 //
 end // end of [aux2]
 
-and aux3 (
-  loc0: location
+and aux3
+(
+  loc0: loc_t
 , s2f0: s2hnf
 , d3e: d3exp, d3ls: d3lablst
 ) : d3exp = let

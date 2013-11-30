@@ -50,8 +50,10 @@ prerr_FILENAME<> () = prerr "pats_trans3_env_dvar"
 //
 (* ****** ****** *)
 
-staload LOC = "./pats_location.sats"
-overload print with $LOC.print_location
+staload
+LOC = "./pats_location.sats"
+overload
+print with $LOC.print_location
 
 (* ****** ****** *)
 
@@ -513,21 +515,24 @@ the_d2varenv_add_labp3atlst
 } // end of [the_d2varenv_add_labp3atlst]
 
 (* ****** ****** *)
-
+//
 extern
-fun d2vfin_check (loc0: location, d2v: d2var): void
+fun d2vfin_check
+  (loc0: loc_t, d2v: d2var): void
+//
+(* ****** ****** *)
 
 local
 
 fun
 d2vfin_check_some
 (
-  loc0: location, d2v: d2var, s2e: s2exp
+  loc0: loc_t, d2v: d2var, s2e: s2exp
 ) : void = let
 //
 fun auxerr1
 (
-  loc0: location
+  loc0: loc_t
 , d2v: d2var, s2e1: s2exp, s2e2: s2exp
 ) : void = {
   val () = prerr_error3_loc (loc0)
@@ -538,8 +543,9 @@ fun auxerr1
   val () = prerr_the_staerrlst ()
   val () =  the_trans3errlst_add (T3E_d2var_fin_some_some (loc0, d2v))
 } (* end of [auxerr1] *)
-fun auxerr2 (
-  loc0: location, d2v: d2var, s2e: s2exp
+fun auxerr2
+(
+  loc0: loc_t, d2v: d2var, s2e: s2exp
 ) : void = {
   val () = prerr_error3_loc (loc0)
   val () = prerr ": the linear dynamic variable ["
@@ -613,12 +619,15 @@ case+ d2vfin of
 //
 end // end of [d2vfin_check_some]
 
-fun d2vfin_check_none (
-  loc0: location, d2v: d2var
+fun
+d2vfin_check_none
+(
+  loc0: loc_t, d2v: d2var
 ) : void = let
 //
-fun auxerr (
-  loc0: location, d2v: d2var
+fun auxerr
+(
+  loc0: loc_t, d2v: d2var
 ) : void = {
   val () = prerr_error3_loc (loc0)
   val () = prerr ": the linear dynamic variable ["
@@ -693,8 +702,9 @@ val () = (
   print "the_d2varenv_check"; print_newline ()
 ) // end of [val]
 *)
-fun loop (
-  loc0: location, d2vs: d2varlst_vt
+fun loop
+(
+  loc0: loc_t, d2vs: d2varlst_vt
 ) : void =
   case+ d2vs of
   | ~list_vt_cons (d2v, d2vs) => let
@@ -711,8 +721,9 @@ implement
 the_d2varenv_check_llam
   (loc0) = let
 //
-fun aux (
-  loc0: location, d2v: d2var
+fun aux
+(
+  loc0: loc_t, d2v: d2var
 ) : void = let
   val opt = d2var_get_type (d2v)
 in
@@ -737,9 +748,12 @@ in
     end // end of [Some]
   | None () => ()
 end // end of [aux]
-fun auxlst (
-  loc0: location, d2vs: d2varlst_vt
+//
+fun auxlst
+(
+  loc0: loc_t, d2vs: d2varlst_vt
 ) : void =
+(
   case+ d2vs of
   | ~list_vt_cons
       (d2v, d2vs) => let
@@ -749,7 +763,8 @@ fun auxlst (
       // nothing
     end // end of [list_vt_cons]
   | ~list_vt_nil () => ()
-// end of [auxlst]
+) (* end of [auxlst] *)
+//
 in
   auxlst (loc0, the_d2varenv_get_llamd2vs ())
 end // end of [the_d2varenv_check_llam]
@@ -780,10 +795,11 @@ funarg_d2vfin_check (loc0) = let
 (*
 val () = (
   println! ("funarg_d2vfin_check: enter")
-) // end of [val]
+) (* end of [val] *)
 *)
-fun auxvar (
-  loc0: location, d2v: d2var
+fun auxvar
+(
+  loc0: loc_t, d2v: d2var
 ) : void = let
 (*
 val () = begin
@@ -806,8 +822,10 @@ in
   d2vfin_checked (d2v) // HX: indicating that [d2vfin_check] should skip it
 end // end of [auxvar]
 //
-fun auxpatlst (
-  loc0: location, p3ts: p3atlst
+fun
+auxpatlst
+(
+  loc0: loc_t, p3ts: p3atlst
 ) : void = let
 in
 //
@@ -942,7 +960,7 @@ end // end of [aux_trans]
 //
 fun auxlst
 (
-  loc0: location
+  loc0: loc_t
 , p3ts: p3atlst, wths2es: wths2explst
 ) : void = let
 in

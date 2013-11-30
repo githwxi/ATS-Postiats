@@ -135,9 +135,7 @@ local
 assume effenv_push_v = unit_v
 val the_efis = ref<effenvitmlst> (EFILSTnil ())
 
-in // in of [local]
-
-(* ****** ****** *)
+in (* in of [local] *)
 
 implement
 the_effenv_add_eff

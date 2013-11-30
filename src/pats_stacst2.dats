@@ -1272,6 +1272,14 @@ extern
 fun sizeof_t0ype_int_assume (): void
 extern
 fun at_vt0ype_addr_view_assume (): void
+
+extern
+fun invar_assume (s2cr: s2cstref, s2t: s2rt): void
+
+extern
+fun invar_prop_prop_assume (): void
+extern
+fun invar_view_view_assume (): void
 extern
 fun invar_t0ype_t0ype_assume (): void
 extern
@@ -1284,8 +1292,10 @@ stacst2_initialize () = () where {
 //
   val () = at_vt0ype_addr_view_assume () // VT @ L
 //
-  val () = invar_t0ype_t0ype_assume ()
-  val () = invar_vt0ype_vt0ype_assume ()
+  val () = invar_assume (the_invar_prop_prop, s2rt_prop)
+  val () = invar_assume (the_invar_view_view, s2rt_view)
+  val () = invar_assume (the_invar_t0ype_t0ype, s2rt_t0ype)
+  val () = invar_assume (the_invar_vt0ype_vt0ype, s2rt_vt0ype)
 //
 } // end of [stacst2_initialize]
 
@@ -1329,40 +1339,40 @@ in
 end // end of [sizeof_t0ype_int_assume]
 
 (* ****** ****** *)
-
+//
+// HX:
+// declared in [basic_pre.sats]
+//
+implement
+the_invar_prop_prop =
+  s2cstref_make "invar_prop_prop"
+implement
+the_invar_view_view =
+  s2cstref_make "invar_view_view"
 implement
 the_invar_t0ype_t0ype =
-  s2cstref_make "invar_t0ype_t0ype" // in prelude/basics_pre.sats
-// end of [the_invar_t0ype_t0ype]
-
-implement
-invar_t0ype_t0ype_assume () = let
-  val s2c = s2cstref_get_cst (the_invar_t0ype_t0ype)
-  val s2t_def = s2cst_get_srt s2c
-  val s2v = s2var_make_srt s2rt_t0ype
-  val arg = s2exp_var (s2v)
-  val s2e_body = s2exp_invar (arg)
-  val s2e_def = s2exp_lam_srt (s2t_def, '[s2v], s2e_body)
-in
-  s2cst_set_def (s2c, Some s2e_def)
-end // end of [invar_t0ype_t0ype_assume]
-
+  s2cstref_make "invar_t0ype_t0ype"
 implement
 the_invar_vt0ype_vt0ype =
-  s2cstref_make "invar_vt0ype_vt0ype" // in prelude/basics_pre.sats
-// end of [the_invar_vt0ype_vt0ype]
+  s2cstref_make "invar_vt0ype_vt0ype"
+//
+(* ****** ****** *)
 
 implement
-invar_vt0ype_vt0ype_assume () = let
-  val s2c = s2cstref_get_cst (the_invar_vt0ype_vt0ype)
-  val s2t_def = s2cst_get_srt s2c
-  val s2v = s2var_make_srt s2rt_vt0ype
-  val arg = s2exp_var (s2v)
-  val s2e_body = s2exp_invar (arg)
-  val s2e_def = s2exp_lam_srt (s2t_def, '[s2v], s2e_body)
+invar_assume
+  (s2cr, s2t) = let
+//
+val s2c =
+  s2cstref_get_cst (s2cr)
+val s2t_def = s2cst_get_srt (s2c)
+val s2v = s2var_make_srt (s2t)
+val arg = s2exp_var (s2v)
+val s2e_body = s2exp_invar (arg)
+val s2e_def = s2exp_lam_srt (s2t_def, '[s2v], s2e_body)
+//
 in
   s2cst_set_def (s2c, Some s2e_def)
-end // end of [invar_vt0ype_vt0ype_assume]
+end // end of [invar_assume]
 
 (* ****** ****** *)
 //

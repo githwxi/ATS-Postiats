@@ -23,8 +23,7 @@ neq_d2var_d2var
 (* ****** ****** *)
 
 typedef
-d2var_struct =
-@{
+d2var_struct = @{
   d2var_name= symbol
 , d2var_stamp= stamp
 } (* end of [d2var_struct] *)

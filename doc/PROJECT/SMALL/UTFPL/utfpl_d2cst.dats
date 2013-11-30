@@ -23,8 +23,7 @@ neq_d2cst_d2cst
 (* ****** ****** *)
 
 typedef
-d2cst_struct =
-@{
+d2cst_struct = @{
   d2cst_name= symbol
 , d2cst_stamp= stamp
 } (* end of [d2cst_struct] *)

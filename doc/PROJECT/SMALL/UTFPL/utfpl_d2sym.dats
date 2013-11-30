@@ -14,10 +14,8 @@ staload "./utfpl.sats"
 (* ****** ****** *)
 
 typedef
-d2sym_struct =
-@{
+d2sym_struct = @{
   d2sym_name= symbol
-, d2sym_name2= symbol
 } (* end of [d2sym_struct] *)
 
 (* ****** ****** *)
@@ -60,9 +58,7 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-fprint_d2sym
-  (out, d2s) = fprint! (out, d2s.name, "(", ")")
-// end of [fprint_d2sym]
+fprint_d2sym (out, d2s) = fprint! (out, d2s.name)
 
 (* ****** ****** *)
 

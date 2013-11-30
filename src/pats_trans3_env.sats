@@ -39,7 +39,7 @@ staload "./pats_basics.sats"
 
 staload
 LOC = "./pats_location.sats"
-typedef location = $LOC.location
+typedef loc_t = $LOC.location
 
 (* ****** ****** *)
 
@@ -115,7 +115,7 @@ and
 s3itmlstlst = List (s3itmlst)
 
 and c3nstr = '{
-  c3nstr_loc= location
+  c3nstr_loc= loc_t
 , c3nstr_kind= c3nstrkind
 , c3nstr_node= c3nstr_node
 } // end of [c3nstr]
@@ -124,49 +124,49 @@ and c3nstropt = Option (c3nstr)
 
 and
 c3nstroptref = '{
-  c3nstroptref_loc= location
+  c3nstroptref_loc= loc_t
 , c3nstroptref_ref= ref (c3nstropt)
 } // end of [c3nstroptref]
 
 and h3ypo = '{
-  h3ypo_loc= location
+  h3ypo_loc= loc_t
 , h3ypo_node= h3ypo_node
 } // end of [h3ypo]
 
 (* ****** ****** *)
 
 fun c3nstr_prop
-  (loc: location, s2e: s2exp): c3nstr
+  (loc: loc_t, s2e: s2exp): c3nstr
 
 fun
 c3nstr_itmlst
 (
-  loc: location, knd: c3nstrkind, s3is: s3itmlst
+  loc: loc_t, knd: c3nstrkind, s3is: s3itmlst
 ) : c3nstr // end of [c3nstr_itmlst]
 
 fun
 c3nstr_case_exhaustiveness
 (
-  loc: location, casknd: caskind, p2tcs: !p2atcstlst_vt
+  loc: loc_t, casknd: caskind, p2tcs: !p2atcstlst_vt
 ) : c3nstr // end of [c3nstr_case_exhaustiveness]
 
 fun c3nstr_termet_isnat
-  (loc: location, s2e: s2exp): c3nstr
+  (loc: loc_t, s2e: s2exp): c3nstr
 // end of [c3nstr_termet_isnat]
 fun c3nstr_termet_isdec
-  (loc: location, met: s2explst, metbd: s2explst): c3nstr
+  (loc: loc_t, met: s2explst, metbd: s2explst): c3nstr
 // end of [c3nstr_termet_isdec]
 
-fun c3nstroptref_make_none (loc: location): c3nstroptref
+fun c3nstroptref_make_none (loc: loc_t): c3nstroptref
 
 (* ****** ****** *)
 
 fun h3ypo_prop
-  (loc: location, s2e: s2exp): h3ypo
+  (loc: loc_t, s2e: s2exp): h3ypo
 fun h3ypo_bind
-  (loc: location, s2v: s2var, s2f: s2hnf): h3ypo
+  (loc: loc_t, s2v: s2var, s2f: s2hnf): h3ypo
 fun h3ypo_eqeq
-  (loc: location, s2f1: s2hnf, s2f2: s2hnf): h3ypo
+  (loc: loc_t, s2f1: s2hnf, s2f2: s2hnf): h3ypo
 // end of [h3ypo_eqeq]
 
 (* ****** ****** *)
@@ -187,31 +187,31 @@ fun fprint_s3itmlstlst : fprint_type (s3itmlstlst)
 
 (* ****** ****** *)
 
-fun s2exp_Var_make_srt (loc: location, s2t: s2rt): s2exp
-fun s2exp_Var_make_var (loc: location, s2v: s2var): s2exp
+fun s2exp_Var_make_srt (loc: loc_t, s2t: s2rt): s2exp
+fun s2exp_Var_make_var (loc: loc_t, s2v: s2var): s2exp
 
 (* ****** ****** *)
 
 fun stasub_make_svarlst
-  (loc: location, s2vs: s2varlst): stasub
+  (loc: loc_t, s2vs: s2varlst): stasub
 // end of [stasub_make_svarlst]
 
 (* ****** ****** *)
 
 fun s2exp_exiuni_instantiate_all // knd=0/1:exi/uni
-  (knd: int, s2e: s2exp, locarg: location, err: &int): (s2exp, s2explst_vt)
+  (knd: int, s2e: s2exp, locarg: loc_t, err: &int): (s2exp, s2explst_vt)
 fun s2exp_exi_instantiate_all
-  (s2e: s2exp, locarg: location, err: &int): (s2exp, s2explst_vt)
+  (s2e: s2exp, locarg: loc_t, err: &int): (s2exp, s2explst_vt)
 fun s2exp_uni_instantiate_all
-  (s2e: s2exp, locarg: location, err: &int): (s2exp, s2explst_vt)
+  (s2e: s2exp, locarg: loc_t, err: &int): (s2exp, s2explst_vt)
 
 (* ****** ****** *)
 
 fun s2exp_termet_instantiate
-  (loc: location, stamp: stamp, met: s2explst): void
+  (loc: loc_t, stamp: stamp, met: s2explst): void
 fun s2exp_unimet_instantiate_all
 // HX: instantiating universal quantifiers and term. metrics
-  (s2e: s2exp, locarg: location, err: &int): (s2exp, s2explst_vt)
+  (s2e: s2exp, locarg: loc_t, err: &int): (s2exp, s2explst_vt)
 
 (* ****** ****** *)
 
@@ -223,13 +223,13 @@ fun s2exp_uni_instantiate_sexparglst
 (* ****** ****** *)
 
 fun s2exp_tmp_instantiate_rest (
-  s2f: s2exp, locarg: location, s2qs: s2qualst, err: &int
+  s2f: s2exp, locarg: loc_t, s2qs: s2qualst, err: &int
 ) : (s2exp(*res*), t2mpmarglst)
 // end of [s2exp_tmp_instantiate_rest]
 
 fun s2exp_tmp_instantiate_tmpmarglst (
   s2f: s2exp
-, locarg: location, s2qs: s2qualst, t2mas: t2mpmarglst, err: &int
+, locarg: loc_t, s2qs: s2qualst, t2mas: t2mpmarglst, err: &int
 ) : (s2exp(*res*), t2mpmarglst)
 // end of [s2exp_tmp_instantiate_tmpmarglst]
 
@@ -242,11 +242,11 @@ fun trans3_env_pop
 // end of [trans3_env_pop]
 
 fun trans3_env_pop_and_add
-  (pf: trans3_env_push_v | loc: location, knd: c3nstrkind): void
+  (pf: trans3_env_push_v | loc: loc_t, knd: c3nstrkind): void
 // end of [trans3_env_pop_and_add]
 
 fun trans3_env_pop_and_add_main
-  (pf: trans3_env_push_v | loc: location): void
+  (pf: trans3_env_push_v | loc: loc_t): void
 // end of [trans3_env_pop_and_add_main]
 
 fun trans3_env_push (): (trans3_env_push_v | void)
@@ -264,39 +264,39 @@ fun trans3_env_add_sVarlst (s2Vs: s2Varlst): void
 fun trans3_env_add_cnstr (c3t: c3nstr): void
 fun trans3_env_add_cnstr_ref (ctr: c3nstroptref): void
 
-fun trans3_env_add_prop (loc: location, s2p: s2exp): void
-fun trans3_env_add_proplst (loc: location, s2ps: s2explst): void
-fun trans3_env_add_proplst_vt (loc: location, s2ps: s2explst_vt): void
+fun trans3_env_add_prop (loc: loc_t, s2p: s2exp): void
+fun trans3_env_add_proplst (loc: loc_t, s2ps: s2explst): void
+fun trans3_env_add_proplst_vt (loc: loc_t, s2ps: s2explst_vt): void
 
 fun trans3_env_add_eqeq
-  (loc: location, s2e1: s2exp, s2e2: s2exp): void
+  (loc: loc_t, s2e1: s2exp, s2e2: s2exp): void
 // end of [trans3_env_add_eqeq]
 
 fun trans3_env_add_patcstlstlst_false (
-  loc: location
+  loc: loc_t
 , casknd: caskind, cp2tcss: p2atcstlstlst_vt, s2es_pat: s2explst
 ) : void // end of [trans3_env_add_p2atcstlstlst_false]
 
 (* ****** ****** *)
 //
-fun trans3_env_hypadd_prop (loc: location, s2p: s2exp): void
-fun trans3_env_hypadd_proplst (loc: location, s2ps: s2explst): void
-fun trans3_env_hypadd_proplst_vt (loc: location, s2ps: s2explst_vt): void
+fun trans3_env_hypadd_prop (loc: loc_t, s2p: s2exp): void
+fun trans3_env_hypadd_proplst (loc: loc_t, s2ps: s2explst): void
+fun trans3_env_hypadd_proplst_vt (loc: loc_t, s2ps: s2explst_vt): void
 //
-fun trans3_env_hypadd_propopt (loc: location, os2p: s2expopt): void
-fun trans3_env_hypadd_propopt_neg (loc: location, os2p: s2expopt): void
+fun trans3_env_hypadd_propopt (loc: loc_t, os2p: s2expopt): void
+fun trans3_env_hypadd_propopt_neg (loc: loc_t, os2p: s2expopt): void
 //
-fun trans3_env_hypadd_bind (loc: location, s2v1: s2var, s2f2: s2hnf): void
-fun trans3_env_hypadd_eqeq (loc: location, s2f1: s2hnf, s2f2: s2hnf): void
+fun trans3_env_hypadd_bind (loc: loc_t, s2v1: s2var, s2f2: s2hnf): void
+fun trans3_env_hypadd_eqeq (loc: loc_t, s2f1: s2hnf, s2f2: s2hnf): void
 //
 fun trans3_env_hypadd_patcst
-  (loc: location, p2tc: p2atcst, s2e: s2exp): void
+  (loc: loc_t, p2tc: p2atcst, s2e: s2exp): void
 fun trans3_env_hypadd_patcstlst
-  (loc: location, p2tcs: p2atcstlst_vt, s2es: s2explst): void
+  (loc: loc_t, p2tcs: p2atcstlst_vt, s2es: s2explst): void
 fun trans3_env_hypadd_labpatcstlst
-  (loc: location, lp2tcs: labp2atcstlst_vt, ls2es: labs2explst): void
+  (loc: loc_t, lp2tcs: labp2atcstlst_vt, ls2es: labs2explst): void
 fun trans3_env_hypadd_patcstlstlst
-  (loc: location, p2tcs: p2atcstlstlst_vt, s2es: s2explst): void
+  (loc: loc_t, p2tcs: p2atcstlstlst_vt, s2es: s2explst): void
 //
 (* ****** ****** *)
 //
@@ -325,7 +325,7 @@ fun the_s2cstbindlst_add (s2c: s2cst): void
 fun the_s2cstbindlst_addlst (s2cs: s2cstlst_vt): void
 
 fun the_s2cstbindlst_bind_and_add
-  (loc: location, s2c: s2cst, s2f: s2hnf): void
+  (loc: loc_t, s2c: s2cst, s2f: s2hnf): void
 // end of [the_s2cstbindlst_bind_and_add]
 
 fun the_s2cstbindlst_pop
@@ -338,7 +338,7 @@ fun the_s2cstbindlst_push (): (s2cstbindlst_push_v | void)
 (* ****** ****** *)
 
 fun s2explst_check_termet
-  (loc0: location, met: s2explst): void
+  (loc0: loc_t, met: s2explst): void
 // end of [s2explst_check_termet]
 
 absview termetenv_push_v
@@ -382,51 +382,53 @@ fun the_effenv_push_set_if {b:bool}
 fun the_effenv_push_effmask (s2fe: s2eff): (effenv_push_v | void)
 
 fun the_effenv_check_set
-  (loc: location, efs: effset): int (*succ/fail: 0/1*)
+  (loc: loc_t, efs: effset): int (*succ/fail: 0/1*)
 //
 fun the_effenv_check_eff
-  (loc: location, eff: effect): int (*succ/fail: 0/1*)
+  (loc: loc_t, eff: effect): int (*succ/fail: 0/1*)
 //
-fun the_effenv_check_exn (loc: location): int (*succ/fail: 0/1*)
-fun the_effenv_check_ntm (loc: location): int (*succ/fail: 0/1*)
-fun the_effenv_check_ref (loc: location): int (*succ/fail: 0/1*)
-fun the_effenv_check_wrt (loc: location): int (*succ/fail: 0/1*)
+fun the_effenv_check_exn (loc: loc_t): int (*succ/fail: 0/1*)
+fun the_effenv_check_ntm (loc: loc_t): int (*succ/fail: 0/1*)
+fun the_effenv_check_ref (loc: loc_t): int (*succ/fail: 0/1*)
+fun the_effenv_check_wrt (loc: loc_t): int (*succ/fail: 0/1*)
 //
 fun the_effenv_caskind_check_exn
-  (loc: location, knd: caskind): int (*succ/fail: 0/1*)
+  (loc: loc_t, knd: caskind): int (*succ/fail: 0/1*)
 // end of [the_effenv_caskind_check_exn]
 
 fun the_effenv_check_sexp
-  (loc: location, s2e: s2exp): int (*succ/fail: 0/1*)
+  (loc: loc_t, s2e: s2exp): int (*succ/fail: 0/1*)
 fun the_effenv_check_s2eff
-  (loc: location, s2fe: s2eff): int (*succ/fail: 0/1*)
+  (loc: loc_t, s2fe: s2eff): int (*succ/fail: 0/1*)
 
 (* ****** ****** *)
 
 fun s2hnf_absuni_and_add
-  (loc: location, s2f: s2hnf): s2exp
+  (loc: loc_t, s2f: s2hnf): s2exp
 // end of [s2hnf_absuni_and_add]
 
 fun s2hnf_opnexi_and_add
-  (loc: location, s2f: s2hnf): s2exp
+  (loc: loc_t, s2f: s2hnf): s2exp
 // end of [s2hnf_opnexi_and_add]
 
 fun s2hnf_opn1exi_and_add
-  (loc: location, s2f: s2hnf): s2exp
+  (loc: loc_t, s2f: s2hnf): s2exp
 // end of [s2hnf_opn1exi_and_add]
 
 fun s2fun_opninv_and_add
-  (loc: location, arg: s2explst, res: s2exp): s2explst
+  (loc: loc_t, arg: s2explst, res: s2exp): s2explst
 // end of [s2fun_opninv_and_add]
 
 (* ****** ****** *)
 
-fun d2var_opnset_and_add (loc: location, d2v: d2var): void
+fun d2var_opnset_and_add (loc: loc_t, d2v: d2var): void
 
 (* ****** ****** *)
 
-fun un_s2exp_wthtype (
-  loc: location, s2e: s2exp
+fun
+un_s2exp_wthtype
+(
+  loc: loc_t, s2e: s2exp
 ) : (
   bool(*iswth*), s2exp, wths2explst
 ) // end of [un_s2exp_wthtype]
@@ -440,12 +442,13 @@ fun d3explst_open_and_add (d3es: d3explst): void
 //
 // HX: for turning val into var
 //
-fun d2var_mutablize (
-  loc0: location
+fun d2var_mutablize
+(
+  loc0: loc_t
 , d2v: d2var, s2e0(*master*): s2exp, opt: d2varopt
 ) : d2var // end of [d2var_mutablize]
 fun d2var_mutablize_none
-  (loc0: location, d2v: d2var, s2e0(*master*): s2exp): d2var
+  (loc0: loc_t, d2v: d2var, s2e0(*master*): s2exp): d2var
 // end of [d2var_mutablize_none]
 
 (* ****** ****** *)
@@ -478,15 +481,15 @@ fun the_d2varenv_d2var_is_llamlocal (d2v: d2var): bool
 ** HX-2012-03:
 ** [funarg_d2vfin_check] checks d2var_finknd of funarg
 *)
-fun funarg_d2vfin_check (loc0: location): void
+fun funarg_d2vfin_check (loc0: loc_t): void
 (*
 ** HX-2012-03:
 ** [s2exp_wth_instantiate] resets d2var_finknd of funarg
 *)
-fun s2exp_wth_instantiate (loc: location, s2e: s2exp): s2exp
+fun s2exp_wth_instantiate (loc: loc_t, s2e: s2exp): s2exp
 
-fun the_d2varenv_check (loc0: location): void
-fun the_d2varenv_check_llam (loc0: location): void
+fun the_d2varenv_check (loc0: loc_t): void
+fun the_d2varenv_check_llam (loc0: loc_t): void
 
 (* ****** ****** *)
 (*
@@ -528,8 +531,8 @@ fun lstaftc3nstr_finalize (x: lstaftc3nstr): void
 
 (* ****** ****** *)
 
-fun i2nvarglst_update (loc: location, args: i2nvarglst): void
-fun i2nvresstate_update (loc: location, invres: i2nvresstate): void
+fun i2nvarglst_update (loc: loc_t, args: i2nvarglst): void
+fun i2nvresstate_update (loc: loc_t, invres: i2nvresstate): void
 
 (* ****** ****** *)
 //

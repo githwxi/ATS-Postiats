@@ -35,7 +35,8 @@
 
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans3_viewat"
+implement
+prerr_FILENAME<> () = prerr "pats_trans3_viewat"
 
 (* ****** ****** *)
 
@@ -65,8 +66,10 @@ staload "./pats_trans3_env.sats"
 
 local
 
-fun auxerr_pfobj (
-  loc0: location, s2l: s2exp
+fun
+auxerr_pfobj
+(
+  loc0: loc_t, s2l: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": [view@] operation cannot be performed"
@@ -78,8 +81,10 @@ in
   the_trans3errlst_add (T3E_pfobj_search_none (loc0, s2l))
 end // end of [auxerr_pfobj]
 
-fun auxerr_context (
-  loc0: location, s2e: s2exp, d3ls: d3lablst
+fun
+auxerr_context
+(
+  loc0: loc_t, s2e: s2exp, d3ls: d3lablst
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": [view@] operation cannot be performed"
@@ -102,8 +107,9 @@ fun auxlabs (
   | list_nil () => list_nil ()
 ) // end of [auxlabs]
 
-fun auxmain (
-  loc0: location
+fun auxmain
+(
+  loc0: loc_t
 , pfobj: pfobj, d3ls: d3lablst
 ) : s2exp(*atview*) = let
   val+~PFOBJ (
@@ -194,8 +200,10 @@ fun eq_dlablst_slablst (
 
 local
 
-fun auxerr_nonatview (
-  loc0: location, s2at_new: s2exp
+fun
+auxerr_nonatview
+(
+  loc0: loc_t, s2at_new: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": viewat-restoration cannot be performed"  
@@ -206,8 +214,10 @@ in
   the_trans3errlst_add (T3E_s2exp_set_viewat_atview (loc0, s2at_new))
 end // end of [auxerr_nonatview]
 
-fun auxerr_nonwithout (
-  loc0: location, s2e_old: s2exp
+fun
+auxerr_nonwithout
+(
+  loc0: loc_t, s2e_old: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": viewat-restoration cannot be performed"  
@@ -218,8 +228,9 @@ in
   the_trans3errlst_add (T3E_s2exp_set_viewat_without (loc0, s2e_old))
 end // end of [auxerr_nonwithout]
 
-fun auxck_addreq (
-  loc0: location, s2e1, d3ls, s2e2
+fun auxck_addreq
+(
+  loc0: loc_t, s2e1, d3ls, s2e2
 ) : void = let
   val s2e2 = s2exp_hnfize (s2e2)
   var s2ls: s2lablst // uninitialized
@@ -305,8 +316,10 @@ end // end of [local]
 
 local
 
-fun auxerr_nonptr (
-  loc0: location, d3e: d3exp
+fun
+auxerr_nonptr
+(
+  loc0: loc_t, d3e: d3exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": the dynamic expression is expected to be a pointer."
@@ -315,8 +328,9 @@ in
   the_trans3errlst_add (T3E_d3exp_nonderef (d3e))
 end // end of [auxerr_nonptr]
 
-fun auxerr1 (
-  loc0: location, d2v: d2var
+fun auxerr1
+(
+  loc0: loc_t, d2v: d2var
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": the dynamic variable ["
@@ -327,8 +341,9 @@ in
   the_trans3errlst_add (T3E_d2var_nonmut (loc0, d2v))
 end // end of [auxerr1]
 
-fun aux1 (
-  loc0: location
+fun aux1
+(
+  loc0: loc_t
 , s2f0: s2hnf
 , d3e_l: d3exp
 , d3ls: d3lablst
@@ -406,8 +421,10 @@ end // end of [local]
 
 local
 
-fun auxerr_nonptr (
-  loc0: location, d3e: d3exp
+fun
+auxerr_nonptr
+(
+  loc0: loc_t, d3e: d3exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": the dynamic expression is expected to be a pointer."
@@ -416,8 +433,9 @@ in
   the_trans3errlst_add (T3E_d3exp_nonderef (d3e))
 end // end of [auxerr_nonptr]
 
-fun aux1 (
-  loc0: location
+fun aux1
+(
+  loc0: loc_t
 , s2f0: s2hnf
 , d3e_l: d3exp
 , d3ls: d3lablst

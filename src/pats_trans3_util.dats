@@ -44,12 +44,16 @@ staload "./pats_basics.sats"
 
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans3_util"
+implement
+prerr_FILENAME<> () = prerr "pats_trans3_util"
 
 (* ****** ****** *)
 
 staload
 LOC = "./pats_location.sats"
+
+(* ****** ****** *)
+
 staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
@@ -82,13 +86,6 @@ staload "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 
-local
-
-staload
-LOC = "./pats_location.sats"
-
-in // in of [local]
-
 implement
 fshowtype_d3exp
   (d3e) = let
@@ -106,8 +103,6 @@ val () = print_newline ()
 in
   // nothing
 end // end of [fshowtype_d3exp]
-
-end // end of [local]
 
 (* ****** ****** *)
 
@@ -340,7 +335,7 @@ in
   d3e1
 end // end of [_]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d3exp_trdn

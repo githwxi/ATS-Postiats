@@ -5,6 +5,10 @@
 // supported for call-by-reference
 //
 (* ****** ****** *)
+//
+// Status: should it be supported?
+//
+(* ****** ****** *)
 
 abst@ype int2 = (int, int)
 

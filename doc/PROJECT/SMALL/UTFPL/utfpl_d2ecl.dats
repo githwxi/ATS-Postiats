@@ -20,6 +20,8 @@ fun fprint_f2undeclst (FILEref, f2undeclst): void
 
 extern
 fun fprint_v2aldec (FILEref, v2aldec): void
+extern
+fun fprint_v2aldeclst (FILEref, v2aldeclst): void
 
 (* ****** ****** *)
 
@@ -58,6 +60,40 @@ end // end of [fprint_f2undeclst]
 (* ****** ****** *)
 
 implement
+fprint_v2aldec
+  (out, v2d) =
+{
+  val () =
+    fprint! (out, "v2aldec{")
+  val () = fprint! (out, "pat= ", v2d.v2aldec_pat)
+  val () = fprint! (out, "; ")
+  val () = fprint! (out, "def= ", v2d.v2aldec_def)
+  val () = fprint! (out, "}")
+} (* end of [fprint_v2aldec] *)
+
+(* ****** ****** *)
+
+implement
+fprint_v2aldeclst
+  (out, v2ds) = let
+in
+//
+case+ v2ds of
+| list_cons
+    (v2d, v2ds) => let
+    val () =
+      fprint_v2aldec (out, v2d)
+    val () = fprint_newline (out)
+  in
+    fprint_v2aldeclst (out, v2ds)
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [fprint_v2aldeclst]
+
+(* ****** ****** *)
+
+implement
 fprint_d2ecl
   (out, d2c0) = let
 in
@@ -72,7 +108,15 @@ case+ d2c0.d2ecl_node of
     val () = fprint_f2undeclst (out, f2ds)
     val () = fprint! (out, ")")
   }
-| D2Cvaldecs _ => fprint! (out, "D2Cvaldecs(...)")
+//
+| D2Cvaldecs
+    (knd, v2ds) =>
+  {
+    val () =
+      fprint! (out, "D2Cvaldecs(\n")
+    val () = fprint_v2aldeclst (out, v2ds)
+    val () = fprint! (out, ")")
+  }
 //
 | D2Cerr((*void*)) => fprint! (out, "D2Cerr(", ")")
 //

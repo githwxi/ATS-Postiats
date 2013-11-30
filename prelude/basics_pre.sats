@@ -447,11 +447,16 @@ invar_vt0ype_vt0ype (a:vt@ype) = a
 //
 // HX: this order is significant
 // 
-viewdef INV (a:view) = invar_view_view (a)
-propdef INV (a:prop) = invar_prop_prop (a)
+viewdef
+INV (a: view) = invar_view_view (a)
+propdef
+INV (a: prop) = invar_prop_prop (a)
+//
 vtypedef INV
   (a:vt@ype) = invar_vt0ype_vt0ype (a)
-vtypedef INV (a:t@ype) = invar_t0ype_t0ype (a)
+//
+vtypedef
+INV (a: t@ype) = invar_t0ype_t0ype (a)
 //
 (* ****** ****** *)
 (*
@@ -466,11 +471,16 @@ optarg_vt0ype_vt0ype (a:vt@ype) = a
 //
 // HX: this order is significant
 // 
-viewdef OPT (a:view) = optarg_view_view (a)
-propdef OPT (a:prop) = optarg_prop_prop (a)
+viewdef
+OPT (a: view) = optarg_view_view (a)
+propdef
+OPT (a: prop) = optarg_prop_prop (a)
+//
 vtypedef OPT
   (a:vt@ype) = optarg_vt0ype_vt0ype (a)
-vtypedef OPT (a:t@ype) = optarg_t0ype_t0ype (a)
+//
+vtypedef
+OPT (a: t@ype) = optarg_t0ype_t0ype (a)
 //
 *)
 (* ****** ****** *)

@@ -134,8 +134,10 @@ fun d2exp_trup_vcopyenv (d2e0: d2exp): d3exp
 (* ****** ****** *)
 
 extern
-fun d2exp_trup_arg_body (
-  loc0: location
+fun
+d2exp_trup_arg_body
+(
+  loc0: loc_t
 , fc0: funclo, lin: int, npf: int, p2ts: p2atlst, d2e: d2exp
 ) : (s2exp, p3atlst, d3exp)
 
@@ -586,8 +588,9 @@ fun d23explst_trup
 
 (* ****** ****** *)
 
-fn d23explst_trdn (
-  locarg: location
+fn d23explst_trdn
+(
+  locarg: loc_t
 , d23es: d23explst, s2es: s2explst
 ) : d3explst = let
 //
@@ -646,8 +649,9 @@ implement
 d2var_get_type_some
   (loc0, d2v) = let
 //
-fun auxerr (
-  loc0: location, d2v: d2var
+fun auxerr
+(
+  loc0: loc_t, d2v: d2var
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": the linear dynamic variable ["
@@ -791,7 +795,7 @@ local
 
 fun auxerr
 (
-  loc0: location, d3e: d3exp
+  loc0: loc_t, d3e: d3exp
 ) : void = let
   val loc = d3e.d3exp_loc
   val () = prerr_error3_loc (loc)
@@ -804,7 +808,7 @@ end // end of [auxerr]
 
 fun auxcheck
 (
-  loc0: location, d3es: d3explst
+  loc0: loc_t, d3es: d3explst
 ) : void = let
 in
 //
@@ -988,15 +992,20 @@ d23exp_trup_applst_sta (
   val s2e_fun = d3e_fun.d3exp_type
   val loc_app =
     aux (loc_fun, s2as) where {
-    fun aux (
-      loc: location, s2as: s2exparglst
-    ) : location = case+ s2as of
+    fun aux
+    (
+      loc: loc_t
+    , s2as: s2exparglst
+    ) : loc_t =
+    (
+      case+ s2as of
       | list_cons _ => let
           val s2a = list_last<s2exparg> (s2as)
         in
           $LOC.location_combine (loc, s2a.s2exparg_loc)
         end // end of [list_cons]
       | list_nil () => loc
+    ) (* end of [aux] *)
   } // end of [where] // end of [val]
 //
   var err: int = 0
@@ -1025,7 +1034,7 @@ end // end of [d2exp_trup_applst_sta]
 fun d23exp_trup_app23 (
   d2e0: d2exp
 , d3e_fun: d3exp
-, npf: int, locarg: location, d23es_arg: d23explst
+, npf: int, locarg: loc_t, d23es_arg: d23explst
 ) : d3exp = let
 //
   val loc_fun = d3e_fun.d3exp_loc
@@ -1123,7 +1132,7 @@ end // end of [d23exp_trup_app23]
 fun d23exp_trup_applst_dyn (
   d2e0: d2exp
 , d3e_fun: d3exp
-, npf: int, locarg: location, d2es_arg: d2explst
+, npf: int, locarg: loc_t, d2es_arg: d2explst
 , d2as: d2exparglst
 ) : d3exp = let
   val loc_fun = d3e_fun.d3exp_loc

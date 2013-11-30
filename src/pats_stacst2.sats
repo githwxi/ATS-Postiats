@@ -198,6 +198,8 @@ val the_sizeof_t0ype_int: s2cstref
 //
 val the_at_vt0ype_addr_view: s2cstref
 //
+val the_invar_prop_prop: s2cstref
+val the_invar_view_view: s2cstref
 val the_invar_t0ype_t0ype: s2cstref
 val the_invar_vt0ype_vt0ype: s2cstref
 //

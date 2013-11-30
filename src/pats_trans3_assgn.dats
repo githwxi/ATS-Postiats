@@ -38,19 +38,16 @@ ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 
-staload
-LOC = "./pats_location.sats"
-stadef location = $LOC.location
-
-(* ****** ****** *)
-
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans3_assgn"
+implement
+prerr_FILENAME<> () = prerr "pats_trans3_assgn"
 
 (* ****** ****** *)
 
-staload LOC = "./pats_location.sats"
+staload
+LOC = "./pats_location.sats"
+stadef loc_t = $LOC.location
 overload + with $LOC.location_combine
 
 (* ****** ****** *)
@@ -76,8 +73,10 @@ staload "./pats_trans3_env.sats"
 
 local
 
-fun auxerr_proof (
-  loc0: location, s2e: s2exp, d3ls: d3lablst, s2e_sel: s2exp
+fun
+auxerr_proof
+(
+  loc0: loc_t, s2e: s2exp, d3ls: d3lablst, s2e_sel: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": a non-proof component of the following type is replaced: "
@@ -87,8 +86,10 @@ in
   the_trans3errlst_add (T3E_s2addr_assgn_deref_proof (loc0, s2e, d3ls))
 end // end of [auxerr_proof]
 
-fun auxerr_linsel (
-  loc0: location, s2e: s2exp, d3ls: d3lablst, s2e_sel: s2exp
+fun
+auxerr_linsel
+(
+  loc0: loc_t, s2e: s2exp, d3ls: d3lablst, s2e_sel: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": a linear component of the following type is abandoned: "
@@ -98,8 +99,10 @@ in
   the_trans3errlst_add (T3E_s2addr_assgn_deref_linsel (loc0, s2e, d3ls))
 end // end of [auxerr_linsel]
 
-fun auxerr_context (
-  loc0: location, s2e: s2exp, d3ls: d3lablst, s2e_sel: s2exp
+fun
+auxerr_context
+(
+  loc0: loc_t, s2e: s2exp, d3ls: d3lablst, s2e_sel: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": the type of the selected component cannot be changed: "
@@ -109,19 +112,22 @@ in
   the_trans3errlst_add (T3E_s2addr_assgn_deref_context (loc0, s2e, d3ls))
 end // end of [auxerr_context]
 
-in // in of [local]
+in (* in of [local] *)
 
 extern
-fun d2var_assgn_lin0 (
-  loc0: location, d2v: d2var, s2e_new: s2exp
+fun d2var_assgn_lin0
+(
+  loc0: loc_t, d2v: d2var, s2e_new: s2exp
 ) : void // end of [d2var_assgn_lin0]
 extern
-fun d2var_assgn_lin1 (
-  loc0: location, d2v: d2var, d3ls: d3lablst, s2e_new: s2exp
+fun d2var_assgn_lin1
+(
+  loc0: loc_t, d2v: d2var, d3ls: d3lablst, s2e_new: s2exp
 ) : void // end of [d2var_assgn_lin1]
 extern
-fun d2var_assgn_lin (
-  loc0: location, d2v: d2var, d3ls: d3lablst, s2e_new: s2exp
+fun d2var_assgn_lin
+(
+  loc0: loc_t, d2v: d2var, d3ls: d3lablst, s2e_new: s2exp
 ) : void // end of [d2var_assgn_lin]
 
 implement
@@ -196,8 +202,10 @@ end // end of [local]
 
 local
 
-fun auxerr_pfobj (
-  loc0: location, s2l: s2exp
+fun
+auxerr_pfobj
+(
+  loc0: loc_t, s2l: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": assignment cannot be performed"
@@ -209,9 +217,10 @@ in
   the_trans3errlst_add (T3E_pfobj_search_none (loc0, s2l))
 end // end of [auxerr_pfobj]
 
-fun auxerr_sharing
+fun
+auxerr_sharing
 (
-  loc0: location, s2e_elt: s2exp, d3ls: d3lablst
+  loc0: loc_t, s2e_elt: s2exp, d3ls: d3lablst
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerrln! (": a boxed non-linear record is selected for field-update.")
@@ -219,8 +228,10 @@ in
   the_trans3errlst_add (T3E_s2addr_assgn_deref_sharing (loc0, s2e_elt, d3ls))
 end // end of [auxerr_sharing]
 
-fun auxerr_linsel (
-  loc0: location
+fun
+auxerr_linsel
+(
+  loc0: loc_t
 , s2e_elt: s2exp, d3ls: d3lablst, s2e_sel: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
@@ -231,8 +242,10 @@ in
   the_trans3errlst_add (T3E_s2addr_assgn_deref_linsel (loc0, s2e_elt, d3ls))
 end // end of [auxerr_linsel]
 
-fun auxck_tszeq (
-  loc0: location
+fun
+auxck_tszeq
+(
+  loc0: loc_t
 , s2e1: s2exp, s2e2: s2exp
 ) : void = let
   val tszeq = s2exp_tszeq (s2e1, s2e2)
@@ -252,33 +265,43 @@ end // end of [if] // end of [val]
 //
 end // end of [auxck_tszeq]
 
-fun auxmain .<>. (
-  loc0: location
+fun
+auxmain .<>.
+(
+  loc0: loc_t
 , pfobj: pfobj
 , d3ls: d3lablst
 , d3e_r: d3exp
 , s2rt: &s2exp? >> s2exp
 ) : d3exp = let
-  val+~PFOBJ (
-    d2vw, s2e_ctx, s2e_elt, s2l
-  ) = pfobj
-  val () = s2rt := s2e_elt
+val+~PFOBJ
+(
+  d2vw, s2e_ctx, s2e_elt, s2l
+) = pfobj
 //
-  var linrest: int = 0 and sharing: int = 0
-  val (s2e_sel, s2ps) =
-    s2exp_get_dlablst_linrest_sharing (loc0, s2e_elt, d3ls, linrest, sharing)
-  val () = if sharing > 0 then auxerr_sharing (loc0, s2e_elt, d3ls)
+(*
+val () = println! ("auxmain: s2e_ctx = ", s2e_ctx)
+val () = println! ("auxmain: s2e_elt = ", s2e_elt)
+*)
 //
-  val s2e_sel = s2exp_hnfize (s2e_sel)
-  val () = trans3_env_add_proplst_vt (loc0, s2ps)
+val () = s2rt := s2e_elt
 //
-  val islin = s2exp_is_lin (s2e_sel)
-  val () = if islin then auxerr_linsel (loc0, s2e_elt, d3ls, s2e_sel)
+var linrest: int = 0 and sharing: int = 0
+val (s2e_sel, s2ps) =
+s2exp_get_dlablst_linrest_sharing (loc0, s2e_elt, d3ls, linrest, sharing)
+val ((*void*)) = if sharing > 0 then auxerr_sharing (loc0, s2e_elt, d3ls)
 //
-  var ctxtopt: s2ctxtopt = None ()
-  val _(*s2e_sel*) =
-    s2exp_get_dlablst_context (loc0, s2e_elt, d3ls, ctxtopt)
-  // end of [val]
+val s2e_sel = s2exp_hnfize (s2e_sel)
+val ((*void*)) = trans3_env_add_proplst_vt (loc0, s2ps)
+//
+val islin = s2exp_is_lin (s2e_sel)
+val ((*void*)) =
+if islin then auxerr_linsel (loc0, s2e_elt, d3ls, s2e_sel)
+//
+var ctxtopt: s2ctxtopt = None ()
+val _(*s2e_sel*) =
+  s2exp_get_dlablst_context (loc0, s2e_elt, d3ls, ctxtopt)
+// end of [val]
 in
 //
 case+ ctxtopt of
@@ -303,13 +326,16 @@ case+ ctxtopt of
 //
 end // end of [auxmain]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
-s2addr_assgn_deref (
+s2addr_assgn_deref
+(
   loc0, s2l, d3ls, d3e_r, s2rt
 ) = let
-  val opt = pfobj_search_atview (s2l)
+//
+val opt = pfobj_search_atview (s2l)
+//
 in
   case+ opt of
   | ~Some_vt (pfobj) =>
@@ -338,9 +364,10 @@ in
   the_trans3errlst_add (T3E_d3exp_nonderef (d3e))
 end // end of [auxerr_nonderef]
 
-fun auxerr_refsharing
+fun
+auxerr_refsharing
 (
-  loc0: location, d3e_l: d3exp, d3ls: d3lablst
+  loc0: loc_t, d3e_l: d3exp, d3ls: d3lablst
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerrln! (": a boxed non-linear record is selected for field-update.")
@@ -348,9 +375,10 @@ in
   the_trans3errlst_add (T3E_d3exp_assgn_deref_refsharing (d3e_l, d3ls))
 end // end of [auxerr_refsharing]
 
-fun auxerr_reflinsel
+fun
+auxerr_reflinsel
 (
-  loc0: location
+  loc0: loc_t
 , d3e_l: d3exp, d3ls: d3lablst, s2e_sel: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
@@ -362,7 +390,7 @@ end // end of [auxerr_reflinsel]
 
 fun aux1
 (
-  loc0: location
+  loc0: loc_t
 , s2f0: s2hnf
 , d3e_l: d3exp
 , d3ls: d3lablst
@@ -386,7 +414,7 @@ end // end of [aux1]
 
 and aux2
 (
-  loc0: location
+  loc0: loc_t
 , s2f0: s2hnf
 , d3e_l: d3exp
 , d3ls: d3lablst
@@ -417,8 +445,9 @@ case+ opt of
 //
 end // end of [aux2]
 
-and aux3 (
-  loc0: location
+and aux3
+(
+  loc0: loc_t
 , s2f0: s2hnf
 , d3e_l: d3exp
 , d3ls: d3lablst
@@ -427,25 +456,25 @@ and aux3 (
   val () = auxerr_nonderef (d3e_l) in d3exp_void_err (loc0)
 end // end of [aux3]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d2exp_trup_assgn_deref
   (loc0, d2e_l, d2ls, d2e_r) = let
 (*
 val () = (
-  println! ("d2exp_trup_deref: d2e_l = ", d2e_l);
-  println! ("d2exp_trup_deref: d2e_r = ", d2e_r);
+  println! ("d2exp_trup_assgn_deref: d2e_l = ", d2e_l);
+  println! ("d2exp_trup_assgn_deref: d2e_r = ", d2e_r);
 ) // end of [val]
 *)
 val d3e_l = d2exp_trup (d2e_l)
-val () = d3exp_open_and_add (d3e_l)
+val ((*void*)) = d3exp_open_and_add (d3e_l)
 val d3ls = d2lablst_trup (d2ls)
 val s2e0 = d3exp_get_type (d3e_l)
 val s2f0 = s2exp2hnf_cast (s2e0)
 //
 val d3e_r = d2exp_trup (d2e_r)
-val () = d3exp_open_and_add (d3e_r)
+val ((*void*)) = d3exp_open_and_add (d3e_r)
 //
 in
   aux1 (loc0, s2f0, d3e_l, d3ls, d3e_r)
@@ -458,7 +487,7 @@ end // end of [local]
 local
 
 fn auxerr_wrt_if
-  (loc0: location): void = let
+  (loc0: loc_t): void = let
   val err = the_effenv_check_wrt (loc0)
 in
   if (err > 0) then (
@@ -466,7 +495,7 @@ in
   ) // end of [if]
 end // end of [auxerr_wrt]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d2exp_trup_assgn
@@ -475,11 +504,10 @@ d2exp_trup_assgn
 val loc0 = d2e0.d2exp_loc
 val-D2Eassgn (d2e_l, d2e_r) = d2e0.d2exp_node
 val d2lv = d2exp_lvalize (d2e_l)
-//
 (*
-  val () = (
-    print "d2exp_trup_assgn: d2lv = "; print_d2lval (d2lv); print_newline ()
-  ) // end of [val]
+val () = (
+println! ("d2exp_trup_assgn: d2lv = ", d2lv)
+) (* end of [val] *)
 *)
 //
 in

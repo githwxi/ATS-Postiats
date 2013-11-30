@@ -117,8 +117,10 @@ end // end of [local]
 
 (* ****** ****** *)
 
-fun d2exp_trup_item (
-  loc0: location, d2i: d2itm, t2mas: t2mpmarglst
+fun
+d2exp_trup_item
+(
+  loc0: loc_t, d2i: d2itm, t2mas: t2mpmarglst
 ) : d3exp = let
 (*
   val () = (
@@ -232,9 +234,9 @@ end // end of [fprint_d3pitm]
 
 datatype
 d3exparg = 
-  | D3EXPARGsta of (location(*arg*), s2exparglst)
+  | D3EXPARGsta of (loc_t(*arg*), s2exparglst)
   | D3EXPARGdyn of // HX: notice the argument list [d3es]
-      (int(*npf*), location(*arg*), d3explst) // are not opened
+      (int(*npf*), loc_t(*arg*), d3explst) // are not opened
     // end of [D3EXPARGdyn]
 typedef d3exparglst = List d3exparg
 viewtypedef d3exparglst_vt = List_vt d3exparg
@@ -328,7 +330,7 @@ local
 
 fun auxsel_arity
 (
-  locsym: location
+  locsym: loc_t
 , d2pis: d2pitmlst
 , d2piss: List_vt (d2pitmlst)
 , t2mas: t2mpmarglst

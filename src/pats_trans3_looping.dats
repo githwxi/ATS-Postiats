@@ -75,8 +75,9 @@ fun d2var_reset_type
 
 (* ****** ****** *)
 
-fun lstbefitmlst_opnset_and_add
-  (loc: location, xs: lstbefitmlst): void = let
+fun
+lstbefitmlst_opnset_and_add
+  (loc: loc_t, xs: lstbefitmlst): void = let
 in
 //
 case+ xs of
@@ -95,7 +96,7 @@ end // end of [lstbefitmlst_opnset_and_add]
 // HX-2012-11-24: is this necessary?
 //
 fun invarglst_opnset_and_add
-  (loc: location, xs: i2nvarglst): void = let
+  (loc: loc_t, xs: i2nvarglst): void = let
 in
 //
 case+ xs of
@@ -113,8 +114,10 @@ end // end of [invarglst_opnset_and_add]
 (* ****** ****** *)
 
 extern
-fun d2exp_trup_loop_dryrun (
-  loc0: location
+fun
+d2exp_trup_loop_dryrun
+(
+  loc0: loc_t
 , lsbis: lstbefitmlst
 , test: d2exp, post: d2expopt, body: d2exp
 ) : lstbefitmlst // end of [d2exp_trup_loop_dryrun]
@@ -187,8 +190,9 @@ end // end of [d2exp_trup_loop_dryrun]
 
 local
 
-fun auxerr_some (
-  loc: location, d2v: d2var, s2e0: s2exp
+fun auxerr_some
+(
+  loc: loc_t, d2v: d2var, s2e0: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc)
   val () = prerr ": the dynamic variable ["
@@ -201,8 +205,9 @@ in
   the_trans3errlst_add (T3E_d2var_some (loc, d2v, s2e0))
 end // end of [auxerr_some]
 
-fun auxerr_none (
-  loc: location, d2v: d2var, s2e: s2exp
+fun auxerr_none
+(
+  loc: loc_t, d2v: d2var, s2e: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc)
   val () = prerr ": the dynamic variable ["
@@ -215,8 +220,9 @@ in
   the_trans3errlst_add (T3E_d2var_some (loc, d2v, s2e))
 end // end of [auxerr_none]
 
-fun auxerr_some2 (
-  loc: location, d2v: d2var, s2e0: s2exp, s2e: s2exp
+fun auxerr_some2
+(
+  loc: loc_t, d2v: d2var, s2e0: s2exp, s2e: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc)
   val () = prerr ": the dynamic variable ["
@@ -230,8 +236,9 @@ end // end of [auxerr_some2]
 
 (* ****** ****** *)
 
-fun auxVarCK (
-  loc: location
+fun auxVarCK
+(
+  loc: loc_t
 , d2v: d2var, opt: s2expopt, opt2: s2expopt
 ) : void = let
 in
@@ -272,8 +279,9 @@ end // end of [auxVarCK]
 
 (* ****** ****** *)
 
-fun auxMetCK (
-  loc: location
+fun auxMetCK
+(
+  loc: loc_t
 , sub: !stasub, opt: s2explstopt
 ) : void = let
 in
@@ -289,13 +297,15 @@ end // end of [auxMetCK]
 
 (* ****** ****** *)
 
-fun auxEnter (
-  loc: location
+fun auxEnter
+(
+  loc: loc_t
 , i2nv: loopi2nv, lsbis: lstbefitmlst
 ) : void = let
 //
-fun auxitm (
-  loc: location
+fun auxitm
+(
+  loc: loc_t
 , sub: !stasub, args: i2nvarglst, x: lstbefitm
 ) : void = let
   val d2v = x.lstbefitm_var
@@ -326,8 +336,9 @@ case+ args of
 //
 end (* end of [auxitm] *)
 //
-fun auxitmlst (
-  loc: location
+fun auxitmlst
+(
+  loc: loc_t
 , sub: !stasub, args: i2nvarglst, xs: lstbefitmlst
 ) : void = let
 in
@@ -360,13 +371,15 @@ end // end of [auxEnter]
 
 (* ****** ****** *)
 
-fun auxBreak (
-  loc: location
+fun auxBreak
+(
+  loc: loc_t
 , i2nv: loopi2nv, lsbis: lstbefitmlst
 ) : void = let
 //
-fun auxitm1 (
-  loc: location
+fun auxitm1
+(
+  loc: loc_t
 , i2nv: loopi2nv
 , lsbis: lstbefitmlst
 , sub: !stasub, args: i2nvarglst, x0: lstbefitm
@@ -395,8 +408,9 @@ case+ args of
 //
 end // end of [auxitm1]
 //
-and auxitm2 (
-  loc: location
+and auxitm2
+(
+  loc: loc_t
 , lsbis: lstbefitmlst, args: i2nvarglst, x0: lstbefitm
 ) : void = let
   val d2v = x0.lstbefitm_var
@@ -421,8 +435,9 @@ case+ args of
 //
 end // end of [auxitm2]
 //
-and auxitm3 (
-  loc: location
+and auxitm3
+(
+  loc: loc_t
 , lsbis: lstbefitmlst, x0: lstbefitm
 ) : void = let
   val d2v = x0.lstbefitm_var
@@ -447,8 +462,9 @@ case+ lsbis of
 //
 end // end of [auxitm3]
 //
-fun auxitmlst (
-  loc: location
+fun auxitmlst
+(
+  loc: loc_t
 , i2nv: loopi2nv
 , lsbis: lstbefitmlst
 , sub: !stasub, args: i2nvarglst, xs: lstbefitmlst
@@ -484,13 +500,16 @@ end // end of [auxBreak]
 
 (* ****** ****** *)
 
-fun auxContinue (
-  loc: location
+fun
+auxContinue
+(
+  loc: loc_t
 , i2nv: loopi2nv, lsbis: lstbefitmlst, post: d2expopt
 ) : d3expopt = let
 //
-fun auxitm1 (
-  loc: location
+fun auxitm1
+(
+  loc: loc_t
 , lsbis: lstbefitmlst
 , sub: !stasub, args: i2nvarglst, x0: lstbefitm
 ) : void = let
@@ -517,8 +536,9 @@ case+ args of
 //
 end // end of [auxitm1]
 //
-and auxitm2 (
-  loc: location
+and auxitm2
+(
+  loc: loc_t
 , lsbis: lstbefitmlst, x0: lstbefitm
 ) : void = let
   val d2v = x0.lstbefitm_var
@@ -543,8 +563,9 @@ case+ lsbis of
 //
 end // end of [auxitm2]
 //
-fun auxitmlst (
-  loc: location
+fun auxitmlst
+(
+  loc: loc_t
 , lsbis: lstbefitmlst
 , sub: !stasub, args: i2nvarglst, xs: lstbefitmlst
 ) : void = let
@@ -680,8 +701,9 @@ implement
 d2exp_trup_loopexn
   (loc0, knd) = let
 //
-fun auxerr (
-  loc: location, knd: int
+fun auxerr
+(
+  loc: loc_t, knd: int
 ) : void = let
   val () = prerr_error3_loc (loc)
   val () = if knd = 0 then

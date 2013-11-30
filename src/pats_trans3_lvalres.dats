@@ -81,8 +81,10 @@ staload "./pats_trans3_env.sats"
 
 local
 
-fun auxerr_pfobj (
-  loc0: location, s2l: s2exp
+fun
+auxerr_pfobj
+(
+  loc0: loc_t, s2l: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": type-restoration cannot be performed"
@@ -95,8 +97,9 @@ in
   the_trans3errlst_add (T3E_pfobj_search_none (loc0, s2l))
 end // end of [auxerr_pfobj]
 
-fun auxmain (
-  loc0: location
+fun auxmain
+(
+  loc0: loc_t
 , pfobj: pfobj
 , d3ls: d3lablst
 , s2e_new: s2exp
@@ -169,7 +172,7 @@ local
 
 fun auxerr_linold
 (
-  loc0: location
+  loc0: loc_t
 , d3e: d3exp, d3ls: d3lablst, s2e_old: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
@@ -182,7 +185,7 @@ end // end of [auxerr_linold]
 
 fun d2var_refval_check
 (
-  loc0: location, d2v: d2var, refval: int
+  loc0: loc_t, d2v: d2var, refval: int
 ) : void = 
   if refval > 0 then let
     val () = prerr_error3_loc (loc0)

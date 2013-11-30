@@ -77,7 +77,8 @@ staload "./pats_trans3_env.sats"
 (* ****** ****** *)
 
 fn
-gm2at_trup (
+gm2at_trup
+(
   gm2t: gm2at
 ) : gm3at = let
   val loc0 = gm2t.gm2at_loc
@@ -195,8 +196,9 @@ end // end of [c2lau_trdn]
 (* ****** ****** *)
 
 fun
-c2laulst0_trdn (
-  loc0: location
+c2laulst0_trdn
+(
+  loc0: loc_t
 , casknd: caskind
 , s2es_pat: s2explst
 , s2e_res: s2exp
@@ -227,8 +229,9 @@ end // end of [c2laulst0_trdn]
 
 fun
 c2laulst1_trdn
-  {n:nat} (
-  loc0: location
+  {n:nat}
+(
+  loc0: loc_t
 , casknd: caskind
 , invres: i2nvresstate
 , c2l: c2lau
@@ -286,9 +289,10 @@ end // end of [c2laulst1_trdn]
 (* ****** ****** *)
 
 extern
-fun c2laulst2_trdn
+fun
+c2laulst2_trdn
   {n:nat} (
-  loc0: location
+  loc0: loc_t
 , casknd: caskind
 , invres: i2nvresstate
 , c2l_fst: c2lau
@@ -298,9 +302,10 @@ fun c2laulst2_trdn
 , s2e_res: s2exp
 ) : c3laulst n
 
-and c2laulst2_trdn_rest
+and
+c2laulst2_trdn_rest
   {n:nat} (
-  loc0: location
+  loc0: loc_t
 , casknd: caskind
 , invres: i2nvresstate
 , c3l_fst: c3lau n

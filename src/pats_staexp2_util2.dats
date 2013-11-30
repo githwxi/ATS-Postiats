@@ -193,8 +193,6 @@ case+ 0 of
       case+ s2e0.s2exp_node of
       | S2Etop (_, s2e) =>
           s2exp_topize_flag (knd, s2e, flag)
-      | _ when // HX: this seems adequate
-          s2rt_is_boxed (s2t0) => s2exp_ptr_type ()
       | S2Etyarr (s2e_elt, dim) => let
           val s2e_elt = s2exp_top (knd, s2e_elt)
         in
@@ -202,10 +200,19 @@ case+ 0 of
         end // end of [S2Etyarr]
       | S2Etyrec
           (recknd, npf, ls2es) => let
-          val ls2es = labs2explst_top (knd, ls2es)
+          val isboxed = tyreckind_is_boxed (recknd)
         in
-          s2exp_tyrec_srt (s2rt_t0ype, recknd, npf, ls2es)
+          if isboxed
+            then s2exp_ptr_type ()
+            else let
+              val ls2es = labs2explst_top (knd, ls2es)
+            in
+              s2exp_tyrec_srt (s2rt_t0ype, recknd, npf, ls2es)
+            end // end of [else]
+          // end of [if]
         end // end of [S2Etyrec]
+      | _ when // HX: this seems adequate
+          s2rt_is_boxed (s2t0) => s2exp_ptr_type ()
       | _ => s2exp_top_srt (s2rt_t0ype, knd, s2e0)
     end (* end of [if] *)
   end // end of [_]

@@ -662,8 +662,9 @@ end // end of [d2exp_trdn_top]
 
 local
 
-fun auxerrlen (
-  loc0: location, serr: int
+fun auxerrlen
+(
+  loc0: loc_t, serr: int
 ) : void = () where {
 //
 val () =

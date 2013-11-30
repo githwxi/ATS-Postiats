@@ -275,16 +275,21 @@ auxlab_sexp
   loc0: location, s2e: s2exp
 , d3l: d3lab, l0: label, linrest: &int, sharing: &int
 ) : s2exp = let
-  val s2f = s2exp2hnf (s2e)
+//
+val s2f = s2exp2hnf (s2e)
+//
 in
   auxlab_shnf (loc0, s2f, d3l, l0, linrest, sharing)
 end // and [auxlab_sexp]
 
-and auxlab_shnf (
+and auxlab_shnf
+(
   loc0: location, s2f: s2hnf
 , d3l: d3lab, l0: label, linrest: &int, sharing: &int
 ) : s2exp = let
-  val s2e = s2hnf2exp (s2f)
+//
+val s2e = s2hnf2exp (s2f)
+//
 in
 //
 case+
@@ -402,7 +407,9 @@ fun auxsel
 ) : (
   s2exp, s2explst_vt
 ) = let
-  val loc0 = d3l.d3lab_loc
+//
+val loc0 = d3l.d3lab_loc
+//
 in
 //
 case+
@@ -548,10 +555,11 @@ case+
   end // end of [S2Etyrec]
 //
 | _ => let
-    val () = prerr ": the type ["
-    val () = prerr_s2exp (s2e)
-    val () = prerr "] is expected to be a tyrec (record-type)."
-    val () = prerr_newline ()
+    val () = prerr_error3_loc (loc0)
+    val () = prerrln!
+    (
+      ": the type [", s2e, "] is expected to be a tyrec (record-type)."
+    ) (* end of [val] *)
     val () = the_trans3errlst_add (T3E_s2exp_selab_tyrec (loc0, s2e))
   in
     s2exp_t0ype_err ()
@@ -746,7 +754,7 @@ d2var_trup_selab_lin
   (loc0, loc, d2v, d2ls) = let
 (*
 val () =
-  println! ("d2exp_trup_selab: D2Evar(lin): d2v = ", d2v)
+  println! ("d2exp_trup_selab_lin: D2Evar(lin): d2v = ", d2v)
 // end of [val]
 *)
 val s2e =
@@ -922,14 +930,12 @@ end // end of [local]
 implement
 d2exp_trup_selab
   (d2e0, d2e, d2ls) = let
-(*
-val (
-) = println!
-  ("d2exp_trup_selab: d2e0 = ", d2e0)
-*)
 //
 val loc0 = d2e0.d2exp_loc
-//
+(*
+val () = println! ("d2exp_trup_selab: loc0 = ", loc0)
+val () = println! ("d2exp_trup_selab: d2e0 = ", d2e0)
+*)
 in
 //
 case+

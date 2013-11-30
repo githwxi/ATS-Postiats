@@ -157,7 +157,7 @@ in (* in of [local] *)
 fun
 intrepsfx_syn_type
 (
-  loc0: location
+  loc0: loc_t
 , rep: string, sfx: uint
 ) : s2exp = let
 //
@@ -215,7 +215,7 @@ end // end of [intrepsfx_syn_type]
 fun
 intbaserepsfx_syn_type_ind
 (
-  loc0: location
+  loc0: loc_t
 , base: int, rep: string, sfx: uint
 ) : s2exp = let
   var p_sfx: ptr = null
@@ -364,8 +364,10 @@ datatype fltknd =
 
 in (* in of [local] *)
 
-fun floatsfx_syn_type (
-  loc0: location, rep: string, sfx: uint
+fun
+floatsfx_syn_type
+(
+  loc0: loc_t, rep: string, sfx: uint
 ) : s2exp = (case+ 0 of
 | _ when sfx = 0u => s2exp_double_t0ype ()
 | _ (*sfx > 0*) => let

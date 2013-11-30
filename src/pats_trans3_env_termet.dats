@@ -56,19 +56,27 @@ staload "./pats_trans3_env.sats"
 implement
 s2explst_check_termet
   (loc0, s2es_met) = let
-  fun loop (
-    loc0: location, s2es: s2explst
-  ) : void = case+ s2es of
-    | list_cons (s2e, s2es) => let
-        val isint = s2rt_is_int (s2e.s2exp_srt)
-        val () = if isint then
-          trans3_env_add_cnstr (c3nstr_termet_isnat (loc0, s2e))
-        // end of [val]
-      in
-        loop (loc0, s2es)
-      end // end of [list_cons]
-    | list_nil () => () // end of [list_nil]
-  // end of [loop]
+//
+fun
+loop (
+  loc0: loc_t, s2es: s2explst
+) : void = let
+in
+//
+case+ s2es of
+| list_cons
+    (s2e, s2es) => let
+    val isint = s2rt_is_int (s2e.s2exp_srt)
+    val () = if isint then
+      trans3_env_add_cnstr (c3nstr_termet_isnat (loc0, s2e))
+    // end of [val]
+  in
+    loop (loc0, s2es)
+  end // end of [list_cons]
+| list_nil () => () // end of [list_nil]
+//
+end (* end of [loop] *)
+//
 in
   loop (loc0, s2es_met)
 end // end of [s2explst_check_termet]
