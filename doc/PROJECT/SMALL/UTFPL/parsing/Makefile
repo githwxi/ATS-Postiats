@@ -29,6 +29,7 @@ all:: main
 ######
 
 main: \
+  ../utfpl.o \
   main_dats.o \
   parsing_sats.o \
   parsing_dats.o \
@@ -43,7 +44,11 @@ main: \
     -I${PATSHOME} \
     -I${PATSHOME}/ccomp/runtime \
     -L${PATSHOME}/ccomp/atslib/lib \
-    -O2 -o $@ ../utfpl.o $^ -latslib $(LGC) $(LJSONC)
+    -O2 -o $@ $^ -latslib $(LGC) $(LJSONC)
+
+######
+
+../utfpl.o: ../utfpl.o ; make -C .. utfpl.o
 
 ######
 

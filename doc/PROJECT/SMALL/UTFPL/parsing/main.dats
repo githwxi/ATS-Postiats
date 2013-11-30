@@ -67,10 +67,10 @@ in
   json_tokener_parse_ex (tkr, cs2, len)
 end // end of [val]
 //
-val () = json_tokener_free (tkr)
+val ((*void*)) = strptr_free (cs)
+val ((*void*)) = json_tokener_free (tkr)
 //
 val jsv = json_object2val0 (jso)
-val ((*void*)) = strptr_free (cs)
 //
 val () =
   fprint! (stdout_ref, "jsv=", jsv)
@@ -79,7 +79,7 @@ val () = fprint_newline (stdout_ref)
 val d2cs = parse_d2eclist (jsv)
 //
 val () =
-  fprint! (stdout_ref, "d2cs=", d2cs)
+  fprint! (stdout_ref, "d2cs=\n", d2cs)
 val () = fprint_newline (stdout_ref)
 //
 } (* end of [main0] *)

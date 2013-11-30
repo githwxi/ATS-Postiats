@@ -21,7 +21,7 @@ in
 case+ d2e0.d2exp_node of
 //
 | D2Ecst (d2c) =>
-    fprint! (out, "D2Evar(", d2c, ")")
+    fprint! (out, "D2Ecst(", d2c, ")")
 | D2Evar (d2v) =>
     fprint! (out, "D2Evar(", d2v, ")")
 | D2Esym (d2s) =>
