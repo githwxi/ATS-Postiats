@@ -799,17 +799,57 @@ fun do_jsonize2
 //
 (* ****** ****** *)
 
+local
+
+fun
+fprint_jsonlst
+(
+  out: FILEref, jsvs: jsonvalist
+) : void = let
+//
+fun loop
+(
+  out: FILEref, jsvs: jsonvalist, i: int
+) : void = let
+in
+//
+case+ jsvs of
+| list_cons
+    (jsv, jsvs) => let
+    val () =
+      if i > 0
+        then fprint_string (out, ",\n")
+      // end of [if]
+    val ((*void*)) = fprintln! (out, jsv)
+  in
+    loop (out, jsvs, i+1)
+  end // end of [list_cons]
+| list_nil ((*void*)) => ()
+//
+end // end of [loop]
+//
+in
+  loop (out, jsvs, 0)
+end // end of [fprint_jsonlst]
+
+in (* in of [local] *)
+
 implement
 do_jsonize2
   (state, given, d2cs) =
 {
 //
-val jsv_d2cs = jsonize_d2eclist (d2cs)
+val jsv = jsonize_d2eclist (d2cs)
+val-JSONlist(d2cs) = jsv
 val out = outchan_get_filr (state.outchan)
-val ((*void*)) = fprint_jsonval (out, jsv_d2cs)
-val ((*void*)) = fprint_newline (out)
+//
+val ((*void*)) = fprint_string (out, "[\n")
+val ((*void*)) = fprint_jsonlst (out, d2cs)
+val ((*void*)) = fprint_string (out, "]\n")
 //
 } (* end of [do_jsonize2] *)
+
+end // end of [local]
 
 (* ****** ****** *)
 //

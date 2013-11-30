@@ -89,6 +89,7 @@ case+ name of
 //
 | "D2Cfundecs" => parse_D2Cfundecs (jsv2)
 | "D2Cvaldecs" => parse_D2Cvaldecs (jsv2)
+//
 | _(*not-yet-processed*) => parse_D2Cerror (jsv2)
 //
 end // end of [parse_d2ecl_node]
