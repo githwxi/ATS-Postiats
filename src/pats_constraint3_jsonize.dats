@@ -53,6 +53,7 @@ staload "./pats_dynexp2.sats"
 (* ****** ****** *)
 
 staload "./pats_trans3_env.sats"
+staload "./pats_constraint3.sats"
 
 (* ****** ****** *)
 
@@ -362,4 +363,9 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [pats_trans3_jsonize.dats] *)
+implement
+c3nstr_export (out, c3t0) = ()
+
+(* ****** ****** *)
+
+(* end of [pats_constraint3_jsonize.dats] *)

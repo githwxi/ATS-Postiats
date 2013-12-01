@@ -483,7 +483,7 @@ fun fprint_ent
 //
   val () = fprint (out, "\"name\": ")
   val () = fprint_name (out, ent.tagent_sym)
-  val () = fprint (out, ", \"nrow\": ")
+  val () = fprint (out, ", \"nline\": ")
   val () = fprint_int (out, location_beg_nrow(loc)+1)
   val () = fprint (out, ", \"nchar\": ")
   val () = fprint_lint (out, location_beg_ntot(loc)+1L)

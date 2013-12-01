@@ -211,6 +211,8 @@ val SOURCES =
 , "pats_staexp2_print.dats"
 , "pats_staexp2_pprint.dats"
 //
+, "pats_staexp2_jsonize.dats"
+//
 , "pats_staexp2_sort.dats"
 //
 , "pats_staexp2_scst.dats"
@@ -230,8 +232,6 @@ val SOURCES =
 , "pats_staexp2_util2.dats"
 , "pats_staexp2_util3.dats"
 //
-, "pats_staexp2_jsonize.dats"
-//
 , "pats_staexp2_error.sats"
 , "pats_staexp2_error.dats"
 //
@@ -248,12 +248,12 @@ val SOURCES =
 , "pats_dyncst2.dats"
 //
 , "pats_dynexp2_print.dats"
+, "pats_dynexp2_jsonize.dats"
+//
 , "pats_dynexp2_dcst.dats"
 , "pats_dynexp2_dvar.dats"
 , "pats_dynexp2_dmac.dats"
 , "pats_dynexp2_util.dats"
-, "pats_dynexp2_jsonize.dats"
-//
 , "pats_trans2.sats"
 //
 , "pats_namespace.sats"
@@ -289,7 +289,6 @@ val SOURCES =
 , "pats_trans3_env_lamlp.dats"
 , "pats_trans3_env_pfman.dats"
 , "pats_trans3_env_lstate.dats"
-, "pats_trans3_env_jsonize.dats"
 //
 , "pats_dmacro2.sats"
 , "pats_dmacro2.dats"
@@ -325,8 +324,10 @@ val SOURCES =
 //
 , "pats_constraint3.sats"
 , "pats_constraint3.dats"
+//
 , "pats_constraint3_init.dats"
 , "pats_constraint3_print.dats"
+, "pats_constraint3_jsonize.dats"
 , "pats_constraint3_simplify.dats"
 , "pats_constraint3_icnstr.dats"
 , "pats_constraint3_solve.dats"

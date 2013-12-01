@@ -62,7 +62,8 @@ staload ERR = "./pats_error.sats"
 
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_constraint3_solve"
+implement
+prerr_FILENAME<> () = prerr "pats_constraint3_solve"
 
 (* ****** ****** *)
 
@@ -93,8 +94,9 @@ staload _(*anon*) = "./pats_lintprgm.dats"
 staload _(*anon*) = "./pats_lintprgm_solve.dats"
 staload _(*anon*) = "./pats_constraint3_icnstr.dats"
 
-fun{a:t@ype}
-indexset_make_s3exp
+fun{
+a:t@ype
+} indexset_make_s3exp
   {n:nat} (
   vim: !s2varindmap (n), s3e: s3exp
 ) : indexset (n+1) = let
@@ -123,8 +125,9 @@ end // end of [indexset_make_s3exp]
 
 (* ****** ****** *)
 
-fun{a:t@ype}
-auxsolve{n:nat}
+fun{
+a:t@ype
+} auxsolve{n:nat}
 (
   loc0: location
 , vim: !s2varindmap (n), n: int n
@@ -646,18 +649,19 @@ end // end of [c3nstr_solve_itmlst_disj]
 implement
 c3nstr_solve (c3t) = let
 (*
-  val () = begin
-    print "c3nstr_solve: c3t = "; print c3t; print_newline ()
-  end // end of [val]
+val () = begin
+  print "c3nstr_solve: c3t = "; print c3t; print_newline ()
+end // end of [val]
 *)
-  var env: s2vbcfenv = s2vbcfenv_nil ()
+var env: s2vbcfenv = s2vbcfenv_nil ()
 //
-// HX-2010-09-09: this is needed for solving top-level constraints!!!
-  val () = the_s2varbindmap_freetop ()
+// HX-2010-09-09: this is needed for solving
+val () = the_s2varbindmap_freetop () // top-level constraints!!!
 //
-  var unsolved: uint = 0u and err: int = 0
-  val _(*status*) = c3nstr_solve_main (env, c3t, unsolved, err)
-  val () = s2vbcfenv_free (env)
+var unsolved: uint = 0u and err: int = 0
+val _(*status*) = c3nstr_solve_main (env, c3t, unsolved, err)
+val () = s2vbcfenv_free (env)
+//
 in
 //
 case+ 0 of

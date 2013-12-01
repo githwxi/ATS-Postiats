@@ -296,6 +296,10 @@ s3exp2myintvec{n:nat}
 fun c3nstr_solve (c3t: c3nstr): void
 
 (* ****** ****** *)
+
+fun c3nstr_export (out: FILEref, c3t: c3nstr): void
+
+(* ****** ****** *)
 //
 abstype s2cfunmap
 //

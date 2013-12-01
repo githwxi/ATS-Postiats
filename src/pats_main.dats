@@ -199,6 +199,8 @@ dynload "pats_stacst2.dats"
 dynload "pats_staexp2_print.dats"
 dynload "pats_staexp2_pprint.dats"
 //
+dynload "pats_staexp2_jsonize.dats"
+//
 dynload "pats_staexp2_sort.dats"
 //
 dynload "pats_staexp2_scst.dats"
@@ -217,8 +219,6 @@ dynload "pats_staexp2_util1.dats"
 dynload "pats_staexp2_util2.dats"
 dynload "pats_staexp2_util3.dats"
 //
-dynload "pats_staexp2_jsonize.dats"
-//
 dynload "pats_staexp2_error.dats"
 dynload "pats_staexp2_solve.dats"
 //
@@ -228,13 +228,13 @@ dynload "pats_dynexp2.dats"
 dynload "pats_dyncst2.dats"
 //
 dynload "pats_dynexp2_print.dats"
+dynload "pats_dynexp2_jsonize.dats"
+//
 dynload "pats_dynexp2_dcst.dats"
 dynload "pats_dynexp2_dvar.dats"
 dynload "pats_dynexp2_dmac.dats"
 //
 dynload "pats_dynexp2_util.dats"
-//
-dynload "pats_dynexp2_jsonize.dats"
 //
 dynload "pats_namespace.dats"
 //
@@ -263,7 +263,6 @@ dynload "pats_trans3_env_dvar.dats"
 dynload "pats_trans3_env_lamlp.dats"
 dynload "pats_trans3_env_pfman.dats"
 dynload "pats_trans3_env_lstate.dats"
-dynload "pats_trans3_env_jsonize.dats"
 //
 dynload "pats_dmacro2.dats"
 dynload "pats_dmacro2_print.dats"
@@ -302,6 +301,7 @@ dynload "pats_lintprgm_solve.dats"
 dynload "pats_constraint3.dats"
 dynload "pats_constraint3_init.dats"
 dynload "pats_constraint3_print.dats"
+dynload "pats_constraint3_jsonize.dats"
 dynload "pats_constraint3_simplify.dats"
 dynload "pats_constraint3_icnstr.dats"
 dynload "pats_constraint3_solve.dats"
@@ -406,7 +406,9 @@ fprintln! (out, "  -dep (for generating information on file dependencices)");
 fprintln! (out, "  --depgen (for generating information on file dependencices)");
 fprintln! (out, "  -tag (for generating tagging information on syntactic entities)");
 fprintln! (out, "  --taggen (for generating tagging information on syntactic entities)");
-fprintln! (out, "  --json=2 (for output level-2 syntax in JSON format)");
+fprintln! (out, "  --jsonize-2 (for output level-2 syntax in JSON format)");
+fprintln! (out, "  --constraint-export (for exporting constraints in JSON format)");
+fprintln! (out, "  --constraint-ignore (for entirely ignoring constraint-solving)");
 fprint_newline (out);
 //
 end // end of [patsopt_usage]
@@ -501,11 +503,13 @@ cmdstate = @{
 , depgenflag= int // dep info generation
 , taggenflag= int // tagging info generation
 //
-, json2_flag= int // level-2 syntax in JSON
+, jsonizeflag= int // level-2 syntax in JSON
 //
-, typecheckonly= bool
-// number of accumulated errors
-, nerror= int
+, typecheckonly= int // 0 by default
+//
+, cnstrsolveflag= int // 0 by default
+//
+, nerror= int // number of accumulated errors
 } // end of [cmdstate]
 
 (* ****** ****** *)
@@ -805,7 +809,7 @@ end // end of [do_taggen]
 (* ****** ****** *)
 //
 extern
-fun do_jsonize2
+fun do_jsonize_2
   (state: &cmdstate, given: string, d2cs: d2eclist): void
 //
 (* ****** ****** *)
@@ -846,7 +850,7 @@ end // end of [fprint_jsonlst]
 in (* in of [local] *)
 
 implement
-do_jsonize2
+do_jsonize_2
   (state, given, d2cs) =
 {
 //
@@ -858,7 +862,7 @@ val ((*void*)) = fprint_string (out, "[\n")
 val ((*void*)) = fprint_jsonlst (out, d2cs)
 val ((*void*)) = fprint_string (out, "]\n")
 //
-} (* end of [do_jsonize2] *)
+} (* end of [do_jsonize_2] *)
 
 end // end of [local]
 
@@ -869,10 +873,10 @@ fun do_trans12
   (given: string, d0cs: d0eclist): d2eclist
 extern
 fun do_trans123
-  (given: string, d0cs: d0eclist): d3eclist
+  (state: &cmdstate, given: string, d0cs: d0eclist): d3eclist
 extern
 fun do_trans1234
-  (given: string, d0cs: d0eclist): hideclist
+  (state: &cmdstate, given: string, d0cs: d0eclist): hideclist
 //
 extern
 fun do_transfinal
@@ -915,7 +919,7 @@ end // end of [do_trans12]
 
 implement
 do_trans123
-  (given, d0cs) = let
+  (state, given, d0cs) = let
 //
 val d2cs = do_trans12 (given, d0cs)
 val () = $TRENV3.trans3_env_initialize ()
@@ -929,10 +933,22 @@ val () = {
 } // end of [val]
 *)
 //
-val (
-) = $CNSTR3.c3nstr_solve (c3t) where
+val () = 
 {
-  val c3t = $TRENV3.trans3_finget_constraint ()
+  val flag = state.cnstrsolveflag
+  val c3t0 = $TRENV3.trans3_finget_constraint ()
+//
+  val () =
+  if flag = 0 then $CNSTR3.c3nstr_solve (c3t0)
+//
+  val () =
+  if flag > 0 then
+  {
+    val filr =
+      outchan_get_filr (state.outchan)
+    val () = $CNSTR3.c3nstr_export (filr, c3t0)
+  } (* end of [if] *)
+//
 } (* end of [val] *)
 //
 val (
@@ -951,10 +967,10 @@ end // end of [do_trans123]
 
 implement
 do_trans1234
-  (given, d0cs) = let
+  (state, given, d0cs) = let
 //
 val d3cs =
-  do_trans123 (given, d0cs)
+  do_trans123 (state, given, d0cs)
 // end of [d3cs]
 val hids = $TYER.d3eclist_tyer (d3cs)
 //
@@ -983,17 +999,17 @@ in
 //
 case+ 0 of
 | _ when
-    state.typecheckonly => let
-    val d3cs = do_trans123 (given, d0cs) in (*none*)
+    state.typecheckonly > 0 => let
+    val d3cs = do_trans123 (state, given, d0cs) in (*none*)
   end // end of [when ...]
 | _ when
-    state.json2_flag > 0 => let
+    state.jsonizeflag = 2 => let
     val d2cs = do_trans12 (given, d0cs)
   in
-    do_jsonize2 (state, given, d2cs)
+    do_jsonize_2 (state, given, d2cs)
   end // end of [when ...]
 | _ => let
-    val hids = do_trans1234 (given, d0cs)
+    val hids = do_trans1234 (state, given, d0cs)
     val out = outchan_get_filr (state.outchan)
     val flag = waitkind_get_stadyn (state.waitkind)
     val () = $CCOMP.ccomp_main (out, flag, state.infil, hids)
@@ -1180,7 +1196,7 @@ case+ key of
   end // end of [-d]
 //
 | "-tc" => {
-    val () = state.typecheckonly := true
+    val () = state.typecheckonly := 1
   } // end of [-tc]
 //
 | "-dep" => {
@@ -1263,7 +1279,7 @@ case+ key of
     state.waitkind := WTKinput_dyn
 //
 | "--typecheck" => {
-    val () = state.typecheckonly := true
+    val () = state.typecheckonly := 1
   } // end of [--typecheck]
 //
 | "--gline" => {
@@ -1277,9 +1293,18 @@ case+ key of
     val () = state.taggenflag := 1
   } // end of [--taggen]
 //
-| "--json=2" => {
-    val () = state.json2_flag := 1
+| "--jsonize-2" => {
+    val () = state.jsonizeflag := 0
   } // end of [--json=2]
+//
+| "--constraint-export" =>
+  {
+    val () = state.cnstrsolveflag := 1
+  }
+| "--constraint-ignore" =>
+  {
+    val () = state.cnstrsolveflag := ~1
+  }
 //
 | "--help" => patsopt_usage (stdout_ref, state.comarg0)
 | "--version" => patsopt_version (stdout_ref, state.comarg0)
@@ -1342,9 +1367,13 @@ state = @{
   comarg0= arg0
 , PATSHOME= PATSHOME
 , waitkind= WTKnone ()
+//
 // load status of prelude files
+//
 , preludeflg= 0
+//
 // number of prcessed input files
+//
 , ninputfile= 0
 //
 , infil= $FIL.filename_dummy
@@ -1355,9 +1384,12 @@ state = @{
 , depgenflag= 0 // dep info generation
 , taggenflag= 0 // tagging info generation
 //
-, json2_flag= 0 // level-2 syntax in JSON
+, jsonizeflag= 0 // JSONizing syntax trees
 //
-, typecheckonly= false
+, typecheckonly= 0 // compiling by default
+//
+, cnstrsolveflag= 0 // cnstr-solving by default
+//
 , nerror= 0 // number of accumulated errors
 } : cmdstate // end of [var]
 //
