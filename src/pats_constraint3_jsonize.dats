@@ -347,7 +347,11 @@ in
 case+
 c3t0.c3nstr_node of
 //
-| _ (*yet-to-be-processed*) => aux0 ("C3NSTRignored")
+| C3NSTRprop (s2e) =>
+    aux1 ("C3NSTRprop", jsonize_s2exp (s2e))
+//
+| C3NSTRitmlst (s3is) =>
+    aux1 ("C3NSTRitmlst", jsonize_s3itmlst (s3is))
 //
 end // end of [auxmain]
 //
@@ -364,7 +368,16 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-c3nstr_export (out, c3t0) = ()
+c3nstr_export
+  (out, c3t0) = let
+//
+val jsv0 = jsonize_c3nstr (c3t0)
+//
+val ((*void*)) = fprint_jsonval (out, jsv0)
+val ((*void*)) = fprint_newline (out)
+in
+  // nothing
+end // end of [c3nstr_export]
 
 (* ****** ****** *)
 

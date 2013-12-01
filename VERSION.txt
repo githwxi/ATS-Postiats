@@ -26,6 +26,8 @@ Here is a list of major additions and changes since the last release:
    (see doc/BUGS/bug-2013-11-29)
 2. Adding support for jsonizing level-2 syntax trees; this is planned
    for support tasks like meta-programming, constraint-exporting, etc.
+3. Adding support for exporting constraints gathered during typechecking
+   (command-line flag for this feature: --constraint-export)
 
 </pre>
 
