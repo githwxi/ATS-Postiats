@@ -81,10 +81,6 @@ fun jsonize_s0tring (tok: token): jsonval
 (* ****** ****** *)
 
 extern
-fun jsonize_d2cst : jsonize_type (d2cst)
-extern
-fun jsonize_d2var : jsonize_type (d2var)
-extern
 fun jsonize_d2sym : jsonize_type (d2sym)
 
 (* ****** ****** *)
@@ -270,7 +266,7 @@ fun aux3
 , arg1: jsonval, arg2: jsonval, arg3: jsonval
 ) : jsonval = let
   val name = jsonval_string (name)
-  val arglst = jsonval_list (arg1 :: arg2 :: arg3 :: nil ())
+  val arglst = jsonval_list (arg1 :: arg2 :: arg3 :: nil())
 in
   jsonval_labval2 ("p2at_name", name, "p2at_arglst", arglst)
 end // end of [aux3]
@@ -311,7 +307,7 @@ case+ p2t0.p2at_node of
     val jsv6 = jsonize_p2atlst (p2ts)
     val arglst =
     jsonval_list (
-      jsv1 :: jsv2 :: jsv3 :: jsv4 :: jsv5 :: jsv6 :: nil ()
+      jsv1 :: jsv2 :: jsv3 :: jsv4 :: jsv5 :: jsv6 :: nil()
     ) (* end of [val] *)
   in
     jsonval_labval2 ("p2at_name", name, "p2at_arglst", arglst)
@@ -361,15 +357,8 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-jsonize_p2atlst
-  (p2ts) = let
-//
-val jsvs =
-  list_map_fun (p2ts, jsonize_p2at)
-//
-in
-  jsonval_list (list_of_list_vt (jsvs))
-end // end of [jsonize_p2atlst]
+jsonize_p2atlst (p2ts) =
+  jsonize_list_fun (p2ts, jsonize_p2at)
 
 (* ****** ****** *)
 
@@ -412,7 +401,7 @@ fun aux3
 , arg1: jsonval, arg2: jsonval, arg3: jsonval
 ) : jsonval = let
   val name = jsonval_string (name)
-  val arglst = jsonval_list (arg1 :: arg2 :: arg3 :: nil ())
+  val arglst = jsonval_list (arg1 :: arg2 :: arg3 :: nil())
 in
   jsonval_labval2 ("d2exp_name", name, "d2exp_arglst", arglst)
 end // end of [aux3]
@@ -423,7 +412,7 @@ fun aux4
 , arg1: jsonval, arg2: jsonval, arg3: jsonval, arg4: jsonval
 ) : jsonval = let
   val name = jsonval_string (name)
-  val arglst = jsonval_list (arg1 :: arg2 :: arg3 :: arg4 :: nil ())
+  val arglst = jsonval_list (arg1 :: arg2 :: arg3 :: arg4 :: nil())
 in
   jsonval_labval2 ("d2exp_name", name, "d2exp_arglst", arglst)
 end // end of [aux4]
@@ -536,15 +525,10 @@ end // end of [local]
 (* ****** ****** *)
   
 implement
-jsonize_d2explst
-  (d2es) = let
-//
-val jsvs =
-  list_map_fun (d2es, jsonize_d2exp)
-//
-in
-  jsonval_list (list_of_list_vt (jsvs))
-end // end of [jsonize_d2explst]
+jsonize_d2explst (d2es) =
+  jsonize_list_fun (d2es, jsonize_d2exp)
+
+(* ****** ****** *)
 
 implement
 jsonize_d2expopt
@@ -580,7 +564,7 @@ case+ d2a of
     val jsv1 = jsonval_int (npf)
     val jsv2 = jsonize_loc (loc)
     val jsv3 = jsonize_d2explst (d2es)
-    val arglst = jsonval_list (jsv1 :: jsv2 :: jsv3 :: nil ())
+    val arglst = jsonval_list (jsv1 :: jsv2 :: jsv3 :: nil())
   in
     jsonval_labval2 ("d2exparg_name", name, "d2exparg_arglst", arglst)
   end // end of [D2EXPARGdyn]
@@ -590,15 +574,8 @@ end // end of [jsonize_d2exparg]
 (* ****** ****** *)
 
 implement
-jsonize_d2exparglst
-  (d2as) = let
-//
-val jsvs =
-  list_map_fun (d2as, jsonize_d2exparg)
-//
-in
-  jsonval_list (list_of_list_vt (jsvs))
-end // end of [jsonize_d2exparglst]
+jsonize_d2exparglst (d2as) =
+  jsonize_list_fun (d2as, jsonize_d2exparg)
 
 (* ****** ****** *)
 
@@ -641,7 +618,7 @@ fun aux3
 , arg1: jsonval, arg2: jsonval, arg3: jsonval
 ) : jsonval = let
   val name = jsonval_string (name)
-  val arglst = jsonval_list (arg1 :: arg2 :: arg3 :: nil ())
+  val arglst = jsonval_list (arg1 :: arg2 :: arg3 :: nil())
 in
   jsonval_labval2 ("d2ecl_name", name, "d2ecl_arglst", arglst)
 end // end of [aux3]
@@ -712,15 +689,8 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-jsonize_d2eclist
-  (d2cs) = let
-//
-val jsvs =
-  list_map_fun (d2cs, jsonize_d2ecl)
-//
-in
-  jsonval_list (list_of_list_vt (jsvs))
-end // end of [jsonize_d2eclist]
+jsonize_d2eclist (d2cs) =
+  jsonize_list_fun (d2cs, jsonize_d2ecl)
 
 (* ****** ****** *)
 
@@ -777,15 +747,8 @@ end // end of [json_f2undec]
 (* ****** ****** *)
 
 implement
-jsonize_f2undeclst
-  (d2cs) = let
-//
-val jsvs =
-  list_map_fun (d2cs, jsonize_f2undec)
-//
-in
-  jsonval_list (list_of_list_vt (jsvs))
-end // end of [jsonize_f2undeclst]
+jsonize_f2undeclst (f2ds) =
+  jsonize_list_fun (f2ds, jsonize_f2undec)
 
 (* ****** ****** *)
 
@@ -809,15 +772,8 @@ end // end of [json_v2aldec]
 (* ****** ****** *)
 
 implement
-jsonize_v2aldeclst
-  (d2cs) = let
-//
-val jsvs =
-  list_map_fun (d2cs, jsonize_v2aldec)
-//
-in
-  jsonval_list (list_of_list_vt (jsvs))
-end // end of [jsonize_v2aldeclst]
+jsonize_v2aldeclst (v2ds) =
+  jsonize_list_fun (v2ds, jsonize_v2aldec)
 
 (* ****** ****** *)
 

@@ -67,6 +67,8 @@ fxtykind =
   | FXK_postfix
 // end of [fxtykind]
 
+(* ****** ****** *)
+
 datatype
 caskind =
   | CK_case // case

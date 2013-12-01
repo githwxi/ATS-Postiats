@@ -142,6 +142,10 @@ fun jsonize_funclo : jsonize_type (funclo)
 
 (* ****** ****** *)
 
+fun jsonize_caskind : jsonize_type (caskind)
+
+(* ****** ****** *)
+
 fun jsonize_funkind : jsonize_type (funkind)
 fun jsonize_valkind : jsonize_type (valkind)
 
@@ -153,7 +157,15 @@ fun jsonize_location : jsonize_type (location)
 
 (* ****** ****** *)
 
-fun jsonize_ignored : {a:type} jsonize_type (a)
+fun
+jsonize_ignored{a:type} (x: a): jsonval
+
+(* ****** ****** *)
+
+fun
+jsonize_list_fun{a:type}
+  (xs: List (a), f: jsonize_type (a)): jsonval
+// end of [jsonize_list_fun]
 
 (* ****** ****** *)
 

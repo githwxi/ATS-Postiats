@@ -68,18 +68,6 @@ jsonize_loc (x) = jsonize_location (,(x))
 
 (* ****** ****** *)
 
-extern
-fun jsonize_s2rt : jsonize_type (s2rt)
-
-(* ****** ****** *)
-
-extern
-fun jsonize_s2cst : jsonize_type (s2cst)
-extern
-fun jsonize_s2var : jsonize_type (s2var)
-
-(* ****** ****** *)
-
 implement
 jsonize_s2rt
   (s2t) = let
@@ -238,15 +226,8 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-jsonize_s2explst
-  (s2es) = let
-//
-val jsvs =
-  list_map_fun (s2es, jsonize_s2exp)
-//
-in
-  jsonval_list (list_of_list_vt (jsvs))
-end // end of [jsonize_s2explst]
+jsonize_s2explst (s2es) =
+  jsonize_list_fun (s2es, jsonize_s2exp)
 
 (* ****** ****** *)
 

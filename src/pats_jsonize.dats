@@ -32,6 +32,11 @@
 // Start Time: November, 2013
 //
 (* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
+(* ****** ****** *)
 
 staload "./pats_basics.sats"
 
@@ -268,6 +273,17 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+jsonize_caskind (knd) =
+(
+  case+ knd of
+  | CK_case () => jsonval_string "CK_case"
+  | CK_case_pos () => jsonval_string "CK_case_pos"
+  | CK_case_neg () => jsonval_string "CK_case_neg"
+) (* end of [jsonize_caskind] *)
+
+(* ****** ****** *)
+
+implement
 jsonize_funkind (knd) =
 (
   case+ knd of
@@ -311,6 +327,18 @@ jsonize_symbol
 (* ****** ****** *)
 
 implement jsonize_ignored (x0) = JSONnul () 
+
+(* ****** ****** *)
+
+implement
+jsonize_list_fun
+  {a} (xs, f) = let
+//
+val jsvs = list_map_fun<a> (xs, f)
+//
+in
+  jsonval_list (list_of_list_vt (jsvs))
+end // end of [jsonize_list_fun]
 
 (* ****** ****** *)
 

@@ -1657,6 +1657,11 @@ fun d2exp_lvalize
 
 (* ****** ****** *)
 
+fun jsonize_d2cst (d2c: d2cst): jsonval
+fun jsonize_d2var (d2v: d2var): jsonval
+
+(* ****** ****** *)
+
 fun jsonize_d2ecl (d2c: d2ecl): jsonval
 fun jsonize_d2eclist (d2cs: d2eclist): jsonval
 

@@ -78,11 +78,15 @@ fun filenv_get_d3eclistopt (fenv: filenv): d3eclistopt
 
 datatype
 c3nstrkind =
+//
   | C3NSTRKINDmain of () // generic
+//
   | C3NSTRKINDcase_exhaustiveness of
-      (caskind (*case/case+*), p2atcstlst) // HX: no [case-]
-  | C3NSTRKINDtermet_isnat (* term. metric being welfounded *)
-  | C3NSTRKINDtermet_isdec (* term. metric being decreasing *)
+      (caskind (*case/case+*), p2atcstlst) // no [case-]
+//
+  | C3NSTRKINDtermet_isnat of () // term. metric welfounded
+  | C3NSTRKINDtermet_isdec of () // term. metric decreasing
+//
   | C3NSTRKINDsome_fin of (d2var, s2exp(*fin*), s2exp)
   | C3NSTRKINDsome_lvar of (d2var, s2exp(*lvar*), s2exp)
   | C3NSTRKINDsome_vbox of (d2var, s2exp(*vbox*), s2exp)
@@ -90,7 +94,7 @@ c3nstrkind =
   | C3NSTRKINDlstate of () // lstate merge
   | C3NSTRKINDlstate_var of (d2var) // lstate merge for d2var
 //
-  | C3NSTRKINDloop of int (* ~1/0/1: enter/break/continue *)
+  | C3NSTRKINDloop of (int) // HX: ~1/0/1: enter/break/continue
 // end of [c3nstrkind]
 
 datatype s3itm =
@@ -193,7 +197,7 @@ fun fprint_s3itmlstlst : fprint_type (s3itmlstlst)
 
 (* ****** ****** *)
 
-fun c3nstr_jsonize (out: FILEref, c3t: c3nstr): void
+fun jsonize_c3nstr (c3t: c3nstr): jsonval
 
 (* ****** ****** *)
 
