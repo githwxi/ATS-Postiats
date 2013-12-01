@@ -114,6 +114,21 @@ end // end of [jsonize_s2var]
 (* ****** ****** *)
 
 implement
+jsonize_s2Var
+  (s2V) = let
+//
+val stamp =
+  jsonize_stamp (s2Var_get_stamp (s2V))
+//
+in
+//
+  jsonval_labval1 ("s2Var_stamp", stamp)
+//
+end // end of [jsonize_s2Var]
+
+(* ****** ****** *)
+
+implement
 jsonize_d2con
   (d2c) = let
 //

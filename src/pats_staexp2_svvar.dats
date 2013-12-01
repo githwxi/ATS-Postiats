@@ -90,15 +90,18 @@ local
 
 assume s2Var_type = ref (s2Var_struct)
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s2Var_make_srt (loc, s2t) = let
 //
-val cnt = $CNTR.counter_getinc (the_s2Var_name_counter)
-val stamp = $STMP.s2Var_stamp_make ()
+val cnt = 
+$CNTR.counter_getinc (the_s2Var_name_counter)
+//
+val stamp = $STMP.s2Var_stamp_make ((*void*))
+//
 val (pfgc, pfat | p) = ptr_alloc<s2Var_struct> ()
-prval () = free_gc_elim {s2Var_struct?} (pfgc)
+prval ((*void*)) = free_gc_elim {s2Var_struct?} (pfgc)
 //
 val () = begin
 p->s2Var_loc := loc;
@@ -257,7 +260,7 @@ s2VarBound_type = '{
   s2VarBound_loc= location, s2VarBound_val= s2exp
 } // end of [s2VarBound_type]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s2VarBound_make (loc, s2f) = '{
@@ -352,7 +355,7 @@ $SET.compare_elt_elt<s2Var1> (x1, x2, cmp) =
   compare_s2Var_s2Var (to_s2Var(x1), to_s2Var(x2))
 // end of [implement]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s2Varset_make_nil () = $SET.funset_make_nil ()

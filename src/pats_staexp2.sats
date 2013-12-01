@@ -1424,6 +1424,7 @@ fun jsonize_s2rt (s2t: s2rt): jsonval
 //
 fun jsonize_s2cst (s2c: s2cst): jsonval
 fun jsonize_s2var (s2v: s2var): jsonval
+fun jsonize_s2Var (s2V: s2Var): jsonval
 //
 fun jsonize_d2con (d2c: d2con): jsonval
 //
