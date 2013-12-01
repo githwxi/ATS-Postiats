@@ -8,8 +8,8 @@ This project is mostly for the purpose of teaching.
 
 ######
 
-The parser of UTFPL is a bit peculiar: It translates
-ATS syntax trees into UTFPL syntax trees.
+The parser of UTFPL is a bit peculiar:
+It translates ATS level-2 syntax trees into UTFPL syntax trees.
 
 ######
 
