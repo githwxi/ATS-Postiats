@@ -190,6 +190,7 @@ SOURCES := \
   pats_trans3_env_lamlp.dats \
   pats_trans3_env_pfman.dats \
   pats_trans3_env_lstate.dats \
+  pats_trans3_env_jsonize.dats \
   pats_dmacro2.sats \
   pats_dmacro2.dats \
   pats_dmacro2_print.dats \
@@ -429,6 +430,7 @@ OBJECTS := \
   pats_trans3_env_lamlp_dats.o \
   pats_trans3_env_pfman_dats.o \
   pats_trans3_env_lstate_dats.o \
+  pats_trans3_env_jsonize_dats.o \
   pats_dmacro2_sats.o \
   pats_dmacro2_dats.o \
   pats_dmacro2_print_dats.o \
@@ -1002,6 +1004,9 @@ pats_trans3_env_pfman_dats.o: pats_trans3_env_pfman_dats.c; $(ATSCC) $(ATSCCFLAG
 
 pats_trans3_env_lstate_dats.c: pats_trans3_env_lstate.dats; $(ATSCC) -cc $<
 pats_trans3_env_lstate_dats.o: pats_trans3_env_lstate_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_trans3_env_jsonize_dats.c: pats_trans3_env_jsonize.dats; $(ATSCC) -cc $<
+pats_trans3_env_jsonize_dats.o: pats_trans3_env_jsonize_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_dmacro2_sats.c: pats_dmacro2.sats; $(ATSCC) -cc $<
 pats_dmacro2_sats.o: pats_dmacro2_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<

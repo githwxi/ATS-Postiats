@@ -52,9 +52,15 @@ stampset_vt = $STMP.stampset_vt
 
 staload
 EFF = "./pats_effect.sats"
+typedef effset = $EFF.effset
 typedef effect = $EFF.effect
 typedef effectlst = $EFF.effectlst
-typedef effset = $EFF.effset
+
+(* ****** ****** *)
+
+staload
+JSON = "./pats_jsonize.sats"
+typedef jsonval = $JSON.jsonval
 
 (* ****** ****** *)
 
@@ -184,6 +190,10 @@ fun fprint_h3ypo : fprint_type (h3ypo)
 fun fprint_s3itm : fprint_type (s3itm)
 fun fprint_s3itmlst : fprint_type (s3itmlst)
 fun fprint_s3itmlstlst : fprint_type (s3itmlstlst)
+
+(* ****** ****** *)
+
+fun c3nstr_jsonize (out: FILEref, c3t: c3nstr): void
 
 (* ****** ****** *)
 
@@ -580,13 +590,14 @@ fun the_pfmanenv_add_p3at (p3t: p3at): void
 fun the_pfmanenv_add_p3atlst (p3ts: p3atlst): void
 
 (* ****** ****** *)
-
-dataviewtype pfobj = PFOBJ of
+//
+datavtype
+pfobj = PFOBJ of
   (d2var, s2exp(*ctx*), s2exp(*elt*), s2exp(*addr*))
-viewtypedef pfobjopt = Option_vt (pfobj)
-
+vtypedef pfobjopt = Option_vt (pfobj)
+//
 fun pfobj_search_atview (s2l0: s2exp): pfobjopt
-
+//
 (* ****** ****** *)
 
 fun trans3_env_initialize (): void

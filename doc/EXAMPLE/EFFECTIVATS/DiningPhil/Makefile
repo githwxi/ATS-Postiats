@@ -68,10 +68,10 @@ cleanall:: ; $(RMF) test
 
 ######
 
-depend:: ; $(PATSOPT) -o .depend1 --depgen -s $(SOURCESsta)
-depend:: ; $(PATSOPT) -o .depend2 --depgen -d $(SOURCESdyn)
--include .depend1
--include .depend2
+depend:: ; $(RMF) -f .depend
+depend:: ; $(PATSOPT) --output-a .depend --depgen -s $(SOURCESsta)
+depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(SOURCESdyn)
+-include .depend
 
 ######
 

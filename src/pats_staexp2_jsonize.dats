@@ -80,20 +80,6 @@ fun jsonize_s2var : jsonize_type (s2var)
 
 (* ****** ****** *)
 
-extern
-fun jsonize_d2con : jsonize_type (d2con)
-
-(* ****** ****** *)
-
-extern
-fun jsonize_s2exp : jsonize_type (s2exp)
-extern
-fun jsonize_s2explst : jsonize_type (s2explst)
-extern
-fun jsonize_s2eff : jsonize_type (s2eff)
-
-(* ****** ****** *)
-
 implement
 jsonize_s2rt
   (s2t) = let
@@ -107,12 +93,15 @@ implement
 jsonize_s2cst
   (s2c) = let
 //
-val sym = jsonize_symbol (s2cst_get_sym (s2c))
-val stamp = jsonize_stamp (s2cst_get_stamp (s2c))
+val sym =
+  jsonize_symbol (s2cst_get_sym (s2c))
+val stamp =
+  jsonize_stamp (s2cst_get_stamp (s2c))
 //
 in
 //
-jsonval_labval2 ("s2cst_name", sym, "s2cst_stamp", stamp)
+jsonval_labval2
+  ("s2cst_name", sym, "s2cst_stamp", stamp)
 //
 end // end of [jsonize_s2cst]
 
@@ -122,12 +111,15 @@ implement
 jsonize_s2var
   (s2v) = let
 //
-val sym = jsonize_symbol (s2var_get_sym (s2v))
-val stamp = jsonize_stamp (s2var_get_stamp (s2v))
+val sym =
+  jsonize_symbol (s2var_get_sym (s2v))
+val stamp =
+  jsonize_stamp (s2var_get_stamp (s2v))
 //
 in
 //
-jsonval_labval2 ("s2var_name", sym, "s2var_stamp", stamp)
+jsonval_labval2
+  ("s2var_name", sym, "s2var_stamp", stamp)
 //
 end // end of [jsonize_s2var]
 
@@ -137,12 +129,15 @@ implement
 jsonize_d2con
   (d2c) = let
 //
-val sym = jsonize_symbol (d2con_get_sym (d2c))
-val stamp = jsonize_stamp (d2con_get_stamp (d2c))
+val sym =
+  jsonize_symbol (d2con_get_sym (d2c))
+val stamp =
+  jsonize_stamp (d2con_get_stamp (d2c))
 //
 in
 //
-jsonval_labval2 ("d2con_name", sym, "d2con_stamp", stamp)
+jsonval_labval2
+  ("d2con_name", sym, "d2con_stamp", stamp)
 //
 end // end of [jsonize_d2con]
 
@@ -212,6 +207,9 @@ case+ s2e0.s2exp_node of
 //
 | S2Evar (s2v) =>
     aux1 ("S2Evar", jsonize_s2var (s2v))
+//
+| S2Esizeof (s2e) =>
+    aux1 ("S2Esizeof", jsonize_s2exp (s2e))
 //
 | S2Eapp
   (

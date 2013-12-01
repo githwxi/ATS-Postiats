@@ -33,6 +33,10 @@
 //
 (* ****** ****** *)
 
+staload "./pats_basics.sats"
+
+(* ****** ****** *)
+
 staload
 INT = "./pats_intinf.sats"
 typedef intinf = $INT.intinf
@@ -48,26 +52,37 @@ typedef symbol = $SYM.symbol
 
 (* ****** ****** *)
 
-staload LAB = "./pats_label.sats"
+staload
+LAB = "./pats_label.sats"
 typedef label = $LAB.label
 
-staload LOC = "./pats_location.sats"
+staload
+LOC = "./pats_location.sats"
 typedef location = $LOC.location
 
-staload FIL = "./pats_filename.sats"
+staload
+FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
 
-staload SYN = "./pats_syntax.sats"
+staload
+SYN = "./pats_syntax.sats"
 typedef c0har = $SYN.c0har
 typedef sl0abeled (a:type) = $SYN.sl0abeled (a)
 
 (* ****** ****** *)
 
-staload "./pats_basics.sats"
+staload
+EFF = "./pats_effect.sats"
+typedef effset = $EFF.effset
 
 (* ****** ****** *)
 
-staload "./pats_effect.sats"
+staload
+JSON = "./pats_jsonize.sats"
+typedef jsonval = $JSON.jsonval
+
+(* ****** ****** *)
+
 staload "./pats_staexp1.sats"
 
 (* ****** ****** *)
@@ -414,7 +429,9 @@ s2exp_node =
   | S2Edatconptr of (* unfolded datatype *)
       (d2con, s2exp, s2explst) (* constructor and addrs of arguments *)
 //
-  | S2Eat of (s2exp, s2exp) // for at-views
+  | S2Eat of
+      (s2exp, s2exp) // for at-views
+//
   | S2Esizeof of (s2exp) // for sizes of types
 //
   | S2Eeff of (s2eff) // effects
@@ -425,16 +442,19 @@ s2exp_node =
   | S2Eapp of (s2exp, s2explst) // static application
   | S2Elam of (s2varlst, s2exp) // static abstraction
 //
-  | S2Efun of ( // function type
+  | S2Efun of
+    ( // function type
       funclo, int(*lin*), s2eff, int(*npf*), s2explst(*arg*), s2exp(*res*)
-    ) // end of S2Efun
+    ) (* end of S2Efun *)
 //
   | S2Emetfun of (stampopt, s2explst, s2exp) // metricked function
   | S2Emetdec of
       (s2explst(*met*), s2explst(*metbound*)) // expected to strictly decrease
     // end of [S2Emetdec]
 //
-  | S2Etop of (int(*knd*), s2exp) // knd: 0/1: topization/typization
+  | S2Etop of
+      (int(*knd*), s2exp) // knd: 0/1: topization/typization
+//
   | S2Ewithout of (s2exp) // for a component taken out by the [view@] operation
 //
   | S2Etyarr of (s2exp (*element*), s2explst (*dimension*))
@@ -1398,6 +1418,15 @@ fun s2aspdec_make (
   loc: location, s2c: s2cst, def: s2exp
 ) : s2aspdec // end of [s2aspdec_make]
 
+(* ****** ****** *)
+//
+fun jsonize_d2con (d2c: d2con): jsonval
+//
+fun jsonize_s2exp (s2e: s2exp): jsonval
+fun jsonize_s2explst (s2es: s2explst): jsonval
+//
+fun jsonize_s2eff (s2fe: s2eff): jsonval
+//
 (* ****** ****** *)
 
 (* end of [pats_staexp2.sats] *)

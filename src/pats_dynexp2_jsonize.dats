@@ -58,10 +58,6 @@ staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-staload "./pats_staexp2_jsonize.dats"
-
-(* ****** ****** *)
-
 #define nil list_nil
 #define :: list_cons
 #define cons list_cons

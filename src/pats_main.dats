@@ -263,6 +263,7 @@ dynload "pats_trans3_env_dvar.dats"
 dynload "pats_trans3_env_lamlp.dats"
 dynload "pats_trans3_env_pfman.dats"
 dynload "pats_trans3_env_lstate.dats"
+dynload "pats_trans3_env_jsonize.dats"
 //
 dynload "pats_dmacro2.dats"
 dynload "pats_dmacro2_print.dats"
@@ -396,6 +397,8 @@ fprintln! (out, "  -d filenames (for compiling (many) dynamic <filenames>)");
 fprintln! (out, "  --dynamic filenames (for compiling (many) dynamic <filenames>)");
 fprintln! (out, "  -o filename (output into <filename>)");
 fprintln! (out, "  --output filename (output into <filename>)");
+fprintln! (out, "  --output-w filename (output-write into <filename>)");
+fprintln! (out, "  --output-a filename (output-append into <filename>)");
 fprintln! (out, "  -tc (for typechecking only)");
 fprintln! (out, "  --typecheck (for typechecking only)");
 fprintln! (out, "  --gline (for generating line pragma information in target code)");
@@ -473,29 +476,10 @@ outchan_get_filr
   | OUTCHANref (filr) => filr | OUTCHANptr (filr) => filr
 ) // end of [outchan_get_filr]
 
-fun
-outchan_make_path
-  (name: string): outchan = let
-//
-val (pfopt | filp) =
-  $STDIO.fopen_err (name, file_mode_w)
-//
-in
-//
-if filp > null then let
-  prval Some_v (pf) = pfopt
-  val filr = $UN.castvwtp_trans {FILEref} @(pf | filp)
-in
-  OUTCHANptr (filr)
-end else let
-  prval None_v () = pfopt
-in
-  OUTCHANref (stderr_ref)
-end // end of [if]
-//
-end // end of [outchan_make_path]
-
 (* ****** ****** *)
+
+typedef
+fmode = [m:file_mode] file_mode (m)
 
 typedef
 cmdstate = @{
@@ -511,6 +495,7 @@ cmdstate = @{
 //
 , infil=filename
 //
+, outmode= fmode
 , outchan= outchan
 //
 , depgenflag= int // dep info generation
@@ -522,6 +507,32 @@ cmdstate = @{
 // number of accumulated errors
 , nerror= int
 } // end of [cmdstate]
+
+(* ****** ****** *)
+
+fun
+outchan_make_path
+(
+  state: &cmdstate, name: string
+) : outchan = let
+//
+val (pfopt | filp) =
+  $STDIO.fopen_err (name, state.outmode)
+//
+in
+//
+if filp > null then let
+  prval Some_v (pf) = pfopt
+  val filr = $UN.castvwtp_trans {FILEref} @(pf | filp)
+in
+  OUTCHANptr (filr)
+end else let
+  prval None_v () = pfopt
+in
+  OUTCHANref (stderr_ref)
+end // end of [if]
+//
+end // end of [outchan_make_path]
 
 (* ****** ****** *)
 
@@ -1102,7 +1113,7 @@ case+ arg of
     val opt = stropt_some (given)
     val ((*void*)) = theOutFilename_set (opt)
 //
-    val _new = outchan_make_path (given)
+    val _new = outchan_make_path (state, given)
     val ((*void*)) = cmdstate_set_outchan (state, _new)
 //
   in
@@ -1234,8 +1245,17 @@ val () = state.waitkind := WTKnone ()
 val () =
 (
 case+ key of
+//
 | "--output" =>
     state.waitkind := WTKoutput ()
+| "--output-w" => {
+    val () = state.outmode := file_mode_w
+    val () = state.waitkind := WTKoutput ()
+  }
+| "--output-a" => {
+    val () = state.outmode := file_mode_a
+    val () = state.waitkind := WTKoutput ()
+  }
 //
 | "--static" =>
     state.waitkind := WTKinput_sta
@@ -1328,7 +1348,8 @@ state = @{
 , ninputfile= 0
 //
 , infil= $FIL.filename_dummy
-// HX: the default output channel
+//
+, outmode= file_mode_w
 , outchan= OUTCHANref (stdout_ref)
 //
 , depgenflag= 0 // dep info generation

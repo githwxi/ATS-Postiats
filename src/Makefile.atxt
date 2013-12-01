@@ -289,6 +289,7 @@ val SOURCES =
 , "pats_trans3_env_lamlp.dats"
 , "pats_trans3_env_pfman.dats"
 , "pats_trans3_env_lstate.dats"
+, "pats_trans3_env_jsonize.dats"
 //
 , "pats_dmacro2.sats"
 , "pats_dmacro2.dats"

@@ -4,8 +4,12 @@
 //
 (* ****** ****** *)
 
+abstype OBJ
+
+(* ****** ****** *)
+
 fun fact (x) =
-  if x > 0 then x * fact (x - 1) else 1
+  if x > 0 then x * fact (x-1) else 1
 
 (* ****** ****** *)
 
@@ -15,7 +19,7 @@ and fact12 = fact (12)
 (* ****** ****** *)
 
 extern
-fun acker (m: int, n: int): int
+fun acker (OBJ, OBJ): OBJ
 
 implement
 acker (m, n) =
