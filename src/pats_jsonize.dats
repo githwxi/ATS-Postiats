@@ -42,6 +42,11 @@ staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
+staload
+INTINF = "./pats_intinf.sats"
+
+(* ****** ****** *)
+
 staload "./pats_stamp.sats"
 staload "./pats_symbol.sats"
 staload "./pats_location.sats"
@@ -53,8 +58,10 @@ staload "./pats_jsonize.sats"
 (* ****** ****** *)
 
 implement
-jsonval_int (i) =
-  JSONint (lint_of_int(i))
+jsonval_int (i) = JSONint (i)
+
+implement
+jsonval_intinf (i) = JSONintinf (i)
 
 implement
 jsonval_bool (b) = JSONbool (b)
@@ -130,7 +137,13 @@ in
 //
 case+ x0 of
 | JSONnul () => prstr "{}"
-| JSONint (i) => fprint_lint (out, i)
+| JSONint (i) => fprint_int (out, i)
+| JSONintinf (i) =>
+  {
+    val () = fprint_char (out, '"')
+    val () = $INTINF.fprint_intinf (out, i)
+    val () = fprint_char (out, '"')
+  }
 | JSONbool (b) => fprint_bool (out, b)
 | JSONfloat (d) => fprint_double (out, d)
 | JSONstring (str) => fprintf (out, "\"%s\"", @(str))

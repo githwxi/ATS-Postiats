@@ -204,25 +204,48 @@ case+ s2e0.s2exp_node of
 //
 | S2Eint (i) =>
     aux1 ("S2Eint", jsonval_int (i))
+| S2Eintinf (i) =>
+    aux1 ("S2Eintinf", jsonval_intinf (i))
 //
 | S2Ecst (s2c) =>
     aux1 ("S2Ecst", jsonize_s2cst (s2c))
 //
 | S2Evar (s2v) =>
     aux1 ("S2Evar", jsonize_s2var (s2v))
+| S2EVar (s2V) =>
+    aux1 ("S2EVar", jsonize_s2Var (s2V))
 //
 | S2Esizeof (s2e) =>
     aux1 ("S2Esizeof", jsonize_s2exp (s2e))
 //
-| S2Eapp
-  (
-    s2e_fun, s2es_arg
-  ) => let
-    val s2e_fun = jsonize_s2exp (s2e_fun)
-    val s2es_arg = jsonize_s2explst (s2es_arg)
+| S2Eeqeq
+    (s2e1, s2e2) => let
+    val s2e1 = jsonize_s2exp (s2e1)
+    and s2e2 = jsonize_s2exp (s2e2)
   in
-    aux2 ("S2Eapp", s2e_fun, s2es_arg)
+    aux2 ("S2Eeqeq", s2e1(*left*), s2e2(*right*))
+  end // end of [S2Eeqeq]
+//
+| S2Eapp
+    (s2e1, s2es2) => let
+    val s2e1 = jsonize_s2exp (s2e1)
+    val s2es2 = jsonize_s2explst (s2es2)
+  in
+    aux2 ("S2Eapp", s2e1(*fun*), s2es2(*arglst*))
   end // end of [S2Eapp]
+//
+| S2Emetdec
+    (s2es1, s2es2) => let
+    val s2es1 = jsonize_s2explst (s2es1)
+    and s2es2 = jsonize_s2explst (s2es2)
+  in
+    aux2 ("S2Emetdec", s2es1(*met*), s2es2(*bound*))
+  end // end of [S2Emetdec]
+//
+| S2Einvar (s2e) =>
+    aux1 ("S2Einvar", jsonize_s2exp (s2e))
+//
+| S2Eerr ((*void*)) => aux0 ("S2Eerr")
 //
 | _(*yet-to-be-processed*) => aux0 ("S2Eignored")
 //

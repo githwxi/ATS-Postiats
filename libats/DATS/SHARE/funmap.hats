@@ -39,26 +39,30 @@ implement{key}
 compare_key_key = gcompare_val<key>
 
 (* ****** ****** *)
-
+//
 implement{}
-funmap_isnot_nil (xs) = not (funmap_is_nil<> (xs))
-
+funmap_isnot_nil
+  (xs) = not (funmap_is_nil<> (xs))
+//
 (* ****** ****** *)
 
 implement
 {key,itm}
 funmap_search_opt
   (map, k0) = let
-  var res: itm?
-  val ans = funmap_search (map, k0, res)
+//
+var res: itm?
+val ans =
+  funmap_search (map, k0, res)
+//
 in
 //
 if ans then let
-  prval () = opt_unsome {itm} (res)
+  prval () = opt_unsome{itm}(res)
 in
   Some_vt{itm}(res)
 end else let
-  prval () = opt_unnone {itm} (res)
+  prval () = opt_unnone{itm}(res)
 in
   None_vt{itm}((*void*))
 end // end of [if]

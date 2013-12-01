@@ -356,10 +356,22 @@ h3p0.h3ypo_node of
 //
 | H3YPOprop (s2e) =>
     aux1 ("H3YPOprop", jsonize_s2exp (s2e))
-| H3YPObind (s2v1, s2e2) =>
-    aux2 ("H3YPOprop", jsonize_s2var (s2v1), jsonize_s2exp (s2e2))
-| H3YPOeqeq (s2e1, s2e2) =>
-    aux2 ("H3YPOprop", jsonize_s2exp (s2e1), jsonize_s2exp (s2e2))
+| H3YPObind (s2v1, s2e2) => let
+(*
+    val () = println! ("jsonize_h3ypo: H3YPObind: s2v1 = ", s2v1)
+    val () = println! ("jsonize_h3ypo: H3YPObind: s2e2 = ", s2e2)
+*)
+  in
+    aux2 ("H3YPObind", jsonize_s2var (s2v1), jsonize_s2exp (s2e2))
+  end // end of [H3YPObind]
+| H3YPOeqeq (s2e1, s2e2) => let
+(*
+    val () = println! ("jsonize_h3ypo: H3YPObind: s2e1 = ", s2e1)
+    val () = println! ("jsonize_h3ypo: H3YPObind: s2e2 = ", s2e2)
+*)
+  in
+    aux2 ("H3YPOeqeq", jsonize_s2exp (s2e1), jsonize_s2exp (s2e2))
+  end // end of [H3YPOeqeq]
 //
 end // end of [auxmain]
 //
@@ -400,8 +412,15 @@ in
 case+
 c3t0.c3nstr_node of
 //
-| C3NSTRprop (s2e) =>
+| C3NSTRprop (s2e) => let
+(*
+    val () = println! (
+      "jsonize_c3nstr: C3NSTRprop: s2e = ", s2e
+    ) (* end of [val] *)
+*)
+  in
     aux1 ("C3NSTRprop", jsonize_s2exp (s2e))
+  end // end of [C3NSTRprop]
 //
 | C3NSTRitmlst (s3is) =>
     aux1 ("C3NSTRitmlst", jsonize_s3itmlst (s3is))

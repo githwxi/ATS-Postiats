@@ -37,6 +37,12 @@ staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
+staload
+INTINF = "./pats_intinf.sats"
+typedef intinf = $INTINF.intinf
+
+(* ****** ****** *)
+
 staload "./pats_stamp.sats"
 staload "./pats_symbol.sats"
 staload "./pats_location.sats"
@@ -50,7 +56,8 @@ staload "./pats_location.sats"
 datatype
 jsonval =
   | JSONnul of ()
-  | JSONint of (lint)
+  | JSONint of (int)
+  | JSONintinf of (intinf)
   | JSONbool of (bool)
   | JSONfloat of (double)
   | JSONstring of (string)
@@ -72,6 +79,8 @@ jsonvalopt = Option (jsonval)
 (* ****** ****** *)
 //
 fun jsonval_int (x: int): jsonval
+fun jsonval_intinf (x: intinf): jsonval
+//
 fun jsonval_bool (x: bool): jsonval
 fun jsonval_double (x: double): jsonval
 fun jsonval_string (x: string): jsonval
