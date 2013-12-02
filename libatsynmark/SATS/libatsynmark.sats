@@ -1,7 +1,7 @@
 (*
 **
-** Some utility functions
-** for marking the syntax of ATS2
+** Some utility functions for
+** marking level-1 syntax of ATS2
 **
 ** Author: Hongwei Xi
 ** Authoremail: gmhwxiATgmailDOTcom
@@ -51,8 +51,8 @@ fun libatsynmark_filename_set_current (name: string): void
 absviewtype lexbufobj
 //
 fun lexbufobj_make_string (inp: string): lexbufobj
-fun lexbufobj_make_fileref (inp: FILEref): lexbufobj
 fun lexbufobj_make_charlst_vt (inp: charlst_vt): lexbufobj
+fun lexbufobj_make_fileref (inp: FILEref): lexbufobj
 fun lexbufobj_free (lbf: lexbufobj): void // endfun
 //
 (* ****** ****** *)
@@ -106,6 +106,9 @@ typedef d0ecl = $SYN.d0ecl
 (* ****** ****** *)
 
 fun test_symbol_p0at (sym: symbol, p0t: p0at): bool
+
+(* ****** ****** *)
+
 fun test_symbol_d0ecl (sym: symbol, d0c: d0ecl): bool
 
 (* ****** ****** *)

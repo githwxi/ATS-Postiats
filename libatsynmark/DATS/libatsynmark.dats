@@ -405,6 +405,21 @@ end // end of [lexbufobj_make_string]
 (* ****** ****** *)
 
 implement
+lexbufobj_make_charlst_vt
+  (inp) = let
+  val [l:addr]
+    (pfgc, pfat | p) = ptr_alloc<lexbuf> ()
+  val () = $LBF.lexbuf_initialize_charlst_vt (!p, inp)
+  extern castfn __cast
+    (pf1: free_gc_v (lexbuf?, l), pf2: lexbuf @ l | p: ptr l): lexbufobj
+  // end of [extern]
+in
+  __cast (pfgc, pfat | p)
+end // end of [lexbufobj_make_charlst_vt]
+
+(* ****** ****** *)
+
+implement
 lexbufobj_make_fileref
   (inp) = let
   val [l:addr]
@@ -417,21 +432,6 @@ lexbufobj_make_fileref
 in
   __cast (pfgc, pfat | p)
 end // end of [lexbufobj_make_fileref]
-
-(* ****** ****** *)
-
-implement
-lexbufobj_make_charlst_vt
-  (inp) = let
-  val [l:addr]
-    (pfgc, pfat | p) = ptr_alloc<lexbuf> ()
-  val () = $LBF.lexbuf_initialize_charlst_vt (!p, inp)
-  extern castfn __cast
-    (pf1: free_gc_v (lexbuf?, l), pf2: lexbuf @ l | p: ptr l): lexbufobj
-  // end of [extern]
-in
-  __cast (pfgc, pfat | p)
-end // end of [lexbufobj_make_charlst_vt]
 
 (* ****** ****** *)
 
@@ -495,6 +495,8 @@ end // end of [lexbuf_get_tokenlst]
 staload
 TBF = "src/pats_tokbuf.sats"
 stadef tokbuf = $TBF.tokbuf
+
+(* ****** ****** *)
 
 implement
 tokbufobj_make_lexbufobj
@@ -576,8 +578,7 @@ test_symbol_p0at
 in
 //
 case+ p0t.p0at_node of
-| $SYN.P0Tide (sym1) => sym = sym1
-| _ => false
+| $SYN.P0Tide (sym1) => sym = sym1 | _ => false
 //
 end // end of [test_symbol_p0at]
 

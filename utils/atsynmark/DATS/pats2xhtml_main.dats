@@ -1,7 +1,7 @@
 (*
 **
-** for highlighting/xreferencing ATS2 code
-** Author: Hongwei Xi (hwxi AT gmhwxi DOT com)
+** for highlighting ATS2 code
+** Author: Hongwei Xi (hwxiATgmhwxiDOTcom)
 **
 *)
 

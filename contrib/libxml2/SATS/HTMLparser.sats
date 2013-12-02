@@ -28,8 +28,9 @@
 (* ****** ****** *)
 
 (*
+** Author: Hongwei Xi
+** Authoremail: gmhwxiATgmailDOTcom
 ** Start Time: August, 2013
-** Author: Hongwei Xi (gmhwxi AT gmail DOT com)
 *)
 
 (* ****** ****** *)

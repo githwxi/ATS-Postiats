@@ -1,12 +1,23 @@
 #
 # A few simple steps to build ATS2
-# This is primarily for people developing ATS2
+# This is primarily for people wanting to use the
+# (unreleased) version of ATS2 available at GitHub:
+#
+# https://github.com/githwxi/ATS-Postiats
 #
 
 ######
 #
 # author: Hongwei Xi (gmhwxiATgmailDOTcom)
 # author: Brandon Barker (Brandon.BarkerATgmailDOTcom)
+#
+######
+#
+# Note:
+# Please execute the following command-line if you have
+# never done it explicitly before:
+#
+# make -f codegen/Makefile_atslib
 #
 ######
 

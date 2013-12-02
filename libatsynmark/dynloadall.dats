@@ -48,7 +48,8 @@ dynload "libatsynmark/DATS/libatsynmark.dats"
 dynload "libatsynmark/DATS/libatsynmark_psynmark.dats"
 dynload "libatsynmark/DATS/libatsynmark_pats2xhtml.dats"
 (*
-dynload "libatsynmark/DATS/libatsynmark_pats2xhtml_spec.dats"
+dynload "libatsynmark/DATS/libatsynmark_pats2xhtml_bground.dats"
+dynload "libatsynmark/DATS/libatsynmark_pats2xhtml_embedded.dats"
 *)
 //
 (* ****** ****** *)
