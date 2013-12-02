@@ -19,8 +19,21 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
+CFLAGS :=
+CFLAGS += $(shell pkg-config --cflags json-c)
+
+######
+
+LDFLAGS :=
+LDFLAGS += $(shell pkg-config --libs json-c)
+
+######
+
+
+######
+
 jsonlst2arr: jsonlst2arr.dats ; \
-  $(PATSCC) -DATS_MEMALLOC_LIBC -I${PATSHOME}/contrib -O2 -o $@ $< -ljson-c
+  $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
 
 ######
 

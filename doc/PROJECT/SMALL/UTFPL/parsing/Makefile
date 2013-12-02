@@ -32,7 +32,9 @@ CFLAGS += $(shell pkg-config --cflags json-c)
 ######
 
 LDFLAGS :=
+LDFLAGS += -lgc
 LDFLAGS += -L${PATSHOME}/ccomp/atslib/lib
+LDFLAGS += -latslib
 LDFLAGS += $(shell pkg-config --libs json-c)
 
 ######
@@ -52,8 +54,7 @@ main: \
   parsing_d2exp_dats.o \
   parsing_d2ecl_dats.o \
   parsing_mylib_dats.o ; \
-  $(CCOPT) $(CFLAGS) $(LDFLAGS) \
-    -O2 -o $@ $^ ../utfpl.o -latslib $(LGC) $(LJSONC)
+  $(CCOPT) $(CFLAGS) -O2 -o $@ $^ ../utfpl.o $(LDFLAGS)
 
 ######
 
@@ -69,11 +70,6 @@ UTFPL: ; make -C .. utfpl.o
 
 ######
 #
-#LGC=
-#DATSMEMALLOC=-DATS_MEMALLOC_LIBC
-#
-LGC=-lgc
-LJSONC=-ljson-c
 DATSMEMALLOC=-DATS_MEMALLOC_GCBDW
 #
 ######
