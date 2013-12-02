@@ -27,16 +27,19 @@ all:: xpath2
 
 reader1: reader1.c
 	$(CCOPT) $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
+cleanall:: ; $(RMF) reader1
 
 ######
 
 xpath1: xpath1.c
 	$(CCOPT) $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
+cleanall:: ; $(RMF) xpath1
 
 ######
 
 xpath2: xpath2.c
 	$(CCOPT) $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
+cleanall:: ; $(RMF) xpath2
 
 ######
 
@@ -51,8 +54,6 @@ clean:: ; $(RMF) *_?ats.o
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) xpath1
-cleanall:: ; $(RMF) xpath2
 
 ######
 

@@ -1320,8 +1320,10 @@ main (
 ) = () where {
 //
 val () =
-println! ("Hello from ATS/Postiats!")
-val () = patsopt_version (stdout_ref)
+println! ("Hello from ATS2(ATS/Postiats)!")
+(*
+val ((*void*)) = patsopt_version (stdout_ref)
+*)
 //
 val (
 ) = set () where

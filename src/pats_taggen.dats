@@ -95,6 +95,13 @@ extern fun taggen_d0ecl : taggen_ftype (d0ecl)
 extern fun taggen_d0eclist : taggen_ftype (d0eclist)
 
 (* ****** ****** *)
+
+extern
+fun taggen_guad0ecl : taggen_ftype (guad0ecl)
+extern
+fun taggen_guad0ecl_node : taggen_ftype (guad0ecl_node)
+
+(* ****** ****** *)
 //
 extern
 fun taggen_s0expdeflst : taggen_ftype (s0expdeflst)
@@ -249,6 +256,8 @@ case+ d0c0.d0ecl_node of
     val () = taggen_d0eclist (d0cs_head, res)
   } (* end of [D0Clocal] *)
 //
+| D0Cguadecl (knd, gd0c) => taggen_guad0ecl (gd0c, res)
+//
 | _ =>
   (
     tagentlst_add (res, TAGENT (symbol_empty, loc0))
@@ -275,6 +284,34 @@ case+ d0cs of
 | list_nil () => ()
 //
 end // end of [taggen_d0eclist]
+
+(* ****** ****** *)
+
+implement
+taggen_guad0ecl (gd0c, res) =
+  taggen_guad0ecl_node (gd0c.guad0ecl_node, res)
+// end of [taggen_guad0ecl]
+
+implement
+taggen_guad0ecl_node (gd0cn, res) =
+(
+case+ gd0cn of
+//
+| GD0Cone (_, d0cs) =>
+  {
+    val () = taggen_d0eclist (d0cs, res)
+  }
+| GD0Ctwo (_, d0cs1, d0cs2) =>
+  {
+    val () = taggen_d0eclist (d0cs1, res)
+    val () = taggen_d0eclist (d0cs2, res)
+  }
+| GD0Ccons (_, d0cs, knd, gd0cn) =>
+  {
+    val () = taggen_guad0ecl_node (gd0cn, res)
+  }
+//
+) (* end of [taggen_guad0ecl_node] *)
 
 (* ****** ****** *)
 

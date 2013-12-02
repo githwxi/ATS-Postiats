@@ -143,26 +143,26 @@ overload fprint with fprint_labjsonvalist
 (* ****** ****** *)
 
 typedef
-jsonize_type (a:t@ype) = (a) -> jsonval
+jsonize_ftype (a:t@ype) = (a) -> jsonval
 
 (* ****** ****** *)
 
-fun jsonize_funclo : jsonize_type (funclo)
+fun jsonize_funclo : jsonize_ftype (funclo)
 
 (* ****** ****** *)
 
-fun jsonize_caskind : jsonize_type (caskind)
+fun jsonize_caskind : jsonize_ftype (caskind)
 
 (* ****** ****** *)
 
-fun jsonize_funkind : jsonize_type (funkind)
-fun jsonize_valkind : jsonize_type (valkind)
+fun jsonize_funkind : jsonize_ftype (funkind)
+fun jsonize_valkind : jsonize_ftype (valkind)
 
 (* ****** ****** *)
 
-fun jsonize_stamp : jsonize_type (stamp)
-fun jsonize_symbol : jsonize_type (symbol)
-fun jsonize_location : jsonize_type (location)
+fun jsonize_stamp : jsonize_ftype (stamp)
+fun jsonize_symbol : jsonize_ftype (symbol)
+fun jsonize_location : jsonize_ftype (location)
 
 (* ****** ****** *)
 
@@ -173,7 +173,7 @@ jsonize_ignored{a:type} (x: a): jsonval
 
 fun
 jsonize_list_fun{a:type}
-  (xs: List (a), f: jsonize_type (a)): jsonval
+  (xs: List (a), f: jsonize_ftype (a)): jsonval
 // end of [jsonize_list_fun]
 
 (* ****** ****** *)
