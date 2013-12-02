@@ -24,6 +24,19 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
+CFLAGS :=
+CFLAGS += -I${PATSHOME}
+CFLAGS += -I${PATSHOME}/ccomp/runtime
+CFLAGS += $(shell pkg-config --cflags json-c)
+
+######
+
+LDFLAGS :=
+LDFLAGS += -L${PATSHOME}/ccomp/atslib/lib
+LDFLAGS += $(shell pkg-config --libs json-c)
+
+######
+
 all:: UTFPL main
 
 ######
@@ -39,10 +52,7 @@ main: \
   parsing_d2exp_dats.o \
   parsing_d2ecl_dats.o \
   parsing_mylib_dats.o ; \
-  $(CCOPT) \
-    -I${PATSHOME} \
-    -I${PATSHOME}/ccomp/runtime \
-    -L${PATSHOME}/ccomp/atslib/lib \
+  $(CCOPT) $(CFLAGS) $(LDFLAGS) \
     -O2 -o $@ $^ ../utfpl.o -latslib $(LGC) $(LJSONC)
 
 ######
@@ -51,11 +61,11 @@ UTFPL: ; make -C .. utfpl.o
 
 ######
 
-%_sats.o: %.sats ; $(PATSCC) -c $<
+%_sats.o: %.sats ; $(PATSCC) $(CFLAGS) -c $<
 
 %_dats.c: \
   %.dats parsing.sats ; $(PATSCC) -ccats $<
-%_dats.o: %_dats.c; $(PATSCC) $(DATSMEMALLOC) -c $<
+%_dats.o: %_dats.c; $(PATSCC) $(DATSMEMALLOC) $(CFLAGS) -c $<
 
 ######
 #

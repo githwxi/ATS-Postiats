@@ -33,7 +33,7 @@
 
 /* ****** ****** */
 
-#include <json-c/printbuf.h>
+#include <../json-c/printbuf.h>
 
 /* ****** ****** */
 
