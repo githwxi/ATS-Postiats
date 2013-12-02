@@ -20,6 +20,7 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 ######
 
 CFLAGS :=
+CFLAGS += -I $(PATSHOMEQ)/contrib
 CFLAGS += $(shell pkg-config --cflags json-c)
 
 ######
