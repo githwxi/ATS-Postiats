@@ -269,7 +269,7 @@ fun aux2
 in
 //
 jsonval_labval2
-  ("s3itm__name", name, "s3itm_arglst", arglst)
+  ("s3itm_name", name, "s3itm_arglst", arglst)
 //
 end // end of [aux2]
 //

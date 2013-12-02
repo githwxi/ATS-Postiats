@@ -68,13 +68,40 @@ jsonize_loc (x) = jsonize_location (,(x))
 
 (* ****** ****** *)
 
+extern
+fun jsonize_s2rtbas: jsonize_type (s2rtbas)
+
+(* ****** ****** *)
+
 implement
 jsonize_s2rt
-  (s2t) = let
+  (s2t0) = let
 in
-  jsonize_ignored (s2t)
+//
+case+ s2t0 of
+| S2RTbas (s2tb) => jsonize_s2rtbas (s2tb)
+| S2RTfun (_, _) => jsonval_string ("s2rt_fun")
+| S2RTtup (s2ts) => jsonval_string ("s2rt_tup")
+| _(*unspecified*) => jsonval_string ("s2rt_anon")
+//
 end // end of [jsonize_s2rt]
   
+(* ****** ****** *)
+
+implement
+jsonize_s2rtbas
+  (s2tb) = let
+in
+//
+case+ s2tb of
+| S2RTBASpre (sym) => jsonize_symbol (sym)
+| S2RTBASimp (knd, sym) => jsonize_symbol (sym)
+| S2RTBASdef (s2td) => let
+    val sym = s2rtdat_get_sym (s2td) in jsonize_symbol (sym)
+  end // end of [S2RTBASdef]
+//
+end // end of [jsonize_s2rtbas]
+
 (* ****** ****** *)
 
 implement

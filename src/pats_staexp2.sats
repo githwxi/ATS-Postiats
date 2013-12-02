@@ -175,7 +175,7 @@ fun fprint_s2rtdat : fprint_type (s2rtdat)
 (* ****** ****** *)
 
 datatype s2rtbas =
-  | S2RTBASpre of (symbol) // predicative: bool, char, int, ...
+  | S2RTBASpre of (symbol) // predicative: int, bool, ...
   | S2RTBASimp of (int(*knd*), symbol) // impredicative sorts
   | S2RTBASdef of (s2rtdat) // user-defined datasorts
 // end of [s2rtbas]
@@ -200,7 +200,7 @@ datatype s2rt =
   | S2RTfun of (s2rtlst, s2rt) // function sort
   | S2RTtup of s2rtlst (* tuple sort *)
   | S2RTVar of s2rtVar // HX: unification variable
-  | S2RTerr of () // HX: indicating an error
+  | S2RTerr of ((*void*)) // HX: error indication
 // end of [s2rt]
 
 where
