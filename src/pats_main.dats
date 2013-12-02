@@ -423,7 +423,7 @@ HX: VERSION-0.0.4 released in the November of 2013
 *)
 #define PATS_MAJOR_VERSION 0
 #define PATS_MINOR_VERSION 0
-#define PATS_MICRO_VERSION 3
+#define PATS_MICRO_VERSION 4
 (*
 //
 // HX-2011-04-27: this is supported in Postiats:
@@ -435,15 +435,18 @@ HX: VERSION-0.0.4 released in the November of 2013
 // end of [PATS_VERSION]
 *)
 //
-fn patsopt_version
-  (out: FILEref, arg0: comarg): void =
+extern
+fun patsopt_version (out: FILEref): void
+//
+implement
+patsopt_version (out) =
 {
   val () = fprintf (out
 , "ATS/Postiats version %i.%i.%i with Copyright (c) 2011-2013 Hongwei Xi\n"
 , @(PATS_MAJOR_VERSION, PATS_MINOR_VERSION, PATS_MICRO_VERSION)
   ) // end of [fprintf]
-} // end of [patsopt_version]
-
+} (* end of [patsopt_version] *)
+//
 (* ****** ****** *)
 
 datatype
@@ -1238,7 +1241,8 @@ case+ key of
   end
 //
 | "-h" => patsopt_usage (stdout_ref, state.comarg0)
-| "-v" => patsopt_version (stdout_ref, state.comarg0)
+//
+| "-v" => patsopt_version (stdout_ref)
 //
 | _ => comarg_warning (key) // unrecognized key
 //
@@ -1306,8 +1310,10 @@ case+ key of
     val () = state.cnstrsolveflag := ~1
   }
 //
-| "--help" => patsopt_usage (stdout_ref, state.comarg0)
-| "--version" => patsopt_version (stdout_ref, state.comarg0)
+| "--help" =>
+    patsopt_usage (stdout_ref, state.comarg0)
+//
+| "--version" => patsopt_version (stdout_ref)
 //
 | _ => comarg_warning (key) // unrecognized key
 //
@@ -1324,7 +1330,9 @@ main (
   argc, argv
 ) = () where {
 //
-val () = println! ("Hello from ATS/Postiats!")
+val () =
+println! ("Hello from ATS/Postiats!")
+val () = patsopt_version (stdout_ref)
 //
 val (
 ) = set () where
