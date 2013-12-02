@@ -198,7 +198,6 @@ dynload "pats_stacst2.dats"
 //
 dynload "pats_staexp2_print.dats"
 dynload "pats_staexp2_pprint.dats"
-//
 dynload "pats_staexp2_jsonize.dats"
 //
 dynload "pats_staexp2_sort.dats"
@@ -493,10 +492,14 @@ cmdstate = @{
 , PATSHOME= string
 //
 , waitkind= waitkind
-// prelude-loading is done or not
-, preludeflg= int
+//
 // number of processed input files
-, ninputfile= int
+//
+, ninpfile= int
+//
+// prelude-loading is done or not
+//
+, preludeflag= int
 //
 , infil=filename
 //
@@ -508,7 +511,7 @@ cmdstate = @{
 //
 , jsonizeflag= int // level-2 syntax in JSON
 //
-, typecheckonly= int // 0 by default
+, typecheckflag= int // 0 by default
 //
 , cnstrsolveflag= int // 0 by default
 //
@@ -1002,14 +1005,12 @@ in
 //
 case+ 0 of
 | _ when
-    state.typecheckonly > 0 => let
-    val d3cs = do_trans123 (state, given, d0cs) in (*none*)
+    state.jsonizeflag = 2 => let
+    val d2cs = do_trans12 (given, d0cs) in do_jsonize_2 (state, given, d2cs)
   end // end of [when ...]
 | _ when
-    state.jsonizeflag = 2 => let
-    val d2cs = do_trans12 (given, d0cs)
-  in
-    do_jsonize_2 (state, given, d2cs)
+    state.typecheckflag > 0 => let
+    val d3cs = do_trans123 (state, given, d0cs) in (*none*)
   end // end of [when ...]
 | _ => let
     val hids = do_trans1234 (state, given, d0cs)
@@ -1036,7 +1037,7 @@ case+ arglst of
     (arg, arglst) =>
     process_cmdline2 (state, arg, arglst)
 | ~list_vt_nil ()
-    when state.ninputfile = 0 => let
+    when state.ninpfile = 0 => let
     val stadyn =
       waitkind_get_stadyn (state.waitkind)
     // end of [val]
@@ -1046,7 +1047,7 @@ case+ arglst of
         val PATSHOME = state.PATSHOME
         val () =
           prelude_load_if (
-          PATSHOME, state.preludeflg // loading once
+          PATSHOME, state.preludeflag // loading once
         ) // end of [val]
 //
         val () = state.infil := $FIL.filename_stdin
@@ -1090,7 +1091,7 @@ case+ arg of
 // HX: the [inpwait] state stays unchanged
 //
     val stadyn = waitkind_get_stadyn (state.waitkind)
-    val nif = state.ninputfile
+    val nif = state.ninpfile
   in
     case+ arg of
     | COMARGkey
@@ -1101,8 +1102,8 @@ case+ arg of
         process_cmdline2_COMARGkey2 (state, arglst, key)
     | COMARGkey (_, given) => let
         val PATSHOME = state.PATSHOME
-        val () = state.ninputfile := state.ninputfile + 1
-        val () = prelude_load_if (PATSHOME, state.preludeflg)
+        val () = state.ninpfile := state.ninpfile + 1
+        val () = prelude_load_if (PATSHOME, state.preludeflag)
 //
         val d0cs = parse_from_givename_toplevel (stadyn, given, state.infil)
 //
@@ -1188,26 +1189,20 @@ case+ key of
   in
   end // end of [-o]
 | "-s" => let
-    val () = state.ninputfile := 0
+    val () = state.ninpfile := 0
     val () = state.waitkind := WTKinput_sta
   in
   end // end of [-s]
 | "-d" => let
-    val () = state.ninputfile := 0
+    val () = state.ninpfile := 0
     val () = state.waitkind := WTKinput_dyn
   in
   end // end of [-d]
 //
-| "-tc" => {
-    val () = state.typecheckonly := 1
-  } // end of [-tc]
+| "-tc" => (state.typecheckflag := 1)
 //
-| "-dep" => {
-    val () = state.depgenflag := 1
-  } // end of [-dep]
-| "-tag" => {
-    val () = state.taggenflag := 1
-  } // end of [-tag]
+| "-dep" => (state.depgenflag := 1)
+| "-tag" => (state.taggenflag := 1)
 //
 | _ when
     is_DATS_flag (key) => let
@@ -1283,23 +1278,17 @@ case+ key of
     state.waitkind := WTKinput_dyn
 //
 | "--typecheck" => {
-    val () = state.typecheckonly := 1
+    val () = state.typecheckflag := 1
   } // end of [--typecheck]
 //
 | "--gline" => {
     val () = $GLOB.the_DEBUGATS_dbgline_set (1)
   } // end of [--gline]
 //
-| "--depgen" => {
-    val () = state.depgenflag := 1
-  } // end of [--depgen]
-| "--taggen" => {
-    val () = state.taggenflag := 1
-  } // end of [--taggen]
+| "--depgen" => (state.depgenflag := 1)
+| "--taggen" => (state.taggenflag := 1)
 //
-| "--jsonize-2" => {
-    val () = state.jsonizeflag := 0
-  } // end of [--json=2]
+| "--jsonize-2" => (state.jsonizeflag := 2)
 //
 | "--constraint-export" =>
   {
@@ -1376,13 +1365,13 @@ state = @{
 , PATSHOME= PATSHOME
 , waitkind= WTKnone ()
 //
-// load status of prelude files
-//
-, preludeflg= 0
-//
 // number of prcessed input files
 //
-, ninputfile= 0
+, ninpfile= 0
+//
+// load status of prelude files
+//
+, preludeflag= 0
 //
 , infil= $FIL.filename_dummy
 //
@@ -1394,7 +1383,7 @@ state = @{
 //
 , jsonizeflag= 0 // JSONizing syntax trees
 //
-, typecheckonly= 0 // compiling by default
+, typecheckflag= 0 // compiling by default
 //
 , cnstrsolveflag= 0 // cnstr-solving by default
 //

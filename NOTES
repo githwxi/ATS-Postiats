@@ -421,10 +421,4 @@ for discarding resources:
 Pro: Very easy to use
 Con: Maybe it is too easy to allow unintential leak of resources 
 
-######
-#
-# end of [README]
-#
-######
-
 ###### end of [NOTES] ######

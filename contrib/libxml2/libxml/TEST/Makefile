@@ -19,8 +19,14 @@ LDFLAGS += $(shell xml2-config --libs)
 ######
 
 all::
-all::xpath1
-all::xpath2
+all:: reader1
+all:: xpath1
+all:: xpath2
+
+######
+
+reader1: reader1.c
+	$(CCOPT) $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
 
 ######
 
