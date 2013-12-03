@@ -98,8 +98,6 @@ extern fun taggen_d0eclist : taggen_ftype (d0eclist)
 
 extern
 fun taggen_guad0ecl : taggen_ftype (guad0ecl)
-extern
-fun taggen_guad0ecl_node : taggen_ftype (guad0ecl_node)
 
 (* ****** ****** *)
 //
@@ -287,14 +285,15 @@ end // end of [taggen_d0eclist]
 
 (* ****** ****** *)
 
-implement
-taggen_guad0ecl (gd0c, res) =
-  taggen_guad0ecl_node (gd0c.guad0ecl_node, res)
-// end of [taggen_guad0ecl]
+local
 
-implement
-taggen_guad0ecl_node (gd0cn, res) =
+fun
+taggen_guad0ecl_node
 (
+  gd0cn: guad0ecl_node, res: &tagentlst_vt
+) : void = let
+in
+//
 case+ gd0cn of
 //
 | GD0Cone (_, d0cs) =>
@@ -311,7 +310,16 @@ case+ gd0cn of
     val () = taggen_guad0ecl_node (gd0cn, res)
   }
 //
-) (* end of [taggen_guad0ecl_node] *)
+end (* end of [taggen_guad0ecl_node] *)
+
+in (* in of [local] *)
+
+implement
+taggen_guad0ecl (gd0c, res) =
+  taggen_guad0ecl_node (gd0c.guad0ecl_node, res)
+// end of [taggen_guad0ecl]
+
+end // end of [local]
 
 (* ****** ****** *)
 
