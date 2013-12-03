@@ -124,6 +124,34 @@ d2e0.d2exp_node of
 | D2Efloat _ => d2e0
 | D2Estring _ => d2e0
 //
+| D2Eempty _ => d2e0
+//
+| D2Eexp (d2e) => let
+    val flag0 = flag
+    val d2e = aux (d2e, d2vs0, flag)
+  in
+    if flag > flag0 then d2exp_exp (loc0, d2e) else d2e0
+  end // end of [D2Eexp]
+//
+| D2Eifopt
+    (_test, _then, _else) => let
+    val flag0 = flag
+    val _test = aux (_test, d2vs0, flag)
+    val _then = aux (_then, d2vs0, flag)
+    val _else = auxopt (_else, d2vs0, flag)
+  in
+    if flag > flag0 then d2exp_ifopt (loc0, _test, _then, _else) else d2e0
+  end // end of [D2Eifopt]
+//
+| D2Eapplst
+    (d2e1, d2as2) => let
+    val flag0 = flag
+    val d2e1 = aux (d2e1, d2vs0, flag)
+    val d2as2 = auxarglst (d2as2, d2vs0, flag)
+  in
+    if flag > flag0 then d2exp_applst (loc0, d2e1, d2as2) else d2e0
+  end // end of [D2Eapp]
+//
 | D2Elam
     (p2ts, d2e) => let
     val flag0 = flag
@@ -134,23 +162,6 @@ d2e0.d2exp_node of
     if flag > flag0 then d2exp_lam (loc0, p2ts, d2e) else d2e0
   end // end of [D2Elam]
 //
-| D2Eapplst
-    (d2e1, d2as2) => let
-    val flag0 = flag
-    val d2e1 = aux (d2e1, d2vs0, flag)
-    val d2as2 = auxarglst (d2as2, d2vs0, flag)
-  in
-    if flag > flag0 then d2exp_applst (loc0, d2e1, d2as2) else d2e0
-  end // end of [D2Eapp]
-| D2Eifopt
-    (_test, _then, _else) => let
-    val flag0 = flag
-    val _test = aux (_test, d2vs0, flag)
-    val _then = aux (_then, d2vs0, flag)
-    val _else = auxopt (_else, d2vs0, flag)
-  in
-    if flag > flag0 then d2exp_ifopt (loc0, _test, _then, _else) else d2e0
-  end // end of [D2Eifopt]
 | _ =>
   (
     let val () = assertloc (false) in exit (1) end

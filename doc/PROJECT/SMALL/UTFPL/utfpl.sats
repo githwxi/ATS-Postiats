@@ -243,6 +243,8 @@ and d2exp_node =
   | D2Ef0loat of (string)
   | D2Es0tring of (string)
 //
+  | D2Eempty of ((*void*))
+//
   | D2Eexp of (d2exp) // dummy
 //
   | D2Eapplst of (d2exp, d2exparglst)
@@ -345,6 +347,10 @@ fun d2exp_sym (loc: loc_t, d2s: d2sym): d2exp
 fun d2exp_i0nt (loc: loc_t, rep: string): d2exp
 fun d2exp_f0loat (loc: loc_t, rep: string): d2exp
 fun d2exp_s0tring (loc: loc_t, rep: string): d2exp
+
+(* ****** ****** *)
+
+fun d2exp_empty (loc: loc_t): d2exp
 
 (* ****** ****** *)
 

@@ -20,7 +20,7 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
-all:: main
+all:: UTFPL main
 
 ######
 
@@ -35,6 +35,10 @@ main: \
     -I${PATSHOME}/ccomp/runtime \
     -L${PATSHOME}/ccomp/atslib/lib \
     -O2 -o $@ ../utfpl.o $^ $(LGC) -latslib
+
+######
+
+UTFPL: ; make -C .. utfpl.o
 
 ######
 

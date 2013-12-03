@@ -20,7 +20,7 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
-all:: main
+all:: UTFPL main
 
 ######
 
@@ -34,6 +34,17 @@ main: \
     -I${PATSHOME}/ccomp/runtime \
     -L${PATSHOME}/ccomp/atslib/lib \
     -O2 -o $@ ../utfpl.o $^ $(LGC) -latslib
+
+######
+
+UTFPL: ; make -C .. utfpl.o
+
+######
+
+testdata: \
+TEST/test01_dats.json
+TEST/test01_dats.json: \
+  TEST/test01.dats ; ${PATSOPT} --jsonize-2 -o $@ -d $<
 
 ######
 
@@ -60,8 +71,12 @@ RMF=rm -f
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
+
+######
+
 cleanall:: clean
 cleanall:: ; $(RMF) main
+cleanall:: ; $(RMF) TEST/test??_dats.json
 
 ######
 

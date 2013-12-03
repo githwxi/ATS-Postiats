@@ -34,6 +34,9 @@ case+ d2e0.d2exp_node of
 | D2Es0tring (rep) =>
     fprint! (out, "D2Es0tring(", rep, ")")
 //
+| D2Eempty () =>
+    fprint! (out, "D2Eempty(", ")")
+//
 | D2Eexp (d2e) =>
     fprint! (out, "D2Eexp(", d2e, ")")
 //
