@@ -90,7 +90,7 @@ c3nstrkind =
 // end of [c3nstrkind]
 *)
 extern
-fun jsonize_c3nstrkind: jsonize_type (c3nstrkind)
+fun jsonize_c3nstrkind: jsonize_ftype (c3nstrkind)
 
 (* ****** ****** *)
 
@@ -217,16 +217,16 @@ datatype s3itm =
 // end of [s3item]
 *)
 extern
-fun jsonize_s3itm: jsonize_type (s3itm)
+fun jsonize_s3itm: jsonize_ftype (s3itm)
 extern
-fun jsonize_s3itmlst: jsonize_type (s3itmlst)
+fun jsonize_s3itmlst: jsonize_ftype (s3itmlst)
 extern
-fun jsonize_s3itmlstlst: jsonize_type (s3itmlstlst)
+fun jsonize_s3itmlstlst: jsonize_ftype (s3itmlstlst)
 
 (* ****** ****** *)
 
-extern fun jsonize_h3ypo: jsonize_type (h3ypo)
-extern fun jsonize_c3nstropt: jsonize_type (c3nstropt)
+extern fun jsonize_h3ypo: jsonize_ftype (h3ypo)
+extern fun jsonize_c3nstropt: jsonize_ftype (c3nstropt)
 
 (* ****** ****** *)
 

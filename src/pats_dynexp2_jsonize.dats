@@ -81,32 +81,32 @@ fun jsonize_s0tring (tok: token): jsonval
 (* ****** ****** *)
 
 extern
-fun jsonize_d2sym : jsonize_type (d2sym)
+fun jsonize_d2sym : jsonize_ftype (d2sym)
 
 (* ****** ****** *)
 
 extern
-fun jsonize_p2at : jsonize_type (p2at)
+fun jsonize_p2at : jsonize_ftype (p2at)
 extern
-fun jsonize_p2atlst : jsonize_type (p2atlst)
+fun jsonize_p2atlst : jsonize_ftype (p2atlst)
 extern
-fun jsonize_pckind : jsonize_type (pckind)
+fun jsonize_pckind : jsonize_ftype (pckind)
 
 (* ****** ****** *)
 
 extern
-fun jsonize_d2exp : jsonize_type (d2exp)
+fun jsonize_d2exp : jsonize_ftype (d2exp)
 extern
-fun jsonize_d2explst : jsonize_type (d2explst)
+fun jsonize_d2explst : jsonize_ftype (d2explst)
 extern
-fun jsonize_d2expopt : jsonize_type (d2expopt)
+fun jsonize_d2expopt : jsonize_ftype (d2expopt)
   
 (* ****** ****** *)
 
 extern
-fun jsonize_d2exparg : jsonize_type (d2exparg)
+fun jsonize_d2exparg : jsonize_ftype (d2exparg)
 extern
-fun jsonize_d2exparglst : jsonize_type (d2exparglst)
+fun jsonize_d2exparglst : jsonize_ftype (d2exparglst)
 
 (* ****** ****** *)
 
@@ -201,17 +201,17 @@ end // end of [jsonize_d2sym]
 
 (* ****** ****** *)
 
-extern fun jsonize_i2mpdec : jsonize_type (i2mpdec)
+extern fun jsonize_i2mpdec : jsonize_ftype (i2mpdec)
 
 (* ****** ****** *)
 
-extern fun jsonize_f2undec : jsonize_type (f2undec)
-extern fun jsonize_f2undeclst : jsonize_type (f2undeclst)
+extern fun jsonize_f2undec : jsonize_ftype (f2undec)
+extern fun jsonize_f2undeclst : jsonize_ftype (f2undeclst)
 
 (* ****** ****** *)
 
-extern fun jsonize_v2aldec : jsonize_type (v2aldec)
-extern fun jsonize_v2aldeclst : jsonize_type (v2aldeclst)
+extern fun jsonize_v2aldec : jsonize_ftype (v2aldec)
+extern fun jsonize_v2aldeclst : jsonize_ftype (v2aldeclst)
 
 (* ****** ****** *)
 
