@@ -27,6 +27,7 @@ all:: main
 main: \
   main_dats.o \
   eval_subst_sats.o \
+  subst_dats.o \
   eval_subst_dats.o ; \
   $(CCOPT) \
     -I${PATSHOME} \

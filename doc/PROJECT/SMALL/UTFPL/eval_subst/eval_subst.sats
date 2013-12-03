@@ -23,9 +23,13 @@ fun subst_find
 // HX-2013-11:
 // [sub] is assumed to be closed
 //
-fun d2exp_subst
+fun subst_d2exp
   (d2e0: d2exp, sub: subst): d2exp
 //
+(* ****** ****** *)
+
+fun eval_subst (d2exp): d2exp
+
 (* ****** ****** *)
 
 (* end of [eval_subst.sats] *)

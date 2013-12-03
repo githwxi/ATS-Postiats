@@ -18,9 +18,12 @@ staload "./eval_subst.sats"
 
 (* ****** ****** *)
 //
-dynload "../dynloadall.dats"
+dynload
+"../dynloadall.dats"
 //
 dynload "./eval_subst.sats"
+//
+dynload "./subst.dats"
 dynload "./eval_subst.dats"
 
 (* ****** ****** *)
@@ -29,7 +32,7 @@ implement
 main0 (argc, argv) =
 {
 //
-val () = println! ("Hello from [eval_cloenv]!")
+val () = println! ("Hello from [eval_subst]!")
 //
 } (* end of [main0] *)
 
