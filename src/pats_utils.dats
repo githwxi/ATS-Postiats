@@ -66,8 +66,9 @@ patsopt_PATSHOMERELOC_get () {
 ATSextfun()
 ats_void_type
 patsopt_PATSHOME_set () {
-  patsopt_PATSHOME = getenv ("PATSHOME") ; return ;
+  patsopt_PATSHOME = getenv ("PATSHOME") ;
   if (!patsopt_PATSHOME) patsopt_PATSHOME = getenv ("ATSHOME") ;
+  return ;
 } // end of [patsopt_PATSHOME_set]
 ATSextfun()
 ats_void_type
