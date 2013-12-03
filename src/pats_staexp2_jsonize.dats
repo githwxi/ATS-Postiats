@@ -69,7 +69,7 @@ jsonize_loc (x) = jsonize_location (,(x))
 (* ****** ****** *)
 
 extern
-fun jsonize_s2rtbas: jsonize_type (s2rtbas)
+fun jsonize_s2rtbas: jsonize_ftype (s2rtbas)
 
 (* ****** ****** *)
 
