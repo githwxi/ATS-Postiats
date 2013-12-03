@@ -10,7 +10,17 @@
 ######
 
 CCOPT=gcc -std=c99
-PATSHOMEQ="$(PATSHOME)"
+
+######
+
+ifeq ("$(PATSHOME)","")
+  PATSHOMEQ="$(ATSHOME)"
+else
+  PATSHOMEQ="$(PATSHOME)"
+endif
+
+######
+
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
 PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 

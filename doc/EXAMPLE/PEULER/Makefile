@@ -8,7 +8,24 @@ CCOPT=gcc -O2 -D_XOPEN_SOURCE
 
 ######
 
-PATSOPT=$(PATSHOME)/bin/patsopt
+ifeq ("$(PATSHOME)","")
+  PATSHOMEQ="$(ATSHOME)"
+else
+  PATSHOMEQ="$(PATSHOME)"
+endif
+
+######
+
+ifeq ("$(PATSHOMERELOC)","")
+  PATSHOMERELOCQ="$(ATSHOMERELOC)"
+else
+  PATSHOMERELOCQ="$(PATSHOMERELOC)"
+endif
+
+
+######
+
+PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
@@ -26,14 +43,14 @@ P1:: problem1-hwxi
 problem1-hwxi:: \
   P1/problem1-hwxi.dats ; $(PATSOPT) -o $@_dats.c -d $<
 problem1-hwxi:: problem1-hwxi_dats.c ; \
-  $(CCOPT) -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -o $@.exe $@_dats.c
+  $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@.exe $@_dats.c
 problem1-hwxi:: problem1-hwxi.exe ; ./$<
 
 P1:: problem1-hwxi2
 problem1-hwxi2:: \
   P1/problem1-hwxi2.dats ; $(PATSOPT) -o $@_dats.c -d $<
 problem1-hwxi2:: problem1-hwxi2_dats.c ; \
-  $(CCOPT) -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -o $@.exe $@_dats.c
+  $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@.exe $@_dats.c
 problem1-hwxi2:: problem1-hwxi2.exe ; ./$<
 
 ######
@@ -46,14 +63,14 @@ problem2-hwxi:: \
 problem2-hwxi:: \
   problem2-hwxi_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC \
-  -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -I${PATSHOME}/contrib -o $@.exe $@_dats.c -lgmp
+  -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -I${PATSHOMERELOCQ}/contrib -o $@.exe $@_dats.c -lgmp
 problem2-hwxi:: problem2-hwxi.exe ; ./$<
 
 P2:: problem2-hwxi2
 problem2-hwxi2:: \
   P2/problem2-hwxi2.dats ; $(PATSOPT) -o $@_dats.c -d $<
 problem2-hwxi2:: problem2-hwxi2_dats.c ; \
-  $(CCOPT) -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -o $@.exe $@_dats.c
+  $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@.exe $@_dats.c
 problem2-hwxi2:: problem2-hwxi2.exe ; ./$<
 
 ######
@@ -66,7 +83,7 @@ problem3-hwxi:: \
 problem3-hwxi:: \
   problem3-hwxi_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC \
-  -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -I${PATSHOME}/contrib -o $@.exe $@_dats.c -lgmp
+  -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -I${PATSHOMERELOCQ}/contrib -o $@.exe $@_dats.c -lgmp
 problem3-hwxi:: problem3-hwxi.exe ; ./$<
 
 ######
@@ -77,7 +94,7 @@ P4:: problem4-hwxi
 problem4-hwxi:: \
   P4/problem4-hwxi.dats ; $(PATSOPT) -o $@_dats.c -d $<
 problem4-hwxi:: problem4-hwxi_dats.c ; \
-  $(CCOPT) -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -o $@.exe $@_dats.c
+  $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@.exe $@_dats.c
 problem4-hwxi:: problem4-hwxi.exe ; ./$<
 
 ######
@@ -88,7 +105,7 @@ P6:: problem6-hwxi
 problem6-hwxi:: \
   P6/problem6-hwxi.dats ; $(PATSOPT) -o $@_dats.c -d $<
 problem6-hwxi:: problem6-hwxi_dats.c ; \
-  $(CCOPT) -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -o $@.exe $@_dats.c
+  $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@.exe $@_dats.c
 problem6-hwxi:: problem6-hwxi.exe ; ./$<
 
 ######
@@ -99,7 +116,7 @@ P8:: problem8-hwxi
 problem8-hwxi:: \
   P8/problem8-hwxi.dats ; $(PATSOPT) -o $@_dats.c -d $<
 problem8-hwxi:: problem8-hwxi_dats.c ; \
-  $(CCOPT) -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -o $@.exe $@_dats.c
+  $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@.exe $@_dats.c
 problem8-hwxi:: problem8-hwxi.exe ; ./$<
 
 ######
@@ -110,7 +127,7 @@ P10:: problem10-hwxi
 problem10-hwxi:: \
   P10/problem10-hwxi.dats ; $(PATSOPT) -o $@_dats.c -d $<
 problem10-hwxi:: problem10-hwxi_dats.c ; \
-  $(CCOPT) -DATS_MEMALLOC_LIBC -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -o $@.exe $@_dats.c
+  $(CCOPT) -DATS_MEMALLOC_LIBC -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@.exe $@_dats.c
 problem10-hwxi:: problem10-hwxi.exe ; ./$<
 
 ######
@@ -121,7 +138,7 @@ P12:: problem12-hwxi
 problem12-hwxi:: \
   P12/problem12-hwxi.dats ; $(PATSOPT) -o $@_dats.c -d $<
 problem12-hwxi:: problem12-hwxi_dats.c ; \
-  $(CCOPT) -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -o $@.exe $@_dats.c
+  $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@.exe $@_dats.c
 problem12-hwxi:: problem12-hwxi.exe ; ./$<
 
 ######
@@ -134,7 +151,7 @@ problem14-hwxi:: \
 problem14-hwxi:: \
   problem14-hwxi_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC \
-  -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -I${PATSHOME}/contrib -o $@.exe $@_dats.c -lgmp
+  -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -I${PATSHOMERELOCQ}/contrib -o $@.exe $@_dats.c -lgmp
 problem14-hwxi:: problem14-hwxi.exe ; ./$<
 
 ######
@@ -147,7 +164,7 @@ problem16-hwxi:: \
 problem16-hwxi:: \
   problem16-hwxi_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC \
-  -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -I${PATSHOME}/contrib -o $@.exe $@_dats.c -lgmp
+  -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -I${PATSHOMERELOCQ}/contrib -o $@.exe $@_dats.c -lgmp
 problem16-hwxi:: problem16-hwxi.exe ; ./$<
 
 ######
@@ -158,7 +175,7 @@ P100:: problem100-hwxi
 problem100-hwxi:: \
   P100/problem100-hwxi.dats ; $(PATSOPT) -o $@_dats.c -d $<
 problem100-hwxi:: problem100-hwxi_dats.c ; \
-  $(CCOPT) -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -o $@.exe $@_dats.c -lm
+  $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@.exe $@_dats.c -lm
 problem100-hwxi:: problem100-hwxi.exe ; ./$<
 
 ######
@@ -169,7 +186,7 @@ P301:: problem301-hwxi
 problem301-hwxi:: \
   P301/problem301-hwxi.dats ; $(PATSOPT) -o $@_dats.c -d $<
 problem301-hwxi:: problem301-hwxi_dats.c ; \
-  $(CCOPT) -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -o $@.exe $@_dats.c
+  $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@.exe $@_dats.c
 problem301-hwxi:: problem301-hwxi.exe ; ./$<
 
 ######

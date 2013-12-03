@@ -9,7 +9,11 @@ CC=gcc
 
 ######
 
-PATSHOMEQ="$(PATSHOME)"
+ifeq ("$(PATSHOME)","")
+  PATSHOMEQ="$(ATSHOME)"
+else
+  PATSHOMEQ="$(PATSHOME)"
+endif
 
 ######
 
