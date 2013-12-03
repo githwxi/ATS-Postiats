@@ -35,6 +35,7 @@ src_patscc: bin_patsopt ; make -C utils/atscc -f Makefile all
 bin_patsopt: src_patsopt ; cp -f src/patsopt bin/patsopt
 src_patsopt: src_depend src_cleanall ; make -C src -f Makefile all
 #
-atslib_update: ; make -f codegen/Makefile_atslib
+atslib_update:: ; make -f codegen/Makefile_atslib
+atslib_update:: ; make -C ccomp/atslib -f Makefile
 #
 ###### end of [Makefile_devl] ######
