@@ -18,7 +18,8 @@ staload "./eval_cloenv.sats"
 
 (* ****** ****** *)
 //
-dynload "../dynloadall.dats"
+dynload
+"../dynloadall.dats"
 //
 dynload "./eval_cloenv.sats"
 dynload "./print.dats"

@@ -49,8 +49,10 @@ This cast function turns an array of characters to a strarr-value.\
 
 #declnamesynop("strarr_make_string")
 #decldescrpt("\
+
 This function, which overloads the symbol #dyncode("strarr"), builds
 a strarr-value corresponding to a given C-style string.\
+
 ")
 
 (* ****** ****** *)

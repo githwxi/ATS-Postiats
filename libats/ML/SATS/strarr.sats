@@ -87,17 +87,17 @@ strarr_get_refsize
 // end of [strarr_get_refsize]
 
 (* ****** ****** *)
-
-symintr strarr
-fun strarr_make_string (str: string):<!wrt> strarr
-overload strarr with strarr_make_string
-
-(* ****** ****** *)
-
+//
+fun
+strarr_make_string (str: string):<!wrt> strarr
+//
 fun strarr_make_substring
   (string, st: size_t, ln: size_t):<!wrt> strarr
-// end of [strarr_make_substring]
-
+//
+symintr strarr_make
+overload strarr_make with strarr_make_string
+overload strarr_make with strarr_make_substring
+//
 (* ****** ****** *)
 //
 // HX-2013:

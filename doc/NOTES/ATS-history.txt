@@ -1,0 +1,178 @@
+######
+#
+# A brief history of ATS
+#
+######
+
+PRE-1990
+
+Constructive Type Theory
+
+Per Erik Rutger Martin-Löf is a Swedish logician, philosopher, and
+mathematical statistician. He is internationally renowned for his work on
+the foundations of probability, statistics, mathematical logic, and
+computer science. He drafted the first article on type theory that dates
+back to 1971.
+
+Pure Type System (PTS)
+
+PTS is a framework that can be seen as a generalisation of Barendregt's
+lambda cube, in the sense that all corners of the cube can be represented
+as instances of a PTS with just two sorts. In fact, Barendregt (1991)
+framed his cube in this setting. Pure type systems may obscure the
+distinction between types and terms and collapse the type hierarchy, as it
+is the case of the calculus of constructions, but this is not generally the
+case, e.g. the simply typed lambda calculus allows only terms to depend on
+types.
+
+Barendregt, H. P. , "Introduction to generalized type systems". Journal of
+Functional Programming 1 (2): 125–154, 1991.
+
+Barendregt, H. P. "Lambda calculi with types". In S. Abramsky, D. Gabbay and
+T. Maibaum. Handbook of Logic in Computer Science. Oxford Science Publications,
+1992.
+
+######
+
+1991
+
+Simon Thompson published the book "Type Theory and Functional Programming",
+which inspired HX's work on Dependent ML, the predecessor of ATS.
+
+Advanced Language For System Software
+PIs: Eric Cooper, Robert Harper and Peter Lee
+The first phase of the Fox project started. HX was later partly supported
+by the Fox project (e.g., funds covering conference expenses).
+
+######
+
+1992
+
+HX came to US from China, enrolling in the Mathematics Department at CMU as
+a PhD student in the Pure and Applied Logic program. He studied under the
+supervision of Prof. Peter Andrews, focusing on Automated Theorem Proving.
+In particular, he worked on TPS, an automated theorem-proving system developed
+and implemented by the research group of Prof. Andrews.
+
+As TPS was written in the programming language Common LISP, HX started
+learning LISP and using it to implement certain elementary features for TPS
+(for instance, some simple editing commands)
+
+######
+
+1993
+
+HX continued working on TPS. In particular, he was getting more and more
+familiar with Common LISP and, especially, the debugging support for Common
+LISP.
+
+Matthew Bishop and Hongwei Xi, The ETPS Educational Theorem Proving System,
+The 8th Annual  Computing and Philosophy Conference (CAP), Pittsburgh,
+August, 1993.
+
+Peter B. Andrews, Matthew Bishop, Sunil Issar, Dan Nesmith, Frank Pfenning,
+and Hongwei Xi. TPS: An  interactive and automatic tool for proving
+theorems of type theory, In Jeffrey J. Joyce and Carl-Johan H.  Seger,
+editors, Proceedings of the 6th International Workshop on Higher Order
+Logic Theorem Proving and  Its Applications, Springer-Verlag LNCS vol. 780,
+pp. 366--370, Vancouver, B.C., Canada, August 1993.
+
+######
+
+1994
+
+HX continued working on TPS. While programming in Common LISP, he also
+started getting a bit frustrated with the language as he had to spend so
+much time debugging his code or code written by previous implementors of
+TPS. He particularly noted that TPS code that had not been repeatedly
+tested seemed to always have bugs when executed.
+
+Advanced Languages for Systems Software
+PIs: Robert Harper and Peter Lee
+The second phase of the Fox project started.
+Please See the Fox memorandum: CMU-CS-FOX-94-01
+
+Eddaro S. Biagioni,
+Program Verification for Optimized Byte Copy, CMU-CS-94-172, JULY 94.
+Please see the Fox memorandum CMU-CS-FOX-94-06
+
+Eddaro S. Biagioni,
+A Structured TCP in Standard ML, CMU-CS-FOX-94-05, July 94.
+
+######
+
+1995
+
+######
+
+1996
+
+######
+
+1997
+
+######
+
+1998
+
+######
+
+1999
+
+######
+
+2000
+
+######
+
+2001
+
+######
+
+2002
+
+######
+
+2003
+
+######
+
+2004
+
+######
+
+2005
+
+######
+
+2006
+
+######
+
+2007
+
+######
+
+2008
+
+######
+
+2009
+
+######
+
+2010
+
+######
+
+2011
+
+######
+
+2012
+
+######
+
+2013
+
+###### end of [ATS-history.txt] ######
