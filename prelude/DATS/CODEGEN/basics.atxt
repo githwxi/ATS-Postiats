@@ -59,6 +59,13 @@ end // end of [unit_v_elim]
 
 #atscode_separator()
 
+implement{a}
+opt_unsome_get (x) =
+  let prval () = opt_unsome (x) in x end
+// end of [opt_unsome_get]
+
+#atscode_separator()
+
 (*
 //
 // HX: [atspre_argv_at_at] in basics.cats
