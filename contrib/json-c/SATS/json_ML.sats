@@ -37,16 +37,14 @@ jsonval =
   | JSONbool of (json_bool)
   | JSONfloat of (double)
   | JSONstring of (string)
-  | {n:nat}
-    JSONarray of
-    (
-      arrayref (jsonval, n), size_t (n)
-    ) (* end of [JSONarray] *)
-  | JSONobject of labjsonvalist
+  | JSONarray of (jsonvalist)
+  | JSONobject of (labjsonvalist)
 // end of [jsonval]
 
 where
 json_int = llint
+and
+jsonvalist = List0 (jsonval)
 and
 labjsonval = @(string, jsonval)
 and
@@ -54,8 +52,8 @@ labjsonvalist = List0 (labjsonval)
 
 (* ****** ****** *)
 
-typedef jsonvalist = List0 (jsonval)
-vtypedef jsonvalist_vt = List0_vt (jsonvalist)
+vtypedef
+jsonvalist_vt = List0_vt (jsonval)
 
 (* ****** ****** *)
 //
@@ -69,6 +67,8 @@ overload fprint with fprint_jsonval
 //
 (* ****** ****** *)
 //
+fun fprint_jsonvalist
+  (out: FILEref, xs: jsonvalist): void
 fun fprint_labjsonvalist
   (out: FILEref, lxs: labjsonvalist): void
 //
