@@ -313,9 +313,12 @@ end // end of [p2at_exist]
 (* ****** ****** *)
 
 implement
-p2at_ann (loc, p2t, s2e) =
-  p2at_make_node (loc, p2t.p2at_svs, p2t.p2at_dvs, P2Tann (p2t, s2e))
-// end of [p2at_ann]
+p2at_ann
+(
+  loc, p2t, s2e
+) = p2at_make_node (
+  loc, p2t.p2at_svs, p2t.p2at_dvs, P2Tann (p2t, s2e)
+) // end of [p2at_ann]
 
 (* ****** ****** *)
 
@@ -328,9 +331,9 @@ end // end of [p2at_vbox]
 (* ****** ****** *)
 
 implement
-p2at_err (loc) =
-  p2at_make_node (loc, p2at_svs_nil, p2at_dvs_nil, P2Terr ())
-// end of [p2at_err]
+p2at_errpat (loc) =
+  p2at_make_node (loc, p2at_svs_nil, p2at_dvs_nil, P2Terrpat ())
+// end of [p2at_errpat]
 
 (* ****** ****** *)
 //
@@ -839,7 +842,7 @@ d2exp_ann_funclo
 (* ****** ****** *)
 
 implement
-d2exp_err (loc) = d2exp_make_node (loc, D2Eerr ())
+d2exp_errexp (loc) = d2exp_make_node (loc, D2Eerrexp ())
 
 (* ****** ****** *)
 

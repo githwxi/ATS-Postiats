@@ -228,7 +228,8 @@ p1at_refas (loc, id, locid, p1t) = '{
 }
 
 implement
-p1at_exist (loc, arg, p1t) = '{
+p1at_exist
+  (loc, arg, p1t) = '{
   p1at_loc= loc, p1at_node= P1Texist (arg, p1t)
 }
 
@@ -243,7 +244,7 @@ p1at_ann
 // end of [p1at_ann]
 
 implement
-p1at_err (loc) = p1at_make (loc, P1Terr ())
+p1at_errpat (loc) = p1at_make (loc, P1Terrpat ())
 
 (* ****** ****** *)
 
@@ -288,7 +289,7 @@ in
       val () = prerr ": the expression cannot be translated into a legal pattern."
       val () = prerr_newline ()
     in
-      p1at_err (loc0)
+      p1at_errpat (loc0)
     end // end of [E1XPundef]
   // end of [case]
 end // end of [aux]
@@ -771,7 +772,7 @@ d1exp_ann_funclo_opt
 (* ****** ****** *)
 
 implement
-d1exp_err (loc) = d1exp_make (loc, D1Eerr ())
+d1exp_errexp (loc) = d1exp_make (loc, D1Eerrexp ())
 
 (* ****** ****** *)
 
@@ -822,7 +823,7 @@ in
       val () = prerr ": the expression cannot be translated into a legal dynamic expression."
       val () = prerr_newline ()
     in
-      d1exp_err (loc0)
+      d1exp_errexp (loc0)
     end // end of [E1XPundef]
   // end of [case]
 end // end of [aux]

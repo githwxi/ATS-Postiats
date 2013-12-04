@@ -160,7 +160,7 @@ case+ p3t0.p3at_node of
     val () = prstr ")"
   } // end of [P3Tann]
 //
-| P3Terr () => prstr "P3Terr()"
+| P3Terrpat ((*void*)) => prstr "P3Terr()"
 // end of [p3at_node]
 end // end of [fprint_p3at]
 
@@ -609,7 +609,7 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
-| D3Eerr _ => prstr "D3Eerr()"
+| D3Eerrexp ((*void*)) => prstr "D3Eerrexp()"
 //
 (*
 | _ => {

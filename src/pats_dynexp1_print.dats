@@ -204,7 +204,7 @@ case+ p1t0.p1at_node of
     val () = prstr ")"
   }
 //
-| P1Terr () => prstr "P1Terr()"
+| P1Terrpat ((*void*)) => prstr "P1Terrpat()"
 //
 (*
 | _ => prstr "P1T...(...)"
@@ -653,9 +653,7 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
-| D1Eerr () => {
-    val () = prstr "D1Eerr()"
-  }
+| D1Eerrexp ((*void*)) => prstr "D1Eerrexp()"
 //
 (*
 | _ => prstr "D1E...(...)"

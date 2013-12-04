@@ -87,7 +87,7 @@ datatype p3at_node =
 //
   | P3Tann of (p3at, s2exp) // ascribed pattern
 //
-  | P3Terr of () // indication of error
+  | P3Terrpat of ((*void*)) // indication of error
 // end of [p3at_node]
 
 and labp3at = LABP3AT of (label, p3at)
@@ -187,7 +187,7 @@ fun p3at_ann (
   loc: location, s2f: s2exp, p3t: p3at, ann: s2exp
 ) : p3at // end of [p3at_ann]
 
-fun p3at_err (loc: location, s2f: s2exp): p3at
+fun p3at_errpat (loc: location, s2f: s2exp): p3at
 
 (* ****** ****** *)
 
@@ -389,7 +389,7 @@ and d3exp_node =
 //
   | D3Eann_type of (d3exp, s2exp)
 //
-  | D3Eerr of () // indication of error
+  | D3Eerrexp of ((*void*)) // indication of error
 // end of [d3exp_node]
 
 and d3lab_node =
@@ -865,8 +865,8 @@ fun d3exp_ann_type
 
 (* ****** ****** *)
 
-fun d3exp_err (loc: location): d3exp
-fun d3exp_void_err (loc: location): d3exp
+fun d3exp_errexp (loc: location): d3exp
+fun d3exp_errexp_void (loc: location): d3exp
 
 (* ****** ****** *)
 

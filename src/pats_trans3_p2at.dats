@@ -165,9 +165,9 @@ case+ p2t0.p2at_node of
 //
 | P2Tlist (npf, p2ts) => s2exp_t0ype_err ()
 //
-| P2Terr () => s2exp_t0ype_err ()
+| P2Terrpat () => s2exp_t0ype_err ()
 (*
-  | _ => exitloc (1)
+| _(*yet-to-be-processed*) => exitloc (1)
 *)
 //
 end // end of [aux_p2at]
@@ -335,7 +335,7 @@ p2at_trdn_arg_refarg_err
   val () = prerr_newline ()
   val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
 in
-  p3at_err (loc0, s2e0)
+  p3at_errpat (loc0, s2e0)
 end // end of [p2at_trdn_arg_refarg_err]
 
 in // in of [local]
@@ -400,7 +400,7 @@ fun aux
     case+ s2es of
     | list_cons (s2e, s2es) => let
         val () = serr := serr - 1
-        val p3t = p3at_err (loc0, s2e)
+        val p3t = p3at_errpat (loc0, s2e)
         val p3ts = aux (npf-1, p2ts, s2es, serr)
       in
         list_cons (p3t, p3ts)
@@ -518,8 +518,8 @@ case+ p2t0.p2at_node of
 //
 | P2Tann _ => p2at_trdn_ann (p2t0, s2f0)
 //
-| P2Terr () => let
-    val s2e = s2hnf2exp (s2f0) in p3at_err (loc0, s2e)
+| P2Terrpat () => let
+    val s2e = s2hnf2exp (s2f0) in p3at_errpat (loc0, s2e)
   end // end of [P2Terr]
 //
 | _ => let
@@ -562,7 +562,7 @@ case+ p2ts of
   case+ s2es of
   | list_cons (s2e, s2es) => let
       val () = serr := serr - 1
-      val p3t = p3at_err (loc0, s2e)
+      val p3t = p3at_errpat (loc0, s2e)
       val p3ts = p2atlst_trdn (loc0, p2ts, s2es, serr)
     in
       list_cons (p3t, p3ts)
@@ -1054,7 +1054,7 @@ case+ ls2es of
           val () = prerr "]"
           val () = prerr_newline ()
           val () = err := err + 1
-          val () = p3t := p3at_err (loc0, s2e)
+          val () = p3t := p3at_errpat (loc0, s2e)
         } // end of [val]
         val lp3t = LABP3AT (l, p3t)
         val lp3ts = auxcheck (lp2ts, ls2es, err)
@@ -1120,7 +1120,7 @@ case+ s2e.s2exp_node of
     val s2e0 = s2hnf2exp (s2f0)
     val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
   in
-    p3at_err (loc0, s2e)
+    p3at_errpat (loc0, s2e)
   end // end of [_]
 //
 end // end of [p2at_trdn_rec]
@@ -1171,7 +1171,7 @@ case+ s2e.s2exp_node of
     val s2e0 = s2hnf2exp (s2f0)
     val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
   in
-    p3at_err (loc0, s2e)
+    p3at_errpat (loc0, s2e)
   end // end of [_]
 //
 end // end of [p2at_trdn_lst]
@@ -1330,7 +1330,7 @@ case+ s2e0.s2exp_node of
     val () = prerr_newline ()
     val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
   in
-    p3at_err (loc0, s2e0)
+    p3at_errpat (loc0, s2e0)
   end (* end of [_] *)
 //
 end // end of [p2at_trdn_exist]
@@ -1374,7 +1374,7 @@ case+ opt of
     val () = prerr_newline ()
     val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
   in
-    p3at_err (loc0, s2e0)
+    p3at_errpat (loc0, s2e0)
   end // end of [None_vt]
 //
 end // end of [p2at_trdn_vbox]

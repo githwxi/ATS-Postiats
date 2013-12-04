@@ -649,7 +649,9 @@ hidexp_trywith
 (* ****** ****** *)
 
 implement
-hidexp_err (loc, hse) = hidexp_make_node (loc, hse, HDEerr ())
+hidexp_errexp
+  (loc, hse) = hidexp_make_node (loc, hse, HDEerrexp ())
+// end of [hidexp_errexp]
 
 (* ****** ****** *)
 

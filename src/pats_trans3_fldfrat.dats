@@ -229,7 +229,7 @@ case
     val () = prerr ": unfolded datatype constructor is expected."
     val () = prerr_newline ()
   in
-    d3exp_err (loc0)
+    d3exp_errexp (loc0)
   end // end of [_]
 //
 end // end of [auxmain]

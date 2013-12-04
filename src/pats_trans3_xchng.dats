@@ -284,7 +284,7 @@ and aux3
 , d3e: d3exp, d3ls: d3lablst
 , s2f0_sel: s2hnf // left
 ) : d3exp = let
-  val () = auxerr_nonderef (d3e) in d3exp_err (loc0)
+  val () = auxerr_nonderef (d3e) in d3exp_errexp (loc0)
 end // end of [aux3]
 
 in (* in of [local] *)
@@ -335,7 +335,7 @@ case+ d2lv of
     val () = prerr_newline ()
     val () = the_trans3errlst_add (T3E_d2exp_nonlval (d2e))
   in
-    d3exp_err (loc1)
+    d3exp_errexp (loc1)
   end // end of [_]
 //
 end // end of [d2exp_trdn_xchng]
@@ -469,10 +469,10 @@ and aux3
 , d2e_r: d2exp
 ) : d3exp = let
 in
-  d3exp_void_err (loc0)
+  d3exp_errexp_void (loc0)
 end // end of [aux3]
 
-in // end of [local]
+in (* end of [local] *)
 
 implement
 d2exp_trup_xchng_deref
@@ -560,14 +560,14 @@ case+ d2lv_l of
   end // end of [D2LVALderef]
 //
 | D2LVALvar_lin _ => let
-    val () = auxerr_lproof (d2e_l) in d3exp_void_err (loc0)
+    val () = auxerr_lproof (d2e_l) in d3exp_errexp_void (loc0)
   end // end of [_]
 | D2LVALviewat _ => let
-    val () = auxerr_lproof (d2e_l) in d3exp_void_err (loc0)
+    val () = auxerr_lproof (d2e_l) in d3exp_errexp_void (loc0)
   end // end of [_]
 //
 | _ => let
-    val () = auxerr_nonlval (d2e_l) in d3exp_void_err (loc0)
+    val () = auxerr_nonlval (d2e_l) in d3exp_errexp_void (loc0)
   end // end of [_]
 //
 end // end of [d2exp_trup_xchng]

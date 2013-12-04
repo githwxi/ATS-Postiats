@@ -895,7 +895,7 @@ case+
 //
 | D3Eann_type (d3e, _(*ann*)) => d3exp_tyer (d3e)
 //
-| D3Eerr () => hidexp_err (loc0, hse0)
+| D3Eerrexp ((*void*)) => hidexp_errexp (loc0, hse0)
 //
 | _ => let
     val () = println! ("d3exp_tyer: loc0 = ", loc0)

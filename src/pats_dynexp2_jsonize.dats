@@ -338,7 +338,7 @@ case+ p2t0.p2at_node of
     aux2 ("P2Tann", jsonize_p2at (p2t), jsonize_ignored (ann))
   ) (* end of [P2Tann] *)
 //
-| P2Terr ((*void*)) => aux0 ("P2Terr")
+| P2Terrpat ((*void*)) => aux0 ("P2Terrpat")
 //
 | _ (*yet-to-be-processed*) => aux0 ("P2Tignored")
 //
@@ -454,6 +454,23 @@ d2e0.d2exp_node of
 | D2Esym (d2s) =>
     aux1 ("D2Esym", jsonize_d2sym (d2s))
 //
+| D2Eempty ((*void*)) => aux0 ("D2Eempty")
+//
+| D2Elet
+    (d2cs, d2e_body) => let
+    val d2cs = jsonize_d2eclist (d2cs)
+    val d2e_body = jsonize_d2exp (d2e_body)
+  in
+    aux2 ("D2Elet", d2cs, d2e_body)
+  end // end of [D2Elet]
+| D2Ewhere
+    (d2e_body, d2cs) => let
+    val d2cs = jsonize_d2eclist (d2cs)
+    val d2e_body = jsonize_d2exp (d2e_body)
+  in
+    aux2 ("D2Ewhere", d2e_body, d2cs)
+  end // end of [D2Ewhere]
+//
 | D2Eapplst
     (d2e, d2as) => let
     val jsv1 = jsonize_d2exp (d2e)
@@ -507,6 +524,8 @@ d2e0.d2exp_node of
   in
     aux2 ("D2Eann_funclo", jsv1, jsv2)
   end // end of [D2Eann_funclo]
+//
+| D2Eerrexp ((*void*)) => aux0 ("D2Eerrexp")
 //
 | _ (*yet-to-be-processed*) => aux0 ("D2Eignored")
 //

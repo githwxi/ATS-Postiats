@@ -152,7 +152,7 @@ fn p0at_tr_errmsg_opr
   val () = prerr_newline ()
   val () = the_trans1errlst_add (T1E_p0at_tr (p0t0))
 in
-  p1at_err (loc0)
+  p1at_errpat (loc0)
 end // end of [p0at_tr_errmsg_opr]
 
 in // in of [local]

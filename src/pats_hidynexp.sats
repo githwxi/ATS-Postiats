@@ -363,7 +363,7 @@ and hidexp_node =
 //
   | HDEtrywith of (hidexp(*try-exp*), hiclaulst(*with-clauses*))
 //
-  | HDEerr of () // HX: indication of error
+  | HDEerrexp of ((*void*)) // HX: indication of error
 // end of [hidexp_node]
 
 and labhidexp = LABHIDEXP of (label, hidexp)
@@ -788,7 +788,7 @@ fun hidexp_trywith
 
 (* ****** ****** *)
 
-fun hidexp_err (loc: location, hse: hisexp): hidexp
+fun hidexp_errexp (loc: location, hse: hisexp): hidexp
 
 (* ****** ****** *)
 

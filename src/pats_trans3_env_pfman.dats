@@ -283,7 +283,7 @@ case+ p3t.p3at_node of
 //
 | P3Tvbox (d2v) => the_pfmanenv_add_dvar (d2v)
 //
-| P3Terr _ => ()
+| P3Terrpat ((*void*)) => ()
 //
 end // end of [the_pfmanenv_add_p3at]
 

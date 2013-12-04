@@ -428,7 +428,7 @@ fn d0exp_tr_errmsg_opr
   val () = prerr_newline ()
   val () = the_trans1errlst_add (T1E_d0exp_tr (d0e0))
 in
-  d1exp_err (loc0)
+  d1exp_errexp (loc0)
 end // end of [d0exp_tr_errmsg_opr]
 
 in // in of [local]

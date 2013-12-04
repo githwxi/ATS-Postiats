@@ -154,7 +154,7 @@ case+ d2i of
     val () = prerr_newline ()
     val () =  the_trans3errlst_add (T3E_d2exp_trup_item (loc0, d2i))
   in
-    d3exp_err (loc0)
+    d3exp_errexp (loc0)
   end // end of [_]
 //
 end // end of [d2exp_trup_item]
@@ -186,7 +186,7 @@ case+ d2i of
     // end of [if]
   ) // end of [D2ITMvar]
 | _ => let
-    val () = assertloc (false) in d3exp_err (loc0)
+    val () = assertloc (false) in d3exp_errexp (loc0)
   end // end of [_]
 //
 end // end of [d3exp_trup_item]
@@ -567,7 +567,7 @@ case+ d3pis of
       the_trans3errlst_add (T3E_d2exp_trup_applst_sym_cons2 (d2e0, d2s))
     // end of [val]
   in
-    d3exp_err (loc0)
+    d3exp_errexp (loc0)
   end // end of [list_cons2]
 | list_nil () => let
     val () = prerr_error3_loc (loc0)
@@ -577,7 +577,7 @@ case+ d3pis of
     val () = prerr_newline ()
     val () = the_trans3errlst_add (T3E_d2exp_trup_applst_sym_nil (d2e0, d2s))
   in
-    d3exp_err (loc0)
+    d3exp_errexp (loc0)
   end // end of [list_nil]
 //
 end // end of [d2exp_trup_applst_sym]

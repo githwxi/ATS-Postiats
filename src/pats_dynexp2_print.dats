@@ -297,7 +297,7 @@ case+ x.p2at_node of
     val () = fprint_s2exp (out, s2f)
     val () = prstr ")"
   }
-| P2Terr () => prstr "P2Terr()"
+| P2Terrpat ((*void*)) => prstr "P2Terrpat()"
 (*
 | _ => prstr "P2T...(...)"
 *)
@@ -837,9 +837,7 @@ case+ d2e0.d2exp_node of
     val () = prstr ")"
   } // end of [D2Eann_funclo]
 //
-| D2Eerr () => {
-    val () = prstr "D2Eerr()"
-  } // end of [D2Eerr]
+| D2Eerrexp ((*void*)) => prstr "D2Eerr()"
 //
 (*
 | _ => prstr "D2E...(...)"

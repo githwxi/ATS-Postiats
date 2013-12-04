@@ -544,7 +544,7 @@ p2at_node =
 //
   | P2Tlist of (int(*npf*), p2atlst)
 //
-  | P2Terr of () // HX: placeholder for indicating an error
+  | P2Terrpat of () // HX: placeholder for indicating an error
 // end of [p2at_node]
 
 and labp2at =
@@ -640,7 +640,7 @@ fun p2at_vbox (loc: location, d2v: d2var): p2at
 
 fun p2at_ann (loc: location, p2t: p2at, ann: s2exp): p2at
 
-fun p2at_err (loc: location): p2at
+fun p2at_errpat (loc: location): p2at
 
 (* ****** ****** *)
 
@@ -842,7 +842,7 @@ and d2exp_node =
   | D2Eann_seff of (d2exp, s2eff) // ascribed with effects
   | D2Eann_funclo of (d2exp, funclo) // ascribed with funtype
 //
-  | D2Eerr of () // HX: placeholder for indicating an error
+  | D2Eerrexp of () // HX: placeholder for indicating an error
 // end of [d2exp_node]
 
 and d2exparg =
@@ -1401,7 +1401,7 @@ fun d2exp_ann_funclo (loc: location, d2e: d2exp, fc: funclo): d2exp
 
 (* ****** ****** *)
 
-fun d2exp_err (loc: location): d2exp
+fun d2exp_errexp (loc: location): d2exp
 
 (* ****** ****** *)
 

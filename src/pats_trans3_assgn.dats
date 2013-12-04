@@ -453,7 +453,7 @@ and aux3
 , d3ls: d3lablst
 , d3e_r: d3exp
 ) : d3exp = let
-  val () = auxerr_nonderef (d3e_l) in d3exp_void_err (loc0)
+  val () = auxerr_nonderef (d3e_l) in d3exp_errexp_void (loc0)
 end // end of [aux3]
 
 in (* in of [local] *)
@@ -573,7 +573,7 @@ case+ d2lv of
     val () = prerr_newline ()
     val () = the_trans3errlst_add (T3E_d2exp_nonlval (d2e_l))
   in
-    d3exp_void_err (loc0)
+    d3exp_errexp_void (loc0)
   end // end of [_]
 //
 end // end of [d2exp_trup_assgn]

@@ -670,7 +670,7 @@ case+
     val () = prstr ")"
   }
 //
-| HDEerr () => prstr "HDEerr()"
+| HDEerrexp ((*void*)) => prstr "HDEerrexp()"
 //
 (*
 | _ => {

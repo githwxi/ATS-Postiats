@@ -492,7 +492,7 @@ case+
       eval0_app_mac_short (loc0, d2m, ctx, env, d2as)
     ) else let
       val () =
-        auxerr (loc0, d2e0, d2m) in d2exp_err (loc0)
+        auxerr (loc0, d2e0, d2m) in d2exp_errexp (loc0)
       // end of [val]
     end // end of [if]
   end // end of [D2Emac]
@@ -531,7 +531,7 @@ case+ knd of
 *)
         val () = prerr_newline ()
       in
-        d2exp_err (loc0)
+        d2exp_errexp (loc0)
       end // end of [_]
   end // end of [MSKdecode]
 | $SYN.MSKxstage () => let
@@ -546,7 +546,7 @@ case+ knd of
     val () = prerr_d2exp (d2e0)
     val () = prerr_newline ()
   in
-    d2exp_err (loc0)
+    d2exp_errexp (loc0)
   end // end of [_]
 //
 end // end of [eval1_d2exp_macsyn]
@@ -779,7 +779,7 @@ case+ d2en0 of
     d2exp_ann_funclo (loc0, eval1dexp (d2e), funclo)
   // end of [D2Eann_funclo]
 //
-| _ => d2exp_err (loc0)
+| _ => d2exp_errexp (loc0)
 //
 end // end of [eval1_d2exp]
 

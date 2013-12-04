@@ -475,10 +475,10 @@ case+ d2e0.d2exp_node of
       the_trans3errlst_add (T3E_d2exp_trup_sym (d2e0))
     // end of [val]
   in
-    d3exp_err (loc0) // : [s2exp_t0ype_err]
+    d3exp_errexp (loc0) // : [s2exp_t0ype_err]
   end // end of [D2Esym]
 //
-| D2Eerr () => d3exp_err (loc0) // : [s2exp_t0ype_err]
+| D2Eerrexp () => d3exp_errexp (loc0) // : [s2exp_t0ype_err]
 //
 | _ => let
     val () = println! ("d2exp_trup: loc0 = ", loc0)
@@ -901,7 +901,7 @@ case+ s2e.s2exp_node of
     d3exp_con (loc0, s2e_res, d2c, npf, d3es_arg)
   end // end of [S2Efun]
 | _ => let
-    val () = d23explst_free (d23es_arg) in d3exp_err (loc0)
+    val () = d23explst_free (d23es_arg) in d3exp_errexp (loc0)
   end // end of [_]
 //
 end // end [d2exp_trup_con]
@@ -1124,7 +1124,7 @@ case+ s2e_fun.s2exp_node of
     val () = prerr_newline ()
     val () = the_trans3errlst_add (T3E_d23exp_trup_app23_fun (loc_fun, s2e_fun))
   in
-    d3exp_err (loc_fun)
+    d3exp_errexp (loc_fun)
   end // end of [_]
 //
 end // end of [d23exp_trup_app23]
@@ -1800,7 +1800,7 @@ val d2e_mac = (
       val () = prerr ": the macro syntax `(...) is used incorrectly.";
       val () = prerr_newline ()
     in
-      d2exp_err (loc0)
+      d2exp_errexp (loc0)
     end // end of [MSKINDencode]
 ) : d2exp // end of [val]
 (*

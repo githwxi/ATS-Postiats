@@ -266,7 +266,7 @@ case+ opt of
   | ~Some_vt (s2e) =>
       d3exp_lazyeval (loc0, s2e, 1(*lin*), d3e)
   | ~None_vt () => let
-      val () = auxerr_nonderef (loc0, d3e) in d3exp_err (loc0)
+      val () = auxerr_nonderef (loc0, d3e) in d3exp_errexp (loc0)
     end // end of [None_vt]
   //
   end // end of [None_vt]

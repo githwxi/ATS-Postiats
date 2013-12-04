@@ -137,8 +137,10 @@ case+ ctxtopt of
   in
     s2exp_at (s2e_sel, s2rt)
   end // end of [Some]
-| None () => let
-    val () = auxerr_context (loc0, s2e_elt, d3ls) in s2exp_err (s2rt_view)
+| None ((*void*)) => let
+    val (
+    ) = auxerr_context
+      (loc0, s2e_elt, d3ls) in s2exp_err (s2rt_view)
   end // end of [None]
 //
 end // end of [auxmain]
@@ -401,7 +403,7 @@ case+ d2lv of
     val () = prerr_newline ()
     val () = the_trans3errlst_add (T3E_d2exp_addrless (d2e0))
   in
-    d3exp_err (loc0)
+    d3exp_errexp (loc0)
   end // end of [D2LVALvar_lin]
 //
 | _ => let
@@ -410,7 +412,7 @@ case+ d2lv of
     val () = prerr_newline ()
     val () = the_trans3errlst_add (T3E_d2exp_nonlval (d2e0))
   in
-    d3exp_err (loc0)
+    d3exp_errexp (loc0)
   end // end of [_]
 //
 end // end of [d2exp_trup_viewat]
@@ -453,8 +455,9 @@ case+ opt of
   in
     d3exp_viewat_assgn (loc0, d3e_l, d3ls, d3e_r)
   end // end of [Some_vt]
-| ~None_vt () => let
-    val () = auxerr_nonptr (loc0, d3e_l) in d3exp_void_err (loc0)
+| ~None_vt ((*void*)) => let
+    val (
+    ) = auxerr_nonptr (loc0, d3e_l) in d3exp_errexp_void (loc0)
   end // end of [None_vt]
 end // end of [aux1]
 
@@ -506,7 +509,7 @@ case+ d2lv_l of
     val () = prerr_newline ()
     val () = the_trans3errlst_add (T3E_d2exp_addrless (d2e0))
   in
-    d3exp_void_err (loc0)
+    d3exp_errexp_void (loc0)
   end // end of [D2LVALvar_lin]
 //
 | _ => let
@@ -516,7 +519,7 @@ case+ d2lv_l of
     val () = prerr_newline ()
     val () = the_trans3errlst_add (T3E_d2exp_nonlval (d2e0))
   in
-    d3exp_void_err (loc0)
+    d3exp_errexp_void (loc0)
   end // end of [_]
 //
 end // end of [d2exp_trup_viewat_assgn]

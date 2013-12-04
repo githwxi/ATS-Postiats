@@ -242,8 +242,9 @@ case+
       in
         d3exp_ptrofvar (loc0, s2e, d2v)
       end // end of [Some]
-    | None () => let
-        val () = auxerr_nonmut (loc0, d2v) in d3exp_err (loc0)
+    | None ((*void*)) => let
+        val () =
+        auxerr_nonmut (loc0, d2v) in d3exp_errexp (loc0)
       end // end of [None]
   end (* end of [D2Evar] *)
 | D2Eselab
@@ -256,14 +257,14 @@ case+
       d2exp_trup_ptrof_ptrsel (loc0, d2e, d2ls)
     // end of [D2Ederef]
   | _ => let
-      val () = auxerr_nonlval (d2e0) in d3exp_err (loc0)
+      val () = auxerr_nonlval (d2e0) in d3exp_errexp (loc0)
     end // end of [_]
   ) // end of [D2Esel]
 | D2Ederef (d2e) =>
     d2exp_trup_ptrof_ptrsel (loc0, d2e, list_nil)
   // end of [D2Ederef]
 | _ => let
-    val () = auxerr_nonlval (d2e0) in d3exp_err (loc0)
+    val () = auxerr_nonlval (d2e0) in d3exp_errexp (loc0)
   end // end of [_]
 //
 end // end of [d2exp_trup_ptrof]
@@ -293,7 +294,9 @@ case+ d3ls of
 | list_nil () => d3e_ptr // end of [list_nil]
 //
 end else let
-  val () = auxerr_nonmut (loc0, d2v) in d3exp_err (loc0)
+  val () =
+    auxerr_nonmut (loc0, d2v) in d3exp_errexp (loc0)
+  // end of [val]
 end // end of [if]
 //
 end // end of [d2exp_trup_ptrof_varsel]
@@ -328,7 +331,7 @@ case+ opt of
     d3exp_ptrofsel (loc0, s2e_prj, d3e, s2rt, d3ls)
   end // end of [Some_vt]
 | ~None_vt () => let
-    val () = auxerr_nonptr (loc0, d3e) in d3exp_err (loc0)
+    val () = auxerr_nonptr (loc0, d3e) in d3exp_errexp (loc0)
   end // end of [None_vt]
 //
 end // end of [d2exp_trup_ptrof_ptrset]

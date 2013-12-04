@@ -261,7 +261,7 @@ case+ ans of
 *)
   ) // end of [Some_vt]
 | ~None_vt () => let
-    val () = auxerr (d1e0, dq, id) in d2exp_err (loc0)
+    val () = auxerr (d1e0, dq, id) in d2exp_errexp (loc0)
   end // end of [None_vt]
 end // end of [d1exp_tr_dqid]
 
@@ -396,10 +396,10 @@ case+ spdid of
         val () = prerr ": the dynamic identifier ["
         val () = prerr_dqid (dq, id)
         val () = prerr "] is unrecognized."
-        val () = prerr_newline ()
+        val () = prerr_newline ((*void*))
         val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
       in
-        d2exp_err (d1e0.d1exp_loc)
+        d2exp_errexp (d1e0.d1exp_loc)
       end // end of [None_vt]
   end // end of [_]
 //
@@ -481,7 +481,7 @@ case+ ans of
     val () = prerr_newline ()
     val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
   in
-    d2exp_err (d1e0.d1exp_loc)
+    d2exp_errexp (d1e0.d1exp_loc)
   end // end of [None_vt]
 end // end of [d1exp_tr_app_sta_dyn_dqid]
 
@@ -583,10 +583,10 @@ case+ d2i of
     val () = prerr ": the identifier ["
     val () = prerr_dqid (dq, id)
     val () = prerr "] does not refer to any variable, constant or constructor."
-    val () = prerr_newline ()
+    val () = prerr_newline ((*void*))
     val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
   in
-    d2exp_err (loc0)
+    d2exp_errexp (loc0)
   end (* end of [_] *)
 //
 end // end of [d1exp_tr_app_sta_dyn_dqid_itm]
@@ -790,10 +790,10 @@ case+ d1e0.d1exp_node of
     val () = prerr_error2_loc (loc0)
     val () = filprerr_ifdebug "d1exp_wths1explst_tr"
     val () = prerr ": the dynamic expression is expected to be ascribed a type but it is not."
-    val () = prerr_newline ()
+    val () = prerr_newline ((*void*))
     val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
   in
-    d2exp_err (loc0)
+    d2exp_errexp (loc0)
   end // end of [_]
 end (* end of [d1exp_tr_wths1explst] *)
 
@@ -1657,7 +1657,7 @@ case+ d1e0.d1exp_node of
     d2exp_ann_funclo (loc0, d2e, funclo)
   end // end of [D1Eann_funclo]
 //
-| D1Eerr () => d2exp_err (loc0)
+| D1Eerrexp () => d2exp_errexp (loc0)
 //
 | D1Eidextapp
     (id, d1es) => let
@@ -1665,19 +1665,19 @@ case+ d1e0.d1exp_node of
     val () = prerr ": the external id ["
     val () = $SYM.prerr_symbol (id)
     val () = prerr "] cannot be handled."
-    val () = prerr_newline ()
+    val () = prerr_newline ((*void*))
     val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
   in
-    d2exp_err (loc0)
+    d2exp_errexp (loc0)
   end // end of [_]
 //
 | D1Esexparg _ => let
     val () = prerr_error2_loc (loc0)
     val () = prerr ": this form of expression is only allowed to occur as an argument."
-    val () = prerr_newline ()
+    val () = prerr_newline ((*void*))
     val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
   in
-    d2exp_err (loc0)
+    d2exp_errexp (loc0)
   end // end of [D1Esexparg]
 //
 // (*
@@ -1686,7 +1686,7 @@ case+ d1e0.d1exp_node of
     val () = filprerr_ifdebug "d1exp_tr"
     val () = prerr ": not yet implemented: d1e0 = "
     val () = (prerr ("["); prerr_d1exp (d1e0); prerr ("]"))
-    val () = prerr_newline ()
+    val () = prerr_newline ((*void*))
   in
     $ERR.abort {d2exp} ()
   end // end of [_]

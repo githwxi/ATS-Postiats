@@ -244,7 +244,7 @@ case+ d1es of
   in
     d1exp_seq (loc0, d1es_res)
   end (* end of [list_cons] *)
-| list_nil () => d1exp_err (loc0)
+| list_nil () => d1exp_errexp (loc0)
 //
 end (* end of [auxfpr] *)
 
@@ -278,7 +278,7 @@ case+ d1es of
   in
     d1exp_seq (loc0, list_pair (d1e1_res, d1e2_res))
   end (* end of [list_cons] *)
-| list_nil () => d1exp_err (loc0)
+| list_nil () => d1exp_errexp (loc0)
 //
 end (* end of [auxfprln] *)
 
@@ -340,7 +340,7 @@ case+ d1es of
 //
 | list_cons _ => auxfpr (loc0, d1es, sym)
 //
-| list_nil () => d1exp_err (loc0)
+| list_nil () => d1exp_errexp (loc0)
 //
 end (* end of [fsyndef_FPRINT] *)
 
@@ -378,7 +378,7 @@ case+ d1es of
 //
 | list_cons _ => auxfprln (loc0, d1es, sym, sym2)
 //
-| list_nil () => d1exp_err (loc0)
+| list_nil () => d1exp_errexp (loc0)
 //
 end (* end of [fsyndef_FPRINTLN] *)
 

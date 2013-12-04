@@ -88,7 +88,7 @@ in
       val () = prerr ": a value representing code (AST) cannot be lifted."
       val () = prerr_newline ()
     in
-      d2exp_err (loc0)
+      d2exp_errexp (loc0)
     end // end of [_]
 end // end of [liftval2dexp]
 
@@ -440,7 +440,7 @@ case+ m2v of
     val () = prerr_m2val (m2v)
     val () = prerr_newline ()
   in
-    d2exp_err (loc0)
+    d2exp_errexp (loc0)
   end // end of [_]
 //
 end // end of [dmacro_eval_decode]
