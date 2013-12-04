@@ -413,6 +413,17 @@ list node after applying to the node the function implemented by
 (* ****** ****** *)
 
 #declnamesynop("list_vt_map")
+#decldescrpt("\
+
+Given a linear list xs of length n, this function returns a linear list
+consisting f(xs[i]), where i ranges from 0 until n-1, xs[i] refers to
+element i in xs and f is the function implemented by
+#dyncode("list_map_vt$fopr"). Note that the given list xs is kept after the
+function returns.  The implementation of this function in ATSLIB is
+tail-recursive.\
+
+")
+
 #declnamesynop("list_vt_map$fopr")
 
 (* ****** ****** *)
@@ -422,7 +433,9 @@ list node after applying to the node the function implemented by
 
 This function is similar to #dyncode("list_vt_map"). However, it frees each
 list node after applying to the node the function implemented by
-#dyncode("list_vt_mapfree$fopr"). ")
+#dyncode("list_vt_mapfree$fopr").\
+
+")
 
 #declnamesynop("list_vt_mapfree$fopr")
 
