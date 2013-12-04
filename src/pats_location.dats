@@ -190,7 +190,9 @@ val () = fprint_string (out, "(line=")
 val () = fprint_int (out, loc.beg_nrow+1)
 val () = fprint_string (out, ", offs=")
 val () = fprint_int (out, loc.beg_ncol+1)
-val () = fprint_string (out, ") -- ")
+val () = fprint_string (out, ")")
+//
+val () = fprint_string (out, " -- ")
 //
 val () =
   fprint_lint (out, loc.end_ntot+1L)
@@ -205,11 +207,6 @@ val () = fprint_string (out, ")")
 (* ****** ****** *)
 
 implement
-print_location (loc) = fprint_location (stdout_ref, loc)
-implement
-prerr_location (loc) = fprint_location (stderr_ref, loc)
-
-implement
 fprint_location
   (out, loc) = let
   val fname = loc.filename
@@ -217,6 +214,11 @@ in
   $FIL.fprint_filename_full (out, fname);
   fprint_string (out, ": "); fprint_locrange (out, loc)
 end (* end of [fprint_location] *)
+
+implement
+print_location (loc) = fprint_location (stdout_ref, loc)
+implement
+prerr_location (loc) = fprint_location (stderr_ref, loc)
 
 (* ****** ****** *)
 
