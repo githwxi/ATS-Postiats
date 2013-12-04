@@ -100,6 +100,17 @@ end // end of [jsonval_ofstring]
 (* ****** ****** *)
 
 implement
+jsonval_tostring (jsv) = let
+  val jso = jsonval_objectify (jsv)
+  val res = json_object_to_json_string (jso)
+  val freed(*1*) = json_object_put (jso)
+in
+  res
+end // end of [jsonval_tostring]
+
+(* ****** ****** *)
+
+implement
 json_object2val0
   (jso) = let
   val jsv = json_object2val1 (jso)
@@ -210,6 +221,79 @@ case+ 0 of
     let val () = assertloc (false) in exit(1) end
 //
 end // end of [json_object2val1]
+
+(* ****** ****** *)
+
+implement
+jsonval_objectify
+  (jsv0) = let
+//
+fun auxarr
+  {n:int}
+  {i:nat | i <= n}
+(
+  jarr: !json_object1
+, A: arrayref(jsonval, n), n: size_t n, i: size_t i
+) : void =
+(
+  if i < n then let
+    val jso = jsonval_objectify (A[i])
+    val err = json_object_array_add (jarr, jso)
+  in
+    auxarr (jarr, A, n, succ(i))
+  end else () // end of [if]
+)
+//
+fun auxobj
+(
+  jobj: !json_object1, ljsvs: labjsonvalist
+) : void =
+(
+  case+ ljsvs of
+  | list_cons
+      ((l, jsv), ljsvs) => let
+      val jso = jsonval_objectify (jsv)
+      val ((*void*)) = json_object_object_add (jobj, l, jso)
+    in
+      auxobj (jobj, ljsvs)
+    end // end of [list_cons]
+  | list_nil ((*void*)) => ()
+)
+//
+in
+//
+case+ jsv0 of
+//
+| JSONnul () =>
+    $UN.castvwtp0{json_object0}(the_null_ptr)
+//
+| JSONint (lli) =>
+    json_object_new_int64($UN.cast{int64}(lli))
+//
+| JSONbool (tf) => json_object_new_boolean (tf)
+//
+| JSONfloat (dbl) => json_object_new_double (dbl)
+//
+| JSONstring (str) => json_object_new_string (str)
+//
+| JSONarray (A, n) => let
+    val jarr = json_object_new_array ()
+    val isnot = json_object_isnot_null (jarr)
+    val ((*void*)) =
+      if isnot then auxarr (jarr, A, n, i2sz(0)) 
+  in
+    jarr
+  end // end of [JSONarray]
+//
+| JSONobject (ljsvs) => let
+    val jobj = json_object_new_object ()
+    val isnot = json_object_isnot_null (jobj)
+    val ((*void*)) = if isnot then auxobj (jobj, ljsvs)
+  in
+    jobj
+  end // end of [JSONobject]
+//
+end // end of [jsonval_objectify]
 
 (* ****** ****** *)
 

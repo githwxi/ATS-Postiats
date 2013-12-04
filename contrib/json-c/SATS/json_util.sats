@@ -51,7 +51,8 @@ fun json_object_to_file_ext
 (* ****** ****** *)
 
 (*
-int json_parse_int64 (const char *buf, int64_t *retval)
+int json_parse_int64
+  (const char *buf, int64_t *retval)
 *)
 fun json_parse_int64
 (
@@ -59,7 +60,8 @@ fun json_parse_int64
 ) : #[i:int | i >= 0] int(i) = "mac#%"
 
 (*
-int json_parse_double (const char *buf, double *retval)
+int json_parse_double
+  (const char *buf, double *retval)
 *)
 fun json_parse_double
 (

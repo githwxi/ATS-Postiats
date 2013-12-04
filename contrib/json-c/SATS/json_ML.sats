@@ -75,7 +75,7 @@ fun fprint_labjsonvalist
 (* ****** ****** *)
 
 fun jsonval_ofstring (str: string): jsonval
-fun jsonval_tostring (jsv: jsonval): Strptr1
+fun jsonval_tostring (jsv: jsonval): vStrptr1
 
 (* ****** ****** *)
 
@@ -84,6 +84,10 @@ fun json_object2val0 (jso: json_object0): jsonval
 (* ****** ****** *)
 
 fun json_object2val1 (jso: !json_object0): jsonval
+
+(* ****** ****** *)
+
+fun jsonval_objectify (jsv: jsonval): json_object0
 
 (* ****** ****** *)
 
