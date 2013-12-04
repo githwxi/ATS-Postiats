@@ -79,9 +79,8 @@ auxerr_proof
   loc0: loc_t, s2e: s2exp, d3ls: d3lablst, s2e_sel: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
-  val () = prerr ": a non-proof component of the following type is replaced: "
-  val () = (prerr "["; prerr_s2exp (s2e_sel); prerr "].")
-  val () = prerr_newline ()
+  val () = prerr ": a non-proof component is replaced of the type"
+  val () = prerrln! ("[", s2e_sel, "].")
 in
   the_trans3errlst_add (T3E_s2addr_assgn_deref_proof (loc0, s2e, d3ls))
 end // end of [auxerr_proof]
@@ -92,9 +91,8 @@ auxerr_linsel
   loc0: loc_t, s2e: s2exp, d3ls: d3lablst, s2e_sel: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
-  val () = prerr ": a linear component of the following type is abandoned: "
-  val () = (prerr "["; prerr_s2exp (s2e_sel); prerr "].")
-  val () = prerr_newline ()
+  val () = prerr ": a linear component is abandoned of the type"
+  val () = prerrln! (": [", s2e_sel, "].")
 in
   the_trans3errlst_add (T3E_s2addr_assgn_deref_linsel (loc0, s2e, d3ls))
 end // end of [auxerr_linsel]
@@ -105,9 +103,8 @@ auxerr_context
   loc0: loc_t, s2e: s2exp, d3ls: d3lablst, s2e_sel: s2exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
-  val () = prerr ": the type of the selected component cannot be changed: "
-  val () = (prerr "["; prerr_s2exp (s2e_sel); prerr "].")
-  val () = prerr_newline ()
+  val () = prerr ": the type of the selected component cannot be changed"
+  val () = prerrln! (": [", s2e_sel, "].")
 in
   the_trans3errlst_add (T3E_s2addr_assgn_deref_context (loc0, s2e, d3ls))
 end // end of [auxerr_context]
@@ -182,7 +179,8 @@ in
 end // end of [d2var_assgn_lin1]
 
 implement
-d2var_assgn_lin (
+d2var_assgn_lin
+(
   loc0, d2v, d3ls, s2e_new
 ) = let
   val () = d2var_inc_linval (d2v)
@@ -209,10 +207,8 @@ auxerr_pfobj
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": assignment cannot be performed"
-  val () = prerr ": the proof search for view located at ["
-  val () = prerr_s2exp (s2l)
-  val () = prerr "] failed to turn up a result."
-  val () = prerr_newline ()
+  val () = prerrln!
+    (": proof search for the view at [", s2l, "] failed to turn up a result.")
 in
   the_trans3errlst_add (T3E_pfobj_search_none (loc0, s2l))
 end // end of [auxerr_pfobj]
@@ -223,7 +219,8 @@ auxerr_sharing
   loc0: loc_t, s2e_elt: s2exp, d3ls: d3lablst
 ) : void = let
   val () = prerr_error3_loc (loc0)
-  val () = prerrln! (": a boxed non-linear record is selected for field-update.")
+  val () = prerrln!
+    (": a boxed non-linear record is selected for field-update.")
 in
   the_trans3errlst_add (T3E_s2addr_assgn_deref_sharing (loc0, s2e_elt, d3ls))
 end // end of [auxerr_sharing]
@@ -237,7 +234,7 @@ auxerr_linsel
   val () = prerr_error3_loc (loc0)
   val () = prerr ": a linear component of the following type is abandoned: "
   val () = prerr! ("[", s2e_sel, "].")
-  val () = prerr_newline ()
+  val () = prerr_newline ((*void*))
 in
   the_trans3errlst_add (T3E_s2addr_assgn_deref_linsel (loc0, s2e_elt, d3ls))
 end // end of [auxerr_linsel]
@@ -256,9 +253,9 @@ if ~tszeq then let
   val () = prerr ": assginment cannot be performed"
   val () = prerr ": mismatch of bef/aft type-sizes:\n"
   val () = (prerr "bef: ["; prerr_s2exp (s2e1); prerr "]")
-  val () = prerr_newline ()
+  val () = prerr_newline ((*void*))
   val () = (prerr "aft: ["; prerr_s2exp (s2e2); prerr "]")
-  val () = prerr_newline ()
+  val () = prerr_newline ((*void*))
 in
   the_trans3errlst_add (T3E_s2exp_assgn_tszeq (loc0, s2e1, s2e2))
 end // end of [if] // end of [val]
@@ -370,7 +367,8 @@ auxerr_refsharing
   loc0: loc_t, d3e_l: d3exp, d3ls: d3lablst
 ) : void = let
   val () = prerr_error3_loc (loc0)
-  val () = prerrln! (": a boxed non-linear record is selected for field-update.")
+  val () = prerrln!
+    (": a boxed non-linear record is selected for field-update.")
 in
   the_trans3errlst_add (T3E_d3exp_assgn_deref_refsharing (d3e_l, d3ls))
 end // end of [auxerr_refsharing]
@@ -400,15 +398,16 @@ fun aux1
 in
 //
 case+ opt of
+//
 | ~Some_vt (s2l) => let
     var s2rt: s2exp
     val d3e_r =
-      s2addr_assgn_deref (loc0, s2l, d3ls, d3e_r, s2rt)
-    // end of [val]
+    s2addr_assgn_deref (loc0, s2l, d3ls, d3e_r, s2rt)
   in
     d3exp_assgn_ptr (loc0, d3e_l, s2rt, d3ls, d3e_r)
   end // end of [Some_vt]
-| ~None_vt () => aux2 (loc0, s2f0, d3e_l, d3ls, d3e_r)
+//
+| ~None_vt ((*void*)) => aux2 (loc0, s2f0, d3e_l, d3ls, d3e_r)
 //
 end // end of [aux1]
 
@@ -427,15 +426,22 @@ case+ opt of
 | ~Some_vt (s2e) => let
     val s2rt = s2e // HX: selection root
 //
-    var linrest: int = 0 and sharing: int = 0
+    var linrest: int = 0
+    and sharing: int = 0
+//
     val (s2e_sel, s2ps) =
-      s2exp_get_dlablst_linrest_sharing (loc0, s2e, d3ls, linrest, sharing)
-    val () = if sharing > 0 then auxerr_refsharing (loc0, d3e_l, d3ls)
+    s2exp_get_dlablst_linrest_sharing
+    (
+      loc0, s2rt, d3ls, linrest, sharing
+    )
+    val () =
+    if sharing > 0 then auxerr_refsharing (loc0, d3e_l, d3ls)
 //
     val s2e_sel = s2exp_hnfize (s2e_sel)
     val () = trans3_env_add_proplst_vt (loc0, s2ps)
     val islin = s2exp_is_lin (s2e_sel)
-    val () = if islin then auxerr_reflinsel (loc0, d3e_l, d3ls, s2e_sel)
+    val () =
+    if islin then auxerr_reflinsel (loc0, d3e_l, d3ls, s2e_sel)
     val d3e_r = d3exp_trdn (d3e_r, s2e_sel)
     val _(*err*) = the_effenv_check_ref (loc0)
   in
@@ -492,7 +498,7 @@ fn auxerr_wrt_if
 in
   if (err > 0) then (
     the_trans3errlst_add (T3E_d2exp_trup_wrt (loc0))
-  ) // end of [if]
+  ) (* end of [if] *)
 end // end of [auxerr_wrt]
 
 in (* in of [local] *)
@@ -538,8 +544,7 @@ case+ d2lv of
     val s2rt = (
       case+ opt of
       | Some (s2e) => s2e
-      | None (
-        ) => s2exp_void_t0ype ()
+      | None ((*void*)) => s2exp_void_t0ype ()
     ) : s2exp // end of [val]
     val () = d2var_assgn_lin (loc_l, d2v, d3ls, s2e_r)
   in
@@ -553,7 +558,8 @@ case+ d2lv of
   end // end of [D2LVALd2ref]
 | D2LVALviewat _ => d2exp_trup_viewat_assgn (d2e0)
 //
-| D2LVALarrsub (
+| D2LVALarrsub
+  (
     d2s, arr, loc_ind, ind // d2s: lrbrackets
   ) => let
     val ind = list_copy (ind)
@@ -568,9 +574,10 @@ case+ d2lv of
   end // [D2LVALarrsub]
 //
 | _ => let
-    val () = prerr_error3_loc (d2e_l.d2exp_loc)
+    val loc_l = d2e_l.d2exp_loc
+    val () = prerr_error3_loc (loc_l)
     val () = prerr ": a left-value is required but a non-left-value is given."
-    val () = prerr_newline ()
+    val () = prerr_newline ((*void*))
     val () = the_trans3errlst_add (T3E_d2exp_nonlval (d2e_l))
   in
     d3exp_errexp_void (loc0)

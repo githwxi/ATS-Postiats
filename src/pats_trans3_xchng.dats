@@ -472,7 +472,7 @@ in
   d3exp_errexp_void (loc0)
 end // end of [aux3]
 
-in (* end of [local] *)
+in (* in of [local] *)
 
 implement
 d2exp_trup_xchng_deref

@@ -48,7 +48,8 @@ staload ERR = "./pats_error.sats"
 
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_dmacro2"
+implement
+prerr_FILENAME<> () = prerr "pats_dmacro2"
 
 (* ****** ****** *)
 
@@ -107,7 +108,7 @@ dataviewtype alphenv =
 
 assume alphenv_viewtype = alphenv
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 alphenv_nil () = ALPHENVnil ()
@@ -254,7 +255,7 @@ dataviewtype evalctx =
 
 assume evalctx_viewtype = evalctx
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 evalctx_nil () = EVALCTXnil ()

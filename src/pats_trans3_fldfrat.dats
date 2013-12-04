@@ -45,7 +45,8 @@ UN = "prelude/SATS/unsafe.sats"
 
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans3_fldfrat"
+implement
+prerr_FILENAME<> () = prerr "pats_trans3_fldfrat"
 
 (* ****** ****** *)
 
@@ -93,10 +94,9 @@ case+ s2es of
       val () = nerr := nerr + 1
       val () = prerr_error3_loc (loc0)
       val () = prerr ": [free@] operation cannot be performed"
-      val () = prerr ": a linear component of the following type ["
-      val () = prerr_s2exp (s2e)
-      val () = prerr "] may be abandoned."
-      val () = prerr_newline ()
+      val () = prerrln!
+        (": a linear component of the type [", s2e, "] may be abandoned.")
+      // end of [val]
     in
       // nothing
     end // end of [val]
@@ -116,10 +116,9 @@ in
 case+ s2ls of
 | list_cons (s2l, s2ls) => let
 (*
-    val () = (
-      print "auxfind: s2l = ";
-      print_s2exp (s2l); print_newline ()
-    ) // end of [val]
+    val () =
+      println! ("auxfind: s2l = ", s2l)
+    // end of [val]
 *)
     val opt = pfobj_search_atview (s2l)
     val s2e_elt = (
@@ -136,13 +135,13 @@ case+ s2ls of
 //
           val s2e_out = s2exp_without (s2e_elt)
           val s2e = s2exp_hrepl (s2e_ctx, s2e_out)
-          val () = d2var_set_type (d2v, Some (s2e))
+          val () = d2var_set_type (d2v, Some(s2e))
 *)
-          val () = d2var_set_type (d2v, None ())
+          val () = d2var_set_type (d2v, None(*void*))
         in
           s2e_elt
         end // end of [Some_vt]
-      | ~None_vt () => s2exp_err (s2rt_t0ype)
+      | ~None_vt ((*void*)) => s2exp_err (s2rt_t0ype)
     ) : s2exp // end of [val]
     val s2es_elt = auxfind (loc0, s2ls)
   in
@@ -210,9 +209,11 @@ case
     in
       if err > 0 then let
         val () = prerr_error3_loc (loc)
-        val () = prerr ": [fold@] operation cannot be formed"
-        val () = prerr ":  the type of the dynamic expression cannot be changed."
-        val () = prerr_newline ()
+        val () =
+          prerr ": [fold@] operation cannot be formed"
+        val () =
+          prerrln! ": the type of the dynamic expression cannot be changed."
+        // end of [val]
       in
         the_trans3errlst_add (T3E_d3exp_foldat (loc0, d3e))
       end (* end of [if] *)
@@ -226,8 +227,8 @@ case
       prerr ": [free@] operation cannot be performed"
     val () = if opknd > 0 then
       prerr ": [fold@] operation cannot be performed"
-    val () = prerr ": unfolded datatype constructor is expected."
-    val () = prerr_newline ()
+    val () =
+      prerrln! (": unfolded datatype constructor is expected.")
   in
     d3exp_errexp (loc0)
   end // end of [_]

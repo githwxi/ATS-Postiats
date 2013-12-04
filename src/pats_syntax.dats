@@ -2451,7 +2451,7 @@ loop{n:nat} .<n>.
   | list_nil () => tok.token_loc + id.i0de_loc
 // end of [loop]
 
-in // end of [local]
+in (* in of [local] *)
 
 implement
 d0ecl_fixity
