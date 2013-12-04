@@ -180,48 +180,54 @@ location_get_filename (loc) = loc.filename
 (* ****** ****** *)
 
 implement
+fprint_locrange
+  (out, loc) = () where
+{
+//
+val () =
+  fprint_lint (out, loc.beg_ntot+1L)
+val () = fprint_string (out, "(line=")
+val () = fprint_int (out, loc.beg_nrow+1)
+val () = fprint_string (out, ", offs=")
+val () = fprint_int (out, loc.beg_ncol+1)
+val () = fprint_string (out, ") -- ")
+//
+val () =
+  fprint_lint (out, loc.end_ntot+1L)
+val () = fprint_string (out, "(line=")
+val () = fprint_int (out, loc.end_nrow+1)
+val () = fprint_string (out, ", offs=")
+val () = fprint_int (out, loc.end_ncol+1)
+val () = fprint_string (out, ")")
+//
+} (* end of [fprint_locrange] *)
+
+(* ****** ****** *)
+
+implement
 print_location (loc) = fprint_location (stdout_ref, loc)
 implement
 prerr_location (loc) = fprint_location (stderr_ref, loc)
 
-local
-
-fun prloc
-(
-  out: FILEref, loc: location
-) : void = () where {
-  val () = fprint_string (out, ": ")
-  val () = fprint_lint (out, loc.beg_ntot+1L)
-  val () = fprint_string (out, "(line=")
-  val () = fprint_int (out, loc.beg_nrow+1)
-  val () = fprint_string (out, ", offs=")
-  val () = fprint_int (out, loc.beg_ncol+1)
-  val () = fprint_string (out, ") -- ")
-  val () = fprint_lint (out, loc.end_ntot+1L)
-  val () = fprint_string (out, "(line=")
-  val () = fprint_int (out, loc.end_nrow+1)
-  val () = fprint_string (out, ", offs=")
-  val () = fprint_int (out, loc.end_ncol+1)
-  val () = fprint_string (out, ")")
-} (* end of [prloc] *)
-
-in (* in of [local] *)
-
 implement
 fprint_location
-  (out, loc) =
-(
-  $FIL.fprint_filename_full (out, loc.filename); prloc (out, loc)
-) (* end of [fprint_location] *)
+  (out, loc) = let
+  val fname = loc.filename
+in
+  $FIL.fprint_filename_full (out, fname);
+  fprint_string (out, ": "); fprint_locrange (out, loc)
+end (* end of [fprint_location] *)
+
+(* ****** ****** *)
 
 implement
-fprint_location2
-  (out, loc) =
-(
-  $FIL.fprint_filename2_full (out, loc.filename); prloc (out, loc)
-) (* end of [fprint_location2] *)
-
-end // end of [local]
+fprint2_location
+  (out, loc) = let
+  val fname = loc.filename
+in
+  $FIL.fprint2_filename_full (out, fname); 
+  fprint_string (out, ": "); fprint_locrange (out, loc)
+end (* end of [fprint2_location] *)
 
 (* ****** ****** *)
 

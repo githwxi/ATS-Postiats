@@ -1573,14 +1573,16 @@ emit_instr
   (out, ins) = let
 //
 val loc0 = ins.instr_loc
-// (*
+//
+// HX: This is extremely valuable for debugging!!!
+//
 val () =
 (
   fprint (out, "/*\n");
-  fprint (out, "emit_instr: loc0 = "); $LOC.fprint_location2 (out, loc0);
+  fprint (out, "emit_instr: loc0 = "); $LOC.fprint2_location (out, loc0);
   fprint (out, "\n*/\n");
 )
-// *)
+//
 (*
 val (
 ) = fprintln!

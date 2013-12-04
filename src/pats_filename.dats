@@ -205,7 +205,7 @@ end // end of [fprint_filename_full]
 (* ****** ****** *)
 
 implement
-fprint_filename2_full
+fprint2_filename_full
   (out, fil) = let
 //
 val given = fil.filename_givename
@@ -219,7 +219,7 @@ if ngurl < 0
   else fprintf (out, "%s(%s)", @(fname, given))
 // end of [if]
 //
-end // end of [fprint_filename2_full]
+end // end of [fprint2_filename_full]
 
 (* ****** ****** *)
 

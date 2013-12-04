@@ -90,7 +90,7 @@ fun fprint_filename_full (out: FILEref, fil: filename): void
 
 (* ****** ****** *)
 
-fun fprint_filename2_full (out: FILEref, fil: filename): void
+fun fprint2_filename_full (out: FILEref, fil: filename): void
 
 (* ****** ****** *)
 
