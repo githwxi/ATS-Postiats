@@ -41,22 +41,28 @@ UN = "prelude/SATS/unsafe.sats"
 staload STDIO = "libc/SATS/stdio.sats"
 
 (* ****** ****** *)
+
+staload
+ERR = "./pats_error.sats"
+
+(* ****** ****** *)
+
+staload
+GLOB = "./pats_global.sats"
+
+(* ****** ****** *)
 //
 staload "./pats_basics.sats"
 //
-macdef isdebug () = (debug_flag_get () > 0)
+(* ****** ****** *)
+//
+macdef
+isdebug () = (debug_flag_get () > 0)
 //
 (* ****** ****** *)
-
-staload ERR = "./pats_error.sats"
-staload GLOB = "./pats_global.sats"
-
-(* ****** ****** *)
-
-staload SYM = "./pats_symbol.sats"
-staload FIL = "./pats_filename.sats"
-staload LOC = "./pats_location.sats"
-
+//
+staload "./pats_comarg.sats"
+//
 (* ****** ****** *)
 
 staload "./pats_lexing.sats"
@@ -77,40 +83,55 @@ staload TAGGEN = "./pats_taggen.sats"
 
 staload "./pats_staexp1.sats"
 staload "./pats_dynexp1.sats"
-staload TRANS1 = "./pats_trans1.sats"
-staload TRENV1 = "./pats_trans1_env.sats"
+
+(* ****** ****** *)
+
+staload
+TRANS1 = "./pats_trans1.sats"
+staload
+TRENV1 = "./pats_trans1_env.sats"
 
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
 staload "./pats_stacst2.sats"
 staload "./pats_dynexp2.sats"
-staload TRANS2 = "./pats_trans2.sats"
-staload TRENV2 = "./pats_trans2_env.sats"
+
+(* ****** ****** *)
+
+staload
+TRANS2 = "./pats_trans2.sats"
+staload
+TRENV2 = "./pats_trans2_env.sats"
 
 (* ****** ****** *)
 
 staload "./pats_dynexp3.sats"
-staload TRANS3 = "./pats_trans3.sats"
-staload TRENV3 = "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 
-staload CNSTR3 = "./pats_constraint3.sats"
+staload
+TRANS3 = "./pats_trans3.sats"
+staload
+TRENV3 = "./pats_trans3_env.sats"
+
+(* ****** ****** *)
+
+staload
+CNSTR3 = "./pats_constraint3.sats"
 
 (* ****** ****** *)
 
 staload "./pats_histaexp.sats"
 staload "./pats_hidynexp.sats"
+
+(* ****** ****** *)
+
 staload TYER = "./pats_typerase.sats"
 
 (* ****** ****** *)
 
 staload CCOMP = "./pats_ccomp.sats"
-
-(* ****** ****** *)
-
-staload "./pats_comarg.sats"
 
 (* ****** ****** *)
 //
@@ -123,6 +144,8 @@ dynload "pats_utils.dats"
 dynload "pats_global.dats"
 //
 dynload "pats_basics.dats"
+//
+dynload "pats_comarg.dats"
 //
 dynload "pats_stamp.dats"
 //
@@ -359,8 +382,6 @@ dynload "pats_ccomp_emit.dats"
 dynload "pats_ccomp_emit2.dats"
 dynload "pats_ccomp_emit3.dats"
 dynload "pats_ccomp_main.dats"
-//
-dynload "pats_comarg.dats"
 //
 (* ****** ****** *)
 

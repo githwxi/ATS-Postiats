@@ -42,6 +42,8 @@ SOURCES := \
   pats_basics.sats \
   pats_basics.dats \
   pats_basics.hats \
+  pats_comarg.sats \
+  pats_comarg.dats \
   pats_stamp.sats \
   pats_stamp.dats \
   pats_symbol.sats \
@@ -267,8 +269,6 @@ SOURCES := \
   pats_ccomp_emit2.dats \
   pats_ccomp_emit3.dats \
   pats_ccomp_main.dats \
-  pats_comarg.sats \
-  pats_comarg.dats \
 
 
 SOURCESsta := $(filter %.sats, $(SOURCES))
@@ -289,6 +289,8 @@ OBJECTS := \
   pats_global_dats.o \
   pats_basics_sats.o \
   pats_basics_dats.o \
+  pats_comarg_sats.o \
+  pats_comarg_dats.o \
   pats_stamp_sats.o \
   pats_stamp_dats.o \
   pats_symbol_sats.o \
@@ -506,8 +508,6 @@ OBJECTS := \
   pats_ccomp_emit2_dats.o \
   pats_ccomp_emit3_dats.o \
   pats_ccomp_main_dats.o \
-  pats_comarg_sats.o \
-  pats_comarg_dats.o \
 
 
 ######
@@ -581,6 +581,12 @@ pats_basics_sats.o: pats_basics_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_basics_dats.c: pats_basics.dats; $(ATSCC) -cc $<
 pats_basics_dats.o: pats_basics_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_comarg_sats.c: pats_comarg.sats; $(ATSCC) -cc $<
+pats_comarg_sats.o: pats_comarg_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_comarg_dats.c: pats_comarg.dats; $(ATSCC) -cc $<
+pats_comarg_dats.o: pats_comarg_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_stamp_sats.c: pats_stamp.sats; $(ATSCC) -cc $<
 pats_stamp_sats.o: pats_stamp_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
@@ -1233,12 +1239,6 @@ pats_ccomp_emit3_dats.o: pats_ccomp_emit3_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 pats_ccomp_main_dats.c: pats_ccomp_main.dats; $(ATSCC) -cc $<
 pats_ccomp_main_dats.o: pats_ccomp_main_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
-pats_comarg_sats.c: pats_comarg.sats; $(ATSCC) -cc $<
-pats_comarg_sats.o: pats_comarg_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
-
-pats_comarg_dats.c: pats_comarg.dats; $(ATSCC) -cc $<
-pats_comarg_dats.o: pats_comarg_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
-
 pats_main_dats.c: pats_main.dats; $(ATSCC) -cc $<
 pats_main_dats.o: pats_main_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
@@ -1264,7 +1264,7 @@ WCL=wc -l
 
 ######
 
-srclines:: ; $(WCL) $(SOURCES) pats_main.dats
+srclines:: ; $(WCL) pats_main.dats $(SOURCES)
 liblines:: ; $(WCL) ../prelude/*.sats ../prelude/?ATS/*.?ats ../libc/?ATS/*.?ats ../libats/?ATS/*.?ats
 
 ######

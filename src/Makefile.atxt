@@ -95,6 +95,9 @@ val SOURCES =
 , "pats_basics.dats"
 , "pats_basics.hats"
 //
+, "pats_comarg.sats"
+, "pats_comarg.dats"
+//
 , "pats_stamp.sats"
 , "pats_stamp.dats"
 //
@@ -376,9 +379,6 @@ val SOURCES =
 , "pats_ccomp_emit3.dats"
 , "pats_ccomp_main.dats"
 //
-, "pats_comarg.sats"
-, "pats_comarg.dats"
-//
 ) // end of [SOURCES]
 
 (* ****** ****** *)
@@ -582,7 +582,7 @@ WCL=wc -l
 
 ######
 
-srclines:: ; $(WCL) $(SOURCES) pats_main.dats
+srclines:: ; $(WCL) pats_main.dats $(SOURCES)
 liblines:: ; $(WCL) ../prelude/*.sats ../prelude/?ATS/*.?ats ../libc/?ATS/*.?ats ../libats/?ATS/*.?ats
 
 ######
