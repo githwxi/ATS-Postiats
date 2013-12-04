@@ -53,6 +53,10 @@
 
 /* ****** ****** */
 
+#define atscntrb_libcurl_curl_global_init curl_global_init
+
+/* ****** ****** */
+
 #define atscntrb_libcurl_curl_easy_init curl_easy_init
 #define atscntrb_libcurl_curl_easy_setopt curl_easy_setopt
 #define atscntrb_libcurl_curl_easy_perform curl_easy_perform

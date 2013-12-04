@@ -29,13 +29,17 @@ main0
 val URL =
 (
   if argc >= 2 then argv[1] else get_URL ()
-) : string
+) : string // end of [val]
 //
 val curl = curl_easy_init ()
 val p_curl = ptrcast(curl)
 val ((*void*)) = assertloc (p_curl > 0)
 //
-val err = $extfcall (CURLerror, "curl_easy_setopt", p_curl, CURLOPT_URL, URL)
+val err = $extfcall
+(
+  CURLerror, "curl_easy_setopt", p_curl, CURLOPT_URL, URL
+) (* end of [val] *)
+//
 val ((*void*)) = assertloc (err = CURLE_OK)
 //
 val err = curl_easy_perform (curl)

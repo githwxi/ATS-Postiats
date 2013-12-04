@@ -96,7 +96,7 @@ fprint_labjsonvalist
   (out, lxs) = let
 //
 macdef SEP = "; "
-macdef MAPTO = ":"
+macdef MAPTO = ": "
 //
 fun loop
 (
@@ -132,13 +132,21 @@ end // end of [jsonval_ofstring]
 (* ****** ****** *)
 
 implement
-jsonval_tostring (jsv) = let
+jsonval_tostring
+  (jsv) = rep2 where
+{
+//
   val jso = jsonval_objectify (jsv)
-  val res = json_object_to_json_string (jso)
+//
+  val (
+    fpf | rep
+  ) = json_object_to_json_string (jso)
+  val rep2 = string_copy ($UN.strptr2string(rep))
+  prval ((*void*)) = fpf (rep)
+//
   val freed(*1*) = json_object_put (jso)
-in
-  res
-end // end of [jsonval_tostring]
+//
+} (* end of [jsonval_tostring] *)
 
 (* ****** ****** *)
 

@@ -132,6 +132,13 @@ fun curl_version ((*void*)): string = "mac#%"
 
 (* ****** ****** *)
 
+/*
+CURLcode curl_global_init(long flags);
+*/
+fun curl_global_init (flags: lint): CURLcode = "mac#%"
+
+(* ****** ****** *)
+
 #include "./easy.sats"
 
 (* ****** ****** *)

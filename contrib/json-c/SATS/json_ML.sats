@@ -33,12 +33,14 @@ staload "./../SATS/json.sats"
 datatype
 jsonval =
   | JSONnul of ()
+//
   | JSONint of (json_int)
   | JSONbool of (json_bool)
   | JSONfloat of (double)
   | JSONstring of (string)
-  | JSONarray of (jsonvalist)
-  | JSONobject of (labjsonvalist)
+//
+  | JSONarray of (jsonvalist) // array
+  | JSONobject of (labjsonvalist) // hashtable
 // end of [jsonval]
 
 where
@@ -75,7 +77,7 @@ fun fprint_labjsonvalist
 (* ****** ****** *)
 
 fun jsonval_ofstring (str: string): jsonval
-fun jsonval_tostring (jsv: jsonval): vStrptr1
+fun jsonval_tostring (jsv: jsonval): Strptr1
 
 (* ****** ****** *)
 
