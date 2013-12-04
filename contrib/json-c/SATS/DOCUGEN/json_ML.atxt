@@ -30,21 +30,34 @@ This package contains an API of quasi ML-style for programming
 
 (* ****** ****** *)
 
-#declnamesynop("jsonVal")
+#declnamesynop("jsonval")
 
 (* ****** ****** *)
 
-#declnamesynop("fprint_jsonVal")
+#declnamesynop("jsonvalist_vt")
 
 (* ****** ****** *)
 
-#declnamesynop("jsonVal_ofstring")
-#declnamesynop("jsonVal_tostring")
+#declnamesynop("fprint_jsonval")
+#declnamesynop("fprint_jsonvalist")
+#declnamesynop("fprint_labjsonvalist")
+
+(* ****** ****** *)
+
+#declnamesynop("jsonval_ofstring")
+
+(* ****** ****** *)
+
+#declnamesynop("jsonval_tostring")
 
 (* ****** ****** *)
 
 #declnamesynop("json_object2val0")
 #declnamesynop("json_object2val1")
+
+(* ****** ****** *)
+
+#declnamesynop("jsonval_objectify")
 
 (* ****** ****** *)
 
