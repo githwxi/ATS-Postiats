@@ -94,9 +94,10 @@ end // end of [parse_p2at_node]
 (* ****** ****** *)
 
 implement
-parse_P2Tany (jsv2) = let
+parse_P2Tany
+  (jsv2) = let
 //
-val-JSONarray(A, n) = jsv2
+val-JSONarray(jsvs) = jsv2
 //
 in
   P2Tany ()
@@ -105,11 +106,12 @@ end // end of [parse_P2Tany]
 (* ****** ****** *)
 
 implement
-parse_P2Tvar (jsv2) = let
+parse_P2Tvar
+  (jsv2) = let
 //
-val-JSONarray(A, n) = jsv2
-val () = assertloc (n >= 1)
-val d2v = parse_d2var (A[0])
+val-JSONarray(jsvs) = jsv2
+val () = assertloc (length(jsvs) >= 1)
+val d2v = parse_d2var (jsvs[0])
 //
 in
   P2Tvar (d2v)
@@ -118,11 +120,12 @@ end // end of [parse_P2Tvar]
 (* ****** ****** *)
 
 implement
-parse_P2Tann (jsv2) = let
+parse_P2Tann
+  (jsv2) = let
 //
-val-JSONarray(A, n) = jsv2
-val () = assertloc (n >= 2)
-val p2t = parse_p2at (A[0])
+val-JSONarray(jsvs) = jsv2
+val () = assertloc (length(jsvs) >= 2)
+val p2t = parse_p2at (jsvs[0])
 //
 in
   P2Tpat (p2t)

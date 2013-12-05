@@ -10,6 +10,10 @@ abstype OBJ
 
 fun fact (x) =
   if x > 0 then x * fact (x-1) else 1
+(*
+val
+rec fact = lam x => if x > 0 then x * fact (x-1) else 1
+*)
 
 (* ****** ****** *)
 

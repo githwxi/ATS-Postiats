@@ -129,14 +129,20 @@ implement
 parse_list
   (jsv0, f) = let
 //
-val-JSONarray{n}(A, n) = jsv0
+val-JSONarray(jsvs) = jsv0
 //
-implement
-list_tabulate$fopr<a> (i) =
-  let val i = $UN.cast{natLt(n)}(i) in f (A[i]) end
+fun auxlst
+(
+  jsvs: jsonvalist, f: jsonval -> a
+) : List0 (a) =
+  case+ jsvs of
+  | list_cons
+      (jsv, jsvs) =>
+      list_cons{a}(f(jsv), auxlst (jsvs, f))
+  | list_nil () => list_nil ()
 //
 in
-  list_vt2t (list_tabulate<a> (g1u2i(n)))
+  auxlst (jsvs, f)
 end // end of [parse_list]
 
 (* ****** ****** *)
@@ -146,10 +152,12 @@ implement
 parse_option
   (jsv0, f) = let
 //
-val-JSONarray{n}(A, n) = jsv0
+val-JSONarray (jsvs) = jsv0
 //
 in
-  if n > 0 then Some{a}(f(A[0])) else None((*void*))
+  case+ jsvs of
+  | list_nil () => None(*void*)
+  | list_cons (jsv, _) => Some{a}(f(jsv))
 end // end of [parse_option]
 
 (* ****** ****** *)

@@ -178,10 +178,10 @@ implement
 parse_D2Cimpdec
   (jsv0) = let
 //
-val-JSONarray(A, n) = jsv0
-val () = assertloc (n >= 2)
-val knd = parse_int (A[0])
-val imp = parse_i2mpdec (A[1])
+val-JSONarray(jsvs) = jsv0
+val () = assertloc (length(jsvs) >= 2)
+val knd = parse_int (jsvs[0])
+val imp = parse_i2mpdec (jsvs[1])
 //
 in
   D2Cimpdec (knd, imp)
@@ -193,10 +193,10 @@ implement
 parse_D2Cfundecs
   (jsv0) = let
 //
-val-JSONarray(A, n) = jsv0
-val () = assertloc (n >= 3)
-val knd = parse_funkind (A[0])
-val f2ds = parse_list<f2undec> (A[2], parse_f2undec)
+val-JSONarray(jsvs) = jsv0
+val () = assertloc (length(jsvs) >= 3)
+val knd = parse_funkind (jsvs[0])
+val f2ds = parse_list<f2undec> (jsvs[2], parse_f2undec)
 //
 in
   D2Cfundecs (knd, f2ds)
@@ -208,10 +208,10 @@ implement
 parse_D2Cvaldecs
   (jsv0) = let
 //
-val-JSONarray(A, n) = jsv0
-val () = assertloc (n >= 2)
-val knd = parse_valkind (A[0])
-val v2ds = parse_list<v2aldec> (A[1], parse_v2aldec)
+val-JSONarray(jsvs) = jsv0
+val () = assertloc (length(jsvs) >= 2)
+val knd = parse_valkind (jsvs[0])
+val v2ds = parse_list<v2aldec> (jsvs[1], parse_v2aldec)
 //
 in
   D2Cvaldecs (knd, v2ds)
