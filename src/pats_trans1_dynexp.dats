@@ -78,44 +78,58 @@ staload "./pats_trans1_env.sats"
 (* ****** ****** *)
 
 #define l2l list_of_list_vt
-macdef list_sing (x) = list_cons (,(x), list_nil ())
+
+(* ****** ****** *)
+
+macdef
+list_sing (x) = list_cons (,(x), list_nil(*void*))
 
 (* ****** ****** *)
 //
-// HX: translation of dynamic expressions
+// HX: translation of dynamic expr
 //
 typedef d1expitm = fxitm (d1exp)
 typedef d1expitmlst = List (d1expitm)
-
+//
 (* ****** ****** *)
 
 extern
-fun d1exp_app_proc
-  (loc0: location, _fun: d1exp, _arg: d1exp): d1exp
+fun
+d1exp_app_proc
+(
+  loc0: location, _fun: d1exp, _arg: d1exp
+) : d1exp // end of [d1exp_app_proc]
 implement
-d1exp_app_proc (
+d1exp_app_proc
+(
   loc0, d1e_fun, d1e_arg
 ) = let
 in
 //
 case+
-  d1e_fun.d1exp_node of
+d1e_fun.d1exp_node of
+//
 | D1Eidextapp
     (id, d1es_arg) => let
-    val d1es_arg = list_cons (d1e_arg, d1es_arg)
+    val d1es_arg =
+      list_cons (d1e_arg, d1es_arg)
+    // end of [val]
   in
     d1exp_idextapp (loc0, id, d1es_arg)
   end // end of [D1Eidexpapp]
 | _ => (
   case+
     d1e_arg.d1exp_node of
-  | D1Elist (npf, d1es) => begin
-      d1exp_app_dyn (loc0, d1e_fun, d1e_arg.d1exp_loc, npf, d1es)
+  | D1Elist
+      (npf, d1es) => let
+      val locarg = d1e_arg.d1exp_loc
+    in
+      d1exp_app_dyn (loc0, d1e_fun, locarg, npf, d1es)
     end // end of [D1Elist]
   | D1Esexparg s1a => (
     case+ d1e_fun.d1exp_node of
     | D1Eapp_sta (d1e_fun, s1as) =>
-        d1exp_app_sta (loc0, d1e_fun, l2l (list_extend (s1as, s1a)))
+        d1exp_app_sta (loc0, d1e_fun, l2l(list_extend (s1as, s1a)))
       // end of [D1Eapp_sta]
     | _ => let
         val s1as = list_sing (s1a) in d1exp_app_sta (loc0, d1e_fun, s1as)
@@ -123,8 +137,9 @@ case+
     ) // end of [D1Esexparg]
   | _ => let
       val npf = ~1 // HX: default
+      val locarg = d1e_arg.d1exp_loc
       val d1es = list_sing (d1e_arg) in
-      d1exp_app_dyn (loc0, d1e_fun, d1e_arg.d1exp_loc, npf, d1es)
+      d1exp_app_dyn (loc0, d1e_fun, locarg, npf, d1es)
     end // end of [_]    
   ) // end of [_]
 //
@@ -208,7 +223,7 @@ case+ d1e.d1exp_node of
 end // end of [s0expdarg_tr]
 
 fn s0expdarglst_tr
-  (xs: d0explst): s1exparglst = l2l (list_map_fun (xs, s0expdarg_tr))
+  (xs: d0explst): s1exparglst = l2l(list_map_fun (xs, s0expdarg_tr))
 // end of [s0expdarglst_tr]
 
 (* ****** ****** *)
@@ -336,7 +351,7 @@ in
 end // end of [i0nvarg_tr]
 
 fun i0nvarglst_tr
-  (xs: i0nvarglst): i1nvarglst = l2l (list_map_fun (xs, i0nvarg_tr))
+  (xs: i0nvarglst): i1nvarglst = l2l(list_map_fun (xs, i0nvarg_tr))
 
 fn i0nvresstate_tr
   (res: i0nvresstate): i1nvresstate = let
@@ -383,7 +398,7 @@ end // end of [gm0at_tr]
 
 fn gm0atlst_tr
   (gm0ts: gm0atlst): gm1atlst =
-  l2l (list_map_fun (gm0ts, gm0at_tr))
+  list_of_list_vt(list_map_fun (gm0ts, gm0at_tr))
 // end of [gm0atlst_tr]
 
 (* ****** ****** *)
@@ -400,7 +415,7 @@ end // end of [c0lau_tr]
 
 fn c0laulst_tr
   (c0ls: c0laulst): c1laulst =
-  l2l (list_map_fun (c0ls, c0lau_tr))
+  list_of_list_vt(list_map_fun (c0ls, c0lau_tr))
 // end of [c0laulst_tr]
 
 fn sc0lau_tr
@@ -413,7 +428,7 @@ end // end of [sc0lau_tr]
 
 fn sc0laulst_tr
   (sc0ls: sc0laulst): sc1laulst =
-  l2l (list_map_fun (sc0ls, sc0lau_tr))
+  list_of_list_vt(list_map_fun (sc0ls, sc0lau_tr))
 // end of [sc0laulst_tr]
 
 (* ****** ****** *)
@@ -442,7 +457,9 @@ fun
 aux_item (
   d0e0: d0exp
 ) : d1expitm = let
-  val loc0 = d0e0.d0exp_loc
+//
+val loc0 = d0e0.d0exp_loc
+//
 in
 //
 case+ d0e0.d0exp_node of
@@ -515,7 +532,9 @@ case+ d0e0.d0exp_node of
   end // end of [D0Efreeat]
 //
 | D0Etmpid (qid, tmparg) => let
-    val tmparg = l2l (list_map_fun (tmparg, t0mpmarg_tr))
+    val tmparg =
+      l2l(list_map_fun (tmparg, t0mpmarg_tr))
+    // end of [val]
   in
     FXITMatm (d1exp_tmpid (loc0, qid, tmparg))
   end // end of [D0Etmpid]
@@ -624,7 +643,8 @@ case+ d0e0.d0exp_node of
 | D0Elst (lin, elt, d0e_elts) => let
     val elt = s0expopt_tr (elt)
     val d1e_elts = d0exp_tr (d0e_elts)
-    val d1es_elts = (case+ d1e_elts.d1exp_node of
+    val d1es_elts = (
+      case+ d1e_elts.d1exp_node of
       | D1Elist (_(*npf*), d1es) => d1es | _ => list_sing (d1e_elts)
     ) : d1explst // end of [val]
     val d1e_lst = d1exp_lst (loc0, lin, elt, d1es_elts)
@@ -636,7 +656,9 @@ case+ d0e0.d0exp_node of
     FXITMatm (d1exp_tup (loc0, knd, npf, d1es))
   end // end of [D0Etup]
 | D0Erec (knd, npf, ld0es) => let
-    val ld1es = l2l (list_map_fun (ld0es, labd0exp_tr))
+    val ld1es =
+      l2l(list_map_fun (ld0es, labd0exp_tr))
+    // end of [val]
   in
     FXITMatm (d1exp_rec (loc0, knd, npf, ld1es))
   end // end of [D0Erec]
@@ -875,7 +897,7 @@ end // end of [d0exp_tr]
 end // end of [local]
 
 implement
-d0explst_tr (xs) = l2l (list_map_fun (xs, d0exp_tr))
+d0explst_tr (xs) = l2l(list_map_fun (xs, d0exp_tr))
 
 implement
 d0expopt_tr (opt) = case+ opt of

@@ -540,7 +540,7 @@ else (case+ d1es of
       | D1Elist (npf, d1es) => let
           val knd = TYTUPKIND_flt in d1exp_tup (loc, knd, npf, d1es)
         end // end of [D1Elist]
-      | _ => d1e // end of [_]
+      | _(*non-list*) => d1e // end of [_]
     ) // end of [list_cons]
   | _ => d1exp_make (loc, D1Elist (npf, d1es))
 ) // end of [if]

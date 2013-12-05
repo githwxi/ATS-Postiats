@@ -1818,20 +1818,27 @@ fun d0exp_ann (_1: d0exp, _2: s0exp): d0exp
 
 (* ****** ****** *)
 
+fun labd0exp_make (ent1: l0ab, ent2: d0exp): labd0exp
+
+(* ****** ****** *)
+//
 fun fprint_d0exp : fprint_type (d0exp)
 fun fprint_d0explst : fprint_type (d0explst)
 fun fprint_d0expopt : fprint_type (d0expopt)
-
+//
+overload fprint with fprint_d0exp
+overload fprint with fprint_d0explst
+//
 (* ****** ****** *)
-
-fun labd0exp_make (ent1: l0ab, ent2: d0exp): labd0exp
 
 fun fprint_labd0exp : fprint_type (labd0exp)
 
 (* ****** ****** *)
 
-fun d0arrind_sing
-  (d0es: d0explst, t_rbracket: token): d0arrind
+(*
+** HX: d0arrind_sing: tok is RBRACKET
+*)
+fun d0arrind_sing (d0es: d0explst, tok: token): d0arrind
 fun d0arrind_cons (d0es: d0explst, ind: d0arrind): d0arrind
 
 (* ****** ****** *)

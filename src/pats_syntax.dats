@@ -1930,14 +1930,12 @@ in '{
 (* ****** ****** *)
 
 implement
-d0exp_lst (
+d0exp_lst
+(
   lin, t_beg, elt, t_lp, d0es, t_rp
 ) = let
   val loc = t_beg.token_loc + t_rp.token_loc
-  val d0e_elts = (case+ d0es of
-    | list_cons (d0e, list_nil ()) => d0e
-    | _ => d0exp_list (t_lp, ~1(*npf*), d0es, t_rp)
-  ) : d0exp // end of [val]
+  val d0e_elts = d0exp_list (t_lp, ~1(*npf*), d0es, t_rp)
 in '{
   d0exp_loc= loc, d0exp_node= D0Elst (lin, elt, d0e_elts)
 } end // end of [d0exp_lst]

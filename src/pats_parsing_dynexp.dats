@@ -924,8 +924,9 @@ case+ tok.token_node of
     ) : d0expopt
     val ent5 = pif_fun (buf, bt, err, p_LPAREN, err0)
     val ent6 = (
-      if err = err0 then
-        pstar_fun0_COMMA {d0exp} (buf, bt, p_d0exp) else list_vt_nil ()
+      if err = err0
+        then pstar_fun0_COMMA {d0exp} (buf, bt, p_d0exp)
+        else list_vt_nil ((*void*))
       // end of [if]
     ) : d0explst_vt
     val ent7 = pif_fun (buf, bt, err, p_RPAREN, err0)
@@ -943,8 +944,9 @@ case+ tok.token_node of
     val ent2 = p_s0expelt (buf, bt, err)
     val ent3 = pif_fun (buf, bt, err, p_LPAREN, err0)
     val ent4 = (
-      if err = err0 then
-        pstar_fun0_COMMA {d0exp} (buf, bt, p_d0exp) else list_vt_nil ()
+      if err = err0
+        then pstar_fun0_COMMA {d0exp} (buf, bt, p_d0exp)
+        else list_vt_nil ((*void*))
       // end of [if]
     ) : d0explst_vt // end of [val]
     val ent5 = pif_fun (buf, bt, err, p_RPAREN, err0)
@@ -962,8 +964,9 @@ case+ tok.token_node of
     val ent2 = p_s0expelt (buf, bt, err)
     val ent3 = pif_fun (buf, bt, err, p_LPAREN, err0)
     val ent4 = (
-      if err = err0 then
-        pstar_fun0_COMMA {d0exp} (buf, bt, p_d0exp) else list_vt_nil ()
+      if err = err0
+        then pstar_fun0_COMMA {d0exp} (buf, bt, p_d0exp)
+        else list_vt_nil ((*void*))
       // end of [if]
     ) : d0explst_vt // end of [val]
     val ent5 = pif_fun (buf, bt, err, p_RPAREN, err0)

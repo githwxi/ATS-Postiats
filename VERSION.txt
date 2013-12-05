@@ -28,6 +28,7 @@ Here is a list of major additions and changes since the last release:
    for support tasks like meta-programming, constraint-exporting, etc.
 3. Adding support for exporting constraints gathered during typechecking
    (command-line flag for this feature: --constraint-export)
+4. Fixing bug-2013-12-04 (erroneous compilation of pattern matching)
 
 </pre>
 

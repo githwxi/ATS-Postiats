@@ -42,7 +42,15 @@ case+ xxs of
 
 (* ****** ****** *)
 
-implement main0 () = ()
+implement
+main0 () = () where
+{
+//
+val xxs = $list{int2}(@(10, 10))
+//
+val () = println! ("foo(xxs) = ", foo(xxs))
+//
+} (* end of [main0] *)
 
 (* ****** ****** *)
 
