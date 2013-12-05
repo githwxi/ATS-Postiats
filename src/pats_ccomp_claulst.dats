@@ -94,24 +94,6 @@ staload "./pats_ccomp.sats"
 (* ****** ****** *)
 
 (*
-datatype
-p2atcst =
-  | P2TCany of ()
-  | P2TCcon of (d2con, p2atcstlst)
-  | P2TCempty of ()
-  | P2TCint of intinf
-  | P2TCbool of bool
-  | P2TCchar of char
-  | P2TCstring of string
-  | P2TCfloat of string(*rep*)
-  | P2TCrec of (int(*reckind*), labp2atcstlst)
-  | P2TCintc of intinfset
-// end of [p2atcst]
-*)
-
-(* ****** ****** *)
-
-(*
 extern
 fun tmprimval_make_none (pmv: primval): tmprimval
 extern
@@ -262,13 +244,18 @@ fun fprint_matokenlst (out: FILEref, xs: matokenlst): void
 
 (* ****** ****** *)
 
-typedef patckontref = ref (patckont)
+typedef
+patckontref = ref (patckont)
 
+(* ****** ****** *)
+//
 extern
-fun patckontref_make (): patckontref
+fun
+patckontref_make (): patckontref
+//
 implement
 patckontref_make () = ref_make_elt<patckont> (PTCKNTnone)
-
+//
 (* ****** ****** *)
 
 datatype
@@ -583,7 +570,8 @@ end // end of [patcomplst_unskip]
 (* ****** ****** *)
 
 implement
-patcomplst_unrparen (xs0, na) = let
+patcomplst_unrparen
+  (xs0, na) = let
 in
 //
 case+ xs0 of
@@ -633,7 +621,7 @@ case+ ptck of
     if d2con_is_con (d2c) then d2con_is_binarian (d2c) else false
   // end of [PATCKcon]
 | _ => false
-end // end of [patck_ismat]
+end // end of [patck_isbin]
 
 (* ****** ****** *)
 
@@ -788,26 +776,39 @@ fun auxmovfin
 (
   xs2: patcomplst, tmvlst: &tmpmovlst_vt
 ) : void = let
+//
+(*
+val out = stdout_ref
+val ((*void*)) =
+fprintln! (out, "auxmovfin: xs2 = ", xs2)
+*)
+//
+fun ftpmv
+(
+  tpmv2: tmprimval, tmvlst: &tmpmovlst_vt
+) : void = 
+(
+  case+ tpmv2 of
+  | TPMVsome
+      (tmp, pmv) => let
+      val tpmv1 = TPMVnone (pmv)
+    in
+      tmpmovlst_add (tmvlst, tpmv1, tpmv2)
+    end // end of [TPMVsome]
+  | TPMVnone (pmv) => ()
+)
+//
 in
 //
 case+ xs2 of
-| list_cons (x2, xs2) =>
-  (
+| list_cons
+    (x2, xs2) => (
     case+ x2 of
     | PTCMPpatlparen
-        (_, tpmv2, _, _, _) =>
-      (
-        case+ tpmv2 of
-        | TPMVsome
-            (tmp, pmv) => let
-            val tpmv1 = TPMVnone (pmv)
-          in
-            tmpmovlst_add (tmvlst, tpmv1, tpmv2)
-          end // end of [TPMVsome]
-        | TPMVnone (pmv) => ()
-      )
+        (ptck2, tpmv2, _, _, _) => ftpmv (tpmv2, tmvlst)
+    | PTCMPreclparen (tpmv2, _) => ftpmv (tpmv2, tmvlst) // HX: bug-2013-12-04
     | _ => auxmovfin (xs2, tmvlst)
-  )
+  ) (* end of [list_cons] *)
 | list_nil ((*void*)) => ()
 //
 end // end of [auxmovfin]
@@ -877,8 +878,8 @@ patcomplst_jumpfill_rest
 //
 (*
 val out = stdout_ref
-val (
-) = fprintln! (out, "patcomplst_jumpfill_rest: xs1 = ", xs1)
+val ((*void*)) =
+fprintln! (out, "patcomplst_jumpfill_rest: xs1 = ", xs1)
 *)
 //
 fun auxlst
