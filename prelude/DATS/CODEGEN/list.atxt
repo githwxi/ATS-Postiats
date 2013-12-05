@@ -332,6 +332,48 @@ end // end of [list_insert_at]
 
 #atscode_separator()
 
+implement{a}
+list_takeout_at
+  (xs, i, x0) = let
+//
+fun loop{n:int}
+  {i:nat | i < n} .<i>.
+(
+  xs: list (a, n)
+, i: int i, x0: &a? >> a
+, res: &ptr? >> list (a, n-1)
+) :<!wrt> void = let
+//
+val+list_cons (x, xs) = xs
+//
+in
+//
+if i > 0 then let
+  val () =
+    res := list_cons{a}{0}(x, _(*?*))
+  val+list_cons
+    (_, res1) = res // res1 = res.1
+  val () = loop (xs, i-1, x0, res1)
+  prval () = fold@ (res)
+in
+  // nothing
+end else let
+  val () = x0 := x; val () = res := xs
+in
+  // nothing
+end // end of [if]
+//
+end // end of [loop]
+//
+var res: ptr?
+val () = loop (xs, i, x0, res)
+//
+in
+  res
+end // end of [list_takeout_at]
+
+#atscode_separator()
+
 implement{x}
 list_length (xs) = let
 //

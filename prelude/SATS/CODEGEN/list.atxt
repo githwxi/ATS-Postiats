@@ -290,16 +290,16 @@ list_insert_at
 ) :<> list (x, n+1) // end of [list_insert_at]
 
 fun{x:t0p}
-list_takeout_at
-  {n:int} (
-  xs: SHR(list (INV(x), n)), i: natLt (n), x: &(x?) >> x
-) :<> list (x, n-1) // end of [list_takeout_at]
-
-fun{x:t0p}
 list_remove_at
   {n:int} (
   xs: SHR(list (INV(x), n)), i: natLt (n)
 ) :<> list (x, n-1) // end of [list_remove_at]
+
+fun{x:t0p}
+list_takeout_at
+  {n:int} (
+  xs: SHR(list (INV(x), n)), i: natLt (n), x: &(x?) >> x
+) :<!wrt> list (x, n-1) // end of [list_takeout_at]
 
 #atscode_separator()
 
