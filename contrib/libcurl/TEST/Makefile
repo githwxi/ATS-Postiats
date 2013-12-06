@@ -26,7 +26,7 @@ cleanall:: ; $(RMF) test00
 ######
 
 test01: test01.dats ; \
-  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib -o $@  $< testlib.dats -lcurl
+  $(PATSCC) -DATS_MEMALLOC_LIBC -I$(PATSHOMERELOCQ)/contrib -o $@  $< testlib.dats -lcurl
 cleanall:: ; $(RMF) test01
 
 ######

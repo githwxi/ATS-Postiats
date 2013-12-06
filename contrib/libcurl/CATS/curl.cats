@@ -54,6 +54,7 @@
 /* ****** ****** */
 
 #define atscntrb_libcurl_curl_global_init curl_global_init
+#define atscntrb_libcurl_curl_global_cleanup curl_global_cleanup
 
 /* ****** ****** */
 

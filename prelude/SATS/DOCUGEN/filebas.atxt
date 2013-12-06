@@ -446,6 +446,13 @@ Clearly, this is a wasteful and inefficient way of removing empty lines.
 ")
 
 (* ****** ****** *)
+
+#declnamesynop("fileref_foreach")
+#declnamesynop("fileref_foreach_env")
+#declnamesynop("fileref_foreach$cont")
+#declnamesynop("fileref_foreach$fwork")
+
+(* ****** ****** *)
 //
 // HX: various overloaded symbols
 //

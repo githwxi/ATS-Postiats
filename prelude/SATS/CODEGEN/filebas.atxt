@@ -244,6 +244,21 @@ fun{
 } fileref_get_file_string (inp: FILEref): Strptr1
 //
 #atscode_separator()
+//
+fun{
+env:vt0p
+} fileref_foreach$cont (c: char, env: &env): bool
+fun{
+env:vt0p
+} fileref_foreach$fwork (c: char, env: &(env) >> _): bool
+//
+fun{
+} fileref_foreach (filr: FILEref): void
+fun{
+env:vt0p
+} fileref_foreach_env (filr: FILEref, env: &(env) >> _): void
+//
+#atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
 

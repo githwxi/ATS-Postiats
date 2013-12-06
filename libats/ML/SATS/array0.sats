@@ -107,8 +107,8 @@ overload .ref with array0_get_ref
 overload .size with array0_get_size
 //
 fun{}
-array0_get_refsize{a:vt0p}
-  (A: array0 (a)):<> [n:nat] (arrayref (a, n), size_t (n))
+array0_get_refsize
+  {a:vt0p} (array0 (a)):<> [n:nat] (arrayref (a, n), size_t (n))
 //
 (* ****** ****** *)
 //
@@ -169,13 +169,13 @@ overload array0_set_at with array0_set_at_guint
 
 fun{a:vt0p}
 array0_exch_at_size
-  (A: array0 (a), i: size_t, x: &a):<!exn,!refwrt> void
+  (A: array0 (a), i: size_t, x: &a >> _):<!exn,!refwrt> void
 fun{a:vt0p}{tk:tk}
 array0_exch_at_gint
-  (A: array0 (a), i: g0int(tk), x: &a):<!exn,!refwrt> void
+  (A: array0 (a), i: g0int(tk), x: &a >> _):<!exn,!refwrt> void
 fun{a:vt0p}{tk:tk}
 array0_exch_at_guint
-  (A: array0 (a), i: g0uint(tk), x: &a):<!exn,!refwrt> void
+  (A: array0 (a), i: g0uint(tk), x: &a >> _):<!exn,!refwrt> void
 //
 symintr array0_exch_at
 overload array0_exch_at with array0_exch_at_gint

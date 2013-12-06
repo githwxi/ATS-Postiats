@@ -112,6 +112,9 @@ macdef CURLOPT_REFERER = $extval(CURLoption, "CURLOPT_REFERER") // 16
 macdef CURLOPT_FTPPORT = $extval(CURLoption, "CURLOPT_FTPPORT") // 17
 macdef CURLOPT_USERAGENT = $extval(CURLoption, "CURLOPT_USERAGENT") // 18
 //
+macdef CURLOPT_READDATA = $extval(CURLoption, "CURLOPT_READDATA") // = CURLOPT_INFILE
+macdef CURLOPT_WRITEDATA = $extval(CURLoption, "CURLOPT_WRITEDATA") // = CURLOPT_FILE
+//
 (* ****** ****** *)
 
 abst@ype CURLINFO = $extype"CURLINFO"
@@ -133,9 +136,18 @@ fun curl_version ((*void*)): string = "mac#%"
 (* ****** ****** *)
 
 /*
-CURLcode curl_global_init(long flags);
+CURLcode
+curl_global_init(long flags);
 */
-fun curl_global_init (flags: lint): CURLcode = "mac#%"
+fun
+curl_global_init (flags: lint): CURLcode = "mac#%"
+
+(* ****** ****** *)
+
+/*
+void curl_global_cleanup(void) ;
+*/
+fun curl_global_cleanup ((*void*)): void = "mac#%"
 
 (* ****** ****** *)
 
