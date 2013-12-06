@@ -53,6 +53,19 @@
 
 /* ****** ****** */
 
+#define atscntrb_pcre_pcre_free pcre_free
+
+/* ****** ****** */
+
+#define atscntrb_pcre_pcre_study pcre_study
+#define atscntrb_pcre_pcre_free_study pcre_free_study
+
+/* ****** ****** */
+
+#define atscntrb_pcre_pcre_exec pcre_exec
+
+/* ****** ****** */
+
 #endif // ifndef PCRE_PCRE_CATS
 
 /* ****** ****** */
