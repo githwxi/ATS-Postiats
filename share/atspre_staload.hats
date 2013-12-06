@@ -78,7 +78,7 @@ staload _ = "prelude/DATS/gprint.dats"
 
 (* ****** ****** *)
 
-staload _ = "prelude/DATS/unsafe.dats"
+staload _(*UNSAFE*) = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
 

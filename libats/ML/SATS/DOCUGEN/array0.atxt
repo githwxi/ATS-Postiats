@@ -132,11 +132,11 @@ staload "libats/ML/SATS/array0.sats"
 fun
 array0_make_fileref
 (
-  filr: FILEref
+  inp: FILEref
 ) : array0 (char) = A0 where
 {
   val cs =
-    fileref_get_file_charlst (filr)
+    fileref_get_file_charlst (inp)
   val A0 = array0_make_list ($UN.castvwtp1{list0(char)}(cs))
   val ((*freed*)) = list_vt_free (cs)
 } (* end of [array0_make_fileref] *)

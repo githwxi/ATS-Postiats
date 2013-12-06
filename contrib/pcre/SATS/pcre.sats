@@ -134,6 +134,88 @@ praxi pcre_free_study_null (extra: pcreptr_extra (null)): void
 
 (* ****** ****** *)
 
+macdef
+PCRE_ERROR_NOMATCH =
+$extval(int, "PCRE_ERROR_NOMATCH") // (-1)
+macdef
+PCRE_ERROR_NULL = $extval(int, "PCRE_ERROR_NULL") // (-2)
+macdef
+PCRE_ERROR_BADOPTION =
+$extval(int, "PCRE_ERROR_BADOPTION") // (-3)
+macdef
+PCRE_ERROR_BADMAGIC =
+$extval(int, "PCRE_ERROR_BADMAGIC")  // (-4)
+macdef
+PCRE_ERROR_UNKNOWN_OPCODE =
+$extval(int, "PCRE_ERROR_UNKNOWN_OPCODE") // (-5)
+(*
+macdef
+PCRE_ERROR_UNKNOWN_NODE =
+$extval(int, "PCRE_ERROR_UNKNOWN_NODE") // (-5)  /* For backward compatibility */
+*)
+macdef
+PCRE_ERROR_NOMEMORY =
+$extval(int, "PCRE_ERROR_NOMEMORY") // (-6)
+macdef
+PCRE_ERROR_NOSUBSTRING =
+$extval(int, "PCRE_ERROR_NOSUBSTRING") // (-7)
+macdef
+PCRE_ERROR_MATCHLIMIT =
+$extval(int, "PCRE_ERROR_MATCHLIMIT") // (-8)
+macdef
+PCRE_ERROR_CALLOUT =
+$extval(int, "PCRE_ERROR_CALLOUT") // (-9)  /* Never used by PCRE itself */
+macdef
+PCRE_ERROR_BADUTF8 =
+$extval(int, "PCRE_ERROR_BADUTF8") // (-10)
+macdef
+PCRE_ERROR_BADUTF8_OFFSET =
+$extval(int, "PCRE_ERROR_BADUTF8_OFFSET") // (-11)
+macdef
+PCRE_ERROR_PARTIAL =
+$extval(int, "PCRE_ERROR_PARTIAL") // (-12)
+macdef
+PCRE_ERROR_BADPARTIAL =
+$extval(int, "PCRE_ERROR_BADPARTIAL") // (-13)
+macdef
+PCRE_ERROR_INTERNAL =
+$extval(int, "PCRE_ERROR_INTERNAL") // (-14)
+macdef
+PCRE_ERROR_BADCOUNT =
+$extval(int, "PCRE_ERROR_BADCOUNT") // (-15)
+macdef
+PCRE_ERROR_DFA_UITEM =
+$extval(int, "PCRE_ERROR_DFA_UITEM") // (-16)
+macdef
+PCRE_ERROR_DFA_UCOND =
+$extval(int, "PCRE_ERROR_DFA_UCOND") // (-17)
+macdef
+PCRE_ERROR_DFA_UMLIMIT =
+$extval(int, "PCRE_ERROR_DFA_UMLIMIT") // (-18)
+macdef
+PCRE_ERROR_DFA_WSSIZE =
+$extval(int, "PCRE_ERROR_DFA_WSSIZE") // (-19)
+macdef
+PCRE_ERROR_DFA_RECURSE =
+$extval(int, "PCRE_ERROR_DFA_RECURSE") // (-20)
+macdef
+PCRE_ERROR_RECURSIONLIMIT =
+$extval(int, "PCRE_ERROR_RECURSIONLIMIT") // (-21)
+macdef
+PCRE_ERROR_NULLWSLIMIT =
+$extval(int, "PCRE_ERROR_NULLWSLIMIT") // (-22)  /* No longer actually used */
+macdef
+PCRE_ERROR_BADNEWLINE =
+$extval(int, "PCRE_ERROR_BADNEWLINE") // (-23)
+macdef
+PCRE_ERROR_BADOFFSET =
+$extval(int, "PCRE_ERROR_BADOFFSET") // (-24)
+macdef
+PCRE_ERROR_SHORTUTF8 =
+$extval(int, "PCRE_ERROR_SHORTUTF8") // (-25)
+
+(* ****** ****** *)
+
 /*
 int pcre_exec
 (

@@ -4,14 +4,17 @@
 
 (* ****** ****** *)
 //
-#include "share/atspre_staload.hats"
+#include
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/array0.sats"
 
 (* ****** ****** *)
@@ -62,6 +65,37 @@ val () = fprintln! (out, "isum(285) = ", isum)
 val rsum = array0_foldright<int><int> (A, lam (x, res) => x + res, 0)
 val () = fprintln! (out, "rsum(45) = ", rsum)
 //
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+fun
+array0_make_fileref
+(
+  inp: FILEref
+) : array0 (char) = A0 where
+{
+  val cs =
+    fileref_get_file_charlst (inp)
+  val A0 = array0_make_list ($UN.castvwtp1{list0(char)}(cs))
+  val ((*freed*)) = list_vt_free (cs)
+} (* end of [array0_make_fileref] *)
+
+(* ****** ****** *)
+
+val () =
+{
+val opt =
+fileref_open_opt
+(
+"./libats_ML_array0.dats", file_mode_r
+)
+val-~Some_vt (inp) = opt
+val A0 = array0_make_fileref (inp)
+val ((*closed*)) = fileref_close (inp)
+implement
+fprint_array$sep<> (out) = ()
+val () = fprintln! (stdout_ref, "A0 =\n", A0)
 } (* end of [val] *)
 
 (* ****** ****** *)
