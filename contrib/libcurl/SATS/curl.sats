@@ -83,6 +83,12 @@ fun eq_CURLerror_CURLcode (CURLerror, CURLcode):<> bool = "mac#%"
 overload = with eq_CURLcode_CURLcode
 overload = with eq_CURLerror_CURLcode
 //
+fun neq_CURLcode_CURLcode (CURLcode, CURLcode):<> bool = "mac#%"
+fun neq_CURLerror_CURLcode (CURLerror, CURLcode):<> bool = "mac#%"
+//
+overload != with neq_CURLcode_CURLcode
+overload != with neq_CURLerror_CURLcode
+//
 (* ****** ****** *)
 
 macdef CURLE_OK = $extval(CURLcode, "CURLE_OK")

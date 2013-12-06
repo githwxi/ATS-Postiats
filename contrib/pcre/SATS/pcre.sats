@@ -30,85 +30,71 @@
 (*
 ** Author: Hongwei Xi
 ** Authoremail: gmhwxiATgmailDOTcom
-** Start time: September, 2013
+** Start time: December, 2013
 *)
 
 (* ****** ****** *)
 
-/*
-CURL *curl_easy_init();
-*/
-fun curl_easy_init (): CURLptr0 = "mac#%"
-fun curl_easy_init_exn (): CURLptr1 = "mac#%"
+#define ATS_PACKNAME "ATSCNTRB.pcre"
+#define ATS_STALOADFLAG 0 // no static loading at run-time
+#define ATS_EXTERN_PREFIX "atscntrb_pcre_" // prefix for external names
+
+(* ****** ****** *)
+
+%{#
+#include "pcre/CATS/pcre.cats"
+%} // end of [%{#]
+
+(* ****** ****** *)
+
+absvtype
+pcreptr_vtype (l:addr) = ptr
+
+(* ****** ****** *)
+
+vtypedef
+pcreptr (l:addr) = pcreptr_vtype (l)
+vtypedef
+pcreptr0 = [l:agez] pcreptr_vtype (l)
+vtypedef
+pcreptr1 = [l:addr | l > null] pcreptr_vtype (l)
 
 (* ****** ****** *)
 
 /*
-CURLcode curl_easy_setopt(CURL *curl, CURLoption option, ...);
-*/
-
-(* ****** ****** *)
-
-/*
-CURLcode curl_easy_perform(CURL *curl);
-*/
-fun curl_easy_perform (curl: !CURLptr1): CURLerror = "mac#%"
-
-(* ****** ****** *)
-//
-fun curl_easy_cleanup (curl: CURLptr1): void = "mac#%"
-//
-praxi curl_easy_cleanup_null (curl: CURLptr(null)): void
-//
-(* ****** ****** *)
-
-/*
-CURLcode curl_easy_getinfo(CURL *curl, CURLINFO info, ...);
-*/
-
-(* ****** ****** *)
-
-/*
-CURLcode
-curl_easy_send
+pcre *pcre_compile
 (
-  CURL *curl , const void * buffer , size_t buflen , size_t *n
-) ; // end of [curl_easy_send]
+const char *pattern, int options,
+const char **errptr, int *erroffset,
+const unsigned char *tableptr
+) ;
 */
-fun curl_easy_send
-  {m:int}{n:nat | n <= m}
+fun pcre_compile
 (
-  curl: !CURLptr1, buf: &bytes(m), len: size_t(m), n: &size_t(n) >> size_t(n2)
-) : #[n2:int] CURLerror = "mac#%" // end of [curl_easy_send]
+  pattern: RD(string)
+, options: uint(*bits*)
+, errptr: &ptr? >> ptr, erroffset: &int? >> int, tableptr: ptr
+) : pcreptr0 = "mac#%" // end of [pcre_compile]
 
 (* ****** ****** *)
 
 /*
-CURLcode curl_easy_recv
+pcre *pcre_compile2
 (
-  CURL *curl, void *buffer, size_t buflen, size_t *n
-) ; // end of [curl_easy_recv]
+const char *pattern, int options,
+int *errorcodeptr,
+const char **errptr, int *erroffset,
+const unsigned char *tableptr
+) ;
 */
-fun curl_easy_recv
-  {m:int}{n:nat | n <= m}
+fun pcre_compile2
 (
-  curl: !CURLptr1, buf: &bytes(m) >> _, len: size_t(m), n: &size_t(n) >> size_t(n2)
-) : #[n2:int] CURLerror = "mac#%" // end of [curl_easy_recv]
+  pattern: RD(string)
+, options: uint(*bits*)
+, errorcodeptr: &int? >> int
+, errptr: &ptr? >> ptr, erroffset: &int? >> int, tableptr: ptr
+) : pcreptr0 = "mac#%" // end of [pcre_compile2]
 
 (* ****** ****** *)
 
-/*
-CURL* curl_easy_duphandle(CURL *curl);
-*/
-fun curl_easy_duphandle (curl: CURLptr1): CURLptr0 = "mac#%"
-
-(* ****** ****** *)
-
-/*
-void curl_easy_reset(CURL *curl);
-*/
-fun curl_easy_reset (curl: CURLptr1): void = "mac#%"
-
-(* ****** ****** *)
-
-(* end of [easy.sats] *)
+(* end of [pcre.sats] *)

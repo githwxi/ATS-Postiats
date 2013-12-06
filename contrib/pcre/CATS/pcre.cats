@@ -29,62 +29,28 @@
 
 /*
 (* Author: Hongwei Xi *)
-(* Authoremail: gmhwxiATgmailDOTcom *)
-(* Start time: September, 2013 *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Start time: August, 2013 *)
 */
 
 /* ****** ****** */
 
-#ifndef LIBCURL_CURL_CATS
-#define LIBCURL_CURL_CATS
+#ifndef PCRE_PCRE_CATS
+#define PCRE_PCRE_CATS
 
 /* ****** ****** */
 
-#include <curl/curl.h>
+#include <pcre.h>
 
 /* ****** ****** */
 
-#define atscntrb_libcurl_curl_version curl_version
+#define atscntrb_pcre_pcre_compile pcre_compile
+#define atscntrb_pcre_pcre_compile2 pcre_compile2
 
 /* ****** ****** */
 
-#define atscntrb_libcurl_eq_CURLcode_CURLcode atspre_eq_int_int
-#define atscntrb_libcurl_eq_CURLerror_CURLcode atspre_eq_int_int
+#endif // ifndef PCRE_PCRE_CATS
 
 /* ****** ****** */
 
-#define atscntrb_libcurl_neq_CURLcode_CURLcode atspre_neq_int_int
-#define atscntrb_libcurl_neq_CURLerror_CURLcode atspre_neq_int_int
-
-/* ****** ****** */
-
-#define atscntrb_libcurl_curl_global_init curl_global_init
-#define atscntrb_libcurl_curl_global_cleanup curl_global_cleanup
-
-/* ****** ****** */
-
-#define atscntrb_libcurl_curl_easy_init curl_easy_init
-#define atscntrb_libcurl_curl_easy_setopt curl_easy_setopt
-#define atscntrb_libcurl_curl_easy_perform curl_easy_perform
-#define atscntrb_libcurl_curl_easy_cleanup curl_easy_cleanup
-
-/* ****** ****** */
-
-#define atscntrb_libcurl_curl_easy_recv curl_easy_recv
-#define atscntrb_libcurl_curl_easy_send curl_easy_send
-
-/* ****** ****** */
-
-#define atscntrb_libcurl_curl_easy_duphandle curl_easy_duphandle
-
-/* ****** ****** */
-
-#define atscntrb_libcurl_curl_easy_reset curl_easy_reset
-
-/* ****** ****** */
-
-#endif // ifndef LIBCURL_CURL_CATS
-
-/* ****** ****** */
-
-/* end of [curl.cats] */
+/* end of [pcre.cats] */
