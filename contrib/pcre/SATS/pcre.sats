@@ -47,6 +47,13 @@
 
 (* ****** ****** *)
 
+/*
+const char *pcre_version(void);
+*/
+fun pcre_version ((*void*)): string = "mac#%"
+
+(* ****** ****** *)
+
 absvtype
 pcreptr_vtype (l:addr) = ptr
 

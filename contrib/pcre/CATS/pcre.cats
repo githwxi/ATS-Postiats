@@ -44,6 +44,10 @@
 
 /* ****** ****** */
 
+#define atscntrb_pcre_pcre_version pcre_version
+
+/* ****** ****** */
+
 #define atscntrb_pcre_pcre_compile pcre_compile
 #define atscntrb_pcre_pcre_compile2 pcre_compile2
 
