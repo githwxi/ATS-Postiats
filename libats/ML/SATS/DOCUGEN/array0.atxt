@@ -116,6 +116,35 @@ same size such that A[i] equals xs[i] for i ranging from 0 until n-1,
 inclusive.\
 
 ')
+#declexample("\
+
+Given a file handle, the following function returns an array containing
+all of the chars stored in the file referred to by the file handle:
+
+#pats2xhtmld_tryit('\
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
+staload "libats/ML/SATS/basis.sats"
+staload "libats/ML/SATS/array0.sats"
+//
+fun
+array0_make_fileref
+(
+  filr: FILEref
+) : array0 (char) = A0 where
+{
+  val cs =
+    fileref_get_file_charlst (filr)
+  val A0 = array0_make_list ($UN.castvwtp1{list0(char)}(cs))
+  val ((*freed*)) = list_vt_free (cs)
+} (* end of [array0_make_fileref] *)
+//
+')
+")
+
+(* ****** ****** *)
 
 #declnamesynop("array0_make_rlist")
 #decldescrpt('\
