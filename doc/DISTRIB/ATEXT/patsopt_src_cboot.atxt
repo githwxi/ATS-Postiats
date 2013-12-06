@@ -152,6 +152,11 @@ The ATS/Postiats C-Boostrapping\
 
 (* ****** ****** *)
 
+#packfilename("pats_jsonize_sats.c")
+#packfilename("pats_jsonize_dats.c")
+
+(* ****** ****** *)
+
 #packfilename("pats_errmsg_sats.c")
 #packfilename("pats_errmsg_dats.c")
 
@@ -306,6 +311,10 @@ The ATS/Postiats C-Boostrapping\
 
 #packfilename("pats_staexp2_print_dats.c")
 #packfilename("pats_staexp2_pprint_dats.c")
+#packfilename("pats_staexp2_jsonize_dats.c")
+
+(* ****** ****** *)
+
 #packfilename("pats_staexp2_sort_dats.c")
 #packfilename("pats_staexp2_scst_dats.c")
 #packfilename("pats_staexp2_svar_dats.c")
@@ -342,6 +351,10 @@ The ATS/Postiats C-Boostrapping\
 (* ****** ****** *)
 
 #packfilename("pats_dynexp2_print_dats.c")
+#packfilename("pats_dynexp2_jsonize_dats.c")
+
+(* ****** ****** *)
+
 #packfilename("pats_dynexp2_dcst_dats.c")
 #packfilename("pats_dynexp2_dvar_dats.c")
 #packfilename("pats_dynexp2_dmac_dats.c")
@@ -436,6 +449,7 @@ The ATS/Postiats C-Boostrapping\
 #packfilename("pats_constraint3_dats.c")
 #packfilename("pats_constraint3_init_dats.c")
 #packfilename("pats_constraint3_print_dats.c")
+#packfilename("pats_constraint3_jsonize_dats.c")
 #packfilename("pats_constraint3_simplify_dats.c")
 #packfilename("pats_constraint3_icnstr_dats.c")
 #packfilename("pats_constraint3_solve_dats.c")

@@ -348,6 +348,8 @@ srcget_share:: ; \
   $(CPF) ../../share/atspre_define_pkgreloc.hats $(ATSDIST)/share/
 srcget_share:: ; \
   $(CPF) ../../share/atspre_staload.hats $(ATSDIST)/share/
+srcget_share:: ; \
+  $(CPF) ../../share/atspre_staload_libats_ML.hats $(ATSDIST)/share/
 
 ######
 
