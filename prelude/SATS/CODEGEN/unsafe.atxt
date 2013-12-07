@@ -115,6 +115,13 @@ overload ptr_vtake with ptr1_vtake of 10
 
 #atscode_separator()
 
+castfn
+ref_vtake{a:vt0p}
+  {l:addr} (r: ref (a)):<> [l:addr] (a@l, a@l -<lin,prf> void | ptr l)
+// end of [ref_vtake]
+
+#atscode_separator()
+
 praxi
 vtakeout_void {v:view} (pf: !v): vtakeout0 (v)
 castfn

@@ -115,4 +115,13 @@ This package contains an API in ATS for the <a href="https://github.com/redis/hi
 
 (* ****** ****** *)
 
+#declname2("hiredis_ML.sats", "hiredis_ML.html")
+//
+#declsynop2('\
+
+This file contains an API in ATS of quasi ML-style that is directly
+based on the hiredis package. ')
+
+(* ****** ****** *)
+
 (* end of [hiredis.atxt] *)

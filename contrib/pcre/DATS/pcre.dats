@@ -69,11 +69,13 @@ val extra =
   $UN.castvwtp0{pcreptr_extra(null)}(0)
 val subject =
   $UN.cast{arrayref(char, st+ln)}(subject)
-val length = sz2i(st+ln) and startoffset = sz2i(st) and options = 0u
-var int3 = @[int][3]()
-val ovector = $UN.cast{arrayref(int,3)}(addr@int3)
+val length = sz2i(st+ln)
+val startoffset = sz2i(st)
+val options = 0u
+var int3 = @[int][30]() // HX: it should be adequate on average
+val ovector = $UN.cast{arrayref(int,30)}(addr@int3)
 val ret =
-  pcre_exec (code, extra, subject, length, startoffset, options, ovector, 3)
+  pcre_exec (code, extra, subject, length, startoffset, options, ovector, 30)
 prval ((*void*)) = pcre_free_study_null (extra)
 //
 val [n0:int] int3_0 = $UN.cast{Int}(int3.[0])

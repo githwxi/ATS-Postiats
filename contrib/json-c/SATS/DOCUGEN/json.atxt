@@ -48,7 +48,7 @@ definitions and macros in the json-c package. ')
 //
 #declsynop2('\
 
-This file contains the API for a simple array-list (that is, dynamic array)
+This file contains an API for a simple array-list (that is, dynamic array)
 implementation. ')
 
 (* ****** ****** *)
@@ -57,7 +57,7 @@ implementation. ')
 //
 #declsynop2('\
 
-This file contains the API for a simple hashtable implementation. ')
+This file contains an API for a simple hashtable implementation. ')
 
 (* ****** ****** *)
 
@@ -65,7 +65,7 @@ This file contains the API for a simple hashtable implementation. ')
 //
 #declsynop2('\
 
-This file contains the API for functions declared in [printbuf.h]. ')
+This file contains an API for functions declared in [printbuf.h]. ')
 
 (* ****** ****** *)
 
@@ -73,7 +73,7 @@ This file contains the API for functions declared in [printbuf.h]. ')
 //
 #declsynop2('\
 
-This file contains the API for functions declared in [json_util.h]. ')
+This file contains an API for functions declared in [json_util.h]. ')
 
 (* ****** ****** *)
 
@@ -81,7 +81,7 @@ This file contains the API for functions declared in [json_util.h]. ')
 //
 #declsynop2('\
 
-This file contains the API for functions declared in [json_object.h]. ')
+This file contains an API for functions declared in [json_object.h]. ')
 
 (* ****** ****** *)
 
@@ -89,7 +89,7 @@ This file contains the API for functions declared in [json_object.h]. ')
 //
 #declsynop2('\
 
-This file contains the API for functions declared in [json_object_iterator.h]. ')
+This file contains an API for functions declared in [json_object_iterator.h]. ')
 
 (* ****** ****** *)
 
@@ -97,7 +97,16 @@ This file contains the API for functions declared in [json_object_iterator.h]. '
 //
 #declsynop2('\
 
-This file contains the API for functions declared in [json_tokener.h]. ')
+This file contains an API for functions declared in [json_tokener.h]. ')
+
+(* ****** ****** *)
+
+#declname2("json_ML.sats", "json_ML.html")
+//
+#declsynop2('\
+
+This file contains an API in ATS of quasi ML-style that is directly
+based on the json-c package. ')
 
 (* ****** ****** *)
 
