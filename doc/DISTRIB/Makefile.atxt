@@ -111,6 +111,8 @@ all_script::
 
 ######
 #
+#make_entry("atscntrb_pcre")
+#
 #make_entry("atscntrb_libgmp")
 #
 #make_entry("atscntrb_zeromq")
@@ -202,6 +204,11 @@ srcget_doc_example_pcpv:: SCRIPT/doc_example_pcpv.bash ; bash $<
 ######
 
 atscontribing:: srcget_atscntrb
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_pcre
+srcget_atscntrb_pcre:: SCRIPT/atscntrb_pcre.bash ; bash $<
 
 ######
 

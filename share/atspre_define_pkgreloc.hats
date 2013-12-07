@@ -4,6 +4,13 @@
 (* ****** ****** *)
 //
 #define
+LIBGMP_targetloc "$PATSHOMERELOC/contrib/pcre"
+#define
+LIBGMP_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/pcre"
+//
+(* ****** ****** *)
+//
+#define
 LIBGMP_targetloc "$PATSHOMERELOC/contrib/libgmp"
 #define
 LIBGMP_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/libgmp"

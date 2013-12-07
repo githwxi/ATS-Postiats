@@ -1,5 +1,5 @@
 (*
-** A quasi ML-style API for pcre in ATS
+** A quasi ML-style API in ATS for pcre
 *)
 
 (* ****** ****** *)

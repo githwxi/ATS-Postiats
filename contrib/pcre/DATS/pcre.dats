@@ -1,5 +1,5 @@
 (*
-** A direct API for pcre in ATS
+** A direct API in ATS for pcre
 *)
 
 (* ****** ****** *)

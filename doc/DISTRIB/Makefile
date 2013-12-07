@@ -189,6 +189,17 @@ cleanall:: ; $(RMF) SCRIPT/doc_example_pcpv.bash
 
 ######
 #
+all_html:: HTML/atscntrb_pcre.html
+HTML/atscntrb_pcre.html: atscntrb_pcre_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_pcre.bash
+SCRIPT/atscntrb_pcre.bash: atscntrb_pcre_atxt.exe ; ./$< > $@
+atscntrb_pcre_atxt.dats: ATEXT/atscntrb_pcre.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_pcre_atxt.exe: atscntrb_pcre_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_pcre_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_pcre.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_pcre.bash
+
+#
 all_html:: HTML/atscntrb_libgmp.html
 HTML/atscntrb_libgmp.html: atscntrb_libgmp_atxt.exe ; ./$< > $@
 all_script:: SCRIPT/atscntrb_libgmp.bash
@@ -348,8 +359,6 @@ srcget_share:: ; \
   $(CPF) ../../share/atspre_define_pkgreloc.hats $(ATSDIST)/share/
 srcget_share:: ; \
   $(CPF) ../../share/atspre_staload.hats $(ATSDIST)/share/
-srcget_share:: ; \
-  $(CPF) ../../share/atspre_staload_libats_ML.hats $(ATSDIST)/share/
 
 ######
 
@@ -390,6 +399,11 @@ srcget_doc_example_pcpv:: SCRIPT/doc_example_pcpv.bash ; bash $<
 ######
 
 atscontribing:: srcget_atscntrb
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_pcre
+srcget_atscntrb_pcre:: SCRIPT/atscntrb_pcre.bash ; bash $<
 
 ######
 
