@@ -253,10 +253,23 @@ fun{
 } pcre_match_string
   (code: !pcreptr1, subject: string): int
 fun{
-} pcre_match_substring{n:int}{st,ln:int | st+ln <= n}
+} pcre_match_substring
+  {n:int}{st,ln:int | st+ln <= n}
 (
-  code: !pcreptr1, subject: string(n), st: size_t(st), ln: size_t(ln)
+  code: !pcreptr1
+, subject: string(n), st: size_t(st), ln: size_t(ln)
 ) : int // end of [pcre_match_substring]
+
+(* ****** ****** *)
+
+fun{
+} pcre_match2_substring
+  {n:int}{st,ln:int | st+ln <= n}
+(
+  code: !pcreptr1
+, subject: string(n), st: size_t(st), ln: size_t(ln)
+, matched_beg: &int? >> int(n0), matched_end: &int? >> int(n1)
+) : #[n0,n1:int | n0 <= n1; n1 <= st+ln] int
 
 (* ****** ****** *)
 

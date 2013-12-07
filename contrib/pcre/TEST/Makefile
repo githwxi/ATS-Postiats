@@ -16,6 +16,7 @@ PATSCC=$(PATSHOMEQ)/bin/patscc
 all::
 all:: test00
 all:: test01
+all:: test02
 
 ######
 
@@ -28,6 +29,12 @@ cleanall:: ; $(RMF) test00
 test01: test01.dats ; \
   $(PATSCC) -DATS_MEMALLOC_LIBC -I$(PATSHOMERELOCQ)/contrib -o $@  $< testlib.dats -lpcre
 cleanall:: ; $(RMF) test01
+
+######
+
+test02: test02.dats ; \
+  $(PATSCC) -DATS_MEMALLOC_LIBC -I$(PATSHOMERELOCQ)/contrib -o $@  $< testlib.dats -lpcre
+cleanall:: ; $(RMF) test02
 
 ######
 
