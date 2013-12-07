@@ -71,6 +71,16 @@ vtypedef
 pcreptr1_extra = [l:addr | l > null] pcreptr_extra (l)
 //
 (* ****** ****** *)
+//
+castfn
+pcreptr2ptr {l:addr} (!pcreptr (l)): ptr (l)
+castfn
+pcreptr2ptr_extra {l:addr} (!pcreptr_extra (l)): ptr (l)
+//
+overload ptrcast with pcreptr2ptr
+overload ptrcast with pcreptr2ptr_extra
+//
+(* ****** ****** *)
 
 /*
 pcre *pcre_compile
@@ -232,6 +242,21 @@ pcre_exec{n,n2:int}
 , startoffset: natLte(n), options: uint(*bits*)
 , ovector: arrayref(int, n2), ovecsize: int(n2)
 ) : int = "mac#%" // end of [pcre_exec]
+
+(* ****** ****** *)
+//
+// HX-2013-12: some convenience functions
+//
+(* ****** ****** *)
+
+fun{
+} pcre_match_string
+  (code: !pcreptr1, subject: string): int
+fun{
+} pcre_match_substring{n:int}{st,ln:int | st+ln <= n}
+(
+  code: !pcreptr1, subject: string(n), st: size_t(st), ln: size_t(ln)
+) : int // end of [pcre_match_substring]
 
 (* ****** ****** *)
 

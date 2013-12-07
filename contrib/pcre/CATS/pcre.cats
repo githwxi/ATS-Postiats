@@ -44,12 +44,21 @@
 
 /* ****** ****** */
 
+typedef unsigned char uchar ;
+
+/* ****** ****** */
+
 #define atscntrb_pcre_pcre_version pcre_version
 
 /* ****** ****** */
 
-#define atscntrb_pcre_pcre_compile pcre_compile
-#define atscntrb_pcre_pcre_compile2 pcre_compile2
+#define \
+atscntrb_pcre_pcre_compile(code, options, errptr, erroffset, tableptr) \
+pcre_compile(code, (int)options, (const char**)errptr, (int*)erroffset, (const uchar*)tableptr)
+
+#define \
+atscntr_pcre_pcre_compile2(code, options, errorcodeptr, errptr, erroffset, tableptr) \
+pcre_compile2(code, (int)options, (int*)errorcodeptr, (const char**)errptr, (int*)erroffset, (const uchar*)tableptr)
 
 /* ****** ****** */
 

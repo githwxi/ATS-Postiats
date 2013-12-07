@@ -30,6 +30,20 @@ staload "./../SATS/pcre.sats"
 
 (* ****** ****** *)
 
+fun{
+} regstr_match_string
+  (regstr: string, subject: string): int
+// end of [regstr_match_string]
+
+(* ****** ****** *)
+
+fun{
+} regstr_match_substring
+  {n:int}{st,ln:int | st+ln <= n}
+(
+  regstr: string, subject: string(n), st: size_t st, ln: size_t ln
+) : int // end of [regstr_match_substring]
+
 (* ****** ****** *)
 
 (* end of [pcre_ML.sats] *)
