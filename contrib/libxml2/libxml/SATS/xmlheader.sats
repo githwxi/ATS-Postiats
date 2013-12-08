@@ -32,9 +32,20 @@ abst@ype xmlChar = $extype"xmlChar"
 
 (* ****** ****** *)
 
-absvtype
+abstype
 xmlString = string // xmlChar*
 
+(* ****** ****** *)
+
+castfn xmlString2string (xmlString):<> string
+castfn string2xmlString (str: string):<> xmlString
+
+(* ****** ****** *)
+//
+fun{}
+fprint_xmlString (FILEref, xmlString): void
+overload fprint with fprint_xmlString
+//
 (* ****** ****** *)
 
 absvtype
@@ -58,6 +69,19 @@ castfn strnptr2xmlStrptr{l:addr}{n:int} (str: strnptr(l,n)):<> xmlStrptr(l)
 (* ****** ****** *)
 
 overload ptrcast with xmlStrptr2ptr
+
+(* ****** ****** *)
+
+symintr __name
+symintr __type
+symintr __ns _doc
+symintr __next
+symintr __prev
+symintr __parent
+symintr __children
+symintr __last
+symintr __content
+symintr __properties
 
 (* ****** ****** *)
 

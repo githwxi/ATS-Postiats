@@ -34,7 +34,7 @@ all:: reader1
 all:: xpath1
 all:: xpath2
 all:: htmlParseDoc
-all:: htmlParseFile
+all:: htmlTreeWalk
 
 ######
 
@@ -62,8 +62,8 @@ cleanall:: ; $(RMF) htmlParseDoc
 
 ######
 
-htmlParseFile: htmlParseFile.dats; $(PATSCC) $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
-cleanall:: ; $(RMF) htmlParseFile
+htmlTreeWalk: htmlTreeWalk.dats; $(PATSCC) $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
+cleanall:: ; $(RMF) htmlTreeWalk
 
 ######
 

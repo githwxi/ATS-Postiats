@@ -53,6 +53,42 @@
 #define atscntrb_libxml2_xmlFreeURI xmlFreeURI
 
 /* ****** ****** */
+//
+#define \
+atscntrb_libxml2_xmlAttr_get_type(x) (((xmlAttrPtr)(x))->type)
+#define \
+atscntrb_libxml2_xmlAttr_get_name(x) ((xmlChar*)(((xmlAttrPtr)(x))->name))
+//
+#define atscntrb_libxml2_xmlAttr_get_next(x) (((xmlAttrPtr)(x))->next)
+#define atscntrb_libxml2_xmlAttr_get_prev(x) (((xmlAttrPtr)(x))->prev)
+#define atscntrb_libxml2_xmlAttr_get_parent(x) (((xmlAttrPtr)(x))->parent)
+#define atscntrb_libxml2_xmlAttr_get_children(x) (((xmlAttrPtr)(x))->children)
+#define atscntrb_libxml2_xmlAttr_get_last(x) (((xmlAttrPtr)(x))->last)
+//
+/* ****** ****** */
+//
+#define \
+atscntrb_libxml2_xmlNode_get_type(x) (((xmlNodePtr)(x))->type)
+#define \
+atscntrb_libxml2_xmlNode_get_name(x) ((xmlChar*)(((xmlNodePtr)(x))->name))
+//
+#define atscntrb_libxml2_xmlNode_get_next(x) (((xmlNodePtr)(x))->next)
+#define atscntrb_libxml2_xmlNode_get_prev(x) (((xmlNodePtr)(x))->prev)
+#define atscntrb_libxml2_xmlNode_get_parent(x) (((xmlNodePtr)(x))->parent)
+#define atscntrb_libxml2_xmlNode_get_children(x) (((xmlNodePtr)(x))->children)
+#define atscntrb_libxml2_xmlNode_get_last(x) (((xmlNodePtr)(x))->last)
+//
+#define atscntrb_libxml2_xmlNode_get_doc(x) (((xmlNodePtr)(x))->doc)
+#define atscntrb_libxml2_xmlNode_get_ns(x) (((xmlNodePtr)(x))->ns)
+#define atscntrb_libxml2_xmlNode_get_nsDef(x) (((xmlNodePtr)(x))->nsDef)
+#define atscntrb_libxml2_xmlNode_get_content(x) (((xmlNodePtr)(x))->content)
+#define atscntrb_libxml2_xmlNode_get_properties(x) (((xmlNodePtr)(x))->properties)
+//
+/* ****** ****** */
+
+#define atscntrb_libxml2_xmlDocGetRootElement xmlDocGetRootElement
+
+/* ****** ****** */
 
 #endif // ifndef LIBXML2_TREE_CATS
 

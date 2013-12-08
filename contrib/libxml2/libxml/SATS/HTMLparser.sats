@@ -116,6 +116,13 @@ fun htmlNewParserCtxt (): htmlParserCtxtPtr0 = "mac#%"
 
 (* ****** ****** *)
 
+fun
+htmlParserCtxtPtr_get1_myDoc
+  {l:agz} (!htmlParserCtxtPtr(l)): xmlDocPtr0 = "mac#%"
+// end of [htmlParserCtxtPtr_get1_myDoc]
+
+(* ****** ****** *)
+
 /*
 htmlDocPtr
 htmlParseDoc (xmlChar *cur, const char *encoding) ;
