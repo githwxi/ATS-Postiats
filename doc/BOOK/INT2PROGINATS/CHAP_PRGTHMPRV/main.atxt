@@ -340,7 +340,7 @@ Please find the entirety of the above presented code plus some testing code
 
 <sect1
 id="example_another_verified_factorial">
-#title("Example: Another Verified Factorial Implementation")
+#title("Example: Another Verified Factorial")
 
 #para("\
 

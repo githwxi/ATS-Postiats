@@ -187,7 +187,7 @@ main0 () =
   val () = println! ("fib(20) = ", fib(20))
   val () = println! ("fib(30) = ", fib(30))
   val () = println! ("fib(40) = ", fib(40))
-} // end of [main]
+} // end of [main0]
 
 (* ****** ****** *)
 
