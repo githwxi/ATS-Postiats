@@ -502,7 +502,7 @@ stadef stropt = stropt_int_type
 typedef Stropt = [n:int] stropt_int_type (n)
 typedef Stropt0 = [n:int] stropt_int_type (n)
 typedef Stropt1 = [n:int | n >= 0] stropt_int_type (n)
-stadef stropt = Stropt
+stadef stropt = Stropt // HX: this may be a bit confusing :)
 
 (* ****** ****** *)
 

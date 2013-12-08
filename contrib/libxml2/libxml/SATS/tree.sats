@@ -23,42 +23,55 @@
 (*
 ** Author: Hongwei Xi
 ** Authoremail: gmhwxiATgmailDOTcom
-** Start Time: August, 2013
+** Start Time: December, 2013
 *)
 
 (* ****** ****** *)
 
-abst@ype xmlChar = $extype"xmlChar"
+%{#
+#include "libxml2/libxml/CATS/tree.cats"
+%} // end of [%{#]
+
+(* ****** ****** *)
+
+#define ATS_PACKNAME "ATSCNTRB.libxml2"
+#define ATS_STALOADFLAG 0 // no need for staloading at run-time
+#define ATS_EXTERN_PREFIX "atscntrb_libxml2_" // prefix for external names
+
+(* ****** ****** *)
+
+staload "./xmlheader.sats"
 
 (* ****** ****** *)
 
 absvtype
-xmlString = string // xmlChar*
+xmlDocPtr(l:addr) = ptr(l) // xmlDocPtr
+vtypedef xmlDocPtr0 = [l:agez] xmlDocPtr(l)
+vtypedef xmlDocPtr1 = [l:addr | l > null] xmlDocPtr(l)
+
+castfn xmlDocPtr2ptr : {l:addr} (!xmlDocPtr(l)) -<> ptr(l)
 
 (* ****** ****** *)
 
 absvtype
-xmlStrptr(l:addr) = ptr(l) // xmlChar*
-vtypedef xmlStrptr0 = [l:agez] xmlStrptr(l)
-vtypedef xmlStrptr1 = [l:addr | l > null] xmlStrptr(l)
+xmlNodePtr(l:addr) = ptr(l) // xmlNodePtr
+vtypedef xmlNodePtr0 = [l:agez] xmlNodePtr(l)
+vtypedef xmlNodePtr1 = [l:addr | l > null] xmlNodePtr(l)
+
+castfn xmlNodePtr2ptr : {l:addr} (!xmlNodePtr(l)) -<> ptr(l)
 
 (* ****** ****** *)
 
-castfn xmlStrptr2ptr {l:addr} (!xmlStrptr(l)):<> ptr(l)
+overload ptrcast with xmlDocPtr2ptr
+overload ptrcast with xmlNodePtr2ptr
 
 (* ****** ****** *)
 
-castfn xmlStrptr2strptr{l:addr} (xmlStrptr(l)):<> strptr(l)
-
-(*
-castfn strptr2xmlStrptr{l:addr} (str: strptr(l)):<> xmlStrptr(l)
-castfn strnptr2xmlStrptr{l:addr}{n:int} (str: strnptr(l,n)):<> xmlStrptr(l)
-*)
+/*
+void xmlFreeDoc (xmlDocPtr cur)
+*/
+fun xmlFreeDoc (cur: xmlDocPtr0): void = "mac#%"
 
 (* ****** ****** *)
 
-overload ptrcast with xmlStrptr2ptr
-
-(* ****** ****** *)
-
-(* end of [xmlheader.sats] *)
+(* end of [tree.sats] *)

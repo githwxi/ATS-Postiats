@@ -1,28 +1,21 @@
-(***********************************************************************)
-(*                                                                     *)
-(*                         Applied Type System                         *)
-(*                                                                     *)
-(***********************************************************************)
+(*
+** API for libxml2 in ATS
+*)
+
+(* ****** ****** *)
 
 (*
-** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
-** All rights reserved
-**
-** ATS is free software;  you can  redistribute it and/or modify it under
-** the terms of the GNU LESSER GENERAL PUBLIC LICENSE as published by the
-** Free Software Foundation; either version 2.1, or (at your option)  any
-** later version.
-**
-** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
-** WARRANTY; without  even  the  implied  warranty  of MERCHANTABILITY or
-** FITNESS FOR A PARTICULAR PURPOSE.  See the  GNU General Public License
-** for more details.
-**
-** You  should  have  received  a  copy of the GNU General Public License
-** along  with  ATS;  see the  file COPYING.  If not, please write to the
-** Free Software Foundation,  51 Franklin Street, Fifth Floor, Boston, MA
-** 02110-1301, USA.
+** Permission to use, copy, modify, and distribute this software for any
+** purpose with or without fee is hereby granted, provided that the above
+** copyright notice and this permission notice appear in all copies.
+** 
+** THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+** WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+** MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+** ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+** WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+** ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+** OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 *)
 
 (* ****** ****** *)
@@ -36,18 +29,56 @@
 (* ****** ****** *)
 
 %{#
-#include "libxml2/CATS/parser.cats"
+#include "libxml2/libxml/CATS/parser.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
 
 #define ATS_PACKNAME "ATSCNTRB.libxml2"
 #define ATS_STALOADFLAG 0 // no need for staloading at run-time
-#define ATS_EXTERN_PREFIX "atscntrb_" // prefix for external names
+#define ATS_EXTERN_PREFIX "atscntrb_libxml2_" // prefix for external names
+
+(* ****** ****** *)
+//
+staload
+"./xmlheader.sats"
+//
+(* ****** ****** *)
+
+staload "./tree.sats"
 
 (* ****** ****** *)
 
-staload "./xmlheader.sats"
+absvtype
+xmlParserCtxtPtr(l:addr) = ptr (l)
+vtypedef xmlParserCtxtPtr0 = [l:agez] xmlParserCtxtPtr(l)
+vtypedef xmlParserCtxtPtr1 = [l:addr | l > null] xmlParserCtxtPtr(l)
+
+castfn xmlParserCtxtPtr2ptr : {l:addr} (!xmlParserCtxtPtr(l)) -<> ptr(l)
+
+(* ****** ****** *)
+
+absvtype
+xmlParserInputPtr(l:addr) = ptr (l)
+vtypedef xmlParserInputPtr0 = [l:agez] xmlParserInputPtr(l)
+vtypedef xmlParserInputPtr1 = [l:addr | l > null] xmlParserInputPtr(l)
+
+castfn xmlParserInputPtr2ptr : {l:addr} (!xmlParserInputPtr(l)) -<> ptr(l)
+
+(* ****** ****** *)
+
+absvtype
+xmlSAXHandlerPtr(l:addr) = ptr (l)
+vtypedef xmlSAXHandlerPtr = [l:agez] xmlSAXHandlerPtr(l)
+vtypedef xmlSAXHandlerPtr1 = [l:addr | l > null] xmlSAXHandlerPtr(l)
+
+castfn xmlSAXHandlerPtr2ptr : {l:addr} (!xmlSAXHandlerPtr(l)) -<> ptr(l)
+
+(* ****** ****** *)
+
+overload ptrcast with xmlParserCtxtPtr2ptr
+overload ptrcast with xmlParserInputPtr2ptr
+overload ptrcast with xmlSAXHandlerPtr2ptr
 
 (* ****** ****** *)
 
@@ -74,7 +105,7 @@ xmlDocPtr xmlParseMemory (const char *buffer, int size);
 */
 fun
 xmlParseMemory{n:int}
-  (buf: &array(char, n), size: int (n)): xmlDocPtr0 = "mac#%"
+  (buf: &RD(array(char, n)), size: int (n)): xmlDocPtr0 = "mac#%"
 // end of [xmlParseMemory]
 
 (* ****** ****** *)

@@ -1,10 +1,10 @@
-(*
+/*
 ** API for libxml2 in ATS
-*)
+*/
 
-(* ****** ****** *)
+/* ****** ****** */
 
-(*
+/*
 ** Permission to use, copy, modify, and distribute this software for any
 ** purpose with or without fee is hereby granted, provided that the above
 ** copyright notice and this permission notice appear in all copies.
@@ -16,49 +16,46 @@
 ** WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ** ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 ** OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-*)
+*/
 
-(* ****** ****** *)
+/* ****** ****** */
 
-(*
+/*
 ** Author: Hongwei Xi
 ** Authoremail: gmhwxiATgmailDOTcom
-** Start Time: August, 2013
-*)
+** Start Time: December, 2013
+*/
 
-(* ****** ****** *)
+/* ****** ****** */
 
-abst@ype xmlChar = $extype"xmlChar"
+#ifndef LIBXML2_TREE_CATS
+#define LIBXML2_TREE_CATS
 
-(* ****** ****** *)
+/* ****** ****** */
 
-absvtype
-xmlString = string // xmlChar*
+#include <libxml/tree.h>
 
-(* ****** ****** *)
+/* ****** ****** */
 
-absvtype
-xmlStrptr(l:addr) = ptr(l) // xmlChar*
-vtypedef xmlStrptr0 = [l:agez] xmlStrptr(l)
-vtypedef xmlStrptr1 = [l:addr | l > null] xmlStrptr(l)
+#define atscntrb_libxml2_xmlFreeDtd xmlFreeDtd
 
-(* ****** ****** *)
+#define atscntrb_libxml2_xmlFreeNs xmlFreeNs
+#define atscntrb_libxml2_xmlFreeNsList xmlFreeNsList
 
-castfn xmlStrptr2ptr {l:addr} (!xmlStrptr(l)):<> ptr(l)
+#define atscntrb_libxml2_xmlFreeDoc xmlFreeDoc
 
-(* ****** ****** *)
+#define atscntrb_libxml2_xmlFreeNode xmlFreeNode
+#define atscntrb_libxml2_xmlFreeNodeList xmlFreeNodeList
 
-castfn xmlStrptr2strptr{l:addr} (xmlStrptr(l)):<> strptr(l)
+#define atscntrb_libxml2_xmlFreeProp xmlFreeProp
+#define atscntrb_libxml2_xmlFreePropList xmlFreePropList
 
-(*
-castfn strptr2xmlStrptr{l:addr} (str: strptr(l)):<> xmlStrptr(l)
-castfn strnptr2xmlStrptr{l:addr}{n:int} (str: strnptr(l,n)):<> xmlStrptr(l)
-*)
+#define atscntrb_libxml2_xmlFreeURI xmlFreeURI
 
-(* ****** ****** *)
+/* ****** ****** */
 
-overload ptrcast with xmlStrptr2ptr
+#endif // ifndef LIBXML2_TREE_CATS
 
-(* ****** ****** *)
+/* ****** ****** */
 
-(* end of [xmlheader.sats] *)
+/* end of [tree.cats] */

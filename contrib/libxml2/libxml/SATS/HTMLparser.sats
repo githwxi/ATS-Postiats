@@ -1,28 +1,21 @@
-(***********************************************************************)
-(*                                                                     *)
-(*                         Applied Type System                         *)
-(*                                                                     *)
-(***********************************************************************)
+(*
+** API for libxml2 in ATS
+*)
+
+(* ****** ****** *)
 
 (*
-** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
-** All rights reserved
-**
-** ATS is free software;  you can  redistribute it and/or modify it under
-** the terms of the GNU LESSER GENERAL PUBLIC LICENSE as published by the
-** Free Software Foundation; either version 2.1, or (at your option)  any
-** later version.
-**
-** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
-** WARRANTY; without  even  the  implied  warranty  of MERCHANTABILITY or
-** FITNESS FOR A PARTICULAR PURPOSE.  See the  GNU General Public License
-** for more details.
-**
-** You  should  have  received  a  copy of the GNU General Public License
-** along  with  ATS;  see the  file COPYING.  If not, please write to the
-** Free Software Foundation,  51 Franklin Street, Fifth Floor, Boston, MA
-** 02110-1301, USA.
+** Permission to use, copy, modify, and distribute this software for any
+** purpose with or without fee is hereby granted, provided that the above
+** copyright notice and this permission notice appear in all copies.
+** 
+** THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+** WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+** MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+** ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+** WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+** ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+** OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 *)
 
 (* ****** ****** *)
@@ -36,18 +29,24 @@
 (* ****** ****** *)
 
 %{#
-#include "libxml2/CATS/HTMLparser.cats"
+#include "libxml2/libxml/CATS/HTMLparser.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
 
 #define ATS_PACKNAME "ATSCNTRB.libxml2"
 #define ATS_STALOADFLAG 0 // no need for staloading at run-time
-#define ATS_EXTERN_PREFIX "atscntrb_" // prefix for external names
+#define ATS_EXTERN_PREFIX "atscntrb_libxml2_" // prefix for external names
 
 (* ****** ****** *)
+//
+staload
+"./xmlheader.sats"
+//
+(* ****** ****** *)
 
-staload "./xmlheader.sats"
+staload "./tree.sats"
+staload "./parser.sats"
 
 (* ****** ****** *)
 
@@ -56,8 +55,26 @@ stadef htmlDocPtr0 = xmlDocPtr0
 stadef htmlDocPtr1 = xmlDocPtr1
 
 (* ****** ****** *)
+
+stadef htmlNodePtr = xmlNodePtr
+stadef htmlNodePtr0 = xmlNodePtr0
+stadef htmlNodePtr1 = xmlNodePtr1
+
+(* ****** ****** *)
+
+stadef htmlParserCtxtPtr = xmlParserCtxtPtr
+stadef htmlParserCtxtPtr0 = xmlParserCtxtPtr0
+stadef htmlParserCtxtPtr1 = xmlParserCtxtPtr1
+
+(* ****** ****** *)
+
+stadef htmlParserInputPtr = xmlParserInputPtr
+stadef htmlParserInputPtr0 = xmlParserInputPtr0
+stadef htmlParserInputPtr1 = xmlParserInputPtr1
+
+(* ****** ****** *)
 //
-abst@ype htmlParserOption = int
+abst@ype htmlParserOption = uint
 //
 macdef
 HTML_PARSE_RECOVER = $extval(htmlParserOption, "HTML_PARSE_RECOVER")
@@ -93,12 +110,28 @@ macdef HTML_REQUIRED = $extval(htmlStatus, "HTML_REQUIRED")
 (* ****** ****** *)
 
 /*
-htmlDocPtr
-htmlParseDoc (xmlChar *cur,  const char *encoding) ;
+htmlParserCtxtPtr htmlNewParserCtxt(void);
 */
-fun htmlParseDoc{l:addr}
-  (xmlStrptr(l), Stropt(*encoding*)): htmlDocPtr0 = "mac#%"
+fun htmlNewParserCtxt (): htmlParserCtxtPtr0 = "mac#%"
+
+(* ****** ****** *)
+
+/*
+htmlDocPtr
+htmlParseDoc (xmlChar *cur, const char *encoding) ;
+*/
+fun htmlParseDoc
+  (xmlString, stropt(*encoding*)): htmlDocPtr0 = "mac#%"
 // end of [htmlParseDoc]
+
+(* ****** ****** *)
+
+/*
+htmlDocPtr
+htmlParseFile (const char * filename, const char * encoding)
+*/
+fun htmlParseFile
+  (filename: string, encoding: stropt): htmlDocPtr0 = "mac#%"
 
 (* ****** ****** *)
 
