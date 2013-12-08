@@ -126,15 +126,17 @@ a:t@ype
 ")
 
 Given a list #dyncode("xss") of the type #stacode("list(list(T,n),m)"),
-#dyncode("list_concat(xss)") now returns a pair #dyncode("(pf | res)") such that
-#dyncode("pf") is a proof of the prop-type #stacode("MUL(m,n,p)") for some
-natural number #stacode("p") and #dyncode("res") is a list of the type
+#dyncode("list_concat(xss)") now returns a pair #dyncode("(pf | res)") such
+that #dyncode("pf") is a proof of the prop-type #stacode("MUL(m,n,p)") for
+some natural number #stacode("p") and #dyncode("res") is a list of the type
 #stacode("list(T,p)"), where the symbol bar (|) is used to separate proofs
-from values. In other words, #dyncode("pf") acts as a witness to the equality
-#stacode("p=m*n"). After proof erasure is performed, this implementation of
-#dyncode("list_concat") is essentially translated into the previous one (as
-far as dynamic semantics is concerned). In particular, there is no proof
-construction at run-time and no need for it, either.  ")#comment("para")
+from values. In other words, #dyncode("pf") acts as a witness to the
+equality #stacode("p=m*n"). After proof erasure is performed, this
+implementation of #dyncode("list_concat") is essentially translated into
+the previous one (as far as dynamic semantics is concerned). In particular,
+there is no need for proof construction at run-time.\
+
+")#comment("para")
 
 </sect1><!--"circumventing_nonlinear_constraints"-->
 
@@ -160,11 +162,11 @@ a:t@ype
 // end of [matrix_get]
 ")
 
-Assume that the matrix is row-major. Then the element indexed by i and j in
-the matrix is the element indexed by i*n + j in the array that represents
-the matrix, where i and j are natural numbers less than m and n,
-respectively. However, the following implementation fails to pass
-typechecking:
+Assume that the matrix is represented in the row-major style. Then the
+element indexed by i and j in the matrix is the element indexed by i*n + j
+in the array that represents the matrix, where i and j are natural numbers
+less than m and n, respectively. However, the following implementation
+fails to pass typechecking:
 
 #atscode("\
 implement{a}
@@ -286,7 +288,8 @@ with the dataprop #stacode("FACT") declared as follows:
 #atscode("\
 dataprop FACT (int, int) =
   | FACTbas (0, 1)
-  | {n:nat}{r1,r:int} FACTind (n, r) of (FACT (n-1, r1), MUL (n, r1, r))
+  | {n:nat}{r1,r:int}
+    FACTind (n, r) of (FACT (n-1, r1), MUL (n, r1, r))
 // end of [FACT]
 ")
 

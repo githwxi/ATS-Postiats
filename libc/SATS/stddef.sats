@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxiATgmailDOTcom
 // Start Time: July, 2012
 //
 (* ****** ****** *)
@@ -37,8 +38,10 @@ size_t0ype = g0uint(size_kind)
 
 (* ****** ****** *)
 
-abst@ype wchar_t0ype = $extype"wchar_t"
-abst@ype ptrdiff_t0ype = $extype"ptrdiff_t"
+abst@ype
+wchar_t0ype = $extype"wchar_t"
+abst@ype
+ptrdiff_t0ype = $extype"ptrdiff_t"
 
 (* ****** ****** *)
 
