@@ -28,7 +28,7 @@
 
 (* ****** ****** *)
 
-staload "./../SATS/xmlheader.sats"
+staload "./../SATS/xml0.sats"
 
 (* ****** ****** *)
 
@@ -39,4 +39,4 @@ fprint_xmlString
 
 (* ****** ****** *)
 
-(* end of [xmlheader.dats] *)
+(* end of [xml0.dats] *)

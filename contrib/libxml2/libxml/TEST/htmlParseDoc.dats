@@ -14,8 +14,9 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "./../SATS/xmlheader.sats"
+staload "./../SATS/xml0.sats"
 staload "./../SATS/tree.sats"
+staload "./../SATS/parser.sats"
 staload "./../SATS/HTMLparser.sats"
 
 (* ****** ****** *)
@@ -42,6 +43,8 @@ val () = assertloc (ptrcast (doc) > 0)
 val () = println! ("The file [", filename, "] has been parsed successfully!")
 //
 val () = xmlFreeDoc (doc)
+//
+val () = xmlCleanupParser ((*void*))
 //
 } (* end of [main0] *)
 

@@ -28,6 +28,12 @@
 
 (* ****** ****** *)
 
+%{#
+#include "libxml2/libxml/CATS/xml0.cats"
+%} // end of [%{#]
+
+(* ****** ****** *)
+
 abst@ype xmlChar = $extype"xmlChar"
 
 (* ****** ****** *)
@@ -72,6 +78,10 @@ overload ptrcast with xmlStrptr2ptr
 
 (* ****** ****** *)
 
+fun xmlFreeStrptr (xmlStrptr0): void = "mac#%"
+
+(* ****** ****** *)
+
 symintr __name
 symintr __type
 symintr __ns _doc
@@ -85,4 +95,4 @@ symintr __properties
 
 (* ****** ****** *)
 
-(* end of [xmlheader.sats] *)
+(* end of [xml0.sats] *)

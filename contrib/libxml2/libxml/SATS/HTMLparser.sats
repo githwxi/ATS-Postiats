@@ -40,8 +40,7 @@
 
 (* ****** ****** *)
 //
-staload
-"./xmlheader.sats"
+staload "./xml0.sats"
 //
 (* ****** ****** *)
 

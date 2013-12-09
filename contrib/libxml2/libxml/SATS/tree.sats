@@ -40,7 +40,7 @@
 
 (* ****** ****** *)
 
-staload "./xmlheader.sats"
+staload "./xml0.sats"
 
 (* ****** ****** *)
 //
@@ -382,6 +382,18 @@ xmlNodePtr xmlDocGetRootElement (xmlDocPtr doc);
 fun xmlDocGetRootElement
   {l1:agz} (doc: !xmlDocPtr(l1))
 : [l2:agez] vtget0 (xmlDocPtr(l1), xmlNodePtr(l2)) = "mac#%"
+
+(* ****** ****** *)
+/*
+xmlChar*
+xmlNodeListGetString
+  (xmlDocPtr doc, xmlNodePtr list, int inLine);
+*/
+fun
+xmlNodeListGetString
+(
+  doc: !xmlDocPtr1, list: !xmlNodePtr0, inLine: int
+) : xmlStrptr0 = "mac#%" // end-of-fun
 
 (* ****** ****** *)
 

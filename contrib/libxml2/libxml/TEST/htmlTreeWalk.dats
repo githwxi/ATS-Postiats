@@ -9,12 +9,13 @@
 //
 (* ****** ****** *)
 //
-staload "./../SATS/xmlheader.sats"
-staload _ = "./../DATS/xmlheader.dats"
+staload "./../SATS/xml0.sats"
+staload _ = "./../DATS/xml0.dats"
 //
 (* ****** ****** *)
 
 staload "./../SATS/tree.sats"
+staload "./../SATS/parser.sats"
 staload "./../SATS/HTMLparser.sats"
 
 (* ****** ****** *)
@@ -137,6 +138,8 @@ val () = treeWalk (out, root)
 prval ((*void*)) = minus_addback (fpf, root | doc)
 //
 val () = xmlFreeDoc (doc)
+//
+val () = xmlCleanupParser ((*void*))
 //
 } (* end of [main0] *)
 

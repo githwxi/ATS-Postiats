@@ -90,6 +90,10 @@ atscntrb_libxml2_xmlNode_get_name(x) ((xmlChar*)(((xmlNodePtr)(x))->name))
 
 /* ****** ****** */
 
+#define atscntrb_libxml2_xmlNodeListGetString xmlNodeListGetString
+
+/* ****** ****** */
+
 #endif // ifndef LIBXML2_TREE_CATS
 
 /* ****** ****** */

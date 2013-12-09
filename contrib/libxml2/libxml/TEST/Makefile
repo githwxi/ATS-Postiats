@@ -33,6 +33,7 @@ all::
 all:: reader1
 all:: xpath1
 all:: xpath2
+all:: xpath3
 all:: htmlParseDoc
 all:: htmlTreeWalk
 
@@ -53,6 +54,12 @@ cleanall:: ; $(RMF) xpath1
 xpath2: xpath2.c
 	$(CCOPT) $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
 cleanall:: ; $(RMF) xpath2
+
+######
+
+xpath3: xpath3.c
+	$(CCOPT) $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
+cleanall:: ; $(RMF) xpath3
 
 ######
 

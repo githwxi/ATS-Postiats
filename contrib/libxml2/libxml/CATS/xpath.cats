@@ -28,22 +28,21 @@
 
 /* ****** ****** */
 
-#ifndef LIBXML2_PARSER_CATS
-#define LIBXML2_PARSER_CATS
+#ifndef LIBXML2_XPATH_CATS
+#define LIBXML2_XPATH_CATS
 
 /* ****** ****** */
 
-#include <libxml/parser.h>
+#include <libxml/xpath.h>
 
 /* ****** ****** */
 
-#define atscntrb_libxml2_xmlInitParser xmlInitParser
-#define atscntrb_libxml2_xmlCleanupParser xmlCleanupParser
+#define atscntrb_libxml2_xmlXPathNewContext xmlXPathNewContext
 
 /* ****** ****** */
 
-#endif // ifndef LIBXML2_PARSER_CATS
+#endif // ifndef LIBXML2_XPATH_CATS
 
 /* ****** ****** */
 
-/* end of [parser.cats] */
+/* end of [xpath.cats] */

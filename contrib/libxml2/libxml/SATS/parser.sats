@@ -40,8 +40,7 @@
 
 (* ****** ****** *)
 //
-staload
-"./xmlheader.sats"
+staload "./xml0.sats"
 //
 (* ****** ****** *)
 
@@ -79,6 +78,20 @@ castfn xmlSAXHandlerPtr2ptr : {l:addr} (!xmlSAXHandlerPtr(l)) -<> ptr(l)
 overload ptrcast with xmlParserCtxtPtr2ptr
 overload ptrcast with xmlParserInputPtr2ptr
 overload ptrcast with xmlSAXHandlerPtr2ptr
+
+(* ****** ****** *)
+
+/*
+void xmlInitParser (void);
+*/
+fun xmlInitParser((*void*)): void = "mac#%"
+
+(* ****** ****** *)
+
+/*
+void xmlCleanupParser (void);
+*/
+fun xmlCleanupParser((*void*)): void = "mac#%"
 
 (* ****** ****** *)
 
