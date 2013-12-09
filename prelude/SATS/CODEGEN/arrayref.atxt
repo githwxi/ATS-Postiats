@@ -63,6 +63,12 @@ lemma_arrayref_param
 
 #atscode_separator()
 
+castfn
+arrayref2ptr{a:vt0p}{n:int} (A: arrayref(a, n)):<> Ptr0
+overload ptrcast with arrayref2ptr
+
+#atscode_separator()
+
 (*
 ** HX-2012-06:
 ** this function essentially passes the proof of array-view

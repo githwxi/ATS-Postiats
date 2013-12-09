@@ -39,6 +39,12 @@
 
 (* ****** ****** *)
 
+%{#
+#include "libats/ML/CATS/array0.cats"
+%} // end of [%{#]
+
+(* ****** ****** *)
+
 staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)

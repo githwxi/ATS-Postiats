@@ -69,6 +69,24 @@ val () = fprintln! (out, "rsum(45) = ", rsum)
 
 (* ****** ****** *)
 
+val () =
+{
+//
+val out = stdout_ref
+//
+val asz = (i2sz)10
+//
+val A =
+  array0_tabulate<int> (asz, lam i => $UN.cast{int}(i))
+//
+val A2 =
+  array0_make_subarray (A, i2sz(3), i2sz(5))
+val ((*void*)) = fprintln! (out, "A2(A[3,5]) = ", A2)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
 fun
 array0_make_fileref
 (

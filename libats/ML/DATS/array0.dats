@@ -42,6 +42,14 @@ staload "libats/ML/SATS/list0.sats"
 staload "libats/ML/SATS/array0.sats"
 
 (* ****** ****** *)
+
+extern
+fun memcpy
+  (d:ptr, s:ptr, n:size_t):<!wrt> ptr = "mac#atslib_ML_array0_memcpy"
+// end of [memcpy]
+
+
+(* ****** ****** *)
 //
 implement{}
 array0_of_arrszref {a} (A) = $UN.cast{array0(a)}(A)
@@ -78,19 +86,25 @@ end // end of [array0_get_refsize]
 
 implement{}
 array0_make_arrpsz (psz) = let
-  val ASZ = arrszref_make_arrpsz (psz) in array0_of_arrszref (ASZ)
+  val ASZ =
+    arrszref_make_arrpsz (psz) in array0_of_arrszref (ASZ)
+  // end of [val]
 end // end of [array0_make_arrpsz]
 
 implement{}
 array0_make_arrayref (A, n) = let
-  val ASZ = arrszref_make_arrayref (A, n) in array0_of_arrszref (ASZ)
+  val ASZ =
+    arrszref_make_arrayref (A, n) in array0_of_arrszref (ASZ)
+  // end of [val]
 end // end of [array0_make_arrpsz]
 
 (* ****** ****** *)
 
 implement{a}
 array0_make_elt (asz, x) = let
-  val ASZ = arrszref_make_elt<a> (asz, x) in array0_of_arrszref (ASZ)
+  val ASZ =
+    arrszref_make_elt<a> (asz, x) in array0_of_arrszref (ASZ)
+  // end of [val]
 end // end of [array0_make_elt]
 
 (* ****** ****** *)
@@ -98,9 +112,8 @@ end // end of [array0_make_elt]
 implement{a}
 array0_make_list
   (xs) = let
-  val ASZ = arrszref_make_list (g1ofg0(xs))
-in
-  array0_of_arrszref (ASZ)
+  val xs = g1ofg0(xs)
+  val ASZ = arrszref_make_list (xs) in array0_of_arrszref (ASZ)
 end // end of [array0_make_list]
 
 (* ****** ****** *)
@@ -108,10 +121,32 @@ end // end of [array0_make_list]
 implement{a}
 array0_make_rlist
   (xs) = let
-  val ASZ = arrszref_make_rlist (g1ofg0(xs))
-in
-  array0_of_arrszref (ASZ)
+  val xs = g1ofg0(xs)
+  val ASZ = arrszref_make_rlist (xs) in array0_of_arrszref (ASZ)
 end // end of [array0_make_rlist]
+
+(* ****** ****** *)
+
+implement{a}
+array0_make_subarray
+  (A0, st, ln) = let
+//
+val st = g1ofg0(st)
+val ln = g1ofg0(ln)
+val [n:int] (A, asz) = array0_get_refsize (A0)
+//
+val [st:int] st =
+  (if st <= asz then st else asz): sizeLte (n)
+val [ln:int] ln =
+  (if st + ln <= asz then ln else asz - st): sizeLte (n-st)
+//
+val A2 = arrayptr_make_uninitized<a> (ln)
+val p2 = memcpy (ptrcast(A2), ptr_add<a> (ptrcast(A), st), ln*sizeof<a>)
+val A2 = $UN.castvwtp0{arrayref(a,ln)}(A2)
+//
+in
+  array0_make_arrayref (A2, ln)
+end // end of [array0_make_subarray]
 
 (* ****** ****** *)
 

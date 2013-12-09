@@ -39,13 +39,13 @@
 
 (* ****** ****** *)
 
-staload "libats/ML/SATS/basis.sats"
-
-(* ****** ****** *)
-
 %{#
 #include "libats/ML/CATS/strarr.cats"
 %} // end of [%{#]
+
+(* ****** ****** *)
+
+staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
 

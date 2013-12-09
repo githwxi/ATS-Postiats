@@ -124,6 +124,7 @@ The ATSLIB/libats/ML library\
 
 (* ****** ****** *)
 
+#packfilename("CATS/array0.cats")
 #packfilename("CATS/strarr.cats")
 
 (* ****** ****** *)

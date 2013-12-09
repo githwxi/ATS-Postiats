@@ -30,51 +30,22 @@
 /*
 (* Author: Hongwei Xi *)
 (* Authoremail: hwxi AT cs DOT bu DOT edu *)
-(* Start time: April, 2013 *)
+(* Start time: December, 2013 *)
 */
 
 /* ****** ****** */
 
-#ifndef ATSLIB_LIBATS_ML_STRARR_CATS
-#define ATSLIB_LIBATS_ML_STRARR_CATS
+#ifndef ATSLIB_LIBATS_ML_ARRAY0_CATS
+#define ATSLIB_LIBATS_ML_ARRAY0_CATS
 
 /* ****** ****** */
 
-#ifndef strncmp
-extern
-int strncmp (const char *s1, const char *s2, size_t n) ;
-#endif // ifndef(strncmp)
+#define atslib_ML_array0_memcpy memcpy
 
 /* ****** ****** */
 
-#ifndef memchr
-extern void *memchr(const void *s, int c, size_t n) ;
-#endif // ifndef(memchr)
-
-#ifndef memcpy
-extern void *memcpy(void *dst, const void *src, size_t n) ;
-#endif // ifndef(memcpy)
+#endif // ifndef ATSLIB_LIBATS_ML_ARRAY0_CATS
 
 /* ****** ****** */
 
-extern
-size_t
-fwrite
-(
-  const void *ptr, size_t size, size_t nmemb, FILE *stream
-) ; // end of [fwrite] // in [stdio.h]
-
-/* ****** ****** */
-
-#define atslib_ML_strarr_memchr memchr
-#define atslib_ML_strarr_memcpy memcpy
-#define atslib_ML_strarr_strncmp strncmp
-#define atslib_ML_strarr_fwrite fwrite
-
-/* ****** ****** */
-
-#endif // ifndef ATSLIB_LIBATS_ML_STRARR_CATS
-
-/* ****** ****** */
-
-/* end of [strarr.cats] */
+/* end of [array0.cats] */
