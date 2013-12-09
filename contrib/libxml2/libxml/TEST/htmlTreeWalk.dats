@@ -21,7 +21,6 @@ staload "./../SATS/HTMLparser.sats"
 
 (*
 %{^
-
 void
 treeWalk(xmlNode * a_node)
 {
@@ -29,7 +28,7 @@ treeWalk(xmlNode * a_node)
   xmlAttr *cur_attr = NULL;
   for (cur_node = a_node; cur_node != NULL; cur_node = cur_node->next)
   {
-    fprintf(stdout, "htmltag : %s\n", cur_node->name);
+    fprintf(stdout, "Tag : %s\n", cur_node->name);
     for (cur_attr = cur_node->properties; cur_attr != NULL; cur_attr = cur_attr->next)
     {
       fprintf(stdout, "  -> with attribute : %s\n", cur_attr->name);
@@ -37,16 +36,16 @@ treeWalk(xmlNode * a_node)
     treeWalk(cur_node->children);
   }
 }
-
 %}
 *)
 
 (* ****** ****** *)
 
 extern
-fun treeWalk (!xmlNodePtr0): void
+fun treeWalk
+(out: FILEref, !xmlNodePtr0): void
 implement
-treeWalk (node) = let
+treeWalk (out, node) = let
 //
 fun indent
 (
@@ -68,7 +67,7 @@ in
 if p_node > 0 then let
   val name = __name (node)
   val () = indent (out, nspace)
-  val () = fprintln! (out, "htmltag: ", name)
+  val () = fprintln! (out, "<", name, ">")
 //
   val (fpf | proplst) = __properties (node)
   val () = auxAttr (out, proplst, nspace)
@@ -77,6 +76,9 @@ if p_node > 0 then let
   val (fpf | nodelst) = __children (node)
   val () = auxNode (out, nodelst, nspace+2)
   prval () = minus_addback (fpf, nodelst | node)
+//
+  val () = indent (out, nspace)
+  val () = fprintln! (out, "</", name, ">")
 //
   val (fpf | node_next) = __next (node)
   val () = auxNode (out, node_next, nspace)
@@ -111,7 +113,7 @@ end else () // end of [if]
 end // end of [auxAttr]
 //
 in
-  auxNode (stdout_ref, node, 0)
+  auxNode (out, node, 0)
 end // end of [treeWalk]
 
 (* ****** ****** *)
@@ -129,9 +131,10 @@ val ((*void*)) = assertloc (ptrcast (doc) > 0)
 //
 val () = println! ("The file [", filename, "] has been parsed successfully!")
 //
-val (fpf | node) = xmlDocGetRootElement (doc)
-val () = treeWalk (node)
-prval ((*void*)) = minus_addback (fpf, node | doc)
+val out = stdout_ref
+val (fpf | root) = xmlDocGetRootElement (doc)
+val () = treeWalk (out, root)
+prval ((*void*)) = minus_addback (fpf, root | doc)
 //
 val () = xmlFreeDoc (doc)
 //

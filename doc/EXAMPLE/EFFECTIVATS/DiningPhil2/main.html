@@ -58,7 +58,7 @@ fun{a:vt0p} channel_takeout (chan: channel (a)): (a)
 If [channel_insert] is called on a channel that is full, then the caller is
 blocked until an element is taken out of the channel.  If [channel_takeout]
 is called on a channel that is empty, then the caller is blocked until an
-element is.inserted into the channel.
+element is inserted into the channel.
 
 <h2>
 A Channel for Each Fork
@@ -135,6 +135,8 @@ It should be straighforward to follow the code for [phil_loop].
 <h2>
 Fork Cleaner Loop
 </h2>
+
+A cleaner is implemented as a loop:
 
 <pre>
 implement

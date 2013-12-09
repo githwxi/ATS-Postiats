@@ -118,6 +118,7 @@ ATSCNTRB/libats-hwxi/teaching\
 
 #packfilename("mythread/DATS/channel.dats")
 #packfilename("mythread/DATS/mythread.dats")
+#packfilename("mythread/DATS/mythread_posix.dats")
 
 (* ****** ****** *)
 
