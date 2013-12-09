@@ -96,6 +96,14 @@ upload_array0:: ;   scp HTML/array0.html ats-hwxi,ats-lang@web.sourceforge.net:h
 clean:: ; $(RMF) array0_atxt.exe
 cleanall:: ; $(RMF) HTML/array0.html
 
+all_html:: HTML/matrix0.html
+HTML/matrix0.html:   matrix0_atxt.exe ; ./$< > $@
+matrix0_atxt.txt: matrix0.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+matrix0_atxt.exe: htmlgendecl_atxt.dats   matrix0_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsynmark/libatsynmark.a -latsdoc
+upload_matrix0:: ;   scp HTML/matrix0.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
+clean:: ; $(RMF) matrix0_atxt.exe
+cleanall:: ; $(RMF) HTML/matrix0.html
+
 all_html:: HTML/string.html
 HTML/string.html:   string_atxt.exe ; ./$< > $@
 string_atxt.txt: string.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@

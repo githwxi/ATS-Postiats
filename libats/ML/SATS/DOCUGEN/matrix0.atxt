@@ -1,0 +1,46 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../matrix0.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_ML_matrix0")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/ML/matrix0\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are primarily for supporting
+ML-style processing of persisten matrices. Note that a plain matrix (as is in
+C) is not available in languages such as Java and ML due to the need for
+performing matrix-bounds checking at run-time. Instead, matrices in these
+languages are always bundled together with their dimensions. In ATS, the type
+#stacode("matrix0(T)") is for a matrix paired with its dimension in which
+elements of the type T are stored.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("matrix0")
+#declnamesynop("matrix0_vt0ype_type")
+
+(* ****** ****** *)
+
+#declnamesynop("matrix0_of_mtrxszref")
+#declnamesynop("mtrxszref_of_matrix0")
+
+(* ****** ****** *)
+
+(* end of [matrix0.atxt] *)

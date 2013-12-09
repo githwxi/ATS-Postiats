@@ -34,6 +34,7 @@ elements of the type T are stored.
 (* ****** ****** *)
 
 #declnamesynop("array0")
+#declnamesynop("array0_vt0ype_type")
 
 (* ****** ****** *)
 
