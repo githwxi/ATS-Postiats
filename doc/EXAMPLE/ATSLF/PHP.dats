@@ -16,7 +16,7 @@
 ** What is encoded and proven in ATS is the following formulation of
 ** pigeonhole principle (PHP):
 **
-** Let P be a relation on pairs of integers and m and n be two naturnal
+** Let P be a relation on pairs of integers, and m and n be two naturnal
 ** numbers satisfying m > n and n >= 1. If there exists a natural number
 ** j < n for each given naturnal number i < m such that P (i, j) holds,
 ** then there exists i1, i2 and j satisfying 0 <= i1 < i2 < m and j < n
