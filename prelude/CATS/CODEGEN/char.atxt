@@ -35,6 +35,9 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 \#include <ctype.h>
 
+#atscode_separator_for_C()
+
+\#if(0)
 \#ifndef isascii
 extern int isascii (int c) ; // _XOPEN_SOURCE
 \#endif // end of [isascii]
@@ -46,6 +49,7 @@ extern int isblank (int c) ; // _XOPEN_SOURCE >= 600
 \#ifndef toascii
 extern int toascii (int c) ; // _XOPEN_SOURCE
 \#endif // end of [toascii]
+\#endif // end of [ #if(0) ]
 
 #atscode_separator_for_C()
 
