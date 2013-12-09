@@ -49,7 +49,7 @@ extern int isblank (int c) ; // _XOPEN_SOURCE >= 600
 \#ifndef toascii
 extern int toascii (int c) ; // _XOPEN_SOURCE
 \#endif // end of [toascii]
-\#endif // end of [ #if(0) ]
+\#endif // end of [ \#if(0) ]
 
 #atscode_separator_for_C()
 
