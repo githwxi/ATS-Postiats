@@ -146,6 +146,17 @@ case+ d2c0.d2ecl_node of
     val () = fprint! (out, ")")
   }
 //
+| D2Clocal
+    (head, body) =>
+  {
+    val () =
+      fprint! (out, "D2Clocal(\n")
+    val () = fprint_d2eclist (out, head)
+    val () = fprint! (out, "in-of-local\n")
+    val () = fprint_d2eclist (out, body)
+    val () = fprint! (out, "end-of-local\n")
+  }
+//
 | D2Cignored((*void*)) => fprint! (out, "D2Cignored(", ")")
 //
 (*
@@ -224,6 +235,13 @@ d2ecl_valdeclst
   (loc, knd, v2ds) =
   d2ecl_make_node (loc, D2Cvaldecs (knd, v2ds))
 //
+(* ****** ****** *)
+
+implement
+d2ecl_local
+  (loc, head, body) =
+  d2ecl_make_node (loc, D2Clocal (head, body))
+
 (* ****** ****** *)
 
 implement

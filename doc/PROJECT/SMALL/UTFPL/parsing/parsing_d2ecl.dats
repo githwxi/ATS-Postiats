@@ -74,6 +74,11 @@ fun parse_D2Cvaldecs (jsonval): d2ecl_node
 
 (* ****** ****** *)
 
+extern
+fun parse_D2Clocal (jsonval): d2ecl_node
+
+(* ****** ****** *)
+
 extern fun parse_D2Cignored (jsonval): d2ecl_node
 
 (* ****** ****** *)
@@ -97,6 +102,8 @@ case+ name of
 //
 | "D2Cfundecs" => parse_D2Cfundecs (jsv2)
 | "D2Cvaldecs" => parse_D2Cvaldecs (jsv2)
+//
+| "D2Clocal" => parse_D2Clocal (jsv2)
 //
 | _(*not-yet-processed*) => parse_D2Cignored (jsv2)
 //
@@ -216,6 +223,21 @@ val v2ds = parse_list<v2aldec> (jsvs[1], parse_v2aldec)
 in
   D2Cvaldecs (knd, v2ds)
 end // end of [parse_D2Cvaldecs]
+
+(* ****** ****** *)
+
+implement
+parse_D2Clocal
+  (jsv0) = let
+//
+val-JSONarray(jsvs) = jsv0
+val () = assertloc (length(jsvs) >= 2)
+val head = parse_d2eclist (jsvs[0])
+val body = parse_d2eclist (jsvs[1])
+//
+in
+  D2Clocal (head, body)
+end // end of [parse_D2Clocal]
 
 (* ****** ****** *)
 

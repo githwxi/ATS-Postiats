@@ -687,9 +687,19 @@ d2c0.d2ecl_node of
     aux2 ("D2Cvaldecs", knd, v2ds)
   end // end of [D2Cvaldecs]
 //
-| D2Cinclude (d2cs) =>
-    aux1 ("D2Cinclude", jsonize_d2eclist (d2cs))
-  // end of [D2Cinclude]
+| D2Cinclude
+    (d2cs) => let
+    val d2cs = jsonize_d2eclist (d2cs)
+  in
+    aux1 ("D2Cinclude", d2cs)
+  end // end of [D2Cinclude]
+//
+| D2Clocal (head, body) => let
+    val head = jsonize_d2eclist (head)
+    val body = jsonize_d2eclist (body)
+  in
+    aux2 ("D2Clocal", head, body)
+  end // end of [D2Clocal]
 //
 | _ (*yet-to-be-processed*) => aux0 ("D2Cignored")
 //

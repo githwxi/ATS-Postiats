@@ -60,4 +60,16 @@ fun pow (x, n) =
 
 (* ****** ****** *)
 
+local
+
+fun loop (n, res) = if n > 0 then loop (n-1, n * res) else res
+
+in (* in of [local] *)
+
+fun fact (n) = loop (n, 1)
+
+end // end of [local]
+
+(* ****** ****** *)
+
 (* end of [test01.dats] *)

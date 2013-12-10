@@ -225,6 +225,8 @@ d2ecl_node =
   | D2Cfundecs of (funkind, f2undeclst)
   | D2Cvaldecs of (valkind, v2aldeclst)
 //
+  | D2Clocal of (d2eclist(*head*), d2eclist(*body*))
+//
   | D2Cignored of ((*void*)) // HX: error-handling
 // end of [d2ecl_node]
 
@@ -421,6 +423,11 @@ fun d2ecl_fundeclst
   (loc: loc_t, knd: funkind, f2ds: f2undeclst): d2ecl
 fun d2ecl_valdeclst
   (loc: loc_t, knd: valkind, v2ds: v2aldeclst): d2ecl
+
+(* ****** ****** *)
+
+fun d2ecl_local
+  (loc: loc_t, head: d2eclist, body: d2eclist): d2ecl
 
 (* ****** ****** *)
 
