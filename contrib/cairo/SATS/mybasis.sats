@@ -61,16 +61,6 @@ typedef rgba = rgba_type
 //
 (* ****** ****** *)
 
-macdef CAIRO_VERSION_MAJOR = $extval (int, "CAIRO_VERSION_MAJOR")
-macdef CAIRO_VERSION_MINOR = $extval (int, "CAIRO_VERSION_MINOR")
-macdef CAIRO_VERSION_MICRO = $extval (int, "CAIRO_VERSION_MICRO")
-
-fun CAIRO_VERSION_ENCODE
-  (major: int, minor: int, micro: int): int = "mac#CAIRO_VERSION_ENCODE"
-// end of [CAIRO_VERSION_ENCODE]
-
-(* ****** ****** *)
-
 macdef CAIRO_HAS_IMAGE_SURFACE = $extval (int, "CAIRO_HAS_IMAGE_SURFACE")
 macdef CAIRO_HAS_PDF_SURFACE = $extval (int, "CAIRO_HAS_PDF_SURFACE")
 macdef CAIRO_HAS_PNG_FUNCTIONS = $extval (int, "CAIRO_HAS_PNG_FUNCTIONS")

@@ -34,7 +34,14 @@ This package contains an API for programming cairo in ATS.\
 
 (* ****** ****** *)
 
-#declname2("cairo_header.sats", "cairo_header.html")
+#declnamesynop("CAIRO_VERSION_MAJOR")
+#declnamesynop("CAIRO_VERSION_MINOR")
+#declnamesynop("CAIRO_VERSION_MICRO")
+#declnamesynop("CAIRO_VERSION_ENCODE")
+
+(* ****** ****** *)
+
+#declname2("mybasis.sats", "mybasis.html")
 //
 #declsynop2('\
 

@@ -20,14 +20,6 @@ ATSLIB/contrib/cairo/mybasis\
 
 (* ****** ****** *)
 
-#declnamesynop("CAIRO_VERSION_MAJOR")
-#declnamesynop("CAIRO_VERSION_MINOR")
-#declnamesynop("CAIRO_VERSION_MICRO")
-
-#declnamesynop("CAIRO_VERSION_ENCODE")
-
-(* ****** ****** *)
-
 #declnamesynop("cairo_ref")
 #declnamesynop("cairo_ref1")
 #declnamesynop("xr") // alias for cairo_ref
