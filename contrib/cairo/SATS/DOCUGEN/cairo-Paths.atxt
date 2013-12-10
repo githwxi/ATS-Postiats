@@ -47,14 +47,14 @@ ATSLIB/contrib/cairo/Drawing/cairo-Paths\
 
 (* ****** ****** *)
 
-#declnamesynop("cairo_glyph_path"
-#declnamesynop("cairo_text_path"
+#declnamesynop("cairo_text_path")
+#declnamesynop("cairo_glyph_path")
 
 (* ****** ****** *)
 
-#declnamesynop("cairo_rel_curve_to")
-#declnamesynop("cairo_rel_line_to")
 #declnamesynop("cairo_rel_move_to")
+#declnamesynop("cairo_rel_line_to")
+#declnamesynop("cairo_rel_curve_to")
 
 (* ****** ****** *)
 

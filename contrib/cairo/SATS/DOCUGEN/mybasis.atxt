@@ -2,7 +2,7 @@
 
 %{
 implement
-srcfilename_get () = "../cairo_header.sats"
+srcfilename_get () = "../mybasis.sats"
 %}
 
 (* ****** ****** *)
@@ -15,7 +15,7 @@ val () = patscode_prefix_set("TRYIT/contrib_cairo_cairo")
 (* ****** ****** *)
 
 #decltitle("\
-ATSLIB/contrib/cairo/cairo_header\
+ATSLIB/contrib/cairo/mybasis\
 ")
 
 (* ****** ****** *)
@@ -258,4 +258,4 @@ properly balance.  ")
 
 (* ****** ****** *)
 
-(* end of [cairo_header.atxt] *)
+(* end of [mybasis.atxt] *)

@@ -43,8 +43,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=./../../contrib/cairo/\n\
-TARGET=ATS-Postiats-contrib/contrib/cairo/\n\
+SOURCE=./../../contrib/json-c/\n\
+TARGET=ATS-Postiats-contrib/contrib/json-c/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -62,7 +62,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The ATSCNTRB-cairo files have been copied.\"\n\
+echo \"The ATSCNTRB-json-c files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
@@ -95,51 +95,36 @@ packfilesynop (x) = atext_nil ()
 
 (* ****** ****** *)
 
-#packtitle("ATSCNTRB/cairo")
+#packtitle("\
+ATSCNTRB/json-c\
+")
 
 (* ****** ****** *)
 
-#packfilename("CATS/cairo.cats")
+#packfilename("CATS/json.cats")
+#packfilename("CATS/printbuf.cats")
 
 (* ****** ****** *)
 
-#packfilename("SATS/cairo.sats")
+#packfilename("SATS/json.sats")
 #packfilename("SATS/mybasis.sats")
+#packfilename("SATS/arraylist.sats")
+#packfilename("SATS/linkhash.sats")
+#packfilename("SATS/printbuf.sats")
+#packfilename("SATS/json_util.sats")
+#packfilename("SATS/json_object.sats")
+#packfilename("SATS/json_object_iterator.sats")
+#packfilename("SATS/json_tokener.sats")
 
 (* ****** ****** *)
 
-#packfilename("SATS/Drawing/cairo-cairo-t.sats")
-#packfilename("SATS/Drawing/cairo-cairo-pattern-t.sats")
+#packfilename("SATS/json_ML.sats")
 
 (* ****** ****** *)
 
-#packfilename("SATS/Drawing/cairo-Paths.sats")
-#packfilename("SATS/Drawing/cairo-Regions.sats")
-#packfilename("SATS/Drawing/cairo-Transformations.sats")
-#packfilename("SATS/Drawing/cairo-text.sats")
-#packfilename("SATS/Drawing/cairo-Raster-Sources.sats")
+#packfilename("DATS/json.dats")
+#packfilename("DATS/json_ML.dats")
 
-(* ****** ****** *)
-
-#packfilename("SATS/Fonts/cairo-cairo-font-face-t.sats")
-
-(* ****** ****** *)
-
-#packfilename("SATS/Surfaces/cairo-cairo-device-t.sats")
-#packfilename("SATS/Surfaces/cairo-cairo-surface-t.sats")
-
-(* ****** ****** *)
-
-#packfilename("SATS/Surfaces/cairo-Image-Surfaces.sats")
-#packfilename("SATS/Surfaces/cairo-PDF-Surfaces.sats")
-#packfilename("SATS/Surfaces/cairo-PNG-Support.sats")
-#packfilename("SATS/Surfaces/cairo-PostScript-Surfaces.sats")
-
-(* ****** ****** *)
-
-#packfilename("SATS/Utilities/cairo-cairo-matrix-t.sats")
-#packfilename("SATS/Utilities/cairo-Error-Handling.sats")
-#packfilename("SATS/Utilities/cairo-Types.sats")
 
 (* ****** ****** *)
 
@@ -155,4 +140,4 @@ implement main () = ()
 
 (* ****** ****** *)
 
-(* end of [atscntrb_cairo.atxt] *)
+(* end of [atscntrb_json-c.atxt] *)

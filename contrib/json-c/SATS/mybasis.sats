@@ -5,8 +5,8 @@
 
 (* ****** ****** *)
 
-#ifndef JSONC_JSON_HEADER_SATS
-#define JSONC_JSON_HEADER_SATS
+#ifndef JSONC_MYBASIS_SATS
+#define JSONC_MYBASIS_SATS
 
 (* ****** ****** *)
 //
@@ -197,8 +197,8 @@ json_tokener1 = [l:addr | l > null] json_tokener (l)
 
 (* ****** ****** *)
 
-#endif // end of [JSONC_JSON_HEADER_SATS]
+#endif // end of [JSONC_MYBASIS_SATS]
 
 (* ****** ****** *)
 
-(* end of [json_header.sats] *)
+(* end of [mybasis.sats] *)

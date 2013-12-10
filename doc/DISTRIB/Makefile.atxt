@@ -123,6 +123,8 @@ all_script::
 #make_entry("atscntrb_glib")
 #make_entry("atscntrb_cairo")
 #
+#make_entry("atscntrb_json-c")
+#make_entry("atscntrb_jansson")
 #make_entry("atscntrb_hiredis")
 #
 #make_entry("atscntrb_HTML")
@@ -236,6 +238,13 @@ srcget_atscntrb_glib:: SCRIPT/atscntrb_glib.bash ; bash $<
 
 srcget_atscntrb:: srcget_atscntrb_cairo
 srcget_atscntrb_cairo:: SCRIPT/atscntrb_cairo.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_json-c
+srcget_atscntrb_json-c:: SCRIPT/atscntrb_json-c.bash ; bash $<
+srcget_atscntrb:: srcget_atscntrb_jansson
+srcget_atscntrb_jansson:: SCRIPT/atscntrb_jansson.bash ; bash $<
 
 ######
 

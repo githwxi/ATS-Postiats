@@ -1,6 +1,6 @@
 0.0.5
 <pre>
-This is the fourth release of ATS2, the successor of the ATS
+This is the fifth release of ATS2, the successor of the ATS
 programming language. The compiler for ATS2 is given the name
 ATS/Positats, ATS2/Postiats or simply Postiats.
 
@@ -30,6 +30,8 @@ Here is a list of major additions and changes since the last release:
    (command-line flag for this feature: --constraint-export)
 4. Fixing bug-2013-12-04 (erroneous compilation of pattern matching)
 5. Adding a minimal API for the pcre package
+6. Adding a direct API for the json-c package
+7. Adding a direct API for the jansson package
 
 </pre>
 
