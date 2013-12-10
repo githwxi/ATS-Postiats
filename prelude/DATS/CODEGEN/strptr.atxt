@@ -214,6 +214,26 @@ end // end of [strptr_append]
 #atscode_separator()
 
 implement{}
+strptrlst_free (xs) = let
+//
+fun loop
+  (xs: List_vt(Strptr0)): void = let
+in
+//
+case+ xs of
+| ~list_vt_cons
+    (x, xs) => (strptr_free (x); loop (xs))
+| ~list_vt_nil () => ()
+//
+end // end of [loop]
+//
+in
+  $effmask_all (loop (xs))
+end // end of [strptrlst_free]
+
+#atscode_separator()
+
+implement{}
 strptrlst_concat (xs) = let
 //
 prval () = lemma_list_vt_param (xs)

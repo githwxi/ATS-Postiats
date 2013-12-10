@@ -262,14 +262,25 @@ fun{
 
 (* ****** ****** *)
 
-fun{
-} pcre_match2_substring
+fun
+pcre_match2_substring
   {n:int}{st,ln:int | st+ln <= n}
 (
   code: !pcreptr1
 , subject: string(n), st: size_t(st), ln: size_t(ln)
 , matched_beg: &int? >> int(n0), matched_end: &int? >> int(n1)
 ) : #[n0,n1:int | n0 <= n1; n1 <= st+ln] int
+
+(* ****** ****** *)
+
+fun
+pcre_match3_substring
+  {n:int}{st,ln:int | st+ln <= n}
+(
+  code: !pcreptr1
+, subject: string(n), st: size_t(st), ln: size_t(ln)
+, matched_beg: &int? >> int(n0), matched_end: &int? >> int(n1), err: &int? >> int
+) : #[n0,n1:int | n0 <= n1; n1 <= st+ln] List0_vt (Strptr0)
 
 (* ****** ****** *)
 

@@ -17,6 +17,7 @@ all::
 all:: test00
 all:: test01
 all:: test02
+all:: test03
 
 ######
 
@@ -35,6 +36,12 @@ cleanall:: ; $(RMF) test01
 test02: test02.dats ; \
   $(PATSCC) -DATS_MEMALLOC_LIBC -I$(PATSHOMERELOCQ)/contrib -o $@  $< testlib.dats -lpcre
 cleanall:: ; $(RMF) test02
+
+######
+
+test03: test03.dats ; \
+  $(PATSCC) -DATS_MEMALLOC_LIBC -I$(PATSHOMERELOCQ)/contrib -o $@  $< testlib.dats -lpcre
+cleanall:: ; $(RMF) test03
 
 ######
 

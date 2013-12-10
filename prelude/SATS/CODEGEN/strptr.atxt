@@ -327,6 +327,11 @@ fun{
 #atscode_separator()
 
 fun{
+} strptrlst_free (xs: List_vt (Strptr0)):<!wrt> void
+
+#atscode_separator()
+
+fun{
 } strptrlst_concat (xs: List_vt (Strptr0)):<!wrt> Strptr0
 
 #atscode_separator()

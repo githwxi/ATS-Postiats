@@ -16,7 +16,16 @@
 
 (* ****** ****** *)
 
-staload "./../SATS/pcre.sats"
+local
+//
+#include "./../DATS/pcre.dats"
+#include "./../DATS/pcre_ML.dats"
+//
+in (* in of [local] *)
+//
+// HX: it is intentionally left to be empty
+//
+end // end of [local]
 
 (* ****** ****** *)
 

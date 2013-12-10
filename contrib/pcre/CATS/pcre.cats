@@ -48,6 +48,19 @@ typedef unsigned char uchar ;
 
 /* ****** ****** */
 
+#ifndef memcpy
+//
+extern // HX: declared in [string.h]
+void *memcpy (void* dst, const void* src, size_t n) ;
+//
+#endif // end of [#ifndef]
+
+/* ****** ****** */
+
+#define atscntrb_pcre_memcpy memcpy
+
+/* ****** ****** */
+
 #define atscntrb_pcre_pcre_version pcre_version
 
 /* ****** ****** */
