@@ -159,7 +159,28 @@ macdef XPATH_FORBID_VARIABLE_ERROR = $extval(xmlXPathError, "XPATH_FORBID_VARIAB
 //
 (* ****** ****** *)
 
-fun xmlXPathNewContext (): xmlXPathContextPtr0 = "mac#%"
+/*
+xmlXPathObjectPtr xmlXPathConvertNumber (xmlXPathObjectPtr val);
+xmlXPathObjectPtr xmlXPathConvertString (xmlXPathObjectPtr val);
+xmlXPathObjectPtr xmlXPathConvertBoolean (xmlXPathObjectPtr val);
+*/
+
+(* ****** ****** *)
+
+fun xmlXPathConvertNumber (!xmlXPathObjectPtr0): xmlXPathObjectPtr0 = "mac#"
+fun xmlXPathConvertString (!xmlXPathObjectPtr0): xmlXPathObjectPtr0 = "mac#"
+fun xmlXPathConvertBoolean (!xmlXPathObjectPtr0): xmlXPathObjectPtr0 = "mac#"
+
+(* ****** ****** *)
+
+fun xmlXPathFreeObject (xmlXPathObjectPtr0): void = "mac#%"
+
+(* ****** ****** *)
+
+fun xmlXPathNewContext
+  (doc: !xmlDocPtr1): xmlXPathContextPtr0 = "mac#%"
+
+fun xmlXPathFreeContext (xmlXPathContextPtr0): void = "mac#%"
 
 (* ****** ****** *)
 

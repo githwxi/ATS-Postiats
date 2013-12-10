@@ -37,7 +37,21 @@
 
 /* ****** ****** */
 
+#define \
+atscntrb_libxml2_xmlXPathConvertNumber xmlXPathConvertNumber
+#define \
+atscntrb_libxml2_xmlXPathConvertString xmlXPathConvertString
+#define \
+atscntrb_libxml2_xmlXPathConvertBoolean xmlXPathConvertBoolean
+
+/* ****** ****** */
+
+#define atscntrb_libxml2_xmlXPathFreeObject xmlXPathFreeObject
+
+/* ****** ****** */
+
 #define atscntrb_libxml2_xmlXPathNewContext xmlXPathNewContext
+#define atscntrb_libxml2_xmlXPathFreeContext xmlXPathFreeContext
 
 /* ****** ****** */
 
