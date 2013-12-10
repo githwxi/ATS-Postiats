@@ -61,13 +61,47 @@ This function is a slightly generalized variant of #dyncode("regstr_match_string
 
 (* ****** ****** *)
 
-#declnamesynop("regstr_match2_substring")
+#declnamesynop("regstr_match2_string")
 #decldescrpt("\
 
-Compared with #dyncode("regstr_match_substring"), this function takes two
+Compared with #dyncode("regstr_match_string"), this function takes two
 additional call-by-reference arguments that are used to store the beginning
 and ending positions of the portion of the given subject string that
 matches the given regular expression.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("regstr_match2_substring")
+#decldescrpt("\
+
+This function is a slightly generalized variant of #dyncode("regstr_match2_string").
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("regstr_match3_string")
+#decldescrpt("\
+
+Compared with #dyncode("regstr_match2_string"), this function returns a
+list of (linear) strings that are copies of the captured portions in the
+given subject string. Note that the integer value stored in the
+call-by-reference argument err indicates whether matching succeeded or
+failed; if the value is negative, then matching failed; if the value is
+zero, then matching succeeded and the length of the returned list equals a
+fixed integer (currently chosen to be 15); otherwise, matching succeeded
+and the length of the returned list equals the value minus 1.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("regstr_match3_substring")
+#decldescrpt("\
+
+This function is a slightly generalized variant of #dyncode("regstr_match3_string").
 
 ")
 

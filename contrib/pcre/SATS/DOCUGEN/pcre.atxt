@@ -72,6 +72,7 @@ This package contains an API in ATS for the <a href="http://www.pcre.org/">pcre<
 #declnamesynop("pcre_match_string")
 #declnamesynop("pcre_match_substring")
 #declnamesynop("pcre_match2_substring")
+#declnamesynop("pcre_match3_substring")
 
 (* ****** ****** *)
 
