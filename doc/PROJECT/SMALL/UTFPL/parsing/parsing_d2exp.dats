@@ -81,6 +81,9 @@ extern
 fun parse_D2Esym (jsonval): d2exp_node
 
 extern
+fun parse_D2Elet (jsonval): d2exp_node
+
+extern
 fun parse_D2Eapplst (jsonval): d2exp_node
 
 extern
@@ -135,6 +138,8 @@ case+ name of
 | "D2Es0tring" => parse_D2Es0tring (jsv2)
 //
 | "D2Esym" => parse_D2Esym (jsv2)
+//
+| "D2Elet" => parse_D2Elet (jsv2)
 //
 | "D2Eapplst" => parse_D2Eapplst (jsv2)
 //
@@ -233,6 +238,21 @@ val d2s = parse_d2sym (jsvs[0])
 in
   D2Esym (d2s)
 end // end of [parse_D2Esym]
+
+(* ****** ****** *)
+
+implement
+parse_D2Elet
+  (jsv0) = let
+//
+val-JSONarray(jsvs) = jsv0
+val () = assertloc (length(jsvs) >= 2)
+val d2cs = parse_d2eclist (jsvs[0])
+val d2e_body = parse_d2exp (jsvs[1])
+//
+in
+  D2Elet (d2cs, d2e_body)
+end // end of [parse_D2Elet]
 
 (* ****** ****** *)
 

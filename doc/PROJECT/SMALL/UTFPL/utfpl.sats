@@ -247,6 +247,8 @@ and d2exp_node =
 //
   | D2Eexp of (d2exp) // dummy
 //
+  | D2Elet of (d2eclist, d2exp)
+//
   | D2Eapplst of (d2exp, d2exparglst)
 //
   | D2Eifopt of (
@@ -355,6 +357,12 @@ fun d2exp_empty (loc: loc_t): d2exp
 (* ****** ****** *)
 
 fun d2exp_exp (loc: loc_t, d2e: d2exp): d2exp
+
+(* ****** ****** *)
+
+fun d2exp_let
+  (loc: loc_t, d2cs: d2eclist, d2e: d2exp): d2exp
+// end of [d2exp_let]
 
 (* ****** ****** *)
 

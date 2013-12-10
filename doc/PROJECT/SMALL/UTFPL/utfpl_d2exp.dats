@@ -40,6 +40,9 @@ case+ d2e0.d2exp_node of
 | D2Eexp (d2e) =>
     fprint! (out, "D2Eexp(", d2e, ")")
 //
+| D2Elet (d2cs, d2e) =>
+    fprint! (out, "D2Elet(", d2cs, "; ", d2e, ")")
+//
 | D2Eapplst (d2e, d2as) =>
     fprint! (out, "D2Eapplst(", d2e, "; ", d2as, ")")
 //
@@ -165,6 +168,13 @@ implement
 d2exp_exp
   (loc, d2e) =
   d2exp_make_node (loc, D2Eexp (d2e))
+//
+(* ****** ****** *)
+//
+implement
+d2exp_let
+  (loc, d2cs, d2e) =
+  d2exp_make_node (loc, D2Elet (d2cs, d2e))
 //
 (* ****** ****** *)
 //
