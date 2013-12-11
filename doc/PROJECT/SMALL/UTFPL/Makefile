@@ -8,15 +8,20 @@ CCOPT=gcc -std=c99 -D_XOPEN_SOURCE -D_GNU_SOURCE
 
 ######
 
-PATSHOMEQ="$(PATSHOME)"
+ifeq ("$(PATSHOME)","")
+  PATSHOMEQ="$(ATSHOME)"
+else
+  PATSHOMEQ="$(PATSHOME)"
+endif
 
 ######
 
-PATSCC=\
-$(PATSHOMEQ)/bin/patscc \
-  -atsccomp "$(CCOPT)" \
-  -IIATS $(PATSHOME) -IIATS $(PATSHOME)/ccomp/runtime
+PATSCC=$(PATSHOMEQ)/bin/patscc
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
+
+PATSCC2=\
+  $(PATSCC) -atsccomp "$(CCOPT)" \
+  -IIATS $(PATSHOME) -IIATS $(PATSHOME)/ccomp/runtime
 
 ######
 
@@ -42,9 +47,8 @@ utfpl.o: \
 
 %_sats.o: %.sats ; $(PATSCC) -c $<
 
-%_dats.c: \
-  %.dats utfpl.sats ; $(PATSCC) -ccats $<
-%_dats.o: %_dats.c; $(PATSCC) $(DATSMEMALLOC) -c $<
+%_dats.c: %.dats utfpl.sats ; $(PATSCC2) -ccats $<
+%_dats.o: %_dats.c ; $(PATSCC2) $(DATSMEMALLOC) -c $<
 
 ######
 

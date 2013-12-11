@@ -45,7 +45,7 @@ datatype
 s2exp_node =
 | S2Ecst of (s2cst)
 | S2Evar of (s2var)
-
+// end of [s2exp_node]
 
 where
 s2exp = '{
