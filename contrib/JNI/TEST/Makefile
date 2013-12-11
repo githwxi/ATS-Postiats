@@ -19,13 +19,16 @@ Hello:: Hello.h
 Hello:: Hello.class
 Hello:: libHello_dats.so
 
-######
-
 Hello.h: Hello.class ; javah Hello
 Hello.class: Hello.java ; javac $<
 Hello_dats.o: Hello.dats; \
   $(PATSCC) -IIATS $(PATSHOME)/contrib -I $(JNIincl) -fPIC -c Hello.dats
 libHello_dats.so: Hello_dats.o ; gcc -shared -o $@ -Wl,-soname,$@ $< -ldl
+
+######
+
+Arrayptr_test:: Arrayptr_test.class
+Arrayptr_test.class: Arrayptr_test.java ; javac -classpath ./../Java $<
 
 ######
 
@@ -41,6 +44,7 @@ clean::; $(RMF) Hello_dats.c
 cleanall:: clean
 cleanall::; $(RMF) Hello.class
 cleanall:: ; $(RMF) libHello_dats.so
+cleanall::; $(RMF) Arrayptr_test.class
 
 ######
 

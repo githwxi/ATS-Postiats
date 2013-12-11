@@ -49,6 +49,9 @@ typedef jstring1 = [l:addr | l > null] jstring (l)
 (* ****** ****** *)
 
 abstype jclass = ptr
+
+(* ****** ****** *)
+
 abstype jobject (l:addr) = ptr(l)
 typedef jobject0 = [l:agez] jobject(l)
 typedef jobject1 = [l:addr | l > null] jobject(l)
