@@ -136,6 +136,19 @@ of length n.
 
 (* ****** ****** *)
 
+#declnamesynop("arrayptr_make_subarray")
+#decldescrpt("\
+
+Given a non-linear array A of size n and two non-negative integers st and
+ln satisfying st+ln <= n, this function returns a linear array A2 of size
+ln such that the value in each A2[i] equals the value in A[st+i], where i
+ranges from 0 until ln-1, inclusive.\
+
+")
+
+
+(* ****** ****** *)
+
 #declnamesynop("arrayptr_make_list_vt")
 #decldescrpt("\
 
@@ -334,6 +347,14 @@ combines #dyncode("arrayptr_uninitize") with #dyncode("arrayptr_free").  ")
 (* ****** ****** *)
 
 #declnamesynop("arrayptr_tabulate")
+#decldescrpt("\
+
+Given a non-negative integer n, this function returns a linear array A of
+size n such that A is initialized from left to right by storing into A[i]
+the value returned from a call to #dyncode("array_tabulate$fopr") on i,
+where i ranges from 0 until n-1, inclusive.\
+
+")
 
 (* ****** ****** *)
 //

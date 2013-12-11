@@ -159,6 +159,17 @@ inclusive.\
 (* ****** ****** *)
 
 #declnamesynop("array0_make_subarray")
+#decldescrpt('\
+
+Given an array0-value A of size n and two non-negative integers st and ln,
+this function returns another array0-value A2 of size ln2 such that the
+value in each A2[i] equals the value in A[st2+i], where st2 and ln2 equal
+min(st,n) and min(ln,n-st2), respectively, and i ranges from 0 until ln2-1,
+inclusive. Please note that the returned array0-value A2 is of size 0 if st
+is greater than or equal to n.
+
+')
+
 
 (* ****** ****** *)
 
