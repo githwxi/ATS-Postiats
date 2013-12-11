@@ -11,18 +11,18 @@ MyMatrix
     static
     native
     long
-    matrix_make_elt (int m, int n, int elt) ;
+    MyMatrix_make_elt (int m, int n, int elt) ;
 
     public
     static
     native
-    int matrix_get_at (long M, int i, int j) ;
+    int MyMatrix_get_at (long M, int i, int j) ;
 
     public
     static
     native
     void
-    matrix_set_at (long M, int i, int j, int x) ;
+    MyMatrix_set_at (long M, int i, int j, int x) ;
 
 } // end of [MyMatrix]
 

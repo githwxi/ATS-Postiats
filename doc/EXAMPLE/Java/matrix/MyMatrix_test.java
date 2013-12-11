@@ -17,12 +17,12 @@ MyMatrix_test
     void main(String[] args)
     {
 	long M ;
-	M = MyMatrix.matrix_make_elt (10, 10, 0) ;
-	System.out.println ("M00 = " + MyMatrix.matrix_get_at (M, 0, 0));
-	MyMatrix.matrix_set_at (M, 0, 0, 1) ;
-	System.out.println ("M00 = " + MyMatrix.matrix_get_at (M, 0, 0));
-	MyMatrix.matrix_set_at (M, 0, 0, -1) ;
-	System.out.println ("M00 = " + MyMatrix.matrix_get_at (M, 0, 0));
+	M = MyMatrix.MyMatrix_make_elt (10, 10, 0) ;
+	System.out.println ("M00 = " + MyMatrix.MyMatrix_get_at (M, 0, 0));
+	MyMatrix.MyMatrix_set_at (M, 0, 0, 1) ;
+	System.out.println ("M00 = " + MyMatrix.MyMatrix_get_at (M, 0, 0));
+	MyMatrix.MyMatrix_set_at (M, 0, 0, -1) ;
+	System.out.println ("M00 = " + MyMatrix.MyMatrix_get_at (M, 0, 0));
 	return ;
     }
 } // end of [MyMatrix_test]
