@@ -27,8 +27,8 @@ libHello_dats.so: Hello_dats.o ; gcc -shared -o $@ -Wl,-soname,$@ $< -ldl
 
 ######
 
-Arrayptr_test:: Arrayptr_test.class
-Arrayptr_test.class: Arrayptr_test.java ; javac -classpath ./../Java $<
+ATSarrayptr_test:: ATSarrayptr_test.class
+ATSarrayptr_test.class: ATSarrayptr_test.java ; javac -classpath ./../Java $<
 
 ######
 
@@ -44,7 +44,7 @@ clean::; $(RMF) Hello_dats.c
 cleanall:: clean
 cleanall::; $(RMF) Hello.class
 cleanall:: ; $(RMF) libHello_dats.so
-cleanall::; $(RMF) Arrayptr_test.class
+cleanall::; $(RMF) ATSarrayptr_test.class
 
 ######
 
