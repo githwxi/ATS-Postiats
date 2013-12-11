@@ -1,5 +1,5 @@
 /*
-** Exporting a matrix in ATS for use in Java
+** ATS data for use in Java
 */
 
 /* ****** ****** */

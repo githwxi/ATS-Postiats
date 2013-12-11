@@ -1,5 +1,5 @@
 (*
-** Exporting a matrix in ATS for use in Java
+** ATS data for use in Java
 *)
 
 (* ****** ****** *)
@@ -54,6 +54,10 @@ Java_MyMatrix_matrix_1set_1at
 
 (* ****** ****** *)
 
+staload "MyMatrix.sats"
+
+(* ****** ****** *)
+
 implement
 Java_MyMatrix_matrix_1make_1elt
   (env, obj, m, n, x0) = let
@@ -61,7 +65,7 @@ Java_MyMatrix_matrix_1make_1elt
   val n = $UN.cast{Size}(n)
   val x0 = $UN.cast{int}(x0)
 in
-  $UN.cast{jlong}(mtrxszref_make_elt<int> (m, n, x0))
+  $UN.cast{jlong}(matrix_make_elt (m, n, x0))
 end // end of [Java_MyMatrix_matrix_1make_1elt]
 
 (* ****** ****** *)
@@ -69,8 +73,10 @@ end // end of [Java_MyMatrix_matrix_1make_1elt]
 implement
 Java_MyMatrix_matrix_1get_1at
   (env, obj, M, i, j) = let
-  val M = $UN.cast{mtrxszref(jint)}(M)
-  val i = $UN.cast{int}(i) and j = $UN.cast{int}(j) in M[i,j]
+  val M =
+    $UN.cast{MyMatrix}(M)
+  val i = $UN.cast{int}(i)
+  and j = $UN.cast{int}(j) in $UN.cast{jint}(M[i,j])
 end // end of [Java_MyMatrix_matrix_1get_1at]
 
 (* ****** ****** *)
@@ -78,9 +84,31 @@ end // end of [Java_MyMatrix_matrix_1get_1at]
 implement
 Java_MyMatrix_matrix_1set_1at
   (env, obj, M, i, j, x0) = let
-  val M = $UN.cast{mtrxszref(jint)}(M)
-  val i = $UN.cast{int}(i) and j = $UN.cast{int}(j) in M[i,j] := $UN.cast{jint}(x0)
+  val M =
+    $UN.cast{MyMatrix}(M)
+  val i = $UN.cast{int}(i)
+  and j = $UN.cast{int}(j) in M[i,j] := $UN.cast2int(x0)
 end // end of [Java_MyMatrix_matrix_1set_1at]
+
+(* ****** ****** *)
+
+local
+
+assume
+MyMatrix_type = mtrxszref(int)
+
+in (* in of [local] *)
+//
+implement
+matrix_make_elt
+  (m, n, x0) = mtrxszref_make_elt (m, n, x0)
+//
+implement
+matrix_get_at (M, i, j) = mtrxszref_get_at_gint (M, i, j)
+implement
+matrix_set_at (M, i, j, x) = mtrxszref_set_at_gint (M, i, j, x)
+//
+end // end of [local]
 
 (* ****** ****** *)
 
