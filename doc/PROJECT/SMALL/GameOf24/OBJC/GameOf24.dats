@@ -49,9 +49,13 @@ OBJC_GameOf24_play24
   n1: int, n2: int
 , n3: int, n4: int
 , nsol: &int? >> int(n)
-) : #[n:nat] arrayref(string, n) = "ext#"
-// end of [OBJC_GameOf24_play24]
-
+) : #[n:nat] arrayptr(Strptr1, n) = "ext#"
+//
+extern
+fun
+OBJC_GameOf24_free{n:int}
+  (arrayptr(Strptr1, n), size_t n): void = "ext#"
+//
 (* ****** ****** *)
 
 implement
@@ -67,15 +71,30 @@ val ((*void*)) = nsol := nres
 //
 val A =
   arrayptr_make_uninitized<string> (i2sz(nres))
-val _(*nsol*) = stringize_cardlst_save (res, ptrcast(A), nsol)
+val _(*nsol*) =
+  stringize_cardlst_save (res, ptrcast(A), nsol)
 //
 prval
 [n:int]
 EQINT () = g1int_get_index (nres)
 //
 in
-  $UN.castvwtp0{arrayref(string,n)}(A)
+  $UN.castvwtp0{arrayptr(Strptr1,n)}(A)
 end // end of [OBJC_GameOf24_play24]
+
+(* ****** ****** *)
+
+implement
+OBJC_GameOf24_free
+  (A, n) = let
+//
+implement{a}
+array_uninitize$clear
+  (i, x) = strptr_free ($UN.castvwtp0{Strptr1}(x))
+//
+in
+  arrayptr_freelin (A, n)
+end // end of [OBJC_GameOf24_free]
 
 (* ****** ****** *)
 
