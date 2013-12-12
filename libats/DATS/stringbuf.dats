@@ -110,6 +110,17 @@ implement{
 (* ****** ****** *)
 
 implement{
+} stringbuf_getfree_strptr
+  (sbf) = let
+  val+~STRINGBUF (A, p, _) = sbf
+  val () = $UN.ptr0_set<char>(p, '\000')
+in
+  $UN.castvwtp0{Strptr1}(A)
+end // end of [stringbuf_getfree_strptr]
+
+(* ****** ****** *)
+
+implement{
 } stringbuf_getfree_strnptr
   (sbf, n0) = let
   val+~STRINGBUF (A, p, _) = sbf

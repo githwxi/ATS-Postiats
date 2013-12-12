@@ -15,7 +15,8 @@ PATSLIB=$(PATSHOME)/ccomp/atslib/lib
 ######
 
 GameOf24: \
-  GameOf24.o GameOf24_dats.o ; $(CCOPT) -o $@ $^
+  GameOf24.o GameOf24_dats.o ; \
+  $(CCOPT) -o $@ $^ -L$(PATSLIB) -latslib
 
 ######
 

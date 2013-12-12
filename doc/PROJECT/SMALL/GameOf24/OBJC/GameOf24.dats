@@ -10,6 +10,11 @@
 #define ATS_DYNLOADFLAG 0
 //
 (* ****** ****** *)
+
+#include
+"share/atspre_staload.hats"
+
+(* ****** ****** *)
 //
 local
 #include "../GameOf24_card.dats"
@@ -38,8 +43,13 @@ UN = "prelude/SATS/unsafe.sats"
 // [play24] is declared in Java class [GameOf24]
 //
 extern
-fun OBJC_GameOf24_play24
-  (n1: int, n2: int, n3: int, n4: int): void = "ext#"
+fun
+OBJC_GameOf24_play24
+(
+  n1: int, n2: int
+, n3: int, n4: int
+, nsol: &int? >> int(n)
+) : #[n:nat] arrayref(string, n) = "ext#"
 // end of [OBJC_GameOf24_play24]
 
 (* ****** ****** *)
@@ -47,26 +57,24 @@ fun OBJC_GameOf24_play24
 implement
 OBJC_GameOf24_play24
 (
-  n1, n2, n3, n4
+  n1, n2, n3, n4, nsol
 ) = let
 //
 val out = stdout_ref
 val res = play24 (n1, n2, n3, n4)
-val (
-) = fprintln! (out, "play24(", n1, ", ", n2, ", ", n3, ", ", n4, "):")
+val nres = list_length (res)
+val ((*void*)) = nsol := nres
+//
+val A =
+  arrayptr_make_uninitized<string> (i2sz(nres))
+val _(*nsol*) = stringize_cardlst_save (res, ptrcast(A), nsol)
+//
+prval
+[n:int]
+EQINT () = g1int_get_index (nres)
 //
 in
-//
-case+ res of
-| list_cons _ =>
-  (
-    fpprint_cardlst (out, res); fprint_newline (out)
-  )
-| list_nil () => 
-  {
-    val () = fprintln! (out, "There is NO solution.")
-  }
-//
+  $UN.castvwtp0{arrayref(string,n)}(A)
 end // end of [OBJC_GameOf24_play24]
 
 (* ****** ****** *)
