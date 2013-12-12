@@ -295,6 +295,17 @@ cleanall:: ; $(RMF) HTML/atscntrb_hiredis.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_hiredis.bash
 
 #
+all_html:: HTML/atscntrb_JNI.html
+HTML/atscntrb_JNI.html: atscntrb_JNI_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_JNI.bash
+SCRIPT/atscntrb_JNI.bash: atscntrb_JNI_atxt.exe ; ./$< > $@
+atscntrb_JNI_atxt.dats: ATEXT/atscntrb_JNI.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_JNI_atxt.exe: atscntrb_JNI_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_JNI_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_JNI.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_JNI.bash
+
+#
 all_html:: HTML/atscntrb_HTML.html
 HTML/atscntrb_HTML.html: atscntrb_HTML_atxt.exe ; ./$< > $@
 all_script:: SCRIPT/atscntrb_HTML.bash
@@ -463,6 +474,11 @@ srcget_atscntrb_jansson:: SCRIPT/atscntrb_jansson.bash ; bash $<
 
 srcget_atscntrb:: srcget_atscntrb_hiredis
 srcget_atscntrb_hiredis:: SCRIPT/atscntrb_hiredis.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_JNI
+srcget_atscntrb_JNI:: SCRIPT/atscntrb_JNI.bash ; bash $<
 
 ######
 

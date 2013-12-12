@@ -9,6 +9,7 @@
 //
 /* ****** ****** */
 
+public
 class
 MyMatrix_test
 {
@@ -21,13 +22,13 @@ MyMatrix_test
     static
     void main(String[] args)
     {
-	long M ;
-	M = MyMatrix.MyMatrix_make_elt (10, 10, 0) ;
-	System.out.println ("M00 = " + MyMatrix.MyMatrix_get_at (M, 0, 0));
-	MyMatrix.MyMatrix_set_at (M, 0, 0, 1) ;
-	System.out.println ("M00 = " + MyMatrix.MyMatrix_get_at (M, 0, 0));
-	MyMatrix.MyMatrix_set_at (M, 0, 0, -1) ;
-	System.out.println ("M00 = " + MyMatrix.MyMatrix_get_at (M, 0, 0));
+	MyMatrix M ;
+	M = new MyMatrix(10, 10) ;
+	System.out.println ("M[0][0] = " + M.get_at (0, 0));
+	M.set_at (1, 1, 1) ;
+	System.out.println ("M[1][1] = " + M.get_at (1, 1));
+	M.set_at (2, 2, 2) ;
+	System.out.println ("M[2][2] = " + M.get_at (2, 2));
 	return ;
     }
 } // end of [MyMatrix_test]

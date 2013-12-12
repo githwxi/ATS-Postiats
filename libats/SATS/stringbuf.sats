@@ -65,6 +65,9 @@ fun{}
 stringbuf_free (sbf: stringbuf):<!wrt> void
 
 fun{}
+stringbuf_getfree_strptr (sbf: stringbuf):<!wrt> Strptr1
+
+fun{}
 stringbuf_getfree_strnptr
   (sbf: stringbuf, n: &size_t? >> size_t(n)):<!wrt> #[n:nat] strnptr(n)
 // end of [stringbuf_getfree_strnptr]

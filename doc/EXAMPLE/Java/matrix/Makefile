@@ -33,8 +33,8 @@ MyMatrix.h: MyMatrix.class ; javah MyMatrix
 
 MyMatrix.class: MyMatrix.java ; javac $<
 MyMatrix_test.class: MyMatrix_test.java ; javac $<
-MyMatrix_dats.o: MyMatrix.dats; \
-  $(PATSCC) -D_GNU_SOURCE -IIATS $(PATSHOME)/contrib -I$(JNIincl) -DATS_MEMALLOC_LIBC -fPIC -c $<
+MyMatrix_dats.o: MyMatrix.sats MyMatrix.dats ; \
+  $(PATSCC) -D_GNU_SOURCE -IIATS $(PATSHOME)/contrib -I$(JNIincl) -DATS_MEMALLOC_LIBC -fPIC -c MyMatrix.dats
 libMyMatrix_dats.so: MyMatrix_dats.o ; gcc -shared -o $@ -Wl,-soname,$@ $< -ldl -L$(PATSLIB) -latslib
 
 ######

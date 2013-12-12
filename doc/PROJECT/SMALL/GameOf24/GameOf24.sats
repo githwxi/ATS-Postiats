@@ -60,6 +60,10 @@ fun fpprint_cardlst (out: FILEref, xs: List0(card)): void
 
 (* ****** ****** *)
 
+fun stringize_card (x: card): Strptr1
+
+(* ****** ****** *)
+
 abstype cardset_type = ptr
 typedef cardset = cardset_type
 
@@ -88,8 +92,18 @@ overload [] with cardset_get_at
 
 (* ****** ****** *)
 
-fun play24 (n1: int, n2: int, n3: int, n4: int): List0(card)
+fun play24
+(
+  n1: int, n2: int, n3: int, n4: int
+) : List0(card) // end of [play24]
 
+(* ****** ****** *)
+//
+// HX: this one is a bit hacky ...
+//
+fun stringize_cardlst_save
+  (xs: List0(card), psave: ptr, n: int): intGte(0)(*saved*)
+//
 (* ****** ****** *)
 
 (* end of [GameOf24.sats] *)

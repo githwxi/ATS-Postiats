@@ -8,6 +8,16 @@
 //
 (* ****** ****** *)
 
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload "libats/SATS/stringbuf.sats"
+staload _ = "libats/DATS/stringbuf.dats"
+
+(* ****** ****** *)
+
 staload "./GameOf24.sats"
 
 (* ****** ****** *)
@@ -139,6 +149,50 @@ end // end of [fpprint_card]
 
 (* ****** ****** *)
 
+implement
+stringize_card (c0) = let
+//
+fun aux
+(
+  sbf: !stringbuf, c0: card
+) : void = let
+//
+macdef ins (x) =
+  ignoret(stringbuf_insert (sbf, ,(x)))
+//
+in
+//
+case+ c0.card_node of
+| CARDint (v) => ins (v)
+| CARDadd (c1, c2) =>
+  (
+    ins "("; aux (sbf, c1); ins " + "; aux (sbf, c2); ins ")"
+  )
+| CARDsub (c1, c2) =>
+  (
+    ins "("; aux (sbf, c1); ins " - "; aux (sbf, c2); ins ")"
+  )
+| CARDmul (c1, c2) =>
+  (
+    ins "("; aux (sbf, c1); ins " * "; aux (sbf, c2); ins ")"
+  )
+| CARDdiv (c1, c2) =>
+  (
+    ins "("; aux (sbf, c1); ins " / "; aux (sbf, c2); ins ")"
+  )
+//
+end // end of [aux]
+//
+val sbf =
+  stringbuf_make_nil (i2sz(32))
+val ((*void*)) = aux (sbf, c0)
+//
+in
+  stringbuf_getfree_strptr (sbf)
+end // end of [stringize_card]
+
+(* ****** ****** *)
+
 end // end of [local]
 
 (* ****** ****** *)
@@ -182,6 +236,38 @@ val () = fprint_list (out, cs)
 //
 in
 end // end of [fpprint_cardlst]
+
+(* ****** ****** *)
+
+implement
+stringize_cardlst_save
+  (xs, psave, n) = let
+//
+fun loop
+(
+  xs: List0(card)
+, psave: ptr, n: int, i: intGte(0)
+) : intGte(0) = let
+in
+//
+if n > 0 then
+(
+case+ xs of
+| list_nil () => i
+| list_cons (x, xs) => let
+    val str = stringize_card (x)
+    val str = strptr2string (str)
+    val ((*void*)) = $UN.ptr0_set<string> (psave, str)
+  in
+    loop (xs, ptr_succ<string> (psave), n-1, i+1)
+  end // end of [list0_cons]
+) else (i) // end of [if]
+//
+end // end of [loop]
+//
+in
+  loop (xs, psave, n, 0(*i*))
+end // end of [stringize_cardlst_save]
 
 (* ****** ****** *)
 

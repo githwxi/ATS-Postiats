@@ -127,6 +127,8 @@ all_script::
 #make_entry("atscntrb_jansson")
 #make_entry("atscntrb_hiredis")
 #
+#make_entry("atscntrb_JNI")
+#
 #make_entry("atscntrb_HTML")
 #make_entry("atscntrb_HTML_canvas-2d")
 #
@@ -250,6 +252,11 @@ srcget_atscntrb_jansson:: SCRIPT/atscntrb_jansson.bash ; bash $<
 
 srcget_atscntrb:: srcget_atscntrb_hiredis
 srcget_atscntrb_hiredis:: SCRIPT/atscntrb_hiredis.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_JNI
+srcget_atscntrb_JNI:: SCRIPT/atscntrb_JNI.bash ; bash $<
 
 ######
 

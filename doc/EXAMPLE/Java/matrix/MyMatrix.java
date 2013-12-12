@@ -7,23 +7,37 @@
 class
 MyMatrix
 {
-    public
+//
+    long M = 0 ;
+//
+    MyMatrix (int nrow, int ncol)
+    {
+	M = _make_elt (nrow, ncol, 0) ;
+    }
+    MyMatrix (int nrow, int ncol, int x0)
+    {
+	M = _make_elt (nrow, ncol, x0) ;
+    }
+//
+    int get_at (int i, int j) { return _get_at(M, i, j) ; }
+//
+    void set_at (int i, int j, int x) { _set_at(M, i, j, x) ; return ; }
+//
+    private
     static
     native
-    long
-    MyMatrix_make_elt (int m, int n, int elt) ;
+    long _make_elt (int m, int n, int x0) ;
 
-    public
+    private
     static
     native
-    int MyMatrix_get_at (long M, int i, int j) ;
+    int _get_at (long M, int i, int j) ;
 
-    public
+    private
     static
     native
-    void
-    MyMatrix_set_at (long M, int i, int j, int x) ;
-
+    void _set_at (long M, int i, int j, int x) ;
+//
 } // end of [MyMatrix]
 
 /* ****** ****** */

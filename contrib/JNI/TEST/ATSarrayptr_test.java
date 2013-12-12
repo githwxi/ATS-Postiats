@@ -22,24 +22,25 @@ ATSarrayptr_test
     static
     void main(String[] args)
     {
-	long A ;
-	long I ;
-        long I1 = 1L ;
-        long I_1 = -1L ;
+//
+	ATSarrayptr A ;
+	long I1 = 1L, I_1 = -1L ;
 //
 	System.out.println("Hello from [ATSarrayptr_test]!");
 //
-	A = ATSarrayptr.make_elt(10, 0) ;
+	A = new ATSarrayptr(10) ;
 //
-	ATSarrayptr.set_at(A, 5, I1) ;
-	System.out.println ("A[5] = " + ATSarrayptr.get_at(A, 5));
+	for (int i = 0; i < 10; i += 1) A.set_at(i, i) ;
 //
-	ATSarrayptr.set_at(A, 5, I_1) ;
-	System.out.println ("A[5] = " + ATSarrayptr.get_at(A, 5));
+	for (int i = 0; i < 10; i += 1)
+	    {
+		System.out.println ("A[" + i + "] = " + A.get_at(i)) ;
+	    }
 //
-	ATSarrayptr.free(A) ; // [A] is linear!
+	A.free() ; // [A] is linear!
 //
 	return ;
+//
     }
 //
 } // end of [ATSarrayptr_test]
