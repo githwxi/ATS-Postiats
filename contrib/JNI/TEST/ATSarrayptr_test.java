@@ -30,6 +30,8 @@ ATSarrayptr_test
 //
 	A = new ATSarrayptr(10) ;
 //
+	System.out.println ("A.size = " + A.size) ;
+//
 	for (int i = 0; i < 10; i += 1) A.set_at(i, i) ;
 //
 	for (int i = 0; i < 10; i += 1)
