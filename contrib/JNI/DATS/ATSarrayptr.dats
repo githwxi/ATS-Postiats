@@ -27,7 +27,7 @@ staload "./../SATS/ATSarrayptr.sats"
 (* ****** ****** *)
 
 implement
-Java_ATSarrayptr_make_1elt
+Java_ATSarrayptr__1make_1elt
 (
   jenv, jclass, asz, x0
 ) = let
@@ -35,12 +35,24 @@ Java_ATSarrayptr_make_1elt
   val A = arrayptr_make_elt<jboxed> (asz, x0)
 in
   $UN.castvwtp0{jboxed}(A)
-end // end of [Java_ATSarrayptr_make_1elt]
+end // end of [Java_ATSarrayptr__1make_1elt]
 
 (* ****** ****** *)
 
 implement
-Java_ATSarrayptr_get_1at
+Java_ATSarrayptr__1free
+  (jenv, jclass, A) = let
+  val A =
+    $UN.castvwtp0{arrayptr(jboxed,0)}(A)
+  // end of [val]
+in
+  arrayptr_free (A)
+end // end of [Java_ATSarrayptr__1free]
+
+(* ****** ****** *)
+
+implement
+Java_ATSarrayptr__1get_1at
 (
   jenv, jclass, A, i
 ) = let
@@ -49,12 +61,12 @@ Java_ATSarrayptr_get_1at
   val A = $UN.cast{arrayref(jboxed, i+1)}(A)
 in
   A[i]
-end // end of [Java_ATSarrayptr_get_1at]
+end // end of [Java_ATSarrayptr__1get_1at]
 
 (* ****** ****** *)
 
 implement
-Java_ATSarrayptr_set_1at
+Java_ATSarrayptr__1set_1at
 (
   jenv, jclass, A, i, x
 ) = let
@@ -63,15 +75,7 @@ Java_ATSarrayptr_set_1at
   val A = $UN.cast{arrayref(jboxed, i+1)}(A)
 in
   A[i] := x
-end // end of [Java_ATSarrayptr_set_1at]
-
-(* ****** ****** *)
-
-implement
-Java_ATSarrayptr_free
-  (jenv, jclass, A) =
-  arrayptr_free ($UN.castvwtp0{arrayptr(jboxed,0)}(A))
-// end of [Java_ATSarrayptr_free]
+end // end of [Java_ATSarrayptr__1set_1at]
 
 (* ****** ****** *)
 

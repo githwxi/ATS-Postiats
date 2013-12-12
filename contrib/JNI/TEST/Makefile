@@ -15,6 +15,11 @@ JNIincl=/usr/lib/jvm/java-7-openjdk-amd64/include
 #
 ######
 
+all:: Hello
+all:: ATSarrayptr_test
+
+######
+
 Hello:: Hello.h
 Hello:: Hello.class
 Hello:: libHello_dats.so
