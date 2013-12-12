@@ -14,6 +14,10 @@ MyMatrix
     {
 	M = _make_elt (nrow, ncol, 0) ;
     }
+    MyMatrix (int nrow, int ncol, int x0)
+    {
+	M = _make_elt (nrow, ncol, x0) ;
+    }
 //
     int get_at (int i, int j) { return _get_at(M, i, j) ; }
 //
@@ -22,7 +26,7 @@ MyMatrix
     private
     static
     native
-    long _make_elt (int m, int n, int elt) ;
+    long _make_elt (int m, int n, int x0) ;
 
     private
     static
