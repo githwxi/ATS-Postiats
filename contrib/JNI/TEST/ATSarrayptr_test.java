@@ -30,11 +30,12 @@ ATSarrayptr_test
 //
 	A = new ATSarrayptr(10) ;
 //
-	A.set_at(5, I1) ;
-	System.out.println ("A[5] = " + A.get_at(5));
+	for (int i = 0; i < 10; i += 1) A.set_at(i, i) ;
 //
-	A.set_at(5, I_1) ;
-	System.out.println ("A[5] = " + A.get_at(5));
+	for (int i = 0; i < 10; i += 1)
+	    {
+		System.out.println ("A[" + i + "] = " + A.get_at(i)) ;
+	    }
 //
 	A.free() ; // [A] is linear!
 //

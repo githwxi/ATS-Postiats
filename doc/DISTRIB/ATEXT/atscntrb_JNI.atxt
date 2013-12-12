@@ -106,6 +106,16 @@ ATSCNTRB/JNI\
 (* ****** ****** *)
 
 #packfilename("SATS/jni.sats")
+#packfilename("SATS/ATSarrayptr.sats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/ATSarrayptr.dats")
+
+(* ****** ****** *)
+
+#packfilename("Java/Makefile")
+#packfilename("Java/ATSarrayptr.java")
 
 (* ****** ****** *)
 
