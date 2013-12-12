@@ -32,6 +32,7 @@ libHello_dats.so: Hello_dats.o ; gcc -shared -o $@ -Wl,-soname,$@ $< -ldl
 
 ######
 
+ATSarrayptr_test:: ; make -C ../Java
 ATSarrayptr_test:: ATSarrayptr_test.class
 ATSarrayptr_test.class: ATSarrayptr_test.java ; javac -classpath ./../Java $<
 
@@ -47,9 +48,11 @@ clean::; $(RMF) Hello_dats.o
 clean::; $(RMF) Hello_dats.c
 
 cleanall:: clean
-cleanall::; $(RMF) Hello.class
+cleanall:: ; $(RMF) Hello.class
 cleanall:: ; $(RMF) libHello_dats.so
-cleanall::; $(RMF) ATSarrayptr_test.class
+cleanall:: ; make -C ../Java cleanall
+cleanall:: ; $(RMF) ATSarrayptr_test.class
+
 
 ######
 

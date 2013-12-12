@@ -22,6 +22,7 @@ ATSarrayptr_test
     static
     void main(String[] args)
     {
+//
 	ATSarrayptr A ;
 	long I1 = 1L, I_1 = -1L ;
 //
@@ -38,6 +39,7 @@ ATSarrayptr_test
 	A.free() ; // [A] is linear!
 //
 	return ;
+//
     }
 //
 } // end of [ATSarrayptr_test]
