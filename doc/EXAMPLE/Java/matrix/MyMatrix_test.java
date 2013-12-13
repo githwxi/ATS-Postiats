@@ -4,6 +4,7 @@
 
 /* ****** ****** */
 //
+// How to test:
 // java -Djava.library.path=. MyMatrix_test
 //
 /* ****** ****** */

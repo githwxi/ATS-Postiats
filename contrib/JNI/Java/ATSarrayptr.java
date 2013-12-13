@@ -9,10 +9,16 @@ class
 ATSarrayptr
 {
 //
-    long A = 0 ;
+    long A = 0 ; int size = 0 ;
 //
-    ATSarrayptr (int asz) { A = _make_elt (asz, 0) ; }
-    ATSarrayptr (int asz, long x0) { A = _make_elt (asz, x0) ; }
+    ATSarrayptr (int asz)
+    {
+	this.A = _make_elt (asz, 0) ; this.size = asz ;
+    }
+    ATSarrayptr (int asz, long x0)
+    {
+	this.A = _make_elt (asz, x0) ; this.size = asz ;
+    }
 //
     void free () { _free (A) ; return ; }
 //
