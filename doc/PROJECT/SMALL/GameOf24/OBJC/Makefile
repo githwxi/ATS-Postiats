@@ -25,8 +25,6 @@ GameOf24.o: GameOf24.m ; $(PATSCC) -x objective-c -c -o $@ $<
 GameOf24_dats.o: GameOf24.dats; \
   $(PATSCC) -D_GNU_SOURCE -IIATS $(PATSHOME)/contrib -DATS_MEMALLOC_LIBC -c GameOf24.dats
 
-GameOf24_dats.a: ; ar -r GameOf24_dats.o
-
 ######
 
 RMF=rm -f

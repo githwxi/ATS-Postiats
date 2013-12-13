@@ -1,3 +1,19 @@
+/*
+** A simple example of Java with interacting ATS
+*/
+
+/* ****** ****** */
+//
+// Author: Hongwei Xi
+// Authoremail: gmhwxiATgmailDOTcom
+// Start time: Summer, 2012
+//
+/* ****** ****** */
+//
+// java -Djava.library.path=. Hello
+//
+/* ****** ****** */
+
 class Hello
 {
     public

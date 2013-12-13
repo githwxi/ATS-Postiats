@@ -5,6 +5,12 @@
 
 (* ****** ****** *)
 //
+// Author: Hongwei Xi
+// Authoremail: gmhwxiATgmailDOTcom
+// Start time: Summer, 2012
+//
+(* ****** ****** *)
+//
 #define ATS_DYNLOADFLAG 0
 //
 (* ****** ****** *)
@@ -12,25 +18,20 @@
 staload JNI = "./../SATS/jni.sats"
 
 (* ****** ****** *)
-
-stadef JNIEnvPtr = $JNI.JNIEnvPtr
-stadef jstring (l:addr) = $JNI.jstring(l)
-stadef jobject (l:addr) = $JNI.jobject(l)
-
-(* ****** ****** *)
 //
 // HX: helloFrom is declared in Java class [Hello]
 //
 extern
-fun helloFrom{l1,l2:addr}
+fun
+Java_Hello_helloFrom
 (
-  env: !JNIEnvPtr, obj: !jobject l1, whom: jstring l2
-) : void = "ext#Java_Hello_helloFrom" // endfun
-
+  $JNI.JNIEnvPtr, $JNI.jobject0, whom: $JNI.jstring0
+) : void = "ext#" // end of [fun]
+//
 (* ****** ****** *)
 
 implement
-helloFrom
+Java_Hello_helloFrom
   (env, obj, whom) = let
 //
 val (
@@ -42,7 +43,7 @@ val () = $JNI.ReleaseStringUTFChars (pf | env, whom, whom2)
 //
 in
   // nothing
-end // end of [printHelloFrom]
+end // end of [Java_Hello_helloFrom]
 
 (* ****** ****** *)
 

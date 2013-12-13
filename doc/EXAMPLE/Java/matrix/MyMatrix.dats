@@ -35,7 +35,7 @@ extern
 fun
 Java_MyMatrix__1make_1elt
 (
-  !JNIEnvPtr, !jobject0, m: jint, n: jint, x0: jint
+  JNIEnvPtr, jobject0, m: jint, n: jint, x0: jint
 ) : jlong(*MyMatrix*) = "ext#"
 
 (* ****** ****** *)
@@ -44,11 +44,11 @@ Java_MyMatrix__1make_1elt
 extern
 fun
 Java_MyMatrix__1get_1nrow
-  (!JNIEnvPtr, !jobject0, M: jlong) : jint = "ext#"
+  (JNIEnvPtr, jobject0, M: jlong) : jint = "ext#"
 extern
 fun
 Java_MyMatrix__1get_1ncol
-  (!JNIEnvPtr, !jobject0, M: jlong) : jint = "ext#"
+  (JNIEnvPtr, jobject0, M: jlong) : jint = "ext#"
 *)
 
 (* ****** ****** *)
@@ -57,14 +57,14 @@ extern
 fun
 Java_MyMatrix__1get_1at
 (
-  !JNIEnvPtr, !jobject0, M: jlong, i: jint, j: jint
+  JNIEnvPtr, jobject0, M: jlong, i: jint, j: jint
 ) : jint = "ext#" // end of [Java_MyMatrix__1get_1at]
 
 extern
 fun
 Java_MyMatrix__1set_1at
 (
-  !JNIEnvPtr, !jobject0, M: jlong, i: jint, j: jint, x0: jint
+  JNIEnvPtr, jobject0, M: jlong, i: jint, j: jint, x0: jint
 ) : void = "ext#" // end of [Java_MyMatrix__1set_1at]
 
 (* ****** ****** *)
