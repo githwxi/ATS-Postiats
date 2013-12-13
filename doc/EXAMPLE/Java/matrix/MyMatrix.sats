@@ -9,20 +9,27 @@ typedef MyMatrix = MyMatrix_type
 
 (* ****** ****** *)
 
-fun MyMatrix__1make_elt
+fun MyMatrix_make_elt
 (
   size_t(*nrow*), size_t(*ncol*), int(*elt*)
-) : MyMatrix // end of [MyMatrix__1make_elt]
+) : MyMatrix // end of [MyMatrix_make_elt]
 
 (* ****** ****** *)
 
-fun MyMatrix__1get_at
+(*
+fun MyMatrix_get_nrow (MyMatrix): intGte(0)
+fun MyMatrix_get_ncol (MyMatrix): intGte(0)
+*)
+  
+(* ****** ****** *)
+
+fun MyMatrix_get_at
   (M: MyMatrix, i: int, j: int): int(*elt*)
-fun MyMatrix__1set_at
+fun MyMatrix_set_at
   (M: MyMatrix, i: int, j: int, int(*elt*)): void
 //
-overload [] with MyMatrix__1get_at
-overload [] with MyMatrix__1set_at
+overload [] with MyMatrix_get_at
+overload [] with MyMatrix_set_at
 //
 (* ****** ****** *)
 

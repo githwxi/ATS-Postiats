@@ -9,14 +9,17 @@ MyMatrix
 {
 //
     long M = 0 ;
+    int nrow = 0, ncol = 0 ;
 //
     MyMatrix (int nrow, int ncol)
     {
 	M = _make_elt (nrow, ncol, 0) ;
+	this.nrow = nrow; this.ncol = ncol ;
     }
     MyMatrix (int nrow, int ncol, int x0)
     {
 	M = _make_elt (nrow, ncol, x0) ;
+	this.nrow = nrow; this.ncol = ncol ;
     }
 //
     int get_at (int i, int j) { return _get_at(M, i, j) ; }
@@ -27,6 +30,13 @@ MyMatrix
     static
     native
     long _make_elt (int m, int n, int x0) ;
+
+    private
+    static
+    native int _get_nrow (long M) ;
+    private
+    static
+    native int _get_ncol (long M) ;
 
     private
     static

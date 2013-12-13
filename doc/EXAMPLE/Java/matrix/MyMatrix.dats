@@ -9,6 +9,8 @@
 (* ****** ****** *)
 //
 #include
+"share/atspre_define.hats"
+#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
@@ -18,7 +20,7 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload JNI = "JNI/SATS/jni.sats"
+staload JNI = "{$JNI}/SATS/jni.sats"
 
 (* ****** ****** *)
 
@@ -35,6 +37,19 @@ Java_MyMatrix__1make_1elt
 (
   !JNIEnvPtr, !jobject0, m: jint, n: jint, x0: jint
 ) : jlong(*MyMatrix*) = "ext#"
+
+(* ****** ****** *)
+
+(*
+extern
+fun
+Java_MyMatrix__1get_1nrow
+  (!JNIEnvPtr, !jobject0, M: jlong) : jint = "ext#"
+extern
+fun
+Java_MyMatrix__1get_1ncol
+  (!JNIEnvPtr, !jobject0, M: jlong) : jint = "ext#"
+*)
 
 (* ****** ****** *)
 
@@ -65,8 +80,25 @@ Java_MyMatrix__1make_1elt
   val n = $UN.cast{Size}(n)
   val x0 = $UN.cast{int}(x0)
 in
-  $UN.cast{jlong}(MyMatrix__1make_elt (m, n, x0))
+  $UN.cast{jlong}(MyMatrix_make_elt (m, n, x0))
 end // end of [Java_MyMatrix__1make_1elt]
+
+(* ****** ****** *)
+
+(*
+implement
+Java_MyMatrix__1get_1nrow
+  (env, obj, M) = let
+  val M = $UN.cast{MyMatrix}(M)
+  val nrow = MyMatrix_get_nrow(M) in $UN.cast{jint}(nrow)
+end // end of [Java_MyMatrix__1get_1nrow]
+implement
+Java_MyMatrix__1get_1ncol
+  (env, obj, M) = let
+  val M = $UN.cast{MyMatrix}(M)
+  val ncol = MyMatrix_get_ncol(M) in $UN.cast{jint}(ncol)
+end // end of [Java_MyMatrix__1get_1ncol]
+*)
 
 (* ****** ****** *)
 
@@ -100,13 +132,20 @@ MyMatrix_type = mtrxszref(int)
 in (* in of [local] *)
 //
 implement
-MyMatrix__1make_elt
+MyMatrix_make_elt
   (m, n, x0) = mtrxszref_make_elt (m, n, x0)
 //
+(*
 implement
-MyMatrix__1get_at (M, i, j) = mtrxszref_get_at_gint (M, i, j)
+MyMatrix_get_nrow (M) = sz2i(g1ofg0(M.nrow))
 implement
-MyMatrix__1set_at (M, i, j, x) = mtrxszref_set_at_gint (M, i, j, x)
+MyMatrix_get_ncol (M) = sz2i(g1ofg0(M.ncol))
+*)
+//
+implement
+MyMatrix_get_at (M, i, j) = mtrxszref_get_at_gint (M, i, j)
+implement
+MyMatrix_set_at (M, i, j, x) = mtrxszref_set_at_gint (M, i, j, x)
 //
 end // end of [local]
 

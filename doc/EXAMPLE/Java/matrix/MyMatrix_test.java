@@ -23,6 +23,8 @@ MyMatrix_test
     {
 	MyMatrix M ;
 	M = new MyMatrix(10, 10) ;
+	System.out.println ("M.nrow = " + M.nrow) ;
+	System.out.println ("M.ncol = " + M.ncol) ;
 	System.out.println ("M[0][0] = " + M.get_at (0, 0));
 	M.set_at (1, 1, 1) ;
 	System.out.println ("M[1][1] = " + M.get_at (1, 1));
