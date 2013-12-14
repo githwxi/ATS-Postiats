@@ -37,7 +37,7 @@ staload _(*anon*) = "{$HIREDIS}/DATS/hiredis.dats"
 
 (* ****** ****** *)
 
-#define TIMEOUT 1.0
+#include "./params.hats"
 #include "./redisContextSetup.hats"
 
 (* ****** ****** *)
@@ -138,7 +138,7 @@ redisConnectWithTimeout (ip, 6379, TIMEOUT)
 val ((*void*)) = assertloc (ptrcast(ctx) > 0)
 //
 val-~Some_vt(chan) =
-  msgchan_create_opt ("TOPSECRET6379")
+  msgchan_create_opt (CHANAME)
 //
 val ((*void*)) = the_redisContext_set (ctx)
 //

@@ -30,7 +30,7 @@ staload _(*anon*) = "{$HIREDIS}/DATS/hiredis.dats"
 
 (* ****** ****** *)
 
-#define TIMEOUT 1.0
+#include "./params.hats"
 #include "./redisContextSetup.hats"
 
 (* ****** ****** *)
@@ -125,7 +125,7 @@ val ((*void*)) = assertloc (ptrcast(ctx) > 0)
 val () = the_redisContext_set (ctx)
 //
 val-~Some_vt(chan) =
-  msgchan_create_opt ("TOPSECRET6379")
+  msgchan_create_opt (CHANAME)
 //
 val ((*void*)) =
   msgchan_dnload_fileref (chan, out)

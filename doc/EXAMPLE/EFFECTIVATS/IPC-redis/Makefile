@@ -54,7 +54,6 @@ test_dn: \
   $(PATSCC) $(ATSCCFLAGS) -o $@ $^ -L$(PATSLIB) -latslib -lhiredis -lgc
 cleanall:: ; $(RMF) test_dn
 
-
 ######
 
 #
@@ -66,10 +65,11 @@ cleanall:: ; $(RMF) test_dn
 
 ######
 
-depend:: ; $(RMF) -f .depend
-depend:: ; $(PATSOPT) --output-a .depend --depgen -s $(SOURCESsta)
-depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(SOURCESdyn)
 -include .depend
+depend:: ; $(RMF) .depend
+depend:: ; $(PATSOPT) --output-a .depend --depgen -d test_up.dats
+depend:: ; $(PATSOPT) --output-a .depend --depgen -d test_dn.dats
+depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(SOURCESdyn)
 
 ######
 
