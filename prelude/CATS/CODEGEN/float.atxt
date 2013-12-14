@@ -117,6 +117,15 @@ atstype_double x
 }
 
 #atscode_separator_for_C()
+//
+extern double atof (const char *inp) ;
+//
+ATSinline()
+atstype_int
+atspre_g0string2float_double
+  (atstype_string inp) { return atof((char*)inp) ; }
+//
+#atscode_separator_for_C()
 
 ATSinline()
 atstype_float

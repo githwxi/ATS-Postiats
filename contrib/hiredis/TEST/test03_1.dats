@@ -19,6 +19,10 @@ staload _(*anon*) = "./../DATS/hiredis.dats"
 //
 (* ****** ****** *)
 
+#define TIMEOUT 1.0
+
+(* ****** ****** *)
+
 val () =
 {
 //
@@ -27,7 +31,7 @@ var err: int = 0
 val ip = "127.0.0.1"
 //
 val ctx =
-redisConnectWithTimeout (ip, 6379, 1.0)
+redisConnectWithTimeout (ip, 6379, TIMEOUT)
 val ((*void*)) = assertloc (ptrcast(ctx) > 0)
 //
 val () = println! ("test03_1: connected!")

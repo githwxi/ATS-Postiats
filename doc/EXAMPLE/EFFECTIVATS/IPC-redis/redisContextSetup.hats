@@ -56,7 +56,7 @@ the_redisContext_reset () = let
   val () =
     redisFree ($UN.castvwtp0{redisContext0}(ctx))
   val ip = "127.0.0.1"
-  val ctx = redisConnectWithTimeout (ip, 6379, 1.0)
+  val ctx = redisConnectWithTimeout (ip, 6379, TIMEOUT)
   val () = !r0 := $UN.castvwtp0{ptr}(ctx)
 //
 in
@@ -64,11 +64,10 @@ in
 end // end of [the_redisContext_reset]
 
 implement
-the_redisContext_vtget
-  ((*void*)) = $UN.castvwtp0{vt0}(!r0)
+the_redisContext_vtget () = $UN.castvwtp0{vt0}(!r0)
 
 end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [connect.hats] *)
+(* end of [redisContextSetup.hats] *)

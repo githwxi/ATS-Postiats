@@ -116,6 +116,10 @@ g0float2float<dblknd,dblknd> = g0float2float_double_double
 
 #atscode_separator()
 
+implement g0string2float<dblknd> = g0string2float_double
+
+#atscode_separator()
+
 #g0float_implist("fltknd", "float")\
 
 #atscode_separator()

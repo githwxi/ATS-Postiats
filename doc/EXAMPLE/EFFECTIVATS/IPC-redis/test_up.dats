@@ -37,6 +37,7 @@ staload _(*anon*) = "{$HIREDIS}/DATS/hiredis.dats"
 
 (* ****** ****** *)
 
+#define TIMEOUT 1.0
 #include "./redisContextSetup.hats"
 
 (* ****** ****** *)
@@ -133,7 +134,7 @@ case+ opt of
 //
 val ip = "127.0.0.1"
 val ctx =
-redisConnectWithTimeout (ip, 6379, 1.0)
+redisConnectWithTimeout (ip, 6379, TIMEOUT)
 val ((*void*)) = assertloc (ptrcast(ctx) > 0)
 //
 val-~Some_vt(chan) =
