@@ -20,6 +20,12 @@ fcopy3: fcopy3.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 
 ######
 
+upload_main: ; \
+  scp main.html \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/file-copying/
+
+######
+
 RMF=rm -f
 
 ######

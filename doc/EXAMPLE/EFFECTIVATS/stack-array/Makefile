@@ -16,6 +16,12 @@ postfix_eval: postfix_eval.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 
 ######
 
+upload_main: ; \
+  scp main.html \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/stack-array/
+
+######
+
 RMF=rm -f
 
 ######

@@ -29,6 +29,12 @@ wordcnt_vt: wordcnt_vt.dats ; \
 
 ######
 
+upload_main: ; \
+  scp main.html \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/word-counting/
+
+######
+
 RMF=rm -f
 
 ######

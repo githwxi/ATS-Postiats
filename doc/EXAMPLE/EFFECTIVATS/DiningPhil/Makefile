@@ -79,7 +79,6 @@ upload_main: ; \
   scp main.html \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/DiningPhil/
 
-
 ######
 
 RMF=rm -f

@@ -56,10 +56,6 @@ cleanall:: ; $(RMF) test_dn
 
 ######
 
-#
-# You may find these rules useful
-#
-
 %_sats.o: %.sats ; $(PATSCC) $(ATSCCFLAGS) -c $< || echo $@ ": ERROR!!!"
 %_dats.o: %.dats ; $(PATSCC) -D_BSD_SOURCE $(ATSCCFLAGS) -c $< || echo $@ ": ERROR!!!"
 
@@ -76,7 +72,6 @@ depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(SOURCESdyn)
 upload_main: ; \
   scp main.html \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/IPC-redis/
-
 
 ######
 
