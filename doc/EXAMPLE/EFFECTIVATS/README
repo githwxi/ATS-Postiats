@@ -33,9 +33,17 @@ loop-as-tailrec: loop as tail-recursive functions
 stack-array: array-based stack implementation
 queue-sllist2: two-list-based queue implementation
 
-word-counting: couting the numbers of ocurrences of words in a given file
+word-counting: couting the ocurrences of words in a given file
 
-DiningPhil: implementing the 5-Dining-Philosophers problem by Dijkstra
+Producer-Consumer: implementing the Producer-Consumer problem
+
+DiningPhil:
+  implementing the 5-Dining-Philosophers problem by Dijkstra
+DiningPhil2:
+  implementing a slight variant of the 5-Dining-Philosophers problem
+
+IPC-redis:
+  A simple example of inter-process communication based on redis
 
 ######
 

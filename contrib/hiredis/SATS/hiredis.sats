@@ -116,6 +116,8 @@ castfn
 redisReply2ptr{l:addr} (rep: !redisReply (l)):<> ptr (l)
 overload ptrcast with redisReply2ptr
 
+praxi redisReply_free_null (redisReply (null)):<prf> void
+
 (* ****** ****** *)
 /*
 void freeReplyObject(void *reply);

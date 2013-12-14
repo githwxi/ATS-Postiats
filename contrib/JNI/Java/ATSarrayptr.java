@@ -30,7 +30,7 @@ ATSarrayptr
     static
     native
     long
-    _make_elt (long asz, long elt) ;
+    _make_elt (int asz, long elt) ;
 //
     private static native void _free (long Array) ;
 //

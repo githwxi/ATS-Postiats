@@ -42,6 +42,22 @@ cleanall:: ; $(RMF) test02
 
 ######
 
+all:: test03
+test03:: test03_1
+test03_1: test03_1.dats ; \
+  $(PATSCC) -cleanaft \
+    -IIATS $(PATSHOMERELOCQ)/contrib \
+    -DATS_MEMALLOC_GCBDW -o $@ $< testlib.dats -lhiredis -lgc
+cleanall:: ; $(RMF) test03_1
+test03:: test03_2
+test03_2: test03_2.dats ; \
+  $(PATSCC) -cleanaft \
+    -IIATS $(PATSHOMERELOCQ)/contrib \
+    -DATS_MEMALLOC_GCBDW -o $@ $< testlib.dats -lhiredis -lgc
+cleanall:: ; $(RMF) test03_2
+
+######
+
 all:: fact
 fact: fact.dats ; \
   $(PATSCC) -cleanaft \

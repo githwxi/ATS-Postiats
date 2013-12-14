@@ -7,6 +7,7 @@
 ######
 
 PATSHOMEQ="$(PATSHOME)"
+PATSHOMERELOCQ="$(PATSHOMERELOC)"
 
 ######
 
@@ -16,20 +17,12 @@ PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 
 ######
 
-#
-# HX: Please uncomment the one you want, or skip it entirely
-#
-ATSCCFLAGS=
-ATSCCFLAGS=-O2
-#
-# '-flto' enables link-time optimization such as inlining lib functions
-#
-#ATSCCFLAGS=-O2 -flto
-#
+ATSCCFLAGS=-O2 -DATS_MEMALLOC_GCBDW -IIATS $(PATSHOMERELOCQ)/contrib
 
 ######
 
-all:: test
+all:: test_up
+all:: test_dn
 
 ######
 
@@ -38,13 +31,11 @@ cleanall::
 ######
 
 SOURCESsta := \
-  DiningPhil.sats \
+  msgchan.sats \
 
 SOURCESdyn := \
-  DiningPhil.dats \
-  DiningPhil_fork.dats \
-  DiningPhil_dine.dats \
-  DiningPhil_think.dats \
+  mylib.dats \
+  msgchan.dats \
 
 ######
 
@@ -53,9 +44,16 @@ OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))
 
 ######
 
-test: $(OBJECTS) ; \
-  $(PATSCC) $(ATSCCFLAGS) -o $@ $^ -L$(PATSLIB) -lrt -latslib
-cleanall:: ; $(RMF) test
+test_up: \
+  test_up.dats $(OBJECTS) ; \
+  $(PATSCC) $(ATSCCFLAGS) -o $@ $^ -L$(PATSLIB) -latslib -lhiredis -lgc
+cleanall:: ; $(RMF) test_up
+
+test_dn: \
+  test_dn.dats $(OBJECTS) ; \
+  $(PATSCC) $(ATSCCFLAGS) -o $@ $^ -L$(PATSLIB) -latslib -lhiredis -lgc
+cleanall:: ; $(RMF) test_dn
+
 
 ######
 
@@ -63,8 +61,8 @@ cleanall:: ; $(RMF) test
 # You may find these rules useful
 #
 
-%_sats.o: %.sats ; $(PATSCC) -DATS_MEMALLOC_LIBC -c $< || echo $@ ": ERROR!!!"
-%_dats.o: %.dats ; $(PATSCC) -D_BSD_SOURCE -DATS_MEMALLOC_LIBC $(ATSCCFLAGS) -c $< || echo $@ ": ERROR!!!"
+%_sats.o: %.sats ; $(PATSCC) $(ATSCCFLAGS) -c $< || echo $@ ": ERROR!!!"
+%_dats.o: %.dats ; $(PATSCC) -D_BSD_SOURCE $(ATSCCFLAGS) -c $< || echo $@ ": ERROR!!!"
 
 ######
 
@@ -77,7 +75,7 @@ depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(SOURCESdyn)
 
 upload_main: ; \
   scp main.html \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/DiningPhil/
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/IPC-redis/
 
 
 ######

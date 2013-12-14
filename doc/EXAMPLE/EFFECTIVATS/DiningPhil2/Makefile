@@ -93,7 +93,6 @@ clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
-#cleanall:: ; $(RMF) .depend1
-#cleanall:: ; $(RMF) .depend2
+#cleanall:: ; $(RMF) .depend
 
 ###### end of [Makefile] ######
