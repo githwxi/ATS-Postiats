@@ -44,4 +44,9 @@ a:t@ype
 
 (* ****** ****** *)
 
+fun parse_s2cst (jsv: jsonval): s2cst
+fun parse_s2var (jsv: jsonval): s2var
+
+(* ****** ****** *)
+
 (* end of [parsing.sats] *)

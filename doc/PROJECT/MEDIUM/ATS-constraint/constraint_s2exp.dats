@@ -46,7 +46,7 @@ end // end of [fprint_s2explst]
 implement
 s2exp_make_node
   (s2t, node) = '{
-  s2exp_loc= s2t, s2exp_node= node
+  s2exp_srt= s2t, s2exp_node= node
 } (* end of [s2exp_make_node] *)
 
 (* ****** ****** *)
