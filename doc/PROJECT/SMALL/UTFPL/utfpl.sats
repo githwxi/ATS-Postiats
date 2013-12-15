@@ -3,6 +3,12 @@
 *)
 
 (* ****** ****** *)
+//
+typedef
+fprint_type
+  (a:t@ype) = (FILEref, a) -> void
+//
+(* ****** ****** *)
 
 abst0ype
 stamp_t0ype = int
@@ -10,8 +16,8 @@ typedef stamp = stamp_t0ype
 
 (* ****** ****** *)
 
-fun fprint_stamp
-  : (FILEref, stamp) -> void
+fun
+fprint_stamp: fprint_type (stamp)
 overload fprint with fprint_stamp
 
 (* ****** ****** *)
@@ -32,8 +38,8 @@ typedef symbol = symbol_type
 
 (* ****** ****** *)
 
-fun fprint_symbol
-  : (FILEref, symbol) -> void
+fun
+fprint_symbol: fprint_type(symbol)
 overload fprint with fprint_symbol
 
 (* ****** ****** *)
@@ -54,8 +60,8 @@ typedef loc_t = location_type
 
 (* ****** ****** *)
 
-fun fprint_location
-  : (FILEref, loc_t) -> void
+fun
+fprint_location: fprint_type (loc_t)
 overload fprint with fprint_location
 
 (* ****** ****** *)
@@ -98,8 +104,8 @@ vtypedef d2cstopt_vt = Option_vt (d2cst)
 
 (* ****** ****** *)
 
-fun fprint_d2cst
-  : (FILEref, d2cst) -> void
+fun
+fprint_d2cst: fprint_type (d2cst)
 overload fprint with fprint_d2cst
 
 (* ****** ****** *)
@@ -131,8 +137,8 @@ vtypedef d2varopt_vt = Option_vt (d2var)
 
 (* ****** ****** *)
 
-fun fprint_d2var
-  : (FILEref, d2var) -> void
+fun
+fprint_d2var: fprint_type (d2var)
 overload fprint with fprint_d2var
 
 (* ****** ****** *)
@@ -161,8 +167,8 @@ typedef d2sym = d2sym_type
 
 (* ****** ****** *)
 
-fun fprint_d2sym
-  : (FILEref, d2sym) -> void
+fun
+fprint_d2sym: fprint_type (d2sym)
 overload fprint with fprint_d2sym
 
 (* ****** ****** *)
@@ -196,8 +202,8 @@ p2atlst = List0 (p2at)
 
 (* ****** ****** *)
 //
-fun fprint_p2at: (FILEref, p2at) -> void
-fun fprint_p2atlst: (FILEref, p2atlst) -> void
+fun fprint_p2at: fprint_type (p2at)
+fun fprint_p2atlst: fprint_type (p2atlst)
 //
 overload fprint with fprint_p2at
 overload fprint with fprint_p2atlst of 10
@@ -311,9 +317,9 @@ and v2aldeclst = List0 (v2aldec)
 
 (* ****** ****** *)
 //
-fun fprint_d2exp: (FILEref, d2exp) -> void
-fun fprint_d2explst: (FILEref, d2explst) -> void
-fun fprint_d2expopt: (FILEref, d2expopt) -> void
+fun fprint_d2exp: fprint_type (d2exp)
+fun fprint_d2explst: fprint_type (d2explst)
+fun fprint_d2expopt: fprint_type (d2expopt)
 //
 overload fprint with fprint_d2exp
 overload fprint with fprint_d2explst of 10
@@ -321,16 +327,16 @@ overload fprint with fprint_d2expopt of 10
 //
 (* ****** ****** *)
 //
-fun fprint_d2exparg: (FILEref, d2exparg) -> void
-fun fprint_d2exparglst: (FILEref, d2exparglst) -> void
+fun fprint_d2exparg: fprint_type (d2exparg)
+fun fprint_d2exparglst: fprint_type (d2exparglst)
 //
 overload fprint with fprint_d2exparg
 overload fprint with fprint_d2exparglst of 10
 //
 (* ****** ****** *)
 //
-fun fprint_d2ecl: (FILEref, d2ecl) -> void
-fun fprint_d2eclist : (FILEref, d2eclist) -> void
+fun fprint_d2ecl: fprint_type (d2ecl)
+fun fprint_d2eclist: fprint_type (d2eclist)
 //
 overload fprint with fprint_d2ecl
 overload fprint with fprint_d2eclist of 10

@@ -17,6 +17,8 @@ all::DiningPhil
 DiningPhil2:: ; make -C DiningPhil2 all
 all::Producer-Consumer
 Producer-Consumer:: ; make -C Producer-Consumer all
+all::IPC-redis
+IPC-redis:: ; make -C IPC-redis all
 
 ######
 
@@ -121,6 +123,21 @@ upload_Producer-Consumer:: ; \
   Producer-Consumer/sbuffer.dats \
   Producer-Consumer/SharedResource.dats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/Producer-Consumer/
+
+######
+
+upload_IPC-redis:: ; \
+  scp \
+  IPC-redis/Makefile \
+  IPC-redis/main.html \
+  IPC-redis/mylib.dats \
+  IPC-redis/msgchan.sats \
+  IPC-redis/msgchan.dats \
+  IPC-redis/params.hats \
+  IPC-redis/redisContextSetup.hats \
+  IPC-redis/test_up.dats \
+  IPC-redis/test_dn.dats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/IPC-redis/
 
 ######
 

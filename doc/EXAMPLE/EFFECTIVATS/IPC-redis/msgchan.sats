@@ -16,9 +16,11 @@ msgchan_type = ptr
 typedef msgchan = msgchan_type
 //
 (* ****** ****** *)
-
-fun msgchan_create_opt (name: string): Option_vt(msgchan)
-
+//
+fun
+msgchan_create_opt
+  (name: string): Option_vt(msgchan)
+//
 (* ****** ****** *)
 //
 fun msgchan_insert
