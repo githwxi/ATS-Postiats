@@ -34,6 +34,27 @@ PATSCC2=\
 
 ######
 
+all:: constraint.o
+
+######
+
+constraint.o: \
+  constraint_sats.o \
+  constraint_stamp_dats.o \
+  constraint_symbol_dats.o \
+  constraint_location_dats.o \
+  constraint_s2exp_dats.o \
+  dynloadall_dats.o ; ld -r -o $@ $^
+
+######
+
+%_sats.o: %.sats ; $(PATSCC) -c $<
+
+%_dats.o: %_dats.c ; $(PATSCC2) $(DATSMEMALLOC) -c $<
+%_dats.c: %.dats constraint.sats ; $(PATSCC2) -ccats $<
+
+######
+
 RMF=rm -f
 
 ######

@@ -1,6 +1,5 @@
 (*
-** Constraint representation
-** Constraint parsing from JSON format
+** ATS constaint-solving
 *)
 
 (* ****** ****** *)

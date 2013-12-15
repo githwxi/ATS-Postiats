@@ -1,5 +1,5 @@
 (*
-** Implementing Untyped Functional PL
+** ATS constaint-solving
 *)
 
 (* ****** ****** *)
