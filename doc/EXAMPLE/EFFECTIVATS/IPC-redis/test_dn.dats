@@ -124,8 +124,7 @@ val ((*void*)) = assertloc (ptrcast(ctx) > 0)
 //
 val () = the_redisContext_set (ctx)
 //
-val-~Some_vt(chan) =
-  msgchan_create_opt (CHANAME)
+val chan = msgchan_create (CHANAME)
 //
 val ((*void*)) =
   msgchan_dnload_fileref (chan, out)

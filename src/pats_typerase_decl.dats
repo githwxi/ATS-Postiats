@@ -138,14 +138,15 @@ case+
     (knd, pos, code) => hidecl_extcode (loc0, knd, pos, code)
   // end of [D3Cextcode]
 //
+| D3Cexndecs
+    (d2cs) => hidecl_exndecs (loc0, d2cs)
 | D3Cdatdecs (
     knd, s2cs
   ) => hidecl_datdecs (loc0, knd, s2cs)
-| D3Cexndecs
-    (d2cs) => hidecl_exndecs (loc0, d2cs)
 //
 | D3Cdcstdecs
-    (knd, d2cs) => hidecl_dcstdecs (loc0, knd, d2cs)
+    (knd, dck, d2cs) =>
+    hidecl_dcstdecs (loc0, knd, dck, d2cs)
 //
 | D3Cimpdec _ => d3ecl_tyer_impdec (d3c0)
 //

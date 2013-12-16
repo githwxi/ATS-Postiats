@@ -194,7 +194,7 @@ praxi
 qstruct_unobjfize
   {a:vt0p}{l:addr}{n:int}
 (
-  pf: mfree_ngc_v l | p: ptr l, q: !qlist (INV(a), n) >> ptrlin l
+  pf: mfree_ngc_v (l) | p: ptr l, q: !qlist (INV(a), n) >> ptrlin l
 ) :<prf> qstruct (a, n) @ l // endfun
 
 (* ****** ****** *)

@@ -686,7 +686,7 @@ d2ecl_node =
   | D2Cdatdecs of (int(*knd*), s2cstlst) // datatype declarations
   | D2Cexndecs of (d2conlst) // exception constructor declarations
 //
-  | D2Cdcstdecs of (dcstkind, d2cstlst) // dyn. const. declarations
+  | D2Cdcstdecs of (int(*0/1:sta/ext*), dcstkind, d2cstlst) // dyncst
 //
   | D2Cimpdec of (int(*knd*), i2mpdec) // knd=0/1 : implement/primplmnt
 //
@@ -1573,7 +1573,7 @@ fun d2ecl_exndecs (loc: location, d2cs: d2conlst): d2ecl
 
 fun d2ecl_dcstdecs
 (
-  loc: location, knd: dcstkind, d2cs: d2cstlst
+  loc: location, knd: int, dck: dcstkind, d2cs: d2cstlst
 ) : d2ecl // end of [d2ecl_dcstdecs]
 
 (* ****** ****** *)

@@ -1053,7 +1053,8 @@ case+ x.d2ecl_node of
   } (* end of [D2Cextval] *)
 | D2Cextcode _ => prstr "D2Cextcode(...)"
 //
-| D2Cdatdecs (knd, s2cs) => {
+| D2Cdatdecs
+   (knd, s2cs) => {
     val () = prstr "D2Cdatdecs("
     val () = fprint_int (out, knd)
     val () = prstr "; "
@@ -1061,9 +1062,13 @@ case+ x.d2ecl_node of
     val () = prstr ")"
   } // end of [D2Cdatdecs]
 //
-| D2Cdcstdecs (knd, d2cs) => {
+| D2Cdcstdecs
+    (knd, dck, d2cs) =>
+  {
     val () = prstr "D2Cdcstdecs("
-    val () = fprint_dcstkind (out, knd)
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_dcstkind (out, dck)
     val () = prstr "; "
     val () = $UT.fprintlst (out, d2cs, ", ", fprint_d2cst)
     val () = prstr ")"

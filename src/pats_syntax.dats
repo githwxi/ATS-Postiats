@@ -2691,7 +2691,8 @@ in '{
 (* ****** ****** *)
 
 implement
-d0ecl_exndecs (tok, ent2) = let
+d0ecl_exndecs
+  (tok, ent2) = let
   val loc = tok.token_loc
   val loc = (case+
     list_last_opt<e0xndec> (ent2) of
@@ -2701,31 +2702,39 @@ in '{
   d0ecl_loc= loc, d0ecl_node= D0Cexndecs (ent2)
 } end // end of [d0ecl_exndecs]
 
+(* ****** ****** *)
+
 implement
-d0ecl_datdecs_none (
+d0ecl_datdecs_none
+(
   knd, tok, ent2
 ) = let
   val loc = tok.token_loc
-  val loc = (case+
-    list_last_opt<d0atdec> (ent2) of
-    ~Some_vt x => loc + x.d0atdec_loc | ~None_vt _ => loc
+  val opt = list_last_opt<d0atdec> (ent2)
+  val loc = (
+    case+ opt of
+    | ~Some_vt x => loc + x.d0atdec_loc | ~None_vt _ => loc
   ) : location // end of [val]
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cdatdecs (knd, ent2, list_nil)
+  d0ecl_loc= loc
+, d0ecl_node= D0Cdatdecs (knd, ent2, list_nil)
 } end // end of [d0ecl_datdecs_none]
 
 implement
-d0ecl_datdecs_some (
+d0ecl_datdecs_some
+(
   knd, tok, ent2, tok2, ent4
 ) = let
   val loc = tok.token_loc
-  val loc = (case+
-    list_last_opt<s0expdef> (ent4) of
-    ~Some_vt x => loc + x.s0expdef_loc
-  | ~None_vt _ => loc + tok2.token_loc
+  val opt = list_last_opt<s0expdef> (ent4)
+  val loc2 = (
+    case+ opt of
+    | ~Some_vt x => x.s0expdef_loc | ~None_vt _ => tok2.token_loc
   ) : location // end of [val]
+  val loc = loc + loc2
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cdatdecs (knd, ent2, ent4)
+  d0ecl_loc= loc
+, d0ecl_node= D0Cdatdecs (knd, ent2, ent4)
 } end // end of [d0ecl_datdecs_some]
 
 (* ****** ****** *)
@@ -2748,33 +2757,37 @@ local
 
 fun auxmain
 (
-  knd: int, tok: token, ent2: q0marglst, ent3: d0cstdeclst
+  knd: int // 0/1: static/dynamic
+, tok: token, ent2: q0marglst, ent3: d0cstdeclst
 ) : d0ecl = let
 //
 val loc = tok.token_loc
+val opt = list_last_opt<d0cstdec> (ent3)
 val loc =
 (
-case+ list_last_opt<d0cstdec> (ent3) of
-| ~Some_vt x => loc + x.d0cstdec_loc | ~None_vt _ => loc (*dead*)
+case+ opt of
+| ~Some_vt x =>
+    loc + x.d0cstdec_loc | ~None_vt _ => loc (*dead*)
 ) : location // end of [val]
 //
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cdcstdecs (knd, tok, ent2, ent3)
+  d0ecl_loc= loc
+, d0ecl_node= D0Cdcstdecs (knd, tok, ent2, ent3)
 } end // end of [auxmain]
 
 in (* in of [local] *)
 //
 implement
 d0ecl_dcstdecs
-  (tok, ent2, ent3) = auxmain (0, tok, ent2, ent3)
+  (tok, ent2, ent3) = auxmain (1(*ext*), tok, ent2, ent3)
 //
 implement
 d0ecl_dcstdecs_extern
-  (tok, ent2, ent3) = auxmain (0, tok, ent2, ent3)
+  (tok, ent2, ent3) = auxmain (1(*ext*), tok, ent2, ent3)
 //
 implement
-d0ecl_dcstdecs_static // HX: a static const is not exported
-  (tok, ent2, ent3) = auxmain (1, tok, ent2, ent3)
+d0ecl_dcstdecs_static // HX: static dyncst not exported
+  (tok, ent2, ent3) = auxmain (0(*sta*), tok, ent2, ent3)
 //
 end // end of [local]
 

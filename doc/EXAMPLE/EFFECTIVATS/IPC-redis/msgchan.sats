@@ -18,8 +18,7 @@ typedef msgchan = msgchan_type
 (* ****** ****** *)
 //
 fun
-msgchan_create_opt
-  (name: string): Option_vt(msgchan)
+msgchan_create (name: string): msgchan
 //
 (* ****** ****** *)
 //

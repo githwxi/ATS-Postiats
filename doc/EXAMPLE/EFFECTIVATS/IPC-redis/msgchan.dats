@@ -36,24 +36,23 @@ fun the_redisContext_vtget
 local
 //
 datatype
-msgchan = MSGCHAN of string
+msgchan =
+MSGCHAN of (string(*name*), string(*key*))
 assume msgchan_type = msgchan
 //
 fun
-chan_name_test
-  (name: string): bool = true
+chankey_make_name (name: string): string = name
+//
+fun msgchan_get_key
+  (chan: msgchan): string =
+  let val MSGCHAN (name, key) = chan in key end
 //
 in (* in of [local] *)
 
 implement
-msgchan_create_opt
-  (name) = let
-//
-val test = chan_name_test (name)
-//
-in
-  if test then Some_vt{msgchan}(MSGCHAN(name)) else None_vt(*void*)
-end // end of [msgchan_create_opt]
+msgchan_create (name) = let
+  val key = chankey_make_name (name) in MSGCHAN(name, key)
+end // end of [msgchan_create]
 
 (* ****** ****** *)
 
@@ -71,9 +70,9 @@ val rds =
 (
 if p_ctx > 0
   then let
-    val MSGCHAN (name) = chan
+    val key = msgchan_get_key (chan)
   in
-    redis_lpush_string (ctx, name, msg, err)
+    redis_lpush_string (ctx, key, msg, err)
   end // end of [then]
   else let
     val () = err := err + 1 in RDSnil(*void*)
@@ -103,9 +102,9 @@ val rds =
 (
 if p_ctx > 0
   then let
-    val MSGCHAN (name) = chan
+    val key = msgchan_get_key (chan)
   in
-    redis_brpop (ctx, name, 0u, err)
+    redis_brpop (ctx, key, 0u(*blocking*), err)
   end // end of [then]
   else let
     val () = err := err + 1 in RDSnil(*void*)

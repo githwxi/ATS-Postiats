@@ -1086,8 +1086,8 @@ d1ecl_extcode (loc, knd, pos, code) =
 (* ****** ****** *)
 
 implement
-d1ecl_dcstdecs (loc, dck, qarg, ds) =
-  d1ecl_make_node (loc, D1Cdcstdecs (dck, qarg, ds))
+d1ecl_dcstdecs (loc, knd, dck, qarg, ds) =
+  d1ecl_make_node (loc, D1Cdcstdecs (knd, dck, qarg, ds))
 
 (* ****** ****** *)
 

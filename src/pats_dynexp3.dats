@@ -1142,8 +1142,8 @@ d3ecl_exndecs
 
 implement
 d3ecl_dcstdecs
-  (loc, knd, d2cs) =
-  d3ecl_make_node (loc, D3Cdcstdecs (knd, d2cs))
+  (loc, knd, dck, d2cs) =
+  d3ecl_make_node (loc, D3Cdcstdecs (knd, dck, d2cs))
 // end of [d3ecl_dcstdecs]
 
 (* ****** ****** *)

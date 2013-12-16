@@ -936,7 +936,7 @@ case+ d0c0.d0ecl_node of
 //
 | D0Cdcstdecs
   (
-    knd, tok, qarg, d0cs
+    knd, tok, qarg, d0cs // knd: 0/1: static/dynamic
   ) => let
     val dck = token_get_dcstkind (tok)
     val isfun = dcstkind_is_fun (dck)
@@ -944,7 +944,7 @@ case+ d0c0.d0ecl_node of
     val qarg = q0marglst_tr (qarg)
     val d1cs = d0cstdeclst_tr (isfun, isprf, d0cs)
   in
-    d1ecl_dcstdecs (loc0, dck, qarg, d1cs)
+    d1ecl_dcstdecs (loc0, knd, dck, qarg, d1cs)
   end // end of [D0Cdcstdecs]
 //
 | D0Cmacdefs

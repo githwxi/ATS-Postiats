@@ -777,9 +777,12 @@ case+ hid.hidecl_node of
   }
 //
 | HIDdcstdecs
-    (knd, d2cs) => {
+    (knd, dck, d2cs) =>
+  {
     val () = prstr "HIDdcstdecs("
-    val () = fprint_dcstkind (out, knd)
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_dcstkind (out, dck)
     val () = prstr "; "
     val () = fprint_d2cstlst (out, d2cs)
     val () = prstr ")"

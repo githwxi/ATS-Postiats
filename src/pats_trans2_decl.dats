@@ -1214,7 +1214,8 @@ in (* in of [local] *)
 
 fun d1cstdec_tr
 (
-  dck: dcstkind
+  knd: int
+, dck: dcstkind
 , s2qs: s2qualst
 , d1c: d1cstdec
 ) : d2cst = let
@@ -1249,14 +1250,15 @@ end // end of [local]
 
 fun d1cstdeclst_tr
 (
-  dck: dcstkind, s2qs: s2qualst, d1cs: d1cstdeclst
+  knd: int, dck: dcstkind, s2qs: s2qualst, d1cs: d1cstdeclst
 ) : d2cstlst = let
 in
   case+ d1cs of
-  | list_cons (d1c, d1cs) => let
-      val d2c = d1cstdec_tr (dck, s2qs, d1c)
+  | list_cons
+      (d1c, d1cs) => let
+      val d2c = d1cstdec_tr (knd, dck, s2qs, d1c)
     in
-      list_cons (d2c, d1cstdeclst_tr (dck, s2qs, d1cs))
+      list_cons (d2c, d1cstdeclst_tr (knd, dck, s2qs, d1cs))
     end // end of [cons]
   | list_nil () => list_nil ()
 end // end of [d1cstdeclst_tr]
@@ -1976,14 +1978,16 @@ case+ d1c0.d1ecl_node of
 //
 | D1Cdcstdecs
   (
-    dck, decarg, d1cs
+    knd, dck, decarg, d1cs
   ) => let
-    val (pfenv | ()) = the_s2expenv_push_nil ()
+    val (
+      pfenv | ()
+    ) = the_s2expenv_push_nil ()
     val s2qs = l2l (list_map_fun (decarg, q1marg_tr_dec))
-    val d2cs = d1cstdeclst_tr (dck, s2qs, d1cs)
-    val () = the_s2expenv_pop_free (pfenv | (*none*))
+    val d2cs = d1cstdeclst_tr (knd, dck, s2qs, d1cs)
+    val ((*void*)) = the_s2expenv_pop_free (pfenv | (*none*))
   in
-    d2ecl_dcstdecs (loc0, dck, d2cs)
+    d2ecl_dcstdecs (loc0, knd, dck, d2cs)
   end // end of [D1Cdcstdecs]
 //
 | D1Cmacdefs

@@ -1122,8 +1122,8 @@ d2ecl_exndecs (loc, d2cs) =
 (* ****** ****** *)
 
 implement
-d2ecl_dcstdecs (loc, knd, d2cs) =
-  d2ecl_make_node (loc, D2Cdcstdecs (knd, d2cs))
+d2ecl_dcstdecs (loc, knd, dck, d2cs) =
+  d2ecl_make_node (loc, D2Cdcstdecs (knd, dck, d2cs))
 
 (* ****** ****** *)
 

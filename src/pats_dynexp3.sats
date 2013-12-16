@@ -233,7 +233,8 @@ d3ecl_node =
 //
   | D3Cdatdecs of (int(*knd*), s2cstlst)
   | D3Cexndecs of (d2conlst) // HX: exception decls
-  | D3Cdcstdecs of (dcstkind, d2cstlst)
+//
+  | D3Cdcstdecs of (int(*0/1:sta/ext*), dcstkind, d2cstlst)
 //
   | D3Cimpdec of (
       int(*knd*), i3mpdec // knd=0/1 : implement/primplmnt
@@ -985,8 +986,9 @@ fun d3ecl_exndecs (loc: location, d2cs: d2conlst): d3ecl
 (* ****** ****** *)
 
 fun d3ecl_dcstdecs
-  (loc: location, knd: dcstkind, d2cs: d2cstlst): d3ecl
-// end of [d3ecl_dcstdecs]
+(
+  loc: location, knd: int, dck: dcstkind, d2cs: d2cstlst
+) : d3ecl // end of [d3ecl_dcstdecs]
 
 (* ****** ****** *)
 

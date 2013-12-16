@@ -137,8 +137,7 @@ val ctx =
 redisConnectWithTimeout (ip, 6379, TIMEOUT)
 val ((*void*)) = assertloc (ptrcast(ctx) > 0)
 //
-val-~Some_vt(chan) =
-  msgchan_create_opt (CHANAME)
+val chan = msgchan_create (CHANAME)
 //
 val ((*void*)) = the_redisContext_set (ctx)
 //

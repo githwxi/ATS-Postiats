@@ -13,15 +13,31 @@
 Effective ATS: Inter-Process Communication based on Redis
 </h1>
 
-In this article, I present a straightforward implementation of
-inter-process communication based on the
-NOSQL <a href="http://redis.io">redis</a>.  The primary purpose of this
-implementation is to show a concrete example that makes direct use of redis
-inside ATS code.
+In this article, I present a straightforward example of inter-process
+communication based on the NOSQL <a href="http://redis.io">redis</a>.  The
+primary purpose of this example is to show a concrete case where redis
+functions are directly called inside ATS code.
 
 <h2>
 Message Channels
 </h2>
+
+Let us first introduce a type [msgchan] for message channels:
+
+<pre>
+abstype msgchan_type = ptr
+typedef msgchan = msgchan_type
+</pre>
+
+The following function is for creating a message channel:
+
+<pre>
+fun msgchan_create (name: string): msgchan
+</pre>
+
+In the actual implementation, a message channel is just a key referring to
+a queue in redis, and the function [msgchan_create] computes such a key based on
+a given name.
 
 <hr size="2">
 

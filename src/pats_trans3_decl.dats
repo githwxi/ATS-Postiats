@@ -173,7 +173,7 @@ case+ d2c0.d2ecl_node of
 | D2Cexndecs (d2cs) =>
     d3ecl_exndecs (loc0, d2cs) // HX: exception decls
 | D2Cdcstdecs
-    (knd, d2cs) => d3ecl_dcstdecs (loc0, knd, d2cs)
+    (knd, dck, d2cs) => d3ecl_dcstdecs (loc0, knd, dck, d2cs)
 //
 | D2Cimpdec (knd, d2c) => let
   //

@@ -253,8 +253,8 @@ datatype d1ecl_node =
   | D1Csexpdefs of (int(*knd*), s1expdeflst) // static definitions
   | D1Csaspdec of s1aspdec // static assumption
 //
-  | D1Cdatdecs of (int(*knd*), d1atdeclst, s1expdeflst) // DT declarations
-  | D1Cexndecs of e1xndeclst // exception declaration
+  | D1Cexndecs of e1xndeclst // exception declarations
+  | D1Cdatdecs of (int(*knd*), d1atdeclst, s1expdeflst) // DT decls
 //
   | D1Cclassdec of (i0de, s1expopt)
 //
@@ -266,10 +266,12 @@ datatype d1ecl_node =
       (string (*name*), d1exp (*definition*))
 //
   | D1Cextcode of (
-      int (*knd: 0/1*), int (*pos: 0/1/2 : top/?/end*), string (*code*)
+      int(*knd: 0/1*), int(*pos: 0/1/2: top/?/end*), string(*code*)
     ) // end of [D1Cextcode]
 //
-  | D1Cdcstdecs of (dcstkind, q1marglst, d1cstdeclst) // dyn constants
+  | D1Cdcstdecs of (
+      int(*0/1:sta/ext*), dcstkind, q1marglst, d1cstdeclst // dyncst
+    ) // end of [D2Cdcstdecs]
 //
   | D1Cmacdefs of (int(*knd*), bool(*isrec*), m1acdeflst)
 //
@@ -917,17 +919,21 @@ fun d1ecl_sexpdefs
 
 fun d1ecl_saspdec (loc: location, d: s1aspdec): d1ecl
 
-fun d1ecl_datdecs (
+fun d1ecl_exndecs (loc: location, ds: e1xndeclst): d1ecl
+
+fun d1ecl_datdecs
+(
   loc: location, knd: int, ds1: d1atdeclst, ds2: s1expdeflst
 ) : d1ecl // end of [d1ecl_datdecs]
 
-fun d1ecl_exndecs (loc: location, ds: e1xndeclst): d1ecl
-
-fun d1ecl_classdec (loc: location, id: i0de, sup: s1expopt): d1ecl
+fun d1ecl_classdec
+  (loc: location, id: i0de, sup: s1expopt): d1ecl
 
 fun d1ecl_dcstdecs
 (
-  loc: location, dck: dcstkind, qarg: q1marglst, ds: d1cstdeclst
+  loc: location
+, knd: int(*0/1:sta/ext*)
+, dck: dcstkind, qarg: q1marglst, d1cs: d1cstdeclst
 ) : d1ecl // end of [d1ec_dcstdecs]
 
 fun d1ecl_extype (
