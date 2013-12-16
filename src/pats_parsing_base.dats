@@ -508,7 +508,7 @@ case+ tok.token_node of
       val () = tokbuf_set_ntok (buf, n0) in None ()
     end else Some (ent2) // end of [if]
   end
-| _ => None ()
+| _ (*non-EQ*) => None ()
 //
 end // end of [p_extnamopt]
 

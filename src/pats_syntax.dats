@@ -1190,6 +1190,12 @@ in '{
 (* ****** ****** *)
 
 implement
+dcstextdef_sta (sym) =
+  DCSTEXTDEFsome_sta ($SYM.symbol_get_name (sym))
+
+(* ****** ****** *)
+
+implement
 dcstextdef_is_ext (x) = (
   case+ x of DCSTEXTDEFsome_ext _ => true | _ => false
 ) // end of [dcstextdef_is_ext]
@@ -1218,7 +1224,7 @@ in
 case+ x of
 | DCSTEXTDEFsome_ext
     (name) => test_prefix (name, "mainats")
-| _ => false
+| _ (*non-extern*) => false
 //
 end // end of [dcstextdef_is_mainats]
 
@@ -1250,7 +1256,7 @@ in '{
 implement
 p0at_i0de (id) = '{
   p0at_loc= id.i0de_loc, p0at_node= P0Tide id.i0de_sym
-}
+} (* end of [p2at_i0de] *)
 
 implement
 p0at_dqid (ent1, ent2) = let

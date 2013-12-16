@@ -901,23 +901,27 @@ case+ d0c0.d0ecl_node of
   end // end of [D0Cstavars]
 *)
 //
-| D0Ctkindef (d0c) => d1ecl_tkindef (loc0, t0kindef_tr d0c)
+| D0Ctkindef (d0c) =>
+    d1ecl_tkindef (loc0, t0kindef_tr d0c)
 | D0Csexpdefs (knd, d0cs) => let
     val d1cs = l2l (list_map_fun (d0cs, s0expdef_tr))
   in
     d1ecl_sexpdefs (loc0, knd, d1cs)
   end // end of [D0Csexpdefs]
-| D0Csaspdec (d0c) => d1ecl_saspdec (loc0, s0aspdec_tr (d0c))
+| D0Csaspdec (d0c) =>
+    d1ecl_saspdec (loc0, s0aspdec_tr (d0c))
 //
+| D0Cexndecs (d0cs) => let
+    val d1cs = l2l (list_map_fun (d0cs, e0xndec_tr))
+  in
+    d1ecl_exndecs (loc0, d1cs)
+  end // end of [D0Cexndecs]
 | D0Cdatdecs (knd, d0cs1, d0cs2) => let
     val d1cs1 = l2l (list_map_fun (d0cs1, d0atdec_tr))
     val d1cs2 = l2l (list_map_fun (d0cs2, s0expdef_tr))
   in
     d1ecl_datdecs (loc0, knd, d1cs1, d1cs2)
   end // end of [D0Cdatdecs]
-| D0Cexndecs (d0cs) =>
-    d1ecl_exndecs (loc0, l2l (list_map_fun (d0cs, e0xndec_tr)))
-  (* end of [D0Cexndecs] *)
 //
 | D0Cclassdec (id, sup) => let
     val sup = s0expopt_tr (sup) in d1ecl_classdec (loc0, id, sup)

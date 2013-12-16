@@ -108,7 +108,8 @@ in (* in of [local] *)
 implement
 d2cst_make
 (
-  id, loc, fil, dck, decarg, artylst, typ, extdef
+  id, loc, fil
+, dck, decarg, artylst, typ, extdef
 ) = let
 (*
 val out = stdout_ref

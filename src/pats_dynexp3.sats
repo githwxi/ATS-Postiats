@@ -231,8 +231,8 @@ d3ecl_node =
   | D3Cextval of (string(*name*), d3exp(*def*))
   | D3Cextcode of (int(*knd*), int(*pos*), string(*code*))  
 //
-  | D3Cdatdecs of (int(*knd*), s2cstlst)
   | D3Cexndecs of (d2conlst) // HX: exception decls
+  | D3Cdatdecs of (int(*knd*), s2cstlst) // HX: DT decls
 //
   | D3Cdcstdecs of (int(*0/1:sta/ext*), dcstkind, d2cstlst)
 //

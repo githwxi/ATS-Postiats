@@ -32,6 +32,9 @@ Here is a list of major additions and changes since the last release:
 5. Adding a minimal API for the pcre package
 6. Adding a direct API for the json-c package
 7. Adding a direct API for the jansson package
+8. Adding support for 'static' dynamic constant declarations:
+   static fun foo (...): res // this one is equivalent to the next one
+   extern fun foo (...): res = "sta#" // it is equivalent to the above one
 
 </pre>
 

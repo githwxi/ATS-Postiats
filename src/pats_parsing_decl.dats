@@ -410,9 +410,9 @@ end // end of [p_d0cstdec]
 
 implement
 p_d0cstdecseq
-  (buf, bt, err) = l2l (xs) where {
-  val xs = pstar_fun1_AND (buf, bt, err, p_d0cstdec)
-} // end of [p_d0cstdecseq]
+  (buf, bt, err) = (
+  l2l (pstar_fun1_AND (buf, bt, err, p_d0cstdec))
+) (* end of [p_d0cstdecseq] *)
 
 (* ****** ****** *)
 

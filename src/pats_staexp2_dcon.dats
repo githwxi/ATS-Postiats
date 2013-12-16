@@ -101,7 +101,7 @@ d2con_make
 ) = let
 (*
 val out = stdout_ref
-val () = fprintln! (out, "d2cst_make: id = ", id)
+val () = fprintln! (out, "d2con_make: id = ", id)
 *)
 //
 val arity_real = let
@@ -126,13 +126,15 @@ end // end of [val]
 val arity_full = list_length (arg)
 //
 val d2c_type = let
+//
   fun aux
   (
     s2f: s2exp, s2qs: s2qualst
-  ) : s2exp = let
-  in
+  ) : s2exp = (
     case+ s2qs of
-    | list_cons (s2q, s2qs) => let
+    | list_nil () => (s2f)
+    | list_cons
+        (s2q, s2qs) => let
         val s2f = aux (s2f, s2qs)
         val s2f_uni =
           s2exp_uni (s2q.s2qua_svs, s2q.s2qua_sps, s2f)
@@ -140,16 +142,17 @@ val d2c_type = let
       in
         s2f_uni
       end // end of [list_cons]
-    | list_nil () => s2f
-  end // end of [aux]
+  ) (* end of [aux] *)
+//
   val s2e_res =
   (
     case+ ind of
-    | Some s2es => s2exp_cstapp (s2c, s2es) | None () => s2exp_cst (s2c)
+    | Some s2es => s2exp_cstapp (s2c, s2es) | _ => s2exp_cst (s2c)
   ) : s2exp // end of [val]
-  val s2f = s2exp_confun (npf, arg, s2e_res)
+  val s2e_res = s2exp_confun (npf, arg, s2e_res)
+//
 in
-  aux (s2f, qua)
+  aux (s2e_res, qua)
 end : s2exp // end of [val]
 //
 val pack = $GLOB.the_PACKNAME_get ()

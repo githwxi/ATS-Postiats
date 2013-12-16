@@ -729,7 +729,7 @@ in
 case+ 0 of
 | _ when isemp (pext) => symbol_get_name (sym)
 | _ when isperc (pext) => extprfx_add (sym, pext)
-| _ => ext // HX: no processing
+| _ (*non-special*) => ext // HX: no processing
 //
 end // end of [proc_extdef]
 

@@ -59,18 +59,23 @@ implement prerr_FILENAME<> () = prerr "pats_trans2_decl"
 
 (* ****** ****** *)
 
-staload SYM = "./pats_symbol.sats"
+staload
+SYM = "./pats_symbol.sats"
 macdef EQEQ = $SYM.symbol_EQEQ
 overload = with $SYM.eq_symbol_symbol
 overload != with $SYM.neq_symbol_symbol
 
-staload SYN = "./pats_syntax.sats"
+(* ****** ****** *)
+
+staload
+SYN = "./pats_syntax.sats"
 typedef i0de = $SYN.i0de
 typedef i0delst = $SYN.i0delst
 typedef s0taq = $SYN.s0taq
 typedef d0ynq = $SYN.d0ynq
 typedef dqi0de = $SYN.dqi0de
 typedef impqi0de = $SYN.impqi0de
+typedef dcstextdef = $SYN.dcstextdef
 
 macdef
 prerr_dqid (dq, id) =
@@ -1218,7 +1223,8 @@ fun d1cstdec_tr
 , dck: dcstkind
 , s2qs: s2qualst
 , d1c: d1cstdec
-) : d2cst = let
+) : d2cst = d2c where
+{
   val loc = d1c.d1cstdec_loc
   val fil = d1c.d1cstdec_fil
   val sym = d1c.d1cstdec_sym
@@ -1235,22 +1241,28 @@ fun d1cstdec_tr
   var s2e_cst =
     s1exp_trdn (s1e_cst, s2t_cst)
   val arylst = s2exp_get_arylst (s2e_cst)
-  val extdef = d1c.d1cstdec_extdef
+  val extdef = (
+    if knd = 0 // static dyncst
+      then $SYN.dcstextdef_sta (sym) else d1c.d1cstdec_extdef
+  ) : dcstextdef // end of [val]
   val d2c =
     d2cst_make (sym, loc, fil, dck, s2qs, arylst, s2e_cst, extdef)
   // end of [val]
 //
   val () = the_d2expenv_add_dcst (d2c)
 //
-in
-  d2c
-end // end of [d1cstdec_tr]
+} (* end of [d1cstdec_tr] *)
 
 end // end of [local]
 
+(* ****** ****** *)
+
 fun d1cstdeclst_tr
 (
-  knd: int, dck: dcstkind, s2qs: s2qualst, d1cs: d1cstdeclst
+  knd: int
+, dck: dcstkind
+, s2qs: s2qualst
+, d1cs: d1cstdeclst
 ) : d2cstlst = let
 in
   case+ d1cs of
@@ -1939,6 +1951,10 @@ case+ d1c0.d1ecl_node of
     // end of [case]
   end // end of [D1Csaspdec]
 //
+| D1Cexndecs (d1cs) =>
+  (
+    d2ecl_exndecs (loc0, e1xndeclst_tr (d1cs))
+  ) (* end of [D1Cexndecs] *)
 | D1Cdatdecs
   (
     knd, d1cs_dat, d1cs_def
@@ -1947,9 +1963,6 @@ case+ d1c0.d1ecl_node of
   in
     d2ecl_datdecs (loc0, knd, s2cs)
   end // end of [D1Cdatdecs]
-| D1Cexndecs (d1cs) => let
-    val d2cs = e1xndeclst_tr d1cs in d2ecl_exndecs (loc0, d2cs)
-  end // end of [D1Cexndecs]
 //
 | D1Cclassdec (id, sup) => let
     val () = c1lassdec_tr (id, sup) in d2ecl_none (loc0)

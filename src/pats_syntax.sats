@@ -961,6 +961,8 @@ dcstextdef =
   | DCSTEXTDEFsome_sta of string // static
 // end of [dcstextdef]
 
+fun dcstextdef_sta (sym: symbol): dcstextdef
+
 fun dcstextdef_is_ext (x: dcstextdef):<> bool
 fun dcstextdef_is_mac (x: dcstextdef):<> bool
 fun dcstextdef_is_sta (x: dcstextdef):<> bool

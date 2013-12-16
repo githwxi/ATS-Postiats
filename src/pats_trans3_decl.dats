@@ -168,10 +168,11 @@ case+ d2c0.d2ecl_node of
     knd, pos, code
   ) => d3ecl_extcode (loc0, knd, pos, code)
 //
+| D2Cexndecs (d2cs) =>
+    d3ecl_exndecs (loc0, d2cs) // HX: exn decls
 | D2Cdatdecs
     (knd, s2cs) => d3ecl_datdecs (loc0, knd, s2cs)
-| D2Cexndecs (d2cs) =>
-    d3ecl_exndecs (loc0, d2cs) // HX: exception decls
+//
 | D2Cdcstdecs
     (knd, dck, d2cs) => d3ecl_dcstdecs (loc0, knd, dck, d2cs)
 //
