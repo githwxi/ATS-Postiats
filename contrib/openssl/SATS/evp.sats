@@ -37,7 +37,7 @@
 
 %{#
 //
-#include "openSSL/CATS/evp.cats"
+#include "openssl/CATS/evp.cats"
 //
 %} // end of [%{#]
 
@@ -49,7 +49,7 @@
 
 (* ****** ****** *)
 
-typedef interr = intGte(0)
+#include "./../HATS/evp.hats"
 
 (* ****** ****** *)
 
@@ -57,6 +57,10 @@ typedef interr = intGte(0)
 #define EVP_MAX_KEY_LENGTH ATSCNTRB_OPENSSL_EVP_MAX_KEY_LENGTH
 #define EVP_MAX_IV_LENGTH ATSCNTRB_OPENSSL_EVP_MAX_IV_LENGTH
 #define EVP_MAX_BLOCK_LENGTH ATSCNTRB_OPENSSL_EVP_MAX_BLOCK_LENGTH
+
+(* ****** ****** *)
+
+typedef interr = intGte(0)
 
 (* ****** ****** *)
 
@@ -196,6 +200,11 @@ EVP_MD_CTX_unobjfize
   
 (* ****** ****** *)
 
+fun EVP_MD_CTX_init (&EVP_MD_CTX? >> EVP_MD_CTX): void = "mac#%"
+fun EVP_MD_CTX_cleanup (&EVP_MD_CTX >> EVP_MD_CTX?): interr = "mac#%"
+
+(* ****** ****** *)
+
 /*
 EVP_MD_CTX *EVP_MD_CTX_create(void);
 */
@@ -207,11 +216,6 @@ fun EVP_MD_CTX_create ((*void*)): EVP_MD_CTX_ptr0 = "mac#%"
 void EVP_MD_CTX_destroy(EVP_MD_CTX *ctx);
 */
 fun EVP_MD_CTX_destroy (ctx: EVP_MD_CTX_ptr0): void = "mac#%"
-
-(* ****** ****** *)
-
-fun EVP_MD_CTX_init (&EVP_MD_CTX? >> EVP_MD_CTX): void = "mac#%"
-fun EVP_MD_CTX_cleanup (&EVP_MD_CTX >> EVP_MD_CTX?): interr = "mac#%"
 
 (* ****** ****** *)
 
@@ -310,7 +314,7 @@ EVP_DigestFinal_ex
 fun{}
 EVP_Digestize_string
 (
-  digest: string, subject: string, asz: &int? >> int(n)
+  dname: string, subject: string, asz: &int? >> int(n)
 ) : #[n:nat] arrayptr (uchar, n) // end-of-fun
 
 (* ****** ****** *)

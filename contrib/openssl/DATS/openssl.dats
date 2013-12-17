@@ -49,28 +49,24 @@ STRING = "libc/SATS/string.sats"
 //
 (* ****** ****** *)
 
-#include "./../HATS/mybasis.hats"
-
-(* ****** ****** *)
-
 staload "./../SATS/evp.sats"
 
 (* ****** ****** *)
 
 implement{}
 EVP_Digestize_string
-  (digest, subject, asz) = let
+  (dname, subject, asz) = let
 //
 var nerr: int = 0
 //
 var mdctx: EVP_MD_CTX
-val md = EVP_get_digestbyname (digest)
-val p_md = ptrcast(md)
+val md = EVP_get_digestbyname (dname)
+val p_md = ptrcast (md)
 val () =
 if p_md = 0 then
 {
 val () = prerrln! (
-  "exit(ATSCNTRB/openSSL): digest(", digest, ") is not available."
+  "exit(ATSCNTRB/openSSL): digest(", dname, ") is not available."
 ) (* end of [val] *)
 }
 val () = assertloc (p_md > 0)

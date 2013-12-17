@@ -78,6 +78,11 @@ atscntrb_openssl_OpenSSL_add_all_algorithms OpenSSL_add_all_algorithms
 
 /* ****** ****** */
 
+#define atscntrb_openssl_EVP_MD_CTX_init EVP_MD_CTX_init
+#define atscntrb_openssl_EVP_MD_CTX_cleanup EVP_MD_CTX_cleanup
+
+/* ****** ****** */
+
 #define atscntrb_openssl_EVP_MD_CTX_create EVP_MD_CTX_create
 #define atscntrb_openssl_EVP_MD_CTX_destroy EVP_MD_CTX_destroy
 
@@ -96,4 +101,4 @@ atscntrb_openssl_OpenSSL_add_all_algorithms OpenSSL_add_all_algorithms
 
 /* ****** ****** */
 
-/* end of [gmp.cats] */
+/* end of [evp.cats] */
