@@ -15,15 +15,16 @@ PATSLIB=$(PATSHOME)/ccomp/atslib/lib
 ######
 
 GameOf24: \
-  GameOf24.o GameOf24_dats.o ; \
-  $(CCOPT) -o $@ $^ -L$(PATSLIB) -latslib
+  GameOf24.o GameOf24_dats.o mylib_dats.o ; $(CCOPT) -o $@ $^
 
 ######
 
 GameOf24.o: GameOf24.m ; $(PATSCC) -x objective-c -c -o $@ $<
+GameOf24_dats.o: GameOf24.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -c $<
 
-GameOf24_dats.o: GameOf24.dats; \
-  $(PATSCC) -D_GNU_SOURCE -IIATS $(PATSHOME)/contrib -DATS_MEMALLOC_LIBC -c GameOf24.dats
+######
+
+mylib_dats.o: mylib.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -c $<
 
 ######
 
@@ -35,6 +36,8 @@ clean::; $(RMF) *~
 clean::; $(RMF) GameOf24.o
 clean::; $(RMF) GameOf24_dats.o
 clean::; $(RMF) GameOf24_dats.c
+clean::; $(RMF) mylib_dats.o
+clean::; $(RMF) mylib_dats.c
 
 cleanall:: clean
 cleanall::; $(RMF) GameOf24
