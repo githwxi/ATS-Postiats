@@ -76,8 +76,8 @@ val mess2 = "Hello World!\n"
 val () = 
 if argc <= 1 then
 {
-  val () =
-    println!("Usage: mdtest digestname")
+val () =
+  println!("Usage: ", argv[0], " digestname")
 } (* end of [if] *)
 val () = assertloc (argc >= 2)
 //
@@ -107,15 +107,24 @@ var mdval = @[uchar][EVP_MAX_MD_SIZE]()
 val impl = $UN.cast{ENGINEptr}(the_null_ptr)
 //
 val err = EVP_DigestInit_ex(!p_mdctx, md, impl)
+val () = assertloc (err > 0)
+//
 val err = EVP_DigestUpdate_string(!p_mdctx, mess1)
+val () = assertloc (err > 0)
+//
 val err = EVP_DigestUpdate_string(!p_mdctx, mess2)
-val p_mdval = $UN.cast{Ptr1}(addr@mdval)
+val () = assertloc (err > 0)
+//
+val p_mdval = addr@mdval
 val err = EVP_DigestFinal_ex(!p_mdctx, p_mdval, mdlen)
+val () = assertloc (err > 0)
 //
 prval () = minus_addback (fpf, pf | mdctx)
 //
 val () = EVP_MD_CTX_destroy (mdctx)
-// 
+//
+val ((*void*)) = EVP_cleanup ((*void*))
+//
 val () =
 print ("Digest is: ")
 var i: intGte(0)

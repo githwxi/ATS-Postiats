@@ -69,7 +69,13 @@ atscntrb_openssl_EVP_get_digestbyname(name) ((EVP_MD*)(EVP_get_digestbyname(name
 atscntrb_openssl_OpenSSL_add_all_ciphers OpenSSL_add_all_ciphers
 #define \
 atscntrb_openssl_OpenSSL_add_all_digests OpenSSL_add_all_digests
+#define \
+atscntrb_openssl_OpenSSL_add_all_algorithms OpenSSL_add_all_algorithms
 //
+/* ****** ****** */
+
+#define atscntrb_openssl_EVP_cleanup EVP_cleanup
+
 /* ****** ****** */
 
 #define atscntrb_openssl_EVP_MD_CTX_create EVP_MD_CTX_create

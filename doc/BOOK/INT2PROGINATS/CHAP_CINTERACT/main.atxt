@@ -22,17 +22,18 @@ As a consequence, there is no need for wrapping/unwrapping or
 boxing/unboxing when calling from C a function implemented in ATS or vice
 versa, and there is also no run-time overhead for doing so. To a large
 extent, ATS can be considered a front-end to C that is equipped with a
-highly expressive type system and a localizable template system. In
+highly expressive type system (for specifying program invariants) and a
+highly adaptable template system (for facilitating code reuse). In
 particular, ATS can often be effectively employed to turn a large task into
 subtasks of coherent interfaces, which can be implemented in ATS, C or some
-other langauges and then be assembled to form a solution to the orginal
+other langauges and then assembled together to form a solution to the orginal
 task.\
 
 ')
 
 #para('\
 
-As it can be expected, C code that appears directly in ATS does not go
+As can be expected, C code that appears directly in ATS does not go
 through the kind of rigorous typechecking like ATS code should. So it is
 recommended that the programmer be extra cautious when making direct use of
 C code inside ATS code. In practice, my own experience clearly indicates
@@ -78,7 +79,11 @@ second function #dyncode("fact2") is assigned a global name
 #dyncode("fact2_in_c").  The symbol #keycode("ext\#") indicates that
 #dyncode("fact2_in_c") is treated as a global function in C and its
 prototype needs to be declared (via the #dyncode("extern") keyword) before
-it can be called.
+it can be called. If #keycode("ext\#") is written in place of
+#keycode("ext\#fact2_in_c") in the above declaration, then the global name
+for the function #dyncode("fact2") in ATS is assumed to be same as the name
+of the function in ATS. In other words, writing #keycode("ext\#") in the
+above declaration is equivalent to writing #keycode("ext\#fact2").
 
 ")
 
@@ -156,6 +161,26 @@ fun fact2 (n: int, res: int): int = "sta\#fact2_in_c"
 
 If declared in this style, which only occurs rarely in practice,
 then #dyncode("fact2_in_c") is treated like a static function in C.\
+
+')
+
+#para('\
+
+For the sake of completeness, I mention as follows another way of declaring
+a static function:
+
+#atscode('\
+static fun fact2 (n: int, res: int): int
+')
+
+This style of declaration is automatically translated into the following one:
+
+#atscode('\
+extern fun fact2 (n: int, res: int): int = "sta\#"
+')
+
+where the use of #keycode("sta\#") means that the name referring to #dyncode("fact2")
+in C is simply #dyncode("fact2").\
 
 ')
 

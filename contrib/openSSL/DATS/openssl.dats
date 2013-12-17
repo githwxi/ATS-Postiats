@@ -41,9 +41,16 @@
 
 (* ****** ****** *)
 //
-staload UN =
-"prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 //
+staload
+STRING = "libc/SATS/string.sats"
+//
+(* ****** ****** *)
+
+#include "./../HATS/mybasis.hats"
+
 (* ****** ****** *)
 
 staload "./../SATS/evp.sats"
@@ -51,10 +58,54 @@ staload "./../SATS/evp.sats"
 (* ****** ****** *)
 
 implement{}
+EVP_Digestize_string
+  (digest, subject, asz) = let
+//
+var nerr: int = 0
+//
+var mdctx: EVP_MD_CTX
+val md = EVP_get_digestbyname (digest)
+val () = assertloc (ptrcast(md) > 0)
+//
+val err = EVP_DigestInit (mdctx, md)
+val () = if err = 0 then nerr := nerr + 1
+//
+val err = EVP_DigestUpdate_string (mdctx, subject)
+val () = if err = 0 then nerr := nerr + 1
+//
+var mdlen: int = 0
+var mdval = @[uchar][EVP_MAX_MD_SIZE]()
+val p_mdval = addr@mdval
+val err = EVP_DigestFinal (mdctx, p_mdval, mdlen)
+val () = if err = 0 then nerr := nerr + 1
+//
+in
+//
+if nerr = 0
+  then let
+    val () = asz := mdlen
+    prval [n:int] EQINT () = g1int_get_index (asz)
+    val asz2 = i2sz (asz)
+    val res = arrayptr_make_uninitized<char> (asz2)
+    val p_res = ptrcast (res)
+    val p_res = $UN.cast2Ptr1(p_res)
+    val p_res = $STRING.memcpy_unsafe (p_res, p_mdval, asz2)
+  in
+    $UN.castvwtp0{arrayptr(uchar,n)}(res)
+  end // end of [then]
+  else let
+    val () = asz := 0(*error*) in $UN.castvwtp0{arrayptr(uchar,0)}(0)
+  end // end of [else]
+//
+end // end of [EVP_Digestize_string]
+
+(* ****** ****** *)
+
+implement{}
 EVP_DigestUpdate_string
   (ctx, data) = let
   val [n:int] data = g1ofg0 (data)
-  val data2 = $UN.cast{arrayref(char,n)}(data)
+  val data2 = $UN.cast{arrayref(uchar,n)}(data)
 in
   EVP_DigestUpdate (ctx, data2, string1_length (data))
 end // end of [EVP_DigestUpdate_string]

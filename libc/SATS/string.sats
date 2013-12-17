@@ -151,17 +151,17 @@ fun memcpy
 | dst: ptr (l), src: &RD(@[byte][n2]), n: size_t (n)
 ) :<!wrt> ptr (l) = "mac#%" // end of [memcpy]
 //
-fun memcpy_unsafe {l:agz}
+fun memcpy_unsafe{l:agz}
   (dst: ptr (l), src: ptr, n: size_t):<!wrt> ptr (l) = "mac#%"
 //
 (* ****** ****** *)
 //
-fun memmove_unsafe {l:agz}
+fun memmove_unsafe{l:agz}
   (dst: ptr (l), src: ptr, n: size_t):<!wrt> ptr (l) = "mac#%"
 //
 (* ****** ****** *)
 //
-fun memccpy_unsafe {l:agz}
+fun memccpy_unsafe{l:agz}
   (dst: ptr (l), src: ptr, c: int, n: size_t):<!wrt> Ptr0 = "mac#%"
 //
 (* ****** ****** *)
@@ -175,7 +175,7 @@ fun mempcpy
 | dst: ptr (l), src: &RD(@[byte][n2]), n: size_t (n)
 ) :<!wrt> ptr (l+n) = "mac#%" // end of [mempcpy]
 //
-fun mempcpy_unsafe {l:agz}{n:int}
+fun mempcpy_unsafe{l:agz}{n:int}
   (dst: ptr (l), src: ptr, n: size_t (n)):<!wrt> ptr (l+n) = "mac#%"
 //
 (* ****** ****** *)

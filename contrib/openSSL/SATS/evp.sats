@@ -73,6 +73,17 @@ void OpenSSL_add_all_digests(void);
 fun OpenSSL_add_all_digests ((*void*)): void = "mac#%"
 
 (* ****** ****** *)
+
+/*
+void OpenSSL_add_all_algorithms(void);
+*/
+fun OpenSSL_add_all_algorithms ((*void*)): void = "mac#%"
+
+(* ****** ****** *)
+
+fun EVP_cleanup ((*void*)): void = "mac#%"
+
+(* ****** ****** *)
 //
 abstype
 EVP_MD_ref (l:addr) = ptr (l)
@@ -229,12 +240,12 @@ abstype ENGINEptr = ptr
 /*
 int
 EVP_DigestInit
-  (EVP_MD_CTX *ctx, const EVP_MD *type, ENGINE *impl);
+  (EVP_MD_CTX *ctx, const EVP_MD *type);
 */
 fun
 EVP_DigestInit
 (
-  ctx: &EVP_MD_CTX? >> _, type: EVP_MD_ref1, impl: ENGINEptr
+  ctx: &EVP_MD_CTX? >> _, type: EVP_MD_ref1
 ) : interr = "mac#%" // end of [EVP_DigestInit]
 
 (* ****** ****** *)
@@ -248,11 +259,8 @@ fun
 EVP_DigestUpdate
   {n:int}
 (
-  ctx: &EVP_MD_CTX >> _, data: arrayref(char, n), n: size_t n
+  ctx: &EVP_MD_CTX >> _, data: arrayref(uchar, n), n: size_t n
 ) : interr = "mac#%" // end of [EVP_DigestUpdate]
-
-fun{}
-EVP_DigestUpdate_string (ctx: &EVP_MD_CTX >> _, data: string): interr
 
 (* ****** ****** *)
 
@@ -264,8 +272,8 @@ EVP_DigestFinal
 fun
 EVP_DigestFinal
 (
-  ctx: &EVP_MD_CTX >> _?, md: Ptr1, len: &int >> int(n)
-) : #[n:int] interr = "mac#%" // end of [EVP_DigestFinal]
+  ctx: &EVP_MD_CTX >> _?, md: Ptr1, len: &int(0) >> int(n)
+) : #[n:nat] interr = "mac#%" // end-of-fun
 
 (* ****** ****** *)
 
@@ -293,6 +301,23 @@ EVP_DigestFinal_ex
   ctx: &EVP_MD_CTX >> _, md: Ptr1, len: &int(0) >> int(n)
 ) : #[n:nat] interr = "mac#%" // end-of-fun
 
+(* ****** ****** *)
+//
+// HX: convenience functions
+//
+(* ****** ****** *)
+
+fun{}
+EVP_Digestize_string
+(
+  digest: string, subject: string, asz: &int? >> int(n)
+) : #[n:nat] arrayptr (uchar, n) // end-of-fun
+
+(* ****** ****** *)
+//
+fun{}
+EVP_DigestUpdate_string (ctx: &EVP_MD_CTX >> _, data: string): interr
+//
 (* ****** ****** *)
 
 (* end of [evp.sats] *)

@@ -29,12 +29,19 @@ LDFLAGS += -lcrypto
 
 all::
 all:: test01
+all:: test02
 
 ######
 
 test01: test01.dats ; \
   $(PATSCC) -IIATS $(PATSHOMERELOCQ)/contrib -o $@ $< $(LDFLAGS)
 cleanall:: ; $(RMF) test01
+
+######
+
+test02: test02.dats ; \
+  $(PATSCC) -DATS_MEMALLOC_LIBC -IIATS $(PATSHOMERELOCQ)/contrib -o $@ $< $(LDFLAGS)
+cleanall:: ; $(RMF) test02
 
 ######
 

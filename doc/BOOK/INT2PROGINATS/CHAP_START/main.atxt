@@ -79,10 +79,15 @@ named <filename>hello</filename> in the current working directory:
 </programlisting></informalexample>
 
 where <filename>hello.dats</filename> refers to a file containing the above
-program.  Note that the filename extension #emphasis(".dats") should not be
-altered as it has already been assigned a special meaning that the
-compilation command #command("atscc") recognizes. Another special filename
-extension is #emphasis(".sats"), which we will soon encounter.\
+program.  The command #command("atscc") is essentially a convenience
+wrapper around the command #command("atsopt"), which triggers the process
+of typechecking and compiling ATS programs. Note that #command("atscc") and
+#command("atsopt") may actually be given the names #command("patscc") and
+#command("patsopt"), respectively, in certain installations of ATS.  The filename
+extension #emphasis(".dats") should not be altered as it has already been
+assigned a special meaning that the compilation command #command("atscc")
+recognizes. Another special filename extension is #emphasis(".sats"), which
+we will soon encounter.\
 
 ")#comment("para")
 
