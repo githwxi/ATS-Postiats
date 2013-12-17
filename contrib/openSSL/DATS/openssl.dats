@@ -65,7 +65,15 @@ var nerr: int = 0
 //
 var mdctx: EVP_MD_CTX
 val md = EVP_get_digestbyname (digest)
-val () = assertloc (ptrcast(md) > 0)
+val p_md = ptrcast(md)
+val () =
+if p_md = 0 then
+{
+val () = prerrln! (
+  "exit(ATSCNTRB/openSSL): digest(", digest, ") is not available."
+) (* end of [val] *)
+}
+val () = assertloc (p_md > 0)
 //
 val err = EVP_DigestInit (mdctx, md)
 val () = if err = 0 then nerr := nerr + 1
