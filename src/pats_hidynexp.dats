@@ -846,8 +846,8 @@ hidecl_exndecs
 
 implement
 hidecl_dcstdecs
-  (loc, knd, dck, d2cs) =
-  hidecl_make_node (loc, HIDdcstdecs (knd, dck, d2cs))
+  (loc, dck, d2cs) =
+  hidecl_make_node (loc, HIDdcstdecs (dck, d2cs))
 // end of [hidecl_dcstdecs]
 
 (* ****** ****** *)

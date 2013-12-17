@@ -232,10 +232,10 @@ hidecl_node =
       (int(*knd*), int(*pos*), string(*code*))
     // end of [HIDextcode]
 //
-  | HIDexndecs of (d2conlst) // HX: exn decls
+  | HIDexndecs of (d2conlst) // exception decls
   | HIDdatdecs of (int(*knd*), s2cstlst) // DT decls
 //
-  | HIDdcstdecs of (int(*0/1:sta/ext*), dcstkind, d2cstlst)
+  | HIDdcstdecs of (dcstkind, d2cstlst)
 //
   | HIDimpdec of (int(*knd*), hiimpdec)
 //
@@ -896,7 +896,7 @@ fun hidecl_datdecs
 
 fun hidecl_dcstdecs
 (
-  loc: location, knd: int, dck: dcstkind, d2cs: d2cstlst
+  loc: location, dck: dcstkind, d2cs: d2cstlst
 ) : hidecl // end of [hidecl_dcstdecs]
 
 fun hidecl_impdec

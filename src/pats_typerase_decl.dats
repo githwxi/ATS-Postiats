@@ -129,6 +129,7 @@ case+
     (name, s2e_def) => let
     val hse_def =
       s2exp_tyer_deep (loc0, s2e_def)
+    // end of [val]
   in
     hidecl_extype (loc0, name, hse_def)
   end // end of [D3Cextype]
@@ -140,13 +141,11 @@ case+
 //
 | D3Cexndecs
     (d2cs) => hidecl_exndecs (loc0, d2cs)
-| D3Cdatdecs (
-    knd, s2cs
-  ) => hidecl_datdecs (loc0, knd, s2cs)
+| D3Cdatdecs
+    (knd, s2cs) => hidecl_datdecs (loc0, knd, s2cs)
 //
 | D3Cdcstdecs
-    (knd, dck, d2cs) =>
-    hidecl_dcstdecs (loc0, knd, dck, d2cs)
+    (knd, dck, d2cs) => hidecl_dcstdecs (loc0, dck, d2cs)
 //
 | D3Cimpdec _ => d3ecl_tyer_impdec (d3c0)
 //

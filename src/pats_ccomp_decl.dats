@@ -159,9 +159,7 @@ case+ hid0.hidecl_node of
 | HIDdatdecs _ => hidatdecs_ccomp (env, hid0)
 | HIDexndecs _ => hiexndecs_ccomp (env, hid0)
 //
-| HIDdcstdecs
-    (knd, dck, d2cs) => primdec_none (loc0)
-  // end of [HIDdcstdecs]
+| HIDdcstdecs (dck, d2cs) => primdec_none (loc0)
 //
 | HIDimpdec
     (knd, imp) => let
