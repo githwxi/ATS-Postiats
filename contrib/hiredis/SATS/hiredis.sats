@@ -285,7 +285,7 @@ fun redisConnectWithTimeout_fsec
 symintr redisConnectWithTimeout
 overload redisConnectWithTimeout with redisConnectWithTimeout_tval
 overload redisConnectWithTimeout with redisConnectWithTimeout_fsec
-
+//
 (* ****** ****** *)
 
 fun redisConnectNonBlock
@@ -308,7 +308,7 @@ fun redisConnectUnixWithTimeout_fsec
 symintr redisConnectUnixWithTimeout
 overload redisConnectUnixWithTimeout with redisConnectUnixWithTimeout_tval
 overload redisConnectUnixWithTimeout with redisConnectUnixWithTimeout_fsec
-
+//
 (* ****** ****** *)
 
 fun redisConnectUnixNonBlock

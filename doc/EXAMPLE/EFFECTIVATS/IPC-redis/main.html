@@ -64,10 +64,9 @@ fun msgchan_takeout (chan: msgchan, nerr: &int >> _): stropt
 The second argument of [msgchan_takeout] is call-by-reference, and its
 value is increased to indicate a failed attempt to take out a message. What
 [msgchan_takeout] returns is an optional string, which is either a regular
-string or the null pointer. In case a null pointer is returned, it is also
-an indication of a failure of some sort.  Note that a call to
-[msgchan_takeout] on a given channel is blocked if the channel is currently
-empty.
+string or a null pointer. In case a null pointer is returned, it is also an
+indication of failure of some sort.  Note that a call to [msgchan_takeout]
+on a given channel is blocked if the channel is currently empty.
 
 <p>
 
@@ -79,11 +78,53 @@ re-established before a second attempt is made.
 Redis Connection
 </h2>
 
+To set up a redis connection means to create a value of the type
+[redisContext(l)], where l refers to the memory location at which the value
+is stored.  Let us use the name redisContext-value to refer to such a
+value.  In case a redis connection cannot be set up successfully, the type
+[redisContext(null)] is assigned to the created redisContext-value, which
+is just a null pointer.
+
+<p>
+
+Once a redis connection is established, the redisContext-value associated
+with this connection is stored in a reference (that is, an array of size 1).
+The following function can be called to obtain the stored redisContext-value
+(for temporary use):
+
+<pre>
+fun the_redisContext_vtget (): [l:addr] vttakeout0 (redisContext(l))
+</pre>
+
+where [vttakeout0] is defined as follows:
+
+<pre>
+vtypedef
+vttakeout0 (a:vt@ype) = (a -&lt;lin,prf&gt; void | a) // borrowed linear value
+</pre>
+
+The following code depicts a typical calling sequence:
+
+<pre>
+//
+val (fpf | ctx) = the_redisContext_vtget ()
+//
+// code that makes use of [ctx]
+//
+prval () = fpf (ctx) // returning the borrowed context
+//
+</pre>
+
+where [the_redisContext_vtget] is called to obtain a redisContext-value and
+a proof function for returning this value, and the proof function is then
+called on the redisContext-value to return it (in the sense of theorem-proving)
+after its being used.
+
 <h2>
 Testing
 </h2>
 
-The code implementing message channels can be found
+The ATS code implementing message channels can be found
 in the following files:
 
 <pre>
@@ -103,15 +144,18 @@ for downloading the content of a message channel into a file.
 <p>
 
 There is also a Makefile available for compiling the ATS source code into
-excutables [test_up] and [test_dn] for testing. For instance, by executing
-the following command-line, one should see the content of the file
-[msgchan.sats] being output to the console in a line-by-line fashion, where
-a short pause (of maximal 5 seconds) is introduced between the appearance
-of two consecutive lines:
+excutables [test_up] and [test_dn] for testing. Assume the availability of
+a redis server running at the default port 6379 at the IP address 127.0.0.1.
+By executing the following command-line:
 
 <pre>
 cat msgchan.sats | ./test_up & ./test_dn
 </pre>
+
+one should be able to see the content of the file [msgchan.sats] being
+output to the console in a line-by-line fashion, where a short pause (of 3
+seconds at most) is introduced between the appearance of two consecutive
+lines.
 
 <hr size="2">
 

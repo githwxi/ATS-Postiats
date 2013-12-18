@@ -35,14 +35,24 @@ fun msgchan_takeout_try
 *)
 //
 (* ****** ****** *)
-
+//
+// HX-2013-12-18:
+// this function re-establishes redis connection and then
+// calls [mschan_insert] for the second time if its first call
+// to [mschan_insert] fails to insert a message.
+//
 fun msgchan_insert2
 (
   chan: msgchan, msg: string, nerr: &int >> _
 ) : void // end of [msgchan_insert2]
 
 (* ****** ****** *)
-
+//
+// HX-2013-12-18:
+// this function re-establishes redis connection and then
+// calls [mschan_takeout2] for the second time if its first call
+// to [mschan_takeout] fails to take out a message.
+//
 fun msgchan_takeout2
   (chan: msgchan, nerr: &int >> _) : stropt
 

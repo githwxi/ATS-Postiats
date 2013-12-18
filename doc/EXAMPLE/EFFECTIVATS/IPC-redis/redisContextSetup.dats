@@ -35,15 +35,15 @@ staload _(*anon*) = "{$HIREDIS}/DATS/hiredis.dats"
 extern
 fun
 the_redisContext_set (redisContext1): void
-
+//
 extern
 fun the_redisContext_unset ((*void*)): void
 extern
 fun the_redisContext_reset ((*void*)): void
-
+//
 extern
 fun the_redisContext_vtget ((*void*))
-  :<!ref> [l:addr] vttakeout0 (redisContext(l)) = "ext#"
+  :<!ref> [l:addr] vttakeout0 (redisContext(l))
 //
 (* ****** ****** *)
 

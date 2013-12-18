@@ -27,12 +27,6 @@ staload "{$HIREDIS}/SATS/hiredis_ML.sats"
 staload _(*anon*) = "{$HIREDIS}/DATS/hiredis.dats"
 
 (* ****** ****** *)
-//
-extern
-fun the_redisContext_vtget
-  ((*void*)):<!ref> [l:addr] vttakeout0 (redisContext(l)) = "ext#"
-//
-(* ****** ****** *)
 
 local
 //

@@ -61,7 +61,7 @@ in
 //
 if isnot then
 {
-  val () = randsleep (5)
+  val () = randsleep (3)
   val line = fileref_get_line_string (inp)
   val () =
     msgchan_insert2
