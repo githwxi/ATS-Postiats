@@ -54,6 +54,10 @@ This package contains an API for
 
 (* ****** ****** *)
 
+#declnamesynop("EVP_MD_ref2ptr")
+
+(* ****** ****** *)
+
 #declnamesynop("EVP_MD_CTX_ptr")
 #declnamesynop("EVP_MD_CTX_ptr0")
 #declnamesynop("EVP_MD_CTX_ptr1")

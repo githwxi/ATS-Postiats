@@ -18,6 +18,7 @@
 (* ****** ****** *)
 
 staload "./msgchan.sats"
+staload "./redisContextSetup.dats"
 
 (* ****** ****** *)
 
@@ -58,7 +59,7 @@ end // end of [msgchan_create]
 
 implement
 msgchan_insert
-  (chan, msg, err) = let
+  (chan, msg, nerr) = let
 //
 val (
   fpf | ctx
@@ -72,10 +73,10 @@ if p_ctx > 0
   then let
     val key = msgchan_get_key (chan)
   in
-    redis_lpush_string (ctx, key, msg, err)
+    redis_lpush_string (ctx, key, msg, nerr)
   end // end of [then]
   else let
-    val () = err := err + 1 in RDSnil(*void*)
+    val () = nerr := nerr + 1 in RDSnil(*void*)
   end // end of [else]
 // end of [if]
 ) : redisVal // end of [val]
@@ -90,7 +91,7 @@ end // end of [msgchan_insert]
 
 implement
 msgchan_takeout
-  (chan, err) = let
+  (chan, nerr) = let
 //
 val (
   fpf | ctx
@@ -104,10 +105,10 @@ if p_ctx > 0
   then let
     val key = msgchan_get_key (chan)
   in
-    redis_brpop (ctx, key, 0u(*blocking*), err)
+    redis_brpop (ctx, key, 0u(*blocking*), nerr)
   end // end of [then]
   else let
-    val () = err := err + 1 in RDSnil(*void*)
+    val () = nerr := nerr + 1 in RDSnil(*void*)
   end // end of [else]
 // end of [if]
 ) : redisVal // end of [val]
@@ -129,6 +130,46 @@ case+ rds of
 end // end of [msgchan_takeout]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+msgchan_insert2
+(
+  chan, msg, nerr
+) = () where
+{
+  val nerr0 = nerr
+  val () = msgchan_insert (chan, msg, nerr)
+  val () =
+  if nerr > nerr0 then
+  {
+    val () = nerr := nerr0
+    val () = the_redisContext_reset ()
+    val () = msgchan_insert (chan, msg, nerr)
+  } (* end of [val] *)
+} (* end of [msgchan_insert2] *)
+
+(* ****** ****** *)
+
+implement
+msgchan_takeout2
+  (chan, nerr) = msg where
+{
+//
+  var msg: stropt = stropt_none ()
+//
+  val nerr0 = nerr
+  val msg = msgchan_takeout (chan, nerr)
+  val () =
+  if nerr > nerr0 then
+  {
+    val () = nerr := nerr0
+    val () = the_redisContext_reset ()
+    val msg = msgchan_takeout (chan, nerr)
+  } (* end of [val] *)
+//
+} (* end of [msgchan_takeout2] *)
 
 (* ****** ****** *)
 

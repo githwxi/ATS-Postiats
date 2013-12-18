@@ -10,6 +10,28 @@
 //
 (* ****** ****** *)
 //
+#include
+"share/atspre_define.hats"
+#include
+"share/atspre_staload.hats"
+//
+(* ****** ****** *)
+
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload "{$HIREDIS}/SATS/hiredis.sats"
+staload "{$HIREDIS}/SATS/hiredis_ML.sats"
+staload _(*anon*) = "{$HIREDIS}/DATS/hiredis.dats"
+
+(* ****** ****** *)
+
+#include "params.hats"
+
+(* ****** ****** *)
+//
 extern
 fun
 the_redisContext_set (redisContext1): void

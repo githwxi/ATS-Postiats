@@ -16,10 +16,6 @@
 //
 (* ****** ****** *)
 
-staload "./msgchan.sats"
-
-(* ****** ****** *)
-
 staload
 UN = "prelude/SATS/unsafe.sats"
 
@@ -31,14 +27,12 @@ staload "libc/SATS/unistd.sats"
 
 (* ****** ****** *)
 
-staload "{$HIREDIS}/SATS/hiredis.sats"
-staload "{$HIREDIS}/SATS/hiredis_ML.sats"
-staload _(*anon*) = "{$HIREDIS}/DATS/hiredis.dats"
+#include "./params.hats"
 
 (* ****** ****** *)
 
-#include "./params.hats"
-#include "./redisContextSetup.hats"
+staload "./msgchan.sats"
+staload "./redisContextSetup.dats"
 
 (* ****** ****** *)
 
@@ -54,38 +48,13 @@ randsleep (n) =
 
 extern
 fun
-msgchan_insert2
-(
-  chan: msgchan, msg: string, err: &int >> _
-) : void // end of [msgchan_insert2]
-implement
-msgchan_insert2
-(
-  chan, msg, err
-) = () where
-{
-  val err0 = err
-  val () = msgchan_insert (chan, msg, err)
-  val () =
-  if err > err0 then
-  {
-    val () = err := err0
-    val () = the_redisContext_reset ()
-    val () = msgchan_insert (chan, msg, err)
-  } (* end of [val] *)
-} (* end of [msgchan_insert2] *)
-
-(* ****** ****** *)
-
-extern
-fun
 msgchan_upload_fileref
   (chan: msgchan, inp: FILEref): void
 implement
 msgchan_upload_fileref
   (chan, inp) = let
 //
-var err: int = 0
+var nerr: int = 0
 val isnot = fileref_isnot_eof (inp)
 //
 in
@@ -96,20 +65,21 @@ if isnot then
   val line = fileref_get_line_string (inp)
   val () =
     msgchan_insert2
-      (chan, $UN.strptr2string(line), err)
+      (chan, $UN.strptr2string(line), nerr)
     // end of [msgchan_insert2]
 //
   val () = strptr_free (line)
   val () = msgchan_upload_fileref (chan, inp)
 } else {
-  val ((*void*)) = msgchan_insert2 (chan, "\n", err)
+  val ((*void*)) = msgchan_insert2 (chan, "\n", nerr)
 } (* end of [if] *)
 //
 end // end of [msgchan_upload_fileref]
 
 (* ****** ****** *)
 
-dynload "msgchan.dats"
+dynload "./msgchan.dats"
+dynload "./redisContextSetup.dats"
 
 (* ****** ****** *)
 

@@ -16,47 +16,17 @@
 //
 (* ****** ****** *)
 
-staload "./msgchan.sats"
-
-(* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
-staload "{$HIREDIS}/SATS/hiredis.sats"
-staload "{$HIREDIS}/SATS/hiredis_ML.sats"
-staload _(*anon*) = "{$HIREDIS}/DATS/hiredis.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
 #include "./params.hats"
-#include "./redisContextSetup.hats"
 
 (* ****** ****** *)
 
-extern
-fun
-msgchan_takeout2
-  (chan: msgchan, err: &int >> _) : stropt
-implement
-msgchan_takeout2
-  (chan, err) = msg where
-{
-//
-  var msg: stropt = stropt_none ()
-//
-  val err0 = err
-  val msg = msgchan_takeout (chan, err)
-  val () =
-  if err > err0 then
-  {
-    val () = err := err0
-    val () = the_redisContext_reset ()
-    val msg = msgchan_takeout (chan, err)
-  } (* end of [val] *)
-//
-} (* end of [msgchan_takeout2] *)
+staload "./msgchan.sats"
+staload "./redisContextSetup.dats"
 
 (* ****** ****** *)
 
@@ -70,9 +40,9 @@ msgchan_dnload_fileref
   chan, out
 ) : void = let
 //
-var err: int = 0
+var nerr: int = 0
 val opt =
-  msgchan_takeout2 (chan, err)
+  msgchan_takeout2 (chan, nerr)
 //
 val issome = stropt_is_some (opt)  
 //
@@ -94,7 +64,8 @@ end // end of [msgchan_dnload_fileref]
 
 (* ****** ****** *)
 
-dynload "msgchan.dats"
+dynload "./msgchan.dats"
+dynload "./redisContextSetup.dats"
 
 (* ****** ****** *)
 

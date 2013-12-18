@@ -36,6 +36,7 @@ SOURCESsta := \
 SOURCESdyn := \
   mylib.dats \
   msgchan.dats \
+  redisContextSetup.dats \
 
 ######
 
@@ -46,12 +47,12 @@ OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))
 
 test_up: \
   test_up.dats $(OBJECTS) ; \
-  $(PATSCC) $(ATSCCFLAGS) -o $@ $^ -L$(PATSLIB) -latslib -lhiredis -lgc
+  $(PATSCC) $(ATSCCFLAGS) -o $@ $^ -lhiredis -lgc
 cleanall:: ; $(RMF) test_up
 
 test_dn: \
   test_dn.dats $(OBJECTS) ; \
-  $(PATSCC) $(ATSCCFLAGS) -o $@ $^ -L$(PATSLIB) -latslib -lhiredis -lgc
+  $(PATSCC) $(ATSCCFLAGS) -o $@ $^ -lhiredis -lgc
 cleanall:: ; $(RMF) test_dn
 
 ######

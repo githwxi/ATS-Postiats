@@ -15,6 +15,18 @@
 #include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
+  
+local
+//
+#include "prelude/DATS/filebas.dats"
+//
+in (* in of [local] *)
+//
+// HX: it is intentionally left to be empty
+//
+end // end of [local]
+  
+(* ****** ****** *)
 
 local
 //

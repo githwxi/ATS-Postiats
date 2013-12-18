@@ -24,16 +24,28 @@ msgchan_create (name: string): msgchan
 //
 fun msgchan_insert
 (
-  chan: msgchan, msg: string, err: &int >> _
+  chan: msgchan, msg: string, nerr: &int >> _
 ) : void // end of [msgchan_insert]
 //
 fun msgchan_takeout
-  (chan: msgchan, err: &int >> _): stropt // blocking
+  (chan: msgchan, nerr: &int >> _): stropt // blocking
 (*
 fun msgchan_takeout_try
-  (chan: msgchan, err: &int >> _): stropt // non-blocking
+  (chan: msgchan, nerr: &int >> _): stropt // non-blocking
 *)
 //
+(* ****** ****** *)
+
+fun msgchan_insert2
+(
+  chan: msgchan, msg: string, nerr: &int >> _
+) : void // end of [msgchan_insert2]
+
+(* ****** ****** *)
+
+fun msgchan_takeout2
+  (chan: msgchan, nerr: &int >> _) : stropt
+
 (* ****** ****** *)
 
 (* end of [msgchan.sats] *)

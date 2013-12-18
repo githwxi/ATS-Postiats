@@ -39,6 +39,80 @@ In the actual implementation, a message channel is just a key referring to
 a queue in redis, and the function [msgchan_create] computes such a key based on
 a given name.
 
+<p>
+
+In order to insert a message into a given message channel, the
+following function [msgchan_insert] can be called:
+
+<pre>
+fun msgchan_insert
+  (chan: msgchan, msg: string, nerr: &int >> _) : void
+</pre>
+
+The third argument of [msgchan_insert] is call-by-reference, and its value
+is increased to indicate a failed attempt to insert a message.
+
+<p>
+
+In order to take out a message for a given message channel, the
+following function [msgchan_takeout] can be called:
+
+<pre>
+fun msgchan_takeout (chan: msgchan, nerr: &int >> _): stropt
+</pre>
+
+The second argument of [msgchan_takeout] is call-by-reference, and its
+value is increased to indicate a failed attempt to take out a message. What
+[msgchan_takeout] returns is an optional string, which is either a regular
+string or the null pointer. In case a null pointer is returned, it is also
+an indication of a failure of some sort.  Note that a call to
+[msgchan_takeout] on a given channel is blocked if the channel is currently
+empty.
+
+<p>
+
+If calling [msgchan_insert] or [msgchan_takeout] on a channel results in a
+failure, then the redis connection associated with the channel should be
+re-established before a second attempt is made.
+
+<h2>
+Redis Connection
+</h2>
+
+<h2>
+Testing
+</h2>
+
+The code implementing message channels can be found
+in the following files:
+
+<pre>
+msgchan.sats
+msgchan.dats
+redisContextSetup.dats
+</pre>
+
+In the file [test_up.dats], some testing code is available
+for uploading the content of a file into a message channel.
+
+<p>
+
+In the file [test_dn.dats], some testing code is available
+for downloading the content of a message channel into a file.
+
+<p>
+
+There is also a Makefile available for compiling the ATS source code into
+excutables [test_up] and [test_dn] for testing. For instance, by executing
+the following command-line, one should see the content of the file
+[msgchan.sats] being output to the console in a line-by-line fashion, where
+a short pause (of maximal 5 seconds) is introduced between the appearance
+of two consecutive lines:
+
+<pre>
+cat msgchan.sats | ./test_up & ./test_dn
+</pre>
+
 <hr size="2">
 
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
