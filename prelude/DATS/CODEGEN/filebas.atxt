@@ -689,7 +689,7 @@ atspre_fileref_get_line_string_main2
 #atscode_separator()
 
 implement{}
-fileref_foreach$bufsize () = i2sz(1024)
+fileref_foreach$bufsize () = i2sz(4096)
 
 #atscode_separator()
 

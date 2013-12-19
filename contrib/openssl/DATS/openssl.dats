@@ -178,6 +178,10 @@ val p_nerr = addr@nerr
 //
 stadef CTX = EVP_MD_CTX
 //
+(*
+implement
+fileref_foreach$bufsize<> () = i2sz(4096)
+*)
 implement{env}
 fileref_foreach$fworkv
   {n} (A, n, env) = () where
@@ -194,7 +198,7 @@ fileref_foreach$fworkv
 val () = fileref_foreach (inp)
 //
 in
-  if nerr > 0 then 0 else 1
+  if nerr = 0 then 1(*success*) else 0(*failure*)
 end (* end of [EVP_DigestUpdate_fileref] *)
 
 (* ****** ****** *)
