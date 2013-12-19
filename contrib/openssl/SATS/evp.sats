@@ -314,13 +314,24 @@ EVP_DigestFinal_ex
 fun{}
 EVP_Digestize_string
 (
-  dname: string, subject: string, asz: &int? >> int(n)
+  dname: string, src: string, asz: &int? >> int(n)
+) : #[n:nat] arrayptr (uchar, n) // end-of-fun
+
+(* ****** ****** *)
+
+fun{}
+EVP_Digestize_fileref
+(
+  dname: string, inp: FILEref, asz: &int? >> int(n)
 ) : #[n:nat] arrayptr (uchar, n) // end-of-fun
 
 (* ****** ****** *)
 //
 fun{}
-EVP_DigestUpdate_string (ctx: &EVP_MD_CTX >> _, data: string): interr
+EVP_DigestUpdate_string (ctx: &EVP_MD_CTX >> _, src: string): interr
+//
+fun{}
+EVP_DigestUpdate_fileref (ctx: &EVP_MD_CTX >> _, inp: FILEref): interr
 //
 (* ****** ****** *)
 

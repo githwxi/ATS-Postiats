@@ -45,6 +45,12 @@ cleanall:: ; $(RMF) test02
 
 ######
 
+test03: test03.dats ; \
+  $(PATSCC) -DATS_MEMALLOC_LIBC -IIATS $(PATSHOMERELOCQ)/contrib -o $@ $< $(LDFLAGS)
+cleanall:: ; $(RMF) test03
+
+######
+
 RMF=rm -f
 
 ######

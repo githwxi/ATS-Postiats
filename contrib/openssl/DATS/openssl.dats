@@ -55,7 +55,7 @@ staload "./../SATS/evp.sats"
 
 implement{}
 EVP_Digestize_string
-  (dname, subject, asz) = let
+  (dname, src, asz) = let
 //
 var nerr: int = 0
 //
@@ -74,7 +74,7 @@ val () = assertloc (p_md > 0)
 val err = EVP_DigestInit (mdctx, md)
 val () = if err = 0 then nerr := nerr + 1
 //
-val err = EVP_DigestUpdate_string (mdctx, subject)
+val err = EVP_DigestUpdate_string (mdctx, src)
 val () = if err = 0 then nerr := nerr + 1
 //
 var mdlen: int = 0
@@ -106,13 +106,96 @@ end // end of [EVP_Digestize_string]
 (* ****** ****** *)
 
 implement{}
-EVP_DigestUpdate_string
-  (ctx, data) = let
-  val [n:int] data = g1ofg0 (data)
-  val data2 = $UN.cast{arrayref(uchar,n)}(data)
+EVP_Digestize_fileref
+  (dname, inp, asz) = let
+//
+var nerr: int = 0
+//
+var mdctx: EVP_MD_CTX
+val md = EVP_get_digestbyname (dname)
+val p_md = ptrcast (md)
+val () =
+if p_md = 0 then
+{
+val () = prerrln! (
+  "exit(ATSCNTRB/openSSL): digest(", dname, ") is not available."
+) (* end of [val] *)
+}
+val () = assertloc (p_md > 0)
+//
+val err = EVP_DigestInit (mdctx, md)
+val () = if err = 0 then nerr := nerr + 1
+//
+val err = EVP_DigestUpdate_fileref (mdctx, inp)
+val () = if err = 0 then nerr := nerr + 1
+//
+var mdlen: int = 0
+var mdval = @[uchar][EVP_MAX_MD_SIZE]()
+val p_mdval = addr@mdval
+val err = EVP_DigestFinal (mdctx, p_mdval, mdlen)
+val () = if err = 0 then nerr := nerr + 1
+//
 in
-  EVP_DigestUpdate (ctx, data2, string1_length (data))
+//
+if nerr = 0
+  then let
+    val () = asz := mdlen
+    prval [n:int] EQINT () = g1int_get_index (asz)
+    val asz2 = i2sz (asz)
+    val res = arrayptr_make_uninitized<char> (asz2)
+    val p_res = ptrcast (res)
+    val p_res = $UN.cast2Ptr1(p_res)
+    val p_res = $STRING.memcpy_unsafe (p_res, p_mdval, asz2)
+  in
+    $UN.castvwtp0{arrayptr(uchar,n)}(res)
+  end // end of [then]
+  else let
+    val () = asz := 0(*error*) in $UN.castvwtp0{arrayptr(uchar,0)}(0)
+  end // end of [else]
+//
+end // end of [EVP_Digestize_fileref]
+
+(* ****** ****** *)
+
+implement{}
+EVP_DigestUpdate_string
+  (ctx, src) = let
+  val [n:int] src = g1ofg0 (src)
+  val src2 = $UN.cast{arrayref(uchar,n)}(src)
+in
+  EVP_DigestUpdate (ctx, src2, string1_length (src))
 end // end of [EVP_DigestUpdate_string]
+
+(* ****** ****** *)
+
+implement{}
+EVP_DigestUpdate_fileref
+  (ctx, inp) = let
+//
+var nerr: int = 0
+val p_ctx = addr@ctx
+val p_nerr = addr@nerr
+//
+stadef CTX = EVP_MD_CTX
+//
+implement{env}
+fileref_foreach$fworkv
+  {n} (A, n, env) = () where
+{
+  val A = $UN.cast{arrayref(uchar,n)}(A)
+  val (pf, fpf | p_ctx) = $UN.ptr0_vtake{CTX}(p_ctx)
+  val err = EVP_DigestUpdate (!p_ctx, A, n)
+  prval ((*void*)) = fpf (pf)
+  val (pf, fpf | p_nerr) = $UN.ptr0_vtake{int}(p_nerr)
+  val () = if err = 0 then !p_nerr := !p_nerr + 1
+  prval ((*void*)) = fpf (pf)
+} (* end of [fileref_foreach$fworkv] *)
+//
+val () = fileref_foreach (inp)
+//
+in
+  if nerr > 0 then 0 else 1
+end (* end of [EVP_DigestUpdate_fileref] *)
 
 (* ****** ****** *)
 
