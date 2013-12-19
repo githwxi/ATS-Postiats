@@ -134,7 +134,7 @@ upload_IPC-redis:: ; \
   IPC-redis/msgchan.sats \
   IPC-redis/msgchan.dats \
   IPC-redis/params.hats \
-  IPC-redis/redisContextSetup.hats \
+  IPC-redis/redisContextSetup.dats \
   IPC-redis/test_up.dats \
   IPC-redis/test_dn.dats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/IPC-redis/

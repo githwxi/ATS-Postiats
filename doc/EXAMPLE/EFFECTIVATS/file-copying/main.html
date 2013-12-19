@@ -212,19 +212,19 @@ If such a failure occurs, we should probably stop file-copying and report
 an error. Let us introduce another file-copying function [fcopy3] as follows:
 
 <pre>
-fun fcopy3 (src: fildes, dst: fildes, err: &int): void
+fun fcopy3 (src: fildes, dst: fildes, nerr: &int): void
 </pre>
 
-The third argument [err] of [fcopy3] is a call-by-reference integer. In
+The third argument [nerr] of [fcopy3] is a call-by-reference integer. In
 other words, what is passed as the third argument of [fcopy3] is the
 address of a left-value. If an error caused by [read] or [write] occurs
-during file-copying, then the value of the integer stored in [err] should
+during file-copying, then the value of the integer stored in [nerr] should
 be increased. To achieve this, we can modify the types of [readbuf] and
 [writebuf] as follows:
 
 <pre>
-fun readbuf (src: fildes, buf: !buffer, err: &int): void
-fun writebuf (dst: fildes, buf: !buffer, err: &int): void
+fun readbuf (src: fildes, buf: !buffer, nerr: &int): void
+fun writebuf (dst: fildes, buf: !buffer, nerr: &int): void
 </pre>
 
 The function [readbuf] calls [read]; if this call reports an error, then
@@ -235,28 +235,27 @@ following code gives an implementation of [fcopy3] similar to that of
 
 <pre>
 implement
-fcopy3 (src, dst, err) = let
+fcopy3 (src, dst, nerr) = let
 //
 fun loop
 (
-  src: fildes, dst: fildes, buf: !buffer, err0: int, err: &int
+  src: fildes, dst: fildes, buf: !buffer, nerr: &int
 ) : void = let
-  val () = readbuf (src, buf, err)
+  val nerr0 = nerr
+  val () = readbuf (src, buf, nerr)
   val isnot = buffer_isnot_empty (buf)
 in
   if isnot then let
-    val () = writebuf (dst, buf, err)
+    val () = writebuf (dst, buf, nerr)
   in
-    if err = err0 then loop (src, dst, buf, err0, err) else ((*error*))
+    if nerr = nerr0 then loop (src, dst, buf, nerr) else ((*error*))
   end else () // end of [if]
 //
 end // end of [loop]
 //
-val buf =
-  buffer_create (i2sz(BUFSZ))
-val err0 = err
-val () = loop (src, dst, buf, err0, err)
-val () = buffer_destroy (buf)
+val buf = buffer_create (i2sz(BUFSZ))
+val ((*void*)) = loop (src, dst, buf, nerr)
+val ((*void*)) = buffer_destroy (buf)
 //
 in
   // nothing

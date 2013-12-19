@@ -66,9 +66,9 @@ buffer_destroy (buffer buf)
 (* ****** ****** *)
 
 extern
-fun readbuf (src: fildes, buf: !buffer, err: &int): void = "sta#"
+fun readbuf (src: fildes, buf: !buffer, nerr: &int): void = "sta#"
 extern
-fun writebuf (dst: fildes, buf: !buffer, err: &int): void = "sta#"
+fun writebuf (dst: fildes, buf: !buffer, nerr: &int): void = "sta#"
 
 (* ****** ****** *)
 
@@ -78,13 +78,13 @@ static
 void
 readbuf
 (
-  int src, atstype_ptr buf0, atstype_ptr err
+  int src, atstype_ptr buf0, atstype_ptr nerr
 )
 {
   buffer buf = (buffer)buf0 ;
   ssize_t nchar ;
   nchar = read(src, buf->data, buf->size) ;
-  if (nchar < 0) { *(int*)err += 1 ; return ; }
+  if (nchar < 0) { *(int*)nerr += 1 ; return ; }
   buf->nchar = nchar ;
   return ;
 }
@@ -93,7 +93,7 @@ static
 void
 writebuf
 (
-  int dst, atstype_ptr buf0, atstype_ptr err
+  int dst, atstype_ptr buf0, atstype_ptr nerr
 )
 {
   ssize_t nchar ;
@@ -102,7 +102,7 @@ writebuf
   {
     if (buf->nchar==0) break ;
     nchar = write(dst, buf->data, buf->nchar) ;
-    if (nchar < 0) { *(int*)err += 1 ; return ; }
+    if (nchar < 0) { *(int*)nerr += 1 ; return ; }
     buf->nchar -= nchar ;
   } // end of [while]
   return ;
@@ -117,33 +117,32 @@ writebuf
 (* ****** ****** *)
 //
 extern
-fun fcopy3 (src: fildes, dst: fildes, err: &int): void
+fun fcopy3 (src: fildes, dst: fildes, nerr: &int): void
 //
 (* ****** ****** *)
 
 implement
-fcopy3 (src, dst, err) = let
+fcopy3 (src, dst, nerr) = let
 //
 fun loop
 (
-  src: fildes, dst: fildes, buf: !buffer, err0: int, err: &int
+  src: fildes, dst: fildes, buf: !buffer, nerr: &int
 ) : void = let
-  val () = readbuf (src, buf, err)
+  val nerr0 = nerr
+  val () = readbuf (src, buf, nerr)
   val isnot = buffer_isnot_empty (buf)
 in
   if isnot then let
-    val () = writebuf (dst, buf, err)
+    val () = writebuf (dst, buf, nerr)
   in
-    if err = err0 then loop (src, dst, buf, err0, err) else ((*error*))
+    if nerr = nerr0 then loop (src, dst, buf, nerr) else ((*error*))
   end else () // end of [if]
 //
 end // end of [loop]
 //
-val buf =
-  buffer_create (i2sz(BUFSZ))
-val err0 = err
-val () = loop (src, dst, buf, err0, err)
-val () = buffer_destroy (buf)
+val buf = buffer_create (i2sz(BUFSZ))
+val ((*void*)) = loop (src, dst, buf, nerr)
+val ((*void*)) = buffer_destroy (buf)
 //
 in
   // nothing
@@ -160,9 +159,9 @@ implement
 main0 () =
 {
 //
-var err: int = 0
-val () = fcopy3 (STDIN, STDOUT, err)
-val () = assertloc (err = 0)
+var nerr: int = 0
+val () = fcopy3 (STDIN, STDOUT, nerr)
+val () = assertloc (nerr = 0)
 //
 } (* end of [main0] *)
 
