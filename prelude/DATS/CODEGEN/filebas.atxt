@@ -688,6 +688,85 @@ atspre_fileref_get_line_string_main2
 
 #atscode_separator()
 
+implement{}
+fileref_foreach$bufsize () = i2sz(1024)
+
+#atscode_separator()
+
+implement
+{env}(*tmp*)
+fileref_foreach$fworkv
+  (A, n, env) = let
+//
+implement
+{a}{env}
+array_foreach$cont (x, env) = true
+implement
+array_foreach$fwork<char><env>
+  (x, env) = fileref_foreach$fwork<env> (x, env)
+//
+in
+  ignoret (arrayref_foreach_env<char><env> (A, n, env))
+end // end of [fileref_foreach$fworkv]
+
+#atscode_separator()
+
+implement{}
+fileref_foreach (inp) = let
+   var env: void = () in fileref_foreach_env (inp, env)
+end // end of [fileref_foreach]
+
+#atscode_separator()
+
+local
+//
+staload "libc/SATS/stdio.sats"
+//
+extern
+fun fread
+  (ptr, size_t, size_t, FILEref): Size = "mac\#atslib_fread"
+//
+in (* in of [local] *)
+
+implement
+{env}(*tmp*)
+fileref_foreach_env
+   (inp, env) = let
+//
+fun loop
+  {l:addr}{n:int}
+(
+  pf: !b0ytes(n) @ l
+| inp: FILEref, bufp: ptr(l), bsz: size_t(n), env: &env
+) : void = let
+//
+val bsz2 = fread (bufp, i2sz(1), bsz, inp)
+prval [n2:int] EQINT() = g1uint_get_index (bsz2)
+//
+in
+//
+if bsz2 > 0 then
+{
+  val A = $UN.cast{arrayref(char,n2)}(bufp)
+  val () = fileref_foreach$fworkv<env> (A, bsz2, env)
+  val ((*void*)) = loop (pf | inp, bufp, bsz, env)
+} (* end of [if] *)
+//
+end // end of [loop]
+//
+val bsz = fileref_foreach$bufsize<> ()
+val (pf1, pf2 | bufp) = memory$alloc<> (bsz)
+val ((*void*)) = loop (pf1 | inp, bufp, bsz, env)
+val ((*void*)) = memory$free<> (pf1, pf2 | bufp)
+//
+in
+  // nothing
+end // end of [fileref_foreach_env]
+
+end // end of [local]
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

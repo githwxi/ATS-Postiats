@@ -68,23 +68,49 @@ fun minit_gc (): void = "mac\#%"
 //
 #atscode_separator()
 
-fun mfree_gc
+fun
+mfree_gc
   {l:addr}{n:int}
 (
-  pfat: b0ytes n @ l, pfgc: mfree_gc_v (l) | ptr l
-) :<!wrt> void = "mac\#%" // endfun
+  pfat: b0ytes n @ l
+, pfgc: mfree_gc_v (l) | ptr l
+) :<!wrt> void = "mac\#%"
 
-#atscode_separator()
-
-fun malloc_gc
+fun
+malloc_gc
   {n:int}
 (
-  n: size_t (n)
+  bsz: size_t (n)
 ) :<!wrt>
   [l:agz]
 (
   b0ytes n @ l, mfree_gc_v (l) | ptr l
 ) = "mac\#%" // endfun
+
+#atscode_separator()
+
+absview memory$free_v (l:addr)
+
+#atscode_separator()
+
+fun{
+} memory$free
+  {l:addr}{n:int}
+(
+  pfat: b0ytes n @ l
+, pfmf: memory$free_v (l) | ptr l
+) :<!wrt> void // end-of-fun
+
+fun{
+} memory$alloc
+  {n:int}
+(
+  bsz: size_t (n)
+) :<!wrt>
+  [l:agz]
+(
+  b0ytes n @ l, memory$free_v (l) | ptr l
+) (* end of [memory$alloc] *)
 
 #atscode_separator()
 

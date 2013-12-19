@@ -19,9 +19,35 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 *)
 
 #atscode_separator()
+
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+#atscode_separator()
+
+implement{
+} memory$free{l}
+  (pfat, pfmf | p) = let
 //
-// HX: it is still empty!
+prval pfgc = $UN.castview0{mfree_gc_v(l)}(pfmf)
 //
+in
+  mfree_gc (pfat, pfgc | p)
+end // end of [memory$free]
+
+#atscode_separator()
+
+implement{
+} memory$alloc
+  {n} (bsz) = let
+//
+val [l:addr]
+  (pfat, pfgc | p) = malloc_gc (bsz)
+prval pfmf = $UN.castview0{memory$free_v(l)}(pfgc)
+in
+  (pfat, pfmf | p)
+end // end of [memory$alloc]
+
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

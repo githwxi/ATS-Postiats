@@ -34,6 +34,7 @@ prval () = fpf (base)
 
 val () =
 {
+//
 val inp =
 fileref_open_exn
   ("./prelude_filebas.dats", file_mode_r)
@@ -50,6 +51,25 @@ val (
 }
 //
 val () = fileref_close (inp)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val inp =
+fileref_open_exn
+  ("./prelude_filebas.dats", file_mode_r)
+//
+implement
+{env}(*tmp*)
+fileref_foreach$fwork (c, env) = fprint_char (stdout_ref, c)
+//
+val () = fileref_foreach (inp)
+//
+val ((*void*)) = fileref_close (inp)
 //
 } (* end of [val] *)
 

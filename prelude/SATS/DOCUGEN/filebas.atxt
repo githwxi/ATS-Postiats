@@ -448,9 +448,46 @@ Clearly, this is a wasteful and inefficient way of removing empty lines.
 (* ****** ****** *)
 
 #declnamesynop("fileref_foreach")
+#decldescrpt('\
+
+This function reads from a given file handle multiple characters and then
+applies to them the function implemented by
+#dyncode("fileref_foreach$fworkv"). It does so repeatedly until it can read
+no more characters from the file handle.
+
+')
+
 #declnamesynop("fileref_foreach_env")
-#declnamesynop("fileref_foreach$cont")
+#decldescrpt('\
+
+This function does essentially the same as #dyncode("fileref_foreach")
+except for taking an additional argument that serves as an environment.
+Actually, #dyncode("fileref_foreach") is implemented as a special case of
+#dyncode("fileref_foreach_env").
+
+')
+
+#declnamesynop("fileref_foreach$bufsize")
+#decldescrpt('\
+
+This function determines the size of the buffer allocated for storing
+characters during the evaluation of a call to #dyncode("fileref_foreach_env").\
+
+')
+
 #declnamesynop("fileref_foreach$fwork")
+#decldescrpt('\
+
+This function is used in the default implementation of #dyncode("fileref_foreach$fworkv").\
+
+')
+
+#declnamesynop("fileref_foreach$fworkv")
+#decldescrpt('\
+
+This function is directly called in the implementation of #dyncode("fileref_foreach_env").\
+
+')
 
 (* ****** ****** *)
 //

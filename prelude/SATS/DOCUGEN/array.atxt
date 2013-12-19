@@ -448,7 +448,9 @@ end // end of [array_find]
 #decldescrpt('\
 
 This function does essentially the same as #dyncode("array_foreach")
-except for taking an additional argument that serves as an environment.  ')
+except for taking an additional argument that serves as an environment.\
+
+')
 
 #declexample('\
 
