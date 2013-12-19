@@ -210,12 +210,12 @@ end // end of [word_get]
 </pre>
 
 Note that [loop] is called to skip non-alphabetical chars while [loop2] is
-called to accumulate alphabetical chars. The keywork [fnx] (in place of
+called to accumulate alphabetical chars. The keyword [fnx] (in place of
 [fun]) means that [loop] and [loop2] are compiled jointly so that the
 tail-recursive calls in their bodies can all be turned into direct local
 jumps.  The function [string_make_rlist] creates a string consisting of the
 sequence of chars in the reverse of a given list. For instance, if the list
-consists of 'a', 'b' and 'c', then the string is "cba".
+consists of 'a', 'b' and 'c', then the created string is "cba".
 
 <h2>
 How should [wcmap] be implemented?
@@ -434,7 +434,7 @@ end // end of [local]
 </pre>
 
 It is now safe for two threads to simultaneously call
-[WordCounting_fileref] on distint file handles.
+[WordCounting_fileref] on distinct file handles.
 
 A complete running program containing the above implementation of
 [WordCounting_fileref] can be found in the file wordcnt2.dats, and there is

@@ -80,9 +80,9 @@ DATSMEMALLOC=-DATS_MEMALLOC_GCBDW
 ######
 
 testdata: \
-TEST/test01_dats.json
-TEST/test01_dats.json: \
-  TEST/test01.dats ; $(PATSOPT) --jsonize-2 -o $@ -d $<
+TEST/test01_dats.cnstr
+TEST/test01_dats.cnstr: \
+  TEST/test01.dats ; $(PATSOPT) --constraint-export --typecheck -o $@ -d $<
 
 ######
 
@@ -98,7 +98,7 @@ clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) main
-cleanall:: ; $(RMF) TEST/test??_dats.json
+cleanall:: ; $(RMF) TEST/test??_dats.cnstr
 
 ######
 

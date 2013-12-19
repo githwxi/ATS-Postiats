@@ -175,6 +175,82 @@ fun s2exp_var (s2t: s2rt, s2v: s2var): s2exp
 fun s2exp_ignored (s2rt): s2exp // error-handling
 
 (* ****** ****** *)
+
+datatype s3itm =
+  | S3ITMsvar of s2var
+  | S3ITMhypo of h3ypo
+(*
+  | S3ITMsVar of s2Var
+*)
+  | S3ITMcnstr of c3nstr
+(*
+  | S3ITMcnstr_ref of c3nstroptref // HX: for handling state types
+*)
+  | S3ITMdisj of s3itmlstlst
+// end of [s3item]
+
+and c3nstr_node =
+  | C3NSTRprop of s2exp
+  | C3NSTRitmlst of s3itmlst
+// end of [c3nstr_node]
+
+and h3ypo_node =
+  | H3YPOprop of s2exp
+  | H3YPObind of (s2var, s2exp)
+  | H3YPOeqeq of (s2exp, s2exp)
+// end of [h3ypo_node]
+
+where
+s3itmlst = List0 (s3itm)
+and
+s3itmlstlst = List0 (s3itmlst)
+
+and
+h3ypo = '{
+  h3ypo_loc= loc_t
+, h3ypo_node= h3ypo_node
+} // end of [h3ypo]
+
+and
+c3nstr = '{
+  c3nstr_loc= loc_t
+, c3nstr_node= c3nstr_node
+} // end of [c3nstr]
+
+(* ****** ****** *)
+
+fun s3itm_s2var (s2v: s2var): s3itm
+
+fun s3itm_h3ypo (h3p: h3ypo): s3itm
+
+fun s3itm_cnstr (c3t: c3nstr): s3itm
+
+(* ****** ****** *)
+
+fun s3itm_disj (s3iss: s3itmlstlst): s3itm
+
+(* ****** ****** *)
+
+fun h3ypo_make_node
+  (loc: loc_t, node: h3ypo_node): h3ypo
+
+(* ****** ****** *)
+
+fun h3ypo_prop (loc_t, s2exp): h3ypo
+fun h3ypo_bind (loc_t, s2var, s2exp): h3ypo
+fun h3ypo_eqeq (loc_t, s2exp, s2exp): h3ypo
+
+(* ****** ****** *)
+
+fun c3nstr_make_node
+  (loc: loc_t, node: c3nstr_node): c3nstr
+
+(* ****** ****** *)
+
+fun c3nstr_prop (loc_t, s2exp): c3nstr
+fun c3nstr_itmlst (loc_t, s3itmlst): c3nstr
+
+(* ****** ****** *)
 //
 symintr .name
 overload .name with s2cst_get_name

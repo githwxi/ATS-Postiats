@@ -49,4 +49,12 @@ fun parse_s2var (jsv: jsonval): s2var
 
 (* ****** ****** *)
 
+fun parse_s2exp (jsv: jsonval): s2exp
+
+(* ****** ****** *)
+
+fun parse_c3nstr (jsv: jsonval): c3nstr
+
+(* ****** ****** *)
+
 (* end of [parsing.sats] *)

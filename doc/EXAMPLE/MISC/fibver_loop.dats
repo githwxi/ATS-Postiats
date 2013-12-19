@@ -32,10 +32,13 @@ fun fibver
   var i : int = 0
   prvar pf0 = FIB0 ()
   prvar pf1 = FIB1 ()
-  val () = while* {
+  val () =
+  while* {
     i:nat;r0,r1:int | i <= n
-  } (
-    pf0: FIB (i, r0), pf1: FIB (i+1, r1), i: int (i), r0: int r0, r1: int r1
+  } .<n-i>. (
+    pf0: FIB (i, r0)
+  , pf1: FIB (i+1, r1)
+  , i: int (i), r0: int r0, r1: int r1
   ) : [r:int] (pf0 : FIB (n, r), r0: int r) => (
     i < n
   ) {
@@ -48,7 +51,7 @@ fun fibver
     prval pftmp = FIB2 (pf0_, pf1_)
     prval () = pf0 := pf1_
     prval () = pf1 := pftmp
-  } // end of [while*]
+  } (* end of [while*] *)
 in
   (pf0 | r0)
 end // end of [fibver]
