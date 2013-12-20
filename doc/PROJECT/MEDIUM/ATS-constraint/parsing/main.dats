@@ -55,6 +55,7 @@ val () =
 println! ("Hello from [ATS-constraint/parsing]!")
 //
 val inp = stdin_ref
+val out = stdout_ref
 //
 val D = 1024 // depth
 val tkr = json_tokener_new_ex (D)
@@ -77,11 +78,11 @@ val ((*void*)) = json_tokener_free (tkr)
 //
 val jsv = json_object2val0 (jso)
 //
-val () =
-  fprint! (stdout_ref, "jsv=", jsv)
-val () = fprint_newline (stdout_ref)
+val () = fprintln! (out, "jsv =\n", jsv)
 //
 val c3t0 = parse_c3nstr (jsv)
+//
+val () = fprintln! (out, "c3t0 =\n", c3t0)
 //
 } (* end of [main0] *)
 

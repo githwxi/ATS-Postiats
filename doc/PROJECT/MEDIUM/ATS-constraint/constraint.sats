@@ -252,14 +252,36 @@ fun h3ypo_make_node
 
 (* ****** ****** *)
 
+fun
+fprint_h3ypo: fprint_type (h3ypo)
+overload fprint with fprint_h3ypo
+
+(* ****** ****** *)
+
 fun h3ypo_prop (loc_t, s2exp): h3ypo
 fun h3ypo_bind (loc_t, s2var, s2exp): h3ypo
 fun h3ypo_eqeq (loc_t, s2exp, s2exp): h3ypo
 
 (* ****** ****** *)
+//
+fun
+fprint_s3itm: fprint_type (s3itm)
+fun
+fprint_s3itmlst: fprint_type (s3itmlst)
+//
+overload fprint with fprint_s3itm
+overload fprint with fprint_s3itmlst of 10
+//
+(* ****** ****** *)
 
 fun c3nstr_make_node
   (loc: loc_t, node: c3nstr_node): c3nstr
+
+(* ****** ****** *)
+
+fun
+fprint_c3nstr: fprint_type(c3nstr)
+overload fprint with fprint_c3nstr
 
 (* ****** ****** *)
 

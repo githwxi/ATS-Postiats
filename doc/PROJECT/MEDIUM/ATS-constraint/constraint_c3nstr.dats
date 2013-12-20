@@ -30,4 +30,21 @@ c3nstr_itmlst (loc, s3is) =
 
 (* ****** ****** *)
 
+implement
+fprint_c3nstr
+  (out, c3t0) = let
+in
+//
+case+
+c3t0.c3nstr_node of
+//
+| C3NSTRprop (s2e) =>
+    fprint! (out, "C3NSTRprop(", s2e, ")")
+| C3NSTRitmlst (s2is) =>
+    fprint! (out, "C3NSTRitmlst(", s2is, ")")
+//
+end // end of [fprint_c3nstr]
+
+(* ****** ****** *)
+
 (* end of [constraint_c3nstr.dats] *)
