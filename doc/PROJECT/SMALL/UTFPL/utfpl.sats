@@ -47,6 +47,10 @@ overload fprint with fprint_symbol
 fun symbol_make (string): symbol
 
 (* ****** ****** *)
+
+fun symbol_get_name (symbol): string
+
+(* ****** ****** *)
 //
 fun
 compare_symbol_symbol
@@ -354,6 +358,12 @@ fun d2exp_sym (loc: loc_t, d2s: d2sym): d2exp
 
 (* ****** ****** *)
 
+fun d2exp_int (loc: loc_t, i: int): d2exp
+fun d2exp_float (loc: loc_t, f: double): d2exp
+fun d2exp_string (loc: loc_t, str: string): d2exp
+
+(* ****** ****** *)
+
 fun d2exp_i0nt (loc: loc_t, rep: string): d2exp
 fun d2exp_f0loat (loc: loc_t, rep: string): d2exp
 fun d2exp_s0tring (loc: loc_t, rep: string): d2exp
@@ -442,11 +452,15 @@ fun d2ecl_ignored (loc_t): d2ecl // error-handling
 (* ****** ****** *)
 //
 symintr .name
+//
+overload .name with symbol_get_name
+//
 overload .name with d2cst_get_name
 overload .name with d2var_get_name
 overload .name with d2sym_get_name
 //
 symintr .stamp
+//
 overload .stamp with d2cst_get_stamp
 overload .stamp with d2var_get_stamp
 //

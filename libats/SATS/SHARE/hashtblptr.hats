@@ -225,4 +225,4 @@ key,itm:t0p
 
 (* ****** ****** *)
 
-(* end of [linhashtbl.hats] *)
+(* end of [hashtblptr.hats] *)

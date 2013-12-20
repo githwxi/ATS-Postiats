@@ -13,7 +13,7 @@
 #include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
+//
 staload "libats/SATS/linhashtbl_chain.sats"
 //
 staload _(*anon*) = "libats/DATS/hashfun.dats"

@@ -43,14 +43,19 @@ overload fprint with fprint_value
 (* ****** ****** *)
 //
 fun cloenv_nil (): cloenv
+//
 fun cloenv_extend (cloenv, d2var, value): cloenv
+//
+fun cloenv_extend_arg (cloenv, p2at, value): cloenv
 fun cloenv_extend_arglst (cloenv, p2atlst, valuelst): cloenv
 //
 fun cloenv_find_exn (env: cloenv, d2v: d2var): value
 //
 (* ****** ****** *)
 
-fun eval0_cloenv (d2exp): value
+fun eval_d2exp (cloenv, d2exp): value
+fun eval_d2ecl (env: cloenv, d2ecl): cloenv
+fun eval_d2eclist (env: cloenv, d2eclist): cloenv
 
 (* ****** ****** *)
 

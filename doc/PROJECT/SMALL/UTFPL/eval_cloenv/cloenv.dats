@@ -54,6 +54,49 @@ val () = funmap_insert_any<key,itm> (env, d2v, _val)
 (* ****** ****** *)
 
 implement
+cloenv_extend_arg
+  (env, p2t, d2u) = let
+in
+//
+case+
+p2t.p2at_node of
+//
+| P2Tany () => env
+| P2Tvar (d2v) => cloenv_extend (env, d2v, d2u)
+| P2Tpat (p2t) => cloenv_extend_arg (env, p2t, d2u)
+//
+| P2Tignored () => env
+//
+end // end of [cloenv_extend_arg]
+
+(* ****** ****** *)
+
+implement
+cloenv_extend_arglst
+  (env, p2ts, d2us) = let
+in
+//
+case+ p2ts of
+| list_nil () => env
+| list_cons (p2t, p2ts) =>
+  (
+    case+ d2us of
+    | list_nil () => env
+    | list_cons
+        (d2u, d2us) => let
+        val env =
+          cloenv_extend_arg (env, p2t, d2u)
+        // end of [val]
+      in
+        cloenv_extend_arglst (env, p2ts, d2us)
+      end // end of [list_cons]
+  ) (* end of [list_cons] *)
+//
+end // end of [cloenv_extend_arglst]
+
+(* ****** ****** *)
+
+implement
 cloenv_find_exn (env, d2v) = let
 //
 var res: value?
@@ -66,7 +109,7 @@ if ans
     opt_unsome_get<itm> (res)
   // end of [then]
   else let
-    prval () = opt_unnone{itm}(res) in $raise UnboundVarExn (d2v)
+    prval () = opt_unnone{itm}(res) in $raise UnboundVarExn(d2v)
   end // end of [else]
 //
 end // end of [cloenv_find_exn]

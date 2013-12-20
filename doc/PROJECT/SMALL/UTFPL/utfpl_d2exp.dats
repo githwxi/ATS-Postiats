@@ -145,6 +145,26 @@ d2exp_sym
 (* ****** ****** *)
 
 implement
+d2exp_int
+  (loc, int) =
+  d2exp_make_node (loc, D2Eint (int))
+// end of [d2exp_int]
+
+implement
+d2exp_float
+  (loc, dbl) =
+  d2exp_make_node (loc, D2Efloat (dbl))
+// end of [d2exp_float]
+
+implement
+d2exp_string
+  (loc, str) =
+  d2exp_make_node (loc, D2Estring (str))
+// end of [d2exp_string]
+
+(* ****** ****** *)
+
+implement
 d2exp_i0nt
   (loc, rep) =
   d2exp_make_node (loc, D2Ei0nt (rep))
