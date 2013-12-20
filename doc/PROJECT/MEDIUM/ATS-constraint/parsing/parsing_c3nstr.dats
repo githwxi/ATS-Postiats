@@ -47,6 +47,14 @@ end // end of [parse_c3nstr]
 
 (* ****** ****** *)
 
+implement
+parse_c3nstropt
+  (jsv0) = (
+  parse_option<c3nstr> (jsv0, parse_c3nstr)
+) (* end of [parse_c3nstropt] *)
+
+(* ****** ****** *)
+
 extern
 fun parse_C3NSTRprop (jsonval): c3nstr_node
 extern
@@ -59,11 +67,11 @@ fun parse_C3NSTRignored (jsonval): c3nstr_node
 implement
 parse_c3nstr_node
   (jsv0) = let
-// (*
+(*
 val (
 ) = fprintln!
   (stdout_ref, "parse_c3nstr_node: jsv0 = ", jsv0)
-// *)
+*)
 val-~Some_vt(jsv1) =
   jsonval_get_field (jsv0, "c3nstr_name")
 val-~Some_vt(jsv2) =

@@ -69,6 +69,7 @@ fun parse_h3ypo (jsv: jsonval): h3ypo
 (* ****** ****** *)
 
 fun parse_c3nstr (jsv: jsonval): c3nstr
+fun parse_c3nstropt (jsv: jsonval): c3nstropt
 
 (* ****** ****** *)
 

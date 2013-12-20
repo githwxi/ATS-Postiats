@@ -78,9 +78,10 @@ end // end of [local]
 implement
 parse_s2Var
   (jsv0) = let
-//
+(*
 val () =
 println! ("parse_s2Var: jsv0 = ", jsv0)
+*)
 //
 val-~Some_vt(jsv1) =
   jsonval_get_field (jsv0, "s2Var_stamp")

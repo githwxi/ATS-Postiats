@@ -33,6 +33,8 @@ fun parse_S3ITMsVar (jsonval): s3itm
 extern
 fun parse_S3ITMcnstr (jsonval): s3itm
 extern
+fun parse_S3ITMcnstr_ref (jsonval): s3itm
+extern
 fun parse_S3ITMdisj (jsonval): s3itm
 //
 extern
@@ -43,11 +45,11 @@ fun parse_S3ITMignored (jsonval): s3itm
 implement
 parse_s3itm
   (jsv0) = let
-// (*
+(*
 val (
 ) = fprintln!
   (stdout_ref, "parse_s3itm: jsv0 = ", jsv0)
-// *)
+*)
 val-~Some_vt(jsv1) =
   jsonval_get_field (jsv0, "s3itm_name")
 val-~Some_vt(jsv2) =
@@ -63,6 +65,7 @@ case+ name of
 | "S3ITMhypo" => parse_S3ITMhypo (jsv2)
 | "S3ITMsVar" => parse_S3ITMsVar (jsv2)
 | "S3ITMcnstr" => parse_S3ITMcnstr (jsv2)
+| "S3ITMcnstr_ref" => parse_S3ITMcnstr_ref (jsv2)
 | "S3ITMdisj" => parse_S3ITMdisj (jsv2)
 //
 | _(*rest*) => parse_S3ITMignored (jsv2)
@@ -140,6 +143,21 @@ val c3t = parse_c3nstr (jsvs[0])
 in
   S3ITMcnstr (c3t)
 end // end of [parse_S3ITMcnstr]
+
+(* ****** ****** *)
+
+implement
+parse_S3ITMcnstr_ref
+  (jsv0) = let
+//
+val-JSONarray(jsvs) = jsv0
+val () = assertloc (length(jsvs) >= 2)
+val loc = parse_location (jsvs[0])
+val opt = parse_c3nstropt (jsvs[1])
+//
+in
+  S3ITMcnstr_ref (loc, opt)
+end // end of [parse_S3ITMcnstr_ref]
 
 (* ****** ****** *)
 

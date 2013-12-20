@@ -210,9 +210,7 @@ datatype s3itm =
   | S3ITMhypo of h3ypo
   | S3ITMsVar of s2Var
   | S3ITMcnstr of c3nstr
-(*
-  | S3ITMcnstr_ref of c3nstroptref // HX: for handling state types
-*)
+  | S3ITMcnstr_ref of (loc_t, c3nstropt)
   | S3ITMdisj of s3itmlstlst
 // end of [s3item]
 
@@ -243,6 +241,9 @@ c3nstr = '{
   c3nstr_loc= loc_t
 , c3nstr_node= c3nstr_node
 } // end of [c3nstr]
+
+and
+c3nstropt = Option (c3nstr)
 
 (* ****** ****** *)
 

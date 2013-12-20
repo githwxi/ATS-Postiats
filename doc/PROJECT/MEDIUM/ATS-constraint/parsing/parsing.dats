@@ -111,6 +111,10 @@ implement
 {a}(*tmp*)
 parse_option
   (jsv0, f) = let
+(*
+val () = fprintln!
+  (stdout_ref, "parse_option: jsv0 = ", jsv0)
+*)
 //
 val-JSONarray (jsvs) = jsv0
 //
