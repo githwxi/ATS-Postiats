@@ -59,6 +59,10 @@ main: \
   parsing_dats.o \
   parsing_s2cst_dats.o \
   parsing_s2var_dats.o \
+  parsing_s2exp_dats.o \
+  parsing_s3itm_dats.o \
+  parsing_h3ypo_dats.o \
+  parsing_c3nstr_dats.o \
   parsing_mylib_dats.o ; \
   $(CCOPT) $(CFLAGS) -O2 -o $@ $^ ../constraint.o $(LDFLAGS)
 

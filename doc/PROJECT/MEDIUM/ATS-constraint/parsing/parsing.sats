@@ -43,6 +43,10 @@ a:t@ype
 // end of [parse_option]
 
 (* ****** ****** *)
+  
+fun parse_s2rt (jsv: jsonval): s2rt
+  
+(* ****** ****** *)
 
 fun parse_s2cst (jsv: jsonval): s2cst
 fun parse_s2var (jsv: jsonval): s2var
@@ -50,6 +54,16 @@ fun parse_s2var (jsv: jsonval): s2var
 (* ****** ****** *)
 
 fun parse_s2exp (jsv: jsonval): s2exp
+
+(* ****** ****** *)
+
+fun parse_s3itm (jsv: jsonval): s3itm
+fun parse_s3itmlst (jsv: jsonval): s3itmlst
+fun parse_s3itmlstlst (jsv: jsonval): s3itmlstlst
+
+(* ****** ****** *)
+
+fun parse_h3ypo (jsv: jsonval): h3ypo
 
 (* ****** ****** *)
 

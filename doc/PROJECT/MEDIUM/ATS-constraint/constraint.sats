@@ -76,6 +76,7 @@ datatype s2rt =
 | S2RTfun of ((*void*))
 | S2RTtup of ((*void*))
 | S2RTerr of ((*void*))
+| S2RTignored of ((*void*))
 
 (* ****** ****** *)
 
@@ -216,18 +217,6 @@ c3nstr = '{
   c3nstr_loc= loc_t
 , c3nstr_node= c3nstr_node
 } // end of [c3nstr]
-
-(* ****** ****** *)
-
-fun s3itm_s2var (s2v: s2var): s3itm
-
-fun s3itm_h3ypo (h3p: h3ypo): s3itm
-
-fun s3itm_cnstr (c3t: c3nstr): s3itm
-
-(* ****** ****** *)
-
-fun s3itm_disj (s3iss: s3itmlstlst): s3itm
 
 (* ****** ****** *)
 

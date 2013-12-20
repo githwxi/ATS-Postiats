@@ -25,12 +25,13 @@ staload "./parsing.dats"
 (* ****** ****** *)
 
 extern
-fun parse_d2exparg (jsv: jsonval): d2exparg
+fun parse_d2exparg (jsonval): d2exparg
 
 (* ****** ****** *)
 
 extern
-fun parse_d2exp_node (jsv: jsonval): d2exp_node
+fun
+parse_d2exp_node (jsonval): d2exp_node
 
 (* ****** ****** *)
 
