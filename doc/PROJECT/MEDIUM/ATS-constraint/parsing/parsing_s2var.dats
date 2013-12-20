@@ -79,6 +79,9 @@ implement
 parse_s2var
   (jsv0) = let
 //
+val () =
+println! ("parse_s2var: jsv0 = ", jsv0)
+//
 val-~Some_vt(jsv2) =
   jsonval_get_field (jsv0, "s2var_stamp")
 //

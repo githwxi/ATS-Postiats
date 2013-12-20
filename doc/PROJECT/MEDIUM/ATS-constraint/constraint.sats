@@ -80,6 +80,12 @@ datatype s2rt =
 
 (* ****** ****** *)
 
+fun
+fprint_s2rt: fprint_type (s2rt)
+overload fprint with fprint_s2rt
+
+(* ****** ****** *)
+
 abstype s2cst_type = ptr
 typedef s2cst = s2cst_type
 typedef s2cstlst = List0 (s2cst)
@@ -137,11 +143,33 @@ fun s2var_get_name (s2var):<> symbol
 fun s2var_get_stamp (s2var):<> stamp
 //
 (* ****** ****** *)
+  
+abstype s2Var_type = ptr
+typedef s2Var = s2Var_type
+typedef s2Varopt = Option (s2Var)
+vtypedef s2Varopt_vt = Option_vt (s2Var)
+  
+(* ****** ****** *)
+
+fun
+fprint_s2Var: fprint_type (s2Var)
+overload fprint with fprint_s2Var
+
+(* ****** ****** *)
+
+fun s2Var_make (stamp): s2Var
+
+(* ****** ****** *)
+
+fun s2Var_get_stamp (s2Var):<> stamp
+
+(* ****** ****** *)
 
 datatype
 s2exp_node =
 | S2Ecst of (s2cst)
 | S2Evar of (s2var)
+| S2EVar of (s2Var)
 | S2Eignored of ((*void*))
 // end of [s2exp_node]
 
@@ -180,9 +208,7 @@ fun s2exp_ignored (s2rt): s2exp // error-handling
 datatype s3itm =
   | S3ITMsvar of s2var
   | S3ITMhypo of h3ypo
-(*
   | S3ITMsVar of s2Var
-*)
   | S3ITMcnstr of c3nstr
 (*
   | S3ITMcnstr_ref of c3nstroptref // HX: for handling state types
@@ -248,6 +274,7 @@ overload .name with s2var_get_name
 symintr .stamp
 overload .stamp with s2cst_get_stamp
 overload .stamp with s2var_get_stamp
+overload .stamp with s2Var_get_stamp
 //
 (* ****** ****** *)
 

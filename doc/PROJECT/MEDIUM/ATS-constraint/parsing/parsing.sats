@@ -50,6 +50,7 @@ fun parse_s2rt (jsv: jsonval): s2rt
 
 fun parse_s2cst (jsv: jsonval): s2cst
 fun parse_s2var (jsv: jsonval): s2var
+fun parse_s2Var (jsv: jsonval): s2Var
 
 (* ****** ****** *)
 

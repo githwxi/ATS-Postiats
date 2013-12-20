@@ -57,8 +57,10 @@ main: \
   main_dats.o \
   parsing_sats.o \
   parsing_dats.o \
+  parsing_s2rt_dats.o \
   parsing_s2cst_dats.o \
   parsing_s2var_dats.o \
+  parsing_s2Var_dats.o \
   parsing_s2exp_dats.o \
   parsing_s3itm_dats.o \
   parsing_h3ypo_dats.o \

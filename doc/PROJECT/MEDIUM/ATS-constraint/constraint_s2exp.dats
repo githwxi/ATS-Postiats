@@ -20,9 +20,11 @@ in
 //
 case+ s2e0.s2exp_node of
 //
-| S2Eignored () => fprint! (out, "S2Eignored(", ")")
+| S2Ecst (s2c) => fprint! (out, "S2Ecst(", s2c, ")")
+| S2Evar (s2v) => fprint! (out, "S2Evar(", s2v, ")")
+| S2EVar (s2V) => fprint! (out, "S2Evar(", s2V, ")")
 //
-| _ (*temporary*) => fprint! (out, "D2E...(", "...", ")")
+| S2Eignored () => fprint! (out, "S2Eignored(", ")")
 //
 end // end of [fprint_d2exp]
 

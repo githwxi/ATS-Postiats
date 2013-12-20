@@ -43,8 +43,10 @@ constraint.o: \
   constraint_stamp_dats.o \
   constraint_symbol_dats.o \
   constraint_location_dats.o \
+  constraint_s2rt_dats.o \
   constraint_s2cst_dats.o \
   constraint_s2var_dats.o \
+  constraint_s2Var_dats.o \
   constraint_s2exp_dats.o \
   constraint_s3itm_dats.o \
   constraint_h3ypo_dats.o \

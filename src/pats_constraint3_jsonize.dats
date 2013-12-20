@@ -281,10 +281,10 @@ case+ s3i of
     aux1 ("S3ITMsvar", jsonize_s2var (s2v))
 //
 | S3ITMhypo (h3p) =>
-    aux1 ("S3ITMsvar", jsonize_h3ypo (h3p))
+    aux1 ("S3ITMhypo", jsonize_h3ypo (h3p))
 //
 | S3ITMsVar (s2V) =>
-    aux1 ("S3ITMsvar", jsonize_s2Var (s2V))
+    aux1 ("S3ITMsVar", jsonize_s2Var (s2V))
 //
 | S3ITMcnstr (c3t) =>
     aux1 ("S3ITMcnstr", jsonize_c3nstr (c3t))

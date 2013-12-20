@@ -64,11 +64,11 @@ fun parse_H3YPOignored (jsonval): h3ypo_node
 implement
 parse_h3ypo_node
   (jsv0) = let
-(*
+// (*
 val (
 ) = fprintln!
   (stdout_ref, "parse_h3ypo_node: jsv0 = ", jsv0)
-*)
+// *)
 val-~Some_vt(jsv1) =
   jsonval_get_field (jsv0, "h3ypo_name")
 val-~Some_vt(jsv2) =
