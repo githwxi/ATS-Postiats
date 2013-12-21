@@ -317,6 +317,11 @@ doc/EXAMPLE/EFFECTIVATS/*/.depend
 doc/EXAMPLE/EFFECTIVATS/*/.depend?
 
 #
+# ATSHOME/doc/PROJECT/SMALL
+#
+doc/PROJECT/SMALL/UTFPL/.depend
+
+#
 # INT2PROGINATS
 #
 

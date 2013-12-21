@@ -278,6 +278,9 @@ fun mfn_println
 
 in (* in of [local] *)
 //
+val () = the_d2symmap_add_name ("true", VALbool(true))
+val () = the_d2symmap_add_name ("false", VALbool(false))
+//
 val () = the_d2symmap_add_name ("+", VALfun(mfn_add))
 val () = the_d2symmap_add_name ("-", VALfun(mfn_sub))
 val () = the_d2symmap_add_name ("*", VALfun(mfn_mul))

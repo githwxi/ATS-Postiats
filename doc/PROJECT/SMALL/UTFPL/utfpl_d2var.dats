@@ -23,8 +23,10 @@ neq_d2var_d2var
 (* ****** ****** *)
 
 typedef
-d2var_struct = @{
+d2var_struct =
+@{
   d2var_name= symbol
+, d2var_bind= Ptr0
 , d2var_stamp= stamp
 } (* end of [d2var_struct] *)
 
@@ -49,6 +51,7 @@ val (
 //
 val () = p->d2var_name := name
 val () = p->d2var_stamp := stamp
+val () = p->d2var_bind := the_null_ptr
 //
 in
   $UN.castvwtp0{d2var}((pfat, pfgc | p))
@@ -65,6 +68,8 @@ in
 end // end of [let]
 ) (* end of [d2var_get_name] *)
 
+(* ****** ****** *)
+
 implement
 d2var_get_stamp
   (d2v) = $effmask_ref
@@ -75,6 +80,30 @@ in
   p->d2var_stamp
 end // end of [let]
 ) (* end of [d2var_get_stamp] *)
+
+(* ****** ****** *)
+
+implement
+d2var_get_bind
+  (d2v) = $effmask_ref
+(
+let
+  val (vbox _ | p) = ref_get_viewptr (d2v)
+in
+  p->d2var_bind
+end // end of [let]
+) (* end of [d2var_get_bind] *)
+
+implement
+d2var_set_bind
+  (d2v, d2e) = $effmask_ref
+(
+let
+  val (vbox _ | p) = ref_get_viewptr (d2v)
+in
+  p->d2var_bind := $UN.cast{Ptr1}(d2e)
+end // end of [let]
+) (* end of [d2var_set_bind] *)
 
 end // end of [local]
 

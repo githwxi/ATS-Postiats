@@ -55,8 +55,6 @@ case+ x0 of
 | VALlam _ => fprint! (out, "VALlam(...)")
 | VALfix _ => fprint! (out, "VALfix(...)")
 //
-| VALlamrec _ => fprint! (out, "VALlamrec(...)")
-//
 | VALfun _ => fprint! (out, "VALfun(...)")
 //
 | VALerror () => fprint! (out, "VALerror()")

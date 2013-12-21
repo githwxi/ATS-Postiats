@@ -348,6 +348,11 @@ overload fprint with fprint_d2ecl
 overload fprint with fprint_d2eclist of 10
 //
 (* ****** ****** *)
+//
+fun d2var_get_bind (d2var):<> Ptr0
+fun d2var_set_bind (d2var, d2exp): void
+//
+(* ****** ****** *)
 
 fun d2exp_make_node
   (loc: loc_t, node: d2exp_node): d2exp

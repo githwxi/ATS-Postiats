@@ -16,10 +16,12 @@ staload
 staload "./eval.sats"
 //
 (* ****** ****** *)
-
-staload "libats/SATS/funmap_list.sats"
-staload _ = "libats/DATS/funmap_list.dats"
-
+//
+staload
+"libats/SATS/funmap_list.sats"
+staload _ =
+"libats/DATS/funmap_list.dats"
+//
 (* ****** ****** *)
 //
 typedef key = d2var
@@ -30,9 +32,7 @@ assume cloenv_type = map (key, itm)
 (* ****** ****** *)
 
 implement
-equal_key_key<d2var>
-  (d2v1, d2v2) = (d2v1 = d2v2)
-// end of [equal_key_key]
+equal_key_key<d2var> (d2v1, d2v2) = (d2v1 = d2v2)
 
 (* ****** ****** *)
 

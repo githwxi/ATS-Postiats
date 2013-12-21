@@ -17,20 +17,6 @@ staload "./eval.sats"
 //
 (* ****** ****** *)
 
-implement
-eval_lamrec
-  (env, d2v, def) = let
-in
-//
-case+
-def.d2exp_node of
-| D2Elam _ =>
-    VALlamrec (d2v, def, env)
-| _(*rest*) => eval_d2exp (env, def)
-end (* end of [eval_lamrec] *)
-
-(* ****** ****** *)
-
 local
 
 extern
@@ -66,8 +52,7 @@ case+ f2ds of
     (f2d, f2ds) => let
     val d2v = f2d.f2undec_var
     val def = f2d.f2undec_def
-    val def = eval_lamrec (env, d2v, def)
-    val env = cloenv_extend (env, d2v, def)
+    val () = d2var_set_bind (d2v, def)
   in
     aux_fundeclst (env, f2ds)
   end // end of [list_cons]

@@ -37,8 +37,6 @@ datatype value =
   | VALlam of (d2exp, cloenv)
   | VALfix of (d2exp, cloenv)
 //
-  | VALlamrec of (d2var, d2exp, cloenv)
-//
   | VALfun of (valuelst -> value) // meta-function
 //
   | VALerror of ((*void*))
@@ -93,10 +91,6 @@ fun eval_d2sym (cloenv, d2sym): value
 (* ****** ****** *)
 
 fun eval_d2exp (cloenv, d2exp): value
-
-(* ****** ****** *)
-
-fun eval_lamrec (cloenv, d2var, d2exp): value
 
 (* ****** ****** *)
 
