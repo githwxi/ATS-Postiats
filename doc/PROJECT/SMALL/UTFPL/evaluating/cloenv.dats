@@ -41,13 +41,40 @@ cloenv_nil () = funmap_nil ()
 
 (* ****** ****** *)
 
+local
+
+implement
+fprint_val<key> = fprint_d2var
+implement
+fprint_val<itm> = fprint_value
+
+in (* in of [local] *)
+
+implement
+fprint_cloenv (out, env) = fprint_funmap<key,itm> (out, env)
+
+end // end of [local]
+
+(* ****** ****** *)
+
 implement
 cloenv_extend
-  (env, d2v, _val) = env where
+  (env, d2v, d2u) = env where
 {
+(*
 //
+val out = stdout_ref
+val () =
+fprintln! (out, "cloenv_extend: d2v = ", d2v)
+val () =
+fprintln! (out, "cloenv_extend: d2u = ", d2u)
+//
+*)
 var env = env
-val () = funmap_insert_any<key,itm> (env, d2v, _val)
+val () = funmap_insert_any<key,itm> (env, d2v, d2u)
+(*
+val () = fprintln! (out, "cloenv_extend: env = ", env)
+*)
 } (* end of [cloenv_extend] *)
 
 (* ****** ****** *)
@@ -99,22 +126,9 @@ end // end of [cloenv_extend_arglst]
 (* ****** ****** *)
 
 implement
-cloenv_find_exn (env, d2v) = let
-//
-var res: value?
-val ans = funmap_search<key,itm> (env, d2v, res)
-//
-in
-//
-if ans
-  then
-    opt_unsome_get<itm> (res)
-  // end of [then]
-  else let
-    prval () = opt_unnone{itm}(res) in $raise UnboundVarExn(d2v)
-  end // end of [else]
-//
-end // end of [cloenv_find_exn]
+cloenv_find
+  (env, d2v) = funmap_search_opt<key,itm> (env, d2v)
+// end of [cloenv_find]
 
 (* ****** ****** *)
 

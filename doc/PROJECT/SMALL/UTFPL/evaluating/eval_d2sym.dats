@@ -158,7 +158,7 @@ end // end of [mfn_div]
 
 (* ****** ****** *)
 
-fun mfn_less
+fun mfn_lt
 (
   vs: valuelst
 ) : value = let
@@ -174,11 +174,11 @@ case+ (v1, v2) of
 | (VALstring (s1), VALstring (s2)) => VALbool (s1 < s2)
 | (_, _) => VALerror ()
 //
-end // end of [mfn_less]
+end // end of [mfn_lt]
 
 (* ****** ****** *)
 
-fun mfn_lesseq
+fun mfn_lteq
 (
   vs: valuelst
 ) : value = let
@@ -194,7 +194,47 @@ case+ (v1, v2) of
 | (VALstring (s1), VALstring (s2)) => VALbool (s1 <= s2)
 | (_, _) => VALerror ()
 //
-end // end of [mfn_lesseq]
+end // end of [mfn_lteq]
+
+(* ****** ****** *)
+
+fun mfn_gt
+(
+  vs: valuelst
+) : value = let
+//
+val-list_cons (v1, vs) = vs
+val-list_cons (v2, vs) = vs
+//
+in
+//
+case+ (v1, v2) of
+| (VALint (i1), VALint (i2)) => VALbool (i1 > i2)
+| (VALfloat (d1), VALfloat (d2)) => VALbool (d1 > d2)
+| (VALstring (s1), VALstring (s2)) => VALbool (s1 > s2)
+| (_, _) => VALerror ()
+//
+end // end of [mfn_gt]
+
+(* ****** ****** *)
+
+fun mfn_gteq
+(
+  vs: valuelst
+) : value = let
+//
+val-list_cons (v1, vs) = vs
+val-list_cons (v2, vs) = vs
+//
+in
+//
+case+ (v1, v2) of
+| (VALint (i1), VALint (i2)) => VALbool (i1 >= i2)
+| (VALfloat (d1), VALfloat (d2)) => VALbool (d1 >= d2)
+| (VALstring (s1), VALstring (s2)) => VALbool (s1 >= s2)
+| (_, _) => VALerror ()
+//
+end // end of [mfn_gteq]
 
 (* ****** ****** *)
 
@@ -213,8 +253,7 @@ case+ vs of
 | list_nil () => ()
 | list_cons
     (v, vs) => let
-    val () = if i > 0 then print ", "
-    val () = fprint_value (stdout_ref, v)
+    val () = fprint2_value (stdout_ref, v)
   in
     loop (vs, i+1)
   end // end of [list_cons]
@@ -227,6 +266,16 @@ in
   VALvoid ((*void*))
 end // end of [mfn_print]
 
+fun mfn_println
+(
+  vs: valuelst
+) : value = res where
+{
+  val res = mfn_print (vs)
+  val ((*void*)) = print_newline ()
+} (* end of [mfn_println] *)
+
+
 in (* in of [local] *)
 //
 val () = the_d2symmap_add_name ("+", VALfun(mfn_add))
@@ -234,10 +283,13 @@ val () = the_d2symmap_add_name ("-", VALfun(mfn_sub))
 val () = the_d2symmap_add_name ("*", VALfun(mfn_mul))
 val () = the_d2symmap_add_name ("/", VALfun(mfn_div))
 //
-val () = the_d2symmap_add_name ("<", VALfun(mfn_less))
-val () = the_d2symmap_add_name ("<=", VALfun(mfn_lesseq))
+val () = the_d2symmap_add_name ("<", VALfun(mfn_lt))
+val () = the_d2symmap_add_name ("<=", VALfun(mfn_lteq))
+val () = the_d2symmap_add_name (">", VALfun(mfn_gt))
+val () = the_d2symmap_add_name (">=", VALfun(mfn_gteq))
 //
 val () = the_d2symmap_add_name ("print", VALfun(mfn_print))
+val () = the_d2symmap_add_name ("println", VALfun(mfn_println))
 //
 end // end of [local]
 

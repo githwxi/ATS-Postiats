@@ -17,6 +17,20 @@ staload "./eval.sats"
 //
 (* ****** ****** *)
 
+implement
+eval_lamrec
+  (env, d2v, def) = let
+in
+//
+case+
+def.d2exp_node of
+| D2Elam _ =>
+    VALlamrec (d2v, def, env)
+| _(*rest*) => eval_d2exp (env, def)
+end (* end of [eval_lamrec] *)
+
+(* ****** ****** *)
+
 local
 
 extern
@@ -50,8 +64,10 @@ case+ f2ds of
 | list_nil () => env
 | list_cons
     (f2d, f2ds) => let
-    val def = eval_d2exp (env, f2d.f2undec_def)
-    val env = cloenv_extend (env, f2d.f2undec_var, def)
+    val d2v = f2d.f2undec_var
+    val def = f2d.f2undec_def
+    val def = eval_lamrec (env, d2v, def)
+    val env = cloenv_extend (env, d2v, def)
   in
     aux_fundeclst (env, f2ds)
   end // end of [list_cons]
@@ -121,11 +137,29 @@ case+ d2cs of
 | list_nil () => env
 | list_cons
     (d2c, d2cs) => let
+(*
+    val () = fprintln! (stdout_ref, "eval_d2eclist: env(bef) = ", env)
+*)
     val env = eval_d2ecl (env, d2c)
+(*
+    val () = fprintln! (stdout_ref, "eval_d2eclist: env(aft) = ", env)
+*)
   in
     eval_d2eclist (env, d2cs)
   end // end of [list_cons]
 )
+
+(* ****** ****** *)
+
+implement
+eval0_d2eclist
+  (d2cs) = let
+//
+val env = cloenv_nil ()
+//
+in
+  eval_d2eclist (env, d2cs)
+end // end of [eval_d2eclist]
 
 (* ****** ****** *)
 

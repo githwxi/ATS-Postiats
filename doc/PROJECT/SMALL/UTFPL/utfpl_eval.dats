@@ -1,6 +1,5 @@
 (*
-** Implementing UTFPL
-** with closure-based evaluation
+** Implementing Untyped Functional PL
 *)
 
 (* ****** ****** *)
@@ -12,17 +11,18 @@
 //
 (* ****** ****** *)
 
-staload
-UN = "prelude/SATS/unsafe.sats"
+staload UN =
+"prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-//
-staload
-"./../utfpl.sats"
-//
+
+staload "./utfpl.sats"
+staload "./utfpl_eval.sats"
+
 (* ****** ****** *)
 
-staload "./parsing.sats"
+staload "./parsing/parsing.sats"
+staload "./evaluating/eval.sats"
 
 (* ****** ****** *)
 
@@ -30,31 +30,13 @@ staload "{$JSONC}/SATS/json.sats"
 staload "{$JSONC}/SATS/json_ML.sats"
 
 (* ****** ****** *)
-//
-dynload "../dynloadall.dats"
-//
-dynload "./parsing.sats"
-dynload "./parsing.dats"
-dynload "./parsing_d2cst.dats"
-dynload "./parsing_d2var.dats"
-dynload "./parsing_d2sym.dats"
-dynload "./parsing_p2at.dats"
-dynload "./parsing_d2exp.dats"
-dynload "./parsing_d2ecl.dats"
-//
-(* ****** ****** *)
 
 implement
-main0 (argc, argv) =
-{
+utfpl_eval_fileref
+  (inp) = let
 //
-val () =
-println! ("Hello from [UTFPL/parsing]!")
-//
-val inp = stdin_ref
-//
-val D = 1024 // depth
-val tkr = json_tokener_new_ex (D)
+val dp = 1024 // depth
+val tkr = json_tokener_new_ex (dp)
 val () = assertloc (json_tokener2ptr (tkr) > 0)
 //
 val cs =
@@ -74,18 +56,26 @@ val ((*void*)) = json_tokener_free (tkr)
 //
 val jsv = json_object2val0 (jso)
 //
+(*
 val () =
   fprint! (stdout_ref, "jsv=", jsv)
 val () = fprint_newline (stdout_ref)
+*)
 //
 val d2cs = parse_d2eclist (jsv)
 //
+(*
 val () =
   fprint! (stdout_ref, "d2cs=\n", d2cs)
 val () = fprint_newline (stdout_ref)
+*)
 //
-} (* end of [main0] *)
+val env = eval0_d2eclist (d2cs)
+//
+in
+  // nothing
+end // end of [utfpl_eval_fileref]
 
 (* ****** ****** *)
 
-(* end of [main.dats] *)
+(* end of [utfpl_eval.dats] *)

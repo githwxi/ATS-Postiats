@@ -60,6 +60,8 @@ case+ d2e0.d2exp_node of
 //
 | D2Eempty () => VALvoid ()
 //
+| D2Eexp (d2e) => aux_d2exp (env, d2e)
+//
 | D2Elet
     (d2cs, d2e_scope) => let
     val env2 =
@@ -89,9 +91,13 @@ case+ d2e0.d2exp_node of
 | D2Elam _ => VALlam (d2e0, env)
 | D2Efix _ => VALfix (d2e0, env)
 //
-| _(*rest*) =>
-    let val () = assertloc (false) in exit(1) end
-  // end of [_]
+| _(*rest*) => let
+    val () =
+    fprintln! (stdout_ref, "aux_d2exp: d2e0 = ", d2e0)
+    val ((*abort*)) = assertloc (false)
+  in
+    exit(1)
+  end // end of [_]
 //
 end // end of [aux_d2exp]
 
@@ -115,6 +121,16 @@ case+ v_fun of
     aux_d2exp (env, d2e_body)
   end // end of [VALlam]
 //
+| VALlamrec
+    (d2v, d2e, env) => let
+    val env = cloenv_extend (env, d2v, v_fun)
+    val-D2Elam
+      (p2ts_arg, d2e_body) = d2e.d2exp_node
+    val env = cloenv_extend_arglst (env, p2ts_arg, vs_arg)
+  in
+    aux_d2exp (env, d2e_body)
+  end // end of [VALlam]
+//
 | VALfix
     (d2e, env) => let
     val-D2Efix
@@ -127,7 +143,21 @@ case+ v_fun of
 //
 | VALfun (mfn) => mfn (vs_arg) // meta-function
 //
-| _ => let val () = assertloc (false) in exit(1) end
+| VALsym (sym) => let
+    val () = fprintln!
+      (stderr_ref, "The symbol [", sym, "] is unsupported.")
+    val ((*abort*)) = assertloc (false)
+  in
+    exit (1)
+  end // end of [VALsym]
+//
+| _(*rest*) => let
+    val () =
+    fprintln! (stdout_ref, "aux_d2exp_app: v_fun = ", v_fun)
+    val ((*abort*)) = assertloc (false)
+  in
+    exit(1)
+  end (* end of [_] *)
 //
 end // end of [aux_d2exp_app]
 

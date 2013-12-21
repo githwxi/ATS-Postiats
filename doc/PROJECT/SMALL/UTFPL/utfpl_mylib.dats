@@ -1,5 +1,5 @@
 //
-// Library code for parsing
+// Library code for UTFPL
 //
 (* ****** ****** *)
 //
@@ -27,4 +27,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [parsing_mylib.dats] *)
+(* end of [utfpl_mylib.dats] *)
