@@ -73,7 +73,7 @@ UTFPLobj := $(patsubst %.dats, %_dats.o, $(UTFPLobj))
 
 ######
 
-all:: utfpl_main
+all:: UTFPLeval
 
 ######
 #
@@ -85,14 +85,13 @@ evaluating/evaluating.o: ; make -C evaluating evaluating.o
 #
 ######
 
-utfpl_main: \
+UTFPLeval: \
   utfpl.o \
   parsing/parsing.o \
   evaluating/evaluating.o \
-  utfpl_eval_dats.o \
   utfpl_mylib_dats.o \
   utfpl_dynloadall_dats.o \
-  utfpl_main_dats.o ; $(PATSCC2) -o $@ $^ $(LDFLAGS)
+  utfpl_eval_dats.o ; $(PATSCC2) -o $@ $^ $(LDFLAGS)
 
 ######
 
@@ -128,7 +127,7 @@ clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) utfpl.o
-cleanall:: ; $(RMF) utfpl_main
+cleanall:: ; $(RMF) UTFPLeval
 cleanall:: ; make -C parsing cleanall
 cleanall:: ; make -C evaluating cleanall
 cleanall:: ; make -C TEST cleanall
