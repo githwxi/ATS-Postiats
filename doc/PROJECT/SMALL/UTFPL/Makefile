@@ -131,6 +131,7 @@ cleanall:: ; $(RMF) utfpl.o
 cleanall:: ; $(RMF) utfpl_main
 cleanall:: ; make -C parsing cleanall
 cleanall:: ; make -C evaluating cleanall
+cleanall:: ; make -C TEST cleanall
 
 ######
 

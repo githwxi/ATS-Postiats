@@ -4,6 +4,8 @@ abstype OBJ
 
 (* ****** ****** *)
 
+symintr true
+symintr false
 symintr println
 
 (* ****** ****** *)
