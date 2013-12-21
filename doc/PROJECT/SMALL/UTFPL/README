@@ -13,4 +13,23 @@ It translates ATS level-2 syntax trees into UTFPL syntax trees.
 
 ######
 
+parsing: code for parsing from JSON to UTFPL
+evaluating: code for evaluating UTFPL abstract syntax trees
+
+######
+
+How to test:
+
+make -C TEST # generating some testing data
+make UTFPLeval # generating the evaluator for UTFPL
+
+./UTFPLeval TEST/test01_dats.json # evaluating TEST/test01.dats
+./UTFPLeval TEST/test02_dats.json # evaluating TEST/test02.dats
+./UTFPLeval TEST/test03_dats.json # evaluating TEST/test03.dats
+./UTFPLeval TEST/test04_dats.json # evaluating TEST/test04.dats
+
+make cleanall # cleaning up everything generated
+
+######
+
 ###### end of [README] ######

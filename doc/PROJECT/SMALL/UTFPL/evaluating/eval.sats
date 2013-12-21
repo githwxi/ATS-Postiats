@@ -39,7 +39,7 @@ datatype value =
 //
   | VALfun of (valuelst -> value) // meta-function
 //
-  | VALerror of ((*void*))
+  | VALerror of (string)
 // end of [value]
 
 where valuelst = List (value)

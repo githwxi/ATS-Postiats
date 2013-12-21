@@ -91,13 +91,7 @@ case+ d2e0.d2exp_node of
 | D2Elam _ => VALlam (d2e0, env)
 | D2Efix _ => VALfix (d2e0, env)
 //
-| _(*rest*) => let
-    val () =
-    fprintln! (stdout_ref, "aux_d2exp: d2e0 = ", d2e0)
-    val ((*abort*)) = assertloc (false)
-  in
-    exit(1)
-  end // end of [_]
+| _(*rest*) => VALerror ("not-supported-d2exp")
 //
 end // end of [aux_d2exp]
 
@@ -133,21 +127,7 @@ case+ v_fun of
 //
 | VALfun (mfn) => mfn (vs_arg) // meta-function
 //
-| VALsym (sym) => let
-    val () = fprintln!
-      (stderr_ref, "The symbol [", sym, "] is unsupported.")
-    val ((*abort*)) = assertloc (false)
-  in
-    exit (1)
-  end // end of [VALsym]
-//
-| _(*rest*) => let
-    val () =
-    fprintln! (stdout_ref, "aux_d2exp_app: v_fun = ", v_fun)
-    val ((*abort*)) = assertloc (false)
-  in
-    exit(1)
-  end (* end of [_] *)
+| _(*rest*) => VALerror ("non-function-call")
 //
 end // end of [aux_d2exp_app]
 

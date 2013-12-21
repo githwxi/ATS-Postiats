@@ -57,7 +57,7 @@ case+ x0 of
 //
 | VALfun _ => fprint! (out, "VALfun(...)")
 //
-| VALerror () => fprint! (out, "VALerror()")
+| VALerror (msg) => fprint! (out, "VALerror(", msg, ")")
 //
 end // end of [fprint_value]
 

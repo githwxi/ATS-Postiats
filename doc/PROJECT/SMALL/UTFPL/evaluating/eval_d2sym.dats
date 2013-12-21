@@ -95,7 +95,7 @@ case+ (v1, v2) of
 | (VALint (i1), VALint (i2)) => VALint (i1+i2)
 | (VALfloat (d1), VALfloat (d2)) => VALfloat (d1+d2)
 | (VALstring (s1), VALstring (s2)) => VALstring (strptr2string(string_append(s1,s2)))
-| (_, _) => VALerror ()
+| (_, _) => VALerror ("type-error")
 //
 end // end of [mfn_add]
 
@@ -114,7 +114,7 @@ in
 case+ (v1, v2) of
 | (VALint (i1), VALint (i2)) => VALint (i1-i2)
 | (VALfloat (d1), VALfloat (d2)) => VALfloat (d1-d2)
-| (_, _) => VALerror ()
+| (_, _) => VALerror ("type-error")
 //
 end // end of [mfn_sub]
 
@@ -133,7 +133,7 @@ in
 case+ (v1, v2) of
 | (VALint (i1), VALint (i2)) => VALint (i1*i2)
 | (VALfloat (d1), VALfloat (d2)) => VALfloat (d1*d2)
-| (_, _) => VALerror ()
+| (_, _) => VALerror ("type-error")
 //
 end // end of [mfn_mul]
 
@@ -152,7 +152,7 @@ in
 case+ (v1, v2) of
 | (VALint (i1), VALint (i2)) => VALint (i1/i2)
 | (VALfloat (d1), VALfloat (d2)) => VALfloat (d1/d2)
-| (_, _) => VALerror ()
+| (_, _) => VALerror ("type-error")
 //
 end // end of [mfn_div]
 
@@ -172,7 +172,7 @@ case+ (v1, v2) of
 | (VALint (i1), VALint (i2)) => VALbool (i1 < i2)
 | (VALfloat (d1), VALfloat (d2)) => VALbool (d1 < d2)
 | (VALstring (s1), VALstring (s2)) => VALbool (s1 < s2)
-| (_, _) => VALerror ()
+| (_, _) => VALerror ("type-error")
 //
 end // end of [mfn_lt]
 
@@ -192,7 +192,7 @@ case+ (v1, v2) of
 | (VALint (i1), VALint (i2)) => VALbool (i1 <= i2)
 | (VALfloat (d1), VALfloat (d2)) => VALbool (d1 <= d2)
 | (VALstring (s1), VALstring (s2)) => VALbool (s1 <= s2)
-| (_, _) => VALerror ()
+| (_, _) => VALerror ("type-error")
 //
 end // end of [mfn_lteq]
 
@@ -212,7 +212,7 @@ case+ (v1, v2) of
 | (VALint (i1), VALint (i2)) => VALbool (i1 > i2)
 | (VALfloat (d1), VALfloat (d2)) => VALbool (d1 > d2)
 | (VALstring (s1), VALstring (s2)) => VALbool (s1 > s2)
-| (_, _) => VALerror ()
+| (_, _) => VALerror ("type-error")
 //
 end // end of [mfn_gt]
 
@@ -232,7 +232,7 @@ case+ (v1, v2) of
 | (VALint (i1), VALint (i2)) => VALbool (i1 >= i2)
 | (VALfloat (d1), VALfloat (d2)) => VALbool (d1 >= d2)
 | (VALstring (s1), VALstring (s2)) => VALbool (s1 >= s2)
-| (_, _) => VALerror ()
+| (_, _) => VALerror ("type-error")
 //
 end // end of [mfn_gteq]
 
