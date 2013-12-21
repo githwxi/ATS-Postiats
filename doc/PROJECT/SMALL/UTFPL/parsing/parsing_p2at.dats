@@ -60,6 +60,9 @@ extern
 fun parse_P2Tvar (jsonval): p2at_node
 
 extern
+fun parse_P2Tempty (jsonval): p2at_node
+
+extern
 fun parse_P2Tann (jsonval): p2at_node
 
 extern
@@ -84,6 +87,8 @@ case+ name of
 //
 | "P2Tany" => parse_P2Tany (jsv2)
 | "P2Tvar" => parse_P2Tvar (jsv2)
+//
+| "P2Tempty" => parse_P2Tempty (jsv2)
 //
 | "P2Tann" => parse_P2Tann (jsv2)
 //
@@ -116,6 +121,18 @@ val d2v = parse_d2var (jsvs[0])
 in
   P2Tvar (d2v)
 end // end of [parse_P2Tvar]
+
+(* ****** ****** *)
+
+implement
+parse_P2Tempty
+  (jsv2) = let
+//
+val-JSONarray(jsvs) = jsv2
+//
+in
+  P2Tempty ()
+end // end of [parse_P2Tempty]
 
 (* ****** ****** *)
 

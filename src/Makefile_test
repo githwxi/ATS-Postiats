@@ -155,6 +155,9 @@ libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/gmatrix_col.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/gmatrix_row.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/gmatrix_row.dats
 
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/hashtbl_chain.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/hashtbl_chain.dats
+
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funset_avltree.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/funset_avltree.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funset_listord.sats
@@ -184,9 +187,6 @@ libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linmap_randbst.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linmap_randbst.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linmap_skiplist.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linmap_skiplist.dats
-
-libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linhashtbl_chain.sats
-libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linhashtbl_chain.dats
 
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linheap_binomial.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linheap_binomial.dats

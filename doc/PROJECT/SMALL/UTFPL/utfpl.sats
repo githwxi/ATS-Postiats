@@ -191,6 +191,8 @@ p2at_node =
   | P2Tany of ()
   | P2Tvar of (d2var)
 //
+  | P2Tempty of ()
+//
   | P2Tpat of (p2at)
 //
   | P2Tignored of ((*void*))

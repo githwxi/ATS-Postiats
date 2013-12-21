@@ -23,7 +23,7 @@ staload _(*anon*) = "libats/ML/DATS/strarr.dats"
 //
 (* ****** ****** *)
 
-val alphabet = (strarr)"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+val alphabet = strarr_make("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 (* ****** ****** *)
 

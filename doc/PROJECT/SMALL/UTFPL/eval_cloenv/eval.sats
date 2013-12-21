@@ -19,18 +19,27 @@ exception UnboundVarExn of d2var
 (* ****** ****** *)
 
 datatype value =
+//
   | VALint of int
   | VALbool of bool
   | VALchar of char
   | VALfloat of double
   | VALstring of string
+//
   | VALvoid of ((*void*))
+//
   | VALcst of d2cst
+  | VALsym of d2sym
+//
   | VALlam of (d2exp, cloenv)
   | VALfix of (d2exp, cloenv)
+//
+  | VALfun of (valuelst -> value) // meta-function
+//
+  | VALerror of ((*void*))
 // end of [value]
 
-typedef valuelst = List (value)
+where valuelst = List (value)
 
 (* ****** ****** *)
 //
@@ -53,10 +62,29 @@ fun cloenv_find_exn (env: cloenv, d2v: d2var): value
 //
 (* ****** ****** *)
 
+fun the_d2cstmap_add (d2cst, value): void
+fun the_d2cstmap_find (d2cst): Option_vt (value)
+
+(* ****** ****** *)
+
+fun the_d2symmap_add (d2sym, value): void
+fun the_d2symmap_find (d2sym): Option_vt (value)
+
+(* ****** ****** *)
+
+fun eval_d2cst (cloenv, d2cst): value
+fun eval_d2var (cloenv, d2var): value
+
+(* ****** ****** *)
+
+fun eval_d2sym (cloenv, d2sym): value
+
+(* ****** ****** *)
+
 fun eval_d2exp (cloenv, d2exp): value
 fun eval_d2ecl (env: cloenv, d2ecl): cloenv
 fun eval_d2eclist (env: cloenv, d2eclist): cloenv
 
 (* ****** ****** *)
 
-(* end of [eval_cloenv.sats] *)
+(* end of [eval.sats] *)

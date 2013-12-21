@@ -23,6 +23,8 @@ case+ p2t0.p2at_node of
 | P2Tany () => fprint! (out, "P2Tany(", ")")
 | P2Tvar (d2v) => fprint! (out, "P2Tvar(", d2v, ")")
 //
+| P2Tempty () => fprint! (out, "P2Tempty(", ")")
+//
 | P2Tpat (p2t) => fprint! (out, "P2Tpat(", p2t, ")")
 //
 | P2Tignored ((*void*)) => fprint! (out, "P2Tignored(", ")")

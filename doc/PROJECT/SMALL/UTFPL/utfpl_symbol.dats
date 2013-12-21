@@ -8,16 +8,14 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
 //
-staload "libats/SATS/linhashtbl_chain.sats"
+staload "libats/ML/SATS/hashtblref.sats"
 //
 staload _(*anon*) = "libats/DATS/hashfun.dats"
 staload _(*anon*) = "libats/DATS/linmap_list.dats"
-staload _(*anon*) = "libats/DATS/linhashtbl_chain.dats"
+staload _(*anon*) = "libats/DATS/hashtbl_chain.dats"
+//
+staload _(*anon*) = "libats/ML/DATS/hashtblref.dats"
 //
 (* ****** ****** *)
 
@@ -26,8 +24,6 @@ staload "./utfpl.sats"
 (* ****** ****** *)
 
 datatype symbol = SYM of (string, int)
-
-vtypedef symtbl = hashtbl (string, symbol)
 
 (* ****** ****** *)
 
@@ -38,18 +34,14 @@ assume symbol_type = symbol
 local
 
 val count = ref<int> (0)
-val symtbl = hashtbl_make_nil<string,symbol>(i2sz(1024))
-val symtbl = $UN.castvwtp0{ptr}(symtbl)
+val mymap = hashtbl_make_nil<string,symbol>(i2sz(1024))
 
 in (* in of [local] *)
 
 implement
 symbol_make (name) = let
 //
-val tmp =
-  $UN.castvwtp0{symtbl}(symtbl)
-val opt = hashtbl_search_opt (tmp, name)
-val tmp = $UN.castvwtp0{ptr}(tmp)
+val opt = hashtbl_search (mymap, name)
 //
 in
 //
@@ -60,10 +52,7 @@ case+ opt of
     val () = !count := n + 1
     val sym = SYM (name, n)
 //
-    val tmp =
-      $UN.castvwtp0{symtbl}(symtbl)
-    val () = hashtbl_insert_any (tmp, name, sym)
-    val tmp = $UN.castvwtp0{ptr}(tmp)
+    val () = hashtbl_insert_any (mymap, name, sym)
 //
   in
     sym

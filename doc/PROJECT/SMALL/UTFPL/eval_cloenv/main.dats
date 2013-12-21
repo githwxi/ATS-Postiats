@@ -4,27 +4,30 @@
 *)
 
 (* ****** ****** *)
-
+//
 #include
 "share/atspre_staload.hats"
-
+//
 (* ****** ****** *)
-
-staload "./../utfpl.sats"
-
-(* ****** ****** *)
-
-staload "./eval_cloenv.sats"
-
+//
+staload
+"./../utfpl.sats"
+//
+staload "./eval.sats"
+//
 (* ****** ****** *)
 //
 dynload
 "../dynloadall.dats"
 //
-dynload "./eval_cloenv.sats"
+dynload "./eval.sats"
 dynload "./print.dats"
 dynload "./cloenv.dats"
-dynload "./eval_cloenv.dats"
+dynload "./eval_d2cst.dats"
+dynload "./eval_d2var.dats"
+dynload "./eval_d2sym.dats"
+dynload "./eval_d2exp.dats"
+dynload "./eval_d2ecl.dats"
 //
 (* ****** ****** *)
 

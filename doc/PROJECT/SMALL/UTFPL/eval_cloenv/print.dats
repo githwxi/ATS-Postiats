@@ -4,13 +4,17 @@
 *)
 
 (* ****** ****** *)
-
-staload "./../utfpl.sats"
-
+//
+#include
+"share/atspre_staload.hats"
+//
 (* ****** ****** *)
-
-staload "./eval_cloenv.sats"
-
+//
+staload
+"./../utfpl.sats"
+//
+staload "./eval.sats"
+//
 (* ****** ****** *)
 
 implement
@@ -24,21 +28,34 @@ fprint_value
 in
 //
 case+ x0 of
-| VALint (i) => fprintln! (out, "VALint(", i, ")")
 //
-| VALbool (b) => fprintln! (out, "VALbool(", b, ")")
-| VALchar (c) => fprintln! (out, "VALchar(", c, ")")
+| VALint (i) =>
+    fprintln! (out, "VALint(", i, ")")
 //
-| VALfloat (d) => fprintln! (out, "VALfloat(", d, ")")
+| VALbool (b) =>
+    fprintln! (out, "VALbool(", b, ")")
+| VALchar (c) =>
+    fprintln! (out, "VALchar(", c, ")")
 //
-| VALstring (str) => fprintln! (out, "VALstring(", str, ")")
+| VALfloat (d) =>
+    fprintln! (out, "VALfloat(", d, ")")
 //
-| VALvoid () => fprintln! (out, "VALvoid(", ")")
+| VALstring (str) =>
+    fprintln! (out, "VALstring(", str, ")")
 //
-| VALcst (d2c) => fprintln! (out, "VALcst(...)")
+| VALvoid () => fprintln! (out, "VALvoid()")
 //
-| VALlam (d2e, env) => fprintln! (out, "VALlam(...)")
-| VALfix (d2e, env) => fprintln! (out, "VALfix(...)")
+| VALcst (d2c) =>
+    fprintln! (out, "VALcst(", d2c, ")")
+| VALsym (d2s) =>
+    fprintln! (out, "VALsym(", d2s, ")")
+//
+| VALlam _ => fprintln! (out, "VALlam(...)")
+| VALfix _ => fprintln! (out, "VALfix(...)")
+//
+| VALfun _ => fprintln! (out, "VALfun(...)")
+//
+| VALerror () => fprintln! (out, "VALerror()")
 //
 end // end of [fprint_value]
 

@@ -26,10 +26,14 @@ all:: UTFPL main
 
 main: \
   main_dats.o \
-  eval_cloenv_sats.o \
+  eval_sats.o \
   print_dats.o \
   cloenv_dats.o \
-  eval_cloenv_dats.o ; \
+  eval_d2cst_dats.o \
+  eval_d2var_dats.o \
+  eval_d2sym_dats.o \
+  eval_d2exp_dats.o \
+  eval_d2ecl_dats.o ; \
   $(CCOPT) \
     -I${PATSHOME} \
     -I${PATSHOME}/ccomp/runtime \
@@ -44,8 +48,7 @@ UTFPL: ; make -C .. utfpl.o
 
 %_sats.o: %.sats ; $(PATSCC) -c $<
 
-%_dats.c: \
-  %.dats eval_cloenv.sats ; $(PATSCC) -ccats $<
+%_dats.c: %.dats eval.sats ; $(PATSCC) -ccats $<
 %_dats.o: %_dats.c; $(PATSCC) $(DATSMEMALLOC) -c $<
 
 ######

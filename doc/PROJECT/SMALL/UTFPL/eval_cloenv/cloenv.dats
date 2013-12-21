@@ -4,18 +4,17 @@
 *)
 
 (* ****** ****** *)
-
+//
 #include
 "share/atspre_staload.hats"
-
+//
 (* ****** ****** *)
-
-staload "./../utfpl.sats"
-
-(* ****** ****** *)
-
-staload "./eval_cloenv.sats"
-
+//
+staload
+"./../utfpl.sats"
+//
+staload "./eval.sats"
+//
 (* ****** ****** *)
 
 staload "libats/SATS/funmap_list.sats"
@@ -63,6 +62,9 @@ p2t.p2at_node of
 //
 | P2Tany () => env
 | P2Tvar (d2v) => cloenv_extend (env, d2v, d2u)
+//
+| P2Tempty () => env
+//
 | P2Tpat (p2t) => cloenv_extend_arg (env, p2t, d2u)
 //
 | P2Tignored () => env
