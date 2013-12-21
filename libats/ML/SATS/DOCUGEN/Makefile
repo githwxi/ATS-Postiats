@@ -154,13 +154,14 @@ upload_funmap:: ;   scp HTML/funmap.html ats-hwxi,ats-lang@web.sourceforge.net:h
 clean:: ; $(RMF) funmap_atxt.exe
 cleanall:: ; $(RMF) HTML/funmap.html
 
-all_html:: HTML/hashtbl.html
-HTML/hashtbl.html:   hashtbl_atxt.exe ; ./$< > $@
-hashtbl_atxt.txt: hashtbl.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
-hashtbl_atxt.exe: htmlgendecl_atxt.dats   hashtbl_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsynmark/libatsynmark.a -latsdoc
-upload_hashtbl:: ;   scp HTML/hashtbl.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
-clean:: ; $(RMF) hashtbl_atxt.exe
-cleanall:: ; $(RMF) HTML/hashtbl.html
+
+all_html:: HTML/hashtblref.html
+HTML/hashtblref.html:   hashtblref_atxt.exe ; ./$< > $@
+hashtblref_atxt.txt: hashtblref.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+hashtblref_atxt.exe: htmlgendecl_atxt.dats   hashtblref_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsynmark/libatsynmark.a -latsdoc
+upload_hashtblref:: ;   scp HTML/hashtblref.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
+clean:: ; $(RMF) hashtblref_atxt.exe
+cleanall:: ; $(RMF) HTML/hashtblref.html
 
 
 all_html:: HTML/monad_list.html

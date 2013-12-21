@@ -17,7 +17,7 @@
 
 staload _ = "libats/DATS/hashfun.dats"
 staload _ = "libats/DATS/linmap_list.dats"
-staload _ = "libats/DATS/linhashtbl_chain.dats"
+staload _ = "libats/DATS/hashtbl_chain.dats"
 
 (* ****** ****** *)
 

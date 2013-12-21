@@ -33,7 +33,7 @@
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats.linhashtbl_chain"
+#define ATS_PACKNAME "ATSLIB.libats.hashtbl_chain"
 #define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
 #define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
@@ -48,11 +48,11 @@ staload "libats/SATS/hashfun.sats"
 
 (* ****** ****** *)
 
-staload "libats/SATS/linhashtbl_chain.sats"
+staload "libats/SATS/hashtbl_chain.sats"
 
 (* ****** ****** *)
 
-#include "./SHARE/linhashtbl.hats" // code reuse
+#include "./SHARE/hashtbl.hats" // code reuse
 
 (* ****** ****** *)
 
@@ -683,4 +683,4 @@ end // end of [hashtbl_flistize]
 
 (* ****** ****** *)
 
-(* end of [linhashtbl_chain.dats] *)
+(* end of [hashtbl_chain.dats] *)

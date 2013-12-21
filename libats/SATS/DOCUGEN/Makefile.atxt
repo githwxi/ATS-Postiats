@@ -126,6 +126,8 @@ all_html::
 #make_entry("gmatrix_col")
 #make_entry("gmatrix_row")
 
+#make_entry("hashtbl_chain")
+
 #make_entry("funset_listord")
 #make_entry("funset_avltree")
 #make_entry("funmap_list")
@@ -139,7 +141,6 @@ all_html::
 #make_entry("linmap_avltree")
 #make_entry("linmap_randbst")
 #make_entry("linmap_skiplist")
-#make_entry("linhashtbl_chain")
 #make_entry("linheap_binomial")
 #make_entry("linheap_fibonacci")
 #make_entry("lindeque_dllist")

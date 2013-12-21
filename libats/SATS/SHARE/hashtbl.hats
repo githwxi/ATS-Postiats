@@ -34,10 +34,9 @@
 (* ****** ****** *)
 //
 absvtype
-hashtbl_vtype
-  (key:t@ype, itm:vt@ype+) = ptr
+hashtbl_vtype (k:t@ype, i:vt@ype+) = ptr
 //
-stadef hashtbl = hashtbl_vtype
+vtypedef hashtbl (k:t0p, i:vt0p) = hashtbl_vtype (k, i)
 //
 (* ****** ****** *)
 
@@ -225,4 +224,4 @@ key,itm:t0p
 
 (* ****** ****** *)
 
-(* end of [hashtblptr.hats] *)
+(* end of [hashtbl.hats] *)

@@ -1,20 +1,20 @@
 (* ****** ****** *)
 
 %{
-implement srcfilename_get () = "../hashtbl.sats"
+implement srcfilename_get () = "../hashtblref.sats"
 %}
 
 (* ****** ****** *)
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/libats_ML_hashtbl")
+val () = patscode_prefix_set("TRYIT/libats_ML_hashtblref")
 %}
 
 (* ****** ****** *)
 
 #decltitle("\
-ATSLIB/libats/ML/hashtbl\
+ATSLIB/libats/ML/hashtblref\
 ")
 
 (* ****** ****** *)
@@ -65,4 +65,4 @@ keys are represented as (singly or doubly) linked lists.
 
 (* ****** ****** *)
 
-(* end of [hashtbl.atxt] *)
+(* end of [hashtblref.atxt] *)

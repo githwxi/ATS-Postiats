@@ -33,7 +33,7 @@
 
 (* ****** ****** *)
 //
-// HX: shared by linhashtbl_chain
+// HX: shared by hashtbl_chain
 //
 (* ****** ****** *)
 //
@@ -249,4 +249,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [linhashtbl.hats] *)
+(* end of [hashtbl.hats] *)

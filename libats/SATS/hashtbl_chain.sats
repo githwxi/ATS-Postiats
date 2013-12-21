@@ -39,16 +39,19 @@
 
 (* ****** ****** *)
 //
-// HX-2013-01: ported to ATS/Postitats from ATS/Anairiats
+// HX-2013-01:
+// ported to ATS/Postitats from ATS/Anairiats
 //
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats.hashtblptr_chain"
-#define ATS_STALOADFLAG 0 // no static loading at run-time
+#define
+ATS_PACKNAME "ATSLIB.libats.hashtbl_chain"
+#define
+ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 
-#include "./SHARE/hashtblptr.hats"
+#include "./SHARE/hashtbl.hats"
 
 (* ****** ****** *)
 
@@ -60,4 +63,4 @@ vtypedef chain (key:t0p, itm:vt0p) = chain_vtype (key, itm)
 
 (* ****** ****** *)
 
-(* end of [hashtblptr_chain.sats] *)
+(* end of [hashtbl_chain.sats] *)

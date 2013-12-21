@@ -120,7 +120,8 @@ all_html::
 
 #make_entry("funset")
 #make_entry("funmap")
-#make_entry("hashtbl")
+
+#make_entry("hashtblref")
 
 #make_entry("monad_list")
 #make_entry("monad_maybe")

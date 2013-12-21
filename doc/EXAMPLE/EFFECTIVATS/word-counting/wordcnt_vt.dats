@@ -16,7 +16,7 @@
 
 staload _ = "libats/DATS/hashfun.dats"
 staload _ = "libats/DATS/linmap_list.dats"
-staload _ = "libats/DATS/linhashtbl_chain.dats"
+staload _ = "libats/DATS/hashtbl_chain.dats"
 
 (* ****** ****** *)
 
@@ -129,7 +129,7 @@ local
 #define H0 i2sz(1024)
 
 staload
-LHT = "libats/SATS/linhashtbl_chain.sats"
+LHT = "libats/SATS/hashtbl_chain.sats"
 
 assume
 wcmap_vtype = $LHT.hashtbl (string, int)

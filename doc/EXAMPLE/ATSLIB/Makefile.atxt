@@ -188,10 +188,17 @@ RMF=rm -f
 
 ######
 
-#make2_entry("libats_funset_listord", "-DATS_MEMALLOC_LIBC", "")
-#make2_entry("libats_funset_avltree", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_hashtbl_chain", "-DATS_MEMALLOC_LIBC", "")
+
+######
+
 #make2_entry("libats_funmap_list", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libats_funmap_avltree", "-DATS_MEMALLOC_LIBC", "")
+
+######
+
+#make2_entry("libats_funset_listord", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_funset_avltree", "-DATS_MEMALLOC_LIBC", "")
 
 ######
 
@@ -200,19 +207,15 @@ RMF=rm -f
 
 ######
 
-#make2_entry("libats_linhashtbl_chain", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_linmap_list", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_linmap_avltree", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_linmap_randbst", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_linmap_skiplist", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 
 ######
 
 #make2_entry("libats_linset_listord", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libats_linset_avltree", "-DATS_MEMALLOC_LIBC", "")
-
-######
-
-#make2_entry("libats_linmap_list", "-DATS_MEMALLOC_LIBC", "")
-#make2_entry("libats_linmap_avltree", "-DATS_MEMALLOC_LIBC", "")
-#make2_entry("libats_linmap_randbst", "-DATS_MEMALLOC_LIBC", "")
-#make2_entry("libats_linmap_skiplist", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 
 ######
 

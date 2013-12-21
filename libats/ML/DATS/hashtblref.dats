@@ -44,7 +44,7 @@ UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload
-HT = "libats/SATS/linhashtbl_chain.sats"
+HT = "libats/SATS/hashtbl_chain.sats"
 
 (* ****** ****** *)
 
@@ -53,7 +53,7 @@ staload "libats/ML/SATS/list0.sats"
 (* ****** ****** *)
 
 staload "libats/SATS/hashfun.sats"
-staload "libats/ML/SATS/hashtbl.sats"
+staload "libats/ML/SATS/hashtblref.sats"
 
 (* ****** ****** *)
 //
@@ -241,4 +241,4 @@ val kxs = list0_of_list_vt{(key,itm)}(kxs)
 
 (* ****** ****** *)
 
-(* end of [hashtbl.dats] *)
+(* end of [hashtblref.dats] *)

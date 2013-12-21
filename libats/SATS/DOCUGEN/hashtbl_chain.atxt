@@ -1,20 +1,20 @@
 (* ****** ****** *)
 
 %{
-implement srcfilename_get () = "../linhashtbl_chain.sats"
+implement srcfilename_get () = "../hashtbl_chain.sats"
 %}
 
 (* ****** ****** *)
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/libats_linhashtbl_chain")
+val () = patscode_prefix_set("TRYIT/libats_hashtbl_chain")
 %}
 
 (* ****** ****** *)
 
 #decltitle("\
-ATSLIB/libats/linhashtbl_chain\
+ATSLIB/libats/hashtbl_chain\
 ")
 
 (* ****** ****** *)
@@ -80,4 +80,4 @@ keys are represented as (singly or doubly) linked lists.
 
 (* ****** ****** *)
 
-(* end of [linhashtbl_chain.atxt] *)
+(* end of [hashtbl_chain.atxt] *)

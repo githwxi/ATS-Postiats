@@ -1,5 +1,5 @@
 (*
-** for testing [libats/linhashtbl_chain]
+** for testing [libats/hashtbl_chain]
 *)
 
 (* ****** ****** *)
@@ -14,11 +14,11 @@
 //
 (* ****** ****** *)
 //
-staload "libats/SATS/linhashtbl_chain.sats"
+staload "libats/SATS/hashtbl_chain.sats"
 //
 staload _(*anon*) = "libats/DATS/hashfun.dats"
 staload _(*anon*) = "libats/DATS/linmap_list.dats"
-staload _(*anon*) = "libats/DATS/linhashtbl_chain.dats"
+staload _(*anon*) = "libats/DATS/hashtbl_chain.dats"
 //
 (* ****** ****** *)
 
@@ -77,4 +77,4 @@ implement main0 () = ()
 
 (* ****** ****** *)
 
-(* end of [libats_linhashtbl_chain.dats] *)
+(* end of [libats_hashtbl_chain.dats] *)

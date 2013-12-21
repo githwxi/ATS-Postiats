@@ -202,6 +202,15 @@ clean:: ; $(RMF) gmatrix_row_atxt.exe
 cleanall:: ; $(RMF) HTML/gmatrix_row.html
 
 
+all_html:: HTML/hashtbl_chain.html
+HTML/hashtbl_chain.html:   hashtbl_chain_atxt.exe ; ./$< > $@
+hashtbl_chain_atxt.txt: hashtbl_chain.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+hashtbl_chain_atxt.exe: htmlgendecl_atxt.dats   hashtbl_chain_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsynmark/libatsynmark.a -latsdoc
+upload_hashtbl_chain:: ;   scp HTML/hashtbl_chain.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) hashtbl_chain_atxt.exe
+cleanall:: ; $(RMF) HTML/hashtbl_chain.html
+
+
 all_html:: HTML/funset_listord.html
 HTML/funset_listord.html:   funset_listord_atxt.exe ; ./$< > $@
 funset_listord_atxt.txt: funset_listord.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
@@ -298,14 +307,6 @@ linmap_skiplist_atxt.exe: htmlgendecl_atxt.dats   linmap_skiplist_atxt.txt $(DEC
 upload_linmap_skiplist:: ;   scp HTML/linmap_skiplist.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
 clean:: ; $(RMF) linmap_skiplist_atxt.exe
 cleanall:: ; $(RMF) HTML/linmap_skiplist.html
-
-all_html:: HTML/linhashtbl_chain.html
-HTML/linhashtbl_chain.html:   linhashtbl_chain_atxt.exe ; ./$< > $@
-linhashtbl_chain_atxt.txt: linhashtbl_chain.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
-linhashtbl_chain_atxt.exe: htmlgendecl_atxt.dats   linhashtbl_chain_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsynmark/libatsynmark.a -latsdoc
-upload_linhashtbl_chain:: ;   scp HTML/linhashtbl_chain.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
-clean:: ; $(RMF) linhashtbl_chain_atxt.exe
-cleanall:: ; $(RMF) HTML/linhashtbl_chain.html
 
 all_html:: HTML/linheap_binomial.html
 HTML/linheap_binomial.html:   linheap_binomial_atxt.exe ; ./$< > $@
