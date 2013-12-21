@@ -1,5 +1,6 @@
 (*
-** Implementing Untyped Functional PL
+** Implementing UTFPL
+** with closure-based evaluation
 *)
 
 (* ****** ****** *)

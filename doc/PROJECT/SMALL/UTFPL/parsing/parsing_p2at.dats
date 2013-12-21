@@ -1,5 +1,5 @@
 (*
-** Parsing: ATS -> UTFPL
+** Parsing: ATS/JSON -> UTFPL
 *)
 
 (* ****** ****** *)
