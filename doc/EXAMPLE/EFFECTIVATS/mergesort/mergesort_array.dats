@@ -147,15 +147,21 @@ main0 () = let
 val N = 10
 val N2 = i2sz(N)
 //
+typedef T = double
+//
 val xs =
-$arrpsz{int}(2, 9, 8, 4, 5, 3, 1, 7, 6, 0)
+$arrpsz{T}
+(
+  2.0, 9.0, 8.0, 4.0, 5.0, 3.0, 1.0, 7.0, 6.0, 0.0
+) (* end of [val] *)
+//
 val xs = arrayref(xs)
 //
 val () = fprint! (stdout_ref, "xs(*input*)  = ")
 val () = fprint_arrayref (stdout_ref, xs, N2)
 val () = fprintln! (stdout_ref)
 //
-val xs = mergesort<int> (xs, N)
+val xs = mergesort<T> (xs, N) (* [mergesort]: template *)
 //
 val () = fprint! (stdout_ref, "xs(*sorted*) = ")
 val () = fprint_arrayref (stdout_ref, xs, N2)

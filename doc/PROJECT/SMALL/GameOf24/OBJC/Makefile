@@ -10,21 +10,28 @@ CCOPT=gcc
 
 PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
-PATSLIB=$(PATSHOME)/ccomp/atslib/lib
+
+######
+
+CFLAGS += -DATS_MEMALLOC_LIBC
+CFLAGS += -I${PATSHOME}
+CFLAGS += -I${PATSHOME}/ccomp/runtime
 
 ######
 
 GameOf24: \
-  GameOf24.o GameOf24_dats.o mylib_dats.o ; $(CCOPT) -o $@ $^
+  GameOf24.o \
+  GameOf24_dats.o \
+  mylib_dats.o ; $(CCOPT) -o $@ $^
 
 ######
 
-GameOf24.o: GameOf24.m ; $(PATSCC) -x objective-c -c -o $@ $<
-GameOf24_dats.o: GameOf24.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -c $<
+GameOf24.o: GameOf24.m ; $(CCOPT) -x objective-c -c -o $@ $<
 
 ######
 
-mylib_dats.o: mylib.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -c $<
+%_dats.c: %.dats ; $(PATSCC) -ccats -o $@ $<
+%_dats.o: %_dats.c ; $(CCOPT) $(CFLAGS) -c -o $@ $<
 
 ######
 

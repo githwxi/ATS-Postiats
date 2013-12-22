@@ -96,7 +96,7 @@ abstype myseq(n:int)
 
 Given a static integer N, [myseq(N)] is for myseq-values of length N.
 The type assigned to [mergesort] can be refined as follows to capture
-that invariant that a given myseq-value and its sorted version have the
+the invariant that a given myseq-value and its sorted version have the
 same length:
 
 <pre>
@@ -104,7 +104,7 @@ fun mergesort{n:nat} (xs: myseq(n)): myseq(n)
 </pre>
 
 As for the functions [myseq_length], [myseq_split]
-and [myseq_merge], they can be assigned the following refined types:
+and [myseq_merge], they can be assigned the following more informative types:
 
 <pre>
 fun myseq_length{n:int} (xs: myseq(n)): int(n)
@@ -187,8 +187,8 @@ end // end of [mergesort]
 </pre>
 
 We now have a specification-like implementation of mergesort that
-typechecks. This implementation can be used as a template for implementing
-mergesort on concrete types such as lists and arrays.
+typechecks, which can be thought of as some form of blueprint intended for
+implementing mergesort on concrete types such as lists and arrays.
 
 <h2>
 Mergesort on Lists
@@ -244,7 +244,7 @@ end // end of [myseq_merge]
 </pre>
 
 Note that [gcompare_val] is a generic function template for comparing
-value.
+values.
 
 <p>
 
@@ -255,10 +255,28 @@ some testing code in mergesort_list.dats.
 Mergesort on Arrays
 </h2>
 
+The abstract specification-like implementation of [mergesort] given above
+is of so-called functional style. While it is not well-suited for
+implementing mergesort on arrays (of imperative style), I would still like
+to give it a try so as to make a point.
+
+<p>
+
+First, as an array in ATS is of C-style, there is no size information
+attached to the array. So the interface for [mergesort] needs to be
+modified as follows:
+
 <pre>
 fun{a:t0p}
 mergesort{n:nat} (xs: arrayref(a, n), n: int n): arrayref(a, n)
 </pre>
+
+This interface means that [mergesort] takes both an array and the size of
+the array as its two arguments.
+
+<p>
+
+Following is the interface for [myseq_merge] on arrays:
 
 <pre>
 fun{a:t0p}
@@ -269,8 +287,32 @@ myseq_merge
 ) : arrayref(a, n1+n2) // end of [myseq_merge]
 </pre>
 
+There is extensive use of unsafe programming features in my implementation
+of [myseq_merge] on arrays. Writing code this way is primarily for the
+purpose of saving some time as the given implementation of mergesort on
+arrays is not meant for practical use; it is only meant to make a point
+that the specification-like implementation of [mergesort] given above can
+indeed be adapted to handle arrays.
+
+<p>
+
 Please find the entirety of the implementation of mergesort on arrays plus
-some testing code in mergesort_list.dats.
+some testing code in mergesort_array.dats.
+
+<h2>
+Refinement-based Programming
+</h2>
+
+While it may seem a bit too pedantic to implement a simple algorithm
+like mergesort in the way presented above, I do hope that this style of
+refinement-based programming should be obviously appealing to anyone
+wanting to write even moderately complex programs. The manner in which
+abstract types are supported in ATS is particularly designed under the
+guideline to maximally promote refinement-based programming. As I see it,
+the ability to make effective use of abstraction in controlling programming
+complexity is the most important characteristic of a top programmer, and
+the type system of ATS can greatly help one acquire this ability.
+Have fun!
 
 <hr size="2">
 

@@ -39,9 +39,6 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
-// HX-2013-08:
-// [play24] is declared in Java class [GameOf24]
-//
 extern
 fun
 OBJC_GameOf24_play24
