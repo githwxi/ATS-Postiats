@@ -123,8 +123,13 @@ implement{a}
 list_vt_mergesort_fun
   (xs, cmp) = let
 //
-implement
-list_vt_mergesort$cmp<a> (x1, x2) = cmp (x1, x2)
+implement{a2}
+list_vt_mergesort$cmp
+  (x1, x2) = let
+//
+val cmp = $UN.cast{cmpref(a2)}(cmp) in cmp (x1, x2)
+//
+end (* end of [list_vt_mergesort$cmp] *)
 //
 in
   list_vt_mergesort (xs)

@@ -13,7 +13,7 @@ It translates ATS level-2 syntax trees into UTFPL syntax trees.
 
 ######
 
-parsing: code for parsing from JSON to UTFPL
+parsing: code for parsing from JSONized ATS to UTFPL
 evaluating: code for evaluating UTFPL abstract syntax trees
 
 ######

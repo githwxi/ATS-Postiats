@@ -411,7 +411,7 @@ fun{
 x:t0p
 } list_split_at
   {n:int}{i:nat | i <= n}
-  (xs: SHR(list (INV(x), n)), i: int i):<> (list_vt (x, i), list (x, n-i))
+  (xs: SHR(list (INV(x), n)), i: int i):<!wrt> (list_vt (x, i), list (x, n-i))
 // end of [list_split_at]
 
 #atscode_separator()

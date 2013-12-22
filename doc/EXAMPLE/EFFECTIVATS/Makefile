@@ -5,27 +5,45 @@
 ######
 
 all::
-all::file-copying
-file-copying:: ; make -C file-copying all
+
+all::mergesort
+mergesort:: ; make -C mergesort all
+
+all::stack-array
+stack-array:: ; make -C stack-array all
+
 all::queue-sllist2
 queue-sllist2:: ; make -C queue-sllist2 all
+
+all::loop-as-tailrec
+loop-as-tailrec:: ; make -C loop-as-tailrec ll
+
+all::file-copying
+file-copying:: ; make -C file-copying all
+
 all::word-counting
 word-counting:: ; make -C word-counting all
+
 all::DiningPhil
 DiningPhil:: ; make -C DiningPhil all
+
 all::DiningPhil
 DiningPhil2:: ; make -C DiningPhil2 all
+
 all::Producer-Consumer
 Producer-Consumer:: ; make -C Producer-Consumer all
+
 all::IPC-redis
 IPC-redis:: ; make -C IPC-redis all
 
 ######
 
 cleanall::
-cleanall:: ; make -C file-copying cleanall
+cleanall:: ; make -C mergesort cleanall
+cleanall:: ; make -C stack-array cleanall
 cleanall:: ; make -C queue-sllist2 cleanall
 cleanall:: ; make -C loop-as-tailrec cleanall
+cleanall:: ; make -C file-copying cleanall
 cleanall:: ; make -C word-counting cleanall
 cleanall:: ; make -C DiningPhil cleanall
 cleanall:: ; make -C DiningPhil2 cleanall
@@ -34,14 +52,24 @@ cleanall:: ; make -C Producer-Consumer cleanall
 ######
 
 uploadall::
+uploadall::upload_mergesort
 uploadall::upload_stack-array
-uploadall::upload_file-copying
 uploadall::upload_queue-sllist2
 uploadall::upload_loop-as-tailrec
+uploadall::upload_file-copying
 uploadall::upload_word-counting
 uploadall::upload_DiningPhil
 uploadall::upload_DiningPhil2
 uploadall::upload_Producer-Consumer
+
+######
+
+upload_mergesort:: ; \
+  scp \
+  mergesort/Makefile \
+  mergesort/main.html \
+  mergesort/*.?ats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/mergesort/
 
 ######
 

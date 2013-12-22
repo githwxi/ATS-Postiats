@@ -27,7 +27,7 @@ typedef
 d2var_struct =
 @{
   d2var_name= symbol
-, d2var_bind= Ptr0
+, d2var_bind= Ptr0 (*d2exp*)
 , d2var_stamp= stamp
 } (* end of [d2var_struct] *)
 
@@ -51,12 +51,14 @@ val (
 ) = ptr_alloc<d2var_struct> ()
 //
 val () = p->d2var_name := name
-val () = p->d2var_stamp := stamp
 val () = p->d2var_bind := the_null_ptr
+val () = p->d2var_stamp := stamp
 //
 in
   $UN.castvwtp0{d2var}((pfat, pfgc | p))
 end // end of [d2var_make]
+
+(* ****** ****** *)
 
 implement
 d2var_get_name

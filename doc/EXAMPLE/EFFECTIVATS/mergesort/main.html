@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-mergesort</title>
+</head>
+
+<body>
+
+<h1>
+Effective ATS: Mergesort
+</h1>
+
+In this article, I would like to use mergesort as a concrete example to
+demonstrate a natural style of refinement-based programming.
+
+<h2>
+What is Mergesort?
+</h2>
+
+Let me answer this question by giving a specification-like implementation
+of mergesort. Suppose that we have a type [myseq] declared as follows for
+the data that [mergesort] is to be called on:
+
+<pre>
+abstype myseq
+</pre>
+
+Naturally, we assign the following interface to [mergesort]:
+
+<pre>
+fun mergesort (xs: myseq): myseq
+</pre>
+
+A straightforward implementation of [mergesort] can be given as follows:
+
+<pre>
+implement
+mergesort (xs) = let
+  val n = myseq_length (xs)
+in
+//
+  if n >= 2 then let
+    val (xs1, xs2) = myseq_split (xs)
+  in
+    myseq_merge (mergesort (xs1), mergesort (xs2))
+  end else (xs) // end of [if]
+//
+end // end of [mergesort]
+</pre>
+
+where the function
+[myseq_length], [myseq_split] and [myseq_merge]
+are assigned the following types:
+
+<pre>
+fun myseq_length (xs: myseq): int
+fun myseq_split (xs: myseq): (myseq, myseq)
+fun myseq_merge (xs1: myseq, xs2: myseq): myseq
+</pre>
+
+and their functionalities are briefly explained below:
+
+<ul>
+<li> [myseq_length] returns the length of a given myseq-value.
+<li> [myseq_split] splits a given myseq-value into two myseq-values.
+<li> [myseq_merge] merges two given sorted myseq-values into one sorted myseq-value.
+</ul>
+
+Even for someone who is unfamiliar with the syntax of ATS, it is probably
+fair to say that the above specification-like implementation of [mergesort] is
+often preferrable to a description of mergesort in English or other natural
+langauges.
+
+<h2>
+Specifying with Dependent Types
+</h2>
+
+As the given implementation of mergesort is recursive, there must be a
+reason why we expect that the implemented function [mergesort] is
+terminating. Inevitably, we need to talk about the length of a myseq-value
+if we argue for [mergesort] being terminating, where the length of a
+myseq-value refers to the number of items contained in the sequence
+represented by the myseq-value.
+
+<p>
+
+In ATS, we can refine [myseq] as follows by making it a type constructor
+carrying one integer parameter:
+
+<pre>
+abstype myseq(n:int)
+</pre>
+
+Given a static integer N, [myseq(N)] is for myseq-values of length N.
+The type assigned to [mergesort] can be refined as follows to capture
+that invariant that a given myseq-value and its sorted version have the
+same length:
+
+<pre>
+fun mergesort{n:nat} (xs: myseq(n)): myseq(n)
+</pre>
+
+As for the functions [myseq_length], [myseq_split]
+and [myseq_merge], they can be assigned the following refined types:
+
+<pre>
+fun myseq_length{n:int} (xs: myseq(n)): int(n)
+fun myseq_split{n:int | n >= 2}
+  (xs: myseq(n)): [n1,n2:pos | n1+n2==n] (myseq(n1), myseq(n2))
+fun myseq_merge{n1,n2:nat} (xs1: myseq(n1), xs2: myseq(n2)): myseq(n1+n2)
+</pre>
+
+Note that the type assigned to [myseq_split] implies that this function can
+only be applied to a given myseq-value containing at least 2 items and the
+two myseq-values it returns are strictly shorter than the given myseq-value.
+
+<p>
+
+The above implementation of [mergesort] can be slightly modified into the
+following version:
+
+<pre>
+implement
+mergesort (xs) = let
+//
+fun sort
+  {n:nat} .&lt;n&gt;.
+(
+  xs: myseq(n)
+) : myseq(n) = let
+  val n = myseq_length (xs)
+in
+  if n >= 2 then let
+    val (xs1, xs2) = myseq_split (xs)
+  in
+    myseq_merge (sort (xs1), sort (xs2))
+  end else (xs) // end of [if]
+end // end of [sort]
+//
+in
+  sort (xs)
+end // end of [mergesort]
+</pre>
+
+Note that [sort] is verified to be terminating based on the termination
+metric &lt;n&gt; (supplied by the programmer).
+
+<p>
+
+When trying to implement [myseq_split], we should be able to quickly
+realize that the following interface is much more suitable for it:
+
+<pre>
+fun myseq_split{n:int | n >= 2}
+  (xs: myseq(n), n: int n): (myseq(n/2), myseq(n-n/2))
+</pre>
+
+The interface states that [myseq_split] returns a pair of myseq-values of
+length n/2 and n-n/2 when applied to a myseq-value of length n and an
+integer of value n. The implementation of [mergesort] can now be slightly
+modified as follows:
+
+<pre>
+implement
+mergesort (xs) = let
+//
+fun sort
+  {n:nat} .&lt;n&gt;.
+(
+  xs: myseq(n), n: int n
+) : myseq(n) = let
+in
+  if n >= 2 then let
+    val n2 = half (n)
+    val (xs1, xs2) = myseq_split (xs, n)
+  in
+    myseq_merge (sort (xs1, n2), sort (xs2, n-n2))
+  end else (xs) // end of [if]
+end // end of [sort]
+//
+in
+  sort (xs, myseq_length(xs))
+end // end of [mergesort]
+</pre>
+
+We now have a specification-like implementation of mergesort that
+typechecks. This implementation can be used as a template for implementing
+mergesort on concrete types such as lists and arrays.
+
+<h2>
+Mergesort on Lists
+</h2>
+
+As can be expected, the interface for mergesort on lists is given as
+follows:
+
+<pre>
+fun{a:t0p}
+mergesort{n:nat} (xs: list (a, n)): list (a, n)
+</pre>
+
+This interface indicates that [mergesort] is a function template
+parameterized over the type of the elements in a list given as its
+argument. Let us now focus on [myseq_merge], which is given the
+following interface:
+
+<pre>
+fun{a:t0p}
+myseq_merge
+  {n1,n2:nat}
+  (xs1: list(a, n1), xs2: list(a, n2)): list(a, n1+n2)
+// end of [myseq_merge]
+</pre>
+
+Following is a straightforward implementation of [myseq_merge] on lists:
+
+<pre>
+implement
+{a}(*tmp*)
+myseq_merge
+  (xs10, xs20) = let
+in
+//
+case+ xs10 of
+| cons (x1, xs11) =>
+  (
+    case+ xs20 of
+    | cons (x2, xs21) => let
+        val sgn = gcompare_val<a> (x1, x2)
+      in
+        if sgn <= 0
+          then cons{a}(x1, myseq_merge<a> (xs11, xs20))
+          else cons{a}(x2, myseq_merge<a> (xs10, xs21))
+        // end of [if]
+      end (* end of [cons] *)
+    | nil ((*void*)) => xs10
+  )
+| nil ((*void*)) => xs20
+//
+end // end of [myseq_merge]
+</pre>
+
+Note that [gcompare_val] is a generic function template for comparing
+value.
+
+<p>
+
+Please find the entirety of the implementation of mergesort on lists plus
+some testing code in mergesort_list.dats.
+
+<h2>
+Mergesort on Arrays
+</h2>
+
+<pre>
+fun{a:t0p}
+mergesort{n:nat} (xs: arrayref(a, n), n: int n): arrayref(a, n)
+</pre>
+
+<pre>
+fun{a:t0p}
+myseq_merge
+  {n1,n2:nat}
+(
+  xs1: arrayref(a, n1), xs2: arrayref(a, n2), n1: int(n1), n2: int(n2)
+) : arrayref(a, n1+n2) // end of [myseq_merge]
+</pre>
+
+Please find the entirety of the implementation of mergesort on arrays plus
+some testing code in mergesort_list.dats.
+
+<hr size="2">
+
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+
+</body>
+</html>

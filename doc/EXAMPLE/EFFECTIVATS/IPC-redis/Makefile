@@ -85,6 +85,6 @@ clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
-#cleanall:: ; $(RMF) .depend
+cleanall:: ; $(RMF) .depend
 
 ###### end of [Makefile] ######
