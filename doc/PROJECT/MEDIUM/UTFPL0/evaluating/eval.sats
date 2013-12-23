@@ -55,6 +55,8 @@ datatype value =
   | VALvar of d2var
   | VALsym of d2sym
 //
+  | VALrec of labvaluelst
+//
   | VALlam of (d2exp, cloenv)
   | VALfix of (d2exp, cloenv)
 //
@@ -63,16 +65,28 @@ datatype value =
   | VALerror of (string)
 // end of [value]
 
-where valuelst = List (value)
+and labvalue = LABVAL of (label, value)
+
+where
+valuelst = List (value)
+and
+labvaluelst = List (labvalue)
 
 (* ****** ****** *)
 //
 fun print_value (value): void
-overload print with print_value
+fun fprint_value (FILEref, value): void
 //
-fun
-fprint_value (FILEref, value): void
+overload print with print_value
 overload fprint with fprint_value
+//
+(* ****** ****** *)
+//
+fun print_labvalue (labvalue): void
+fun fprint_labvalue (FILEref, labvalue): void
+//
+overload print with print_labvalue
+overload fprint with fprint_labvalue
 //
 (* ****** ****** *)
 //
@@ -84,8 +98,9 @@ fun cloenv_nil (): cloenv
 //
 fun cloenv_extend (cloenv, d2var, value): cloenv
 //
-fun cloenv_extend_arg (cloenv, p2at, value): cloenv
-fun cloenv_extend_arglst (cloenv, p2atlst, valuelst): cloenv
+fun cloenv_extend_pat (cloenv, p2at, value): cloenv
+fun cloenv_extend_patlst (cloenv, p2atlst, valuelst): cloenv
+fun cloenv_extend_labpatlst (cloenv, labp2atlst, labvaluelst): cloenv
 //
 fun cloenv_find
   (env: cloenv, d2v: d2var): Option_vt (value)

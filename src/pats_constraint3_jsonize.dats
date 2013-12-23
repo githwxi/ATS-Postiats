@@ -441,14 +441,8 @@ end // end of [local]
 
 implement
 jsonize_c3nstropt
-  (opt) = let
-in
-//
-case+ opt of
-| None () => jsonval_none ()
-| Some (c3t) => jsonval_some (jsonize_c3nstr (c3t))
-//
-end // end of [jsonize_c3nstropt]
+  (opt) = jsonize_option_fun (opt, jsonize_c3nstr)
+// end of [jsonize_c3nstropt]
 
 (* ****** ****** *)
 

@@ -28,6 +28,8 @@ case+ p2t0.p2at_node of
 //
 | P2Tpat (p2t) => fprint! (out, "P2Tpat(", p2t, ")")
 //
+| P2Trec (knd, npf, lp2ts) => fprint! (out, "P2Trec(", lp2ts, ")")
+//
 | P2Tignored ((*void*)) => fprint! (out, "P2Tignored(", ")")
 //
 end // end of [fprint_p2at]
@@ -46,6 +48,36 @@ fprint_list$sep<> (out) = fprint_string (out, ", ")
 in
   fprint_list<p2at> (out, p2ts)
 end // end of [fprint_p2atlst]
+
+(* ****** ****** *)
+
+implement
+fprint_labp2at
+  (out, lp2t) = let
+in
+//
+case+ lp2t of
+| LABP2ATnorm
+    (lab, p2t) =>
+    fprint! (out, "LABP2ATnorm(", lab, "->", p2t, ")")
+| LABP2ATomit (loc) => fprint (out, "LABP2ATomit(...)")
+//
+end // end of [fprint_labp2at]
+
+(* ****** ****** *)
+
+implement
+fprint_labp2atlst
+  (out, lp2ts) = let
+//
+implement
+fprint_val<labp2at> = fprint_labp2at
+implement
+fprint_list$sep<> (out) = fprint_string (out, ", ")
+//
+in
+  fprint_list<labp2at> (out, lp2ts)
+end // end of [fprint_labp2atlst]
 
 (* ****** ****** *)
 

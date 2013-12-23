@@ -110,7 +110,7 @@ case+ v_fun of
     (d2e, env) => let
     val-D2Elam
       (p2ts_arg, d2e_body) = d2e.d2exp_node
-    val env = cloenv_extend_arglst (env, p2ts_arg, vs_arg)
+    val env = cloenv_extend_patlst (env, p2ts_arg, vs_arg)
   in
     aux_d2exp (env, d2e_body)
   end // end of [VALlam]
@@ -120,7 +120,7 @@ case+ v_fun of
     val-D2Efix
       (d2v, p2ts_arg, d2e_body) = d2e.d2exp_node
     val env = cloenv_extend (env, d2v, v_fun)
-    val env = cloenv_extend_arglst (env, p2ts_arg, vs_arg)
+    val env = cloenv_extend_patlst (env, p2ts_arg, vs_arg)
   in
     aux_d2exp (env, d2e_body)
   end // end of [VALfix]

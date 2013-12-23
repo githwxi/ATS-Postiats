@@ -50,13 +50,16 @@ typedef symbolopt = $SYM.symbolopt
 
 (* ****** ****** *)
 
-staload LAB = "./pats_label.sats"
+staload
+LAB = "./pats_label.sats"
 typedef label = $LAB.label
 
-staload FIX = "./pats_fixity.sats"
+staload
+FIX = "./pats_fixity.sats"
 typedef assoc = $FIX.assoc
 
-staload FIL = "./pats_filename.sats"
+staload
+FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
 
 (* ****** ****** *)

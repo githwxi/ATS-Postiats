@@ -327,19 +327,20 @@ jsonize_valkind (knd) =
 (* ****** ****** *)
 //
 implement
-jsonize_stamp
-  (x0) = jsonval_int (stamp_get_int (x0))
+jsonize_stamp (x0) =
+  jsonval_int (stamp_get_int (x0))
+//
+implement
+jsonize_symbol (sym) =
+  jsonval_string (symbol_get_name (sym))
 //
 implement
 jsonize_location (loc) = jsonval_loc (loc)
 //
-implement
-jsonize_symbol
-  (sym) = jsonval_string (symbol_get_name (sym))
-//
 (* ****** ****** *)
 
-implement jsonize_ignored (x0) = JSONnul () 
+implement
+jsonize_ignored (x0) = JSONnul ((*void*)) 
 
 (* ****** ****** *)
 
@@ -350,8 +351,21 @@ jsonize_list_fun
 val jsvs = list_map_fun<a> (xs, f)
 //
 in
-  jsonval_list (list_of_list_vt (jsvs))
+  jsonval_list (list_of_list_vt(jsvs))
 end // end of [jsonize_list_fun]
+
+(* ****** ****** *)
+
+implement
+jsonize_option_fun
+  {a} (opt, f) = let
+in
+//
+case+ opt of
+| None () => jsonval_none ()
+| Some (x) => jsonval_some (f(x))
+//
+end // end of [jsonize_option_fun]
 
 (* ****** ****** *)
 

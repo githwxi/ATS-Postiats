@@ -54,6 +54,7 @@ UTFPLsrc_dyn := \
   utfpl_stamp.dats \
   utfpl_symbol.dats \
   utfpl_location.dats \
+  utfpl_label.dats \
   utfpl_d2cst.dats \
   utfpl_d2var.dats \
   utfpl_d2sym.dats \

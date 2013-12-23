@@ -559,7 +559,7 @@ p2at = '{
 , p2at_dvs= lstord (d2var)
 , p2at_type= s2expopt // ref@ (s2expopt)
 , p2at_node= p2at_node
-}
+} (* end of [p2at] *)
 
 and p2atlst = List (p2at)
 and p2atopt = Option (p2at)

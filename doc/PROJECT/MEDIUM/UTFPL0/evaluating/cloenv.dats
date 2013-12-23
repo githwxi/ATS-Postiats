@@ -80,7 +80,7 @@ val () = fprintln! (out, "cloenv_extend: env = ", env)
 (* ****** ****** *)
 
 implement
-cloenv_extend_arg
+cloenv_extend_pat
   (env, p2t, d2u) = let
 in
 //
@@ -88,20 +88,30 @@ case+
 p2t.p2at_node of
 //
 | P2Tany () => env
-| P2Tvar (d2v) => cloenv_extend (env, d2v, d2u)
+| P2Tvar (d2v) =>
+    cloenv_extend (env, d2v, d2u)
 //
 | P2Tempty () => env
 //
-| P2Tpat (p2t) => cloenv_extend_arg (env, p2t, d2u)
+| P2Tpat (p2t) =>
+    cloenv_extend_pat (env, p2t, d2u)
+//
+| P2Trec (knd, npf, lp2ts) =>
+  (
+    case+ d2u of
+    | VALrec (ld2us) =>
+        cloenv_extend_labpatlst (env, lp2ts, ld2us)
+    | _(*type-error*) => env
+  ) (* end of [P2Trec] *)
 //
 | P2Tignored () => env
 //
-end // end of [cloenv_extend_arg]
+end // end of [cloenv_extend_pat]
 
 (* ****** ****** *)
 
 implement
-cloenv_extend_arglst
+cloenv_extend_patlst
   (env, p2ts, d2us) = let
 in
 //
@@ -114,14 +124,14 @@ case+ p2ts of
     | list_cons
         (d2u, d2us) => let
         val env =
-          cloenv_extend_arg (env, p2t, d2u)
+          cloenv_extend_pat (env, p2t, d2u)
         // end of [val]
       in
-        cloenv_extend_arglst (env, p2ts, d2us)
+        cloenv_extend_patlst (env, p2ts, d2us)
       end // end of [list_cons]
   ) (* end of [list_cons] *)
 //
-end // end of [cloenv_extend_arglst]
+end // end of [cloenv_extend_patlst]
 
 (* ****** ****** *)
 

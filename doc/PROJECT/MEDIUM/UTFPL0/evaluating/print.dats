@@ -18,7 +18,16 @@ staload "./eval.sats"
 (* ****** ****** *)
 
 implement
+fprint_val<value> = fprint_value
+implement
+fprint_val<labvalue> = fprint_labvalue
+
+(* ****** ****** *)
+
+implement
 print_value (x0) = fprint (stdout_ref, x0)
+implement
+print_labvalue (x0) = fprint (stdout_ref, x0)
 
 (* ****** ****** *)
 
@@ -52,6 +61,9 @@ case+ x0 of
 | VALsym (d2s) =>
     fprint! (out, "VALsym(", d2s, ")")
 //
+| VALrec (lxs) =>
+    fprint! (out, "VALrec(", lxs, ")")
+//
 | VALlam _ => fprint! (out, "VALlam(...)")
 | VALfix _ => fprint! (out, "VALfix(...)")
 //
@@ -62,6 +74,23 @@ case+ x0 of
 end // end of [fprint_value]
 
 (* ****** ****** *)
+
+implement
+fprint_labvalue
+  (out, ld2u) = let
+  val+LABVAL (lab, d2u) = ld2u
+in
+  fprint (out, lab); fprint (out, "->"); fprint_val<value> (out, d2u)
+end // end of [fprint_labvalue]
+
+(* ****** ****** *)
+
+local
+
+implement
+fprint_val<value> = fprint2_value
+
+in (* in of [local] *)
 
 implement
 fprint2_value
@@ -78,9 +107,13 @@ case+ x0 of
 //
 | VALvoid () => fprint! (out, "()")
 //
+| VALrec (lxs) => fprint! (out, "VALrec(", lxs, ")")
+//
 | _(*rest*) => fprint_value (out, x0)
 //
 end // end of [fprint2_value]
+
+end // end of [local]
 
 (* ****** ****** *)
 

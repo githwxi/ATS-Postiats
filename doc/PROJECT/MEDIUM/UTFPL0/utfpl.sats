@@ -81,6 +81,27 @@ overload compare with compare_symbol_symbol
 //
 (* ****** ****** *)
 
+abstype label_type = ptr
+typedef label = label_type
+
+(* ****** ****** *)
+
+fun
+fprint_label: fprint_type (label)
+overload fprint with fprint_label
+
+(* ****** ****** *)
+//
+fun eq_label_label : (label, label) -<fun0> bool
+fun neq_label_label : (label, label) -<fun0> bool
+fun compare_label_label : (label, label) -<fun0> int
+//
+overload = with eq_label_label
+overload != with neq_label_label
+overload compare with compare_label_label
+//
+(* ****** ****** *)
+
 abstype location_type = ptr
 typedef loc_t = location_type
 
@@ -217,8 +238,15 @@ p2at_node =
 //
   | P2Tpat of (p2at)
 //
+  | P2Trec of (int(*knd*), int(*npf*), labp2atlst)
+//
   | P2Tignored of ((*void*))
 // end of [p2at_node]
+
+and labp2at =
+  | LABP2ATnorm of (label, p2at)
+  | LABP2ATomit of (loc_t) // for [...]
+// end of [labp2at]
 
 where
 p2at = '{
@@ -228,6 +256,9 @@ p2at = '{
 and
 p2atlst = List0 (p2at)
 
+and
+labp2atlst = List0 (labp2at)
+
 (* ****** ****** *)
 //
 fun fprint_p2at: fprint_type (p2at)
@@ -235,6 +266,12 @@ fun fprint_p2atlst: fprint_type (p2atlst)
 //
 overload fprint with fprint_p2at
 overload fprint with fprint_p2atlst of 10
+//
+fun fprint_labp2at: fprint_type (labp2at)
+fun fprint_labp2atlst: fprint_type (labp2atlst)
+//
+overload fprint with fprint_labp2at
+overload fprint with fprint_labp2atlst of 10
 //
 (* ****** ****** *)
 //

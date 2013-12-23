@@ -71,7 +71,7 @@ case+ v2ds of
 | list_cons
     (v2d, v2ds) => let
     val def = eval_d2exp (env, v2d.v2aldec_def)
-    val env = cloenv_extend_arg (env, v2d.v2aldec_pat, def)
+    val env = cloenv_extend_pat (env, v2d.v2aldec_pat, def)
   in
     aux_valdeclst (env, v2ds)
   end // end of [list_cons]

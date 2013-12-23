@@ -49,6 +49,10 @@ staload "./pats_location.sats"
 
 (* ****** ****** *)
 
+staload "./pats_label.sats"
+
+(* ****** ****** *)
+
 (*
 ** HX-2013-11: JSON value representation
 *)
@@ -166,6 +170,10 @@ fun jsonize_location : jsonize_ftype (location)
 
 (* ****** ****** *)
 
+fun jsonize_label : jsonize_ftype (label)
+
+(* ****** ****** *)
+
 fun
 jsonize_ignored{a:type} (x: a): jsonval
 
@@ -175,6 +183,11 @@ fun
 jsonize_list_fun{a:type}
   (xs: List (a), f: jsonize_ftype (a)): jsonval
 // end of [jsonize_list_fun]
+
+fun
+jsonize_option_fun{a:type}
+  (xs: Option (a), f: jsonize_ftype (a)): jsonval
+// end of [jsonize_option_fun]
 
 (* ****** ****** *)
 
