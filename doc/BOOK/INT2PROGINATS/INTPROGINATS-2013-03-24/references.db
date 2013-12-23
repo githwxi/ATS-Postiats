@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE biblioentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+]>
+<biblioentry>
+  <abrev>Z:spiv92</abrev>
+  <title>The Z Notation: A Reference Manual</title>
+  <authorgroup>
+     <author><firstname>J. M.</firstname><surname>Spivey</surname></author>
+  </authorgroup>
+  <publisher>
+     <publishername>Prentice Hall International Series in Computer Science</publishname>
+  </publish>
+  <edition>2nd</edition>
+  <copyright><year>1992</year></copyright>
+  <isbn>013-978529-9</isbn>
+  <url>http://www.afm.sbu.ac.uk/zbook</url>
+</biblioentry>

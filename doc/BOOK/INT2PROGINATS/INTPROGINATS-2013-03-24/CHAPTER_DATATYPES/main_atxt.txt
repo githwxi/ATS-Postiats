@@ -1,0 +1,94 @@
+#__tok1$
+#__tok2$
+<chapter id="datatypes">
+<title>Datatypes</title>
+
+#__tok4$#__tok13$
+
+#__tok14$
+
+<sect1 id="patterns">
+<title>Patterns</title>
+
+#__tok16$#__tok30$
+
+</sect1><!--id="patterns"-->
+
+<!-- ****** ****** -->
+
+<sect1 id="pattern-matching">
+<title>Pattern-Matching</title>
+
+#__tok31$#__tok41$
+
+</sect1><!--id="pattern-matching"-->
+
+<!-- ****** ****** -->
+
+<sect1 id="matching_clauses_and_case-expressions">
+<title>Matching Clauses and Case-Expressions</title>
+
+#__tok42$
+
+#__tok44$
+
+</sect1><!--id="matching_clauses_and_case-expressions"-->
+
+<!-- ****** ****** -->
+
+<sect1 id="enumerative_datatypes">
+<title>Enumerative Datatypes</title>
+#__tok47$#__tok59$
+
+#__tok60$#__tok77$
+
+</sect1><!--id="enumerative_datatypes"-->
+
+<!-- ****** ****** -->
+
+<sect1 id="recursive_datatypes">
+<title>Recursive Datatypes</title>
+
+#__tok78$#__tok89$
+
+</sect1><!--id="recursive_datatypes"-->
+
+<!-- ****** ****** -->
+
+<sect1 id="exhaustiveness_of_pattern-matching">
+<title>Exhaustiveness of Pattern-Matching</title>
+
+#__tok90$#__tok93$
+
+#__tok94$#__tok104$
+
+#__tok105$#__tok112$
+
+#__tok113$#__tok128$
+
+#__tok129$
+
+</sect1><!--id="exhaustiveness_of_pattern-matching"-->
+
+<!-- ****** ****** -->
+
+<sect1 id="example_evaluating_arithmetic_expressions">
+<title>
+Example: Evaluating Integer Expressions
+</title>
+
+#__tok134$#__tok142$
+
+#__tok143$#__tok151$
+
+#__tok152$
+
+</sect1><!--id="example_evaluating_arithmetic_expressions"-->
+
+</chapter><!--id="datatypes"-->
+
+#__tok153$
+
+#__tok154$
+
+

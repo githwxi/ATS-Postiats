@@ -1,0 +1,33 @@
+#
+export DEST=${ATSHOME}/utils/atsdoc/DOCUMENT/INTPROGINATSpub
+#
+cp -f bookinfo.db ${DEST}/bookinfo.db
+cp -f main.db ${DEST}/main.db
+cp -f preface.db ${DEST}/preface.db
+cp -f references.db ${DEST}/references.db
+#
+cp -f CHAPTER_ABSVTYPES/main.db ${DEST}/CHAPTER_ABSVTYPES/main.db
+cp -f CHAPTER_CINTERACT/main.db ${DEST}/CHAPTER_CINTERACT/main.db
+cp -f CHAPTER_CONVENIENCE/main.db ${DEST}/CHAPTER_CONVENIENCE/main.db
+cp -f CHAPTER_DATATYPES/main.db ${DEST}/CHAPTER_DATATYPES/main.db
+cp -f CHAPTER_DATAVIEWS/main.db ${DEST}/CHAPTER_DATAVIEWS/main.db
+cp -f CHAPTER_DATAVTYPES/main.db ${DEST}/CHAPTER_DATAVTYPES/main.db
+cp -f CHAPTER_DEPREFDTS/main.db ${DEST}/CHAPTER_DEPREFDTS/main.db
+cp -f CHAPTER_DEPTYPES/main.db ${DEST}/CHAPTER_DEPTYPES/main.db
+cp -f CHAPTER_EFFECTFUL/main.db ${DEST}/CHAPTER_EFFECTFUL/main.db
+cp -f CHAPTER_EOP/main.db ${DEST}/CHAPTER_EOP/main.db
+cp -f CHAPTER_FUNCTIONS/main.db ${DEST}/CHAPTER_FUNCTIONS/main.db
+cp -f CHAPTER_LIBRARIES/main.db ${DEST}/CHAPTER_LIBRARIES/main.db
+cp -f CHAPTER_MODULARITY/main.db ${DEST}/CHAPTER_MODULARITY/main.db
+cp -f CHAPTER_POLYMORPHISM/main.db ${DEST}/CHAPTER_POLYMORPHISM/main.db
+cp -f CHAPTER_PwTP/main.db ${DEST}/CHAPTER_PwTP/main.db
+cp -f CHAPTER_START/main.db ${DEST}/CHAPTER_START/main.db
+cp -f CHAPTER_SUMMARY_BASIC/main.db ${DEST}/CHAPTER_SUMMARY_BASIC/main.db
+cp -f CHAPTER_SUMMARY_DEPTYPES/main.db ${DEST}/CHAPTER_SUMMARY_DEPTYPES/main.db
+cp -f CHAPTER_SUMMARY_LINTYPES/main.db ${DEST}/CHAPTER_SUMMARY_LINTYPES/main.db
+cp -f CHAPTER_SUMMARY_PRACTICAL/main.db ${DEST}/CHAPTER_SUMMARY_PRACTICAL/main.db
+cp -f CHAPTER_THMPRVING/main.db ${DEST}/CHAPTER_THMPRVING/main.db
+cp -f CHAPTER_VVTINTRO/main.db ${DEST}/CHAPTER_VVTINTRO/main.db
+#
+# end of [INTPROGINATSpub-update]
+#

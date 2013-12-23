@@ -1,0 +1,44 @@
+<chapter id="summary_basic">
+<title>Summary</title>
+
+<para> I have given a presentation of the core of ATS in this part of
+book. While this core is largely similar to the core of the functional
+language ML (and various other call-by-value functional languages), there
+are also crucial differences. I list some of these differences as follows:
+
+<itemizedlist>
+
+<listitem> <para> ATS shares the same native data representation with the C
+programming language.  This differs profoundly from ML and most other
+functional languages, which all rely on some forms of boxed data
+representation. In ATS, there are native/flat/unboxed tuples and records as
+well as boxed ones.  </para> </listitem>
+
+<listitem> <para> ATS supports both envless functions and closure functions
+while ML and most other functional languages only support the latter. In
+ATS, envless functions and closure functions can be differentiated at the
+level of types.  </para> </listitem>
+
+<listitem>
+<para> In ATS, there are both function templates and polymorphic
+functions. The need for the former primarily stems from the need for handling
+native data representation directly.  </para>
+</listitem>
+
+<listitem>
+<para>
+ATS provides explicit support for mutually recursive tail-call optimization.
+</para>
+</listitem>
+
+</itemizedlist>
+
+Except for making a few uses of printing functions, I have intentionally
+stayed away from programming features that can generate effects when
+presenting the core of ATS. I will cover such programming features when
+addressing in the next part of the book the issue of supporting practical
+programming in ATS.
+
+</para>
+
+</chapter>

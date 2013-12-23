@@ -1,0 +1,9 @@
+######
+#
+# Some of the people who helped ...
+#
+######
+
+Matthias Bernt (...)
+
+###### end of [ACKNOWLEDGMENTS.txt] ######
