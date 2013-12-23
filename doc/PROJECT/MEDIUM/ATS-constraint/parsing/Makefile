@@ -53,8 +53,12 @@ all:: UTFPL main
 
 ######
 
-main: \
-  main_dats.o \
+main: main_dats.o parsing.o ; \
+  $(CCOPT) $(CFLAGS) -O2 -o $@ ../constraint.o $^ $(LDFLAGS)
+
+######
+
+parsing.o: \
   parsing_sats.o \
   parsing_dats.o \
   parsing_s2rt_dats.o \
@@ -65,8 +69,8 @@ main: \
   parsing_s3itm_dats.o \
   parsing_h3ypo_dats.o \
   parsing_c3nstr_dats.o \
-  parsing_mylib_dats.o ; \
-  $(CCOPT) $(CFLAGS) -O2 -o $@ $^ ../constraint.o $(LDFLAGS)
+  parsing_mylib_dats.o \
+  dynloadall_dats.o ; ld -r -o $@ $^
 
 ######
 
@@ -104,6 +108,7 @@ clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) main
+cleanall:: ; $(RMF) parsing.o
 cleanall:: ; $(RMF) TEST/test??_dats.cnstr
 
 ######
