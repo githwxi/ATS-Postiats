@@ -78,4 +78,9 @@ fun the_CCOMPENV_maxtmprecdepth_set (mtd: int): void
 
 (* ****** ****** *)
 
+fun the_EXPORT_constraints_get (): bool
+fun the_EXPORT_constraints_set (flag: bool): void
+
+(* ****** ****** *)
+
 (* end of [pats_global.sats] *)

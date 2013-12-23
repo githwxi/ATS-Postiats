@@ -1015,6 +1015,7 @@ val () =
   val () =
   if flag > 0 then
   {
+    val () = $GLOB.the_EXPORT_constraints_set (true)
     val filr =
       outchan_get_filr (state.outchan)
     val () = $CNSTR3.c3nstr_export (filr, c3t0)

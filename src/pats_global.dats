@@ -192,4 +192,20 @@ end // end of [local]
 
 (* ****** ****** *)
 
+local
+
+val export_constraints = ref<bool> (false)
+
+in // in of [local]
+
+implement
+the_EXPORT_constraints_get () = !export_constraints
+
+implement
+the_EXPORT_constraints_set (flag) = !export_constraints := flag
+
+end // end of [local]
+
+(* ****** ****** *)
+
 (* end of [pats_global.dats] *)
