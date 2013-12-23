@@ -95,7 +95,8 @@ var fopen: int = 0
 //
 var inpref: FILEref = stdin_ref
 //
-val () = println! ("Welcome to UTFPL!")
+val () =
+  println! ("Hello from UTFPL0!")
 //
 val () =
 if argc >= 2 then let

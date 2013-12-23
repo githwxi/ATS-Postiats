@@ -2,6 +2,7 @@
 
 symintr true
 symintr false
+symintr print
 symintr println
 
 (* ****** ****** *)

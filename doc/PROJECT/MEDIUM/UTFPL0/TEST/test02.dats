@@ -6,6 +6,7 @@ abstype OBJ
 
 symintr true
 symintr false
+symintr print
 symintr println
 
 (* ****** ****** *)

@@ -6,11 +6,17 @@ abstype OBJ
 
 symintr true
 symintr false
+symintr print
 symintr println
 
 (* ****** ****** *)
 
-fun pow (x, n) =
+extern fun pow (OBJ, OBJ): OBJ
+
+(* ****** ****** *)
+
+implement
+pow (x, n) =
 (
   if n >= 1 then let
     val n2 = n / 2
@@ -26,4 +32,3 @@ val () = println ("pow(2, 10) = ", pow(2, 10))
 (* ****** ****** *)
 
 (* end of [test03.dats] *)
-
