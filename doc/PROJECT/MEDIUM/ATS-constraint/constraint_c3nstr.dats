@@ -47,4 +47,16 @@ end // end of [fprint_c3nstr]
 
 (* ****** ****** *)
 
+implement
+fprint_c3nstropt (out, opt) = let
+//
+implement
+fprint_val<c3nstr> (out, x) = fprint_c3nstr (out, x)
+//
+in
+  fprint_option (out, opt)
+end // end of [fprint_c3nstropt]
+
+(* ****** ****** *)
+
 (* end of [constraint_c3nstr.dats] *)

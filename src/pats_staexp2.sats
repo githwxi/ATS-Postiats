@@ -449,7 +449,7 @@ s2exp_node =
 //
   | S2Emetfun of (stampopt, s2explst, s2exp) // metricked function
   | S2Emetdec of
-      (s2explst(*met*), s2explst(*metbound*)) // expected to strictly decrease
+      (s2explst(*met*), s2explst(*metbound*)) // strictly decreasing
     // end of [S2Emetdec]
 //
   | S2Etop of

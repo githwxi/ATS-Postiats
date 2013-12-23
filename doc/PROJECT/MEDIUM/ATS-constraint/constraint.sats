@@ -167,9 +167,24 @@ fun s2Var_get_stamp (s2Var):<> stamp
 
 datatype
 s2exp_node =
+//
+| S2Eint of (int)
+| S2Eintinf of (string)
+//
 | S2Ecst of (s2cst)
 | S2Evar of (s2var)
 | S2EVar of (s2Var)
+//
+| S2Esizeof of (s2exp)
+//
+| S2Eeqeq of (s2exp, s2exp)
+//
+| S2Eapp of (s2exp, s2explst)
+//
+| S2Emetdec of
+    (s2explst(*met*), s2explst(*metbound*)) // strictly decreasing
+  // end of [S2Emetdec]
+//
 | S2Eignored of ((*void*))
 // end of [s2exp_node]
 
@@ -187,7 +202,7 @@ fun fprint_s2exp: fprint_type (s2exp)
 fun fprint_s2explst: fprint_type (s2explst)
 //
 overload fprint with fprint_s2exp
-overload fprint with fprint_s2explst
+overload fprint with fprint_s2explst of 10
 //
 (* ****** ****** *)
 
@@ -278,11 +293,13 @@ fun c3nstr_make_node
   (loc: loc_t, node: c3nstr_node): c3nstr
 
 (* ****** ****** *)
-
-fun
-fprint_c3nstr: fprint_type(c3nstr)
+//
+fun fprint_c3nstr: fprint_type(c3nstr)
+fun fprint_c3nstropt: fprint_type(c3nstropt)
+//
 overload fprint with fprint_c3nstr
-
+overload fprint with fprint_c3nstropt of 10
+//
 (* ****** ****** *)
 
 fun c3nstr_prop (loc_t, s2exp): c3nstr

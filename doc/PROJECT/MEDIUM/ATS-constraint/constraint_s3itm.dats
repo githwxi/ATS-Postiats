@@ -33,7 +33,7 @@ case+ s3i0 of
     fprint! (out, "S3ITMcnstr(", c3t, ")")
 //
 | S3ITMcnstr_ref
-    (loc, opt) => fprint! (out, "S3ITMcnstr_ref(...)")
+    (loc, opt) => fprint! (out, "S3ITMcnstr_ref(", opt, ")")
 //
 | S3ITMdisj (s3iss) => fprint! (out, "S3ITMdisj(...)")
 //

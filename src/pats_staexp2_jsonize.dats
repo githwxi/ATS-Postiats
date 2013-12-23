@@ -54,6 +54,7 @@ typedef token = $LEX.token
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
@@ -225,6 +226,8 @@ jsonize_s2exp
 //
 fun auxmain
   (s2e0: s2exp): jsonval = let
+  val s2f0 = s2exp2hnf (s2e0)
+  val s2e0 = s2hnf2exp (s2f0)
 in
 //
 case+ s2e0.s2exp_node of
