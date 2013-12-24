@@ -136,6 +136,49 @@ end // end of [cloenv_extend_patlst]
 (* ****** ****** *)
 
 implement
+cloenv_extend_labpat
+  (env, lp2t, ld2u) = let
+in
+//
+case+ lp2t of
+| LABP2ATnorm
+    (lab, p2t) => let
+    val+LABVAL (lab2, d2u) = ld2u
+  in
+    cloenv_extend_pat (env, p2t, d2u)
+  end
+| LABP2ATomit _ => env
+//
+end // end of [cloenv_extend_labpat]
+
+(* ****** ****** *)
+
+implement
+cloenv_extend_labpatlst
+  (env, lp2ts, ld2us) = let
+in
+//
+case+ lp2ts of
+| list_nil () => env
+| list_cons (lp2t, lp2ts) =>
+  (
+    case+ ld2us of
+    | list_nil () => env
+    | list_cons
+        (ld2u, ld2us) => let
+        val env =
+          cloenv_extend_labpat (env, lp2t, ld2u)
+        // end of [val]
+      in
+        cloenv_extend_labpatlst (env, lp2ts, ld2us)
+      end // end of [list_cons]
+  ) (* end of [list_cons] *)
+//
+end // end of [cloenv_extend_labpatlst]
+
+(* ****** ****** *)
+
+implement
 cloenv_find
   (env, d2v) = funmap_search_opt<key,itm> (env, d2v)
 // end of [cloenv_find]

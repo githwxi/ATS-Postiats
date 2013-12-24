@@ -641,7 +641,7 @@ case+ t of
     ) = $UN.ptr_vtake (p_env)
     val ((*void*)) =
       funmap_foreach$fwork<key,itm><env> (k, x, !p_env)
-    prval () = fpf (pf)
+    prval ((*void*)) = fpf (pf)
 //
     val () = foreach (tr, p_env)
 //

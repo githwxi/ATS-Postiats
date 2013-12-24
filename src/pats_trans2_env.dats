@@ -630,7 +630,7 @@ the_s2expenv_add_datconptr (d2c) = let
   val sym = d2con_get_sym d2c
   val name = $SYM.symbol_get_name (sym)
   val id = $SYM.symbol_make_string (name + "_unfold")
-  val () = the_s2expenv_add (id, S2ITMdatconptr d2c)
+  val () = the_s2expenv_add (id, S2ITMdatconptr (d2c))
 in
   // empty
 end // end of [the_s2expenv_add_datconptr]
@@ -640,7 +640,7 @@ the_s2expenv_add_datcontyp (d2c) = let
   val sym = d2con_get_sym d2c
   val name = $SYM.symbol_get_name (sym)
   val id = $SYM.symbol_make_string (name + "_pstruct")
-  val () = the_s2expenv_add (id, S2ITMdatcontyp d2c)
+  val () = the_s2expenv_add (id, S2ITMdatcontyp (d2c))
 in
   // empty
 end // end of [the_s2expenv_add_datcontyp]

@@ -351,7 +351,7 @@ of arguments are the arguments of the called function.
 
 <sect1
 id="unsafe_c-style_programming_in_ats">
-#title("Unsafe C-style programming in ATS")
+#title("Unsafe C-style Programming in ATS")
 
 #para("\
 
@@ -554,6 +554,240 @@ Please find the entire code for this example
 ")
 
 </sect1><!--id="unsafe_c-style_programming_in_ats"-->
+
+<!-- ****** ****** -->
+
+<sect1
+id="exporting_types_and_values">
+#title("Exporting Types in ATS for Use in C")
+
+#para("\
+
+There is also support in ATS for exporting types to make them available for
+use in C directly. In the following example, a typedef of the name
+#stacode("int_and_string") is expected to be declared in the generated C
+code for values that are assigned the type #stacode("(int, string)") in ATS:
+
+#atscode('\
+extern
+typedef
+"int_and_string" = (int, string)
+')
+
+Essentially, #stacode("int_and_string") is defined in C as follows:
+
+#atscode('\
+typedef
+struct {
+  int atslab__0; void *atslab__1; 
+} int_and_string ;
+')
+
+")
+
+#para('\
+
+Sometimes, we want to construct in C values of a datatype declared in ATS.
+For instance, let us try to construct a value of the form
+#dyncode("cons2(i, d)") in C for an integer i and a double d, where
+#dyncode("cons2") is a data constructor associated with the following
+declared datatype #stacode("abc"):
+
+#atscode('\
+datatype abc =
+  | cons1 of int | cons2 of (int, double)
+')
+
+Whenever a data constructor is declared, a corresponding (linear) type
+constructor is created whose name equals the concatenation of the name of
+the data constructor and the string "_pstruct". So in the case of the above
+declared datatype #stacode("abc"), the type constructors
+#stacode("cons1_pstruct") and #stacode("cons2_pstruct") are created, and
+these type constructors can be used to form types for boxed values
+constructed with the data constructors #dyncode("cons1") and #dyncode("cons2").
+
+')
+
+#para('\
+
+In the following declaration,
+the type #stacode("cons2_pstruct(int, double)") in ATS
+is exported to C under the name #stacode("cons2_node"):
+
+#atscode('\
+extern
+vtypedef "cons2_node" = cons2_pstruct(int, double)
+')
+
+Implicitly, a typedef in C of the name #stacode("cons2_node_") is also
+introduced for the unboxed portion of a value constructed with the data
+constructor #dyncode("cons2"). Essentially, we have the following generated
+code in C:
+
+#atscode('\
+typedef
+struct {
+int contag ; // constructor tag
+int atslab__0; double atslab__1; 
+} cons2_node_ ;
+typedef cons2_node_ *cons2_node ;
+')
+
+It is now straightforward to create a value of the form #dyncode("cons2(i,d)") in C directly:
+
+#atscode('\
+cons2_node
+cons2_make
+(
+  int i, double d
+) {
+  cons2_node p ;
+  p = ATS_MALLOC(sizeof(cons2_node_)) ;
+  p->contag = 1 ;
+  p->atslab__0 = i ;
+  p->atslab__1 = d ;
+  return p ;
+} /* end of [cons2_make] */
+')
+
+Note that the tags for #dyncode("cons1") and #dyncode("cons2") are 0 and 1,
+respectively, as #dyncode("cons1") and #dyncode("cons2") are the first and
+second constructors associated with the datatype #stacode("abc").
+
+')
+
+#para('\
+
+By assigning an interface to #dyncode("cons2_make") in ATS, we can readily
+check whether #dyncode("cons2_make") behaves as expected:
+
+#atscode('\
+extern
+fun cons2_make (int, double): abc = "mac#"
+val-cons2 (1, 2.34) = cons2_make (1, 2.34)
+')
+
+')
+
+#para('\
+
+In general, it is essential for a pragrammer to acquire a solid
+understanding of low-level data representation of a programming language in
+order to use that language in low-level systems programming. The low-level
+data representation of ATS can be readily explained in terms of types in C,
+making it straightforward, if needed, to construct and manipulate
+ATS-values in C directly.
+
+')
+
+</sect1><!--id="exporting_ats_types_and_values"-->
+
+<!-- ****** ****** -->
+
+<sect1
+id="example-constructing_a_statically_allocated_list">
+#title("Example: Constructing a Statically Allocated List")
+
+#para('\
+
+In embedded programming, static memory allocation is often preferred
+due to dynamic memory allocation being less predictable.  I present as
+follows an example in which a list is constructed with statically allocated
+memory. This example also strongly attests to ATS and C being intimately
+related.
+
+')
+
+#para('\
+
+In order to statically allocate memory for list-nodes, we need to
+first form a type for list-nodes. In the following code, the type
+#stacode("list_node") in ATS is for boxed list-nodes, and this type
+is exported to C under the same name:
+
+#atscode('\
+//
+vtypedef
+list_node = list_cons_pstruct(int,ptr) // [list_node] for boxed nodes
+//
+extern vtypedef "list_node" = list_node // exporting [list_node] to C
+//
+')
+
+Exporting #stacode("list_node") to C also introduces (implicitly) a
+typedef #stacode("list_node_") in C for unboxed list-nodes. So the
+following type #stacode("list_node_") in ATS is precisely what we want
+(for unboxed list-nodes):
+
+#atscode('\
+typedef list_node_ = $extype"list_node_" // [list_node_] for unboxed nodes
+')#comment("atscode")
+
+')
+
+#para('\
+
+The following code statically allocates an array of list-nodes and then
+initialize these nodes, turing the array into a list:
+
+#atscode('\
+local
+
+\#define N 10
+
+(*
+** static allocation
+*)
+var nodes = @[list_node_][N]()
+
+fun loop
+(
+  p: ptr, i: int
+) : void = let
+in
+//
+if i < N then let
+  val res =
+  $UN.castvwtp0{list_node}(p)
+  val+list_cons (x, xs) = res
+  val (
+  ) = x := i*i
+  val p = ptr_succ<list_node_> (p)
+  val i = i + 1
+  val () = (
+    if i < N then xs := p else xs := the_null_ptr
+  ) : void // end of [val]
+  val _(*ptr*) = $UN.castvwtp0{ptr}((view@x, view@xs | res))
+in
+  loop (p, i)
+end else ((*void*)) // end of [if]
+//
+end // end of [loop]
+
+in (* in of [local] *)
+
+val () = loop (addr@nodes, 0)
+val xs_static = $UN.castvwtp0{list(int,N)}((view@nodes|addr@nodes))
+val () = println! ("xs_static = ", xs_static) // 0, 1, 4, 9, 16, ...
+
+end // end of [local]
+')#comment("atscode")
+
+The implementation of #dyncode("loop") makes extensive use of
+unsafe C-style programming in ATS. For someone familiar with C, it
+should be straightforward to visualize the C code that corresponds to
+this implementation directly.\
+
+')
+
+#para("\
+
+Please find the entire code for this example
+#mycodelink("CHAP_CINTERACT/StaticAllocList.dats", "on-line").
+
+")
+
+</sect1><!--id="example-constructing_a_statically_allocated_list"-->
 
 <!-- ****** ****** -->
 

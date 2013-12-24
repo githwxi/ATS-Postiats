@@ -100,6 +100,8 @@ fun cloenv_extend (cloenv, d2var, value): cloenv
 //
 fun cloenv_extend_pat (cloenv, p2at, value): cloenv
 fun cloenv_extend_patlst (cloenv, p2atlst, valuelst): cloenv
+//
+fun cloenv_extend_labpat (cloenv, labp2at, labvalue): cloenv
 fun cloenv_extend_labpatlst (cloenv, labp2atlst, labvaluelst): cloenv
 //
 fun cloenv_find

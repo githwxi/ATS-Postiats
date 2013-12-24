@@ -25,6 +25,7 @@ all:: factext
 all:: extfcall
 all:: strcmp
 all:: ArrayCopyFromList
+all:: StaticAllocList
 
 ######
 
@@ -32,7 +33,8 @@ distclean:: cleanall
 
 ######
 
-misc: misc_dats.c; $(PATSCC) $(ATSCCFAGS) -o $@ $<
+misc: misc_dats.c; \
+  $(PATSCC) -DATS_MEMALLOC_LIBC $(ATSCCFAGS) -o $@ $<
 cleanall:: ; $(RMF) misc
 
 ######
@@ -59,6 +61,11 @@ cleanall:: ; $(RMF) strcmp
 
 ArrayCopyFromList: ArrayCopyFromList_dats.c ; $(PATSCC) $(ATSCCFAGS) -o $@ $^
 cleanall:: ; $(RMF) ArrayCopyFromList
+
+######
+
+StaticAllocList: StaticAllocList_dats.c ; $(PATSCC) $(ATSCCFAGS) -o $@ $^
+cleanall:: ; $(RMF) StaticAllocList
 
 ######
 

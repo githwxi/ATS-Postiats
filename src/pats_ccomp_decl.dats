@@ -336,6 +336,8 @@ hiextype_ccomp
   (env, hid0) = let
 //
 val loc0 = hid0.hidecl_loc
+val-HIDextype (name, hse_def) = hid0.hidecl_node
+val _(*hit*) = hisexp_typize (0(*flag*), hse_def)
 val () = the_extypelst_add (hid0)
 //
 in
