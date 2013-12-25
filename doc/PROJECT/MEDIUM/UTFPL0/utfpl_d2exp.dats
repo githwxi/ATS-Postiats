@@ -28,8 +28,19 @@ case+ d2e0.d2exp_node of
 | D2Esym (d2s) =>
     fprint! (out, "D2Esym(", d2s, ")")
 //
+| D2Eint (int) =>
+    fprint! (out, "D2Eint(", int, ")")
+| D2Eintrep (rep) =>
+    fprint! (out, "D2Eintrep(", rep, ")")
+| D2Efloat (dbl) =>
+    fprint! (out, "D2Efloat(", dbl, ")")
+| D2Estring (str) =>
+    fprint! (out, "D2Estring(", str, ")")
+//
 | D2Ei0nt (rep) =>
     fprint! (out, "D2Ei0nt(", rep, ")")
+| D2Ec0har (char) =>
+    fprint! (out, "D2Ec0har(", char, ")")
 | D2Ef0loat (rep) =>
     fprint! (out, "D2Ef0loat(", rep, ")")
 | D2Es0tring (rep) =>
@@ -50,6 +61,14 @@ case+ d2e0.d2exp_node of
 | D2Eifopt
     (d2e1, d2e2, d2eopt3) =>
     fprint! (out, "D2Eifopt(", d2e1, "; ", d2e2, "; ", d2eopt3, ")")
+//
+| D2Elist (d2es) => fprint! (out, "D2Elist(", d2es, ")")
+//
+| D2Etup (d2es) => fprint! (out, "D2Etup(", d2es, ")")
+| D2Eseq (d2es) => fprint! (out, "D2Eseq(", d2es, ")")
+//
+| D2Eselab (d2e, d2ls) =>
+    fprint! (out, "D2Eselab(", d2e, "; ", d2ls, ")")
 //
 | D2Elam (p2ts, d2e_body) =>
     fprint! (out, "D2Elam(", p2ts, "; ", d2e_body)
@@ -117,6 +136,32 @@ fprint_list$sep<> (out) = fprint_string (out, ", ")
 in
   fprint_list<d2exparg> (out, d2as)
 end // end of [fprint_d2exparglst]
+
+(* ****** ****** *)
+
+implement
+fprint_d2lab
+  (out, d2l0) =
+(
+  case d2l0 of
+  | D2LABlab (lab) => fprint! (out, "D2LABlab(", lab, ")")
+  | D2LABind (d2es) => fprint! (out, "D2LABind(", d2es, ")")
+) (* end of [fprint_d2lab] *)
+
+(* ****** ****** *)
+
+implement
+fprint_d2lablst
+  (out, d2ls) = let
+//
+implement
+fprint_val<d2lab> = fprint_d2lab
+implement
+fprint_list$sep<> (out) = fprint_string (out, ", ")
+//
+in
+  fprint_list<d2lab> (out, d2ls)
+end // end of [fprint_d2lablst]
 
 (* ****** ****** *)
 
@@ -211,6 +256,13 @@ d2exp_ifopt
   (loc, _test, _then, _else) =
   d2exp_make_node (loc, D2Eifopt (_test, _then, _else))
 //
+(* ****** ****** *)
+
+implement
+d2exp_list
+  (loc, d2es) = d2exp_make_node (loc, D2Elist(d2es))
+// end of [d2exp_list]
+
 (* ****** ****** *)
 //
 implement

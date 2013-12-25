@@ -69,6 +69,8 @@ overload = with eq_label_label
 fun neq_label_label (l1: label, l2: label):<> bool
 overload != with neq_label_label
 
+(* ****** ****** *)
+
 fun compare_label_label (l1: label, l2: label):<> Sgn
 overload compare with compare_label_label
 
@@ -86,7 +88,8 @@ fun fprint_label (out: FILEref, x: label): void
 
 (* ****** ****** *)
 
-datatype labeled (a:t@ype) = LABELED (a) of (label, a)
+datatype
+labeled (a:t@ype) = LABELED (a) of (label, a)
 
 (* ****** ****** *)
 

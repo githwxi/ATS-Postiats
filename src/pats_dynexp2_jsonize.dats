@@ -37,10 +37,10 @@ staload
 ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
-
+//
 staload
 UN = "prelude/SATS/unsafe.sats"
-
+//
 (* ****** ****** *)
 
 staload "./pats_jsonize.sats"
@@ -50,6 +50,11 @@ staload "./pats_jsonize.sats"
 staload
 LEX = "./pats_lexing.sats"
 typedef token = $LEX.token
+
+(* ****** ****** *)
+
+staload
+SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
 
@@ -86,11 +91,21 @@ fun jsonize_d2sym : jsonize_ftype (d2sym)
 (* ****** ****** *)
 
 extern
+fun jsonize_pckind : jsonize_ftype (pckind)
+
+(* ****** ****** *)
+
+extern
 fun jsonize_p2at : jsonize_ftype (p2at)
 extern
 fun jsonize_p2atlst : jsonize_ftype (p2atlst)
+
+(* ****** ****** *)
+
 extern
-fun jsonize_pckind : jsonize_ftype (pckind)
+fun jsonize_labp2at : jsonize_ftype (labp2at)
+extern
+fun jsonize_labp2atlst : jsonize_ftype (labp2atlst)
 
 (* ****** ****** *)
 
@@ -104,9 +119,23 @@ fun jsonize_d2expopt : jsonize_ftype (d2expopt)
 (* ****** ****** *)
 
 extern
+fun jsonize_labd2exp : jsonize_ftype (labd2exp)
+extern
+fun jsonize_labd2explst : jsonize_ftype (labd2explst)
+
+(* ****** ****** *)
+
+extern
 fun jsonize_d2exparg : jsonize_ftype (d2exparg)
 extern
 fun jsonize_d2exparglst : jsonize_ftype (d2exparglst)
+
+(* ****** ****** *)
+
+extern
+fun jsonize_d2lab : jsonize_ftype (d2lab)
+extern
+fun jsonize_d2lablst : jsonize_ftype (d2lablst)
 
 (* ****** ****** *)
 
@@ -281,7 +310,8 @@ fun auxmain
   (p2t0: p2at): jsonval = let
 in
 //
-case+ p2t0.p2at_node of
+case+
+p2t0.p2at_node of
 //
 | P2Tany () => aux0 ("P2Tany")
 //
@@ -326,6 +356,15 @@ case+ p2t0.p2at_node of
 //
 | P2Tempty () => aux0 ("P2Tempty")
 //
+| P2Trec
+    (knd, npf, lp2ts) => let
+    val knd = jsonval_int (knd)
+    val npf = jsonval_int (npf)
+    val lp2ts = jsonize_labp2atlst (lp2ts)
+  in
+    aux3 ("P2Trec", knd, npf, lp2ts)
+  end (* end of [P2Trec] *)
+//
 | P2Trefas (d2v, p2t) =>
   (
     aux2 ("P2Trefas", jsonize_d2var (d2v), jsonize_p2at (p2t))
@@ -359,6 +398,61 @@ end // end of [local]
 implement
 jsonize_p2atlst (p2ts) =
   jsonize_list_fun (p2ts, jsonize_p2at)
+
+(* ****** ****** *)
+
+local
+
+fun aux1
+(
+  name: string, arg: jsonval
+) : jsonval = let
+  val name = jsonval_string (name)
+  val arglst = jsonval_sing (arg)
+in
+  jsonval_labval2
+    ("labp2at_name", name, "labp2at_arglst", arglst)
+end // end of [aux1]
+
+fun aux2
+(
+  name: string
+, arg1: jsonval, arg2: jsonval
+) : jsonval = let
+  val name = jsonval_string (name)
+  val arglst = jsonval_pair (arg1, arg2)
+in
+  jsonval_labval2
+    ("labp2at_name", name, "labp2at_arglst", arglst)
+end // end of [aux2]
+
+in (* in of [local] *)
+
+implement
+jsonize_labp2at (lp2t) = let
+in
+//
+case+ lp2t of
+| LABP2ATnorm
+    (l0, p2t) => let
+    val lab =
+      jsonize_label (l0.l0ab_lab)
+    val p2t = jsonize_p2at (p2t)
+  in
+    aux2 ("LABP2ATnorm", lab, p2t)
+  end // end of [LABP2ATnorm]
+| LABP2ATomit (loc) =>
+    aux1 ("LABP2ATomit", jsonize_location (loc))
+//
+end // end of [jsonize_labp2at]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+jsonize_labp2atlst (lp2ts) =
+  jsonize_list_fun (lp2ts, jsonize_labp2at)
 
 (* ****** ****** *)
 
@@ -443,9 +537,13 @@ d2e0.d2exp_node of
 //
 | D2Eint (int) =>
     aux1 ("D2Eint", jsonval_int (int))
+| D2Eintrep (rep) =>
+    aux1 ("D2Eintrep", jsonval_string (rep))
 //
 | D2Ei0nt (tok) =>
     aux1 ("D2Ei0nt", jsonize_i0nt (tok))
+| D2Ec0har (tok) =>
+    aux1 ("D2Ec0har", jsonize_c0har (tok))
 | D2Ef0loat (tok) =>
     aux1 ("D2Ef0loat", jsonize_f0loat (tok))
 | D2Es0tring (tok) =>
@@ -491,6 +589,43 @@ d2e0.d2exp_node of
     aux4 ("D2Eifhead", jsv1, jsv2, jsv3, jsv4)
   end // end of [D2Eifhead]
 //
+| D2Elist
+    (npf, d2es) => let
+    val jsv1 = jsonval_int (npf)
+    val jsv2 = jsonize_d2explst (d2es)
+  in
+    aux2 ("D2Elist", jsv1, jsv2)
+  end // end of [D2Elist]
+//
+| D2Etup
+    (knd, npf, d2es) => let
+    val jsv1 = jsonval_int (knd)
+    val jsv2 = jsonval_int (npf)
+    val jsv3 = jsonize_d2explst (d2es)
+  in
+    aux3 ("D2Etup", jsv1, jsv2, jsv3)
+  end // end of [D2Etup]
+//
+| D2Erec
+    (knd, npf, ld2es) => let
+    val jsv1 = jsonval_int (knd)
+    val jsv2 = jsonval_int (npf)
+    val jsv3 = jsonize_labd2explst (ld2es)
+  in
+    aux3 ("D2Etup", jsv1, jsv2, jsv3)
+  end // end of [D2Erec]
+//
+| D2Eseq (d2es) =>
+    aux1 ("D2Eseq", jsonize_d2explst (d2es))
+//
+| D2Eselab
+    (d2e, d2ls) => let
+    val jsv1 = jsonize_d2exp (d2e)
+    val jsv2 = jsonize_d2lablst (d2ls)
+  in
+    aux2 ("D2Eselab", jsv1, jsv2)
+  end // end of [D2Eselab]
+//
 | D2Elam_dyn
   (
     lin, npf, p2ts_arg, d2e_body
@@ -527,7 +662,14 @@ d2e0.d2exp_node of
 //
 | D2Eerrexp ((*void*)) => aux0 ("D2Eerrexp")
 //
-| _ (*yet-to-be-processed*) => aux0 ("D2Eignored")
+| _ (*rest*) => let
+    val () = prerrln!
+    (
+      "warning(ATS): [jsonize_d2exp]: ignored: ", d2e0
+    ) (* end of [val] *)
+  in
+    aux0 ("D2Eignored")
+  end (* end of [_] *)
 //
 end // end of [auxmain]
 //
@@ -563,6 +705,24 @@ end // end of [jsonize_d2expopt]
 (* ****** ****** *)
 
 implement
+jsonize_labd2exp
+  (ld2e) = let
+  val+$SYN.DL0ABELED (l0, d2e) = ld2e
+  val lab = jsonize_label (l0.l0ab_lab)
+  val d2e = jsonize_d2exp (d2e)
+in
+  jsonval_labval1 ("DL0ABELED", jsonval_pair(lab, d2e))
+end // end of [jsonize_labd2exp]
+
+(* ****** ****** *)
+
+implement
+jsonize_labd2explst (ld2es) =
+  jsonize_list_fun (ld2es, jsonize_labd2exp)
+
+(* ****** ****** *)
+
+implement
 jsonize_d2exparg
   (d2a) = let
 in
@@ -593,8 +753,57 @@ end // end of [jsonize_d2exparg]
 (* ****** ****** *)
 
 implement
-jsonize_d2exparglst (d2as) =
-  jsonize_list_fun (d2as, jsonize_d2exparg)
+jsonize_d2exparglst
+  (d2as) = jsonize_list_fun (d2as, jsonize_d2exparg)
+// end of [jsonize_d2exparglst]
+
+(* ****** ****** *)
+
+local
+
+fun aux1
+(
+  name: string, arg: jsonval
+) : jsonval = let
+  val name = jsonval_string (name)
+  val arglst = jsonval_sing (arg)
+in
+  jsonval_labval2 ("d2lab_name", name, "d2lab_arglst", arglst)
+end // end of [aux1]
+
+in (* in of [local] *)
+
+implement
+jsonize_d2lab
+  (d2l0) = let
+//
+fun auxmain
+  (d2l0: d2lab): jsonval = let
+in
+case+
+d2l0.d2lab_node of
+//
+| D2LABlab (lab) => aux1 ("D2LABlab", jsonize_label (lab))
+| D2LABind (ind) => aux1 ("D2LABind", jsonize_d2explst (ind))
+//
+end // end of [auxmain]
+//
+val loc0 = d2l0.d2lab_loc
+val loc0 = jsonize_loc (loc0)
+val d2l0 = auxmain (d2l0)
+//
+in
+  jsonval_labval2 ("d2lab_loc", loc0, "d2lab_node", d2l0)
+end // end of [jsonize_d2lab]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+jsonize_d2lablst
+  (d2ls) = jsonize_list_fun (d2ls, jsonize_d2lab)
+// end of [jsonize_d2lablst]
 
 (* ****** ****** *)
 

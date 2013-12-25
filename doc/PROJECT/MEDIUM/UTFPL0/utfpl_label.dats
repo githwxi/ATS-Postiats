@@ -13,15 +13,6 @@
 staload "./utfpl.sats"
 
 (* ****** ****** *)
-//
-datatype label =
-  | LABint of int | LABsym of symbol
-//
-(* ****** ****** *)
-
-assume label_type = label
-
-(* ****** ****** *)
 
 implement
 eq_label_label (l1, l2) = compare (l1, l2) = 0

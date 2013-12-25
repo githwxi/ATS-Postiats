@@ -85,6 +85,25 @@ end // end of [parse_location]
 (* ****** ****** *)
 
 implement
+parse_label
+  (jsv0) = let
+//
+val-JSONobject (lxs) = jsv0
+val-list_cons (lx, lxs) = lxs
+//
+in
+//
+case+ lx.0 of
+| "LABint" => LABint (parse_int(lx.1))
+| "LABsym" => LABsym (parse_symbol(lx.1))
+| _(*deadcode*) =>
+    let val () = assertloc (false) in exit(1) end
+//
+end // end of [parse_label]
+
+(* ****** ****** *)
+
+implement
 parse_funkind
   (jsv0) = let
 //

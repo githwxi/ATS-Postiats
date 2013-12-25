@@ -53,6 +53,10 @@ staload "./pats_location.sats"
 
 (* ****** ****** *)
 
+staload "./pats_label.sats"
+
+(* ****** ****** *)
+
 staload "./pats_jsonize.sats"
 
 (* ****** ****** *)
@@ -337,6 +341,36 @@ jsonize_symbol (sym) =
 implement
 jsonize_location (loc) = jsonval_loc (loc)
 //
+(* ****** ****** *)
+
+implement
+jsonize_label
+  (lab) = let
+//
+val opt = label_get_int (lab)
+//
+in
+//
+case+ opt of
+| ~Some_vt (x) => let
+    val jsv = jsonval_int (x)
+  in
+    jsonval_labval1 ("LABint", jsv)
+  end (* end of [Some_vt] *)
+| ~None_vt ((*void*)) => let
+    val opt = label_get_sym (lab)
+  in
+    case+ opt of
+    | ~Some_vt (sym) => let
+        val jsv = jsonize_symbol (sym)
+      in
+        jsonval_labval1 ("LABsym", jsv)
+      end // end of [Some_vt]
+    | ~None_vt ((*void*)) => JSONnul ((*void*))
+  end (* end of [None_vt] *)
+//
+end // end of [jsonize_label]
+
 (* ****** ****** *)
 
 implement

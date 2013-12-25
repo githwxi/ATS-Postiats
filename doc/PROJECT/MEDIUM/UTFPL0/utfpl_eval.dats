@@ -87,9 +87,29 @@ dynload
 "./evaluating/dynloadall.dats"
 
 (* ****** ****** *)
-  
+
+%{^
+#include <sys/resource.h>
+
+int
+stacksize_set (int bsz)
+{
+  struct rlimit rl0 ; 
+  rl0.rlim_cur = (rlim_t)bsz ;
+  return setrlimit(RLIMIT_STACK, &rl0) ;
+}
+
+%}
+extern
+fun stacksize_set (bsz: int): int(*err*) = "mac#"
+
+(* ****** ****** *)
+
 implement
 main0 (argc, argv) = let
+//
+val err =
+  stacksize_set (32*1024*1024)
 //
 var fopen: int = 0
 //

@@ -700,10 +700,11 @@ related.
 
 #para('\
 
-In order to statically allocate memory for list-nodes, we need to
-first form a type for list-nodes. In the following code, the type
-#stacode("list_node") in ATS is for boxed list-nodes, and this type
-is exported to C under the same name:
+In order to statically allocate memory for list-nodes, we need to first
+form a type for list-nodes so that we can inform the C compiler how
+much memory is needed for each list-node. In the following code, the type
+#stacode("list_node") in ATS is for boxed list-nodes, and this type is
+exported to C under the same name:
 
 #atscode('\
 //

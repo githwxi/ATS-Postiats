@@ -49,6 +49,10 @@ fun parse_location (jsv: jsonval): loc_t
 
 (* ****** ****** *)
 
+fun parse_label (jsv: jsonval): label
+
+(* ****** ****** *)
+
 fun parse_funkind: jsonval -> funkind
 fun parse_valkind: jsonval -> valkind
 

@@ -35,6 +35,7 @@ Here is a list of major additions and changes since the last release:
 8. Adding support for 'static' dynamic constant declarations:
    static fun foo (...): res // this one is equivalent to the next one
    extern fun foo (...): res = "sta#" // it is equivalent to the above one
+9. Improving support for exporting ATS-types to C
 
 </pre>
 

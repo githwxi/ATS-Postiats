@@ -61,8 +61,11 @@ case+ x0 of
 | VALsym (d2s) =>
     fprint! (out, "VALsym(", d2s, ")")
 //
-| VALrec (lxs) =>
-    fprint! (out, "VALrec(", lxs, ")")
+| VALtup (d2us) =>
+    fprint! (out, "VALtup(", d2us, ")")
+//
+| VALrec (ld2us) =>
+    fprint! (out, "VALrec(", ld2us, ")")
 //
 | VALlam _ => fprint! (out, "VALlam(...)")
 | VALfix _ => fprint! (out, "VALfix(...)")
@@ -107,6 +110,7 @@ case+ x0 of
 //
 | VALvoid () => fprint! (out, "()")
 //
+| VALtup (xs) => fprint! (out, "VALtup(", xs, ")")
 | VALrec (lxs) => fprint! (out, "VALrec(", lxs, ")")
 //
 | _(*rest*) => fprint_value (out, x0)

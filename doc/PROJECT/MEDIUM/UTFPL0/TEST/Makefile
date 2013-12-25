@@ -28,6 +28,8 @@ all:: test01_dats.json
 all:: test02_dats.json
 all:: test03_dats.json
 all:: test04_dats.json
+all:: test05_dats.json
+all:: queens_dats.json
 
 ######
 
@@ -47,5 +49,7 @@ cleanall:: ; $(RMF) -f test01_dats.json
 cleanall:: ; $(RMF) -f test02_dats.json
 cleanall:: ; $(RMF) -f test03_dats.json
 cleanall:: ; $(RMF) -f test04_dats.json
+cleanall:: ; $(RMF) -f test05_dats.json
+cleanall:: ; $(RMF) -f queens_dats.json
 
 ###### end of [Makefile] ######

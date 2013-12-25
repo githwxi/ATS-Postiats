@@ -79,6 +79,25 @@ end // end of [local]
 
 (* ****** ****** *)
 
+fun mfn_neg
+(
+  vs: valuelst
+) : value = let
+//
+val-list_cons (v1, vs) = vs
+//
+in
+//
+case+ v1 of
+| VALint (i1) => VALint (~i1)
+| VALbool (b1) => VALbool (~b1)
+| VALfloat (f1) => VALfloat (~f1)
+| _(*rest*) => VALerror ("type-error")
+//
+end // end of [mfn_neg]
+
+(* ****** ****** *)
+
 local
 
 fun mfn_add
@@ -178,7 +197,7 @@ end // end of [mfn_lt]
 
 (* ****** ****** *)
 
-fun mfn_lteq
+fun mfn_lte
 (
   vs: valuelst
 ) : value = let
@@ -194,7 +213,7 @@ case+ (v1, v2) of
 | (VALstring (s1), VALstring (s2)) => VALbool (s1 <= s2)
 | (_, _) => VALerror ("type-error")
 //
-end // end of [mfn_lteq]
+end // end of [mfn_lte]
 
 (* ****** ****** *)
 
@@ -218,7 +237,7 @@ end // end of [mfn_gt]
 
 (* ****** ****** *)
 
-fun mfn_gteq
+fun mfn_gte
 (
   vs: valuelst
 ) : value = let
@@ -234,7 +253,49 @@ case+ (v1, v2) of
 | (VALstring (s1), VALstring (s2)) => VALbool (s1 >= s2)
 | (_, _) => VALerror ("type-error")
 //
-end // end of [mfn_gteq]
+end // end of [mfn_gte]
+
+(* ****** ****** *)
+
+fun mfn_eq
+(
+  vs: valuelst
+) : value = let
+//
+val-list_cons (v1, vs) = vs
+val-list_cons (v2, vs) = vs
+//
+in
+//
+case+ (v1, v2) of
+| (VALint (i1), VALint (i2)) => VALbool (i1 = i2)
+| (VALbool (b1), VALbool (b2)) => VALbool (b1 = b2)
+| (VALfloat (d1), VALfloat (d2)) => VALbool (d1 = d2)
+| (VALstring (s1), VALstring (s2)) => VALbool (s1 = s2)
+| (_, _) => VALerror ("type-error")
+//
+end // end of [mfn_eq]
+
+(* ****** ****** *)
+
+fun mfn_neq
+(
+  vs: valuelst
+) : value = let
+//
+val-list_cons (v1, vs) = vs
+val-list_cons (v2, vs) = vs
+//
+in
+//
+case+ (v1, v2) of
+| (VALint (i1), VALint (i2)) => VALbool (i1 != i2)
+| (VALbool (b1), VALbool (b2)) => VALbool (b1 != b2)
+| (VALfloat (d1), VALfloat (d2)) => VALbool (d1 != d2)
+| (VALstring (s1), VALstring (s2)) => VALbool (s1 != s2)
+| (_, _) => VALerror ("type-error")
+//
+end // end of [mfn_neq]
 
 (* ****** ****** *)
 
@@ -281,15 +342,20 @@ in (* in of [local] *)
 val () = the_d2symmap_add_name ("true", VALbool(true))
 val () = the_d2symmap_add_name ("false", VALbool(false))
 //
+val () = the_d2symmap_add_name ("~", VALfun(mfn_neg))
+//
 val () = the_d2symmap_add_name ("+", VALfun(mfn_add))
 val () = the_d2symmap_add_name ("-", VALfun(mfn_sub))
 val () = the_d2symmap_add_name ("*", VALfun(mfn_mul))
 val () = the_d2symmap_add_name ("/", VALfun(mfn_div))
 //
 val () = the_d2symmap_add_name ("<", VALfun(mfn_lt))
-val () = the_d2symmap_add_name ("<=", VALfun(mfn_lteq))
+val () = the_d2symmap_add_name ("<=", VALfun(mfn_lte))
 val () = the_d2symmap_add_name (">", VALfun(mfn_gt))
-val () = the_d2symmap_add_name (">=", VALfun(mfn_gteq))
+val () = the_d2symmap_add_name (">=", VALfun(mfn_gte))
+//
+val () = the_d2symmap_add_name ("=", VALfun(mfn_eq))
+val () = the_d2symmap_add_name ("!=", VALfun(mfn_neq))
 //
 val () = the_d2symmap_add_name ("print", VALfun(mfn_print))
 val () = the_d2symmap_add_name ("println", VALfun(mfn_println))

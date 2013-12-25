@@ -55,7 +55,8 @@ datatype value =
   | VALvar of d2var
   | VALsym of d2sym
 //
-  | VALrec of labvaluelst
+  | VALtup of (valuelst)
+  | VALrec of (labvaluelst)
 //
   | VALlam of (d2exp, cloenv)
   | VALfix of (d2exp, cloenv)
@@ -102,7 +103,8 @@ fun cloenv_extend_pat (cloenv, p2at, value): cloenv
 fun cloenv_extend_patlst (cloenv, p2atlst, valuelst): cloenv
 //
 fun cloenv_extend_labpat (cloenv, labp2at, labvalue): cloenv
-fun cloenv_extend_labpatlst (cloenv, labp2atlst, labvaluelst): cloenv
+fun cloenv_extend_labpatlst_tup (cloenv, labp2atlst, valuelst): cloenv
+fun cloenv_extend_labpatlst_rec (cloenv, labp2atlst, labvaluelst): cloenv
 //
 fun cloenv_find
   (env: cloenv, d2v: d2var): Option_vt (value)

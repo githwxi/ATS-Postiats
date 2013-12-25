@@ -74,16 +74,17 @@ fun symbol_get_name (symbol): string
 
 (* ****** ****** *)
 //
-fun
-compare_symbol_symbol
-  : (symbol, symbol) -<fun0> int
-overload compare with compare_symbol_symbol
+datatype label =
+  | LABint of int | LABsym of symbol
 //
 (* ****** ****** *)
-
-abstype label_type = ptr
-typedef label = label_type
-
+//
+fun
+compare_symbol_symbol
+  (x1: symbol, x2: symbol):<> int
+//
+overload compare with compare_symbol_symbol
+//
 (* ****** ****** *)
 
 fun
@@ -238,7 +239,7 @@ p2at_node =
 //
   | P2Tpat of (p2at)
 //
-  | P2Trec of (int(*knd*), int(*npf*), labp2atlst)
+  | P2Trec of (labp2atlst)
 //
   | P2Tignored of ((*void*))
 // end of [p2at_node]
@@ -284,6 +285,10 @@ fun p2at_var (loc: loc_t, d2v: d2var): p2at
 
 (* ****** ****** *)
 
+fun p2at_rec (loc: loc_t, lp2ts: labp2atlst): p2at
+
+(* ****** ****** *)
+
 fun p2at_ignored (loc_t): p2at // error-handling
 
 (* ****** ****** *)
@@ -308,11 +313,13 @@ and d2exp_node =
   | D2Esym of (d2sym)
 //
   | D2Eint of (int)
+  | D2Eintrep of (string)
   | D2Echar of (char)
   | D2Efloat of (double)
   | D2Estring of (string)
 //
   | D2Ei0nt of (string)
+  | D2Ec0har of (char)
   | D2Ef0loat of (string)
   | D2Es0tring of (string)
 //
@@ -328,6 +335,14 @@ and d2exp_node =
       d2exp(*test*), d2exp(*then*), d2expopt(*else*)
     ) (* end of [D2Eifopt] *)
 //
+  | D2Elist of (d2explst)
+//
+  | D2Etup of (d2explst)
+//
+  | D2Eseq of (d2explst)
+//
+  | D2Eselab of (d2exp, d2lablst)
+//
   | D2Elam of (p2atlst, d2exp)
   | D2Efix of (d2var, p2atlst, d2exp)
 //
@@ -339,6 +354,10 @@ and d2exparg =
   | D2EXPARGsta of ()
   | D2EXPARGdyn of (int, loc_t, d2explst)
 // end of [d2exparg]
+
+and d2lab =
+  | D2LABlab of (label) | D2LABind of (d2explst)
+// end of [d2lab]
 
 where
 d2ecl = '{
@@ -356,6 +375,8 @@ and d2explst = List0 (d2exp)
 and d2expopt = Option (d2exp)
 
 and d2exparglst = List0 (d2exparg)
+
+and d2lablst = List0 (d2lab)
 
 and i2mpdec = '{
   i2mpdec_loc= loc_t
@@ -400,6 +421,14 @@ overload fprint with fprint_d2exparglst of 10
 //
 (* ****** ****** *)
 //
+fun fprint_d2lab: fprint_type (d2lab)
+fun fprint_d2lablst: fprint_type (d2lablst)
+//
+overload fprint with fprint_d2lab
+overload fprint with fprint_d2lablst of 10
+//
+(* ****** ****** *)
+//
 fun fprint_d2ecl: fprint_type (d2ecl)
 fun fprint_d2eclist: fprint_type (d2eclist)
 //
@@ -425,12 +454,14 @@ fun d2exp_sym (loc: loc_t, d2s: d2sym): d2exp
 (* ****** ****** *)
 
 fun d2exp_int (loc: loc_t, i: int): d2exp
+fun d2exp_intrep (loc: loc_t, rep: string): d2exp
 fun d2exp_float (loc: loc_t, f: double): d2exp
 fun d2exp_string (loc: loc_t, str: string): d2exp
 
 (* ****** ****** *)
 
 fun d2exp_i0nt (loc: loc_t, rep: string): d2exp
+fun d2exp_c0har (loc: loc_t, char: char): d2exp
 fun d2exp_f0loat (loc: loc_t, rep: string): d2exp
 fun d2exp_s0tring (loc: loc_t, rep: string): d2exp
 
@@ -458,8 +489,26 @@ fun d2exp_applst
 
 fun d2exp_ifopt
 (
-  loc: loc_t, d2exp(*test*), d2exp(*then*), d2expopt(*else*)
+  loc: loc_t
+, d2exp(*test*), d2exp(*then*), d2expopt(*else*)
 ) : d2exp // end of [d2exp_ifopt]
+
+(* ****** ****** *)
+
+fun d2exp_list (loc: loc_t, d2es: d2explst): d2exp
+
+(* ****** ****** *)
+
+fun d2exp_tup (loc: loc_t, d2es: d2explst): d2exp
+
+(* ****** ****** *)
+
+fun d2exp_seq (loc: loc_t, d2es: d2explst): d2exp
+
+(* ****** ****** *)
+
+fun d2exp_selab
+  (loc: loc_t, d2e: d2exp, d2ls: d2lablst): d2exp
 
 (* ****** ****** *)
 
