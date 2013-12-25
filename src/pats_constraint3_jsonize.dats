@@ -232,62 +232,33 @@ extern fun jsonize_c3nstropt: jsonize_ftype (c3nstropt)
 
 implement
 jsonize_s3itm (s3i) = let
-//
-fun aux0
-(
-  name: string
-) : jsonval = let
-  val name = jsonval_string (name)
-  val arglst = jsonval_list (list_nil)
-in
-//
-jsonval_labval2
-  ("s3itm_name", name, "s3itm_arglst", arglst)
-//
-end // end of [aux0]
-//
-fun aux1
-(
-  name: string, arg: jsonval
-) : jsonval = let
-  val name = jsonval_string (name)
-  val arglst = jsonval_sing (arg)
-in
-//
-jsonval_labval2
-  ("s3itm_name", name, "s3itm_arglst", arglst)
-//
-end // end of [aux1]
-//
-fun aux2
-(
-  name: string
-, arg1: jsonval, arg2: jsonval
-) : jsonval = let
-  val name = jsonval_string (name)
-  val arglst = jsonval_pair (arg1, arg2)
-in
-//
-jsonval_labval2
-  ("s3itm_name", name, "s3itm_arglst", arglst)
-//
-end // end of [aux2]
-//
 in
 //
 case+ s3i of
 //
-| S3ITMsvar (s2v) =>
-    aux1 ("S3ITMsvar", jsonize_s2var (s2v))
+| S3ITMsvar (s2v) => let
+    val s2v = jsonize_s2var (s2v)
+  in
+    jsonval_labval1 ("S3ITMsvar", jsonval_sing (s2v))
+  end // end of [S3ITMsvar]
 //
-| S3ITMhypo (h3p) =>
-    aux1 ("S3ITMhypo", jsonize_h3ypo (h3p))
+| S3ITMhypo (h3p) => let
+    val h3p = jsonize_h3ypo (h3p)
+  in
+    jsonval_labval1 ("S3ITMhypo", jsonval_sing (h3p))
+  end // end of [S3ITMhypo]
 //
-| S3ITMsVar (s2V) =>
-    aux1 ("S3ITMsVar", jsonize_s2Var (s2V))
+| S3ITMsVar (s2V) => let
+    val s2V = jsonize_s2Var (s2V)
+  in
+    jsonval_labval1 ("S3ITMsVar", jsonval_sing (s2V))
+  end // end of [S3ITMsVar]
 //
-| S3ITMcnstr (c3t) =>
-    aux1 ("S3ITMcnstr", jsonize_c3nstr (c3t))
+| S3ITMcnstr (c3t) => let
+    val c3t = jsonize_c3nstr (c3t)
+  in
+    jsonval_labval1 ("S3ITMcnstr", jsonval_sing (c3t))
+  end // end of [S3ITMcnstr]
 //
 | S3ITMcnstr_ref (c3tr) => let
     val loc = c3tr.c3nstroptref_loc
@@ -295,11 +266,14 @@ case+ s3i of
     val loc = jsonize_location (loc)
     val opt = jsonize_c3nstropt (!ref)
   in
-    aux2 ("S3ITMcnstr_ref", loc, opt)
+    jsonval_labval1 ("S3ITMcnstr_ref", jsonval_pair (loc, opt))
   end // end of [S3ITMcnstr_ref]
 //
-| S3ITMdisj (s3iss) =>
-    aux1 ("S3ITMdisj", jsonize_s3itmlstlst (s3iss))
+| S3ITMdisj (s3iss) => let
+    val s3iss = jsonize_s3itmlstlst (s3iss)
+  in
+    jsonval_labval1 ("S3ITMdisj", jsonval_sing (s3iss))
+  end // end of [S3ITMdisj]
 //
 end // end of [jsonize_s3itm]
 
@@ -314,35 +288,6 @@ jsonize_s3itmlstlst
 //
 (* ****** ****** *)
 
-local
-
-fun aux1
-(
-  name: string, arg: jsonval
-) : jsonval = let
-  val name = jsonval_string (name)
-  val arglst = jsonval_sing (arg)
-in
-//
-jsonval_labval2 ("h3ypo_name", name, "h3ypo_arglst", arglst)
-//
-end // end of [aux1]
-//
-fun aux2
-(
-  name: string
-, arg1: jsonval, arg2: jsonval
-) : jsonval = let
-  val name = jsonval_string (name)
-  val arglst = jsonval_pair (arg1, arg2)
-in
-//
-jsonval_labval2 ("h3ypo_name", name, "h3ypo_arglst", arglst)
-//
-end // end of [aux2]
-
-in (* in of [local] *)
-
 implement
 jsonize_h3ypo
   (h3p0) = let
@@ -354,23 +299,30 @@ in
 case+
 h3p0.h3ypo_node of
 //
-| H3YPOprop (s2e) =>
-    aux1 ("H3YPOprop", jsonize_s2exp (s2e))
+| H3YPOprop (s2e) => let
+    val s2e = jsonize_s2exp (s2e)
+  in
+    jsonval_labval1 ("H3YPOprop", jsonval_sing (s2e))
+  end // end of [H3YPOprop]
 | H3YPObind (s2v1, s2e2) => let
 (*
     val () = println! ("jsonize_h3ypo: H3YPObind: s2v1 = ", s2v1)
     val () = println! ("jsonize_h3ypo: H3YPObind: s2e2 = ", s2e2)
 *)
+    val s2v1 = jsonize_s2var (s2v1)
+    val s2e2 = jsonize_s2exp (s2e2)
   in
-    aux2 ("H3YPObind", jsonize_s2var (s2v1), jsonize_s2exp (s2e2))
+    jsonval_labval1 ("H3YPObind", jsonval_pair (s2v1, s2e2))
   end // end of [H3YPObind]
 | H3YPOeqeq (s2e1, s2e2) => let
 (*
     val () = println! ("jsonize_h3ypo: H3YPObind: s2e1 = ", s2e1)
     val () = println! ("jsonize_h3ypo: H3YPObind: s2e2 = ", s2e2)
 *)
+    val s2e1 = jsonize_s2exp (s2e1)
+    val s2e2 = jsonize_s2exp (s2e2)
   in
-    aux2 ("H3YPOeqeq", jsonize_s2exp (s2e1), jsonize_s2exp (s2e2))
+    jsonval_labval1 ("H3YPOeqeq", jsonval_pair (s2e1, s2e2))
   end // end of [H3YPOeqeq]
 //
 end // end of [auxmain]
@@ -383,23 +335,7 @@ in
   jsonval_labval2 ("h3ypo_loc", loc0, "h3ypo_node", h3p0)
 end // end of [jsonize_h3ypo]
 
-end // end of [local]
-
 (* ****** ****** *)
-
-local
-
-fun aux1
-(
-  name: string, arg: jsonval
-) : jsonval = let
-  val name = jsonval_string (name)
-  val arglst = jsonval_sing (arg)
-in
-  jsonval_labval2 ("c3nstr_name", name, "c3nstr_arglst", arglst)
-end // end of [aux1]
-
-in (* in of [local] *)
 
 implement
 jsonize_c3nstr
@@ -418,12 +354,16 @@ c3t0.c3nstr_node of
       "jsonize_c3nstr: C3NSTRprop: s2e = ", s2e
     ) (* end of [val] *)
 *)
+    val s2e = jsonize_s2exp (s2e)
   in
-    aux1 ("C3NSTRprop", jsonize_s2exp (s2e))
+    jsonval_labval1 ("C3NSTRprop", jsonval_sing (s2e))
   end // end of [C3NSTRprop]
 //
-| C3NSTRitmlst (s3is) =>
-    aux1 ("C3NSTRitmlst", jsonize_s3itmlst (s3is))
+| C3NSTRitmlst (s3is) => let
+    val s3is = jsonize_s3itmlst (s3is)
+  in
+    jsonval_labval1 ("C3NSTRitmlst", jsonval_sing (s3is))
+  end // end of [C3NSTRitmlst]
 //
 end // end of [auxmain]
 //
@@ -434,8 +374,6 @@ val c3t0 = auxmain (c3t0)
 in
   jsonval_labval2 ("c3nstr_loc", loc0, "c3nstr_node", c3t0)
 end // end of [jsonize_c3nstr]
-
-end // end of [local]
 
 (* ****** ****** *)
 

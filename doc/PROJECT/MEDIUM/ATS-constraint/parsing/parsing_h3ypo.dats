@@ -56,11 +56,6 @@ fun parse_H3YPOeqeq (jsonval): h3ypo_node
 
 (* ****** ****** *)
 
-extern
-fun parse_H3YPOignored (jsonval): h3ypo_node
-
-(* ****** ****** *)
-
 implement
 parse_h3ypo_node
   (jsv0) = let
@@ -70,22 +65,19 @@ val (
   (stdout_ref, "parse_h3ypo_node: jsv0 = ", jsv0)
 *)
 //
-val-~Some_vt(jsv1) =
-  jsonval_get_field (jsv0, "h3ypo_name")
-val-~Some_vt(jsv2) =
-  jsonval_get_field (jsv0, "h3ypo_arglst")
-//
-val-JSONstring(name) = jsv1
+val-JSONobject(lxs) = jsv0
+val-list_cons (lx, lxs) = lxs
 //
 in
 //
-case+ name of
+case+ lx.0 of
 //
-| "H3YPOprop" => parse_H3YPOprop (jsv2)
-| "H3YPObind" => parse_H3YPObind (jsv2)
-| "H3YPOeqeq" => parse_H3YPOeqeq (jsv2)
+| "H3YPOprop" => parse_H3YPOprop (lx.1)
+| "H3YPObind" => parse_H3YPObind (lx.1)
+| "H3YPOeqeq" => parse_H3YPOeqeq (lx.1)
 //
-| _(*deadcode*) => parse_H3YPOignored (jsv2)
+| _(*deadcode*) =>
+    let val () = assertloc (false) in exit(1) end
 //
 end // end of [parse_h3ypo_node]
 
@@ -133,12 +125,6 @@ in
   H3YPOeqeq (s2e1, s2e2)
 end // end of [parse_H3YPOeqeq]
 
-(* ****** ****** *)
-//
-implement
-parse_H3YPOignored (jsv0) =
-  let val () = assertloc (false) in exit(1) end
-//
 (* ****** ****** *)
 
 (* end of [parsing_h3ypo.dats] *)

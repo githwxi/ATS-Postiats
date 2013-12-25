@@ -59,8 +59,12 @@ in
 case+ lp2t of
 | LABP2ATnorm
     (lab, p2t) =>
-    fprint! (out, "LABP2ATnorm(", lab, "->", p2t, ")")
-| LABP2ATomit (loc) => fprint (out, "LABP2ATomit(...)")
+  (
+    fprint! (
+      out, "LABP2ATnorm(", lab, "->", p2t, ")"
+    ) (* end of [fprint!] *)
+  )
+| LABP2ATomit () => fprint (out, "LABP2ATomit()")
 //
 end // end of [fprint_labp2at]
 

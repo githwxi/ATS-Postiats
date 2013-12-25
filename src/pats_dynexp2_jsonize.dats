@@ -401,33 +401,6 @@ jsonize_p2atlst (p2ts) =
 
 (* ****** ****** *)
 
-local
-
-fun aux1
-(
-  name: string, arg: jsonval
-) : jsonval = let
-  val name = jsonval_string (name)
-  val arglst = jsonval_sing (arg)
-in
-  jsonval_labval2
-    ("labp2at_name", name, "labp2at_arglst", arglst)
-end // end of [aux1]
-
-fun aux2
-(
-  name: string
-, arg1: jsonval, arg2: jsonval
-) : jsonval = let
-  val name = jsonval_string (name)
-  val arglst = jsonval_pair (arg1, arg2)
-in
-  jsonval_labval2
-    ("labp2at_name", name, "labp2at_arglst", arglst)
-end // end of [aux2]
-
-in (* in of [local] *)
-
 implement
 jsonize_labp2at (lp2t) = let
 in
@@ -436,17 +409,19 @@ case+ lp2t of
 | LABP2ATnorm
     (l0, p2t) => let
     val lab =
-      jsonize_label (l0.l0ab_lab)
+    jsonize_label (l0.l0ab_lab)
     val p2t = jsonize_p2at (p2t)
   in
-    aux2 ("LABP2ATnorm", lab, p2t)
+    jsonval_labval1
+      ("LABP2ATnorm", jsonval_pair (lab, p2t))
   end // end of [LABP2ATnorm]
-| LABP2ATomit (loc) =>
-    aux1 ("LABP2ATomit", jsonize_location (loc))
+| LABP2ATomit (loc) => let
+    val loc = jsonize_location (loc)
+  in
+    jsonval_labval1 ("LABP2ATomit", jsonval_sing (loc))
+  end // end of [LABP2ATomit]
 //
 end // end of [jsonize_labp2at]
-
-end // end of [local]
 
 (* ****** ****** *)
 
@@ -730,22 +705,18 @@ in
 case+ d2a of
 | D2EXPARGsta
     (loc, s2as) => let
-    val name = "D2EXPARGsta"
-    val name = jsonval_string (name)
     val arglst = jsonval_list (list_nil)
   in
-    jsonval_labval2 ("d2exparg_name", name, "d2exparg_arglst", arglst)
+    jsonval_labval1 ("D2EXPARGsta", arglst)
   end // end of [D2EXPARGsta]
 | D2EXPARGdyn
     (npf, loc, d2es) => let
-    val name = "D2EXPARGdyn"
-    val name = jsonval_string (name)
     val jsv1 = jsonval_int (npf)
     val jsv2 = jsonize_loc (loc)
     val jsv3 = jsonize_d2explst (d2es)
     val arglst = jsonval_list (jsv1 :: jsv2 :: jsv3 :: nil())
   in
-    jsonval_labval2 ("d2exparg_name", name, "d2exparg_arglst", arglst)
+    jsonval_labval1 ("D2EXPARGdyn", arglst)
   end // end of [D2EXPARGdyn]
 //
 end // end of [jsonize_d2exparg]
@@ -759,20 +730,6 @@ jsonize_d2exparglst
 
 (* ****** ****** *)
 
-local
-
-fun aux1
-(
-  name: string, arg: jsonval
-) : jsonval = let
-  val name = jsonval_string (name)
-  val arglst = jsonval_sing (arg)
-in
-  jsonval_labval2 ("d2lab_name", name, "d2lab_arglst", arglst)
-end // end of [aux1]
-
-in (* in of [local] *)
-
 implement
 jsonize_d2lab
   (d2l0) = let
@@ -780,11 +737,21 @@ jsonize_d2lab
 fun auxmain
   (d2l0: d2lab): jsonval = let
 in
+//
 case+
+//
 d2l0.d2lab_node of
 //
-| D2LABlab (lab) => aux1 ("D2LABlab", jsonize_label (lab))
-| D2LABind (ind) => aux1 ("D2LABind", jsonize_d2explst (ind))
+| D2LABlab (lab) => let
+    val lab = jsonize_label (lab)
+  in
+    jsonval_labval1 ("D2LABlab", jsonval_sing(lab))
+  end // end of [D2LABlab]
+| D2LABind (d2es) => let
+    val d2es = jsonize_d2explst (d2es)
+  in
+    jsonval_labval1 ("D2LABind", jsonval_sing(d2es))
+  end // end of [D2LABind]
 //
 end // end of [auxmain]
 //
@@ -795,8 +762,6 @@ val d2l0 = auxmain (d2l0)
 in
   jsonval_labval2 ("d2lab_loc", loc0, "d2lab_node", d2l0)
 end // end of [jsonize_d2lab]
-
-end // end of [local]
 
 (* ****** ****** *)
 
@@ -976,8 +941,10 @@ val ann = jsonize_ignored (f2d.f2undec_ann)
 //
 in
 //
-jsonval_labval4 (
-  "f2undec_loc", loc, "f2undec_var", d2v, "f2undec_def", def, "f2undec_ann", ann
+jsonval_labval4
+(
+  "f2undec_loc", loc, "f2undec_var", d2v
+, "f2undec_def", def, "f2undec_ann", ann
 ) (* end of [jsonize_labval4] *)
 //
 end // end of [json_f2undec]
@@ -1001,8 +968,10 @@ val ann = jsonize_ignored (v2d.v2aldec_ann)
 //
 in
 //
-jsonval_labval4 (
-  "v2aldec_loc", loc, "v2aldec_pat", pat, "v2aldec_def", def, "v2aldec_ann", ann
+jsonval_labval4
+(
+  "v2aldec_loc", loc, "v2aldec_pat", pat
+, "v2aldec_def", def, "v2aldec_ann", ann
 ) (* end of [jsonize_labval4] *)
 //
 end // end of [json_v2aldec]

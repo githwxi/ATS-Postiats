@@ -59,8 +59,6 @@ extern
 fun parse_C3NSTRprop (jsonval): c3nstr_node
 extern
 fun parse_C3NSTRitmlst (jsonval): c3nstr_node
-extern
-fun parse_C3NSTRignored (jsonval): c3nstr_node
 
 (* ****** ****** *)
 
@@ -72,22 +70,19 @@ val (
 ) = fprintln!
   (stdout_ref, "parse_c3nstr_node: jsv0 = ", jsv0)
 *)
-val-~Some_vt(jsv1) =
-  jsonval_get_field (jsv0, "c3nstr_name")
-val-~Some_vt(jsv2) =
-  jsonval_get_field (jsv0, "c3nstr_arglst")
-//
-val-JSONstring(name) = jsv1
+val-JSONobject(lxs) = jsv0
+val-list_cons (lx, lxs) = lxs
 //
 in
 //
-case+ name of
+case+ lx.0 of
 //
-| "C3NSTRprop" => parse_C3NSTRprop (jsv2)
-| "C3NSTRitmlst" => parse_C3NSTRitmlst (jsv2)
-| _ (*deadcode*) => parse_C3NSTRignored (jsv2)
+| "C3NSTRprop" => parse_C3NSTRprop (lx.1)
+| "C3NSTRitmlst" => parse_C3NSTRitmlst (lx.1)
+| _(*deadcode*) =>
+    let val () = assertloc (false) in exit(1) end
 //
-end // end of [parse_c3nstr]
+end // end of [parse_c3nstr_node]
 
 (* ****** ****** *)
 
@@ -117,12 +112,6 @@ in
   C3NSTRitmlst (s3is)
 end // end of [parse_C3NSTRitmlst]
 
-(* ****** ****** *)
-//
-implement
-parse_C3NSTRignored (jsv0) =
-  let val () = assertloc (false) in exit(1) end
-//
 (* ****** ****** *)
 
 (* end of [parsing_c3nstr] *)

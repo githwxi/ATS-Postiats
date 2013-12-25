@@ -131,18 +131,6 @@ fun parse_D2Eignored (jsonval): d2exp_node
 
 (* ****** ****** *)
 
-extern
-fun parse_D2EXPARGsta (jsonval): d2exparg
-extern
-fun parse_D2EXPARGdyn (jsonval): d2exparg
-
-(* ****** ****** *)
-
-extern fun parse_D2LABlab (jsonval): d2lab
-extern fun parse_D2LABind (jsonval): d2lab
-
-(* ****** ****** *)
-
 implement
 parse_d2exp_node
   (jsv0) = let
@@ -507,19 +495,28 @@ implement
 parse_d2exparg
   (jsv0) = let
 //
-val-~Some_vt(jsv1) =
-  jsonval_get_field (jsv0, "d2exparg_name")
-val-~Some_vt(jsv2) =
-  jsonval_get_field (jsv0, "d2exparg_arglst")
-//
-val-JSONstring(name) = jsv1
+val-JSONobject(lxs) = jsv0
+val-list_cons (lx, lxs) = lxs
 //
 in
 //
-case+ name of
+case+ lx.0 of
 //
-| "D2EXPARGsta" => parse_D2EXPARGsta (jsv2)
-| "D2EXPARGdyn" => parse_D2EXPARGdyn (jsv2)
+| "D2EXPARGsta" => let
+     val-JSONarray(jsvs) = lx.1
+   in
+     D2EXPARGsta ((*void*))
+   end // end of [D2EXPARGsta]
+| "D2EXPARGdyn" => let
+     val-JSONarray(jsvs) = lx.1
+     val () = assertloc (length(jsvs) >= 3)
+     val npf = parse_int (jsvs[0])
+     val loc = parse_location (jsvs[1])
+     val d2es = parse_d2explst (jsvs[2])
+   in
+     D2EXPARGdyn (npf, loc, d2es)
+   end // end of [D2EXPARGdyn]
+//
 | _ => let val () = assertloc (false) in exit(1) end
 //
 end // end of [parse_d2exparg]
@@ -527,46 +524,16 @@ end // end of [parse_d2exparg]
 (* ****** ****** *)
 
 implement
-parse_D2EXPARGsta
-  (jsv0) = let
-//
-val-JSONarray(jsvs) = jsv0
-//
-in
-  D2EXPARGsta ((*void*))
-end // end of [parse_D2EXPARGsta]
-
-implement
-parse_D2EXPARGdyn
-  (jsv0) = let
-(*
-val (
-) = fprintln!
-  (stdout_ref, "parse_D2EXPARGdyn: jsv0 = ", jsv0)
-*)
-val-JSONarray(jsvs) = jsv0
-val () = assertloc (length(jsvs) >= 3)
-//
-val npf = parse_int (jsvs[0])
-val loc = parse_location (jsvs[1])
-val d2es = parse_d2explst (jsvs[2])
-//
-in
-  D2EXPARGdyn (npf, loc, d2es)
-end // end of [parse_D2EXPARGsta]
-
-(* ****** ****** *)
-
-implement
 parse_d2lab
   (jsv0) = let
 //
-val-~Some_vt (jsv) =
+(*
+val-~Some_vt(jsv) =
   jsonval_get_field (jsv0, "d2lab_loc") 
 val loc = parse_location (jsv)
-val-~Some_vt (jsv) =
+*)
+val-~Some_vt(jsv) =
   jsonval_get_field (jsv0, "d2lab_node") 
-//
 in
   parse_d2lab_node (jsv)
 end // end of [parse_d2lab]
@@ -577,57 +544,31 @@ implement
 parse_d2lab_node
   (jsv0) = let
 //
-(*
-val () =
-println! ("parse_d2lab: jsv0 = ", jsv0)
-*)
-//
-val-~Some_vt(jsv1) =
-  jsonval_get_field (jsv0, "d2lab_name")
-val-~Some_vt(jsv2) =
-  jsonval_get_field (jsv0, "d2lab_arglst")
-//
-val-JSONstring(name) = jsv1
+val-JSONobject(lxs) = jsv0
+val-list_cons (lx, lxs) = lxs
 //
 in
 //
-case+ name of
+case+ lx.0 of
 //
-| "D2LABlab" => parse_D2LABlab (jsv2)
-| "D2LABind" => parse_D2LABind (jsv2)
-| _ => let val () = assertloc (false) in exit(1) end
+| "D2LABlab" => let
+    val-JSONarray(jsvs) = lx.1
+    val () = assertloc (length(jsvs) >= 1)
+    val lab = parse_label (jsvs[0])
+  in
+    D2LABlab (lab)
+  end // end of [D2LABlab]
+| "D2LABind" => let
+    val-JSONarray(jsvs) = lx.1
+    val () = assertloc (length(jsvs) >= 1)
+    val d2es = parse_d2explst (jsvs[0])
+  in
+    D2LABind (d2es)
+  end // end of [D2LABin]
+| _(*deadcode*) =>
+    let val () = assertloc (false) in exit(1) end
 //
 end // end of [parse_d2lab_node]
-
-(* ****** ****** *)
-
-implement
-parse_D2LABlab
-  (jsv0) = let
-//
-val-JSONarray(jsvs) = jsv0
-val () = assertloc (length(jsvs) >= 1)
-//
-val lab = parse_label (jsvs[0])
-//
-in
-  D2LABlab (lab)
-end // end of [parse_D2LABlab]
-
-(* ****** ****** *)
-
-implement
-parse_D2LABind
-  (jsv0) = let
-//
-val-JSONarray(jsvs) = jsv0
-val () = assertloc (length(jsvs) >= 1)
-//
-val d2es = parse_d2explst (jsvs[0])
-//
-in
-  D2LABind (d2es)
-end // end of [parse_D2LABind]
 
 (* ****** ****** *)
 

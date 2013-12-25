@@ -245,8 +245,7 @@ p2at_node =
 // end of [p2at_node]
 
 and labp2at =
-  | LABP2ATnorm of (label, p2at)
-  | LABP2ATomit of (loc_t) // for [...]
+  | LABP2ATnorm of (label, p2at) | LABP2ATomit of ()
 // end of [labp2at]
 
 where

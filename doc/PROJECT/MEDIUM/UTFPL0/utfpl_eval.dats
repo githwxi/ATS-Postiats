@@ -89,8 +89,9 @@ dynload
 (* ****** ****** *)
 
 %{^
+//
 #include <sys/resource.h>
-
+//
 int
 stacksize_set (int bsz)
 {
@@ -98,11 +99,12 @@ stacksize_set (int bsz)
   rl0.rlim_cur = (rlim_t)bsz ;
   return setrlimit(RLIMIT_STACK, &rl0) ;
 }
-
+//
 %}
+//
 extern
 fun stacksize_set (bsz: int): int(*err*) = "mac#"
-
+//
 (* ****** ****** *)
 
 implement

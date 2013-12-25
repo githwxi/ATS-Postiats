@@ -50,25 +50,21 @@ val (
 ) = fprintln!
   (stdout_ref, "parse_s3itm: jsv0 = ", jsv0)
 *)
-val-~Some_vt(jsv1) =
-  jsonval_get_field (jsv0, "s3itm_name")
-val-~Some_vt(jsv2) =
-  jsonval_get_field (jsv0, "s3itm_arglst")
-//
-val-JSONstring(name) = jsv1
+val-JSONobject(lxs) = jsv0
+val-list_cons (lx, lxs) = lxs
 //
 in
 //
-case+ name of
+case+ lx.0 of
 //
-| "S3ITMsvar" => parse_S3ITMsvar (jsv2)
-| "S3ITMhypo" => parse_S3ITMhypo (jsv2)
-| "S3ITMsVar" => parse_S3ITMsVar (jsv2)
-| "S3ITMcnstr" => parse_S3ITMcnstr (jsv2)
-| "S3ITMcnstr_ref" => parse_S3ITMcnstr_ref (jsv2)
-| "S3ITMdisj" => parse_S3ITMdisj (jsv2)
+| "S3ITMsvar" => parse_S3ITMsvar (lx.1)
+| "S3ITMhypo" => parse_S3ITMhypo (lx.1)
+| "S3ITMsVar" => parse_S3ITMsVar (lx.1)
+| "S3ITMcnstr" => parse_S3ITMcnstr (lx.1)
+| "S3ITMcnstr_ref" => parse_S3ITMcnstr_ref (lx.1)
+| "S3ITMdisj" => parse_S3ITMdisj (lx.1)
 //
-| _(*rest*) => parse_S3ITMignored (jsv2)
+| _(*deadcode*) => parse_S3ITMignored (lx.1)
 //
 end // end of [parse_s3itm]
 

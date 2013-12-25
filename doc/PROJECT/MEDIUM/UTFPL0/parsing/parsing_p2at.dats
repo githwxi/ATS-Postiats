@@ -84,13 +84,6 @@ fun parse_P2Tignored (jsonval): p2at_node
 
 (* ****** ****** *)
 
-extern
-fun parse_LABP2ATnorm (jsonval): labp2at
-extern
-fun parse_LABP2ATomit (jsonval): labp2at
-
-(* ****** ****** *)
-
 implement
 parse_p2at_node
   (jsv0) = let
@@ -125,19 +118,27 @@ implement
 parse_labp2at
   (jsv0) = let
 //
-val-~Some_vt(jsv1) =
-  jsonval_get_field (jsv0, "labp2at_name")
-val-~Some_vt(jsv2) =
-  jsonval_get_field (jsv0, "labp2at_arglst")
-//
-val-JSONstring(name) = jsv1
+val-JSONobject(lxs) = jsv0
+val-list_cons (lx, lxs) = lxs
 //
 in
 //
-case+ name of
+case+ lx.0 of
 //
-| "LABP2ATnorm" => parse_LABP2ATnorm (jsv2)
-| "LABP2ATomit" => parse_LABP2ATomit (jsv2)
+| "LABP2ATnorm" => let
+    val-JSONarray(jsvs) = lx.1
+    val () = assertloc (length(jsvs) >= 2)
+    val l0 = parse_label (jsvs[0])
+    val p2t = parse_p2at (jsvs[1])
+  in
+    LABP2ATnorm (l0, p2t)
+  end // end of [LABP2ATnorm]
+| "LABP2ATomit" => let
+    val-JSONarray(jsvs) = lx.1
+    val () = assertloc (length(jsvs) >= 1)
+  in
+    LABP2ATomit ((*void*))
+  end // end of [LABP2ATomit]
 //
 | _(*deadcode*) =>
     let val () = assertloc(false) in exit(1) end
@@ -215,33 +216,6 @@ end // end of [parse_P2Tann]
 
 implement
 parse_P2Tignored (jsv) = P2Tignored ((*void*))
-
-(* ****** ****** *)
-
-implement
-parse_LABP2ATnorm
-  (jsv2) = let
-//
-val-JSONarray(jsvs) = jsv2
-val () = assertloc (length(jsvs) >= 2)
-val lab = parse_label (jsvs[0])
-//
-in
-  LABP2ATnorm (lab, parse_p2at (jsvs[1]))
-end // end of [parse_LABP2ATnorm]
-
-(* ****** ****** *)
-
-implement
-parse_LABP2ATomit
-  (jsv2) = let
-//
-val-JSONarray(jsvs) = jsv2
-val () = assertloc (length(jsvs) >= 1)
-//
-in
-  LABP2ATomit (parse_location (jsvs[0]))
-end // end of [parse_LABP2ATomit]
 
 (* ****** ****** *)
 
