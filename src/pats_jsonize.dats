@@ -83,8 +83,9 @@ jsonval_loc (loc) = JSONloc (loc)
 
 (* ****** ****** *)
 
-implement
-jsonval_list (xs) = JSONlist (xs)
+#define :: list_cons
+
+(* ****** ****** *)
 
 implement
 jsonval_sing (x) = JSONlist (list_sing(x))
@@ -103,24 +104,40 @@ implement
 jsonval_labval3
 (
   l1, x1, l2, x2, l3, x3
-) = JSONlablist
-(
-  list_cons((l1, x1), list_cons((l2, x2), list_cons((l3, x3), list_nil)))
-) (* end of [jsonval_labval3] *)
+) = JSONlablist ((l1, x1) :: (l2, x2) :: (l3, x3) :: list_nil(*void*))
 implement
 jsonval_labval4
 (
   l1, x1, l2, x2, l3, x3, l4, x4
-) = JSONlablist
-(
-  list_cons((l1, x1), list_cons((l2, x2), list_cons((l3, x3), list_cons((l4, x4), list_nil))))
-) (* end of [jsonval_labval3] *)
+) = JSONlablist ((l1, x1) :: (l2, x2) :: (l3, x3) :: (l4, x4) :: list_nil)
 //
 (* ****** ****** *)
-
+//
 implement
-jsonval_lablist (lxs) = JSONlablist (lxs)
-
+jsonval_conarg0
+  (con) = jsonval_conarglst (con, list_nil)
+implement
+jsonval_conarg1
+  (con, arg1) =
+  jsonval_conarglst (con, list_sing (arg1))
+implement
+jsonval_conarg2
+  (con, arg1, arg2) =
+  jsonval_conarglst (con, list_pair (arg1, arg2))
+implement
+jsonval_conarg3
+  (con, arg1, arg2, arg3) =
+  jsonval_conarglst (con, arg1 :: arg2 :: arg3 :: list_nil)
+implement
+jsonval_conarg4
+  (con, arg1, arg2, arg3, arg4) =
+  jsonval_conarglst (con, arg1 :: arg2 :: arg3 :: arg4 :: list_nil())
+//
+implement
+jsonval_conarglst
+  (con, arglst) = jsonval_labval1 (con, JSONlist (arglst))
+// end of [jsonval_conarglst]
+  
 (* ****** ****** *)
 //
 implement

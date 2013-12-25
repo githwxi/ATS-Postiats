@@ -91,18 +91,20 @@ parse_d2ecl_node
 val-JSONobject(lxs) = jsv0
 val-list_cons (lx, lxs) = lxs
 //
+val name = lx.0 and jsv2 = lx.1
+//
 in
 //
-case+ lx.0 of
+case+ name of
 //
-| "D2Cimpdec" => parse_D2Cimpdec (lx.1)
+| "D2Cimpdec" => parse_D2Cimpdec (jsv2)
 //
-| "D2Cfundecs" => parse_D2Cfundecs (lx.1)
-| "D2Cvaldecs" => parse_D2Cvaldecs (lx.1)
+| "D2Cfundecs" => parse_D2Cfundecs (jsv2)
+| "D2Cvaldecs" => parse_D2Cvaldecs (jsv2)
 //
-| "D2Clocal" => parse_D2Clocal (lx.1)
+| "D2Clocal" => parse_D2Clocal (jsv2)
 //
-| _(*rest*) => parse_D2Cignored (lx.1)
+| _(*rest*) => parse_D2Cignored (jsv2)
 //
 end // end of [parse_d2ecl_node]
 

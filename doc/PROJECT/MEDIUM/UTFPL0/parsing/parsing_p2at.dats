@@ -91,20 +91,22 @@ parse_p2at_node
 val-JSONobject(lxs) = jsv0
 val-list_cons (lx, lxs) = lxs
 //
+val name = lx.0 and jsv2 = lx.1
+//
 in
 //
-case+ lx.0 of
+case+ name of
 //
-| "P2Tany" => parse_P2Tany (lx.1)
-| "P2Tvar" => parse_P2Tvar (lx.1)
+| "P2Tany" => parse_P2Tany (jsv2)
+| "P2Tvar" => parse_P2Tvar (jsv2)
 //
-| "P2Tempty" => parse_P2Tempty (lx.1)
+| "P2Tempty" => parse_P2Tempty (jsv2)
 //
-| "P2Trec" => parse_P2Trec (lx.1)
+| "P2Trec" => parse_P2Trec (jsv2)
 //
-| "P2Tann" => parse_P2Tann (lx.1)
+| "P2Tann" => parse_P2Tann (jsv2)
 //
-| _(*rest*) => parse_P2Tignored (lx.1)
+| _(*rest*) => parse_P2Tignored (jsv2)
 //
 end // end of [parse_p2at_node]
 
@@ -117,12 +119,14 @@ parse_labp2at
 val-JSONobject(lxs) = jsv0
 val-list_cons (lx, lxs) = lxs
 //
+val name = lx.0 and jsv2 = lx.1
+//
 in
 //
-case+ lx.0 of
+case+ name of
 //
 | "LABP2ATnorm" => let
-    val-JSONarray(jsvs) = lx.1
+    val-JSONarray(jsvs) = jsv2
     val () = assertloc (length(jsvs) >= 2)
     val l0 = parse_label (jsvs[0])
     val p2t = parse_p2at (jsvs[1])
@@ -130,7 +134,7 @@ case+ lx.0 of
     LABP2ATnorm (l0, p2t)
   end // end of [LABP2ATnorm]
 | "LABP2ATomit" => let
-    val-JSONarray(jsvs) = lx.1
+    val-JSONarray(jsvs) = jsv2
     val () = assertloc (length(jsvs) >= 1)
   in
     LABP2ATomit ((*void*))

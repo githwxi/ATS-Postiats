@@ -174,59 +174,6 @@ end // end of [jsonize_d2con]
 
 (* ****** ****** *)
 
-local
-
-fun aux0
-(
-  name: string
-) : jsonval = let
-  val arglst =
-    jsonval_list (list_nil)
-  // end of [val]
-in
-  jsonval_labval1 (name, arglst)
-end // end of [aux0]
-
-fun aux1
-(
-  name: string
-, arg1: jsonval
-) : jsonval = let
-  val arglst =
-    jsonval_sing (arg1)
-  // end of [val]
-in
-  jsonval_labval1 (name, arglst)
-end // end of [aux1]
-
-fun aux2
-(
-  name: string
-, arg1: jsonval
-, arg2: jsonval
-) : jsonval = let
-  val arglst =
-    jsonval_pair (arg1, arg2)
-in
-  jsonval_labval1 (name, arglst)
-end // end of [aux2]
-
-fun aux3
-(
-  name: string
-, arg1: jsonval
-, arg2: jsonval
-, arg3: jsonval
-) : jsonval = let
-  val arglst =
-    jsonval_list (arg1 :: arg2 :: arg3 :: nil ())
-  // end of [val]
-in
-  jsonval_labval1 (name, arglst)
-end // end of [aux3]
-
-in (* in of [local] *)
-
 implement
 jsonize_s2exp
   (s2e0) = let
@@ -242,27 +189,27 @@ in
 case+ s2e0.s2exp_node of
 //
 | S2Eint (i) =>
-    aux1 ("S2Eint", jsonval_int (i))
+    jsonval_conarg1 ("S2Eint", jsonval_int (i))
 | S2Eintinf (i) =>
-    aux1 ("S2Eintinf", jsonval_intinf (i))
+    jsonval_conarg1 ("S2Eintinf", jsonval_intinf (i))
 //
 | S2Ecst (s2c) =>
-    aux1 ("S2Ecst", jsonize_s2cst (s2c))
+    jsonval_conarg1 ("S2Ecst", jsonize_s2cst (s2c))
 //
 | S2Evar (s2v) =>
-    aux1 ("S2Evar", jsonize_s2var (s2v))
+    jsonval_conarg1 ("S2Evar", jsonize_s2var (s2v))
 | S2EVar (s2V) =>
-    aux1 ("S2EVar", jsonize_s2Var (s2V))
+    jsonval_conarg1 ("S2EVar", jsonize_s2Var (s2V))
 //
 | S2Esizeof (s2e) =>
-    aux1 ("S2Esizeof", jsonize_s2exp (s2e))
+    jsonval_conarg1 ("S2Esizeof", jsonize_s2exp (s2e))
 //
 | S2Eeqeq
     (s2e1, s2e2) => let
     val s2e1 = jsonize_s2exp (s2e1)
     and s2e2 = jsonize_s2exp (s2e2)
   in
-    aux2 ("S2Eeqeq", s2e1(*left*), s2e2(*right*))
+    jsonval_conarg2 ("S2Eeqeq", s2e1(*left*), s2e2(*right*))
   end // end of [S2Eeqeq]
 //
 | S2Eapp
@@ -270,7 +217,7 @@ case+ s2e0.s2exp_node of
     val s2e1 = jsonize_s2exp (s2e1)
     val s2es2 = jsonize_s2explst (s2es2)
   in
-    aux2 ("S2Eapp", s2e1(*fun*), s2es2(*arglst*))
+    jsonval_conarg2 ("S2Eapp", s2e1(*fun*), s2es2(*arglst*))
   end // end of [S2Eapp]
 //
 | S2Emetdec
@@ -278,15 +225,15 @@ case+ s2e0.s2exp_node of
     val s2es1 = jsonize_s2explst (s2es1)
     and s2es2 = jsonize_s2explst (s2es2)
   in
-    aux2 ("S2Emetdec", s2es1(*met*), s2es2(*bound*))
+    jsonval_conarg2 ("S2Emetdec", s2es1(*met*), s2es2(*bound*))
   end // end of [S2Emetdec]
 //
 | S2Einvar (s2e) =>
-    aux1 ("S2Einvar", jsonize_s2exp (s2e))
+    jsonval_conarg1 ("S2Einvar", jsonize_s2exp (s2e))
 //
-| S2Eerr ((*void*)) => aux0 ("S2Eerr")
+| S2Eerr ((*void*)) => jsonval_conarg0 ("S2Eerr")
 //
-| _(*yet-to-be-processed*) => aux0 ("S2Eignored")
+| _(*yet-to-be-processed*) => jsonval_conarg0 ("S2Eignored")
 //
 end // end of [auxmain]
 //
@@ -297,8 +244,6 @@ val s2e0 = auxmain (s2e0)
 in
   jsonval_labval2 ("s2exp_srt", s2t0, "s2exp_node", s2e0)
 end // end of [jsonize_s2exp]
-
-end // end of [local]
 
 (* ****** ****** *)
 
