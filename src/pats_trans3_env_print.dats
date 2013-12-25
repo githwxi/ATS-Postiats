@@ -75,26 +75,34 @@ prerr_c3nstr (x) = fprint_c3nstr (stderr_ref, x)
 (* ****** ****** *)
 
 implement
-fprint_c3nstrkind (out, knd) = let
-  macdef prstr (x) = fprint_string (out, ,(x))
+fprint_c3nstrkind
+  (out, knd) = let
+//
+macdef prstr (x) = fprint_string (out, ,(x))
+//
 in
 //
 case+ knd of
-| C3NSTRKINDmain () => prstr "main"
-| C3NSTRKINDcase_exhaustiveness _ =>
+| C3NSTRKmain () => prstr "main"
+| C3NSTRKcase_exhaustiveness _ =>
     prstr "case_exhaustiveness(...)"
-| C3NSTRKINDtermet_isnat () => prstr "termet_isnat"
-| C3NSTRKINDtermet_isdec () => prstr "termet_isdec"
-| C3NSTRKINDsome_fin _ => prstr "some_fin"
-| C3NSTRKINDsome_lvar _ => prstr "some_lvar"
-| C3NSTRKINDsome_vbox _ => prstr "some_vbox"
-| C3NSTRKINDlstate () => prstr "lstate"
-| C3NSTRKINDlstate_var (d2v) => (
+//
+| C3NSTRKtermet_isnat () => prstr "termet_isnat"
+| C3NSTRKtermet_isdec () => prstr "termet_isdec"
+//
+| C3NSTRKsome_fin _ => prstr "some_fin"
+| C3NSTRKsome_lvar _ => prstr "some_lvar"
+| C3NSTRKsome_vbox _ => prstr "some_vbox"
+//
+| C3NSTRKlstate ((*void*)) => prstr "lstate"
+| C3NSTRKlstate_var (d2v) =>
+  (
     prstr "lstate("; fprint_d2var (out, d2v); prstr ")"
-  )
-| C3NSTRKINDloop (knd) => (
+  ) (* end of [C3NSTRKlstate_var] *)
+//
+| C3NSTRKloop (knd) => (
     prstr "loop("; fprint_int (out, knd); prstr ")"
-  ) (* end of [C3NSTRKINDloop] *)
+  ) (* end of [C3NSTRKloop] *)
 //
 end // end of [fprint_c3nstrkind]
 

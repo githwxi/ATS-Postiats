@@ -254,7 +254,7 @@ case+ opt of
 //
         val (pfpush | ()) = trans3_env_push ()
         val err = $SOL.s2exp_tyleq_solve (loc, s2e, s2e2)
-        val ctrknd = C3NSTRKINDlstate_var (d2v)
+        val ctrknd = C3NSTRKlstate_var (d2v)
         val () = trans3_env_pop_and_add (pfpush | loc, ctrknd)
 //
       in
@@ -361,7 +361,7 @@ val s2ps = s2explst_subst_vt (sub, i2nv.loopi2nv_gua)
 val (pfpush | ()) = trans3_env_push ()
 val () = trans3_env_add_proplst_vt (loc, s2ps)
 val () = auxitmlst (loc, sub, i2nv.loopi2nv_arg, lsbis)
-val ctrknd = C3NSTRKINDloop(~1(*enter*))
+val ctrknd = C3NSTRKloop(~1(*enter*))
 val () = trans3_env_pop_and_add (pfpush | loc, ctrknd)
 val () = stasub_free (sub)
 //
@@ -490,7 +490,7 @@ val lsbis2 = the_d2varenv_save_lstbefitmlst ()
 val (pfpush | ()) = trans3_env_push ()
 val () = auxitmlst
   (loc, i2nv, lsbis, sub, r2es.i2nvresstate_arg, lsbis2)
-val ctrknd = C3NSTRKINDloop(0(*break*))
+val ctrknd = C3NSTRKloop(0(*break*))
 val () = trans3_env_pop_and_add (pfpush | loc, ctrknd)
 val () = stasub_free (sub)
 //
@@ -597,7 +597,7 @@ val (pfpush | ()) = trans3_env_push ()
 val () = auxMetCK (loc, sub, i2nv.loopi2nv_met)
 val () = auxitmlst
   (loc, lsbis, sub, i2nv.loopi2nv_arg, lsbis2)
-val ctrknd = C3NSTRKINDloop(1(*continue*))
+val ctrknd = C3NSTRKloop(1(*continue*))
 val () = trans3_env_pop_and_add (pfpush | loc, ctrknd)
 val () = stasub_free (sub)
 //

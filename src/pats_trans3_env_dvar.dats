@@ -567,6 +567,7 @@ val () = (
 in
 //
 case+ d2vfin of
+//
 | D2VFINnone () => let
     val islin = s2exp_is_lin2 (s2e)
     val () = if islin then auxerr2 (loc0, d2v, s2e)
@@ -574,15 +575,17 @@ case+ d2vfin of
   in
     if linval >= 0 then d2var_set_type (d2v, None ())
   end // end of [D2VFINnone]
+//
 | D2VFINsome (s2e_fin) => let
     val (pfpush | ()) = trans3_env_push ()
     val err = $SOL.s2exp_tyleq_solve (loc0, s2e, s2e_fin)
     val () = if err > 0 then auxerr1 (loc0, d2v, s2e, s2e_fin)
-    val knd = C3NSTRKINDsome_fin (d2v, s2e_fin, s2e)
+    val knd = C3NSTRKsome_fin (d2v, s2e_fin, s2e)
     val () = trans3_env_pop_and_add (pfpush | loc0, knd)
   in
     d2var_set_type (d2v, Some s2e_fin)
   end // end of [D2VFINsome_lvar]
+//
 | D2VFINsome_lvar (s2e_fin) => let
     val (pfpush | ()) = trans3_env_push ()
 //
@@ -600,20 +603,22 @@ case+ d2vfin of
 //
     val err = $SOL.s2exp_tyleq_solve (loc0, s2e, s2e_fin)
     val () = if err > 0 then auxerr1 (loc0, d2v, s2e, s2e_fin)
-    val knd = C3NSTRKINDsome_lvar (d2v, s2e_fin, s2e)
+    val knd = C3NSTRKsome_lvar (d2v, s2e_fin, s2e)
     val () = trans3_env_pop_and_add (pfpush | loc0, knd)
   in
-    d2var_set_type (d2v, Some s2e_fin)
+    d2var_set_type (d2v, Some (s2e_fin))
   end // end of [D2VFINsome_lvar]
+//
 | D2VFINsome_vbox (s2e_box) => let
     val (pfpush | ()) = trans3_env_push ()
     val err = $SOL.s2exp_tyleq_solve (loc0, s2e, s2e_box)
     val () = if err > 0 then auxerr1 (loc0, d2v, s2e, s2e_box)
-    val knd = C3NSTRKINDsome_vbox (d2v, s2e_box, s2e)
+    val knd = C3NSTRKsome_vbox (d2v, s2e_box, s2e)
     val () = trans3_env_pop_and_add (pfpush | loc0, knd)
   in
-    d2var_set_type (d2v, Some s2e_box)
+    d2var_set_type (d2v, Some (s2e_box))
   end // end of [D2VFINsome_vbox]
+//
 | D2VFINdone _ => () // HX: handled by [funarg_d2vfin_check]
 // end of [case]
 //

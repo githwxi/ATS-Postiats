@@ -100,7 +100,7 @@ implement
 c3nstr_prop
   (loc, s2e) = '{
   c3nstr_loc= loc
-, c3nstr_kind= C3NSTRKINDmain
+, c3nstr_kind= C3NSTRKmain
 , c3nstr_node= C3NSTRprop (s2e)
 } // end of [c3nstr_prop]
 
@@ -118,7 +118,7 @@ c3nstr_case_exhaustiveness
   val p2tcs = list_vt_copy (p2tcs)
 in '{
   c3nstr_loc= loc
-, c3nstr_kind= C3NSTRKINDcase_exhaustiveness (casknd, (l2l)p2tcs)
+, c3nstr_kind= C3NSTRKcase_exhaustiveness (casknd, (l2l)p2tcs)
 , c3nstr_node= C3NSTRprop (s2exp_bool (false))
 } end // end of [c3nstr_case_exhaustiveness]
 
@@ -126,7 +126,7 @@ implement
 c3nstr_termet_isnat
   (loc, s2e) = '{
   c3nstr_loc= loc
-, c3nstr_kind= C3NSTRKINDtermet_isnat
+, c3nstr_kind= C3NSTRKtermet_isnat
 , c3nstr_node=
     C3NSTRprop (s2exp_intgte (s2e, s2exp_int(0)))
   // end of [c3str_node]
@@ -136,7 +136,7 @@ implement
 c3nstr_termet_isdec
   (loc, met, met_bound) = '{
   c3nstr_loc= loc
-, c3nstr_kind= C3NSTRKINDtermet_isdec
+, c3nstr_kind= C3NSTRKtermet_isdec
 , c3nstr_node=
     C3NSTRprop (s2exp_metdec (met, met_bound))
   // end of [c3str_node]
@@ -882,6 +882,8 @@ in
   !p := list_vt_cons (s3i, !p)
 end // end of [the_s3itmlst_env_add]
 
+(* ****** ****** *)
+
 implement
 fprint_the_s3itmlst (out) = let
   val s3is = let
@@ -1426,7 +1428,7 @@ end // end of [trans3_env_pop_and_add]
 implement
 trans3_env_pop_and_add_main
   (pf | loc) =
-  trans3_env_pop_and_add (pf | loc, C3NSTRKINDmain())
+  trans3_env_pop_and_add (pf | loc, C3NSTRKmain)
 // end of [trans3_env_pop_and_add_main]
 
 implement
@@ -1747,16 +1749,20 @@ val () =
 
 implement
 trans3_finget_constraint () = let
- val s3is = the_s3itmlst_env_pop ()
- val s3is = list_of_list_vt (s3is)
+//
+val s3is = the_s3itmlst_env_pop ()
+val s3is = list_of_list_vt{s3itm}(s3is)
+//
 (*
- val () = begin
-   print "trans3_finget_constraint: s3is = ";
-   fprint_s3itmlst (stdout_ref, s3is); print_newline ()
- end // end of [val]
+val (
+) = fprintln!
+(
+  stdout_ref, "trans3_finget_constraint: s3is = ", s3is
+) (* end of [val] *)
 *)
+//
 in
-  c3nstr_itmlst ($LOC.location_dummy, C3NSTRKINDmain, s3is)
+  c3nstr_itmlst ($LOC.location_dummy, C3NSTRKmain, s3is)
 end // end of [c3nstr_get_final]
 
 (* ****** ****** *)

@@ -70,8 +70,8 @@ jsonize_loc (x) = jsonize_location (,(x))
 
 (*
 extern
-fun jsonize_c3nstrkind
-  : jsonize_ftype (c3nstrkind)
+fun
+jsonize_c3nstrkind: jsonize_ftype (c3nstrkind)
 implement
 jsonize_c3nstrkind
   (knd) = let
@@ -134,16 +134,6 @@ end // end of [jsonize_c3nstrkind]
 
 (* ****** ****** *)
 
-(*
-datatype s3itm =
-  | S3ITMsvar of s2var
-  | S3ITMhypo of h3ypo
-  | S3ITMsVar of s2Var
-  | S3ITMcnstr of c3nstr
-  | S3ITMcnstr_ref of c3nstroptref // HX: for handling state types
-  | S3ITMdisj of s3itmlstlst
-// end of [s3item]
-*)
 extern
 fun jsonize_s3itm: jsonize_ftype (s3itm)
 extern

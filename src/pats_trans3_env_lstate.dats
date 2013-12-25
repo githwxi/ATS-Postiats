@@ -657,14 +657,14 @@ case+ sait0 of
 //
         val (pfpush | ()) = trans3_env_push ()
         val err = $SOL.s2exp_tyleq_solve (loc, s2e, s2e0)
-        val ctrknd = C3NSTRKINDlstate_var (d2v)
-        val () = trans3_env_pop_and_add (pfpush | loc, ctrknd)
+        val knd = C3NSTRKlstate_var (d2v)
+        val () = trans3_env_pop_and_add (pfpush | loc, knd)
 //
         val () =
-          if (err > 0) then {
+        if (err > 0) then {
           val () = prerr_the_staerrlst ()
           val () = auxerr_some2 (loc, d2v, s2e0, s2e)
-        } // end of [if] // end of [val]
+        } (* end of [if] *) // end of [val]
       in
         // nothing
       end
@@ -725,9 +725,10 @@ case+ ctrs of
     val () = auxmain (xs, ctr, sub)
 //
     val s3is = trans3_env_pop (pfpush | (*none*))
-    val c3t = c3nstr_itmlst (ctrloc, C3NSTRKINDlstate, (l2l)s3is)
+    val c3t0 =
+      c3nstr_itmlst (ctrloc, C3NSTRKlstate(), (l2l)s3is)
     val () = let
-      val ref = ctr.c3nstroptref_ref in !ref := Some (c3t)
+      val ref = ctr.c3nstroptref_ref in !ref := Some (c3t0)
     end // end of [val]
 //
     val () = stasub_free (sub)

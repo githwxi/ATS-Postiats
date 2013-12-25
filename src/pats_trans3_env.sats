@@ -79,22 +79,22 @@ fun filenv_get_d3eclistopt (fenv: filenv): d3eclistopt
 datatype
 c3nstrkind =
 //
-  | C3NSTRKINDmain of () // generic
+  | C3NSTRKmain of () // generic
 //
-  | C3NSTRKINDcase_exhaustiveness of
+  | C3NSTRKcase_exhaustiveness of
       (caskind (*case/case+*), p2atcstlst) // no [case-]
 //
-  | C3NSTRKINDtermet_isnat of () // term. metric welfounded
-  | C3NSTRKINDtermet_isdec of () // term. metric decreasing
+  | C3NSTRKtermet_isnat of () // term. metric welfounded
+  | C3NSTRKtermet_isdec of () // term. metric decreasing
 //
-  | C3NSTRKINDsome_fin of (d2var, s2exp(*fin*), s2exp)
-  | C3NSTRKINDsome_lvar of (d2var, s2exp(*lvar*), s2exp)
-  | C3NSTRKINDsome_vbox of (d2var, s2exp(*vbox*), s2exp)
+  | C3NSTRKsome_fin of (d2var, s2exp(*fin*), s2exp)
+  | C3NSTRKsome_lvar of (d2var, s2exp(*lvar*), s2exp)
+  | C3NSTRKsome_vbox of (d2var, s2exp(*vbox*), s2exp)
 //
-  | C3NSTRKINDlstate of () // lstate merge
-  | C3NSTRKINDlstate_var of (d2var) // lstate merge for d2var
+  | C3NSTRKlstate of () // lstate merge
+  | C3NSTRKlstate_var of (d2var) // lstate merge for d2var
 //
-  | C3NSTRKINDloop of (int) // HX: ~1/0/1: enter/break/continue
+  | C3NSTRKloop of (int) // HX: ~1/0/1: enter/break/continue
 // end of [c3nstrkind]
 
 datatype s3itm =
@@ -191,10 +191,16 @@ fun print_h3ypo (x: h3ypo): void
 and prerr_h3ypo (x: h3ypo): void
 fun fprint_h3ypo : fprint_type (h3ypo)
 
+(* ****** ****** *)
+//
 fun fprint_s3itm : fprint_type (s3itm)
 fun fprint_s3itmlst : fprint_type (s3itmlst)
 fun fprint_s3itmlstlst : fprint_type (s3itmlstlst)
-
+//
+overload fprint with fprint_s3itm
+overload fprint with fprint_s3itmlst
+overload fprint with fprint_s3itmlstlst
+//
 (* ****** ****** *)
 
 fun jsonize_c3nstr (c3t: c3nstr): jsonval
