@@ -11,7 +11,7 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload_tmpdef.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -56,4 +56,3 @@ val () = assertloc (digitsum (x0) = 1+2+3+4+5+6+7+8+9)
 (* ****** ****** *)
 
 (* end of [test03.dats] *)
-

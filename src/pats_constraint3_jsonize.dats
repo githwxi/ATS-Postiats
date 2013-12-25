@@ -69,6 +69,10 @@ jsonize_loc (x) = jsonize_location (,(x))
 (* ****** ****** *)
 
 (*
+//
+// HX-2013-12-24:
+// this does not seem to be really useful
+//
 extern
 fun
 jsonize_c3nstrkind: jsonize_ftype (c3nstrkind)
@@ -79,55 +83,56 @@ in
 //
 case+ knd of
 //
-| C3NSTRKINDmain () =>
-    jsonval_conarg0 ("C3NSTRKINDmain")
+| C3NSTRKmain () =>
+    jsonval_conarg0 ("C3NSTRKmain")
 //
-| C3NSTRKINDcase_exhaustiveness
+| C3NSTRKcase_exhaustiveness
     (knd, p2tcss) => let
     val knd = jsonize_caskind (knd)
     val p2tcss = jsonize_ignored (p2tcss)
   in
-    jsonval_conarg2 ("C3NSTRKINDcase_exhaustiveness", knd, p2tcss)
-  end // end of [C3NSTRKINDcase_exhaustiveness]
+    jsonval_conarg2
+      ("C3NSTRKcase_exhaustiveness", knd, p2tcss)
+  end // end of [C3NSTRKcase_exhaustiveness]
 //
-| C3NSTRKINDtermet_isnat () =>
-    jsonval_conarg0 ("C3NSTRKINDtermet_isnat")
-| C3NSTRKINDtermet_isdec () =>
-    jsonval_conarg0 ("C3NSTRKINDtermet_isdec")
+| C3NSTRKtermet_isnat () =>
+    jsonval_conarg0 ("C3NSTRKtermet_isnat")
+| C3NSTRKtermet_isdec () =>
+    jsonval_conarg0 ("C3NSTRKtermet_isdec")
 //
-| C3NSTRKINDsome_fin
+| C3NSTRKsome_fin
     (d2v, s2e1, s2e2) => let
     val d2v = jsonize_d2var (d2v)
     val s2e1 = jsonize_s2exp (s2e1)
     val s2e2 = jsonize_s2exp (s2e2)
   in
-    jsonval_conarg3 ("C3NSTRKINDsome_fin", d2v, s2e1, s2e2)
-  end // end of [C3NSTRKINDsome_fin]
-| C3NSTRKINDsome_lvar
+    jsonval_conarg3 ("C3NSTRKsome_fin", d2v, s2e1, s2e2)
+  end // end of [C3NSTRKsome_fin]
+| C3NSTRKsome_lvar
     (d2v, s2e1, s2e2) => let
     val d2v = jsonize_d2var (d2v)
     val s2e1 = jsonize_s2exp (s2e1)
     val s2e2 = jsonize_s2exp (s2e2)
   in
-    jsonval_conarg3 ("C3NSTRKINDsome_lvar", d2v, s2e1, s2e2)
-  end // end of [C3NSTRKINDsome_lvar]
-| C3NSTRKINDsome_vbox
+    jsonval_conarg3 ("C3NSTRKsome_lvar", d2v, s2e1, s2e2)
+  end // end of [C3NSTRKsome_lvar]
+| C3NSTRKsome_vbox
     (d2v, s2e1, s2e2) => let
     val d2v = jsonize_d2var (d2v)
     val s2e1 = jsonize_s2exp (s2e1)
     val s2e2 = jsonize_s2exp (s2e2)
   in
-    jsonval_conarg3 ("C3NSTRKINDsome_vbox", d2v, s2e1, s2e2)
-  end // end of [C3NSTRKINDsome_vbox]
+    jsonval_conarg3 ("C3NSTRKsome_vbox", d2v, s2e1, s2e2)
+  end // end of [C3NSTRKsome_vbox]
 //
-| C3NSTRKINDlstate () =>
-    jsonval_conarg0 ("C3NSTRKINDlstate")
-| C3NSTRKINDlstate_var (d2v) =>
-    jsonval_conarg1 ("C3NSTRKINDlstate_var", jsonize_d2var (d2v))
-  // end of [C3NSTRKINDlstate_var]
+| C3NSTRKlstate () =>
+    jsonval_conarg0 ("C3NSTRKlstate")
+| C3NSTRKlstate_var (d2v) =>
+    jsonval_conarg1 ("C3NSTRKlstate_var", jsonize_d2var (d2v))
+  // end of [C3NSTRKlstate_var]
 //
-| C3NSTRKINDloop (knd) =>
-    jsonval_conarg1 ("C3NSTRKINDlloop", jsonval_int (knd))
+| C3NSTRKloop (knd) =>
+    jsonval_conarg1 ("C3NSTRKlloop", jsonval_int (knd))
 //
 end // end of [jsonize_c3nstrkind]
 *)

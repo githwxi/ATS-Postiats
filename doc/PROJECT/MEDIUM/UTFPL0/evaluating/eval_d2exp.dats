@@ -193,7 +193,8 @@ aux_d2exp_applst
 in
 //
 case+ d2as of
-| list_cons (d2a, d2as) =>
+| list_cons
+    (d2a, d2as) =>
   (
     case+ d2a of
     | D2EXPARGsta _ =>

@@ -91,7 +91,9 @@ fun abs (i: int): int = if i >= 0 then i else ~i
 
 (* ****** ****** *)
 
-fun safety_test1 (
+fun
+safety_test1
+(
   i0: int, j0: int, i1: int, j1: int
 ) : bool =
 (*
@@ -137,14 +139,15 @@ fun search
     if i > 0 then
       search (bd, i-1, board_get (bd, i-1) + 1, nsol)
     else nsol // end of [if]
-  )
+  ) (* end of [if] *)
 // end of [search]
 
 (* ****** ****** *)
-
+//
 val () = print_board @(0, 1, 2, 3, 4, 5, 6, 7)
+//
 val nsol = search ((0, 0, 0, 0, 0, 0, 0, 0), 0, 0, 0)
-
+//
 (* ****** ****** *)
 
 (* end of [queens.dats] *)

@@ -42,11 +42,13 @@ staload
 UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
+//
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans3_looping"
-
+//
+implement
+prerr_FILENAME<> () = prerr "pats_trans3_looping"
+//
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
@@ -54,12 +56,15 @@ staload "./pats_staexp2_error.sats"
 staload "./pats_staexp2_util.sats"
 staload "./pats_stacst2.sats"
 
+(* ****** ****** *)
+
 staload "./pats_dynexp2.sats"
 staload "./pats_dynexp3.sats"
 
 (* ****** ****** *)
 
-staload SOL = "./pats_staexp2_solve.sats"
+staload
+SOL = "./pats_staexp2_solve.sats"
 
 (* ****** ****** *)
 
@@ -504,7 +509,8 @@ fun
 auxContinue
 (
   loc: loc_t
-, i2nv: loopi2nv, lsbis: lstbefitmlst, post: d2expopt
+, i2nv: loopi2nv, lsbis: lstbefitmlst
+, post: d2expopt
 ) : d3expopt = let
 //
 fun auxitm1
@@ -605,7 +611,7 @@ in
   post(*d3expopt*)
 end // end of [auxContinue]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d2exp_trup_loop (
