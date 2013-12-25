@@ -305,10 +305,12 @@ end // end of [auxmain]
 //
 val loc0 = c3t0.c3nstr_loc
 val loc0 = jsonize_loc (loc0)
+val knd0 = c3t0.c3nstr_kind
+val knd0 = jsonize_c3nstrkind (knd0)
 val c3t0 = auxmain (c3t0)
 //
 in
-  jsonval_labval2 ("c3nstr_loc", loc0, "c3nstr_node", c3t0)
+  jsonval_labval3 ("c3nstr_loc", loc0, "c3nstr_kind", knd0, "c3nstr_node", c3t0)
 end // end of [jsonize_c3nstr]
 
 (* ****** ****** *)
