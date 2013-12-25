@@ -84,12 +84,11 @@ val (
 ) = fprintln!
   (stdout_ref, "parse_s2exp_node: jsv0 = ", jsv0)
 *)
-val-~Some_vt(jsv1) =
-  jsonval_get_field (jsv0, "s2exp_name")
-val-~Some_vt(jsv2) =
-  jsonval_get_field (jsv0, "s2exp_arglst")
 //
-val-JSONstring(name) = jsv1
+val-JSONobject(lxs) = jsv0
+val-list_cons (lx, lxs) = lxs
+//
+val name = lx.0 and jsv2 = lx.1
 //
 in
 //
@@ -108,7 +107,7 @@ case+ name of
 //
 | _(*rest*) => let
     val () =
-    prerrln! ("parse_s2exp: name = ", name)
+    prerrln! ("warning(ATS): [parse_s2exp]: name = ", name)
   in
     parse_S2Eignored (jsv2)
   end // end of [_]

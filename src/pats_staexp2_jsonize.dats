@@ -180,42 +180,49 @@ fun aux0
 (
   name: string
 ) : jsonval = let
-  val name = jsonval_string (name)
-  val arglst = jsonval_list (list_nil)
+  val arglst =
+    jsonval_list (list_nil)
+  // end of [val]
 in
-  jsonval_labval2 ("s2exp_name", name, "s2exp_arglst", arglst)
+  jsonval_labval1 (name, arglst)
 end // end of [aux0]
 
 fun aux1
 (
-  name: string, arg: jsonval
+  name: string
+, arg1: jsonval
 ) : jsonval = let
-  val name = jsonval_string (name)
-  val arglst = jsonval_sing (arg)
+  val arglst =
+    jsonval_sing (arg1)
+  // end of [val]
 in
-  jsonval_labval2 ("s2exp_name", name, "s2exp_arglst", arglst)
+  jsonval_labval1 (name, arglst)
 end // end of [aux1]
 
 fun aux2
 (
   name: string
-, arg1: jsonval, arg2: jsonval
+, arg1: jsonval
+, arg2: jsonval
 ) : jsonval = let
-  val name = jsonval_string (name)
-  val arglst = jsonval_pair (arg1, arg2)
+  val arglst =
+    jsonval_pair (arg1, arg2)
 in
-  jsonval_labval2 ("s2exp_name", name, "s2exp_arglst", arglst)
+  jsonval_labval1 (name, arglst)
 end // end of [aux2]
 
 fun aux3
 (
   name: string
-, arg1: jsonval, arg2: jsonval, arg3: jsonval
+, arg1: jsonval
+, arg2: jsonval
+, arg3: jsonval
 ) : jsonval = let
-  val name = jsonval_string (name)
-  val arglst = jsonval_list (arg1 :: arg2 :: arg3 :: nil ())
+  val arglst =
+    jsonval_list (arg1 :: arg2 :: arg3 :: nil ())
+  // end of [val]
 in
-  jsonval_labval2 ("s2exp_name", name, "s2exp_arglst", arglst)
+  jsonval_labval1 (name, arglst)
 end // end of [aux3]
 
 in (* in of [local] *)
@@ -225,7 +232,9 @@ jsonize_s2exp
   (s2e0) = let
 //
 fun auxmain
-  (s2e0: s2exp): jsonval = let
+(
+  s2e0: s2exp
+) : jsonval = let
   val s2f0 = s2exp2hnf (s2e0)
   val s2e0 = s2hnf2exp (s2f0)
 in
