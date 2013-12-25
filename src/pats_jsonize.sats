@@ -91,9 +91,10 @@ fun jsonval_string (x: string): jsonval
 //
 fun jsonval_loc (loc: location): jsonval
 //
+(* ****** ****** *)
+//
 fun jsonval_sing (x: jsonval): jsonval
 fun jsonval_pair (x1: jsonval, x2: jsonval): jsonval
-fun jsonval_list (xs: jsonvalist): jsonval
 //
 (* ****** ****** *)
 //

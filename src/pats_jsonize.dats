@@ -277,7 +277,7 @@ fun aux0
   name: string
 ) : jsonval = let
   val name = jsonval_string (name)
-  val arglst = jsonval_list (list_nil)
+  val arglst = JSONlist (list_nil())
 in
   jsonval_labval2 ("funclo_name", name, "funclo_arglst", arglst)
 end // end of [aux0]
@@ -402,7 +402,7 @@ jsonize_list_fun
 val jsvs = list_map_fun<a> (xs, f)
 //
 in
-  jsonval_list (list_of_list_vt(jsvs))
+  JSONlist (list_of_list_vt(jsvs))
 end // end of [jsonize_list_fun]
 
 (* ****** ****** *)

@@ -63,9 +63,7 @@ staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-#define nil list_nil
 #define :: list_cons
-#define cons list_cons
 
 (* ****** ****** *)
 
@@ -286,7 +284,7 @@ p2t0.p2at_node of
     val jsv6 = jsonize_p2atlst (p2ts)
 //
     val arglst = (
-      jsv1 :: jsv2 :: jsv3 :: jsv4 :: jsv5 :: jsv6 :: nil()
+      jsv1 :: jsv2 :: jsv3 :: jsv4 :: jsv5 :: jsv6 :: list_nil
     ) (* end of [val] *)
 //
   in
@@ -600,7 +598,7 @@ in
 case+ d2a of
 | D2EXPARGsta
     (loc, s2as) => let
-    val arglst = jsonval_list (list_nil)
+    val arglst = JSONlist (list_nil)
   in
     jsonval_labval1 ("D2EXPARGsta", arglst)
   end // end of [D2EXPARGsta]
@@ -609,7 +607,7 @@ case+ d2a of
     val jsv1 = jsonval_int (npf)
     val jsv2 = jsonize_loc (loc)
     val jsv3 = jsonize_d2explst (d2es)
-    val arglst = jsonval_list (jsv1 :: jsv2 :: jsv3 :: nil())
+    val arglst = JSONlist (jsv1 :: jsv2 :: jsv3 :: list_nil)
   in
     jsonval_labval1 ("D2EXPARGdyn", arglst)
   end // end of [D2EXPARGdyn]
