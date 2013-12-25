@@ -69,31 +69,9 @@ jsonize_loc (x) = jsonize_location (,(x))
 (* ****** ****** *)
 
 (*
-datatype
-c3nstrkind =
-  | C3NSTRKINDmain of () // generic
-//
-  | C3NSTRKINDcase_exhaustiveness of
-      (caskind (*case/case+*), p2atcstlst) // no [case-]
-//
-  | C3NSTRKINDtermet_isnat of () // term. metric welfounded
-  | C3NSTRKINDtermet_isdec of () // term. metric decreasing
-//
-  | C3NSTRKINDsome_fin of (d2var, s2exp(*fin*), s2exp)
-  | C3NSTRKINDsome_lvar of (d2var, s2exp(*lvar*), s2exp)
-  | C3NSTRKINDsome_vbox of (d2var, s2exp(*vbox*), s2exp)
-//
-  | C3NSTRKINDlstate of () // lstate merge
-  | C3NSTRKINDlstate_var of (d2var) // lstate merge for d2var
-//
-  | C3NSTRKINDloop of (int) // HX: ~1/0/1: enter/break/continue
-// end of [c3nstrkind]
-*)
 extern
-fun jsonize_c3nstrkind: jsonize_ftype (c3nstrkind)
-
-(* ****** ****** *)
-
+fun jsonize_c3nstrkind
+  : jsonize_ftype (c3nstrkind)
 implement
 jsonize_c3nstrkind
   (knd) = let
@@ -152,6 +130,7 @@ case+ knd of
     jsonval_conarg1 ("C3NSTRKINDlloop", jsonval_int (knd))
 //
 end // end of [jsonize_c3nstrkind]
+*)
 
 (* ****** ****** *)
 
@@ -305,12 +284,10 @@ end // end of [auxmain]
 //
 val loc0 = c3t0.c3nstr_loc
 val loc0 = jsonize_loc (loc0)
-val knd0 = c3t0.c3nstr_kind
-val knd0 = jsonize_c3nstrkind (knd0)
 val c3t0 = auxmain (c3t0)
 //
 in
-  jsonval_labval3 ("c3nstr_loc", loc0, "c3nstr_kind", knd0, "c3nstr_node", c3t0)
+  jsonval_labval2 ("c3nstr_loc", loc0, "c3nstr_node", c3t0)
 end // end of [jsonize_c3nstr]
 
 (* ****** ****** *)

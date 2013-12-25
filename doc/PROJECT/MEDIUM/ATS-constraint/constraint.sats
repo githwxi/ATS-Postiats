@@ -220,6 +220,31 @@ fun s2exp_ignored (s2rt): s2exp // error-handling
 
 (* ****** ****** *)
 
+(*
+datatype
+c3nstrkind = 
+//
+  | C3NSTRKINDmain of () // generic
+//
+  | C3NSTRKINDcase_exhaustiveness of
+      (caskind (*case/case+*), p2atcstlst) // no [case-]
+//
+  | C3NSTRKINDtermet_isnat of () // term. metric welfounded
+  | C3NSTRKINDtermet_isdec of () // term. metric decreasing
+//
+  | C3NSTRKINDsome_fin of (d2var, s2exp(*fin*), s2exp)
+  | C3NSTRKINDsome_lvar of (d2var, s2exp(*lvar*), s2exp)
+  | C3NSTRKINDsome_vbox of (d2var, s2exp(*vbox*), s2exp)
+//
+  | C3NSTRKINDlstate of () // lstate merge
+  | C3NSTRKINDlstate_var of (d2var) // lstate merge for d2var
+//
+  | C3NSTRKINDloop of (int) // HX: ~1/0/1: enter/break/continue
+// end of [c3nstrkind]
+*)
+
+(* ****** ****** *)
+
 datatype s3itm =
   | S3ITMsvar of s2var
   | S3ITMhypo of h3ypo
@@ -254,6 +279,9 @@ h3ypo = '{
 and
 c3nstr = '{
   c3nstr_loc= loc_t
+(*
+, c3nstr_kind= c3nstrkind
+*)
 , c3nstr_node= c3nstr_node
 } // end of [c3nstr]
 
