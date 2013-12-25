@@ -33,11 +33,11 @@ extern fun parse_d2lab (jsonval): d2lab
 extern fun parse_d2lab_node (jsonval): d2lab
 
 (* ****** ****** *)
-
+//
 extern
 fun
 parse_d2exp_node (jsonval): d2exp_node
-
+//
 (* ****** ****** *)
 
 implement
@@ -139,51 +139,48 @@ val (
 ) = fprintln!
   (stdout_ref, "parse_d2exp_node: jsv0 = ", jsv0)
 *)
-val-~Some_vt(jsv1) =
-  jsonval_get_field (jsv0, "d2exp_name")
-val-~Some_vt(jsv2) =
-  jsonval_get_field (jsv0, "d2exp_arglst")
 //
-val-JSONstring(name) = jsv1
+val-JSONobject(lxs) = jsv0
+val-list_cons (lx, lxs) = lxs
 //
 in
 //
-case+ name of
+case+ lx.0 of
 //
-| "D2Ecst" => parse_D2Ecst (jsv2)
-| "D2Evar" => parse_D2Evar (jsv2)
-| "D2Esym" => parse_D2Esym (jsv2)
+| "D2Ecst" => parse_D2Ecst (lx.1)
+| "D2Evar" => parse_D2Evar (lx.1)
+| "D2Esym" => parse_D2Esym (lx.1)
 //
-| "D2Eint" => parse_D2Eint (jsv2)
-| "D2Eintrep" => parse_D2Eintrep (jsv2)
+| "D2Eint" => parse_D2Eint (lx.1)
+| "D2Eintrep" => parse_D2Eintrep (lx.1)
 //
-| "D2Ei0nt" => parse_D2Ei0nt (jsv2)
-| "D2Ec0har" => parse_D2Ec0har (jsv2)
-| "D2Ef0loat" => parse_D2Ef0loat (jsv2)
-| "D2Es0tring" => parse_D2Es0tring (jsv2)
+| "D2Ei0nt" => parse_D2Ei0nt (lx.1)
+| "D2Ec0har" => parse_D2Ec0har (lx.1)
+| "D2Ef0loat" => parse_D2Ef0loat (lx.1)
+| "D2Es0tring" => parse_D2Es0tring (lx.1)
 //
-| "D2Eempty" => parse_D2Eempty (jsv2)
+| "D2Eempty" => parse_D2Eempty (lx.1)
 //
-| "D2Elet" => parse_D2Elet (jsv2)
+| "D2Elet" => parse_D2Elet (lx.1)
 //
-| "D2Eapplst" => parse_D2Eapplst (jsv2)
+| "D2Eapplst" => parse_D2Eapplst (lx.1)
 //
-| "D2Eifhead" => parse_D2Eifhead (jsv2)
+| "D2Eifhead" => parse_D2Eifhead (lx.1)
 //
-| "D2Elist" => parse_D2Elist (jsv2)
+| "D2Elist" => parse_D2Elist (lx.1)
 //
-| "D2Etup" => parse_D2Etup (jsv2)
-| "D2Eseq" => parse_D2Eseq (jsv2)
+| "D2Etup" => parse_D2Etup (lx.1)
+| "D2Eseq" => parse_D2Eseq (lx.1)
 //
-| "D2Eselab" => parse_D2Eselab (jsv2)
+| "D2Eselab" => parse_D2Eselab (lx.1)
 //
-| "D2Elam_dyn" => parse_D2Elam_dyn (jsv2)
+| "D2Elam_dyn" => parse_D2Elam_dyn (lx.1)
 //
-| "D2Eann_seff" => parse_D2Eann_seff (jsv2)
-| "D2Eann_type" => parse_D2Eann_type (jsv2)
-| "D2Eann_funclo" => parse_D2Eann_funclo (jsv2)
+| "D2Eann_seff" => parse_D2Eann_seff (lx.1)
+| "D2Eann_type" => parse_D2Eann_type (lx.1)
+| "D2Eann_funclo" => parse_D2Eann_funclo (lx.1)
 //
-| _(*rest*) => parse_D2Eignored (jsv2)
+| _(*rest*) => parse_D2Eignored (lx.1)
 //
 end // end of [parse_d2exp_node]
 

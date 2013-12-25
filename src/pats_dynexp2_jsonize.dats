@@ -262,20 +262,18 @@ fun aux0
 (
   name: string
 ) : jsonval = let
-  val name = jsonval_string (name)
   val arglst = jsonval_list (list_nil)
 in
-  jsonval_labval2 ("p2at_name", name, "p2at_arglst", arglst)
+  jsonval_labval1 (name, arglst)
 end // end of [aux0]
 
 fun aux1
 (
   name: string, arg: jsonval
 ) : jsonval = let
-  val name = jsonval_string (name)
   val arglst = jsonval_sing (arg)
 in
-  jsonval_labval2 ("p2at_name", name, "p2at_arglst", arglst)
+  jsonval_labval1 (name, arglst)
 end // end of [aux1]
 
 fun aux2
@@ -283,10 +281,9 @@ fun aux2
   name: string
 , arg1: jsonval, arg2: jsonval
 ) : jsonval = let
-  val name = jsonval_string (name)
   val arglst = jsonval_pair (arg1, arg2)
 in
-  jsonval_labval2 ("p2at_name", name, "p2at_arglst", arglst)
+  jsonval_labval1 (name, arglst)
 end // end of [aux2]
 
 fun aux3
@@ -294,10 +291,9 @@ fun aux3
   name: string
 , arg1: jsonval, arg2: jsonval, arg3: jsonval
 ) : jsonval = let
-  val name = jsonval_string (name)
   val arglst = jsonval_list (arg1 :: arg2 :: arg3 :: nil())
 in
-  jsonval_labval2 ("p2at_name", name, "p2at_arglst", arglst)
+  jsonval_labval1 (name, arglst)
 end // end of [aux3]
 
 in (* in of [local] *)
@@ -315,19 +311,14 @@ p2t0.p2at_node of
 //
 | P2Tany () => aux0 ("P2Tany")
 //
-| P2Tvar (d2v) => let
-    val jsv1 = jsonize_d2var (d2v)
-  in
-    aux1 ("P2Tvar", jsv1)
-  end // end of [P2Tvar]
+| P2Tvar (d2v) =>
+    aux1 ("P2Tvar", jsonize_d2var (d2v))
 //
 | P2Tcon
   (
     pcknd, d2c, s2qs, s2e_con, npf, p2ts
   ) => let
-    val name = "P2Tcon"
-    val name =
-      jsonval_string (name)
+//
     val jsv1 =
       jsonize_pckind (pcknd)
     val jsv2 = jsonize_d2con (d2c)
@@ -335,12 +326,14 @@ p2t0.p2at_node of
     val jsv4 = jsonize_ignored (s2e_con)
     val jsv5 = jsonval_int (npf)
     val jsv6 = jsonize_p2atlst (p2ts)
+//
     val arglst =
     jsonval_list (
       jsv1 :: jsv2 :: jsv3 :: jsv4 :: jsv5 :: jsv6 :: nil()
     ) (* end of [val] *)
+//
   in
-    jsonval_labval2 ("p2at_name", name, "p2at_arglst", arglst)
+    jsonval_labval1 ("P2Tcon", arglst)
   end // end of [P2Tcon]
 //
 | P2Tint (i) => aux1 ("P2Tint", jsonval_int (i))
@@ -365,9 +358,8 @@ p2t0.p2at_node of
     aux3 ("P2Trec", knd, npf, lp2ts)
   end (* end of [P2Trec] *)
 //
-| P2Trefas (d2v, p2t) =>
-  (
-    aux2 ("P2Trefas", jsonize_d2var (d2v), jsonize_p2at (p2t))
+| P2Trefas (d2v, p2t) => (
+    aux2 ("P2Trefas", jsonize_d2var(d2v), jsonize_p2at(p2t))
   ) (* end of [P2Trefas] *)
 //
 | P2Tvbox (d2v) => aux1 ("P2Tvbox", jsonize_d2var (d2v))
@@ -437,20 +429,20 @@ fun aux0
 (
   name: string
 ) : jsonval = let
-  val name = jsonval_string (name)
-  val arglst = jsonval_list (list_nil)
+  val arglst =
+    jsonval_list (list_nil)
+  // end of [val]
 in
-  jsonval_labval2 ("d2exp_name", name, "d2exp_arglst", arglst)
+  jsonval_labval1 (name, arglst)
 end // end of [aux0]
 
 fun aux1
 (
   name: string, arg: jsonval
 ) : jsonval = let
-  val name = jsonval_string (name)
   val arglst = jsonval_sing (arg)
 in
-  jsonval_labval2 ("d2exp_name", name, "d2exp_arglst", arglst)
+  jsonval_labval1 (name, arglst)
 end // end of [aux1]
 
 fun aux2
@@ -458,10 +450,9 @@ fun aux2
   name: string
 , arg1: jsonval, arg2: jsonval
 ) : jsonval = let
-  val name = jsonval_string (name)
   val arglst = jsonval_pair (arg1, arg2)
 in
-  jsonval_labval2 ("d2exp_name", name, "d2exp_arglst", arglst)
+  jsonval_labval1 (name, arglst)
 end // end of [aux2]
 
 fun aux3
@@ -469,10 +460,11 @@ fun aux3
   name: string
 , arg1: jsonval, arg2: jsonval, arg3: jsonval
 ) : jsonval = let
-  val name = jsonval_string (name)
-  val arglst = jsonval_list (arg1 :: arg2 :: arg3 :: nil())
+  val arglst =
+    jsonval_list (arg1 :: arg2 :: arg3 :: nil())
+  // end of [val]
 in
-  jsonval_labval2 ("d2exp_name", name, "d2exp_arglst", arglst)
+  jsonval_labval1 (name, arglst)
 end // end of [aux3]
 
 fun aux4
@@ -480,10 +472,11 @@ fun aux4
   name: string
 , arg1: jsonval, arg2: jsonval, arg3: jsonval, arg4: jsonval
 ) : jsonval = let
-  val name = jsonval_string (name)
-  val arglst = jsonval_list (arg1 :: arg2 :: arg3 :: arg4 :: nil())
+  val arglst =
+    jsonval_list (arg1 :: arg2 :: arg3 :: arg4 :: nil())
+  // end of [val]
 in
-  jsonval_labval2 ("d2exp_name", name, "d2exp_arglst", arglst)
+  jsonval_labval1 (name, arglst)
 end // end of [aux4]
 
 in (* in of [local] *)
@@ -778,20 +771,18 @@ fun aux0
 (
   name: string
 ) : jsonval = let
-  val name = jsonval_string (name)
   val arglst = jsonval_list (list_nil)
 in
-  jsonval_labval2 ("d2ecl_name", name, "d2ecl_arglst", arglst)
+  jsonval_labval1 (name, arglst)
 end // end of [aux0]
 
 fun aux1
 (
   name: string, arg: jsonval
 ) : jsonval = let
-  val name = jsonval_string (name)
   val arglst = jsonval_sing (arg)
 in
-  jsonval_labval2 ("d2ecl_name", name, "d2ecl_arglst", arglst)
+  jsonval_labval1 (name, arglst)
 end // end of [aux1]
 
 fun aux2
@@ -799,10 +790,9 @@ fun aux2
   name: string
 , arg1: jsonval, arg2: jsonval
 ) : jsonval = let
-  val name = jsonval_string (name)
   val arglst = jsonval_pair (arg1, arg2)
 in
-  jsonval_labval2 ("d2ecl_name", name, "d2ecl_arglst", arglst)
+  jsonval_labval1 (name, arglst)
 end // end of [aux2]
 
 fun aux3
@@ -810,10 +800,11 @@ fun aux3
   name: string
 , arg1: jsonval, arg2: jsonval, arg3: jsonval
 ) : jsonval = let
-  val name = jsonval_string (name)
-  val arglst = jsonval_list (arg1 :: arg2 :: arg3 :: nil())
+  val arglst =
+    jsonval_list (arg1 :: arg2 :: arg3 :: nil())
+  // end of [val]
 in
-  jsonval_labval2 ("d2ecl_name", name, "d2ecl_arglst", arglst)
+  jsonval_labval1 (name, arglst)
 end // end of [aux3]
 
 in (* in of [local] *)
@@ -875,7 +866,7 @@ d2c0.d2ecl_node of
     aux2 ("D2Clocal", head, body)
   end // end of [D2Clocal]
 //
-| _ (*yet-to-be-processed*) => aux0 ("D2Cignored")
+| _ (*rest*) => aux0 ("D2Cignored")
 //
 end // end of [auxmain]
 //
@@ -884,7 +875,10 @@ val loc0 = jsonize_loc (loc0)
 val d2c0 = auxmain (d2c0)
 //
 in
-  jsonval_labval2 ("d2ecl_loc", loc0, "d2ecl_node", d2c0)
+//
+jsonval_labval2
+  ("d2ecl_loc", loc0, "d2ecl_node", d2c0)
+//
 end // end of [jsonize_d2ecl]
 
 end // end of [local]

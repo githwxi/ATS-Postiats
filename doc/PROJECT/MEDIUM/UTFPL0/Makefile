@@ -86,7 +86,9 @@ evaluating/evaluating.o: ; make -C evaluating evaluating.o
 #
 ######
 
-UTFPLeval: \
+UTFPLeval:: ; make -C parsing
+UTFPLeval:: ; make -C evaluating
+UTFPLeval:: \
   utfpl.o \
   parsing/parsing.o \
   evaluating/evaluating.o \

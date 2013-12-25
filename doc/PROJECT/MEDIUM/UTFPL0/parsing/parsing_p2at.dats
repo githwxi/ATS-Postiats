@@ -88,27 +88,23 @@ implement
 parse_p2at_node
   (jsv0) = let
 //
-val-~Some_vt(jsv1) =
-  jsonval_get_field (jsv0, "p2at_name")
-val-~Some_vt(jsv2) =
-  jsonval_get_field (jsv0, "p2at_arglst")
-//
-val-JSONstring(name) = jsv1
+val-JSONobject(lxs) = jsv0
+val-list_cons (lx, lxs) = lxs
 //
 in
 //
-case+ name of
+case+ lx.0 of
 //
-| "P2Tany" => parse_P2Tany (jsv2)
-| "P2Tvar" => parse_P2Tvar (jsv2)
+| "P2Tany" => parse_P2Tany (lx.1)
+| "P2Tvar" => parse_P2Tvar (lx.1)
 //
-| "P2Tempty" => parse_P2Tempty (jsv2)
+| "P2Tempty" => parse_P2Tempty (lx.1)
 //
-| "P2Trec" => parse_P2Trec (jsv2)
+| "P2Trec" => parse_P2Trec (lx.1)
 //
-| "P2Tann" => parse_P2Tann (jsv2)
+| "P2Tann" => parse_P2Tann (lx.1)
 //
-| _(*yet-to-be-processed*) => parse_P2Tignored (jsv2)
+| _(*rest*) => parse_P2Tignored (lx.1)
 //
 end // end of [parse_p2at_node]
 
