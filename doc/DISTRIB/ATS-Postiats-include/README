@@ -1,0 +1,10 @@
+###### beg of [README] ######
+
+This package contains various .h and .cats files needed for compiling
+C code generated from ATS source.  It is primarily meant for cross-platform
+development where it is difficult to generate on the source platform object
+code needed for an application designed to be running on the target platform.
+Instead, it is more convenient or even necessary to compile C code on the
+target platform to generate the needed object code.
+
+###### end of [README] ######

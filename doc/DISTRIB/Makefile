@@ -498,7 +498,7 @@ srcget_atscntrb_libatshwxi_teaching:: SCRIPT/atscntrb_libatshwxi_teaching.bash ;
 
 ######
 
-PACKNAME=ATS2-Postiats-0.0.4
+PACKNAME=ATS2-Postiats-0.0.5
 atspacktar:: ; rm -rf $(PACKNAME)
 atspacktar:: ; cp -rf ATS-Postiats $(PACKNAME)
 atspacktar:: ; $(RMF) $(PACKNAME)/Makefile_conf
@@ -507,7 +507,7 @@ atspacktar:: ; $(RMF) $(PACKNAME)/install-sh ; $(CPF) ATS-Postiats/install-sh $(
 atspacktar:: ; make -C $(PACKNAME) cleanall
 atspacktar:: ; tar -zvcf  $(PACKNAME).tgz  $(PACKNAME)/
 
-CNTRBNAME=ATS2-Postiats-contrib-0.0.3
+CNTRBNAME=ATS2-Postiats-contrib-0.0.4
 atscntrbtar:: ; rm -rf $(CNTRBNAME)
 atscntrbtar:: ; cp -rf ATS-Postiats-contrib $(CNTRBNAME)
 atscntrbtar:: ; tar -zvcf  $(CNTRBNAME).tgz  $(CNTRBNAME)/

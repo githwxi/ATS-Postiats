@@ -101,6 +101,29 @@ The ATSLIB/libc library\
 
 (* ****** ****** *)
 
+#packfilename("CATS/dirent.cats")
+#packfilename("CATS/errno.cats")
+#packfilename("CATS/fcntl.cats")
+#packfilename("CATS/fnmatch.cats")
+#packfilename("CATS/malloc.cats")
+#packfilename("CATS/math.cats")
+#packfilename("CATS/stdio.cats")
+#packfilename("CATS/stdlib.cats")
+#packfilename("CATS/string.cats")
+#packfilename("CATS/strings.cats")
+#packfilename("CATS/time.cats")
+#packfilename("CATS/unistd.cats")
+
+#packfilename("sys/CATS/mman.cats")
+#packfilename("sys/CATS/stat.cats")
+#packfilename("sys/CATS/types.cats")
+#packfilename("sys/CATS/wait.cats")
+
+#packfilename("gdbm/CATS/gdbm.cats")
+#packfilename("gdbm/CATS/datum.cats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/dirent.sats")
 #packfilename("SATS/errno.sats")
 #packfilename("SATS/fcntl.sats")
@@ -124,29 +147,6 @@ The ATSLIB/libc library\
 
 #packfilename("gdbm/SATS/gdbm.sats")
 #packfilename("gdbm/SATS/SHARE/datum.hats")
-
-(* ****** ****** *)
-
-#packfilename("CATS/dirent.cats")
-#packfilename("CATS/errno.cats")
-#packfilename("CATS/fcntl.cats")
-#packfilename("CATS/fnmatch.cats")
-#packfilename("CATS/malloc.cats")
-#packfilename("CATS/math.cats")
-#packfilename("CATS/stdio.cats")
-#packfilename("CATS/stdlib.cats")
-#packfilename("CATS/string.cats")
-#packfilename("CATS/strings.cats")
-#packfilename("CATS/time.cats")
-#packfilename("CATS/unistd.cats")
-
-#packfilename("sys/CATS/mman.cats")
-#packfilename("sys/CATS/stat.cats")
-#packfilename("sys/CATS/types.cats")
-#packfilename("sys/CATS/wait.cats")
-
-#packfilename("gdbm/CATS/gdbm.cats")
-#packfilename("gdbm/CATS/datum.cats")
 
 (* ****** ****** *)
 

@@ -114,7 +114,7 @@ The ATSLIB/libats/ML library\
 #packfilename("SATS/stdlib.sats")
 #packfilename("SATS/funset.sats")
 #packfilename("SATS/funmap.sats")
-#packfilename("SATS/hashtbl.sats")
+#packfilename("SATS/hashtblref.sats")
 #packfilename("SATS/monad_list.sats")
 #packfilename("SATS/monad_maybe.sats")
 
@@ -142,7 +142,7 @@ The ATSLIB/libats/ML library\
 
 #packfilename("DATS/funset.dats")
 #packfilename("DATS/funmap.dats")
-#packfilename("DATS/hashtbl.dats")
+#packfilename("DATS/hashtblref.dats")
 #packfilename("DATS/monad_list.dats")
 #packfilename("DATS/monad_maybe.dats")
 

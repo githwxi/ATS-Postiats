@@ -112,6 +112,46 @@ The ATSLIB/prelude library\
 
 (* ****** ****** *)
 
+#packfilename("CATS/basics.cats")
+
+(* ****** ****** *)
+
+#packfilename("CATS/integer.cats")
+#packfilename("CATS/pointer.cats")
+
+(* ****** ****** *)
+
+#packfilename("CATS/bool.cats")
+#packfilename("CATS/char.cats")
+#packfilename("CATS/integer_ptr.cats")
+#packfilename("CATS/integer_fixed.cats")
+#packfilename("CATS/float.cats")
+
+(* ****** ****** *)
+
+#packfilename("CATS/memory.cats")
+
+(* ****** ****** *)
+
+#packfilename("CATS/string.cats")
+#packfilename("CATS/strptr.cats")
+
+(* ****** ****** *)
+
+#packfilename("CATS/filebas.cats")
+
+(* ****** ****** *)
+
+#packfilename("CATS/list.cats")
+#packfilename("CATS/option.cats")
+#packfilename("CATS/array.cats")
+#packfilename("CATS/arrayptr.cats")
+#packfilename("CATS/arrayref.cats")
+#packfilename("CATS/matrix.cats")
+#packfilename("CATS/matrixptr.cats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/arith_prf.sats")
 
 (* ****** ****** *)
@@ -175,34 +215,6 @@ The ATSLIB/prelude library\
 
 #packfilename("SATS/giterator.sats")
 #packfilename("SATS/fcontainer.sats")
-
-(* ****** ****** *)
-
-#packfilename("CATS/basics.cats")
-
-#packfilename("CATS/integer.cats")
-#packfilename("CATS/pointer.cats")
-
-#packfilename("CATS/bool.cats")
-#packfilename("CATS/char.cats")
-#packfilename("CATS/integer_ptr.cats")
-#packfilename("CATS/integer_fixed.cats")
-#packfilename("CATS/float.cats")
-
-#packfilename("CATS/memory.cats")
-
-#packfilename("CATS/string.cats")
-#packfilename("CATS/strptr.cats")
-
-#packfilename("CATS/filebas.cats")
-
-#packfilename("CATS/list.cats")
-#packfilename("CATS/option.cats")
-#packfilename("CATS/array.cats")
-#packfilename("CATS/arrayptr.cats")
-#packfilename("CATS/arrayref.cats")
-#packfilename("CATS/matrix.cats")
-#packfilename("CATS/matrixptr.cats")
 
 (* ****** ****** *)
 

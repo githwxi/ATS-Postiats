@@ -1,0 +1,14 @@
+###### beg of [README] ######
+#
+# HX-2013-12-26: some packaging commands
+#
+######
+
+make -f Makefile atspackaging # packaging ATS2
+make -f Makefile atscontribing # packaging ATS2-contrib
+
+######
+
+make -f Makefile_inclats tarvcfz # packaging ATS2-include
+
+###### end of [README] ######

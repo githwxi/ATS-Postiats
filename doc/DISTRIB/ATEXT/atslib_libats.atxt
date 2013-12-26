@@ -101,6 +101,20 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("CATS/qlist.cats")
+
+(* ****** ****** *)
+
+#packfilename("CATS/stkarray.cats")
+#packfilename("CATS/deqarray.cats")
+#packfilename("CATS/dynarray.cats")
+
+(* ****** ****** *)
+
+#packfilename("CATS/stringbuf.cats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/gnode.sats")
 #packfilename("SATS/qlist.sats")
 #packfilename("SATS/sllist.sats")
@@ -136,6 +150,10 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("SATS/hashtbl_chain.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/funset_avltree.sats")
 #packfilename("SATS/funset_listord.sats")
 
@@ -166,11 +184,10 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
-#packfilename("SATS/linhashtbl_chain.sats")
+#packfilename("SATS/linheap_binomial.sats")
 
 (* ****** ****** *)
 
-#packfilename("SATS/linheap_binomial.sats")
 %{
 (*
 #packfilename("SATS/linheap_fibonacci.sats")
@@ -184,6 +201,10 @@ The ATSLIB/libats library\
 (* ****** ****** *)
 
 #packfilename("SATS/linralist_nested.sats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/SHARE/hashtbl.hats")
 
 (* ****** ****** *)
 
@@ -210,30 +231,12 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
-#packfilename("SATS/SHARE/linhashtbl.hats")
-
-(* ****** ****** *)
-
 #packfilename("SATS/SHARE/linheap.hats")
 
 (* ****** ****** *)
 
 #packfilename("SATS/SHARE/lindeque.hats")
 #packfilename("SATS/SHARE/linralist.hats")
-
-(* ****** ****** *)
-
-#packfilename("CATS/qlist.cats")
-
-(* ****** ****** *)
-
-#packfilename("CATS/stkarray.cats")
-#packfilename("CATS/deqarray.cats")
-#packfilename("CATS/dynarray.cats")
-
-(* ****** ****** *)
-
-#packfilename("CATS/stringbuf.cats")
 
 (* ****** ****** *)
 
@@ -269,6 +272,10 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("DATS/hashtbl_chain.dats")
+
+(* ****** ****** *)
+
 #packfilename("DATS/funset_listord.dats")
 #packfilename("DATS/funset_avltree.dats")
 
@@ -299,10 +306,6 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
-#packfilename("DATS/linhashtbl_chain.dats")
-
-(* ****** ****** *)
-
 #packfilename("DATS/linheap_binomial.dats")
 #packfilename("DATS/linheap_binomial2.dats")
 %{
@@ -315,6 +318,10 @@ The ATSLIB/libats library\
 
 #packfilename("DATS/lindeque_dllist.dats")
 #packfilename("DATS/linralist_nested.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/SHARE/hashtbl.hats")
 
 (* ****** ****** *)
 
@@ -332,7 +339,6 @@ The ATSLIB/libats library\
 #packfilename("DATS/SHARE/linset_node.hats")
 #packfilename("DATS/SHARE/linmap.hats")
 #packfilename("DATS/SHARE/linmap_node.hats")
-#packfilename("DATS/SHARE/linhashtbl.hats")
 #packfilename("DATS/SHARE/linheap.hats")
 
 (* ****** ****** *)

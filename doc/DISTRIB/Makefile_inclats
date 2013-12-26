@@ -1,0 +1,52 @@
+#
+# A simple Makefile
+# for packing ATS-includes
+#
+
+######
+
+SRC=ATS-Postiats
+DST=ATS-Postiats-include
+
+######
+
+all:: update
+
+######
+
+CPF=cp -f
+
+######
+
+update:: ; \
+  $(CPF) $(SRC)/ccomp/runtime/*.h $(DST)/ccomp/runtime/.
+update:: ; \
+  $(CPF) $(SRC)/ccomp/runtime/*.c $(DST)/ccomp/runtime/.
+
+######
+
+update:: ; \
+  $(CPF) $(SRC)/prelude/CATS/*.cats $(DST)/prelude/CATS/.
+update:: ; $(CPF) $(SRC)/libc/CATS/*.cats $(DST)/libc/CATS/.
+update:: ; $(CPF) $(SRC)/libc/sys/CATS/*.cats $(DST)/libc/sys/CATS/.
+update:: ; $(CPF) $(SRC)/libc/gdbm/CATS/*.cats $(DST)/libc/sys/CATS/.
+update:: ; $(CPF) $(SRC)/libats/CATS/*.cats $(DST)/libats/CATS/.
+
+######
+
+TARVCFZ=tar vcfz
+
+######
+
+PACKNAME=ATS2-Postiats-include-0.0.4
+
+######
+
+tarvcfz:: update
+tarvcfz:: ; rm -rf $(PACKNAME)
+tarvcfz:: ; cp -rf $(DST) $(PACKNAME)
+tarvcfz:: ; $(TARVCFZ) $(PACKNAME).tgz $(PACKNAME)
+
+######
+
+###### end of [Makefile_inclats] ######

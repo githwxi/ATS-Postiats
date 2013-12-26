@@ -65,7 +65,7 @@ end else
   $VT.int2intinf (1)
 // end of [if]
 //
-end // end of [fact]
+end // end of [fact_vt]
 
 (* ****** ****** *)
 

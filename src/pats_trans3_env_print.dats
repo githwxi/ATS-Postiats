@@ -45,8 +45,11 @@ staload "./pats_trans3_env.sats"
 (* ****** ****** *)
 
 implement
-fprint_c3nstr (out, c3t) = let
-  macdef prstr (x) = fprint_string (out, ,(x))
+fprint_c3nstr
+  (out, c3t) = let
+//
+macdef prstr (x) = fprint_string (out, ,(x))
+//
 in
 //
 case+ c3t.c3nstr_node of
@@ -109,8 +112,12 @@ end // end of [fprint_c3nstrkind]
 (* ****** ****** *)
 
 implement
-fprint_h3ypo (out, h3p) = let
-  macdef prstr (x) = fprint_string (out, ,(x))
+fprint_h3ypo
+  (out, h3p) = let
+//
+macdef
+prstr (x) = fprint_string (out, ,(x))
+//
 in
 //
 case+ h3p.h3ypo_node of
@@ -144,8 +151,11 @@ prerr_h3ypo (x) = fprint_h3ypo (stderr_ref, x)
 (* ****** ****** *)
 
 implement
-fprint_s3itm (out, s3i) = let
-  macdef prstr (x) = fprint_string (out, ,(x))
+fprint_s3itm
+  (out, s3i) = let
+//
+macdef prstr (x) = fprint_string (out, ,(x))
+//
 in
 //
 case+ s3i of

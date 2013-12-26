@@ -1,0 +1,12 @@
+#
+# README for tests
+#
+
+######
+
+test01: factorial
+test02: Fibonacci
+test03: sum of digits
+test04: fast power
+
+###### end of [README] ######

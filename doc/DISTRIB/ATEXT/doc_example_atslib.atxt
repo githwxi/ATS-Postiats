@@ -181,6 +181,10 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
+#packfilename("libats_hashtbl_chain.dats")
+
+(* ****** ****** *)
+
 #packfilename("libats_funset_listord.dats")
 #packfilename("libats_funset_avltree.dats")
 #packfilename("libats_funmap_list.dats")
@@ -199,10 +203,6 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 #packfilename("libats_linmap_avltree.dats")
 #packfilename("libats_linmap_randbst.dats")
 #packfilename("libats_linmap_skiplist.dats")
-
-(* ****** ****** *)
-
-#packfilename("libats_linhashtbl_chain.dats")
 
 (* ****** ****** *)
 

@@ -277,14 +277,6 @@ output/atslib_libats_linset_avltree_dats.o: output/atslib_libats_linset_avltree_
 clean:: ; $(RMF) output/atslib_libats_linset_avltree_dats.c
 clean:: ; $(RMF) output/atslib_libats_linset_avltree_dats.o
 
-atslib_libats:: atslib_libats_linhashtbl_chain_dats
-atslib_libats_linhashtbl_chain_dats: output/atslib_libats_linhashtbl_chain_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libats_linhashtbl_chain_dats.c: ../../libats/DATS/linhashtbl_chain.dats ; $(PATSOPT) -o $@ --dynamic $<
-output/atslib_libats_linhashtbl_chain_dats.o: output/atslib_libats_linhashtbl_chain_dats.c ; \
-  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
-clean:: ; $(RMF) output/atslib_libats_linhashtbl_chain_dats.c
-clean:: ; $(RMF) output/atslib_libats_linhashtbl_chain_dats.o
-
 atslib_libats:: atslib_libats_linralist_nested_dats
 atslib_libats_linralist_nested_dats: output/atslib_libats_linralist_nested_dats.o ; $(ARR) lib/libatslib.a $<
 output/atslib_libats_linralist_nested_dats.c: ../../libats/DATS/linralist_nested.dats ; $(PATSOPT) -o $@ --dynamic $<
@@ -292,6 +284,17 @@ output/atslib_libats_linralist_nested_dats.o: output/atslib_libats_linralist_nes
   $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
 clean:: ; $(RMF) output/atslib_libats_linralist_nested_dats.c
 clean:: ; $(RMF) output/atslib_libats_linralist_nested_dats.o
+
+
+######
+
+atslib_libats:: atslib_libats_hashtbl_chain_dats
+atslib_libats_hashtbl_chain_dats: output/atslib_libats_hashtbl_chain_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_hashtbl_chain_dats.c: ../../libats/DATS/hashtbl_chain.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_hashtbl_chain_dats.o: output/atslib_libats_hashtbl_chain_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_hashtbl_chain_dats.c
+clean:: ; $(RMF) output/atslib_libats_hashtbl_chain_dats.o
 
 
 ######

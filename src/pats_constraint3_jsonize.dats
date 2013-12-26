@@ -202,8 +202,7 @@ jsonize_s3itmlstlst
 (* ****** ****** *)
 
 implement
-jsonize_h3ypo
-  (h3p0) = let
+jsonize_h3ypo (h3p0) = let
 //
 fun auxmain
   (h3p0: h3ypo): jsonval = let
@@ -213,29 +212,34 @@ case+
 h3p0.h3ypo_node of
 //
 | H3YPOprop (s2e) => let
-    val s2e = jsonize_s2exp (s2e)
+(*
+    val () =
+    println! ("jsonize_h3ypo: H3YPOprop: s2e = ", s2e)
+*)
   in
-    jsonval_conarg1 ("H3YPOprop", s2e)
+    jsonval_conarg1 ("H3YPOprop", jsonize_s2exp (s2e))
   end // end of [H3YPOprop]
 | H3YPObind (s2v1, s2e2) => let
 (*
-    val () = println! ("jsonize_h3ypo: H3YPObind: s2v1 = ", s2v1)
-    val () = println! ("jsonize_h3ypo: H3YPObind: s2e2 = ", s2e2)
+    val () =
+    println! ("jsonize_h3ypo: H3YPObind: s2v1 = ", s2v1)
+    val () =
+    println! ("jsonize_h3ypo: H3YPObind: s2e2 = ", s2e2)
 *)
-    val s2v1 = jsonize_s2var (s2v1)
-    val s2e2 = jsonize_s2exp (s2e2)
   in
-    jsonval_conarg2 ("H3YPObind", s2v1, s2e2)
+    jsonval_conarg2
+      ("H3YPObind", jsonize_s2var(s2v1), jsonize_s2exp(s2e2))
   end // end of [H3YPObind]
 | H3YPOeqeq (s2e1, s2e2) => let
 (*
-    val () = println! ("jsonize_h3ypo: H3YPObind: s2e1 = ", s2e1)
-    val () = println! ("jsonize_h3ypo: H3YPObind: s2e2 = ", s2e2)
+    val () =
+    println! ("jsonize_h3ypo: H3YPObind: s2e1 = ", s2e1)
+    val () =
+    println! ("jsonize_h3ypo: H3YPObind: s2e2 = ", s2e2)
 *)
-    val s2e1 = jsonize_s2exp (s2e1)
-    val s2e2 = jsonize_s2exp (s2e2)
   in
-    jsonval_conarg2 ("H3YPOeqeq", s2e1, s2e2)
+    jsonval_conarg2
+      ("H3YPOeqeq", jsonize_s2exp(s2e1), jsonize_s2exp(s2e2))
   end // end of [H3YPOeqeq]
 //
 end // end of [auxmain]
@@ -251,8 +255,7 @@ end // end of [jsonize_h3ypo]
 (* ****** ****** *)
 
 implement
-jsonize_c3nstr
-  (c3t0) = let
+jsonize_c3nstr (c3t0) = let
 //
 fun auxmain
   (c3t0: c3nstr): jsonval = let
@@ -261,15 +264,9 @@ in
 case+
 c3t0.c3nstr_node of
 //
-| C3NSTRprop (s2e) => let
-(*
-    val () = println! (
-      "jsonize_c3nstr: C3NSTRprop: s2e = ", s2e
-    ) (* end of [val] *)
-*)
-  in
+| C3NSTRprop (s2e) =>
     jsonval_conarg1 ("C3NSTRprop", jsonize_s2exp (s2e))
-  end // end of [C3NSTRprop]
+  // end of [C3NSTRprop]
 //
 | C3NSTRitmlst (s3is) =>
     jsonval_conarg1 ("C3NSTRitmlst", jsonize_s3itmlst (s3is))
