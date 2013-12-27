@@ -17,6 +17,8 @@ UN = "prelude/SATS/unsafe.sats"
 //
 staload
 "./../utfpl.sats"
+staload
+"./../utfpleval.sats"
 //
 staload "./eval.sats"
 //

@@ -102,6 +102,7 @@ The ATSLIB/libc library\
 (* ****** ****** *)
 
 #packfilename("CATS/dirent.cats")
+#packfilename("CATS/dlfcn.cats")
 #packfilename("CATS/errno.cats")
 #packfilename("CATS/fcntl.cats")
 #packfilename("CATS/fnmatch.cats")
@@ -125,6 +126,7 @@ The ATSLIB/libc library\
 (* ****** ****** *)
 
 #packfilename("SATS/dirent.sats")
+#packfilename("SATS/dlfcn.sats")
 #packfilename("SATS/errno.sats")
 #packfilename("SATS/fcntl.sats")
 #packfilename("SATS/fnmatch.sats")

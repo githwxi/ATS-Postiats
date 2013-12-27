@@ -12,6 +12,8 @@
 //
 staload
 "./../utfpl.sats"
+staload
+"./../utfpleval.sats"
 //
 staload "./eval.sats"
 //
