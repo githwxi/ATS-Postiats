@@ -22,6 +22,10 @@ staload _(*M*) = "libc/DATS/math.dats"
 
 (* ****** ****** *)
 
+staload STDIO = "libc/SATS/stdio.sats"
+
+(* ****** ****** *)
+
 staload "./utfpl.sats"
 staload "./utfpleval.sats"
 
@@ -41,14 +45,21 @@ val mymap = hashtbl_make_nil<string,value>(i2sz(1024))
 //
 in (* in of [local] *)
 
-fun
+implement
 the_d2symmap_add_name
-(
-  name: string, def: value
-) : void =
-(
-  hashtbl_insert_any (mymap, name, def)
-)
+  (name, def) = hashtbl_insert_any (mymap, name, def)
+
+implement
+the_d2symmap_find
+  (d2s) = let
+//
+val sym = d2s.name in hashtbl_search (mymap, sym.name)
+//
+end // end of [the_d2symmap_add]
+
+end // end of [local]
+
+(* ****** ****** *)
 
 implement
 the_d2symmap_add
@@ -61,20 +72,6 @@ in
 the_d2symmap_add_name (sym.name, def)
 //
 end // end of [the_d2symmap_add]
-
-(* ****** ****** *)
-
-implement
-the_d2symmap_find
-  (d2s) = let
-//
-val sym = d2s.name
-//
-in
-  hashtbl_search (mymap, sym.name)
-end // end of [the_d2symmap_add]
-
-end // end of [local]
 
 (* ****** ****** *)
 
@@ -427,6 +424,61 @@ end // end of [local]
 
 (* ****** ****** *)
 
+fun mfn_fgetc
+(
+  args: valuelst
+) : value = let
+//
+val-list_cons (inp0, args) = args
+//
+in
+//
+case+ inp0 of
+| VALboxed (inp) => let
+    val inp =
+      $UN.cast{FILEref}(inp)
+    val int = $STDIO.fgetc0 (inp)
+  in
+    VALint(int)
+  end // end of [VALboxed]
+| _ => VALerror ("type-error: fgetc")
+//
+end // end of [mfn_fgetc]
+
+(* ****** ****** *)
+
+fun mfn_fputc
+(
+  args: valuelst
+) : value = let
+//
+val-list_cons (c0, args) = args
+val-list_cons (out0, args) = args
+in
+//
+case+ out0 of
+| VALboxed (out) => let
+    val out = $UN.cast{FILEref}(out)
+  in
+    case+ c0 of
+    | VALchar (c) => let
+        val err = $STDIO.fputc (c, out)
+      in
+        VALvoid ((*void*))
+      end // end of [VALint]
+    | VALint (i) => let
+        val err = $STDIO.fputc (i, out)
+      in
+        VALvoid ((*void*))
+      end // end of [VALint]
+    | _ => VALerror ("type-error: fputc")
+  end // end of [VALboxed]
+| _ => VALerror ("type-error: fputc")
+//
+end // end of [mfn_fputc]
+
+(* ****** ****** *)
+
 implement
 the_d2symmap_init () =
 {
@@ -453,15 +505,33 @@ val () = the_d2symmap_add_name (">=", VALfun(mfn_gte))
 val () = the_d2symmap_add_name ("=", VALfun(mfn_eq))
 val () = the_d2symmap_add_name ("!=", VALfun(mfn_neq))
 //
-val () = the_d2symmap_add_name ("stdin", VALboxed{FILEref}(stdin_ref))
-val () = the_d2symmap_add_name ("stdout", VALboxed{FILEref}(stdout_ref))
-val () = the_d2symmap_add_name ("stderr", VALboxed{FILEref}(stderr_ref))
+val () = let
+  val inp =
+    VALboxed{FILEref}(stdin_ref)
+in
+  the_d2symmap_add_name ("stdin", inp)
+end // end of [val]
+val () = let
+  val out =
+    VALboxed{FILEref}(stdout_ref)
+in
+  the_d2symmap_add_name ("stdout", out)
+end // end of [val]
+val () = let
+  val out =
+    VALboxed{FILEref}(stderr_ref)
+in
+  the_d2symmap_add_name ("stderr", out)
+end // end of [val]
 //
 val () = the_d2symmap_add_name ("print", VALfun(mfn_print))
 val () = the_d2symmap_add_name ("println", VALfun(mfn_println))
 //
 val () = the_d2symmap_add_name ("fprint", VALfun(mfn_fprint))
 val () = the_d2symmap_add_name ("fprintln", VALfun(mfn_fprintln))
+//
+val () = the_d2symmap_add_name ("fgetc", VALfun(mfn_fgetc))
+val () = the_d2symmap_add_name ("fputc", VALfun(mfn_fputc))
 //
 } (* end of [the_d2symmap_init] *)
 

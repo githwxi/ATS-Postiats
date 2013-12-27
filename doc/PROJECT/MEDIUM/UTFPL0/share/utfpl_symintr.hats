@@ -37,6 +37,8 @@ symintr stdin stdout stderr
 symintr print println
 symintr fprint fprintln
 //
+symintr fgetc fputc
+//
 (* ****** ****** *)
 
 (* end of [utfpleval_symintr.dats] *)

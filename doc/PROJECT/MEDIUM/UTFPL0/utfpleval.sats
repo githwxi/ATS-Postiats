@@ -104,6 +104,10 @@ fun the_d2symmap_find (d2sym): Option_vt (value)
 
 (* ****** ****** *)
 
+fun the_d2symmap_add_name (name: string, value): void
+
+(* ****** ****** *)
+
 fun the_d2symmap_init ((*void*)): void
 
 (* ****** ****** *)
