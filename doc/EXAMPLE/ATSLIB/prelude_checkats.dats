@@ -11,9 +11,36 @@
 
 val () =
 {
-val x0 = (10): int
-val [i:int] x0 = ckastloc_intLte(x0, 10)
-prval ((*void*)) = prop_verify{i <= 10}()
+val x0 = (5): int
+val [i:int] x0 = ckastloc_gintLt(x0, 6)
+prval ((*void*)) = prop_verify{i <= 5}()
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+val x0 = (5): int
+val [i:int] x0 = ckastloc_gintLte(x0, 5)
+prval ((*void*)) = prop_verify{i <= 5}()
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+val x0 = (5): int
+val [i:int] x0 = ckastloc_gintGt(x0, 4)
+prval ((*void*)) = prop_verify{i >= 5}()
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+val x0 = (5): int
+val [i:int] x0 = ckastloc_gintGte(x0, 5)
+prval ((*void*)) = prop_verify{i >= 5}()
 } (* end of [val] *)
 
 (* ****** ****** *)
@@ -21,17 +48,17 @@ prval ((*void*)) = prop_verify{i <= 10}()
 val () =
 {
 val x0 = (10): int
-val [i:int] x0 = ckastloc_intGte(x0, 10)
-prval ((*void*)) = prop_verify{i >= 10}()
-} (* end of [val] *)
-
-(* ****** ****** *)
-
-val () =
-{
-val x0 = (10): int
-val [i:int] x0 = ckastloc_intBtw(x0, 10, 11)
+val [i:int] x0 = ckastloc_gintBtw(x0, 10, 11)
 prval ((*void*)) = prop_verify{10 <= i && i < 11}()
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+val x0 = (10): int
+val [i:int] x0 = ckastloc_gintBtwe(x0, 10, 11)
+prval ((*void*)) = prop_verify{10 <= i && i <= 11}()
 } (* end of [val] *)
 
 (* ****** ****** *)

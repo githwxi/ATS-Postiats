@@ -31,7 +31,7 @@ staload "prelude/SATS/checkast.sats"
 #atscode_separator()
 
 implement{tk}
-checkast_intLt
+checkast_gintLt
   (x, i, errmsg) = let
   val x = g1ofg0_int(x)
 in
@@ -44,12 +44,12 @@ if x < i
     // end of [val]
   end // end of [else]
 //
-end // end of [checkast_intLt]
+end // end of [checkast_gintLt]
 
 #atscode_separator()
 
 implement{tk}
-checkast_intLte
+checkast_gintLte
   (x, i, errmsg) = let
   val x = g1ofg0_int(x)
 in
@@ -62,12 +62,12 @@ if x <= i
     // end of [val]
   end // end of [else]
 //
-end // end of [checkast_intLte]
+end // end of [checkast_gintLte]
 
 #atscode_separator()
 
 implement{tk}
-checkast_intGt
+checkast_gintGt
   (x, i, errmsg) = let
   val x = g1ofg0_int(x)
 in
@@ -80,12 +80,12 @@ if x > i
     // end of [val]
   end // end of [else]
 //
-end // end of [checkast_intGt]
+end // end of [checkast_gintGt]
 
 #atscode_separator()
 
 implement{tk}
-checkast_intGte
+checkast_gintGte
   (x, i, errmsg) = let
   val x = g1ofg0_int(x)
 in
@@ -98,12 +98,12 @@ if x >= i
     // end of [val]
   end // end of [else]
 //
-end // end of [checkast_intGte]
+end // end of [checkast_gintGte]
 
 #atscode_separator()
 
 implement{tk}
-checkast_intBtw
+checkast_gintBtw
   (x, i, j, errmsg) = let
   val x = g1ofg0_int(x)
 in
@@ -122,12 +122,12 @@ if x >= i
     // end of [val]
   end // end of [else]
 //
-end // end of [checkast_intBtw]
+end // end of [checkast_gintBtw]
 
 #atscode_separator()
 
 implement{tk}
-checkast_intBtwe
+checkast_gintBtwe
   (x, i, j, errmsg) = let
   val x = g1ofg0_int(x)
 in
@@ -146,7 +146,7 @@ if x >= i
     // end of [val]
   end // end of [else]
 //
-end // end of [checkast_intBtwe]
+end // end of [checkast_gintBtwe]
 
 #atscode_separator()
 
