@@ -1,9 +1,6 @@
 (* ****** ****** *)
 
-symintr true
-symintr false
-symintr print
-symintr println
+#include "../share/utfpl_symintr.hats"
 
 (* ****** ****** *)
 
@@ -12,8 +9,8 @@ and isodd (n) = if n > 0 then isevn (n-1) else false
 
 (* ****** ****** *)
 
-val () = println ("isevn(100) = ", isevn(100))
-val () = println ("isodd(100) = ", isodd(100))
+val () = fprintln (stdout, "isevn(100) = ", isevn(100))
+val () = fprintln (stdout, "isodd(100) = ", isodd(100))
 
 (* ****** ****** *)
 

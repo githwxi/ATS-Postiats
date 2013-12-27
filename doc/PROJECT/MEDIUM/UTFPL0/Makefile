@@ -36,6 +36,7 @@ CFLAGS +=  $(shell pkg-config --cflags json-c)
 ######
 
 LDFLAGS :=
+LDFLAGS += -lm
 LDFLAGS += -lgc
 LDFLAGS += -L$(PATSHOMEQ)/ccomp/atslib/lib
 LDFLAGS += -latslib
@@ -74,7 +75,7 @@ UTFPLobj := $(patsubst %.dats, %_dats.o, $(UTFPLobj))
 
 ######
 
-all:: UTFPLeval
+all:: UTFPLEVAL
 
 ######
 #
@@ -86,15 +87,17 @@ evaluating/evaluating.o: ; make -C evaluating evaluating.o
 #
 ######
 
-UTFPLeval:: ; make -C parsing
-UTFPLeval:: ; make -C evaluating
-UTFPLeval:: \
+UTFPLEVAL:: ; make -C parsing
+UTFPLEVAL:: ; make -C evaluating
+UTFPLEVAL:: \
   utfpl.o \
   parsing/parsing.o \
   evaluating/evaluating.o \
-  utfpl_mylib_dats.o \
   utfpl_dynloadall_dats.o \
-  utfpl_eval_dats.o ; $(PATSCC2) -o $@ $^ $(LDFLAGS)
+  utfpleval_dats.o \
+  utfpleval_symenv_dats.o \
+  utfpleval_mylib_dats.o ; \
+  $(PATSCC2) -o utfpleval $^ $(LDFLAGS)
 
 ######
 
@@ -115,8 +118,8 @@ depend:: ; $(RMF) .depend
 depend:: ; $(PATSOPT) --output-a .depend --depgen -
 depend:: ; $(PATSOPT) --output-a .depend --depgen -s $(UTFPLsrc_sta)
 depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(UTFPLsrc_dyn)
-depend:: ; $(PATSOPT) --output-a .depend --depgen -s utfpl_eval.sats
-depend:: ; $(PATSOPT) --output-a .depend --depgen -d utfpl_eval.dats
+depend:: ; $(PATSOPT) --output-a .depend --depgen -s utfpleval.sats
+depend:: ; $(PATSOPT) --output-a .depend --depgen -d utfpleval.dats
 
 ######
 
@@ -130,7 +133,7 @@ clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) utfpl.o
-cleanall:: ; $(RMF) UTFPLeval
+cleanall:: ; $(RMF) utfpleval
 cleanall:: ; make -C parsing cleanall
 cleanall:: ; make -C evaluating cleanall
 cleanall:: ; make -C TEST cleanall

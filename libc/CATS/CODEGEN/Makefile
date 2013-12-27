@@ -26,6 +26,15 @@ dirent_atxt.dats: dirent.atxt
 clean:: ; $(RMF) dirent_atxt.exe
 cleanall:: ; $(RMF) dirent.cats
 
+all:: dlfcn.cats
+dlfcn.cats: dlfcn_atxt.exe ; ./$< > $@
+dlfcn_atxt.exe: dlfcn_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ dlfcn_atxt.dats -latsdoc
+dlfcn_atxt.dats: dlfcn.atxt
+	$(ATSDOC) --outcode $@ -i dlfcn.atxt > dlfcn_atxt.txt
+clean:: ; $(RMF) dlfcn_atxt.exe
+cleanall:: ; $(RMF) dlfcn.cats
+
 all:: errno.cats
 errno.cats: errno_atxt.exe ; ./$< > $@
 errno_atxt.exe: errno_atxt.dats

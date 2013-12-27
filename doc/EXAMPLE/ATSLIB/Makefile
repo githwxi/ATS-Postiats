@@ -246,6 +246,14 @@ clean:: ; $(RMF) libc_dirent_dats.o
 clean:: ; $(RMF) libc_dirent_dats.c
 cleanall:: ; $(RMF) libc_dirent.exe
 
+all:: libc_dlfcn
+libc_dlfcn: libc_dlfcn.exe
+libc_dlfcn.exe: libc_dlfcn_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime  -o $@ $< -ldl
+libc_dlfcn_dats.c: libc_dlfcn.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_dlfcn_dats.c --dynamic libc_dlfcn.dats
+clean:: ; $(RMF) libc_dlfcn_dats.o
+clean:: ; $(RMF) libc_dlfcn_dats.c
+cleanall:: ; $(RMF) libc_dlfcn.exe
+
 all:: libc_fcntl
 libc_fcntl: libc_fcntl.exe
 libc_fcntl.exe: libc_fcntl_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

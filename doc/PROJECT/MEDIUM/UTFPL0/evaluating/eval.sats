@@ -27,72 +27,8 @@
 (* ****** ****** *)
 
 staload "./../utfpl.sats"
+staload "./../utfpleval.sats"
 
-(* ****** ****** *)
-
-abstype cloenv_type = ptr
-typedef cloenv = cloenv_type
-
-(* ****** ****** *)
-
-fun
-fprint_cloenv (FILEref, cloenv): void
-overload fprint with fprint_cloenv of 10
-
-(* ****** ****** *)
-
-datatype value =
-//
-  | VALint of int
-  | VALbool of bool
-  | VALchar of char
-  | VALfloat of double
-  | VALstring of string
-//
-  | VALvoid of ((*void*))
-//
-  | VALcst of d2cst
-  | VALvar of d2var
-  | VALsym of d2sym
-//
-  | VALtup of (valuelst)
-  | VALrec of (labvaluelst)
-//
-  | VALlam of (d2exp, cloenv)
-  | VALfix of (d2exp, cloenv)
-//
-  | VALfun of (valuelst -> value) // meta-function
-//
-  | VALerror of (string)
-// end of [value]
-
-and labvalue = LABVAL of (label, value)
-
-where
-valuelst = List (value)
-and
-labvaluelst = List (labvalue)
-
-(* ****** ****** *)
-//
-fun print_value (value): void
-fun fprint_value (FILEref, value): void
-//
-overload print with print_value
-overload fprint with fprint_value
-//
-(* ****** ****** *)
-//
-fun print_labvalue (labvalue): void
-fun fprint_labvalue (FILEref, labvalue): void
-//
-overload print with print_labvalue
-overload fprint with fprint_labvalue
-//
-(* ****** ****** *)
-//
-fun fprint2_value (FILEref, value): void
-//
 (* ****** ****** *)
 //
 fun cloenv_nil (): cloenv
@@ -113,11 +49,6 @@ fun cloenv_find
 
 fun the_d2cstmap_add (d2cst, value): void
 fun the_d2cstmap_find (d2cst): Option_vt (value)
-
-(* ****** ****** *)
-
-fun the_d2symmap_add (d2sym, value): void
-fun the_d2symmap_find (d2sym): Option_vt (value)
 
 (* ****** ****** *)
 

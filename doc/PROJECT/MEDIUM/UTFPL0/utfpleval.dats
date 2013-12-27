@@ -18,7 +18,7 @@ staload UN =
 (* ****** ****** *)
 
 staload "./utfpl.sats"
-staload "./utfpl_eval.sats"
+staload "./utfpleval.sats"
 
 (* ****** ****** *)
 
@@ -33,7 +33,7 @@ staload "{$JSONC}/SATS/json_ML.sats"
 (* ****** ****** *)
 
 implement
-utfpl_eval_fileref
+utfpleval_fileref
   (inp) = let
 //
 val dp = 1024 // depth
@@ -75,17 +75,19 @@ val env = eval0_d2eclist (d2cs)
 //
 in
   // nothing
-end // end of [utfpl_eval_fileref]
+end // end of [utfpleval_fileref]
 
 (* ****** ****** *)
-
+//
 dynload
 "./utfpl_dynloadall.dats"
 dynload
 "./parsing/dynloadall.dats"
 dynload
 "./evaluating/dynloadall.dats"
-
+//
+dynload "./utfpleval_symenv.dats"
+//
 (* ****** ****** *)
 
 %{^
@@ -110,15 +112,21 @@ fun stacksize_set (bsz: int): int(*err*) = "mac#"
 implement
 main0 (argc, argv) = let
 //
+val () =
+println! ("Hello from UTFPL0!")
+//
 val err =
   stacksize_set (32*1024*1024)
+val ((*void*)) =
+if (err != 0)
+  then println! ("warning(ATS): stacksize failed to reset!")
+// end of [if]
+//
+val () = the_d2symmap_init ()
 //
 var fopen: int = 0
 //
 var inpref: FILEref = stdin_ref
-//
-val () =
-  println! ("Hello from UTFPL0!")
 //
 val () =
 if argc >= 2 then let
@@ -132,7 +140,7 @@ in
   | ~Some_vt (inp) => (fopen := 1; inpref := inp)
 end // end of [if]
 //
-val () = utfpl_eval_fileref (inpref)
+val () = utfpleval_fileref (inpref)
 //
 val () = if fopen > 0 then fileref_close (inpref)
 //
@@ -142,4 +150,4 @@ end (* end of [main0] *)
 
 (* ****** ****** *)
 
-(* end of [utfpl_eval.dats] *)
+(* end of [utfpleval.dats] *)

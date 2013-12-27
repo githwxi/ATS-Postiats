@@ -10,10 +10,8 @@
 //
 (* ****** ****** *)
 //
-staload
-"./../utfpl.sats"
-//
-staload "./eval.sats"
+staload "./../utfpl.sats"
+staload "./../utfpleval.sats"
 //
 (* ****** ****** *)
 
@@ -71,6 +69,8 @@ case+ x0 of
 | VALfix _ => fprint! (out, "VALfix(...)")
 //
 | VALfun _ => fprint! (out, "VALfun(...)")
+//
+| VALboxed _ => fprint! (out, "VALboxed(...)")
 //
 | VALerror (msg) => fprint! (out, "VALerror(", msg, ")")
 //

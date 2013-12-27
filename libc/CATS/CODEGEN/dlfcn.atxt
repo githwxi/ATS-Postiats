@@ -1,0 +1,66 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"dlfcn.cats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_GPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/libc/CATS/CODEGEN/dlfcn.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator_for_C()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
+#atscode_start_time("December, 2013")
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSLIB_LIBC_DLFCN_CATS
+\#define ATSLIB_LIBC_DLFCN_CATS
+
+#atscode_separator_for_C()
+
+\#include <dlfcn.h>
+
+#atscode_separator_for_C()
+
+\#define atslib_dlopen dlopen
+\#define atslib_dlclose dlclose
+
+#atscode_separator_for_C()
+
+\#define atslib_dlerror dlerror
+
+#atscode_separator_for_C()
+
+\#define atslib_dlsym dlsym
+
+#atscode_separator_for_C()
+
+\#define atslib_dladdr dladdr
+\#define atslib_dlvsym dlvsym
+
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSLIB_LIBC_DLFCN_CATS
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "dlfcn_atxt.txt")
+%}\

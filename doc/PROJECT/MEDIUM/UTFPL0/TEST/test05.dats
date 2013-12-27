@@ -1,9 +1,6 @@
 (* ****** ****** *)
 
-symintr true
-symintr false
-symintr print
-symintr println
+#include "../share/utfpl_symintr.hats"
 
 (* ****** ****** *)
 
@@ -29,8 +26,8 @@ end // end of [fib2]
 
 (* ****** ****** *)
 
-val () = println ("fib(20) = ", fib(20))  
-val () = println ("fib2(20) = ", fib2(20))  
+val () = fprintln (stdout, "fib(20) = ", fib(20))  
+val () = fprintln (stdout, "fib2(20) = ", fib2(20))  
   
 (* ****** ****** *)
 

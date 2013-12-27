@@ -26,12 +26,10 @@
 
 (* ****** ****** *)
 
-staload "./utfpl.sats"
+extern val stdin : FILEref
+extern val stdout : FILEref
+extern val stderr : FILEref
 
 (* ****** ****** *)
 
-fun utfpl_eval_fileref (inp: FILEref): void
-
-(* ****** ****** *)
-
-(* end of [utfpl_eval.dats] *)
+(* end of [utfpleval_symdecl.dats] *)

@@ -14,10 +14,7 @@
 
 (* ****** ****** *)
 
-symintr true
-symintr false
-symintr print
-symintr println
+#include "../share/utfpl_symintr.hats"
 
 (* ****** ****** *)
 
