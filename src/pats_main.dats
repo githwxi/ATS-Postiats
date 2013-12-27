@@ -762,6 +762,8 @@ val () = pervasive_load (PATSHOME, "prelude/SATS/gnumber.sats")
 val () = pervasive_load (PATSHOME, "prelude/SATS/unsafe.sats") // manual loading
 *)
 //
+val () = pervasive_load (PATSHOME, "prelude/SATS/checkast.sats")
+//
 val () = pervasive_load (PATSHOME, "prelude/SATS/list.sats")
 val () = pervasive_load (PATSHOME, "prelude/SATS/list_vt.sats")
 //

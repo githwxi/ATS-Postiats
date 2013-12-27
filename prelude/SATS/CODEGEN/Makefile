@@ -193,6 +193,15 @@ unsafe_atxt.dats: unsafe.atxt
 clean:: ; $(RMF) unsafe_atxt.exe
 cleanall:: ; $(RMF) unsafe.sats
 
+all:: checkast.sats
+checkast.sats: checkast_atxt.exe ; ./$< > $@
+checkast_atxt.exe: checkast_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ checkast_atxt.dats -latsdoc
+checkast_atxt.dats: checkast.atxt
+	$(ATSDOC) --outcode $@ -i checkast.atxt > checkast_atxt.txt
+clean:: ; $(RMF) checkast_atxt.exe
+cleanall:: ; $(RMF) checkast.sats
+
 
 all:: list.sats
 list.sats: list_atxt.exe ; ./$< > $@

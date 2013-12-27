@@ -96,6 +96,7 @@ all::
 #make_entry("gnumber_float")
 
 #make_entry("unsafe")
+#make_entry("checkast")
 
 #make_entry("list")
 

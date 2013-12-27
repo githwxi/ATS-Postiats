@@ -126,6 +126,15 @@ clean:: ; $(RMF) prelude_intrange_dats.c
 cleanall:: ; $(RMF) prelude_intrange.exe
 
 
+all:: prelude_checkats
+prelude_checkats: prelude_checkats.exe
+prelude_checkats.exe: prelude_checkats_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+prelude_checkats_dats.c: prelude_checkats.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output prelude_checkats_dats.c --dynamic prelude_checkats.dats
+clean:: ; $(RMF) prelude_checkats_dats.o
+clean:: ; $(RMF) prelude_checkats_dats.c
+cleanall:: ; $(RMF) prelude_checkats.exe
+
+
 all:: prelude_list
 prelude_list: prelude_list.exe
 prelude_list.exe: prelude_list_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 

@@ -1,0 +1,157 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"checkast.dats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_GPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/checkast.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
+#atscode_start_time("December, 2013")
+
+#atscode_separator()
+
+staload "prelude/SATS/checkast.sats"
+
+#atscode_separator()
+
+implement{tk}
+checkast_intLt
+  (x, i, errmsg) = let
+  val x = g1ofg0_int(x)
+in
+//
+if x < i
+  then (x)
+  else let
+    val () =
+      fprint! (stderr_ref, "exit(ATS): ", errmsg) in exit(1)
+    // end of [val]
+  end // end of [else]
+//
+end // end of [checkast_intLt]
+
+#atscode_separator()
+
+implement{tk}
+checkast_intLte
+  (x, i, errmsg) = let
+  val x = g1ofg0_int(x)
+in
+//
+if x <= i
+  then (x)
+  else let
+    val () =
+      fprint! (stderr_ref, "exit(ATS): ", errmsg) in exit(1)
+    // end of [val]
+  end // end of [else]
+//
+end // end of [checkast_intLte]
+
+#atscode_separator()
+
+implement{tk}
+checkast_intGt
+  (x, i, errmsg) = let
+  val x = g1ofg0_int(x)
+in
+//
+if x > i
+  then (x)
+  else let
+    val () =
+      fprint! (stderr_ref, "exit(ATS): ", errmsg) in exit(1)
+    // end of [val]
+  end // end of [else]
+//
+end // end of [checkast_intGt]
+
+#atscode_separator()
+
+implement{tk}
+checkast_intGte
+  (x, i, errmsg) = let
+  val x = g1ofg0_int(x)
+in
+//
+if x >= i
+  then (x)
+  else let
+    val () =
+      fprint! (stderr_ref, "exit(ATS): ", errmsg) in exit(1)
+    // end of [val]
+  end // end of [else]
+//
+end // end of [checkast_intGte]
+
+#atscode_separator()
+
+implement{tk}
+checkast_intBtw
+  (x, i, j, errmsg) = let
+  val x = g1ofg0_int(x)
+in
+//
+if x >= i
+  then
+    if x < j then (x)
+    else let
+      val () =
+      fprint! (stderr_ref, "exit(ATS): ", errmsg) in exit(1)
+      // end of [val]
+    end // end of [else]
+  else let
+    val () =
+      fprint! (stderr_ref, "exit(ATS): ", errmsg) in exit(1)
+    // end of [val]
+  end // end of [else]
+//
+end // end of [checkast_intBtw]
+
+#atscode_separator()
+
+implement{tk}
+checkast_intBtwe
+  (x, i, j, errmsg) = let
+  val x = g1ofg0_int(x)
+in
+//
+if x >= i
+  then
+    if x <= j then (x)
+    else let
+      val () =
+      fprint! (stderr_ref, "exit(ATS): ", errmsg) in exit(1)
+      // end of [val]
+    end // end of [else]
+  else let
+    val () =
+      fprint! (stderr_ref, "exit(ATS): ", errmsg) in exit(1)
+    // end of [val]
+  end // end of [else]
+//
+end // end of [checkast_intBtwe]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "checkast_atxt.txt")
+%}\
