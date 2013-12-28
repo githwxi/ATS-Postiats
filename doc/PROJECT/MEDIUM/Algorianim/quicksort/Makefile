@@ -4,8 +4,7 @@
 
 ######
 
-PATSCC=$(PATSHOME)/bin/patscc
-PATSOPT=$(PATSHOME)/bin/patsopt
+include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 

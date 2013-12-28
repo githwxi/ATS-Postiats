@@ -6,67 +6,45 @@
 
 ######
 
-PATSHOMEQ="$(PATSHOME)"
-PATSHOMERELOCQ="$(PATSHOMERELOC)"
+include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
-PATSCC=$(PATSHOMEQ)/bin/patscc
-PATSOPT=$(PATSHOMEQ)/bin/patsopt
-PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
+PATSCC2=$(PATSCC) -DATS_MEMALLOC_GCBDW -IIATS $(PATSHOMERELOCQ)/contrib -O2
 
 ######
 
-ATSCCFLAGS=-O2 -DATS_MEMALLOC_GCBDW -IIATS $(PATSHOMERELOCQ)/contrib
-
-######
-
-all:: test_up
-all:: test_dn
-
-######
-
-cleanall::
-
-######
-
-SOURCESsta := \
+SOURCES_SATS += \
   msgchan.sats \
 
-SOURCESdyn := \
+SOURCES_DATS += \
   mylib.dats \
   msgchan.dats \
   redisContextSetup.dats \
 
 ######
 
-OBJECTS := $(SOURCESdyn)
+OBJECTS := $(SOURCES_DATS)
 OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))
 
 ######
 
-test_up: \
-  test_up.dats $(OBJECTS) ; \
-  $(PATSCC) $(ATSCCFLAGS) -o $@ $^ -lhiredis -lgc
+all:: test_up
+test_up: test_up.dats $(OBJECTS) ; $(PATSCC2) -o $@ $^ -lhiredis -lgc
 cleanall:: ; $(RMF) test_up
 
-test_dn: \
-  test_dn.dats $(OBJECTS) ; \
-  $(PATSCC) $(ATSCCFLAGS) -o $@ $^ -lhiredis -lgc
+all:: test_dn
+test_dn: test_dn.dats $(OBJECTS) ; $(PATSCC2) -o $@ $^ -lhiredis -lgc
 cleanall:: ; $(RMF) test_dn
 
 ######
 
-%_sats.o: %.sats ; $(PATSCC) $(ATSCCFLAGS) -c $< || echo $@ ": ERROR!!!"
-%_dats.o: %.dats ; $(PATSCC) -D_BSD_SOURCE $(ATSCCFLAGS) -c $< || echo $@ ": ERROR!!!"
+%_sats.o: %.sats ; $(PATSCC2) -c $< || echo $@ ": ERROR!!!"
+%_dats.o: %.dats ; $(PATSCC2) -D_BSD_SOURCE -c $< || echo $@ ": ERROR!!!"
 
 ######
 
--include .depend
-depend:: ; $(RMF) .depend
-depend:: ; $(PATSOPT) --output-a .depend --depgen -d test_up.dats
-depend:: ; $(PATSOPT) --output-a .depend --depgen -d test_dn.dats
-depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(SOURCESdyn)
+include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
@@ -76,15 +54,8 @@ upload_main: ; \
 
 ######
 
-RMF=rm -f
-
-######
-
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
-
-cleanall:: clean
-cleanall:: ; $(RMF) .depend
 
 ###### end of [Makefile] ######

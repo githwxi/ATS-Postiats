@@ -4,19 +4,21 @@
 
 ######
 
-CCOPT=gcc -std=c99 -D_XOPEN_SOURCE -D_GNU_SOURCE 
+include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
-PATSHOMEQ="$(PATSHOME)"
+CCOMP=gcc -std=c99 -D_XOPEN_SOURCE -D_GNU_SOURCE 
 
 ######
 
-PATSCC=\
-$(PATSHOMEQ)/bin/patscc \
-  -atsccomp "$(CCOPT)" \
-  -IIATS $(PATSHOME) -IIATS $(PATSHOME)/ccomp/runtime
-PATSOPT=$(PATSHOMEQ)/bin/patsopt
+CFLAGS :=
+CFLAGS += -I $(PATSHOMEQ)
+CFLAGS += -I $(PATSHOMEQ)/ccomp/runtime
+
+######
+
+PATSCC2=$(PATSCC) -atsccomp "$(CCOMP)"
 
 ######
 
@@ -24,29 +26,39 @@ all:: evaluating.o
 
 ######
 
+SOURCES_SATS += \
+  eval.sats
+
+SOURCES_DATS += \
+  print.dats \
+  cloenv.dats \
+  eval_d2cst.dats \
+  eval_d2var.dats \
+  eval_d2sym.dats \
+  eval_d2exp.dats \
+  eval_d2ecl.dats \
+
+######
+
+OBJECTS :=
+OBJECTS += $(SOURCES_SATS)
+OBJECTS += $(SOURCES_DATS)
+OBJECTS := $(patsubst %.sats, %_sats.o, $(OBJECTS))
+OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))
+
+######
+
 evaluating.o: \
-  eval_sats.o \
-  print_dats.o \
-  cloenv_dats.o \
-  eval_d2cst_dats.o \
-  eval_d2var_dats.o \
-  eval_d2sym_dats.o \
-  eval_d2exp_dats.o \
-  eval_d2ecl_dats.o \
-  dynloadall_dats.o ; ld -r -o $@ $^
+  $(OBJECTS) dynloadall_dats.o ; ld -r -o $@ $^
 
 ######
 
-%_sats.o: %.sats ; $(PATSCC) -c $<
-%_dats.o: %.dats ; $(PATSCC) -c $<
+%_sats.o: %.sats ; $(PATSCC2) $(CFLAGS) -c $<
+%_dats.o: %.dats ; $(PATSCC2) $(CFLAGS) -c $<
 
 ######
-#
-DATSMEMALLOC=-DATS_MEMALLOC_GCBDW
-#
-######
 
-RMF=rm -f
+include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
@@ -54,7 +66,8 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
 
-cleanall:: clean
+######
+
 cleanall:: ; $(RMF) evaluating.o
 
 ######

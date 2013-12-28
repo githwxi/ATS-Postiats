@@ -4,26 +4,11 @@
 
 ######
 
+include $(PATSHOME)/share/atsmake-pre.mk
+
+######
+
 CCOPT=gcc -std=c99 -D_XOPEN_SOURCE -D_GNU_SOURCE 
-
-######
-
-ifeq ("$(PATSHOME)","")
-  PATSHOMEQ="$(ATSHOME)"
-else
-  PATSHOMEQ="$(PATSHOME)"
-endif
-
-ifeq ("$(PATSHOMERELOC)","")
-  PATSHOMERELOCQ="$(ATSHOMERELOC)"
-else
-  PATSHOMERELOCQ="$(PATSHOMERELOC)"
-endif
-
-######
-
-PATSCC=$(PATSHOMEQ)/bin/patscc
-PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
@@ -119,6 +104,7 @@ depend:: ; $(PATSOPT) --output-a .depend --depgen -
 depend:: ; $(PATSOPT) --output-a .depend --depgen -s $(UTFPLsrc_sta)
 depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(UTFPLsrc_dyn)
 depend:: ; $(PATSOPT) --output-a .depend --depgen -s utfpleval.sats
+depend:: ; $(PATSOPT) --output-a .depend --depgen -d utfpleval_symenv.dats
 depend:: ; $(PATSOPT) --output-a .depend --depgen -d utfpleval.dats
 
 ######

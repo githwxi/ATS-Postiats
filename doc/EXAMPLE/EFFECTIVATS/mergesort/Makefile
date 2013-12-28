@@ -6,30 +6,28 @@
 
 ######
 
-PATSHOMEQ="$(PATSHOME)"
-PATSHOMERELOCQ="$(PATSHOMERELOC)"
+include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
-PATSCC=$(PATSHOMEQ)/bin/patscc
-PATSOPT=$(PATSHOMEQ)/bin/patsopt
-PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
-
-######
-
-ATSCCFLAGS=-O2 -DATS_MEMALLOC_GCBDW -IIATS $(PATSHOMERELOCQ)/contrib
+PATSCC2=$(PATSCC) -O2 -DATS_MEMALLOC_LIBC
 
 ######
 
 all:: mergesort
+mergesort: ; $(PATSCC) -tcats mergesort.dats
+
 all:: mergesort_list
+mergesort_list: ; $(PATSCC2) -o $@ mergesort_list.dats
+cleanall:: ; $(RMF) mergesort_list
+
 all:: mergesort_array
+mergesort_array: ; $(PATSCC2) -o $@ mergesort_array.dats
+cleanall:: ; $(RMF) mergesort_array
 
 ######
 
-mergesort: ; $(PATSCC) -tcats mergesort.dats
-mergesort_list: ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ mergesort_list.dats
-mergesort_array: ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ mergesort_array.dats
+include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
@@ -39,16 +37,10 @@ upload_main: ; \
 
 ######
 
-RMF=rm -f
-
-######
-
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
 
-cleanall:: clean
-cleanall:: ; $(RMF) mergesort_list
-cleanall:: ; $(RMF) mergesort_array
+######
 
 ###### end of [Makefile] ######
