@@ -217,7 +217,7 @@ h3p0.h3ypo_node of
     println! ("jsonize_h3ypo: H3YPOprop: s2e = ", s2e)
 *)
   in
-    jsonval_conarg1 ("H3YPOprop", jsonize_s2exp (s2e))
+    jsonval_conarg1 ("H3YPOprop", jsonize1_s2exp (s2e))
   end // end of [H3YPOprop]
 | H3YPObind (s2v1, s2e2) => let
 (*
@@ -228,7 +228,7 @@ h3p0.h3ypo_node of
 *)
   in
     jsonval_conarg2
-      ("H3YPObind", jsonize_s2var(s2v1), jsonize_s2exp(s2e2))
+      ("H3YPObind", jsonize_s2var(s2v1), jsonize1_s2exp(s2e2))
   end // end of [H3YPObind]
 | H3YPOeqeq (s2e1, s2e2) => let
 (*
@@ -239,7 +239,7 @@ h3p0.h3ypo_node of
 *)
   in
     jsonval_conarg2
-      ("H3YPOeqeq", jsonize_s2exp(s2e1), jsonize_s2exp(s2e2))
+      ("H3YPOeqeq", jsonize1_s2exp(s2e1), jsonize1_s2exp(s2e2))
   end // end of [H3YPOeqeq]
 //
 end // end of [auxmain]
@@ -265,7 +265,7 @@ case+
 c3t0.c3nstr_node of
 //
 | C3NSTRprop (s2e) =>
-    jsonval_conarg1 ("C3NSTRprop", jsonize_s2exp (s2e))
+    jsonval_conarg1 ("C3NSTRprop", jsonize1_s2exp (s2e))
   // end of [C3NSTRprop]
 //
 | C3NSTRitmlst (s3is) =>

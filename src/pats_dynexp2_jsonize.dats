@@ -511,7 +511,7 @@ d2e0.d2exp_node of
 | D2Eann_type
     (d2e, s2e) => let
     val jsv1 = jsonize_d2exp (d2e)
-    val jsv2 = jsonize_s2exp (s2e)
+    val jsv2 = jsonize0_s2exp (s2e)
   in
     jsonval_conarg2 ("D2Eann_type", jsv1, jsv2)
   end // end of [D2Eann_type]
@@ -684,7 +684,7 @@ d2c0.d2ecl_node of
 | D2Cextype
     (name, s2e_def) => let
     val name = jsonval_string (name)
-    val s2e_def = jsonize_s2exp (s2e_def)
+    val s2e_def = jsonize0_s2exp (s2e_def)
   in
     jsonval_conarg2 ("D2Cextype", name, s2e_def)
   end // end of [D2Cextype]

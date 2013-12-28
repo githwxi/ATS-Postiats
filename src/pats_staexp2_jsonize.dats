@@ -173,17 +173,30 @@ jsonval_labval2
 end // end of [jsonize_d2con]
 
 (* ****** ****** *)
+// 
+implement
+jsonize0_s2exp
+  (s2e) = jsonize_s2exp (0(*hnf*), s2e)
+implement
+jsonize1_s2exp
+  (s2e) = jsonize_s2exp (1(*hnf*), s2e)
+// 
+(* ****** ****** *)
 
 implement
 jsonize_s2exp
-  (s2e0) = let
+  (flag, s2e0) = let
 //
 fun auxmain
 (
-  s2e0: s2exp
+  flag: int, s2e0: s2exp
 ) : jsonval = let
-  val s2f0 = s2exp2hnf (s2e0)
-  val s2e0 = s2hnf2exp (s2f0)
+//
+val s2e0 =
+(
+  if flag = 0 then s2e0 else s2exp_hnfize (s2e0)
+) : s2exp // end of [val]
+//
 in
 //
 case+ s2e0.s2exp_node of
@@ -202,34 +215,34 @@ case+ s2e0.s2exp_node of
     jsonval_conarg1 ("S2EVar", jsonize_s2Var (s2V))
 //
 | S2Esizeof (s2e) =>
-    jsonval_conarg1 ("S2Esizeof", jsonize_s2exp (s2e))
+    jsonval_conarg1 ("S2Esizeof", jsonize_s2exp (flag, s2e))
 //
 | S2Eeqeq
     (s2e1, s2e2) => let
-    val s2e1 = jsonize_s2exp (s2e1)
-    and s2e2 = jsonize_s2exp (s2e2)
+    val s2e1 = jsonize_s2exp (flag, s2e1)
+    and s2e2 = jsonize_s2exp (flag, s2e2)
   in
     jsonval_conarg2 ("S2Eeqeq", s2e1(*left*), s2e2(*right*))
   end // end of [S2Eeqeq]
 //
 | S2Eapp
     (s2e1, s2es2) => let
-    val s2e1 = jsonize_s2exp (s2e1)
-    val s2es2 = jsonize_s2explst (s2es2)
+    val s2e1 = jsonize_s2exp (flag, s2e1)
+    val s2es2 = jsonize_s2explst (flag, s2es2)
   in
     jsonval_conarg2 ("S2Eapp", s2e1(*fun*), s2es2(*arglst*))
   end // end of [S2Eapp]
 //
 | S2Emetdec
     (s2es1, s2es2) => let
-    val s2es1 = jsonize_s2explst (s2es1)
-    and s2es2 = jsonize_s2explst (s2es2)
+    val s2es1 = jsonize_s2explst (flag, s2es1)
+    and s2es2 = jsonize_s2explst (flag, s2es2)
   in
     jsonval_conarg2 ("S2Emetdec", s2es1(*met*), s2es2(*bound*))
   end // end of [S2Emetdec]
 //
 | S2Einvar (s2e) =>
-    jsonval_conarg1 ("S2Einvar", jsonize_s2exp (s2e))
+    jsonval_conarg1 ("S2Einvar", jsonize_s2exp (flag, s2e))
 //
 | S2Eerr ((*void*)) => jsonval_conarg0 ("S2Eerr")
 //
@@ -239,7 +252,7 @@ end // end of [auxmain]
 //
 val s2t0 = s2e0.s2exp_srt
 val s2t0 = jsonize_s2rt (s2t0)
-val s2e0 = auxmain (s2e0)
+val s2e0 = auxmain (flag, s2e0)
 //
 in
   jsonval_labval2 ("s2exp_srt", s2t0, "s2exp_node", s2e0)
@@ -248,8 +261,25 @@ end // end of [jsonize_s2exp]
 (* ****** ****** *)
 
 implement
-jsonize_s2explst (s2es) =
-  jsonize_list_fun (s2es, jsonize_s2exp)
+jsonize_s2explst
+  (flag, s2es) = let
+//
+fun auxlst
+(
+  flag: int, s2es: s2explst
+) : jsonvalist =
+//
+case+ s2es of
+| list_cons
+    (s2e, s2es) =>
+  (
+    list_cons (jsonize_s2exp (flag, s2e), auxlst (flag, s2es))
+  ) // end of [list_cons]
+| list_nil ((*void*)) => list_nil ()
+//
+in
+  JSONlist (auxlst (flag, s2es))
+end // end of [jsonize_s2explst]
 
 (* ****** ****** *)
 
