@@ -4,17 +4,17 @@
 
 ######
 
-PATSHOMEQ="$(PATSHOME)"
-PATSOPT=$(PATSHOMEQ)/src/patsopt
+include \
+$(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
-CC=gcc -std=c99 -D_XOPEN_SOURCE
-CC=clang -std=c99 -D_XOPEN_SOURCE
+CCOMP=gcc -std=c99 -D_XOPEN_SOURCE
+CCOMP=clang -std=c99 -D_XOPEN_SOURCE
 
 ######
 
-all:: test
+CFLAGS=-I${PATSHOME} -I${PATSHOME}/ccomp/runtime 
 
 ######
 #
@@ -22,26 +22,25 @@ all:: test
 #
 ######
 
+all:: test
 test: \
   program-1-2_dats.c \
   program-1-2-test_dats.c ; \
-  $(CC) -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -DATS_MEMALLOC_USER -O2 -o $@ myruntime.c $^
-
-######
-
-%_dats.c: %.dats; $(PATSOPT) -IATS${PATSHOME}/contrib --output $@ --dynamic $<
-
-######
-
-RMF=rm -f
-
-######
-
-clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.o
-clean:: ; $(RMF) *_?ats.c
-cleanall:: clean
+  $(CCOMP) -DATS_MEMALLOC_USER $(CFLAGS) -O2 -o $@ myruntime.c $^
 cleanall:: ; $(RMF) test
+
+######
+
+%_dats.c: %.dats; \
+  $(PATSOPT) -IATS${PATSHOME}/contrib --output $@ --dynamic $<
+
+######
+
+include $(PATSHOME)/share/atsmake-post.mk
+
+######
+
+clean:: cleanats
 
 ######
 

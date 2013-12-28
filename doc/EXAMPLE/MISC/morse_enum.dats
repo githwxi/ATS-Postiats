@@ -27,11 +27,15 @@ staload "libats/ML/SATS/string.sats"
 (* ****** ****** *)
 
 fun
-from {n:int} (
+from{n:int} (
   n: intGte(n)
 ) :<!ntm> stream (intGte(n)) = $delay(n :: from{n+1}(n+1))
 
+(* ****** ****** *)
+
 typedef sstring = stream string
+
+(* ****** ****** *)
 
 fun morse
   (n: Nat):<!laz> sstring = let

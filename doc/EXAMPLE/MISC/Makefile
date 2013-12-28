@@ -118,6 +118,7 @@ clean:: ; $(RMF) monad_state_dats.o
 clean:: ; $(RMF) monad_state_dats.c
 cleanall:: ; $(RMF) monad_state monad_state.exe
 
+
 all:: passwdgen
 passwdgen: passwdgen.exe
 passwdgen.exe: passwdgen_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 

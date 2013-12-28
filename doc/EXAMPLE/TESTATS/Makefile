@@ -4,12 +4,7 @@
 
 ######
 
-PATSCC=patscc
-PATSHOMEQ="$(PATSHOME)"
-
-######
-
-all::
+include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
@@ -139,14 +134,10 @@ cleanall:: ; $(RMF) weekday
 
 ######
 
-RMF=rm -f
+include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
-clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.c
-clean:: ; $(RMF) *_?ats.o
-
-cleanall:: clean
+clean:: cleanats
 
 ###### end of [Makefile] ######

@@ -45,6 +45,7 @@ OBJECTS= $(TARGETS_DATS_O)
 
 GameOf24: $(OBJECTS) ; \
   $(CCOMP) $(CFLAGS) -O2 -o $@ $^ -lgc -L$(PATSLIB) -latslib
+cleanall:: ; $(RMF) GameOf24
 
 ######
 
