@@ -4,28 +4,36 @@
 
 ######
 
-PATSCC=$(PATSHOME)/bin/patscc
+include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
-all::wordcnt
-all::wordcnt2
-all::wordcnt_vt
+PATSCC2=$(PATSCC) -DATS_MEMALLOC_LIBC -O2
 
 ######
 
+all:: wordcnt
 wordcnt: wordcnt.dats ; \
-  $(PATSCC) -DATS_MEMALLOC_LIBC -O2 -o $@ $< -L$(PATSHOME)/ccomp/atslib -latslib
+  $(PATSCC2) -o $@ $< -L$(PATSLIB) -latslib
+cleanall:: ; $(RMF) wordcnt
 
 ######
 
+all:: wordcnt2
 wordcnt2: wordcnt2.dats ; \
-  $(PATSCC) -DATS_MEMALLOC_LIBC -O2 -o $@ $< -L$(PATSHOME)/ccomp/atslib -latslib
+  $(PATSCC2) -o $@ $< -L$(PATSLIB) -latslib
+cleanall:: ; $(RMF) wordcnt2
 
 ######
 
+all:: wordcnt_vt
 wordcnt_vt: wordcnt_vt.dats ; \
-  $(PATSCC) -DATS_MEMALLOC_LIBC -O2 -o $@ $< -L$(PATSHOME)/ccomp/atslib -latslib
+  $(PATSCC2) -o $@ $< -L$(PATSLIB) -latslib
+cleanall:: ; $(RMF) wordcnt_vt
+
+######
+
+include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
@@ -35,20 +43,9 @@ upload_main: ; \
 
 ######
 
-RMF=rm -f
-
-######
-
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
-
-######
-
-cleanall:: clean
-cleanall:: ; $(RMF) wordcnt
-cleanall:: ; $(RMF) wordcnt2
-cleanall:: ; $(RMF) wordcnt_vt
 
 ######
 

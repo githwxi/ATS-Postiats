@@ -21,10 +21,6 @@ ATSCCFLAGS=-O2
 #
 ######
 
-all:: test
-
-######
-
 SOURCES_SATS += \
   DiningPhil2.sats \
 
@@ -40,6 +36,7 @@ OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))
 
 ######
 
+all:: test
 test: $(OBJECTS) ; \
   $(PATSCC) $(ATSCCFLAGS) -pthread -o $@ $^ -L$(PATSLIB) -latslib
 cleanall:: ; $(RMF) test

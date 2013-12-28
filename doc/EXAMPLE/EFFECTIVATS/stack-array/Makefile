@@ -4,15 +4,17 @@
 
 ######
 
-PATSCC=$(PATSHOME)/bin/patscc
+include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
 all:: postfix_eval
+postfix_eval: postfix_eval.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) postfix_eval
 
 ######
 
-postfix_eval: postfix_eval.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
@@ -22,16 +24,9 @@ upload_main: ; \
 
 ######
 
-RMF=rm -f
-
-######
-
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
-
-cleanall:: clean
-cleanall:: ; $(RMF) postfix_eval
 
 ######
 
