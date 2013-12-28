@@ -31,4 +31,4 @@ val () = fprintln (stdout, "fib2(20) = ", fib2(20))
   
 (* ****** ****** *)
 
-(* end of [test05.dats] *)
+(* end of [test05.utfpl] *)

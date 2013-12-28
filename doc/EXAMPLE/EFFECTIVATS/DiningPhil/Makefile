@@ -6,16 +6,9 @@
 
 ######
 
-PATSHOMEQ="$(PATSHOME)"
+include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
-
-PATSCC=$(PATSHOMEQ)/bin/patscc
-PATSOPT=$(PATSHOMEQ)/bin/patsopt
-PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
-
-######
-
 #
 # HX: Please uncomment the one you want, or skip it entirely
 #
@@ -26,21 +19,12 @@ ATSCCFLAGS=-O2
 #
 #ATSCCFLAGS=-O2 -flto
 #
-
 ######
 
-all:: test
-
-######
-
-cleanall::
-
-######
-
-SOURCESsta := \
+SOURCES_SATS += \
   DiningPhil.sats \
 
-SOURCESdyn := \
+SOURCES_DATS += \
   DiningPhil.dats \
   DiningPhil_fork.dats \
   DiningPhil_dine.dats \
@@ -48,11 +32,12 @@ SOURCESdyn := \
 
 ######
 
-OBJECTS := $(SOURCESdyn)
+OBJECTS := $(SOURCES_DATS)
 OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))
 
 ######
 
+all:: test
 test: $(OBJECTS) ; \
   $(PATSCC) $(ATSCCFLAGS) -o $@ $^ -L$(PATSLIB) -lrt -latslib
 cleanall:: ; $(RMF) test
@@ -68,10 +53,7 @@ cleanall:: ; $(RMF) test
 
 ######
 
-depend:: ; $(RMF) -f .depend
-depend:: ; $(PATSOPT) --output-a .depend --depgen -s $(SOURCESsta)
-depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(SOURCESdyn)
--include .depend
+include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
@@ -81,15 +63,10 @@ upload_main: ; \
 
 ######
 
-RMF=rm -f
-
-######
-
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
 
-cleanall:: clean
-#cleanall:: ; $(RMF) .depend
+######
 
 ###### end of [Makefile] ######

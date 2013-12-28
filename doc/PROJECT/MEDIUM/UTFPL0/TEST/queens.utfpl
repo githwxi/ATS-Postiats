@@ -147,4 +147,4 @@ val nsol = search ( @(0, 0, 0, 0, 0, 0, 0, 0), 0, 0, 0 )
 //
 (* ****** ****** *)
 
-(* end of [queens.dats] *)
+(* end of [queens.utfpl] *)

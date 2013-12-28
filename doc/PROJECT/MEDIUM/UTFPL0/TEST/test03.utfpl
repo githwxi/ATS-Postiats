@@ -31,4 +31,4 @@ val () = println ("pow(2, 10) = ", pow(2, 10))
 
 (* ****** ****** *)
 
-(* end of [test03.dats] *)
+(* end of [test03.utfpl] *)

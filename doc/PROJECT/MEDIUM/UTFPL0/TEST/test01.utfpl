@@ -17,4 +17,4 @@ val () = println ("fact(", N, ") = ", fact(N))
 
 (* ****** ****** *)
 
-(* end of [test01.dats] *)
+(* end of [test01.utfpl] *)

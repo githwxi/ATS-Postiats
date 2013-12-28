@@ -34,4 +34,4 @@ val () = println ("acker(3, 3) = ", acker(3, 3))
 
 (* ****** ****** *)
 
-(* end of [test02.dats] *)
+(* end of [test02.utfpl] *)

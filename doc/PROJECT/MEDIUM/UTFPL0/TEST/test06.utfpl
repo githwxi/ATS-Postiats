@@ -20,4 +20,4 @@ val () = fcopy (stdin, stdout)
 
 (* ****** ****** *)
 
-(* end of [test06.dats] *)
+(* end of [test06.utfpl] *)

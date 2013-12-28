@@ -14,4 +14,4 @@ val () = fprintln (stdout, "isodd(100) = ", isodd(100))
 
 (* ****** ****** *)
 
-(* end of [test04.dats] *)
+(* end of [test04.utfpl] *)

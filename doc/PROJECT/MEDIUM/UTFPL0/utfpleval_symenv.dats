@@ -492,10 +492,7 @@ val () = the_d2symmap_add_name ("+", VALfun(mfn_add))
 val () = the_d2symmap_add_name ("-", VALfun(mfn_sub))
 val () = the_d2symmap_add_name ("*", VALfun(mfn_mul))
 val () = the_d2symmap_add_name ("/", VALfun(mfn_div))
-val () = the_d2symmap_add_name ("%", VALfun(mfn_mod))
-(*
 val () = the_d2symmap_add_name ("mod", VALfun(mfn_mod))
-*)
 //
 val () = the_d2symmap_add_name ("<", VALfun(mfn_lt))
 val () = the_d2symmap_add_name ("<=", VALfun(mfn_lte))
@@ -505,24 +502,12 @@ val () = the_d2symmap_add_name (">=", VALfun(mfn_gte))
 val () = the_d2symmap_add_name ("=", VALfun(mfn_eq))
 val () = the_d2symmap_add_name ("!=", VALfun(mfn_neq))
 //
-val () = let
-  val inp =
-    VALboxed{FILEref}(stdin_ref)
-in
-  the_d2symmap_add_name ("stdin", inp)
-end // end of [val]
-val () = let
-  val out =
-    VALboxed{FILEref}(stdout_ref)
-in
-  the_d2symmap_add_name ("stdout", out)
-end // end of [val]
-val () = let
-  val out =
-    VALboxed{FILEref}(stderr_ref)
-in
-  the_d2symmap_add_name ("stderr", out)
-end // end of [val]
+val () =
+the_d2symmap_add_name ("stdin", VALboxed{FILEref}(stdin_ref))
+val () =
+the_d2symmap_add_name ("stdout", VALboxed{FILEref}(stdout_ref))
+val () =
+the_d2symmap_add_name ("stderr", VALboxed{FILEref}(stderr_ref))
 //
 val () = the_d2symmap_add_name ("print", VALfun(mfn_print))
 val () = the_d2symmap_add_name ("println", VALfun(mfn_println))

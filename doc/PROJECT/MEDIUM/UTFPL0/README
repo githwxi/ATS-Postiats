@@ -21,14 +21,15 @@ evaluating: code for evaluating UTFPL abstract syntax trees
 How to test:
 
 make -C TEST # generating some testing data
-make UTFPLeval # generating the evaluator for UTFPL
+make utfpleval # generating the evaluator for UTFPL
 
-./UTFPLeval TEST/test01_dats.json # evaluating TEST/test01.dats // factorial
-./UTFPLeval TEST/test02_dats.json # evaluating TEST/test02.dats // ackermann
-./UTFPLeval TEST/test03_dats.json # evaluating TEST/test03.dats // fast power
-./UTFPLeval TEST/test04_dats.json # evaluating TEST/test04.dats // isevn&isodd
-./UTFPLeval TEST/test05_dats.json # evaluating TEST/test05.dats // Fibonacci
-./UTFPLeval TEST/queens_dats.json # evaluating TEST/queens.dats // 8-queens puzzle
+./utfpleval TEST/test01_dats.json # evaluating TEST/test01.dats // factorial
+./utfpleval TEST/test02_dats.json # evaluating TEST/test02.dats // Ackermann
+./utfpleval TEST/test03_dats.json # evaluating TEST/test03.dats // fast power
+./utfpleval TEST/test04_dats.json # evaluating TEST/test04.dats // isevn&isodd
+./utfpleval TEST/test05_dats.json # evaluating TEST/test05.dats // Fibonacci
+./utfpleval TEST/test06_dats.json # evaluating TEST/test06.dats // file-copying
+./utfpleval TEST/queens_dats.json # evaluating TEST/queens.dats // 8-queens puzzle
 
 make cleanall # cleaning up everything generated
 
