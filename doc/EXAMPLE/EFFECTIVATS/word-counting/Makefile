@@ -12,6 +12,10 @@ PATSCC2=$(PATSCC) -DATS_MEMALLOC_LIBC -O2
 
 ######
 
+include $(PATSHOME)/share/atsmake-post.mk
+
+######
+
 all:: wordcnt
 wordcnt: wordcnt.dats ; \
   $(PATSCC2) -o $@ $< -L$(PATSLIB) -latslib
@@ -33,19 +37,13 @@ cleanall:: ; $(RMF) wordcnt_vt
 
 ######
 
-include $(PATSHOME)/share/atsmake-post.mk
-
-######
-
 upload_main: ; \
   scp main.html \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/word-counting/
 
 ######
 
-clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.o
-clean:: ; $(RMF) *_?ats.c
+clean:: cleanats
 
 ######
 

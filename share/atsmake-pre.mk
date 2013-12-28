@@ -25,7 +25,7 @@ PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 ######
 
 all::
-clean::
+cleanats::
 cleanall::
 
 ######

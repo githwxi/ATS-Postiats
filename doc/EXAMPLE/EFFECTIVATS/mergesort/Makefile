@@ -14,6 +14,10 @@ PATSCC2=$(PATSCC) -O2 -DATS_MEMALLOC_LIBC
 
 ######
 
+include $(PATSHOME)/share/atsmake-post.mk
+
+######
+
 all:: mergesort
 mergesort: ; $(PATSCC) -tcats mergesort.dats
 
@@ -27,19 +31,13 @@ cleanall:: ; $(RMF) mergesort_array
 
 ######
 
-include $(PATSHOME)/share/atsmake-post.mk
-
-######
-
 upload_main: ; \
   scp main.html \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/mergesort/
 
 ######
 
-clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.o
-clean:: ; $(RMF) *_?ats.c
+clean:: cleanats
 
 ######
 

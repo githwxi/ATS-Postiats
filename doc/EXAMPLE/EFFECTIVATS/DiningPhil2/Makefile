@@ -31,8 +31,11 @@ SOURCES_DATS += \
 
 ######
 
-OBJECTS := $(SOURCES_DATS)
-OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))
+include $(PATSHOME)/share/atsmake-post.mk
+
+######
+
+OBJECTS := $(TARGETS_DATS_O)
 
 ######
 
@@ -52,18 +55,12 @@ cleanall:: ; $(RMF) test
 
 ######
 
-include $(PATSHOME)/share/atsmake-post.mk
-
-######
-
 upload_main: ; \
   scp main.html \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/DiningPhil2/
 
 ######
 
-clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.o
-clean:: ; $(RMF) *_?ats.c
+clean:: cleanats
 
 ###### end of [Makefile] ######

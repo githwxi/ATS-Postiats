@@ -3,6 +3,13 @@
 #
 
 ######
+
+TARGETS_SATS_O := \
+  $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))
+TARGETS_DATS_O := \
+  $(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
+
+######
 #
 -include .depend
 #
@@ -13,6 +20,12 @@ depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(SOURCES_DATS)
 ######
 
 RMF=rm -f
+
+######
+
+cleanats:: ; $(RMF) *~
+cleanats:: ; $(RMF) *_?ats.o
+cleanats:: ; $(RMF) *_?ats.c
 
 ######
 

@@ -8,9 +8,9 @@ PATSCC=$(PATSHOME)/bin/patscc
 
 ######
 
-all::fcopy1
-all::fcopy2
-all::fcopy3
+all:: fcopy1
+all:: fcopy2
+all:: fcopy3
 
 ######
 

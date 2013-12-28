@@ -28,6 +28,10 @@ all:: parsing.o
 
 ######
 
+cleanall:: ; $(RMF) parsing.o
+
+######
+
 SOURCES_SATS += \
   parsing.sats
 
@@ -42,11 +46,13 @@ SOURCES_DATS += \
 
 ######
 
+include $(PATSHOME)/share/atsmake-post.mk
+
+######
+
 OBJECTS :=
-OBJECTS += $(SOURCES_SATS)
-OBJECTS += $(SOURCES_DATS)
-OBJECTS := $(patsubst %.sats, %_sats.o, $(OBJECTS))
-OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))
+OBJECTS += $(TARGETS_SATS_O)
+OBJECTS += $(TARGETS_DATS_O)
 
 ######
 
@@ -60,17 +66,7 @@ parsing.o: \
 
 ######
 
-include $(PATSHOME)/share/atsmake-post.mk
-
-######
-
-clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.o
-clean:: ; $(RMF) *_?ats.c
-
-######
-
-cleanall:: ; $(RMF) parsing.o
+clean:: cleanats
 
 ######
 
