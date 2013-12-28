@@ -10,19 +10,25 @@
 #define ATS_DYNLOADFLAG 0
 //
 (* ****** ****** *)
-
-staload "../calculator.sats"
-
+//
+#include
+"share/atspre_define.hats"
+//
+(* ****** ****** *)
+//
+staload
+CALC = "./../calculator.sats"
+//
 (* ****** ****** *)
 
 local
 //
-#include "../calculator_aexp.dats"
-#include "../calculator_token.dats"
-#include "../calculator_cstream.dats"
-#include "../calculator_tstream.dats"
-#include "../calculator_parsing.dats"
-#include "../calculator_print.dats"
+#include "./../calculator_aexp.dats"
+#include "./../calculator_token.dats"
+#include "./../calculator_cstream.dats"
+#include "./../calculator_tstream.dats"
+#include "./../calculator_parsing.dats"
+#include "./../calculator_print.dats"
 //
 in (*nothing*) end
 
@@ -33,7 +39,7 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload JNI = "JNI/SATS/jni.sats"
+staload JNI = "{$JNI}/SATS/jni.sats"
 
 (* ****** ****** *)
 
@@ -61,14 +67,15 @@ JNI_eval
 val () = assertloc ($JNI.jstring2ptr(inp) > 0)
 //
 val (pf | inp2) = $JNI.GetStringUTFChars (env, inp)
-val opt = aexp_parse_string ($UN.strptr2string(inp2))
+val opt = $CALC.aexp_parse_string ($UN.strptr2string(inp2))
 val () = $JNI.ReleaseStringUTFChars (pf | env, inp, inp2)
 //
 in
 //
 case+ opt of
-| ~Some_vt
-    (ae) => aexp_eval (ae)
+| ~Some_vt (ae) =>
+    $CALC.aexp_eval (ae)
+//
 | ~None_vt ((*void*)) => let
     val (
     ) = $JNI.RaiseExceptionByClassName

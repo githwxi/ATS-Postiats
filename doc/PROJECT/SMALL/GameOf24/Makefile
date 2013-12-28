@@ -4,19 +4,34 @@
 
 ######
 
-CCOPT=gcc -std=c99 -D_XOPEN_SOURCE -D_GNU_SOURCE 
+include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
-PATSHOMEQ="$(PATSHOME)"
+CCOMP=gcc -std=c99 -D_XOPEN_SOURCE -D_GNU_SOURCE 
 
 ######
 
-PATSCC=\
-$(PATSHOMEQ)/bin/patscc \
-  -atsccomp "$(CCOPT)" \
-  -IIATS $(PATSHOME) -IIATS $(PATSHOME)/ccomp/runtime
-PATSOPT=$(PATSHOMEQ)/bin/patsopt
+PATSCC2= $(PATSCC) -atsccomp "$(CCOMP)"
+
+######
+
+CFLAGS= -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime
+
+######
+
+SOURCES_SATS += \
+  GameOf24.sats \
+
+SOURCES_DATS += \
+  GameOf24.dats \
+  GameOf24_card.dats \
+  GameOf24_cardset.dats \
+  GameOf24_solve.dats \
+
+######
+
+include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
@@ -24,42 +39,21 @@ all:: GameOf24
 
 ######
 
-GameOf24: \
-  GameOf24_dats.o \
-  GameOf24_card_dats.o \
-  GameOf24_cardset_dats.o \
-  GameOf24_solve_dats.o ; \
-  $(CCOPT) \
-    -I${PATSHOME} \
-    -I${PATSHOME}/ccomp/runtime \
-    -L${PATSHOME}/ccomp/atslib/lib \
-    -O2 -o $@ $^ $(LGC) -latslib
+OBJECTS= $(TARGETS_DATS_O)
 
 ######
 
-%_dats.c: \
-  %.dats GameOf24.sats ; $(PATSCC) -ccats $<
-%_dats.o: %_dats.c; $(PATSCC) $(DATSMEMALLOC) -c $<
-
-######
-#
-#LGC=
-#DATSMEMALLOC=-DATS_MEMALLOC_LIBC
-#
-LGC=-lgc
-DATSMEMALLOC=-DATS_MEMALLOC_GCBDW
-#
-######
-
-RMF=rm -f
+GameOf24: $(OBJECTS) ; \
+  $(CCOMP) $(CFLAGS) -O2 -o $@ $^ -lgc -L$(PATSLIB) -latslib
 
 ######
 
-clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.o
-clean:: ; $(RMF) *_?ats.c
-cleanall:: clean
-cleanall:: ; $(RMF) GameOf24
+%_dats.c: %.dats ; $(PATSCC) -ccats $<
+%_dats.o: %_dats.c; $(PATSCC2) -DATS_MEMALLOC_GCBDW $(CFLAGS) -c $<
+
+######
+
+clean:: cleanats
 
 ######
 

@@ -26,6 +26,11 @@ staload "./calculator.sats"
 
 (* ****** ****** *)
 
+overload fprint with fprint_aexp of 10
+overload fprint with fprint_token of 10
+
+(* ****** ****** *)
+
 implement
 print_aexp (ae) = fprint (stdout_ref, ae)
 
