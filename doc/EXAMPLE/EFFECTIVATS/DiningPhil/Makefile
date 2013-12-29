@@ -1,8 +1,6 @@
-##
-##
-## A simple Makefile
-##
-##
+#
+# A simple Makefile
+#
 
 ######
 

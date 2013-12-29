@@ -1,3 +1,7 @@
+%{
+#include "./../ATEXT/atextfun.hats"
+%}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -5,6 +9,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-mergesort</title>
+#patscode_style()
 </head>
 
 <body>
@@ -25,18 +30,21 @@ of mergesort. Suppose that we have a type [myseq] declared as follows for
 the data that [mergesort] is to be called on:
 
 <pre>
+#pats2xhtml_sats("\
 abstype myseq
-</pre>
+")</pre>
 
 Naturally, we assign the following interface to [mergesort]:
 
 <pre>
+#pats2xhtml_sats("\
 fun mergesort (xs: myseq): myseq
-</pre>
+")</pre>
 
 A straightforward implementation of [mergesort] can be given as follows:
 
 <pre>
+#pats2xhtml_dats("\
 implement
 mergesort (xs) = let
   val n = myseq_length (xs)
@@ -49,17 +57,18 @@ in
   end else (xs) // end of [if]
 //
 end // end of [mergesort]
-</pre>
+")</pre>
 
 where the function
 [myseq_length], [myseq_split] and [myseq_merge]
 are assigned the following types:
 
 <pre>
+#pats2xhtml_sats("\
 fun myseq_length (xs: myseq): int
 fun myseq_split (xs: myseq): (myseq, myseq)
 fun myseq_merge (xs1: myseq, xs2: myseq): myseq
-</pre>
+")</pre>
 
 and their functionalities are briefly explained below:
 
@@ -91,8 +100,9 @@ In ATS, we can refine [myseq] as follows by making it a type constructor
 carrying one integer parameter:
 
 <pre>
+#pats2xhtml_sats("\
 abstype myseq(n:int)
-</pre>
+")</pre>
 
 Given a static integer N, [myseq(N)] is for myseq-values of length N.
 The type assigned to [mergesort] can be refined as follows to capture
@@ -100,18 +110,20 @@ the invariant that a given myseq-value and its sorted version have the
 same length:
 
 <pre>
+#pats2xhtml_sats("\
 fun mergesort{n:nat} (xs: myseq(n)): myseq(n)
-</pre>
+")</pre>
 
 As for the functions [myseq_length], [myseq_split]
 and [myseq_merge], they can be assigned the following more informative types:
 
 <pre>
+#pats2xhtml_sats("\
 fun myseq_length{n:int} (xs: myseq(n)): int(n)
 fun myseq_split{n:int | n >= 2}
   (xs: myseq(n)): [n1,n2:pos | n1+n2==n] (myseq(n1), myseq(n2))
 fun myseq_merge{n1,n2:nat} (xs1: myseq(n1), xs2: myseq(n2)): myseq(n1+n2)
-</pre>
+")</pre>
 
 Note that the type assigned to [myseq_split] implies that this function can
 only be applied to a given myseq-value containing at least 2 items and the
@@ -123,11 +135,12 @@ The above implementation of [mergesort] can be slightly modified into the
 following version:
 
 <pre>
+#pats2xhtml_dats("\
 implement
 mergesort (xs) = let
 //
 fun sort
-  {n:nat} .&lt;n&gt;.
+  {n:nat} .<n>.
 (
   xs: myseq(n)
 ) : myseq(n) = let
@@ -143,7 +156,7 @@ end // end of [sort]
 in
   sort (xs)
 end // end of [mergesort]
-</pre>
+")</pre>
 
 Note that [sort] is verified to be terminating based on the termination
 metric &lt;n&gt; (supplied by the programmer).
@@ -154,9 +167,10 @@ When trying to implement [myseq_split], we should be able to quickly
 realize that the following interface is much more suitable for it:
 
 <pre>
+#pats2xhtml_sats("\
 fun myseq_split{n:int | n >= 2}
   (xs: myseq(n), n: int n): (myseq(n/2), myseq(n-n/2))
-</pre>
+")</pre>
 
 The interface states that [myseq_split] returns a pair of myseq-values of
 length n/2 and n-n/2 when applied to a myseq-value of length n and an
@@ -164,11 +178,12 @@ integer of value n. The implementation of [mergesort] can now be slightly
 modified as follows:
 
 <pre>
+#pats2xhtml_dats("\
 implement
 mergesort (xs) = let
 //
 fun sort
-  {n:nat} .&lt;n&gt;.
+  {n:nat} .<n>.
 (
   xs: myseq(n), n: int n
 ) : myseq(n) = let
@@ -184,7 +199,7 @@ end // end of [sort]
 in
   sort (xs, myseq_length(xs))
 end // end of [mergesort]
-</pre>
+")</pre>
 
 We now have a specification-like implementation of mergesort that
 typechecks, which can be thought of as some form of blueprint intended for
@@ -198,9 +213,10 @@ As can be expected, the interface for mergesort on lists is given as
 follows:
 
 <pre>
+#pats2xhtml_sats("\
 fun{a:t0p}
 mergesort{n:nat} (xs: list (a, n)): list (a, n)
-</pre>
+")</pre>
 
 This interface indicates that [mergesort] is a function template
 parameterized over the type of the elements in a list given as its
@@ -208,16 +224,18 @@ argument. Let us now focus on [myseq_merge], which is given the
 following interface:
 
 <pre>
+#pats2xhtml_sats("\
 fun{a:t0p}
 myseq_merge
   {n1,n2:nat}
   (xs1: list(a, n1), xs2: list(a, n2)): list(a, n1+n2)
 // end of [myseq_merge]
-</pre>
+")</pre>
 
 Following is a straightforward implementation of [myseq_merge] on lists:
 
 <pre>
+#pats2xhtml_dats("\
 implement
 {a}(*tmp*)
 myseq_merge
@@ -241,7 +259,7 @@ case+ xs10 of
 | nil ((*void*)) => xs20
 //
 end // end of [myseq_merge]
-</pre>
+")</pre>
 
 Note that [gcompare_val] is a generic function template for comparing
 values.
@@ -267,9 +285,10 @@ attached to the array. So the interface for [mergesort] needs to be
 modified as follows:
 
 <pre>
+#pats2xhtml_sats("\
 fun{a:t0p}
 mergesort{n:nat} (xs: arrayref(a, n), n: int n): arrayref(a, n)
-</pre>
+")</pre>
 
 This interface means that [mergesort] takes both an array and the size of
 the array as its two arguments.
@@ -279,13 +298,14 @@ the array as its two arguments.
 Following is the interface for [myseq_merge] on arrays:
 
 <pre>
+#pats2xhtml_sats("\
 fun{a:t0p}
 myseq_merge
   {n1,n2:nat}
 (
   xs1: arrayref(a, n1), xs2: arrayref(a, n2), n1: int(n1), n2: int(n2)
 ) : arrayref(a, n1+n2) // end of [myseq_merge]
-</pre>
+")</pre>
 
 There is extensive use of unsafe programming features in my implementation
 of [myseq_merge] on arrays. Writing code this way is primarily for the
@@ -320,3 +340,7 @@ This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
 </body>
 </html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "main_atxt.txt")
+%}
