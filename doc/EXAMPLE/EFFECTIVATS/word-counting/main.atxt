@@ -29,7 +29,8 @@ What kind of input is expected?
 Basically, the input is a stream of words. So let us assume that we have
 a function [word_get] of the following type:
 
-<pre>
+<pre
+class="patsyntax">
 #pats2xhtml_sats("\
 fun word_get (): stropt
 ")</pre>
@@ -56,7 +57,8 @@ associative map that associates each word with the number of the
 occurrences of this word. So we introduce the following abstract type
 [wcmap_type] for such a map and [wcmap] as a shorthand for [wcmap_type]:
 
-<pre>
+<pre
+class="patsyntax">
 #pats2xhtml_sats("\
 abstype wcmap_type = ptr
 typedef wcmap = wcmap_type
@@ -70,7 +72,8 @@ that of a pointer (of the type [ptr]).
 How should a map of the type [wcmap] be created? We introduce a function
 for creating an empty map:
 
-<pre>
+<pre
+class="patsyntax">
 #pats2xhtml_sats("\
 fun wcmap_create (): wcmap
 ")</pre>
@@ -78,7 +81,8 @@ fun wcmap_create (): wcmap
 If a word is encountered, we need to increase its number of occurrences by
 1. This is done by the following function:
 
-<pre>
+<pre
+class="patsyntax">
 #pats2xhtml_sats("\
 fun wcmap_incby1 (map: wcmap, w: string): void
 ")</pre>
@@ -86,7 +90,8 @@ fun wcmap_incby1 (map: wcmap, w: string): void
 As we also need to sort words according to their numbers of occurrences, we
 introduce a function for sequentializing a [wcmap]:
 
-<pre>
+<pre
+class="patsyntax">
 #pats2xhtml_sats("\
 fun wcmap_listize (map: wcmap): list0 @(string, int)
 ")</pre>
@@ -104,7 +109,8 @@ Implementing WordCounting
 
 Let us declare the main function for counting words as follows:
 
-<pre>
+<pre
+class="patsyntax">
 #pats2xhtml_sats("\
 fun WordCounting (): wcmap
 ")</pre>
@@ -113,7 +119,8 @@ So by calling [WordCounting], we generate a [wcmap] that maps each
 encountered word to its number of occurrences. An implementation of
 [WordCounting] is given as follows:
 
-<pre>
+<pre
+class="patsyntax">
 #pats2xhtml_dats("\
 implement
 WordCounting () = let
@@ -164,7 +171,8 @@ How should [word_get] be implemented?
 One way to implement [word_get] is to first assume that we have a function
 [char_get] of the following type:
 
-<pre>
+<pre
+class="patsyntax">
 #pats2xhtml_sats("\
 fun char_get (): int
 ")</pre>
@@ -177,7 +185,8 @@ character is available.
 
 A possible implementation of [word_get] based on [char_get] is given as follows:
 
-<pre>
+<pre
+class="patsyntax">
 #pats2xhtml_dats("\
 implement
 word_get () = let
@@ -239,7 +248,8 @@ The following code gives a straightforward hashtable-based implementation
 of [wcmap]. Some details on various hashtable-functions can be found
 <a href="http://www.ats-lang.org/LIBRARY/libats/ML/hashtbl.html">on-line</a>.
 
-<pre>
+<pre
+class="patsyntax">
 #pats2xhtml_dats('\
 local
 //
@@ -404,7 +414,8 @@ same time, then a race-condition may happen. In ATS, we can eliminate a
 stateful function by turning it into a template. For instance, we can
 declare [char_get] as follows:
 
-<pre>
+<pre
+class="patsyntax">
 #pats2xhtml_sats("\
 fun{} char_get (): int
 ")</pre>
@@ -413,7 +424,8 @@ Also, functions that call [char_get] directly or indirectly need to be
 declared as templates. This means that we need to turn [word_get] and
 [WordCounting] into templates as well:
 
-<pre>
+<pre
+class="patsyntax">
 #pats2xhtml_sats("\
 fun{} word_get (): stropt
 fun{} WordCounting (): wcmap
@@ -422,7 +434,8 @@ fun{} WordCounting (): wcmap
 Now let us declare a function
 [WordCounting_fileref] as follows:
 
-<pre>
+<pre
+class="patsyntax">
 #pats2xhtml_sats("\
 fun WordCounting_fileref (inp: FILEref): wcmap
 ")</pre>
@@ -430,7 +443,8 @@ fun WordCounting_fileref (inp: FILEref): wcmap
 which is just variant of [WordCounting] that reads all the words from a
 given file handle. Then [WordCounting_fileref] can be implemented as follows:
 
-<pre>
+<pre
+class="patsyntax">
 #pats2xhtml_dats('\
 local
 

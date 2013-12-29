@@ -20,21 +20,6 @@ patscode_style
   ((*void*)): atext = atext_strcst("\
 <style type=\"text/css\">
   .patsyntax {color:#808080;background-color:#E0E0E0;}
-  .patsyntaxkeyword {color:#000000;font-weight:bold;}
-  .patsyntaxcomment {color:#787878;font-style:italic;}
-  .patsyntaxextcode {color:#A52A2A;}
-  .patsyntaxneuexp  {color:#800080;}
-  .patsyntaxstaexp  {color:#0000F0;}
-  .patsyntaxprfexp  {color:#603030;}
-  .patsyntaxdynexp  {color:#F00000;}
-  .patsyntaxstalab  {color:#0000F0;font-style:italic}
-  .patsyntaxdynlab  {color:#F00000;font-style:italic}
-  .patsyntaxdynstr  {color:#008000;font-style:normal}
-  .patsyntaxstacstdec  {text-decoration:none;}
-  .patsyntaxstacstuse  {color:#0000CF;text-decoration:underline;}
-  .patsyntaxdyncstdec  {text-decoration:none;}
-  .patsyntaxdyncstuse  {color:#B80000;text-decoration:underline;}
-  .patsyntaxdyncst_implement  {color:#B80000;text-decoration:underline;}
   .patsyntax span.keyword {color:#000000;font-weight:bold;}
   .patsyntax span.comment {color:#787878;font-style:italic;}
   .patsyntax span.extcode {color:#A52A2A;}
@@ -66,7 +51,7 @@ fun
 pats2xhtml_sats
   (x: string): atext = let
   val [l:addr]
-  str = string_pats2xhtmlize_embedded (0, x)
+  str = string_pats2xhtmlize_bground (0, x)
   prval () = addr_is_gtez {l} ()
 in
   if strptr_is_null (str) then let
@@ -78,7 +63,7 @@ fun
 pats2xhtml_dats
   (x: string): atext = let
   val [l:addr]
-  str = string_pats2xhtmlize_embedded (1, x)
+  str = string_pats2xhtmlize_bground (1, x)
   prval () = addr_is_gtez {l} ()
 in
   if strptr_is_null (str) then let

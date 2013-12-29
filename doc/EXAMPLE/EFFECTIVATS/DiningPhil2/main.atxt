@@ -1,3 +1,7 @@
+%{
+#include "./../ATEXT/atextfun.hats"
+%}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -5,6 +9,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-DiningPhil2</title>
+#patscode_style()
 </head>
 
 <body>
@@ -50,10 +55,12 @@ A channel is just a shared queue of fixed capacity. The following two
 functions are for inserting an element into and taking an element out of a
 given channel:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun{a:vt0p} channel_insert (channel (a), a): void
 fun{a:vt0p} channel_takeout (chan: channel (a)): (a) 
-</pre>
+")</pre>
 
 If [channel_insert] is called on a channel that is full, then the caller is
 blocked until an element is taken out of the channel.  If [channel_takeout]
@@ -67,9 +74,11 @@ A Channel for Each Fork
 Forks are resources given a linear type. Each fork is initially stored in a
 channel, which can be obtained by calling the following function:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun fork_changet (n: nphil): channel(fork)
-</pre>
+")</pre>
 
 where the type [nphil] is defined to be [natLt(5)] (for natural numbers
 less than 5). The channels for storing forks are chosen to be of capacity
@@ -86,9 +95,11 @@ A Channel for the Fork Tray
 A tray for storing "dirty" forks is also a channel, which can be obtained
 by calling the following function:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun forktray_changet ((*void*)): channel(fork)
-</pre>
+")</pre>
 
 The capacity chosen for the channel is 6 (instead of 5) so that it can
 never become full (as there are only 5 forks in total).
@@ -99,7 +110,9 @@ Philosopher Loop
 
 Each philosopher is implemented as a loop:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
 implement
 phil_loop (n) = let
 //
@@ -128,7 +141,7 @@ val () = channel_insert (ch_forktray, rf) // right fork to dirty tray
 in
   phil_loop (n)
 end // end of [phil_loop]
-</pre>
+')</pre>
 
 It should be straighforward to follow the code for [phil_loop].
 
@@ -138,7 +151,9 @@ Fork Cleaner Loop
 
 A cleaner is implemented as a loop:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
 implement
 cleaner_loop () = let
 //
@@ -151,13 +166,15 @@ val () = cleaner_return (f0) // puts back cleaned [f0]
 in
   cleaner_loop ()
 end // end of [cleaner_loop]
-</pre>
+')</pre>
 
 The function [cleaner_return] first finds out the number of a given fork
 and then uses the number to locate the channel for storing the fork. Its
 actual implementation is given as follows:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
 implement
 cleaner_return (f) =
 {
@@ -165,7 +182,7 @@ cleaner_return (f) =
   val ch = fork_changet (n)
   val () = channel_insert (ch, f)
 }
-</pre>
+')</pre>
 
 It should now be straighforward to follow the code for [cleaner_loop].
 
@@ -192,3 +209,7 @@ This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
 </body>
 </html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "main_atxt.txt")
+%}

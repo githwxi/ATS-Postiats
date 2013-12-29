@@ -1,3 +1,7 @@
+%{
+#include "./../ATEXT/atextfun.hats"
+%}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -5,6 +9,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-file-copying</title>
+#patscode_style()
 </head>
 
 <body>
@@ -26,33 +31,41 @@ precisely this purpose. Although we know that a file descriptor is
 represented as an integer, it seems appropriate to make it abstract as is
 done in the following declaration:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 abst@ype fildes = int
-</pre>
+")</pre>
 
 Often it is a good practice to give a name to an abstract type that is
 less likely to cause collision and then introduce a short alias for the name.
 For instance, the following declarations demonstrate such a practice:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 abst@ype fildes_t0ype = int
 stadef fildes: t@ype = fildes_t0ype
-</pre>
+")</pre>
 
 My naming convention uses the special identifier [t0ype] to indicate
 a type of the sort t@ype, that is, a type of unknown size. Note that
 the stadef-declaration can also be replaced with the following one:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 typedef fildes = fildes_t0ype
-</pre>
+")</pre>
 
 Now let us name the file-copying function [fcopy1] and give it
 the following interface:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun fcopy1 (src: fildes, dst: fildes): void
-</pre>
+")</pre>
 
 How should we implement [fcopy1]? For the moment, let us try to answer this
 question in a somewhat abstract manner.
@@ -63,10 +76,12 @@ Clearly, we should be able to read chars from [src] and also write chars
 into [dst]. So let us assume that the following two functions are available
 for use:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun readch (src: fildes): char
 fun writech (src: fildes, c: char): void
-</pre>
+")</pre>
 
 There is yet one more thing: We should be able to tell whether we have
 finished reading all the chars from a given file. One simple way to do
@@ -74,15 +89,19 @@ this is to require that [readch] return a special value to indicate the
 end of a file being reached. For this purpose, we modify the interface
 of [readch] as follows:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun readch (src: fildes): int
-</pre>
+")</pre>
 
 We use natural numbers, that is, non-negative integers for valid chars and
 a negative integer (e.g., -1) for the special value (indicating that the
 end of [src] is reached). We can now readily implement [fcopy1] as follows:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 implement
 fcopy1 (src, dst) = let
   val c = readch (src)
@@ -93,7 +112,7 @@ if c >= 0 then
 // end of [if]
 //
 end (* end of [fcopy1] *)
-</pre>
+")</pre>
 
 At this point, the obviously question is: How can functions [readch] and
 [writech] be implemented? They can be implemented based on the system calls
@@ -129,41 +148,51 @@ allocated buffers.
 
 Let us first introduce an abstract type for buffers:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 absvtype buffer_vtype = ptr
 vtypedef buffer = buffer_vtype
-</pre>
+")</pre>
 
 Actually, [buffer_vtype] is introduced as a viewtype, that is, a linear
 type, and the following functions are for creating and destroying a buffer,
 respectively:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun buffer_create (m: size_t): buffer
 fun buffer_destroy (buf: buffer): void
-</pre>
+")</pre>
 
 As we also need to test whether a buffer contains any data or not, let us
 introduce the following function for this purpose:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun buffer_isnot_empty (buf: !buffer): bool
-</pre>
+")</pre>
 
 In addition, let us use the names [readbuf] and [writebuf] for functions
 reading and writing multiple chars, respectively, and assign to them the
 following types:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun readbuf (src: fildes, buf: !buffer): void
 fun writebuf (dst: fildes, buf: !buffer): void
-</pre>
+")</pre>
 
 Let [fcopy2] be given the same interface as [fcopy1].  The following code
 gives a straightforward implementation of [fcopy2] based on [readbuf] and
 [writebuf]:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 implement
 fcopy2 (src, dst) = let
 //
@@ -188,7 +217,7 @@ val () = buffer_destroy (buf)
 in
   // nothing
 end (* end of [fcopy2] *)
-</pre>
+")</pre>
 
 Note that [BUFSZ] is a compile-time integer constant and [i2sz] is a
 cast-function for casting an integer of the type [int] to one of the type
@@ -211,9 +240,11 @@ Clearly, a call to [read] or [write] can fail due to a variety of reasons.
 If such a failure occurs, we should probably stop file-copying and report
 an error. Let us introduce another file-copying function [fcopy3] as follows:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun fcopy3 (src: fildes, dst: fildes, nerr: &int): void
-</pre>
+")</pre>
 
 The third argument [nerr] of [fcopy3] is a call-by-reference integer. In
 other words, what is passed as the third argument of [fcopy3] is the
@@ -222,10 +253,12 @@ during file-copying, then the value of the integer stored in [nerr] should
 be increased. To achieve this, we can modify the types of [readbuf] and
 [writebuf] as follows:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun readbuf (src: fildes, buf: !buffer, nerr: &int): void
 fun writebuf (dst: fildes, buf: !buffer, nerr: &int): void
-</pre>
+")</pre>
 
 The function [readbuf] calls [read]; if this call reports an error, then
 [readbuf] should increase the value of the integer stored in its third
@@ -233,7 +266,9 @@ argument. The function [writebuf] does the same with [write].  The
 following code gives an implementation of [fcopy3] similar to that of
 [fcopy2]:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 implement
 fcopy3 (src, dst, nerr) = let
 //
@@ -260,7 +295,7 @@ val ((*void*)) = buffer_destroy (buf)
 in
   // nothing
 end (* end of [fcopy3] *)
-</pre>
+")</pre>
 
 Note that the loop function exits whenever an error due to [read] or
 [write] is reported.  Please find the code of a completed running
@@ -273,3 +308,7 @@ This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
 </body>
 </html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "main_atxt.txt")
+%}

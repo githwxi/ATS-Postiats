@@ -1,3 +1,7 @@
+%{
+#include "./../ATEXT/atextfun.hats"
+%}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -5,6 +9,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-Producer-Consumer</title>
+#patscode_style()
 </head>
 
 <body>
@@ -40,7 +45,9 @@ Interface for Linear Buffer
 
 Let us first declare as follows a linear abstract type for buffers:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 //
 absvtype
 buffer_vtype (a:vt@ype+, m:int, n: int) = ptr
@@ -50,56 +57,66 @@ buffer (a:vt0p) = [m,n:int] buffer_vtype (a, m, n)
 vtypedef
 buffer (a:vt0p, m:int, n:int) = buffer_vtype (a, m, n)
 //
-</pre>
+')</pre>
 
 Given a type T and two integers M and N, the type [buffer(T, M, N)] is for
 a buffer of capacity M in which N elements of the type T are stored.  The
 following lemma can be used to establish the property that M >= N and N >=
 0 (for the purpose of constraint-solving):
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 praxi
 lemma_buffer_param{a:vt0p}
   {m,n:int}(!buffer (INV(a), m, n)): [m >= n; n >= 0] void
-</pre>
+')</pre>
 
 The function [buffer_make_nil] can be called to create a linear buffer of a
 given capacity that contains no elements:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 fun{a:vt0p}
 buffer_make_nil{m:pos} (cap: int m): buffer (a, m, 0)
-</pre>
+')</pre>
 
 The functions [buffer_isnil] and [buffer_isful] can be called to test
 whether a given buffer is empty and full, respectively:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 fun buffer_isnil{a:vt0p}
   {m,n:int} (!buffer (INV(a), m, n)): bool (n==0)
 fun buffer_isful{a:vt0p}
   {m,n:int} (!buffer (INV(a), m, n)): bool (m==n)
-</pre>
+')</pre>
 
 The function [buffer_insert] is for inserting an element into
 a buffer that is not full:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 fun{a:vt0p}
 buffer_insert{m,n:int | n < m}
 (
   !buffer (INV(a), m, n) >> buffer (a, m, n+1), x: a
 ) : void // end of [buffer_insert]
-</pre>
+')</pre>
 
 The function [buffer_insert] is for taking out an element from
 a buffer that is not empty:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 fun{a:vt0p}
 buffer_takeout{m,n:int | n > 0}
   (buf: !buffer (INV(a), m, n) >> buffer (a, m, n-1)): (a)
-</pre>
+')</pre>
 
 <h2>
 Interface for Shared Buffer
@@ -115,14 +132,16 @@ more details on the protection mechanism later.
 
 Let us now introduce an abstract type for shared buffers:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 //
 abstype
 sbuffer_type (a:vt@ype) = ptr
 //
 typedef sbuffer (a:vt0p) = sbuffer_type (a)
 //
-</pre>
+')</pre>
 
 Please note that [sbuffer] is a non-linear type. This means that a shared
 buffer cannot be freed explicitly after its creation. It is also possible
@@ -135,18 +154,22 @@ design a try, which should only lead to slightly more involved implementation.
 Given a linear buffer, [sbuffer_make_buffer] turns it into a shared buffer
 (by wrapping a protection mechanism around it):
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 fun{a:vt0p}
 sbuffer_make_buffer (buffer(a)): sbuffer (a)
-</pre>
+')</pre>
 
 The function [sbuffer_insert] inserts an element into
 a shared buffer:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 fun{a:vt0p}
 sbuffer_insert (sbuffer(a), x: a): void // called by producer
-</pre>
+')</pre>
 
 Note that a call to [sbuffer_insert] may be blocked due to the linear
 buffer inside the shared buffer is full.
@@ -156,10 +179,12 @@ buffer inside the shared buffer is full.
 The function [sbuffer_takeout] takes out an element from
 a shared buffer:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 fun{a:vt0p}
 sbuffer_takeout (sbuf: sbuffer(a)): (a) // called by consumer
-</pre>
+')</pre>
 
 Note that a call to [sbuffer_takeout] may be blocked due to the linear
 buffer inside the shared buffer is empty.
@@ -175,26 +200,32 @@ The linear buffer inside a shared buffer is protected by a mutex.
 The function [sbuffer_acquire] is for acquiring the linear buffer inside a
 given shared buffer:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 fun sbuffer_acquire{a:vt0p} (sbuf: sbuffer(a)): buffer (a)
-</pre>
+')</pre>
 
 The function [sbuffer_release] is for releasing a linear buffer (to the
 same shared buffer from which the linear buffer was previously acquired):
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 fun sbuffer_release{a:vt0p} (sbuf: sbuffer(a), buf: buffer(a)): void
-</pre>
+')</pre>
 
 
 Let us now declare two functions as follows:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 fun{a:vt0p}
 sbuffer_insert2 (sbuffer(a), !buffer(INV(a)) >> _, x: a): void
 fun{a:vt0p}
 sbuffer_takeout2 (sbf: sbuffer(a), buf: !buffer (INV(a)) >> _): (a)
-</pre>
+')</pre>
 
 A call to the function [sbuffer_insert2] tries to insert an element into a
 given linear buffer. In the case where the linear buffer is full, the
@@ -213,7 +244,9 @@ that the linear buffer is no longer empty.
 It is straightforward to implement [sbuffer_insert] and [sbuffer_takeout]
 based on [sbuffer_insert2] and [sbuffer_takeout2], respectively:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
 implement{a}
 sbuffer_insert (sbuf, x) =
 {
@@ -229,7 +262,7 @@ sbuffer_takeout (sbuf) = x where
   val x(*a*) = sbuffer_takeout2 (sbuf, buf)
   val ((*void*)) = sbuffer_release (sbuf, buf)
 }
-</pre>
+')</pre>
 
 There are two conditional variables (CVs) inside a shared buffer.  One of
 them is for handling the condition of the linear buffer (inside the shared
@@ -237,7 +270,9 @@ buffer) being empty, and the other CV is for handling the condition of the
 linear buffer being full. The following functions are implemented directly
 based on these two conditional variables:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 //
 fun
 sbuffer_cond_wait_isnil
@@ -249,7 +284,7 @@ sbuffer_cond_wait_isful
   {a:vt0p}{m:int} (sbuffer(a), !buffer(a, m, m) >> buffer(a)): void
 fun sbuffer_cond_signal_isful{a:vt0p}{m,n:int} (sbuf: sbuffer(a)): void
 //
-</pre>
+')</pre>
 
 The type assigned to the function [sbuffer_cond_wait_isnil] means that its
 caller must have possession of a linear buffer when calling it and the
@@ -272,7 +307,9 @@ Implementing [sbuffer_insert2]
 
 An implementation of [sbuffer_insert2] is given as follows:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
 implement{a}
 sbuffer_insert2
   (sbuf, buf, x) = let
@@ -300,7 +337,7 @@ if isful
   end // end of [else]
 //  
 end // end of [sbuffer_insert2]
-</pre>
+')</pre>
 
 The code should be self-explaining. Please note that inserting an element
 into an empty buffer requires a signal to be sent to the CV handling the
@@ -311,7 +348,9 @@ occur as the consumers waiting on the CV can never be awakened.
 Implementing [sbuffer_takeout2]
 </h4>
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
 implement{a}
 sbuffer_takeout2
   (sbuf, buf) = let
@@ -337,7 +376,7 @@ if isnil
   } (* end of [else] *)
 //  
 end // end of [sbuffer_takeout2]
-</pre>
+')</pre>
 
 The code should be self-explaining. Please note that taking out an element
 from a full buffer requires a signal to be sent to the CV handling the
@@ -384,39 +423,49 @@ of the implementation of the producer-consumer problem presented above.
 
 Suppose we have a linear type [Resource] for values that we want to share:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 absvtype Resource
-</pre>
+')</pre>
 
 Let us introduce a (non-linear) type [SharedResource] for values that are
 formed by wrapping some kind of protection mechnism around linear values of
 the type [Resource]:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 abstype SharedResource
-</pre>
+')</pre>
 
 The function that does the wrapping can be given the following type:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 fun SharedResource_create (R: Resource): SharedResource
-</pre>
+')</pre>
 
 The linear resource inside a shared resource is protected by a lock,
 and the following two functions are for taking out the linear resource
 and return it back:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 fun SharedResource_acquire (SR: SharedResource): Resource
 fun SharedResource_release (SR: SharedResource, R: Resource): void
-</pre>
+')</pre>
 
 Let us now assume that we have the following function for processing
 a linear resource:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 fun Resource_process (R: !Resource >> _): bool
-</pre>
+')</pre>
 
 If a call to [Resource_process] returns true, then the resource has been
 processed properly. Otherwise, it is an indication that the state of the
@@ -426,9 +475,11 @@ resource needs to be changed before it is suitable for processing.
 
 What we want to implement is the following function:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 fun SharedResource_process (SR: SharedResource): void
-</pre>
+')</pre>
 
 When called on a shared resource, [SharedResource_process] tries to process
 the linear resource inside it by calling [Resource_process].
@@ -437,7 +488,9 @@ the linear resource inside it by calling [Resource_process].
 
 An implementation of [SharedResource_process] is sketched as follows:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
 extern
 fun SharedResource_process2 (SR: SharedResource, R: !Resource >> _): void
 
@@ -473,7 +526,7 @@ if ans
   end // end of [else]
 //
 end // end of [SharedResource_process2]
-</pre>
+')</pre>
 
 A call to [SharedResource_cond_wait] puts the caller on the waiting-list
 of some conditional variable to avoid busy-waiting. Whenever the condition
@@ -491,3 +544,7 @@ This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
 </body>
 </html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "main_atxt.txt")
+%}

@@ -1,3 +1,7 @@
+%{
+#include "./../ATEXT/atextfun.hats"
+%}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -5,6 +9,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-IPC-redis</title>
+#patscode_style()
 </head>
 
 <body>
@@ -24,16 +29,20 @@ Message Channels
 
 Let us first introduce a type [msgchan] for message channels:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 abstype msgchan_type = ptr
 typedef msgchan = msgchan_type
-</pre>
+')</pre>
 
 The following function is for creating a message channel:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 fun msgchan_create (name: string): msgchan
-</pre>
+')</pre>
 
 In the actual implementation, a message channel is just a key referring to
 a queue in redis, and the function [msgchan_create] computes such a key based on
@@ -44,10 +53,12 @@ a given name.
 In order to insert a message into a given message channel, the
 following function [msgchan_insert] can be called:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 fun msgchan_insert
   (chan: msgchan, msg: string, nerr: &int >> _) : void
-</pre>
+')</pre>
 
 The third argument of [msgchan_insert] is call-by-reference, and its value
 is increased to indicate a failed attempt to insert a message.
@@ -57,9 +68,11 @@ is increased to indicate a failed attempt to insert a message.
 In order to take out a message for a given message channel, the
 following function [msgchan_takeout] can be called:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 fun msgchan_takeout (chan: msgchan, nerr: &int >> _): stropt
-</pre>
+')</pre>
 
 The second argument of [msgchan_takeout] is call-by-reference, and its
 value is increased to indicate a failed attempt to take out a message. What
@@ -92,20 +105,26 @@ with this connection is stored in a reference (that is, an array of size 1).
 The following function can be called to obtain the stored redisContext-value
 (for temporary use):
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 fun the_redisContext_vtget (): [l:addr] vttakeout0 (redisContext(l))
-</pre>
+')</pre>
 
 where [vttakeout0] is defined as follows:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 vtypedef
-vttakeout0 (a:vt@ype) = (a -&lt;lin,prf&gt; void | a) // borrowed linear value
-</pre>
+vttakeout0 (a:vt@ype) = (a -<lin,prf> void | a) // borrowed linear value
+')</pre>
 
 The following code depicts a typical calling sequence:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
 //
 val (fpf | ctx) = the_redisContext_vtget ()
 //
@@ -113,7 +132,7 @@ val (fpf | ctx) = the_redisContext_vtget ()
 //
 prval () = fpf (ctx) // returning the borrowed context
 //
-</pre>
+')</pre>
 
 where [the_redisContext_vtget] is called to obtain a redisContext-value and
 a proof function for returning this value, and the proof function is then
@@ -163,3 +182,7 @@ This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
 </body>
 </html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "main_atxt.txt")
+%}
