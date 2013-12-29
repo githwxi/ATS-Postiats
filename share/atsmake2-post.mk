@@ -4,21 +4,21 @@
 
 ######
 
-$(TARGET)_SATS_O := \
+$(MYTARGET)_SATS_O := \
   $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))
-$(TARGET)_DATS_O := \
+$(MYTARGET)_DATS_O := \
   $(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
 
 ######
 
-all: $(TARGET)
-cleanall:: ; $(RMF) $(TARGET)
+all: $(MYTARGET)
+cleanall:: ; $(RMF) $(MYTARGET)
 
 ######
 
-$(TARGET): \
-  $($(TARGET)_SATS_O) \
-  $($(TARGET)_DATS_O) ; \
+$(MYTARGET): \
+  $($(MYTARGET)_SATS_O) \
+  $($(MYTARGET)_DATS_O) ; \
   $(PATSCC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 ######

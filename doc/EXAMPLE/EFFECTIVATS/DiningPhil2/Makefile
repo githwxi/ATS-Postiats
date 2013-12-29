@@ -29,7 +29,7 @@ SOURCES_DATS += \
 
 ######
 
-TARGET=test
+MYTARGET=test
 
 ######
 
