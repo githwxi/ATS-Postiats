@@ -12,7 +12,6 @@ $(PATSHOME)/share/atsmake2-pre.mk
 ######
 
 CFLAGS += -O2
-CFLAGS += -D_GNU_SOURCE
 
 ######
 

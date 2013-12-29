@@ -24,6 +24,10 @@ PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 
 ######
 
+CFLAGS += -D_GNU_SOURCE
+
+######
+
 LDFLAGS += -L$(PATSLIB) -latslib
 
 ######

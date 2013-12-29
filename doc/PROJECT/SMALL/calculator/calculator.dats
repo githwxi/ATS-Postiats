@@ -68,6 +68,7 @@ end // end of [REPloop]
 
 (* ****** ****** *)
 
+dynload "./calculator.sats"
 dynload "./calculator_aexp.dats"
 dynload "./calculator_token.dats"
 dynload "./calculator_cstream.dats"
