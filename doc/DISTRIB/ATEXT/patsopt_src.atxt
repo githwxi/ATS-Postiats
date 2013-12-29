@@ -455,6 +455,7 @@ The ATS/Postiats (ATS2) Compiler\
 #packfilename("pats_constraint3.dats")
 #packfilename("pats_constraint3_init.dats")
 #packfilename("pats_constraint3_print.dats")
+#packfilename("pats_constraint3_jsonize.dats")
 #packfilename("pats_constraint3_simplify.dats")
 #packfilename("pats_constraint3_icnstr.dats")
 #packfilename("pats_constraint3_solve.dats")

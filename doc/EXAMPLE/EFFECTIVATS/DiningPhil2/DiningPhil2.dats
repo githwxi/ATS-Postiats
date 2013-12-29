@@ -139,6 +139,7 @@ end // end of [cleaner_loop]
 
 (* ****** ****** *)
 
+dynload "DiningPhil2.sats"
 dynload "DiningPhil2_fork.dats"
 dynload "DiningPhil2_thread.dats"
 

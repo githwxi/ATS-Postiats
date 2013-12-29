@@ -24,7 +24,19 @@ PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 
 ######
 
-all::
+LDFLAGS += -L$(PATSLIB) -latslib
+
+######
+
+MEMALLOC_ATS := -DATS_MEMALLOC_LIBC
+
+######
+
+INCLUDE_ATS += -IIATS $(PATSHOMERELOCQ)/contrib
+
+######
+
+all:
 cleanats::
 cleanall::
 
@@ -35,4 +47,4 @@ SOURCES_DATS=
 
 ######
 
-###### end of [atsmake-pre.mk] ######
+###### end of [atsmake2-pre.mk] ######

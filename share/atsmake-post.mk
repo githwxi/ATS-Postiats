@@ -4,16 +4,10 @@
 
 ######
 
-$(TARGET)_SATS_O := \
+TARGETS_SATS_O := \
   $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))
-$(TARGET)_DATS_O := \
+TARGETS_DATS_O := \
   $(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
-
-LDFLAGS += -L$(PATSLIB) -latslib
-
-all: $(TARGET)
-$(TARGET): $($(TARGET)_SATS_O) $($(TARGET)_DATS_O)
-	$(PATSCC) $(ATSCCFLAGS) $(LDFLAGS) -o $@ $^
 
 ######
 #
@@ -35,13 +29,8 @@ cleanats:: ; $(RMF) *_?ats.c
 
 ######
 
-cleanall:: cleanats
+cleanall:: clean
 cleanall:: ; $(RMF) .depend
-
-clean: cleanats
-
-%_sats.o: %.sats ; $(PATSCC) -DATS_MEMALLOC_LIBC -c $<
-%_dats.o: %.dats ; $(PATSCC) -D_BSD_SOURCE -DATS_MEMALLOC_LIBC $(ATSCCFLAGS) -c $<
 
 ######
 

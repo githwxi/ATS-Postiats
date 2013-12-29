@@ -140,6 +140,7 @@ end // end of [phil_loop2]
 
 (* ****** ****** *)
 
+dynload "DiningPhil.sats"
 dynload "DiningPhil_fork.dats"
 
 (* ****** ****** *)

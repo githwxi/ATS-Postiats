@@ -6,19 +6,17 @@
 
 ######
 
-include $(PATSHOME)/share/atsmake-pre.mk
+include \
+$(PATSHOME)/share/atsmake2-pre.mk
 
 ######
-#
-# HX: Please uncomment the one you want, or skip it entirely
-#
-ATSCCFLAGS=
-ATSCCFLAGS=-O2
-#
-# '-flto' enables link-time optimization such as inlining lib functions
-#
-#ATSCCFLAGS=-O2 -flto
-#
+
+CFLAGS += -O2
+
+######
+
+LDFLAGS += -lpthread
+
 ######
 
 SOURCES_SATS += \
@@ -31,27 +29,11 @@ SOURCES_DATS += \
 
 ######
 
-include $(PATSHOME)/share/atsmake-post.mk
+TARGET=test
 
 ######
 
-OBJECTS := $(TARGETS_DATS_O)
-
-######
-
-all:: test
-test: $(OBJECTS) ; \
-  $(PATSCC) $(ATSCCFLAGS) -pthread -o $@ $^ -L$(PATSLIB) -latslib
-cleanall:: ; $(RMF) test
-
-######
-
-#
-# You may find these rules useful
-#
-
-%_sats.o: %.sats ; $(PATSCC) -DATS_MEMALLOC_LIBC -c $< || echo $@ ": ERROR!!!"
-%_dats.o: %.dats ; $(PATSCC) -D_BSD_SOURCE -DATS_MEMALLOC_LIBC $(ATSCCFLAGS) -c $< || echo $@ ": ERROR!!!"
+include $(PATSHOME)/share/atsmake2-post.mk
 
 ######
 
@@ -60,7 +42,5 @@ upload_main: ; \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/DiningPhil2/
 
 ######
-
-clean:: cleanats
 
 ###### end of [Makefile] ######

@@ -190,6 +190,7 @@ The ATSLIB/prelude library\
 (* ****** ****** *)
 
 #packfilename("SATS/unsafe.sats")
+#packfilename("SATS/checkast.sats")
 
 (* ****** ****** *)
 
@@ -262,6 +263,7 @@ The ATSLIB/prelude library\
 (* ****** ****** *)
 
 #packfilename("DATS/unsafe.dats")
+#packfilename("DATS/checkast.dats")
 
 (* ****** ****** *)
 

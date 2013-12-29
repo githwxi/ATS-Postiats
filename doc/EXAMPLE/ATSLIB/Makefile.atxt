@@ -112,7 +112,7 @@ RMF=rm -f
 
 #make_entry("prelude_intrange")
 
-#make_entry("prelude_checkats")
+#make_entry("prelude_checkast")
 
 #make2_entry("prelude_list", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("prelude_list_vt", "-DATS_MEMALLOC_LIBC", "")

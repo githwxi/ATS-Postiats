@@ -390,6 +390,12 @@ srcget_share:: ; \
   $(CPF) ../../share/atspre_define_pkgreloc.hats $(ATSDIST)/share/
 srcget_share:: ; \
   $(CPF) ../../share/atspre_staload.hats $(ATSDIST)/share/
+srcget_share:: ; \
+  $(CPF) ../../share/atspre_staload_libats_ML.hats $(ATSDIST)/share/
+srcget_share:: ; \
+  $(CPF) ../../share/atsmake-pre.mk $(ATSDIST)/share/
+srcget_share:: ; \
+  $(CPF) ../../share/atsmake-post.mk $(ATSDIST)/share/
 
 ######
 

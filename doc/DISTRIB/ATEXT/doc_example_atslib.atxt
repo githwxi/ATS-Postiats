@@ -125,6 +125,10 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
+#packfilename("prelude_checkast.dats")
+
+(* ****** ****** *)
+
 #packfilename("prelude_list.dats")
 #packfilename("prelude_list_vt.dats")
 
@@ -149,6 +153,7 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 (* ****** ****** *)
 
 #packfilename("libc_dirent.dats")
+#packfilename("libc_dlfcn.dats")
 #packfilename("libc_fcntl.dats")
 #packfilename("libc_fnmatch.dats")
 #packfilename("libc_malloc.dats")
