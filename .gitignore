@@ -32,9 +32,11 @@ src/Makefile_atxt.txt
 src/TAGS
 src/tags
 src/TAGATS
+src/*.exe
 
 bin/patscc
 bin/patsopt
+bin/*.exe
 
 #
 # boostrapping
@@ -63,6 +65,7 @@ ccomp/atslib/Makefile.exe
 #
 
 utils/atscc/patscc
+utils/atscc/*.exe
 
 #
 # ATSLIB/prelude
