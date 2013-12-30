@@ -1,3 +1,7 @@
+%{
+#include "./../ATEXT/atextfun.hats"
+%}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -5,6 +9,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-queue-sllist2</title>
+#patscode_style()
 </head>
 
 <body>
@@ -24,10 +29,12 @@ A Simple Interface for Queues
 
 Let us first declare as follows a linear abstract type for queues:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 absvtype queue_vtype (a:viewt@ype, n:int) = ptr
 vtypedef queue (a:vt0p, n:int) = queue_vtype (a, n)
-</pre>
+")</pre>
 
 The full name of the declared abstract type is [queue_vtype] and it is
 given an alias [queue]. Given a type T, which may be linear, and an integer
@@ -37,17 +44,21 @@ Obviously, N should be a natural number if there is ever a queue of the
 type [queue(T, N)]. This is captured by the type of the following function
 (or more precisely, proof-function):
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 prfun
 lemma_queue_param
   {a:vt0p}{n:int} (que: !queue (a, n)): [n >= 0] void
-</pre>
+")</pre>
 
 The following function is to be called to create a queue of size 0:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun{} queue_make_nil {a:vt0p} (): queue (a, 0)
-</pre>
+")</pre>
 
 By declaring [queue_make_nil] as a function template, we have a better
 chance to expect that its definition be inlined during compilation. This
@@ -59,35 +70,43 @@ body.
 The following function is to be called to destroy a queue of size 0 (and
 free the memory it occupies):
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun{} queue_free_nil {a:vt0p} (que: queue (a, 0)): void
-</pre>
+")</pre>
 
 Clearly, we also need to test whether a given queue is empty. So let us
 declare the following function for this purpose:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun{}
 queue_is_empty
   {a:vt0p}{n:int} (que: !queue (a, n)): bool (n==0)
-</pre>
+")</pre>
 
 Similarly, let us declare the following function for testing whether a
 given queue is not empty:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun{}
 queue_isnot_empty
   {a:vt0p}{n:int} (que: !queue (a, n)): bool (n > 0)
-</pre>
+")</pre>
 
 As for enqueueing, we declare the following function: 
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun{a:vt0p}
 queue_insert_atend{n:int}
   (que: !queue (a, n) >> queue (a, n+1), x: a): void
-</pre>
+")</pre>
 
 Note that the syntax indicates that [que] is a call-by-value argument and
 the type of the queue it refers to changes from [queue(T, N)] to [queue(T,
@@ -98,10 +117,12 @@ to one element being inserted into the queue.
 
 As for dequeueing, we declare the following function: 
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun{a:vt0p}
 queue_takeout_atbeg{n:int | n > 0} (que: !queue (a, n) >> queue (a, n-1)): a
-</pre>
+")</pre>
 
 Note that the syntax indicates that [que] is a call-by-value argument and
 the type of the queue it refers to changes from [queue(T, N)] to [queue(T,
@@ -140,29 +161,35 @@ queues.  Instead of functional lists, which require the presence of GC to
 avoid memory leaks, the code makes use of linear singly-linked lists (of
 the type [sllist]), performing memory allocation/deallocation explicitly.
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
 staload "libats/SATS/sllist.sats"
 
-dataviewtype
+datavtype
 queue (a:viewt@ype+, n:int) =
   {f,r:nat | f+r==n} QUEUE of (sllist (a, f), sllist (a, r))
 // end of [queue]
 
 assume queue_vtype (a, n) = queue (a, n)
-</pre>
+')</pre>
 
 Clearly, the above code indicates that the size of a queue equals
 the sum of lengths of its front and rear parts.
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 implement{}
 queue_make_nil () = QUEUE (sllist_nil (), sllist_nil ())
-</pre>
+")</pre>
 
 The function [queue_make_nil] is called to create a queue of size 0, which
 consists of an empty front part and an empty rear part.
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 implement{}
 queue_free_nil (que) = let
 //
@@ -177,43 +204,49 @@ prval () = sllist_free_nil (r)
 in
   // nothing
 end // end of [queue_free_nil]
-</pre>
+")</pre>
 
 The function [queue_free_nil] is called to destroy a queue of size 0.
 As the elements in a queue may be of a linear type, that is, they may
 contain resources, a queue can be safely freed only if it contains no
 elements.
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 implement{}
 queue_is_empty (que) = let
   val+QUEUE (f, r) = que
 in
   if sllist_is_nil (f) then sllist_is_nil (r) else false
 end // end of [queue_is_empty]
-</pre>
+")</pre>
 
 A queue is empty if and only if both of its front and rear parts are empty.
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 implement{}
 queue_isnot_empty (que) = let
   val+QUEUE (f, r) = que
 in
   if sllist_is_cons (f) then true else sllist_is_cons (r)
 end // end of [queue_isnot_empty]
-</pre>
+")</pre>
 
 A queue is not empty if and only if either its front or its rear is not
 empty. It is also possible to implement [queue_isnot_empty] directly based
 on [queue_is_empty] as is shown below:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 implement{}
 queue_isnot_empty (que) = let
   prval () = lemma_queue_param (que) in not (queue_is_empty (que))
 end // end of [queue_isnot_empty]
-</pre>
+")</pre>
 
 Note that the negation of a value of the type [bool(N == 0)] for some N is
 of the type [bool(N != 0)].  In order to show that [N != 0] implies [N >
@@ -228,7 +261,9 @@ and
 [queue_takeout_atbeg]
 are implemented as follows:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 implement{a}
 queue_insert_atend (que, x) = let
 //
@@ -267,7 +302,7 @@ in
 end // end of [if]
 //
 end // end of [queue_takeout_atbeg]
-</pre>
+")</pre>
 
 By following the description given at the beginning of this section, one
 should find it straightforward to understand the code for enqueueing and
@@ -284,3 +319,7 @@ This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
 </body>
 </html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "main_atxt.txt")
+%}

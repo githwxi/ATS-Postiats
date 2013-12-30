@@ -1,3 +1,7 @@
+%{
+#include "./../ATEXT/atextfun.hats"
+%}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -5,6 +9,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-stack-array</title>
+#patscode_style()
 </head>
 
 <body>
@@ -29,18 +34,22 @@ API for Array-Based Stacks
 
 As usual, let us first introduce an abstract type for array-based stacks:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 absvtype
 stkarray_vtype (a:vt@ype+, m:int, n:int) = ptr
-</pre>
+")</pre>
 
 We then introduce some shorthands as follows:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 stadef stkarray = stkarray_vtype
 vtypedef
 stkarray (a:vt0p) = [m,n:int] stkarray_vtype (a, m, n)
-</pre>
+")</pre>
 
 Given a type T, an integer M and another integer N, the type [stkarray(T,
 M, N)] is for an array-based stack such that (1) the elements stored in the
@@ -49,20 +58,24 @@ current size of the stack is N.  Clearly, M >= N and N >= 0 holds, and this
 property is encoded into the type of the following proof function
 [lemma_stkarray_param]:
   
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 praxi
 lemma_stkarray_param
   {a:vt0p}{m,n:int}
   (!stkarray (INV(a), m, n)): [m >= n; n >= 0] void
 // end of [lemma_stkarray_param]
-</pre>
+")</pre>
 
 <p>
 
 As always, functions are needed for creating and destroying (linear)
 stkarray-values:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 //
 fun{a:vt0p}
 stkarray_make_cap
@@ -71,7 +84,7 @@ stkarray_make_cap
 fun
 stkarray_free{a:vt0p}{m:int} (stkarray (a, m, 0)):<!wrt> void
 //
-</pre>
+")</pre>
 
 Given a size M, [stkarray_make_cap] creates an empty stack of capacity M.
 As linear elements stored in a stack are leaked after the stack is freed,
@@ -82,14 +95,16 @@ to a stack containing no elements.
 
 For inserting an element, we have the following function:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun{a:vt0p}
 stkarray_insert
   {m,n:int | m > n}
 (
   stk: !stkarray (a, m, n) >> stkarray (a, m, n+1), x0: a
 ) :<!wrt> void // endfun
-</pre>
+")</pre>
 
 Note that [stkarray_insert] can only be called on a stack if its current
 size is strictly less than its capacity. The type of [stkarray_insert]
@@ -100,13 +115,15 @@ element is inserted into it.
 
 For taking out an element, we have the following function:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun{a:vt0p}
 stkarray_takeout
   {m,n:int | n > 0}
   (stk: !stkarray (a, m, n) >> stkarray (a, m, n-1)):<!wrt> (a)
 // end of [stkarray_takeout]
-</pre>
+")</pre>
 
 Note that [stkarray_takeout] can only be called on a stack if its current
 size is positive. The type of [stkarray_takeout] states that the size of a
@@ -138,27 +155,31 @@ of the represented stack.
 Let us introduce the folllowing two functions for getting and setting
 the pointer [stkarray_cur]:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
 extern fun
 stkarray_get_ptrcur{a:vt0p}
-  {m,n:int} (stk: !stkarray (INV(a), m, n)):<> ptr = "mac#atslib_stkarray_get_ptrcur"
+  {m,n:int} (stk: !stkarray (INV(a), m, n)):<> ptr = "mac\#atslib_stkarray_get_ptrcur"
 extern fun
 stkarray_set_ptrcur{a:vt0p}
-  {m,n:int} (stk: !stkarray (INV(a), m, n), ptr):<!wrt> void = "mac#atslib_stkarray_set_ptrcur"
-</pre>
+  {m,n:int} (stk: !stkarray (INV(a), m, n), ptr):<!wrt> void = "mac\#atslib_stkarray_set_ptrcur"
+')</pre>
 
 As can be expected, these two functions are to be implemented in C
 directly. The following implementation of [stkarray_insert] makes use of
 these two functions as well as an unsafe function of the name [ptr0_set]:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 implement{a}
 stkarray_insert
   {m,n} (stk, x0) = let
 //
 val p_cur = stkarray_get_ptrcur (stk)
-val ((*void*)) = $UN.ptr0_set&lt;a&gt; (p_cur, x0)
-val ((*void*)) = stkarray_set_ptrcur (stk, ptr_succ&lt;a&gt; (p_cur))
+val ((*void*)) = $UN.ptr0_set<a> (p_cur, x0)
+val ((*void*)) = stkarray_set_ptrcur (stk, ptr_succ<a> (p_cur))
 //
 prval () =
 __assert (stk) where
@@ -169,7 +190,7 @@ extern praxi __assert (!stkarray (a, m, n) >> stkarray (a, m, n+1)): void
 in
   // nothing
 end // end of [stkarray_insert]
-</pre>
+")</pre>
 
 Note that [ptr0_set] writes a value (its 2nd argument) to a given memory
 location (its 1st argument) without requiring a proof (of some at-view)
@@ -189,15 +210,17 @@ implementation of [stkarray_insert], a proof function is asserted for the
 sole purpose of making the implementation of [stkarray_takeout] pass
 typechecking.
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 implement{a}
 stkarray_takeout
   {m,n} (stk) = x0 where
 {
 //
 val p_cur = stkarray_get_ptrcur (stk)
-val p1_cur = ptr_pred&lt;a&gt; (p_cur)
-val x0 = $UN.ptr0_get&lt;a&gt; (p1_cur)
+val p1_cur = ptr_pred<a> (p_cur)
+val x0 = $UN.ptr0_get<a> (p1_cur)
 val () = stkarray_set_ptrcur (stk, p1_cur)
 //
 prval () =
@@ -207,7 +230,7 @@ extern praxi __assert (!stkarray (a, m, n) >> stkarray (a, m, n-1)): void
 } (* end of [prval] *)
 //
 } // end of [stkarray_takeout]
-</pre>
+")</pre>
 
 The C code implementing [stkarray_get_ptrcur] and [stkarray_set_ptrcur] is
 given below:
@@ -251,7 +274,9 @@ If a caller attempts to insert an element into a stack that happens to be
 full, we may require that the element be returned to the caller. The
 following function [stkarray_insert_opt] does this precisely:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 extern
 fun{a:vt0p}
 stkarray_insert_opt
@@ -269,14 +294,16 @@ if isnot then let
 end else Some_vt{a}(x0)
 //
 end // end of [stkarray_insert_opt]
-</pre>
+")</pre>
 
 Similarly, a caller may attempt to take an element out of a stack that
 happens to be empty. The following function [stkarray_takeout_opt] returns
 an optional value so that its caller can tell whether an element has
 actually been taken out of a given stack:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 extern
 fun{a:vt0p}
 stkarray_takeout_opt
@@ -294,7 +321,7 @@ if isnot then let
 end else None_vt((*void*))
 //
 end // end of [stkarray_takeout_opt]
-</pre>
+")</pre>
 
 For some sample code making use of the array-based stack implementation,
 please see postfix_eval.dats, where an evaluator of arithmetic expressions
@@ -306,3 +333,7 @@ This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
 </body>
 </html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "main_atxt.txt")
+%}

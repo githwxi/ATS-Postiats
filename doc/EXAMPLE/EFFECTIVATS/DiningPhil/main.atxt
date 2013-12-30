@@ -1,3 +1,7 @@
+%{
+#include "./../ATEXT/atextfun.hats"
+%}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -5,6 +9,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-DiningPhil</title>
+#patscode_style()
 </head>
 
 <body>
@@ -37,9 +42,11 @@ A Linear Type for Resources
 
 First, let us introduce a type definition as follows:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 typedef phil = int
-</pre>
+")</pre>
 
 The sole purpose of using [phil] instead of [int] as the type for
 philosophers is to make the presented code easier to follow.
@@ -49,9 +56,11 @@ philosophers is to make the presented code easier to follow.
 The forks mentioned in the description of the problem refer to shared
 resources. Let us next introduce a linear abstract type for the forks:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 absvt@ype fork = int
-</pre>
+")</pre>
 
 
 This declaration means that [fork] is an abstract viewtype (that is, a
@@ -64,16 +73,23 @@ concrete types.
 
 For a philosopher to acquire and release
 his left fork, the following functions can be called:
-<pre>
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun phil_acquire_lfork (n: phil): fork
 fun phil_release_lfork (n: phil, f: fork): void
-</pre>
+")</pre>
+
 For a philosopher to acquire and release his right fork, the following
 functions can be called:
-<pre>
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats("\
 fun phil_acquire_rfork (n: phil): fork
 fun phil_release_rfork (n: phil, f: fork): void
-</pre>
+")</pre>
 
 As forks are shared resources, these functions for acquiring and releasing
 forks should in general involve some sort of locking mechanism. If a fork
@@ -88,7 +104,9 @@ Philosopher Implemented as a Loop
 According to the description of the problem, we implement a loop as follows
 to simulate a philosopher:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 extern
 fun phil_loop (n: phil): void
 implement
@@ -98,12 +116,14 @@ phil_loop (n) = let
 in
   phil_loop (n)
 end // end of [phil_loop]
-</pre>
+")</pre>
 
 The function [phil_think], which requires no resources, can be implemented
 as follows:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 extern
 fun phil_think (n: phil): void
 implement
@@ -111,12 +131,14 @@ phil_think (n) =
 (
   randsleep (10) // for sleeping up to 10 secs
 )
-</pre>
+")</pre>
 
 The function [phil_dine], which involves acquiring and releasing resources,
 can be implemented as follows:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 extern
 fun phil_dine (n: phil): void
 implement
@@ -134,7 +156,7 @@ phil_dine (n) = let
 in
   // nothing
 end // end of [phil_dine]
-</pre>
+")</pre>
 
 Note that both [lf] and [rf] are assigned the linear type [fork], making
 them linear values. As every linear value must be consumed in some way or
@@ -182,3 +204,7 @@ This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
 </body>
 </html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "main_atxt.txt")
+%}
