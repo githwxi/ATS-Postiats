@@ -7,7 +7,7 @@
 ######
 
 include \
-$(PATSHOME)/share/atsmake2-pre.mk
+$(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
@@ -15,19 +15,21 @@ CFLAGS += -O2
 
 ######
 
-SOURCESsta := \
+SOURCES_SATS := \
   sbuffer.sats \
 
-SOURCESdyn := \
+SOURCES_DATS := \
   sbuffer.dats \
 
 ######
 
-MYTARGET=test
+include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
-include $(PATSHOME)/share/atsmake2-post.mk
+all:: test
+test:: ; $(PATSCC) -tcats sbuffer.sats
+test:: ; $(PATSCC) -tcats sbuffer.dats
 
 ######
 
@@ -57,6 +59,7 @@ upload_main: \
 
 ######
 
+clean:: cleanats
 cleanats:: ; $(RMF) main_atxt.txt
 cleanats:: ; $(RMF) main_atxt.dats
 

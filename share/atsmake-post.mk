@@ -4,9 +4,9 @@
 
 ######
 
-TARGETS_SATS_O := \
+MYTARGET_SATS_O := \
   $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))
-TARGETS_DATS_O := \
+MYTARGET_DATS_O := \
   $(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
 
 ######

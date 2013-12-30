@@ -51,8 +51,8 @@ include $(PATSHOME)/share/atsmake-post.mk
 ######
 
 OBJECTS :=
-OBJECTS += $(TARGETS_SATS_O)
-OBJECTS += $(TARGETS_DATS_O)
+OBJECTS += $(MYTARGET_SATS_O)
+OBJECTS += $(MYTARGET_DATS_O)
 
 ######
 

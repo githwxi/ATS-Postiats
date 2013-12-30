@@ -28,7 +28,7 @@ include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
-OBJECTS := $(TARGETS_DATS_O)
+OBJECTS := $(MYTARGET_DATS_O)
 
 ######
 

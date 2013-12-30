@@ -33,6 +33,12 @@
 //
 (* ****** ****** *)
 //
+#define
+ATS_PACKNAME
+"ATSCNTRB.libats-hwxi.teaching.mythread"
+//
+(* ****** ****** *)
+//
 abst@ype
 thread_type = lint
 //
