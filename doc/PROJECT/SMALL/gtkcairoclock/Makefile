@@ -66,8 +66,4 @@ cleanall:: ; $(RMF) mypascal
 
 ######
 
-clean:: cleanats
-
-######
-
 ###### end of [Makefile] ######

@@ -66,19 +66,18 @@ case+ d2e0.d2exp_node of
 //
 | D2Eint (i) => VALint (i)
 | D2Eintrep (rep) => VALint (g0string2int(rep))
-//
-| D2Echar (c) => VALchar (c)
+| D2Echar (c) =>
+    let val int = char2u2i(c) in VALint (int) end
 | D2Efloat (d) => VALfloat (d)
 | D2Estring (str) => VALstring (str)
 //
-| D2Ei0nt (rep) =>
-  let val int = g0string2int(rep) in VALint (int) end
-| D2Ec0har (char) => VALchar (char)
-| D2Ef0loat (rep) =>
-  let val dbl = g0string2float(rep) in VALfloat (dbl) end
+| D2Ei0nt (rep) => VALint (g0string2int(rep))
+| D2Ec0har (chr) =>
+    let val int = char2u2i(chr) in VALint (int) end
+| D2Ef0loat (rep) => VALfloat (g0string2float(rep))
 | D2Es0tring (str) => VALstring (str)
 //
-| D2Eempty () => VALvoid ()
+| D2Eempty () => VALvoid(*void*)
 //
 | D2Eexp (d2e) => aux_d2exp (env, d2e)
 //
@@ -102,9 +101,9 @@ case+ d2e0.d2exp_node of
 //
 | D2Eifopt
     (d2e1, d2e2, d2eopt3) => let
-    val-VALbool(test) = aux_d2exp (env, d2e1)
+    val-VALint(ans) = aux_d2exp (env, d2e1)
   in
-    if test
+    if ans >= 1
       then aux_d2exp (env, d2e2) else aux_d2expopt (env, d2eopt3)
     // end of [if]
   end // end of [D2Eifopt]
@@ -124,7 +123,7 @@ case+ d2e0.d2exp_node of
 //
 | D2Eseq (d2es) => let
     val () =
-      auxseq_d2exp (env, d2es) in VALvoid((*void*))
+      auxseq_d2exp (env, d2es) in VALvoid(*void*)
     // end of [val]
   end // end of [D2Eseq]
 //
@@ -148,7 +147,7 @@ implement
 aux_d2expopt (env, opt) =
 (
 case+ opt of
-| Some (d2e) => aux_d2exp (env, d2e) | None () => VALvoid ()
+| Some (d2e) => aux_d2exp (env, d2e) | None () => VALvoid
 ) (* end of [aux_d2expopt] *)
 
 (* ****** ****** *)

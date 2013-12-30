@@ -39,18 +39,11 @@ case+ x0 of
 | VALint (i) =>
     fprint! (out, "VALint(", i, ")")
 //
-| VALbool (b) =>
-    fprint! (out, "VALbool(", b, ")")
-| VALchar (c) =>
-    fprint! (out, "VALchar(", c, ")")
-//
 | VALfloat (d) =>
     fprint! (out, "VALfloat(", d, ")")
 //
 | VALstring (str) =>
     fprint! (out, "VALstring(", str, ")")
-//
-| VALvoid () => fprint! (out, "VALvoid()")
 //
 | VALcst (d2c) =>
     fprint! (out, "VALcst(", d2c, ")")
@@ -103,12 +96,8 @@ in
 case+ x0 of
 //
 | VALint (i) => fprint! (out, i)
-| VALbool (b) => fprint! (out, b)
-| VALchar (c) => fprint! (out, c)
 | VALfloat (d) => fprint! (out, d)
 | VALstring (str) => fprint! (out, str)
-//
-| VALvoid () => fprint! (out, "()")
 //
 | VALtup (xs) => fprint! (out, "VALtup(", xs, ")")
 | VALrec (lxs) => fprint! (out, "VALrec(", lxs, ")")

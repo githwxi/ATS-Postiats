@@ -293,7 +293,7 @@ In this case, the namespace for storing the content of the file
 #filename("acker.sats") is given the name ACKER, and the prefix
 #dyncode("$ACKER.") (the dollar sign followed by ACKER followed by the dot
 symbol) must be attached to any name that refers an entity (a function, a
-value, a datatype, the constructors associated with a datatype, a type
+value, a datatype, a constructor (associated with a datatype), a type
 definition, etc.) declared in #filename("acker.sats"). When there are many
 static files to be loaded, it is often a good practice to assign names to
 the namespaces holding these files so that the original source of each
@@ -373,6 +373,50 @@ This style of separate compilation works particularly well when it is
 employed by the <command>make</command> utility.\
 
 ")#comment("para")
+
+#para("\
+If we want to, we can also merge #filename("acker.sats") and
+#filename("acker.dats") into a single filename of the following content:
+
+#atscode('\
+extern
+fun acker (m: int, m: int): int
+
+implement
+acker (m, n) =
+  if m > 0 then
+    if n > 0 then acker (m-1, acker (m, n-1))
+    else acker (m-1, 1)
+  else n+1
+// end of [acker]
+')
+
+Suppose that this single file is given the name #filename("acker3.dats").
+Then the testing code can be written as follows:
+
+#atscode('\
+//
+\#include
+"share/atspre_staload.hats"
+//
+staload "acker3.dats"
+dynload "acker3.dats"
+
+implement
+main0 () = () where {
+//
+// acker (3, 3) should return 61
+//
+  val () = assertloc (acker (3, 3) = 61)
+} // end of [main0]
+')
+
+Note that it is perfectly fine for a dynamic ATS file to be statically
+loaded. Actually, a static ATS file is really just a special case of
+dynamic ATS file in which there is no implementation (of either functions
+or values).\
+
+")
 
 </sect1><!--id="static_and_dynamic_ats_files"-->
 

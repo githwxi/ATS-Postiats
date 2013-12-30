@@ -29,13 +29,6 @@ RMF=rm -f
 
 ######
 
-clean:: ; $(RMF) *_?ats.o
-clean:: ; $(RMF) *_?ats.c
-
-cleanall:: clean
-
-######
-
 ATSHOMEQ="$(ATSHOME)"
 ATSCC=$(ATSHOMEQ)/bin/atscc
 ATSDOC=$(ATSHOMEQ)/bin/atsdoc
@@ -62,12 +55,18 @@ upload_main: \
 
 ######
 
-clean:: cleanats
+cleanats:: ; $(RMF) *_?ats.o
+cleanats:: ; $(RMF) *_?ats.c
 cleanats:: ; $(RMF) main_atxt.txt
 cleanats:: ; $(RMF) main_atxt.dats
 
 ######
 
+clean: cleanats
+
+######
+
+cleanall:: cleanats
 cleanall:: ; $(RMF) main.exe
 cleanall:: ; $(RMF) main.html
 

@@ -5,32 +5,19 @@
 
 ######
 
-CC=gcc
+CCOMP=gcc
 
 ######
 
-ifeq ("$(PATSHOME)","")
-  PATSHOMEQ="$(ATSHOME)"
-else
-  PATSHOMEQ="$(PATSHOME)"
-endif
+include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
-PATSCC=$(PATSHOMEQ)/bin/patscc
-PATSOPT=$(PATSHOMEQ)/bin/patsopt
-
-######
-
-PATSCCOMP=$(CC) -D_XOPEN_SOURCE -I${PATSHOMEQ} -I${PATSHOMEQ}/ccomp/runtime
+PATSCCOMP=$(CCOMP) -D_XOPEN_SOURCE -I${PATSHOMEQ} -I${PATSHOMEQ}/ccomp/runtime
 
 ######
 
 export PATSCCOMP
-
-######
-
-all::
 
 ######
 
@@ -202,16 +189,7 @@ tally: tally.dats ; $(PATSCC) -D_ATS_EXCEPTION_NONE -o $@ $<
 
 ######
 
-RMF=rm -f
-
-######
-
-clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.o *_?ats.c
-clean:: ; $(RMF) *_atxt.txt
-clean:: ; $(RMF) *_atxt.dats
-
-cleanall:: clean
+include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 

@@ -1,0 +1,13 @@
+#
+# atsynmark
+#
+
+######
+
+The command [pats2xhtml] is for syntax-highlighting level-1 ATS2 syntax
+trees.
+
+Please note that the code in this directory is written in ATS/Anairiats
+(ATS1) as ATS/Postiats (ATS2) is implemented in ATS1.
+
+###### end of [README] ######

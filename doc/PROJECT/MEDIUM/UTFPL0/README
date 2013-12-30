@@ -20,8 +20,8 @@ evaluating: code for evaluating UTFPL abstract syntax trees
 
 How to test:
 
-make -C TEST # generating some testing data
 make utfpleval # generating the evaluator for UTFPL
+make -C TEST all # generating some examples for testing
 
 ./utfpleval TEST/test01_dats.json # evaluating TEST/test01.dats // factorial
 ./utfpleval TEST/test02_dats.json # evaluating TEST/test02.dats // Ackermann

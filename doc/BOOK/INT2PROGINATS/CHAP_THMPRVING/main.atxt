@@ -781,7 +781,7 @@ end // end of [lemma_unicity]
 This implementation corresponds to a proof by induction on the structure of
 the given tree t1. Note that the use of the special symbol #keycode("=/=>"),
 which is a keyword in ATS, is to indicate to the typechecker of ATS that
-the involved clause of patter matching is #emphasis("unreachable"): It is the
+the involved clause of pattern matching is #emphasis("unreachable"): It is the
 responsibility of the programmer to establish the falsehood on the
 right-hand side of the clause. Please find the entirety of the above code
 #mycodelink("CHAP_THMPRVING/brauntree.dats", "on-line").\

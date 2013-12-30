@@ -64,8 +64,4 @@ evaluating.o: \
 
 ######
 
-clean:: cleanats
-
-######
-
 ###### end of [Makefile] ######

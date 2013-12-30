@@ -67,7 +67,6 @@ uploadall::upload_Producer-Consumer
 upload_mergesort:: ; \
   scp \
   mergesort/Makefile \
-  mergesort/main.html \
   mergesort/*.?ats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/mergesort/
 
@@ -76,7 +75,6 @@ upload_mergesort:: ; \
 upload_stack-array:: ; \
   scp \
   stack-array/Makefile \
-  stack-array/main.html \
   stack-array/*.?ats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/stack-array/
 
@@ -85,7 +83,6 @@ upload_stack-array:: ; \
 upload_queue-sllist2:: ; \
   scp \
   queue-sllist2/Makefile \
-  queue-sllist2/main.html \
   queue-sllist2/*.?ats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/queue-sllist2/
 
@@ -94,7 +91,6 @@ upload_queue-sllist2:: ; \
 upload_file-copying:: ; \
   scp \
   file-copying/Makefile \
-  file-copying/main.html \
   file-copying/*.?ats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/file-copying/
 
@@ -103,7 +99,6 @@ upload_file-copying:: ; \
 upload_loop-as-tailrec:: ; \
   scp \
   loop-as-tailrec/Makefile \
-  loop-as-tailrec/main.html \
   loop-as-tailrec/*.?ats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/loop-as-tailrec/
 
@@ -112,7 +107,6 @@ upload_loop-as-tailrec:: ; \
 upload_word-counting:: ; \
   scp \
   word-counting/Makefile \
-  word-counting/main.html \
   word-counting/*.?ats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/word-counting/
 
@@ -121,7 +115,6 @@ upload_word-counting:: ; \
 upload_DiningPhil:: ; \
   scp \
   DiningPhil/Makefile \
-  DiningPhil/main.html \
   DiningPhil/DiningPhil.sats \
   DiningPhil/DiningPhil.dats \
   DiningPhil/DiningPhil_fork.dats \
@@ -134,7 +127,6 @@ upload_DiningPhil:: ; \
 upload_DiningPhil2:: ; \
   scp \
   DiningPhil2/Makefile \
-  DiningPhil2/main.html \
   DiningPhil2/DiningPhil2.sats \
   DiningPhil2/DiningPhil2.dats \
   DiningPhil2/DiningPhil2_fork.dats \
@@ -146,7 +138,6 @@ upload_DiningPhil2:: ; \
 upload_Producer-Consumer:: ; \
   scp \
   Producer-Consumer/Makefile \
-  Producer-Consumer/main.html \
   Producer-Consumer/sbuffer.sats \
   Producer-Consumer/sbuffer.dats \
   Producer-Consumer/SharedResource.dats \
@@ -157,7 +148,6 @@ upload_Producer-Consumer:: ; \
 upload_IPC-redis:: ; \
   scp \
   IPC-redis/Makefile \
-  IPC-redis/main.html \
   IPC-redis/mylib.dats \
   IPC-redis/msgchan.sats \
   IPC-redis/msgchan.dats \

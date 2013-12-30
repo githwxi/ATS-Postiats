@@ -30,9 +30,6 @@ LDFLAGS += $(shell pkg-config --libs json-c)
 
 ######
 
-
-######
-
 jsonlst2arr: jsonlst2arr.dats ; \
   $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
 
@@ -45,6 +42,9 @@ RMF=rm -f
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
+
+######
+
 cleanall:: clean
 cleanall:: ; $(RMF) ats2ctags
 cleanall:: ; $(RMF) ats2etags

@@ -29,7 +29,11 @@ cleanats:: ; $(RMF) *_?ats.c
 
 ######
 
-cleanall:: clean
+clean: cleanats
+
+######
+
+cleanall:: cleanats
 cleanall:: ; $(RMF) .depend
 
 ######

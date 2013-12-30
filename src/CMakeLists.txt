@@ -49,6 +49,8 @@ pats_filename_reloc.dats
 pats_location.sats
 pats_location.dats
 pats_location.cats
+pats_jsonize.sats
+pats_jsonize.dats
 pats_errmsg.sats
 pats_errmsg.dats
 pats_reader.sats
@@ -126,6 +128,7 @@ pats_stacst2.sats
 pats_stacst2.dats
 pats_staexp2_print.dats
 pats_staexp2_pprint.dats
+pats_staexp2_jsonize.dats
 pats_staexp2_sort.dats
 pats_staexp2_scst.dats
 pats_staexp2_svar.dats
@@ -150,10 +153,10 @@ pats_dynexp2.dats
 pats_dyncst2.sats
 pats_dyncst2.dats
 pats_dynexp2_print.dats
+pats_dynexp2_jsonize.dats
 pats_dynexp2_dcst.dats
 pats_dynexp2_dvar.dats
 pats_dynexp2_dmac.dats
-pats_dynexp2_util.sats
 pats_dynexp2_util.dats
 pats_trans2.sats
 pats_namespace.sats
@@ -217,6 +220,7 @@ pats_constraint3.sats
 pats_constraint3.dats
 pats_constraint3_init.dats
 pats_constraint3_print.dats
+pats_constraint3_jsonize.dats
 pats_constraint3_simplify.dats
 pats_constraint3_icnstr.dats
 pats_constraint3_solve.dats

@@ -44,12 +44,8 @@ overload fprint with fprint_cloenv of 10
 datatype value =
 //
   | VALint of int
-  | VALbool of bool
-  | VALchar of char
   | VALfloat of double
   | VALstring of string
-//
-  | VALvoid of ((*void*))
 //
   | VALcst of d2cst
   | VALvar of d2var
@@ -76,6 +72,13 @@ where
 valuelst = List (value)
 and
 labvaluelst = List (labvalue)
+
+(* ****** ****** *)
+
+val VALtrue: value
+and VALfalse: value
+
+val VALvoid: value
 
 (* ****** ****** *)
 //

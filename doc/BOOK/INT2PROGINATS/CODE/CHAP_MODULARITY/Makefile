@@ -27,6 +27,7 @@ checkall:: misc ; ./misc
 checkall:: listeq ; ./listeq
 checkall:: test_acker ; ./test_acker
 checkall:: test_acker2 ; ./test_acker2
+checkall:: test_acker3 ; ./test_acker3
 checkall:: test_intset ; ./test_intset
 checkall:: test_ratmod ; ./test_ratmod
 checkall:: test_ratfun ; ./test_ratfun
@@ -66,6 +67,16 @@ ACKER2_OBJ := $(patsubst %.dats, %_dats.o, $(ACKER2_OBJ))
 test_acker2: $(ACKER2_OBJ)
 	$(PATSCC) $(ATSCCFLAGS) -o $@ $^ || touch $@
 cleanall:: ; $(RMF) test_acker2
+
+######
+
+ACKER3_SRC=acker3.dats test_acker3.dats
+ACKER3_OBJ := $(ACKER3_SRC)
+ACKER3_OBJ := $(patsubst %.dats, %_dats.o, $(ACKER3_OBJ))
+
+test_acker3: $(ACKER3_OBJ)
+	$(PATSCC) $(ATSCCFLAGS) -o $@ $^ || touch $@
+cleanall:: ; $(RMF) test_acker3
 
 ######
 
