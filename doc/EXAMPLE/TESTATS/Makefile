@@ -8,6 +8,15 @@ include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
+MYTARGET=MYTARGET
+MYCCRULE=MYCCRULE
+
+######
+
+include $(PATSHOME)/share/atsmake-post.mk
+
+######
+
 all:: clofuns
 clofuns: clofuns.dats ; \
   $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
@@ -133,11 +142,5 @@ weekday: weekday.dats ; $(PATSCC) -cleanaft -o $@ $<
 cleanall:: ; $(RMF) weekday
 
 ######
-
-include $(PATSHOME)/share/atsmake-post.mk
-
-######
-
-clean:: cleanats
 
 ###### end of [Makefile] ######

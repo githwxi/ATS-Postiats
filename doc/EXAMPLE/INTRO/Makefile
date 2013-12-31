@@ -13,6 +13,15 @@ include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
+MYTARGET=MYTARGET
+MYCCRULE=MYCCRULE
+
+######
+
+include $(PATSHOME)/share/atsmake-post.mk
+
+######
+
 PATSCCOMP=$(CCOMP) -D_XOPEN_SOURCE -I${PATSHOMEQ} -I${PATSHOMEQ}/ccomp/runtime
 
 ######
@@ -186,10 +195,6 @@ strprefix: strprefix.dats ; $(PATSCC) -o $@ $<
 ######
 
 tally: tally.dats ; $(PATSCC) -D_ATS_EXCEPTION_NONE -o $@ $<
-
-######
-
-include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 

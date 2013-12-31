@@ -12,6 +12,15 @@ include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
+MYTARGET=MYTARGET
+MYCCRULE=MYCCRULE
+
+######
+
+include $(PATSHOME)/share/atsmake-post.mk
+
+######
+
 all:: P1
 
 P1:: problem1-hwxi
@@ -170,13 +179,10 @@ RMF=rm -f
 
 ######
 
-clean:: ; $(RMF) */*~
-clean:: ; $(RMF) *_dats.o
-clean:: ; $(RMF) *_dats.c
+cleanats:: ; $(RMF) */*~
 
 ######
 
-cleanall:: clean
 cleanall:: ; $(RMF) *.exe
 
 ######

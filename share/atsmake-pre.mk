@@ -24,6 +24,22 @@ PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 
 ######
 
+CFLAGS += -D_GNU_SOURCE
+
+######
+
+LDFLAGS += -L$(PATSLIB) -latslib
+
+######
+
+MALLOCFLAG := -DATS_MEMALLOC_LIBC
+
+######
+
+INCLUDE_ATS += -IIATS $(PATSHOMERELOCQ)/contrib
+
+######
+
 all::
 cleanats::
 cleanall::
@@ -35,4 +51,4 @@ SOURCES_DATS=
 
 ######
 
-###### end of [atsmake-pre.mk] ######
+###### end of [atsmake2-pre.mk] ######

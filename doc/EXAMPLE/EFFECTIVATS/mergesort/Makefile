@@ -12,6 +12,11 @@ PATSCC2=$(PATSCC) -O2 -DATS_MEMALLOC_LIBC
 
 ######
 
+MYTARGET=MYTARGET
+MYCCRULE=MYCCRULE
+
+######
+
 include $(PATSHOME)/share/atsmake-post.mk
 
 ######

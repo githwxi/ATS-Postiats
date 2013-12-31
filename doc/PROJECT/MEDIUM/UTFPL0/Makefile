@@ -8,6 +8,15 @@ include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
+MYTARGET=MYTARGET
+MYCCRULE=MYCCRULE
+
+######
+
+include $(PATSHOME)/share/atsmake-post.mk
+
+######
+
 CCOPT=gcc -std=c99 -D_XOPEN_SOURCE -D_GNU_SOURCE 
 
 ######
@@ -109,15 +118,6 @@ depend:: ; $(PATSOPT) --output-a .depend --depgen -d utfpleval.dats
 
 ######
 
-RMF=rm -f
-
-######
-
-clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.o
-clean:: ; $(RMF) *_?ats.c
-
-cleanall:: clean
 cleanall:: ; $(RMF) utfpl.o
 cleanall:: ; $(RMF) utfpleval
 cleanall:: ; make -C parsing cleanall

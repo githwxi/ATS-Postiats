@@ -24,6 +24,11 @@ SOURCES_DATS += \
 
 ######
 
+MYTARGET=MYTARGET
+
+######
+
+MYCCRULE=MYCCRULE
 include $(PATSHOME)/share/atsmake-post.mk
 
 ######

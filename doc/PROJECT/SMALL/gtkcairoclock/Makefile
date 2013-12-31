@@ -8,15 +8,20 @@ include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
+MYTARGET=MYTARGET
+MYCCRULE=MYCCRULE
+
+######
+
+include $(PATSHOME)/share/atsmake-post.mk
+
+######
+
 PATSHOMERELOCQ=\"$(PATSHOMERELOC)\"
 
 ######
 
 PATSCC2=$(PATSCC) -I$(PATSHOMERELOCQ)/contrib
-
-######
-
-include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 

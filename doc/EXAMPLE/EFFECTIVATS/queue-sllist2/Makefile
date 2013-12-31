@@ -8,15 +8,18 @@ include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
-all:: queue-sllist2
-queue-sllist2: queue-sllist2.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
-cleanall:: ; $(RMF) queue-sllist2
+MYTARGET=MYTARGET
+MYCCRULE=MYCCRULE
 
 ######
 
 include $(PATSHOME)/share/atsmake-post.mk
 
 ######
+
+all:: queue-sllist2
+queue-sllist2: queue-sllist2.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) queue-sllist2
 
 ######
 
