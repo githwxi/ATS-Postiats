@@ -31,7 +31,7 @@ $(MYTARGET): \
 ######
 
 %_sats.o: %.sats ; $(PATSCC) $(INCLUDE_ATS) $(CFLAGS) -c $<
-%_dats.o: %.dats ; $(PATSCC) $(INCLUDE_ATS) $(MEMALLOC_ATS) $(CFLAGS) -c $<
+%_dats.o: %.dats ; $(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $<
 
 ######
 #

@@ -29,7 +29,11 @@ LDFLAGS +=  $(shell pkg-config --libs json-c)
 
 ######
 
-PATSCC2= $(PATSCC) -atsccomp "$(CCOPT)" $(DATSMEMALLOC) $(CFLAGS)
+MALLOCFLAG=-DATS_MEMALLOC_GCBDW
+
+######
+
+PATSCC2= $(PATSCC) -atsccomp "$(CCOPT)" $(MALLOCFLAG) $(CFLAGS)
 
 ######
 
@@ -89,10 +93,6 @@ UTFPLEVAL:: \
 %_sats.o: %.sats ; $(PATSCC) -c $<
 %_dats.o: %.dats ; $(PATSCC2) -c $<
 
-######
-#
-DATSMEMALLOC=-DATS_MEMALLOC_GCBDW
-#
 ######
 
 -include .depend
