@@ -126,10 +126,14 @@ and [myseq_merge], they can be assigned the following more informative types:
 <pre
 class="patsyntax">
 #pats2xhtml_sats("\
+//
 fun myseq_length{n:int} (xs: myseq(n)): int(n)
+//
 fun myseq_split{n:int | n >= 2}
   (xs: myseq(n)): [n1,n2:pos | n1+n2==n] (myseq(n1), myseq(n2))
+//
 fun myseq_merge{n1,n2:nat} (xs1: myseq(n1), xs2: myseq(n2)): myseq(n1+n2)
+//
 ")</pre>
 
 Note that the type assigned to [myseq_split] implies that this function can

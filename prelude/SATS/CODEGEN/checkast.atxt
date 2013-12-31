@@ -73,6 +73,15 @@ ckastloc_gintBtwe (x, i, j) = checkast_gintBtwe (,(x), ,(i), ,(j), $mylocation)
 
 #atscode_separator()
 
+fun{} checkast_Ptr1 (x: ptr, msg: string): Ptr1
+
+#atscode_separator()
+
+macdef
+ckastloc_Ptr1 (x) = checkast_Ptr1 (,(x), $mylocation)
+
+#atscode_separator()
+
 fun{} checkast_Strptr1 (x: Strptr0, msg: string): Strptr1
 
 #atscode_separator()
