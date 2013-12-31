@@ -4,9 +4,7 @@
 
 ######
 
-PATSCC=$(PATSHOME)/bin/patscc
-PATSOPT=$(PATSHOME)/bin/patsopt
-PATSLIB=$(PATSHOME)/ccomp/atslib/lib
+include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 #
@@ -18,6 +16,10 @@ JNIincl=/usr/lib/jvm/java-7-openjdk-amd64/include
 #
 # How to test: java -Djava.library.path=. GameOf24
 #
+######
+
+all:: GameOf24
+
 ######
 
 GameOf24:: GameOf24.h

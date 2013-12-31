@@ -9,6 +9,10 @@ $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
+CFLAGS += -O2
+
+######
+
 SOURCES_SATS += \
   calculator.sats \
 

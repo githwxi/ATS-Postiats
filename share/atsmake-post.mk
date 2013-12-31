@@ -80,4 +80,4 @@ cleanall:: ; $(RMF) .depend
 
 ######
 
-###### end of [atsmake2-post.mk] ######
+###### end of [atsmake-post.mk] ######

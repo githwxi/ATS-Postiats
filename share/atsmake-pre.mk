@@ -36,7 +36,10 @@ MALLOCFLAG := -DATS_MEMALLOC_LIBC
 
 ######
 
+ifeq ("$(PATSHOMERELOCQ)","")
+else
 INCLUDE_ATS += -IIATS $(PATSHOMERELOCQ)/contrib
+endif
 
 ######
 
@@ -51,4 +54,4 @@ SOURCES_DATS=
 
 ######
 
-###### end of [atsmake2-pre.mk] ######
+###### end of [atsmake-pre.mk] ######
