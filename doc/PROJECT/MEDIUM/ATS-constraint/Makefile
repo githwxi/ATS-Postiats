@@ -74,5 +74,7 @@ clean:: ; $(RMF) *_?ats.o
 
 cleanall:: clean
 cleanall:: ; $(RMF) constraint.o
+cleanall:: ; make -C parsing cleanall
+#cleanall:: ; make -C solving cleanall
 
 ###### end of [Makefile] ######

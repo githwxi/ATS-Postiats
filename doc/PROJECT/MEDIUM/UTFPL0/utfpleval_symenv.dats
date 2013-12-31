@@ -104,8 +104,10 @@ val-list_cons (v2, vs) = vs
 in
 //
 case+ (v1, v2) of
-| (VALint (i1), VALint (i2)) => VALint (i1+i2)
-| (VALfloat (d1), VALfloat (d2)) => VALfloat (d1+d2)
+| (VALint (i1),
+   VALint (i2)) => VALint (i1+i2)
+| (VALfloat (d1),
+   VALfloat (d2)) => VALfloat (d1+d2)
 | (VALstring (s1),
    VALstring (s2)) => VALstring (strptr2string(string_append(s1,s2)))
 | (_, _) => VALerror ("type-error: add(+)")
@@ -328,6 +330,26 @@ end // end of [mfn_neq]
 
 (* ****** ****** *)
 
+fun mfn_compare
+(
+  vs: valuelst
+) : value = let
+//
+val-list_cons (v1, vs) = vs
+val-list_cons (v2, vs) = vs
+//
+in
+//
+case+ (v1, v2) of
+| (VALint (i1), VALint (i2)) => VALint (compare (i1, i2))
+| (VALfloat (d1), VALfloat (d2)) => VALint (compare (d1, d2))
+| (VALstring (s1), VALstring (s2)) => VALint (compare (s1, s2))
+| (_, _) => VALerror ("type-error: compare")
+//
+end // end of [mfn_compare]
+
+(* ****** ****** *)
+
 fun mfn_print
 (
   vs: valuelst
@@ -511,6 +533,8 @@ val () = the_d2symmap_add_name (">=", VALfun(mfn_gte))
 //
 val () = the_d2symmap_add_name ("=", VALfun(mfn_eq))
 val () = the_d2symmap_add_name ("!=", VALfun(mfn_neq))
+//
+val () = the_d2symmap_add_name ("compare", VALfun(mfn_compare))
 //
 val () =
 the_d2symmap_add_name ("stdin", VALboxed{FILEref}(stdin_ref))

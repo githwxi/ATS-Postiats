@@ -30,6 +30,7 @@ symintr true false
 //
 symintr ~ + - * / % mod
 //
+symintr compare
 symintr < <= > >= = !=
 //
 symintr stdin stdout stderr
