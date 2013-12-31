@@ -66,6 +66,7 @@ case+ d2e0.d2exp_node of
 //
 | D2Eint (i) => VALint (i)
 | D2Eintrep (rep) => VALint (g0string2int(rep))
+//
 | D2Echar (c) =>
     let val int = char2u2i(c) in VALint (int) end
 | D2Efloat (d) => VALfloat (d)

@@ -24,19 +24,20 @@ patsopt_env.sh
 #
 # The compiler for POSTIATS 
 #
-src/patsopt
 src/.depend
+src/patsopt
+src/patsopt.exe
 src/Makefile.exe
-src/Makefile_atxt.dats
 src/Makefile_atxt.txt
+src/Makefile_atxt.dats
 src/TAGS
 src/tags
 src/TAGATS
-src/*.exe
 
 bin/patscc
+bin/patscc.exe
 bin/patsopt
-bin/*.exe
+bin/patsopt.exe
 
 #
 # boostrapping
@@ -65,7 +66,7 @@ ccomp/atslib/Makefile.exe
 #
 
 utils/atscc/patscc
-utils/atscc/*.exe
+utils/atscc/patscc.exe
 
 #
 # ATSLIB/prelude

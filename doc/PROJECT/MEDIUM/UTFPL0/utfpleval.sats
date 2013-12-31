@@ -58,7 +58,7 @@ datatype value =
   | VALfix of (d2exp, cloenv)
 //
   | VALfun of
-      (valuelst -> value) // meta-function
+      (valuelst -> value) // for meta-functions
     // end of [VALfun]
 //
   | {a:type} VALboxed of (a) // for untyped programming

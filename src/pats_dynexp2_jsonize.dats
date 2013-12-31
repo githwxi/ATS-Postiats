@@ -350,6 +350,7 @@ end // end of [jsonize_p2at]
 implement
 jsonize_p2atlst (p2ts) =
   jsonize_list_fun (p2ts, jsonize_p2at)
+// end of [jsonize_p2atlst]
 
 (* ****** ****** *)
 
@@ -380,12 +381,12 @@ end // end of [jsonize_labp2at]
 implement
 jsonize_labp2atlst (lp2ts) =
   jsonize_list_fun (lp2ts, jsonize_labp2at)
+// end of [jsonize_labp2atlst]
 
 (* ****** ****** *)
 
 implement
-jsonize_d2exp
-  (d2e0) = let
+jsonize_d2exp (d2e0) = let
 //
 fun auxmain
   (d2e0: d2exp): jsonval = let
@@ -556,12 +557,12 @@ end // end of [jsonize_d2exp]
 implement
 jsonize_d2explst (d2es) =
   jsonize_list_fun (d2es, jsonize_d2exp)
+// end of [jsonize_d2explst]
 
 (* ****** ****** *)
 
 implement
-jsonize_d2expopt
-  (opt) = let
+jsonize_d2expopt (opt) = let
 in
 //
 case+ opt of
@@ -587,6 +588,7 @@ end // end of [jsonize_labd2exp]
 implement
 jsonize_labd2explst (ld2es) =
   jsonize_list_fun (ld2es, jsonize_labd2exp)
+// end of [jsonize_labd2explst]
 
 (* ****** ****** *)
 
@@ -825,6 +827,7 @@ end // end of [json_f2undec]
 implement
 jsonize_f2undeclst (f2ds) =
   jsonize_list_fun (f2ds, jsonize_f2undec)
+// end of [jsonize_f2undeclst]
 
 (* ****** ****** *)
 
@@ -852,6 +855,7 @@ end // end of [json_v2aldec]
 implement
 jsonize_v2aldeclst (v2ds) =
   jsonize_list_fun (v2ds, jsonize_v2aldec)
+// end of [jsonize_v2aldeclst]
 
 (* ****** ****** *)
 
