@@ -6,6 +6,16 @@
 
 ifeq ("$(MYTARGET)","")
 else
+SATS_C := \
+  $(patsubst %.sats, %_sats.c, $(SOURCES_SATS))
+DATS_C := \
+  $(patsubst %.dats, %_dats.c, $(SOURCES_DATS))
+endif
+
+######
+
+ifeq ("$(MYTARGET)","")
+else
 $(MYTARGET)_SATS_O := \
   $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))
 $(MYTARGET)_DATS_O := \
@@ -18,7 +28,7 @@ ifeq ("$(MYTARGET)","")
 else
 ifeq ("$(MYTARGET)","MYTARGET")
 else
-all:: $(MYTARGET)
+# all:: $(MYTARGET)
 $(MYTARGET): \
   $($(MYTARGET)_SATS_O) \
   $($(MYTARGET)_DATS_O) ; \
@@ -31,10 +41,13 @@ endif
 #
 # HX-2013-12-28: for debugging
 #
-ifeq ("$(MYCCRULE)","")
-%_sats.c: %.sats ; $(PATSCC) $(INCLUDE_ATS) -ccats $<
-%_dats.c: %.dats ; $(PATSCC) $(INCLUDE_ATS) -ccats $<
-endif
+#ifeq ("$(MYCCRULE)","")
+
+%_sats.c: %.sats 
+	$(PATSCC) $(INCLUDE_ATS) -ccats $<
+%_dats.c: %.dats 
+	$(PATSCC) $(INCLUDE_ATS) -ccats $<
+#endif
 
 ######
 
@@ -61,22 +74,7 @@ endif
 #
 ######
 
-# portdep: INCLUDE_ATS_C = -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime 
-# portdep: ; $(RMF) .atscdep .atscdep_tmp
-# ifeq ("$(SOURCES_SATS)","")
-# else
-# portdep: ; $(CC) $(INCLUDE_ATS_C) $(CFLAGS) *_sats.c $(CCDEPFLAG) .atscdep_tmp \
-#           ; tail -n +2 .atscdep_tmp >> .atscdep
-# endif
-# ifeq ("$(SOURCES_DATS)","")
-# else
-# portdep: ; $(CC) $(INCLUDE_ATS_C) $(MALLOCFLAG) $(CFLAGS) *_dats.c $(CCDEPFLAG) .atscdep_tmp \
-#           ; tail -n +2 .atscdep_tmp >> .atscdep
-# endif
-# portdep: ; $(RMF) .atscdep_tmp 
-portdep: portdepCP
-
-portdepINIT:
+portdepINIT: $(SATS_C) $(DATS_C)
 	$(eval INCLUDE_ATS_C := -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime) 
 	$(eval INCLUDE_ATS_PC := -I$(ATSDEPDIR) -I$(ATSDEPDIR)/ccomp/runtime)
 	$(RMF) .atscdep .atscdep_tmp
@@ -100,9 +98,8 @@ portdepCP: portdepMKDIR
 
 
 ######
-# need a step here for input to portdep
-portable:: portdep # why doesn't portdep work here?
-portable:: $(MYTARGET)
+
+all:: portdepCP
 	$(CC) $(MALLOCFLAG) $(CFLAGS) $(INCLUDE_ATS_PC) *ats.c -o $(MYTARGET)
 
 ######
