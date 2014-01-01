@@ -1,3 +1,7 @@
+%{
+#include "./../ATEXT/atextfun.hats"
+%}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -5,6 +9,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-loop-as-tailrec</title>
+#patscode_style()
 </head>
 
 <body>
@@ -36,10 +41,12 @@ some calling function is a tail-call if the return value of the call is
 also the return value of the calling function. For instance, the call to
 [bar] is a tail-call in the following code but the call to [baz] is not:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 fun foo (x: int): int =
   if x > 0 then bar(x) else baz(x)+1
-</pre>
+")</pre>
 
 By the way, even if baz(x)+1 is changed into baz(x)+0, the call to
 [baz] is still not considered a tail-call unless baz(x)+0 can somehow be
@@ -54,10 +61,12 @@ function is also referred to as an iterative function in the literature.
 In the following example, the outside call to [f91] is tail-recursive but
 the inside one is not:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 fun f91 (x: int): int =
   if x >= 101 then x-10 else f91(f91(x+11))
-</pre>
+")</pre>
 
 By definition, [f91] is not a tail-recursive function.
 
@@ -94,10 +103,12 @@ Let us now take a look at a concrete example. The following code implements
 a function [tally] that sums up all the integers between 1 and a given
 number n, inclusive:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 fun tally (n: int): int =
   if n > 0 then n + tally (n-1) else 0
-</pre>
+")</pre>
 
 Clearly, [tally] is not tail-recursive. If we translate this implementation
 of [tally] into C, we essentially obtain the following code:
@@ -132,7 +143,9 @@ two implementations are no longer equivalent.
 A straightforward translation of the above implementation of [tally2] in C
 into ATS yields the following code:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 fun tally2
   (n: int): int = let
 //
@@ -143,7 +156,7 @@ fun loop
 in
   loop (n, 0)
 end // end of [tally2]
-</pre>
+")</pre>
 
 Please note that the inner function [loop] is tail-recursive. The
 compiler of ATS (ATS/Postiats) essentially compiles [loop] into
@@ -173,16 +186,20 @@ Example 2
 Let us take a look at another example. The following code implements
 a function named [fib] for computing Fibonacci numbers:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 fun fib (n: int): int =
   if n >= 2 then fib(n-1) + fib(n-2) else n
-</pre>
+")</pre>
 
 Clearly, neither of the two recursive calls in the body of [fib] is
 tail-recursive. Another function named [fib2] is presented as follows for
 computing Fibonacci numbers:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 fun fib2
   (n: int): int = let
 //
@@ -193,7 +210,7 @@ fun loop
 in
   loop (0, 0, 1)
 end // end of [fib2]
-</pre>
+")</pre>
 
 It is evident that the inner funtion [loop] in the body of [fib2] is
 tail-recursive. Suppose we want to evaluate fib2(100), which generates a
@@ -220,7 +237,9 @@ The next example we see involves list-processing.
 The following code implements the standard concatenation of two given
 lists:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 fun
 {a:t@ype}
 list_append
@@ -234,7 +253,7 @@ case+ xs of
     (x, xs) => list_cons (x, list_append (xs, ys))
 | list_nil ((*void*)) => ys
 ) // end of [list_append]
-</pre>
+")</pre>
 
 The type assigned to [list_append] means that the function returns a list
 of length m+n when applied to two lists xs and ys of length m and n,
@@ -255,7 +274,9 @@ x and xs. In ATS, it is allowed to formally separate these two steps, and
 this separation is key to obtaining a proper tail-recursive implementation
 of list concatenation as is shown in the following code:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 fun
 {a:t@ype}
 list_append2
@@ -291,7 +312,7 @@ val () = loop (xs, ys, res)
 in
   res
 end // end of [list_append2]
-</pre>
+")</pre>
 
 Given xs, ys, and res, what the inner function [loop] does is to put the
 concatenation of xs and ys into res.  In the body of [loop], we see that
@@ -315,12 +336,14 @@ Sometimes, we need to combine functions together in order to turn mutully
 tail-recursive calls into local jumps. For instance, in the following code,
 [isevn] and [isodd] are defined mutually recursively:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 fun isevn (n: int): bool =
   if n > 0 then isodd (n-1) else true
 and isodd (n: int): bool =
   if n > 0 then isevn (n-1) else false
-</pre>
+")</pre>
 
 The call to [isodd] in the body of [isevn] and the call to [isevn] in the
 body of [isadd] are both tail-calls. As they are also mutually recursive
@@ -335,12 +358,14 @@ is <em>unable</em> to turn the call to [isodd] ([isevn]) in the body of
 that these two functions need to be combined for compilation, the keyword
 [fun] should be replaced with another keyword [fnx]:
 
-<pre>
+<pre
+class="patsyntax">
+#pats2xhtml_dats("\
 fnx isevn (n: int): bool =
   if n > 0 then isodd (n-1) else true
 and isodd (n: int): bool =
   if n > 0 then isevn (n-1) else false
-</pre>
+")</pre>
 
 When compiling the above code, the ATS compiler puts inside the body of
 [isevn] a copy of the body of [isodd] so that mutually tail-recursive calls
@@ -356,3 +381,7 @@ This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
 </body>
 </html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "main_atxt.txt")
+%}
