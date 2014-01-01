@@ -1,0 +1,28 @@
+#
+# Generating portable C code
+#
+
+######
+
+HX-2014-01-01:
+
+This directory contains some examples demonstrating a general
+approach to generating portable C code from ATS source that can
+be compiled on other platforms for which patscc is not yet installed
+or even available.
+
+Often, portable C code generated from ATS source can be compiled
+by issuing the following command-line:
+
+gcc -I${PATSHOME} -I${PATSHOME}/ccomp/runtime <some-other-flags> *_?ats.c
+
+Various CATS-files (corresponding to header files in C) are contained
+in the following package:
+
+ATS2-Postiats-include-0.0.4.tgz
+
+which is available at:
+
+http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.0.4/
+
+###### end of [README] ######

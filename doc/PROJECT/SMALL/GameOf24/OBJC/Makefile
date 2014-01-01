@@ -19,13 +19,12 @@ CFLAGS += -I${PATSHOME}/ccomp/runtime
 
 ######
 
-GameOf24: GameOf24.o \
-  GameOf24_dats.c mylib_dats.c ; $(CCOPT) $(CFLAGS) -o $@ $^
+GameOf24: \
+  GameOf24.o GameOf24_dats.c ; $(CCOPT) $(CFLAGS) -o $@ $^
 
 ######
 
-GameOf24.o: GameOf24.m ; \
-  $(CCOPT) -x objective-c -c -o $@ $<
+GameOf24.o: GameOf24.m ; $(CCOPT) -x objective-c -c -o $@ $<
 
 ######
 

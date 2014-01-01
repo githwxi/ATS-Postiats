@@ -28,6 +28,10 @@ local
 #include "../GameOf24_solve.dats"
 in (*nothing*) end
 //
+local
+#include "../GameOf24_mylib.dats"
+in (*nothing*) end
+//
 (* ****** ****** *)
 
 staload "../GameOf24.sats"

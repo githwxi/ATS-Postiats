@@ -268,30 +268,36 @@
     pt))
 
 (defvar ats-word-keywords
-  '("abstype" "abst0ype" "absprop" "absview" "absvtype" "absviewtype" "absvt0ype" "absviewt0ype"
-    "and" "as" "assume" "begin" "break" "continue" "classdec" "datasort"
-    "datatype" "dataprop" "dataview" "datavtype" "dataviewtype" "do" "dynload" "else"
-    "end" "exception" "extern" "extype" "extval" "fn" "fnx" "fun"
-    "prfn" "prfun" "praxi" "castfn" "if" "in" "infix" "infixl"
-    "infixr" "prefix" "postfix" "implmnt" "implement" "primplmnt" "primplement" "lam"
+  '("abstype" "abst0ype" "absprop" "absview"
+    "absvtype" "absviewtype" "absvt0ype" "absviewt0ype"
+    "and" "as" "assume" "begin" "break" "continue" "classdec"
+    "datasort" "datatype" "dataprop" "dataview" "datavtype" "dataviewtype"
+    "do" "dynload" "else" "end" "exception" "extern" "extype" "extval"
+    "fn" "fnx" "fun" "prfn" "prfun" "praxi" "castfn"
+    "if" "in" "infix" "infixl" "infixr" "prefix" "postfix"
+    "implmnt" "implement" "primplmnt" "primplement" "lam"
     "llam" "fix" "let" "local" "macdef" "macrodef" "nonfix" "overload"
-    "of" "op" "rec" "scase" "sif" "sortdef" "sta" "stacst"
+    "of" "op" "rec" "scase" "sif" "sortdef" "stacst"
     "stadef" "stavar" "staload" "symelim" "symintr" "then" "try" "tkindef"
-    "type" "typedef" "propdef" "viewdef" "vtypedef" "viewtypedef" "val" "prval"
-    "var" "prvar" "when" "where" "for" "while" "with" "withtype"
-    "withprop" "withview" "withvtype" "withviewtype")) 
+    "type" "typedef" "propdef" "viewdef" "vtypedef" "viewtypedef"
+    "val" "prval" "var" "prvar" "when" "where" "for" "while" "with"
+    "withtype" "withprop" "withview" "withvtype" "withviewtype"))
 
 (defun wrap-word-keyword (w)
   (concat "\\<" w "\\>"))
 
 (defvar ats-special-keywords
-  '("$arrpsz" "$arrptrsize" "$delay" "$ldelay" "$effmask" "$effmask_ntm" "$effmask_exn" "$effmask_ref"
-    "$effmask_wrt" "$effmask_all" "$extern" "$extkind" "$extype" "$extype_struct" "$extval" "$lst"
-    "$lst_t" "$lst_vt" "$list" "$list_t" "$list_vt" "$rec" "$rec_t" "$rec_vt"
-    "$record" "$record_t" "$record_vt" "$tup" "$tup_t" "$tup_vt" "$tuple" "$tuple_t"
-    "$tuple_vt" "$raise" "$showtype" "$myfilename" "$mylocation" "$myfunction" "#assert" "#define"
-    "#elif" "#elifdef" "#elifndef" "#else" "#endif" "#error" "#if" "#ifdef"
-    "#ifndef" "#include" "#print" "#then" "#undef"))
+  '("$arrpsz" "$arrptrsize" "$delay" "$ldelay"
+    "$effmask" "$effmask_ntm" "$effmask_exn"
+    "$effmask_ref" "$effmask_wrt" "$effmask_all"
+    "$extern" "$extkind" "$extype" "$extype_struct" "$extval"
+    "$lst" "$lst_t" "$lst_vt" "$list" "$list_t" "$list_vt"
+    "$rec" "$rec_t" "$rec_vt" "$record" "$record_t" "$record_vt"
+    "$tup" "$tup_t" "$tup_vt" "$tuple" "$tuple_t" "$tuple_vt"
+    "$raise" "$showtype" "$myfilename" "$mylocation" "$myfunction"
+    "#if" "#then" "#else" "#endif"
+    "#ifdef" "#ifndef" "#elif" "#elifdef" "#elifndef" 
+    "#assert" "#define" "#error" "#include" "#print" "#undef"))
 
 (defun wrap-special-keyword (w)
   (concat "\\" w "\\>"))

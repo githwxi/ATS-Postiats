@@ -80,6 +80,19 @@ end // end of [auxtest]
 
 (* ****** ****** *)
 
+fun auxskip
+(
+  inp: FILEref, sbf: !stringbuf
+) : bool = ans where
+{
+var last: char = '\000'
+val _ = stringbuf_insert_fgets (sbf, inp, last)
+val ans = auxtest (sbf)
+val _(*true*) = stringbuf_truncate (sbf, i2sz(0))
+} (* end of [auxskip] *)
+
+(* ****** ****** *)
+
 fun auxfname
 (
   inp: FILEref, sbf: !stringbuf
@@ -159,19 +172,16 @@ unpack_fileref
 //
 val sbf =
 stringbuf_make_nil (i2sz(BUFSZ))
+val sbf2 =
+stringbuf_make_nil (i2sz(128*BUFSZ))
 //
-var last: char = '\000'
-val _ = stringbuf_insert_fgets (sbf, inp, last)
-val _(*true*) = stringbuf_truncate (sbf, i2sz(0))
+val () =
+assertloc (auxskip (inp, sbf))
 //
 val fname = auxfname (inp, sbf)
 //
-var last: char = '\000'
-val _ = stringbuf_insert_fgets (sbf, inp, last)
-val _(*true*) = stringbuf_truncate (sbf, i2sz(0))
-//
-val sbf2 =
-stringbuf_make_nil (i2sz(128*BUFSZ))
+val () =
+assertloc (auxskip (inp, sbf))
 //
 var nerr: int = 0
 val () = auxfbody (inp, sbf, sbf2, nerr)
