@@ -61,38 +61,49 @@ endif
 #
 ######
 
-portdep:: INCLUDE_ATS_C = -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime 
-portdep:: ; $(RMF) .atscdep .atscdep_tmp
-ifeq ("$(SOURCES_SATS)","")
-else
-portdep:: ; $(CC) $(INCLUDE_ATS_C) $(CFLAGS) *_sats.c $(CCDEPFLAG) .atscdep_tmp \
-          ; tail -n +2 .atscdep_tmp >> .atscdep
-endif
-ifeq ("$(SOURCES_DATS)","")
-else
-portdep:: ; $(CC) $(INCLUDE_ATS_C) $(MALLOCFLAG) $(CFLAGS) *_dats.c $(CCDEPFLAG) .atscdep_tmp \
-          ; tail -n +2 .atscdep_tmp >> .atscdep
-endif
-portdep:: ; $(RMF) .atscdep_tmp 
+# portdep: INCLUDE_ATS_C = -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime 
+# portdep: ; $(RMF) .atscdep .atscdep_tmp
+# ifeq ("$(SOURCES_SATS)","")
+# else
+# portdep: ; $(CC) $(INCLUDE_ATS_C) $(CFLAGS) *_sats.c $(CCDEPFLAG) .atscdep_tmp \
+#           ; tail -n +2 .atscdep_tmp >> .atscdep
+# endif
+# ifeq ("$(SOURCES_DATS)","")
+# else
+# portdep: ; $(CC) $(INCLUDE_ATS_C) $(MALLOCFLAG) $(CFLAGS) *_dats.c $(CCDEPFLAG) .atscdep_tmp \
+#           ; tail -n +2 .atscdep_tmp >> .atscdep
+# endif
+# portdep: ; $(RMF) .atscdep_tmp 
+portdep: portdepCP
 
-
-# CPATSDEPSOUT = $(subst $(PATSHOME), , $(CPATSDEPS))
-# $(warning $(CPATSDEPS))
-# $(warning $(CPATSDEPSOUT))
-#Need to somehow preserve path structure in the copy:
-
-portdep::
+portdepINIT:
+	$(eval INCLUDE_ATS_C := -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime) 
+	$(eval INCLUDE_ATS_PC := -I$(ATSDEPDIR) -I$(ATSDEPDIR)/ccomp/runtime)
+	$(RMF) .atscdep .atscdep_tmp
+portdepMKDEP: portdepINIT
+	$(CC) $(INCLUDE_ATS_C) $(MALLOCFLAG) $(CFLAGS) *_dats.c $(CCDEPFLAG) .atscdep_tmp; \
+	tail -n +2 .atscdep_tmp >> .atscdep
+portdepDEPSLIST: portdepMKDEP
 	$(eval CPATSDEPS := $(shell cat .atscdep | tr -d '\\\n'))
-	$(foreach cdep, $(CPATSDEPS), $(shell "$(dirname $(cdep))");)
-#	$(foreach cdep, $(CPATSDEPS), cp $(cdep) $(ATSDEPDIR);)
-	$(warning "TEST TEST")
-#	cp $(CPATSDEPS) $(ATSDEPDIR)/
+portdepDEPSSORT: portdepDEPSLIST
+	$(eval CPATSDEPS := $(sort $(CPATSDEPS)))
+portdepFROMDIRS: portdepDEPSSORT
+	$(eval FROMDIRS := $(foreach cdep, $(CPATSDEPS), $(shell dirname $(cdep))))
+portdepTO: portdepFROMDIRS
+	$(eval CPATSDEPSTODIRS := $(subst $(PATSHOME)/, , $(FROMDIRS)))
+	$(eval CPATSDEPSTOFILES := $(subst $(PATSHOME)/, , $(CPATSDEPS)))
+portdepMKDIR: portdepTO
+	$(foreach todir, $(CPATSDEPSTODIRS), mkdir -p $(ATSDEPDIR)/$(todir))
+portdepCP: portdepMKDIR
+	$(foreach tofil, $(CPATSDEPSTOFILES), \
+	$(shell cp $(PATSHOME)/$(tofil) $(ATSDEPDIR)/$(tofil)))
+
 
 ######
 # need a step here for input to portdep
 portable:: portdep # why doesn't portdep work here?
 portable:: $(MYTARGET)
-	$(CC) $(MALLOCFLAG) $(CFLAGS) -I$(ATSDEPDIR) *ats.c -o $(MYTARGET)
+	$(CC) $(MALLOCFLAG) $(CFLAGS) $(INCLUDE_ATS_PC) *ats.c -o $(MYTARGET)
 
 ######
 

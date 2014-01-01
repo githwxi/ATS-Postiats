@@ -12,7 +12,7 @@
 #
 
 CC = gcc
-CCDEPFLAG = -c -MMD -MF
+CCDEPFLAG = -c -MM -MF
 ATSDEPDIR = ATSDEPCOPIES
 
 ######
