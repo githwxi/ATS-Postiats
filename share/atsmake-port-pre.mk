@@ -22,10 +22,11 @@ endif
 PATSCC=$(PATSHOMEQ)/bin/patscc
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
 PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
+PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib64
 
 ######
 
-CFLAGS += -D_GNU_SOURCE 
+CFLAGS += -D_GNU_SOURCE -std=c99 -D_XOPEN_SOURCE
 
 ######
 

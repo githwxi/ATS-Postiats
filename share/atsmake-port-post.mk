@@ -17,11 +17,25 @@ DATS_C := $(patsubst %.dats, %_dats.c, $(SOURCES_DATS))
 endif
 
 ######
+# If I leave this out, the build fails:
 
-ifeq ("$(MYCCRULE)","")
-%_sats.o: %.sats ; $(PATSCC) $(INCLUDE_ATS) $(CFLAGS) -c $<
-%_dats.o: %.dats ; $(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $<
+# ifeq ("$(MYCCRULE)","")
+# %_sats.o: %.sats ; $(PATSCC) $(INCLUDE_ATS) $(CFLAGS) -c $<
+# %_dats.o: %.dats ; $(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $<
+# endif
+
+ifeq ("$(MYTARGET)","")
+else
+SATS_O := $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))
+DATS_O := $(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
+
+%_sats.o: %_sats.c 
+	$(CC) $(INCLUDE_ATS_PC) $(CFLAGS) $< -o $@
+%_dats.o: %_dats.c
+	$(CC) $(INCLUDE_ATS_PC) $(MALLOCFLAG) $(CFLAGS) $< -o $@
 endif
+
+
 
 ######
 #
@@ -65,21 +79,6 @@ portdepCP: portdepMKDIR
 
 
 ######
-
-ifeq ("$(MYTARGET)","")
-else
-SATS_O := $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))
-DATS_O := $(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
-
-%_sats.o: %_sats.c 
-	$(CC) $(INCLUDE_ATS_PC) $< -o $@
-%_dats.o: %_dats.c
-	$(CC) $(MALLOCFLAG) $(INCLUDE_ATS_PC) $< -o $@
-endif
-
-
-#all:: portdepCP
-#	$(CC) $(MALLOCFLAG) $(CFLAGS) $(INCLUDE_ATS_PC) *ats.c -o $(MYTARGET)
 
 all:: portdepCP $(SATS_O) $(DATS_O)
 	$(CC) $(MALLOCFLAG) $(CFLAGS) $(INCLUDE_ATS_PC) *ats.o -o $(MYTARGET)
