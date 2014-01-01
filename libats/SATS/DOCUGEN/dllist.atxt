@@ -64,7 +64,7 @@ doubly linked linear lists in ATS and vice versa.  ')
 
 Given a value, this function returns a singleton list containing the value.\
 
-")
+')
 
 (* ****** ****** *)
 

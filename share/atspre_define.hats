@@ -7,7 +7,7 @@
 (*
 ** Various defines for packages
 *)
-#include "./atspre_define_pkgreloc.hats"
+#include "./HATS/atspre_define_pkgreloc.hats"
 
 (* ****** ****** *)
 
