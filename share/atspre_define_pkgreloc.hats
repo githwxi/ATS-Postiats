@@ -39,6 +39,13 @@ HIREDIS_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/hiredis"
 (* ****** ****** *)
 //
 #define
+OPENSSL_targetloc "$PATSHOMERELOC/contrib/openssl"
+#define
+OPENSSL_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/openssl"
+//
+(* ****** ****** *)
+//
+#define
 LIBCURL_targetloc "$PATSHOMERELOC/contrib/libcurl"
 #define
 LIBCURL_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/libcurl"

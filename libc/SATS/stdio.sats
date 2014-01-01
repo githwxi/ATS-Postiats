@@ -91,9 +91,12 @@ vtypedef FILEptr1 (*none*) = [l:agz;m:fm] FILEptr (l, m)
 stadef fmlte = file_mode_lte
 
 (* ****** ****** *)
-
-castfn FILEptr2ptr {l:addr}{m:fm} (p: !FILEptr (l, m)): ptr (l)
-
+//
+castfn
+FILEptr2ptr{l:addr}{m:fm} (filp: !FILEptr (l, m)):<> ptr (l)
+//
+overload ptrcast with FILEptr2ptr
+//
 (* ****** ****** *)
 
 castfn
@@ -175,17 +178,17 @@ ing sequences (Additional characters may follow these sequences.):
 
 fun fopen{m:fm}
 (
-  path: NSH(string), m: fmode m
+  path: NSH(string), fmode(m)
 ) :<!wrt> FILEptr0 (m) = "mac#%"
 
 fun fopen_exn{m:fm}
 (
-  path: NSH(string), m: fmode m
+  path: NSH(string), fmode(m)
 ) :<!exnwrt> FILEptr1 (m) = "ext#%"
 
 fun fopen_ref_exn{m:fm}
 (
-  path: NSH(string), m: fmode m
+  path: NSH(string), fmode(m)
 ) :<!exnwrt> FILEref(*none*) = "ext#%"
 
 (* ****** ****** *)
@@ -401,17 +404,17 @@ symintr fflush
 symintr fflush_exn
 //
 fun fflush0
-  (filr: FILEref):<!wrt> int = "mac#%"
+  (out: FILEref):<!wrt> int = "mac#%"
 fun fflush1 {m:fm}
 (
-  pf: fmlte (m, w) | filp: !FILEptr1 (m)
+  pf: fmlte (m, w) | out: !FILEptr1 (m)
 ) :<!wrt> [i:int | i <= 0] int (i) = "mac#%"
 //
 overload fflush with fflush0
 overload fflush with fflush1
 //
 fun fflush0_exn
-  (filr: FILEref):<!exnwrt> void = "ext#%"
+  (out: FILEref):<!exnwrt> void = "ext#%"
 overload fflush_exn with fflush0_exn
 //
 (* ****** ****** *)
@@ -433,10 +436,10 @@ that EOF must be a negative number!
 symintr fgetc
 //
 fun fgetc0
-  (filr: FILEref):<!wrt> int = "mac#%"
+  (inp: FILEref):<!wrt> int = "mac#%"
 fun fgetc1 {m:fm}
 (
-  pf: fmlte (m, r) | filp: !FILEptr1 (m)
+  pf: fmlte (m, r) | inp: !FILEptr1 (m)
 ) :<!wrt> intLte (UCHAR_MAX) = "mac#%"
 //
 overload fgetc with fgetc0
@@ -459,13 +462,13 @@ symintr fgets
 fun fgets0
   {sz:int}{n0:pos | n0 <= sz}
 (
-  buf: &b0ytes(sz) >> bytes(sz), n0: int n0, filr: FILEref
+  buf: &b0ytes(sz) >> bytes(sz), n0: int n0, inp: FILEref
 ) :<!wrt> Ptr0 = "mac#%" // = addr@(buf) or NULL
 fun fgets1
   {sz:int}{n0:pos | n0 <= sz}{m:fm}
 (
   pfm: fmlte (m, r)
-| buf: &b0ytes(sz) >> bytes(sz), n0: int n0, filp: !FILEptr1 (m)
+| buf: &b0ytes(sz) >> bytes(sz), n0: int n0, inp: !FILEptr1 (m)
 ) :<!wrt> Ptr0 = "mac#%" // = addr@(buf) or NULL
 //
 overload fgets with fgets0
@@ -485,7 +488,7 @@ fun fgets1_err
   {sz,n0:int | sz >= n0; n0 > 0}{l0:addr}{m:fm}
 (
   pf_mod: fmlte (m, r), pf_buf: b0ytes (sz) @ l0
-| p0: ptr (l0), n0: int (n0), filp: !FILEptr1 (m)
+| p0: ptr (l0), n0: int (n0), inp: !FILEptr1 (m)
 ) :<> [l1:addr] (fgets_v (sz, n0, l0, l1) | ptr l1) = "mac#%"
 // end of [fgets_err]
 //
@@ -497,10 +500,10 @@ overload fgets with fgets1_err
 // A complete line is read each time // [nullp] for error
 //
 fun fgets0_gc
-  (bsz: intGte(1), filr: FILEref): Strptr0 = "ext#%"
+  (bsz: intGte(1), inp: FILEref): Strptr0 = "ext#%"
 fun fgets1_gc {m:fm}
 (
-  pf_mod: fmlte (m, r) | bsz: intGte(1), filr: FILEptr1 (m)
+  pf_mod: fmlte (m, r) | bsz: intGte(1), inp: FILEptr1 (m)
 ) : Strptr0 = "ext#%" // end of [fget1_gc]
 
 (* ****** ****** *)
@@ -596,10 +599,10 @@ fun putchar1
 //
 // int fputs (const char* s, FILE *stream)
 //
-The function [fputs] writes a string to a file. it returns a non-negative
-number on success, or EOF on error.
-
+The function [fputs] writes a string to a file. it returns
+a non-negative number on success, or EOF on error.
 *)
+
 //
 symintr fputs
 symintr fputs_exn
@@ -610,7 +613,7 @@ fun fputs0
 ) :<!wrt> int = "mac#%"
 fun fputs1 {m:fm}
 (
-  pf: fmlte (m, w) | str: NSH(string), filp: !FILEptr1 (m)
+  pf: fmlte (m, w) | str: NSH(string), out: !FILEptr1 (m)
 ) :<!wrt> int = "mac#%"
 //
 overload fputs with fputs0
@@ -659,7 +662,7 @@ fread0 // [isz]: the size of each item
 (
   buf: &bytes(nbf) >> _
 , isz: size_t isz, n: size_t n
-, filr: FILEref(*none*)
+, inp: FILEref(*none*)
 ) :<!wrt> sizeLte n = "mac#%"
 fun
 fread1 // [isz]: the size of each item
@@ -671,7 +674,7 @@ fread1 // [isz]: the size of each item
   pfm: fmlte (m, r)
 | buf: &bytes(nbf) >> _
 , isz: size_t isz, n: size_t n
-, filp: !FILEptr1 (m)
+, inp: !FILEptr1 (m)
 ) :<!wrt> sizeLte n = "mac#%"
 //
 overload fread with fread0
@@ -685,7 +688,7 @@ fread0_exn // [isz]: the size of each item
   {nbf:int}
   {n:int | n*isz <= nbf}
 (
-  buf: &bytes(nbf) >> _, isz: size_t isz, n: size_t n, filr: FILEref
+  buf: &bytes(nbf) >> _, isz: size_t isz, n: size_t n, inp: FILEref
 ) :<!exnwrt> sizeLte n = "ext#%" // endfun
 overload fread_exn with fread0_exn
 
@@ -713,7 +716,7 @@ fwrite0 // [isz]: the size of each item
 (
   buf: &RD(bytes(nbf))
 , isz: size_t isz, n: size_t n
-, filr: FILEref
+, out: FILEref
 ) :<!wrt> sizeLte (n) = "mac#%"
 fun
 fwrite1 // [isz]: the size of each item
@@ -725,7 +728,7 @@ fwrite1 // [isz]: the size of each item
   pfm: fmlte (m, w)
 | buf: &RD(bytes(nbf))
 , isz: size_t isz, n: size_t n
-, filp: !FILEptr1 (m)
+, out: !FILEptr1 (m)
 ) :<!wrt> sizeLte (n) = "mac#%"
 //
 overload fwrite with fwrite0
@@ -741,7 +744,7 @@ fwrite0_exn // [isz]: the size of each item
 (
   buf: &RD(bytes(nbf))
 , isz: size_t isz, n: size_t n
-, filr: FILEref(*none*)
+, out: FILEref(*none*)
 ) :<!exnwrt> sizeLte (n) = "ext#%"
 overload fwrite_exn with fwrite0_exn
 
