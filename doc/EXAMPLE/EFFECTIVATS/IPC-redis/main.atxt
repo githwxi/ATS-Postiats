@@ -164,7 +164,7 @@ for downloading the content of a message channel into a file.
 
 There is also a Makefile available for compiling the ATS source code into
 excutables [test_up] and [test_dn] for testing. Assume the availability of
-a redis server running at the default port 6379 at the IP address 127.0.0.1.
+a redis server running on the default port 6379 at the IP address 127.0.0.1.
 By executing the following command-line:
 
 <pre>

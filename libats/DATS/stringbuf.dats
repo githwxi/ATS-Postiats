@@ -54,6 +54,11 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload
+STDIO = "libc/SATS/stdio.sats"
+
+(* ****** ****** *)
+
 staload "libats/SATS/stringbuf.sats"
 
 (* ****** ****** *)
@@ -112,8 +117,10 @@ implement{
 implement{
 } stringbuf_getfree_strptr
   (sbf) = let
-  val+~STRINGBUF (A, p, _) = sbf
-  val () = $UN.ptr0_set<char>(p, '\000')
+//
+val+~STRINGBUF(A, p, _) = sbf
+val () = $UN.ptr0_set<char>(p, '\000')
+//
 in
   $UN.castvwtp0{Strptr1}(A)
 end // end of [stringbuf_getfree_strptr]
@@ -123,10 +130,12 @@ end // end of [stringbuf_getfree_strptr]
 implement{
 } stringbuf_getfree_strnptr
   (sbf, n0) = let
-  val+~STRINGBUF (A, p, _) = sbf
-  val () = $UN.ptr0_set<char>(p, '\000')
-  val [n:int] n = $UN.cast{sizeGte(0)}(p - ptrcast(A))
-  val ((*void*)) = n0 := n
+//
+val+~STRINGBUF(A, p, _) = sbf
+val () = $UN.ptr0_set<char>(p, '\000')
+val [n:int] n = $UN.cast{sizeGte(0)}(p - ptrcast(A))
+val ((*void*)) = n0 := n
+//
 in
   $UN.castvwtp0{strnptr(n)}(A)
 end // end of [stringbuf_getfree_strnptr]
@@ -136,7 +145,9 @@ end // end of [stringbuf_getfree_strnptr]
 implement{
 } stringbuf_get_size
   (sbf) = let
-  val+STRINGBUF (A, p, _) = sbf
+//
+val+STRINGBUF(A, p, _) = sbf
+//
 in
   $UN.cast{size_t}(p - ptrcast(A))
 end // end of [stringbuf_get_size]
@@ -146,6 +157,33 @@ implement{
   (sbf) =
   let val+STRINGBUF (_, _, cap) = sbf in cap end
 // end of [stringbuf_get_capacity]
+
+implement{
+} stringbuf_get_bufptr
+  (sbf) = let
+  val+STRINGBUF (A, _, _) = sbf in $UN.castvwtp1{Ptr1}(A)
+end // end of [stringbuf_get_bufptr]
+
+(* ****** ****** *)
+
+implement{
+} stringbuf_takeout_strbuf
+  (sbf, n0) = let
+//
+val+STRINGBUF(A, p, _) = sbf
+val n = $UN.cast{size_t}(p - ptrcast(A))
+val [n:int] n = g1ofg0_uint (n)
+val () = n0 := n
+val p0 = ptrcast (A)
+//
+prval (pf, fpf) = __assert (p0) where
+{
+  extern praxi __assert {l:addr} (ptr(l)): vtakeout0(bytes_v (l, n))
+} (* end of [prval] *)
+//
+in
+  (pf, fpf | p0)
+end // end of [stringbuf_takeout_strbuf]
 
 (* ****** ****** *)
 
@@ -161,7 +199,7 @@ in
 //
 if m2 >= n then let
 //
-val+@STRINGBUF (A, p, m) = sbf
+val+@STRINGBUF(A, p, m) = sbf
 //
 val A2 =
   arrayptr_make_uninitized<char> (succ(m2))
@@ -189,7 +227,8 @@ implement{
 } stringbuf_insert_char
   (sbf, x) = let
 //
-val+@STRINGBUF (A, p, m) = sbf
+val+@STRINGBUF(A, p, m) = sbf
+//
 val m = m
 val n = $UN.cast{size_t}(p - ptrcast(A))
 //
@@ -239,7 +278,8 @@ implement{
 } stringbuf_insert_strlen
   (sbf, x, nx) = let
 //
-val+@STRINGBUF (A, p, m) = sbf
+val+@STRINGBUF(A, p, m) = sbf
+//
 val m = m
 val n = $UN.cast{size_t}(p - ptrcast(A))
 val n2 = n + nx
@@ -317,6 +357,83 @@ in
 end // end of [stringbuf_insert_ulint]
 
 (* ****** ****** *)
+
+implement{
+} stringbuf_insert_fread
+  (sbf, inp, nb) = let
+//
+val+@STRINGBUF(A, p, m) = sbf
+//
+val n = $UN.cast{size_t}(p - ptrcast(A))
+//
+val nb = g1ofg0 (nb)
+val nb = (
+  if nb > 0 then min (i2sz(nb), m - n) else (m - n)
+) : size_t
+val [nb:int] nb = g1ofg0(nb)
+//
+val (
+  pf, fpf | p1
+) = $UN.ptr0_vtake{bytes(nb)}(p)
+val nread = $STDIO.fread (!p1, i2sz(1), nb, inp)
+val ((*void*)) = p := ptr_add<char> (p, nread)
+//
+prval () = fpf (pf)
+prval () = fold@ (sbf)
+//
+in
+  sz2i(nread)
+end // end of [stringbuf_insert_fread]
+
+(* ****** ****** *)
+
+implement{
+} stringbuf_insert_fgets
+  (sbf, inp, last) = let
+//
+val+@STRINGBUF(A, p, m) = sbf
+//
+val n =
+$UN.cast{size_t}(p-ptrcast(A))
+val [nb:int] nb = g1ofg0(m - n)
+//
+val (
+  pf, fpf | p1
+) = $UN.ptr0_vtake{bytes(nb+1)}(p)
+val p2 = $STDIO.fgets0 (!p1, sz2i(nb)+1, inp)
+//
+prval pf2 =
+assert (view@last) where
+{ 
+  extern praxi assert{l:addr}(char(0)@l): char@l
+}
+//
+val n2 =
+(
+if p2 > 0 
+  then let
+    val n2 =
+      length($UN.cast{string}(p2))
+    val n2 = g1ofg0(n2)
+    val () = p := ptr_add<char> (p, n2)
+    val () = if n2 > 0 then last := $UN.ptr0_get<char> (ptr_pred<char> (p))
+  in
+    sz2i (n2)
+  end // end of [then]
+  else (~1) // HX: failure
+// end of [if]
+) : int // end of [val]
+//
+prval () = view@last := pf2
+//
+prval () = fpf (pf)
+prval () = fold@ (sbf)
+//
+in
+  n2
+end // end of [stringbuf_insert_fgets]
+
+(* ****** ****** *)
 //
 implement
 stringbuf_insert_val<int> = stringbuf_insert_int
@@ -362,6 +479,35 @@ in
 end // end of [stringbuf_insert_list]
 
 (* ****** ****** *)
+
+implement{
+}stringbuf_truncate
+  (sbf, n2) = let
+//
+val+@STRINGBUF(A, p1, _) = sbf
+//
+val p0 = ptrcast(A)
+val n1 = $UN.cast{size_t}(p1 - p0)
+//
+in
+//
+if n2 < n1
+  then let
+    val p2 =
+      ptr_add<char> (p0, n2)
+    val ((*void*)) = (p1 := p2)
+    prval () = fold@ (sbf)
+  in
+    true
+  end // end of [then]
+  else let
+    prval () = fold@ (sbf) in false
+  end // end of [else]
+// end of [if]
+//
+end // end of [stringbuf_truncate]
+
+(* ****** ****** *)
 //
 extern
 fun _stringbuf_get_size (!stringbuf): size_t = "ext#%"
@@ -385,11 +531,12 @@ _stringbuf_get_capacity (sbf) = stringbuf_get_capacity<> (sbf)
 //
 implement
 _stringbuf_get_ptrcur
-  (sbf) = let val+STRINGBUF (_, p, _) = sbf in p end
+  (sbf) =
+  let val+STRINGBUF(_, p, _) = sbf in p end
 implement
 _stringbuf_set_ptrcur
   (sbf, p2) =
-  let val+@STRINGBUF (_, p, _) = sbf in p := p2; fold@(sbf) end
+  let val+@STRINGBUF(_, p, _) = sbf in p := p2; fold@(sbf) end
 // end of [_stringbuf_set_ptrcur]
 //
 implement

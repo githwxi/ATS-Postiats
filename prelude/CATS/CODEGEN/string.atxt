@@ -155,6 +155,26 @@ atspre_fprint_string
 
 #atscode_separator_for_C()
 
+ATSinline()
+atsvoid_t0ype
+atspre_fprint_substring
+(
+  atstype_ref out
+, atstype_string x
+, atstype_size st, atstype_size ln  
+) {
+  int err = 0 ;
+  err += fwrite(((char*)x)+st, 1, ln, out) ;
+/*
+  if (err < 0) {
+    fprintf(stderr, "exit(ATS): [fprint_substring] failed.") ; exit(1) ;
+  } // end of [if]
+*/
+  return ;
+} // end of [atspre_fprint_substring]
+
+#atscode_separator_for_C()
+
 \#define atspre_strlen strlen
 \#define atspre_strchr strchr
 \#define atspre_strrchr strrchr
