@@ -6,48 +6,15 @@
 
 ifeq ("$(MYTARGET)","")
 else
-SATS_C := \
-  $(patsubst %.sats, %_sats.c, $(SOURCES_SATS))
-DATS_C := \
-  $(patsubst %.dats, %_dats.c, $(SOURCES_DATS))
-endif
-
-######
-
-ifeq ("$(MYTARGET)","")
-else
-$(MYTARGET)_SATS_O := \
-  $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))
-$(MYTARGET)_DATS_O := \
-  $(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
-endif
-
-######
-
-ifeq ("$(MYTARGET)","")
-else
-ifeq ("$(MYTARGET)","MYTARGET")
-else
-# all:: $(MYTARGET)
-$(MYTARGET): \
-  $($(MYTARGET)_SATS_O) \
-  $($(MYTARGET)_DATS_O) ; \
-  $(PATSCC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
-cleanall:: ; $(RMF) $(MYTARGET)
-endif
-endif
-
-######
-#
-# HX-2013-12-28: for debugging
-#
-#ifeq ("$(MYCCRULE)","")
+SATS_C := $(patsubst %.sats, %_sats.c, $(SOURCES_SATS))
+DATS_C := $(patsubst %.dats, %_dats.c, $(SOURCES_DATS))
 
 %_sats.c: %.sats 
 	$(PATSCC) $(INCLUDE_ATS) -ccats $<
 %_dats.c: %.dats 
-	$(PATSCC) $(INCLUDE_ATS) -ccats $<
-#endif
+	$(PATSCC) $(MALLOCFLAG) $(INCLUDE_ATS) -ccats $<
+
+endif
 
 ######
 
@@ -91,7 +58,7 @@ portdepTO: portdepFROMDIRS
 	$(eval CPATSDEPSTODIRS := $(subst $(PATSHOME)/, , $(FROMDIRS)))
 	$(eval CPATSDEPSTOFILES := $(subst $(PATSHOME)/, , $(CPATSDEPS)))
 portdepMKDIR: portdepTO
-	$(foreach todir, $(CPATSDEPSTODIRS), mkdir -p $(ATSDEPDIR)/$(todir))
+	$(foreach todir, $(CPATSDEPSTODIRS), $(shell mkdir -p $(ATSDEPDIR)/$(todir)))
 portdepCP: portdepMKDIR
 	$(foreach tofil, $(CPATSDEPSTOFILES), \
 	$(shell cp $(PATSHOME)/$(tofil) $(ATSDEPDIR)/$(tofil)))
@@ -99,8 +66,23 @@ portdepCP: portdepMKDIR
 
 ######
 
-all:: portdepCP
-	$(CC) $(MALLOCFLAG) $(CFLAGS) $(INCLUDE_ATS_PC) *ats.c -o $(MYTARGET)
+ifeq ("$(MYTARGET)","")
+else
+SATS_O := $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))
+DATS_O := $(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
+
+%_sats.o: %_sats.c 
+	$(CC) $(INCLUDE_ATS_PC) $< -o $@
+%_dats.o: %_dats.c
+	$(CC) $(MALLOCFLAG) $(INCLUDE_ATS_PC) $< -o $@
+endif
+
+
+#all:: portdepCP
+#	$(CC) $(MALLOCFLAG) $(CFLAGS) $(INCLUDE_ATS_PC) *ats.c -o $(MYTARGET)
+
+all:: portdepCP $(SATS_O) $(DATS_O)
+	$(CC) $(MALLOCFLAG) $(CFLAGS) $(INCLUDE_ATS_PC) *ats.o -o $(MYTARGET)
 
 ######
 
@@ -129,6 +111,8 @@ clean: cleanats
 
 cleanall:: cleanats
 cleanall:: ; $(RMF) .depend
+cleanall:: ; $(RMF) *.exe
+cleanall:: ; $(RMF) $(MYTARGET)
 
 ######
 
