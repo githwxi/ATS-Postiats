@@ -2,7 +2,7 @@
 
 %{
 implement
-srcfilename_get () = "../json_header.sats"
+srcfilename_get () = "../mybasis.sats"
 %}
 
 (* ****** ****** *)
@@ -15,7 +15,7 @@ val () = patscode_prefix_set("TRYIT/contrib_json-c_json")
 (* ****** ****** *)
 
 #decltitle("\
-ATSLIB/contrib/json-c/json_header\
+ATSLIB/contrib/json-c/mybasis\
 ")
 
 (* ****** ****** *)
@@ -85,4 +85,4 @@ ATSLIB/contrib/json-c/json_header\
 
 (* ****** ****** *)
 
-(* end of [json_header.atxt] *)
+(* end of [mybasis.atxt] *)
