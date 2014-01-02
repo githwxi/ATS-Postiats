@@ -17,12 +17,7 @@ SOURCES_DATS += hello.dats
 
 ######
 
-<<<<<<< HEAD
-CFLAGS += -O2
-LDFLAGS += -lm 
-=======
 MYTARGET=hello
->>>>>>> upstream/master
 
 ######
 #
