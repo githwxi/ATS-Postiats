@@ -739,7 +739,7 @@ case+ t of
   ) => res where {
     val res = aux (tl, res)
     val kx2 = linmap_flistize$fopr<key,itm><ki2> (k, x)
-    val res = list_vt_cons{ki2}(kx2, res)
+    val res = list_vt_cons{ki2} (kx2, res)
     val res = aux (tr, res)
   } // end of [BSTcons]
 | ~E ((*void*)) => res
@@ -751,6 +751,39 @@ val res = aux (map, list_vt_nil ())
 in
   list_vt_reverse (res)
 end // end of [linmap_flistize]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_listize
+  (map) = let
+//
+vtypedef ki = @(key, itm)
+//
+fun aux 
+  {h:nat} .<h>. (
+  t: avltree (key, itm, h), res: List0_vt (ki)
+): List0_vt (ki) = let
+in
+//
+case+ t of
+| ~B (
+  _, k, x, tl, tr
+) => res where {
+    val res = aux (tl, res)
+    val res = list_vt_cons{ki} (@(k,x), res)
+    val res = aux (tr, res)
+  } // end of [B]
+| ~E ((*void*)) => res
+//
+end // end of [aux]
+//
+val res = $effmask_all aux (map, list_vt_nil ())
+//
+in
+  list_vt_reverse (res)
+end // end of [linmap_listize]
 
 (* ****** ****** *)
 //
