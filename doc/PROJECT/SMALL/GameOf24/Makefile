@@ -26,6 +26,7 @@ SOURCES_DATS += \
   GameOf24_card.dats \
   GameOf24_cardset.dats \
   GameOf24_solve.dats \
+  GameOf24_mylib.dats \
 
 ######
 
@@ -33,7 +34,17 @@ MYTARGET=GameOf24
 
 ######
 
+MYPORTDIR=MYPORTDIR
+
+######
+
 include $(PATSHOME)/share/atsmake-post.mk
+
+######
+
+cleanall:: ; $(RMF) $(MYPORTDIR)/*
+cleanats:: ; $(RMF) $(MYPORTDIR)/*_?ats.o
+cleanats:: ; $(RMF) $(MYPORTDIR)/*_?ats.c
 
 ######
 

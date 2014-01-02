@@ -1,0 +1,87 @@
+(* ****** ****** *)
+
+%{
+implement
+srcfilename_get () = "../mybasis.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_json-c_json")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/json-c/mybasis\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("json_bool")
+
+(* ****** ****** *)
+
+#declnamesynop("lh_entry")
+#declnamesynop("lh_entry_vtype")
+#declnamesynop("lh_entry0")
+#declnamesynop("lh_entry1")
+
+#declnamesynop("lh_table")
+#declnamesynop("lh_table_vtype")
+#declnamesynop("lh_table0")
+#declnamesynop("lh_table1")
+
+(* ****** ****** *)
+
+#declnamesynop("lh_entry_free_fn_type")
+#declnamesynop("lh_hash_fn_type")
+#declnamesynop("lh_equal_fn_type")
+
+(* ****** ****** *)
+
+#declnamesynop("array_list")
+#declnamesynop("array_list_vtype")
+#declnamesynop("array_list0")
+#declnamesynop("array_list1")
+
+(* ****** ****** *)
+
+#declnamesynop("printbuf")
+#declnamesynop("printbuf_vtype")
+#declnamesynop("printbuf0")
+#declnamesynop("printbuf1")
+
+(* ****** ****** *)
+
+#declnamesynop("json_type")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object")
+#declnamesynop("json_object_vtype")
+#declnamesynop("json_object0")
+#declnamesynop("json_object1")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_iterator")
+#declnamesynop("json_object_iterator_vt0ype")
+
+(* ****** ****** *)
+
+#declnamesynop("json_tokener_error")
+#declnamesynop("json_tokener_state")
+
+(* ****** ****** *)
+
+#declnamesynop("json_tokener")
+#declnamesynop("json_tokener_vtype")
+#declnamesynop("json_tokener0")
+#declnamesynop("json_tokener1")
+
+(* ****** ****** *)
+
+(* end of [mybasis.atxt] *)

@@ -110,26 +110,25 @@ files. If this flag is not present, then the value of the environment
 variable ATSCCOMP is interpreted as the C-compilation.
 
 <li>
-#uemph("-DATS")
+#uemph("-DATS"):
 This flag indicates that the next argument, which should be a name or
 name/value pair (separated by the symbol =), is to be passed to
 #command("atsopt") as a top-level definition.
 
 <li>
-#uemph("-DDATS")
+#uemph("-DDATS"):
 This flag indicates that the next argument, which should be a name or
 name/value pair (separated by the symbol =), is to be passed to both
 #command("atsopt") and the subsequent C-compilation command as a top-level
 definition.
 
 <li>
-#uemph("-IATS")
+#uemph("-IATS"):
 This flag indicates that the next argument should be passed to
 #command("atsopt") as an include-path.
 
 <li>
-#uemph("-IIATS")
-
+#uemph("-IIATS"):
 This flag indicates that the next argument should be passed to both
 #command("atsopt") and the subsequent C-compilation command as an
 include-path.

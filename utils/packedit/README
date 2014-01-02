@@ -1,0 +1,26 @@
+#
+# README for [packedit]
+#
+######
+#
+# HX-2013-12-31:
+#
+######
+
+This is mostly a utility for myself, but ...
+
+Given a list of files (denoted by their paths), packing turns
+them into a single file, which can be modified, and unpacking
+turns this (possibly modified) single file into a list files
+(which are usually supposed to replace the original list of files).
+
+######
+#
+# HX-2014-01-01:
+#
+######
+
+The utility is largely implemented. Now we need a convenience wrapper
+to make [packedit] easier to user.
+
+###### end of [README] ######

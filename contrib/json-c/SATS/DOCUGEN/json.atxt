@@ -35,7 +35,7 @@ href="http://json-c.github.io/json-c/">json-c</a> in ATS.  ')
 
 (* ****** ****** *)
 
-#declname2("json_header.sats", "json_header.html")
+#declname2("mybasis.sats", "mybasis.html")
 //
 #declsynop2('\
 

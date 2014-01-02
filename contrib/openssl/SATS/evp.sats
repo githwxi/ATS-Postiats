@@ -308,6 +308,14 @@ EVP_DigestFinal_ex
 (* ****** ****** *)
 
 fun{}
+fprint_mdval{n:int}
+(
+  out: FILEref, mdval: arrayref (uchar, n), mdlen: int n
+) : void // end of [fprint_mdval]
+
+(* ****** ****** *)
+
+fun{}
 EVP_Digestize_string
 (
   dname: string, src: string, asz: &int? >> int(n)

@@ -35,14 +35,36 @@ ifeq ("$(MYCCRULE)","")
 %_sats.c: %.sats ; $(PATSCC) $(INCLUDE_ATS) -ccats $<
 %_dats.c: %.dats ; $(PATSCC) $(INCLUDE_ATS) -ccats $<
 endif
-
+#
 ######
 
 ifeq ("$(MYCCRULE)","")
-%_sats.o: %.sats ; $(PATSCC) $(INCLUDE_ATS) $(CFLAGS) -c $<
-%_dats.o: %.dats ; $(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $<
+%_sats.o: %.sats ; \
+  $(PATSCC) $(INCLUDE) $(INCLUDE_ATS) $(CFLAGS) -c $<
+%_dats.o: %.dats ; \
+  $(PATSCC) $(INCLUDE) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $<
 endif
 
+######
+#
+# For generating portable C code
+#
+ifeq ("$(MYPORTDIR)", "")
+else
+#
+$(MYPORTDIR)_SATS_C := \
+  $(patsubst %.sats, $(MYPORTDIR)/%_sats.c, $(SOURCES_SATS))
+$(MYPORTDIR)_DATS_C := \
+  $(patsubst %.dats, $(MYPORTDIR)/%_dats.c, $(SOURCES_DATS))
+#
+$(MYPORTDIR):: $($(MYPORTDIR)_SATS_C)
+$(MYPORTDIR):: $($(MYPORTDIR)_DATS_C)
+#
+$(MYPORTDIR)/%_sats.c: %.sats ; $(PATSOPT) $(INCLUDE_ATS) -o $@ -s $<
+$(MYPORTDIR)/%_dats.c: %.dats ; $(PATSOPT) $(INCLUDE_ATS) -o $@ -d $<
+#
+endif
+#
 ######
 #
 -include .depend
