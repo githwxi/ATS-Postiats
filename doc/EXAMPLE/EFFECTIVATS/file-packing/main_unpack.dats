@@ -33,7 +33,7 @@ main0 (argc, argv) =
 val () =
 $EVP.OpenSSL_add_all_digests ()
 //
-val nerr = unpack_fileref (stdin_ref)
+val nerr = unpack_many_fileref (stdin_ref)
 //
 val ((*void*)) = $EVP.EVP_cleanup ()
 //

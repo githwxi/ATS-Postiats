@@ -10,7 +10,7 @@ fun unpack_test_sep{n:int}
 
 (* ****** ****** *)
 
-fun unpack_fileref (inp: FILEref): int(*err*)
+fun unpack_many_fileref (inp: FILEref): int(*err*)
 
 (* ****** ****** *)
 

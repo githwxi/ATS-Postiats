@@ -1,7 +1,6 @@
 (*
 ** HX-2013-12-31:
 ** packing a list of files into one
-** unpacking one into a list of files
 *)
 
 (* ****** ****** *)

@@ -379,6 +379,26 @@ atspre_toupper_char
 //
 #atscode_separator_for_C()
 
+ATSinline()
+atstype_char
+atspre_int2digit
+  (atstype_int i) { return ('0' + i) ; }
+// end of [atspre_int2digit]
+ATSinline()
+atstype_char
+atspre_int2xdigit
+  (atstype_int i) {
+  return (i < 10) ? ('0' + i) : ('a' + (i - 10)) ;
+} // end of [atspre_int2xdigit]
+ATSinline()
+atstype_char
+atspre_int2xxdigit
+  (atstype_int i) {
+  return (i < 10) ? ('0' + i) : ('A' + (i - 10)) ;
+} // end of [atspre_int2xxdigit]
+
+#atscode_separator_for_C()
+
 \#endif // ifndef ATSLIB_PRELUDE_CHAR_CATS
 
 #atscode_separator_for_C()

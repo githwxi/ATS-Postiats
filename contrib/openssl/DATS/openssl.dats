@@ -54,6 +54,29 @@ staload "./../SATS/evp.sats"
 (* ****** ****** *)
 
 implement{}
+fprint_mdval{n}
+  (out, mdval, mdlen) = let
+//
+prval () =
+lemma_arrayref_param (mdval)
+//
+implement
+fprint_array$sep<> (out) = ()
+implement
+fprint_val<uchar>
+  (out, uc) = {
+  val _ = $extfcall (int, "printf", "%02x", uc)
+} (* end of [fprint_val] *)
+//
+in
+//
+fprint_arrayref<uchar> (out, mdval, i2sz(mdlen))
+//
+end // end of [fprint_mdval]
+
+(* ****** ****** *)
+
+implement{}
 EVP_Digestize_string
   (dname, src, asz) = let
 //

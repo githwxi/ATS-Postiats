@@ -348,6 +348,19 @@ This function is a slight variant of #dyncode("toupper_int").
 ")
 
 (* ****** ****** *)
+
+#declnamesynop("int2digit")
+#decldescrpt("
+This function turns a single decimal digit integer into the character
+representing it.\
+")
+#declnamesynop("int2xdigit")
+#decldescrpt("
+This function turns a single hexadecimal digit integer into the (lowercase)
+character representing it.\
+")
+
+(* ****** ****** *)
 //
 // HX: various overloaded symbols
 //

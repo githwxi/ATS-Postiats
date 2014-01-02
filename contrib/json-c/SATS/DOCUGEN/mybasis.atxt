@@ -57,7 +57,6 @@ ATSLIB/contrib/json-c/mybasis\
 (* ****** ****** *)
 
 #declnamesynop("json_type")
-#declnamesynop("json_type_type")
 
 (* ****** ****** *)
 

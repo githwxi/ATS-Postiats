@@ -125,19 +125,11 @@ val () = stringbuf_free (sbf)
 //
 val () = pack_fprint_sep (out)
 //
-local
-implement
-fprint_array$sep<> (out) = ()
-implement
-fprint_val<uchar> (out, c) = {
-  val _ = $extfcall (int, "printf", "%02x", c)
-} (* end of [fprint_val] *)
-in(*in-of-local*)
-val () =
-fprint_arrayref<uchar>
-  (out, $UN.cast{arrayref(uchar,mdlen)}(addr@mdval), i2sz(mdlen))
-end // end of [local]
-//
+val (
+) = fprint_mdval
+(
+  out, $UN.cast{arrayref(uchar,mdlen)}(addr@mdval), mdlen
+) (* end of [val] *)
 val () = fprint_newline (out)
 //
 in

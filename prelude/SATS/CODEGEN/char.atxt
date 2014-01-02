@@ -449,6 +449,11 @@ overload toupper with toupper_char
 
 #atscode_separator()
 
+fun int2digit (i: intBtw(0, 10)): char = "mac\#%"
+fun int2xdigit (i: intBtw(0, 16)): char = "mac\#%"
+
+#atscode_separator()
+
 symintr c2uc
 overload c2uc with char2uchar0 of 0
 overload c2uc with char2uchar1 of 10

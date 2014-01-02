@@ -53,4 +53,8 @@ include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
+cleanall:: ; $(RMF) tmp*_*
+
+######
+
 ###### end of [Makefile] ######
