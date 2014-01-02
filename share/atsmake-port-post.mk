@@ -24,18 +24,30 @@ endif
 # %_dats.o: %.dats ; $(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $<
 # endif
 
+
 ifeq ("$(MYTARGET)","")
 else
 SATS_O := $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))
 DATS_O := $(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
 
-%_sats.o: %_sats.c 
+%_sats.o: %_sats.c
 	$(CC) $(INCLUDE_ATS_PC) $(CFLAGS) $< -o $@
 %_dats.o: %_dats.c
+	$(warning "TESTING .o") 
 	$(CC) $(INCLUDE_ATS_PC) $(MALLOCFLAG) $(CFLAGS) $< -o $@
 endif
 
+######
 
+# ifeq ("$(MYPORTDIR)","")
+# else
+# $(MYPORTDIR)SATSC := $(patsubst %.sats, %_sats.c, $(SOURCES_SATS))
+# DATS_C := $(patsubst %.dats, %_dats.c, $(SOURCES_DATS))
+# $(MYTARGET)_SATS_O := \
+#   $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))
+# $(MYTARGET)_DATS_O := \
+#   $(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
+# endif
 
 ######
 #
@@ -60,7 +72,9 @@ portdepINIT: $(SATS_C) $(DATS_C)
 	$(eval INCLUDE_ATS_PC := -I$(ATSDEPDIR) -I$(ATSDEPDIR)/ccomp/runtime)
 	$(RMF) .atscdep .atscdep_tmp
 portdepMKDEP: portdepINIT
-	$(CC) $(INCLUDE_ATS_C) $(MALLOCFLAG) $(CFLAGS) *_dats.c $(CCDEPFLAG) .atscdep_tmp; \
+#	$(CC) $(INCLUDE_ATS_C) $(MALLOCFLAG) $(CFLAGS) *_dats.c $(CCDEPFLAG) .atscdep_tmp; \
+#	$(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $< $(CCDEPFLAG) .atscdep_tmp
+	$(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c *_dats.c $(CCDEPFLAG) .atscdep_tmp; \
 	tail -n +2 .atscdep_tmp >> .atscdep
 portdepDEPSLIST: portdepMKDEP
 	$(eval CPATSDEPS := $(shell cat .atscdep | tr -d '\\\n'))
@@ -68,6 +82,9 @@ portdepDEPSSORT: portdepDEPSLIST
 	$(eval CPATSDEPS := $(sort $(CPATSDEPS)))
 portdepFROMDIRS: portdepDEPSSORT
 	$(eval FROMDIRS := $(foreach cdep, $(CPATSDEPS), $(shell dirname $(cdep))))
+
+# Create necessary directory structure in local directory.
+# Add created directories to CFLAGS.
 portdepTO: portdepFROMDIRS
 	$(eval CPATSDEPSTODIRS := $(subst $(PATSHOME)/, , $(FROMDIRS)))
 	$(eval CPATSDEPSTOFILES := $(subst $(PATSHOME)/, , $(CPATSDEPS)))
@@ -81,7 +98,7 @@ portdepCP: portdepMKDIR
 ######
 
 all:: portdepCP $(SATS_O) $(DATS_O)
-	$(CC) $(MALLOCFLAG) $(CFLAGS) $(INCLUDE_ATS_PC) *ats.o -o $(MYTARGET)
+	$(CC) $(LDFLAGS) $(MALLOCFLAG) $(CFLAGS) $(INCLUDE_ATS_PC) *ats.o -o $(MYTARGET)
 
 ######
 

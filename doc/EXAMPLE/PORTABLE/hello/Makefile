@@ -32,7 +32,7 @@ include atsmake-port-pre.mk
 ######
 
 CFLAGS += -O2
-LDFLAGS += -lm
+LDFLAGS += -lm 
 
 ######
 
