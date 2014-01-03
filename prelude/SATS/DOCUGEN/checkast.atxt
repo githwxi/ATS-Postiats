@@ -74,7 +74,6 @@ STDERR and then exits with the code 1.
 The following code make a typical use of #dyncode("ckastloc_gintGte"):
 
 #pats2xhtmld_tryit('\
-//
 implement
 main0 (argc, argv) =
 {
@@ -89,9 +88,9 @@ val n =
   if argc >= 2 then g0string2int(argv[1]) else 10
 ) : int
 //
-val n = ckastloc_gintGte (n, 0)
+val n = ckastloc_gintGte (n, 0) // assert: n >= 0
 //
-val () = fprintln! ("fact(", n, ") = ", fact(n))
+val () = println! ("fact(", n, ") = ", fact(n))
 //
 } (* end pf [main0] *)
 ')
