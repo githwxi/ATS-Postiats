@@ -4,39 +4,11 @@
 
 ######
 
-CCOPT=gcc -std=c99 -D_XOPEN_SOURCE -D_GNU_SOURCE 
+include \
+$(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
-ifeq ("$(PATSHOME)","")
-  PATSHOMEQ="$(ATSHOME)"
-else
-  PATSHOMEQ="$(PATSHOME)"
-endif
-
-ifeq ("$(PATSHOMERELOC)","")
-  PATSHOMERELOCQ="$(ATSHOMERELOC)"
-else
-  PATSHOMERELOCQ="$(PATSHOMERELOC)"
-endif
-
-######
-
-PATSCC=$(PATSHOMEQ)/bin/patscc
-PATSOPT=$(PATSHOMEQ)/bin/patsopt
-
-PATSCC2=\
-  $(PATSCC) \
-  -atsccomp "$(CCOPT)" \
-  -IIATS $(PATSHOME) \
-  -IIATS $(PATSHOME)/ccomp/runtime \
-  -IIATS $(PATSHOMERELOCQ)/contrib \
-
-######
-
-CFLAGS :=
-CFLAGS += -I$(PATSHOMEQ)
-CFLAGS += -I$(PATSHOMEQ)/ccomp/runtime
 CFLAGS += $(shell pkg-config --cflags json-c)
 
 ######
@@ -49,44 +21,54 @@ LDFLAGS += $(shell pkg-config --libs json-c)
 
 ######
 
-all:: UTFPL main
+all:: main
 
 ######
 
-main: main_dats.o parsing.o ; \
-  $(CCOPT) $(CFLAGS) -O2 -o $@ ../constraint.o $^ $(LDFLAGS)
+main:: constraint
+main:: main_dats.o parsing.o ; \
+  $(PATSCC) $(CFLAGS) -O2 -o $@ ../constraint.o $^ $(LDFLAGS)
 
 ######
 
-parsing.o: \
-  parsing_sats.o \
-  parsing_dats.o \
-  parsing_s2rt_dats.o \
-  parsing_s2cst_dats.o \
-  parsing_s2var_dats.o \
-  parsing_s2Var_dats.o \
-  parsing_s2exp_dats.o \
-  parsing_s3itm_dats.o \
-  parsing_h3ypo_dats.o \
-  parsing_c3nstr_dats.o \
-  parsing_mylib_dats.o \
-  dynloadall_dats.o ; ld -r -o $@ $^
+SOURCES_SATS += \
+  parsing.sats \
+
+SOURCES_DATS += \
+  parsing.dats \
+  parsing_s2rt.dats \
+  parsing_s2cst.dats \
+  parsing_s2var.dats \
+  parsing_s2Var.dats \
+  parsing_s2exp.dats \
+  parsing_s3itm.dats \
+  parsing_h3ypo.dats \
+  parsing_c3nstr.dats \
+  parsing_mylib.dats \
+  parsing_dynload.dats \
 
 ######
 
-UTFPL: ; make -C .. constraint.o
+MYTARGET=MYTARGET
 
 ######
 
-%_sats.o: %.sats ; $(PATSCC2) $(CFLAGS) -c $<
-
-%_dats.c: %.dats parsing.sats ; $(PATSCC2) -ccats $<
-%_dats.o: %_dats.c ; $(PATSCC2) $(DATSMEMALLOC) $(CFLAGS) -c $<
+include $(PATSHOME)/share/atsmake-post.mk
 
 ######
-#
-DATSMEMALLOC=-DATS_MEMALLOC_GCBDW
-#
+
+OBJECTS :=
+OBJECTS += $(MYTARGET_SATS_O)
+OBJECTS += $(MYTARGET_DATS_O)
+
+######
+
+parsing.o: $(OBJECTS) ; ld -r -o $@ $^
+
+######
+
+constraint: ; make -C .. constraint.o
+
 ######
 
 testdata: \
@@ -96,20 +78,9 @@ TEST/test01_dats.cnstr: \
 
 ######
 
-RMF=rm -f
-
-######
-
-clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.o
-clean:: ; $(RMF) *_?ats.c
-
-######
-
-cleanall:: clean
 cleanall:: ; $(RMF) main
 cleanall:: ; $(RMF) parsing.o
-cleanall:: ; $(RMF) TEST/test??_dats.cnstr
+cleanall:: ; $(RMF) TEST/test*_dats.cnstr
 
 ######
 

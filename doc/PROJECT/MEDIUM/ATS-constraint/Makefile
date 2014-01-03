@@ -4,76 +4,57 @@
 
 ######
 
-CCOPT=gcc -std=c99 -D_XOPEN_SOURCE -D_GNU_SOURCE 
+include \
+$(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
-ifeq ("$(PATSHOME)","")
-  PATSHOMEQ="$(ATSHOME)"
-else
-  PATSHOMEQ="$(PATSHOME)"
-endif
-
-ifeq ("$(PATSHOMERELOC)","")
-  PATSHOMERELOCQ="$(ATSHOMERELOC)"
-else
-  PATSHOMERELOCQ="$(PATSHOMERELOC)"
-endif
+MALLOCFLAG := -DATS_MEMALLOC_GCBDW
 
 ######
 
-PATSCC=$(PATSHOMEQ)/bin/patscc
-PATSOPT=$(PATSHOMEQ)/bin/patsopt
+SOURCES_SATS += \
+  constraint.sats \
+
+SOURCES_DATS += \
+  constraint_stamp.dats \
+  constraint_symbol.dats \
+  constraint_location.dats \
+  constraint_s2rt.dats \
+  constraint_s2cst.dats \
+  constraint_s2var.dats \
+  constraint_s2Var.dats \
+  constraint_s2exp.dats \
+  constraint_s3itm.dats \
+  constraint_h3ypo.dats \
+  constraint_c3nstr.dats \
+  constraint_dynload.dats \
 
 ######
 
-PATSCC2=\
-  $(PATSCC) \
-  -atsccomp "$(CCOPT)" \
-  -IIATS $(PATSHOME) -IIATS $(PATSHOME)/ccomp/runtime
+MYTARGET=MYTARGET
+
+######
+
+include $(PATSHOME)/share/atsmake-post.mk
+
+######
+
+OBJECTS :=
+OBJECTS += $(MYTARGET_SATS_O)
+OBJECTS += $(MYTARGET_DATS_O)
 
 ######
 
 all:: constraint.o
-
-######
-
-constraint.o: \
-  constraint_sats.o \
-  constraint_stamp_dats.o \
-  constraint_symbol_dats.o \
-  constraint_location_dats.o \
-  constraint_s2rt_dats.o \
-  constraint_s2cst_dats.o \
-  constraint_s2var_dats.o \
-  constraint_s2Var_dats.o \
-  constraint_s2exp_dats.o \
-  constraint_s3itm_dats.o \
-  constraint_h3ypo_dats.o \
-  constraint_c3nstr_dats.o \
-  dynloadall_dats.o ; ld -r -o $@ $^
-
-######
-
-%_sats.o: %.sats ; $(PATSCC) -c $<
-
-%_dats.o: %_dats.c ; $(PATSCC2) $(DATSMEMALLOC) -c $<
-%_dats.c: %.dats constraint.sats ; $(PATSCC2) -ccats $<
-
-######
-
-RMF=rm -f
-
-######
-
-clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.c
-clean:: ; $(RMF) *_?ats.o
-
-######
-
-cleanall:: clean
 cleanall:: ; $(RMF) constraint.o
+
+######
+
+constraint.o: $(OBJECTS) ; ld -r -o $@ $^
+
+######
+
 cleanall:: ; make -C parsing cleanall
 #cleanall:: ; make -C solving cleanall
 

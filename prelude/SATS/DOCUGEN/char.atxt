@@ -359,6 +359,11 @@ representing it.\
 This function turns a single hexadecimal digit integer into the (lowercase)
 character representing it.\
 ")
+#declnamesynop("int2xxdigit")
+#decldescrpt("
+This function turns a single hexadecimal digit integer into the (uppercase)
+character representing it.\
+")
 
 (* ****** ****** *)
 //

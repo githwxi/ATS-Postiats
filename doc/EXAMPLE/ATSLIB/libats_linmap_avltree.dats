@@ -83,6 +83,38 @@ val () =
 //
 typedef key = int
 typedef itm = string
+typedef ki = @(key, itm)
+vtypedef map = map (key, itm)
+//
+var map = linmap_make_nil {key,itm} ()
+//
+val-~None_vt() = linmap_insert_opt (map, 0, "0")
+val-~None_vt() = linmap_insert_opt (map, 1, "1")
+val-~None_vt() = linmap_insert_opt (map, 2, "2")
+val-~None_vt() = linmap_insert_opt (map, 3, "3")
+val-~None_vt() = linmap_insert_opt (map, 4, "4")
+//
+val kis = linmap_listize (map)
+//
+local
+implement
+fprint_val<ki> (out, ki) =
+  fprint! (out, ki.0, ":", ki.1)
+in(*in-of-local*)
+val () = fprintln! (stdout_ref, "kis = ", kis)
+end // end of [local]
+//
+val ((*void*)) = list_vt_free<ki> (kis)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
+typedef key = int
+typedef itm = string
 vtypedef map = map (key, itm)
 //
 var map = linmap_make_nil {key,itm} ()

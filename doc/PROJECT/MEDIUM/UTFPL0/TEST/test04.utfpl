@@ -9,8 +9,12 @@ and isodd (n) = if n > 0 then isevn (n-1) else false
 
 (* ****** ****** *)
 
-val () = fprintln (stdout, "isevn(100) = ", isevn(100))
-val () = fprintln (stdout, "isodd(100) = ", isodd(100))
+fun bool2string (x) = if x >= 1 then "true" else "false"
+
+(* ****** ****** *)
+
+val () = fprintln (stdout, "isevn(100) = ", bool2string(isevn(100)))
+val () = fprintln (stdout, "isodd(100) = ", bool2string(isodd(100)))
 
 (* ****** ****** *)
 

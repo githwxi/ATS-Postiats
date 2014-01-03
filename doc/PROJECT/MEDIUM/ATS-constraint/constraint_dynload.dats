@@ -17,4 +17,4 @@ dynload "./constraint_c3nstr.dats"
 //
 (* ****** ****** *)
 
-(* end of [dynloadall.dats] *)
+(* end of [constraint_dynload.dats] *)
