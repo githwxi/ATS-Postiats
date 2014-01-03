@@ -31,7 +31,15 @@ MYTARGET=calc
 
 ######
 
+MYPORTDIR=MYPORTDIR
+
+######
+
 include $(PATSHOME)/share/atsmake-post.mk
+
+######
+
+cleanall:: ; $(RMF) MYPORTDIR/*
 
 ######
 
