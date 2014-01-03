@@ -5,10 +5,19 @@
 ;;
 ;; (require 'ats2-flymake)
 ;;
-;; The PATSHOME environment variable must also be set from within emacs
-;; because it doesn't seem to be automatically loaded from the environment.
+;; The ATSHOME environment variable may need to be set from within emacs:
+;;
+;; (setenv "ATSHOME" "/path/to/ats2")
+;;
+;; If you use PATSHOME instead of ATSHOME, please set PATSHOME as follows:
 ;;
 ;; (setenv "PATSHOME" "/path/to/ats2")
+
+;;
+;; Author: Quackzone
+;; The original code was posted by 'Quackzone' to ATS-subreddit (2012)
+;; Modified by Brandon Barker and Hongwei Xi
+;;
 
 (require 'flymake)
 
@@ -17,7 +26,7 @@
   "Command used to check an ATS2 file for errors")
 
 (defvar ats2-flymake-command-options
-  "-tc"
+  "-tcats"
   "Options passed to the command used to check a file for errors")
 
 (defun ats2-flymake-init ()

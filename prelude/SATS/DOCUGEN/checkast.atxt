@@ -1,0 +1,131 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../checkast.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/prelude_checkast")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/prelude/checkast\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+
+This package contains functions that rely on dynamic checks to perform
+casting. These functions are introduced solely for bringing some convenience
+into programming.\
+
+')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("checkast_gintLt")
+#decldescrpt("\
+
+Given an integer x, another integer i and a string msg, this function
+returns x if x is less than i. Otherwise, it prints the string msg onto
+STDERR and then exits with the code 1.
+
+")
+
+
+(* ****** ****** *)
+
+#declnamesynop("checkast_gintLte")
+
+(* ****** ****** *)
+
+#declnamesynop("checkast_gintGt")
+
+(* ****** ****** *)
+
+#declnamesynop("checkast_gintGte")
+
+(* ****** ****** *)
+
+#declnamesynop("checkast_gintBtw")
+#declnamesynop("checkast_gintBtwe")
+
+(* ****** ****** *)
+
+#declnamesynop("ckastloc_gintLt")
+#declnamesynop("ckastloc_gintLte")
+
+(* ****** ****** *)
+
+#declnamesynop("ckastloc_gintGt")
+#declnamesynop("ckastloc_gintGte")
+#declexample("\
+
+The following code make a typical use of #dyncode("ckastloc_gintGte"):
+
+#pats2xhtmld_tryit('\
+//
+implement
+main0 (argc, argv) =
+{
+//
+fun
+fact{n:nat}
+  (n: int n): int =
+  if n > 0 then n * fact(n-1) else 1
+//
+val n =
+(
+  if argc >= 2 then g0string2int(argv[1]) else 10
+) : int
+//
+val n = ckastloc_gintGte (n, 0)
+//
+val () = fprintln! ("fact(", n, ") = ", fact(n))
+//
+} (* end pf [main0] *)
+')
+")
+
+(* ****** ****** *)
+
+#declnamesynop("ckastloc_gintBtw")
+#declnamesynop("ckastloc_gintBtwe")
+
+(* ****** ****** *)
+
+#declnamesynop("checkast_Ptr1")
+#decldescrpt("\
+
+Given a pointer x and a string msg, this function returns x if x is
+non-null. Otherwise, it prints the string msg onto STDERR and then exits
+with the code 1.
+
+")
+#declnamesynop("ckastloc_Ptr1")
+
+(* ****** ****** *)
+
+#declnamesynop("checkast_Strptr1")
+#decldescrpt("\
+
+Given a strptr-value x and a string msg, this function returns x if x is
+non-null. Otherwise, it prints the string msg onto STDERR and then exits
+with the code 1.
+
+")
+#declnamesynop("ckastloc_Strptr1")
+
+(* ****** ****** *)
+
+(* end of [checkast.atxt] *)
