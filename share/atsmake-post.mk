@@ -13,8 +13,7 @@ endif
 
 ######
 
-ifndef MYTARGET
-else
+ifdef MYTARGET
 ifeq ($(strip $(MYTARGET)),MYTARGET)
 else
 all:: $(MYTARGET)
@@ -23,8 +22,8 @@ $(MYTARGET): \
   $($(MYTARGET)_DATS_O) ; \
   $(PATSCC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 cleanall:: ; $(RMF) $(MYTARGET)
-endif
-endif
+endif # end of [ifeq]
+endif # end of [ifdef]
 
 ######
 #
@@ -42,9 +41,9 @@ endif
 #
 ifndef MYCCRULE
 %_sats.o: %.sats ; \
-  $(PATSCC) -cleanaft $(INCLUDE) $(INCLUDE_ATS) $(CFLAGS) -c $<
+  $(PATSCC) -cleanaft $(INCLUDE_ATS) $(CFLAGS) -c $<
 %_dats.o: %.dats ; \
-  $(PATSCC) -cleanaft $(INCLUDE) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $<
+  $(PATSCC) -cleanaft $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $<
 endif
 #
 ######
@@ -53,10 +52,8 @@ endif
 #
 ifeq ($(strip $(MYCCRULE)),PORTABLE)
 #
-CC=gcc
-#
-%_sats.o: %_sats.c ; $(CC) $(INCLUDE) $(CFLAGS) -c $<
-%_dats.o: %_dats.c ; $(CC) $(INCLUDE) $(MALLOCFLAG) $(CFLAGS) -c $<
+%_sats.o: %_sats.c ; $(PATSCC) $(INCLUDE) $(CFLAGS) -c $<
+%_dats.o: %_dats.c ; $(PATSCC) $(INCLUDE) $(MALLOCFLAG) $(CFLAGS) -c $<
 #
 endif
 #

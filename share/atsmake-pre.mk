@@ -24,9 +24,9 @@ PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 PATSLIB64=$(PATSHOMEQ)/ccomp/atslib/lib64
 
 ######
-
-export PATSCCOMP = gcc -D_XOPEN_SOURCE
-
+#
+#export PATSCCOMP = gcc -D_XOPEN_SOURCE
+#
 ######
 
 INCLUDE += -I$(PATSHOMEQ)
@@ -50,7 +50,7 @@ MALLOCFLAG := -DATS_MEMALLOC_LIBC
 
 ifeq ("$(PATSHOMERELOCQ)","")
 else
-INCLUDE += -I $(PATSHOMERELOCQ)/contrib
+INCLUDE += -I$(PATSHOMERELOCQ)/contrib
 INCLUDE_ATS += -IATS $(PATSHOMERELOCQ)/contrib
 endif
 
