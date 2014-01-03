@@ -10,6 +10,10 @@ $(PATSHOME)/share/atsmake-pre.mk
 ######
 
 CFLAGS += -O2
+
+######
+
+LDFLAGS :=
 LDFLAGS += -lgc
 
 ######

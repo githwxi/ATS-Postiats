@@ -13,6 +13,10 @@ CFLAGS += -O2
 
 ######
 
+LDFLAGS :=
+
+######
+
 SOURCES_SATS += \
   calculator.sats \
 
@@ -24,6 +28,7 @@ SOURCES_DATS += \
   calculator_tstream.dats \
   calculator_parsing.dats \
   calculator_print.dats \
+  calculator_mylib.dats \
 
 ######
 
