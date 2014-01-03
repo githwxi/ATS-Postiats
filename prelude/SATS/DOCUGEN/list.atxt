@@ -178,7 +178,7 @@ val ((*void*)) = assertloc ($UN.list_vt2t{T}(xs1) = $UN.list_vt2t(xs2))
 val ((*void*)) = list_vt_free (xs1)
 val ((*void*)) = list_vt_free (xs2)
 //
-} (* end pf [main] *)
+} (* end of [main0] *)
 ')
 ")
 
@@ -873,7 +873,7 @@ val () = assertloc ($UN.list_vt2t{T}(xys) = $UN.list_vt2t(xys2))
 val () = list_vt_free<T> (xys)
 val () = list_vt_free<T> (xys2)
 //
-} (* end of [main] *)
+} (* end of [main0] *)
 ')
 ")
 
