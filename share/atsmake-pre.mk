@@ -25,6 +25,15 @@ PATSLIB64=$(PATSHOMEQ)/ccomp/atslib/lib64
 
 ######
 
+export PATSCCOMP = gcc -D_XOPEN_SOURCE
+
+######
+
+INCLUDE += -I$(PATSHOMEQ)
+INCLUDE += -I$(PATSHOMEQ)/ccomp/runtime
+
+######
+
 CFLAGS += -D_GNU_SOURCE
 
 ######

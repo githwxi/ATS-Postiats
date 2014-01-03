@@ -30,7 +30,9 @@ include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
-cleanall:: ; make -C $(MYPORTDIR) cleanall
+cleanall:: ; $(RMF) $(MYPORTDIR)/*
+cleanats:: ; $(RMF) $(MYPORTDIR)/*_dats.c
+cleanats:: ; $(RMF) $(MYPORTDIR)/*_dats.o
 
 ######
 

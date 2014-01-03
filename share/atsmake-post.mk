@@ -37,12 +37,23 @@ ifeq ("$(MYCCRULE)","")
 endif
 #
 ######
-
+#
+# For compiling ATS source directly
+#
 ifeq ("$(MYCCRULE)","")
 %_sats.o: %.sats ; \
-  $(PATSCC) $(INCLUDE) $(INCLUDE_ATS) $(CFLAGS) -c $<
+  $(PATSCC) -cleanaft $(INCLUDE) $(INCLUDE_ATS) $(CFLAGS) -c $<
 %_dats.o: %.dats ; \
-  $(PATSCC) $(INCLUDE) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $<
+  $(PATSCC) -cleanaft $(INCLUDE) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $<
+endif
+
+######
+#
+# For compiling C code generated from ATS source
+#
+ifeq ("$(MYCCRULE)", "PORTABLE")
+%_sats.o: %_sats.c ; $(PATSCC) $(INCLUDE) $(CFLAGS) -c $<
+%_dats.o: %_dats.c ; $(PATSCC) $(INCLUDE) $(MALLOCFLAG) $(CFLAGS) -c $<
 endif
 
 ######
@@ -89,7 +100,6 @@ RMF=rm -f
 
 cleanats:: ; $(RMF) *~
 cleanats:: ; $(RMF) *_?ats.o
-cleanats:: ; $(RMF) *_?ats.c
 
 ######
 
