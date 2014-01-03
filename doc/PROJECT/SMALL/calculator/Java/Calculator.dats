@@ -29,6 +29,7 @@ local
 #include "./../calculator_tstream.dats"
 #include "./../calculator_parsing.dats"
 #include "./../calculator_print.dats"
+#include "./../calculator_mylib.dats"
 //
 in (*nothing*) end
 
