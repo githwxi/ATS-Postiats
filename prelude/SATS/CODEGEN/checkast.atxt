@@ -39,22 +39,22 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 fun{tk:tk}
 checkast_gintLt{i:int}
-  (x: g0int(tk), i: int i, msg: string): g1intLt(tk, i)
+  (x: g0int(tk), i: int i, msg: RD(string)): g1intLt(tk, i)
 fun{tk:tk}
 checkast_gintLte{i:int}
-  (x: g0int(tk), i: int i, msg: string): g1intLte(tk, i)
+  (x: g0int(tk), i: int i, msg: RD(string)): g1intLte(tk, i)
 fun{tk:tk}
 checkast_gintGt{i:int}
-  (x: g0int(tk), i: int i, msg: string): g1intGt(tk, i)
+  (x: g0int(tk), i: int i, msg: RD(string)): g1intGt(tk, i)
 fun{tk:tk}
 checkast_gintGte{i:int}
-  (x: g0int(tk), i: int i, msg: string): g1intGte(tk, i)
+  (x: g0int(tk), i: int i, msg: RD(string)): g1intGte(tk, i)
 fun{tk:tk}
 checkast_gintBtw{i,j:int}
-  (x: g0int(tk), i: int i, j: int j, msg: string): g1intBtw(tk, i, j)
+  (x: g0int(tk), i: int i, j: int j, msg: RD(string)): g1intBtw(tk, i, j)
 fun{tk:tk}
 checkast_gintBtwe{i,j:int}
-  (x: g0int(tk), i: int i, j: int j, msg: string): g1intBtwe(tk, i, j)
+  (x: g0int(tk), i: int i, j: int j, msg: RD(string)): g1intBtwe(tk, i, j)
 
 #atscode_separator()
 
@@ -73,7 +73,8 @@ ckastloc_gintBtwe (x, i, j) = checkast_gintBtwe (,(x), ,(i), ,(j), $mylocation)
 
 #atscode_separator()
 
-fun{} checkast_Ptr1 (x: ptr, msg: string): Ptr1
+fun{}
+checkast_Ptr1 (x: ptr, msg: RD(string)): Ptr1
 
 #atscode_separator()
 
@@ -82,7 +83,8 @@ ckastloc_Ptr1 (x) = checkast_Ptr1 (,(x), $mylocation)
 
 #atscode_separator()
 
-fun{} checkast_Strptr1 (x: Strptr0, msg: string): Strptr1
+fun{}
+checkast_Strptr1 (x: Strptr0, msg: RD(string)): Strptr1
 
 #atscode_separator()
 
