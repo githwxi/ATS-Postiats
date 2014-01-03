@@ -9,13 +9,13 @@
 #
 ######
 
-ifeq ("$(PATSHOME)","")
+ifndef PATSHOME
   PATSHOMEQ="$(ATSHOME)"
 else
   PATSHOMEQ="$(PATSHOME)"
 endif
 
-ifeq ("$(PATSHOMERELOC)","")
+ifndef PATSHOMERELOC
   PATSHOMERELOCQ="$(ATSHOMERELOC)"
 else
   PATSHOMERELOCQ="$(PATSHOMERELOC)"
@@ -53,8 +53,7 @@ MALLOCFLAG := -DATS_MEMALLOC_LIBC
 
 ######
 
-ifeq ("$(PATSHOMERELOCQ)","")
-else
+ifdef PATSHOMERELOCQ
 INCLUDE += -I$(PATSHOMERELOCQ)/contrib
 INCLUDE_ATS += -IATS $(PATSHOMERELOCQ)/contrib
 endif
