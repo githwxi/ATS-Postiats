@@ -4,8 +4,7 @@
 
 ######
 
-ifeq ("$(MYTARGET)","")
-else
+ifdef MYTARGET
 $(MYTARGET)_SATS_O := \
   $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))
 $(MYTARGET)_DATS_O := \
@@ -14,9 +13,9 @@ endif
 
 ######
 
-ifeq ("$(MYTARGET)","")
+ifndef MYTARGET
 else
-ifeq ("$(MYTARGET)","MYTARGET")
+ifeq ($(strip $(MYTARGET)),MYTARGET)
 else
 all:: $(MYTARGET)
 $(MYTARGET): \
@@ -41,7 +40,7 @@ endif
 #
 # For compiling ATS source directly
 #
-ifeq ("$(MYCCRULE)","")
+ifndef MYCCRULE
 %_sats.o: %.sats ; \
   $(PATSCC) -cleanaft $(INCLUDE) $(INCLUDE_ATS) $(CFLAGS) -c $<
 %_dats.o: %.dats ; \
@@ -52,7 +51,7 @@ endif
 #
 # For compiling C code generated from ATS source
 #
-ifeq ("$(MYCCRULE)", "PORTABLE")
+ifeq ($(strip $(MYCCRULE)),PORTABLE)
 #
 CC=gcc
 #
@@ -65,8 +64,7 @@ endif
 #
 # For generating portable C code
 #
-ifeq ("$(MYPORTDIR)", "")
-else
+ifdef MYPORTDIR
 #
 $(MYPORTDIR)_SATS_C := \
   $(patsubst %.sats, $(MYPORTDIR)/%_sats.c, $(SOURCES_SATS))
@@ -87,13 +85,10 @@ endif
 #
 depend:: ; $(RMF) -f .depend
 #
-ifeq ("$(SOURCES_SATS)","")
-else
+ifdef SOURCES_SATS
 depend:: ; $(PATSOPT) --output-a .depend --depgen -s $(SOURCES_SATS)
 endif
-#
-ifeq ("$(SOURCES_DATS)","")
-else
+ifdef SOURCES_DATS
 depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(SOURCES_DATS)
 endif
 #
