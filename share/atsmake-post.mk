@@ -29,7 +29,8 @@ endif
 
 ######
 #
-# HX-2013-12-28: for debugging
+# HX-2013-12-28:
+# generating *_?ats.c files is mainly for debugging
 #
 ifeq ("$(MYCCRULE)","")
 %_sats.c: %.sats ; $(PATSCC) $(INCLUDE_ATS) -ccats $<
@@ -46,16 +47,20 @@ ifeq ("$(MYCCRULE)","")
 %_dats.o: %.dats ; \
   $(PATSCC) -cleanaft $(INCLUDE) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $<
 endif
-
+#
 ######
 #
 # For compiling C code generated from ATS source
 #
 ifeq ("$(MYCCRULE)", "PORTABLE")
-%_sats.o: %_sats.c ; $(PATSCC) $(INCLUDE) $(CFLAGS) -c $<
-%_dats.o: %_dats.c ; $(PATSCC) $(INCLUDE) $(MALLOCFLAG) $(CFLAGS) -c $<
+#
+CC=gcc
+#
+%_sats.o: %_sats.c ; $(CC) $(INCLUDE) $(CFLAGS) -c $<
+%_dats.o: %_dats.c ; $(CC) $(INCLUDE) $(MALLOCFLAG) $(CFLAGS) -c $<
+#
 endif
-
+#
 ######
 #
 # For generating portable C code
