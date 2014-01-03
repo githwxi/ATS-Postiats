@@ -125,6 +125,7 @@ all_html::
 #make_entry("intrange")
 
 #make_entry("unsafe")
+#make_entry("checkast")
 
 #make_entry("list")
 #make_entry("list_vt")

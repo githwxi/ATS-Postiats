@@ -212,10 +212,28 @@ end // end of [linmap_foreach]
 
 (* ****** ****** *)
 
+implement
+{key,itm}
+linmap_listize
+  (map) = let
+//
+vtypedef ki2 = @(key, itm)
+//
+implement(k2,i2)
+linmap_flistize$fopr<k2,i2><ki2> (k, x) =
+  ($UN.castvwtp0{key}(k), $UN.castvwtp0{itm}(x))
+//
+in
+  $effmask_all(linmap_flistize<key,itm><ki2> (map))
+end // end of [linmap_listize]
+
+(* ****** ****** *)
+
 local
-
-staload Q = "libats/SATS/qlist.sats"
-
+//
+staload Q =
+"libats/SATS/qlist.sats"
+//
 in (* in of [local] *)
 
 implement
