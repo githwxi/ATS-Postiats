@@ -451,6 +451,7 @@ overload toupper with toupper_char
 
 fun int2digit (i: intBtw(0, 10)): char = "mac\#%"
 fun int2xdigit (i: intBtw(0, 16)): char = "mac\#%"
+fun int2xxdigit (i: intBtw(0, 16)): char = "mac\#%"
 
 #atscode_separator()
 

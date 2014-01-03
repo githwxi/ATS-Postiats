@@ -30,8 +30,10 @@ staload "{$JSONC}/SATS/json_ML.sats"
 
 (* ****** ****** *)
 //
-dynload "./dynloadall.dats"
-dynload "./../dynloadall.dats"
+dynload
+"./../constraint_dynload.dats"
+//
+dynload "./parsing_dynload.dats"
 //
 (* ****** ****** *)
 
