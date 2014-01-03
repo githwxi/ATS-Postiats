@@ -1,0 +1,7 @@
+Examples:
+
+hello: (Work in progress) A makefile that can generate C code on a platform
+       with ATS, and compile it on a platform *without* ATS.
+
+hello2: Like hello but relies on all ATS includes being copied over from
+        a release, e.g, ATS2-Postiats-include-X.Y.Z.tgz.

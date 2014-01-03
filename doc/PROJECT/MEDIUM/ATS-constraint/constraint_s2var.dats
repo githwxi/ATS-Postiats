@@ -14,10 +14,9 @@ staload "./constraint.sats"
 (* ****** ****** *)
 
 typedef
-s2var_struct = @{
-  s2var_name= symbol
-, s2var_stamp= stamp
-} (* end of [s2var_struct] *)
+s2Var_struct = @{
+  s2Var_stamp= stamp
+} (* end of [s2Var_struct] *)
 
 (* ****** ****** *)
 
@@ -26,64 +25,45 @@ local
 staload
 UN = "prelude/SATS/unsafe.sats"
 //
-assume s2var_type = ref (s2var_struct)
+assume s2Var_type = ref (s2Var_struct)
 //
 in (* in of [local] *)
 
 implement
-s2var_make
-  (name, stamp) = let
+s2Var_make
+  (stamp) = let
 //
 val (
   pfat, pfgc | p
-) = ptr_alloc<s2var_struct> ()
+) = ptr_alloc<s2Var_struct> ()
 //
-val () = p->s2var_name := name
-val () = p->s2var_stamp := stamp
+val () = p->s2Var_stamp := stamp
 //
 in
-  $UN.castvwtp0{s2var}((pfat, pfgc | p))
-end // end of [s2var_make]
+  $UN.castvwtp0{s2Var}((pfat, pfgc | p))
+end // end of [s2Var_make]
 
 implement
-s2var_get_name
+s2Var_get_stamp
   (s2v) = $effmask_ref
 (
 let
   val (vbox _ | p) = ref_get_viewptr (s2v)
 in
-  p->s2var_name
+  p->s2Var_stamp
 end // end of [let]
-) (* end of [s2var_get_name] *)
-
-implement
-s2var_get_stamp
-  (s2v) = $effmask_ref
-(
-let
-  val (vbox _ | p) = ref_get_viewptr (s2v)
-in
-  p->s2var_stamp
-end // end of [let]
-) (* end of [s2var_get_stamp] *)
+) (* end of [s2Var_get_stamp] *)
 
 end // end of [local]
 
 (* ****** ****** *)
 
 implement
-fprint_s2var
-  (out, s2v) =
-  fprint! (out, s2v.name, "(", s2v.stamp, ")")
-// end of [fprint_s2var]
+fprint_s2Var
+  (out, s2V) =
+  fprint! (out, "s2Var(", s2V.stamp, ")")
+// end of [fprint_s2Var]
 
 (* ****** ****** *)
 
-implement
-compare_s2var_s2var
-  (s2v1, s2v2) = compare (s2v1.stamp, s2v2.stamp)
-// end of [compare_s2var_s2var]
-
-(* ****** ****** *)
-
-(* end of [constraint_s2var.dats] *)
+(* end of [constraint_s2Var.dats] *)
