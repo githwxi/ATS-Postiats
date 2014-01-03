@@ -23,6 +23,12 @@ the following command-line:
 
 make PATSCC=gcc MYCCRULE=PORTABLE -f /path/to/Makefile
 
+or
+
+make PATSCC=clang MYCCRULE=PORTABLE -f /path/to/Makefile
+
+######
+
 Note that various needed CATS-files (corresponding to header files in C)
 are contained in the following package:
 
@@ -32,6 +38,13 @@ which is available at:
 
 http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.0.4/
 
-See doc/PROJECT/SMALL/GameOf24 for a slightly more advanced example.
+######
+
+Please see:
+
+${PATSHOME}/doc/PROJECT/SMALL/GameOf24
+${PATSHOME}/doc/PROJECT/SMALL/calculator
+
+for slightly more advanced examples.
 
 ###### end of [README] ######

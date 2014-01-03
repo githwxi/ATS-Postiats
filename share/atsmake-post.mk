@@ -3,6 +3,11 @@
 #
 
 ######
+#
+# Author: Hongwei Xi
+# Author: Ian Denhardt
+#
+######
 
 ifdef MYTARGET
 $(MYTARGET)_SATS_O := \

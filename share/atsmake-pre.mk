@@ -3,6 +3,11 @@
 #
 
 ######
+#
+# Author: Hongwei Xi
+# Author: Ian Denhardt
+#
+######
 
 ifeq ("$(PATSHOME)","")
   PATSHOMEQ="$(ATSHOME)"
