@@ -9,16 +9,26 @@
 #
 ######
 
-ifeq ("$(PATSHOME)","")
+ifdef PATSHOME
+  PATSHOMEQ="$(PATSHOME)"
+else
+ifdef ATSHOME
   PATSHOMEQ="$(ATSHOME)"
 else
-  PATSHOMEQ="$(PATSHOME)"
+  PATSHOMEQ="/usr/local/lib/ats2-postiats"
+endif
 endif
 
-ifeq ("$(PATSHOMERELOC)","")
+######
+
+ifdef PATSHOMERELOC
+  PATSHOMERELOCQ="$(PATSHOMERELOC)"
+else
+ifdef ATSHOMERELOC
   PATSHOMERELOCQ="$(ATSHOMERELOC)"
 else
-  PATSHOMERELOCQ="$(PATSHOMERELOC)"
+  PATSHOMERELOCQ="/usr/local/lib/ats2-postiats"
+endif
 endif
 
 ######
@@ -53,8 +63,7 @@ MALLOCFLAG := -DATS_MEMALLOC_LIBC
 
 ######
 
-ifeq ("$(PATSHOMERELOCQ)","")
-else
+ifdef PATSHOMERELOCQ
 INCLUDE += -I$(PATSHOMERELOCQ)/contrib
 INCLUDE_ATS += -IATS $(PATSHOMERELOCQ)/contrib
 endif

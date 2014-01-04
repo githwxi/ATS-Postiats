@@ -35,7 +35,8 @@ endif # end of [ifdef]
 # HX-2013-12-28:
 # generating *_?ats.c files is mainly for debugging
 #
-ifeq ("$(MYCCRULE)","")
+ifdef MYCCRULE
+else
 %_sats.c: %.sats ; $(PATSCC) $(INCLUDE_ATS) -ccats $<
 %_dats.c: %.dats ; $(PATSCC) $(INCLUDE_ATS) -ccats $<
 endif
@@ -44,7 +45,8 @@ endif
 #
 # For compiling ATS source directly
 #
-ifndef MYCCRULE
+ifdef MYCCRULE
+else
 %_sats.o: %.sats ; \
   $(PATSCC) -cleanaft $(INCLUDE_ATS) $(CFLAGS) -c $<
 %_dats.o: %.dats ; \
