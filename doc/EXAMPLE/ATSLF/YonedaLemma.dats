@@ -1,32 +1,28 @@
 (* ****** ****** *)
 //
 // Hx-2014-01-03
-// Yoneda Lemma: The "hardest" trivial theorem!
+// Yoneda Lemma:
+// The hardest "trivial" theorem!
 //
+(* ****** ****** *)
+
+staload
+"libats/ML/SATS/basis.sats"
+staload
+"libats/ML/SATS/list0.sats"
+
 (* ****** ****** *)
 
 sortdef ftype = type -> type
-typedef functor(f:ftype) = {a,b:type} (a -> b) -> f(a) -> f(b)
-
-(* ****** ****** *)
-//
-extern
-fun Yoneda1
-  : {f:ftype}functor(f) -> {a:type}({r:type}(a -> r) -> f(r)) -> f(a)
-extern
-fun Yoneda2
-  : {f:ftype}functor(f) -> {a:type}f(a) -> ({r:type}(a -> r) -> f(r))
-//
-(* ****** ****** *)
-
-implement
-Yoneda1 (ftor) = lam(mf) => mf(lam x => x)
-implement
-Yoneda2 (ftor) = lam(fx) => lam(m) => ftor(m)(fx)
 
 (* ****** ****** *)
 
-staload "libats/ML/SATS/basis.sats"
+infixr (->) ->>
+
+typedef ->> (a:type, b:type) = a -<cloref1> b
+
+typedef
+functor(f:ftype) = {a,b:type} (a ->> b) ->> f(a) ->> f(b)
 
 (* ****** ****** *)
 
@@ -34,6 +30,27 @@ typedef
 list0 (a:type) = list0 (a)
 extern
 fun functor_list0 : functor (list0)
+
+(* ****** ****** *)
+
+implement
+functor_list0 (f) = lam xs => list0_map (xs, f)
+
+(* ****** ****** *)
+//
+extern
+fun Yoneda1
+  : {f:ftype}functor(f) ->> {a:type}({r:type}(a ->> r) ->> f(r)) ->> f(a)
+extern
+fun Yoneda2
+  : {f:ftype}functor(f) ->> {a:type}f(a) ->> ({r:type}(a ->> r) ->> f(r))
+//
+(* ****** ****** *)
+
+implement
+Yoneda1 (ftor) = lam(mf) => mf(lam x => x)
+implement
+Yoneda2 (ftor) = lam(fx) => lam (m) => ftor(m)(fx)
 
 (* ****** ****** *)
 

@@ -21,11 +21,11 @@ If a Makefile is used to generate C code in an example, then you
 can use the same Makefile to compile the generated C code by issuing
 the following command-line:
 
-make PATSCC=gcc MYCCRULE=PORTABLE -f /path/to/Makefile
+make MYCCRULE=PORTABLE -f /path/to/Makefile
 
 or
 
-make PATSCC=clang MYCCRULE=PORTABLE -f /path/to/Makefile
+make CC=clang MYCCRULE=PORTABLE -f /path/to/Makefile
 
 ######
 

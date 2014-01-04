@@ -244,14 +244,20 @@ case+ s2e0.s2exp_node of
     fc, lin1, s2fe, npf1, s2es_arg, s2e_res
   ) => (
   case+ d1e0.d1exp_node of
-  | D1Elam_dyn (lin2, p1t_arg, d1e_body) => let
+  | D1Elam_dyn
+    (
+      lin2, p1t_arg, d1e_body
+    ) => let
       val @(p2ts_arg, d2e_body) = d1exp_tr_arg_body_ann (
         d1e0, fc, lin1, s2fe, npf1, s2es_arg, s2e_res, lin2, p1t_arg, d1e_body
       ) // end of [val]
     in
       d2exp_lam_dyn (loc0, lin1, npf1, p2ts_arg, d2e_body)
     end // end of [D2Elam_dyn]
-  | D1Elaminit_dyn (lin2, p1t_arg, d1e_body) => let
+  | D1Elaminit_dyn
+    (
+      lin2, p1t_arg, d1e_body
+    ) => let
       val @(p2ts_arg, d2e_body) = d1exp_tr_arg_body_ann (
         d1e0, fc, lin1, s2fe, npf1, s2es_arg, s2e_res, lin2, p1t_arg, d1e_body
       ) // end of [val]
@@ -269,7 +275,8 @@ case+ s2e0.s2exp_node of
 end // end of [d1exp_tr_ann]
 
 and
-d1exp_tr_arg_body_ann (
+d1exp_tr_arg_body_ann
+(
   d1e0: d1exp
 , fc: funclo, lin1: int
 , s2fe: s2eff, npf1: int
@@ -281,8 +288,9 @@ d1exp_tr_arg_body_ann (
 val () = (
   println! ("d1exp_tr_arg_body_ann: p1t_arg = ", p1t_arg);
   println! ("d1exp_tr_arg_body_ann: s2es_arg = ", s2es_arg);
+  println! ("d1exp_tr_arg_body_ann: d1e_body = ", d1e_body);
 ) // end of [val]
- *)
+*)
 val () = let
   fun auxck .<>. (
     d1e0: d1exp, fc: funclo
@@ -292,7 +300,7 @@ val () = let
         val () = prerr_error2_loc (d1e0.d1exp_loc)
         val () = filprerr_ifdebug "d1exp_tr_arg_body_ann"
         val () = prerr ": the function cannot be given an unboxed closure type.";
-        val () = prerr_newline ()
+        val ((*void*)) = prerr_newline ((*void*))
       in
         the_trans2errlst_add (T2E_d1exp_tr (d1e0))
       end // end of [FUNCLOclo]
@@ -307,11 +315,12 @@ val () = let
     d1e0: d1exp, lin1: int, lin2: int
   ) : void =
     if lin1 != lin2 then let
-      val () = prerr_error2_loc (d1e0.d1exp_loc)
+      val loc0 = d1e0.d1exp_loc
+      val () = prerr_error2_loc (loc0)
       val () = filprerr_ifdebug "d1exp_tr_arg_body_ann"
       val () = if lin1 < lin2 then prerr ": linear function is given a nonlinear type."
       val () = if lin1 > lin2 then prerr ": nonlinear function is given a linear type."
-      val () = prerr_newline ()
+      val ((*void*)) = prerr_newline ()
     in
       the_trans2errlst_add (T2E_d1exp_tr (d1e0))
     end // end of [if]
@@ -330,10 +339,11 @@ val () = let
     val isnone = wths1explst_is_none (wths1es)
   in
     if ~isnone then let
-      val () = prerr_error2_loc (p1t_arg.p1at_loc)
+      val loc = p1t_arg.p1at_loc
+      val () = prerr_error2_loc (loc)
       val () = filprerr_ifdebug "d1exp_tr_arg_body_ann"
       val () = prerr ": the function argument cannot be ascribed refval types."
-      val () = prerr_newline ()
+      val ((*void*)) = prerr_newline ()
     in
       the_trans2errlst_add (T2E_d1exp_tr (d1e0))
     end (* end of [if] *)
@@ -372,12 +382,13 @@ val p2ts_arg = let
   fn auxerr (
     d1e0: d1exp, serr: int
   ) : void = let
-     val () = prerr_error2_loc (d1e0.d1exp_loc)
+     val loc0 = d1e0.d1exp_loc
+     val () = prerr_error2_loc (loc0)
      val () = filprerr_ifdebug "d1exp_tr_arg_body_ann"
      val () = prerr ": arity mismatch"
      val () = if serr < 0 then prerr ": more arguments are expected."
      val () = if serr > 0 then prerr ": fewer arguments are expected."
-     val () = prerr_newline ()
+     val ((*void*)) = prerr_newline ()
    in
       the_trans2errlst_add (T2E_d1exp_tr (d1e0))
    end // end of [auxerr]

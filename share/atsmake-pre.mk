@@ -8,6 +8,10 @@
 # Author: Ian Denhardt
 #
 ######
+#
+CC=gcc
+#
+######
 
 ifdef PATSHOME
   PATSHOMEQ="$(PATSHOME)"
@@ -40,7 +44,7 @@ PATSLIB64=$(PATSHOMEQ)/ccomp/atslib/lib64
 
 ######
 #
-#export PATSCCOMP = gcc -D_XOPEN_SOURCE
+export PATSCCOMP = $(CC) -D_XOPEN_SOURCE
 #
 ######
 
