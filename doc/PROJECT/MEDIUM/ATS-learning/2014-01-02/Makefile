@@ -1,3 +1,9 @@
+#
+# A simple Makefile
+#
+
+######
+
 include \
 $(PATSHOME)/share/atsmake-pre.mk
 

@@ -44,6 +44,7 @@ implement{
 val [l:addr]
   (pfat, pfgc | p) = malloc_gc (bsz)
 prval pfmf = $UN.castview0{memory$free_v(l)}(pfgc)
+//
 in
   (pfat, pfmf | p)
 end // end of [memory$alloc]

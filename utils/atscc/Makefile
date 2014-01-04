@@ -4,9 +4,8 @@
 
 ######
 #
-CC=gcc -std=c99 -D_XOPEN_SOURCE
-#
-#CC=clang -std=c99 -D_XOPEN_SOURCE
+CC=gcc
+CFLAGS=-std=c99 -D_XOPEN_SOURCE
 #
 ######
 
@@ -19,6 +18,10 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
 
+INCLUDE=-I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime
+
+######
+
 all:: patscc
 
 ######
@@ -27,7 +30,7 @@ patscc: \
   patscc_dats.c \
   atscc_main_dats.c \
   atscc_print_dats.c ; \
-  $(CC) -I${PATSHOMEQ} -I${PATSHOMEQ}/ccomp/runtime -DATS_MEMALLOC_LIBC -O2 -o $@ $^
+  $(CC) $(INCLUDE) $(CFLAGS) -DATS_MEMALLOC_LIBC -O2 -o $@ $^
 
 ######
 

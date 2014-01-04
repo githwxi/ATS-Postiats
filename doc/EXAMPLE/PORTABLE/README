@@ -18,8 +18,8 @@ by issuing the following command-line:
 gcc -I${PATSHOME} -I${PATSHOME}/ccomp/runtime <some-other-flags> *_?ats.c
 
 If a Makefile is used to generate C code in an example, then you
-can use the same Makefile to compile the generated C code by issuing
-the following command-line:
+should be able to use the same Makefile to compile the generated C code
+by issuing the following command-line:
 
 make MYCCRULE=PORTABLE -f /path/to/Makefile
 
@@ -30,11 +30,9 @@ make CC=clang MYCCRULE=PORTABLE -f /path/to/Makefile
 ######
 
 Note that various needed CATS-files (corresponding to header files in C)
-are contained in the following package:
-
-ATS2-Postiats-include-0.0.4.tgz
-
-which is available at:
+are contained in the package ATS2-Postiats-include-xxx, where xxx is the
+version number of the package. For instance ATS2-Postiats-include-0.0.4
+is available at:
 
 http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.0.4/
 
