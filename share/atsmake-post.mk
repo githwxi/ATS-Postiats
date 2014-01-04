@@ -85,12 +85,12 @@ endif
 #
 -include .depend
 #
-depend:: ; $(RMF) -f .depend
+depend:: ; $(RMF) .depend
 #
-ifdef SOURCES_SATS
+ifeq ($(strip $(SOURCES_SATS)),"")
 depend:: ; $(PATSOPT) --output-a .depend --depgen -s $(SOURCES_SATS)
 endif
-ifdef SOURCES_DATS
+ifeq ($(strip $(SOURCES_DATS)),"")
 depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(SOURCES_DATS)
 endif
 #

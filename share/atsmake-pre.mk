@@ -61,6 +61,11 @@ endif
 
 ######
 
+SOURCES_SATS=
+SOURCES_DATS=
+
+######
+
 all::
 cleanats::
 cleanall::

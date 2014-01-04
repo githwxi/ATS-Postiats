@@ -20,9 +20,20 @@ fun Yoneda2
 (* ****** ****** *)
 
 implement
-Yoneda1{f}(ftor) = lam(mf) => mf(lam x => x)
+Yoneda1 (ftor) = lam(mf) => mf(lam x => x)
 implement
-Yoneda2{f}(ftor) = lam(fx) => lam(m) => ftor(m)(fx)
+Yoneda2 (ftor) = lam(fx) => lam(m) => ftor(m)(fx)
+
+(* ****** ****** *)
+
+staload "libats/ML/SATS/basis.sats"
+
+(* ****** ****** *)
+
+typedef
+list0 (a:type) = list0 (a)
+extern
+fun functor_list0 : functor (list0)
 
 (* ****** ****** *)
 
