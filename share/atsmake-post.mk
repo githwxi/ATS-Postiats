@@ -9,6 +9,10 @@
 #
 ######
 
+PATSCC2=$(PATSCC) $(INCLUDE) $(INCLUDE_ATS)
+
+######
+
 ifdef MYTARGET
 $(MYTARGET)_SATS_O := \
   $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))

@@ -44,7 +44,8 @@ PATSLIB64=$(PATSHOMEQ)/ccomp/atslib/lib64
 
 ######
 #
-export PATSCCOMP = $(CC) -D_XOPEN_SOURCE
+export \
+PATSCCOMP = $(CC) -std=c99 -D_XOPEN_SOURCE
 #
 ######
 

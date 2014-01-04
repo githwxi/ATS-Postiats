@@ -17,11 +17,7 @@ include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
-PATSHOMERELOCQ=\"$(PATSHOMERELOC)\"
-
-######
-
-PATSCC2=$(PATSCC) -I$(PATSHOMERELOCQ)/contrib
+PATSCC2=$(PATSCC) $(INCLUDE) $(INCLUDE_ATS)
 
 ######
 
