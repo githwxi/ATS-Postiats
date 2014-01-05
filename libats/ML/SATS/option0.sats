@@ -97,5 +97,12 @@ fprint_option0 (out: FILEref, opt: option0 (a)): void
 overload fprint with fprint_option0
 
 (* ****** ****** *)
+//
+fun{
+a:t0p}{b:t0p
+} option0_map
+  (xs: option0 (INV(a)), f: cfun (a, b)): option0 (b)
+//
+(* ****** ****** *)
 
 (* end of [option0.sats] *)

@@ -78,4 +78,14 @@ fprint_option0
 
 (* ****** ****** *)
 
+implement
+{a}{b}
+option0_map (opt, f) =
+(
+case+ opt of
+| Some0 (x) => Some0 (f(x)) | None0 () => None0 ()
+) (* end of [option0_map] *)
+
+(* ****** ****** *)
+
 (* end of [option0.dats] *)

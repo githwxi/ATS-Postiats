@@ -10,6 +10,8 @@ staload
 "libats/ML/SATS/basis.sats"
 staload
 "libats/ML/SATS/list0.sats"
+staload
+"libats/ML/SATS/option0.sats"
 
 (* ****** ****** *)
 
@@ -35,6 +37,18 @@ fun functor_list0 : functor (list0)
 
 implement
 functor_list0 (f) = lam xs => list0_map (xs, f)
+
+(* ****** ****** *)
+
+typedef
+option0 (a:type) = option0 (a)  
+extern
+fun functor_option0 : functor (option0)
+  
+(* ****** ****** *)
+
+implement
+functor_option0 (f) = lam opt => option0_map (opt, f)
 
 (* ****** ****** *)
 //

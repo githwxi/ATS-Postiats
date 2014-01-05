@@ -110,6 +110,17 @@ this function returns the value v. Otherwise, it raises an exception
 ')
 
 (* ****** ****** *)
+
+#declnamesynop("option0_map")
+#decldescrpt('\
+
+Given an option-value opt and a function f, this function returns
+#dyncode("Some0(f(v))") if opt is of the form
+#dyncode("Some0(v)"). Otherwise, it returns #dyncode("None0()").\
+
+')
+
+(* ****** ****** *)
 //
 // HX: various overloaded symbols
 //
