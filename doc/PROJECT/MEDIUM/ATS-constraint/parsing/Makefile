@@ -39,7 +39,7 @@ SOURCES_DATS += \
   parsing_s2rt.dats \
   parsing_s2cst.dats \
   parsing_s2var.dats \
-  parsing_s2Var.dats \
+  parsing_s2vvar.dats \
   parsing_s2exp.dats \
   parsing_s3itm.dats \
   parsing_h3ypo.dats \
