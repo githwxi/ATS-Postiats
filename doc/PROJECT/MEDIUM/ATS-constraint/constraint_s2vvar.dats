@@ -66,4 +66,4 @@ fprint_s2Var
 
 (* ****** ****** *)
 
-(* end of [constraint_s2Var.dats] *)
+(* end of [constraint_s2vvar.dats] *)

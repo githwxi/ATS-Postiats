@@ -20,7 +20,6 @@ sortdef ftype = type -> type
 (* ****** ****** *)
 
 infixr (->) ->>
-
 typedef ->> (a:type, b:type) = a -<cloref1> b
 
 typedef

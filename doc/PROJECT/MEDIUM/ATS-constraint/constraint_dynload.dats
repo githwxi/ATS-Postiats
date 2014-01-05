@@ -8,7 +8,7 @@ dynload "./constraint_location.dats"
 dynload "./constraint_s2rt.dats"
 dynload "./constraint_s2cst.dats"
 dynload "./constraint_s2var.dats"
-dynload "./constraint_s2Var.dats"
+dynload "./constraint_s2vvar.dats"
 dynload "./constraint_s2exp.dats"
 //
 dynload "./constraint_s3itm.dats"

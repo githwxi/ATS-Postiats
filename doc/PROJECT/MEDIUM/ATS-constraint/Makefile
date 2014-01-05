@@ -23,7 +23,7 @@ SOURCES_DATS += \
   constraint_s2rt.dats \
   constraint_s2cst.dats \
   constraint_s2var.dats \
-  constraint_s2Var.dats \
+  constraint_s2vvar.dats \
   constraint_s2exp.dats \
   constraint_s3itm.dats \
   constraint_h3ypo.dats \
