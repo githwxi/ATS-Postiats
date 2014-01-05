@@ -8,9 +8,11 @@
 # Author: Ian Denhardt
 #
 ######
-
+#
+# HX: for convenience
+#
 PATSCC2=$(PATSCC) $(INCLUDE) $(INCLUDE_ATS)
-
+#
 ######
 
 ifdef MYTARGET
