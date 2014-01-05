@@ -4,14 +4,14 @@
 
 ######
 
-ifeq ("$(PATSHOME)","")
+ifdef PATSHOME
   PATSHOMEQ="$(ATSHOME)"
 else
   PATSHOMEQ="$(PATSHOME)"
 endif
 
 #PATSHOMERELOC - should be set to PATSHOME for git repo?
-ifeq ("$(PATSHOMERELOC)","")
+ifdef PATSHOMERELOC
   PATSHOMERELOCQ="$(PATSHOME)"
 else
   PATSHOMERELOCQ="$(PATSHOMERELOC)"
@@ -39,7 +39,7 @@ MALLOCFLAG := -DATS_MEMALLOC_LIBC
 
 ######
 
-ifeq ("$(PATSHOMERELOCQ)","")
+ifdef PATSHOMERELOCQ
 else
 INCLUDE_ATS += -IIATS $(PATSHOMERELOCQ)/contrib
 endif

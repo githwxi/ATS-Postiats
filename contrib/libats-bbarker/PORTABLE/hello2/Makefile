@@ -35,7 +35,7 @@ all:: atsmake-pre.mk atsmake-post.mk
 .SECONDARY: atsmake-pre.mk atsmake-post.mk
 .PRECIOUS: atsmake-post.mk atsmake-pre.mk *_?ats.c
 
-ifeq ("$(PATSHOME)","")
+ifdef PATSHOME
 else
 atsmake-pre.mk: $(PATSHOME)/contrib/libats-bbarker/PORTABLE/atsmake-pre.mk
 	cp $(PATSHOME)/contrib/libats-bbarker/PORTABLE/atsmake-pre.mk ./

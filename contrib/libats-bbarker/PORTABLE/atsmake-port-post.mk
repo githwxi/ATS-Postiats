@@ -4,7 +4,7 @@
 
 ######
 
-ifeq ("$(MYTARGET)","")
+ifdef MYTARGET
 else
 SATS_C := $(patsubst %.sats, %_sats.c, $(SOURCES_SATS))
 DATS_C := $(patsubst %.dats, %_dats.c, $(SOURCES_DATS))
@@ -19,13 +19,13 @@ endif
 ######
 # If I leave this out, the build fails:
 
-# ifeq ("$(MYCCRULE)","")
+# ifdef MYCCRULE
 # %_sats.o: %.sats ; $(PATSCC) $(INCLUDE_ATS) $(CFLAGS) -c $<
 # %_dats.o: %.dats ; $(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $<
 # endif
 
 
-ifeq ("$(MYTARGET)","")
+ifdef MYTARGET
 else
 SATS_O := $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))
 DATS_O := $(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
@@ -39,7 +39,7 @@ endif
 
 ######
 
-# ifeq ("$(MYPORTDIR)","")
+# ifdef MYPORTDIR
 # else
 # $(MYPORTDIR)SATSC := $(patsubst %.sats, %_sats.c, $(SOURCES_SATS))
 # DATS_C := $(patsubst %.dats, %_dats.c, $(SOURCES_DATS))
@@ -55,12 +55,12 @@ endif
 #
 depend:: ; $(RMF) -f .depend
 #
-ifeq ("$(SOURCES_SATS)","")
+ifdef SOURCES_SATS
 else
 depend:: ; $(PATSOPT) --output-a .depend --depgen -s $(SOURCES_SATS)
 endif
 #
-ifeq ("$(SOURCES_DATS)","")
+ifdef SOURCES_DATS
 else
 depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(SOURCES_DATS)
 endif
