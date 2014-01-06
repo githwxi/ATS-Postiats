@@ -32,7 +32,8 @@ MYTARGET=hello
 #We need to guarantee these are copied first.
 all:: atsmake-pre.mk atsmake-post.mk
 
-.SECONDARY: atsmake-pre.mk atsmake-post.mk
+.INTERMEDIATE: $(PATSHOME)/contrib/libats-bbarker/PORTABLE/atsmake-pre.mk
+.INTERMEDIATE: $(PATSHOME)/contrib/libats-bbarker/PORTABLE/atsmake-post.mk
 .PRECIOUS: atsmake-post.mk atsmake-pre.mk *_?ats.c
 
 ifdef PATSHOME

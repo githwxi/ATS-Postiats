@@ -127,6 +127,4 @@ clean: cleanport
 cleanall:: cleanats cleanport
 cleanall:: ; $(RMF) .depend
 
-######
-
 ###### end of [atsmake-post.mk] ######

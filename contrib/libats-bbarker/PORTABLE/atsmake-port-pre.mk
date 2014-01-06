@@ -39,10 +39,20 @@ MALLOCFLAG := -DATS_MEMALLOC_LIBC
 
 ######
 
+ifndef PATSHOME
+MYPORTDIR=$(ATSDEPDIR)
+else
+MYPORTDIR=$(PATSHOME)
+endif
+
+
 ifndef PATSHOMERELOCQ
 else
 INCLUDE_ATS += -IIATS $(PATSHOMERELOCQ)/contrib
 endif
+
+INCLUDE_ATS_C := -I$(MYPORTDIR) -I$(MYPORTDIR)/ccomp/runtime 
+INCLUDE_ATS_PC := -I$(MYPORTDIR) -I$(MYPORTDIR)/ccomp/runtime
 
 ######
 

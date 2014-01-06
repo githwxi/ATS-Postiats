@@ -4,7 +4,8 @@
 
 ######
 
-ifndef MYTARGET
+ifdef PATSHOME
+ifndef MYTARGET 
 else
 SATS_C := $(patsubst %.sats, %_sats.c, $(SOURCES_SATS))
 DATS_C := $(patsubst %.dats, %_dats.c, $(SOURCES_DATS))
@@ -14,6 +15,7 @@ DATS_C := $(patsubst %.dats, %_dats.c, $(SOURCES_DATS))
 %_dats.c: %.dats 
 	$(PATSCC) $(MALLOCFLAG) $(INCLUDE_ATS) -ccats $<
 
+endif
 endif
 
 ifndef MYTARGET
@@ -31,6 +33,7 @@ endif
 ######
 #
 -include .depend
+ifdef PATSHOME
 #
 depend:: ; $(RMF) -f .depend
 #
@@ -43,12 +46,14 @@ ifndef SOURCES_DATS
 else
 depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(SOURCES_DATS)
 endif
+endif
 #
 ######
 
+ifdef PATSHOME
 portdepINIT: $(SATS_C) $(DATS_C)
-	$(eval INCLUDE_ATS_C := -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime) 
-	$(eval INCLUDE_ATS_PC := -I$(ATSDEPDIR) -I$(ATSDEPDIR)/ccomp/runtime)
+#	$(eval INCLUDE_ATS_C := -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime) 
+#	$(eval INCLUDE_ATS_PC := -I$(ATSDEPDIR) -I$(ATSDEPDIR)/ccomp/runtime)
 	$(RMF) .atscdep .atscdep_tmp
 portdepMKDEP: portdepINIT
 #	$(CC) $(INCLUDE_ATS_C) $(MALLOCFLAG) $(CFLAGS) *_dats.c \ 
@@ -75,6 +80,9 @@ portdepMKDIR: portdepTO
 portdepCP: portdepMKDIR
 	$(foreach tofil, $(CPATSDEPSTOFILES), \
 	$(shell cp $(PATSHOME)/$(tofil) $(ATSDEPDIR)/$(tofil)))
+else
+.PHONY: portdepCP
+endif
 
 ######
 
@@ -88,6 +96,7 @@ portdepCP: portdepMKDIR
 #
 #skiping object intermediates
 #
+
 all:: portdepCP $(SATS_C) $(DATS_C)
 	$(CC) $(MALLOCFLAG) $(CFLAGS) $(INCLUDE_ATS_PC) *ats.c \
           -o $(MYTARGET)
@@ -95,31 +104,30 @@ all:: portdepCP $(SATS_C) $(DATS_C)
 ######
 
 RMF=rm -f
+RMFR=rm -fr
 
 ######
 
 cleanport:: ; $(RMF) *~
 cleanport:: ; $(RMF) *_?ats.o
 cleanport:: ; $(RMF) .atscdep_tmp
+cleanport:: ; $(RMF) *.exe $(MYTARGET)
 
 ######
 
 cleanats:: ; $(RMF) *~
-cleanats:: ; $(RMF) *_?ats.o
 cleanats:: ; $(RMF) *_?ats.c
 cleanats:: ; $(RMF) .atscdep .atscdep_tmp
-cleanats:: ; $(RMF) -r $(ATSDEPDIR) 
 cleanats:: ; $(RMF) atsmake-port-pre.mk atsmake-port-post.mk
+cleanats:: ; $(RMFR) $(ATSDEPDIR) 
 
 ######
 
-clean: cleanats
+clean: cleanport
 
 ######
 
-cleanall:: cleanats
+cleanall:: cleanats cleanport
 cleanall:: ; $(RMF) .depend
-cleanall:: ; $(RMF) *.exe
-cleanall:: ; $(RMF) $(MYTARGET)
 
 ###### end of [atsmake-post.mk] ######

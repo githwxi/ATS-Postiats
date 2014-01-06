@@ -29,11 +29,12 @@ MYTARGET=hello
 
 ###################################
 
-all:: atsmake-port-pre.mk atsmake-port-post.mk $(ATSDEPDIR)
-
-.SECONDARY: atsmake-port-pre.mk atsmake-port-post.mk $(ATSDEPDIR)
+.INTERMEDIATE: $(PATSHOME)/contrib/libats-bbarker/PORTABLE/atsmake-port-pre.mk
+.INTERMEDIATE: $(PATSHOME)/contrib/libats-bbarker/PORTABLE/atsmake-port-post.mk
 .PRECIOUS: atsmake-port-post.mk atsmake-port-pre.mk *_?ats.c \
   $(ATSDEPDIR)
+
+all:: atsmake-port-pre.mk atsmake-port-post.mk $(ATSDEPDIR)
 
 $(ATSDEPDIR):
 	mkdir $(ATSDEPDIR)	
