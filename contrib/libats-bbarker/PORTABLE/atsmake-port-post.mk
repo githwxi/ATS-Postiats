@@ -16,15 +16,6 @@ DATS_C := $(patsubst %.dats, %_dats.c, $(SOURCES_DATS))
 
 endif
 
-######
-# If I leave this out, the build fails:
-
-# ifndef MYCCRULE
-# %_sats.o: %.sats ; $(PATSCC) $(INCLUDE_ATS) $(CFLAGS) -c $<
-# %_dats.o: %.dats ; $(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $<
-# endif
-
-
 ifndef MYTARGET
 else
 SATS_O := $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))
@@ -36,18 +27,6 @@ DATS_O := $(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
 	$(warning "TESTING .o") 
 	$(CC) $(INCLUDE_ATS_PC) $(MALLOCFLAG) $(CFLAGS) $< -o $@
 endif
-
-######
-
-# ifndef MYPORTDIR
-# else
-# $(MYPORTDIR)SATSC := $(patsubst %.sats, %_sats.c, $(SOURCES_SATS))
-# DATS_C := $(patsubst %.dats, %_dats.c, $(SOURCES_DATS))
-# $(MYTARGET)_SATS_O := \
-#   $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))
-# $(MYTARGET)_DATS_O := \
-#   $(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
-# endif
 
 ######
 #
@@ -72,9 +51,12 @@ portdepINIT: $(SATS_C) $(DATS_C)
 	$(eval INCLUDE_ATS_PC := -I$(ATSDEPDIR) -I$(ATSDEPDIR)/ccomp/runtime)
 	$(RMF) .atscdep .atscdep_tmp
 portdepMKDEP: portdepINIT
-#	$(CC) $(INCLUDE_ATS_C) $(MALLOCFLAG) $(CFLAGS) *_dats.c $(CCDEPFLAG) .atscdep_tmp; \
-#	$(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $< $(CCDEPFLAG) .atscdep_tmp
-	$(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c *_dats.c $(CCDEPFLAG) .atscdep_tmp; \
+#	$(CC) $(INCLUDE_ATS_C) $(MALLOCFLAG) $(CFLAGS) *_dats.c \ 
+#          $(CCDEPFLAG) .atscdep_tmp; \
+#	$(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $< \
+#          $(CCDEPFLAG) .atscdep_tmp
+	$(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c *_dats.c \
+          $(CCDEPFLAG) .atscdep_tmp; \
 	tail -n +2 .atscdep_tmp >> .atscdep
 portdepDEPSLIST: portdepMKDEP
 	$(eval CPATSDEPS := $(shell cat .atscdep | tr -d '\\\n'))
@@ -96,8 +78,19 @@ portdepCP: portdepMKDIR
 
 ######
 
-all:: portdepCP $(SATS_O) $(DATS_O)
-	$(CC) $(LDFLAGS) $(MALLOCFLAG) $(CFLAGS) $(INCLUDE_ATS_PC) *ats.o -o $(MYTARGET)
+#
+#object intermediates: not working.
+#
+# all:: portdepCP $(SATS_O) $(DATS_O)
+# 	$(CC) $(LDFLAGS) $(MALLOCFLAG) $(CFLAGS) $(INCLUDE_ATS_PC) *ats.o \
+#           -o $(MYTARGET)
+
+#
+#skiping object intermediates
+#
+all:: portdepCP $(SATS_C) $(DATS_C)
+	$(CC) $(MALLOCFLAG) $(CFLAGS) $(INCLUDE_ATS_PC) *ats.c \
+          -o $(MYTARGET)
 
 ######
 
@@ -128,7 +121,5 @@ cleanall:: cleanats
 cleanall:: ; $(RMF) .depend
 cleanall:: ; $(RMF) *.exe
 cleanall:: ; $(RMF) $(MYTARGET)
-
-######
 
 ###### end of [atsmake-post.mk] ######

@@ -50,11 +50,4 @@ all::
 cleanats::
 cleanall::
 
-######
-
-SOURCES_SATS=
-SOURCES_DATS=
-
-######
-
 ###### end of [atsmake-pre.mk] ######

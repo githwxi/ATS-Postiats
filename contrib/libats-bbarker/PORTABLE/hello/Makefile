@@ -20,7 +20,7 @@ CFLAGS += -O2
 
 ###### Project Configuration ######
 
-SOURCES_DATS += hello.dats
+SOURCES_DATS  += hello.dats
 #SOURCES_SATS +=
 
 ######

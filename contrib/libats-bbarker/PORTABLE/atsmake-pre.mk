@@ -24,8 +24,10 @@ endif
 
 PATSCC=$(PATSHOMEQ)/bin/patscc
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
+
+#The linker should decide between these
 PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
-PATSLIB64=$(PATSHOMEQ)/ccomp/atslib/lib64
+PATSLIB64+=$(PATSHOMEQ)/ccomp/atslib/lib64
 
 ######
 
