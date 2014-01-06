@@ -1,8 +1,8 @@
 (* ****** ****** *)
 //
-// Hx-2014-01-03
+// Hx-2014-01
 // Yoneda Lemma:
-// The hardest "trivial" theorem!
+// The hardest "trivial" theorem :)
 //
 (* ****** ****** *)
 
@@ -22,8 +22,11 @@ sortdef ftype = type -> type
 infixr (->) ->>
 typedef ->> (a:type, b:type) = a -<cloref1> b
 
+(* ****** ****** *)
+
 typedef
-functor(f:ftype) = {a,b:type} (a ->> b) ->> f(a) ->> f(b)
+functor(F:ftype) =
+  {a,b:type} (a ->> b) ->> F(a) ->> F(b)
 
 (* ****** ****** *)
 
@@ -50,21 +53,62 @@ implement
 functor_option0 (f) = lam opt => option0_map (opt, f)
 
 (* ****** ****** *)
-//
+
 extern
-fun Yoneda1
-  : {f:ftype}functor(f) ->> {a:type}({r:type}(a ->> r) ->> f(r)) ->> f(a)
-extern
-fun Yoneda2
-  : {f:ftype}functor(f) ->> {a:type}f(a) ->> ({r:type}(a ->> r) ->> f(r))
-//
+fun functor_homres
+  : {a:type} functor (lam(r:type) => a ->> r)
+
 (* ****** ****** *)
 
 implement
-Yoneda1 (ftor) = lam(mf) => mf(lam x => x)
-implement
-Yoneda2 (ftor) = lam(fx) => lam (m) => ftor(m)(fx)
+functor_homres{a} (f) = lam (r) => lam (x) => f (r(x))
 
+(* ****** ****** *)
+//
+extern
+fun Yoneda_phi : {F:ftype}functor(F) ->>
+  {a:type}F(a) ->> ({r:type}(a ->> r) ->> F(r))
+extern
+fun Yoneda_psi : {F:ftype}functor(F) ->>
+  {a:type}({r:type}(a ->> r) ->> F(r)) ->> F(a)
+//
+(* ****** ****** *)
+//
+implement
+Yoneda_phi
+  (ftor) = lam(fx) => lam (m) => ftor(m)(fx)
+//
+implement
+Yoneda_psi (ftor) = lam(mf) => mf(lam x => x)
+//
+(* ****** ****** *)
+//
+// HX-2014-01-05:
+// Another version based on Natural Transformation
+//
+(* ****** ****** *)
+
+typedef
+natrans(F:ftype, G:ftype) = {x:type} (F(x) ->> G(x))
+
+(* ****** ****** *)
+//
+extern
+fun Yoneda_phi_nat : {F:ftype}functor(F) ->>
+  {a:type} F(a) ->> natrans(lam (r:type) => (a ->> r), F)
+extern
+fun Yoneda_psi_nat : {F:ftype}functor(F) ->>
+  {a:type} natrans(lam (r:type) => (a ->> r), F) ->> F(a)
+//
+(* ****** ****** *)
+//
+implement
+Yoneda_phi_nat
+  (ftor) = lam(fx) => lam (m) => ftor(m)(fx)
+//
+implement
+Yoneda_psi_nat (ftor) = lam(mf) => mf(lam x => x)
+//
 (* ****** ****** *)
 
 (* end of [YonedaLemma.dats] *)
