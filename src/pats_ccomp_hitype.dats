@@ -217,6 +217,29 @@ fun hitype_tybox (): hitype
 extern
 fun hitype_undef (hse: hisexp): hitype
 
+(* ****** ****** *)
+
+extern
+fun hitype_is_tyvarhd (hit0: hitype): bool
+
+(* ****** ****** *)
+
+implement
+hitype_is_tyvarhd
+  (hit0) = let
+in
+//
+case+ hit0 of
+| HITapp
+    (hit_fun, hits_arg) =>
+    hitype_is_tyvarhd (hit_fun)
+| HITtyvar _ => true
+| _(*rest*) => false
+//
+end (* end of [hitype_is_tyvarhd] *)
+
+(* ****** ****** *)
+
 extern
 fun eq_hitype_hitype (x1: hitype, x2: hitype): bool
 
@@ -708,6 +731,51 @@ end // end of [emit_s2var]
 
 (* ****** ****** *)
 
+extern
+fun
+emit_hitype_app
+(
+  out: FILEref, hit0: hitype
+) : void // end-of-fun
+implement
+emit_hitype_app
+  (out, hit0) = let
+//
+fun aux
+(
+  out: FILEref, hit0: hitype
+) : void = let
+in
+//
+case+ hit0 of
+| HITapp
+    (hit_fun, hits_arg) =>
+  {
+    val () = aux (out, hit_fun)
+    val () = emit_text (out, "(")
+    val () = emit_hitypelst_sep (out, hits_arg, ", ")
+    val () = emit_text (out, ")")
+  }
+| HITtyvar (s2v) => emit_s2var (out, s2v)
+| _(*rest*) => emit_hitype (out, hit0)
+//
+end // end of [aux]
+//
+val istyvarhd = hitype_is_tyvarhd (hit0)
+//
+val () =
+if istyvarhd
+  then emit_text (out, "atstyvar_type(")
+// end of [val]
+val () = aux (out, hit0)
+val () = if istyvarhd then emit_text (out, ")")
+//
+in
+  // nothing
+end // end of [emit_hitype_app]
+
+(* ****** ****** *)
+
 implement
 emit_hitype
   (out, hit0) = let
@@ -717,15 +785,7 @@ case+ hit0 of
 //
 | HITnmd (name) => emit_text (out, name)
 //
-| HITapp
-    (_fun, _arg) => let
-    val () = emit_hitype (out, _fun)
-    val () = emit_text (out, "(")
-    val () = emit_hitypelst_sep (out, _arg, ", ")
-    val () = emit_text (out, ")")
-  in
-    // nothing
-  end // end of [HITapp]
+| HITapp _ => emit_hitype_app (out, hit0)
 //
 | HITtyarr
     (hit, _) => {

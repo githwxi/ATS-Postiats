@@ -86,6 +86,12 @@ STLC-SN-foas: STLC-SN-foas.dats ; $(PATSCC) -tcats $<
 
 ######
 
+all:: YonedaLemma
+YonedaLemma: YonedaLemma.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) YonedaLemma
+
+######
+
 RMF=rm -f
 
 ######
