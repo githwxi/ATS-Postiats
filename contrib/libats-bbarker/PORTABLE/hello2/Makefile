@@ -45,9 +45,7 @@ endif
 
 ######
 
-include atsmake-pre.mk
-include atsmake-post.mk
-
-######
+include atsmake-pre.mk  # Mostly environment setup
+include atsmake-post.mk # Mostly build rules
 
 ###### end of [Makefile] ######

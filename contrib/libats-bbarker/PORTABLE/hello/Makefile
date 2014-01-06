@@ -6,33 +6,43 @@
 
 ######
 
-#
-# These are the only lines that should need to be changed
-# for different environments.
-#
+
+###### Environment Configuration ######
 
 CC = gcc
 CCDEPFLAG = -c -MM -MF
 ATSDEPDIR = ATSDEPCOPIES
 
+CFLAGS += -O2
+#LDFLAGS += -lm 
+
+#######################################
+
+###### Project Configuration ######
+
+SOURCES_DATS += hello.dats
+#SOURCES_SATS +=
+
 ######
+
+MYTARGET=hello
+
+###################################
 
 all:: atsmake-port-pre.mk atsmake-port-post.mk $(ATSDEPDIR)
+
+.SECONDARY: atsmake-port-pre.mk atsmake-port-post.mk $(ATSDEPDIR)
+.PRECIOUS: atsmake-port-post.mk atsmake-port-pre.mk *_?ats.c \
+  $(ATSDEPDIR)
+
 $(ATSDEPDIR):
 	mkdir $(ATSDEPDIR)	
-atsmake-port-pre.mk: $(PATSHOME)/share/atsmake-port-pre.mk
-	cp $(PATSHOME)/share/atsmake-port-pre.mk ./
-atsmake-port-post.mk: $(PATSHOME)/share/atsmake-port-post.mk
-	cp $(PATSHOME)/share/atsmake-port-post.mk ./
-
-######
-
-include atsmake-port-pre.mk
-
-######
-
-CFLAGS += -O2
-LDFLAGS += -lm 
+atsmake-port-pre.mk: \
+  $(PATSHOME)/contrib/libats-bbarker/PORTABLE/atsmake-port-pre.mk
+	cp $(PATSHOME)/contrib/libats-bbarker/PORTABLE/atsmake-port-pre.mk ./
+atsmake-port-post.mk: \
+  $(PATSHOME)/contrib/libats-bbarker/PORTABLE/atsmake-port-post.mk
+	cp $(PATSHOME)/contrib/libats-bbarker/PORTABLE/atsmake-port-post.mk ./
 
 ######
 
@@ -41,12 +51,7 @@ SOURCES_DATS += \
 
 ######
 
-MYTARGET=hello
-
-######
-
-include atsmake-port-post.mk
-
-######
+include atsmake-port-pre.mk   # Mostly environment setup
+include atsmake-port-post.mk  # Mostly build rules
 
 ###### end of [Makefile] ######

@@ -33,7 +33,7 @@ cleanall:: ; $(RMF) $(MYTARGET)
 #
 # HX-2013-12-28: for debugging
 #
-# ifdef MYCCRULE
+# ifndef MYCCRULE
 # %_sats.c:: %.sats ; $(PATSCC) $(INCLUDE_ATS) -ccats $<   
 # %_dats.c:: %.dats
 # 	$(warning "@@@@@@@@@@@@@@@@@@:" $(INCLUDE_ATS))
@@ -47,7 +47,7 @@ cleanall:: ; $(RMF) $(MYTARGET)
 # object files should be generated via CC
 #
 
-ifdef MYCCRULE
+ifndef MYCCRULE
 %_sats.o:: %_sats.c 
 	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $< 
 %_dats.o:: %_dats.c
@@ -56,7 +56,7 @@ ifdef MYCCRULE
 endif
 
 
-ifdef MYCCRULE
+ifndef MYCCRULE
 %_sats.c:: %.sats
 	$(PATSOPT) $(INCLUDE_ATS) -o $@ -s $<
 %_dats.c:: %.dats
@@ -68,7 +68,7 @@ endif
 # For generating portable C code
 #
 
-# ifdef MYPORTDIR
+# ifndef MYPORTDIR
 # else
 # #
 # $(MYPORTDIR)_SATS_C := \
@@ -92,12 +92,12 @@ endif
 #
 depend:: ; $(RMF) -f .depend
 #
-ifdef SOURCES_SATS
+ifndef SOURCES_SATS
 else
 depend:: ; $(PATSOPT) --output-a .depend --depgen -s $(SOURCES_SATS)
 endif
 #
-ifdef SOURCES_DATS
+ifndef SOURCES_DATS
 else
 depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(SOURCES_DATS)
 endif

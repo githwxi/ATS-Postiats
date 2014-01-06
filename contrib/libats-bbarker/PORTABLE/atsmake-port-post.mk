@@ -4,7 +4,7 @@
 
 ######
 
-ifdef MYTARGET
+ifndef MYTARGET
 else
 SATS_C := $(patsubst %.sats, %_sats.c, $(SOURCES_SATS))
 DATS_C := $(patsubst %.dats, %_dats.c, $(SOURCES_DATS))
@@ -19,13 +19,13 @@ endif
 ######
 # If I leave this out, the build fails:
 
-# ifdef MYCCRULE
+# ifndef MYCCRULE
 # %_sats.o: %.sats ; $(PATSCC) $(INCLUDE_ATS) $(CFLAGS) -c $<
 # %_dats.o: %.dats ; $(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $<
 # endif
 
 
-ifdef MYTARGET
+ifndef MYTARGET
 else
 SATS_O := $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))
 DATS_O := $(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
@@ -39,7 +39,7 @@ endif
 
 ######
 
-# ifdef MYPORTDIR
+# ifndef MYPORTDIR
 # else
 # $(MYPORTDIR)SATSC := $(patsubst %.sats, %_sats.c, $(SOURCES_SATS))
 # DATS_C := $(patsubst %.dats, %_dats.c, $(SOURCES_DATS))
@@ -55,12 +55,12 @@ endif
 #
 depend:: ; $(RMF) -f .depend
 #
-ifdef SOURCES_SATS
+ifndef SOURCES_SATS
 else
 depend:: ; $(PATSOPT) --output-a .depend --depgen -s $(SOURCES_SATS)
 endif
 #
-ifdef SOURCES_DATS
+ifndef SOURCES_DATS
 else
 depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(SOURCES_DATS)
 endif
@@ -93,7 +93,6 @@ portdepMKDIR: portdepTO
 portdepCP: portdepMKDIR
 	$(foreach tofil, $(CPATSDEPSTOFILES), \
 	$(shell cp $(PATSHOME)/$(tofil) $(ATSDEPDIR)/$(tofil)))
-
 
 ######
 
