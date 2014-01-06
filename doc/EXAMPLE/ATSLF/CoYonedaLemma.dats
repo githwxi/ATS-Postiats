@@ -21,16 +21,18 @@ functor(F:ftype) =
 (* ****** ****** *)
 
 datatype
-CoYoneda (F:ftype, r:type) = {a:type} CoYoneda of (a ->> r, F(a))
+CoYoneda
+ (F:ftype, r:type) = {a:type} CoYoneda of (a ->> r, F(a))
+// end of [CoYoneda]
 
 (* ****** ****** *)
 //
 extern
 fun CoYoneda_phi
-  : {F:ftype}functor(F) ->> {r:type} (F (r) ->> CoYoneda (F, r))
+  : {F:ftype}functor(F) -> {r:type} (F (r) ->> CoYoneda (F, r))
 extern
 fun CoYoneda_psi
-  : {F:ftype}functor(F) ->> {r:type} (CoYoneda (F, r) ->> F (r))
+  : {F:ftype}functor(F) -> {r:type} (CoYoneda (F, r) ->> F (r))
 //
 (* ****** ****** *)
 

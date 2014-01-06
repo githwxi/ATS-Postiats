@@ -92,6 +92,11 @@ cleanall:: ; $(RMF) YonedaLemma
 
 ######
 
+all:: CoYonedaLemma
+CoYonedaLemma: CoYonedaLemma.dats ; $(PATSCC) -tcats $<
+
+######
+
 RMF=rm -f
 
 ######

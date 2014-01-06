@@ -1239,7 +1239,7 @@ fun s2exp_is_impred (x: s2exp): bool
 
 (* ****** ****** *)
 
-fun s2exp_is_tyfun (x: s2exp): bool
+fun s2exp_is_FUNCLOfun (x: s2exp): bool
 
 (* ****** ****** *)
 

@@ -1204,6 +1204,30 @@ val () = the_s2expenv_add_scst (s2c)
 
 local
 
+fun
+dckfun_check
+(
+  d1c: d1cstdec
+, dck: dcstkind, s2e_cst: s2exp
+) : void =
+(
+case+ dck of
+| DCKfun () => let
+    val isfun =
+      s2exp_is_FUNCLOfun (s2e_cst)
+    // end of [val]
+  in
+    if not(isfun) then {
+      val () =
+        prerr_error2_loc (d1c.d1cstdec_loc)
+      val () = filprerr_ifdebug "d1cstdec_tr" // for debugging
+      val () = prerrln! ": the function may need to be declard as a value"
+      val () = the_trans2errlst_add (T2E_d1cstdec_tr (d1c))
+    } (* end of [if] *)
+  end (* end of [DCKfun] *)
+| _(*rest*) => ((*void*))
+) (* end of [dckfun_check] *)
+
 fun s2exp_get_arylst
   (s2e: s2exp): List int =
   case+ s2e.s2exp_node of
@@ -1238,18 +1262,23 @@ fun d1cstdec_tr
     (if isprf then s2rt_prop else s2rt_t0ype): s2rt
 //
   val s1e_cst = d1c.d1cstdec_type
-  var s2e_cst =
-    s1exp_trdn (s1e_cst, s2t_cst)
+  val s2e_cst = s1exp_trdn (s1e_cst, s2t_cst)
+  val s2e_cst = s2exp_hnfize (s2e_cst)
+  val ((*void*)) = dckfun_check (d1c, dck, s2e_cst)
+//
   val arylst = s2exp_get_arylst (s2e_cst)
-  val extdef = (
+  val extdef =
+  (
     if knd = 0 // static dyncst
       then $SYN.dcstextdef_sta (sym) else d1c.d1cstdec_extdef
+    // end of [if]
   ) : dcstextdef // end of [val]
+//
   val d2c =
     d2cst_make (sym, loc, fil, dck, s2qs, arylst, s2e_cst, extdef)
   // end of [val]
 //
-  val () = the_d2expenv_add_dcst (d2c)
+  val ((*void*)) = the_d2expenv_add_dcst (d2c)
 //
 } (* end of [d1cstdec_tr] *)
 

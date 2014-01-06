@@ -78,10 +78,10 @@ functor_homres{c}{a,b} (f) = lam (r) => lam (x) => f (r(x))
 (* ****** ****** *)
 //
 extern
-val Yoneda_phi : {F:ftype}functor(F) ->>
+fun Yoneda_phi : {F:ftype}functor(F) ->
   {a:type}F(a) ->> ({r:type}(a ->> r) ->> F(r))
 extern
-val Yoneda_psi : {F:ftype}functor(F) ->>
+fun Yoneda_psi : {F:ftype}functor(F) ->
   {a:type}({r:type}(a ->> r) ->> F(r)) ->> F(a)
 //
 (* ****** ****** *)
@@ -94,13 +94,15 @@ implement
 Yoneda_psi (ftor) = lam(mf) => mf(lam x => x)
 //
 (* ****** ****** *)
+
+(*
+
+(* ****** ****** *)
 //
 // HX-2014-01-05:
 // Another version based on Natural Transformation
 //
 (* ****** ****** *)
-
-(*
 
 typedef
 natrans(F:ftype, G:ftype) = {x:type} (F(x) ->> G(x))
@@ -108,10 +110,10 @@ natrans(F:ftype, G:ftype) = {x:type} (F(x) ->> G(x))
 (* ****** ****** *)
 //
 extern
-val Yoneda_phi_nat : {F:ftype}functor(F) ->>
+fun Yoneda_phi_nat : {F:ftype}functor(F) ->
   {a:type} F(a) ->> natrans(lam (r:type) => (a ->> r), F)
 extern
-val Yoneda_psi_nat : {F:ftype}functor(F) ->>
+fun Yoneda_psi_nat : {F:ftype}functor(F) ->
   {a:type} natrans(lam (r:type) => (a ->> r), F) ->> F(a)
 //
 (* ****** ****** *)
@@ -127,7 +129,9 @@ Yoneda_psi_nat (ftor) = lam(mf) => mf(lam x => x)
 
 *)
 
-datatype bool = True | False
+(* ****** ****** *)
+
+datatype bool = True | False // boxed boolean
 
 (* ****** ****** *)
 //
@@ -145,8 +149,15 @@ fprint_val<bool> (out, x) = fprint (out, bool2string(x))
 extern
 val Yoneda_bool_list0 : {r:type} (bool ->> r) ->> list0(r)
 implement
-Yoneda_bool_list0{r} (f) =
-  list0_map<bool><r> ((list0)$arrpsz{bool}(True, False, True, False, False), f)
+Yoneda_bool_list0{r} (f) = let
+//
+val xs =
+$list_t{bool}
+  (True, False, True, False, False)
+//
+in
+  list0_map<bool><r> (g0ofg1(xs), f)
+end // end of [Yoneda_bool_list0]
 //
 (* ****** ****** *)
 
