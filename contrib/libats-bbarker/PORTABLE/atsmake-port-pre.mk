@@ -22,7 +22,7 @@ endif
 PATSCC=$(PATSHOMEQ)/bin/patscc
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
 PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
-#PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib64
+PATSLIB64=$(PATSHOMEQ)/ccomp/atslib/lib64
 
 ######
 
@@ -31,7 +31,7 @@ CFLAGS += -D_GNU_SOURCE -std=c99 -D_XOPEN_SOURCE
 ######
 
 LDFLAGS += -Xlinker --allow-multiple-definition 
-LDFLAGS += -L$(PATSLIB) -latslib
+LDFLAGS += -L$(PATSLIB) -L$(PATSLIB64) -latslib
 
 ######
 
@@ -45,12 +45,7 @@ else
 MYPORTDIR=$(PATSHOME)
 endif
 
-
-ifndef PATSHOMERELOCQ
-else
-INCLUDE_ATS += -IIATS $(PATSHOMERELOCQ)/contrib
-endif
-
+INCLUDE_ATS += -IIATS $(MYPORTDIR)/contrib
 INCLUDE_ATS_C := -I$(MYPORTDIR) -I$(MYPORTDIR)/ccomp/runtime 
 INCLUDE_ATS_PC := -I$(MYPORTDIR) -I$(MYPORTDIR)/ccomp/runtime
 

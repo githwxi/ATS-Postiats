@@ -7,7 +7,7 @@
 ######
 
 
-###### Environment Configuration ######
+######       Environment Configuration      ######
 
 CC = gcc
 CCDEPFLAG = -c -MM -MF
@@ -16,9 +16,9 @@ ATSDEPDIR = ATSDEPCOPIES
 CFLAGS += -O2
 #LDFLAGS += -lm 
 
-#######################################
+######   End of Environment Configuration   ######
 
-###### Project Configuration ######
+######        Project Configuration         ######
 
 SOURCES_DATS  += hello.dats
 #SOURCES_SATS +=
@@ -27,7 +27,7 @@ SOURCES_DATS  += hello.dats
 
 MYTARGET=hello
 
-###################################
+######    End of Project Configuration      ######
 
 .INTERMEDIATE: $(PATSHOME)/contrib/libats-bbarker/PORTABLE/atsmake-port-pre.mk
 .INTERMEDIATE: $(PATSHOME)/contrib/libats-bbarker/PORTABLE/atsmake-port-post.mk
@@ -36,6 +36,7 @@ MYTARGET=hello
 
 all:: atsmake-port-pre.mk atsmake-port-post.mk $(ATSDEPDIR)
 
+ifdef PATSHOME
 $(ATSDEPDIR):
 	mkdir $(ATSDEPDIR)	
 atsmake-port-pre.mk: \
@@ -44,11 +45,7 @@ atsmake-port-pre.mk: \
 atsmake-port-post.mk: \
   $(PATSHOME)/contrib/libats-bbarker/PORTABLE/atsmake-port-post.mk
 	cp $(PATSHOME)/contrib/libats-bbarker/PORTABLE/atsmake-port-post.mk ./
-
-######
-
-SOURCES_DATS += \
-  hello.dats \
+endif
 
 ######
 

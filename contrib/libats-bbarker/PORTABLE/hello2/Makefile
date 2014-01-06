@@ -5,20 +5,23 @@
 # certain settings in the makefiles may need to be adjusted,
 # but these should primarily be limited to this file.
 
-###### Environment Configuration ######
+######       Environment Configuration      ######
 
 CC = gcc
 
-#MYPORTDIR := ./MYPORTDIR #Use if you have ATS2-Postiats-include-X.Y.Z.tgz 
-MYPORTDIR := $(PATSHOME) #Use if you have ATS2 installed
+ifndef PATSHOME
+MYPORTDIR := ./MYPORTDIR #Use if you have ATS2-Postiats-include-X.Y.Z.tgz 
+else
+MYPORTDIR=$(PATSHOME)    #Use if you have ATS2 installed
+endif
 
 CFLAGS += -O2
 
 #LDFLAGS += 
 
-#######################################
+######   End of Environment Configuration   ######
 
-###### Project Configuration ######
+######        Project Configuration         ######
 
 SOURCES_DATS  += hello.dats
 #SOURCES_SATS +=
@@ -27,17 +30,17 @@ SOURCES_DATS  += hello.dats
 
 MYTARGET=hello
 
-###################################
+######    End of Project Configuration      ######
 
 #We need to guarantee these are copied first.
-all:: atsmake-pre.mk atsmake-post.mk
+all:: atsmake-pre.mk 
+all:: atsmake-post.mk
 
 .INTERMEDIATE: $(PATSHOME)/contrib/libats-bbarker/PORTABLE/atsmake-pre.mk
 .INTERMEDIATE: $(PATSHOME)/contrib/libats-bbarker/PORTABLE/atsmake-post.mk
 .PRECIOUS: atsmake-post.mk atsmake-pre.mk *_?ats.c
 
 ifdef PATSHOME
-else
 atsmake-pre.mk: $(PATSHOME)/contrib/libats-bbarker/PORTABLE/atsmake-pre.mk
 	cp $(PATSHOME)/contrib/libats-bbarker/PORTABLE/atsmake-pre.mk ./
 atsmake-post.mk: $(PATSHOME)/contrib/libats-bbarker/PORTABLE/atsmake-post.mk

@@ -27,7 +27,7 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 #The linker should decide between these
 PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
-PATSLIB64+=$(PATSHOMEQ)/ccomp/atslib/lib64
+PATSLIB64=$(PATSHOMEQ)/ccomp/atslib/lib64
 
 ######
 
@@ -48,15 +48,17 @@ MALLOCFLAG := -DATS_MEMALLOC_LIBC
 
 ######
 
-ifndef PATSHOMERELOCQ
+ifndef PATSHOME
 else
+MYPORTDIR=$(PATSHOME)
+endif
+
 INCLUDE += -I$(strip $(MYPORTDIR))
 INCLUDE_ATS += -IATS $(strip $(MYPORTDIR))
 INCLUDE += -I$(strip $(MYPORTDIR))/contrib
 INCLUDE_ATS += -IATS $(strip $(MYPORTDIR))/contrib
 INCLUDE += -I$(strip $(MYPORTDIR))/ccomp/runtime
 INCLUDE_ATS += -IATS $(strip $(MYPORTDIR))/ccomp/runtime
-endif
 
 ######
 
