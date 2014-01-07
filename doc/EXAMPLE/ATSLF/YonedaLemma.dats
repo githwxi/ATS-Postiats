@@ -162,7 +162,7 @@ end // end of [Yoneda_bool_list0]
 (* ****** ****** *)
 
 val myboolist =
-  Yoneda_psi{list0}(functor_list0){bool}(Yoneda_bool_list0)
+  Yoneda_psi(functor_list0){bool}(Yoneda_bool_list0)
 
 (* ****** ****** *)
 
