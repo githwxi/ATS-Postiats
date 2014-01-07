@@ -83,7 +83,7 @@ implement
 option0_map (opt, f) =
 (
 case+ opt of
-| Some0 (x) => Some0 (f(x)) | None0 () => None0 ()
+| Some0 (x) => Some0{b}(f(x)) | None0 () => None0 ()
 ) (* end of [option0_map] *)
 
 (* ****** ****** *)
