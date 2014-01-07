@@ -12,8 +12,10 @@ DATS_C := $(patsubst %.dats, %_dats.c, $(SOURCES_DATS))
 
 %_sats.c: %.sats 
 	$(PATSCC) $(INCLUDE_ATS) -ccats $<
+#	$(PATSOPT) $(INCLUDE_ATS) -o $@ -s $<
 %_dats.c: %.dats 
 	$(PATSCC) $(MALLOCFLAG) $(INCLUDE_ATS) -ccats $<
+#	$(PATSOPT) $(INCLUDE_ATS) $(MALLOCFLAG) -o $@ -d $<
 
 endif
 endif
@@ -71,12 +73,16 @@ portdepFROMDIRS: portdepDEPSSORT
 	$(eval FROMDIRS := $(foreach cdep, $(CPATSDEPS), $(shell dirname $(cdep))))
 
 # Create necessary directory structure in local directory.
-# Add created directories to CFLAGS.
+# Add created directories to INCLUDE_ATS_PC.
 portdepTO: portdepFROMDIRS
 	$(eval CPATSDEPSTODIRS := $(subst $(PATSHOME)/, , $(FROMDIRS)))
 	$(eval CPATSDEPSTOFILES := $(subst $(PATSHOME)/, , $(CPATSDEPS)))
 portdepMKDIR: portdepTO
-	$(foreach todir, $(CPATSDEPSTODIRS), $(shell mkdir -p $(ATSDEPDIR)/$(todir)))
+	$(foreach todir, $(CPATSDEPSTODIRS), \
+          $(shell mkdir -p $(ATSDEPDIR)/$(todir)))
+	$(eval INCLUDE_ATS_PC := $(INCLUDE_ATS_PC) \
+          $(foreach todir, $(CPATSDEPSTODIRS), \
+          -I./$(ATSDEPDIR)/$(todir)))
 portdepCP: portdepMKDIR
 	$(foreach tofil, $(CPATSDEPSTOFILES), \
 	$(shell cp $(PATSHOME)/$(tofil) $(ATSDEPDIR)/$(tofil)))

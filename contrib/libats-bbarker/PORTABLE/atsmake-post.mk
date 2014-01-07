@@ -25,7 +25,7 @@ $(MYTARGET)_DATS_C := \
 #
 all:: $(MYTARGET)
 $(MYTARGET): $($(MYTARGET)_SATS_C) $($(MYTARGET)_DATS_C)
-	$(CC) $(CFLAGS) $(INCLUDE) $^ -o $(MYTARGET) $(LDFLAGS)
+	$(CC) $(CFLAGS) $(INCLUDE) $^ -o $(MYTARGET) 
 cleanall:: ; $(RMF) $(MYTARGET)
 
 

@@ -45,7 +45,7 @@ else
 MYPORTDIR=$(PATSHOME)
 endif
 
-INCLUDE_ATS += -IIATS $(MYPORTDIR)/contrib
+INCLUDE_ATS += -IATS $(MYPORTDIR)/contrib
 INCLUDE_ATS_C := -I$(MYPORTDIR) -I$(MYPORTDIR)/ccomp/runtime 
 INCLUDE_ATS_PC := -I$(MYPORTDIR) -I$(MYPORTDIR)/ccomp/runtime
 
