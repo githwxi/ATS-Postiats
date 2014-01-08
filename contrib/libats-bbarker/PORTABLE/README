@@ -17,3 +17,12 @@ hello: (Work in progress) A makefile that can generate C code on a
 hello2: Like hello but relies on all ATS includes being copied over
         from a release, e.g, ATS2-Postiats-include-X.Y.Z.tgz, and 
         does not depend on gcc -MM.
+
+To package portable sources in either of these examples:
+
+make cleanall && make all && make clean
+
+The first step cleans everything.
+The second step makes sure everythign builds.
+The third step removes any platform-specific executables
+(or object code).
