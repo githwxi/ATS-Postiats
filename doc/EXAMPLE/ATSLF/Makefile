@@ -102,6 +102,8 @@ RMF=rm -f
 ######
 
 clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_?ats.o
+clean:: ; $(RMF) *_?ats.c
 
 ######
 
