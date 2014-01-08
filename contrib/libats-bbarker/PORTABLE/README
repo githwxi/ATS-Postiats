@@ -26,3 +26,9 @@ The first step cleans everything.
 The second step makes sure everythign builds.
 The third step removes any platform-specific executables
 (or object code).
+
+
+
+As an intermediate in portability between hello and hello2
+above, the hello example in doc/EXAMPLE/PORTABLE supports
+gcc -E to generate c code that doesn't depend on CATS files.
