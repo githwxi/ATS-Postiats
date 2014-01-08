@@ -4,28 +4,23 @@
 
 ######
 
-ifeq ("$(MYTARGET)","")
+ifdef PATSHOME
+ifndef MYTARGET 
 else
 SATS_C := $(patsubst %.sats, %_sats.c, $(SOURCES_SATS))
 DATS_C := $(patsubst %.dats, %_dats.c, $(SOURCES_DATS))
 
 %_sats.c: %.sats 
 	$(PATSCC) $(INCLUDE_ATS) -ccats $<
+#	$(PATSOPT) $(INCLUDE_ATS) -o $@ -s $<
 %_dats.c: %.dats 
 	$(PATSCC) $(MALLOCFLAG) $(INCLUDE_ATS) -ccats $<
+#	$(PATSOPT) $(INCLUDE_ATS) $(MALLOCFLAG) -o $@ -d $<
 
 endif
+endif
 
-######
-# If I leave this out, the build fails:
-
-# ifeq ("$(MYCCRULE)","")
-# %_sats.o: %.sats ; $(PATSCC) $(INCLUDE_ATS) $(CFLAGS) -c $<
-# %_dats.o: %.dats ; $(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $<
-# endif
-
-
-ifeq ("$(MYTARGET)","")
+ifndef MYTARGET
 else
 SATS_O := $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))
 DATS_O := $(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
@@ -38,43 +33,31 @@ DATS_O := $(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
 endif
 
 ######
-
-# ifeq ("$(MYPORTDIR)","")
-# else
-# $(MYPORTDIR)SATSC := $(patsubst %.sats, %_sats.c, $(SOURCES_SATS))
-# DATS_C := $(patsubst %.dats, %_dats.c, $(SOURCES_DATS))
-# $(MYTARGET)_SATS_O := \
-#   $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))
-# $(MYTARGET)_DATS_O := \
-#   $(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
-# endif
-
-######
 #
 -include .depend
+ifdef PATSHOME
 #
 depend:: ; $(RMF) -f .depend
 #
-ifeq ("$(SOURCES_SATS)","")
+ifndef SOURCES_SATS
 else
 depend:: ; $(PATSOPT) --output-a .depend --depgen -s $(SOURCES_SATS)
 endif
 #
-ifeq ("$(SOURCES_DATS)","")
+ifndef SOURCES_DATS
 else
 depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(SOURCES_DATS)
+endif
 endif
 #
 ######
 
+ifdef PATSHOME
 portdepINIT: $(SATS_C) $(DATS_C)
-	$(eval INCLUDE_ATS_C := -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime) 
-	$(eval INCLUDE_ATS_PC := -I$(ATSDEPDIR) -I$(ATSDEPDIR)/ccomp/runtime)
 	$(RMF) .atscdep .atscdep_tmp
 portdepMKDEP: portdepINIT
-#	$(CC) $(INCLUDE_ATS_C) $(MALLOCFLAG) $(CFLAGS) *_dats.c $(CCDEPFLAG) .atscdep_tmp; \
-#	$(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $< $(CCDEPFLAG) .atscdep_tmp
-	$(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c *_dats.c $(CCDEPFLAG) .atscdep_tmp; \
+	$(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c *_dats.c \
+          $(CCDEPFLAG) .atscdep_tmp; \
 	tail -n +2 .atscdep_tmp >> .atscdep
 portdepDEPSLIST: portdepMKDEP
 	$(eval CPATSDEPS := $(shell cat .atscdep | tr -d '\\\n'))
@@ -84,52 +67,67 @@ portdepFROMDIRS: portdepDEPSSORT
 	$(eval FROMDIRS := $(foreach cdep, $(CPATSDEPS), $(shell dirname $(cdep))))
 
 # Create necessary directory structure in local directory.
-# Add created directories to CFLAGS.
+# Add created directories to INCLUDE_ATS_PC.
 portdepTO: portdepFROMDIRS
-	$(eval CPATSDEPSTODIRS := $(subst $(PATSHOME)/, , $(FROMDIRS)))
+	$(eval CPATSDEPSTODIRS := $(sort $(subst $(PATSHOME)/, , $(FROMDIRS))))
 	$(eval CPATSDEPSTOFILES := $(subst $(PATSHOME)/, , $(CPATSDEPS)))
 portdepMKDIR: portdepTO
-	$(foreach todir, $(CPATSDEPSTODIRS), $(shell mkdir -p $(ATSDEPDIR)/$(todir)))
+	$(foreach todir, $(CPATSDEPSTODIRS), \
+          $(shell mkdir -p $(ATSDEPDIR)/$(todir)))
+	$(eval INCLUDE_ATS_PC := $(INCLUDE_ATS_PC) \
+          $(foreach todir, $(CPATSDEPSTODIRS), \
+          -I./$(ATSDEPDIR)/$(todir)))
 portdepCP: portdepMKDIR
 	$(foreach tofil, $(CPATSDEPSTOFILES), \
 	$(shell cp $(PATSHOME)/$(tofil) $(ATSDEPDIR)/$(tofil)))
-
+else
+.PHONY: portdepCP
+endif
 
 ######
 
-all:: portdepCP $(SATS_O) $(DATS_O)
-	$(CC) $(LDFLAGS) $(MALLOCFLAG) $(CFLAGS) $(INCLUDE_ATS_PC) *ats.o -o $(MYTARGET)
+#
+#object intermediates: not working.
+#
+# all:: portdepCP $(SATS_O) $(DATS_O)
+# 	$(CC) $(LDFLAGS) $(MALLOCFLAG) $(CFLAGS) $(INCLUDE_ATS_PC) *ats.o \
+#           -o $(MYTARGET)
+
+#
+#skiping object intermediates
+#
+
+all:: portdepCP $(SATS_C) $(DATS_C)
+	$(CC) $(MALLOCFLAG) $(CFLAGS) $(INCLUDE_ATS_PC) *ats.c \
+          -o $(MYTARGET)
 
 ######
 
 RMF=rm -f
+RMFR=rm -fr
 
 ######
 
 cleanport:: ; $(RMF) *~
 cleanport:: ; $(RMF) *_?ats.o
 cleanport:: ; $(RMF) .atscdep_tmp
+cleanport:: ; $(RMF) *.exe $(MYTARGET)
 
 ######
 
 cleanats:: ; $(RMF) *~
-cleanats:: ; $(RMF) *_?ats.o
 cleanats:: ; $(RMF) *_?ats.c
 cleanats:: ; $(RMF) .atscdep .atscdep_tmp
-cleanats:: ; $(RMF) -r $(ATSDEPDIR) 
 cleanats:: ; $(RMF) atsmake-port-pre.mk atsmake-port-post.mk
+cleanats:: ; $(RMFR) $(ATSDEPDIR) 
 
 ######
 
-clean: cleanats
+clean: cleanport
 
 ######
 
-cleanall:: cleanats
+cleanall:: cleanats cleanport
 cleanall:: ; $(RMF) .depend
-cleanall:: ; $(RMF) *.exe
-cleanall:: ; $(RMF) $(MYTARGET)
-
-######
 
 ###### end of [atsmake-post.mk] ######

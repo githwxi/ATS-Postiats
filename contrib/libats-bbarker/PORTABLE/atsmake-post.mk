@@ -25,38 +25,23 @@ $(MYTARGET)_DATS_C := \
 #
 all:: $(MYTARGET)
 $(MYTARGET): $($(MYTARGET)_SATS_C) $($(MYTARGET)_DATS_C)
-	$(CC) $(CFLAGS) $(INCLUDE) $^ -o $(MYTARGET) $(LDFLAGS)  #THIS OK
+	$(CC) $(CFLAGS) $(INCLUDE) $^ -o $(MYTARGET) 
 cleanall:: ; $(RMF) $(MYTARGET)
-
-
-######
-#
-# HX-2013-12-28: for debugging
-#
-# ifeq ("$(MYCCRULE)","")
-# %_sats.c:: %.sats ; $(PATSCC) $(INCLUDE_ATS) -ccats $<   
-# %_dats.c:: %.dats
-# 	$(warning "@@@@@@@@@@@@@@@@@@:" $(INCLUDE_ATS))
-# 	$(PATSCC) $(INCLUDE_ATS) -ccats $<               
-# endif
-#
-######
 
 
 #
 # object files should be generated via CC
 #
 
-ifeq ("$(MYCCRULE)","")
+ifndef MYCCRULE
 %_sats.o:: %_sats.c 
 	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $< 
 %_dats.o:: %_dats.c
 	$(CC) $(CFLAGS) $(INCLUDE) $(MALLOCFLAG) -o $@ -c $<  
-	$(warning "****   OBJECT FILE GENERATION  ****" $($(MYTARGET)_DATS_O))
 endif
 
 
-ifeq ("$(MYCCRULE)","")
+ifndef MYCCRULE
 %_sats.c:: %.sats
 	$(PATSOPT) $(INCLUDE_ATS) -o $@ -s $<
 %_dats.c:: %.dats
@@ -68,7 +53,7 @@ endif
 # For generating portable C code
 #
 
-# ifeq ("$(MYPORTDIR)", "")
+# ifndef MYPORTDIR
 # else
 # #
 # $(MYPORTDIR)_SATS_C := \
@@ -92,12 +77,12 @@ endif
 #
 depend:: ; $(RMF) -f .depend
 #
-ifeq ("$(SOURCES_SATS)","")
+ifndef SOURCES_SATS
 else
 depend:: ; $(PATSOPT) --output-a .depend --depgen -s $(SOURCES_SATS)
 endif
 #
-ifeq ("$(SOURCES_DATS)","")
+ifndef SOURCES_DATS
 else
 depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(SOURCES_DATS)
 endif
@@ -126,7 +111,5 @@ clean: cleanport
 
 cleanall:: cleanats cleanport
 cleanall:: ; $(RMF) .depend
-
-######
 
 ###### end of [atsmake-post.mk] ######

@@ -4,14 +4,14 @@
 
 ######
 
-ifeq ("$(PATSHOME)","")
+ifndef PATSHOME
   PATSHOMEQ="$(ATSHOME)"
 else
   PATSHOMEQ="$(PATSHOME)"
 endif
 
 #PATSHOMERELOC - should be set to PATSHOME for git repo?
-ifeq ("$(PATSHOMERELOC)","")
+ifndef PATSHOMERELOC
   PATSHOMERELOCQ="$(PATSHOME)"
 else
   PATSHOMERELOCQ="$(PATSHOMERELOC)"
@@ -22,7 +22,7 @@ endif
 PATSCC=$(PATSHOMEQ)/bin/patscc
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
 PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
-#PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib64
+PATSLIB64=$(PATSHOMEQ)/ccomp/atslib/lib64
 
 ######
 
@@ -31,7 +31,7 @@ CFLAGS += -D_GNU_SOURCE -std=c99 -D_XOPEN_SOURCE
 ######
 
 LDFLAGS += -Xlinker --allow-multiple-definition 
-LDFLAGS += -L$(PATSLIB) -latslib
+LDFLAGS += -L$(PATSLIB) -L$(PATSLIB64) -latslib
 
 ######
 
@@ -39,22 +39,20 @@ MALLOCFLAG := -DATS_MEMALLOC_LIBC
 
 ######
 
-ifeq ("$(PATSHOMERELOCQ)","")
+ifndef PATSHOME
+MYPORTDIR=$(ATSDEPDIR)
 else
-INCLUDE_ATS += -IIATS $(PATSHOMERELOCQ)/contrib
+MYPORTDIR=$(PATSHOME)
 endif
+
+INCLUDE_ATS += -IATS $(MYPORTDIR)/contrib
+INCLUDE_ATS_C := -I$(MYPORTDIR) -I$(MYPORTDIR)/ccomp/runtime 
+INCLUDE_ATS_PC := -I$(MYPORTDIR) -I$(MYPORTDIR)/ccomp/runtime
 
 ######
 
 all::
 cleanats::
 cleanall::
-
-######
-
-SOURCES_SATS=
-SOURCES_DATS=
-
-######
 
 ###### end of [atsmake-pre.mk] ######

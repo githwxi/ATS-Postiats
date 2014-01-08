@@ -9,12 +9,12 @@
 
 ######
 
-ifeq ("$(PATSHOME)","")
+ifndef PATSHOME
   PATSHOMEQ="$(ATSHOME)"
 else
   PATSHOMEQ="$(PATSHOME)"
 endif
-ifeq ("$(PATSHOMERELOC)","")
+ifndef PATSHOMERELOC
   PATSHOMERELOCQ="$(ATSHOMERELOC)"
 else
   PATSHOMERELOCQ="$(PATSHOMERELOC)"
@@ -24,6 +24,8 @@ endif
 
 PATSCC=$(PATSHOMEQ)/bin/patscc
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
+
+#The linker should decide between these
 PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 PATSLIB64=$(PATSHOMEQ)/ccomp/atslib/lib64
 
@@ -33,7 +35,7 @@ CFLAGS += -D_GNU_SOURCE
 
 ######
 
-ifeq ("$(PATSHOME)","")
+ifndef PATSHOME
 else
 LDFLAGS += -L$(PATSLIB)
 LDFLAGS += -L$(PATSLIB64)
@@ -46,15 +48,17 @@ MALLOCFLAG := -DATS_MEMALLOC_LIBC
 
 ######
 
-ifeq ("$(PATSHOMERELOCQ)","")
+ifndef PATSHOME
 else
+MYPORTDIR=$(PATSHOME)
+endif
+
 INCLUDE += -I$(strip $(MYPORTDIR))
 INCLUDE_ATS += -IATS $(strip $(MYPORTDIR))
 INCLUDE += -I$(strip $(MYPORTDIR))/contrib
 INCLUDE_ATS += -IATS $(strip $(MYPORTDIR))/contrib
 INCLUDE += -I$(strip $(MYPORTDIR))/ccomp/runtime
 INCLUDE_ATS += -IATS $(strip $(MYPORTDIR))/ccomp/runtime
-endif
 
 ######
 
@@ -63,8 +67,6 @@ cleanats::
 cleanall::
 
 ###### end of [atsmake-pre.mk] ######
-
-
 
 #Notes: 
 # Not sure why strip is necessary sometimes for MYPORTDIR. e.g.
