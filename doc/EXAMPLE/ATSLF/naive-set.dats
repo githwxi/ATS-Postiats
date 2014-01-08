@@ -108,7 +108,7 @@ prfn union_assoc
       ) (* end of [inr] *)
   ) (* end of [g] *)
 in
-  extensionality {XY_Z, X_YZ} (lam {x:elt} => (f {x}, g {x}))
+  extensionality {XY_Z, X_YZ} (lam {x:elt} => (f{x}, g{x}))
 end // end of [union_assoc]
 
 (* ****** ****** *)
@@ -138,7 +138,7 @@ prfn inter_assoc
     inter_intr (pfXY, pfZ)
   end // end of [g]
 in
-  extensionality {XY_Z, X_YZ} (lam {x:elt} => (f {x}, g {x}))
+  extensionality {XY_Z, X_YZ} (lam {x:elt} => (f{x}, g{x}))
 end // end of [inter_assoc]
 
 (* ****** ****** *)
@@ -167,7 +167,7 @@ inter_union_distribute
     // end of [case]
   ) (* end of [g] *)
 in
-  extensionality {X*(Y+Z),X*Y+X*Z} (lam {x:elt} => (f {x}, g {x}))
+  extensionality {X*(Y+Z),X*Y+X*Z} (lam {x:elt} => (f{x}, g{x}))
 end // end of [inter_union_distribute]
 
 (* ****** ****** *)

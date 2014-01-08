@@ -35,9 +35,11 @@ SOURCES_DATS += \
 MYTARGET=calc
 
 ######
-
+#
 MYPORTDIR=MYPORTDIR
-
+#
+#MYPORTCPP=MYPORTCPP
+#
 ######
 
 include $(PATSHOME)/share/atsmake-post.mk

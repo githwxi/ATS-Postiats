@@ -37,9 +37,11 @@ SOURCES_DATS += \
 MYTARGET=GameOf24
 
 ######
-
+#
 MYPORTDIR=MYPORTDIR
-
+#
+#MYPORTCPP=MYPORTCPP
+#
 ######
 
 include $(PATSHOME)/share/atsmake-post.mk
