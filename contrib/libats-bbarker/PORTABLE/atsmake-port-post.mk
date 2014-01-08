@@ -54,14 +54,8 @@ endif
 
 ifdef PATSHOME
 portdepINIT: $(SATS_C) $(DATS_C)
-#	$(eval INCLUDE_ATS_C := -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime) 
-#	$(eval INCLUDE_ATS_PC := -I$(ATSDEPDIR) -I$(ATSDEPDIR)/ccomp/runtime)
 	$(RMF) .atscdep .atscdep_tmp
 portdepMKDEP: portdepINIT
-#	$(CC) $(INCLUDE_ATS_C) $(MALLOCFLAG) $(CFLAGS) *_dats.c \ 
-#          $(CCDEPFLAG) .atscdep_tmp; \
-#	$(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $< \
-#          $(CCDEPFLAG) .atscdep_tmp
 	$(PATSCC) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c *_dats.c \
           $(CCDEPFLAG) .atscdep_tmp; \
 	tail -n +2 .atscdep_tmp >> .atscdep
@@ -75,7 +69,7 @@ portdepFROMDIRS: portdepDEPSSORT
 # Create necessary directory structure in local directory.
 # Add created directories to INCLUDE_ATS_PC.
 portdepTO: portdepFROMDIRS
-	$(eval CPATSDEPSTODIRS := $(subst $(PATSHOME)/, , $(FROMDIRS)))
+	$(eval CPATSDEPSTODIRS := $(sort $(subst $(PATSHOME)/, , $(FROMDIRS))))
 	$(eval CPATSDEPSTOFILES := $(subst $(PATSHOME)/, , $(CPATSDEPS)))
 portdepMKDIR: portdepTO
 	$(foreach todir, $(CPATSDEPSTODIRS), \

@@ -29,20 +29,6 @@ $(MYTARGET): $($(MYTARGET)_SATS_C) $($(MYTARGET)_DATS_C)
 cleanall:: ; $(RMF) $(MYTARGET)
 
 
-######
-#
-# HX-2013-12-28: for debugging
-#
-# ifndef MYCCRULE
-# %_sats.c:: %.sats ; $(PATSCC) $(INCLUDE_ATS) -ccats $<   
-# %_dats.c:: %.dats
-# 	$(warning "@@@@@@@@@@@@@@@@@@:" $(INCLUDE_ATS))
-# 	$(PATSCC) $(INCLUDE_ATS) -ccats $<               
-# endif
-#
-######
-
-
 #
 # object files should be generated via CC
 #
@@ -52,7 +38,6 @@ ifndef MYCCRULE
 	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $< 
 %_dats.o:: %_dats.c
 	$(CC) $(CFLAGS) $(INCLUDE) $(MALLOCFLAG) -o $@ -c $<  
-	$(warning "****   OBJECT FILE GENERATION  ****" $($(MYTARGET)_DATS_O))
 endif
 
 
