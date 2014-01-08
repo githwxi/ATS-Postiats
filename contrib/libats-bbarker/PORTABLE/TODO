@@ -1,0 +1,4 @@
+Save include dirs, or regenerate them, on target portable platform in
+'hello' (gcc -MM) example.
+
+Test on larger projects.
