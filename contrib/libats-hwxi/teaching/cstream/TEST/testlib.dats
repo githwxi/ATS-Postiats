@@ -32,6 +32,11 @@ local
 in (*in-of-local *)
 end // end of [local]
 
+local
+#include"./../DATS/cstream_strptr.dats"
+in (*in-of-local *)
+end // end of [local]
+
 (* ****** ****** *)
 
 (* end of [testlib.dats] *)
