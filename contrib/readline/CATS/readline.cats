@@ -28,6 +28,13 @@
 #include <readline/readline.h>
 
 /* ****** ****** */
+//
+#define \
+atscntrb_readline_rl_library_version() ((char*)rl_library_version)
+//
+#define atscntrb_readline_rl_readline_version() (rl_readline_version)
+//
+/* ****** ****** */
 
 #define atscntrb_readline_readline readline
 

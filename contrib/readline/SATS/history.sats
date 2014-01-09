@@ -123,7 +123,10 @@ fun history_total_bytes ((*void*)): int = "mac#%"
 
 (* ****** ****** *)
 
-fun history_get (offset: int): vHISTENTptr0 = "mac#%"
+fun history_get (ofs: int): vHISTENTptr0 = "mac#%"
+
+(* ****** ****** *)
+
 fun history_get_time (ent: !HISTENTptr0): time_t = "mac#%"
 
 (* ****** ****** *)
@@ -139,7 +142,7 @@ fun previous_history ((*void*)): vHISTENTptr0 = "mac#%"
 
 fun history_search (str: string, dir: int): int = "mac#%"
 fun history_search_prefix (str: string, dir: int): int = "mac#%"
-fun history_search_pos (str: string, pos: int, dir: int): int = "mac#%"
+fun history_search_pos (str: string, dir: int, pos: int): int = "mac#%"
 
 (* ****** ****** *)
 

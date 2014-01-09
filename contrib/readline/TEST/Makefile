@@ -21,6 +21,12 @@ MALLOCFLAG=-DATS_MEMALLOC_LIBC
 
 ######
 
+all:: test00
+test00: test00.dats ; $(PATSCC2) -o $@ $< $(LDFLAGS)
+cleanall:: ; $(RMF) test00
+
+######
+
 all:: test01
 test01: test01.dats ; $(PATSCC2) $(MALLOCFLAG) -o $@ $< $(LDFLAGS)
 cleanall:: ; $(RMF) test01
