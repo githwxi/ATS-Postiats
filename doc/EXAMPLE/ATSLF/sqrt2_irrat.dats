@@ -177,4 +177,4 @@ end // end of [lemma_main]
 
 (* ****** ****** *)
 
-(* end of [irrationality_of_sqrt2.dats] *)
+(* end of [sqrt2_irrat.dats] *)
