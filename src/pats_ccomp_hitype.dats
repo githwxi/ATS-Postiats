@@ -218,10 +218,14 @@ extern
 fun hitype_undef (hse: hisexp): hitype
 
 (* ****** ****** *)
-
+//
+// HX:  0:non-tyvar
+// HX:  1:tyvar-boxed
+// HX: ~1:tyvar-unboxed
+//
 extern
-fun hitype_is_tyvarhd (hit0: hitype): bool
-
+fun hitype_is_tyvarhd (hit0: hitype): int
+//
 (* ****** ****** *)
 
 implement
@@ -233,8 +237,13 @@ case+ hit0 of
 | HITapp
     (hit_fun, hits_arg) =>
     hitype_is_tyvarhd (hit_fun)
-| HITtyvar _ => true
-| _(*rest*) => false
+| HITtyvar (s2v) => let
+    val s2t = s2var_get_srt (s2v)
+    val isbox = s2rt_is_boxed_fun (s2t)
+  in
+    if isbox then 1(*boxed*) else ~1(*unboxed*)
+  end // end of [HITtyvar]
+| _(*rest*) => 0
 //
 end (* end of [hitype_is_tyvarhd] *)
 
@@ -761,14 +770,18 @@ case+ hit0 of
 //
 end // end of [aux]
 //
-val istyvarhd = hitype_is_tyvarhd (hit0)
+val knd = hitype_is_tyvarhd (hit0)
 //
 val () =
-if istyvarhd
+if knd > 0
+  then emit_text (out, "atstybox_type(")
+val () =
+if knd < 0
   then emit_text (out, "atstyvar_type(")
-// end of [val]
+//
 val () = aux (out, hit0)
-val () = if istyvarhd then emit_text (out, ")")
+//
+val () = if knd != 0 then emit_text (out, ")")
 //
 in
   // nothing

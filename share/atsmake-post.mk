@@ -92,9 +92,9 @@ endif
 #
 ifdef MYPORTCPP
 $(MYPORTDIR)/%_sats.c: %.sats ; \
-  $(PATSCC) -E $(INCLUDE) $(INCLUDE_ATS) $(CFLAGS) -o $@ $<
+  $(PATSCC) -cleanaft -E $(INCLUDE) $(INCLUDE_ATS) $(CFLAGS) -o $@ $<
 $(MYPORTDIR)/%_dats.c: %.dats ; \
-  $(PATSCC) -E $(INCLUDE) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -o $@ $<
+  $(PATSCC) -cleanaft -E $(INCLUDE) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -o $@ $<
 endif
 #
 endif

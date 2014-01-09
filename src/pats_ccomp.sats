@@ -1989,7 +1989,7 @@ fun emit_tmpdeclst (out: FILEref, tmps: tmpvarlst): void
 (* ****** ****** *)
 //
 // HX-2013-01:
-// these are implemented in [pats_hitype.dats]
+// these are implemented in [pats_ccomp_hitype.dats]
 //
 abstype hitype_type
 typedef hitype = hitype_type

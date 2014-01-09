@@ -146,27 +146,28 @@ fprint_val<bool> (out, x) = fprint (out, bool2string(x))
 //
 (* ****** ****** *)
 //
+val myboolist0 =
+  $list_t{bool}(True, False, True, False, False)
+val myboolist0 = g0ofg1_list (myboolist0)
+//
+(* ****** ****** *)
+//
 extern
 val Yoneda_bool_list0 : {r:type} (bool ->> r) ->> list0(r)
+//
 implement
-Yoneda_bool_list0{r} (f) = let
-//
-val xs =
-$list_t{bool}
-  (True, False, True, False, False)
-//
-in
-  list0_map<bool><r> (g0ofg1(xs), f)
-end // end of [Yoneda_bool_list0]
+Yoneda_bool_list0 =
+  Yoneda_phi(functor_list0){bool}(myboolist0)
 //
 (* ****** ****** *)
-
-val myboolist =
+//
+val myboolist1 =
   Yoneda_psi(functor_list0){bool}(Yoneda_bool_list0)
-
+//
 (* ****** ****** *)
 
-val () = fprintln! (stdout_ref, "myboolist = ", myboolist)
+val () = fprintln! (stdout_ref, "myboolist0 = ", myboolist0)
+val () = fprintln! (stdout_ref, "myboolist1 = ", myboolist1)
 
 (* ****** ****** *)
 
