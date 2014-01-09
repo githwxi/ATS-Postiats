@@ -43,8 +43,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=./../../contrib/libats-hwxi/testing/\n\
-TARGET=ATS-Postiats-contrib/contrib/libats-hwxi/testing/\n\
+SOURCE=./../../contrib/libats-hwxi/\n\
+TARGET=ATS-Postiats-contrib/contrib/libats-hwxi/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -96,18 +96,33 @@ packfilesynop (x) = atext_nil ()
 (* ****** ****** *)
 
 #packtitle("\
-ATSCNTRB/libats-hwxi/testing\
+ATSCNTRB/libats-hwxi\
 ")
 
 (* ****** ****** *)
 
-#packfilename("SATS/randgen.sats")
-#packfilename("SATS/foldleft.sats")
+#packfilename("testingSATS/randgen.sats")
+#packfilename("testing/SATS/foldleft.sats")
+#packfilename("testing/DATS/randgen.dats")
+#packfilename("testing/DATS/foldleft.dats")
 
 (* ****** ****** *)
 
-#packfilename("DATS/randgen.dats")
-#packfilename("DATS/foldleft.dats")
+#packfilename("intinf/SATS/intinf.sats")
+#packfilename("intinf/SATS/intinf_t.sats")
+#packfilename("intinf/SATS/intinf_vt.sats")
+#packfilename("intinf/DATS/intinf_t.dats")
+#packfilename("intinf/DATS/intinf_vt.dats")
+
+(* ****** ****** *)
+
+#packfilename("cstream/SATS/cstream.sats")
+#packfilename("cstream/DATS/cstream_fun.dats")
+#packfilename("cstream/DATS/cstream_cloref.dats")
+#packfilename("cstream/DATS/cstream_string.dats")
+#packfilename("cstream/DATS/cstream_strptr.dats")
+#packfilename("cstream/DATS/cstream_fileref.dats")
+#packfilename("cstream/DATS/cstream_fileptr.dats")
 
 (* ****** ****** *)
 
@@ -123,4 +138,4 @@ implement main () = ()
 
 (* ****** ****** *)
 
-(* end of [atscntrb_libatshwxi_testing.atxt] *)
+(* end of [atscntrb_libatshwxi.atxt] *)

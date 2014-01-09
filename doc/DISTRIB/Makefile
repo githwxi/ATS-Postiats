@@ -327,25 +327,15 @@ cleanall:: ; $(RMF) HTML/atscntrb_HTML_canvas-2d.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_HTML_canvas-2d.bash
 
 #
-all_html:: HTML/atscntrb_libatshwxi_intinf.html
-HTML/atscntrb_libatshwxi_intinf.html: atscntrb_libatshwxi_intinf_atxt.exe ; ./$< > $@
-all_script:: SCRIPT/atscntrb_libatshwxi_intinf.bash
-SCRIPT/atscntrb_libatshwxi_intinf.bash: atscntrb_libatshwxi_intinf_atxt.exe ; ./$< > $@
-atscntrb_libatshwxi_intinf_atxt.dats: ATEXT/atscntrb_libatshwxi_intinf.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_libatshwxi_intinf_atxt.exe: atscntrb_libatshwxi_intinf_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) atscntrb_libatshwxi_intinf_atxt.exe
-cleanall:: ; $(RMF) HTML/atscntrb_libatshwxi_intinf.html
-cleanall:: ; $(RMF) SCRIPT/atscntrb_libatshwxi_intinf.bash
-
-all_html:: HTML/atscntrb_libatshwxi_testing.html
-HTML/atscntrb_libatshwxi_testing.html: atscntrb_libatshwxi_testing_atxt.exe ; ./$< > $@
-all_script:: SCRIPT/atscntrb_libatshwxi_testing.bash
-SCRIPT/atscntrb_libatshwxi_testing.bash: atscntrb_libatshwxi_testing_atxt.exe ; ./$< > $@
-atscntrb_libatshwxi_testing_atxt.dats: ATEXT/atscntrb_libatshwxi_testing.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_libatshwxi_testing_atxt.exe: atscntrb_libatshwxi_testing_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) atscntrb_libatshwxi_testing_atxt.exe
-cleanall:: ; $(RMF) HTML/atscntrb_libatshwxi_testing.html
-cleanall:: ; $(RMF) SCRIPT/atscntrb_libatshwxi_testing.bash
+all_html:: HTML/atscntrb_libatshwxi.html
+HTML/atscntrb_libatshwxi.html: atscntrb_libatshwxi_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_libatshwxi.bash
+SCRIPT/atscntrb_libatshwxi.bash: atscntrb_libatshwxi_atxt.exe ; ./$< > $@
+atscntrb_libatshwxi_atxt.dats: ATEXT/atscntrb_libatshwxi.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_libatshwxi_atxt.exe: atscntrb_libatshwxi_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_libatshwxi_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_libatshwxi.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_libatshwxi.bash
 
 all_html:: HTML/atscntrb_libatshwxi_teaching.html
 HTML/atscntrb_libatshwxi_teaching.html: atscntrb_libatshwxi_teaching_atxt.exe ; ./$< > $@
@@ -495,10 +485,8 @@ srcget_atscntrb_HTML_canvas-2d:: SCRIPT/atscntrb_HTML_canvas-2d.bash ; bash $<
 
 ######
 
-srcget_atscntrb:: srcget_atscntrb_libatshwxi_intinf
-srcget_atscntrb_libatshwxi_intinf:: SCRIPT/atscntrb_libatshwxi_intinf.bash ; bash $<
-srcget_atscntrb:: srcget_atscntrb_libatshwxi_testing
-srcget_atscntrb_libatshwxi_testing:: SCRIPT/atscntrb_libatshwxi_testing.bash ; bash $<
+srcget_atscntrb:: srcget_atscntrb_libatshwxi
+srcget_atscntrb_libatshwxi:: SCRIPT/atscntrb_libatshwxi.bash ; bash $<
 srcget_atscntrb:: srcget_atscntrb_libatshwxi_teaching
 srcget_atscntrb_libatshwxi_teaching:: SCRIPT/atscntrb_libatshwxi_teaching.bash ; bash $<
 

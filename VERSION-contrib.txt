@@ -1,0 +1,49 @@
+0.0.4
+
+<pre>
+
+pcre: API for pcre
+
+libgmp: API for gmp library
+
+GTK
+glib
+cairo
+
+hiredis: API for hiredis (C API for redis)
+
+JNI
+HTML
+
+json-c
+jansson
+
+libcurl: API for cURL
+
+zeromq
+
+libats-hwxi
+libats-hwxi/cstream
+libats-hwxi/intinf
+
+libats-hwxi/testing
+libats-hwxi/teaching/myGTK
+libats-hwxi/teaching/mydraw
+libats-hwxi/teaching/mythread
+libats-hwxi/teaching/fileAsLock
+
+</pre>
+
+######
+
+0.0.3
+
+######
+
+0.0.2
+
+######
+
+0.0.1
+
+###### end of [VERSION-contrib.txt] ######

@@ -132,8 +132,7 @@ all_script::
 #make_entry("atscntrb_HTML")
 #make_entry("atscntrb_HTML_canvas-2d")
 #
-#make_entry("atscntrb_libatshwxi_intinf")
-#make_entry("atscntrb_libatshwxi_testing")
+#make_entry("atscntrb_libatshwxi")
 #make_entry("atscntrb_libatshwxi_teaching")
 #
 ######
@@ -273,10 +272,8 @@ srcget_atscntrb_HTML_canvas-2d:: SCRIPT/atscntrb_HTML_canvas-2d.bash ; bash $<
 
 ######
 
-srcget_atscntrb:: srcget_atscntrb_libatshwxi_intinf
-srcget_atscntrb_libatshwxi_intinf:: SCRIPT/atscntrb_libatshwxi_intinf.bash ; bash $<
-srcget_atscntrb:: srcget_atscntrb_libatshwxi_testing
-srcget_atscntrb_libatshwxi_testing:: SCRIPT/atscntrb_libatshwxi_testing.bash ; bash $<
+srcget_atscntrb:: srcget_atscntrb_libatshwxi
+srcget_atscntrb_libatshwxi:: SCRIPT/atscntrb_libatshwxi.bash ; bash $<
 srcget_atscntrb:: srcget_atscntrb_libatshwxi_teaching
 srcget_atscntrb_libatshwxi_teaching:: SCRIPT/atscntrb_libatshwxi_teaching.bash ; bash $<
 
