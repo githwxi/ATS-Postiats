@@ -5,7 +5,7 @@
 (***********************************************************************)
 
 (*
-** Copyright (C) 2013 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2014 Hongwei Xi, ATS Trustful Software, Inc.
 **
 ** Permission is hereby granted, free of charge, to any person obtaining a
 ** copy of this software and associated documentation files (the "Software"),
@@ -27,31 +27,63 @@
 *)
 
 (* ****** ****** *)
+
+(*
+** stream of characters
+*)
+
+(* ****** ****** *)
+
+staload "libc/SATS/stdio.sats"
+
+(* ****** ****** *)
+
+absvtype
+cstream_vtype(tkind) = ptr
+vtypedef
+cstream(tk:tkind) = cstream_vtype(tk)
+
+(* ****** ****** *)
+
+tkindef TKfun = "TKfun"
+tkindef TKcloref = "TKcloref"
+tkindef TKstring = "TKstring"
+tkindef TKstrptr = "TKstrptr"
+tkindef TKfileref = "TKfileref"
+tkindef TKfileptr = "TKfileptr"
+
+(* ****** ****** *)
+
+vtypedef
+cstream = [tk:tkind] cstream(tk)
+
+(* ****** ****** *)
+
+fun cstream_free (cstream): void
+
+(* ****** ****** *)
+
+fun cstream_get_char (!cstream): int
+
+(* ****** ****** *)
+
+fun cstream_make_fun (() -> int): cstream(TKfun)
+fun cstream_make_cloref (() -<cloref1> int): cstream(TKcloref)
+
+(* ****** ****** *)
+
+fun cstream_make_string (string): cstream(TKstring)
+fun cstream_make_strptr (Strptr1): cstream(TKstrptr)
+
+(* ****** ****** *)
 //
-// HX-2013-11:
-// A list-based channel implementation
+fun
+cstream_make_fileref (FILEref): cstream(TKfileref)
+fun
+cstream_make_fileptr
+  {l:agz}{m:fmode}
+  (file_mode_lte (m, r) | FILEptr(l, m)): cstream(TKfileptr)
 //
 (* ****** ****** *)
 
-abstype chanlst_type (a:vt@ype) = ptr
-typedef chanlst (a: vt0p) = chanlst_type (a)
-
-(* ****** ****** *)
-
-absvtype chanode_type (a:vt@ype) = ptr
-vtypedef chanode (a: vt0p) = chanode_type (a)
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-chanlst_insert (chanlst (a), chanode(a)): void
-
-(* ****** ****** *)
-
-fun{
-a:vt0p
-} chanlst_takeout (chan: chanlst (a)): chanode(a) 
-
-(* ****** ****** *)
-
-(* end of [chanlst.sats] *)
+(* end of [cstream.sats] *)

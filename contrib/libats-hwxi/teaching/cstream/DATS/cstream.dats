@@ -5,7 +5,7 @@
 (***********************************************************************)
 
 (*
-** Copyright (C) 2013 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2014 Hongwei Xi, ATS Trustful Software, Inc.
 **
 ** Permission is hereby granted, free of charge, to any person obtaining a
 ** copy of this software and associated documentation files (the "Software"),
@@ -27,31 +27,56 @@
 *)
 
 (* ****** ****** *)
+
+(*
+** stream of characters
+*)
+
+(* ****** ****** *)
+
+staload "./../SATS/cstream.sats"
+
+(* ****** ****** *)
+
+typedef
+cstruct = @{
+  getc= (ptr) -> int
+, free= (ptr) -> void
+, data= @[ulint][0] // well-aligned
+} (* end of [cstruct] *)
+
+(* ****** ****** *)
+
+datavtype
+cstream = CS of cstruct
+assume cstream_vtype(tk) = cstream
+
+(* ****** ****** *)
+
+implement
+cstream_free
+  (cs0) = () where
+{
 //
-// HX-2013-11:
-// A list-based channel implementation
+  val+@CS (cstruct) = cs0
+  val () = cstruct.free (addr@(cstruct.data))
+  val ((*void*)) = free@cs0
 //
-(* ****** ****** *)
-
-abstype chanlst_type (a:vt@ype) = ptr
-typedef chanlst (a: vt0p) = chanlst_type (a)
+} // end of [cstream_free]
 
 (* ****** ****** *)
 
-absvtype chanode_type (a:vt@ype) = ptr
-vtypedef chanode (a: vt0p) = chanode_type (a)
+implement
+cstream_get_char
+  (cs0) = ret where
+{
+//
+  val+@CS (cstruct) = cs0
+  val ret = cstruct.getc (addr@(cstruct.data))
+  prval ((*void*)) = fold@cs0
+//
+} // end of [cstream_get_char]
 
 (* ****** ****** *)
 
-fun{a:vt0p}
-chanlst_insert (chanlst (a), chanode(a)): void
-
-(* ****** ****** *)
-
-fun{
-a:vt0p
-} chanlst_takeout (chan: chanlst (a)): chanode(a) 
-
-(* ****** ****** *)
-
-(* end of [chanlst.sats] *)
+(* end of [cstream.dats] *)

@@ -831,8 +831,8 @@ val nx = g2node_decode (nx)
 //
 val+@DLNODE (elt, _, _) = nx
 val p_elt = addr@ (elt)
-prval () = fold@ (nx)
-prval () = dlnode_vfree (nx)
+prval ((*void*)) = fold@ (nx)
+prval ((*void*)) = dlnode_vfree (nx)
 //
 in
   $UN.cast{cPtr1(a)}(p_elt)
@@ -848,8 +848,8 @@ val nx = g2node_decode (nx)
 //
 val+@DLNODE (_, next, _) = nx
 val p_next = addr@ (next)
-prval () = fold@ (nx)
-prval () = dlnode_vfree (nx)
+prval ((*void*)) = fold@ (nx)
+prval ((*void*)) = dlnode_vfree (nx)
 //
 in
   $UN.cast{cPtr1(g2node0(a))}(p_next)
@@ -865,8 +865,8 @@ val nx = g2node_decode (nx)
 //
 val+@DLNODE (_, _, prev) = nx
 val p_prev = addr@ (prev)
-prval () = fold@ (nx)
-prval () = dlnode_vfree (nx)
+prval ((*void*)) = fold@ (nx)
+prval ((*void*)) = dlnode_vfree (nx)
 //
 in
   $UN.cast{cPtr1(g2node0(a))}(p_prev)
@@ -877,9 +877,12 @@ end // end of [gnode_getref_prev]
 implement{a}
 dllist_cons_ngc
   (nx0, xs) = let
-  val () = gnode_set_prev_null (nx0)
-  val nxs = dllist_decode (xs)
-  val () = gnode_link10 (nx0, nxs)
+//
+val () =
+  gnode_set_prev_null (nx0)
+val nxs = dllist_decode (xs)
+val () = gnode_link10 (nx0, nxs)
+//
 in
   dllist_encode (nx0)
 end // end of [dllist_cons_ngc]
