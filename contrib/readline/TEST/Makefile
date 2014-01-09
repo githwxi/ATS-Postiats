@@ -27,6 +27,12 @@ cleanall:: ; $(RMF) test01
 
 ######
 
+all:: test02
+test02: test02.dats ; $(PATSCC2) $(MALLOCFLAG) -o $@ $< $(LDFLAGS)
+cleanall:: ; $(RMF) test02
+
+######
+
 include \
 $(PATSHOME)/share/atsmake-post.mk
 

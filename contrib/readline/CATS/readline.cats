@@ -33,7 +33,7 @@
 
 /* ****** ****** */
 
-#endif // ifndef READLINE__READLINE_CATS
+#endif // ifndef READLINE_READLINE_CATS
 
 /* ****** ****** */
 

@@ -9,6 +9,12 @@
 //
 (* ****** ****** *)
 
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload "./../SATS/history.sats"
 staload "./../SATS/readline.sats"
 
 (* ****** ****** *)
@@ -17,9 +23,12 @@ implement
 main0 () = () where
 {
 //
-val line = readline ("Enter a line: ")
-val ((*void*)) = println! ("line = ", line)
-val ((*void*)) = strptr_free (line)
+val line =
+  readline ("Please enter: ")
+//
+val () = println! ("line = ", line)
+//
+val () = strptr_free (line)
 //
 } (* end of [main0] *)
 
