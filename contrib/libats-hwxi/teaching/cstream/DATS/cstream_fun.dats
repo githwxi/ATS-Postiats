@@ -52,8 +52,7 @@ cstruct = @{
 
 (* ****** ****** *)
 
-datavtype
-cstream_fun = CS of cstruct
+datavtype cstream = CS of cstruct
 
 (* ****** ****** *)
 

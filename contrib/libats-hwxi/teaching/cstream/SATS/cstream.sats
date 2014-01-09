@@ -66,6 +66,15 @@ fun cstream_free (cstream): void
 fun cstream_get_char (!cstream): int
 
 (* ****** ****** *)
+//
+// HX-2014-01:
+// read at most n chars if n >= 0
+// read the rest of chars if n < 0
+//
+fun
+cstream_get_charlst (!cstream, n: int): List0_vt(char)
+//
+(* ****** ****** *)
 
 fun cstream_make_fun (() -> int): cstream(TKfun)
 fun cstream_make_cloref (() -<cloref1> int): cstream(TKcloref)

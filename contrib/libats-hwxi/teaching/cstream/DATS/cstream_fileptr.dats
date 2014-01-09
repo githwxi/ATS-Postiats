@@ -81,13 +81,25 @@ prval () = fpf (pf)
 
 (* ****** ****** *)
 
-fun cstream_free (p: ptr): void = ()
+fun cstream_free
+  (p: ptr): void = () where
+{
+//
+vtypedef data = $STDIO.FILEptr1
+//
+val (pf, fpf | p) = $UN.ptr0_vtake{data}(p)
+//
+val err = $STDIO.fclose0 ($UN.castvwtp0{FILEref}(!p))
+//
+prval () = $UN.cast2void((pf, fpf | p))
+//
+} (* end of [cstream_free] *)
 
 (* ****** ****** *)
 
 implement
-cstream_make_fileref
-  (inp) = let
+cstream_make_fileptr
+  (pfmode | inp) = let
 //
 val cs0 = CS (_)
 val+CS(cstruct) = cs0
@@ -98,12 +110,12 @@ cstruct.getc := cstream_getc
 val () =
 cstruct.free := cstream_free
 //
-val () = cstruct.data := inp
+val () = cstruct.data := $UN.castvwtp0{FILEref}(inp)
 //
 in
-  $UN.castvwtp0{cstream(TKfileref)}((view@cstruct | cs0))
-end // end of [cstream_make_fileref]
+  $UN.castvwtp0{cstream(TKfileptr)}((view@cstruct | cs0))
+end // end of [cstream_make_fileptr]
 
 (* ****** ****** *)
 
-(* end of [cstream_fileref.dats] *)
+(* end of [cstream_fileptr.dats] *)

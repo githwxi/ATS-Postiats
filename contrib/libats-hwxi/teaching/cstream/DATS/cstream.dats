@@ -79,4 +79,54 @@ cstream_get_char
 
 (* ****** ****** *)
 
+implement
+cstream_get_charlst
+  (cs0, n) = let
+//
+fun loop (
+  cs0: !cstream, n: int
+, res: &ptr? >> List0_vt(char)
+) : void = let
+in
+//
+if n != 0
+  then let
+    val i = cstream_get_char (cs0)
+  in
+    if i > 0
+      then let
+        val c = int2char0 (i)
+        val () =
+          res := list_vt_cons{char}{0}(c, _)
+        val+list_vt_cons (_, res1) = res
+        val () = loop (cs0, pred(n), res1)
+        prval () = fold@res
+      in
+        // nothing
+      end // end of [then]
+      else let
+        val () = res := list_vt_nil ()
+      in
+        // nothing
+      end // end of [else]
+    // end of [if]
+  end // end of [then]
+  else let
+    val () = res := list_vt_nil ()
+  in
+    // nothing
+  end // end of [else]
+// end of [if]
+//
+end (* end of [loop] *)
+//
+var res: ptr
+val () = loop (cs0, n, res)
+//
+in
+  res
+end // end of [cstream_get_charlst]
+
+(* ****** ****** *)
+
 (* end of [cstream.dats] *)

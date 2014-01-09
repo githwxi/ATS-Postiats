@@ -39,11 +39,6 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload
-STDIO = "libc/SATS/stdio.sats"
-
-(* ****** ****** *)
-
 staload "./../SATS/cstream.sats"
 
 (* ****** ****** *)
@@ -52,7 +47,7 @@ typedef
 cstruct = @{
   getc= (ptr) -> int
 , free= (ptr) -> void
-, data= FILEref
+, data= ((*void*)) -<cloref1> int
 } (* end of [cstruct] *)
 
 (* ****** ****** *)
@@ -61,19 +56,15 @@ datavtype cstream = CS of cstruct
 
 (* ****** ****** *)
 
-#define NUL '\000'
-
-(* ****** ****** *)
-
 fun cstream_getc
   (p: ptr): int = ret where
 {
 //
-typedef data = FILEref
+typedef tfun = ((*void*)) -> int
 //
-val (pf, fpf | p) = $UN.ptr0_vtake{data}(p)
+val (pf, fpf | p) = $UN.ptr0_vtake{tfun}(p)
 //
-val ret = $STDIO.fgetc0 (!p)
+val ret = !p()
 //
 prval () = fpf (pf)
 //
@@ -86,8 +77,8 @@ fun cstream_free (p: ptr): void = ()
 (* ****** ****** *)
 
 implement
-cstream_make_fileref
-  (inp) = let
+cstream_make_cloref
+  (getc) = let
 //
 val cs0 = CS (_)
 val+CS(cstruct) = cs0
@@ -98,12 +89,12 @@ cstruct.getc := cstream_getc
 val () =
 cstruct.free := cstream_free
 //
-val () = cstruct.data := inp
+val () = cstruct.data := getc
 //
 in
-  $UN.castvwtp0{cstream(TKfileref)}((view@cstruct | cs0))
-end // end of [cstream_make_fileref]
+  $UN.castvwtp0{cstream(TKcloref)}((view@cstruct | cs0))
+end // end of [cstream_make_cloref]
 
 (* ****** ****** *)
 
-(* end of [cstream_fileref.dats] *)
+(* end of [cstream_cloref.dats] *)

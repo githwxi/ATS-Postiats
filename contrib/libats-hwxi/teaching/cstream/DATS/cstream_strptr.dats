@@ -52,8 +52,7 @@ cstruct = @{
 
 (* ****** ****** *)
 
-datavtype
-cstream_fun = CS of cstruct
+datavtype cstream = CS of cstruct
 
 (* ****** ****** *)
 
@@ -85,13 +84,13 @@ fun cstream_free
   (p: ptr): void = () where
 {
 //
-typedef data = @(string, ptr)
+vtypedef data = @(Strptr1, ptr)
 //
 val (pf, fpf | p) = $UN.ptr0_vtake{data}(p)
 //
 val ((*void*)) = strptr_free ($UN.castvwtp1{Strptr1}(p->0))
 //
-prval () = fpf (pf)
+prval () = $UN.cast2void ((pf, fpf | p))
 //
 } (* end of [cstream_getc] *)
 
