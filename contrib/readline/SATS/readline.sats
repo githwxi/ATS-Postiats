@@ -29,7 +29,7 @@
 
 (*
 ** Author: Brandon Barker
-** Authoremail: bbarkerATgmailDOTcom
+** Authoremail: brandonDOTbarkerATgmailDOTcom
 *)
 
 (* ****** ****** *)
