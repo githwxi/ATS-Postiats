@@ -24,6 +24,8 @@ MYTARGET=hello
 #rename if you want
 MYPORTDIR=MYPORTDIR
 #
+MYPORTCPP=MYPORTCPP
+#
 ######
 
 include $(PATSHOME)/share/atsmake-post.mk

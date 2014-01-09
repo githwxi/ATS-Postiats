@@ -84,8 +84,18 @@ $(MYPORTDIR)_DATS_C := \
 $(MYPORTDIR):: $($(MYPORTDIR)_SATS_C)
 $(MYPORTDIR):: $($(MYPORTDIR)_DATS_C)
 #
+ifdef MYPORTCPP
+else
 $(MYPORTDIR)/%_sats.c: %.sats ; $(PATSOPT) $(INCLUDE_ATS) -o $@ -s $<
 $(MYPORTDIR)/%_dats.c: %.dats ; $(PATSOPT) $(INCLUDE_ATS) -o $@ -d $<
+endif
+#
+ifdef MYPORTCPP
+$(MYPORTDIR)/%_sats.c: %.sats ; \
+  $(PATSCC) -E $(INCLUDE) $(INCLUDE_ATS) $(CFLAGS) -o $@ $<
+$(MYPORTDIR)/%_dats.c: %.dats ; \
+  $(PATSCC) -E $(INCLUDE) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -o $@ $<
+endif
 #
 endif
 #
