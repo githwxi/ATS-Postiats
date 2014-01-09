@@ -47,7 +47,7 @@ datatype commarg =
 //
   | CAgline of () // --gline: line programa info
 //
-  | CAcleanaft of () // cleaning up *_?ats.c files
+  | CAcleanaft of () // -cleanaft: cleaning up *_?ats.c files
 //
   | CAatsccomp of (stropt) // -atsccomp 'gcc ...'
 //
@@ -56,7 +56,9 @@ datatype commarg =
 //
   | CAfilats of (int(*knd*), stropt) // knd=0/1:-fsats/-fdats
 //
-  | CAgitem of string // generic item passed to ccomp
+  | CA_CSignore // -CSignore: ignoring constraint-solving
+//
+  | CA_CCOMPitm of string // any generic item is passed to $(CCOMP)
 // end of [commarg]
 
 typedef commarglst = List0 (commarg)

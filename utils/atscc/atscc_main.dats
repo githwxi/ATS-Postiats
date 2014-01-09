@@ -226,8 +226,11 @@ case+ 0 of
     aux0 (n, argv, i+1, res)
   end // end of [_ when ...]
 | _ when (str0="--version") => let
-    val res = list_vt_cons{ca}(CAvats(), res)
-    val res = list_vt_cons{ca}(CAgitem(str0), res)
+    val res =
+      list_vt_cons{ca}(CAvats(), res)
+    val res =
+      list_vt_cons{ca}(CA_CCOMPitm(str0), res)
+    // end of [val]
   in
     aux0 (n, argv, i+1, res)
   end // end of [_ when ...]
@@ -278,9 +281,15 @@ case+ 0 of
 | _ when isfildats(str0) =>
     aux1_fdats (n, argv, i+0, res)
 //
+| _ when (str0="-CSignore") => let
+    val res = list_vt_cons{ca}(CA_CSignore(), res)
+  in
+    aux0 (n, argv, i+1, res)
+  end // end of [_ when ...]
+//
 | _ => let
     val res =
-      list_vt_cons{ca}(CAgitem(str0), res)
+      list_vt_cons{ca}(CA_CCOMPitm(str0), res)
     // end of [val]
   in
     aux0 (n, argv, i+1, res)
@@ -465,6 +474,14 @@ case+ ca of
     if issome (opt) then aux_iats (unsome(opt), res)
   )
 //
+| CA_CSignore () =>
+  {
+    val (
+    ) = res :=
+      list_vt_cons{string}("--constraint-ignore", res)
+    // end of [val]
+  }
+//
 | _ => ()
 //
 end (* end of [aux] *)
@@ -617,6 +634,11 @@ case+ cas2 of
         auxlst (cas1, cas2, ress)
       end (* end of [CAfilats] *)
 //
+    | CA_CSignore () => let
+        val cas1 =
+          snoc (cas1, ca2) in auxlst (cas1, cas2, ress)
+      end (* end of [CA_CSignore] *)
+//
     | _(*ignored*) => auxlst (cas1, cas2, ress)
 //
   end // end of [list_cons]
@@ -640,6 +662,8 @@ in
 end // end of [atsoptline_make_all]
 
 end // end of [local]
+
+
 
 (* ****** ****** *)
 
@@ -691,7 +715,9 @@ case+ ca of
     if issome (opt) then aux_fdats (unsome(opt), res)
   )
 //
-| CAgitem (item) => aux_gitem (item, res)
+| CA_CSignore () => ()
+//
+| CA_CCOMPitm (item) => aux_CCOMPitm (item, res)
 //
 end // end of [aux]
 
@@ -707,7 +733,7 @@ and aux_fdats
   val outname = atscc_outname (0(*sta*), path)
   val () = res := list_vt_cons{string}(outname, res)
 }
-and aux_gitem
+and aux_CCOMPitm
   (item: string, res: &res >> _): void =
 {
   val () = res := list_vt_cons{string}(item, res)

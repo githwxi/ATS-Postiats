@@ -39,6 +39,11 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload
+STDIO = "libc/SATS/stdio.sats"
+
+(* ****** ****** *)
+
 staload "./../SATS/cstream.sats"
 
 (* ****** ****** *)
@@ -47,13 +52,12 @@ typedef
 cstruct = @{
   getc= (ptr) -> int
 , free= (ptr) -> void
-, data= @(string, ptr)
+, data= FILEref
 } (* end of [cstruct] *)
 
 (* ****** ****** *)
 
-datavtype
-cstream_fun = CS of cstruct
+datavtype cstream = CS of cstruct
 
 (* ****** ****** *)
 
@@ -62,18 +66,14 @@ cstream_fun = CS of cstruct
 (* ****** ****** *)
 
 fun cstream_getc
-  (p: ptr): int = i where
+  (p: ptr): int = ret where
 {
 //
-typedef data = @(string, ptr)
+typedef data = FILEref
 //
 val (pf, fpf | p) = $UN.ptr0_vtake{data}(p)
 //
-val p1 = p->1
-//
-val c = $UN.ptr0_get<char> (p1)
-val i = (if c != NUL then char2u2int0(c) else ~1): int
-val () = if i >= 0 then p->1 := ptr_succ<char> (p1) 
+val ret = $STDIO.fgetc0 (!p)
 //
 prval () = fpf (pf)
 //
@@ -85,21 +85,21 @@ fun cstream_free
   (p: ptr): void = () where
 {
 //
-typedef data = @(string, ptr)
+vtypedef data = $STDIO.FILEptr1
 //
 val (pf, fpf | p) = $UN.ptr0_vtake{data}(p)
 //
-val ((*void*)) = strptr_free ($UN.castvwtp1{Strptr1}(p->0))
+val err = $STDIO.fclose0 ($UN.castvwtp0{FILEref}(!p))
 //
-prval () = fpf (pf)
+prval () = $UN.cast2void((pf, fpf | p))
 //
-} (* end of [cstream_getc] *)
+} (* end of [cstream_free] *)
 
 (* ****** ****** *)
 
 implement
-cstream_make_strptr
-  (str0) = let
+cstream_make_fileptr
+  (pfmode | inp) = let
 //
 val cs0 = CS (_)
 val+CS(cstruct) = cs0
@@ -110,16 +110,12 @@ cstruct.getc := cstream_getc
 val () =
 cstruct.free := cstream_free
 //
-val str0 =
-  $UN.castvwtp0{string}(str0)
-//
-val p0 = string2ptr(str0)
-val () = cstruct.data := @(str0, p0)
+val () = cstruct.data := $UN.castvwtp0{FILEref}(inp)
 //
 in
-  $UN.castvwtp0{cstream(TKstrptr)}((view@cstruct | cs0))
-end // end of [cstream_make_strptr]
+  $UN.castvwtp0{cstream(TKfileptr)}((view@cstruct | cs0))
+end // end of [cstream_make_fileptr]
 
 (* ****** ****** *)
 
-(* end of [cstream_strptr.dats] *)
+(* end of [cstream_fileptr.dats] *)

@@ -109,9 +109,14 @@ dataprop isAVL (bt) =
 **
 *)
 
-prfun bintree_AVL_SP_HT_lemma {t:bt} {sp,ht:nat} .<t>. (
-    pf_avl: isAVL (t) , pf_sp: btsp (t, sp), pf_ht: btht (t, ht)
-  ) : [ht <= sp + sp] void = begin case+ pf_avl of
+prfun
+bintree_AVL_SP_HT_lemma
+  {t:bt}{sp,ht:nat} .<t>.
+(
+  pf_avl: isAVL (t)
+, pf_sp: btsp (t, sp), pf_ht: btht (t, ht)
+) : [ht <= sp + sp] void = (
+  case+ pf_avl of
   | isAVL_B (pf1_avl, pf2_avl, pf1_ht, pf2_ht) => let
       prval btsp_B (pf1_sp, pf2_sp) = pf_sp
       prval btht_B (pf1_ht_alt, pf2_ht_alt) = pf_ht
@@ -127,8 +132,8 @@ prfun bintree_AVL_SP_HT_lemma {t:bt} {sp,ht:nat} .<t>. (
     in
       // empty
     end // end of [isAVL_E]
-end // end of [bintree_AVL_SP_HT]
+) (* end of [bintree_AVL_SP_HT] *)
 
 (* ****** ****** *)
 
-(* end of [BinaryTree.dats] *)
+(* end of [BinaryTreeLemmas.dats] *)

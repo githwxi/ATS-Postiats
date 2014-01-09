@@ -124,9 +124,11 @@ case+ ca of
     prstr "CAfilats(1, "; propt (opt); prstr ")"
   )
 //
-| CAgitem (item) =>
+| CA_CSignore () => prstr "CA_CSignore()"  
+//
+| CA_CCOMPitm (itm) =>
   (
-    prstr "CAgitem("; prstr (item); prstr ")"
+    prstr "CA_CCOMPitm("; prstr (itm); prstr ")"
   )
 //
 (*
@@ -351,7 +353,9 @@ case+ ca of
     if issome (opt) then aux_fdats (out, unsome(opt))
   )
 //
-| CAgitem (item) => aux_gitem (out, item)
+| CA_CSignore () => ()
+//
+| CA_CCOMPitm (itm) => aux_CCOMPitm (out, itm)
 //
 end // end of [aux]
 
@@ -371,7 +375,7 @@ and aux_fdats
   val () = fprint (out, ' ')
   val () = fprint_string (out, outname)
 }
-and aux_gitem
+and aux_CCOMPitm
   (out: FILEref, item: string): void =
 {
   val () = fprint (out, ' ')

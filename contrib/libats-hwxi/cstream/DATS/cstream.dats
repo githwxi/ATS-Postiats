@@ -34,56 +34,99 @@
 
 (* ****** ****** *)
 
-staload "libc/SATS/stdio.sats"
+staload "./../SATS/cstream.sats"
 
 (* ****** ****** *)
 
-absvtype
-cstream_vtype(tkind) = ptr
-vtypedef
-cstream(tk:tkind) = cstream_vtype(tk)
+typedef
+cstruct = @{
+  getc= (ptr) -> int
+, free= (ptr) -> void
+, data= @[ulint][0] // well-aligned
+} (* end of [cstruct] *)
 
 (* ****** ****** *)
 
-tkindef TKfun = "TKfun"
-tkindef TKcloref = "TKcloref"
-tkindef TKstring = "TKstring"
-tkindef TKstrptr = "TKstrptr"
-tkindef TKfileref = "TKfileref"
-tkindef TKfileptr = "TKfileptr"
+datavtype
+cstream = CS of cstruct
+assume cstream_vtype(tk) = cstream
 
 (* ****** ****** *)
 
-vtypedef
-cstream = [tk:tkind] cstream(tk)
-
-(* ****** ****** *)
-
-fun cstream_free (cstream): void
-
-(* ****** ****** *)
-
-fun cstream_get_char (!cstream): int
-
-(* ****** ****** *)
-
-fun cstream_make_fun (() -> int): cstream(TKfun)
-fun cstream_make_cloref (() -<cloref1> int): cstream(TKcloref)
-
-(* ****** ****** *)
-
-fun cstream_make_string (string): cstream(TKstring)
-fun cstream_make_strptr (Strptr1): cstream(TKstrptr)
-
-(* ****** ****** *)
+implement
+cstream_free
+  (cs0) = () where
+{
 //
-fun
-cstream_make_fileref (FILEref): cstream(TKfileref)
-fun
-cstream_make_fileptr
-  {l:agz}{m:fmode}
-  (file_mode_lte (m, r) | FILEptr(l, m)): cstream(TKfileptr)
+  val+@CS (cstruct) = cs0
+  val () = cstruct.free (addr@(cstruct.data))
+  val ((*void*)) = free@cs0
 //
+} // end of [cstream_free]
+
 (* ****** ****** *)
 
-(* end of [cstream.sats] *)
+implement
+cstream_get_char
+  (cs0) = ret where
+{
+//
+  val+@CS (cstruct) = cs0
+  val ret = cstruct.getc (addr@(cstruct.data))
+  prval ((*void*)) = fold@cs0
+//
+} // end of [cstream_get_char]
+
+(* ****** ****** *)
+
+implement
+cstream_get_charlst
+  (cs0, n) = let
+//
+fun loop (
+  cs0: !cstream, n: int
+, res: &ptr? >> List0_vt(char)
+) : void = let
+in
+//
+if n != 0
+  then let
+    val i = cstream_get_char (cs0)
+  in
+    if i > 0
+      then let
+        val c = int2char0 (i)
+        val () =
+          res := list_vt_cons{char}{0}(c, _)
+        val+list_vt_cons (_, res1) = res
+        val () = loop (cs0, pred(n), res1)
+        prval () = fold@res
+      in
+        // nothing
+      end // end of [then]
+      else let
+        val () = res := list_vt_nil ()
+      in
+        // nothing
+      end // end of [else]
+    // end of [if]
+  end // end of [then]
+  else let
+    val () = res := list_vt_nil ()
+  in
+    // nothing
+  end // end of [else]
+// end of [if]
+//
+end (* end of [loop] *)
+//
+var res: ptr
+val () = loop (cs0, n, res)
+//
+in
+  res
+end // end of [cstream_get_charlst]
+
+(* ****** ****** *)
+
+(* end of [cstream.dats] *)

@@ -29,15 +29,8 @@ val v_int = rl_readline_version ()
 val () = println! ("v_str = ", v_str)
 val () = println! ("v_int = ", v_int)
 //
-val line =
-  readline ("Please enter: ")
-//
-val () = println! ("line = ", line)
-//
-val () = strptr_free (line)
-//
 } (* end of [main0] *)
 
 (* ****** ****** *)
 
-(* end of [test01.dats] *)
+(* end of [test00.dats] *)
