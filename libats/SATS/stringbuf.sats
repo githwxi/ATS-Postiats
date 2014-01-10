@@ -182,5 +182,14 @@ stringbuf_truncate
 // end of [stringbuf_truncate]
 
 (* ****** ****** *)
+//
+fun{}
+stringbuf_truncout
+  (sbf: !stringbuf, n2: size_t):<!wrt> Strptr0
+//
+fun{}
+stringbuf_truncout_all (sbf: !stringbuf):<!wrt> Strptr1
+//
+(* ****** ****** *)
 
 (* end of [stringbuf.sats] *)

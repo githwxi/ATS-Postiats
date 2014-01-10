@@ -481,7 +481,7 @@ end // end of [stringbuf_insert_list]
 (* ****** ****** *)
 
 implement{
-}stringbuf_truncate
+} stringbuf_truncate
   (sbf, n2) = let
 //
 val+@STRINGBUF(A, p1, _) = sbf
@@ -507,6 +507,58 @@ if n2 < n1
 //
 end // end of [stringbuf_truncate]
 
+(* ****** ****** *)
+
+implement{
+} stringbuf_truncout
+  (sbf, n2) = let
+//
+fun aux .<>.
+(
+  p: ptr, n: size_t
+) :<!wrt> Strptr1 = let
+  val [n0:int]
+    str = $UN.cast{String}(p)
+  val n = $UN.cast{sizeLte(n0)}(n)
+  val str2 =
+    string_make_substring (str, i2sz(0), n)
+  // end of [val]
+  prval () = lemma_strnptr_param (str2)
+in
+  strnptr2strptr (str2)
+end // end of [aux]
+//
+val+@STRINGBUF(A, p1, _) = sbf
+//
+val p0 = ptrcast(A)
+val n1 = $UN.cast{size_t}(p1 - p0)
+//
+in
+//
+if (
+  n1 >= n2
+) then let
+    val p2 =
+      ptr_add<char> (p0, n2)
+    val res = aux (p2, n1-n2)
+    val ((*void*)) = (p1 := p2)
+    prval () = fold@ (sbf)
+  in
+    res
+  end // end of [then]
+  else let
+    prval () = fold@ (sbf) in strptr_null ()
+  end // end of [else]
+// end of [if]
+//
+end // end of [stringbuf_truncout]
+
+(* ****** ****** *)
+
+implement{
+} stringbuf_truncout_all (sbf) =
+  $UN.castvwtp0{Strptr1}(stringbuf_truncout (sbf, i2sz(0)))
+  
 (* ****** ****** *)
 //
 extern

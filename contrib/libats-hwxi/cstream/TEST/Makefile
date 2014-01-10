@@ -29,6 +29,12 @@ cleanall:: ; $(RMF) test02
 
 ######
 
+all:: tokenize
+tokenize: tokenize.dats ; $(PATSCC2) -O2 $(MALLOCFLAG) -o $@ $< testlib.dats
+cleanall:: ; $(RMF) tokenize
+
+######
+
 include \
 $(PATSHOME)/share/atsmake-post.mk
 

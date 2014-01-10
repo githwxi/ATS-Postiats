@@ -169,4 +169,35 @@ to indicate the capacity of the buffer is not reset.
 
 (* ****** ****** *)
 
+#declnamesynop("stringbuf_truncate")
+#decldescrpt('\
+
+Given a stringbuf-value sbf and an integer n2, if n2 is less than the
+current size of the buffer associated with sbf, then the function resets
+the size of the buffer to n2. Otherwise, the function makes no change.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("stringbuf_truncout")
+#decldescrpt('\
+
+This function is like #dyncode("stringbuf_trunout") except that it returns
+a linear string representing the truncated portion of a given stringbuf-value.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("stringbuf_truncout_all")
+#decldescrpt('\
+
+This function is just the special case of #dyncode("stringbuf_truncout")
+where the second passed argument equals 0.
+
+')
+
+(* ****** ****** *)
+
 (* end of [stringbuf.atxt] *)
