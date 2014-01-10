@@ -147,6 +147,12 @@ name of a file containing #iemph("dynamic") ATS code.  Note that this flag
 is unnecessary if the name of the file ends with the extension
 #uemph(".dats").
 
+<li>
+#uemph("-CSignore"):
+This flag indicates that constaint-solving is to be ignored during
+typechecking.  Note that this is a dangerous flag and it is only suggested
+to be used with proper justification.
+
 </menu>
 
 #comment(" ****** ****** ")

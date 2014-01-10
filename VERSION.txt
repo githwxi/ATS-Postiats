@@ -38,6 +38,8 @@ Here is a list of major additions and changes since the last release:
 9. Improving support for exporting ATS-types to C
 10. Requiring that each declared toplevel function be envless; closures
     need to be declared as values.
+11. Supporting the flag -CSignore for patscc to ignore constraint-solving.
+    Please only use it with proper justification!
 
 </pre>
 
