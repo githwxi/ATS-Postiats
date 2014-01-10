@@ -48,13 +48,24 @@
 
 (* ****** ****** *)
 
-fun rl_library_version (): string = "mac#%"
-fun rl_readline_version ((*void*)): int = "mac#%"
+symintr readline
 
-(* ****** ****** *)
-//
-fun readline (prompt: string): Strptr0 = "mac#%"
-//
+fun readline_string (prompt: string): Strptr0 = "mac#readline"
+overload readline with readline_string of 0
+
+fun readline_string_n
+  (prompt: string): Strptr0 = "mac#readline"
+overload readline with readline_string_n of 10
+
+fun readline_strptr
+  (prompt: strptr): Strptr0 = "mac#readline"
+overload readline with readline_strptr of 100
+
+fun readline_strptr_l
+  {l:addr} (prompt: !strptr): Strptr0 = "mac#readline"
+overload readline with readline_strptr_l of 1000
+
+
 (* ****** ****** *)
 
 (* end of [readline.sats] *)

@@ -1,0 +1,7 @@
+Save include dirs, or regenerate them, on target portable platform in
+'hello' (gcc -MM) example.
+
+Add a makefile (or append to existing makefile) to generate all ATS
+includes (e.g. for use with hello2).
+
+Test on larger projects.
