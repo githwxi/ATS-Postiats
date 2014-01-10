@@ -106,4 +106,32 @@ end // end of [cstream_make_string]
 
 (* ****** ****** *)
 
+implement
+cstream_string_get_range
+  (cs0, i, j) = let
+//
+val cs0 = $UN.castvwtp1{cstream}(cs0)
+//
+val+CS(cstruct) = cs0
+val data = cstruct.data
+prval () = $UN.cast2void(cs0)
+//
+val str = data.0
+val p0 = string2ptr(str) and p1 = data.1
+val len = $UN.cast{size_t}(p1 - p0)
+//
+val i = i2sz(i) and j = i2sz(j)
+val i = (if i <= len then i else len): size_t
+val j = (if j <= len then j else len): size_t
+//
+val [n:int] str = g1ofg0(str)
+val [i:int] i = $UN.cast{sizeLte(n)}(i)
+val [j:int] j = $UN.cast{sizeBtwe(i,n)}(j)
+//
+in
+  $UN.castvwtp0{Strptr1}(string_make_substring (str, i, j-i))
+end // end of [cstream_string_get_range]
+
+(* ****** ****** *)
+
 (* end of [cstream_string.dats] *)

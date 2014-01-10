@@ -86,8 +86,23 @@ fun cstream_make_strptr (Strptr1): cstream(TKstrptr)
 
 (* ****** ****** *)
 //
+symintr cstream_get_range
+//
+fun
+cstream_string_get_range
+  {i,j:nat | i <= j} (!cstream(TKstring), int i, int j): Strptr1
+fun
+cstream_strptr_get_range
+  {i,j:nat | i <= j} (!cstream(TKstrptr), int i, int j): Strptr1
+//
+overload cstream_get_range with cstream_string_get_range 
+overload cstream_get_range with cstream_strptr_get_range 
+//
+(* ****** ****** *)
+//
 fun
 cstream_make_fileref (FILEref): cstream(TKfileref)
+//
 fun
 cstream_make_fileptr
   {l:agz}{m:fmode}

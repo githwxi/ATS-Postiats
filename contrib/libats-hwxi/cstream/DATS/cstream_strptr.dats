@@ -121,4 +121,20 @@ end // end of [cstream_make_strptr]
 
 (* ****** ****** *)
 
+implement
+cstream_strptr_get_range
+  (cs0, i, j) = res where
+{
+//
+val cs0 =
+$UN.castvwtp1{cstream(TKstring)}(cs0)
+//
+val res = cstream_string_get_range (cs0, i, j)
+//
+prval ((*void*)) = $UN.cast2void(cs0)
+//
+} (* end of [cstream_strptr_get_range] *)
+
+(* ****** ****** *)
+
 (* end of [cstream_strptr.dats] *)
