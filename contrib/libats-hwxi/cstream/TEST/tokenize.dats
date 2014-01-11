@@ -116,6 +116,9 @@ case+ x of
 #define c2i char2int0
 #define i2c int2char0
 //
+fun isalnum_ (x: int): bool =
+  let val x = i2c(x) in isalnum(x) || (x = '_') end
+//
 (* ****** ****** *)
 
 extern
@@ -165,11 +168,11 @@ end // end of [local]
 //
 extern
 fun
-token_ide
+tokenize_ide
   (!cstream): Strptr1
 //
 implement
-token_ide (cs0) = let
+tokenize_ide (cs0) = let
 //
 fun loop
   (cs0: !cstream): void = let
@@ -180,12 +183,12 @@ in
 //
 if i >= 0 then
 (
-  if isalnum (i) then
+  if isalnum_ (i) then
     (the_cbuf_add (i2c(i)); loop (cs0))
   else the_char_set (i)
 ) else the_char_set (i)
 //
-end // end of [token_ide]
+end // end of [tokenize_ide]
 //
 val i0 = the_char_get ()
 val () = the_cbuf_add (i2c(i0))
@@ -193,17 +196,17 @@ val ((*void*)) = loop (cs0)
 //
 in
   the_cbuf_getall ((*void*))
-end // end of [token_ide]
+end // end of [tokenize_ide]
 
 (* ****** ****** *)
 
 extern
 fun
-token_int
+tokenize_int
   (!cstream): int
 //
 implement
-token_int (cs0) = let
+tokenize_int (cs0) = let
 //
 fun loop
 (
@@ -233,7 +236,7 @@ val () = loop (cs0, res)
 //
 in
   res
-end // end of [token_int]
+end // end of [tokenize_int]
 
 (* ****** ****** *)
 
@@ -277,9 +280,9 @@ val i0 = the_char_get ()
 //
 in
 //
-if i0 >= 0
-then
-(
+if (
+i0 >= 0
+) then (
 case+ 0 of
 | _ when
     (i0 = LPAREN) => let
@@ -299,7 +302,7 @@ case+ 0 of
   end
 | _ when
     isalpha (i0) => let
-    val ide = token_ide (cs0)
+    val ide = tokenize_ide (cs0)
     val ide = strptr2string (ide)
     val tok = TOKide (ide)
     val ((*void*)) = fprintln! (stdout_ref, "tok = ", tok)
@@ -308,7 +311,7 @@ case+ 0 of
   end
 | _ when
     isdigit (i0) => let
-    val int = token_int (cs0)
+    val int = tokenize_int (cs0)
     val tok = TOKint (int)
     val ((*void*)) = fprintln! (stdout_ref, "tok = ", tok)
   in
@@ -318,10 +321,12 @@ case+ 0 of
   (
     cstream_set_char (cs0); cstream_tokenize2 (cs0)
   )
-)
-else let
-  val tok = TOKeof(*void*) in (*exit*)
-end // end of [if]
+) else let
+  val tok = TOKeof(*void*)
+  val ((*void*)) = fprintln! (stdout_ref, "tok = ", tok)
+in
+  (*exit*)
+end (* end of [if] *)
 //
 end // end of [cstream_tokenize2]
 
@@ -333,7 +338,9 @@ main0 (argc, argv) =
 //
 val fname =
 (
-if argc >= 2 then argv[1] else "tokenize.dats"
+if argc >= 2
+  then argv[1] else "tokenize.dats"
+// end of [if]
 ) : string
 //
 val-~Some_vt(inp) =

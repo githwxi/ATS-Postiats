@@ -9,10 +9,10 @@ $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
-all:: problem1
-problem1: problem1.dats ; $(PATSCC2) -o $@ $< $(LDFLAGS)
-cleanall:: ; $(RMF) problem1
-cleanall:: ; $(RMF) problem1_dats.c
+all:: maxmin
+maxmin: maxmin.dats ; $(PATSCC2) -o $@ $< $(LDFLAGS)
+cleanall:: ; $(RMF) maxmin
+cleanall:: ; $(RMF) maxmin_dats.c
 
 ######
 
