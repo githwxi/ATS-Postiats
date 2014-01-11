@@ -85,6 +85,7 @@ cstream_get_char
 (* ****** ****** *)
 
 implement
+{tk}(*tmp*)
 cstream_getv_char
   {n} (cs0, A, n) = let
 //
@@ -93,9 +94,7 @@ fun loop
   cs0: !cstream, p: ptr, n: int
 ) : int =
 (
-if
-(n > 0)
-then let
+if (n > 0) then let
 //
 val i = cstream_get_char (cs0)
 //
@@ -110,12 +109,11 @@ if i >= 0
   end // end of [then]
   else (n) // end of [else]
 // end of [if]
-end 
-else (0)
+end else (0) // end of [if]
+//
 ) (* end of [loop] *)
 //
 val n2 = loop (cs0, addr@A, n)
-prval () = view@A := b0ytes2bytes_v (view@A)
 //
 in
   $UN.cast{natLte(n)}(n-n2)

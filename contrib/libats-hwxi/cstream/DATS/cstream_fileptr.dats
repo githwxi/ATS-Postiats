@@ -118,4 +118,20 @@ end // end of [cstream_make_fileptr]
 
 (* ****** ****** *)
 
+implement
+cstream_getv_char<TKfileptr>
+  {n} (cs0, A, n) = n2 where
+{
+//
+val cs0 =
+$UN.castvwtp1{cstream(TKfileref)}(cs0)
+//
+val n2 = cstream_getv_char<TKfileref> (cs0, A, n)
+//
+prval ((*void*)) = $UN.cast2void (cs0)
+//
+} (* end of [cstream_getv_char] *)
+
+(* ****** ****** *)
+
 (* end of [cstream_fileptr.dats] *)

@@ -106,4 +106,23 @@ end // end of [cstream_make_fileref]
 
 (* ****** ****** *)
 
+implement
+cstream_getv_char<TKfileref>
+  {n} (cs0, A, n) = let
+//
+val cs0 =
+$UN.castvwtp1{cstream}(cs0)
+//
+val+CS(cstruct) = cs0
+//
+val n2 = $STDIO.fread0 (A, i2sz(1), i2sz(n), cstruct.data)
+//
+prval () = $UN.cast2void (cs0)
+//
+in
+  sz2i(n2)
+end // end of [cstream_getv_char]
+
+(* ****** ****** *)
+
 (* end of [cstream_fileref.dats] *)

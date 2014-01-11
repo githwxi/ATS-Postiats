@@ -67,9 +67,9 @@ fun cstream_get_char (!cstream): int
 
 (* ****** ****** *)
 
-fun
+fun{tk:tk}
 cstream_getv_char{n:nat}
-  (!cstream, &b0ytes(n) >> bytes(n), n: int(n)): natLte(n)
+  (!cstream(tk), &bytes(n) >> _, n: int(n)): natLte(n)
 // end of [cstream_getv_char]
 
 (* ****** ****** *)
