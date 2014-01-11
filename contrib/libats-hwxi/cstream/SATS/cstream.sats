@@ -66,6 +66,13 @@ fun cstream_free (cstream): void
 fun cstream_get_char (!cstream): int
 
 (* ****** ****** *)
+
+fun
+cstream_getv_char{n:nat}
+  (!cstream, &b0ytes(n) >> bytes(n), n: int(n)): natLte(n)
+// end of [cstream_getv_char]
+
+(* ****** ****** *)
 //
 // HX-2014-01:
 // read at most n chars if n >= 0
@@ -74,13 +81,6 @@ fun cstream_get_char (!cstream): int
 fun
 cstream_get_charlst (!cstream, n: int): List0_vt(char)
 //
-(* ****** ****** *)
-
-fun
-cstream_getv_char{n:nat}
-  (!cstream, &b0ytes(n) >> bytes(n), n: int(n)): natLte(n)
-// end of [cstream_getv_char]
-
 (* ****** ****** *)
 
 fun cstream_make_fun (() -> int): cstream(TKfun)

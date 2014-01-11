@@ -34,6 +34,11 @@
 
 (* ****** ****** *)
 
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "./../SATS/cstream.sats"
 
 (* ****** ****** *)
@@ -76,6 +81,45 @@ cstream_get_char
   prval ((*void*)) = fold@cs0
 //
 } // end of [cstream_get_char]
+
+(* ****** ****** *)
+
+implement
+cstream_getv_char
+  {n} (cs0, A, n) = let
+//
+fun loop
+(
+  cs0: !cstream, p: ptr, n: int
+) : int =
+(
+if
+(n > 0)
+then let
+//
+val i = cstream_get_char (cs0)
+//
+in
+//
+if i >= 0
+  then let
+    val c = int2char0(i)
+    val () = $UN.ptr0_set<char> (p, c)
+  in
+    loop (cs0, ptr_succ<char> (p), pred(n))
+  end // end of [then]
+  else (n) // end of [else]
+// end of [if]
+end 
+else (0)
+) (* end of [loop] *)
+//
+val n2 = loop (cs0, addr@A, n)
+prval () = view@A := b0ytes2bytes_v (view@A)
+//
+in
+  $UN.cast{natLte(n)}(n-n2)
+end // end of [cstream_getv_char]
 
 (* ****** ****** *)
 
