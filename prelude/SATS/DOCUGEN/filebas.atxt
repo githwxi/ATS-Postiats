@@ -314,7 +314,7 @@ end // end of [fileref_get_line_string]
 
 This function returns a line read from a given file handle and records
 the length of the line in its second (call-by-reference) argument. Note
-that the length information can be trusted only if there are no occurrences
+that the length information can only be trusted if there are no occurrences
 of the NUL char in the line.\
 
 ')
@@ -380,7 +380,7 @@ end // end of [main]
 
 (* ****** ****** *)
 
-#declnamesynop("fileref_nget_file_charlst")
+#declnamesynop("fileref_get2_file_charlst")
 #decldescrpt('\
 
 This function reads chars from a given file handle until either the number

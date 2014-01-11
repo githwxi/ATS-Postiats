@@ -214,7 +214,7 @@ fun fileref_get_lines_charlstlst (inp: FILEref): List0_vt (charlst_vt)
 ** HX: for handling files of "tiny" size
 *)
 fun fileref_get_file_charlst (inp: FILEref): List0_vt (char)
-fun fileref_nget_file_charlst {n:nat} (inp: FILEref, n: int n): listLte_vt (char, n)
+fun fileref_get2_file_charlst (inp: FILEref, n: int): List0_vt (char)
 
 #atscode_separator()
 

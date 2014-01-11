@@ -76,6 +76,13 @@ cstream_get_charlst (!cstream, n: int): List0_vt(char)
 //
 (* ****** ****** *)
 
+fun
+cstream_getv_char{n:nat}
+  (!cstream, &b0ytes(n) >> bytes(n), n: int(n)): natLte(n)
+// end of [cstream_getv_char]
+
+(* ****** ****** *)
+
 fun cstream_make_fun (() -> int): cstream(TKfun)
 fun cstream_make_cloref (() -<cloref1> int): cstream(TKcloref)
 
