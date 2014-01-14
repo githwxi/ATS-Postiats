@@ -20,8 +20,12 @@ PATSHOMEQ="$(PATSHOME)"
 
 ######
 
+SHAREDOCU=$(PATSHOMEQ)/share/DOCUGEN
+
+######
+
 INCLUDE:=-I $(PATSHOMEQ)/src
-INCLATS:=-IATS $(PATSHOMEQ) -IATS $(ATSHOMEQ)
+INCLATS:=-IATS $(SHAREDOCU) -IATS $(PATSHOMEQ) -IATS $(ATSHOMEQ)
 
 ######
 
@@ -37,10 +41,10 @@ DECLATEXT= \
   declatext_sats.o \
   declatext_dats.o \
 
-declatext_sats.o: \
-  declatext.sats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $<
-declatext_dats.o: \
-  declatext.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $<
+declatext_sats.o: ; \
+  $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $(SHAREDOCU)/declatext.sats
+declatext_dats.o: ; \
+  $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $(SHAREDOCU)/declatext.dats
 
 ######
 
@@ -48,12 +52,13 @@ HTMLGENDECL= \
   htmlgendecl_sats.o \
   htmlgendecl_dats.o \
 
-htmlgendecl_sats.o: \
-  htmlgendecl.sats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $<
-htmlgendecl_dats.o: \
-  htmlgendecl.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $<
+htmlgendecl_sats.o: ; \
+  $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $(SHAREDOCU)/htmlgendecl.sats
+htmlgendecl_dats.o: ; \
+  $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $(SHAREDOCU)/htmlgendecl.dats
 
-htmlgendecl_atxt.dats: htmlgendecl.atxt ;   $(ATSDOC) --outcode $@ -i $< > htmlgendecl_atxt.txt
+htmlgendecl_atxt.dats: ; \
+  $(ATSDOC) --outcode $@ -i $(SHAREDOCU)/htmlgendecl.atxt > htmlgendecl_atxt.txt
 
 ######
 

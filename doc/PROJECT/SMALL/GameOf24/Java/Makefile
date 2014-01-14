@@ -5,6 +5,7 @@
 ######
 
 include $(PATSHOME)/share/atsmake-pre.mk
+include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 #
@@ -33,8 +34,7 @@ GameOf24.h: GameOf24.class ; javah GameOf24
 ######
 
 GameOf24.class: GameOf24.java ; javac $<
-GameOf24_dats.o: GameOf24.dats; \
-  $(PATSCC) -D_GNU_SOURCE -IIATS $(PATSHOME)/contrib -I$(JNIincl) -DATS_MEMALLOC_LIBC -fPIC -c $<
+GameOf24_dats.o: GameOf24.dats; $(PATSCC2) -I$(JNIincl) -DATS_MEMALLOC_LIBC -fPIC -c $<
 libGameOf24_dats.so: GameOf24_dats.o ; gcc -shared -o $@ -Wl,-soname,$@ $< -ldl -L$(PATSLIB) -latslib
 
 ######
@@ -42,10 +42,6 @@ libGameOf24_dats.so: GameOf24_dats.o ; gcc -shared -o $@ -Wl,-soname,$@ $< -ldl 
 RMF=rm -f
 
 ######
-
-clean:: ; $(RMF) *~
-clean:: ; $(RMF) GameOf24_dats.o
-clean:: ; $(RMF) GameOf24_dats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) GameOf24.h

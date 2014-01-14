@@ -106,9 +106,7 @@ htmlgendecl_atxt.dats: ; \\
 
 all_html::
 
-#make_entry("intinf")
-#make_entry("intinf_t")
-#make_entry("intinf_vt")
+#make_entry("cstream")
 
 ######
 

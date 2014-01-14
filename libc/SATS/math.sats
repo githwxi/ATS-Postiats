@@ -86,7 +86,7 @@ fun{a:t0p} isnan (x: INV(a)):<> int
 fun isnan_float (x: float):<> int = "mac#%"
 fun isnan_double (x: double):<> int = "mac#%"
 fun isnan_ldouble (x: ldouble):<> int = "mac#%"
-
+//
 (* ****** ****** *)
 //
 // _BSD_SOURCE || _XOPEN_SOURCE >= 600 || ...
@@ -95,7 +95,7 @@ fun{a:t0p} isinf (x: INV(a)):<> int
 fun isinf_float (x: float):<> int = "mac#%"
 fun isinf_double (x: double):<> int = "mac#%"
 fun isinf_ldouble (x: ldouble):<> int = "mac#%"
-
+//
 (* ****** ****** *)
 //
 fun{a:t0p} ceil (x: INV(a)):<> a

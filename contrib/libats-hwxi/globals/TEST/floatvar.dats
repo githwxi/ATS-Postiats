@@ -1,4 +1,8 @@
+(* ****** ****** *)
+
 #define ATS_DYNLOADFLAG 0
+
+(* ****** ****** *)
 
 local
 //

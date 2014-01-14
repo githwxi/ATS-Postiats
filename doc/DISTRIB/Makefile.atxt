@@ -162,17 +162,17 @@ srcget_home:: ; $(CPF) ../../bin/patsopt_env.sh.in $(ATSDIST)/bin/
 ######
 
 srcget_share:: ; \\
-  $(CPF) ../../share/atspre_define.hats $(ATSDIST)/share/
+  $(CPF) ../../share/Makefile.gen $(ATSDIST)/share/
 srcget_share:: ; \\
-  $(CPF) ../../share/atspre_define_pkgreloc.hats $(ATSDIST)/share/
+  $(CPF) ../../share/atspre_define.hats $(ATSDIST)/share/
 srcget_share:: ; \\
   $(CPF) ../../share/atspre_staload.hats $(ATSDIST)/share/
 srcget_share:: ; \\
-  $(CPF) ../../share/atspre_staload_libats_ML.hats $(ATSDIST)/share/
+  $(CPF) ../../share/HATS/atspre_define_pkgreloc.hats $(ATSDIST)/share/HATS/
 srcget_share:: ; \\
-  $(CPF) ../../share/atsmake-pre.mk $(ATSDIST)/share/
-srcget_share:: ; \\
-  $(CPF) ../../share/atsmake-post.mk $(ATSDIST)/share/
+  $(CPF) ../../share/HATS/atspre_staload_libats_ML.hats $(ATSDIST)/share/HATS/
+srcget_share:: ; $(CPF) ../../share/atsmake-pre.mk $(ATSDIST)/share/
+srcget_share:: ; $(CPF) ../../share/atsmake-post.mk $(ATSDIST)/share/
 
 ######
 

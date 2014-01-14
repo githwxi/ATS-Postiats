@@ -28,6 +28,13 @@ end // end of [local]
 (* ****** ****** *)
 
 local
+#include"./../DATS/cstream_cloref.dats"
+in (*in-of-local *)
+end // end of [local]
+
+(* ****** ****** *)
+
+local
 #include"./../DATS/cstream_string.dats"
 in (*in-of-local *)
 end // end of [local]

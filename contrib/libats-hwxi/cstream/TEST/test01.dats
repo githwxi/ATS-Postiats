@@ -18,20 +18,13 @@ staload "./../SATS/cstream.sats"
 
 (* ****** ****** *)
 
+#define i2c int2char0
+
+(* ****** ****** *)
+
 implement
 main0 ((*void*)) =
 {
-//
-(*
-val cs =
-cstream_make_fun
-  (lam () => $STDLIB.getchar0 ())
-val c1 = cstream_get_char (cs)
-val () = fprintln! (stdout_ref, "c1 = ", c1)
-val ((*void*)) = cstream_free (cs)
-*)
-//
-macdef i2c(c) = int2char0(,(c))
 //
 val Hello = "Hello"
 //

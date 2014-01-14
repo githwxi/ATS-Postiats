@@ -60,9 +60,10 @@ fun cstream_getc
   (p: ptr): int = ret where
 {
 //
-typedef tfun = ((*void*)) -> int
+typedef
+data = ((*void*)) -<cloref> int
 //
-val (pf, fpf | p) = $UN.ptr0_vtake{tfun}(p)
+val (pf, fpf | p) = $UN.ptr0_vtake{data}(p)
 //
 val ret = !p()
 //

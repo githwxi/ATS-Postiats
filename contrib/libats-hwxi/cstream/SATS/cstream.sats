@@ -84,16 +84,15 @@ cstream_get_charlst (!cstream, n: int): List0_vt(char)
 (* ****** ****** *)
 
 fun cstream_make_fun (() -> int): cstream(TKfun)
+
+(* ****** ****** *)
+
 fun cstream_make_cloref (() -<cloref1> int): cstream(TKcloref)
 
 (* ****** ****** *)
-
-fun cstream_make_string (string): cstream(TKstring)
-fun cstream_make_strptr (Strptr1): cstream(TKstrptr)
-
-(* ****** ****** *)
 //
-symintr cstream_get_range
+symintr
+cstream_get_range
 //
 fun
 cstream_string_get_range
@@ -105,6 +104,11 @@ cstream_strptr_get_range
 overload cstream_get_range with cstream_string_get_range 
 overload cstream_get_range with cstream_strptr_get_range 
 //
+(* ****** ****** *)
+
+fun cstream_make_string (string): cstream(TKstring)
+fun cstream_make_strptr (Strptr1): cstream(TKstrptr)
+
 (* ****** ****** *)
 //
 fun
