@@ -1041,6 +1041,34 @@ end // end of [list_map]
 
 #atscode_separator()
 
+implement
+{x}{y}(*tmp*)
+list_map_fun
+  (xs, f) = let
+//
+implement
+{x2}{y2}
+list_map$fopr (x2) = $UN.castvwtp0{y2}(f($UN.cast{x}(x2)))
+//
+in
+  list_map<x><y> (xs)
+end // end of [list_map_fun]
+
+implement
+{x}{y}(*tmp*)
+list_map_cloref
+  (xs, f) = let
+//
+implement
+{x2}{y2}
+list_map$fopr (x2) = $UN.castvwtp0{y2}(f($UN.cast{x}(x2)))
+//
+in
+  list_map<x><y> (xs)
+end // end of [list_map_cloref]
+
+#atscode_separator()
+
 (*
 implement{x}{y}
 list_map_funenv
