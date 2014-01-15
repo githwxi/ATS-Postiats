@@ -8,7 +8,7 @@
 
 (*
 ** ATS - Unleashing the Potential of Types!
-** Copyright (C) 2002-2010 Hongwei Xi, Boston University
+** Copyright (C) 2002-2011 Hongwei Xi, Boston University
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -28,23 +28,6 @@
 *)
 
 (* ****** ****** *)
-
-(*
-**
-** A functional heap implementation based on Braun trees
-**
-** Contributed by Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-** Time: April, 2010 // based on a version done in November, 2008
-**
-*)
-
-(* ****** ****** *)
-//
-// HX-2011-11-13:
-// This style of heap is VERY inefficient! Please use funheap_binomial
-// instead, which is about 20 times faster for a heap of the size 1M.
-//
-(* ****** ****** *)
 //
 // HX-2014-01-15: Porting to ATS2
 //
@@ -59,43 +42,55 @@ heap_t0ype_type (a:t@ype+)
 stadef heap = heap_t0ype_type
 
 (* ****** ****** *)
-
+//
 typedef cmp (a:t@ype) = (a, a) -<cloref> Sgn
-
-(* ****** ****** *)
-
+//
 fun{a:t@ype}
 compare_elt_elt (x1: a, x2: a, cmp: cmp a):<> Sgn
-
+//
 (* ****** ****** *)
 
 fun{} funheap_make_nil {a:t@ype} ():<> heap (a)
 
 (* ****** ****** *)
-//
-fun{a:t@ype}
-funheap_size (heap a):<> size_t
-//
+
+fun{a:t@ype} funheap_size (hp: heap a): size_t
+
 (* ****** ****** *)
-//
-// HX: primarily for statistics
-//
-fun{a:t@ype}
-funheap_height (hp: heap a):<> Nat
-//
+
+fun
+funheap_is_empty{a:t@ype} (hp: heap (a)):<> bool
+fun
+funheap_isnot_empty{a:t@ype} (hp: heap (a)):<> bool
+
 (* ****** ****** *)
 
 fun{a:t@ype}
 funheap_insert
   (hp: &heap (a) >> _, x: a, cmp: cmp a):<!wrt> void
+// end of [funheap_insert]
+
+(* ****** ****** *)
+
+fun{a:t@ype}
+funheap_getmin (
+  hp: heap (a), cmp: cmp a, res: &a? >> opt (a, b)
+) :<!wrt> #[b:bool] bool b // end of [funheap_getmin]
 
 (* ****** ****** *)
 
 fun{a:t@ype}
 funheap_delmin (
-  hp: &heap (a) >> _, res: &a? >> opt (a, b), cmp: cmp a
-) :<!wrt> #[b:bool] bool b // end of [funheap_delim]
+  hp: &heap (a) >> _, cmp: cmp a, res: &a? >> opt (a, b)
+) :<!wrt> #[b:bool] bool b // end of [funheap_delmin]
 
 (* ****** ****** *)
 
-(* end of [funheap_braun.sats] *)
+fun{a:t@ype}
+funheap_merge
+  (hp1: heap (a), hp2: heap (a), cmp: cmp a):<> heap (a)
+// end of [funheap_merge]
+
+(* ****** ****** *)
+
+(* end of [funheap_binomial.sats] *)
