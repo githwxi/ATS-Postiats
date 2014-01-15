@@ -121,9 +121,10 @@ funheap_height (hp) =
   loop (hp, 0) where {
 //
 fun loop {n:nat} .<n>.
-  (t: bt (a, n), res: Nat):<> Nat =
+  (t: bt (a, n), res: intGte(0)):<> intGte(0) =
+(
   case+ t of B (_, tl, _) => loop (tl, res + 1) | E () => res
-// end of [loop]
+) (* end of [loop] *)
 //
 } (* end of [funheap_height] *)
 
@@ -136,12 +137,12 @@ funheap_insert
 fun insert {n:nat} .<n>.
   (t: bt (a, n), x: a):<cloref> bt (a, n+1) =
   case+ t of
-  | E () => B (x, E (), E ())
+  | E () => B{a}(x, E (), E ())
   | B (x0, t1, t2) => let
-      val sgn = compare_elt_elt (x0, x, cmp)
+      val sgn = compare_elt_elt<a> (x0, x, cmp)
     in
       if sgn >= 0 then
-        B (x, insert (t2, x0), t1) else B (x0, insert (t2, x), t1)
+        B{a}(x, insert (t2, x0), t1) else B{a}(x0, insert (t2, x), t1)
       // end of [if]
     end // end of [B]
 // end of [insert]
@@ -156,13 +157,13 @@ fun{a:t@ype}
 brauntree_leftrem{n:pos} .<n>.
   (t: bt (a, n), x_r: &a? >> a):<!wrt> bt (a, n-1) = let
 //
-  val+ B (x, t1, t2) = t
+val+B (x, t1, t2) = t
 //
 in
 //
 case+ t1 of
 | B _ => let
-    val t1 = brauntree_leftrem (t1, x_r) in B (x, t2, t1)
+    val t1 = brauntree_leftrem (t1, x_r) in B{a}(x, t2, t1)
   end // end of [B]
 | E () => (x_r := x; E ())
 //
@@ -187,15 +188,15 @@ fun siftdn
   :<cloref> bt (a, nl+nr+1) = case+ (tl, tr) of
   | (B (xl, tll, tlr), B (xr, trl, trr)) =>
     (
-      if compare_elt_elt (xl, x, cmp) >= 0 then begin // xl >= x
-        if compare_elt_elt (xr, x, cmp) >= 0
-          then B (x, tl, tr) else B (xr, tl, siftdn (x, trl, trr))
+      if compare_elt_elt<a> (xl, x, cmp) >= 0 then begin // xl >= x
+        if compare_elt_elt<a> (xr, x, cmp) >= 0
+          then B{a}(x, tl, tr) else B{a}(xr, tl, siftdn (x, trl, trr))
         // end of [if]
       end else begin // xl < x
-        if compare_elt_elt (xr, x, cmp) >= 0 then B (xl, siftdn (x, tll, tlr), tr)
+        if compare_elt_elt<a> (xr, x, cmp) >= 0 then B{a}(xl, siftdn (x, tll, tlr), tr)
         else begin // xr < x
-          if compare_elt_elt (xl, xr, cmp) >= 0
-            then B (xr, tl, siftdn (x, trl, trr)) else B (xl, siftdn (x, tll, tlr), tr)
+          if compare_elt_elt<a> (xl, xr, cmp) >= 0
+            then B{a}(xr, tl, siftdn (x, trl, trr)) else B{a}(xl, siftdn (x, tll, tlr), tr)
           // end of [if]
         end // end of [if]
       end (* end of [if] *)
@@ -203,9 +204,9 @@ fun siftdn
   | (_, _) =>> (
     case+ tl of
     | B (xl, _, _) =>
-        if compare_elt_elt (xl, x, cmp) >= 0 then B (x, tl, E) else B (xl, B (x, E, E), E)
+        if compare_elt_elt<a> (xl, x, cmp) >= 0 then B{a}(x, tl, E) else B{a}(xl, B{a}(x, E, E), E)
       // end of [B]
-    | E () => B (x, E (), E ())
+    | E ((*void*)) => B{a}(x, E (), E ())
     ) (* end of [_, _] *)
 // end of [siftdn]
 //
@@ -215,13 +216,13 @@ fun siftdn
 
 implement{a}
 funheap_delmin
-  (hp, res, cmp) = let
+  (hp0, res, cmp) = let
 //
 fun delmin{n:pos} .<>.
 (
   t: bt (a, n), res: &a? >> a
 ) :<!wrt> bt (a, n-1) = let
-  val+ B (x, t1, t2) = t; val () = res := x in
+  val+B (x, t1, t2) = t; val () = res := x in
   case+ t1 of
   | B _ => let
       var x_lrm: a // uninitialized
@@ -233,9 +234,9 @@ end // end of [demin]
 //
 in
 //
-case+ hp of
+case+ hp0 of
 | B _ => let
-    val () = hp := delmin (hp, res)
+    val () = hp0 := delmin (hp0, res)
     prval () = opt_some {a} (res) in true (*removed*)
   end // end of [B_]
 | E _ => let
@@ -243,6 +244,28 @@ case+ hp of
   end // end of [E]
 //
 end // end of [funheap_delmin]
+
+(* ****** ****** *)
+
+implement{a}
+funheap_delmin_opt
+  (hp0, cmp) = let
+//
+var res: a? // uninitized
+val ans = funheap_delmin<a> (hp0, res, cmp)
+//
+in
+//
+if ans
+  then let
+    prval () = opt_unsome{a}(res) in Some_vt{a}(res)
+  end // end of [then]
+  else let
+    prval () = opt_unnone{a}(res) in None_vt{a}(*void*)
+  end // end of [else]
+// end of [if]
+//
+end // end of [funheap_delmin_opt]
 
 (* ****** ****** *)
 

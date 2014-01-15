@@ -252,6 +252,10 @@ RMF=rm -f
 
 ######
 
+#make2_entry("libats_ATS1_funheap_braun", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+
+######
+
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o *_?ats.c
 clean:: ; $(RMF) *_atxt.txt

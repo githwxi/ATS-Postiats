@@ -12,9 +12,9 @@
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
-** the terms of the GNU LESSER GENERAL PUBLIC LICENSE as published by the
-** Free Software Foundation; either version 2.1, or (at your option)  any
-** later version.
+** the  terms of the  GNU General Public License as published by the Free
+** Software Foundation; either version 2.1, or (at your option) any later
+** version.
 ** 
 ** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
 ** WARRANTY; without  even  the  implied  warranty  of MERCHANTABILITY or
@@ -36,17 +36,18 @@
 #define ATS_STALOADFLAG 0 // no staloading
 
 (* ****** ****** *)
-
+//
 abstype
-heap_t0ype_type (a:t@ype+)
-stadef heap = heap_t0ype_type
-
+heap_t0ype_type (a:t@ype+) = ptr
+//
+typedef heap(a:t@ype) = heap_t0ype_type(a)
+//
 (* ****** ****** *)
 //
-typedef cmp (a:t@ype) = (a, a) -<cloref> Sgn
+typedef cmp (a:t@ype) = (a, a) -<cloref> int
 //
 fun{a:t@ype}
-compare_elt_elt (x1: a, x2: a, cmp: cmp a):<> Sgn
+compare_elt_elt (x1: a, x2: a, cmp: cmp a):<> int
 //
 (* ****** ****** *)
 

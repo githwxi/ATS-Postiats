@@ -8,13 +8,13 @@
 
 (*
 ** ATS - Unleashing the Potential of Types!
-** Copyright (C) 2002-2010 Hongwei Xi, Boston University
+** Copyright (C) 2002-2011 Hongwei Xi, Boston University
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
-** the terms of the GNU LESSER GENERAL PUBLIC LICENSE as published by the
-** Free Software Foundation; either version 2.1, or (at your option)  any
-** later version.
+** the  terms of the  GNU General Public License as published by the Free
+** Software Foundation; either version 2.1, or (at your option) any later
+** version.
 ** 
 ** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
 ** WARRANTY; without  even  the  implied  warranty  of MERCHANTABILITY or
@@ -53,48 +53,58 @@
 #define ATS_STALOADFLAG 0 // no staloading
 
 (* ****** ****** *)
-
+//
 abstype
-heap_t0ype_type (a:t@ype+)
-stadef heap = heap_t0ype_type
+heap_t0ype_type (a:t@ype+) = ptr
+//
+typedef
+heap(a:t0p) = heap_t0ype_type (a)
+//
+(* ****** ****** *)
+
+typedef
+cmp (a:t0p) = (a, a) -<cloref> int
 
 (* ****** ****** *)
 
-typedef cmp (a:t@ype) = (a, a) -<cloref> Sgn
+fun{a:t0p}
+compare_elt_elt
+  (x1: a, x2: a, cmp: cmp a):<> int
+// end of [compare_elt_elt]
 
 (* ****** ****** *)
 
-fun{a:t@ype}
-compare_elt_elt (x1: a, x2: a, cmp: cmp a):<> Sgn
-
-(* ****** ****** *)
-
-fun{} funheap_make_nil {a:t@ype} ():<> heap (a)
+fun{} funheap_make_nil{a:t0p} ():<> heap (a)
 
 (* ****** ****** *)
 //
-fun{a:t@ype}
-funheap_size (heap a):<> size_t
+fun{a:t0p}
+funheap_size (heap(INV(a))):<> Size
 //
 (* ****** ****** *)
 //
 // HX: primarily for statistics
 //
-fun{a:t@ype}
-funheap_height (hp: heap a):<> Nat
+fun{a:t0p}
+funheap_height (hp: heap(INV(a))):<> intGte(0)
 //
 (* ****** ****** *)
 
-fun{a:t@ype}
+fun{a:t0p}
 funheap_insert
-  (hp: &heap (a) >> _, x: a, cmp: cmp a):<!wrt> void
+  (hp: &heap(INV(a)) >> _, x: a, cmp: cmp a):<!wrt> void
 
 (* ****** ****** *)
 
-fun{a:t@ype}
+fun{a:t0p}
 funheap_delmin (
-  hp: &heap (a) >> _, res: &a? >> opt (a, b), cmp: cmp a
+  hp: &heap(INV(a)) >> _, res: &a? >> opt (a, b), cmp: cmp a
 ) :<!wrt> #[b:bool] bool b // end of [funheap_delim]
+
+fun{a:t0p}
+funheap_delmin_opt
+  (hp: &heap(INV(a)) >> _, cmp: cmp a):<!wrt> Option_vt (a)
+// end of [funheap_delmin_opt]
 
 (* ****** ****** *)
 

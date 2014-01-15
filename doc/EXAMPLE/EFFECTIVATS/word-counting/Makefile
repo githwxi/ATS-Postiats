@@ -23,21 +23,21 @@ include $(PATSHOME)/share/atsmake-post.mk
 
 all:: wordcnt
 wordcnt: wordcnt.dats ; \
-  $(PATSCC2) -o $@ $< -L$(PATSLIB) -latslib
+  $(PATSCC2) $(MALLOCFLAG) $(CFLAGS) -o $@ $< $(LDFLAGS)
 cleanall:: ; $(RMF) wordcnt
 
 ######
 
 all:: wordcnt2
 wordcnt2: wordcnt2.dats ; \
-  $(PATSCC2) -o $@ $< -L$(PATSLIB) -latslib
+  $(PATSCC2) $(MALLOCFLAG) $(CFLAGS) -o $@ $< $(LDFLAGS)
 cleanall:: ; $(RMF) wordcnt2
 
 ######
 
 all:: wordcnt_vt
 wordcnt_vt: wordcnt_vt.dats ; \
-  $(PATSCC2) -o $@ $< -L$(PATSLIB) -latslib
+  $(PATSCC2) $(MALLOCFLAG) $(CFLAGS) -o $@ $< $(LDFLAGS)
 cleanall:: ; $(RMF) wordcnt_vt
 
 ######
@@ -68,6 +68,7 @@ upload_main: \
 
 ######
 
+cleanats:: ; $(RMF) *_?ats.c
 cleanats:: ; $(RMF) main_atxt.txt
 cleanats:: ; $(RMF) main_atxt.dats
 

@@ -45,9 +45,9 @@
 (* ****** ****** *)
 //
 abstype
-mset_t0ype_type (a:t@ype+)
+mset_t0ype_type (a:t@ype+) = ptr
 //
-stadef mset = mset_t0ype_type
+typedef mset(a:t@ype) = mset_t0ype_type(a)
 //
 (* ****** ****** *)
 
