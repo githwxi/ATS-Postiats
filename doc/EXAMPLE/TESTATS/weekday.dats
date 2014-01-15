@@ -8,6 +8,11 @@
 // Start time: May, 2013
 //
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload.hats"
+//
+(* ****** ****** *)
 
 datatype
 weekday =
@@ -16,6 +21,29 @@ weekday =
 | Wednesday of ()
 | Thursday of ()
 | Friday of ()
+
+(* ****** ****** *)
+//
+// HX: testing internal rep.
+//
+local
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
+macdef
+ptr2int (x) =
+  $UN.cast{int}($UN.cast{intptr}(,(x)))
+//
+in (*in-of-local*)
+
+val-(0) = ptr2int(Monday())
+val-(1) = ptr2int(Tuesday())
+val-(2) = ptr2int(Wednesday())
+val-(3) = ptr2int(Thursday())
+val-(4) = ptr2int(Friday())
+
+end // end of [local]
 
 (* ****** ****** *)
 

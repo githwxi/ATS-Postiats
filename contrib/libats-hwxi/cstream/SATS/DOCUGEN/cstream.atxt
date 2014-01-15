@@ -64,7 +64,9 @@ stored.
 This function calls #dyncode("cstream_get_char") repeatedly until either
 the number of calls reaches the value of its second argument or -1 is
 returned, and it returns a list consisting of all the characters returned
-by calls to #dyncode("cstream_get_char").
+by calls to #dyncode("cstream_get_char"). Note that this function returns
+a list consisting of all the characters in the character stream associated
+with its first argument if its second argument is a negative integer.
 
 ')
 
