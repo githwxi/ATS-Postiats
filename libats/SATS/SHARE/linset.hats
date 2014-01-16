@@ -170,4 +170,13 @@ linset_listize1 (xs: !set(INV(a))): List_vt (a)
 
 (* ****** ****** *)
 
+// fun{a:t0p}
+// linset_union (xs1: set(INV(a)), xs2: set(INV(a))):<!wrt> List0_vt (a)
+
+fun{a:t0p} linset_union
+  (xs1: set a, xs2: set a):<!wrt> set (a)
+
+
+(* ****** ****** *)
+
 (* end of [linset.hats] *)

@@ -458,7 +458,7 @@ funset_diff
 //
 fun aux // non-tail-recursive
   {n1,n2:nat} .<n1+n2>.
-(
+(runion
   xs1: list (a, n1), xs2: list (a, n2)
 ) :<cloref0> List0 (a) = let
 in
