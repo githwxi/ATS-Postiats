@@ -148,6 +148,11 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
+#packfilename("prelude_stream.dats")
+#packfilename("prelude_stream_vt.dats")
+
+(* ****** ****** *)
+
 #packfilename("prelude_gprint.dats")
 
 (* ****** ****** *)
@@ -178,11 +183,19 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 (* ****** ****** *)
 
 #packfilename("libats_stkarray.dats")
+#packfilename("libats_deqarray.dats")
+
+(* ****** ****** *)
+
 #packfilename("libats_dynarray.dats")
 
 (* ****** ****** *)
 
 #packfilename("libats_refcount.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_stringbuf.dats")
 
 (* ****** ****** *)
 
@@ -232,11 +245,21 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 (* ****** ****** *)
 
 #packfilename("libats_ML_funset.dats")
+#packfilename("libats_ML_funmap.dats")
 
 (* ****** ****** *)
 
 #packfilename("libats_ML_monad_list.dats")
 #packfilename("libats_ML_monad_maybe.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_ATS1_funheap_braun.dats")
+#packfilename("libats_ATS1_funheap_binomial.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_ATS1_funmset_listord.dats")
 
 (* ****** ****** *)
 

@@ -260,6 +260,7 @@ doc/DISTRIB/ATS-Postiats/libats/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/?ATS/SHARE/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/ML/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/ML/?ATS/SHARE/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/ATS1/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/contrib/*
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/*.?ats
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/Makefile

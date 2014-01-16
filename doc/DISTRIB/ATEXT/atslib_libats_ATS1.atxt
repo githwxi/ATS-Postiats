@@ -43,8 +43,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=./../../contrib/libats-hwxi/\n\
-TARGET=ATS-Postiats-contrib/contrib/libats-hwxi/\n\
+SOURCE=../../libats/ATS1/\n\
+TARGET=ATS-Postiats/libats/ATS1/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -62,7 +62,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The ATSCNTRB-libatshwxi-testing files have been copied.\"\n\
+echo \"The ATSLIB-libats files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
@@ -96,33 +96,26 @@ packfilesynop (x) = atext_nil ()
 (* ****** ****** *)
 
 #packtitle("\
-ATSCNTRB/libats-hwxi\
+The ATSLIB/libats/ATS1 library\
 ")
 
 (* ****** ****** *)
 
-#packfilename("testing/SATS/randgen.sats")
-#packfilename("testing/SATS/foldleft.sats")
-#packfilename("testing/DATS/randgen.dats")
-#packfilename("testing/DATS/foldleft.dats")
+#packfilename("SATS/funheap_braun.sats")
+#packfilename("SATS/funheap_binomial.sats")
 
 (* ****** ****** *)
 
-#packfilename("intinf/SATS/intinf.sats")
-#packfilename("intinf/SATS/intinf_t.sats")
-#packfilename("intinf/SATS/intinf_vt.sats")
-#packfilename("intinf/DATS/intinf_t.dats")
-#packfilename("intinf/DATS/intinf_vt.dats")
+#packfilename("SATS/funmset_listord.sats")
 
 (* ****** ****** *)
 
-#packfilename("cstream/SATS/cstream.sats")
-#packfilename("cstream/DATS/cstream_fun.dats")
-#packfilename("cstream/DATS/cstream_cloref.dats")
-#packfilename("cstream/DATS/cstream_string.dats")
-#packfilename("cstream/DATS/cstream_strptr.dats")
-#packfilename("cstream/DATS/cstream_fileref.dats")
-#packfilename("cstream/DATS/cstream_fileptr.dats")
+#packfilename("DATS/funheap_braun.dats")
+#packfilename("DATS/funheap_binomial.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/funmset_listord.dats")
 
 (* ****** ****** *)
 
@@ -138,4 +131,4 @@ implement main () = ()
 
 (* ****** ****** *)
 
-(* end of [atscntrb_libatshwxi.atxt] *)
+(* end of [atslib_libats_ATS1.atxt] *)

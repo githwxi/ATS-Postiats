@@ -107,6 +107,16 @@ clean:: ; $(RMF) atslib_libats_ML_atxt.exe
 cleanall:: ; $(RMF) HTML/atslib_libats_ML.html
 cleanall:: ; $(RMF) SCRIPT/atslib_libats_ML.bash
 
+all_html:: HTML/atslib_libats_ATS1.html
+HTML/atslib_libats_ATS1.html: atslib_libats_ATS1_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atslib_libats_ATS1.bash
+SCRIPT/atslib_libats_ATS1.bash: atslib_libats_ATS1_atxt.exe ; ./$< > $@
+atslib_libats_ATS1_atxt.dats: ATEXT/atslib_libats_ATS1.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atslib_libats_ATS1_atxt.exe: atslib_libats_ATS1_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atslib_libats_ATS1_atxt.exe
+cleanall:: ; $(RMF) HTML/atslib_libats_ATS1.html
+cleanall:: ; $(RMF) SCRIPT/atslib_libats_ATS1.bash
+
 
 ######
 
@@ -402,6 +412,8 @@ srcget_atslib:: srcget_atslib_libats
 srcget_atslib_libats:: SCRIPT/atslib_libats.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats_ML
 srcget_atslib_libats_ML:: SCRIPT/atslib_libats_ML.bash ; bash $<
+srcget_atslib:: srcget_atslib_libats_ATS1
+srcget_atslib_libats_ATS1:: SCRIPT/atslib_libats_ATS1.bash ; bash $<
 
 ######
 
