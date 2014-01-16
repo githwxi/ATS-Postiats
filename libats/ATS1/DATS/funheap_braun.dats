@@ -216,7 +216,7 @@ fun siftdn
 
 implement{a}
 funheap_delmin
-  (hp0, res, cmp) = let
+  (hp0, cmp, res) = let
 //
 fun delmin{n:pos} .<>.
 (
@@ -252,7 +252,7 @@ funheap_delmin_opt
   (hp0, cmp) = let
 //
 var res: a? // uninitized
-val ans = funheap_delmin<a> (hp0, res, cmp)
+val ans = funheap_delmin<a> (hp0, cmp, res)
 //
 in
 //

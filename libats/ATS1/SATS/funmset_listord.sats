@@ -63,10 +63,10 @@ funmset_make_nil
   {a:t@ype} ((*void*)):<> mset (a)
 //
 fun{a:t@ype}
-funmset_make_sing (x: a):<> mset (a)
+funmset_make_sing (x: a): mset (a)
 fun{a:t@ype}
 funmset_make_pair
-  (x1: a, x2: a, cmp: cmp a):<> mset (a)
+  (x1: a, x2: a, cmp: cmp a): mset (a)
 //
 fun{a:t@ype}
 funmset_make_list (xs: List a, cmp: cmp a): mset (a)
@@ -74,47 +74,34 @@ funmset_make_list (xs: List a, cmp: cmp a): mset (a)
 (* ****** ****** *)
 
 fun{a:t@ype}
-funmset_size (xs: mset (a)):<> size_t
+funmset_size (xs: mset(INV(a))):<> Size
 
 (* ****** ****** *)
 
 fun{a:t@ype}
-funmset_get_ntime (xs: mset a, x0: a, cmp: cmp a):<> uint
+funmset_get_ntime
+  (xs: mset(INV(a)), x0: a, cmp: cmp a):<> intGte(0)
+// end of [funmset_get_ntime]
 
 (* ****** ****** *)
 
 fun{a:t@ype}
-funmset_is_member (xs: mset a, x0: a, cmp: cmp a):<> bool
+funmset_is_member (xs: mset(INV(a)), x0: a, cmp: cmp a):<> bool
 fun{a:t@ype}
-funmset_isnot_member (xs: mset a, x0: a, cmp: cmp a):<> bool
-
-(* ****** ****** *)
-
-fun{a:t@ype}
-funmset_insert
-(
-  xs: &mset (a) >> _, x0: a, cmp: cmp (a)
-) :<!wrt> void // end of [funmset_insert]
-
-fun{a:t@ype}
-funmset_remove
-(
-  xs: &mset (a) >> _, x0: a, cmp: cmp (a)
-) :<!wrt> bool(*removed/not: true/false*)
-// end of [funmset_remove]
+funmset_isnot_member (xs: mset(INV(a)), x0: a, cmp: cmp a):<> bool
 
 (* ****** ****** *)
 
 fun{a:t@ype}
 funmset_is_equal
-  (xs1: mset (a), mxs2: mset (a), cmp: cmp (a)):<> bool
+  (xs1: mset(INV(a)), mxs2: mset (a), cmp: cmp (a)):<> bool
 // end of [funmset_is_equal]
 
 (* ****** ****** *)
 
 fun{a:t@ype}
 funmset_is_subset
-  (xs1: mset (a), xs2: mset (a), cmp: cmp (a)):<> bool
+  (xs1: mset(INV(a)), xs2: mset (a), cmp: cmp (a)):<> bool
 // end of [funmset_is_subset]
 
 (* ****** ****** *)
@@ -123,25 +110,40 @@ funmset_is_subset
 *)
 fun{a:t@ype}
 funmset_compare
-  (xs1: mset (a), xs2: mset (a), cmp: cmp (a)):<> int
+  (xs1: mset(INV(a)), xs2: mset (a), cmp: cmp (a)):<> int
 // end of [funmset_compare]
 
 (* ****** ****** *)
 
 fun{a:t@ype}
+funmset_insert
+(
+  xs: &mset(INV(a)) >> _, x0: a, cmp: cmp (a)
+) :<!wrt> void // end of [funmset_insert]
+
+fun{a:t@ype}
+funmset_remove
+(
+  xs: &mset(INV(a)) >> _, x0: a, cmp: cmp (a)
+) :<!wrt> bool(*removed/not: true/false*)
+// end of [funmset_remove]
+
+(* ****** ****** *)
+
+fun{a:t@ype}
 funmset_union
-  (xs1: mset (a), xs2: mset (a), cmp: cmp (a)): mset (a)
+  (xs1: mset(INV(a)), xs2: mset (a), cmp: cmp (a)): mset (a)
 fun{a:t@ype}
 funmset_intersect
-  (xs1: mset (a), xs2: mset (a), cmp: cmp (a)): mset (a)
+  (xs1: mset(INV(a)), xs2: mset (a), cmp: cmp (a)): mset (a)
 
 (* ****** ****** *)
 //
 fun{a:t@ype}
-funmset_listize (xs: mset (a)): List_vt (a) // no repeats
+funmset_listize (xs: mset(INV(a))): List0_vt (a) // no repeats
 //
 fun{a:t@ype} // if an element occurs n times, then it is repeated
-funmset_mlistize (xs: mset (a)): List_vt (a) // n times in the output
+funmset_mlistize (xs: mset (INV(a))): List0_vt (a) // n times in the output
 //
 (* ****** ****** *)
 

@@ -96,9 +96,21 @@ funheap_insert
 
 (* ****** ****** *)
 
+fun{a:t@ype}
+funheap_getmin (
+  hp: heap (INV(a)), cmp: cmp a, res: &a? >> opt (a, b)
+) :<!wrt> #[b:bool] bool b // end of [funheap_getmin]
+
+fun{a:t0p}
+funheap_getmin_opt
+  (hp: heap(INV(a)), cmp: cmp a):<!wrt> Option_vt (a)
+// end of [funheap_getmin_opt]
+
+(* ****** ****** *)
+
 fun{a:t0p}
 funheap_delmin (
-  hp: &heap(INV(a)) >> _, res: &a? >> opt (a, b), cmp: cmp a
+  hp: &heap(INV(a)) >> _, cmp: cmp a, res: &a? >> opt (a, b)
 ) :<!wrt> #[b:bool] bool b // end of [funheap_delim]
 
 fun{a:t0p}

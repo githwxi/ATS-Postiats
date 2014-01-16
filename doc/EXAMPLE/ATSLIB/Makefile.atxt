@@ -253,6 +253,8 @@ RMF=rm -f
 ######
 
 #make2_entry("libats_ATS1_funheap_braun", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+#make2_entry("libats_ATS1_funheap_binomial", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+#make2_entry("libats_ATS1_funmset_listord", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 
 ######
 

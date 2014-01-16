@@ -35,6 +35,10 @@
 
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "libats/ATS1/SATS/funheap_binomial.sats"
 
 (* ****** ****** *)
@@ -50,21 +54,20 @@ compare_elt_elt (x1, x2, cmp) = cmp (x1, x2)
 *)
 datatype
 btree (a:t@ype+, int(*rank*)) =
-  | {n:nat}
-    btnode (a, n) of (int (n), a, btreelst (a, n))
+  | {n:nat} btnode (a, n) of (int (n), a, btreelst (a, n))
 // end of [btree]
 
 and
 btreelst (a:t@ype+, int(*rank*)) =
-  | {n:nat}
-    btlst_cons (a, n+1) of (btree (a, n), btreelst (a, n))
-  | btlst_nil (a, 0)
+  | btlst_nil (a, 0) of ((*void*))
+  | {n:nat} btlst_cons (a, n+1) of (btree (a, n), btreelst (a, n))
 // end of [btreelst]
 
 (* ****** ****** *)
 
-fun{a:t@ype}
-btree_rank
+fun{
+a:t0p
+} btree_rank
   {n:nat} .<>. (
   bt: btree (a, n)
 ) :<> int (n) = let
@@ -85,7 +88,7 @@ bheap (
 
 (* ****** ****** *)
 
-fun{a:t@ype}
+fun{a:t0p}
 btree_btree_merge
   {n:nat} .<>. (
   bt1: btree (a, n)
@@ -97,54 +100,65 @@ btree_btree_merge
   val sgn = compare_elt_elt<a> (x1, x2, cmp)
 in
   if sgn <= 0 then
-    btnode (n+1, x1, btlst_cons (bt2, bts1))
+    btnode{a}(n+1, x1, btlst_cons{a}(bt2, bts1))
   else
-    btnode (n+1, x2, btlst_cons (bt1, bts2))
+    btnode{a}(n+1, x2, btlst_cons{a}(bt1, bts2))
   // end of [if]
 end // end of [btree_btree_merge]
 
 (* ****** ****** *)
 
-fun{a:t@ype}
-btree_bheap_merge
-  {sz:nat}{n,n1:nat | n <= n1}{p:int} .<sz>. (
-  pf: EXP2 (n, p) | bt: btree (a, n), n: int (n), hp: bheap (a, n1, sz)
-, cmp: cmp a
+fun{a:t0p}
+btree_bheap_merge{sz:nat}
+  {n,n1:nat | n <= n1}{p:int} .<sz>.
+(
+  pf: EXP2 (n, p)
+| bt: btree (a, n), n: int (n), hp: bheap (a, n1, sz)
+, cmp: cmp (a)
 ) :<> [n2:int | n2 >= min(n, n1)] bheap (a, n2, sz+p) =
   case+ hp of
-  | bheap_nil () =>
-      bheap_cons (pf | bt, bheap_nil {a} {n+1} ())
-    // end of [bheap_nil]
-  | bheap_cons (pf1 | bt1, hp1) => let
-      val n1 = btree_rank (bt1)
+  | bheap_cons
+      (pf1 | bt1, hp1) => let
+      val n1 = btree_rank<a> (bt1)
     in
-      if n < n1 then
-        bheap_cons (pf | bt, hp)
-      else if n > n1 then
-        bheap_cons (pf1 | bt1, btree_bheap_merge (pf | bt, n, hp1, cmp))
-      else let
+      if n < n1 then let
+        // nothing
+      in
+        bheap_cons{a}(pf | bt, hp)
+      end else if n > n1 then let
+        val hp1 =
+          btree_bheap_merge<a> (pf | bt, n, hp1, cmp)
+        // end of [val]
+      in
+        bheap_cons{a}(pf1 | bt1, hp1)
+      end else let
         prval () = exp2_ispos (pf1)
         prval () = exp2_isfun (pf, pf1)
-        val bt = btree_btree_merge (bt, bt1, cmp)
+        val bt = btree_btree_merge<a> (bt, bt1, cmp)
       in
-        btree_bheap_merge (EXP2ind (pf) | bt, n+1, hp1, cmp)
+        btree_bheap_merge<a> (EXP2ind (pf) | bt, n+1, hp1, cmp)
       end // end of [if]
     end (* end of [bheap_cons] *)
+  | bheap_nil () =>
+      bheap_cons{a}(pf | bt, bheap_nil{a}{n+1}())
+    // end of [bheap_nil]
 // end of [btree_bheap_merge]
 
 (* ****** ****** *)
 
-fun{a:t@ype}
+fun{a:t0p}
 bheap_bheap_merge
   {n1,n2:nat}
-  {sz1,sz2:nat} .<sz1+sz2>. (
+  {sz1,sz2:nat} .<sz1+sz2>.
+(
   hp1: bheap (a, n1, sz1)
 , hp2: bheap (a, n2, sz2)
 , cmp: cmp a
 ) :<> [n:int | n >= min(n1, n2)] bheap (a, n, sz1+sz2) =
+(
   case+ hp1 of
-  | bheap_nil () => hp2
-  | bheap_cons (pf1 | bt1, hp11) => (
+  | bheap_cons
+      (pf1 | bt1, hp11) => (
     case+ hp2 of
     | bheap_nil () => hp1
     | bheap_cons (pf2 | bt2, hp21) => let
@@ -152,59 +166,65 @@ bheap_bheap_merge
         prval () = exp2_ispos (pf1)
         prval () = exp2_ispos (pf2)
 //
-        val n1 = btree_rank (bt1)
-        val n2 = btree_rank (bt2)
+        val n1 = btree_rank<a> (bt1)
+        val n2 = btree_rank<a> (bt2)
       in
         if n1 < n2 then
-          bheap_cons (pf1 | bt1, bheap_bheap_merge (hp11, hp2, cmp))
+          bheap_cons{a}(pf1 | bt1, bheap_bheap_merge<a> (hp11, hp2, cmp))
         else if n1 > n2 then
-          bheap_cons (pf2 | bt2, bheap_bheap_merge (hp1, hp21, cmp))
+          bheap_cons{a}(pf2 | bt2, bheap_bheap_merge<a> (hp1, hp21, cmp))
         else let
           prval () = exp2_isfun (pf1, pf2)
-          val bt12 = btree_btree_merge (bt1, bt2, cmp)
+          val bt12 = btree_btree_merge<a> (bt1, bt2, cmp)
         in
-          btree_bheap_merge (EXP2ind (pf1) | bt12, n1+1, bheap_bheap_merge (hp11, hp21, cmp), cmp)
+          btree_bheap_merge<a> (EXP2ind (pf1) | bt12, n1+1, bheap_bheap_merge<a> (hp11, hp21, cmp), cmp)
         end // end of [if]
       end (* end of [bheap_cons] *)
     ) // end of [bheap_cons]
-// end of [bheap_bheap_merge]
+  | bheap_nil ((*void*)) => hp2
+) (* end of [bheap_bheap_merge] *)
 
 (* ****** ****** *)
 
-fun{a:t@ype}
+fun{a:t0p}
 bheap_find_min
   {n:nat}{sz:pos} .<>. (
   hp0: bheap (a, n, sz), cmp: cmp a
-) :<!wrt> a = let
+) :<!wrt> a = x0 where
+{
 //
-  fun find
-    {n:nat}{sz:nat} .<sz>. (
-    hp: bheap (a, n, sz), x0: &a, cmp: cmp a
-  ) :<!wrt> void =
-    case+ hp of
-    | bheap_cons
-        (pf | bt, hp) => let
-        prval () = exp2_ispos (pf)
-        val+btnode (_, x, _) = bt
-        val ((*void*)) = if compare_elt_elt<a> (x0, x, cmp) > 0 then (x0 := x)
-      in
-        find (hp, x0, cmp)
-      end
-    | bheap_nil () => ()
-  (* end of [find] *)
+fun find
+  {n:nat}
+  {sz:nat} .<sz>.
+(
+  hp: bheap (a, n, sz), x0: &a, cmp: cmp a
+) :<!wrt> void =
+(
+  case+ hp of
+  | bheap_cons
+      (pf | bt, hp) => let
+      prval () = exp2_ispos (pf)
+      val+btnode (_, x, _) = bt
+      val ((*void*)) =
+        if compare_elt_elt<a> (x0, x, cmp) > 0 then (x0 := x)
+      // end of [val]
+    in
+      find (hp, x0, cmp)
+    end
+  | bheap_nil ((*void*)) => ()
+) (* end of [find] *)
 //
-  val+bheap_cons
-    (pf0 | bt0, hp1) = hp0
-  val+btnode (_, x0, _) = bt0
-  var x0: a = x0
-  val () = find (hp1, x0, cmp)
-in
-  x0
-end // end of [bheap_find_min]
+val+bheap_cons
+  (pf0 | bt0, hp1) = hp0
+val+btnode (_, x0, _) = bt0
+var x0: a = x0
+val () = find (hp1, x0, cmp)
+//
+} (* end of [bheap_find_min] *)
 
 (* ****** ****** *)
 
-fun{a:t@ype}
+fun{a:t0p}
 bheap_remove_min
   {n:nat}{sz:pos} .<>. (
   hp0: bheap (a, n, sz), cmp: cmp a
@@ -263,7 +283,7 @@ bheap_remove_min
     if pos > 0 then let
       val (pfmin | hp) = remove (hp, pos-1, btmin)
     in
-      (pfmin | bheap_cons (pf | bt, hp))
+      (pfmin | bheap_cons{a}(pf | bt, hp))
     end else let
       val () = btmin := bt in (pf | hp)
     end // end of [if]
@@ -279,41 +299,38 @@ end // end of [bheap_remove_min]
 (* ****** ****** *)
 
 assume
-heap_t0ype_type
-  (a:t@ype) = [n,sz:nat] bheap (a, n, sz)
-// end of [heap_t0ype_type]
+heap_t0ype_type (a:t0p) = [n,sz:nat] bheap (a, n, sz)
 
 (* ****** ****** *)
 
 implement{}
-funheap_make_nil {a} () = bheap_nil {a} {0} ()
+funheap_make_nil{a}((*void*)) = bheap_nil{a}{0}()
 
 (* ****** ****** *)
 
 local
 
-extern
-fun pow2 {n:nat} (n: int n)
-  : [p:pos] (EXP2 (n, p) | size_t (p))
-  = "mac#atslib_ATS1_funheap_binomial_pow2"
-// end of [pow2]
-
-%{^
-static
-ats_size_type
-atslib_ATS1_funheap_binomial_pow2
-  (ats_int_type n) {
-  size_t res = 1 ; return (res << n) ;
-} // end of [atslib_funheap_binomial_pow2]
-%} // end of [%{^]
+fun{}
+pow2{n:nat} .<>.
+(
+  n: int n
+) :<> [p:pos] (EXP2 (n, p) | size_t (p)) = let
+//
+val res = (1 << n)
+val [p:int] res = $UN.cast{sizeGt(0)}(res)
+//
+in
+  ($UN.castview0{EXP2(n, p)}(0) | res)
+end // end of [pow2]
 
 in (* in of [local] *)
 
 implement{a}
 funheap_size (hp) = let
 //
-  fun aux {n:nat}{sz:nat} .<sz>.
-    (hp: bheap (a, n, sz)): size_t (sz) =
+  fun aux
+    {n:nat}{sz:nat} .<sz>.
+    (hp: bheap (a, n, sz)):<> size_t (sz) =
     case+ hp of
     | bheap_cons (pf | bt, hp) => let
         val btnode (n, _, _) = bt; val (pf1 | p) = pow2 (n)
@@ -335,21 +352,23 @@ end // end of [local]
 implement{a}
 funheap_insert
   (hp, x0, cmp) = let
-  val bt = btnode (0, x0, btlst_nil ())
+  val bt = btnode{a}(0, x0, btlst_nil ())
 in
-  hp := btree_bheap_merge (EXP2bas () | bt, 0, hp, cmp)
+  hp := btree_bheap_merge<a> (EXP2bas () | bt, 0, hp, cmp)
 end // end of [funheap_insert]
 
 (* ****** ****** *)
 
 implement
-funheap_is_empty {a} (hp) = (
+funheap_is_empty{a}(hp) =
+(
   case+ hp of
   | bheap_cons (_ | _, _) => false | bheap_nil () => true
 ) // end of [funheap_is_empty]
 
 implement
-funheap_isnot_empty {a} (hp) = (
+funheap_isnot_empty{a}(hp) =
+(
   case+ hp of
   | bheap_cons (_ | _, _) => true | bheap_nil () => false
 ) // end of [funheap_isnot_empty]
@@ -365,13 +384,13 @@ case+ hp0 of
 | bheap_cons
     (pf0 | _, _) => let
     prval () = exp2_ispos (pf0)
-    val () = res := bheap_find_min (hp0, cmp)
-    prval () = opt_some {a} (res)
+    val () = res := bheap_find_min<a> (hp0, cmp)
+    prval () = opt_some{a}(res)
   in
     true
   end // end of [bheap_cons]
 | bheap_nil () => let
-    prval () = opt_none {a} (res) in false
+    prval () = opt_none{a}(res) in false
   end // end of [bheap_nil]
 //
 end // end of [funheap_getmin]
@@ -384,33 +403,67 @@ funheap_delmin
 in
 //
 case+ hp0 of
-| bheap_cons (pf0 | _, _) => let
+| bheap_cons
+    (pf0 | _, _) => let
     prval () = exp2_ispos (pf0)
-    val (_(*pf*) | hp_new, btmin) = bheap_remove_min (hp0, cmp)
+    val (_ | hp_new, btmin) =
+      bheap_remove_min<a> (hp0, cmp)
     val btnode (_, x, bts) = btmin
-    val () = res := x
-    prval () = opt_some {a} (res)
-    val hp1 = loop (bts, bheap_nil) where {
-      fun loop {n:nat}{sz:nat} .<n>. (
+    val ((*void*)) = res := x
+    prval ((*void*)) = opt_some{a}(res)
+    val hp1 = let
+      fun loop
+        {n:nat}{sz:nat} .<n>.
+      (
         bts: btreelst (a, n), hp: bheap (a, n, sz)
       ) :<> [sz:nat] bheap (a, 0, sz) =
+      (
         case+ bts of
-        | btlst_cons (bt, bts) => let
-            prval pf = exp2_istot () in loop (bts, bheap_cons (pf | bt, hp))
+        | btlst_cons
+            (bt, bts) => let
+            prval pf = exp2_istot ()
+          in
+            loop (bts, bheap_cons{a}(pf | bt, hp))
           end // end of [btlst_cons]
-        | btlst_nil () => hp
-      // end of [loop]
-    } // end of [val]
-    val () = hp0 := bheap_bheap_merge (hp_new, hp1, cmp)
+        | btlst_nil ((*void*)) => (hp)
+      ) (* end of [loop] *)
+    in
+      loop (bts, bheap_nil)
+    end // end of [val]
+    val ((*void*)) =
+      hp0 := bheap_bheap_merge<a> (hp_new, hp1, cmp)
+    // end of [val]
   in
     true
   end // end of [bheap_cons]
 | bheap_nil () => let
-    prval () = opt_none {a} (res) in false
+    prval () = opt_none{a}(res) in false
   end // end of [bheap_nil]
 // end of [case]
 //
 end // end of [funheap_delmin]
+
+(* ****** ****** *)
+
+implement{a}
+funheap_delmin_opt
+  (hp0, cmp) = let
+//
+var res: a? // uninitized
+val ans = funheap_delmin<a> (hp0, cmp, res)
+//
+in
+//
+if ans
+  then let
+    prval () = opt_unsome{a}(res) in Some_vt{a}(res)
+  end // end of [then]
+  else let
+    prval () = opt_unnone{a}(res) in None_vt{a}(*void*)
+  end // end of [else]
+// end of [if]
+//
+end // end of [funheap_delmin_opt]
 
 (* ****** ****** *)
 
