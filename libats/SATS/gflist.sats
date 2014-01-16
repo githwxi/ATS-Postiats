@@ -28,7 +28,7 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi
-// Authoremail: hwxiATcsDOTbuDOTedu
+// Authoremail: gmmhwxiATgmailDOTcom
 // Time: October, 2010
 //
 (* ****** ****** *)

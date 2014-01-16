@@ -1,5 +1,6 @@
 (*
-** for testing [libats/ATS1/funheap]
+** for testing
+** [libats/ATS1/funheap_binomial]
 *)
 
 (* ****** ****** *)

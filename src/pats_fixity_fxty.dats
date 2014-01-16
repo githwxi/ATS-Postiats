@@ -38,6 +38,13 @@ ERR = "./pats_error.sats"
 
 (* ****** ****** *)
 
+staload
+LOC ="./pats_location.sats"
+overload print with $LOC.print_location
+overload prerr with $LOC.prerr_location
+
+(* ****** ****** *)
+
 staload "./pats_fixity.sats"
 
 (* ****** ****** *)
@@ -194,7 +201,8 @@ end // end of [fxopr_make_backslahsh]
 (* ****** ****** *)
 
 (*
-** HX-2011-04-10: this is some code I originally wrote in 1998
+** HX-2011-04-10:
+** this is some code I originally wrote in 1998
 ** for implementing DML; it has been a while :)
 *)
 
@@ -211,39 +219,38 @@ fixity_resolve
 typedef I = fxitm a
 typedef J = List (I)
 //
+fn erropr (
+  loc: location
+) : a = let
+  val () = prerr (loc)
+  val () = prerr ": error(1)"
+  val () = prerr ": operator fixity cannot be resolved."
+  val () = prerr_newline ()
+in
+  $ERR.abort{a}((*void*))
+end // end of [erropt]
+//
 fn errapp (
   locf: a -> location, m: fxitm a
 ) : a = let
   val-FXITMatm atm = m
-  val loc = locf (atm)
-  val () = $LOC.prerr_location (loc)
+  val () = prerr (locf(atm))
   val () = prerr ": error(1)"
   val () = prerr ": application fixity cannot be resolved."
   val () = prerr_newline ()
 in
-  $ERR.abort {a} ()
-end // end of [err]
-//
-fn erropr (
-  loc: location
-) : a = let
-  val () = $LOC.prerr_location (loc)
-  val () = prerr ": error(1)"
-  val () = prerr ": operator fixity cannot be resolved."
-  val () = prerr_newline ()
-in
-  $ERR.abort {a} ()
-end // end of [err]
+  $ERR.abort{a}((*void*))
+end // end of [errapp]
 //
 fn err_reduce (
   loc: location, ys: J
 ) : a = let
-  val () = $LOC.prerr_location (loc)
+  val () = prerr (loc)
   val () = prerr ": error(1)"
   val () = prerr ": operator fixity cannot be resolved."
   val () = prerr_newline ()
 in
-  $ERR.abort {a} ()
+  $ERR.abort{a}((*void*))
 end // end of [err]
 //
 (*
@@ -260,10 +267,13 @@ fn* resolve (
   | FXITMopr (loc, opr) => resolve_opr (loc, opr, xs, m, ys)
 (* end of [resolve] *)
 //
-and resolve_opr (
+and resolve_opr
+(
   loc: location
 , opr: fxopr a, xs: J, m: I, ys: J
-) :<cloref1> a = case+ (opr, ys) of
+) :<cloref1> a =
+(
+  case+ (opr, ys) of
   | (FXOPRinf _, _ :: nil ()) => pushup (xs, m :: ys)
   | (FXOPRinf _, _ :: FXITMopr (_, opr1) :: _) => let
       val p = fxopr_precedence opr and p1 = fxopr_precedence opr1
@@ -292,11 +302,13 @@ and resolve_opr (
     end // end of [let]
   | (FXOPRpos _, _ :: nil ()) => reduce (xs, m :: ys)
   | (_, _) => erropr (loc)
-(* end of [resolve_opr] *)
+) (* end of [resolve_opr] *)
 //
 and resolve_app (
   xs: J, m: I, ys: J
-) :<cloref1> a = case+ ys of
+) :<cloref1> a =
+(
+  case+ ys of
   | _ :: FXITMopr (_, opr1) :: _ => let
       val p1 = fxopr_precedence opr1
       val sgn = compare (app_prec, p1): Sgn
@@ -314,17 +326,18 @@ and resolve_app (
     end // end of [_ :: ITERMopr :: _]
   | _ :: nil () => pushup (xs, m :: app :: ys)
   | _ => errapp (locf, m) // HX: [m] is FXITMatm
-(* end of [resolve_app] *)
+) (* end of [resolve_app] *)
 //
 and reduce (
   xs: J, ys: J
-) :<cloref1> a = case+ ys of
-  | FXITMatm t1 :: FXITMopr (_, FXOPRinf (_, _, f)) :: FXITMatm t2 :: ys =>
-    pushup (f (t2, t1) :: xs, ys)
+) :<cloref1> a =
+(
+  case+ ys of
   | FXITMatm t :: FXITMopr (_, FXOPRpre (_, f)) :: ys => pushup (f t :: xs, ys)
+  | FXITMatm t1 :: FXITMopr (_, FXOPRinf (_, _, f)) :: FXITMatm t2 :: ys => pushup (f (t2, t1) :: xs, ys)
   | FXITMopr (_, FXOPRpos (_, f)) :: FXITMatm t :: ys => pushup (xs, f t :: ys)
-  | _ => err_reduce (loc0, ys)
-(* end of [reduce] *)
+  | _ (*rest*) => err_reduce (loc0, ys)
+) (* end of [reduce] *)
 //
 and pushup (
   xs: J, ys: J

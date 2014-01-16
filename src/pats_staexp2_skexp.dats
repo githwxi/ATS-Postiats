@@ -144,7 +144,7 @@ prerr_s2kexp (x) = fprint_s2kexp (stderr_ref, x)
 (* ****** ****** *)
 
 local
-
+//
 absviewtype env
 extern fun env_make_nil (): env
 extern fun env_pop (env: &env): void
@@ -152,22 +152,31 @@ extern fun env_push (env: &env, s2vs: s2varlst): void
 extern fun env_free (env: env): void
 extern fun env_find (env: &env, s2v: s2var): bool
 //
-in // in of [local]
-//
+in (* in of [local] *)
+
+(* ****** ****** *)
+
 local
+//
 assume env = List_vt (s2varlst)
-in // in of [local]
+//
+in (* in of [local] *)
+//
 implement env_make_nil () = list_vt_nil ()
+//
 implement
 env_pop (env) =
+(
   case+ env of
-  | ~list_vt_cons (_, xss) => env := xss
-  | _ => ()
-// end of [env_pop]
+  | ~list_vt_cons (_, xss) => env := xss | _ => ()
+) (* end of [env_pop] *)
+//
 implement
 env_push (env, s2vs) = env := list_vt_cons (s2vs, env)
+//
 implement
 env_free (env) = list_vt_free (env)
+//
 implement
 env_find (env, x0) = let
   fun loop1 (s2vs: s2varlst):<cloref1> bool =
@@ -185,7 +194,7 @@ env_find (env, x0) = let
 in
   loop2 ($UN.castvwtp1 {s2varlstlst} (env))
 end // end of [env_find]
-
+//
 end // end of [local]
 
 (* ****** ****** *)
@@ -355,6 +364,8 @@ end // end of [s2kexp_make_s2exp]
 
 end // end of [local]
 
+(* ****** ****** *)
+
 end // end of [local]
 
 (* ****** ****** *)
@@ -384,7 +395,7 @@ local
 
 fn abort (): void = $raise S2KEXPISMATexn()
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s2kexp_ismat_exn
