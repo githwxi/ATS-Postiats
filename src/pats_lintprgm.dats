@@ -374,8 +374,8 @@ myintvec_cffgcd_main
 macdef
 gcd = gcd01_myint_myint
 //
-viewtypedef x = myint(a)
-viewdef v = x @ l
+stadef x = myint(a); stadef v = x @ l
+//
 var !p_clo = @lam
   (pf: !v | x: &x): void =<1>
   if x != 0 then (
@@ -402,7 +402,7 @@ in
   (*nothing*)
 end // end of [myintvec_gcd_main]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement{a}
 myintvec_cffgcd {n} (iv, n) = let

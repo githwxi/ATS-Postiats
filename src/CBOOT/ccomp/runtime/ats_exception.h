@@ -49,17 +49,31 @@
 #include "ats_basics.h"
 
 /* ****** ****** */
-
+//
+// HX:
+// for [sigsetjmp]
+//
 #ifndef _XOPEN_SOURCE
-#define _XOPEN_SOURCE // for [sigsetjmp] in gcc-4.5
-#endif // end of [_XOPEN_SOURCE]
+#define _XOPEN_SOURCE
+#endif // end of [ifndef]
+//
 #include <setjmp.h>
-
+//
 /* ****** ****** */
 //
-// HX-2011-04-24: the function [alloca] is declared in
-extern void *alloca (size_t bsz) ; // [alloca.h] or [stdlib.h]
-
+typedef jmp_buf ats_jmp_buf_type ;
+//
+#define atspre_setjmp(env, mask) setjmp(env)
+#define atspre_longjmp(env, ret) longjmp(env, ret)
+//
+/* ****** ****** */
+//
+// HX-2011-04-24:
+// the function [alloca]
+// is declared in [alloca.h] or [stdlib.h]
+//
+extern void *alloca (size_t bsz) ;
+//
 /* ****** ****** */
 
 /*
@@ -78,7 +92,7 @@ typedef
 struct ats_exception_frame_struct {
   ats_exn_ptr_type exn ;
   struct ats_exception_frame_struct *prev ;
-  sigjmp_buf env ;
+  ats_jmp_buf_type env ;
 } ats_exception_frame_type ;
 
 /* ****** ****** */
@@ -112,7 +126,7 @@ void *the_ats_exception_stack ;
   do { \
     if (ATS_CURRENT_FRAME == 0/*null*/) ats_uncaught_exception_handle(exn); \
     ATS_CURRENT_FRAME->exn = exn ; \
-    siglongjmp(ATS_CURRENT_FRAME->env, 0) ; \
+    atspre_longjmp(ATS_CURRENT_FRAME->env, 0) ; \
   } while (0) // end of [do]
 
 /* ****** ****** */
@@ -124,7 +138,7 @@ void *the_ats_exception_stack ;
 #define ATS_TRYWITH_TRY(tmp_exn) \
 do { \
 ATS_ENTER_EXCEPTION_FRAME() ; \
-tmp_exn = (ats_exn_ptr_type)(intptr_t)sigsetjmp(ATS_CURRENT_FRAME->env, 0) ; \
+tmp_exn = (ats_exn_ptr_type)((intptr_t)atspre_setjmp(ATS_CURRENT_FRAME->env, 0)) ; \
 if ((intptr_t)tmp_exn == 0) { /* ... */
 
 #define ATS_TRYWITH_WITH(tmp_exn) \

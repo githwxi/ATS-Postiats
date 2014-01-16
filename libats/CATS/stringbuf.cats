@@ -29,7 +29,7 @@
 
 /*
 (* Author: Hongwei Xi *)
-(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Authoremail: gmhwxiATgmailDOTcom *)
 (* Start time: November, 2013 *)
 */
 
