@@ -87,7 +87,7 @@ linset_isnot_nil (xs) = list_vt_is_cons (xs)
 implement{a}
 linset_size (xs) =
   let val n = list_vt_length(xs) in i2sz(n) end
-// end of [linset]
+// end of [linset_size]
 
 (* ****** ****** *)
 
@@ -234,6 +234,30 @@ in
   $effmask_all (rem (xs))
 end // end of [linset_remove]
 *)
+
+(*
+** By Brandon Barker
+*)
+implement{a}
+linset_choose
+  (xs, x0) = let
+in
+//
+case+ xs of
+| @list_vt_cons
+    (x, xs1) => let
+    val () = x0 := x
+    prval () = fold@ xs   
+    prval () = opt_some {a} (x0)
+  in
+    true
+  end // end of [list_vt_cons]
+| list_vt_nil () => let
+    prval () = opt_none {a} (x0)
+  in
+    false // end of [list_vt_nil]
+  end
+end // end of [linset_choose]
 
 (* ****** ****** *)
 
@@ -473,15 +497,18 @@ case+ xs of
 //
 end // end of [linset_takeoutmin_ngc]
 
+
 (* ****** ****** *)
 implement{a}
 linset_union
   (xs1, xs2) = let
 //
-viewtypedef res = List_vt (a)
+viewtypedef res = List0_vt (a)
+//
 fun loop
   {n1,n2:nat} .<n1+n2>. (
-  xs1: list_vt (a, n1), xs2: list_vt (a, n2), res: &res? >> res
+  xs1: list_vt (a, n1), xs2: list_vt (a, n2), 
+  res: &res? >> res
 ) :<!wrt,cloref> void =
   case+ xs1 of
   | @list_vt_cons (x1, xs11) => (
@@ -491,25 +518,26 @@ fun loop
       in
         if sgn < 0 then let
           //val () = $showtype(xs11)
-          //val xs11 = xs11 // What does this do?
-          //val () = $showtype(xs11)          
+          val xs11_ = xs11 // What does this do?
+          //val () = $showtype(xs11)
+          //val () = $showtype(xs11_)          
           prval () = fold@ {a} (xs2)
-          val () = loop (xs11, xs2, xs11)
+          val () = loop (xs11_, xs2, xs11)
           prval () = fold@ {a} (xs1)
         in
           res := xs1
         end else if sgn > 0 then let
-          //val xs21 = xs21
+          val xs21_ = xs21
           prval () = fold@ {a} (xs1)
-          val () = loop (xs1, xs21, xs21)
+          val () = loop (xs1, xs21_, xs21)
           prval () = fold@ (xs2)
         in
           res := xs2
         end else let // x1 = x2
-          //val xs11 = xs11
-          //val xs21 = xs21
+          val xs11_ = xs11
+          val xs21_ = xs21
           val () = free@ {a}{0} (xs2)
-          val () = loop (xs11, xs21, xs21)
+          val () = loop (xs11_, xs21_, xs11)
           prval () = fold@ (xs1)
         in
           res := xs1
