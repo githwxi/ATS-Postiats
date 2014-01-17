@@ -1,10 +1,11 @@
 //
-// Some library code for testing
+// libcode for testing
 //
 (* ****** ****** *)
-
-#define ATS_PACKNAME "testlib"
-
+//
+#define
+ATS_PACKNAME "testlib"
+//
 (* ****** ****** *)
 //
 #include
