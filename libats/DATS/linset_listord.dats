@@ -474,5 +474,57 @@ case+ xs of
 end // end of [linset_takeoutmin_ngc]
 
 (* ****** ****** *)
+implement{a}
+linset_union
+  (xs1, xs2) = let
+//
+viewtypedef res = List_vt (a)
+fun loop
+  {n1,n2:nat} .<n1+n2>. (
+  xs1: list_vt (a, n1), xs2: list_vt (a, n2), res: &res? >> res
+) :<!wrt,cloref> void =
+  case+ xs1 of
+  | @list_vt_cons (x1, xs11) => (
+    case+ xs2 of
+    | @list_vt_cons (x2, xs21) => let
+        val sgn = compare_elt_elt<a> (x1, x2)
+      in
+        if sgn < 0 then let
+          //val () = $showtype(xs11)
+          //val xs11 = xs11 // What does this do?
+          //val () = $showtype(xs11)          
+          prval () = fold@ {a} (xs2)
+          val () = loop (xs11, xs2, xs11)
+          prval () = fold@ {a} (xs1)
+        in
+          res := xs1
+        end else if sgn > 0 then let
+          //val xs21 = xs21
+          prval () = fold@ {a} (xs1)
+          val () = loop (xs1, xs21, xs21)
+          prval () = fold@ (xs2)
+        in
+          res := xs2
+        end else let // x1 = x2
+          //val xs11 = xs11
+          //val xs21 = xs21
+          val () = free@ {a}{0} (xs2)
+          val () = loop (xs11, xs21, xs21)
+          prval () = fold@ (xs1)
+        in
+          res := xs1
+        end // end of [if]
+      end // end of [list_vt_cons]
+    | ~list_vt_nil () => (fold@ (xs1); res := xs1)
+    ) // end of [list_vt_cons]
+  | ~list_vt_nil () => (res := xs2)
+// end of [loop]
+var res: res // uninitialized
+val () = loop (xs1, xs2, res)
+in
+  res
+end // end of [linset_union]
+
+(* ****** ****** *)
 
 (* end of [linset_listord.dats] *)
