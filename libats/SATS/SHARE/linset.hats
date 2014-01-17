@@ -170,12 +170,12 @@ a:t0p}{env:vt0p
 (* ****** ****** *)
 
 fun{a:t0p}
-linset_listize (xs: set(INV(a))): List_vt (a)
+linset_listize (xs: set(INV(a))): List0_vt (a)
 
 (* ****** ****** *)
 
 fun{a:t0p}
-linset_listize1 (xs: !set(INV(a))): List_vt (a)
+linset_listize1 (xs: !set(INV(a))): List0_vt (a)
 
 (* ****** ****** *)
 

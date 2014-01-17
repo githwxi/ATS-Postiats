@@ -702,6 +702,15 @@ clean:: ; $(RMF) libats_ATS1_funmset_listord_dats.c
 cleanall:: ; $(RMF) libats_ATS1_funmset_listord.exe
 
 
+all:: libats_ATS1_linset_listord
+libats_ATS1_linset_listord: libats_ATS1_linset_listord.exe
+libats_ATS1_linset_listord.exe: libats_ATS1_linset_listord_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_ATS1_linset_listord_dats.c: libats_ATS1_linset_listord.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_ATS1_linset_listord_dats.c --dynamic libats_ATS1_linset_listord.dats
+clean:: ; $(RMF) libats_ATS1_linset_listord_dats.o
+clean:: ; $(RMF) libats_ATS1_linset_listord_dats.c
+cleanall:: ; $(RMF) libats_ATS1_linset_listord.exe
+
+
 ######
 
 clean:: ; $(RMF) *~

@@ -44,37 +44,39 @@
 //
 (* ****** ****** *)
 
-#define ATS_DYNLOADFLAG 0 // no dynloading
+#define
+ATS_DYNLOADFLAG 0 // no dynloading
 
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
-staload "libats/ATS1/SATS/linset_listord.sats"
-
-(* ****** ****** *)
 //
-// a specialized version can be implemented on the spot
+staload
+"libats/ATS1/SATS/linset_listord.sats"
+//
+(* ****** ****** *)
 //
 implement{a}
 compare_elt_elt (x1, x2, cmp) = cmp (x1, x2)
-
+//
 (* ****** ****** *)
 
 assume
-set_t0ype_vtype (a: t0p) = List0_vt (a)
+set_t0ype_vtype (a:t0p) = List0_vt (a)
 
 (* ****** ****** *)
 
+implement{}
+linset_nil () = list_vt_nil ()
 implement{}
 linset_make_nil () = list_vt_nil ()
 
 (* ****** ****** *)
 
 implement{a}
-linset_make_sing (x) = list_vt_sing (x)
+linset_make_sing (x) = list_make_sing<a> (x)
 
 (* ****** ****** *)
 
@@ -213,7 +215,7 @@ fun ins{n:nat} .<n>. ( // tail-recursive
     in
       if sgn < 0 then let
         prval () = fold@ (xs)
-        val () = xs := list_vt_cons (x0, xs)
+        val () = xs := list_vt_cons{a}(x0, xs)
       in
         false
       end else if sgn > 0 then let
@@ -223,7 +225,7 @@ fun ins{n:nat} .<n>. ( // tail-recursive
       end // end of [if]
     end (* end of [list_vt_cons] *)
   | ~list_vt_nil () => let
-      val () = xs := list_vt_sing (x0) in false
+      val () = xs := list_make_sing<a> (x0) in false
     end // end of [list_vt_nil]
 ) (* end of [ins] *)
 //
@@ -383,12 +385,12 @@ end // end of [linset_union]
 
 (* ****** ****** *)
 
-implement{a}
-linset_listize (xs) = list_vt_copy<a> (xs)
+implement{a} linset_listize (xs) = xs
 
 (* ****** ****** *)
 
-implement{a} linset_listize_free (xs) = xs
+implement{a}
+linset_listize1 (xs) = list_vt_copy<a> (xs)
 
 (* ****** ****** *)
 

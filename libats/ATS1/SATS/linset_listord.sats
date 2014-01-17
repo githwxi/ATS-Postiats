@@ -49,36 +49,44 @@
 (* ****** ****** *)
 
 absvtype
-set_t0ype_vtype (a: t@ype+) = ptr
-vtypedef set (a:t0p) = set_t0ype_vtype (a)
+set_t0ype_vtype (a:t@ype+) = ptr
+vtypedef
+set (a:t0p) = set_t0ype_vtype (a)
 
 (* ****** ****** *)
 
-typedef cmp (a:t0p) = (a, a) -<cloref> int
+typedef
+cmp (a:t0p) = (a, a) -<cloref> int
 
 (* ****** ****** *)
 
 fun{a:t0p}
-compare_elt_elt (x1: a, x2: a, cmp: cmp (a)):<> int
+compare_elt_elt
+  (x1: a, x2: a, cmp: cmp (a)):<> int
+// end of [compare_elt_elt]
 
 (* ****** ****** *)
 
+fun{} linset_nil{a:t0p} ():<> set (a)
 fun{} linset_make_nil{a:t0p} ():<> set (a)
 
 (* ****** ****** *)
 
 fun{a:t0p}
-linset_make_sing (x: a):<> set (a) // singleton set
+linset_make_sing (x: a):<!wrt> set (a) // singleton set
 
 (* ****** ****** *)
 
-fun{} linset_is_empty {a:t0p} (xs: !set(INV(a))):<> bool
-fun{} linset_isnot_empty {a:t0p} (xs: !set(INV(a))):<> bool
+fun{
+} linset_is_empty {a:t0p} (xs: !set(INV(a))):<> bool
+fun{
+} linset_isnot_empty {a:t0p} (xs: !set(INV(a))):<> bool
 
 (* ****** ****** *)
 //
-// HX: the time complexity of this function is O(n), where n is
-fun{a:t0p} linset_size (xs: !set(INV(a))):<> size_t // the size of the set
+// HX: the time complexity of this function is O(n)
+//
+fun{a:t0p} linset_size (xs: !set(INV(a))):<> sizeGte(0)
 //
 (* ****** ****** *)
 
@@ -147,7 +155,9 @@ linset_choose_out (
 fun{a:t0p}
 linset_union
   (xs1: set(INV(a)), xs2: set(a), cmp: cmp a):<!wrt> set (a)
-fun{a:t0p} linset_intersect
+(*
+fun{a:t0p}
+linset_intersect
   (xs1: set(INV(a)), xs2: set(a), cmp: cmp a):<!wrt> set (a)
 fun{a:t0p}
 linset_diff
@@ -155,7 +165,7 @@ linset_diff
 fun{a:t0p}
 linset_symdiff
   (xs1: set(INV(a)), xs2: set(a), cmp: cmp a):<!wrt> set (a)
-
+*)
 (* ****** ****** *)
 
 fun{a:t0p}
@@ -184,10 +194,9 @@ linset_foreach_cloref
 (* ****** ****** *)
 
 fun{a:t0p}
-linset_listize (xs: !set(INV(a))):<!wrt> List_vt (a)
-
+linset_listize (xs: set(INV(a))):<!wrt> List0_vt (a)
 fun{a:t0p}
-linset_listize_free (xs: set(INV(a))):<!wrt> List_vt (a)
+linset_listize1 (xs: !set(INV(a))):<!wrt> List0_vt (a)
 
 (* ****** ****** *)
 
