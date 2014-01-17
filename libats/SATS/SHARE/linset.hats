@@ -115,6 +115,14 @@ linset_remove
   (xs: &set(INV(a)) >> _, x0: a):<!wrt> bool
 //
 (* ****** ****** *)
+//
+// HX: choosing an element in an unspecified manner
+//
+fun{a:t0p}
+linset_choose
+  (xs: !set(INV(a)), x: &a? >> opt (a, b)):<!wrt> #[b:bool] bool(b)
+//
+(* ****** ****** *)
 
 fun{a:t0p}
 linset_takeoutmax

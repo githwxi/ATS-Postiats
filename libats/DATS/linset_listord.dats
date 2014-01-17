@@ -87,7 +87,7 @@ linset_isnot_nil (xs) = list_vt_is_cons (xs)
 implement{a}
 linset_size (xs) =
   let val n = list_vt_length(xs) in i2sz(n) end
-// end of [linset]
+// end of [linset_size]
 
 (* ****** ****** *)
 
@@ -234,6 +234,32 @@ in
   $effmask_all (rem (xs))
 end // end of [linset_remove]
 *)
+
+(* ****** ****** *)
+(*
+** By Brandon Barker
+*)
+implement
+{a}(*tmp*)
+linset_choose
+  (xs, x0) = let
+in
+//
+case+ xs of
+| list_vt_cons
+    (x, xs1) => let
+    val () = x0 := x
+    prval () = opt_some{a}(x0)
+  in
+    true
+  end // end of [list_vt_cons]
+| list_vt_nil () => let
+    prval () = opt_none{a}(x0)
+  in
+    false
+  end // end of [list_vt_nil]
+//
+end // end of [linset_choose]
 
 (* ****** ****** *)
 

@@ -1,0 +1,13 @@
+ATSOptML, pronounced "ats optimal", are resources for optimization and
+machine learning.
+ 
+These are primarily designed to be interfaces to external software
+(both open source and otherwise). Currently, the targets are (roughly
+in this order):
+
+1) optimization (convex)
+2) optimization (globa/nonlinear)
+3) optimization (other)
+4) machine learning (general)
+5) development of optimization algorithms in ATS.
+6) development of machine learning algorithms in ATS.
