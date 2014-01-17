@@ -299,7 +299,26 @@ end // end of [linset_choose]
 (* ****** ****** *)
 
 implement{a}
-linset_choose_out
+linset_choose_opt
+  (xs) = let
+//
+var x0: a?
+val ans = linset_choose<a> (xs, x0)
+//
+in
+//
+if ans then let
+  prval () = opt_unsome{a}(x0) in Some_vt{a}(x0)
+end else let
+  prval () = opt_unnone{a}(x0) in None_vt(*void*)
+end (* end of [if] *)
+//
+end // end of [linset_choose_opt]
+
+(* ****** ****** *)
+
+implement{a}
+linset_chooseout
   (xs0, x0) = let
 in
 //
@@ -318,7 +337,26 @@ case+ xs0 of
     false
   end // end of [list_vt_nil]
 //
-end // end of [linset_choose_out]
+end // end of [linset_chooseout]
+
+(* ****** ****** *)
+
+implement{a}
+linset_chooseout_opt
+  (xs) = let
+//
+var x0: a?
+val ans = linset_chooseout<a> (xs, x0)
+//
+in
+//
+if ans then let
+  prval () = opt_unsome{a}(x0) in Some_vt{a}(x0)
+end else let
+  prval () = opt_unnone{a}(x0) in None_vt(*void*)
+end (* end of [if] *)
+//
+end // end of [linset_chooseout_opt]
 
 (* ****** ****** *)
 

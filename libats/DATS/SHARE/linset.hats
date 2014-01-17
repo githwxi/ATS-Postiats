@@ -76,12 +76,30 @@ linset_isnot_member (xs, x0) = ~linset_is_member (xs, x0)
 (* ****** ****** *)
 
 implement{a}
+linset_choose_opt
+  (xs) = let
+//
+var x0: a?
+val ans = linset_choose<a> (xs, x0)
+//
+in
+//
+if ans then let
+  prval () = opt_unsome{a}(x0) in Some_vt{a}(x0)
+end else let
+  prval () = opt_unnone{a}(x0) in None_vt(*void*)
+end (* end of [if] *)
+//
+end // end of [linset_choose_opt]
+
+(* ****** ****** *)
+
+implement{a}
 linset_takeoutmax_opt
   (xs) = let
 //
 var x0: a?
-val ans =
-  $effmask_wrt (linset_takeoutmax<a> (xs, x0))
+val ans = linset_takeoutmax<a> (xs, x0)
 //
 in
 //

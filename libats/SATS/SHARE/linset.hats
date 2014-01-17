@@ -120,7 +120,12 @@ linset_remove
 //
 fun{a:t0p}
 linset_choose
-  (xs: !set(INV(a)), x: &a? >> opt (a, b)):<!wrt> #[b:bool] bool(b)
+(
+  xs: !set(INV(a)), x: &a? >> opt (a, b)
+) :<!wrt> #[b:bool] bool(b)
+//
+fun{a:t0p}
+linset_choose_opt (xs: !set(INV(a))):<!wrt> Option_vt(a)
 //
 (* ****** ****** *)
 

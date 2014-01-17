@@ -141,14 +141,22 @@ linset_remove
 fun{a:t0p}
 linset_choose (
   xs: !set(INV(a)), x: &a? >> opt (a, b)
-) : #[b:bool] bool (b) // end of [linset_choose]
+) :<!wrt> #[b:bool] bool (b) // end of [linset_choose]
+
+fun{a:t0p}
+linset_choose_opt (xs: !set(INV(a))):<!wrt> Option_vt(a)
+
+(* ****** ****** *)
 //
 // HX: removing an element chosen in an unspecified manner
 //
 fun{a:t0p}
-linset_choose_out (
+linset_chooseout (
   xs: &set(INV(a)) >> _, x: &a? >> opt (a, b)
-) : #[b:bool] bool (b) // end of [linset_choose_out]
+) :<!wrt> #[b:bool] bool (b) // end of [linset_chooseout]
+//
+fun{a:t0p}
+linset_chooseout_opt (xs: &set(INV(a)) >> _):<!wrt> Option_vt(a)
 //
 (* ****** ****** *)
 

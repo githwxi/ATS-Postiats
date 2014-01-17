@@ -36,6 +36,8 @@ val-false = linset_insert (xs1, 0, cmp)
 val-false = linset_insert (xs1, 1, cmp)
 val-false = linset_insert (xs1, 2, cmp)
 //
+val-~Some_vt(_) = linset_chooseout_opt (xs1)
+//
 var xs2: set = linset_nil{int}()
 val-false = linset_insert (xs2, 2, cmp)
 val-false = linset_insert (xs2, 3, cmp)
