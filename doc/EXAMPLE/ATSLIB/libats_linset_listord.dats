@@ -54,8 +54,38 @@ val () = assertloc (~linset_insert (xs, 4))
 val () = fprintln! (out, "xs = ", xs)
 //
 val () = linset_free (xs)
-//
 } // end of [val]
+
+
+val () = {
+val n = 10
+val n2 = n/2
+val () = assertloc (n > 0)
+
+var ints1: set (int) = linset_make_nil ()
+var i: int; val () =
+  for (i := 0; i < n2; i := i+1) {
+    val _ = linset_insert<int> (ints1, i)
+  } (* end of [for] *)
+// end [val]
+val size1 = linset_size (ints1)
+val () = println! ("size1 = ", size1)
+
+var ints2: set (int) = linset_make_nil ()
+var i: int; val () =
+  for (i := n2; i < n + n/2; i := i+1) {
+    val _ = linset_insert<int> (ints2, i)
+  } (* end of [for] *)
+// end [val]
+val size2 = linset_size (ints2)
+val () = println! ("size2 = ", size2)
+
+val ints_union = linset_union (ints1, ints2)
+val size = linset_size (ints_union)
+val () = println! ("size(ints_union) = ", size)
+val () = linset_free (ints_union)
+} // end of [val]
+
 
 (* ****** ****** *)
 
