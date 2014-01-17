@@ -517,10 +517,7 @@ fun loop
         val sgn = compare_elt_elt<a> (x1, x2)
       in
         if sgn < 0 then let
-          //val () = $showtype(xs11)
-          val xs11_ = xs11 // What does this do?
-          //val () = $showtype(xs11)
-          //val () = $showtype(xs11_)          
+          val xs11_ = xs11 
           prval () = fold@ {a} (xs2)
           val () = loop (xs11_, xs2, xs11)
           prval () = fold@ {a} (xs1)

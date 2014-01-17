@@ -54,8 +54,8 @@ val () = assertloc (~linset_insert (xs, 4))
 val () = fprintln! (out, "xs = ", xs)
 //
 val () = linset_free (xs)
+//
 } // end of [val]
-
 
 val () = {
 val n = 10
@@ -84,6 +84,7 @@ val ints_union = linset_union (ints1, ints2)
 val size = linset_size (ints_union)
 val () = println! ("size(ints_union) = ", size)
 val () = linset_free (ints_union)
+//
 } // end of [val]
 
 
