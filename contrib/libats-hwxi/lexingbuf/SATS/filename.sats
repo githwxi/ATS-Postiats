@@ -33,46 +33,42 @@
 (* ****** ****** *)
 
 (*
-** location for lexing
+** filename for lexing
 *)
 
 (* ****** ****** *)
 //
-abst@ype
-position_type =
-$extype"atscntrb_lexingbuf_position" 
+abstype
+filename_type = ptr
 //
-typedef pos_t = position_type
-//  
+typedef fname_t = filename_type
+//
+(* ****** ****** *)
+
+fun
+filename_make
+(
+  given: string, part: string, full: string
+) : fname_t // end of [filename_make]
+
+(* ****** ****** *)
+//
+fun print_filename_full (fname_t): void
+fun prerr_filename_full (fname_t): void
+fun fprint_filename_full (out: FILEref, fname_t): void
+//
+overload print with print_filename_full
+overload prerr with prerr_filename_full
+overload fprint with fprint_filename_full
+//
 (* ****** ****** *)
 //
 fun
-position_incby_char
-  (pos: &pos_t >> _, c: int):<!wrt> void
+filename_equal
+  (fname_t, fname_t): bool
+//
+overload = with filename_equal
 //
 (* ****** ****** *)
 
-abstype
-location_type = ptr
-typedef loc_t = location_type
-
-(* ****** ****** *)
-//
-fun location_make
-  (_beg: &pos_t, _end: &pos_t): loc_t
-//
-(* ****** ****** *)
-//
-fun print_location : (loc_t) -> void
-fun prerr_location : (loc_t) -> void
-//
-fun fprint_location
-  (out: FILEref, loc: loc_t): void
-//
-overload print with print_location
-overload prerr with prerr_location
-overload fprint with fprint_location
-//
-(* ****** ****** *)
-
-(* end of [location.sats] *)
+(* end of [filename.sats] *)
