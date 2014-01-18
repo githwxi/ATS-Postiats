@@ -84,6 +84,11 @@ fun mul_bool0_bool0
 overload * with mul_bool0_bool0 of 0
 
 #atscode_separator()
+//
+fun xor_bool0_bool0
+  (b1: bool, b2: bool):<> bool = "mac\#%"
+//
+#atscode_separator()
 
 %{
 fun
@@ -130,14 +135,15 @@ fun compare_bool0_bool0
 overload compare with compare_bool0_bool0
 
 #atscode_separator()
-
+//
 fun print_bool (x: bool): void = "mac\#%"
 fun prerr_bool (x: bool): void = "mac\#%"
+fun fprint_bool : fprint_type (bool) = "mac\#%"
+//
 overload print with print_bool
 overload prerr with prerr_bool
-fun fprint_bool : fprint_type (bool) = "mac\#%"
 overload fprint with fprint_bool
-
+//
 #atscode_separator()
 //
 // HX: the return is statically allocated
@@ -224,10 +230,7 @@ in
   atext_strptr (ent)
 end // end of [fun_bool_cmp1_decl]
 %}\
-\
 //
-
-
 // (b1 < b2) == (~b1 && b2)
 //
 #fun_bool_cmp1_decl("lt")
@@ -235,7 +238,6 @@ end // end of [fun_bool_cmp1_decl]
 // (b1 <= b2) == (~b1 || b2)
 //
 #fun_bool_cmp1_decl("lte")
-
 //
 // (b1 > b2) == (b1 && ~b2)
 //
@@ -245,9 +247,13 @@ end // end of [fun_bool_cmp1_decl]
 //
 #fun_bool_cmp1_decl("gte")
 
+#atscode_separator()
+
 #fun_bool_cmp1_decl("eq")
 #fun_bool_cmp1_decl("neq")
 overload <> with neq_bool1_bool1 of 20
+
+#atscode_separator()
 
 fun
 compare_bool1_bool1

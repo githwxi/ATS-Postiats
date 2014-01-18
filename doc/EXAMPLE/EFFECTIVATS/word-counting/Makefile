@@ -41,6 +41,16 @@ wordcnt_vt: wordcnt_vt.dats ; \
 cleanall:: ; $(RMF) wordcnt_vt
 
 ######
+#
+html:: wordcnt_dats.html
+html:: wordcnt2_dats.html
+html:: wordcnt_vt_dats.html
+#
+PATS2XHTML=$(PATSHOMEQ)/bin/pats2xhtml
+%_sats.html: %.sats ; $(PATS2XHTML) -o $@ -s $<
+%_dats.html: %.dats ; $(PATS2XHTML) -o $@ -d $<
+#
+######
 
 ATSHOMEQ="$(ATSHOME)"
 ATSCC=$(ATSHOMEQ)/bin/atscc
@@ -76,6 +86,7 @@ cleanats:: ; $(RMF) main_atxt.dats
 
 cleanall:: ; $(RMF) main.exe
 cleanall:: ; $(RMF) main.html
+cleanall:: ; $(RMF) *_?ats.html
 
 ######
 
