@@ -33,46 +33,55 @@
 (* ****** ****** *)
 
 (*
-** location for lexing
+** filename for lexing
 *)
 
 (* ****** ****** *)
 //
-abst@ype
-position_type =
-$extype"atscntrb_lexingbuf_position" 
-//
-typedef pos_t = position_type
-//  
-(* ****** ****** *)
-//
-fun
-position_incby_char
-  (pos: &pos_t >> _, c: int):<!wrt> void
-//
-(* ****** ****** *)
-
 abstype
-location_type = ptr
-typedef loc_t = location_type
-
-(* ****** ****** *)
+filename_type = ptr
 //
-fun location_make
-  (_beg: &pos_t, _end: &pos_t): loc_t
-//
-(* ****** ****** *)
-//
-fun print_location : (loc_t) -> void
-fun prerr_location : (loc_t) -> void
-//
-fun fprint_location
-  (out: FILEref, loc: loc_t): void
-//
-overload print with print_location
-overload prerr with prerr_location
-overload fprint with fprint_location
+typedef fname_t = filename_type
+vtypedef fnamelst_t = List0_vt (fname_t)
 //
 (* ****** ****** *)
 
-(* end of [location.sats] *)
+fun{} theCurDir_get (): string // self directory
+fun{} theParDir_get (): string // parent directory
+
+(* ****** ****** *)
+
+fun filename_dummy (): fname_t
+
+(* ****** ****** *)
+
+fun
+filename_make
+(
+  given: string, part: string, full: string
+) : fname_t // end of [filename_make]
+
+(* ****** ****** *)
+//
+fun print_filename_full (fname_t): void
+fun prerr_filename_full (fname_t): void
+fun fprint_filename_full (out: FILEref, fname_t): void
+//
+overload print with print_filename_full
+overload prerr with prerr_filename_full
+overload fprint with fprint_filename_full
+//
+(* ****** ****** *)
+//
+fun filename_equal
+  (fil1: fname_t, fil2: fname_t): bool
+//
+overload = with filename_equal
+//
+(* ****** ****** *)
+
+fun filename_get_current ((*void*)): fname_t
+
+(* ****** ****** *)
+
+(* end of [filename.sats] *)

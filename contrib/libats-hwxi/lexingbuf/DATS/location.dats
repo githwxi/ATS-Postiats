@@ -37,42 +37,53 @@
 *)
 
 (* ****** ****** *)
-//
-abst@ype
+
+staload "./../SATS/filename.sats"
+staload "./../SATS/location.sats"
+
+(* ****** ****** *)
+
+#define i2c int2char0
+#define c2i char2int0
+
+(* ****** ****** *)
+
+macdef EOL = char2int0('\n')
+
+(* ****** ****** *)
+
+assume
 position_type =
-$extype"atscntrb_lexingbuf_position" 
-//
-typedef pos_t = position_type
-//  
+$extype_struct
+"atscntrb_lexingbuf_position" of
+{
+  ntot= lint, nrow= int, ncol= int
+} (* end of [postion_type] *)
+
 (* ****** ****** *)
-//
-fun
+
+implement
 position_incby_char
-  (pos: &pos_t >> _, c: int):<!wrt> void
-//
-(* ****** ****** *)
-
-abstype
-location_type = ptr
-typedef loc_t = location_type
+  (pos, c) = () where
+{
+  val () = pos.ntot := succ(pos.ntot)
+  val () = if c = EOL then pos.nrow := succ (pos.nrow)
+} (* end of [position_incby_char] *)
 
 (* ****** ****** *)
-//
-fun location_make
-  (_beg: &pos_t, _end: &pos_t): loc_t
-//
-(* ****** ****** *)
-//
-fun print_location : (loc_t) -> void
-fun prerr_location : (loc_t) -> void
-//
-fun fprint_location
-  (out: FILEref, loc: loc_t): void
-//
-overload print with print_location
-overload prerr with prerr_location
-overload fprint with fprint_location
-//
+
+assume
+location_type = $rec
+{
+  fname= fname_t // file name
+, beg_ntot= lint // beginning char position
+, beg_nrow= int
+, beg_ncol= int
+, end_ntot= lint // finishing char position
+, end_nrow= int
+, end_ncol= int
+} (* end of [location] *)
+
 (* ****** ****** *)
 
-(* end of [location.sats] *)
+(* end of [location.dats] *)
