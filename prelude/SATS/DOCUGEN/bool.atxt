@@ -85,6 +85,14 @@ having a more informative type.\
 
 (* ****** ****** *)
 
+#declnamesynop("xor_bool0_bool0")
+#decldescrpt('\
+This function is equivalent to #dyncode("neq_bool0_bool0").
+In other words, it returns true if and only if its two arguments are not equal.
+')
+
+(* ****** ****** *)
+
 #declnamesynop("lt_bool0_bool0")
 #declnamesynop("lte_bool0_bool0")
 #declnamesynop("gt_bool0_bool0")

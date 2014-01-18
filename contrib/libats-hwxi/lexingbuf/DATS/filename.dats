@@ -50,6 +50,16 @@ filename_type = '{
 
 (* ****** ****** *)
 
+implement{} theCurDir_get () = "."
+implement{} theParDir_get () = ".."
+
+(* ****** ****** *)
+
+implement
+filename_dummy () = filename_make ("", "", "")
+
+(* ****** ****** *)
+
 implement
 filename_make
   (given, part, full) = $rec
@@ -79,6 +89,25 @@ implement
 filename_equal
   (f1, f2) = f1.fname_fullname = f2.fname_fullname
 // end of [filename_equal]
+
+(* ****** ****** *)
+
+local
+
+val the_fname = let
+  val fil = filename_dummy ()
+in
+  ref_make_elt<fname_t> (fil)
+end (* end of [the_fname] *)
+
+val the_fnamelst = ref<fnamelst_t> (list_vt_nil)
+
+in (* in of local *)
+
+implement
+filename_get_current ((*void*)) = !the_fname
+
+end // end of [local]
 
 (* ****** ****** *)
 
