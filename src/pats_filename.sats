@@ -41,7 +41,7 @@ abstype filename_type
 
 typedef
 filename = filename_type
-viewtypedef
+vtypedef
 filenameopt_vt = Option_vt (filename)
 
 (* ****** ****** *)

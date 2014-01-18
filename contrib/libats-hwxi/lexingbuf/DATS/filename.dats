@@ -33,46 +33,53 @@
 (* ****** ****** *)
 
 (*
-** location for lexing
+** filename for lexing
 *)
 
 (* ****** ****** *)
-//
-abst@ype
-position_type =
-$extype"atscntrb_lexingbuf_position" 
-//
-typedef pos_t = position_type
-//  
+
+staload "./../SATS/filename.sats"
+
+(* ****** ****** *)
+
+assume
+filename_type = '{
+  fname_givename= string
+, fname_partname= string, fname_fullname= string
+} (* end of [filename] *)
+
+(* ****** ****** *)
+
+implement
+filename_make
+  (given, part, full) = $rec
+{
+  fname_givename= given, fname_partname= part, fname_fullname= full
+} (* end of [filename_make] *)
+
 (* ****** ****** *)
 //
-fun
-position_incby_char
-  (pos: &pos_t >> _, c: int):<!wrt> void
+implement
+print_filename_full
+  (fil) = fprint_filename_full (stdout_ref, fil)
+implement
+prerr_filename_full
+  (fil) = fprint_filename_full (stderr_ref, fil)
 //
 (* ****** ****** *)
 
-abstype
-location_type = ptr
-typedef loc_t = location_type
+implement
+fprint_filename_full
+  (out, fil) = fprint_string (out, fil.fname_fullname)
+// end of [fprint_filename_full]
 
 (* ****** ****** *)
-//
-fun location_make
-  (_beg: &pos_t, _end: &pos_t): loc_t
-//
-(* ****** ****** *)
-//
-fun print_location : (loc_t) -> void
-fun prerr_location : (loc_t) -> void
-//
-fun fprint_location
-  (out: FILEref, loc: loc_t): void
-//
-overload print with print_location
-overload prerr with prerr_location
-overload fprint with fprint_location
-//
+
+implement
+filename_equal
+  (f1, f2) = f1.fname_fullname = f2.fname_fullname
+// end of [filename_equal]
+
 (* ****** ****** *)
 
-(* end of [location.sats] *)
+(* end of [filename.dats] *)
