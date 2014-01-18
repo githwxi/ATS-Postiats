@@ -429,6 +429,30 @@ end // end of [linset_union]
 
 (* ****** ****** *)
 
+implement{a}
+linset_foreach_funenv
+  {v}{vt}(pf | xs, f, env) = let
+//
+fun loop
+(
+  pf: !v
+| xs: !set(INV(a))
+, f: (!v | a, !vt) -> void, env: !vt
+) : void = (
+//
+case+ xs of
+| list_vt_cons (x, xs) =>
+    (f (pf | x, env); loop (pf | xs, f, env))
+| list_vt_nil ((*void*)) => ()
+//
+) (* end of [loop] *)
+//
+in
+  loop (pf | xs, f, env)
+end (* end of [linset_foreach_funenv] *)
+
+(* ****** ****** *)
+
 implement{a} linset_listize (xs) = xs
 
 (* ****** ****** *)

@@ -177,34 +177,33 @@ linset_symdiff
 (* ****** ****** *)
 
 fun{a:t0p}
+linset_listize (xs: set(INV(a))):<!wrt> List0_vt (a)
+fun{a:t0p}
+linset_listize1 (xs: !set(INV(a))):<!wrt> List0_vt (a)
+
+(* ****** ****** *)
+
+fun{a:t0p}
 linset_foreach_funenv
-  {v:view} {vt:viewtype} (
+  {v:view}{vt:viewtype}
+(
   pf: !v 
-| xs: !set(INV(a))
-, f: (!v | a, !vt) -<fun> void
-, env: !vt
-) :<> void // end of [linset_foreach_funenv]
+| xs: !set(INV(a)), f: (!v | a, !vt) -> void, env: !vt
+) : void // end of [linset_foreach_funenv]
 
 (* ****** ****** *)
 
 fun{a:t0p}
 linset_foreach_fun
 (
-  xs: !set(INV(a)), f: (a) -<fun> void
-) :<> void // end of [linset_foreach_fun]
+  xs: !set(INV(a)), f: (a) -<fun1> void
+) : void // end of [linset_foreach_fun]
 
 fun{a:t0p}
 linset_foreach_cloref
 (
-  xs: !set(INV(a)), f: (a) -<cloref> void
-) :<!ref> void // end of [linset_foreach_cloref]
-
-(* ****** ****** *)
-
-fun{a:t0p}
-linset_listize (xs: set(INV(a))):<!wrt> List0_vt (a)
-fun{a:t0p}
-linset_listize1 (xs: !set(INV(a))):<!wrt> List0_vt (a)
+  xs: !set(INV(a)), f: (a) -<cloref1> void
+) : void // end of [linset_foreach_cloref]
 
 (* ****** ****** *)
 

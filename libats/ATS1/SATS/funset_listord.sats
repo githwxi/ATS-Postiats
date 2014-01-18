@@ -120,14 +120,6 @@ fun{a:t0p} funset_symdiff
   (xs1: set(INV(a)), xs2: set(a), cmp: cmp (a)):<> set (a)
 
 (* ****** ****** *)
-//
-castfn
-funset2list{a:t0p} (xs: set(INV(a))):<> List (a)
-//
-fun{a:t0p}
-funset_listize (xs: set (a)):<!wrt> List0_vt (a) // = list_copy
-//
-(* ****** ****** *)
 
 fun{a:t0p}
 funset_foreach_funenv
@@ -136,6 +128,14 @@ funset_foreach_funenv
   pf: !v  | xs: set(INV(a)), f: (!v | a, !vt) -> void, env: !vt
 ) : void // end of [funset_foreach_funenv]
 
+(* ****** ****** *)
+//
+castfn
+funset2list{a:t0p} (xs: set(INV(a))):<> List (a)
+//
+fun{a:t0p}
+funset_listize (xs: set (a)):<!wrt> List0_vt (a) // = list_copy
+//
 (* ****** ****** *)
 
 (* end of [funset_listord.sats] *)

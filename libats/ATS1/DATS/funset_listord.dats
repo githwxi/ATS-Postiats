@@ -494,18 +494,14 @@ end // end of [funset_symdiff]
 (* ****** ****** *)
 
 implement{a}
-funset_listize (xs) = list_copy<a> (xs)
-
-(* ****** ****** *)
-
-
-implement{a}
 funset_foreach_funenv
   {v}{vt}(pf | xs, f, env) = let
 //
 fun loop
 (
-  pf: !v  | xs: set(INV(a)), f: (!v | a, !vt) -> void, env: !vt
+  pf: !v
+| xs: set(INV(a))
+, f: (!v | a, !vt) -> void, env: !vt
 ) : void = (
 //
 case+ xs of
@@ -518,6 +514,11 @@ case+ xs of
 in
   loop (pf | xs, f, env)
 end (* end of [funset_foreach_funenv] *)
+
+(* ****** ****** *)
+
+implement{a}
+funset_listize (xs) = list_copy<a> (xs)
 
 (* ****** ****** *)
 
