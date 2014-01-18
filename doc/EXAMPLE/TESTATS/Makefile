@@ -56,6 +56,7 @@ findexn: findexn_dats.c ; \
   $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
 findexn_dats.c: findexn.dats ; $(PATSCC2) -ccats $<
 cleanall:: ; $(RMF) findexn
+cleanall:: ; $(RMF) findexn_dats.c
 
 ######
 
@@ -71,11 +72,13 @@ lazytest: lazytest_dats.c ; \
   $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
 lazytest_dats.c: lazytest.dats ; $(PATSCC2) -ccats $<
 cleanall:: ; $(RMF) lazytest
+cleanall:: ; $(RMF) lazytest_dats.c
 all:: llazytest
 llazytest: llazytest_dats.c ; \
   $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
 llazytest_dats.c: llazytest.dats ; $(PATSCC2) -ccats $<
 cleanall:: ; $(RMF) llazytest
+cleanall:: ; $(RMF) llazytest_dats.c
 
 ######
 
