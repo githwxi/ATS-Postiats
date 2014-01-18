@@ -197,7 +197,7 @@ cleanall::
 \# with the name of the file you want to compile
 \#
 
-\# foo: foo.dats ; \\
+\# foo: foo.dats ; \\\\
 \#   $(ATSCC) $(ATSCCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 \# cleanall:: ; $(RMF) foo
 

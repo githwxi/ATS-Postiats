@@ -159,7 +159,7 @@ typedef void* atstype_cloptr ;
 //
 typedef
 struct {
-  char _[(unsigned int)(-1)] ;
+  char _[0XFFFF] ;
 } atstype_var[0] ;
 
 /* ****** ****** */
