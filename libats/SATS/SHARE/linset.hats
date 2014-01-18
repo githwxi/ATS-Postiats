@@ -64,7 +64,8 @@ fun{a:t0p} linset_make_sing (x: a):<!wrt> set(a)
 
 (* ****** ****** *)
 
-fun{a:t0p} linset_make_list (xs: List(INV(a))):<!wrt> set(a)
+fun{a:t0p}
+linset_make_list (xs: List(INV(a))):<!wrt> set(a)
 
 (* ****** ****** *)
 
@@ -112,6 +113,19 @@ linset_takeout_opt (&set(INV(a)) >> _, a):<!wrt> Option_vt(a)
 fun{a:t0p}
 linset_remove
   (xs: &set(INV(a)) >> _, x0: a):<!wrt> bool
+//
+(* ****** ****** *)
+//
+// HX: choosing an element in an unspecified manner
+//
+fun{a:t0p}
+linset_choose
+(
+  xs: !set(INV(a)), x: &a? >> opt (a, b)
+) :<!wrt> #[b:bool] bool(b)
+//
+fun{a:t0p}
+linset_choose_opt (xs: !set(INV(a))):<!wrt> Option_vt(a)
 //
 (* ****** ****** *)
 
@@ -171,12 +185,12 @@ a:t0p}{env:vt0p
 (* ****** ****** *)
 
 fun{a:t0p}
-linset_listize (xs: set(INV(a))): List_vt (a)
+linset_listize (xs: set(INV(a))): List0_vt (a)
 
 (* ****** ****** *)
 
 fun{a:t0p}
-linset_listize1 (xs: !set(INV(a))): List_vt (a)
+linset_listize1 (xs: !set(INV(a))): List0_vt (a)
 
 (* ****** ****** *)
 

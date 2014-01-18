@@ -260,6 +260,32 @@ case+ xs of
 end // end of [linset_choose]
 
 (* ****** ****** *)
+(*
+** By Brandon Barker
+*)
+implement
+{a}(*tmp*)
+linset_choose
+  (xs, x0) = let
+in
+//
+case+ xs of
+| list_vt_cons
+    (x, xs1) => let
+    val () = x0 := x
+    prval () = opt_some{a}(x0)
+  in
+    true
+  end // end of [list_vt_cons]
+| list_vt_nil () => let
+    prval () = opt_none{a}(x0)
+  in
+    false
+  end // end of [list_vt_nil]
+//
+end // end of [linset_choose]
+
+(* ****** ****** *)
 
 implement
 {a}{env}

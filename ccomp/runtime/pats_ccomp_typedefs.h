@@ -154,8 +154,16 @@ typedef void* atstype_cloptr ;
 #define atstkind_t0ype(tk) tk
 
 /* ****** ****** */
+//
+// HX: making it not usable!!!
+//
+typedef
+struct {
+  char _[(unsigned int)(-1)] ;
+} atstype_var[0] ;
 
-typedef struct{} atstype_var ;
+/* ****** ****** */
+
 #define atstyvar_type(a) atstype_var
 
 /* ****** ****** */

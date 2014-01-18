@@ -250,6 +250,8 @@ val () = funset_foreach_env<a><tenv> (xs, env)
 val res = $Q.qstruct_takeout_list (env)
 prval () = $Q.qstruct_uninitize{b}(env)
 //
+prval () = lemma_list_vt_param (res)
+//
 in
   res
 end // end of [funset_flistize]

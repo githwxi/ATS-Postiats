@@ -783,6 +783,7 @@ val issta = not (isext)
 //
 val () = if istmp then emit_text (out, "#if(0)\n")
 val () = if isqua then emit_text (out, "#if(0)\n")
+//
 val () = if isext then emit_text (out, "ATSglobaldec()\n")
 val () = if issta then emit_text (out, "ATSstaticdec()\n")
 //
