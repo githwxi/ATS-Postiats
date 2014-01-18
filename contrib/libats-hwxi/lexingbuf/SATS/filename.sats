@@ -42,7 +42,17 @@ abstype
 filename_type = ptr
 //
 typedef fname_t = filename_type
+vtypedef fnamelst_t = List0_vt (fname_t)
 //
+(* ****** ****** *)
+
+fun{} theCurDir_get (): string // self directory
+fun{} theParDir_get (): string // parent directory
+
+(* ****** ****** *)
+
+fun filename_dummy (): fname_t
+
 (* ****** ****** *)
 
 fun
@@ -63,12 +73,15 @@ overload fprint with fprint_filename_full
 //
 (* ****** ****** *)
 //
-fun
-filename_equal
-  (fname_t, fname_t): bool
+fun filename_equal
+  (fil1: fname_t, fil2: fname_t): bool
 //
 overload = with filename_equal
 //
+(* ****** ****** *)
+
+fun filename_get_current ((*void*)): fname_t
+
 (* ****** ****** *)
 
 (* end of [filename.sats] *)
