@@ -1698,13 +1698,33 @@ implement{a2}
 list_mergesort$cmp
   (x1, x2) = let
 //
-val cmp = $UN.cast{cmpval(a2)}(cmp) in cmp (x1, x2)
+typedef cmp2 = cmpval(a2)
+//
+val cmp2 = $UN.cast{cmp2}(cmp) in cmp2 (x1, x2)
 //
 end // end of [list_mergesort$cmp]
 //
 in
   list_mergesort<a> (xs)
 end // end of [list_mergesort_fun]
+
+implement{a}
+list_mergesort_cloref
+  (xs, cmp) = let
+//
+implement{a2}
+list_mergesort$cmp
+  (x1, x2) = let
+//
+typedef cmp2 = (a2, a2) -<cloref> int
+//
+val cmp2 = $UN.cast{cmp2}(cmp) in cmp2 (x1, x2)
+//
+end // end of [list_mergesort$cmp]
+//
+in
+  list_mergesort<a> (xs)
+end // end of [list_mergesort_cloref]
 
 #atscode_separator()
 

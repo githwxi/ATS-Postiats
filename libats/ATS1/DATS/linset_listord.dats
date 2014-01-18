@@ -67,6 +67,12 @@ assume
 set_t0ype_vtype (a:t0p) = List0_vt (a)
 
 (* ****** ****** *)
+//
+// HX:
+// a set is represented as a sorted list in descending order;
+// note that descending order is chosen to faciliate set comparison
+//
+(* ****** ****** *)
 
 implement{}
 linset_nil () = list_vt_nil ()
@@ -101,8 +107,8 @@ fun loop
         compare_elt_elt<a> (x0, x, cmp)
       // end of [val]
     in
-      if sgn < 0
-        then false else (if sgn > 0 then loop (xs1) else true)
+      if sgn > 0
+        then false else (if sgn < 0 then loop (xs1) else true)
       // end of [if]
     end // end of [list_vt_cons]
   | list_vt_nil () => false
@@ -141,8 +147,8 @@ fun loop
           compare_elt_elt<a> (x1, x2, cmp)
         // end of [val]
       in
-        if sgn < 0 then false
-        else if sgn > 0 then loop (xs1, xs21)
+        if sgn > 0 then false
+        else if sgn < 0 then loop (xs1, xs21)
         else loop (xs11, xs21)
       end
     | list_nil ((*void*)) => false
@@ -213,12 +219,12 @@ fun ins{n:nat} .<n>. ( // tail-recursive
         compare_elt_elt<a> (x0, x, cmp)
       // end of [val]
     in
-      if sgn < 0 then let
+      if sgn > 0 then let
         prval () = fold@ (xs)
         val () = xs := list_vt_cons{a}(x0, xs)
       in
         false
-      end else if sgn > 0 then let
+      end else if sgn < 0 then let
         val res = ins (xs1); prval () = fold@ (xs) in res
       end else let // x0 = x
         prval () = fold@ (xs) in true // [x0] is already in [xs]
@@ -250,9 +256,9 @@ fun rem {n:nat} .<n>. ( // tail-recursive
          compare_elt_elt<a> (x0, x, cmp)
       // end of [val]
     in
-      if sgn < 0 then let
+      if sgn > 0 then let
         prval () = fold@{a}(xs) in false
-      end else if sgn > 0 then let
+      end else if sgn < 0 then let
         val res = rem (xs1); prval () = fold@{a}(xs) in res
       end else let // x0 = x
         val xs1_ = xs1
@@ -384,14 +390,14 @@ fun loop
           compare_elt_elt<a> (x1, x2, cmp)
         // end of [val]
       in
-        if sgn < 0 then let
+        if sgn > 0 then let
           val xs11_ = xs11
           prval () = fold@{a}(xs2)
           val () = loop (xs11_, xs2, xs11)
           prval () = fold@{a}(xs1)
         in
           res := xs1
-        end else if sgn > 0 then let
+        end else if sgn < 0 then let
           prval () = fold@{a}(xs1)
           val xs21_ = xs21
           val () = loop (xs1, xs21_, xs21)

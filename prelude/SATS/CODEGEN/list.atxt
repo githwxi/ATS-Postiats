@@ -784,12 +784,21 @@ a:t0p
   xs: list (INV(a), n)
 ) :<!wrt> list_vt (a, n) // end of [list_mergesort]
 
+#atscode_separator()
+
 fun{
 a:t0p
 } list_mergesort_fun
   {n:int} (
   xs: list (INV(a), n), cmp: cmpval (a)
 ) :<!wrt> list_vt (a, n) // end of [list_mergesort_fun]
+
+fun{
+a:t0p
+} list_mergesort_cloref
+  {n:int} (
+  xs: list (INV(a), n), cmp: (a, a) -<cloref> int
+) :<!wrt> list_vt (a, n) // end of [list_mergesort_cloref]
 
 #atscode_separator()
 

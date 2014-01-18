@@ -100,6 +100,14 @@ The ATSLIB/libats/ATS1 library\
 ")
 
 (* ****** ****** *)
+(*
+** SATS
+*)
+(* ****** ****** *)
+
+#packfilename("SATS/funset_listord.sats")
+
+(* ****** ****** *)
 
 #packfilename("SATS/funheap_braun.sats")
 #packfilename("SATS/funheap_binomial.sats")
@@ -110,12 +118,28 @@ The ATSLIB/libats/ATS1 library\
 
 (* ****** ****** *)
 
+#packfilename("SATS/linset_listord.sats")
+
+(* ****** ****** *)
+(*
+** DATS
+*)
+(* ****** ****** *)
+
+#packfilename("DATS/funset_listord.dats")
+
+(* ****** ****** *)
+
 #packfilename("DATS/funheap_braun.dats")
 #packfilename("DATS/funheap_binomial.dats")
 
 (* ****** ****** *)
 
 #packfilename("DATS/funmset_listord.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/linset_listord.dats")
 
 (* ****** ****** *)
 
