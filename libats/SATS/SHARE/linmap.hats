@@ -89,7 +89,7 @@ key:t0p;itm:t0p
 } linmap_search
 (
   !map (key, INV(itm)), key, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool (b)(*found*) // endfun
+) : #[b:bool] bool(b) (*found*) // endfun
 
 fun{
 key:t0p;itm:vt0p
@@ -115,7 +115,7 @@ key:t0p;itm:vt0p
 } linmap_insert
 (
   &map (key, INV(itm)) >> _, key, itm, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool (b) // endfun
+) : #[b:bool] bool(b) // endfun
 fun{
 key:t0p;itm:vt0p
 } linmap_insert_opt
@@ -141,7 +141,7 @@ key:t0p;itm:vt0p
 } linmap_takeout
 (
   &map (key, INV(itm)) >> _, key, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool (b) // endfun
+) : #[b:bool] bool(b) // endfun
 fun{
 key:t0p;itm:vt0p
 } linmap_takeout_opt
@@ -216,7 +216,7 @@ key:t0p;itm:vt0p
 } linmap_free_ifnil
 (
   map: !map (key, INV(itm)) >> opt (map (key, itm), b)
-) :<!wrt> #[b:bool] bool (b)(*~freed*) // endfun
+) :<!wrt> #[b:bool] bool(b) (*~freed*) // endfun
 //
 (* ****** ****** *)
 //
