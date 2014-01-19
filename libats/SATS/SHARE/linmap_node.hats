@@ -79,18 +79,24 @@ key:t0p;itm:vt0p
   (k: key, x: itm):<!wrt> mynode1 (key, itm)
 // end of [mynode_make_keyitm]
 
+(* ****** ****** *)
+
 fun{
 key:t0p;itm:vt0p
-} mynode_get_key (nx: !mynode1 (key, INV(itm))):<> key
+} mynode_get_key
+  (nx: !mynode1 (key, INV(itm))):<> key
 fun{
 key:t0p;itm:vt0p
-} mynode_getref_itm (nx: !mynode1 (key, INV(itm))):<> cPtr1 (itm)
+} mynode_getref_itm
+  (nx: !mynode1 (key, INV(itm))):<> cPtr1 (itm)
+
+(* ****** ****** *)
 
 fun{
 key:t0p;itm:vt0p
 } mynode_free_keyitm
 (
-  nx: mynode1 (key, INV(itm)), k0: &key? >> key, x0: &itm? >> itm
+  nx: mynode1(key, INV(itm)), k0: &key? >> _, x0: &itm? >> _
 ) :<!wrt> void // end of [mynode_free_keyitm]
 
 fun{
