@@ -129,16 +129,6 @@ linset_choose_opt (xs: !set(INV(a))):<!wrt> Option_vt(a)
 //
 (* ****** ****** *)
 
-//
-// HX: choosing an element in an unspecified manner
-//
-fun{a:t0p}
-linset_choose (
-  xs: !set a, x: &a? >> opt (a, b)
-) : #[b:bool] bool (b) // end of [linset_choose]
-
-(* ****** ****** *)
-
 fun{a:t0p}
 linset_takeoutmax
 (
@@ -191,11 +181,6 @@ linset_listize (xs: set(INV(a))): List0_vt (a)
 
 fun{a:t0p}
 linset_listize1 (xs: !set(INV(a))): List0_vt (a)
-
-(* ****** ****** *)
-
-fun{a:t0p} linset_union 
-(xs1: set(INV(a)), xs2: set(INV(a))):<!wrt> set (a)
 
 (* ****** ****** *)
 
