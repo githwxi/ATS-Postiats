@@ -79,7 +79,7 @@ fprint_dynarray
 fun{}
 dynarray_getfree_arrayptr{a:vt0p}
 (
-  DA: dynarray (INV(a)), n: &size_t? >> size_t (n)
+  DA: dynarray (INV(a)), n: &size_t? >> size_t(n)
 ) :<!wrt> #[n:nat] arrayptr (a, n)
 
 (* ****** ****** *)
@@ -87,7 +87,7 @@ dynarray_getfree_arrayptr{a:vt0p}
 fun{}
 dynarray_get_array{a:vt0p}
 (
-  DA: !RD(dynarray (INV(a))), n: &size_t? >> size_t (n)
+  DA: !RD(dynarray (INV(a))), n: &size_t? >> size_t(n)
 ) :<!wrt> #[l:addr;n:int]
 (
   array_v (a, l, n), array_v (a, l, n) -<lin,prf> void | ptr l
@@ -154,7 +154,7 @@ dynarray_inserts_at{n2:int}
 (
   DA: !dynarray (INV(a)), i: size_t
 , xs: &array(a, n2) >> arrayopt(a, n2, b), n2: size_t (n2)
-) : #[b:bool] bool (b) // end of [dynarray_inserts_at]
+) : #[b:bool] bool(b) // end of [dynarray_inserts_at]
 
 (* ****** ****** *)
 
@@ -237,7 +237,7 @@ dynarray_getfree2_arrayptr
   {a:vt0p}{l:addr}
 (
   pfngc: mfree_ngc_v (l)
-| p: ptr l, DA: dynarray (a), n: &size_t? >> size_t n
+| p: ptr l, DA: dynarray (a), n: &size_t? >> size_t(n)
 ) : #[n:int] (dynarray_struct? @ l | arrayptr (a, n))
 
 (* ****** ****** *)

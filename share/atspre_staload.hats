@@ -1,5 +1,5 @@
 (*
-** For staloading
+** This is mostly for staloading
 ** template code in ATSLIB/prelude
 *)
 
@@ -77,8 +77,13 @@ staload _ = "prelude/DATS/stream_vt.dats"
 staload _ = "prelude/DATS/gprint.dats"
 
 (* ****** ****** *)
-
+//
+staload UNSAFE = "prelude/SATS/unsafe.sats"
+//
 staload _(*UNSAFE*) = "prelude/DATS/unsafe.dats"
+//
+(* ****** ****** *)
+
 staload _(*CHECKAST*) = "prelude/DATS/checkast.dats"
 
 (* ****** ****** *)

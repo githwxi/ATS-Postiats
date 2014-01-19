@@ -440,20 +440,20 @@ overload stropt_some with stropt1_some of 10
 #atscode_separator()
 
 fun{
-} stropt_is_none {n:int} (x: stropt n): bool (n < 0)
+} stropt_is_none{n:int} (stropt(n)):<> bool (n < 0)
 fun{
-} stropt_is_some {n:int} (x: stropt n): bool (n >= 0)
+} stropt_is_some{n:int} (stropt(n)):<> bool (n >= 0)
 
 #atscode_separator()
 
 castfn
-stropt_unsome {n:nat} (x: stropt n): string (n)
+stropt_unsome {n:nat} (x: stropt n):<> string (n)
 
 #atscode_separator()
 
 fun{
 } stropt_length
-  {n:int} (x: stropt (n)): ssize_t (n)
+  {n:int} (x: stropt (n)):<> ssize_t (n)
 // end of [stropt_length]
 
 #atscode_separator()

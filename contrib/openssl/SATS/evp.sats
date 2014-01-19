@@ -200,8 +200,8 @@ EVP_MD_CTX_unobjfize
   
 (* ****** ****** *)
 
-fun EVP_MD_CTX_init (&EVP_MD_CTX? >> EVP_MD_CTX): void = "mac#%"
-fun EVP_MD_CTX_cleanup (&EVP_MD_CTX >> EVP_MD_CTX?): interr = "mac#%"
+fun EVP_MD_CTX_init (&EVP_MD_CTX? >> _): void = "mac#%"
+fun EVP_MD_CTX_cleanup (&EVP_MD_CTX >> _?): interr = "mac#%"
 
 (* ****** ****** *)
 
@@ -224,7 +224,7 @@ int
 EVP_MD_CTX_copy(EVP_MD_CTX *out,const EVP_MD_CTX *in);
 */
 fun EVP_MD_CTX_copy
-  (to: &EVP_MD_CTX? >> EVP_MD_CTX, from: &RD(EVP_MD_CTX)): interr = "mac#%"
+  (to: &EVP_MD_CTX? >> _, from: &RD(EVP_MD_CTX)): interr = "mac#%"
 
 /*
 int
@@ -246,9 +246,8 @@ EVP_DigestInit
 */
 fun
 EVP_DigestInit
-(
-  ctx: &EVP_MD_CTX? >> EVP_MD_CTX, type: EVP_MD_ref1
-) : interr = "mac#%" // end of [EVP_DigestInit]
+  (ctx: &EVP_MD_CTX? >> _, type: EVP_MD_ref1): interr = "mac#%"
+// end of [EVP_DigestInit]
 
 /*
 int
@@ -257,9 +256,8 @@ EVP_DigestInit_ex
 */
 fun
 EVP_DigestInit_ex
-(
-  ctx: &EVP_MD_CTX >> EVP_MD_CTX, type: EVP_MD_ref1, impl: ENGINEptr
-) : interr = "mac#%" // end-of-fun
+  (ctx: &EVP_MD_CTX >> _, type: EVP_MD_ref1, impl: ENGINEptr): interr = "mac#%"
+// end of [EVP_DigestInit_ex]
 
 (* ****** ****** *)
 
