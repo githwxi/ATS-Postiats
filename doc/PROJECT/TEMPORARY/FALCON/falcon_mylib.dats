@@ -1,5 +1,5 @@
 (*
-** stream of characters
+** mylib for [FALCON]
 *)
 
 (* ****** ****** *)
@@ -9,60 +9,70 @@
 (* ****** ****** *)
 //
 #include
+"share/atspre_define.hats"
+#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
 local
-#include"./../DATS/cstream.dats"
+#include
+"{$LIBATSHWXI}/cstream/DATS/cstream.dats"
 in (*in-of-local *)
 end // end of [local]
 
 (* ****** ****** *)
 
 local
-#include"./../DATS/cstream_fun.dats"
+#include
+"{$LIBATSHWXI}/cstream/DATS/cstream_fun.dats"
 in (*in-of-local *)
 end // end of [local]
 
 (* ****** ****** *)
 
 local
-#include"./../DATS/cstream_cloref.dats"
+#include
+"{$LIBATSHWXI}/cstream/DATS/cstream_cloref.dats"
 in (*in-of-local *)
 end // end of [local]
 
 (* ****** ****** *)
 
 local
-#include"./../DATS/cstream_string.dats"
+#include
+"{$LIBATSHWXI}/cstream/DATS/cstream_string.dats"
 in (*in-of-local *)
 end // end of [local]
-
 local
-#include"./../DATS/cstream_strptr.dats"
+#include
+"{$LIBATSHWXI}/cstream/DATS/cstream_strptr.dats"
 in (*in-of-local *)
 end // end of [local]
 
 (* ****** ****** *)
 
 local
-#include"./../DATS/cstream_fileref.dats"
+#include
+"{$LIBATSHWXI}/cstream/DATS/cstream_fileref.dats"
 in (*in-of-local *)
 end // end of [local]
-
 local
-#include"./../DATS/cstream_fileptr.dats"
+#include
+"{$LIBATSHWXI}/cstream/DATS/cstream_fileptr.dats"
 in (*in-of-local *)
 end // end of [local]
 
 (* ****** ****** *)
 
 local
-#include"./../DATS/cstream_tokener.dats"
+//
+#include
+"{$LIBATSHWXI}/cstream/DATS/cstream_tokener.dats"
+//
 in (*in-of-local *)
 end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [testlib.dats] *)
+(* end of [falcon_mylib.dats] *)

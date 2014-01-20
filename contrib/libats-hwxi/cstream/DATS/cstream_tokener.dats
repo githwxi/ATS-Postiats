@@ -29,102 +29,73 @@
 (* ****** ****** *)
 
 (*
-** stream of characters
+** cstream-based tokener
 *)
 
 (* ****** ****** *)
 
-staload "libc/SATS/stdio.sats"
+staload "./../SATS/cstream.sats"
+staload "./../SATS/cstream_tokener.sats"
 
 (* ****** ****** *)
 
-absvtype
-cstream_vtype(tkind) = ptr
-vtypedef
-cstream(tk:tkind) = cstream_vtype(tk)
+staload "libats/SATS/stringbuf.sats"
+staload _ = "libats/DATS/stringbuf.dats"
 
 (* ****** ****** *)
 
-tkindef TKfun = "TKfun"
-tkindef TKcloref = "TKcloref"
-tkindef TKstring = "TKstring"
-tkindef TKstrptr = "TKstrptr"
-tkindef TKfileref = "TKfileref"
-tkindef TKfileptr = "TKfileptr"
+datavtype
+tokener =
+TOKENER of
+  (cstream, int, stringbuf)
+// end of [tokener]
 
 (* ****** ****** *)
 
-vtypedef
-cstream = [tk:tkind] cstream(tk)
+assume tokener_vtype = tokener
 
 (* ****** ****** *)
 
-fun cstream_free (cstream): void
+#define BUFSZ 1024
 
 (* ****** ****** *)
 
-fun cstream_get_char (!cstream): int
-
-(* ****** ****** *)
-
-fun{tk:tk}
-cstream_getv_char{n:nat}
-  (!cstream(tk), &bytes(n) >> _, n: int(n)): natLte(n)
-// end of [cstream_getv_char]
-
-(* ****** ****** *)
+implement
+tokener_make_cstream (cs0) = let
 //
-// HX-2014-01:
-// read at most n chars if n >= 0
-// read the rest of chars if n < 0
-//
-fun
-cstream_get_charlst (!cstream, n: int): List0_vt(char)
-//
-(* ****** ****** *)
-
-fun cstream_make_fun (() -> int): cstream(TKfun)
+val c0 = cstream_get_char (cs0)
+val buf =
+  stringbuf_make_nil (i2sz(BUFSZ)) in TOKENER (cs0, c0, buf)
+// end of [val]
+end // end of [tokener_make_cstream]
 
 (* ****** ****** *)
 
-fun cstream_make_cloref (() -<cloref1> int): cstream(TKcloref)
+implement
+tokener_free (buf) =
+  cstream_free (tokener_getfree_cstream (buf))
 
 (* ****** ****** *)
-//
-symintr
-cstream_get_range
-//
-fun
-cstream_string_get_range
-  {i,j:nat | i <= j} (!cstream(TKstring), int i, int j): Strptr1
-fun
-cstream_strptr_get_range
-  {i,j:nat | i <= j} (!cstream(TKstrptr), int i, int j): Strptr1
-//
-overload cstream_get_range with cstream_string_get_range 
-overload cstream_get_range with cstream_strptr_get_range 
-//
-(* ****** ****** *)
 
-fun cstream_make_string (string): cstream(TKstring)
-fun cstream_make_strptr (Strptr1): cstream(TKstrptr)
+implement
+tokener_getfree_cstream
+  (buf) = cs0 where
+{
+  val+~TOKENER (cs0, _, sbf) = buf
+  val ((*void*)) = stringbuf_free (sbf)
+} (* end of [tokener_getfree_cstream] *)
 
 (* ****** ****** *)
-//
-fun
-cstream_make_fileref (FILEref): cstream(TKfileref)
-//
-fun
-cstream_make_fileptr
-  {l:agz}{m:fmode}
-  (file_mode_lte (m, r) | FILEptr(l, m)): cstream(TKfileptr)
-//
-(* ****** ****** *)
-//
-// HX: for skipping white spaces
-//
-fun cstream_WS_skip (cs0: !cstream, i0: &int >> _): void
-//
+
+implement{token}
+tokener_get_token
+  (buf) = tok where
+{
+  val+@TOKENER(cs, c, sbf) = buf
+  val tok = tokener_get_token$main<token> (cs, c, sbf)
+  prval ((*void*)) = fold@ (buf)
+} (* end of [lexinguf_get_token] *)
+
 (* ****** ****** *)
 
-(* end of [cstream.sats] *)
+(* end of [cstream_tokener.dats] *)

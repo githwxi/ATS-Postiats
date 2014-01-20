@@ -173,7 +173,7 @@ end // end of [cstream_get_charlst]
 
 implement
 cstream_WS_skip
-  (cs0, c0) = let
+  (cs0, i0) = let
 //
 fun loop
   (cs0: !cstream): int = let
@@ -183,7 +183,7 @@ in
 end // end of [loop]
 //
 in
-  if isspace (c0) then c0 := loop (cs0)
+  if isspace (i0) then i0 := loop (cs0)
 end // end of [cstream_WS_skip]
 
 (* ****** ****** *)
