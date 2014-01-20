@@ -27,6 +27,7 @@ staload "./falcon_tokener.dats"
 (* ****** ****** *)
 
 dynload "./falcon.sats"
+dynload "./falcon_symbol.dats"
 dynload "./falcon_tokener.dats"
 
 (* ****** ****** *)
@@ -37,6 +38,13 @@ main0 () =
 //
 val (
 ) = println! ("Hello from [FALCON]!")
+//
+val out = stdout_ref
+//
+val x1 = symbol_make ("foo")
+val () = fprintln! (out, "x1 = ", x1)
+val x2 = symbol_make ("bar")
+val () = fprintln! (out, "x2 = ", x2)
 //
 val cs0 =
 cstream_make_fileref (stdin_ref)

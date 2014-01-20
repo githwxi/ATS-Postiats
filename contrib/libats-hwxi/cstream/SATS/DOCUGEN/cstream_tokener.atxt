@@ -34,6 +34,7 @@ ATSLIB/contrib/libats-hwxi/cstream_tokener\
 (* ****** ****** *)
 
 #declnamesynop("tokener_get_token")
+#declnamesynop("tokener_get_token$main")
 
 (* ****** ****** *)
 

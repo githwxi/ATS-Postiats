@@ -63,7 +63,7 @@ token:type
 //
 fun{token:type}
 tokener_get_token$main (
-  cs0: !cstream, c0: &int >> _, sbf: !($SBF.stringbuf)
+  cs0: !cstream, i0: &int >> _, sbf: !($SBF.stringbuf)
 ) : token // end of [tokener_get_token$main]
 //
 (* ****** ****** *)
