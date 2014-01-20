@@ -42,12 +42,18 @@ implement
 symbol_get_name (SYMBOL(name, _)) = name
 
 (* ****** ****** *)
-
+//
+implement
+symbol_equal
+  (x1, x2) = (
+  $UNSAFE.cast{ptr}(x1) = $UNSAFE.cast{ptr}(x2)
+) (* end of [symbol_equal] *)
+//
 implement
 symbol_compare
   (SYMBOL(_, n1), SYMBOL(_, n2)) = compare (n1, n2)
 // end of [symbol_compare]
-
+//
 (* ****** ****** *)
 
 local

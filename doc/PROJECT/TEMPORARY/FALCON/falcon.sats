@@ -26,10 +26,13 @@ overload fprint with fprint_symbol
 //
 fun symbol_make (string): symbol
 fun symbol_get_name (symbol): string
+fun symbol_equal : (symbol, symbol) -> bool
 fun symbol_compare : (symbol, symbol) -> int
 //
 symintr .name
 overload .name with symbol_get_name
+//
+overload = with symbol_equal
 overload compare with symbol_compare
 //
 (* ****** ****** *)

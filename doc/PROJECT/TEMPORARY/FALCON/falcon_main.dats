@@ -46,17 +46,27 @@ val () = fprintln! (out, "x1 = ", x1)
 val x2 = symbol_make ("bar")
 val () = fprintln! (out, "x2 = ", x2)
 //
+val opt =
+fileref_open_opt ("./DATA/rec2.grRulesLop", file_mode_r)
+val-~Some_vt(inp) = opt
+//
 val cs0 =
-cstream_make_fileref (stdin_ref)
+cstream_make_fileref (inp)
 //
 val buf = tokener_make_cstream (cs0)
 //
-val tok = my_tokener_get_token (buf)
+var tok: token =
+  my_tokener_get_token (buf)
+val () =
+while (true)
+{
 val () = fprintln! (stdout_ref, "tok = ", tok)
-val tok = my_tokener_get_token (buf)
-val () = fprintln! (stdout_ref, "tok = ", tok)
-val tok = my_tokener_get_token (buf)
-val () = fprintln! (stdout_ref, "tok = ", tok)
+val () =
+(
+case+ tok of
+| TOKeof () => $break | _ => tok := my_tokener_get_token (buf)
+) : void // end of [val]
+} (* end of [while] *)
 //
 val ((*freed*)) = tokener_free (buf)
 //

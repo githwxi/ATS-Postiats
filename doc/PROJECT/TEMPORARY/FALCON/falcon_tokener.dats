@@ -39,11 +39,11 @@ macdef RPAREN = $extval (int, "RPAREN")
 (* ****** ****** *)
 
 datatype token =
-  | TOKide of string
-  | TOKsym of string
-  | TOKlpar of () | TOKrpar of ()
-  | TOKeof of ()
+  | TOKlpar of ()
+  | TOKrpar of ()
+  | TOKide of symbol
   | TOKerr of (int)
+  | TOKeof of ((*end*))
 // end of [token]
 
 (* ****** ****** *)
@@ -61,16 +61,16 @@ fprint_token
 in
 //
 case+ tok of
-| TOKide (str) =>
-    fprint! (out, "TOKide(", str, ")")
-| TOKsym (str) =>
-    fprint! (out, "TOKsym(", str, ")")
 //
 | TOKlpar () => fprint! (out, "TOKlpar(", ")")
 | TOKrpar () => fprint! (out, "TOKrpar(", ")")
 //
-| TOKeof () => fprint! (out, "TOKeof(", ")")
+| TOKide (str) =>
+    fprint! (out, "TOKide(", str, ")")
+//
 | TOKerr (int) => fprint! (out, "TOKerr(", int, ")")
+//
+| TOKeof ((*void*)) => fprint! (out, "TOKeof(", ")")
 //
 end // end of [fprint_token]
 
@@ -107,13 +107,13 @@ end // end of [cstream_gets_if]
 
 (* ****** ****** *)
 
-extern fun test_ide : int -> bool
-extern fun test_sym : int -> bool
+extern fun test_ide1 : int -> bool // first
+extern fun test_ide2 : int -> bool // the rest
 
 (* ****** ****** *)
 
 implement
-test_ide
+test_ide1
   (i0) = let
   val c0 = i2c(i0)
 in
@@ -125,21 +125,13 @@ in
   | '_' => true
   | '-' => true
   | '.' => true
-  | _(*rest*)  => false
-end // end of [test_ide]
-
-(* ****** ****** *)
-
-implement
-test_sym
-  (i0) = let
-  val c0 = i2c(i0)
-in
-  case+ c0 of
   | '&' => true
   | '|' => true
   | _(*rest*)  => false
-end // end of [test_sym]
+end // end of [test_ide1]
+
+implement
+test_ide2 (i0) = test_ide1 (i0)
 
 (* ****** ****** *)
 
@@ -164,24 +156,15 @@ in
 case+ i0 of
 //
 | _ when
-    test_ide (i0) => let
+    test_ide1 (i0) => let
     val c0 = $UNSAFE.cast{charNZ}(i0)
     val _ = stringbuf_insert (sbf, c0)
     val () = i0 :=
-      cstream_gets_if (cs0, sbf, test_ide)
+      cstream_gets_if (cs0, sbf, test_ide2)
     val str = stringbuf_truncout_all (sbf)
-  in
-    TOKide (strptr2string(str))
-  end // end of [_ when ...]
-| _ when
-    test_sym (i0) => let
-    val c0 = $UNSAFE.cast{charNZ}(i0)
-    val _ = stringbuf_insert (sbf, c0)
-    val () = i0 :=
-      cstream_gets_if (cs0, sbf, test_sym)
-    val str = stringbuf_truncout_all (sbf)
-  in
-    TOKide (strptr2string(str))
+    val sym =
+      symbol_make(strptr2string(str)) in TOKide(sym)
+    // end of [val]
   end // end of [_ when ...]
 //
 | _ when
