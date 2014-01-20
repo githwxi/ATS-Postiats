@@ -120,5 +120,11 @@ cstream_make_fileptr
   (file_mode_lte (m, r) | FILEptr(l, m)): cstream(TKfileptr)
 //
 (* ****** ****** *)
+//
+// HX: for skipping white spaces
+//
+fun cstream_WS_skip (cs0: !cstream, c0: &int >> _): void
+//
+(* ****** ****** *)
 
 (* end of [cstream.sats] *)

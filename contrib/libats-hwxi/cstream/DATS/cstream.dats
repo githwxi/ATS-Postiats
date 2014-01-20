@@ -171,4 +171,21 @@ end // end of [cstream_get_charlst]
 
 (* ****** ****** *)
 
+implement
+cstream_WS_skip
+  (cs0, c0) = let
+//
+fun loop
+  (cs0: !cstream): int = let
+  val c = cstream_get_char (cs0)
+in
+  if isspace (c) then loop (cs0) else c
+end // end of [loop]
+//
+in
+  if isspace (c0) then c0 := loop (cs0)
+end // end of [cstream_WS_skip]
+
+(* ****** ****** *)
+
 (* end of [cstream.dats] *)

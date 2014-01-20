@@ -111,7 +111,6 @@ the given map, the original link is shadowed by the newly inserted link.
 
 #declnamesynop("linmap_foreach")
 #declnamesynop("linmap_foreach_env")
-#declnamesynop("linmap_foreach$cont")
 #declnamesynop("linmap_foreach$fwork")
 
 (* ****** ****** *)
@@ -123,8 +122,8 @@ This function frees a given map containing only non-linear items. ")
 
 (* ****** ****** *)
 
-#declnamesynop("linmap_freelin$clear")
 #declnamesynop("linmap_freelin")
+#declnamesynop("linmap_freelin$clear")
 
 (* ****** ****** *)
 

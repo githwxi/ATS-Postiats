@@ -58,28 +58,6 @@ cstream_set_char
 
 (* ****** ****** *)
 
-extern
-fun
-cstream_WS_skip
-  (cs0: !cstream): void
-implement
-cstream_WS_skip (cs0) = let
-//
-fun loop
-  (cs0: !cstream): int = let
-  val c = cstream_get_char (cs0)
-in
-  if isspace (c) then loop (cs0) else c
-end // end of [loop]
-//
-val i0 = the_char_get ()
-//
-in
-  if isspace (i0) then the_char_set (loop (cs0))
-end // end of [cstream_WS_skip]
-
-(* ****** ****** *)
-
 datatype token =
   | TOKide of string
   | TOKint of int
@@ -274,9 +252,9 @@ implement
 cstream_tokenize2
   (cs0) = let
 //
-val () =
-  cstream_WS_skip (cs0)
-val i0 = the_char_get ()
+var i0 = the_char_get ()
+val () = cstream_WS_skip (cs0, i0)
+val () = the_char_set (i0)
 //
 in
 //

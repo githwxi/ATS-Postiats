@@ -161,8 +161,6 @@ type for items stored in the map is assumed to be non-linear. ")
 
 (* ****** ****** *)
 
-#declnamesynop("linmap_foreach$cont")
-#declnamesynop("linmap_foreach$fwork")
 #declnamesynop("linmap_foreach")
 #decldescrpt("\
 
@@ -175,6 +173,8 @@ This function traverses a given map, applying the function implemented by
 
 This function is similar to #dyncode("linmap_foreach") except taking an
 environment as an extra argument.  ")
+
+#declnamesynop("linmap_foreach$fwork")
 
 (* ****** ****** *)
 

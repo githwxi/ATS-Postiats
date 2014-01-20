@@ -53,28 +53,35 @@ viewtypedef lexbuf = lexbuf_vt0ype
 
 (* ****** ****** *)
 
-fun lexbuf_initialize_filp
-  {m:file_mode} {l:addr} (
-  pfmod: file_mode_lte (m, r)
-, pffil: FILE m @ l
+fun
+lexbuf_initialize_filp
+  {m:file_mode}{l:addr}
+(
+  pfmod:
+  file_mode_lte (m, r)
+, pffil: FILE (m) @ l
 | r: &lexbuf? >> lexbuf, p: ptr l
 ) : void // end of [lexbuf_initialize_filp]
 
-fun lexbuf_initialize_getc (
+fun lexbuf_initialize_getc
+(
   buf: &lexbuf? >> lexbuf, getc: () -<cloptr1> int
 ) : void // end of [lexbuf_initialize_getc]
 
-fun lexbuf_initialize_string (
+fun lexbuf_initialize_string
+(
   buf: &lexbuf? >> lexbuf, inp: string
 ) : void // end of [lexbuf_initialize_string]
 
-fun lexbuf_initialize_charlst_vt (
+fun lexbuf_initialize_charlst_vt
+(
   buf: &lexbuf? >> lexbuf, inp: List_vt (char)
 ) : void // end of [lexbuf_initialize_charlst_vt]
 
 (* ****** ****** *)
 
-fun lexbuf_uninitialize (
+fun lexbuf_uninitialize
+(
   buf: &lexbuf >> lexbuf?
 ) : void // end of [lexbuf_uninitialize]
 
