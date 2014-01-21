@@ -9,6 +9,8 @@ SOURCES_DATS += falcon_main.dats
 SOURCES_DATS += falcon_symbol.dats
 SOURCES_DATS += falcon_position.dats
 SOURCES_DATS += falcon_tokener.dats
+SOURCES_DATS += falcon_genes.dats
+SOURCES_DATS += falcon_parser.dats
 SOURCES_DATS += falcon_mylib.dats
 #
 MYTARGET=falcon

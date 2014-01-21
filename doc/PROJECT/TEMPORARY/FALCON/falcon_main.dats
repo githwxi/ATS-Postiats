@@ -31,6 +31,8 @@ dynload "./falcon.sats"
 dynload "./falcon_symbol.dats"
 dynload "./falcon_position.dats"
 dynload "./falcon_tokener.dats"
+dynload "./falcon_genes.dats"
+dynload "./falcon_parser.dats"
 
 (* ****** ****** *)
 

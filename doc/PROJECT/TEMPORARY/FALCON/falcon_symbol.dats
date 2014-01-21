@@ -30,12 +30,16 @@ SYMBOL of (string, int)
 assume symbol_type = symbol
 //
 (* ****** ****** *)
-
+//
+implement
+print_symbol (sym) =
+  fprint_symbol (stdout_ref, sym)
+//
 implement
 fprint_symbol
   (out, SYMBOL(name, n)) =
   fprint! (out, name, "(", n, ")")
-
+//
 (* ****** ****** *)
 
 implement

@@ -29,6 +29,10 @@ staload "./falcon_position.dats"
 
 (* ****** ****** *)
 
+vtypedef tokener = tokener
+
+(* ****** ****** *)
+
 %{^
 #define LPAREN '('
 #define RPAREN ')'
