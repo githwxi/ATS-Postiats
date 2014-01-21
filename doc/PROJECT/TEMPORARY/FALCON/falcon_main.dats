@@ -16,18 +16,20 @@ staload
 staload
 "{$LIBATSHWXI}/cstream/SATS/cstream_tokener.sats"
 //
+staload _ = "libats/DATS/stringbuf.dats"
+staload _ = "{$LIBATSHWXI}/cstream/DATS/cstream_tokener.dats"
+//
 (* ****** ****** *)
   
 staload "./falcon.sats"
-  
-(* ****** ****** *)
-
+staload "./falcon_position.dats"
 staload "./falcon_tokener.dats"
 
 (* ****** ****** *)
 
 dynload "./falcon.sats"
 dynload "./falcon_symbol.dats"
+dynload "./falcon_position.dats"
 dynload "./falcon_tokener.dats"
 
 (* ****** ****** *)
@@ -41,26 +43,24 @@ val (
 //
 val out = stdout_ref
 //
-val x1 = symbol_make ("foo")
-val () = fprintln! (out, "x1 = ", x1)
-val x2 = symbol_make ("bar")
-val () = fprintln! (out, "x2 = ", x2)
-//
 val opt =
 fileref_open_opt ("./DATA/rec2.grRulesLop", file_mode_r)
 val-~Some_vt(inp) = opt
 //
-val cs0 =
-cstream_make_fileref (inp)
-//
+val cs0 = cstream_make_fileref (inp)
 val buf = tokener_make_cstream (cs0)
+//
+val () =
+println! ("the_symtbl_count(bef) = ", the_symtbl_count ())
 //
 var tok: token =
   my_tokener_get_token (buf)
 val () =
 while (true)
 {
+(*
 val () = fprintln! (stdout_ref, "tok = ", tok)
+*)
 val () =
 (
 case+ tok of
@@ -69,6 +69,15 @@ case+ tok of
 } (* end of [while] *)
 //
 val ((*freed*)) = tokener_free (buf)
+//
+val () =
+println! ("the_symtbl_count(aft) = ", the_symtbl_count ())
+//
+val () =
+print ("pos(final) = ")
+val () =
+fprint_the_position (out)
+val () = print_newline ()
 //
 } (* end of [main0] *)
 

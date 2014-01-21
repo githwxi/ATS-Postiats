@@ -30,6 +30,7 @@ staload _ = "libats/DATS/stringbuf.dats"
 staload "./../SATS/cstream.sats"
 staload "./../SATS/cstream_tokener.sats"
 //
+staload _ = "./../DATS/cstream.dats"
 staload _ = "./../DATS/cstream_tokener.dats"
 //
 (* ****** ****** *)
@@ -167,6 +168,27 @@ end // end of [tokener_get_int]
 macdef LPAREN = $extval (int, "LPAREN")
 macdef RPAREN = $extval (int, "RPAREN")
 
+(* ****** ****** *)
+//
+extern
+fun cstream_WS_skip
+  (cs0: !cstream, i0: &int >> _): void
+//
+implement
+cstream_WS_skip
+  (cs0, i0) = let
+//
+fun loop
+  (cs0: !cstream): int = let
+  val c = cstream_get_char (cs0)
+in
+  if isspace (c) then loop (cs0) else c
+end // end of [loop]
+//
+in
+  if isspace (i0) then i0 := loop (cs0)
+end // end of [cstream_WS_skip]
+//
 (* ****** ****** *)
 
 implement

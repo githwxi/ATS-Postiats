@@ -60,25 +60,28 @@ local
 //
 typedef key = string and itm = symbol
 //
-val theN = ref<int> (0)
-val theHT =
+val N = ref<int> (0)
+val HT =
   hashtbl_make_nil<key,itm> (i2sz(1024))
 // end of [val]
 //
 in (* in-of-local *)
 
 implement
+the_symtbl_count () = !N
+
+implement
 symbol_make (name) = let
-  val opt = hashtbl_search (theHT, name)
+  val opt = hashtbl_search (HT, name)
 in
 //
 case+ opt of
 | ~Some_vt (sym) => sym
 | ~None_vt ((*void*)) => let
-    val n = !theN
-    val () = !theN := succ(n)
+    val n = !N
+    val () = !N := succ(n)
     val sym = SYMBOL (name, n)
-    val () = hashtbl_insert_any (theHT, name, sym)
+    val () = hashtbl_insert_any (HT, name, sym)
   in
     sym
   end (* end of [None_vt] *)

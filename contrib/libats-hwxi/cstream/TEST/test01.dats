@@ -15,6 +15,7 @@ STDLIB = "libc/SATS/stdio.sats"
 (* ****** ****** *)
 
 staload "./../SATS/cstream.sats"
+staload _ = "./../DATS/cstream.dats"
 
 (* ****** ****** *)
 

@@ -25,6 +25,10 @@ staload "./falcon.sats"
   
 (* ****** ****** *)
 
+staload "./falcon_position.dats"
+
+(* ****** ****** *)
+
 %{^
 #define LPAREN '('
 #define RPAREN ')'
@@ -73,6 +77,46 @@ case+ tok of
 | TOKeof ((*void*)) => fprint! (out, "TOKeof(", ")")
 //
 end // end of [fprint_token]
+
+(* ****** ****** *)
+//
+local
+//
+extern
+fun
+cstream_get_char_saved (cs0: !cstream): int
+implement
+cstream_get_char_saved (cs0) = cstream_get_char (cs0)
+//
+in
+//
+implement{}
+cstream_get_char (cs0) = i0 where
+{
+  val i0 = cstream_get_char_saved (cs0)
+  val ((*void*)) = the_position_incby1 (i0)
+}
+//
+end // end of [local]
+//
+(* ****** ****** *)
+//
+fun
+cstream_WS_skip
+(
+  cs0: !cstream, i0: &int >> _
+) : void = let
+//
+fun loop
+  (cs0: !cstream): int = let
+  val c = cstream_get_char (cs0)
+in
+  if isspace (c) then loop (cs0) else c
+end // end of [loop]
+//
+in
+  if isspace (i0) then i0 := loop (cs0)
+end // end of [cstream_WS_skip]
 
 (* ****** ****** *)
 

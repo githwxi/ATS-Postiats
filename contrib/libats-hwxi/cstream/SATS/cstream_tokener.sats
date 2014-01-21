@@ -48,12 +48,13 @@ vtypedef tokener = tokener_vtype
 
 (* ****** ****** *)
 //
-fun tokener_make_cstream (cs0: cstream): tokener
+fun{
+} tokener_free (tknr: tokener): void
 //
 (* ****** ****** *)
 //
-fun tokener_free (tknr: tokener): void
-fun tokener_getfree_cstream (tknr: tokener): cstream
+fun{
+} tokener_make_cstream (cs0: cstream): tokener
 //
 (* ****** ****** *)
 //
@@ -61,8 +62,9 @@ fun{
 token:type
 } tokener_get_token (lxbf: !tokener): token
 //
-fun{token:type}
-tokener_get_token$main (
+fun{
+token:type
+} tokener_get_token$main (
   cs0: !cstream, i0: &int >> _, sbf: !($SBF.stringbuf)
 ) : token // end of [tokener_get_token$main]
 //

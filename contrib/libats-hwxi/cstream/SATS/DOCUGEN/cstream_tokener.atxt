@@ -24,12 +24,11 @@ ATSLIB/contrib/libats-hwxi/cstream_tokener\
 
 (* ****** ****** *)
 
-#declnamesynop("tokener_make_cstream")
+#declnamesynop("tokener_free")
 
 (* ****** ****** *)
 
-#declnamesynop("tokener_free")
-#declnamesynop("tokener_getfree_cstream")
+#declnamesynop("tokener_make_cstream")
 
 (* ****** ****** *)
 

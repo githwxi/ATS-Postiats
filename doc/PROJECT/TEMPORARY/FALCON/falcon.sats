@@ -23,6 +23,10 @@ overload print with print_symbol
 overload fprint with fprint_symbol
 //
 (* ****** ****** *)
+
+fun the_symtbl_count ((*void*)): int
+
+(* ****** ****** *)
 //
 fun symbol_make (string): symbol
 fun symbol_get_name (symbol): string

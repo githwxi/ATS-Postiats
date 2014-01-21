@@ -72,6 +72,7 @@ cstream_free
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 cstream_get_char
   (cs0) = ret where
 {
@@ -122,6 +123,7 @@ end // end of [cstream_getv_char]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 cstream_get_charlst
   (cs0, n) = let
 //
@@ -168,23 +170,6 @@ val () = loop (cs0, n, res)
 in
   res
 end // end of [cstream_get_charlst]
-
-(* ****** ****** *)
-
-implement
-cstream_WS_skip
-  (cs0, i0) = let
-//
-fun loop
-  (cs0: !cstream): int = let
-  val c = cstream_get_char (cs0)
-in
-  if isspace (c) then loop (cs0) else c
-end // end of [loop]
-//
-in
-  if isspace (i0) then i0 := loop (cs0)
-end // end of [cstream_WS_skip]
 
 (* ****** ****** *)
 

@@ -39,15 +39,10 @@ staload "./../SATS/cstream_tokener.sats"
 
 (* ****** ****** *)
 
-staload "libats/SATS/stringbuf.sats"
-staload _ = "libats/DATS/stringbuf.dats"
-
-(* ****** ****** *)
-
 datavtype
 tokener =
 TOKENER of
-  (cstream, int, stringbuf)
+  (cstream, int, $SBF.stringbuf)
 // end of [tokener]
 
 (* ****** ****** *)
@@ -60,29 +55,24 @@ assume tokener_vtype = tokener
 
 (* ****** ****** *)
 
-implement
-tokener_make_cstream (cs0) = let
+implement{
+} tokener_make_cstream (cs0) = let
 //
 val c0 = cstream_get_char (cs0)
 val buf =
-  stringbuf_make_nil (i2sz(BUFSZ)) in TOKENER (cs0, c0, buf)
+  $SBF.stringbuf_make_nil (i2sz(BUFSZ)) in TOKENER (cs0, c0, buf)
 // end of [val]
 end // end of [tokener_make_cstream]
 
 (* ****** ****** *)
 
-implement
-tokener_free (buf) =
-  cstream_free (tokener_getfree_cstream (buf))
-
-(* ****** ****** *)
-
-implement
-tokener_getfree_cstream
-  (buf) = cs0 where
+implement{
+} tokener_free
+  (buf) = () where
 {
-  val+~TOKENER (cs0, _, sbf) = buf
-  val ((*void*)) = stringbuf_free (sbf)
+  val+~TOKENER(cs0, _, sbf) = buf
+  val ((*void*)) = cstream_free (cs0)
+  val ((*void*)) = $SBF.stringbuf_free (sbf)
 } (* end of [tokener_getfree_cstream] *)
 
 (* ****** ****** *)
@@ -91,8 +81,8 @@ implement{token}
 tokener_get_token
   (buf) = tok where
 {
-  val+@TOKENER(cs, c, sbf) = buf
-  val tok = tokener_get_token$main<token> (cs, c, sbf)
+  val+@TOKENER(cs0, c0, sbf) = buf
+  val tok = tokener_get_token$main<token> (cs0, c0, sbf)
   prval ((*void*)) = fold@ (buf)
 } (* end of [lexinguf_get_token] *)
 
