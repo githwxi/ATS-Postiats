@@ -33,6 +33,11 @@
 *)
 
 (* ****** ****** *)
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
 
 staload "./../SATS/cstream.sats"
 staload "./../SATS/cstream_tokener.sats"
@@ -40,9 +45,8 @@ staload "./../SATS/cstream_tokener.sats"
 (* ****** ****** *)
 
 datavtype
-tokener =
-TOKENER of
-  (cstream, int, $SBF.stringbuf)
+tokener(a:type) =
+TOKENER of (cstream, int, $SBF.stringbuf)
 // end of [tokener]
 
 (* ****** ****** *)
@@ -55,19 +59,19 @@ assume tokener_vtype = tokener
 
 (* ****** ****** *)
 
-implement{
-} tokener_make_cstream (cs0) = let
+implement{a}
+tokener_make_cstream (cs0) = let
 //
 val c0 = cstream_get_char (cs0)
 val buf =
-  $SBF.stringbuf_make_nil (i2sz(BUFSZ)) in TOKENER (cs0, c0, buf)
+  $SBF.stringbuf_make_nil (i2sz(BUFSZ)) in TOKENER{a}(cs0, c0, buf)
 // end of [val]
 end // end of [tokener_make_cstream]
 
 (* ****** ****** *)
 
-implement{
-} tokener_free
+implement{a}
+tokener_free
   (buf) = () where
 {
   val+~TOKENER(cs0, _, sbf) = buf
@@ -85,6 +89,72 @@ tokener_get_token
   val tok = tokener_get_token$main<token> (cs0, c0, sbf)
   prval ((*void*)) = fold@ (buf)
 } (* end of [lexinguf_get_token] *)
+
+(* ****** ****** *)
+
+datavtype
+tokener2(token:type) =
+  TOKENER2 of (tokener(token), token)
+// end of [tokener2]
+
+(* ****** ****** *)
+
+assume token_v = unit_v
+assume tokener2_vtype(a:type) = tokener2(a)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+tokener2_get (t2knr) = let
+//
+val+TOKENER2(_, tok) = t2knr
+//
+in
+  (unit_v() | tok)
+end // end of [tokener2_get]
+
+(* ****** ****** *)
+
+implement
+{token}
+tokener2_unget (pf | t2knr) =
+  let prval unit_v () = pf in () end
+// end of [tokener2_unget]
+
+implement
+{token}
+tokener2_getout (pf | t2knr) =
+{
+//
+prval unit_v () = pf
+//
+val+@TOKENER2(tknr, tok) = t2knr
+val () = tok := tokener_get_token<token> (tknr)
+prval ((*void*)) = fold@ (t2knr)
+//
+} (* end of [tokener2_getout] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+tokener2_free (t2knr) = let
+//
+val+~TOKENER2(tknr, tok) = t2knr in tokener_free (tknr)
+//
+end // end of [tokener2_free]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+tokener2_make_tokener
+  (tknr) = let
+//
+val tok = tokener_get_token<a> (tknr) in TOKENER2 (tknr, tok)
+//
+end // end of [tokener2_make]
 
 (* ****** ****** *)
 

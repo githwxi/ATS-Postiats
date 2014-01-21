@@ -10,53 +10,12 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-  
+
 staload "./falcon.sats"
   
 (* ****** ****** *)
 
 staload "./falcon_tokener.dats"
-
-(* ****** ****** *)
-
-absvtype tokener2_vtype = ptr
-vtypedef tokener2 = tokener2_vtype
-
-(* ****** ****** *)
-
-extern
-fun tokener2_peek (!tokener2): token
-extern
-fun tokener2_next (!tokener2): void
-
-(* ****** ****** *)
-
-local
-
-datavtype
-tokener2 =
-TOKENER2 of (tokener, token)
-
-assume tokener2_vtype = tokener2
-
-in (* in-of-local *)
-
-implement
-tokener2_peek (tknr2) =
-let val+TOKENER2(_, tok) = tknr2 in tok end
-
-implement
-tokener2_next
-  (tknr2) = () where
-{
-//
-val+@TOKENER2(tknr, tok) = tknr2
-val () = tok := my_tokener_get_token (tknr)
-prval ((*void*)) = fold@ (tknr2)
-//
-} (* end of [tokener2_next] *)
-
-end // end of [local]
 
 (* ****** ****** *)
 
@@ -68,7 +27,9 @@ datatype grexp =
 // end of [grexp]
 
 where grexplst = List0 (grexp)
-          
+
+vtypedef grexplst_vt = List0_vt (grexp)
+
 (* ****** ****** *)
 //
 extern
@@ -77,14 +38,32 @@ extern
 fun fprint_grexplst (FILEref, grexplst): void
 //
 overload fprint with fprint_grexp
-overload fprint with fprint_grexplst
+overload fprint with fprint_grexplst of 10
+//
+(* ****** ****** *)
+//
+implement
+fprint_val<grexp> = fprint_grexp
+//
+implement
+fprint_grexp
+  (out, gx) = let
+in
+  case+ gx of
+  | GRgene (gn) => fprint! (out, "GRgene(", gn, ")")
+  | GRconj (gxs) => fprint! (out, "GRconj(", gxs, ")")
+  | GRdisj (gxs) => fprint! (out, "GRdisj(", gxs, ")")
+  | GRerror () => fprint! (out, "GRerror(", ")")
+end // end of [fprint_grexp]
+//
+implement
+fprint_grexplst (out, gxs) = fprint_list (out, gxs)
 //
 (* ****** ****** *)
 //
 datatype parerr =
   | PARERRrpar of (position) // missing rparen
   | PARERRtoken of (token, position) // unhandled token
-  | PARERRuneof of (position) // unused tokens
 //
 (* ****** ****** *)
 //
@@ -102,11 +81,9 @@ in
 //
 case+ pe of
 | PARERRrpar (pos) =>
-    fprint! (out, "error(parse): ", pos, ": unbalanced right parenthesis")
+    fprint! (out, "error(parse): ", pos, ": unbalanced parenthesis")
 | PARERRtoken (tok, pos) =>
     fprint! (out, "error(parse): ", pos, ": unrecognized char: ", tok)
-| PARERRuneof (pos) =>
-    fprint! (out, "error(parse): ", pos, ": tokens are not fully consumed")
 //
 end // end of [fprint_parerr]
 
@@ -167,13 +144,20 @@ end // end of [fprint_the_parerrlst]
 (* ****** ****** *)
 
 extern
+fun parse_RPAREN (!tokener2): void
+extern
+fun parseopt_OR (!tokener2): bool
+extern
+fun parseopt_AND (!tokener2): bool
+
+(* ****** ****** *)
+
+extern
 fun parse_gratm (!tokener2): grexp
 extern
 fun parse_grconj (!tokener2): grexp
 extern
 fun parse_grdisj (!tokener2): grexp
-extern
-fun parse_grexp (!tokener2): grexp
 
 (* ****** ****** *)
 
@@ -185,11 +169,9 @@ fun parse_OR_grconj (!tokener2): grexplst
 (* ****** ****** *)
 
 extern
-fun parse_RPAREN (!tokener2): void
+fun parse_grexp (!tokener2): grexp
 extern
-fun parseopt_OR (!tokener2): bool
-extern
-fun parseopt_AND (!tokener2): bool
+fun parse_grexplst (!tokener2): grexplst
 
 (* ****** ****** *)
 
@@ -201,10 +183,13 @@ staload
 STRINGS = "libc/SATS/strings.sats"
 
 (* ****** ****** *)
-
-macdef peek = tokener2_peek
-macdef next = tokener2_next
-
+//
+macdef get = my_tokener2_get
+macdef unget = my_tokener2_unget
+macdef getout = my_tokener2_getout
+//
+macdef strcasecmp = $STRINGS.strcasecmp
+//
 (* ****** ****** *)
 
 fun auxerr
@@ -218,15 +203,18 @@ in (* in-of-local *)
 
 implement
 parse_RPAREN
-  (tknr2) = let
+  (t2knr) = let
 //
-val tok = peek (tknr2)
+val (pf | tok) = get (t2knr)
 //
 in
 //
 case+ tok of
-| TOKrpar () => ()
+| TOKrpar () => let
+    val () = getout (pf | t2knr) in ()
+  end // end of [TOKrpar]
 | _(*rest*) => let
+    val () = unget (pf | t2knr)
     val pos = position_get_now ()
   in
     the_parerrlst_add (PARERRrpar(pos))
@@ -236,31 +224,47 @@ end // end of [parse_RPAREN]
 
 implement
 parseopt_AND
-  (tknr2) = let
+  (t2knr) = let
 //
-val tok = peek (tknr2)
+val (pf | tok) = get (t2knr)
 //
 in
 //
 case+ tok of
-| TOKide (sym) =>
-    $STRINGS.strcasecmp (sym.name, "AND") = 0
-| _(*rest*) => false
+| TOKide (sym) => ans where
+  {
+    val ans =
+    strcasecmp (sym.name, "AND") = 0
+    val () = (
+    if ans
+      then getout (pf | t2knr) else unget (pf | t2knr)
+    // end of [if]
+    ) : void // end of [val]
+  } (* end of [TOKide] *)
+| _(*rest*) => (unget (pf | t2knr); false)
 //
 end // end of [parseopt_AND]
 
 implement
 parseopt_OR
-  (tknr2) = let
+  (t2knr) = let
 //
-val tok = peek (tknr2)
+val (pf | tok) = get (t2knr)
 //
 in
 //
 case+ tok of
-| TOKide (sym) =>
-    $STRINGS.strcasecmp (sym.name, "OR") = 0
-| _(*rest*) => false
+| TOKide (sym) => ans where
+  {
+    val ans =
+    strcasecmp (sym.name, "OR") = 0
+    val () = (
+    if ans
+      then getout (pf | t2knr) else unget (pf | t2knr)
+    // end of [if]
+    ) : void // end of [val]
+  } (* end of [TOKide] *)
+| _(*rest*) => (unget (pf | t2knr); false)
 //
 end // end of [parseopt_OR]
 
@@ -268,25 +272,23 @@ end // end of [parseopt_OR]
 
 implement
 parse_gratm
-  (tknr2) = let
+  (t2knr) = let
 //
-val tok = peek (tknr2)
+val (pf | tok) = get (t2knr)
+val ((*void*)) = getout (pf | t2knr)
 //
 in
 //
 case+ tok of
-| TOKide (sym) => let
-    val () = next (tknr2)
-    val gn = gene_make_symbol (sym) in GRgene (gn)
-  end // end of [TOKide]
+| TOKide (sym) => 
+    GRgene(gene_make_symbol(sym))
+  // end of [TOKide]
 | TOKlpar () => gx where
   {
-    val () = next (tknr2)
-    val gx = parse_grexp (tknr2)
-    val () = parse_RPAREN (tknr2)
+    val gx = parse_grexp (t2knr)
+    val () = parse_RPAREN (t2knr)
   } (* end of [TOKlpar] *)
 | _(*rest*) => let
-    val () = next (tknr2)
     val () = auxerr (tok) in GRerror ()
   end // end of [val]
 //
@@ -298,12 +300,12 @@ end // end of [local]
 
 implement
 parse_AND_gratm
-  (tknr2) = let
-  val ans = parseopt_AND (tknr2)
+  (t2knr) = let
+  val ans = parseopt_AND (t2knr)
 in
   if ans then let
-    val gx0 = parse_gratm (tknr2)
-    val gxs = parse_AND_gratm (tknr2)
+    val gx0 = parse_gratm (t2knr)
+    val gxs = parse_AND_gratm (t2knr)
   in
     list_cons{grexp}(gx0, gxs)
   end else list_nil ()
@@ -312,23 +314,25 @@ end // end of [parse_AND_gratm]
 (* ****** ****** *)
 
 implement
-parse_grconj (tknr2) = let 
-  val gx0 = parse_gratm (tknr2)
-  val gxs = parse_AND_gratm (tknr2)
+parse_grconj (t2knr) = let 
+  val gx0 = parse_gratm (t2knr)
+  val gxs = parse_AND_gratm (t2knr)
 in
-  GRconj(list_cons{grexp}(gx0, gxs))
+  case+ gxs of
+  | list_nil () => gx0
+  | list_cons _ => GRconj(list_cons{grexp}(gx0, gxs))
 end // end of [parse_grconj]
 
 (* ****** ****** *)
 
 implement
 parse_OR_grconj
-  (tknr2) = let
-  val ans = parseopt_OR (tknr2)
+  (t2knr) = let
+  val ans = parseopt_OR (t2knr)
 in
   if ans then let
-    val gx0 = parse_grconj (tknr2)
-    val gxs = parse_OR_grconj (tknr2)
+    val gx0 = parse_grconj (t2knr)
+    val gxs = parse_OR_grconj (t2knr)
   in
     list_cons{grexp}(gx0, gxs)
   end else list_nil ()
@@ -337,18 +341,62 @@ end // end of [parse_OR_grconj]
 (* ****** ****** *)
 
 implement
-parse_grdisj (tknr2) = let 
-  val gx0 = parse_grconj (tknr2)
-  val gxs = parse_OR_grconj (tknr2)
+parse_grdisj (t2knr) = let 
+  val gx0 = parse_grconj (t2knr)
+  val gxs = parse_OR_grconj (t2knr)
 in
-  GRdisj (list_cons{grexp}(gx0, gxs))
+  case+ gxs of
+  | list_nil () => gx0
+  | list_cons _ => GRdisj (list_cons{grexp}(gx0, gxs))
 end // end of [parse_grdisj]
 
 (* ****** ****** *)
 
 implement
-parse_grexp (tknr2) = parse_grdisj (tknr2)
+parse_grexp (t2knr) = parse_grdisj (t2knr)
 
+(* ****** ****** *)
+
+implement
+parse_grexplst
+  (t2knr) = let
+//
+fun loop
+(
+  t2knr: !tokener2, res: grexplst_vt
+) : grexplst_vt = let
+//
+val (pf | tok) = my_tokener2_get (t2knr) 
+val ((*void*)) = my_tokener2_unget (pf | t2knr)
+//
+in
+//
+case+ tok of
+| TOKeof () => res
+| _(*rest*) => let
+    val gx = parse_grexp (t2knr)
+    val res = list_vt_cons{grexp}(gx, res)
+  in
+    loop (t2knr, res)
+  end // end of [_]
+//
+end // end of [loop]
+//
+val res = loop (t2knr, list_vt_nil)
+//
+in
+  list_vt2t (list_vt_reverse (res))
+end // end of [parse_grexplst]
+
+(* ****** ****** *)
+//
+extern
+fun parse_main
+  (!tokener2): grexplst
+//
+implement
+parse_main (t2knr) = parse_grexplst (t2knr)
+//
 (* ****** ****** *)
 
 (* end of [falcon_parser.dats] *)

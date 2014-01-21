@@ -43,30 +43,51 @@ SBF = "libats/SATS/stringbuf.sats"
 //
 (* ****** ****** *)
 
-absvtype tokener_vtype = ptr
-vtypedef tokener = tokener_vtype
+absvtype tokener_vtype(a:type) = ptr
+vtypedef tokener(a:type) = tokener_vtype(a)
 
 (* ****** ****** *)
 //
-fun{
-} tokener_free (tknr: tokener): void
+fun{a:type}
+tokener_free (tknr: tokener(a)): void
 //
 (* ****** ****** *)
 //
-fun{
-} tokener_make_cstream (cs0: cstream): tokener
+fun{a:type}
+tokener_make_cstream (cs0: cstream): tokener(a)
 //
 (* ****** ****** *)
 //
-fun{
-token:type
-} tokener_get_token (lxbf: !tokener): token
+fun{a:type}
+tokener_get_token (lxbf: !tokener(a)): (a)
 //
 fun{
 token:type
 } tokener_get_token$main (
   cs0: !cstream, i0: &int >> _, sbf: !($SBF.stringbuf)
 ) : token // end of [tokener_get_token$main]
+//
+(* ****** ****** *)
+
+absvtype tokener2_vtype(a:type) = ptr
+vtypedef tokener2(a:type) = tokener2_vtype(a)
+
+(* ****** ****** *)
+
+fun{a:type}
+tokener2_free (t2nkr: tokener2(a)): void
+fun{a:type}
+tokener2_make_tokener (tokener(a)): tokener2(a)
+
+(* ****** ****** *)
+//
+absview token_v
+//
+fun{a:type}
+tokener2_get (!tokener2(a)): (token_v | a)
+//
+fun{a:type} tokener2_unget (token_v | !tokener2(a)): void
+fun{a:type} tokener2_getout (token_v | !tokener2(a)): void
 //
 (* ****** ****** *)
 

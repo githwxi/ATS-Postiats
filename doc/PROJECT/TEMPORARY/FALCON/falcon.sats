@@ -46,8 +46,10 @@ typedef position = position_type
 
 (* ****** ****** *)
 //
-fun print_position : (position) -> void
-fun fprint_position : fprint_type (position)
+fun
+print_position : (position) -> void
+fun
+fprint_position : fprint_type (position)
 //
 overload print with print_position
 overload fprint with fprint_position
@@ -60,6 +62,10 @@ fun position_get_now (): position
 //
 abstype gene_type = ptr
 typedef gene = gene_type
+//
+fun
+fprint_gene: fprint_type (gene)
+overload fprint with fprint_gene
 //
 fun gene_make_symbol (symbol): gene
 //

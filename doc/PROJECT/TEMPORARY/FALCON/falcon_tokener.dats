@@ -29,10 +29,6 @@ staload "./falcon_position.dats"
 
 (* ****** ****** *)
 
-vtypedef tokener = tokener
-
-(* ****** ****** *)
-
 %{^
 #define LPAREN '('
 #define RPAREN ')'
@@ -53,6 +49,10 @@ datatype token =
   | TOKerr of (int)
   | TOKeof of ((*end*))
 // end of [token]
+
+(* ****** ****** *)
+
+vtypedef tokener2 = tokener2(token)
 
 (* ****** ****** *)
 
@@ -233,10 +233,16 @@ case+ i0 of
 end // end of [my_tokener_get_token_main]
 
 (* ****** ****** *)
-
+//
 extern
-fun my_tokener_get_token (!tokener): token
-
+fun my_tokener2_get
+  (t2nkr: !tokener2): (token_v | token)
+//
+extern
+fun my_tokener2_unget (token_v | !tokener2): void
+extern
+fun my_tokener2_getout (token_v | !tokener2): void
+//
 (* ****** ****** *)
 
 local
@@ -247,7 +253,11 @@ tokener_get_token$main<token> = my_tokener_get_token_main
 in (*in-of-local*)
 
 implement
-my_tokener_get_token (tknr) = tokener_get_token<token> (tknr)
+my_tokener2_get (t2knr) = tokener2_get<token> (t2knr)
+implement
+my_tokener2_unget (pf | t2knr) = tokener2_unget<token> (pf | t2knr)
+implement
+my_tokener2_getout (pf | t2knr) = tokener2_getout<token> (pf | t2knr)
 
 end // end of [local]
 

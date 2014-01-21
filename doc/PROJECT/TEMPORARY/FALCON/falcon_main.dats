@@ -24,6 +24,7 @@ staload _ = "{$LIBATSHWXI}/cstream/DATS/cstream_tokener.dats"
 staload "./falcon.sats"
 staload "./falcon_position.dats"
 staload "./falcon_tokener.dats"
+staload "./falcon_parser.dats"
 
 (* ****** ****** *)
 
@@ -50,27 +51,18 @@ fileref_open_opt ("./DATA/rec2.grRulesLop", file_mode_r)
 val-~Some_vt(inp) = opt
 //
 val cs0 = cstream_make_fileref (inp)
-val buf = tokener_make_cstream (cs0)
+val tknr = tokener_make_cstream (cs0)
+val t2knr = tokener2_make_tokener (tknr)
 //
 val () =
 println! ("the_symtbl_count(bef) = ", the_symtbl_count ())
 //
-var tok: token =
-  my_tokener_get_token (buf)
-val () =
-while (true)
-{
-(*
-val () = fprintln! (stdout_ref, "tok = ", tok)
-*)
-val () =
-(
-case+ tok of
-| TOKeof () => $break | _ => tok := my_tokener_get_token (buf)
-) : void // end of [val]
-} (* end of [while] *)
-//
-val ((*freed*)) = tokener_free (buf)
+val gxs = parse_main (t2knr)
+val () = fprint! (out, "gxs =\n")
+val () = fprint_list_sep (out, gxs, "\n")
+val () = fprint_newline (out)
+val () = fprintln! (out, "|gxs| = ", list_length(gxs))
+val ((*freed*)) = tokener2_free (t2knr)
 //
 val () =
 println! ("the_symtbl_count(aft) = ", the_symtbl_count ())
