@@ -54,7 +54,7 @@ typedef atscntrb_atsoptml_GRBenv *ptrGRBenv;
 #define atscntrb_atsoptml_GRB_INPROGRESS GRB_INPROGRESS  
 
 /* Variable types */
-
+typedef atscntrb_atsoptml_GRB_VARTYPE_TYPE char
 #define atscntrb_atsoptml_GRB_CONTINUOUS GRB_CONTINUOUS
 #define atscntrb_atsoptml_GRB_BINARY GRB_BINARY
 #define atscntrb_atsoptml_GRB_INTEGER GRB_INTEGER
