@@ -68,12 +68,23 @@ datatype parerr =
 (* ****** ****** *)
 //
 extern
-fun fprint_parerr
-  (out: FILEref, pe: parerr): void
+fun print_parerr (pe: parerr): void
+extern
+fun prerr_parerr (pe: parerr): void
+extern
+fun fprint_parerr (out: FILEref, pe: parerr): void
+//
+overload print with print_parerr
+overload prerr with prerr_parerr
 overload fprint with fprint_parerr
 //
 (* ****** ****** *)
-
+//
+implement
+print_parerr (pe) = fprint_parerr (stdout_ref, pe)
+implement
+prerr_parerr (pe) = fprint_parerr (stderr_ref, pe)
+//
 implement
 fprint_parerr
   (out, pe) = let
@@ -86,7 +97,7 @@ case+ pe of
     fprint! (out, "error(parse): ", pos, ": unrecognized char: ", tok)
 //
 end // end of [fprint_parerr]
-
+//
 (* ****** ****** *)
 
 typedef
@@ -193,11 +204,13 @@ macdef strcasecmp = $STRINGS.strcasecmp
 (* ****** ****** *)
 
 fun auxerr
-  (tok: token): void = let
+  (tok: token): void =
+{
   val pos = position_get_now ()
-in
-  the_parerrlst_add (PARERRtoken (tok, pos))
-end // end of [auxerr]
+  val perr = PARERRtoken (tok, pos)
+  val ((*void*)) = the_parerrlst_add (perr)
+  val ((*void*)) = prerrln! ("error(parsing): ", perr)
+} (* end of [auxerr] *)
 
 in (* in-of-local *)
 
