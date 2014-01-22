@@ -17,10 +17,6 @@ include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
-PATSCC2=$(PATSCC) $(INCLUDE) $(INCLUDE_ATS)
-
-######
-
 GTKFLAGS=`pkg-config gtk+-3.0 --cflags --libs`
 
 ######
