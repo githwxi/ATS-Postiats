@@ -40,6 +40,9 @@
 
 #include <ctype.h>
 
+/* ****** ****** */
+
+#if(0)
 #ifndef isascii
 extern int isascii (int c) ; // _XOPEN_SOURCE
 #endif // end of [isascii]
@@ -51,6 +54,7 @@ extern int isblank (int c) ; // _XOPEN_SOURCE >= 600
 #ifndef toascii
 extern int toascii (int c) ; // _XOPEN_SOURCE
 #endif // end of [toascii]
+#endif // end of [#if(0)]
 
 /* ****** ****** */
 
@@ -248,19 +252,11 @@ atspre_char_isalpha (ats_char_type c) { return isalpha((int)c) ; }
 
 /* ****** ****** */
 
-#ifndef isascii
-extern int isascii(int c) ; // declared in ctype.h
-#endif
-
 ATSinline()
 ats_bool_type
 atspre_char_isascii (ats_char_type c) { return isascii((int)c) ; }
 
 /* ****** ****** */
-
-#ifndef isblank
-extern int isblank(int c) ; // declared in ctype.h
-#endif
 
 ATSinline()
 ats_bool_type

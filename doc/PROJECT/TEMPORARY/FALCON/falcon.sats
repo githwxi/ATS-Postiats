@@ -62,6 +62,7 @@ fun position_get_now (): position
 //
 abstype gene_type = ptr
 typedef gene = gene_type
+typedef genelst = List0 (gene)
 //
 fun
 fprint_gene: fprint_type (gene)
@@ -83,14 +84,17 @@ fun genes_union (xs: genes, ys: genes): genes
 
 (* ****** ****** *)
 
-absvtype GDMap_vtype = ptr
-vtypedef GDMap = GDMap_vtype
+abstype GDMap_type = ptr
+typedef GDMap = GDMap_type
 
-fun gDMap_make_nil (): GDMap
-fun gDMap_free (gdm: GDMap): void
+fun GDMap_make_nil (): GDMap
+fun GDMap_free (gdm: GDMap): void
 
-fun gDMap_find (!GDMap, g: gene): double
-fun gDMap_insert (mp: !GDMap, g: gene, dval: double): bool
+fun GDMap_find
+(
+  GDMap, g: gene, res: &double? >> opt (double, b)
+) : #[b:bool] bool(b) // end of [GDMap_find]
+fun GDMap_insert (mp: GDMap, g: gene, gval: double): bool
 
 (* ****** ****** *)
 
