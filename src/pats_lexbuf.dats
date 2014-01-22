@@ -379,7 +379,7 @@ implement
 lexbuf_get_substrptr1
   (buf, st, ln) = str where {
   val str = lexbuf_get_substrptr0 (buf, st, ln)
-  val () = assertloc (strptr_isnot_null (str))
+  val ((*void*)) = assertloc (strptr_isnot_null (str))
 } // end of [lexbuf_get_substrptr1]
 
 (* ****** ****** *)

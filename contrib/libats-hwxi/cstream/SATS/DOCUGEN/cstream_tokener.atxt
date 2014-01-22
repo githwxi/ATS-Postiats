@@ -1,0 +1,40 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../cstream_tokener.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats-hwxi_cstream_tokener")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/libats-hwxi/cstream_tokener\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("tokener")
+#declnamesynop("tokener_vtype")
+
+(* ****** ****** *)
+
+#declnamesynop("tokener_free")
+
+(* ****** ****** *)
+
+#declnamesynop("tokener_make_cstream")
+
+(* ****** ****** *)
+
+#declnamesynop("tokener_get_token")
+#declnamesynop("tokener_get_token$main")
+
+(* ****** ****** *)
+
+(* end of [cstream_tokener.atxt] *)

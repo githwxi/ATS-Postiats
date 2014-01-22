@@ -107,6 +107,7 @@ htmlgendecl_atxt.dats: ; \\
 all_html::
 
 #make_entry("cstream")
+#make_entry("cstream_tokener")
 
 ######
 

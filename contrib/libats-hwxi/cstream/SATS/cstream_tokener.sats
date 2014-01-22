@@ -29,94 +29,66 @@
 (* ****** ****** *)
 
 (*
-** stream of characters
+** cstream-based tokenizer
 *)
 
 (* ****** ****** *)
 
-staload "libc/SATS/stdio.sats"
+staload "./cstream.sats"
 
 (* ****** ****** *)
 //
-absvtype
-cstream_vtype(tkind) = ptr
-//
-vtypedef
-cstream(tk:tkind) = cstream_vtype(tk)
-vtypedef cstream = [tk:tkind] cstream(tk)
+staload
+SBF = "libats/SATS/stringbuf.sats"
 //
 (* ****** ****** *)
 
-tkindef TKfun = "TKfun"
-tkindef TKcloref = "TKcloref"
-tkindef TKstring = "TKstring"
-tkindef TKstrptr = "TKstrptr"
-tkindef TKfileref = "TKfileref"
-tkindef TKfileptr = "TKfileptr"
-
-(* ****** ****** *)
-
-fun{}
-cstream_get_char (!cstream): int
-
-(* ****** ****** *)
-
-fun{tk:tk}
-cstream_getv_char{n:nat}
-  (!cstream(tk), &bytes(n) >> _, n: int(n)): natLte(n)
-// end of [cstream_getv_char]
+absvtype tokener_vtype(a:type) = ptr
+vtypedef tokener(a:type) = tokener_vtype(a)
 
 (* ****** ****** *)
 //
-// HX-2014-01:
-// read at most n chars if n >= 0
-// read the rest of chars if n < 0
+fun{a:type}
+tokener_free (tknr: tokener(a)): void
 //
-fun{}
-cstream_get_charlst (!cstream, n: int): List0_vt(char)
+(* ****** ****** *)
+//
+fun{a:type}
+tokener_make_cstream (cs0: cstream): tokener(a)
+//
+(* ****** ****** *)
+//
+fun{a:type}
+tokener_get_token (lxbf: !tokener(a)): (a)
+//
+fun{
+token:type
+} tokener_get_token$main (
+  cs0: !cstream, i0: &int >> _, sbf: !($SBF.stringbuf)
+) : token // end of [tokener_get_token$main]
 //
 (* ****** ****** *)
 
-fun cstream_free (cstream): void
+absvtype tokener2_vtype(a:type) = ptr
+vtypedef tokener2(a:type) = tokener2_vtype(a)
 
 (* ****** ****** *)
 
-fun cstream_make_fun (() -> int): cstream(TKfun)
-
-(* ****** ****** *)
-
-fun cstream_make_cloref (() -<cloref1> int): cstream(TKcloref)
-
-(* ****** ****** *)
-//
-symintr
-cstream_get_range
-//
-fun
-cstream_string_get_range
-  {i,j:nat | i <= j} (!cstream(TKstring), int i, int j): Strptr1
-fun
-cstream_strptr_get_range
-  {i,j:nat | i <= j} (!cstream(TKstrptr), int i, int j): Strptr1
-//
-overload cstream_get_range with cstream_string_get_range 
-overload cstream_get_range with cstream_strptr_get_range 
-//
-(* ****** ****** *)
-
-fun cstream_make_string (string): cstream(TKstring)
-fun cstream_make_strptr (Strptr1): cstream(TKstrptr)
+fun{a:type}
+tokener2_free (t2nkr: tokener2(a)): void
+fun{a:type}
+tokener2_make_tokener (tokener(a)): tokener2(a)
 
 (* ****** ****** *)
 //
-fun
-cstream_make_fileref (FILEref): cstream(TKfileref)
+absview token_v
 //
-fun
-cstream_make_fileptr
-  {l:agz}{m:fmode}
-  (file_mode_lte (m, r) | FILEptr(l, m)): cstream(TKfileptr)
+fun{a:type}
+tokener2_get (!tokener2(a)): (token_v | a)
+//
+fun{a:type} tokener2_unget (token_v | !tokener2(a)): void
+fun{a:type} tokener2_getout (token_v | !tokener2(a)): void
 //
 (* ****** ****** *)
 
-(* end of [cstream.sats] *)
+(* end of [cstream_tokener.sats] *)

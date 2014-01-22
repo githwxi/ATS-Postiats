@@ -10,6 +10,7 @@
 (* ****** ****** *)
 
 staload "./../SATS/cstream.sats"
+staload _ = "./../DATS/cstream.dats"
 
 (* ****** ****** *)
 

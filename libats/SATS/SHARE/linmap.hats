@@ -177,7 +177,7 @@ fun
 ;itm:vt0p}
 {env:vt0p}
 linmap_foreach$fwork
-  (k: key, x: &itm, env: &(env) >> _): void
+  (k: key, x: &itm >> _, env: &(env) >> _): void
 // end of [linmap_foreach$fwork]
 
 fun{
@@ -199,6 +199,8 @@ fun{
 key:t0p;itm:t0p
 } linmap_free (map: map (key, INV(itm))):<!wrt> void
 
+(* ****** ****** *)
+
 fun{
 itm:vt0p
 } linmap_freelin$clear (x: &itm >> _?):<!wrt> void
@@ -208,7 +210,7 @@ key:t0p;itm:vt0p
 
 (* ****** ****** *)
 //
-// HX:
+// HX-2013:
 // a linmap can be properly freed only if it is empty
 //
 fun{

@@ -8,7 +8,7 @@ implement srcfilename_get () = "../cstream.sats"
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/lib-hwxi_cstream")
+val () = patscode_prefix_set("TRYIT/libats-hwxi_cstream")
 %}
 
 (* ****** ****** *)
@@ -28,6 +28,11 @@ This package implements streams of characters.\
 ')
 
 ')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("cstream")
+#declnamesynop("cstream_vtype")
 
 (* ****** ****** *)
 
@@ -88,6 +93,10 @@ with its first argument if its second argument is a negative integer.
 
 #declnamesynop("cstream_make_fileref")
 #declnamesynop("cstream_make_fileptr")
+
+(* ****** ****** *)
+
+#declname2("cstream_tokener.sats", "cstream_tokener.html")
 
 (* ****** ****** *)
 
