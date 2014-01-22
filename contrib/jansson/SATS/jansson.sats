@@ -487,7 +487,7 @@ fun json_loads
 (
   inp: NSH(string)
 , flags: int
-, error: &json_err? >> json_err
+, error: &json_err? >> _
 ) : JSONptr0 = "mac#%" // endfun
 
 fun json_loadb
@@ -497,21 +497,21 @@ fun json_loadb
   pf: !bytes(n1) @ lb
 | bufp: ptr lb, n2: size_t n2
 , flags: int
-, error: &json_err? >> json_err
+, error: &json_err? >> _
 ) : JSONptr0 = "mac#%" // endfun
 
 fun json_loadf
 (
   inp: FILEref
 , flags: int
-, error: &json_err? >> json_err
+, error: &json_err? >> _
 ) : JSONptr0 = "mac#%" // endfun
 
 fun json_load_file
 (
   path: NSH(string)
 , flags: int
-, error: &json_err? >> json_err
+, error: &json_err? >> _
 ) : JSONptr0 = "mac#%" // endfun
 
 (* ****** ****** *)

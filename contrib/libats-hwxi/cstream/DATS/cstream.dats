@@ -72,6 +72,7 @@ cstream_free
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 cstream_get_char
   (cs0) = ret where
 {
@@ -122,6 +123,7 @@ end // end of [cstream_getv_char]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 cstream_get_charlst
   (cs0, n) = let
 //

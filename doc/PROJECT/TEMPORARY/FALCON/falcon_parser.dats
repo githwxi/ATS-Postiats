@@ -1,0 +1,402 @@
+(*
+** FALCON project
+*)
+
+(* ****** ****** *)
+//
+#include
+"share/atspre_define.hats"
+#include
+"share/atspre_staload.hats"
+//
+(* ****** ****** *)
+
+staload "./falcon.sats"
+  
+(* ****** ****** *)
+
+staload "./falcon_tokener.dats"
+
+(* ****** ****** *)
+
+datatype grexp =
+  | GRgene of gene
+  | GRconj of grexplst
+  | GRdisj of grexplst
+  | GRerror of ((*void*))
+// end of [grexp]
+
+where grexplst = List0 (grexp)
+
+vtypedef grexplst_vt = List0_vt (grexp)
+
+(* ****** ****** *)
+//
+extern
+fun fprint_grexp (FILEref, grexp): void
+extern
+fun fprint_grexplst (FILEref, grexplst): void
+//
+overload fprint with fprint_grexp
+overload fprint with fprint_grexplst of 10
+//
+(* ****** ****** *)
+//
+implement
+fprint_val<grexp> = fprint_grexp
+//
+implement
+fprint_grexp
+  (out, gx) = let
+in
+  case+ gx of
+  | GRgene (gn) => fprint! (out, "GRgene(", gn, ")")
+  | GRconj (gxs) => fprint! (out, "GRconj(", gxs, ")")
+  | GRdisj (gxs) => fprint! (out, "GRdisj(", gxs, ")")
+  | GRerror () => fprint! (out, "GRerror(", ")")
+end // end of [fprint_grexp]
+//
+implement
+fprint_grexplst (out, gxs) = fprint_list (out, gxs)
+//
+(* ****** ****** *)
+//
+datatype parerr =
+  | PARERRrpar of (position) // missing rparen
+  | PARERRtoken of (token, position) // unhandled token
+//
+(* ****** ****** *)
+//
+extern
+fun fprint_parerr
+  (out: FILEref, pe: parerr): void
+overload fprint with fprint_parerr
+//
+(* ****** ****** *)
+
+implement
+fprint_parerr
+  (out, pe) = let
+in
+//
+case+ pe of
+| PARERRrpar (pos) =>
+    fprint! (out, "error(parse): ", pos, ": unbalanced parenthesis")
+| PARERRtoken (tok, pos) =>
+    fprint! (out, "error(parse): ", pos, ": unrecognized char: ", tok)
+//
+end // end of [fprint_parerr]
+
+(* ****** ****** *)
+
+typedef
+parerrlst = List0 (parerr)
+
+(* ****** ****** *)
+
+extern
+fun
+the_parerrlst_add (parerr): void
+extern
+fun
+the_parerrlst_get ((*void*)): parerrlst
+
+(* ****** ****** *)
+
+local
+
+val thePElst = ref<parerrlst> (list_nil)
+
+in (* in-of-local *)
+//
+implement
+the_parerrlst_add (pe) =
+  !thePElst := list_cons{parerr}(pe, !thePElst)
+//
+implement
+the_parerrlst_get () = let
+  val xs = !thePElst
+  val () = !thePElst := list_nil ()
+in
+  list_vt2t (list_reverse (xs))
+end // end of [the_parerrlst_get]
+//
+end // end of [local]
+
+(* ****** ****** *)
+//
+extern
+fun
+fprint_the_parerrlst (FILEref): void
+//
+implement
+fprint_the_parerrlst (out) = let
+//
+implement
+fprint_val<parerr> = fprint_parerr
+implement
+fprint_list$sep<> (out) = fprint (out, '\n')
+//
+in
+  fprint_list (out, the_parerrlst_get ())
+end // end of [fprint_the_parerrlst]
+//
+(* ****** ****** *)
+
+extern
+fun parse_RPAREN (!tokener2): void
+extern
+fun parseopt_OR (!tokener2): bool
+extern
+fun parseopt_AND (!tokener2): bool
+
+(* ****** ****** *)
+
+extern
+fun parse_gratm (!tokener2): grexp
+extern
+fun parse_grconj (!tokener2): grexp
+extern
+fun parse_grdisj (!tokener2): grexp
+
+(* ****** ****** *)
+
+extern
+fun parse_AND_gratm (!tokener2): grexplst
+extern
+fun parse_OR_grconj (!tokener2): grexplst
+
+(* ****** ****** *)
+
+extern
+fun parse_grexp (!tokener2): grexp
+extern
+fun parse_grexplst (!tokener2): grexplst
+
+(* ****** ****** *)
+
+local
+
+(* ****** ****** *)
+
+staload
+STRINGS = "libc/SATS/strings.sats"
+
+(* ****** ****** *)
+//
+macdef get = my_tokener2_get
+macdef unget = my_tokener2_unget
+macdef getout = my_tokener2_getout
+//
+macdef strcasecmp = $STRINGS.strcasecmp
+//
+(* ****** ****** *)
+
+fun auxerr
+  (tok: token): void = let
+  val pos = position_get_now ()
+in
+  the_parerrlst_add (PARERRtoken (tok, pos))
+end // end of [auxerr]
+
+in (* in-of-local *)
+
+implement
+parse_RPAREN
+  (t2knr) = let
+//
+val (pf | tok) = get (t2knr)
+//
+in
+//
+case+ tok of
+| TOKrpar () => let
+    val () = getout (pf | t2knr) in ()
+  end // end of [TOKrpar]
+| _(*rest*) => let
+    val () = unget (pf | t2knr)
+    val pos = position_get_now ()
+  in
+    the_parerrlst_add (PARERRrpar(pos))
+  end // end of [_]
+//
+end // end of [parse_RPAREN]
+
+implement
+parseopt_AND
+  (t2knr) = let
+//
+val (pf | tok) = get (t2knr)
+//
+in
+//
+case+ tok of
+| TOKide (sym) => ans where
+  {
+    val ans =
+    strcasecmp (sym.name, "AND") = 0
+    val () = (
+    if ans
+      then getout (pf | t2knr) else unget (pf | t2knr)
+    // end of [if]
+    ) : void // end of [val]
+  } (* end of [TOKide] *)
+| _(*rest*) => (unget (pf | t2knr); false)
+//
+end // end of [parseopt_AND]
+
+implement
+parseopt_OR
+  (t2knr) = let
+//
+val (pf | tok) = get (t2knr)
+//
+in
+//
+case+ tok of
+| TOKide (sym) => ans where
+  {
+    val ans =
+    strcasecmp (sym.name, "OR") = 0
+    val () = (
+    if ans
+      then getout (pf | t2knr) else unget (pf | t2knr)
+    // end of [if]
+    ) : void // end of [val]
+  } (* end of [TOKide] *)
+| _(*rest*) => (unget (pf | t2knr); false)
+//
+end // end of [parseopt_OR]
+
+(* ****** ****** *)
+
+implement
+parse_gratm
+  (t2knr) = let
+//
+val (pf | tok) = get (t2knr)
+val ((*void*)) = getout (pf | t2knr)
+//
+in
+//
+case+ tok of
+| TOKide (sym) => 
+    GRgene(gene_make_symbol(sym))
+  // end of [TOKide]
+| TOKlpar () => gx where
+  {
+    val gx = parse_grexp (t2knr)
+    val () = parse_RPAREN (t2knr)
+  } (* end of [TOKlpar] *)
+| _(*rest*) => let
+    val () = auxerr (tok) in GRerror ()
+  end // end of [val]
+//
+end // end of [parse_gratm]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+parse_AND_gratm
+  (t2knr) = let
+  val ans = parseopt_AND (t2knr)
+in
+  if ans then let
+    val gx0 = parse_gratm (t2knr)
+    val gxs = parse_AND_gratm (t2knr)
+  in
+    list_cons{grexp}(gx0, gxs)
+  end else list_nil ()
+end // end of [parse_AND_gratm]
+
+(* ****** ****** *)
+
+implement
+parse_grconj (t2knr) = let 
+  val gx0 = parse_gratm (t2knr)
+  val gxs = parse_AND_gratm (t2knr)
+in
+  case+ gxs of
+  | list_nil () => gx0
+  | list_cons _ => GRconj(list_cons{grexp}(gx0, gxs))
+end // end of [parse_grconj]
+
+(* ****** ****** *)
+
+implement
+parse_OR_grconj
+  (t2knr) = let
+  val ans = parseopt_OR (t2knr)
+in
+  if ans then let
+    val gx0 = parse_grconj (t2knr)
+    val gxs = parse_OR_grconj (t2knr)
+  in
+    list_cons{grexp}(gx0, gxs)
+  end else list_nil ()
+end // end of [parse_OR_grconj]
+
+(* ****** ****** *)
+
+implement
+parse_grdisj (t2knr) = let 
+  val gx0 = parse_grconj (t2knr)
+  val gxs = parse_OR_grconj (t2knr)
+in
+  case+ gxs of
+  | list_nil () => gx0
+  | list_cons _ => GRdisj (list_cons{grexp}(gx0, gxs))
+end // end of [parse_grdisj]
+
+(* ****** ****** *)
+
+implement
+parse_grexp (t2knr) = parse_grdisj (t2knr)
+
+(* ****** ****** *)
+
+implement
+parse_grexplst
+  (t2knr) = let
+//
+fun loop
+(
+  t2knr: !tokener2, res: grexplst_vt
+) : grexplst_vt = let
+//
+val (pf | tok) = my_tokener2_get (t2knr) 
+val ((*void*)) = my_tokener2_unget (pf | t2knr)
+//
+in
+//
+case+ tok of
+| TOKeof () => res
+| _(*rest*) => let
+    val gx = parse_grexp (t2knr)
+    val res = list_vt_cons{grexp}(gx, res)
+  in
+    loop (t2knr, res)
+  end // end of [_]
+//
+end // end of [loop]
+//
+val res = loop (t2knr, list_vt_nil)
+//
+in
+  list_vt2t (list_vt_reverse (res))
+end // end of [parse_grexplst]
+
+(* ****** ****** *)
+//
+extern
+fun parse_main
+  (!tokener2): grexplst
+//
+implement
+parse_main (t2knr) = parse_grexplst (t2knr)
+//
+(* ****** ****** *)
+
+(* end of [falcon_parser.dats] *)

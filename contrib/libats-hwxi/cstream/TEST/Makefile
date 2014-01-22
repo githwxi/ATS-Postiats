@@ -35,9 +35,9 @@ cleanall:: ; $(RMF) test03
 
 ######
 
-all:: tokenize
-tokenize: tokenize.dats ; $(PATSCC2) -O2 $(MALLOCFLAG) -o $@ $< testlib.dats
-cleanall:: ; $(RMF) tokenize
+all:: tokener
+tokener: tokener.dats ; $(PATSCC2) -O2 $(MALLOCFLAG) -o $@ $< testlib.dats
+cleanall:: ; $(RMF) tokener
 
 ######
 

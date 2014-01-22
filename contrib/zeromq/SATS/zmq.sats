@@ -28,8 +28,9 @@
 (* ****** ****** *)
 
 (*
+** Author: Hongwei Xi
+** Authoremail: gmhwxiATgmailDOTcom
 ** Start Time: December, 2012
-** Author: Hongwei Xi (gmhwxi AT gmail DOT com)
 *)
 
 (* ****** ****** *)
@@ -220,7 +221,7 @@ fun zmq_getsockopt
 fun zmq_getsockopt2
   {a:t@ype} (
   sock: !zmqsock1
-, name: zmqsockopt(a), value: &(a?)>>a, len: &size_t(sizeof(a)) >> _
+, name: zmqsockopt(a), value: &(a)? >> a, len: &size_t(sizeof(a)) >> _
 ) : interr = "mac#%" // endfun
 
 (* ****** ****** *)
@@ -370,22 +371,24 @@ fun zmq_msg_set_exn
 (*
 int zmq_msg_init (zmq_msg_t *msg);
 *)
-fun zmq_msg_init (
+fun zmq_msg_init
+(
   msg: &zmqmsg? >> opt (zmqmsg, i==0)
 ) : #[i:int | i <= 0] int (i) = "mac#%"
 
-fun zmq_msg_init_exn (msg: &zmqmsg? >> zmqmsg): void
+fun zmq_msg_init_exn (msg: &zmqmsg? >> _): void
 
 (* ****** ****** *)
 
 (*
 int zmq_msg_init_size (zmq_msg_t *msg, size_t size);
 *)
-fun zmq_msg_init_size (
+fun zmq_msg_init_size
+(
   msg: &zmqmsg? >> opt (zmqmsg, i==0), n: size_t
 ) : #[i:int | i <= 0] int (i) = "mac#%"
 
-fun zmq_msg_init_size_exn (msg: &zmqmsg? >> zmqmsg, n: size_t): void
+fun zmq_msg_init_size_exn (msg: &zmqmsg? >> _, n: size_t): void
 
 (* ****** ****** *)
 
@@ -406,7 +409,7 @@ fun zmq_msg_init_data
 
 fun zmq_msg_init_data_exn
 (
-  msg: &zmqmsg? >> zmqmsg
+  msg: &zmqmsg? >> _
 , data: ptr, size: size_t, ffn: zmq_free_fn, hint: ptr
 ) : void // end of [zmq_msg_init_data_exn]
 
@@ -420,7 +423,7 @@ fun zmq_msg_close
   msg: &zmqmsg >> opt(zmqmsg, i < 0)
 ) : #[i:int | i <= 0] int (i) = "mac#%"
 
-fun zmq_msg_close_exn (msg: &zmqmsg >> zmqmsg?): void
+fun zmq_msg_close_exn (msg: &zmqmsg >> _?): void
 
 (* ****** ****** *)
 
@@ -471,15 +474,17 @@ fun zmq_msg_send_exn
 (* ****** ****** *)
 
 (*
-int zmq_msg_recv (zmq_msg_t *msg, void *socket, int flags);
+int zmq_msg_recv
+  (zmq_msg_t *msg, void *socket, int flags);
 *)
 fun zmq_msg_recv (
   msg: &zmqmsg >> _, sock: !zmqsock1, flags: int
 ) : interr = "mac#%" // endfun
 
 fun zmq_msg_recv_exn
-  (msg: &zmqmsg >> _, sock: !zmqsock1, flags: int): intGte(0)
-// end of [zmq_msg_recv_exn]
+(
+  msg: &zmqmsg >> _, sock: !zmqsock1, flags: int
+) : intGte(0) // end of [zmq_msg_recv_exn]
 
 (* ****** ****** *)
 
@@ -487,7 +492,7 @@ fun zmq_msg_recv_exn
 void zmq_version (int *major, int *minor, int *patch);
 *)
 fun zmq_version (
-  major: &int? >> int, minor: &int? >> int, patch: &int? >> int
+  major: &int? >> _, minor: &int? >> _, patch: &int? >> _
 ) : void = "mac#%" // end of [zmq_version]
 
 (* ****** ****** *)

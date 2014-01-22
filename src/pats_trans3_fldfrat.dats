@@ -57,6 +57,7 @@ LOC = "./pats_location.sats"
 
 staload "./pats_staexp2.sats"
 staload "./pats_staexp2_util.sats"
+staload "./pats_staexp2_error.sats"
 staload "./pats_dynexp2.sats"
 staload "./pats_dynexp3.sats"
 
@@ -191,29 +192,31 @@ case
       // end of [if]
     end // end of [val]
 //
-    val () = if opknd > 0 then let
+    val () =
+    if opknd > 0 then let
       var err: int = 0
       val () =
         $SOL.s2explst_tyleq_solve_err (loc0, s2es_elt, s2es_arg, err)
       // end of [val]
     in
-      if err > 0 then
+      if err > 0 then let
+        val () = prerr_error3_loc (loc)
+        val () = prerr ": [fold@] operation cannot be formed"
+        val () = prerrln! ": some argument types are mismatched."
+        val () = prerr_the_staerrlst ()
+      in
         the_trans3errlst_add (T3E_d3exp_foldat (loc0, d3e))
-      // end of [if]
+      end // end of [if]
     end // end of [val]
-    val () = if opknd > 0 then let
+    val () =
+    if opknd > 0 then let
       var err: int = 0
-      val () =
-        d3lval_set_type_err (0(*refval*), d3e, s2e_res, err)
-      // end of [val]
+      val () = d3lval_set_type_err (0(*refval*), d3e, s2e_res, err)
     in
       if err > 0 then let
         val () = prerr_error3_loc (loc)
-        val () =
-          prerr ": [fold@] operation cannot be formed"
-        val () =
-          prerrln! ": the type of the dynamic expression cannot be changed."
-        // end of [val]
+        val () = prerr ": [fold@] operation cannot be formed"
+        val () = prerrln! ": the type of the dynamic expression cannot be changed."
       in
         the_trans3errlst_add (T3E_d3exp_foldat (loc0, d3e))
       end (* end of [if] *)

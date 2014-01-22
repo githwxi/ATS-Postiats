@@ -213,8 +213,7 @@ main0 () = {
   typedef T = int
   val xs1 = $list{T}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
   val xs2 = (list)$arrpsz{T}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
-  val xs2 = list_of_list_vt (xs2)
-  val ((*void*)) = assertloc (xs1 = xs2)
+  val ((*void*)) = assertloc (xs1 = list_vt2t(xs2))
 } // end of [main0]
 ')
 ")
@@ -462,14 +461,12 @@ main0 () =
 //
 typedef T = int
 //
-\#define l2l list_of_list_vt
-//
 val out = stdout_ref
 val xs1 = $list{T}(0, 1, 2, 3, 4)
 val n1 = list_length (xs1)
 val xs2 = $list{T}(5, 6, 7, 8, 9)
 //
-val ((*void*)) = assertloc (xs1 = l2l (list_take (xs1 + xs2, n1)))
+val ((*void*)) = assertloc (xs1 = list_vt2t(list_take (xs1 + xs2, n1)))
 //
 } (* end of [main0] *)
 ')
@@ -479,8 +476,8 @@ val ((*void*)) = assertloc (xs1 = l2l (list_take (xs1 + xs2, n1)))
 #decldescrpt('\
 
 This function is like #dyncode("list_take") except that it raises an
-exception (#dyncode("ListSubscriptExn")) if its second argument is negative
-or exceeds the length of its first argument.
+exception (#dyncode("ListSubscriptExn")) if its second argument exceeds the
+length of its first argument.
 
 ')
 
@@ -508,7 +505,7 @@ val xs1 = $list{T}(0, 1, 2, 3, 4)
 val n1 = list_length (xs1)
 val xs2 = $list{T}(5, 6, 7, 8, 9)
 //
-val () = assertloc (xs2, = list_drop (xs1 + xs2, n1))
+val () = assertloc (xs2 = list_drop (xs1 + xs2, n1))
 //
 } (* end of [main0] *)
 ')
@@ -518,8 +515,8 @@ val () = assertloc (xs2, = list_drop (xs1 + xs2, n1))
 #decldescrpt('\
 
 This function is like #dyncode("list_drop") except that it raises an
-exception (#dyncode("ListSubscriptExn")) if its second argument is negative
-or exceeds the length of its first argument.
+exception (#dyncode("ListSubscriptExn")) if its second argument exceeds the
+length of its first argument.
 
 ')
 
@@ -904,8 +901,8 @@ main () = let
 //
 typedef T = int
 \#define N 1000000
+//
 val xs = randgen_list<T> (N)
-val xs = list_of_list_vt (xs)
 //
 typedef env = T
 implement

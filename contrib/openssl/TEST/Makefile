@@ -30,6 +30,7 @@ LDFLAGS += -lcrypto
 all::
 all:: test01
 all:: test02
+all:: test03
 
 ######
 

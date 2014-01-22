@@ -37,12 +37,14 @@
 staload "libc/SATS/stdio.sats"
 
 (* ****** ****** *)
-
+//
 absvtype
 cstream_vtype(tkind) = ptr
+//
 vtypedef
 cstream(tk:tkind) = cstream_vtype(tk)
-
+vtypedef cstream = [tk:tkind] cstream(tk)
+//
 (* ****** ****** *)
 
 tkindef TKfun = "TKfun"
@@ -54,16 +56,8 @@ tkindef TKfileptr = "TKfileptr"
 
 (* ****** ****** *)
 
-vtypedef
-cstream = [tk:tkind] cstream(tk)
-
-(* ****** ****** *)
-
-fun cstream_free (cstream): void
-
-(* ****** ****** *)
-
-fun cstream_get_char (!cstream): int
+fun{}
+cstream_get_char (!cstream): int
 
 (* ****** ****** *)
 
@@ -78,9 +72,13 @@ cstream_getv_char{n:nat}
 // read at most n chars if n >= 0
 // read the rest of chars if n < 0
 //
-fun
+fun{}
 cstream_get_charlst (!cstream, n: int): List0_vt(char)
 //
+(* ****** ****** *)
+
+fun cstream_free (cstream): void
+
 (* ****** ****** *)
 
 fun cstream_make_fun (() -> int): cstream(TKfun)
