@@ -22,8 +22,10 @@ staload _ = "{$LIBATSHWXI}/cstream/DATS/cstream_tokener.dats"
 (* ****** ****** *)
   
 staload "./falcon.sats"
+staload "./falcon_symbol.dats"
 staload "./falcon_position.dats"
 staload "./falcon_tokener.dats"
+staload "./falcon_genes.dats"
 staload "./falcon_parser.dats"
 
 (* ****** ****** *)
