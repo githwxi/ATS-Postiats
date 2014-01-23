@@ -14,6 +14,7 @@ SOURCES_DATS += falcon_parser.dats
 SOURCES_DATS += falcon_mylib.dats
 #
 MYTARGET=falcon
+MYPORTDIR=MYPORTDIR
 #
 include $(PATSHOME)/share/atsmake-post.mk
 #

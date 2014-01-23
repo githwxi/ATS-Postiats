@@ -30,8 +30,8 @@ fun the_symtbl_count ((*void*)): int
 //
 fun symbol_make (string): symbol
 fun symbol_get_name (symbol): string
-fun symbol_equal : (symbol, symbol) -> bool
-fun symbol_compare : (symbol, symbol) -> int
+fun symbol_equal : (symbol, symbol) -<> bool
+fun symbol_compare : (symbol, symbol) -<> int
 //
 symintr .name
 overload .name with symbol_get_name
@@ -67,6 +67,10 @@ typedef genelst = List0 (gene)
 fun
 fprint_gene: fprint_type (gene)
 overload fprint with fprint_gene
+//
+fun
+compare_gene_gene (gene, gene):<> int
+overload compare with compare_gene_gene
 //
 fun gene_make_symbol (symbol): gene
 //
