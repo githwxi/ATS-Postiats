@@ -38,6 +38,9 @@ GRBvartype_vt0ype =
 $extype"atscntrb_atsoptml_GRB_VARTYPE_TYPE"
 vtypedef vartyp = GRBvartype_vt0ype
 
+// constants
+macdef BT = $extval(char, "atscntrb_atsoptml_GRB_BINARY")
+
 fun
 loadenv(env: &env, glog: String1): int
 
@@ -55,11 +58,11 @@ freeenv(env: env): int
 // directly but develop other abstractions.
 //
 fun
-{n,nv:nat} newmodel(
-env: env, model: &modelP, mname: String (n), 
+newmodel {n,nv:nat} (
+env: env, model: &model, mname: String (n), 
 numvars: int (nv), obj: cPtr0(double), 
 lb: cPtr0(double), ub: cPtr0(double),
-vtype: String, varnames: stringlst_vt)
+vtype: String, varnames: stringlst_vt): int
 
 // change to using cPtr0(double)
 

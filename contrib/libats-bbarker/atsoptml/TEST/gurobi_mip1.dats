@@ -70,8 +70,8 @@ val () = if error != 0 then QUIT(error)
 // Add variables
 //
 val obj = (arrayptr)$arrpsz{int}(1, 1, 2)
-val vtype = (arrayptr)$arrpsz{GRBvartype_vt0ype}
-  (GRB_BINARY, GRB_BINARY, GRB_BINARY) 
+val vtype = (arrayptr)$arrpsz{$GRB.vartyp}
+  ($GRB.BT, $GRB.BT, $GRB.BT) 
 val error = $GRB.addvars(model, 3, 0, (), (), (), obj, (), (), vtype, ())
 val () = if error != 0 then QUIT(error)
 //
