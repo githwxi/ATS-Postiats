@@ -31,7 +31,8 @@ cairo_surface_t *   cairo_surface_create_for_rectangle  (cairo_surface_t *target
 cairo_surface_t *   cairo_surface_reference             (cairo_surface_t *surface);
 */
 fun
-cairo_surface_reference {l:agz} (x: !xrsf l) : xrsf (l) = "mac#%"
+cairo_surface_reference
+  {l:agz} (x: !xrsf(l)): xrsf(l) = "mac#%"
 // endfun
 
 /*

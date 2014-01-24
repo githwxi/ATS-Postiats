@@ -4,19 +4,21 @@
 
 (* ****** ****** *)
 //
-staload _(*anon*) =
-"prelude/DATS/integer.dats"
+#include
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
 local
 
+typedef T = int
+
 in (* in of [local] *)
 
-#include "./../HATS/gcount.hats"
+#include "./../HATS/gstack.hats"
 
 end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [count2.dats] *)
+(* end of [stack.dats] *)
