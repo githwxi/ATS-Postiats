@@ -54,16 +54,23 @@ fun
 freeenv(env: env): int
 
 //
-// Ideally we do not call this function
+// Ideally we do not call the following functions
 // directly but develop other abstractions.
 //
 fun
-newmodel {n,nv:nat} (
-env: env, model: &model, mname: String (n), 
-numvars: int (nv), obj: cPtr0(double), 
+newmodel {n:nat}(
+env: env, model: &model, mname: String, 
+numvars: int (n), obj: cPtr0(double), 
 lb: cPtr0(double), ub: cPtr0(double),
-vtype: String, varnames: stringlst_vt): int
+vtype: string (n), varnames: cPtr0(cPtr0(char))): int
+//TODO: write a function to convert stringlst_vt
+//to char**, probably using bytes[] or similar
 
-// change to using cPtr0(double)
 
-// e.g.  $UN.cast{cPtr0(a)}(pi)
+fun
+addvars {n:nat}(
+model:model, numvars:int, numnz: int, vbeg: cPtr0(int), 
+vind: cPtr0(int), vval: cPtr0(double), obj: cPtr0(double), 
+lb: cPtr0(double), ub:cPtr0(double), vtype: string (n),
+cPtr0(cPtr0(char))): int
+

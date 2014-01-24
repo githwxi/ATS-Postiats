@@ -72,6 +72,9 @@ val () = if error != 0 then QUIT(error)
 val obj = (arrayptr)$arrpsz{int}(1, 1, 2)
 val vtype = (arrayptr)$arrpsz{$GRB.vartyp}
   ($GRB.BT, $GRB.BT, $GRB.BT) 
+// Is there a praxi somewhere that it is equivalent to a string? What about
+// a null terminator?? may need to change to:
+// val vtype =  $GRB.BT + $GRB.BT + $GRB.BT
 val error = $GRB.addvars(model, 3, 0, (), (), (), obj, (), (), vtype, ())
 val () = if error != 0 then QUIT(error)
 //
