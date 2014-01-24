@@ -1,5 +1,7 @@
 TODO:
-
+Makefile: gurobi library flag depends on the version:gcc -I/home/brandon/FBA/local/include mip1_c.c -L/home/brandon/FBA/local/lib -lgurobi56
+not sure how to easily detect this.
+ 
 Focus on the gurobi (LP) solver first. This is not free for industry use, but
 it is a very good solver with a documented C API and quite a few featurs.
 Therfore, it should be good to work with while designing abract interfaces.

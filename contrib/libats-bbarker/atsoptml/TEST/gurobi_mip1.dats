@@ -28,9 +28,10 @@ staload "libc/SATS/stdlib.sats"
 staload "libc/SATS/unistd.sats"
 
 staload 
-GRB = "atsoptml/SATS/gurobi.sats"
+GRB = "contrib/libats-bbarker/atsoptml/SATS/gurobi.sats"
+// GRB = "${LIBATSBBARKER}/atsoptml/SATS/gurobi.sats"
 // TRY setting environmental variable for LIBATSBBARKER
-
+// (didn't work)
 (* ****** ****** *)
 
 
@@ -38,15 +39,15 @@ implement
 main0 () = 
 {
 // Set up varirables
-var env: GRBenv_vt0ype?
-var model: GRBmodel_vt0ype? 
+var env: $GRB.env?
+var model: $GRB.model? 
 //
 //  Safe exit function (closure)
 //
 fun QUIT(errno: int):<linclo1> void =
 let
-val () = if (errno) then
-  printf("ERROR: %s\n", $GRB.geterrormsg(env))
+val _ = if (errno) then
+  $extfcall(int, "printf", "ERROR: %s\n", $GRB.geterrormsg(env))
 // Free potentially shared memory
 // Free model and then environment
 //
