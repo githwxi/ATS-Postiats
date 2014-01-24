@@ -5,7 +5,7 @@
 (***********************************************************************)
 
 (*
-** Copyright (C) 2013 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2014 Hongwei Xi, ATS Trustful Software, Inc.
 **
 ** Permission is hereby granted, free of charge, to any person obtaining a
 ** copy of this software and associated documentation files (the "Software"),
@@ -28,54 +28,75 @@
 
 (* ****** ****** *)
 
-extern fun get (): int
-extern fun set (x: int): void
-extern fun inc (): void
-extern fun dec (): void
-extern fun reset (): void
+(*
+absvt@ype T
+*)
 
 (* ****** ****** *)
 
-extern fun getinc (): int
-extern fun decget (): int
+extern fun isnil (): bool
+extern fun iscons (): bool
+
+(* ****** ****** *)
+
+extern fun pop_exn (): T
+extern fun pop_opt (): Option_vt(T)
+extern fun push (x: T): void
 
 (* ****** ****** *)
 
 local
 
-var _val: int = 0
-val p_val = addr@(_val)
-prval pf_val = view@(_val)
-
-val r_val =
-  ref_make_viewptr{int}(pf_val | p_val)
+vtypedef TS = List0_vt (T)
+var _stack: TS = list_vt_nil(*void*)
+val r_stack =
+  ref_make_viewptr{TS}(view@_stack | addr@_stack)
 // end of [val]
 
 in (* in of [local] *)
 
-implement get () = !r_val
-implement set (x) = !r_val := x
+implement
+isnil () = let
+  val (vbox(pf) | p) = ref_get_viewptr (r_stack)
+in
+  list_vt_is_nil (!p)
+end // end of [isnil]
 
-implement inc () =
-  let val n = !r_val in !r_val := n + 1 end
-// end of [inc]
+implement
+iscons () = let
+  val (vbox(pf) | p) = ref_get_viewptr (r_stack)
+in
+  list_vt_is_cons (!p)
+end // end of [iscons]
 
-implement dec () =
-  let val n = !r_val in !r_val := n - 1 end
-// end of [dec]
+implement
+pop_exn () = x where
+{
+  val (vbox(pf) | p) = ref_get_viewptr (r_stack)
+  val-~list_vt_cons (x, xs) = !p; val ((*void*)) = !p := xs
+} (* end of [pop_exn] *)
 
-implement reset () = !r_val := 0
+implement
+pop_opt () = let
+  val (vbox(pf) | p) = ref_get_viewptr{..}(r_stack)
+in
+//
+case+ !p of
+| ~list_vt_cons (x, xs) =>
+    let val () = !p := (xs: TS) in Some_vt{T}(x) end
+|  list_vt_nil ((*void*)) => None_vt ()
+//
+end // end of [pop_opt]
 
-implement getinc () =
-  let val n = !r_val in !r_val := n + 1; (n) end
-// end of [getinc]
-
-implement decget () =
-  let val n1 = !r_val - 1 in !r_val := n1; (n1) end
-// end of [decget]
+implement
+push (x) = let
+  val (vbox(pf) | p) = ref_get_viewptr (r_stack)
+in
+  !p := list_vt_cons{T}(x, !p)
+end // end of [push]
 
 end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [gcount.hats] *)
+(* end of [gstack.hats] *)

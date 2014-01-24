@@ -3,6 +3,11 @@
 #define ATS_DYNLOADFLAG 0
 
 (* ****** ****** *)
+//
+staload _(*anon*) =
+"prelude/DATS/integer.dats"
+//
+(* ****** ****** *)
 
 local
 

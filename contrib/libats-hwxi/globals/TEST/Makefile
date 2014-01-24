@@ -32,17 +32,25 @@ all::
 
 all:: test01
 all:: test02
+all:: test03
 
 ######
 
 test01: \
-  test01.dats intvar.dats floatvar.dats ; $(PATSCC) -o $@ $^
+  test01.dats \
+  intvar.dats floatvar.dats ; $(PATSCC) -o $@ $^
 cleanall:: ; $(RMF) test01
 
 ######
 
-test02: test02.dats count1.dats count2.dats ; $(PATSCC) -o $@ $^
+test02: \
+  test02.dats count1.dats count2.dats ; $(PATSCC) -o $@ $^
 cleanall:: ; $(RMF) test02
+
+######
+
+test03: test03.dats stack.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $^
+cleanall:: ; $(RMF) test03
 
 ######
 
