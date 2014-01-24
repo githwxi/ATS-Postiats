@@ -1,11 +1,11 @@
 (*
 ** HX-2013-06:
-** Statically allocated list-stack
+** Toplevel list-based stack
 *)
 
 (* ****** ****** *)
 
-staload S = "./stack.dats"
+staload S = "./gstacklst.dats"
 
 (* ****** ****** *)
 

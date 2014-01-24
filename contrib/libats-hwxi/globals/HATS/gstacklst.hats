@@ -55,6 +55,8 @@ val r_stack =
 
 in (* in of [local] *)
 
+(* ****** ****** *)
+
 implement
 isnil () = let
   val (vbox(pf) | p) = ref_get_viewptr (r_stack)
@@ -69,6 +71,8 @@ in
   list_vt_is_cons (!p)
 end // end of [iscons]
 
+(* ****** ****** *)
+
 implement
 pop_exn () = x where
 {
@@ -78,7 +82,7 @@ pop_exn () = x where
 
 implement
 pop_opt () = let
-  val (vbox(pf) | p) = ref_get_viewptr{..}(r_stack)
+  val (vbox(pf) | p) = ref_get_viewptr (r_stack)
 in
 //
 case+ !p of
@@ -88,6 +92,8 @@ case+ !p of
 //
 end // end of [pop_opt]
 
+(* ****** ****** *)
+
 implement
 push (x) = let
   val (vbox(pf) | p) = ref_get_viewptr (r_stack)
@@ -95,8 +101,10 @@ in
   !p := list_vt_cons{T}(x, !p)
 end // end of [push]
 
+(* ****** ****** *)
+
 end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [gstack.hats] *)
+(* end of [gstacklst.hats] *)

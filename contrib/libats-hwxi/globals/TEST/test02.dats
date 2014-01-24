@@ -5,8 +5,8 @@
 
 (* ****** ****** *)
 
-staload C1 = "./count1.dats"
-staload C2 = "./count2.dats"
+staload C1 = "./gcount1.dats"
+staload C2 = "./gcount2.dats"
 
 (* ****** ****** *)
 

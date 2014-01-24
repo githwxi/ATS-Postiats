@@ -101,6 +101,12 @@ ATSCNTRB/libats-hwxi\
 
 (* ****** ****** *)
 
+#packfilename("globals/HATS/gcount.hats")
+#packfilename("globals/HATS/globvar.hats")
+#packfilename("globals/HATS/gstacklst.hats")
+
+(* ****** ****** *)
+
 #packfilename("testing/SATS/randgen.sats")
 #packfilename("testing/SATS/foldleft.sats")
 #packfilename("testing/DATS/randgen.dats")
