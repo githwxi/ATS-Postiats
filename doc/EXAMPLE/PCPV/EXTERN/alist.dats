@@ -9,9 +9,21 @@ datasort array = (* abstract *)
 //
 (* ****** ****** *)
 //
+(*
+//
+ahead(A) = A[0]
+//
+atail(A)[i] = A[i+1] for i >= 0
+//
+acons(x, A) = A2 such that
+A2[0] = x and A2[i] = A[i-1] for i >= 1
+//
+*)
 stacst ahead : array -> stamp
 stacst atail : array -> array
 stacst acons : (stamp, array) -> array
+//
+(* ****** ****** *)
 //
 stacst array_get_at : (array, int) -> stamp // select
 stacst array_set_at : (array, int, stamp) -> array // update
