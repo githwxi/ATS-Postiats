@@ -53,19 +53,19 @@ macdef E = $extval(string, "atscntrb_atsoptml_GRB_EQUAL")
 
 fun
 loadenv(env: &env? >> env, logfilename: NSH(string)
-): int
+): int = "mac#atscntrb_atsoptml_GRBloadenv"
 
 fun
 geterrormsg(env: env
-): String0
+): String0 = "mac#atscntrb_atsoptml_GRBgeterrormsg"
 
 fun
 freemodel(model: model
-): int
+): int = "mac#atscntrb_atsoptml_GRBfreemodel"
 
 fun
 freeenv(env: env
-): int
+): int = "mac#atscntrb_atsoptml_GRBfreeenv"
 
 //
 // Ideally we do not call the following functions
@@ -80,12 +80,12 @@ env: env, model: &model? >> model, Pname: NSH(string),
 numvars: int (n), obj: cPtr0(double), 
 lb: cPtr0(double), ub: cPtr0(double),
 vtype: string (n), varnames: &array(varname, n)
-): int
+): int = "mac#atscntrb_atsoptml_GRBnewmodel"
 
 fun
 updatemodel  (
 model: model
-): int
+): int = "mac#atscntrb_atsoptml_GRBupdatemodel"
 
 //vbeg should be assigned a different, more specialized
 //type than cPtr0: see gurobi docs 
@@ -95,28 +95,28 @@ model: model, numvars: int (n), numnz: int, vbeg: cPtr0(int),
 vind: cPtr0(int), vval: cPtr0(double), obj: cPtr0(double), 
 lb: cPtr0(double), ub:cPtr0(double), vtype: string (n),
 varnames: &array(varname, n)
-): int
+): int = "mac#atscntrb_atsoptml_GRBaddvars"
 
 fun 
 setintattr (
 model: model, attrname: NSH(string), newvalue: int
-): int
+): int = "mac#atscntrb_atsoptml_GRBsetintattr"
 
 fun
 addconstr(
 model: model, numnz: int, cind: cPtr0(int), cval: cPtr0(double),
 sense: string, rhs: double, constrname: NSH(string)
-): int
+): int = "mac#atscntrb_atsoptml_GRBaddconstr"
 
 fun
 optimize(
 model: model
-): int
+): int = "mac#atscntrb_atsoptml_GRBoptimize"
 
 fun
 write(
 model: model, filename: NSH(string)
-): int
+): int = "mac#atscntrb_atsoptml_GRBwrite"
 
 // Include at end to prevent problems with ATS2 Mode in emacs:
 

@@ -173,7 +173,7 @@ GRB_INT_ATTR_HASDUALNORM
 //
 #define atscntrb_atsoptml_GRBnewmodel GRBnewmodel
 #define atscntrb_atsoptml_GRBloadmodel GRBloadmodel
-#define atscntrb_atsoptml_GRBfreeenv GRBfreemodel
+#define atscntrb_atsoptml_GRBfreemodel GRBfreemodel
 
 /* ****** ****** */
 //
@@ -258,6 +258,12 @@ GRB_INT_ATTR_HASDUALNORM
 // error reporting
 //
 #define atscntrb_atsoptml_GRBgeterrormsg GRBgeterrormsg
+
+/* ****** ****** */
+//
+// other IO
+//
+#define atscntrb_atsoptml_GRBwrite GRBwrite
 
 /* ****** ****** */
 
