@@ -1,74 +1,74 @@
-datasort
-array = (*abstract*)
-
 (* ****** ****** *)
-
-sortdef stamp = int
-abstype T (x:stamp)
-
-(* ****** ****** *)
-
-stacst ahead : array -> stamp
-stacst atail : array -> array
-stacst acons : (stamp, array) -> array
-stacst atake : (array, int) -> array // take the first n elements
-stacst adrop : (array, int) -> array // drop the first n elements
-
-(* ****** ****** *)
-
-stacst array_get_at : (array, int) -> stamp // select
-stacst array_set_at : (array, int, stamp) -> array // update
 //
-stadef select = array_get_at
-stadef update = array_set_at
+// HX-2014-01-25:
+// infseq-indexed arrays
 //
 (* ****** ****** *)
 
-dataview
-array_v (A:array, addr, int) =
-  | {l:addr}
-    array_v_nil (A, l, 0) of ()
-  | {A:array}{x:stamp}{l:addr}{n:int}
-    array_v_cons (acons (x, A), l, n+1) of (T(x) @ l, array_v (A, l+1, n))
-// end of [array_v]
+staload "./infseq.sats"
 
 (* ****** ****** *)
-//
-extern
-fun array_get_at
-  {A:array}{l:addr}
-  {n:int}{i:nat | i < n}
+
+staload "./array.sats"
+
+(* ****** ****** *)
+
+local
+
+prfun
+lemma
+  {xs:infseq}{l:addr}
+  {n:int}{i:nat | i <= n} .<i>.
 (
-  pf: !array_v(A, l, n) | p: ptr(l), i: int i
-) : T(select(A, i))
+  pf: array_v(xs, l, n), i: int (i)
+) : (
+  array_v (take(xs, i), l, i)
+, array_v (drop(xs, i), l+i, n-i)
+) = let
+in
 //
-(* ****** ****** *)
-
-extern
-fun array_get_0
-  {A:array}{l:addr}
-  {n:int}{i:nat | i < n}
-  (pf: !array_v(A, l, n) | p: ptr(l)): T(select(A, 0))
-(*
-implement
-array_get_0
-  (pf | p) = x0 where
-{
+if i = 0
+then
+  (array_v_nil (), pf)
+else let
   prval array_v_cons (pf1, pf2) = pf
-  val x0 = !p
-  prval () = pf := array_v_cons (pf1, pf2)
-}
-*)
+  prval (pf21, pf22) = array_v_split (pf2, i-1)
+in
+  (array_v_cons (pf1, pf21), pf22)
+end // end of [else]
+//
+end // end of [lemma]
+
+in (* in-of-local *)
+
+primplement
+array_v_split (pf, i) = lemma (pf, i)
+
+end // end of [local]
 
 (* ****** ****** *)
 
 extern
-prfun array_v_split
-  {A:array}{l:addr}
-  {n:int}{i:nat | i < n}
-  (pf: array_v(A, l, n), i: int (i)):
-  (array_v (atake(A, i), l, i), array_v (adrop(A,i), l+i, n-i))
+fun add_ptr_int{l:addr}{i:int} (ptr l, int i):<> ptr (l+i)
+overload + with add_ptr_int
 
 (* ****** ****** *)
 
-(* end of [array.sats] *)
+implement
+array_get_at
+  (pf | p, i) = x where
+{
+//
+prval (pf1, pf2) = array_v_split (pf, i)
+prval array_v_cons (pf21, pf22) = pf2
+//
+val x = !(p+i)
+//
+prval ((*void*)) =
+  pf := array_v_unsplit (pf1, array_v_cons (pf21, pf22))
+//
+} (* end of [array_get_at] *)
+
+(* ****** ****** *)
+
+(* end of [array.dats] *)
