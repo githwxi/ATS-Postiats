@@ -27,12 +27,18 @@ stadef head = infseq_head
 
 (* ****** ****** *)
 //
-stacst infseq_get_at : (infseq, int) -> stamp // select
-stacst infseq_set_at : (infseq, int, stamp) -> infseq // update
+stacst infseq_get_at : (infseq, int) -> stamp
+stacst infseq_set_at : (infseq, int, stamp) -> infseq
 //
 stadef select = infseq_get_at
 stadef update = infseq_set_at
 //
+(* ****** ****** *)
+
+stacst infseq_equaln
+  : (infseq, infseq, int) -> bool
+stadef equaln = infseq_equaln
+
 (* ****** ****** *)
 //
 stacst infseq_take
@@ -47,14 +53,6 @@ stadef drop = infseq_drop
 
 (* ****** ****** *)
 
-stacst infseq_equaln : (infseq, infseq, int) -> bool
-
-(* ****** ****** *)
-
-stadef equaln = infseq_equaln
-
-(* ****** ****** *)
-
 stacst infseq_append : (infseq, int, infseq, int) -> infseq
 stacst infseq_revapp : (infseq, int, infseq, int) -> infseq
 
@@ -62,6 +60,33 @@ stacst infseq_revapp : (infseq, int, infseq, int) -> infseq
 
 stadef append = infseq_append
 stadef revapp = infseq_revapp
+
+(* ****** ****** *)
+
+stacst lt_stamp_infseq
+  : (stamp, infseq, int(*n*)) -> bool // stamp < infseq[i] for i <= n
+stacst lte_stamp_infseq
+  : (stamp, infseq, int(*n*)) -> bool // stamp <= infseq[i] for i <= n
+
+(* ****** ****** *)
+
+stadef lt = lt_stamp_infseq; stadef lte = lt_stamp_infseq
+
+(* ****** ****** *)
+
+stacst lt_infseq_stamp
+  : (infseq, int(*n*), stamp) -> bool // infseq[i] < stamp for i <= n
+stacst lte_infseq_stamp
+  : (infseq, int(*n*), stamp) -> bool // infseq[i] <= stamp for i <= n
+
+(* ****** ****** *)
+
+stadef lt = lt_infseq_stamp; stadef lte = lte_infseq_stamp
+
+(* ****** ****** *)
+
+stacst infseq_sorted : (infseq, int) -> bool // infseq[<n] is sorted
+stadef sorted = infseq_sorted
 
 (* ****** ****** *)
 

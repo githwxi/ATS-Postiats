@@ -5,11 +5,11 @@
 //
 (* ****** ****** *)
 
-staload "./infseq.sats"
+staload "./array.sats"
 
 (* ****** ****** *)
 
-staload "./array.sats"
+staload "./infseq.sats"
 
 (* ****** ****** *)
 
@@ -49,7 +49,8 @@ end // end of [local]
 (* ****** ****** *)
 
 extern
-fun add_ptr_int{l:addr}{i:int} (ptr l, int i):<> ptr (l+i)
+fun add_ptr_int
+  {l:addr}{i:int} (ptr l, int i):<> ptr (l+i)
 overload + with add_ptr_int
 
 (* ****** ****** *)

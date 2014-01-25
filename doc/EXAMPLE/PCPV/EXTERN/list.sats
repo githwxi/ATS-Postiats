@@ -15,7 +15,7 @@ abstype T(x:stamp)
 //
 datatype
 list (infseq, int) =
-  | {xs:infseq} alist_nil (xs, 0)
+  | {xs:infseq} list_nil (xs, 0)
   | {xs:infseq}{x:stamp}{n:nat}
     list_cons (cons (x, xs), n+1) of (T(x), list (xs, n))
 //
