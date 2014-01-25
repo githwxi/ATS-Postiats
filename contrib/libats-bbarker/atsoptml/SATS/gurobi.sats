@@ -5,15 +5,15 @@
 ** Authoremail: brandonDOTbarkerATgmailDOTcom)
 *)
 
-(* ****** ****** *)
+typedef NSH(x:type) = x // for commenting: no sharing
+typedef NONZERO(x:type) = x // for commenting: non-zero values only
 
-%{#
+// numnz has associtated values that shouldn't be zero:
+// I believe ATS doesn't offer any static typing for doubles,
+// and I'm not yet sure if gurobi does dynamic checking.
 //
-#include "atsoptml/CATS/gurobi.cats"
-//
-%} // end of [%{#]
-
-(* ****** ****** *)
+// Relatedly, numnz and other arrays (currently cPtr(T)s) 
+// could be converted to dependent types.
 
 #define ATS_PACKNAME "ATSCNTRB.atsoptml"
 //#define ATS_STALOADFLAG 0 // no static loading at run-time
@@ -41,36 +41,91 @@ vtypedef vartyp = GRBvartype_vt0ype
 // constants
 macdef BT = $extval(char, "atscntrb_atsoptml_GRB_BINARY")
 
-fun
-loadenv(env: &env, glog: String1): int
+macdef MSENS = $extval(string, "atscntrb_atsoptml_GRB_INT_ATTR_MODELSENSE")
+
+macdef MAX = $extval(int, "atscntrb_atsoptml_GRB_MAXIMIZE")
+macdef MIN = $extval(int, "atscntrb_atsoptml_GRB_MINIMIZE")
+
+macdef L = $extval(string, "atscntrb_atsoptml_GRB_LESS_EQUAL")
+macdef G = $extval(string, "atscntrb_atsoptml_GRB_GREATER_EQUAL")
+macdef E = $extval(string, "atscntrb_atsoptml_GRB_EQUAL")
+
 
 fun
-geterrormsg(env: env): String0
+loadenv(env: &env? >> env, logfilename: NSH(string)
+): int
 
 fun
-freemodel(model: model): int
+geterrormsg(env: env
+): String0
 
 fun
-freeenv(env: env): int
+freemodel(model: model
+): int
+
+fun
+freeenv(env: env
+): int
 
 //
 // Ideally we do not call the following functions
 // directly but develop other abstractions.
 //
+
+absvtype varname = string
+
 fun
 newmodel {n:nat}(
-env: env, model: &model, mname: String, 
+env: env, model: &model? >> model, Pname: NSH(string), 
 numvars: int (n), obj: cPtr0(double), 
 lb: cPtr0(double), ub: cPtr0(double),
-vtype: string (n), varnames: cPtr0(cPtr0(char))): int
-//TODO: write a function to convert stringlst_vt
-//to char**, probably using bytes[] or similar
-
+vtype: string (n), varnames: &array(varname, n)
+): int
 
 fun
+updatemodel  (
+model: model
+): int
+
+//vbeg should be assigned a different, more specialized
+//type than cPtr0: see gurobi docs 
+fun
 addvars {n:nat}(
-model:model, numvars:int, numnz: int, vbeg: cPtr0(int), 
+model: model, numvars: int (n), numnz: int, vbeg: cPtr0(int), 
 vind: cPtr0(int), vval: cPtr0(double), obj: cPtr0(double), 
 lb: cPtr0(double), ub:cPtr0(double), vtype: string (n),
-cPtr0(cPtr0(char))): int
+varnames: &array(varname, n)
+): int
 
+fun 
+setintattr (
+model: model, attrname: NSH(string), newvalue: int
+): int
+
+fun
+addconstr(
+model: model, numnz: int, cind: cPtr0(int), cval: cPtr0(double),
+sense: string, rhs: double, constrname: NSH(string)
+): int
+
+fun
+optimize(
+model: model
+): int
+
+fun
+write(
+model: model, filename: NSH(string)
+): int
+
+// Include at end to prevent problems with ATS2 Mode in emacs:
+
+(* ****** ****** *)
+
+%{^
+//
+#include "atsoptml/CATS/gurobi.cats"
+//
+%} // end of [%{#]
+
+(* ****** ****** *)
