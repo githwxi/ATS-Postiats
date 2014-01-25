@@ -32,7 +32,7 @@ list_append{m,n:nat}
   (xs1: list (a, m), xs2: list (a, n)):<> list (a, m+n)
 //
 fun{a:t@ype}
-qsrt{n:nat} .<n, 0, 0>.
+sort{n:nat} .<n, 0, 0>.
 (
   xs: list (a, n), cmp: cmp(a)
 ) :<> list (a, n) = let
@@ -43,7 +43,7 @@ case+ xs of
     (x, xs) => part (x, xs, cmp, list_nil (), list_nil ())
 | list_nil () => list_nil ()
 //
-end // end of [qsrt]
+end // end of [sort]
 
 and part{p:nat}{q,r:nat} .<p+q+r, 1, p>.
 (
@@ -62,7 +62,7 @@ case+ xs of
     // end of [if]
   )
 | list_nil () => let
-    val ys = qsrt (ys, cmp) and zs = qsrt (zs, cmp)
+    val ys = sort (ys, cmp) and zs = sort (zs, cmp)
   in
     list_append (ys, list_cons (x0, zs))
   end // end of [list_nil]
@@ -190,7 +190,7 @@ prfun APPEND_union4
 (* ****** ****** *)
 
 fun{a:t@ype}
-qsrt {xs:ilist}
+sort {xs:ilist}
 (
   xs: gflist (a, xs), cmp: cmp a
 ) : [ys:ilist] (SORT (xs, ys) | gflist (a, ys)) =
@@ -202,7 +202,7 @@ qsrt {xs:ilist}
       (ORDPERM2SORT (pford, pfperm) | res)
     end // end of [gflist_cons]
   | gflist_nil () => (SORT_nil () | nil ())
-// end of [qsrt]
+// end of [sort]
 
 and part
   {x0:int}{xs:ilist}{ys,zs:ilist}
@@ -231,8 +231,8 @@ and part
       end // end of [if]        
     // end of [gflist_cons]
   | gflist_nil () => let
-      val (pfsrt1 | ys) = qsrt (ys, cmp)
-      val (pfsrt2 | zs) = qsrt (zs, cmp)
+      val (pfsrt1 | ys) = sort (ys, cmp)
+      val (pfsrt2 | zs) = sort (zs, cmp)
       val (pfapp | res) = append (ys, cons (x0, zs))
       prval pford1 = SORT2ORD (pfsrt1)
       prval pford2 = SORT2ORD (pfsrt2)
@@ -249,7 +249,7 @@ and part
 
 (* ****** ****** *)
 
-implement{a} quicksort_lst = qsrt<a>
+implement{a} quicksort_lst = sort<a>
 
 (* ****** ****** *)
 

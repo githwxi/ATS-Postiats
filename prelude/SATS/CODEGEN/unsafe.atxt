@@ -48,7 +48,8 @@ castfn castvwtp0 {to:vt0p}{from:vt0p} (x: INV(from)):<> to
 // done for treating a linear string as a nonlinear one
 // temporarily.
 //
-castfn castvwtp1 {to:vt0p}{from:vt0p} (x: !INV(from)>>from):<> to
+castfn
+castvwtp1{to:vt0p}{from:vt0p} (x: !INV(from)>>from):<> to
 //
 #atscode_separator()
 //
@@ -82,6 +83,10 @@ praxi cast2void {a:vt0p} (x: INV(a)):<prf> void
 
 praxi castview0 {to:view}{from:view} (pf: from):<prf> to
 praxi castview1 {to:view}{from:view} (pf: !INV(from)):<prf> to
+
+#atscode_separator()
+
+fun{} int2ptr (i: int): ptr and ptr2int (p: ptr): int
 
 #atscode_separator()
 //

@@ -30,6 +30,13 @@ staload "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
 
+implement{
+} int2ptr (i) = cast{ptr}(cast{intptr}(i))
+implement{
+} ptr2int (p) = cast{int}(cast{intptr}(p))
+
+#atscode_separator()
+
 implement
 {a}(*tmp*)
 ptr0_get

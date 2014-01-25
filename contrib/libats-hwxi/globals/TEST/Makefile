@@ -44,12 +44,13 @@ cleanall:: ; $(RMF) test01
 ######
 
 test02: \
-  test02.dats count1.dats count2.dats ; $(PATSCC) -o $@ $^
+  test02.dats gcount1.dats gcount2.dats ; $(PATSCC) -o $@ $^
 cleanall:: ; $(RMF) test02
 
 ######
 
-test03: test03.dats stack.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $^
+test03: test03.dats \
+  gstacklst.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $^
 cleanall:: ; $(RMF) test03
 
 ######

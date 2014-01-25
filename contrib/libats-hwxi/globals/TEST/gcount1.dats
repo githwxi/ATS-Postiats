@@ -19,4 +19,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [count1.dats] *)
+(* end of [gcount1.dats] *)

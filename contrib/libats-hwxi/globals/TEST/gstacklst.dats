@@ -15,10 +15,10 @@ typedef T = int
 
 in (* in of [local] *)
 
-#include "./../HATS/gstack.hats"
+#include "./../HATS/gstacklst.hats"
 
 end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [stack.dats] *)
+(* end of [gstacklst.dats] *)
