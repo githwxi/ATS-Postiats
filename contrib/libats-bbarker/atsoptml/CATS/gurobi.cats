@@ -54,7 +54,7 @@ typedef atscntrb_atsoptml_GRBenv *ptrGRBenv;
 #define atscntrb_atsoptml_GRB_INPROGRESS GRB_INPROGRESS  
 
 /* Variable types */
-
+typedef atscntrb_atsoptml_GRB_VARTYPE_TYPE char
 #define atscntrb_atsoptml_GRB_CONTINUOUS GRB_CONTINUOUS
 #define atscntrb_atsoptml_GRB_BINARY GRB_BINARY
 #define atscntrb_atsoptml_GRB_INTEGER GRB_INTEGER
@@ -173,7 +173,7 @@ GRB_INT_ATTR_HASDUALNORM
 //
 #define atscntrb_atsoptml_GRBnewmodel GRBnewmodel
 #define atscntrb_atsoptml_GRBloadmodel GRBloadmodel
-#define atscntrb_atsoptml_GRBfreeenv GRBfreemodel
+#define atscntrb_atsoptml_GRBfreemodel GRBfreemodel
 
 /* ****** ****** */
 //
@@ -258,6 +258,12 @@ GRB_INT_ATTR_HASDUALNORM
 // error reporting
 //
 #define atscntrb_atsoptml_GRBgeterrormsg GRBgeterrormsg
+
+/* ****** ****** */
+//
+// other IO
+//
+#define atscntrb_atsoptml_GRBwrite GRBwrite
 
 /* ****** ****** */
 
