@@ -23,10 +23,9 @@ libcurl: API for cURL
 zeromq
 
 libats-hwxi
-libats-hwxi/cstream
 libats-hwxi/intinf
-
 libats-hwxi/testing
+libats-hwxi/cstream
 libats-hwxi/teaching/myGTK
 libats-hwxi/teaching/mydraw
 libats-hwxi/teaching/mythread
