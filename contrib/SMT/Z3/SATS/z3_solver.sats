@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -54,13 +54,19 @@ that take more than a given number of milliseconds to be solved.
 *)
 fun Z3_mk_solver (ctx: !Z3_context): Z3_solver
 
+(* ****** ****** *)
+
 fun Z3_mk_simple_solver (ctx: !Z3_context): Z3_solver
    
+(* ****** ****** *)
+
 (*
 Create a new solver customized for the given logic. It behaves like
 Z3_mk_solver if the logic is unknown or unsupported.
 *)
 fun Z3_mk_solver_for_logic (ctx: !Z3_context, logic: Z3_symbol): Z3_solver
+
+(* ****** ****** *)
 
 (*
 Create a new solver that is implemented using the given tactic. The solver
@@ -84,7 +90,8 @@ fun Z3_solver_dec_ref (ctx: !Z3_context, p: Z3_solver): void = "mac#%"
 (* ****** ****** *)
 
 fun
-Z3_solver_get_model{l:addr}
+Z3_solver_get_model
+  {l:addr}
 (
   ctx: !Z3_context, s: !Z3_solver l
 ) : [l2:addr]

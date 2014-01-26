@@ -1,17 +1,19 @@
 (* ****** ****** *)
 
 staload "./list.sats"
-staload "./infseq.sats"
+staload "./stampseq.sats"
 
 (* ****** ****** *)
 //
 extern
 fun insort
-  {xs:infseq}{x0:stamp}{n:nat}
-  {a:stamp | a <= x0; lte (a, xs, n)}
+  {a:stamp}
+  {xs:stmsq}{n:nat}
+  {x0:stamp}
+  {a <= x0; lte (a, xs, n)}
 (
   xs: list (xs, n), x0: T(x0)
-) : [ys:infseq | lte (a, ys, n); sorted(ys, n)] list (ys, n+1)
+) : [ys:stmsq | lte (a, ys, n); sorted(ys, n)] list (ys, n+1)
 //
 (* ****** ****** *)
 
@@ -24,7 +26,7 @@ case+ xs of
 | list_cons (x, xs1) =>
     if x0 <= x
       then list_cons (x0, xs)
-      else list_cons (x, insort{..}{..}{..}{a} (x0, xs1))
+      else list_cons (x, insort{a} (x0, xs1))
     // end of [if]
 )
 *)

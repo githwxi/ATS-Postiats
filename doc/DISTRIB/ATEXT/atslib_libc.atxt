@@ -153,6 +153,7 @@ The ATSLIB/libc library\
 (* ****** ****** *)
 
 #packfilename("DATS/dirent.dats")
+#packfilename("DATS/errno.dats")
 #packfilename("DATS/fcntl.dats")
 #packfilename("DATS/math.dats")
 #packfilename("DATS/stdio.dats")

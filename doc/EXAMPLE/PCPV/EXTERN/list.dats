@@ -1,6 +1,6 @@
 (* ****** ****** *)
 //
-// infseq-indexed lists
+// stampseq-indexed lists
 //
 (* ****** ****** *)
 
@@ -8,7 +8,7 @@ staload "./list.sats"
 
 (* ****** ****** *)
 
-staload "./infseq.sats"
+staload "./stampseq.sats"
 
 (* ****** ****** *)
 

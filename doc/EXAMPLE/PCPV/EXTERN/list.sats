@@ -1,11 +1,11 @@
 (* ****** ****** *)
 //
 // HX-2014-01-25:
-// infseq-indexed lists
+// stampseq-indexed lists
 //
 (* ****** ****** *)
 
-staload "./infseq.sats"
+staload "./stampseq.sats"
 
 (* ****** ****** *)
 //
@@ -14,9 +14,9 @@ abstype T(x:stamp)
 (* ****** ****** *)
 //
 datatype
-list (infseq, int) =
-  | {xs:infseq} list_nil (xs, 0)
-  | {xs:infseq}{x:stamp}{n:nat}
+list (stmsq, int) =
+  | {xs:stmsq} list_nil (xs, 0)
+  | {xs:stmsq}{x:stamp}{n:nat}
     list_cons (cons (x, xs), n+1) of (T(x), list (xs, n))
 //
 (* ****** ****** *)
@@ -42,20 +42,20 @@ overload compare with compare_T_T
 (* ****** ****** *)
 
 fun list_nth
-  {xs:infseq}{n:int}{i:nat | i < n}
+  {xs:stmsq}{n:int}{i:nat | i < n}
   (xs: list (xs, n), i: int (i)): T (select(xs, i))
 // end of [list_nth]
 
 (* ****** ****** *)
 
 fun list_append
-  {xs,ys:infseq}{m,n:nat}
+  {xs,ys:stmsq}{m,n:nat}
   (list (xs, m), list (ys, n)) : list (append(xs, m, ys, n), m+n)
 
 (* ****** ****** *)
 
 fun list_revapp
-  {xs,ys:infseq}{m,n:nat}
+  {xs,ys:stmsq}{m,n:nat}
   (list (xs, m), list (ys, n)) : list (revapp(xs, m, ys, n), m+n)
 
 (* ****** ****** *)
