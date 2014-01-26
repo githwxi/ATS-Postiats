@@ -44,6 +44,8 @@ fprint_symbol
 
 implement
 symbol_get_name (SYMBOL(name, _)) = name
+implement
+symbol_get_stamp (SYMBOL(_, stamp)) = stamp
 
 (* ****** ****** *)
 //

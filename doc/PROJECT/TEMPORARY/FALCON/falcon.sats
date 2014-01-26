@@ -30,6 +30,7 @@ fun the_symtbl_count ((*void*)): int
 //
 fun symbol_make (string): symbol
 fun symbol_get_name (symbol): string
+fun symbol_get_stamp (sym: symbol): int
 fun symbol_equal : (symbol, symbol) -<> bool
 fun symbol_compare : (symbol, symbol) -<> int
 //
@@ -65,14 +66,18 @@ typedef gene = gene_type
 typedef genelst = List0 (gene)
 vtypedef genelst_vt = List0_vt (gene)
 //
-fun
-fprint_gene: fprint_type (gene)
+fun print_gene: print_type (gene)
+fun fprint_gene: fprint_type (gene)
+//
+overload print with print_gene
 overload fprint with fprint_gene
 //
 fun
 compare_gene_gene (gene, gene):<> int
 overload compare with compare_gene_gene
 //
+fun gene_hash (gene): ulint
+fun gene_make_name (string): gene
 fun gene_make_symbol (symbol): gene
 //
 (* ****** ****** *)
@@ -92,19 +97,17 @@ fun genes_union (genes, genes): genes
 fun genes_listize1 (xs: !genes): genelst_vt
 
 (* ****** ****** *)
-
+//
 abstype GDMap_type = ptr
 typedef GDMap = GDMap_type
-
-fun GDMap_make_nil (): GDMap
-fun GDMap_free (gdm: GDMap): void
-
+//
 fun GDMap_find
 (
-  GDMap, g: gene, res: &double? >> opt (double, b)
+  map: GDMap, gn: gene, res: &double? >> opt (double, b)
 ) : #[b:bool] bool(b) // end of [GDMap_find]
-fun GDMap_insert (mp: GDMap, g: gene, gval: double): bool
-
+//
+fun GDMap_insert (map: GDMap, gn: gene, gval: double): void
+//
 (* ****** ****** *)
 
 (* end of [falcon.sats] *)

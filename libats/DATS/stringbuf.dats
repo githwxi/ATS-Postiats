@@ -158,11 +158,20 @@ implement{
   let val+STRINGBUF (_, _, cap) = sbf in cap end
 // end of [stringbuf_get_capacity]
 
+(* ****** ****** *)
+
 implement{
 } stringbuf_get_bufptr
   (sbf) = let
   val+STRINGBUF (A, _, _) = sbf in $UN.castvwtp1{Ptr1}(A)
 end // end of [stringbuf_get_bufptr]
+
+implement{
+} stringbuf_get_strptr
+  (sbf) = let
+  val+STRINGBUF (A, p, _) = sbf
+  val () = $UN.ptr0_set<char> (p, '\000') in $UN.castvwtp1{vStrptr1}(A)
+end // end of [stringbuf_get_strptr]
 
 (* ****** ****** *)
 

@@ -53,6 +53,14 @@ val (
 val out = stdout_ref
 //
 val opt =
+fileref_open_opt ("./DATA/K562.csv", file_mode_r)
+val-~Some_vt(inp) = opt
+//
+val () = gmeanvar_initize (inp)
+//
+val ((*void*)) = fileref_close (inp)
+//
+val opt =
 fileref_open_opt ("./DATA/rec2.grRulesLop", file_mode_r)
 val-~Some_vt(inp) = opt
 //

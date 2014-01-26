@@ -83,6 +83,8 @@ stringbuf_get_capacity (sbf: !stringbuf):<> size_t
 
 fun{}
 stringbuf_get_bufptr (sbf: !stringbuf):<> Ptr1
+fun{}
+stringbuf_get_strptr (sbf: !stringbuf):<!wrt> vStrptr1
 
 (* ****** ****** *)
 

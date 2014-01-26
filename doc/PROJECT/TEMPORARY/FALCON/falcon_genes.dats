@@ -33,9 +33,23 @@ fprint_gene
 // end of [fprint_gene]
 
 implement
+gene_hash (x) = $UN.cast{ulint}(symbol_get_stamp(x))
+
+implement
 compare_gene_gene (x1, x2) = symbol_compare (x1, x2)
 
 end // end of [local]
+
+(* ****** ****** *)
+//
+implement
+gene_make_name (name) =
+  gene_make_symbol (symbol_make (name))
+//
+(* ****** ****** *)
+
+implement
+print_gene (gn) = fprint (stdout_ref, gn)
 
 (* ****** ****** *)
 //
