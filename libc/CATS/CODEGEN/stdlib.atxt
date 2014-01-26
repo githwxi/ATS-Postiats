@@ -70,6 +70,30 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+\#define atslib_strtol0(nptr, base) atslib_strtol_unsafe(nptr, 0, base)
+\#define atslib_strtol1(nptr, endptr, base) atslib_strtol_unsafe(nptr, endptr, base)
+\#define atslib_strtol_unsafe(nptr, endptr, base) strtol((char*)(nptr), (char**)(endptr), base)
+
+#atscode_separator_for_C()
+
+\#define atslib_strtoll0(nptr, base) atslib_strtoll_unsafe(nptr, 0, base)
+\#define atslib_strtoll1(nptr, endptr, base) atslib_strtoll_unsafe(nptr, endptr, base)
+\#define atslib_strtoll_unsafe(nptr, endptr, base) strtoll((char*)(nptr), (char**)(endptr), base)
+
+#atscode_separator_for_C()
+
+\#define atslib_strtof0(nptr) atslib_strtof_unsafe(nptr, 0)
+\#define atslib_strtof1(nptr, endptr) atslib_strtof_unsafe(nptr, endptr)
+\#define atslib_strtof_unsafe(nptr, endptr) strtof((char*)(nptr), (char**)(endptr))
+
+#atscode_separator_for_C()
+
+\#define atslib_strtod0(nptr) atslib_strtod_unsafe(nptr, 0)
+\#define atslib_strtod1(nptr, endptr) atslib_strtod_unsafe(nptr, endptr)
+\#define atslib_strtod_unsafe(nptr, endptr) strtod((char*)(nptr), (char**)(endptr))
+
+#atscode_separator_for_C()
+
 \#define atslib_getenv getenv
 \#define atslib_putenv putenv
 \#define atslib_setenv setenv

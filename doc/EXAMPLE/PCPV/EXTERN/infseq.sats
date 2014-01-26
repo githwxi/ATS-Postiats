@@ -14,6 +14,7 @@ datasort infseq = (* abstract *)
 (* ****** ****** *)
 
 stacst infseq_nil : () -> infseq
+stacst infseq_sing : (stamp) -> infseq
 stacst infseq_cons : (stamp, infseq) -> infseq
 stacst infseq_head : infseq -> stamp
 stacst infseq_tail : infseq -> infseq
@@ -50,6 +51,18 @@ stacst infseq_drop
 
 stadef take = infseq_take
 stadef drop = infseq_drop
+
+(* ****** ****** *)
+//
+stacst
+infseq_insert : (infseq, int, stamp) -> infseq
+//
+stacst infseq_remove : (infseq, int) -> infseq
+//
+(* ****** ****** *)
+
+stadef insert = infseq_insert
+stadef remove = infseq_remove
 
 (* ****** ****** *)
 

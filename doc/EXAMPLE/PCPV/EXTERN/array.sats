@@ -15,53 +15,55 @@ abstype T(x:stamp)
 
 dataview
 array_v
-  (infseq, addr, int) =
-  | {xs:infseq}{l:addr}
-    array_v_nil (xs, l, 0) of ()
-  | {xs:infseq}{x:stamp}{l:addr}{n:int}
-    array_v_cons (cons (x, xs), l, n+1) of (T(x) @ l, array_v (xs, l+1, n))
+  (addr, infseq, int) =
+  | {l:addr}{xs:infseq}
+    array_v_nil (l, xs, 0) of ()
+  | {l:addr}{xs:infseq}{x:stamp}{n:int}
+    array_v_cons (l, cons (x, xs), n+1) of (T(x) @ l, array_v (l+1, xs, n))
 // end of [array_v]
 
 (* ****** ****** *)
 
 prfun
 array_v_split
-  {xs:infseq}{l:addr}
+  {l:addr}{xs:infseq}
   {n:int}{i:nat | i <= n}
 (
-  pf: array_v(xs, l, n), i: int (i)
+  pf: array_v(l, xs, n), i: int (i)
 ) : (
-  array_v (take(xs, i), l, i)
-, array_v (drop(xs, i), l+i, n-i)
+  array_v (l, take(xs, i), i)
+, array_v (l+i, drop(xs, i), n-i)
 ) (* end of [array_v_split] *)
 
 (* ****** ****** *)
 
 prfun
 array_v_unsplit
+  {l:addr}
   {xs1,xs2:infseq}
-  {l:addr}{n1,n2:int}
+  {n1,n2:int}
 (
-  pf1: array_v(xs1, l, n1)
-, pf2: array_v(xs2, l+n1, n2)
+  pf1: array_v(l, xs1, n1)
+, pf2: array_v(l+n1, xs2, n2)
 ) :
 (
-  array_v (append (xs1, n1, xs2, n2), l, n1+n2)
+  array_v (l, append (xs1, n1, xs2, n2), n1+n2)
 ) (* end of [array_v_unsplit] *)
 
 (* ****** ****** *)
 //
 fun array_get_at
-  {xs:infseq}{l:addr}
+  {l:addr}{xs:infseq}
   {n:int}{i:nat | i < n}
-  (pf: !array_v(xs, l, n) | p: ptr(l), i: int i) : T(select(xs, i))
+  (pf: !array_v(l, xs, n) | p: ptr(l), i: int i) : T(select(xs, i))
 // end of [array_get_at]
 //
 fun array_set_at
+  {l:addr}
   {xs:infseq}{x:stamp}
-  {l:addr}{n:int}{i:nat | i < n}
+  {n:int}{i:nat | i < n}
 (
-  pf: !array_v(xs, l, n) >> array_v (update (xs, i, x), l, n) | p: ptr(l), i: int i, x: T(x)
+  pf: !array_v(l, xs, n) >> array_v (l, update (xs, i, x), n) | p: ptr(l), i: int i, x: T(x)
 ) : void // end of [array_set_at]
 //
 (* ****** ****** *)

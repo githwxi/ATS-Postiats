@@ -171,6 +171,8 @@ srcget_share:: ; \\
 srcget_share:: ; \\
   $(CPF) ../../share/HATS/atspre_define_pkgreloc.hats $(ATSDIST)/share/HATS/
 srcget_share:: ; \\
+  $(CPF) ../../share/HATS/atslib_staload_libc.hats $(ATSDIST)/share/HATS/
+srcget_share:: ; \\
   $(CPF) ../../share/HATS/atspre_staload_libats_ML.hats $(ATSDIST)/share/HATS/
 srcget_share:: ; $(CPF) ../../share/atsmake-pre.mk $(ATSDIST)/share/
 srcget_share:: ; $(CPF) ../../share/atsmake-post.mk $(ATSDIST)/share/

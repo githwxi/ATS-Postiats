@@ -27,6 +27,8 @@ staload "./falcon_position.dats"
 staload "./falcon_tokener.dats"
 staload "./falcon_genes.dats"
 staload "./falcon_parser.dats"
+staload "./falcon_gmeanvar.dats"
+staload "./falcon_algorithm1.dats"
 
 (* ****** ****** *)
 
@@ -36,6 +38,8 @@ dynload "./falcon_position.dats"
 dynload "./falcon_tokener.dats"
 dynload "./falcon_genes.dats"
 dynload "./falcon_parser.dats"
+dynload "./falcon_gmeanvar.dats"
+dynload "./falcon_algorithm1.dats"
 
 (* ****** ****** *)
 

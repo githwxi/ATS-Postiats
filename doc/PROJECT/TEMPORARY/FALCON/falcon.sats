@@ -63,6 +63,7 @@ fun position_get_now (): position
 abstype gene_type = ptr
 typedef gene = gene_type
 typedef genelst = List0 (gene)
+vtypedef genelst_vt = List0_vt (gene)
 //
 fun
 fprint_gene: fprint_type (gene)
@@ -84,7 +85,11 @@ vtypedef genes = genes_vtype
 
 (* ****** ****** *)
 
-fun genes_union (xs: genes, ys: genes): genes
+fun genes_union (genes, genes): genes
+
+(* ****** ****** *)
+
+fun genes_listize1 (xs: !genes): genelst_vt
 
 (* ****** ****** *)
 

@@ -68,4 +68,9 @@ genes_union
 
 (* ****** ****** *)
 
+implement
+genes_listize1 (xs) = $LS.linset_listize1<gene> (xs)
+
+(* ****** ****** *)
+
 (* end of [falcon_genes.dats] *)

@@ -1,6 +1,6 @@
 (* ****** ****** *)
 //
-// array-indexed lists
+// infseq-indexed lists
 //
 (* ****** ****** *)
 

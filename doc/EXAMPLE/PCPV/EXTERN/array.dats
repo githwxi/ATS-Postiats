@@ -17,13 +17,13 @@ local
 
 prfun
 lemma
-  {xs:infseq}{l:addr}
+  {l:addr}{xs:infseq}
   {n:int}{i:nat | i <= n} .<i>.
 (
-  pf: array_v(xs, l, n), i: int (i)
+  pf: array_v(l, xs, n), i: int (i)
 ) : (
-  array_v (take(xs, i), l, i)
-, array_v (drop(xs, i), l+i, n-i)
+  array_v (l, take(xs, i), i)
+, array_v (l+i, drop(xs, i), n-i)
 ) = let
 in
 //
