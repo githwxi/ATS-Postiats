@@ -41,6 +41,7 @@ case+ xs of
 (* ****** ****** *)
 
 vtypedef grcnf = geneslst
+vtypedef grcnflst = List0_vt (grcnf)
 
 (* ****** ****** *)
 
@@ -60,6 +61,10 @@ extern
 fun
 fprint_grcnf (FILEref, !grcnf): void  
 
+extern
+fun
+fprint_grcnf_list_vt(FILEref, !grcnflst): void
+
 local
 //
 implement
@@ -72,12 +77,11 @@ implement
 fprint_grcnf (out, cnf) =
   fprint_list_vt_sep<genes> (out, cnf, "; ")
 //
+implement
+fprint_grcnf_list_vt (out, cnfs) = fprint_list_vt(out, cnfs)
+//
 end // end of [local]
   
-(* ****** ****** *)
-
-vtypedef grcnflst = List0_vt (grcnf)
-
 (* ****** ****** *)
 
 extern
@@ -85,6 +89,12 @@ fun
 grexp_cnfize (grexp: grexp): grcnf
 
 (* ****** ****** *)
+extern
+fun
+grexp_cnfize_list (gxs: grexplst): grcnflst
+
+(* ****** ****** *)
+
 //
 extern
 fun
@@ -220,6 +230,24 @@ case+ gx of
   end // end of [GRerror]
 //
 end // end of [grexp_cnfize]
+
+implement
+grexp_cnfize_list
+  (gxs) = let
+var cnfs = list_vt_nil()
+val i: int 0 = 0
+fun loop {i:nat} (gxs: grexplst, i: int i, cnfs: &grcnflst
+):void = case+ gxs of
+| list_cons (gx, gxs1) => let
+  val gx_cnf = grexp_cnfize(gx)
+  val () = list_vt_insert_at(cnfs, i, gx_cnf)
+  in loop(gxs1, i+1, cnfs) end // end of [list_cons]
+| list_nil () => ()
+// end of [loop]
+val () = loop(gxs, 0, cnfs)
+in // in of let
+  cnfs 
+end //end of grexp_cnfize_list
 
 (* ****** ****** *)
 
