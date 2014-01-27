@@ -30,7 +30,7 @@ list_vt_append
 fun loop
   {xs:stmsq}{m:nat} .<m>.
 (
-  xs: &list_vt (xs, m) >> list_vt (append(xs,m,ys,n), m+n), ys: list_vt (ys,n)
+  xs: &list_vt (xs, m) >> list_vt (append(xs,m,ys,n), m+n), ys:  list_vt (ys, n)
 ) :<!wrt> void = let
 in
 //

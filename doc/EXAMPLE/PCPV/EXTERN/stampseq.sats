@@ -40,6 +40,12 @@ stadef select = stampseq_get_at
 stadef update = stampseq_set_at
 //
 (* ****** ****** *)
+//
+stacst stampseq_swap_at : (stampseq, int, int) -> stampseq
+//
+stadef swap_at = stampseq_swap_at
+//
+(* ****** ****** *)
 
 stacst stampseq_equaln
   : (stampseq, stampseq, int) -> bool
