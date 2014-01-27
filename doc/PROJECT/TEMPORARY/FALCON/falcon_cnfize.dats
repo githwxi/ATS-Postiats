@@ -71,7 +71,7 @@ grexp_cnfize (grexp: grexp): grcnf
 (* ****** ****** *)
 extern
 fun
-grexp_cnfize_list (gxs: grexplst): grcnflst
+grexplst_cnfize_list_vt {n:pos} (gxs: list(grexp, n)): grcnflst
 
 (* ****** ****** *)
 
@@ -212,22 +212,26 @@ case+ gx of
 end // end of [grexp_cnfize]
 
 implement
-grexp_cnfize_list
-  (gxs) = let
+grexplst_cnfize_list_vt
+  {n} (gxs) = let
 var cnfs = list_vt_nil()
-val i: int 0 = 0
-fun loop {i:nat} (gxs: grexplst, i: int i, cnfs: &grcnflst
-):void = case+ gxs of
+//
+fun loop {i:nat|i<n} 
+(gxs: list(grexp, n), i: int i,
+cnfs: &list_vt(INV(grcnf), i) >> list_vt(grcnf, i+1)
+): void = case+ gxs of
 | list_cons (gx, gxs1) => let
   val gx_cnf = grexp_cnfize(gx)
   val () = list_vt_insert_at(cnfs, i, gx_cnf)
-  in loop(gxs1, i+1, cnfs) end // end of [list_cons]
-| list_nil () => ()
+in
+  loop(gxs1, i+1, cnfs) 
+end // end of [list_cons]
+| list_nil () => () //shouldn't be reached
 // end of [loop]
 val () = loop(gxs, 0, cnfs)
 in // in of let
   cnfs 
-end //end of grexp_cnfize_list
+end //end of grexplst_cnfize_list_vt
 
 (* ****** ****** *)
 
