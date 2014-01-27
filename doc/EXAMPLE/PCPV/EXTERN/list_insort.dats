@@ -40,13 +40,13 @@ case+ xs of
       then
         #[0 | list_cons (x0, xs)]
       else let
-        val [i:int] ys = insord (x0, xs1)
+        val [i:int] ys1 = insord (x0, xs1)
       in
-        #[i+1 | list_cons (x, ys)]
-      end
+        #[i+1 | list_cons (x, ys1)]
+      end // end of [if]
     // end of [if]
   )
-)
+) (* end of [insort] *)
 
 (* ****** ****** *)
 
@@ -61,7 +61,7 @@ sort (xs) =
 case+ xs of
 | list_nil () => list_nil ()
 | list_cons (x, xs1) => insord (x, sort(xs1))
-)
+) (* end of [sort] *)
 
 (* ****** ****** *)
 

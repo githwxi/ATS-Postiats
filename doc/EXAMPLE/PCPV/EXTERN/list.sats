@@ -15,7 +15,7 @@ abstype T(x:stamp)
 //
 datatype
 list (stmsq, int) =
-  | {xs:stmsq} list_nil (xs, 0)
+  | list_nil (nil, 0)
   | {xs:stmsq}{x:stamp}{n:nat}
     list_cons (cons (x, xs), n+1) of (T(x), list (xs, n))
 //

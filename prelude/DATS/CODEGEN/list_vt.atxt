@@ -570,9 +570,12 @@ list_vt_concat
 viewtypedef VT = List_vt (a)
 viewtypedef VT0 = List0_vt (a)
 //
-fun loop {n:nat} .<n>. (
+fun loop
+  {n:nat} .<n>.
+(
   res: VT, xss: list_vt (VT, n)
-) :<!wrt> VT0 =
+) :<!wrt> VT0 = let
+in
   case+ xss of
   | ~list_vt_cons
       (xs, xss) => let
@@ -583,7 +586,8 @@ fun loop {n:nat} .<n>. (
   | ~list_vt_nil () => let
       prval () = lemma_list_vt_param (res) in res
     end // end of [list_vt_nil]
-// end of [loop]
+end (* end of [loop] *)
+//
 val xss = list_vt_reverse (xss)
 //
 prval () = lemma_list_vt_param (xss)
