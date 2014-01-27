@@ -73,6 +73,12 @@ lemma_subcls_transitive
 //
 (* ****** ****** *)
 
+praxi praxi_int{i:int} ((*void*)): int (i)
+praxi praxi_bool{b:bool} ((*void*)): bool (b)
+praxi praxi_ptr{l:addr} ((*void*)): ptr (l)
+
+(* ****** ****** *)
+
 dataprop
 EQINT (int, int) = {x:int} EQINT (x, x)
 //

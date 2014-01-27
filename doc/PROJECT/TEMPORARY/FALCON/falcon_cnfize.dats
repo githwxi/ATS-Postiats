@@ -15,29 +15,9 @@ staload "./falcon.sats"
   
 (* ****** ****** *)
 
+staload "./falcon_genes.dats"
 staload "./falcon_parser.dats"
 
-(* ****** ****** *)
-
-vtypedef
-geneslst = List0_vt (genes)
-
-(* ****** ****** *)
-//
-extern
-fun
-geneslst_free (geneslst): void
-//
-implement
-geneslst_free (xs) =
-(
-case+ xs of
-| ~list_vt_nil () => ()
-| ~list_vt_cons (x, xs) => let
-    val () = genes_free (x) in geneslst_free (xs)
-  end // end of [list_vt_cons]
-)
-//
 (* ****** ****** *)
 
 vtypedef grcnf = geneslst
@@ -53,7 +33,7 @@ grcnf_free (xs) =
 case+ xs of
 | ~list_vt_nil () => ()
 | ~list_vt_cons (x, xs) => (genes_free (x); grcnf_free (xs))
-)
+) (* end of [grcnf_free] *)
 
 (* ****** ****** *)
 

@@ -12,6 +12,36 @@ staload "./stampseq.sats"
 abstype T(x:stamp)
 //
 (* ****** ****** *)
+//
+fun lt_T_T
+  {x1,x2:stamp} (T(x1), T(x2)): bool (x1 < x2)
+fun lte_T_T
+  {x1,x2:stamp} (T(x1), T(x2)): bool (x1 <= x2)
+fun gt_T_T
+  {x1,x2:stamp} (T(x1), T(x2)): bool (x1 > x2)
+fun gte_T_T
+  {x1,x2:stamp} (T(x1), T(x2)): bool (x1 >= x2)
+fun compare_T_T
+  {x1,x2:stamp} (T(x1), T(x2)): int (sgn(x1-x2))
+//
+overload < with lt_T_T
+overload <= with lte_T_T
+overload > with gt_T_T
+overload >= with gte_T_T
+//
+overload compare with compare_T_T
+//
+(* ****** ****** *)
+//
+fun add_ptr_int
+  {l:addr}{i:int} (ptr l, int i):<> ptr (l+i)
+fun sub_ptr_int
+  {l:addr}{i:int} (ptr l, int i):<> ptr (l-i)
+//
+overload + with add_ptr_int
+overload - with sub_ptr_int
+//
+(* ****** ****** *)
 
 dataview
 array_v
@@ -51,6 +81,22 @@ array_v_unsplit
 ) (* end of [array_v_unsplit] *)
 
 (* ****** ****** *)
+
+fun array_ptrget
+  {l:addr}{xs:stmsq}
+  {n:int}{i:nat | i < n}
+  (pf: !array_v(l, xs, n) | p: ptr(l+i)) : T(select(xs, i))
+// end of [array_ptrget
+
+fun array_ptrset
+  {l:addr}
+  {xs:stmsq}{x:stamp}
+  {n:int}{i:nat | i < n}
+(
+  pf: !array_v(l, xs, n) >> array_v (l, update (xs, i, x), n) | p: ptr(l+i), x: T(x)
+) : void // end of [array_ptrset]
+
+(* ****** ****** *)
 //
 fun array_get_at
   {l:addr}{xs:stmsq}
@@ -63,9 +109,19 @@ fun array_set_at
   {xs:stmsq}{x:stamp}
   {n:int}{i:nat | i < n}
 (
-  pf: !array_v(l, xs, n) >> array_v (l, update (xs, i, x), n) | p: ptr(l), i: int i, x: T(x)
+  pf: !array_v(l, xs, n) >> array_v (l, update(xs, i, x), n) | p: ptr(l), i: int i, x: T(x)
 ) : void // end of [array_set_at]
 //
+(* ****** ****** *)
+
+fun array_ptrswap
+  {l:addr}
+  {xs:stmsq}{x:stamp}
+  {n:int}{i,j:nat | i < n}
+(
+  pf: !array_v(l, xs, n) >> array_v (l, swap_at(xs, i, j), n) | p1: ptr(l+i), p2: ptr(l+j)
+) : void // end of [array_ptrswap
+
 (* ****** ****** *)
 
 (* end of [array.sats] *)
