@@ -29,7 +29,7 @@ gene_make_symbol (x) = x
 
 implement
 fprint_gene
-  (out, gn) = fprint_symbol (out, gn)
+  (out, gn) = fprint_string (out, gn.name)
 // end of [fprint_gene]
 
 implement
@@ -118,6 +118,27 @@ fprint_genes (out, xs) =
 
 end // end of [local]
 
+(* ****** ****** *)
+
+vtypedef
+geneslst = List0_vt (genes)
+
+(* ****** ****** *)
+//
+extern
+fun
+geneslst_free (geneslst): void
+//
+implement
+geneslst_free (xs) =
+(
+case+ xs of
+| ~list_vt_nil () => ()
+| ~list_vt_cons (x, xs) => let
+    val () = genes_free (x) in geneslst_free (xs)
+  end // end of [list_vt_cons]
+)
+//
 (* ****** ****** *)
 
 (* end of [falcon_genes.dats] *)
