@@ -11,6 +11,7 @@ SOURCES_DATS += falcon_position.dats
 SOURCES_DATS += falcon_tokener.dats
 SOURCES_DATS += falcon_genes.dats
 SOURCES_DATS += falcon_parser.dats
+SOURCES_DATS += falcon_cnfize.dats
 SOURCES_DATS += falcon_gmeanvar.dats
 SOURCES_DATS += falcon_algorithm1.dats
 SOURCES_DATS += falcon_mylib.dats

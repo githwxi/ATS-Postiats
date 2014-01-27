@@ -1013,8 +1013,9 @@ var res: ptr ; val () = loop (xs, 0, res)
 
 #atscode_separator()
 
-implement{x}{y}
-list_map {n} (xs) = let
+implement
+{x}{y}(*tmp*)
+list_map{n}(xs) = let
 //
 prval () = lemma_list_param (xs)
 //

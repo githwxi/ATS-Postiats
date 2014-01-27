@@ -184,6 +184,13 @@ linset_listize1 (xs: !set(INV(a))):<!wrt> List0_vt (a)
 (* ****** ****** *)
 
 fun{a:t0p}
+fprint_linset_sep
+  (out: FILEref, xs: !set(INV(a)), sep: string): void
+// end of [fprint_linset_sep]
+
+(* ****** ****** *)
+
+fun{a:t0p}
 linset_foreach_funenv
   {v:view}{vt:viewtype}
 (

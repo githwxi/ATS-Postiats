@@ -430,6 +430,13 @@ end // end of [linset_union]
 (* ****** ****** *)
 
 implement{a}
+fprint_linset_sep
+  (out, xs, sep) = fprint_list_vt_sep (out, xs, sep)
+// end of [fprint_linset_sep]
+
+(* ****** ****** *)
+
+implement{a}
 linset_foreach_funenv
   {v}{vt}(pf | xs, f, env) = let
 //

@@ -10,7 +10,17 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
+//
+staload
+"{$LIBATSHWXI}/cstream/SATS/cstream.sats"
+staload
+"{$LIBATSHWXI}/cstream/SATS/cstream_tokener.sats"
+//
+staload _ = "libats/DATS/stringbuf.dats"
+staload _ = "{$LIBATSHWXI}/cstream/DATS/cstream_tokener.dats"
+//
+(* ****** ****** *)
+  
 staload "./falcon.sats"
   
 (* ****** ****** *)
@@ -404,12 +414,43 @@ end // end of [parse_grexplst]
 (* ****** ****** *)
 //
 extern
-fun parse_main
-  (!tokener2): grexplst
+fun parse_fileref (inp: FILEref): grexplst
 //
 implement
-parse_main (t2knr) = parse_grexplst (t2knr)
+parse_fileref
+  (inp) = gxs where
+{
 //
+val cs0 = cstream_make_fileref (inp)
+val tknr = tokener_make_cstream (cs0)
+val t2knr = tokener2_make_tokener (tknr)
+//
+val gxs = parse_grexplst (t2knr)
+//
+val ((*freed*)) = tokener2_free (t2knr)
+//
+} // end of [parse_fileref]
+
+(* ****** ****** *)
+//
+extern
+fun parse_string (inp: string): grexplst
+//
+implement
+parse_string
+  (inp) = gxs where
+{
+//
+val cs0 = cstream_make_string (inp)
+val tknr = tokener_make_cstream (cs0)
+val t2knr = tokener2_make_tokener (tknr)
+//
+val gxs = parse_grexplst (t2knr)
+//
+val ((*freed*)) = tokener2_free (t2knr)
+//
+} // end of [parse_string]
+
 (* ****** ****** *)
 
 (* end of [falcon_parser.dats] *)

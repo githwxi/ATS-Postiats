@@ -90,11 +90,24 @@ vtypedef genes = genes_vtype
 
 (* ****** ****** *)
 
+fun genes_sing (gene): genes
+
+(* ****** ****** *)
+
+fun genes_free (genes): void
+fun genes_copy (!genes): genes
+
+(* ****** ****** *)
+
 fun genes_union (genes, genes): genes
 
 (* ****** ****** *)
 
 fun genes_listize1 (xs: !genes): genelst_vt
+
+(* ****** ****** *)
+
+fun fprint_genes (FILEref, !genes): void
 
 (* ****** ****** *)
 //

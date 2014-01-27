@@ -73,6 +73,19 @@ implement
 $LS.compare_elt_elt<gene> (x1, x2, _) = compare (x1, x2)
 
 (* ****** ****** *)
+//
+implement
+genes_sing (gn) =
+  $LS.linset_make_sing<gene> (gn)
+//
+(* ****** ****** *)
+
+implement
+genes_free (xs) = $LS.linset_free<gene> (xs)
+implement
+genes_copy (xs) = $LS.linset_copy<gene> (xs)
+
+(* ****** ****** *)
 
 implement
 genes_union
@@ -84,6 +97,26 @@ genes_union
 
 implement
 genes_listize1 (xs) = $LS.linset_listize1<gene> (xs)
+
+(* ****** ****** *)
+
+local
+//
+implement
+fprint_val<gene> = fprint_gene
+//
+in (*in-of-local*)
+
+implement
+fprint_genes (out, xs) =
+{
+  val xs = genes_listize1 (xs)
+  val xs = list_vt_reverse (xs)
+  val () = fprint_list_vt_sep (out, xs, ", ")
+  val ((*void*)) = list_vt_free (xs)
+}
+
+end // end of [local]
 
 (* ****** ****** *)
 
