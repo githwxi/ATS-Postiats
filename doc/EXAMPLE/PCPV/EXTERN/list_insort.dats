@@ -24,7 +24,7 @@ fun insord
   {xs:stmsq}{n:nat}
 (
   x0: T(x0), xs: listord (xs, n)
-) : [i:int] listord (insert(xs, i, x0), n+1)
+) : [i:nat] listord (insert(xs, i, x0), n+1)
 //
 (* ****** ****** *)
 

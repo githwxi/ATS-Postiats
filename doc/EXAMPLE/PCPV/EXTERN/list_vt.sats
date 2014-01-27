@@ -33,31 +33,25 @@ overload compare with compare_T_T
 //
 (* ****** ****** *)
 //
-datatype
-list (stmsq, int) =
-  | list_nil (nil, 0)
+datavtype
+list_vt (stmsq, int) =
+  | list_vt_nil (nil, 0)
   | {xs:stmsq}{x:stamp}{n:nat}
-    list_cons (cons (x, xs), n+1) of (T(x), list (xs, n))
+    list_vt_cons (cons (x, xs), n+1) of (T(x), list_vt (xs, n))
 //
 (* ****** ****** *)
 
-fun list_nth
+fun list_vt_nth
   {xs:stmsq}{n:int}{i:nat | i < n}
-  (xs: list (xs, n), i: int (i)): T (select(xs, i))
-// end of [list_nth]
+  (xs: !list_vt (xs, n), i: int (i)): T (select(xs, i))
+// end of [list_vt_nth]
 
 (* ****** ****** *)
 
-fun list_append
+fun list_vt_append
   {xs,ys:stmsq}{m,n:nat}
-  (list (xs, m), list (ys, n)) : list (append(xs, m, ys, n), m+n)
+  (list_vt (xs, m), list_vt (ys, n)) : list_vt (append(xs, m, ys, n), m+n)
 
 (* ****** ****** *)
 
-fun list_revapp
-  {xs,ys:stmsq}{m,n:nat}
-  (list (xs, m), list (ys, n)) : list (revapp(xs, m, ys, n), m+n)
-
-(* ****** ****** *)
-
-(* end of [list.sats] *)
+(* end of [list_vt.sats] *)
