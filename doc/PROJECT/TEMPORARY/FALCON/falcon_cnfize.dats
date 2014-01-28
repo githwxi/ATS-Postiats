@@ -38,6 +38,18 @@ case+ xs of
 (* ****** ****** *)
 
 extern
+fun grcnflst_free (grcnflst): void
+implement
+grcnflst_free (xs) =
+(
+case+ xs of
+| ~list_vt_nil () => ()
+| ~list_vt_cons (x, xs) => (grcnf_free (x); grcnflst_free (xs))
+) (* end of [grcnflst_free] *)
+
+(* ****** ****** *)
+
+extern
 fun
 fprint_grcnf (FILEref, !grcnf): void  
 extern

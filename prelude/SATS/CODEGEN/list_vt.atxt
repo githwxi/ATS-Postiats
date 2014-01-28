@@ -95,6 +95,13 @@ list_vt_cast
   list_vt_cons(x1, list_vt_cons (x2, list_vt_nil()))
 
 #atscode_separator()
+
+fun{x:vt0p}
+list_vt_make_sing (x: x):<!wrt> list_vt (x, 1)
+fun{x:vt0p}
+list_vt_make_pair (x1: x, x2: x):<!wrt> list_vt (x, 2)
+
+#atscode_separator()
 //
 fun{x:vt0p}
 print_list_vt (xs: !List_vt (INV(x))): void

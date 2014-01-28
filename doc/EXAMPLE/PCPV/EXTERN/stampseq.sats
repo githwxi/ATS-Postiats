@@ -27,6 +27,7 @@ stacst stampseq_tail : stampseq -> stampseq
 (* ****** ****** *)
 
 stadef nil = stampseq_nil
+stadef sing = stampseq_sing
 stadef cons = stampseq_cons
 stadef tail = stampseq_tail
 stadef head = stampseq_head

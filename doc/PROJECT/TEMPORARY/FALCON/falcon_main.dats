@@ -124,6 +124,10 @@ val gxall = GRdisj($list{grexp}(gx12, gx345))
 val grcnf = grexp_cnfize (gxall)
 //
 //
+val () = fprint (out, "grexp = ")
+val () = fprint_grexp (out, gxall)
+val () = fprint_newline (out)
+//
 val () = fprint (out, "grcnf = ")
 val () = fprint_grcnf (out, grcnf)
 val () = fprint_newline (out)
