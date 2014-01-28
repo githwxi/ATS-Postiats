@@ -94,7 +94,7 @@ fun genes_sing (gene): genes
 
 (* ****** ****** *)
 
-fun genes_free (genes): void
+fun genes_free (genes):<!wrt> void
 fun genes_copy (!genes): genes
 
 (* ****** ****** *)

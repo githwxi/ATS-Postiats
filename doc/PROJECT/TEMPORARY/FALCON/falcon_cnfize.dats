@@ -11,8 +11,13 @@
 //
 (* ****** ****** *)
 
-staload "./falcon.sats"
+staload "prelude/SATS/list_vt.sats"
+staload _ = "prelude/DATS/list_vt.dats"
   
+(* ****** ****** *)
+
+staload "./falcon.sats"
+
 (* ****** ****** *)
 
 staload "./falcon_genes.dats"
@@ -26,7 +31,7 @@ vtypedef grcnflst = List0_vt (grcnf)
 (* ****** ****** *)
 
 extern
-fun grcnf_free (grcnf): void
+fun grcnf_free (grcnf):<!wrt> void
 implement
 grcnf_free (xs) =
 (
@@ -34,6 +39,20 @@ case+ xs of
 | ~list_vt_nil () => ()
 | ~list_vt_cons (x, xs) => (genes_free (x); grcnf_free (xs))
 ) (* end of [grcnf_free] *)
+
+(* ****** ****** *)
+
+extern
+fun grcnflst_free (grcnflst): void
+local
+//
+implement
+list_vt_freelin$clear<grcnf> (x) = grcnf_free(x)
+in(*in-of-local*)
+implement
+grcnflst_free (x) = list_vt_freelin<grcnf> (x)
+//
+end // end of [local]
 
 (* ****** ****** *)
 

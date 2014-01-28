@@ -94,7 +94,7 @@ val () = print_newline ((*void*))
 *)
 
 (* ****** ****** *)
-  
+(*  
 implement
 main0 () =
 {
@@ -132,7 +132,52 @@ val () = fprintln! (out, "|grcnf| = ", length(grcnf))
 val ((*void*)) = grcnf_free (grcnf)
 //
 } (* end of [main0] *)
+*)
 
 (* ****** ****** *)
+
+implement
+main0 () =
+{
+//
+val (
+) = println! ("Hello from [FALCON]!")
+//
+val out = stdout_ref
+//
+val opt =
+fileref_open_opt ("./DATA/rec2.grRulesLop", file_mode_r)
+val-~Some_vt(inp) = opt
+//
+val () =
+println! ("the_symtbl_count(bef) = ", the_symtbl_count ())
+//
+val gxs =
+  parse_fileref (inp)
+//
+val () = fileref_close (inp)
+//
+val () = fprint! (out, "gxs =\n")
+val () = fprint_list_sep (out, gxs, "\n")
+val () = fprint_newline (out)
+val () = fprintln! (out, "|gxs| = ", list_length(gxs))
+//
+val () =
+println! ("the_symtbl_count(aft) = ", the_symtbl_count ())
+//
+val () = print ("pos(final) = ")
+val () = fprint_the_position (out)
+val () = print_newline ((*void*))
+//
+val cnfs = grexplst_cnfize (gxs)
+//
+val () = fprint (out, "grcnflst = ")
+val () = fprint_grcnflst (out, cnfs)
+val () = fprint_newline (out)
+//val () = fprintln! (out, "|cnfs| = ", length(cnfs))
+//
+val ((*void*)) = grcnflst_free (cnfs)
+} (* end of [main0] *)
+
 
 (* end of [falcon_main.dats] *)
