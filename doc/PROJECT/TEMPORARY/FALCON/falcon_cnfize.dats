@@ -71,7 +71,7 @@ grexp_cnfize (grexp: grexp): grcnf
 (* ****** ****** *)
 extern
 fun
-grexplst_cnfize_list_vt {n:pos} (gxs: list(grexp, n)): grcnflst
+grexplst_cnfize_list_vt {n:pos} (gxs: list(grexp, n), n: int n): grcnflst
 
 (* ****** ****** *)
 
@@ -213,22 +213,27 @@ end // end of [grexp_cnfize]
 
 implement
 grexplst_cnfize_list_vt
-  {n} (gxs) = let
-var cnfs = list_vt_nil()
+  {n} (gxs, n) = let
+var cnfs:list_vt(grcnf, 0) = list_vt_nil()
 //
-fun loop {i:nat | i < n} .<n-i>.
-(gxs: list(grexp, n-i), i: int i,
+fun loop {i:nat | i < n} .<n-i-1>.
+(gxs: list(grexp, n-i), i: int i, n: int n,
 cnfs: &list_vt(INV(grcnf), i) >> list_vt(grcnf, i+1)
 ): void = case+ gxs of
 | list_cons (gx, gxs1) => let
   val gx_cnf = grexp_cnfize(gx)
   val () = list_vt_insert_at(cnfs, i, gx_cnf)
+  val ipp = i + 1
+  val ipp = ckastloc_gintLt (ipp, n)
 in
-  loop(gxs1, i+1, cnfs) 
+if ipp < n then
+  loop(gxs1, ipp, n, cnfs) 
+else
+  ()
 end // end of [list_cons]
-| list_nil () => () //shouldn't be reached
+| list_nil () => () 
 // end of [loop]
-val () = loop(gxs, 0, cnfs)
+val () = loop(gxs, 0, n, cnfs)
 in // in of let
   cnfs 
 end //end of grexplst_cnfize_list_vt
