@@ -216,8 +216,8 @@ grexplst_cnfize_list_vt
   {n} (gxs) = let
 var cnfs = list_vt_nil()
 //
-fun loop {i:nat|i<n} 
-(gxs: list(grexp, n), i: int i,
+fun loop {i:nat | i < n} .<n-i>.
+(gxs: list(grexp, n-i), i: int i,
 cnfs: &list_vt(INV(grcnf), i) >> list_vt(grcnf, i+1)
 ): void = case+ gxs of
 | list_cons (gx, gxs1) => let
