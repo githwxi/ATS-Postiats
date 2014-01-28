@@ -30,5 +30,6 @@ PATS2XHTML=$(PATSHOME)/bin/pats2xhtml
 cleanall:: ; $(RMF) *_?ats.c
 #
 cleanall:: ; $(RMF) falcon
+cleanall:: ; $(RMF) MYPORTDIR/*
 #
 ###### end of [Makefile] ######

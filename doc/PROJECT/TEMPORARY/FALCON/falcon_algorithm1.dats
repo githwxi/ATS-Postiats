@@ -79,22 +79,22 @@ end // end of [genelst_min]
 (* ****** ****** *)
 
 extern
-fun genes_sum_var
+fun genes_meanvar
   (xs: !genes, emap: GDMap, smap: GDMap): (double, double)
-// end of [genelst_sum_var]
+// end of [genelst_meanvar]
 
 implement
-genes_sum_var
+genes_meanvar
   (xs, emap, smap) = let
 //
 fun loop
 (
   xs: genelst_vt
-, miss: &int >> _, csum: &double >> _, cvar: &double >> _
-) : void =
+, miss: int, csum: &double >> _, cvar: &double >> _
+) : int(*miss*) =
 (
 case+ xs of
-| ~list_vt_nil () => ()
+| ~list_vt_nil () => miss
 | ~list_vt_cons (x, xs) => let
 //
     var okay: bool = false
@@ -134,25 +134,27 @@ case+ xs of
     end // end of [if] // end of [val]
 //
   in
-    loop (xs, miss, csum, cvar)
+    if okay
+      then loop (xs, miss, csum, cvar)
+      else loop (xs, miss+1, csum, cvar)
+    // end of [if]
   end // end of [list_vt_cons]
 )
 //
-var miss: int = 0
 var csum: double = 0.0
 var cvar: double = 0.0
 //
 val xs = genes_listize1 (xs)
 val nxs = list_vt_length (xs)
+val miss = loop (xs, 0(*miss*), csum, cvar)
 val nxs2 = nxs - miss
-val () = loop (xs, miss, csum, cvar)
 //
 in
 //
 if nxs2 > 0
   then (nxs*(csum/nxs2), cvar) else (0.0, 0.0)
 // end of [if]
-end // end of [genes_sum_var]
+end // end of [genes_meanvar]
 
 (* ****** ****** *)
 
