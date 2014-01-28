@@ -21,6 +21,7 @@ staload "./falcon_parser.dats"
 (* ****** ****** *)
 
 vtypedef grcnf = geneslst
+vtypedef grcnflst = List0_vt (grcnf)
 
 (* ****** ****** *)
 
@@ -40,6 +41,10 @@ extern
 fun
 fprint_grcnf (FILEref, !grcnf): void  
 
+extern
+fun
+fprint_grcnf_list_vt(FILEref, !grcnflst): void
+
 local
 //
 implement
@@ -52,12 +57,11 @@ implement
 fprint_grcnf (out, cnf) =
   fprint_list_vt_sep<genes> (out, cnf, "; ")
 //
+implement
+fprint_grcnf_list_vt (out, cnfs) = fprint_list_vt(out, cnfs)
+//
 end // end of [local]
   
-(* ****** ****** *)
-
-vtypedef grcnflst = List0_vt (grcnf)
-
 (* ****** ****** *)
 
 extern
@@ -65,6 +69,12 @@ fun
 grexp_cnfize (grexp: grexp): grcnf
 
 (* ****** ****** *)
+extern
+fun
+grexplst_cnfize_list_vt {n:pos} (gxs: list(grexp, n), n: int n): grcnflst
+
+(* ****** ****** *)
+
 //
 extern
 fun
@@ -200,6 +210,33 @@ case+ gx of
   end // end of [GRerror]
 //
 end // end of [grexp_cnfize]
+
+implement
+grexplst_cnfize_list_vt
+  {n} (gxs, n) = let
+var cnfs:list_vt(grcnf, 0) = list_vt_nil()
+//
+fun loop {i:nat | i < n} .<n-i-1>.
+(gxs: list(grexp, n-i), i: int i, n: int n,
+cnfs: &list_vt(INV(grcnf), i) >> list_vt(grcnf, i+1)
+): void = case+ gxs of
+| list_cons (gx, gxs1) => let
+  val gx_cnf = grexp_cnfize(gx)
+  val () = list_vt_insert_at(cnfs, i, gx_cnf)
+  val ipp = i + 1
+  val ipp = ckastloc_gintLt (ipp, n)
+in
+if ipp < n then
+  loop(gxs1, ipp, n, cnfs) 
+else
+  ()
+end // end of [list_cons]
+| list_nil () => () 
+// end of [loop]
+val () = loop(gxs, 0, n, cnfs)
+in // in of let
+  cnfs 
+end //end of grexplst_cnfize_list_vt
 
 (* ****** ****** *)
 
