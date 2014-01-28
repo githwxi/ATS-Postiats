@@ -21,6 +21,7 @@ staload "./falcon_parser.dats"
 (* ****** ****** *)
 
 vtypedef grcnf = geneslst
+vtypedef grcnflst = List0_vt (grcnf)
 
 (* ****** ****** *)
 
@@ -39,6 +40,11 @@ case+ xs of
 extern
 fun
 fprint_grcnf (FILEref, !grcnf): void  
+extern
+fun
+fprint_grcnflst (FILEref, !grcnflst): void  
+
+(* ****** ****** *)
 
 local
 //
@@ -56,13 +62,30 @@ end // end of [local]
   
 (* ****** ****** *)
 
-vtypedef grcnflst = List0_vt (grcnf)
+implement
+fprint_grcnflst
+  (out, cnfs) =
+(
+case+ cnfs of
+| list_vt_cons
+    (cnf, cnfs) =>
+  (
+    fprint_grcnf (out, cnf);
+    fprint_newline (out) ;
+    fprint_grcnflst (out, cnfs);
+  )
+| list_vt_nil () => ()
+) (* end of [fprint_grcnflst] *)
 
 (* ****** ****** *)
 
 extern
 fun
-grexp_cnfize (grexp: grexp): grcnf
+grexp_cnfize (gx: grexp): grcnf
+
+extern
+fun
+grexplst_cnfize (gxs: grexplst): grcnflst
 
 (* ****** ****** *)
 //
@@ -201,6 +224,12 @@ case+ gx of
 //
 end // end of [grexp_cnfize]
 
+(* ****** ****** *)
+//
+implement
+grexplst_cnfize (gxs) =
+  list_map_fun<grexp><grcnf> (gxs, grexp_cnfize)
+//
 (* ****** ****** *)
 
 (* end of [falcon_cnfize.dats] *)
