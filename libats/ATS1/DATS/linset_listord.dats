@@ -163,6 +163,13 @@ end // end of [linset_is_subset]
 (* ****** ****** *)
 
 implement{a}
+linset_is_supset
+  (xs1, xs2, cmp) = linset_is_subset<a> (xs2, xs1, cmp)
+// end of [linset_is_supset]
+
+(* ****** ****** *)
+
+implement{a}
 linset_is_equal
   (xs1, xs2, cmp) = let
 //

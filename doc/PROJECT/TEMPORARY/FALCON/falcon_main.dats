@@ -117,9 +117,9 @@ val gx4 = GRgene(g4)
 val gx5 = GRgene(g5)
 //
 val gx12 = GRconj($list{grexp}(gx1, gx2))
-val gx345 = GRconj($list{grexp}(gx3, gx4, gx5))
+val gx1345 = GRconj($list{grexp}(gx1, gx3, gx4, gx5))
 //
-val gxall = GRdisj($list{grexp}(gx12, gx345)) 
+val gxall = GRdisj($list{grexp}(gx12, gx1345)) 
 //
 val grcnf = grexp_cnfize (gxall)
 //

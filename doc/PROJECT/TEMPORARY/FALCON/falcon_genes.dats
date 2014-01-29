@@ -96,6 +96,17 @@ genes_union
 (* ****** ****** *)
 
 implement
+lte_genes_genes
+  (gns1, gns2) =
+  $LS.linset_is_subset (gns1, gns2, $UN.cast{$LS.cmp(gene)}(0))
+implement
+gte_genes_genes
+  (gns1, gns2) =
+  $LS.linset_is_supset (gns1, gns2, $UN.cast{$LS.cmp(gene)}(0))
+
+(* ****** ****** *)
+
+implement
 genes_listize1 (xs) = $LS.linset_listize1<gene> (xs)
 
 (* ****** ****** *)

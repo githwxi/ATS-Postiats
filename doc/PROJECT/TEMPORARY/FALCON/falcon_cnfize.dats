@@ -90,15 +90,23 @@ case+ cnfs of
 ) (* end of [fprint_grcnflst] *)
 
 (* ****** ****** *)
-
+//
 extern
 fun
 grexp_cnfize (gx: grexp): grcnf
-
 extern
 fun
 grexplst_cnfize (gxs: grexplst): grcnflst
-
+//
+(* ****** ****** *)
+//
+extern
+fun geneslst_cons
+  (gn: genes, gns: geneslst): geneslst
+extern
+fun geneslst_append
+  (gns1: geneslst, gns2: geneslst): geneslst
+//
 (* ****** ****** *)
 //
 extern
@@ -119,7 +127,7 @@ case+ cnfs of
 | ~list_vt_nil () => res
 | ~list_vt_cons
     (cnf, cnfs) => let
-    val res = list_vt_append(cnf, res)
+    val res = geneslst_append (cnf, res)
   in
     loop (cnfs, res)
   end (* end of [cons] *)
@@ -158,7 +166,7 @@ case+ ys of
     val xy = genes_union (x2, y2)
     val xys = aux (x, ys)
   in
-    list_vt_cons{genes}(xy, xys)
+    geneslst_cons (xy, xys)
   end // end of [val]
 | list_vt_nil () => list_vt_nil ()
 //
@@ -176,7 +184,7 @@ case+ xs of
     case+ xs of
     | list_vt_nil () => aux (x, ys)
     | list_vt_cons _ =>
-        list_vt_append (aux (x, ys), auxlst (xs, ys))
+        geneslst_append (aux (x, ys), auxlst (xs, ys))
       // end of [list_vt_cons]
   )
 //
@@ -202,6 +210,114 @@ case- cnfs of
   end // end of [list_cons]
 //
 end // end of [grcnf_disj]
+
+(* ****** ****** *)
+
+local
+
+fun auxsup
+(
+  gn1: !genes, gns2: !geneslst
+) : bool =
+(
+  case+ gns2 of
+  | list_vt_nil () => false
+  | list_vt_cons (gn2, gns2) =>
+      if gte_genes_genes (gn1, gn2) then true else auxsup (gn1, gns2)
+    // end of [list_vt_cons]
+) (* auxsup *)
+//
+fun auxsub
+(
+  gn1: !genes, gns2: &geneslst >> _
+) : void =
+(
+  case+ gns2 of
+  |  list_vt_nil () => ()
+  | @list_vt_cons
+      (gn2, gns21) => let
+      val issub = lte_genes_genes (gn1, gn2)
+    in
+      if issub then let
+        val () = genes_free (gn2)
+        val gns21_ = gns21
+        val ((*void*)) = free@{..}{0}(gns2)
+        val ((*void*)) = gns2 := gns21_
+      in
+        auxsub (gn1, gns2)
+      end else let
+        val () = auxsub (gn1, gns21)
+        prval ((*void*)) = fold@ (gns2)
+      in
+        // nothing
+      end // end of [if]
+    end (* end of [list_vt_cons] *)
+) (* end of [auxsub] *)
+
+in (* in-of-local *)
+
+implement
+geneslst_cons
+  (gn, gns) = let
+//
+val issup = auxsup (gn, gns)
+//
+in
+//
+if issup
+  then (genes_free (gn); gns)
+  else let
+    var gns: geneslst = gns
+    val () = auxsub (gn, gns)
+  in
+    list_vt_cons{genes}(gn, gns)
+  end // end of [else]
+// end of [if]
+//
+end // end of [geneslst_cons]
+
+implement
+geneslst_append
+  (gns1, gns2) = let
+//
+fun auxlst
+(
+  gns1: &geneslst >> _, gns2: &geneslst >> _
+) : void =
+(
+  case+ gns1 of
+  |  list_vt_nil () => ()
+  | @list_vt_cons
+      (gn1, gns11) => let
+      val issup = auxsup (gn1, gns2)
+    in
+      if issup then let
+        val () = genes_free (gn1)
+        val gns11_ = gns11
+        val ((*void*)) = free@{..}{0} (gns1)
+        val ((*void*)) = gns1 := gns11_
+      in
+        auxlst (gns1, gns2)
+      end else let
+        val () = auxsub (gn1, gns2)
+        val () = auxlst (gns11, gns2)
+        prval ((*void*)) = fold@ (gns1)
+      in
+        // nothing
+      end // end of [if]
+    end (* end of [list_vt_cons] *)
+)
+//
+var gns1: geneslst = gns1
+var gns2: geneslst = gns2
+//
+val () = auxlst (gns1, gns2)
+//
+in
+  list_vt_append (gns1, gns2)
+end // end of [geneslst_append]
+
+end // end of [local]
 
 (* ****** ****** *)
 

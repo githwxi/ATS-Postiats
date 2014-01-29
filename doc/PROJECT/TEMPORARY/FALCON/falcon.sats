@@ -103,6 +103,11 @@ fun genes_union (genes, genes): genes
 
 (* ****** ****** *)
 
+fun lte_genes_genes (!genes, !genes): bool
+fun gte_genes_genes (!genes, !genes): bool
+
+(* ****** ****** *)
+
 fun genes_listize1 (xs: !genes): genelst_vt
 
 (* ****** ****** *)
