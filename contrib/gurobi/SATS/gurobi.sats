@@ -49,6 +49,14 @@ vtypedef GRBenvptr0 = [l:addr] GRBenvptr(l)
 vtypedef GRBenvptr1 = [l:addr | l > null] GRBenvptr(l)
 //
 (* ****** ****** *)
+//
+absvtype
+GRBmodelptr (l:addr) = ptr (l)
+//
+vtypedef GRBmodelptr0 = [l:addr] GRBmodelptr(l)
+vtypedef GRBmodelptr1 = [l:addr | l > null] GRBmodelptr(l)
+//
+(* ****** ****** *)
 
 fun GRBloadenv
 (
@@ -66,6 +74,34 @@ fun GRBloadclientenv
 (* ****** ****** *)
 
 fun GRBfreeenv (env: GRBenvptr0): void = "mac#%"
+
+(* ****** ****** *)
+
+fun
+GRBloadmodel
+  {nv,nc:nat}
+(
+  env		: !GRBenvptr1
+, modelP	: &ptr? >> opt(GRBmodelptr1, i==0)
+, Pname		: string
+, numvars	: int(nv)
+, numconstrs	: int(nc)
+, objsense	: int // 1(min) or -1(max)
+, objcon	: double
+, obj		: carrayref0(double, nv)
+, sense		: carrayref1(char, nc)
+, rhs		: carrayref0(double, nc)
+, vbeg		: carrayref1(int, nv)
+, vlen		: carrayref1(int, nv)
+, vind		: cPtr1 (int)
+, vval		: cPtr1 (double)
+, lb		: carrayref0(double, nv)
+, ub		: carrayref0(double, nv)
+, vtype		: carrayref0(char, nv)
+, varnames	: carrayref0(string, nv)
+, constrnames	: carrayref0(string, nc)
+) : #[i:nat] interr (i) = "mac#%"
+
 
 (* ****** ****** *)
 
