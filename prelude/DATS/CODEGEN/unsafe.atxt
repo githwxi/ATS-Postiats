@@ -160,6 +160,20 @@ implement{a} ptr1_modby = ptr0_modby<a>
 
 #atscode_separator()
 
+implement{a}
+ptr1_list_next
+  (p) = p_next where
+{
+  val xs =
+  castvwtp1{list_vt(a,1)}(p)
+  val+@list_vt_cons(_, xs_next) = xs
+  val p_next = addr@(xs_next)
+  prval ((*void*)) = fold@ (xs)
+  prval ((*void*)) = cast2void (xs)
+} (* end of [ptr1_list_next] *)
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

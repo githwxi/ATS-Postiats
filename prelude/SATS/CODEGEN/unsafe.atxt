@@ -174,6 +174,10 @@ fun{a:t0p} ptr0_modby (p: ptr, x: a):<!wrt> void // !p %= x
 fun{a:t0p} ptr1_modby (p: Ptr1, x: a):<!wrt> void // !p %= x
 //
 #atscode_separator()
+
+fun{a:vt0p} ptr1_list_next (p: Ptr1): Ptr0 // HX: &(p->next)
+
+#atscode_separator()
 //
 // HX: only if you know what you are doing ...
 //
