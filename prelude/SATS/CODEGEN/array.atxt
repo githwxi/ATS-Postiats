@@ -309,7 +309,7 @@ array_copy_to_list_vt{n:int}
   A: &RD(@[INV(a)][n]) >> @[a?!][n], n: size_t n
 ) :<!wrt> list_vt (a, n) // endfun
 
-macdef array2lst = array_copy_to_list_vt
+macdef array2list = array_copy_to_list_vt
 
 #atscode_separator()
 

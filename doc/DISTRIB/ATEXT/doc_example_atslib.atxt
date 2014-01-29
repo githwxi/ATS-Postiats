@@ -259,7 +259,12 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
+#packfilename("libats_ATS1_funset_listord.dats")
 #packfilename("libats_ATS1_funmset_listord.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_ATS1_linset_listord.dats")
 
 (* ****** ****** *)
 

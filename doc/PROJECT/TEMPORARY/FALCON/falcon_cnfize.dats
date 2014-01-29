@@ -158,6 +158,7 @@ fun aux
 (
   x: !genes, ys: !geneslst
 ) : geneslst =
+(
 case+ ys of
 | list_vt_cons
     (y, ys) => let
@@ -169,6 +170,7 @@ case+ ys of
     geneslst_cons (xy, xys)
   end // end of [val]
 | list_vt_nil () => list_vt_nil ()
+)
 //
 fun auxlst
 (
@@ -239,7 +241,9 @@ fun auxsub
   |  list_vt_nil () => ()
   | @list_vt_cons
       (gn2, gns21) => let
-      val issub = lte_genes_genes (gn1, gn2)
+      val issub =
+        lte_genes_genes (gn1, gn2)
+      // end of [val]
     in
       if issub then let
         val () = genes_free (gn2)
