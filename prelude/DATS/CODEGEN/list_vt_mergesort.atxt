@@ -132,7 +132,7 @@ val cmp = $UN.cast{cmpref(a2)}(cmp) in cmp (x1, x2)
 end (* end of [list_vt_mergesort$cmp] *)
 //
 in
-  list_vt_mergesort (xs)
+  list_vt_mergesort<a> (xs)
 end // end of [list_vt_mergesort_fun]
 
 #atscode_separator()
