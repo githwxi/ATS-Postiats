@@ -84,18 +84,18 @@ vtypedef JSONiter1 (l1:addr) = [l2:addr | l2 > null] JSONiter (l1, l2)
 (* ****** ****** *)
 
 praxi
-JSONptr_is_gtez {l:addr} (x: !JSONptr l): [l >= null] void
+JSONptr_is_gtez {l:addr} (x: !JSONptr(l)): [l >= null] void
 
 (* ****** ****** *)
 
-castfn JSONptr2ptr {l:addr} (x: !JSONptr l):<> ptr (l)
+castfn JSONptr2ptr {l:addr} (x: !JSONptr(l)):<> ptr (l)
 castfn JSONiter2ptr {l1,l2:addr} (x: !JSONiter (l1, l2)):<> ptr (l2)
 
 (* ****** ****** *)
 
 praxi
 JSONptr_free_null
-  {l:addr | l <= null} (x: JSONptr l): void
+  {l:addr | l <= null} (x: JSONptr(l)): void
 // end of [JSONptr_free_null]
 
 (* ****** ****** *)
@@ -126,15 +126,21 @@ fun json_is_true
 fun json_is_false
   {l:addr} (json: !JSONptr (l)) : bool = "mac#%"
 
+(* ****** ****** *)
+
 fun json_is_boolean
   {l:addr} (json: !JSONptr (l)) : bool = "mac#%"
   
+(* ****** ****** *)
+
 fun json_is_integer
   {l:addr} (json: !JSONptr (l)) : bool = "mac#%"
 fun json_is_real
   {l:addr} (json: !JSONptr (l)) : bool = "mac#%"
 fun json_is_number
   {l:addr} (json: !JSONptr (l)) : bool = "mac#%"
+
+(* ****** ****** *)
 
 fun json_is_string
   {l:addr} (json: !JSONptr (l)) : bool = "mac#%"
@@ -144,14 +150,13 @@ fun json_is_object
   {l:addr} (json: !JSONptr (l)) : bool = "mac#%"
 
 (* ****** ****** *)
-
-fun json_incref
-  {l:agz}
-  (json: !JSONptr (l)) : JSONptr (l) = "mac#%"
-
-fun json_decref
-  {l:addr} (json: JSONptr (l)) : void = "mac#%"
-
+//
+fun
+json_incref{l:agz}
+  (json: !JSONptr(l)) : JSONptr(l) = "mac#%"
+fun
+json_decref (json: JSONptr0): void = "mac#%"
+//
 (* ****** ****** *)
 
 fun json_null () : JSONptr1 = "mac#%"

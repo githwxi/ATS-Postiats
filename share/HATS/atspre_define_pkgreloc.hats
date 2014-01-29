@@ -99,4 +99,11 @@ LIBATSHWXI_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/libats-hwxi"
 //
 (* ****** ****** *)
 
+#define
+gurobi_targetloc "PATSHOMERELOC/contrib/gurobi_targetloc
+#define
+gurobi_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/gurobi"
+
+(* ****** ****** *)
+
 (* end of [atspre_define_pkgreloc.hats] *)
