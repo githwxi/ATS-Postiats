@@ -223,8 +223,11 @@ fun auxsup
   case+ gns2 of
   | list_vt_nil () => false
   | list_vt_cons (gn2, gns2) =>
-      if gte_genes_genes (gn1, gn2) then true else auxsup (gn1, gns2)
-    // end of [list_vt_cons]
+    (
+      if gte_genes_genes (gn1, gn2)
+        then true else auxsup (gn1, gns2)
+      // end of [if]
+    ) // end of [list_vt_cons]
 ) (* auxsup *)
 //
 fun auxsub
