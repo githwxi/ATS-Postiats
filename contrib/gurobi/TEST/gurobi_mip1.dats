@@ -8,7 +8,19 @@ staload "./../SATS/gurobi.sats"
 
 (* ****** ****** *)
 
-fun mytest () =
+#define cap carrayptr
+#define NULL the_null_ptr
+
+(* ****** ****** *)
+
+extern
+fun mytest (): void
+extern
+fun mytest_main (!GRBenvptr1, !GRBmodelptr1): void
+
+(* ****** ****** *)
+
+implement mytest () =
 {
 //
 var env: ptr
@@ -19,11 +31,33 @@ val () =
 if errno > 0 then prerrln! ("GRBloadenv: errno = ", errno)
 //
 val () = assertloc (errno = 0)
-prval () = opt_unsome{GRBenvptr1}(env)
+prval ((*void*)) = opt_unsome (env)
 //
-val () = GRBfreeenv (env)
+var model: ptr
+val errno =
+GRBnewmodel_null (env, model, "mip1")
+val () = fprint_GRBerrormsg_if (stderr_ref, env, errno)
+val () = assertloc (errno = 0)
+prval ((*void*)) = opt_unsome (model)
+//
+val () = mytest_main (env, model)
+//
+val errno = GRBfreemodel (model)
+val () = assertloc (errno = 0)
+//
+val ((*freed*)) = GRBfreeenv (env)
 //
 } (* end of [mytest] *)
+
+(* ****** ****** *)
+
+implement
+mytest_main (env, model) =
+{
+//
+val () = println! ("Hello from [mytest_main]!")
+//
+} (* end of [mytest_main] *)
 
 (* ****** ****** *)
 
