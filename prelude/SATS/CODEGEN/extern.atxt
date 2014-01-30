@@ -41,6 +41,8 @@ carrayptr1 (a:t@ype, n:int) = [l:addr | l > null] carrayptr (a, l, n)
 
 #atscode_separator()
 //
+// HX-2014-01-30: these are inherently unsafe:
+//
 castfn
 carrayptr_null
   {a:t@ype}{n:nat} (p: ptr(null)):<> carrayptr (a, null, n)

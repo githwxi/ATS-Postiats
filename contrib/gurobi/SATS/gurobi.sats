@@ -19,6 +19,10 @@
 *)
 
 (* ****** ****** *)
+//
+// Start time: January, 2014
+//
+(* ****** ****** *)
 
 (*
 ** Author: Brandon Barker 
@@ -111,7 +115,7 @@ praxi GRBfreemodel_null (GRBmodelptr(null)): void
 
 fun
 GRBloadmodel
-  {nv,nc:nat}{nx:int}
+  {nv,nc:int}{nx:int}
 (
   env		: !GRBenvptr1
 , modelP	: &ptr? >> opt(GRBmodelptr1, i==0)
@@ -138,7 +142,7 @@ GRBloadmodel
 
 fun
 GRBloadmodel
-  {nv,nc:nat}{nx:int}
+  {nv,nc:int}{nx:int}
 (
   env		: !GRBenvptr1
 , modelP	: &ptr? >> opt(GRBmodelptr1, i==0)
@@ -158,7 +162,33 @@ fun GRBcopymodel
 
 (* ****** ****** *)
 
-fun GRBfreemodel (GRBmodelptr1): Interr = "mac#%"
+fun
+GRBaddvar{nx:int}
+(
+  model: !GRBmodelptr1
+, numnz: int (nx)
+, vind: carrayptr1 (int, nx)
+, vval: carrayptr1 (double, nx)
+, obj: double, lb: double, ub: double
+, vtype: char, varname: stropt
+) : Interr = "mac#%"
+
+(* ****** ****** *)
+
+fun
+GRBsetintattr
+(
+  model: !GRBmodelptr1, name: NSH(string), value: int
+) : Interr = "mac#%"
+
+(* ****** ****** *)
+//
+fun
+GRBupdatemodel (model: !GRBmodelptr1): Interr = "mac#%"
+//
+(* ****** ****** *)
+
+fun GRBfreemodel (model: GRBmodelptr1): Interr = "mac#%"
 
 (* ****** ****** *)
 //
