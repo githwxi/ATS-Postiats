@@ -33,8 +33,8 @@
 
 /* ****** ****** */
 
-#ifndef GUROBI_CATS
-#define GUROBI_CATS
+#ifndef GUROBI_GUROBI_CATS
+#define GUROBI_GUROBI_CATS
 
 /* ****** ****** */
 
@@ -65,6 +65,6 @@
 
 /* ****** ****** */
 
-#endif // ifndef GUROBI_CATS
+#endif // ifndef GUROBI_GUROBI_CATS
 
 /* end of [gurobi.cats] */

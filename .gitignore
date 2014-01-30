@@ -217,6 +217,7 @@ contrib/*/*/CATS/CODEGEN/*_atxt.txt
 contrib/*/*/CATS/CODEGEN/*_atxt.dats
 contrib/*/*/TEST/test??
 
+contrib/SDL2/SDL2-2.0.1
 contrib/zlog/zlog-latest-stable/
 
 #

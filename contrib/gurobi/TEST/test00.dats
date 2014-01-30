@@ -14,7 +14,7 @@ val () = let
   and technical: int
   val () = GRBversion (major, minor, technical)
 in
-  println! ("Gurobi library version-", major, ".", minor, ".", technical)
+  println! ("Gurobi(version) = ", major, ".", minor, ".", technical)
 end // end of [val]
 
 (* ****** ****** *)

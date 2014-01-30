@@ -1,6 +1,6 @@
 #
 # A simple Makefile for
-# testing the ATS API for gurobi
+# testing the ATS API for SDL2
 #
 
 ######
@@ -9,7 +9,7 @@ include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
-LDFLAGS += -lgurobi
+LDFLAGS += -lSDL2
 
 ######
 
