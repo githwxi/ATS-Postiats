@@ -33,6 +33,14 @@
 
 (* ****** ****** *)
 
+%{#
+//
+#include "gurobi/CATS/gurobi.cats"
+//
+%} // end of [%{#]
+
+(* ****** ****** *)
+
 #define ATS_PACKNAME "ATSCNTRB.gurobi" // package name
 #define ATS_EXTERN_PREFIX "atscntrb_gurobi_" // prefix for external names"
 
@@ -112,18 +120,18 @@ GRBloadmodel
 , numconstrs	: int(nc)
 , objsense	: int // 1(min) or -1(max)
 , objcon	: double
-, obj		: carrayref0(double, nv)
-, sense		: carrayref1(char, nc)
-, rhs		: carrayref0(double, nc)
-, vbeg		: carrayref1(int, nv)
-, vlen		: carrayref1(int, nv)
-, vind		: carrayref1(int, nx) // HX: indefinite [nx]
-, vval		: carrayref1(int, nx) // HX: indefinite [nx]
-, lb		: carrayref0(double, nv)
-, ub		: carrayref0(double, nv)
-, vtype		: carrayref0(char, nv)
-, varnames	: carrayref0(string, nv)
-, constrnames	: carrayref0(string, nc)
+, obj		: carrayptr0(double, nv)
+, sense		: carrayptr1(char, nc)
+, rhs		: carrayptr0(double, nc)
+, vbeg		: carrayptr1(int, nv)
+, vlen		: carrayptr1(int, nv)
+, vind		: carrayptr1(int, nx) // HX: indefinite [nx]
+, vval		: carrayptr1(int, nx) // HX: indefinite [nx]
+, lb		: carrayptr0(double, nv)
+, ub		: carrayptr0(double, nv)
+, vtype		: carrayptr0(char, nv)
+, varnames	: carrayptr0(string, nv)
+, constrnames	: carrayptr0(string, nc)
 ) : #[i:nat] interr (i) = "mac#%"
 
 (* ****** ****** *)
@@ -136,11 +144,11 @@ GRBloadmodel
 , modelP	: &ptr? >> opt(GRBmodelptr1, i==0)
 , Pname		: string
 , numvars	: int(nv)
-, obj		: carrayref0(double, nv)
-, lb		: carrayref0(double, nv)
-, ub		: carrayref0(double, nv)
-, vtype		: carrayref0(char, nv)
-, varnames	: carrayref0(string, nv)
+, obj		: carrayptr0(double, nv)
+, lb		: carrayptr0(double, nv)
+, ub		: carrayptr0(double, nv)
+, vtype		: carrayptr0(char, nv)
+, varnames	: carrayptr0(string, nv)
 ) : #[i:nat] interr (i) = "mac#%"
 
 (* ****** ****** *)

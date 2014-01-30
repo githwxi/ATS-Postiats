@@ -33,17 +33,36 @@ sortdef vt0p = viewt@ype
 #atscode_separator()
 
 abstype
-carrayref (a:t@ype, l:addr, n:int) = ptr(l)
+carrayptr (a:t@ype, l:addr, n:int) = ptr(l)
 typedef
-carrayref0 (a:t@ype, n:int) = [l:addr] carrayref (a, l, n)
+carrayptr0 (a:t@ype, n:int) = [l:addr] carrayptr (a, l, n)
 typedef
-carrayref1 (a:t@ype, n:int) = [l:addr | l > null] carrayref (a, l, n)
+carrayptr1 (a:t@ype, n:int) = [l:addr | l > null] carrayptr (a, l, n)
 
 #atscode_separator()
 //
-castfn carraynul{a:t@ype}{n:nat} (p: ptr(null)):<> carrayref (a, null, n)
-castfn carrayref{a:t@ype}{n:int} (A: &array(INV(a), n)):<> carrayref1 (a, n)
+castfn
+carrayptr_null
+  {a:t@ype}{n:nat} (p: ptr(null)):<> carrayptr (a, null, n)
+castfn
+carrayptr_array
+  {a:t@ype}{n:int} (A: &array(INV(a), n)):<> carrayptr1 (a, n)
+castfn
+carrayptr_arrayref
+  {a:t@ype}{n:int} (A: arrayref(INV(a), n)):<> carrayptr1 (a, n)
+castfn
+carrayptr_arrayptr
+  {a:t@ype}{l:addr}{n:int}
+  (A: !arrayptr(INV(a), l, n)):<> [l > null] carrayptr (a, l, n)
 //
+#atscode_separator()
+
+symintr carrayptr
+overload carrayptr with carrayptr_null
+overload carrayptr with carrayptr_array
+overload carrayptr with carrayptr_arrayref
+overload carrayptr with carrayptr_arrayptr
+
 #atscode_separator()
 //
 // HX: note that (vt1 \minus v2) roughly means that a ticket of

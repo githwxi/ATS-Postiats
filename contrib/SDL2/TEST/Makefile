@@ -31,4 +31,8 @@ include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
+cleanats:: ; $(RMF) *_?ats.c
+
+######
+
 ###### end of [Makefile] ######

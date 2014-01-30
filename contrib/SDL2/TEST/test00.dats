@@ -10,9 +10,14 @@ staload "./../SATS/SDL.sats"
 
 val () = let
   var ver: SDL_version
+  val () = SDL_VERSION (ver)
+  val () =
+  println! ("SDL(VERSION) = ", ver.major, ".", ver.minor, ".", ver.patch)
   val () = SDL_GetVersion (ver)
+  val () =
+  println! ("SDL(GetVersion) = ", ver.major, ".", ver.minor, ".", ver.patch)
 in
-  println! ("SDL(version) = ", ver.major, ".", ver.minor, ".", ver.patch)
+  // nothing
 end // end of [val]
 
 (* ****** ****** *)

@@ -5,11 +5,18 @@
 
 ######
 
+ifdef LGUROBI
+else
+LGUROBI=-lgurobi??
+endif
+
+######
+
 include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
-LDFLAGS += -lgurobi
+LDFLAGS += $(LGUROBI)
 
 ######
 
