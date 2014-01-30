@@ -73,7 +73,7 @@ GRBmodelptr1 = [l:addr | l > null] GRBmodelptr(l)
 //
 (* ****** ****** *)
 //
-macdef GRB_BINARY = $extval (int, "GRB_BINARY")
+macdef GRB_BINARY = $extval (char, "GRB_BINARY")
 //
 macdef
 GRB_INT_ATTR_MODELSENSE =
@@ -141,7 +141,7 @@ GRBloadmodel
 (* ****** ****** *)
 
 fun
-GRBloadmodel
+GRBnewmodel
   {nv,nc:int}{nx:int}
 (
   env		: !GRBenvptr1
@@ -153,6 +153,14 @@ GRBloadmodel
 , ub		: carrayptr0(double, nv)
 , vtype		: carrayptr0(char, nv)
 , varnames	: carrayptr0(string, nv)
+) : #[i:nat] interr (i) = "mac#%"
+
+fun
+GRBnewmodel_null
+(
+  env		: !GRBenvptr1
+, modelP	: &ptr? >> opt(GRBmodelptr1, i==0)
+, Pname		: string
 ) : #[i:nat] interr (i) = "mac#%"
 
 (* ****** ****** *)
@@ -226,7 +234,12 @@ fun GRBgeterrormsg (env: !GRBenvptr1): vStrptr1 = "mac#%"
 (* ****** ****** *)
 //
 fun{}
-fprint_GRBgeterrormsg (out: FILEref, env: !GRBenvptr1): void
+fprint_GRBerrormsg (out: FILEref, env: !GRBenvptr1): void
+//
+(* ****** ****** *)
+//
+fun{}
+fprint_GRBerrormsg_if (out: FILEref, env: !GRBenvptr1, errno: int): void
 //
 (* ****** ****** *)
 

@@ -42,13 +42,22 @@ staload "./../SATS/gurobi.sats"
 (* ****** ****** *)
 
 implement{}
-fprint_GRBgeterrormsg
+fprint_GRBerrormsg
   (out, env) =
 {
   val (fpf | str) = GRBgeterrormsg (env)
   val ((*void*)) = fprint_strptr (out, str)
   prval ((*void*)) = fpf (str)
-} (* end of [fprint_GRBgeterrormsg] *)
+} (* end of [fprint_GRBerrormsg] *)
+
+(* ****** ****** *)
+
+implement{}
+fprint_GRBerrormsg_if
+  (out, env, errno) =
+(
+  if errno > 0 then fprint_GRBerrormsg (out, env)
+)
 
 (* ****** ****** *)
 
