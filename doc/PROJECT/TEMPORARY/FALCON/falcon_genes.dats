@@ -53,7 +53,7 @@ print_gene (gn) = fprint (stdout_ref, gn)
 
 (* ****** ****** *)
 //
-// HX: genes is based linear ordered lists
+// HX: genes is based on linear ordered lists
 //
 (* ****** ****** *)
 

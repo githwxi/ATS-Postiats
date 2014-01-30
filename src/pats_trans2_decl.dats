@@ -77,6 +77,13 @@ typedef dqi0de = $SYN.dqi0de
 typedef impqi0de = $SYN.impqi0de
 typedef dcstextdef = $SYN.dcstextdef
 
+(* ****** ****** *)
+
+overload print with $SYN.print_i0de
+overload print with $SYN.print_dqi0de
+
+(* ****** ****** *)
+
 macdef
 prerr_dqid (dq, id) =
   ($SYN.prerr_d0ynq ,(dq); $SYM.prerr_symbol ,(id))
@@ -117,11 +124,16 @@ fun aux
   (ids: i0delst): void = let
 in
   case+ ids of
-  | list_cons (id, ids) => aux ids where {
+  | list_cons
+      (id, ids) => let
       val sym = id.i0de_sym
-      val () = the_d2expenv_add (sym, D2ITMsymdef (sym, list_nil))
-    } // end of [list_cons]
-  | list_nil () => () // end of [list_nil]
+      val () =
+        the_d2expenv_add (sym, D2ITMsymdef (sym, list_nil))
+      // end of [val]
+    in
+      aux (ids)
+    end // end of [list_cons]
+  | list_nil ((*void*)) => () // end of [list_nil]
 end // end of [aux]
 //
 in
@@ -174,12 +186,8 @@ val loc0 = d1c0.d1ecl_loc
 (*
 val () =
 {
-  val () = print "overload_tr: id = "
-  val () = $SYN.print_i0de (id)
-  val () = print_newline ()
-  val () = print "overload_tr: dqid = "
-  val () = $SYN.print_dqi0de (dqid)
-  val () = print_newline ();
+  val () = println! ("overload_tr: id = ", id)
+  val () = println! ("overload_tr: dqid = ", dqid)
 } (* end of [val] *)
 *)
 //
@@ -260,16 +268,31 @@ val ans = ans where {
 } // end of [where] // end of [val]
 val d2pis = (
   case+ ans of
-  | ~Some_vt d2i => (
-    case+ d2i of
-    | D2ITMsymdef (sym, d2pis) => d2pis
-    | _ => let
-        val () = auxerr1 (loc0, id, err) in list_nil ()
-      end // end of [_]
+  | ~Some_vt (d2i) =>
+    (
+      case+ d2i of
+      | D2ITMsymdef (sym, d2pis) => d2pis
+      | _ => let
+          val () = auxerr1 (loc0, id, err) in list_nil
+        end // end of [_]
     ) // end of [Some_vt]
+  | ~None_vt ((*void*)) => let
+      val d2pis = list_nil ()
+      val () =
+        the_d2expenv_add (sym, D2ITMsymdef (sym, d2pis))
+      // end of [val]
+    in
+      d2pis
+    end // end of [_]
+(*
+//
+// HX-2014-01-30:
+// Is this design too cumbersome?
+//
   | ~None_vt () => let
       val () = auxerr2 (loc0, id, err) in list_nil ()
     end // end of [None_vt]
+*)
 ) : d2pitmlst // end of [val]
 (*
 val () = begin
