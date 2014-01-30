@@ -226,7 +226,12 @@ fun GRBgeterrormsg (env: !GRBenvptr1): vStrptr1 = "mac#%"
 (* ****** ****** *)
 //
 fun{}
-fprint_GRBgeterrormsg (out: FILEref, env: !GRBenvptr1): void
+fprint_GRBerrormsg (out: FILEref, env: !GRBenvptr1): void
+//
+(* ****** ****** *)
+//
+fun{}
+fprint_GRBerrormsg_if (out: FILEref, env: !GRBenvptr1, errno: int): void
 //
 (* ****** ****** *)
 
