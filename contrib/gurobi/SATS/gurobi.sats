@@ -216,9 +216,18 @@ GRBversion
 ) : void = "mac#%" // end of [GRBversion]
                 
 (* ****** ****** *)
-
+//
 fun GRBgeterrormsg (env: !GRBenvptr1): vStrptr1 = "mac#%"
-
+//
+(* ****** ****** *)
+//
+// HX-2014-01: Some convenience functions
+//
+(* ****** ****** *)
+//
+fun{}
+fprint_GRBgeterrormsg (out: FILEref, env: !GRBenvptr1): void
+//
 (* ****** ****** *)
 
 (* end of [gurobi.sats] *)
