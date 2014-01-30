@@ -51,6 +51,20 @@
 
 /* ****** ****** */
 
+#define atscntrb_gurobi_GRBnewmodel GRBnewmodel
+#define atscntrb_gurobi_GRBloadmodel GRBloadmodel
+#define atscntrb_gurobi_GRBcopymodel GRBcopymodel
+
+/* ****** ****** */
+
+#define atscntrb_gurobi_GRBfreemodel GRBfreemodel
+
+/* ****** ****** */
+
+#define atscntrb_gurobi_GRBversion GRBversion
+
+/* ****** ****** */
+
 #endif // ifndef GUROBI_CATS
 
 /* end of [gurobi.cats] */
