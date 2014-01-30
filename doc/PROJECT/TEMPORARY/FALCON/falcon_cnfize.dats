@@ -20,8 +20,33 @@ staload "./falcon_parser.dats"
 
 (* ****** ****** *)
 
-vtypedef grcnf = geneslst
-vtypedef grcnflst = List0_vt (grcnf)
+staload
+LS = "libats/ATS1/SATS/linset_listord.sats"
+staload
+_ =  "libats/ATS1/DATS/linset_listord.dats"
+
+(* ****** ****** *)
+
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+absvtype grcnf = ptr
+assume
+grcnf = geneslst
+vtypedef 
+grcnflst = List0_vt (grcnf)
+
+(* ****** ****** *)
+
+extern 
+fun grcnf_length(gcnf: !grcnf):<> [n:nat] int (n)
+//
+implement
+grcnf_length (gcnf) = length<genes> (gcnf)
+//
+overload length with grcnf_length
 
 (* ****** ****** *)
 
@@ -94,9 +119,35 @@ case+ cnfs of
 extern
 fun
 grexp_cnfize (gx: grexp): grcnf
+//
 extern
 fun
 grexplst_cnfize (gxs: grexplst): grcnflst
+
+(* ****** ****** *)
+//
+// List index of intractable rules for cnfizing
+// 
+absvtype badcnfs = ptr
+assume 
+badcnfs = $LS.set(int) 
+//
+extern
+fun
+grexplst_cnfize_except (gxs: grexplst, exceptions: &badcnfs): grcnflst
+
+extern
+fun badcnfs_free(bcs: badcnfs): void
+//
+implement
+badcnfs_free(bcs) = $LS.linset_free(bcs)
+
+extern
+fun badcnfs_make_nil(): badcnfs
+//
+implement
+badcnfs_make_nil() = $LS.linset_make_nil{int}()
+
 //
 (* ****** ****** *)
 //
@@ -143,6 +194,25 @@ case+ cnfs of
 | ~list_vt_cons (cnf, cnfs) => loop (cnfs, cnf)
 //
 end // end of [grcnf_conj]
+
+extern
+fun
+expansion_size
+  (cnfs: grcnflst): int
+//
+(*
+implement
+expansion_size (cnfs) = let
+//
+//...
+
+*)
+(*
+BB: disj of conjs: # of expanded disjunctions = 
+    product_i(|conj_i|). If this is greater than
+    some cutoff, backtrack and use minconj (printing
+    a temporary warning). If 
+*)
 
 (* ****** ****** *)
 //
@@ -365,6 +435,39 @@ implement
 grexplst_cnfize (gxs) =
   list_map_fun<grexp><grcnf> (gxs, grexp_cnfize)
 //
+
 (* ****** ****** *)
 
-(* end of [falcon_cnfize.dats] *)
+
+implement
+grexplst_cnfize_except (gxs, exceptions) = let
+val gdum = gene_make_name ("dummy")
+var gxdum: grexp = GRgene(gdum)
+var count: int = 0
+//
+implement
+list_map$fopr<grexp><grcnf> (gx) = let
+  val n = $UN.ptr0_get<int>(addr@count)
+  val gxd = $UN.ptr0_get<grexp>(addr@gxdum)
+  val (pf, fpf | excp) = $UN.ptr0_vtake{badcnfs}(addr@exceptions)
+  val () = (print(n); print(" "))
+  val skip = $LS.linset_is_member(!excp, n, lam(x,y) => 
+    g0int_compare_int(x, y))
+  prval () = fpf(pf)
+  val () = $UN.ptr0_set<int>(addr@count, n+1)
+in // in of [list_map$fopr]
+//
+if skip then
+  (println!("Skipping rule ", n); grexp_cnfize(gxd))
+else 
+  (print(n); print(" "); grexp_cnfize(gx))
+end // end of [list_map$fopr]
+//
+val () = print("Starting cnfizing on rule #: ")
+in
+  list_map<grexp><grcnf> (gxs)
+end  
+  
+
+//
+(* ****** ****** *)

@@ -8,7 +8,15 @@ MALLOCFLAG = -DATS_MEMALLOC_GCBDW
 #
 SOURCES_SATS += falcon.sats
 #
-SOURCES_DATS += falcon_main.dats
+ifeq ($(strip $(MAKECMDGOALS)),falcon)
+  MYTARGET=$(MAKECMDGOALS)
+  SOURCES_DATS += falcon_main.dats
+else ifeq ($(strip $(MAKECMDGOALS)),cnf_timeout)
+  MYTARGET=$(MAKECMDGOALS)
+  SOURCES_DATS += cnf_timeout.dats
+else
+  SOURCES_DATS += falcon_main.dats
+endif
 SOURCES_DATS += falcon_symbol.dats
 SOURCES_DATS += falcon_position.dats
 SOURCES_DATS += falcon_tokener.dats
@@ -19,7 +27,6 @@ SOURCES_DATS += falcon_gmeanvar.dats
 SOURCES_DATS += falcon_algorithm1.dats
 SOURCES_DATS += falcon_mylib.dats
 #
-MYTARGET=falcon
 MYPORTDIR=MYPORTDIR
 #
 include $(PATSHOME)/share/atsmake-post.mk
@@ -29,7 +36,7 @@ PATS2XHTML=$(PATSHOME)/bin/pats2xhtml
 #
 cleanall:: ; $(RMF) *_?ats.c
 #
-cleanall:: ; $(RMF) falcon
+cleanall:: ; $(RMF) falcon cnf_timeout
 cleanall:: ; $(RMF) MYPORTDIR/*
 #
 ###### end of [Makefile] ######
