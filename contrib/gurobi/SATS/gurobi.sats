@@ -52,10 +52,12 @@ vtypedef GRBenvptr1 = [l:addr | l > null] GRBenvptr(l)
 (* ****** ****** *)
 //
 absvtype
-GRBmodelptr(nv:int, l:addr) = ptr (l)
+GRBmodelptr(l:addr) = ptr (l)
 //
-vtypedef GRBmodelptr0 (nv:int) = [l:addr] GRBmodelptr(nv, l)
-vtypedef GRBmodelptr1 (nv:int) = [l:addr | l > null] GRBmodelptr(nv, l)
+vtypedef
+GRBmodelptr0 = [l:addr] GRBmodelptr(l)
+vtypedef
+GRBmodelptr1 = [l:addr | l > null] GRBmodelptr(l)
 //
 (* ****** ****** *)
 //
@@ -95,8 +97,7 @@ fun GRBfreeenv (env: GRBenvptr0): void = "mac#%"
 
 (* ****** ****** *)
 //
-praxi
-GRBfreemodel_null{nv:int}(GRBmodelptr(nv,null)): void
+praxi GRBfreemodel_null (GRBmodelptr(null)): void
 //
 (* ****** ****** *)
 
@@ -105,7 +106,7 @@ GRBloadmodel
   {nv,nc:nat}{nx:int}
 (
   env		: !GRBenvptr1
-, modelP	: &ptr? >> opt(GRBmodelptr1(nv), i==0)
+, modelP	: &ptr? >> opt(GRBmodelptr1, i==0)
 , Pname		: string
 , numvars	: int(nv)
 , numconstrs	: int(nc)
@@ -132,7 +133,7 @@ GRBloadmodel
   {nv,nc:nat}{nx:int}
 (
   env		: !GRBenvptr1
-, modelP	: &ptr? >> opt(GRBmodelptr1(nv), i==0)
+, modelP	: &ptr? >> opt(GRBmodelptr1, i==0)
 , Pname		: string
 , numvars	: int(nv)
 , obj		: carrayref0(double, nv)
@@ -144,19 +145,30 @@ GRBloadmodel
 
 (* ****** ****** *)
 
-fun GRBcopymodel{nv:int}
-  (model: !GRBmodelptr1(nv)): GRBmodelptr0(nv) = "mac#%"
+fun GRBcopymodel
+  (model: !GRBmodelptr1): GRBmodelptr0 = "mac#%"
 
+(* ****** ****** *)
+
+fun GRBfreemodel (GRBmodelptr1): Interr = "mac#%"
+
+(* ****** ****** *)
+//
+fun GRBoptimize (model: !GRBmodelptr1): Interr = "mac#%"
+//
 (* ****** ****** *)
 
 fun
-GRBfreemodel{nv:int}(GRBmodelptr1(nv)): Interr = "mac#%"
+GRBreadmodel (
+  env: !GRBenvptr1
+, filename: NSH(string), modelP: &ptr? >> opt(GRBmodelptr1, i==0)
+) : #[i:nat] interr (i) = "mac#%"
 
 (* ****** ****** *)
-//
-fun GRBoptimize
-  {nv:int}(model: !GRBmodelptr1(nv)): Interr = "mac#%"
-//
+
+fun GRBread (model: !GRBmodelptr1, filename: NSH(string)): int
+fun GRBwrite (model: !GRBmodelptr1, filename: NSH(string)): int
+
 (* ****** ****** *)
 
 fun
