@@ -67,6 +67,15 @@ atscntrb_gurobi_GRBnewmodel_null(env, modelP, Pname)
 
 /* ****** ****** */
 
+#define atscntrb_gurobi_GRBaddvar GRBaddvar
+#define atscntrb_gurobi_GRBaddvars GRBaddvars
+
+/* ****** ****** */
+
+#define atscntrb_gurobi_GRBupdatemodel GRBupdatemodel
+
+/* ****** ****** */
+
 #define atscntrb_gurobi_GRBversion GRBversion
 
 /* ****** ****** */
