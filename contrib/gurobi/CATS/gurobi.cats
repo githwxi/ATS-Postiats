@@ -52,9 +52,8 @@
 /* ****** ****** */
 
 #define atscntrb_gurobi_GRBnewmodel GRBnewmodel
-#define \
-atscntrb_gurobi_GRBnewmodel_null(env, modelP, Pname)
-  GRBnewmodel(env, modelP, Pname, 0(*nv*), 0, 0, 0, 0, 0)
+#define atscntrb_gurobi_GRBnewmodel_null(env, modelP, Pname) \
+  GRBnewmodel(env, modelP, Pname, 0/*nv*/, 0/*obj*/, 0/*lb*/, 0/*ub*/, 0/*vtype*/, 0/*names*/)
 
 /* ****** ****** */
 
