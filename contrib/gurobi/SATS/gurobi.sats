@@ -131,8 +131,8 @@ GRBloadmodel
 , vlen		: carrayptr1(int, nv)
 , vind		: carrayptr1(int, nx) // HX: indefinite [nx]
 , vval		: carrayptr1(int, nx) // HX: indefinite [nx]
-, lb		: carrayptr0(double, nv)
-, ub		: carrayptr0(double, nv)
+, lbound	: carrayptr0(double, nv)
+, ubound	: carrayptr0(double, nv)
 , vtype		: carrayptr0(char, nv)
 , varnames	: carrayptr0(string, nv)
 , constrnames	: carrayptr0(string, nc)
@@ -179,6 +179,25 @@ GRBaddvar{nx:int}
 , vval: carrayptr1 (double, nx)
 , obj: double, lb: double, ub: double
 , vtype: char, varname: stropt
+) : Interr = "mac#%"
+
+(* ****** ****** *)
+
+fun
+GRBaddvars
+  {nv:int}{nx:int}
+(
+  model		: !GRBmodelptr1
+, numvars	: int(nv)
+, numnz		: int(nx)
+, vbeg		: carrayptr1(int, nv)
+, vind		: carrayptr1(int, nx) // HX: indefinite [nx]
+, vval		: carrayptr1(int, nx) // HX: indefinite [nx]
+, obj		: carrayptr0(double, nv)
+, lbound	: carrayptr0(double, nv)
+, ubound	: carrayptr0(double, nv)
+, vtype		: carrayptr0(char, nv)
+, varnames	: carrayptr0(string, nv)
 ) : Interr = "mac#%"
 
 (* ****** ****** *)

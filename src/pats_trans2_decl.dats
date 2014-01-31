@@ -276,14 +276,6 @@ val d2pis = (
           val () = auxerr1 (loc0, id, err) in list_nil
         end // end of [_]
     ) // end of [Some_vt]
-  | ~None_vt ((*void*)) => let
-      val d2pis = list_nil ()
-      val () =
-        the_d2expenv_add (sym, D2ITMsymdef (sym, d2pis))
-      // end of [val]
-    in
-      d2pis
-    end // end of [_]
 (*
 //
 // HX-2014-01-30:
@@ -293,6 +285,14 @@ val d2pis = (
       val () = auxerr2 (loc0, id, err) in list_nil ()
     end // end of [None_vt]
 *)
+  | ~None_vt () => let
+      val d2pis = list_nil ()
+      val () =
+        the_d2expenv_add (sym, D2ITMsymdef (sym, d2pis))
+      // end of [val]
+    in
+      d2pis
+    end // end of [_]
 ) : d2pitmlst // end of [val]
 (*
 val () = begin
