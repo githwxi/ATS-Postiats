@@ -3,8 +3,14 @@
 *)
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload.hats"
+//
+(* ****** ****** *)
 
 staload "./../SATS/gurobi.sats"
+staload "./../DATS/gurobi.dats"
 
 (* ****** ****** *)
 
