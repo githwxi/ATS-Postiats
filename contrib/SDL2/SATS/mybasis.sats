@@ -51,6 +51,42 @@ typedef Uint64 = uint64
 
 (* ****** ****** *)
 
+symintr Uint8
+castfn Uint8_of_int (int):<> Uint8
+castfn Uint8_of_uint (uint):<> Uint8
+overload Uint8 with Uint8_of_int
+overload Uint8 with Uint8_of_uint
+
+(* ****** ****** *)
+
+symintr Uint32
+castfn Uint32_of_int (int):<> Uint32
+castfn Uint32_of_uint (uint):<> Uint32
+overload Uint32 with Uint32_of_int
+overload Uint32 with Uint32_of_uint
+
+(* ****** ****** *)
+//
+// HX: [SDL_Surface_ref] is reference counted
+//
+absvtype
+SDL_Window_ptr(l:addr) = ptr(l) // SDL_Window* or null
+vtypedef
+SDL_Window_ptr0 = [l:addr] SDL_Window_ptr (l)
+vtypedef
+SDL_Window_ptr1 = [l:addr | l > null] SDL_Window_ptr (l)
+//
+(* ****** ****** *)
+//
+absvtype
+SDL_Renderer_ptr(l:addr) = ptr(l) // SDL_Renderer* or null
+vtypedef
+SDL_Renderer_ptr0 = [l:addr] SDL_Renderer_ptr (l)
+vtypedef
+SDL_Renderer_ptr1 = [l:addr | l > null] SDL_Renderer_ptr (l)
+//
+(* ****** ****** *)
+
 #endif // end of [ifndef]
 
 (* ****** ****** *)

@@ -43,6 +43,7 @@
 
 (* ****** ****** *)
 
+#include "./SDL_render.sats"
 #include "./SDL_timer.sats"
 #include "./SDL_version.sats"
 #include "./SDL_video.sats"

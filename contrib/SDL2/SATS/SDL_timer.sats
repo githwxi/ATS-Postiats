@@ -26,4 +26,12 @@
 
 (* ****** ****** *)
 
+#include "./mybasis.sats"
+
+(* ****** ****** *)
+
+fun SDL_Delay (ms: Uint32): void = "mac#%"
+
+(* ****** ****** *)
+
 (* end of [SDL_timer.sats] *)

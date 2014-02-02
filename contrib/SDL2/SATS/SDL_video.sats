@@ -30,12 +30,44 @@
 
 (* ****** ****** *)
 //
-// HX: [SDL_Surface_ref] is reference counted
+castfn
+SDL_Window_ptr2ptr
+  {l:addr}(!SDL_Window_ptr(l)):<> ptr(l)
 //
-absvtype SDL_Window_ptr (l:addr) // SDL_Window* or null
-vtypedef SDL_Window_ptr0 = [l:addr] SDL_Window_ptr (l)
-vtypedef SDL_Window_ptr1 = [l:addr | l > null] SDL_Window_ptr (l)
+overload ptrcast with SDL_Window_ptr2ptr
 //
+(* ****** ****** *)
+
+typedef SDL_WindowFlags = Uint32
+macdef
+SDL_WINDOW_FULLSCREEN = $extval (SDL_WindowFlags, "SDL_WINDOW_FULLSCREEN")
+macdef
+SDL_WINDOW_OPENGL = $extval (SDL_WindowFlags, "SDL_WINDOW_OPENGL")
+macdef
+SDL_WINDOW_SHOWN = $extval (SDL_WindowFlags, "SDL_WINDOW_SHOWN")
+macdef
+SDL_WINDOW_HIDDEN = $extval (SDL_WindowFlags, "SDL_WINDOW_HIDDEN")
+macdef
+SDL_WINDOW_BORDERLESS = $extval (SDL_WindowFlags, "SDL_WINDOW_BORDERLESS")
+macdef
+SDL_WINDOW_RESIZABLE = $extval (SDL_WindowFlags, "SDL_WINDOW_RESIZABLE")
+macdef
+SDL_WINDOW_MINIMIZED = $extval (SDL_WindowFlags, "SDL_WINDOW_MINIMIZED")
+macdef
+SDL_WINDOW_MAXIMIZED = $extval (SDL_WindowFlags, "SDL_WINDOW_MAXIMIZED")
+macdef
+SDL_WINDOW_INPUT_GRABBED = $extval (SDL_WindowFlags, "SDL_WINDOW_INPUT_GRABBED")
+macdef
+SDL_WINDOW_INPUT_FOCUS = $extval (SDL_WindowFlags, "SDL_WINDOW_INPUT_FOCUS")
+macdef
+SDL_WINDOW_MOUSE_FOCUS = $extval (SDL_WindowFlags, "SDL_WINDOW_MOUSE_FOCUS")
+macdef
+SDL_WINDOW_FULLSCREEN_DESKTOP = $extval (SDL_WindowFlags, "SDL_WINDOW_FULLSCREEN_DESKTOP")
+macdef
+SDL_WINDOW_FOREIGN = $extval (SDL_WindowFlags, "SDL_WINDOW_FOREIGN")
+macdef
+SDL_WINDOW_ALLOW_HIGHDPI = $extval (SDL_WindowFlags, "SDL_WINDOW_ALLOW_HIGHDPI")
+
 (* ****** ****** *)
 
 fun SDL_CreateWindow
