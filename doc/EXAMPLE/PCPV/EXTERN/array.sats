@@ -47,7 +47,7 @@ dataview
 array_v
   (addr, stmsq, int) =
   | {l:addr}{xs:stmsq}
-    array_v_nil (l, xs, 0) of ()
+    array_v_nil (l, nil, 0) of ()
   | {l:addr}{xs:stmsq}{x:stamp}{n:int}
     array_v_cons (l, cons (x, xs), n+1) of (T(x) @ l, array_v (l+1, xs, n))
 // end of [array_v]
@@ -86,7 +86,7 @@ fun array_ptrget
   {l:addr}{xs:stmsq}
   {n:int}{i:nat | i < n}
   (pf: !array_v(l, xs, n) | p: ptr(l+i)) : T(select(xs, i))
-// end of [array_ptrget
+// end of [array_ptrget]
 
 fun array_ptrset
   {l:addr}

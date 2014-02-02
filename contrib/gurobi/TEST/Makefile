@@ -34,6 +34,12 @@ cleanall:: ; $(RMF) test00
 
 ######
 
+all:: gurobi_mip1
+gurobi_mip1: gurobi_mip1.dats ; $(PATSCC2) -o $@ $< $(LDFLAGS)
+cleanall:: ; $(RMF) gurobi_mip1
+
+######
+
 include $(PATSHOME)/share/atsmake-post.mk
 
 ######

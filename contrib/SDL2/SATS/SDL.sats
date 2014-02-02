@@ -40,10 +40,30 @@
 (* ****** ****** *)
 
 typedef Uint8 = uint8
+typedef Uint16 = uint16
+typedef Uint32 = uint32
 
 (* ****** ****** *)
 
 #include "./SDL_version.sats"
+
+(* ****** ****** *)
+
+fun SDL_Init(flags: Uint32): int = "mac#%"
+
+(* ****** ****** *)
+
+fun SDL_Init(flags: Uint32): int = "mac#%"
+fun SDL_InitSubSystem (flags: Uint32): int = "mac#%"
+
+(* ****** ****** *)
+
+fun SDL_Quit ((*void*)): void = "mac#%"
+fun SDL_QuitSubSystem (flags: Uint32): void = "mac#%"
+
+(* ****** ****** *)
+
+fun SDL_WasInit (flags: Uint32): Uint32 = "mac#%"
 
 (* ****** ****** *)
 

@@ -39,6 +39,20 @@
 
 /* ****** ****** */
 
+#define atscntrb_SDL2_SDL_Init SDL_Init
+#define atscntrb_SDL2_SDL_InitSubSystem SDL_InitSubSystem
+
+/* ****** ****** */
+
+#define atscntrb_SDL2_SDL_Quit SDL_Quit
+#define atscntrb_SDL2_SDL_QuitSubSystem SDL_QuitSubSystem
+
+/* ****** ****** */
+
+#define atscntrb_SDL2_SDL_WasInit SDL_WasInit
+
+/* ****** ****** */
+
 #endif // ifndef SDL2_SDL_CATS
 
 /* end of [SDL.cats] */
