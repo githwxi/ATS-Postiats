@@ -85,9 +85,12 @@ absview token_v
 //
 fun{a:type}
 tokener2_get (!tokener2(a)): (token_v | a)
+fun{a:type}
+tokener2_unget (token_v | !tokener2(a)): void
+fun{a:type}
+tokener2_getaft (token_v | !tokener2(a)): void
 //
-fun{a:type} tokener2_unget (token_v | !tokener2(a)): void
-fun{a:type} tokener2_getout (token_v | !tokener2(a)): void
+fun{a:type} tokener2_getout (!tokener2(a)): (a)
 //
 (* ****** ****** *)
 
