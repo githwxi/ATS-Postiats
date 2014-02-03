@@ -30,17 +30,17 @@ val () = assertloc (err >= 0)
 val title = "Chapter 1: Setting up SDL"
 val x = $extval (int, "SDL_WINDOWPOS_CENTERED")
 val y = $extval (int, "SDL_WINDOWPOS_CENTERED")
-val g_pWindow =
-  SDL_CreateWindow (title, x, y, 640, 480, SDL_WINDOW_SHOWN)
+val flags = SDL_WINDOW_SHOWN
+val Window = SDL_CreateWindow (title, x, y, 640, 480, flags)
 //
-val () = assertloc (ptrcast(g_pWindow) > 0)
+val () = assertloc (ptrcast(Window) > 0)
 //
-val g_pRenderer = SDL_CreateRenderer(g_pWindow, ~1, (Uint32)0)
+val Renderer = SDL_CreateRenderer(Window, ~1, (Uint32)0)
 //
-val () = assertloc (ptrcast(g_pRenderer) > 0)
+val () = assertloc (ptrcast(Renderer) > 0)
 //
-val () = $Window.initset (g_pWindow)
-val () = $Renderer.initset (g_pRenderer)
+val () = $Window.initset (Window)
+val () = $Renderer.initset (Renderer)
 //
 } (* end of [val] *)
 
@@ -49,20 +49,20 @@ val () = $Renderer.initset (g_pRenderer)
 fun step2 () =
 {
 //
-val (fpf | g_pRenderer) = $Renderer.vtakeout ()
+val (fpf | Renderer) = $Renderer.vtakeout ()
 //
 val err =
 SDL_SetRenderDrawColor
-  (g_pRenderer, (Uint8)0, (Uint8)0, (Uint8)0, (Uint8)255)
+  (Renderer, (Uint8)0, (Uint8)0, (Uint8)0, (Uint8)255)
 val () = assertloc (err = 0)
 //
 val err =
-SDL_RenderClear (g_pRenderer)
+SDL_RenderClear (Renderer)
 val () = assertloc (err = 0)
 //
-val () = SDL_RenderPresent (g_pRenderer)
+val () = SDL_RenderPresent (Renderer)
 //
-prval () = fpf (g_pRenderer)
+prval ((*void*)) = fpf (Renderer)
 //
 } (* end of [val] *)
 

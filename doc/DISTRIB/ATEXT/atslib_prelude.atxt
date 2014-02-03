@@ -123,8 +123,10 @@ The ATSLIB/prelude library\
 
 #packfilename("CATS/bool.cats")
 #packfilename("CATS/char.cats")
+
 #packfilename("CATS/integer_ptr.cats")
 #packfilename("CATS/integer_fixed.cats")
+
 #packfilename("CATS/float.cats")
 
 (* ****** ****** *)
@@ -163,8 +165,10 @@ The ATSLIB/prelude library\
 
 #packfilename("SATS/bool.sats")
 #packfilename("SATS/char.sats")
+
 #packfilename("SATS/integer_ptr.sats")
 #packfilename("SATS/integer_fixed.sats")
+
 #packfilename("SATS/float.sats")
 
 #packfilename("SATS/memory.sats")
@@ -223,12 +227,11 @@ The ATSLIB/prelude library\
 
 #packfilename("DATS/bool.dats")
 #packfilename("DATS/char.dats")
-#packfilename("DATS/integer.dats")
-#packfilename("DATS/arith_prf.dats")
 
-#comment('\
-\#packfilename("DATS/integer_fixed.dats")
-')
+#packfilename("DATS/integer.dats")
+#packfilename("DATS/integer_fixed.dats")
+
+#packfilename("DATS/arith_prf.dats")
 
 #packfilename("DATS/float.dats")
 #packfilename("DATS/string.dats")

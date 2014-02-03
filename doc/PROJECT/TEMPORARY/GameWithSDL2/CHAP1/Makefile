@@ -27,6 +27,7 @@ include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
+all:: hello
 hello: \
   hello.dats \
   hello_Window.dats \

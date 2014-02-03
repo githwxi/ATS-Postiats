@@ -56,14 +56,18 @@ all::
 ######
 
 #make_entry("basics")
+
+#make_entry("pointer")
 #make_entry("integer")
 #make_entry("integer_ptr")
 #make_entry("integer_fixed")
-#make_entry("memory")
-#make_entry("pointer")
+
 #make_entry("bool")
 #make_entry("char")
 #make_entry("float")
+
+#make_entry("memory")
+
 #make_entry("string")
 #make_entry("strptr")
 
