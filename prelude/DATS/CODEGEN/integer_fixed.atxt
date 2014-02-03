@@ -1,0 +1,237 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"integer_fixed.dats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_GPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/integer_fixed.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
+#atscode_start_time("February, 2014")
+
+#atscode_separator()
+
+\#define ATS_DYNLOADFLAG 0 // no dynloading at run-time
+
+#atscode_separator()
+//
+%{
+//
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+//
+%}\
+//
+#atscode_separator()
+//
+staload UN = "prelude/SATS/unsafe.sats"
+//
+#atscode_separator()
+
+%{
+//
+fun g0int_implist (
+  knm: string, tnm: string, tnm2: string
+) : atext = let
+//
+fun f (opr: string):<cloref1> atext = let
+//
+val x = sprintf
+(
+"implement g0int_%s<%s> = g0int_%s_%s\n", @(opr, knm, opr, tnm)
+) (* end of [val] *)
+//
+in
+  atext_strptr (x)
+end // end of [f]
+//
+fun fpr ():<cloref1> atext = let
+//
+val x = sprintf
+(
+"\
+implement fprint_val<%s> (out, x) = fprint_%s (out, x)\
+",
+@(
+tnm2, tnm
+)
+)
+in
+  atext_strptr (x)
+end // end of [fpr]
+//
+var res: atextlst = list_nil
+//
+val () = res := list_cons (f "neg", res)
+val () = res := list_cons (f "abs", res)
+//
+val () = res := list_cons (f "succ", res)
+val () = res := list_cons (f "pred", res)
+//
+val () = res := list_cons (f "half", res)
+//
+val () = res := list_cons (f "add", res)
+val () = res := list_cons (f "sub", res)
+val () = res := list_cons (f "mul", res)
+val () = res := list_cons (f "div", res)
+val () = res := list_cons (f "mod", res)
+//
+val () = res := list_cons (f "asl", res)
+val () = res := list_cons (f "asr", res)
+//
+val () = res := list_cons (f "isltz", res)
+val () = res := list_cons (f "isltez", res)
+val () = res := list_cons (f "isgtz", res)
+val () = res := list_cons (f "isgtez", res)
+val () = res := list_cons (f "iseqz", res)
+val () = res := list_cons (f "isneqz", res)
+//
+val () = res := list_cons (f "lt", res)
+val () = res := list_cons (f "lte", res)
+val () = res := list_cons (f "gt", res)
+val () = res := list_cons (f "gte", res)
+val () = res := list_cons (f "eq", res)
+val () = res := list_cons (f "neq", res)
+//
+val () = res := list_cons (f "compare", res)
+//
+val () = res := list_cons (f "max", res)
+val () = res := list_cons (f "min", res)
+//
+val () = res := list_cons (atext_strcst("//\n"), res)
+//
+val () = res := list_cons (fpr (), res)
+//
+val res = list_reverse (res)
+//
+in
+  atext_concatxt (list_of_list_vt (res))
+end // end of [g0int_implist]
+//
+%}\
+\
+#g0int_implist("int8knd", "int8", "int8")
+//
+#g0int_implist("int16knd", "int16", "int16")
+//
+#g0int_implist("int32knd", "int32", "int32")
+//
+#g0int_implist("int64knd", "int64", "int64")
+//
+#atscode_separator()
+
+%{
+//
+fun g0uint_implist (
+  knm: string, tnm: string, tnm2: string
+) : atext = let
+//
+fun f (opr: string):<cloref1> atext = let
+//
+val x = sprintf
+(
+"implement g0uint_%s<%s> = g0uint_%s_%s\n", @(opr, knm, opr, tnm)
+) // end of [val]
+//
+in
+  atext_strptr (x)
+end // end of [f]
+//
+fun fpr (
+):<cloref1> atext = let
+//
+val x = sprintf
+("\
+implement fprint_val<%s> (out, x) = fprint_%s (out, x)\
+", 
+@(
+tnm2, tnm
+)
+) // end of [val]
+//
+in
+  atext_strptr (x)
+end // end of [fpr]
+//
+var res: atextlst = list_nil
+//
+val () = res := list_cons (f "succ", res)
+val () = res := list_cons (f "pred", res)
+//
+val () = res := list_cons (f "half", res)
+//
+val () = res := list_cons (f "add", res)
+val () = res := list_cons (f "sub", res)
+val () = res := list_cons (f "mul", res)
+val () = res := list_cons (f "div", res)
+val () = res := list_cons (f "mod", res)
+(*
+val () = res := list_cons (f "nmod", res) // HX: skipped
+*)
+//
+val () = res := list_cons (f "lsl", res)
+val () = res := list_cons (f "lsr", res)
+//
+val () = res := list_cons (f "lnot", res)
+val () = res := list_cons (f "lor", res)
+val () = res := list_cons (f "lxor", res)
+val () = res := list_cons (f "land", res)
+//
+val () = res := list_cons (f "isgtz", res)
+val () = res := list_cons (f "iseqz", res)
+val () = res := list_cons (f "isneqz", res)
+//
+val () = res := list_cons (f "lt", res)
+val () = res := list_cons (f "lte", res)
+val () = res := list_cons (f "gt", res)
+val () = res := list_cons (f "gte", res)
+val () = res := list_cons (f "eq", res)
+val () = res := list_cons (f "neq", res)
+//
+val () = res := list_cons (f "compare", res)
+//
+val () = res := list_cons (f "max", res)
+val () = res := list_cons (f "min", res)
+//
+val () = res := list_cons (atext_strcst("//\n"), res)
+//
+val () = res := list_cons (fpr (), res)
+//
+val res = list_reverse (res)
+//
+in
+  atext_concatxt (list_of_list_vt (res))
+end // end of [g0uint_implist]
+//
+%}\
+\
+#g0uint_implist("uint8knd", "uint8", "uint8")
+//
+#g0uint_implist("uint16knd", "uint16", "uint16")
+//
+#g0uint_implist("uint32knd", "uint32", "uint32")
+//
+#g0uint_implist("uint64knd", "uint64", "uint64")
+//
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "integer_fixed_atxt.txt")
+%}\
