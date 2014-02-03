@@ -427,9 +427,9 @@ stadef Int64 = [i:int] int64_1 (i)
 tkindef
 uint64_kind = "atstype_uint64"
 typedef
-uint64_0 = g0uint (int64_kind)
+uint64_0 = g0uint (uint64_kind)
 typedef
-uint64_1 (i:int) = g1uint (int64_kind, i)
+uint64_1 (i:int) = g1uint (uint64_kind, i)
 stadef uint64 = uint64_1 // 2nd-select
 stadef uint64 = uint64_0 // 1st-select
 stadef uInt64 = [i:nat] uint64_1 (i)

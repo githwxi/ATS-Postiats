@@ -207,6 +207,7 @@ STRINGS = "libc/SATS/strings.sats"
 //
 macdef get = my_tokener2_get
 macdef unget = my_tokener2_unget
+macdef getaft = my_tokener2_getaft
 macdef getout = my_tokener2_getout
 //
 macdef strcasecmp = $STRINGS.strcasecmp
@@ -234,7 +235,7 @@ in
 //
 case+ tok of
 | TOKrpar () => let
-    val () = getout (pf | t2knr) in ()
+    val () = getaft (pf | t2knr) in ()
   end // end of [TOKrpar]
 | _(*rest*) => let
     val () = unget (pf | t2knr)
@@ -260,7 +261,7 @@ case+ tok of
     strcasecmp (sym.name, "AND") = 0
     val () = (
     if ans
-      then getout (pf | t2knr) else unget (pf | t2knr)
+      then getaft (pf | t2knr) else unget (pf | t2knr)
     // end of [if]
     ) : void // end of [val]
   } (* end of [TOKide] *)
@@ -283,7 +284,7 @@ case+ tok of
     strcasecmp (sym.name, "OR") = 0
     val () = (
     if ans
-      then getout (pf | t2knr) else unget (pf | t2knr)
+      then getaft (pf | t2knr) else unget (pf | t2knr)
     // end of [if]
     ) : void // end of [val]
   } (* end of [TOKide] *)
@@ -297,8 +298,7 @@ implement
 parse_gratm
   (t2knr) = let
 //
-val (pf | tok) = get (t2knr)
-val ((*void*)) = getout (pf | t2knr)
+val tok = getout (t2knr)
 //
 in
 //

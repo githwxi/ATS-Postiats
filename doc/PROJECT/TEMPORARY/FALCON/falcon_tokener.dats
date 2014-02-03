@@ -241,7 +241,9 @@ fun my_tokener2_get
 extern
 fun my_tokener2_unget (token_v | !tokener2): void
 extern
-fun my_tokener2_getout (token_v | !tokener2): void
+fun my_tokener2_getaft (token_v | !tokener2): void
+extern
+fun my_tokener2_getout (!tokener2): token
 //
 (* ****** ****** *)
 
@@ -257,7 +259,9 @@ my_tokener2_get (t2knr) = tokener2_get<token> (t2knr)
 implement
 my_tokener2_unget (pf | t2knr) = tokener2_unget<token> (pf | t2knr)
 implement
-my_tokener2_getout (pf | t2knr) = tokener2_getout<token> (pf | t2knr)
+my_tokener2_getaft (pf | t2knr) = tokener2_getaft<token> (pf | t2knr)
+implement
+my_tokener2_getout (t2knr) = tokener2_getout<token> (t2knr)
 
 end // end of [local]
 

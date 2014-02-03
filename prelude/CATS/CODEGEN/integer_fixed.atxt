@@ -137,10 +137,8 @@ fun_aop_decl (
 //
 val fopr = (
   case+ opr of
-  | "add" => "+"
-  | "sub" => "-"
-  | "mul" => "*"
-  | "div" => "/"
+  | "add" => "+" | "sub" => "-"
+  | "mul" => "*" | "div" => "/" | "mod" => "%"
   | _ => opr
 ) : string // end of [val]
 //
@@ -240,6 +238,7 @@ val () = res := list_cons (fun_aop_decl("add", tnm), res)
 val () = res := list_cons (fun_aop_decl("sub", tnm), res)
 val () = res := list_cons (fun_aop_decl("mul", tnm), res)
 val () = res := list_cons (fun_aop_decl("div", tnm), res)
+val () = res := list_cons (fun_aop_decl("mod", tnm), res)
 //
 val () = res := list_cons (fun_cmpz_decl("isltz", tnm), res)
 val () = res := list_cons (fun_cmpz_decl("isltez", tnm), res)
@@ -394,10 +393,8 @@ fun_aop_decl (
 //
 val fopr = (
   case+ opr of
-  | "add" => "+"
-  | "sub" => "-"
-  | "mul" => "*"
-  | "div" => "/"
+  | "add" => "+" | "sub" => "-"
+  | "mul" => "*" | "div" => "/" | "mod" => "%"
   | _ => opr
 ) : string // end of [val]
 //
@@ -415,6 +412,76 @@ atspre_g0uint_%s_%s
 in
   atext_strptr (ent)
 end // end of [fun_aop_decl]
+//
+fun
+fun_lsx_decl
+(
+  opr: string, knd: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "lsl" => "<<" | "lsr" => ">>" | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf
+("\
+ATSinline()
+atstype_%s
+atspre_g0uint_%s_%s
+  (atstype_%s x, atstype_int n) { return (x %s n) ; }
+// end of [atspre_g0uint_%s_%s]\n\
+", @(
+  knd, opr, knd, knd, fopr, opr, knd
+)
+) // end of [sprintf] // end of [val]
+in
+  atext_strptr (ent)
+end // end of [fun_lsx_decl]
+//
+fun
+fun_lnot_decl
+  (knd: string): atext = let
+//
+val ent = sprintf
+("\
+ATSinline()
+atstype_%s
+atspre_g0uint_lnot_%s
+  (atstype_%s x) { return ~(x) ; }
+// end of [atspre_g0uint_lnot_%s]\n\
+", @(knd, knd, knd, knd)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_lnot_decl]
+//
+fun
+fun_bitop_decl
+(
+  opr: string, knd: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "lor" => "|" | "land" => "&" | "lxor" => "^" | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf
+("\
+ATSinline()
+atstype_%s
+atspre_g0uint_%s_%s
+  (atstype_%s x, atstype_%s y) { return (x %s y) ; }
+// end of [atspre_g0uint_%s_%s]\n\
+", @(
+  knd, opr, knd, knd, knd, fopr, knd, knd
+)
+) // end of [sprintf] // end of [val]
+in
+  atext_strptr (ent)
+end // end of [fun_bitop_decl]
 //
 fun
 fun_cmpz_decl (
@@ -492,6 +559,15 @@ val () = res := list_cons (fun_aop_decl("add", tnm), res)
 val () = res := list_cons (fun_aop_decl("sub", tnm), res)
 val () = res := list_cons (fun_aop_decl("mul", tnm), res)
 val () = res := list_cons (fun_aop_decl("div", tnm), res)
+val () = res := list_cons (fun_aop_decl("mod", tnm), res)
+//
+val () = res := list_cons (fun_lsx_decl("lsl", tnm), res)
+val () = res := list_cons (fun_lsx_decl("lsr", tnm), res)
+//
+val () = res := list_cons (fun_lnot_decl(tnm), res)
+val () = res := list_cons (fun_bitop_decl("lor", tnm), res)
+val () = res := list_cons (fun_bitop_decl("land", tnm), res)
+val () = res := list_cons (fun_bitop_decl("lxor", tnm), res)
 //
 val () = res := list_cons (fun_cmpz_decl("isgtz", tnm), res)
 val () = res := list_cons (fun_cmpz_decl("iseqz", tnm), res)

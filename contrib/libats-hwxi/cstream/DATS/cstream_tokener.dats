@@ -124,13 +124,29 @@ tokener2_unget (pf | t2knr) =
 
 implement
 {token}
-tokener2_getout (pf | t2knr) =
+tokener2_getaft (pf | t2knr) =
 {
 //
 prval unit_v () = pf
 //
 val+@TOKENER2(tknr, tok) = t2knr
 val () = tok := tokener_get_token<token> (tknr)
+prval ((*void*)) = fold@ (t2knr)
+//
+} (* end of [tokener2_getaft] *)
+
+(* ****** ****** *)
+
+implement
+{token}
+tokener2_getout
+  (t2knr) = tok_ where
+{
+//
+val+@TOKENER2(tknr, tok) = t2knr
+val tok_ = tok
+val ((*void*)) = tok := tokener_get_token<token> (tknr)
+//
 prval ((*void*)) = fold@ (t2knr)
 //
 } (* end of [tokener2_getout] *)

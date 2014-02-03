@@ -26,37 +26,16 @@
 
 /* ****** ****** */
 
-#ifndef SDL2_SDL_CATS
-#define SDL2_SDL_CATS
+#ifndef SDL2_SDL_EVENTS_CATS
+#define SDL2_SDL_EVENTS_CATS
 
 /* ****** ****** */
 
-#include <SDL.h>
+#define atscntrb_SDL2_SDL_PollEvent SDL_PollEvent
+#define atscntrb_SDL2_SDL_PollEvent_null () SDL_PollEvent((SDL_Event*)0)
 
 /* ****** ****** */
 
-#include "SDL2/CATS/SDL_events.cats"
-#include "SDL2/CATS/SDL_render.cats"
-#include "SDL2/CATS/SDL_timer.cats"
-#include "SDL2/CATS/SDL_version.cats"
-#include "SDL2/CATS/SDL_video.cats"
+#endif // ifndef SDL2_SDL_EVENTS_CATS
 
-/* ****** ****** */
-
-#define atscntrb_SDL2_SDL_Init SDL_Init
-#define atscntrb_SDL2_SDL_InitSubSystem SDL_InitSubSystem
-
-/* ****** ****** */
-
-#define atscntrb_SDL2_SDL_Quit SDL_Quit
-#define atscntrb_SDL2_SDL_QuitSubSystem SDL_QuitSubSystem
-
-/* ****** ****** */
-
-#define atscntrb_SDL2_SDL_WasInit SDL_WasInit
-
-/* ****** ****** */
-
-#endif // ifndef SDL2_SDL_CATS
-
-/* end of [SDL.cats] */
+/* end of [SDL_events.cats] */

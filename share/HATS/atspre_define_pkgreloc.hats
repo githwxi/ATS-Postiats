@@ -74,6 +74,13 @@ CAIRO_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/cairo"
 (* ****** ****** *)
 //
 #define
+SDL2_targetloc "$PATSHOMERELOC/contrib/SDL2"
+#define
+SDL2_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/SDL2"
+//
+(* ****** ****** *)
+//
+#define
 JNI_targetloc "$PATSHOMERELOC/contrib/JNI"
 #define
 JNI_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/JNI"

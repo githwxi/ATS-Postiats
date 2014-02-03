@@ -1,6 +1,6 @@
 (***********************************************************************)
 (*                                                                     *)
-(*                       ATS/contrib/libats-hwxi                       *)
+(*                         ATS/contrib/atshwxi                         *)
 (*                                                                     *)
 (***********************************************************************)
 
@@ -29,69 +29,71 @@
 (* ****** ****** *)
 
 (*
-** cstream-based tokenizer
+absvtype objptr(l:addr) = ptr(l)
 *)
 
 (* ****** ****** *)
 
-staload "./cstream.sats"
+vtypedef objptr0 = [l:addr] objptr(l)
+vtypedef objptr1 = [l:addr | l > null] objptr(l)
 
 (* ****** ****** *)
 //
-staload
-SBF = "libats/SATS/stringbuf.sats"
+extern fun initset {l:agz} (x: objptr (l)): void
+//
+extern fun takeout ((*void*)): [l:addr] objptr(l)
+extern fun vtakeout ((*void*)): [l:addr] vttakeout0 (objptr(l))
+//
+extern fun exchange {l:addr} (x: objptr(l)): [l:addr] objptr(l)
 //
 (* ****** ****** *)
 
-absvtype tokener_vtype(a:type) = ptr
-vtypedef tokener(a:type) = tokener_vtype(a)
+local
+//
+var obj: objptr0 =
+  $UNSAFE.castvwtp0{objptr(null)}(0)
+//
+val p_obj = addr@(obj)
+prval pf_obj = view@(obj)
+//
+val r_obj = ref_make_viewptr{objptr0}(pf_obj | p_obj)
+
+in (* in of [local] *)
+
+implement
+initset (x_init) =
+{
+  val (vbox pf | p) = ref_get_viewptr (r_obj)
+  val x_null = !p; val ((*void*)) = !p := x_init
+  val () = assertloc ($UNSAFE.castvwtp0{ptr}(x_null) = the_null_ptr)
+} (* end of [initset] *)
+
+implement
+takeout () = x_current where
+{
+  val (vbox pf | p) = ref_get_viewptr (r_obj)
+  val x_null = $UNSAFE.castvwtp0{objptr(null)}(0)
+  val x_current = !p; val ((*void*)) = !p := x_null
+} (* end of [where] *) // end of [takeout]
 
 (* ****** ****** *)
-//
-fun{a:type}
-tokener_free (tknr: tokener(a)): void
-//
-(* ****** ****** *)
-//
-fun{a:type}
-tokener_make_cstream (cs0: cstream): tokener(a)
-//
-(* ****** ****** *)
-//
-fun{a:type}
-tokener_get_token (lxbf: !tokener(a)): (a)
-//
-fun{
-token:type
-} tokener_get_token$main (
-  cs0: !cstream, i0: &int >> _, sbf: !($SBF.stringbuf)
-) : token // end of [tokener_get_token$main]
-//
-(* ****** ****** *)
 
-absvtype tokener2_vtype(a:type) = ptr
-vtypedef tokener2(a:type) = tokener2_vtype(a)
+implement
+vtakeout () = let
+  val (vbox pf | p) = ref_get_viewptr (r_obj) in $UNSAFE.castvwtp1(!p)
+end // end of [let] // end [vtakeout]
 
 (* ****** ****** *)
 
-fun{a:type}
-tokener2_free (t2nkr: tokener2(a)): void
-fun{a:type}
-tokener2_make_tokener (tokener(a)): tokener2(a)
+implement
+exchange (x_new) = x_current where
+{
+  val (vbox pf | p) = ref_get_viewptr (r_obj)
+  val x_current = !p; val ((*void*)) = !p := x_new
+} // end of [where] (* end of [initset] *)
+
+end // end of [local]
 
 (* ****** ****** *)
-//
-absview token_v
-//
-fun{a:type}
-tokener2_get (!tokener2(a)): (token_v | a)
-fun{a:type}
-tokener2_unget (token_v | !tokener2(a)): void
-fun{a:type}
-tokener2_getaft (token_v | !tokener2(a)): void
-//
-fun{a:type} tokener2_getout (!tokener2(a)): (a)
-//
-(* ****** ****** *)
 
-(* end of [cstream_tokener.sats] *)
+(* end of [gobjptr.hats] *)

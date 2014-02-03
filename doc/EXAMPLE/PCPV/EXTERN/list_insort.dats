@@ -36,6 +36,12 @@ SORTED_cons
   {x <= select(xs,0)}
   (pf: SORTED (xs, n)): SORTED (cons(x, xs), n+1)
 //
+extern
+praxi
+SORTED_uncons
+  {x:stamp}{xs:stmsq}{n:pos}
+  (pf: SORTED (cons(x, xs), n)): [x <= select(xs,0)] SORTED (xs, n-1)
+//
 (* ****** ****** *)
 //
 extern

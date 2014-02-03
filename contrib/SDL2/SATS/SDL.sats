@@ -39,11 +39,45 @@
 
 (* ****** ****** *)
 
-typedef Uint8 = uint8
+#include "./mybasis.sats"
 
 (* ****** ****** *)
 
+#include "./SDL_events.sats"
+#include "./SDL_render.sats"
+#include "./SDL_timer.sats"
 #include "./SDL_version.sats"
+#include "./SDL_video.sats"
+
+(* ****** ****** *)
+
+macdef SDL_INIT_TIMER = $extval (Uint32, "SDL_INIT_TIMER")
+macdef SDL_INIT_AUDIO = $extval (Uint32, "SDL_INIT_AUDIO")
+macdef SDL_INIT_VIDEO = $extval (Uint32, "SDL_INIT_VIDEO")
+macdef SDL_INIT_JOYSTICK = $extval (Uint32, "SDL_INIT_JOYSTICK")
+macdef SDL_INIT_HAPTIC = $extval (Uint32, "SDL_INIT_HAPTIC")
+macdef SDL_INIT_GAMECONTROLLER = $extval (Uint32, "SDL_INIT_GAMECONTROLLER")
+macdef SDL_INIT_EVENTS = $extval (Uint32, "SDL_INIT_EVENTS")
+macdef SDL_INIT_NOPARACHUTE = $extval (Uint32, "SDL_INIT_NOPARACHUTE")
+macdef SDL_INIT_EVERYTHING = $extval (Uint32, "SDL_INIT_EVERYTHING")
+
+(* ****** ****** *)
+
+fun SDL_Init (flags: Uint32): int = "mac#%"
+
+(* ****** ****** *)
+
+fun SDL_Init (flags: Uint32): int = "mac#%"
+fun SDL_InitSubSystem (flags: Uint32): int = "mac#%"
+
+(* ****** ****** *)
+
+fun SDL_Quit ((*void*)): void = "mac#%"
+fun SDL_QuitSubSystem (flags: Uint32): void = "mac#%"
+
+(* ****** ****** *)
+
+fun SDL_WasInit (flags: Uint32): Uint32 = "mac#%"
 
 (* ****** ****** *)
 
