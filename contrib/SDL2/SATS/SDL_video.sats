@@ -77,4 +77,8 @@ fun SDL_CreateWindow
 
 (* ****** ****** *)
 
+fun SDL_DestroyWindow (SDL_Window_ptr0): void = "mac#%"
+
+(* ****** ****** *)
+
 (* end of [SDL_video.sats] *)

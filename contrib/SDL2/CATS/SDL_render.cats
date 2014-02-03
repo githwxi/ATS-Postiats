@@ -32,6 +32,7 @@
 /* ****** ****** */
 
 #define atscntrb_SDL2_SDL_CreateRenderer SDL_CreateRenderer
+#define atscntrb_SDL2_SDL_DestroyRenderer SDL_DestroyRenderer
 
 /* ****** ****** */
 

@@ -15,8 +15,8 @@ staload "{$SDL2}/SATS/SDL.sats"
 
 (* ****** ****** *)
 
-staload Window = "./hello_Window.dats"
-staload Renderer = "./hello_Renderer.dats"
+staload Window = "./Hello_Window.dats"
+staload Renderer = "./Hello_Renderer.dats"
 
 (* ****** ****** *)
 
@@ -39,8 +39,14 @@ val Renderer = SDL_CreateRenderer(Window, ~1, (Uint32)0)
 //
 val () = assertloc (ptrcast(Renderer) > 0)
 //
+val err =
+SDL_SetRenderDrawColor
+  (Renderer, (Uint8)0, (Uint8)0, (Uint8)0, (Uint8)255)
+val () = assertloc (err = 0)
+//
 val () = $Window.initset (Window)
 val () = $Renderer.initset (Renderer)
+//
 //
 } (* end of [val] *)
 
@@ -50,11 +56,7 @@ fun step2 () =
 {
 //
 val (fpf | Renderer) = $Renderer.vtakeout ()
-//
-val err =
-SDL_SetRenderDrawColor
-  (Renderer, (Uint8)0, (Uint8)0, (Uint8)0, (Uint8)255)
-val () = assertloc (err = 0)
+val ((*void*)) = assertloc (ptrcast (Renderer) > 0)
 //
 val err =
 SDL_RenderClear (Renderer)
@@ -81,4 +83,4 @@ val ((*void*)) = SDL_Quit ((*void*))
 
 (* ****** ****** *)
 
-(* end of [hello.dats] *)
+(* end of [Hello.dats] *)

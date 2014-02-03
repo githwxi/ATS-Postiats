@@ -23,17 +23,17 @@ MALLOCFLAG := -DATS_MEMALLOC_LIBC
 
 ######
 
-include $(PATSHOME)/share/atsmake-post.mk
+SOURCES_DATS += Hello.dats
+SOURCES_DATS += Hello_Window.dats
+SOURCES_DATS += Hello_Renderer.dats
 
 ######
 
-all:: hello
-hello: \
-  hello.dats \
-  hello_Window.dats \
-  hello_Renderer.dats ; \
-  $(PATSCC2) $(CFLAGS) -o $@ $^ $(LDFLAGS)
-cleanall:: ; $(RMF) hello
+MYTARGET=Hello
+
+######
+
+include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 

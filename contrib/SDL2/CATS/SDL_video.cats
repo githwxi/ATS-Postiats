@@ -32,6 +32,7 @@
 /* ****** ****** */
 
 #define atscntrb_SDL2_SDL_CreateWindow SDL_CreateWindow
+#define atscntrb_SDL2_SDL_DestroyWindow SDL_DestroyWindow
 
 /* ****** ****** */
 

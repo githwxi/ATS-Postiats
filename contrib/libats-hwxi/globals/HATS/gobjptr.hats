@@ -40,9 +40,10 @@ vtypedef objptr1 = [l:addr | l > null] objptr(l)
 (* ****** ****** *)
 //
 extern fun initset {l:agz} (x: objptr (l)): void
-extern fun takeout ((*void*)): [l:addr] objptr(l)
 //
-extern fun vtakeout ((*void*)): [l:agz] vttakeout0 (objptr(l))
+extern fun takeout ((*void*)): [l:addr] objptr(l)
+extern fun vtakeout ((*void*)): [l:addr] vttakeout0 (objptr(l))
+//
 extern fun exchange {l:addr} (x: objptr(l)): [l:addr] objptr(l)
 //
 (* ****** ****** *)
@@ -79,15 +80,10 @@ takeout () = x_current where
 
 implement
 vtakeout () = let
-  val (vbox pf | p) = ref_get_viewptr (r_obj)
-  val [l:addr] (fpf | x_current) =
-    $UNSAFE.castvwtp1{[l:addr]vttakeout0(objptr(l))}(!p)
-  val ((*void*)) =
-    assertloc ($UNSAFE.castvwtp1{ptr(l)}(x_current) > the_null_ptr)
-  // end of [val]
-in
-  (fpf | x_current)
+  val (vbox pf | p) = ref_get_viewptr (r_obj) in $UNSAFE.castvwtp1(!p)
 end // end of [let] // end [vtakeout]
+
+(* ****** ****** *)
 
 implement
 exchange (x_new) = x_current where

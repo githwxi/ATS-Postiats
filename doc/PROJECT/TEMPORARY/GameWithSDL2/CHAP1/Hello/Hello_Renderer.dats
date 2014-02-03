@@ -22,7 +22,7 @@ staload "{$SDL2}/SATS/SDL.sats"
 local
 //
 vtypedef
-objptr(l:addr) = SDL_Window_ptr(l)
+objptr(l:addr) = SDL_Renderer_ptr(l)
 //
 in (* in of [local] *)
 
@@ -32,4 +32,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [hello_Window.dats] *)
+(* end of [Hello_Renderer.dats] *)

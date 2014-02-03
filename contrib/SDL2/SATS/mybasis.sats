@@ -66,8 +66,22 @@ overload Uint32 with Uint32_of_int
 overload Uint32 with Uint32_of_uint
 
 (* ****** ****** *)
+
+abst@ype
+SDL_EventType = $extype"SDL_EventType"
+
+(* ****** ****** *)
+
+typedef SDL_Event =
+$extype_struct"SDL_Event" of
+{
 //
-// HX: [SDL_Surface_ref] is reference counted
+  type= SDL_EventType
+//
+, SDL_Event_rest= undefined_t0ype
+} // end of [SDL_Event]
+
+(* ****** ****** *)
 //
 absvtype
 SDL_Window_ptr(l:addr) = ptr(l) // SDL_Window* or null

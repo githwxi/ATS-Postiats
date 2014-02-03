@@ -67,6 +67,10 @@ fun SDL_CreateRenderer
 
 (* ****** ****** *)
 
+fun SDL_DestroyRenderer (SDL_Renderer_ptr0): void = "mac#%"
+
+(* ****** ****** *)
+
 fun
 SDL_SetRenderDrawColor
 (
