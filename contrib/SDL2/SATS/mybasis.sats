@@ -67,6 +67,16 @@ overload Uint32 with Uint32_of_uint
 
 (* ****** ****** *)
 
+typedef
+SDL_version =
+$extype_struct
+"SDL_version_struct" of
+{
+  major= Uint8, minor=Uint8, patch= Uint8
+} (* end of [SDL_version] *)
+
+(* ****** ****** *)
+
 abst@ype
 SDL_EventType = $extype"SDL_EventType"
 

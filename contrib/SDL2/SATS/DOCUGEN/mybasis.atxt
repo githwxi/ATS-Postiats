@@ -20,6 +20,23 @@ ATSLIB/contrib/json-c/mybasis\
 
 (* ****** ****** *)
 
+#declnamesynop("Sint8")
+#declnamesynop("Sint16")
+#declnamesynop("Sint32")
+
+(* ****** ****** *)
+
+#declnamesynop("Uint8")
+#declnamesynop("Uint16")
+#declnamesynop("Uint32")
+
+(* ****** ****** *)
+
+#declnamesynop("SDL_Event")
+#declnamesynop("SDL_EventType")
+
+(* ****** ****** *)
+
 #declnamesynop("SDL_Window_ptr")
 #declnamesynop("SDL_Window_ptr0")
 #declnamesynop("SDL_Window_ptr1")

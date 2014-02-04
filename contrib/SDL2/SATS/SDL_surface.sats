@@ -38,8 +38,33 @@ overload ptrcast with SDL_Surface_ptr2ptr
 //
 (* ****** ****** *)
 
-fun SDL_LoadBMP (path: string): SDL_Surface_ptr0 = "mac#%"
+fun SDL_CreateRGBSurface
+(
+  flags: Uint32
+, width: int, height: int, depth: int
+, Rmask: Uint32, Gmask: Uint32, Bmask: Uint32, Amask: Uint32
+) : SDL_Surface_ptr0 = "mac#%" // end-of-fun
 
+(* ****** ****** *)
+
+fun SDL_CreateRGBSurfaceFrom
+(
+  pixes: ptr // not-freed by [FreeSurface]
+, width: int, height: int, depth: int, pitch: int
+, Rmask: Uint32, Gmask: Uint32, Bmask: Uint32, Amask: Uint32
+) : SDL_Surface_ptr0 = "mac#%" // end-of-fun
+
+(* ****** ****** *)
+
+fun SDL_FreeSurface (SDL_Surface_ptr0): void = "mac#%"
+
+(* ****** ****** *)
+//
+fun SDL_LoadBMP
+  (path: string): SDL_Surface_ptr0 = "mac#%"
+fun SDL_SaveBMP
+  (!SDL_Surface_ptr1, path: string): int = "mac#%"
+//
 (* ****** ****** *)
 
 fun SDL_SetSurfaceColorMod

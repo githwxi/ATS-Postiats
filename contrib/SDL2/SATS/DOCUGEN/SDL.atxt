@@ -75,4 +75,4 @@ This file, which is included in [SDL2.sats], mostly contains type definitions an
 
 (* ****** ****** *)
 
-(* end of [json.atxt] *)
+(* end of [SDL.atxt] *)

@@ -31,6 +31,19 @@
 
 /* ****** ****** */
 
+#define \
+atscntrb_SDL2_SDL_CreateSurface SDL_CreateSurface
+#define \
+atscntrb_SDL2_SDL_CreateSurfaceFrom SDL_CreateSurfaceFrom
+#define atscntrb_SDL2_SDL_FreeSurface SDL_FreeSurface
+
+/* ****** ****** */
+
+#define atscntrb_SDL2_SDL_LoadBMP SDL_LoadBMP
+#define atscntrb_SDL2_SDL_SaveBMP SDL_SaveBMP
+
+/* ****** ****** */
+
 #define atscntrb_SDL2_SDL_SetSurfaceColorMod SDL_SetSurfaceColorMod
 #define atscntrb_SDL2_SDL_GetSurfaceColorMod SDL_GetSurfaceColorMod
 

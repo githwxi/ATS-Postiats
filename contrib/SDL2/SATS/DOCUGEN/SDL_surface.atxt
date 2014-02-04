@@ -1,0 +1,41 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../SDL_surface.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_SDL2_SDL")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/SDL2/SDL\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("SDL_CreateRGBSurface")
+#declnamesynop("SDL_CreateRGBSurfaceFrom")
+
+(* ****** ****** *)
+
+#declnamesynop("SDL_FreeSurface")
+
+(* ****** ****** *)
+
+#declnamesynop("SDL_LoadBMP")
+#declnamesynop("SDL_SaveBMP")
+
+(* ****** ****** *)
+
+#declnamesynop("SDL_SetSurfaceColorMod")
+#declnamesynop("SDL_GetSurfaceColorMod")
+
+(* ****** ****** *)
+
+(* end of [SDL_surface.atxt] *)
