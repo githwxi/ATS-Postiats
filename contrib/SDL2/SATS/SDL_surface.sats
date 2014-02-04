@@ -1,10 +1,10 @@
-/* ****** ****** */
+(* ****** ****** *)
 //
 // API in ATS for SDL2
 //
-/* ****** ****** */
+(* ****** ****** *)
 
-/*
+(*
 ** Permission to use, copy, modify, and distribute this software for any
 ** purpose with or without fee is hereby granted, provided that the above
 ** copyright notice and this permission notice appear in all copies.
@@ -16,30 +16,42 @@
 ** WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ** ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 ** OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-*/
+*)
 
-/* ****** ****** */
+(* ****** ****** *)
 
-/*
+(*
 ** Author: Hongwei Xi (gmhwxiDOTgmailDOTcom)
-*/
+*)
 
-/* ****** ****** */
+(* ****** ****** *)
 
-#ifndef SDL2_SDL_VIDEO_CATS
-#define SDL2_SDL_VIDEO_CATS
+#include "./mybasis.sats"
 
-/* ****** ****** */
+(* ****** ****** *)
+//
+castfn
+SDL_Surface_ptr2ptr
+  {l:addr}(!SDL_Surface_ptr(l)):<> ptr(l)
+//
+overload ptrcast with SDL_Surface_ptr2ptr
+//
+(* ****** ****** *)
 
-#define atscntrb_SDL2_SDL_CreateWindow SDL_CreateWindow
-#define atscntrb_SDL2_SDL_DestroyWindow SDL_DestroyWindow
+fun SDL_LoadBMP (path: string): SDL_Surface_ptr0 = "mac#%"
 
-/* ****** ****** */
+(* ****** ****** *)
 
-#define atscntrb_SDL2_SDL_SDL_GetWindowSurface SDL_GetWindowSurface
+fun SDL_SetSurfaceColorMod
+(
+  !SDL_Surface_ptr1, r: Uint8, g: Uint8, b: Uint8
+) : int = "mac#%" // end of [SDL_SetSurfaceColorMod]
 
-/* ****** ****** */
+fun SDL_GetSurfaceColorMod
+(
+  !SDL_Surface_ptr1, r: &Uint8? >> _, g: &Uint8? >> _, b: &Uint8? >> _
+) : int = "mac#%" // end of [SDL_GetSurfaceColorMod]
 
-#endif // ifndef SDL2_SDL_VIDEO_CATS
+(* ****** ****** *)
 
-/* end of [SDL_video.cats] */
+(* end of [SDL_surface.sats] *)

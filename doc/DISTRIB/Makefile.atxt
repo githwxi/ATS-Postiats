@@ -120,8 +120,9 @@ all_script::
 #
 #make_entry("atscntrb_libcurl")
 #
-#make_entry("atscntrb_GTK")
 #make_entry("atscntrb_glib")
+#make_entry("atscntrb_GTK")
+#make_entry("atscntrb_SDL2")
 #make_entry("atscntrb_cairo")
 #
 #make_entry("atscntrb_json-c")
@@ -241,10 +242,18 @@ srcget_atscntrb_libcurl:: SCRIPT/atscntrb_libcurl.bash ; bash $<
 
 ######
 
-srcget_atscntrb:: srcget_atscntrb_GTK
-srcget_atscntrb_GTK:: SCRIPT/atscntrb_GTK.bash ; bash $<
 srcget_atscntrb:: srcget_atscntrb_glib
 srcget_atscntrb_glib:: SCRIPT/atscntrb_glib.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_GTK
+srcget_atscntrb_GTK:: SCRIPT/atscntrb_GTK.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_SDL2
+srcget_atscntrb_SDL2:: SCRIPT/atscntrb_SDL2.bash ; bash $<
 
 ######
 

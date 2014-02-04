@@ -26,39 +26,23 @@
 
 /* ****** ****** */
 
-#ifndef SDL2_SDL_CATS
-#define SDL2_SDL_CATS
+#ifndef SDL2_SDL_ERROR_CATS
+#define SDL2_SDL_ERROR_CATS
 
 /* ****** ****** */
 
-#include <SDL.h>
+#define atscntrb_SDL2_SDL_SetError SDL_SetError
+#define atscntrb_SDL2_SDL_GetError SDL_GetError
+#define atscntrb_SDL2_SDL_ClearError SDL_ClearError
 
 /* ****** ****** */
 
-#include "SDL2/CATS/SDL_error.cats"
-#include "SDL2/CATS/SDL_events.cats"
-#include "SDL2/CATS/SDL_render.cats"
-#include "SDL2/CATS/SDL_surface.cats"
-#include "SDL2/CATS/SDL_timer.cats"
-#include "SDL2/CATS/SDL_version.cats"
-#include "SDL2/CATS/SDL_video.cats"
+#define atscntrb_SDL2_SDL_OutOfMemory SDL_OutOfMemory
+#define atscntrb_SDL2_SDL_Unsupported SDL_Unsupported
+#define atscntrb_SDL2_SDL_InvalidParamError SDL_InvalidParamError
 
 /* ****** ****** */
 
-#define atscntrb_SDL2_SDL_Init SDL_Init
-#define atscntrb_SDL2_SDL_InitSubSystem SDL_InitSubSystem
+#endif // ifndef SDL2_SDL_ERROR_CATS
 
-/* ****** ****** */
-
-#define atscntrb_SDL2_SDL_Quit SDL_Quit
-#define atscntrb_SDL2_SDL_QuitSubSystem SDL_QuitSubSystem
-
-/* ****** ****** */
-
-#define atscntrb_SDL2_SDL_WasInit SDL_WasInit
-
-/* ****** ****** */
-
-#endif // ifndef SDL2_SDL_CATS
-
-/* end of [SDL.cats] */
+/* end of [SDL_error.cats] */

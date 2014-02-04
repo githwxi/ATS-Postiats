@@ -93,6 +93,15 @@ SDL_Window_ptr1 = [l:addr | l > null] SDL_Window_ptr (l)
 (* ****** ****** *)
 //
 absvtype
+SDL_Surface_ptr(l:addr) = ptr(l) // SDL_Surface* or null
+vtypedef
+SDL_Surface_ptr0 = [l:addr] SDL_Surface_ptr (l)
+vtypedef
+SDL_Surface_ptr1 = [l:addr | l > null] SDL_Surface_ptr (l)
+//
+(* ****** ****** *)
+//
+absvtype
 SDL_Renderer_ptr(l:addr) = ptr(l) // SDL_Renderer* or null
 vtypedef
 SDL_Renderer_ptr0 = [l:addr] SDL_Renderer_ptr (l)

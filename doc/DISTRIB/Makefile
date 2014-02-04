@@ -243,6 +243,16 @@ cleanall:: ; $(RMF) HTML/atscntrb_libcurl.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_libcurl.bash
 
 #
+all_html:: HTML/atscntrb_glib.html
+HTML/atscntrb_glib.html: atscntrb_glib_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_glib.bash
+SCRIPT/atscntrb_glib.bash: atscntrb_glib_atxt.exe ; ./$< > $@
+atscntrb_glib_atxt.dats: ATEXT/atscntrb_glib.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_glib_atxt.exe: atscntrb_glib_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_glib_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_glib.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_glib.bash
+
 all_html:: HTML/atscntrb_GTK.html
 HTML/atscntrb_GTK.html: atscntrb_GTK_atxt.exe ; ./$< > $@
 all_script:: SCRIPT/atscntrb_GTK.bash
@@ -253,15 +263,15 @@ clean:: ; $(RMF) atscntrb_GTK_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_GTK.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_GTK.bash
 
-all_html:: HTML/atscntrb_glib.html
-HTML/atscntrb_glib.html: atscntrb_glib_atxt.exe ; ./$< > $@
-all_script:: SCRIPT/atscntrb_glib.bash
-SCRIPT/atscntrb_glib.bash: atscntrb_glib_atxt.exe ; ./$< > $@
-atscntrb_glib_atxt.dats: ATEXT/atscntrb_glib.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_glib_atxt.exe: atscntrb_glib_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) atscntrb_glib_atxt.exe
-cleanall:: ; $(RMF) HTML/atscntrb_glib.html
-cleanall:: ; $(RMF) SCRIPT/atscntrb_glib.bash
+all_html:: HTML/atscntrb_SDL2.html
+HTML/atscntrb_SDL2.html: atscntrb_SDL2_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_SDL2.bash
+SCRIPT/atscntrb_SDL2.bash: atscntrb_SDL2_atxt.exe ; ./$< > $@
+atscntrb_SDL2_atxt.dats: ATEXT/atscntrb_SDL2.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_SDL2_atxt.exe: atscntrb_SDL2_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_SDL2_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_SDL2.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_SDL2.bash
 
 all_html:: HTML/atscntrb_cairo.html
 HTML/atscntrb_cairo.html: atscntrb_cairo_atxt.exe ; ./$< > $@
@@ -463,10 +473,18 @@ srcget_atscntrb_libcurl:: SCRIPT/atscntrb_libcurl.bash ; bash $<
 
 ######
 
-srcget_atscntrb:: srcget_atscntrb_GTK
-srcget_atscntrb_GTK:: SCRIPT/atscntrb_GTK.bash ; bash $<
 srcget_atscntrb:: srcget_atscntrb_glib
 srcget_atscntrb_glib:: SCRIPT/atscntrb_glib.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_GTK
+srcget_atscntrb_GTK:: SCRIPT/atscntrb_GTK.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_SDL2
+srcget_atscntrb_SDL2:: SCRIPT/atscntrb_SDL2.bash ; bash $<
 
 ######
 

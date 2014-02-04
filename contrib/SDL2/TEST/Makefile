@@ -9,6 +9,10 @@ include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
+CFLAGS += $(shell pkg-config sdl2 --cflags)
+
+######
+
 LDFLAGS += -lSDL2
 
 ######
@@ -22,7 +26,7 @@ MALLOCFLAG=-DATS_MEMALLOC_LIBC
 ######
 
 all:: test00
-test00: test00.dats ; $(PATSCC2) -o $@ $< $(LDFLAGS)
+test00: test00.dats ; $(PATSCC2) $(CFLAGS) -o $@ $< $(LDFLAGS)
 cleanall:: ; $(RMF) test00
 
 ######

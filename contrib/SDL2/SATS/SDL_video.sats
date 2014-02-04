@@ -81,4 +81,10 @@ fun SDL_DestroyWindow (SDL_Window_ptr0): void = "mac#%"
 
 (* ****** ****** *)
 
+fun SDL_GetWindowSurface
+  (win: !SDL_Window_ptr1): [l:addr] vttakeout0(SDL_Surface_ptr(l)) = "mac#%"
+// end of [SDL_GetWindowSurface]
+
+(* ****** ****** *)
+
 (* end of [SDL_video.sats] *)

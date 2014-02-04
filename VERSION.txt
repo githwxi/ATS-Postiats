@@ -23,6 +23,8 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 Here is a list of major additions and changes since the last release:
 
 1. A symbol for overload no longer needs to be declared first.
+2. Adding libats-hwxi/cstream for supporting a simple style of lexing
+3. Adding a direct API for Simple DirectMedia Layer 2.0 (SDL2).
 
 </pre>
 
