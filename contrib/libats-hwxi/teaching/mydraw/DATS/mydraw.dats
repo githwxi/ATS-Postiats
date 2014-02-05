@@ -183,4 +183,18 @@ end // end of [mydraw_triangle]
 
 (* ****** ****** *)
 
+implement{
+} mydraw_quadrilateral
+  (p1, p2, p3, p4) = let
+  val () = mydraw_move_to (p1)
+  val () = mydraw_line_to (p2)
+  val () = mydraw_line_to (p3)
+  val () = mydraw_line_to (p4)
+  val () = mydraw_close_path ()
+in
+  // nothing
+end // end of [mydraw_quadrilateral]
+
+(* ****** ****** *)
+
 (* end of [mydraw.dats] *)

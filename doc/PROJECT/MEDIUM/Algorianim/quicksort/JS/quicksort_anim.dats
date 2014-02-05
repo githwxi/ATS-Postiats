@@ -1,14 +1,21 @@
+(*
 //
 // Animating Quicksort
 //
-
+*)
 (* ****** ****** *)
-
+//
+// Authors:
+// William Blair and Hongwei Xi
+// Start time: October, 2013
+//
+(* ****** ****** *)
+//
 #include
 "share/atspre_define.hats"
 #include
 "share/atspre_staload.hats"
-
+//
 (* ****** ****** *)
 //
 staload
@@ -32,7 +39,9 @@ staload "{$HTML5canvas2d}/SATS/canvas2d.sats"
 ** Generate a number in [0, 1)
 *)
 extern
-fun Math_random ((*void*)): double = "ext#JS_Math_random"
+fun Math_random
+  ((*void*)): double = "ext#JS_Math_random"
+// end of [Math_random]
 
 (* ****** ****** *)
 
@@ -156,10 +165,12 @@ fun intqsort (A: array0(int)): void
 
 typedef swap_t = @(size_t, size_t)
 
-datatype snapshot = 
+datatype
+snapshot = 
   | Normal of (array0(int))
   | SelectPivot of (array0(int), range_t, size_t)
   | Swap of (array0(int), range_t, size_t, swap_t)
+// end of [snapshot]
   
 (* ****** ****** *)
 
@@ -260,7 +271,7 @@ qsort_partition_render<int>
   val ()   = thePartition_set (part)
   val ()   = thePivot_set (p)
 in
-  snapshot_push(snap);
+  snapshot_push (snap)
 end
 
 implement
