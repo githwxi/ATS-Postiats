@@ -145,12 +145,8 @@ extern
 fun snapshot_push (A: array0(myint)): void
 extern
 fun snapshot_reverse (): void
-(*
-implement
-snapshot_push (A) =
-  fprintln! (stdout_ref, "snapshot: A = ", A)
-// end of [snapshot_push]
-*)
+
+(* ****** ****** *)
 
 local
 //

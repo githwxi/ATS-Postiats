@@ -24,6 +24,7 @@
 <!ENTITY chap_thmprving SYSTEM "CHAP_THMPRVING/main.db">
 <!ENTITY chap_prgthmprv SYSTEM "CHAP_PRGTHMPRV/main.db">
 <!ENTITY chap_vvtintro SYSTEM "CHAP_VVTINTRO/main.db">
+<!ENTITY chap_dataview SYSTEM "CHAP_DATAVIEW/main.db">
 ]>
 <book id="proginats" lang="en">
 &bookinfo;
@@ -72,6 +73,7 @@ id="programming-with-dependent-types">
 id="programming-with-linear-views-and-types">
 <title>Programming with Linear Views and Types</title>
 &chap_vvtintro;
+&chap_dataview;
 </part>
 
 </book>

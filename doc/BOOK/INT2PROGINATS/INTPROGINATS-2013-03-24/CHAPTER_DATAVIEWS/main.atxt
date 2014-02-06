@@ -426,7 +426,7 @@ slseg_v_nil :
   {a:t@ype} {l:addr} () -> slseg_v (a, 0, l, l)
 slseg_v_cons :
   {a:t@ype} {n:nat} {l_fst:agz} {l_nxt,l_end:addr}
-  ((a, ptr l_nxt) @ l_fst, slseg_v (a, l_nxt, l_end)) -> slseg_v (a, n+1, l_fst, l_end)
+  ((a, ptr l_nxt) @ l_fst, slseg_v (a, n, l_nxt, l_end)) -> slseg_v (a, n+1, l_fst, l_end)
 ')
 
 #para('\

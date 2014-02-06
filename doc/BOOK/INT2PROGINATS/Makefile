@@ -74,6 +74,7 @@ allchap:: CHAP_PRGTHMPRV
 # PART IV
 #
 allchap:: CHAP_VVTINTRO
+allchap:: CHAP_DATAVIEW
 #
 ######
 
@@ -157,6 +158,13 @@ CHAP_VVTINTRO:: ; \
   make -C CHAP_VVTINTRO -f ../Makefile.chap main.db
 CHAP_VVTINTRO:: ; \
   make -C CHAP_VVTINTRO -f ../Makefile.chap clean
+
+######
+
+CHAP_DATAVIEW:: ; \
+  make -C CHAP_DATAVIEW -f ../Makefile.chap main.db
+CHAP_DATAVIEW:: ; \
+  make -C CHAP_DATAVIEW -f ../Makefile.chap clean
 
 ######
 
