@@ -70,6 +70,47 @@ SDL_WINDOW_ALLOW_HIGHDPI = $extval (SDL_WindowFlags, "SDL_WINDOW_ALLOW_HIGHDPI")
 
 (* ****** ****** *)
 
+macdef
+SDL_WINDOWPOS_CENTERED = $extval (int, "SDL_WINDOWPOS_CENTERED")
+macdef
+SDL_WINDOWPOS_UNDEFINED = $extval (int, "SDL_WINDOWPOS_UNDEFINED")
+
+(* ****** ****** *)
+//
+typedef SDL_WindowEventID = int
+macdef
+SDL_WINDOWEVENT_NONE = $extval (SDL_WindowEventID, "SDL_WINDOWEVENT_NONE")
+macdef
+SDL_WINDOWEVENT_SHOWN = $extval (SDL_WindowEventID, "SDL_WINDOWEVENT_SHOWN")
+macdef
+SDL_WINDOWEVENT_HIDDEN = $extval (SDL_WindowEventID, "SDL_WINDOWEVENT_HIDDEN")
+macdef
+SDL_WINDOWEVENT_EXPOSED = $extval (SDL_WindowEventID, "SDL_WINDOWEVENT_EXPOSED")
+macdef
+SDL_WINDOWEVENT_MOVED = $extval (SDL_WindowEventID, "SDL_WINDOWEVENT_MOVED")
+macdef
+SDL_WINDOWEVENT_RESIZED = $extval (SDL_WindowEventID, "SDL_WINDOWEVENT_RESIZED")
+macdef
+SDL_WINDOWEVENT_SIZE_CHANGED = $extval (SDL_WindowEventID, "SDL_WINDOWEVENT_SIZE_CHANGED")
+macdef
+SDL_WINDOWEVENT_MINIMIZED = $extval (SDL_WindowEventID, "SDL_WINDOWEVENT_MINIMIZED")
+macdef
+SDL_WINDOWEVENT_MAXIMIZED = $extval (SDL_WindowEventID, "SDL_WINDOWEVENT_MAXIMIZED")
+macdef
+SDL_WINDOWEVENT_RESTORED = $extval (SDL_WindowEventID, "SDL_WINDOWEVENT_RESTORED")
+macdef
+SDL_WINDOWEVENT_ENTER = $extval (SDL_WindowEventID, "SDL_WINDOWEVENT_ENTER")
+macdef
+SDL_WINDOWEVENT_LEAVE = $extval (SDL_WindowEventID, "SDL_WINDOWEVENT_LEAVE")
+macdef
+SDL_WINDOWEVENT_FOCUS_GAINED = $extval (SDL_WindowEventID, "SDL_WINDOWEVENT_FOCUS_GAINED")
+macdef
+SDL_WINDOWEVENT_FOCUS_LOST = $extval (SDL_WindowEventID, "SDL_WINDOWEVENT_FOCUS_LOST")
+macdef
+SDL_WINDOWEVENT_CLOSE = $extval (SDL_WindowEventID, "SDL_WINDOWEVENT_CLOSE")
+//
+(* ****** ****** *)
+
 fun SDL_CreateWindow
 (
   title: NSH(string), x: int, y: int, w: int, h: int, flags: Uint32
@@ -85,6 +126,12 @@ fun SDL_GetWindowSurface
   (win: !SDL_Window_ptr1): [l:addr] vttakeout0(SDL_Surface_ptr(l)) = "mac#%"
 // end of [SDL_GetWindowSurface]
 
+(* ****** ****** *)
+//
+fun SDL_UpdateWindowSurface (win: !SDL_Window_ptr1): int = "mac#%"
+fun SDL_UpdateWindowSurfaceRects{n:nat}
+  (win: !SDL_Window_ptr1, rects: arrayref(SDL_Rect, n), n: int(n)): int = "mac#%"
+//
 (* ****** ****** *)
 
 (* end of [SDL_video.sats] *)

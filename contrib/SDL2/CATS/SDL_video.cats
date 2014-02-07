@@ -36,7 +36,12 @@
 
 /* ****** ****** */
 
-#define atscntrb_SDL2_SDL_SDL_GetWindowSurface SDL_GetWindowSurface
+#define atscntrb_SDL2_SDL_GetWindowSurface SDL_GetWindowSurface
+
+/* ****** ****** */
+
+#define atscntrb_SDL2_SDL_UpdateWindowSurface SDL_UpdateWindowSurface
+#define atscntrb_SDL2_SDL_UpdateWindowSurfaceRects SDL_UpdateWindowSurfaceRects
 
 /* ****** ****** */
 

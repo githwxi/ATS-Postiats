@@ -78,5 +78,22 @@ fun SDL_GetSurfaceColorMod
 ) : int = "mac#%" // end of [SDL_GetSurfaceColorMod]
 
 (* ****** ****** *)
+//
+fun SDL_UpperBlit
+(
+  src: !SDL_Surface_ptr1, srcrect: cPtr0(SDL_Rect)
+, dst: !SDL_Surface_ptr1, dstrect: cPtr0(SDL_Rect)
+) : int = "mac#%" // end of [SDL_UpperBlit]
+fun SDL_UpperBlit2
+(
+  src: !SDL_Surface_ptr1, srcrect: cPtr0(SDL_Rect)
+, dst: !SDL_Surface_ptr1, dstrect: &SDL_Rect? >> _
+) : int = "mac#%" // end of [SDL_UpperBlit2]
+//
+macdef
+SDL_BlitSurface (src, srcrect, dst, dstrect) =
+  SDL_UpperBlit (,(src), ,(srcrect), ,(dst), ,(dstrect))
+//
+(* ****** ****** *)
 
 (* end of [SDL_surface.sats] *)

@@ -49,6 +49,11 @@ atscntrb_SDL2_SDL_CreateSurfaceFrom SDL_CreateSurfaceFrom
 
 /* ****** ****** */
 
+#define atscntrb_SDL2_SDL_UpperBlit SDL_UpperBlit
+#define atscntrb_SDL2_SDL_UpperBlit2 SDL2_SDL_UpperBlit
+
+/* ****** ****** */
+
 #endif // ifndef SDL2_SDL_SURFACE_CATS
 
 /* end of [SDL_surface.cats] */

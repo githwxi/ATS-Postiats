@@ -76,6 +76,16 @@ $extype_struct
 } (* end of [SDL_version] *)
 
 (* ****** ****** *)
+//
+typedef
+SDL_Point =
+$extype_struct "SDL_Point" of { x= int, y= int }
+//
+typedef
+SDL_Rect =
+$extype_struct "SDL_Rect" of { x=int, y= int, w= int, h= int }
+//
+(* ****** ****** *)
 
 abst@ype
 SDL_EventType = $extype"SDL_EventType"
