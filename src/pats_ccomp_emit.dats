@@ -629,9 +629,13 @@ case+ extdef of
     val name = $D2E.d2cst_get_name (d2c)
     val () = emit_ident (out, name)
 //
-    val () = emit_text (out, "__")
-    val stamp = $D2E.d2cst_get_stamp (d2c)
-    val () = emit_stamp (out, stamp)
+    val () =
+    if (knd = 0) then
+    {
+      val () = emit_text (out, "__")
+      val stamp = $D2E.d2cst_get_stamp (d2c)
+      val () = emit_stamp (out, stamp)
+    } (* end of [if] *)
 //
   in
     // nothing
