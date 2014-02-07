@@ -42,28 +42,30 @@ The dataview #stacode("option_v") is declared as follows:
 #atscode('\
 dataview option_v (v:view+, bool) =
   | Some_v (v, true) of (v) | None_v (v, false) of ()
-// end of [option_v]
 ')
 
 #para('\
 
-By this declaration, the dataview #stacode("option_v") is covariant in its
-first argument and there are two proof constructors associated with it:
-#dyncode("Some_v") and #dyncode("None_v").  Given a view V,
-#stacode("option_v(V, b)") is often called an optional view, where b is a
-boolean. Clearly, a proof of the view #dyncode("option_v(V, true)")
+This declaration indicates that the dataview #stacode("option_v") is
+covariant in its first argument and there are two proof constructors
+associated with it: #dyncode("Some_v") and #dyncode("None_v").  Given a
+view V, #stacode("option_v(V, b)") is often called an optional view, where
+b is a boolean. Clearly, a proof of the view #dyncode("option_v(V, true)")
 contains a proof of the view V while a proof the view #stacode("option_v(V,
-false)") contains nothing. As an example, let us take a look at the
-following function interface:
+false)") contains nothing.
 
 ')
+
+#para('\
+
+As an example, the following function interface involves a typical use of
+optional view:
+
 
 #atscode('\
 fun{a:t@ype}
 ptr_alloc_opt (): [l:addr] (option_v (a? @ l, l > null) | ptr l)
 ')
-
-#para('\
 
 Given a type T, the function #dyncode("ptr_alloc_opt&lt;T&gt;") returns a
 pointer paired with a proof of an optional view; if the returned pointer is
@@ -77,7 +79,7 @@ otherwise, there is no at-view associated with the returned pointer.
 
 <sect1
 id="linear_arrays">
-#title("Linear Arrays")
+#title("Views for Linear Arrays")
 
 #para('\
 
@@ -106,7 +108,7 @@ dataview array_v
 
 #para('\
 
-Given a type T, an integer N and an address L, #stacode("array_v(T, L, N)")
+Given a type T, an address L and an integer N, #stacode("array_v(T, L, N)")
 is a view for the array starting at L that stores N elements of the type T.
 As can be readily expected, the function templates for array-accessing and
 array-updating are given the following interfaces:
@@ -257,11 +259,11 @@ covering the topic of view-change.
 
 #para('\
 
-Given a type T and a natural number N, a proof of the view
-#stacode("array_v(T?, L, N)") for some address L can be obtained and
-released by calling the functions #dyncode("malloc") and #dyncode("free"),
-respectively, which are to be explained in details elsewhere. I now give as
-follows an implemention of a function template for array intialization:
+Given a type T, an address L and a natural number N, a proof of the view
+#stacode("array_v(T?, L, N)") can be obtained and released by calling the
+functions #dyncode("malloc") and #dyncode("free"), respectively, which are
+to be explained in details elsewhere. I now give as follows an implemention
+of a function template for array intialization:
 
 ')
 
@@ -346,7 +348,7 @@ Please find the entirety of the above presented code
 
 <sect1
 id="singly-linked_lists">
-#title("Singly-Linked Lists")
+#title("Views for Singly-Linked Lists")
 
 #para('\
 
@@ -386,11 +388,11 @@ slseg_v_cons :
 #para('\
 
 Note that #stacode("agz") is a subset sort for addresses that are not null.
-Given a type T, a natural number N and two addresses L1 and L2, the view
+Given a type T, two addresses L1 and L2, and a natural number N, the view
 #stacode("slseg_v(T, L1, L2, N)") is for a singly-linked list segment
 containing N elements of the type T that starts at L1 and finishes at L2.
-In the case where L2 is the null pointer, then the list segment is
-considered a list as is formally defined below:
+In the case where L2 is the null pointer, then the list segment is considered
+a list as is formally defined below:
 
 ')
 
@@ -410,7 +412,8 @@ same as a pointer to a struct of the following declared type
 ')
 
 #atscode('\
-typedef struct slist {
+typedef
+struct slist {
   T data ; /* [T] matches the corresponding type in ATS */
   struct slist *next ; /* pointing to the tail of the list */
 } slist_struct ;
@@ -536,7 +539,7 @@ The algorithm is straightforward. If #dyncode("p") is null, then
 by #dyncode("p") is first found and its field of the name #dyncode("next")
 then replaced with #dyncode("q").  This implementation of
 #dyncode("slist_ptr_append") in C can be translated directly into to
-following one in ATS:
+the following one in ATS:
 
 ')
 
@@ -617,18 +620,12 @@ I now point out that the dataview #stacode("slseg_v") is declared here in a
 manner that does not address the issue of allocating and freeing list
 nodes, and it is done so for the sake of a less involved presentation. A
 dataview for singly-linked lists that does handle allocation and
-deallocation of list nodes can be found in the libats library of ATS.
-
-')
-
-#para('\
-
-There is another method for handling singly-linked lists in ATS that is
-based on the notion of dataviewtype (i.e., linear datatype). When compared
-to the one presented above, this alternative is significantly simpler.
-However, dataviews are more general and flexible than dataviewtypes, and
-there are many common data structures (e.g. doubly-linked lists) that can
-only be properly handled with the former in ATS.
+deallocation of list nodes can also be declared in ATS, but there is really
+little need for it as we can declare a dataviewtype for such lists that is
+far more convenient to use.  However, dataviews are fundamentally more
+general and flexible than dataviewtypes, and there are many common data
+structures (e.g. doubly-linked lists) that can only be properly handled
+with dataviews in ATS.
 
 ')
 
@@ -664,7 +661,6 @@ functions #dyncode("array_v_split") and #dyncode("array_v_unsplit"):
 ")
 
 #atscode('\
-extern
 prfun
 array_v_split
   {a:t@ype}
@@ -673,7 +669,6 @@ array_v_split
   pfarr: array_v (a, l, n)
 ) : (array_v (a, i, l), array_v (a, n-i, l+i*sizeof(a)))
 
-extern
 prfun
 array_v_unsplit
   {a:t@ype}
@@ -718,9 +713,11 @@ end // end of [array_v_split]
 
 #para('\
 
+Note that the keyword #dyncode("primplement") (instead of
+#dyncode("implement")) should be used for implementing proof functions.
 Clearly, the proof function #dyncode("split") directly encodes a proof
-based on mathematical induction. In addition, an implementation of
-#dyncode("array_v_unsplit") is given as follows:
+based on mathematical induction. Following is an implementation of
+#dyncode("array_v_unsplit"):
 
 #atscode('\
 primplement

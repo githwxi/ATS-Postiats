@@ -1894,7 +1894,8 @@ fun emit_ATSPMVf0loat (out: FILEref, tok: $SYN.f0loat): void
 
 (* ****** ****** *)
 
-fun emit_symbol (out: FILEref, sym: symbol): void
+fun emit_stamp (out: FILEref, x: stamp): void
+fun emit_symbol (out: FILEref, x: symbol): void
 
 (* ****** ****** *)
 

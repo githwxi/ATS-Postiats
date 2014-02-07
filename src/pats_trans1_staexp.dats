@@ -760,6 +760,9 @@ macdef f (x) = proc_extdef (sym, ,(x))
 in
 //
 case+ extopt of
+//
+| None () => DCSTEXTDEFnone (1) // extern
+//
 | Some (s0) => let
     val-$LEX.T_STRING (ext) = s0.token_node
     var ext2: string = (ext) // removing mac#, ext#, sta#
@@ -770,7 +773,6 @@ case+ extopt of
     | _ when isext (ext, ext2) => DCSTEXTDEFsome_ext (f(ext2))
     | _ => DCSTEXTDEFsome_ext (f(ext2)) // no (recognized) prefix
   end // end of [_ when ...]
-| None () => DCSTEXTDEFnone ()
 //
 end // end of [dcstextdef_tr]
 

@@ -958,7 +958,7 @@ fun d0atdec_make (
 
 datatype
 dcstextdef =
-  | DCSTEXTDEFnone of ()
+  | DCSTEXTDEFnone of (int) // 0/1 static/extern
   | DCSTEXTDEFsome_ext of string // extern
   | DCSTEXTDEFsome_mac of string // macro
   | DCSTEXTDEFsome_sta of string // static

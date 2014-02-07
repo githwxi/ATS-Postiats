@@ -276,9 +276,14 @@ d2cst_is_mac (d2c) =
 (* ****** ****** *)
 
 implement
-d2cst_is_static (d2c) =
-  $SYN.dcstextdef_is_sta (d2cst_get_extdef (d2c))
-// end of [d2cst_is_static]
+d2cst_is_static (d2c) = let
+  val extdef = d2cst_get_extdef (d2c)
+in
+  case+ extdef of
+  | $SYN.DCSTEXTDEFnone(0) => true
+  | $SYN.DCSTEXTDEFsome_sta _ => true
+  | _ => false
+end // end of [d2cst_is_static]
 
 (* ****** ****** *)
 

@@ -352,7 +352,7 @@ fun d2cst_get_gname
 in
   case+ extdef of
 //
-  | $SYN.DCSTEXTDEFnone () => let
+  | $SYN.DCSTEXTDEFnone (knd) => let
       val sym = d2cst_get_sym (d2c) in $SYM.symbol_get_name (sym)
     end // end of [DCSTEXTDEFnone]
 //
