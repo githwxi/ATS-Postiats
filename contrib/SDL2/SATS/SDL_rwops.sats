@@ -81,8 +81,11 @@ fun SDL_RWwrite
 (* ****** ****** *)
 
 fun SDL_RWseek
-  (rw: !SDL_RWops_ptr1, ofs: Sint64, whence: int): Sint64 = "mac#%"
-// end of [SDL_RWseek]
+(
+  rw: !SDL_RWops_ptr1, ofs: Sint64, whence: int
+) : Sint64 = "mac#%" // end of [SDL_RWseek]
+
+fun SDL_RWtell (rw: !SDL_RWops_ptr1): Sint64 = "mac#%"
 
 (* ****** ****** *)
 

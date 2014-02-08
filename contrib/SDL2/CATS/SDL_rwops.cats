@@ -46,6 +46,7 @@
 /* ****** ****** */
 
 #define atscntrb_SDL2_SDL_RWseek SDL_RWseek
+#define atscntrb_SDL2_SDL_RWtell SDL_RWtell
 
 /* ****** ****** */
 

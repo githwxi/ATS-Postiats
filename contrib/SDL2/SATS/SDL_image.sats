@@ -76,9 +76,65 @@ fun IMG_Load (path: NSH(string)): SDL_Surface_ptr0 = "mac#%"
 
 (* ****** ****** *)
 
+fun IMG_Load_RW (src: !SDL_RWops_ptr1): SDL_Surface_ptr0 = "mac#%"
+fun IMG_Load_RW_free (src: (SDL_RWops_ptr1)): SDL_Surface_ptr0 = "mac#%"
+
+(* ****** ****** *)
+
+fun IMG_LoadTyped_RW
+  (src: !SDL_RWops_ptr1, type: NSH(string)): SDL_Surface_ptr0 = "mac#%"
+fun IMG_LoadTyped_RW_free
+  (src: (SDL_RWops_ptr1), type: NSH(string)): SDL_Surface_ptr0 = "mac#%"
+
+(* ****** ****** *)
+  
+fun IMG_isICO (src: !SDL_RWops_ptr1): int = "mac#%"
+fun IMG_isCUR (src: !SDL_RWops_ptr1): int = "mac#%"
+fun IMG_isBMP (src: !SDL_RWops_ptr1): int = "mac#%"
+fun IMG_isGIF (src: !SDL_RWops_ptr1): int = "mac#%"
+fun IMG_isJPG (src: !SDL_RWops_ptr1): int = "mac#%"
+fun IMG_isLBM (src: !SDL_RWops_ptr1): int = "mac#%"
+fun IMG_isPCX (src: !SDL_RWops_ptr1): int = "mac#%"
+fun IMG_isPNG (src: !SDL_RWops_ptr1): int = "mac#%"
+fun IMG_isPNM (src: !SDL_RWops_ptr1): int = "mac#%"
+fun IMG_isTIF (src: !SDL_RWops_ptr1): int = "mac#%"
+fun IMG_isXCF (src: !SDL_RWops_ptr1): int = "mac#%"
+fun IMG_isXPM (src: !SDL_RWops_ptr1): int = "mac#%"
+fun IMG_isXV  (src: !SDL_RWops_ptr1): int = "mac#%"
+fun IMG_isWEBP (src: !SDL_RWops_ptr1): int = "mac#%"
+  
+(* ****** ****** *)
+
+fun IMG_LoadICO_RW (src: !SDL_RWops_ptr1): SDL_Surface_ptr0
+fun IMG_LoadCUR_RW (src: !SDL_RWops_ptr1): SDL_Surface_ptr0
+fun IMG_LoadBMP_RW (src: !SDL_RWops_ptr1): SDL_Surface_ptr0
+fun IMG_LoadGIF_RW (src: !SDL_RWops_ptr1): SDL_Surface_ptr0
+fun IMG_LoadJPG_RW (src: !SDL_RWops_ptr1): SDL_Surface_ptr0
+fun IMG_LoadLBM_RW (src: !SDL_RWops_ptr1): SDL_Surface_ptr0
+fun IMG_LoadPCX_RW (src: !SDL_RWops_ptr1): SDL_Surface_ptr0
+fun IMG_LoadPNG_RW (src: !SDL_RWops_ptr1): SDL_Surface_ptr0
+fun IMG_LoadPNM_RW (src: !SDL_RWops_ptr1): SDL_Surface_ptr0
+fun IMG_LoadTGA_RW (src: !SDL_RWops_ptr1): SDL_Surface_ptr0
+fun IMG_LoadTIF_RW (src: !SDL_RWops_ptr1): SDL_Surface_ptr0
+fun IMG_LoadXCF_RW (src: !SDL_RWops_ptr1): SDL_Surface_ptr0
+fun IMG_LoadXPM_RW (src: !SDL_RWops_ptr1): SDL_Surface_ptr0
+fun IMG_LoadXV_RW  (src: !SDL_RWops_ptr1): SDL_Surface_ptr0
+fun IMG_LoadWEBP_RW (src: !SDL_RWops_ptr1): SDL_Surface_ptr0
+
+(* ****** ****** *)
+
 fun IMG_SavePNG
   (surface: !SDL_Surface_ptr1, path: NSH(string)): int = "mac#%"
 // end of [IMG_SavePNG]
+
+(* ****** ****** *)
+
+fun IMG_SavePNG_RW
+  (surface: !SDL_Surface_ptr1, dst: !SDL_RWops_ptr1): int = "mac#%"
+// end of [IMG_SavePNG_RW]
+fun IMG_SavePNG_RW_free
+  (surface: !SDL_Surface_ptr1, dst: (SDL_RWops_ptr1)): int = "mac#%"
+// end of [IMG_SavePNG_RW_free]
 
 (* ****** ****** *)
 
