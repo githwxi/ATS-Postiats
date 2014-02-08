@@ -64,7 +64,7 @@
 #define atscntrb_SDL2IMG_IMG_isXV IMG_isXV 
 #define atscntrb_SDL2IMG_IMG_isWEBP IMG_isWEBP
   
-(* ****** ****** *)
+/* ****** ****** */
 
 #define atscntrb_SDL2IMG_IMG_LoadICO_RW IMG_LoadICO_RW
 #define atscntrb_SDL2IMG_IMG_LoadCUR_RW IMG_LoadCUR_RW

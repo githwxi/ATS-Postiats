@@ -31,8 +31,54 @@
 
 /* ****** ****** */
 
+#define \
+atscntrb_SDL2_SDL_GetNumRenderDrivers SDL_GetNumRenderDrivers
+#define \
+atscntrb_SDL2_SDL_GetRenderDriverInfo SDL_GetRenderDriverInfo
+
+/* ****** ****** */
+
 #define atscntrb_SDL2_SDL_CreateRenderer SDL_CreateRenderer
+#define \
+atscntrb_SDL2_SDL_CreateSoftwareRenderer CreateSoftwareRenderer
+
+/* ****** ****** */
+
 #define atscntrb_SDL2_SDL_DestroyRenderer SDL_DestroyRenderer
+
+/* ****** ****** */
+
+#define atscntrb_SDL2_SDL_GetRenderer SDL_GetRenderer
+
+/* ****** ****** */
+
+#define atscntrb_SDL2_SDL_GetRendererInfo SDL_GetRendererInfo
+#define \
+atscntrb_SDL2_SDL_GetRendererOutputSize SDL_GetRendererOutputSize
+
+/* ****** ****** */
+
+#define atscntrb_SDL2_SDL_CreateTexture SDL_CreateTexture
+#define \
+atscntrb_SDL2_SDL_CreateTextureFromSurface SDL_CreateTextureFromSurface
+
+/* ****** ****** */
+
+#define atscntrb_SDL2_SDL_DestroyTexture SDL_DestroyTexture
+
+/* ****** ****** */
+
+#define atscntrb_SDL2_SDL_QueryTexture SDL_QueryTexture
+
+/* ****** ****** */
+
+#define atscntrb_SDL2_SDL_SetTextureColorMod SDL_SetTextureColorMod
+#define atscntrb_SDL2_SDL_GetTextureColorMod SDL_GetTextureColorMod
+
+/* ****** ****** */
+
+#define atscntrb_SDL2_SDL_SetTextureAlphaMod SDL_SetTextureAlphaMod
+#define atscntrb_SDL2_SDL_GetTextureAlphaMod SDL_GetTextureAlphaMod
 
 /* ****** ****** */
 

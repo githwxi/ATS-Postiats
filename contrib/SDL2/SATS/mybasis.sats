@@ -131,12 +131,33 @@ SDL_Surface_ptr1 = [l:addr | l > null] SDL_Surface_ptr (l)
 (* ****** ****** *)
 //
 absvtype
+SDL_Texture_ptr(l:addr) = ptr(l) // SDL_Texture* or null
+vtypedef
+SDL_Texture_ptr0 = [l:addr] SDL_Texture_ptr (l)
+vtypedef
+SDL_Texture_ptr1 = [l:addr | l > null] SDL_Texture_ptr (l)
+//
+absvtype
 SDL_Renderer_ptr(l:addr) = ptr(l) // SDL_Renderer* or null
 vtypedef
 SDL_Renderer_ptr0 = [l:addr] SDL_Renderer_ptr (l)
 vtypedef
 SDL_Renderer_ptr1 = [l:addr | l > null] SDL_Renderer_ptr (l)
 //
+(* ****** ****** *)
+
+abst@ype
+SDL_RendererInfo =
+$extype_struct "SDL_RendererInfo" of
+{
+  name= string
+, flags= Uint32
+, num_texture_formats= Uint32
+, texture_formats= @[Uint32][16]
+, max_texture_width= int 
+, max_texture_height= int
+} (* end of [SDL_RendererInfo] *)
+
 (* ****** ****** *)
 
 #endif // end of [ifndef]
