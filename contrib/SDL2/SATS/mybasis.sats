@@ -86,6 +86,15 @@ SDL_Rect =
 $extype_struct "SDL_Rect" of { x=int, y= int, w= int, h= int }
 //
 (* ****** ****** *)
+//
+absvtype
+SDL_RWops_ptr(l:addr) = ptr(l) // SDL_RWops* or null
+vtypedef
+SDL_RWops_ptr0 = [l:addr] SDL_RWops_ptr (l)
+vtypedef
+SDL_RWops_ptr1 = [l:addr | l > null] SDL_RWops_ptr (l)
+//
+(* ****** ****** *)
 
 abst@ype
 SDL_EventType = $extype"SDL_EventType"

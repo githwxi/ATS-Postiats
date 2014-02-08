@@ -218,6 +218,8 @@ contrib/*/*/CATS/CODEGEN/*_atxt.dats
 contrib/*/*/TEST/test??
 
 contrib/SDL2/SDL2-2.0.1
+contrib/SDL2/SDL2_image-2.0.0
+
 contrib/zlog/zlog-latest-stable/
 
 #
