@@ -295,7 +295,7 @@ case+ s2f0.s2exp_node of
 //
 | S2Evararg _ => S2ZEbot ()
 //
-| S2Ewth (s2e, _) => aux_s2exp (env, s2e)
+| S2Ewthtype (s2e, _) => aux_s2exp (env, s2e)
 //
 | _ => S2ZEbot () // HX no available info
 end // end of [aux_s2exp]

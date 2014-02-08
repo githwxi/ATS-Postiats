@@ -40,14 +40,14 @@ val ((*void*)) = assertloc (ptrcast(screen) > 0)
 val image = SDL_LoadBMP ("DATA/hello_world.bmp")
 val ((*void*)) = assertloc (ptrcast(image) > 0)
 val err =
-SDL_BlitSurface(image, $UN.cptrof_ptr(NULL), screen, $UN.cptrof_ptr(NULL))
+SDL_BlitSurface(image, cptr_null(), screen, cptr_null())
 val () = SDL_FreeSurface (image)
 //
 prval ((*void*)) = fpf (screen)
 //
 val err = SDL_UpdateWindowSurface (window)
 //
-val () = SDL_Delay (Uint32(2000))
+val () = SDL_Delay (2000)
 //
 val () = SDL_DestroyWindow (window)
 //

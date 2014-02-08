@@ -186,18 +186,6 @@ ptr2cptr{a:vt0p}{l:addr} (p: ptr l):<> cptr (a, l)
 //
 #atscode_separator()
 //
-symintr cptrof
-//
-castfn
-cptrof_ptr{a:vt0p}{l:addr} (p: ptr l):<> cptr (a, l)
-castfn
-cptrof_var{a:vt0p}{l:addr} (x: &INV(a)):<> cPtr1 (a)
-//
-overload cptrof with cptrof_ptr
-overload cptrof with cptrof_var
-//
-#atscode_separator()
-//
 castfn
 cptr_vtake
   {a:vt0p}{l:agz}

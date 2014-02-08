@@ -483,7 +483,8 @@ case+ x.s2exp_node of
     val () = prstr ")"
   } // end of [S2Euni]
 //
-| S2Ewth (s2e, ws2es) => {
+| S2Ewthtype
+    (s2e, ws2es) => {
     val () = prstr "S2Ewth("
     val () = fprint_s2exp (out, s2e)
     val () = prstr "; "

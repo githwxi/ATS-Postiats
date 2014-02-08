@@ -881,11 +881,11 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-s2exp_wth_instantiate (loc0, s2e0) = let
+s2exp_wthtype_instantiate (loc0, s2e0) = let
 //
 (*
 val () = begin
-  println! ("s2exp_wth_instantiate: s2e0 = ", s2e0)
+  println! ("s2exp_wthtype_instantiate: s2e0 = ", s2e0)
 end // end of [val]
 *)
 //
@@ -899,7 +899,7 @@ case+ p3t.p3at_node of
 | _ => let
     val loc = p3t.p3at_loc
     val () = prerr_interror_loc (loc)
-    val () = prerr ": s2exp_wth_instantiate"
+    val () = prerr ": s2exp_wthtype_instantiate"
     val () = prerr ": p2at_get_var: the pattern is expected to be a variable."
     val () = prerr_newline ()
     val () = assertloc (false)
@@ -1009,16 +1009,20 @@ val () = trans3_env_add_proplst_vt (loc0, s2ps)
 in
 //
 case+ s2e.s2exp_node of
-| S2Ewth
-    (s2e, wths2es) => s2e where {
+//
+| S2Ewthtype
+    (s2e, wths2es) => let
     val-~Some_vt (p3ts) = opt where {
       val opt = the_lamlpenv_get_funarg ()
     } // end of [val]
     val () = auxlst (loc0, p3ts, wths2es)
-  } // end of [S2Ewth]
-| _ => s2e // end of [_]
+  in
+    s2e
+  end // end of [S2Ewthtype]
 //
-end // end of [s2exp_wth_instantiate]
+| _ (*non-withtype*) => (s2e)
+//
+end // end of [s2exp_wthtype_instantiate]
 
 (* ****** ****** *)
 

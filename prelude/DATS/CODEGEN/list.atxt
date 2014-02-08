@@ -130,11 +130,12 @@ end // end of [list_make_array]
 #atscode_separator()
 
 implement{a}
-list_make_arrpsz {n} (A0) = let
+list_make_arrpsz
+  {n} (A0) = let
 //
 var asz: size_t
 val A = arrpsz_get_ptrsize (A0, asz)
-val p = ptrcast (A)
+val p = arrayptr2ptr (A)
 prval pfarr = arrayptr_takeout (A)
 val res = list_make_array (!p, asz)
 prval () = arrayptr_addback (pfarr | A)

@@ -504,9 +504,11 @@ fun the_d2varenv_d2var_is_llamlocal (d2v: d2var): bool
 fun funarg_d2vfin_check (loc0: loc_t): void
 (*
 ** HX-2012-03:
-** [s2exp_wth_instantiate] resets d2var_finknd of funarg
+** [s2exp_wthtype_instantiate] resets d2var_finknd of funarg
 *)
-fun s2exp_wth_instantiate (loc: loc_t, s2e: s2exp): s2exp
+fun s2exp_wthtype_instantiate (loc: loc_t, s2e: s2exp): s2exp
+
+(* ****** ****** *)
 
 fun the_d2varenv_check (loc0: loc_t): void
 fun the_d2varenv_check_llam (loc0: loc_t): void

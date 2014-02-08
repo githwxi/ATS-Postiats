@@ -1567,17 +1567,21 @@ local
 viewtypedef
 ws2elstopt = Option_vt (wths2explst)
 
-fun auxres (
+fun auxres
+(
   s2e: s2exp
 ) : ws2elstopt =
+(
   case+ s2e.s2exp_node of
-  | S2Ewth
+  | S2Ewthtype
       (_, ws2es) => Some_vt (ws2es)
+    // end of [S2Ewthtype]
   | S2Eexi (_, _, s2e) => auxres (s2e)
-  | _ => None_vt ()
-// end of [auxres]
+  | _ (*rest*) => None_vt ()
+) (* end of [auxres] *)
 
-fun auxarg (
+fun auxarg
+(
   loc: location, s2es: s2explst, ws2es: wths2explst
 ) : s2explst = let
 in
@@ -1656,7 +1660,7 @@ un_s2exp_wthtype
   val () = if iswth then let
     val s2f = s2exp2hnf (s2e)
     val s2e = s2hnf_opnexi_and_add (loc, s2f)
-    val-S2Ewth (s2e, wths2es1) = s2e.s2exp_node
+    val-S2Ewthtype (s2e, wths2es1) = s2e.s2exp_node
   in
     s2e_res := s2e; wths2es := wths2es1
   end : void // end of [val]

@@ -90,14 +90,16 @@ case+ s2ke of
     val () = prstr ")"
   }
 //
-| S2KEfun (_arg, _res) => {
+| S2KEfun
+    (_arg, _res) => {
     val () = prstr "S2KEfun("
     val () = fprint_s2kexplst (out, _arg)
     val () = prstr "; "
     val () = fprint_s2kexp (out, _res)
     val () = prstr ")"
   }
-| S2KEapp (_fun, _arg) => {
+| S2KEapp
+    (_fun, _arg) => {
     val () = prstr "S2KEapp("
     val () = fprint_s2kexp (out, _fun)
     val () = prstr "; "
@@ -109,13 +111,15 @@ case+ s2ke of
     val () = fprint_s2kexp (out, s2ke)
     val () = prstr ")"
   }
-| S2KEtyrec (knd, ls2kes) => {
+| S2KEtyrec
+    (knd, ls2kes) => {
     val () = prstr "S2KEtyrec("
     val () = fprint_tyreckind (out, knd)
     val () = prstr "; "
     val () = $UT.fprintlst (out, ls2kes, ", ", fprint_labs2kexp)
     val () = prstr ")"
   }
+//
 (*
 | _ => prstr "S2KE...(...)"
 *)
@@ -251,6 +255,8 @@ case s2f0.s2exp_node of
     val ls2kes = aux_labs2explst (env, ls2es) in S2KEtyrec (knd, ls2kes)
   end // end of [S2Etyrec]
 //
+| S2Erefarg (knd, s2e) => aux_s2exp (env, s2e)
+//
 | S2Eexi (
     s2vs, _(*s2ps*), s2e
   ) => let
@@ -270,8 +276,7 @@ case s2f0.s2exp_node of
     s2ke
   end // end of [S2Eexi]
 //
-| S2Erefarg (_, s2e) => aux_s2exp (env, s2e)
-| S2Ewth (s2e, _) => aux_s2exp (env, s2e)
+| S2Ewthtype (s2e, ws2es) => aux_s2exp (env, s2e)
 //
 | _ => S2KEany () // HX: no available info
 //
@@ -436,18 +441,22 @@ case+ (x1, x2) of
     s2kexp_ismat_exn (_res1, _res2)
   end // end of [fun, fun]
 | (S2KEapp (x1, _), S2KEcst _) => s2kexp_ismat_exn (x1, x2)
+//
 | (S2KEapp (_fun1, _arg1),
-   S2KEapp (_fun2, _arg2)) => let
+   S2KEapp (_fun2, _arg2)) =>
+  {
     val () = s2kexp_ismat_exn (_fun1, _fun2)
-  in
-    s2kexplst_ismat_exn (_arg1, _arg2)
-  end // end of [app, app]
+    val () = s2kexplst_ismat_exn (_arg1, _arg2)
+  } // end of [S2KEapp, S2KEapp]
+//
 | (S2KEtyarr (elt1),
    S2KEtyarr (elt2)) => s2kexp_ismat_exn (elt1, elt2)
 | (S2KEtyrec (knd1, ls2kes1),
-   S2KEtyrec (knd2, ls2kes2)) => if knd1 = knd2
+   S2KEtyrec (knd2, ls2kes2)) =>
+  if knd1 = knd2
     then labs2kexplst_ismat_exn (ls2kes1, ls2kes2) else abort ()
   // end of [if]
+//
 | (_, _) => abort ()
 //
 end // end of [s2kexp_ismat_exn]
