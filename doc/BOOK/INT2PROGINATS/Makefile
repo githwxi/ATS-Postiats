@@ -75,6 +75,7 @@ allchap:: CHAP_PRGTHMPRV
 #
 allchap:: CHAP_VVTINTRO
 allchap:: CHAP_DATAVIEW
+allchap:: CHAP_DATAVTYPE
 #
 ######
 
@@ -165,6 +166,13 @@ CHAP_DATAVIEW:: ; \
   make -C CHAP_DATAVIEW -f ../Makefile.chap main.db
 CHAP_DATAVIEW:: ; \
   make -C CHAP_DATAVIEW -f ../Makefile.chap clean
+
+######
+
+CHAP_DATAVTYPE:: ; \
+  make -C CHAP_DATAVTYPE -f ../Makefile.chap main.db
+CHAP_DATAVTYPE:: ; \
+  make -C CHAP_DATAVTYPE -f ../Makefile.chap clean
 
 ######
 

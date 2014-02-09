@@ -31,20 +31,18 @@ for illustration in this chapter.
 
 ')
 
-<sect1>
+<sect1
+id="optional_views">
 #title("Optional Views")
-#para("\
+
+#para('\
 
 The dataview #stacode("option_v") is declared as follows:
-
-")
 
 #atscode('\
 dataview option_v (v:view+, bool) =
   | Some_v (v, true) of (v) | None_v (v, false) of ()
 ')
-
-#para('\
 
 This declaration indicates that the dataview #stacode("option_v") is
 covariant in its first argument and there are two proof constructors
@@ -61,7 +59,6 @@ false)") contains nothing.
 As an example, the following function interface involves a typical use of
 optional view:
 
-
 #atscode('\
 fun{a:t@ype}
 ptr_alloc_opt (): [l:addr] (option_v (a? @ l, l > null) | ptr l)
@@ -76,6 +73,107 @@ otherwise, there is no at-view associated with the returned pointer.
 ')
 
 </sect1>#comment("sect1/id=optional_views")
+
+<sect1
+id="disjunctive_views">
+#title("Disjunctive Views")
+
+#para('\
+
+The dataview #stacode("VOR") is declared as follows:
+
+#atscode('\
+dataview VOR (v0:view+, v1:view+, int) =
+  | VORleft (v0, v1, 0) of (v0) | VORright (v0, v1, 1) of (v1)
+')
+
+This declaration indicates that the dataview #stacode("VOR") is covariant
+in its first and second arguments and there are two proof constructors
+associated with it: #dyncode("VORleft") and #dyncode("VORright"). Given
+views V#sub("0") and V#sub("1"), a proof of #stacode("VOR(V#sub("0"),
+V#sub("1"), 0)") can be turned into a proof of V#sub("0") and a proof of
+#stacode("VOR(V#sub("0"), V#sub("1"), 1)") can be turned into a proof of
+V#sub("1").
+
+')
+
+#para('\
+
+Let T be some type. The following function interface states that
+#dyncode("getopt") takes an unintialized pointer and returns an integers
+indicating whether the pointer is initialized:
+
+#atscode('\
+fun getopt{l:addr}
+  (pf: T? @ l | ptr (l)): [i:int] (VOR (T? @ l, T @ l, i) | int (i))
+')
+
+The following code shows a typical use of #dyncode("getopt"):
+
+#atscode('\
+fun foo (): void = let
+  var x: T?
+  val (pfor | i) = getopt (view@(x) | addr@(x))
+in
+//
+if i = 0
+then let
+  prval VORleft (pf0) = pfor in view@(x) := pf0 // uninitialized
+end // end of [then]
+else let
+  prval VORright (pf1) = pfor in view@(x) := pf1 // initialized
+end // end of [else]
+//
+end // end of [foo]
+')
+
+')
+
+#para('\
+
+In ATS, there is a type constructor #stacode("opt") that takes a type T and
+a boolean B to form a opt-type #dyncode("opt(T, B)") such that
+#dyncode("opt(T, B)") equals T if B is true and it equals T? if B is false.
+The function #dyncode("getopt") can be implemented as follows by making
+use of an opt-type:
+
+#atscode('\
+fun getopt (x: &T? >> opt (T, b)): #[b:bool] bool(b)
+')
+
+The code that calls #dyncode("getopt") can now be implemented as follows:
+
+#atscode('\
+fun foo (): void = let
+  var x: T?
+  val b = getopt (x)
+in
+//
+if (b)
+then let
+  prval () = opt_unsome(x) in (*initialized*)
+end // end of [then]
+else let
+  prval () = opt_unnone(x) in (*uninitialized*)
+end // end of [else]
+//
+end // end of [foo]
+')
+
+where the proof functions #dyncode("opt_unsome") and #dyncode("opt_unnone")
+are assgined the following types:
+
+#atscode('\
+prfun opt_unsome{a:t@ype} (x: !opt (a, true) >> a): void
+prfun opt_unnone{a:t@ype} (x: !opt (a, false) >> a?): void
+')
+
+Compared to the version that uses #stacode("VOR"), this version based on
+opt-type is considerably less verbose.
+
+')
+
+</sect1>#comment("sect1/id=disjunctive_views")
 
 <sect1
 id="linear_arrays">
@@ -120,13 +218,13 @@ fun{
 a:t@ype
 } arrget{l:addr}{n,i:nat | i < n}
   (pf: !array_v (a, l, n) | p: ptr l, i: int i): a
-// end of [arrget]
+// end of [arrget] // end of [fun]
 
 fun{
 a:t@ype
 } arrset{l:addr}{n,i:nat | i < n}
   (pf: !array_v (a, l, n) | p: ptr l, i: int i, x: a): void
-// end of [arrset]
+// end of [arrset] // end of [fun]
 ')
 
 #para('\

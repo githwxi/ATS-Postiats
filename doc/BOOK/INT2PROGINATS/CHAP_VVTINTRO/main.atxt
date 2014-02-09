@@ -136,7 +136,8 @@ for swapping memory contents at two given locations:
 fn{a:t@ype}
 swap0 {l1,l2:addr}
 (
-  pf1: a @ l1, pf2: a @ l2 | p1: ptr l1, p2: ptr l2
+  pf1: a @ l1, pf2: a @ l2
+| p1: ptr (l1), p2: ptr (l2)
 ) : (a @ l1, a @ l2 | void) = let
   val (pf1 | x1) = ptr_get0<a> (pf1 | p1)
   val (pf2 | x2) = ptr_get0<a> (pf2 | p2)
@@ -211,7 +212,7 @@ two given memory locations is implemented as follows:
 #atscode('\
 fn{a:t@ype}
 swap1 {l1,l2:addr} (
-  pf1: !a @ l1, pf2: !a @ l2 | p1: ptr l1, p2: ptr l2
+  pf1: !a@l1, pf2: !a@l2 | p1: ptr l1, p2: ptr l2
 ) : void = let
   val x = ptr_get1<a> (pf1 | p1)
   val () = ptr_set1<a> (pf1 | p1, ptr_get1<a> (pf2 | p2))
@@ -232,9 +233,10 @@ A further simplied implementation of #dyncode("swap1") is given as follows:
 
 #atscode('\
 fn{a:t@ype}
-swap1 {l1,l2:addr}
+swap1{l1,l2:addr}
 (
-  pf1: !a @ l1, pf2: !a @ l2 | p1: ptr l1, p2: ptr l2
+  pf1: !a@l1, pf2: !a@l2
+| p1: ptr (l1), p2: ptr (l2)
 ) : void = let
   val tmp = !p1 in !p1 := !p2; !p2 := tmp
 end // end of [swap1]

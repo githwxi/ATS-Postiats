@@ -13,8 +13,8 @@ INCLUDES=-I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime
 
 ######
 
-CCFLAGS=-O2
-ATSCCFLAGS=
+CFLAGS=-O2
+ATSCFLAGS=
 
 ######
 
@@ -25,18 +25,18 @@ all:: bstree
 ######
 
 misc: misc_dats.c ; \
-  $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+  $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 
 intexp: intexp_dats.c ; \
-  $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+  $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 
 bstree: bstree_dats.c ; \
-  $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+  $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 
 ######
 
 %_dats.c: %.dats ; \
-  $(PATSOPT) $(ATSCCFLAGS) -o $@ --dynamic $< || echo $@ ": ERROR!!!"
+  $(PATSOPT) $(ATSCFLAGS) -o $@ --dynamic $< || echo $@ ": ERROR!!!"
 
 ######
 
