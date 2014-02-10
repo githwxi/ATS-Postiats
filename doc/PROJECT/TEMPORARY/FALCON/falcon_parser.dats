@@ -38,6 +38,21 @@ datatype grexp =
 
 where grexplst = List0 (grexp)
 
+(* ****** ****** *)
+
+datavtype grexpset =
+  | GRSgene of gene
+  | GRSconj of grexpsetlst_vt
+  | GRSdisj of grexpsetlst_vt
+  | GRSconj of genes
+  | GRSdisj of genes
+  | GRSerror of ((*void*))
+// end of [grexp_vt]
+
+where grexpsetlst_vt = List0_vt (grexpset)
+
+(* ****** ****** *)
+
 vtypedef grexplst_vt = List0_vt (grexp)
 
 (* ****** ****** *)

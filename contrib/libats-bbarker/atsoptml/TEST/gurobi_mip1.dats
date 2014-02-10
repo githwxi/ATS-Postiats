@@ -1,3 +1,6 @@
+(*
+** Testing API for GUROBI
+*)
 
 
 //
@@ -12,28 +15,29 @@
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+//#include
+//"share/atspre_define.hats"
 #include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
-staload
-UN = "prelude/SATS/unsafe.sats"
+staload "./../SATS/gurobi.sats"
+staload "./../DATS/gurobi.dats"
 
 (* ****** ****** *)
 
-staload "libc/SATS/stdlib.sats"
-staload "libc/SATS/unistd.sats"
+//staload
+//UN = "prelude/SATS/unsafe.sats"
 
-staload 
-GRB = "contrib/libats-bbarker/atsoptml/SATS/gurobi.sats"
-// GRB = "${LIBATSBBARKER}/atsoptml/SATS/gurobi.sats"
-// TRY setting environmental variable for LIBATSBBARKER
-// (didn't work)
 (* ****** ****** *)
 
+//staload "libc/SATS/stdlib.sats"
+//staload "libc/SATS/unistd.sats"
+
+(* ****** ****** *)
+
+(*
 //NULLs ... not the greatest:
 val NULL = stropt_none()
 val NULD = $UN.ptr2cptr{double} ($UN.cast2Ptr0{stropt} (NULL)) 
@@ -41,17 +45,31 @@ val NULI = $UN.ptr2cptr{int} ($UN.cast2Ptr0{stropt} (NULL))
 val NULC = $UN.ptr2cptr{char} ($UN.cast2Ptr0{stropt} (NULL)) 
 //val NULCC = //  maybe need an array_make_nil fun
 val NULCC = (arrayptr)$arrpsz{$GRB.varname}() 
-implement
-main0 () = 
+*)
+
+(* ****** ****** *)
+
+extern
+fun mytest (): void
+//
+extern
+fun mytest_main (!GRBenvptr1, !GRBmodelptr1): void
+
+(* ****** ****** *)
+
+implement mytest () =
 {
-// Set up varirables
-var env: $GRB.env?
-var model: $GRB.model? 
+// Set up essential Gurobi varirables
+var env: ptr
+var model: ptr
+
 //
 //  Safe exit function closure
 //  (may make a default overloaded fun and move 
 //   gurobi.sats).
 //
+
+(*
 fun QUIT(errno: int):<linclo1> void =
 let
 //
@@ -70,31 +88,66 @@ val _ = if (errno != 0) then printErr(errno)
 in
   exit(errno)
 end // end of [QUIT]
+*)
 
 //
 // Create environment
 //
-val error = $GRB.loadenv(env, "gurobi_mip1.log") //&env in C
-val () = if error != 0 then QUIT(error)
+val errno =
+GRBloadenv (env, stropt_some"gurobi_mip1.log")
+val () =
+if errno > 0 then prerrln! ("GRBloadenv: errno = ", errno)
+//
+val () = assertloc (errno = 0)
+prval ((*void*)) = opt_unsome (env)
+//val () = if error != 0 then QUIT(error)
+//
 
 //
 // Create an empty model
 //
-val error = $GRB.newmodel(env, model, "mip1", 0, 
-NULD, NULD, NULD, "", NULCC) // just env in C, &model
-val () = if error != 0 then QUIT(error)
+val errno =
+GRBnewmodel_null (env, model, "mip1")
+val () = fprint_GRBerrormsg_if (stderr_ref, env, errno)
+val () = assertloc (errno = 0)
+prval ((*void*)) = opt_unsome (model)
+
+//
+// Build, run, and free model.
+// 
+val () = mytest_main (env, model)
+//
+val errno = GRBfreemodel (model)
+val () = assertloc (errno = 0)
+//
+val ((*freed*)) = GRBfreeenv (env)
+//
+} (* end of [mytest] *)
+
+
+implement
+mytest_main (env, model) =
+{
+//
+val () = println! ("Hello from [mytest_main]!")
+//
+
 
 //
 // Add variables
 //
 val obj = (arrayptr)$arrpsz{double}(1.0, 1.0, 2.0)
-val vtype = (arrayptr)$arrpsz{$GRB.vartyp}
-  ($GRB.BT, $GRB.BT, $GRB.BT) 
+val objc = carrayptr(obj)
+val vtype = (arrayptr)$arrpsz{GRB_VARTYPE}
+  (GRB_BINARY, GRB_BINARY, GRB_BINARY)
+val vtypec = carrayptr(vtype) 
 // Is there a praxi somewhere that it is equivalent to a string? What about
 // a null terminator?? may need to change to:
 // val vtype =  $GRB.BT + $GRB.BT + $GRB.BT
-val error = $GRB.addvars(model, 3, 0, (), (), (), $UN.ptr2cptr{double}(obj), (), (), vtype, ())
-val () = if error != 0 then QUIT(error)
+val errno = GRBaddvars_nocon_noname(model, 3, 0, objc, vtypec)
+val () = assertloc (errno = 0)
+
+(* Need to reimplement: 
 
 //
 //Change objective sense to maximization 
@@ -144,11 +197,29 @@ val () = arrayptr_free(ind)
 val () = arrayptr_free(cval)
 val () = arrayptr_free(ind2)
 val () = arrayptr_free(cval2)
-val () = arrayptr_free(obj)
-val () = arrayptr_free(vtype)
 //
 val () = QUIT(error)
 //
 // Don't forget to test with valgrind; compare to C version
 //
-}
+*)
+val () = arrayptr_free(obj)
+val () = arrayptr_free(vtype)
+
+} (* end of [mytest_main] *)
+
+(* ****** ****** *)
+
+implement
+main0 () = () where
+{
+//
+val () = println! ("Hello from [gurobi_mip1]!")
+//
+val () = mytest ()
+//
+} (* end of [main0] *)
+
+(* ****** ****** *)
+
+(* end of [gurobi_mip1.dats] *)
