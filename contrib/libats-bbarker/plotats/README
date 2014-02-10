@@ -1,0 +1,8 @@
+Plotats is an interface to several plotting libraries,
+and is intended to include some higher level plotting
+functions built on these.
+
+Currently, interface support is being worked on for:
+PLplot: http://plplot.sourceforge.net/
+
+PLplot has OCaml bindings - might be worth looking at those.
