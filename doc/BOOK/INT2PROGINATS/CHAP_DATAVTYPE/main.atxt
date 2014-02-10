@@ -123,10 +123,10 @@ id="linear_lists">
 
 A linear list is essentially the same as a singly-linked list depicted by
 the dataview #stacode("slist_v"). However, memory allocation and
-deallocation of list-nodes that were not handled previously are handled
-this time.  The following declaration introduces a linear datatype
-#stacode("list_vt"), which forms a boxed type (of the sort #stacode("viewtype"))
-when applied to a type and an integer:
+deallocation of list-nodes not handled previously are handled this time.
+The following declaration introduces a linear datatype #stacode("list_vt"),
+which forms a boxed type (of the sort #stacode("viewtype")) when applied to
+a type and an integer:
 
 #atscode('\
 datavtype
@@ -137,23 +137,29 @@ list_vt (a:t@ype+, int) =
 // end of [list_vt]
 ')
 
-Assume that a data constructor named #emphasis("foo") is associated with a
-dataviewtype.  Then there is a viewtype construtor of the name
-#emphasis("foo_unfold") that takes n addresses to form a viewtype, where n
-is the arity of #emphasis("foo"). For instance, there is a viewtype
-constructor #stacode("list_vt_cons_unfold") that takes two address L0 and
-L1 to form a viewtype #stacode("list_vt_cons_unfold(L0, L1)"). This
-viewtype is for a list-node created by a call to #dyncode("list_vt_cons")
-such that the two arguments of #dyncode("list_vt_cons") are located at L0
-and L1 while the proofs for the at-views associated with L0 and L1 are put
-in the store for currently available proofs.
+Given a type T and an integer I, #stacode("list_vt(T, I)") is
+for linear lists of length I in which each element is of the type T.
 
 ')
 
 #para('\
 
-Given a type T and an integer I, the viewtype #stacode("list_vt(T, I)") is
-for linear lists of length I in which each element is assigned the type T.
+Assume that a data constructor named #emphasis("foo") is associated with a
+dataviewtype.  Then there is a corresponding viewtype construtor of the name
+#emphasis("foo_unfold") that takes n+1 addresses to form a viewtype, where
+n is the arity of #emphasis("foo"). For instance, there is a viewtype
+constructor #stacode("list_vt_cons_unfold") that takes 3 address L0, L1 and
+L2 to form a viewtype #stacode("list_vt_cons_unfold(L0, L1, L2)"). This
+viewtype is for a list-node created by a call to #dyncode("list_vt_cons")
+such that the node is located at L0 and the two arguments of
+#dyncode("list_vt_cons") are located at L1 and L2 while the proofs for the
+at-views associated with L1 and L2 are put in the store for currently
+available proofs.
+
+')
+
+#para('\
+
 The following function template #dyncode("length") computes the length of a
 given linear list:
 
@@ -219,13 +225,14 @@ Given a type T, the notation #stacode("!T >> _" is a shorthand for
 of the pattern #dyncode("list_vt_cons(x, xs1)") means
 #emphasis("unfolding"). If #dyncode("xs") matches this pattern, then
 #dyncode("x") and #dyncode("xs1") are bound to the pointers pointing to
-some memory locations L0 and L1 where the head and tail of #dyncode("xs")
+some memory locations L1 and L2 where the head and tail of #dyncode("xs")
 are stored, respectively, and the type of #dyncode("xs") changes into
-#stacode("list_vt_cons_unfold(L0, L1)").  In the body of the clause guarded
+#stacode("list_vt_cons_unfold(L0, L1, L2)") for L0 being the location of the
+list-node referred to by #dyncode("xs").  In the body of the clause guarded
 by the pattern #dyncode("list_vt_cons(x, xs1)"), #dyncode("x") and
 #dyncode("xs1") are treated as variables (which are a form of
-level-value). The special proof function #dyncode("fold@") is called on
-#dyncode("xs") to fold it plus the proofs of at-views attached to L0 and L1
+left-value). The special proof function #dyncode("fold@") is called on
+#dyncode("xs") to fold it plus the proofs of at-views attached to L1 and L2
 into a linear list.
 
 ')
@@ -294,8 +301,8 @@ a:t@ype
 
 #para('\
 
-As using #dyncode("free@") is a bit tricky in practice, I present more
-details as follows. First, let us note that the constructors
+As it can be a bit tricky to use #dyncode("free@") in practice, I present
+more details as follows. First, let us note that the constructors
 #dyncode("list_vt_nil") and #dyncode("list_vt_cons") associated with
 #stacode("list_vt") are assigned the following types:
 
@@ -314,16 +321,16 @@ If #dyncode("free@") is applied to a node of the type
 #dyncode("list_vt_nil()"), it needs one static argument, which is a type,
 to instantiate the quantifier in the type of the constructor
 #dyncode("list_vt_nil"). If #dyncode("free@") is applied to a node of the
-type #stacode("list_vt_cons_unfold(L1, L2)"), then it needs two static
+type #stacode("list_vt_cons_unfold(L0, L1, L2)"), then it needs two static
 arguments, which are a type and an integer, to instantiate the two
 quantifiers in the type of the constructor #dyncode("list_vt_cons"). In the
-case where the type of #dyncode("xs") is #stacode("list_vt_cons_unfold(L1,
-L2)"), typechecking the call #dyncode("free@{a}{0}(xs)") implicitly
+case where the type of #dyncode("xs") is #stacode("list_vt_cons_unfold(L0,
+L1, L2)"), typechecking the call #dyncode("free@{a}{0}(xs)") implicitly
 consumes a proof of the at-view #stacode("a?@L1") and another proof of the
 at-view #stacode("list_vt(a, 0)?@L2").  As there is no difference between
 #stacode("list_vt(T, 0)?") and #stacode("list_vt(T, I)?") for any T and I,
-the static argument 0 is supplied here. As a matter of fact, any natural
-number can be used in place of 0 as the second static argument of
+the static argument 0 is chosen in the code. As a matter of fact, any
+natural number can be used in place of 0 as the second static argument of
 #dyncode("free@").
 
 ')
@@ -494,20 +501,20 @@ end // end of [append2]
 ')
 
 During typechecking, the expression #dyncode("list_cons{a}{0}(x, _)") is
-assigned the (linear) type #stacode("list_cons(L0, L1)") for some addresses
-L0 and L1 while a proof of the at-view #stacode("a@L0") and another proof
-of the at-view #stacode("list(a, 0)?@L2") are put into the store for
-currently available proofs. Note that the special symbol #keycode("_")
-simply indicates that the tail of the newly constructed list is
-uninitialized. A partially initialized list of the type
-#stacode("list_cons(L0, L1)") is guaranteed to match the pattern
-#dyncode("list_cons(_, res1)"), yielding a bindng between #dyncode("res1")
-and the pointer pointing to L1 where the (possibly uninitialized) tail of
+assigned the (linear) type #stacode("list_cons(L0, L1, L2)") for some
+addresses L0, L1 and L2 while a proof of the at-view #stacode("a@L1") and
+another proof of the at-view #stacode("list(a, 0)?@L2") are put into the
+store for currently available proofs. Note that the special symbol
+#keycode("_") simply indicates that the tail of the newly constructed list
+is uninitialized. A partially initialized list of the type
+#stacode("list_cons(L0, L1, L2)") is guaranteed to match the pattern
+#dyncode("list_cons(_, res1)"), yielding a binding between #dyncode("res1")
+and the pointer pointing to L2 where the (possibly uninitialized) tail of
 the list is stored. When #dyncode("fold@") is called on a variable of the
-type #stacode("list_cons(L0, L1)"), it changes the type of the variable to
-#stacode("list(T, N+1)") by consuming a proof of the view #stacode("T@L0")
-and another proof of the view #stacode("list(T, N)@L1"), where T and N are a
-type and an integer, respectively.
+type #stacode("list_cons(L0, L1, L2)"), it changes the type of the variable
+to #stacode("list(T, N+1)") by consuming a proof of the at-view
+#stacode("T@L1") and another proof of the at-view #stacode("list(T,
+N)@L2"), where T and N are a type and an integer, respectively.
 
 ')
 
@@ -519,7 +526,7 @@ id="linear-list-summary">
 
 #para('\
 
-In summary, dataviewtypes can largely retain the convenience of pattern
+With dataviewtypes, we can largely retain the convenience of pattern
 matching associated with datatypes while supporting explicit memory
 management.  Compared to dataviews, dataviewtypes are less
 general. However, if a dataviewtype can be employed to solve a problem,
@@ -535,55 +542,55 @@ alternative dataview-based one.
 <!-- ****** ****** -->
 
 <sect1
-id="example_mergesort_lin">
-#title("Example: Mergesort on Linear Lists")
+id="example_mergeSort_lin">
+#title("Example: Merge-Sort on Linear Lists")
 
 #para("\
 
-When mergesort is employed to sort an array of elements, it requires
+When merge-sort is employed to sort an array of elements, it requires
 additional memory proportionate to the size of the array in order to move
 the elements around, which is considered a significant weakness of
-mergesort. However, mergesort does not have this requirement when it
+merge-sort. However, merge-sort does not have this requirement when it
 operates on a linear list.  I present as follows an implementation of
-mergesort on linear lists that can readily rival its counterpart in C in
+merge-sort on linear lists that can readily rival its counterpart in C in
 terms of both time-efficiency and memory-efficiency. The invariants
 captured in this implementation and the easiness to capture them should
-provide strong evidence attesting to ATS being a programming language
+provide strong evidence that attests to ATS being a programming language
 capable of enforcing great precision in practical programming.
 
 ")
 
 #para('\
 
-First, let us introduce a type definition and an interface for a function
-template (for comparing elements in a list to be sorted):
+Let us first introduce a type definition and an interface for a function
+template that compares elements in lists to be sorted:
 
 #atscode('\
+//
 typedef cmp (a:t@ype) = (&a, &a) -> int
-
-extern
+//
 fun{a:t@ype} compare (x: &a, y: &a, cmp: cmp (a)): int
+//
 ')
 
-The interface for mergesort is given as follows:
+The interface for merge-sort is given as follows:
 
 #atscode('\
-extern
 fun{
 a:t@ype
-} mergesort{n:nat}
+} mergeSort{n:nat}
   (xs: list_vt (a, n), cmp: cmp a): list_vt (a, n)
-// end of [mergesort]
+// end of [mergeSort]
 ')
 
-The first argument of #dyncode("mergesort") is a linear list (to be sorted)
+The first argument of #dyncode("mergeSort") is a linear list (to be sorted)
 and the second one a function for comparing the elements in the linear
-list.  Clearly, the interface of #dyncode("mergesort") indicates that
-#dyncode("mergesort") consumes its first argument and then returns a linear
+list.  Clearly, the interface of #dyncode("mergeSort") indicates that
+#dyncode("mergeSort") consumes its first argument and then returns a linear
 list that is of same length as its first argument. As is to become clear,
 the returned linear list is constructed with the nodes of the consumed
-one. In particular, the implementation of mergesort given here does not
-involve any memory allocation or deallocation.
+one. In particular, the implementation of #dyncode("mergeSort") given as
+follows does not involve any memory allocation or deallocation.
 
 ')
 
@@ -699,20 +706,330 @@ the list when each recursive call to #dyncode("msort") is made.
 
 #para('\
 
-Finally, #dyncode("mergesort") can be implemented with a call to
+Finally, #dyncode("mergeSort") can be implemented with a call to
 #dyncode("msort"):
 
 #atscode('\
 implement{a}
-mergesort (xs, cmp) = msort<a> (xs, length (xs), cmp)
+mergeSort (xs, cmp) = msort<a> (xs, length (xs), cmp)
 ')
+
+By inspecting the implementation of #dyncode("split") and
+#dyncode("merge"), we can readiy see that #dyncode("mergeSort") performs
+stable sorting, that is, it preserves the order of equal elements during
+sorting.
+
+')
+
+#para('\
 
 Please find the entire code in this section plus some additional
-code for testing #mycodelink("CHAP_DATAVTYPE/mergesort.dats", "on-line").
+code for testing #mycodelink("CHAP_DATAVTYPE/mergeSort.dats", "on-line").
 
 ')
 
-</sect1>#comment("sect1/id=example_mergesort_lin")
+</sect1>#comment("sect1/id=example_mergeSort_lin")
+
+<!-- ****** ****** -->
+
+<sect1
+id="example_insertionSort_lin">
+#title("Example: Insertion Sort on Linear Lists")
+
+#para('\
+
+I give a standard implementation of insertion sort on linear lists in this
+section.  The interface for insertion sort is given as follows:
+
+#atscode('\
+fun{
+a:t@ype
+} insertionSort{n:nat}
+  (xs: list_vt (a, n), cmp: cmp a): list_vt (a, n)
+// end of [insertionSort]
+')
+
+Like #dyncode("mergeSort"), #dyncode("insertionSort") is implemented in a
+manner that makes no use of memory allocation and deallocation.  Given a
+linear list, #dyncode("insertionSort") essentially shuffles the nodes in
+the list for form a sorted list.
+
+')
+
+#para('\
+
+The following code implements a function #dyncode("insord") that inserts a
+given list-node into a sorted linear list to form another sorted linear list:
+
+#atscode('\
+fun{
+a:t@ype
+} insord
+  {l0,l1,l2:addr}{n:nat}
+(
+  pf1: a @ l1
+, pf2: list_vt (a, 0)? @ l2
+| xs0: &list_vt (a, n) >> list_vt (a, n+1)
+, nx0: list_vt_cons_unfold (l0, l1, l2), p1: ptr (l1), p2: ptr (l2)
+, cmp: cmp (a)
+) : void =
+(
+  case+ xs0 of
+  | @list_vt_cons
+      (x0, xs1) => let
+      val sgn = compare<a> (x0, !p1, cmp)
+    in
+      if sgn <= 0 // HX: for stableness: [<=] instead of [<]
+        then let
+          val () = insord<a> (pf1, pf2 | xs1, nx0, p1, p2, cmp)
+          prval () = fold@ (xs0)
+        in
+          // nothing
+        end // end of [then]
+        else let
+          prval () = fold@ (xs0)
+          val () = (!p2 := xs0; xs0 := nx0)
+          prval () = fold@ (xs0)
+        in
+          // nothing
+        end // end of [else]
+      // end of [if]
+    end // end of [list_vt_cons]
+  | ~list_vt_nil () =>
+    {
+      val () = xs0 := nx0
+      val () = !p2 := list_vt_nil ()
+      prval () = fold@ (xs0)
+    }
+) (* end of [insord] *)
+')
+
+The implementation of #dyncode("insord") is tail-recursive.  The type
+assigned to #dyncode("insord") indicates that the argument xs0 of
+#dyncode("insord") is call-by-reference. If xs0 stores a list of length n
+when #dyncode("insord") is called, then it stores a list of length n+1 when
+#dyncode("insord") returns. The arguments nx0, p1 and p2 are call-by-value,
+and they should be bound to a list-node and the first and second fields in
+the list-node, respectively, when a call to #dyncode("insord")
+initiates. The proof arguments pf1 and pf2 are needed so that the pointers
+bound to p1 and p2 can actually be accessed and updated.
+
+')
+
+#para('\
+
+The function template #dyncode("insertionSort") can be now readily
+implemented based #dyncode("insord"):
+
+#atscode('\
+implement{a}
+insertionSort
+  (xs, cmp) = let
+//
+fun loop{m,n:nat}
+(
+  xs: list_vt (a, m)
+, ys: &list_vt (a, n) >> list_vt (a, m+n)
+, cmp: cmp (a)
+) : void =
+  case+ xs of
+  | @list_vt_cons
+      (x, xs1) => let
+      val xs1_ = xs1
+      val ((*void*)) =
+        insord<a> (view@x, view@xs1 | ys, xs, addr@x, addr@xs1, cmp)
+      // end of [va]
+    in
+      loop (xs1_, ys, cmp)
+    end // end of [list_vt_cons]
+  | ~list_vt_nil ((*void*)) => ()
+//
+var ys = list_vt_nil{a}()
+val () = loop (xs, ys, cmp)
+//
+in
+  ys
+end // end of [insertionSort]
+')
+
+Clearly, this implementation of #dyncode("insertionSort") is
+tail-recursive.  While insertion sort is of O(n^2)-time complexity, it is
+often more efficient than merge-sort or quick-sort when sorting very short
+lists.  For instance, we may implement #dyncode("msort") (which is called
+by #dyncode("mergeSort")) as follows by taking advantage of the efficiency
+of #dyncode("insertionSort") on short lists:
+
+#atscode('\
+fun{
+a:t@ype
+} msort{n:nat} .<n>.
+(
+  xs: list_vt (a, n)
+, n: int n, cmp: cmp(a)
+) : list_vt (a, n) = let
+//
+// cutoff is selected to be 10
+//
+in
+  if n > 10 then let
+    val n2 = half(n)
+    val n3 = n - n2
+    var xs = xs // lvalue for [xs]
+    val ys = split<a> (xs, n3)
+    val xs = msort<a> (xs, n3, cmp)
+    val ys = msort<a> (ys, n2, cmp)
+    var res: List_vt (a) // uninitialized
+    val () = merge<a> (xs, ys, res(*cbr*), cmp)
+  in
+    res
+  end else insertionSort<a> (xs, cmp)
+end // end of [msort]
+')
+
+Note that the stableness of #dyncode("mergeSort") is maintained as
+#dyncode("insertionSort") also performs stable sorting.
+
+')
+
+#para('\
+
+Please find the entire code in this section plus some additional
+code for testing #mycodelink("CHAP_DATAVTYPE/insertionSort.dats", "on-line").
+
+')
+
+</sect1>#comment("sect1/id=example_insertionSort_lin")
+
+<!-- ****** ****** -->
+
+<sect1
+id="example_quickSort_lin">
+#title("Example: Quick-Sort on Linear Lists")
+
+#para('\
+
+In this section, I give an implementation of quick-sort on linear
+lists. While list-based quick-sort may not be a preferred sorting method in
+practice, its implementation is nonetheless interesting.
+The interface for quick-sort is given as follows:
+
+#atscode('\
+fun{a:t@ype}
+quickSort{n:nat} (xs: list_vt (a, n), cmp: cmp a): list_vt (a, n)
+')
+
+Like the implementation of #dyncode("mergeSort") and
+#dyncode("insertionSort"), the implementation of #dyncode("quickSort")
+given as follows makes no use of memory allocation and deallocation.
+
+')
+
+#para('\
+
+#atscode('\
+fun{a:t@ype}
+takeout_node_at
+  {n:int}{k:nat | k < n}
+(
+  xs: &list_vt (a, n) >> list_vt (a, n-1), k: int(k)
+) : list_vt_cons_pstruct (a, ptr?) =
+(
+//
+if k > 0 then let
+  val+@list_vt_cons (x, xs1) = xs
+  val res = takeout_node_at<a> (xs1, k-1)
+  prval () = fold@ (xs)
+in
+  res
+end else let
+  val+@list_vt_cons (x, xs1) = xs
+  val nx = xs
+  val () = xs := xs1
+in
+  $UNSAFE.castvwtp0 ((view@x, view@xs1 | nx))
+end // end of [if]
+//
+) (* end of [takeout_node_at] *)
+')
+
+#atscode('\
+fun{
+a:t@ype
+} partition{n,r1,r2:nat}
+(
+  xs: list_vt (a, n), pvt: &a
+, r1: int(r1), res1: list_vt (a, r1), res2: list_vt (a, r2)
+, cmp: cmp (a)
+) : [n1,n2:nat | n1+n2==n+r1+r2]
+  (int(n1), list_vt (a, n1), list_vt (a, n2)) =
+(
+  case+ xs of
+  | @list_vt_cons
+      (x, xs_tail) => let
+      val xs_tail_ = xs_tail
+      val sgn = compare<a> (x, pvt, cmp)
+    in
+      if sgn <= 0 then let
+        val r1 = r1 + 1
+        val () = xs_tail := res1
+        prval () = fold@ (xs)
+      in
+        partition<a> (xs_tail_, pvt, r1, xs, res2, cmp)
+      end else let
+        val () = xs_tail := res2
+        prval () = fold@ (xs)
+      in
+        partition<a> (xs_tail_, pvt, r1, res1, xs, cmp)
+      end // end of [if]
+    end (* end of [list_vt_cons] *)
+  | ~list_vt_nil ((*void*)) => (r1, res1, res2)
+) (* end of [partition] *)
+')
+
+#atscode('\
+implement
+{a}(*tmp*)
+quickSort
+  (xs, cmp) = let
+//
+fun sort{n:nat}
+(
+  xs: list_vt (a, n), n: int n
+) : list_vt (a, n) =
+(
+  if n > 10 then let
+    val n2 = half (n)
+    var xs = xs
+    val nx = takeout_node_at<a> (xs, n2)
+    val+list_vt_cons (pvt, nx_next) = nx
+    val (n1, xs1, xs2) =
+    partition<a> (xs, pvt, 0, list_vt_nil, list_vt_nil, cmp)
+    val xs1 = sort (xs1, n1)
+    val xs2 = sort (xs2, n - 1 - n1)
+    val () = nx_next := xs2
+    prval () = fold@ (nx)
+  in
+    list_vt_append (xs1, nx)
+  end else insertionSort<a> (xs, cmp)
+) (* end of [sort] *)
+//
+in
+  sort (xs, list_vt_length (xs))
+end // end of [quickSort]
+')
+
+')
+
+#para('\
+
+Please find the entire code in this section plus some additional
+code for testing #mycodelink("CHAP_DATAVTYPE/quickSort.dats", "on-line").
+
+')
+
+</sect1>#comment("sect1/id=example_quickSort_lin")
+
+<!-- ****** ****** -->
 
 </chapter><!--id="dataviewtypes"-->
 

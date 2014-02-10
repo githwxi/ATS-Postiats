@@ -21,15 +21,33 @@ ATSCFLAGS=
 all:: list_vt
 list_vt: list_vt.dats; $(PATSCC) -tcats -o $@ $<
 
-all:: mergesort
-mergesort: mergesort.dats; \
-  $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< && ./$@
-cleanall:: ; $(RMF) mergesort
+######
 
 all:: rbtree
 rbtree: rbtree.dats; \
   $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< && ./$@
 cleanall:: ; $(RMF) rbtree
+
+######
+
+all:: mergeSort
+mergeSort: mergeSort.dats; \
+  $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< && ./$@
+cleanall:: ; $(RMF) mergeSort
+
+######
+
+all:: insertionSort
+insertionSort: insertionSort.dats; \
+  $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< && ./$@
+cleanall:: ; $(RMF) insertionSort
+
+######
+
+all:: quickSort
+quickSort: quickSort.dats; \
+  $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< && ./$@
+cleanall:: ; $(RMF) quickSort
 
 ######
 
