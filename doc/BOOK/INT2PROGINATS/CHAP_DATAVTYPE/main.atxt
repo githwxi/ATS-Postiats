@@ -926,6 +926,9 @@ given as follows makes no use of memory allocation and deallocation.
 
 #para('\
 
+The following code implements a function #dyncode("takeout_node_at") that
+takes out a node from a linear list at a given position:
+
 #atscode('\
 fun{a:t@ype}
 takeout_node_at
@@ -946,11 +949,31 @@ end else let
   val nx = xs
   val () = xs := xs1
 in
-  $UNSAFE.castvwtp0 ((view@x, view@xs1 | nx))
+  $UNSAFE.castvwtp0 ((view@x, view@xs1 | nx)) // HX: this is a safe cast
 end // end of [if]
 //
 ) (* end of [takeout_node_at] *)
 ')
+
+Assume that a data constructor named #emphasis("foo") is associated with a
+dataviewtype.  Then there is a corresponding viewtype construtor of the
+name #emphasis("foo_pstruct") that takes n types to form a viewtype, where
+n is the arity of #emphasis("foo"). For instance, there is a viewtype
+constructor #stacode("list_vt_cons_pstruct") that takes 2 types T1 and T2
+to form a viewtype #stacode("list_vt_cons_pstruct(T1, T2)"). This viewtype
+is for a list-node created by a call to #dyncode("list_vt_cons") such that
+the two arguments of #dyncode("list_vt_cons") are of types T1 and T2.
+Essentially, #stacode("list_vt_cons_pstruct(T1, T2)") stands for
+#stacode("list_vt_cons_pstruct(L0, L1, L2)") for some addresses L0, L1 and
+L2 plus two views #stacode("T1@L1") and #stacode("T2@L2").
+
+')
+
+#para('\
+
+A key step in quick-sort lies in partitioning a linear list based on a
+given pivot. This step is fulfilled by the following code that implements a
+function template named #dyncode("partition"):
 
 #atscode('\
 fun{
@@ -986,6 +1009,20 @@ a:t@ype
 ) (* end of [partition] *)
 ')
 
+The implementation of #dyncode("partition") is tail-recursive.  Given a
+linear list and a pivot, #dyncode("partition") returns a tuple (r1, res1,
+res2) such that res1 contains every element in the list that is less than
+or equal to the pivot, res2 contains the rest, and r1 is the length of
+res1. The way in which the nodes of the given linear list are moved into
+res1 and res2 is quite an interesting aspect of this implementation.
+
+')
+
+#para('\
+
+With #dyncode("takeout_node_at") and #dyncode("partition") being available,
+#dyncode("quickSort") can be readily implemented:
+
 #atscode('\
 implement
 {a}(*tmp*)
@@ -1017,6 +1054,12 @@ in
   sort (xs, list_vt_length (xs))
 end // end of [quickSort]
 ')
+
+Note that the pivot for each round is taken from the middle of the list
+being sorted, which can be time-consuming as taking out a node from the
+middle of a list is O(n)-time. This issue can be addressed by always
+choosing the first element to be the pivot. However, doing so can
+often lead to degenerated O(n^2)-time performance of quick-sort in practice.
 
 ')
 
