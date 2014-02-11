@@ -1147,8 +1147,6 @@ the following function template #code("rbtree_insert") is essentially a
 direct translation of the one of the same name for inserting an element
 into a functional red-black tree:
 
-')
-
 #atscode('\
 extern
 fun{a:t@ype}
@@ -1203,6 +1201,8 @@ in
 case+ t of cons (!p_c as R, _, _, _) => (!p_c := B; fold@ (t); t) | _ =>> t
 //
 end // end of [rbtree_insert]
+')
+
 ')
 
 #para('\

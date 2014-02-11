@@ -387,6 +387,16 @@ case+ hde0.hidexp_node of
 //
 end // end of [hidexp_ccomp]
 
+implement
+hidexp_ccompv (env, res, hde0) =
+(
+case+ hde0.hidexp_node of
+| HDEselab _ => auxret (env, res, hde0)
+| HDEselvar _ => auxret (env, res, hde0)
+| HDEselptr _ => auxret (env, res, hde0)
+| _(*non-lval*) => hidexp_ccomp (env, res, hde0)
+)
+
 end // end of [local]
 
 (* ****** ****** *)
@@ -431,6 +441,11 @@ list_of_list_vt (pmvs)
 end // end of [hidexplst_ccomp]
 
 (* ****** ****** *)
+
+extern
+fun labhidexplst_ccomp
+  (env: !ccompenv, res: !instrseq, lhdes: labhidexplst): labprimvalist
+// end of [labhidexplst_ccomp]
 
 implement
 labhidexplst_ccomp

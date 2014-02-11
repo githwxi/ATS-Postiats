@@ -134,8 +134,8 @@ end // end of [foo]
 In ATS, there is a type constructor #stacode("opt") that takes a type T and
 a boolean B to form a opt-type #dyncode("opt(T, B)") such that
 #dyncode("opt(T, B)") equals T if B is true and it equals T? if B is false.
-The function #dyncode("getopt") can be implemented as follows by making
-use of an opt-type:
+The function #dyncode("getopt") can be given the following interface
+that makes use of an opt-type:
 
 #atscode('\
 fun getopt (x: &T? >> opt (T, b)): #[b:bool] bool(b)

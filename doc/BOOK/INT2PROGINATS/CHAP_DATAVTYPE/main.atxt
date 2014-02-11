@@ -1478,6 +1478,7 @@ a:t@ype
 ) : [c:clr] rbtree0 (a, c, bh+1) = let
   \#define B BLK
   \#define R RED
+  \#define nil rbtree_nil
   \#define cons rbtree_cons
 in
   case+ !p_tl of
@@ -1489,8 +1490,8 @@ in
       val tl = !p_tl
       val () = !p_tl := tlr
       prval () = fold@ (t)
-//
       val () = tlr := t
+//
     in
       fold@ (tl); tl
     end // end of [cons (R, cons (R, ...), ...)]
@@ -1538,6 +1539,7 @@ a:t@ype
 ) : [c:clr] rbtree0 (a, c, bh+1) = let
   \#define B BLK
   \#define R RED
+  \#define nil rbtree_nil
   \#define cons rbtree_cons
 in
   case+ !p_tr of
@@ -1549,8 +1551,8 @@ in
       val tr = !p_tr
       val () = !p_tr := trl
       prval () = fold@ (t)
-//
       val () = trl := t
+//
     in
       fold@ (tr); tr
     end // end of [cons (R, ..., cons (R, ...))]
@@ -1576,12 +1578,104 @@ end // end of [insfix_r]
 
 ')
 
+#para('\
+
+As can be expected, the following function template
+#dyncode("rbtree_insert") is essentially a direct translation of the one of
+the same name for inserting an element into a functional red-black tree:
+
+#atscode('\
+extern
+fun{a:t@ype}
+rbtree_insert
+  {c:clr}{bh:nat}
+(
+  t: rbtree0 (a, c, bh), x0: &a, cmp: cmp a
+) : [bh1:nat] rbtree0 (a, BLK, bh1)
+
+implement{a}
+rbtree_insert
+  (t, x0, cmp) = let
+//
+\#define B BLK
+\#define R RED
+\#define nil rbtree_nil
+\#define cons rbtree_cons
+//
+fun ins
+  {c:clr}{bh:nat} .<bh,c>.
+(
+  t: rbtree0 (a, c, bh), x0: &a
+) : [cl:clr; v:nat | v <= c] rbtree (a, cl, bh, v) =
+(
+  case+ t of
+  | @cons (
+      c, tl, x, tr
+    ) => let
+      prval pf_c = view@c
+      prval pf_tl = view@tl
+      prval pf_x = view@x
+      prval pf_tr = view@tr
+      val sgn = compare<a> (x0, x, cmp)
+    in
+      if sgn < 0 then let
+        val [cl:int,v:int] tl_ = ins (tl, x0)
+        val () = tl := tl_
+      in
+        if (c = B)
+        then (
+          insfix_l<a>
+            (pf_c, pf_tl, pf_x, pf_tr | t, addr@tl)
+          // end of [insfix_l]
+        ) else let
+          val () = c := R in fold@{a}{..}{..}{cl}(t); t
+        end // end of [if]
+      end else if sgn > 0 then let
+        val [cr:int,v:int] tr_ = ins (tr, x0)
+        val () = tr := tr_
+      in
+        if (c = B)
+        then (
+          insfix_r<a>
+            (pf_c, pf_tl, pf_x, pf_tr | t, addr@tr)
+          // end of [insfix_r]
+        ) else let
+          val () = c := R in fold@{a}{..}{..}{cr}(t); t
+        end // end of [if]
+      end else (fold@{a}{..}{..}{0} (t); t)
+    end // end of [cons]
+  | ~nil () => cons{a}{..}{..}{0}(R, nil, x0, nil)
+) (* end of [ins] *)
+//
+val t = ins (t, x0)
+//
+in
+//
+case+ t of @cons(c as R, _, _, _) => (c := B; fold@ (t); t) | _ =>> t
+//
+end // end of [rbtree_insert]
+')
+
+')
+
+#para('\
+
+I literally implemented the above #dyncode("rbtree_insert") by making a
+copy of the previous implementation of #dyncode("rbtree_insert") for
+functional red-black trees and then properly modifying it to make it pass
+typechecking. Although this process of copying-and-modifying is difficult
+to be described formally, it is fairly straightforward to follow in
+practice as it is almost entirely guided by the error messages issued
+during typechecking.
+
+')
+
 #para("\
 
 Please find the entire code in this section plus some additional
 code for testing #mycodelink("CHAP_DATAVTYPE/rbtree.dats", "on-line").
 A challenging as well as rewarding exercise is for the reader to implement
-an operation to delete an element from a given linear red-black tree.
+an operation that deletes an element from a given linear red-black tree.
 
 ")
 

@@ -53,6 +53,30 @@ staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 
+extern
+fun hidexplst_ccompv
+  (env: !ccompenv, res: !instrseq, hdes: hidexplst): primvalist
+// end of [hidexplst_ccompv]
+
+implement  
+hidexplst_ccompv
+  (env, res, hdes) = let
+in
+//
+case+ hdes of
+| list_cons
+    (hde, hdes) => let
+    val pmv = hidexp_ccompv (env, res, hde)
+    val pmvs = hidexplst_ccompv (env, res, hdes)
+  in
+    list_cons (pmv, pmvs)
+  end // end of [list_cons]    
+| list_nil () => list_nil ()
+//
+end // end of [hidexplst_ccompv]
+
+(* ****** ****** *)
+
 implement
 hidexp_ccomp_ret_case
   (env, res, tmpret, hde0) = let
@@ -61,7 +85,10 @@ val loc0 = hde0.hidexp_loc
 val-HDEcase
   (knd, hdes, hicls) = hde0.hidexp_node
 //
-val pmvs = hidexplst_ccomp (env, res, hdes)
+// HX: [pmvs] should not contain lvalues
+//
+val pmvs = hidexplst_ccompv (env, res, hdes)
+//
 val fail =
 (
 case+ knd of
@@ -71,12 +98,13 @@ case+ knd of
 ) : patckont // end of [val]
 //
 val lvl0 = the_d2varlev_get ()
-val ibranchlst = hiclaulst_ccomp
-(
-  env, lvl0, pmvs, hicls, tmpret, fail
-) (* end of [val] *)
-val ins = instr_caseof (loc0, ibranchlst)
-val () = instrseq_add (res, ins)
+//
+val ibranchlst =
+  hiclaulst_ccomp (env, lvl0, pmvs, hicls, tmpret, fail)
+//
+val ins =
+  instr_caseof (loc0, ibranchlst)
+val ((*void*)) = instrseq_add (res, ins)
 //
 in
   // nothing

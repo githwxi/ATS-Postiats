@@ -1450,7 +1450,7 @@ in
 //
 case+ pmv.primval_node of
 | PMVptrof (pmv) => emit_primval (out, pmv)
-| _ => auxmain (out, pmv, hse)
+| _(* non-ptrof *) => auxmain (out, pmv, hse)
 //
 end // end of [emit_primval_deref]
 
