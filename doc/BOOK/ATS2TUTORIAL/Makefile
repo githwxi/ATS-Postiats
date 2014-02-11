@@ -51,6 +51,7 @@ allchap:: CHAP_FIXITY
 allchap:: CHAP_HORDFUN
 allchap:: CHAP_REFERENCE
 allchap:: CHAP_ARRAYREF
+allchap:: CHAP_ARRSZREF
 
 ######
 
@@ -93,6 +94,11 @@ CHAP_ARRAYREF:: ; \
 CHAP_ARRAYREF:: ; \
   make -C CHAP_ARRAYREF -f ../Makefile.chap clean
 
+CHAP_ARRSZREF:: ; \
+  make -C CHAP_ARRSZREF -f ../Makefile.chap main.db
+CHAP_ARRSZREF:: ; \
+  make -C CHAP_ARRSZREF -f ../Makefile.chap clean
+
 ######
 
 CPRF=cp -rf
@@ -101,15 +107,18 @@ CHMOD=chmod
 
 ######
 
+######
+
+upload:: upload_html
+
 upload_html:: ; \
   scp -r HTML ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2TUTORIAL
-uploadloc_html:: ; \
-  $(SCPR) HTML hwxi@csa2.bu.edu:public_html/ATS/DOCUMENT/ATS2TUTORIAL
+upload_pdf:: ; \
+  scp -r PDF ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2TUTORIAL/
 
 ######
 
-upload_pdf:: ; \
-  scp -r PDF ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2TUTORIAL/
+uploadloc:: ; $(SCPR) HTML hwxi@csa2.bu.edu:public_html/ATS/DOCUMENT/ATS2TUTORIAL
 
 ######
 

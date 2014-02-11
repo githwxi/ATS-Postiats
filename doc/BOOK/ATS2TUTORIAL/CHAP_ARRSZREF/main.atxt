@@ -1,0 +1,70 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from CHAP_ARRSZREF/main.atxt.\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter id="arrszref">
+#title("Persistent Arrays with Size")
+
+#para('\
+
+Given a viewtype VT, the type for persistent arrays with attached size
+information that contains N values of viewtype VT is #stacode("arrszref(VT,
+N)").  Essentially, a value of the type #stacode("arrszref(VT, N)") is a
+boxed pair of two components of types #stacode("arrayref(VT, N)") and
+#stacode("size_t(N)").  In the following presentation, I may use the name
+#emphasis("array-with-size") to refer to a persistant array with attached size
+information.
+
+For reading from and writing to an array-with-size, the function templates
+#dyncode("arrszref_get_at") and #dyncode("arrszref_set_at") can be used,
+respectively, which are assigned the following interfaces:
+
+#atscode('\
+fun{a:t@ype}
+arrszref_get_at (A: arrszref (a), i: size_t): (a)
+fun{a:t@ype}
+arrszref_set_at (A: arrszref (a), i: size_t, x: a): void
+')
+
+Given an array-with-size A, an index i and a value v,
+#dyncode("arrszref_get_at(A, i)") and #dyncode("arrszref_set_at(A, i, v)")
+can be written as #dyncode("A[i]") and #dyncode("A[i] := v"),
+respectively. Notice that run-time array-bounds checking is performed
+whenever #dyncode("arrszref_get_at") or #dyncode("arrszref_set_at") is
+called.
+
+')
+
+</chapter><!--"arrszref"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [main.atxt] ")
+
+%{
+//
+staload
+STDIO = "libc/SATS/stdio.sats"
+//
+implement main () =
+{
+//
+  val filr =
+    $STDIO.fopen_ref_exn ("../CODE/chap_arrszref.dats", file_mode_w)
+  val () = fprint_theCodeLst (filr)
+  val () = $STDIO.fclose_exn (filr)
+//
+  val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} // end of [main]
+%}
