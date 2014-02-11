@@ -71,6 +71,28 @@ void *memmove(void *dst, const void *src, size_t n) ;
 //
 #atscode_separator_for_C()
 
+ATSinline()
+atsvoid_t0ype
+atspre_array_foreach_funenv_tsz
+(
+  atstype_ptr A
+, atstype_size n
+, atstype_size tsz
+, atstype_funptr f
+, atstype_boxed env
+) {
+  char *p ;
+  size_t i ;
+  p = (char*)A ;
+  for (i = 0 ; i < n ; i += 1)
+  {
+    ((void(*)(void*, void*))(f))(p, env) ; p += tsz ;
+  }
+  return ;
+} // end of [atspre_array_foreach_funenv_tsz]
+
+#atscode_separator_for_C()
+
 \#endif // ifndef ATSLIB_PRELUDE_ARRAY_CATS
 
 #atscode_separator_for_C()

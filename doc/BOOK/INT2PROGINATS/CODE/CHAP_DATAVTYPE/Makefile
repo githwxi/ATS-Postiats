@@ -9,10 +9,6 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 
-INCLUDES=-I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime
-
-######
-
 CFLAGS=-O2
 ATSCFLAGS=
 

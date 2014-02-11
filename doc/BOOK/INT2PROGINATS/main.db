@@ -26,6 +26,7 @@
 <!ENTITY chap_vvtintro SYSTEM "CHAP_VVTINTRO/main.db">
 <!ENTITY chap_dataview SYSTEM "CHAP_DATAVIEW/main.db">
 <!ENTITY chap_datavtype SYSTEM "CHAP_DATAVTYPE/main.db">
+<!ENTITY chap_absvtype SYSTEM "CHAP_ABSVTYPE/main.db">
 ]>
 <book id="proginats" lang="en">
 &bookinfo;
@@ -76,6 +77,7 @@ id="programming-with-linear-views-and-types">
 &chap_vvtintro;
 &chap_dataview;
 &chap_datavtype;
+&chap_absvtype;
 </part>
 
 </book>

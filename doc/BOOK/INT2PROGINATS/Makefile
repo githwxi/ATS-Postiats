@@ -76,6 +76,7 @@ allchap:: CHAP_PRGTHMPRV
 allchap:: CHAP_VVTINTRO
 allchap:: CHAP_DATAVIEW
 allchap:: CHAP_DATAVTYPE
+allchap:: CHAP_ABSVTYPE
 #
 ######
 
@@ -173,6 +174,13 @@ CHAP_DATAVTYPE:: ; \
   make -C CHAP_DATAVTYPE -f ../Makefile.chap main.db
 CHAP_DATAVTYPE:: ; \
   make -C CHAP_DATAVTYPE -f ../Makefile.chap clean
+
+######
+
+CHAP_ABSVTYPE:: ; \
+  make -C CHAP_ABSVTYPE -f ../Makefile.chap main.db
+CHAP_ABSVTYPE:: ; \
+  make -C CHAP_ABSVTYPE -f ../Makefile.chap clean
 
 ######
 

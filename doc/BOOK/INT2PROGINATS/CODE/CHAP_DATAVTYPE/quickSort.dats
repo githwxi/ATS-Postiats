@@ -28,10 +28,14 @@
 (*
 ** Quick-Sort on Lists
 **
-** Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+** Author: Hongwei Xi (gmhwxiATgmailDOTcom)
 ** Start Time: February, 2014
 *)
 
+(* ****** ****** *)
+//
+// HX-2014-02-10: Ported to ATS2
+//
 (* ****** ****** *)
 //
 #include
