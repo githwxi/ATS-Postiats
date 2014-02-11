@@ -388,14 +388,14 @@ case+ hde0.hidexp_node of
 end // end of [hidexp_ccomp]
 
 implement
-hidexp_ccompv (env, res, hde0) =
-(
-case+ hde0.hidexp_node of
-| HDEselab _ => auxret (env, res, hde0)
-| HDEselvar _ => auxret (env, res, hde0)
-| HDEselptr _ => auxret (env, res, hde0)
-| _(*non-lval*) => hidexp_ccomp (env, res, hde0)
-)
+hidexp_ccompv
+  (env, res, hde0) = let
+  val islval = hidexp_is_lvalue (hde0)
+in
+  if islval
+    then auxret (env, res, hde0) else hidexp_ccomp (env, res, hde0)
+  // end of [if]
+end // end of [hidexp_ccompv]
 
 end // end of [local]
 

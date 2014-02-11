@@ -574,7 +574,8 @@ fun aux
 ) : void = let
   val loc = hvd.hivaldec_loc
   val hde_def = hvd.hivaldec_def
-  val pmv_def = hidexp_ccomp (env, res, hde_def)
+  val pmv_def =
+    hidexp_ccompv (env, res, hde_def) // non-lvalue
   val hip = hvd.hivaldec_pat
   val fail = (
     case+ knd of

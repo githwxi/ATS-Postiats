@@ -440,6 +440,23 @@ end // end of [local]
 
 (* ****** ****** *)
 
+implement
+hidexp_is_lvalue
+  (hde0) = let
+in
+//
+case+ hde0.hidexp_node of
+| HDEvar (d2v) =>
+    $D2E.d2var_is_mutabl (d2v)
+| HDEselvar (d2v, _, _) =>
+    $D2E.d2var_is_mutabl (d2v)
+| HDEselptr (hde, _, _) => true
+| _ (* non-lvalue *) => false
+//
+end // end of [hidexp_is_lvalue]
+
+(* ****** ****** *)
+
 (*
 implement
 un_hidexp_int (hde) =
