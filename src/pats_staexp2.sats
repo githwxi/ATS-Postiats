@@ -475,7 +475,7 @@ s2exp_node =
 //
   | S2Evararg of (s2exp) // variadic argument type
 //
-  | S2Ewth of (s2exp, wths2explst) // the result part of a fun type
+  | S2Ewthtype of (s2exp, wths2explst) // the result part of a fun type
 //
   | S2Eerr of () // HX: placeholder for indicating error or something else
 //
@@ -1134,7 +1134,7 @@ fun s2exp_unis (s2qs: s2qualst, s2f: s2exp): s2exp
 
 (* ****** ****** *)
 
-fun s2exp_wth (_res: s2exp, _with: wths2explst): s2exp
+fun s2exp_wthtype (_res: s2exp, _with: wths2explst): s2exp
 
 (* ****** ****** *)
 

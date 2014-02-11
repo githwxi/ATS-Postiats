@@ -263,7 +263,6 @@ list_last_exn{n:int} (xs: list (INV(x), n)):<!exn> (x)
 
 #atscode_separator()
 //
-symintr .head .tail .last
 overload .head with list_head
 overload .tail with list_tail
 overload .last with list_last

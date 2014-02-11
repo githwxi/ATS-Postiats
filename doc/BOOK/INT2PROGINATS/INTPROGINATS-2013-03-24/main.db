@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+<!--
+<!ENTITY ae "&#228;">
+<!ENTITY oe "&#246;">
+<!ENTITY ae "&auml;">
+<!ENTITY oe "&ouml;">
+-->
+<!ENTITY ae "ae">
+<!ENTITY oe "oe">
+<!ENTITY bookinfo SYSTEM "bookinfo.db">
+<!ENTITY preface SYSTEM "preface.db">
+<!ENTITY chapter_start SYSTEM "CHAPTER_START/main.db">
+<!ENTITY chapter_eop SYSTEM "CHAPTER_EOP/main.db">
+<!ENTITY chapter_functions SYSTEM "CHAPTER_FUNCTIONS/main.db">
+<!ENTITY chapter_datatypes SYSTEM "CHAPTER_DATATYPES/main.db">
+<!ENTITY chapter_polymorphism SYSTEM "CHAPTER_POLYMORPHISM/main.db">
+<!ENTITY chapter_summary_basic SYSTEM "CHAPTER_SUMMARY_BASIC/main.db">
+<!ENTITY chapter_effectful SYSTEM "CHAPTER_EFFECTFUL/main.db">
+<!ENTITY chapter_convenience SYSTEM "CHAPTER_CONVENIENCE/main.db">
+<!ENTITY chapter_modularity SYSTEM "CHAPTER_MODULARITY/main.db">
+<!ENTITY chapter_libraries SYSTEM "CHAPTER_LIBRARIES/main.db">
+<!ENTITY chapter_cinteract SYSTEM "CHAPTER_CINTERACT/main.db">
+<!ENTITY chapter_summary_practical SYSTEM "CHAPTER_SUMMARY_PRACTICAL/main.db">
+<!ENTITY chapter_deptypes SYSTEM "CHAPTER_DEPTYPES/main.db">
+<!ENTITY chapter_deprefdts SYSTEM "CHAPTER_DEPREFDTS/main.db">
+<!ENTITY chapter_thmprving SYSTEM "CHAPTER_THMPRVING/main.db">
+<!ENTITY chapter_pwtp SYSTEM "CHAPTER_PwTP/main.db">
+<!ENTITY chapter_summary_deptypes SYSTEM "CHAPTER_SUMMARY_DEPTYPES/main.db">
+<!ENTITY chapter_vvtintro SYSTEM "CHAPTER_VVTINTRO/main.db">
+<!ENTITY chapter_dataviews SYSTEM "CHAPTER_DATAVIEWS/main.db">
+<!ENTITY chapter_datavtypes SYSTEM "CHAPTER_DATAVTYPES/main.db">
+<!ENTITY chapter_absvtypes SYSTEM "CHAPTER_ABSVTYPES/main.db">
+<!ENTITY chapter_summary_lintypes SYSTEM "CHAPTER_SUMMARY_LINTYPES/main.db">
+]>
+<book id="proginats" lang="en">
+&bookinfo;
+
+<dedication>
+<para>
+<!--
+To my wife Jinning and daughter Zoe.
+-->
+To Jinning and Zoe.
+</para>
+</dedication>
+
+&preface;
+<toc></toc>
+<!-- We are done with the preliminaries, now we can start with the body of the document -->
+
+<part id="basic_functional_programming">
+<title>Basic Functional Programming</title>
+&chapter_start;
+&chapter_eop;
+&chapter_functions;
+&chapter_datatypes;
+&chapter_polymorphism;
+&chapter_summary_basic;
+</part>
+<!--"basic_functional_programming"-->
+
+<part
+id="support_for_practical_programming">
+<title>Support for Practical Programming</title>
+&chapter_effectful;
+&chapter_convenience;
+&chapter_modularity;
+&chapter_libraries;
+&chapter_cinteract;
+&chapter_summary_practical;
+</part>
+<!--"practical_functional_programming"-->
+
+<part
+id="dependent_types_for_practical_programming">
+<title>Dependent Types for Programming</title>
+&chapter_deptypes;
+&chapter_deprefdts;
+&chapter_thmprving;
+&chapter_pwtp;
+&chapter_summary_deptypes;
+</part>
+<!--"dependent_types_for_practical_programming"-->
+
+<part id="linear_types_for_practical_programming">
+<title>Linear Types for Programming</title>
+&chapter_vvtintro;
+&chapter_dataviews;
+&chapter_datavtypes;
+&chapter_absvtypes;
+&chapter_summary_lintypes;
+</part>
+<!--"linear_types_for_practical_programming"-->
+
+</book>

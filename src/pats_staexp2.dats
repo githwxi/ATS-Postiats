@@ -524,9 +524,10 @@ s2exp_unis (s2qs, s2f) =
 (* ****** ****** *)
 
 implement
-s2exp_wth (s2e, wths2es) = '{
-  s2exp_srt= s2e.s2exp_srt, s2exp_node= S2Ewth (s2e, wths2es)
-} // end of [s2exp_wth]
+s2exp_wthtype
+  (s2e, wths2es) = '{
+  s2exp_srt= s2e.s2exp_srt, s2exp_node= S2Ewthtype (s2e, wths2es)
+} // end of [s2exp_wthtype]
 
 (* ****** ****** *)
 

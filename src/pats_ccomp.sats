@@ -1750,12 +1750,15 @@ fun hifunarg_ccomp
 typedef
 hidexp_ccomp_funtype =
   (!ccompenv, !instrseq, hidexp) -> primval
+//
 fun hidexp_ccomp : hidexp_ccomp_funtype
 fun hidexp_ccomp_lam : hidexp_ccomp_funtype
 fun hidexp_ccomp_fix : hidexp_ccomp_funtype
 fun hidexp_ccomp_loop : hidexp_ccomp_funtype
 fun hidexp_ccomp_loopexn : hidexp_ccomp_funtype
-
+//
+fun hidexp_ccompv : hidexp_ccomp_funtype  
+//
 (* ****** ****** *)
 
 typedef
@@ -1779,10 +1782,6 @@ fun hidexp_ccomp_ret_trywith : hidexp_ccomp_ret_funtype
 fun hidexplst_ccomp
   (env: !ccompenv, res: !instrseq, hdes: hidexplst): primvalist
 // end of [hidexplst_ccomp]
-
-fun labhidexplst_ccomp
-  (env: !ccompenv, res: !instrseq, lhdes: labhidexplst): labprimvalist
-// end of [labhidexplst_ccomp]
 
 (* ****** ****** *)
 
@@ -1894,7 +1893,8 @@ fun emit_ATSPMVf0loat (out: FILEref, tok: $SYN.f0loat): void
 
 (* ****** ****** *)
 
-fun emit_symbol (out: FILEref, sym: symbol): void
+fun emit_stamp (out: FILEref, x: stamp): void
+fun emit_symbol (out: FILEref, x: symbol): void
 
 (* ****** ****** *)
 

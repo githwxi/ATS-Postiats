@@ -1006,7 +1006,7 @@ case+
   end // end of [S1Eexi]
 | _ => let
     val s2e = s1exp_trdn_impred (s1e)
-    val ws2es = auxwth (ws1es) in s2exp_wth (s2e, ws2es)
+    val ws2es = auxwth (ws1es) in s2exp_wthtype (s2e, ws2es)
   end // end of [_]
 //
 end // end of [auxres]

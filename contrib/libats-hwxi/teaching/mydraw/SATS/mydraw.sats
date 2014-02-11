@@ -211,6 +211,11 @@ fun{
   (p1: point, p2: point, p3: point): void
 // end of [mydraw_triangle]
 
+fun{
+} mydraw_quadrilateral
+  (p1: point, p2: point, p3: point, p4: point): void
+// end of [mydraw_quadrilateral]
+
 (* ****** ****** *)
 
 fun{

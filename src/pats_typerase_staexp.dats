@@ -223,7 +223,8 @@ case+
   end // end of [S2Erefarg]
 //
 | S2Evararg (s2e) => hisexp_vararg (s2e)
-| S2Ewth (s2e, _(*ws2es*)) => s2exp_tyer (loc0, flag, s2e)
+//
+| S2Ewthtype (s2e, _(*ws2es*)) => s2exp_tyer (loc0, flag, s2e)
 //
 | _ => hisexp_s2exp (s2e0)
 //

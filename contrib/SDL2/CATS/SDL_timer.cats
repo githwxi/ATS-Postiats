@@ -32,6 +32,8 @@
 /* ****** ****** */
 
 #define atscntrb_SDL2_SDL_Delay SDL_Delay
+#define atscntrb_SDL2_SDL_Delay_Uint32 SDL_Delay
+#define atscntrb_SDL2_SDL_Delay_intGtez(ms) SDL_Delay((Uint32)ms)
 
 /* ****** ****** */
 

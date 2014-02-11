@@ -729,7 +729,7 @@ typedef list_node_ = $extype"list_node_" // [list_node_] for unboxed nodes
 #para('\
 
 The following code statically allocates an array of list-nodes and then
-initialize these nodes, turing the array into a list:
+initialize these nodes, turning the array into a list:
 
 #atscode('\
 local

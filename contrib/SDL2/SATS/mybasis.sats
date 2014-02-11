@@ -67,6 +67,35 @@ overload Uint32 with Uint32_of_uint
 
 (* ****** ****** *)
 
+typedef
+SDL_version =
+$extype_struct
+"SDL_version_struct" of
+{
+  major= Uint8, minor=Uint8, patch= Uint8
+} (* end of [SDL_version] *)
+
+(* ****** ****** *)
+//
+typedef
+SDL_Point =
+$extype_struct "SDL_Point" of { x= int, y= int }
+//
+typedef
+SDL_Rect =
+$extype_struct "SDL_Rect" of { x=int, y= int, w= int, h= int }
+//
+(* ****** ****** *)
+//
+absvtype
+SDL_RWops_ptr(l:addr) = ptr(l) // SDL_RWops* or null
+vtypedef
+SDL_RWops_ptr0 = [l:addr] SDL_RWops_ptr (l)
+vtypedef
+SDL_RWops_ptr1 = [l:addr | l > null] SDL_RWops_ptr (l)
+//
+(* ****** ****** *)
+
 abst@ype
 SDL_EventType = $extype"SDL_EventType"
 
@@ -93,12 +122,42 @@ SDL_Window_ptr1 = [l:addr | l > null] SDL_Window_ptr (l)
 (* ****** ****** *)
 //
 absvtype
+SDL_Surface_ptr(l:addr) = ptr(l) // SDL_Surface* or null
+vtypedef
+SDL_Surface_ptr0 = [l:addr] SDL_Surface_ptr (l)
+vtypedef
+SDL_Surface_ptr1 = [l:addr | l > null] SDL_Surface_ptr (l)
+//
+(* ****** ****** *)
+//
+absvtype
+SDL_Texture_ptr(l:addr) = ptr(l) // SDL_Texture* or null
+vtypedef
+SDL_Texture_ptr0 = [l:addr] SDL_Texture_ptr (l)
+vtypedef
+SDL_Texture_ptr1 = [l:addr | l > null] SDL_Texture_ptr (l)
+//
+absvtype
 SDL_Renderer_ptr(l:addr) = ptr(l) // SDL_Renderer* or null
 vtypedef
 SDL_Renderer_ptr0 = [l:addr] SDL_Renderer_ptr (l)
 vtypedef
 SDL_Renderer_ptr1 = [l:addr | l > null] SDL_Renderer_ptr (l)
 //
+(* ****** ****** *)
+
+abst@ype
+SDL_RendererInfo =
+$extype_struct "SDL_RendererInfo" of
+{
+  name= string
+, flags= Uint32
+, num_texture_formats= Uint32
+, texture_formats= @[Uint32][16]
+, max_texture_width= int 
+, max_texture_height= int
+} (* end of [SDL_RendererInfo] *)
+
 (* ****** ****** *)
 
 #endif // end of [ifndef]

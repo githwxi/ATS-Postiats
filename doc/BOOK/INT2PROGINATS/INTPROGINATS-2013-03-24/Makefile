@@ -155,11 +155,17 @@ CHAPTER_ABSVTYPES:: ; \
 
 ######
 
-upload:
-	scp -r HTML ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/INTPROGINATS
+upload:: upload_html
+
+######
 
 upload_pdf:
 	scp -r PDF ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/INTPROGINATS/
+
+upload_html:
+	scp -r HTML ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/INTPROGINATS
+
+######
 
 uploadloc:
 	cp -rf HTML $(HOME)/public_html/ATS/DOCUMENT/INTPROGINATS

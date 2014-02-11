@@ -104,6 +104,36 @@ list0_map
 
 (* ****** ****** *)
 
+fun
+{a:t@ype}
+{b:t@ype}
+list0_foldleft
+(
+  ini: a, xs: list0 (b), f: (a, b) -> a
+) : a =
+(
+  case+ xs of
+  | list0_cons
+      (x, xs) => list0_foldleft<a><b> (f (ini, x), xs, f)
+  | list0_nil ((*void*)) => ini
+)
+
+fun
+{a:t@ype}
+{b:t@ype}
+list0_foldright
+(
+  xs: list0 (a), res: b, f: (a, b) -> b
+) : b =
+(
+  case+ xs of
+  | list0_cons
+      (x, xs) => f (x, list0_foldright<a><b> (xs, res, f))
+  | list0_nil ((*void*)) => res
+)
+
+(* ****** ****** *)
+
 fun{
 a,b:t@ype
 } list0_zip

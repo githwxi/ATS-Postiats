@@ -387,9 +387,11 @@ case+ s2e0.s2exp_node of
   end // end of [S2Euni]
 *)
 //
-| S2Evararg _ => s2e0
 | S2Erefarg _ => s2e0
-| S2Ewth _ => s2e0
+//
+| S2Evararg _ => s2e0
+//
+| S2Ewthtype _ => s2e0
 //
 | S2Eerr () => s2e0
 //

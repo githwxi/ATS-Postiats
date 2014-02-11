@@ -413,7 +413,7 @@ id="example_function_templates_on_lists">
 
 In functional programming, lists are ubiquitous. We implement as follows
 some commonly used function templates on lists. It should be noted that
-these templates are all available in a library of ATS, where they may be
+these templates are all available in some library of ATS, where they may be
 implemented in a significantly more efficient manner due to the use of
 certain programming features (such as linear datatypes) that have not been
 covered so far.\
@@ -423,7 +423,7 @@ covered so far.\
 #para("\
 
 Please find the entire code in this section plus some additional
-code for testing #mycodelink("CHAPTER_POLYMORPHISM/listfun.dats", "on-line").\
+code for testing #mycodelink("CHAP_POLYMORPH/listfun.dats", "on-line").\
 
 ")
 
@@ -464,7 +464,7 @@ tail-recursive.\
 <sect2
 id="list0_reverse_append">
 #title("
-Reverse Appending: #dyncode("list0_reverse_append")
+Reverse-Appending: #dyncode("list0_reverse_append")
 ")
 
 #para("\
@@ -551,14 +551,81 @@ of #dyncode("list0_map") is not tail-recursive.\
 
 </sect2><!--id="list0_map"-->
 
-<sect2 id="list0_zip">
-#title("
-Zipping: #dyncode("list0_zip")
-")
+<!-- ****** ****** -->
 
-#para("\ Given two lists xs and ys of the types #stacode("list0(T1)") and
+<sect2 id="list0_foldleft">
+#title("Left-Folding: #dyncode("list0_foldleft")")
+
+#para('\
+
+Given xs, ini and f, #dyncode("list0_foldleft(ini, xs, f)") computes the
+value of the expression f(... f(f(ini, xs[0]), xs[1]) ..., xs[n-1]), where
+n is the length of xs and xs[i] refers to element i in xs for each i &lt; n.
+The following implementation of #dyncode("list0_foldleft") is tail-recursive:
+
+#atscode('\
+fun
+{a:t@ype}
+{b:t@ype}
+list0_foldleft
+(
+  ini: a, xs: list0 (b), f: (a, b) -> a
+) : a =
+(
+  case+ xs of
+  | list0_cons
+      (x, xs) => list0_foldleft<a><b> (f (ini, x), xs, f)
+  | list0_nil ((*void*)) => ini
+)
+')
+
+')
+
+</sect2><!--id="list0_foldleft"-->
+
+<!-- ****** ****** -->
+
+<sect2 id="list0_foldright">
+#title("Right-Folding: #dyncode("list0_foldright")")
+
+#para('\
+
+Given xs, res and f, #dyncode("list0_foldright(xs, res, f)") computes the
+value of the expression f(xs[0], f(xs[1], f(... f(xs[n-1], res) ...))), where
+n is the length of xs and xs[i] refers to element i in xs for each i &lt; n.
+The following implementation of #dyncode("list0_foldright") is not tail-recursive:
+
+#atscode('\
+fun
+{a:t@ype}
+{b:t@ype}
+list0_foldright
+(
+  xs: list0 (a), res: b, f: (a, b) -> b
+) : b =
+(
+  case+ xs of
+  | list0_cons
+      (x, xs) => f (x, list0_foldright<a><b> (xs, res, f))
+  | list0_nil ((*void*)) => res
+)
+')
+
+')
+
+</sect2><!--id="list0_foldright"-->
+
+<!-- ****** ****** -->
+
+<sect2 id="list0_zip">
+#title("Zipping: #dyncode("list0_zip")")
+
+#para("\
+
+Given two lists xs and ys of the types #stacode("list0(T1)") and
 #stacode("list0(T2)") for some types T1 and T2, respectively,
-#dyncode("list0_zip(xs, ys)") returns a list zs of the type #stacode("list0 @(T1, T2)"):
+#dyncode("list0_zip(xs, ys)") returns a list zs of the type #stacode("list0
+@(T1, T2)"):
 
 #atscode("\
 fun{
@@ -583,9 +650,9 @@ end // end of [list0_zip]
 ")
 
 The length of zs is the minimum of the lengths of xs and ys and each
-element z in zs @(x, y), where x and y are the corresponding elements in xs
-and ys, respectively.  Clearly, this implementation of #dyncode("list0_zip")
-is not tail-recursive.\
+element z in zs equals @(x, y), where x and y are the corresponding
+elements in xs and ys, respectively.  Clearly, this implementation of
+#dyncode("list0_zip") is not tail-recursive.\
 
 ")#comment("para")
 
@@ -783,7 +850,7 @@ function in ATS that makes use of linear types.  ")
 #para("\
 
 Please find the entire code in this section plus some additional code for
-testing #mycodelink("CHAPTER_POLYMORPHISM/mergesort.dats", "on-line").\
+testing #mycodelink("CHAP_POLYMORPH/mergesort.dats", "on-line").\
 
 ")
 

@@ -43,8 +43,11 @@
 
 (* ****** ****** *)
 
+#include "./SDL_error.sats"
 #include "./SDL_events.sats"
 #include "./SDL_render.sats"
+#include "./SDL_rwops.sats"
+#include "./SDL_surface.sats"
 #include "./SDL_timer.sats"
 #include "./SDL_version.sats"
 #include "./SDL_video.sats"
@@ -60,10 +63,6 @@ macdef SDL_INIT_GAMECONTROLLER = $extval (Uint32, "SDL_INIT_GAMECONTROLLER")
 macdef SDL_INIT_EVENTS = $extval (Uint32, "SDL_INIT_EVENTS")
 macdef SDL_INIT_NOPARACHUTE = $extval (Uint32, "SDL_INIT_NOPARACHUTE")
 macdef SDL_INIT_EVERYTHING = $extval (Uint32, "SDL_INIT_EVERYTHING")
-
-(* ****** ****** *)
-
-fun SDL_Init (flags: Uint32): int = "mac#%"
 
 (* ****** ****** *)
 

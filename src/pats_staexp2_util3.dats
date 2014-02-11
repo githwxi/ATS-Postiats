@@ -131,9 +131,10 @@ case+ s2e0.s2exp_node of
 //
 | S2Evararg s2e => aux_s2exp (s2e, fvs)
 //
-| S2Ewth (s2e, ws2es) => (
+| S2Ewthtype (s2e, ws2es) =>
+  (
     aux_s2exp (s2e, fvs); aux_wths2explst (ws2es, fvs)
-  ) // end of [S2Ewth]
+  ) // end of [S2Ewthtype]
 //
 | S2Eerr () => ()
 //
@@ -516,9 +517,9 @@ case+ s2e.s2exp_node of
 //
 | S2Evararg s2e => f_s2exp (s2e)
 //
-| S2Ewth (s2e, ws2es) => (f_s2exp (s2e); f_wths2explst (ws2es))
+| S2Ewthtype (s2e, ws2es) => (f_s2exp (s2e); f_wths2explst (ws2es))
 //
-| S2Eerr () => ()
+| S2Eerr ((*void*)) => ()
 //
 end // end of [aux_s2exp]
 

@@ -31,24 +31,14 @@ clean:: ; $(RMF) arith_prf_atxt.exe
 cleanall:: ; $(RMF) arith_prf.dats
 
 
-all:: bool.dats
-bool.dats: bool_atxt.exe ; ./$< > $@
-bool_atxt.exe: bool_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ bool_atxt.dats -latsdoc
-bool_atxt.dats: bool.atxt
-	$(ATSDOC) --outcode $@ -i bool.atxt > bool_atxt.txt
-clean:: ; $(RMF) bool_atxt.exe
-cleanall:: ; $(RMF) bool.dats
-
-all:: char.dats
-char.dats: char_atxt.exe ; ./$< > $@
-char_atxt.exe: char_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ char_atxt.dats -latsdoc
-char_atxt.dats: char.atxt
-	$(ATSDOC) --outcode $@ -i char.atxt > char_atxt.txt
-clean:: ; $(RMF) char_atxt.exe
-cleanall:: ; $(RMF) char.dats
-
+all:: pointer.dats
+pointer.dats: pointer_atxt.exe ; ./$< > $@
+pointer_atxt.exe: pointer_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ pointer_atxt.dats -latsdoc
+pointer_atxt.dats: pointer.atxt
+	$(ATSDOC) --outcode $@ -i pointer.atxt > pointer_atxt.txt
+clean:: ; $(RMF) pointer_atxt.exe
+cleanall:: ; $(RMF) pointer.dats
 
 all:: integer.dats
 integer.dats: integer_atxt.exe ; ./$< > $@
@@ -69,6 +59,24 @@ clean:: ; $(RMF) integer_fixed_atxt.exe
 cleanall:: ; $(RMF) integer_fixed.dats
 
 
+all:: bool.dats
+bool.dats: bool_atxt.exe ; ./$< > $@
+bool_atxt.exe: bool_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ bool_atxt.dats -latsdoc
+bool_atxt.dats: bool.atxt
+	$(ATSDOC) --outcode $@ -i bool.atxt > bool_atxt.txt
+clean:: ; $(RMF) bool_atxt.exe
+cleanall:: ; $(RMF) bool.dats
+
+all:: char.dats
+char.dats: char_atxt.exe ; ./$< > $@
+char_atxt.exe: char_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ char_atxt.dats -latsdoc
+char_atxt.dats: char.atxt
+	$(ATSDOC) --outcode $@ -i char.atxt > char_atxt.txt
+clean:: ; $(RMF) char_atxt.exe
+cleanall:: ; $(RMF) char.dats
+
 all:: float.dats
 float.dats: float_atxt.exe ; ./$< > $@
 float_atxt.exe: float_atxt.dats
@@ -77,6 +85,17 @@ float_atxt.dats: float.atxt
 	$(ATSDOC) --outcode $@ -i float.atxt > float_atxt.txt
 clean:: ; $(RMF) float_atxt.exe
 cleanall:: ; $(RMF) float.dats
+
+
+all:: memory.dats
+memory.dats: memory_atxt.exe ; ./$< > $@
+memory_atxt.exe: memory_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ memory_atxt.dats -latsdoc
+memory_atxt.dats: memory.atxt
+	$(ATSDOC) --outcode $@ -i memory.atxt > memory_atxt.txt
+clean:: ; $(RMF) memory_atxt.exe
+cleanall:: ; $(RMF) memory.dats
+
 
 all:: string.dats
 string.dats: string_atxt.exe ; ./$< > $@
@@ -96,24 +115,6 @@ strptr_atxt.dats: strptr.atxt
 clean:: ; $(RMF) strptr_atxt.exe
 cleanall:: ; $(RMF) strptr.dats
 
-
-all:: memory.dats
-memory.dats: memory_atxt.exe ; ./$< > $@
-memory_atxt.exe: memory_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ memory_atxt.dats -latsdoc
-memory_atxt.dats: memory.atxt
-	$(ATSDOC) --outcode $@ -i memory.atxt > memory_atxt.txt
-clean:: ; $(RMF) memory_atxt.exe
-cleanall:: ; $(RMF) memory.dats
-
-all:: pointer.dats
-pointer.dats: pointer_atxt.exe ; ./$< > $@
-pointer_atxt.exe: pointer_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ pointer_atxt.dats -latsdoc
-pointer_atxt.dats: pointer.atxt
-	$(ATSDOC) --outcode $@ -i pointer.atxt > pointer_atxt.txt
-clean:: ; $(RMF) pointer_atxt.exe
-cleanall:: ; $(RMF) pointer.dats
 
 all:: reference.dats
 reference.dats: reference_atxt.exe ; ./$< > $@

@@ -29,9 +29,16 @@
 #include "./mybasis.sats"
 
 (* ****** ****** *)
-
+//
+(*
 fun SDL_Delay (ms: Uint32): void = "mac#%"
-
+*)
+fun SDL_Delay_Uint32 (ms: Uint32): void = "mac#%"
+fun SDL_Delay_intGtez (ms: intGte(0)): void = "mac#%"
+//
+overload SDL_Delay with SDL_Delay_Uint32
+overload SDL_Delay with SDL_Delay_intGtez
+//
 (* ****** ****** *)
 
 (* end of [SDL_timer.sats] *)

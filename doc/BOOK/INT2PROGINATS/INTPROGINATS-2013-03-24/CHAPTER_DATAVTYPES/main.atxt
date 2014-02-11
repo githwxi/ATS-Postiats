@@ -20,12 +20,11 @@ Time of Generation: #timestamp()\
 A dataviewtype can be thought of as a linear version of datatype. To a
 large extent, it is a combination of a datatype and a dataview. This
 programming feature is primarily introduced into ATS for the purpose of
-providing the kind convenience of pattern matching associated with
-datatypes while incurring no need for run-time garbage collection (GC). In
-a situation where GC must be reduced or even completely eliminated,
-dataviewtypes can often chosen as a replacement for datatypes.  I now
-present in this chapter some commonly encountered dataviewtypes and their
-uses.
+providing in the setting of manual memory management the kind of
+convenience brought by pattern matching. In a situation where GC must be
+reduced or even completely eliminated, dataviewtypes can often be chosen as
+a replacement for datatypes.  I now present in this chapter some commonly
+encountered dataviewtypes and their uses.
 
 ")
 
@@ -41,10 +40,8 @@ memory allocated for storing it can be efficiently reclaimed.  The
 dataviewtype #code("option_vt") for linear optional values is declared as
 follows:
 
-")
-
 #atscode('\
-dataviewtye
+dataviewtype
 option_vt (a:t@ype+, bool) =
   | Some_vt (a, true) of a | None_vt (a, false) of ()
 // end of [option_vt]
@@ -53,6 +50,8 @@ viewtypedef
 Option_vt (a:t@ype) = [b:bool] option_vt (a, b)
 ')
 
+")
+
 #para('\
 
 By the declaration, the dataviewtype #code("option_vt") is covariant in its
@@ -60,8 +59,6 @@ first argument and there are two data constructors #code("Some_vt") and
 #code("None_vt") associated with it. In the following example,
 #code("find_rightmost") tries to find the rightmost element in a list that
 satisfies a given predicate:
-
-')
 
 #atscode('\
 fun{a:t@ype}
@@ -79,8 +76,6 @@ find_rightmost {n:nat} .<n>.
 // end of [find_rightmost]
 ')
 
-#para('\
-
 Note that the tilde symbol (#code("~")) in front of the pattern
 #code("None_vt()") indicates that the memory for the node that matches the
 pattern is freed before the body of the matched clause is evaluated.  In
@@ -90,13 +85,11 @@ memory allocated for constructors associated with dataviewtypes.
 
 ')
 
-#para("\
+#para('\
 
 As another example, the following function template #code("list_optcons")
 tries to construct a new list with its head element extracted from a given
 optional value:
-
-")
 
 #atscode('\
 fn{a:t@ype}
@@ -107,8 +100,6 @@ list_optcons {b:bool} {n:nat} (
   | ~Some_vt (x) => list_cons (x, xs) | ~None_vt () => xs
 // end of [list_optcons]
 ')
-
-#para('\
 
 The symbol #code("int_of_bool") stands for a built-in static function in
 ATS that maps #code("true") and #code("false") to 1 and 0,
@@ -132,8 +123,6 @@ following declaration introduces a dataviewtype #code("list_vt"), which
 forms a boxed type (of the sort #code("viewtype")) when applied to a type
 and an integer:
 
-')
-
 #atscode('\
 dataviewtype
 list_vt (a:t@ype+, int) =
@@ -142,8 +131,6 @@ list_vt (a:t@ype+, int) =
   | list_vt_nil (a, 0) of ()
 // end of [list_vt]
 ')
-
-#para('\
 
 Assume that a data constructor named #emph("foo") is associated with a
 dataviewtype.  Then there is a viewtype construtor of the name
@@ -165,8 +152,6 @@ linear lists of length I in which each element is assigned the type T.  The
 following function template #code("length") computes the length of a given
 linear list:
 
-')
-
 #atscode('\
 fn{a:t@ype}
 length {n:nat}
@@ -184,8 +169,6 @@ in
   loop (xs, 0)
 end // end of [length]
 ')
-
-#para('\
 
 The interface of #code("length") indicates that #code("length")&lt;T&gt;
 returns an integer equal to I when applied to a list of the type
@@ -215,6 +198,10 @@ application implicitly consumes a proof of the at-view #code("a")@L1 and
 another proof of the at-view #code("list_vt(a, n-1)")@L2. Note that
 #code("fold@") is a keyword in ATS, and an application of #code("fold@") is
 treated as a proof and it is erased after typechecking.
+
+')
+
+#para('\
 
 In the case where #code("xs") matches the pattern #code("list_vt_nil()"),
 the type of #code("xs") changes into #code("list_vt_nil()") while there is
@@ -261,7 +248,7 @@ by #code("xs") after #code("xs") matches the pattern is freed immediately.
 It is also possible to use the special function #code("free@") to
 explicitly free a node (also called a skeleton) left in a linear variable
 after the variable matches a pattern formed with a constructor associated
-with a dataviewtypes. For instance, the following code gives another
+with some dataviewtype. For instance, the following code gives another
 implementation of #code("list_vt_free"):
 
 ')
@@ -295,7 +282,7 @@ list_vt_cons : // two quantifiers
 #para('\
 
 If #code("free@") is applied to a node of the type #code("list_vt_nil")(),
-it needs one static argument. which is a type, to instantiate the
+it needs one static argument, which is a type, to instantiate the
 quantifier in the type of the constructor #code("list_vt_nil"). If
 #code("free@") is applied to a node of the type
 #code("list_vt_cons_unfold")(L1, L2), then it needs two static arguments,
@@ -303,7 +290,7 @@ which are a type and an integer, to instantiate the two quantifiers in the
 type of the constructor #code("list_vt_cons"). In the case where the type
 of #code("xs") is #code("list_vt_cons_unfold")(L1, L2), typechecking the
 call #code("free@ {a}{0} (xs)") implicitly consumes a proof of the at-view
-#code("a?")@L1 and another proof of the at-view #code("list_vt(a, 0)?").
+#code("a?")@L1 and another proof of the at-view #code("list_vt(a, 0)?")@L2.
 As there is no difference between #code("list_vt")(T, 0)? and
 #code("list_vt")(T, I)? for any T and I, the static argument 0 is supplied
 here. As a matter of fact, any natural number can be used in place of 0 as
@@ -315,8 +302,6 @@ the second static argument of #code("free@").
 
 The next example I present is a function template that turns a linear list into
 its reverse:
-
-')
 
 #atscode('\
 fn{a:t@ype}
@@ -338,8 +323,6 @@ in
 end // end of [reverse]
 ')
 
-#para('\
-
 This implementation of list reversal directly corresponds to the one
 presented previously that is based the dataview #code("slseg_v") (for
 singly-linked list segments). Comparing the two implementations, we can see
@@ -353,8 +336,6 @@ to #code("reverse") and #code("revapp").
 
 The following implementation of list append makes use of the feature
 of call-by-reference:
-
-')
 
 #atscode('\
 fn{a:t@ype}
@@ -375,8 +356,6 @@ in
   xs
 end // end of [append]
 ')
-
-#para('\
 
 As the call #code("fold@(xs)") in the body of the function #code("loop") is
 erased after typechecking, #code("loop") is a tail-recursive function.
@@ -401,8 +380,6 @@ Lastly in this section, I mention a closely related issue involving
 (functional) list construction and tail-recursion. Following is a typical
 implementation of functioal list concatenation:
 
-')
-
 #atscode('\
 fun{a:t@ype}
 append1 {m,n:nat}
@@ -413,8 +390,6 @@ append1 {m,n:nat}
 // end of [append1]
 ')
 
-#para('\
-
 Clearly, #code("append1") is not tail-recursive, which means that it may
 cause stack overflow at run-time if its first argument is very long (e.g.,
 containing 1 million elements). There is, however, a direct and type-safe
@@ -422,8 +397,6 @@ way in ATS to implement functional list concatenation in a tail-recursive
 manner, thus eliminating the concern of potential stack overflow. For
 instance, the following implementation of #code("append2") returns the
 concatenation of two given lists while being tail-recursive:
-
-')
 
 #atscode('\
 fun{a:t@ype}
@@ -454,8 +427,6 @@ in
   res
 end // end of [append2]
 ')
-
-#para('\
 
 During typechecking, the expression #code("list_cons {a}{0} (x, ?)"), is
 assigned the (linear) type #code("list_cons")(L1, L2) for some addresses L1
@@ -489,7 +460,8 @@ one.
 
 #comment(" ****** ****** ")
 
-<sect1 id="example_mergesort_lin">
+<sect1
+id="example_mergesort_lin">
 #title("Example: Mergesort on Linear Lists")
 
 #para("\
@@ -596,7 +568,7 @@ Unlike the one given in a previous functional implementation, this
 implementation of #code("merge") is tail-recursive and thus is guaranteed
 to be translated into a loop in C by the ATS compiler. This means that the
 concern of #code("merge") being unable to handle very long lists (e.g.,
-containg 1 million elements) due to potential stack overflow is completely
+containing 1 million elements) due to potential stack overflow is
 eliminated.
 
 ')
@@ -688,7 +660,8 @@ code for testing #mycodelink("CHAPTER_DATAVTYPES/mergesort.dats", "on-line").
 
 #comment(" ****** ****** ")
 
-<sect1 id="linear_binary_search_trees">
+<sect1
+id="linear_binary_search_trees">
 #title("Linear Binary Search Trees")
 
 #para("\
@@ -722,8 +695,6 @@ binary search trees, further illustrating some use of dataviewtypes. Let us
 first declare as follows a dataviewtype #code("bstree_vt") for linear
 binary (search) trees:
 
-')
-
 #atscode('\
 dataviewtype
 bstree_vt
@@ -733,6 +704,8 @@ bstree_vt
       (bstree_vt (a, n1), a, bstree_vt (a, n2))
   | bstree_vt_nil (a, 0) of ()
 // end of [bstree_vt]
+')
+
 ')
 
 #para('\
@@ -745,8 +718,6 @@ information of a binary (search) tree.  There are two constructors
 hand is a node whose left and right children are both empty.  As a simple
 example, the following function template #code("size") computes the size of
 a given tree:
-
-')
 
 #atscode('\
 fun{a:t@ype}
@@ -761,6 +732,8 @@ size {n:nat} .<n>. (
 // end of [size]
 ')
 
+')
+
 #para('\
 
 Assume that we have a binary search tree with repect to some ordering.  If
@@ -769,8 +742,6 @@ that P(x1) implies P(x2) whenever x1 is less than x2 (according to the
 ordering), then we can locate the least element in the tree that satisfies
 the predicate P by employing so-called binary search as is demonstrated in
 the following implementation of #code("search"):
-
-')
 
 #atscode('\
 fun{a:t@ype}
@@ -795,8 +766,6 @@ search {n:nat} .<n>. (
 // end of [search]
 ')
 
-#para('\
-
 Clearly, if the argument #code("t") of #code("search") ranges over a family
 of balanced trees, then the time-complexity of #code("search") is O(log(n))
 (assuming that #code("P") is O(1)).
@@ -807,8 +776,6 @@ of balanced trees, then the time-complexity of #code("search") is O(log(n))
 
 Let us next see an operation that inserts a given element into a binary
 search tree:
-
-')
 
 #atscode('\
 fun{a:t@ype}
@@ -836,6 +803,8 @@ insert {n:nat} .<n>. (
 // end of [insert]
 ')
 
+')
+
 #para('\
 
 When inserting an element, the function template #code("insert") extends
@@ -845,8 +814,6 @@ of insertion often referred to as root-insertion, which always puts at the
 root position the new node containing the inserted element. The following
 function template #code("insertRT") is implemented to perform a standard
 root-insertion operation:
-
-')
 
 #atscode('\
 fun{a:t@ype}
@@ -882,8 +849,6 @@ insertRT {n:nat} .<n>. (
 // end of [insertRT]
 ')
 
-#para('\
-
 The code immediately following the first recursive call to
 #code("insertRT") performs a right tree rotation. Let us use T(tl, x, tr)
 for a tree such that its root node contains the element x and its left and
@@ -900,8 +865,6 @@ T(tl, x, T(trl, xr, trr)) into T(T(tl, x, tlr), xr, trr).
 To further illustrate tree rotations, I present as follows
 two function templates #code("lrotate") and #code("rrotate"), which
 implement the left and right tree rotations, respectively:
-
-')
 
 #atscode('\
 fn{a:t@ype}
@@ -945,8 +908,6 @@ in
 end // end of [rrotate]
 ')
 
-#para('\
-
 Given three addresses L0, L1 and L2, the type
 #code("bstree_vt_cons_unfold")(L0, L1, l2) is for a tree node created
 by a call to #code("bstree_vt_cons") such that the three arguments of
@@ -961,8 +922,6 @@ available proofs.
 The function template #code("insertRT") for root-insertion can now be
 implemented as follows by making direct use of #code("lrotate") and
 #code("rrotate"):
-
-')
 
 #atscode('\
 fun{a:t@ype}
@@ -988,6 +947,8 @@ insertRT {n:nat} .<n>. (
       bstree_vt_cons (bstree_vt_nil, x0, bstree_vt_nil)
     // end of [bstree_vt_nil]
 // end of [insertRT]
+')
+
 ')
 
 #para('\
@@ -1038,8 +999,6 @@ The following declaration of dataviewtype #code("rbtree") is identical to
 the previous declaration of datatype #code("rbtree") except the keyword
 #code("dataviewtype") being now used instead of the keyword #code("datatype"):
 
-')
-
 #atscode('\
 \#define BLK 0; \#define RED 1
 sortdef clr = {c:int | 0 <= c; c <= 1}
@@ -1059,13 +1018,13 @@ rbtree (
 where rbtree0 (a:t@ype, c:int, bh:int) = rbtree (a, c, bh, 0)
 ')
 
+')
+
 #para('\
 
 At the first sight, the following function template #code("insfix_l") is
 greatly more involved that a previous version of the same name (for
 manipulating functional red-black trees):
-
-')
 
 #atscode('\
 fn{a:t@ype}
@@ -1118,8 +1077,6 @@ in
   | _ =>> (fold@ (t); t)
 end // end of [insfix_l]
 ')
-
-#para('\
 
 However, I would like to point out that the interface for the above
 #code("insfix_l") is a #emph("direct") translation of the interface for the
@@ -1190,8 +1147,6 @@ the following function template #code("rbtree_insert") is essentially a
 direct translation of the one of the same name for inserting an element
 into a functional red-black tree:
 
-')
-
 #atscode('\
 extern
 fun{a:t@ype}
@@ -1246,6 +1201,8 @@ in
 case+ t of cons (!p_c as R, _, _, _) => (!p_c := B; fold@ (t); t) | _ =>> t
 //
 end // end of [rbtree_insert]
+')
+
 ')
 
 #para('\

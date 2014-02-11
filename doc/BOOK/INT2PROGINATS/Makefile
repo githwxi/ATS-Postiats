@@ -74,6 +74,9 @@ allchap:: CHAP_PRGTHMPRV
 # PART IV
 #
 allchap:: CHAP_VVTINTRO
+allchap:: CHAP_DATAVIEW
+allchap:: CHAP_DATAVTYPE
+allchap:: CHAP_ABSVTYPE
 #
 ######
 
@@ -160,20 +163,45 @@ CHAP_VVTINTRO:: ; \
 
 ######
 
+CHAP_DATAVIEW:: ; \
+  make -C CHAP_DATAVIEW -f ../Makefile.chap main.db
+CHAP_DATAVIEW:: ; \
+  make -C CHAP_DATAVIEW -f ../Makefile.chap clean
+
+######
+
+CHAP_DATAVTYPE:: ; \
+  make -C CHAP_DATAVTYPE -f ../Makefile.chap main.db
+CHAP_DATAVTYPE:: ; \
+  make -C CHAP_DATAVTYPE -f ../Makefile.chap clean
+
+######
+
+CHAP_ABSVTYPE:: ; \
+  make -C CHAP_ABSVTYPE -f ../Makefile.chap main.db
+CHAP_ABSVTYPE:: ; \
+  make -C CHAP_ABSVTYPE -f ../Makefile.chap clean
+
+######
+
 CPRF=cp -rf
 SCPR=scp -r
 CHMOD=chmod
 
 ######
 
-uploadloc:: ; \
-  $(SCPR) PDF hwxi@csa2.bu.edu:public_html/ATS/DOCUMENT/INT2PROGINATS
-  $(SCPR) HTML hwxi@csa2.bu.edu:public_html/ATS/DOCUMENT/INT2PROGINATS
+upload:: upload_html
 
 upload_pdf:: ; \
   scp -r PDF ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/INT2PROGINATS/
 upload_html:: ; \
   scp -r HTML ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/INT2PROGINATS
+
+######
+
+uploadloc:: ; \
+  $(SCPR) PDF hwxi@csa2.bu.edu:public_html/ATS/DOCUMENT/INT2PROGINATS
+  $(SCPR) HTML hwxi@csa2.bu.edu:public_html/ATS/DOCUMENT/INT2PROGINATS
 
 ######
 

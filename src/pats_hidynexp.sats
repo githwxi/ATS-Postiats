@@ -373,9 +373,10 @@ and hilab_node =
   | HILind of (hidexplst (*index*)) // array subscription
 // end of [hilab_node]
 
-where hidecl = '{
+where
+hidecl = '{
   hidecl_loc= location, hidecl_node= hidecl_node
-}
+} (* end of [hidecl] *)
 
 and hideclist = List (hidecl)
 and hideclopt = Option (hidecl)
@@ -514,6 +515,7 @@ fun labhidexplst_get_type (lhdes: labhidexplst): labhisexplst
 (* ****** ****** *)
 
 fun hidexp_is_value (hde: hidexp): bool
+fun hidexp_is_lvalue (hde: hidexp): bool
 
 (* ****** ****** *)
 

@@ -17,6 +17,7 @@
 <!ENTITY chap_fixity SYSTEM "CHAP_FIXITY/main.db">
 <!ENTITY chap_reference SYSTEM "CHAP_REFERENCE/main.db">
 <!ENTITY chap_arrayref SYSTEM "CHAP_ARRAYREF/main.db">
+<!ENTITY chap_arrszref SYSTEM "CHAP_ARRSZREF/main.db">
 <!ENTITY chap_hordfun SYSTEM "CHAP_HORDFUN/main.db">
 ]>
 <book id="proginats" lang="en">
@@ -42,6 +43,7 @@ To my wife Jinning and daughter Zoe.
 &chap_fixity;
 &chap_reference;
 &chap_arrayref;
+&chap_arrszref;
 &chap_hordfun;
 </part><!--"basic_tutorial_topics"-->
 

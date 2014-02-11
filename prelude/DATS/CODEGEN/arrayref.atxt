@@ -55,6 +55,14 @@ arrayref_make_rlist (asz, xs) =
 // end of [arrayref_make_rlist]
 
 #atscode_separator()
+//
+implement{a}
+arrayref_head(A) = $UN.ptr0_get<a> (arrayref2ptr(A))
+implement{a}
+arrayref_tail{n}(A) =
+  $UN.cast{arrayref(a,n-1)}(ptr_succ<a>(arrayref2ptr(A)))
+//
+#atscode_separator()
 
 implement
 {a}{tk}(*tmp*)

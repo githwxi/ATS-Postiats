@@ -43,6 +43,8 @@ extern fun pop_exn (): T
 extern fun pop_opt (): Option_vt(T)
 extern fun push (x: T): void
 
+extern fun pop_all (): List0_vt (T)
+
 (* ****** ****** *)
 
 local
@@ -82,6 +84,8 @@ pop_exn () = x where
   val-~list_vt_cons (x, xs) = !p; val ((*void*)) = !p := xs
 } (* end of [pop_exn] *)
 
+(* ****** ****** *)
+
 implement
 pop_opt () = let
   val (vbox(pf) | p) = ref_get_viewptr (r_stack)
@@ -93,6 +97,15 @@ case+ !p of
 |  list_vt_nil ((*void*)) => None_vt ()
 //
 end // end of [pop_opt]
+
+(* ****** ****** *)
+
+implement
+pop_all () = res where
+{
+  val (vbox(pf) | p) = ref_get_viewptr (r_stack)
+  val res = !p; val () = !p := list_vt_nil ((*void*))
+} (* end of [pop_all] *)
 
 (* ****** ****** *)
 

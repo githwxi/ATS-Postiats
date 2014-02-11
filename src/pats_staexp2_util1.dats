@@ -423,12 +423,13 @@ s2exp_is_nonvar (s2e) = (
 (* ****** ****** *)
 
 implement
-s2exp_is_wthtype (s2e) = (
+s2exp_is_wthtype (s2e) =
+(
   case+ s2e.s2exp_node of
-  | S2Ewth _ => true
+  | S2Ewthtype _ => true
   | S2Eexi (s2vs, s2ps, s2e) => s2exp_is_wthtype (s2e)
   | _ => false
-) // end of [s2exp_is_wthtype]
+) (* end of [s2exp_is_wthtype] *)
 
 (* ****** ****** *)
 
@@ -1055,12 +1056,12 @@ case+ s2e0.s2exp_node of
     if flag > f0 then s2exp_vararg (s2e) else s2e0
   end // end of [S2Evararg]
 //
-| S2Ewth (s2e, ws2es) => let
+| S2Ewthtype (s2e, ws2es) => let
     val f0 = flag
     val s2e = s2exp_subst_flag (sub, s2e, flag)
     val ws2es = wths2explst_subst_flag (sub, ws2es, flag)
   in
-    if flag > f0 then s2exp_wth (s2e, ws2es) else s2e0
+    if flag > f0 then s2exp_wthtype (s2e, ws2es) else s2e0
   end // end of [S2Ewth]
 //
 | S2Eerr ((*void*)) => s2e0

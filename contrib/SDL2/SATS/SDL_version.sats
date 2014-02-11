@@ -26,16 +26,6 @@
 
 (* ****** ****** *)
 
-typedef
-SDL_version =
-$extype_struct
-"SDL_version_struct" of
-{
-  major= Uint8, minor=Uint8, patch= Uint8
-} (* end of [SDL_version] *)
-
-(* ****** ****** *)
-
 fun SDL_VERSION (ver: &SDL_version? >> _): void = "mac#%"
 fun SDL_GetVersion (ver: &SDL_version? >> _): void = "mac#%"
 

@@ -218,6 +218,8 @@ contrib/*/*/CATS/CODEGEN/*_atxt.dats
 contrib/*/*/TEST/test??
 
 contrib/SDL2/SDL2-2.0.1
+contrib/SDL2/SDL2_image-2.0.0
+
 contrib/zlog/zlog-latest-stable/
 
 #
@@ -313,7 +315,7 @@ doc/BOOK/INT2PROGINATS/preface
 doc/BOOK/INT2PROGINATS/preface.db
 doc/BOOK/INT2PROGINATS/*_atxt.txt
 doc/BOOK/INT2PROGINATS/*_atxt.dats
-doc/BOOK/INT2PROGINATS/*/main.db
+doc/BOOK/INT2PROGINATS/CHAP_*/main.db
 
 #
 # ATS2TUTORIAL

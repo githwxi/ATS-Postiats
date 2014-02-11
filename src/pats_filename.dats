@@ -193,7 +193,7 @@ print_filename_full
   (fil) = fprint_filename_full (stdout_ref, fil)
 implement
 prerr_filename_full
-  (fil) = fprint_filename_full (stdout_ref, fil)
+  (fil) = fprint_filename_full (stderr_ref, fil)
 implement
 fprint_filename_full
   (out, fil) = let

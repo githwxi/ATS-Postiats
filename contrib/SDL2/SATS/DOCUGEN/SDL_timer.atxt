@@ -1,0 +1,26 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../SDL_timer.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_SDL2_SDL")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/SDL2/SDL\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("SDL_Delay")
+
+(* ****** ****** *)
+
+(* end of [SDL_timer.atxt] *)

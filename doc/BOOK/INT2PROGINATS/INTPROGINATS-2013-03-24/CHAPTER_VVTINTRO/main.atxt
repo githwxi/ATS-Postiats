@@ -100,8 +100,7 @@ stored at the memory location L would have been precluded.
 
 #para('\
 
-Similarly, the function #code("ptr_set0")&lt;T&gt; is
-assigned the following type:
+Similarly, the function #code("ptr_set0")&lt;T&gt; is assigned the following type:
 
 ')
 
@@ -157,8 +156,6 @@ administrative code.
 The function templates #code("ptr_get1") and #code("ptr_set1") are given
 the following interfaces:
 
-')
-
 #atscode('\
 fun{a:t@ype}
 ptr_get1 {l:addr} (pf: !a @ l >> a @ l | p: ptr l): a
@@ -167,19 +164,12 @@ fun{a:t@ype}
 ptr_set1 {l:addr} (pf: !a? @ l >> a @ l | p: ptr l, x: a): void
 ')
 
-
-#para('\
-
 Clearly, for each type T, the function
 #code("ptr_get1")&lt;T&gt; is assigned the following type:
-
-')
 
 #atscode('\
 {l:addr} (!T @ l >> T @ l | ptr(l)) -> T
 ')
-
-#para('\
 
 Given a linear proof pf of the view T@L for some L and a pointer p of the
 type #code("ptr")(L), the function call #code("ptr_get1")&lt;T&gt;(pf, p)
@@ -188,13 +178,9 @@ consumed. Instead, it is still a proof of the view T@L after the function
 call returns. Similarly, the function #code("ptr_set1")&lt;T&gt; is
 assigned the following type:
 
-')
-
 #atscode('\
 {l:addr} (!T? @ l >> T @ l | ptr(l), T) -> void
 ')
-
-#para('\
 
 Given a linear proof pf of the view T?@L for some L, a pointer p of the
 type #code("ptr")(L) and a value v of the type T, the function call
@@ -202,21 +188,15 @@ type #code("ptr")(L) and a value v of the type T, the function call
 while changing the view of pf from T?@L to T@L.  In general, assume that f
 is given a type of the following form for some views V1 and V2:
 
-')
-
 #atscode('\
 (...,!V1 >> V2, ...) -> ...
 ')
-
-#para('\
 
 Then a function call f(..., pf, ...) on some proof variable pf of the view
 V1 is to change the view of pf into V2 upon its return.  In the case where
 V1 and V2 are the same, !V1 >> V2 can simply be written as !V1.  As an
 example, a function template #code("swap1") for swapping the contents at
 two given memory locations is implemented as follows:
-
-')
 
 #atscode('\
 fn{a:t@ype}
@@ -231,8 +211,6 @@ in
 end // end of [swap1]
 ')
 
-#para('\
-
 Clearly, this implementation is considerably cleaner when compared to the
 above implementation of #code("swap0").
 
@@ -242,8 +220,6 @@ above implementation of #code("swap0").
 
 A further simplied implementation of #code("swap1") is given as follows:
 
-')
-
 #atscode('\
 fn{a:t@ype}
 swap1 {l1,l2:addr} (
@@ -252,8 +228,6 @@ swap1 {l1,l2:addr} (
   val tmp = !p1 in !p1 := !p2; !p2 := tmp
 end // end of [swap1]
 ')
-
-#para('\
 
 Given a pointer p of the type #code("ptr")(L) for some L, !p yields the
 value stored at the memory location L.  The typechecker first searches for
@@ -298,7 +272,7 @@ praxi viewtype_split {vt:viewt@ype}
 // end of [viewtype_split]
 '))
 
-#para("\
+#para('\
 
 The built-in sorts #code("viewtype") and #code("viewt@ype") are for static
 terms representing viewtypes whose type parts are of the sorts
@@ -308,13 +282,9 @@ pointer and the latter to viewtypes for linear values of unspecified size.
 For example, #code("tptr") is defined as follows that takes a type and an
 address to form a viewtype (of the sort #code("viewtype")):
 
-")
-
 #atscode('\
 viewtypedef tptr (a:t@ype, l:addr) = (a @ l | ptr l)
 ')
-
-#para('\
 
 Given a type T and an address L, the viewtype #code("tptr")(T, L) is for a
 pointer to L paired with a linear proof stating that a value of the type T
@@ -322,8 +292,6 @@ is stored at L. If we think of a counter as a pointer paired with a proof
 stating that the pointer points to an integer (representing the count),
 then the following defined function #code("getinc") returns the current
 count of a given counter after increasing it by 1:\
-
-')
 
 #atscode('\
 
@@ -336,9 +304,11 @@ fn getinc
 } // end of [getinc]
 ')
 
-#para("
+')
+
+#para('\
+
 A particularly interesting example of a viewtype is the following one:
-")
 
 #atscode('\
 viewtypedef cloptr
@@ -346,8 +316,6 @@ viewtypedef cloptr
   [env:t@ype] (((&env, a) -> b, env) @ l | ptr l)
 // end of [cloptr]
 ')
-
-#para('\
 
 Given two types A and B, a pointer to some address L where a closure
 function is stored that takes a value of the type A to return a value of
@@ -361,8 +329,6 @@ left-value and what is actually passed at run-time is the address of the
 left-value.  I will cover the issue of call-by-reference elsewhere in more
 details.  The following piece of code demonstrates a pointer to a closure
 function being called on a given argument:\
-
-')
 
 #atscode('\
 fun{a:t@ype}{b:t@ype}
@@ -378,8 +344,6 @@ in
 end // end of [cloptr]
 ')
 
-#para('\
-
 Note that the linear proof in #code("pclo") is first taken out so that the
 code for dereferencing p (denoted by the syntax #code("!p")) can pass
 typechecking, and it is then returned so that the type of #code("pclo") is
@@ -390,7 +354,6 @@ the expressiveness of the type system of ATS.
 ')
 
 </sect1>#comment("sect1/id=viewtypes_as_combination")
-
 
 <sect1 id="lval_and_cbr">
 #title("Left-Values and Call-by-Reference")

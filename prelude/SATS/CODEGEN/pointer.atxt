@@ -402,7 +402,12 @@ cptr2ptr {a:vt0p}{l:addr} (p: cptr (a, l)):<> ptr (l)
 
 #atscode_separator()
 //
-fun cptr_null {a:vt0p} ():<> cptr (a, null) = "mac\#%"
+fun cptr_null{a:vt0p} ():<> cptr (a, null) = "mac\#%"
+//
+castfn cptr_rvar{a:vt0p} (x: &INV(a)):<> cPtr1 (a) // read
+castfn cptr_wvar{a:vt0p} (x: &a? >> a):<> cPtr1 (a) // write
+//
+#atscode_separator()
 //
 fun cptr_is_null
   {a:vt0p}{l:addr} (p: cptr (a, l)):<> bool (l==null) = "mac\#%"

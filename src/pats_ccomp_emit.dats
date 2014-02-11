@@ -308,8 +308,15 @@ emit_ATSPMVf0loat
 (* ****** ****** *)
 
 implement
+emit_stamp
+  (out, x) = $STMP.fprint_stamp (out, x)
+// end of [emit_stamp]
+
+(* ****** ****** *)
+
+implement
 emit_symbol
-  (out, sym) = $SYM.fprint_symbol (out, sym)
+  (out, x) = $SYM.fprint_symbol (out, x)
 // end of [emit_symbol]
 
 (* ****** ****** *)
@@ -611,19 +618,33 @@ val extdef = $D2E.d2cst_get_extdef (d2c)
 in
 //
 case+ extdef of
-| $SYN.DCSTEXTDEFnone () => let
+//
+| $SYN.DCSTEXTDEFnone (knd) => let
+//
     val fil = $D2E.d2cst_get_fil (d2c)
     val packopt = $D2E.d2cst_get_pack (d2c)
     val () = aux_prfx (out, fil, packopt)
+//
     val () = emit_text (out, "__")
     val name = $D2E.d2cst_get_name (d2c)
     val () = emit_ident (out, name)
+//
+    val () =
+    if (knd = 0) then
+    {
+      val () = emit_text (out, "__")
+      val stamp = $D2E.d2cst_get_stamp (d2c)
+      val () = emit_stamp (out, stamp)
+    } (* end of [if] *)
+//
   in
     // nothing
   end // end of [DCSTEXTDEFnone]
 //
 | $SYN.DCSTEXTDEFsome_ext (name) => emit_ident (out, name)
+//
 | $SYN.DCSTEXTDEFsome_mac (name) => emit_ident (out, name)
+//
 | $SYN.DCSTEXTDEFsome_sta (name) => emit_ident (out, name)
 //
 end // end of [emit_d2cst]
@@ -1429,7 +1450,7 @@ in
 //
 case+ pmv.primval_node of
 | PMVptrof (pmv) => emit_primval (out, pmv)
-| _ => auxmain (out, pmv, hse)
+| _(* non-ptrof *) => auxmain (out, pmv, hse)
 //
 end // end of [emit_primval_deref]
 

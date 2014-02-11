@@ -35,8 +35,11 @@
 
 /* ****** ****** */
 
+#include "SDL2/CATS/SDL_error.cats"
 #include "SDL2/CATS/SDL_events.cats"
 #include "SDL2/CATS/SDL_render.cats"
+#include "SDL2/CATS/SDL_rwops.cats"
+#include "SDL2/CATS/SDL_surface.cats"
 #include "SDL2/CATS/SDL_timer.cats"
 #include "SDL2/CATS/SDL_version.cats"
 #include "SDL2/CATS/SDL_video.cats"

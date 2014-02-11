@@ -289,7 +289,7 @@ val s2e0 = (
   if iswth then let
     val () = d3exp_open_and_add (d3e0)
   in
-    s2exp_wth_instantiate (loc0, s2e0)
+    s2exp_wthtype_instantiate (loc0, s2e0)
   end else begin
     s2e0 // HX: [s2e0] does not carry a state type
   end // end of [if]
@@ -905,13 +905,14 @@ d2exp_trdn_exist
   var err: int = 0
   val s2e_ins = (
     case+ s2e0.s2exp_node of
-    | S2Ewth (s2e1, wths2e2) => let
+    | S2Ewthtype
+        (s2e1, wths2e2) => let
         val (s2e1, s2ps1) =
           s2exp_exi_instantiate_sexparg (s2e1, s2a, err)
         val () = s2ps := s2ps1
       in
-        s2exp_wth (s2e1, wths2e2)
-      end // end of [S2Ewth]
+        s2exp_wthtype (s2e1, wths2e2)
+      end // end of [S2Ewthtype]
     | _ => s2e1 where {
         val (s2e1, s2ps1) =
           s2exp_exi_instantiate_sexparg (s2e0, s2a, err)

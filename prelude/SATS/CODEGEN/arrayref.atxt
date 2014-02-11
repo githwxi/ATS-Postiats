@@ -147,6 +147,20 @@ overload fprint with fprint_arrayref
 overload fprint with fprint_arrayref_sep
 
 #atscode_separator()
+//
+// HX-2014-02:
+// [A] must survive [arrayref_tail(A)]
+// in order to support proper garbage-collection
+//
+fun{a:t0p}
+arrayref_head{n:pos} (A: arrayref (a, n)): a
+fun{a:t0p}
+arrayref_tail{n:pos} (A: arrayref (a, n)): arrayref (a, n-1)
+//
+overload .head with arrayref_head
+overload .tail with arrayref_tail
+//
+#atscode_separator()
 
 fun{
 a:t0p}{tk:tk

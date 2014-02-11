@@ -191,4 +191,4 @@ val ((*void*)) = gtk_main ((*void*))
 
 (* ****** ****** *)
 
-(* end of [gtkcairoclock.dats] *)
+(* end of [gtkcairoslide.dats] *)

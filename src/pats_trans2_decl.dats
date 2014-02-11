@@ -1290,12 +1290,15 @@ fun d1cstdec_tr
   val ((*void*)) = dckfun_check (d1c, dck, s2e_cst)
 //
   val arylst = s2exp_get_arylst (s2e_cst)
-  val extdef =
-  (
-    if knd = 0 // static dyncst
-      then $SYN.dcstextdef_sta (sym) else d1c.d1cstdec_extdef
-    // end of [if]
-  ) : dcstextdef // end of [val]
+//
+  var extdef
+    : dcstextdef = d1c.d1cstdec_extdef
+  val () = (
+    case+ extdef of
+    | $SYN.DCSTEXTDEFnone _ =>
+        if knd = 0 then (extdef := $SYN.DCSTEXTDEFnone (0))
+    | _(* DCSTEXTDEFsome... *) => ()
+  ) : void // end of [val]
 //
   val d2c =
     d2cst_make (sym, loc, fil, dck, s2qs, arylst, s2e_cst, extdef)
@@ -1948,6 +1951,7 @@ case+ d1c0.d1ecl_node of
 | D1Csymelim (ids) => let
     val () = symelim_tr (ids) in d2ecl_symelim (loc0, ids)
   end // end of [D1Csymelim]
+//
 | D1Coverload
     (id, dqid, pval) => let
     val d2iopt =
@@ -2019,6 +2023,7 @@ case+ d1c0.d1ecl_node of
 | D1Cclassdec (id, sup) => let
     val () = c1lassdec_tr (id, sup) in d2ecl_none (loc0)
   end // end of [D1Cclassdec]
+//
 | D1Cextype
   (
     name, s1e_def
