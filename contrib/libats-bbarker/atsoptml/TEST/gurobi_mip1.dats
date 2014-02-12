@@ -141,33 +141,34 @@ val objc = carrayptr(obj)
 val vtype = (arrayptr)$arrpsz{GRB_VARTYPE}
   (GRB_BINARY, GRB_BINARY, GRB_BINARY)
 val vtypec = carrayptr(vtype) 
-// Is there a praxi somewhere that it is equivalent to a string? What about
-// a null terminator?? may need to change to:
-// val vtype =  $GRB.BT + $GRB.BT + $GRB.BT
+//
 val errno = GRBaddvars_nocon_noname(model, 3, 0, objc, vtypec)
 val () = assertloc (errno = 0)
 
-(* Need to reimplement: 
 
 //
 //Change objective sense to maximization 
 //
-val error = $GRB.setintattr(model, $GRB.MSENS, $GRB.MAX)
-val () = if error != 0 then QUIT(error)
+val errno = GRBsetintattr(model, GRB_INT_ATTR_MODELSENSE, GRB_MAXIMIZE)
+val () = assertloc (errno = 0)
 
 //
 // Integrate new variables */
 //
-val error = $GRB.updatemodel(model);
-val () = if error != 0 then QUIT(error)
+val errno = GRBupdatemodel(model);
+val () = assertloc (errno = 0)
 
 //
 // First constraint: x + 2 y + 3 z <= 4
 //
 val ind = (arrayptr)$arrpsz{int}(0, 1, 2)
-val cval = (arrayptr)$arrpsz{int}(1, 2, 3)
-val error = $GRB.addconstr(model, 3, ind, cval, $GRB.L, 4.0, "c0")
-val () = if error != 0 then QUIT(error)
+val indc = carrayptr(ind)
+val cval = (arrayptr)$arrpsz{double}(1.0, 2.0, 3.0)
+val cvalc = carrayptr(cval)
+val errno = GRBaddconstr(model, 3, indc, cvalc, GRB_LESS_EQUAL, 4.0, "c0")
+val () = assertloc (errno = 0)
+
+(* Need to reimplement: 
 
 //
 // Second constraint: x + y >= 1 
@@ -205,6 +206,8 @@ val () = QUIT(error)
 *)
 val () = arrayptr_free(obj)
 val () = arrayptr_free(vtype)
+val () = arrayptr_free(ind)
+val () = arrayptr_free(cval)
 
 } (* end of [mytest_main] *)
 

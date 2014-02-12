@@ -88,7 +88,7 @@ macdef GRB_BINARY = $extval (char, "GRB_BINARY")
 //
 macdef
 GRB_INT_ATTR_MODELSENSE =
-  $extval (int, "GRB_INT_ATTR_MODELSENSE")
+  $extval (string, "GRB_INT_ATTR_MODELSENSE")
 //
 macdef GRB_MAXIMIZE = $extval(int, "GRB_MAXIMIZE")
 macdef GRB_MINIMIZE = $extval(int, "GRB_MINIMIZE")
@@ -251,6 +251,21 @@ GRBaddvars_nocon_noname
 (* ****** ****** *)
 
 fun
+GRBaddconstr
+  {nv:int}{nx:int}
+(
+  model         : !GRBmodelptr1
+, numnz         : int(nx)
+, cind          : carrayptr1(int, nx)
+, cval          : carrayptr1(double, nx)
+, sense         : char
+, rhs           : double
+, constrname    : NSH(string) 
+) : Interr = "mac#%"
+  
+(* ****** ****** *)
+
+fun
 GRBsetintattr
 (
   model: !GRBmodelptr1, name: NSH(string), value: int
@@ -310,9 +325,6 @@ fprint_GRBerrormsg_if (out: FILEref, env: !GRBenvptr1, errno: int): void
 //
 (* ****** ****** *)
 
-(* end of [gurobi.sats] *)
-
-
 (* !!!! Need to add new version !!! 
 fun
 addconstr(
@@ -331,3 +343,5 @@ sense: string, rhs: double, constrname: NSH(string)
 %} // end of [%{#]
 
 (* ****** ****** *)
+
+(* end of [gurobi.sats] *)
