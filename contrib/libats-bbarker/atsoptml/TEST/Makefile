@@ -29,13 +29,13 @@ MALLOCFLAG=-DATS_MEMALLOC_LIBC
 ######
 
 all:: test00
-test00: test00.dats ; $(PATSCC2) -o $@ $< $(LDFLAGS)
+test00: test00.dats ; $(PATSCC2) -o $@ $< $(LDFLAGS) 
 cleanall:: ; $(RMF) test00
 
 ######
 
 all:: gurobi_mip1
-gurobi_mip1: gurobi_mip1.dats ; $(PATSCC2) -o $@ $< $(LDFLAGS)
+gurobi_mip1: gurobi_mip1.dats ; $(PATSCC2) -o $@ $< $(LDFLAGS) $(MALLOCFLAG)
 cleanall:: ; $(RMF) gurobi_mip1 gurobi_mip1.log
 
 ######
