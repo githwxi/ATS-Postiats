@@ -294,8 +294,8 @@ GRBreadmodel (
 
 (* ****** ****** *)
 
-fun GRBread (model: !GRBmodelptr1, filename: NSH(string)): int
-fun GRBwrite (model: !GRBmodelptr1, filename: NSH(string)): int
+fun GRBread (model: !GRBmodelptr1, filename: NSH(string)): Interr  = "mac#%"
+fun GRBwrite (model: !GRBmodelptr1, filename: NSH(string)): Interr = "mac#%"
 
 (* ****** ****** *)
 
