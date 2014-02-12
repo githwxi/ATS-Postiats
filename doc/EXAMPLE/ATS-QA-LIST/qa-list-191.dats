@@ -4,7 +4,7 @@
 //
 (* ****** ****** *)
 //
-// arrpsz/arrayptrsize
+// $vcopyenv_vt
 //
 (* ****** ****** *)
 //
@@ -22,11 +22,14 @@ implement
 tally (A, n) = let
 //
 fun loop{i:nat}
-  (i: size_t i, res: int): int =
+(
+  i: size_t i, res: int
+) : int =
   if i < n then let
-    val (fpf | A) = vcopyenv_vt_decode($vcopyenv_vt (A))
+    val (fpf | A) =
+      decode($vcopyenv_vt(A))
     val res = res + A[i]
-    prval () = fpf (A)
+    prval ((*void*)) = fpf (A)
   in
     loop (succ(i), res)
   end else res // end of [if]
