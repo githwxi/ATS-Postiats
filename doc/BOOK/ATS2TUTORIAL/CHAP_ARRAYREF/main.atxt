@@ -167,7 +167,7 @@ in
 end // end of [arrayref_reverse]
 ')
 
-#para("
+#para('
 
 The interface for the function template #dyncode("arrayref_interchange") is
 given below:
@@ -183,7 +183,48 @@ Note that #dyncode("arrayref_interchange") can not be implemented in terms
 of #dyncode("arrayref_get_at") and #dyncode("arrayref_set_at") (unless some
 form of type-unsafe code is empolyed).\
 
-")
+')
+
+#para('\
+
+There are various functions available for traversing an array from left to
+right or from right to left. Also, the following two functions can be conveniently
+called to traverse an array from left to right:
+
+#atscode('\
+//
+fun{a:t0p}
+arrayref_head{n:pos} (A: arrayref (a, n)): (a) // A[0]
+fun{a:t0p}
+arrayref_tail{n:pos} (A: arrayref (a, n)): arrayref (a, n-1)
+//
+overload .head with arrayref_head
+overload .tail with arrayref_tail
+')
+
+For instance, the fold-left function for arrays can be implemented
+as follows:
+
+#atscode_extract('
+fun{a,b:t@ype}
+arrayref_foldleft{n:int}
+(
+  f: (a, b) -> a, x: a, A: arrayref (b, n), n: size_t(n)
+) : a =
+(
+if n > 0
+  then arrayref_foldleft<a,b> (f, f (x, A.head), A.tail, pred(n))
+  else x
+// end of [if]
+) (* end of [arrayref_foldleft] *)
+')
+
+As can be expected, #dyncode("A.head") and #dyncode("A.tail") translate
+into #dyncode("A[0]") and #dyncode('ptr_succ&lt;T&gt;(p0)'), respectively, where T
+is the type for the elements stored in A and p0 is the starting address of
+A.
+
+')
 
 </chapter><!--"arrayref"-->
 

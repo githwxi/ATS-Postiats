@@ -103,6 +103,13 @@ cleanall:: ; $(RMF) qa-list-190
 
 ######
 
+all:: qa-list-191
+qa-list-191: qa-list-191.dats ; \
+  $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) qa-list-191
+
+######
+
 all:: list_last
 list_last: list_last.dats ; \
   $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<

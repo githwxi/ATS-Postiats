@@ -192,7 +192,8 @@ prval () = arrayptr_addback (pf | A)
 #atscode_separator()
 
 (*
-implement arrayptr_free = ATS_MFREE
+implement
+arrayptr_free = ATS_MFREE // HX: in arrayptr.cats
 *)
 
 #atscode_separator()
