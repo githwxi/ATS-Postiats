@@ -180,7 +180,7 @@ then deallocated after it is no longer needed.
 
 #para('\
 
-The entire implementation of mergesort on arrays plus some testing code is
+The entire implementation of merge-sort on arrays plus some testing code is
 available #mycodelink("CHAP_ABSVTYPE/mergeSort.dats", "on-line").
 
 ')

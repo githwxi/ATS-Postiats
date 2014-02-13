@@ -58,6 +58,9 @@ extern val pi : double
 extern fun area_of_circle (radius: double): double
 ")
 
+Please note that a static file is essentially a special case of a dynamic
+file. It is entirely possible to replace a static file with a dynamic one.
+
 ")#comment("para")
 
 #para("\
