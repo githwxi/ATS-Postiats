@@ -216,9 +216,8 @@ fn s0exp_tr_errmsg_opr
   (s0e0: s0exp): s1exp = let
   val loc0 = s0e0.s0exp_loc
   val () = prerr_error1_loc (loc0)
-  val () = prerr ": the operator needs to be applied."
-  val () = prerr_newline ()
-  val () = the_trans1errlst_add (T1E_s0exp_tr (s0e0))
+  val () = prerrln! (": the operator needs to be applied.")
+  val () = the_trans1errlst_add (T1E_s0exp_tr(s0e0))
 in
   s1exp_err (loc0)
 end // end of [s0exp_tr_errmsg_opr]
@@ -655,11 +654,12 @@ val ind = (
       val s1es = (
         case+ s0e.s0exp_node of
         | S0Elist s0es => s0explst_tr (s0es)
-        | _ => $ERR.abort () where {
+        | _(*non-list*) => let
             val () = prerr_interror ()
-            val () = prerr ": d0atcon_tr: index is required to be a list."
-            val () = prerr_newline ()
-          } // end of [_]
+            val () = prerrln! (": d0atcon_tr: index is required to be a list.")
+          in
+            $ERR.abort ()
+          end // end of [_]
       ) : s1explst // end of [val]
     in
       Some s1es
@@ -827,9 +827,8 @@ fun aux1 (
         ) : void // end of [val]
         val () = if err > 0 then let
           val () = prerr_error1_loc (loc)
-          val () = prerr ": illegal use of effect annotation"
-          val () = prerr_newline ()
-          val () = the_trans1errlst_add (T1E_d0cstdec_tr (d0c))
+          val () = prerrln! (": illegal use of effect annotation")
+          val () = the_trans1errlst_add (T1E_d0cstdec_tr(d0c))
         in
           // nothing
         end // end of [val]
@@ -869,10 +868,12 @@ fun aux2 .<>. (
 //
           val loc0 = d0c.d0cstdec_loc
           val () = prerr_error1_loc (loc0)
-          val () = if knd = 0 then {
+          val () =
+          if knd = 0 then {
             val () = prerr ": a closure struct is not allowed at the toplevel."
           } // end of [val]
-          val () = if knd = 1 then {
+          val () =
+          if knd = 1 then {
             val () = prerr ": a closure pointer is not allowed at the toplevel."
           } // end of [val]
           val () = prerr_newline ()
@@ -882,7 +883,7 @@ fun aux2 .<>. (
           // nothing
         end // end of [if]
       end // end of [FUNCLOclo]
-    | FUNCLOfun () => () // end of [FUNCLOfun]
+    | FUNCLOfun ((*void*)) => () // end of [FUNCLOfun]
   ) : void // end of [val]
   var lst: int = 0
 in
