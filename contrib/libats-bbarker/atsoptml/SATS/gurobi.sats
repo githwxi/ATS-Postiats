@@ -294,8 +294,10 @@ GRBreadmodel (
 
 (* ****** ****** *)
 
-fun GRBread (model: !GRBmodelptr1, filename: NSH(string)): Interr  = "mac#%"
-fun GRBwrite (model: !GRBmodelptr1, filename: NSH(string)): Interr = "mac#%"
+fun GRBread (model: !GRBmodelptr1, filename: NSH(string)
+): Interr  = "mac#%"
+fun GRBwrite (model: !GRBmodelptr1, filename: NSH(string)
+): Interr = "mac#%"
 
 (* ****** ****** *)
 
@@ -323,18 +325,9 @@ fprint_GRBerrormsg (out: FILEref, env: !GRBenvptr1): void
 fun{}
 fprint_GRBerrormsg_if (out: FILEref, env: !GRBenvptr1, errno: int): void
 //
-(* ****** ****** *)
-
-(* !!!! Need to add new version !!! 
-fun
-addconstr(
-model: model, numnz: int, cind: cPtr0(int), cval: cPtr0(double),
-sense: string, rhs: double, constrname: NSH(string)
-): int = "mac#atscntrb_atsoptml_GRBaddconstr"
-
-*)
 
 (* ****** ****** *)
+
 // Include at end to prevent problems with ATS2 Mode in emacs:
 %{^
 //
