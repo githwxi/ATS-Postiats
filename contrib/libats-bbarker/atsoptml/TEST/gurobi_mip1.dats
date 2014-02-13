@@ -136,9 +136,8 @@ val () = println! ("Hello from [mytest_main]!")
 //
 // Add variables
 //
-val obj = (arrayptr)$arrpsz{double}(1.0, 1.0, 2.0)
-val vtype = (arrayptr)$arrpsz{GRB_VARTYPE}
-  (GRB_BINARY, GRB_BINARY, GRB_BINARY)
+var obj = @[double](1.0, 1.0, 2.0)
+var vtype = @[GRB_VARTYPE](GRB_BINARY, GRB_BINARY, GRB_BINARY)
 val objc = carrayptr(obj)
 val vtypec = carrayptr(vtype) 
 //
@@ -161,8 +160,8 @@ val () = assertloc (errno = 0)
 //
 // First constraint: x + 2 y + 3 z <= 4
 //
-val ind = (arrayptr)$arrpsz{int}(0, 1, 2)
-val cval = (arrayptr)$arrpsz{double}(1.0, 2.0, 3.0)
+var ind = @[int](0, 1, 2)
+var cval = @[double](1.0, 2.0, 3.0)
 val indc = carrayptr(ind)
 val cvalc = carrayptr(cval)
 val errno = GRBaddconstr(model, 3, indc, cvalc, GRB_LESS_EQUAL, 4.0, "c0")
@@ -172,8 +171,8 @@ val () = assertloc (errno = 0)
 //
 // Second constraint: x + y >= 1 
 //
-val ind2 = (arrayptr)$arrpsz{int}(0, 1)
-val cval2 = (arrayptr)$arrpsz{double}(1.0, 2.0)
+var ind2 = @[int](0, 1)
+var cval2 = @[double](1.0, 2.0)
 val ind2c = carrayptr(ind2)
 val cval2c = carrayptr(cval2)
 val errno = GRBaddconstr(model, 2, ind2c, cval2c, GRB_GREATER_EQUAL, 1.0, "c1");
@@ -194,16 +193,6 @@ val () = assertloc (errno = 0)
 //
 // Don't forget to test with valgrind; compare to C version
 //
-
-val () = arrayptr_free(obj)
-val () = arrayptr_free(vtype)
-//
-val () = arrayptr_free(ind)
-val () = arrayptr_free(cval)
-//
-val () = arrayptr_free(ind2)
-val () = arrayptr_free(cval2)
-
 } (* end of [mytest_main] *)
 
 (* ****** ****** *)
