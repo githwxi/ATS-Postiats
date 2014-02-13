@@ -13,17 +13,22 @@ by [atsdoc] from CHAP_ARRSZREF/main.atxt.\n\
 Time of Generation: #timestamp()\
 ")
 <chapter id="arrszref">
-#title("Persistent Arrays with Size")
+#title("Persistent Arrays-with-Size")
 
 #para('\
 
-Given a viewtype VT, the type for persistent arrays with attached size
-information that contains N values of viewtype VT is #stacode("arrszref(VT,
-N)").  Essentially, a value of the type #stacode("arrszref(VT, N)") is a
-boxed pair of two components of types #stacode("arrayref(VT, N)") and
-#stacode("size_t(N)").  In the following presentation, I may use the name
-#emphasis("array-with-size") to refer to a persistant array with attached size
-information.
+Let us use the name #emphasis("array-with-size") to refer to a persistant
+array with attached size information.  Given a viewtype VT, the type for an
+array-with-size that contains N values of viewtype VT is
+#stacode("arrszref(VT, N)"). Essentially, such a value is a boxed pair of
+two components of types #stacode("arrayref(VT, N)") and
+#stacode("size_t(N)"). The interfaces for various functions on persistent
+arrays-with-size can be found in
+#myatscodelink("prelude/SATS/arrayref.sats", "prelude/SATS/arrayref.sats").
+
+')
+
+#para('\
 
 For reading from and writing to an array-with-size, the function templates
 #dyncode("arrszref_get_at") and #dyncode("arrszref_set_at") can be used,
@@ -39,17 +44,29 @@ arrszref_set_at (A: arrszref (a), i: size_t, x: a): void
 Given an array-with-size A, an index i and a value v,
 #dyncode("arrszref_get_at(A, i)") and #dyncode("arrszref_set_at(A, i, v)")
 can be written as #dyncode("A[i]") and #dyncode("A[i] := v"),
-respectively. Notice that run-time array-bounds checking is performed
+respectively. Notice that array-bounds checking is performed at run-time
 whenever #dyncode("arrszref_get_at") or #dyncode("arrszref_set_at") is
-called.
+called, and the exception #dyncode("ArraySubscriptExn") is raised in case
+of out-of-bounds array access is detected.
+
+')
+
+#para('\
+
+Arrays-with-size can be a good choice over arrays in a prototype
+implementation as it is often more demanding to program with arrays. Also,
+for programmers who are yet to become familiar with dependent types, it is
+definitely easier to work with arrays-with-size than arrays. When
+programming in ATS, I often start out with arrays-with-size and then
+replace them with arrays when I can see clear benefits from doing so.
 
 ')
 
 </chapter><!--"arrszref"-->
 
-#comment(" ****** ****** ")
+<!-- ****** ****** -->
 
-#comment(" end of [main.atxt] ")
+<!--(* end of [main.atxt] *)-->
 
 %{
 //

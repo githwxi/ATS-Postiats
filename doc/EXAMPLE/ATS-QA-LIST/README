@@ -47,4 +47,24 @@ qa-list-67: an example involving destroying arrayptr
 
 ######
 
+qa-list-73: an example of large flat type
+
+######
+
+qa-list-91: an example involving $effmask_ref
+
+######
+
+qa-list-97: an example involving string generation
+
+######
+
+qa-list-190: an example involving arrpsz/arrayptrsize
+
+######
+
+qa-list-191: an example involving $vcopyenv_vt
+
+######
+
 ###### [end of [README] ######

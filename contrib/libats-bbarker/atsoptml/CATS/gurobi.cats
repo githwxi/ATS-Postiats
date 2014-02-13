@@ -192,9 +192,15 @@ GRB_INT_ATTR_HASDUALNORM
 //
 // model alloc/free
 //
-#define atscntrb_gurobi_GRBnewmodel GRBnewmodel
+#define atscntrb_gurobi_GRBnewmodel(env, modelP, Pname, numvars, obj, lb, ub, \
+  vtype, varnames) \
+  GRBnewmodel((GRBenv *)env, (GRBmodel **)modelP, Pname, numvars, obj, lb, ub, \
+  vtype, varnames)
+
 #define atscntrb_gurobi_GRBnewmodel_null(env, modelP, Pname) \
-  GRBnewmodel(env, modelP, Pname, 0/*nv*/, 0/*obj*/, 0/*lb*/, 0/*ub*/, 0/*vtype*/, 0/*names*/)
+  GRBnewmodel((GRBenv *)env, (GRBmodel **)modelP, Pname, 0/*nv*/, 0/*obj*/, \
+  0/*lb*/, 0/*ub*/, 0/*vtype*/, 0/*names*/ \
+)
 
 #define atscntrb_gurobi_GRBloadmodel GRBloadmodel
 #define atscntrb_gurobi_GRBfreemodel GRBfreemodel
@@ -203,7 +209,8 @@ GRB_INT_ATTR_HASDUALNORM
 //
 // environment alloc/free
 //
-#define atscntrb_gurobi_GRBloadenv GRBloadenv
+#define atscntrb_gurobi_GRBloadenv(envP, logfilename) \
+  GRBloadenv((GRBenv **) envP, (char *) logfilename)
 #define atscntrb_gurobi_GRBfreeenv GRBfreeenv
 
 /* ****** ****** */
