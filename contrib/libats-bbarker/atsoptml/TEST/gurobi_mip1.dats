@@ -137,74 +137,72 @@ val () = println! ("Hello from [mytest_main]!")
 // Add variables
 //
 val obj = (arrayptr)$arrpsz{double}(1.0, 1.0, 2.0)
-val objc = carrayptr(obj)
 val vtype = (arrayptr)$arrpsz{GRB_VARTYPE}
   (GRB_BINARY, GRB_BINARY, GRB_BINARY)
+val objc = carrayptr(obj)
 val vtypec = carrayptr(vtype) 
-// Is there a praxi somewhere that it is equivalent to a string? What about
-// a null terminator?? may need to change to:
-// val vtype =  $GRB.BT + $GRB.BT + $GRB.BT
+//
 val errno = GRBaddvars_nocon_noname(model, 3, 0, objc, vtypec)
 val () = assertloc (errno = 0)
 
-(* Need to reimplement: 
 
 //
 //Change objective sense to maximization 
 //
-val error = $GRB.setintattr(model, $GRB.MSENS, $GRB.MAX)
-val () = if error != 0 then QUIT(error)
+val errno = GRBsetintattr(model, GRB_INT_ATTR_MODELSENSE, GRB_MAXIMIZE)
+val () = assertloc (errno = 0)
 
 //
 // Integrate new variables */
 //
-val error = $GRB.updatemodel(model);
-val () = if error != 0 then QUIT(error)
+val errno = GRBupdatemodel(model);
+val () = assertloc (errno = 0)
 
 //
 // First constraint: x + 2 y + 3 z <= 4
 //
 val ind = (arrayptr)$arrpsz{int}(0, 1, 2)
-val cval = (arrayptr)$arrpsz{int}(1, 2, 3)
-val error = $GRB.addconstr(model, 3, ind, cval, $GRB.L, 4.0, "c0")
-val () = if error != 0 then QUIT(error)
+val cval = (arrayptr)$arrpsz{double}(1.0, 2.0, 3.0)
+val indc = carrayptr(ind)
+val cvalc = carrayptr(cval)
+val errno = GRBaddconstr(model, 3, indc, cvalc, GRB_LESS_EQUAL, 4.0, "c0")
+val () = assertloc (errno = 0)
+
 
 //
 // Second constraint: x + y >= 1 
 //
 val ind2 = (arrayptr)$arrpsz{int}(0, 1)
-val cval2 = (arrayptr)$arrpsz{int}(1, 2)
-val error = $GRB.addconstr(model, 2, ind2, cval2, $GRB.G, 1.0, "c1");
-val () = if error != 0 then QUIT(error)
+val cval2 = (arrayptr)$arrpsz{double}(1.0, 2.0)
+val ind2c = carrayptr(ind2)
+val cval2c = carrayptr(cval2)
+val errno = GRBaddconstr(model, 2, ind2c, cval2c, GRB_GREATER_EQUAL, 1.0, "c1");
+val () = assertloc (errno = 0)
 
 //
 // Optimize model
 //
-val error = $GRB.optimize(model)
-val () = if error != 0 then QUIT(error)
+val errno = GRBoptimize(model)
+val () = assertloc (errno = 0)
 
 //
 // Write model to 'mip1.lp' 
 //
-val error = $GRB.write(model, "mip1.lp")
-val () = if error != 0 then QUIT(error)
+val errno = GRBwrite(model, "mip1.lp")
+val () = assertloc (errno = 0)
 
-//
-// Since we didn't use stack-allocated arrays, we need to free
-// these manually.
-// 
-val () = arrayptr_free(ind)
-val () = arrayptr_free(cval)
-val () = arrayptr_free(ind2)
-val () = arrayptr_free(cval2)
-//
-val () = QUIT(error)
 //
 // Don't forget to test with valgrind; compare to C version
 //
-*)
+
 val () = arrayptr_free(obj)
 val () = arrayptr_free(vtype)
+//
+val () = arrayptr_free(ind)
+val () = arrayptr_free(cval)
+//
+val () = arrayptr_free(ind2)
+val () = arrayptr_free(cval2)
 
 } (* end of [mytest_main] *)
 

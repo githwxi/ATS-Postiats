@@ -10,13 +10,26 @@ else
 LGUROBI=-lgurobi??
 endif
 
+#
+# GUROBI_HOME should already be set for most 
+# typical Gurobi installations.
+#
+ifdef GUROBI_HOME
+else
+GUROBI_HOME=??
+endif
+
 ######
 
 include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
-LDFLAGS += $(LGUROBI)
+LDFLAGS += $(LGUROBI) -L$(GUROBI_HOME)/lib
+
+######
+
+CFLAGS += -I$(GUROBI_HOME)/include
 
 ######
 
@@ -29,14 +42,14 @@ MALLOCFLAG=-DATS_MEMALLOC_LIBC
 ######
 
 all:: test00
-test00: test00.dats ; $(PATSCC2) -o $@ $< $(LDFLAGS)
+test00: test00.dats ; $(PATSCC2) $(CFLAGS) -o $@ $< $(LDFLAGS) 
 cleanall:: ; $(RMF) test00
 
 ######
 
 all:: gurobi_mip1
-gurobi_mip1: gurobi_mip1.dats ; $(PATSCC2) -o $@ $< $(LDFLAGS)
-cleanall:: ; $(RMF) gurobi_mip1 gurobi_mip1.log
+gurobi_mip1: gurobi_mip1.dats ; $(PATSCC2) $(CFLAGS) -o $@ $< $(LDFLAGS) $(MALLOCFLAG)
+cleanall:: ; $(RMF) gurobi_mip1 gurobi_mip1.log mip1.lp
 
 ######
 
