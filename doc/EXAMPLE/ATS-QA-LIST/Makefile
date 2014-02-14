@@ -124,6 +124,12 @@ cleanall:: ; $(RMF) list_copy
 
 ######
 
+all:: alloca
+alloca: alloca.dats ; $(PATSCC) -D_BSD_SOURCE -o $@ $<
+cleanall:: ; $(RMF) alloca
+
+######
+
 all:: for-0install
 for-0install: for-0install.dats ; \
   $(PATSCC) -D_BSD_SOURCE -IIATS ${PATSHOME}/contrib -DATS_MEMALLOC_LIBC -o $@ $< -ljson-c
