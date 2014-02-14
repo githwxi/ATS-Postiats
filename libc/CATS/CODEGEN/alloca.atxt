@@ -3,7 +3,7 @@
 #if (ATSCODEFORMAT == "txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"malloc.cats"
+val _thisfilename = atext_strcst"alloca.cats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
@@ -14,7 +14,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 /*
 ** Source:
-** $PATSHOME/libc/CATS/CODEGEN/malloc.atxt
+** $PATSHOME/libc/CATS/CODEGEN/alloca.atxt
 ** Time of generation: #timestamp()
 */
 
@@ -23,35 +23,30 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 /*
 #atscode_author("Hongwei Xi")
 #atscode_authoremail("gmhwxiATgmailDOTcom")
-#atscode_start_time("March, 2013")
+#atscode_start_time("February, 2014")
 */
 
 #atscode_separator_for_C()
 
-\#ifndef ATSLIB_LIBC_MALLOC_CATS
-\#define ATSLIB_LIBC_MALLOC_CATS
+\#ifndef ATSLIB_LIBC_ALLOCA_CATS
+\#define ATSLIB_LIBC_ALLOCA_CATS
 
 #atscode_separator_for_C()
 
-\#include <malloc.h>
+\#include <alloca.h>
 
 #atscode_separator_for_C()
 
-\#define atslib_mallopt mallopt
-\#define atslib_malloc_trim malloc_trim
-\#define atslib_malloc_usable_size malloc_usable_size
-\#define atslib_malloc_stats malloc_stats
-\#define atslib_malloc_get_state malloc_get_state
-\#define atslib_malloc_set_state malloc_set_state
+\#define atslib_alloca(bsz) alloca(bsz)
 
 #atscode_separator_for_C()
 
-\#endif // ifndef ATSLIB_LIBC_MALLOC_CATS
+\#endif // ifndef ATSLIB_LIBC_ALLOCA_CATS
 
 #atscode_separator_for_C()
 
 #atscode_eof_strsub_for_C("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "malloc_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "alloca_atxt.txt")
 %}\

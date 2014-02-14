@@ -3,23 +3,8 @@
 *)
 
 (* ****** ****** *)
-
-%{^
-#include <alloca.h>
-%}
-
-(* ****** ****** *)
 //
-#include "share/atspre_staload.hats"
-//
-(* ****** ****** *)
-//
-extern
-fun alloca
-  {dummy:addr}{n:int}
-(
-  pf: void@dummy | n: size_t (n)
-) : [l:addr] (bytes(n) @ l, bytes(n) @ l -> void@dummy | ptr (l)) = "mac#alloca"
+staload "libc/SATS/alloca.sats"
 //
 (* ****** ****** *)
 

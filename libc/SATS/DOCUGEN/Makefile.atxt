@@ -111,6 +111,7 @@ htmlgendecl_atxt.dats: ; \\
 
 all_html::
 
+#make_entry("alloca")
 #make_entry("dirent")
 #make_entry("fnmatch")
 #make_entry("malloc")

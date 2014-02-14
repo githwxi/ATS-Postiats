@@ -51,6 +51,7 @@ all::
 
 ######
 
+#make_entry("alloca")
 #make_entry("dirent")
 #make_entry("dlfcn")
 #make_entry("errno")
