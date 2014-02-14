@@ -596,44 +596,42 @@ array_quicksort_stdlib{n:int}
 ) :<!wrt> void // end of [array_quicksort_stdlib]
 
 #atscode_separator()
-
-fun
-{a:vt0p}
-{b:vt0p}
-array_mapto$fwork
+//
+fun{
+a:vt0p}{b:vt0p
+} array_mapto$fwork
 (
   x: &a, y: &b? >> b
 ) : void // [array_mapto$fwork]
-fun
-{a:vt0p}
-{b:vt0p}
-array_mapto{n:int}
+//
+fun{
+a:vt0p}{b:vt0p
+} array_mapto{n:int}
 (
   A: &array(INV(a), n)
 , B: &array(b?, n) >> array (b, n)
 , n: size_t (n)
 ) : void // end of [array_mapto]
-
+//
 #atscode_separator()
-
-fun
-{a,b:vt0p}
-{c:vt0p}
-array_map2to$fwork
+//
+fun{
+a,b:vt0p}{c:vt0p
+} array_map2to$fwork
 (
   x: &a, y: &b, z: &c? >> c
 ) : void // [array_map2to$fwork]
-fun
-{a,b:vt0p}
-{c:vt0p}
-array_map2to{n:int}
+//
+fun{
+a,b:vt0p}{c:vt0p
+} array_map2to{n:int}
 (
   A: &array(INV(a), n)
 , B: &array(INV(b), n)
 , C: &array(c?, n) >> array (c, n)
 , n: size_t (n)
 ) : void // end of [array_map2to]
-
+//
 #atscode_separator()
 
 fun{}

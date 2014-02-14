@@ -135,6 +135,47 @@ end // end of [LAgvec_make_uninitized]
 (* ****** ****** *)
 
 implement{a}
+LAgvec_get_at
+  (V, i) = x where
+{
+//
+val cp = LAgvec_getref_at (V, i)
+val (pf, fpf | p) = $UN.cptr_vtake (cp)
+val x = !p
+prval () = fpf (pf)
+//
+} // end of [LAgvec_get_at]
+
+implement{a}
+LAgvec_set_at
+  (V, i, x) = () where
+{
+//
+val cp = LAgvec_getref_at (V, i)
+val (pf, fpf | p) = $UN.cptr_vtake (cp)
+val () = !p := x
+prval () = fpf (pf)
+//
+} // end of [LAgvec_get_at]
+
+(* ****** ****** *)
+
+implement{a}
+LAgvec_getref_at
+  (V, i) = let
+//
+var d: int
+val (pf, fpf | p) = LAgvec_vtakeout_vector (V, d)
+val p_i = ptr_add<a>(p, i*d)
+prval () = fpf (pf)
+//
+in
+  $UN.cast{cPtr1(a)}(p_i)
+end // end of [LAgvec_getref_at]
+
+(* ****** ****** *)
+
+implement{a}
 LAgvec_split
   (V, i) = let
 //

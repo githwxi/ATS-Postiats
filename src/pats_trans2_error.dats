@@ -55,8 +55,11 @@ local
 
 val the_trans2errlst = ref<trans2errlst_vt> (list_vt_nil)
 
-fun the_trans2errlst_get
-  (): trans2errlst_vt = let
+fun
+the_trans2errlst_get
+(
+  // argumentless
+) : trans2errlst_vt = let
   val (vbox pf | p) = ref_get_view_ptr (the_trans2errlst)
   val xs = !p
   val () = !p := list_vt_nil ()
@@ -64,16 +67,18 @@ in
   xs
 end // end of [the_trans2errlst_get]
 
-in // in of [local]
+in (* in-of-local *)
 
 implement
-the_trans2errlst_add (x) = () where {
+the_trans2errlst_add (x) =
+{
   val (vbox pf | p) = ref_get_view_ptr (the_trans2errlst)
   val () = !p := list_vt_cons (x, !p)
-} // end of [the_trans2errlst_add]
+} (* end of [the_trans2errlst_add] *)
 
 implement
-the_trans2errlst_finalize () = {
+the_trans2errlst_finalize () =
+{
   val xs = the_trans2errlst_get ()
   val n = list_vt_length (xs); val () = list_vt_free (xs)
 // (*
@@ -82,7 +87,7 @@ the_trans2errlst_finalize () = {
   } // end of [val]
 // *)
   val () = if n > 0 then $ERR.abort () else ()
-} // end of [the_trans2errlst_finalize]
+} (* end of [the_trans2errlst_finalize] *)
 
 end // end of [local]
 
