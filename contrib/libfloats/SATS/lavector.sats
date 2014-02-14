@@ -99,14 +99,31 @@ fun{a:t0p}
 LAgvec_make_uninitized {n:nat}(int n): LAgvec(a?, n)
 
 (* ****** ****** *)
-
+//
+fun{a:t0p}
+LAgvec_get_at{n:int}
+  (V: !LAgvec(a, n), i: natLt(n)): (a)
+fun{a:t0p}
+LAgvec_set_at{n:int}
+  (V: !LAgvec(a, n), i: natLt(n), x: a): void
+//
+fun{a:t0p}
+LAgvec_getref_at{n:int}
+  (V: !LAgvec(a, n), i: natLt(n)) : cPtr1(a)
+//
+(* ****** ****** *)
+//
 fun{}
 fprint_LAgvec$sep (FILEref): void
 fun{a:t0p}
 fprint_LAgvec{n:int}
   (out: FILEref, V: !LAgvec(a, n)): void
+fun{a:t0p}
+fprint_LAgvec_sep{n:int}
+  (out: FILEref, V: !LAgvec(a, n), sep: string): void
+//
 overload fprint with fprint_LAgvec
-
+//
 (* ****** ****** *)
 
 fun{a:t0p}

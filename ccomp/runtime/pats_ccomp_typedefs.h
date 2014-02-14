@@ -158,10 +158,8 @@ typedef void* atstype_cloptr ;
 // HX: making it not usable!!!
 //
 typedef
-struct {
-  char _[0XFFFF] ;
-} atstype_var[0] ;
-
+struct{char _[0XFFFF];} atstype_var[0] ;
+//
 /* ****** ****** */
 
 #define atstyvar_type(a) atstype_var

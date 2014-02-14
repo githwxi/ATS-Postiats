@@ -60,7 +60,7 @@ parerr_make (loc, node) = '{
 
 (* ****** ****** *)
 
-viewtypedef parerrlst_vt = List_vt (parerr)
+vtypedef parerrlst_vt = List_vt (parerr)
 
 (* ****** ****** *)
 //
@@ -70,7 +70,7 @@ viewtypedef parerrlst_vt = List_vt (parerr)
 //
 extern
 fun the_parerrlst_get (n: &int? >> int): parerrlst_vt
-
+//
 (* ****** ****** *)
 
 local
@@ -83,7 +83,7 @@ local
 val the_length = ref<int> (0)
 val the_parerrlst = ref<parerrlst_vt> (list_vt_nil)
 
-in // in of [local]
+in (* in-of-local *)
 
 implement
 the_parerrlst_clear
@@ -146,7 +146,8 @@ end // end of [the_parerrlst_add_ifunclosed]
 
 (* ****** ****** *)
 
-fun keyword_needed (
+fun keyword_needed
+(
   out: FILEref, x: parerr, name: string
 ) : void = () where {
   val () = fprint (out, x.parerr_loc)
@@ -154,15 +155,8 @@ fun keyword_needed (
   val () = fprint_newline (out)
 } // end of [keyword_needed]
 
-fun parenth_needed (
-  out: FILEref, x: parerr, name: string
-) : void = () where {
-  val () = fprint (out, x.parerr_loc)
-  val () = fprintf (out, ": error(parsing): the keyword '%s' is needed.", @(name))
-  val () = fprint_newline (out)
-} // end of [parenth_needed]
-
-fun synent_needed (
+fun synent_needed
+(
   out: FILEref, x: parerr, name: string
 ) : void = () where {
   val () = fprint (out, x.parerr_loc)
@@ -170,7 +164,17 @@ fun synent_needed (
   val () = fprint_newline (out)
 } // end of [synent_needed]
 
-fun filename_unclosed (
+fun parenth_needed
+(
+  out: FILEref, x: parerr, name: string
+) : void = () where {
+  val () = fprint (out, x.parerr_loc)
+  val () = fprintf (out, ": error(parsing): the keyword '%s' is needed.", @(name))
+  val () = fprint_newline (out)
+} // end of [parenth_needed]
+
+fun filename_unclosed
+(
   out: FILEref, x: parerr
 ) : void = () where {
   val () = fprint (out, x.parerr_loc)
@@ -178,7 +182,8 @@ fun filename_unclosed (
   val () = fprint_newline (out)
 } // end of [filename_unclosed]
 
-fun token_discarded (
+fun token_discarded
+(
   out: FILEref, x: parerr
 ) : void = () where {
   val () = fprint (out, x.parerr_loc)
@@ -191,10 +196,13 @@ fun token_discarded (
 implement
 fprint_parerr
   (out, x) = let
-  val loc = x.parerr_loc and node = x.parerr_node
-  macdef KN (x, name) = keyword_needed (out, ,(x), ,(name))
-  macdef PN (x, name) = parenth_needed (out, ,(x), ,(name))
-  macdef SN (x, name) = synent_needed (out, ,(x), ,(name))
+//
+val loc = x.parerr_loc and node = x.parerr_node
+//
+macdef KN (x, name) = keyword_needed (out, ,(x), ,(name))
+macdef SN (x, name) = synent_needed (out, ,(x), ,(name))
+macdef PN (x, name) = parenth_needed (out, ,(x), ,(name))
+//
 in
 //
 case+ node of
@@ -343,42 +351,49 @@ end // end of [fprint_parerr]
 implement
 fprint_the_parerrlst
   (out) = let
-  var nerr: int?
-  val xs = the_parerrlst_get (nerr)
-  fun loop (
-    out: FILEref
-  , xs: parerrlst_vt
-  , nerr: int
-  , bchar_max: lint // local max
-  , bchar_lst: lint // last char count
-  ) : int =
-    case+ xs of
-    | ~list_vt_cons (x, xs) => let
-        val loc = x.parerr_loc
-        val bchar = $LOC.location_get_bchar (loc)
-      in
-        case+ 0 of
-        | _ when
-            bchar > bchar_max => let
-            val () = fprint_parerr (out, x) in
-            loop (out, xs, nerr-1, bchar, bchar)
-          end
-        | _ when
-            bchar <= bchar_lst => let
-            val () = fprint_parerr (out, x) in
-            loop (out, xs, nerr-1, bchar_max, bchar)
-          end
-        | _ => loop (out, xs, nerr-1, bchar_max, bchar_lst)
-      end // end of [list_vt_cons]
-    | ~list_vt_nil () => nerr
-  // end of [loop]
+//
+var nerr: int?
+val xs = the_parerrlst_get (nerr)
+//
+fun loop
+(
+  out: FILEref
+, xs: parerrlst_vt
+, nerr: int
+, bchar_max: lint // local max
+, bchar_lst: lint // last char count
+) : int = let
+in
+  case+ xs of
+  | ~list_vt_cons
+      (x, xs) => let
+      val loc = x.parerr_loc
+      val bchar = $LOC.location_get_bchar (loc)
+    in
+      case+ 0 of
+      | _ when
+          bchar > bchar_max => let
+          val () = fprint_parerr (out, x) in
+          loop (out, xs, nerr-1, bchar, bchar)
+        end
+      | _ when
+          bchar <= bchar_lst => let
+          val () = fprint_parerr (out, x) in
+          loop (out, xs, nerr-1, bchar_max, bchar)
+        end
+      | _ => loop (out, xs, nerr-1, bchar_max, bchar_lst)
+    end // end of [list_vt_cons]
+  | ~list_vt_nil ((*void*)) => nerr
+end // end of [loop]
+//
 in
 //
 case+ xs of
 | list_vt_cons _ => let
     prval () = fold@ (xs)
     val nerr = loop (out, xs, nerr, ~1l, ~1l)
-    val () = if nerr > 0 then {
+    val () =
+    if nerr > 0 then {
       val () = fprint_string
         (out, "There are possibly some additional errors.")
       val () = fprint_newline (out)

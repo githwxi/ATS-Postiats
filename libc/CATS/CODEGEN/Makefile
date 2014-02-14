@@ -17,6 +17,15 @@ all::
 
 ######
 
+all:: alloca.cats
+alloca.cats: alloca_atxt.exe ; ./$< > $@
+alloca_atxt.exe: alloca_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ alloca_atxt.dats -latsdoc
+alloca_atxt.dats: alloca.atxt
+	$(ATSDOC) --outcode $@ -i alloca.atxt > alloca_atxt.txt
+clean:: ; $(RMF) alloca_atxt.exe
+cleanall:: ; $(RMF) alloca.cats
+
 all:: dirent.cats
 dirent.cats: dirent_atxt.exe ; ./$< > $@
 dirent_atxt.exe: dirent_atxt.dats

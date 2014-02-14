@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2014 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -28,69 +28,34 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi
-// Authoremail: gmhwxi AT gmail DOT com
-// Start Time: May, 2011
-//
-(* ****** ****** *)
-//
-staload
-ATSPRE = "./pats_atspre.dats"
+// Authoremail: gmhwxiATgmailDOTcom
+// Start Time: February, 2014
 //
 (* ****** ****** *)
 
-staload ERR = "./pats_error.sats"
+%{#
+#include "libc/CATS/alloca.cats"
+%} // end of [%{#]
 
 (* ****** ****** *)
 
-staload "./pats_trans2.sats"
+#define ATS_PACKNAME "ATSLIB.libc"
+#define ATS_STALOADFLAG 0 // no need for staloading at run-time
+#define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 (* ****** ****** *)
 
-viewtypedef
-trans2errlst_vt = List_vt (trans2err)
+#define NSH (x) x // for commenting: no sharing
+#define SHR (x) x // for commenting: it is shared
 
 (* ****** ****** *)
 
-local
-
-val the_trans2errlst = ref<trans2errlst_vt> (list_vt_nil)
-
-fun
-the_trans2errlst_get
+fun alloca
+  {dummy:addr}{n:int}
 (
-  // argumentless
-) : trans2errlst_vt = let
-  val (vbox pf | p) = ref_get_view_ptr (the_trans2errlst)
-  val xs = !p
-  val () = !p := list_vt_nil ()
-in
-  xs
-end // end of [the_trans2errlst_get]
-
-in (* in-of-local *)
-
-implement
-the_trans2errlst_add (x) =
-{
-  val (vbox pf | p) = ref_get_view_ptr (the_trans2errlst)
-  val () = !p := list_vt_cons (x, !p)
-} (* end of [the_trans2errlst_add] *)
-
-implement
-the_trans2errlst_finalize () =
-{
-  val xs = the_trans2errlst_get ()
-  val n = list_vt_length (xs); val () = list_vt_free (xs)
-// (*
-  val () = if n > 0 then {
-    val () = fprintf (stderr_ref, "TRANS2: there are [%i] errors in total.\n", @(n))
-  } // end of [val]
-// *)
-  val () = if n > 0 then $ERR.abort () else ()
-} (* end of [the_trans2errlst_finalize] *)
-
-end // end of [local]
+  pf: void@dummy | n: size_t (n)
+) : [l:addr] (bytes(n) @ l, bytes(n) @ l -> void@dummy | ptr (l)) = "mac#%"
 
 (* ****** ****** *)
 
-(* end of [pats_trans2_error.dats] *)
+(* end of [alloca.sats] *)
