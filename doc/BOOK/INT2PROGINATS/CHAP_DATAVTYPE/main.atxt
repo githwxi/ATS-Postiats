@@ -1665,7 +1665,7 @@ copy of the previous implementation of #dyncode("rbtree_insert") for
 functional red-black trees and then properly modifying it to make it pass
 typechecking. Although this process of copying-and-modifying is difficult
 to be described formally, it is fairly straightforward to follow in
-practice as it is almost entirely guided by the error messages issued
+practice as it is almost entirely guided by the error messages received
 during typechecking.
 
 ')

@@ -67,4 +67,11 @@ qa-list-191: an example involving $vcopyenv_vt
 
 ######
 
+alloca: an example involving alloca
+list_copy: copying a given list tail-recursively
+list_last: finding the last element of a given list
+for-0install: MISC
+
+######
+
 ###### [end of [README] ######
