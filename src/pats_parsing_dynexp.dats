@@ -59,7 +59,9 @@ viewtypedef labd0explst12 = list12 (labd0exp)
 
 (* ****** ****** *)
 
-fun d0exp_list12 (
+fun
+d0exp_list12
+(
   t_beg: token
 , ent2: d0explst12
 , t_end: token
@@ -75,7 +77,11 @@ fun d0exp_list12 (
     end (* end of [LIST12two] *)
 // end of [d0exp_list12]
 
-fun d0exp_list12_if (
+(* ****** ****** *)
+
+fun
+d0exp_list12_if
+(
   t_beg: token
 , ent2: d0explst12
 , t_end: token
@@ -90,7 +96,8 @@ fun d0exp_list12_if (
 
 (* ****** ****** *)
 
-fun d0exp_tup12
+fun
+d0exp_tup12
 (
   knd: int
 , t_beg: token
@@ -113,7 +120,8 @@ end // end of [d0exp_tup12]
 
 (* ****** ****** *)
 
-fun d0exp_rec12
+fun
+d0exp_rec12
 (
   knd: int
 , t_beg: token, ent2: labd0explst12, t_end: token

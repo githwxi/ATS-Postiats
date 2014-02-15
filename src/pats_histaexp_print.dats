@@ -175,6 +175,12 @@ case+
     val () = prstr ")"
   }
 //
+| HSEs2zexp (s2ze) => {
+    val () = prstr "HSEs2zexp("
+    val () = fprint_s2zexp (out, s2ze)
+    val () = prstr ")"
+  }
+//
 (*
 | _ => {
     val () = prstr "HSE...(...)"

@@ -81,7 +81,8 @@ end // end of [btree_height]
 
 (* ****** ****** *)
 
-fn btree_isperfect (t: btree_f):<> bool = let
+fn btree_isperfect
+  (t0: btree_f):<> bool = let
   typedef X = Option int
   val e = (Some _0): X
   val b = lam (
@@ -93,7 +94,7 @@ fn btree_isperfect (t: btree_f):<> bool = let
     | (_, _) => None
   // end of [val]
 in
-   case+ t {X} (e, b) of None () => false | Some _ => true
+   case+ t0{X}(e, b) of None () => false | Some _ => true
 end // end of [btree_isperfect]
 
 (* ****** ****** *)

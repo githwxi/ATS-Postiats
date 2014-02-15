@@ -43,11 +43,11 @@ id="memory-allocation-deallocation">
 #para("\
 
 The issue of memory allocation and deallocation is of paramount importance
-in systems programming, where garabage collection (GC) at run-time is most
-likely not allowed or only available in a highly restricted manner.
-Handling memory management safely and efficiently is a long standing
-problem of great challenge in programming, and its novel solution in ATS is
-firmly rooted in the paradigm of programming with theorem-proving (PwTP).
+in systems programming, where garabage collection (GC) at run-time may not
+even be allowed.  Handling memory management safely and efficiently is a long
+standing problem of great challenge in programming, and its novel solution
+in ATS is firmly rooted in the paradigm of programming with theorem-proving
+(PwTP).
 
 ")
 
@@ -93,9 +93,26 @@ have encountered that is not built on top of any at-views.
 
 #para('\
 
-In practice, it is rather cumbersome to deal with bytes directly. Instead,
-the following two functions are more convenient for allocating and
-deallocating arrays:
+In practice, it is rather cumbersome to deal with bytes directly.  The
+function #dyncode("ptr_alloc") is available for allocating memory to store
+a single value (of certain type) and the function #dyncode("ptr_free") for
+deallocating such memory:
+
+#atscode('\
+fun{a:vt0p}
+ptr_alloc ()
+  :<> [l:agz] (a? @ l, mfree_gc_v (l) | ptr l)
+// end of [ptr_alloc]
+
+fun ptr_free
+  {a:t@ype}{l:addr}
+  (pfgc: mfree_gc_v (l), pfat: a @ l | p: ptr l):<> void = "mac#%"
+// end of [ptr_free]
+')
+
+In addition, the function #dyncode("array_ptr_alloc") is for allocating
+memory to store an array of values (of certain type), and the function
+#dyncode("array_ptr_free") is for deallocating such memory:
 
 #atscode('\
 fun{a:vt0p}

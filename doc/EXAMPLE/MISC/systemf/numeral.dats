@@ -23,6 +23,8 @@ typedef
 tpair (a: type, b: type) = '(a, b)
 stadef * = tpair
 
+(* ****** ****** *)
+
 fn pair_get_fst {X,Y:type} (xy: X * Y):<> X = xy.0
 fn pair_get_snd {X,Y:type} (xy: X * Y):<> Y = xy.1
 

@@ -94,6 +94,7 @@ hisexp_node =
   | HSEvararg of (s2exp) // for variadic funarg
 //
   | HSEs2exp of (s2exp)
+  | HSEs2zexp of (s2zexp)
 // end of [hisexp_node]
 
 and labhisexp =
@@ -219,7 +220,10 @@ fun hisexp_tyvar (s2v: s2var): hisexp
 
 fun hisexp_vararg (s2e: s2exp): hisexp // HX: variadic funarg
 
+(* ****** ****** *)
+
 fun hisexp_s2exp (s2e: s2exp): hisexp
+fun hisexp_s2zexp (s2ze: s2zexp): hisexp
 
 (* ****** ****** *)
 

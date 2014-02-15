@@ -87,6 +87,10 @@ fun s2exp_tyer_shallow
 
 (* ****** ****** *)
 
+fun s2zexp_tyer (loc: location, s2ze: s2zexp): hisexp
+
+(* ****** ****** *)
+
 fun t2mpmarg_tyer (t2ma: t2mpmarg): hisexplst
 fun t2mpmarglst_tyer (t2mas: t2mpmarglst): hisexplstlst
 

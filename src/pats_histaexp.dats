@@ -123,6 +123,8 @@ val HITNAM_VARARG =
 //
 val HITNAM_S2EXP =
   HITNAM (0(*non*), 0(*tmp*), "postiats_s2exp")
+val HITNAM_S2ZEXP =
+  HITNAM (0(*non*), 0(*tmp*), "postiats_s2zexp")
 //
 (* ****** ****** *)
 
@@ -532,6 +534,11 @@ implement
 hisexp_s2exp (s2e) =
   hisexp_make_node (HITNAM_S2EXP, HSEs2exp (s2e))
 // end of [hisexp_s2exp]
+
+implement
+hisexp_s2zexp (s2ze) =
+  hisexp_make_node (HITNAM_S2ZEXP, HSEs2zexp (s2ze))
+// end of [hisexp_s2zexp]
 
 (* ****** ****** *)
 

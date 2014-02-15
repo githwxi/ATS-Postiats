@@ -256,6 +256,8 @@ fun eq_hitype_hitype (x1: hitype, x2: hitype): bool
 
 extern
 fun s2exp_typize (flag: int, s2e: s2exp): hitype
+extern
+fun s2zexp_typize (flag: int, s2ze: s2zexp): hitype
 
 (* ****** ****** *)
 //
@@ -879,10 +881,13 @@ implement
 emit_hisexp
   (out, hse) = let
 //
+(*
+val () = println! ("emit_hisexp: hse = ", hse)
+*)
+//
 val hit = hisexp_typize (1, hse)
 //
 (*
-val () = println! ("emit_hisexp: hse = ", hse)
 val () = println! ("emit_hisexp: hit = ", hit)
 *)
 //
@@ -998,15 +1003,39 @@ case+
 | S2Eextkind (name, _) => HITnmd (name)
 //
 | S2Eat _ => hitype_none ()
-| S2EVar _ => hitype_none ()
 //
-| _ => let
+(*
+| S2EVar _ => hitype_none ()
+*)
+| S2EVar (s2V) => let
+    val s2ze = s2Var_get_szexp (s2V)
+    val hse0 = $TYER.s2zexp_tyer ($LOC.location_dummy, s2ze)
+  in
+    hisexp_typize (flag, hse0)
+  end // end of [_]
+//
+| _ (*rest*) => let
     val hse0 = $TYER.s2exp_tyer_shallow ($LOC.location_dummy, s2e0)
   in
     hisexp_typize (flag, hse0)
   end // end of [_]
 //
 end // end of [s2exp_typize]
+
+(* ****** ****** *)
+
+implement
+s2zexp_typize
+  (flag, s2ze0) = let
+in
+//
+case+ s2ze0 of
+//
+| S2ZEextype (name, _) => HITnmd (name)
+| S2ZEextkind (name, _) => HITnmd (name)
+| _ (*rest*) => hitype_none ((*void*))
+//
+end // end of [s2zexp_typize]
 
 (* ****** ****** *)
 
@@ -1062,6 +1091,11 @@ case+ hse0.hisexp_node of
     val hit = s2exp_typize (flag, s2e) in
     case+ hit of HITnone () => hitype_undef (hse0) | _ => (hit)
   end // end of [HSEs2exp]
+//
+| HSEs2zexp (s2ze) => let
+    val hit = s2zexp_typize (flag, s2ze) in
+    case+ hit of HITnone () => hitype_undef (hse0) | _ => (hit)
+  end // end of [HSEs2zexp]
 //
 | HSEtyvar (s2v) => HITtyvar (s2v)
 //
