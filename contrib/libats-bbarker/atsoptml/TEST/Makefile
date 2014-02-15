@@ -49,7 +49,13 @@ cleanall:: ; $(RMF) test00
 
 all:: gurobi_mip1
 gurobi_mip1: gurobi_mip1.dats ; $(PATSCC2) $(CFLAGS) -o $@ $< $(LDFLAGS) $(MALLOCFLAG)
-cleanall:: ; $(RMF) gurobi_mip1 gurobi_mip1.log mip1.lp
+cleanall:: ; $(RMF) gurobi_mip1 mip1.log mip1.lp
+
+######
+
+all:: gurobi_tsp
+gurobi_tsp: gurobi_tsp.dats ; $(PATSCC2) $(CFLAGS) -o $@ $< $(LDFLAGS) $(MALLOCFLAG)
+cleanall:: ; $(RMF) gurobi_tsp tsp.log
 
 ######
 

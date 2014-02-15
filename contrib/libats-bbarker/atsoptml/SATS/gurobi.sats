@@ -252,12 +252,12 @@ GRBaddvars_nocon_noname
 
 fun
 GRBaddconstr
-  {nv:int}{nx:int}
+  {nx:int}
 (
   model         : !GRBmodelptr1
 , numnz         : int(nx)
-, cind          : carrayptr1(int, nx)
-, cval          : carrayptr1(double, nx)
+, cind          : carrayptr0(int, nx)
+, cval          : carrayptr0(double, nx)
 , sense         : char
 , rhs           : double
 , constrname    : NSH(string) 
