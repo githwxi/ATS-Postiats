@@ -4,6 +4,10 @@
 //
 (* ****** ****** *)
 //
+// Please use valgrind to check that there is no memory leak
+//
+(* ****** ****** *)
+//
 #include
 "share/atspre_staload.hats"
 //
@@ -73,20 +77,21 @@ implement
 main0 () =
 {
 //
-val xs =
-list_vt2t{int}(list_make_intrange (0, 10))
+val xs = list_make_intrange (0, 10)
 //
 implement
 list2array_filter$pred<int> (x) = (x mod 2 = 1)
 //
 var n: int
-val A = list2array_filter (xs, n)
+val A = list2array_filter<int> ($UNSAFE.list_vt2t(xs), n)
+//
+val () = list_vt_free (xs)
 //
 val () = fprint! (stdout_ref, "A=[")
 val () = fprint_arrayptr (stdout_ref, A, i2sz(n))
 val () = fprintln! (stdout_ref, "]")
 //
-val () = arrayptr_free (A)
+val ((*void*)) = arrayptr_free (A)
 //
 } (* end of [main0] *)
 

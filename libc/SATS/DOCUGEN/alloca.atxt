@@ -1,0 +1,35 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../alloca.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libc_alloca")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libc/alloca\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The package assigns an interface for [alloca] to support
+safe stack-allocation.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("alloca")
+
+(* ****** ****** *)
+
+(* end of [alloca.atxt] *)
