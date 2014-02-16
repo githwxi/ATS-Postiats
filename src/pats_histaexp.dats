@@ -644,6 +644,13 @@ of // of [case]
     if flag > f0 then hisexp_s2exp (s2e) else hse0
   end // end of [HSEs2exp]
 //
+| HSEs2zexp (s2ze) => let
+    val f0 = flag
+    val s2ze = s2zexp_subst_flag (sub, s2ze, flag)
+  in
+    if flag > f0 then hisexp_s2zexp (s2ze) else hse0
+  end // end of [HSEs2zexp]
+//
 | _ => hse0
 //
 end // end of [aux]

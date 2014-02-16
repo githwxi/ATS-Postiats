@@ -29,6 +29,10 @@ staload _ = "prelude/DATS/float.dats"
 
 (* ****** ****** *)
 
+staload _ = "prelude/DATS/tuple.dats"
+
+(* ****** ****** *)
+
 staload _ = "prelude/DATS/memory.dats"
 
 (* ****** ****** *)

@@ -112,11 +112,13 @@ case+ xs of
 //
     val s2es = x.t2mpmarg_arg
     val s2es2 = s2explst_subst (sub, s2es)
+//
 (*
     val out = stdout_ref
     val () = fprintln! (out, "auxlst: s2es = ", s2es)
     val () = fprintln! (out, "auxlst: s2es2 = ", s2es2)
 *)
+//
     val x2 = t2mpmarg_make (loc0, s2es2)
 //
   in
@@ -669,21 +671,22 @@ val vbmap2 = vbindmap_subst (env, tmpmap2, sub, vbmap, sfx)
 //
 val () = tmpvarmap_vt_free (tmpmap2)
 //
+(*
+val out = stdout_ref
+typedef flab = funlab
+val () = fprintln! (out, "funent_subst: flab2 = ", flab2)
+val () = fprintln! (out, "funent_subst: flvl2 = ", flvl2)
+val () = fprintln! (out, "funent_subst: fls02 = ", $UN.linlst2lst{flab}(fls02))
+val () = fprintln! (out, "funent_subst: d2es2 = ", $UN.linlst2lst{d2env}(d2es2))
+val () = fprintln! (out, "funent_subst: vbmap2 = ", vbmap2)
+*)
+//
 val fent2 =
 funent_make (
   loc, flab2
 , imparg, tmparg, None(*tmpsub*), tmpret2
 , (l2l)fls02, (l2l)d2es2, vbmap2, inss2_body, tmplst2
 ) (* end of [val] *)
-//
-(*
-val out = stdout_ref
-val () = fprintln! (out, "funent_subst: flab2 = ", flab2)
-val () = fprintln! (out, "funent_subst: flvl2 = ", flvl2)
-val () = fprintln! (out, "funent_subst: fls02 = ", fls02)
-val () = fprintln! (out, "funent_subst: d2es2 = ", d2es2)
-val () = fprintln! (out, "funent_subst: vbmap2 = ", vbmap2)
-*)
 //
 in
   fent2

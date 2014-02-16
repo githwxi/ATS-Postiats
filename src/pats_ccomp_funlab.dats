@@ -501,6 +501,21 @@ end // end of [fprint_funlablst]
 
 (* ****** ****** *)
 
+implement
+fprint_funlablstopt
+  (out, opt) = let
+in
+//
+case+ opt of
+| Some (fls) =>
+    fprint! (out, "Some(", fls, ")")
+  // end of [Some]
+| None ((*void*)) => fprint! (out, "None()")
+//
+end // end of [fprint_funlablstopt]
+
+(* ****** ****** *)
+
 local
 
 staload

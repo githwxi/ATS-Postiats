@@ -49,7 +49,7 @@ in
 end // end of [fprint_tupval2]
 
 implement(a0,a1)
-fprint_val<tup(a0,a1)> (out, x) = fprint_tupval2 (out, x)
+fprint_val<tup(a0,a1)> (out, x) = fprint_tupval2<a0,a1> (out, x)
 
 #atscode_separator()
 
@@ -69,7 +69,7 @@ in
 end // end of [fprint_tupval3]
 
 implement(a0,a1,a2)
-fprint_val<tup(a0,a1,a2)> (out, x) = fprint_tupval3 (out, x)
+fprint_val<tup(a0,a1,a2)> (out, x) = fprint_tupval3<a0,a1,a2> (out, x)
 
 #atscode_separator()
 
@@ -91,7 +91,7 @@ in
 end // end of [fprint_tupval4]
 
 implement(a0,a1,a2,a3)
-fprint_val<tup(a0,a1,a2,a3)> (out, x) = fprint_tupval4 (out, x)
+fprint_val<tup(a0,a1,a2,a3)> (out, x) = fprint_tupval4<a0,a1,a2,a3> (out, x)
 
 #atscode_separator()
 
@@ -109,7 +109,7 @@ in
 end // end of [fprint_tupref2]
 
 implement(a0,a1)
-fprint_ref<tup(a0,a1)> (out, x) = fprint_tupref2 (out, x)
+fprint_ref<tup(a0,a1)> (out, x) = fprint_tupref2<a0,a1> (out, x)
 
 #atscode_separator()
 
@@ -129,7 +129,7 @@ in
 end // end of [fprint_tupref3]
 
 implement(a0,a1,a2)
-fprint_ref<tup(a0,a1,a2)> (out, x) = fprint_tupref3 (out, x)
+fprint_ref<tup(a0,a1,a2)> (out, x) = fprint_tupref3<a0,a1,a2> (out, x)
 
 #atscode_separator()
 
@@ -151,7 +151,7 @@ in
 end // end of [fprint_tupref4]
 
 implement(a0,a1,a2,a3)
-fprint_ref<tup(a0,a1,a2,a3)> (out, x) = fprint_tupref4 (out, x)
+fprint_ref<tup(a0,a1,a2,a3)> (out, x) = fprint_tupref4<a0,a1,a2,a3> (out, x)
 
 #atscode_separator()
 

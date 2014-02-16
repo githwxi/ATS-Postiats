@@ -16,6 +16,8 @@ mul_scalar_matrix
 , m: size_t m, n: size_t n
 ) : void // end of [mul_scalar_matrix]
 
+(* ****** ****** *)
+
 implement{a}
 mul_scalar_matrix
   (c, A, m, n) = let

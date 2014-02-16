@@ -152,6 +152,12 @@ fun s2explst_subst_flag
 
 (* ****** ****** *)
 
+fun s2zexp_subst_flag
+  (sub: !stasub, s2ze: s2zexp, flag: &int): s2zexp
+// end of [s2zexp_subst_flag]
+
+(* ****** ****** *)
+
 fun s2exp_alpha 
   (s2v: s2var, s2v_new: s2var, s2e: s2exp): s2exp
 // end of [s2exp_alpha]

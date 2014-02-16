@@ -1458,6 +1458,38 @@ in
   loop (xs, env)
 end // end of [list_foreach_env]
 
+#atscode_separator()
+
+implement{x}
+list_foreach_fun
+  (xs, f) = let
+//
+fun loop (xs: List(x)): void =
+//
+case+ xs of
+| list_nil () => ()
+| list_cons (x, xs) => (f (x); loop (xs))
+//
+in
+  $effmask_all (loop (xs))
+end // end of [list_foreach_fun]
+
+implement{x}
+list_foreach_cloref
+  (xs, f) = let
+//
+fun loop (xs: List(x)): void =
+//
+case+ xs of
+| list_nil () => ()
+| list_cons (x, xs) => (f (x); loop (xs))
+//
+in
+  $effmask_all (loop (xs))
+end // end of [list_foreach_cloref]
+
+#atscode_separator()
+
 implement{x}
 list_foreach_funenv
   {v}{vt}{fe}
@@ -1475,7 +1507,7 @@ fun loop {n:nat} .<n>. (
   | list_cons (x, xs) => let
       val () = f (pfv | x, env) in loop (pfv | xs, f, env)
     end // end of [list_cons]
-  | list_nil () => ()
+  | list_nil ((*void*)) => ()
 // end of [loop]
 in
   loop (pfv | xs, f, env)

@@ -777,6 +777,17 @@ fun s2eff_subst_flag
 
 (* ****** ****** *)
 
+extern
+fun s2zexplst_subst_flag
+  (sub: !stasub, s2zes0: s2zexplst, flag: &int): s2zexplst
+// end of [s2zexplst_subst_flag]
+extern
+fun labs2zexplst_subst_flag
+  (sub: !stasub, ls2zes0: labs2zexplst, flag: &int): labs2zexplst
+// end of [labs2zexplst_subst_flag]
+
+(* ****** ****** *)
+
 fun
 s2var_subst_flag (
   sub: !stasub
@@ -1104,7 +1115,8 @@ implement
 labs2explst_subst_flag
   (sub, ls2es0, flag) =
   case+ ls2es0 of
-  | list_cons (ls2e, ls2es) => let
+  | list_cons
+      (ls2e, ls2es) => let
       val SLABELED (l, name, s2e) = ls2e
       val f0 = flag
       val s2e = s2exp_subst_flag (sub, s2e, flag)
@@ -1114,7 +1126,7 @@ labs2explst_subst_flag
         val ls2e = SLABELED (l, name, s2e) in list_cons (ls2e, ls2es)
       end else ls2es0 // end of [if]
     end // end of [LABS2EXPLSTcons]
-  | list_nil () => list_nil ()
+  | list_nil ((*void*)) => list_nil ()
 // end of [labs2explst_subst_flag]
 
 (* ****** ****** *)
@@ -1206,6 +1218,120 @@ s2eff_subst_flag
       if flag > f0 then S2EFFadd (s2fe1, s2fe2) else s2fe0
     end // end of [S2EFFadd]
 ) // end of s2eff_subst_flag
+
+(* ****** ****** *)
+
+implement
+s2zexp_subst_flag
+  (sub, s2ze0, flag) = let
+in
+//
+case+ s2ze0 of
+//
+| S2ZEprf _ => s2ze0
+| S2ZEptr _ => s2ze0
+//
+| S2ZEcst _ => s2ze0
+//
+| S2ZEvar (s2v) => let
+    val f0 = flag
+    val ans = stasub_find (sub, s2v)
+  in
+    case+ ans of
+    | ~Some_vt (s2e) => let
+        val () = flag := f0 + 1 in s2zexp_make_s2exp (s2e)
+      end // end of [Some_vt]
+    | ~None_vt ((*void*)) => s2ze0
+  end // end of [S2ZEvar]
+//
+| S2ZEVar (s2V) => s2ze where
+  {
+    val f0 = flag
+    val s2ze = s2Var_get_szexp (s2V)
+    val s2ze = s2zexp_subst_flag (sub, s2ze, flag)
+    val () = flag := f0 + 1
+  } (* end of [S2ZEVar] *)
+//
+| S2ZEextype _ => s2ze0
+| S2ZEextkind _ => s2ze0
+//
+| S2ZEapp
+    (s2ze1, s2zes2) => let
+    val f0 = flag
+    val s2ze1 =
+      s2zexp_subst_flag (sub, s2ze1, flag)
+    val s2zes2 =
+      s2zexplst_subst_flag (sub, s2zes2, flag)
+  in
+    if flag > f0
+      then S2ZEapp (s2ze1, s2zes2) else s2ze0
+    // end of [if]
+  end // end of [S2ZEapp]
+//
+| S2ZEtyarr
+    (s2ze_elt, s2es_dim) => let
+    val f0 = flag
+    val s2ze_elt =
+      s2zexp_subst_flag (sub, s2ze_elt, flag)
+    val s2es_dim =
+      s2explst_subst_flag (sub, s2es_dim, flag)
+  in
+    if flag > f0
+      then S2ZEtyarr (s2ze_elt, s2es_dim) else s2ze0
+    // end of [if]
+  end // end of [S2ZEtyarr]
+//
+| S2ZEtyrec
+    (knd, ls2zes) => let
+    val f0 = flag
+    val ls2zes =
+      labs2zexplst_subst_flag (sub, ls2zes, flag)
+    // end of [val]
+  in
+    if flag > f0 then S2ZEtyrec (knd, ls2zes) else s2ze0
+  end // end of [S2ZEtyrec]
+//
+| S2ZEclo _ => s2ze0
+//
+| S2ZEbot _ => s2ze0
+//
+end // end of [s2zexp_subst_flag]
+
+(* ****** ****** *)
+
+implement
+s2zexplst_subst_flag
+  (sub, s2zes0, flag) =
+  case+ s2zes0 of
+  | list_cons (s2ze, s2zes) => let
+      val f0 = flag
+      val s2e = s2zexp_subst_flag (sub, s2ze, flag)
+      val s2es = s2zexplst_subst_flag (sub, s2zes, flag)
+    in
+      if flag > f0 then list_cons (s2ze, s2zes) else s2zes0
+    end (* end of [list_cons] *)
+  | list_nil () => list_nil ()
+// end of [s2zexplst_subst_flag]
+
+(* ****** ****** *)
+  
+implement
+labs2zexplst_subst_flag
+  (sub, ls2zes0, flag) =
+  case+ ls2zes0 of
+  | list_cons
+      (ls2ze, ls2zes) => let
+      val SZLABELED (l, s2ze) = ls2ze
+      val f0 = flag
+      val s2ze = s2zexp_subst_flag (sub, s2ze, flag)
+      val ls2zes = labs2zexplst_subst_flag (sub, ls2zes, flag)
+    in
+      if flag > f0 then let
+        val ls2ze = SZLABELED (l, s2ze) in list_cons (ls2ze, ls2zes)
+      end else ls2zes0 // end of [if]
+    end // end of [LABS2ZEXPLSTcons]
+  | list_nil ((*void*)) => list_nil ()
+// end of [labs2zexplst_subst_flag]
 
 (* ****** ****** *)
 

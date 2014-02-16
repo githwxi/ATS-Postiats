@@ -107,6 +107,10 @@ funent_make
 , imparg, tmparg, tmpsub
 , tmpret, fls0, d2es, vbmap, inss, tmplst
 ) = let
+(*
+val () = fprintln! (stdout_ref, "funent_make: flab = ", flab)
+val () = fprintln! (stdout_ref, "funent_make: d2es = ", d2es)
+*)
 in '{
   funent_loc= loc
 //

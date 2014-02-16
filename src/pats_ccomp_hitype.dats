@@ -1004,15 +1004,10 @@ case+
 //
 | S2Eat _ => hitype_none ()
 //
-(*
-| S2EVar _ => hitype_none ()
-*)
-| S2EVar (s2V) => let
-    val s2ze = s2Var_get_szexp (s2V)
-    val hse0 = $TYER.s2zexp_tyer ($LOC.location_dummy, s2ze)
-  in
-    hisexp_typize (flag, hse0)
-  end // end of [_]
+| S2EVar (s2V) =>
+  (
+    s2zexp_typize (flag, s2Var_get_szexp (s2V))
+  ) (* end of [S2EVar] *)
 //
 | _ (*rest*) => let
     val hse0 = $TYER.s2exp_tyer_shallow ($LOC.location_dummy, s2e0)
@@ -1033,7 +1028,11 @@ case+ s2ze0 of
 //
 | S2ZEextype (name, _) => HITnmd (name)
 | S2ZEextkind (name, _) => HITnmd (name)
-| _ (*rest*) => hitype_none ((*void*))
+| _ (*rest*) => let
+    val hse0 = $TYER.s2zexp_tyer ($LOC.location_dummy, s2ze0)
+  in
+    hisexp_typize (flag, hse0)
+  end // end of [_]
 //
 end // end of [s2zexp_typize]
 

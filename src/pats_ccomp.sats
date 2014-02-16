@@ -248,6 +248,7 @@ abstype d2env_type
 typedef d2env = d2env_type
 typedef d2envlst = List (d2env)
 vtypedef d2envlst_vt = List_vt (d2env)
+typedef d2envlstopt = Option (d2envlst)
 
 fun d2var2env (d2v: d2var): d2env
 
@@ -259,6 +260,9 @@ fun fprint_d2env : fprint_type (d2env)
 overload fprint with fprint_d2env
 fun fprint_d2envlst : fprint_type (d2envlst)
 overload fprint with fprint_d2envlst
+
+fun fprint_d2envlstopt : fprint_type (d2envlstopt)
+overload fprint with fprint_d2envlstopt
 
 (* ****** ****** *)
 
@@ -285,6 +289,8 @@ vtypedef funlablst_vt = List_vt (funlab)
 typedef funlabopt = Option (funlab)
 vtypedef funlabopt_vt = Option_vt (funlab)
 //
+typedef funlablstopt = Option (funlablst)
+//
 fun print_funlab (x: funlab): void
 fun prerr_funlab (x: funlab): void
 overload print with print_funlab
@@ -294,6 +300,9 @@ fun fprint_funlab : fprint_type (funlab)
 overload fprint with fprint_funlab
 fun fprint_funlablst : fprint_type (funlablst)
 overload fprint with fprint_funlablst
+//
+fun fprint_funlablstopt : fprint_type (funlablstopt)
+overload fprint with fprint_funlablstopt
 //
 (* ****** ****** *)
 //

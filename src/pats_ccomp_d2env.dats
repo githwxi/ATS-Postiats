@@ -180,12 +180,29 @@ in
   // nothing
 end // end of [fprint_d2env]
 
+(* ****** ****** *)
+
 implement
 fprint_d2envlst
   (out, d2es) = let
 in
   $UT.fprintlst (out, d2es, ", ", fprint_d2env)
 end // end of [fprint_d2envlst]
+
+(* ****** ****** *)
+
+implement
+fprint_d2envlstopt
+  (out, opt) = let
+in
+//
+case+ opt of
+| Some (d2es) =>
+    fprint! (out, "Some(", d2es, ")")
+  // end of [Some]
+| None ((*void*)) => fprint! (out, "None()")
+//
+end // end of [fprint_d2envlstopt]
 
 (* ****** ****** *)
 

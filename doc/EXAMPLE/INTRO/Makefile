@@ -49,12 +49,14 @@ all:: fibmem
 all:: fib_lazy
 all:: fib_llazy
 all:: fprintlst2
+all:: fprtuple
 all:: gfact
 all:: hello
 all:: intecho
 all:: intrange
 all:: linenmbr
 all:: listfuns
+all:: listpermute
 all:: ordset
 all:: sieve_lazy
 all:: sieve_llazy
@@ -83,12 +85,14 @@ cleanall:: ; $(RMF) fibmem
 cleanall:: ; $(RMF) fib_lazy
 cleanall:: ; $(RMF) fib_llazy
 cleanall:: ; $(RMF) fprintlst2
+cleanall:: ; $(RMF) fprtuple
 cleanall:: ; $(RMF) gfact
 cleanall:: ; $(RMF) hello
 cleanall:: ; $(RMF) intecho
 cleanall:: ; $(RMF) intrange
 cleanall:: ; $(RMF) linenmbr
 cleanall:: ; $(RMF) listfuns
+cleanall:: ; $(RMF) listpermute
 cleanall:: ; $(RMF) ordset
 cleanall:: ; $(RMF) sieve_lazy
 cleanall:: ; $(RMF) sieve_llazy
@@ -148,6 +152,10 @@ fprintlst2: fprintlst2.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 
 ######
 
+fprtuple: fprtuple.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+
+######
+
 gfact: gfact.dats ; $(PATSCC) -o $@ $<
 
 ######
@@ -170,6 +178,10 @@ linenmbr: linenmbr.dats ; \
 ######
 
 listfuns: listfuns.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+
+######
+
+listpermute: listpermute.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 
 ######
 
@@ -197,5 +209,7 @@ strprefix: strprefix.dats ; $(PATSCC) -o $@ $<
 tally: tally.dats ; $(PATSCC) -D_ATS_EXCEPTION_NONE -o $@ $<
 
 ######
+
+cleanats:: ; $(RMF) *_?ats.c
 
 ###### end of [Makefile] ######
