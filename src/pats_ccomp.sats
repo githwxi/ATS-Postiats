@@ -1523,6 +1523,8 @@ fun hiimpdec_set_instrlstopt
 typedef
 vbindmap = d2varmap (primval)
 
+(* ****** ****** *)
+
 fun fprint_vbindmap (out: FILEref, vbmap: vbindmap): void
 
 (* ****** ****** *)

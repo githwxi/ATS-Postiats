@@ -1487,7 +1487,7 @@ case+ fls of
     val flvl = funlab_get_level (fl)
   in
     if flvl > flvl0 then let
-      val-Some (fent) = funlab_get_funent (fl)
+      val-Some(fent) = funlab_get_funent (fl)
       val () = auxenv (env, vbmap, funent_get_d2envlst (fent))
     in
       addlst_if (env, flvl0, vbmap, fls)

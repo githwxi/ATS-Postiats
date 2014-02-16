@@ -70,7 +70,12 @@ staload "pats_ccomp.sats"
 
 (* ****** ****** *)
 
-vtypedef funlablst2_vt = List_vt (funlablst)
+vtypedef
+funlablst2_vt = List_vt (funlablst)
+
+(* ****** ****** *)
+
+overload fprint with fprint_vbindmap
 
 (* ****** ****** *)
 
@@ -92,7 +97,8 @@ val opt = funlab_get_funent (flab)
 in
 //
 case+ opt of
-| Some (fent) => funent_get_flablst (fent) | None () => list_nil ()
+| Some (fent) => funent_get_flablst (fent)
+| None ((*void*)) => list_nil ()
 //
 end // end of [aux_funlab_get_flablst]
 *)
@@ -194,7 +200,7 @@ case+ opt of
     val fls = funlabset_vt_listize_free (res)
     val fls = list_of_list_vt{funlab}(fls)
     val ((*void*)) = funent_set_flablst_fin (fent, Some (fls))
-  } // end of [None]
+  } (* end of [None] *)
 //
 end // end of [funent_eval_flablst]
 
@@ -230,12 +236,6 @@ end // end of [aux_funlab_get_d2envlst]
 fun
 aux_funlab_get_d2envlst
   (flab: funlab): d2envlst = let
-//
-(*
-val () =
-fprintln!
-(stdout_ref, "aux_funlab_get_d2envlst: flab = ", flab)
-*)
 //
 val-Some (fent) = funlab_get_funent (flab)
 val d2esopt = funent_get_d2envlst_fin (fent)
@@ -298,6 +298,7 @@ val () = fprintln! (stdout_ref, "auxtrclo: fls = ", fls)
 in
 //
 case+ fls of
+| list_nil () => res
 | list_cons
     (fl, fls) => let
     val d2es =
@@ -311,7 +312,6 @@ case+ fls of
   in
     auxtrclo (fls, vbmap, res)
   end (* end of [list_vt_cons] *)
-| list_nil () => res
 //
 end // end of [auxtrclo]
 
@@ -322,6 +322,7 @@ funent_eval_d2envlst
   (fent) = let
 (*
 val fl = funent_get_lab (fent)
+val () = println! ("funent_eval_d2envlst: ======")
 val () = println! ("funent_eval_d2envlst: fent.lab = ", fl)
 *)
 //
@@ -335,17 +336,17 @@ in
 //
 case+ opt of
 | Some (d2es) => d2es
-| None () => d2es where
+| None ((*void*)) => d2es where
   {
     val fls0 = funent_eval_flablst (fent)
     val vbmap = funent_get_vbindmap (fent)
     val d2es(*set*) =
       auxtrclo (fls0, vbmap, d2envset_vt_nil())
     // end of [val]
-    val d2es(*vt*) = d2envset_vt_listize_free (d2es)
-    val d2es(*list*) = list_of_list_vt{d2env}(d2es)
+    val d2es(*list*) = d2envset_vt_listize_free (d2es)
+    val d2es = list_of_list_vt{d2env}(d2es)
     val ((*void*)) = funent_set_d2envlst_fin (fent, Some (d2es))
-  } // end of [None]
+  } (* end of [None] *)
 //
 end // end of [funent_eval_d2varlst]
 
