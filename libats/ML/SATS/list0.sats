@@ -65,23 +65,30 @@ typedef NSH(a:type) = a // for commenting purpose
 #define list0_pair(x1, x2) list0_cons(x1, list0_cons (x2, list0_nil()))
 
 (* ****** ****** *)
-
+//
+castfn
+list0_cast{x:t0p} (xs: list0 (INV(x))):<> list0 (x)
+//
+(* ****** ****** *)
+//
 castfn
 list0_of_list{a:t@ype} (xs: List (INV(a))):<> list0 (a)
 castfn
 list0_of_list_vt{a:t@ype} (xs: List_vt (INV(a))):<> list0 (a)
-
+//
 (* ****** ****** *)
 //
 castfn
 g0ofg1_list{a:t@ype} (xs: List (INV(a))):<> list0 (a)
 castfn
 g0ofg1_list_vt{a:t@ype} (xs: List_vt (INV(a))):<> list0 (a)
+//
 overload g0ofg1 with g0ofg1_list
 overload g0ofg1 with g0ofg1_list_vt
 //
 castfn
 g1ofg0_list{a:t@ype} (xs: list0 (INV(a))):<> List0 (a)
+//
 overload g1ofg0 with g1ofg0_list
 //
 (* ****** ****** *)

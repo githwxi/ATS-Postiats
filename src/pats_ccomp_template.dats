@@ -305,15 +305,17 @@ val () = println! ("auxmat: s2e_arg(aft) = ", s2e_arg)
 in
 //
 case+ s2en_pat of
+//
 | S2Evar (s2v) => let
-    val s2f = impenv_find (env, s2v)
+    val s2f =
+      impenv_find (env, s2v)
+    // end of [val]
+    val iserr = s2hnf_is_err (s2f)
   in
-    if s2hnf_is_err (s2f) then
+    if iserr then
     (
-      impenv_update (env, s2v, s2f_arg)
-    ) else (
-      s2hnf_syneq (s2f, s2f_arg)
-    ) // end of [if]
+      impenv_update(env, s2v, s2f_arg)
+    ) else (s2hnf_syneq (s2f, s2f_arg))
   end // end of [S2Evar]
 //
 | S2Ecst (s2c) => let
@@ -322,10 +324,11 @@ case+ s2en_pat of
     | S2Ecst (s2c_arg) =>
         if s2c = s2c_arg then true else false
       // end of [S2Ecst]
-    | _ => false
+    | _ (*non-s2cst*) => false
   end // end of [S2Ecst]
 //
-| S2Eapp (
+| S2Eapp
+  (
     s2e_pat, s2es_pat
   ) => let
   in
@@ -343,7 +346,8 @@ case+ s2en_pat of
     | _ => false
   end // end of [S2Eapp]
 //
-| S2Etyrec (
+| S2Etyrec
+  (
     knd, npf, ls2es_pat
   ) => let
   in
@@ -380,7 +384,8 @@ val () = println! ("auxmatlst: s2es_arg = ", s2es_arg)
 in
 //
 case+ s2es_pat of
-| list_cons (
+| list_cons
+  (
     s2e_pat, s2es_pat
   ) => (
     case+ s2es_arg of
@@ -393,7 +398,7 @@ case+ s2es_pat of
        end // end of [list_cons]
      | list_nil () => true // HX: deadcode
   ) // end of [list_cons]
-| list_nil () => true
+| list_nil ((*void*)) => true
 //
 end // end of [auxmatlst]
 
@@ -523,7 +528,8 @@ val () = println! ("hiimpdec_tmpcst_match: d2c1 = ", d2c1)
 in
 //
 if d2c0 = d2c1 then let
-  val env = impenv_make_svarlst (imp.hiimpdec_imparg)
+  val env =
+    impenv_make_svarlst (imp.hiimpdec_imparg)
   val ans = auxmatlstlst (env, imp.hiimpdec_tmparg, t2mas)
 in
   if ans then let
@@ -584,7 +590,8 @@ val () = println! ("hiimpdec_tmpcst_match2: d2c1 = ", d2c1)
 in
 //
 if d2c0 = d2c1 then let
-  val env = impenv_make_svarlst (imparg)
+  val env =
+    impenv_make_svarlst (imparg)
   val ans = auxmatlstlst (env, tmparg, t2mas)
 in
   if ans then let
@@ -598,9 +605,7 @@ in
   end else let
     val () = impenv_free (env) in TMPCSTMATnone ()
   end // end of [if]
-end else
-  TMPCSTMATnone ()
-// end of [if]
+end else TMPCSTMATnone () // end of [if]
 //
 end // end of [hiimpdec2_tmpcst_match]
 

@@ -506,9 +506,21 @@ in
 //
 case+
 s2e0.s2exp_node of
+| S2EVar (s2V) => let
+    val f0 = flag
+    val s2ze = s2Var_get_szexp (s2V)
+  in
+    case+ s2ze of
+    | S2ZEvar (s2v) => let
+        val () = flag := f0 + 1 in s2exp_var (s2v)
+      end // end of [S2ZEvar]
+    | _(*non-s2var*) => s2e0
+  end // end of [S2EVar]
 | _ => s2e0 // HX: should be removed eventually!
 //
 end // end of [s2exp_mhnfize_flag]
+
+(* ****** ****** *)
 
 implement
 s2explst_mhnfize_flag
