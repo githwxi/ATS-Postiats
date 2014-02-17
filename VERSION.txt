@@ -22,11 +22,13 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 
 Here is a list of major additions and changes since the last release:
 
-1. A symbol for overload no longer needs to be declared first.
+1. Symbol for overloading no longer require to be declared first.
 2. Adding libats-hwxi/cstream for supporting a simple style of lexing
 3. Adding a direct API for Simple DirectMedia Layer 2.0 (SDL2).
 4. Both static/extern function names are now stamped at the end.
-5. Fixing a serious bug in pattern matching: left-values should be dereferenced!
+5. Fixing a bug in pattern matching: left-values should be dereferenced!
+6. Polymorphic data constructors no longer require explicit type argument.
+7. Handling of template arguments is greatly improved.
 
 </pre>
 

@@ -67,9 +67,18 @@ qa-list-191: an example involving $vcopyenv_vt
 
 ######
 
+qa-list-195: a fancy example involving alloca
+
+######
+
+qa-list-197: a simple example involving list_map
+
+######
+
 alloca: an example involving alloca
 list_copy: copying a given list tail-recursively
 list_last: finding the last element of a given list
+strlen: a safe implementation of the string-length function
 for-0install: MISC
 
 ######

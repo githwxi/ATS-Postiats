@@ -15,11 +15,16 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+(*
+//
+// HX-2014-02-16: see [prelude/string]
+//
 fun string_tail
   {n:int | n > 0}
   (str: string n): string (n-1) = 
   $UN.cast{string(n-1)} (ptr_succ<char> (string2ptr (str)))
 // end of [string_tail]
+*)
 
 (* ****** ****** *)
 
@@ -50,14 +55,10 @@ in
 if c2 != CNUL then
 (
   if c1 = c2 then let
-    prval
-      string_index_p_neqz () = pf1
-    val str1 = string_tail (str1)
-    prval
-      string_index_p_neqz () = pf2
-    val str2 = string_tail (str2)
+    prval string_index_p_neqz () = pf1
+    prval string_index_p_neqz () = pf2
   in
-    loop (str1, str2, succ(i))
+    loop (str1.tail, str2.tail, succ(i))
   end else (i) // end of [if]
 ) else (i)
 //

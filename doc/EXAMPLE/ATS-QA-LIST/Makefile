@@ -138,6 +138,12 @@ cleanall:: ; $(RMF) list_copy
 
 ######
 
+all:: strlen
+strlen: strlen.dats ; $(PATSCC) -D_BSD_SOURCE -o $@ $<
+cleanall:: ; $(RMF) strlen
+
+######
+
 all:: alloca
 alloca: alloca.dats ; $(PATSCC) -D_BSD_SOURCE -o $@ $<
 cleanall:: ; $(RMF) alloca

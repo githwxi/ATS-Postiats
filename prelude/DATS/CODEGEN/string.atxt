@@ -54,12 +54,18 @@ fun memcpy
 #atscode_separator()
 
 implement{}
-string_is_empty (str) = let
-  val p = string2ptr(str) in $UN.ptr1_get<char>(p) = CNUL
+string_is_empty
+  {n} (str) = let
+  val p = string2ptr(str)
+in
+  $UN.cast{bool(n==0)}($UN.ptr1_get<char>(p) = CNUL)
 end // end of [string_is_empty]
 implement{}
-string_isnot_empty (str) = let
-  val p = string2ptr(str) in $UN.ptr1_get<char>(p) != CNUL
+string_isnot_empty
+  {n} (str) = let
+  val p = string2ptr(str)
+in
+  $UN.cast{bool(n > 0)}($UN.ptr1_get<char>(p) != CNUL)
 end // end of [string_isnot_empty]
 
 #atscode_separator()
@@ -276,6 +282,15 @@ in
   castvwtp_trans{strnptr(ln)}((pf, pfgc | p_dst))
 end // end of [string_make_substring]
 
+#atscode_separator()
+//
+implement{}
+string_head
+  (str) = $UN.ptr0_get<charNZ> (string2ptr(str))
+implement{}
+string_tail{n}
+  (str) = $UN.cast{string(n-1)}(ptr_succ<char> (string2ptr(str)))
+//
 #atscode_separator()
 
 implement{}
