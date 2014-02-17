@@ -1,5 +1,6 @@
 0.0.6
 <pre>
+
 This is the sixth release of ATS2, the successor of the ATS
 programming language. The compiler for ATS2 is given the name
 ATS/Positats, ATS2/Postiats or simply Postiats.
@@ -27,8 +28,9 @@ Here is a list of major additions and changes since the last release:
 3. Adding a direct API for Simple DirectMedia Layer 2.0 (SDL2).
 4. Both static/extern function names are now stamped at the end.
 5. Fixing a bug in pattern matching: left-values should be dereferenced!
-6. Polymorphic data constructors no longer require explicit type argument.
-7. Handling of template arguments is greatly improved.
+6. Polymorphic data constructors no longer require explicit type arguments
+   (for compilation purpose)
+7. Handling of template parameters is greatly improved.
 
 </pre>
 

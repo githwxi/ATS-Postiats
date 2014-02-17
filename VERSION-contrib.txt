@@ -1,3 +1,13 @@
+0.0.5
+
+<pre>
+
+SDL2: Simple DirectLayer Media 2.0
+
+</pre>
+
+######
+
 0.0.4
 
 <pre>

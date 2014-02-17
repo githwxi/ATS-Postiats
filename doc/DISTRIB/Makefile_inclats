@@ -38,7 +38,9 @@ TARVCFZ=tar vcfz
 
 ######
 
-PACKNAME=ATS2-Postiats-include-0.0.5
+PACKNAME=ATS2-Postiats-include-0.0.6
+# PACKNAME=ATS2-Postiats-include-0.0.5
+# PACKNAME=ATS2-Postiats-include-0.0.4
 
 ######
 
