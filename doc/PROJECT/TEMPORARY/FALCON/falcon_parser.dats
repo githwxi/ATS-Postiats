@@ -64,7 +64,7 @@ in
   | GRgene (gn) => fprint! (out, "GRgene(", gn, ")")
   | GRconj (gxs) => fprint! (out, "GRconj(", gxs, ")")
   | GRdisj (gxs) => fprint! (out, "GRdisj(", gxs, ")")
-  | GRempty () => fprintln! (out, "")
+  | GRempty () => fprint! (out, "")
   | GRerror () => fprint! (out, "GRerror(", ")")
 end // end of [fprint_grexp]
 //
@@ -398,8 +398,29 @@ in
 //
 case+ tok of
 | TOKeof () => res
+| TOKrsep () => let
+    val _ = my_tokener2_getout (t2knr)
+    val res = list_vt_cons{grexp}(GRempty (), res)
+  in
+    loop (t2knr, res)
+  end // end of [_]
+//
 | _(*rest*) => let
     val gx = parse_grexp (t2knr)
+    val (pf | tok) = my_tokener2_get (t2knr) 
+    val () = case+ tok of
+      | TOKeof () => my_tokener2_unget (pf | t2knr)
+      | TOKrsep () => let
+        val () = my_tokener2_unget (pf | t2knr)
+        val _ = my_tokener2_getout (t2knr)
+      in
+        ()
+      end
+      | _(*assume one rule per separator (e.g. newline)*) =>
+      (
+        assertloc(false);
+        my_tokener2_unget (pf | t2knr)
+      )  
     val res = list_vt_cons{grexp}(gx, res)
   in
     loop (t2knr, res)

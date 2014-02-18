@@ -41,6 +41,7 @@ grcnflst = List0_vt (grcnf)
 
 extern
 fun grcnf_free (grcnf): void
+//
 implement
 grcnf_free (xs) =
 (
@@ -61,6 +62,7 @@ grcnf_make_nil() = nil_vt
 
 extern
 fun grcnflst_free (grcnflst): void
+//
 implement
 grcnflst_free (xs) =
 (
@@ -73,7 +75,8 @@ case+ xs of
 
 extern
 fun
-fprint_grcnf (FILEref, !grcnf): void  
+fprint_grcnf (FILEref, !grcnf): void 
+//
 extern
 fun
 fprint_grcnflst (FILEref, !grcnflst): void  
@@ -126,6 +129,7 @@ grexplst_cnfize (gxs: grexplst): grcnflst
 extern
 fun geneslst_cons
   (gn: genes, gns: geneslst): geneslst
+//
 extern
 fun geneslst_append
   (gns1: geneslst, gns2: geneslst): geneslst

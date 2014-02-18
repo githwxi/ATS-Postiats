@@ -32,9 +32,12 @@ staload "./falcon_position.dats"
 %{^
 #define LPAREN '('
 #define RPAREN ')'
+#define NEWLINE '\n'
 %}
 macdef LPAREN = $extval (int, "LPAREN")
 macdef RPAREN = $extval (int, "RPAREN")
+// BB: TODO: should generalize to non-system-specific newline:
+macdef NEWLINE = $extval (int, "NEWLINE")
 
 (* ****** ****** *)
 
@@ -45,6 +48,7 @@ macdef RPAREN = $extval (int, "RPAREN")
 datatype token =
   | TOKlpar of ()
   | TOKrpar of ()
+  | TOKrsep of ()  
   | TOKide of symbol
   | TOKerr of (int)
   | TOKeof of ((*end*))
@@ -72,6 +76,8 @@ case+ tok of
 //
 | TOKlpar () => fprint! (out, "TOKlpar(", ")")
 | TOKrpar () => fprint! (out, "TOKrpar(", ")")
+//
+| TOKrsep () => fprint! (out, "TOKrsep(", ")")
 //
 | TOKide (str) =>
     fprint! (out, "TOKide(", str, ")")
@@ -115,11 +121,11 @@ fun loop
   (cs0: !cstream): int = let
   val c = cstream_get_char (cs0)
 in
-  if isspace (c) then loop (cs0) else c
+  if (c != NEWLINE) && isspace (c) then loop (cs0) else c
 end // end of [loop]
 //
 in
-  if isspace (i0) then i0 := loop (cs0)
+  if (i0 != NEWLINE) && isspace (i0) then i0 := loop (cs0)
 end // end of [cstream_WS_skip]
 
 (* ****** ****** *)
@@ -223,6 +229,10 @@ case+ i0 of
     i0 = RPAREN => let
     val () = i0 := cstream_get_char (cs0) in TOKrpar ()
   end // end of [_ when ...]
+| _ when
+    i0 = NEWLINE => let
+    val () = i0 := cstream_get_char (cs0) in TOKrsep ()
+  end // end of [_ when ...]  
 //
 | _ when i0 = EOF => TOKeof ()
 | _ (*rest*) => let
