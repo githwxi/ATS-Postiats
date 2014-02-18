@@ -36,10 +36,19 @@ dynload "./falcon_algorithm1.dats"
 (* ****** ****** *)
 
 extern
-fun cnf_timeout(rule_file: string, data_file:string, excepts: &badcnfs): void
-//
+fun
+cnf_timeout
+(
+  rule_file: string, data_file: string, excepts: ruleset
+) : void // end of [cnf_timeout]
+
+(* ****** ****** *)
+
 implement
-cnf_timeout (rule_file, data_file, excepts) =
+cnf_timeout
+(
+  rule_file, data_file, excepts
+) =
 {
 //
 val out = stdout_ref
@@ -67,10 +76,14 @@ println! ("the_symtbl_count(aft) = ", the_symtbl_count ())
 val () = print ("pos(final) = ")
 val () = fprint_the_position (out)
 val () = print_newline ((*void*))
-val rec2cnfs = grexplst_cnfize_except(gxs, excepts)
-val () = grcnflst_free(rec2cnfs)
+//
+val rec2cnfs =
+  grexplst_cnfize_excepts (gxs, excepts)
+//
+val ((*freed*)) = grcnflst_free (rec2cnfs)
 } (* end of [cnf_timeout] *)
 
+(* ****** ****** *)
 
 implement
 main0 () =
@@ -78,12 +91,11 @@ main0 () =
 //
 val out = stdout_ref
 //
-var nobadcnf: badcnfs = badcnfs_make_nil()
+val excepts = ruleset_make_nil ()
 //
 val () = fprint! (out, "Testing Human\n")
-val () = cnf_timeout ("./DATA/rec2.grRulesLop", "/dev/null", nobadcnf)
+val () = cnf_timeout ("./DATA/rec2.grRulesLop", "/dev/null", excepts)
 //
-val () = badcnfs_free(nobadcnf)
 } (* end of [main0] *)
 
 (* ****** ****** *)

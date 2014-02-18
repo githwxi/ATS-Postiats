@@ -21,9 +21,9 @@ staload "./falcon_parser.dats"
 (* ****** ****** *)
 
 staload
-LS = "libats/ATS1/SATS/linset_listord.sats"
+FS = "libats/ATS1/SATS/funset_listord.sats"
 staload
-_ =  "libats/ATS1/DATS/linset_listord.dats"
+_(*FS*) =  "libats/ATS1/DATS/funset_listord.dats"
 
 (* ****** ****** *)
 
@@ -32,21 +32,10 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-absvtype grcnf = ptr
-assume
+vtypedef
 grcnf = geneslst
 vtypedef 
 grcnflst = List0_vt (grcnf)
-
-(* ****** ****** *)
-
-extern 
-fun grcnf_length(gcnf: !grcnf):<> [n:nat] int (n)
-//
-implement
-grcnf_length (gcnf) = length<genes> (gcnf)
-//
-overload length with grcnf_length
 
 (* ****** ****** *)
 
@@ -123,31 +112,6 @@ grexp_cnfize (gx: grexp): grcnf
 extern
 fun
 grexplst_cnfize (gxs: grexplst): grcnflst
-
-(* ****** ****** *)
-//
-// List index of intractable rules for cnfizing
-// 
-absvtype badcnfs = ptr
-assume 
-badcnfs = $LS.set(int) 
-//
-extern
-fun
-grexplst_cnfize_except (gxs: grexplst, exceptions: &badcnfs): grcnflst
-
-extern
-fun badcnfs_free(bcs: badcnfs): void
-//
-implement
-badcnfs_free(bcs) = $LS.linset_free(bcs)
-
-extern
-fun badcnfs_make_nil(): badcnfs
-//
-implement
-badcnfs_make_nil() = $LS.linset_make_nil{int}()
-
 //
 (* ****** ****** *)
 //
@@ -194,25 +158,6 @@ case+ cnfs of
 | ~list_vt_cons (cnf, cnfs) => loop (cnfs, cnf)
 //
 end // end of [grcnf_conj]
-
-extern
-fun
-expansion_size
-  (cnfs: grcnflst): int
-//
-(*
-implement
-expansion_size (cnfs) = let
-//
-//...
-
-*)
-(*
-BB: disj of conjs: # of expanded disjunctions = 
-    product_i(|conj_i|). If this is greater than
-    some cutoff, backtrack and use minconj (printing
-    a temporary warning). If 
-*)
 
 (* ****** ****** *)
 //
@@ -435,39 +380,89 @@ implement
 grexplst_cnfize (gxs) =
   list_map_fun<grexp><grcnf> (gxs, grexp_cnfize)
 //
+(* ****** ****** *)
+//
+// intractable rules for cnfizing
+// 
+abstype ruleset_type = ptr
+typedef ruleset = ruleset_type
+//
+extern
+fun
+grexplst_cnfize_excepts
+  (gxs: grexplst, excepts: ruleset): grcnflst
+//
+(* ****** ****** *)
+
+extern
+fun ruleset_make_nil (): ruleset
+extern
+fun ruleset_is_member (ruleset, rule: int): bool
 
 (* ****** ****** *)
 
+local
+
+assume ruleset_type = $FS.set(int) 
+
+in (* in-of-local *)
+
+val cmp = $UN.cast{$FS.cmp(int)}(0)
 
 implement
-grexplst_cnfize_except (gxs, exceptions) = let
-val gdum = gene_make_name ("dummy")
-var gxdum: grexp = GRgene(gdum)
-var count: int = 0
-//
+$FS.compare_elt_elt<int> (x, y, _) = x - y
+
 implement
-list_map$fopr<grexp><grcnf> (gx) = let
-  val n = $UN.ptr0_get<int>(addr@count)
-  val gxd = $UN.ptr0_get<grexp>(addr@gxdum)
-  val (pf, fpf | excp) = $UN.ptr0_vtake{badcnfs}(addr@exceptions)
-  val () = (print(n); print(" "))
-  val skip = $LS.linset_is_member(!excp, n, lam(x,y) => 
-    g0int_compare_int(x, y))
-  prval () = fpf(pf)
-  val () = $UN.ptr0_set<int>(addr@count, n+1)
-in // in of [list_map$fopr]
+ruleset_make_nil() = $FS.funset_make_nil{int}()
+
+implement
+ruleset_is_member (xs, x) = $FS.funset_is_member (xs, x, cmp)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+grexplst_cnfize_excepts
+  (gxs, excepts) = let
 //
-if skip then
-  (println!("Skipping rule ", n); grexp_cnfize(gxd))
-else 
-  (print(n); print(" "); grexp_cnfize(gx))
-end // end of [list_map$fopr]
-//
-val () = print("Starting cnfizing on rule #: ")
+fun loop
+(
+  gxs: grexplst, rule: int, res: grcnflst
+) : grcnflst = let
 in
-  list_map<grexp><grcnf> (gxs)
-end  
-  
-
 //
+case+ gxs of
+| list_nil () => res
+| list_cons
+    (gx, gxs) => let
+    val skip = ruleset_is_member (excepts, rule)
+    val () = if skip then println! ("Skipping rule(", rule, ")") 
+    val () = if ~skip then println! ("Processing rule(", rule, ")") 
+  in
+    if skip
+      then
+        loop (gxs, rule+1, res)
+      else let
+        val grf = grexp_cnfize (gx)
+        val () = (
+          fprint_grcnf (stdout_ref, grf); fprint_newline (stdout_ref)
+        ) (* end of [val] *)
+        val res = list_vt_cons (grf, res)
+      in
+        loop (gxs, rule+1, res)
+      end // end of [else]
+    // end of [skip]
+  end // end of [list_cons]
+//
+end // end of [loop]
+//
+val res = loop (gxs, 0, list_vt_nil)
+//
+in
+  list_vt_reverse (res)
+end // end of [grexplst_cnfize_excepts]
+
 (* ****** ****** *)
+
+(* end of [falcon_cnfize.dats] *)

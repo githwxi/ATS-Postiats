@@ -3,6 +3,8 @@
 #
 include $(PATSHOME)/share/atsmake-pre.mk
 #
+CFLAGS += -O2
+#
 LDFLAGS += -lgc
 MALLOCFLAG = -DATS_MEMALLOC_GCBDW
 #
