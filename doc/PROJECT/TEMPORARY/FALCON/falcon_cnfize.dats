@@ -52,6 +52,14 @@ case+ xs of
 (* ****** ****** *)
 
 extern
+fun grcnf_make_nil(): grcnf
+//
+implement
+grcnf_make_nil() = nil_vt
+
+(* ****** ****** *)
+
+extern
 fun grcnflst_free (grcnflst): void
 implement
 grcnflst_free (xs) =
@@ -368,6 +376,7 @@ case+ gx of
   in
     grcnf_disj (cnfs)
   end // end of [GRdisj]
+| GRempty () => grcnf_make_nil()
 | GRerror () => let
     val () = assertloc (false) in list_vt_nil ()
   end // end of [GRerror]
@@ -452,7 +461,7 @@ case+ gxs of
       in
         loop (gxs, rule+1, res)
       end // end of [else]
-     // end of [skip]
+    // end of [skip]
   end // end of [list_cons]
 //
 end // end of [loop]

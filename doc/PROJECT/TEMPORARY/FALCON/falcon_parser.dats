@@ -33,6 +33,7 @@ datatype grexp =
   | GRgene of gene
   | GRconj of grexplst
   | GRdisj of grexplst
+  | GRempty of ((*void*))
   | GRerror of ((*void*))
 // end of [grexp]
 
@@ -63,6 +64,7 @@ in
   | GRgene (gn) => fprint! (out, "GRgene(", gn, ")")
   | GRconj (gxs) => fprint! (out, "GRconj(", gxs, ")")
   | GRdisj (gxs) => fprint! (out, "GRdisj(", gxs, ")")
+  | GRempty () => fprintln! (out, "")
   | GRerror () => fprint! (out, "GRerror(", ")")
 end // end of [fprint_grexp]
 //
