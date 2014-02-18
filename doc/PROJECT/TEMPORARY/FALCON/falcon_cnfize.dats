@@ -452,12 +452,12 @@ case+ gxs of
       in
         loop (gxs, rule+1, res)
       end // end of [else]
-    // end of [skip]
+     // end of [skip]
   end // end of [list_cons]
 //
 end // end of [loop]
 //
-val res = loop (gxs, 0, list_vt_nil)
+val res = loop (gxs, 1, list_vt_nil)
 //
 in
   list_vt_reverse (res)
