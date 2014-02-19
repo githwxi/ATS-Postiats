@@ -41,6 +41,7 @@ grcnflst = List0_vt (grcnf)
 
 extern
 fun grcnf_free (grcnf): void
+//
 implement
 grcnf_free (xs) =
 (
@@ -52,7 +53,16 @@ case+ xs of
 (* ****** ****** *)
 
 extern
+fun grcnf_make_nil(): grcnf
+//
+implement
+grcnf_make_nil() = nil_vt
+
+(* ****** ****** *)
+
+extern
 fun grcnflst_free (grcnflst): void
+//
 implement
 grcnflst_free (xs) =
 (
@@ -65,7 +75,8 @@ case+ xs of
 
 extern
 fun
-fprint_grcnf (FILEref, !grcnf): void  
+fprint_grcnf (FILEref, !grcnf): void 
+//
 extern
 fun
 fprint_grcnflst (FILEref, !grcnflst): void  
@@ -118,6 +129,7 @@ grexplst_cnfize (gxs: grexplst): grcnflst
 extern
 fun geneslst_cons
   (gn: genes, gns: geneslst): geneslst
+//
 extern
 fun geneslst_append
   (gns1: geneslst, gns2: geneslst): geneslst
@@ -368,6 +380,7 @@ case+ gx of
   in
     grcnf_disj (cnfs)
   end // end of [GRdisj]
+| GRempty () => grcnf_make_nil()
 | GRerror () => let
     val () = assertloc (false) in list_vt_nil ()
   end // end of [GRerror]
@@ -457,7 +470,7 @@ case+ gxs of
 //
 end // end of [loop]
 //
-val res = loop (gxs, 0, list_vt_nil)
+val res = loop (gxs, 1, list_vt_nil)
 //
 in
   list_vt_reverse (res)

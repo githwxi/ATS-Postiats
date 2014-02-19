@@ -133,8 +133,17 @@ end // end of [local]
 
 vtypedef
 geneslst = List0_vt (genes)
+(* ****** ****** *)
+
+extern
+fun
+geneslst_make_nil(): geneslst
+//
+implement
+geneslst_make_nil () = nil_vt
 
 (* ****** ****** *)
+
 //
 extern
 fun
