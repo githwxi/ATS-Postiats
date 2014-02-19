@@ -18,6 +18,7 @@ staload "./falcon_tokener.dats"
 staload "./falcon_genes.dats"
 staload "./falcon_parser.dats"
 staload "./falcon_cnfize.dats"
+staload "./falcon_cnfize_ifnot.dats"
 staload "./falcon_gmeanvar.dats"
 staload "./falcon_algorithm1.dats"
 
@@ -30,6 +31,7 @@ dynload "./falcon_tokener.dats"
 dynload "./falcon_genes.dats"
 dynload "./falcon_parser.dats"
 dynload "./falcon_cnfize.dats"
+dynload "./falcon_cnfize_ifnot.dats"
 dynload "./falcon_gmeanvar.dats"
 dynload "./falcon_algorithm1.dats"
 
@@ -95,6 +97,7 @@ val () = print_newline ((*void*))
 
 (* ****** ****** *)
   
+(*
 implement
 main0 () =
 {
@@ -109,12 +112,18 @@ val g2 = gene_make_name ("g2")
 val g3 = gene_make_name ("g3")
 val g4 = gene_make_name ("g4")
 val g5 = gene_make_name ("g5")
+val g6 = gene_make_name ("g6")
+val g7 = gene_make_name ("g7")
+val g8 = gene_make_name ("g8")
 //
 val gx1 = GRgene(g1)
 val gx2 = GRgene(g2)
 val gx3 = GRgene(g3)
 val gx4 = GRgene(g4)
 val gx5 = GRgene(g5)
+val gx6 = GRgene(g6)
+val gx7 = GRgene(g7)
+val gx8 = GRgene(g8)
 //
 val gx123 = GRconj($list{grexp}(gx1, gx2, gx3))
 val gx2345 = GRconj($list{grexp}(gx2, gx3, gx4, gx5))
@@ -134,6 +143,68 @@ val () = fprint_newline (out)
 val () = fprintln! (out, "|grcnf| = ", length(grcnf))
 //
 val ((*void*)) = grcnf_free (grcnf)
+//
+} (* end of [main0] *)
+*)
+
+(* ****** ****** *)
+
+extern
+fun
+falcon_rules_data_skipped
+(
+  rule_file: string, data_file: string, skipped: ruleset
+) : void // end of [falcon_rules_data_skipped]
+
+implement
+falcon_rules_data_skipped
+(
+  rule_file, data_file, skipped
+) =
+{
+//
+val out = stdout_ref
+//
+val opt =
+fileref_open_opt (rule_file, file_mode_r)
+val-~Some_vt(inp) = opt
+//
+val () =
+println! ("the_symtbl_count(bef) = ", the_symtbl_count ())
+//
+val gxs =
+  parse_fileref (inp)
+//
+val () = fileref_close (inp)
+//
+val () = fprint! (out, "gxs =\n")
+val () = fprint_list_sep (out, gxs, "\n")
+val () = fprint_newline (out)
+val () = fprintln! (out, "|gxs| = ", list_length(gxs))
+//
+val () =
+println! ("the_symtbl_count(aft) = ", the_symtbl_count ())
+//
+val () = print ("pos(final) = ")
+val () = fprint_the_position (out)
+val () = print_newline ((*void*))
+//
+val rec2cnfs =
+  grexplst_cnfize_ifnot (gxs, skipped)
+//
+val ((*freed*)) = grcnflst_free (rec2cnfs)
+} (* end of [falcon_rules_data_skipped] *)
+
+implement
+main0 () =
+{
+//
+val out = stdout_ref
+//
+val skipped = ruleset_make_nil ()
+//
+val () = fprint! (out, "Testing Human\n")
+val () = falcon_rules_data_skipped ("./DATA/rec2.grRulesLop", "/dev/null", skipped)
 //
 } (* end of [main0] *)
 
