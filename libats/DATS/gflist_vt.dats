@@ -233,13 +233,12 @@ a:vt0p
 , ys: &ptr? >> gflist_vt (a, ys)
 ) : #[ys:ilist] (UNION (ys1, ys2, ys), ISORD (ys) | void) =
   case+ ys1 of
-  | @gflist_vt_cons (
-      y1, ys1_tl
-    ) => (
+  | @gflist_vt_cons
+      (y1, ys1_tl) =>
+    (
     case+ ys2 of
-    | @gflist_vt_cons (
-        y2, ys2_tl
-      ) => let
+    | @gflist_vt_cons
+        (y2, ys2_tl) => let
         val sgn = gflist_vt_mergesort$cmp (y1, y2)
       in
         if sgn <= 0 then let
@@ -269,7 +268,7 @@ a:vt0p
     | ~gflist_vt_nil () => let
         val () = fold@ (ys1); val () = ys := ys1 in (union_nil2 (), pf1ord | ())
       end // end of [gflist_vt_nil]
-    ) // end of [gflist_vt_cons]
+    ) (* end of [gflist_vt_cons] *)
   | ~gflist_vt_nil () => let
       val () = ys := ys2 in (union_nil1 (), pf2ord | ())
     end // end of [gflist_vt_nil]
@@ -281,6 +280,8 @@ extern
 prfun sort_nilsing
   {xs:ilist} {n:nat | n <= 1} (pf: LENGTH (xs, n)): SORT (xs, xs)
 // end of [sort_nilsing]
+
+(* ****** ****** *)
 
 fun{
 a:vt0p
@@ -321,7 +322,7 @@ end else
 //
 end // end of [msort]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement{a}
 gflist_vt_mergesort (xs) = let

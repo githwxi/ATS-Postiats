@@ -56,21 +56,23 @@ staload "libats/SATS/ilist_prf.sats" // for handling integer sequences
 (* ****** ****** *)
 
 dataview
-gfarray_v (
+gfarray_v
+(
   a:vt@ype+, addr, ilist
 ) =
   | {l:addr}
     gfarray_v_nil (a, l, ilist_nil) of ()
-  | {x:int} {xs:ilist} {l:addr}
+  | {x:int}{xs:ilist}{l:addr}
     gfarray_v_cons (a, l, ilist_cons (x, xs)) of
       (stamped_vt (a, x) @ l, gfarray_v (a, l+sizeof(a), xs))
+    // end of [gfarray_v_cons]
 // end of [gfarray_v]
 
 (* ****** ****** *)
 
 prfun
 gfarray2array_v
-  {a:vt@ype} {xs:ilist} {l:addr}
+  {a:vt@ype}{xs:ilist}{l:addr}
   (pf: gfarray_v (a, l, xs)): [n:nat] (LENGTH (xs, n), array_v (a, l, n))
 // end of [gfarray2array_v]
 
@@ -109,6 +111,8 @@ gfarray_v_split
 , gfarray_v (a, l+i*sizeof(a), xs2)
 ) // end of [gfarray_v_split]
 
+(* ****** ****** *)
+
 prfun
 gfarray_v_unsplit
   {a:vt0p}
@@ -137,6 +141,8 @@ gfarray_v_extend
 , pfat: stamped_vt (a, x) @ l+n*sizeof(a)
 , pfarr: gfarray_v (a, l, xs)
 ) : gfarray_v (a, l, xsx) // endfun
+
+(* ****** ****** *)
 
 prfun
 gfarray_v_unextend

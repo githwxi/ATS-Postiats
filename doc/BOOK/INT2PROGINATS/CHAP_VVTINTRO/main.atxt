@@ -441,6 +441,31 @@ these two pointers point).\
 
 ')
 
+#para('\
+
+Given a type T and an integer N, the syntax #stacode("@[T][N]") stands for
+a flat array consisting N elements of the type T. Please note that a value
+of the type #stacode("@[T][N]") is of the size N*sizeof(T). If a function
+has a parameter representing an array, then this parameter is most liklely
+call-by-reference. For instance, the following code implements a function
+that takes two arrays of doubles to compute their dot product (also knowns
+as inner product):
+
+#atscode('\
+fun dotprod 
+(
+  A: &(@[double][3])
+, B: &(@[double][3])
+) : double =
+(
+  A[0] * B[0] + A[1] * B[1] + A[2] * B[2]
+)
+')
+
+Note that both array arguments of #dyncode("dotprod") are call-by-reference.
+
+')
+
 </sect1>#comment("sect1/id=lval_and_cbr")
 
 <!-- ****** ****** -->
@@ -544,6 +569,45 @@ the scope for x.  This requirement ensures that a variable can no longer be
 accessed after the portion of the stack in which it is allocated is
 reclaimed as no linear proof of the at-view associated with the variable is
 ever available from that point on.
+
+')
+
+#para('\
+
+Arrays in ATS can also be stack-allocated. For instance, the following code
+allocates two arrays of doubles in the frame of the function
+#dyncode("main0") and then passes them to #dyncode("dotprod") to compute
+their dot product:
+
+#atscode('\
+implement
+main0 () =
+{
+//
+var A = @[double][3](1.0) // initialized with 1.0, 1.0, 1.0
+var B = @[double](1.0, 2.0, 3.0) // initialized with 1.0, 2.0, 3.0
+//
+val () = println! ("A * B = ", dotprod (A, B)) // A * B = 6.0
+//
+} (* end of [main0] *)
+')
+
+The at-view associated with the variable A is #stacode("@[double][3]@A"),
+where A also refers to the address of the variable A. Similarly, the
+at-view associated with the variable B is #stacode("@[double][3]@B").
+
+For the sake of completeness, I mention the syntax for uninitialized arrays
+as follows: Given a type T and an integer N, the syntax
+#dyncode("@[T][N]()") is for an array consisting of N uninitialized values
+of type T.
+
+')
+
+#para('\
+
+Note that allocating large arrays in the call frame of a function may not
+be a good practice as doing so can greatly increase the likelihood of
+stack-overflow at run-time.
 
 ')
 

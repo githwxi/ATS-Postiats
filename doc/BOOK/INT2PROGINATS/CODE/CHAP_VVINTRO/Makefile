@@ -11,8 +11,14 @@ include $(PATSHOME)/share/atsmake-pre.mk
 ######
 
 all:: atview
-atview: atview.dats; $(PATSCC2) -tcats -o $@ $< || touch $@
+atview: atview.dats; $(PATSCC2) -o $@ $< || touch $@
 cleanall:: ; $(RMF) atview
+
+######
+
+all:: dotprod
+dotprod: dotprod.dats; $(PATSCC2) -o $@ $< || touch $@
+cleanall:: ; $(RMF) dotprod
 
 ######
 

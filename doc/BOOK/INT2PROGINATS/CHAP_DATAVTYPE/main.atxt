@@ -1028,7 +1028,7 @@ res1 and res2 is quite an interesting aspect of this implementation.
 #para('\
 
 By making use of #dyncode("takeout_node_at") and #dyncode("partition"),
-#dyncode("quickSort") can be readily implemented:
+we can readily implement #dyncode("quickSort") as follows:
 
 #atscode('\
 implement

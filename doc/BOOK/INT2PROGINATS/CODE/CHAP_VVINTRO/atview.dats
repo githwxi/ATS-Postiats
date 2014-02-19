@@ -33,6 +33,11 @@
 *)
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload.hats"
+//
+(* ****** ****** *)
 
 extern
 fun{a:t@ype}
@@ -63,6 +68,11 @@ ptr_get1 {l:addr} (pf: !a @ l >> a @ l | p: ptr l): a
 extern
 fun{a:t@ype}
 ptr_set1 {l:addr} (pf: !a? @ l >> a @ l | p: ptr l, x: a): void
+
+(* ****** ****** *)
+
+implement{a} ptr_get1 (pf | p) = !p
+implement{a} ptr_set1 (pf | p, x) = !p := x
 
 (* ****** ****** *)
 
@@ -171,6 +181,10 @@ fn fact {n:nat}
 in
   res
 end // end of [fact]
+
+(* ****** ****** *)
+
+implement main0 () = ()
 
 (* ****** ****** *)
 

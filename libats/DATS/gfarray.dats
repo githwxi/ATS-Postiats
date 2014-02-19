@@ -107,7 +107,7 @@ sif i > 0 then let
 in
   (LENGTHcons (pfres_len), APPENDcons (pfres_app), gfarray_v_cons (pf1at, pfres1), pfres2)
 end else let
-  prval INTEQ () = inteq_make {i,0} ()
+  prval EQINT () = eqint_make {i,0} ()
 in
   (LENGTHnil (), APPENDnil (), gfarray_v_nil (), pfarr)
 end // end of [sif]
