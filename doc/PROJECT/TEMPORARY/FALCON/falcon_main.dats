@@ -206,6 +206,12 @@ val skipped = ruleset_make_nil ()
 val () = fprint! (out, "Testing Human\n")
 val () = falcon_rules_data_skipped ("./DATA/rec2.grRulesLop", "/dev/null", skipped)
 //
+val () = fprint! (out, "Testing Yeast 7.11\n")
+val () = falcon_rules_data_skipped ("./DATA/y711_grRules", "/dev/null", skipped)
+//
+val () = fprint! (out, "Testing E. coli iJO1366\n")
+val () = falcon_rules_data_skipped ("./DATA/iJO1366_grRules", "/dev/null", skipped)
+//
 } (* end of [main0] *)
 
 (* ****** ****** *)
