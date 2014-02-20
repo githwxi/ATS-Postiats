@@ -592,9 +592,9 @@ val () = println! ("A * B = ", dotprod (A, B)) // A * B = 6.0
 } (* end of [main0] *)
 ')
 
-The at-view associated with the variable A is #stacode("@[double][3]@A"),
+The at-view associated with the variable A is #stacode("(@[double][3])@A"),
 where A also refers to the address of the variable A. Similarly, the
-at-view associated with the variable B is #stacode("@[double][3]@B").
+at-view associated with the variable B is #stacode("(@[double][3])@B").
 
 For the sake of completeness, I mention the syntax for uninitialized arrays
 as follows: Given a type T and an integer N, the syntax

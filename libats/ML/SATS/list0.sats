@@ -126,20 +126,19 @@ overload list0 with list0_make_arrpsz
 
 fun{a:t0p}
 list0_is_nil (xs: list0 a):<> bool
-overload iseqz with list0_is_nil
 fun{a:t0p}
 list0_is_cons (xs: list0 a):<> bool
-overload isneqz with list0_is_cons
 
 (* ****** ****** *)
-
+//
 fun{a:t0p}
 list0_is_empty (xs: list0 a):<> bool
-overload iseqz with list0_is_empty
 fun{a:t0p}
 list0_isnot_empty (xs: list0 a):<> bool
+//
+overload iseqz with list0_is_empty
 overload isneqz with list0_isnot_empty
-
+//
 (* ****** ****** *)
 //
 fun{a:t0p}
