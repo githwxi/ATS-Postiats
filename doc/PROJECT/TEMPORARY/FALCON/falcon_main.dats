@@ -166,6 +166,13 @@ falcon_rules_data_skipped
 val out = stdout_ref
 //
 val opt =
+fileref_open_opt (data_file, file_mode_r)
+val-~Some_vt(inp) = opt
+//
+val (emap, smap) = gmeanvar_initize(inp)
+val GDMapclo = gmeanvar_makeclo(emap, smap)
+//
+val opt =
 fileref_open_opt (rule_file, file_mode_r)
 val-~Some_vt(inp) = opt
 //
@@ -189,10 +196,16 @@ val () = print ("pos(final) = ")
 val () = fprint_the_position (out)
 val () = print_newline ((*void*))
 //
-val rec2cnfs =
+val cnfs =
   grexplst_cnfize_ifnot (gxs, skipped)
 //
-val ((*freed*)) = grcnflst_free (rec2cnfs)
+val expvars = grcnflst_minmean_std(cnfs, GDMapclo)
+//
+val () = fprint! (out, "enzyme abundance =\n")
+val () = fprint! (out, expvars)
+//
+val ((*freed*)) = grcnflst_free (cnfs)
+val ((*freed*)) = list_vt_free (expvars)
 } (* end of [falcon_rules_data_skipped] *)
 
 implement

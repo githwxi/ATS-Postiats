@@ -33,6 +33,16 @@ staload "./falcon_tokener.dats"
 
 (* ****** ****** *)
 
+(* This function is the primary interface to use to read gene *)
+(* expression data. It returns a pair of Maps that return the *)
+(* expression level and standard deviation of expression for  *)
+(* the gene under consideration.                              *)
+
+extern
+fun gmeanvar_initize (inp: FILEref): (GDMap, GDMap)
+
+(* ****** ****** *)
+
 extern
 fun gene_read
   (inp: &string >> ptr): Strptr1
@@ -90,13 +100,13 @@ end // end of [mean_read]
 (* ****** ****** *)
 
 extern
-fun variance_read (inp: &string >> ptr): double
+fun stdev_read (inp: &string >> ptr): double
 implement
-variance_read
+stdev_read
   (inp) = let
   val str = inp
   prval () = topize (inp) in $STDLIB.strtod1 (str, inp)
-end // end of [variance_read]
+end // end of [stdev_read]
 
 (* ****** ****** *)
 
@@ -167,7 +177,7 @@ GDMap_insert (map, gn, gval) =
 (* ****** ****** *)
 
 val the_GDMap_mean = hashtbl_make_nil<key,itm> (i2sz(1024))
-val the_GDMap_variance = hashtbl_make_nil<key,itm> (i2sz(1024))
+val the_GDMap_stdev = hashtbl_make_nil<key,itm> (i2sz(1024))
 
 (* ****** ****** *)
 
@@ -191,7 +201,7 @@ if line = line0 then nerr := nerr + 1
 //
 val line0 = line
 val () = line := $UN.cast{string}(line)
-val variance = variance_read (line)
+val stdev = stdev_read (line)
 val () =
 if line = line0 then nerr := nerr + 1
 //
@@ -201,26 +211,16 @@ val gene = gene_make_name(strptr2string(gene))
 val () =
 if nerr = 0 then println! ("gmeanvar_read: ", gene, " -> ", mean)
 val () =
-if nerr = 0 then println! ("gmeanvar_read: ", gene, " -> ", variance)
+if nerr = 0 then println! ("gmeanvar_read: ", gene, " -> ", stdev)
 *)
 //
 val () =
 if nerr = 0 then GDMap_insert (the_GDMap_mean, gene, mean)
 val () =
-if nerr = 0 then GDMap_insert (the_GDMap_variance, gene, variance)
+if nerr = 0 then GDMap_insert (the_GDMap_stdev, gene, stdev)
 //
 in
 end // end of [gmeanvar_read]
-
-(* ****** ****** *)
-
-end // end of [local]
-
-
-(* ****** ****** *)
-
-extern
-fun gmeanvar_initize (inp: FILEref): void
 
 (* ****** ****** *)
 
@@ -252,8 +252,10 @@ val ((*void*)) = loop (sbf)
 val () = stringbuf_free (sbf)
 //
 in
-  // nothing  
+  (the_GDMap_mean, the_GDMap_stdev)
 end // end of [gmeanvar_initize]
+
+end // end of [local]
 
 (* ****** ****** *)
 
