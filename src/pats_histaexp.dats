@@ -133,7 +133,9 @@ hisexp_get_boxknd
   (hse) = let
 in
 //
-case+ hse.hisexp_node of
+case+
+hse.hisexp_node of
+//
 | HSEtyrec (knd, _) =>
   (
     if tyreckind_is_boxed (knd) then 1 else 0
@@ -264,12 +266,19 @@ in '{
 
 (* ****** ****** *)
 
+local
+//
+val ATSTYCLO_TOPLEVEL =
+  $SYM.symbol_make_string ("atstyclo_toplevel")
+//
+in (* in-of-local *)
+
 implement
-hisexp_tyclo = let
-  val sym = $SYM.symbol_empty
-in '{
-  hisexp_name= HITNAM_TYCLO, hisexp_node= HSEtyabs (sym)
-} end // end of [hisexp_tyclo]
+hisexp_tyclo = '{
+  hisexp_name= HITNAM_TYCLO, hisexp_node= HSEtyabs (ATSTYCLO_TOPLEVEL)
+} (* [hisexp_tyclo] *)
+
+end (* end of [local] *)
 
 (* ****** ****** *)
 

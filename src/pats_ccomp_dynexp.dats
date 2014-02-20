@@ -1793,23 +1793,28 @@ hidexp_ccomp_ret_laminit
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 val flab = funlab_make_type (hse0)
+val flvl = funlab_get_level (flab)
 //
 val () = the_funlablst_add (flab)
 val () = ccompenv_add_flabsetenv (env, flab)
 val () = hidexp_ccomp_lam_flab (env, res, hde0, flab)
 //
+val () =
+if flvl > 0 then
+{
 val fnm = funlab_get_name (flab)
-val tnm = sprintf ("atstyclo_t0ype(%s)", @(fnm))
+val tnm = sprintf ("%s$closure_t0ype", @(fnm))
 val tnm = string_of_strptr (tnm)
 val hse = hisexp_tyabs ($SYM.symbol_make_string (tnm))
-//
-val () =
-tmpvar_set_type (tmpret, hse) where
-{
-extern
-fun tmpvar_set_type
-  (tmp: tmpvar, hse: hisexp): void = "patsopt_tmpvar_set_type"
-}
+val () = let
+  extern
+  fun tmpvar_set_type
+    (tmp: tmpvar, hse: hisexp): void = "patsopt_tmpvar_set_type"
+  // end of [tmpvar_set_type]
+in
+  tmpvar_set_type (tmpret, hse)
+end // end of [val]
+} (* end of [if] *) // end of [val]
 //
 val ins =
 instr_closure_initize (loc0, tmpret, flab)

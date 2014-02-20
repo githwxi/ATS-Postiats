@@ -68,6 +68,22 @@ val () =
 
 (* ****** ****** *)
 
+val () =
+{
+//
+val out = stdout_ref
+//
+var square =
+lam@ (x: int): int => x * x
+//
+prval () = showlvaltype (square)
+//
+val ((*void*)) = fprintln! (out, "square(", 10, ") = ", square(10))
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)
