@@ -389,6 +389,7 @@ and d1exp_node =
       (location (*loc_arg*), s1vararg, d1exp)
   | D1Elam_sta_syn of (* static abstraction: synthesis *)
       (location (*loc_arg*), s1qualst, d1exp)
+//
   | D1Efix of // dynamic fixed-point expression
       (int(*knd: 0/1: flat/boxed*), i0de, d1exp)
 //

@@ -138,20 +138,24 @@ d2exp_s2eff_of_d2exp
 // end of [d2exp_s2eff_of_d2exp]
 
 (* ****** ****** *)
-
+//
 extern
-fun d2exp_syn_type_arg_body (d2e0: d2exp): s2exp
+fun
+d2exp_syn_type_arg_body
+(
+  loc0: location
+, fc0: funclo, lin: int, npf: int
+, p2ts_arg: p2atlst, d2e_body: d2exp
+) : s2exp // end of [d2exp_syn_type_arg_body]
+//
 implement
 d2exp_syn_type_arg_body
-  (d2e0) = let
-  val loc0 = d2e0.d2exp_loc
-  val-D2Elam_dyn
-    (lin, npf, p2ts_arg, d2e_body) = d2e0.d2exp_node
-  val s2es_arg =
-    p2atlst_syn_type (p2ts_arg)
-  // end of [val]
+(
+  loc0, fc0, lin, npf, p2ts_arg, d2e_body
+) = let
+  var fc: funclo = fc0
+  val s2es = p2atlst_syn_type (p2ts_arg)
   val s2e_res = d2exp_syn_type (d2e_body)
-  var fc: funclo = FUNCLOfun // HX: default
   val d2e_body = d2exp_funclo_of_d2exp (d2e_body, fc)
   val isprf = s2exp_is_prf (s2e_res)
   val islin = (if lin > 0 then true else false): bool
@@ -159,9 +163,9 @@ d2exp_syn_type_arg_body
   val d2e_body = d2exp_s2eff_of_d2exp (d2e_body, s2fe)
   val s2t_fun = s2rt_prf_lin_fc (loc0, isprf, islin, fc)
 in
-  s2exp_fun_srt (s2t_fun, fc, lin, s2fe, npf, s2es_arg, s2e_res)
+  s2exp_fun_srt (s2t_fun, fc, lin, s2fe, npf, s2es, s2e_res)
 end // end of [d2exp_syn_type_arg_body]
-
+//
 (* ****** ****** *)
 
 implement
@@ -241,7 +245,24 @@ case+ d2e0.d2exp_node of
     s2exp_arrpsz_vt0ype_int_vt0ype (s2e, n)
   end // end of [D2Earrpsz]
 //
-| D2Elam_dyn _ => d2exp_syn_type_arg_body (d2e0)
+| D2Elam_dyn
+  (
+    lin, npf, p2ts_arg, d2e_body
+  ) => let
+    val fc0 = FUNCLOfun // HX: default
+  in
+    d2exp_syn_type_arg_body (loc0, fc0, lin, npf, p2ts_arg, d2e_body)
+  end // end of [D2Elam_dyn]
+//
+| D2Elaminit_dyn
+  (
+    lin, npf, p2ts_arg, d2e_body
+  ) => let
+    val fc0 = FUNCLOclo(0) // HX: default
+  in
+    d2exp_syn_type_arg_body (loc0, fc0, lin, npf, p2ts_arg, d2e_body)
+  end // end of [D2Elaminit_dyn]
+//
 | D2Elam_sta (s2vs, s2ps, d2e) => let
     val s2e = d2exp_syn_type (d2e) in s2exp_uni (s2vs, s2ps, s2e)
   end // end of [D2Elam_sta]

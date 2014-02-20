@@ -222,6 +222,7 @@ extern fun hidexp_ccomp_ret_arrpsz : hidexp_ccomp_ret_funtype
 extern fun hidexp_ccomp_ret_arrinit : hidexp_ccomp_ret_funtype
 
 extern fun hidexp_ccomp_ret_laminit : hidexp_ccomp_ret_funtype
+extern fun hidexp_ccomp_ret_fixinit : hidexp_ccomp_ret_funtype
 
 (* ****** ****** *)
 
@@ -619,7 +620,12 @@ case+ hde0.hidexp_node of
       then auxval (env, res, tmpret, hde0)
       else hidexp_ccomp_ret_laminit (env, res, tmpret, hde0)
   )
-| HDEfix (knd, _, _) => auxval (env, res, tmpret, hde0)
+| HDEfix (knd, _, _) =>
+  (
+    if knd != 0
+      then auxval (env, res, tmpret, hde0)
+      else hidexp_ccomp_ret_fixinit (env, res, tmpret, hde0)
+  ) (* end of [HDEfix] *)
 //
 | HDEdelay _ => hidexp_ccomp_ret_delay (env, res, tmpret, hde0)
 | HDEldelay _ => hidexp_ccomp_ret_ldelay (env, res, tmpret, hde0)

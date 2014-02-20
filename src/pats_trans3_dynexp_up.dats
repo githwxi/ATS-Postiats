@@ -1058,6 +1058,7 @@ fun d23exp_trup_app23 (
 in
 //
 case+ s2e_fun.s2exp_node of
+//
 | S2Efun (
     fc, _(*lin*), s2fe_fun, npf_fun, s2es_fun_arg, s2e_fun_res
   ) => let
@@ -1117,8 +1118,11 @@ case+ s2e_fun.s2exp_node of
     val () = d23explst_free (d23es_arg)
     val () = prerr_error3_loc (loc_fun)
     val () = filprerr_ifdebug "d23exp_trup_app23"
-    val () = prerr ": the applied dynamic expression is not of a function type."
-    val () = prerr_newline ()
+    val (
+    ) = prerrln!
+    (
+      ": the applied dynamic expression is of non-function type: ", s2e_fun
+    ) (* end of [val] *)
     val () = the_trans3errlst_add (T3E_d23exp_trup_app23_fun (loc_fun, s2e_fun))
   in
     d3exp_errexp (loc_fun)
