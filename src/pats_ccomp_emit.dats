@@ -499,7 +499,7 @@ emit_sizeof
   (out, hselt) = let
 //
 val () =
-  emit_text (out, "ATSPMVsizeof(")
+emit_text (out, "ATSPMVsizeof(")
 val () = emit_hisexp (out, hselt)
 val () = emit_rparen (out)
 //
@@ -921,25 +921,18 @@ val () = emit_text (out, "(")
 //
 val () = emit_tmpvar (out, tmp)
 //
-val () =
-(
+val () = (
 case+ hse.hisexp_node of
-| HSEtyarr
-  (
-    _(*elt*), s2es
-  ) => emit_arrdim (out, s2es)
-| _ (*nonarr*) => ((*nothing*))
+| HSEtyarr (_(*elt*), s2es) => emit_arrdim (out, s2es)
+| _ (*non-tyarr*) => ((*nothing*))
 ) (* end of [val] *)
 //
 val () = emit_text (out, ", ")
 //
 val () = (
 case+ hse.hisexp_node of
-| HSEtyarr
-  (
-    hse_elt, _(*dim*)
-  ) => emit_hisexp (out, hse_elt)
-| _ (*nonarr*) => emit_hisexp (out, hse)
+| HSEtyarr (hse_elt, _(*dim*)) => emit_hisexp (out, hse_elt)
+| _ (*non-tyarr*) => emit_hisexp (out, hse)
 ) (* end of [val] *)
 //
 val () = emit_text (out, ") ;\n")
@@ -1202,11 +1195,12 @@ end // end of [emit_d2var_env]
 
 implement
 emit_d2envlst
-  (out, d2es) = let
+  (out, d2es, i) = let
 //
 fun auxlst
 (
-  out: FILEref, d2es: d2envlst, i: int
+  out: FILEref
+, d2es: d2envlst, i: int
 ) : int = let
 in
 //
@@ -1225,7 +1219,7 @@ case+ d2es of
 end (* end of [auxlst] *)
 //
 in
-  auxlst (out, d2es, 0)
+  auxlst (out, d2es, i)
 end // end of [emit_d2envlst]
 
 (* ****** ****** *)
@@ -1409,12 +1403,14 @@ case+ opt of
 | None () => list_nil ()
 ) : d2envlst
 //
-val () = emit_text (out, "ATSPMVcfunlab(")
+val () =
+emit_text (out, "ATSPMVcfunlab(")
+//
 val () = emit_int (out, knd)
 val () = emit_text (out, ", ")
 val () = emit_funlab (out, flab)
 val () = emit_text (out, ", (")
-val nenv = emit_d2envlst (out, d2es)
+val nenv = emit_d2envlst (out, d2es, 0)
 val () = emit_text (out, "))")
 //
 in
@@ -1921,6 +1917,25 @@ case+ ins.instr_node of
     val () = emit_hisexp (out, hse)
     val () = emit_text (out, ") ;")
   } // end of [INSupdate_ptrdec]
+//
+| INSclosure_initize
+    (tmp, flab) => {
+    val-Some(fent) =
+      funlab_get_funent (flab)
+    val d2es =
+      funent_eval_d2envlst (fent)
+    val () =
+      emit_text (out, "ATSINSclosure_initize(")
+    // end of [val]
+    val () = emit_funlab (out, flab)
+    val () = emit_text (out, ", ")
+    val () = emit_text (out, "(")
+    val () = emit_text (out, "&")
+    val () = emit_tmpvar (out, tmp)
+    val _(*nenv+1*) = emit_d2envlst (out, d2es, 1)
+    val () = emit_text (out, ")")
+    val () = emit_text (out, ") ;")
+  } (* end of [INSclosure_initize] *)
 //
 | INStmpdec (tmp) => let
     val () = emit_text (out, "/*\n")

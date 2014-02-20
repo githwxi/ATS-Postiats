@@ -221,6 +221,8 @@ extern fun hidexp_ccomp_ret_seq : hidexp_ccomp_ret_funtype
 extern fun hidexp_ccomp_ret_arrpsz : hidexp_ccomp_ret_funtype
 extern fun hidexp_ccomp_ret_arrinit : hidexp_ccomp_ret_funtype
 
+extern fun hidexp_ccomp_ret_laminit : hidexp_ccomp_ret_funtype
+
 (* ****** ****** *)
 
 local
@@ -611,8 +613,13 @@ case+ hde0.hidexp_node of
 //
 | HDEraise (hde_exn) => hidexp_ccomp_ret_raise (env, res, tmpret, hde0)
 //
-| HDElam _ => auxval (env, res, tmpret, hde0)
-| HDEfix _ => auxval (env, res, tmpret, hde0)
+| HDElam (knd, _, _) =>
+  (
+    if knd != 0
+      then auxval (env, res, tmpret, hde0)
+      else hidexp_ccomp_ret_laminit (env, res, tmpret, hde0)
+  )
+| HDEfix (knd, _, _) => auxval (env, res, tmpret, hde0)
 //
 | HDEdelay _ => hidexp_ccomp_ret_delay (env, res, tmpret, hde0)
 | HDEldelay _ => hidexp_ccomp_ret_ldelay (env, res, tmpret, hde0)
@@ -1776,6 +1783,41 @@ val () = hidexp_ccomp_lam_flab (env, res, hde_def, flab)
 in
   primval_lamfix (1(*fix*), pmv0)
 end // end of [hidexp_ccomp_fix]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_ret_laminit
+  (env, res, tmpret, hde0) = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val flab = funlab_make_type (hse0)
+//
+val () = the_funlablst_add (flab)
+val () = ccompenv_add_flabsetenv (env, flab)
+val () = hidexp_ccomp_lam_flab (env, res, hde0, flab)
+//
+val fnm = funlab_get_name (flab)
+val tnm = sprintf ("atstyclo_t0ype(%s)", @(fnm))
+val tnm = string_of_strptr (tnm)
+val hse = hisexp_tyabs ($SYM.symbol_make_string (tnm))
+//
+val () =
+tmpvar_set_type (tmpret, hse) where
+{
+extern
+fun tmpvar_set_type
+  (tmp: tmpvar, hse: hisexp): void = "patsopt_tmpvar_set_type"
+}
+//
+val ins =
+instr_closure_initize (loc0, tmpret, flab)
+val () = instrseq_add (res, ins)
+//
+in
+  // nothing
+end // end of [hidexp_ccomp_ret_laminit]
 
 (* ****** ****** *)
 

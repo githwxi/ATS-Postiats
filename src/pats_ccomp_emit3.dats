@@ -1104,7 +1104,11 @@ val d2es = funent_eval_d2envlst (fent)
 val () = auxclo_type (out, flab, d2es)
 val () = auxclo_cfun (out, flab, d2es)
 val () = auxclo_init (out, flab, d2es)
-val () = auxclo_create (out, flab, d2es)
+//
+val fc =
+funlab_get_funclo (flab)
+val () =
+if funclo_is_ptr(fc) then auxclo_create (out, flab, d2es)
 //
 val () = emit_newline (out)
 //

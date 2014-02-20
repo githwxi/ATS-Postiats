@@ -295,6 +295,14 @@ end // end of [local]
 %{$
 
 ats_void_type
+patsopt_tmpvar_set_type
+(
+  ats_ptr_type tmp, ats_ptr_type hse
+) {
+  ((tmpvar_t)tmp)->atslab_tmpvar_type = hse ; return ;
+} // end of [patsopt_tmpvar_set_type]
+
+ats_void_type
 patsopt_tmpvar_set_ref
 (
   ats_ptr_type tmp, ats_int_type ref

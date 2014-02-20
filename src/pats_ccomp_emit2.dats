@@ -151,7 +151,8 @@ case+ fc of
 val () =
 (
 if isclo
-  then emit_text (out, "_clo") else emit_text (out, "_fun")
+  then emit_text (out, "_clo")
+  else emit_text (out, "_fun")
 // end of [if]
 ) : void // end of [val]
 //
@@ -163,7 +164,7 @@ val () = emit_lparen (out)
 val hses_arg =
 (
 if isclo
-  then list_cons (hisexp_cloptr, hses_arg) else hses_arg
+  then list_cons(hisexp_cloptr, hses_arg) else hses_arg
 ) : hisexplst // end of [val]
 val () = emit_hisexplst_sep (out, hses_arg, ", ")
 //
@@ -191,9 +192,12 @@ in
 case+ opt of
 | Some (fent) => let
     val d2es =
-      funent_eval_d2envlst (fent) in emit_d2envlst (out, d2es)
-  end // end of [Some]
-| None ((*void*)) => 0
+      funent_eval_d2envlst (fent)
+    // end of [val]
+  in
+    emit_d2envlst (out, d2es, 0(*i*))
+  end (* end of [Some] *)
+| None ((*void*)) => (0)
 //
 end // end of [auxflab]
 //
@@ -205,7 +209,7 @@ pmv_fun.primval_node of
 | PMVfunlab (flab) => auxflab (out, flab)
 | PMVcfunlab (knd, flab) => auxflab (out, flab)
 //
-| _ => 0
+| _ => (0)
 //
 end // end of [aux_funenv]
 
@@ -243,7 +247,7 @@ case+
     emit_text (out, "ATSINSfreeclo(");
     emit_primval (out, pmv); emit_text (out, ") ;\n")
   ) (* end of [PMVrefarg] *)
-| _ => ()
+| _(*non-refarg*) => ()
 //
 end // end of [emit_fun_freeaft]
 

@@ -262,6 +262,14 @@ fprint_dcstkind
 (* ****** ****** *)
 
 implement
+funclo_is_clo (fc) =
+  case+ fc of
+  | FUNCLOclo (knd) => true | FUNCLOfun _ => false
+// end of [funclo_is_clo]
+
+(* ****** ****** *)
+
+implement
 funclo_is_ptr (fc) =
   case+ fc of
   | FUNCLOclo (knd) => knd != 0 | FUNCLOfun _ => true

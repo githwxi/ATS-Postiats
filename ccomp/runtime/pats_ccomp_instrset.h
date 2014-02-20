@@ -290,6 +290,10 @@
 //
 /* ****** ****** */
 
+#define ATSINSclosure_initize(flab, tmpenv) (flab##$closureinit)tmpenv
+
+/* ****** ****** */
+
 #define ATSINSraise_exn(tmp, pmv) atsruntime_raise(pmv)
 
 #define ATSINScaseof_fail(msg) atsruntime_handle_unmatchedval(msg)

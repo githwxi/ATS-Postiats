@@ -247,10 +247,10 @@ case+ fls of
     val isclo =
     (
       if istmp then false else let
-        val fc = funlab_get_funclo (fl) in funclo_is_cloptr (fc)
+        val fc = funlab_get_funclo (fl) in funclo_is_clo (fc)
       end // end of [let] // end of [if]
     ) : bool // end of [val]
-    val-Some (fent) = funlab_get_funent (fl)
+    val-Some(fent) = funlab_get_funent (fl)
     val () =
       if isclo then emit_funent_closure (out, fent)
     // end of [val]

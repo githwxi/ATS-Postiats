@@ -897,7 +897,7 @@ case+ hit of
 | HITundef _ =>
   (
     emit_text (out, "HITundef("); fprint_hisexp (out, hse); emit_text (out, ")")
-  ) // end of [HITundef]
+  ) (* end of [HITundef] *)
 | _ => emit_hitype (out, hit)
 //
 end // end of [emit_hisexp]

@@ -163,6 +163,7 @@ macdef FUNCLOcloref = FUNCLOclo (CLOREF)
 
 (* ****** ****** *)
 
+fun funclo_is_clo (fc: funclo): bool
 fun funclo_is_ptr (fc: funclo): bool
 fun funclo_is_cloptr (fc: funclo): bool
 

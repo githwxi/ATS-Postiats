@@ -1143,6 +1143,16 @@ case+ x.instr_node of
     val () = prstr ")"
   } (* end of [INSupdate_ptrdec] *)
 //
+| INSclosure_initize
+    (tmp, flab) =>
+  {
+    val () = prstr "INSclosure_initize("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr " <- "
+    val () = fprint_funlab (out, flab)
+    val () = prstr ")"
+  } (* end of [INSclosure_initize] *)
+//
 | INStmpdec (tmp) =>
   {
     val () = prstr "INStmpdec("

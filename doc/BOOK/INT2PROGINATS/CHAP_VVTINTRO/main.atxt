@@ -611,6 +611,33 @@ stack-overflow at run-time.
 
 ')
 
+#para('\
+
+It is also allowed in ATS to allocate a closure in the call frame of a
+function. For instance, the following code implements a function named
+#dyncode("foo") that stores a flat closure-value in a stack-allocated
+variable named #dyncode("bar"):
+
+#atscode('\
+fun foo
+(
+  x: int, y: int
+) : void = let
+//
+var bar = lam@ (): int => x + y
+//
+in
+  println! ("foo(", x, ", ", y, ") = ", bar())
+end // end of [foo]
+')
+
+Note that the special keyword #keycode("lam@") should be used to form a
+flat closure-value. In a setting where dynamic memory allocation is not
+allowed, stack-allocated closures can play a pivotal role in supporting
+programming with higher-order functions.
+
+')
+
 </sect1>#comment("sect1/id=stack_allocated_variables")
 
 <!-- ****** ****** -->

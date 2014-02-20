@@ -884,6 +884,13 @@ instr_update_ptrdec
 // end of [instr_update_ptrdec]
 
 (* ****** ****** *)
+//
+implement
+instr_closure_initize
+  (loc, tmpret, flab) =
+  instr_make_node (loc, INSclosure_initize (tmpret, flab))
+//
+(* ****** ****** *)
 
 implement
 instr_tmpdec

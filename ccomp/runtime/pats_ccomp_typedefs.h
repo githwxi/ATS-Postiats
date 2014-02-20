@@ -170,6 +170,11 @@ struct{char _[0XFFFF];} atstype_var[0] ;
 
 /* ****** ****** */
 
+#define \
+atstyclo_t0ype(flab) flab##$closure_t0ype
+
+/* ****** ****** */
+
 #define atsrefarg0_type(hit) hit
 #define atsrefarg1_type(hit) atstype_ref
 

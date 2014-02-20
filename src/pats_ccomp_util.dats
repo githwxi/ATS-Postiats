@@ -334,6 +334,8 @@ case+ x.instr_node of
 | INSupdate_ptrinc (tmp(*ptr*), _(*type*)) => ()
 | INSupdate_ptrdec (tmp(*ptr*), _(*type*)) => ()
 //
+| INSclosure_initize _ => ()
+//
 | INStmpdec (tmp) => tmpadd (tmp)
 //
 | INSdcstdef (d2c, pmv) => ()
