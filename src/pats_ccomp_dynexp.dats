@@ -1832,4 +1832,15 @@ end // end of [hidexp_ccomp_ret_laminit]
 
 (* ****** ****** *)
 
+implement
+hidexp_ccomp_ret_fixinit
+  (env, res, tmpret, hde0) = let
+//
+val-HDEfix (knd, d2v, d2e) = hde0.hidexp_node
+//
+in
+end // end of [hidexp_ccomp_ret_laminit]
+
+(* ****** ****** *)
+
 (* end of [pats_ccomp_dynexp.dats] *)

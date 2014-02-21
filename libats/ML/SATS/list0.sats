@@ -320,8 +320,7 @@ a1,a2:t0p}{res:t0p
 } list0_foldleft2 (
   xs1: list0 (INV(a1))
 , xs2: list0 (INV(a2))
-, ini: res
-, f: cfun3 (res, a1, a2, res)
+, ini: res, f: cfun3 (res, a1, a2, res)
 ) : res // end of [list0_foldleft2]
 
 (* ****** ****** *)
@@ -348,7 +347,7 @@ list0_exists2
 (
   xs1: list0 (INV(a1))
 , xs2: list0 (INV(a2))
-, p: cfun2 (a1, a2, bool)
+, pred: cfun2 (a1, a2, bool)
 ) : bool // end of [list0_exists2]
 
 (* ****** ****** *)
@@ -360,7 +359,7 @@ fun{a1,a2:t0p}
 list0_forall2 (
   xs1: list0 (INV(a1))
 , xs2: list0 (INV(a2))
-, p: cfun2 (a1, a2, bool)
+, pred: cfun2 (a1, a2, bool)
 ) : bool // end of [list0_forall2]
 fun{a1,a2:t0p}
 list0_forall2_eq
