@@ -4,7 +4,7 @@
 //
 (* ****** ****** *)
 //
-// $showtype and showlvaltype
+// showtype and showlvaltype
 //
 (* ****** ****** *)
 //
@@ -15,6 +15,16 @@
 //
 // #define NDEBUG // uncomment to stop showtype-messages
 //
+(* ****** ****** *)
+
+(*
+//
+// Following is declared in [prelude/macrodef.sats]
+//
+macdef showtype (x) = $showtype ,(x)
+macdef showlvaltype (x) = pridentity ($showtype ,(x))
+*)
+
 (* ****** ****** *)
 
 #ifdef NDEBUG

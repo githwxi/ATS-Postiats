@@ -75,6 +75,14 @@ qa-list-197: a simple example involving list_map
 
 ######
 
+qa-list-200: a simple example involving stack-allocation
+
+######
+
+qa-list-205: a simple example involving showtype and showlvaltype
+
+######
+
 alloca: an example involving alloca
 list_copy: copying a given list tail-recursively
 list_last: finding the last element of a given list
