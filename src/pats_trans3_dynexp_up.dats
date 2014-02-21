@@ -1598,21 +1598,45 @@ end // end of [d2exp_trup_lam_met]
 
 (* ****** ****** *)
 
+local
+
+fun
+s2exp_clo2fun
+  (s2e0: s2exp): s2exp = let
+in
+//
+case+ s2e0.s2exp_node of
+| S2Efun
+  (
+    fc, lin, s2fe, npf, s2es_arg, s2e_res
+  ) =>
+    s2exp_fun_srt (s2e0.s2exp_srt, FUNCLOfun, lin, s2fe, npf, s2es_arg, s2e_res)
+| _(*non-S2Efun*) => s2e0
+//
+end // end of [s2exp_clo2fun]
+
+in (* in-of-local *)
+
 implement
 d2exp_trup_fix (d2e0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val-D2Efix
-  (knd, d2v, d2e_def) = d2e0.d2exp_node
+val-D2Efix (knd, d2v, d2e_def) = d2e0.d2exp_node
+//
 val s2e_def = d2exp_syn_type (d2e_def)
-val s2eopt_def = Some (s2e_def)
-val () = d2var_set_type (d2v, s2eopt_def)
-val () = d2var_set_mastype (d2v, s2eopt_def)
+val s2e2_def = s2exp_clo2fun (s2e_def)
+//
+val s2e2opt_def = Some (s2e2_def)
+val () = d2var_set_type (d2v, s2e2opt_def)
+val () = d2var_set_mastype (d2v, s2e2opt_def)
+//
 val d3e_def = d2exp_trup (d2e_def)
 //
 in
   d3exp_fix (loc0, s2e_def, knd, d2v, d3e_def)
 end // end of [d2exp_trup_fix]
+
+end // end of [local]
 
 (* ****** ****** *)
 

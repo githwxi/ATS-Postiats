@@ -1041,7 +1041,8 @@ fun s2exp_lam (s2vs: s2varlst, s2e: s2exp): s2exp
 fun s2exp_lam_srt (s2t: s2rt, s2vs: s2varlst, s2e: s2exp): s2exp
 fun s2exp_lamlst (s2vss: s2varlstlst, s2e: s2exp): s2exp
 
-fun s2exp_fun_srt (
+fun
+s2exp_fun_srt (
   s2t: s2rt
 , fc: funclo
 , lin: int

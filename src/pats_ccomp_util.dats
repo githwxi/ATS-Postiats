@@ -126,6 +126,8 @@ case+ funclo of
 //
 end // end of [primval_make_funlab]
 
+(* ****** ****** *)
+
 implement
 primval_make2_funlab
   (loc, hse0, fl) = let

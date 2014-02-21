@@ -41,17 +41,35 @@
 fun foo
 (
   x: int, y: int
-) : void = let
+) : int = let
 //
-var bar = lam@ (): int => x + y
+var bar = lam@ (): int => x * y
 //
 in
-  println! ("foo(", x, ", ", y, ") = ", bar())
+  bar ()
 end // end of [foo]
 
 (* ****** ****** *)
 
-implement main0 () = foo (10, 10)
+fun foo2
+(
+  x: int, y: int
+) : int = let
+//
+var bar2 = fix@ f (x: int): int => if x > 0 then y + f(x-1) else 0
+//
+in
+  bar2 (x)
+end // end of [foo]
+
+(* ****** ****** *)
+
+implement
+main0 () =
+{
+val () = println! ("foo (10, 10) = ", foo (10, 11))
+val () = println! ("foo2 (10, 10) = ", foo2 (10, 11))
+}
 
 (* ****** ****** *)
 

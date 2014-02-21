@@ -257,7 +257,9 @@ case+ d3e0.d3exp_node of
     | None ((*none*)) => ()
   end // end of [D2Evar/linear]
 //
+(*
 | D3Evar (d2v) when d2var_get_isfix (d2v) => ()
+*)
 //
 | D3Esel_var (d2v, s2rt, d3ls)
     when d2var_is_mutabl (d2v) => let
