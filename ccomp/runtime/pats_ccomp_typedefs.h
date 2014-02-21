@@ -170,7 +170,8 @@ struct{char _[0XFFFF];} atstype_var[0] ;
 
 /* ****** ****** */
 
-#define atstyclo_toplevel struct{ void *cfun; }
+#define atstyclo_top struct{ void *cfun; }
+#define atstyclo_type(flab) flab##$closure_t0ype
 
 /* ****** ****** */
 

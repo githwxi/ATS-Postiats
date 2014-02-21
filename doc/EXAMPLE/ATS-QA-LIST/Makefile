@@ -161,6 +161,12 @@ cleanall:: ; $(RMF) alloca
 
 ######
 
+all:: stkclo
+stkclo: stkclo.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) stkclo
+
+######
+
 all:: for-0install
 for-0install: for-0install.dats ; \
   $(PATSCC) -D_BSD_SOURCE -IIATS ${PATSHOME}/contrib -DATS_MEMALLOC_LIBC -o $@ $< -ljson-c

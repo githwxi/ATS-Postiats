@@ -1792,6 +1792,22 @@ end // end of [hidexp_ccomp_fix]
 
 (* ****** ****** *)
 
+extern
+fun
+tmpvar_set2_tyclo
+  (tmp: tmpvar, fl: funlab): void
+implement
+tmpvar_set2_tyclo
+  (tmpret, flab) = let
+//
+typedef flab = histaexp_funlab_type
+//
+in
+  tmpvar_set_tyclo (tmpret, $UN.cast{flab}(flab))
+end // end of [tmpvar_set2_tyclo]
+
+(* ****** ****** *)
+
 implement
 hidexp_ccomp_ret_laminit
   (env, res, tmpret, hde0) = let
@@ -1807,20 +1823,8 @@ val () = hidexp_ccomp_lam_flab (env, res, hde0, flab)
 //
 val () =
 if flvl > 0 then
-{
-val fnm = funlab_get_name (flab)
-val tnm = sprintf ("%s$closure_t0ype", @(fnm))
-val tnm = string_of_strptr (tnm)
-val hse = hisexp_tyabs ($SYM.symbol_make_string (tnm))
-val () = let
-  extern
-  fun tmpvar_set_type
-    (tmp: tmpvar, hse: hisexp): void = "patsopt_tmpvar_set_type"
-  // end of [tmpvar_set_type]
-in
-  tmpvar_set_type (tmpret, hse)
-end // end of [val]
-} (* end of [if] *) // end of [val]
+  tmpvar_set2_tyclo (tmpret, flab)
+// end of [if] // end of [val]
 //
 val ins =
 instr_closure_initize (loc0, tmpret, flab)
@@ -1854,20 +1858,8 @@ val () = hidexp_ccomp_lam_flab (env, res, hde, flab)
 //
 val () =
 if flvl > 0 then
-{
-val fnm = funlab_get_name (flab)
-val tnm = sprintf ("%s$closure_t0ype", @(fnm))
-val tnm = string_of_strptr (tnm)
-val hse = hisexp_tyabs ($SYM.symbol_make_string (tnm))
-val () = let
-  extern
-  fun tmpvar_set_type
-    (tmp: tmpvar, hse: hisexp): void = "patsopt_tmpvar_set_type"
-  // end of [tmpvar_set_type]
-in
-  tmpvar_set_type (tmpret, hse)
-end // end of [val]
-} (* end of [if] *) // end of [val]
+  tmpvar_set2_tyclo (tmpret, flab)
+// end of [if] // end of [val]
 //
 val ins =
 instr_closure_initize (loc0, tmpret, flab)

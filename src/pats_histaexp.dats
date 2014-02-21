@@ -68,8 +68,6 @@ val HITNAM_BOXED =
 //
 val HITNAM_FUNPTR =
   HITNAM (1(*ptr*), 1(*fin*), "atstype_funptr")
-val HITNAM_CFUNPTR =
-  HITNAM (1(*ptr*), 1(*fin*), "atstype_cfunptr")
 val HITNAM_CLOPTR =
   HITNAM (1(*ptr*), 1(*fin*), "atstype_cloptr")
 //
@@ -268,15 +266,15 @@ in '{
 
 local
 //
-val ATSTYCLO_TOPLEVEL =
-  $SYM.symbol_make_string ("atstyclo_toplevel")
+val ATSTYCLO_TOP =
+  $SYM.symbol_make_string ("atstyclo_top")
 //
 in (* in-of-local *)
 
 implement
-hisexp_tyclo = '{
-  hisexp_name= HITNAM_TYCLO, hisexp_node= HSEtyabs (ATSTYCLO_TOPLEVEL)
-} (* [hisexp_tyclo] *)
+hisexp_clotyp = '{
+  hisexp_name= HITNAM_TYCLO, hisexp_node= HSEtyabs (ATSTYCLO_TOP)
+} (* [hisexp_clotyp] *)
 
 end (* end of [local] *)
 
@@ -464,13 +462,6 @@ in '{
 (* ****** ****** *)
 
 implement
-hisexp_cfun (fl) =
-  hisexp_make_node (HITNAM_CFUNPTR, HSEcfun (fl))
-// end of [hisexp_cfun]
-
-(* ****** ****** *)
-
-implement
 hisexp_tyarr (hse, dim) =
   hisexp_make_node (HITNAM_TYARR, HSEtyarr (hse, dim))
 // end of [hisexp_tyarr]
@@ -533,6 +524,13 @@ end // end of [hisexp_tyvar]
 (* ****** ****** *)
 
 implement
+hisexp_tyclo (flab) =
+  hisexp_make_node (HITNAM_TYCLO, HSEtyclo (flab))
+// end of [hisexp_tyclo]
+
+(* ****** ****** *)
+
+implement
 hisexp_vararg (s2e) = '{
   hisexp_name= HITNAM_VARARG, hisexp_node= HSEvararg (s2e)
 } // end of [hisexp_vararg]
@@ -576,8 +574,6 @@ of // of [case]
       then hisexp_fun (fc, hses_arg, hse_res) else hse0
     // end of [if]
   end // end of [HSEfun]
-//
-| HSEcfun _ => hse0
 //
 | HSEapp (hse_fun, hses_arg) => let
     val f0 = flag
@@ -638,6 +634,8 @@ of // of [case]
       end // end of [Some_vt]
     | ~None_vt () => hse0
   end // end of [HSEtyvar]
+//
+| HSEtyclo (flab) => hse0
 //
 | HSEvararg (s2e) => let
     val f0 = flag

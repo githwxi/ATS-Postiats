@@ -98,6 +98,8 @@ datatype hitype =
 //
   | HITtyvar of (s2var) (* for substitution *)
 //
+  | HITtyclo of (funlab)
+//
   | HITrefarg of (int(*knd*), hitype)
 //
   | HITundef of (stamp, hisexp)
@@ -176,6 +178,12 @@ case+ hit of
 | HITtyvar (s2v) => {
     val () = prstr "HITtyvar("
     val () = fprint_s2var (out, s2v)
+    val () = prstr ")"
+  }
+//
+| HITtyclo (flab) => {
+    val () = prstr "HITtyclo("
+    val () = fprint_funlab (out, flab)
     val () = prstr ")"
   }
 //
@@ -324,7 +332,14 @@ case+ x1 of
 | HITtyvar (s2v1) => (
   case+ x2 of
   | HITtyvar (s2v2) => if s2v1 != s2v2 then abort ()
-  | _ => abort ()
+  | _ => abort ((*void*))
+  )
+//
+| HITtyclo (flab1) => (
+  case+ x2 of
+  | HITtyclo (flab2) =>
+      if $UN.cast{ptr}(flab1) != $UN.cast{ptr}(flab2) then abort ()
+  | _ => abort ((*void*))
   )
 //
 | HITrefarg
@@ -485,14 +500,24 @@ case+ hit0 of
     (lhits) => let
     val () = auxlablst (hval, lhits)
   in
-    auxstr (hval, "postiats_tyrexn")
+    auxstr (hval, "postiats_tyexn")
   end // end of [HITtyexn]
 //
 | HITtyvar (s2v) => let
+    val () =
+      auxstr (hval, "postiats_tyvar")
     val stamp = s2var_get_stamp (s2v)
   in
     auxint (hval, $STMP.stamp_get_int (stamp))
   end // end of [HITtyvar]
+//
+| HITtyclo (flab) => let
+    val () =
+      auxstr (hval, "postiats_tyclo")
+    val stamp = funlab_get_stamp (flab)
+  in
+    auxint (hval, $STMP.stamp_get_int (stamp))
+  end // end of [HITtyclo]
 //
 | HITrefarg
     (knd, hit) => let
@@ -814,6 +839,14 @@ case+ hit0 of
 | HITtysum _ => emit_text (out, "atstysum_type(*ERROR*)")
 | HITtyexn _ => emit_text (out, "atstyexn_type(*ERROR*)")
 //
+| HITtyclo (flab) =>
+  {
+    val () =
+      emit_text (out, "atstyclo_type(")
+    val ((*void*)) = emit_funlab (out, flab)
+    val ((*void*)) = emit_text (out, ")")
+  }
+//
 | HITtyvar (s2v) => {
     val () = emit_text (out, "atstyvar_type")
     val (
@@ -1082,6 +1115,8 @@ case+ hse0.hisexp_node of
     // end of [if]
   ) // end of [HSEtysum]
 //
+| HSEtyclo (flab) => HITtyclo ($UN.cast{funlab}(flab))
+//
 | HSErefarg (knd, hse) => let
     val hit = aux (flag, hse) in HITrefarg (knd, hit)
   end // end of [HSErefarg]
@@ -1098,7 +1133,7 @@ case+ hse0.hisexp_node of
 //
 | HSEtyvar (s2v) => HITtyvar (s2v)
 //
-| _ => hitype_undef (hse0)
+| _(*undefined-type*) => hitype_undef (hse0)
 //
 end // end of [aux]
 

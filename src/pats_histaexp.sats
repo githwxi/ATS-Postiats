@@ -75,8 +75,6 @@ hisexp_node =
 //
   | HSEfun of (* function type *)
       (funclo, hisexplst(*arg*), hisexp(*res*))
-  | HSEcfun of (funlab) // for closures
-//
   | HSEcst of (s2cst)
   | HSEapp of (hisexp, hisexplst)
 //
@@ -90,6 +88,8 @@ hisexp_node =
   | HSEtysum of (d2con, labhisexplst) // for tagged unions
 //
   | HSEtyvar of s2var // for type variables
+//
+  | HSEtyclo of (funlab) // for flat closure-functions
 //
   | HSEvararg of (s2exp) // for variadic funarg
 //
@@ -128,10 +128,10 @@ val hisexp_tybox : hisexp
 //
 val hisexp_typtr : hisexp
 //
-val hisexp_tyclo : hisexp
-//
 val hisexp_funptr : hisexp
 val hisexp_cloptr : hisexp
+//
+val hisexp_clotyp : hisexp
 //
 val hisexp_arrptr : hisexp
 //
@@ -191,10 +191,6 @@ fun hisexp_fun
   fc: funclo, arg: hisexplst, res: hisexp
 ) : hisexp // end of [hisexp_fun]
 
-fun hisexp_cfun (fl: funlab): hisexp
-
-(* ****** ****** *)
-
 fun hisexp_cst (s2c: s2cst): hisexp
 
 fun hisexp_app
@@ -216,7 +212,15 @@ fun hisexp_tyrec2 (knd: tyreckind, lhses: labhisexplst): hisexp
 
 fun hisexp_tysum (d2c: d2con, lhses: labhisexplst): hisexp
 
+(* ****** ****** *)
+
 fun hisexp_tyvar (s2v: s2var): hisexp
+
+(* ****** ****** *)
+
+fun hisexp_tyclo (flab: funlab): hisexp
+
+(* ****** ****** *)
 
 fun hisexp_vararg (s2e: s2exp): hisexp // HX: variadic funarg
 

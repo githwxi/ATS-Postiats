@@ -14,8 +14,9 @@
 (* ****** ****** *)
 
 extern
-fun{a:t0p}
-list_copy
+fun{
+a:t0p
+} list_copy
   {n:int} (xs: list (INV(a), n)): list (a, n)
 // end of [list_copy]
 
@@ -23,7 +24,8 @@ list_copy
 //
 // HX: this one is non-tail-recursive
 //
-implement{a}
+implement
+{a}(*tmp*)
 list_copy (xs) = let
 //
 fun copy{n:int}
@@ -104,7 +106,8 @@ list_copy3
 //
 // HX: [list_copy3] does list-traversal only once
 //
-implement{a}
+implement
+{a}(*tmp*)
 list_copy3 (xs) = let
 //
 fun loop{n:int}

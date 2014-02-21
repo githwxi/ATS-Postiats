@@ -204,6 +204,10 @@ fun tmpvar_get_tailcal (tmp: tmpvar): int // if >= 2
 fun tmpvar_inc_tailcal (tmp: tmpvar): void // incby 1
 
 (* ****** ****** *)
+
+fun tmpvar_set_tyclo (tmp: tmpvar, fl: funlab): void
+
+(* ****** ****** *)
 //
 fun print_tmpvar (x: tmpvar): void
 fun prerr_tmpvar (x: tmpvar): void
@@ -1452,10 +1456,10 @@ fun instr_update_ptrdec
 // end of [instr_update_ptrdec]
 
 (* ****** ****** *)
-
+//
 fun instr_closure_initize
   (loc: location, tmpret: tmpvar, flab: funlab): instr
-
+//
 (* ****** ****** *)
 
 fun instr_tmpdec (loc: location, tmp: tmpvar): instr

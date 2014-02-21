@@ -802,11 +802,12 @@ val () = (
 val tmpknd =
   funlab_get_tmpknd (flab)
 val () =
-  if tmpknd > 0 then {
+if tmpknd > 0 then
+{
   val () = emit_text (out, "__")
   val stamp = funlab_get_stamp (flab)
   val () = $STMP.fprint_stamp (out, stamp)
-} // end of [val]
+} (* end of [if] *) // end of [val]
 //
 in
   // nothing

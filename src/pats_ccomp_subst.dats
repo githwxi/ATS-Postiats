@@ -173,6 +173,9 @@ fun tmpvarlst_subst
 local
 
 extern
+fun tmpvar_set_ref
+  (tmp: tmpvar, ref: int): void  = "patsopt_tmpvar_set_ref"
+extern
 fun tmpvar_set_ret
   (tmp: tmpvar, ret: int): void  = "patsopt_tmpvar_set_ret"
 extern
@@ -192,6 +195,9 @@ tmpvar_subst
   val hse = tmpvar_get_type (tmp)
   val hse = hisexp_subst (sub, hse)
   val tmp2 = tmpvar_make (loc, hse)
+  val () =
+    if tmpvar_isref (tmp) then tmpvar_set_ref (tmp2, 1)
+  // end of [val]
   val () =
     if tmpvar_isret (tmp) then tmpvar_set_ret (tmp2, 1)
   // end of [val]
@@ -458,7 +464,8 @@ end // end of [tmpmap_make]
 (* ****** ****** *)
 
 extern
-fun tmpvar2var
+fun
+tmpvar2var
   (map: !tmpmap, tmp: tmpvar): tmpvar
 implement
 tmpvar2var (map, tmp) = let
@@ -471,7 +478,7 @@ case+ opt of
 //
     val loc = tmpvar_get_loc (tmp)
     val () = prerr_warnccomp_loc (loc)
-    val () = prerr ": toplevel non-global code shoulld not be used in template."
+    val () = prerr ": toplevel non-global code should not be used in template."
     val () = prerr_newline ()
 //
 (*
@@ -1535,7 +1542,30 @@ case+
     instr_update_ptrdec (loc0, tmp, hse_elt)
   end // end of [INSupdate_ptrdec]
 //
-| _ => ins0
+| INSclosure_initize
+    (tmpret, flab) => let
+//
+    val sfx = funlab_incget_ncopy (flab)
+    val flab2 = funlab_subst (sub, flab)
+    val () = funlab_set_suffix (flab2, sfx)
+//
+    val () = the_funlablst_add (flab2)
+    val () = ccompenv_add_flabsetenv (env, flab2)
+//
+    val-Some(fent) = funlab_get_funent (flab)
+    val fent2 = funent_subst (env, sub, flab2, fent, sfx)
+    val () = funlab_set_funent (flab2, Some (fent2))
+//
+    val flab2_ =
+      $UN.cast{histaexp_funlab_type}(flab2)
+    val tmpret2 = ftmp (tmpret)
+    val () = tmpvar_set_tyclo (tmpret2, flab2_)
+//
+  in
+    instr_closure_initize (loc0, tmpret2, flab2)
+  end // end of [INSclosure_initize]
+//
+| _ (* cases-that-do-not-need-substitution *) => ins0
 //
 end // end of [instr_subst]
 
@@ -1630,9 +1660,6 @@ case- pmv.primval_node of
 | PMVfunlab (fl) => fl | PMVcfunlab (knd, fl) => fl
 ) : funlab // end of [val]
 //
-val-Some
-  (fent) = funlab_get_funent (fl)
-//
 val sfx = funlab_incget_ncopy (fl)
 //
 val fl2 = funlab_subst (sub, fl)
@@ -1640,9 +1667,11 @@ val () = funlab_set_suffix (fl2, sfx)
 val () = the_funlablst_add (fl2)
 val () = ccompenv_add_flabsetenv (env, fl2)
 //
+val-Some (fent) = funlab_get_funent (fl)
 val fent2 = funent_subst (env, sub, fl2, fent, sfx)
 //
 val () = funlab_set_funent (fl2, Some (fent2))
+//
 val pmv_funval = primval_make_funlab (loc, fl2)
 //
 in
@@ -1729,8 +1758,7 @@ fun auxfnxset
 ) : void = let
 //
   val-list_cons (fl0, _) = fls
-  val opt = funlab_get_funent (fl0)
-  val-Some(fent) = opt
+  val-Some (fent) = funlab_get_funent (fl0)
   val () = funent_set_fnxlablst (fent, fls)
 in
   // nothing

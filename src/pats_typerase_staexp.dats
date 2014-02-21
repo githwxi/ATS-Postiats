@@ -394,7 +394,7 @@ end else (
   case+ fc of
   | FUNCLOfun () => hisexp_funptr
   | FUNCLOclo (knd) =>
-      if knd = 0 then hisexp_tyclo else hisexp_cloptr
+      if knd = 0 then hisexp_clotyp else hisexp_cloptr
     // end of [FUNCLOclo]
 ) (* end of [if] *)
 //
