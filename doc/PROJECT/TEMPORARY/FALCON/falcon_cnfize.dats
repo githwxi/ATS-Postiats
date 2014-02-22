@@ -15,16 +15,16 @@ staload "./falcon.sats"
   
 (* ****** ****** *)
 
-staload "./falcon_genes.dats"
-staload "./falcon_parser.dats"
-
-(* ****** ****** *)
-
 staload
 UN = "prelude/SATS/unsafe.sats"
 
-staload 
-M = "libc/SATS/math.sats"
+(* ****** ****** *)
+
+staload M = "libc/SATS/math.sats"
+
+(* ****** ****** *)
+
+assume grcnf_vtype = geneslst
 
 (* ****** ****** *)
 
@@ -51,16 +51,6 @@ case+ xs of
 
 (* ****** ****** *)
 
-extern
-fun
-fprint_grcnf (FILEref, !grcnf): void 
-//
-extern
-fun
-fprint_grcnflst (FILEref, !grcnflst): void  
- 
-(* ****** ****** *)
-
 implement
 fprint_grcnflst
   (out, cnfs) =
@@ -79,16 +69,6 @@ case+ cnfs of
 (* ****** ****** *)
 //
 extern
-fun
-grexp_cnfize (gx: grexp): grcnf
-//
-extern
-fun
-grexplst_cnfize (gxs: grexplst): grcnflst
-//
-(* ****** ****** *)
-//
-extern
 fun geneslst_cons
   (gn: genes, gns: geneslst): geneslst
 //
@@ -99,24 +79,11 @@ fun geneslst_append
 (* ****** ****** *)
 //
 extern
-fun
-grcnf_conj
-  (cnfs: grcnflst): geneslst
-//
+fun grcnf_conj (cnfs: grcnflst): geneslst
 extern
-fun
-grcnf_disj
-  (cnfs: grcnflst): geneslst
+fun grcnf_disj (cnfs: grcnflst): geneslst
 //
-
 (* ****** ****** *)
-
-local
-
-assume
-grcnf = geneslst
-
-in (* in-of-local *)
 
 implement
 grcnf_free (xs) =
@@ -258,7 +225,7 @@ fun auxsup
         then true else auxsup (gn1, gns2)
       // end of [if]
     ) // end of [list_vt_cons]
-) (* auxsup *)
+) (* end of [auxsup] *)
 //
 fun auxsub
 (
@@ -388,13 +355,12 @@ case+ gx of
 //
 end // end of [grexp_cnfize]
 
-end (* end-of-local *)
-
 (* ****** ****** *)
-
+//
 implement
 grexplst_cnfize (gxs) =
   list_map_fun<grexp><grcnf> (gxs, grexp_cnfize)
-
+//
+(* ****** ****** *)
 
 (* end of [falcon_cnfize.dats] *)

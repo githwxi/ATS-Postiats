@@ -130,24 +130,13 @@ fprint_genes (out, xs) =
 end // end of [local]
 
 (* ****** ****** *)
-
-//vtypedef
-//geneslst = List0_vt (genes)
-(* ****** ****** *)
-
-extern
-fun
-geneslst_make_nil(): geneslst
-//
-implement
-geneslst_make_nil () = nil_vt
-
-(* ****** ****** *)
-
 //
 extern
-fun
-geneslst_free (geneslst): void
+fun geneslst_make_nil(): geneslst
+//
+implement geneslst_make_nil () = nil_vt
+//
+(* ****** ****** *)
 //
 implement
 geneslst_free (xs) =

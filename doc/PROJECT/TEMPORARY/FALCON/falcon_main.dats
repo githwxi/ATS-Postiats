@@ -19,6 +19,7 @@ staload "./falcon_genes.dats"
 staload "./falcon_parser.dats"
 staload "./falcon_cnfize.dats"
 staload "./falcon_cnfize_ifnot.dats"
+staload "./falcon_expvar.dats"
 staload "./falcon_gmeanvar.dats"
 staload "./falcon_algorithm1.dats"
 
@@ -32,6 +33,7 @@ dynload "./falcon_genes.dats"
 dynload "./falcon_parser.dats"
 dynload "./falcon_cnfize.dats"
 dynload "./falcon_cnfize_ifnot.dats"
+dynload "./falcon_expvar.dats"
 dynload "./falcon_gmeanvar.dats"
 dynload "./falcon_algorithm1.dats"
 
@@ -170,7 +172,6 @@ fileref_open_opt (data_file, file_mode_r)
 val-~Some_vt(inp) = opt
 //
 val (emap, smap) = gmeanvar_initize(inp)
-val GDMapclo = gmeanvar_makeclo(emap, smap)
 //
 val opt =
 fileref_open_opt (rule_file, file_mode_r)
@@ -196,16 +197,19 @@ val () = print ("pos(final) = ")
 val () = fprint_the_position (out)
 val () = print_newline ((*void*))
 //
-val cnfs =
+val grcnfs =
   grexplst_cnfize_ifnot (gxs, skipped)
 //
-val expvars = grcnflst_minmean_std(cnfs, GDMapclo)
+val expvars = grcnflst_minmean_stdev(grcnfs, emap, smap)
 //
-val () = fprint! (out, "enzyme abundance =\n")
-val () = fprint! (out, expvars)
+val ((*freed*)) = grcnflst_free (grcnfs)
 //
-val ((*freed*)) = grcnflst_free (cnfs)
+val () = fprintln! (out, "enzyme abundance =")
+val () = fprint_list_vt_sep (out, expvars, "\n")
+val () = fprintln! (out)
+//
 val ((*freed*)) = list_vt_free (expvars)
+//
 } (* end of [falcon_rules_data_skipped] *)
 
 implement
@@ -217,13 +221,17 @@ val out = stdout_ref
 val skipped = ruleset_make_nil ()
 //
 val () = fprintln! (out, "Testing Human")
-val () = falcon_rules_data_skipped ("./DATA/rec2.grRulesLop", "/dev/null", skipped)
+val () = falcon_rules_data_skipped ("./DATA/rec2.grRulesLop", "./DATA/K562.csv", skipped)
 //
+(*
 val () = fprintln! (out, "Testing Yeast 7.11")
 val () = falcon_rules_data_skipped ("./DATA/y711_grRules", "/dev/null", skipped)
+*)
 //
+(*
 val () = fprintln! (out, "Testing E. coli iJO1366")
 val () = falcon_rules_data_skipped ("./DATA/iJO1366_grRules", "/dev/null", skipped)
+*)
 //
 } (* end of [main0] *)
 

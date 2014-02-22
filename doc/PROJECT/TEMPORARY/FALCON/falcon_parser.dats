@@ -28,30 +28,6 @@ staload "./falcon.sats"
 staload "./falcon_tokener.dats"
 
 (* ****** ****** *)
-
-datatype grexp =
-  | GRgene of gene
-  | GRconj of grexplst
-  | GRdisj of grexplst
-  | GRempty of ((*void*))
-  | GRerror of ((*void*))
-// end of [grexp]
-
-where grexplst = List0 (grexp)
-
-vtypedef grexplst_vt = List0_vt (grexp)
-
-(* ****** ****** *)
-//
-extern
-fun fprint_grexp (FILEref, grexp): void
-extern
-fun fprint_grexplst (FILEref, grexplst): void
-//
-overload fprint with fprint_grexp
-overload fprint with fprint_grexplst of 10
-//
-(* ****** ****** *)
 //
 implement
 fprint_val<grexp> = fprint_grexp
@@ -118,11 +94,9 @@ parerrlst = List0 (parerr)
 (* ****** ****** *)
 
 extern
-fun
-the_parerrlst_add (parerr): void
+fun the_parerrlst_add (parerr): void
 extern
-fun
-the_parerrlst_get ((*void*)): parerrlst
+fun the_parerrlst_get ((*void*)): parerrlst
 
 (* ****** ****** *)
 

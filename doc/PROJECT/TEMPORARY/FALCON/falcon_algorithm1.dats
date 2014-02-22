@@ -10,6 +10,11 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
+
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
 //
 staload M = "libc/SATS/math.sats"
 staload _(*M*) = "libc/DATS/math.dats"
@@ -79,35 +84,9 @@ end // end of [genelst_min]
 (* ****** ****** *)
 
 extern
-fun
-grcnf_minmean_std(
-  cnf: !grcnf, GDMapclo: (!genes) -<cloref1> expvar
-): expvar
-//
-extern
-fun
-grcnflst_minmean_std(
-  cnfs: !grcnflst, GDMapclo: (!genes) -<cloref1> expvar
-): List0_vt(expvar)
-
-(* ****** ****** *)
-
-extern
 fun genes_meanvar
   (xs: !genes, emap: GDMap, smap: GDMap): expvar
 // end of [genelst_meanvar]
-
-(* ****** ****** *)
-
-local
-
-assume
-grcnf = geneslst
-//
-assume
-expvar_type = (double, double) // Not sure how to do this
-
-in (* in-of-local *)
 
 (* ****** ****** *)
 
@@ -180,56 +159,68 @@ val nxs2 = nxs - miss
 in
 //
 if nxs2 > 0
-  then (nxs*(csum/nxs2), cvar) else (0.0, 0.0)
+  then expvar_make (nxs*(csum/nxs2), cvar) else expvar_make (0.0, 0.0)
 // end of [if]
 end // end of [genes_meanvar]
 
 (* ****** ****** *)
-
-extern
-fun gmeanvar_makeclo(GDMap, GDMap):  
-  (!genes) -<cloref1> expvar
 //
+extern
+fun
+grcnf_minmean_stdev
+  (grcnf: !grcnf, emap: GDMap, smap: GDMap): expvar
+//
+extern
+fun
+grcnflst_minmean_stdev
+  (grcnfs: !grcnflst, emap: GDMap, smap: GDMap): expvarlst_vt
+//
+(* ****** ****** *)
+
 implement
-gmeanvar_makeclo(emap, smap) =
-  lam(xs) => genes_meanvar(xs, emap, smap)
+grcnflst_minmean_stdev
+  (grcnfs, emap, smap) = 
+list_vt_map_cloref<grcnf><expvar>
+(
+  grcnfs, lam (grcnf) => grcnf_minmean_stdev (grcnf, emap, smap)
+)
 
 (* ****** ****** *)
 
 implement
-grcnf_minmean_std(cnf, GDMapclo): expvar = let
-  val eval_svals = list_vt_map_cloref<genes><expvar> (cnf, GDMapclo)
-  // 
-  fun min_first_loop
-  (
-    xs: !listvt_expvar, current_min: expvar
-  ): expvar = case+ xs of
-  | list_vt_nil () => (NAN, NAN)
-  | list_vt_cons(x, xs1) => let
-      val current_min = if current_min.0 < x.0 then
-        current_min
-      else
-        x
+grcnf_minmean_stdev
+  (grcnf, emap, smap) = let
+//
+fun loop
+(
+  gxs: !geneslst
+, mean: &double >> _, stdev: &double >> _
+) : void =
+(
+  case+ gxs of
+  | list_vt_nil () => ()
+  | list_vt_cons (gx, gxs) => let
+      val ev = genes_meanvar (gx, emap, smap)
+      val () =
+      if ev.gexp < mean
+        then (mean := ev.gexp; stdev := ev.gvar)
+      // end of [if] // end of [val]
     in
-      min_first_loop(xs1, current_min)
-    end
-  // end of [min_first_loop]
-  val emin_s = min_first_loop(eval_svals, (INF, NAN))
-  val () = list_vt_free(eval_svals)
+      loop (gxs, mean, stdev)
+    end (* end of [cons] *)
+)
+//
+var mean: double = INF
+var stdev: double = NAN
+//
+val gxs =
+$UN.castvwtp1{geneslst}(grcnf)
+val () = loop (gxs, mean, stdev)
+prval () = $UN.cast2void(gxs)
+//
 in 
-  (emin_s.0, $M.sqrt(emin_s.1))
-end
-
-end (* end-of-local *)
-
-(* ****** ****** *)
-
-implement
-grcnflst_minmean_std(cnfs, GDMapclo) = 
-  list_vt_map_fun<grcnf><expvar> (
-    cnfs, 
-    lam(cnf) => grcnf_minmean_std(cnf, GDMapclo)
-  )
+  expvar_make (mean, stdev)
+end // end of [grcnf_minmean_stdev]
 
 (* ****** ****** *)
 
