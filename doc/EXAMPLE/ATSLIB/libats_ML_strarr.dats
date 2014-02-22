@@ -78,6 +78,22 @@ val () =
 //
 val out = stdout_ref
 //
+val str =
+  strarr_get_range (alphabet, i2sz(26), i2sz(0))
+//
+val strarr = strarr_make(str)
+val () = assertloc (strarr[0] = 'Z')
+val () = assertloc (strarr[25] = 'A')
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val out = stdout_ref
+//
 val () = fprint! (out, "foreach: ")
 val () = strarr_foreach (alphabet, lam c => fprint (out, c))
 val () = fprint_newline (out)

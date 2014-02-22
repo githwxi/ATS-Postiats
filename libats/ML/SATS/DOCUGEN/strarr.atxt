@@ -92,10 +92,11 @@ Given a strarr-value str of length n and two sizes i0 and i1 satisfying i0
 <= n and i1 <= n, this function returns a string str2 of length n2
 satisfying the following conditions: (1) if i0 <= i1, then n2 equals i1-i0
 and str2[k] = str[i0+k] for 0 <= k < n2; (2) if i1 < i0, then n2 equals
-i0-i1 and str2[k]=str[i0-k] for 0 <= k < n2.  If either the second or the
-third argument of the function exceeds n, then it is replaced with n.  The
-time complexity of the function is O(n2), where n2 is the length of the
-returned string.
+i0-i1 and str2[k]=str[i0-k-1] for 0 <= k < n2. For instance, if i0 and i1
+equal n and 0, respectively, then str2 is the reverse of str.  If either
+the second or the third argument of the function exceeds n, then it is
+replaced with n.  The time complexity of the function is O(n2), where n2 is
+the length of the returned string.
 
 ")
 
