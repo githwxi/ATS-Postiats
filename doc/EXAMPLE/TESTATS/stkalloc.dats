@@ -84,6 +84,22 @@ val ((*void*)) = fprintln! (out, "square(", 10, ") = ", square(10))
 
 (* ****** ****** *)
 
+val () =
+{
+//
+val out = stdout_ref
+//
+var factorial =
+fix@ f (x: int): int => if x > 0 then x * f(x-1) else 1
+//
+prval () = showlvaltype (factorial)
+//
+val ((*void*)) = fprintln! (out, "factorial(", 10, ") = ", factorial(10))
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

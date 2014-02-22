@@ -42,8 +42,8 @@ staload "./pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
-abstype histaexp_funlab_type
-typedef funlab = histaexp_funlab_type
+abstype hisexp_funlab_type
+typedef funlab = hisexp_funlab_type
 
 fun print_funlab (x: funlab): void
 overload print with print_funlab

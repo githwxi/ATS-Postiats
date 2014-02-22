@@ -1800,10 +1800,10 @@ implement
 tmpvar_set2_tyclo
   (tmpret, flab) = let
 //
-typedef flab = histaexp_funlab_type
+typedef funlab = hisexp_funlab_type
 //
 in
-  tmpvar_set_tyclo (tmpret, $UN.cast{flab}(flab))
+  tmpvar_set_tyclo (tmpret, $UN.cast{funlab}(flab))
 end // end of [tmpvar_set2_tyclo]
 
 (* ****** ****** *)

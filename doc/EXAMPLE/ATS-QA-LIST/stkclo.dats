@@ -31,14 +31,19 @@ main0 () =
 val N = 10
 //
 val A =
-arrayref_make_intrange (0, N)
+arrayptr_make_intrange (0, N)
+//
+val xs =
+array2list_rev
+  ($UNSAFE.arrayptr2ref{int}(A), N)
 //
 val () = print! ("A = ")
-val () = fprint_arrayref (stdout_ref, A, i2sz(N))
+val () = fprint_arrayptr (stdout_ref, A, i2sz(N))
 val () = print_newline ()
 //
-val xs = array2list_rev (A, N)
 val () = println! ("xs = ", xs)
+//
+val ((*freed*)) = arrayptr_free (A)
 //
 val ((*freed*)) = list_vt_free (xs)
 //

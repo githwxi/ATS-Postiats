@@ -1554,12 +1554,11 @@ case+
 //
     val-Some(fent) = funlab_get_funent (flab)
     val fent2 = funent_subst (env, sub, flab2, fent, sfx)
-    val () = funlab_set_funent (flab2, Some (fent2))
+    val ((*void*)) = funlab_set_funent (flab2, Some (fent2))
 //
-    val flab2_ =
-      $UN.cast{histaexp_funlab_type}(flab2)
     val tmpret2 = ftmp (tmpret)
-    val () = tmpvar_set_tyclo (tmpret2, flab2_)
+    typedef funlab = hisexp_funlab_type
+    val ((*void*)) = tmpvar_set_tyclo (tmpret2, $UN.cast{funlab}(flab2))
 //
   in
     instr_closure_initize (loc0, tmpret2, flab2)
@@ -1661,18 +1660,17 @@ case- pmv.primval_node of
 ) : funlab // end of [val]
 //
 val sfx = funlab_incget_ncopy (fl)
+val flab2 = funlab_subst (sub, fl)
+val () = funlab_set_suffix (flab2, sfx)
 //
-val fl2 = funlab_subst (sub, fl)
-val () = funlab_set_suffix (fl2, sfx)
-val () = the_funlablst_add (fl2)
-val () = ccompenv_add_flabsetenv (env, fl2)
+val () = the_funlablst_add (flab2)
+val () = ccompenv_add_flabsetenv (env, flab2)
 //
 val-Some (fent) = funlab_get_funent (fl)
-val fent2 = funent_subst (env, sub, fl2, fent, sfx)
+val fent2 = funent_subst (env, sub, flab2, fent, sfx)
+val ((*void*)) = funlab_set_funent (flab2, Some (fent2))
 //
-val () = funlab_set_funent (fl2, Some (fent2))
-//
-val pmv_funval = primval_make_funlab (loc, fl2)
+val pmv_funval = primval_make_funlab (loc, flab2)
 //
 in
   primval_lamfix (knd, pmv_funval)
@@ -1697,30 +1695,26 @@ case+ hfds of
     val-Some (fl) =
       hifundec_get_funlabopt (hfd)
     val sfx = funlab_incget_ncopy (fl)
-    val fl2 = funlab_subst (sub, fl)
-//
-    val () = funlab_set_suffix (fl2, sfx)
+    val flab2 = funlab_subst (sub, fl)
+    val () = funlab_set_suffix (flab2, sfx)
 //
 // HX: only the first fnx-decl is added!
 //
     val () = (
-      if i <= 1 then the_funlablst_add (fl2)
-    ) // end of [val]
+      if i <= 1 then the_funlablst_add (flab2)
+    ) (* end of [val] *)
 //
-    val () = ccompenv_add_flabsetenv (env, fl2)
+    val () = ccompenv_add_flabsetenv (env, flab2)
 //
     val loc = hfd.hifundec_loc
     val d2v = hfd.hifundec_var
-    val pmv = primval_make_funlab (loc, fl2)
+    val pmv = primval_make_funlab (loc, flab2)
 //
     val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
 //
-    val i2 = (
-      if i >= 1 then i+1 else i
-    ) : int // end of [val]
-    val fls2 = auxinit (env, sub, hfds, i2)
+    val i2 = (if i >= 1 then i+1 else i): int
   in
-    list_cons (fl2, fls2)
+    list_cons (flab2, auxinit (env, sub, hfds, i2))
   end (* end of [list_cons] *)
 | list_nil ((*void*)) => list_nil ()
 //
