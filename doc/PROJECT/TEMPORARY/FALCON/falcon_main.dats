@@ -12,16 +12,9 @@
 (* ****** ****** *)
 
 staload "./falcon.sats"
-staload "./falcon_symbol.dats"
-staload "./falcon_position.dats"
-staload "./falcon_tokener.dats"
-staload "./falcon_genes.dats"
 staload "./falcon_parser.dats"
 staload "./falcon_cnfize.dats"
 staload "./falcon_cnfize_ifnot.dats"
-staload "./falcon_expvar.dats"
-staload "./falcon_gmeanvar.dats"
-staload "./falcon_algorithm1.dats"
 
 (* ****** ****** *)
 
@@ -150,6 +143,11 @@ val ((*void*)) = grcnf_free (grcnf)
 *)
 
 (* ****** ****** *)
+  
+implement
+fprint_val<expvar> = fprint_expvar
+  
+(* ****** ****** *)
 
 extern
 fun
@@ -157,6 +155,8 @@ falcon_rules_data_skipped
 (
   rule_file: string, data_file: string, skipped: ruleset
 ) : void // end of [falcon_rules_data_skipped]
+
+(* ****** ****** *)
 
 implement
 falcon_rules_data_skipped
@@ -177,30 +177,33 @@ val opt =
 fileref_open_opt (rule_file, file_mode_r)
 val-~Some_vt(inp) = opt
 //
+(*
 val () =
 println! ("the_symtbl_count(bef) = ", the_symtbl_count ())
+*)
 //
-val gxs =
-  parse_fileref (inp)
-//
-val () = fileref_close (inp)
+val gxs = parse_fileref (inp)
+val ((*void*)) = fileref_close (inp)
 //
 val () = fprint! (out, "gxs =\n")
 val () = fprint_list_sep (out, gxs, "\n")
 val () = fprint_newline (out)
 val () = fprintln! (out, "|gxs| = ", list_length(gxs))
 //
+(*
 val () =
 println! ("the_symtbl_count(aft) = ", the_symtbl_count ())
+*)
 //
 val () = print ("pos(final) = ")
 val () = fprint_the_position (out)
 val () = print_newline ((*void*))
 //
 val grcnfs =
-  grexplst_cnfize_ifnot (gxs, skipped)
+grexplst_cnfize_ifnot (gxs, skipped)
 //
-val expvars = grcnflst_minmean_stdev(grcnfs, emap, smap)
+val expvars =
+grcnflst_minmean_stdev (grcnfs, emap, smap)
 //
 val ((*freed*)) = grcnflst_free (grcnfs)
 //

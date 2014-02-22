@@ -348,7 +348,7 @@ case+ gx of
   in
     grcnf_disj (cnfs)
   end // end of [GRdisj]
-| GRempty () => grcnf_make_nil()
+| GRempty () => grcnf_make_nil ()
 | GRerror () => let
     val () = assertloc (false) in list_vt_nil ()
   end // end of [GRerror]

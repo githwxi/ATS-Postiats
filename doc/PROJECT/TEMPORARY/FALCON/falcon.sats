@@ -57,12 +57,11 @@ overload fprint with fprint_position
 //
 (* ****** ****** *)
 
-macdef NAN = 0.0/0.0
-macdef INF = $extval (double, "INFINITY")
+fun position_get_now (): position
 
 (* ****** ****** *)
 
-fun position_get_now (): position
+fun fprint_the_position (FILEref): void
 
 (* ****** ****** *)
 //
@@ -134,7 +133,10 @@ vtypedef grcnflst = List0_vt (grcnf)
 
 fun fprint_grcnf (FILEref, !grcnf): void 
 fun fprint_grcnflst (FILEref, !grcnflst): void
-
+//
+overload fprint with fprint_grcnf
+overload fprint with fprint_grcnflst
+//
 (* ****** ****** *)
 
 datatype grexp =
@@ -201,13 +203,24 @@ fun GDMap_insert (map: GDMap, gn: gene, gval: double): void
 (* ****** ****** *)
 
 (*
-This function is the primary interface for reading gene expression data.
-It returns a pair of maps that can be used to return the expression level
-and standard deviation of expression for the gene under consideration.
+This function is the primary interface for reading gene
+expression data. It returns a pair of maps that can be used
+to return the expression level and standard deviation of
+expression for the gene under consideration.
 *)
 
-fun gmeanvar_initize (inp: FILEref): (GDMap(*exp*), GDMap(*std*))
+fun gmeanvar_initize (inp: FILEref): (GDMap(*mean*), GDMap(*stdev*))
 
+(* ****** ****** *)
+//
+fun
+grcnf_minmean_stdev
+  (grcnf: !grcnf, emap: GDMap, smap: GDMap): expvar
+//
+fun
+grcnflst_minmean_stdev
+  (grcnfs: !grcnflst, emap: GDMap, smap: GDMap): expvarlst_vt
+//
 (* ****** ****** *)
 
 (* end of [falcon.sats] *)

@@ -347,7 +347,7 @@ x:vt0p}{y:vt0p
 } list_vt_map$fopr (&x >> _): y
 fun{
 x:vt0p}{y:vt0p
-} list_vt_map {n:int} (!list_vt (INV(x), n)): list_vt (y, n)
+} list_vt_map{n:int} (!list_vt (INV(x), n)): list_vt (y, n)
 
 #atscode_separator()
 

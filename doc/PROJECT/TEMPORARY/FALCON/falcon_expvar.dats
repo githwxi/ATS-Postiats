@@ -8,11 +8,6 @@ staload "./falcon.sats"
 
 (* ****** ****** *)
 
-implement
-fprint_val<expvar> = fprint_expvar
-
-(* ****** ****** *)
-
 assume
 expvar_type = @(double, double)
 

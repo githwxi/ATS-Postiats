@@ -39,11 +39,6 @@ fun the_position_incby1 (i0: int): void
 
 (* ****** ****** *)
 
-extern
-fun fprint_the_position (FILEref): void
-
-(* ****** ****** *)
-
 local
 
 var pos: pos_struct
