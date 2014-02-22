@@ -131,8 +131,8 @@ end // end of [local]
 
 (* ****** ****** *)
 
-vtypedef
-geneslst = List0_vt (genes)
+//vtypedef
+//geneslst = List0_vt (genes)
 (* ****** ****** *)
 
 extern

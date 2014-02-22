@@ -23,33 +23,18 @@ staload "./falcon_parser.dats"
 staload
 UN = "prelude/SATS/unsafe.sats"
 
-(* ****** ****** *)
-
-vtypedef
-grcnf = geneslst
-vtypedef 
-grcnflst = List0_vt (grcnf)
+staload 
+M = "libc/SATS/math.sats"
 
 (* ****** ****** *)
 
 extern
 fun grcnf_free (grcnf): void
-//
-implement
-grcnf_free (xs) =
-(
-case+ xs of
-| ~list_vt_nil () => ()
-| ~list_vt_cons (x, xs) => (genes_free (x); grcnf_free (xs))
-) (* end of [grcnf_free] *)
 
 (* ****** ****** *)
 
 extern
 fun grcnf_make_nil(): grcnf
-//
-implement
-grcnf_make_nil() = nil_vt
 
 (* ****** ****** *)
 
@@ -73,23 +58,7 @@ fprint_grcnf (FILEref, !grcnf): void
 extern
 fun
 fprint_grcnflst (FILEref, !grcnflst): void  
-
-(* ****** ****** *)
-
-local
-//
-implement
-fprint_ref<genes>
-  (out, xs) = fprint_genes (out, xs)
-//
-in(*in-of-local*)
-//
-implement
-fprint_grcnf (out, cnf) =
-  fprint_list_vt_sep<genes> (out, cnf, "; ")
-//
-end // end of [local]
-  
+ 
 (* ****** ****** *)
 
 implement
@@ -134,6 +103,50 @@ fun
 grcnf_conj
   (cnfs: grcnflst): geneslst
 //
+extern
+fun
+grcnf_disj
+  (cnfs: grcnflst): geneslst
+//
+
+(* ****** ****** *)
+
+local
+
+assume
+grcnf = geneslst
+
+in (* in-of-local *)
+
+implement
+grcnf_free (xs) =
+(
+case+ xs of
+| ~list_vt_nil () => ()
+| ~list_vt_cons (x, xs) => (genes_free (x); grcnf_free (xs))
+) (* end of [grcnf_free] *)
+
+implement
+grcnf_make_nil() = nil_vt
+
+(* ****** ****** *)
+
+local
+//
+implement
+fprint_ref<genes>
+  (out, xs) = fprint_genes (out, xs)
+//
+in(*in-of-local*)
+//
+implement
+fprint_grcnf (out, cnf) =
+  fprint_list_vt_sep<genes> (out, cnf, "; ")
+//
+end // end of [local]
+
+(* ****** ****** *)
+
 implement
 grcnf_conj (cnfs) = let
 //
@@ -165,11 +178,6 @@ case+ cnfs of
 end // end of [grcnf_conj]
 
 (* ****** ****** *)
-//
-extern
-fun
-grcnf_disj
-  (cnfs: grcnflst): geneslst
 //
 implement
 grcnf_disj (cnfs) = let
@@ -281,7 +289,7 @@ fun auxsub
     end (* end of [list_vt_cons] *)
 ) (* end of [auxsub] *)
 
-in (* in-of-local *)
+in (* in-of-local (geneslst_cons)*)
 
 implement
 geneslst_cons
@@ -380,12 +388,13 @@ case+ gx of
 //
 end // end of [grexp_cnfize]
 
+end (* end-of-local *)
+
 (* ****** ****** *)
-//
+
 implement
 grexplst_cnfize (gxs) =
   list_map_fun<grexp><grcnf> (gxs, grexp_cnfize)
-//
-(* ****** ****** *)
+
 
 (* end of [falcon_cnfize.dats] *)

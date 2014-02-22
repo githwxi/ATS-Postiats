@@ -57,9 +57,17 @@ overload fprint with fprint_position
 //
 (* ****** ****** *)
 
+#define NAN 0.0/0.0
+macdef INF = $extval (double, "INFINITY")
+
+(* ****** ****** *)
+
 fun position_get_now (): position
 
 (* ****** ****** *)
+abstype expvar_type = ptr
+typedef expvar = expvar_type
+vtypedef listvt_expvar = [n:nat] list_vt(expvar, n)
 //
 abstype gene_type = ptr
 typedef gene = gene_type
@@ -87,6 +95,13 @@ fun gene_make_symbol (symbol): gene
 *)
 absvtype genes_vtype = ptr
 vtypedef genes = genes_vtype
+vtypedef geneslst = List0_vt (genes)
+
+(* ****** ****** *)
+
+absvtype grcnf = ptr
+vtypedef 
+grcnflst = List0_vt (grcnf)
 
 (* ****** ****** *)
 
