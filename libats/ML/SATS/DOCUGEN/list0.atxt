@@ -149,7 +149,7 @@ main () = let
   val () = list0_foreach<int> (xs, lam (x) => print_int (x))
   val () = print_newline ()
 in
-  0(*normalexit*)
+  0(*NormalExit*)
 end // end of [main]
 ')
 ")
@@ -182,7 +182,10 @@ This function does the same as #dyncode("list0_is_cons").
 #decldescrpt("\
 
 This function returns the head of a given list if the list is non-empty or
-raises an exception (#dyncode("ListSubscriptExn")) if the list is empty. ")
+raises an exception (#dyncode("ListSubscriptExn")) if the list is empty.
+It is O(1)-time.\
+
+")
 
 #declnamesynop("list0_head_opt")
 #decldescrpt("\
@@ -194,8 +197,11 @@ This function is the optional version of #dyncode("list0_head_exn").  ")
 #declnamesynop("list0_tail_exn")
 #decldescrpt("\
 
-This function returns the tail of a given list if the list is non-empty or
-raises an exception (#dyncode("ListSubscriptExn")) if the list is empty. ")
+This function returns the tail of a given list if the list is non-empty.
+Otherwise, it raises an exception (#dyncode("ListSubscriptExn")).  The
+function is O(1)-time.\
+
+")
 
 #declnamesynop("list0_tail_opt")
 #decldescrpt("\
@@ -208,8 +214,9 @@ This function is the optional version of #dyncode("list0_tail_exn").  ")
 #decldescrpt("\
 
 This function returns the last element of a given list if the list is
-non-empty or raises an exception (#dyncode("ListSubscriptExn")) if the list
-is empty. ")
+non-empty. Otherwise, it raises an exception
+(#dyncode("ListSubscriptExn")).  The function is O(n)-time, where n is the
+length of its argument.")
 
 #declnamesynop("list0_last_opt")
 #decldescrpt("\
@@ -223,8 +230,7 @@ This function is the optional version of #dyncode("list0_last_exn").  ")
 
 This function returns element i of a given list if i is a natural number
 less than the length of the list.  Otherwise, it raises an exception
-(#dyncode("ListSubscriptExn")). The time complexity of this function is
-O(i).\
+(#dyncode("ListSubscriptExn")). The function is O(i)-time.\
 
 ")
 
@@ -267,12 +273,16 @@ This function is the optional version of #dyncode("list0_nth_exn").  ")
 #decldescrpt("\
 
 This function, which overloads the symbol #dyncode("[]"), does the same as
-#dyncode("list0_nth_exn").  ")
+#dyncode("list0_nth_exn").\
+
+")
 
 (* ****** ****** *)
 
-#declnamesynop("prerr_list0")
 #declnamesynop("print_list0")
+#decldescrpt("This function prints a given list onto STDOUT.")
+#declnamesynop("prerr_list0")
+#decldescrpt("This function prints a given list onto STDERR.")
 
 (* ****** ****** *)
 
@@ -286,9 +296,11 @@ This function, which overloads the symbol #dyncode("[]"), does the same as
 
 Given a list xs of length n, an integer i and an element x, this function
 builds a list xs1 by inserting x into xs at position i if i is between 0
-and n, inclusive.  Otherwise, the function raises an exception
+and n, inclusive.  Otherwise, it raises an exception
 (#dyncode("IllegalArgExn")).  Clearly, if the function returns a list, then
-element i in the returned list must be x. ")
+element i in the returned list must be x.  The function is O(i)-time.
+
+")
 
 (* ****** ****** *)
 
@@ -297,8 +309,10 @@ element i in the returned list must be x. ")
 
 Given a list xs of length n, an integer i and an element x, this function
 builds a list xs1 by removing element i in xs if i is between 0 and n-1,
-inclusive.  Otherwise, the function raises an exception
-(#dyncode("IllegalArgExn")). ")
+inclusive.  Otherwise, it raises an exception (#dyncode("IllegalArgExn")).
+The function is O(i)-time.\
+
+")
 
 #declexample("\
 
@@ -324,7 +338,7 @@ val iseq = list0_equal (xs, ys, lam (x, y) => x = y)
 val ((*void*)) = assertloc (iseq)
 //
 in
-  0(*normalexit*)
+  0(*NormalExit*)
 end // end of [main]
 ')
 ")
@@ -345,16 +359,21 @@ also stores the removed element (in its third call-by-reference argument).
 #decldescrpt("\
 
 This function returns the length of a given list, and its implementation is
-tail-recursive. For convenience, #dyncode("list0_length") overloads the
-symbol #dyncode("length"). ")
+tail-recursive. It is O(n)-time, where n is the length of the given list.
+For convenience, #dyncode("list0_length") overloads the symbol #dyncode("length").\
+
+")
 
 #declnamesynop("list0_append")
 #decldescrpt("\
 
 Given two lists xs and ys, this function returns the concatenation of xs
-and ys. For convenience, #dyncode("list0_append") overloads the symbol
+and ys. It is O(n)-time, where n is the length of xs.
+For convenience, #dyncode("list0_append") overloads the symbol
 #dyncode("+").  Note that the implementation of #dyncode("list0_append") is
-tail-recursive in ATSLIB. ")
+tail-recursive in ATSLIB.\
+
+")
 
 #declexample("\
 
@@ -375,7 +394,7 @@ main () = let
   val ys = list0_make_elt<char> (N, 'b')
   val () = assertloc (length (xs) + length (ys) = length (xs + ys))
 in
-  0(*normalexit*)
+  0(*NormalExit*)
 end // end of [main]
 ")
 ")
@@ -387,7 +406,10 @@ end // end of [main]
 #decldescrpt("\
 
 Given a lists xs and y, this function returns the concatenation of xs and
-the singleton list consisting of y. ")
+the singleton list consisting of y. It is O(n)-time, where n is the length
+of xs.\
+
+")
 
 #declexample("\
 
@@ -409,25 +431,36 @@ list0_reverse (xs) =
 ')\
 
 Note that this implementation is #emph('terribly inefficient') both
-time-wise and memory-wise: It is O(n^2)-time and non-tail-recursive.  ")
+time-wise and memory-wise: It is O(n^2)-time and non-tail-recursive.\
+
+")
 
 (* ****** ****** *)
 
 #declnamesynop("list0_snoc")
+#declexample("This function does the same as #dyncode("list0_extend").")
 
 (* ****** ****** *)
 
 #declnamesynop("list0_reverse")
+
 #decldescrpt("\
-This function returns the reverse of a given list, and its implementation
-is tail-recurisive. ")
+
+This function returns the reverse of a given list. It is O(n)-time,
+where n is the length of the given list, and its implementation in ATSLIB
+is tail-recurisive.\
+
+")
 
 #declnamesynop("list0_reverse_append")
 #decldescrpt("\
 
 Given two lists xs and ys, this function returns the concatenation of the
-rxs and ys, where rxs refers to the reverse of xs.  The implementation of
-#dyncode("list0_reverse_append") in ATSLIB is tail-recursive. ")
+rxs and ys, where rxs refers to the reverse of xs. It is O(n)-time, where n
+is the length of the given list, and its implementation in ATSLIB is
+tail-recurisive.\
+
+")
 
 (* ****** ****** *)
 
@@ -435,7 +468,9 @@ rxs and ys, where rxs refers to the reverse of xs.  The implementation of
 #decldescrpt("\
 
 Given a list xss of lists, this funciton returns the concatenation
-of xss[0], xss[1], ..., and xss[n-1], where n is the length of xss.  ")
+of xss[0], xss[1], ..., and xss[n-1], where n is the length of xss.\
+
+")
 
 (* ****** ****** *)
 
@@ -445,7 +480,9 @@ of xss[0], xss[1], ..., and xss[n-1], where n is the length of xss.  ")
 Given a list xs and an integer i, this function contructs another list
 consisting of the first i elemements of xs. If i is negative, the function
 raises the exception #dyncode("IllegalArgExn"). If i exceeds the length of
-xs, then the function raises the exception #dyncode("ListSubscriptExn"). ")
+xs, then the function raises the exception #dyncode("ListSubscriptExn").
+The time-complexity of the function is O(i).
+")
 
 #declnamesynop("list0_drop_exn")
 #decldescrpt("\
@@ -453,8 +490,10 @@ xs, then the function raises the exception #dyncode("ListSubscriptExn"). ")
 Given a list xs and an integer i, this function returns the suffix of xs
 that is of length n-i, where n is the length of xs.  If i is negative, the
 function raises the exception #dyncode("IllegalArgExn"). If i exceeds the
-length of xs, then the function raises the exception
-#dyncode("ListSubscriptExn").  ")
+length of xs, then the function raises the exception #dyncode("ListSubscriptExn").
+The time-complexity of the function is O(i).\
+
+")
 
 (* ****** ****** *)
 
@@ -1089,6 +1128,12 @@ val () = fprint_newline (out)
 (* ****** ****** *)
 
 #declnamesynop("length")
+
+(* ****** ****** *)
+
+#declnamesynop(".head")
+#declnamesynop(".tail")
+#declnamesynop(".last")
 
 (* ****** ****** *)
 

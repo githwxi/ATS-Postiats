@@ -61,17 +61,54 @@ a strarr-value corresponding to a given C-style string.\
 
 (* ****** ****** *)
 
+#declnamesynop("strarr_get_at")
+
+(* ****** ****** *)
+
 #declnamesynop("strarr_get_at_gint")
+#decldescrpt("\
+
+Given a strarr-value and an integer i, this function returns
+character i in the string represented by the strarr-value. It
+is O(1)-time.\
+
+")
+
 #declnamesynop("strarr_get_at_guint")
+#decldescrpt("\
+
+This function does the same as #dyncode("strarr_get_at_gint")
+except for taking as its second argument an unsigned integer.
+
+")
 
 (* ****** ****** *)
 
 #declnamesynop("strarr_get_range")
 
+#decldescrpt("\
+
+Given a strarr-value str of length n and two sizes i0 and i1 satisfying i0
+<= n and i1 <= n, this function returns a string str2 of length n2
+satisfying the following conditions: (1) if i0 <= i1, then n2 equals i1-i0
+and str2[k] = str[i0+k] for 0 <= k < n2; (2) if i1 < i0, then n2 equals
+i0-i1 and str2[k]=str[i0-k] for 0 <= k < n2.  If either the second or the
+third argument of the function exceeds n, then it is replaced with n.  The
+time complexity of the function is O(n2), where n2 is the length of the
+returned string.
+
+")
+
+
 (* ****** ****** *)
 
 #declnamesynop("print_strarr")
+#decldescrpt("This function prints a given strarr-value onto STDOUT.")
 #declnamesynop("prerr_strarr")
+#decldescrpt("This function prints a given strarr-value onto STDERR.")
+
+(* ****** ****** *)
+
 #declnamesynop("fprint_strarr")
 
 (* ****** ****** *)
@@ -87,7 +124,8 @@ Given a strarr-value, this function returns a copy of it.
 #decldescrpt("\
 
 This function, which overload the symbol #dyncode("+"), returns the
-concatenation of two given strings.
+concatenation of two given strings. It is O(n)-time, where n is the length
+of the returned strarr-value.
 
 ")
 
@@ -195,10 +233,6 @@ main0 () =
 (* ****** ****** *)
 
 #declnamesynop("[]")
-
-(* ****** ****** *)
-
-#declnamesynop("strarr_get_at")
 
 (* ****** ****** *)
 
