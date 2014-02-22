@@ -353,6 +353,23 @@ x:vt0p}{y:vt0p
 
 fun{
 x:vt0p}{y:vt0p
+} list_vt_map_fun{n:int}
+  (xs: !list_vt (INV(x), n), f: (&x) -<fun1> y): list_vt(y, n)
+
+fun{
+x:vt0p}{y:vt0p
+} list_vt_map_cloref{n:int}
+  (xs: !list_vt (INV(x), n), f: (&x) -<cloref1> y): list_vt(y, n)
+
+fun{
+x:vt0p}{y:vt0p
+} list_vt_map_clo{n:int}
+  (xs: !list_vt (INV(x), n), f: &(&x) -<clo1> y): list_vt(y, n)
+
+#atscode_separator()
+
+fun{
+x:vt0p}{y:vt0p
 } list_vt_mapfree$fopr (x: x): y
 fun{
 x:vt0p}{y:vt0p
