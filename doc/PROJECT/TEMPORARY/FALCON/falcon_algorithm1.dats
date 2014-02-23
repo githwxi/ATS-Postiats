@@ -164,7 +164,7 @@ val nxs2 = nxs - miss
 in
 //
 if nxs2 > 0
-  then expvar_make (nxs*(csum/nxs2), cvar) else expvar_make (0.0, 0.0)
+  then expvar_make (nxs*(csum/nxs2), cvar) else expvar_make (NAN, NAN)
 // end of [if]
 end // end of [genes_meanvar]
 
@@ -218,6 +218,7 @@ val gxs =
 $UN.castvwtp1{geneslst}(grcnf)
 val () = loop (gxs, mean, stdev)
 prval () = $UN.cast2void(gxs)
+val () = if mean = INF then mean := NAN 
 //
 in 
   expvar_make (mean, stdev)
