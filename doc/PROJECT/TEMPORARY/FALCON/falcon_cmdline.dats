@@ -46,7 +46,7 @@ fprint_val<expvar>
 (* ****** ****** *)
 
 implement 
-main0 {n} (argc, argv) = 
+main0 (argc, argv) = 
 {
 //
 val out = stdout_ref
@@ -80,9 +80,9 @@ val () = fprint_list_vt_sep (out, expvars, "\n")
 //
 val ((*freed*)) = list_vt_free (expvars)
 val ((*freed*)) = grcnflst_free (grcnfs)
+//
 } (* end of [main0] *)
 
 (* ****** ****** *)
 
 (* end of [falcon_cmdline.dats] *)
-

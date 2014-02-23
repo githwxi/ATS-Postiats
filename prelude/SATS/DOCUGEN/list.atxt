@@ -81,7 +81,23 @@ respectively.\
 (* ****** ****** *)
 
 #declnamesynop("List")
+#decldescrpt('This type is for lists of unspecified length.')
+
+(* ****** ****** *)
+
 #declnamesynop("List0")
+#decldescrpt('\
+
+This type is for lists of unspecified length that is greater than or equal
+to 0. Note that #stacode("List0") is essentially equivalent to
+#stacode("List") since the length of a list can never be negative.  The
+proof function #prfcode("lemma_list_param") can be called explicitly to
+cast from #stacode("List") to #stacode("List0").\
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("List1")
 
 (* ****** ****** *)
