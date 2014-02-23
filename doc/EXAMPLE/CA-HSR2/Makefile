@@ -27,7 +27,7 @@ RMF=rm -f
 
 ######
 #
-all:: ;   make -C program-1-2
+all:: ; make -C program-1-2
 #
 all:: program-1-3
 program-1-3: program-1-3.exe
