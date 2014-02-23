@@ -214,6 +214,14 @@ main0 () =
 
 (* ****** ****** *)
 
+#declnamesynop("+")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
 #declnamesynop("iseqz")
 #declnamesynop("isneqz")
 
@@ -230,14 +238,6 @@ main0 () =
 (* ****** ****** *)
 
 #declnamesynop("length")
-
-(* ****** ****** *)
-
-#declnamesynop("[]")
-
-(* ****** ****** *)
-
-#declnamesynop("+")
 
 (* ****** ****** *)
 

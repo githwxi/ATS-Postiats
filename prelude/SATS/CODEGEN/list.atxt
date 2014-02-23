@@ -255,18 +255,17 @@ list_tail_exn{n:int}
   (xs: SHR(list (INV(x), n))):<!exn> list (x, n-1)
 
 #atscode_separator()
+//
+overload .head with list_head
+overload .tail with list_tail
+//
+#atscode_separator()
 
 fun{x:t0p}
 list_last{n:pos} (xs: list (INV(x), n)):<> (x)
 fun{x:t0p}
 list_last_exn{n:int} (xs: list (INV(x), n)):<!exn> (x)
 
-#atscode_separator()
-//
-overload .head with list_head
-overload .tail with list_tail
-overload .last with list_last
-//
 #atscode_separator()
 
 fun{

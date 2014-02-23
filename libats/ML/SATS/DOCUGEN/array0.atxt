@@ -367,10 +367,20 @@ to each A[n-i-1], where i ranges from 0 until n-1, inclusive.\
 
 (* ****** ****** *)
 
+#declnamesynop("+")
+
+(* ****** ****** *)
+
 #declnamesynop("[]")
 
 (* ****** ****** *)
 
+#declnamesynop(".size")
+
+(* ****** ****** *)
+
+#declnamesynop("print")
+#declnamesynop("prerr")
 #declnamesynop("fprint")
 
 (* ****** ****** *)

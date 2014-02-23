@@ -246,4 +246,13 @@ main0 () = {
 
 (* ****** ****** *)
 
+#declnamesynop(".head")
+#declnamesynop(".tail")
+
+(* ****** ****** *)
+
+#declnamesynop("length")
+
+(* ****** ****** *)
+
 (* end of [string.atxt] *)

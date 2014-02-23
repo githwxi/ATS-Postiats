@@ -1117,6 +1117,14 @@ val () = fprint_newline (out)
 
 (* ****** ****** *)
 
+#declnamesynop("+")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
 #declnamesynop("g0ofg1")
 #declnamesynop("g1ofg0")
 
@@ -1127,21 +1135,12 @@ val () = fprint_newline (out)
 
 (* ****** ****** *)
 
-#declnamesynop("length")
-
-(* ****** ****** *)
-
 #declnamesynop(".head")
 #declnamesynop(".tail")
-#declnamesynop(".last")
 
 (* ****** ****** *)
 
-#declnamesynop("[]")
-
-(* ****** ****** *)
-
-#declnamesynop("+")
+#declnamesynop("length")
 
 (* ****** ****** *)
 

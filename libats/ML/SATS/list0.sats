@@ -157,18 +157,17 @@ list0_tail_opt
 //
 (* ****** ****** *)
 //
+symintr .head .tail
+overload .head with list0_head_exn
+overload .tail with list0_tail_exn
+//
+(* ****** ****** *)
+
 fun{a:t0p}
 list0_last_exn (xs: list0 (INV(a))):<!exn> (a)
 fun{a:t0p}
 list0_last_opt (xs: list0 (INV(a))):<> Option_vt(a)
-//
-(* ****** ****** *)
-//
-symintr .head .tail .last
-overload .head with list0_head_exn
-overload .tail with list0_tail_exn
-overload .last with list0_last_exn
-//
+
 (* ****** ****** *)
 
 fun{a:t0p}

@@ -5,7 +5,7 @@
 //
 (* ****** ****** *)
 //
-// stack-allocated closure-functions
+// stack-allocated closure-function
 //
 (* ****** ****** *)
 

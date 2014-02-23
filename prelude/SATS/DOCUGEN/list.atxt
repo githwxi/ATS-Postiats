@@ -99,6 +99,7 @@ cast from #stacode("List") to #stacode("List0").\
 (* ****** ****** *)
 
 #declnamesynop("List1")
+#decldescrpt('This type is for lists of unspecified positive length.')
 
 (* ****** ****** *)
 
@@ -152,7 +153,10 @@ This function casts a linear list-value into a nonlinear list-value.
 (* ****** ****** *)
 
 #declnamesynop("list_make_sing")
+#decldescrpt("This function returns a list consisting of a given value.")
+
 #declnamesynop("list_make_pair")
+#decldescrpt("This function returns a list consisting of two given values.")
 
 (* ****** ****** *)
 
@@ -243,19 +247,7 @@ This function prints the elements in a given list to the output
 channel provided as its first argument, and it calls the function
 #dyncode("fprint_list$sep") before printing an element as long as the
 element is not the first one.  Note that printing each list element is
-handled by calling the function #dyncode("fprint_val").  ")
-
-#declnamesynop("fprint_list$sep")
-
-(* ****** ****** *)
-
-#declnamesynop("fprint_list_sep")
-#decldescrpt("\
-
-This function prints the elements in a given list to the output channel
-provided as its first argument, interspersing the string #dyncode('sep')
-between the printed list elements. Note that printing each list element is
-handled by calling the function #dyncode("fprint_val").
+handled by calling the function #dyncode("fprint_val").\
 
 ")
 #declexample("\
@@ -282,11 +274,26 @@ val ((*void*)) = fprint_newline (out)
 
 (* ****** ****** *)
 
-%{
-(*
-#declnamesynop("fprint_listlist_sep")
-*)
-%}
+#declnamesynop("fprint_list$sep")
+#decldescrpt('\
+
+This function is called by #dyncode("fprint_list") to print a separator
+between two consecutive list elements. By default, it prints the comma
+symbol (,).
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_list_sep")
+#decldescrpt('\
+
+This function prints the elements in a given list to the output channel
+provided as its first argument, interspersing the string #dyncode('sep')
+between the printed list elements. Note that printing each list element is
+handled by calling the function #dyncode("fprint_val").
+
+')
 
 (* ****** ****** *)
 
@@ -298,12 +305,63 @@ val ((*void*)) = fprint_newline (out)
 
 (* ****** ****** *)
 
+%{
+(*
+#declnamesynop("fprint_listlist_sep")
+*)
+%}
+
+(* ****** ****** *)
+
 #declnamesynop("list_head")
+#decldescrpt("\
+
+This function returns the head of a given non-empty list. It is O(1)-time.
+
+")
+
 #declnamesynop("list_head_exn")
+#decldescrpt("\
+
+This function returns the head of a given list if the list is not
+empty. Otherwise, it raise a run-time exception (#dyncode("ListSubscriptExn")).\
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("list_tail")
+#decldescrpt("\
+
+This function returns the tail of a given non-empty list. It is O(1)-time.\
+
+")
+
 #declnamesynop("list_tail_exn")
+#decldescrpt("\
+
+This function returns the tail of a given list if the list is not
+empty. Otherwise, it raise a run-time exception (#dyncode("ListSubscriptExn")).\
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("list_last")
+#decldescrpt("\
+
+This function returns the last element of a given non-empty list. It is
+O(n)-time, when n is the length of the given list.\
+
+")
+
 #declnamesynop("list_last_exn")
+#decldescrpt("\
+
+This function returns the last element of a given list if the list is not
+empty. Otherwise, it raise a run-time exception (#dyncode("ListSubscriptExn")).\
+
+")
 
 (* ****** ****** *)
 
@@ -1160,16 +1218,21 @@ list_quicksort$cmp (x, y) = gcompare_val<a> (x, y)
 
 (* ****** ****** *)
 
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
 #declnamesynop("iseqz")
 #declnamesynop("isneqz")
 
 (* ****** ****** *)
 
-#declnamesynop("length")
+#declnamesynop(".head")
+#declnamesynop(".tail")
 
 (* ****** ****** *)
 
-#declnamesynop("[]")
+#declnamesynop("length")
 
 (* ****** ****** *)
 
