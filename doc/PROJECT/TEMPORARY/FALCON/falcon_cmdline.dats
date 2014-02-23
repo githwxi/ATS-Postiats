@@ -34,13 +34,16 @@ dynload "./falcon_gmeanvar.dats"
 dynload "./falcon_algorithm1.dats"
 
 (* ****** ****** *)
-
-// For now just include default output as currently
-// used by MATLAB scripts.
-
+//
+// BB-2014-02-22:
+// For now just include default output as
+// currently used by MATLAB scripts.
+//
 implement
-fprint_expvar (out, x) =
-  fprint! (out, x.gexp, "\t", x.gvar)
+fprint_val<expvar>
+  (out, x) = fprint! (out, x.gexp, "\t", x.gvar)
+//
+(* ****** ****** *)
 
 implement 
 main0 {n} (argc, argv) = 
@@ -77,6 +80,9 @@ val () = fprint_list_vt_sep (out, expvars, "\n")
 //
 val ((*freed*)) = list_vt_free (expvars)
 val ((*freed*)) = grcnflst_free (grcnfs)
-}
+} (* end of [main0] *)
+
+(* ****** ****** *)
+
 (* end of [falcon_cmdline.dats] *)
 
