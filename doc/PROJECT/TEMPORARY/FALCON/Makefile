@@ -5,7 +5,7 @@ include $(PATSHOME)/share/atsmake-pre.mk
 #
 CFLAGS += -O2
 #
-LDFLAGS += -lgc
+LDFLAGS += -lgc -lm
 MALLOCFLAG = -DATS_MEMALLOC_GCBDW
 #
 SOURCES_SATS += falcon.sats
