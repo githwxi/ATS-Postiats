@@ -108,8 +108,6 @@ array0_get_ref{a:vt0p} (A: array0 a):<> Ptr1
 fun{}
 array0_get_size{a:vt0p} (A: array0 a):<> size_t
 //
-symintr .ref .size
-overload .ref with array0_get_ref
 overload .size with array0_get_size
 //
 fun{}

@@ -54,7 +54,7 @@ fun{
 (* ****** ****** *)
 
 fun{
-} string_copy (s: NSH(string)):<> string
+} string_copy (x: NSH(string)):<> string
 
 (* ****** ****** *)
 
@@ -67,15 +67,15 @@ fun{
 
 fun{
 } string_make_substring
-  (s: NSH(string), st: size_t, ln: size_t):<> string
+  (x: NSH(string), st: size_t, ln: size_t):<> string
 // end of [string_make_substring]
 
 (* ****** ****** *)
 
 fun{
 } string_append
-  (s1: NSH(string), s2: NSH(string)):<> string
-overload + with string_append
+  (x1: NSH(string), x2: NSH(string)):<> string
+overload + with string_append of 0
 
 (* ****** ****** *)
 
@@ -85,7 +85,7 @@ fun{
 (* ****** ****** *)
 
 fun{
-} string_explode (s: string):<> list0 (char)
+} string_explode (x: string):<> list0 (char)
 fun{
 } string_implode (cs: list0 (char)):<> string
 
@@ -96,7 +96,7 @@ fun string_tabulate
 
 (* ****** ****** *)
 
-fun string_foreach (s: string, f: cfun (char, void)): void
+fun string_foreach (x: string, f: cfun (char, void)): void
 
 (* ****** ****** *)
 

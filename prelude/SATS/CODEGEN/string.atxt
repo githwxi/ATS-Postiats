@@ -76,6 +76,10 @@ string_index_p
 
 #atscode_separator()
 
+exception StringSubscriptExn of ((*void*))
+
+#atscode_separator()
+
 praxi
 lemma_string_param
   {n:int} (x: string n): [n >= 0] void
@@ -130,12 +134,12 @@ fun{
 // end of [string_make_substring]
 
 #atscode_separator()
-
+//
 fun{
 } string_is_empty{n:int} (str: string(n)):<> bool(n==0)
 fun{
 } string_isnot_empty{n:int} (str: string(n)):<> bool(n > 0)
-
+//
 #atscode_separator()
 //
 symintr string_is_atend
@@ -162,6 +166,13 @@ string_isnot_atend
   (string, index) = ~string_is_atend (,(string), ,(index))
 // end of [string_isnot_atend]
 
+#atscode_separator()
+//
+fun{
+} string_head{n:pos} (str: string(n)):<> charNZ
+fun{
+} string_tail{n:pos} (str: string(n)):<> string(n-1)
+//
 #atscode_separator()
 
 fun{}
@@ -281,16 +292,6 @@ fun fprint_substring
 ) : void = "mac\#%" // end of [fprint_substring]
 //
 #atscode_separator()
-//
-fun{
-} string_head{n:pos} (str: string(n)):<> charNZ
-fun{
-} string_tail{n:pos} (str: string(n)):<> string(n-1)
-//
-overload .head with string_head
-overload .tail with string_tail
-//
-#atscode_separator()
 
 fun{
 } strchr {n:int}
@@ -402,7 +403,7 @@ fun{
 fun{
 } string_tabulate$fopr (size_t): charNZ
 fun{
-} string_tabulate {n:int} (n: size_t n): strnptr (n)
+} string_tabulate{n:int} (n: size_t(n)): strnptr(n)
 
 #atscode_separator()
 //
@@ -478,11 +479,14 @@ fun fprint_stropt (out: FILEref, x: Stropt0): void = "mac\#%"
 //
 // overloading for certain symbols
 //
-overload iseqz with string_is_empty of 0
-overload isneqz with string_isnot_empty of 0
+overload iseqz with string_is_empty
+overload isneqz with string_isnot_empty
 //
 overload iseqz with stropt_is_none of 10
 overload isneqz with stropt_is_some of 10
+//
+overload .head with string_head of 0
+overload .tail with string_tail of 0
 //
 overload length with string0_length of 0
 overload length with string1_length of 10

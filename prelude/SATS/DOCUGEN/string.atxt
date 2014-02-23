@@ -154,6 +154,8 @@ This funtion returns true if and only if its string argument is non-empty.
 
 (* ****** ****** *)
 
+#declnamesynop("string_is_atend")
+
 #declnamesynop("string_is_atend_gint")
 #decldescrpt('\
 
@@ -169,6 +171,11 @@ This function does the same as #dyncode("string_is_atend_gint") except for
 taking an unsigned integer as the string index.  ')
 
 #declfunretval("A boolean value is returned.")
+
+(* ****** ****** *)
+
+#declnamesynop("string_head")
+#declnamesynop("string_tail")
 
 (* ****** ****** *)
 
@@ -411,6 +418,8 @@ function in ATSLIB calls the libc-function of the same name (declared in
 
 (* ****** ****** *)
 
+#declnamesynop("string_length")
+
 #declnamesynop("string0_length")
 #decldescrpt('\
 
@@ -426,8 +435,13 @@ same as #dyncode("string0_length") but is assigned a more informative type.
 
 (* ****** ****** *)
 
+#declnamesynop("string_copy")
 #declnamesynop("string0_copy")
 #declnamesynop("string1_copy")
+
+(* ****** ****** *)
+
+#declnamesynop("string_append")
 
 #declnamesynop("string0_append")
 #decldescrpt('\
@@ -742,27 +756,12 @@ string or null pointer.")
 
 (* ****** ****** *)
 
-#declnamesynop("g0ofg1")
-#declnamesynop("g1ofg0")
-
-(* ****** ****** *)
-
 #declnamesynop("<")
 #declnamesynop("<=")
 #declnamesynop(">")
 #declnamesynop(">=")
 #declnamesynop("=")
 #declnamesynop("!=")
-#declnamesynop("compare")
-
-(* ****** ****** *)
-
-#declnamesynop("string_is_atend")
-
-(* ****** ****** *)
-
-#declnamesynop("length")
-#declnamesynop("string_length")
 
 (* ****** ****** *)
 
@@ -770,7 +769,26 @@ string or null pointer.")
 
 (* ****** ****** *)
 
-#declnamesynop("string_append")
+#declnamesynop("g0ofg1")
+#declnamesynop("g1ofg0")
+
+(* ****** ****** *)
+
+#declnamesynop("iseqz")
+#declnamesynop("isneqz")
+
+(* ****** ****** *)
+
+#declnamesynop("compare")
+
+(* ****** ****** *)
+
+#declnamesynop(".head")
+#declnamesynop(".tail")
+
+(* ****** ****** *)
+
+#declnamesynop("length")
 
 (* ****** ****** *)
 

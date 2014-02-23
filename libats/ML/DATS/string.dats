@@ -51,15 +51,20 @@ macdef
 prelude_string0_copy = string0_copy
 //
 macdef
-prelude_string0_append = string0_append
-//
-macdef
 prelude_string_make_list = string_make_list
 macdef
 prelude_string_make_rlist = string_make_rlist
 //
 macdef
 prelude_string_make_substring = string_make_substring
+//
+macdef
+prelude_string0_length = string0_length
+macdef
+prelude_string1_length = string1_length
+//
+macdef
+prelude_string0_append = string0_append
 //
 macdef
 prelude_stringlst_concat = stringlst_concat
@@ -122,16 +127,16 @@ end // end of [string_make_rlist]
 
 implement{
 } string_make_substring
-  (str, st, ln) = let
+  (x, st, ln) = let
 //
-val str = g1ofg0_string(str)
+val x = g1ofg0_string(x)
 val st = g1ofg0_uint(st) and ln = g1ofg0_uint(ln)
-val lnx = string_length (str)
+val lnx = prelude_string1_length (x)
 //
 val st = min (st, lnx)
 //
 val substr =
-$effmask_wrt(prelude_string_make_substring (str, st, min (ln, lnx-st)))
+$effmask_wrt(prelude_string_make_substring (x, st, min (ln, lnx-st)))
 //
 in
   $UN.castvwtp0{string}(substr)

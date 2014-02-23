@@ -28,7 +28,7 @@ val alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 val () =
 {
 val () = assertloc (itoa (12345) = "12345")
-}
+} (* end of [val] *)
 
 (* ****** ****** *)
 
@@ -38,6 +38,9 @@ val () =
 val () = assertloc (length (alphabet) = 26)
 val () = assertloc (alphabet = string_copy (alphabet))
 val () = assertloc (alphabet = string_make_substring (alphabet, (i2sz)0, (i2sz)26))
+//
+val () = assertloc (alphabet[0] = 'A')
+val () = assertloc (alphabet[25] = 'Z')
 //
 } // end of [val]
 
@@ -50,7 +53,7 @@ val ds =
 string_tabulate
 (
   i2sz(10)
-, lam i => $UN.cast{charNZ}('0' + g0u2i(i))
+, lam i => $UN.cast{charNZ}('0'+sz2i(i))
 ) (* end of [val] *)
 //
 val out = stdout_ref
@@ -59,7 +62,7 @@ val () = fprintln! (out, "digits = ", ds)
 val () =
 string_foreach (ds+ds, lam c => fprint(out, c))
 //
-val () = fprint_newline (out)
+val ((*void*)) = fprint_newline (out)
 //
 } (* end of [val] *)
 

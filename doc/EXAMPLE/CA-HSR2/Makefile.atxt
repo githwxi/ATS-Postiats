@@ -86,7 +86,10 @@ LNS=ln -s
 RMF=rm -f
 
 ######
-
+#
+all:: ; \
+  make -C program-1-2
+#
 #make_entry("program-1-3")
 #make2_entry("program-1-4", "-DATS_MEMALLOC_LIBC", "")
 #make_entry("program-1-5")
@@ -97,12 +100,16 @@ RMF=rm -f
 ######
 
 clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.o *_?ats.c
+clean:: ; $(RMF) *_?ats.o
+clean:: ; $(RMF) *_?ats.c
 clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
 clean:: ; $(RMF) Makefile.exe
 
+######
+
 cleanall:: clean
+cleanall:: ; make -C program-1-2 cleanall
 
 ###### end of [Makefile] ######
 \

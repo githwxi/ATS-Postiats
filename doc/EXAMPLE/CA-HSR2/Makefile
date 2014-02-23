@@ -26,7 +26,9 @@ LNS=ln -s
 RMF=rm -f
 
 ######
-
+#
+all:: ;   make -C program-1-2
+#
 all:: program-1-3
 program-1-3: program-1-3.exe
 program-1-3.exe: program-1-3_dats.c ;   $(CCOPT) -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
@@ -79,11 +81,15 @@ cleanall:: ; $(RMF) program-1-14.exe
 ######
 
 clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.o *_?ats.c
+clean:: ; $(RMF) *_?ats.o
+clean:: ; $(RMF) *_?ats.c
 clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
 clean:: ; $(RMF) Makefile.exe
 
+######
+
 cleanall:: clean
+cleanall:: ; make -C program-1-2 cleanall
 
 ###### end of [Makefile] ######

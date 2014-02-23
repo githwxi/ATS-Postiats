@@ -166,12 +166,15 @@ stkclo: stkclo.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 cleanall:: ; $(RMF) stkclo
 
 ######
-
+#
+CFLAGSjson += $(shell pkg-config --cflags json-c)
+#
 all:: for-0install
-for-0install: for-0install.dats ; \
-  $(PATSCC) -D_BSD_SOURCE -IIATS ${PATSHOME}/contrib -DATS_MEMALLOC_LIBC -o $@ $< -ljson-c
+for-0install: \
+  for-0install.dats ; \
+  $(PATSCC) -D_BSD_SOURCE -DATS_MEMALLOC_LIBC -IIATS ${PATSHOME}/contrib $(CFLAGSjson) -o $@ $< -ljson-c
 cleanall:: ; $(RMF) for-0install
-
+#
 ######
 
 RMF=rm -f

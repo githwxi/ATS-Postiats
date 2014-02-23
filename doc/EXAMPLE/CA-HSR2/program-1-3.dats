@@ -1,7 +1,8 @@
+(*
 //
 // Towers of Hanoi
 //
-
+*)
 (* ****** ****** *)
 //
 // HX-2012-07-24:
@@ -18,7 +19,6 @@ staload STRING = "prelude/DATS/string.dats"
 extern
 fun{a:t0p}
 fprint_infix (out: FILEref, x: a): FILEref
-overload << with fprint_infix
 
 implement{a}
 fprint_infix (out, x) = let
@@ -45,15 +45,38 @@ implement
 fprint_val<endl> (out, x) = fprint_newline (out)
 
 (* ****** ****** *)
+//
+infixl 0 <<
+infixr 0 >>
+//
+fun fprint_infix_char
+  (out: FILEref, x: char): FILEref = fprint_infix<char> (out, x)
+overload << with fprint_infix_char
+//
+fun fprint_infix_string
+  (out: FILEref, x: string): FILEref = fprint_infix<string> (out, x)
+overload << with fprint_infix_string
+//
+fun fprint_infix_endl
+  (out: FILEref, x: endl): FILEref = fprint_infix<endl> (out, x)
+overload << with fprint_infix_endl
+//
+fun fprint_infix_tower
+  (out: FILEref, x: tower): FILEref = fprint_infix<tower> (out, x)
+overload << with fprint_infix_tower
+//
+(* ****** ****** *)
 
 macdef cout = stdout_ref
 
 (* ****** ****** *)
 
 extern
-fun TowersOfHanoi {n:nat}
+fun TowersOfHanoi{n:nat}
   (n: int n, x: tower, y: tower, z: tower): void
 // end of [TowersOfHanoi]
+
+(* ****** ****** *)
 
 implement
 TowersOfHanoi

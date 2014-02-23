@@ -369,6 +369,7 @@ symintr tostring tostrptr
 // HX-2014-02:
 // for dot-notation overloading
 //
+symintr .size
 symintr .head .tail
 symintr .next .prev
 //
