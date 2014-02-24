@@ -236,7 +236,7 @@ fun{
 fun{x:t0p}
 list_is_sing{n:int} (xs: list (INV(x), n)):<> bool(n==1)
 fun{x:t0p}
-list_is_pair {n:int} (xs: list (INV(x), n)):<> bool(n==2)
+list_is_pair{n:int} (xs: list (INV(x), n)):<> bool(n==2)
 //
 #atscode_separator()
 
@@ -318,7 +318,8 @@ x:t0p
 //
 fun{a:t0p}
 list_append
-  {m,n:int} (
+  {m,n:int}
+(
   xs: NSH(list (INV(a), m)), ys: SHR(list (a, n))
 ) :<> list (a, m+n) // end of [list_append]
 //
@@ -343,7 +344,7 @@ a:t0p
 
 fun{
 x:t0p
-} list_extend {n:int}
+} list_extend{n:int}
   (xs: list (INV(x), n), x: x):<!wrt> list_vt (x, n+1)
 // end of [list_extend]
 
@@ -359,16 +360,16 @@ list_reverse
 #atscode_separator()
 
 fun{a:t0p}
-list_reverse_append {m,n:int}
+list_reverse_append{m,n:int}
   (xs: NSH(list (INV(a), m)), ys: SHR(list (a, n))):<> list (a, m+n)
 // end of [list_reverse_append]
 
 fun{a:t0p}
-list_reverse_append1_vt {m,n:int}
+list_reverse_append1_vt{m,n:int}
   (xs: list_vt (INV(a), m), ys: SHR(list (a, n))):<!wrt> list (a, m+n)
 // end of [list_reverse_append1_vt]
 fun{a:t0p}
-list_reverse_append2_vt {m,n:int}
+list_reverse_append2_vt{m,n:int}
   (xs: NSH(list (INV(a), m)), ys: list_vt (a, n)):<!wrt> list_vt (a, m+n)
 // end of [list_reverse_append2_vt]
 
@@ -466,7 +467,7 @@ x:t0p
 } list_filter$pred (x): bool
 fun{
 x:t0p
-} list_filter {n:int}
+} list_filter{n:int}
   (xs: list (INV(x), n)): listLte_vt (x, n)
 // end of [list_filter]
 
@@ -512,7 +513,7 @@ x:t0p}{y:vt0p
 } list_map$fopr (x): y
 fun{
 x:t0p}{y:vt0p
-} list_map {n:int}
+} list_map{n:int}
   (xs: list (INV(x), n)): list_vt (y, n)
 // end of [list_map]
 
@@ -553,7 +554,7 @@ x:t0p}{y:vt0p
 } list_imap$fopr (int, x): y
 fun{
 x:t0p}{y:vt0p
-} list_imap {n:int}
+} list_imap{n:int}
   (xs: list (INV(x), n)): list_vt (y, n)
 // end of [list_imap]
 
@@ -590,7 +591,7 @@ x:t0p}{y:vt0p
 } list_mapopt$fopr (x): Option_vt (y)
 fun{
 x:t0p}{y:vt0p
-} list_mapopt {n:int}
+} list_mapopt{n:int}
   (xs: list (INV(x), n)): listLte_vt (y, n)
 // end of [list_mapopt]
 
@@ -752,10 +753,10 @@ x:t0p}{env:vt0p
 } list_iforeach$fwork (i: int, x: x, env: &(env) >> _): void
 fun{
 x:t0p
-} list_iforeach {n:int} (xs: list (INV(x), n)): natLte(n)
+} list_iforeach{n:int} (xs: list (INV(x), n)): natLte(n)
 fun{
 x:t0p}{env:vt0p
-} list_iforeach_env {n:int} (xs: list (INV(x), n), env: &(env) >> _): natLte(n)
+} list_iforeach_env{n:int} (xs: list (INV(x), n), env: &(env) >> _): natLte(n)
 
 #atscode_separator()
 
@@ -778,11 +779,11 @@ x,y:t0p}{env:vt0p
 } list_iforeach2$fwork (i: int, x: x, y: y, env: &(env) >> _): void
 fun{
 x,y:t0p
-} list_iforeach2 {m,n:int}
+} list_iforeach2{m,n:int}
   (xs: list (INV(x), m), ys: list(INV(y), n)): natLte(min(m,n))
 fun{
 x,y:t0p}{env:vt0p
-} list_iforeach2_env {m,n:int}
+} list_iforeach2_env{m,n:int}
   (xs: list (INV(x), m), ys: list(INV(y), n), env: &(env) >> _): natLte(min(m,n))
 // end of [list_iforeach2_env]
 
