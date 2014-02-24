@@ -221,7 +221,7 @@ prval () = $UN.cast2void(gxs)
 val () = if mean = INF then mean := NAN 
 //
 in 
-  expvar_make (mean, stdev)
+  expvar_make (mean, $M.sqrt(stdev))
 end // end of [grcnf_minmean_stdev]
 
 (* ****** ****** *)

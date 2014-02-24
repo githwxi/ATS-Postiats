@@ -69,9 +69,8 @@ val-~Some_vt(inp) = opt
 val gxs = parse_fileref (inp)
 val ((*void*)) = fileref_close (inp)
 //
-val skipped = ruleset_make_nil ()
 val grcnfs =
-grexplst_cnfize_ifnot (gxs, skipped)
+grexplst_cnfize(gxs)
 //
 val expvars =
 grcnflst_minmean_stdev (grcnfs, emap, smap)

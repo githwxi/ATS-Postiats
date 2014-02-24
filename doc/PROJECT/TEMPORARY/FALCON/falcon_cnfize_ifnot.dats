@@ -82,8 +82,8 @@ case+ gxs of
 | list_cons
     (gx, gxs) => let
     val skip = ruleset_is_member (skipped, rule)
-    val () = if skip then println! ("Skipping rule(", rule, ")") 
-    val () = if ~skip then println! ("Processing rule(", rule, ")") 
+    val () = if skip then fprintln! (stderr_ref, "Skipping rule(", rule, ")") 
+    val () = if ~skip then fprintln! (stderr_ref, "Processing rule(", rule, ")") 
   in
     if skip
       then
@@ -91,7 +91,7 @@ case+ gxs of
       else let
         val grf = grexp_cnfize (gx)
         val () = (
-          fprint_grcnf (stdout_ref, grf); fprint_newline (stdout_ref)
+          fprint_grcnf (stderr_ref, grf); fprint_newline (stderr_ref)
         ) (* end of [val] *)
         val res = list_vt_cons (grf, res)
       in
