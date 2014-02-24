@@ -759,7 +759,7 @@ a:t@ype
 Like #dyncode("mergeSort"), #dyncode("insertionSort") is implemented in a
 manner that makes no use of memory allocation and deallocation.  Given a
 linear list, #dyncode("insertionSort") essentially shuffles the nodes in
-the list for form a sorted list.
+the list to form a sorted list.
 
 ')
 

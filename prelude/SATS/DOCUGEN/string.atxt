@@ -40,6 +40,10 @@ If str[i] equals the null character, then i equals n.\
 
 (* ****** ****** *)
 
+#declnamesynop("StringSubscriptExn")
+
+(* ****** ****** *)
+
 #declnamesynop("lemma_string_param")
 
 (* ****** ****** *)

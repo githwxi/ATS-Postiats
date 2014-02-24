@@ -366,18 +366,62 @@ empty. Otherwise, it raise a run-time exception (#dyncode("ListSubscriptExn")).\
 (* ****** ****** *)
 
 #declnamesynop("list_nth")
+#decldescrpt("\
+
+Given a list of length n and a natural number i less than n, this function
+returns xs[i], that is, element i in xs.\
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("list_get_at")
+#decldescrpt("This function does the same as #dyncode("list_nth").")
+
+(* ****** ****** *)
+
 #declnamesynop("list_insert_at")
-#declnamesynop("list_takeout_at")
+#decldescrpt("\
+
+Given a list xs of length n, a natural number i <= n, and an element x, this
+function inserts x into xs so that x becomes element i in the returned list.\
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("list_remove_at")
+#decldescrpt("\
+
+Given a list xs of length n and a natural number i < n, this function
+returns a list obtained from removing xs[i] from xs.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list_takeout_at")
+#decldescrpt("\
+
+This function does the same as #dyncode("list_remove_at") except for
+storing the removed element in its third call-by-reference argument.\
+
+")
 
 (* ****** ****** *)
 
 #declnamesynop("list_length")
+#decldescrpt("This function returns the length of a given list.")
 
 (* ****** ****** *)
 
 #declnamesynop("list_copy")
+#decldescrpt("\
+
+Given a list xs, this function returns a copy of xs. Note that the returned
+copy is a linear list.\
+
+")
 
 (* ****** ****** *)
 
