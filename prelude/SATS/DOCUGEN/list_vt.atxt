@@ -87,8 +87,25 @@ respectively.\
 (* ****** ****** *)
 
 #declnamesynop("List_vt")
+#decldescrpt('This type is for linear lists of unspecified length.')
+
+(* ****** ****** *)
+
 #declnamesynop("List0_vt")
+#decldescrpt('\
+
+This type is for linear lists of unspecified length that is greater than or
+equal to 0. Note that #stacode("List0_vt") is essentially equivalent to
+#stacode("List_vt") since the length of a list can never be negative.  The
+proof function #prfcode("lemma_list_vt_param") can be called explicitly to
+cast from #stacode("List_vt") to #stacode("List0_vt").\
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("List1_vt")
+#decldescrpt('This type is for linear lists of unspecified positive length.')
 
 (* ****** ****** *)
 
@@ -118,8 +135,10 @@ whenever T1 is a subtype of T2.
 
 (* ****** ****** *)
 
-#declnamesynop("list_vt_sing")
-#declnamesynop("list_vt_pair")
+#declnamesynop("list_vt_make_sing")
+#decldescrpt("This function returns a linear list consisting of a given value.")
+#declnamesynop("list_vt_make_pair")
+#decldescrpt("This function returns a linear list consisting of two given values.")
 
 (* ****** ****** *)
 
@@ -363,9 +382,10 @@ case+ xs of
 //
     var xs11 = xs1
     // HX: xs11/xs12: <= x0 / > x0
-    val xs12 = list_vt_separate<a> (xs11)
-    val xs11 = list_vt_qsort (xs11, cmp)
-    val xs12 = list_vt_qsort (xs12, cmp)
+    val xs12 =
+      list_vt_separate<a> (xs11)
+    val xs11 = list_vt_qsort<a> (xs11, cmp)
+    val xs12 = list_vt_qsort<a> (xs12, cmp)
     val () = xs1 := xs12
     prval () = fold@ (xs)
   in
@@ -626,6 +646,10 @@ except for allowing the comparison function to be provided as an argument.
 
 (* ****** ****** *)
 
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
 #declnamesynop("iseqz")
 #declnamesynop("isneqz")
 
@@ -635,7 +659,7 @@ except for allowing the comparison function to be provided as an argument.
 
 (* ****** ****** *)
 
-#declnamesynop("[]")
+#declnamesynop("free")
 
 (* ****** ****** *)
 

@@ -132,6 +132,9 @@ return value of a call to #dyncode("matrix_tabulate$fopr").
 #declnamesynop("fprint_matrix_size")
 #declnamesynop("fprint_matrix$sep1")
 #declnamesynop("fprint_matrix$sep2")
+
+(* ****** ****** *)
+
 #declnamesynop("fprint_matrix_sep")
 
 (* ****** ****** *)

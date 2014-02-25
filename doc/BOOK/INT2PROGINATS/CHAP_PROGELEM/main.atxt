@@ -777,10 +777,10 @@ let
   val () = print 'o'
 in
   // nothing
-end // end of [begin]
+end // end of [let]
 </programlisting></informalexample>
 
-which is rather common in functional programming.\
+which is quite common in functional programming.\
 ")
 
 </sect1><!--id="sequence_expression"-->

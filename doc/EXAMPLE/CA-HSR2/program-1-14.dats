@@ -8,7 +8,8 @@ staload INT = "prelude/DATS/integer.dats"
 
 (* ****** ****** *)
 
-fun Fibonacci
+fun
+Fibonacci
   {n:nat}
   (n: int n): int = let
 //

@@ -350,19 +350,12 @@ overload string_length with string1_length of 10
 //
 #atscode_separator()
 //
-symintr string_copy
-//
 fun{
 } string0_copy
   (xs: NSH(string)):<!wrt> Strptr1
 fun{
 } string1_copy
   {n:int} (xs: NSH(string(n))):<!wrt> strnptr (n)
-//
-overload string_copy with string0_copy of 0
-(*
-overload string_copy with string1_copy of 10
-*)
 //
 #atscode_separator()
 //
@@ -482,20 +475,27 @@ fun fprint_stropt (out: FILEref, x: Stropt0): void = "mac\#%"
 overload iseqz with string_is_empty
 overload isneqz with string_isnot_empty
 //
-overload iseqz with stropt_is_none of 10
-overload isneqz with stropt_is_some of 10
+overload .head with string_head
+overload .tail with string_tail
 //
-overload .head with string_head of 0
-overload .tail with string_tail of 0
+overload length with string_length
 //
-overload length with string0_length of 0
-overload length with string1_length of 10
+overload copy with string0_copy of 0
+(*
 //
-overload length with stropt_length of 10
+// HX: too much of a surprise!
+//
+overload copy with string1_copy of 10
+*)
 //
 overload print with print_string of 0
 overload prerr with prerr_string of 0
 overload fprint with fprint_string of 0
+//
+overload iseqz with stropt_is_none
+overload isneqz with stropt_is_some
+//
+overload length with stropt_length
 //
 overload print with print_stropt of 0
 overload prerr with prerr_stropt of 0

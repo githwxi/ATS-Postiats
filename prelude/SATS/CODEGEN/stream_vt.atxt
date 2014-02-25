@@ -76,11 +76,13 @@ fun{a:t0p}
 stream_vt_filter (xs: stream_vt (INV(a))): stream_vt (a)
 //
 fun{a:t0p}
-stream_vt_filter_fun (
+stream_vt_filter_fun
+(
   xs: stream_vt (INV(a)), pred: (&a) -<fun> bool
 ) : stream_vt (a) // end of [stream_vt_filter_fun]
 fun{a:t0p}
-stream_vt_filter_cloptr (
+stream_vt_filter_cloptr
+(
   xs: stream_vt (INV(a)), pred: (&a) -<cloptr> bool
 ) : stream_vt (a) // end of [stream_vt_filter_cloptr]
 //

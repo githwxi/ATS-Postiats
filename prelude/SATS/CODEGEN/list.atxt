@@ -179,11 +179,6 @@ fprint_list_sep
   (out: FILEref, xs: List (INV(x)), sep: NSH(string)): void
 // end of [fprint_list_sep]
 //
-overload print with print_list
-overload prerr with prerr_list
-overload fprint with fprint_list
-overload fprint with fprint_list_sep
-//
 #atscode_separator()
 
 fun{x:t0p}
@@ -255,11 +250,6 @@ list_tail_exn{n:int}
   (xs: SHR(list (INV(x), n))):<!exn> list (x, n-1)
 
 #atscode_separator()
-//
-overload .head with list_head
-overload .tail with list_tail
-//
-#atscode_separator()
 
 fun{x:t0p}
 list_last{n:pos} (xs: list (INV(x), n)):<> (x)
@@ -276,8 +266,6 @@ x:t0p
 fun{x:t0p}
 list_get_at{n:int}
   (xs: list (INV(x), n), i: natLt (n)):<> (x)
-//
-overload [] with list_get_at
 //
 #atscode_separator()
 
@@ -322,8 +310,6 @@ list_append
 (
   xs: NSH(list (INV(a), m)), ys: SHR(list (a, n))
 ) :<> list (a, m+n) // end of [list_append]
-//
-overload + with list_append
 //
 #atscode_separator()
 
@@ -427,7 +413,6 @@ fun{x:t0p}
 list_equal$eqfn (x, x):<> bool
 fun{x:t0p}
 list_equal (xs1: List (INV(x)), xs2: List(x)):<> bool
-overload = with list_equal
 
 #atscode_separator()
 //
@@ -856,10 +841,30 @@ a:t0p
 //
 // overloading for certain symbols
 //
+#atscode_separator()
+//
+// overloading for certain symbols
+//
+overload = with list_equal
+//
+overload + with list_append
+//
+overload [] with list_get_at
+//
 overload iseqz with list_is_nil
 overload isneqz with list_is_cons
 //
+overload .head with list_head
+overload .tail with list_tail
+//
 overload length with list_length
+//
+overload copy with list_copy
+//
+overload print with print_list
+overload prerr with prerr_list
+overload fprint with fprint_list
+overload fprint with fprint_list_sep
 //
 #atscode_separator()
 

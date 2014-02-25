@@ -183,12 +183,25 @@ end // end of [strnptr_upperize]
 
 (* ****** ****** *)
 
+#declnamesynop("<")
+#declnamesynop("<=")
+#declnamesynop(">")
+#declnamesynop(">=")
+#declnamesynop("=")
+#declnamesynop("!=")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
 #declnamesynop("iseqz")
 #declnamesynop("isneqz")
 
 (* ****** ****** *)
 
-#declnamesynop("freelin")
+#declnamesynop("compare")
 
 (* ****** ****** *)
 
@@ -196,7 +209,8 @@ end // end of [strnptr_upperize]
 
 (* ****** ****** *)
 
-#declnamesynop("[]")
+#declnamesynop("copy")
+#declnamesynop("free")
 
 (* ****** ****** *)
 

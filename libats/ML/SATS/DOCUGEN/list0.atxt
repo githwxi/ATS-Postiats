@@ -144,13 +144,14 @@ staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement
-main () = let
-  val xs = (list0)$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
-  val () = list0_foreach<int> (xs, lam (x) => print_int (x))
-  val () = print_newline ()
-in
-  0(*NormalExit*)
-end // end of [main]
+main0 () =
+{
+//
+val xs = (list0)$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+val () = list0_foreach<int> (xs, lam (x) => print_int (x))
+val () = print_newline ((*void*))
+//
+} (* end of [main0] *)
 ')
 ")
 
@@ -1059,7 +1060,7 @@ val () =
 val () = fprint_list0_sep (out, xs, ", ")
 val () = fprint_newline (out)
 //
-} // end of [main]
+} (* end of [main0] *)
 ')
 ")
 
@@ -1103,7 +1104,7 @@ val () =
 val () = fprint_list0_sep (out, xs, ", ")
 val () = fprint_newline (out)
 //
-} // end of [main]
+} (* end of [main0] *)
 ')
 ")
 

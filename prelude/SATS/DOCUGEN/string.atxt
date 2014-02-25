@@ -796,6 +796,10 @@ string or null pointer.")
 
 (* ****** ****** *)
 
+#declnamesynop("copy")
+
+(* ****** ****** *)
+
 #declnamesynop("print")
 #declnamesynop("prerr")
 #declnamesynop("fprint")

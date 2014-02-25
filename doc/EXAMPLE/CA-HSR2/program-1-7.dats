@@ -51,7 +51,10 @@ typedef T = float
 val asz = g1int2uint (N)
 //
 implement
-$RG.randgen_val<T> () = g0float2float (drand48 ())
+$RG.randgen_val<T>
+(
+  // argumentless
+) = g0float2float (drand48 ())
 val A = $RG.randgen_arrayptr<T> (asz)
 //
 val p = arrayptr2ptr (A)
@@ -62,9 +65,9 @@ val () = arrayptr_free (A)
 val () =
 (
   print "sum of the array = "; print sum; print_newline ()
-) // end of [val]
+) (* end of [val] *)
 //
-} // end of [main0]
+} (* end of [main0] *)
 
 (* ****** ****** *)
 

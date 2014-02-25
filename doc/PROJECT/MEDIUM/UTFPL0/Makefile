@@ -99,7 +99,7 @@ UTFPLEVAL:: \
 
 ######
 
-%_sats.o: %.sats ; $(PATSCC) -c $<
+%_sats.o: %.sats ; $(PATSCC2) -c $<
 %_dats.o: %.dats ; $(PATSCC2) -c $<
 
 ######
@@ -115,6 +115,10 @@ depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(UTFPLsrc_dyn)
 depend:: ; $(PATSOPT) --output-a .depend --depgen -s utfpleval.sats
 depend:: ; $(PATSOPT) --output-a .depend --depgen -d utfpleval_symenv.dats
 depend:: ; $(PATSOPT) --output-a .depend --depgen -d utfpleval.dats
+
+######
+
+cleanats:: ; $(RMF) *_?ats.c
 
 ######
 

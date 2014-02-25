@@ -118,23 +118,16 @@ fprint_list_vt_sep (
   out: FILEref, xs: !List_vt (INV(x)), sep: NSH(string)
 ) : void // end of [fprint_list_vt_sep]
 //
-overload print with print_list_vt
-overload prerr with prerr_list_vt
-overload fprint with fprint_list_vt
-overload fprint with fprint_list_vt_sep
-//
 #atscode_separator()
-
+//
 fun{x:vt0p}
 list_vt_is_nil
   {n:int} (xs: !list_vt (INV(x), n)):<> bool (n==0)
-overload iseqz with list_vt_is_nil
-
+//
 fun{x:vt0p}
 list_vt_is_cons
   {n:int} (xs: !list_vt (INV(x), n)):<> bool (n > 0)
-overload isneqz with list_vt_is_cons
-
+//
 #atscode_separator()
 
 fun{x:vt0p}
@@ -163,7 +156,6 @@ list_vt_uncons{n:pos}
 
 fun{x:vt0p}
 list_vt_length{n:int} (xs: !list_vt (INV(x), n)):<> int n
-overload length with list_vt_length
 
 #atscode_separator()
 
@@ -186,19 +178,15 @@ list_vt_getref_at
 // end of [list_vt_getref_at]
 
 #atscode_separator()
-
+//
 fun{x:t0p}
 list_vt_get_at{n:int}
   (xs: !list_vt (INV(x), n), i: natLt n):<> x
-overload [] with list_vt_get_at
-
-#atscode_separator()
-
+//
 fun{x:t0p}
 list_vt_set_at{n:int}
   (xs: !list_vt (INV(x), n), i: natLt n, x: x):<!wrt> void
-overload [] with list_vt_set_at
-
+//
 #atscode_separator()
 
 fun{x:vt0p}
@@ -233,7 +221,8 @@ list_vt_freelin (xs: List_vt (INV(x))):<!wrt> void
 #atscode_separator()
 
 fun{x:vt0p}
-list_vt_uninitize$clear (x: &x>>x?):<!wrt> void
+list_vt_uninitize$clear
+  (x: &(x)>>x?):<!wrt> void
 fun{
 x:vt0p
 } list_vt_uninitize
@@ -465,6 +454,25 @@ a:vt0p
   {n:int} (
   xs: list_vt (INV(a), n), cmp: cmpref (a)
 ) :<!wrt> list_vt (a, n) // end of [list_vt_quicksort_fun]
+//
+#atscode_separator()
+//
+// overloading for certain symbols
+//
+overload [] with list_vt_get_at
+overload [] with list_vt_set_at
+//
+overload iseqz with list_vt_is_nil
+overload isneqz with list_vt_is_cons
+//
+overload length with list_vt_length
+//
+overload free with list_vt_free
+//
+overload print with print_list_vt
+overload prerr with prerr_list_vt
+overload fprint with fprint_list_vt
+overload fprint with fprint_list_vt_sep
 //
 #atscode_separator()
 

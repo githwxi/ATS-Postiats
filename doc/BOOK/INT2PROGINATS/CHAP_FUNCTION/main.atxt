@@ -167,9 +167,13 @@ fn sqrsum1 (x: int, y: int): int = x * x + y * y
 
 We can define a unary function #dyncode("sqrsum2") as follows:
 #atscode("\
+//
 typedef int2 = (int, int)
-fn sqrsum2 (xy: int2): int =
+//
+fn sqrsum2
+  (xy: int2): int =
   let val x = xy.0 and y = xy.1 in x * x + y * y end
+// end of [sqrsum2]
 ")
 
 The keyword #stacode("typedef") introduces a binding between the name
