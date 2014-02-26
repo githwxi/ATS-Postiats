@@ -24,6 +24,7 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 Here is a list of major additions and changes since the last release:
 
 1. Supporting stack-allocated closures
+2. Fixing errmsg for a non-template being treated as a template
 
 </pre>
 

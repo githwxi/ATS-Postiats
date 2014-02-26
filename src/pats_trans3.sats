@@ -82,9 +82,11 @@ datatype trans3err =
   | T3E_p2at_trdn_con_arity of (p2at, int(*serr*))
   | T3E_p2at_free_update of (p3at) // linear constructor freeing
 //
-  | T3E_d2var_trup_llamlocal of (d2var) // non-local linear variable
-//
   | T3E_d2exp_trup_item of (loc_t, d2itm)
+//
+  | T3E_d2exp_trup_tmpid of (d2exp) // non-template treated as template
+//
+  | T3E_d2var_trup_llamlocal of (d2var) // non-local linear variable
 //
   | T3E_d2exp_trup_con_npf of (d2exp, int(*npf*))
   | T3E_d2exp_trup_laminit_funclo of (d2exp, funclo)

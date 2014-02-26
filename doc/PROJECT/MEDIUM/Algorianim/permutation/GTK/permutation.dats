@@ -75,11 +75,13 @@ snapshot_pop (): list0 (int)
 (* ****** ****** *)
 
 local
-
+//
 val xss0 =
-list0_permute<int> (list0_make_intrange (0, N), N)
+list0_permute<int>
+  (list0_make_intrange (0, N), N)
+//
 val xss_current = ref<list0(list0(int))> (xss0)
-
+//
 in (* in-of-local *)
 
 implement

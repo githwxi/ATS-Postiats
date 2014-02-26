@@ -953,11 +953,18 @@ case+
 | D2Evar (d2v) =>
     d2exp_trup_tmpvar (loc0, d2v, t2mas)
 | _ => let
-    val () = (
-      println! ("d2exp_trup_tmpid: d2e_id = ", d2e_id)
-    ) // end of [val]
+//
+    val () = prerr_error3_loc (loc0)
+    val () = filprerr_ifdebug "d2exp_trup_tmpid"
+    val (
+    ) = prerrln!
+      (": a non-template is treated as a template: ", d2e0)
+    (* end of [val] *)
+//
+    val () = the_trans3errlst_add (T3E_d2exp_trup_tmpid (d2e0))
+//
   in
-    exitloc (1)
+    d3exp_errexp (loc0)
   end // end of [_]
 //
 end // end of [d2exp_trup_tmpid]
