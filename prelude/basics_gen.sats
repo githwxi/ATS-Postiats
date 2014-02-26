@@ -80,17 +80,24 @@ fun{a:vt0p} tostrptr_ref (x: &INV(a)):<> Strptr1
 
 fun{a:t0p}
 fprint_val (out: FILEref, x: a): void
+fun{a:vt0p}
+fprint_ref (out: FILEref, x: &INV(a)): void
+
+(* ****** ****** *)
+
+(*
+//
 fun{a:t0p}
 print_val (x: a): void // = fprint_val (stdout_ref, x)
 fun{a:t0p}
 prerr_val (x: a): void // = fprint_val (stderr_ref, x)
-
-fun{a:vt0p}
-fprint_ref (out: FILEref, x: &INV(a)): void
+//
 fun{a:vt0p}
 print_ref (x: &INV(a)): void // = fprint_ref (stdout_ref, x)
 fun{a:vt0p}
 prerr_ref (x: &INV(a)): void // = fprint_ref (stderr_ref, x)
+//
+*)
 
 (* ****** ****** *)
 

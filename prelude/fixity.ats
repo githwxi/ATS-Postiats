@@ -109,10 +109,8 @@ infix 0 := :=: // HX: assgn and xchng
 
 (* ****** ****** *)
 
-(*
-infixl 0 <<
-infixr 0 >>
-*)
+infixl 0 << (* g0int_asl, g0uint_lsl *)
+infixr 0 >> (* g0int_asr, g0uint_lsr *)
 
 (* ****** ****** *)
 
