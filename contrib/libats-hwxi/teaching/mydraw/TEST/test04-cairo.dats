@@ -65,7 +65,7 @@ val () = draw_dragon (1(*sgn*), p1, p2, clr, n)
 //
 in
   // nothing
-end // end of [cairo_draw3_sierpinski]
+end // end of [cairo_draw3_dragon]
 
 (* ****** ****** *)
 

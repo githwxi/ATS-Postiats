@@ -30,6 +30,34 @@ arrays-with-size can be found in
 
 #para('\
 
+For creating an array-with-size, the following functions
+#dyncode("arrszref_make_arrpsz") and #dyncode("arrszref_make_arrayref") can
+be called:
+
+#atscode('\
+fun{}
+arrszref_make_arrpsz
+  {a:vt0p}{n:int} (arrpsz (INV(a), n)): arrszref(a)
+fun{}
+arrszref_make_arrayref
+  {a:vt0p}{n:int} (arrayref (a, n), size_t(n)): arrszref(a)
+// end of [arrszref_make_arrayref]
+')
+
+As an example, the following code creates an array-with-size containing
+all the decimal digits:
+
+#atscode('\
+val DIGITS = (arrszref)$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+')
+
+Note that #dyncode("arrszref") is overloaded with
+#dyncode("arrszref_make_arrpsz").
+
+')
+
+#para('\
+
 For reading from and writing to an array-with-size, the function templates
 #dyncode("arrszref_get_at") and #dyncode("arrszref_set_at") can be used,
 respectively, which are assigned the following interfaces:
@@ -76,12 +104,12 @@ STDIO = "libc/SATS/stdio.sats"
 implement main () =
 {
 //
-  val filr =
-    $STDIO.fopen_ref_exn ("../CODE/chap_arrszref.dats", file_mode_w)
-  val () = fprint_theCodeLst (filr)
-  val () = $STDIO.fclose_exn (filr)
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_arrszref.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
 //
-  val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
 //
 } // end of [main]
 %}

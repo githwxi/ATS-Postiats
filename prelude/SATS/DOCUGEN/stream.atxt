@@ -37,7 +37,16 @@ stream (a:t0p) = lazy (stream_con(a))
 
 (* ****** ****** *)
 
+#declnamesynop("StreamSubscriptExn")
+
+(* ****** ****** *)
+
 #declnamesynop("stream2list")
+#decldescrpt('\
+
+This function turns a given stream into a linear list.
+
+')
 
 (* ****** ****** *)
 
@@ -47,40 +56,66 @@ stream (a:t0p) = lazy (stream_con(a))
 (* ****** ****** *)
 
 #declnamesynop("stream_nth_exn")
+#decldescrpt('\
+
+Given a stream xs and a natural number n, this
+function returns xs[n], that is, element n in xs if
+xs contains at least n elements. Otherwise,
+a run-time exception (#dyncode("StreamSubscriptExn")) is raised.
+
+')
+
 #declnamesynop("stream_nth_opt")
+#decldescrpt('\
+
+This function is the optional version of #dyncode("stream_nth_exn").
+
+')
 
 (* ****** ****** *)
 
-#declnamesynop("stream_foreach$cont")
-#declnamesynop("stream_foreach$fwork")
 #declnamesynop("stream_foreach")
 #declnamesynop("stream_foreach_env")
+#declnamesynop("stream_foreach$cont")
+#declnamesynop("stream_foreach$fwork")
 
 (* ****** ****** *)
 
-#declnamesynop("stream_filter$pred")
 #declnamesynop("stream_filter")
+#declnamesynop("stream_filter$pred")
+
+(* ****** ****** *)
+
 #declnamesynop("stream_filter_fun")
 #declnamesynop("stream_filter_cloref")
 
 (* ****** ****** *)
 
-#declnamesynop("stream_map$fwork")
 #declnamesynop("stream_map")
+#declnamesynop("stream_map$fopr")
+
+(* ****** ****** *)
+
 #declnamesynop("stream_map_fun")
 #declnamesynop("stream_map_cloref")
 
 (* ****** ****** *)
 
-#declnamesynop("stream_map2$fwork")
 #declnamesynop("stream_map2")
+#declnamesynop("stream_map2$fopr")
+
+(* ****** ****** *)
+
 #declnamesynop("stream_map2_fun")
 #declnamesynop("stream_map2_cloref")
 
 (* ****** ****** *)
 
-#declnamesynop("stream_merge$cmp")
 #declnamesynop("stream_merge")
+#declnamesynop("stream_merge$cmp")
+
+(* ****** ****** *)
+
 #declnamesynop("stream_merge_fun")
 #declnamesynop("stream_merge_cloref")
 

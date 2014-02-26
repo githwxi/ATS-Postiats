@@ -176,10 +176,10 @@ end // end of [jsonize_d2con]
 // 
 implement
 jsonize0_s2exp
-  (s2e) = jsonize_s2exp (0(*hnf*), s2e)
+  (s2e) = jsonize_s2exp (0(*hnfize*), s2e)
 implement
 jsonize1_s2exp
-  (s2e) = jsonize_s2exp (1(*hnf*), s2e)
+  (s2e) = jsonize_s2exp (1(*hnfize*), s2e)
 // 
 (* ****** ****** *)
 

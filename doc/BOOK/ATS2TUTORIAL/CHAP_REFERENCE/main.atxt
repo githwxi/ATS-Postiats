@@ -80,32 +80,35 @@ For instance, following is such an example:
 
 #atscode_extract('\
 local
-
+//
+\#define BUFSZ 128
+//
 val count = ref<int> (0)
-
+//
 in (* in of [local] *)
 
-fun getNewName
+fun genNewName
   (prfx: string): string = let
   val n = !count
   val () = !count := n + 1
-  val name = sprintf ("%s%i", @(prfx, n))
+  var res = @[byte][BUFSZ]((*void*))
+  val err =
+  $extfcall (
+    int, "snprintf", addr@res, BUFSZ, "%s%i", prfx, n
+  ) (* end of [$extfcall] *)
 in
-  strptr2string (name)
-end // end of [getNewName]
+  strptr2string(string0_copy($UNSAFE.cast{string}(addr@res)))
+end // end of [genNewName]
 
 end // end of [local]
 ')
 
-The function #dyncode("getNewName") is called to generate fresh names. As
+The function #dyncode("genNewName") is called to generate fresh names. As
 the integer content of the reference #dyncode("count") is updated whenever
-a call to #dyncode("getNewName") is made, each name returned by
-#dyncode("getNewName") is guaranteed to have not been generated
-before. Note that each string returned by #dyncode("sprinf") is a linear
-one (of the type #dyncode("Strptr1")) and the cast funtion
-#dyncode("strptr2string") is called to turn it into a nonlinear one. There
-is no run-time cost associated with such a call as every call to a cast
-function is always a no-op at run-time.
+a call to #dyncode("genNewName") is made, each name returned by
+#dyncode("genNewName") is guaranteed to have not been generated
+before. Note that the use of #keycode("$extfcall") is for making a direct
+call to the function #dyncode("snprintf") in C.
 
 ")#comment("para")
 
@@ -208,11 +211,11 @@ implement main () =
 {
 //
 val filr =
-  $STDIO.fopen_ref_exn ("../CODE/chap_reference.dats", file_mode_w)
+  $STDIO.fopen_ref_exn ("../TEMP/chap_reference.dats", file_mode_w)
 val () = fprint_theCodeLst (filr)
 val () = $STDIO.fclose_exn (filr)
 //
 val () = fprint_filsub (stdout_ref, "main_atxt.txt")
 //
-}
+} (* end of [main] *)
 %}

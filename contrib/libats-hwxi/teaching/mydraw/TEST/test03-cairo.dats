@@ -68,7 +68,7 @@ val () = draw_koch (p3, p1, clr3, n)
 //
 in
   // nothing
-end // end of [cairo_draw3_sierpinski]
+end // end of [cairo_draw3_koch]
 
 (* ****** ****** *)
 

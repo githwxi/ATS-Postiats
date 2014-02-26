@@ -45,7 +45,7 @@ implement{
 val a = 1.0 / n
 val v12 = a * (p2 - p1)
 val v43 = a * (p3 - p4)
-val [n:int] EQINT () = eqint_make_gint (n)
+prval [n:int] EQINT () = eqint_make_gint (n)
 //
 fun loop
   {i:nat | i < n}

@@ -107,6 +107,8 @@ dyncode (x) = xmltagging ("code", ,(x))
 macdef
 stacode (x) = xmltagging ("code", ,(x))
 macdef
+keycode (x) = xmltagging ("code", ,(x))
+macdef
 command (x) = xmltagging ("command", ,(x))
 macdef
 emphasis (x) = xmltagging ("emphasis", ,(x))

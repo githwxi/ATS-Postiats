@@ -171,12 +171,12 @@ given elsewhere.
 %{
 implement main () = {
 //
-  val filr =
-    $STDIO.fopen_ref_exn ("../CODE/chap_hordfun.dats", file_mode_w)
-  val () = fprint_theCodeLst (filr)
-  val () = $STDIO.fclose_exn (filr)
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_hordfun.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
 //
-  val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
 //
-}
+} (* end of [main] *)
 %}
