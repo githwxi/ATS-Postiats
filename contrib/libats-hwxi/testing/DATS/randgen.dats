@@ -63,10 +63,10 @@ in (* in of [local] *)
 implement{
 } randint{n}(n) = let
 //
-val N = $STDLIB.random ()
+val x = $STDLIB.random ()
 //
 in
-  $UN.cast{natLt(n)}(g0i2i(N) mod n)
+  $UN.cast{natLt(n)}(x mod $UN.cast2lint(n))
 end // end of [randint]
 
 end // end of [local]

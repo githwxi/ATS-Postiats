@@ -17,13 +17,14 @@ LDFLAGS += $(shell pkg-config gtk+-3.0 --libs)
 
 ######
 #
-all:: permutation_anim
+all:: insertsort_anim
 #
-permutation_anim: \
-  permutation_anim.dats ; \
-  $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_GCBDW -O2 -o $@ $(CFLAGS) $< $(LDFLAGS)
+insertsort_anim: \
+  ./../insertsort.dats \
+  insertsort_anim.dats ; \
+  $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_GCBDW -O2 -o $@ $(CFLAGS) $^ $(LDFLAGS)
 #
-cleanall:: ; $(RMF) permutation_anim
+cleanall:: ; $(RMF) insertsort_anim
 #
 ######
 
