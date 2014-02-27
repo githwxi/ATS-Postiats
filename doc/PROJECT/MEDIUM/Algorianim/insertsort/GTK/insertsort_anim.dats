@@ -126,24 +126,27 @@ local
 val ind = ref<int> (0)
 //
 val (ASZ, xs) =
-  genScript (stdout_ref, i2sz(32))
+  genScript (stdout_ref, i2sz(16))
 //
 val theExchlst = ref<List0(int)> (xs)
 //
 in (* in-of-local *)
 
 val ASZ = ASZ
-fun ASZ_update
-(
-) = let
+fun
+ASZ_update () = let
+//
   val i = !ind
   val xs = !theExchlst
+//
   val () = (
     case+ xs of
     | nil () => !ind := 0
     | cons (x, xs) => (!ind := x; !theExchlst := xs)
   ) (* end of [val] *)
+//
   val i = g0int2uint_int_size (i)
+//
 in
   if i > 0 then arrszref_interchange (ASZ, i, pred(i))
 end (* end of [ASZ_update] *)
@@ -198,7 +201,7 @@ implement
 mydraw_bargraph$color<>
   (i) = let
 //
-val alpha = 0.75 * (ASZ[i]+1) / MYMAX
+val alpha = 0.875 * (ASZ[i]+1) / MYMAX
 //
 in
   color_make (alpha, alpha, alpha)
