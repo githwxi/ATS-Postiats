@@ -229,9 +229,6 @@ LAgmat_set_at
   M: !LAgmat(a, mo, m, n), i: natLt(m), j: natLt(n), x: a
 ) : void // endfun
 //
-overload [] with LAgmat_get_at
-overload [] with LAgmat_set_at
-//
 (* ****** ****** *)
 
 fun{a:t0p}
@@ -266,7 +263,6 @@ fprint_LAgmat$sep2 (FILEref): void
 fun{a:t0p}
 fprint_LAgmat
   {mo:mord}{m,n:int} (FILEref, !LAgmat(a, mo, m, n)): void
-overload fprint with fprint_LAgmat
 //
 fun{a:t0p}
 fprint_LAgmat_sep
@@ -449,7 +445,6 @@ add11_LAgmat_LAgmat
 (
   X: !LAgmat(a, mo, m, n), Y: !LAgmat(a, mo, m, n)
 ) : LAgmat(a, mo, m, n)
-overload + with add11_LAgmat_LAgmat
 
 fun{a:t0p}
 sub11_LAgmat_LAgmat
@@ -457,7 +452,6 @@ sub11_LAgmat_LAgmat
 (
   X: !LAgmat(a, mo, m, n), Y: !LAgmat(a, mo, m, n)
 ) : LAgmat(a, mo, m, n)
-overload - with sub11_LAgmat_LAgmat
 
 (* ****** ****** *)
 //
@@ -553,7 +547,34 @@ mul11_LAgmat_LAgmat
 (
   X: !LAgmat(a, mo, p, q), Y: !LAgmat(a, mo, q, r)
 ) : LAgmat(a, mo, p, r)
+
+(* ****** ****** *)
+//
+// Overloading for certain symbols
+//
+(* ****** ****** *)
+
+overload + with add11_LAgmat_LAgmat
+overload - with sub11_LAgmat_LAgmat
 overload * with mul11_LAgmat_LAgmat
+
+(* ****** ****** *)
+
+overload [] with LAgmat_get_at
+overload [] with LAgmat_set_at
+
+(* ****** ****** *)
+//
+// HX-2014-02-28:
+// .nrow and .ncol
+// are introduced in basics_pre.sats
+//
+overload .nrow with LAgmat_nrow
+overload .ncol with LAgmat_ncol
+//
+(* ****** ****** *)
+
+overload fprint with fprint_LAgmat
 
 (* ****** ****** *)
 

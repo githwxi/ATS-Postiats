@@ -22,7 +22,7 @@ ATSLIB/libats/ML/matrix0\
 #declpreamble("\
 
 The functions declared in this package are primarily for supporting
-ML-style processing of persisten matrices. Note that a plain matrix (as is in
+ML-style processing of persistent matrices. Note that a plain matrix (as is in
 C) is not available in languages such as Java and ML due to the need for
 performing matrix-bounds checking at run-time. Instead, matrices in these
 languages are always bundled together with their dimensions. In ATS, the type
@@ -40,6 +40,96 @@ elements of the type T are stored.
 
 #declnamesynop("matrix0_of_mtrxszref")
 #declnamesynop("mtrxszref_of_matrix0")
+
+(* ****** ****** *)
+
+#declnamesynop("matrix0_get_nrow")
+#decldescrpt('\
+
+This function returns the number of rows of the matrix associated with a given
+matrix0-value.\
+
+')
+
+#declnamesynop("matrix0_get_ncol")
+#decldescrpt('\
+
+This function returns the number of columns of the matrix associated with a given
+matrix0-value.\
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("matrix0_make_elt")
+#decldescrpt('\
+
+This function creates a matrix0-value of a given dimension in
+which each matrix-cell is initialized with a given value (3rd argument).\
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("matrix0_get_at")
+
+#declnamesynop("matrix0_get_at_gint")
+#decldescrpt('\
+
+Given an matrix0-value M of dimension m by n and two indices i and j, this
+function returns M[i,j] if i and j are valid (that is, 0 <= i < m and 0 <=
+j < n), or it raises the exception #dyncode("MatrixSubscriptExn").
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("matrix0_set_at")
+
+#declnamesynop("matrix0_set_at_gint")
+#decldescrpt('\
+
+Given an matrix0-value M of dimension m by n, two indicies i and j, and a
+value x, this function assigns x to M[i,j] if i and j are valid (that is, 0
+<= i < m and 0 <= j < n), or it raises the exception
+#dyncode("MatrixSubscriptExn").
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("matrix0_tabulate")
+
+#decldescrpt('\
+
+Given sizes nrow and ncol and a function f, this function returns a
+matrix0-value M of dimension nrow by ncol such that each M[i,j] is
+initialized with the value returned by f(i,j), where i ranges from 0 until
+nrow-1, inclusive, and j from 0 until ncol-1, inclusive.\
+
+')
+
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop(".nrow")
+#declnamesynop(".ncol")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
 
 (* ****** ****** *)
 

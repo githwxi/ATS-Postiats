@@ -50,6 +50,15 @@ implement{}
 mtrxszref_of_matrix0{a}(A) = $UN.cast{mtrxszref(a)}(A)
 //
 (* ****** ****** *)
+//
+implement{
+} matrix0_get_nrow (M) =
+  mtrxszref_get_nrow (mtrxszref_of_matrix0(M))
+implement{
+} matrix0_get_ncol (M) =
+  mtrxszref_get_ncol (mtrxszref_of_matrix0(M))
+//
+(* ****** ****** *)
 
 implement
 {a}(*tmp*)

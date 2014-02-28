@@ -115,5 +115,32 @@ functions on matrices.
 #declnamesynop("mul11_LAgmat_LAgmat")
 
 (* ****** ****** *)
+//
+// Overloading for certain symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("+")
+#declnamesynop("-")
+#declnamesynop("*")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop(".nrow")
+#declnamesynop(".ncol")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
+
+(* ****** ****** *)
 
 (* end of [lamatrix.atxt] *)

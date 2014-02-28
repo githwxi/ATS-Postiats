@@ -235,6 +235,7 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 #packfilename("libats_ML_list0.dats")
 #packfilename("libats_ML_array0.dats")
+#packfilename("libats_ML_matrix0.dats")
 #packfilename("libats_ML_string.dats")
 #packfilename("libats_ML_strarr.dats")
 

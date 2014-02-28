@@ -369,6 +369,7 @@ symintr tostring tostrptr
 // for dot-notation overloading
 //
 symintr .size
+symintr .nrow .ncol
 symintr .head .tail
 symintr .next .prev
 //

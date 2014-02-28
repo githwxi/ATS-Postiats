@@ -62,7 +62,7 @@ stadef matrix0 = matrix0_vt0ype_type
 (* ****** ****** *)
 
 (*
-typedef matrix0 (a: t@ype) = mtrxszref (a)
+typedef matrix0 (a: vt@ype) = mtrxszref (a)
 *)
 
 (* ****** ****** *)
@@ -87,6 +87,13 @@ matrix0_make_elt
 // end of [matrix0_make_elt]
 
 (* ****** ****** *)
+
+fun{}
+matrix0_get_nrow{a:vt0p} (M: matrix0 a):<> size_t
+fun{}
+matrix0_get_ncol{a:vt0p} (M: matrix0 a):<> size_t
+
+(* ****** ****** *)
 //
 fun{a:t0p}
 matrix0_get_at_size
@@ -96,12 +103,14 @@ fun{
 a:t0p}{tk:tk
 } matrix0_get_at_gint
   (M: matrix0(a), i: g0int(tk), j: g0int(tk)):<!exnref> a
-overload [] with matrix0_get_at_gint of 0
 fun{
 a:t0p}{tk:tk
 } matrix0_get_at_guint
   (M: matrix0(a), i: g0uint(tk), j: g0uint(tk)):<!exnref> a
-overload [] with matrix0_get_at_guint of 0
+//
+symintr matrix0_get_at
+overload matrix0_get_at with matrix0_get_at_gint
+overload matrix0_get_at with matrix0_get_at_guint
 //
 (* ****** ****** *)
 //
@@ -113,12 +122,14 @@ fun{
 a:t0p}{tk:tk
 } matrix0_set_at_gint
   (M: matrix0(a), i: g0int(tk), j: g0int(tk), x: a):<!exnrefwrt> void
-overload [] with matrix0_set_at_gint of 0
 fun{
 a:t0p}{tk:tk
 } matrix0_set_at_guint
   (M: matrix0(a), i: g0uint(tk), j: g0uint(tk), x: a):<!exnrefwrt> void
-overload [] with matrix0_set_at_guint of 0
+//
+symintr matrix0_set_at
+overload matrix0_set_at with matrix0_set_at_gint
+overload matrix0_set_at with matrix0_set_at_guint
 //
 (* ****** ****** *)
 
@@ -132,9 +143,6 @@ fun{a:vt0p}
 fprint_matrix0_sep
   (out: FILEref, A: matrix0 (a), sep1: string, sep2: string): void
 //
-overload fprint with fprint_matrix0
-overload fprint with fprint_matrix0_sep
-//
 (* ****** ****** *)
 
 fun{a:vt0p}
@@ -142,6 +150,27 @@ matrix0_tabulate
 (
   nrow: size_t, ncol: size_t, f: cfun (size_t, size_t, a)
 ) : matrix0 (a) // end-of-fun
+
+(* ****** ****** *)
+//
+// overloading for certain symbols
+//
+(* ****** ****** *)
+
+overload [] with matrix0_get_at_gint of 0
+overload [] with matrix0_get_at_guint of 0
+overload [] with matrix0_set_at_gint of 0
+overload [] with matrix0_set_at_guint of 0
+
+(* ****** ****** *)
+
+overload .nrow with matrix0_get_nrow
+overload .ncol with matrix0_get_ncol
+
+(* ****** ****** *)
+
+overload fprint with fprint_matrix0
+overload fprint with fprint_matrix0_sep
 
 (* ****** ****** *)
 

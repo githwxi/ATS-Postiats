@@ -68,7 +68,7 @@ stadef array0 = array0_vt0ype_type
 (* ****** ****** *)
 
 (*
-typedef array0 (a: t@ype) = arrszref (a)
+typedef array0 (a: vt@ype) = arrszref (a)
 *)
 
 (* ****** ****** *)

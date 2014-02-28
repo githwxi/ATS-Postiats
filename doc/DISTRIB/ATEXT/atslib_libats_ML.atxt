@@ -108,6 +108,7 @@ The ATSLIB/libats/ML library\
 #packfilename("SATS/list0.sats")
 #packfilename("SATS/option0.sats")
 #packfilename("SATS/array0.sats")
+#packfilename("SATS/matrix0.sats")
 #packfilename("SATS/string.sats")
 #packfilename("SATS/strarr.sats")
 #packfilename("SATS/filebas.sats")
@@ -132,6 +133,7 @@ The ATSLIB/libats/ML library\
 #packfilename("DATS/list0.dats")
 #packfilename("DATS/option0.dats")
 #packfilename("DATS/array0.dats")
+#packfilename("DATS/matrix0.dats")
 #packfilename("DATS/string.dats")
 #packfilename("DATS/strarr.dats")
 

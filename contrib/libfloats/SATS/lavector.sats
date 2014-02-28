@@ -146,8 +146,6 @@ fun{a:t0p}
 fprint_LAgvec_sep{n:int}
   (out: FILEref, V: !LAgvec(a, n), sep: string): void
 //
-overload fprint with fprint_LAgvec
-//
 (* ****** ****** *)
 
 fun{a:t0p}
@@ -238,12 +236,32 @@ LAgvec_axby{n:int}
 ) : void // [LAgvec_axby]
 
 (* ****** ****** *)
-
+//
 fun{a:t0p}
 add11_LAgvec_LAgvec{n:int}
   (A: !LAgvec(a, n), B: !LAgvec(a, n)): LAgvec(a, n)
+//
+(* ****** ****** *)
+//
+// Overloading for certain symbols
+//
+(* ****** ****** *)
+//
 overload + with add11_LAgvec_LAgvec
+//
+(* ****** ****** *)
 
+overload [] with LAgvec_get_at
+overload [] with LAgvec_set_at
+
+(* ****** ****** *)
+
+overload .size with LAgvec_size
+
+(* ****** ****** *)
+//
+overload fprint with fprint_LAgvec
+//
 (* ****** ****** *)
 
 (* end of [lavector.sats] *)

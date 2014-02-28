@@ -79,5 +79,25 @@ functions on vectors.
 #declnamesynop("LAgvec_axby")
 
 (* ****** ****** *)
+//
+// Overloading for certain symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop(".size")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint")
+
+(* ****** ****** *)
 
 (* end of [lavector.atxt] *)

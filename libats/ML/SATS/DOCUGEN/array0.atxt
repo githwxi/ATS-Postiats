@@ -82,7 +82,7 @@ with a given array0-value.\
 #declnamesynop("array0_get_size")
 #decldescrpt('\
 
-This function returns the size of of the array associated with a given
+This function returns the size of the array associated with a given
 array0-value.\
 
 ')
@@ -367,10 +367,6 @@ to each A[n-i-1], where i ranges from 0 until n-1, inclusive.\
 
 (* ****** ****** *)
 
-#declnamesynop("+")
-
-(* ****** ****** *)
-
 #declnamesynop("[]")
 
 (* ****** ****** *)
@@ -379,8 +375,6 @@ to each A[n-i-1], where i ranges from 0 until n-1, inclusive.\
 
 (* ****** ****** *)
 
-#declnamesynop("print")
-#declnamesynop("prerr")
 #declnamesynop("fprint")
 
 (* ****** ****** *)

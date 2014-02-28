@@ -44,24 +44,12 @@ val out = stdout_ref
 //
 val nrow = i2sz(3)
 val ncol = i2sz(4)
-val A_elt = matrix0_tabulate<int> (nrow, ncol, lam (i, j) => sz2i(i+j)+1)
-val () = fprintln! (out, "A_elt = ", A_elt)
+val M_elt =
+matrix0_tabulate<int> (nrow, ncol, lam (i, j) => sz2i(i+j)+1)
+val () = fprintln! (out, "M_elt = ", M_elt)
 //
-} (* end of [val] *)
-
-(* ****** ****** *)
-
-val () =
-{
-//
-val out = stdout_ref
-//
-val nrow = i2sz(3)
-val ncol = i2sz(4)
-val A_elt = matrix0_make_elt<int> (nrow, ncol, 0)
-//
-val () = A_elt[2,3] := 1
-val () = assertloc (A_elt[2][3] = 1)
+val () = fprintln! (out, "M_elt.nrow = ", M_elt.nrow)
+val () = fprintln! (out, "M_elt.ncol = ", M_elt.ncol)
 //
 } (* end of [val] *)
 
