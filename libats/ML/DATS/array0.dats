@@ -52,10 +52,10 @@ fun memcpy
 (* ****** ****** *)
 //
 implement{}
-array0_of_arrszref {a} (A) = $UN.cast{array0(a)}(A)
+array0_of_arrszref{a}(A) = $UN.cast{array0(a)}(A)
 //
 implement{}
-arrszref_of_array0 {a} (A) = $UN.cast{arrszref(a)}(A)
+arrszref_of_array0{a}(A) = $UN.cast{arrszref(a)}(A)
 //
 (* ****** ****** *)
 
@@ -337,21 +337,11 @@ implement{a}
 array0_tabulate
   (asz, f) = let
 //
-val asz = g1ofg0_uint(asz)
+implement{a2}
+array_tabulate$fopr
+  (i) = $UN.castvwtp0{a2}(f(i))
 //
-val A =
-arrayptr_make_uninitized<a> (asz)
-//
-val () = let
-//
-implement
-array_initize$init<a> (i, x) = x := f (i)
-//
-in
-  arrayptr_initize<a> (A, asz)
-end // end of [val]
-//
-val ASZ = arrszref_make_arrayref (arrayptr_refize(A), asz)
+val ASZ = arrszref_tabulate<a> (asz)
 //
 in
   array0_of_arrszref (ASZ)  

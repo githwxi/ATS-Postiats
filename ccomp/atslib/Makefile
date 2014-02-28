@@ -324,6 +324,14 @@ output/atslib_libats_ML_array0_dats.o: output/atslib_libats_ML_array0_dats.c ; \
 clean:: ; $(RMF) output/atslib_libats_ML_array0_dats.c
 clean:: ; $(RMF) output/atslib_libats_ML_array0_dats.o
 
+atslib_libats_ML:: atslib_libats_ML_matrix0_dats
+atslib_libats_ML_matrix0_dats: output/atslib_libats_ML_matrix0_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_ML_matrix0_dats.c: ../../libats/ML/DATS/matrix0.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_ML_matrix0_dats.o: output/atslib_libats_ML_matrix0_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_ML_matrix0_dats.c
+clean:: ; $(RMF) output/atslib_libats_ML_matrix0_dats.o
+
 atslib_libats_ML:: atslib_libats_ML_string_dats
 atslib_libats_ML_string_dats: output/atslib_libats_ML_string_dats.o ; $(ARR) lib/libatslib.a $<
 output/atslib_libats_ML_string_dats.c: ../../libats/ML/DATS/string.dats ; $(PATSOPT) -o $@ --dynamic $<

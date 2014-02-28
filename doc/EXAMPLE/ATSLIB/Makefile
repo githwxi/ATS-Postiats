@@ -609,6 +609,14 @@ clean:: ; $(RMF) libats_ML_array0_dats.o
 clean:: ; $(RMF) libats_ML_array0_dats.c
 cleanall:: ; $(RMF) libats_ML_array0.exe
 
+all:: libats_ML_matrix0
+libats_ML_matrix0: libats_ML_matrix0.exe
+libats_ML_matrix0.exe: libats_ML_matrix0_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_ML_matrix0_dats.c: libats_ML_matrix0.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_ML_matrix0_dats.c --dynamic libats_ML_matrix0.dats
+clean:: ; $(RMF) libats_ML_matrix0_dats.o
+clean:: ; $(RMF) libats_ML_matrix0_dats.c
+cleanall:: ; $(RMF) libats_ML_matrix0.exe
+
 all:: libats_ML_string
 libats_ML_string: libats_ML_string.exe
 libats_ML_string.exe: libats_ML_string_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib

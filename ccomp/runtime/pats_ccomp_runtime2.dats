@@ -49,6 +49,7 @@ errmsghead (
 in
 //
 case+ exn of
+//
 | ~AssertExn () => let
     val () = errmsghead ()
     val () = prerrln! (": AssertExn") in exit(1)

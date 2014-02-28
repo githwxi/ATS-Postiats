@@ -52,6 +52,11 @@ matrix_v (
 ) = matrix (a, row, col) @ l
 
 #atscode_separator()
+
+exception
+MatrixSubscriptExn of ((*void*))
+
+#atscode_separator()
 //
 praxi
 lemma_matrix_param{a:vt0p}

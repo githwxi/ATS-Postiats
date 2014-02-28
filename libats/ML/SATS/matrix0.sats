@@ -81,4 +81,68 @@ mtrxszref_of_matrix0
 //
 (* ****** ****** *)
 
+fun{a:t0p}
+matrix0_make_elt
+  (nrow: size_t, ncol: size_t, init: a):<!wrt> matrix0 (a)
+// end of [matrix0_make_elt]
+
+(* ****** ****** *)
+//
+fun{a:t0p}
+matrix0_get_at_size
+  (A: matrix0 (a), i: size_t, j: size_t):<!exnref> a
+//
+fun{
+a:t0p}{tk:tk
+} matrix0_get_at_gint
+  (M: matrix0(a), i: g0int(tk), j: g0int(tk)):<!exnref> a
+overload [] with matrix0_get_at_gint of 0
+fun{
+a:t0p}{tk:tk
+} matrix0_get_at_guint
+  (M: matrix0(a), i: g0uint(tk), j: g0uint(tk)):<!exnref> a
+overload [] with matrix0_get_at_guint of 0
+//
+(* ****** ****** *)
+//
+fun{a:t0p}
+matrix0_set_at_size
+  (A: matrix0 (a), i: size_t, j: size_t, x: a):<!exnrefwrt> void
+//
+fun{
+a:t0p}{tk:tk
+} matrix0_set_at_gint
+  (M: matrix0(a), i: g0int(tk), j: g0int(tk), x: a):<!exnrefwrt> void
+overload [] with matrix0_set_at_gint of 0
+fun{
+a:t0p}{tk:tk
+} matrix0_set_at_guint
+  (M: matrix0(a), i: g0uint(tk), j: g0uint(tk), x: a):<!exnrefwrt> void
+overload [] with matrix0_set_at_guint of 0
+//
+(* ****** ****** *)
+
+(*
+fun{}
+fprint_matrix$sep (out: FILEref): void
+*)
+fun{a:vt0p}
+fprint_matrix0 (out: FILEref, M: matrix0 (a)): void
+fun{a:vt0p}
+fprint_matrix0_sep
+  (out: FILEref, A: matrix0 (a), sep1: string, sep2: string): void
+//
+overload fprint with fprint_matrix0
+overload fprint with fprint_matrix0_sep
+//
+(* ****** ****** *)
+
+fun{a:vt0p}
+matrix0_tabulate
+(
+  nrow: size_t, ncol: size_t, f: cfun (size_t, size_t, a)
+) : matrix0 (a) // end-of-fun
+
+(* ****** ****** *)
+
 (* end of [matrix0.sats] *)

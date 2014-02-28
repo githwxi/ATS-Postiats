@@ -69,6 +69,32 @@ end // end of [matrixref_set_at_size]
 #atscode_separator()
 
 implement{a}
+fprint_matrixref
+  {m,n}
+(
+  out, M, nrow, ncol
+) = {
+  val M =
+  $UN.castvwtp1{matrixptr(a, m, n)}(M)
+  val () = fprint_matrixptr<a> (out, M, nrow, ncol)
+  prval () = $UN.cast2void (M)
+} (* end of [fprint_matrixref] *)
+
+implement{a}
+fprint_matrixref_sep
+  {m,n}
+(
+  out, M, nrow, ncol, sep1, sep2
+) = {
+  val M =
+  $UN.castvwtp1{matrixptr(a, m, n)}(M)
+  val () = fprint_matrixptr_sep<a> (out, M, nrow, ncol, sep1, sep2)
+  prval () = $UN.cast2void (M)
+} (* end of [fprint_matrixref_sep] *)
+
+#atscode_separator()
+
+implement{a}
 matrixref_tabulate
   (nrow, ncol) =
   matrixptr_refize (matrixptr_tabulate<a> (nrow, ncol))
@@ -163,32 +189,32 @@ in
 if nrow > i then (
   if ncol > j then
     matrixref_get_at_size (M, i, ncol, j)
-  else $raise ArraySubscriptExn((*void*))
-) else $raise ArraySubscriptExn((*void*))
+  else $raise MatrixSubscriptExn((*void*))
+) else $raise MatrixSubscriptExn((*void*))
 //
 end // end of [mtrxszref_get_at_size]
 
 implement
 {a}{tk}
 mtrxszref_get_at_gint
-  (ASZ, i, j) = let
+  (MSZ, i, j) = let
 in
 //
 if i >= 0 then
 if j >= 0 then
-  mtrxszref_get_at_size (ASZ, g0i2u(i), g0i2u(j))
-else $raise ArraySubscriptExn((* j < 0 *))
-else $raise ArraySubscriptExn((* i < 0 *))
+  mtrxszref_get_at_size (MSZ, g0i2u(i), g0i2u(j))
+else $raise MatrixSubscriptExn((* j < 0 *))
+else $raise MatrixSubscriptExn((* i < 0 *))
 //
 end // end of [mtrxszref_get_at_gint]
 
 implement
 {a}{tk}
 mtrxszref_get_at_guint
-  (ASZ, i, j) = let
+  (MSZ, i, j) = let
 in
 //
-mtrxszref_get_at_size (ASZ, g0u2u(i), g0u2u(j))
+mtrxszref_get_at_size (MSZ, g0u2u(i), g0u2u(j))
 //
 end // end of [mtrxszref_get_at_gint]
 
@@ -209,34 +235,60 @@ in
 if nrow > i then (
   if ncol > j then
     matrixref_set_at_size (M, i, ncol, j, x)
-  else $raise ArraySubscriptExn((*void*))
-) else $raise ArraySubscriptExn((*void*))
+  else $raise MatrixSubscriptExn((*void*))
+) else $raise MatrixSubscriptExn((*void*))
 //
 end // end of [mtrxszref_set_at_size]
 
 implement
 {a}{tk}
 mtrxszref_set_at_gint
-  (ASZ, i, j, x) = let
+  (MSZ, i, j, x) = let
 in
 //
 if i >= 0 then
 if j >= 0 then
-  mtrxszref_set_at_size (ASZ, g0i2u(i), g0i2u(j), x)
-else $raise ArraySubscriptExn((* j < 0 *))
-else $raise ArraySubscriptExn((* i < 0 *))
+  mtrxszref_set_at_size (MSZ, g0i2u(i), g0i2u(j), x)
+else $raise MatrixSubscriptExn((* j < 0 *))
+else $raise MatrixSubscriptExn((* i < 0 *))
 //
 end // end of [mtrxszref_set_at_gint]
 
 implement
 {a}{tk}
 mtrxszref_set_at_guint
-  (ASZ, i, j, x) = let
+  (MSZ, i, j, x) = let
 in
 //
-mtrxszref_set_at_size (ASZ, g0u2u(i), g0u2u(j), x)
+mtrxszref_set_at_size (MSZ, g0u2u(i), g0u2u(j), x)
 //
 end // end of [mtrxszref_set_at_gint]
+
+#atscode_separator()
+
+implement{a}
+fprint_mtrxszref
+  (out, MSZ) = let
+//
+var nrow: size_t
+and ncol: size_t
+val A = mtrxszref_get_refsize (MSZ, nrow, ncol)
+//
+in
+  fprint_matrixref (out, A, nrow, ncol)
+end // end of [fprint_mtrxszref]
+
+implement{a}
+fprint_mtrxszref_sep
+  (out, MSZ, sep1, sep2) = let
+//
+var nrow: size_t
+and ncol: size_t
+val A = mtrxszref_get_refsize (MSZ, nrow, ncol)
+//
+in
+  fprint_matrixref_sep (out, A, nrow, ncol, sep1, sep2)
+end // end of [fprint_mtrxszref_sep]
 
 #atscode_separator()
 

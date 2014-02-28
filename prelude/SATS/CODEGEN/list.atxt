@@ -71,7 +71,8 @@ typedef listBtwe
 
 #atscode_separator()
 
-exception ListSubscriptExn of ()
+exception
+ListSubscriptExn of ()
 (*
 fun ListSubscriptExn ():<> exn = "mac\#%ListSubscriptExn_make"
 fun isListSubscriptExn (x: !exn):<> bool = "mac\#%isListSubscriptExn"

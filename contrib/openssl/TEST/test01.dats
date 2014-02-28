@@ -1,5 +1,5 @@
 (*
-** The following C code is taken from the following location:
+** The following C code is taken from this location:
 ** http://www.openssl.org/docs/crypto/EVP_DigestInit.html#EXAMPLE
 *)
 (* ****** ****** *)

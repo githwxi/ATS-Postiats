@@ -124,6 +124,13 @@ stadef subarray0 = subarray0_vt0ype_type
 //
 (* ****** ****** *)
 //
+abstype
+matrix0_vt0ype_type
+  (a: vt@ype(*invariant*)) = ptr
+stadef matrix0 = matrix0_vt0ype_type
+//
+(* ****** ****** *)
+//
 abstype strarr_type = ptr
 typedef strarr = strarr_type
 (*

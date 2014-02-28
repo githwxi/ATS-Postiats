@@ -155,14 +155,14 @@ overload array0_get_at with array0_get_at_guint
 
 fun{a:t0p}
 array0_set_at_size
-  (A: array0 (a), i: size_t, x: a):<!exn,!refwrt> void
+  (A: array0 (a), i: size_t, x: a):<!exnrefwrt> void
 fun{a:t0p}{tk:tk}
 array0_set_at_gint
-  (A: array0 (a), i: g0int(tk), x: a):<!exn,!refwrt> void
+  (A: array0 (a), i: g0int(tk), x: a):<!exnrefwrt> void
 overload [] with array0_set_at_gint
 fun{a:t0p}{tk:tk}
 array0_set_at_guint
-  (A: array0 (a), i: g0uint(tk), x: a):<!exn,!refwrt> void
+  (A: array0 (a), i: g0uint(tk), x: a):<!exnrefwrt> void
 overload [] with array0_set_at_guint
 //
 symintr array0_set_at
@@ -173,13 +173,13 @@ overload array0_set_at with array0_set_at_guint
 
 fun{a:vt0p}
 array0_exch_at_size
-  (A: array0 (a), i: size_t, x: &a >> _):<!exn,!refwrt> void
+  (A: array0 (a), i: size_t, x: &a >> _):<!exnrefwrt> void
 fun{a:vt0p}{tk:tk}
 array0_exch_at_gint
-  (A: array0 (a), i: g0int(tk), x: &a >> _):<!exn,!refwrt> void
+  (A: array0 (a), i: g0int(tk), x: &a >> _):<!exnrefwrt> void
 fun{a:vt0p}{tk:tk}
 array0_exch_at_guint
-  (A: array0 (a), i: g0uint(tk), x: &a >> _):<!exn,!refwrt> void
+  (A: array0 (a), i: g0uint(tk), x: &a >> _):<!exnrefwrt> void
 //
 symintr array0_exch_at
 overload array0_exch_at with array0_exch_at_gint

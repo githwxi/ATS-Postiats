@@ -70,14 +70,15 @@ ATSLIB_056_prelude__NotFoundExn = { 40, "NotFoundException" } ;
 //
 atstype_exncon
 ATSLIB_056_prelude__ListSubscriptExn = { 50, "ListSubscriptException" } ;
+atstype_exncon
+ATSLIB_056_prelude__StreamSubscriptExn = { 51, "StreamSubscriptException" } ;
 //
 atstype_exncon
 ATSLIB_056_prelude__ArraySubscriptExn = { 60, "ArraySubscriptException" } ;
+atstype_exncon
+ATSLIB_056_prelude__MatrixSubscriptExn = { 61, "MatrixSubscriptException" } ;
 //
 atstype_exncon ATSLIB_056_prelude__NotSomeExn = { 70, "NotSomeException" } ;
-//
-atstype_exncon
-ATSLIB_056_prelude__StreamSubscriptExn = { 80, "StreamSubscriptException" } ;
 //
 #endif // end of [_ATS_EXCEPTION_NONE]
 
@@ -93,12 +94,14 @@ the_atsexncon_initize
 )
 {
 //
-  int exntag ;
   static int the_atsexntag = 1024 ;
 //
-  exntag = the_atsexntag ;
-  the_atsexntag = exntag + 1 ;
-  d2c->exntag = exntag ; d2c->exnmsg = exnmsg ;
+  if (!d2c->exntag)
+  {
+    d2c->exntag = the_atsexntag ;
+    the_atsexntag = the_atsexntag + 1 ;
+  }
+  d2c->exnmsg = exnmsg ;
   return ;
 } // end of [the_atsexncon_initize]
 //
