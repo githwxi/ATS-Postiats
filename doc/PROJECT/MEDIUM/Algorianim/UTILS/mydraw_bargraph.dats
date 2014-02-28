@@ -62,12 +62,16 @@ val ht =
     then 0.0 else (if ht >= 1.0 then 1.0 else ht)
   // end of [if]
 ) : double // end of [val]
-val ((*void*)) =
-mydraw_quadrilateral
-  (p1, p1_new, p1_new+ht*(p4_new-p1_new), p1+ht*(p4-p1))
-val clr = mydraw_bargraph$color (i)
-val ((*void*)) = mydraw_fill_set_rgb (clr.r, clr.g, clr.b)
-val ((*void*)) = mydraw_fill ((*void*))
+val () =
+if ht > 0.0 then
+{
+  val ((*void*)) =
+  mydraw_quadrilateral
+    (p1, p1_new, p1_new+ht*(p4_new-p1_new), p1+ht*(p4-p1))
+  val clr = mydraw_bargraph$color (i)
+  val ((*void*)) = mydraw_fill_set_rgb (clr.r, clr.g, clr.b)
+  val ((*void*)) = mydraw_fill ((*void*))
+} (* end of [if] *)
 //
 val i1 = i + 1
 //

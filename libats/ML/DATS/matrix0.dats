@@ -52,12 +52,30 @@ mtrxszref_of_matrix0{a}(A) = $UN.cast{mtrxszref(a)}(A)
 (* ****** ****** *)
 //
 implement{
+} matrix0_get_ref (M) =
+  mtrxszref_get_ref (mtrxszref_of_matrix0(M))
+//
+implement{
 } matrix0_get_nrow (M) =
   mtrxszref_get_nrow (mtrxszref_of_matrix0(M))
 implement{
 } matrix0_get_ncol (M) =
   mtrxszref_get_ncol (mtrxszref_of_matrix0(M))
 //
+(* ****** ****** *)
+
+implement{
+} matrix0_get_refsize (M) = let
+  var nrow: size_t and ncol: size_t
+  val Mref =
+  $effmask_wrt
+  (
+    mtrxszref_get_refsize(mtrxszref_of_matrix0(M), nrow, ncol)
+  ) (* end of [val] *)
+in
+  (Mref, nrow, ncol)
+end // end of [matrix0_get_refsize]
+
 (* ****** ****** *)
 
 implement

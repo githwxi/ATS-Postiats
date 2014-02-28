@@ -194,17 +194,18 @@ mtrxszref_make_matrixref
 ) :<!wrt> mtrxszref (a) // endfun
 
 #atscode_separator()
-
-fun{
-} mtrxszref_get_ref{a:vt0p} (M: mtrxszref (a)):<> Ptr1
-fun{
-} mtrxszref_get_nrow{a:vt0p} (M: mtrxszref (a)):<> size_t
-fun{
-} mtrxszref_get_ncol{a:vt0p} (M: mtrxszref (a)):<> size_t
-
+//
+fun{}
+mtrxszref_get_ref{a:vt0p} (M: mtrxszref (a)):<> Ptr1
+//
+fun{}
+mtrxszref_get_nrow{a:vt0p} (M: mtrxszref (a)):<> size_t
+fun{}
+mtrxszref_get_ncol{a:vt0p} (M: mtrxszref (a)):<> size_t
+//
 #atscode_separator()
 
-symintr .ref .nrow .ncol
+symintr .ref
 overload .ref with mtrxszref_get_ref
 overload .nrow with mtrxszref_get_nrow
 overload .ncol with mtrxszref_get_ncol

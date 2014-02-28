@@ -109,7 +109,6 @@ nrow-1, inclusive, and j from 0 until ncol-1, inclusive.\
 
 ')
 
-
 (* ****** ****** *)
 //
 // HX: various overloaded symbols

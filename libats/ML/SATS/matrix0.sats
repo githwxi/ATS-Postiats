@@ -87,12 +87,22 @@ matrix0_make_elt
 // end of [matrix0_make_elt]
 
 (* ****** ****** *)
-
+//
+fun{}
+matrix0_get_ref{a:vt0p} (A: matrix0 a):<> Ptr1
+//
 fun{}
 matrix0_get_nrow{a:vt0p} (M: matrix0 a):<> size_t
 fun{}
 matrix0_get_ncol{a:vt0p} (M: matrix0 a):<> size_t
-
+//
+fun{}
+matrix0_get_refsize
+  {a:vt0p}
+(
+  M: matrix0 (a)
+) :<> [m,n:nat] (matrixref (a, m, n), size_t(m), size_t(n))
+//
 (* ****** ****** *)
 //
 fun{a:t0p}
@@ -134,8 +144,8 @@ overload matrix0_set_at with matrix0_set_at_guint
 (* ****** ****** *)
 
 (*
-fun{}
-fprint_matrix$sep (out: FILEref): void
+fprint_matrix$sep1 // col separation
+fprint_matrix$sep2 // row separation
 *)
 fun{a:vt0p}
 fprint_matrix0 (out: FILEref, M: matrix0 (a)): void

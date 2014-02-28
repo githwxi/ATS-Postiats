@@ -45,11 +45,20 @@ val out = stdout_ref
 val nrow = i2sz(3)
 val ncol = i2sz(4)
 val M_elt =
-matrix0_tabulate<int> (nrow, ncol, lam (i, j) => sz2i(i+j)+1)
+matrix0_tabulate<int>
+  (nrow, ncol, lam (i, j) => sz2i(i+j)+1)
 val () = fprintln! (out, "M_elt = ", M_elt)
 //
 val () = fprintln! (out, "M_elt.nrow = ", M_elt.nrow)
 val () = fprintln! (out, "M_elt.ncol = ", M_elt.ncol)
+//
+var i: int and j: int
+val () =
+for (i := 0; i < 3; i := i+1) M_elt[i,0] := 0
+val () =
+for (j := 0; j < 4; j := j+1) M_elt[0,j] := 0
+//
+val () = fprintln! (out, "M_elt = ", M_elt)
 //
 } (* end of [val] *)
 

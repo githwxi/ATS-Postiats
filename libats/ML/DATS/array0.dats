@@ -250,7 +250,8 @@ end // end of [array0_exch_at_size]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 array0_copy
   (A0) = let
 //

@@ -108,8 +108,6 @@ array0_get_ref{a:vt0p} (A: array0 a):<> Ptr1
 fun{}
 array0_get_size{a:vt0p} (A: array0 a):<> size_t
 //
-overload .size with array0_get_size
-//
 fun{}
 array0_get_refsize
   {a:vt0p} (array0 (a)):<> [n:nat] (arrayref (a, n), size_t (n))
@@ -141,11 +139,9 @@ array0_get_at_size
 fun{a:t0p}{tk:tk}
 array0_get_at_gint
   (A: array0 (a), i: g0int(tk)):<!exnref> a
-overload [] with array0_get_at_gint
 fun{a:t0p}{tk:tk}
 array0_get_at_guint
   (A: array0 (a), i: g0uint(tk)):<!exnref> a
-overload [] with array0_get_at_guint
 //
 symintr array0_get_at
 overload array0_get_at with array0_get_at_gint
@@ -159,11 +155,9 @@ array0_set_at_size
 fun{a:t0p}{tk:tk}
 array0_set_at_gint
   (A: array0 (a), i: g0int(tk), x: a):<!exnrefwrt> void
-overload [] with array0_set_at_gint
 fun{a:t0p}{tk:tk}
 array0_set_at_guint
   (A: array0 (a), i: g0uint(tk), x: a):<!exnrefwrt> void
-overload [] with array0_set_at_guint
 //
 symintr array0_set_at
 overload array0_set_at with array0_set_at_gint
@@ -186,7 +180,7 @@ overload array0_exch_at with array0_exch_at_gint
 overload array0_exch_at with array0_exch_at_guint
 //
 (* ****** ****** *)
-
+//
 (*
 fun{}
 fprint_array$sep (out: FILEref): void
@@ -196,9 +190,6 @@ fprint_array0 (out: FILEref, A: array0 (a)): void
 fun{a:vt0p}
 fprint_array0_sep
   (out: FILEref, A: array0 (a), sep: string): void
-//
-overload fprint with fprint_array0
-overload fprint with fprint_array0_sep
 //
 (* ****** ****** *)
 
@@ -296,6 +287,26 @@ a:vt0p}{res:vt0p
 (
   A: array0 (a), f: (&a, res) -<cloref1> res, snk: res
 ) : res // end of [array0_foldright]
+
+(* ****** ****** *)
+//
+// Overloading certain symbols
+//
+(* ****** ****** *)
+
+overload [] with array0_get_at_gint
+overload [] with array0_get_at_guint
+overload [] with array0_set_at_gint
+overload [] with array0_set_at_guint
+
+(* ****** ****** *)
+
+overload .size with array0_get_size
+
+(* ****** ****** *)
+
+overload fprint with fprint_array0
+overload fprint with fprint_array0_sep
 
 (* ****** ****** *)
 

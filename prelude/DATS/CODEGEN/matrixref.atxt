@@ -148,6 +148,13 @@ end // end of [mtrxszref_get_ncol]
 #atscode_separator()
 
 implement{}
+mtrxszref_get_refsize (MSZ) = let
+  val+MTRXSZREF (M, nrow, ncol) = MSZ in (M, nrow, ncol)
+end // end of [mtrxszref_get_refsize]
+
+#atscode_separator()
+
+implement{}
 mtrxszref_get_refsize
    (MSZ, nrow_r, ncol_r) = let
 //
