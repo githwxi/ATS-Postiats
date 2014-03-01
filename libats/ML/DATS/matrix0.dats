@@ -173,4 +173,29 @@ end // end of [matrix0_tabulate]
 
 (* ****** ****** *)
 
+implement{a}
+matrix0_foreach
+  (M0, f) = let
+//
+fun loop
+(
+  p: ptr, i: size_t
+) : void = (
+if i > 0 then let
+  val (pf, fpf | p) = $UN.ptr0_vtake (p)
+  val ((*void*)) = f (!p)
+  prval ((*void*)) = fpf (pf)
+in
+  loop (ptr_succ<a> (p), pred (i))
+end else ((*void*)) // end of [if]
+) (* end of [loop] *)
+//
+val (M, m, n) = matrix0_get_refsize (M0)
+//
+in
+  loop (ptrcast(M), m * n)
+end // end of [matrix0_foreach]
+
+(* ****** ****** *)
+
 (* end of [matrix.dats] *)

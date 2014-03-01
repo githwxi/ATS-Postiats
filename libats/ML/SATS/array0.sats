@@ -224,11 +224,6 @@ array0_tabulate
   (asz: size_t, f: (size_t) -<cloref1> a): array0 (a)
 // end of [array0_tabulate]
 
-fun{a:vt0p}
-array0_tabulate_opt
-  (asz: size_t, f: (size_t) -<cloref1> Option_vt (a)): array0 (a)
-// end of [array0_tabulate_opt]
-
 (* ****** ****** *)
 
 fun{a:vt0p}

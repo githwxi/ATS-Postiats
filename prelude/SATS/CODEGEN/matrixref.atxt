@@ -39,22 +39,32 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 #atscode_separator()
 //
-// matrixref: reference to a matrix with no dimension info attached
+// matrixref:
+// reference to a matrix
+// with no dimension info attached
 //
 #atscode_separator()
-
+//
 abstype
 matrixref_vt0ype_int_int_type
-  (a:vt@ype(*invariant*), nrow: int, ncol:int) = ptr
+  (a:vt@ype(*inv*), nrow: int, ncol:int) = ptr
+//
 stadef matrixref = matrixref_vt0ype_int_int_type
-
+//
 #atscode_separator()
 
 praxi
 lemma_matrixref_param
-  {a:vt0p}{m,n:int} (A: matrixref (a, m, n)): [m >= 0; n >= 0] void
+  {a:vt0p}{m,n:int}
+  (A: matrixref (a, m, n)): [m >= 0; n >= 0] void
 // end of [lemma_matrixref_param]
 
+#atscode_separator()
+//
+castfn
+matrixref2ptr
+  {a:vt0p}{m,n:int} (M: matrixref(a, m, n)):<> Ptr0
+//
 #atscode_separator()
 
 castfn
@@ -293,6 +303,10 @@ overload [] with mtrxszref_set_at_size of 0
 
 overload .nrow with mtrxszref_get_nrow
 overload .ncol with mtrxszref_get_ncol
+
+#atscode_separator()
+
+overload ptrcast with matrixref2ptr
 
 #atscode_separator()
 

@@ -89,7 +89,7 @@ matrix0_make_elt
 (* ****** ****** *)
 //
 fun{}
-matrix0_get_ref{a:vt0p} (A: matrix0 a):<> Ptr1
+matrix0_get_ref{a:vt0p} (M: matrix0 a):<> Ptr1
 //
 fun{}
 matrix0_get_nrow{a:vt0p} (M: matrix0 a):<> size_t
@@ -111,7 +111,7 @@ matrix0_get_at_int
 //
 fun{a:t0p}
 matrix0_get_at_size
-  (A: matrix0 (a), i: size_t, j: size_t):<!exnref> a
+  (M: matrix0 (a), i: size_t, j: size_t):<!exnref> a
 //
 symintr matrix0_get_at
 overload matrix0_get_at with matrix0_get_at_int
@@ -125,7 +125,7 @@ matrix0_set_at_int
 //
 fun{a:t0p}
 matrix0_set_at_size
-  (A: matrix0 (a), i: size_t, j: size_t, x: a):<!exnrefwrt> void
+  (M: matrix0 (a), i: size_t, j: size_t, x: a):<!exnrefwrt> void
 //
 symintr matrix0_set_at
 overload matrix0_set_at with matrix0_set_at_int
@@ -141,7 +141,7 @@ fun{a:vt0p}
 fprint_matrix0 (out: FILEref, M: matrix0 (a)): void
 fun{a:vt0p}
 fprint_matrix0_sep
-  (out: FILEref, A: matrix0 (a), sep1: string, sep2: string): void
+  (out: FILEref, M: matrix0 (a), sep1: string, sep2: string): void
 //
 (* ****** ****** *)
 
@@ -150,6 +150,18 @@ matrix0_tabulate
 (
   nrow: size_t, ncol: size_t, f: cfun (size_t, size_t, a)
 ) : matrix0 (a) // end-of-fun
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+matrix0_foreach
+  (M: matrix0 (a), f: (&a >> _) -<cloref1> void): void
+// end of [matrix0_foreach]
+
+fun{a:vt0p}
+matrix0_iforeach
+  (M: matrix0 (a), f: (size_t, size_t, &a >> _) -<cloref1> void): void
+// end of [matrix0_iforeach]
 
 (* ****** ****** *)
 //
