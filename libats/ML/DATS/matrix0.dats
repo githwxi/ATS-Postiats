@@ -198,4 +198,40 @@ end // end of [matrix0_foreach]
 
 (* ****** ****** *)
 
+implement{a}
+matrix0_iforeach
+  (M0, f) = let
+//
+val (M, m, n) =
+  matrix0_get_refsize (M0)
+//
+fun loop
+(
+  p: ptr
+, k: size_t, i: size_t, j: size_t
+) : void = (
+if k > 0 then let
+  val (
+    pf, fpf | p
+  ) = $UN.ptr0_vtake (p)
+  val () = f (i, j, !p)
+  prval ((*void*)) = fpf (pf)
+  val p = ptr_succ<a> (p)
+  val k = pred(k) and j = succ(j)
+in
+//
+if j < n
+  then loop (p, k, i, j)
+  else loop (p, k, succ(i), i2sz(0))
+// end of [if]
+//
+end else ((*void*)) // end of [if]
+) (* end of [loop] *)
+//
+in
+  loop (ptrcast(M), i2sz(0), i2sz(0), m * n)
+end // end of [matrix0_iforeach]
+
+(* ****** ****** *)
+
 (* end of [matrix.dats] *)
