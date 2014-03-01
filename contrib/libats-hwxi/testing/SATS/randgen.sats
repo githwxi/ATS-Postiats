@@ -46,6 +46,13 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 (* ****** ****** *)
 
+(*
+** HX:
+** please use srandom for seeding
+*)
+
+(* ****** ****** *)
+
 fun{}
 randint{n:pos} (n: int n): natLt (n)
 

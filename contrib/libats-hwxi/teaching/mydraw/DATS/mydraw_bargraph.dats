@@ -16,8 +16,7 @@
 //
 (* ****** ****** *)
 
-staload
-"{$LIBATSHWXI}/teaching/mydraw/SATS/mydraw.sats"
+staload "./../SATS/mydraw.sats"
 
 (* ****** ****** *)
 //

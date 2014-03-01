@@ -2,12 +2,16 @@
 // Animating Insertion sort
 //
 (* ****** ****** *)
-
+//
 #include
 "share/atspre_define.hats"
 #include
 "share/atspre_staload.hats"
-
+//
+(* ****** ****** *)
+//
+staload "./../insertsort.dats"
+//
 (* ****** ****** *)
 //
 staload
@@ -17,7 +21,8 @@ staload _ =
 //
 (* ****** ****** *)
 //
-staload "./../insertsort.dats"
+staload
+"{$LIBATSHWXI}/teaching/BUCS/DATS/BUCS.dats"
 //
 (* ****** ****** *)
 
@@ -125,6 +130,8 @@ local
 //
 val ind = ref<int> (0)
 //
+val () = srandom_with_time ()
+//
 val (ASZ, xs) =
   genScript (stdout_ref, i2sz(16))
 //
@@ -160,13 +167,11 @@ staload "{$CAIRO}/SATS/cairo.sats"
 staload "{$LIBATSHWXI}/teaching/mydraw/SATS/mydraw.sats"
 staload "{$LIBATSHWXI}/teaching/mydraw/SATS/mydraw_cairo.sats"
 //
+staload "{$LIBATSHWXI}/teaching/mydraw/DATS/mydraw_bargraph.dats"
+//
 staload _(*anon*) = "{$LIBATSHWXI}/teaching/mydraw/DATS/mydraw.dats"
 staload _(*anon*) = "{$LIBATSHWXI}/teaching/mydraw/DATS/mydraw_cairo.dats"
 //
-(* ****** ****** *)
-
-staload "./../../UTILS/mydraw_bargraph.dats"
-
 (* ****** ****** *)
 
 extern
@@ -201,7 +206,8 @@ implement
 mydraw_bargraph$color<>
   (i) = let
 //
-val alpha = 0.875 * (ASZ[i]+1) / MYMAX
+val alpha =
+  0.50 * (ASZ[i]+1) / MYMAX
 //
 in
   color_make (alpha, alpha, alpha)

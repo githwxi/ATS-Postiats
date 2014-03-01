@@ -100,6 +100,10 @@ ATSCNTRB/libats-hwxi/teaching\
 ")
 
 (* ****** ****** *)
+
+#packfilename("BUCS/DATS/BUCS.dats")
+
+(* ****** ****** *)
 //
 #packfilename("mydraw/SATS/mydraw.sats")
 #packfilename("mydraw/SATS/mydraw_cairo.sats")
@@ -108,6 +112,8 @@ ATSCNTRB/libats-hwxi/teaching\
 #packfilename("mydraw/DATS/mydraw.dats")
 #packfilename("mydraw/DATS/mydraw_cairo.dats")
 #packfilename("mydraw/DATS/mydraw_HTML5_canvas2d.dats")
+#packfilename("mydraw/DATS/mydraw_bargraph.dats")
+#packfilename("mydraw/DATS/mydraw_matgraph.dats")
 //
 #packfilename("mydraw/JS/mydraw_HTML5_canvas2d.js")
 //

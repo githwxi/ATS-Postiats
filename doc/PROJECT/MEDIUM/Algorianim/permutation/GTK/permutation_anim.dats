@@ -110,13 +110,11 @@ staload "{$CAIRO}/SATS/cairo.sats"
 staload "{$LIBATSHWXI}/teaching/mydraw/SATS/mydraw.sats"
 staload "{$LIBATSHWXI}/teaching/mydraw/SATS/mydraw_cairo.sats"
 //
+staload "{$LIBATSHWXI}/teaching/mydraw/DATS/mydraw_bargraph.dats"
+//
 staload _(*anon*) = "{$LIBATSHWXI}/teaching/mydraw/DATS/mydraw.dats"
 staload _(*anon*) = "{$LIBATSHWXI}/teaching/mydraw/DATS/mydraw_cairo.dats"
 //
-(* ****** ****** *)
-
-staload "./../../UTILS/mydraw_bargraph.dats"
-
 (* ****** ****** *)
 
 extern
@@ -151,7 +149,8 @@ implement
 mydraw_bargraph$color<>
   (i) = let
 //
-val alpha = 0.75 * (xs[i]+1) / N
+val alpha =
+  0.50 * (xs[i]+1) / N
 //
 in
   color_make (alpha, alpha, alpha)
