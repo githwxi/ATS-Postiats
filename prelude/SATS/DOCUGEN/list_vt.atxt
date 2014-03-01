@@ -239,16 +239,38 @@ takes out element i from xs.\
 
 (* ****** ****** *)
 
+#declnamesynop("list_vt_copy")
+#decldescrpt('\
+
+Given a linear list xs, this function returns a copy of xs.
+Note that the elements of xs are required to be of a linear type.\
+
+')
+#declnamesynop("list_vt_copylin")
+#decldescrpt('\
+
+Given a linear list xs, this function returns a copy of xs.
+Note that the elements of xs are copied by callig the function
+#dyncode("list_vt_copylin$copy").\
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("list_vt_free")
 #decldescrpt('\
+
 This function frees the memory occupied by a given linear list.
-Note that the elements contained in the list must be nonlinear.
+Note that the elements contained in the list must be nonlinear.\
+
 ')
 #declnamesynop("list_vt_freelin")
 #decldescrpt('\
+
 This function frees the memory occupied by a given linear list.
 Note that the elements contained in the list are freed by calling the
-function #dyncode("list_vt_freelin$clear").
+function #dyncode("list_vt_freelin$clear").\
+
 ')
 #declnamesynop("list_vt_freelin$clear")
 
@@ -659,6 +681,7 @@ except for allowing the comparison function to be provided as an argument.
 
 (* ****** ****** *)
 
+#declnamesynop("copy")
 #declnamesynop("free")
 
 (* ****** ****** *)

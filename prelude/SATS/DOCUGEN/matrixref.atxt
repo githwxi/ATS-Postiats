@@ -96,6 +96,7 @@ matrices of dimension M by N in which each element is of the type T.
 #declnamesynop("mtrxszref_get_ref")
 #declnamesynop("mtrxszref_get_nrow")
 #declnamesynop("mtrxszref_get_ncol")
+#declnamesynop("mtrxszref_get_refsize")
 
 (* ****** ****** *)
 
@@ -129,10 +130,6 @@ matrices of dimension M by N in which each element is of the type T.
 #declnamesynop("mtrxszref_tabulate")
 
 (* ****** ****** *)
-
-#declnamesynop("mtrxszref_get_refsize")
-
-(* ****** ****** *)
 //
 // HX: various overloaded symbols
 //
@@ -148,6 +145,10 @@ matrices of dimension M by N in which each element is of the type T.
 
 #declnamesynop(".nrow")
 #declnamesynop(".ncol")
+
+(* ****** ****** *)
+
+#declnamesynop("ptrcast")
 
 (* ****** ****** *)
 

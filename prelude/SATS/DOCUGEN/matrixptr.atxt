@@ -33,28 +33,43 @@ without dimension information attached.
 
 (* ****** ****** *)
 
+#declnamesynop("matrixptr")
+#declnamesynop("matrixptr_vt0ype_addr_int_int_vtype")
+
+(* ****** ****** *)
+
 #declnamesynop("lemma_matrixptr_param")
 
 (* ****** ****** *)
 
 #declnamesynop("matrixptr_make_elt")
-#declnamesynop("matrixptr_make_elt_int")
-#declnamesynop("matrixptr_make_elt_size")
 
 (* ****** ****** *)
 
+#declnamesynop("matrixptr_get_at")
 #declnamesynop("matrixptr_get_at_int")
 #declnamesynop("matrixptr_get_at_size")
 
 (* ****** ****** *)
 
+#declnamesynop("matrixptr_set_at")
 #declnamesynop("matrixptr_set_at_int")
 #declnamesynop("matrixptr_set_at_size")
 
 (* ****** ****** *)
 
+#declnamesynop("matrixptr_exch_at")
 #declnamesynop("matrixptr_exch_at_int")
 #declnamesynop("matrixptr_exch_at_size")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_matrixptr")
+#declnamesynop("fprint_matrixptr_sep")
+
+(* ****** ****** *)
+
+#declnamesynop("matrixptr_tabulate")
 
 (* ****** ****** *)
 //
@@ -70,9 +85,7 @@ without dimension information attached.
 
 (* ****** ****** *)
 
-#declnamesynop("matrixptr_get_at")
-#declnamesynop("matrixptr_set_at")
-#declnamesynop("matrixptr_exch_at")
+#declnamesynop("ptrcast")
 
 (* ****** ****** *)
 

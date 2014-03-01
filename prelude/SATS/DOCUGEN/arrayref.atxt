@@ -201,16 +201,16 @@ arrszref-value. ")
 
 (* ****** ****** *)
 
-#declnamesynop("ptrcast")
-
-(* ****** ****** *)
-
 #declnamesynop(".size")
 
 (* ****** ****** *)
 
 #declnamesynop(".head")
 #declnamesynop(".tail")
+
+(* ****** ****** *)
+
+#declnamesynop("ptrcast")
 
 (* ****** ****** *)
 

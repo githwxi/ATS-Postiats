@@ -1267,13 +1267,13 @@ list_quicksort$cmp (x, y) = gcompare_val<a> (x, y)
 
 (* ****** ****** *)
 
-#declnamesynop("iseqz")
-#declnamesynop("isneqz")
+#declnamesynop(".head")
+#declnamesynop(".tail")
 
 (* ****** ****** *)
 
-#declnamesynop(".head")
-#declnamesynop(".tail")
+#declnamesynop("iseqz")
+#declnamesynop("isneqz")
 
 (* ****** ****** *)
 
