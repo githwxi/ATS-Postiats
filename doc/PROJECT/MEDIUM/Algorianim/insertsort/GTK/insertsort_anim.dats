@@ -227,10 +227,10 @@ end // end of [cairo_draw_arrszref]
 (* ****** ****** *)
 
 extern
-fun mydraw_clock
-(
-  cr: !cairo_ref1, width: int, height: int
-) : void // end of [mydraw_clock]
+fun
+mydraw_clock
+  (cr: !cairo_ref1, width: int, height: int) : void
+// end of [mydraw_clock]
 
 (* ****** ****** *)
 
@@ -262,6 +262,7 @@ val () = cairo_draw_arrszref (cr, p1, p2, p3, p4, ASZ)
 val ((*void*)) = cairo_restore (pf | cr)
 //
 in
+  // nothing
 end // [mydraw_clock]
 
 (* ****** ****** *)

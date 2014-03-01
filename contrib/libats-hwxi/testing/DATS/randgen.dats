@@ -147,6 +147,8 @@ prval () = arrayptr_addback (pf | A)
 //
 } // end of [randgen_arrayptr]
 
+(* ****** ****** *)
+
 implement{a}
 randgen_arrayref (n) =
   arrayptr_refize(randgen_arrayptr<a> (n))
@@ -170,6 +172,43 @@ array_initize$init<a> (_, x) = randgen_ref<a> (x)
 in
   array_initize (A, n)
 end // end of [randarr_initize]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+randgen_matrixptr
+  {m,n} (m, n) = let
+//
+val mn = m * n
+val A0 = arrayptr_make_uninitized<a> (mn)
+//
+implement
+array_initize$init<a> (_, x) = randgen_ref<a> (x)
+//
+prval pf = arrayptr_takeout (A0)
+val () = array_initize<a> (!(ptrcast(A0)), mn)
+prval () = arrayptr_addback (pf | A0)
+//
+in
+  $UN.castvwtp0{matrixptr(a,m,n)}(A0)
+end // end of [randgen_matrixptr]
+
+(* ****** ****** *)
+
+implement{a}
+randgen_matrixref
+  (m, n) = matrixptr_refize(randgen_matrixptr<a> (m, n))
+// end of [randgen_matrixref]
+
+implement{a}
+randgen_mtrxszref
+  (m, n) = let
+  val m = g1ofg0_uint (m)
+  and n = g1ofg0_uint (n)
+in
+  mtrxszref_make_matrixref (randgen_matrixref<a> (m, n), m, n)
+end // end of [randgen_mtrxszref]
 
 (* ****** ****** *)
 

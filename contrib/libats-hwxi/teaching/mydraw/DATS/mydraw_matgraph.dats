@@ -84,8 +84,6 @@ if ans then
   val ((*void*)) = mydraw_fill ((*void*))
 } (* end of [if] *)
 //
-val j = j + 1
-//
 in
   if j + 1 < n then loop2 (j + 1) else ()
 end // end of [loop2]

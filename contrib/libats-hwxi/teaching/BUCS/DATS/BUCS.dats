@@ -65,70 +65,15 @@ srandom_with_time () =
 // end of [srandom_with_time]
 
 (* ****** ****** *)
-//
+
 extern
-fun{a:vt0p}
-array_insertsort$cmp
-  (x1: &RD(a), x2: &RD(a)):<> int
-extern
-fun{a:vt0p}
-array_insertsort
-  {n:int}
-(
-  A: &(@[INV(a)][n]) >> @[a][n], n: size_t n
-) :<!wrt> void // end of [array_insertsort]
-//
-implement
-{a}(*tmp*)
-array_insertsort$cmp
-  (x1, x2) = gcompare_ref<a> (x1, x2)
-//
-implement
-{a}(*tmp*)
-array_insertsort
-  {n}(A, n) = let
-//
-val p0 = addr@A
-//
-fun insord
-  (p: ptr): void = let
-in
-//
-if p > p0 then let
-  val p1 = ptr_pred<a> (p)
-  val (pf, fpf | p) = $UN.ptr0_vtake{a}(p)
-  val (pf1, fpf1 | p1) = $UN.ptr0_vtake{a}(p1)
-  val sgn = array_insertsort$cmp<a> (!p, !p1)
-in
-  if sgn < 0
-    then let
-      val () =
-      ptr_exch<a> (pf | p, !p1)
-      prval () = fpf (pf)
-      prval () = fpf1 (pf1)
-    in
-      insord (p1)
-    end // end of [then]
-    else let
-      prval () = fpf (pf)
-      prval () = fpf1 (pf1)
-    in
-      // nothing
-    end // end of [else]
-  // end of [if]
-end (* end of [if] *)
-//
-end // end of [insord]
-//
-fun
-loop{n:nat} .<n>.
-  (p: ptr, n: size_t (n)): void =
-  if n > 0 then (insord (p); loop (ptr_succ<a> p, pred(n))) else ()
-//
-in
-  if n >= 2 then $effmask_all (loop (ptr_succ<a> (p0), pred(n))) else ()
-end // end of [array_insertsort]
-//
+fun{}
+srand48_with_time((*void*)): void
+implement{}
+srand48_with_time () =
+  $STDLIB.srand48($UN.cast{lint}($TIME.time_get()))
+// end of [srand48_with_time]
+
 (* ****** ****** *)
 
 (* end of [BUCS.dats] *)
