@@ -87,16 +87,17 @@ matrix0_make_elt
 
 (* ****** ****** *)
 
-implement
-{a}{tk}
-matrix0_get_at_gint
+implement{a}
+matrix0_get_at_int
   (M0, i, j) = let
+  val i = g1ofg0_int(i)
+  and j = g1ofg0_int(j)
 in
 //
 if i >= 0
 then (
 if j >= 0 then
-  matrix0_get_at_size<a> (M0, g0i2u(i), g0i2u(j))
+  matrix0_get_at_size<a> (M0, i2sz(i), i2sz(j))
 else
   $raise MatrixSubscriptExn((*void*)) // neg index
 // end of [if]
@@ -104,15 +105,7 @@ else
   $raise MatrixSubscriptExn((*void*)) // neg index
 // end of [if]
 //
-end // end of [matrix0_get_at_gint]
-
-implement
-{a}{tk}
-matrix0_get_at_guint
-  (M0, i, j) =
-(
-  matrix0_get_at_size<a> (M0, g0u2u(i), g0u2u(j))
-) // end of [matrix0_get_at_guint]
+end // end of [matrix0_get_at_int]
 
 (* ****** ****** *)
 
@@ -126,16 +119,17 @@ end // end of [matrix0_get_at_size]
 
 (* ****** ****** *)
 
-implement
-{a}{tk}
-matrix0_set_at_gint
+implement{a}
+matrix0_set_at_int
   (M0, i, j, x) = let
+  val i = g1ofg0_int(i)
+  and j = g1ofg0_int(j)
 in
 //
 if i >= 0
 then (
 if j >= 0 then
-  matrix0_set_at_size<a> (M0, g0i2u(i), g0i2u(j), x)
+  matrix0_set_at_size<a> (M0, i2sz(i), i2sz(j), x)
 else
   $raise MatrixSubscriptExn((*void*)) (* neg index *)
 // end of [if]
@@ -143,15 +137,7 @@ else
   $raise MatrixSubscriptExn((*void*)) (* neg index *)
 // end of [if]
 //
-end // end of [matrix0_set_at_gint]
-
-implement
-{a}{tk}
-matrix0_set_at_guint
-  (M0, i, j, x) =
-(
-  matrix0_set_at_size<a> (M0, g0u2u(i), g0u2u(j), x)
-) // end of [matrix0_set_at_guint]
+end // end of [matrix0_set_at_int]
 
 (* ****** ****** *)
 

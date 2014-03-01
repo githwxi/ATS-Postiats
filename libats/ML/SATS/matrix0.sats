@@ -106,40 +106,30 @@ matrix0_get_refsize
 (* ****** ****** *)
 //
 fun{a:t0p}
+matrix0_get_at_int
+  (M: matrix0(a), i: int, j: int):<!exnref> a
+//
+fun{a:t0p}
 matrix0_get_at_size
   (A: matrix0 (a), i: size_t, j: size_t):<!exnref> a
 //
-fun{
-a:t0p}{tk:tk
-} matrix0_get_at_gint
-  (M: matrix0(a), i: g0int(tk), j: g0int(tk)):<!exnref> a
-fun{
-a:t0p}{tk:tk
-} matrix0_get_at_guint
-  (M: matrix0(a), i: g0uint(tk), j: g0uint(tk)):<!exnref> a
-//
 symintr matrix0_get_at
-overload matrix0_get_at with matrix0_get_at_gint
-overload matrix0_get_at with matrix0_get_at_guint
+overload matrix0_get_at with matrix0_get_at_int
+overload matrix0_get_at with matrix0_get_at_size
 //
 (* ****** ****** *)
+//
+fun{a:t0p}
+matrix0_set_at_int
+  (M: matrix0(a), i: int, j: int, x: a):<!exnrefwrt> void
 //
 fun{a:t0p}
 matrix0_set_at_size
   (A: matrix0 (a), i: size_t, j: size_t, x: a):<!exnrefwrt> void
 //
-fun{
-a:t0p}{tk:tk
-} matrix0_set_at_gint
-  (M: matrix0(a), i: g0int(tk), j: g0int(tk), x: a):<!exnrefwrt> void
-fun{
-a:t0p}{tk:tk
-} matrix0_set_at_guint
-  (M: matrix0(a), i: g0uint(tk), j: g0uint(tk), x: a):<!exnrefwrt> void
-//
 symintr matrix0_set_at
-overload matrix0_set_at with matrix0_set_at_gint
-overload matrix0_set_at with matrix0_set_at_guint
+overload matrix0_set_at with matrix0_set_at_int
+overload matrix0_set_at with matrix0_set_at_size
 //
 (* ****** ****** *)
 
@@ -167,10 +157,10 @@ matrix0_tabulate
 //
 (* ****** ****** *)
 
-overload [] with matrix0_get_at_gint of 0
-overload [] with matrix0_get_at_guint of 0
-overload [] with matrix0_set_at_gint of 0
-overload [] with matrix0_set_at_guint of 0
+overload [] with matrix0_get_at_int of 0
+overload [] with matrix0_get_at_size of 0
+overload [] with matrix0_set_at_int of 0
+overload [] with matrix0_set_at_size of 0
 
 (* ****** ****** *)
 

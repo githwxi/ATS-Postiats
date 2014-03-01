@@ -33,27 +33,22 @@ matrices without dimension information attached.
 
 (* ****** ****** *)
 
+#declnamesynop("matrixref")
+#decldescrpt("\
+
+Given a type T and two integers M and N, the type
+#stacode("matrixref(T, M, N)") is for persistent
+matrices of dimension M by N in which each element is of the type T.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("matrixref_vt0ype_int_int_type")
+
+(* ****** ****** *)
+
 #declnamesynop("lemma_matrixref_param")
-
-(* ****** ****** *)
-
-#declnamesynop("matrixref_make_elt_int")
-#declnamesynop("matrixref_make_elt_size")
-
-(* ****** ****** *)
-
-#declnamesynop("matrixref_get_at_int")
-#declnamesynop("matrixref_get_at_size")
-
-(* ****** ****** *)
-
-#declnamesynop("matrixref_set_at_int")
-#declnamesynop("matrixref_set_at_size")
-
-(* ****** ****** *)
-
-#declnamesynop("matrixref_exch_at_int")
-#declnamesynop("matrixref_exch_at_size")
 
 (* ****** ****** *)
 
@@ -62,8 +57,29 @@ matrices without dimension information attached.
 (* ****** ****** *)
 
 #declnamesynop("matrixref_get_at")
+#declnamesynop("matrixref_get_at_int")
+#declnamesynop("matrixref_get_at_size")
+
+(* ****** ****** *)
+
 #declnamesynop("matrixref_set_at")
+#declnamesynop("matrixref_set_at_int")
+#declnamesynop("matrixref_set_at_size")
+
+(* ****** ****** *)
+
 #declnamesynop("matrixref_exch_at")
+#declnamesynop("matrixref_exch_at_int")
+#declnamesynop("matrixref_exch_at_size")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_matrixref")
+#declnamesynop("fprint_matrixref_sep")
+
+(* ****** ****** *)
+
+#declnamesynop("matrixref_tabulate")
 
 (* ****** ****** *)
 //
@@ -78,10 +94,39 @@ matrices without dimension information attached.
 
 #declnamesynop(".ref")
 #declnamesynop("mtrxszref_get_ref")
-#declnamesynop(".nrow")
 #declnamesynop("mtrxszref_get_nrow")
-#declnamesynop(".ncol")
 #declnamesynop("mtrxszref_get_ncol")
+
+(* ****** ****** *)
+
+#declnamesynop("mtrxszref_make_elt")
+
+(* ****** ****** *)
+
+#declnamesynop("mtrxszref_get_at")
+#declnamesynop("mtrxszref_get_at_int")
+#declnamesynop("mtrxszref_get_at_size")
+
+(* ****** ****** *)
+
+#declnamesynop("mtrxszref_set_at")
+#declnamesynop("mtrxszref_set_at_int")
+#declnamesynop("mtrxszref_set_at_size")
+
+(* ****** ****** *)
+
+#declnamesynop("mtrxszref_exch_at")
+#declnamesynop("mtrxszref_exch_at_int")
+#declnamesynop("mtrxszref_exch_at_size")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_mtrxszref")
+#declnamesynop("fprint_mtrxszref_sep")
+
+(* ****** ****** *)
+
+#declnamesynop("mtrxszref_tabulate")
 
 (* ****** ****** *)
 
@@ -98,6 +143,11 @@ matrices without dimension information attached.
 (* ****** ****** *)
 
 #declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop(".nrow")
+#declnamesynop(".ncol")
 
 (* ****** ****** *)
 

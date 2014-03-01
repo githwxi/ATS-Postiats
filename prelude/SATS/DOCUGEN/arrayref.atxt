@@ -81,6 +81,7 @@ persistent arrays of size N in which each element is of the type T.
 
 (* ****** ****** *)
 
+#declnamesynop("fprint_arrayref")
 #declnamesynop("fprint_arrayref_sep")
 #decldescrpt("\
 
@@ -144,7 +145,6 @@ arrszref-value.\
 
 (* ****** ****** *)
 
-#declnamesynop(".size")
 #declnamesynop("arrszref_get_size")
 #decldescrpt("This function returns the size of a given arrszref-value.")
 
@@ -159,10 +159,6 @@ arrszref-value. ")
 (* ****** ****** *)
 
 #declnamesynop("arrszref_make_elt")
-
-(* ****** ****** *)
-
-#declnamesynop("fprint_arrszref_sep")
 
 (* ****** ****** *)
 
@@ -184,7 +180,12 @@ arrszref-value. ")
 
 (* ****** ****** *)
 
-#declnamesynop("arrayref_tabulate")
+#declnamesynop("fprint_arrszref")
+#declnamesynop("fprint_arrszref_sep")
+
+(* ****** ****** *)
+
+#declnamesynop("arrszref_tabulate")
 
 (* ****** ****** *)
 //
@@ -197,6 +198,19 @@ arrszref-value. ")
 (* ****** ****** *)
 
 #declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop("ptrcast")
+
+(* ****** ****** *)
+
+#declnamesynop(".size")
+
+(* ****** ****** *)
+
+#declnamesynop(".head")
+#declnamesynop(".tail")
 
 (* ****** ****** *)
 

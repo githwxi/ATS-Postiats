@@ -73,7 +73,7 @@ which each matrix-cell is initialized with a given value (3rd argument).\
 
 #declnamesynop("matrix0_get_at")
 
-#declnamesynop("matrix0_get_at_gint")
+#declnamesynop("matrix0_get_at_int")
 #decldescrpt('\
 
 Given an matrix0-value M of dimension m by n and two indices i and j, this
@@ -86,7 +86,7 @@ j < n), or it raises the exception #dyncode("MatrixSubscriptExn").
 
 #declnamesynop("matrix0_set_at")
 
-#declnamesynop("matrix0_set_at_gint")
+#declnamesynop("matrix0_set_at_int")
 #decldescrpt('\
 
 Given an matrix0-value M of dimension m by n, two indicies i and j, and a
