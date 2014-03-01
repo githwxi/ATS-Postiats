@@ -10,6 +10,7 @@
 (* ****** ****** *)
 //
 staload "libats/SATS/refcount.sats"
+staload _ = "libats/DATS/refcount.dats"
 //
 (* ****** ****** *)
 
@@ -22,6 +23,17 @@ exp_node =
 
 where exp = refcnt (exp_node)
 
+(* ****** ****** *)
+//
+fun exp_num
+  (x: double): exp = refcnt_make (EXPnum(x))
+//
+fun exp_add
+  (e1: exp, e2: exp) = refcnt_make (EXPadd(e1, e2))
+//
+fun exp_sub
+  (e1: exp, e2: exp) = refcnt_make (EXPsub(e1, e2))
+//
 (* ****** ****** *)
 
 extern
@@ -40,11 +52,23 @@ fun free_exp_node (exp_node): void
 
 implement
 free_exp (e0) = let
-  val opt = refcnt_decref_opt (e0)
+  var en: exp?
+  val ans = refcnt_decref (e0, en)
 in
-  case+ opt of
-  | ~None_vt () => ()
-  | ~Some_vt (en) => free_exp_node (en)
+//
+if ans
+  then let
+    prval () =
+      opt_unsome (en)
+    // end of [prval]
+  in
+    free_exp_node (en)
+  end // end of [then]
+  else let
+    prval () = opt_unnone (en) in (*nothing*)
+  end // end of [else]
+// end of [if]
+//
 end // end of [free_exp]
 
 implement
@@ -89,7 +113,16 @@ case+ en of
 
 (* ****** ****** *)
 
-implement main0 () = ()
+implement
+main0 () =
+{
+val e1 = exp_num (1.0)
+val e2 = exp_num (2.0)
+val e3 = exp_num (3.0)
+val exp = exp_sub (exp_add (e1, e2), e3)
+val () = println! ("ans = ", eval_exp (exp))
+val () = free_exp (exp)
+} (* end of [main0] *)
 
 (* ****** ****** *)
 

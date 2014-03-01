@@ -173,6 +173,12 @@ stkclo: stkclo.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 cleanall:: ; $(RMF) stkclo
 
 ######
+
+all:: calc_rfc
+calc_rfc: calc_refcount.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) calc_rfc
+
+######
 #
 CFLAGSjson += $(shell pkg-config --cflags json-c)
 #

@@ -83,10 +83,17 @@ qa-list-205: a simple example involving showtype and showlvaltype
 
 ######
 
-alloca: an example involving alloca
+alloca: a simple example involving alloca
+//
 list_copy: copying a given list tail-recursively
 list_last: finding the last element of a given list
+//
 strlen: a safe implementation of the string-length function
+stkclo: a simple example of stack-allocating closure-functions
+//
+calc_refcount:
+a simple example of abstract syntax trees with ref-counted nodes
+//
 for-0install: MISC
 
 ######
