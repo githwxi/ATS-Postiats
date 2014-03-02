@@ -703,13 +703,13 @@ Clearly, the functions #dyncode("board_get") and #dyncode("board_set") are
 defined in a rather unwieldy fashion. This is entirely due to the use of
 tuples for representing board configurations. If we could use an array to
 represent a board configuration, then the implementation would be much
-simpler and cleaner. However, we have not yet covered arrays at this
-point.\
+simpler and cleaner. However, we have not yet covered arrays at this point.\
 
 ")#comment("para")
 
 #para("\
-We now implement two testing functions #dyncode("safety_test1") and
+
+Let us now implement two testing functions #dyncode("safety_test1") and
 #dyncode("safety_test2") as follows:
 
 #atscode("\
@@ -740,23 +740,28 @@ The functionalities of these two functions can be described as such:
 <itemizedlist>
 <listitem>
 #para("\
+
 The function #dyncode("safety_test1") tests whether a queen piece on row
 #dyncode("i0") and column #dyncode("j0") can capture another one on row
-#dyncode("i") and column #dyncode("j").
+#dyncode("i") and column #dyncode("j").\
+
 ")
 </listitem>
 
 <listitem>
 #para("\
+
 The function #dyncode("safety_test2") tests whether a queen piece on row
 #dyncode("i0") and column #dyncode("j0") can capture any pieces on a
-given board with a row number less than or equal to #dyncode("i").
+given board with a row number less than or equal to #dyncode("i").\
+
 ")
 </listitem>
 </itemizedlist>
 ")#comment("para")
 
 #para("\
+
 We are now ready to implement the following function
 #dyncode("search") based on a standard depth-first search (DFS) algorithm:
 
@@ -792,10 +797,9 @@ fun search
 
 The return value of #dyncode("search") is the number of distinct solutions
 to the eight queens puzzle. The symbol #dyncode("print!") in the body of
-#dyncode("search") is a special identifier in ATS: It takes an
-indefinite number of arguments and then applies #dyncode("print") to each of
-them. Here is the first solution printed out by a call to the function
-#dyncode("search"):
+#dyncode("search") is a special identifier in ATS: It takes an indefinite
+number of arguments and then applies #dyncode("print") to each of them. Here
+is the first solution printed out by a call to the function #dyncode("search"):
 
 #atscode("\
 Q . . . . . . . 
@@ -808,7 +812,8 @@ Q . . . . . . .
 . . . Q . . . . 
 ")
 
-There are 92 distinct solutions in total.
+There are 92 distinct solutions in total.\
+
 ")#comment("para")
 
 #para("\

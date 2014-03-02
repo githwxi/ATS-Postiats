@@ -174,9 +174,9 @@ cleanall:: ; $(RMF) stkclo
 
 ######
 
-all:: calc_rfc
-calc_rfc: calc_refcount.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
-cleanall:: ; $(RMF) calc_rfc
+all:: calc_refcnt
+calc_refcnt: calc_refcnt.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) calc_refcnt
 
 ######
 #
