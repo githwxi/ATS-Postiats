@@ -108,6 +108,8 @@ timer_free (timer) =
 
 extern fun the_current_tick_get (): uint
 
+(* ****** ****** *)
+
 implement
 timer_start
   (timer) = let
@@ -230,6 +232,8 @@ end // end of [local]
 (* ****** ****** *)
 
 staload US = "libc/SATS/unistd.sats"
+
+(* ****** ****** *)
 
 implement
 main0 ((*void*)) =

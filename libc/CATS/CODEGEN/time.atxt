@@ -46,6 +46,10 @@ typedef clock_t atslib_clock_type ;
 
 #atscode_separator_for_C()
 
+typedef struct timespec atslib_timespec_type ;
+
+#atscode_separator_for_C()
+
 \#define atslib_difftime difftime
 
 #atscode_separator_for_C()

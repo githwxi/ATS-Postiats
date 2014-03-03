@@ -36,6 +36,108 @@ issues.
 
 ')
 
+<!-- ****** ****** -->
+
+<sect1
+id="simple-linear-objects">
+#title("Simple Linear Objects")
+
+#para("\
+
+Objects in the physical world are conspicuously linear: They cannot be
+created from nothing or simply go vanished by turning into nothing. Thus,
+it is only natural to assign linear types to values that represent physical
+objects. I choose the name #emphasis("simple linear object") here to refer
+to a linear value representing an object of some sort that does not contain
+built-in mechanism for supporting inheritance.\
+
+")
+
+#para('\
+
+Let us now take a look at a concrete example of simple linear object.
+The following code presents an interface for a timer (that is, stopwatch):
+
+#atscode('\
+absvtype timer_vtype
+vtypedef timer = timer_vtype
+
+fun timer_new (): timer
+fun timer_free (x: timer): void
+fun timer_start (x: !timer): void
+fun timer_finish (x: !timer): void
+fun timer_pause (x: !timer): void
+fun timer_resume (x: !timer): void
+fun timer_get_ntick (x: !timer): uint
+fun timer_reset (x: !timer): void
+')
+
+The state of a timer is given the
+record type #stacode("timer_struct") defined as follows:
+
+#atscode('\
+typedef
+timer_struct = @{
+  started= bool // the timer has started
+, running= bool // the timer is running
+  // the tick number recorded when the timer
+, ntick_beg= uint // was turned on last time
+, ntick_acc= uint // the number of accumulated ticks
+} (* end of [timer_struct] *)
+')
+
+The following linear datatype #stacode("timer")
+is declared for timers, and the abstract type #stacode("timer_vtype")
+is assumed to equal #stacode("timer"):
+
+#atscode('\
+//
+datavtype timer =
+  TIMER of (timer_struct)
+//
+assume timer_vtype = timer
+//
+')
+
+')
+
+#para('\
+
+Various functions on timers can now be readily implemented.
+Let us first see the code for creating and freeing timers:
+
+#atscode('\
+
+implement
+timer_new () = let
+//
+val timer = TIMER (_)
+val+TIMER (x) = timer
+//
+val () = x.started := false
+val () = x.running := false
+val () = x.ntick_beg := 0u
+val () = x.ntick_acc := 0u
+//
+prval () = fold@ (timer)
+//
+in
+  timer
+end // end of [timer_new]
+
+implement
+timer_free (timer) =
+  let val+~TIMER _ = timer in (*nothing*) end
+// end of [timer_free]
+
+')
+
+')
+
+</sect1><!--id="simple-linear-objects"-->
+
+<!-- ****** ****** -->
+
 <sect1
 id="memory-allocation-deallocation">
 #title("Memory Allocation and Deallocation")
@@ -205,44 +307,6 @@ available #mycodelink("CHAP_ABSVTYPE/mergeSort.dats", "on-line").
 </sect1><!--id="memory-allocation-deallocation-->
 
 <!-- ****** ****** -->
-
-<sect1
-id="simple-linear-objects">
-#title("Simple Linear Objects")
-
-#para("\
-
-Objects in the physical world are conspicuously linear: They cannot be
-created from nothing or simply go vanished by turning into nothing. Thus,
-it is only natural to assign linear types to values that represent physical
-objects. I choose the name #emphasis("simple linear object") here to refer
-to a linear value representing an object of some sort that does not contain
-built-in mechanism for supporting inheritance.\
-
-")
-
-#para("\
-
-Let us now take a look at a concrete example of simple linear object.
-The following code presents an interface for a timer (that is, stopwatch):
-
-#atscode('\
-absvtype timer_vtype
-vtypedef timer = timer_vtype
-
-fun timer_new (): timer
-fun timer_free (x: timer): void
-fun timer_start (x: !timer): void
-fun timer_finish (x: !timer): void
-fun timer_pause (x: !timer): void
-fun timer_resume (x: !timer): void
-fun timer_get_ntick (x: !timer): uint
-fun timer_reset (x: !timer): void
-')
-
-")
-
-</sect1><!--id="simple-linear-objects"-->
 
 </chapter><!--id="abstract_views_viewtypes"-->
 

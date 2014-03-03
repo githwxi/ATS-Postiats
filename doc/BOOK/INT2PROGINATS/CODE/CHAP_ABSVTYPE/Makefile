@@ -12,15 +12,22 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 ######
 
 CFLAGS=-O2
-ATSCFLAGS=
-LDFLAGS=-latslib
+LDFLAGS += -lrt
+LDFLAGS += -latslib
 
 ######
 
 all:: mergeSort
-mergeSort: mergeSort.dats
-	$(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) $(ATSCFLAGS) -o $@ $< $(LDFLAGS) && ./$@
+mergeSort: mergeSort.dats ; \
+  $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< $(LDFLAGS) && ./$@
 cleanall:: ; $(RMF) mergeSort
+
+######
+
+all:: timer
+timer: timer.dats ; \
+  $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< $(LDFLAGS) && ./$@
+cleanall:: ; $(RMF) timer
 
 ######
 
