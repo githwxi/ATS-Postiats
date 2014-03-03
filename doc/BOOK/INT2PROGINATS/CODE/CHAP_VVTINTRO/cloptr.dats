@@ -62,10 +62,8 @@ $list_vt{int}(0, 1, 2, 3, 4)
 val len = list_vt_length (xs)
 //
 val f = lam (x: int): int =<cloptr1> x * len
-//
 val ys =
 list_map_cloptr<int><int> ($UNSAFE.list_vt2t(xs), f)
-//
 val () = cloptr_free($UNSAFE.castvwtp0{cloptr(void)}(f))
 //
 val () = println! ("xs = ", xs) // xs = 0, 1, 2, 3, 4

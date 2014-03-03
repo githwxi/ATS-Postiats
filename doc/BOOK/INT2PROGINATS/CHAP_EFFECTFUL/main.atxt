@@ -924,15 +924,18 @@ confusion, I may also refer to them as matrix0-values.\
 ")#comment("para")
 
 #para("\
+
 Given a matrix M of dimension m by n, the expression M[i,j] means to
 fetch the content of the cell in M that is indexed by (i, j), where i and j
 are natural numbers strictly less than m and n, respectively.  The
 expression M[i,j] can also be used as a left value. For instance, the
 assignment (M[i,j] := exp) means to evaluate exp to a value and then store
-the value into the cell in M that is indexed by (i, j).
+the value into the cell in M that is indexed by (i, j).\
+
 ")#comment("para")
 
 #para("\
+
 Various functions and function templates on matrix0-values are declared in
 the file #myatscodelink("prelude/SATS/matrixref.sats", "matrixref.sats"),
 which is automatically loaded by <command>atsopt</command>. For instance,
@@ -940,8 +943,8 @@ three function templates and two polymorphic functions on matrices are
 depicted by the following interfaces:
 
 #atscode("\
-fun{a:t@ype} // template
-mtrxszref_make_elt
+fun{a:t@ype}
+mtrxszref_make_elt // template
   (row: size_t, col: size_t, x: a): mtrxszref (a)
 
 fun mtrxszref_get_nrow{a:t@ype} (M: mtrxszref a): size_t // polyfun
@@ -954,6 +957,7 @@ fun{a:t@ype}
 mtrxszref_set_elt_at // template
   (M: mtrxszref a, i: size_t, j: size_t, x: a): void // M[i,j] := x
 ")
+
 ")#comment("para")
 
 #para("\

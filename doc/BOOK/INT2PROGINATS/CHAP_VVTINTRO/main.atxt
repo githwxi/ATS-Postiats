@@ -698,10 +698,12 @@ a:t@ype}{b:vt@ype
 ')
 
 Note that the keyword #keycode("-&lt;cloptr1&gt;") indicates that the
-function type it forms is for a linear closure-function.  The symbol
-#keycode("!") in front of the function type means that the second (linear)
-argument of #dyncode("list_map_cloptr") is call-by-value and it is still
-available after #dyncode("list_map_cloptr") returns.\
+function type it forms is for a linear closure-function. If a type for a
+pure linear closure-function is needed, the keyword
+#keycode("-&lt;cloptr0&gt;") can be used.  The symbol #keycode("!") in
+front of the function type means that the second (linear) argument of
+#dyncode("list_map_cloptr") is call-by-value and it is still available
+after #dyncode("list_map_cloptr") returns.\
 
 ')
 

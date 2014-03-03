@@ -217,7 +217,28 @@ created from nothing or simply go vanished by turning into nothing. Thus,
 it is only natural to assign linear types to values that represent physical
 objects. I choose the name #emphasis("simple linear object") here to refer
 to a linear value representing an object of some sort that does not contain
-built-in mechanism for supporting inheritance.
+built-in mechanism for supporting inheritance.\
+
+")
+
+#para("\
+
+Let us now take a look at a concrete example of simple linear object.
+The following code presents an interface for a timer (that is, stopwatch):
+
+#atscode('\
+absvtype timer_vtype
+vtypedef timer = timer_vtype
+
+fun timer_new (): timer
+fun timer_free (x: timer): void
+fun timer_start (x: !timer): void
+fun timer_finish (x: !timer): void
+fun timer_pause (x: !timer): void
+fun timer_resume (x: !timer): void
+fun timer_get_ntick (x: !timer): uint
+fun timer_reset (x: !timer): void
+')
 
 ")
 

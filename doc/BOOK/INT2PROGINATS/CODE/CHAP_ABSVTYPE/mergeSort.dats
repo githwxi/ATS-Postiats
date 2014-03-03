@@ -202,7 +202,7 @@ implement compare<T> (x, y, _) = x - y
 var A = @[T](3, 2, 5, 4, 8, 7, 6, 9, 1, 0)
 val () = mergeSort<T> (A, i2sz(10), cmp)
 val () = array_foreach_fun<T>{...}(A, i2sz(10), lam (x) =<1> print (x))
-val () = print_newline ()
+val () = print_newline ((*void*))
 //
 in
   // nothing

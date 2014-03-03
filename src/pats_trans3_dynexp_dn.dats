@@ -460,11 +460,9 @@ case+ s2e0.s2exp_node of
     d3exp_lam_sta (loc0, s2e0, s2vs, s2ps, d3e0)
   end // end of [S2Euni]
 //
-(*
 | S2Erefarg (knd, s2e) => let
     val s2f = s2exp2hnf (s2e) in d2exp_trdn_lam_dyn (d2e0, s2f)
   end // end of [s2Erefarg]
-*)
 //
 | _ => let
     val d3e0 = d2exp_trup (d2e0) in d3exp_trdn (d3e0, s2e0)
