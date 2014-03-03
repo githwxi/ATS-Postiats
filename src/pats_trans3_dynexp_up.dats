@@ -261,9 +261,8 @@ case+ d2e0.d2exp_node of
     | D2Esym (d2s) =>
         d2exp_trup_applst_sym (d2e0, d2s, _arg)
       // end of [D2Esym]
-    | D2Etmpid (
-        d2e, t2mas
-      ) when
+    | D2Etmpid
+        (d2e, t2mas) when
         d2exp_is_sym (d2e) => let
         val-D2Esym (d2s) = d2e.d2exp_node
       in
@@ -289,7 +288,7 @@ case+ d2e0.d2exp_node of
         d2exp_trup (d2e0)
       end // end of [D2Emac]
 //
-    | _ => d2exp_trup_applst (d2e0, _fun, _arg)
+    | _(*rest*) => d2exp_trup_applst (d2e0, _fun, _arg)
   end // end of [D2Eapplst]
 //
 | D2Eifhead
@@ -507,39 +506,49 @@ d2explst_trup
 
 (* ****** ****** *)
 
-fun d2explst_trup_arg
-  (d2es: d2explst): d23explst = let
+fun
+d2explst_trup_arg
+(
+  d2es: d2explst
+) : d23explst = let
 (*
-  val () = (
-    print "d2explst_trup_arg"; print_newline ()
-  ) // end of [val]
+  val () = println! ("d2explst_trup_arg: d2es = ", d2es)
 *)
 in
-  case+ d2es of
-  | list_cons (d2e, d2es) => let
-      val d23e = let
-        val isval = d2exp_is_varlamcst (d2e)
+//
+case+ d2es of
+//
+| list_cons
+    (d2e, d2es) => let
+    val d23e = let
+      val isval = d2exp_is_varlamcst (d2e)
 (*
-        val () = println! ("d2explst_trup_arg: isval = ", isval)
-        val () = (
-          print "d2explst_trup_arg: d2e = "; print_d2exp (d2e); print_newline ()
-        ) // end of [val]
+      val () = println! ("d2explst_trup_arg: d2e = ", d2e)
+      val () = println! ("d2explst_trup_arg: isval = ", isval)
 *)
-      in
-        if isval then D23Ed2exp d2e else let
-          val d3e = d2exp_trup (d2e) in D23Ed3exp d3e
-        end // end of [if]
-      end : d23exp // end of [val]
-      val d23es = d2explst_trup_arg (d2es)
     in
-      list_vt_cons (d23e, d23es)
-    end // end of [cons]
-  | list_nil () => list_vt_nil ()
+      if isval
+        then D23Ed2exp d2e
+        else let
+          val d3e = d2exp_trup (d2e) in D23Ed3exp d3e
+        end // end of [else]
+      // end of [if]
+    end : d23exp // end of [val]
+    val d23es = d2explst_trup_arg (d2es)
+  in
+    list_vt_cons (d23e, d23es)
+  end // end of [cons]
+//
+| list_nil ((*void*)) => list_vt_nil ()
+//
 end // end of [d2explst_trup_arg]
+
+(* ****** ****** *)
 
 fun
 d23explst_open_and_add
-  {n:nat} .<n>. (
+  {n:nat} .<n>.
+(
   d23es: !list_vt (d23exp, n)
 ) : void = let
 //
@@ -570,11 +579,17 @@ end // end of [d23explst_open_and_add]
 
 (* ****** ****** *)
 
+(*
+//
+// HX-2014-03-02: not used?
+//
 fun d23explst_trup
   (d23es: d23explst): d3explst =
   case+ d23es of
-  | ~list_vt_cons (d23e, d23es) => let
-      val d3e = (case+ d23e of
+  | ~list_vt_cons
+      (d23e, d23es) => let
+      val d3e = (
+        case+ d23e of
         | ~D23Ed2exp d2e => d2exp_trup (d2e) | ~D23Ed3exp d3e => d3e
       ) : d3exp // end of [val]
     in
@@ -582,6 +597,7 @@ fun d23explst_trup
     end // end of [cons]
   | ~list_vt_nil () => list_nil ()
 // end of [d23explst_trup]
+*)
 
 (* ****** ****** *)
 
@@ -593,19 +609,22 @@ fn d23explst_trdn
 //
 fun aux (
   d23es: d23explst, s2es: s2explst, err: &int
-) : d3explst = begin
-  case+ d23es of
-  | ~list_vt_cons (d23e, d23es) => (
+) : d3explst = let
+in
+//
+case+ d23es of
+| ~list_vt_nil () =>
+  (
     case+ s2es of
-    | list_cons (s2e, s2es) => let
-        val d3e = (case+ d23e of
-          | ~D23Ed2exp (d2e) => d2exp_trdn (d2e, s2e)
-          | ~D23Ed3exp (d3e) => d3exp_trdn (d3e, s2e)
-        ) : d3exp // end of [val]
-        val d3es = aux (d23es, s2es, err)
-      in
-        list_cons (d3e, d3es)
+    | list_cons _ => let
+        val () = err := err - 1 in list_nil ()
       end // end of [list_cons]
+    | list_nil () => list_nil ()
+  ) (* end of [list_vt_nil] *)
+| ~list_vt_cons
+    (d23e, d23es) =>
+  (
+    case+ s2es of
     | list_nil () => let
         val () = err := err + 1
         val () = d23exp_free (d23e)
@@ -613,13 +632,17 @@ fun aux (
       in
         list_nil ()
       end // end of [list_nil]
-    ) // end of [list_vt_cons]
-  | ~list_vt_nil () => (case+ s2es of
-    | list_cons _ => let
-        val () = err := err - 1 in list_nil ()
+    | list_cons (s2e, s2es) => let
+        val d3e = (
+          case+ d23e of
+          | ~D23Ed2exp (d2e) => d2exp_trdn (d2e, s2e)
+          | ~D23Ed3exp (d3e) => d3exp_trdn (d3e, s2e)
+        ) : d3exp // end of [val]
+        val d3es = aux (d23es, s2es, err)
+      in
+        list_cons (d3e, d3es)
       end // end of [list_cons]
-    | list_nil () => list_nil ()
-    ) // end of [list_vt_nil]
+  ) (* end of [list_vt_cons] *)
 end // end of [aux]
 //
 var serr: int = 0
@@ -1035,7 +1058,9 @@ end // end of [d2exp_trup_applst_sta]
 
 (* ****** ****** *)
 
-fun d23exp_trup_app23 (
+fun
+d23exp_trup_app23
+(
   d2e0: d2exp
 , d3e_fun: d3exp
 , npf: int, locarg: loc_t, d23es_arg: d23explst
@@ -1101,9 +1126,7 @@ case+ s2e_fun.s2exp_node of
       iswth
     , s2e_res
     , wths2es
-    ) =
-      un_s2exp_wthtype (loc_app, s2e_fun_res)
-    // end of [val]
+    ) = un_s2exp_wthtype (loc_app, s2e_fun_res)
 //
     val d3e_fun = d3exp_fun_restore (fc, d3e_fun)
     val d3es_arg = (
@@ -1126,8 +1149,7 @@ case+ s2e_fun.s2exp_node of
     val () = prerr_error3_loc (loc_fun)
     val () = filprerr_ifdebug "d23exp_trup_app23"
     val (
-    ) = prerrln!
-    (
+    ) = prerrln! (
       ": the applied dynamic expression is of non-function type: ", s2e_fun
     ) (* end of [val] *)
     val () = the_trans3errlst_add (T3E_d23exp_trup_app23_fun (loc_fun, s2e_fun))
@@ -1137,7 +1159,9 @@ case+ s2e_fun.s2exp_node of
 //
 end // end of [d23exp_trup_app23]
 
-fun d23exp_trup_applst_dyn (
+fun
+d23exp_trup_applst_dyn
+(
   d2e0: d2exp
 , d3e_fun: d3exp
 , npf: int, locarg: loc_t, d2es_arg: d2explst
@@ -1146,27 +1170,29 @@ fun d23exp_trup_applst_dyn (
   val loc_fun = d3e_fun.d3exp_loc
   val loc_app = $LOC.location_combine (loc_fun, locarg)
   val s2e_fun = d3e_fun.d3exp_type
-  val d23es_arg =
-    d2explst_trup_arg (d2es_arg)
-  // end of [val]
-  val () = d23explst_open_and_add (d23es_arg)
+  val d23es_arg = d2explst_trup_arg (d2es_arg)
+  val ((*void*)) = d23explst_open_and_add (d23es_arg)
 in
 //
 case+
   s2e_fun.s2exp_node of
 | _ => let
     val d3e_fun =
-      d23exp_trup_app23 (
+    d23exp_trup_app23
+    (
       d2e0, d3e_fun, npf, locarg, d23es_arg
     ) // end of [val]
   in
     d23exp_trup_applst (d2e0, d3e_fun, d2as)
-  end // end of [_]
+  end (* end of [_] *)
 //
 end // end of [d2exp_trup_applst_dyn]
 
+(* ****** ****** *)
+
 implement
-d23exp_trup_applst (
+d23exp_trup_applst
+(
   d2e0: d2exp
 , d3e_fun: d3exp, d2as: d2exparglst
 ) : d3exp = let
@@ -1180,16 +1206,21 @@ d23exp_trup_applst (
 in
 //
 case+ d2as of
-| list_cons (d2a, d2as) => (
+| list_cons
+    (d2a, d2as) => (
   case+ d2a of
-  | D2EXPARGsta (locarg, s2as) => begin
+  | D2EXPARGsta
+      (locarg, s2as) =>
+    (
       d23exp_trup_applst_sta (d2e0, d3e_fun, s2as, d2as)
-    end // end of [D2EXPARGsta]
-  | D2EXPARGdyn (npf, locarg, d2es_arg) => begin
+    ) (* end of [D2EXPARGsta] *)
+  | D2EXPARGdyn
+      (npf, locarg, d2es_arg) =>
+    (
       d23exp_trup_applst_dyn (d2e0, d3e_fun, npf, locarg, d2es_arg, d2as)
-    end // end of [D2EXPARGdyn]
+    ) (* end of [D2EXPARGdyn] *)
   ) // end of [cons]
-| list_nil () => d3e_fun
+| list_nil ((*void*)) => d3e_fun
 //
 end // end of [d2exp_trup_applst]
 

@@ -362,7 +362,7 @@ case+ opt of
       the_trans3errlst_add (T3E_d3lval_linpatcon (d3e0, s2e))
     end (* end of [if] *)
   end // end of [Some]
-| None () => ()
+| None ((*void*)) => ()
 //
 end // end of [d3lval_set_pat_type_left]
 
@@ -428,9 +428,11 @@ case+ s2e_fun.s2exp_node of
   ) => 
   (
   case+ fc of
-  | FUNCLOclo knd when knd > 0 => if lin = 0 then true else false | _ => false
+  | FUNCLOclo (knd) =>
+      if knd > 0 then (if lin = 0 then true else false) else false
+  | _ (*non-clofun*) => false
   ) // end of [S2Efun]
-| _ => false
+| _ (*non-fun-type*) => false
 //
 end // end of [s2exp_fun_is_freeptr]
 
@@ -442,8 +444,9 @@ d3lval_arg_set_type
 (*
 val () = (
   println! ("d3lval_arg_set_type: d3e0 = ", d3e0);
+  println! ("d3lval_arg_set_type: refval = ", refval);
   println! ("d3lval_arg_set_type: s2e_new = ", s2e_new);
-) // end of [val]
+) (* end of [val] *)
 *)
 var err: int = 0
 var freeknd: int = 0 // free [d3e0] if it is set to 1
@@ -460,8 +463,12 @@ if err > 0 then
 ) // end of [if]
 ) : void // end of [val]
 //
+(*
+val () = println! ("d3lval_arg_set_type: freeknd = ", freeknd)
+*)
+//
 in
-  freeknd // a linear value must be freed (freeknd = 1) if it cannot be returned
+  freeknd // freeknd=1: a linear value must be freed if it cannot be returned
 end (* end of [d3lval_arg_set_type] *)
 
 end // end of [local]

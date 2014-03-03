@@ -77,19 +77,26 @@ fun aritest_d2exparglst_s2exp
 *)
 local
 //
-fun loop (
-  d2as: d2exparglst, s2e: s2exp, npf: int, d2es: d2explst
+fun loop
+(
+  d2as: d2exparglst
+, s2e: s2exp, npf: int, d2es: d2explst
 ) : bool = let
   val s2e = s2exp_hnfize (s2e)
 in
   case+ s2e.s2exp_node of
-  | S2Efun (
+  | S2Efun
+    (
       _(*fc*), _(*lin*), _(*eff*), npf1, s2es_arg, s2e_res
     ) =>
       if (npf = npf1) then let
-        val sgn = list_length_compare (d2es, s2es_arg) in
-        if sgn = 0 then aritest_d2exparglst_s2exp (d2as, s2e_res) else false
-      end else false
+        val sgn =
+          list_length_compare (d2es, s2es_arg) in
+        // end of [val]
+        if sgn = 0
+          then aritest_d2exparglst_s2exp (d2as, s2e_res) else false
+        // end of [if]
+      end else false // end of [if]
     // end of [S2Efun]
   | S2Eexi (_(*s2vs*), _(*s2ps*), s2e) => loop (d2as, s2e, npf, d2es)
   | S2Euni (_(*s2vs*), _(*s2ps*), s2e) => loop (d2as, s2e, npf, d2es)
@@ -101,8 +108,11 @@ in // in of [local]
 
 implement
 aritest_d2exparglst_s2exp
-  (d2as, s2e) = case+ d2as of
-  | list_cons (d2a, d2as) => (
+  (d2as, s2e) = let
+in
+  case+ d2as of
+  | list_cons
+      (d2a, d2as) => (
     case+ d2a of
     | D2EXPARGdyn (
         npf, _(*loc*), d2es
@@ -110,8 +120,8 @@ aritest_d2exparglst_s2exp
     | D2EXPARGsta _ =>
         aritest_d2exparglst_s2exp (d2as, s2e)
     ) // end of [list_cons]
-  | list_nil () => true
-// end of [aritest_d2exparglst_s2exp]
+  | list_nil ((*void*)) => true
+end // end of [aritest_d2exparglst_s2exp]
 
 end // end of [local]
 

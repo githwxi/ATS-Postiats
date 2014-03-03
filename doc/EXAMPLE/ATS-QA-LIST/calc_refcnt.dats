@@ -155,8 +155,9 @@ main0 () =
 {
 val e1 = exp_num (1.0)
 val e2 = exp_num (2.0)
-val e3 = exp_num (3.0)
-val e4 = exp_sub (exp_add (e1, e2), e3)
+val e3 = exp_add (e1, e2)
+val e32 = copy_exp (e3)
+val e4 = exp_sub (e3, e32)
 val e42 = copy_exp (e4)
 val ans = eval_exp (e4)
 val ((*void*)) = free_exp (e4)

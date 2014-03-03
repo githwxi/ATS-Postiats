@@ -28,6 +28,12 @@ cleanall:: ; $(RMF) stkclo
 
 ######
 
+all:: cloptr
+cloptr: cloptr.dats; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $< || touch $@
+cleanall:: ; $(RMF) cloptr
+
+######
+
 include $(PATSHOME)/share/atsmake-post.mk
 
 ######

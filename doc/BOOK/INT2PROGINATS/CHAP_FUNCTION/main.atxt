@@ -752,7 +752,7 @@ The function #dyncode("safety_test1") tests whether a queen piece on row
 #para("\
 
 The function #dyncode("safety_test2") tests whether a queen piece on row
-#dyncode("i0") and column #dyncode("j0") can capture any pieces on a
+#dyncode("i0") and column #dyncode("j0") can capture any other pieces on a
 given board with a row number less than or equal to #dyncode("i").\
 
 ")
@@ -1000,7 +1000,7 @@ practice of replacing loops with recursive functions in ATS.\
 
 <sect1
 id="envless-functions-and-function-closures">
-#title("Envless Functions and Closure Functions")
+#title("Envless Functions and Closure-Functions")
 
 #para("\
 
@@ -1014,16 +1014,16 @@ out what it means.\
 
 An envless function is represented by a pointer pointing to some place in a
 code segment where the object code for executing a call to this function is
-located. Every function in the programming language C is envless. A closure
-function is also represented by a pointer, but the pointer points to some
-place in a heap where a tuple is allocated (at run-time). Usually, the
-first component of this tuple is a pointer representing an envless function
-and the rest of the components represent some bindings. A tuple as such is
-often referred to as a closure, which can be thought of as an envless
-function paired with an environment. It is possible that the environment of
-a closure function is empty, but this does not equate a closure function
-with an envless function. Every function in functional languages such as ML
-and Haskell is a closure function.\
+located. Every function in the programming language C is envless. A
+closure-function is also represented by a pointer, but the pointer points
+to some place in a heap where a tuple is allocated (at run-time). Usually,
+the first component of this tuple is a pointer representing an envless
+function and the rest of the components represent some bindings. A tuple as
+such is often referred to as a closure-function or simply closure, which
+can be thought of as an envless function paired with an environment. It is
+possible that the environment of a closure-function is empty, but this does
+not equate a closure-function with an envless function. Every function in
+functional languages such as ML and Haskell is a closure-function.\
 
 ")#comment("para")
 
@@ -1047,10 +1047,10 @@ in
 end // end of [sum]
 ")
 
-The inner function #dyncode("loop") is a closure function as is indicated
+The inner function #dyncode("loop") is a closure-function as is indicated
 by the special syntax #dyncode(":&lt;cloref1&gt;"), and the type assigned
 to #dyncode("loop") is denoted by #dyncode("(int, int) -&lt;cloref1&gt;
-int"). Hence, envless functions and closure functions can be distinguished
+int"). Hence, envless functions and closure-functions can be distinguished
 at the level of types.\
 
 ")#comment("para")
@@ -1084,8 +1084,7 @@ end // end of [sum]
 As a matter of fact, what happens during compilation is that the first
 implementation of #dyncode("sum") and #dyncode("loop") gets translated,
 more or less, into the second implementation, and there is #emphasis("no")
-actual creation of closures (for representing closure functions) at
-run-time.\
+actual creation of closures at run-time.\
 
 ")#comment("para")
 
@@ -1095,7 +1094,7 @@ The need for creating closures often appears when a function is not
 directly applied. For instance, the return value of a function call may
 also be a function. In the following code, the defined function
 #dyncode("addx") returns another function when applied to a given integer
-#dyncode("x"), and the returned function is a closure function, which
+#dyncode("x"), and the returned function is a closure-function, which
 always adds the integer #dyncode("x") to its own argument:
 
 
@@ -1107,12 +1106,12 @@ val plus2 = addx (2) // [plus2] is of the type int -<cloref1> int
 ")
 
 It should be clear that #dyncode("plus1(0)") and #dyncode("plus2(0)")
-return #dyncode("1") and #dyncode("2"), respectively.  The closure that is
-given the name #dyncode("plus1") consists of an envless function and an
-environment binding #dyncode("x") to #dyncode("1"). The envless function
-can essentially be described by the pseudo syntax #dyncode("lam (env, y) =>
-env.x + y"), where #dyncode("env") and #dyncode("env.x") refer to an
-environment and the value to which #dyncode("x") is bound in that
+return #dyncode("1") and #dyncode("2"), respectively.  The closure-function
+that is given the name #dyncode("plus1") consists of an envless function
+and an environment binding #dyncode("x") to #dyncode("1"). The envless
+function can essentially be described by the pseudo syntax #dyncode("lam
+(env, y) => env.x + y"), where #dyncode("env") and #dyncode("env.x") refer
+to an environment and the value to which #dyncode("x") is bound in that
 environment. When evaluating #dyncode("plus1(0)"), we can first bind
 #dyncode("env") and #dyncode("y") to the environment in #dyncode("plus1")
 and the argument #dyncode("0"), respectively, and then start to evaluate
@@ -1124,9 +1123,9 @@ the body of the envless function in #dyncode("plus1"), which is
 
 #para("\
 
-Closures are often passed as arguments to functions that are referred to as
-higher-order functions.  It is also fairly common for closures to be
-embedded in data structures.\
+Closures are often passed as arguments to functions that are referred
+to as higher-order functions.  It is also fairly common for closures to
+be embedded in data structures.\
 
 ")
 
@@ -1209,7 +1208,7 @@ fun sqrmodsum (n: int, d: int): int =
 ")
 
 For someone unfamilar with the distinction between an envless function and
-a closure function, it may be a bit suprising to learn that this
+a closure-function, it may be a bit suprising to learn that this
 generalization does not actually work. The simple reason is that
 #dyncode("ifold") expects its second argument to be an envless function but
 the function passed to #dyncode("ifold") in the body of
@@ -1233,15 +1232,15 @@ fun sqrmodsum (n: int, d: int): int =
 
 While #dyncode("ifold2") is indeed more general than #dyncode("ifold"),
 this generality does come with a price. Whenever #dyncode("sqrmodsum") is
-called, a closure function must be created on heap and then passed to
-#dyncode("ifold2"); this closure function is of no further use after the
+called, a closure-function must be created on heap and then passed to
+#dyncode("ifold2"); this closure-function is of no further use after the
 call returns and the memory it occupies can only be properly relcaimed
 through garbage collection (GC). Therefore, calling functions like
 #dyncode("sqrmodsum") can readily result in memory leaks in a setting where
-no GC is available. Fortunately, there are also linear closure functions in
-ATS, which do not cause any memory leaks even in the absence of GC as they
-are required to be explicitly freed by the programmer. I will cover this
-interesting programming feature elsewhere.\
+GC is not available. Fortunately, there are also linear closure-functions
+in ATS, which do not cause any memory leaks even in the absence of GC as
+they are required to be explicitly freed by the programmer. I will cover
+this interesting programming feature elsewhere.\
 
 ")#comment("para")
 
@@ -1333,7 +1332,7 @@ Let us first introduce a type definition as follows:
 typedef I (a:t@ype) = a -<cloref1> a
 ")
 
-Given a type T, I(T) is for a closure function that maps a given input
+Given a type T, I(T) is for a closure-function that maps a given input
 value of type T to an output value of the same type T. Given a function f
 of type I(T), we can compose f with itself to form another function, which
 just applies f twice to a given argument. The following function template
@@ -1432,7 +1431,7 @@ fun acker2
 The function #dyncode("acker2") is a curried version of #dyncode("acker1")
 while the function #dyncode("acker1") in an uncurried version of
 #dyncode("acker2"). Applying #dyncode("acker2") to an integer value
-generates a linear function closure, which I will explain elsewhere.\
+generates a linear closure-function, which I will explain elsewhere.\
 
 ")#comment("para")
 
@@ -1465,7 +1464,6 @@ code for testing.\
 
 </chapter><!--id="functions"-->
 
-#comment(" ****** ****** ")
 #comment(" end of [main.atxt] ")
 
 %{

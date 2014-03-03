@@ -110,6 +110,11 @@ nrow-1, inclusive, and j from 0 until ncol-1, inclusive.\
 ')
 
 (* ****** ****** *)
+
+#declnamesynop("matrix0_foreach")
+#declnamesynop("matrix0_iforeach")
+
+(* ****** ****** *)
 //
 // HX: various overloaded symbols
 //
