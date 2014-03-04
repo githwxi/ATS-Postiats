@@ -232,7 +232,9 @@ cbufObj_remove {m,n} (buf) = x where {
 (* ****** ****** *)
 
 implement
-main () = () where {
+main () = () where
+{
+//
   val buf = cbufObj_new (2)
 //
   val () = cbufObj_insert<int> (buf, 1)
@@ -257,7 +259,7 @@ main () = () where {
   val () = println! ("x(4) = ", x)
 //
   val () = cbufObj_free (buf)
-} // end of [val]
+} (* end of [main] *)
 
 (* ****** ****** *)
 

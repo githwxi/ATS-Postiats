@@ -54,9 +54,9 @@ fun timer_pause (x: !timer): void // the timer pauses
 extern
 fun timer_resume (x: !timer): void // the (paused) timer resumes
 extern
-fun timer_get_ntick (x: !timer): uint // obtaining the number of ticks
-extern
 fun timer_reset (x: !timer): void // the timer resets
+extern
+fun timer_get_ntick (x: !timer): uint // obtaining the number of ticks
 
 (* ****** ****** *)
 
@@ -69,6 +69,17 @@ timer_struct = @{
 , ntick_acc= uint // the number of accumulated ticks
 } (* end of [timer_struct] *)
 
+(* ****** ****** *)
+//
+(*
+extern
+castfn timer_objfize
+  {l:addr} (timer_struct@l | ptr l): (mfree_ngc_v (l) | timer)
+extern
+castfn timer_unobjfize
+  {l:addr} (mfree_ngc_v (l) | timer): (timer_struct @ l | ptr l)
+*)
+//
 (* ****** ****** *)
 //
 datavtype timer =
@@ -180,23 +191,6 @@ end // end of [timer_resume]
 (* ****** ****** *)
 
 implement
-timer_get_ntick
-  (timer) = let
-  val+@TIMER(x) = timer
-  var ntick: uint = x.ntick_acc
-  val () =
-  if x.running then
-  {
-    val () = ntick := ntick + the_current_tick_get () - x.ntick_beg
-  } (* end of [if] *) // end of [val]
-  prval () = fold@ (timer)
-in
-  ntick
-end // end of [timer_get_ntick]
-
-(* ****** ****** *)
-
-implement
 timer_reset
   (timer) = let
   val+@TIMER(x) = timer
@@ -208,6 +202,22 @@ timer_reset
 in
   // nothing
 end // end of [timer_reset]
+
+(* ****** ****** *)
+
+implement
+timer_get_ntick
+  (timer) = let
+  val+@TIMER(x) = timer
+  var ntick: uint = x.ntick_acc
+  val () =
+  if x.running then (
+    ntick := ntick + the_current_tick_get () - x.ntick_beg
+  ) (* end of [if] *) // end of [val]
+  prval () = fold@ (timer)
+in
+  ntick
+end // end of [timer_get_ntick]
 
 (* ****** ****** *)
 

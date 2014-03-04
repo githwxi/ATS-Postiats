@@ -112,7 +112,7 @@ implement
 timer_new () = let
 //
 val timer = TIMER (_)
-val+TIMER (x) = timer
+val TIMER (x) = timer
 //
 val () = x.started := false
 val () = x.running := false
@@ -127,14 +127,380 @@ end // end of [timer_new]
 
 implement
 timer_free (timer) =
-  let val+~TIMER _ = timer in (*nothing*) end
+  let val ~TIMER _ = timer in (*nothing*) end
 // end of [timer_free]
 
 ')
 
 ')
 
+#para('\
+
+The function for starting a timer can be implemented as follows:
+
+#atscode('\
+implement
+timer_start
+  (timer) = let
+  val+@TIMER(x) = timer
+  val () = x.started := true
+  val () = x.running := true
+  val () = x.ntick_beg := the_current_tick_get ()
+  val () = x.ntick_acc := 0u
+  prval () = fold@ (timer)
+in
+  // nothing
+end // end of [timer_start]
+')
+
+where #dyncode("the_current_tick_get") is a function for
+reading the current time (represented as a number of ticks):
+
+#atscode('\
+extern fun the_current_tick_get (): uint
+')
+
+')
+
+#para('\
+
+A timer can be stopped or paused. The function for stopping a timer can be
+implemented as follows:
+
+#atscode('\
+implement
+timer_finish
+  (timer) = let
+  val+@TIMER(x) = timer
+  val () = x.started := false
+  val () =
+  if x.running then
+  {
+    val () = x.running := false
+    val () = x.ntick_acc :=
+      x.ntick_acc + the_current_tick_get () - x.ntick_beg
+  } (* end of [val] *)
+  prval () = fold@ (timer)
+in
+  // nothing
+end // end of [timer_finish]
+')
+
+')
+
+#para('\
+A timer can be paused and then resumed.
+The following code implements the functions for pausing and resuming a
+timer:
+
+#atscode('\
+
+implement
+timer_pause
+  (timer) = let
+  val+@TIMER(x) = timer
+  val () =
+  if x.running then
+  {
+    val () = x.running := false
+    val () = x.ntick_acc :=
+      x.ntick_acc + the_current_tick_get () - x.ntick_beg
+  } (* end of [val] *)
+  prval () = fold@ (timer)
+in
+  // nothing
+end // end of [timer_pause]
+
+implement
+timer_resume
+  (timer) = let
+  val+@TIMER(x) = timer
+  val () =
+  if x.started && ~(x.running) then
+  {
+    val () = x.running := true
+    val () = x.ntick_beg := the_current_tick_get ()
+  } (* end of [if] *) // end of [val]
+  prval () = fold@ (timer)
+in
+  // nothing
+end // end of [timer_resume]
+')
+
+As can be expected, the amount of time between the point
+where a timer is paused and the point where the timer is resumed
+is not counted.
+
+')
+
+#para('\
+
+It is also possible to reset a timer by calling the function
+#dyncode("timer_reset"):
+
+#atscode('\
+implement
+timer_reset
+  (timer) = let
+  val+@TIMER(x) = timer
+  val () = x.started := false
+  val () = x.running := false
+  val () = x.ntick_beg := 0u
+  val () = x.ntick_acc := 0u
+  prval () = fold@ (timer)
+in
+  // nothing
+end // end of [timer_reset]
+')
+
+')
+
+#para('\
+
+In order to read the time accumulated by a timer,
+the function #dyncode("timer_get_ntick") can be called:
+
+#atscode('\
+implement
+timer_get_ntick
+  (timer) = let
+  val+@TIMER(x) = timer
+  var ntick: uint = x.ntick_acc
+  val () =
+  if x.running then (
+    ntick := ntick + the_current_tick_get () - x.ntick_beg
+  ) (* end of [if] *) // end of [val]
+  prval () = fold@ (timer)
+in
+  ntick
+end // end of [timer_get_ntick]
+')
+
+')
+
+#para('\
+
+A straightforward approach to
+implementing #dyncode("the_current_tick_get")
+can be based directly on the function #dyncode("clock_gettime"):
+
+#atscode('\
+local
+
+staload "libc/SATS/time.sats"
+
+in (* in-of-local *)
+
+implement
+the_current_tick_get () = let
+  var tv: timespec // uninitialized
+  val err = clock_gettime (CLOCK_REALTIME, tv)
+  val ((*void*)) = assertloc (err >= 0)
+  prval ((*void*)) = opt_unsome{timespec}(tv)
+in
+  $UNSAFE.cast2uint(tv.tv_sec)
+end // end of [the_current_tick_get]
+
+end // end of [local]
+')
+
+Note that the library flag #dyncode("-lrt") is needed in order to
+have link-time access to #dyncode("clock_gettime") as the function is in
+#dyncode("librt").
+
+')
+
+#para('\
+
+Please find #mycodelink("CHAP_ABSVTYPE/timer.dats", "on-line") the
+entirety of the code presented in this section plus some testing code.
+
+')
+
 </sect1><!--id="simple-linear-objects"-->
+
+<!-- ****** ****** -->
+
+<sect1 id="array-based-circular-buffer">
+#title("\
+Example: An Array-Based Circular Buffer\
+")
+
+#para("\
+
+Array-based circular buffers are of common use in practice. For instance,
+in a typical client/server model, a circular buffer can be employed to hold
+requests issued by multiple clients that are then processed by the server
+according to the first-in-first-out (FIFO) policy. In a case where each
+request needs to be given a priority (chosen from a fixed set), a circular
+buffer can be created for each priority to hold requests of that particular
+priority.\
+
+")
+
+#para("\
+
+Let us declare a linear abstract type (that is, abstract viewtype) as
+follows for values representing circular buffers:
+
+#atscode('\
+absvtype cbufObj (a:vt@ype+, m:int, n: int) = ptr
+')
+
+Such values are considered simple linear objects (as inheritance is not an
+issue to be dealt with in this setting). Given a viewtype VT and two
+integers M and N, the viewtype #stacode("cbufObj(VT, M, N)") is for a given
+buffer of maximal capacity M that currently holds N elements of the type
+VT.
+
+")
+
+#para("\
+
+Some properties on the parameters of #stacode("cbufObj") can be captured
+by introducing the following proof function:
+
+#atscode('\
+prfun
+lemma_cbufObj_param
+  {a:vt0p}{m,n:int}
+  (buf: !cbufObj (a, m, n)): [m>=n; n>=0] void
+')
+
+The interface for the following two function templates indicates that they
+can be called to compute the capacity and current size of a buffer:
+
+#atscode('\
+fun{a:vt0p}
+cbufObj_get_cap
+  {m,n:int} (buf: !cbufObj (a, m, n)): size_t (m)
+
+fun{a:vt0p}
+cbufObj_get_size
+  {m,n:int} (buf: !cbufObj (a, m, n)): size_t (n)
+')
+
+")
+
+#para("\
+
+While it is straightforward to use #dyncode("cbufObj_get_cap") and
+#dyncode("cbufObj_get_size") to tell whether a buffer is currently empty or
+full, a direct approach is likely to be more efficient. The following two
+function templates check for the emptiness and fullness of a given circular
+buffer:
+
+#atscode('\
+//
+fun{a:vt0p}
+cbufObj_is_empty
+  {m,n:int} (buf: !cbufObj (a, m, n)): bool (n==0)
+//
+fun{a:vt0p}
+cbufObj_is_full
+  {m,n:int} (buf: !cbufObj (a, m, n)): bool (m==n)
+//
+')
+
+")
+
+#para("\
+
+The functions for creating and destroying circular buffers are named
+#dyncode("cbufObj_new") and #dyncode("cbufObj_free"), respectively:
+
+#atscode('\
+fun{a:vt0p}
+cbufObj_new
+  {m:pos} (m: size_t m): cbufObj (a, m, 0)
+//
+fun cbufObj_free
+  {a:vt0p}{m:int} (buf: cbufObj (a, m, 0)): void
+')
+
+Note that a buffer can be freed only if it contains no elements as
+an element (of some viewtype) may contain resources. If elements in
+a buffer are of some (non-linear) type, then the following function
+can be called to clear out all the elements stored in the buffer:
+
+#atscode('\
+fun cbufObj_clear
+  {a:t@ype}{m,n:int}
+  (buf: !cbufObj (a, m, n) >> cbufObj (a, m, 0)): void
+// end of [cbufObj_clear]
+')
+
+")
+
+#para("\
+
+The next two functions are for inserting/removing an element into/from a
+given buffer, which are probably the most frequently used operations on
+buffers:
+
+#atscode('\
+//
+fun{a:vt0p}
+cbufObj_insert
+  {m,n:int | n < m}
+(
+  buf: !cbufObj (a, m, n) >> cbufObj (a, m, n+1), x: a
+) : void // end of [cbufObj_insert]
+//
+fun{a:vt0p}
+cbufObj_remove
+  {m,n:int | n > 0}
+  (buf: !cbufObj (a, m, n) >> cbufObj (a, m, n-1)) : (a)
+//
+')
+
+")
+
+#para("\
+
+Please find on-line the file
+#mycodelink("CHAP_ABSVTYPE/circbuf.sats", "circbuf.sats")
+containing the entirety of the interface for functions creating, destroying
+and manipulating circular buffers.\
+
+")
+
+#para("\
+
+There are many simple and practical ways to implement the abstract type
+#stacode("cbufObj") and the functions declared in
+#mycodelink("CHAP_ABSVTYPE/circbuf.sats", "circbuf.sats").  In the file
+#mycodelink("CHAP_ABSVTYPE/circbuf.dats", "circbuf.dats"), I give an
+implementation that employs four pointers p_beg, p_end, p_frst and p_last
+to represent a circular buffer: p_beg and p_end are the starting and
+finishing addresses of the underline array, respectively, and p_frst and
+p_last are the starting addresses of the occupied and unoccupied segments
+(in the array), respectively. What is special about this implementation is
+its employing a style of programming that deliberately eschews the need for
+proof construction. While code written in this style is not guaranteed to
+be type-safe, the style can nonetheless be of great practical value in a
+setting where constructing formal proofs is deemed too costly a requirement
+to be fully fulfilled. Anyone who tries to give a type-safe implementation
+for the functions declared in #mycodelink("CHAP_ABSVTYPE/circbuf.sats",
+"circbuf.sats") should likely find some genuine appreciation for this
+point.
+
+")
+
+#para("\
+
+In the file #mycodelink("CHAP_ABSVTYPE/circbuf2.dats", "circbuf2.dats"), I
+give another implementation in which a circular buffer is represented as a
+pointer p_beg plus three integers m, n and f: p_beg points to the starting
+location of the underline array, m is the size of the array (that is, the
+capacity of the buffer), n is the number of elements currently stored in
+the buffer and f is the total number of elements that have so far been
+removed from the buffer. Again, proof construction is delibrately eschewed
+in this implementation.
+
+")
+
+</sect1><!--id="array-based-circular-buffer"-->
 
 <!-- ****** ****** -->
 
