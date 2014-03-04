@@ -34,7 +34,7 @@ cleanall:: ; $(RMF) myclock1
 ######
 
 all:: myclock2
-myclock2: myclock2.dats; $(PATSCC2) -o $@ $< $(GTKFLAGS)
+myclock2: myclock2.dats; $(PATSCC2) -o $@ $< $(GTKFLAGS) -lm
 cleanall:: ; $(RMF) myclock2
 
 ######
@@ -46,7 +46,7 @@ cleanall:: ; $(RMF) myclock3
 ######
 
 all:: myclock4
-myclock4: myclock4.dats; $(PATSCC2) -o $@ $< $(GTKFLAGS)
+myclock4: myclock4.dats; $(PATSCC2) -o $@ $< $(GTKFLAGS) -lm
 cleanall:: ; $(RMF) myclock4
 
 ######
@@ -58,7 +58,8 @@ cleanall:: ; $(RMF) mytriangle
 ######
 
 all:: mypascal
-mypascal: mypascal.dats; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $< $(GTKFLAGS)
+mypascal: \
+  mypascal.dats; $(PATSCC2) $(MALLOCFLAG) -o $@ $< $(GTKFLAGS) -lm
 cleanall:: ; $(RMF) mypascal
 
 ######
