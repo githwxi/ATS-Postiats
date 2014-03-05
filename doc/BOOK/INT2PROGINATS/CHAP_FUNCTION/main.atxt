@@ -1431,7 +1431,8 @@ fun acker2
 The function #dyncode("acker2") is a curried version of #dyncode("acker1")
 while the function #dyncode("acker1") in an uncurried version of
 #dyncode("acker2"). Applying #dyncode("acker2") to an integer value
-generates a linear closure-function, which I will explain elsewhere.\
+generates a closure-function, which causes a memory-leak unless it can be
+reclaimed by garbage collection (GC) at run-time.\
 
 ")#comment("para")
 
