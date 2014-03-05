@@ -428,61 +428,81 @@ end // end of [v0aldec_tr]
 
 (* ****** ****** *)
 
-fn f0undec_tr (
+fn f0undec_tr
+(
   isprf: bool, isrec: bool, d: f0undec
- ) : f1undec = let
-  val loc = d.f0undec_loc
-  val effopt = d.f0undec_eff
-  val (fcopt, efcopt) =
-  (
-    case+ effopt of
-    | Some eff => (fcopt, Some efc) where {
-        val (fcopt, lin, prf, efc) = e0fftaglst_tr (eff)
-      } // end of [Some]
-    | None () => (None(*fcopt*), Some efc) where {
-        val efc = (
-          if isprf then EFFCSTnil () else EFFCSTall ()
-        ) : effcst // end of [val]
-      } // end of [None]
-  ) : @(fcopt, effcstopt)
+) : f1undec = let
 //
-  val d1e_def =
-    d0exp_tr_lams_dyn (
-      LAMKINDifix
-    , None (*locopt*)
-    , fcopt, 0 (*lin*)
-    , d.f0undec_arg, d.f0undec_res, efcopt
-    , d.f0undec_def
-    ) // end of [d0exp_lams_dyn_tr]
-  // end of [val]
+val loc = d.f0undec_loc
 //
-  val () = if isrec then
-    termination_metric_check (loc, d1exp_is_metric d1e_def, efcopt)
-  // end of [if] // end of [val]
+val effopt = d.f0undec_eff
+val (
+  fcopt, efcopt
+) = (
+  case+ effopt of
+  | Some eff =>
+    (
+      fcopt, Some efc
+    ) where {
+      val (fcopt, lin, prf, efc) = e0fftaglst_tr (eff)
+    } (* end of [where] *) // end of [Some]
+  | None ((*void*)) =>
+    (
+      None(*fcopt*), Some efc
+    ) where {
+      val efc = (
+        if isprf then EFFCSTnil () else EFFCSTall ()
+      ) : effcst // end of [val]
+    } (* end of [where] *) // end of [None]
+) : @(fcopt, effcstopt)
 //
-  val ann = witht0ype_tr (d.f0undec_ann)
+val d1e_def =
+d0exp_tr_lams_dyn
+(
+  LAMKINDifix
+, None (*locopt*)
+, fcopt, 0 (*lin*)
+, d.f0undec_arg, d.f0undec_res, efcopt
+, d.f0undec_def
+) (* end of [d0exp_lams_dyn_tr] *) // end of [val]
+//
+val () =
+if isrec then
+  termination_metric_check (loc, d1exp_is_metric d1e_def, efcopt)
+// end of [if] // end of [val]
+//
+val ann = witht0ype_tr (d.f0undec_ann)
 //
 in
   f1undec_make (loc, d.f0undec_sym, d.f0undec_sym_loc, d1e_def, ann)
 end // end of [f0undec_tr]
 
-fun f0undeclst_tr (
+(* ****** ****** *)
+
+fun
+f0undeclst_tr
+(
   fk: funkind, ds: f0undeclst
 ) : f1undeclst = let
   val isprf = funkind_is_proof fk
   and isrec = funkind_is_recursive fk
 in
-  case+ ds of
-  | d :: ds => begin
-      f0undec_tr (isprf, isrec, d) :: f0undeclst_tr (fk, ds)
-    end (* end of [::] *)
-  | nil () => nil ()
+//
+case+ ds of
+| nil () => nil ()
+| cons (d, ds) => (
+    f0undec_tr (isprf, isrec, d) :: f0undeclst_tr (fk, ds)
+  ) (* end of [cons] *)
+//
 end // end of [f0undeclst_tr]
 
 (* ****** ****** *)
 
-fn v0ardec_tr
-  (d: v0ardec): v1ardec = let
+fn
+v0ardec_tr
+(
+  d: v0ardec
+) : v1ardec = let
   val loc = d.v0ardec_loc
   val knd = d.v0ardec_knd
   val pfat = d.v0ardec_pfat // i0deopt
@@ -499,8 +519,11 @@ end // end of [v0ardec_tr]
 
 (* ****** ****** *)
 
-fn i0mpdec_tr
-  (d: i0mpdec): i1mpdec = let
+fn
+i0mpdec_tr
+(
+  d: i0mpdec
+) : i1mpdec = let
   val loc = d.i0mpdec_loc
   val qid = d.i0mpdec_qid
   val tmparg = l2l (list_map_fun (qid.impqi0de_arg, t0mpmarg_tr))

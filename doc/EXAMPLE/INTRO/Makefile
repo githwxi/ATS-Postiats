@@ -33,6 +33,7 @@ export PATSCCOMP
 all:: acker1
 all:: acker2
 all:: acker3
+all:: acker4
 all:: areverse
 all:: atof
 all:: atoi
@@ -69,6 +70,7 @@ all:: tally
 cleanall:: ; $(RMF) acker1
 cleanall:: ; $(RMF) acker2
 cleanall:: ; $(RMF) acker3
+cleanall:: ; $(RMF) acker4
 cleanall:: ; $(RMF) areverse
 cleanall:: ; $(RMF) atof
 cleanall:: ; $(RMF) atoi
@@ -105,6 +107,7 @@ cleanall:: ; $(RMF) tally
 acker1: acker1.dats ; $(PATSCC) -o $@ $<
 acker2: acker2.dats ; $(PATSCC) -o $@ $<
 acker3: acker3.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+acker4: acker4.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 
 ######
 

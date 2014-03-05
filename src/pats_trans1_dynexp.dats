@@ -32,6 +32,10 @@
 // Start Time: April, 2011
 //
 (* ****** ****** *)
+
+#include "./pats_params.hats"
+
+(* ****** ****** *)
 //
 staload
 ATSPRE = "./pats_atspre.dats"
@@ -230,6 +234,15 @@ fn s0expdarglst_tr
 
 (* ****** ****** *)
 
+#if (FUNCLO_DEFAULT = 1)
+macdef FUNCLOdefault = FUNCLOcloptr
+#endif
+#if (FUNCLO_DEFAULT = ~1)
+macdef FUNCLOdefault = FUNCLOcloref
+#endif
+
+(* ****** ****** *)
+
 implement
 d0exp_tr_lams_dyn
 (
@@ -244,15 +257,16 @@ fun aux (
 ) :<cloref1> d1exp = begin
 //
 case+ args of
-| list_cons (arg, args) => let
+| list_cons
+    (arg, args) => let
     val loc_arg = arg.f0arg_loc
     val d1e_body =
     aux (
       lamknd, args, d1e_body, flag1
     ) where {
-      val flag1 =
-      (
-        case+ arg.f0arg_node of F0ARGdyn _ => flag + 1 | _ => flag
+      val f0a = arg.f0arg_node
+      val flag1 = (
+        case+ f0a of F0ARGdyn _ => flag+1 | _ => flag
       ) : int // end of [val]
     } (* end of [where] *)
     val loc_body = d1e_body.d1exp_loc
@@ -262,12 +276,17 @@ case+ args of
     ) : location // end of [val]
   in
     case+ arg.f0arg_node of
+//
     | F0ARGsta1 qua =>
-        d1exp_lam_sta_syn (loc, loc_arg, s0qualst_tr qua, d1e_body)
+      d1exp_lam_sta_syn
+        (loc, loc_arg, s0qualst_tr qua, d1e_body)
       // end of [F0ARGsta1]
+//
     | F0ARGsta2 s0v =>
-        d1exp_lam_sta_ana (loc, loc_arg, s0vararg_tr s0v, d1e_body)
+      d1exp_lam_sta_ana
+        (loc, loc_arg, s0vararg_tr s0v, d1e_body)
       // end of [F0ARGsta2]
+//
     | F0ARGdyn p0t when flag = 0 => let
         val p1t = p0at_tr p0t
         val isbox = lamkind_isbox (lamknd)
@@ -278,21 +297,22 @@ case+ args of
           d1exp_laminit_dyn (loc, lin, p1t, d1e_body)
         // end of [if]
       end // end of [F0ARGdyn when ...]
+//
     | F0ARGdyn p0t (* flag > 0 *) => let
         val p1t = p0at_tr (p0t)
-        val d1e_body = // linear closure
-(*
-** HX: funcloknd is set to FUNCLOcloptr if no annotation is available
-*)
-          d1exp_ann_funclo_opt (loc_body, d1e_body, FUNCLOcloptr)
+        val fc0 = FUNCLOdefault(*mac*)
+        val d1e_body =
+          d1exp_ann_funclo_opt (loc_body, d1e_body, fc0)
         // end of [val]
       in
         d1exp_lam_dyn (loc, lin, p1t, d1e_body)
       end // end of [F0ARGdyn]
+//
     | F0ARGmet s0es =>
         d1exp_lam_met (loc, loc_arg, s0explst_tr s0es, d1e_body)
       // end of [F0ARGmet]
   end // end of [list_cons]
+//
 | list_nil ((*void*)) => d1e_body
 //
 end (* end of [aux] *)

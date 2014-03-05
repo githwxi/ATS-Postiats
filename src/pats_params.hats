@@ -31,6 +31,13 @@
 // Start Time: March, 2012
 //
 (* ****** ****** *)
+
+(*
+#define FUNCLO_DEFAULT 1 // FUNCLOptr
+*)
+#define FUNCLO_DEFAULT ~1 // FUNCLOref
+
+(* ****** ****** *)
 //
 // HX: this is used in [pats_constraint3_solve.dats]
 //

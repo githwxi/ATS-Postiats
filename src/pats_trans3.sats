@@ -162,7 +162,8 @@ datatype trans3err =
   | T3E_s2exp_set_viewat_addreq of (loc_t, s2exp(*root*), d3lablst, s2exp(*new*))
 *)
 //
-  | T3E_d3lval_funarg of (d3exp) // non-left-val provided for call-by-ref
+  | T3E_d3lval_fun of (d3exp) // non-left-val fun for call-by-ref
+  | T3E_d3lval_funarg of (d3exp) // non-left-val funarg for call-by-ref
   | T3E_d3lval_refval of (loc_t, d2var) // non-mutable dvar used for call-by-ref
   | T3E_d3lval_linpatcon of (d3exp, s2exp) // non-left-val is matched against linpatcon
 //

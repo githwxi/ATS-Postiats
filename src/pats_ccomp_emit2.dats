@@ -83,6 +83,8 @@ case+
 //
 end // end of [funval_isbot]
 
+(* ****** ****** *)
+
 fun aux_funval
 (
   out: FILEref
@@ -177,6 +179,8 @@ in
   // nothing
 end // end of [aux_funval2]
 
+(* ****** ****** *)
+
 fun aux_funenv
 (
   out: FILEref, pmv_fun: primval
@@ -213,6 +217,8 @@ pmv_fun.primval_node of
 //
 end // end of [aux_funenv]
 
+(* ****** ****** *)
+
 fun
 emit_fparamlst
 (
@@ -233,20 +239,46 @@ case+ pmvs of
 //
 end // end of [emit_fparamlst]
 
+(* ****** ****** *)
+
+fun emit_freeaft_fun
+(
+  out: FILEref, pmv: primval
+) : void = let
+in
+//
+case+
+  pmv.primval_node of
+| PMVrefarg
+    (knd, freeknd, pmv) =>
+  if freeknd > 0 then
+  (
+    emit_text (out, "ATSINSfreeclo(");
+    emit_primval (out, pmv); emit_text (out, ") ;\n")
+  ) (* end of [PMVrefarg] *)
+| _ => ()
+//
+end // end of [emit_freeaft_fun]
+
+(* ****** ****** *)
+
 (*
 //
 // HX-2014-03-02:
-// no support for auto-freeing
-// auto-freeing interferes with tail-recursion
+// no support for auto-freeing of funarg
+// as it may interfere with tail-recursion
 //
 fun
-emit_fun_freeaft
+emit_freeaft_funarg
 (
   out: FILEref, pmvs: primvalist
 ) : void = let
 in
 //
 case+ pmvs of
+//
+| list_nil () => ()
+//
 | list_cons
     (pmv, pmvs) => let
     val () = (
@@ -264,11 +296,10 @@ case+ pmvs of
       | _ (*non-refarg*) => ()
     ) : void // end of [val]
   in
-    emit_fun_freeaft (out, pmvs)
+    emit_freeaft_funarg (out, pmvs)
   end // end of [list_cons]
-| list_nil ((*void*)) => ()
 //
-end // end of [emit_fun_freeaft]
+end // end of [emit_freeaft_funarg]
 *)
 
 in (* in of [local] *)
@@ -317,8 +348,10 @@ val () = emit_rparen (out)
 //
 val () = emit_text (out, ") ;\n")
 //
+val () = emit_freeaft_fun (out, pmv_fun)
+//
 (*
-val () = emit_fun_freeaft (out, pmvs_arg)
+val () = emit_freeaft_funarg (out, pmvs_arg)
 *)
 //
 in

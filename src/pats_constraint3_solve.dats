@@ -33,18 +33,18 @@
 //
 (* ****** ****** *)
 //
+#include "./pats_params.hats"
+//
+(* ****** ****** *)
+//
 staload
 ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
-
+//
 staload
 UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
-#include "./pats_params.hats"
-
+//
 (* ****** ****** *)
 
 staload "./pats_basics.sats"

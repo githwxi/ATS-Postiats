@@ -415,32 +415,6 @@ auxerr
 in
   the_trans3errlst_add (T3E_d3lval_funarg (d3e0))
 end // end of [_]
-(*
-//
-// HX-2014-03-02:
-// no support for auto-freeing
-// auto-freeing interferes with tail-recursion
-//
-fun
-s2exp_fun_is_freeptr
-  (s2e_fun: s2exp) : bool = let
-in
-//
-case+ s2e_fun.s2exp_node of
-| S2Efun
-  (
-    fc, lin, _(*s2fe*), _(*npf*), _(*arg*), _(*res*)
-  ) => 
-  (
-  case+ fc of
-  | FUNCLOclo (knd) =>
-      if knd > 0 then (if lin = 0 then true else false) else false
-  | _ (*non-clofun*) => false
-  ) // end of [S2Efun]
-| _ (*non-fun-type*) => false
-//
-end // end of [s2exp_fun_is_freeptr]
-*)
 //
 in (* in of [local] *)
 
@@ -483,10 +457,48 @@ end // end of [local]
 
 (* ****** ****** *)
 
+fun
+s2exp_fun_is_freeptr
+  (s2e_fun: s2exp) : bool = let
+in
+//
+case+ s2e_fun.s2exp_node of
+| S2Efun
+  (
+    fc, lin, _(*s2fe*), _(*npf*), _(*arg*), _(*res*)
+  ) => 
+  (
+  case+ fc of
+  | FUNCLOclo (knd) =>
+      if knd > 0 then (if lin <= 0 then true else false) else false
+  | _ (*non-clofun*) => false
+  ) // end of [S2Efun]
+| _ (*non-fun-type*) => false
+//
+end // end of [s2exp_fun_is_freeptr]
+
+(* ****** ****** *)
+
 local
 
-fun auxres
-  (d3e0: d3exp): d3exp = let
+fun
+auxerr
+(
+  d3e0: d3exp
+) : void = let
+  val loc0 = d3e0.d3exp_loc
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": the function needs to be a left-value."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_d3lval_fun (d3e0))
+end // end of [_]
+
+fun
+auxres
+(
+  d3e0: d3exp
+) : d3exp = let
 //
 val loc0 = d3e0.d3exp_loc
 val s2fun = d3exp_get_type (d3e0)
@@ -499,10 +511,13 @@ val-S2Efun
 val s2fun_new =
 (
   case+ lin of
-  | _ when lin = 0 => s2fun
-  | _ when lin = 1 => s2exp_fun_srt (
+  | _ when
+      lin = 0 => s2fun
+  | _ when
+      lin = 1 =>
+    s2exp_fun_srt (
       s2rt_vtype, fc0, ~1(*topized*), s2fe, npf, s2es_arg, s2e_res
-    ) // end of [lin=1]
+    ) (* end of [lin=1] *)
   | _ (* lin = ~1 *) => let
       val () = prerr_error3_loc (loc0)
       val () = prerr ": a linear function cannot be applied repeatedly."
@@ -521,8 +536,19 @@ val refval =
   | FUNCLOfun () => 0
 ) : int // end of [val]
 //
-val freeknd = // HX: freeknd = 0
-  d3lval_arg_set_type (refval, d3e0, s2fun_new)
+var err: int = 0
+var freeknd: int = 0 // free [d3e0] if it is set to 1
+val () = d3lval_set_type_err (refval, d3e0, s2fun_new, err)
+val () =
+(
+if err > 0 then
+(
+  case+ 0 of
+  | _ when refval > 0 => auxerr (d3e0)
+  | _ when s2exp_fun_is_freeptr (s2fun_new) => (freeknd := 1) // auto-freeing
+  | _ (* refval = 0 *) => ((* fun or cloref *))
+) // end of [if]
+) : void // end of [val]
 //
 in
   d3exp_refarg (loc0, s2fun_new, refval, freeknd, d3e0)

@@ -158,6 +158,28 @@ end // end of [fprint_arrayref_sep]
 
 #atscode_separator()
 
+implement
+{a}(*tmp*)
+arrayref_copy
+  {n} (A, n) = let
+  val (pf, fpf | p) =
+    $UN.ptr0_vtake{array(a,n)}(ptrcast(A))
+  val (pf2, pf2gc | p2) = array_ptr_alloc<a> (n)
+  val ((*void*)) = array_copy<a> (!p2, !p, n)
+  prval () = fpf (pf)
+in
+  $UN.castvwtp0{arrayptr(a,n)}((pf2, pf2gc | p2))
+end // end of [arrayref_copy]
+
+#atscode_separator()
+
+implement{a}
+arrayref_tabulate
+  (asz) = arrayptr_refize (arrayptr_tabulate<a> (asz))
+// end of [arrayref_tabulate]
+
+#atscode_separator()
+
 implement{a}
 arrayref_foreach (A, asz) = let
   var env: void = () in arrayref_foreach_env<a><void> (A, asz, env)
@@ -207,13 +229,6 @@ arrayref_rforeach_env
 in
   $effmask_ref (array_rforeach_env<a><env> (!p, asz, env))
 end // end of [arrayref_rforeach_env]
-
-#atscode_separator()
-
-implement{a}
-arrayref_tabulate
-  (asz) = arrayptr_refize (arrayptr_tabulate<a> (asz))
-// end of [arrayref_tabulate]
 
 #atscode_separator()
 

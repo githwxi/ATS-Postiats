@@ -194,18 +194,6 @@ involved, please try to use the function #dyncode("arrayptr_freelin").
 
 (* ****** ****** *)
 
-#declnamesynop("fprint_arrayptr_sep")
-#decldescrpt("\
-
-This function prints the elements in a given array to the output channel
-provided as its first argument, interspersing the string #dyncode('sep')
-between the printed array elements. Note that printing each array element is
-handled by calling the function #dyncode("fprint_ref").
-
-")
-
-(* ****** ****** *)
-
 #declnamesynop("arrayptr_get_at")
 
 (* ****** ****** *)
@@ -258,6 +246,19 @@ that the type for these contents can be linear. ")
 
 This function is like #dyncode("arrayptr_exch_at_gint") except that the
 index is unsigned.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_arrayptr")
+#declnamesynop("fprint_arrayptr_sep")
+#decldescrpt("\
+
+This function prints the elements in a given array to the output channel
+provided as its first argument, interspersing the string #dyncode('sep')
+between the printed array elements. Note that printing each array element is
+handled by calling the function #dyncode("fprint_ref").
+
+")
 
 (* ****** ****** *)
 

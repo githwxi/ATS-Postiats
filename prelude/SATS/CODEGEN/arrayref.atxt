@@ -125,24 +125,6 @@ arrayref_make_rlist{n:int}
 // end of [arrayref_make_rlist]
 
 #atscode_separator()
-
-(*
-fun{}
-fprint_array$sep (out: FILEref): void
-*)
-fun{a:vt0p}
-fprint_arrayref
-  {n:int} (
-  out: FILEref, A: arrayref (INV(a), n), n: size_t n
-) : void // end of [fprint_arrayref]
-fun{a:vt0p}
-fprint_arrayref_sep
-  {n:int} (
-  out: FILEref
-, A: arrayref (a, n), asz: size_t n, sep: NSH(string)
-) : void // end of [fprint_arrayref_sep]
-
-#atscode_separator()
 //
 // HX-2014-02:
 // [A] must survive [arrayref_tail(A)]
@@ -227,6 +209,41 @@ arrayref_interchange
 #atscode_separator()
 
 (*
+fun{}
+fprint_array$sep (out: FILEref): void
+*)
+fun{a:vt0p}
+fprint_arrayref
+  {n:int} (
+  out: FILEref, A: arrayref (INV(a), n), n: size_t n
+) : void // end of [fprint_arrayref]
+fun{a:vt0p}
+fprint_arrayref_sep
+  {n:int} (
+  out: FILEref
+, A: arrayref (a, n), asz: size_t n, sep: NSH(string)
+) : void // end of [fprint_arrayref_sep]
+
+#atscode_separator()
+
+fun{a:t0p}
+arrayref_copy{n:int}
+  (A: arrayref (a, n), n: size_t (n)): arrayptr (a, n)
+// end of [arrayref_copy]
+
+#atscode_separator()
+//
+(*
+fun{a:vt0p}
+array_tabulate$fopr (index: size_t): (a)
+*)
+fun{a:vt0p}
+arrayref_tabulate
+  {n:int} (asz: size_t n): arrayref (a, n)
+//
+#atscode_separator()
+
+(*
 fun{a:vt0p}{env:vt0p}
 array_foreach$cont (x: &a, env: &env): void
 fun{a:vt0p}{env:vt0p}
@@ -281,16 +298,6 @@ a:vt0p}{env:vt0p
   A: arrayref (a, n), asz: size_t (n), env: &(env)>>env
 ) : sizeLte(n) // end of [arrayref_rforeach_env]
 
-#atscode_separator()
-//
-(*
-fun{a:vt0p}
-array_tabulate$fopr (index: size_t): (a)
-*)
-fun{a:vt0p}
-arrayref_tabulate
-  {n:int} (asz: size_t n): arrayref (a, n)
-//
 #atscode_separator()
 //
 // arrszref: a reference to an array with size information attached
