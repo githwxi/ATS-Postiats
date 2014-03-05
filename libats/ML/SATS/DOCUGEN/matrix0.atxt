@@ -112,7 +112,25 @@ nrow-1, inclusive, and j from 0 until ncol-1, inclusive.\
 (* ****** ****** *)
 
 #declnamesynop("matrix0_foreach")
+
+#decldescrpt('\
+
+Given a matrix0-value M and a closure-function f,
+#dyncode("matrix0_foreach") applies f to each matrix-cell contained in M.
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("matrix0_iforeach")
+
+#decldescrpt('\
+
+Given a matrix0-value M of dimension m by n and a closure-function f,
+#dyncode("matrix0_iforeach") applies f to i, j and the matrix-cell (i, j),
+where i ranges from 0 to m-1, inclusive, and j from 0 to n-1, inclusive.
+
+')
 
 (* ****** ****** *)
 //

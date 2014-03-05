@@ -344,7 +344,8 @@ Let us declare a linear abstract type (that is, abstract viewtype) as
 follows for values representing circular buffers:
 
 #atscode('\
-absvtype cbufObj (a:vt@ype+, m:int, n: int) = ptr
+absvtype
+cbufObj (a:vt@ype+, m:int, n: int) = ptr
 ')
 
 Such values are considered simple linear objects (as inheritance is not an
