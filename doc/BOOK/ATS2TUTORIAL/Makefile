@@ -22,11 +22,15 @@ cleanall::
 
 ######
 
-pdf: main.db
-	jw -b pdf --output PDF/ main.db
+JADE=/usr/bin/openjade
 
-html: main.db
-	jw -b html --output HTML/ main.db
+######
+
+pdf: main.db ; jw -b pdf --dsl default --parser $(JADE) --output PDF/ main.db
+
+######
+
+html: main.db ; jw -b html --dsl default --parser $(JADE) --output HTML/ main.db
 
 ######
 
@@ -52,6 +56,8 @@ allchap:: CHAP_HORDFUN
 allchap:: CHAP_REFERENCE
 allchap:: CHAP_ARRAYREF
 allchap:: CHAP_ARRSZREF
+allchap:: CHAP_STREAM
+allchap:: CHAP_STREAM_VT
 
 ######
 
@@ -89,6 +95,8 @@ CHAP_REFERENCE:: ; \
 CHAP_REFERENCE:: ; \
   make -C CHAP_REFERENCE -f ../Makefile.chap clean
 
+######
+
 CHAP_ARRAYREF:: ; \
   make -C CHAP_ARRAYREF -f ../Makefile.chap main.db
 CHAP_ARRAYREF:: ; \
@@ -101,20 +109,32 @@ CHAP_ARRSZREF:: ; \
 
 ######
 
+CHAP_STREAM:: ; \
+  make -C CHAP_STREAM -f ../Makefile.chap main.db
+CHAP_STREAM:: ; \
+  make -C CHAP_STREAM -f ../Makefile.chap clean
+
+######
+
+CHAP_STREAM_VT:: ; \
+  make -C CHAP_STREAM_VT -f ../Makefile.chap main.db
+CHAP_STREAM:: ; \
+  make -C CHAP_STREAM_VT -f ../Makefile.chap clean
+
+######
+
 CPRF=cp -rf
 SCPR=scp -r
 CHMOD=chmod
 
 ######
 
-######
-
 upload:: upload_html
 
-upload_html:: ; \
-  scp -r HTML ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2TUTORIAL
 upload_pdf:: ; \
   scp -r PDF ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2TUTORIAL/
+upload_html:: ; \
+  scp -r HTML ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2TUTORIAL/
 
 ######
 

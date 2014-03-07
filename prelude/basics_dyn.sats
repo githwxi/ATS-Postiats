@@ -168,6 +168,16 @@ cloptr_free
 //
 (* ****** ****** *)
 //
+fun{a:t0p}
+lazy_force (lazyval: lazy (a)):<!laz> a
+fun{a:vt0p}
+lazy_vt_force (lazyval: lazy_vt (a)):<!laz> a
+//
+(* ****** ****** *)
+//
+// HX-2013:
+// macro implemented in [pats_ccomp_instrset]
+//
 fun
 lazy_vt_free
   {a:vt0p} (lazyval: lazy_vt (a)):<!wrt> void = "mac#%"

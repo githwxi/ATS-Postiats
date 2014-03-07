@@ -52,6 +52,15 @@ primplmnt prop_verify_and_add () = ()
 
 #atscode_separator()
 
+implement
+{a}(*tmp*)
+lazy_force (lazyval) = !lazyval
+implement
+{a}(*tmp*)
+lazy_vt_force (lazyval) = !lazyval
+
+#atscode_separator()
+
 primplmnt
 unit_v_elim (pf) = let
   prval unit_v () = pf in (*nothing*)
