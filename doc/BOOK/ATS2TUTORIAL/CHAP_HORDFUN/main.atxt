@@ -7,13 +7,15 @@ dynload "libatsdoc/dynloadall.dats"
 %}\
 #comment("\n\
 The file is automatically generated
-by [atsdoc] from [CHAP_STREAM/main.atxt].\n\
+by [atsdoc] from [CHAP_HORDFUN/main.atxt].\n\
 ")
 #comment("\n\
 Time of Generation: #timestamp()\
 ")
 <chapter id="hordfun">
 #title("Higher-Order Functions")
+
+<!-- ****** ****** -->
 
 #para("
 A higher-order function is one that takes another function as its argument.
@@ -79,7 +81,7 @@ defined as follows:
 
 #para("\
 
-Given a function f of some simple type T, we say that f is a
+Given a function f of some simple type T, let us say that f is a
 #emphasis("n")th-order function if #emphasis("order")(T) =
 #emphasis("n"). For instance, a function of the type (int, int) -&gt; int
 is 1st-order, and a function of the type int -&gt; (int -&gt; int) is also
@@ -91,7 +93,7 @@ functions are 2nd-order.
 
 #para("\
 
-As an example, we implement as follows a 2nd-order function
+As an example, let us implement as follows a 2nd-order function
 #dyncode("find_root") that takes as its only argument a function f from
 integers to integers and searches for a root of f by enumeration:
 
@@ -121,7 +123,7 @@ f(n) = 0.
 
 #para("\
 
-As another example, we implement as follows the famous Newton-Raphson's
+As another example, let us implement as follows the famous Newton-Raphson's
 method for finding roots of functions on reals:
 
 #atscode_extract("\
@@ -151,8 +153,8 @@ in
 end // end of [newton_raphson]
 ")
 
-We can now readily implement square root function and the cubic root
-function based on #dyncode("newton_raphson"):
+With #dyncode("newton_raphson"), both the square root function and the
+cubic root function can be readily implemented as follows:
 
 #atscode_extract("\
 // square root function

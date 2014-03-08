@@ -70,13 +70,6 @@ clean:: ; make -C CHAP_FIXITY -f ../Makefile.chap clean
 
 ######
 
-allchap:: CHAP_HORDFUN
-CHAP_HORDFUN:: ; \
-  make -C CHAP_HORDFUN -f ../Makefile.chap main.db
-clean:: ; make -C CHAP_HORDFUN -f ../Makefile.chap clean
-
-######
-
 allchap:: CHAP_REFERENCE
 CHAP_REFERENCE:: ; \
   make -C CHAP_REFERENCE -f ../Makefile.chap main.db
@@ -95,6 +88,20 @@ allchap:: CHAP_ARRSZREF
 CHAP_ARRSZREF:: ; \
   make -C CHAP_ARRSZREF -f ../Makefile.chap main.db
 clean:: ; make -C CHAP_ARRSZREF -f ../Makefile.chap clean
+
+######
+
+allchap:: CHAP_HORDFUN
+CHAP_HORDFUN:: ; \
+  make -C CHAP_HORDFUN -f ../Makefile.chap main.db
+clean:: ; make -C CHAP_HORDFUN -f ../Makefile.chap clean
+
+######
+
+allchap:: CHAP_CLOPTR
+CHAP_CLOPTR:: ; \
+  make -C CHAP_CLOPTR -f ../Makefile.chap main.db
+clean:: ; make -C CHAP_CLOPTR -f ../Makefile.chap clean
 
 ######
 

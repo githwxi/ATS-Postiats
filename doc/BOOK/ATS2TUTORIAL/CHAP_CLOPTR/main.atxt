@@ -1,0 +1,185 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from [CHAP_CLOPTR/main.atxt].\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter id="cloptr">
+#title("Linear Closure-Functions")
+
+<!-- ****** ****** -->
+
+#para("
+
+A closure-function is a boxed record that contains a pointer to an envless
+function plus bindings that map certain names in the body of the envless
+function to values. In practice, a function argument of a higher-order
+function is often a closure-function (instead of an envless function). For
+instance, the following higher-order function #dyncode("list_map_cloref")
+takes a closure-function as its second argument:
+
+#atscode('\
+fun{
+a:t@ype}{b:t@ype
+} list_map_cloref{n:int}
+  (xs: list (a, n), f: (a) -<cloref> b): list_vt (b, n)
+')
+
+")
+
+#para("\
+
+Closure-functions can be linear and non-linear, and linear ones can be
+explicitly freed in a safe manner. The keyword #keycode("-&lt;cloref&gt;")
+is used to form a type for non-linear closure-functions. As a variant of
+#dyncode("list_map_cloref"), the following higher-order function
+#dyncode("list_map_cloptr") takes a linear closure-function as its second
+argument:
+
+#atscode('\
+fun{
+a:t@ype}{b:t@ype
+} list_map_cloptr{n:int}
+  (xs: list (a, n), f: !(a) -<cloptr> b): list_vt (b, n)
+')
+
+As can be easily guessed, the keyword #keycode("-&lt;cloptr&gt;") is used
+to form a type for linear closure-functions.  Note that the symbol
+#keycode("!") indicates that the second argument is still available after
+#dyncode("list_map_cloptr") returns.
+
+")
+
+#para('\
+
+A typical example making use of #dyncode("list_map_cloptr") is given as follows:
+
+#atscode('\
+fun foo{n:int}
+(
+  x0: int, xs: list (int, n)
+) : list_vt (int, n) = res where
+{
+//
+val f = lam (x) =<cloptr> x0 + x
+val res = list_map_cloptr (xs, f)
+val () = cloptr_free ($UNSAFE.cast{cloptr(void)}(f))
+//
+} (* end of [foo] *)
+')
+
+Note that a linear closure is first created in the body of the function
+#dyncode("foo"), and it is explicitly freed after its use. The function
+#dyncode("cloptr_free") is given the following interface:
+
+#atscode('\
+fun cloptr_free {a:t0p} (pclo: cloptr (a)): void
+')
+
+where #stacode("cloptr") is abstract. The cast
+#dyncode("$UNSAFE.cast{cloptr(void)}(f)") can certainly be replaced with
+something safer but it would make programming more curbersome.
+
+')
+
+#para('\
+
+There is also some interesting interaction between currying and linear
+closure-functions. In functional programming, currying means turning a
+function taking multiple arguments simutaneously into a corresponding one
+that takes these arguments sequentially. For instance, the function
+#dyncode("acker2") in the following code is a curried version of the
+function #dyncode("acker"), which implements the famous Ackermann function
+(that is recursive but not primitive recursive):
+
+#atscode('\
+fun
+acker(m:int, n:int): int =
+(
+  case+ (m, n) of
+  | (0, _) => n + 1
+  | (m, 0) => acker (m-1, 1)
+  | (_, _) => acker (m-1, acker (m, n-1))
+) (* end of [acker] *)
+
+fun acker2 (m:int) (n:int): int = acker (m, n)
+')
+
+Suppose that we apply #dyncode("acker2") to two integers 3 and 4:
+#dyncode("acker2(3)(4)"); the application #dyncode("acker2(3)") evaluates
+to a (non-linear) closure-function; the application of this
+closure-function to 4 evaluates #dyncode("acker(3,4)"), which further
+evaluates to the integer 125. Note that the closure-funtion generated from
+evaluating #dyncode("acker2(3)") becomes a heap-allocated value that is no
+longer accessible after the evaluation of #dyncode("acker2(3)(4)")
+finishes, and the memory for such a value needs to be reclaimed through
+garbage collection (GC).
+
+')
+
+#para('\
+
+It is also possible to define a curried version of #dyncode("acker") as
+follows:
+
+#atscode('\
+fun acker3 (m:int) = lam (n:int): int =<cloptr1> acker (m, n)
+')
+
+While the evaluation of #dyncode("acker3(3)(4)") yields the same result as
+#dyncode("acker2(3)(4)"), the compiler of ATS (ATS/Postiats) inserts code
+that automatically frees the linear closure-function generated from evaluating
+#dyncode("acker3(3)") after the evaluation of #dyncode("acker3(3)(4)") finishes.
+
+')
+
+#para("\
+
+In ATS1, linear closure-functions play a pivtal role in supporting
+programming with higher-order functions in the absence of GC. Due to
+advanced support for templates in ATS2, the role played by linear
+closure-functions in ATS1 is greatly diminished. However, if
+closure-functions need to be stored in a data structure but GC is
+unavailable or undesirable, then using linear closure-functions can lead to
+a solution that avoids the risk of creating memory leaks.
+
+")
+
+#para("\
+
+Please find #mycodelink("chap_cloptr.dats", "on-line") the entirety of the
+code used in this chapter.\
+
+")#comment("para")
+
+<!-- ****** ****** -->
+
+</chapter><!--"cloptr"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [chap_cloptr.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_cloptr.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
+//
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} (* end of [main] *)
+%}
