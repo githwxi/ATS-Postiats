@@ -1,3 +1,18 @@
+(*
+** For ATS2TUTORIAL
+*)
+
+(* ****** ****** *)
+//
+#include
+"share/atspre_staload.hats"
+//
+(* ****** ****** *)
+
+typedef charptr = $extype"char*"
+
+(* ****** ****** *)
+
 local
 //
 #define BUFSZ 128
@@ -13,7 +28,7 @@ fun genNewName
   var res = @[byte][BUFSZ]((*void*))
   val err =
   $extfcall (
-    int, "snprintf", addr@res, BUFSZ, "%s%i", prfx, n
+    int, "snprintf", addr@res, BUFSZ, "%s%i", $UNSAFE.cast{charptr}(prfx), n
   ) (* end of [$extfcall] *)
 in
   strptr2string(string0_copy($UNSAFE.cast{string}(addr@res)))
@@ -42,3 +57,12 @@ end // end of [fact]
 
 var myvar: int = 0
 val myref = ref_make_viewptr (view@(myvar) | addr@(myvar))
+
+(* ****** ****** *)
+
+implement main0 () = {}
+
+(* ****** ****** *)
+
+(* end of [chap_reference.dats] *)
+

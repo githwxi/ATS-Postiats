@@ -1,3 +1,9 @@
+(*
+** For ATS2TUTORIAL
+*)
+
+(* ****** ****** *)
+
 fn find_root
 (
   f: int -<cloref1> int
@@ -45,3 +51,7 @@ fn sqrt (c: double): double =
 // cubic root function
 fn cbrt (c: double): double =
   newton_raphson (lam x => x * x * x - c, lam x => 3.0 * x * x, 1.0)
+
+(* ****** ****** *)
+
+(* end of [chap_hordfun.dats] *)
