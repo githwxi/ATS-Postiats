@@ -325,9 +325,9 @@ doc/BOOK/INT2PROGINATS/CHAP_*/main.db
 
 doc/BOOK/ATS2TUTORIAL/preface
 doc/BOOK/ATS2TUTORIAL/preface.db
-doc/BOOK/ATS2TUTORIAL/*_atxt.txt
-doc/BOOK/ATS2TUTORIAL/*_atxt.dats
-doc/BOOK/ATS2TUTORIAL/*/main.db
+doc/BOOK/ATS2TUTORIAL/CHAP_*/*_atxt.txt
+doc/BOOK/ATS2TUTORIAL/CHAP_*/*_atxt.dats
+doc/BOOK/ATS2TUTORIAL/CHAP_*/main.db
 doc/BOOK/ATS2TUTORIAL/HTML
 
 ###### end of [.gitignore] ######

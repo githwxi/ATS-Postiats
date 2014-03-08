@@ -314,6 +314,11 @@ end // end of [stream_map2_cloref]
 
 (* ****** ****** *)
 
+implement{a}
+stream_merge$cmp (x1, x2) = gcompare_val<a> (x1, x2)
+
+(* ****** ****** *)
+
 local
 
 #define :: stream_cons
@@ -370,6 +375,72 @@ stream_merge$cmp (x1, x2) =
 in
   stream_merge (xs1, xs2)
 end // end of [stream_merge_cloref]
+
+(* ****** ****** *)
+
+implement{a}
+stream_mergeq$cmp (x1, x2) = gcompare_val<a> (x1, x2)
+
+(* ****** ****** *)
+
+local
+
+#define :: stream_cons
+
+in (* in of [local] *)
+
+implement{a}
+stream_mergeq
+  (xs10, xs20) = $delay
+(
+(
+case+ !xs10 of
+| x1 :: xs1 => (
+  case+ !xs20 of
+  | x2 :: xs2 => let
+      val sgn =
+        stream_mergeq$cmp<a> (x1, x2)
+      // end of [val]
+    in
+      if sgn < 0 then
+        stream_cons{a}(x1, stream_mergeq (xs1, xs20))
+      else if sgn > 0 then
+        stream_cons{a}(x2, stream_mergeq (xs10, xs2))
+      else
+        stream_cons{a}(x1(*=x2*), stream_mergeq (xs1, xs2))
+      // end of [if]
+    end // end of [::]
+  | stream_nil () => stream_cons{a}(x1, xs1)
+  ) (* end of [::] *)
+| stream_nil () => !xs20
+) : stream_con (a)
+) // end of [stream_mergeq]
+
+end // end of [local]
+
+implement{a}
+stream_mergeq_fun
+  (xs1, xs2, cmp) = let
+//
+implement{a2}
+stream_mergeq$cmp (x1, x2) =
+  cmp ($UN.cast{a}(x1), $UN.cast{a}(x2))
+//
+in
+  stream_mergeq (xs1, xs2)
+end // end of [stream_mergeq_fun]
+
+implement{a}
+stream_mergeq_cloref
+  (xs1, xs2, cmp) = let
+//
+implement{a2}
+stream_mergeq$cmp (x1, x2) =
+  cmp ($UN.cast{a}(x1), $UN.cast{a}(x2))
+//
+in
+  stream_mergeq (xs1, xs2)
+end // end of [stream_mergeq_cloref]
 
 (* ****** ****** *)
 

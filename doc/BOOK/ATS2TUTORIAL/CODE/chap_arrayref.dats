@@ -1,3 +1,9 @@
+(*
+** For ATS2TUTORIAL
+*)
+
+(* ****** ****** *)
+
 fun{a:t@ype}
 arrayref_reverse{n:nat}
 (
@@ -23,6 +29,8 @@ in
   loop (A, n, (i2sz)0)
 end // end of [arrayref_reverse]
 
+(* ****** ****** *)
+
 fun{a:vt@ype}
 arrayref_reverse{n:nat}
 (
@@ -45,6 +53,7 @@ in
   loop (A, n, (i2sz)0)
 end // end of [arrayref_reverse]
 
+(* ****** ****** *)
 
 fun{a,b:t@ype}
 arrayref_foldleft{n:int}
@@ -57,3 +66,7 @@ if n > 0
   else x
 // end of [if]
 ) (* end of [arrayref_foldleft] *)
+
+(* ****** ****** *)
+
+(* end of [chap_arrayref.dats] *)

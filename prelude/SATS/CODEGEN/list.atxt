@@ -842,10 +842,6 @@ a:t0p
 //
 // overloading for certain symbols
 //
-#atscode_separator()
-//
-// overloading for certain symbols
-//
 overload = with list_equal
 //
 overload + with list_append

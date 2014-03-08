@@ -49,77 +49,66 @@ preface.db:: ; $(RMF) preface.exe preface_atxt_dats.c preface_atxt.dats preface_
 ######
 
 allchap:: CHAP_SYNCLR
-allchap:: CHAP_FILENAME
-allchap:: CHAP_FILEINCL
-allchap:: CHAP_FIXITY
-allchap:: CHAP_HORDFUN
-allchap:: CHAP_REFERENCE
-allchap:: CHAP_ARRAYREF
-allchap:: CHAP_ARRSZREF
-allchap:: CHAP_STREAM
-allchap:: CHAP_STREAM_VT
-
-######
-
 CHAP_SYNCLR:: ; \
   make -C CHAP_SYNCLR -f ../Makefile.chap main.db
-CHAP_SYNCLR:: ; \
-  make -C CHAP_SYNCLR -f ../Makefile.chap clean
+clean:: ; make -C CHAP_SYNCLR -f ../Makefile.chap clean
 
+allchap:: CHAP_FILENAME
 CHAP_FILENAME:: ; \
   make -C CHAP_FILENAME -f ../Makefile.chap main.db
-CHAP_FILENAME:: ; \
-  make -C CHAP_FILENAME -f ../Makefile.chap clean
+clean:: ; make -C CHAP_FILENAME -f ../Makefile.chap clean
 
+allchap:: CHAP_FILEINCL
 CHAP_FILEINCL:: ; \
   make -C CHAP_FILEINCL -f ../Makefile.chap main.db
-CHAP_FILEINCL:: ; \
-  make -C CHAP_FILEINCL -f ../Makefile.chap clean
+clean:: ; make -C CHAP_FILEINCL -f ../Makefile.chap clean
 
+allchap:: CHAP_FIXITY
 CHAP_FIXITY:: ; \
   make -C CHAP_FIXITY -f ../Makefile.chap main.db
-CHAP_FIXITY:: ; \
-  make -C CHAP_FIXITY -f ../Makefile.chap clean
+clean:: ; make -C CHAP_FIXITY -f ../Makefile.chap clean
 
 ######
 
+allchap:: CHAP_HORDFUN
 CHAP_HORDFUN:: ; \
   make -C CHAP_HORDFUN -f ../Makefile.chap main.db
-CHAP_HORDFUN:: ; \
-  make -C CHAP_HORDFUN -f ../Makefile.chap clean
+clean:: ; make -C CHAP_HORDFUN -f ../Makefile.chap clean
 
 ######
 
+allchap:: CHAP_REFERENCE
 CHAP_REFERENCE:: ; \
   make -C CHAP_REFERENCE -f ../Makefile.chap main.db
-CHAP_REFERENCE:: ; \
-  make -C CHAP_REFERENCE -f ../Makefile.chap clean
+clean:: ; make -C CHAP_REFERENCE -f ../Makefile.chap clean
 
 ######
 
+allchap:: CHAP_ARRAYREF
 CHAP_ARRAYREF:: ; \
   make -C CHAP_ARRAYREF -f ../Makefile.chap main.db
-CHAP_ARRAYREF:: ; \
-  make -C CHAP_ARRAYREF -f ../Makefile.chap clean
+clean:: ; make -C CHAP_ARRAYREF -f ../Makefile.chap clean
 
+######
+
+allchap:: CHAP_ARRSZREF
 CHAP_ARRSZREF:: ; \
   make -C CHAP_ARRSZREF -f ../Makefile.chap main.db
-CHAP_ARRSZREF:: ; \
-  make -C CHAP_ARRSZREF -f ../Makefile.chap clean
+clean:: ; make -C CHAP_ARRSZREF -f ../Makefile.chap clean
 
 ######
 
+allchap:: CHAP_STREAM
 CHAP_STREAM:: ; \
   make -C CHAP_STREAM -f ../Makefile.chap main.db
-CHAP_STREAM:: ; \
-  make -C CHAP_STREAM -f ../Makefile.chap clean
+clean:: ; make -C CHAP_STREAM -f ../Makefile.chap clean
 
 ######
 
+allchap:: CHAP_STREAM_VT
 CHAP_STREAM_VT:: ; \
   make -C CHAP_STREAM_VT -f ../Makefile.chap main.db
-CHAP_STREAM:: ; \
-  make -C CHAP_STREAM_VT -f ../Makefile.chap clean
+clean:: ; make -C CHAP_STREAM_VT -f ../Makefile.chap clean
 
 ######
 
@@ -160,6 +149,6 @@ cleanall:: clean
 cleanall:: ; $(RMF) preface.db
 cleanall:: ; $(RMF) HTML/*.html
 cleanall:: ; $(RMF) PDF/main.pdf
-cleanall:: ; $(RMF) CODE/chap_*.dats
+cleanall:: ; $(RMF) TEMP/chap_*.dats
 
 ###### end of [Makefile] ######

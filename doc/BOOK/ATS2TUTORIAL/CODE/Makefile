@@ -14,6 +14,12 @@ chap_reference: \
 cleanall:: ; $(RMF) chap_reference
 #
 ######
+all:: chap_stream
+chap_stream: \
+  chap_stream.dats ; $(PATSCC2) -DATS_MEMALLOC_GCBDW -o $@ $< -lgc
+cleanall:: ; $(RMF) chap_stream
+#
+######
 
 include $(PATSHOME)/share/atsmake-post.mk
 

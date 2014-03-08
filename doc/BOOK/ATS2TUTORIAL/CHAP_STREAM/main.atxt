@@ -1,0 +1,255 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from [CHAP_STREAM/main.atxt].\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter
+id="stream-based-lazy-evaluation">
+#title("Stream-Based Lazy Evaluation")
+
+#para('\
+
+While the core of ATS is based on call-by-value evaluation, there is also
+direct support in ATS for lazy (that is, call-by-need) evaluation.
+
+')
+
+#para('\
+
+There is a special language construct #dyncode("$delay") for delaying or
+suspending the evaluation of an expression (by forming a thunk), and there
+is also a special function #dyncode("lazy_force") for resuming a suspended
+evaluation (represented by a thunk).  The abstract type constructor
+#stacode("lazy") of the sort #stacode("(t@ype) => type") forms a (boxed)
+type when applied to a type. Given an expression exp of type T, the value
+#dyncode("$delay(exp)") of the type #stacode("lazy(T)") represents the
+suspended evaluation of exp. Given a value V of the type
+#stacode("lazy(T)") for some type T, calling #dyncode("lazy_force") on V
+resumes the suspended evaluation represented by V. If the call returns,
+then the returned value is of type T. The interface for the function
+template #dyncode("lazy_force") is given as follows:
+
+#atscode('\
+fun{a:t@ype} lazy_force (lazyval: lazy(a)):<!laz> a
+')
+
+where the symbol #stacode("!laz") indicates a form of effect associated
+with lazy-evaluation. Note that the special prefix operator #keycode("!")
+in ATS is overloaded with #dyncode("lazy_force").
+
+')#comment("para")
+
+#para("\
+
+In #myatscodelink("prelude/SATS/stream.sats", "prelude/SATS/stream.sats"),
+the following datatype #stacode("stream_con") and #stacode("stream") are declared
+mutually recursively for representing lazy streams:
+
+#atscode("\
+datatype
+stream_con (a:t@ype+) =
+  | stream_nil of ((*void*)) | stream_cons of (a, stream(a))
+where stream (a:t@ype) = lazy (stream_con(a))
+")
+
+Also, a number of common functions on streams are declared in
+#myatscodelink("prelude/SATS/stream.sats", "prelude/SATS/stream.sats") and
+implemented in #myatscodelink("prelude/DATS/stream.dats", "prelude/DATS/stream.dats").
+
+")#comment("para")
+
+#para('\
+
+The following code gives a standard implementation of the sieve of
+Eratosthenes:
+
+#atscode('\
+//
+fun
+from (n: int): stream (int) =
+  $delay (stream_cons (n, from (n+1)))
+//
+fun sieve
+(
+  ns: stream(int)
+) :<!laz> stream(int) = $delay let
+//
+// [val-] means no warning message from the compiler
+//
+  val-stream_cons(n, ns) = !ns
+in
+  stream_cons (n, sieve (stream_filter_cloref<int> (ns, lam x => x mod n > 0)))
+end // end of [$delay let] // end of [sieve]
+//
+val thePrimes = sieve(from(2))
+//
+')
+
+A stream is constructed consisting of all the integers
+starting from 2; the first element of the stream is kept and all the
+multiples of this element are removed from the tail of stream; this process
+is then repeated on the tail of the stream recursively. Clearly, the final
+stream thus generated consists of all the prime numbers ordered
+ascendingly.
+
+')#comment("para")
+
+#para('\
+
+The function template #dyncode("stream_filter_cloref") is of the following
+interface:
+
+#atscode("\
+fun{a:t@ype}
+stream_filter_cloref
+  (xs: stream(a), pred: a -<cloref> bool):<!laz> stream(a)
+// end of [stream_filter_cloref]
+")
+
+Given a stream and a predicate, #dyncode("stream_filter_cloref")
+generates another stream consisting of all the elements in the given stream
+that satisfy the given predicate.\
+
+')#comment("para")
+
+#para('\
+
+Let us see another example of lazy evaluation.  The follow code
+demonstrates an interesting approach to computing the Fibonacci numbers:
+
+#atscode('\
+//
+val _0_ = $UNSAFE.cast{int64}(0)
+val _1_ = $UNSAFE.cast{int64}(1)
+//
+val // the following values are defined mutually recursively
+rec theFibs_0
+  : stream(int64) = $delay (stream_cons(_0_, theFibs_1)) // fib0, fib1, ...
+and theFibs_1
+  : stream(int64) = $delay (stream_cons(_1_, theFibs_2)) // fib1, fib2, ...
+and theFibs_2
+  : stream(int64) = // fib2, fib3, fib4, ...
+(
+  stream_map2_fun<int64,int64><int64> (theFibs_0, theFibs_1, lam (x, y) => x + y)
+) (* end of [val/and/and] *)
+//
+')
+
+The function template #dyncode("stream_map2_fun") is assigned the following
+interface:
+
+#atscode("\
+fun{
+a1,a2:t0p}{b:t0p
+} stream_map2_cloref
+(
+  xs1: stream (a1), xs2: stream (a2), f: (a1, a2) -<fun> b
+) :<!laz> stream (b) // end of [stream_map2_cloref]
+")
+
+Given two streams xs1 and xs2 and a binary function f,
+#dyncode("stream_map2_fun") forms a stream xs such that xs[n] (that is,
+element n in xs), if exists, equals f(xs1[n], xs2[n]), where n ranges over
+natural numbers.
+
+')
+
+#para('\
+
+Let us see yet another example of lazy evaluation.
+A Hamming number is a positive natural number whose prime factors can
+contain only 2, 3 and 5.  The following code shows a straightforward way to
+generate a stream consisting of all the Hamming numbers:
+
+#atscode('\
+//
+val
+compare_int_int =
+  lam (x1: int, x2: int): int =<fun> compare(x1, x2)
+//
+macdef
+merge2 (xs1, xs2) =
+  stream_mergeq_fun<int> (,(xs1), ,(xs2), compare_int_int)
+//
+val
+rec theHamming
+  : stream(int) = $delay
+(
+  stream_cons (1, merge2 (merge2 (theHamming2, theHamming3), theHamming5))
+) (* end of [val] *)
+
+and theHamming2
+  : stream(int) = stream_map_fun<int><int> (theHamming, lam x => 2 * x)
+and theHamming3
+  : stream(int) = stream_map_fun<int><int> (theHamming, lam x => 3 * x)
+and theHamming5
+  : stream(int) = stream_map_fun<int><int> (theHamming, lam x => 5 * x)
+//
+')
+
+The function template #dyncode("stream_mergeq_fun") is given the following
+interface:
+
+#atscode('\
+fun{a:t0p}
+stream_mergeq_fun
+(
+  xs1: stream (a), xs2: stream (a), (a, a) -<fun> int
+) :<!laz> stream (a) // end of [stream_mergeq_fun]
+')
+
+Given two streams and an ordering (represented by a function) such that the
+two streams are listed ascendingly according to the ordering,
+#dyncode("stream_mergeq_fun") returns a stream listed ascendingly that
+represents the union of the two given streams such that any elements in the
+second stream that also occurs in the first stream are dropped.
+
+')
+
+#para('\
+
+With stream-based lazy evaluation, an illusion of infinite data can be
+readily created. This illusion is given a simple programming interface plus
+automatic support for memoization, enabling a programming style that can
+often be both elegant and intriguing.
+
+')
+
+#para('\
+
+Often, it is difficult to estimate the time-complexity and space-complexity
+of a program based on lazy evaluation. This is a serious weakness. With
+linear stream-based lazy evalution, this weakness can essentially be removed.
+
+')
+
+</chapter><!--"stream-based-lazy-evaluation"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [chap_stream.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+  val filr =
+    $STDIO.fopen_ref_exn ("../TEMP/chap_stream.dats", file_mode_w)
+  val () = fprint_theCodeLst (filr)
+  val () = $STDIO.fclose_exn (filr)
+//
+  val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+}
+%}

@@ -168,6 +168,32 @@ stream_merge_cloref
 
 #atscode_separator()
 
+fun{a:t0p}
+stream_mergeq$cmp (x1: a, x2: a):<> int
+fun{a:t0p}
+stream_mergeq
+  (xs1: stream (INV(a)), xs2: stream (a)):<!laz> stream (a)
+fun{a:t0p}
+stream_mergeq_fun
+(
+  xs1: stream (INV(a)), xs2: stream (a), (a, a) -<fun> int
+) :<!laz> stream (a) // end of [stream_mergeq_fun]
+fun{a:t0p}
+stream_mergeq_cloref
+(
+  xs1: stream (INV(a)), xs2: stream (a), (a, a) -<cloref> int
+) :<!laz> stream (a) // end of [stream_mergeq_cloref]
+
+#atscode_separator()
+//
+// overloading for certain symbols
+//
+#atscode_separator()
+
+overload [] with stream_nth_exn
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

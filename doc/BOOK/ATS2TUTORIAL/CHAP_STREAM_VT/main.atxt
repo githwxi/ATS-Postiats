@@ -1,0 +1,47 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from [CHAP_STREAM/main.atxt].\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter
+id="linear-stream-based-lazy-evaluation">
+#title("Linear Stream-Based Lazy Evaluation")
+
+#para('\
+
+In ATS, there is also support for lazy evaluation based on linear
+streams. As far as I can tell, linear stream-based lazy evaluation is
+currently a unique language feature of ATS.
+
+')
+
+</chapter><!--"linear-stream-based-lazy-evaluation"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [chap_stream_vt.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+  val filr =
+    $STDIO.fopen_ref_exn ("../TEMP/chap_stream_vt.dats", file_mode_w)
+  val () = fprint_theCodeLst (filr)
+  val () = $STDIO.fclose_exn (filr)
+//
+  val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+}
+%}
