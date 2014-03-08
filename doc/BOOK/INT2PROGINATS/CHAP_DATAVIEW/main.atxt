@@ -117,12 +117,13 @@ fun foo (): void = let
 in
 //
 if i = 0
-then let
-  prval VORleft (pf0) = pfor in view@(x) := pf0 // uninitialized
-end // end of [then]
-else let
-  prval VORright (pf1) = pfor in view@(x) := pf1 // initialized
-end // end of [else]
+  then let
+    prval VORleft (pf0) = pfor in view@(x) := pf0 // uninitialized
+  end // end of [then]
+  else let
+    prval VORright (pf1) = pfor in view@(x) := pf1 // initialized
+  end // end of [else]
+// end of [if]
 //
 end // end of [foo]
 ')
@@ -132,7 +133,7 @@ end // end of [foo]
 #para('\
 
 In ATS, there is a type constructor #stacode("opt") that takes a type T and
-a boolean B to form a opt-type #dyncode("opt(T, B)") such that
+a boolean B to form an opt-type #dyncode("opt(T, B)") such that
 #dyncode("opt(T, B)") equals T if B is true and it equals T? if B is false.
 The function #dyncode("getopt") can be given the following interface
 that makes use of an opt-type:
@@ -146,16 +147,17 @@ The code that calls #dyncode("getopt") can now be implemented as follows:
 #atscode('\
 fun foo (): void = let
   var x: T?
-  val b = getopt (x)
+  val ans = getopt (x)
 in
 //
-if (b)
-then let
-  prval () = opt_unsome(x) in (*initialized*)
-end // end of [then]
-else let
-  prval () = opt_unnone(x) in (*uninitialized*)
-end // end of [else]
+if (ans)
+  then let
+    prval () = opt_unsome(x) in (*initialized*)
+  end // end of [then]
+  else let
+    prval () = opt_unnone(x) in (*uninitialized*)
+  end // end of [else]
+// end of [if]
 //
 end // end of [foo]
 ')
