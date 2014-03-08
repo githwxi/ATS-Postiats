@@ -1,12 +1,13 @@
 %{
 //
 dynload "libatsdoc/dynloadall.dats"
-#include "utils/atsdoc/DOCUMENT/TUTORIALATS/tutorialatxt.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
 //
 %}\
 #comment("\n\
 The file is automatically generated
-by [atsdoc] from CHAP_HORDFUN/main.atxt.\n\
+by [atsdoc] from [CHAP_STREAM/main.atxt].\n\
 ")
 #comment("\n\
 Time of Generation: #timestamp()\
@@ -22,52 +23,69 @@ Let us use BT to range over base types such as #stacode("int"),
 #stacode("string").  A simple type T is formed according to the following
 inductive definition:
 
+")#comment("para")
+
+%{
+//
+fun itemizedlist
+  (xs: atextlst): atext = let
+  val sep = atext_newline ()
+  val _itms = atext_concatxtsep (xs, sep)
+  val _beg = atext_strcst "<itemizedlist>\n"
+  val _end = atext_strcst "\n</itemizedlist>"
+in
+  atext_apptxt3 (_beg, _itms, _end)
+end // end of [itemizedlist]
+%}
+
 #ignore("\
-#LI[item1]("\
+#listitem[item1]("\
 #para("BT is a simple type.")
 ")
 ")\
 #ignore("\
-#LI[item2]("\
+#listitem[item2]("\
 #para("\
 (T#sub("1"), ..., T#sub("n")) -&gt; T#sub("0") is a simple type if
 T#sub("0"), T#sub("1"), ... T#sub("n") are simple types.
 ")
-")#comment("LI")
+")#comment("listitem")
 ")\
 #itemizedlist{item1, item2}
 
-Let #emph("order") be a function from simply types to natural numbers
+#para("\
+
+Let #emphasis("order") be a function from simply types to natural numbers
 defined as follows:
 
-#ignore("\
-#LI[item1]("
-#para("\
-#emph("order")(BT) = 0
 ")
-")#comment("LI")
+
+#ignore("\
+#listitem[item1]("
+#para("\
+#emphasis("order")(BT) = 0
+")
+")#comment("listitem")
 ")\
 #ignore("\
-#LI[item2]("\
+#listitem[item2]("\
 #para("\
-#emph("order")((T#sub("1"), ..., T#sub("n")) -&gt; T#sub("0")) = 
-#emph("max")(#emph("order")(T#sub("0")), 1 + #emph("order")(T#sub("1")), ..., 1 + #emph("order")(T#sub("n")))
+#emphasis("order")((T#sub("1"), ..., T#sub("n")) -&gt; T#sub("0")) = 
+#emphasis("max")(#emphasis("order")(T#sub("0")), 1 + #emphasis("order")(T#sub("1")), ..., 1 + #emphasis("order")(T#sub("n")))
 ")
-")#comment("LI")
+")#comment("listitem")
 ")\
 #itemizedlist{item1, item2}
-
-")#comment("para")
 
 #para("\
 
 Given a function f of some simple type T, we say that f is a
-#emph("n")th-order function if #emph("order")(T) = #emph("n"). For
-instance, a function of the type (int, int) -&gt; int is 1st-order, and a
-function of the type int -&gt; (int -&gt; int) is also 1st-order, and a
-function of the type ((int -&gt; int), int) -&gt; int is 2nd-order.  In
-practice, most functions are 1st-order and most higher-order functions are
-2nd-order.
+#emphasis("n")th-order function if #emphasis("order")(T) =
+#emphasis("n"). For instance, a function of the type (int, int) -&gt; int
+is 1st-order, and a function of the type int -&gt; (int -&gt; int) is also
+1st-order, and a function of the type ((int -&gt; int), int) -&gt; int is
+2nd-order.  In practice, most functions are 1st-order and most higher-order
+functions are 2nd-order.
 
 ")#comment("para")
 
@@ -162,6 +180,14 @@ given elsewhere.
 
 ")#comment("para")
 
+
+#para("\
+
+Please find #mycodelink("chap_hordfun.dats", "on-line") the entirety of the
+code used in this chapter.\
+
+")#comment("para")
+
 </chapter><!--"hordfun"-->
 
 #comment(" ****** ****** ")
@@ -169,6 +195,9 @@ given elsewhere.
 #comment(" end of [chap_hordfun.atxt] ")
 
 %{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
 implement main () = {
 //
 val filr =

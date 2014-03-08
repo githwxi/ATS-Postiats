@@ -197,6 +197,13 @@ non-linear reference.
 
 ")#comment("para")
 
+#para("\
+
+Please find #mycodelink("chap_reference.dats", "on-line") the entirety of the
+code used in this chapter.\
+
+")#comment("para")
+
 </chapter><!--"reference"-->
 
 #comment(" ****** ****** ")

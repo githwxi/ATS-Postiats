@@ -226,11 +226,19 @@ often be both elegant and intriguing.
 
 #para('\
 
-Often, it is difficult to estimate the time-complexity and space-complexity
-of a program based on lazy evaluation. This is a serious weakness. With
-linear stream-based lazy evalution, this weakness can essentially be removed.
+In general, it is difficult to estimate the time-complexity and
+space-complexity of a program based on lazy evaluation. This is regarded as
+a serious weakness. With linear stream-based lazy evalution, this weakness
+can essentially be removed.
 
 ')
+
+#para("\
+
+Please find #mycodelink("chap_stream.dats", "on-line") the entirety of the
+code used in this chapter.\
+
+")#comment("para")
 
 </chapter><!--"stream-based-lazy-evaluation"-->
 

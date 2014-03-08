@@ -226,6 +226,13 @@ A.
 
 ')
 
+#para("\
+
+Please find #mycodelink("chap_arrayref.dats", "on-line") the entirety of the
+code used in this chapter.\
+
+")#comment("para")
+
 </chapter><!--"arrayref"-->
 
 #comment(" ****** ****** ")
