@@ -1,0 +1,181 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from CHAP_MATRIXREF/main.atxt.\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter id="matrixref">
+#title("Persistent Matrices")
+
+#para("\
+
+A persistent matrix of dimension m by n is just a persistent array of size
+m*n. Like in C, the representation of a matrix in ATS is row-major. In
+other words, element (i, j) in a matrix of dimension m by n is element
+i*n+j in the underlying array that represents the matrix.
+
+")
+
+#para("\
+
+Given a viewtype VT and two integers M and N, the type
+#stacode("matrixref(VT, M, N)") is for persistent matrices of dimension M
+by N that contain elements of the viewtype VT.  There is no dimension
+information attached to matrixref-values. The interfaces for various
+functions on persistent matrices can be found in the SATS file
+#myatscodelink("prelude/SATS/matrixref.sats",
+"prelude/SATS/matrixref.sats"), which is automatically loaded by
+#command("atsopt").
+
+")#comment("para")
+
+#para('\
+
+There are various functions for matrix creation. For instance, the following
+one is commonly used:
+
+#atscode('\
+fun{a:t0p}
+matrixref_make_elt{m,n:int}
+  (m: size_t m, n: size_t n, x0: a):<!wrt> matrixref (a, m, n)
+// end of [matrixref_make_elt]
+')
+
+Given two sizes m and n plus an element x0,
+#dyncode("matrixref_make_elt") returns a matrix of dimension m by n
+in which each cell is initialized with the element x0.\
+
+')
+
+#para('\
+
+Also, the following cast function can be called to turn an array into
+a matrix:
+
+#atscode('\
+castfn
+arrayref2matrixref
+  {a:vt0p}{m,n:nat} (A: arrayref (a, m*n)):<> matrixref (a, m, n)
+// end of [arrayref2matrixref]
+')
+
+')
+
+#para('\
+
+For accessing and updating the content of a matrix-cell, the following
+two functions #dyncode("matrixref_get_at") and #dyncode("matrixref_set_at")
+can be called:
+
+#atscode('\
+//
+fun{a:t0p}
+matrixref_get_at
+  {m,n:int}
+(
+  A: matrixref (a, m, n), i: sizeLt(m), n: size_t(n), j: sizeLt(n)
+) :<!ref> (a) // end of [matrixref_get_at]
+//
+fun{a:t0p}
+matrixref_set_at
+  {m,n:int}
+(
+  A: matrixref (INV(a), m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n), x: a
+) :<!refwrt> void // end of [matrixref_set_at]
+//
+')
+
+Note that it is not enough to just supply the coordinates of a
+matrix-cell in order to access it; the column dimension of the matrix
+needs to be supplied as well.
+
+')
+
+#para('\
+
+In the following presentation, I give an implementation of a function that
+turns a given square matrix into its transpose:
+
+#atscode('\
+//
+extern
+fun{a:t0p}
+matrixref_transpose
+  {n:nat}
+(
+  M: matrixref (a, n, n), n: size_t (n)
+) : void // end of [matrixref_transpose]
+//
+implement{a}
+matrixref_transpose
+  {n} (M, n) = let
+//
+macdef
+mget (i, j) =
+  matrixref_get_at (M, ,(i), n, ,(j))
+macdef
+mset (i, j, x) =
+  matrixref_set_at (M, ,(i), n, ,(j), ,(x))
+//
+fun loop
+  {i,j:nat |
+   i < j; j <= n
+  } .<n-i,n-j>. 
+(
+  i: size_t (i), j: size_t (j)
+) : void =
+  if j < n then let
+    val x = mget(i, j)
+    val () = mset(i, j, mget(j, i))
+    val () = mset(j, i, x)
+  in
+    loop (i, j+1)
+  end else let
+    val i1 = succ (i)
+  in
+    if i1 < n then loop (i1, succ(i1)) else ()
+  end // end of [if]
+//
+in
+  if n > 0 then loop (i2sz(0), i2sz(1)) else ()
+end // end of [matrixref_transpose]
+')
+
+')#comment("para")
+
+#para("\
+
+Please find #mycodelink("chap_matrixref.dats", "on-line") the entirety of the
+code used in this chapter.\
+
+")#comment("para")
+
+</chapter><!--"matrixref"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [main.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_matrixref.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
+//
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} // end of [main]
+%}

@@ -241,6 +241,10 @@ fun{a:vt0p}
 arrayref_tabulate
   {n:int} (asz: size_t n): arrayref (a, n)
 //
+fun{a:vt0p}
+arrayref_tabulate_cloref
+  {n:int} (size_t n, (sizeLt(n)) -<cloref> a): arrayref (a, n)
+//
 #atscode_separator()
 
 (*

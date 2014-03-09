@@ -3,6 +3,11 @@
 *)
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload.hats"
+//
+(* ****** ****** *)
 
 fun{a:t@ype}
 arrayref_reverse{n:nat}
@@ -66,6 +71,32 @@ if n > 0
   else x
 // end of [if]
 ) (* end of [arrayref_foldleft] *)
+
+(* ****** ****** *)
+//
+val asz = i2sz(10)
+val out = stdout_ref
+//
+local
+implement
+array_tabulate$fopr<int> (i) = sz2i(i)
+in (* in-of-local *)
+val A0 = arrayref_tabulate<int> (asz)
+end // end of [local]
+//
+val () = fprint! (out, "A0(bef) = ")
+val () = fprint_arrayref (out, A0, asz)
+val () = fprint_newline (out)
+//
+val () = arrayref_reverse (A0, asz)
+//
+val () = fprint! (out, "A0(aft) = ")
+val () = fprint_arrayref (out, A0, asz)
+val () = fprint_newline (out)
+//
+(* ****** ****** *)
+
+implement main0 () = {}
 
 (* ****** ****** *)
 

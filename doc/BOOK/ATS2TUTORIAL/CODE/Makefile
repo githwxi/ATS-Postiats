@@ -15,6 +15,20 @@ cleanall:: ; $(RMF) chap_reference
 #
 ######
 #
+all:: chap_arrayref
+chap_arrayref: \
+  chap_arrayref.dats ; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) chap_arrayref
+#
+######
+#
+all:: chap_matrixref
+chap_matrixref: \
+  chap_matrixref.dats ; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) chap_matrixref
+#
+######
+#
 all:: chap_hordfun
 chap_hordfun: \
   chap_hordfun.dats ; $(PATSCC2) -DATS_MEMALLOC_GCBDW -o $@ $< -lgc

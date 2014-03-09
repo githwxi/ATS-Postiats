@@ -84,22 +84,32 @@ matrixref_get_viewptr
 
 #atscode_separator()
 
+castfn
+arrayref2matrixref
+  {a:vt0p}{m,n:nat} (A: arrayref (a, m*n)):<> matrixref (a, m, n)
+// end of [arrayref2matrixref]
+
+#atscode_separator()
+
 fun{
 a:t0p
-} matrixref_make_elt{m,n:int}
-  (m: size_t m, n: size_t n, x: a):<!wrt> matrixref (a, m, n)
+} matrixref_make_elt
+  {m,n:int}
+  (m: size_t m, n: size_t n, x0: a):<!wrt> matrixref (a, m, n)
 // end of [matrixref_make_elt]
 
 #atscode_separator()
 
 fun{a:t0p}
-matrixref_get_at_int{m,n:int}
+matrixref_get_at_int
+  {m,n:int}
 (
   A: matrixref (a, m, n), i: natLt(m), n: int(n), j: natLt(n)
 ) :<!ref> (a) // end of [matrixref_get_at_int]
 
 fun{a:t0p}
-matrixref_get_at_size{m,n:int}
+matrixref_get_at_size
+  {m,n:int}
 (
   A: matrixref (a, m, n), i: sizeLt(m), n: size_t(n), j: sizeLt(n)
 ) :<!ref> (a) // end of [matrixref_get_at_size]

@@ -277,7 +277,8 @@ cbufObj_insert
 ) : void // end of [cbufObj_insert]
 *)
 implement{a}
-cbufObj_insert {m,n} (buf, x) = {
+cbufObj_insert
+  {m,n} (buf, x) = {
   val (pfat | p) = cbufObj_takeout_struct (buf)
   val p_last = p->p_last
   val () = p->p_last := cpadd<a> (p->p_beg, p->p_end, p_last)
@@ -288,6 +289,8 @@ cbufObj_insert {m,n} (buf, x) = {
   } // end of [prval]
 } // end of [cbufObj_insert]
 
+(* ****** ****** *)
+
 (*
 fun{a:t@ype}
 cbufObj_remove
@@ -296,7 +299,8 @@ cbufObj_remove
 ) : a // end of [cbufObj_remove]
 *)
 implement{a}
-cbufObj_remove {m,n} (buf) = x where {
+cbufObj_remove
+  {m,n} (buf) = x where {
   val (pfat | p) = cbufObj_takeout_struct (buf)
   val p_frst = p->p_frst
   val () = p->p_frst := cpadd<a> (p->p_beg, p->p_end, p_frst)
