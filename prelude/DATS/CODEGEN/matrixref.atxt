@@ -116,6 +116,12 @@ matrixref_tabulate
   matrixptr_refize (matrixptr_tabulate<a> (nrow, ncol))
 // end of [matrixref_tabulate]
 
+implement{a}
+matrixref_tabulate_cloref
+  (nrow, ncol, f) =
+  matrixptr_refize (matrixptr_tabulate_cloref<a> (nrow, ncol, f))
+// end of [matrixref_tabulate_cloref]
+
 #atscode_separator()
 
 local

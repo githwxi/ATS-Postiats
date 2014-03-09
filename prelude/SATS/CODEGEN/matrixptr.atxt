@@ -238,6 +238,13 @@ fun{a:vt0p}
 matrixptr_tabulate
   {m,n:int} (nrow: size_t m, ncol: size_t n): matrixptr (a, m, n)
 //
+fun{a:vt0p}
+matrixptr_tabulate_cloref
+  {m,n:int}
+(
+  nrow: size_t m, ncol: size_t n, f: (sizeLt(m), sizeLt(n)) -<cloref> a
+) : matrixptr (a, m, n) // end-of-fun
+//
 #atscode_separator()
 //
 // overloading for certain symbols

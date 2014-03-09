@@ -178,6 +178,11 @@ arrayref_tabulate
   (asz) = arrayptr_refize (arrayptr_tabulate<a> (asz))
 // end of [arrayref_tabulate]
 
+implement{a}
+arrayref_tabulate_cloref
+  (asz, f) = arrayptr_refize (arrayptr_tabulate_cloref<a> (asz, f))
+// end of [arrayref_tabulate_cloref]
+
 #atscode_separator()
 
 implement{a}

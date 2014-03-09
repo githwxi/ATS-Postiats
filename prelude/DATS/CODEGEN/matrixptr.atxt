@@ -149,6 +149,20 @@ matrixptr_tabulate
 
 #atscode_separator()
 
+implement{a}
+matrixptr_tabulate_cloref
+  {m,n} (nrow, ncol, f) = let
+//
+implement(a2)
+matrix_tabulate$fopr<a2> (i, j) =
+  $UN.castvwtp0{a2}(f($UN.cast{sizeLt(m)}(i), $UN.cast{sizeLt(n)}(j)))
+//
+in
+  matrixptr_tabulate<a> (nrow, ncol)
+end // end of [matrixptr_tabulate_cloref]
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

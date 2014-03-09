@@ -190,6 +190,13 @@ fun{a:vt0p}
 matrixref_tabulate
   {m,n:int} (nrow: size_t m, ncol: size_t n): matrixref (a, m, n)
 //
+fun{a:vt0p}
+matrixref_tabulate_cloref
+  {m,n:int}
+(
+  nrow: size_t m, ncol: size_t n, f: (sizeLt(m), sizeLt(n)) -<cloref> a
+) : matrixref (a, m, n) // end-of-fun
+//
 #atscode_separator()
 //
 // mtrxszref: a reference to a matrix with size information attached
