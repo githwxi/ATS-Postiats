@@ -91,6 +91,13 @@ clean:: ; make -C CHAP_ARRSZREF -f ../Makefile.chap clean
 
 ######
 
+allchap:: CHAP_MATRIXREF
+CHAP_MATRIXREF:: ; \
+  make -C CHAP_MATRIXREF -f ../Makefile.chap main.db
+clean:: ; make -C CHAP_MATRIXREF -f ../Makefile.chap clean
+
+######
+
 allchap:: CHAP_TAILREC
 CHAP_TAILREC:: ; \
   make -C CHAP_TAILREC -f ../Makefile.chap main.db

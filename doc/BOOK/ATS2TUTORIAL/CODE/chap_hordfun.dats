@@ -3,6 +3,11 @@
 *)
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload.hats"
+//
+(* ****** ****** *)
 
 fn find_root
 (
@@ -19,6 +24,15 @@ fun loop
 in
   loop (f, 0)
 end // end of [find_root]
+
+(* ****** ****** *)
+
+val () = println!
+(
+  "root(x*x + x - 110) = ", find_root(lam(x) => x*x + x - 110)
+) (* end of [val] *)
+
+(* ****** ****** *)
 
 typedef
 fdouble = double -<cloref1> double
@@ -51,6 +65,19 @@ fn sqrt (c: double): double =
 // cubic root function
 fn cbrt (c: double): double =
   newton_raphson (lam x => x * x * x - c, lam x => 3.0 * x * x, 1.0)
+
+(* ****** ****** *)
+
+val sqrt_2 = sqrt(2.0)
+val () = println! ("sqrt(2) = ", sqrt_2)
+val () = println! ("(sqrt(2.0))^2 = ", sqrt_2 * sqrt_2)
+val cbrt_2 = cbrt(2.0)
+val () = println! ("cbrt(2) = ", cbrt_2)
+val () = println! ("(cbrt(2.0))^3 = ", cbrt_2 * cbrt_2 * cbrt_2)
+
+(* ****** ****** *)
+
+implement main0 () = {}
 
 (* ****** ****** *)
 

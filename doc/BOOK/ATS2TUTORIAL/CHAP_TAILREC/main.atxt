@@ -18,10 +18,10 @@ id="Tail-Recursion"
 
 #para('\
 
-Please see
-<ulink
-url="http://www.ats-lang.org/EXAMPLE/EFFECTIVATS/loop-as-tailrec/main.html">this article</ulink>
-for a detailed explanation on tail-recursion.\
+Please see <ulink
+url="http://www.ats-lang.org/EXAMPLE/EFFECTIVATS/loop-as-tailrec/main.html">this
+article</ulink> for a detailed explanation on tail-recursion and the
+support in ATS for turning tail-recursive calls into local jumps.\
 
 ')
 

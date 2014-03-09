@@ -30,7 +30,9 @@ Given a viewtype VT, the type for persistent arrays containing N values of
 viewtype VT is #stacode("arrayref(VT, N)").  Note that arrays in ATS are
 the same as those in C: There is no size information attached them. The
 interfaces for various functions on persistent arrays can be found in
-#myatscodelink("prelude/SATS/arrayref.sats", "prelude/SATS/arrayref.sats").
+the SATS file
+#myatscodelink("prelude/SATS/arrayref.sats", "prelude/SATS/arrayref.sats"),
+which is automatically loaded by #command("atsopt").
 
 ")#comment("para")
 

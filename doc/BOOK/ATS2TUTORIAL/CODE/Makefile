@@ -15,6 +15,13 @@ cleanall:: ; $(RMF) chap_reference
 #
 ######
 #
+all:: chap_hordfun
+chap_hordfun: \
+  chap_hordfun.dats ; $(PATSCC2) -DATS_MEMALLOC_GCBDW -o $@ $< -lgc
+cleanall:: ; $(RMF) chap_hordfun
+#
+######
+#
 all:: chap_cloptr
 chap_cloptr: \
   chap_cloptr.dats ; $(PATSCC2) -DATS_MEMALLOC_GCBDW -o $@ $< -lgc
