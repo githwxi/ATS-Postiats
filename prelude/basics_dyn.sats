@@ -171,7 +171,7 @@ cloptr_free
 fun{a:t0p}
 lazy_force (lazyval: lazy (a)):<!laz> a
 fun{a:vt0p}
-lazy_vt_force (lazyval: lazy_vt (a)):<!laz> a
+lazy_vt_force (lazyval: lazy_vt (a)): (a)
 //
 (* ****** ****** *)
 //

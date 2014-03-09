@@ -18,12 +18,13 @@
 <!ENTITY chap_reference SYSTEM "CHAP_REFERENCE/main.db">
 <!ENTITY chap_arrayref SYSTEM "CHAP_ARRAYREF/main.db">
 <!ENTITY chap_arrszref SYSTEM "CHAP_ARRSZREF/main.db">
+<!ENTITY chap_tailrec SYSTEM "CHAP_TAILREC/main.db">
 <!ENTITY chap_hordfun SYSTEM "CHAP_HORDFUN/main.db">
 <!ENTITY chap_cloptr SYSTEM "CHAP_CLOPTR/main.db">
 <!ENTITY chap_stream SYSTEM "CHAP_STREAM/main.db">
 <!ENTITY chap_stream_vt SYSTEM "CHAP_STREAM_VT/main.db">
 ]>
-<book id="proginats" lang="en">
+<book id="ATS2TUTORIAL" lang="en">
 &bookinfo;
 
 <!--
@@ -47,10 +48,15 @@ To Jinning, Zoe, and Chloe
 &chap_reference;
 &chap_arrayref;
 &chap_arrszref;
+&chap_tailrec;
 &chap_hordfun;
-&chap_cloptr;
 &chap_stream;
-&chap_stream_vt;
 </part><!--"basic_tutorial_topics"-->
+
+<part id="advanced_tutorial_topics">
+<title>Advanced Tutorial Topics</title>
+&chap_cloptr;
+&chap_stream_vt;
+</part><!--"advanced_tutorial_topics"-->
 
 </book>

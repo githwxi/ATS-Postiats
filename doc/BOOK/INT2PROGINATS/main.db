@@ -28,7 +28,7 @@
 <!ENTITY chap_datavtype SYSTEM "CHAP_DATAVTYPE/main.db">
 <!ENTITY chap_absvtype SYSTEM "CHAP_ABSVTYPE/main.db">
 ]>
-<book id="proginats" lang="en">
+<book id="INT2PROGINATS" lang="en">
 &bookinfo;
 
 <dedication>

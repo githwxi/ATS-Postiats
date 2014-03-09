@@ -13,8 +13,9 @@ by [atsdoc] from [CHAP_STREAM/main.atxt].\n\
 Time of Generation: #timestamp()\
 ")
 <chapter
-id="stream-based-lazy-evaluation">
-#title("Stream-Based Lazy Evaluation")
+id="stream-based-lazy-evaluation"
+xreflabel="stream-based lazy evaluation"
+>#title("Stream-Based Lazy Evaluation")
 
 #para('\
 
@@ -51,7 +52,7 @@ in ATS is overloaded with #dyncode("lazy_force").
 #para("\
 
 In #myatscodelink("prelude/SATS/stream.sats", "prelude/SATS/stream.sats"),
-the following datatype #stacode("stream_con") and #stacode("stream") are declared
+the following types #stacode("stream_con") and #stacode("stream") are declared
 mutually recursively for representing lazy streams:
 
 #atscode("\

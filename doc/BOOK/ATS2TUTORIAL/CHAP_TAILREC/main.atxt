@@ -1,0 +1,44 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from [CHAP_STREAM/main.atxt].\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter
+id="Tail-Recursion"
+>#title("Tail-Recursion")
+
+#para('\
+
+Please see
+<ulink
+url="http://www.ats-lang.org/EXAMPLE/EFFECTIVATS/loop-as-tailrec/main.html">this article</ulink>
+for a detailed explanation on tail-recursion.\
+
+')
+
+</chapter><!--"tail-recursion"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [chap_stream.atxt] ")
+
+%{
+//
+implement
+main ((*void*)) =
+{
+//
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} (* end of [main] *)
+%}
+

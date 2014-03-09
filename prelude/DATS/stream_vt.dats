@@ -51,23 +51,74 @@ implement{a}
 stream_vt_free (xs) = ~(xs)
 
 (* ****** ****** *)
-
+//
 implement{a}
-stream_vt_drop
+stream_vt_drop_exn
   (xs, n) = let
 in
 //
-if n > 0 then
+if n > 0
+  then (
+  case+ !xs of
+  | ~stream_vt_nil () => $raise StreamSubscriptExn()
+  | ~stream_vt_cons (_, xs) => stream_vt_drop_exn (xs, n-1)
+  ) (* end of [then] *)
+  else (xs) // end of [else]
+// end of [if]
+//
+end // end of [stream_vt_drop_exn]
+//
+implement{a}
+stream_vt_drop_opt
+  (xs, n) = let
+in
+//
+if n > 0
+  then (
+  case+ !xs of
+  | ~stream_vt_nil () => None_vt ((*void*))
+  | ~stream_vt_cons (_, xs) => stream_vt_drop_opt (xs, n-1)
+  ) (* end of [then] *)
+  else Some_vt{stream_vt(a)}(xs) // end of [else]
+// end of [if]
+//
+end // end of [stream_vt_drop_opt]
+//
+(* ****** ****** *)
+//
+implement{a}
+stream_vt_head (xs) =
 (
 case+ !xs of
-| ~stream_vt_cons
-    (_, xs) => stream_vt_drop (xs, n-1)
-| ~stream_vt_nil ((*void*)) => None_vt ()
-) else (
-  Some_vt{stream_vt(a)}(xs)
-) (* end of [if] *)
+| ~stream_vt_cons (x, xs) =>
+    let val () = stream_vt_free (xs) in x end
+| ~stream_vt_nil ((*void*)) => $raise StreamSubscriptExn()
+) (* end of [stream_vt_head] *)
 //
-end // end of [stream_vt_drop]
+implement{a}
+stream_vt_tail (xs) =
+(
+case+ !xs of
+| ~stream_vt_cons (x, xs) => (xs)
+| ~stream_vt_nil ((*void*)) => $raise StreamSubscriptExn()
+) (* end of [stream_vt_tail] *)
+//
+(* ****** ****** *)
+
+implement{a}
+stream_vt_uncons (xs0) =
+(
+case+ !xs0 of
+| ~stream_vt_cons
+    (x, xs) => (xs0 := xs; x)
+| ~stream_vt_nil () => let
+    val () =
+      xs0 := $ldelay (stream_vt_nil)
+    // end of [val]
+  in
+    $raise StreamSubscriptExn((*void*))
+  end // end of [stream_vt_nil]
+) (* end of [stream_vt_uncons] *)
 
 (* ****** ****** *)
 

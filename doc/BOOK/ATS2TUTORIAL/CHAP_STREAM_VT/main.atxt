@@ -24,6 +24,161 @@ currently a unique language feature of ATS.
 
 ')
 
+#para('\
+
+In practice, it is most likely that (non-linear) stream-based lazy
+evaluation requires the support of garbage collection (GC). As the behavior
+of GC can in general be very difficult to predict, lazy evaluation may not
+be suitable in a setting where great precision in control is needed.  With
+linear stream-based lazy evaluation, the need for GC to reclaim values
+representing streams is eliminated as such values can be explicitly freed
+in a safe manner.\
+
+')
+
+#para('\
+
+There is a special language construct #dyncode("$ldelay") for delaying or
+suspending the evaluation of an expression (by forming a linear thunk), and
+there are also a pair of special functions #dyncode("lazy_vt_force") and
+#dyncode("lazy_vt_free") for resuming and freeing, respectively, a
+suspended evaluation (represented by a linear thunk).  Unlike
+#dyncode("delay"), #dyncode("$ldelay") applies to two expressions to
+form a linear lazy stream; the first expression is the one whose evaluation
+is suspended; the second expression is the one whose evaluation results in
+all the linear values contained in the first expression being freed.
+
+')
+
+#para('\
+
+The abstract type constructor #stacode("lazy_vt") of the sort
+#stacode("(vt@ype) => vtype") forms a (boxed) viewtype when applied to a
+viewtype.  Given two expressions exp1 of some type T and exp2 of the type
+#stacode("void"), the value #dyncode("$ldelay(exp1, exp2)") is of the type
+#stacode("lazy_vt(T)"); calling #dyncode("lazy_vt_force") on
+#dyncode("$ldelay(exp1, exp2)") resumes the suspended evaluation of exp1;
+calling #dyncode("lazy_vt_free") on #dyncode("$ldelay(exp1, exp2)")
+initiates the evaluation of exp2 (to free linear values contained in exp1).
+
+')
+
+#para('\
+
+The interface for the
+function template #dyncode("lazy_vt_force") is given as follows:
+
+#atscode('\
+fun{a:vt@ype} lazy_vt_force (lazyval: lazy_vt(a)): (a)
+')
+
+Note that the special prefix operator #keycode("!") in ATS is overloaded
+with #dyncode("lazy_vt_force").\
+
+')
+
+#para('\
+
+The interface for the
+function #dyncode("lazy_vt_free") is given as follows:
+
+#atscode('\
+fun lazy_vt_free {a:vt@ype} (lazyval: lazy_vt(a)): void
+')
+
+Note that the special prefix operator #keycode("~") in ATS is overloaded
+with #dyncode("lazy_vt_free").\
+
+')
+
+#para("\
+
+In #myatscodelink("prelude/SATS/stream_vt.sats", "prelude/SATS/stream_vt.sats"),
+the following viewtypes #stacode("stream_vt_con") and
+#stacode("stream_vt") are declared mutually recursively for representing
+linear lazy streams:
+
+#atscode("\
+datavtype
+stream_vt_con (a:vt@ype+) =
+  | stream_vt_nil of ((*void*)) | stream_vt_cons of (a, stream_vt(a))
+where stream_vt (a:vt@ype) = lazy_vt (stream_vt_con(a))
+")
+
+Also, a number of common functions on linear streams are declared in
+#myatscodelink("prelude/SATS/stream_vt.sats", "prelude/SATS/stream_vt.sats") and
+implemented in #myatscodelink("prelude/DATS/stream_vt.dats", "prelude/DATS/stream_vt.dats").
+
+")#comment("para")
+
+#para('\
+
+The following code gives an implementation of the sieve
+of Eratosthenes in which a linear stream of all the primer numbers is
+constructed:
+
+#atscode('\
+//
+fun
+from (n: int): stream_vt (int) =
+  $ldelay (stream_vt_cons (n, from (n+1)))
+//
+fun sieve
+(
+  ns: stream_vt(int)
+) : stream_vt(int) = $ldelay
+(
+let
+//
+// [val-] means no warning message from the compiler
+//
+  val ns_con = !ns
+  val-@stream_vt_cons(n, ns1) = ns_con
+  val n = n
+  val ns1_ = ns1
+  val ((*void*)) = ns1 := sieve (stream_vt_filter_cloptr<int> (ns1_, lam x => x mod n > 0))
+  prval ((*void*)) = fold@(ns_con)
+in
+  ns_con
+end // end of [let]
+,
+~ns // [ns] is freed
+) (* end of [$ldelay] *) // end of [sieve]
+//
+val thePrimes = sieve(from(2))
+//
+')
+
+')
+
+#para('\
+
+The function template #dyncode("stream_vt_filter_cloptr") is given
+the following interface:
+
+#atscode('\
+fun{a:t0p}
+stream_vt_filter_cloptr
+  (xs: stream_vt (a), pred: (&a) -<cloptr> bool): stream_vt (a)
+// end of [stream_vt_filter_cloptr]
+')
+
+Given a stream xs and a predicate pred #dyncode("stream_vt_filter_cloptr")
+returns another stream consisting of all the elements in the stream xs
+satisfying the predicate pred.  Note that both xs and pred are consumed by
+the call to #dyncode("stream_vt_filter_cloptr").
+
+')
+
+#para('\
+
+Please find #mycodelink("chap_stream_vt.dats", "on-line") the entirety of
+the code used in this chapter. One can readily use a tool like
+<ulink url="http://www.valgrind.org">valgrind</ulink> to verify that the
+implementation given above leaks no memory.
+
+')#comment("para")
+
 </chapter><!--"linear-stream-based-lazy-evaluation"-->
 
 #comment(" ****** ****** ")

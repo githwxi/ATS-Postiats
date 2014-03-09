@@ -49,12 +49,30 @@ fun{a:t0p}
 stream_vt_free (xs: stream_vt a):<!wrt> void
 
 #atscode_separator()
-
+//
 fun{a:t0p}
-stream_vt_drop
+stream_vt_drop_exn
+  (xs: stream_vt(INV(a)), n: intGte(0)): stream_vt(a)
+// end of [stream_vt_drop_exn]
+//
+fun{a:t0p}
+stream_vt_drop_opt
   (xs: stream_vt(INV(a)), n: intGte(0)): streamopt_vt(a)
-// end of [stream_vt_drop]
-
+// end of [stream_vt_drop_opt]
+//
+#atscode_separator()
+//
+fun{a:t0p}
+stream_vt_head
+  (xs: stream_vt(INV(a))):<!exnwrt> (a)
+fun{a:t0p}
+stream_vt_tail
+  (xs: stream_vt(INV(a))):<!exnwrt> stream_vt(a)
+//
+fun{a:vt0p}
+stream_vt_uncons
+  (xs: &stream_vt(INV(a)) >> stream_vt(a)):<!exnwrt> (a)
+//
 #atscode_separator()
 
 fun{
@@ -139,6 +157,15 @@ a1,a2:t0p}{b:vt0p
 , f: (&a1 >> _, &a2 >> _) -<cloptr> b
 ) : stream_vt (b) // end of [stream_vt_map2_cloptr]
 //
+#atscode_separator()
+//
+// overloading for certain symbols
+//
+#atscode_separator()
+
+overload .head with stream_vt_head
+overload .tail with stream_vt_tail
+
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

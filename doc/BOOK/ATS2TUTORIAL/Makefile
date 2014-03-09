@@ -91,6 +91,13 @@ clean:: ; make -C CHAP_ARRSZREF -f ../Makefile.chap clean
 
 ######
 
+allchap:: CHAP_TAILREC
+CHAP_TAILREC:: ; \
+  make -C CHAP_TAILREC -f ../Makefile.chap main.db
+clean:: ; make -C CHAP_TAILREC -f ../Makefile.chap clean
+
+######
+
 allchap:: CHAP_HORDFUN
 CHAP_HORDFUN:: ; \
   make -C CHAP_HORDFUN -f ../Makefile.chap main.db
