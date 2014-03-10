@@ -316,6 +316,18 @@ end // end of [mtrxszref_tabulate]
 
 #atscode_separator()
 
+implement{a}
+mtrxszref_tabulate_cloref
+  (nrow, ncol, f) = let
+  val M =
+    matrixref_tabulate_cloref<a> (nrow, ncol, f)
+  // end of [val]
+in 
+  mtrxszref_make_matrixref (M, nrow, ncol)
+end // end of [mtrxszref_tabulate_cloref]
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

@@ -293,13 +293,20 @@ fprint_mtrxszref_sep
 ) : void // end of [fprint_mtrxszref_sep]
 
 #atscode_separator()
-
+//
 (*
 fun{a:vt0p}
 matrix_tabulate$fopr (i: size_t, j: size_t): (a)
 *)
 fun{a:vt0p}
 mtrxszref_tabulate (nrow: size_t, ncol: size_t): mtrxszref (a)
+//
+fun{a:vt0p}
+mtrxszref_tabulate_cloref
+  {m,n:int}
+(
+  nrow: size_t m, ncol: size_t n, f: (sizeLt(m), sizeLt(n)) -<cloref> a
+) : mtrxszref (a) // end-of-fun
 //
 #atscode_separator()
 //

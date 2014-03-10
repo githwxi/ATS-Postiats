@@ -192,10 +192,12 @@ uploadloc:: ; \
   $(SCPR) HTML hwxi@csa2.bu.edu:public_html/ATS/DOCUMENT/INT2PROGINATS
 
 ######
-
+#
+upload_code:: ; \
+  make -C CODE cleanall
 upload_code:: ; \
   scp -r CODE ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/INT2PROGINATS
-
+#
 ######
 
 RMF=rm -f

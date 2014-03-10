@@ -17,7 +17,7 @@ Time of Generation: #timestamp()\
 
 #para('\
 
-Let us use the name #emphasis("array-with-size") to refer to a persistant
+I use the name #emphasis("array-with-size") to refer to a persistant
 array with attached size information.  Given a viewtype VT, the type for an
 array-with-size that contains N values of viewtype VT is
 #stacode("arrszref(VT, N)"). Essentially, such a value is a boxed pair of
@@ -81,14 +81,54 @@ of out-of-bounds array access is detected.
 
 #para('\
 
+As a simple example, the following code implements a functiont that
+reverses the content of the array inside a given array-with-size:
+
+#atscode('\
+fun{a:t@ype}
+arrszref_reverse
+(
+  A: arrszref (a)
+) : void = let
+//
+val n = A.size
+val n2 = half (n)
+//
+fun loop
+  (i: size_t): void = let
+in
+  if i < n2 then let
+    val tmp = A[i]
+    val ni = pred(n)-i
+  in
+    A[i] := A[ni]; A[ni] := tmp; loop (succ(i))
+  end else () // end of [if]
+end // end of [loop]
+//
+in
+  loop (i2sz(0))
+end // end of [arrszref_reverse]
+')
+
+')
+
+#para('\
+
 Arrays-with-size can be a good choice over arrays in a prototype
 implementation as it is often more demanding to program with arrays. Also,
 for programmers who are yet to become familiar with dependent types, it is
 definitely easier to work with arrays-with-size than arrays. When
 programming in ATS, I often start out with arrays-with-size and then
-replace them with arrays when I can see clear benefits from doing so.
+replace them with arrays when I can see clear benefits from doing so.\
 
 ')
+
+#para("\
+
+Please find #mycodelink("chap_arrszref.dats", "on-line") the entirety of the
+code used in this chapter.\
+
+")#comment("para")
 
 </chapter><!--"arrszref"-->
 

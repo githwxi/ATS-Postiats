@@ -98,6 +98,13 @@ clean:: ; make -C CHAP_MATRIXREF -f ../Makefile.chap clean
 
 ######
 
+allchap:: CHAP_MTRXSZREF
+CHAP_MTRXSZREF:: ; \
+  make -C CHAP_MTRXSZREF -f ../Makefile.chap main.db
+clean:: ; make -C CHAP_MTRXSZREF -f ../Makefile.chap clean
+
+######
+
 allchap:: CHAP_TAILREC
 CHAP_TAILREC:: ; \
   make -C CHAP_TAILREC -f ../Makefile.chap main.db
@@ -151,10 +158,12 @@ upload_html:: ; \
 uploadloc:: ; $(SCPR) HTML hwxi@csa2.bu.edu:public_html/ATS/DOCUMENT/ATS2TUTORIAL
 
 ######
-
+#
+upload_code:: ; \
+  make -C CODE cleanall
 upload_code:: ; \
   scp -r CODE ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2TUTORIAL
-
+#
 ######
 
 RMF=rm -f

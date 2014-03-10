@@ -468,6 +468,10 @@ array_tabulate$fopr (index: size_t): (a)
 fun{a:vt0p}
 arrszref_tabulate (asz: size_t): arrszref (a)
 //
+fun{a:vt0p}
+arrszref_tabulate_cloref
+  {n:int} (size_t n, (sizeLt(n)) -<cloref> a): arrszref (a)
+//
 #atscode_separator()
 //
 // overloading for certain symbols

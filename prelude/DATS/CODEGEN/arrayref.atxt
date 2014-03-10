@@ -511,13 +511,18 @@ then (
 end // end of [arrszref_interchange]
 
 #atscode_separator()
-
+//
 implement{a}
 arrszref_tabulate (asz) = let
   val asz = g1ofg0_uint (asz)
   val A = arrayref_tabulate<a> (asz) in arrszref_make_arrayref(A, asz)
 end // end of [arrszref_tabulate]
-
+//
+implement{a}
+arrszref_tabulate_cloref (asz, f) = let
+  val A = arrayref_tabulate_cloref<a> (asz, f) in arrszref_make_arrayref(A, asz)
+end // end of [arrszref_tabulate_cloref]
+//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

@@ -22,10 +22,24 @@ cleanall:: ; $(RMF) chap_arrayref
 #
 ######
 #
+all:: chap_arrszref
+chap_arrszref: \
+  chap_arrszref.dats ; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) chap_arrszref
+#
+######
+#
 all:: chap_matrixref
 chap_matrixref: \
   chap_matrixref.dats ; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $<
 cleanall:: ; $(RMF) chap_matrixref
+#
+######
+#
+all:: chap_mtrxszref
+chap_mtrxszref: \
+  chap_mtrxszref.dats ; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) chap_mtrxszref
 #
 ######
 #
