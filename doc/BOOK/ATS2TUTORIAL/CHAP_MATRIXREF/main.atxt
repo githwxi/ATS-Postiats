@@ -29,7 +29,7 @@ i*n+j in the underlying array that represents the matrix.
 Given a viewtype VT and two integers M and N, the type
 #stacode("matrixref(VT, M, N)") is for persistent matrices of dimension M
 by N that contain elements of the viewtype VT.  There is no dimension
-information attached to matrixref-values. The interfaces for various
+information attached to matrixref-values explicitly. The interfaces for various
 functions on persistent matrices can be found in the SATS file
 #myatscodelink("prelude/SATS/matrixref.sats",
 "prelude/SATS/matrixref.sats"), which is automatically loaded by
@@ -39,8 +39,7 @@ functions on persistent matrices can be found in the SATS file
 
 #para('\
 
-There are various functions for matrix creation. For instance, the following
-one is commonly used:
+The following function is commonly used to create a matrixref-value:
 
 #atscode('\
 fun{a:t0p}

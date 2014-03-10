@@ -93,8 +93,8 @@ the integers between l and r-1, inclusive, and then applies to each
 enumerated integer the function implemented by
 #dyncode("intrange_rforeach$fwork"). The enumeration process stops if the
 function implemented by #dyncode("intrange_rforeach$cont") returns false,
-and the return integer value of #dyncode("intrange_rforeach") indicates the
-point of the stoppage.\
+and the integer value returned by #dyncode("intrange_rforeach") indicates
+the point of stoppage.\
 
 ')
 

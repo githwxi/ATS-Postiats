@@ -1,21 +1,22 @@
 //
-// A simple implementation of Co-routines
+// A simple implementation of co-routines
 //
 (* ****** ****** *)
-
+//
 absvtype
 coroutine_vtype
   (inp:t@ype-, out:t@ype+) = ptr
+//
 stadef cortn = coroutine_vtype
 stadef coroutine = coroutine_vtype
-
+//
 (* ****** ****** *)
-
+//
 typedef cfun1
   (a:vt0p, b:vt0p) = (a) -<cloref1> b
 vtypedef lcfun1
   (a:vt0p, b:vt0p) = (a) -<lin,cloptr1> b
-
+//
 (* ****** ****** *)
 
 (*
@@ -73,25 +74,25 @@ co_arr_snd (co: cortn(INV(a), INV(b))): cortn ((c,a), (c,b))
 
 (* ****** ****** *)
 
-fun{a,b,c:t0p}
-co_arr_bind (
-  cof: cortn (INV(a), INV(b))
-, cog: cortn (INV(b), INV(c))
-) : cortn (a, c)
+fun{
+a,b,c:t0p
+} co_arr_bind (
+  cof: cortn (INV(a), INV(b)), cog: cortn (INV(b), INV(c))
+) : cortn (a, c) // end of [co_arr_bind]
 
 (* ****** ****** *)
 
-fun{a,b,c:t0p}
-co_arr_fanout (
-  cof: cortn (INV(a), INV(b))
-, cog: cortn (INV(a), INV(c))
-) : cortn (a, @(b,c))
+fun{
+a,b,c:t0p
+} co_arr_fanout (
+  cof: cortn (INV(a), INV(b)), cog: cortn (INV(a), INV(c))
+) : cortn (a, @(b,c)) // end of [co_arr_fanout]
 
 (* ****** ****** *)
-
+//
 fun{a,b:t0p}
 co_arr_loop (co: cortn((INV(a), INV(b)), b), seed: b): cortn(a, b)
-
+//
 (* ****** ****** *)
 
-(* end of [coroutine_t.sats] *)
+(* end of [coroutine.sats] *)

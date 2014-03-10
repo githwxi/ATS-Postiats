@@ -90,7 +90,7 @@ array_get_at
 ) : a = x where {
   prval (pfat, fpf) =
     array_v_takeout{..}{..}{n}{i} (view@(A))
-  val x = ptr_get (pfat | ptr1_add_guint<a> (addr@(A), i))
+  val x = ptr_get<a> (pfat | ptr1_add_guint<a> (addr@(A), i))
   prval () = view@(A) := fpf (pfat)
 } // end of [array_get_at]
 ')
