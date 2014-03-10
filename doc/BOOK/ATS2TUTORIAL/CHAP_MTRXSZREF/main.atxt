@@ -1,0 +1,149 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from CHAP_MTRXSZREF/main.atxt.\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter id="mtrxszref">
+#title("Persistent Matrices-with-Size")
+
+#para("\
+
+I use the name #emphasis("matrix-with-size") to refer to a persistant
+matrix with attached dimension information (that is, number of rows and
+number of columns).  Given a viewtype VT, the type for a matrix-with-size
+that contains M rows and N columns of elements of viewtype VT is
+#stacode("mtrxszref(VT, M, N)"). Essentially, such a value is a boxed
+record of three components of types #stacode("arrayref(VT, N)"),
+#stacode("size_t(M)") and #stacode("size_t(N)"). The interfaces for various
+functions on persistent matrices-with-size can be found in
+#myatscodelink("prelude/SATS/matrixref.sats", "prelude/SATS/matrixref.sats").
+
+")
+
+#para('\
+
+The following function is commonly used to create a matrix-with-size:
+
+#atscode('\
+fun{a:t0p}
+mtrxszref_make_elt (m: size_t, n: size_t, x0: a): mtrxref (a)
+// end of [mtrxszref_make_elt]
+')
+
+Given two sizes m and n plus an element x0, #dyncode("mtrxszref_make_elt")
+returns with a matrix-with-size of the dimension m by n in which each
+matrix-cell is initialized with the given element x0.
+
+')
+
+#para('\
+
+For accessing and updating the content of a matrix-cell, the following
+two functions #dyncode("mtrxszref_get_at") and #dyncode("mtrxszref_set_at")
+can be called:
+
+#atscode('\
+fun{a:t0p}
+mtrxszref_get_at (M: mtrxszref(a), i: size_t, j: size_t): (a)
+fun{a:t0p}
+mtrxszref_set_at (M: mtrxszref(a), i: size_t, j: size_t, x: a): void
+')
+
+Given a matrix-with-size M, two indices i and j, and a value v,
+#dyncode("mtrxszref_get_at(M, i, j)") and #dyncode("mtrxszref_set_at(M, i,
+j, v)") can be written as #dyncode("M[i,j]") and #dyncode("M[i,j] := v"),
+respectively. Notice that matrix-bounds checking is performed at run-time
+whenever #dyncode("mtrxszref_get_at") or #dyncode("mtrxszref_set_at") is
+called, and the exception #dyncode("MatrixSubscriptExn") is raised in case
+of out-of-bounds matrix access is detected.
+
+')
+
+#para('\
+
+As a simple example, the following code implements a functiont that
+transpose the content of the matrix inside a given matrix-with-size:
+
+#atscode('\
+//
+extern
+fun{a:t0p}
+mtrxszref_transpose (M: mtrxszref (a)): void
+//
+implement{a}
+mtrxszref_transpose (M) = let
+//
+val n = M.nrow
+val ((*void*)) = assertloc (M.nrow = M.ncol)
+//
+fun loop
+(
+  i: size_t, j: size_t
+) : void =
+  if j < n then let
+    val x = M[i,j]
+    val () = M[j,i] := M[i,j]
+    val () = M[i,j] := x
+  in
+    loop (i, succ(j))
+  end else let
+    val i1 = succ (i)
+  in
+    if i1 < n then loop (i1, succ(i1)) else ()
+  end // end of [if]
+//
+in
+  if n > 0 then loop (i2sz(0), i2sz(1)) else ()
+end // end of [mtrxszref_transpose]
+')
+
+')
+
+#para('\
+
+Like arrays-with-size, matrices-with-size are easier to program with than
+dependently typed matrices. However, the latter can not only lead to more
+effective error detection at compile-time but also more efficent code
+execution at run-time. For someone programming in ATS, it is quite
+reasonable to start out with matrices-with-size and then replace them with
+matrices when there are clear benefits from doing so.\
+
+')
+
+#para("\
+
+Please find #mycodelink("chap_mtrxszref.dats", "on-line") the entirety of the
+code used in this chapter.\
+
+")#comment("para")
+
+</chapter><!--"mtrxszref"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [main.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_mtrxszref.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
+//
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} // end of [main]
+%}
