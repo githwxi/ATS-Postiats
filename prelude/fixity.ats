@@ -89,7 +89,7 @@ infixl ( >= ) igte fgte pgte ugte
 
 infixr 40 :: @
 
-infix 30 = == <> !=
+infix 30 = == != <>
 (*
 //
 // HX-2012-07: removed

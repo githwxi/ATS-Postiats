@@ -332,7 +332,7 @@ in a typed language (due to the great difficulty in properly typing it).
 Mutually tail-recursive functions
 </h2>
 
-Sometimes, we need to combine functions together in order to turn mutully
+Sometimes, we need to combine functions together in order to turn mutually
 tail-recursive calls into local jumps. For instance, in the following code,
 [isevn] and [isodd] are defined mutually recursively:
 
