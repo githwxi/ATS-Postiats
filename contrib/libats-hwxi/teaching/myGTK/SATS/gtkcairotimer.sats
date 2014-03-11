@@ -5,7 +5,7 @@
 (***********************************************************************)
 
 (*
-** Copyright (C) 2013 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2014 Hongwei Xi, ATS Trustful Software, Inc.
 **
 ** Permission is hereby granted, free of charge, to any person obtaining a
 ** copy of this software and associated documentation files (the "Software"),
@@ -28,9 +28,8 @@
 
 (* ****** ****** *)
 //
-// HX-2013-09:
-// A simple GTK/cairo-package
-// for implementing something like slide presentation
+// HX-2014-03:
+// A simple GTK/cairo-package for implementing timer-like objects
 //
 (* ****** ****** *)
 //
@@ -44,19 +43,19 @@ staload "{$CAIRO}/SATS/cairo.sats"
 (* ****** ****** *)
 //
 fun{
-} gtkcairoslide_main (): void
+} gtkcairotimer_main (): void
 //
 fun{
-} gtkcairoslide_title (): stropt
+} gtkcairotimer_title (): stropt
 fun{
-} gtkcairoslide_timeout_update (): void
+} gtkcairotimer_timeout_update (): void
 fun{
-} gtkcairoslide_timeout_interval (): uint
+} gtkcairotimer_timeout_interval (): uint
 //
 fun{
-} gtkcairoslide_myshow
+} gtkcairotimer_mydraw
   (cr: !cairo_ref1, width: int, height: int): void
 //
 (* ****** ****** *)
 
-(* end of [gtkcairoslide.sats] *)
+(* end of [gtkcairotimer.sats] *)

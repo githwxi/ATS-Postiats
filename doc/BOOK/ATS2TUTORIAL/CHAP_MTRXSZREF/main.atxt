@@ -40,8 +40,8 @@ mtrxszref_make_elt (m: size_t, n: size_t, x0: a): mtrxref (a)
 ')
 
 Given two sizes m and n plus an element x0, #dyncode("mtrxszref_make_elt")
-returns with a matrix-with-size of the dimension m by n in which each
-matrix-cell is initialized with the given element x0.
+returns a matrix-with-size of the dimension m by n in which each matrix-cell
+is initialized with the given element x0.\
 
 ')
 
