@@ -509,6 +509,15 @@ d2e0.d2exp_node of
     jsonval_conarg4 ("D2Elam_dyn", jsv1, jsv2, jsv3, jsv4)
   end // end of [D2Elam_dyn]
 //
+| D2Elam_sta
+    (s2vs, s2ps, d2e) => let
+    val jsv1 = jsonize_s2varlst (s2vs)
+    val jsv2 = jsonize_s2explst (0(*flag*), s2ps)
+    val jsv3 = jsonize_d2exp (d2e)
+  in
+    jsonval_conarg3 ("D2Elam_sta", jsv1, jsv2, jsv3)
+  end // end of [D2Elam_sta]
+//
 | D2Eann_type
     (d2e, s2e) => let
     val jsv1 = jsonize_d2exp (d2e)

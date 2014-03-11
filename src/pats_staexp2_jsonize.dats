@@ -157,6 +157,19 @@ end // end of [jsonize_s2Var]
 (* ****** ****** *)
 
 implement
+jsonize_s2varlst
+  (s2vs) = let
+//
+val jsvs =
+  list_map_fun (s2vs, jsonize_s2var)
+//
+in
+  JSONlist (list_of_list_vt{jsonval}(jsvs))
+end // end of [jsonize_s2varlst]
+
+(* ****** ****** *)
+
+implement
 jsonize_d2con
   (d2c) = let
 //
