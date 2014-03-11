@@ -15,6 +15,7 @@
 <!ENTITY chap_filename SYSTEM "CHAP_FILENAME/main.db">
 <!ENTITY chap_fileincl SYSTEM "CHAP_FILEINCL/main.db">
 <!ENTITY chap_fixity SYSTEM "CHAP_FIXITY/main.db">
+<!ENTITY chap_exception SYSTEM "CHAP_EXCEPTION/main.db">
 <!ENTITY chap_reference SYSTEM "CHAP_REFERENCE/main.db">
 <!ENTITY chap_arrayref SYSTEM "CHAP_ARRAYREF/main.db">
 <!ENTITY chap_arrszref SYSTEM "CHAP_ARRSZREF/main.db">
@@ -47,6 +48,7 @@ To Jinning, Zoe, and Chloe
 &chap_filename;
 &chap_fileincl;
 &chap_fixity;
+&chap_exception;
 &chap_reference;
 &chap_arrayref;
 &chap_arrszref;

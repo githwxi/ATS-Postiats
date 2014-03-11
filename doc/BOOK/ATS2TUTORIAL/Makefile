@@ -70,6 +70,13 @@ clean:: ; make -C CHAP_FIXITY -f ../Makefile.chap clean
 
 ######
 
+allchap:: CHAP_EXCEPTION
+CHAP_EXCEPTION:: ; \
+  make -C CHAP_EXCEPTION -f ../Makefile.chap main.db
+clean:: ; make -C CHAP_EXCEPTION -f ../Makefile.chap clean
+
+######
+
 allchap:: CHAP_REFERENCE
 CHAP_REFERENCE:: ; \
   make -C CHAP_REFERENCE -f ../Makefile.chap main.db
