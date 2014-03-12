@@ -961,7 +961,7 @@ val () = {
   val () = print "do_trans123: the_s3itmlst =\n"
   val () = $TRENV3.fprint_the_s3itmlst (stdout_ref)
   val () = print_newline ()
-} // end of [val]
+} (* end of [val] *)
 *)
 //
 val () = 

@@ -145,21 +145,21 @@ val ics_asmp = let
   ) : res = let
   in
     case+ s3ps of
-    | list_cons (s3p, s3ps) => let
+    | list_cons
+        (s3p, s3ps) => let
         val ic =
           s3exp2icnstr<a> (loc0, vim, n, s3p)
         // end ofl[val]
 (*
-        val () =
-        (
+        val () = (
           println! ("auxsolve: loop: s3p = ", s3p);
           print "auxsolve: loop: ic = "; print_icnstr (ic, n+1); print_newline ();
-        ) // end of [val]
+        ) (* end of [val] *)
 *)
       in
         loop (loc0, vim, n, s3ps, list_vt_cons (ic, res))
       end // end of [list_cons]
-    | list_nil () => res
+    | list_nil ((*void*)) => res
   end // end of [loop]
 in
   loop (loc0, vim, n, s3ps_asmp, list_vt_nil)

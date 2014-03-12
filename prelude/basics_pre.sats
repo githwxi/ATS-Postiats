@@ -268,11 +268,20 @@ stadef != = neq_addr_addr and <> = neq_addr_addr
 //
 stacst lte_cls_cls : (cls, cls) -> bool
 stacst gte_cls_cls : (cls, cls) -> bool
-stadef lterel_cls_cls (c1: cls, c2: cls, v: bool): bool = v
-stadef gterel_cls_cls (c1: cls, c2: cls, v: bool): bool = v
 stadef <= = lte_cls_cls
 stadef >= = gte_cls_cls
-
+//
+stadef
+lterel_cls_cls
+(
+  c1: cls, c2: cls, lterel_cls_cls_res: bool
+) : bool = lterel_cls_cls_res
+stadef
+gterel_cls_cls
+(
+  c1: cls, c2: cls, gterel_cls_cls_res: bool
+) : bool = gterel_cls_cls_res
+//
 (* ****** ****** *)
 //
 // HX: this is a special constant!

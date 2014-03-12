@@ -56,4 +56,44 @@ gtkcairotimer_timeout_update () = ((*void*))
 //
 (* ****** ****** *)
 
+staload "./ControlPanel.dats"
+
+(* ****** ****** *)
+
+implement{}
+gtkcairotimer_main
+  ((*void*)) = () where
+{
+//
+val win0 =
+  gtk_window_new (GTK_WINDOW_TOPLEVEL)
+//
+val win0 = win0 // HX: fix the master type
+//
+val () = assertloc (ptrcast(win0) > 0)
+val () = gtk_window_set_default_size (win0, (gint)400, (gint)400)
+//
+val opt = gtkcairotimer_title ()
+val issome = stropt_is_some(opt)
+val () =
+if issome then let
+  val title = stropt_unsome (opt)
+in
+  gtk_window_set_title (win0, gstring(title))
+end // end of [if] // end of [val]
+//
+val CP = ControlPanel_make ()
+val () = gtk_container_add (win0, CP)
+val () = g_object_unref (CP)
+//
+val () = gtk_widget_show_all (win0)
+//
+val () = g_object_unref (win0) // HX: refcount of [win0] decreases from 2 to 1
+//
+val ((*void*)) = gtk_main ((*void*))
+//
+} (* end of [gtkcairotimer_main] *)
+
+(* ****** ****** *)
+
 (* end of [gtkcairotimer_main.dats] *)

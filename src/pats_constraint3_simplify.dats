@@ -109,25 +109,34 @@ s3exp_bneg (s3e0) = (
 
 implement
 s3exp_badd
-  (s3e1, s3e2) = (
+  (s3e1, s3e2) = let
+in
   case+ s3e1 of
-  | S3Ebool b1 => if b1 then s3exp_true else s3e2
-  | _ => begin case+ s3e2 of
-    | S3Ebool b2 => if b2 then s3exp_true else s3e1
-    | _ => S3Ebadd (s3e1, s3e2)
-    end // end of [_]
-) // end of [s3exp_badd]
+  | S3Ebool b1 =>
+      if b1 then s3exp_true else s3e2
+  | _ (*non-bool*) => (
+    case+ s3e2 of
+    | S3Ebool b2 =>
+        if b2 then s3exp_true else s3e1
+    | _(*non-bool*) => S3Ebadd (s3e1, s3e2)
+    ) (* end of [_] *)
+end // end of [s3exp_badd]
 
 implement
 s3exp_bmul
-  (s3e1, s3e2) = (
+  (s3e1, s3e2) = let
+in
   case+ s3e1 of
-  | S3Ebool b1 => if b1 then s3e2 else s3exp_false
-  | _ => begin case+ s3e2 of
-    | S3Ebool b2 => if b2 then s3e1 else s3exp_false
-    | _ => S3Ebmul (s3e1, s3e2)
-    end // end of [_]
-) // end of [s3exp_bmul]
+  | S3Ebool b1 =>
+      if b1 then s3e2 else s3exp_false
+  | _(*non-bool*) =>
+    (
+    case+ s3e2 of
+    | S3Ebool b2 =>
+        if b2 then s3e1 else s3exp_false
+    | _ (*non-bool*) => S3Ebmul (s3e1, s3e2)
+    ) (* end of [_] *)
+end // end of [s3exp_bmul]
 
 (* ****** ****** *)
 
@@ -145,7 +154,8 @@ s3exp_beq
 ) // end of [s3exp_beq]
 
 implement
-s3exp_bneq (s3e1, s3e2) = (
+s3exp_bneq
+  (s3e1, s3e2) = (
   case+ s3e1 of
   | S3Ebool b1 =>
       if b1 then s3exp_bneg (s3e2) else s3e2
@@ -292,34 +302,38 @@ in
 //
 case+ x1 of
 // nonlinear terms go first
-| S3Eiatm (s2vs1) => (case+ x2 of
+| S3Eiatm (s2vs1) => (
+  case+ x2 of
   | S3Eiatm (s2vs2) => s2varmset_gte (s2vs1, s2vs2)
   | _ => true
-  ) // end of [S3Eiatm]
-| S3Evar (s2v1) => (case+ x2 of
+  ) (* end of [S3Eiatm] *)
+| S3Evar (s2v1) => (
+  case+ x2 of
   | S3Eiatm _ => false
   | S3Evar s2v2 =>
       compare_s2var_s2var (s2v1, s2v2) <= 0 // HX: not [>=]!
     // end of [S3Ecst]
   | _ => true
-  ) // end of [S3Evar]
-| S3Ecst (s2c1) => (case+ x2 of
+  ) (* end of [S3Evar] *)
+| S3Ecst (s2c1) => (
+  case+ x2 of
   | S3Eiatm _ => false
   | S3Evar s2v2 => false
   | S3Ecst s2c2 =>
       compare_s2cst_s2cst (s2c1, s2c2) <= 0 // HX: not [>=]!
     // end of [S3Ecst]
   | _ => true
-  ) // end of [S3Evar]
-| S3Eunit () => (case+ x2 of
+  ) (* end of [S3Evar] *)
+| S3Eunit () => (
+  case+ x2 of
   | S3Eiatm _ => false
   | S3Evar s2v2 => false
   | S3Ecst s2c2 => false
   | S3Eunit () => true
   | _ => true
-  ) // end of [S3Eunit]
+  ) (* end of [S3Eunit] *)
 //
-| _ => false
+| _(*unrecognized*) => false
 //
 end // end of [s3exp_gte]
 
@@ -362,7 +376,7 @@ in
   // end of [if]
 end else (
   S3Eisum (list_pair (x2, x1))
-) // end of [if]
+) (* end of [if] *)
 //
 end // end of [s3exp_isum_pair]
 
@@ -566,7 +580,7 @@ s3exp_lintize
 (*
 val () = (
   print "s3exp_lintize: s3e = "; print_s3exp (s3e); print_newline ()
-) // end of [val]
+) (* end of [val] *)
 *)
 var flag: int = 0
 val s3e_res = s3exp_lintize_flag (env, s3e, flag)

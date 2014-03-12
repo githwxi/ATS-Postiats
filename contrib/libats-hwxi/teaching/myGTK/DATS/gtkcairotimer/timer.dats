@@ -31,7 +31,14 @@
 
 (* ****** ****** *)
 //
-// HX-2014-03-10: ported to ATS2 from the version in INT2PROGINATS
+// HX-2014-03-10: adapted from the version in INT2PROGINATS
+//
+(* ****** ****** *)
+//
+(*
+#include
+"share/atspre_staload.hats"
+*)
 //
 (* ****** ****** *)
 //
@@ -60,7 +67,7 @@ fun{} timer_resume (x: !timer): void // the (paused) timer resumes
 extern
 fun{} timer_reset (x: !timer): void // the timer resets
 extern
-fun{} timer_get_ntick (x: !timer): uint // obtaining the number of ticks
+fun{} timer_get_ntick (x: !timer): ulint // obtaining the number of ticks
 //
 (* ****** ****** *)
 
@@ -69,8 +76,8 @@ timer_struct = @{
   started= bool // the timer has started
 , running= bool // the timer is running
   // the tick number recorded
-, ntick_beg= uint // when the timer was turned on
-, ntick_acc= uint // the number of accumulated ticks
+, ntick_beg= ulint // when the timer was turned on
+, ntick_acc= ulint // the number of accumulated ticks
 } (* end of [timer_struct] *)
 
 (* ****** ****** *)
@@ -103,8 +110,8 @@ val+TIMER (x) = timer
 //
 val () = x.started := false
 val () = x.running := false
-val () = x.ntick_beg := 0u
-val () = x.ntick_acc := 0u
+val () = x.ntick_beg := 0ul
+val () = x.ntick_acc := 0ul
 //
 prval () = fold@ (timer)
 //
@@ -122,7 +129,7 @@ implement{
 (* ****** ****** *)
 
 extern
-fun{} the_current_tick_get ((*void*)): uint
+fun{} the_ntick_get ((*void*)): ulint
 
 (* ****** ****** *)
 
@@ -132,8 +139,8 @@ implement{
   val+@TIMER(x) = timer
   val () = x.started := true
   val () = x.running := true
-  val () = x.ntick_beg := the_current_tick_get ()
-  val () = x.ntick_acc := 0u
+  val () = x.ntick_beg := the_ntick_get ()
+  val () = x.ntick_acc := 0ul
   prval () = fold@ (timer)
 in
   // nothing
@@ -151,7 +158,7 @@ implement{
   {
     val () = x.running := false
     val () = x.ntick_acc :=
-      x.ntick_acc + the_current_tick_get () - x.ntick_beg
+      x.ntick_acc + the_ntick_get () - x.ntick_beg
   } (* end of [val] *)
   prval () = fold@ (timer)
 in
@@ -169,7 +176,7 @@ implement{
   {
     val () = x.running := false
     val () = x.ntick_acc :=
-      x.ntick_acc + the_current_tick_get () - x.ntick_beg
+      x.ntick_acc + the_ntick_get () - x.ntick_beg
   } (* end of [val] *)
   prval () = fold@ (timer)
 in
@@ -186,7 +193,7 @@ implement{
   if x.started && ~(x.running) then
   {
     val () = x.running := true
-    val () = x.ntick_beg := the_current_tick_get ()
+    val () = x.ntick_beg := the_ntick_get ()
   } (* end of [if] *) // end of [val]
   prval () = fold@ (timer)
 in
@@ -201,8 +208,8 @@ implement{
   val+@TIMER(x) = timer
   val () = x.started := false
   val () = x.running := false
-  val () = x.ntick_beg := 0u
-  val () = x.ntick_acc := 0u
+  val () = x.ntick_beg := 0ul
+  val () = x.ntick_acc := 0ul
   prval () = fold@ (timer)
 in
   // nothing
@@ -214,10 +221,10 @@ implement{
 } timer_get_ntick
   (timer) = let
   val+@TIMER(x) = timer
-  var ntick: uint = x.ntick_acc
+  var ntick: ulint = x.ntick_acc
   val () =
   if x.running then (
-    ntick := ntick + the_current_tick_get () - x.ntick_beg
+    ntick := ntick + the_ntick_get () - x.ntick_beg
   ) (* end of [if] *) // end of [val]
   prval () = fold@ (timer)
 in
@@ -233,48 +240,19 @@ staload "libc/SATS/time.sats"
 in (* in-of-local *)
 
 implement{
-} the_current_tick_get () = let
+} the_ntick_get
+(
+// argumentless
+) = let
   var tv: timespec // uninitialized
   val err = clock_gettime (CLOCK_REALTIME, tv)
   val () = assertloc (err >= 0)
   prval () = opt_unsome {timespec} (tv)
 in
-  $UN.cast2uint(tv.tv_sec)
-end // end of [the_current_tick_get]
+  1000000000ul * $UN.cast2ulint(tv.tv_sec) + $UN.cast2ulint(tv.tv_nsec)
+end // end of [the_ntick_get]
 
 end // end of [local]
-
-(* ****** ****** *)
-
-staload US = "libc/SATS/unistd.sats"
-
-(* ****** ****** *)
-
-implement
-main0 ((*void*)) =
-{
-//
-val timer = timer_new ()
-//
-val () = timer_start (timer)
-//
-val ntick = timer_get_ntick (timer)
-val () = println! ("ntick(0) = ", ntick)
-val err = $US.sleep (1u)
-val () = timer_pause (timer)
-val ntick = timer_get_ntick (timer)
-val () = println! ("ntick(1) = ", ntick)
-val err = $US.sleep (1u) // this one is not counted!
-val () = timer_resume (timer)
-val err = $US.sleep (1u)
-val ntick = timer_get_ntick (timer)
-val () = println! ("ntick(2) = ", ntick)
-//
-val () = timer_finish (timer)
-//
-val ((*freed*)) = timer_free (timer)
-//
-} (* end of [main0] *)
 
 (* ****** ****** *)
 

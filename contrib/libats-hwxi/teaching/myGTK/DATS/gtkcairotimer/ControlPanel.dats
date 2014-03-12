@@ -28,35 +28,60 @@
 
 (* ****** ****** *)
 //
-// HX-2014-03:
-// A simple GTK/cairo-package
-// for implementing timer-like objects
-//
-(* ****** ****** *)
-//
 #include
 "share/atspre_define.hats"
 //
 (* ****** ****** *)
 
-staload "{$CAIRO}/SATS/cairo.sats"
+staload "{$GTK}/SATS/gdk.sats"
+staload "{$GTK}/SATS/gtk.sats"
+staload "{$GLIB}/SATS/glib.sats"
+staload "{$GLIB}/SATS/glib-object.sats"
 
 (* ****** ****** *)
-//
-fun{
-} gtkcairotimer_main (): void
-//
-fun{
-} gtkcairotimer_title (): stropt
-fun{
-} gtkcairotimer_timeout_update (): void
-fun{
-} gtkcairotimer_timeout_interval (): uint
-//
-fun{
-} gtkcairotimer_mydraw
-  (cr: !cairo_ref1, width: int, height: int): void
-//
+
+extern
+fun ControlPanel_make (): gobjref1(GtkVBox)
+
 (* ****** ****** *)
 
-(* end of [gtkcairotimer.sats] *)
+implement
+ControlPanel_make
+(
+  // argumentless
+) = let
+//
+val vbox0 =
+gtk_vbox_new
+(
+  GFALSE(*homo*), (gint)10(*spacing*)
+) (* end of [val] *)
+val () = assertloc (ptrcast (vbox0) > 0)
+//
+val button_start =
+gtk_button_new_with_label ((gstring)"Start")
+val () = assertloc (ptrcast (button_start) > 0)
+val () =
+gtk_box_pack_end
+(
+  vbox0, button_start, GFALSE(*expand*), GFALSE(*fill*), (guint)4
+) (* end of [val] *)
+val () = g_object_unref (button_start)
+//
+val button_finish =
+gtk_button_new_with_label ((gstring)"Finish")
+val () = assertloc (ptrcast (button_finish) > 0)
+val () =
+gtk_box_pack_end
+(
+  vbox0, button_finish, GFALSE(*expand*), GFALSE(*fill*), (guint)4
+) (* end of [val] *)
+val () = g_object_unref (button_finish)
+//
+in
+  vbox0
+end // end of [ControlPanel_make]
+
+(* ****** ****** *)
+
+(* end of [ControlPanel.dats] *)

@@ -304,7 +304,7 @@ end // end of [the_current_tick_get]
 end // end of [local]
 ')
 
-Note that the library flag #dyncode("-lrt") is needed in order to
+Note that the library flag #dyncode("-lrt") may be needed in order to
 have link-time access to #dyncode("clock_gettime") as the function is in
 #dyncode("librt").
 

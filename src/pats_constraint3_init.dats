@@ -360,20 +360,20 @@ fun f_neq_addr_addr = f_neq_int_int
 //
 fun
 f_lte_cls_cls (
-  env: &s2vbcfenv, s2es: s2explst
+  env: &s2vbcfenv, s2es0: s2explst
 ) : s3exp = let 
+//
+(*
+val () =
+println! ("f_lte_cls_cls: s2es = ", s2es0)
+*)
 //
 val s2c = s2cstref_get_cst (the_lte_cls_cls)
 //
-(*
-val () = println! ("f_lte_cls_cls: s2es = ", s2es)
-*)
+val-list_cons (s2e1, s2es1) = s2es0
+val-list_cons (s2e2, s2es2) = s2es1
 //
-val-list_cons (s2e1, s2es) = s2es
-val-list_cons (s2e2, s2es) = s2es
-//
-val s2e1 = s2exp_hnfize (s2e1)
-val s2e2 = s2exp_hnfize (s2e2)
+val s2e1 = s2exp_hnfize (s2e1) and s2e2 = s2exp_hnfize (s2e2)
 //
 in
 //
@@ -389,7 +389,12 @@ case+
   )
 | (_, _) => let
     val s2c_rel = s2cstref_get_cst (the_lterel_cls_cls)
-    val s2v_res = s2vbcfenv_replace_cstapp (env, s2rt_bool, s2c_rel, s2es)
+    val s2v_res =
+      s2vbcfenv_replace_cstapp (env, s2rt_bool, s2c_rel, s2es0)
+    // end of [val]
+(*
+    val ((*void*)) = println! ("f_lte_cls_cls: s2v_res = ", s2v_res)
+*)
   in
     s3exp_bvar (s2v_res)
   end // end of [_, _]

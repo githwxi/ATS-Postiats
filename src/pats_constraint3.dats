@@ -304,10 +304,12 @@ fun synlt_s2hnf_s2hnf (
 ) : bool = let
   val s2e2 = s2hnf2exp s2f2
 (*
-  val () = begin
-    print "synlt_s2hnf_s2hnf: s2f1 = "; print_s2hnf (s2f1); print_newline ();
-    print "synlt_synlt_s2hnf: s2f2 = "; print_s2hnf (s2f2); print_newline ();
-  end // end of [val]
+//
+val () =
+(
+  println! ("synlt_s2hnf_s2hnf: s2f1 = ", s2f1);
+  println! ("synlt_synlt_s2hnf: s2f2 = ", s2f2);
+) (* end of [val] *)
 *)
 in
   case+ s2e2.s2exp_node of
@@ -455,7 +457,8 @@ end // end of [local]
 
 local
 
-fun auxeq (
+fun auxeq
+(
   env: &s2vbcfenv, s2e1: s2exp, s2e2: s2exp
 ) : s3exp = let
 //
@@ -488,15 +491,18 @@ fun auxbind (
 , env: &s2vbcfenv, s2v1: s2var, s2e2: s2exp
 ) : s3exp = let
 (*
-  val () = begin
-    print "auxbind: s2v1 = "; print_s2var (s2v1); print_newline ();
-    print "auxbind: s2e2 = "; print_s2exp (s2e2); print_newline ();
-  end // end of [val]
+val () =
+(
+  println! ("auxbind: s2v1 = ", s2v1);
+  println! ("auxbind: s2e2 = ", s2e2);
+) (* end of [val] *)
 *)
-  val s2e1 = s2exp_var (s2v1)
-  val s3be = auxeq (env, s2e1, s2e2)
-  val s2f2 = s2exp2hnf (s2e2)
-  val () = trans3_env_hypadd_bind (loc0, s2v1, s2f2)
+//
+val s2e1 = s2exp_var (s2v1)
+val s3be = auxeq (env, s2e1, s2e2)
+val s2f2 = s2exp2hnf (s2e2)
+val () = trans3_env_hypadd_bind (loc0, s2v1, s2f2)
+//
 in
   s3be
 end // end of [aux_bind]
@@ -510,7 +516,7 @@ s3exp_make
   val s2e0 = s2hnf2exp (s2f0)
 (*
   val () = begin
-    print "s3exp_make_s2exp: s2e0 = "; pprint_s2exp (s2e0); print_newline ()
+    print "s3exp_make: s2e0 = "; pprint_s2exp (s2e0); print_newline ()
   end // end of [val]
 *)
 in
@@ -538,8 +544,8 @@ case+ s2e0.s2exp_node of
       val () = s2vbcfenv_add_scst (env, s2c) in s3exp_cst (s2c)
     end (* end of [_] *)
 *)
-  | _ => s3exp_cst (s2c)
-  ) // end of [S2Ecst]
+  | _ (*non-primitive-cst*) => s3exp_cst (s2c)
+  ) (* end of [S2Ecst] *)
 //
 | S2Eapp
     (s2e1, s2es2) => (
@@ -547,13 +553,13 @@ case+ s2e0.s2exp_node of
   | S2Ecst s2c1 =>
       s3exp_make_s2cst_s2explst (env, s2c1, s2es2)
     // end of [S2Ecst]
-  | _ => let
+  | _ (*non-cst*) => let
       val s3e1 = s3exp_make (env, s2e1)
       val s3es2 = s3explst_make (env, s2es2)
     in
       S3Eapp (s3e1, s3es2)
-    end
-  ) // end of [S2Eapp]
+    end // end of [non-cst]
+  ) (* end of [S2Eapp] *)
 | S2Eeqeq (s2e1, s2e2) => auxeq (env, s2e1, s2e2)
 | S2Emetdec (met, met_bound) => let
     val s2e_met = s2exp_metdec_reduce (met, met_bound)
@@ -566,7 +572,7 @@ case+ s2e0.s2exp_node of
 | _ => let // an expression that cannot be handled
 (*
     val () = begin
-      prerr "warning(3): s3exp_make_s2exp: s2e0 = "; prerr_s2exp (s2e0); prerr_newline ();
+      prerr "warning(3): s3exp_make: s2e0 = "; prerr_s2exp (s2e0); prerr_newline ();
     end // end of [val]
 *)
   in
@@ -839,21 +845,30 @@ end // end of [s2vbcfenv_extract]
 
 (* ****** ****** *)
 
-fun s2vbcfenv_add2_cstapp (
+fun
+s2vbcfenv_add2_cstapp
+(
   env: &s2vbcfenv
 // HX: [s2c] is a defined (stadef) constant
 , s2c: s2cst, arg1: s2explst, arg2: s3explst
 , s2v: s2var
 ) : void = let
 //
-  val () = env := S2VBCFLSTsvar (s2v, env)
+(*
+val () = println! ("s2vbcfenv_add2_cstapp: s2c = ", s2c)
+val () = println! ("s2vbcfenv_add2_cstapp: s2v = ", s2v)
+*)
 //
-  val s2e_cst = s2exp_cst (s2c)
-  val s2e_var = s2exp_var (s2v)
-  val s2es1 = list_extend (arg1, s2e_var)
-  val s2e_rel = s2exp_app_srt (s2rt_bool, s2e_cst, (l2l)s2es1)
-  val s3be = s3exp_make (env, s2e_rel)
-  val s3be = s3exp_lintize (env, s3be) // replacing nonlinear terms with vars
+val () = env := S2VBCFLSTsvar (s2v, env)
+//
+val s2e_cst = s2exp_cst (s2c)
+val s2e_var = s2exp_var (s2v)
+val s2es1 = list_extend (arg1, s2e_var)
+val s2e_rel = s2exp_app_srt (s2rt_bool, s2e_cst, (l2l)s2es1)
+//
+val s3be = s3exp_make (env, s2e_rel)
+//
+val s3be = s3exp_lintize (env, s3be) // replacing nonlinear terms with vars
 //
 in
   env := S2VBCFLSTcons (s2c, arg2, s2v, Some_vt (s3be), env)
@@ -875,12 +890,11 @@ implement
 s2vbcfenv_add_nonlin
   (env, s2v, s3e) = let
 (*
-  val () = begin
-    print "s2vbcfenv_add_nonlin: s2v = ";
-    print_s2var (s2v); print_newline ();
-    print "s2vbcfenv_add_nonlin: s3e = ";
-    print_s3exp (s3e); print_newline ();
-  end // end of [val]
+val () =
+(
+  println! ("s2vbcfenv_add_nonlin: s2v = "; s2v);
+  println! ("s2vbcfenv_add_nonlin: s3e = "; s3e);
+) (* end of [val] *)
 *)
 in
   env := S2VBCFLSTnonlin (s2v, s3e, env)
@@ -896,16 +910,16 @@ implement
 s2vbcfenv_add_cstapp
   (env, s2c, s2es_arg, s2v) = let
 (*
-  val () = begin
-    print "s2vbcfenv_add: s2c = ";
-    print_s2cst (s2c); print_newline ();
-    print "s2vbcfenv_add: s2es_arg = ";
-    print_s2explst (s2es_arg); print_newline ();
-    print "s2vbcfenv_add: s2v = ";
-    print_s2var (s2v); print_newline ();
-  end // end of [val]
+val () =
+(
+  println! ("s2vbcfenv_add: s2c = ", s2c);
+  println! ("s2vbcfenv_add: s2es_arg = ", s2es_arg);
+  println! ("s2vbcfenv_add: s2v = ", s2v);
+) (* end of [val] *)
 *)
-  val s3es_arg = s3explst_make (env, s2es_arg)
+//
+val s3es_arg = s3explst_make (env, s2es_arg)
+//
 in
   s2vbcfenv_add2_cstapp (env, s2c, s2es_arg, s3es_arg, s2v)
 end // end of [s2vbcfenv_add_cstapp]

@@ -168,6 +168,7 @@ classdec GtkObject : GInitiallyUnowned
 (* ****** ****** *)
 
 #include "./gtk/gtkhbox.sats"
+#include "./gtk/gtkvbox.sats"
 
 (* ****** ****** *)
 

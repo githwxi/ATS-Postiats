@@ -142,13 +142,14 @@ gtkcairoclock_main
 //
 val win0 =
   gtk_window_new (GTK_WINDOW_TOPLEVEL)
-val win0 = win0
+//
+val win0 = win0 // HX: fix the master type
+//
 val () = assertloc (ptrcast(win0) > 0)
 val () = gtk_window_set_default_size (win0, (gint)400, (gint)400)
 //
 val opt = gtkcairoclock_title ()
 val issome = stropt_is_some(opt)
-//
 val () =
 if issome then let
   val title = stropt_unsome (opt)
