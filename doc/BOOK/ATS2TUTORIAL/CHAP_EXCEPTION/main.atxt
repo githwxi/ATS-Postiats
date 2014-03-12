@@ -1,0 +1,170 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from [CHAP_EXCEPTION/main.atxt].\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter
+id="exceptions"
+>#title("Exceptions")
+
+<!-- ****** ****** -->
+
+#para("
+
+While exceptions can be very useful in practice, it is also very common to
+see code that misuses exceptions.
+
+")
+
+#para("\
+
+Generally speaking, there are exceptions that are meant to be raised but
+not captured for the purpose of aborting program execution, and there are
+also exceptions (often declared locally) that are meant to be raised and
+then captured so as to change the flow of program execution.  For instance,
+the exception #dyncode("ArraySubscriptExn") is raised when out-of-bounds
+array subscripting is detected at run-time.  Once it is raised,
+#dyncode("ArraySubscriptExn") is usually not meant to be captured.  While
+there is certainly nothing preventing a programer from writing code that
+captures a raised #dyncode("ArraySubscriptExn"), a major concern is that
+reasoning can become greatly complicated on code that does so.  In the
+following presentation, I will soley focus on exceptions that are meant to
+be raised and then captured.
+
+")#comment("para")
+
+#para('\
+
+Let us now take a look at the following code that implements a function
+for finding the rightmost element in a list that satisifes a given predicate:
+
+#atscode('\
+extern
+fun{a:t@ype}
+list_find_rightmost
+  (List (a), (a) -<cloref1> bool): Option_vt (a)
+//
+implement{a}
+list_find_rightmost
+  (xs, pred) = let
+//
+fun aux
+(
+  xs: List(a)
+) : Option_vt (a) =
+  case+ xs of
+  | nil () => None_vt ()
+  | cons (x, xs) => let
+      val res = aux (xs)
+    in
+      case+ res of
+      | Some_vt _ => res
+      | ~None_vt () =>
+          if pred (x) then Some_vt (x) else None_vt ()
+        // end of [None]
+    end (* end of [cons] *)
+//
+in
+  aux (xs)
+end // end of [list_find_rightmost]
+')
+
+Suppose that #dyncode("list_find_rightmost") is called on a list xs of
+length N (for some large natural number N) and a predicate pred. The
+evaluation of this call leads to a call to the inner function
+#dyncode("aux"), which in turn generates N additional recursive calls to
+#dyncode("aux"). Assume that the last element of xs satisfies the predicate
+pred. Then there are still N-1 call frames for #dyncode("aux") on the call
+stack when the rightmost element satisfying pred is found, and these frames
+need to be unwinded one-by-one before the found element can be returned to
+the original call to #dyncode("list_find_rightmost"). This form of
+inefficiency is eliminated in the following exception-based implementation
+of #dyncode("list_find_rightmost"):
+
+#atscode('
+implement{a}
+list_find_rightmost
+  (xs, pred) = let
+//
+exception Found of (a)
+//
+fun aux
+(
+  xs: List(a)
+) : void =
+  case+ xs of
+  | nil () => ()
+  | cons (x, xs) => let
+      val () = aux (xs)
+    in
+      if pred (x) then $raise Found(x) else ()
+    end (* end of [cons] *)
+//
+in
+//
+try let
+  val () = aux (xs)
+in
+  None_vt ()
+end with
+  | ~Found(x) => Some_vt (x)
+//
+end // end of [list_find_rightmost]
+')
+
+When a try-with-expression is evaluated, a label is created for the portion
+of the call stack needed to evaluate the clauses (often referred to as
+exception-handlers) following the keyword #keycode("with"), and this label
+is then pushed onto a designated global stack.  When an exception is
+raised, the labels on the global stack are tried one-by-one until the
+raised exception is captured by an exception-handler (that is, the value
+representing the exception matches the pattern guard of the
+exception-handler) or the current program evaluation aborts. The above
+exception-based implementation of #dyncode("list_find_rightmost") uses a
+raised exception to carry the element found during a recursive call to
+#dyncode("aux") so that this element can be returned in a single jump to
+the original call to #dyncode("list_find_rightmost"), bypassing all the
+intermediate call frames (for recursive calls to #dyncode("aux")) on the
+call stack. In general, the range between the point where an exception
+is raised and the point where the raised exception is captured should span
+multiple call frames. If not, then the use of exception may be questionable.
+
+')#comment("para")
+
+#para("\
+
+Please find #mycodelink("chap_exception.dats", "on-line") the entirety of the
+code used in this chapter.\
+
+")#comment("para")
+
+</chapter><!--"exceptions"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [chap_exception.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_exception.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
+//
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} (* end of [main] *)
+%}

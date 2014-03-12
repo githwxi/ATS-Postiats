@@ -118,6 +118,8 @@ fun parse_D2Eselab (jsonval): d2exp_node
 
 extern
 fun parse_D2Elam_dyn (jsonval): d2exp_node
+extern
+fun parse_D2Elam_sta (jsonval): d2exp_node
 
 extern
 fun parse_D2Eann_seff (jsonval): d2exp_node
@@ -177,6 +179,7 @@ case+ name of
 | "D2Eselab" => parse_D2Eselab (jsv2)
 //
 | "D2Elam_dyn" => parse_D2Elam_dyn (jsv2)
+| "D2Elam_sta" => parse_D2Elam_sta (jsv2)
 //
 | "D2Eann_seff" => parse_D2Eann_seff (jsv2)
 | "D2Eann_type" => parse_D2Eann_type (jsv2)
@@ -440,6 +443,20 @@ val d2e_body = parse_d2exp (jsvs[3])
 in
   D2Elam (p2ts, d2e_body)
 end // end of [parse_D2Elam_dyn]
+
+(* ****** ****** *)
+
+implement
+parse_D2Elam_sta
+  (jsv0) = let
+//
+val-JSONarray(jsvs) = jsv0
+val () = assertloc (length(jsvs) >= 3)
+val d2e = parse_d2exp (jsvs[2])
+//
+in
+  D2Eexp (d2e)
+end // end of [parse_D2Elam_sta]
 
 (* ****** ****** *)
 

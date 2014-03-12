@@ -387,14 +387,12 @@ seem interesting but it actually leads to very inefficient code:
 
 
 #atscode('\
-
 fun{
 a:t@ype
 } list0_length
   (xs: list0 (a)): int =
   try 1 + list0_length (xs.tail) with ~ListSubscriptExn() => 0
 // end of [list0_length]
-
 ')
 
 Therefore, making use of exceptions in this style should be avoided.

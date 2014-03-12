@@ -141,7 +141,7 @@ jsonval_tostring
   val (
     fpf | rep
   ) = json_object_to_json_string (jso)
-  val rep2 = string_copy ($UN.strptr2string(rep))
+  val rep2 = string0_copy ($UN.strptr2string(rep))
   prval ((*void*)) = fpf (rep)
 //
   val freed(*1*) = json_object_put (jso)
