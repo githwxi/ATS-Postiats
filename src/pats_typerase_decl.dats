@@ -253,6 +253,15 @@ end // end of [d3eclist_tyer]
 (* ****** ****** *)
 
 implement
+d3eclist_tyer_errck
+  (d3cs) = hids where {
+  val hids = d3eclist_tyer (d3cs)
+  val () = the_trans4errlst_finalize ()
+} // end of [d3eclist_tyer_errck]
+
+(* ****** ****** *)
+
+implement
 d3ecl_tyer_impdec
   (d3c0) = let
 //
@@ -312,7 +321,8 @@ fun f3undec_tyer
 //
   val isprf = d3exp_is_prf (d3e_def)
 //
-  val () = if isprf then let
+  val ((*void*)) =
+  if isprf then let
     val () = prerr_error4_loc (loc)
     val () = prerr ": [fun] should be replaced with [prfun] as this is a proof binding."
     val () = prerr_newline ()
@@ -377,7 +387,8 @@ fun v3aldec_tyer
   val hip = p3at_tyer (v3d.v3aldec_pat)
   val d3e_def = v3d.v3aldec_def
   val isprf = d3exp_is_prf (d3e_def)
-  val () = if isprf then let
+  val ((*void*)) =
+  if isprf then let
     val () = prerr_error4_loc (loc)
     val () = prerr ": [val] should be replaced with [prval] as this is a proof binding."
     val () = prerr_newline ()

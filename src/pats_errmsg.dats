@@ -112,6 +112,12 @@ prerr_warning3_loc (loc) =
   $LOC.prerr_location (loc); prerr ": warning(3)"
 ) // end of [prerr_warning3_loc]
 
+implement{}
+prerr_warning4_loc (loc) =
+(
+  $LOC.prerr_location (loc); prerr ": warning(4)"
+) // end of [prerr_warning4_loc]
+
 (* ****** ****** *)
 
 implement{}

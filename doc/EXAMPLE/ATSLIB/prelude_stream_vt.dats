@@ -26,8 +26,8 @@ val ns = from (0)
 val nns =
   stream_vt_map_fun<int><int> (ns, lam x => x * x)
 //
-val-~Some_vt
-  (nns) = stream_vt_drop (nns, 100)
+val-~Some_vt(nns) =
+  stream_vt_drop_opt (nns, 100)
 val-~stream_vt_cons (nn, nns) = !nns
 val () = ~nns
 val () = assertloc (nn = 100 * 100)
@@ -44,8 +44,8 @@ val ns2 = from (2)
 val nns =
   stream_vt_map2_fun<int,int><int> (ns1, ns2, lam (x1, x2) => x1 * x2)
 //
-val-~Some_vt
-  (nns) = stream_vt_drop (nns, 100)
+val-~Some_vt(nns) =
+  stream_vt_drop_opt (nns, 100)
 val-~stream_vt_cons (nn, nns) = !nns
 val () = ~nns
 val () = assertloc (nn = 101 * 102)

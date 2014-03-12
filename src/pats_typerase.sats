@@ -131,4 +131,8 @@ fun d3eclist_tyer (d3cs: d3eclist): hideclist
 
 (* ****** ****** *)
 
+fun d3eclist_tyer_errck (d3cs: d3eclist): hideclist
+
+(* ****** ****** *)
+
 (* end of [pats_typerase.sats] *)

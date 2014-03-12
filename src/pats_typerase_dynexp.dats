@@ -840,12 +840,14 @@ case+
     val isval = hidexp_is_value (hde_body)
     val () =
     if not(isval) then let
-      val () = prerr_error4_loc (loc0)
+      val () = prerr_warning4_loc (loc0)
       val () = prerrln! (
         ": a non-value body for static lambda-abstraction is not supported."
       ) (* end of [val] *)
     in
-      the_trans4errlst_add (T4E_d3exp_tyer_isnotval (d3e_body))
+(*
+      the_trans4errlst_add (T4E_d3exp_tyer_isnotval (d3e_body)) // HX-2014-03-11
+*)
     end (* end of [if] *)
   in
     hde_body

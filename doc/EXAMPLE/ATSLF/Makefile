@@ -56,8 +56,8 @@ infprime: infprime.dats ; $(PATSCC) -tcats $<
 
 ######
 
-all:: irrationality-of-sqrt2
-irrationality-of-sqrt2: irrationality-of-sqrt2.dats ; $(PATSCC) -tcats $<
+all:: sqrt2_irrat
+sqrt2_irrat: sqrt2_irrat.dats ; $(PATSCC) -tcats $<
 
 ######
 
