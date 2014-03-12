@@ -85,90 +85,90 @@ allchap:: CHAP_ABSVTYPE
 ######
 
 CHAP_START:: ; \
-  make -C CHAP_START -f ../Makefile.chap main.db
-clean:: ; make -C CHAP_START -f ../Makefile.chap clean
+  make -C CHAP_START -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_START -f ../Makefile_chap clean
 
 CHAP_PROGELEM:: ; \
-  make -C CHAP_PROGELEM -f ../Makefile.chap main.db
-clean:: ; make -C CHAP_PROGELEM -f ../Makefile.chap clean
+  make -C CHAP_PROGELEM -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_PROGELEM -f ../Makefile_chap clean
 
 CHAP_FUNCTION:: ; \
-  make -C CHAP_FUNCTION -f ../Makefile.chap main.db
-clean:: ; make -C CHAP_FUNCTION -f ../Makefile.chap clean
+  make -C CHAP_FUNCTION -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_FUNCTION -f ../Makefile_chap clean
 
 CHAP_DATATYPE:: ; \
-  make -C CHAP_DATATYPE -f ../Makefile.chap main.db
-clean:: ; make -C CHAP_DATATYPE -f ../Makefile.chap clean
+  make -C CHAP_DATATYPE -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_DATATYPE -f ../Makefile_chap clean
 
 CHAP_POLYMORPH:: ; \
-  make -C CHAP_POLYMORPH -f ../Makefile.chap main.db
-clean:: ; make -C CHAP_POLYMORPH -f ../Makefile.chap clean
+  make -C CHAP_POLYMORPH -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_POLYMORPH -f ../Makefile_chap clean
 
 ######
 
 CHAP_EFFECTFUL:: ; \
-  make -C CHAP_EFFECTFUL -f ../Makefile.chap main.db
-clean:: ; make -C CHAP_EFFECTFUL -f ../Makefile.chap clean
+  make -C CHAP_EFFECTFUL -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_EFFECTFUL -f ../Makefile_chap clean
 
 ######
 
 CHAP_MODULARITY:: ; \
-  make -C CHAP_MODULARITY -f ../Makefile.chap main.db
-clean:: ; make -C CHAP_MODULARITY -f ../Makefile.chap clean
+  make -C CHAP_MODULARITY -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_MODULARITY -f ../Makefile_chap clean
 
 ######
 
 CHAP_CINTERACT:: ; \
-  make -C CHAP_CINTERACT -f ../Makefile.chap main.db
-clean:: ; make -C CHAP_CINTERACT -f ../Makefile.chap clean
+  make -C CHAP_CINTERACT -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_CINTERACT -f ../Makefile_chap clean
 
 ######
 
 CHAP_DEPTYPES:: ; \
-  make -C CHAP_DEPTYPES -f ../Makefile.chap main.db
-clean:: ; make -C CHAP_DEPTYPES -f ../Makefile.chap clean
+  make -C CHAP_DEPTYPES -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_DEPTYPES -f ../Makefile_chap clean
 
 ######
 
 CHAP_DEPDTREF:: ; \
-  make -C CHAP_DEPDTREF -f ../Makefile.chap main.db
-clean:: ; make -C CHAP_DEPDTREF -f ../Makefile.chap clean
+  make -C CHAP_DEPDTREF -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_DEPDTREF -f ../Makefile_chap clean
 
 ######
 
 CHAP_THMPRVING:: ; \
-  make -C CHAP_THMPRVING -f ../Makefile.chap main.db
-clean:: ; make -C CHAP_THMPRVING -f ../Makefile.chap clean
+  make -C CHAP_THMPRVING -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_THMPRVING -f ../Makefile_chap clean
 
 ######
 
 CHAP_PRGTHMPRV:: ; \
-  make -C CHAP_PRGTHMPRV -f ../Makefile.chap main.db
-clean:: ; make -C CHAP_PRGTHMPRV -f ../Makefile.chap clean
+  make -C CHAP_PRGTHMPRV -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_PRGTHMPRV -f ../Makefile_chap clean
 
 ######
 
 CHAP_VVTINTRO:: ; \
-  make -C CHAP_VVTINTRO -f ../Makefile.chap main.db
-clean:: ; make -C CHAP_VVTINTRO -f ../Makefile.chap clean
+  make -C CHAP_VVTINTRO -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_VVTINTRO -f ../Makefile_chap clean
 
 ######
 
 CHAP_DATAVIEW:: ; \
-  make -C CHAP_DATAVIEW -f ../Makefile.chap main.db
-clean:: ; make -C CHAP_DATAVIEW -f ../Makefile.chap clean
+  make -C CHAP_DATAVIEW -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_DATAVIEW -f ../Makefile_chap clean
 
 ######
 
 CHAP_DATAVTYPE:: ; \
-  make -C CHAP_DATAVTYPE -f ../Makefile.chap main.db
-clean:: ; make -C CHAP_DATAVTYPE -f ../Makefile.chap clean
+  make -C CHAP_DATAVTYPE -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_DATAVTYPE -f ../Makefile_chap clean
 
 ######
 
 CHAP_ABSVTYPE:: ; \
-  make -C CHAP_ABSVTYPE -f ../Makefile.chap main.db
-clean:: ; make -C CHAP_ABSVTYPE -f ../Makefile.chap clean
+  make -C CHAP_ABSVTYPE -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_ABSVTYPE -f ../Makefile_chap clean
 
 ######
 
