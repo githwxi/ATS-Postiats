@@ -846,7 +846,7 @@ case+
       ) (* end of [val] *)
     in
 (*
-      the_trans4errlst_add (T4E_d3exp_tyer_isnotval (d3e_body)) // HX-2014-03-11
+      the_trans4errlst_add (T4E_d3exp_tyer_isnotval (d3e_body)) // HX: warning
 *)
     end (* end of [if] *)
   in

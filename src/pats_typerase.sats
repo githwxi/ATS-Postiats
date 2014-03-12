@@ -59,9 +59,11 @@ staload "./pats_hidynexp.sats"
 //
 datatype trans4err =
   | T4E_d3exp_tyer_isprf of (d3exp)
-  | T4E_d3exp_tyer_isnotval of (d3exp)
+(*
+  | T4E_d3exp_tyer_isnotval of (d3exp) // HX: warning
+*)
 // end of [trans4err]
-
+//
 (* ****** ****** *)
 
 fun the_trans4errlst_add (x: trans4err): void
