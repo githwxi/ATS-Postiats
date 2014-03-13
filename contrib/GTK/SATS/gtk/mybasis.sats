@@ -67,6 +67,33 @@ vtypedef GtkButton1 = [c:cls;l:addr | c <= GtkButton; l > null] gobjref (c, l)
 //
 (* ****** ****** *)
 //
+stadef GtkSeparator = GtkSeparator_cls
+//
+vtypedef
+GtkSeparator (l:addr) = [c:cls | c <= GtkSeparator] gobjref (c, l)
+vtypedef GtkSeparator0 = [c:cls;l:agez | c <= GtkSeparator] gobjref (c, l) 
+vtypedef GtkSeparator1 = [c:cls;l:addr | c <= GtkSeparator; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
+//
+stadef GtkHSeparator = GtkHSeparator_cls
+//
+vtypedef
+GtkHSeparator (l:addr) = [c:cls | c <= GtkHSeparator] gobjref (c, l)
+vtypedef GtkHSeparator0 = [c:cls;l:agez | c <= GtkHSeparator] gobjref (c, l) 
+vtypedef GtkHSeparator1 = [c:cls;l:addr | c <= GtkHSeparator; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
+//
+stadef GtkVSeparator = GtkVSeparator_cls
+//
+vtypedef
+GtkVSeparator (l:addr) = [c:cls | c <= GtkVSeparator] gobjref (c, l)
+vtypedef GtkVSeparator0 = [c:cls;l:agez | c <= GtkVSeparator] gobjref (c, l) 
+vtypedef GtkVSeparator1 = [c:cls;l:addr | c <= GtkVSeparator; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
+//
 stadef GtkWindow = GtkWindow_cls
 //
 vtypedef

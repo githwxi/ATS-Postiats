@@ -68,14 +68,18 @@
 /* ****** ****** */
 
 #include "./gtk/gtkbox.cats"
-
-/* ****** ****** */
-
 #include "./gtk/gtkhbox.cats"
+#include "./gtk/gtkvbox.cats"
 
 /* ****** ****** */
 
 #include "./gtk/gtktable.cats"
+
+/* ****** ****** */
+
+#include "./gtk/gtkseparator.cats"
+#include "./gtk/gtkhseparator.cats"
+#include "./gtk/gtkvseparator.cats"
 
 /* ****** ****** */
 

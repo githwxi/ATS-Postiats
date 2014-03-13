@@ -39,10 +39,6 @@ staload "{$GLIB}/SATS/glib.sats"
 staload "{$GLIB}/SATS/glib-object.sats"
 
 (* ****** ****** *)
-
-staload "{$CAIRO}/SATS/cairo.sats"
-
-(* ****** ****** *)
 //
 staload "./../../SATS/gtkcairotimer.sats"
 //
@@ -57,7 +53,30 @@ gtkcairotimer_timeout_update () = ((*void*))
 (* ****** ****** *)
 
 staload "./ControlPanel.dats"
+staload "./DrawingPanel.dats"
 
+(* ****** ****** *)
+
+#define NULL the_null_ptr
+
+(* ****** ****** *)
+//
+extern
+fun{
+} on_destroy
+  (widget: !GtkWidget1, event: &GdkEvent, _: gpointer): void
+extern
+fun{
+} on_delete_event
+  (widget: !GtkWidget1, event: &GdkEvent, _: gpointer): gboolean
+//
+(* ****** ****** *)
+//
+implement{
+} on_destroy (widget, event, _) = ((*void*))
+implement{
+} on_delete_event (widget, event, _) = (gtk_main_quit (); GTRUE)
+//
 (* ****** ****** *)
 
 implement{}
@@ -82,9 +101,50 @@ in
   gtk_window_set_title (win0, gstring(title))
 end // end of [if] // end of [val]
 //
+val hbox1 =
+gtk_box_new
+(
+  GTK_ORIENTATION_HORIZONTAL(*orient*), (gint)0(*spacing*)
+) (* end of [val] *)
+val () = assertloc (ptrcast (hbox1) > 0)
+//
 val CP = ControlPanel_make ()
-val () = gtk_container_add (win0, CP)
+val () =
+gtk_box_pack_start
+(
+  hbox1, CP, GFALSE, GFALSE, (guint)2
+) (* end of [val] *)
 val () = g_object_unref (CP)
+//
+val VS =
+gtk_separator_new (GTK_ORIENTATION_VERTICAL)
+val () = assertloc (ptrcast (VS) > 0)
+val () =
+gtk_box_pack_start
+(
+  hbox1, VS, GFALSE, GFALSE, (guint)2
+) (* end of [val] *)
+val () = g_object_unref (VS)
+//
+val DP = DrawingPanel_make ()
+val () =
+gtk_box_pack_start
+(
+  hbox1, DP, GTRUE (*expand*), GTRUE (*fill*), (guint)2
+) (* end of [val] *)
+val () = g_object_unref (DP)
+//
+val () = gtk_container_add (win0, hbox1)
+val () = g_object_unref (hbox1)
+//
+val _sid = g_signal_connect
+(
+  win0, (gsignal)"destroy", G_CALLBACK(on_destroy), (gpointer)NULL
+)
+val _sid = g_signal_connect
+(
+  win0, (gsignal)"delete-event", G_CALLBACK(on_delete_event), (gpointer)NULL
+)
 //
 val () = gtk_widget_show_all (win0)
 //

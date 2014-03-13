@@ -47,7 +47,7 @@ staload UN =
 //
 (* ****** ****** *)
 
-absvtype timer_vtype
+absvtype timer_vtype = ptr
 vtypedef timer = timer_vtype
 
 (* ****** ****** *)
@@ -67,7 +67,7 @@ fun{} timer_resume (x: !timer): void // the (paused) timer resumes
 extern
 fun{} timer_reset (x: !timer): void // the timer resets
 extern
-fun{} timer_get_ntick (x: !timer): ulint // obtaining the number of ticks
+fun{} timer_get_ntick (x: !timer): double // obtaining the number of ticks
 //
 (* ****** ****** *)
 
@@ -76,8 +76,8 @@ timer_struct = @{
   started= bool // the timer has started
 , running= bool // the timer is running
   // the tick number recorded
-, ntick_beg= ulint // when the timer was turned on
-, ntick_acc= ulint // the number of accumulated ticks
+, ntick_beg= double // when the timer was turned on
+, ntick_acc= double // the number of accumulated ticks
 } (* end of [timer_struct] *)
 
 (* ****** ****** *)
@@ -110,8 +110,8 @@ val+TIMER (x) = timer
 //
 val () = x.started := false
 val () = x.running := false
-val () = x.ntick_beg := 0ul
-val () = x.ntick_acc := 0ul
+val () = x.ntick_beg := 0.0
+val () = x.ntick_acc := 0.0
 //
 prval () = fold@ (timer)
 //
@@ -129,7 +129,7 @@ implement{
 (* ****** ****** *)
 
 extern
-fun{} the_ntick_get ((*void*)): ulint
+fun{} the_ntick_get ((*void*)): double
 
 (* ****** ****** *)
 
@@ -140,7 +140,7 @@ implement{
   val () = x.started := true
   val () = x.running := true
   val () = x.ntick_beg := the_ntick_get ()
-  val () = x.ntick_acc := 0ul
+  val () = x.ntick_acc := 0.0
   prval () = fold@ (timer)
 in
   // nothing
@@ -208,8 +208,8 @@ implement{
   val+@TIMER(x) = timer
   val () = x.started := false
   val () = x.running := false
-  val () = x.ntick_beg := 0ul
-  val () = x.ntick_acc := 0ul
+  val () = x.ntick_beg := 0.0
+  val () = x.ntick_acc := 0.0
   prval () = fold@ (timer)
 in
   // nothing
@@ -221,7 +221,7 @@ implement{
 } timer_get_ntick
   (timer) = let
   val+@TIMER(x) = timer
-  var ntick: ulint = x.ntick_acc
+  var ntick: double = x.ntick_acc
   val () =
   if x.running then (
     ntick := ntick + the_ntick_get () - x.ntick_beg
@@ -249,7 +249,7 @@ implement{
   val () = assertloc (err >= 0)
   prval () = opt_unsome {timespec} (tv)
 in
-  1000000000ul * $UN.cast2ulint(tv.tv_sec) + $UN.cast2ulint(tv.tv_nsec)
+  $UN.cast{double}(tv.tv_sec) + $UN.cast{double}(tv.tv_nsec) / 1000000000
 end // end of [the_ntick_get]
 
 end // end of [local]

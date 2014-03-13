@@ -40,8 +40,74 @@ staload "{$GLIB}/SATS/glib-object.sats"
 
 (* ****** ****** *)
 
+staload "./the_timer.dats"
+
+(* ****** ****** *)
+
+#define NULL the_null_ptr
+
+(* ****** ****** *)
+
 extern
-fun ControlPanel_make (): gobjref1(GtkVBox)
+fun ControlPanel_make (): gobjref1(GtkBox)
+
+(* ****** ****** *)
+
+extern
+fun on_start_clicked
+(
+  widget: !GtkWidget1, event: &GdkEvent, _: gpointer
+) : void
+implement
+on_start_clicked (widget, event, _) = the_timer_start ()
+
+(* ****** ****** *)
+
+extern
+fun on_finish_clicked
+(
+  widget: !GtkWidget1, event: &GdkEvent, _: gpointer
+) : void
+implement
+on_finish_clicked (widget, event, _) = the_timer_finish ()
+
+(* ****** ****** *)
+
+extern
+fun on_pause_clicked
+(
+  widget: !GtkWidget1, event: &GdkEvent, _: gpointer
+) : void
+implement
+on_pause_clicked (widget, event, _) = the_timer_pause ()
+
+extern
+fun on_resume_clicked
+(
+  widget: !GtkWidget1, event: &GdkEvent, _: gpointer
+) : void
+implement
+on_resume_clicked (widget, event, _) = the_timer_resume ()
+
+(* ****** ****** *)
+
+extern
+fun on_reset_clicked
+(
+  widget: !GtkWidget1, event: &GdkEvent, _: gpointer
+) : void
+implement
+on_reset_clicked (widget, event, _) = the_timer_reset ()
+
+(* ****** ****** *)
+
+extern
+fun on_quit_clicked
+(
+  widget: !GtkWidget1, event: &GdkEvent, _: gpointer
+) : void
+implement
+on_quit_clicked (widget, event, _) = gtk_main_quit ((*void*))
 
 (* ****** ****** *)
 
@@ -52,31 +118,121 @@ ControlPanel_make
 ) = let
 //
 val vbox0 =
-gtk_vbox_new
+gtk_box_new
 (
-  GFALSE(*homo*), (gint)10(*spacing*)
+  GTK_ORIENTATION_VERTICAL(*orient*), (gint)10(*spacing*)
 ) (* end of [val] *)
 val () = assertloc (ptrcast (vbox0) > 0)
+//
+val hbox1 = 
+gtk_box_new
+(
+  GTK_ORIENTATION_HORIZONTAL(*orient*), (gint)0(*spacing*)
+) (* end of [val] *)
+val () = assertloc (ptrcast (hbox1) > 0)
+val () =
+gtk_box_pack_start
+(
+  vbox0, hbox1, GTRUE(*expand*), GFALSE(*fill*), (guint)2
+) (* end of [val] *)
+val () = g_object_unref (hbox1)
 //
 val button_start =
 gtk_button_new_with_label ((gstring)"Start")
 val () = assertloc (ptrcast (button_start) > 0)
 val () =
-gtk_box_pack_end
+gtk_box_pack_start
 (
-  vbox0, button_start, GFALSE(*expand*), GFALSE(*fill*), (guint)4
+  vbox0, button_start, GFALSE(*expand*), GFALSE(*fill*), (guint)2
 ) (* end of [val] *)
+val _sid = g_signal_connect
+(
+  button_start, (gsignal)"clicked", G_CALLBACK(on_start_clicked), (gpointer)NULL
+)
 val () = g_object_unref (button_start)
 //
 val button_finish =
 gtk_button_new_with_label ((gstring)"Finish")
 val () = assertloc (ptrcast (button_finish) > 0)
 val () =
-gtk_box_pack_end
+gtk_box_pack_start
 (
-  vbox0, button_finish, GFALSE(*expand*), GFALSE(*fill*), (guint)4
+  vbox0, button_finish, GFALSE(*expand*), GFALSE(*fill*), (guint)2
 ) (* end of [val] *)
+val _sid = g_signal_connect
+(
+  button_finish, (gsignal)"clicked", G_CALLBACK(on_finish_clicked), (gpointer)NULL
+)
 val () = g_object_unref (button_finish)
+//
+val button_pause =
+gtk_button_new_with_label ((gstring)"Pause")
+val () = assertloc (ptrcast (button_pause) > 0)
+val () =
+gtk_box_pack_start
+(
+  vbox0, button_pause, GFALSE(*expand*), GFALSE(*fill*), (guint)2
+) (* end of [val] *)
+val _sid = g_signal_connect
+(
+  button_pause, (gsignal)"clicked", G_CALLBACK(on_pause_clicked), (gpointer)NULL
+)
+val () = g_object_unref (button_pause)
+//
+val button_resume =
+gtk_button_new_with_label ((gstring)"Resume")
+val () = assertloc (ptrcast (button_resume) > 0)
+val () =
+gtk_box_pack_start
+(
+  vbox0, button_resume, GFALSE(*expand*), GFALSE(*fill*), (guint)2
+) (* end of [val] *)
+val _sid = g_signal_connect
+(
+  button_resume, (gsignal)"clicked", G_CALLBACK(on_resume_clicked), (gpointer)NULL
+)
+val () = g_object_unref (button_resume)
+//
+val button_reset =
+gtk_button_new_with_label ((gstring)"Reset")
+val () = assertloc (ptrcast (button_reset) > 0)
+val () =
+gtk_box_pack_start
+(
+  vbox0, button_reset, GFALSE(*expand*), GFALSE(*fill*), (guint)2
+) (* end of [val] *)
+val _sid = g_signal_connect
+(
+  button_reset, (gsignal)"clicked", G_CALLBACK(on_reset_clicked), (gpointer)NULL
+)
+val () = g_object_unref (button_reset)
+//
+val button_quit =
+gtk_button_new_with_label ((gstring)"Quit")
+val () = assertloc (ptrcast (button_quit) > 0)
+val () =
+gtk_box_pack_start
+(
+  vbox0, button_quit, GFALSE(*expand*), GFALSE(*fill*), (guint)2
+) (* end of [val] *)
+val _sid = g_signal_connect
+(
+  button_quit, (gsignal)"clicked", G_CALLBACK(on_quit_clicked), (gpointer)NULL
+)
+val () = g_object_unref (button_quit)
+//
+val hbox2 = 
+gtk_box_new
+(
+  GTK_ORIENTATION_HORIZONTAL(*orient*), (gint)0(*spacing*)
+) (* end of [val] *)
+val () = assertloc (ptrcast (hbox2) > 0)
+val () =
+gtk_box_pack_start
+(
+  vbox0, hbox2, GTRUE(*expand*), GFALSE(*fill*), (guint)2
+) (* end of [val] *)
+val () = g_object_unref (hbox2)
 //
 in
   vbox0

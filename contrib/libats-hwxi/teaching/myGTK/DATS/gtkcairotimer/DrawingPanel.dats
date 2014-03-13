@@ -5,7 +5,7 @@
 (***********************************************************************)
 
 (*
-** Copyright (C) 2013 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2014 Hongwei Xi, ATS Trustful Software, Inc.
 **
 ** Permission is hereby granted, free of charge, to any person obtaining a
 ** copy of this software and associated documentation files (the "Software"),
@@ -43,17 +43,13 @@ staload "{$GLIB}/SATS/glib-object.sats"
 staload "{$CAIRO}/SATS/cairo.sats"
 
 (* ****** ****** *)
-
-staload "./../SATS/gtkcairoclock.sats"
-
+//
+staload "./../../SATS/gtkcairotimer.sats"
+//
 (* ****** ****** *)
-//
-implement{}
-gtkcairoclock_title () = stropt_none()
-//
-implement{}
-gtkcairoclock_timeout_update () = ((*void*))
-//
+
+#define NULL the_null_ptr
+
 (* ****** ****** *)
 
 fun{}
@@ -75,7 +71,7 @@ if isnot then let
   prval () = minus_addback (fpf_win, win | darea)
   var alloc: GtkAllocation?
   val () = gtk_widget_get_allocation (darea, alloc)
-  val () = gtkcairoclock_mydraw<> (cr, gint2int(alloc.width), gint2int(alloc.height))
+  val () = gtkcairotimer_mydraw<> (cr, gint2int(alloc.width), gint2int(alloc.height))
   val () = cairo_destroy (cr)
 in
   // nothing
@@ -88,29 +84,9 @@ end (* end of [if] *)
 end // end of [draw_drawingarea]
 
 (* ****** ****** *)
-//
-extern
-fun{
-} on_destroy
-  (widget: !GtkWidget1, event: &GdkEvent, _: gpointer): void
-extern
-fun{
-} on_delete_event
-  (widget: !GtkWidget1, event: &GdkEvent, _: gpointer): gboolean
-//
-(* ****** ****** *)
-//
-implement{
-} on_destroy (widget, event, _) = ((*void*))
-implement{
-} on_delete_event (widget, event, _) = (gtk_main_quit (); GTRUE)
-//
-(* ****** ****** *)
 
 extern
 fun{} fexpose (!GtkDrawingArea1): gboolean
-extern
-fun{} ftimeout (!GtkDrawingArea1): gboolean
 
 (* ****** ****** *)
 
@@ -121,11 +97,13 @@ end // end of [fexpose]
 
 (* ****** ****** *)
 
+extern
+fun{} ftimeout (!GtkDrawingArea1): gboolean
 implement{
 } ftimeout (darea) = let
 //
 val (
-) = gtkcairoclock_timeout_update ()
+) = gtkcairotimer_timeout_update ()
 //
 val (fpf_win | win) = gtk_widget_get_window (darea)
 //
@@ -149,65 +127,60 @@ end // end of [ftimeout]
 
 (* ****** ****** *)
 
-#define nullp the_null_ptr
+extern
+fun{}
+DrawingPanel_make (): gobjref1(GtkBox)
 
 (* ****** ****** *)
 
-implement{}
-gtkcairoclock_main
-  ((*void*)) = () where
-{
+implement{
+} DrawingPanel_make () = let
 //
-val win0 =
-  gtk_window_new (GTK_WINDOW_TOPLEVEL)
+val vbox0 =
+gtk_box_new
+(
+  GTK_ORIENTATION_VERTICAL(*orient*), (gint)10(*spacing*)
+) (* end of [val] *)
+val () = assertloc (ptrcast (vbox0) > 0)
 //
-val win0 = win0 // HX: fix the master type
-//
-val () = assertloc (ptrcast(win0) > 0)
-val () = gtk_window_set_default_size (win0, (gint)400, (gint)400)
-//
-val opt = gtkcairoclock_title ()
-val issome = stropt_is_some(opt)
+val hbox1 =
+gtk_box_new
+(
+  GTK_ORIENTATION_HORIZONTAL(*orient*), (gint)0(*spacing*)
+) (* end of [val] *)
+val () = assertloc (ptrcast (hbox1) > 0)
 val () =
-if issome then let
-  val title = stropt_unsome (opt)
+gtk_box_pack_start (vbox0, hbox1, GFALSE, GFALSE, (guint)0)
+val () = g_object_unref (hbox1)
+//
+val darea2 =
+gtk_drawing_area_new ((*void*))
+val p_darea2 = ptrcast (darea2)
+val () = assertloc (p_darea2 > 0)
+val () =
+gtk_box_pack_start (vbox0, darea2, GTRUE(*expand*), GTRUE(*fill*), (guint)0)
+val _sid = g_signal_connect
+(
+  darea2, (gsignal)"draw", G_CALLBACK(fexpose), (gpointer)NULL
+)
+val int = gtkcairotimer_timeout_interval ()
+val _rid = g_timeout_add ((guint)int, (GSourceFunc)ftimeout, (gpointer)p_darea2)
+val () = g_object_unref (darea2)
+//
+val hbox3 =
+gtk_box_new
+(
+  GTK_ORIENTATION_HORIZONTAL(*orient*), (gint)0(*spacing*)
+) (* end of [val] *)
+val () = assertloc (ptrcast (hbox3) > 0)
+val () =
+gtk_box_pack_start (vbox0, hbox3, GFALSE, GFALSE, (guint)0)
+val () = g_object_unref (hbox3)
+//
 in
-  gtk_window_set_title (win0, gstring(title))
-end // end of [if] // end of [val]
-//
-val darea =
-  gtk_drawing_area_new ()
-val p_darea = gobjref2ptr (darea)
-val () = assertloc (p_darea > 0)
-val () = gtk_container_add (win0, darea)
-//
-val _sid = g_signal_connect
-(
-  darea, (gsignal)"draw", G_CALLBACK(fexpose), (gpointer)nullp
-)
-val () = g_object_unref (darea)
-//
-val _sid = g_signal_connect
-(
-  win0, (gsignal)"destroy", G_CALLBACK(on_destroy), (gpointer)nullp
-)
-val _sid = g_signal_connect
-(
-  win0, (gsignal)"delete-event", G_CALLBACK(on_delete_event), (gpointer)nullp
-)
-//
-val int =
-  gtkcairoclock_timeout_interval ()
-val _rid = g_timeout_add ((guint)int, (GSourceFunc)ftimeout, (gpointer)p_darea)
-//
-val () = gtk_widget_show_all (win0)
-//
-val () = g_object_unref (win0) // HX: refcount of [win0] decreases from 2 to 1
-//
-val ((*void*)) = gtk_main ((*void*))
-//
-} // end of [gtkcairoclock_main]
+  vbox0
+end // end of [DrawingPanel_make]
 
 (* ****** ****** *)
 
-(* end of [gtkcairoclock.dats] *)
+(* end of [DrawingPanel.dats] *)
