@@ -367,11 +367,15 @@ where i ranges from 0 until n-1, inclusive.\
 
 (* ****** ****** *)
 
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
 #declnamesynop("ptrcast")
 
 (* ****** ****** *)
 
-#declnamesynop("[]")
+#declnamesynop("free")
 
 (* ****** ****** *)
 

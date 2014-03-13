@@ -148,7 +148,7 @@ val () = $extfcall (void, "gtk_init", addr@(argc), addr@(argv))
 implement
 gtkcairotimer_title<> () = stropt_some"gtkcairotimer"
 implement
-gtkcairotimer_timeout_interval<> () = 100U // millisecs
+gtkcairotimer_timeout_interval<> () = 50U // millisecs
 //
 implement
 gtkcairotimer_mydraw<> (cr, width, height) = mydraw_clock (cr, width, height)
