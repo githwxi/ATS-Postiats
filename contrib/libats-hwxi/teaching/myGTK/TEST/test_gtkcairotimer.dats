@@ -159,4 +159,4 @@ val ((*void*)) = gtkcairotimer_main ((*void*))
 
 (* ****** ****** *)
 
-(* end of [mytimer.dats] *)
+(* end of [test_gtkcairotimer.dats] *)

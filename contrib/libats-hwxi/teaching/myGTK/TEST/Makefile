@@ -21,18 +21,19 @@ GTKFLAGS=`pkg-config gtk+-3.0 --cflags --libs`
 
 ######
 #
-all:: mytimer
+all:: test_gtkcairotimer
 #
-mytimer: mytimer.dats ; \
+test_gtkcairotimer: \
+  test_gtkcairotimer.dats ; \
   $(PATSCC2) \
   -DATS_MEMALLOC_LIBC -D_GNU_SOURCE -o $@ \
   ./../DATS/gtkcairotimer/the_timer.dats \
   ./../DATS/gtkcairotimer/ControlPanel.dats \
   ./../DATS/gtkcairotimer/DrawingPanel.dats \
   ./../DATS/gtkcairotimer/gtkcairotimer_main.dats \
-  mytimer.dats $(GTKFLAGS) -lrt
+  test_gtkcairotimer.dats $(GTKFLAGS) -lrt
 #
-cleanall:: ; $(RMF) mytimer
+cleanall:: ; $(RMF) test_gtkcairotimer
 #
 ######
 

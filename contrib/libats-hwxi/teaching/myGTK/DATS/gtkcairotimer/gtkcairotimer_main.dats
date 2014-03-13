@@ -90,7 +90,7 @@ val win0 =
 val win0 = win0 // HX: fix the master type
 //
 val () = assertloc (ptrcast(win0) > 0)
-val () = gtk_window_set_default_size (win0, (gint)400, (gint)400)
+val () = gtk_window_set_default_size (win0, (gint)600, (gint)400)
 //
 val opt = gtkcairotimer_title ()
 val issome = stropt_is_some(opt)

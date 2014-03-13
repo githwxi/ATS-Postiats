@@ -133,6 +133,17 @@ ATSCNTRB/libats-hwxi/teaching\
 
 (* ****** ****** *)
 
+#packfilename("myGTK/SATS/gtkcairotimer.sats")
+#packfilename("myGTK/DATS/gtkcairotimer/timer.dats")
+#packfilename("myGTK/DATS/gtkcairotimer/the_timer.dats")
+#packfilename("myGTK/DATS/gtkcairotimer/ControlPanel.dats")
+#packfilename("myGTK/DATS/gtkcairotimer/DrawingPanel.dats")
+#packfilename("myGTK/DATS/gtkcairotimer/gtkcairotimer_main.dats")
+#packfilename("myGTK/TEST/Makefile")
+#packfilename("myGTK/TEST/test_gtkcairotimer.dats")
+
+(* ****** ****** *)
+
 #packfilename("fileAsLock/SATS/fileAsLock.sats")
 #packfilename("fileAsLock/DATS/fileAsLock.dats")
 
