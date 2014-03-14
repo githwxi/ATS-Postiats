@@ -49,70 +49,79 @@ staload "./the_timer.dats"
 (* ****** ****** *)
 
 extern
-fun ControlPanel_make (): gobjref1(GtkBox)
+fun{}
+on_start_clicked
+(
+  widget: !GtkWidget1, event: &GdkEvent, _: gpointer
+) : void
+implement{
+} on_start_clicked (widget, event, _) = the_timer_start ()
 
 (* ****** ****** *)
 
 extern
-fun on_start_clicked
+fun{}
+on_finish_clicked
 (
   widget: !GtkWidget1, event: &GdkEvent, _: gpointer
 ) : void
-implement
-on_start_clicked (widget, event, _) = the_timer_start ()
+implement{
+} on_finish_clicked (widget, event, _) = the_timer_finish ()
 
 (* ****** ****** *)
 
 extern
-fun on_finish_clicked
+fun{}
+on_pause_clicked
 (
   widget: !GtkWidget1, event: &GdkEvent, _: gpointer
 ) : void
-implement
-on_finish_clicked (widget, event, _) = the_timer_finish ()
+implement{
+} on_pause_clicked (widget, event, _) = the_timer_pause ()
 
 (* ****** ****** *)
 
 extern
-fun on_pause_clicked
+fun{}
+on_resume_clicked
 (
   widget: !GtkWidget1, event: &GdkEvent, _: gpointer
 ) : void
-implement
-on_pause_clicked (widget, event, _) = the_timer_pause ()
-
-extern
-fun on_resume_clicked
-(
-  widget: !GtkWidget1, event: &GdkEvent, _: gpointer
-) : void
-implement
-on_resume_clicked (widget, event, _) = the_timer_resume ()
+implement{
+} on_resume_clicked (widget, event, _) = the_timer_resume ()
 
 (* ****** ****** *)
 
 extern
-fun on_reset_clicked
+fun{}
+on_reset_clicked
 (
   widget: !GtkWidget1, event: &GdkEvent, _: gpointer
 ) : void
-implement
-on_reset_clicked (widget, event, _) = the_timer_reset ()
+implement{
+}on_reset_clicked (widget, event, _) = the_timer_reset ()
 
 (* ****** ****** *)
 
 extern
-fun on_quit_clicked
+fun{}
+on_quit_clicked
 (
   widget: !GtkWidget1, event: &GdkEvent, _: gpointer
 ) : void
-implement
-on_quit_clicked (widget, event, _) = gtk_main_quit ((*void*))
+implement{
+} on_quit_clicked (widget, event, _) = gtk_main_quit ((*void*))
 
 (* ****** ****** *)
 
-implement
-ControlPanel_make
+extern
+fun{}
+ControlPanel_make (): gobjref1(GtkBox)
+
+(* ****** ****** *)
+
+implement{
+} ControlPanel_make
 (
   // argumentless
 ) = let
@@ -208,7 +217,7 @@ val _sid = g_signal_connect
 val () = g_object_unref (button_reset)
 //
 val button_quit =
-gtk_button_new_with_label ((gstring)"Quit")
+gtk_button_new_with_mnemonic ((gstring)"_Quit")
 val () = assertloc (ptrcast (button_quit) > 0)
 val () =
 gtk_box_pack_start

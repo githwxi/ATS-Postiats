@@ -75,7 +75,7 @@ N)") minus the array-view #stacode("array_v(T, L, N)").
 
 This function creates an arrayptr-value of a given size
 (first argument) and then initializes it with a given value
-(second argument) of some nonlinear type.
+(second argument) of some non-linear type.
 
 ")
 
@@ -186,9 +186,10 @@ function may alternatively be named #dyncode("list_make_arrayptr").
 #declnamesynop("arrayptr_free")
 #decldescrpt("\
 
-This function frees the memory occupied by a given arrayptr-value that
-contains only non-linear elements. If there are non-linear elements
-involved, please try to use the function #dyncode("arrayptr_freelin").
+This function, which overloads the symbol #dyncode("free"), frees the
+memory occupied by a given arrayptr-value that contains only non-linear
+elements. If there are linear elements involved, please try to use the
+function #dyncode("arrayptr_freelin").
 
 ")
 
@@ -201,7 +202,7 @@ involved, please try to use the function #dyncode("arrayptr_freelin").
 #declnamesynop("arrayptr_get_at_gint")
 #decldescrpt("\
 
-This function reads out the nonlinear value stored at cell i of the array
+This function reads out the non-linear value stored at cell i of the array
 associated with its first argument.  ")
 
 #declnamesynop("arrayptr_get_at_guint")
@@ -219,7 +220,7 @@ This function, which overloads the symbol #dyncode("[]"), is like
 #declnamesynop("arrayptr_set_at_gint")
 #decldescrpt("\
 
-This function writes a nonlinear value x to cell i of the array associated
+This function writes a non-linear value x to cell i of the array associated
 with its first argument.  ")
 
 #declnamesynop("arrayptr_set_at_guint")

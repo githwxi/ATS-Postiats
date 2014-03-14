@@ -28,8 +28,6 @@ test_gtkcairotimer: \
   $(PATSCC2) \
   -DATS_MEMALLOC_LIBC -D_GNU_SOURCE -o $@ \
   ./../DATS/gtkcairotimer/the_timer.dats \
-  ./../DATS/gtkcairotimer/ControlPanel.dats \
-  ./../DATS/gtkcairotimer/DrawingPanel.dats \
   ./../DATS/gtkcairotimer/gtkcairotimer_main.dats \
   test_gtkcairotimer.dats $(GTKFLAGS) -lrt
 #

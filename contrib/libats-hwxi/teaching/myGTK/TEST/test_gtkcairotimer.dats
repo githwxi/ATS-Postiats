@@ -26,13 +26,17 @@ staload "./../DATS/gtkcairotimer/the_timer.dats"
 staload _ =
 "./../DATS/gtkcairotimer/timer.dats"
 staload _ =
+"./../DATS/gtkcairotimer/ControlPanel.dats"
+staload _ =
 "./../DATS/gtkcairotimer/DrawingPanel.dats"
 staload _ =
 "./../DATS/gtkcairotimer/gtkcairotimer_main.dats"
 //
 dynload "./../DATS/gtkcairotimer/the_timer.dats"
+(*
 dynload "./../DATS/gtkcairotimer/ControlPanel.dats"
 dynload "./../DATS/gtkcairotimer/DrawingPanel.dats"
+*)
 dynload "./../DATS/gtkcairotimer/gtkcairotimer_main.dats"
 //
 (* ****** ****** *)
