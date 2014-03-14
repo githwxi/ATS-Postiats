@@ -78,8 +78,7 @@ staload "./pats_dynexp2.sats"
 (* ****** ****** *)
 
 typedef
-d2cst_struct =
-@{
+d2cst_struct = @{
   d2cst_sym= symbol
 , d2cst_loc= location // the location of declaration
 , d2cst_fil= filename // the filename of declaration
@@ -87,15 +86,18 @@ d2cst_struct =
 , d2cst_decarg= s2qualst // template arg
 , d2cst_artylst= List (int) // arity
 , d2cst_type= s2exp // assigned type
+//
 , d2cst_hisexp= hisexpopt // type erasure
+, d2cst_funlab= funlabopt // function label
+//
 (*
 , d2cst_skexp= s2kexp // skeleton of the assigned type
 *)
 , d2cst_def= d2expopt // definition
 , d2cst_pack= Stropt // for ATS_PACKNAME
 , d2cst_extdef= dcstextdef // external dcst definition
-, d2cst_stamp= stamp // unique stamp
-} // end of [d2cst_struct]
+, d2cst_stamp= stamp // stamp for unicity
+} (* end of [d2cst_struct] *)
 
 (* ****** ****** *)
 
@@ -128,7 +130,10 @@ val () = p->d2cst_kind := dck
 val () = p->d2cst_decarg := decarg
 val () = p->d2cst_artylst := artylst
 val () = p->d2cst_type := typ
+//
 val () = p->d2cst_hisexp := None(*void*)
+val () = p->d2cst_funlab := None(*void*)
+//
 (*
 val () = p->d2cst_skexp := s2kexp_make_s2exp (typ)
 *)
@@ -148,35 +153,49 @@ d2cst_get_sym (d2c) = let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_sym
 end // end of [d2cst_get_sym]
 
+(* ****** ****** *)
+
 implement
 d2cst_get_loc (d2c) = let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_loc
 end // end of [d2cst_get_loc]
+
+(* ****** ****** *)
 
 implement
 d2cst_get_fil (d2c) = let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_fil
 end // end of [d2cst_get_fil]
 
+(* ****** ****** *)
+
 implement
 d2cst_get_kind (d2c) = let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_kind
 end // end of [d2cst_get_kind]
+
+(* ****** ****** *)
 
 implement
 d2cst_get_decarg (d2c) = let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_decarg
 end // end of [d2cst_get_decarg]
 
+(* ****** ****** *)
+
 implement
 d2cst_get_artylst (d2c) = let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_artylst
 end // end of [d2cst_get_artylst]
 
+(* ****** ****** *)
+
 implement
 d2cst_get_type (d2c) = let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_type
 end // end of [d2cst_get_type]
+
+(* ****** ****** *)
 
 implement
 d2cst_get_hisexp (d2c) = let
@@ -187,6 +206,19 @@ d2cst_set_hisexp (d2c, opt) = let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_hisexp := opt
 end // end of [d2cst_set_hisexp]
 
+(* ****** ****** *)
+
+implement
+d2cst_get_funlab (d2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_funlab
+end // end of [d2cst_get_funlab]
+implement
+d2cst_set_funlab (d2c, opt) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_funlab := opt
+end // end of [d2cst_set_funlab]
+
+(* ****** ****** *)
+
 implement
 d2cst_get_def (d2c) = let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_def
@@ -196,15 +228,21 @@ d2cst_set_def (d2c, def) = let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_def := def
 end // end of [d2cst_set_def]
 
+(* ****** ****** *)
+
 implement
 d2cst_get_pack (d2c) = let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_pack
 end // end of [d2cst_get_pack]
 
+(* ****** ****** *)
+
 implement
 d2cst_get_extdef (d2c) = let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_extdef
 end // end of [d2cst_get_extdef]
+
+(* ****** ****** *)
 
 implement
 d2cst_get_stamp (d2c) = let
@@ -221,6 +259,11 @@ d2cst_get_name (d2c) =
 // end of [d2cst_get_name]
 
 (* ****** ****** *)
+
+implement
+print_d2cst (x) = fprint_d2cst (stdout_ref, x)
+implement
+prerr_d2cst (x) = fprint_d2cst (stderr_ref, x)
 
 implement
 fprint_d2cst (out, x) =
@@ -251,9 +294,6 @@ val sep = ", "
 in
   loop (out, xs, sep, 0)
 end // end of [fprint_d2cstlst]
-
-implement print_d2cst (x) = fprint_d2cst (stdout_ref, x)
-implement prerr_d2cst (x) = fprint_d2cst (stderr_ref, x)
 
 (* ****** ****** *)
 

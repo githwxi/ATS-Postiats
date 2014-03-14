@@ -874,7 +874,8 @@ fun primval_extval
 
 (* ****** ****** *)
 
-fun primval_castfn (
+fun primval_castfn
+(
   loc: location, hse: hisexp, d2c: d2cst, arg: primval
 ) : primval // end of [primval_castfn]
 
@@ -882,22 +883,26 @@ fun primval_castfn (
 
 fun primval_selcon
 (
-  loc: location, hse: hisexp, pmv: primval, hse_sum: hisexp, lab: label
+  loc: location
+, hse: hisexp, pmv: primval, hse_sum: hisexp, lab: label
 ) : primval // end of [primval_selcon]
 fun primval_select
 (
-  loc: location, hse: hisexp, pmv: primval, hse_rt: hisexp, pml: primlab
+  loc: location
+, hse: hisexp, pmv: primval, hse_rt: hisexp, pml: primlab
 ) : primval // end of [primval_select]
 fun primval_select2
 (
-  loc: location, hse: hisexp, pmv: primval, hse_rt: hisexp, pmls: primlablst
+  loc: location
+, hse: hisexp, pmv: primval, hse_rt: hisexp, pmls: primlablst
 ) : primval // end of [primval_select2]
 
 (* ****** ****** *)
 
 fun primval_selptr
 (
-  loc: location, hse: hisexp, pmv: primval, hse_rt: hisexp, pmls: primlablst
+  loc: location
+, hse: hisexp, pmv: primval, hse_rt: hisexp, pmls: primlablst
 ) : primval // end of [primval_selptr]
 
 (* ****** ****** *)
@@ -915,20 +920,17 @@ fun primval_ptrofsel (
 
 fun primval_refarg
 (
-  loc: location, hse: hisexp, knd: int, freeknd: int, pmv: primval
+  loc: location
+, hse: hisexp, knd: int, freeknd: int, pmv: primval
 ) : primval // end of [primval_refarg]
 
 (* ****** ****** *)
-
+//
 fun primval_funlab
   (loc: location, hse: hisexp, flab: funlab): primval
-// end of [primval_funlab]
-
 fun primval_cfunlab
-(
-  loc: location, hse: hisexp, knd: int, flab: funlab
-) : primval // end of [primval_cfunlab]
-
+  (loc: location, hse: hisexp, knd: int, flab: funlab): primval
+//
 (* ****** ****** *)
 
 fun primval_d2vfunlab

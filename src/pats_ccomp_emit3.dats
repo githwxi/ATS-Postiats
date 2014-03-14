@@ -38,6 +38,10 @@ ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "pats_basics.sats"
 
 (* ****** ****** *)
@@ -76,6 +80,8 @@ D2E = "./pats_dynexp2.sats"
 typedef d2cst = $D2E.d2cst
 typedef d2ecl = $D2E.d2ecl
 typedef d2eclist = $D2E.d2eclist
+overload = with $D2E.eq_d2cst_d2cst
+overload != with $D2E.neq_d2cst_d2cst
 
 (* ****** ****** *)
 
@@ -1693,12 +1699,41 @@ end // end of [emit_d2conlst_initize]
 
 (* ****** ****** *)
 
+(*
+//
+// HX-2014-03-14: should it be tried?
+//
+fun
+d2cst_is_lamless
+  (d2c: d2cst): bool = let
+//
+val opt = $D2E.d2cst_get_funlab (d2c)
+//
+in
+//
+case+ opt of
+| None () => false
+| Some (flab) => let
+    val flab = $UN.cast{funlab}(flab)
+    val opt2 = funlab_get_d2copt (flab)
+  in
+    case+ opt2 of
+    | None () => false
+    | Some (d2c2) => if d2c != d2c2 then true else false
+  end // end of [Some]
+//
+end // end of [d2cst_is_lamless]
+*)
+
+(* ****** ****** *)
+
 implement
 emit_d2cst_extdec
   (out, d2c) = let
 //
 macdef
 ismac = $D2E.d2cst_is_mac
+//
 macdef
 isfundec = $D2E.d2cst_is_fundec
 //
@@ -1717,7 +1752,7 @@ case+ 0 of
     // nothing
   end // end of [ismac]
 | _ when
-    isfundec (d2c) => let
+    isfundec(d2c) => let
     val issta = $D2E.d2cst_is_static (d2c)
     val () =
     (
@@ -1750,14 +1785,14 @@ case+ 0 of
   end // end of [isfundec]
 //
 | _ when
-    iscastfn (d2c) => let
+    iscastfn(d2c) => let
     val () = emit_text (out, "ATSdyncst_castfn(")
     val () = emit_d2cst (out, d2c)
     val () = emit_text (out, ") ;\n")
   in
     // nothing
   end // end of [castfn]
-| _ => let
+| _ (*non-fun*) => let
     val-Some(hse) = d2cst_get2_hisexp (d2c)
     val () = emit_text (out, "ATSdyncst_valdec(")
     val () = emit_d2cst (out, d2c)

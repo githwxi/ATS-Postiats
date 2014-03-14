@@ -103,7 +103,13 @@ staload "./pats_staexp2.sats"
 abstype dynexp2_hisexp_type
 typedef hisexp = dynexp2_hisexp_type
 typedef hisexpopt = Option (hisexp)
-
+//
+// A place holder for [funlab]
+//
+abstype dynexp2_funlab_type
+typedef funlab = dynexp2_funlab_type
+typedef funlabopt = Option (funlab)
+//
 (* ****** ****** *)
 //
 // HX: assumed in [pats_dynexp2_dcst.dats]
@@ -225,8 +231,12 @@ fun d2cst_set_decarg (x: d2cst, s2qs: s2qualst): void
 fun d2cst_get_artylst (x: d2cst): List (int)
 //
 fun d2cst_get_type (x: d2cst): s2exp
+//
 fun d2cst_get_hisexp (x: d2cst): hisexpopt
 fun d2cst_set_hisexp (x: d2cst, opt: hisexpopt): void
+//
+fun d2cst_get_funlab (x: d2cst): funlabopt
+fun d2cst_set_funlab (x: d2cst, opt: funlabopt): void
 //
 fun d2cst_get_pack (x: d2cst): Stropt
 fun d2cst_get_extdef (x: d2cst): dcstextdef
@@ -353,13 +363,13 @@ fun d2var_set_mastype (x: d2var, opt: s2expopt): void
 //
 fun d2var_get_hisexp (x: d2var):<> hisexpopt
 fun d2var_set_hisexp (x: d2var, opt: hisexpopt): void
-
+//
 fun d2var_exch_type (x: d2var, opt: s2expopt): s2expopt 
-
+//
 fun d2var_get_utimes (x: d2var):<> int
 fun d2var_set_utimes (x: d2var, nused: int):<> void
 fun d2var_inc_utimes (x: d2var):<> void
-
+//
 fun d2var_get_stamp (x: d2var):<> stamp
 
 (* ****** ****** *)

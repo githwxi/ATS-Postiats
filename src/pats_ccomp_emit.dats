@@ -841,12 +841,11 @@ emit2_funlab
 val qopt = funlab_get_d2copt (flab)
 val name = (
   case+ qopt of
-  | Some (
-      d2c
-    ) => $D2E.d2cst_get_name (d2c)
-  | None () => funlab_get_name (flab)
+  | Some (d2c) => $D2E.d2cst_get_name (d2c)
+  | None ((*void*)) => funlab_get_name (flab)
 ) : string // end of [val]
-val () = emit_ident (out, name)
+//
+val ((*void*)) = emit_ident (out, name)
 //
 in
   // nothing
@@ -1257,8 +1256,11 @@ val hse0 = pmv0.primval_type
 val-PMVcastfn
   (d2c, arg) = pmv0.primval_node
 //
-val () = emit_text (out, "ATSPMVcastfn(")
+val () =
+emit_text (out, "ATSPMVcastfn(")
+//
 val () = emit2_d2cst (out, d2c) // local name
+//
 val () = emit_text (out, ", ")
 val () = emit_hisexp (out, hse0)
 val () = emit_text (out, ", ")

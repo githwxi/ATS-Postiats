@@ -51,10 +51,13 @@ staload LOC = "./pats_location.sats"
 overload print with $LOC.print_location
 
 (* ****** ****** *)
-
+//
 staload "./pats_staexp2.sats"
-staload "./pats_dynexp2.sats"
-
+//
+staload D2E = "./pats_dynexp2.sats"
+typedef d2cst = $D2E.d2cst
+typedef dynexp2_funlabopt = $D2E.funlabopt
+//
 (* ****** ****** *)
 
 staload "./pats_trans2_env.sats"
@@ -420,7 +423,8 @@ case+ hfds of
     val loc = hfd.hifundec_loc
     val d2v = hfd.hifundec_var
 //
-    val () = d2var_set_level (d2v, lvl0)
+    val () =
+      $D2E.d2var_set_level (d2v, lvl0)
     val-Some(hse) = d2var_get2_hisexp (d2v)
     val fcopt = None_vt() // HX: by [hse]
 //
@@ -712,9 +716,11 @@ fun aux
 val loc = hvd.hivardec_loc
 val d2v = hvd.hivardec_dvar_ptr
 val d2vw = hvd.hivardec_dvar_view
-val loc_d2v = d2var_get_loc (d2v)
-val () = d2var_set_level (d2v, lvl0)
-val-Some (s2at) = d2var_get_mastype (d2vw)
+val loc_d2v =
+  $D2E.d2var_get_loc (d2v)
+val ((*void*)) =
+  $D2E.d2var_set_level (d2v, lvl0)
+val-Some (s2at) = $D2E.d2var_get_mastype (d2vw)
 val-S2Eat (s2e_elt, _) = s2at.s2exp_node
 val hse_elt = s2exp_tyer_shallow (loc_d2v, s2e_elt)
 val tmp = tmpvar_make_ref (loc_d2v, hse_elt)
@@ -941,7 +947,7 @@ hiimpdec_ccomp
 ) = let
 //
 val d2c = imp.hiimpdec_cst
-val knd = d2cst_get_kind (d2c)
+val knd = $D2E.d2cst_get_kind (d2c)
 //
 (*
 val () = println! ("hiimpdec_ccomp: d2c = ", d2c)
@@ -971,7 +977,13 @@ case+ 0 of
     val flab = auxmain (env, loc0, d2c, imparg, tmparg, hde_def)
     val () = if istmp then ccompenv_dec_tmplevel (env)
 //
-    val p = hiimpdec_set_funlabopt (imp, Some (flab))
+    val opt = Some (flab)
+    val ((*void*)) = hiimpdec_set_funlabopt (imp, opt)
+    val ((*void*)) =
+    if not(istmp) then
+      $D2E.d2cst_set_funlab (d2c, $UN.cast{dynexp2_funlabopt}(opt))
+    // end of [if]
+//
   in
     // nothing
   end // end of [if]
