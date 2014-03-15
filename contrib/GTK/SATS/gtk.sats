@@ -106,6 +106,10 @@ classdec GtkObject : GInitiallyUnowned
           classdec GtkOptionMenu_cls : GtkButton_cls
         // end of [GtkButton]
         classdec GtkWindow_cls : GtkBin_cls
+          classdec GtkDialog_cls : GtkWindow_cls
+            classdec GtkInputDialog_cls : GtkDialog_cls
+            classdec GtkMessageDialog_cls : GtkDialog_cls
+          // end of [GtkDialog]
         // end of [GtkWindow]
       // end of [GTKBin]
       classdec GtkBox_cls : GtkContainer_cls
@@ -164,6 +168,11 @@ classdec GtkObject : GInitiallyUnowned
 (* ****** ****** *)
 
 #include "./gtk/gtkwindow.sats"
+
+(* ****** ****** *)
+
+#include "./gtk/gtkdialog.sats"
+#include "./gtk/gtkmessagedialog.sats"
 
 (* ****** ****** *)
 

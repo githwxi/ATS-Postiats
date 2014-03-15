@@ -67,6 +67,11 @@
 
 /* ****** ****** */
 
+#include "./gtk/gtkdialog.cats"
+#include "./gtk/gtkmessagedialog.cats"
+
+/* ****** ****** */
+
 #include "./gtk/gtkbox.cats"
 #include "./gtk/gtkhbox.cats"
 #include "./gtk/gtkvbox.cats"

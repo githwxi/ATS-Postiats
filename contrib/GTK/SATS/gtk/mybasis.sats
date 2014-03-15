@@ -103,6 +103,33 @@ vtypedef GtkWindow1 = [c:cls;l:addr | c <= GtkWindow; l > null] gobjref (c, l)
 //
 (* ****** ****** *)
 //
+stadef GtkDialog = GtkDialog_cls
+//
+vtypedef
+GtkDialog (l:addr) = [c:cls | c <= GtkDialog] gobjref (c, l)
+vtypedef GtkDialog0 = [c:cls;l:agez | c <= GtkDialog] gobjref (c, l) 
+vtypedef GtkDialog1 = [c:cls;l:addr | c <= GtkDialog; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
+//
+stadef GtkInputDialog = GtkInputDialog_cls
+//
+vtypedef
+GtkInputDialog (l:addr) = [c:cls | c <= GtkInputDialog] gobjref (c, l)
+vtypedef GtkInputDialog0 = [c:cls;l:agez | c <= GtkInputDialog] gobjref (c, l) 
+vtypedef GtkInputDialog1 = [c:cls;l:addr | c <= GtkInputDialog; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
+//
+stadef GtkMessageDialog = GtkMessageDialog_cls
+//
+vtypedef
+GtkMessageDialog (l:addr) = [c:cls | c <= GtkMessageDialog] gobjref (c, l)
+vtypedef GtkMessageDialog0 = [c:cls;l:agez | c <= GtkMessageDialog] gobjref (c, l) 
+vtypedef GtkMessageDialog1 = [c:cls;l:addr | c <= GtkMessageDialog; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
+//
 stadef GtkDrawingArea = GtkDrawingArea_cls
 //
 vtypedef

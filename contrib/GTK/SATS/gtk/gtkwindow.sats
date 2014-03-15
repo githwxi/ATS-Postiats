@@ -56,4 +56,10 @@ fun gtk_window_set_default_size
 
 (* ****** ****** *)
 
+fun gtk_window_set_transient_for
+  (window: !GtkWindow1, parent: !GtkWindow1): void = "mac#%"
+// end of [gtk_window_set_transient_for]
+
+(* ****** ****** *)
+
 (* end of [gtkwindow.sats] *)

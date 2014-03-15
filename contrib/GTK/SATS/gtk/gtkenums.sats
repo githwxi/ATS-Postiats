@@ -26,5 +26,21 @@ GTK_ORIENTATION_VERTICAL =
 $extval (GtkOrientation, "GTK_ORIENTATION_VERTICAL")
 //
 (* ****** ****** *)
+//
+abst@ype
+GtkMessageType = $extype"GtkMessageType"
+//
+macdef
+GTK_MESSAGE_INFO = $extval(GtkMessageType, "GTK_MESSAGE_INFO")
+macdef
+GTK_MESSAGE_WARNING = $extval(GtkMessageType, "GTK_MESSAGE_WARNING")
+macdef
+GTK_MESSAGE_QUESTION = $extval(GtkMessageType, "GTK_MESSAGE_QUESTION")
+macdef
+GTK_MESSAGE_ERROR = $extval(GtkMessageType, "GTK_MESSAGE_ERROR")
+macdef
+GTK_MESSAGE_OTHER = $extval(GtkMessageType, "GTK_MESSAGE_OTHER")
+//
+(* ****** ****** *)
     
 (* end of [gtkenums.sats] *)

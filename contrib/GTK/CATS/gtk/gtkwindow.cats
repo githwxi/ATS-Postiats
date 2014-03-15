@@ -24,4 +24,8 @@
 
 /* ****** ****** */
 
+#define atscntrb_gtk_window_set_transient_for gtk_window_set_transient_for
+
+/* ****** ****** */
+
 /* end of [gtkwindow.cats] */

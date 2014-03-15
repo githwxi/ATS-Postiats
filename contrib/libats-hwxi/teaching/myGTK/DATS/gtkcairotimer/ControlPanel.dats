@@ -32,6 +32,16 @@
 "share/atspre_define.hats"
 //
 (* ****** ****** *)
+//
+staload UN =
+"prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+
+staload
+TOPWIN = "./the_topwin.dats"
+
+(* ****** ****** *)
 
 staload "{$GTK}/SATS/gdk.sats"
 staload "{$GTK}/SATS/gtk.sats"
@@ -109,8 +119,49 @@ on_quit_clicked
 (
   widget: !GtkWidget1, event: &GdkEvent, _: gpointer
 ) : void
+(*
 implement{
 } on_quit_clicked (widget, event, _) = gtk_main_quit ((*void*))
+*)
+implement{
+} on_quit_clicked
+  (widget, event, _) = let
+//
+typedef charptr = $extype"char*"
+//
+val flags =
+  GTK_DIALOG_DESTROY_WITH_PARENT
+val mtype = GTK_MESSAGE_QUESTION
+val buttons = GTK_BUTTONS_YES_NO
+//
+val topwin = $TOPWIN.get ()
+//
+val p0 =
+$extfcall (ptr
+, "atscntrb_gtk_message_dialog_new"
+, topwin, flags, mtype, buttons, $UN.cast{charptr}("Quit?")
+) (* end of [val] *)
+val () = assertloc (p0 > 0)
+val p1 = $extfcall (ptr, "g_object_ref_sink", p0)
+val dialog = $UN.castvwtp0{gobjref1(GtkMessageDialog)}(p0)
+val () = gtk_window_set_title (dialog, gstring("Confirmation"))
+//
+val topwin =
+$UN.castvwtp0{GtkWindow1}(topwin)
+val () = gtk_window_set_transient_for (dialog, topwin(*parent*))
+prval () = $UN.cast2void (topwin)
+//
+val yn = gtk_dialog_run (dialog)
+val ((*freed*)) = gtk_widget_destroy0 (dialog)
+val yes = $UN.cast2int(GTK_RESPONSE_YES)
+//
+in
+//
+case+ 0 of
+| _ when yn = yes => gtk_main_quit ((*void*))
+| _ (*non-yes*) => () // quit is not confirmed
+//
+end (* end of [on_quit_clicked] *)
 
 (* ****** ****** *)
 
