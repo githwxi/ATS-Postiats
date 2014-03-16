@@ -177,6 +177,7 @@ implement
 ASZ_reset () =
 {
 var i: size_t
+val () = !ind := 0
 val () = for (i := i2sz(0); i < A0.size; i := succ(i)) ASZ[i] := A0[i]
 val () = !theExchlst := xs0
 } (* end of [ASZ_reset] *)

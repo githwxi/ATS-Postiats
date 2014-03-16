@@ -41,8 +41,8 @@ end (* end of [local] *)
 (* ****** ****** *)
 
 implement{
-} $TIMER.timer_get_ntick (t0) = 0.0
-  
+} $TIMER.the_ntick_get ((*void*)) = 0.0
+
 (* ****** ****** *)
 //
 extern
