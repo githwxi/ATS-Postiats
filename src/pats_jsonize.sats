@@ -189,6 +189,10 @@ fun jsonize_valkind : jsonize_ftype (valkind)
 
 (* ****** ****** *)
 
+fun jsonize_dcstkind : jsonize_ftype (dcstkind)
+
+(* ****** ****** *)
+
 fun jsonize_stamp : jsonize_ftype (stamp)
 fun jsonize_symbol : jsonize_ftype (symbol)
 fun jsonize_location : jsonize_ftype (location)

@@ -335,6 +335,8 @@ jsonize_funkind (knd) =
 //
 ) (* end of [jsonize_funkind] *)
 
+(* ****** ****** *)
+
 implement
 jsonize_valkind (knd) =
 (
@@ -344,6 +346,22 @@ jsonize_valkind (knd) =
   | VK_val_pos () => jsonval_string "VK_val_pos"
   | VK_val_neg () => jsonval_string "VK_val_neg"
 ) (* end of [jsonize_valkind] *)
+
+(* ****** ****** *)
+
+implement
+jsonize_dcstkind (knd) =
+(
+  case+ knd of
+//
+  | DCKfun () => jsonval_string "DCKfun"
+  | DCKval () => jsonval_string "DCKval"
+  | DCKpraxi () => jsonval_string "DCKpraxi"
+  | DCKprfun () => jsonval_string "DCKprfun"
+  | DCKprval () => jsonval_string "DCKprval"
+  | DCKcastfn () => jsonval_string "DCKcastfn"
+//
+) (* end of [jsonize_dcstkind] *)
 
 (* ****** ****** *)
 //
