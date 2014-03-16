@@ -9,6 +9,11 @@
 
 /* ****** ****** */
 
+#define \
+atscntrb_gtk_dialog_add_buttons gtk_dialog_add_buttons
+
+/* ****** ****** */
+
 #define atscntrb_gtk_dialog_run gtk_dialog_run
 #define atscntrb_gtk_dialog_response gtk_dialog_response
 

@@ -34,8 +34,12 @@
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define ATS_PACKNAME
+"ATSCNTRB.libats-hwxi.teaching"
+//
+(* ****** ****** *)
+//
+#include"share/atspre_define.hats"
 //
 (* ****** ****** *)
 

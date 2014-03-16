@@ -125,6 +125,30 @@ end (* end of [genScript] *)
 end // end of [local]
 
 (* ****** ****** *)
+//
+staload "{$CAIRO}/SATS/cairo.sats"
+//
+staload "{$LIBATSHWXI}/teaching/mydraw/SATS/mydraw.sats"
+staload "{$LIBATSHWXI}/teaching/mydraw/SATS/mydraw_cairo.sats"
+//
+staload "{$LIBATSHWXI}/teaching/mydraw/DATS/mydraw_bargraph.dats"
+//
+staload _(*anon*) = "{$LIBATSHWXI}/teaching/mydraw/DATS/mydraw.dats"
+staload _(*anon*) = "{$LIBATSHWXI}/teaching/mydraw/DATS/mydraw_cairo.dats"
+//
+(* ****** ****** *)
+//
+staload "{$LIBATSHWXI}/teaching/myGTK/SATS/gtkcairotimer.sats"
+//
+staload "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/the_timer.dats"
+//
+staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/timer.dats"
+//
+staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/ControlPanel.dats"
+staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/DrawingPanel.dats"
+staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/gtkcairotimer_main.dats"
+//
+(* ****** ****** *)
 
 local
 //
@@ -132,15 +156,35 @@ val ind = ref<int> (0)
 //
 val () = srandom_with_time ()
 //
-val (ASZ, xs) =
+val (A0, xs0) =
   genScript (stdout_ref, i2sz(16))
 //
-val theExchlst = ref<List0(int)> (xs)
+val theExchlst = ref<List0(int)> (xs0)
 //
 in (* in-of-local *)
 
-val ASZ = ASZ
+local
+implement
+array_tabulate$fopr<int> (i) = A0[i]
+in(*in-of-local*)
+val ASZ = arrszref_tabulate<int> (A0.size)
+end // end of [local]
+
+extern
 fun
+ASZ_reset (): void = "insertsort_anim2_ASZ_reset"
+implement
+ASZ_reset () =
+{
+var i: size_t
+val () = for (i := i2sz(0); i < A0.size; i := succ(i)) ASZ[i] := A0[i]
+val () = !theExchlst := xs0
+} (* end of [ASZ_reset] *)
+
+extern
+fun
+ASZ_update (): void = "insertsort_anim2_ASZ_update"
+implement
 ASZ_update () = let
 //
   val i = !ind
@@ -161,19 +205,7 @@ end (* end of [ASZ_update] *)
 end // end of [local]
 
 (* ****** ****** *)
-//
-staload "{$CAIRO}/SATS/cairo.sats"
-//
-staload "{$LIBATSHWXI}/teaching/mydraw/SATS/mydraw.sats"
-staload "{$LIBATSHWXI}/teaching/mydraw/SATS/mydraw_cairo.sats"
-//
-staload "{$LIBATSHWXI}/teaching/mydraw/DATS/mydraw_bargraph.dats"
-//
-staload _(*anon*) = "{$LIBATSHWXI}/teaching/mydraw/DATS/mydraw.dats"
-staload _(*anon*) = "{$LIBATSHWXI}/teaching/mydraw/DATS/mydraw_cairo.dats"
-//
-(* ****** ****** *)
-
+  
 extern
 fun
 cairo_draw_arrszref
@@ -255,7 +287,8 @@ val p2 = point_make (WH , WH) + v0
 val p3 = point_make (WH , 0.) + v0
 val p4 = point_make (0. , 0.) + v0
 //
-val () = ASZ_update ()
+val () =
+if the_timer_is_running () then ASZ_update ()
 //
 val (pf | ()) = cairo_save (cr)
 val () = cairo_draw_arrszref (cr, p1, p2, p3, p4, ASZ)
@@ -273,12 +306,11 @@ typedef char **charptrptr ;
 abstype charptrptr = $extype"charptrptr"
 
 (* ****** ****** *)
-//
-staload
-"{$LIBATSHWXI}/teaching/myGTK/SATS/gtkcairoclock.sats"
-staload
-_ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairoclock.dats"
-//
+
+dynload "./insertsort_anim2_timer.dats"
+dynload "./insertsort_anim2_nclick.dats"
+dynload "./insertsort_anim2_topwin.dats"
+
 (* ****** ****** *)
 
 implement
@@ -293,13 +325,13 @@ var argv: charptrptr = $UN.castvwtp1{charptrptr}(argv)
 val () = $extfcall (void, "gtk_init", addr@(argc), addr@(argv))
 //
 implement
-gtkcairoclock_title<> () = stropt_some"InsertionSort"
+gtkcairotimer_title<> () = stropt_some"InsertionSort"
 implement
-gtkcairoclock_timeout_interval<> () = 500U // millisecs
+gtkcairotimer_timeout_interval<> () = 500U // millisecs
 implement
-gtkcairoclock_mydraw<> (cr, width, height) = mydraw_clock (cr, width, height)
+gtkcairotimer_mydraw<> (cr, width, height) = mydraw_clock (cr, width, height)
 //
-val ((*void*)) = gtkcairoclock_main ((*void*))
+val ((*void*)) = gtkcairotimer_main ((*void*))
 //
 in
   // nothing
@@ -307,4 +339,4 @@ end // end of [main0]
 
 (* ****** ****** *)
 
-(* end of [insertsort_anim.dats] *)
+(* end of [insertsort_anim2.dats] *)

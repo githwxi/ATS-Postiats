@@ -109,7 +109,7 @@ on_reset_clicked
   widget: !GtkWidget1, event: &GdkEvent, _: gpointer
 ) : void
 implement{
-}on_reset_clicked (widget, event, _) = the_timer_reset ()
+} on_reset_clicked (widget, event, _) = the_timer_reset ()
 
 (* ****** ****** *)
 
@@ -119,20 +119,28 @@ on_quit_clicked
 (
   widget: !GtkWidget1, event: &GdkEvent, _: gpointer
 ) : void
-(*
 implement{
 } on_quit_clicked (widget, event, _) = gtk_main_quit ((*void*))
-*)
+
+(* ****** ****** *)
+
+extern
+fun{}
+on_quit_clicked_dialog
+(
+  wdgt: !GtkWidget1
+, event: &GdkEvent, gdata: gpointer
+) : void
 implement{
-} on_quit_clicked
-  (widget, event, _) = let
+} on_quit_clicked_dialog
+  (widget, event, gdata) = let
 //
 typedef charptr = $extype"char*"
 //
 val flags =
   GTK_DIALOG_DESTROY_WITH_PARENT
 val mtype = GTK_MESSAGE_QUESTION
-val buttons = GTK_BUTTONS_YES_NO
+val buttons = GTK_BUTTONS_NONE
 //
 val topwin = $TOPWIN.get ()
 //
@@ -143,8 +151,13 @@ $extfcall (ptr
 ) (* end of [val] *)
 val () = assertloc (p0 > 0)
 val p1 = $extfcall (ptr, "g_object_ref_sink", p0)
-val dialog = $UN.castvwtp0{gobjref1(GtkMessageDialog)}(p0)
+val dialog = $UN.castvwtp0{gobjref1(GtkMessageDialog)}(p1)
 val () = gtk_window_set_title (dialog, gstring("Confirmation"))
+val () =
+$extfcall (void
+, "atscntrb_gtk_dialog_add_buttons"
+, p1, $UN.cast{charptr}("Yes"), GTK_RESPONSE_YES, $UN.cast{charptr}("No"), GTK_RESPONSE_NO, NULL
+) (* end of [val] *)
 //
 val topwin =
 $UN.castvwtp0{GtkWindow1}(topwin)
@@ -158,10 +171,74 @@ val yes = $UN.cast2int(GTK_RESPONSE_YES)
 in
 //
 case+ 0 of
-| _ when yn = yes => gtk_main_quit ((*void*))
+| _ when yn = yes =>
+    on_quit_clicked (widget, event, gdata)
 | _ (*non-yes*) => () // quit is not confirmed
 //
-end (* end of [on_quit_clicked] *)
+end (* end of [on_quit_clicked_dialog] *)
+
+(* ****** ****** *)
+
+local
+//
+staload
+NCLICK = "./the_nclick.dats"
+//
+extern
+fun{}
+ftimeout
+  {c:cls;l:agz | c <= GtkWidget} (!gobjref (c, l)): gboolean
+//
+in (* in-of-local *)
+
+implement{
+} ftimeout
+  (widget) = let
+//
+val n = $NCLICK.get ()
+//
+val () =
+if n > 0 then {
+  val () = $NCLICK.set (0)
+  val (pf, fpf | p_event) = $UN.ptr0_vtake{GdkEvent}(NULL)
+  val () = on_quit_clicked_dialog (widget, !p_event, (gpointer)NULL)
+  prval ((*void*)) = fpf (pf)
+} (* end of [if] *)
+//
+in
+  GFALSE
+end // end of [ftimeout]
+
+extern
+fun{}
+on_quit_clicked2
+(
+  wdgt: !GtkWidget1
+, event: &GdkEvent, gdata: gpointer
+) : void
+implement{
+} on_quit_clicked2
+  (widget, event, gdata) = let
+//
+val n = $NCLICK.get ()
+val () = if n = 0 then $NCLICK.set (1) else $NCLICK.set (0)
+//
+in
+//
+case+ 0 of
+| _ when n = 0 =>
+  {
+    val p = ptrcast(widget)
+    val _ = g_timeout_add
+      ((guint)200, (GSourceFunc)ftimeout, (gpointer)p)
+    // end of [g_timeout_add]
+  }
+| _ when n = 1 => on_quit_clicked (widget, event, gdata)
+| _ (*impossible*) => ()
+//
+end // end of [on_quit_clicked2]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -277,7 +354,7 @@ gtk_box_pack_start
 ) (* end of [val] *)
 val _sid = g_signal_connect
 (
-  button_quit, (gsignal)"clicked", G_CALLBACK(on_quit_clicked), (gpointer)NULL
+  button_quit, (gsignal)"clicked", G_CALLBACK(on_quit_clicked2), (gpointer)NULL
 )
 val () = g_object_unref (button_quit)
 //

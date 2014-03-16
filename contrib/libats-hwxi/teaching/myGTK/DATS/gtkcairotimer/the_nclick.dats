@@ -5,7 +5,7 @@
 (* ****** ****** *)
 //
 #define ATS_PACKNAME
-"ATSCNTRB.libats-hwxi.teaching.gtkcairotimer_the_topwin"
+"ATSCNTRB.libats-hwxi.teaching.gtkcairotimer_the_nclick"
 //
 (* ****** ****** *)
 
@@ -16,9 +16,9 @@
 
 local
 //
-typedef T = ptr
+typedef T = int
 //
-fun initize (x: &T? >> T): void = x := the_null_ptr
+fun initize (x: &T? >> T): void = x := 0
 //
 in (* in of [local] *)
 
@@ -28,4 +28,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [the_topwin.dats] *)
+(* end of [the_nclick.dats] *)

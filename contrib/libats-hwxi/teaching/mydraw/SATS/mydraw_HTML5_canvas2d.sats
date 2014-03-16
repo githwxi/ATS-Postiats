@@ -45,8 +45,7 @@
 
 (* ****** ****** *)
 
-#define
-ATS_PACKNAME "ATSCNTRB.libats-hwxi.teaching.mydraw"
+#define ATS_PACKNAME "ATSCNTRB.libats-hwxi.teaching.mydraw"
 
 (* ****** ****** *)
 
@@ -55,13 +54,12 @@ ATS_PACKNAME "ATSCNTRB.libats-hwxi.teaching.mydraw"
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#include"share/atspre_define.hats"
 //
 (* ****** ****** *)
 
 absvtype
-canvas2d_vtype (l:addr) = ptr (l)
+canvas2d_vtype (l: addr) = ptr (l)
 
 (* ****** ****** *)
 //

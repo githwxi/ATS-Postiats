@@ -54,7 +54,21 @@ GtkWidget* gtk_message_dialog_new_with_markup   (GtkWindow      *parent,
 //
 fun
 gtk_message_dialog_set_image
-  (dialog: !GtkMessageDialog1, image: !GtkWidget1): void = "mac#%"
+(
+  dialog: !GtkMessageDialog1, image: !GtkWidget1
+) : void = "mac#%" // end-of-fun
+//
+(* ****** ****** *)
+//
+fun
+gtk_message_dialog_get_image
+  {l:agz}
+(
+  dialog: !GtkMessageDialog(l)
+) : [l2:addr]
+(
+  minus (GtkMessageDialog(l), GtkWidget(l2)) | GtkWidget(l2)
+) = "mac#%" // end of [gtk_message_dialog_get_image]
 //
 (* ****** ****** *)
 

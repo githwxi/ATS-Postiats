@@ -29,17 +29,17 @@
 (* ****** ****** *)
 //
 // HX-2013-10:
-// A simple drawing package based on cairo
+// A cairo-based drawing package
 //
 (* ****** ****** *)
 
 #define
-ATS_PACKNAME "ATSCNTRB.libats-hwxi.teaching.mydraw"
+ATS_PACKNAME
+"ATSCNTRB.libats-hwxi.teaching.mydraw"
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#include "share/atspre_define.hats"
 //
 (* ****** ****** *)
 

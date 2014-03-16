@@ -28,9 +28,10 @@ test_gtkcairotimer: \
   $(PATSCC2) \
   -DATS_MEMALLOC_LIBC -D_GNU_SOURCE -o $@ \
   ./../DATS/gtkcairotimer/the_timer.dats \
+  ./../DATS/gtkcairotimer/the_nclick.dats \
   ./../DATS/gtkcairotimer/the_topwin.dats \
   ./../DATS/gtkcairotimer/gtkcairotimer_main.dats \
-  test_gtkcairotimer.dats $(GTKFLAGS) -lrt
+  test_gtkcairotimer.dats $(GTKFLAGS) -lm -lrt
 #
 cleanall:: ; $(RMF) test_gtkcairotimer
 #

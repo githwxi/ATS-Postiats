@@ -1,7 +1,7 @@
 (* ****** ****** *)
-
-#define ATS_DYNLOADFLAG 0
-
+//
+// HX: lib-support for insert_anim2
+//
 (* ****** ****** *)
 //
 #define ATS_PACKNAME
@@ -15,17 +15,10 @@
 (* ****** ****** *)
 
 local
-//
-typedef T = ptr
-//
-fun initize (x: &T? >> T): void = x := the_null_ptr
-//
-in (* in of [local] *)
-
-#include "{$LIBATSHWXI}/globals/HATS/globvar.hats"
-
-end // end of [local]
+#include
+"{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/the_topwin.dats"
+in (*nothing*) end
 
 (* ****** ****** *)
 
-(* end of [the_topwin.dats] *)
+(* end of [insertsort_anim2_topwin.dats] *)

@@ -293,8 +293,11 @@ main0{n}
 ) = let
 //
 val N = 100
-val N = (
-  if argc >= 2 then g0string2int(argv[1]) else N
+val N =
+(
+if argc >= 2
+  then g0string2int(argv[1]) else N
+// end of [if]
 ) : int // end of [val]
 val N = g1ofg0_int(N)
 val () = assertloc (N >= 0)

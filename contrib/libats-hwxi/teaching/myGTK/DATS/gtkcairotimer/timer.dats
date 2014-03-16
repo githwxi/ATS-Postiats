@@ -69,12 +69,18 @@ fun{} timer_reset (x: !timer): void // the timer resets
 extern
 fun{} timer_get_ntick (x: !timer): double // obtaining the number of ticks
 //
+extern
+fun{} timer_is_started (x: !timer): bool
+extern
+fun{} timer_is_running (x: !timer): bool
+//
 (* ****** ****** *)
 
 typedef
 timer_struct = @{
   started= bool // the timer has started
 , running= bool // the timer is running
+, has_reset= bool
   // the tick number recorded
 , ntick_beg= double // when the timer was turned on
 , ntick_acc= double // the number of accumulated ticks
@@ -110,6 +116,7 @@ val+TIMER (x) = timer
 //
 val () = x.started := false
 val () = x.running := false
+val () = x.has_reset := true
 val () = x.ntick_beg := 0.0
 val () = x.ntick_acc := 0.0
 //
@@ -137,13 +144,20 @@ implement{
 } timer_start
   (timer) = let
   val+@TIMER(x) = timer
+in
+//
+if x.has_reset then
+{
   val () = x.started := true
   val () = x.running := true
+  val () = x.has_reset := false
   val () = x.ntick_beg := the_ntick_get ()
   val () = x.ntick_acc := 0.0
   prval () = fold@ (timer)
-in
-  // nothing
+} else {
+  prval () = fold@ (timer)
+} (* end of [if] *)
+//
 end // end of [timer_start]
 
 (* ****** ****** *)
@@ -208,6 +222,7 @@ implement{
   val+@TIMER(x) = timer
   val () = x.started := false
   val () = x.running := false
+  val () = x.has_reset := true
   val () = x.ntick_beg := 0.0
   val () = x.ntick_acc := 0.0
   prval () = fold@ (timer)
@@ -231,6 +246,15 @@ in
   ntick
 end // end of [timer_get_ntick]
 
+(* ****** ****** *)
+//
+implement{
+} timer_is_started (timer) =
+  let val+TIMER(x) = timer in x.started end
+implement{
+} timer_is_running (timer) =
+  let val+TIMER(x) = timer in x.running end
+//
 (* ****** ****** *)
 
 local
