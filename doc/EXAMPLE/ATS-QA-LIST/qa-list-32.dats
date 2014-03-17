@@ -39,8 +39,8 @@ in
 while (i < asz)
 {
 val () = i := i + 1
-val () = print_val<a> ($UN.ptr0_get<a> (A))
-val () = print_newline ()
+val () = fprint_val<a> (stdout_ref, $UN.ptr0_get<a> (A))
+val () = fprint_newline (stdout_ref)
 val () = A := ptr_succ<a> (A)
 }
 //

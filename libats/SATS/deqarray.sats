@@ -154,7 +154,7 @@ fun{a:vt0p}
 deqarray_insert_atbeg
   {m,n:int | m > n}
 (
-  deq: !deqarray (INV(a), m, n) >> deqarray (a, m, n+1), x0: a
+  deq: !deqarray (INV(a),m,n) >> deqarray (a,m,n+1), x0: a
 ) :<!wrt> void // endfun
 
 fun{a:vt0p}
@@ -168,8 +168,8 @@ fun{a:vt0p}
 deqarray_insert_atend
   {m,n:int | m > n}
 (
-  deq: !deqarray (INV(a), m, n) >> deqarray (a, m, n+1), x0: a
-) :<!wrt> void // endfun
+  deq: !deqarray (INV(a),m,n) >> deqarray (a,m,n+1), x0: a
+) :<!wrt> void // end-of-fun
 
 fun{a:vt0p}
 deqarray_insert_atend_opt
@@ -181,8 +181,9 @@ deqarray_insert_atend_opt
 fun{a:vt0p}
 deqarray_takeout_atbeg
   {m,n:int | n > 0}
-  (deq: !deqarray (INV(a), m, n) >> deqarray (a, m, n-1)):<!wrt> (a)
-// end of [deqarray_takeout_atbeg]
+(
+  deq: !deqarray (INV(a),m,n) >> deqarray (a,m,n-1)
+) :<!wrt> (a) // end-of-fun
 
 fun{a:vt0p}
 deqarray_takeout_atbeg_opt
@@ -194,8 +195,9 @@ deqarray_takeout_atbeg_opt
 fun{a:vt0p}
 deqarray_takeout_atend
   {m,n:int | n > 0}
-  (deq: !deqarray (INV(a), m, n) >> deqarray (a, m, n-1)):<!wrt> (a)
-// end of [deqarray_takeout_atend]
+(
+  deq: !deqarray (INV(a),m,n) >> deqarray (a,m,n-1)
+) :<!wrt> (a) // end-of-fun
 
 fun{a:vt0p}
 deqarray_takeout_atend_opt
@@ -203,17 +205,16 @@ deqarray_takeout_atend_opt
 // end of [deqarray_takeout_atend_opt]
 
 (* ****** ****** *)
-
+//
 fun{a:vt0p}
 deqarray_getref_atbeg
-  {m,n:int | n > 0} (deq: !deqarray (INV(a), m, n)):<> cPtr1 (a)
+  {m,n:int | n > 0} (deq: !deqarray (INV(a),m,n)):<> cPtr1 (a)
 // end of [deqarray_getref_atbeg]
-
 fun{a:vt0p}
 deqarray_getref_atend
-  {m,n:int | n > 0} (deq: !deqarray (INV(a), m, n)):<> cPtr1 (a)
+  {m,n:int | n > 0} (deq: !deqarray (INV(a),m,n)):<> cPtr1 (a)
 // end of [deqarray_getref_atend]
-
+//
 (* ****** ****** *)
 //
 symintr deqarray_getref_at

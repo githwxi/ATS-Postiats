@@ -88,7 +88,7 @@ json_object_iforeach$fwork
   (i, jsi, env) = let
   val (fpf | DA) = decode($vcopyenv_vt(DA))
   val (fpf2 | str) = json_object_to_json_string (jsi)
-  val str2 = string_copy ($UN.strptr2string(str))
+  val str2 = string0_copy ($UN.strptr2string(str))
   prval () = fpf2 (str)
   val str2 = strptr2string (str2)
   val () = dynarray_insert_atend_exn (DA, str2)
