@@ -469,15 +469,15 @@ present as follows a verified generic implementation of fast exponentiation.
 #para("\
 Handling generic data properly in a verified implementation often requires some
 finesse with the type system of ATS. Let us first introduce an abstract type
-constructor #stacode("E") as follows:
+constructor #stacode("ELT") as follows:
 
 #atscode("\
 sortdef elt = int // [elt] is just an alias for [int]
-abst@ype E (a:t@ype, x:elt) = a // [x] is an imaginary stamp
+abst@ype ELT (a:t@ype, x:elt) = a // [x] is an imaginary stamp
 ")
 
 This is often referred to as #emphasis("stamping"). For each type T and stamp
-x, #stacode("E(T, x)") is just T as far as data representation is concerned.
+x, #stacode("ELT(T, x)") is just T as far as data representation is concerned.
 The stamps are imaginary and they are solely used for the purpose of
 specification. We next introduce an abstract prop-type #stacode("MUL") and
 a function template #dyncode("mul_elt_elt"):
@@ -487,7 +487,7 @@ absprop MUL (elt, elt, elt) // abstract mul relation
 
 fun{a:t@ype}
 mul_elt_elt {x,y:elt}
-  (x: E (a, x), y: E (a, y)): [xy:elt] (MUL (x, y, xy) | E (a, xy))
+  (x: ELT (a, x), y: ELT (a, y)): [xy:elt] (MUL (x, y, xy) | ELT (a, xy))
 // end of [mul_elt_elt]
 ")
 
@@ -530,7 +530,7 @@ interface:
 #atscode("\
 fun{a:t@ype}
 fastpow_elt_int{x:elt}{n:nat}
-  (x: E (a, x), n: int n): [p:elt] (POW (x, n, p) | E (a, p))
+  (x: ELT (a, x), n: int n): [p:elt] (POW (x, n, p) | ELT (a, p))
 // end of [fastpow_elt_int]
 ")
 
@@ -575,7 +575,7 @@ produce a unit for the underlying multiplication, is assigned the following
 interface:
 
 #atscode("\
-fun{a:t@ype} mulunit (): E (a, 1(*stamp*))
+fun{a:t@ype} mulunit (): ELT (a, 1(*stamp*))
 ")
 
 The proof function #dyncode("lemma") simply establishes that pow(x, 2*n)=

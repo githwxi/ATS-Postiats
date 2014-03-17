@@ -104,6 +104,7 @@ ATSCNTRB/libats-hwxi\
 #packfilename("globals/HATS/gcount.hats")
 #packfilename("globals/HATS/globvar.hats")
 #packfilename("globals/HATS/gstacklst.hats")
+#packfilename("globals/HATS/gdeqarray.hats")
 
 (* ****** ****** *)
 

@@ -67,7 +67,7 @@ local
 
 assume mat2x2 = mat2x2_def // row-major
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 make_mat2x2
@@ -112,10 +112,10 @@ staload _(*anon*) = "fastexp.dats"
 
 local
 
-assume E (a:t@ype, x: elt) = a
+assume ELT (a:t@ype, x: elt) = a
 assume MUL (x:elt, y: elt, xy: elt) = unit
 
-in
+in (* in-of-local *)
 
 implement
 mulunit<mat2x2> () = mulunit_mat2x2 ()

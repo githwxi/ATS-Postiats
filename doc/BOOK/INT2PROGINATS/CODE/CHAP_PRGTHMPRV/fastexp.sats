@@ -35,10 +35,12 @@
 (* ****** ****** *)
 
 sortdef elt = int
-(*
-datasort elt = // abstract
-*)
-abst@ype E (a:t@ype, x:elt) = a
+
+(* ****** ****** *)
+
+abst@ype ELT (a:t@ype, x:elt) = a
+
+(* ****** ****** *)
 
 absprop MUL (x: elt, y: elt, xy: elt) // abstract mul relation
 
@@ -49,11 +51,14 @@ praxi mul_assoc {x,y,z:elt} {xy,yz:elt} {xy_z, x_yz:elt} (
   pf1: MUL (x, y, xy), pf2: MUL (xy, z, xy_z), pf3: MUL (y, z, yz), pf4: MUL (x, yz, x_yz)
 ) : [xy_z==x_yz] void
 
-fun{a:t@ype} mulunit (): E (a, 1(*stamp*))
+fun{
+a:t@ype
+} mulunit (): ELT (a, 1(*stamp*))
 
-fun{a:t@ype}
-mul_elt_elt {x,y:elt}
-  (x: E (a, x), y: E (a, y)): [xy:elt] (MUL (x, y, xy) | E (a, xy))
+fun{
+a:t@ype
+} mul_elt_elt {x,y:elt}
+  (x: ELT (a, x), y: ELT (a, y)): [xy:elt] (MUL (x, y, xy) | ELT (a, xy))
 // end of [mul_elt_elt]
 
 dataprop
@@ -63,9 +68,10 @@ POW (elt(*base*), int(*exp*), elt(*res*)) =
     POWind (x, n+1, p1) of (POW (x, n, p), MUL (x, p, p1))
 // end of [POW]
 
-fun{a:t@ype}
-fastpow_elt_int {x:elt} {n:nat}
-  (x: E (a, x), n: int n): [p:elt] (POW (x, n, p) | E (a, p))
+fun{
+a:t@ype
+} fastpow_elt_int {x:elt} {n:nat}
+  (x: ELT (a, x), n: int n): [p:elt] (POW (x, n, p) | ELT (a, p))
 // end of [fastpow_elt_int]
 
 (* ****** ****** *)
