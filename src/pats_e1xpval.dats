@@ -305,7 +305,9 @@ fun e1xplevenv_valize_main (lev: int, env: !vlenv, e0: e1xp): v1al
 
 (* ****** ****** *)
 
-fun e1xplstlevenv_valize (
+fun
+e1xplstlevenv_valize
+(
   lev: int, env: !vlenv, es: e1xplst
 ) : List_vt (v1al) =
   case+ es of
@@ -320,7 +322,9 @@ fun e1xplstlevenv_valize (
 
 (* ****** ****** *)
 
-fn e1xplevenv_valize_list (
+fun
+e1xplevenv_valize_list
+(
   lev: int, env: !vlenv, e0: e1xp, es: e1xplst
 ) : v1al = case+ es of
   | list_cons (e, es) => (
@@ -336,13 +340,17 @@ fn e1xplevenv_valize_list (
 (* ****** ****** *)
 
 extern
-fun e1xplevenv_valize_delta (
+fun
+e1xplevenv_valize_delta
+(
   lev: int, env: !vlenv, e0: e1xp, id: symbol, es: e1xplst
 ) : v1al // end of [e1xplevenv_valize_delta]
 
 (* ****** ****** *)
 
-fun e1xplevenv_valize_appid (
+fun
+e1xplevenv_valize_appid
+(
   lev: int, env: !vlenv, e0: e1xp, id: symbol, es: e1xplst
 ) : v1al = let
   val opt = the_e1xpenv_find (id)
@@ -451,7 +459,8 @@ case+ e0.e1xp_node of
     val () = the_valerrlst_add (VE_E1XPundef (e0))
   }
 //
-| E1XPapp (
+| E1XPapp
+  (
     e_fun, _(*loc_arg*), es_arg
   ) => (
   case+ e_fun.e1xp_node of

@@ -287,7 +287,7 @@ in
   | _ => let
       val () = prerr_error1_loc (loc0)
       val () = prerr ": the expression cannot be translated into a legal pattern."
-      val () = prerr_newline ()
+      val () = prerr_newline ((*void*))
     in
       p1at_errpat (loc0)
     end // end of [E1XPundef]
@@ -820,8 +820,10 @@ in
   | E1XPnone () => d1exp_empty (loc0)
   | _ => let
       val () = prerr_error1_loc (loc0)
-      val () = prerr ": the expression cannot be translated into a legal dynamic expression."
-      val () = prerr_newline ()
+      val () = prerr ": the expression ["
+      val () = prerr_e1xp (e0)
+      val () = prerr "] cannot be translated into a legal dynamic expression."
+      val () = prerr_newline ((*void*))
     in
       d1exp_errexp (loc0)
     end // end of [E1XPundef]

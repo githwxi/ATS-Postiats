@@ -33,6 +33,7 @@ all::
 all:: test01
 all:: test02
 all:: test03
+all:: test04
 
 ######
 
@@ -49,9 +50,19 @@ cleanall:: ; $(RMF) test02
 
 ######
 
-test03: test03.dats \
-  gstacklst.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $^
+test03: \
+  test03.dats \
+  gstacklst.dats ; \
+  $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $^
 cleanall:: ; $(RMF) test03
+
+######
+
+test04: \
+  test04.dats \
+  gdeqarray.dats ; \
+  $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $^
+cleanall:: ; $(RMF) test04
 
 ######
 
