@@ -28,6 +28,15 @@ functions on vectors.
 
 (* ****** ****** *)
 
+#declnamesynop("LAgvec")
+#declnamesynop("LAgvec_vtype")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_LAgvec_param")
+
+(* ****** ****** *)
+
 #declnamesynop("LAgvec_size")
 
 (* ****** ****** *)

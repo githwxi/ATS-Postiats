@@ -28,6 +28,15 @@ functions on matrices.
 
 (* ****** ****** *)
 
+#declnamesynop("LAgmat")
+#declnamesynop("LAgmat_vtype")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_LAgmat_param")
+
+(* ****** ****** *)
+
 #declnamesynop("LAgmat_mord")
 
 (* ****** ****** *)

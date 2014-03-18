@@ -68,19 +68,46 @@ staload "./DrawingPanel.dats"
 extern
 fun{
 } on_destroy
-  (widget: !GtkWidget1, event: &GdkEvent, _: gpointer): void
-extern
-fun{
-} on_delete_event
-  (widget: !GtkWidget1, event: &GdkEvent, _: gpointer): gboolean
+(
+  !GtkWidget1, &GdkEvent, _: gpointer
+) : void // end of [on_destroy]
+implement{
+} on_destroy (widget, event, _) = ((*void*))
 //
 (* ****** ****** *)
 //
+extern
+fun{
+} on_delete_event
+(
+  !GtkWidget1, &GdkEvent, _: gpointer
+) : gboolean // end of [on_delete_event]
 implement{
-} on_destroy (widget, event, _) = ((*void*))
-implement{
-} on_delete_event (widget, event, _) = (gtk_main_quit (); GTRUE)
+} on_delete_event (widget, event, _) =
+  let val () = gtk_main_quit () in GTRUE end
 //
+(* ****** ****** *)
+
+extern
+fun{
+} on_key_press_event
+(
+  !GtkWidget1, &GdkEvent, _: gpointer
+) : gboolean // end of [on_key_press_event]
+implement{
+} on_key_press_event (widget, event, udata) = (GFALSE)
+  
+(* ****** ****** *)
+
+extern
+fun{
+} on_key_release_event
+(
+  !GtkWidget1, &GdkEvent, _: gpointer
+) : gboolean // end of [on_key_release_event]
+implement{
+} on_key_release_event (widget, event, udata) = (GFALSE)
+
 (* ****** ****** *)
 
 staload
@@ -156,6 +183,14 @@ val _sid = g_signal_connect
 val _sid = g_signal_connect
 (
   win0, (gsignal)"delete-event", G_CALLBACK(on_delete_event), (gpointer)NULL
+)
+val _sid = g_signal_connect
+(
+  win0, (gsignal)"key-press-event", G_CALLBACK(on_key_press_event), (gpointer)NULL
+)
+val _sid = g_signal_connect
+(
+  win0, (gsignal)"key-release-event", G_CALLBACK(on_key_release_event), (gpointer)NULL
 )
 //
 val () = gtk_widget_show_all (win0)

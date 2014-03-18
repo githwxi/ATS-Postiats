@@ -1271,6 +1271,46 @@ end // end of [list_mapopt_funenv]
 
 #atscode_separator()
 
+implement
+{x1,x2}{y}(*tmp*)
+list_map2{n1,n2}(xs1, xs2) = let
+//
+prval () = lemma_list_param (xs1)
+prval () = lemma_list_param (xs2)
+//
+fun
+loop{n1,n2:nat}
+(
+  xs1: list (x1, n1)
+, xs2: list (x2, n2)
+, res: &ptr? >> list_vt (y, min(n1,n2))
+) : void = let
+in
+//
+case+ (xs1, xs2) of
+| (list_cons (x1, xs1),
+   list_cons (x2, xs2)) =>
+  {
+    val y = list_map2$fopr (x1, x2)
+    val () =
+      res := list_vt_cons{y}{0}(y, _)
+    val+list_vt_cons (_, res1) = res
+    val ((*void*)) = loop (xs1, xs2, res1)
+    prval ((*folded*)) = fold@ (res)
+  } (* end of [cons, cons] *)
+| (_, _) =>> (res := list_vt_nil((*void*)))
+//
+end // end of [loop]
+//
+var res: ptr
+val ((*void*)) = loop (xs1, xs2, res)
+//
+in
+  res
+end // end of [list_map2]
+
+#atscode_separator()
+
 implement{x}
 list_tabulate
   (n) = res where {
