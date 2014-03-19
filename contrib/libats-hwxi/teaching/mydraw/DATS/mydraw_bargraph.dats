@@ -9,6 +9,10 @@
 //
 (* ****** ****** *)
 //
+// HX-2014-03: see some Algorianim examples
+//
+(* ****** ****** *)
+//
 #include
 "share/atspre_define.hats"
 #include

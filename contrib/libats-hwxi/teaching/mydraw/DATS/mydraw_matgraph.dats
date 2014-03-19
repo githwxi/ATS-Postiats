@@ -31,9 +31,10 @@ fun{
 ) : void // end of [mydraw_matgraph]
 //
 extern
-fun{} mydraw_matgraph$test (i: intGte(0), j: intGte(0)): bool
-extern
 fun{} mydraw_matgraph$color (i: intGte(0), j: intGte(0)): color
+extern
+fun{} mydraw_matgraph$draw_cell
+  (i: intGte(0), j: intGte(0), p1: point, p2: point, p3: point, p4: point): void
 //
 (* ****** ****** *)
 
@@ -66,23 +67,12 @@ fun loop2
   j: intGte(0)
 ) : void = let
 //
-val ans =
-mydraw_matgraph$test (i, j)
-//
-val () =
-if ans then
-{
-  val fj = g0i2f(j)
-  val p1 = p1 + fj * v14
-  val p4 = p1 + v14
-  val p2 = p2 + fj * v23
-  val p3 = p2 + v23
-  val () =
-  mydraw_quadrilateral (p1, p2, p3, p4)
-  val clr = mydraw_matgraph$color (i, j)
-  val ((*void*)) = mydraw_fill_set_rgb (clr.r, clr.g, clr.b)
-  val ((*void*)) = mydraw_fill ((*void*))
-} (* end of [if] *)
+val fj = g0i2f(j)
+val p1 = p1 + fj * v14
+val p4 = p1 + v14
+val p2 = p2 + fj * v23
+val p3 = p2 + v23
+val () = mydraw_matgraph$draw_cell (i, j, p1, p2, p3, p4)
 //
 in
   if j + 1 < n then loop2 (j + 1) else ()
@@ -101,7 +91,14 @@ end // end of [mydraw_matgraph]
 (* ****** ****** *)
 
 implement{}
-mydraw_matgraph$test (i, j) = true // HX: draw it by default
+mydraw_matgraph$draw_cell
+  (i, j, p1, p2, p3, p4) = () where
+{
+  val c = mydraw_matgraph$color (i, j)
+  val () = mydraw_quadrilateral (p1, p2, p3, p4)
+  val ((*void*)) = mydraw_fill_set_rgb (c.r, c.g, c.b)
+  val ((*void*)) = mydraw_fill ((*void*))
+} (* end of [mydraw_matgraph$draw_cell] *)
 
 (* ****** ****** *)
 
