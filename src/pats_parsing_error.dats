@@ -128,20 +128,25 @@ end // end of [local]
 
 implement
 the_parerrlst_add_ifnbt
-  (bt, loc, node) =
-  if (bt = 0) then
-    the_parerrlst_add (parerr_make (loc, node))
-  else () // end of [if]
-// end of [the_parerrlst_add_if0]
+  (bt, loc, node) = let
+in
+//
+if (bt = 0)
+  then the_parerrlst_add (parerr_make (loc, node)) else ()
+//
+end // end of [the_parerrlst_add_if0]
+
+(* ****** ****** *)
 
 implement
 the_parerrlst_add_ifunclosed
   (loc, name) = let
   val newline = '\n'
 in
-  if string_contains (name, newline) then
-    the_parerrlst_add (parerr_make (loc, PE_filename)) else ()
-  // end of [if]
+//
+if string_contains (name, newline)
+  then the_parerrlst_add (parerr_make (loc, PE_filename)) else ()
+//
 end // end of [the_parerrlst_add_ifunclosed]
 
 (* ****** ****** *)
@@ -331,6 +336,7 @@ case+ node of
 | PE_d0ecl_sta () => SN (x, "d0ecl_sta")
 | PE_d0ecl_dyn () => SN (x, "d0ecl_dyn")
 | PE_guad0ecl () => SN (x, "guad0ecl")
+| PE_staloadarg () => SN (x, "staloadarg")
 //
 | PE_filename () => filename_unclosed (out, x)
 //

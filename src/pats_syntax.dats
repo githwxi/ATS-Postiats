@@ -2914,7 +2914,7 @@ in '{
 (* ****** ****** *)
 
 implement
-d0ecl_staload_none
+d0ecl_staload_fname
   (tok, tok2) = let
 //
   val loc = tok2.token_loc
@@ -2925,25 +2925,81 @@ d0ecl_staload_none
   val pfil = $FIL.filename_get_current ()
 //
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cstaload (pfil, None, name)
-} end // end of [d0ecl_staload_none]
+  d0ecl_loc= loc
+, d0ecl_node= D0Cstaload (pfil, None, name)
+} end // end of [d0ecl_staload_fname]
+
+(* ****** ****** *)
 
 implement
-d0ecl_staload_some
-  (tok, ent2, ent4) = let
+d0ecl_staload_nspace
+  (tok, tok2) = let
 //
-  val loc = ent4.token_loc
-  val-T_STRING (name) = ent4.token_node
-  val () = the_parerrlst_add_ifunclosed (loc, name)
+  val loc = tok2.token_loc
+  val-T_IDENT_dlr (name) = tok2.token_node
   val loc = tok.token_loc + loc
-//
-  val sym = ent2.i0de_sym
-//
   val pfil = $FIL.filename_get_current ()
+  val name = $SYM.symbol_make_string (name)
 //
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cstaload (pfil, Some (sym), name)
-} end // end of [d0ecl_staload_some]
+  d0ecl_loc= loc
+, d0ecl_node= D0Cstaname (pfil, None, name)
+} end // end of [d0ecl_staload_nspace]
+
+(* ****** ****** *)
+
+extern
+fun
+staloadarg_get_loc
+  (arg: staloadarg): location
+implement
+staloadarg_get_loc (arg) = let
+in
+//
+case+ arg of
+| STLDfname (loc, name) => loc
+| STLDnspace (loc, name) => loc
+(*
+| STLDdeclist (loc, d0cs) => loc
+*)
+//
+end // end of [staloadarg_get_loc]
+
+(* ****** ****** *)
+
+implement
+d0ecl_staload_some_arg
+  (tok, ent2, ent4) = let
+//
+val sym = ent2.i0de_sym
+val symopt = Some (sym)
+val loc =
+  tok.token_loc + staloadarg_get_loc (ent4)
+//
+val pfil = $FIL.filename_get_current ()
+//
+val d0cn = (
+case+ ent4 of
+| STLDfname (loc, name) => let
+    val () =
+    the_parerrlst_add_ifunclosed (loc, name)
+  in
+    D0Cstaload (pfil, symopt, name)
+  end // end of [STLDfname]
+| STLDnspace (loc, name) => let
+    val name = $SYM.symbol_make_string (name)
+  in
+    D0Cstaname (pfil, symopt, name)
+  end // end of [STLDnspace]
+(*
+| STLDdeclist
+    (_, d0cs) => D0Cstaload_declist (pfil, symopt, d0cs)
+*)
+) : d0ecl_node // end of [val]
+//
+in '{
+  d0ecl_loc= loc, d0ecl_node= d0cn
+} end // end of [d0ecl_staload_some_arg]
 
 (* ****** ****** *)
 

@@ -183,6 +183,8 @@ case+ tok.token_node of
 //
 end // end of [p_i0de]
 
+(* ****** ****** *)
+
 (*
 i0deseq1 := {i0de}+
 *)
@@ -208,7 +210,7 @@ case+ tok.token_node of
 | T_IDENT_ext (x) => let
     val () = incby1 () in i0de_make_string (loc, x)
   end
-| _ => let
+| _ (*non-IDENT-ext*) => let
     val () = err := err + 1
     val () = the_parerrlst_add_ifnbt (bt, loc, PE_i0dext)
   in
@@ -231,7 +233,7 @@ case+ tok.token_node of
 | T_IDENT_dlr (x) => let
     val () = incby1 () in i0de_make_string (loc, x)
   end
-| _ => let
+| _ (*non-IDENT-dlr*) => let
     val () = err := err + 1
     val () = the_parerrlst_add_ifnbt (bt, loc, PE_i0de_dlr)
   in

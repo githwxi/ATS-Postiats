@@ -286,8 +286,11 @@ datatype d1ecl_node =
     // end of [D1Cvardecs]
 //
   | D1Cinclude of d1eclist (* inclusion *)
+//
   | D1Cstaload of (* staloading a file *)
-      (Option symbol, filename, int (*loadflag*), d1eclist)
+      (symbolopt, filename, int(*loadflag*), d1eclist)
+  | D1Cstaname of (symbolopt, symbol(*nspace*))
+//
   | D1Cdynload of filename (* dynloading a file *)
 //
   | D1Clocal of (d1eclist(*head*), d1eclist(*body*)) // local declaration
@@ -972,14 +975,23 @@ fun d1ecl_vardecs (loc: location, knd: int, v1ds: v1ardeclst): d1ecl
 
 fun d1ecl_include (loc: location, ds: d1eclist): d1ecl
 
+(* ****** ****** *)
+
 fun
-d1ecl_staload (
+d1ecl_staload
+(
   loc: location
 , idopt: symbolopt
-, fil: filename
-, loadflag: int
-, d1cs: d1eclist
+, fil: filename, loadflag: int, d1cs: d1eclist
 ) : d1ecl // end of [d1ec_staload]
+
+fun
+d1ecl_staname
+(
+  loc: location, idopt: symbolopt, name: symbol
+) : d1ecl // end of [d1ec_staname]
+
+(* ****** ****** *)
 
 fun d1ecl_dynload (loc: location, fil: filename): d1ecl
 

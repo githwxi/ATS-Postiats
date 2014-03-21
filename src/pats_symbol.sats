@@ -173,13 +173,16 @@ fun compare_symbol_symbol (x1: symbol, x2: symbol):<> Sgn
 overload compare with compare_symbol_symbol
 
 (* ****** ****** *)
-
+//
 fun print_symbol (x: symbol): void
-overload print with print_symbol
 fun prerr_symbol (x: symbol): void
+//
+overload print with print_symbol
 overload prerr with prerr_symbol
+//
 fun fprint_symbol (out: FILEref, x: symbol): void
-
+fun fprint_symbolopt (out: FILEref, opt: symbolopt): void
+//
 (* ****** ****** *)
 
 fun symbol_get_name (x: symbol):<> string

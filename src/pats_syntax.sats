@@ -1229,11 +1229,13 @@ loopi0nv = '{
 , loopi0nv_met= s0explstopt
 , loopi0nv_arg= i0nvarglst
 , loopi0nv_res= i0nvresstate
-} // end of [loopi0nv]
+} (* end of [loopi0nv] *)
 
 typedef loopi0nvopt = Option loopi0nv
 
-fun loopi0nv_make (
+fun
+loopi0nv_make
+(
   qua: s0qualstopt
 , met: s0explstopt
 , arg: i0nvarglst
@@ -1244,6 +1246,7 @@ fun loopi0nv_make (
 
 datatype
 d0ecl_node =
+//
   | D0Cfixity of (f0xty, i0delst)
   | D0Cnonfix of (i0delst) // absolving fixity status
 //
@@ -1299,14 +1302,27 @@ d0ecl_node =
       (filename(*pfil*), int(*0:sta/1:dyn*), string(*filename*))
     // end of [D0Cinclude]
 //
-  | D0Cstaload of (
-      filename(*pfil*), symbolopt, string(*path*)
-    ) // end of [D0Cstaload]
+  | D0Cstaload of
+      (filename(*pfil*), symbolopt, string(*fname*)) // HX: "..."
+  | D0Cstaname of
+      (filename(*pfil*), symbolopt, symbol(*nspace*)) // HX: $...
+(*
+  | D0Cstaloadloc of (filename(*pfil*), symbolopt, d0eclist) // HX: { ... }
+*)
+//
   | D0Cdynload of (filename(*pfil*), string(*path*)) // HX: dynloading(*initialization*)
 //
   | D0Clocal of (d0eclist, d0eclist)
   | D0Cguadecl of (srpifkind, guad0ecl)
 // end of [d0ecl_node]
+
+and staloadarg =
+  | STLDfname of (location, string) // staload "..."
+  | STLDnspace of (location, string) // staload $...
+(*
+  | STLDdeclist of (location, d0eclist) // staload { ... }
+*)
+// end of [staloadarg]
 
 and guad0ecl_node =
   | GD0Cone of (e0xp, d0eclist)
@@ -1630,7 +1646,9 @@ fun d0exp_tmpid (qid: dqi0de, arg: t0mpmarglst, t_gt: token): d0exp
 
 (* ****** ****** *)
 
-fun d0exp_let_seq (
+fun
+d0exp_let_seq
+(
   t_let: token
 , d0cs: d0eclist
 , t_in: token
@@ -1759,7 +1777,9 @@ fun d0exp_exist (
 
 (* ****** ****** *)
 
-fun d0exp_lam (
+fun
+d0exp_lam
+(
   knd: int
 , t_lam: token
 , arg: f0arglst
@@ -1768,7 +1788,9 @@ fun d0exp_lam (
 , d0e: d0exp
 ) : d0exp // end of [d0exp_lam]
 
-fun d0exp_fix (
+fun
+d0exp_fix
+(
   knd: int
 , t_lam: token
 , fid: i0de
@@ -2001,8 +2023,9 @@ fun d0ecl_valdecs (
 ) : d0ecl // end of [d0ecl_valdecs]
 fun d0ecl_vardecs (knd: int, tok: token, ds: v0ardeclst): d0ecl
 //
-fun d0ecl_staload_none (tok: token, tok2: token): d0ecl
-fun d0ecl_staload_some (tok: token, ent2: i0de, ent4: token): d0ecl
+fun d0ecl_staload_fname (tok: token, tok2: token): d0ecl
+fun d0ecl_staload_nspace (tok: token, tok2: token): d0ecl
+fun d0ecl_staload_some_arg (tok: token, ent2: i0de, arg: staloadarg): d0ecl
 //
 fun d0ecl_dynload (tok: token, ent2: token): d0ecl
 //
@@ -2019,7 +2042,7 @@ fun d0ecl_local (
   t_local: token, ds_head: d0eclist, ds_body: d0eclist, t_end: token
 ) : d0ecl // end of [d0ecl_local]
 //
-fun d0ecl_guadecl (knd: token, gd: guad0ecl): d0ecl
+fun d0ecl_guadecl (knd: token, gdc: guad0ecl): d0ecl
 //
 (* ****** ****** *)
 
@@ -2039,6 +2062,13 @@ fun guad0ecl_cons (
 
 fun fprint_d0ecl : fprint_type (d0ecl)
 fun fprint_d0eclist : fprint_type (d0eclist)
+
+(* ****** ****** *)
+
+(*
+fun fprint_guadecl : fprint_type (guad0ecl)
+fun fprint_staloadarg : fprint_type (staloadarg)
+*)
 
 (* ****** ****** *)
 

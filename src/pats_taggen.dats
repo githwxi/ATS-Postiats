@@ -244,7 +244,10 @@ case+ d0c0.d0ecl_node of
 | D0Cvardecs (_(*knd*), vds) => taggen_v0ardeclst (vds, res)
 //
 | D0Cinclude _ => ()
-| D0Cstaload _ => ()
+//
+| D0Cstaload (pfil, idopt, fname) => ()
+| D0Cstaname (pfil, idopt, nspace) => ()
+//
 | D0Cdynload _ => ()
 //
 | D0Clocal
@@ -256,8 +259,7 @@ case+ d0c0.d0ecl_node of
 //
 | D0Cguadecl (knd, gd0c) => taggen_guad0ecl (gd0c, res)
 //
-| _ =>
-  (
+| _ (*rest*) => (
     tagentlst_add (res, TAGENT (symbol_empty, loc0))
   ) (* end of [_] *)
 //

@@ -224,11 +224,14 @@ s0taq
 
 implement
 p_s0taq (buf, bt, err) = let
+//
   val n0 = tokbuf_get_ntok (buf)
   val tok = tokbuf_get_token (buf)
   val loc = tok.token_loc
-  var ent: synent?
+  var ent: synent? // uninitized
+//
   macdef incby1 () = tokbuf_incby1 (buf)
+//
 in
 //
 case+ 0 of
@@ -247,7 +250,7 @@ case+ 0 of
     | T_COLON () => let
         val () = incby1 () in s0taq_symcolon (ent1, tok2)
       end
-    | _ => let
+    | _ (*non-DOT-COLON*) => let
         val () = the_parerrlst_add_ifnbt (bt, loc, PE_s0taq)
       in
         tokbuf_set_ntok_null (buf, n0)

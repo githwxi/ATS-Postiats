@@ -58,11 +58,24 @@ typedef pathlst = List (path)
 viewtypedef pathlst_vt = List_vt (path)
 
 (* ****** ****** *)
-
+//
+extern
+fun pathtry_staloadarg
+  (arg: staloadarg): Option_vt (string)
 extern
 fun pathtry_givename
-  (given: string): Option_vt (string)
-// end of [pathtry_givename]
+  (givename: string): Option_vt (string)
+//
+(* ****** ****** *)
+
+implement
+pathtry_staloadarg (arg) =
+(
+  case+ arg of
+  | STLDfname
+      (loc, name) => pathtry_givename (name)
+  | _ => None_vt (*void*)
+) (* end of [pathtry_staloadarg] *)
 
 (* ****** ****** *)
 
@@ -279,16 +292,19 @@ case+
     val opt = pathtry_givename (given)
   in
     case+ opt of
-    | ~Some_vt (pname) => res := list_vt_cons (pname, res)
-    | ~None_vt () => ()
+    | ~Some_vt
+        (pname) => res := list_vt_cons (pname, res)
+    | ~None_vt ((*void*)) => ()
   end // end of [DOCinclude]
+//
 | D0Cstaload
-    (cfil, _, given) => let
-    val opt = pathtry_givename (given)
+    (pfil, _, givename) => let
+    val opt = pathtry_givename (givename)
   in
     case+ opt of
-    | ~Some_vt (pname) => res := list_vt_cons (pname, res)
-    | ~None_vt () => ()
+    | ~Some_vt
+        (pname) => res := list_vt_cons (pname, res)
+    | ~None_vt ((*void*)) => ()
   end // end of [D0Cstaload]
 //
 | D0Clocal (_head, _body) => let
@@ -300,8 +316,9 @@ case+
 //
 | D0Cguadecl (knd, gd0c) =>
     depgen_guad0ecl_node (gd0c.guad0ecl_node, res)
+  // end of [D0Cguadecl]
 //
-| _ => ()
+| _ (*rest*) => ((*void*))
 //
 end // end of [depgen_d0ecl]
 

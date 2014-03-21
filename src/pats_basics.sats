@@ -51,8 +51,12 @@ fun test_prfkind (knd: int): bool // is proof?
 fun test_prgmkind (knd: int): bool // is program?
 fun test_polkind (knd: int): int // 0/1/-1
 
+(* ****** ****** *)
+
 fun impkind_linearize (knd: int): int
 fun impkind_neutralize (knd: int): int
+
+(* ****** ****** *)
 
 fun lte_impkind_impkind (k1: int, k1: int): bool
 

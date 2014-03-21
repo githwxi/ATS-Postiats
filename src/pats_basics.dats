@@ -298,11 +298,13 @@ neq_funclo_funclo (fc1, fc2) = ~eq_funclo_funclo (fc1, fc2)
 
 implement
 fprint_funclo
-  (out, fc) = case+ fc of
+  (out, fc) =
+(
+  case+ fc of
   | FUNCLOclo (knd) =>
       fprintf (out, "CLO(%i)", @(knd))
   | FUNCLOfun () => fprintf (out, "FUN", @())
-// end of [fprint_funclo]
+) (* end of [fprint_funclo] *)
 
 implement print_funclo (fc) = fprint_funclo (stdout_ref, fc)
 implement prerr_funclo (fc) = fprint_funclo (stderr_ref, fc)
@@ -310,14 +312,15 @@ implement prerr_funclo (fc) = fprint_funclo (stderr_ref, fc)
 (* ****** ****** *)
 
 local
-
+//
 var the_flag: int = 1 // 0
 val p_the_flag = &the_flag
-val (pf_the_flag | ()) =
-  vbox_make_view_ptr {int} (view@ the_flag | p_the_flag)
-// end of [val]
-
-in // in of [local]
+//
+val (
+  pf_the_flag | ((*void*))
+) = vbox_make_view_ptr {int} (view@ the_flag | p_the_flag)
+//
+in (* in-of-local *)
 
 implement
 debug_flag_get () = let

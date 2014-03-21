@@ -1130,7 +1130,8 @@ fun fprint_s0tacst (
 //
 // HX-2012-05-23: removed
 //
-fun fprint_s0tavar (
+fun fprint_s0tavar
+(
   out: FILEref, x: s0tavar
 ) : void = () where {
   val () = fprint_symbol (out, x.s0tavar_sym)
@@ -1148,7 +1149,9 @@ fprint_d0ecl (out, x) = let
 in
 //
 case+ x.d0ecl_node of
-| D0Cfixity (fxty, ids) => {
+//
+| D0Cfixity
+    (fxty, ids) => {
     val () = prstr "D0Cfixity("
     val () = fprint_f0xty (out, fxty)
     val () = prstr "; "
@@ -1252,7 +1255,10 @@ case+ x.d0ecl_node of
     val () = prstr "..."
     val () = prstr "\n)"
   }
-| D0Cdatdecs (knd, decs, defs) => {
+| D0Cdatdecs
+  (
+    knd, decs, defs
+  ) => {
     val () = prstr "D0Cdatdecs(\n"
     val () = fprint_int (out, knd)
     val () = prstr "; "
@@ -1283,7 +1289,10 @@ case+ x.d0ecl_node of
     val () = fprint_s0exp (out, s0e)
     val () = prstr ")"
   }
-| D0Cextype (knd, name, s0e) => {
+| D0Cextype
+  (
+    knd, name, s0e
+  ) => {
     val () = prstr "D0Cextype("
     val () = fprint_int (out, knd)
     val () = prstr "; "
@@ -1292,7 +1301,8 @@ case+ x.d0ecl_node of
     val () = fprint_s0exp (out, s0e)
     val () = prstr ")"
   }
-| D0Cextval (name, d0e) => {
+| D0Cextval
+    (name, d0e) => {
     val () = prstr "D0Cextval(\n"
     val () = fprint_string (out, name)
     val () = prstr " = "
@@ -1300,7 +1310,10 @@ case+ x.d0ecl_node of
     val () = prstr ")"
     val () = prstr "\n)"
   }
-| D0Cextcode (knd, pos, code) => {
+| D0Cextcode
+  (
+    knd, pos, code
+  ) => {
     val () = prstr "D0Cextcode("
     val () = fprint_int (out, knd)
     val () = prstr "; "
@@ -1316,7 +1329,8 @@ case+ x.d0ecl_node of
     val () = prstr "\n)"
   }
 //
-| D0Cvaldecs _ => {
+| D0Cvaldecs _ =>
+  {
     val () = prstr "D0Cvaldecs(\n"
     val () = prstr "..."
     val () = prstr "\n)"
@@ -1333,29 +1347,46 @@ case+ x.d0ecl_node of
   }
 //
 | D0Cinclude
-    (cfil, knd, name) => {
+  (
+    pfil, knd, name
+  ) => {
     val () = prstr "D0Cinclude("
     val () = fprint_int (out, knd)
     val () = prstr "; "
     val () = fprint_string (out, name)
     val () = prstr ")"
   }
+//
 | D0Cstaload
-    (cfil, opt, name) => {
+  (
+    pfil, idopt, name
+  ) => {
     val () = prstr "D0Cstaload("
-    val () = $UT.fprintopt<symbol> (out, opt, fprint_symbol)
+    val () = fprint_symbolopt (out, idopt)
     val () = prstr "; "
     val () = fprint_string (out, name)
     val () = prstr ")"
   }
+| D0Cstaname
+  (
+    pfil, idopt, name
+  ) => {
+    val () = prstr "D0Cstaname("
+    val () = fprint_symbolopt (out, idopt)
+    val () = prstr "; "
+    val () = fprint_symbol (out, name)
+    val () = prstr ")"
+  }
+//
 | D0Cdynload
-    (cfil, name) => {
+    (pfil, name) => {
     val () = prstr "D0Cdynload("
     val () = fprint_string (out, name)
     val () = prstr ")"
   }
 //
-| D0Clocal (
+| D0Clocal
+  (
     ds_head, ds_body
   ) => {
     val () = prstr "D0Clocal(\n"
@@ -1379,12 +1410,48 @@ case+ x.d0ecl_node of
 // end of [case]
 end // end of [fprint_d0ecl]
 
+(* ****** ****** *)
+
 implement
 fprint_d0eclist
   (out, xs) = () where {
   val () = $UT.fprintlst (out, xs, "\n", fprint_d0ecl)
   val () = fprint_newline (out)
 } // end of [fprint_d0eclst]
+
+(* ****** ****** *)
+
+(*
+implement
+fprint_staloadarg
+  (out, arg) = let
+//
+macdef prstr (str) = fprint_string (out, ,(str))
+//
+in
+//
+case+ arg of
+| STLDfname
+    (loc, name) => {
+    val () = prstr "STLDfname("
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  } (* end of [STLDfname] *)
+| STLDnspace
+    (loc, name) => {
+    val () = prstr "STLDnspace("
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  } (* end of [STLDnspace] *)
+(*
+| STLDdeclist
+    (loc, d0cs) => {
+    val ((*void*)) = prstr "STLDdeclist(...)"
+  } (* end of [STLDdeclist] *)
+*)
+//
+end // end of [fprint_staloadarg]
+*)
 
 (* ****** ****** *)
 

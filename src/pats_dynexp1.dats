@@ -1124,23 +1124,36 @@ implement
 d1ecl_include (loc, ds) =
   d1ecl_make_node (loc, D1Cinclude (ds))
 
-implement
-d1ecl_staload (
-  loc, idopt, fil, loadflag, d1cs
-) = d1ecl_make_node
-  (loc, D1Cstaload (idopt, fil, loadflag, d1cs))
-// end of [d1ecl_staload]
-
-implement
-d1ecl_dynload (loc, fil) =
-  d1ecl_make_node (loc, D1Cdynload (fil))
-
 (* ****** ****** *)
 
 implement
-d1ecl_local (loc, ds_head, ds_body) =
-  d1ecl_make_node (loc, D1Clocal (ds_head, ds_body))
+d1ecl_staload
+(
+  loc, idopt, fil, ldflag, d1cs
+) = d1ecl_make_node
+  (loc, D1Cstaload (idopt, fil, ldflag, d1cs))
+// end of [d1ecl_staload]
 
+implement
+d1ecl_staname
+(
+  loc, idopt, name
+) = d1ecl_make_node (loc, D1Cstaname (idopt, name))
+
+(* ****** ****** *)
+//
+implement
+d1ecl_dynload
+  (loc, fil) = d1ecl_make_node (loc, D1Cdynload (fil))
+//
+(* ****** ****** *)
+//
+implement
+d1ecl_local
+(
+  loc, ds_head, ds_body
+) = d1ecl_make_node (loc, D1Clocal (ds_head, ds_body))
+//
 (* ****** ****** *)
 
 (* end of [pats_dynexp1.dats] *)

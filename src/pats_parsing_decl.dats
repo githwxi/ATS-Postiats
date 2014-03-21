@@ -593,11 +593,47 @@ end // end of [p_stai0de]
 
 (* ****** ****** *)
 
+fun
+p_staloadarg
+(
+  buf: &tokbuf, bt: int, err: &int
+) : staloadarg = let
+//
+val tok = tokbuf_get_token (buf)
+val loc = tok.token_loc
+macdef incby1 () = tokbuf_incby1 (buf)
+//
+in
+//
+case+ tok.token_node of
+| T_STRING (name) => let
+    val () = incby1 () in STLDfname (loc, name)
+  end // end of [T_STRING]
+| T_IDENT_dlr (name) => let
+    val () = incby1 () in STLDnspace (loc, name)
+  end // end of [T_IDENT_dlr]
+| _ => let
+    val () = err := err + 1
+    val () = the_parerrlst_add_ifnbt (bt, loc, PE_staloadarg)
+  in
+    synent_null ((*okay*))
+  end
+end // end of [p_staloadarg]
+
+(* ****** ****** *)
+
 (*
-staload ::= s0tring | stai0de EQ s0tring
+staload ::=
+  | s0tring
+  | stai0de EQ s0tring
+(*
+  | stai0de EQ s0tring
+  | stai0de EQ s0tring
+*)
 *)
 fun
-p_staload_tok (
+p_staload_tok
+(
   buf: &tokbuf, bt: int, err: &int, tok: token
 ) : d0ecl = let
   val err0 = err
@@ -605,25 +641,35 @@ p_staload_tok (
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-case+ tok2.token_node of
-| T_STRING (name) => let
-    val () = incby1 () in d0ecl_staload_none (tok, tok2)
-  end
-| _ => let
+case+
+  tok2.token_node of
+| T_STRING _ => let
+    val () = incby1 () in d0ecl_staload_fname (tok, tok2)
+  end // end of [T_STRING]
+| T_IDENT_dlr _ => let
+    val () = incby1 () in d0ecl_staload_nspace (tok, tok2)
+  end // end of [T_IDENT_dlr]
+| _ (*non-STR-IDENT*) => let
     val ent2 = p_stai0de (buf, bt, err)
-    val bt = 0
+    val bt = 0 // HX: backtracking is cancelled
     val ent3 = pif_fun (buf, bt, err, p_EQ, err0)
-    val ent4 = pif_fun (buf, bt, err, p_s0tring, err0)
+    val ent4 = pif_fun (buf, bt, err, p_staloadarg, err0)
   in
-    if err = err0 then
-      d0ecl_staload_some (tok, ent2, ent4)
-    else let
+    if (err = err0)
+      then
+        d0ecl_staload_some_arg (tok, ent2, ent4)
+      // end of [then]
+      else let
+        val d0c = synent_null((*okay*))
 (*
-      val () = the_parerrlst_add_ifnbt (bt, loc, PE_staload)
+        val ((*void*)) =
+          the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_staload)
+        // end of [val]
 *)
-    in
-      synent_null ((*okay*))
-    end // end of [if]
+      in
+        d0c(*staload*)
+      end // end of [else]
+    // end of [if]
   end (* end of [_] *)
 //
 end // end of [p_staload_tok]
@@ -634,7 +680,8 @@ end // end of [p_staload_tok]
 srpifkind ::= SRPIF | SRPIFDEF | SRPIFNDEF
 *)
 fun
-p_srpifkind (
+p_srpifkind
+(
   buf: &tokbuf, bt: int, err: &int
 ) : token = let
   val tok = tokbuf_get_token (buf)
@@ -661,7 +708,8 @@ end // end of [p_srpifkind]
 srpelifkind ::= SRPELIF | SRPELIFDEF | SRPELIFNDEF
 *)
 fun
-p_srpelifkind (
+p_srpelifkind
+(
   buf: &tokbuf, bt: int, err: &int
 ) : token = let
   val tok = tokbuf_get_token (buf)
@@ -1038,7 +1086,9 @@ guad0ecl_fun
   | e0xp [SRPTHEN] d0eclseq_fun SRPELSE d0eclseq_fun SRPENDIF
   | e0xp [SRPTHEN] d0eclseq_fun srpelifkind guad0ecl_fun
 *)
-fun guad0ecl_fun (
+fun
+guad0ecl_fun
+(
   buf: &tokbuf
 , bt: int, err: &int, f: parser (d0ecl)
 ) : guad0ecl = let
@@ -1051,7 +1101,9 @@ fun guad0ecl_fun (
   val bt = 0
   val _(*ignored*) = ptest_fun (buf, p_SRPTHEN, ent)
   val ent3 = (
-    if err = err0 then p_d0eclseq_fun (buf, bt, f) else list_vt_nil ()
+    if err = err0
+      then p_d0eclseq_fun (buf, bt, f) else list_vt_nil ()
+    // end of [if]
   ) : List_vt (d0ecl)
 //
   val tok = tokbuf_get_token (buf)
@@ -1061,8 +1113,11 @@ in
 if err = err0 then
 //
 case+ tok.token_node of
-| T_SRPENDIF () => let
-    val () = incby1 () in guad0ecl_one (ent1, (l2l)ent3, tok)
+| T_SRPENDIF
+    ((*void*)) => let
+    val () = incby1 ()
+  in
+    guad0ecl_one (ent1, (l2l)ent3, tok)
   end
 | T_SRPELSE () => let
     val bt = 0

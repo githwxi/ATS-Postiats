@@ -38,14 +38,18 @@ staload _(*anon*) = "./pats_utils.dats"
 
 (* ****** ****** *)
 
+staload LAB = "./pats_label.sats"
 staload SYM = "./pats_symbol.sats"
-macdef fprint_symbol = $SYM.fprint_symbol
+staload FIL = "./pats_filename.sats"
+
+(* ****** ****** *)
+
 staload SYN = "./pats_syntax.sats"
+macdef fprint_i0de = $SYN.fprint_i0de
 
 (* ****** ****** *)
 
 staload "./pats_basics.sats"
-staload "./pats_syntax.sats"
 staload "./pats_staexp1.sats"
 staload "./pats_dynexp1.sats"
 
@@ -64,12 +68,13 @@ case+ p1t0.p1at_node of
 //
 | P1Tide (id) => {
     val () = prstr "P1Tide("
-    val () = fprint_symbol (out, id)
+    val () = $SYM.fprint_symbol (out, id)
     val () = prstr ")"
   }
 | P1Tdqid (q, id) => {
     val () = prstr "P1Tdqid("
-    val () = ($SYN.fprint_d0ynq (out, q); fprint_symbol (out, id))
+    val () = $SYN.fprint_d0ynq (out, q)
+    val () = $SYM.fprint_symbol (out, id)
     val () = prstr ")"
   }
 //
@@ -101,12 +106,12 @@ case+ p1t0.p1at_node of
 //
 | P1Ti0nt (x) => {
     val () = prstr "P1Ti0nt("
-    val () = fprint_i0nt (out, x)
+    val () = $SYN.fprint_i0nt (out, x)
     val () = prstr ")"
   }
 | P1Tf0loat (x) => {
     val () = prstr "P1Tf0loat("
-    val () = fprint_f0loat (out, x)
+    val () = $SYN.fprint_f0loat (out, x)
     val () = prstr ")"
   }
 //
@@ -177,7 +182,7 @@ case+ p1t0.p1at_node of
 | P1Trefas
     (sym, loc_id, p1t) => {
     val () = prstr "P1Trefas("
-    val () = fprint_symbol (out, sym)
+    val () = $SYM.fprint_symbol (out, sym)
     val () = prstr "; "
     val () = fprint_p1at (out, p1t)
     val () = prstr ")"
@@ -226,16 +231,21 @@ fprint_p1atlst
 
 implement
 fprint_labp1at (out, x) = let
-  macdef prstr (str) = fprint_string (out, ,(str))
+//
+macdef prstr (str) = fprint_string (out, ,(str))
+//
 in
-  case+ x.labp1at_node of
-  | LABP1ATnorm (lab, p1t) => {
-      val () = prstr "LABP1ATnorm("
-      val () = fprint_l0ab (out, lab)
-      val () = fprint_p1at (out, p1t)
-      val () = prstr ")"
-    }
-  | LABP1ATomit () => prstr "LABP1ATomit()"
+//
+case+ x.labp1at_node of
+| LABP1ATnorm
+    (lab, p1t) => {
+    val () = prstr "LABP1ATnorm("
+    val () = $SYN.fprint_l0ab (out, lab)
+    val () = fprint_p1at (out, p1t)
+    val () = prstr ")"
+  } (* end of [LABP1ATnorm] *)
+| LABP1ATomit () => prstr "LABP1ATomit()"
+//
 end // end of [fprint_labp1at]
 
 (* ****** ****** *)
@@ -250,19 +260,21 @@ case+ d1e0.d1exp_node of
 //
 | D1Eide (id) => {
     val () = prstr "D1Eide("
-    val () = fprint_symbol (out, id)
+    val () = $SYM.fprint_symbol (out, id)
     val () = prstr ")"
   }
-| D1Edqid (dq, id) => {
+| D1Edqid
+    (dq, id) => {
     val () = prstr "D1Edqid("
-    val () = fprint_d0ynq (out, dq)
-    val () = fprint_symbol (out, id)
+    val () = $SYN.fprint_d0ynq (out, dq)
+    val () = $SYM.fprint_symbol (out, id)
     val () = prstr ")"
   }
 //
-| D1Eidextapp (id, d1es) => {
+| D1Eidextapp
+    (id, d1es) => {
     val () = prstr "D1Eidextapp("
-    val () = fprint_symbol (out, id)
+    val () = $SYM.fprint_symbol (out, id)
     val () = prstr "; "
     val () = fprint_d1explst (out, d1es)
     val () = prstr ")"
@@ -301,28 +313,28 @@ case+ d1e0.d1exp_node of
 //
 | D1Ei0nt (x) => {
     val () = prstr "D1Ei0nt("
-    val () = fprint_i0nt (out, x)
+    val () = $SYN.fprint_i0nt (out, x)
     val () = prstr ")"
   }
 | D1Ec0har (x) => {
     val () = prstr "D1Ec0har("
-    val () = fprint_c0har (out, x)
+    val () = $SYN.fprint_c0har (out, x)
     val () = prstr ")"
   }
 | D1Ef0loat (x) => {
     val () = prstr "D1Ef0loat("
-    val () = fprint_f0loat (out, x)
+    val () = $SYN.fprint_f0loat (out, x)
     val () = prstr ")"
   }
 | D1Es0tring (x) => {
     val () = prstr "D1Es0tring("
-    val () = fprint_s0tring (out, x)
+    val () = $SYN.fprint_s0tring (out, x)
     val () = prstr ")"
   }
 //
 | D1Ecstsp (x) => {
     val () = prstr "D1Ecstsp("
-    val () = fprint_cstsp (out, x)
+    val () = $SYN.fprint_cstsp (out, x)
     val () = prstr ")"
   }
 //
@@ -365,9 +377,10 @@ case+ d1e0.d1exp_node of
     val () = fprintf (out, "D1Efreeat(...)", @())
   }
 //
-| D1Etmpid (qid, arg) => {
+| D1Etmpid
+    (qid, arg) => {
     val () = prstr "D1Etmpid("
-    val () = fprint_dqi0de (out, qid)
+    val () = $SYN.fprint_dqi0de (out, qid)
     val () = prstr "; "
     val () = prstr "..."
     val () = prstr ")"
@@ -616,16 +629,17 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
-| D1Emacsyn (knd, d1e) => {
+| D1Emacsyn
+    (knd, d1e) => {
     val () = prstr "D1Emacsyn("
-    val () = fprint_macsynkind (out, knd)
+    val () = $SYN.fprint_macsynkind (out, knd)
     val () = prstr "; "
     val () = fprint_d1exp (out, d1e)
     val () = prstr ")"
   }
 | D1Emacfun (name, d1es) => {
     val () = prstr "D1Emacfun("
-    val () = fprint_symbol (out, name)
+    val () = $SYM.fprint_symbol (out, name)
     val () = prstr "; "
     val () = fprint_d1explst (out, d1es)
     val () = prstr ")"
@@ -683,7 +697,8 @@ fprint_d1expopt
 (* ****** ****** *)
 
 implement
-fprint_labd1exp (out, x) = {
+fprint_labd1exp
+  (out, x) = {
   val $SYN.DL0ABELED (l, d1e) = x
   val () = $SYN.fprint_l0ab (out, l)
   val () = fprint_string (out, "=")
@@ -720,14 +735,16 @@ end // end of [fprint_d1lab]
 (* ****** ****** *)
 
 extern
-fun fprint_m1acdef : fprint_type (m1acdef)
+fun
+fprint_m1acdef : fprint_type (m1acdef)
 implement
-fprint_m1acdef (out, x) = {
-  val () = fprint_symbol (out, x.m1acdef_sym)
-  val () = fprint_string (out, "(...)")
-  val () = fprint_string (out, " = ")
-  val () = fprint_d1exp (out, x.m1acdef_def)
-}
+fprint_m1acdef
+  (out, m1d) = {
+  val sym = m1d.m1acdef_sym
+  val () = $SYM.fprint_symbol (out, sym)
+  val () = fprint_string (out, "(...) = ")
+  val () = fprint_d1exp (out, m1d.m1acdef_def)
+} (* end of [fprint_m1acdef] *)
 
 (* ****** ****** *)
 
@@ -752,7 +769,7 @@ prstr (str) = fprint_string (out, ,(str))
 //
 val () = fprint_int (out, x.v1ardec_knd)
 val () = prstr "; "
-val () = fprint_symbol (out, x.v1ardec_sym)
+val () = $SYM.fprint_symbol (out, x.v1ardec_sym)
 //
 val (
 ) = (
@@ -764,7 +781,9 @@ val (
 ) = (
   case+ x.v1ardec_pfat of
   | None () => ()
-  | Some id => (prstr " with "; fprint_i0de (out, id))
+  | Some id => (
+      prstr " with "; $SYN.fprint_i0de (out, id)
+    ) (* end of [Some] *)
 ) (* end of [val] *)
 val (
 ) = (
@@ -820,7 +839,7 @@ case+ d1c0.d1ecl_node of
     val () = prstr "D1Coverload("
     val () = fprint_i0de (out, id)
     val () = prstr "; "
-    val () = fprint_dqi0de (out, dqid)
+    val () = $SYN.fprint_dqi0de (out, dqid)
     val () = prstr "; "
     val () = fprint_int (out, pval)
     val () = prstr ")"
@@ -829,7 +848,7 @@ case+ d1c0.d1ecl_node of
 | D1Ce1xpdef (id, def) =>
   {
     val () = prstr "D1Ce1xpdef("
-    val () = fprint_symbol (out, id)
+    val () = $SYM.fprint_symbol (out, id)
     val () = prstr " = "
     val () = fprint_e1xp (out, def)
     val () = prstr ")"
@@ -837,7 +856,7 @@ case+ d1c0.d1ecl_node of
 | D1Ce1xpundef
     (id, _(*def*)) => {
     val () = prstr "D1Ce1xpundef("
-    val () = fprint_symbol (out, id)
+    val () = $SYM.fprint_symbol (out, id)
     val () = prstr ")"
   }
 //
@@ -908,8 +927,8 @@ case+ d1c0.d1ecl_node of
     val () = prstr "\n)"
   }
 //
-| D1Cclassdec (id, sup) =>
-  {
+| D1Cclassdec
+    (id, sup) => {
     val () = prstr "D1Cclassdec("
     val () = fprint_i0de (out, id)
     val () = (case+ sup of
@@ -922,7 +941,9 @@ case+ d1c0.d1ecl_node of
   }
 //
 | D1Cdcstdecs
-    (knd, dck, qarg, xs) => {
+  (
+    knd, dck, qarg, xs
+  ) => {
     val () = prstr "D1Cdcstdecs("
     val () = fprint_int (out, knd)
     val () = prstr "; "
@@ -942,7 +963,9 @@ case+ d1c0.d1ecl_node of
     val () = prstr ")"
   }
 | D1Cextype
-    (knd, name, def) => {
+  (
+    knd, name, def
+  ) => {
     val () = prstr "D1Cextype("
     val () = fprint_int (out, knd)
     val () = prstr "; "
@@ -962,7 +985,9 @@ case+ d1c0.d1ecl_node of
   }
 //
 | D1Cextcode
-    (knd, pos, code) => {
+  (
+    knd, pos, code
+  ) => {
     val () = prstr "D1Cextcode("
     val () = fprint_int (out, knd)
     val () = prstr "; "
@@ -973,7 +998,9 @@ case+ d1c0.d1ecl_node of
   }
 //
 | D1Cmacdefs
-    (knd, isrec, ds) => {
+  (
+    knd, isrec, ds
+  ) => {
     val () = prstr "D1macdef("
     val () = fprint_int (out, knd)
     val () = prstr "; "
@@ -984,7 +1011,9 @@ case+ d1c0.d1ecl_node of
   }
 //
 | D1Cimpdec
-    (knd, imparg, d) => {
+  (
+    knd, imparg, d
+  ) => {
     val qid = d.i1mpdec_qid
     val () = prstr "D1Cimpdec["
     val () = fprint_int (out, knd)
@@ -992,8 +1021,10 @@ case+ d1c0.d1ecl_node of
     val () = fprint_i1mparg (out, imparg)
     val () = prstr "(\n"
 //
-    val q = qid.impqi0de_qua and id = qid.impqi0de_sym
-    val () = ($SYN.fprint_d0ynq (out, q); fprint_symbol (out, id))
+    val q = qid.impqi0de_qua
+    and id = qid.impqi0de_sym
+    val () = $SYN.fprint_d0ynq (out, q)
+    val () = $SYM.fprint_symbol (out, id)
 //
     val () = prstr "; "
     val () = fprint_d1exp (out, d.i1mpdec_def)
@@ -1034,7 +1065,36 @@ case+ d1c0.d1ecl_node of
     val () = prstr "\n)"
   }
 //
-| D1Clocal (
+| D1Cstaload
+  (
+    idopt, fname, _, _
+  ) => {
+    val () = prstr "D1Cstaload("
+    val () =
+      $SYM.fprint_symbolopt (out, idopt)
+    val () = prstr "="
+    val () =
+      $FIL.fprint_filename_full (out, fname)
+    val () = prstr ")"
+  } (* end of [D1Cstaload] *)
+| D1Cstaname
+    (idopt, nspace) => {
+    val () = prstr "D1Cstaname("
+    val () =
+      $SYM.fprint_symbolopt (out, idopt)
+    val () = prstr "="
+    val () = $SYM.fprint_symbol (out, nspace)
+    val () = prstr ")"
+  } (* end of [D1Cstaname] *)
+//
+| D1Cdynload (fname) => {
+    val () = prstr "D1Cdynload("
+    val () = $FIL.fprint_filename_full (out, fname)
+    val () = prstr ")"
+  } (* end of [D1Cdynload] *)
+//
+| D1Clocal
+  (
     ds_head, ds_body
   ) => {
     val () = prstr "D1Clocal(\n"
