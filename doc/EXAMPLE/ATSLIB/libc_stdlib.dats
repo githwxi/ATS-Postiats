@@ -7,11 +7,8 @@
 #include
 "share/atspre_staload.hats"
 //
-(* ****** ****** *)
-
-staload
-UNSAFE = "prelude/SATS/unsafe.sats"
-
+staload UN = $UNSAFE // aliasing
+//
 (* ****** ****** *)
 
 staload UNI = "libc/SATS/unistd.sats"
@@ -96,7 +93,7 @@ val str2 = string1_copy (str)
 val fdes = mkstemp (str2)
 val () = assertloc (fdes >= 0)
 val () = assertloc ($UNI.close (fdes) = 0)
-val () = assertloc ($UNI.unlink ($UNSAFE.strnptr2string(str2)) = 0)
+val () = assertloc ($UNI.unlink ($UN.strnptr2string(str2)) = 0)
 val () = strnptr_free (str2)
 //
 } // end of [val]

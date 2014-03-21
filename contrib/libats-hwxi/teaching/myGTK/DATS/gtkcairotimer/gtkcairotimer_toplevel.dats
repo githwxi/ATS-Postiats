@@ -1,8 +1,4 @@
 (* ****** ****** *)
-
-#define ATS_DYNLOADFLAG 0
-
-(* ****** ****** *)
 //
 #define ATS_PACKNAME
 "ATSCNTRB.libats-hwxi.\
@@ -43,4 +39,4 @@ initize (x: &T? >> T): void = x := the_null_ptr
 
 (* ****** ****** *)
 
-(* end of [the_toplevel.dats] *)
+(* end of [gtkcairotimer_toplevel.dats] *)

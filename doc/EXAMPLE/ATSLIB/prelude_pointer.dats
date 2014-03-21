@@ -9,11 +9,6 @@
 //
 (* ****** ****** *)
 
-staload
-UNSAFE = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
 #define nullp the_null_ptr
 
 (* ****** ****** *)

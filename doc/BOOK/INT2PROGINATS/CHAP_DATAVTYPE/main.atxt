@@ -220,16 +220,16 @@ list_vt_2x{n:nat}
 ) (* end of [list_vt_2x] *)
 ')
 
-Given a type T, the notation #stacode("!T >> _" is a shorthand for
-#stacode("!T >> T").  Note that the special symbol #keycode("@") in front
-of the pattern #dyncode("list_vt_cons(x, xs1)") means
+Given a type T, the notation (#stacode("!T &gt;&gt; _")) is a shorthand for
+(#stacode("!T &gt;&gt; T")).  Note that the special symbol #keycode("@") in
+front of the pattern #dyncode("list_vt_cons(x, xs1)") means
 #emphasis("unfolding"). If #dyncode("xs") matches this pattern, then
 #dyncode("x") and #dyncode("xs1") are bound to the pointers pointing to
 some memory locations L1 and L2 where the head and tail of #dyncode("xs")
 are stored, respectively, and the type of #dyncode("xs") changes into
-#stacode("list_vt_cons_unfold(L0, L1, L2)") for L0 being the location of the
-list-node referred to by #dyncode("xs").  In the body of the clause guarded
-by the pattern #dyncode("list_vt_cons(x, xs1)"), #dyncode("x") and
+#stacode("list_vt_cons_unfold(L0, L1, L2)") for L0 being the location of
+the list-node referred to by #dyncode("xs").  In the body of the clause
+guarded by the pattern #dyncode("list_vt_cons(x, xs1)"), #dyncode("x") and
 #dyncode("xs1") are treated as variables (which are a form of
 left-value). The special proof function #dyncode("fold@") is called on
 #dyncode("xs") to fold it plus the proofs of at-views attached to L1 and L2
@@ -594,7 +594,7 @@ The first argument of #dyncode("mergeSort") is a linear list (to be sorted)
 and the second one a function for comparing the elements in the linear
 list.  Clearly, the interface of #dyncode("mergeSort") indicates that
 #dyncode("mergeSort") consumes its first argument and then returns a linear
-list that is of same length as its first argument. As is to become clear,
+list that is of the same length as its first argument. As is to become clear,
 the returned linear list is constructed with the nodes of the consumed
 one. In particular, the implementation of #dyncode("mergeSort") given as
 follows does not involve any memory allocation or deallocation.
@@ -730,8 +730,9 @@ sorting.
 
 #para('\
 
-Please find the entire code in this section plus some additional
-code for testing #mycodelink("CHAP_DATAVTYPE/mergeSort.dats", "on-line").
+Please find #mycodelink("CHAP_DATAVTYPE/mergeSort.dats", "on-line") the
+entirety of the code presented in this section plus some additional code
+for testing.
 
 ')
 
@@ -757,7 +758,7 @@ a:t@ype
 ')
 
 Like #dyncode("mergeSort"), #dyncode("insertionSort") is implemented in a
-manner that makes no use of memory allocation and deallocation.  Given a
+manner that makes no use of memory allocation or deallocation.  Given a
 linear list, #dyncode("insertionSort") essentially shuffles the nodes in
 the list to form a sorted list.
 

@@ -9,11 +9,6 @@
 //
 (* ****** ****** *)
 
-staload
-UNSAFE = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
 staload "libc/SATS/math.sats"
 staload _(*anon*) = "libc/DATS/math.dats"
 

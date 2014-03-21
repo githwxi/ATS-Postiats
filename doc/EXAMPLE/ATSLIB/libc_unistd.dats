@@ -10,11 +10,6 @@
 (* ****** ****** *)
 
 staload
-UNSAFE = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
-staload
 FCNTL = "libc/SATS/fcntl.sats"
 staload
 STDLIB = "libc/SATS/stdlib.sats"

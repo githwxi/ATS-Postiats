@@ -17,8 +17,10 @@ include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
-all:: queue-sllist2
-queue-sllist2: queue-sllist2.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+all:: \
+queue-sllist2
+queue-sllist2: \
+  queue-sllist2.dats ; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $<
 cleanall:: ; $(RMF) queue-sllist2
 
 ######
@@ -49,6 +51,7 @@ upload_main: \
 
 ######
 
+cleanats:: ; $(RMF) *_?ats.c
 cleanats:: ; $(RMF) main_atxt.txt
 cleanats:: ; $(RMF) main_atxt.dats
 

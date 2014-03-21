@@ -16,7 +16,7 @@ all::queue-sllist2
 queue-sllist2:: ; make -C queue-sllist2 all
 
 all::loop-as-tailrec
-loop-as-tailrec:: ; make -C loop-as-tailrec ll
+loop-as-tailrec:: ; make -C loop-as-tailrec all
 
 all::file-copying
 file-copying:: ; make -C file-copying all
@@ -48,6 +48,7 @@ cleanall:: ; make -C word-counting cleanall
 cleanall:: ; make -C DiningPhil cleanall
 cleanall:: ; make -C DiningPhil2 cleanall
 cleanall:: ; make -C Producer-Consumer cleanall
+cleanall:: ; make -C IPC-redis cleanall
 
 ######
 
@@ -61,6 +62,7 @@ uploadall::upload_word-counting
 uploadall::upload_DiningPhil
 uploadall::upload_DiningPhil2
 uploadall::upload_Producer-Consumer
+uploadall::upload_IPC-redis
 
 ######
 

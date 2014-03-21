@@ -675,8 +675,8 @@ val (pfpush | ()) = $FIL.the_filenamelst_push (fil)
 val d1cs = d0eclist_tr (d0cs) // HX: it is done in [fil]
 val ((*void*)) = $FIL.the_filenamelst_pop (pfpush | (*none*))
 //
-val packname = ats_packname_get ()
-val d1c_pack = d1ecl_packname (packname)
+val pack = ats_packname_get ()
+val d1c_pack = d1ecl_packname (pack)
 val d1cs = list_cons{d1ecl}(d1c_pack, d1cs)
 //
 val ans = the_e1xpenv_find (ATS_STALOADFLAG)

@@ -8,10 +8,6 @@ include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
-PATSCC2=$(PATSCC) -O2 -DATS_MEMALLOC_LIBC
-
-######
-
 MYTARGET=MYTARGET
 MYCCRULE=MYCCRULE
 
@@ -24,12 +20,16 @@ include $(PATSHOME)/share/atsmake-post.mk
 all:: mergesort
 mergesort: ; $(PATSCC) -tcats mergesort.dats
 
-all:: mergesort_list
-mergesort_list: ; $(PATSCC2) -o $@ mergesort_list.dats
+all:: \
+mergesort_list
+mergesort_list: \
+  mergesort_list.dats ; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $^
 cleanall:: ; $(RMF) mergesort_list
 
-all:: mergesort_array
-mergesort_array: ; $(PATSCC2) -o $@ mergesort_array.dats
+all:: \
+mergesort_array
+mergesort_array: \
+  mergesort_array.dats ; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $^
 cleanall:: ; $(RMF) mergesort_array
 
 ######
@@ -60,6 +60,7 @@ upload_main: \
 
 ######
 
+cleanats:: ; $(RMF) *_?ats.c
 cleanats:: ; $(RMF) main_atxt.txt
 cleanats:: ; $(RMF) main_atxt.dats
 
