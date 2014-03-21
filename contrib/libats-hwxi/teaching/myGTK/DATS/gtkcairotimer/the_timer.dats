@@ -29,7 +29,8 @@
 (* ****** ****** *)
 //
 #define ATS_PACKNAME
-"ATSCNTRB.libats-hwxi.teaching.gtkcairotimer_the_timer"
+"ATSCNTRB.libats-hwxi\
+.teaching.gtkcairotimer_the_timer"
 //
 (* ****** ****** *)
 //

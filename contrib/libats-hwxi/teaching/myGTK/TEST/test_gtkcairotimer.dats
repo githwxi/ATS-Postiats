@@ -23,7 +23,10 @@ abstype charptrptr = $extype"charptrptr"
 staload "./../SATS/gtkcairotimer.sats"
 //
 staload "./../DATS/gtkcairotimer/the_timer.dats"
+//
 dynload "./../DATS/gtkcairotimer/the_timer.dats"
+dynload "./../DATS/gtkcairotimer/the_nclick.dats"
+dynload "./../DATS/gtkcairotimer/the_topwin.dats"
 //
 staload _ = "./../DATS/gtkcairotimer/timer.dats"
 staload _ = "./../DATS/gtkcairotimer/ControlPanel.dats"

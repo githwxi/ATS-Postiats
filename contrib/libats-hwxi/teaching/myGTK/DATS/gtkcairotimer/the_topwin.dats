@@ -1,11 +1,8 @@
 (* ****** ****** *)
-
-#define ATS_DYNLOADFLAG 0
-
-(* ****** ****** *)
 //
 #define ATS_PACKNAME
-"ATSCNTRB.libats-hwxi.teaching.gtkcairotimer_the_topwin"
+"ATSCNTRB.libats-hwxi\
+.teaching.gtkcairotimer_the_topwin"
 //
 (* ****** ****** *)
 
