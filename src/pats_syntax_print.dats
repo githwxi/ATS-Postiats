@@ -1417,7 +1417,7 @@ fprint_d0eclist
   (out, xs) = () where {
   val () = $UT.fprintlst (out, xs, "\n", fprint_d0ecl)
   val () = fprint_newline (out)
-} // end of [fprint_d0eclst]
+} (* end of [fprint_d0eclst] *)
 
 (* ****** ****** *)
 

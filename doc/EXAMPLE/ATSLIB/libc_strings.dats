@@ -7,11 +7,8 @@
 #include
 "share/atspre_staload.hats"
 //
-(* ****** ****** *)
-
-staload
-UNSAFE = "prelude/SATS/unsafe.sats"
-
+staload UN = $UNSAFE // aliasing
+//
 (* ****** ****** *)
 
 staload UNI = "libc/SATS/unistd.sats"

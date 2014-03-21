@@ -28,6 +28,9 @@ Here is a list of major additions and changes since the last release:
 3. Changing default funclo-kind from FUNCLOptr to FUNCLOref
 4. Fixing level-4 errmsg handling
 5. Fixing a bug in the handling of lte_cls_cls (see: bug-2014-03-12)
+6. Supporting creation of aliases for namespaces:
+   staload $UNSAFE // opening the namespace $UNSAFE
+   staload UN = $UNSAFE // forming an alias for $UNSAFE
 
 </pre>
 

@@ -7,11 +7,8 @@
 #include
 "share/atspre_staload.hats"
 //
-(* ****** ****** *)
-
-staload
-UNSAFE = "prelude/SATS/unsafe.sats"
-
+staload UN = $UNSAFE // aliasing
+//
 (* ****** ****** *)
 
 staload UNI = "libc/SATS/unistd.sats"
@@ -54,7 +51,7 @@ val () =
 val str = "abcde"
 val str2 = string0_copy ("_____")
 val p = strcpy_unsafe (strptr2ptr(str2), str)
-val () = assertloc (str = $UNSAFE.strptr2string(str2))
+val () = assertloc (str = $UN.strptr2string(str2))
 val () = strptr_free (str2)
 //
 } // end of [val]
@@ -66,9 +63,9 @@ val str = "fghij"
 val str2 = string0_copy ("abcde_____")
 val p0 = strptr2ptr(str2)
 val p5 = ptr_add<char> (p0, 5)
-val () = $UNSAFE.ptr0_set<char> (p5, '\000')
+val () = $UN.ptr0_set<char> (p5, '\000')
 val p = strcat_unsafe (p0, str)
-val () = assertloc ("abcdefghij" = $UNSAFE.strptr2string(str2))
+val () = assertloc ("abcdefghij" = $UN.strptr2string(str2))
 val () = strptr_free (str2)
 //
 } // end of [val]
@@ -80,11 +77,11 @@ val () =
 //
 val str = "abcde"
 val (pf | str2) = strdup (str)
-val () = assertloc (str = $UNSAFE.castvwtp1{string}(str2))
+val () = assertloc (str = $UN.castvwtp1{string}(str2))
 val () = strdup_free (pf | str2)
 //
 val (pf | str2) = strdupa (str)
-val () = assertloc (str = $UNSAFE.castvwtp1{string}(str2))
+val () = assertloc (str = $UN.castvwtp1{string}(str2))
 val () = strdupa_free (pf | str2)
 //
 } // end f [val]

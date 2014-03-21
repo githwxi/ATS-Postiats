@@ -625,11 +625,8 @@ end // end of [p_staloadarg]
 (*
 staload ::=
   | s0tring
-  | stai0de EQ s0tring
-(*
-  | stai0de EQ s0tring
-  | stai0de EQ s0tring
-*)
+  | i0de_dlr
+  | stai0de EQ staloadarg
 *)
 fun
 p_staload_tok

@@ -7,11 +7,8 @@
 #include
 "share/atspre_staload.hats"
 //
-(* ****** ****** *)
-
-staload
-UNSAFE = "prelude/SATS/unsafe.sats"
-
+staload UN = $UNSAFE // aliasing
+//
 (* ****** ****** *)
 
 staload "libc/SATS/dirent.sats"
@@ -145,7 +142,10 @@ typedef compar = (&ptr(*direntp*), &ptr(*direntp*)) -> int
 //
 val dirp = "."
 var namelst: ptr // uninitized
-val nitm = scandir (dirp, namelst, $UNSAFE.cast{filter}(0), $UNSAFE.cast{compar}(0))
+//
+val nitm =
+scandir (dirp, namelst, $UN.cast{filter}(0), $UN.cast{compar}(0))
+//
 val () = assertloc (nitm >= 0)
 val () = println! ("scandir(...) = ", nitm)
 //
@@ -155,7 +155,7 @@ implement
 array_uninitize$clear<ptr> (i, x) = direntp_free (x)
 val asz = g0i2u (nitm)
 val [n:int] asz = g1ofg0_uint (asz)
-val () = arrayptr_freelin ($UNSAFE.castvwtp0{arrayptr(ptr, n)}(namelst), asz)
+val () = arrayptr_freelin ($UN.castvwtp0{arrayptr(ptr, n)}(namelst), asz)
 //
 val () = println! ("[namelst] is properly freed.")
 //
