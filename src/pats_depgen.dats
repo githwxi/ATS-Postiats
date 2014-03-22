@@ -288,7 +288,7 @@ case+
   d0c0.d0ecl_node of
 //
 | D0Cinclude
-    (cfil, _, given) => let
+    (pfil, _, given) => let
     val opt = pathtry_givename (given)
   in
     case+ opt of
@@ -298,8 +298,8 @@ case+
   end // end of [DOCinclude]
 //
 | D0Cstaload
-    (pfil, _, givename) => let
-    val opt = pathtry_givename (givename)
+    (pfil, _, given) => let
+    val opt = pathtry_givename (given)
   in
     case+ opt of
     | ~Some_vt
@@ -307,15 +307,18 @@ case+
     | ~None_vt ((*void*)) => ()
   end // end of [D0Cstaload]
 //
-| D0Clocal (_head, _body) => let
-    val () = depgen_d0eclist (_head, res)
-    val () = depgen_d0eclist (_body, res)
-  in
-    // nothing
-  end // end of [D0Clocal]
+| D0Cstaloadloc
+    (pfil, nspace, d0cs) => depgen_d0eclist (d0cs, res)
 //
-| D0Cguadecl (knd, gd0c) =>
-    depgen_guad0ecl_node (gd0c.guad0ecl_node, res)
+| D0Clocal
+    (d0cs_head, d0cs_body) =>
+  {
+    val () = depgen_d0eclist (d0cs_head, res)
+    val () = depgen_d0eclist (d0cs_body, res)
+  } (* end of [D0Clocal] *)
+//
+| D0Cguadecl
+    (knd, gd0c) => depgen_guad0ecl_node (gd0c.guad0ecl_node, res)
   // end of [D0Cguadecl]
 //
 | _ (*rest*) => ((*void*))

@@ -1877,13 +1877,13 @@ end // end of [s1taload_tr]
 //
 extern  
 fun
-s1taname_tr
+s1taloadnm_tr
 (
   d1c0: d1ecl
 ) : void // end-of-fun
 //
 implement
-s1taname_tr (d1c0) = let
+s1taloadnm_tr (d1c0) = let
 //
 fn auxerr
 (
@@ -1891,19 +1891,19 @@ fn auxerr
 ) : void = let
   val () =
     prerr_error2_loc (d1c0.d1ecl_loc)
-  val () = filprerr_ifdebug "s1taname_tr"
+  val () = filprerr_ifdebug "s1taloadnm_tr"
   val () = prerr ": the name ["
   val () = $SYM.prerr_symbol (name)
   val () = prerr "] does not refer to a namespace."
   val () = prerr_newline ((*void*))
 in
-  the_trans2errlst_add (T2E_d1ecl_tr_staname (d1c0))
+  the_trans2errlst_add (T2E_d1ecl_tr_staloadnm (d1c0))
 end (* end of [auxerr] *)
 //
-val-D1Cstaname
-  (idopt, name) = d1c0.d1ecl_node
+val-D1Cstaloadnm
+  (idopt, nspace) = d1c0.d1ecl_node
 //
-val ans = the_s2expenv_find (name)
+val ans = the_s2expenv_find (nspace)
 //
 in
 //
@@ -1916,11 +1916,11 @@ case+ ans of
         | Some (id) => the_s2expenv_add (id, s2i)
         | None ((*void*)) => $NS.the_namespace_add (fenv)
       ) (* end of [S2ITMfi1lenv] *)
-    | _(*non-S2ITMfilenv*) => auxerr (d1c0, name)
+    | _(*non-S2ITMfilenv*) => auxerr (d1c0, nspace)
   ) (* end of [Some_vt] *)
-| ~None_vt ((*void*)) => auxerr (d1c0, name)
+| ~None_vt ((*void*)) => auxerr (d1c0, nspace)
 //
-end // end of [s1taname_tr]
+end // end of [s1taloadnm_tr]
   
 (* ****** ****** *)
 
@@ -1994,7 +1994,9 @@ end // end of [auxcheck_impdec]
 in
 //
 case+ d1c0.d1ecl_node of
+//
 | D1Cnone () => d2ecl_none (loc0)
+//
 | D1Clist (ds) => let
     val ds = l2l (list_map_fun (ds, d1ecl_tr))
   in
@@ -2216,7 +2218,8 @@ case+ d1c0.d1ecl_node of
       (loc0, idopt, fil, ldflag, d1cs, loaded)
 //
 // HX-2013-10-30:
-// Overloading declarations cannot permeate a NAMED namespace!!!
+// Overloading declarations
+// is not allowed to permeate a NAMED namespace!!!
 //
     val () = (
     case+ idopt of
@@ -2231,9 +2234,11 @@ case+ d1c0.d1ecl_node of
     d2ecl_staload (loc0, idopt, fil, ldflag, fenv, loaded)
   end // end of [D1Cstaload]
 //
-| D1Cstaname _ => let
-    val () = s1taname_tr (d1c0) in d2ecl_none (loc0)
-  end // end of [D1Cstaname]
+| D1Cstaloadnm _ => let
+    val () = s1taloadnm_tr (d1c0) in d2ecl_none (loc0)
+  end // end of [D1Cstaloadnm]
+//
+| D1Cstaloadloc _ => d2ecl_none (loc0) // HX: placeholder for now
 //
 | D1Cdynload (fil) => d2ecl_dynload (loc0, fil)
 //

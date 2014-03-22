@@ -689,10 +689,9 @@ val () = (
   | ~None_vt () => () // the default value
 ) : void // end of [val]
 //
-val (
-) = the_trans1_env_restore (pfsave | (*none*))
+val () = the_trans1_env_restore (pfsave | (*none*))
 //
-val () = staload_file_insert (fil, ldflag, d1cs)
+val ((*void*)) = staload_file_insert (fil, ldflag, d1cs)
 //
 in
   d1cs
@@ -1045,9 +1044,20 @@ case+ d0c0.d0ecl_node of
     d1ecl_staload (loc0, idopt, fil, ldflag, d1cs)
   end // end of [D0Cstaload]
 //
-| D0Cstaname
-    (pfil, idopt, name) => d1ecl_staname (loc0, idopt, name)
-  // end of [D0Cstaname]
+| D0Cstaloadnm
+    (pfil, idopt, name) => d1ecl_staloadnm (loc0, idopt, name)
+  // end of [D0Cstaloadnm]
+//
+| D0Cstaloadloc
+  (
+    pfil, nspace, d0cs
+  ) => let
+    val (pfsave | ()) = the_trans1_env_save ()
+    val d1cs = d0eclist_tr (d0cs)
+    val () = the_trans1_env_restore (pfsave | (*none*))
+  in
+    d1ecl_staloadloc (loc0, nspace, d1cs)
+  end // end of [D0Cstaloadloc]
 //
 | D0Cdynload
     (pfil, given) => let

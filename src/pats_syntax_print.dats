@@ -1367,14 +1367,24 @@ case+ x.d0ecl_node of
     val () = fprint_string (out, name)
     val () = prstr ")"
   }
-| D0Cstaname
+| D0Cstaloadnm
   (
     pfil, idopt, name
   ) => {
-    val () = prstr "D0Cstaname("
+    val () = prstr "D0Cstaloadnm("
     val () = fprint_symbolopt (out, idopt)
     val () = prstr "; "
     val () = fprint_symbol (out, name)
+    val () = prstr ")"
+  }
+| D0Cstaloadloc
+  (
+    pfil, idsym, d0cs
+  ) => {
+    val () = prstr "D0Cstaloadloc("
+    val () = fprint_symbol (out, idsym)
+    val () = prstr "; "
+    val () = fprint_string (out, "(*d0eclist*)")
     val () = prstr ")"
   }
 //

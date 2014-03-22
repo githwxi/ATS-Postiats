@@ -1135,10 +1135,16 @@ d1ecl_staload
 // end of [d1ecl_staload]
 
 implement
-d1ecl_staname
+d1ecl_staloadnm
 (
   loc, idopt, name
-) = d1ecl_make_node (loc, D1Cstaname (idopt, name))
+) = d1ecl_make_node (loc, D1Cstaloadnm (idopt, name))
+
+implement
+d1ecl_staloadloc
+(
+  loc, nspace, d1cs
+) = d1ecl_make_node (loc, D1Cstaloadloc (nspace, d1cs))
 
 (* ****** ****** *)
 //

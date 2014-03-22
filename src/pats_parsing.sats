@@ -625,8 +625,15 @@ fun p_sc0lauseq : parser (sc0laulst) // static pattern-matching clauses
 
 fun p_d0ecl : parser (d0ecl)
 fun p_d0ecl_sta : parser (d0ecl)
-fun p_d0eclseq_sta : parser (d0eclist)
 fun p_d0ecl_dyn : parser (d0ecl)
+//
+fun
+p_d0eclseq_fun{a:type}
+(
+  buf: &tokbuf, bt: int, f: parser a
+) : List_vt (a) // end-of-fun
+//
+fun p_d0eclseq_sta : parser (d0eclist)
 fun p_d0eclseq_dyn : parser (d0eclist)
 //
 fun p_d0atsrtdecseq : parser (d0atsrtdeclst)

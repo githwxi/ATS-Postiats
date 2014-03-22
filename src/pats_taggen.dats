@@ -246,7 +246,10 @@ case+ d0c0.d0ecl_node of
 | D0Cinclude _ => ()
 //
 | D0Cstaload (pfil, idopt, fname) => ()
-| D0Cstaname (pfil, idopt, nspace) => ()
+| D0Cstaloadnm (pfil, idopt, nspace) => ()
+//
+| D0Cstaloadloc
+    (pfil, idsym, d0cs) => taggen_d0eclist (d0cs, res)
 //
 | D0Cdynload _ => ()
 //

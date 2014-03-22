@@ -289,7 +289,8 @@ datatype d1ecl_node =
 //
   | D1Cstaload of (* staloading a file *)
       (symbolopt, filename, int(*loadflag*), d1eclist)
-  | D1Cstaname of (symbolopt, symbol(*nspace*))
+  | D1Cstaloadnm of (symbolopt, symbol(*nspace*))
+  | D1Cstaloadloc of (symbol(*nspace*), d1eclist)
 //
   | D1Cdynload of filename (* dynloading a file *)
 //
@@ -938,7 +939,7 @@ fun d1ecl_dcstdecs
   loc: location
 , knd: int(*0/1:sta/ext*)
 , dck: dcstkind, qarg: q1marglst, d1cs: d1cstdeclst
-) : d1ecl // end of [d1ec_dcstdecs]
+) : d1ecl // end of [d1ecl_dcstdecs]
 
 fun d1ecl_extype (
   loc: location, name: string, def: s1exp
@@ -976,21 +977,18 @@ fun d1ecl_vardecs (loc: location, knd: int, v1ds: v1ardeclst): d1ecl
 fun d1ecl_include (loc: location, ds: d1eclist): d1ecl
 
 (* ****** ****** *)
-
+//
 fun
-d1ecl_staload
-(
+d1ecl_staload (
   loc: location
 , idopt: symbolopt
 , fil: filename, loadflag: int, d1cs: d1eclist
-) : d1ecl // end of [d1ec_staload]
-
-fun
-d1ecl_staname
-(
-  loc: location, idopt: symbolopt, name: symbol
-) : d1ecl // end of [d1ec_staname]
-
+) : d1ecl // end of [d1ecl_staload]
+fun d1ecl_staloadnm
+  (loc: location, idopt: symbolopt, name: symbol): d1ecl
+fun d1ecl_staloadloc
+  (loc: location, nspace: symbol, d1cs: d1eclist): d1ecl
+//
 (* ****** ****** *)
 
 fun d1ecl_dynload (loc: location, fil: filename): d1ecl

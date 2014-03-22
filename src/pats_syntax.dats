@@ -2943,15 +2943,11 @@ d0ecl_staload_nspace
 //
 in '{
   d0ecl_loc= loc
-, d0ecl_node= D0Cstaname (pfil, None, name)
+, d0ecl_node= D0Cstaloadnm (pfil, None, name)
 } end // end of [d0ecl_staload_nspace]
 
 (* ****** ****** *)
 
-extern
-fun
-staloadarg_get_loc
-  (arg: staloadarg): location
 implement
 staloadarg_get_loc (arg) = let
 in
@@ -2959,11 +2955,17 @@ in
 case+ arg of
 | STLDfname (loc, name) => loc
 | STLDnspace (loc, name) => loc
-(*
 | STLDdeclist (loc, d0cs) => loc
-*)
 //
 end // end of [staloadarg_get_loc]
+
+(* ****** ****** *)
+
+implement
+staloadarg_declist
+  (t_lb, d0cs, t_lr) =
+  STLDdeclist (t_lb.token_loc + t_lr.token_loc, d0cs)
+// end of [staloadarg_declist]
 
 (* ****** ****** *)
 
@@ -2972,11 +2974,10 @@ d0ecl_staload_some_arg
   (tok, ent2, ent4) = let
 //
 val sym = ent2.i0de_sym
-val symopt = Some (sym)
 val loc =
   tok.token_loc + staloadarg_get_loc (ent4)
 //
-val pfil = $FIL.filename_get_current ()
+val pfil = $FIL.filename_get_current ((*void*))
 //
 val d0cn = (
 case+ ent4 of
@@ -2984,17 +2985,15 @@ case+ ent4 of
     val () =
     the_parerrlst_add_ifunclosed (loc, name)
   in
-    D0Cstaload (pfil, symopt, name)
+    D0Cstaload (pfil, Some(sym), name)
   end // end of [STLDfname]
 | STLDnspace (loc, name) => let
     val name = $SYM.symbol_make_string (name)
   in
-    D0Cstaname (pfil, symopt, name)
+    D0Cstaloadnm (pfil, Some(sym), name)
   end // end of [STLDnspace]
-(*
 | STLDdeclist
-    (_, d0cs) => D0Cstaload_declist (pfil, symopt, d0cs)
-*)
+    (_, d0cs) => D0Cstaloadloc (pfil, sym, d0cs)
 ) : d0ecl_node // end of [val]
 //
 in '{

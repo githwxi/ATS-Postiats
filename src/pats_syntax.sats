@@ -1304,11 +1304,10 @@ d0ecl_node =
 //
   | D0Cstaload of
       (filename(*pfil*), symbolopt, string(*fname*)) // HX: "..."
-  | D0Cstaname of
+  | D0Cstaloadnm of
       (filename(*pfil*), symbolopt, symbol(*nspace*)) // HX: $...
-(*
-  | D0Cstaloadloc of (filename(*pfil*), symbolopt, d0eclist) // HX: { ... }
-*)
+  | D0Cstaloadloc of
+      (filename(*pfil*), symbol(*nspace*), d0eclist) // HX: { ... }
 //
   | D0Cdynload of (filename(*pfil*), string(*path*)) // HX: dynloading(*initialization*)
 //
@@ -1319,9 +1318,7 @@ d0ecl_node =
 and staloadarg =
   | STLDfname of (location, string) // staload "..."
   | STLDnspace of (location, string) // staload $...
-(*
   | STLDdeclist of (location, d0eclist) // staload { ... }
-*)
 // end of [staloadarg]
 
 and guad0ecl_node =
@@ -2022,6 +2019,10 @@ fun d0ecl_valdecs (
   knd: valkind, isrec: bool, tok: token, ds: v0aldeclst
 ) : d0ecl // end of [d0ecl_valdecs]
 fun d0ecl_vardecs (knd: int, tok: token, ds: v0ardeclst): d0ecl
+//
+fun staloadarg_get_loc (arg: staloadarg): location
+fun staloadarg_declist
+  (t_lbrace: token, ds: d0eclist, t_rbrace: token): staloadarg
 //
 fun d0ecl_staload_fname (tok: token, tok2: token): d0ecl
 fun d0ecl_staload_nspace (tok: token, tok2: token): d0ecl

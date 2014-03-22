@@ -1077,15 +1077,21 @@ case+ d1c0.d1ecl_node of
       $FIL.fprint_filename_full (out, fname)
     val () = prstr ")"
   } (* end of [D1Cstaload] *)
-| D1Cstaname
+| D1Cstaloadnm
     (idopt, nspace) => {
-    val () = prstr "D1Cstaname("
+    val () = prstr "D1Cstaloadnm("
     val () =
       $SYM.fprint_symbolopt (out, idopt)
     val () = prstr "="
     val () = $SYM.fprint_symbol (out, nspace)
     val () = prstr ")"
   } (* end of [D1Cstaname] *)
+| D1Cstaloadloc
+    (nspace, d1cs) => {
+    val () = prstr "D1Cstaloadloc("
+    val () = $SYM.fprint_symbol (out, nspace)
+    val () = prstr ", ...)"
+  } (* end of [D1Cstaloadloc] *)
 //
 | D1Cdynload (fname) => {
     val () = prstr "D1Cdynload("
