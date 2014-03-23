@@ -1,6 +1,6 @@
 (* ****** ****** *)
 //
-// HX: lib-support for gtkcairodraw
+// HX: lib-support for gtkcairotimer
 //
 (* ****** ****** *)
 //
