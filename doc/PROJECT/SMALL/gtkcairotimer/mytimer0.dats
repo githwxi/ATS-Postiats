@@ -29,13 +29,12 @@ abstype charptrptr = $extype"charptrptr"
 (* ****** ****** *)
 //
 staload "{$LIBATSHWXI}/teaching/myGTK/SATS/gtkcairotimer.sats"
+staload "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/gtkcairotimer_toplevel.dats"
 //
-staload "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/the_timer.dats"
-//
-staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/timer.dats"
 staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/ControlPanel.dats"
 staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/DrawingPanel.dats"
 staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/gtkcairotimer_main.dats"
+staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/gtkcairotimer_timer.dats"
 //
 (* ****** ****** *)
 //
@@ -125,9 +124,7 @@ end // end of [mydraw_clock]
 
 (* ****** ****** *)
 
-dynload "./the_timer.dats"
-dynload "./the_nclick.dats"
-dynload "./the_topwin.dats"
+dynload "./mytimer0_toplevel.dats"
 
 (* ****** ****** *)
 

@@ -49,7 +49,7 @@ all:: mytimer0
 mytimer0: \
   mytimer0.dats ; \
   $(PATSCC2) -DATS_MEMALLOC_LIBC -D_GNU_SOURCE -o $@ \
-  the_timer.dats the_topwin.dats the_nclick.dats mytimer0.dats $(GTKFLAGS) -lm -lrt
+  mytimer0.dats mytimer0_toplevel.dats $(GTKFLAGS) -lm -lrt
 #
 cleanall:: ; $(RMF) mytimer0
 #

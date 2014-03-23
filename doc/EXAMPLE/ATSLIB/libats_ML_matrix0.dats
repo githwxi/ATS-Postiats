@@ -60,6 +60,10 @@ for (j := 0; j < 4; j := j+1) M_elt[0,j] := 0
 //
 val () = fprintln! (out, "M_elt = ", M_elt)
 //
+val () = matrix0_iforeach (M_elt, lam (i, j, x) => x := 0)
+//
+val () = fprintln! (out, "M_elt = ", M_elt)
+//
 } (* end of [val] *)
 
 (* ****** ****** *)

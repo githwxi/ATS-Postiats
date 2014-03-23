@@ -5,7 +5,7 @@
 (* ****** ****** *)
 //
 #define ATS_PACKNAME
-"ATSCNTRB.libats-hwxi.teaching.gtkcairotimer_the_nclick"
+"ATSCNTRB.libats-hwxi.teaching.gtkcairotimer_toplevel"
 //
 (* ****** ****** *)
 
@@ -16,9 +16,9 @@
 
 local
 #include
-"{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/the_nclick.dats"
+"{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/gtkcairotimer_toplevel.dats"
 in (*nothing*) end
 
 (* ****** ****** *)
 
-(* end of [the_nclick.dats] *)
+(* end of [mytimer0_toplevel.dats] *)

@@ -229,7 +229,7 @@ end else ((*void*)) // end of [if]
 ) (* end of [loop] *)
 //
 in
-  loop (ptrcast(M), i2sz(0), i2sz(0), m * n)
+  loop (ptrcast(M), m * n, i2sz(0), i2sz(0))
 end // end of [matrix0_iforeach]
 
 (* ****** ****** *)
