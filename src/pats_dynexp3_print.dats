@@ -673,11 +673,12 @@ case+ d3c0.d3ecl_node of
 | D3Cinclude _ => prstr "D3Cinclude(...)"
 //
 | D3Cstaload _ => prstr "D3Cstaload(...)"
+| D3Cstaloadloc _ => prstr "D3Cstaloadloc(...)"
 //
-| D3Cdynload (fil) =>
+| D3Cdynload (cfil) =>
   {
     val () = prstr "D3Cdynload("
-    val () = $FIL.fprint_filename_full (out, fil)
+    val () = $FIL.fprint_filename_full (out, cfil)
     val () = prstr ")"
   }
 //

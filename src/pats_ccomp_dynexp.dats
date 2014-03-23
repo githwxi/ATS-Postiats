@@ -329,7 +329,7 @@ case+ hde0.hidexp_node of
     val ins_pop = instr_letpop (loc0)
     val () = instrseq_add (res, ins_pop)
 //
-    val () = ccompenv_pop (pfpush | env)
+    val ((*void*)) = ccompenv_pop (pfpush | env)
 //
   in
     pmv_scope

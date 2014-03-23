@@ -52,13 +52,19 @@ staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload LAB = "./pats_label.sats"
-staload FIL = "./pats_filename.sats"
-staload LOC = "./pats_location.sats"
+staload
+LAB = "./pats_label.sats"
+staload
+LOC = "./pats_location.sats"
+staload
+FIL = "./pats_filename.sats"
 
 (* ****** ****** *)
 
-staload SYN = "./pats_syntax.sats"
+staload
+SYM = "./pats_symbol.sats"
+staload
+SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
 
@@ -202,9 +208,11 @@ case+ x.primdec_node of
     val () = prstr ")"
   }
 //
-| PMDinclude (pmds) =>
+| PMDinclude (knd, pmds) =>
   {
-    val () = prstr "PMDinclude(\n"
+    val () = prstr "PMDinclude("
+    val () = fprint_int (out, knd)
+    val () = prstr "\n"
     val () = fprint_primdeclst (out, pmds)
     val () = prstr ")"
   }
@@ -212,11 +220,31 @@ case+ x.primdec_node of
 | PMDstaload (hid) =>
   {
     val-HIDstaload
-      (fil, _, _, _) = hid.hidecl_node
+      (idopt, cfil, _, _, _) = hid.hidecl_node
     val () = prstr "PMDstaload("
-    val () = $FIL.fprint_filename_full (out, fil)
+    val () = (
+      case+ idopt of
+      | Some (id) =>
+          $SYM.fprint_symbol (out, id)
+      | None ((*void*)) => ()
+    ) : void // end of [val]
+    val () = (
+      case+ idopt of Some (id) => prstr " = " | None () => ()
+    ) : void // end of [val]
+    val () = $FIL.fprint_filename_full (out, cfil)
     val () = prstr ")"
   }
+//
+| PMDstaloadloc
+    (pfil, nspace, pmds) =>
+  {
+    val () = prstr "PMDstaloadloc("
+    val () =
+      $FIL.fprint_filename_full (out, pfil)
+    val () = $SYM.fprint_symbol (out, nspace)
+    val () = prstr " = (*primdeclist*)"
+    val () = prstr ")"
+  } (* end of [PMDstaloadloc] *)
 //
 | PMDdynload (hid) =>
   {

@@ -673,11 +673,20 @@ fun auxerr
 (
   loc0: loc_t, d2v: d2var
 ) : void = let
+//
   val () = prerr_error3_loc (loc0)
-  val () = prerr ": the linear dynamic variable ["
-  val () = prerr_d2var (d2v)
-  val () = prerr "] is no longer available."
-  val () = prerr_newline ()
+  val islin = d2var_is_linear (d2v)
+//
+  val () =
+  if islin then
+    prerrln! (": the linear dynamic variable [", d2v, "] is no longer available.")
+  // end of [if]
+//
+  val () =
+  if not(islin) then
+    prerrln! (": the dynamic variable [", d2v, "] is not available for external use.")
+  // end of [if]
+//
 in
   the_trans3errlst_add (T3E_d2var_typeless (loc0, d2v))
 end // end of [auxerr]
@@ -688,7 +697,7 @@ in
 //
 case+ opt of
 | Some s2e => s2e
-| None () => let
+| None ((*void*)) => let
     val () = auxerr (loc0, d2v) in s2exp_t0ype_err ()
   end // end of [None]
 //
@@ -726,7 +735,8 @@ val () = (
 val s2qs = d2var_get_decarg (d2v)
 val s2e0 = d2var_get_type_some (loc0, d2v)
 //
-val () = if lin >= 0 then let
+val () =
+if lin >= 0 then let
   val isllamlocal =
     the_d2varenv_d2var_is_llamlocal (d2v)
   // end of [val]
@@ -741,7 +751,7 @@ end else let
   val () = prerr ": the linear dynamic variable ["
   val () = prerr_d2var (d2v)
   val () = prerr "] is expected to be local but it is not."
-  val () = prerr_newline ()
+  val () = prerr_newline ((*void*))
 in
   the_trans3errlst_add (T3E_d2var_trup_llamlocal (d2v))
 end // end of [if]

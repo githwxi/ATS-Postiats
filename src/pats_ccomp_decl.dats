@@ -205,19 +205,19 @@ case+ hid0.hidecl_node of
   end // end of [HIDvardecs]
 //
 | HIDinclude
-    (hids) => let
+    (knd, hids) => let
 (*
     val () = println! ("hidecl_ccomp: HIDinclude: loc0 = ", loc0)
     val () = println! ("hidecl_ccomp: HIDinclude: hid0 = ", hid0)
 *)
     val pmds = hideclist_ccomp (env, hids)
   in
-    primdec_include (loc0, pmds)
+    primdec_include (loc0, knd, pmds)
   end // end of [HIDinclude]
 //
 | HIDstaload
   (
-    fil, flag, fenv, loaded
+    idopt, cfil, flag, fenv, loaded
   ) => let
 (*
     val () = println! ("hidecl_ccomp: HIDstaload: loc0 = ", loc0)
@@ -228,6 +228,15 @@ case+ hid0.hidecl_node of
   in
     primdec_staload (loc0, hid0)
   end // end of [HIDstaload]
+//
+| HIDstaloadloc
+    (pfil, nspace, hids) => let
+    val (pf | ()) = ccompenv_push (env)
+    val pmds = hideclist_ccomp (env, hids)    
+    val ((*void*)) = ccompenv_pop (pf | env)
+  in
+    primdec_staloadloc (loc0, pfil, nspace, pmds)
+  end // end of [HIDtsaloadloc]
 //
 | HIDdynload _ => let
 (*
@@ -247,7 +256,7 @@ case+ hid0.hidecl_node of
     val pmds_head = hideclist_ccomp (env, hids_head)
     val (pf2 | ()) = ccompenv_push (env)
     val pmds_body = hideclist_ccomp (env, hids_body)
-    val () = ccompenv_localjoin (pf, pf2 | env)
+    val ((*void*)) = ccompenv_localjoin (pf, pf2 | env)
   in
     primdec_local (loc0, pmds_head, pmds_body)
   end // end of [HIDlocal]

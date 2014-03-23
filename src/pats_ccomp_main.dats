@@ -48,7 +48,11 @@ staload "pats_basics.sats"
 (* ****** ****** *)
 
 staload
-GLOB = "./pats_global.sats"
+FIL = "./pats_filename.sats"
+
+(* ****** ****** *)
+
+staload GLOB = "./pats_global.sats"
 
 (* ****** ****** *)
 //
@@ -839,7 +843,8 @@ val () = emit_text (out, "/*\n")
 val () = emit_text (out, "** for initialization(dynloading)")
 val () = emit_text (out, "\n*/\n")
 //
-val () = emit_text (out, "atsvoid_t0ype\n")
+val () =
+emit_text (out, "atsvoid_t0ype\n")
 val () = emit_dynload (out, infil)
 val () = emit_text (out, "()\n{\n")
 val () = if flag <= 0 then emit_text (out, "ATSdynload0(\n")
@@ -1105,9 +1110,15 @@ ccomp_main
 (
   out, flag, infil, hids
 ) = let
+//
 (*
-val () = println! ("ccomp_main: enter")
+val () =
+  print ("ccomp_main: infil = ")
+val () =
+  $FIL.print_filename_full (infil)
+val () = print_newline ((*void*))
 *)
+//
 val () = emit_time_stamp (out)
 val () = emit_ats_ccomp_header (out)
 val () = emit_ats_ccomp_prelude (out)

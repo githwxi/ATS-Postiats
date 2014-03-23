@@ -1160,18 +1160,29 @@ d2ecl_impdec (loc, knd, d2c) =
 (* ****** ****** *)
 
 implement
-d2ecl_include (loc, d2cs) =
-  d2ecl_make_node (loc, D2Cinclude (d2cs))
+d2ecl_include (loc, knd, d2cs) =
+  d2ecl_make_node (loc, D2Cinclude (knd, d2cs))
+
+(* ****** ****** *)
 
 implement
 d2ecl_staload (
-  loc, idopt, fil, flag, fenv, loaded
-) =
-  d2ecl_make_node (loc, D2Cstaload (idopt, fil, flag, fenv, loaded))
+  loc, idopt, cfil, flag, fenv, loaded
+) = d2ecl_make_node
+  (loc, D2Cstaload (idopt, cfil, flag, fenv, loaded))
 // endof [d2ecl_staload]
 
 implement
+d2ecl_staloadloc (
+  loc, pfil, nspace, fenv
+) = d2ecl_make_node (loc, D2Cstaloadloc (pfil, nspace, fenv))
+
+(* ****** ****** *)
+
+implement
 d2ecl_dynload (loc, fil) = d2ecl_make_node (loc, D2Cdynload (fil))
+
+(* ****** ****** *)
 
 implement d2ecl_local
   (loc, head, body) = d2ecl_make_node (loc, D2Clocal (head, body))

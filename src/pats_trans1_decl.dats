@@ -605,8 +605,10 @@ val () = println! ("Including [", fil, "] finishes.")
 
 fun
 ats_packname_get
-  (): Stropt = let
-  val opt = the_e1xpenv_find (ATS_PACKNAME)
+  ((*void*)): Stropt = let
+//
+val opt = the_e1xpenv_find (ATS_PACKNAME)
+//
 in
 //
 case+ opt of
@@ -623,6 +625,37 @@ case+ opt of
 | ~None_vt () => stropt_none (*void*)
 //
 end // end of [ats_packname_get]
+
+(* ****** ****** *)
+
+fun
+ats_packname_get2
+  (opt: Stropt, nspace: symbol): Stropt = let
+//
+val opt2 = ats_packname_get ()
+val issome = stropt_is_some (opt2)
+//
+in
+//
+if issome
+  then opt2
+  else let
+    val issome = stropt_is_some (opt)
+  in
+    if issome
+      then let
+        val name = stropt_unsome (opt)
+        val nspace = $SYM.symbol_get_name (nspace)
+        val name = sprintf ("%s%s", @(name, nspace))
+        val name = string_of_strptr (name)
+      in
+        stropt_some (name)
+      end // end of [then]
+      else stropt_none (*void*)
+    // end of [issome]
+  end // end of [else]
+//
+end // end of [ats_packname_get2]
 
 (* ****** ****** *)
 
@@ -1022,7 +1055,7 @@ case+ d0c0.d0ecl_node of
     val d1cs = i0nclude_tr (d0c0, stadyn, given)
     val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
   in
-    d1ecl_include (loc0, d1cs)
+    d1ecl_include (loc0, stadyn, d1cs)
   end // end of [D0Cinclude]
 //
 | D0Cstaload
@@ -1045,18 +1078,27 @@ case+ d0c0.d0ecl_node of
   end // end of [D0Cstaload]
 //
 | D0Cstaloadnm
-    (pfil, idopt, name) => d1ecl_staloadnm (loc0, idopt, name)
+    (pfil, alias, nspace) => d1ecl_staloadnm (loc0, alias, nspace)
   // end of [D0Cstaloadnm]
 //
 | D0Cstaloadloc
   (
     pfil, nspace, d0cs
   ) => let
+//
+    val opt = ats_packname_get ()
+//
     val (pfsave | ()) = the_trans1_env_save ()
-    val d1cs = d0eclist_tr (d0cs)
+//
+    val d1cs = d0eclist_tr (d0cs) // HX: it is done in [pfil]
+//
+    val pack2 = ats_packname_get2 (opt, nspace)
+    val d1c_pack2 = d1ecl_packname (pack2) // HX: special decl
+    val d1cs = list_cons{d1ecl}(d1c_pack2, d1cs)
+//
     val () = the_trans1_env_restore (pfsave | (*none*))
   in
-    d1ecl_staloadloc (loc0, nspace, d1cs)
+    d1ecl_staloadloc (loc0, pfil, nspace, d1cs)
   end // end of [D0Cstaloadloc]
 //
 | D0Cdynload

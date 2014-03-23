@@ -1802,9 +1802,7 @@ s1taload_tr
 (
   loc0: location
 , idopt: symbolopt
-, fil: filename
-, ldflag: int
-, d1cs: d1eclist
+, fil: filename, ldflag: int, d1cs: d1eclist
 , loaded: &int? >> int
 ) : filenv // end-of-fun
 //
@@ -1862,7 +1860,7 @@ loaded: int
 val () = (
 case+ idopt of
 | Some (id) =>
-    the_s2expenv_add (id, S2ITMfilenv fenv)
+    the_s2expenv_add (id, S2ITMfilenv(fenv))
 | None ((*void*)) =>
     $NS.the_namespace_add (fenv) // opening file
 ) : void // end of [val]
@@ -1946,7 +1944,7 @@ case+ d2cs of
           | Some (d2i) => overload_tr_def (loc, id, pval, d2i) | None () => ()
         end (* end of [D2Coverload] *)
 //
-      | D2Cinclude (d2cs2) => overload_tr_d2eclist (d2cs2)
+      | D2Cinclude (knd, d2cs2) => overload_tr_d2eclist (d2cs2)
 //
       | _ (*ignored*) => ()
 //
@@ -2187,10 +2185,9 @@ case+ d1c0.d1ecl_node of
   ) => let
     val v2ds = v1aldeclst_tr (isrec, v1ds)
   in
-    if not(isrec) then
-      d2ecl_valdecs (loc0, knd, v2ds)
-    else
-      d2ecl_valdecs_rec (loc0, knd, v2ds)
+    if not(isrec)
+      then d2ecl_valdecs (loc0, knd, v2ds)
+      else d2ecl_valdecs_rec (loc0, knd, v2ds)
     // end of [if]
   end // end of [D1Cvaldecs]
 //
@@ -2203,8 +2200,8 @@ case+ d1c0.d1ecl_node of
     end // end of [if]
   ) // end of [D1Cvardecs]
 //
-| D1Cinclude (d1cs) => let
-    val d2cs = d1eclist_tr (d1cs) in d2ecl_include (loc0, d2cs)
+| D1Cinclude (knd, d1cs) => let
+    val d2cs = d1eclist_tr (d1cs) in d2ecl_include (loc0, knd, d2cs)
   end // end of [D1Cinclude]
 //
 | D1Cstaload
@@ -2238,7 +2235,22 @@ case+ d1c0.d1ecl_node of
     val () = s1taloadnm_tr (d1c0) in d2ecl_none (loc0)
   end // end of [D1Cstaloadnm]
 //
-| D1Cstaloadloc _ => d2ecl_none (loc0) // HX: placeholder for now
+| D1Cstaloadloc
+  (
+    pfil, nspace, d1cs_loc
+  ) => let
+    val (pfsave | ((*void*))) = the_trans2_env_save ()
+//
+    val opt = $GLOB.the_PACKNAME_get ()
+    val d2cs_loc = d1eclist_tr (d1cs_loc) // local declarations
+    val ((*void*)) = $GLOB.the_PACKNAME_set (opt)
+//
+    val (m0, m1, m2) = the_trans2_env_restore (pfsave | (*void*))
+    val fenv = filenv_make (pfil, m0, m1, m2, d2cs_loc)
+    val ((*void*)) = the_s2expenv_add (nspace, S2ITMfilenv(fenv))
+  in
+    d2ecl_staloadloc (loc0, pfil, nspace, fenv)
+  end // end of [D1Cstaloadloc]
 //
 | D1Cdynload (fil) => d2ecl_dynload (loc0, fil)
 //

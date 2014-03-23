@@ -711,12 +711,16 @@ d2ecl_node =
   | D2Cvardecs of (v2ardeclst) // variable declarations
   | D2Cprvardecs of (prv2ardeclst) // proof variable declarations
 //
-  | D2Cinclude of d2eclist (* file inclusion *)
+  | D2Cinclude of (int(*knd*), d2eclist) (* file inclusion *)
 //
-  | D2Cstaload of (
-      symbolopt(*id*), filename, int(*loadflag*), filenv, int(*loaded*)
-    ) // end of [D2staload]
-  | D2Cdynload of (filename) (* dynamic load *)
+  | D2Cstaload of
+    (
+      symbolopt, filename, int(*loadflag*), filenv, int(*loaded*)
+    ) (* end of [D2staload] *)
+//
+  | D2Cstaloadloc of (filename(*pfil*), symbol(*nspace*), filenv)
+//
+  | D2Cdynload of (filename) (* dynamic load for initialization *)
 //
   | D2Clocal of (d2eclist(*head*), d2eclist(*body*)) // local declaration
 //
@@ -1618,16 +1622,30 @@ fun d2ecl_impdec
 
 (* ****** ****** *)
 
-fun d2ecl_include (loc: location, d2cs: d2eclist): d2ecl
+fun d2ecl_include
+  (loc: location, knd: int, d2cs: d2eclist): d2ecl
+// end of [d2ecl_include]
+
+(* ****** ****** *)
 
 fun d2ecl_staload
 (
   loc: location
-, idopt: symbolopt
-, fil: filename, loadflag: int, fenv: filenv, loaded: int
-) : d2ecl // end of [d2ecl_staload]
+, idopt: symbolopt, cfil: filename
+, ldflag: int, fenv: filenv, loaded: int
+) : d2ecl // end-of-fun
+
+fun d2ecl_staloadloc
+(
+  loc: location
+, pfil: filename, nspace: symbol, fenv: filenv
+) : d2ecl // end-of-fun
+
+(* ****** ****** *)
 
 fun d2ecl_dynload (loc: location, fil: filename): d2ecl
+
+(* ****** ****** *)
 
 fun d2ecl_local (loc: location, ds1: d2eclist, ds2: d2eclist): d2ecl
 

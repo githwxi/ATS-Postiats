@@ -252,12 +252,15 @@ d3ecl_node =
       (prv3ardeclst) // local proof variable declarations
     // end of [D3Cprvardecs]
 //
-  | D3Cinclude of d3eclist (* file inclusion *)
+  | D3Cinclude of (int(*knd*), d3eclist) (* file inclusion *)
 //
   | D3Cstaload of
     (
-      filename, int(*flag*), filenv, int(*loaded*)
-    ) // end of [D3Cstaload]
+      symbolopt, filename, int(*flag*), filenv, int(*loaded*)
+    ) (* end of [D3Cstaload] *)
+//
+  | D3Cstaloadloc of (filename(*pfil*), symbol(*nspace*), filenv)
+//
   | D3Cdynload of (filename)
 //
   | D3Clocal of (d3eclist(*head*), d3eclist(*body*))
@@ -1015,21 +1018,26 @@ fun d3ecl_prvardecs (loc: location, v3ds: prv3ardeclst): d3ecl
 
 (* ****** ****** *)
 
-fun d3ecl_include (loc: location, d3cs: d3eclist): d3ecl
+fun d3ecl_include
+  (loc: location, stadyn: int, d3cs: d3eclist): d3ecl
+// end of [d3ecl_include]
 
 (* ****** ****** *)
 
 fun d3ecl_staload
 (
   loc: location
-, fil: filename, loadflag: int, fenv: filenv, loaded: int
+, idopt: symbolopt
+, cfil: filename, loadflag: int, fenv: filenv, loaded: int
 ) : d3ecl // end of [d2ecl_staload]
 
-fun d3ecl_dynload (loc: location, fil: filename): void
+fun d3ecl_staloadloc
+  (loc: location, pfil: filename, nspace: symbol, fenv: filenv): d3ecl
+// end of [d3ecl_staloadloc]
 
 (* ****** ****** *)
 
-fun d3ecl_dynload (loc: location, fil: filename): d3ecl
+fun d3ecl_dynload (loc: location, cfil: filename): d3ecl
 
 (* ****** ****** *)
 

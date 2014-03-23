@@ -763,10 +763,11 @@ d2c0.d2ecl_node of
   end // end of [D2Cvaldecs]
 //
 | D2Cinclude
-    (d2cs) => let
+    (knd, d2cs) => let
+    val knd = jsonval_int (knd)
     val d2cs = jsonize_d2eclist (d2cs)
   in
-    jsonval_conarg1 ("D2Cinclude", d2cs)
+    jsonval_conarg2 ("D2Cinclude", knd, d2cs)
   end // end of [D2Cinclude]
 //
 | D2Clocal (head, body) => let

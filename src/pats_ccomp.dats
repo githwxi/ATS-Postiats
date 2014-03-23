@@ -139,22 +139,32 @@ primdec_valdecs_rec (loc, knd, hvds, inss) =
   primdec_make_node (loc, PMDvaldecs_rec (knd, hvds, inss))
 
 (* ****** ****** *)
-
+//
 implement
-primdec_vardecs (loc, hvds, inss) =
+primdec_vardecs
+  (loc, hvds, inss) =
   primdec_make_node (loc, PMDvardecs (hvds, inss))
-
+//
 (* ****** ****** *)
-
+//
 implement
-primdec_include (loc, pmds) =
-  primdec_make_node (loc, PMDinclude (pmds))
-
+primdec_include
+  (loc, knd, pmds) =
+  primdec_make_node (loc, PMDinclude (knd, pmds))
+//
 (* ****** ****** *)
 //
 implement
 primdec_staload (loc, hid) =
   primdec_make_node (loc, PMDstaload (hid))
+//
+implement
+primdec_staloadloc
+(
+  loc, pfil, nspace, hids
+) = primdec_make_node
+  (loc, PMDstaloadloc (pfil, nspace, hids))
+//
 implement
 primdec_dynload (loc, hid) =
   primdec_make_node (loc, PMDdynload (hid))

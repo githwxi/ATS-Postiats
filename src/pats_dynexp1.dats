@@ -1121,8 +1121,9 @@ d1ecl_vardecs
 (* ****** ****** *)
 
 implement
-d1ecl_include (loc, ds) =
-  d1ecl_make_node (loc, D1Cinclude (ds))
+d1ecl_include
+  (loc, knd, ds) = d1ecl_make_node (loc, D1Cinclude (knd, ds))
+// end of [d1ecl_include]
 
 (* ****** ****** *)
 
@@ -1137,14 +1138,14 @@ d1ecl_staload
 implement
 d1ecl_staloadnm
 (
-  loc, idopt, name
-) = d1ecl_make_node (loc, D1Cstaloadnm (idopt, name))
+  loc, alias, nspace
+) = d1ecl_make_node (loc, D1Cstaloadnm (alias, nspace))
 
 implement
 d1ecl_staloadloc
 (
-  loc, nspace, d1cs
-) = d1ecl_make_node (loc, D1Cstaloadloc (nspace, d1cs))
+  loc, pfil, nspace, d1cs
+) = d1ecl_make_node (loc, D1Cstaloadloc (pfil, nspace, d1cs))
 
 (* ****** ****** *)
 //

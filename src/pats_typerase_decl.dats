@@ -158,13 +158,13 @@ case+
 //
 | D3Cprvardecs _ => hidecl_none (loc0) // proof vars
 //
-| D3Cinclude (d3cs) => let
-    val hids = d3eclist_tyer (d3cs) in hidecl_include (loc0, hids)
+| D3Cinclude (knd, d3cs) => let
+    val hids = d3eclist_tyer (d3cs) in hidecl_include (loc0, knd, hids)
   end // end of [D3Cinclude]
 //
 | D3Cstaload
   (
-    fname, flag, fenv, loaded
+    idopt, fname, flag, fenv, loaded
   ) => let
     val-Some (d3cs) =
       $TRENV3.filenv_get_d3eclistopt (fenv)
@@ -192,17 +192,26 @@ case+
       end // end of [Some]
     ) : void // end of [val]
   in
-    hidecl_staload (loc0, fname, flag, fenv, loaded)
+    hidecl_staload (loc0, idopt, fname, flag, fenv, loaded)
   end // end of [D3Cstaload]
 //
-| D3Cdynload (fil) => hidecl_dynload (loc0, fil)
+| D3Cstaloadloc
+    (pfil, nspace, fenv) => let
+    val-Some (d3cs) =
+      $TRENV3.filenv_get_d3eclistopt (fenv)
+    val hids = d3eclist_tyer (d3cs)
+  in
+    hidecl_staloadloc (loc0, pfil, nspace, hids)
+  end // end of [D3Cstaloadloc]
+//
+| D3Cdynload (cfil) => hidecl_dynload (loc0, cfil)
 //
 | D3Clocal
-    (head, body) => let
-    val head = d3eclist_tyer (head)
-    val body = d3eclist_tyer (body)
+    (d3cs_head, d3cs_body) => let
+    val hids_head = d3eclist_tyer (d3cs_head)
+    val hids_body = d3eclist_tyer (d3cs_body)
   in
-    hidecl_local (loc0, head, body)
+    hidecl_local (loc0, hids_head, hids_body)
   end // end of [D3Clocal]
 //
 (*
@@ -508,7 +517,7 @@ case+ x.hidecl_node of
   end // end of [HIDimpdec]
 //
 | HIDinclude
-    (xs_incl) => auxlst (map, xs_incl)
+    (knd, xs_incl) => auxlst (map, xs_incl)
   (* end of [HIDinclude] *)
 //
 | HIDlocal
@@ -565,7 +574,7 @@ case+ x.hidecl_node of
   end // end of [HIDfundecs]
 //
 | HIDinclude
-    (xs_incl) => auxlst (map, xs_incl)
+    (knd, xs_incl) => auxlst (map, xs_incl)
   (* end of [HIDinclude] *)
 //
 | HIDlocal

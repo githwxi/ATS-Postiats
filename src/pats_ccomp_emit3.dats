@@ -331,8 +331,8 @@ emit_staload
 //
 val-HIDstaload
 (
-  fil, flag, fenv, loaded
-) = hid.hidecl_node
+  idopt, fil, flag, fenv, loaded
+) = hid.hidecl_node // end-of-val
 (*
 val () = 
   println! ("emit_staload: flag = ", flag)
@@ -1584,10 +1584,15 @@ case+ pmd.primdec_node of
 | PMDvardecs (hvds, inss) =>
     emit_instrlst_ln (out, $UN.cast{instrlst}(inss))
 //
-| PMDinclude (pmds) => emit_primdeclst (out, pmds)
+| PMDinclude
+    (pfil, pmds) => emit_primdeclst (out, pmds)
 //
 | PMDstaload _ => ()
-| PMDdynload (fil) => emit_dynload (out, fil)
+//
+| PMDstaloadloc
+    (pfil, nspace, pmds) => emit_primdeclst (out, pmds)
+//
+| PMDdynload (cfil) => emit_dynload (out, cfil)
 //
 | PMDlocal
   (

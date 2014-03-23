@@ -58,6 +58,7 @@ gtkcairotimer_timeout_update () = ((*void*))
 
 staload "./ControlPanel.dats"
 staload "./DrawingPanel.dats"
+staload "./gtkcairotimer_toplevel.dats"
 
 (* ****** ****** *)
 
@@ -107,11 +108,6 @@ fun{
 ) : gboolean // end of [on_key_release_event]
 implement{
 } on_key_release_event (widget, event, udata) = (GFALSE)
-
-(* ****** ****** *)
-
-staload
-TOPWIN = "./the_topwin.dats"
 
 (* ****** ****** *)
 

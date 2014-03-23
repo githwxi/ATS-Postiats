@@ -1059,9 +1059,12 @@ case+ d1c0.d1ecl_node of
     val () = prstr "\n)"
   }
 //
-| D1Cinclude (xs) => {
-    val () = prstr "D1Cinclude(\n"
-    val () = $UT.fprintlst (out, xs, "\n", fprint_d1ecl)
+| D1Cinclude
+    (knd, ds) => {
+    val () = prstr "D1Cinclude("
+    val () = fprint_int (out, knd)
+    val () = prstr "\n"
+    val () = $UT.fprintlst (out, ds, "\n", fprint_d1ecl)
     val () = prstr "\n)"
   }
 //
@@ -1078,19 +1081,19 @@ case+ d1c0.d1ecl_node of
     val () = prstr ")"
   } (* end of [D1Cstaload] *)
 | D1Cstaloadnm
-    (idopt, nspace) => {
+    (alias, nspace) => {
     val () = prstr "D1Cstaloadnm("
     val () =
-      $SYM.fprint_symbolopt (out, idopt)
+      $SYM.fprint_symbolopt (out, alias)
     val () = prstr "="
     val () = $SYM.fprint_symbol (out, nspace)
     val () = prstr ")"
   } (* end of [D1Cstaname] *)
 | D1Cstaloadloc
-    (nspace, d1cs) => {
+    (pfil, nspace, d1cs) => {
     val () = prstr "D1Cstaloadloc("
     val () = $SYM.fprint_symbol (out, nspace)
-    val () = prstr ", ...)"
+    val ((*omitted*)) = prstr ", ...)"
   } (* end of [D1Cstaloadloc] *)
 //
 | D1Cdynload (fname) => {

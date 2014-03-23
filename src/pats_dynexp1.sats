@@ -285,12 +285,12 @@ datatype d1ecl_node =
       (int(*knd*), v1ardeclst) (* variable declaration *) // knd=0/1:var/prvar
     // end of [D1Cvardecs]
 //
-  | D1Cinclude of d1eclist (* inclusion *)
+  | D1Cinclude of (int(*sta/dyn*), d1eclist) (* file inclusion *)
 //
   | D1Cstaload of (* staloading a file *)
       (symbolopt, filename, int(*loadflag*), d1eclist)
-  | D1Cstaloadnm of (symbolopt, symbol(*nspace*))
-  | D1Cstaloadloc of (symbol(*nspace*), d1eclist)
+  | D1Cstaloadnm of (symbolopt(*alias*), symbol(*nspace*))
+  | D1Cstaloadloc of (filename(*pfil*), symbol(*nspace*), d1eclist)
 //
   | D1Cdynload of filename (* dynloading a file *)
 //
@@ -954,27 +954,44 @@ fun d1ecl_extcode (
   loc: location, knd: int, pos: int, code: string
 ) : d1ecl // end of [d1ecl_extcode]
 
-fun d1ecl_macdefs (
+(* ****** ****** *)
+
+fun
+d1ecl_macdefs
+(
   loc: location, knd: int, isrec: bool, m1ds: m1acdeflst
 ) : d1ecl // end of [d1ecl_macdefs]
 
-fun d1ecl_impdec (
+(* ****** ****** *)
+
+fun
+d1ecl_impdec
+(
   loc: location, knd: int, imparg: i1mparg, d1c: i1mpdec
 ) : d1ecl // end of [d1ecl_impdec]
 
-fun d1ecl_fundecs (
-  loc: location, knd: funkind, qarg: q1marglst, f1ds: f1undeclst
+(* ****** ****** *)
+
+fun
+d1ecl_fundecs
+(
+  loc: location
+, knd: funkind, qarg: q1marglst, f1ds: f1undeclst
 ) : d1ecl // end of [d1ecl_fundecs]
 
-fun d1ecl_valdecs (
+fun d1ecl_valdecs
+(
   loc: location, knd: valkind, isrec: bool, v1ds: v1aldeclst
 ) : d1ecl // end of [d1ecl_valdecs]
 
-fun d1ecl_vardecs (loc: location, knd: int, v1ds: v1ardeclst): d1ecl
+fun d1ecl_vardecs
+  (loc: location, knd: int, v1ds: v1ardeclst): d1ecl
 
 (* ****** ****** *)
 
-fun d1ecl_include (loc: location, ds: d1eclist): d1ecl
+fun d1ecl_include
+  (loc: location, stadyn: int, ds: d1eclist): d1ecl
+// end of [d1ecl_include]
 
 (* ****** ****** *)
 //
@@ -982,12 +999,12 @@ fun
 d1ecl_staload (
   loc: location
 , idopt: symbolopt
-, fil: filename, loadflag: int, d1cs: d1eclist
+, cfil: filename, ldflag: int, d1cs: d1eclist
 ) : d1ecl // end of [d1ecl_staload]
 fun d1ecl_staloadnm
-  (loc: location, idopt: symbolopt, name: symbol): d1ecl
+  (loc: location, alias: symbolopt, nspace: symbol): d1ecl
 fun d1ecl_staloadloc
-  (loc: location, nspace: symbol, d1cs: d1eclist): d1ecl
+  (loc: location, pfil: filename, nspace: symbol, d1cs: d1eclist): d1ecl
 //
 (* ****** ****** *)
 

@@ -420,9 +420,12 @@ case+ pmd.primdec_node of
     val inss = $UN.cast{instrlst} (inss) in auxlst (res, inss)
   end // end of [PMDvardecs]
 //
-| PMDinclude (pmds) => auxpmdlst (res, pmds)
+| PMDinclude (knd, pmds) => auxpmdlst (res, pmds)
 //
 | PMDstaload _ => ()
+//
+| PMDstaloadloc (pfil, nspace, pmds) => auxpmdlst (res, pmds)
+//
 | PMDdynload _ => ()
 //
 | PMDlocal (

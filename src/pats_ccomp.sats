@@ -562,9 +562,12 @@ primdec_node =
 //
   | PMDimpdec of (hiimpdec)
 //
-  | PMDinclude of (primdeclst)
+  | PMDinclude of (int(*knd*), primdeclst)
 //
   | PMDstaload of (hidecl) // HX: staloading
+//
+  | PMDstaloadloc of (filename, symbol, primdeclst)
+//
   | PMDdynload of (hidecl) // HX: dynloading
 //
   | PMDlocal of (primdeclst, primdeclst)
@@ -735,13 +738,20 @@ fun primdec_impdec
 
 (* ****** ****** *)
 
-fun primdec_include (loc: location, pmds: primdeclst): primdec
+fun primdec_include
+  (loc: location, knd: int, pmds: primdeclst): primdec
 
 (* ****** ****** *)
-
+//
 fun primdec_staload (loc: location, hid: hidecl): primdec
+//
+fun primdec_staloadloc
+(
+  loc: location, pfil: filename, nspace: symbol, pmds: primdeclst
+) : primdec // end of [primdec_staloadloc]
+//
 fun primdec_dynload (loc: location, hid: hidecl): primdec
-
+//
 (* ****** ****** *)
 
 fun primdec_local

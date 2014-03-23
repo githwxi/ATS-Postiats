@@ -737,7 +737,14 @@ fprint_hiclau (out, x) = {
 } // end of [fprint_hiclau]
 
 (* ****** ****** *)
-
+//
+implement
+print_hidecl
+  (hid) = fprint_hidecl (stdout_ref, hid)
+implement
+prerr_hidecl
+  (hid) = fprint_hidecl (stderr_ref, hid)
+//
 implement
 fprint_hidecl
   (out, hid) = let
@@ -809,40 +816,51 @@ case+ hid.hidecl_node of
 //
 | HIDvardecs (hvds) => {
     val () = prstr "HIDvardecs(\n"
-    val () = $UT.fprintlst (out, hvds, "\n", fprint_hivardec)
+    val () =
+      $UT.fprintlst (out, hvds, "\n", fprint_hivardec)
     val () = prstr "\n)"
   } // end of [HIDvardec]
 //
 | HIDimpdec
-    (knd, himpdec) => {
+    (knd, himpdec) =>
+  {
     val () = prstr "HIDimpdec(\n"
     val () = fprint_hiimpdec (out, himpdec)
     val () = prstr "\n)"
   } (* end of [HIDimpdec] *)
 //
-| HIDinclude (hids) =>
-  {
-    val () = prstr "HIDinclude(\n"
+| HIDinclude
+    (knd, hids) => {
+    val () = prstr "HIDinclude("
+    val () = fprint_int (out, knd)
+    val () = prstr "\n"
     val () = $UT.fprintlst (out, hids, "\n", fprint_hidecl)
     val () = prstr "\n)"
   } (* end of [HIDinclude] *)
 //
 | HIDstaload
-    (fil, _, _, _) => (
-    prstr "HIDstaload("; $FIL.fprint_filename_full (out, fil); prstr ")"
-  ) (* end of [HIDstaload] *)
+    (idopt, cfil, _, _, _) =>
+  {
+    val () = prstr "HIDstaload("
+    val () = $FIL.fprint_filename_full (out, cfil)
+    val () = prstr ")"
+  } (* end of [HIDstaload] *)
+| HIDstaloadloc
+    (pfil, nspace, hids) =>
+  {
+    val () = prstr "HIDstaloadloc("
+    val () =
+      $FIL.fprint_filename_full (out, pfil)
+    val () = $SYM.fprint_symbol (out, nspace)
+    val () = prstr ")"
+  } (* end of [HIDstaloadloc] *)
 //
 | _ => {
     val () = prstr "HID...(...)"
   } // end of [_]
 //
 end // end of [fprint_hidecl]
-
-implement
-print_hidecl (hid) = fprint_hidecl (stdout_ref, hid)
-implement
-prerr_hidecl (hid) = fprint_hidecl (stderr_ref, hid)
-
+//
 (* ****** ****** *)
 
 implement

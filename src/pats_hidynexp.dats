@@ -888,18 +888,27 @@ hidecl_vardecs (loc, hvds) =
 (* ****** ****** *)
 
 implement
-hidecl_include (loc, hids) =
-  hidecl_make_node (loc, HIDinclude (hids))
+hidecl_include
+  (loc, knd, hids) =
+  hidecl_make_node (loc, HIDinclude (knd, hids))
 // end of [hidecl_include]
 
 (* ****** ****** *)
 
 implement
 hidecl_staload (
-  loc, fname, flag, loaded, fenv
-) = hidecl_make_node (
-  loc, HIDstaload (fname, flag, loaded, fenv)
-) // end of [hidecl_staload]
+  loc, idopt, fname, flag, loaded, fenv
+) = hidecl_make_node
+  (loc, HIDstaload (idopt, fname, flag, loaded, fenv))
+// end of [hidecl_staload]
+
+implement
+hidecl_staloadloc
+  (loc, pfil, nspace, hids) =
+  hidecl_make_node (loc, HIDstaloadloc (pfil, nspace, hids))
+// end of [hidecl_staloadloc]
+
+(* ****** ****** *)
 
 implement
 hidecl_dynload (loc, fil) =
