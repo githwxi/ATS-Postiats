@@ -5,7 +5,8 @@
 (* ****** ****** *)
 //
 #define ATS_PACKNAME
-"ATSCNTRB.libats-hwxi.teaching.gtkcairotimer_toplevel"
+"ATSCNTRB.libats-hwxi\
+.teaching.gtkcairotimer_toplevel"
 //
 (* ****** ****** *)
 

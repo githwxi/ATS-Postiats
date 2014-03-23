@@ -210,7 +210,7 @@ implement{
     fpf | cr
   ) = mydraw_get0_cairo<> ()
   val () = cairo_new_sub_path (cr)
-  val () = cairo_arc (cr, pc.x, pc.y, rad, 0.0, PI)
+  val () = cairo_arc (cr, pc.x, pc.y, rad, 0.0, 2*PI)
   prval ((*void*)) = fpf (cr)
 in
   // nothing

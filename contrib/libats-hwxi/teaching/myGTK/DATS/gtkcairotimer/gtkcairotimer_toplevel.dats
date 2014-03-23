@@ -39,10 +39,11 @@ initize (x: &T? >> T): void = x := the_null_ptr
 } (* end of [TOPWIN] *)
 
 (* ****** ****** *)
-
+//
 staload
-TIMER = "./gtkcairotimer_timer.dats"
-
+TIMER =
+"./gtkcairotimer_timer.dats"
+//
 (* ****** ****** *)
 //
 extern
