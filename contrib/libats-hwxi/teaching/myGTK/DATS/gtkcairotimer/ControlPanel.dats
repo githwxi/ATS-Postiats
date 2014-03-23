@@ -38,6 +38,10 @@ staload UN =
 //
 (* ****** ****** *)
 
+#define NULL the_null_ptr
+
+(* ****** ****** *)
+
 staload "{$GTK}/SATS/gdk.sats"
 staload "{$GTK}/SATS/gtk.sats"
 staload "{$GLIB}/SATS/glib.sats"
@@ -47,10 +51,6 @@ staload "{$GLIB}/SATS/glib-object.sats"
 //
 staload "./gtkcairotimer_toplevel.dats"
 //
-(* ****** ****** *)
-
-#define NULL the_null_ptr
-
 (* ****** ****** *)
 
 extern
