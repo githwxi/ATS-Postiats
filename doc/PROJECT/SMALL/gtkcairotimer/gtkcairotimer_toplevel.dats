@@ -21,4 +21,4 @@ in (*nothing*) end
 
 (* ****** ****** *)
 
-(* end of [mytimer0_toplevel.dats] *)
+(* end of [gtkcairotimer_toplevel.dats] *)

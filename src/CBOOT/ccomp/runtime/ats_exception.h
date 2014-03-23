@@ -47,13 +47,6 @@
 
 /* ****** ****** */
 //
-// HX:
-// for [sigsetjmp]
-//
-#ifndef _XOPEN_SOURCE
-#define _XOPEN_SOURCE
-#endif // end of [ifndef]
-//
 #include <setjmp.h>
 //
 /* ****** ****** */

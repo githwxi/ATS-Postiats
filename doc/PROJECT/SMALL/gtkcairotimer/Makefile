@@ -49,9 +49,20 @@ all:: mytimer0
 mytimer0: \
   mytimer0.dats ; \
   $(PATSCC2) -DATS_MEMALLOC_LIBC -D_GNU_SOURCE -o $@ \
-  mytimer0.dats mytimer0_toplevel.dats $(GTKFLAGS) -lm -lrt
+  mytimer0.dats gtkcairotimer_toplevel.dats $(GTKFLAGS) -lm -lrt
 #
 cleanall:: ; $(RMF) mytimer0
+#
+######
+#
+all:: mytimer1
+#
+mytimer1: \
+  mytimer1.dats ; \
+  $(PATSCC2) -DATS_MEMALLOC_LIBC -D_GNU_SOURCE -o $@ \
+  mytimer1.dats gtkcairotimer_toplevel.dats $(GTKFLAGS) -lm -lrt
+#
+cleanall:: ; $(RMF) mytimer1
 #
 ######
 

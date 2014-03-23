@@ -1,51 +1,83 @@
 (*
 **
-** A GTK/Cairo-clock
+** A simple digital GTK/CAIRO-timer
 **
-** Author: Hongwei Xi
-** Authoremail: hwxiATcsDOTbuDOTedu
-** Start Time: December, 2009
-**
-** The clock was drawn after my wall clock at home
-*)
-
-(* ****** ****** *)
-
-(*
-** Ported to ATS2 by Hongwei Xi, September, 2013
 *)
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
-#include
-"share/atspre_staload.hats"
+// Author: HX-2014-03
 //
+(* ****** ****** *)
+
+#include "share/atspre_define.hats"
+#include "share/atspre_staload.hats"
+
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+%{^
+typedef char *charptr ;
+typedef char **charptrptr ;
+%} ;
+abstype charptr = $extype"charptr"
+abstype charptrptr = $extype"charptrptr"
+
+(* ****** ****** *)
+//
+staload "{$LIBATSHWXI}/teaching/myGTK/SATS/gtkcairotimer.sats"
+staload "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/gtkcairotimer_toplevel.dats"
+//
+staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/ControlPanel.dats"
+staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/DrawingPanel.dats"
+staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/gtkcairotimer_main.dats"
+staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/gtkcairotimer_timer.dats"
+//
+(* ****** ****** *)
+//
+typedef dbl = double
+//  
+(* ****** ****** *)
+//
 staload "libc/SATS/math.sats"
-
-macdef PI = M_PI and PI2 = M_PI / 2
-
+staload _(*anon*) = "libc/DATS/math.dats"
+//
+macdef PI = M_PI
+macdef PI2 = PI/2
+macdef _2PI = 2*PI
+//
 (* ****** ****** *)
 
 staload "{$CAIRO}/SATS/cairo.sats"
 
 (* ****** ****** *)
-
-stadef dbl = double
-stadef cr (l:addr) = cairo_ref l
+  
+extern
+fun
+mytime_get
+  ((*void*)): @(dbl, dbl, dbl)
+implement
+mytime_get () = let
+//
+val n = the_timer_get_ntick ()
+val ss = fmod (n, 60.0)
+val mm = n / 60
+val mm = fmod (mm, 60.0)
+val hh = n / 3600
+val hh = fmod (hh, 24.0)
+//
+in
+  (hh, mm, ss)
+end // end of [mytime_get]
 
 (* ****** ****** *)
 
 fn draw_hand{l:agz}
 (
-  cr: !cr(l)
+  cr: !cairo_ref(l)
 , bot: dbl, top: dbl, len: dbl
 ) : void = let
   val () = cairo_move_to (cr, 0.0, bot/2)
@@ -62,7 +94,7 @@ end // end of [draw_hand]
 fn draw_clock
   {l:agz}{w,h:nat}
 (
-  cr: !cr l
+  cr: !cairo_ref l
 , wd: int w, ht: int h
 , h: natLt 24, m: natLt 60, s: natLt 60 // hour and minute
 ) : void = let
@@ -144,60 +176,34 @@ end // end of [draw_clock]
 
 (* ****** ****** *)
 
-staload "libc/SATS/time.sats"
-
-(* ****** ****** *)
-
 extern
 fun mydraw_clock
   (cr: !cairo_ref1, width: int, height: int): void
 // end of [mydraw_clock]
 
-(* ****** ****** *)
-
 implement
 mydraw_clock
   (cr, wd, ht) = let
 //
-val wd = g1ofg0 (wd)
-val ht = g1ofg0 (ht)
-val () = assertloc (wd >= 0)
-val () = assertloc (ht >= 0)
+val wd = ckastloc_gintGte (wd, 0)
+val ht = ckastloc_gintGte (ht, 0)
 //
-var t: time_t // unintialized
-val yn = time_getset (t)
-val () = assert_errmsg (yn, $mylocation)
-prval () = opt_unsome {time_t} (t)
-var tm: tm_struct // unintialized
-val _ptr = localtime_r (t, tm)
-val () = assert_errmsg (_ptr > 0, $mylocation)
-prval () = opt_unsome {tm_struct} (tm)
-val hr = tm.tm_hour
-and min = tm.tm_min
-val sec = tm.tm_sec
-val hr = g1ofg0_int (hr)
-and min = g1ofg0_int (min)
-and sec = g1ofg0_int (sec)
+val (hh, mm, ss) = mytime_get ()
+val hh = g0float2int_double_int(hh)
+val mm = g0float2int_double_int(mm)
+val ss = g0float2int_double_int(ss)
 //
-val () = assertloc ((0 <= hr) * (hr < 24))
-val () = assertloc ((0 <= min) * (min < 60))
-val () = assertloc ((0 <= sec) * (sec < 60))
+val hh = ckastloc_gintBtw (hh, 0, 24)
+val mm = ckastloc_gintBtw (mm, 0, 60)
+val ss = ckastloc_gintBtw (ss, 0, 60)
 //
 in
-  draw_clock (cr, wd, ht, hr, min, sec)
-end (* end of [mydraw_clock] *)
+  draw_clock (cr, wd, ht, hh, mm, ss)
+end // end of [mydraw_clock]
 
 (* ****** ****** *)
 
-%{^
-typedef char **charptrptr ;
-%} ;
-abstype charptrptr = $extype"charptrptr"
-
-(* ****** ****** *)
-
-staload "{$LIBATSHWXI}/teaching/myGTK/SATS/gtkcairoclock.sats"
-staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairoclock.dats"
+dynload "./gtkcairotimer_toplevel.dats"
 
 (* ****** ****** *)
 
@@ -206,21 +212,23 @@ main0 (argc, argv) =
 {
 //
 var argc: int = argc
-var argv: charptrptr = $UN.castvwtp1{charptrptr}(argv)
+var argv
+  : charptrptr = $UN.castvwtp1{charptrptr}(argv)
 //
 val () = $extfcall (void, "gtk_init", addr@(argc), addr@(argv))
 //
 implement
-gtkcairoclock_title<> () = stropt_some"gtkcairoclock"
+gtkcairotimer_title<> () = stropt_some"gtkcairotimer"
 implement
-gtkcairoclock_timeout_interval<> () = 500U // millisecs
-implement
-gtkcairoclock_mydraw<> (cr, width, height) = mydraw_clock (cr, width, height)
+gtkcairotimer_timeout_interval<> () = 50U // millisecs
 //
-val ((*void*)) = gtkcairoclock_main ((*void*))
+implement
+gtkcairotimer_mydraw<> (cr, width, height) = mydraw_clock (cr, width, height)
+//
+val ((*void*)) = gtkcairotimer_main ((*void*))
 //
 } (* end of [main0] *)
 
 (* ****** ****** *)
 
-(* end of [myclock1.dats] *)
+(* end of [mytimer0.dats] *)

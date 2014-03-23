@@ -31,6 +31,7 @@ Here is a list of major additions and changes since the last release:
 6. Supporting creation of aliases for namespaces:
    staload $UNSAFE // opening the namespace $UNSAFE
    staload UN = $UNSAFE // forming an alias for $UNSAFE
+7. Supporting creation of local namespaces // to-be-explained
 
 </pre>
 

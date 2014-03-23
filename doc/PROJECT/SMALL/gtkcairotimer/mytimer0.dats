@@ -124,7 +124,7 @@ end // end of [mydraw_clock]
 
 (* ****** ****** *)
 
-dynload "./mytimer0_toplevel.dats"
+dynload "./gtkcairotimer_toplevel.dats"
 
 (* ****** ****** *)
 
