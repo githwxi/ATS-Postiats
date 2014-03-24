@@ -38,13 +38,15 @@ S2EXP = "./pats_staexp2.sats"
 typedef filenv = $S2EXP.filenv
 
 (* ****** ****** *)
-
-fun the_namespace_add (x: filenv): void
-
-fun the_namespace_search
-  {a:type} (f: !filenv -<cloptr1> Option_vt a): Option_vt a
+//
+fun
+the_namespace_add (x: filenv): void
+//
+fun
+the_namespace_search{a:type}
+  (fsearch: !filenv -<cloptr1> Option_vt(a)): Option_vt(a)
 // end of [the_namespace_search]
-
+//
 (* ****** ****** *)
 
 fun the_namespace_pop (): void

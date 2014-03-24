@@ -41,29 +41,34 @@ ATSPRE = "./pats_atspre.dats"
 staload "./pats_namespace.sats"
 
 (* ****** ****** *)
-
-viewtypedef
+//
+vtypedef
 fenvlst_vt = List_vt (filenv)
-
-viewtypedef
+vtypedef
 fenvlstlst_vt = List_vt (fenvlst_vt)
-
-viewtypedef
+vtypedef
 savedlst_vt = List_vt @(fenvlst_vt, fenvlstlst_vt)
-
+//
 (* ****** ****** *)
-
-fn fenvlst_vt_free
-  (ns: fenvlst_vt):<> void = list_vt_free (ns)
-fun fenvlstlst_vt_free
-  {n:nat} .<n>. (nss: list_vt (fenvlst_vt, n)):<> void = 
+//
+fn
+fenvlst_vt_free
+(
+  ns: fenvlst_vt
+) :<> void = list_vt_free (ns)
+//
+fun
+fenvlstlst_vt_free
+  {n:nat} .<n>.
+  (nss: list_vt (fenvlst_vt, n)):<> void = 
+(
   case+ nss of
+  | ~list_vt_nil ((*void*)) => ()
   | ~list_vt_cons (ns, nss) => let
       val () = fenvlst_vt_free (ns) in fenvlstlst_vt_free (nss)
     end // end of [list_vt_cons]
-  | ~list_vt_nil () => ()
-// end of [fenvlstlst_vt_free]
-
+) (* end of [fenvlstlst_vt_free] *)
+//
 (* ****** ****** *)
 
 local
@@ -72,7 +77,7 @@ val the_fenvlst = ref<fenvlst_vt> (list_vt_nil)
 val the_fenvlstlst = ref<fenvlstlst_vt> (list_vt_nil)
 val the_savedlst = ref<savedlst_vt> (list_vt_nil)
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 the_namespace_add
@@ -83,40 +88,49 @@ the_namespace_add
   val () = !p := list_vt_cons (x, !p)
 } // end of [the_namespace_add]
 
+(* ****** ****** *)
+
 implement
 the_namespace_search
   {a} (f) = let
 //
-  typedef fenvlst = List (filenv)
-  typedef fenvlstlst = List (fenvlst)
+typedef fenvlst = List (filenv)
+typedef fenvlstlst = List (fenvlst)
 //
-  fun auxlst (
-    f: !filenv -<cloptr1> Option_vt a, ns: fenvlst
-  ) : Option_vt a =
-    case+ ns of
-    | list_cons (n, ns) => (
-        case+ f (n)  of ~None_vt () => auxlst (f, ns) | ans => ans
-      ) // end of [list_cons]
-    | list_nil () => None_vt () // end of [list_nil]
-  (* end of [auxlst] *)
+fun auxlst (
+  f: !filenv -<cloptr1> Option_vt a, ns: fenvlst
+) : Option_vt a =
+(
+  case+ ns of
+  | list_cons (n, ns) => (
+      case+ f (n)  of ~None_vt () => auxlst (f, ns) | ans => ans
+    ) // end of [list_cons]
+  | list_nil ((*void*)) => None_vt ()
+) (* end of [auxlst] *)
 //
-  fun auxlstlst (
-    f: !filenv -<cloptr1> Option_vt a, nss: fenvlstlst
-  ) : Option_vt a =
-    case+ nss of
-    | list_cons (ns, nss) => (
-        case+ auxlst (f, ns) of
-        | ~None_vt () => auxlstlst (f, nss) | ans => ans
-      ) // end of [list_cons]
-    | list_nil () => None_vt () // end of [list_nil]
-  (* end of [auxlstlst] *)
+fun auxlstlst (
+  f: !filenv -<cloptr1> Option_vt a, nss: fenvlstlst
+) : Option_vt a =
+(
+  case+ nss of
+  | list_cons
+      (ns, nss) => (
+      case+ auxlst (f, ns) of
+      | ~None_vt () => auxlstlst (f, nss) | ans => ans
+    ) // end of [list_cons]
+  | list_nil () => None_vt () // end of [list_nil]
+) (* end of [auxlstlst] *)
 //
-  val r_ns = __cast (the_fenvlst) where {
-     extern castfn __cast (r: ref (fenvlst_vt)): ref (fenvlst)
-  } // end of [val]
-  val r_nss = __cast (the_fenvlstlst) where {
-     extern castfn __cast (r: ref (fenvlstlst_vt)): ref (fenvlstlst)
-  } // end of [val]
+val r_ns =
+__cast (the_fenvlst) where
+{
+  extern castfn __cast (r: ref (fenvlst_vt)): ref (fenvlst)
+} (* end of [where] *) // end of [val]
+//
+val r_nss =
+__cast (the_fenvlstlst) where {
+   extern castfn __cast (r: ref (fenvlstlst_vt)): ref (fenvlstlst)
+} (* end of [where] *) // end of [val]
 //
 in
 //
@@ -144,17 +158,24 @@ in
   // nothing
 end // end of [the_namespace_pop]
 
+(* ****** ****** *)
+
 implement
 the_namespace_push () = let
+//
   val ns = ns where {
-    val (vbox pf | p) = ref_get_view_ptr (the_fenvlst)
+    val (vbox pf | p) =
+      ref_get_view_ptr (the_fenvlst)
     val ns = !p
     val () = !p := list_vt_nil ()
-  } // end of [val]
+  } (* end of [val] *)
+//
   val () = () where {
-    val (vbox pf | p) = ref_get_view_ptr (the_fenvlstlst)
+    val (vbox pf | p) =
+      ref_get_view_ptr (the_fenvlstlst)
     val () = !p := list_vt_cons (ns, !p)
-  }
+  } (* end of [val] *)
+//
 in
   // nothing
 end // end of [the_namespace_push]
@@ -163,17 +184,22 @@ end // end of [the_namespace_push]
 
 implement
 the_namespace_localjoin () = let
+//
   val ns2 = ns2 where {
-    val (vbox pf | p) = ref_get_view_ptr (the_fenvlstlst)
+    val (vbox pf | p) =
+      ref_get_view_ptr (the_fenvlstlst)
     val-~list_vt_cons (ns1, nss) = !p
     val () = fenvlst_vt_free (ns1)
     val-~list_vt_cons (ns2, nss) = nss
     val () = !p := nss
-  } // end of [val]
+  } (* end of [val] *)
+//
   val () = () where {
-    val (vbox pf | p) = ref_get_view_ptr (the_fenvlst)
+    val (vbox pf | p) =
+      ref_get_view_ptr (the_fenvlst)
     val () = !p := list_vt_append (!p, ns2)
-  } // end of [val]
+  } (* end of [val] *)
+//
 in
   // nothing
 end // end of [the_namespace_localjoin]
@@ -181,54 +207,54 @@ end // end of [the_namespace_localjoin]
 (* ****** ****** *)
 
 implement
-the_namespace_save () = let
-  val ns = ns where {
-    val (vbox pf | p) = ref_get_view_ptr (the_fenvlst)
-    val ns = !p
-    val () = !p := list_vt_nil ()
-  } // end of [val]
-  val nss = nss where {
-    val (vbox pf | p) = ref_get_view_ptr (the_fenvlstlst)
-    val nss = !p
-    val () = !p := list_vt_nil ()
-  } // end of [val]
-  val () = () where {
-    val (vbox pf | p) = ref_get_view_ptr (the_savedlst)
-    val () = !p := list_vt_cons ((ns, nss), !p)
-  } // end of [val]
-in
-  // nothing
-end // end of [the_namespace_save]
+the_namespace_save
+  () = () where {
+//
+val x = x where {
+  val (vbox pf | p) =
+    ref_get_view_ptr (the_fenvlst)
+  val x = !p; val () = !p := list_vt_nil ()
+} (* end of [val] *)
+//
+val xs = xs where {
+  val (vbox pf | p) =
+    ref_get_view_ptr (the_fenvlstlst)
+  val xs = !p; val () = !p := list_vt_nil ()
+} (* end of [val] *)
+//
+val () = () where {
+  val (vbox pf | p) =
+    ref_get_view_ptr (the_savedlst)
+  val () = !p := list_vt_cons ((x, xs), !p)
+} (* end of [val] *)
+//
+} (* end of [the_namespace_save] *)
+
+(* ****** ****** *)
 
 implement
 the_namespace_restore
   () = () where {
 //
 val x = x where {
-  val (
-    vbox pf | p
-  ) = ref_get_view_ptr (the_savedlst)
-  val-~list_vt_cons (x, xs) = !p
-  val () = (!p := xs)
-} // end of [val]
+  val (vbox pf | p) =
+    ref_get_view_ptr (the_savedlst)
+  val-~list_vt_cons (x, xs) = !p; val () = (!p := xs)
+} (* end of [val] *)
 //
 val () = () where {
-  val (
-    vbox pf | p
-  ) = ref_get_view_ptr (the_fenvlst)
-  val () = fenvlst_vt_free (!p)
-  val () = (!p := x.0)
-} // end of [val]
+  val (vbox pf | p) =
+    ref_get_view_ptr (the_fenvlst)
+  val () = fenvlst_vt_free (!p); val () = (!p := x.0)
+} (* end of [val] *)
 //
 val () = () where {
-  val (
-    vbox pf | p
-  ) = ref_get_view_ptr (the_fenvlstlst)
-  val () = fenvlstlst_vt_free (!p)
-  val () = (!p := x.1)
-} // end of [val]
+  val (vbox pf | p) =
+    ref_get_view_ptr (the_fenvlstlst)
+  val () = fenvlstlst_vt_free (!p); val () = (!p := x.1)
+} (* end of [val] *)
 //
-} // end of [the_namespace_save]
+} (* end of [the_namespace_restore] *)
 
 end // end of [local]
 
