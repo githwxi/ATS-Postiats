@@ -26,7 +26,7 @@ staload
 PATHLST = {
 //
 staload
-DF = "./depth-first.sats"
+DF = "./../depth-first.sats"
 //
 typedef T = $DF.nodelst
 //

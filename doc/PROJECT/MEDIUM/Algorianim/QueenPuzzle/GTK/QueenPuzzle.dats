@@ -1,6 +1,7 @@
 (* ****** ****** *)
 //
-// HX: used in a lecture on depth-first search
+// HX-2014-03:
+// Animating QueenPuzzle
 //
 (* ****** ****** *)
 
@@ -20,11 +21,7 @@ _(*MATH*) = "libc/DATS/math.dats"
 (* ****** ****** *)
 
 staload
-DF = "./depth-first.sats"
-
-(* ****** ****** *)
-
-staload "./QueenPuzzle.sats"
+DF = "./../depth-first.sats"
 
 (* ****** ****** *)
 //
@@ -113,7 +110,7 @@ end // end of [handle_node]
       
 (* ****** ****** *)
 
-dynload "./depth-first.dats"
+dynload "./../depth-first.dats"
 dynload "./gtkcairotimer_toplevel.dats"
 
 (* ****** ****** *)
@@ -383,7 +380,7 @@ val () = !the_pathlst := pathlst
 val () = !the_pathlst2 := !the_pathlst
 //
 implement
-gtkcairotimer_title<> () = stropt_some"gtkcairoclock"
+gtkcairotimer_title<> () = stropt_some"QueenPuzzle"
 implement
 gtkcairotimer_timeout_interval<> () = 500U // millisecs
 implement
