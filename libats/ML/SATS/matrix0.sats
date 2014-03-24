@@ -164,6 +164,22 @@ matrix0_iforeach
 // end of [matrix0_iforeach]
 
 (* ****** ****** *)
+
+fun{
+a:vt0p}{res:vt0p
+} matrix0_foldleft
+(
+  M: matrix0 (a), ini: res, f: (res, &a) -<cloref1> res
+) : res // end of [matrix0_foldleft]
+
+fun{
+a:vt0p}{res:vt0p
+} matrix0_ifoldleft
+(
+  M: matrix0 (a), ini: res, f: (res, size_t, size_t, &a) -<cloref1> res
+) : res // end of [matrix0_ifoldleft]
+
+(* ****** ****** *)
 //
 // overloading for certain symbols
 //

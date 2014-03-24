@@ -133,6 +133,11 @@ where i ranges from 0 to m-1, inclusive, and j from 0 to n-1, inclusive.
 ')
 
 (* ****** ****** *)
+
+#declnamesynop("matrix0_foldleft")
+#declnamesynop("matrix0_ifoldleft")
+
+(* ****** ****** *)
 //
 // HX: various overloaded symbols
 //

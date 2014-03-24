@@ -234,4 +234,46 @@ end // end of [matrix0_iforeach]
 
 (* ****** ****** *)
 
+implement
+{a}{res}(*tmp*)
+matrix0_foldleft
+  (M0, ini, f) = let
+//
+var ini: res = ini
+val p_ini = addr@(ini)
+//
+var f2 =
+lam@ (x: &a): void =>
+  $UN.ptr0_set<res> (p_ini, f ($UN.ptr0_get<res> (p_ini), x))
+//
+val () =
+matrix0_foreach<a> (M0, $UN.cast{(&a)-<cloref1>void}(addr@f2))
+//
+in
+  ini
+end // end of [matrix0_foldleft]
+
+(* ****** ****** *)
+
+implement
+{a}{res}(*tmp*)
+matrix0_ifoldleft
+  (M0, ini, f) = let
+//
+var ini: res = ini
+val p_ini = addr@(ini)
+//
+var f2 =
+lam@ (i: size_t, j: size_t, x: &a): void =>
+  $UN.ptr0_set<res> (p_ini, f ($UN.ptr0_get<res> (p_ini), i, j, x))
+//
+val () =
+matrix0_iforeach<a> (M0, $UN.cast{(size_t,size_t,&a)-<cloref1>void}(addr@f2))
+//
+in
+  ini
+end // end of [matrix0_ifoldleft]
+
+(* ****** ****** *)
+
 (* end of [matrix.dats] *)
