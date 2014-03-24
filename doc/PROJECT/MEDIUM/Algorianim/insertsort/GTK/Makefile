@@ -33,9 +33,7 @@ all:: insertsort_anim2
 insertsort_anim2: \
   ./../insertsort.dats \
   insertsort_anim2.dats \
-  insertsort_anim2_timer.dats \
-  insertsort_anim2_nclick.dats \
-  insertsort_anim2_topwin.dats ; \
+  gtkcairotimer_toplevel.dats ; \
   $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_GCBDW -O2 -o $@ $(CFLAGS) $^ $(LDFLAGS)
 #
 cleanall:: ; $(RMF) insertsort_anim2

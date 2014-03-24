@@ -180,7 +180,12 @@ the_timer_reset2 () =
   val () = the_board_cleanup ()
   val () = !the_pathlst2 := !the_pathlst
   val () = the_timer_reset () // HX: gtkcairotimer_toplevel.dats
-} (* end of [the_timer_reset2]
+} (* end of [the_timer_reset2] *)
+
+(* ****** ****** *)
+
+implement
+$CP.on_reset_clicked<> (widget, event, _) = the_timer_reset2 ()
 
 (* ****** ****** *)
 //
@@ -344,11 +349,6 @@ val ((*void*)) = cairo_restore (pf | cr)
 in
   // nothing
 end // [mydraw_clock]
-
-(* ****** ****** *)
-
-implement
-$CP.on_reset_clicked<> (widget, event, _) = the_timer_reset2 ()
 
 (* ****** ****** *)
 

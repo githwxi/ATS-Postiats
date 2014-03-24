@@ -139,15 +139,17 @@ staload _(*anon*) = "{$LIBATSHWXI}/teaching/mydraw/DATS/mydraw_cairo.dats"
 (* ****** ****** *)
 //
 staload "{$LIBATSHWXI}/teaching/myGTK/SATS/gtkcairotimer.sats"
+staload "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/gtkcairotimer_toplevel.dats"
 //
-staload "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/the_timer.dats"
+staload CP = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/ControlPanel.dats"
+staload DP = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/DrawingPanel.dats"
+staload MAIN = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/gtkcairotimer_main.dats"
+staload TIMER = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/gtkcairotimer_timer.dats"
 //
-staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/timer.dats"
-//
-staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/ControlPanel.dats"
-staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/DrawingPanel.dats"
-staload _ = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/gtkcairotimer_main.dats"
-//
+(* ****** ****** *)
+
+dynload "./gtkcairotimer_toplevel.dats"
+
 (* ****** ****** *)
 
 local
@@ -206,7 +208,24 @@ end (* end of [ASZ_update] *)
 end // end of [local]
 
 (* ****** ****** *)
-  
+
+extern
+fun
+the_timer_reset2 (): void
+implement
+the_timer_reset2 () =
+{
+  val () = ASZ_reset ()
+  val () = the_timer_reset () // HX: gtkcairotimer_toplevel.dats
+} (* end of [the_timer_reset2] *)
+
+(* ****** ****** *)
+
+implement
+$CP.on_reset_clicked<> (widget, event, _) = the_timer_reset2 ()
+
+(* ****** ****** *)
+
 extern
 fun
 cairo_draw_arrszref
@@ -305,12 +324,6 @@ end // [mydraw_clock]
 typedef char **charptrptr ;
 %} ;
 abstype charptrptr = $extype"charptrptr"
-
-(* ****** ****** *)
-
-dynload "./insertsort_anim2_timer.dats"
-dynload "./insertsort_anim2_nclick.dats"
-dynload "./insertsort_anim2_topwin.dats"
 
 (* ****** ****** *)
 
