@@ -93,6 +93,11 @@ overload .x with vector_get_x
 overload .y with vector_get_y
 //
 (* ****** ****** *)
+//
+fun{}
+vector_length (v: vector): real
+//
+(* ****** ****** *)
 
 fun{}
 dotprod (v1: vector, v2: vector): real
@@ -135,14 +140,6 @@ div_vector_scalar (v: vector, k: real): vector
 overload * with mul_scalar_vector
 overload / with div_vector_scalar
 
-(* ****** ****** *)
-
-
-(* ****** ****** *)
-//
-fun{}
-vector_length (v: vector): real
-//
 (* ****** ****** *)
 //
 // HX: counterclockwise
