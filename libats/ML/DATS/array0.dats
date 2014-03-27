@@ -447,7 +447,7 @@ end // end of [array0_rforeach]
 (* ****** ****** *)
 
 implement
-{a}{res}
+{res}{a}
 array0_foldleft
   (A0, ini, f) = let
 //
@@ -471,7 +471,7 @@ end // end of [array0_foldleft]
 (* ****** ****** *)
 
 implement
-{a}{res}
+{res}{a}
 array0_ifoldleft
   (A0, ini, f) = let
 //

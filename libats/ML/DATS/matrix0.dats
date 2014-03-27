@@ -235,7 +235,7 @@ end // end of [matrix0_iforeach]
 (* ****** ****** *)
 
 implement
-{a}{res}(*tmp*)
+{res}{a}(*tmp*)
 matrix0_foldleft
   (M0, ini, f) = let
 //
@@ -256,7 +256,7 @@ end // end of [matrix0_foldleft]
 (* ****** ****** *)
 
 implement
-{a}{res}(*tmp*)
+{res}{a}(*tmp*)
 matrix0_ifoldleft
   (M0, ini, f) = let
 //
