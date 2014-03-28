@@ -39,7 +39,10 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 //
 castfn cast {to:t0p}{from:t0p} (x: INV(from)):<> to
 //
-castfn castvwtp0 {to:vt0p}{from:vt0p} (x: INV(from)):<> to
+#atscode_separator()
+//
+castfn
+castvwtp0 {to:vt0p}{from:vt0p} (x: INV(from)):<> to
 //
 // HX:
 // [castvwtp1] is mostly used in a situation
