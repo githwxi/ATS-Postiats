@@ -31,7 +31,7 @@ all:: $(MYTARGET)
 $(MYTARGET): \
   $($(MYTARGET)_SATS_O) \
   $($(MYTARGET)_DATS_O) ; \
-  $(PATSCC) $(INCLUDE) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+  $(PATSCC) $(INCLUDE) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(EXTRAFLAGS)
 cleanall:: ; $(RMF) $(MYTARGET)
 endif # end of [ifeq]
 endif # end of [ifdef]

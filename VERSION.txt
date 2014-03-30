@@ -32,6 +32,7 @@ Here is a list of major additions and changes since the last release:
    staload $UNSAFE // opening the namespace $UNSAFE
    staload UN = $UNSAFE // forming an alias for $UNSAFE
 7. Supporting creation of local namespaces // to-be-explained
+8. Supporting tcc-0.9.26 for compiling the generated C code 
 
 </pre>
 

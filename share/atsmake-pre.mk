@@ -64,6 +64,10 @@ LDFLAGS += -latslib
 
 ######
 
+EXTRAFLAGS =
+
+######
+
 MALLOCFLAG := -DATS_MEMALLOC_LIBC
 
 ######
