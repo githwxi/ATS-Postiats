@@ -83,6 +83,7 @@ $(MYPORTDIR)_SATS_C := \
 $(MYPORTDIR)_DATS_C := \
   $(patsubst %.dats, $(MYPORTDIR)/%_dats.c, $(SOURCES_DATS))
 #
+$(MYPORTDIR):: $(MYPORTDIR)/Makefile
 $(MYPORTDIR):: $($(MYPORTDIR)_SATS_C)
 $(MYPORTDIR):: $($(MYPORTDIR)_DATS_C)
 #
