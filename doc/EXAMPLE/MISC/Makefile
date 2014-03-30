@@ -127,6 +127,14 @@ clean:: ; $(RMF) passwdgen_dats.o
 clean:: ; $(RMF) passwdgen_dats.c
 cleanall:: ; $(RMF) passwdgen passwdgen.exe
 
+all:: queens_lazy
+queens_lazy: queens_lazy.exe
+queens_lazy.exe: queens_lazy_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+queens_lazy_dats.c: queens_lazy.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output queens_lazy_dats.c --dynamic queens_lazy.dats
+clean:: ; $(RMF) queens_lazy_dats.o
+clean:: ; $(RMF) queens_lazy_dats.c
+cleanall:: ; $(RMF) queens_lazy queens_lazy.exe
+
 all:: queens_loop
 queens_loop: queens_loop.exe
 queens_loop.exe: queens_loop_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 

@@ -123,7 +123,7 @@
 
 /* ****** ****** */
 
-#define ATSPMVcfunlab(knd, flab, env) (flab##$closurerize)env
+#define ATSPMVcfunlab(knd, flab, env) (flab##__closurerize)env
 
 /* ****** ****** */
 
@@ -290,7 +290,7 @@
 //
 /* ****** ****** */
 
-#define ATSINSclosure_initize(flab, tmpenv) (flab##$closureinit)tmpenv
+#define ATSINSclosure_initize(flab, tmpenv) (flab##__closureinit)tmpenv
 
 /* ****** ****** */
 

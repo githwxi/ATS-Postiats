@@ -76,6 +76,8 @@ endif
 #
 ifdef MYPORTDIR
 #
+$(MYPORTDIR)/Makefile: Makefile ; cp -f $< $@
+#
 $(MYPORTDIR)_SATS_C := \
   $(patsubst %.sats, $(MYPORTDIR)/%_sats.c, $(SOURCES_SATS))
 $(MYPORTDIR)_DATS_C := \

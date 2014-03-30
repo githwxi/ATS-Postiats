@@ -52,7 +52,9 @@ C code:
 make PATSCC=gcc MYCCRULE=PORTABLE INCLUDE= -f /path/to/Makefile
 
 There is no need for CATS-files in this case as the generated C code is
-already pre-processed.
+already pre-processed. However, this approach is quite limited and is not
+preferred except for compiling C-files (generated from ATS source) in a
+setting where ATS-includes is not available.
 
 ######
 

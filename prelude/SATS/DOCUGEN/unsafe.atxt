@@ -42,19 +42,24 @@ explicitly.
 #decldescrpt("\
 This is the generic function for casting values of nonlinear types.
 ")
-#declnamesynop("castvwtp1")
-#decldescrpt("\
 
-This is the generic function for casting values of linear types into values
-of nonlinear types.  Note that It preserves the value being casted.  ")
+(* ****** ****** *)
 
-#declnamesynop("castvwtp_trans")
+#declnamesynop("castvwtp0")
 #decldescrpt("\
 
 This is the generic function for casting values of linear types. Note that
 it consumes the value being casted. The resource in the argument of this
 function, if any, should be completely transferred into the result of the
 cast so as to avoid resource-leaking.  ")
+
+(* ****** ****** *)
+
+#declnamesynop("castvwtp1")
+#decldescrpt("\
+
+This is the generic function for casting values of linear types into values
+of nonlinear types.  Note that It preserves the value being casted.  ")
 
 (* ****** ****** *)
 

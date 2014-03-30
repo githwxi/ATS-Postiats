@@ -117,6 +117,7 @@ RMF=rm -f
 *)
 %}
 #make2_entry("passwdgen", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("queens_lazy", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("queens_loop", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("readdirall", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 #make2_entry("sieve", "-DATS_MEMALLOC_LIBC", "")
