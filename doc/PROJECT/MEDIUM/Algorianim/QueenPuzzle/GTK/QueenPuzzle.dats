@@ -91,7 +91,7 @@ fun test (nxs: nodelst): bool =
   case+ nxs of
   | nil0 () => true
   | cons0 (NODE(i, j), nxs) =>
-      if (j0 != j) && abs(j0-j) != abs(i0-i) then test (nxs) else false
+      if (j0 != j) && abs(i0-i) != abs(j0-j) then test (nxs) else false
     // end of [cons0]
 //
 val ans = test (path)
