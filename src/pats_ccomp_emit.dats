@@ -1935,7 +1935,7 @@ case+ ins.instr_node of
     val () = emit_text (out, "(")
     val () = emit_text (out, "(")
     val () = emit_funlab (out, flab)
-    val () = emit_text (out, "$closure_t0ype*)")
+    val () = emit_text (out, "__closure_t0ype*)")
     val () = emit_text (out, "(")
     val () = emit_text (out, "&")
     val () = emit_tmpvar (out, tmp)

@@ -1018,6 +1018,8 @@ fun auxclo_cfun
 val hse_res = funlab_get_type_res (flab)
 val hses_arg = funlab_get_type_arg (flab)
 //
+val isvoid = hisexp_is_void (hse_res)
+//
 val () = emit_text (out, "ATSstaticdec()\n")
 val () = emit_hisexp (out, hse_res)
 val () = emit_text (out, "\n")
@@ -1028,12 +1030,14 @@ val () = emit_funlab (out, flab)
 val () = emit_text (out, "__closure_t0ype *p_cenv")
 val () = aux1_arglst (out, hses_arg, 1, 0)
 val () = emit_text (out, "\n)\n{\n")
-val () = emit_text (out, "return ")
+val () = emit_text (out, "ATSFCreturn")
+val () = if isvoid then emit_text (out, "_void")
+val () = emit_text (out, "(")
 val () = emit_funlab (out, flab)
 val () = emit_text (out, "(")
 val n0 = aux4_envlst (out, d2es, 0, 0)
 val () = aux2_arglst (out, hses_arg, n0, 0)
-val () = emit_text (out, ") ;\n")
+val () = emit_text (out, ")) ;\n")
 val () = emit_text (out, "} /* end of [cfun] */\n")
 //
 in

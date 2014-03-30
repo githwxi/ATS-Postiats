@@ -79,6 +79,11 @@
 
 /* ****** ****** */
 
+#define ATSFCreturn(x) return (x)
+#define ATSFCreturn_void(x) (x); return
+
+/* ****** ****** */
+
 #define ATScaseofbeg() do {
 #define ATScaseofend() } while (0) ;
 #define ATSbranchbeg()
