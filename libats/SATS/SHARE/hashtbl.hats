@@ -105,7 +105,7 @@ key:t0p;itm:vt0p
 fun{
 key:t0p;itm:vt0p
 } hashtbl_insert_opt
-  (tbl: !hashtbl (key, INV(itm)), k0: key, x0: itm): Option_vt (itm)
+  (tbl: !hashtbl (key, INV(itm)), key, itm): Option_vt (itm)
 // end of [hashtbl_insert_opt]
 
 (* ****** ****** *)
