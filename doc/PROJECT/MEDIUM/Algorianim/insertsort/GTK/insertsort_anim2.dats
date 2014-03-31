@@ -14,6 +14,7 @@ staload "./../insertsort.dats"
 //
 (* ****** ****** *)
 //
+staload "libats/SATS/hashfun.sats"
 staload "libats/SATS/hashtbl_chain.sats"
 //
 staload _ = "libats/DATS/hashfun.dats"
@@ -243,29 +244,15 @@ cairo_draw_arrszref
 
 (* ****** ****** *)
 //
-%{^
-uint32_t
-inthash_jenkins
-  (uint32_t a)
-{
-  a = (a+0x7ed55d16) + (a<<12);
-  a = (a^0xc761c23c) ^ (a>>19);
-  a = (a+0x165667b1) + (a<< 5);
-  a = (a+0xd3a2646c) ^ (a<< 9);
-  a = (a+0xfd7046c5) + (a<< 3);
-  a = (a^0xb55a4f09) ^ (a>>16);
-  return a;
-}
-%}
 extern
 fun
-gencolor (i: int): color
+colorgen (x: int): color
 //
 implement
-gencolor (i) = let
+colorgen (x) = let
 //
-  val i = $UN.cast{uint32}(i)
-  val hval = $extfcall (uint32, "inthash_jenkins", i)
+  val x = $UN.cast{uint32}(x)
+  val hval = $extfcall (uint32, "atslib_inthash_jenkins", x)
   val hval = $UN.cast{uint}(hval)
 //
   val r = $UN.cast{int}(hval mod 256u)
@@ -276,7 +263,7 @@ gencolor (i) = let
 //
 in
   color_make (r/256.0, g/256.0, b/256.0)
-end // end of [gencolor]
+end // end of [colorgen]
 //
 (* ****** ****** *)
 
@@ -299,11 +286,7 @@ in
 end // end of [mydraw_get0_cairo]
 //
 implement
-mydraw_bargraph$color<>
-  (i) = let
-in
-  gencolor (i)
-end // end of [mydraw_bargraph$color]
+mydraw_bargraph$color<> (i) = colorgen (ASZ[i])
 
 implement
 mydraw_bargraph$height<> (i) = 1.0 * (ASZ[i]+1) / MYMAX
@@ -359,12 +342,12 @@ in
 end // [mydraw_clock]
 
 (* ****** ****** *)
-
+//
 %{^
 typedef char **charptrptr ;
 %} ;
 abstype charptrptr = $extype"charptrptr"
-
+//
 (* ****** ****** *)
 
 implement

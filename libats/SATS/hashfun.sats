@@ -32,6 +32,12 @@
 //
 (* ****** ****** *)
 
+%{#
+#include "libats/CATS/hashfun.cats"
+%} // end of [%{#]
+
+(* ****** ****** *)
+
 fun{}
 inthash_jenkins (uint32): uint32
 
