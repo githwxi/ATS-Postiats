@@ -392,4 +392,4 @@ val ((*void*)) = gtkcairotimer_main<> ((*void*))
 
 (* ****** ****** *)
 
-(* end of [QueenPuzzle.dats] *)
+(* end of [QueenPuzzle_anim.dats] *)
