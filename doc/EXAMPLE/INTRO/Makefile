@@ -22,7 +22,8 @@ include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
-PATSCCOMP=$(CCOMP) -D_XOPEN_SOURCE -I${PATSHOMEQ} -I${PATSHOMEQ}/ccomp/runtime
+PATSCCOMP=\
+$(CCOMP) -D_XOPEN_SOURCE -I${PATSHOMEQ} -I${PATSHOMEQ}/ccomp/runtime
 
 ######
 

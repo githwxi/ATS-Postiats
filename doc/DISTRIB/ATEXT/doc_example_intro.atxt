@@ -108,6 +108,7 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 #packfilename("acker1.dats")
 #packfilename("acker2.dats")
 #packfilename("acker3.dats")
+#packfilename("acker4.dats")
 
 (* ****** ****** *)
 
@@ -147,6 +148,10 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 #packfilename("fib_lazy.dats")
 #packfilename("fib_llazy.dats")
+
+(* ****** ****** *)
+
+#packfilename("fprtuple.dats")
 
 (* ****** ****** *)
 

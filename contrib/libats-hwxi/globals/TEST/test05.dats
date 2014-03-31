@@ -67,6 +67,11 @@ println! ("$HT.get_size() = ", $HT.get_size())
 val () =
 println! ("$HT.get_capacity() = ", $HT.get_capacity())
 //
+val () = assertloc (cptr2ptr($HT.search_ref ("zucchini")) > 0)
+val () = assertloc (cptr2ptr($HT.search_ref ("Geizella")) = 0)
+val () = assertloc (cptr2ptr($HT.search_ref ("Anairiats")) = 0)
+val () = assertloc (cptr2ptr($HT.search_ref ("Postiats")) = 0)
+//
 } (* end of [main0] *)
 
 (* ****** ****** *)

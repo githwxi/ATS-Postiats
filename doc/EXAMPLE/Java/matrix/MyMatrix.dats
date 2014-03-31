@@ -143,9 +143,9 @@ MyMatrix_get_ncol (M) = sz2i(g1ofg0(M.ncol))
 *)
 //
 implement
-MyMatrix_get_at (M, i, j) = mtrxszref_get_at_gint (M, i, j)
+MyMatrix_get_at (M, i, j) = mtrxszref_get_at_int (M, i, j)
 implement
-MyMatrix_set_at (M, i, j, x) = mtrxszref_set_at_gint (M, i, j, x)
+MyMatrix_set_at (M, i, j, x) = mtrxszref_set_at_int (M, i, j, x)
 //
 end // end of [local]
 

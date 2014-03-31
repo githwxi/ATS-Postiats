@@ -44,6 +44,7 @@ in
 case+ xs of
 | list0_cons
     (x, xs) => let
+    val x = g1ofg0 (x)
     val islast = list0_is_nil (xs)
     val hasmore =
     (
