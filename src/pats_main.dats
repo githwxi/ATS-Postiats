@@ -442,10 +442,11 @@ HX: VERSION-0.0.3 released in the October of 2013
 HX: VERSION-0.0.4 released in the November of 2013
 HX: VERSION-0.0.5 released on January 15, 2014
 HX: VERSION-0.0.6 released on February 16, 2014
+HX: VERSION-0.0.7 released on March 30, 2014
 *)
 #define PATS_MAJOR_VERSION 0
 #define PATS_MINOR_VERSION 0
-#define PATS_MICRO_VERSION 7
+#define PATS_MICRO_VERSION 8
 (*
 //
 // HX-2011-04-27: this is supported in Postiats:

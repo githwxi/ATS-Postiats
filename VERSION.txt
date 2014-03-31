@@ -1,3 +1,14 @@
+0.0.8
+<pre>
+
+This is the eighth release of ATS2, the successor of the ATS
+programming language. The compiler for ATS2 is given the name
+ATS/Positats, ATS2/Postiats or simply Postiats.
+
+</pre>
+
+######
+
 0.0.7
 <pre>
 

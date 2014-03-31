@@ -102,6 +102,8 @@ vtypedef HTBL = hashtbl (key, itm)
 //
 in (* in-of-local *)
 
+(* ****** ****** *)
+
 implement
 get_size () = res where
 {
@@ -119,6 +121,115 @@ $UNSAFE.castvwtp0{HTBL}(the_hashtbl_ptr)
 val res = hashtbl_get_capacity (htbl)
 prval ((*void*)) = $UNSAFE.cast2void (htbl)
 } (* end of [get_capacity] *)
+
+(* ****** ****** *)
+
+implement
+search (k0, res) = ans where
+{
+val htbl =
+$UNSAFE.castvwtp0{HTBL}(the_hashtbl_ptr)
+val ans = hashtbl_search (htbl, k0, res)
+prval ((*void*)) = $UNSAFE.cast2void (htbl)
+} (* end of [search] *)
+
+implement
+search_ref (k0) = ref where
+{
+val htbl =
+$UNSAFE.castvwtp0{HTBL}(the_hashtbl_ptr)
+val ref = hashtbl_search_ref (htbl, k0)
+prval ((*void*)) = $UNSAFE.cast2void (htbl)
+} (* end of [search_ref] *)
+
+implement
+search_opt (k0) = opt where
+{
+val htbl =
+$UNSAFE.castvwtp0{HTBL}(the_hashtbl_ptr)
+val opt = hashtbl_search_opt (htbl, k0)
+prval ((*void*)) = $UNSAFE.cast2void (htbl)
+} (* end of [search_opt] *)
+
+(* ****** ****** *)
+
+implement
+insert (k0, x0, res) = let
+//
+val htbl =
+$UNSAFE.castvwtp0{HTBL}(the_hashtbl_ptr)
+val ans = hashtbl_insert (htbl, k0, x0, res)
+prval ((*void*)) = $UNSAFE.cast2void (htbl)
+//
+in
+  ans
+end (* end of [insert] *)
+
+implement
+insert_opt (k0, x0) = let
+//
+val htbl =
+$UNSAFE.castvwtp0{HTBL}(the_hashtbl_ptr)
+val opt = hashtbl_insert_opt (htbl, k0, x0)
+prval ((*void*)) = $UNSAFE.cast2void (htbl)
+//
+in
+  opt
+end (* end of [insert_opt] *)
+
+(* ****** ****** *)
+
+implement
+takeout (k0, res) = let
+//
+val htbl =
+$UNSAFE.castvwtp0{HTBL}(the_hashtbl_ptr)
+val ans = hashtbl_takeout (htbl, k0, res)
+prval ((*void*)) = $UNSAFE.cast2void (htbl)
+//
+in
+  ans
+end (* end of [takeout] *)
+
+implement
+takeout_opt (k0) = let
+//
+val htbl =
+$UNSAFE.castvwtp0{HTBL}(the_hashtbl_ptr)
+val opt = hashtbl_takeout_opt (htbl, k0)
+prval ((*void*)) = $UNSAFE.cast2void (htbl)
+//
+in
+  opt
+end (* end of [takeout_opt] *)
+
+(* ****** ****** *)
+
+implement
+remove (k0) = ans where
+{
+//
+val htbl =
+$UNSAFE.castvwtp0{HTBL}(the_hashtbl_ptr)
+val ans = hashtbl_remove (htbl, k0)
+prval ((*void*)) = $UNSAFE.cast2void (htbl)
+//
+} (* end of [remove] *)
+
+(* ****** ****** *)
+
+implement
+takeout_all () = kxs where
+{
+//
+val htbl =
+$UNSAFE.castvwtp0{HTBL}(the_hashtbl_ptr)
+val kxs = hashtbl_takeout_all (htbl)
+prval ((*void*)) = $UNSAFE.cast2void (htbl)
+//
+} (* end of [takeout_all] *)
+
+(* ****** ****** *)
 
 end // end of [local]
 //
