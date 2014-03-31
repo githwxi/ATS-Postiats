@@ -4,10 +4,13 @@
 #
 
 ######
-
+#
 SRC=ATS-Postiats
 DST=ATS-Postiats-include
-
+#
+SRC2=ATS-Postiats-contrib
+DST2=ATS-Postiats-include/contrib
+#
 ######
 
 all:: update
@@ -15,6 +18,14 @@ all:: update
 ######
 
 CPF=cp -f
+CPRF=cp -rf
+
+######
+
+update:: ; \
+  $(CPF) $(SRC)/share/atsmake-pre.mk $(DST)/share/.
+update:: ; \
+  $(CPF) $(SRC)/share/atsmake-post.mk $(DST)/share/.
 
 ######
 
@@ -29,8 +40,61 @@ update:: ; \
   $(CPF) $(SRC)/prelude/CATS/*.cats $(DST)/prelude/CATS/.
 update:: ; $(CPF) $(SRC)/libc/CATS/*.cats $(DST)/libc/CATS/.
 update:: ; $(CPF) $(SRC)/libc/sys/CATS/*.cats $(DST)/libc/sys/CATS/.
-update:: ; $(CPF) $(SRC)/libc/gdbm/CATS/*.cats $(DST)/libc/sys/CATS/.
+update:: ; $(CPF) $(SRC)/libc/gdbm/CATS/*.cats $(DST)/libc/gdbm/CATS/.
 update:: ; $(CPF) $(SRC)/libats/CATS/*.cats $(DST)/libats/CATS/.
+update:: ; $(CPF) $(SRC)/libats/ML/CATS/*.cats $(DST)/libats/ML/CATS/.
+
+######
+#
+# ATS-contrib
+#
+######
+
+update:: ; \
+  $(CPF) $(SRC2)/contrib/pcre/CATS/pcre.cats $(DST2)/pcre/CATS/.
+
+######
+
+update:: ; \
+  $(CPF) $(SRC2)/contrib/libgmp/CATS/gmp.cats $(DST2)/libgmp/CATS/.
+
+######
+
+update:: ; \
+  $(CPF) $(SRC2)/contrib/cairo/CATS/cairo.cats $(DST2)/cairo/CATS/.
+
+######
+
+update:: ; \
+  $(CPF) $(SRC2)/contrib/zeromq/CATS/zmq.cats $(DST2)/zeromq/CATS/.
+
+######
+
+update:: ; \
+  $(CPF) $(SRC2)/contrib/json-c/CATS/json.cats $(DST2)/hiredis/CATS/.
+update:: ; \
+  $(CPF) $(SRC2)/contrib/json-c/CATS/printbuf.cats $(DST2)/hiredis/CATS/.
+
+######
+
+update:: ; \
+  $(CPF) $(SRC2)/contrib/hiredis/CATS/hiredis.cats $(DST2)/hiredis/CATS/.
+
+######
+
+update:: ; \
+  $(CPF) $(SRC2)/contrib/glib/CATS/glib.cats $(DST2)/glib/CATS/.
+update:: ; \
+  $(CPF) $(SRC2)/contrib/glib/CATS/glib-object.cats $(DST2)/glib/CATS/.
+
+######
+
+update:: ; \
+  $(CPF) $(SRC2)/contrib/GTK/CATS/gdk.cats $(DST2)/GTK/CATS/.
+update:: ; $(CPRF) $(SRC2)/contrib/GTK/CATS/gdk $(DST2)/GTK/CATS/.
+update:: ; \
+  $(CPF) $(SRC2)/contrib/GTK/CATS/gtk.cats $(DST2)/GTK/CATS/.
+update:: ; $(CPRF) $(SRC2)/contrib/GTK/CATS/gtk $(DST2)/GTK/CATS/.
 
 ######
 
@@ -38,10 +102,13 @@ TARVCFZ=tar vcfz
 
 ######
 
-PACKNAME=ATS2-Postiats-include-0.0.6
+# HX-2014-03-30
+PACKNAME=ATS2-Postiats-include-0.0.7
+#
+# PACKNAME=ATS2-Postiats-include-0.0.6
 # PACKNAME=ATS2-Postiats-include-0.0.5
 # PACKNAME=ATS2-Postiats-include-0.0.4
-
+#
 ######
 
 tarvcfz:: update

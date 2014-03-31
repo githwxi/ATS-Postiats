@@ -1,10 +1,20 @@
 ###### beg of [README] ######
 
-This package contains various .h and .cats files needed for compiling
-C code generated from ATS source.  It is primarily meant for cross-platform
-development where it is difficult to generate on the source platform object
-code needed for an application designed to be running on the target platform.
-Instead, it is more convenient or even necessary to compile C code on the
-target platform to generate the needed object code.
+The package ATS-Postiats-include contains various .h and .cats files needed
+for compiling C code generated from ATS source. Normally, there is no need
+to install this package explicitly as it is part of the ATS programming
+language system.  There are, however, situations where one does not want to
+install ATS or have difficulty installing it. Under such situations, one
+can install this package so as to compile C code generated from ATS source.
+Please note that releasing C code generated from ATS source is considered a
+highly effective way of distributing portable software written in ATS.
+
+The package ATS-Postiats-include can also be readily used for
+cross-platform development where it is difficult to generate on the source
+platform object code needed for an application designed to be running on
+some target platform.  Instead, it is more convenient or even necessary to
+compile C code on the target platform to generate the needed object code.
+For instance, combining ATS with the Xcode platform (on MacOS) can be
+handled in such a manner.
 
 ###### end of [README] ######

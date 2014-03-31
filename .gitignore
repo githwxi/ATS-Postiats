@@ -279,6 +279,7 @@ doc/DISTRIB/ATS2-Postiats-0.0.2
 doc/DISTRIB/ATS2-Postiats-0.0.3
 doc/DISTRIB/ATS2-Postiats-0.0.4
 doc/DISTRIB/ATS2-Postiats-0.0.5
+doc/DISTRIB/ATS2-Postiats-0.0.6
 #
 # ATSHOME/doc/DISTRIB/ATS-Postiats-contrib
 #
@@ -289,12 +290,20 @@ doc/DISTRIB/ATS2-Postiats-contrib-0.0.1
 doc/DISTRIB/ATS2-Postiats-contrib-0.0.2
 doc/DISTRIB/ATS2-Postiats-contrib-0.0.3
 doc/DISTRIB/ATS2-Postiats-contrib-0.0.4
+doc/DISTRIB/ATS2-Postiats-contrib-0.0.5
+doc/DISTRIB/ATS2-Postiats-contrib-0.0.6
 #
 # ATSHOME/doc/DISTRIB/ATS-Postiats-include
 #
-doc/DISTRIB/ATS-Postiats-include
+doc/DISTRIB/ATS-Postiats-include/prelude
+doc/DISTRIB/ATS-Postiats-include/libc
+doc/DISTRIB/ATS-Postiats-include/libats
+doc/DISTRIB/ATS-Postiats-include/ccomp
+doc/DISTRIB/ATS-Postiats-include/contrib
+#
 doc/DISTRIB/ATS2-Postiats-include-0.0.4
-
+doc/DISTRIB/ATS2-Postiats-include-0.0.5
+doc/DISTRIB/ATS2-Postiats-include-0.0.6
 #
 # ATSHOME/doc/EXAMPLE
 #

@@ -83,6 +83,22 @@ qa-list-205: a simple example involving showtype and showlvaltype
 
 ######
 
+qa-list-209: extfcall for printf
+
+######
+
+qa-list-223: a simple example of vcopyenv_vt
+
+######
+
+qa-list-229: a simple example of viewptr_match
+
+######
+
+qa-list-244: fact: (Nat, Nat) -> Nat
+
+######
+
 alloca: a simple example involving alloca
 //
 list_copy: copying a given list tail-recursively
