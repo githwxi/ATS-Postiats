@@ -82,13 +82,14 @@ Suppose that #dyncode("list_find_rightmost") is called on a list xs of
 length N (for some large natural number N) and a predicate pred. The
 evaluation of this call leads to a call to the inner function
 #dyncode("aux"), which in turn generates N additional recursive calls to
-#dyncode("aux"). Assume that the last element of xs satisfies the predicate
-pred. Then there are still N-1 call frames for #dyncode("aux") on the call
-stack when the rightmost element satisfying pred is found, and these frames
-need to be unwinded one-by-one before the found element can be returned to
-the original call to #dyncode("list_find_rightmost"). This form of
-inefficiency is eliminated in the following exception-based implementation
-of #dyncode("list_find_rightmost"):
+#dyncode("aux"). Assume that only the last element of xs satisfies the
+predicate pred. Then there are still N-1 call frames for #dyncode("aux") on
+the call stack when the rightmost element satisfying pred is found, and
+these frames need to be unwinded #emphasis("one-by-one") before the found
+element can be returned to the original call to
+#dyncode("list_find_rightmost"). This form of inefficiency is eliminated in
+the following exception-based implementation of
+#dyncode("list_find_rightmost"):
 
 #atscode('
 implement{a}
