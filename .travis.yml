@@ -10,15 +10,13 @@ script:
   - cd ${TRAVIS_BUILD_DIR}
   - make -f codegen/Makefile_atslib
   - make -f Makefile_devl src_depend
-  - cd ${PATSHOME}/src
-  - make patsopt
-  - make CBOOT
-  - cd ${PATSHOME}/src/CBOOT
-  - make -C prelude
-  - make -C libc
-  - make -C libats
-  - cd ${PATSHOME}/doc/DISTRIB
-  - make atspackaging
-  - make atspacktar
+  - make -C ${PATSHOME}/src patsopt
+  - make -C ${PATSHOME}/src CBOOT
+  - make -C ${PATSHOME}/src/CBOOT/prelude
+  - make -C ${PATSHOME}/src/CBOOT/libc
+  - make -C ${PATSHOME}/src/CBOOT/libats
+  - make -C ${PATSHOME}/doc/DISTRIB atspackaging
+  - make -C ${PATSHOME}/doc/DISTRIB cleanall
+  - make -C ${PATSHOME}/doc/DISTRIB atspacktarzvcf
 after_script:
   - date

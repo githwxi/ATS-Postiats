@@ -98,7 +98,7 @@ update:: ; $(CPRF) $(SRC2)/contrib/GTK/CATS/gtk $(DST2)/GTK/CATS/.
 
 ######
 
-TARVCFZ=tar vcfz
+TARZVCF=tar zvcf
 
 ######
 
@@ -111,10 +111,10 @@ PACKNAME=ATS2-Postiats-include-0.0.7
 #
 ######
 
-tarvcfz:: update
-tarvcfz:: ; rm -rf $(PACKNAME)
-tarvcfz:: ; cp -rf $(DST) $(PACKNAME)
-tarvcfz:: ; $(TARVCFZ) $(PACKNAME).tgz $(PACKNAME)
+tarzvcf:: update
+tarzvcf:: ; rm -rf $(PACKNAME)
+tarzvcf:: ; cp -rf $(DST) $(PACKNAME)
+tarzvcf:: ; $(TARZVCF) $(PACKNAME).tgz $(PACKNAME)
 
 ######
 

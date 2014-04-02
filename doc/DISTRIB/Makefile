@@ -525,18 +525,18 @@ srcget_atscntrb_libatshwxi_teaching:: SCRIPT/atscntrb_libatshwxi_teaching.bash ;
 ######
 
 PACKNAME=ATS2-Postiats-0.0.7
-atspacktar:: ; rm -rf $(PACKNAME)
-atspacktar:: ; cp -rf ATS-Postiats $(PACKNAME)
-atspacktar:: ; $(RMF) $(PACKNAME)/Makefile_conf
-atspacktar:: ; $(RMF) $(PACKNAME)/missing ; $(CPF) ATS-Postiats/missing $(PACKNAME)/
-atspacktar:: ; $(RMF) $(PACKNAME)/install-sh ; $(CPF) ATS-Postiats/install-sh $(PACKNAME)/
-atspacktar:: ; make -C $(PACKNAME) cleanall
-atspacktar:: ; tar -zvcf  $(PACKNAME).tgz  $(PACKNAME)/
+atspacktarzvcf:: ; rm -rf $(PACKNAME)
+atspacktarzvcf:: ; cp -rf ATS-Postiats $(PACKNAME)
+atspacktarzvcf:: ; $(RMF) $(PACKNAME)/Makefile_conf
+atspacktarzvcf:: ; $(RMF) $(PACKNAME)/missing ; $(CPF) ATS-Postiats/missing $(PACKNAME)/
+atspacktarzvcf:: ; $(RMF) $(PACKNAME)/install-sh ; $(CPF) ATS-Postiats/install-sh $(PACKNAME)/
+atspacktarzvcf:: ; make -C $(PACKNAME) cleanall
+atspacktarzvcf:: ; tar -zvcf  $(PACKNAME).tgz  $(PACKNAME)/
 
 CNTRBNAME=ATS2-Postiats-contrib-0.0.6
-atscntrbtar:: ; rm -rf $(CNTRBNAME)
-atscntrbtar:: ; cp -rf ATS-Postiats-contrib $(CNTRBNAME)
-atscntrbtar:: ; tar -zvcf  $(CNTRBNAME).tgz  $(CNTRBNAME)/
+atscntrbtarzvcf:: ; rm -rf $(CNTRBNAME)
+atscntrbtarzvcf:: ; cp -rf ATS-Postiats-contrib $(CNTRBNAME)
+atscntrbtarzvcf:: ; tar -zvcf  $(CNTRBNAME).tgz  $(CNTRBNAME)/
 
 ######
 
