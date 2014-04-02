@@ -7,4 +7,3 @@ tar xf ats-lang-anairiats-${ATS1}.tgz
 cd ats-lang-anairiats-${ATS1}
 ./configure
 make
-sudo make install
