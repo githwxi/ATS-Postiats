@@ -203,7 +203,9 @@ end // end of [mydraw_clock]
 
 (* ****** ****** *)
 
+#ifndef MYTIMER1_ALL
 dynload "./gtkcairotimer_toplevel.dats"
+#endif // end of [#ifndef]
 
 (* ****** ****** *)
 

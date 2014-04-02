@@ -65,6 +65,16 @@ mytimer1: \
 cleanall:: ; $(RMF) mytimer1
 #
 ######
+#
+all:: mytimer1-all
+#
+mytimer1-all: \
+  mytimer1-all.dats ; \
+  $(PATSCC2) -DATS_MEMALLOC_LIBC -D_GNU_SOURCE -o $@ $< $(GTKFLAGS) -lm -lrt
+#
+cleanall:: ; $(RMF) mytimer1-all
+#
+######
 
 cleanats:: ; $(RMF) *_?ats.c
 

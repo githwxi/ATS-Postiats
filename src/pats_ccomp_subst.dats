@@ -478,8 +478,8 @@ case+ opt of
 //
     val loc = tmpvar_get_loc (tmp)
     val () = prerr_warnccomp_loc (loc)
-    val () = prerr ": toplevel non-global code should not be used in template."
-    val () = prerr_newline ()
+    val () = prerr ": toplevel non-global code in template may be problematic."
+    val () = prerr_newline ((*void*))
 //
 (*
     val () = prerr_interror ()

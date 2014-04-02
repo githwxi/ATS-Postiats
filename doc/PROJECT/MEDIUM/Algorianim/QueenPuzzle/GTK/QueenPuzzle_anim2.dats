@@ -48,8 +48,9 @@ end // end of [path_test]
 (* ****** ****** *)
 //
 #define N 8
+//
 (*
-#define N 16
+#define N 32
 *)
 //
 (* ****** ****** *)
@@ -101,7 +102,11 @@ if x0 < N
   
 (* ****** ****** *)
 
-dynload "./gtkcairotimer_toplevel.dats"
+staload
+gtkcairotimer_toplevel =
+{
+#include "./gtkcairotimer_toplevel.dats"
+} (* end of [gtkcairotimer_toplevel] *)
 
 (* ****** ****** *)
 

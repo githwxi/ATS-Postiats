@@ -20,8 +20,7 @@ cleanall:: ; $(RMF) QueenPuzzle_anim
 all::\
 QueenPuzzle_anim2
 QueenPuzzle_anim2: \
-  QueenPuzzle_anim2.dats \
-  gtkcairotimer_toplevel.dats ; \
+  QueenPuzzle_anim2.dats ; \
   $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $^ $(GTKFLAGS) -lm -lrt
 cleanall:: ; $(RMF) QueenPuzzle_anim2
 #

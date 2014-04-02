@@ -1,6 +1,8 @@
+######
 ##
 ## A miscellaneous collection of (small) utilities
 ##
+######
 
 ###### ######
 
@@ -11,4 +13,10 @@ is to produce code to be explained in blogs or tutorials.
 
 ###### ######
 
-## end of [README] ##
+wgetccrun.sh : wget+tcc-run C code generated from ATS source
+wgetccrun_gtk2.sh : wget+tcc-run C code generated from ATS source with GTK2 support
+wgetccrun_gtk3.sh : wget+tcc-run C code generated from ATS source with GTK3 support
+
+###### ######
+
+###### end of [README] ######
