@@ -17,6 +17,6 @@ ${TCCRUN} \
   -I${PATSHOME} \
   -I${PATSHOME}/ccomp/runtime \
   -I${PATSHOMERELOC}/contrib \
-   $__CFLAGS__LIBS - >& /dev/null &
+   $__CFLAGS__LIBS - >& /dev/null
 #
 ###### end of [wgetccrun_gtk2.sh] ######
