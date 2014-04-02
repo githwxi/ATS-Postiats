@@ -31,8 +31,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=../../src/\n\
-TARGET=ATS-Postiats/src/\n\
+SOURCE=../../src\n\
+TARGET=ATS-Postiats/src\n\
 \n\
 srcget ()\n\
 {\n\

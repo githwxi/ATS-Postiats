@@ -43,8 +43,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=../../libats/ML/\n\
-TARGET=ATS-Postiats/libats/ML/\n\
+SOURCE=../../libats/ML\n\
+TARGET=ATS-Postiats/libats/ML\n\
 \n\
 srcget ()\n\
 {\n\

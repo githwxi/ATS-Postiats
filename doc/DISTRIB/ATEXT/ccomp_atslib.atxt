@@ -43,8 +43,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=../../ccomp/atslib/\n\
-TARGET=ATS-Postiats/ccomp/atslib/\n\
+SOURCE=../../ccomp/atslib\n\
+TARGET=ATS-Postiats/ccomp/atslib\n\
 \n\
 srcget ()\n\
 {\n\
