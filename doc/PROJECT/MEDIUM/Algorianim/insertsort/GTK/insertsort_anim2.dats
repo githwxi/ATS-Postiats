@@ -156,7 +156,9 @@ staload TIMER = "{$LIBATSHWXI}/teaching/myGTK/DATS/gtkcairotimer/gtkcairotimer_t
 //
 (* ****** ****** *)
 
+#ifndef INSERTSORT_ANIM2_ALL
 dynload "./gtkcairotimer_toplevel.dats"
+#endif (* end of [#ifndef] *)
 
 (* ****** ****** *)
 

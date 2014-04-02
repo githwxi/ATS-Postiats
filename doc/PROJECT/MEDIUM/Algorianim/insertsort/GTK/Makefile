@@ -39,6 +39,17 @@ insertsort_anim2: \
 cleanall:: ; $(RMF) insertsort_anim2
 #
 ######
+#
+all:: \
+insertsort_anim2_all
+#
+insertsort_anim2_all: \
+  insertsort_anim2_all.dats ; \
+  $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_GCBDW -O2 -o $@ $(CFLAGS) $^ $(LDFLAGS)
+#
+cleanall:: ; $(RMF) insertsort_anim2_all
+#
+######
 
 include $(PATSHOME)/share/atsmake-post.mk
 
