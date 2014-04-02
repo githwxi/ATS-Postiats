@@ -105,6 +105,10 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("CATS/hashfun.cats")
+
+(* ****** ****** *)
+
 #packfilename("CATS/stkarray.cats")
 #packfilename("CATS/deqarray.cats")
 #packfilename("CATS/dynarray.cats")
