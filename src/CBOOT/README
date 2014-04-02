@@ -12,4 +12,13 @@ $ automake --force-missing --add-missing
 $ autoconf
 $ ./configure
 
+######
+#
+# HX-2014-04-02:
+# for generating *_?ats.c files:
+#
+# make -C prelude
+# make -C libc
+# make -C libats
+#
 ###### end of [README] ######
