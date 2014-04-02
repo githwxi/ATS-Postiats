@@ -17,11 +17,8 @@ script:
   - make -C prelude
   - make -C libc
   - make -C libats
-  - cd ${PATSHOME}/doc/DISTRIB/ATS-Postiats/src/CBOOT
-  - ln -s ../../config.h .
   - cd ${PATSHOME}/doc/DISTRIB
   - make atspackaging
-  - touch ${PATSHOME}/doc/DISTRIB/ATS-Postiats/src/.depend
   - make atspacktar
 after_script:
   - date
