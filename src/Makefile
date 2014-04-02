@@ -1253,7 +1253,7 @@ depend::
 	$(RMF) .depend
 	$(ATSOPT) --output-a .depend --depgen -d pats_main.dats
 	$(ATSOPT) --output-a .depend --depgen -s $(SOURCESsta) -d $(SOURCESdyn)
-include .depend
+-include .depend
 
 ######
 
