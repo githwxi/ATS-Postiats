@@ -3,6 +3,7 @@ before_install:
   - export PATSHOME=${TRAVIS_BUILD_DIR}
   - cd ${HOME}
   - export ATSHOME=${HOME}/ats-lang-anairiats-0.2.11
+  - export ATSHOMERELOC=ATS-0.2.11
   - ${TRAVIS_BUILD_DIR}/travis-ci/setup.sh 0.2.11
 script:
   - cd ${TRAVIS_BUILD_DIR}
