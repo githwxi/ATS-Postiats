@@ -6,4 +6,4 @@ wget http://downloads.sourceforge.net/project/ats-lang/ats-lang/anairiats-${ATS1
 tar xf ats-lang-anairiats-${ATS1}.tgz
 cd ats-lang-anairiats-${ATS1}
 ./configure
-make -j8
+make
