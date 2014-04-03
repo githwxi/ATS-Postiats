@@ -29,6 +29,8 @@ Bohem-GC) can be readily employed.
 
 * [![Build Status](https://travis-ci.org/githwxi/ATS-Postiats.png?branch=master)](https://travis-ci.org/githwxi/ATS-Postiats) Ubuntu
 
+## Installation
+
 ## License
 
 * The Compiler and Libraries: [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING)
