@@ -33,4 +33,4 @@ Bohem-GC) can be readily employed.
 
 ## License
 
-* The Compiler and Libraries: [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING)
+* The Compiler and Libraries: [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt)
