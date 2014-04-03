@@ -27,8 +27,7 @@ Bohem-GC) can be readily employed.
 
 ## Build Status
 
-* [![Build Status](https://travis-ci.org/ATS-Postiats/ATS-Postiats.png?branch=master)](https://travis-ci.org/ATS-Postiats/ATS-Postiats)
-  Ubuntu
+* [![Build Status](https://travis-ci.org/githwxi/ATS-Postiats.png?branch=master)](https://travis-ci.org/githwxi/ATS-Postiats) Ubuntu
 
 ## License
 
