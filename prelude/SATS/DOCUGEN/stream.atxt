@@ -74,13 +74,6 @@ This function is the optional version of #dyncode("stream_nth_exn").
 
 (* ****** ****** *)
 
-#declnamesynop("stream_foreach")
-#declnamesynop("stream_foreach_env")
-#declnamesynop("stream_foreach$cont")
-#declnamesynop("stream_foreach$fwork")
-
-(* ****** ****** *)
-
 #declnamesynop("stream_filter")
 #declnamesynop("stream_filter$pred")
 
@@ -113,11 +106,22 @@ This function is the optional version of #dyncode("stream_nth_exn").
 
 #declnamesynop("stream_merge")
 #declnamesynop("stream_merge$cmp")
+#declnamesynop("stream_merge_fun")
+#declnamesynop("stream_merge_cloref")
 
 (* ****** ****** *)
 
-#declnamesynop("stream_merge_fun")
-#declnamesynop("stream_merge_cloref")
+#declnamesynop("stream_mergeq")
+#declnamesynop("stream_mergeq$cmp")
+#declnamesynop("stream_mergeq_fun")
+#declnamesynop("stream_mergeq_cloref")
+
+(* ****** ****** *)
+
+#declnamesynop("stream_foreach")
+#declnamesynop("stream_foreach_env")
+#declnamesynop("stream_foreach$cont")
+#declnamesynop("stream_foreach$fwork")
 
 (* ****** ****** *)
 

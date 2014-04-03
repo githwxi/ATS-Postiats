@@ -444,6 +444,48 @@ end // end of [stream_mergeq_cloref]
 
 (* ****** ****** *)
 
+implement
+{a}{env}
+stream_foreach$cont (x, env) = true
+
+implement{a}
+stream_foreach (xs) = let
+  var env: void = () in stream_foreach_env<a><void> (xs, env)
+end // end of [stream_foreach]
+
+implement
+{a}{env}
+stream_foreach_env
+  (xs, env) = let
+//
+fun loop
+(
+  xs: stream(a), env: &env >> _
+) : void =
+(
+//
+case+ !xs of
+| stream_cons (x, xs) => let
+    val test =
+      stream_foreach$cont<a><env> (x, env)
+    // end of [val]
+  in
+    if test then let
+      val () = stream_foreach$fwork<a><env> (x, env)
+    in
+      loop (xs, env)
+    end else () // end of [if]
+  end // end of [stream_cons]
+| stream_nil ((*void*)) => ()
+//
+) (* end of [loop] *)
+//
+in
+  loop (xs, env)
+end (* end of [stream_foreach_env] *)
+
+(* ****** ****** *)
+
 #if VERBOSE_PRELUDE #then
 #print "Loading [stream.dats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]

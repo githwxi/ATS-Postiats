@@ -1546,7 +1546,7 @@ case+ xs of
       loop (xs, env)
     end else () // end of [if]
   end // end of [list_cons]
-| list_nil () => ()
+| list_nil ((*void*)) => ()
 //
 end // end of [loop]
 //
