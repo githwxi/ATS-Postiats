@@ -38,4 +38,4 @@ Please see
 
 ## License
 
-* The Compiler and Libraries: [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt)
+* The Compiler (ATS/Postiats) and Libraries: [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt)
