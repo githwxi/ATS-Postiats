@@ -36,6 +36,10 @@ Please see
 
 ## Developing ATS2
 
+The compiler of ATS2 is nearly all implemented in ATS1, which is available
+at [http://sourceforge.net/projects/ats-lang/](http://sourceforge.net/projects/ats-lang/).
+
 ## License
 
-* The Compiler (ATS/Postiats) and Libraries: [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt)
+* The Compiler (ATS/Postiats) and Libraries (ATSLIB/{prelude,libc,libats}):
+  [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt)
