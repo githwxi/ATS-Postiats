@@ -25,7 +25,11 @@ good use of ATS2 without any need for compiled library (libatslib.a). Also,
 GC support in ATS1 is now removed; if needed, third-party GC (e.g.,
 Bohem-GC) can be readily employed.
 
+## Build Status
+
+* [![Build Status](https://travis-ci.org/ATS-Postiats/ATS-Postiats.png?branch=master)](https://travis-ci.org/ATS-Postiats/ATS-Postiats)
+  Ubuntu
+
 ## License
 
-* The Compiler: [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING)
-* The Libraries: [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING)
+* The Compiler and Libraries: [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING)
