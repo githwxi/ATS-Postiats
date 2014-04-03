@@ -1,9 +1,34 @@
 #!/usr/bin/env sh
 
-ATS1=$1
+######
+#
+# for installing ats-anairiats
+#
+######
+#
+ATSVER=$1
+ATSPACK=ats-lang-anairiats-${ATSVER}
+ATSPACKTGZ=${ATSPACK}.tgz
+#
+ATSLANGURL=\
+http://downloads.sourceforge.net/project/ats-lang
+#
+######
 
-wget http://downloads.sourceforge.net/project/ats-lang/ats-lang/anairiats-${ATS1}/ats-lang-anairiats-${ATS1}.tgz
-tar xf ats-lang-anairiats-${ATS1}.tgz
-cd ats-lang-anairiats-${ATS1}
-./configure
-make
+WGETQ="wget -q"
+TARZXF="tar zxf"
+
+######
+#
+${WGETQ} \
+${ATSLANGURL}/ats-lang/anairiats-${ATSVER}/${ATSPACKTGZ}
+#
+${TARZXF} ${ATSPACKTGZ}
+#
+######
+#
+cd ${ATSPACK}; ./configure; make all
+#
+######
+
+###### end of [setup.sh] ######

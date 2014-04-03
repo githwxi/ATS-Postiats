@@ -6,7 +6,7 @@ dnl = ***********************************************************************
 
 dnl = 
 dnl =  ATS/Postiats - Unleashing the Potential of Types!
-dnl =  Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
+dnl =  Copyright (C) 2011-2014 Hongwei Xi, ATS Trustful Software, Inc.
 dnl =  All rights reserved
 dnl = 
 dnl =  ATS is free software;  you can  redistribute it and/or modify it under
