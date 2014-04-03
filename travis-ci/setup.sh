@@ -2,6 +2,11 @@
 
 ######
 #
+# Author: Kiwamu Okabe
+# Author: Hongwei Xi (tidying-up)
+#
+######
+#
 # for installing ats-anairiats
 #
 ######
