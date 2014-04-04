@@ -74,6 +74,14 @@ This function is the optional version of #dyncode("stream_nth_exn").
 
 (* ****** ****** *)
 
+#declnamesynop("stream_append")
+
+(* ****** ****** *)
+
+#declnamesynop("stream_concat")
+
+(* ****** ****** *)
+
 #declnamesynop("stream_filter")
 #declnamesynop("stream_filter$pred")
 

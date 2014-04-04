@@ -73,6 +73,15 @@ stream_drop_exn
 // end of [stream_drop_exn]
 
 #atscode_separator()
+//
+fun{a:t0p}
+stream_append
+  (xs: stream (INV(a)), ys: stream (a)):<!laz> stream(a)
+//
+fun{a:t0p}
+stream_concat (xss: stream(stream(INV(a)))):<!laz> stream(a)
+//
+#atscode_separator()
 
 fun{a:t0p}
 stream_filter$pred (x: a):<> bool

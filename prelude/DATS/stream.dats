@@ -159,6 +159,55 @@ end // end of [stream_drop_exn]
 
 (* ****** ****** *)
 
+implement
+{a}(*tmp*)
+stream_append
+  (xs, ys) = let
+//
+fun aux
+(
+  xs: stream(a)
+, ys: stream(a)
+) : stream_con(a) =
+  case+ !xs of
+  | stream_nil () => !ys
+  | stream_cons (x, xs) => stream_cons (x, $delay (aux (xs, ys)))
+//
+in
+//
+  $delay (aux (xs, ys))
+//
+end // end of [stream_append]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+stream_concat (xss) = let
+//
+fun aux1
+(
+  xss: stream(stream(a))
+) : stream_con(a) =
+(
+  case+ !xss of
+  | stream_nil () => stream_nil ()
+  | stream_cons (xs, xss) => aux2 (xs, xss)
+)
+and aux2
+(
+  xs: stream(a), xss: stream(stream(a))
+) : stream_con(a) =
+  case+ !xs of
+  | stream_nil () => aux1 (xss)
+  | stream_cons (x, xs) => stream_cons (x, $delay (aux2 (xs, xss)))
+//
+in
+  $delay (aux1 (xss))
+end // end of [stream_concat]
+
+(* ****** ****** *)
+
 local
 
 fun{a:t0p}
