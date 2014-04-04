@@ -24,9 +24,6 @@ MALLOCFLAG := -DATS_MEMALLOC_LIBC
 ######
 
 SOURCES_DATS += Hello.dats
-SOURCES_DATS += Hello_Window.dats
-SOURCES_DATS += Hello_Renderer.dats
-SOURCES_DATS += Hello_isRunning.dats
 
 ######
 

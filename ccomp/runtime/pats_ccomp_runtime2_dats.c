@@ -43,9 +43,9 @@ dynvalist-implementation(end)
 /*
 exnconlst-declaration(beg)
 */
-#ifndef _ATS_EXCEPTION_NONE
+#ifndef _ATS_CCOMP_EXCEPTION_NONE
 extern void the_atsexncon_initize (atstype_exncon *d2c, char *exnmsg) ;
-#endif // end of [_ATS_EXCEPTION_NONE]
+#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]
 /*
 exnconlst-declaration(end)
 */

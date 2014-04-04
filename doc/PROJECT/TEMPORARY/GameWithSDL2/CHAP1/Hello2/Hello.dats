@@ -4,6 +4,11 @@
 
 (* ****** ****** *)
 
+#define
+ATS_PACKNAME "SDL2_Hello"
+
+(* ****** ****** *)
+
 #include
 "share/atspre_define.hats"
 #include
@@ -20,9 +25,54 @@ staload "./../Game/Game.dats"
 
 (* ****** ****** *)
 
-staload Window = "./Hello_Window.dats"
-staload Renderer = "./Hello_Renderer.dats"
-staload isRunning = "./Hello_isRunning.dats"
+staload Window =
+{
+//
+#include
+"share/atspre_define.hats"
+#include
+"share/atspre_staload.hats"
+//
+staload "{$SDL2}/SATS/SDL.sats"
+//
+vtypedef objptr(l:addr) = SDL_Window_ptr(l)
+#include "{$LIBATSHWXI}/globals/HATS/gobjptr.hats"
+//
+} (* end of [Window] *)
+
+(* ****** ****** *)
+
+staload Renderer =
+{
+//
+#include
+"share/atspre_define.hats"
+#include
+"share/atspre_staload.hats"
+//
+staload "{$SDL2}/SATS/SDL.sats"
+//
+vtypedef objptr(l:addr) = SDL_Renderer_ptr(l)
+#include "{$LIBATSHWXI}/globals/HATS/gobjptr.hats"
+//
+} (* end of [Renderer] *)
+
+(* ****** ****** *)
+
+staload isRunning =
+{
+//
+#include
+"share/atspre_define.hats"
+#include
+"share/atspre_staload.hats"
+//
+typedef T = bool
+//
+fun initize (x: &T? >> T): void = x := false
+#include "{$LIBATSHWXI}/globals/HATS/globvar.hats"
+//
+} (* end of [isRunning] *)
 
 (* ****** ****** *)
 

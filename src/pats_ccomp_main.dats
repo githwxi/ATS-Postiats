@@ -93,10 +93,10 @@ emit_ats_ccomp_header (out) = let
   val () = emit_text (out, "#include \"pats_ccomp_instrset.h\"\n")
   val () = emit_text (out, "#include \"pats_ccomp_memalloc.h\"\n")
 //
-  val () = emit_text (out, "#ifndef _ATS_EXCEPTION_NONE\n")
+  val () = emit_text (out, "#ifndef _ATS_CCOMP_EXCEPTION_NONE\n")
   val () = emit_text (out, "#include \"pats_ccomp_memalloca.h\"\n")
   val () = emit_text (out, "#include \"pats_ccomp_exception.h\"\n")
-  val () = emit_text (out, "#endif // end of [_ATS_EXCEPTION_NONE]\n")
+  val () = emit_text (out, "#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]\n")
 //
   val () = emit_text (out, "#endif /* _ATS_CCOMP_HEADER_NONE */\n")
   val () = emit_newline (out)
@@ -897,12 +897,12 @@ val () = emit_text (out, "\n*/\n")
 val () = emit_text (out, "#ifndef _ATS_CCOMP_RUNTIME_NONE\n")
 val () = emit_text (out, "#include \"pats_ccomp_runtime.c\"\n")
 val () = emit_text (out, "#include \"pats_ccomp_runtime_memalloc.c\"\n")
-val () = emit_text (out, "#ifndef _ATS_EXCEPTION_NONE\n")
+val () = emit_text (out, "#ifndef _ATS_CCOMP_EXCEPTION_NONE\n")
 val () = emit_text (out, "#include \"pats_ccomp_runtime2_dats.c\"\n")
 val () = emit_text (out, "#ifndef _ATS_CCOMP_RUNTIME_TRYWITH_NONE\n")
 val () = emit_text (out, "#include \"pats_ccomp_runtime_trywith.c\"\n")
 val () = emit_text (out, "#endif /* _ATS_CCOMP_RUNTIME_TRYWITH_NONE */\n")
-val () = emit_text (out, "#endif // end of [_ATS_EXCEPTION_NONE]\n")
+val () = emit_text (out, "#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]\n")
 val () = emit_text (out, "#endif /* _ATS_CCOMP_RUNTIME_NONE */\n")
 //
 val () = emit_text (out, "\n/*\n")
@@ -1015,11 +1015,11 @@ val () = emit_text (out, "/*\n")
 val () = emit_text (out, "exnconlst-declaration(beg)\n")
 val () = emit_text (out, "*/\n")
 //
-val () = emit_text (out, "#ifndef _ATS_EXCEPTION_NONE\n")
+val () = emit_text (out, "#ifndef _ATS_CCOMP_EXCEPTION_NONE\n")
 val () = emit_text (out, "\
 extern void the_atsexncon_initize (atstype_exncon *d2c, char *exnmsg) ;\n\
 ") // end of [val]
-val () = emit_text (out, "#endif // end of [_ATS_EXCEPTION_NONE]\n")
+val () = emit_text (out, "#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]\n")
 //
 val hids = the_exndeclst_get ()
 val ((*void*)) = loop (out, hids)

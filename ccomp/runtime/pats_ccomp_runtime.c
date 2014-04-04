@@ -50,7 +50,7 @@ extern void exit (int) ; // in [stdlib.h]
 //
 /* ****** ****** */
 
-#ifndef _ATS_EXCEPTION_NONE
+#ifndef _ATS_CCOMP_EXCEPTION_NONE
 //
 atstype_exncon
 ATSLIB_056_prelude__AssertExn = { 10, "AssertException" } ;
@@ -59,11 +59,11 @@ ATSLIB_056_prelude__GenerallyExn = { 20, "GenerallyException" } ;
 atstype_exncon
 ATSLIB_056_prelude__IllegalArgExn = { 30, "IllegalArgException" } ;
 //
-#endif // end of [_ATS_EXCEPTION_NONE]
+#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]
 
 /* ****** ****** */
 
-#ifndef _ATS_EXCEPTION_NONE
+#ifndef _ATS_CCOMP_EXCEPTION_NONE
 //
 atstype_exncon
 ATSLIB_056_prelude__NotFoundExn = { 40, "NotFoundException" } ;
@@ -80,11 +80,11 @@ ATSLIB_056_prelude__MatrixSubscriptExn = { 61, "MatrixSubscriptException" } ;
 //
 atstype_exncon ATSLIB_056_prelude__NotSomeExn = { 70, "NotSomeException" } ;
 //
-#endif // end of [_ATS_EXCEPTION_NONE]
+#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]
 
 /* ****** ****** */
 
-#ifndef _ATS_EXCEPTION_NONE
+#ifndef _ATS_CCOMP_EXCEPTION_NONE
 //
 extern
 void
@@ -105,7 +105,7 @@ the_atsexncon_initize
   return ;
 } // end of [the_atsexncon_initize]
 //
-#endif // end of [_ATS_EXCEPTION_NONE]
+#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]
 
 /* ****** ****** */
 //
@@ -126,7 +126,7 @@ atsruntime_handle_unmatchedval
 
 /* ****** ****** */
 
-#ifndef _ATS_EXCEPTION_NONE
+#ifndef _ATS_CCOMP_EXCEPTION_NONE
 //
 extern
 void
@@ -140,7 +140,7 @@ atsruntime_handle_uncaughtexn_rest
   return ; // deadcode
 } /* end of [atsruntime_handle_uncaughtexn_rest] */
 //
-#endif // end of [_ATS_EXCEPTION_NONE]
+#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]
 
 /* ****** ****** */
 
