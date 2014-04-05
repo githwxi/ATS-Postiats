@@ -163,7 +163,7 @@ atstype_bool
 atspre_%s_int_int
   (atstype_int i1, atstype_int i2) {
   return (i1 %s i2 ? atsbool_true : atsbool_false) ;
-} // end of [atspre_%s_char_char]\n\
+} // end of [atspre_%s_int_int]\n\
 #define atspre_%s_char0_char0 atspre_%s_int_int
 #define atspre_%s_char1_char1 atspre_%s_int_int
 ",
@@ -192,7 +192,7 @@ atspre_compare_int_int
   (atstype_int i1, atstype_int i2)
 {
   return (i1 - i2) ;
-} // end of [atspre_compare_char_char]
+} // end of [atspre_compare_int_int]
 \#define atspre_compare_char0_char0(c1, c2) atspre_compare_int_int(c1, c2)
 \#define atspre_compare_char1_char1(c1, c2) atspre_compare_int_int(c1, c2)
 

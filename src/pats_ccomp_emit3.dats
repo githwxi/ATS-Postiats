@@ -1756,7 +1756,7 @@ case+ 0 of
     ismac (d2c) => let
     val () = emit_text (out, "ATSdyncst_mac(")
     val () = emit_d2cst (out, d2c)
-    val () = emit_text (out, ") ;\n")
+    val () = emit_text (out, ")\n")
   in
     // nothing
   end // end of [ismac]
@@ -1797,7 +1797,7 @@ case+ 0 of
     iscastfn(d2c) => let
     val () = emit_text (out, "ATSdyncst_castfn(")
     val () = emit_d2cst (out, d2c)
-    val () = emit_text (out, ") ;\n")
+    val () = emit_text (out, ")\n")
   in
     // nothing
   end // end of [castfn]

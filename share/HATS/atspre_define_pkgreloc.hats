@@ -107,9 +107,16 @@ LIBATSHWXI_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/libats-hwxi"
 (* ****** ****** *)
 
 #define
-gurobi_targetloc "PATSHOMERELOC/contrib/gurobi_targetloc"
+GUROBI_targetloc "PATSHOMERELOC/contrib/gurobi_targetloc"
 #define
-gurobi_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/gurobi"
+GUROBI_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/gurobi"
+
+(* ****** ****** *)
+
+#define
+KERNELATS_targetloc "PATSHOMERELOC/contrib/kernelats_targetloc"
+#define
+KERNELATS_sourceloc "{http://www.ats-lang.org/LIBRARY}/contrib/kernelats"
 
 (* ****** ****** *)
 
