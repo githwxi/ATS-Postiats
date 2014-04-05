@@ -52,6 +52,8 @@
 
 /* ****** ****** */
 
+#if(0)
+//
 ATSinline()
 atstype_bool
 atspre_lt_string_string (
@@ -99,6 +101,8 @@ atspre_neq_string_string (
 ) {
   return (strcmp((char*)x1, (char*)x2)!=0 ? atsbool_true : atsbool_false) ;
 } // [atspre_neq_string_string]
+//
+#endif // end of [#if(0)]
 
 /* ****** ****** */
 
@@ -107,11 +111,15 @@ atspre_neq_string_string (
 
 /* ****** ****** */
 
+#if(0)
+//
 ATSinline()
 atstype_int
 atspre_compare_string_string
   (atstype_string x1, atstype_string x2) { return strcmp((char*)x1, (char*)x2) ; }
 // [atspre_compare_string_string]
+//
+#endif // end of [#if(0)]
 
 /* ****** ****** */
 

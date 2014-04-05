@@ -27,7 +27,7 @@ LDFLAGS=-N -Ttext=0x10000
 
 ######
 
-kernel.elf: bootstrap.o kernel.o
+all:: kernel_dats.elf
 
 ######
 
@@ -39,6 +39,7 @@ kernel_dats.o: kernel_dats.s ; \
 
 ######
 
+kernel.elf: bootstrap.o kernel.o
 kernel_dats.elf: bootstrap.o kernel_dats.o
 
 ######
