@@ -1,4 +1,17 @@
 ######
+#
+# HX-2014-04-05:
+#
+# This is my attempt to demonstrate concretely
+# how ATS can be used to implement a simple kernel.
+# Please see the following links for more information
+# about this simple kernel.
+#
+######
+
+https://singpolyma.net/category/singpolyma-kernel/
+
+######
 
 Part1:
 
@@ -13,5 +26,13 @@ Part2:
 Please see:
 
 https://singpolyma.net/2012/01/writing-a-simple-os-kernel-user-mode/
+
+######
+
+Part3:
+
+Please see:
+
+https://singpolyma.net/2012/01/writing-a-simple-os-kernel-syscalls/
 
 ###### end of [README] ######

@@ -39,8 +39,8 @@ kernel_dats.o: kernel_dats.s ; \
 
 ######
 
-kernel.elf: bootstrap.o context_switch.o kernel.o
-kernel_dats.elf: bootstrap.o context_switch.o kernel_dats.o
+kernel.elf: bootstrap.o context_switch.o syscall.o kernel.o
+kernel_dats.elf: bootstrap.o context_switch.o syscall.o kernel_dats.o
 
 ######
 

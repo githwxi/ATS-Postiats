@@ -39,6 +39,7 @@ kernel_dats.o: kernel_dats.s ; \
 
 ######
 
+kernel.elf: bootstrap.o kernel.o
 kernel_dats.elf: bootstrap.o kernel_dats.o
 
 ######

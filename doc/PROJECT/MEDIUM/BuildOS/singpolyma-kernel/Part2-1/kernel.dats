@@ -24,6 +24,12 @@ staload _(*UNSAFE*) = "prelude/DATS/unsafe.dats"
 %} // end of [%{^]
 
 (* ****** ****** *)
+
+extern
+fun
+activate ((*void*)): void = "mac#"
+
+(* ****** ****** *)
 //
 extern
 fun
@@ -67,6 +73,18 @@ in
 end // end of [bwputs]
 
 (* ****** ****** *)
+
+extern
+fun
+first ((*void*)): void = "mac#"
+implement
+first ((*void*)) =
+{
+  val () = bwputs ("In user-mode\n")
+  val ((*loop*)) = while (true) ((*void*))
+} (* end of [first] *)
+
+(* ****** ****** *)
 //
 extern
 fun
@@ -79,6 +97,7 @@ ATS__main ((*void*)) =
 val message = "Starting!\n"
 //
 val ((*void*)) = bwputs (message)
+val ((*void*)) = activate ((*void*))
 val ((*void*)) = while (true) ((*void*))
 //
 } (* end of [ATS__main] *)

@@ -25,11 +25,16 @@ staload _(*UNSAFE*) = "prelude/DATS/unsafe.dats"
 %} // end of [%{^]
 
 (* ****** ****** *)
-  
+//
+// These are implemented in assembly
+//
+extern
+fun
+syscall ((*void*)): void = "mac#"
 extern
 fun
 activate (stack: cPtr1(uint)): void = "mac#"
-
+//
 (* ****** ****** *)
 //
 extern
@@ -81,8 +86,11 @@ first ((*void*)): void = "mac#"
 implement
 first ((*void*)) =
 {
-  val () = bwputs ("In user-mode\n")
-  val ((*loop*)) = while (true) ((*void*))
+//
+val () = bwputs ("In user-mode\n")
+//
+val ((*void*)) = syscall ((*void*))
+//
 } (* end of [first] *)
 
 (* ****** ****** *)
@@ -103,9 +111,9 @@ val () = $UNSAFE.ptr0_set<uint> (first_stack_start0, 0x10u)
 val first_stack_start1 = ptr_succ<uint> (first_stack_start0)
 val () = $UNSAFE.ptr0_set<uint> (first_stack_start1, $UNSAFE.cast{uint}(first))
 //
-val message = "Starting!\n"
-val ((*void*)) = bwputs (message)
+val () = bwputs ("Starting!\n")
 val ((*void*)) = activate($UNSAFE.cast{cPtr1(uint)}(first_stack_start0))
+val ((*void*)) = bwputs ("Done!\n")
 //
 val ((*void*)) = while (true) ((*void*))
 //
