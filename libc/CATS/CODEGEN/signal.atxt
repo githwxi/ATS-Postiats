@@ -1,0 +1,104 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"signal.cats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_GPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/libc/CATS/CODEGEN/signal.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator_for_C()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("April, 2014")
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSLIB_LIBC_SIGNAL_CATS
+\#define ATSLIB_LIBC_SIGNAL_CATS
+
+#atscode_separator_for_C()
+
+\#include <signal.h>
+
+#atscode_separator_for_C()
+
+typedef int signum_t ;
+typedef void (*sighandler_t)(signum_t) ;
+
+#atscode_separator_for_C()
+
+typedef struct sigaction atslib_sigaction_struct ;
+
+#atscode_separator_for_C()
+
+\#define atslib_sigaddset sigaddset
+\#define atslib_sigdelset sigdelset
+\#define atslib_sigemptyset sigemptyset
+\#define atslib_sigfillset sigfillset
+
+#atscode_separator_for_C()
+
+\#define atslib_signal signal
+
+#atscode_separator_for_C()
+
+\#define atslib_sigaction sigaction
+\#define atslib_sigaction_null(sgn, act) \\
+  atslib_sigaction(sgn, act, (atslib_sigaction_struct*)0)
+
+#atscode_separator_for_C()
+
+\#define atslib_sigset sigset
+\#define atslib_sighold sighold
+\#define atslib_sigignore sigignore
+\#define atslib_sigrelse sigrelse
+
+#atscode_separator_for_C()
+
+\#define atslib_sigwait sigwait
+\#define atslib_sigsuspend sigsuspend
+\#define atslib_sigpause sigpause
+
+#atscode_separator_for_C()
+
+\#define atslib_sigpending sigpending
+\#define atslib_siginterrupt siginterrupt
+
+#atscode_separator_for_C()
+
+\#define atslib_psignal psignal
+
+#atscode_separator_for_C()
+
+/*
+extern
+char* strsignal (int signum) ; // declared in <string.h>
+*/
+\#define atslib_strsignal strsignal
+
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSLIB_LIBC_SIGNAL_CATS
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "signal_atxt.txt")
+%}\

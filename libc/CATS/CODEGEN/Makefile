@@ -89,6 +89,15 @@ math_atxt.dats: math.atxt
 clean:: ; $(RMF) math_atxt.exe
 cleanall:: ; $(RMF) math.cats
 
+all:: signal.cats
+signal.cats: signal_atxt.exe ; ./$< > $@
+signal_atxt.exe: signal_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ signal_atxt.dats -latsdoc
+signal_atxt.dats: signal.atxt
+	$(ATSDOC) --outcode $@ -i signal.atxt > signal_atxt.txt
+clean:: ; $(RMF) signal_atxt.exe
+cleanall:: ; $(RMF) signal.cats
+
 all:: stdio.cats
 stdio.cats: stdio_atxt.exe ; ./$< > $@
 stdio_atxt.exe: stdio_atxt.dats
