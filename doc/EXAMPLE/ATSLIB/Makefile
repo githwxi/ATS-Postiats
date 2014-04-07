@@ -295,6 +295,14 @@ clean:: ; $(RMF) libc_math_dats.o
 clean:: ; $(RMF) libc_math_dats.c
 cleanall:: ; $(RMF) libc_math.exe
 
+all:: libc_signal
+libc_signal: libc_signal.exe
+libc_signal.exe: libc_signal_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libc_signal_dats.c: libc_signal.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_signal_dats.c --dynamic libc_signal.dats
+clean:: ; $(RMF) libc_signal_dats.o
+clean:: ; $(RMF) libc_signal_dats.c
+cleanall:: ; $(RMF) libc_signal.exe
+
 all:: libc_stdio
 libc_stdio: libc_stdio.exe
 libc_stdio.exe: libc_stdio_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib

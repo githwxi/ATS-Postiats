@@ -141,6 +141,7 @@ RMF=rm -f
 #make_entry("libc_fnmatch")
 #make2_entry("libc_malloc", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libc_math", "", "-lm")
+#make2_entry("libc_signal", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 #make2_entry("libc_stdio", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 #make2_entry("libc_stdlib", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libc_string", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")

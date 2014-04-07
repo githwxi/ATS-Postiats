@@ -432,6 +432,20 @@ typedef constcharptr0 = charptr0 // HX: for commenting purpose
 typedef constcharptr1 = charptr1 // HX: for commenting purpose
 
 #atscode_separator()
+//
+absprop
+is_nullable (a: vt@ype+) // covariant
+//
+fun{a:vt0p}
+ptr_nullize
+  (pf: is_nullable (a) | x: &a? >> a):<!wrt> void
+fun
+ptr_nullize_tsz
+  {a:vt0p} (
+  pf: is_nullable (a) | x: &a? >> a, tsz: sizeof_t (a)
+) :<!wrt> void = "mac#%" // end of [ptr_nullize_tsz]
+//
+#atscode_separator()
 
 fun{a:vt0p}
 ptr_alloc ()

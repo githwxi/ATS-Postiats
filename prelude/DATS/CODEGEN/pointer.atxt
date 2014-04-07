@@ -102,6 +102,13 @@ ptr_exch (pf | p, x) =
 
 #atscode_separator()
 
+implement{a}
+ptr_nullize
+  (pf | x) = ptr_nullize_tsz (pf | x, sizeof<a>)
+// end of [ptr_nullize]
+
+#atscode_separator()
+
 implement{a} ptr_alloc () = ptr_alloc_tsz (sizeof<a>)
 
 #atscode_separator()

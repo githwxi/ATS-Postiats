@@ -74,9 +74,9 @@ vtypedef Fildes0 = $TYPES.Fildes0
 //
 (* ****** ****** *)
 
-macdef STDIN_FILENO = $extval (int, "STDIN_FILENO")
-macdef STDOUT_FILENO = $extval (int, "STDOUT_FILENO")
-macdef STDERR_FILENO = $extval (int, "STDERR_FILENO")
+macdef STDIN_FILENO = $extval(int, "STDIN_FILENO")
+macdef STDOUT_FILENO = $extval(int, "STDOUT_FILENO")
+macdef STDERR_FILENO = $extval(int, "STDERR_FILENO")
 
 (* ****** ****** *)
 /*
@@ -241,21 +241,54 @@ fun getlogin_r{n:int | n >= 2}
 fun getlogin_r_gc (): Strptr0 = "ext#%"
 
 (* ****** ****** *)
+//
+// HX: [pause] can only returns -1
+//
+fun pause ((*void*)): int = "mac#%"
+//
+(* ****** ****** *)
 
-fun pause (): int = "mac#%" // the return value is -1 if the call returns
+fun read_err
+  {sz,n:nat | n <= sz}
+(
+  fd: !Fildes0
+, buf: &b0ytes(sz) >> bytes(sz), ntotal: size_t(n)
+) : ssizeBtw(~1, n+1) = "mac#%" // end-of-fun
+
+fun write_err
+  {sz,n:nat | n <= sz}
+(
+  fd: !Fildes0, buf: &RD(bytes(sz)), ntotal: size_t(n)
+) : ssizeBtw(~1, n+1) = "mac#%" // end-of-fun
 
 (* ****** ****** *)
 
-fun pread {n:int}
+fun pread{n:int}
 (
   fd: !Fildes0, buf: &(@[byte][n])>>_, n: size_t (n), ofs: off_t
 ) : ssize_t = "mac#%" // end of [pread]
 
-fun pwrite {n:int}
+fun pwrite{n:int}
 (
   fd: !Fildes0, buf: &RD(array(byte, n)), n: size_t (n), ofs: off_t
 ) : ssize_t = "mac#%" // end of [pwrite]
 
+(* ****** ****** *)
+//
+absview
+alarm_v (n: int) // n: remaining seconds
+//
+praxi alarm_v_elim (pf: alarm_v (0)): void
+//
+fun
+alarm_set{i:int}
+  (t: uint i): (alarm_v (i) | uInt) = "mac#%"
+// end of [alarm_set]
+fun
+alarm_cancel{i:int}
+  (pf: alarm_v (i) | (*none*)): uInt = "mac#%"
+// end of [alarm_cancel]
+//
 (* ****** ****** *)
 //
 // HX: [sleep] may be implemented using SIGARM

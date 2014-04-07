@@ -168,7 +168,15 @@ macdef SA_RESTART = $extval (saflag_t, "SA_RESTART")
 macdef SA_SIGINFO = $extval (saflag_t, "SA_SIGINFO")
 //
 (* ****** ****** *)
-
+//
+// HX: this one is deprecated; please use [sigaction]
+//
+fun signal
+  (sgn: signum_t, act: sighandler_t): sighandler_t = "mac#%"
+// end of [signal]
+//
+(* ****** ****** *)
+//
 typedef
 siginfo_struct =
 $extype_struct"siginfo_t" of
@@ -191,13 +199,15 @@ $extype_struct"siginfo_t" of
 , si_band= int // band event
 , si_fd= int // file descriptor
 } (* end of [siginfo_struct] *)
+//
 typedef siginfo = siginfo_struct
-
+//
 (* ****** ****** *)
 //
 typedef
 sigaction_struct =
-$extype_struct"atslib_sigaction_struct" of
+$extype_struct
+"atslib_sigaction_struct" of
 {
   sa_handler= sighandler_t
 , sa_sigaction= (int, &siginfo, ptr) -<fun1> void
@@ -235,7 +245,7 @@ fun sigwait
 // please use [sigsuspend] instead
 //
 // always -1: fail // errno set
-// fun sigpause (sgn: signum_t): int = "mac#"
+// fun sigpause (sgn: signum_t): int = "mac#%"
 //
 // HX-2014-04-07:
 // always -1: fail // errno set // EINTR is set normally

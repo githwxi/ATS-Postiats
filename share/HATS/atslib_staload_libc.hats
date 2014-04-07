@@ -20,6 +20,10 @@ staload _(*MATH*) = "libc/DATS/math.dats"
 
 (* ****** ****** *)
 
+staload SIGNAL = "libc/SATS/signal.sats"
+
+(* ****** ****** *)
+
 staload STDDEF = "libc/SATS/stddef.sats"
 
 (* ****** ****** *)
