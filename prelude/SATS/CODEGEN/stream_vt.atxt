@@ -158,6 +158,13 @@ a1,a2:t0p}{b:vt0p
 ) : stream_vt (b) // end of [stream_vt_map2_cloptr]
 //
 #atscode_separator()
+
+fun{a:vt0p}
+stream_vt_tabulate$fopr (i: int): (a)
+fun{a:vt0p}
+stream_vt_tabulate ((*void*)): stream_vt (a)
+
+#atscode_separator()
 //
 // overloading for certain symbols
 //

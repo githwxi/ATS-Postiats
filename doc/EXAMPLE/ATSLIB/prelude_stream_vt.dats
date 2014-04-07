@@ -13,9 +13,16 @@ staload UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 fun
-from (n: int)
-  : stream_vt (int) = $ldelay (stream_vt_cons{int}(n, from(n+1)))
-// end of [from]
+from (
+  n: int
+) : stream_vt (int) = let
+//
+implement
+stream_vt_tabulate$fopr<int> (i) = n+i
+//
+in
+  stream_vt_tabulate<int> ((*void*))
+end // end of [fun]
 
 (* ****** ****** *)
 
@@ -23,6 +30,7 @@ val () =
 {
 //
 val ns = from (0)
+//
 val nns =
   stream_vt_map_fun<int><int> (ns, lam x => x * x)
 //

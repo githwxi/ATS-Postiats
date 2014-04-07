@@ -309,7 +309,7 @@ atspacktarzvcf:: ; $(RMF) $(PACKNAME)/install-sh ; $(CPF) ATS-Postiats/install-s
 atspacktarzvcf:: ; make -C $(PACKNAME) cleanall
 atspacktarzvcf:: ; tar -zvcf  $(PACKNAME).tgz  $(PACKNAME)/
 
-CNTRBNAME=ATS2-Postiats-contrib-0.0.6
+CNTRBNAME=ATS2-Postiats-contrib-0.0.7
 atscntrbtarzvcf:: ; rm -rf $(CNTRBNAME)
 atscntrbtarzvcf:: ; cp -rf ATS-Postiats-contrib $(CNTRBNAME)
 atscntrbtarzvcf:: ; tar -zvcf  $(CNTRBNAME).tgz  $(CNTRBNAME)/

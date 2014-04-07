@@ -436,6 +436,20 @@ end // end of [local]
 
 (* ****** ****** *)
 
+implement{a}
+stream_vt_tabulate
+(
+// argumentless
+) = aux (0) where
+{
+//
+fun aux (i: intGte(0)): stream_vt (a) =
+  $ldelay (stream_vt_cons{a}(stream_vt_tabulate$fopr<a> (i), aux (i+1)))
+//
+} (* end of [stream_vt_tabulate] *)
+
+(* ****** ****** *)
+
 #if VERBOSE_PRELUDE #then
 #print "Loading [stream_vt.dats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
