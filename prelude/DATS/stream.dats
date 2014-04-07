@@ -514,6 +514,7 @@ fun loop
 (
 //
 case+ !xs of
+| stream_nil () => ()
 | stream_cons (x, xs) => let
     val test =
       stream_foreach$cont<a><env> (x, env)
@@ -525,7 +526,6 @@ case+ !xs of
       loop (xs, env)
     end else () // end of [if]
   end // end of [stream_cons]
-| stream_nil ((*void*)) => ()
 //
 ) (* end of [loop] *)
 //

@@ -22,7 +22,7 @@ stream_vt_tabulate$fopr<int> (i) = n+i
 //
 in
   stream_vt_tabulate<int> ((*void*))
-end // end of [fun]
+end // end of [from]
 
 (* ****** ****** *)
 

@@ -37,6 +37,16 @@ vtypedef
 streamopt_vt (a:vt0p) = Option_vt(stream_vt(a))
 
 #atscode_separator()
+//
+// HX-2014-04-07:
+// this is a regular function
+// instead of a cast function
+//
+fun{a:t0p}
+stream_vt2t
+  (xs: stream_vt (INV(a))): stream (a)
+//
+#atscode_separator()
 
 fun{a:vt0p}
 stream2list_vt
