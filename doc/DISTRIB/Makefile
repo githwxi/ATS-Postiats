@@ -368,6 +368,17 @@ cleanall:: ; $(RMF) HTML/atscntrb_libatshwxi_teaching.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_libatshwxi_teaching.bash
 
 #
+all_html:: HTML/atscntrb_kernelats.html
+HTML/atscntrb_kernelats.html: atscntrb_kernelats_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_kernelats.bash
+SCRIPT/atscntrb_kernelats.bash: atscntrb_kernelats_atxt.exe ; ./$< > $@
+atscntrb_kernelats_atxt.dats: ATEXT/atscntrb_kernelats.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_kernelats_atxt.exe: atscntrb_kernelats_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_kernelats_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_kernelats.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_kernelats.bash
+
+#
 ######
 
 atspackaging:: srcget_home
@@ -521,6 +532,11 @@ srcget_atscntrb:: srcget_atscntrb_libatshwxi
 srcget_atscntrb_libatshwxi:: SCRIPT/atscntrb_libatshwxi.bash ; bash $<
 srcget_atscntrb:: srcget_atscntrb_libatshwxi_teaching
 srcget_atscntrb_libatshwxi_teaching:: SCRIPT/atscntrb_libatshwxi_teaching.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_kernelats
+srcget_atscntrb_kernelats:: SCRIPT/atscntrb_kernelats.bash ; bash $<
 
 ######
 

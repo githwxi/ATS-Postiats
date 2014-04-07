@@ -137,6 +137,8 @@ all_script::
 #make_entry("atscntrb_libatshwxi")
 #make_entry("atscntrb_libatshwxi_teaching")
 #
+#make_entry("atscntrb_kernelats")
+#
 ######
 
 atspackaging:: srcget_home
@@ -290,6 +292,11 @@ srcget_atscntrb:: srcget_atscntrb_libatshwxi
 srcget_atscntrb_libatshwxi:: SCRIPT/atscntrb_libatshwxi.bash ; bash $<
 srcget_atscntrb:: srcget_atscntrb_libatshwxi_teaching
 srcget_atscntrb_libatshwxi_teaching:: SCRIPT/atscntrb_libatshwxi_teaching.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_kernelats
+srcget_atscntrb_kernelats:: SCRIPT/atscntrb_kernelats.bash ; bash $<
 
 ######
 
