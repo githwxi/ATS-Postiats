@@ -163,6 +163,7 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 #packfilename("libc_fnmatch.dats")
 #packfilename("libc_malloc.dats")
 #packfilename("libc_math.dats")
+#packfilename("libc_signal.dats")
 #packfilename("libc_stdio.dats")
 #packfilename("libc_stdlib.dats")
 #packfilename("libc_string.dats")
