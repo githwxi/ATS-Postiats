@@ -116,6 +116,7 @@ all_html::
 #make_entry("fnmatch")
 #make_entry("malloc")
 #make_entry("math")
+#make_entry("signal")
 #make_entry("stdio")
 #make_entry("stdlib")
 #make_entry("string")

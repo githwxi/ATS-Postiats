@@ -70,9 +70,18 @@ typedef struct sigaction atslib_sigaction_struct ;
 
 #atscode_separator_for_C()
 
+\#define atslib_kill kill
+\#define atslib_killpg killpg
+\#define atslib_raise raise
+
+#atscode_separator_for_C()
+
 \#define atslib_sigwait sigwait
-\#define atslib_sigsuspend sigsuspend
+
+#atscode_separator_for_C()
+
 \#define atslib_sigpause sigpause
+\#define atslib_sigsuspend sigsuspend
 
 #atscode_separator_for_C()
 

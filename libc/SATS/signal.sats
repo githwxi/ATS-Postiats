@@ -51,6 +51,17 @@ typedef pid_t = $TYPES.pid_t
 typedef uid_t = $TYPES.uid_t
 typedef clock_t = $TYPES.clock_t
 //
+(*
+staload
+PTHREAD = "libc/SATS/pthread.sats"
+typedef pthread_t = $PTHREAD.pthread_t
+*)
+abst@ype
+pthread_t0ype =
+$extype "pthread_t"
+//
+typedef pthread_t = pthread_t0ype
+//
 (* ****** ****** *)
 //
 // HX: defined in [libc/CATS/signal.cats]
@@ -230,6 +241,27 @@ fun sigaction_null
 //
 (* ****** ****** *)
 //
+fun kill // 0/-1 : succ/fail // errno set
+  (proc: pid_t, sgn: signum_t): int = "mac#%"
+//
+// HX: killpg (pgrp, sgn) = kill (-pgrp, sgn)
+//
+fun killpg // 0/-1 : succ/fail // errno set
+  (pgrp: pid_t, sgn: signum_t): int = "mac#%"
+//
+(* ****** ****** *)
+//
+// HX-2014-04:
+// raise(sgn) =
+// pthread_kill (pthread_self, sgn)
+//
+fun raise (signum_t): int = "mac#%"
+//
+fun pthread_kill // 0/errno : succ/fail
+  (tid: pthread_t, sgn: signum_t): int = "mac#%"
+//
+(* ****** ****** *)
+//
 // HX-2014-04-07: 0/errno : succ/fail
 //
 fun sigwait
@@ -245,7 +277,7 @@ fun sigwait
 // please use [sigsuspend] instead
 //
 // always -1: fail // errno set
-// fun sigpause (sgn: signum_t): int = "mac#%"
+fun sigpause (sgn: signum_t): int = "mac#%"
 //
 // HX-2014-04-07:
 // always -1: fail // errno set // EINTR is set normally
