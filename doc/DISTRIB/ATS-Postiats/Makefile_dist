@@ -103,13 +103,13 @@ install_files_0: install_dirs ; \
   done
 
 install_files_1: bin/patscc ; \
-  $(INSTALL) -T -m 755 $< $(PATSLIBHOME2)/bin/patscc && echo $<
+  $(INSTALL) -m 755 $< $(PATSLIBHOME2)/bin/patscc && echo $<
 install_files_2: bin/patsopt ; \
-  $(INSTALL) -T -m 755 $< $(PATSLIBHOME2)/bin/patsopt && echo $<
+  $(INSTALL) -m 755 $< $(PATSLIBHOME2)/bin/patsopt && echo $<
 install_files_3: bin/patscc_env.sh ; \
-  $(INSTALL) -T -m 755 $< $(bindir2)/patscc && echo $<
+  $(INSTALL) -m 755 $< $(bindir2)/patscc && echo $<
 install_files_4: bin/patsopt_env.sh ; \
-  $(INSTALL) -T -m 755 $< $(bindir2)/patsopt && echo $<
+  $(INSTALL) -m 755 $< $(bindir2)/patsopt && echo $<
 
 install_files_5: ; \
   for f in \
@@ -117,7 +117,7 @@ install_files_5: ; \
     ccomp/atslib/lib64/libatslib.a ; \
   do \
     if [ -e "$$f" ] ; then \
-      $(INSTALL) -T -m 755 "$$f" $(PATSLIBHOME2)/"$$f" && echo "$$f"; \
+      $(INSTALL) -m 755 "$$f" $(PATSLIBHOME2)/"$$f" && echo "$$f"; \
     fi; \
   done
 
