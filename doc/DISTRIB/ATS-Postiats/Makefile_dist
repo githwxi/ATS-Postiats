@@ -1,15 +1,19 @@
 ######
 #
-# HX-2013-03: for compiling a distribution of ATS-Postiats
+# HX-2013-03:
+# for compiling a distribution of ATS-Postiats
+# KO-2014-04-09:
+# removing [-T] from [install] as the option is
+# not supported on MacOS
 #
 ######
-
+#
 all: \
   config.mk \
   bin2_patsopt \
   bin_patscc \
   ccomp/atslib/lib/libatslib.a \
-
+#
 ######
 
 configure : ; /bin/bash autogen.sh
