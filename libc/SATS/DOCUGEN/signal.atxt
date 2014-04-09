@@ -1,0 +1,96 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../signal.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libc_signal")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libc/signal\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are mostly the API for the
+corresponding libc-functions declared in [signal.h], and many more details
+on these functions can often be found in the Linux Programmer's manual.
+See #myatscodelink("libc/SATS/signal.sats", "signal.sats") for the SATS
+file in ATSLIB where these functions are declared.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("signum_t")
+#declnamesynop("signum_t0ype")
+
+(* ****** ****** *)
+
+#declnamesynop("signal")
+
+(* ****** ****** *)
+
+#declnamesynop("siginfo_struct")
+#declnamesynop("sigaction_struct")
+
+(* ****** ****** *)
+
+#declnamesynop("sigaction")
+#declnamesynop("sigaction_null")
+
+(* ****** ****** *)
+
+#declnamesynop("kill")
+#declnamesynop("killpg")
+
+(* ****** ****** *)
+
+#declnamesynop("raise")
+#declnamesynop("pthread_kill")
+
+(* ****** ****** *)
+
+#declnamesynop("sigwait")
+#declnamesynop("sigpause")
+#declnamesynop("sigsuspend")
+
+(* ****** ****** *)
+
+#declnamesynop("sigpending")
+
+(* ****** ****** *)
+
+#declnamesynop("siginterrupt")
+
+(* ****** ****** *)
+
+#declnamesynop("sigaddset")
+#declnamesynop("sigdelset")
+
+(* ****** ****** *)
+
+#declnamesynop("sigfillset")
+#declnamesynop("sigemptyset")
+
+(* ****** ****** *)
+
+#declnamesynop("sigismember")
+
+(* ****** ****** *)
+
+#declnamesynop("psignal")
+#declnamesynop("strsignal")
+
+(* ****** ****** *)
+
+(* end of [signal.atxt] *)
