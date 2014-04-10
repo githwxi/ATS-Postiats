@@ -127,6 +127,19 @@ val () = assertloc ((0xFFFFFFFFULL land x) = x)
 val () =
 {
 //
+val _1si = $UNSAFE.cast2sint(1)
+val _2si = $UNSAFE.cast2sint(2)
+#define si2i g0int2int_sint_int
+//
+val () = assertloc ($UNSAFE.cast2int(si2i(_1si) + si2i(_2si)) = 3)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
 val out = stdout_ref
 //
 val rep = g0int2string (1)
