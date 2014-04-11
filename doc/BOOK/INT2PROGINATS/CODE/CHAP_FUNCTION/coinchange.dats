@@ -61,7 +61,8 @@ fun coin_get
   else ~1 (* erroneous value *)
 // end of [coin_get]
 
-fun coin_change (sum: int) = let
+fun coin_change
+  (sum: int): int = let
   fun aux (sum: int, n: int): int =
     if sum > 0 then
      (if n >= 0 then aux (sum, n-1) + aux (sum-coin_get(n), n) else 0)
