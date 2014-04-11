@@ -45,6 +45,14 @@ array_p_assert
 //
 (* ****** ****** *)
 
+praxi
+array_p_ofview
+  {a:vt0p}{l:addr}{n:int}
+  (pf: !array_v (a, l, n)): array_p (a, l, n)
+// end of [array_p_ofview]
+
+(* ****** ****** *)
+
 fun{a:vt0p}
 array_p_subcheck
   {l,l2:addr}{n,n2:int}

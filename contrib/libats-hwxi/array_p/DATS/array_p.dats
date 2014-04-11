@@ -28,6 +28,11 @@
 
 (* ****** ****** *)
 
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "./../SATS/array_p.sats"
 
 (* ****** ****** *)
@@ -38,12 +43,15 @@ array_p_subcheck
   (pf | p, n, p2, n2) = let
 //
 val () = assert_errmsg (p <= p2, "array_p_subcheck:left-bound")
-val () = assert_errmsg (is_aligned<a> (p, p2), "array_p_subcheck:alignment")
+val () = assert_errmsg ($UN.cast2size(p2-p)/sizeof<a> = 0, "array_p_subcheck:alignment")
 val () = assert_errmsg (n <= n2, "array_p_subcheck:right-bound")
 //
+prval pf2 = array_p_assert (p2, n2)
+//
 in
+  (pf2 | ())
 end // end of [array_p_subcheck]
 
 (* ****** ****** *)
 
-(* end of [array_p.sats] *)
+(* end of [array_p.dats] *)
