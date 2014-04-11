@@ -535,6 +535,39 @@ end (* end of [stream_foreach_env] *)
 
 (* ****** ****** *)
 
+implement
+{a}(*tmp*)
+fprint_stream
+  (out, xs, n) = let
+//
+var env: int = 0
+typedef tenv = int
+//
+implement
+stream_foreach$cont<a><tenv>
+  (x, env) =
+  if n > env then true else false
+implement
+stream_foreach$fwork<a><tenv>
+  (x, env) =
+{
+  val () =
+  if env > 0
+    then fprint_stream$sep<> (out)
+  // end of [if]
+  val () = env := env + 1
+  val () = fprint_val<a> (out, x)
+} (* end of [stream_foreach$fwork] *)
+//
+in
+  stream_foreach_env<a><tenv> (xs, env)
+end // end of [fprint_stream]
+
+implement{}
+fprint_stream$sep (out) = fprint_string (out, ", ")
+
+(* ****** ****** *)
+
 #if VERBOSE_PRELUDE #then
 #print "Loading [stream.dats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]

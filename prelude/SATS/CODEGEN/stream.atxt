@@ -198,6 +198,14 @@ a:t0p}{env:vt0p
 // overloading for certain symbols
 //
 #atscode_separator()
+//
+fun{}
+fprint_stream$sep (out: FILEref): void
+fun{a:t0p}
+fprint_stream
+  (out: FILEref, xs: stream(INV(a)), n: int): void
+//
+#atscode_separator()
 
 overload [] with stream_nth_exn
 

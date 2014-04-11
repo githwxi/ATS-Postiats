@@ -52,7 +52,9 @@ val ns2 = from (2)
 val nns =
   stream_map2_fun<int,int><int> (ns1, ns2, lam (x1, x2) => x1 * x2)
 //
-val () = assertloc (stream_nth_exn (nns, 100) = 101 * 102)
+val () =
+  fprint_stream (stdout_ref, nns, 10)
+val ((*void*)) = fprintln! (stdout_ref)
 //
 } (* end of [val] *)
 
