@@ -29,7 +29,7 @@
 (* ****** ****** *)
 //
 absprop
-array_p (a:viewt@ype+, l:addr, n:int)
+array_p (a:t@ype+, l:addr, n:int)
 //
 (* ****** ****** *)
   
@@ -39,27 +39,87 @@ bytes_p (l:addr, n:int) = array_p (byte, l, n)
 (* ****** ****** *)
 //
 praxi
+array_p_tail
+  {a:t0p}
+  {l:addr}
+  {n:int | n > 0}
+(
+  pf: array_p (INV(a), l, n)
+) : array_p (a, l+sizeof(a), n-1)
+//
+overload .tail with array_p_tail
+//
+(* ****** ****** *)
+//
+praxi
 array_p_assert
-  {a:vt0p}{l:addr}{n:int}
+  {a:t0p}{l:addr}{n:int}
   (p: ptr(l), n: size_t(n)): array_p(a, l, n)
 //
 (* ****** ****** *)
 
 praxi
 array_p_ofview
-  {a:vt0p}{l:addr}{n:int}
-  (pf: !array_v (a, l, n)): array_p (a, l, n)
+  {a:t0p}{l:addr}{n:int}
+  (pf: !array_v (INV(a), l, n)): array_p (a, l, n)
 // end of [array_p_ofview]
 
 (* ****** ****** *)
 
-fun{a:vt0p}
-array_p_subcheck
+fun{
+a:t0p
+} array_p_subcheck
   {l,l2:addr}{n,n2:int}
 (
-  array_p(a, l, n)
+  array_p(INV(a), l, n)
 | p: ptr(l), n: size_t(n), p2: ptr(l2), n2: size_t(n2)
-) : (array_p(a, l2, n2) | void)
+) :<!exn> (array_p(a, l2, n2) | void)
+
+(* ****** ****** *)
+//
+fun{
+a:t0p
+} array_p_get0
+  {l:addr}{n:pos}
+  (pf: array_p(INV(a), l, n) | p: ptr(l)):<!wrt> (a)
+fun{
+a:t0p
+} array_p_set0
+  {l:addr}{n:pos}
+  (pf: array_p(INV(a), l, n) | p: ptr(l), x: a):<!wrt> void
+//
+(* ****** ****** *)
+//
+fun{
+a:t0p
+} array_p_get_at
+  {l:addr}{n:int}
+  (pf: array_p(INV(a), l, n) | ptr(l), sizeLt(n)):<!wrt> (a)
+fun{
+a:t0p
+} array_p_set_at
+  {l:addr}{n:int}
+  (pf: array_p(INV(a), l, n) | ptr(l), sizeLt(n), a):<!wrt> void
+//
+(* ****** ****** *)
+
+fun{
+} array_p_memcpy
+  {l1,l2:addr}
+  {n,n1,n2:int | n <= n1; n <= n2}
+(
+  pf1: bytes_p (l1, n1), pf2: bytes_p (l2, n2) | ptr(l1), ptr(l2), size_t(n)
+) :<!wrt> ptr(l1) // end of [array_p_memcpy]
+
+(* ****** ****** *)
+
+fun{
+} array_p_memmove
+  {l1,l2:addr}
+  {n,n1,n2:int | n <= n1; n <= n2}
+(
+  pf1: bytes_p (l1, n1), pf2: bytes_p (l2, n2) | ptr(l1), ptr(l2), size_t(n)
+) :<!wrt> ptr(l1) // end of [array_p_memmove]
 
 (* ****** ****** *)
 

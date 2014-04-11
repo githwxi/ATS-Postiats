@@ -33,6 +33,11 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload
+STRING = "libc/SATS/string.sats"
+
+(* ****** ****** *)
+
 staload "./../SATS/array_p.sats"
 
 (* ****** ****** *)
@@ -51,6 +56,40 @@ prval pf2 = array_p_assert (p2, n2)
 in
   (pf2 | ())
 end // end of [array_p_subcheck]
+
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+array_p_get0 (pf | p) = $UN.ptr0_get<a> (p)
+implement
+{a}(*tmp*)
+array_p_set0 (pf | p, x) = $UN.ptr0_set<a> (p, x)
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+array_p_get_at
+  (pf | p, i) = $UN.ptr0_get<a> (ptr_add<a> (p, i))
+implement
+{a}(*tmp*)
+array_p_set_at
+  (pf | p, i, x) = $UN.ptr0_set<a> (ptr_add<a> (p, i), x)
+//
+(* ****** ****** *)
+
+implement{
+} array_p_memcpy
+  {l1,l2}{n,n1,n2}
+  (pf1, pf2 | p1, p2, n) = $STRING.memcpy_unsafe (p1, p2, n)
+
+(* ****** ****** *)
+
+implement{
+} array_p_memmove
+  {l1,l2}{n,n1,n2}
+  (pf1, pf2 | p1, p2, n) = $STRING.memmove_unsafe (p1, p2, n)
 
 (* ****** ****** *)
 
