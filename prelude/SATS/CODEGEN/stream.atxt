@@ -61,7 +61,7 @@ stream_nth_opt
 #atscode_separator()
 
 fun{a:t0p}
-stream_take_exn {n:nat}
+stream_take_exn{n:nat}
   (xs: stream (INV(a)), n: int n):<!laz> list_vt (a, n)
 // end of [stream_take_lte]
 

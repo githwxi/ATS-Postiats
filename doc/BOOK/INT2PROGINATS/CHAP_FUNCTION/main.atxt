@@ -104,12 +104,12 @@ lambda-expression representing a binary function, that is, a function
 taking two arguments. In order to assign a type of the form (T1, T2) -> T
 to the lambda-expression, we need to verify that the body of the function
 can be given the type T if the two arguments of the function are assumed to
-have the types T1 and T2.  What is stated also applies, <emphasis>mutatis
-mutandis</emphasis>, to lambda-expressions representing functions of fewer
-or more arguments. For instance, the lambda-expression #dyncode("lam (x:
-double): double => x * x") can be assigned the function type
-#dyncode("(double) -> double"), which may also be written as
-#dyncode("double -> double").\
+have the types T1 and T2.
+What is stated also applies, #emphasis("mutatis mutandis"), to
+lambda-expressions representing functions of fewer or more arguments. For
+instance, the lambda-expression #dyncode("lam (x: double): double => x *
+x") can be assigned the function type #dyncode("(double) -> double"), which
+may also be written as #dyncode("double -> double").\
 
 ")#comment("para")
 
@@ -298,16 +298,27 @@ id="recursive-functions">
 #title("Recursive Functions")
 
 #para("\
-A recursive function is one that may make calls to itself in its
-body. Therefore, a non-recursive function is just a special kind of of
-recursive function: the kind that does not make any calls to itself in its
-body. I consider recursion the most enabling feature a programming language
-can provide. With recursion, we are enabled to do problem-solving based on
-a strategy of reduction: In order to solve a problem to which a solution is
+
+A recursive function is one that may make calls to itself in its body. In
+ATS, the keyword #keycode("fun") is used to initiate the definition of a
+recursive function.  Clearly, a non-recursive function is just a special
+kind of of recursive function: the kind that does not make any calls to
+itself in its body. If one wants to, one can use #keycode("fun") (instead
+of #keycode("fn")) to initiate the definition of a non-recursive function.\
+
+")
+
+#para("\
+
+I consider recursion the most enabling feature a programming language can
+provide. With recursion, we are enabled to do problem-solving based on a
+strategy of reduction: In order to solve a problem to which a solution is
 difficult to find immediately, we reduce the problem to problems that are
-similar but simpler, and we repeat this reduction process if needed until
-solutions become apparent. Let us now see some concrete examples of
-problem-solving that make use of this reduction strategy.
+#emphasis("similar") but #emphasis("simpler"), and we repeat this
+reduction process if needed until solutions become apparent. Let us now see
+some concrete examples of problem-solving that make use of this reduction
+strategy.\
+
 ")#comment("para")
 
 #para("\
@@ -319,13 +330,13 @@ following recursive function #dyncode("sum1"):
 fun sum1 (n: int): int = if n >= 1 then sum1 (n-1) + n else 0
 ")
 
-Note that the keyword #dyncode("fun") initiates the definition of a
-recursive function. To find out the sum of all the integers ranging from
-#dyncode("1") to #dyncode("n"), we call #dyncode("sum1 (n)"). The
-reduction strategy for #dyncode("sum1 (n)") is straightforward: If
-#dyncode("n") is greater than #dyncode("1"), then we can readily find the
-value of #dyncode("sum1 (n)") by solving a simpler problem, that is,
-finding the value of #dyncode("sum1 (n-1)").
+To find out the sum of all the integers ranging from #dyncode("1") to
+#dyncode("n"), we call #dyncode("sum1 (n)"). The reduction strategy for
+#dyncode("sum1 (n)") is straightforward: If #dyncode("n") is greater than
+#dyncode("1"), then we can readily find the value of #dyncode("sum1 (n)")
+by solving a simpler problem, that is, finding the value of #dyncode("sum1
+(n-1)").\
+
 ")#comment("para")
 
 #para("\
