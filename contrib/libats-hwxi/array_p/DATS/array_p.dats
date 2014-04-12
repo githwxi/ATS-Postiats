@@ -81,14 +81,12 @@ array_p_set_at
 
 implement{
 } array_p_memcpy
-  {l1,l2}{n,n1,n2}
   (pf1, pf2 | p1, p2, n) = $STRING.memcpy_unsafe (p1, p2, n)
 
 (* ****** ****** *)
 
 implement{
 } array_p_memmove
-  {l1,l2}{n,n1,n2}
   (pf1, pf2 | p1, p2, n) = $STRING.memmove_unsafe (p1, p2, n)
 
 (* ****** ****** *)

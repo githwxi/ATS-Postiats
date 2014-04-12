@@ -25,6 +25,8 @@ Here is a list of major additions and changes since the last release:
 
 1. Adding libc/signal to support Unix-like signal handling
 2. Adding contrib/kernelats to support kernel programming in ATS
+3. Adding contrib/libats-hwxi/array_p to support a simpler form of
+   static array-bounds checking
 
 </pre>
 
