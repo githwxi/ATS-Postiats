@@ -41,6 +41,8 @@ second () =
 {
 //
 val () = bwputs ("user-second:1\n")
+val () = syscall ((*void*))
+val () = bwputs ("user-second:2\n")
 val () = while (true) syscall ((*void*))
 //
 } (* end of [second] *)

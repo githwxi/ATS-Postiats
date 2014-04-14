@@ -1,9 +1,3 @@
-/*
-Part2:
-Please see:
-https://singpolyma.net/2012/01/writing-a-simple-os-kernel-user-mode/
-*/
-
 /* ****** ****** */
 
 #ifndef VERSATILEP_H
