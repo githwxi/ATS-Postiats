@@ -14,6 +14,10 @@
 #include "kernelats/prelude/CATS/char.cats"
 #include "kernelats/prelude/CATS/string.cats"
 //
+#include "kernelats/prelude/CATS/array.cats"
+#include "kernelats/prelude/CATS/arrayptr.cats"
+#include "kernelats/prelude/CATS/arrayref.cats"
+//
 /* ****** ****** */
 
 /* end of [kernel_prelude.cats] */

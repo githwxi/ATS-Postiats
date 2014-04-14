@@ -79,9 +79,9 @@ implement
 first ((*void*)) =
 {
 //
-val () = bwputs ("In user-mode: 1\n")
+val () = bwputs ("user-first:1\n")
 val ((*void*)) = syscall ((*void*))
-val () = bwputs ("In user-mode: 2\n")
+val () = bwputs ("user-first:2\n")
 val ((*void*)) = syscall ((*void*))
 //
 } (* end of [first] *)
@@ -107,11 +107,11 @@ val () = $UNSAFE.ptr0_set<uint> (first_stack_start1, $UNSAFE.cast{uint}(first))
 val first_stack_start =
   $UNSAFE.cast{cPtr1(uint)}(first_stack_start0)
 //
-val () = bwputs ("Starting!\n")
+val () = bwputs ("kernel:starting\n")
 val first_stack_start = activate(first_stack_start)
-val () = bwputs ("Heading back to user-mode!\n")
+val () = bwputs ("kernel:heading-back-to-user\n")
 val first_stack_start = activate(first_stack_start)
-val ((*void*)) = bwputs ("Done!\n")
+val () = bwputs ("kernel:finished\n")
 //
 val ((*void*)) = while (true) ((*void*))
 //
