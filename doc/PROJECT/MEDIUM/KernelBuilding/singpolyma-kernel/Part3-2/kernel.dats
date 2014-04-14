@@ -49,10 +49,14 @@ void output (char c)
 %}
 //
 (* ****** ****** *)
-
+//
 extern
 fun
-bwputs (string): void = "mac#"
+bwputs
+(
+  str: string
+) : void = "mac#"
+//
 implement
 bwputs (str) = let
 //

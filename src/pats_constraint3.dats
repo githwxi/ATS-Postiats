@@ -569,6 +569,7 @@ case+ s2e0.s2exp_node of
 | S2Esizeof (s2e) => let
     val s2ze = s2zexp_make_s2exp (s2e) in S3Esizeof (s2ze)
   end // end of [S2Esizeof]
+//
 | _ => let // an expression that cannot be handled
 (*
     val () = begin
@@ -855,8 +856,10 @@ s2vbcfenv_add2_cstapp
 ) : void = let
 //
 (*
-val () = println! ("s2vbcfenv_add2_cstapp: s2c = ", s2c)
-val () = println! ("s2vbcfenv_add2_cstapp: s2v = ", s2v)
+val () =
+println! ("s2vbcfenv_add2_cstapp: s2c = ", s2c)
+val () =
+println! ("s2vbcfenv_add2_cstapp: s2v = ", s2v)
 *)
 //
 val () = env := S2VBCFLSTsvar (s2v, env)
@@ -864,11 +867,12 @@ val () = env := S2VBCFLSTsvar (s2v, env)
 val s2e_cst = s2exp_cst (s2c)
 val s2e_var = s2exp_var (s2v)
 val s2es1 = list_extend (arg1, s2e_var)
-val s2e_rel = s2exp_app_srt (s2rt_bool, s2e_cst, (l2l)s2es1)
+val s2e_rel =
+  s2exp_app_srt (s2rt_bool, s2e_cst, (l2l)s2es1)
 //
 val s3be = s3exp_make (env, s2e_rel)
 //
-val s3be = s3exp_lintize (env, s3be) // replacing nonlinear terms with vars
+val s3be = s3exp_lintize (env, s3be) // nonlin terms -> vars
 //
 in
   env := S2VBCFLSTcons (s2c, arg2, s2v, Some_vt (s3be), env)

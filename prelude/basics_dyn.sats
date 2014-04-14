@@ -132,9 +132,12 @@ viewptr_match
 // end of [viewptr_match]
 
 (* ****** ****** *)
-
+//
 val{a:vt@ype} sizeof : size_t (sizeof(a))
-
+//
+praxi
+lemma_sizeof{a:vt@ype} (): [sizeof(a) >= 0] void
+//
 (* ****** ****** *)
 
 praxi topize {a:t@ype} (x: !INV(a) >> a?): void

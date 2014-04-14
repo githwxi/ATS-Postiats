@@ -593,7 +593,9 @@ end // end of [s3exp_lintize]
 
 implement
 s3exp_lintize_flag
-  (env, s3e0, flag) = let
+(
+  env, s3e0, flag
+) = let
   val flag0 = flag
 in
 //
@@ -706,15 +708,21 @@ end // end of [s3exp_lintize]
 
 implement
 s3explst_lintize_flag
-  (env, s3es0, flag) = let
-  val flag0 = flag in case+ s3es0 of
-| list_cons (s3e, s3es) => let
+(
+  env, s3es0, flag
+) = let
+  val flag0 = flag
+in
+//
+case+ s3es0 of
+| list_cons
+    (s3e, s3es) => let
     val s3e = s3exp_lintize_flag (env, s3e, flag)
     val s3es = s3explst_lintize_flag (env, s3es, flag)
   in
     if flag > flag0 then list_cons (s3e, s3es) else s3es0
   end // end of [list_cons]
-| list_nil () => list_nil ()
+| list_nil ((*void*)) => list_nil ()
 //
 end // end of [s3explst_lintize_flag]
 

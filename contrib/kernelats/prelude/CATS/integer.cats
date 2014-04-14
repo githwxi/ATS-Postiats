@@ -30,7 +30,7 @@
 /*
 ** Source:
 ** $PATSHOME/prelude/CATS/CODEGEN/integer.atxt
-** Time of generation: Fri Feb 28 17:55:31 2014
+** Time of generation: Thu Apr 10 00:26:17 2014
 */
 
 /* ****** ****** */
@@ -49,13 +49,35 @@
 /* ****** ****** */
 //
 #define atspre_g0int2int_int_int(x) (x)
-#define atspre_g1int2int_int_int atspre_g0int2int_int_int
 #define atspre_g0int2int_int_lint(x) ((atstype_lint)(x))
 #define atspre_g0int2int_int_llint(x) ((atstype_llint)(x))
 #define atspre_g0int2int_int_ssize(x) ((atstype_ssize)(x))
+#define atspre_g1int2int_int_int atspre_g0int2int_int_int
 #define atspre_g1int2int_int_lint atspre_g0int2int_int_lint
 #define atspre_g1int2int_int_llint atspre_g0int2int_int_llint
 #define atspre_g1int2int_int_ssize atspre_g0int2int_int_ssize
+//
+#define atspre_g0int2int_lint_int(x) ((atstype_int)(x))
+#define atspre_g0int2int_lint_lint(x) (x)
+#define atspre_g0int2int_lint_llint(x) ((atstype_llint)(x))
+#define atspre_g0int2int_lint_ssize(x) ((atstype_ssize)(x))
+#define atspre_g1int2int_lint_int atspre_g0int2int_lint_int
+#define atspre_g1int2int_lint_lint atspre_g0int2int_lint_lint
+#define atspre_g1int2int_lint_llint atspre_g0int2int_lint_llint
+#define atspre_g1int2int_lint_ssize atspre_g0int2int_lint_ssize
+//
+#define atspre_g0int2int_ssize_int(x) ((atstype_int)(x))
+#define atspre_g0int2int_ssize_lint(x) ((atstype_lint)(x))
+#define atspre_g0int2int_ssize_llint(x) ((atstype_llint)(x))
+#define atspre_g0int2int_ssize_ssize(x) (x)
+#define atspre_g1int2int_ssize_int atspre_g0int2int_ssize_int
+#define atspre_g1int2int_ssize_lint atspre_g0int2int_ssize_lint
+#define atspre_g1int2int_ssize_llint atspre_g0int2int_ssize_llint
+#define atspre_g1int2int_ssize_ssize atspre_g0int2int_ssize_ssize
+//
+/* ****** ****** */
+//
+#define atspre_g0int2int_sint_int(x) ((atstype_int)(x))
 //
 /* ****** ****** */
 //
@@ -103,38 +125,91 @@
 /* ****** ****** */
 //
 #define atspre_g0uint2uint_uint_uint(x) (x)
-#define atspre_g1uint2uint_uint_uint atspre_g0uint2uint_uint_uint
 #define atspre_g0uint2uint_uint_ulint(x) ((atstype_ulint)(x))
-#define atspre_g1uint2uint_uint_ulint atspre_g0uint2uint_uint_ulint
 #define atspre_g0uint2uint_uint_ullint(x) ((atstype_ullint)(x))
-#define atspre_g1uint2uint_uint_ullint atspre_g0uint2uint_uint_ullint
 #define atspre_g0uint2uint_uint_size(x) ((atstype_size)(x))
+#define atspre_g1uint2uint_uint_uint atspre_g0uint2uint_uint_uint
+#define atspre_g1uint2uint_uint_ulint atspre_g0uint2uint_uint_ulint
+#define atspre_g1uint2uint_uint_ullint atspre_g0uint2uint_uint_ullint
 #define atspre_g1uint2uint_uint_size atspre_g0uint2uint_uint_size
 //
 /* ****** ****** */
-
+//
 #define atspre_g0uint2uint_ulint_uint(x) ((atstype_uint)(x))
-#define atspre_g1uint2uint_ulint_uint atspre_g0uint2uint_ulint_uint
 #define atspre_g0uint2uint_ulint_ulint(x) (x)
-#define atspre_g1uint2uint_ulint_ulint atspre_g0uint2uint_ulint_ulint
 #define atspre_g0uint2uint_ulint_ullint(x) ((atstype_ullint)(x))
-#define atspre_g1uint2uint_ulint_ullint atspre_g0uint2uint_ulint_ullint
 #define atspre_g0uint2uint_ulint_size(x) ((atstype_size)(x))
+#define atspre_g1uint2uint_ulint_uint atspre_g0uint2uint_ulint_uint
+#define atspre_g1uint2uint_ulint_ulint atspre_g0uint2uint_ulint_ulint
+#define atspre_g1uint2uint_ulint_ullint atspre_g0uint2uint_ulint_ullint
 #define atspre_g1uint2uint_ulint_size atspre_g0uint2uint_ulint_size
-
+//
 /* ****** ****** */
 //
 #define atspre_g0uint2uint_size_uint(x) ((atstype_uint)(x))
-#define atspre_g1uint2uint_size_uint atspre_g0uint2uint_size_uint
 #define atspre_g0uint2uint_size_ulint(x) ((atstype_ulint)(x))
-#define atspre_g1uint2uint_size_ulint atspre_g0uint2uint_size_ulint
 #define atspre_g0uint2uint_size_ullint(x) ((atstype_ullint)(x))
-#define atspre_g1uint2uint_size_ullint atspre_g0uint2uint_size_ullint
 #define atspre_g0uint2uint_size_size(x) (x)
+#define atspre_g1uint2uint_size_uint atspre_g0uint2uint_size_uint
+#define atspre_g1uint2uint_size_ulint atspre_g0uint2uint_size_ulint
+#define atspre_g1uint2uint_size_ullint atspre_g0uint2uint_size_ullint
 #define atspre_g1uint2uint_size_size atspre_g0uint2uint_size_size
 //
 /* ****** ****** */
 //
+#define atspre_g0uint2uint_usint_uint(x) ((atstype_uint)(x))
+//
+/* ****** ****** */
+//
+extern int atoi (const char *inp) ;
+extern long int atol (const char *inp) ;
+extern long long int atoll (const char *inp) ;
+//
+ATSinline()
+atstype_int
+atspre_g0string2int_int
+  (atstype_string inp) { return atoi((char*)inp) ; }
+ATSinline()
+atstype_lint
+atspre_g0string2int_lint
+  (atstype_string inp) { return atol((char*)inp) ; }
+ATSinline()
+atstype_llint
+atspre_g0string2int_llint
+  (atstype_string inp) { return atoll((char*)inp) ; }
+ATSinline()
+atstype_ssize
+atspre_g0string2int_ssize
+  (atstype_string inp) { return atol((char*)inp) ; }
+//
+/* ****** ****** */
+//
+extern
+unsigned long int
+strtoul(const char *nptr, char **endptr, int base);
+extern
+unsigned long long int
+strtoull(const char *nptr, char **endptr, int base);
+//
+ATSinline()
+atstype_uint
+atspre_g0string2uint_uint
+  (atstype_string inp) { return strtoul((char*)inp, NULL, 10) ; }
+ATSinline()
+atstype_ulint
+atspre_g0string2uint_ulint
+  (atstype_string inp) { return strtoul((char*)inp, NULL, 10) ; }
+ATSinline()
+atstype_ullint
+atspre_g0string2uint_ullint
+  (atstype_string inp) { return strtoull((char*)inp, NULL, 10) ; }
+ATSinline()
+atstype_size
+atspre_g0string2uint_size
+  (atstype_string inp) { return strtoul((char*)inp, NULL, 10) ; }
+//
+/* ****** ****** */
+
 ATSinline()
 atstype_int
 atspre_g0int_neg_int

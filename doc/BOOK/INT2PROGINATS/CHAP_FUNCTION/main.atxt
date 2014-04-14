@@ -302,9 +302,9 @@ id="recursive-functions">
 A recursive function is one that may make calls to itself in its body. In
 ATS, the keyword #keycode("fun") is used to initiate the definition of a
 recursive function.  Clearly, a non-recursive function is just a special
-kind of of recursive function: the kind that does not make any calls to
-itself in its body. If one wants to, one can use #keycode("fun") (instead
-of #keycode("fn")) to initiate the definition of a non-recursive function.\
+kind of recursive function: the kind that does not make any calls to itself
+in its body. If one prefers, one can use #keycode("fun") (instead of
+#keycode("fn")) to initiate the definition of a non-recursive function.\
 
 ")
 
