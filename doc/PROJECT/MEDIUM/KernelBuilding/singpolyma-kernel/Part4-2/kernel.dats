@@ -55,10 +55,10 @@ val () = kernel_loop ()
 (* ****** ****** *)
 
 %{$
-
+//
 int main () { kernel_main (); return 0 ;}
-
-%} // end of [%{$}
+//
+%} // end of [%{$]
 
 (* ****** ****** *)
 

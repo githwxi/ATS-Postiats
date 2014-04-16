@@ -79,10 +79,10 @@ val () = loop () where { fun loop (): void = loop () }
 (* ****** ****** *)
 
 %{$
-
-int main () { ATS__main (); return 0 ;}
-
-%} // end of [%{$}
+//
+int main () { kernel_main (); return 0 ;}
+//
+%} // end of [%{$]
 
 (* ****** ****** *)
 

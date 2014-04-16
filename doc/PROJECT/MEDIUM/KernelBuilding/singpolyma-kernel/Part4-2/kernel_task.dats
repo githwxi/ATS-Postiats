@@ -23,7 +23,7 @@ staload "./../../utilities/string.dats"
 extern
 fun first ((*void*)): void
 extern
-fun second ((*void*)): void
+fun second (msg: string): void
 
 (* ****** ****** *)
 
@@ -32,7 +32,7 @@ first () =
 {
 //
 val () = bwputs ("user-first:1\n")
-val () = if (syscall_fork () != 0) then second ()
+val () = if (syscall_fork () != 0) then second (": user-first: forked")
 val () = bwputs ("user-first:2\n")
 val () = while (true) syscall ((*void*))
 //
@@ -41,10 +41,11 @@ val () = while (true) syscall ((*void*))
 (* ****** ****** *)
 
 implement
-second () =
+second (msg) =
 {
 //
-val () = bwputs ("user-second:1\n")
+val () = bwputs ("user-second")
+val () = (bwputs (msg); bwputs ("\n"))
 val () = while (true) syscall ((*void*))
 //
 } (* end of [second] *)
@@ -136,8 +137,8 @@ implement
 fetch_task (id) = let
 //
 (*
-val () = bwputs ("choose_task: ")
-val () = bwputi (n)
+val () = bwputs ("update_task: id = ")
+val () = bwputi (id)
 val () = bwputs ("\n")
 *)
 //

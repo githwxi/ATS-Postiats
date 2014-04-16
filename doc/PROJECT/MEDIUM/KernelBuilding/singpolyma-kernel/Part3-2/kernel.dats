@@ -120,10 +120,10 @@ val ((*void*)) = while (true) ((*void*))
 (* ****** ****** *)
 
 %{$
-
-int main () { ATS__main (); return 0 ;}
-
-%} // end of [%{$}
+//
+int main () { kernel_main (); return 0 ;}
+//
+%} // end of [%{$]
 
 (* ****** ****** *)
 
