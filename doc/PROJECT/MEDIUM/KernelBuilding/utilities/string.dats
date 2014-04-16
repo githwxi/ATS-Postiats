@@ -7,13 +7,13 @@ UN = "prelude/SATS/unsafe.sats"
 //
 extern
 fun{
-} memcpy
+} mymemcpy
   (dst: ptr, src: ptr, n: size_t): ptr
 //
 (* ****** ****** *)
 
 implmnt{ 
-} memcpy (dst, src, n) = let
+} mymemcpy (dst, src, n) = let
 //
 fun loop
 (
@@ -30,7 +30,7 @@ val ((*void*)) = loop (dst, src, n)
 //
 in
   dst
-end (* end of [memcpy] *)
+end (* end of [mymemcpy] *)
 
 (* ****** ****** *)
 

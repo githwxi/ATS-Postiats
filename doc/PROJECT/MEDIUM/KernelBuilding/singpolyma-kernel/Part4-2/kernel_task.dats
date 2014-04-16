@@ -213,7 +213,7 @@ task_forkto
   val stack2 = $UN.cast2ptr (stack2)
   val stack2_bot = ptr_add<uint> (stack2, STACK_SIZE)
   val task2 = ptr_sub<uint> (stack2_bot, stack_used)
-  val task2 = memcpy (task2, $UN.cast2ptr(task), stack_used)
+  val task2 = mymemcpy<> (task2, $UN.cast2ptr(task), stack_used)
   val task2 = $UN.cast{task}(task2)
   val () = task_set_forkret (task2, 0)
 in
