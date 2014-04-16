@@ -42,6 +42,7 @@ kernel_dats.elf: \
   bootstrap.o \
   kernel_dats.o \
   syscall.o \
+  syscall_fork.o \
   context_switch.o \
   kernel_task_dats.o \
   kernel_bwputs_dats.o \

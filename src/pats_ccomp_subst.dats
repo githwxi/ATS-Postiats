@@ -727,7 +727,7 @@ macdef fpmlist (x) = primlablst_subst (env, map, sub, ,(x), sfx)
 in
 //
 case+
-  pmv0.primval_node of
+pmv0.primval_node of
 //
 | PMVtmp (tmp) => let
     val tmp = ftmp (tmp) in primval_tmp (loc0, hse0, tmp)
@@ -1474,7 +1474,7 @@ case+
   ) => let
     val tmp = ftmp (tmp)
     val hse = hisexp_subst (sub, hse)
-    val pmv_thunk = fpmv (pmv_lazyval)
+    val pmv_lazyval = fpmv (pmv_lazyval)
   in
     instr_move_lazyeval (loc0, tmp, lin, hse, pmv_lazyval)
   end // end of [INSmove_lazyeval]

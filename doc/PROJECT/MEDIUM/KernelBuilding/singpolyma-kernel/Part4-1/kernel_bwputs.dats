@@ -32,29 +32,29 @@ UART_wait () =
 (* ****** ****** *)
 //
 extern
-fun output (char): void = "mac#"
+fun C__output (char): void = "mac#"
 %{^
 static
-void output (char c)
+void C__output (char c)
 { 
-  *(volatile char*)(0x101f1000) = c; return ;
+  *(volatile char*)(UART0) = c; return ;
 }
 %}
 //
 (* ****** ****** *)
-//
+
+staload "./../../utilities/output.dats"
+
+(* ****** ****** *)
+
 implement
-bwputs (str) = let
-//
-val str = g1ofg0 (str)
-//
-implement(env)
-string_foreach$fwork<env> (c, env) =
-  let val () = UART_wait () in output (c) end
-//
-in
-  ignoret (string_foreach<> (str))
-end // end of [bwputs]
+output_char<> (c) = C__output (c)
+
+(* ****** ****** *)
+
+implement bwputi (int) = output_int<> (int)
+implement bwputp (ptr) = output_ptr<> (ptr)
+implement bwputs (str) = output_string<> (str)
 
 (* ****** ****** *)
 

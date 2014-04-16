@@ -54,11 +54,11 @@ unsigned int stack_first[STACK_SIZE] ;
 unsigned int stack_second[STACK_SIZE] ;
 unsigned int *start_first = &stack_first[STACK_SIZE-16] ;
 unsigned int *start_second = &stack_second[STACK_SIZE-16] ;
-unsigned int *the_tasks[2] ;
+unsigned int *the_tasks[TASK_LIMIT] ;
 %} // end of [%{^]
 extern val start_first: Ptr1 = "mac#"
 extern val start_second: Ptr1 = "mac#"
-extern val the_tasks : arrayref (task, 2) = "mac#"
+extern val the_tasks : arrayref (task, TASK_LIMIT) = "mac#"
 
 (* ****** ****** *)
 
@@ -102,8 +102,7 @@ val n = !ntask
 //
 (*
 val () = bwputs ("choose_task: ")
-val () = if n = 0 then bwputs ("0")
-val () = if n = 1 then bwputs ("1")
+val () = bwputi (n)
 val () = bwputs ("\n")
 *)
 //
@@ -124,8 +123,7 @@ val () = !ntask := 1 - n
 //
 (*
 val () = bwputs ("update_task: ")
-val () = if n = 0 then bwputs ("0")
-val () = if n = 1 then bwputs ("1")
+val () = bwputi (n)
 val () = bwputs ("\n")
 *)
 //
