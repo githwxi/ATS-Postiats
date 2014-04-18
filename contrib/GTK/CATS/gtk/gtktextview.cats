@@ -3,10 +3,13 @@
 */
 
 /* ****** ****** */
-
-#define atscntrb_gtk_text_view_new() 
+//
+#define atscntrb_gtk_text_view_new() \
   g_object_ref_sink(gtk_text_view_new())
-
+//
+#define atscntrb_gtk_text_view_new_with_buffer(tb) \
+  g_object_ref_sink(gtk_text_view_new_with_buffer(tb))
+//
 /* ****** ****** */
 
 #define atscntrb_gtk_text_view_get_buffer gtk_text_view_get_buffer

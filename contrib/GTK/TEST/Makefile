@@ -34,6 +34,10 @@ all:: test04
 test04: test04.dats ; $(PATSCC) -I$(PATSHOMERELOCQ)/contrib -o $@ $< $(GTKFLAGS)
 cleanall:: ; $(RMF) test04
 
+all:: test_textview
+test_textview: test_textview.dats ; $(PATSCC) -I$(PATSHOMERELOCQ)/contrib -o $@ $< $(GTKFLAGS)
+cleanall:: ; $(RMF) test_textview
+
 ######
 
 RMF=rm -f

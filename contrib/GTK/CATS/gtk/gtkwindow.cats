@@ -20,7 +20,16 @@
 
 /* ****** ****** */
 
+#define atscntrb_gtk_window_set_position gtk_window_set_position
+
+/* ****** ****** */
+
 #define atscntrb_gtk_window_set_default_size gtk_window_set_default_size
+
+/* ****** ****** */
+
+#define atscntrb_gtk_window_get_resizable gtk_window_get_resizable
+#define atscntrb_gtk_window_set_resizable gtk_window_set_resizable
 
 /* ****** ****** */
 

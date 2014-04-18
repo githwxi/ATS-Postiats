@@ -13,6 +13,14 @@ gtk_text_view_new
 (* ****** ****** *)
 
 fun
+gtk_text_view_new_with_buffer
+(
+  tb: !GtkTextBuffer1
+) : gobjref0(GtkTextView) = "mac#%"
+
+(* ****** ****** *)
+
+fun
 gtk_text_view_set_buffer
   (tv: !GtkTextView1, tb: !GtkTextBuffer0): void = "mac#%"
 fun

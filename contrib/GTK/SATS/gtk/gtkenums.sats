@@ -3,6 +3,27 @@
 *)
 
 (* ****** ****** *)
+
+abst@ype
+GtkWindowPosition = $extype"GtkWindowPosition"
+//
+macdef
+GTK_WIN_POS_NONE =
+$extval (GtkWindowPosition, "GTK_WIN_POS_NONE")
+macdef
+GTK_WIN_POS_CENTER =
+$extval (GtkWindowPosition, "GTK_WIN_POS_CENTER")
+macdef
+GTK_WIN_POS_MOUSE =
+$extval (GtkWindowPosition, "GTK_WIN_POS_MOUSE")
+macdef
+GTK_WIN_POS_CENTER_ALWAYS =
+$extval (GtkWindowPosition, "GTK_WIN_POS_CENTER_ALWAYS")
+macdef
+GTK_WIN_POS_CENTER_ON_PARENT =
+$extval (GtkWindowPosition, "GTK_WIN_POS_CENTER_ON_PARENT")
+//
+(* ****** ****** *)
 //
 abst@ype
 GtkWindowType = $extype"GtkWindowType"

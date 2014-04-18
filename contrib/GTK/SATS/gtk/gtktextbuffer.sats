@@ -18,11 +18,12 @@ gtk_text_buffer_insert
 (
   tbuf: !GtkTextBuffer1
 , iter: &GtkTextIter >> _
-, text: arrayref(gchar, n), len: gint(n2)
+, text: arrayref(gchar, n), len: int(n2)
 ) : void = "mac#%" // end of [gtk_text_buffer_insert]
 
 fun
 gtk_text_buffer_insertall
+(
   tbuf: !GtkTextBuffer1, iter: &GtkTextIter >> _, text: gstring
 ) : void = "mac#%" // end of [gtk_text_buffer_insert_all]
 
