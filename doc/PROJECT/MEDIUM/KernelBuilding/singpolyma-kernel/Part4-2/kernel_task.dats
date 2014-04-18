@@ -205,17 +205,23 @@ task_forkto
 (
   id, task, stack2
 ) = let
-  val id = $UN.cast{natLt(TASK_LIMIT)}(id)
-  val stack = the_tinfo[id]
-  val stack = $UN.cast2ptr (stack)
+//
+  val id =
+    $UN.cast{natLt(TASK_LIMIT)}(id)
+  // end of [val]
+//
+  val stack = stack2ptr(the_tinfo[id])
   val stack_bot = ptr_add<uint> (stack, STACK_SIZE)
   val stack_used = $UN.cast{size_t}(stack_bot - $UN.cast2ptr(task))
-  val stack2 = $UN.cast2ptr (stack2)
-  val stack2_bot = ptr_add<uint> (stack2, STACK_SIZE)
+//
+  val stack2_bot = ptr_add<uint> (stack2ptr(stack2), STACK_SIZE)
+//
   val task2 = ptr_sub<uint> (stack2_bot, stack_used)
   val task2 = mymemcpy<> (task2, $UN.cast2ptr(task), stack_used)
+//
   val task2 = $UN.cast{task}(task2)
   val () = task_set_forkret (task2, 0)
+//
 in
   task2
 end // end of [task_forkto]
@@ -295,6 +301,7 @@ if p_stack2 > 0
   end // end of [then]
   else task_set_forkret (task, ~1(*fail*))
 // end of [if]
+//
 end // end of [syscall_process_fork]
 
 (* ****** ****** *)
