@@ -86,7 +86,7 @@ val () = $extfcall (void, "gtk_init", addr@(argc), addr@(argv))
 val window =
   gtk_window_new (GTK_WINDOW_TOPLEVEL)
 val () = assertloc (ptrcast(window) > 0)
-val () = gtk_window_set_title (window, gstring("Hello Buttons!"))
+val () = gtk_window_set_title (window, gstring("Hello, MyTextView!"))
 val _sid = g_signal_connect
 (
   window, (gsignal)"destroy", (G_CALLBACK)fdestroy, (gpointer)nullp
@@ -96,22 +96,25 @@ val _sid = g_signal_connect
   window, (gsignal)"delete_event", (G_CALLBACK)fdelete_event, (gpointer)nullp
 ) // end of [val]
 //
-val () = gtk_window_set_position (window, GTK_WIN_POS_CENTER)
-val () = gtk_window_set_default_size (window, (gint)200, (gint)250)
+val () =
+gtk_window_set_position (window, GTK_WIN_POS_CENTER)
+val () =
+gtk_window_set_default_size (window, (gint)640, (gint)400)
 val () = gtk_window_set_resizable (window, GTRUE)
 val () = gtk_container_set_border_width (window, (guint)10)
 //
-val textview = gtk_text_view_new ()
-val () = assertloc (ptrcast(textview) > 0)
-val () = gtk_container_add (window, textview)
-val () = gtk_widget_show_unref (textview)
+val tv = gtk_text_view_new ()
+val () = assertloc (ptrcast(tv) > 0)
+val () = gtk_container_add (window, tv)
+val () = gtk_text_view_set_wrap_mode (tv, GTK_WRAP_WORD)
+val () = gtk_widget_show_unref (tv)
 //
 val () = gtk_widget_show_unref (window) // ref-count becomes 1!
 //
-val () = gtk_main ()
+val () = gtk_main ((*void*))
 //
 } // end of [main0]
 
 (* ****** ****** *)
 
-(* end of [test_testview.dats] *)
+(* end of [test_textview.dats] *)
