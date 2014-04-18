@@ -16,6 +16,20 @@ GTK_WINDOW_POPUP = $extval (GtkWindowType, "GTK_WINDOW_POPUP")
 (* ****** ****** *)
 //
 abst@ype
+GtkWrapMode = $extype"GtkWrapMode"
+//
+macdef
+GTK_WRAP_NONE = $extval (GtkWrapMode, "GTK_WRAP_NONE")
+macdef
+GTK_WRAP_CHAR = $extval (GtkWrapMode, "GTK_WRAP_CHAR")
+macdef
+GTK_WRAP_WORD = $extval (GtkWrapMode, "GTK_WRAP_WORD")
+macdef
+GTK_WRAP_WORD_CHAR = $extval (GtkWrapMode, "GTK_WRAP_WORD_CHAR")
+//
+(* ****** ****** *)
+//
+abst@ype
 GtkOrientation = $extype"GtkOrientation"
 //
 macdef

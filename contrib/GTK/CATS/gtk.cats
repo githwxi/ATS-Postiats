@@ -92,6 +92,14 @@
 
 /* ****** ****** */
 
+#include "./gtk/gtktextview.cats"
+
+/* ****** ****** */
+
+#include "./gtk/gtktextbuffer.cats"
+
+/* ****** ****** */
+
 #endif // ATSCNTRB_GTK_GTK_CATS
 
 /* ****** ****** */

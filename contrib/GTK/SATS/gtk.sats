@@ -128,6 +128,7 @@ classdec GtkObject : GInitiallyUnowned
         // end of [GtkHBox]
       // end of [GtkBox]
       classdec GtkTable_cls : GtkContainer_cls
+      classdec GtkTextView_cls : GtkContainer_cls
     // end of [GTKContainer]
     classdec GtkSeparator_cls : GtkWidget_cls
       classdec GtkHSeparator_cls : GtkSeparator_cls
@@ -140,6 +141,17 @@ classdec GtkObject : GInitiallyUnowned
   // end of [GtkWidget]
 // end of [GtkObject]
 
+(* ****** ****** *)
+//
+classdec GtkTextBuffer_cls : GObject
+classdec GtkTextTag_cls : GObject
+classdec GtkTextTagTable_cls : GObject
+classdec GtkTextMark_cls : GObject
+//
+typedef
+GtkTextIter = // HX: it is completely opaque
+$extype_struct"GtkTextIter" of { GtkTextIter_rest=undefined_t0ype }
+//
 (* ****** ****** *)
 
 #include "./gtk/gtkenums.sats"
@@ -193,6 +205,21 @@ classdec GtkObject : GInitiallyUnowned
 (* ****** ****** *)
 
 #include "./gtk/gtkdrawingarea.sats"
+
+(* ****** ****** *)
+
+#include "./gtk/gtktextview.sats"
+
+(* ****** ****** *)
+
+#include "./gtk/gtktextbuffer.sats"
+#include "./gtk/gtktexttag.sats"
+#include "./gtk/gtktexttagtable.sats"
+#include "./gtk/gtktextmark.sats"
+
+(* ****** ****** *)
+
+#include "./gtk/gtktextiter.sats"
 
 (* ****** ****** *)
 

@@ -138,5 +138,57 @@ vtypedef GtkDrawingArea0 = [c:cls;l:agez | c <= GtkDrawingArea] gobjref (c, l)
 vtypedef GtkDrawingArea1 = [c:cls;l:addr | c <= GtkDrawingArea; l > null] gobjref (c, l) 
 //
 (* ****** ****** *)
+//
+stadef GtkTextView = GtkTextView_cls
+//
+vtypedef
+GtkTextView (l:addr) = [c:cls | c <= GtkTextView] gobjref (c, l)
+vtypedef GtkTextView0 = [c:cls;l:agez | c <= GtkTextView] gobjref (c, l) 
+vtypedef GtkTextView1 = [c:cls;l:addr | c <= GtkTextView; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
+//
+// HX: GtkTextBuffer is a GObject
+// HX: GtkTextTag is a GObject
+// HX: GtkTextTagTable is a GObject
+// HX: GtkTextMark is a GObject
+//
+(* ****** ****** *)
+//
+stadef GtkTextBuffer = GtkTextBuffer_cls
+//
+vtypedef
+GtkTextBuffer (l:addr) = [c:cls | c <= GtkTextBuffer] gobjref (c, l)
+vtypedef GtkTextBuffer0 = [c:cls;l:agez | c <= GtkTextBuffer] gobjref (c, l) 
+vtypedef GtkTextBuffer1 = [c:cls;l:addr | c <= GtkTextBuffer; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
+//
+stadef GtkTextTag = GtkTextTag_cls
+//
+vtypedef
+GtkTextTag (l:addr) = [c:cls | c <= GtkTextTag] gobjref (c, l)
+vtypedef GtkTextTag0 = [c:cls;l:agez | c <= GtkTextTag] gobjref (c, l) 
+vtypedef GtkTextTag1 = [c:cls;l:addr | c <= GtkTextTag; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
+//
+stadef GtkTextTagTable = GtkTextTagTable_cls
+//
+vtypedef
+GtkTextTagTable (l:addr) = [c:cls | c <= GtkTextTagTable] gobjref (c, l)
+vtypedef GtkTextTagTable0 = [c:cls;l:agez | c <= GtkTextTagTable] gobjref (c, l) 
+vtypedef GtkTextTagTable1 = [c:cls;l:addr | c <= GtkTextTagTable; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
+//
+stadef GtkTextMark = GtkTextMark_cls
+//
+vtypedef
+GtkTextMark (l:addr) = [c:cls | c <= GtkTextMark] gobjref (c, l)
+vtypedef GtkTextMark0 = [c:cls;l:agez | c <= GtkTextMark] gobjref (c, l) 
+vtypedef GtkTextMark1 = [c:cls;l:addr | c <= GtkTextMark; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
 
 (* end of [mybasis.sats] *)
