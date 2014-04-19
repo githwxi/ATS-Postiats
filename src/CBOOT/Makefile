@@ -6,17 +6,18 @@
 #
 CCOMP=gcc
 #
+# GCFLAG=-D_ATS_NGC
+# GCFLAG=-D_ATS_GCATS
+# GCFLAG=-D_ATS_GCBDW
+#
+# CFLAGS=
+# LDFLAGS=
+#
 ######
 
 LIBGC :=
 gcats_o :=
 
-######
-#
-# GCFLAG=-D_ATS_NGC
-# GCFLAG=-D_ATS_GCATS
-# GCFLAG=-D_ATS_GCBDW
-#
 ######
 
 ifeq ($(GCFLAG),-D_ATS_GCBDW)
@@ -296,13 +297,13 @@ OBJECTSstadyn := $(OBJECTSsta) $(OBJECTSdyn)
 patsopt: \
   pats_main_dats.o $(OBJECTSstadyn) \
   prelude_libats.o libc_libats.o libats_libats.o $(gcats_o) ; \
-  $(CCOMP) -O2 -I . $(GCFLAG) -o $@ ccomp/runtime/ats_prelude.c $^ -lgmp $(LIBGC)
+  $(CCOMP) -O2 -I . $(GCFLAG) -o $@ ccomp/runtime/ats_prelude.c $^ $(LDFLAGS) -lgmp $(LIBGC)
 #
 ######
-
-%_sats.o: %_sats.c ; $(CCOMP) -O2 -I . -I ./ccomp/runtime -c -o $@ $<
-%_dats.o: %_dats.c ; $(CCOMP) -O2 -I . -I ./ccomp/runtime -c -o $@ $<
-
+#
+%_sats.o: %_sats.c ; $(CCOMP) -O2 -I . -I ./ccomp/runtime $(CFLAGS) -c -o $@ $<
+%_dats.o: %_dats.c ; $(CCOMP) -O2 -I . -I ./ccomp/runtime $(CFLAGS) -c -o $@ $<
+#
 ######
 
 PRELUDE_OBJECTS := \
@@ -357,10 +358,13 @@ LIBC_OBJECTS := \
   libc_SATS_gmp_sats.o \
   libc_DATS_gmp_dats.o \
 
+######
+#
 libc_libats.o: $(LIBC_OBJECTS) ; ld -r -o $@ $^
-
-libc_%.o : libc/%.c ; $(CCOMP) -I . -I ./ccomp/runtime -c -o $@ $<
-
+#
+libc_%.o : libc/%.c ; \
+  $(CCOMP) -I . -I ./ccomp/runtime $(CFLAGS) -c -o $@ $<
+#
 ######
 
 LIBATS_OBJECTS := \
@@ -383,10 +387,13 @@ LIBATS_OBJECTS := \
   libats_ngc_SATS_deque_arr_sats.o \
   libats_ngc_DATS_deque_arr_dats.o \
 
+######
+#
 libats_libats.o: $(LIBATS_OBJECTS) ; ld -r -o $@ $^
-
-libats_%.o : libats/%.c ; $(CCOMP) -I . -I ./ccomp/runtime -c -o $@ $<
-
+#
+libats_%.o : libats/%.c ; \
+  $(CCOMP) -I . -I ./ccomp/runtime $(CFLAGS) -c -o $@ $<
+#
 ######
 
 gcats.o: \
