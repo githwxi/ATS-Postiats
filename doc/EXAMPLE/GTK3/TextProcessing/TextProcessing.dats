@@ -10,6 +10,11 @@
 *)
 
 (* ****** ****** *)
+//
+// This is meant to be used in
+// an implementation of the Enigma machine
+//
+(* ****** ****** *)
 
 #include
 "share/atspre_define.hats"
@@ -204,13 +209,13 @@ val swin =
 gtk_scrolled_window_new_null ((*void*))
 val () = assertloc (ptrcast(swin) > 0)
 val () = gtk_widget_set_size_request (swin, (gint)320, (gint)400)
-val () = gtk_box_pack_start (hbox, swin, GTRUE, GTRUE, (guint)2)
+val () = gtk_box_pack_start (hbox, swin, GTRUE, GTRUE, (guint)4)
 //
 val swin2 =
 gtk_scrolled_window_new_null ((*void*))
 val () = assertloc (ptrcast(swin2) > 0)
 val () = gtk_widget_set_size_request (swin2, (gint)320, (gint)400)
-val () = gtk_box_pack_start (hbox, swin2, GTRUE, GTRUE, (guint)2)
+val () = gtk_box_pack_start (hbox, swin2, GTRUE, GTRUE, (guint)4)
 //
 val tv = gtk_text_view_new ()
 val p_tv = ptrcast(tv)
@@ -250,7 +255,7 @@ val () = gtk_widget_show_unref (hbox)
 val () = gtk_widget_show_unref (window) // ref-count becomes 1!
 //
 val int = 100U
-val _rid = g_timeout_add ((guint)int, (GSourceFunc)ftimeout2, (gpointer)p_tv2)
+val _rid = g_timeout_add ((guint)int, (GSourceFunc)ftimeout2, (gpointer)NULL)
 //
 val () = gtk_main ((*void*))
 //

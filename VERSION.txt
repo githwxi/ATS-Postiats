@@ -27,6 +27,8 @@ Here is a list of major additions and changes since the last release:
 2. Adding contrib/kernelats to support kernel programming in ATS
 3. Adding contrib/libats-hwxi/array_p to support a simpler form of
    static array-bounds checking
+4. Fixing a bug/typo in handling stream-based lazy evaluation
+5. Improving contrib/GTK significantly
 
 </pre>
 
