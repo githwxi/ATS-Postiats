@@ -38,4 +38,8 @@ abst@ype guint64 = $extype"guint64"
 
 (* ****** ****** *)
 
+abst@ype gdouble = $extype"gdouble"
+
+(* ****** ****** *)
+
 (* end of [gtypes.sats] *)

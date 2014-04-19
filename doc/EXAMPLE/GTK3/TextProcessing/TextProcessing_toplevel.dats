@@ -36,6 +36,16 @@ initize (x: &T? >> T): void = x := the_null_ptr
 (* ****** ****** *)
 
 staload
+KEYPRESSED = {
+//
+#include "share/atspre_define.hats"
+#include "{$LIBATSHWXI}/globals/HATS/gcount.hats"
+//
+} (* end of [KEYPRESSED] *)
+
+(* ****** ****** *)
+
+staload
 TEXTBUF = {
 //
 typedef T = ptr

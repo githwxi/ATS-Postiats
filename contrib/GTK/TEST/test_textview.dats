@@ -98,17 +98,23 @@ val _sid = g_signal_connect
 //
 val () =
 gtk_window_set_position (window, GTK_WIN_POS_CENTER)
-val () =
-gtk_window_set_default_size (window, (gint)640, (gint)400)
 val () = gtk_window_set_resizable (window, GTRUE)
 val () = gtk_container_set_border_width (window, (guint)10)
 //
+val win2 =
+gtk_scrolled_window_new_null ((*void*))
+val () = assertloc (ptrcast(win2) > 0)
+val () =
+gtk_widget_set_size_request (win2, (gint)640, (gint)400)
+val () = gtk_container_add (window, win2)
+//
 val tv = gtk_text_view_new ()
 val () = assertloc (ptrcast(tv) > 0)
-val () = gtk_container_add (window, tv)
+val () = gtk_container_add (win2, tv)
 val () = gtk_text_view_set_wrap_mode (tv, GTK_WRAP_WORD)
 val () = gtk_widget_show_unref (tv)
 //
+val () = gtk_widget_show_unref (win2) // ref-count becomes 1!
 val () = gtk_widget_show_unref (window) // ref-count becomes 1!
 //
 val () = gtk_main ((*void*))

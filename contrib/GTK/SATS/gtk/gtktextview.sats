@@ -59,4 +59,36 @@ gtk_text_view_set_cursor_visible
 //
 (* ****** ****** *)
 
+fun
+gtk_text_view_scroll_to_mark
+(
+  tv: !GtkTextView1
+, mark: !GtkTextMark1
+, within_margin: gdouble
+, use_align: gboolean, xalign: gdouble, yalign: gdouble
+) : void = "mac#%" // end-of-fun
+
+(* ****** ****** *)
+
+fun
+gtk_text_view_scroll_to_iter
+(
+  tv: !GtkTextView1
+, iter: &GtkTextIter
+, within_margin: gdouble
+, use_align: gboolean, xalign: gdouble, yalign: gdouble
+) : gboolean = "mac#%" // end-of-fun
+
+(* ****** ****** *)
+//
+fun
+gtk_text_view_move_mark_onscreen (tv: !GtkTextView1): gboolean = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
+gtk_text_view_place_cursor_onscreen (tv: !GtkTextView1): gboolean = "mac#%"
+//
+(* ****** ****** *)
+
 (* end of [gtktextview.sats] *)

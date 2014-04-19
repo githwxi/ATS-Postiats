@@ -40,4 +40,12 @@ atscntrb_gtk_text_buffer_setall_text(tb, txt) gtk_text_buffer_set_text(tb, txt, 
 
 /* ****** ****** */
 
+#define atscntrb_gtk_text_buffer_get_insert gtk_text_buffer_get_insert
+
+/* ****** ****** */
+
+#define atscntrb_gtk_text_buffer_place_cursor gtk_text_buffer_place_cursor
+
+/* ****** ****** */
+
 /* end of [gtktextbuffer.cats] */

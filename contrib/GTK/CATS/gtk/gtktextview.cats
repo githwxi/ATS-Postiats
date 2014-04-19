@@ -34,4 +34,24 @@ atscntrb_gtk_text_view_set_cursor_visible gtk_text_view_set_cursor_visible
 
 /* ****** ****** */
 
+#define \
+atscntrb_gtk_text_view_scroll_to_mark gtk_text_view_scroll_to_mark
+
+/* ****** ****** */
+
+#define \
+atscntrb_gtk_text_view_scroll_to_iter gtk_text_view_scroll_to_iter
+
+/* ****** ****** */
+
+#define \
+atscntrb_gtk_text_view_move_mark_onscreen gtk_text_view_move_mark_onscreen
+
+/* ****** ****** */
+
+#define \
+atscntrb_gtk_text_view_place_cursor_onscreen gtk_text_view_place_cursor_onscreen
+
+/* ****** ****** */
+
 /* end of [gtktextview.cats] */

@@ -73,4 +73,22 @@ gtk_text_buffer_get_text
 
 (* ****** ****** *)
 
+fun
+gtk_text_buffer_get_insert
+  {l:agz}
+(
+  tbuf: !GtkTextBuffer(l)
+) : [l2:addr]
+(
+  minus (GtkTextBuffer(l), GtkTextMark(l2)) | GtkTextMark(l2)
+) = "mac#%" // end of [gtk_text_buffer_get_insert]
+
+(* ****** ****** *)
+//
+fun
+gtk_text_buffer_place_cursor
+  (tbuf: !GtkTextBuffer1, iter: &RD(GtkTextIter)): void = "mac#%"
+//
+(* ****** ****** *)
+
 (* end of [gtktextbuffer.sats] *)

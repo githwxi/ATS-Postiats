@@ -77,6 +77,10 @@ vtypedef gstrptr1 = $GLIB.gstrptr1
 
 (* ****** ****** *)
 
+typedef gdouble = $GLIB.gdouble
+
+(* ****** ****** *)
+
 stadef GObject: cls = $GLIBOBJ.GObject
 stadef GInitiallyUnowned: cls = $GLIBOBJ.GInitiallyUnowned
 stadef GInterface: cls = $GLIBOBJ.GInterface
