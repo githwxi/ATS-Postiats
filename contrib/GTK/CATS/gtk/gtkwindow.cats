@@ -24,6 +24,11 @@
 
 /* ****** ****** */
 
+#define atscntrb_gtk_window_resize gtk_window_resize
+
+/* ****** ****** */
+
+#define atscntrb_gtk_window_get_default_size gtk_window_get_default_size
 #define atscntrb_gtk_window_set_default_size gtk_window_set_default_size
 
 /* ****** ****** */

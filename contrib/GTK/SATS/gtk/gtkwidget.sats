@@ -83,6 +83,18 @@ gtk_widget_getref_allocation
 (* ****** ****** *)
 
 fun
+gtk_widget_set_size_request
+  (!GtkWidget1, width: gint, height: gint): void = "mac#%"
+// end of [gtk_widget_set_size_request]
+
+fun
+gtk_widget_get_size_request
+  (!GtkWidget1, width: &gint? >> _, height: &gint? >> _): void = "mac#%"
+// end of [gtk_widget_get_size_request]
+
+(* ****** ****** *)
+
+fun
 gtk_widget_queue_draw_area
 (
   widget: !GtkWidget1, x: gint, y: gint, width: gint, height: gint

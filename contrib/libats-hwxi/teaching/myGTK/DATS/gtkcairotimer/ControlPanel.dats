@@ -201,6 +201,8 @@ in
   GFALSE
 end // end of [ftimeout]
 
+(* ****** ****** *)
+
 extern
 fun{}
 on_quit_clicked2

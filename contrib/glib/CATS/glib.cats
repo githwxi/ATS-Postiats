@@ -47,6 +47,10 @@
 
 /* ****** ****** */
 
+#define atscntrb_gstrptr_free(x) g_free(x)
+
+/* ****** ****** */
+
 #define atscntrb_g_timeout_add g_timeout_add
 
 /* ****** ****** */

@@ -51,6 +51,12 @@ fun gtk_window_get_size
 ) : void = "mac#%" // endfun
 
 (* ****** ****** *)
+
+fun gtk_window_resize
+  (!GtkWindow1, width: gint, height: gint): void = "mac#%"
+// end of [gtk_window_resize]
+
+(* ****** ****** *)
 //
 // HX-2010:
 // [width = -1] means unset
@@ -59,6 +65,10 @@ fun gtk_window_get_size
 fun gtk_window_set_default_size
   (!GtkWindow1, width: gint, height: gint): void = "mac#%"
 // end of [gtk_window_set_default_size]
+
+fun gtk_window_get_default_size
+  (!GtkWindow1, width: &gint? >> _, height: &gint? >> _): void = "mac#%"
+// end of [gtk_window_get_default_size]
 
 (* ****** ****** *)
 //

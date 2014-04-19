@@ -34,8 +34,10 @@ atscntrb_gtk_widget_show_unref
 //
 /* ****** ****** */
 
-#define atscntrb_gtk_widget_get_allocated_width gtk_widget_get_allocated_width
-#define atscntrb_gtk_widget_get_allocated_height gtk_widget_get_allocated_height
+#define \
+atscntrb_gtk_widget_get_allocated_width gtk_widget_get_allocated_width
+#define \
+atscntrb_gtk_widget_get_allocated_height gtk_widget_get_allocated_height
 
 /* ****** ****** */
 
@@ -54,6 +56,11 @@ atscntrb_gtk_widget_getref_allocation
   (atstype_ptr widget) { return &(GTK_WIDGET(widget))->allocation ; }
 // end of [atscntrb_gtk_widget_getref_allocation]
 */
+
+/* ****** ****** */
+
+#define atscntrb_gtk_widget_get_size_request gtk_widget_get_size_request
+#define atscntrb_gtk_widget_set_size_request gtk_widget_set_size_request
 
 /* ****** ****** */
 

@@ -79,6 +79,8 @@ castfn
 gstring_of_string (string): gstring
 overload gstring with gstring_of_string
 //
+fun gstrptr_free (x: gstrptr0): void = "mac#%"
+//
 (* ****** ****** *)
 
 (* end of [mybasis.sats] *)
