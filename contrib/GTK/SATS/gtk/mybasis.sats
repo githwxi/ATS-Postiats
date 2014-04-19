@@ -22,39 +22,12 @@ vtypedef GtkContainer1 = [c:cls;l:addr | c <= GtkContainer; l > null] gobjref (c
 //
 (* ****** ****** *)
 //
-stadef GtkBox = GtkBox_cls
+stadef GtkBin = GtkBin_cls
 //
 vtypedef
-GtkBox (l:addr) = [c:cls | c <= GtkBox] gobjref (c, l)
-vtypedef GtkBox0 = [c:cls;l:agez | c <= GtkBox] gobjref (c, l) 
-vtypedef GtkBox1 = [c:cls;l:addr | c <= GtkBox; l > null] gobjref (c, l) 
-//
-(* ****** ****** *)
-//
-stadef GtkHBox = GtkHBox_cls
-//
-vtypedef
-GtkHBox (l:addr) = [c:cls | c <= GtkHBox] gobjref (c, l)
-vtypedef GtkHBox0 = [c:cls;l:agez | c <= GtkHBox] gobjref (c, l) 
-vtypedef GtkHBox1 = [c:cls;l:addr | c <= GtkHBox; l > null] gobjref (c, l) 
-//
-(* ****** ****** *)
-//
-stadef GtkVBox = GtkVBox_cls
-//
-vtypedef
-GtkVBox (l:addr) = [c:cls | c <= GtkVBox] gobjref (c, l)
-vtypedef GtkVBox0 = [c:cls;l:agez | c <= GtkVBox] gobjref (c, l) 
-vtypedef GtkVBox1 = [c:cls;l:addr | c <= GtkVBox; l > null] gobjref (c, l) 
-//
-(* ****** ****** *)
-//
-stadef GtkTable = GtkTable_cls
-//
-vtypedef
-GtkTable (l:addr) = [c:cls | c <= GtkTable] gobjref (c, l)
-vtypedef GtkTable0 = [c:cls;l:agez | c <= GtkTable] gobjref (c, l) 
-vtypedef GtkTable1 = [c:cls;l:addr | c <= GtkTable; l > null] gobjref (c, l) 
+GtkBin (l:addr) = [c:cls | c <= GtkBin] gobjref (c, l)
+vtypedef GtkBin0 = [c:cls;l:agez | c <= GtkBin] gobjref (c, l) 
+vtypedef GtkBin1 = [c:cls;l:addr | c <= GtkBin; l > null] gobjref (c, l) 
 //
 (* ****** ****** *)
 //
@@ -127,6 +100,60 @@ vtypedef
 GtkMessageDialog (l:addr) = [c:cls | c <= GtkMessageDialog] gobjref (c, l)
 vtypedef GtkMessageDialog0 = [c:cls;l:agez | c <= GtkMessageDialog] gobjref (c, l) 
 vtypedef GtkMessageDialog1 = [c:cls;l:addr | c <= GtkMessageDialog; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
+//
+stadef GtkViewport = GtkViewport_cls
+//
+vtypedef
+GtkViewport (l:addr) = [c:cls | c <= GtkViewport] gobjref (c, l)
+vtypedef GtkViewport0 = [c:cls;l:agez | c <= GtkViewport] gobjref (c, l) 
+vtypedef GtkViewport1 = [c:cls;l:addr | c <= GtkViewport; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
+//
+stadef GtkScrolledWindow = GtkScrolledWindow_cls
+//
+vtypedef
+GtkScrolledWindow (l:addr) = [c:cls | c <= GtkScrolledWindow] gobjref (c, l)
+vtypedef GtkScrolledWindow0 = [c:cls;l:agez | c <= GtkScrolledWindow] gobjref (c, l) 
+vtypedef GtkScrolledWindow1 = [c:cls;l:addr | c <= GtkScrolledWindow; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
+//
+stadef GtkBox = GtkBox_cls
+//
+vtypedef
+GtkBox (l:addr) = [c:cls | c <= GtkBox] gobjref (c, l)
+vtypedef GtkBox0 = [c:cls;l:agez | c <= GtkBox] gobjref (c, l) 
+vtypedef GtkBox1 = [c:cls;l:addr | c <= GtkBox; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
+//
+stadef GtkHBox = GtkHBox_cls
+//
+vtypedef
+GtkHBox (l:addr) = [c:cls | c <= GtkHBox] gobjref (c, l)
+vtypedef GtkHBox0 = [c:cls;l:agez | c <= GtkHBox] gobjref (c, l) 
+vtypedef GtkHBox1 = [c:cls;l:addr | c <= GtkHBox; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
+//
+stadef GtkVBox = GtkVBox_cls
+//
+vtypedef
+GtkVBox (l:addr) = [c:cls | c <= GtkVBox] gobjref (c, l)
+vtypedef GtkVBox0 = [c:cls;l:agez | c <= GtkVBox] gobjref (c, l) 
+vtypedef GtkVBox1 = [c:cls;l:addr | c <= GtkVBox; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
+//
+stadef GtkTable = GtkTable_cls
+//
+vtypedef
+GtkTable (l:addr) = [c:cls | c <= GtkTable] gobjref (c, l)
+vtypedef GtkTable0 = [c:cls;l:agez | c <= GtkTable] gobjref (c, l) 
+vtypedef GtkTable1 = [c:cls;l:addr | c <= GtkTable; l > null] gobjref (c, l) 
 //
 (* ****** ****** *)
 //

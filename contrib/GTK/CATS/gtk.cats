@@ -72,6 +72,11 @@
 
 /* ****** ****** */
 
+#include "./gtk/gtkviewport.cats"
+#include "./gtk/gtkscrolledwindow.cats"
+
+/* ****** ****** */
+
 #include "./gtk/gtkbox.cats"
 #include "./gtk/gtkhbox.cats"
 #include "./gtk/gtkvbox.cats"

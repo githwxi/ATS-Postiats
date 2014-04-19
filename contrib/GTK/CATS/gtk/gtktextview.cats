@@ -5,10 +5,10 @@
 /* ****** ****** */
 //
 #define atscntrb_gtk_text_view_new() \
-  g_object_ref_sink(gtk_text_view_new())
+  g_object_ref_sink(G_OBJECT(gtk_text_view_new()))
 //
 #define atscntrb_gtk_text_view_new_with_buffer(tb) \
-  g_object_ref_sink(gtk_text_view_new_with_buffer(tb))
+  g_object_ref_sink(G_OBJECT(gtk_text_view_new_with_buffer(tb)))
 //
 /* ****** ****** */
 

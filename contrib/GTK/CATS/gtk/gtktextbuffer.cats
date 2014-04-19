@@ -5,7 +5,8 @@
 /* ****** ****** */
 
 #define \
-atscntrb_gtk_text_buffer_new_null() gtk_text_buffer_new(NULL)
+atscntrb_gtk_text_buffer_new_null() \
+  g_object_ref_sink(G_OBJECT(gtk_text_buffer_new(NULL)))
 
 /* ****** ****** */
 

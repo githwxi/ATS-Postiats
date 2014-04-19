@@ -111,6 +111,8 @@ classdec GtkObject : GInitiallyUnowned
             classdec GtkMessageDialog_cls : GtkDialog_cls
           // end of [GtkDialog]
         // end of [GtkWindow]
+        classdec GtkViewport_cls : GtkBin_cls
+        classdec GtkScrolledWindow_cls : GtkBin_cls
       // end of [GTKBin]
       classdec GtkBox_cls : GtkContainer_cls
         classdec GtkBottonBox_cls : GtkBox_cls
@@ -185,6 +187,11 @@ $extype_struct"GtkTextIter" of { GtkTextIter_rest=undefined_t0ype }
 
 #include "./gtk/gtkdialog.sats"
 #include "./gtk/gtkmessagedialog.sats"
+
+(* ****** ****** *)
+
+#include "./gtk/gtkviewport.sats"
+#include "./gtk/gtkscrolledwindow.sats"
 
 (* ****** ****** *)
 

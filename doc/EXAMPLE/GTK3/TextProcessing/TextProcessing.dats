@@ -173,15 +173,25 @@ val _sid = g_signal_connect
 //
 val () =
 gtk_window_set_position (window, GTK_WIN_POS_CENTER)
-val () =
-gtk_window_set_default_size (window, (gint)640, (gint)400)
 val () = gtk_window_set_resizable (window, GFALSE)
 val () = gtk_container_set_border_width (window, (guint)10)
+//
+val win2 =
+gtk_scrolled_window_new_null ((*void*))
+val () = assertloc (ptrcast(win2) > 0)
+val () =
+gtk_widget_set_size_request (win2, (gint)662, (gint)420)
+val () = gtk_container_add (window, win2)
+//
+val vwpt =
+gtk_viewport_new_null ((*void*))
+val () = assertloc (ptrcast(vwpt) > 0)
+val () = gtk_container_add (win2, vwpt)
 //
 val hbox =
 gtk_box_new (GTK_ORIENTATION_HORIZONTAL, (gint)0)
 val () = assertloc (ptrcast(hbox) > 0)
-val () = gtk_container_add (window, hbox)
+val () = gtk_container_add (vwpt, hbox)
 //
 val tv = gtk_text_view_new ()
 val () = assertloc (ptrcast(tv) > 0)
@@ -210,10 +220,11 @@ val () = gtk_text_view_set_wrap_mode (tv2, GTK_WRAP_WORD)
 val () = gtk_widget_show_unref (tv2)
 //
 val () = gtk_widget_show_unref (hbox)
-//
+val () = gtk_widget_show_unref (vwpt)
+val () = gtk_widget_show_unref (win2)
 val () = gtk_widget_show_unref (window) // ref-count becomes 1!
 //
-val int = 200U
+val int = 100U
 val _rid = g_timeout_add ((guint)int, (GSourceFunc)ftimeout, (gpointer)NULL)
 //
 val () = gtk_main ((*void*))
