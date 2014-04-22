@@ -147,6 +147,15 @@ upload_Producer-Consumer:: ; \
 
 ######
 
+upload_Readers-and-Writers:: ; \
+  scp \
+  Readers-and-Writers/Makefile \
+  Readers-and-Writers/DB_read_write.sats \
+  Readers-and-Writers/DB_read_write.dats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/Readers-and-Writers/
+
+######
+
 upload_IPC-redis:: ; \
   scp \
   IPC-redis/Makefile \

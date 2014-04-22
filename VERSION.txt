@@ -29,6 +29,7 @@ Here is a list of major additions and changes since the last release:
    static array-bounds checking
 4. Fixing a bug/typo in handling stream-based lazy evaluation
 5. Improving contrib/GTK significantly
+6. Both CFLAGS and LDFLAGS can be defined for building ATS2
 
 </pre>
 

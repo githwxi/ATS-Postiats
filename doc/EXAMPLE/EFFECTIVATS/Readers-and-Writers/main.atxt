@@ -1,0 +1,399 @@
+%{
+#include "./../ATEXT/atextfun.hats"
+%}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-Producer-Consumer</title>
+#patscode_style()
+</head>
+
+<body>
+
+<h1>
+Effective ATS: Readers-and-Writers
+</h1>
+
+In general, ATS shines much more brightly in contexts where dynamic testing
+becomes more difficult to perform and/or control.  In this article, I
+present in ATS an implementation of the classical Readers-and-Writers
+problem in concurrent programming.
+
+<h2>
+Description of the Problem 
+</h2>
+
+The Readers-and-Writers problem models access to a database.  In order for
+a process to read from the database, the process must be granted a
+read-access. In order for it to write to the database, it must be granted a
+write-access.  It is not allowed for a read-access and a write-access to be
+granted at the same time.  While multiple read-accesses can be granted
+simultaneously, only one write-access can be granted at a time.
+
+<h2>
+Interface for Database Access
+</h2>
+
+Following is an abstract interface for accessing database:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+abstype DB = ptr
+//
+absview DBread_v
+absview DBwrite_v
+//
+fun DBread (pf: !DBread_v | db: DB): void
+fun DBwrite (pf: !DBwrite_v | db: DB): void
+//
+')</pre>
+
+For calling [DBread] to
+read from a database, a proof of the (abstract) view [DBread_v] is needed.
+For calling [DBwrite] to
+write to a database, a proof of the (abstract) view [DBwrite_v] is needed.
+
+<h2>
+Databases-with-state
+</h2>
+
+Let us introduce a linear abstract type [DBshell] for a database
+with some linear state:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+absvtype
+DBshell (r: int, w: int) = ptr
+//
+vtypedef DBshell = [r,w:int] DBshell (r, w)
+//
+')</pre>
+
+Given integer r and w, a value of the type [DBshell(r, w)] is referred
+to as a database-with-state in which the associated database is currently
+granting r read-accesses and w write-accesses. The following two proof functions
+mention explicitly some constraints on parameters r and w:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+praxi
+lemma_DBshell_param
+  {r,w:int} (!DBshell (r, w)): [0 <= r; 0 <= w; w <= 1] void
+praxi
+lemma_DBshell_param2
+  {r,w:int} (!DBshell (r, w)): [r == 0 || (r > 0 && w == 0)] void
+//
+')</pre>
+
+Given a type [DBshell(r, w)], the proof function [lemma_DBshell_param]
+states that r is a natural number and w is between 0 and 1, inclusive;
+the proof function [lemma_DBshell_param2] states that w must equal 0 if
+r is positive. 
+
+<p>
+
+Some functions on databases-with-state are listed as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun DBshell_dbget (x: !DBshell): DB
+//
+fun DBshell_nread {r,w:int} (x: !DBshell (r, w)): int (r)
+fun DBshell_nwrite {r,w:int} (x: !DBshell (r, w)): int (w)
+//
+')</pre>
+
+Clearly, [DBshell_dbget] is meant to return the database associated with a
+given database-with-state. As for [DBshell_nread] and [DBshell_nwrite],
+they can be called on a database-with-state of type [DBshell(r, w)] to
+obtain the values of r and w, respectively.
+
+<h2>
+Encoding the Policy for Database Access
+</h2>
+
+The policy for database access is formally encoded in the types
+of the following declared function:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun DBshell_acquire_read
+  {r:int} (x: !DBshell (r, 0) >> DBshell (r+1, 0)): (DBread_v | void)
+fun DBshell_release_read
+  {r,w:int} (pf: DBread_v | x: !DBshell (r, w) >> DBshell (r-1, w)): void
+//
+fun DBshell_acquire_write
+  (x: !DBshell (0, 0) >> DBshell (0, 1)): (DBwrite_v | void)
+fun DBshell_release_write
+  {r,w:int} (pf: DBwrite_v | x: !DBshell (r, w) >> DBshell (r, w-1)): void
+//
+')</pre>
+
+A proof of the view [DBread_v] is needed for reading from a database.  In
+order to obtain it, [DBshell_acquire_read] needs to be called on a
+database-with-state that is currently granting no write-access.  Similarly,
+a proof of the view [DBwrite_v] is needed for writing to a database.  In
+order to obtain it, [DBshell_acquire_write] needs to be called on a
+database-with-state that is currently granting neither read-access nor
+write-access.
+
+<h2>
+Shared Databases-with-state
+</h2>
+
+
+A shared database-with-state essentially wraps a protection mechanism
+around a database-with-state. Let
+introduce a non-linear abstract type [SDBshell] for shared databases-with-state:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+abstype SDBshell = ptr
+')</pre>
+
+As can be expected, there is a mutex for protecting the database-with-state
+inside a shared database-with-state.  The following two functions can be called
+to acquire/release the protected database-with-state:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+fun SDBshell_acquire (sx: SDBshell): DBshell
+fun SDBshell_release (sx: SDBshell, x: DBshell): void
+')</pre>
+
+Let us now see an implementation of the following declared functions:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun SDBshell_acquire_read (sx: SDBshell): (DBread_v | void)
+fun SDBshell_release_read (pf: DBread_v | sx: SDBshell): void
+//
+fun SDBshell_acquire_write (sx: SDBshell): (DBwrite_v | void) 
+fun SDBshell_release_write (pf: DBwrite_v | sx: SDBshell): void
+//
+')</pre>
+
+which can be called to safely support database access in concurrent
+programming (without causing race conditions).
+
+<p>
+
+There is a conditional variable (CV) inside a shared database-with-state.
+The following function [SDBshell_wait_read] can be called by a process to
+wait on the CV if it wants to read but the database is currently granting a
+write-access to another process:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+extern
+fun SDBshell_wait_read
+  {r:int}
+(
+  sx: SDBshell, x: !DBshell (r, 1) >> DBshell
+) : void // end of [SDBshell_wait_read]
+//
+')</pre>
+
+Similarly,
+the following function [SDBshell_wait_write] can be called by a process to
+wait on the CV if it wants to write but the database is currently granting a
+read-access or write-access to another process:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+extern
+fun SDBshell_wait_write
+  {r,w:int | r+w >= 1}
+(
+  sx: SDBshell, x: !DBshell (r, w) >> DBshell
+) : void // end of [SDBshell_wait_write]
+')</pre>
+
+In order to wake up a process waiting on the conditional variable, the
+following function [SDBshell_signal] can be called:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+extern fun SDBshell_signal (sx: SDBshell): void
+//
+')</pre>
+
+Furthermore, two auxiliary functions are declared as follows to facilitate
+the implementation of [SDBshell_acquire_read] and [SDBshell_acquire_write]:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+extern
+fun SDBshell_acquire_read2
+  (sx: SDBshell, x: !DBshell >> _): (DBread_v | void)
+extern
+fun SDBshell_acquire_write2
+  (sx: SDBshell, x: !DBshell >> _): (DBwrite_v | void)
+')</pre>
+
+The following code implements [SDBshell_acquire_read]:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+implement
+SDBshell_acquire_read
+  (sx) = (pf | ()) where
+{
+  val x = SDBshell_acquire (sx)
+  val (pf | ()) = SDBshell_acquire_read2 (sx, x)
+  val () = SDBshell_release (sx, x)
+}
+
+implement
+SDBshell_acquire_read2
+  (sx, x) = let
+//
+prval () =
+  lemma_DBshell_param (x)
+//
+val w = DBshell_nwrite (x)
+//
+in
+//
+if w = 0
+  then DBshell_acquire_read (x)
+  else let
+    val () = SDBshell_wait_read (sx, x) in SDBshell_acquire_read2 (sx, x)
+  end // end of [else]
+//
+end // end of [SDBshell_acquire_read2]
+')</pre>
+
+The following code implements [SDBshell_release_read]:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+implement
+SDBshell_release_read
+  (pf | sx) = () where
+{
+  val x = SDBshell_acquire (sx)
+  val () = DBshell_release_read (pf | x)
+  val r = DBshell_nread (x)
+  val () =
+    if r = 0
+      then SDBshell_signal (sx)
+    // end of [if]
+  val () = SDBshell_release (sx, x)
+}
+')</pre>
+
+The following code implements [SDBshell_acquire_write]:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+implement
+SDBshell_acquire_write
+  (sx) = (pf | ()) where
+{
+  val x = SDBshell_acquire (sx)
+  val (pf | ()) = SDBshell_acquire_write2 (sx, x)
+  val () = SDBshell_release (sx, x)
+}
+
+implement
+SDBshell_acquire_write2
+  (sx, x) = let
+//
+prval () =
+  lemma_DBshell_param (x)
+prval () =
+  lemma_DBshell_param2 (x)
+//
+val r = DBshell_nread (x)
+//
+in
+//
+if r = 0
+  then let
+    val w = DBshell_nwrite (x)
+  in
+    if w = 0
+      then DBshell_acquire_write (x)
+      else let
+        val () = SDBshell_wait_write (sx, x)
+      in
+        SDBshell_acquire_write2 (sx, x)
+      end // end of [else]
+    // end of [if]
+  end // end of [then]
+  else let
+    val () = SDBshell_wait_write (sx, x) in SDBshell_acquire_write2 (sx, x)
+  end // end of [else]
+//
+end // end of [SDBshell_acquire_write2]
+')</pre>
+
+The following code implements [SDBshell_release_write]:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+implement
+SDBshell_release_write
+  (pf | sx) = () where
+{
+  val x = SDBshell_acquire (sx)
+  val () = DBshell_release_write (pf | x)
+  val () = SDBshell_signal (sx)
+  val () = SDBshell_release (sx, x)
+}
+')</pre>
+
+<h2>
+Summary of the Remaining Implementation
+</h2>
+
+Please find the entirety of the code in the following files:
+
+<pre>
+DB_read_write.sats
+DB_read_write.dats
+</pre>
+
+Instead of being coded in C directly, the rest of my implementation is also
+written in ATS but it makes pervasive use of some unsafe programming
+features.
+
+<hr size="2">
+
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+
+</body>
+</html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "main_atxt.txt")
+%}

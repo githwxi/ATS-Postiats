@@ -16,10 +16,10 @@ CFLAGS += -O2
 ######
 
 SOURCES_SATS := \
-  sbuffer.sats \
+  DB_read_write.sats \
 
 SOURCES_DATS := \
-  sbuffer.dats \
+  DB_read_write.dats \
 
 ######
 
@@ -33,8 +33,8 @@ include $(PATSHOME)/share/atsmake-post.mk
 ######
 
 all:: test
-test:: ; $(PATSCC) -tcats sbuffer.sats
-test:: ; $(PATSCC) -tcats sbuffer.dats
+test:: ; $(PATSCC) -tcats DB_read_write.sats
+test:: ; $(PATSCC) -tcats DB_read_write.dats
 
 ######
 
@@ -60,7 +60,7 @@ main.html: main.exe ; ./main.exe > $@
 upload_main: \
   main.html ; \
   scp main.html \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/Producer-Consumer/
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/Readers-and-Writers/
 
 ######
 

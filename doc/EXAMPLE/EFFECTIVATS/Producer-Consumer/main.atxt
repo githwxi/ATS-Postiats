@@ -18,15 +18,15 @@
 Effective ATS: Producer-Consumer
 </h1>
 
-The Producer-Consumer problem is a classic one in concurrent programming.
+The Producer-Consumer problem is a classical one in concurrent programming.
 In this article, I present an implementation of this problem that makes
 highly effective use of dependent types and linear types.  Due to great
 difficulty in debugging concurrent programs, relying on static checking to
 detect and fix bugs is of much more significance in concurrent programing
 than in sequential programming.  While the style of programming I employ
 here may take time for one to master, the great advantages it brings can be
-readily appreciated. In general, ATS shines more brightly in contexts where
-dynamic testing becomes more difficult to perform and/or control.
+readily appreciated. In general, ATS shines much more brightly in contexts
+where dynamic testing becomes more difficult to perform and/or control.
 
 <h2>
 Description of the Problem 
@@ -172,7 +172,7 @@ sbuffer_insert (sbuffer(a), x: a): void // called by producer
 ')</pre>
 
 Note that a call to [sbuffer_insert] may be blocked due to the linear
-buffer inside the shared buffer is full.
+buffer inside the shared buffer being full.
 
 <p>
 
@@ -187,7 +187,7 @@ sbuffer_takeout (sbuf: sbuffer(a)): (a) // called by consumer
 ')</pre>
 
 Note that a call to [sbuffer_takeout] may be blocked due to the linear
-buffer inside the shared buffer is empty.
+buffer inside the shared buffer being empty.
 
 <h2>
 Implementation of Shared Buffer
@@ -229,14 +229,14 @@ sbuffer_takeout2 (sbf: sbuffer(a), buf: !buffer (INV(a)) >> _): (a)
 
 A call to the function [sbuffer_insert2] tries to insert an element into a
 given linear buffer. In the case where the linear buffer is full, the
-caller is blocked to wait on some conditional variable until being notified
+caller is blocked to wait on some conditional variable until it is notified
 that the linear buffer is no longer full.
 
 <p>
 
 A call to the function [sbuffer_takeout2] tries to take out an element from
 a given linear buffer. In the case where the linear buffer is empty, the
-caller is blocked to wait on some conditional variable until being notified
+caller is blocked to wait on some conditional variable until it is notified
 that the linear buffer is no longer empty.
 
 <p>
@@ -275,28 +275,28 @@ class="patsyntax">
 #pats2xhtml_sats('\
 //
 fun
-sbuffer_cond_wait_isnil
+sbuffer_wait_isnil
   {a:vt0p}{m:int} (sbuffer(a), !buffer(a, m, 0) >> buffer(a)): void
-fun sbuffer_cond_signal_isnil{a:vt0p}{m,n:int} (sbuf: sbuffer(a)): void
+fun sbuffer_signal_isnil{a:vt0p}{m,n:int} (sbuf: sbuffer(a)): void
 //
 fun
-sbuffer_cond_wait_isful
+sbuffer_wait_isful
   {a:vt0p}{m:int} (sbuffer(a), !buffer(a, m, m) >> buffer(a)): void
-fun sbuffer_cond_signal_isful{a:vt0p}{m,n:int} (sbuf: sbuffer(a)): void
+fun sbuffer_signal_isful{a:vt0p}{m,n:int} (sbuf: sbuffer(a)): void
 //
 ')</pre>
 
-The type assigned to the function [sbuffer_cond_wait_isnil] means that its
+The type assigned to the function [sbuffer_wait_isnil] means that its
 caller must have possession of a linear buffer when calling it and the
 caller should still have possession of the linear buffer, which may be
-empty, when the call returns. The reason for the linear buffer being empty
-at the moment when a call to [sbuffer_cond_wait_isnil] returns is that
-other callers (consumers) may have gained access to the linear buffer
+empty, when the call returns. The reason for the linear buffer being still
+empty at the moment when a call to [sbuffer_wait_isnil] returns is
+that other callers (consumers) may have gained access to the linear buffer
 earlier.
 
 <p>
 
-The type assigned to the function [sbuffer_cond_wait_isful] can be
+The type assigned to the function [sbuffer_wait_isful] can be
 explained similarly.
 
 <p>
@@ -323,7 +323,7 @@ in
 if isful
   then let
     val () =
-      sbuffer_cond_wait_isful (sbuf, buf)
+      sbuffer_wait_isful (sbuf, buf)
     // end of [val]
   in
     sbuffer_insert2 (sbuf, buf, x)
@@ -331,7 +331,7 @@ if isful
   else let
     val isnil = buffer_isnil (buf)
     val ((*void*)) = buffer_insert (buf, x)
-    val ((*void*)) = if isnil then sbuffer_cond_signal_isnil (sbuf)
+    val ((*void*)) = if isnil then sbuffer_signal_isnil (sbuf)
   in
     // nothing
   end // end of [else]
@@ -363,7 +363,7 @@ in
 if isnil
   then let
     val () =
-      sbuffer_cond_wait_isnil (sbuf, buf)
+      sbuffer_wait_isnil (sbuf, buf)
     // end of [val]
   in
     sbuffer_takeout2 (sbuf, buf)
@@ -372,7 +372,7 @@ if isnil
   {
     val isful = buffer_isful (buf)
     val x(*a*) = buffer_takeout (buf)
-    val ((*void*)) = if isful then sbuffer_cond_signal_isful (sbuf)
+    val ((*void*)) = if isful then sbuffer_signal_isful (sbuf)
   } (* end of [else] *)
 //  
 end // end of [sbuffer_takeout2]
@@ -449,7 +449,7 @@ fun SharedResource_create (R: Resource): SharedResource
 
 The linear resource inside a shared resource is protected by a lock,
 and the following two functions are for taking out the linear resource
-and return it back:
+and returning it back:
 
 <pre
 class="patsyntax">
@@ -504,7 +504,7 @@ SharedResource_process
 }
 
 extern
-fun SharedResource_cond_wait (SR: SharedResource, R: !Resource >> _): void
+fun SharedResource_wait (SR: SharedResource, R: !Resource >> _): void
 
 implement
 SharedResource_process2
@@ -515,12 +515,12 @@ in
 if ans
   then
   (
-    // processing done properly
-    // may need to send signals
+    // processing is done properly
+    // there may be a need to send signals
     // to some conditional variables
   )
   else let
-    val () = SharedResource_cond_wait (SR, R)
+    val () = SharedResource_wait (SR, R)
   in
     SharedResource_process2 (SR, R)
   end // end of [else]
@@ -528,7 +528,7 @@ if ans
 end // end of [SharedResource_process2]
 ')</pre>
 
-A call to [SharedResource_cond_wait] puts the caller on the waiting-list
+A call to [SharedResource_wait] puts the caller on the waiting-list
 of some conditional variable to avoid busy-waiting. Whenever the condition
 needed for [Resource_process] to do proper processing is met, a signal should
 be sent to the conditional variable (by another caller).

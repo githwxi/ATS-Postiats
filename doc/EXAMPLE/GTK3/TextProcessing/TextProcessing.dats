@@ -221,7 +221,8 @@ val tv = gtk_text_view_new ()
 val p_tv = ptrcast(tv)
 val () = assertloc (p_tv > 0)
 //
-val (fpf | tb) = gtk_text_view_get_buffer (tv)
+val (fpf | tb) =
+  gtk_text_view_get_buffer (tv)
 val () = $TEXTBUF.set (ptrcast(tb))
 prval () = minus_addback (fpf, tb | tv)
 //
@@ -234,7 +235,8 @@ val tv2 = gtk_text_view_new ()
 val p_tv2 = ptrcast(tv2)
 val () = assertloc (p_tv2 > 0)
 //
-val (fpf | tb2) = gtk_text_view_get_buffer (tv2)
+val (fpf | tb2) =
+  gtk_text_view_get_buffer (tv2)
 val () = $TEXTBUF2.set (ptrcast(tb2))
 prval () = minus_addback (fpf, tb2 | tv2)
 //
