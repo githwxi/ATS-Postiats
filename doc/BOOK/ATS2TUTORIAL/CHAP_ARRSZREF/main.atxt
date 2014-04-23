@@ -13,7 +13,7 @@ by [atsdoc] from CHAP_ARRSZREF/main.atxt.\n\
 Time of Generation: #timestamp()\
 ")
 <chapter id="arrszref">
-#title("Persistent Arrays-with-Size")
+#title("Persistent Arrays-with-size")
 
 #para('\
 

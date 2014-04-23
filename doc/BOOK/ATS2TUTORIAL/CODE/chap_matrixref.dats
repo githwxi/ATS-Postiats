@@ -59,7 +59,7 @@ local
 implement
 matrix_tabulate$fopr<int> (i, j) = sz2i(i)-sz2i(j)
 in(* in-of-local *)
-val M0 = matrixref_tabulate (nrow, nrow)
+val M0 = matrixref_tabulate (nrow, ncol)
 end // end of [local]
 //
 val out = stdout_ref

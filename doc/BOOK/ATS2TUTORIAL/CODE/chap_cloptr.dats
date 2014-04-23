@@ -82,9 +82,9 @@ fun acker (m:int) =
 fix f (n:int): int =<cloptr1>
   if m > 0 then (if n > 0 then acker(m-1)(f(n-1)) else acker(m-1)(1)) else n+1
 ) (* end of [acker] *)
-
+//
 val () = println! ("acker(3)(3) = ", acker(3)(3))
-
+//
 *)
 
 (* ****** ****** *)

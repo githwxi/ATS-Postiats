@@ -13,7 +13,7 @@ by [atsdoc] from CHAP_MTRXSZREF/main.atxt.\n\
 Time of Generation: #timestamp()\
 ")
 <chapter id="mtrxszref">
-#title("Persistent Matrices-with-Size")
+#title("Persistent Matrices-with-size")
 
 #para("\
 

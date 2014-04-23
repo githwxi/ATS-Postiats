@@ -21,8 +21,6 @@ mtrxszref_transpose (M) = let
 val n = M.nrow
 val ((*void*)) = assertloc (M.nrow = M.ncol)
 //
-val n = nrow
-//
 fun loop
 (
   i: size_t, j: size_t
