@@ -141,18 +141,25 @@ prval () = $UN.cast2void (tb)
 //
 val tb2 = $TEXTBUF2.get ()
 val tb2 = $UN.castvwtp0{GtkTextBuffer1}(tb2)
+//
+val hadj = $VADJUST.get ()
+val hadj = $UN.castvwtp0{GtkAdjustment1}(hadj)
 val vadj = $VADJUST.get ()
 val vadj = $UN.castvwtp0{GtkAdjustment1}(vadj)
 //
+val hadj_value = gtk_adjustment_get_value (hadj)
 val vadj_value = gtk_adjustment_get_value (vadj)
-val () = println! ("vadj_value = ", $UN.cast{double}(vadj_value))
 //
 val () = gtk_text_buffer_setall_text (tb2, $UN.castvwtp1{gstring}(content2))
+//
+val () = gtk_adjustment_set_value (hadj, hadj_value)
 val () = gtk_adjustment_set_value (vadj, vadj_value)
 val () = gtk_adjustment_value_changed (vadj)
-val () = $KEYPRESSED.reset ()
+//
+val ((*void*)) = $KEYPRESSED.reset ()
 //
 prval () = $UN.cast2void (tb2)
+prval () = $UN.cast2void (hadj)
 prval () = $UN.cast2void (vadj)
 //
 val () = strptr_free (content2)
