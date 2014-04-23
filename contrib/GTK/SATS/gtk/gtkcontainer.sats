@@ -3,6 +3,12 @@
 *)
 
 (* ****** ****** *)
+//
+// HX-2014-04-23-checked:
+// The refcount of a gobject is increased
+// by one after it is added into a gtkcontainer.
+//
+(* ****** ****** *)
 
 fun gtk_container_add
   (!GtkContainer1, !GtkWidget1): void = "mac#%"

@@ -217,5 +217,14 @@ vtypedef GtkTextMark0 = [c:cls;l:agez | c <= GtkTextMark] gobjref (c, l)
 vtypedef GtkTextMark1 = [c:cls;l:addr | c <= GtkTextMark; l > null] gobjref (c, l) 
 //
 (* ****** ****** *)
+//
+stadef GtkAdjustment = GtkAdjustment_cls
+//
+vtypedef
+GtkAdjustment (l:addr) = [c:cls | c <= GtkAdjustment] gobjref (c, l)
+vtypedef GtkAdjustment0 = [c:cls;l:agez | c <= GtkAdjustment] gobjref (c, l) 
+vtypedef GtkAdjustment1 = [c:cls;l:addr | c <= GtkAdjustment; l > null] gobjref (c, l) 
+//
+(* ****** ****** *)
 
 (* end of [mybasis.sats] *)

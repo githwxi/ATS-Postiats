@@ -25,7 +25,7 @@ gtk_text_view_set_buffer
   (tv: !GtkTextView1, tb: !GtkTextBuffer0): void = "mac#%"
 fun
 gtk_text_view_get_buffer
-  {l:agz} (tv: !GtkTextView(l)): [l2:addr]
+  {l:agz} (tv: !GtkTextView(l)): [l2:agez]
 (
   minus (GtkTextView(l), GtkTextBuffer(l2)) | GtkTextBuffer(l2)
 ) = "mac#%" // end of [gtk_text_view_get_buffer]

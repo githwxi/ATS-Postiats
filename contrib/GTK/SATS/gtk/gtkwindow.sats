@@ -21,13 +21,14 @@ fun gtk_window_new1
 //
 (* ****** ****** *)
 
-fun gtk_window_get_title
+fun
+gtk_window_get_title
   {c:cls |
    c <= GtkWindow}
   {l:agz}
 (
   win: !gobjref (c, l)
-) : [l2:addr]
+) : [l2:agez]
 (
   minus(gobjref(c, l), gstrptr l2) | gstrptr l2
 ) = "mac#%" // endfun

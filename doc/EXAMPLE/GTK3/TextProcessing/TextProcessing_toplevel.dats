@@ -46,6 +46,36 @@ KEYPRESSED = {
 (* ****** ****** *)
 
 staload
+HADJUST = {
+//
+typedef T = ptr
+//
+fun
+initize (x: &T? >> T): void = x := the_null_ptr
+//
+#include "share/atspre_define.hats"
+#include "{$LIBATSHWXI}/globals/HATS/globvar.hats"
+//
+} (* end of [HADJUST] *)
+
+(* ****** ****** *)
+
+staload
+VADJUST = {
+//
+typedef T = ptr
+//
+fun
+initize (x: &T? >> T): void = x := the_null_ptr
+//
+#include "share/atspre_define.hats"
+#include "{$LIBATSHWXI}/globals/HATS/globvar.hats"
+//
+} (* end of [VADJUST] *)
+
+(* ****** ****** *)
+
+staload
 TEXTBUF = {
 //
 typedef T = ptr

@@ -145,6 +145,7 @@ classdec GtkObject : GInitiallyUnowned
       classdec GtkCurve_cls : GtkDrawingArea_cls
     // end of [GtkDrawingArea]
   // end of [GtkWidget]
+  classdec GtkAdjustment_cls : GtkObject
 // end of [GtkObject]
 
 (* ****** ****** *)
@@ -231,6 +232,10 @@ $extype_struct"GtkTextIter" of { GtkTextIter_rest=undefined_t0ype }
 (* ****** ****** *)
 
 #include "./gtk/gtktextiter.sats"
+
+(* ****** ****** *)
+
+#include "./gtk/gtkadjustment.sats"
 
 (* ****** ****** *)
 

@@ -65,7 +65,7 @@ gtk_message_dialog_get_image
   {l:agz}
 (
   dialog: !GtkMessageDialog(l)
-) : [l2:addr]
+) : [l2:agez]
 (
   minus (GtkMessageDialog(l), GtkWidget(l2)) | GtkWidget(l2)
 ) = "mac#%" // end of [gtk_message_dialog_get_image]

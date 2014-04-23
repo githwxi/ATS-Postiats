@@ -13,4 +13,18 @@ atscntrb_gtk_scrolled_window_new_null(/*void*/) \
 
 /* ****** ****** */
 
+#define \
+atscntrb_gtk_scrolled_window_get_hadjustment gtk_scrolled_window_get_hadjustment
+#define \
+atscntrb_gtk_scrolled_window_get_vadjustment gtk_scrolled_window_get_vadjustment
+
+/* ****** ****** */
+
+#define \
+atscntrb_gtk_scrolled_window_set_hadjustment gtk_scrolled_window_set_hadjustment
+#define \
+atscntrb_gtk_scrolled_window_set_vadjustment gtk_scrolled_window_set_vadjustment
+
+/* ****** ****** */
+
 /* end of [gtkscrolledwindow.cats] */
