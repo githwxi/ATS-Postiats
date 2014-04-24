@@ -1,30 +1,7 @@
+######
 #
-# A Makefile for gtkcairoclock
+# A Makefile for gtkcairotimer
 #
-
-######
-
-include $(PATSHOME)/share/atsmake-pre.mk
-
-######
-
-MYTARGET=MYTARGET
-MYCCRULE=MYCCRULE
-
-######
-
-include $(PATSHOME)/share/atsmake-post.mk
-
-######
-
-GTKFLAGS=`pkg-config gtk+-3.0 --cflags --libs`
-
-######
-
-#
-# A Makefile for gtkcairoclock
-#
-
 ######
 
 include $(PATSHOME)/share/atsmake-pre.mk

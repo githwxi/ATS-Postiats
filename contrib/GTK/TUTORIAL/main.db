@@ -6,13 +6,8 @@
 <!ENTITY bookinfo SYSTEM "bookinfo.db">
 <!ENTITY preface SYSTEM "preface.db">
 <!ENTITY chap_hello SYSTEM "chap_hello_atxt.db">
-<!ENTITY chap_objtypes SYSTEM "chap_objtypes_atxt.db">
-<!ENTITY chap_funtypes SYSTEM "chap_funtypes_atxt.db">
-<!ENTITY chap_drawline SYSTEM "chap_drawline_atxt.db">
-<!ENTITY chap_drawrectcirc SYSTEM "chap_drawrectcirc_atxt.db">
-<!ENTITY chap_drawtext SYSTEM "chap_drawtext_atxt.db">
 ]>
-<book id="ats2cairo-tutorial" lang="en">
+<book id="ats2gtk-tutorial" lang="en">
 &bookinfo;
 
 <!--
@@ -28,11 +23,6 @@
 <part id="basic_tutorial_topics">
 <title>Basic Tutorial Topics</title>
 &chap_hello;
-&chap_objtypes;
-&chap_funtypes;
-&chap_drawline;
-&chap_drawrectcirc;
-&chap_drawtext;
 </part><!--"basic_tutorial_topics"-->
 
 </book>

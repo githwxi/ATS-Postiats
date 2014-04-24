@@ -1,7 +1,7 @@
+######
 #
 # A Makefile for gtkcairoclock
 #
-
 ######
 
 include $(PATSHOME)/share/atsmake-pre.mk

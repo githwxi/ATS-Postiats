@@ -16,8 +16,8 @@ Time of Generation: #timestamp()\
 #title("A Simple Example: Hello, world!")
 
 #para("\
+
 The first program we present in this tutorial is given as follows:
-")
 
 #atscode('\
 implement
@@ -51,7 +51,9 @@ val () = cairo_surface_destroy (sf) // a type error if omitted
 val () = assertloc (status = CAIRO_STATUS_SUCCESS)
 //
 } (* end of [main0] *)
-')
+')\
+
+")
 
 #para("\
 The functions in the cairo package are declared in the following file:
