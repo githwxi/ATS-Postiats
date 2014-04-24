@@ -189,13 +189,15 @@ In case of a failure, it is reported by the following code:
 
 #para("\
 
-It may seem that using cairo functions in ATS is nearly identical to using
-them in C (modulo syntatical difference). However, what happens at the
-level of typechecking in ATS is far more sophisticated than in C. In
-particular, linear types are assigned to cairo objects (such as contexts,
-surfaces, patterns, font faces, etc.) in ATS to allow them to be tracked
-statically, that is, at compile-time, preventing potential mismanagement of
-such objects. For instance, if the following line:
+ATS is a programming language that distinguishes itself in its practical
+and effective support for precise resource management.  While it may seem
+that using cairo functions in ATS is nearly identical to using them in C
+(modulo syntatical difference), what happens at the level of typechecking
+in ATS is far more sophisticated than in C. In particular, linear types are
+assigned to cairo objects (such as contexts, surfaces, patterns, font
+faces, etc.) in ATS to allow them to be tracked statically, that is, at
+compile-time, preventing potential mismanagement of such objects. For
+instance, if the following line:
 
 #atscode("\
   val () = cairo_surface_destroy (sf) // a type error if omitted
@@ -208,9 +210,7 @@ is removed from the program in
 then a type-error message is issued at compile-time to indicate that the
 resource #code("sf") is not properly freed.  A message as such can be of
 great value in practice for correcting potential memory leaks that may
-otherwise readily go unnoticed.  ATS is a programming language that
-distinguishes itself in its practical and effective support for precise
-resource management.\
+otherwise readily go unnoticed.
 
 ")
 

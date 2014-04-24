@@ -26,7 +26,7 @@ API for GTK+ in ATS. In particular, it is demonstrated concretely that
 linear types can be used effectively to prevent resources (e.g., various
 GTK objects) from being leaked due to programming errors. It is assumed
 that the reader have already acquired certain level of familiarity with
-ATS.
+both ATS and GTK.
 
 </para>
 </abstract>

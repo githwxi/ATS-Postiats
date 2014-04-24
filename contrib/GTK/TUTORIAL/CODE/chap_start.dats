@@ -1,7 +1,5 @@
 (*
 **
-** Start with GTK3
-**
 ** Author: Hongwei Xi
 ** Authoremail: gmhwxiATgmailDOTcom
 ** Time: September, 2013
@@ -10,20 +8,26 @@
 
 (* ****** ****** *)
 //
+// HX-2014-04-23: ported from GTK/TEST/test01.dats
+//
+(* ****** ****** *)
+
 #include
 "share/atspre_define.hats"
 #include
 "share/atspre_staload.hats"
-//
+
 (* ****** ****** *)
 
 staload UN = $UNSAFE
 
 (* ****** ****** *)
-
-staload "./../SATS/gtk.sats"
-staload "{$GLIB}/SATS/glib-object.sats"
-
+//
+staload
+"{$GLIB}/SATS/glib-object.sats"
+//
+staload "{$GTK}/SATS/gtk.sats"
+//
 (* ****** ****** *)
 
 %{^
@@ -51,10 +55,10 @@ val ((*void*)) = gtk_widget_show (win)
 //
 val ((*void*)) = gtk_main ()
 //
-val ((*void*)) = gtk_widget_destroy0 (win) // can never be reached!!!
+val ((*void*)) = gtk_widget_destroy0 (win) // a type-error if omitted
 //
 } (* end of [main0] *)
 
 (* ****** ****** *)
 
-(* end of [test01.dats] *)
+(* end of [chap_start.dats] *)

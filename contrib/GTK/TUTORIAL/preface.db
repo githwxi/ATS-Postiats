@@ -17,7 +17,7 @@ programming with GTK+.  In particular, it is demonstrated concretely here
 that linear types can be used effectively to prevent resources (e.g.,
 various GTK objects) from being leaked due to programming errors. The
 reader of the tutorial is assumed to have already acquired certain level of
-familiarity with ATS.
+familiarity with both ATS and GTK.
 
 </para>
 

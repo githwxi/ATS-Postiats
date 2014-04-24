@@ -27,6 +27,10 @@
 
 (* ****** ****** *)
 
+staload UN = $UNSAFE
+
+(* ****** ****** *)
+
 staload "{$GLIB}/SATS/glib.sats"
 
 (* ****** ****** *)
@@ -37,14 +41,10 @@ staload "{$GLIB}/SATS/glib-object.sats"
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
 %{^
-typedef char **charptrptr ;
+typedef char **charpp ;
 %} ;
-abstype charptrptr = $extype"charptrptr"
+abstype charpp = $extype"charpp"
 
 (* ****** ****** *)
 
@@ -53,18 +53,19 @@ fun hello
   widget: !GtkWidget1, _: gpointer
 ) : void = print ("Hello, world!\n")
 
-fun delete_event
+fun on_delete_event
 (
-  widget: !GtkWidget1, event: &GdkEvent, _: gpointer
+  widget: !GtkWidget1
+, event: &GdkEvent, udata: gpointer
 ) : gboolean = let
   val () = print ("delete event occurred\n")
 in
   GTRUE // deletion ignored
-end // end of [delete_event]
+end // end of [on_delete_event]
 
-fun destroy
+fun on_destroy
   (widget: !GtkWidget1, _: gpointer): void = gtk_main_quit ()
-// end of [destroy]
+// end of [on_destroy]
 
 (* ****** ****** *)
 
@@ -77,7 +78,7 @@ main0 (argc, argv) =
 {
 //
 var argc: int = argc
-var argv: charptrptr = $UN.castvwtp1{charptrptr}(argv)
+var argv: charpp = $UN.castvwtp1{charpp}(argv)
 //
 val () = $extfcall (void, "gtk_init", addr@(argc), addr@(argv))
 //
@@ -85,13 +86,13 @@ val window =
   gtk_window_new (GTK_WINDOW_TOPLEVEL)
 val () = assertloc (ptrcast(window) > 0)
 //
-val _sid =
+val _(*id*) =
 g_signal_connect (
-  window, (gsignal)"destroy", (G_CALLBACK)destroy, (gpointer)nullp
+  window, (gsignal)"destroy", (G_CALLBACK)on_destroy, (gpointer)nullp
 ) (* end of [val] *)
-val _sid =
+val _(*id*) =
 g_signal_connect (
-  window, (gsignal)"delete_event", (G_CALLBACK)delete_event, (gpointer)nullp
+  window, (gsignal)"delete_event", (G_CALLBACK)on_delete_event, (gpointer)nullp
 ) (* end of [val] *)
 //
 val () = gtk_container_set_border_width (window, (guint)10)
@@ -102,12 +103,12 @@ val () = gtk_widget_show (button)
 val () = gtk_container_add (window, button)
 val () = gtk_widget_show (window)
 //
-val _sid =
+val _(*id*) =
 g_signal_connect
 (
   button, (gsignal)"clicked", (G_CALLBACK)hello, (gpointer)nullp
 )
-val _sid =
+val _(*id*) =
 g_signal_connect_swapped
 (
   button, (gsignal)"clicked", (G_CALLBACK)gtk_widget_destroy, window

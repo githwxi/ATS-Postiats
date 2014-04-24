@@ -16,6 +16,7 @@ ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 ######
 
 DBSRC= \
+  chap_start_atxt.db \
   chap_hello_atxt.db \
 
 ######
@@ -26,6 +27,16 @@ all:: html
 
 pdf: main.db $(DBSRC) ; jw -b pdf --output PDF/ main.db
 html: main.db $(DBSRC) ; jw -b html --output HTML/ main.db
+
+######
+
+chap_start.exe: \
+  chap_start_atxt.dats; $(ATSCC) -D_ATS_GCATS -o $@ $< -latsdoc
+chap_start_atxt.dats: \
+  ATEXT/chap_start.atxt; $(ATSDOC) --outcode $@ -i $< > chap_start_atxt.txt
+chap_start_atxt.db: chap_start.exe ; ./chap_start.exe > $@
+clean:: ; $(RMF) chap_start.exe
+cleanall:: ; $(RMF) chap_start_atxt.*
 
 ######
 
@@ -45,7 +56,8 @@ upload_html: html; scp -r HTML/*.html \
 
 ######
 
-upload_code: ; scp -r CODE/*.dats \
+upload_code: ; \
+scp -r CODE/Makefile CODE/*.dats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2GTK/CODE
 upload_image: ; scp -r IMAGE/*.png \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2GTK/IMAGE
