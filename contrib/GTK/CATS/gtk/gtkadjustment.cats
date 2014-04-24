@@ -27,6 +27,33 @@ g_object_ref_sink(G_OBJECT(gtk_adjustment_new(value, lower, upper, sincr, pincr,
 
 /* ****** ****** */
 
+#define \
+atscntrb_gtk_adjustment_get_step_increment gtk_adjustment_get_step_increment
+#define \
+atscntrb_gtk_adjustment_set_step_increment gtk_adjustment_set_step_increment
+
+/* ****** ****** */
+
+#define \
+atscntrb_gtk_adjustment_get_page_increment gtk_adjustment_get_page_increment
+#define \
+atscntrb_gtk_adjustment_set_page_increment gtk_adjustment_set_page_increment
+
+/* ****** ****** */
+
+#define atscntrb_gtk_adjustment_get_page_size gtk_adjustment_get_page_size
+#define atscntrb_gtk_adjustment_set_page_size gtk_adjustment_set_page_size
+
+/* ****** ****** */
+
+#define atscntrb_gtk_adjustment_configure gtk_adjustment_configure
+
+/* ****** ****** */
+
+#define atscntrb_gtk_adjustment_clamp_page gtk_adjustment_clamp_page
+
+/* ****** ****** */
+
 #define atscntrb_gtk_adjustment_changed gtk_adjustment_changed
 #define atscntrb_gtk_adjustment_value_changed gtk_adjustment_value_changed
 

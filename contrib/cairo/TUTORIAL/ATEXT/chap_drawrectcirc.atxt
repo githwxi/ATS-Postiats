@@ -16,7 +16,10 @@ Time of Generation: #timestamp()\
 #title("Drawing Rectangles and Circles")
 
 #para("\
-We are to generate an image showing a white circle inside a black square:
+
+Let us write a program to generate an image showing a white circle inside a
+black square:\
+
 ")
 
 #para('\
@@ -27,9 +30,9 @@ We are to generate an image showing a white circle inside a black square:
 </inlinemediaobject>
 ')
 
-#para('\
-The main function for drawing this image is given as follows:
-')
+#para("\
+
+The main function for drawing this image is given as follows:\
 
 #atscode('\
 fun
@@ -46,78 +49,61 @@ in
 end // end of [draw_sqrcirc]
 ')
 
+")
+
 #para("\
 
 At this moment, let us assume that the square is centered at the position
 (0, 0) and the length of each of its sides is 1. Therefore, the upper left
 corner of the square is at (-0.5, -0.5) as x-axis and y-axis increase from
-left to right and from top to bottom, respectively. We first draw as
-follows a rectangle which happens to be a square:\
-
-")
+left to right and from top to bottom, respectively. The following code
+draws a rectangle that happens to be a square:\
 
 #atscode("\
   val () = cairo_rectangle (cr, ~0.5, ~0.5, 1.0, 1.0)
 ")
 
-#para("\
-
-The function #dyncode("cairo_rectangle") is given the following type in
-ATS:
-
-")
+The function #dyncode("cairo_rectangle") is declared as follows in ATS:
 
 #atscode("\
-fun cairo_rectangle {l:agz} (
+fun cairo_rectangle{l:agz}
+(
   cr: !cairo_ref l, x: double, y: double, width: double, height: double
 ) : void // end of [cairo_rectangle]
 ")
-
-#para('\
 
 When called, this function draws a rectangle whose width and height are
 #code("width") and #code("height"), respectively, and whose upper left
 corner is located at (x, y).\
 
-')
+")
 
 #para("\
 
-We then fill the rectangle with black color:\
-
-")
+The rectangle is then filled with black color:\
 
 #atscode('\
   val () = cairo_set_source_rgb (cr, 0.0, 0.0, 0.0) // black color
   val () = cairo_fill (cr)
 ')
 
-#para("\
-
-We next draw a circle of radius 0.5 whose center is at (0.0, 0.0):
-
-")
+The following code draws a circle of radius 0.5 that is centered at (0.0, 0.0):
 
 #atscode("\
   val () = cairo_arc (cr, 0.0, 0.0, 0.5, 0.0, 2*PI)
 ")
 
-#para("\
-
 The function #dyncode("cairo_arc") is given the following type in ATS:\
-
-")
 
 #atscode("\
 
-fun cairo_arc {l:agz} (
+fun cairo_arc{l:agz}
+(
   cr: !cairo_ref l
 , xc: double, yc: double, rad: double, angle1: double, angle2: double
 ) : void // end of [cairo_arc]
 
 ")
-
-#para("\
 
 When called, this function draws an arc that is part of the circle whose
 radius equals #code("radius") and whose center is at (xc, yc). The arc
@@ -126,32 +112,27 @@ begins at the angle #code("angle1") and ends at the angle
 counterclockwise rotation is needed, the following function can be used
 instead:
 
-")
-
 #atscode('\
-fun cairo_arc_negative {l:agz} (
+fun cairo_arc_negative{l:agz}
+(
   cr: !cairo_ref l
 , xc: double, yc: double, rad: double, angle1: double, angle2: double
 ) : void // end of [cairo_arc_negative]
 ')
 
-#para("\
-
-Lastly, we fill the circle with white color:\
-
-")
+Lastly, the circle is filled with white color:\
 
 #atscode("\
   val () = cairo_set_source_rgb (cr, 1.0, 1.0, 1.0) // white color
   val () = cairo_fill (cr)
 ")
 
+")
+
 #para("\
 
-We can now make a call to the function #dyncode("draw_sqrcirc") to generate
+Let us now make a call to the function #dyncode("draw_sqrcirc") to generate
 a PNG file:\
-
-")
 
 #atscode('\
 implement
@@ -180,12 +161,8 @@ main0 () = () where {
 } (* end of [main0] *)
 ')
 
-#para("\
-
 The functions #dyncode("cairo_translate") and #dyncode("cairo_scale") are
 given the following types in ATS:
-
-")
 
 #atscode('\
 fun cairo_translate
@@ -197,8 +174,6 @@ fun cairo_scale
 // end of [cairo_scale]
 ')
 
-#para("\
-
 When called, #dyncode("cairo_translate") creates a new coordinate system by
 shifting the origin of the current coordinate system to the point (x, y)
 and #dyncode("cairo_scale") creates a new coordinate system whose x-unit
@@ -207,13 +182,12 @@ respectively.\
 
 ")
 
-
-#para('\
+#para("\
 
 For the entirety of the code used in this section, please see
-#mycodelink("tutprog_sqrcirc.dats", "tutprog_sqrcirc.dats")
+#mycodelink("tutprog_sqrcirc.dats", "tutprog_sqrcirc.dats").
 
-')
+")
 
 #para("\
 
@@ -231,13 +205,13 @@ following interesting image:\
 </inlinemediaobject>
 ')
 
-#para('\
+#para("\
 
 For a more elabortate example involving squares and circles, please see
 #mycodelink("illuwavy.dats", "illuwavy.dats"), which generates the
 following interesting image:\
 
-')
+")
 
 #para('\
 <inlinemediaobject>

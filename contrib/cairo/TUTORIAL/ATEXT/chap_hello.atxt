@@ -84,9 +84,9 @@ the name #filename("tutprog_hello"):
 
 #para("\
 
-We can execute #filename("tutprog_hello") to generate a PNG image file
-#myimagelink("tutprog_hello.png", "tutprog_hello.png"), which is included as
-follows:\
+One can now execute #filename("tutprog_hello") to generate a PNG image file
+#myimagelink("tutprog_hello.png", "tutprog_hello.png"), which is included
+as follows:\
 
 ")
 
@@ -107,33 +107,27 @@ PNG files.
 
 #para("\
 
-We now give some brief explanation about the program contained in
+Let us now go over some brief explanation about the program contained in
 #mycodelink("tutprog_hello.dats", "tutprog_hello.dats").
 
 ")
 
 #para("\
 
-We first create a cairo surface for drawing:\
-
-")
+The following code first creates a cairo surface for drawing:\
 
 #atscode('\
   val sf = // create a surface for drawing
     cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 250, 80)
 ')
 
-#para("\
-We then use the surface to create a cairo context:
-")
+Then a cairo drawing context is created based on the surface:
 
 #atscode('\
   val cr = cairo_create (sf) // create a context for drawing
 ')
 
-#para("\
-We choose a font face and set the font size to 32.0:
-")
+A font face is chosen and the font size is set to 32.0:
 
 #atscode('\
   val () = cairo_select_font_face
@@ -141,76 +135,69 @@ We choose a font face and set the font size to 32.0:
   val () = cairo_set_font_size (cr, 32.0)
 ')
 
+")
+
 #para('\
-Imagine that we are holding a pen. We set the color of the pen
-to blue:
-')
+Imagine that we are holding a pen. The following code
+sets the color of the pen to blue:
 
 #atscode('\
   // the call [cairo_set_source_rgb] sets the color to blue
   val () = cairo_set_source_rgb (cr, 0.0(*r*), 0.0(*g*), 1.0(*b*))
 ')
 
-#para("
-We now move the pen to the postion (10.0, 50.0):
-")
+Let us now move the pen to the postion (10.0, 50.0):
 
 #atscode('\
   val () = cairo_move_to (cr, 10.0, 50.0)
 ')
 
-#para('\
 and use the pen to write down the text "Hello, world!":
-')
 
 #atscode('\
   val () = cairo_show_text (cr, "Hello, world!")
 ')
 
-#para("\
-At this point, we have finished drawing. We store the image drawn on the
-surface into a PNG file:
-")
+')
+
+#para('\
+
+At this point, drawing is finised. The image drawn on the
+surface can be stored into a PNG file:
 
 #atscode('\
   val status = cairo_surface_write_to_png (sf, "tutprog_hello.png")
 ')
 
-#para("
-We now enter the cleanup phase, closing both the context and the surface:
-")
+Both the context and the surface are destroyed during the cleanup phase:
 
 #atscode('\
   val () = cairo_destroy (cr) // a type error if omitted
   val () = cairo_surface_destroy (sf) // a type error if omitted
 ')
 
-#para("\
-In case of a failure, we report it:
-")
+In case of a failure, it is reported by the following code:
 
 #atscode("\
   // in case of a failure ...
   val () = assert_errmsg (status = CAIRO_STATUS_SUCCESS, \#LOCATION)
 ")
 
+')
+
 #para("\
 
-On the surface, it seems that using cairo functions in ATS is nearly
-identical to using them in C (modulo syntatical difference). However, what
-happens at the level of typechecking in ATS is far more sophisticated than
-in C. In particular, linear types are assigned to cairo objects (e.g.,
-contexts, surfaces, patterns, font faces) in ATS to allow them to be
-tracked statically, that is, at compile-time, preventing potential
-mismanagement of such objects. For instance, if the following line:
-
-")
+It may seem that using cairo functions in ATS is nearly identical to using
+them in C (modulo syntatical difference). However, what happens at the
+level of typechecking in ATS is far more sophisticated than in C. In
+particular, linear types are assigned to cairo objects (such as contexts,
+surfaces, patterns, font faces, etc.) in ATS to allow them to be tracked
+statically, that is, at compile-time, preventing potential mismanagement of
+such objects. For instance, if the following line:
 
 #atscode("\
   val () = cairo_surface_destroy (sf) // a type error if omitted
 ")
-
-#para("\
 
 is removed from the program in
 
