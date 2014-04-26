@@ -54,13 +54,16 @@ fun window_handle_delete_event (!GtkWindow1): void
 
 local
 
-val row0 = $list{string}("1", "2", "3")
-val row0 = g0ofg1 (row0)
-val row1 = $list{string}("4", "5", "6")
-val row1 = g0ofg1 (row1)
-val row2 = $list{string}("7", "8", "9")
-val row2 = g0ofg1 (row2)
-val row3 = g0ofg1_list ($list{string}("0"))
+val row0 =
+g0ofg1 ($list{string}("1", "2", "3"))
+//
+val row1 =
+g0ofg1 ($list{string}("4", "5", "6"))
+//
+val row2 =
+g0ofg1 ($list{string}("7", "8", "9"))
+//
+val row3 = g0ofg1 ($list{string}("0"))
 
 fun
 button_create
