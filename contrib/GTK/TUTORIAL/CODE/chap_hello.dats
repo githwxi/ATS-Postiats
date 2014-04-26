@@ -85,7 +85,7 @@ val widget =
   gtk_window_new (GTK_WINDOW_TOPLEVEL)
 val ((*void*)) = assertloc (ptrcast(widget) > 0)
 val ((*void*)) =
-  gtk_window_set_title (widget, (gstring)"Hello, world!")
+  gtk_window_set_title (widget, (gstring)"Hello, world")
 //
 in
   widget
@@ -97,7 +97,7 @@ implement
 button_create () = let
 //
 val widget =
-  gtk_button_new_with_label ((gstring)"Hello, world!")
+  gtk_button_new_with_label ((gstring)"Hello, world")
 //
 val ((*void*)) = assertloc (ptrcast(widget) > 0)
 //
@@ -127,7 +127,7 @@ button_handle_clicked
   (button) = () where
 {
 //
-fun f (): void = println! ("Hello, world!")
+fun f (): void = println! ("Hello, world")
 //
 val id =
 g_signal_connect

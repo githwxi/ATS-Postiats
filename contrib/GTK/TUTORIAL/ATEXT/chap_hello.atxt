@@ -14,12 +14,12 @@ Time of Generation: #timestamp()\
 ")
 <chapter
 id="hello_world">
-#title("Hello, world!")
+#title("Hello, world")
 
 #para("\
 
 Let us write a program that creates a window containing a button.
-The button can be be clicked to issue the message \"Hello, world!\".
+The button can be be clicked to issue the message \"Hello, world\".
 In addition, the window can be closed by a simple click.
 
 ")
@@ -96,7 +96,7 @@ val widget =
 val ((*void*)) = assertloc (ptrcast(widget) > 0)
 //
 val ((*void*)) =
-  gtk_window_set_title (widget, (gstring)"Hello, world!")
+  gtk_window_set_title (widget, (gstring)"Hello, world")
 //
 in
   widget
@@ -117,7 +117,7 @@ implement
 button_create () = let
 //
 val widget =
-  gtk_button_new_with_label ((gstring)"Hello, world!")
+  gtk_button_new_with_label ((gstring)"Hello, world")
 //
 val ((*void*)) = assertloc (ptrcast(widget) > 0)
 //
@@ -166,7 +166,7 @@ button_handle_clicked
   (button) = () where
 {
 //
-fun f (): void = println! ("Hello, world!")
+fun f (): void = println! ("Hello, world")
 //
 val id =
 g_signal_connect
