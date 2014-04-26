@@ -40,6 +40,15 @@ chap_hello.dats ; \
 cleanall:: ; $(RMF) chap_hello
 #
 ######
+#
+all:: \
+chap_boxpack
+chap_boxpack: \
+chap_boxpack.dats ; \
+  $(PATSCC2) -DATS_MEMALLOC_LIBC -D_GNU_SOURCE -o $@ $(GTKCFLAGS) $< $(GTKLDFLAGS)
+cleanall:: ; $(RMF) chap_boxpack
+#
+######
 
 cleanats:: ; $(RMF) *_?ats.c
 

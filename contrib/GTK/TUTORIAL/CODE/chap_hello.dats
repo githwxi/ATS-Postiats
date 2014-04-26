@@ -80,9 +80,13 @@ end // end of [mymain]
 
 implement
 window_create () = let
-  val widget =
-    gtk_window_new (GTK_WINDOW_TOPLEVEL)
-  val ((*void*)) = assertloc (ptrcast(widget) > 0)
+//
+val widget =
+  gtk_window_new (GTK_WINDOW_TOPLEVEL)
+val ((*void*)) = assertloc (ptrcast(widget) > 0)
+val ((*void*)) =
+  gtk_window_set_title (widget, (gstring)"Hello, world!")
+//
 in
   widget
 end // end of [window_create]
@@ -91,9 +95,12 @@ end // end of [window_create]
 
 implement
 button_create () = let
-  val widget =
-    gtk_button_new_with_label ((gstring)"Hello, world!")
-  val ((*void*)) = assertloc (ptrcast(widget) > 0)
+//
+val widget =
+  gtk_button_new_with_label ((gstring)"Hello, world!")
+//
+val ((*void*)) = assertloc (ptrcast(widget) > 0)
+//
 in
   widget
 end // end of [button_create]

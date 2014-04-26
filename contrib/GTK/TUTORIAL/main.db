@@ -7,6 +7,7 @@
 <!ENTITY preface SYSTEM "preface.db">
 <!ENTITY chap_start SYSTEM "chap_start_atxt.db">
 <!ENTITY chap_hello SYSTEM "chap_hello_atxt.db">
+<!ENTITY chap_boxpack SYSTEM "chap_boxpack_atxt.db">
 ]>
 <book id="ats2gtk-tutorial" lang="en">
 &bookinfo;
@@ -25,6 +26,7 @@
 <title>Basic Tutorial Topics</title>
 &chap_start;
 &chap_hello;
+&chap_boxpack;
 </part><!--"basic_tutorial_topics"-->
 
 </book>

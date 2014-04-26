@@ -18,6 +18,7 @@ ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 DBSRC= \
   chap_start_atxt.db \
   chap_hello_atxt.db \
+  chap_boxpack_atxt.db \
 
 ######
 
@@ -47,6 +48,16 @@ chap_hello_atxt.dats: \
 chap_hello_atxt.db: chap_hello.exe ; ./chap_hello.exe > $@
 clean:: ; $(RMF) chap_hello.exe
 cleanall:: ; $(RMF) chap_hello_atxt.*
+
+######
+
+chap_boxpack.exe: \
+  chap_boxpack_atxt.dats; $(ATSCC) -D_ATS_GCATS -o $@ $< -latsdoc
+chap_boxpack_atxt.dats: \
+  ATEXT/chap_boxpack.atxt; $(ATSDOC) --outcode $@ -i $< > chap_boxpack_atxt.txt
+chap_boxpack_atxt.db: chap_boxpack.exe ; ./chap_boxpack.exe > $@
+clean:: ; $(RMF) chap_boxpack.exe
+cleanall:: ; $(RMF) chap_boxpack_atxt.*
 
 ######
 

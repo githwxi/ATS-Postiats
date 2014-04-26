@@ -84,7 +84,7 @@ is, at compile-time, preventing potential mismanagement of such
 objects. For instance, if the following line:
 
 #atscode("\
-  val ((*void*)) = gtk_widget_destroy0 (win) // a type error if omitted
+  val ((*void*)) = gtk_widget_destroy0 (win) // a type-error if omitted
 ")
 
 is removed from the program in

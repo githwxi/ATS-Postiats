@@ -54,12 +54,11 @@ fcallback
 
 fun fdestroy
 (
-  widget: GtkWidget1
+// argumentless
 ) : void = let
 //
 val () =
 println! ("This is from [fdestroy]!")
-val () = gtk_widget_destroy0 (widget)
 //
 in
   gtk_main_quit ()
@@ -69,12 +68,17 @@ end (* end of [fdestroy] *)
 
 fun fdelete_event
 (
-  widget: !GtkWidget1
+  widget: GtkWidget1
 , event: &GdkEvent, udata: gpointer
 ) : gboolean = let
-  val () = println! ("This is from [fdelete_event]!")
+//
+val () =
+println! ("This is from [fdelete_event]!")
+//
+val ((*void*)) = gtk_widget_destroy0 (widget)
+//
 in
-  GFALSE // deletion to be performed
+  GTRUE // deletion to be performed
 end // end of [fdelete_event]
 
 (* ****** ****** *)

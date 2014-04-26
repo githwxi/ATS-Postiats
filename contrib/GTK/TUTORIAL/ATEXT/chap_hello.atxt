@@ -89,13 +89,22 @@ The function #dyncode("window_create") is implemented as follows:
 #atscode('\
 implement
 window_create () = let
-  val widget =
-    gtk_window_new (GTK_WINDOW_TOPLEVEL)
-  val ((*void*)) = assertloc (ptrcast(widget) > 0)
+//
+val widget =
+  gtk_window_new (GTK_WINDOW_TOPLEVEL)
+//
+val ((*void*)) = assertloc (ptrcast(widget) > 0)
+//
+val ((*void*)) =
+  gtk_window_set_title (widget, (gstring)"Hello, world!")
+//
 in
   widget
 end // end of [window_create]
 ')
+
+How the title of a window is displayed depends on the underlying
+window manager (WM).
 
 ')
 
@@ -106,9 +115,12 @@ The function #dyncode("button_create") is implemented as follows:
 #atscode('\
 implement
 button_create () = let
-  val widget =
-    gtk_button_new_with_label ((gstring)"Hello, world!")
-  val ((*void*)) = assertloc (ptrcast(widget) > 0)
+//
+val widget =
+  gtk_button_new_with_label ((gstring)"Hello, world!")
+//
+val ((*void*)) = assertloc (ptrcast(widget) > 0)
+//
 in
   widget
 end // end of [button_create]
@@ -215,7 +227,7 @@ g_signal_connect
 } (* end of [window_handle_delete_event] *)
 ')
 
-In GTK, a handler for a signal of a name ending with #dyncode("event")
+In GTK, a handler for a signal of some name ending with #dyncode("event")
 seems to be required to return a boolean value (of the type
 #stacode("gboolean")).  That the handler #dyncode("f") returns
 #dyncode("GTRUE") in the above code means that the handling of
@@ -224,6 +236,23 @@ to be invoked for it). Also note that calling the function
 #dyncode("gtk_widget_destroy0") on a widget sends a #dyncode("destroy")
 signal to the widget. In this case, the signal triggers a call to
 #dyncode("gtk_main_quit"), which terminates the main loop of GTK.
+
+')
+
+#para('\
+
+The function #dyncode("gtk_widget_show_unref") essentially calls
+#dyncode("gtk_widget_show") and then decrease the reference count of its
+argument by 1. If the last line in the body of #dyncode("mymain") changes
+to the following one:
+
+#atscode('\
+val () = gtk_widget_show (button)
+')
+
+then a type-error is to be reported during typechecking due to the linear
+value #dyncode("button") being leaked. Getting type-errors as such is a
+great advantage that one can have when programming with ATS/GTK.
 
 ')
 
