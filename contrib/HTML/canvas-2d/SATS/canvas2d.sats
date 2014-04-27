@@ -33,13 +33,12 @@
 
 (* ****** ****** *)
 
-#define
-ATS_PACKNAME "ATSCNTRB.HTML5"
+#define ATS_PACKNAME "ATSCNTRB.HTML5"
 
 (* ****** ****** *)
 
 #define ATS_STALOADFLAG 0 // no staloading at run-time
-#define ATS_EXTERN_PREFIX "atscntrb_html5_" // prefix for external names
+#define ATS_EXTERN_PREFIX "atscntrb_HTML5_" // prefix for external names
 
 (* ****** ****** *)
 
