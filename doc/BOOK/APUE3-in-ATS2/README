@@ -1,0 +1,9 @@
+#
+# Beg of README
+#
+
+This is an attempt to demonstrate concretely how ATS can be used to do
+systems programming as is presented in the famous book by Richard Stevens
+and Steve Rago on Advanced Programming in Unix Environment (APUE).
+
+###### end of README ######

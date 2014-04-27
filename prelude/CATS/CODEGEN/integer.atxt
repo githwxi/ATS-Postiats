@@ -98,6 +98,9 @@ int snprintf (char *str, size_t size, const char *format, ...) ;
 \#define atspre_g0int2uint_llint_ullint(x) ((atstype_ullint)(x))
 \#define atspre_g1int2uint_llint_ullint atspre_g0int2uint_llint_ullint
 //
+\#define atspre_g0int2uint_ssize_size(x) ((atstype_size)(x))
+\#define atspre_g1int2uint_ssize_size atspre_g0int2uint_ssize_size
+//
 #atscode_separator_for_C()
 //
 \#define atspre_g0uint2int_uint_int(x) ((atstype_int)(x))

@@ -72,11 +72,14 @@ viewdef DIR_v (l:addr) = DIR_view (l)
 
 (* ****** ****** *)
 
-praxi DIRptr_free_null (dirp: DIRptr (null)): void
+praxi
+DIRptr_free_null (dirp: DIRptr (null)): void
 
 (* ****** ****** *)
 
-castfn DIRptr2ptr {l:addr} (dirp: !DIRptr l):<> ptr (l)
+castfn
+DIRptr2ptr{l:addr} (dirp: !DIRptr l):<> ptr (l)
+overload ptrcast with DIRptr2ptr
 
 (* ****** ****** *)
 
