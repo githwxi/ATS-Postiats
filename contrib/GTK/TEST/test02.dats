@@ -60,7 +60,7 @@ fun on_delete_event
 ) : gboolean = let
   val () = print ("delete event occurred\n")
 in
-  GTRUE // deletion ignored
+  GTRUE // handling of delete-event is finished
 end // end of [on_delete_event]
 
 fun on_destroy

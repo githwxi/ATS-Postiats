@@ -78,7 +78,7 @@ println! ("This is from [fdelete_event]!")
 val ((*void*)) = gtk_widget_destroy0 (widget)
 //
 in
-  GTRUE // deletion to be performed
+  GTRUE // handling of delete-event is finished
 end // end of [fdelete_event]
 
 (* ****** ****** *)

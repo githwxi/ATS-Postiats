@@ -47,7 +47,7 @@ fun fcallback
 ) : void =
 (
   println! ("Hello again: ", data, " was pressed")
-) // end of [callback]
+) // end of [fcallback]
 
 fun fdelete_event
 (
@@ -55,7 +55,7 @@ fun fdelete_event
 ) : gboolean = let
   val () = gtk_main_quit ()
 in
-  GFALSE // deletion to be performed
+  GFALSE // [widget] is to be destroyed
 end // end of [fdelete_event]
 
 (* ****** ****** *)
