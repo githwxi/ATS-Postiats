@@ -818,8 +818,6 @@ extern
 fun do_taggen
   (state: &cmdstate, given: string, d0cs: d0eclist): void
 //
-(* ****** ****** *)
-
 implement
 do_depgen
   (state, given, d0cs) = let
@@ -828,7 +826,7 @@ do_depgen
 in
   $DEPGEN.fprint_entlst (filr, given, ents)
 end // end of [do_depgen]
-
+//
 implement
 do_taggen
   (state, given, d0cs) = let
@@ -837,7 +835,7 @@ do_taggen
 in
   $TAGGEN.fprint_entlst (filr, given, ents)
 end // end of [do_taggen]
-
+//
 (* ****** ****** *)
 //
 extern

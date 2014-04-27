@@ -636,6 +636,8 @@ local
 extern castfn s2s (x: string):<> String
 extern castfn p2s {l:agz} (x: !strptr l):<> String
 
+(* ****** ****** *)
+
 fun
 aux_local
 (
@@ -767,6 +769,8 @@ in
 end else None_vt () // end of [if]
 //
 end // end of [filenameopt_make_local]
+
+(* ****** ****** *)
 
 implement
 filenameopt_make_relative

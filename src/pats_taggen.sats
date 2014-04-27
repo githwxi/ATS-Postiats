@@ -51,10 +51,10 @@ vtypedef tagentlst_vt = List_vt (tagent)
 fun taggen_proc (d0cs: d0eclist): tagentlst_vt
 
 (* ****** ****** *)
-
+//
 fun fprint_entlst
   (out: FILEref, given: string, xs: tagentlst_vt): void
-
+//
 (* ****** ****** *)
 
 (* end of [pats_taggen.sats] *)

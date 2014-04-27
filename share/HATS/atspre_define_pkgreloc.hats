@@ -3,6 +3,14 @@
 *)
 (* ****** ****** *)
 //
+#define \
+PATSLIBURL \
+"http://www.ats-lang.org/LIBRARY"
+//
+(* ****** ****** *)
+//
+#define
+PCRE_sourceloc "$PATSLIBURL/contrib/pcre"
 #define
 PCRE_targetloc "$PATSHOMERELOC/contrib/pcre"
 //
