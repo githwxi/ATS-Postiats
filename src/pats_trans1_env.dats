@@ -56,6 +56,10 @@ staload "./pats_symenv.sats"
 
 (* ****** ****** *)
 
+staload SYN = "./pats_syntax.sats"
+
+(* ****** ****** *)
+
 staload "./pats_staexp1.sats"
 staload "./pats_dynexp1.sats"
 staload "./pats_trans1_env.sats"
@@ -481,6 +485,29 @@ prval () = opt_clear {itm} (res)
 } // end of [staload_file_insert]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+the_pkgreloc_insert
+  (d0c0, given_s, given_t) = let
+//
+(*
+val (
+) = print
+  ("the_pkgreloc_insert: d0c0 = ")
+val () = $SYN.fprint_d0ecl (stdout_ref, d0c0)
+val () = fprint_newline (stdout_ref)
+*)
+// (*
+val () =
+println! ("the_pkgreloc_insert: given_s = ", given_s)
+val () =
+println! ("the_pkgreloc_insert: given_t = ", given_t)
+// *)
+//
+in
+end // end of [the_pkgreloc_insert]
 
 (* ****** ****** *)
 

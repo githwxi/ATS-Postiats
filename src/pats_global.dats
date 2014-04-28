@@ -71,6 +71,30 @@ the_PACKNAME_set_none
 (* ****** ****** *)
 
 local
+//
+val the_PKGRELOC = ref<int> (1)
+val the_PKGRELOC_decl = ref<ptr> (null)
+//
+in (* in-of-local *)
+//
+implement
+the_PKGRELOC_get () = !the_PKGRELOC
+implement
+the_PKGRELOC_set (flag) = !the_PKGRELOC := flag
+//
+implement
+the_PKGRELOC_get_decl () = let
+  val d0c = !the_PKGRELOC_decl
+  val ((*void*)) = !the_PKGRELOC_decl := null in d0c
+end // end of [the_PKGRELOC_get_decl]
+implement
+the_PKGRELOC_set_decl (d0c) = !the_PKGRELOC_decl := d0c
+//
+end // end of [local]
+
+(* ****** ****** *)
+
+local
 
 val the_STALOADFLAG = ref<int> (1)
 val the_DYNLOADFLAG = ref<int> (1)

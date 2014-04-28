@@ -37,6 +37,11 @@ staload
 ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
 
 staload UT = "./pats_utils.sats"
 
@@ -541,6 +546,20 @@ end // end of [i0mpdec_tr]
 
 (* ****** ****** *)
 
+fun
+the_PKGRELOC_set_decl_if
+  (d0c0: d0ecl): void = () where
+{
+//
+val srcloc = $GLOB.the_PKGRELOC_get ()
+val () =
+if srcloc > 0
+  then $GLOB.the_PKGRELOC_set_decl ($UN.cast{ptr}(d0c0))
+// end of [if]
+} (* end of [the_PKGRELOC_set_decl_if] *)
+
+(* ****** ****** *)
+
 extern
 fun i0nclude_tr
 (
@@ -553,6 +572,8 @@ i0nclude_tr
 {
 //
 val loc0 = d0c0.d0ecl_loc
+//
+val () = the_PKGRELOC_set_decl_if (d0c0)
 val filopt = $FIL.filenameopt_make_relative (given)
 //
 val fil =
@@ -742,6 +763,7 @@ val loc0 = d0c0.d0ecl_loc
 //
 val () = ldflag := 1 // HX: for ATS_STALOADFLAG
 //
+val () = the_PKGRELOC_set_decl_if (d0c0)
 val filopt = $FIL.filenameopt_make_relative (given)
 //
 val fil =

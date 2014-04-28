@@ -3,19 +3,20 @@
 *)
 (* ****** ****** *)
 //
-#define \
-PATSLIBURL \
-"http://www.ats-lang.org/LIBRARY"
+#define
+PATSLIB_URL "http://www.ats-lang.org/LIBRARY"
 //
 (* ****** ****** *)
 //
 #define
-PCRE_sourceloc "$PATSLIBURL/contrib/pcre"
+PCRE_sourceloc "$PATSLIB_URL/contrib/pcre"
 #define
 PCRE_targetloc "$PATSHOMERELOC/contrib/pcre"
 //
 (* ****** ****** *)
 //
+#define
+LIBGMP_sourceloc "$PATSLIB_URL/contrib/libgmp"
 #define
 LIBGMP_targetloc "$PATSHOMERELOC/contrib/libgmp"
 //
@@ -27,10 +28,14 @@ ZLOG_targetloc "$PATSHOMERELOC/contrib/zlog"
 (* ****** ****** *)
 //
 #define
+JSONC_sourceloc "$PATSLIB_URL/contrib/json-c"
+#define
 JSONC_targetloc "$PATSHOMERELOC/contrib/json-c"
 //
 (* ****** ****** *)
 //
+#define
+HIREDIS_sourceloc "$PATSLIB_URL/contrib/hiredis"
 #define
 HIREDIS_targetloc "$PATSHOMERELOC/contrib/hiredis"
 //
@@ -47,15 +52,21 @@ LIBCURL_targetloc "$PATSHOMERELOC/contrib/libcurl"
 (* ****** ****** *)
 //
 #define
+GLIB_sourceloc "$PATSLIB_URL/contrib/glib"
+#define
 GLIB_targetloc "$PATSHOMERELOC/contrib/glib"
 //
 (* ****** ****** *)
 //
 #define
+GTK_sourceloc "$PATSLIB_URL/contrib/GTK"
+#define
 GTK_targetloc "$PATSHOMERELOC/contrib/GTK"
 //
 (* ****** ****** *)
 //
+#define
+CAIRO_sourceloc "$PATSLIB_URL/contrib/cairo"
 #define
 CAIRO_targetloc "$PATSHOMERELOC/contrib/cairo"
 //
@@ -79,6 +90,8 @@ HTML5canvas2d_targetloc "$PATSHOMERELOC/contrib/HTML/canvas-2d"
 //
 (* ****** ****** *)
 //
+#define
+LIBATSHWXI_sourceloc "$PATSLIB_URL/contrib/libats-hwxi"
 #define
 LIBATSHWXI_targetloc "$PATSHOMERELOC/contrib/libats-hwxi"
 //

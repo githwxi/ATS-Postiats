@@ -128,11 +128,14 @@ packfilesynop (x) = atext_nil ()
 #packfilename("CATS/gtk/gtkvseparator.cats")
 #packfilename("CATS/gtk/gtktable.cats")
 #packfilename("CATS/gtk/gtkdrawingarea.cats")
+//
 #packfilename("CATS/gtk/gtktextview.cats")
 #packfilename("CATS/gtk/gtktextbuffer.cats")
 #packfilename("CATS/gtk/gtktexttag.cats")
 #packfilename("CATS/gtk/gtktexttagtable.cats")
 #packfilename("CATS/gtk/gtktextmark.cats")
+//
+#packfilename("CATS/gtk/gtkadjustment.cats")
 
 (* ****** ****** *)
 
@@ -157,12 +160,15 @@ packfilesynop (x) = atext_nil ()
 #packfilename("SATS/gtk/gtkhseparator.sats")
 #packfilename("SATS/gtk/gtkvseparator.sats")
 #packfilename("SATS/gtk/gtkdrawingarea.sats")
+//
 #packfilename("SATS/gtk/gtktextview.sats")
 #packfilename("SATS/gtk/gtktextbuffer.sats")
 #packfilename("SATS/gtk/gtktexttag.sats")
 #packfilename("SATS/gtk/gtktexttagtable.sats")
 #packfilename("SATS/gtk/gtktextmark.sats")
 #packfilename("SATS/gtk/gtktextiter.sats")
+//
+#packfilename("SATS/gtk/gtkadjustment.sats")
 
 (* ****** ****** *)
 

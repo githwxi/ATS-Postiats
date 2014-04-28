@@ -40,6 +40,13 @@ fun the_PACKNAME_set_name (ns: string): void
 
 (* ****** ****** *)
 
+fun the_PKGRELOC_get (): int
+fun the_PKGRELOC_set (flag: int): void
+fun the_PKGRELOC_get_decl (): ptr
+fun the_PKGRELOC_set_decl (d0c: ptr): void
+
+(* ****** ****** *)
+
 fun the_STALOADFLAG_get (): int
 fun the_STALOADFLAG_set (flag: int): void
 
