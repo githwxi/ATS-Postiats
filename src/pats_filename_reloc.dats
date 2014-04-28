@@ -295,7 +295,7 @@ if ngurl < 0
 //
   val gurl_t = // target
     pkgsrcname_get2_gurl1 (given, ngurl)
-  val _gurl_t = $UN.strptr2string(gurl_t)
+  val _gurl_t = $UN.castvwtp1{string}(gurl_t)
   val given2_t =
     $UT.dirpath_append (_gurl_t, p_ngurl, dirsep)
   val ((*freed*)) = strptr_free (gurl_t)
@@ -305,7 +305,7 @@ if ngurl < 0
   if srcd0c > null then {
     val gurl_s = // source
       pkgsrcname_get2_gurl0 (given, ngurl)
-    val _gurl_s = $UN.strptr2string(gurl_s)
+    val _gurl_s = $UN.castvwtp1{string}(gurl_s)
     val given2_s =
       $UT.dirpath_append (_gurl_s, p_ngurl, dirsep)
     val ((*freed*)) = strptr_free (gurl_s)

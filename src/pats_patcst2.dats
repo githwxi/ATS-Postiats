@@ -96,22 +96,25 @@ val-T_INTEGER (_, rep, sfx) = tok.token_node
 //
 in
 //
-if sfx > 0u then let
-  val n = string_length (rep)
-  val sfx = $UN.cast2size(sfx)
-  val ln = $UN.cast{size_t}(n - sfx)
-  val rep2 = 
-  __make (rep, 0, ln) where
-  {
-    extern fun __make
-      : (string, size_t, size_t) -> Strptr1 = "atspre_string_make_substring"
-  } // end of [where] // end of [val]
-  val intinf = $INTINF.intinf_make_string ($UN.linstr2str(rep2))
-  val () = strptr_free (rep2)
-in
-  intinf
-end else
-  $INTINF.intinf_make_string (rep)
+if sfx > 0u
+  then let
+    val n = string_length (rep)
+    val sfx = $UN.cast2size(sfx)
+    val ln = $UN.cast{size_t}(n - sfx)
+    val rep2 = 
+    __make (rep, 0, ln) where
+    {
+      extern
+      fun __make:
+        (string,size_t,size_t)->Strptr1 = "atspre_string_make_substring"
+      // end of [fun]
+    } // end of [where] // end of [val]
+    val intinf = $INTINF.intinf_make_string ($UN.castvwtp1{string}(rep2))
+    val ((*freed*)) = strptr_free (rep2)
+  in
+    intinf
+  end // end of [then]
+  else $INTINF.intinf_make_string (rep)
 // end of [if]
 //
 end // end of [intinf_of_i0nt]
@@ -119,7 +122,8 @@ end // end of [intinf_of_i0nt]
 (* ****** ****** *)
 
 implement
-p2atcstlstlst_vt_free (xss) = (
+p2atcstlstlst_vt_free (xss) =
+(
   case+ xss of
   | ~list_vt_cons (xs, xss) => let
       val () = list_vt_free (xs) in p2atcstlstlst_vt_free (xss)
@@ -128,22 +132,28 @@ p2atcstlstlst_vt_free (xss) = (
 ) // end of [p2atcstlstlst_vt_free]
 
 implement
-p2atcstlstlst_vt_copy (xss) = (
+p2atcstlstlst_vt_copy (xss) =
+(
   list_map_fun<p2atcstlst><p2atcstlst_vt>
     ($UN.castvwtp1{p2atcstlstlst}(xss), lam (xs) =<0> list_copy (xs))
 ) // end of [p2atcstlstlst_vt_copy]
 
 (* ****** ****** *)
-
+//
 implement
-fprint_p2atcst (out, p2tc) = let
-  macdef prstr (s) = fprint_string (out, ,(s))  
+fprint_p2atcst
+  (out, p2tc) = let
+//
+macdef
+prstr (s) = fprint_string (out, ,(s))  
+//
 in
 //
 case+ p2tc of
 | P2TCany () => fprint_char (out, '_')
 //
-| P2TCcon (d2c, p2tcs) => {
+| P2TCcon
+    (d2c, p2tcs) => {
     val () = fprint_d2con (out, d2c);
     val () = prstr "("
     val () = fprint_p2atcstlst (out, p2tcs)
@@ -168,9 +178,10 @@ case+ p2tc of
     val () = fprint_string (out, rep)
   }
 //
-| P2TCrec (knd, lp2tcs) => {
-    val () = if knd > 0 then fprint_char (out, '\'')
+| P2TCrec
+    (knd, lp2tcs) => {
     val () = if knd = 0 then fprint_char (out, '@')
+    val () = if knd > 0 then fprint_char (out, '\'')
     val () = prstr "{"
     val () = fprint_labp2atcstlst (out, lp2tcs)
     val () = prstr "}"
@@ -183,18 +194,20 @@ case+ p2tc of
   } // end of [P2TCintc]
 //
 end // end of [fprint_p2atcst]
-
+//
 implement
 print_p2atcst (x) = fprint_p2atcst (stdout_ref, x)
 implement
 prerr_p2atcst (x) = fprint_p2atcst (stderr_ref, x)
-
+//
 (* ****** ****** *)
 
 implement
 fprint_p2atcstlst
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_p2atcst)
 // end of [fprint_p2atcstlst]
+
+(* ****** ****** *)
 
 implement
 print_p2atcstlst (xs) = fprint_p2atcstlst (stdout_ref, xs)
