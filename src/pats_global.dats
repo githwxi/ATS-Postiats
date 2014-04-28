@@ -72,7 +72,7 @@ the_PACKNAME_set_none
 
 local
 //
-val the_PKGRELOC = ref<int> (1)
+val the_PKGRELOC = ref<int> (0)
 val the_PKGRELOC_decl = ref<ptr> (null)
 //
 in (* in-of-local *)
