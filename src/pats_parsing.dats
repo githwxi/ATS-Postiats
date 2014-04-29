@@ -38,9 +38,12 @@ STDIO = "libc/SATS/stdio.sats"
 
 (* ****** ****** *)
 
-staload ERR = "./pats_error.sats"
-staload FIL = "./pats_filename.sats"
-staload SYM = "./pats_symbol.sats"
+staload
+ERR = "./pats_error.sats"
+staload
+FIL = "./pats_filename.sats"
+staload
+SYM = "./pats_symbol.sats"
 
 (* ****** ****** *)
 
@@ -88,6 +91,24 @@ end // end of [parse_from_tokbuf]
 (* ****** ****** *)
 
 implement
+parse_from_fileref_toplevel
+  (stadyn, inp) = d0cs where {
+  var buf: tokbuf
+  val () = tokbuf_initialize_getc
+    (buf, lam () =<cloptr1> $STDIO.fgetc0_err (inp))
+  val d0cs = parse_from_tokbuf_toplevel (stadyn, buf)
+  val () = tokbuf_uninitialize (buf)
+} // end of [parser_from_fileref_toplevel]
+
+implement
+parse_from_stdin_toplevel
+  (stadyn) =
+  parse_from_fileref_toplevel (stadyn, stdin_ref)
+// end of [parser_from_stdin_toplevel]
+
+(* ****** ****** *)
+
+implement
 parse_from_filename_toplevel
   (stadyn, fil) = let
 //
@@ -117,6 +138,19 @@ val () = tokbuf_uninitialize (buf)
 in
   d0cs
 end // end of [parser_from_filename_toplevel]
+
+implement
+parse_from_filename_toplevel2
+  (stadyn, fil) = let
+  val isnot = $FIL.filename_isnot_dummy (fil)
+in
+//
+if isnot
+  then parse_from_filename_toplevel (stadyn, fil) else list_nil()
+//
+end // end of [parse_from_filename_toplevel2]
+
+(* ****** ****** *)
 
 implement
 parse_from_givename_toplevel
@@ -149,24 +183,6 @@ case+ filopt of
   end // end of [None_vt]
 //
 end // end of [parse_from_givename_toplevel]
-
-(* ****** ****** *)
-
-implement
-parse_from_fileref_toplevel
-  (stadyn, inp) = d0cs where {
-  var buf: tokbuf
-  val () = tokbuf_initialize_getc
-    (buf, lam () =<cloptr1> $STDIO.fgetc0_err (inp))
-  val d0cs = parse_from_tokbuf_toplevel (stadyn, buf)
-  val () = tokbuf_uninitialize (buf)
-} // end of [parser_from_fileref_toplevel]
-
-implement
-parse_from_stdin_toplevel
-  (stadyn) =
-  parse_from_fileref_toplevel (stadyn, stdin_ref)
-// end of [parser_from_stdin_toplevel]
 
 (* ****** ****** *)
 

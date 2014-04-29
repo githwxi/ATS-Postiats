@@ -297,6 +297,18 @@ filename_stdin = '{
 
 (* ****** ****** *)
 
+implement
+filename_is_dummy (fil) =
+  if fil.filename_fullname = $SYM.symbol_empty then true else false
+// end of [filename_is_empty]
+
+implement
+filename_isnot_dummy (fil) =
+  if fil.filename_fullname = $SYM.symbol_empty then false else true
+// end of [filename_isnot_empty]
+
+(* ****** ****** *)
+
 staload UNISTD = "libc/SATS/unistd.sats"
 
 implement
@@ -512,7 +524,10 @@ the_filenamelst_push_check
   val () = print ("the_filenamelst_push_check: the_filenamelst(aft) =\n")
   val () = fprint_the_filenamelst (stdout_ref)
 *)
-  val isexi = filename_occurs (f0) // HX: is [f0] already in the list?
+  val isexi =
+  (
+    if filename_isnot_dummy (f0) then filename_occurs (f0) else false
+  ) : bool // end of [val]
 in
   (pf | isexi)
 end // end of [the_filenamelst_push_check]

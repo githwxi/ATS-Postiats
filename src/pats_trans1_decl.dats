@@ -581,19 +581,21 @@ val fil =
 case+ filopt of
 | ~Some_vt (fil) => fil
 | ~None_vt ((*void*)) => let
-    val (
-    ) = prerr_error1_loc (loc0)
-    val (
-    ) = prerrln! (": the file [", given, "] is not available for inclusion.")
-    val (
-    ) = the_trans1errlst_add (T1E_i0nclude_tr (d0c0))
-    val () = $ERR.abort ((*void*))
+    val srcloc = 
+      $GLOB.the_PKGRELOC_get ()
+    val () =
+    if srcloc = 0 then {
+      val () = prerr_error1_loc (loc0)
+      val () = prerrln! (": the file [", given, "] is not available for inclusion.")
+      val () = the_trans1errlst_add (T1E_i0nclude_tr (d0c0))
+      val () = $ERR.abort ((*void*))
+    } (* end of [if] *) // end of [val]
   in
     $FIL.filename_dummy
   end // end of [None_vt]
 ) : filename // end of [val]
 //
-val d0cs = $PAR.parse_from_filename_toplevel (stadyn, fil)
+val d0cs = $PAR.parse_from_filename_toplevel2 (stadyn, fil)
 //
 val (
   pfpush | isexi
@@ -709,6 +711,8 @@ fun s0taload_tr
 , filref: &filename? >> filename
 ) : d1eclist // end of [s0taload_tr]
 
+(* ****** ****** *)
+
 local
 
 fun auxload
@@ -721,7 +725,7 @@ val pname =
 val isdats = string_suffix_is_dats (pname)
 //
 val flag = (if isdats then 1(*dyn*) else 0(*sta*)): int
-val d0cs = $PAR.parse_from_filename_toplevel (flag, fil)
+val d0cs = $PAR.parse_from_filename_toplevel2 (flag, fil)
 //
 val (pfsave | ()) = the_trans1_env_save ()
 //
@@ -771,13 +775,15 @@ val fil =
 case+ filopt of
 | ~Some_vt (fil) => fil
 | ~None_vt ((*void*)) => let
-    val (
-    ) = prerr_error1_loc (loc0)
-    val (
-    ) = prerrln! (": the file [", given, "] is not available for static loading.")
-    val (
-    ) = the_trans1errlst_add (T1E_s0taload_tr (d0c0))
-    val () = $ERR.abort ((*void*))
+    val srcloc =
+      $GLOB.the_PKGRELOC_get ()
+    val () =
+    if srcloc = 0 then {
+      val () = prerr_error1_loc (loc0)
+      val () = prerrln! (": the file [", given, "] is not available for static loading.")
+      val () = the_trans1errlst_add (T1E_s0taload_tr (d0c0))
+      val () = $ERR.abort ((*void*))
+    } (* end of [if] *) // end of [val]
   in
     $FIL.filename_dummy
   end // end of [None_vt]
