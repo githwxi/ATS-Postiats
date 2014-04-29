@@ -275,6 +275,8 @@ implement
 $FIL.pkgsrcname_relocatize
   (given, ngurl) = let
 //
+val srcd0c = $GLOB.the_PKGRELOC_get_decl ()
+//
 extern
 fun PATSHOME_get (): string = "ext#patsopt_PATSHOME_get"
 extern
@@ -282,16 +284,24 @@ fun PATSHOMERELOC_get (): Stropt = "ext#patsopt_PATSHOMERELOC_get"
 //
 in
 //
-if ngurl < 0
-  then given else let
+if
+ngurl < 0
+then let
+  val ((*void*)) =
+  if srcd0c > null then {
+    val srcd0c = $UN.cast{$SYN.d0ecl}(srcd0c)
+    val () = $TRENV1.the_pkgreloc_insert (srcd0c, given)
+  } (* end of [if] *) // end of [val]
+in
+  given // target
+end // end of [then]
+else let
 //
   val p0 = $UN.cast2ptr (given)
   val p_ngurl = add_ptr_int(p0, ngurl)
   val p_ngurl = $UN.cast{string}(p_ngurl)
 //
   val dirsep = $FIL.theDirSep_get ()
-//
-  val srcd0c = $GLOB.the_PKGRELOC_get_decl ()
 //
   val gurl_t = // target
     pkgsrcname_get2_gurl1 (given, ngurl)
@@ -311,12 +321,12 @@ if ngurl < 0
     val ((*freed*)) = strptr_free (gurl_s)
     val given2_s = pkgsrcname_eval (string_of_strptr(given2_s))
     val srcd0c = $UN.cast{$SYN.d0ecl}(srcd0c)
-    val ((*void*)) = $TRENV1.the_pkgreloc_insert (srcd0c, given2_s, given2_t)
+    val ((*void*)) = $TRENV1.the_pkgreloc_insert2 (srcd0c, given2_s, given2_t)
   } (* end of [if] *) // end of [val]
 //
 in
   given2_t // target
-end // end of [else] // end of [if]
+end // end of [else]
 //
 end // end of [pkgsrcname_relocatize]
 

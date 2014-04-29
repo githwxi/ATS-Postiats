@@ -128,6 +128,9 @@ staload_file_insert
 //
 fun
 the_pkgreloc_insert
+  (d0c: d0ecl, given: string): void
+fun
+the_pkgreloc_insert2
   (d0c: d0ecl, given_s: string, given_t: string): void
 //
 (* ****** ******* *)

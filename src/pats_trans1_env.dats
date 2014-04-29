@@ -499,7 +499,28 @@ end // end of [local]
 
 implement
 the_pkgreloc_insert
+  (d0c0, given) = let
+//
+val
+loc0 = d0c0.d0ecl_loc
+//
+(*
+val () =
+println! ("the_pkgreloc_insert: ", loc0)
+val () =
+println! ("the_pkgreloc_insert: given= ", given)
+*)
+//
+in
+  // nothing
+end // end of [the_pkgreloc_insert]
+
+implement
+the_pkgreloc_insert2
   (d0c0, given_s, given_t) = let
+//
+val
+loc0 = d0c0.d0ecl_loc
 //
 (*
 val (
@@ -510,15 +531,16 @@ val () = fprint_newline (stdout_ref)
 *)
 // (*
 val () =
-println! ("the_pkgreloc_insert: ", d0c0.d0ecl_loc)
+println! ("the_pkgreloc_insert2: ", loc0)
 val () =
-println! ("the_pkgreloc_insert: sourceloc= ", given_s)
+println! ("the_pkgreloc_insert2: sourceloc= ", given_s)
 val () =
-println! ("the_pkgreloc_insert: targetloc= ", given_t)
+println! ("the_pkgreloc_insert2: targetloc= ", given_t)
 // *)
 //
 in
-end // end of [the_pkgreloc_insert]
+  // nothing
+end // end of [the_pkgreloc_insert2]
 
 (* ****** ****** *)
 
