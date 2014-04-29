@@ -45,6 +45,11 @@ implement prerr_FILENAME<> () = prerr "pats_trans1_staexp"
 (* ****** ****** *)
 
 staload
+LOC = "./pats_location.sats"
+
+(* ****** ****** *)
+
+staload
 FIL = "./pats_filename.sats"
 staload FIX = "./pats_fixity.sats"
 staload SYM = "./pats_symbol.sats"
@@ -63,6 +68,10 @@ staload SYN = "./pats_syntax.sats"
 staload "./pats_staexp1.sats"
 staload "./pats_dynexp1.sats"
 staload "./pats_trans1_env.sats"
+
+(* ****** ****** *)
+
+overload print with $LOC.print_location
 
 (* ****** ****** *)
 
@@ -500,6 +509,8 @@ val () = $SYN.fprint_d0ecl (stdout_ref, d0c0)
 val () = fprint_newline (stdout_ref)
 *)
 // (*
+val () =
+println! ("the_pkgreloc_insert: ", d0c0.d0ecl_loc)
 val () =
 println! ("the_pkgreloc_insert: given_s = ", given_s)
 val () =
