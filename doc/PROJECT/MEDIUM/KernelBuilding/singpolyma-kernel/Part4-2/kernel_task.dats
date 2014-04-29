@@ -72,17 +72,16 @@ stack_alloc
   val n = !nstack
 in
 //
-if n >= STACK_LIMIT
-  then
-    $UN.cast{stack0}(the_null_ptr)
-  else let
+if n < STACK_LIMIT
+  then let
     val () = !nstack := n + 1
     val stack =
       ptr_add<uint> (the_stacks, n*STACK_SIZE)
     // end of [val]
   in
     $UN.cast{stack1}(stack)
-  end // end of [else]
+  end // end of [then]
+  else $UN.cast{stack0}(the_null_ptr)
 //
 end // end of [stack_alloc]
 
@@ -160,13 +159,10 @@ val () = bwputi (id)
 val () = bwputs ("\n")
 *)
 //
-val id =
-  $UN.cast{natLt(TASK_LIMIT)}(id)
-//
-val ((*void*)) = the_tasks[id] := x
+val id = $UN.cast{natLt(TASK_LIMIT)}(id)
 //
 in
-  // nothing
+  the_tasks[id] := x
 end (* end of [update_task] *)
 
 (* ****** ****** *)
