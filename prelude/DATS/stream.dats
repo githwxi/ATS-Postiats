@@ -37,9 +37,11 @@
 
 (* ****** ****** *)
 
+(*
 #if VERBOSE_PRELUDE #then
 #print "Loading [stream.dats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
+*)
 
 (* ****** ****** *)
 
@@ -568,9 +570,11 @@ fprint_stream$sep (out) = fprint_string (out, ", ")
 
 (* ****** ****** *)
 
+(*
 #if VERBOSE_PRELUDE #then
 #print "Loading [stream.dats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
+*)
 
 (* ****** ****** *)
 

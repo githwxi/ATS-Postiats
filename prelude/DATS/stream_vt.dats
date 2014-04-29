@@ -37,9 +37,11 @@
 
 (* ****** ****** *)
 
+(*
 #if VERBOSE_PRELUDE #then
 #print "Loading [stream_vt.dats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
+*)
 
 (* ****** ****** *)
 
@@ -498,9 +500,11 @@ fun aux (i: intGte(0)): stream_vt (a) =
 
 (* ****** ****** *)
 
+(*
 #if VERBOSE_PRELUDE #then
 #print "Loading [stream_vt.dats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
+*)
 
 (* ****** ****** *)
 

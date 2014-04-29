@@ -512,9 +512,9 @@ val () = fprint_newline (stdout_ref)
 val () =
 println! ("the_pkgreloc_insert: ", d0c0.d0ecl_loc)
 val () =
-println! ("the_pkgreloc_insert: given_s = ", given_s)
+println! ("the_pkgreloc_insert: sourceloc= ", given_s)
 val () =
-println! ("the_pkgreloc_insert: given_t = ", given_t)
+println! ("the_pkgreloc_insert: targetloc= ", given_t)
 // *)
 //
 in
