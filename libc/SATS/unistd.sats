@@ -318,6 +318,14 @@ overload usleep with usleep_int
 overload usleep with usleep_uint
 //
 (* ****** ****** *)
+
+/*
+int rmdir(const char *pathname);
+*/
+fun rmdir (path: NSH(string)): int = "mac#%"
+fun rmdir_exn (path: NSH(string)): void = "ext#%"
+
+(* ****** ****** *)
 /*
 int link(const char *old, const char *new)
 */

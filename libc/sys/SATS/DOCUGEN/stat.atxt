@@ -41,6 +41,10 @@ the SATS file in ATSLIB where these functions are declared.
 
 (* ****** ****** *)
 
+#declnamesynop("mkdirat")
+
+(* ****** ****** *)
+
 #declnamesynop("mkfifo")
 
 (* ****** ****** *)

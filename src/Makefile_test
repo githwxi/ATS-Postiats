@@ -120,7 +120,9 @@ libc:: ; $(PATSOPT) -tc -d $(PATSHOME)/libc/DATS/unistd.dats
 ######
 
 libc_sys:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/sys/SATS/stat.sats
+libc_sys:: ; $(PATSOPT) -tc -d $(PATSHOME)/libc/sys/DATS/stat.dats
 libc_sys:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/sys/SATS/types.sats
+libc_sys:: ; $(PATSOPT) -tc -d $(PATSHOME)/libc/sys/DATS/types.dats
 
 ######
 

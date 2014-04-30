@@ -145,6 +145,22 @@ atslib_getlogin_r_gc (
 %{
 extern
 atsvoid_t0ype
+atslib_rmdir_exn
+(
+  atstype_string path
+) {
+  int err ;
+  err = atslib_rmdir(path) ;
+  if (0 > err) ATSLIBfailexit("rmdir") ;
+  return ;
+} /* end of [atslib_rmdir_exn] */
+%}
+
+(* ****** ****** *)
+
+%{
+extern
+atsvoid_t0ype
 atslib_link_exn
 (
   atstype_string old, atstype_string new
@@ -161,22 +177,6 @@ atslib_link_exn
 %{
 extern
 atsvoid_t0ype
-atslib_symlink_exn
-(
-  atstype_string old, atstype_string new
-) {
-  int err ;
-  err = atslib_symlink(old, new) ;
-  if (0 > err) ATSLIBfailexit("symlink") ;
-  return ;
-} /* end of [atslib_symlink_exn] */
-%}
-
-(* ****** ****** *)
-
-%{
-extern
-atsvoid_t0ype
 atslib_unlink_exn
 (
   atstype_string path
@@ -186,6 +186,22 @@ atslib_unlink_exn
   if (0 > err) ATSLIBfailexit("unlink") ;
   return ;
 } /* end of [atslib_unlink_exn] */
+%}
+
+(* ****** ****** *)
+
+%{
+extern
+atsvoid_t0ype
+atslib_symlink_exn
+(
+  atstype_string old, atstype_string new
+) {
+  int err ;
+  err = atslib_symlink(old, new) ;
+  if (0 > err) ATSLIBfailexit("symlink") ;
+  return ;
+} /* end of [atslib_symlink_exn] */
 %}
 
 (* ****** ****** *)

@@ -151,6 +151,10 @@ RMF=rm -f
 
 ######
 
+#make2_entry("libc_sys_stat", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+
+######
+
 #make2_entry("libc_gdbm_gdbm", "-DATS_MEMALLOC_LIBC", "-lgdbm")
 
 ######

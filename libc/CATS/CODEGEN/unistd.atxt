@@ -144,6 +144,10 @@ do { \\
 
 #atscode_separator_for_C()
 
+\#define atslib_rmdir rmdir
+
+#atscode_separator_for_C()
+
 \#define atslib_link link
 \#define atslib_unlink unlink
 

@@ -169,6 +169,19 @@ fun mkdir_exn
 //
 (* ****** ****** *)
 //
+// HX-2014-04: this one is like [mkdir -p]
+//
+fun{
+} mkdirp
+  (path: NSH(string), mode: mode_t): int = "mac#%"
+//
+(* ****** ****** *)
+//
+fun mkdirat
+  (dirfd: int, path: NSH(string), mode: mode_t): int = "mac#%"
+//
+(* ****** ****** *)
+//
 fun mkfifo // 0/-1 : succ/fail // errno set
   (path: NSH(string), perm: mode_t): int = "mac#%"
 //

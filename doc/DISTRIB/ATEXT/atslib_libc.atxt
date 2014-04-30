@@ -167,12 +167,8 @@ The ATSLIB/libc library\
 #packfilename("DATS/time.dats")
 #packfilename("DATS/unistd.dats")
 
-%{
-(*
 #packfilename("sys/DATS/stat.dats")
 #packfilename("sys/DATS/types.dats")
-*)
-%}
 
 %{
 (*

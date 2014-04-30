@@ -354,6 +354,17 @@ cleanall:: ; $(RMF) libc_unistd.exe
 
 ######
 
+all:: libc_sys_stat
+libc_sys_stat: libc_sys_stat.exe
+libc_sys_stat.exe: libc_sys_stat_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libc_sys_stat_dats.c: libc_sys_stat.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_sys_stat_dats.c --dynamic libc_sys_stat.dats
+clean:: ; $(RMF) libc_sys_stat_dats.o
+clean:: ; $(RMF) libc_sys_stat_dats.c
+cleanall:: ; $(RMF) libc_sys_stat.exe
+
+
+######
+
 all:: libc_gdbm_gdbm
 libc_gdbm_gdbm: libc_gdbm_gdbm.exe
 libc_gdbm_gdbm.exe: libc_gdbm_gdbm_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -lgdbm

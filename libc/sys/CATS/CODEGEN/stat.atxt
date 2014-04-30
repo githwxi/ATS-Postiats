@@ -37,6 +37,12 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+typedef
+struct stat
+atslib_stat_struct ;
+
+#atscode_separator_for_C()
+
 \#define atslib_umask umask
 
 #atscode_separator_for_C()
@@ -46,6 +52,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator_for_C()
 
 \#define atslib_mkdir mkdir
+\#define atslib_mkdirat mkdirat
 
 #atscode_separator_for_C()
 
