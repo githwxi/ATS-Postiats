@@ -324,9 +324,10 @@ fun json_object_new_object (): json_object0 = "mac#%"
 struct lh_table*
 json_object_get_object(struct json_object *obj);
 *)
-fun json_object_get_object
+fun
+json_object_get_object
   {l:agz} (jso: !json_object(l))
-  : [l2:agez] vtget0 (json_object l, lh_table l2) = "mac#%"
+  : [l2:agez] vtget0 (json_object(l), lh_table(l2)) = "mac#%"
 // end of [json_object_get_object]
 
 (* ****** ****** *)
@@ -347,7 +348,7 @@ json_object_object_add
 *)
 fun json_object_object_add
 (
-  jso: !json_object1, key: string, _val: json_object0(*consumed*)
+  jso: !json_object1, key: string, jso_val: json_object0(*consumed*)
 ) : void = "mac#%" // end of [json_object_object_add]
 
 (* ****** ****** *)
@@ -364,9 +365,11 @@ fun json_object_object_del (jso: !json_object1, key: string): void = "mac#%"
 struct json_object*
 json_object_object_get(struct json_object* obj, const char *key);
 *)
-fun json_object_object_get
-  {l:agz} (jso: !json_object l, key: string)
-  : [l2:agez] vtget0 (json_object l, json_object l2) = "mac#%"
+fun
+json_object_object_get{l:agz}
+(
+  jso: !json_object(l), key: string
+) : [l2:agez] vtget0 (json_object(l), json_object(l2)) = "mac#%"
 // end of [json_object_object_get]
 
 (* ****** ****** *)

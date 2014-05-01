@@ -498,6 +498,76 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+fprint_pkgrelocitm
+  (out, itm) = let
+//
+macdef
+prstr (s) = fprint_string (out, ,(s))
+//
+in
+//
+case+ itm of
+| PKGRELOCITM
+    (d0c, given) =>
+  {
+    val () = prstr "{\n"
+    val () = prstr "\"pkgreloc_given\": "
+    val () = prstr "\""
+    val () = fprint_string (out, given)
+    val () = prstr "\""
+    val () = prstr "\n}\n"
+  }
+| PKGRELOCITM2
+    (d0c, source, target) =>
+  {
+    val () = prstr "{\n"
+    val () = prstr "\"pkgreloc_target\": "
+    val () = prstr "\""
+    val () = fprint_string (out, target)
+    val () = prstr "\""
+    val () = prstr "\n,\n"
+    val () = prstr "\"pkgreloc_source\": "
+    val () = prstr "\""
+    val () = fprint_string (out, source)
+    val () = prstr "\""
+    val () = prstr "\n}\n"  
+  }
+//
+end // end of [fprint_pkgrelocitm]
+
+implement
+fprint_pkgrelocitmlst
+  (out, xs) = let
+in
+//
+case+ xs of
+| list_nil () => ()
+| list_cons (x, xs) => (
+    fprint_pkgrelocitm (out, x); fprint_pkgrelocitmlst (out, xs)
+  ) (* end of [list_cons] *)
+//
+end // end of [fprint_pkgrelocitmlst]
+
+(* ****** ****** *)
+
+local
+//
+val the_itmlst =
+  ref<pkgrelocitmlst> (list_nil)
+//
+in (* in-of-local *)
+
+implement
+the_pkgrelocitmlst_get () = let
+  val xs = !the_itmlst
+  val () = !the_itmlst := list_nil
+in
+  list_of_list_vt (list_reverse (xs))
+end // end of [the_itmlst_get]
+
+(* ****** ******* *)
+
+implement
 the_pkgreloc_insert
   (d0c0, given) = let
 //
@@ -510,6 +580,10 @@ println! ("the_pkgreloc_insert: ", loc0)
 val () =
 println! ("the_pkgreloc_insert: given= ", given)
 *)
+//
+val itm =
+PKGRELOCITM (d0c0, given)
+val () = !the_itmlst := list_cons (itm, !the_itmlst)
 //
 in
   // nothing
@@ -529,18 +603,24 @@ val (
 val () = $SYN.fprint_d0ecl (stdout_ref, d0c0)
 val () = fprint_newline (stdout_ref)
 *)
-// (*
+(*
 val () =
 println! ("the_pkgreloc_insert2: ", loc0)
 val () =
 println! ("the_pkgreloc_insert2: sourceloc= ", given_s)
 val () =
 println! ("the_pkgreloc_insert2: targetloc= ", given_t)
-// *)
+*)
+//
+val itm =
+PKGRELOCITM2 (d0c0, given_s, given_t)
+val () = !the_itmlst := list_cons (itm, !the_itmlst)
 //
 in
   // nothing
 end // end of [the_pkgreloc_insert2]
+
+end // end of [local]
 
 (* ****** ****** *)
 

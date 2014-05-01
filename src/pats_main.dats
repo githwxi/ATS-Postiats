@@ -844,6 +844,25 @@ end // end of [do_taggen]
 (* ****** ****** *)
 //
 extern
+fun do_pkgreloc
+  (state: &cmdstate, given: string, d1cs: d1eclist): void
+//
+implement
+do_pkgreloc
+  (state, given, d1cs) = let
+//
+val itms =
+  $TRENV1.the_pkgrelocitmlst_get ()
+//
+val filr = outchan_get_filr (state.outchan)
+//
+in
+  $TRENV1.fprint_pkgrelocitmlst (filr, itms)
+end // end of [do_pkgreloc]
+//
+(* ****** ****** *)
+//
+extern
 fun do_jsonize_2
   (state: &cmdstate, given: string, d2cs: d2eclist): void
 //
@@ -1055,7 +1074,7 @@ case+ 0 of
       do_trans1 (state, given, d0cs)
     // end of [val]
   in
-    // nothing
+    do_pkgreloc (state, given, d1cs)
   end // end of [when ...]
 | _ when
     state.jsonizeflag = 2 => let

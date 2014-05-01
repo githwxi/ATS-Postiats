@@ -336,8 +336,10 @@ var out2: FILEref = stdout_ref
 val ()  =
 (
 if issome (out) then let
-  val opt =
-    fileref_open_opt (unsome(out), file_mode_w)
+//
+val opt =
+  fileref_open_opt (unsome(out), file_mode_w)
+//
 in
   case+ opt of
   | ~Some_vt (x) => (flag := 1; out2 := x)

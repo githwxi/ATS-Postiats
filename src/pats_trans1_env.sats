@@ -126,6 +126,21 @@ staload_file_insert
 
 (* ****** ******* *)
 //
+datatype
+pkgrelocitm =
+  | PKGRELOCITM of (d0ecl, string(*given*))
+  | PKGRELOCITM2 of (d0ecl, string(*source*), string(*target*))
+typedef pkgrelocitmlst = List (pkgrelocitm)
+//
+fun
+fprint_pkgrelocitm (out: FILEref, x: pkgrelocitm): void
+fun
+fprint_pkgrelocitmlst (out: FILEref, xs: pkgrelocitmlst): void
+//
+(* ****** ******* *)
+//
+fun the_pkgrelocitmlst_get (): pkgrelocitmlst
+//
 fun
 the_pkgreloc_insert
   (d0c: d0ecl, given: string): void

@@ -34,6 +34,8 @@
 (* ****** ****** *)
 //
 #include
+"share/atspre_define.hats"
+#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
@@ -56,6 +58,11 @@ _(*STAT*) = "libc/sys/DATS/stat.dats"
 typedef stat = $STAT.stat
 typedef mode_t = $STAT.mode_t
 //
+(* ****** ****** *)
+
+staload "{$JSONC}/SATS/json.sats"
+staload _(*anon*) = "{$JSONC}/DATS/json.dats"
+
 (* ****** ****** *)
 
 extern
@@ -156,60 +163,64 @@ val ((*freed*)) = free (command)
 
 local
 
-fun
-auxfind
+vtypedef
+jobj = json_object0
+
+fun auxlst
 (
-  filr: FILEref, field: string
-) : Strptr0 = let
-//
-val isnot =
-  fileref_isnot_eof (filr)
-//
+  xs: List_vt (jobj), n: int
+) : int = let
 in
 //
-if isnot then let
-  val line = fileref_get_line_string (filr)
-  val start = strstr ($UN.strptr2string (line), field)
-in
-  if start >= 0 then line else (free (line); auxfind (filr, field))
-end else strptr_null ()
+case+ xs of
+| ~list_vt_nil() => (n)
+| ~list_vt_cons (x, xs) => let
 //
-end // end of [auxfind]
+    val () = assertloc (isneqz(x))
+//
+    val (fpf_s | jso_s) =
+      json_object_object_get (x, "pkgreloc_source")
+    val (fpf_t | jso_t) =
+      json_object_object_get (x, "pkgreloc_target")
+//
+    val () =
+    if isneqz(jso_s)*isneqz(jso_t) then
+    {
+      val (fpf0 | source) = json_object_get_string (jso_s)
+      val (fpf1 | target) = json_object_get_string (jso_t)
+      val err = pkgreloc ($UN.strptr2string(source), $UN.strptr2string(target))
+      prval ((*void*)) = fpf0 (source) and ((*void*)) = fpf1 (target)
+    }
+//
+    prval () = minus_addback (fpf_s, jso_s | x)
+    prval () = minus_addback (fpf_t, jso_t | x)
+//
+    val _(*freed*) = json_object_put (x)
+  in
+    auxlst (xs, n+1)
+  end // end of [list_vt_cons]
+//
+end // end of [auxlst]
 
 in (* in-of-local *)
 
 implement
 pkgreloc_fileref
-  (filr) = let
+  (inp) = let
 //
-val isnot =
-  fileref_isnot_eof (filr)
+val cs =
+  fileref_get_file_string (inp)
+val itms = json_tokener_parse_list ($UN.strptr2string(cs))
+val ((*void*)) = strptr_free (cs)
 //
-in
+val nitm = auxlst (itms, 0)
 //
-if isnot then let
-//
-val srcloc = "pkgreloc_source:"
-val tgtloc = "pkgreloc_target:"
-val source = auxfind (filr, srcloc)
-val target = auxfind (filr, tgtloc)
-val p0_source = strptr2ptr (source)
-val p0_target = strptr2ptr (target)
-//
-val () =
-if (p0_source > 0 && p0_target > 0) then
-{
-  val p2_source = ptr_add<char> (p0_source, length(srcloc))
-  val p2_target = ptr_add<char> (p0_target, length(tgtloc))
-  val err = pkgreloc ($UN.cast{string}(p2_source), $UN.cast{string}(p2_target))
-} (* end of [if] *) // end of [val]
-//
-val () = free (source) and () = free (target)
+(*
+val () = println! ("pkgreloc_fileref: nitm = ", nitm)
+*)
 //
 in
-  pkgreloc_fileref (filr)
-end else ((*void*))
-//
+  // nothing
 end // end of [pkgreloc_fileref]
 
 end // end of [local]
@@ -217,9 +228,45 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-main0 (argc, argv) =
+main{n}(argc, argv) = (0) where
 {
-val () = pkgreloc_fileref (stdin_ref)
+//
+var nfil: int = 0
+//
+fun loop
+(
+  argv: !argv(n)
+, i: natLte(n), nfil: &int >> _
+) : void =
+(
+if i < argc
+  then let
+    val inp = argv[i]
+    val opt =
+      fileref_open_opt (inp, file_mode_r)
+    // end of [val]
+  in
+    case+ opt of
+    | ~None_vt () => loop (argv, i+1, nfil)
+    | ~Some_vt (inp) => let
+        val () = nfil := nfil + 1
+        val () = pkgreloc_fileref (inp)
+        val () = fileref_close (inp)
+      in
+        loop (argv, i+1, nfil)
+      end // end of [Some_vt]
+   end // end of [then]
+   else ((*void*)) // end of [else]
+// end of [if]
+)
+//
+val () = loop (argv, 1, nfil)
+//
+val ((*void*)) =
+  if nfil = 0 then pkgreloc_fileref (stdin_ref)
+//
+val () = exit(0){void}
+//
 } (* end of [main0] *)
 
 (* ****** ****** *)
