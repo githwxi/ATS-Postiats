@@ -152,6 +152,10 @@ val symbol_PATSHOME : symbol
 val symbol_PATSHOMERELOC : symbol
 
 (* ****** ****** *)
+
+val symbol_ATSPKGRELOCROOT : symbol
+
+(* ****** ****** *)
 //
 val symbol_ATS_PACKNAME : symbol
 //

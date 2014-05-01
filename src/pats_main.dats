@@ -389,8 +389,10 @@ dynload "pats_ccomp_main.dats"
 //
 extern void patsopt_PATSHOME_set () ;
 extern char *patsopt_PATSHOME_get () ;
+//
 extern void patsopt_PATSHOMERELOC_set () ;
-extern char *patsopt_PATSHOMERELOC_get () ;
+//
+extern void patsopt_ATSPKGRELOCROOT_set () ;
 //
 %} // end of [%{^]
 
@@ -1395,6 +1397,12 @@ val (
   extern fun set (): void = "mac#patsopt_PATSHOMERELOC_set"
 } // end of [where] // end of [val]
 //
+val (
+) = set () where
+{ 
+  extern fun set (): void = "mac#patsopt_ATSPKGRELOCROOT_set"
+} // end of [where] // end of [val]
+//
 val PATSHOME = let
   val opt = get () where
   {
@@ -1453,7 +1461,9 @@ state = @{
 , nerror= 0 // number of accumulated errors
 } : cmdstate // end of [var]
 //
-val () = process_cmdline (state, arglst)
+val () = process_ATSPKGRELOCROOT ()
+//
+val ((*void*)) = process_cmdline (state, arglst)
 //
 } // end of [main]
 

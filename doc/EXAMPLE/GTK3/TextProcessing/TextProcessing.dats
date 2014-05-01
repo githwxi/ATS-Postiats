@@ -15,12 +15,12 @@
 // an implementation of the Enigma machine
 //
 (* ****** ****** *)
-
+//
 #include
 "share/atspre_define.hats"
 #include
 "share/atspre_staload.hats"
-
+//
 (* ****** ****** *)
 
 staload UN = $UNSAFE

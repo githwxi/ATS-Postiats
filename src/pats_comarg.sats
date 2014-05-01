@@ -43,7 +43,7 @@ comarglst (n:int) = list_vt (comarg, n)
 
 fun comarg_parse (s: string):<> comarg
 
-fun comarglst_parse {n:nat}
+fun comarglst_parse{n:nat}
   (argc: int n, argv: &(@[string][n])):<> list_vt (comarg, n)
 // end of [comarglst_parse]
 
@@ -70,6 +70,10 @@ fun process_DATS_def (def: string): void
 // HX: for processing command-line inclusion path : -IATSpath or -IATS path
 //
 fun process_IATS_dir (dir: string): void
+
+(* ****** ****** *)
+
+fun process_ATSPKGRELOCROOT ((*void*)): void
 
 (* ****** ****** *)
 

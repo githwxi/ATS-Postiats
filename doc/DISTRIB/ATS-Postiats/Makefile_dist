@@ -5,6 +5,9 @@
 # KO-2014-04-09:
 # removing [-T] from [install] as the option is
 # not supported on MacOS
+# IU-2014-04-30:
+# removing the space between -m and the following mode
+# as it is not supported on freeBSD
 #
 ######
 #
@@ -83,10 +86,9 @@ PATSLIBHOME2 := $(DESTDIR)$(PATSLIBHOME)
 # (bauhaus AT arcor DOT de): It addresses the issue that
 # the [-D] option is not available for $(INSTALL) on MacOSX.
 #
-
 .PHONY: install_dirs
 .PHONY: install_files
-
+#
 install: install_files
 
 install_files: \

@@ -324,6 +324,11 @@ symbol_PATSHOMERELOC = symbol_make_string "PATSHOMERELOC"
 (* ****** ****** *)
 
 implement
+symbol_ATSPKGRELOCROOT = symbol_make_string "ATSPKGRELOCROOT"
+
+(* ****** ****** *)
+
+implement
 symbol_ATS_PACKNAME = symbol_make_string "ATS_PACKNAME"
 
 implement

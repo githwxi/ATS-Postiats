@@ -33,16 +33,27 @@
 //
 (* ****** ****** *)
 
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "libc/SATS/string.sats"
 
 (* ****** ****** *)
 
 staload ERR = "./pats_error.sats"
 staload GLOB = "./pats_global.sats"
+
 staload LOC = "./pats_location.sats"
 staload FIL = "./pats_filename.sats"
-staload PAR = "./pats_parsing.sats"
+
+staload SYM = "./pats_symbol.sats"
 staload SYN = "./pats_syntax.sats"
+
+(* ****** ****** *)
+
+staload PAR = "./pats_parsing.sats"
 
 (* ****** ****** *)
 
@@ -53,6 +64,14 @@ staload TRENV1 = "./pats_trans1_env.sats"
 (* ****** ****** *)
 
 staload "./pats_comarg.sats"
+
+(* ****** ****** *)
+
+%{^
+//
+extern char* patsopt_ATSPKGRELOCROOT_get () ;
+//
+%} // end of [%{^]
 
 (* ****** ****** *)
 
@@ -171,7 +190,7 @@ case+ opt of
       | None _ => e1xp_none ($LOC.location_dummy)
     ) : e1xp // end of [val]
   in
-    $TRENV1.the_e1xpenv_add (key, e1xp)
+    $TRENV1.the_e1xpenv_addperv (key, e1xp)
   end // end of [Some_vt]
 | ~None_vt () => let
     val () = prerr ("error(ATS)")
@@ -195,6 +214,54 @@ val () = $GLOB.the_IATS_dirlst_ppush (dir)
 in
   // nothing
 end (* end of [process_IATS_dir] *)
+
+(* ****** ****** *)
+
+local
+
+extern
+fun
+getenv (name: string): Stropt = "getenv"
+
+in (* in-of-local *)
+
+implement
+process_ATSPKGRELOCROOT () = let
+//
+val opt = get () where
+{
+  extern fun get (): Stropt = "mac#patsopt_ATSPKGRELOCROOT_get"
+} // end of [where] // end of [val]
+val issome = stropt_is_some (opt)
+//
+val def =
+(
+if issome
+  then stropt_unsome (opt)
+  else let
+    val user = getenv ("USER")
+    val issome = stropt_is_some (user)
+    val user =
+    (
+      if issome then stropt_unsome (user) else "$USER"
+    ) : string // end of [val]
+  in
+    string_of_strptr(sprintf("/tmp/.ATSPKGRELOCROOT-%s", @(user)))
+  end // end of [else]
+) : string // end of [val]
+//
+// (*
+val () = println! ("process_ATSPKGRELOCROOT: def = ", def)
+// *)
+//
+val key = $SYM.symbol_ATSPKGRELOCROOT
+val e1xp = e1xp_string ($LOC.location_dummy, def)
+//
+in
+  $TRENV1.the_e1xpenv_addperv (key, e1xp)
+end // end of [process_ATSPKGRELOCROOT]
+
+end // end of [local]
 
 (* ****** ****** *)
 

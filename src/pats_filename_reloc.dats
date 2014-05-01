@@ -119,7 +119,7 @@ pkgsrcname_get_gurl1
   (given: string, ngurl: int): Strptr1
 implement
 pkgsrcname_get_gurl1
-  (given, ngurl) = __copy_string ("$PATSHOMERELOC2")
+  (given, ngurl) = __copy_string ("$ATSPKGRELOCROOT")
 //
 (* ****** ****** *)
 
@@ -213,6 +213,11 @@ pkgsrcname_eval (given: string): string
 implement
 pkgsrcname_eval
   (given) = let
+//
+(*
+val () =
+println! ("pkgsrcname_eval: given = ", given)
+*)
 //
 val p0 = $UN.cast2ptr (given)
 val c0 = $UN.ptr0_get<char> (p0)

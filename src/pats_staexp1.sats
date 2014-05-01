@@ -125,7 +125,8 @@ e1xp_node =
 //
 // end of [e1xp_node]
 
-where e1xp: type = '{
+where
+e1xp: type = '{
   e1xp_loc= location, e1xp_node= e1xp_node
 }
 and e1xplst: type = List (e1xp)
