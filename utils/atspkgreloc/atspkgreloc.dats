@@ -189,8 +189,8 @@ in
 //
 if isnot then let
 //
-val srcloc = "sourceloc:"
-val tgtloc = "targetloc:"
+val srcloc = "pkgreloc_source:"
+val tgtloc = "pkgreloc_target:"
 val source = auxfind (filr, srcloc)
 val target = auxfind (filr, tgtloc)
 val p0_source = strptr2ptr (source)
@@ -217,7 +217,7 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-main0 () =
+main0 (argc, argv) =
 {
 val () = pkgreloc_fileref (stdin_ref)
 } (* end of [main0] *)

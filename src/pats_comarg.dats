@@ -250,9 +250,10 @@ if issome
   end // end of [else]
 ) : string // end of [val]
 //
-// (*
-val () = println! ("process_ATSPKGRELOCROOT: def = ", def)
-// *)
+(*
+val () =
+println! ("process_ATSPKGRELOCROOT: def = ", def)
+*)
 //
 val key = $SYM.symbol_ATSPKGRELOCROOT
 val e1xp = e1xp_string ($LOC.location_dummy, def)
