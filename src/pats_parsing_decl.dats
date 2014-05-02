@@ -1066,6 +1066,14 @@ case+ tok.token_node of
     p_staload_tok (buf, bt, err, tok)
   end
 //
+| T_REQUIRE () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_s0tring (buf, bt, err)
+  in
+    if err = err0 then d0ecl_require (tok, ent2) else synent_null ()
+  end // end of [T_REQUIRE]
+//
 | _ => let
     val () = err := err + 1 in synent_null ()
   end (* end of [_] *)

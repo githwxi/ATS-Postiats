@@ -3003,6 +3003,23 @@ in '{
 (* ****** ****** *)
 
 implement
+d0ecl_require
+  (tok, ent2) = let
+//
+val loc = ent2.token_loc
+val-T_STRING (name) = ent2.token_node
+val () = the_parerrlst_add_ifunclosed (loc, name)
+val loc = tok.token_loc + loc
+//
+val pfil = $FIL.filename_get_current ()
+//
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Crequire (pfil, name)
+} end // end of [d0ecl_require]
+
+(* ****** ****** *)
+
+implement
 d0ecl_dynload
   (tok, ent2) = let
 //

@@ -444,6 +444,7 @@ val () = ins ("static", T_STATIC)
 (*
 val () = ins ("stavar", T_STAVAR)
 *)
+val () = ins ("require", T_REQUIRE)
 val () = ins ("staload", T_STALOAD)
 //
 val () = ins ("symelim", T_SYMELIM)

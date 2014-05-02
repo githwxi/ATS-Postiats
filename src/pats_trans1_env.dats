@@ -504,6 +504,19 @@ fprint_pkgrelocitm
 macdef
 prstr (s) = fprint_string (out, ,(s))
 //
+fun auxpr
+(
+  out: FILEref, d0c: $SYN.d0ecl
+) : void =
+(
+case+ d0c.d0ecl_node of
+| $SYN.D0Cinclude _ => fprint (out, "include")
+| $SYN.D0Cstaload _ => fprint (out, "staload")
+| $SYN.D0Crequire _ => fprint (out, "require")
+| $SYN.D0Cdynload _ => fprint (out, "dynload")
+| _ (*rest/deadcode*) => fprint (out, "*ERROR*")
+)
+//
 in
 //
 case+ itm of
@@ -511,6 +524,11 @@ case+ itm of
     (d0c, given) =>
   {
     val () = prstr "{\n"
+    val () = prstr "\"pkgreloc_kind\": "
+    val () = prstr "\""
+    val () = auxpr (out, d0c)
+    val () = prstr "\""
+    val () = prstr "\n,\n"
     val () = prstr "\"pkgreloc_given\": "
     val () = prstr "\""
     val () = fprint_string (out, given)
@@ -521,6 +539,11 @@ case+ itm of
     (d0c, source, target) =>
   {
     val () = prstr "{\n"
+    val () = prstr "\"pkgreloc_kind\": "
+    val () = prstr "\""
+    val () = auxpr (out, d0c)
+    val () = prstr "\""
+    val () = prstr "\n,\n"
     val () = prstr "\"pkgreloc_target\": "
     val () = prstr "\""
     val () = fprint_string (out, target)

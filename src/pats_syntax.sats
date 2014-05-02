@@ -1309,6 +1309,8 @@ d0ecl_node =
   | D0Cstaloadloc of
       (filename(*pfil*), symbol(*nspace*), d0eclist) // HX: { ... }
 //
+  | D0Crequire of (filename(*pfil*), string(*path*)) // HX: for pkgreloc
+//
   | D0Cdynload of (filename(*pfil*), string(*path*)) // HX: dynloading(*initialization*)
 //
   | D0Clocal of (d0eclist, d0eclist)
@@ -2027,6 +2029,8 @@ fun staloadarg_declist
 fun d0ecl_staload_fname (tok: token, tok2: token): d0ecl
 fun d0ecl_staload_nspace (tok: token, tok2: token): d0ecl
 fun d0ecl_staload_some_arg (tok: token, ent2: i0de, arg: staloadarg): d0ecl
+//
+fun d0ecl_require (tok: token, ent2: token): d0ecl
 //
 fun d0ecl_dynload (tok: token, ent2: token): d0ecl
 //

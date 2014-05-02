@@ -1388,6 +1388,13 @@ case+ x.d0ecl_node of
     val () = prstr ")"
   }
 //
+| D0Crequire
+    (pfil, name) => {
+    val () = prstr "D0Crequire("
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  }
+//
 | D0Cdynload
     (pfil, name) => {
     val () = prstr "D0Cdynload("
