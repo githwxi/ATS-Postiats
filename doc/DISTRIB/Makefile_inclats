@@ -71,9 +71,9 @@ update:: ; \
 ######
 
 update:: ; \
-  $(CPF) $(SRC2)/contrib/json-c/CATS/json.cats $(DST2)/hiredis/CATS/.
+  $(CPF) $(SRC2)/contrib/json-c/CATS/json.cats $(DST2)/json-c/CATS/.
 update:: ; \
-  $(CPF) $(SRC2)/contrib/json-c/CATS/printbuf.cats $(DST2)/hiredis/CATS/.
+  $(CPF) $(SRC2)/contrib/json-c/CATS/printbuf.cats $(DST2)/json-c/CATS/.
 
 ######
 
@@ -101,10 +101,11 @@ update:: ; $(CPRF) $(SRC2)/contrib/GTK/CATS/gtk $(DST2)/GTK/CATS/.
 TARZVCF=tar zvcf
 
 ######
-
-# HX-2014-03-30
-PACKNAME=ATS2-Postiats-include-0.0.7
 #
+# HX-2014-05-02
+PACKNAME=ATS2-Postiats-include-0.0.8
+#
+# PACKNAME=ATS2-Postiats-include-0.0.7
 # PACKNAME=ATS2-Postiats-include-0.0.6
 # PACKNAME=ATS2-Postiats-include-0.0.5
 # PACKNAME=ATS2-Postiats-include-0.0.4

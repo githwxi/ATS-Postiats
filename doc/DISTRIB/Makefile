@@ -551,7 +551,7 @@ atspacktarzvcf:: ; tar -zvcf  $(PACKNAME).tgz  $(PACKNAME)/
 
 ######
 
-CNTRBNAME=ATS2-Postiats-contrib-0.0.7
+CNTRBNAME=ATS2-Postiats-contrib-0.0.8
 atscntrbtarzvcf:: ; rm -rf $(CNTRBNAME)
 atscntrbtarzvcf:: ; cp -rf ATS-Postiats-contrib $(CNTRBNAME)
 atscntrbtarzvcf:: ; tar -zvcf  $(CNTRBNAME).tgz  $(CNTRBNAME)/
