@@ -36,7 +36,7 @@ src/TAGATS
 bin/patscc
 bin/patsopt
 bin/pats2xhtml
-bin/atspkgreloc
+bin/atspkgreloc_curl
 
 #
 # boostrapping

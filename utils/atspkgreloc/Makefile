@@ -48,7 +48,7 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) atspkgreloc
+cleanall:: ; $(RMF) atspkgreloc_curl
 
 ######
 
