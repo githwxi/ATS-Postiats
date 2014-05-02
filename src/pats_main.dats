@@ -953,7 +953,7 @@ val () = $TRANS1.trans1_finalize ()
 val (
 ) = if isdebug() then
 {
-  val () = println! (
+  val () = prerrln! (
     "The 1st translation (fixity) of [", given, "] is successfully completed!"
   ) (* end of [val] *)
 } // end of [if] // end of [val]
@@ -975,7 +975,7 @@ val d2cs = $TRANS2.d1eclist_tr_errck (d1cs)
 val (
 ) = if isdebug() then
 {
-  val () = println! (
+  val () = prerrln! (
     "The 2nd translation (binding) of [", given, "] is successfully completed!"
   ) (* end of [val] *)
 } // end of [if] // end of [val]
@@ -1024,7 +1024,7 @@ val () =
 val (
 ) = if isdebug() then
 {
-  val () = println! (
+  val () = prerrln! (
     "The 3rd translation (type-checking) of [", given, "] is successfully completed!"
   ) (* end of [val] *)
 } // end of [if] // end of [val]
@@ -1051,7 +1051,7 @@ val () = fprint_hideclist (stdout_ref, hids)
 val (
 ) = if isdebug() then
 {
-  val () = println! (
+  val () = prerrln! (
     "The 4th translation (type/proof-erasing) of [", given, "] is successfully completed!"
   ) (* end of [val] *)
 } // end of [if] // end of [val]
@@ -1400,7 +1400,7 @@ main (
 ) = () where {
 //
 val () =
-println! ("Hello from ATS2(ATS/Postiats)!")
+prerrln! ("Hello from ATS2(ATS/Postiats)!")
 (*
 val ((*void*)) = patsopt_version (stdout_ref)
 *)

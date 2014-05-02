@@ -26,12 +26,13 @@ CFLAGS += $(shell pkg-config --cflags json-c)
 ######
 
 LDFLAGS :=
+LDFLAGS += -lcurl
 LDFLAGS += $(shell pkg-config --libs json-c)
 LDFLAGS += -L$(PATSLIB) -latslib
 
 ######
 
-atspkgreloc: atspkgreloc.dats ; \
+atspkgreloc_curl: atspkgreloc_curl.dats ; \
   $(PATSCC) -I$(PATSHOMERELOC)/contrib -DATS_MEMALLOC_LIBC $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
 
 ######

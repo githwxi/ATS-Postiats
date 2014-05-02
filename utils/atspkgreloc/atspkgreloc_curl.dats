@@ -60,6 +60,10 @@ typedef mode_t = $STAT.mode_t
 //
 (* ****** ****** *)
 
+staload "{$LIBCURL}/SATS/curl.sats"
+
+(* ****** ****** *)
+
 staload "{$JSONC}/SATS/json.sats"
 staload _(*anon*) = "{$JSONC}/DATS/json.dats"
 
@@ -77,7 +81,7 @@ implement{
 } pkgreloc_fmode () = $UN.cast{mode_t}(0644)
 
 (* ****** ****** *)
-
+//
 extern
 fun{
 } pkgreloc
@@ -90,11 +94,16 @@ fun{
 (
   source: string, target: string
 ) : int // end o [pkgreloc2]
+//
+(* ****** ****** *)
+//
 extern
 fun pkgreloc_curl
 (
   source: string, target: string
 ) : int // end o [pkgreloc_curl]
+//
+(* ****** ****** *)
 //
 extern
 fun pkgreloc_fileref (inp: FILEref): void
@@ -144,9 +153,10 @@ end // end of [pkgreloc2]
 
 (* ****** ****** *)
 
+(*
 implement
 pkgreloc_curl
-  (source, target) = ret where
+  (source, target) = err where
 {
 //
 val arglst =
@@ -154,10 +164,77 @@ $list_vt{string}
   ("curl", " ", "-o", " ", target, " ", source, " ", "2>/dev/null")
 val command = stringlst_concat ($UN.castvwtp1{List(string)}(arglst))
 val ((*freed*)) = free (arglst)
-val ret = $STDLIB.system ($UN.strptr2string(command))
+val err = $STDLIB.system ($UN.strptr2string(command))
 val ((*freed*)) = free (command)
 //
 } (* end of [pkgreloc_curl] *)
+*)
+
+(* ****** ****** *)
+
+extern
+fun pkgreloc_curl2
+(
+  !CURLptr1, source: string, target: string
+) : int // end o [pkgreloc_curl2]
+
+implement
+pkgreloc_curl
+  (source, target) = let
+//
+val curl = curl_easy_init ((*void*))
+//
+in
+//
+if ptrcast (curl) > 0
+  then let
+    val nerr =
+      pkgreloc_curl2 (curl, source, target)
+    val ((*void*)) = curl_easy_cleanup (curl)
+  in
+    nerr
+  end // end of [then]
+  else let
+    prval () = curl_easy_cleanup_null (curl) in ~1
+  end // end of [else]
+//
+end (* end of [pkgreloc_curl] *)
+
+implement
+pkgreloc_curl2
+  (curl, source, target) = let
+//
+var nerr: int = 0
+val p_curl = ptrcast(curl)
+//
+val err =
+$extfcall (
+  CURLerror, "curl_easy_setopt", p_curl, CURLOPT_URL, source
+) (* end of [val] *)
+val ((*void*)) = if (err != CURLE_OK) then nerr := nerr + 1
+//
+var knd: int = 0
+val opt = fileref_open_opt (target, file_mode_w)
+val out =
+(
+case+ opt of
+| ~Some_vt (out) => out | ~None_vt () => (knd := 1; stdout_ref)
+) : FILEref // end of [val]
+//
+val err =
+$extfcall (
+  CURLerror, "curl_easy_setopt", p_curl, CURLOPT_FILE, out
+) (* end of [val] *)
+val ((*void*)) = if (err != CURLE_OK) then nerr := nerr + 1
+//
+val err = curl_easy_perform (curl)
+val ((*void*)) = if (err != CURLE_OK) then nerr := nerr + 1
+//
+val ((*void*)) = if knd > 0 then fileref_close (out)
+//
+in
+  nerr
+end // end of [pkgreloc_curl2]
 
 (* ****** ****** *)
 
@@ -186,10 +263,20 @@ case+ xs of
     val () =
     if isneqz(jso_s)*isneqz(jso_t) then
     {
+//
       val (fpf0 | source) = json_object_get_string (jso_s)
       val (fpf1 | target) = json_object_get_string (jso_t)
-      val err = pkgreloc ($UN.strptr2string(source), $UN.strptr2string(target))
+//
+      val source_ = $UN.strptr2string(source)
+      val target_ = $UN.strptr2string(target)
+      val nerr = pkgreloc (source_, target_)
+      val ((*void*)) =
+      if nerr > 0 then prerrln! ("ERROR: pkgreloc_source= ", source_)
+      val ((*void*)) =
+      if nerr > 0 then prerrln! ("ERROR: pkgreloc_target= ", target_)
+//
       prval ((*void*)) = fpf0 (source) and ((*void*)) = fpf1 (target)
+//
     }
 //
     prval () = minus_addback (fpf_s, jso_s | x)
@@ -247,7 +334,6 @@ if i < argc
     // end of [val]
   in
     case+ opt of
-    | ~None_vt () => loop (argv, i+1, nfil)
     | ~Some_vt (inp) => let
         val () = nfil := nfil + 1
         val () = pkgreloc_fileref (inp)
@@ -255,17 +341,19 @@ if i < argc
       in
         loop (argv, i+1, nfil)
       end // end of [Some_vt]
+    | ~None_vt ((*void*)) => loop (argv, i+1, nfil)
    end // end of [then]
    else ((*void*)) // end of [else]
 // end of [if]
 )
 //
-val () = loop (argv, 1, nfil)
+val err = curl_global_init(0L)
+val ((*void*)) = assertloc (err = CURLE_OK)
 //
-val ((*void*)) =
-  if nfil = 0 then pkgreloc_fileref (stdin_ref)
+val ((*void*)) = loop (argv, 1, nfil)
+val ((*void*)) = if nfil = 0 then pkgreloc_fileref (stdin_ref)
 //
-val () = exit(0){void}
+val ((*void*)) = curl_global_cleanup ((*void*))
 //
 } (* end of [main0] *)
 
