@@ -208,8 +208,10 @@ var nerr: int = 0
 val p_curl = ptrcast(curl)
 //
 val err =
-$extfcall (
-  CURLerror, "curl_easy_setopt", p_curl, CURLOPT_URL, source
+$extfcall
+(
+  CURLerror
+, "curl_easy_setopt", p_curl, CURLOPT_URL, source
 ) (* end of [val] *)
 val ((*void*)) = if (err != CURLE_OK) then nerr := nerr + 1
 //
@@ -222,7 +224,8 @@ case+ opt of
 ) : FILEref // end of [val]
 //
 val err =
-$extfcall (
+$extfcall
+(
   CURLerror, "curl_easy_setopt", p_curl, CURLOPT_FILE, out
 ) (* end of [val] *)
 val ((*void*)) = if (err != CURLE_OK) then nerr := nerr + 1
@@ -230,7 +233,7 @@ val ((*void*)) = if (err != CURLE_OK) then nerr := nerr + 1
 val err = curl_easy_perform (curl)
 val ((*void*)) = if (err != CURLE_OK) then nerr := nerr + 1
 //
-val ((*void*)) = if knd > 0 then fileref_close (out)
+val ((*void*)) = if knd = 0 then fileref_close (out)
 //
 in
   nerr

@@ -41,5 +41,7 @@ at [http://sourceforge.net/projects/ats-lang/](http://sourceforge.net/projects/a
 
 ## License
 
-* The Compiler (ATS/Postiats) and Libraries (ATSLIB/{prelude,libc,libats}):
+* The Compiler (ATS/Postiats):
+  [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt)
+* The Libraries (ATSLIB/{prelude,libc,libats}):
   [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt)

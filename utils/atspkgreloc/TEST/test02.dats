@@ -13,7 +13,7 @@ ATS_PACKNAME "atspkgreloc_test02"
 
 (* ****** ****** *)
 //
-require
+require(*HX-2014-05-01: this one is required by others*)
 "{http://www.ats-lang.org/LIBRARY}/contrib/libats-hwxi/intinf/SATS/intinf_vt.sats"
 //
 (* ****** ****** *)
