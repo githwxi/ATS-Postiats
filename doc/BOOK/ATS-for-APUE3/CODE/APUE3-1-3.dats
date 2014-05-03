@@ -34,7 +34,7 @@ val () = assertloc (argc = 2)
 val dp = opendir (argv[1])
 val () =
 if ptrcast(dp) = 0 then 
-  $extfcall (void, "err_sys", "can’t open %s", argv[1])
+  $extfcall (void, "err_sys", "can't open %s", argv[1])
 // end of [if] // end of [val]
 //
 val () = assertloc (ptrcast(dp) > 0)
