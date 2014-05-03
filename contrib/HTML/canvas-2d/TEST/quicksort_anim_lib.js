@@ -28,3 +28,5 @@ QuicksortAnimLib =
 } ; /* end of [QuicksortAnimLib] */
 
 mergeInto(LibraryManager.library, QuicksortAnimLib);
+
+/* end of [quicksort_anim_lib.js] */
