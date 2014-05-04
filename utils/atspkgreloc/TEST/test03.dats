@@ -1,25 +1,49 @@
-//
-// Some code for testing the API in ATS for pcre
-//
+(*
+** A test for atspkgreloc
+*)
 (* ****** ****** *)
-
+//
 #include
 "share/atspre_staload.hats"
-
+//
+(* ****** ****** *)
+//
+staload UN = $UNSAFE
+//
 (* ****** ****** *)
 
+#define
+ATS_PACKNAME "atspkgreloc_test03"
+
+(* ****** ****** *)
+//
+require
+"{http://www.ats-lang.org/LIBRARY}/contrib/pcre/CATS/pcre.cats"
+//
+(* ****** ****** *)
+//
 staload
-UN = "prelude/SATS/unsafe.sats"
-
+"{http://www.ats-lang.org/LIBRARY}/contrib/pcre/SATS/pcre.sats"
+staload
+"{http://www.ats-lang.org/LIBRARY}/contrib/pcre/SATS/pcre_ML.sats"
+//
+staload _ =
+"{http://www.ats-lang.org/LIBRARY}/contrib/pcre/DATS/pcre.dats"
+staload _ =
+"{http://www.ats-lang.org/LIBRARY}/contrib/pcre/DATS/pcre_ML.dats"
+//
 (* ****** ****** *)
 
-staload "./../SATS/pcre.sats"
-staload "./../SATS/pcre_ML.sats"
-
-(* ****** ****** *)
-
-staload _ = "./../DATS/pcre.dats"
-staload _ = "./../DATS/pcre_ML.dats"
+local
+//
+#include "{http://www.ats-lang.org/LIBRARY}/contrib/pcre/DATS/pcre.dats"
+#include "{http://www.ats-lang.org/LIBRARY}/contrib/pcre/DATS/pcre_ML.dats"
+//
+in (* in of [local] *)
+//
+// HX: it is intentionally left to be empty
+//
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -64,7 +88,7 @@ implement
 main0 () = () where
 {
 //
-val subject0 = "-1,2,-3,4,-5,6,-7,8,-9,10"
+val subject0 = "-1,-2,-3,-4,-5,6,7,8,9,10"
 //
 val () = println! ("tally(", subject0, ") = ", tally(subject0))
 //
@@ -72,4 +96,4 @@ val () = println! ("tally(", subject0, ") = ", tally(subject0))
 
 (* ****** ****** *)
 
-(* end of [test04.dats] *)
+(* end of [test03.dats] *)
