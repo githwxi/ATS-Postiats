@@ -423,7 +423,7 @@ covered so far.\
 #para("\
 
 Please find the entire code in this section plus some additional
-code for testing #mycodelink("CHAP_POLYMORPH/listfun.dats", "on-line").\
+code for testing #mycodelink("CHAP_POLYMORPH/listfuns.dats", "on-line").\
 
 ")
 
