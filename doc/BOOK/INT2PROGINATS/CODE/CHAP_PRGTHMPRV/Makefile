@@ -47,6 +47,11 @@ cleanall:: ; $(RMF) test_fastexp
 
 ######
 
+regress: misc matget ifact ifact23 test_fastexp ; \
+  ./misc && ./matget && ./ifact && ./ifact23 && ./test_fastexp
+
+######
+
 RMF=rm -f
 
 ######

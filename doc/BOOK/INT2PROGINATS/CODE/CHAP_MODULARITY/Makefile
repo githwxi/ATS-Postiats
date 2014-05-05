@@ -34,6 +34,10 @@ checkall:: test_ratfun ; ./test_ratfun
 
 ######
 
+regress:: checkall
+
+######
+
 distclean:: cleanall
 
 ######

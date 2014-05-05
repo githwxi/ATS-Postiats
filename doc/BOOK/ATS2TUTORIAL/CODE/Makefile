@@ -77,6 +77,11 @@ cleanall:: ; $(RMF) chap_stream_vt
 #
 ######
 
+regress:: chap_exception chap_reference chap_arrayref chap_arrszref chap_matrixref chap_mtrxszref chap_hordfun chap_cloptr chap_stream chap_stream_vt ; \
+  ./chap_exception && ./chap_reference && ./chap_arrayref && ./chap_arrszref && ./chap_matrixref && ./chap_mtrxszref && ./chap_hordfun && ./chap_cloptr && ./chap_stream && ./chap_stream_vt
+
+######
+
 include $(PATSHOME)/share/atsmake-post.mk
 
 ######

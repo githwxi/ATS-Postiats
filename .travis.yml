@@ -1,13 +1,16 @@
 before_install:
   - date
-  - sudo apt-get -qq -y install libgmp-dev
+  - sudo apt-get -qq -y install libgmp-dev libgc-dev
   - export PATSHOME=${TRAVIS_BUILD_DIR}
+  - export PATSHOMERELOC=${PATSHOME}
+  - export PATH=${PATH}:${PATSHOME}/bin
   - cd ${HOME}
   - export ATSHOME=${HOME}/ats-lang-anairiats-0.2.11
   - export ATSHOMERELOC=ATS-0.2.11
   - ${TRAVIS_BUILD_DIR}/travis-ci/setup.sh 0.2.11
 script:
   - cd ${TRAVIS_BUILD_DIR}
+  # Test release process
   - make -f codegen/Makefile_atslib
   - make -f Makefile_devl src_depend
   - make -C ${PATSHOME}/src patsopt
@@ -18,5 +21,9 @@ script:
   - make -C ${PATSHOME}/doc/DISTRIB atspackaging
   - make -C ${PATSHOME}/doc/DISTRIB cleanall
   - make -C ${PATSHOME}/doc/DISTRIB atspacktarzvcf
+  # Regress test
+  - make -f Makefile_devl all
+  - make -C ${PATSHOME}/doc regress > regress_doc.log 2>&1
+  - tail -100 regress_doc.log
 after_script:
   - date

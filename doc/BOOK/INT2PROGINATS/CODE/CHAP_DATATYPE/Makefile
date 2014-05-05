@@ -40,6 +40,12 @@ bstree: bstree_dats.c ; \
 
 ######
 
+regress: misc intexp bstree ; \
+  ./misc && ./intexp && ./bstree
+
+
+######
+
 RMF=rm -f
 
 ######

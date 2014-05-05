@@ -28,6 +28,8 @@ all:: insort
 all:: counter
 all:: permord
 all:: montecarlo
+all:: hello
+all:: echoline
 
 ######
 
@@ -72,6 +74,14 @@ echoline: echoline_dats.c ; \
 ######
 
 %_dats.c: %.dats ; $(PATSOPT) -o $@ --dynamic $< || echo $@ ": ERROR!!!"
+
+#####
+
+# xxx Should add "brauntest" to regress test
+#regress: misc brauntest insort counter permord montecarlo hello echoline ; \
+#  ./misc && ./brauntest && ./insort && ./counter && ./permord && ./montecarlo && ./hello && ./echoline
+regress: misc insort counter permord montecarlo hello echoline ; \
+  ./misc && ./insort && ./counter && ./permord && ./montecarlo && ./hello && echo "foo" | ./echoline
 
 ######
 

@@ -34,6 +34,11 @@ cleanall:: ; $(RMF) cloptr
 
 ######
 
+regress: atview dotprod stkclo cloptr ; \
+  ./atview && ./dotprod && ./stkclo && ./cloptr
+
+######
+
 include $(PATSHOME)/share/atsmake-post.mk
 
 ######

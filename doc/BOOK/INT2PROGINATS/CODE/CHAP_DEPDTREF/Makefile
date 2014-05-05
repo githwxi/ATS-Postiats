@@ -49,6 +49,11 @@ rbtree: rbtree_dats.c ; \
 %_dats.c: %.dats ; \
   $(PATSOPT) $(ATSCCFLAGS) -o $@ --dynamic $< || echo $@ ": ERROR!!!"
 
+#####
+
+regress: misc listfuns mergesort rbtree ; \
+  ./misc && ./listfuns && ./mergesort && ./rbtree
+
 ######
 
 RMF=rm -f
