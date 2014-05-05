@@ -21,8 +21,6 @@ script:
   - make -C ${PATSHOME}/doc/DISTRIB cleanall
   - make -C ${PATSHOME}/doc/DISTRIB atspacktarzvcf
   # Regress test
-  - make -f codegen/Makefile_atslib
-  - make -f Makefile_devl src_depend
   - make -f Makefile_devl all
   - make -C ${PATSHOME}/doc regress
 after_script:
