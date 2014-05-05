@@ -129,6 +129,8 @@ all_script::
 #make_entry("atscntrb_jansson")
 #make_entry("atscntrb_hiredis")
 #
+#make_entry("atscntrb_openssl")
+#
 #make_entry("atscntrb_JNI")
 #
 #make_entry("atscntrb_HTML")
@@ -273,6 +275,11 @@ srcget_atscntrb_jansson:: SCRIPT/atscntrb_jansson.bash ; bash $<
 
 srcget_atscntrb:: srcget_atscntrb_hiredis
 srcget_atscntrb_hiredis:: SCRIPT/atscntrb_hiredis.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_openssl
+srcget_atscntrb_openssl:: SCRIPT/atscntrb_openssl.bash ; bash $<
 
 ######
 

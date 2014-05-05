@@ -419,6 +419,6 @@ Is it a good practice to allow the use of wildcards (_ or ...)
 for discarding resources:
 
 Pro: Very easy to use
-Con: Maybe it is too easy to allow unintential leak of resources 
+Con: Maybe it is too easy to allow unintentional leak of resources 
 
 ###### end of [NOTES] ######

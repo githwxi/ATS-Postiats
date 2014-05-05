@@ -33,6 +33,7 @@ Here is a list of major additions and changes since the last release:
    make CFLAGS=... LDFLAGS=... -f Makefile
 7. Adding support for on-line package relocation (atspkgreloc):
    patsopt --pkgreloc ...
+8. Adding contrib/openssl into ATS2-contrib for the first time
 
 </pre>
 

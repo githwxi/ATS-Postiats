@@ -315,6 +315,17 @@ cleanall:: ; $(RMF) HTML/atscntrb_hiredis.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_hiredis.bash
 
 #
+all_html:: HTML/atscntrb_openssl.html
+HTML/atscntrb_openssl.html: atscntrb_openssl_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_openssl.bash
+SCRIPT/atscntrb_openssl.bash: atscntrb_openssl_atxt.exe ; ./$< > $@
+atscntrb_openssl_atxt.dats: ATEXT/atscntrb_openssl.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_openssl_atxt.exe: atscntrb_openssl_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_openssl_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_openssl.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_openssl.bash
+
+#
 all_html:: HTML/atscntrb_JNI.html
 HTML/atscntrb_JNI.html: atscntrb_JNI_atxt.exe ; ./$< > $@
 all_script:: SCRIPT/atscntrb_JNI.bash
@@ -513,6 +524,11 @@ srcget_atscntrb_jansson:: SCRIPT/atscntrb_jansson.bash ; bash $<
 
 srcget_atscntrb:: srcget_atscntrb_hiredis
 srcget_atscntrb_hiredis:: SCRIPT/atscntrb_hiredis.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_openssl
+srcget_atscntrb_openssl:: SCRIPT/atscntrb_openssl.bash ; bash $<
 
 ######
 
