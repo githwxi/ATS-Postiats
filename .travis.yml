@@ -3,6 +3,7 @@ before_install:
   - sudo apt-get -qq -y install libgmp-dev
   - export PATSHOME=${TRAVIS_BUILD_DIR}
   - export PATSHOMERELOC=${PATSHOME}
+  - export PATH=${PATH}:${PATSHOME}/bin
   - cd ${HOME}
   - export ATSHOME=${HOME}/ats-lang-anairiats-0.2.11
   - export ATSHOMERELOC=ATS-0.2.11
