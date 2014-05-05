@@ -206,4 +206,4 @@ val ((*void*)) = assertloc (g1ofg0(ys) = g1ofg0(zs))
 
 (* ****** ****** *)
 
-(* end of [listfun.dats] *)
+(* end of [listfuns.dats] *)
