@@ -61,7 +61,7 @@ cleanall:: ; $(RMF) strcmp
 
 all:: ArrayCopyFromList
 ArrayCopyFromList: ArrayCopyFromList_dats.c ; $(PATSCC) $(ATSCCFAGS) -o $@ $^
-regress: ArrayCopyFromList; ./ArrayCopyFromList
+regress:: ArrayCopyFromList; ./ArrayCopyFromList
 cleanall:: ; $(RMF) ArrayCopyFromList
 
 ######
