@@ -23,7 +23,7 @@ script:
   - make -C ${PATSHOME}/doc/DISTRIB atspacktarzvcf
   # Regress test
   - make -f Makefile_devl all
-  - make -C ${PATSHOME}/doc regress > regress_doc.log 2>&1
+  - make -j 8 -C ${PATSHOME}/doc regress > regress_doc.log 2>&1
   - tail -100 regress_doc.log
 after_script:
   - date
