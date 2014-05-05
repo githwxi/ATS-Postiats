@@ -153,6 +153,11 @@ CHMOD=chmod
 
 ######
 
+regress:: ; \
+  $(MAKE) -C CODE regress
+
+######
+
 upload:: upload_html
 
 upload_pdf:: ; \
