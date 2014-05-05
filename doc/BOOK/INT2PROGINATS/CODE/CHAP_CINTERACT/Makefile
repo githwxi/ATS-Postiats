@@ -74,6 +74,11 @@ cleanall:: ; $(RMF) StaticAllocList
 
 ######
 
+regress: misc fact factext extfcall strcmp ArrayCopyFromList StaticAllocList ; \
+	./misc && ./fact && ./factext && ./extfcall && ./strcmp && ./ArrayCopyFromList && ./StaticAllocList
+
+######
+
 RMF=rm -f
 
 ######

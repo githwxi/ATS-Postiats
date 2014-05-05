@@ -31,6 +31,11 @@ cleanall:: ; $(RMF) brauntree
 
 ######
 
+regress: misc tree brauntree ; \
+  ./misc && ./tree && ./brauntree
+
+######
+
 RMF=rm -f
 
 ######

@@ -47,6 +47,14 @@ cleanall:: ; $(RMF) quickSort
 
 ######
 
+# xxx Should add "list_vt", "rbtree" to regress test
+#regress:: list_vt rbtree mergeSort insertionSort quickSort ; \
+#  ./list_vt && ./rbtree && ./mergeSort && ./insertionSort && ./quickSort
+regress:: mergeSort insertionSort quickSort ; \
+  ./mergeSort && ./insertionSort && ./quickSort
+
+######
+
 RMF=rm -f
 
 ######

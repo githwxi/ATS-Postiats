@@ -44,6 +44,11 @@ cleanall:: ; $(RMF) circbuf2
 
 ######
 
+regress:: mergeSort timer circbuf circbuf2 ; \
+  ./mergeSort && ./timer && ./circbuf && ./circbuf2
+
+######
+
 RMF=rm -f
 
 ######

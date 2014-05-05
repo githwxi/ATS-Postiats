@@ -19,6 +19,7 @@ ATSCCFLAGS=
 ######
 
 all:: misc
+all:: bsearch_arr
 
 ######
 
@@ -34,6 +35,11 @@ bsearch_arr: bsearch_arr_dats.c ; \
 
 %_dats.c: %.dats ; \
   $(PATSOPT) $(ATSCCFLAGS) -o $@ --dynamic $< || echo $@ ": ERROR!!!"
+
+######
+
+regress: misc bsearch_arr ; \
+  ./misc && ./bsearch_arr
 
 ######
 

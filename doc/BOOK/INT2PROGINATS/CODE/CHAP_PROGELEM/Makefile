@@ -32,6 +32,11 @@ misc: misc_dats.c ; \
 
 ######
 
+regress: misc ; \
+  ./misc
+
+######
+
 RMF=rm -f
 
 ######

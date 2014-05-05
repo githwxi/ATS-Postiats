@@ -23,6 +23,8 @@ ATSCCFLAGS=-D_GNU_SOURCE -DATS_MEMALLOC_LIBC
 ######
 
 all:: misc
+all:: listfuns
+all:: mergesort
 
 ######
 
@@ -42,6 +44,11 @@ mergesort: mergesort_dats.c ; \
 ######
 
 %_dats.c: %.dats ; $(PATSOPT) -o $@ --dynamic $< || echo $@ ": ERROR!!!"
+
+######
+
+regress: misc listfuns mergesort ; \
+  ./misc && ./listfuns && ./mergesort
 
 ######
 

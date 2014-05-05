@@ -36,6 +36,11 @@ queens: queens_dats.c ; \
 
 ######
 
+regress: hello queens ; \
+  ./hello && ./queens
+
+######
+
 RMF=rm -f
 
 ######

@@ -56,6 +56,11 @@ twice: twice_dats.c ; \
 
 ######
 
+regress: misc acker bsearch coinchange queens twice ; \
+  ./misc && ./acker && ./bsearch && ./coinchange && ./queens && ./twice
+
+######
+
 RMF=rm -f
 
 ######
