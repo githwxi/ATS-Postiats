@@ -150,6 +150,10 @@ absvtype
 d2varmap_vtype (a:type) // assumed in [pats_dynexp2_dvar.dats]
 vtypedef d2varmap_vt (a:type) = d2varmap_vtype (a)
 //
+absvtype
+d2varmaplst_vtype (a:type) // assumed in [pats_dynexp2_dvar.dats]
+vtypedef d2varmaplst_vt (a:type) = d2varmaplst_vtype (a)
+//
 (* ****** ****** *)
 
 abstype d2mac_type
@@ -425,20 +429,32 @@ fun d2varmap_listize
   {a:type} (map: d2varmap(a)):<> List_vt @(d2var, a)
 
 (* ****** ****** *)
-
+//
 fun d2varmap_vt_nil {a:type} ():<> d2varmap_vt (a)
 fun d2varmap_vt_free {a:type} (map: d2varmap_vt(a)):<> void
-
+//
 fun d2varmap_vt_search
-  {a:type} (map: !d2varmap_vt(a), d2v: d2var):<> Option_vt a
+  {a:type} (map: !d2varmap_vt(a), d2v: d2var):<> Option_vt(a)
 fun d2varmap_vt_insert
   {a:type} (map: &d2varmap_vt(a), d2v: d2var, x: a):<> bool(*found*)
 fun d2varmap_vt_remove
   {a:type} (map: &d2varmap_vt(a), d2v: d2var):<> bool(*found*)
-
+//
 fun d2varmap_vt_listize
   {a:type} (map: !d2varmap_vt(a)):<> List_vt @(d2var, a)
-
+//
+(* ****** ****** *)
+//
+fun d2varmaplst_vt_nil {a:type} ():<> d2varmaplst_vt (a)
+fun d2varmaplst_vt_free {a:type} (map: d2varmaplst_vt(a)):<> void
+//
+fun d2varmaplst_vt_search
+  {a:type} (map: !d2varmaplst_vt(a), d2v: d2var):<> Option_vt(a)
+fun d2varmaplst_vt_insert
+  {a:type} (map: &d2varmaplst_vt(a), d2v: d2var, x: a):<> bool(*found*)
+fun d2varmaplst_vt_remove
+  {a:type} (map: &d2varmaplst_vt(a), d2v: d2var):<> bool(*found*)
+//
 (* ****** ****** *)
 
 datatype m2acarg =

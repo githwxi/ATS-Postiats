@@ -173,6 +173,10 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
+#packfilename("libc_sys_stat.dats")
+
+(* ****** ****** *)
+
 #packfilename("libc_gdbm_gdbm.dats")
 
 (* ****** ****** *)

@@ -674,8 +674,6 @@ and primlab =
 
 and primlablst = List (primlab)
 
-and d2vbindmap = d2varmap (primval)
-
 (* ****** ****** *)
 
 fun print_primdec (pmd: primdec): void

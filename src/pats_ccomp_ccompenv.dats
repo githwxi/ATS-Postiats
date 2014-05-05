@@ -789,7 +789,7 @@ ccompenv_struct =
 , ccompenv_vbindmapenv= vbindmapenv
 //
 , ccompenv_markenvlst= markenvlst_vt
-, ccompenv_vbindmapall= d2varmap_vt (primval)
+, ccompenv_vbindmapall= d2varmaplst_vt (primval)
 //
 } // end of [ccompenv_struct]
 
@@ -805,6 +805,7 @@ ccompenv_struct_uninitize (x) = let
 //
   val () =
     markenvlst_vt_free (x.ccompenv_markenvlst)
+  (* end of [val] *)
 //
   val () = freeconenv_free (x.ccompenv_freeconenv)
   val () = loopexnenv_free (x.ccompenv_loopexnenv)
@@ -815,7 +816,7 @@ ccompenv_struct_uninitize (x) = let
   val () = dvarsetenv_free (x.ccompenv_dvarsetenv)
   val () = vbindmapenv_free (x.ccompenv_vbindmapenv)
 //
-  val () = d2varmap_vt_free (x.ccompenv_vbindmapall)
+  val () = d2varmaplst_vt_free (x.ccompenv_vbindmapall)
 //
 in
   // end of [ccompenv_struct_uninitize]
@@ -853,7 +854,7 @@ val () = p->ccompenv_vbindmapenv := list_vt_nil ()
 //
 val () = p->ccompenv_markenvlst := MARKENVLSTnil ()
 //
-val () = p->ccompenv_vbindmapall := d2varmap_vt_nil ()
+val () = p->ccompenv_vbindmapall := d2varmaplst_vt_nil ()
 //
 val () = fold@ (env)
 //
@@ -1583,7 +1584,7 @@ assume ccompenv_push_v = unit_v
 
 fun auxpop
 (
-  map: &d2varmap_vt (primval), xs: markenvlst_vt
+  map: &d2varmaplst_vt (primval), xs: markenvlst_vt
 ) : markenvlst_vt = let
 in
 //
@@ -1593,7 +1594,7 @@ case+ xs of
   end // end of [MENVLSTnil]
 | ~MARKENVLSTmark (xs) => xs
 | ~MARKENVLSTcons_var (d2v, xs) => let
-    val _(*removed*) = d2varmap_vt_remove (map, d2v)
+    val _(*removed*) = d2varmaplst_vt_remove (map, d2v)
   in
     auxpop (map, xs)
   end // end of [MENVLSTcons]
@@ -1609,7 +1610,7 @@ end // end of [auxpop]
 
 fun auxjoin
 (
-  map: &d2varmap_vt (primval), xs: &markenvlst_vt
+  map: &d2varmaplst_vt (primval), xs: &markenvlst_vt
 ) : void = let
 in
 //
@@ -1724,7 +1725,7 @@ val CCOMPENV (!p) = env
 //
 val xs = p->ccompenv_markenvlst
 val () = p->ccompenv_markenvlst := MARKENVLSTcons_var (d2v, xs)
-val _(*replaced*) = d2varmap_vt_insert (p->ccompenv_vbindmapall, d2v, pmv)
+val _(*replaced*) = d2varmaplst_vt_insert (p->ccompenv_vbindmapall, d2v, pmv)
 //
 prval () = fold@ (env)
 //
@@ -1738,7 +1739,7 @@ ccompenv_find_vbindmapall
 {
 //
   val CCOMPENV (!p) = env
-  val opt = d2varmap_vt_search (p->ccompenv_vbindmapall, d2v)
+  val opt = d2varmaplst_vt_search (p->ccompenv_vbindmapall, d2v)
   prval () = fold@ (env)
 //
 } // end of [ccompenv_add_vbindmapall]
