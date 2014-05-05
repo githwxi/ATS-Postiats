@@ -1,6 +1,6 @@
 before_install:
   - date
-  - sudo apt-get -qq -y install libgmp-dev
+  - sudo apt-get -qq -y install libgmp-dev libgc-dev
   - export PATSHOME=${TRAVIS_BUILD_DIR}
   - export PATSHOMERELOC=${PATSHOME}
   - export PATH=${PATH}:${PATSHOME}/bin
