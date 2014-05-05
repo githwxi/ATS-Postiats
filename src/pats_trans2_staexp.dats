@@ -552,7 +552,9 @@ fun s1exp_trup_sqid
 in
 //
 case+ ans of
-| ~Some_vt s2i0 => begin case+ s2i0 of
+//
+| ~Some_vt s2i0 => begin
+  case+ s2i0 of
 //
   | S2ITMcst s2cs => let
       val-list_cons (s2c, _) = s2cs // HX: [s2cs] cannot be empty
@@ -569,6 +571,7 @@ case+ ans of
       val s2c = loop (s2cs, s2c)
 //
       val s2e0 = s2exp_cst (s2c)
+//
     in
       case+ s2cst_get_srt (s2c) of
       | S2RTfun (
@@ -576,7 +579,7 @@ case+ ans of
         ) when s2rt_is_dat (s2t_res) =>
           s2exp_app_srt (s2t_res, s2e0, list_nil ()) // HX: automatically applied
         // S2RTfun
-      | _ => s2e0 // HX: [s2c] is not a nullary constructor
+      | _ (*non-S2RTfun*) => s2e0 // HX: [s2c] is not a nullary constructor
     end // end of [S2ITMcst]
 //
   | S2ITMe1xp e1xp => let
@@ -605,9 +608,10 @@ case+ ans of
       ) // end of [val]
       val () = prerr_newline ()
     in
-      $ERR.abort {s2exp} ()
+      $ERR.abort {s2exp} ((*void*))
     end (* end of [_] *)
   end // end of [Some_vt]
+//
 | ~None_vt () => let
     val () = prerr_error2_loc (loc0)
     val () = filprerr_ifdebug "s1exp_trup_sqid"

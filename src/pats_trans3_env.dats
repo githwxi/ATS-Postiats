@@ -274,7 +274,9 @@ stasub_s2varlst_instantiate_some (
 //
 macdef loop = stasub_s2varlst_instantiate_some
 //
-fun auxerr1 (
+fun
+auxerr1
+(
   locarg: location, serr: int
 ) : void = let
   val () = prerr_error3_loc (locarg)
@@ -282,24 +284,20 @@ fun auxerr1 (
   val () = prerr ": static arity mismatch"
   val () = if serr > 0 then prerr ": more arguments are expected."
   val () = if serr < 0 then prerr ": fewer arguments are expected."
-  val () = prerr_newline ()
+  val () = prerr_newline ((*void*))
 in
   the_trans3errlst_add (T3E_s2varlst_instantiate_arity (locarg, serr))
 end // end of [auxerr1]
-fun auxerr2 (
+fun
+auxerr2
+(
   locarg: location, s2t1: s2rt, s2t2: s2rt
 ) : void = let
   val () = prerr_error3_loc (locarg)
   val () = filprerr_ifdebug "stasub_s2varlst_instantiate_some"
   val () = prerr ": mismatch of sorts:\n"
-  val () = prerr "the needed sort is ["
-  val () = prerr_s2rt (s2t1)
-  val () = prerr "];"
-  val () = prerr_newline ()
-  val () = prerr "the actual sort is ["
-  val () = prerr_s2rt (s2t2)
-  val () = prerr "]."
-  val () = prerr_newline ()
+  val () = prerrln! ("the needed sort is [", s2t1, "];")
+  val () = prerrln! ("the actual sort is [", s2t2, "].")
 in
   the_trans3errlst_add (T3E_s2varlst_instantiate_srtck (locarg, s2t1, s2t2))
 end // end of [auxerr2]
@@ -474,13 +472,14 @@ s2exp_exi_instantiate_sexparg
 //
 val locarg = s2a.s2exparg_loc
 //
-fun auxerr (
+fun auxerr
+(
   locarg: location
 ) : void = let
   val () = prerr_error3_loc (locarg)
   val () = filprerr_ifdebug "s2exp_exi_instantiate_sexparg"
   val () = prerr ": the static abstraction is overly done."
-  val () = prerr_newline ()
+  val () = prerr_newline ((*void*))
 in
   the_trans3errlst_add (T3E_s2varlst_instantiate_nabs (locarg, 1))
 end (* end of [auxerr] *)
@@ -539,18 +538,21 @@ implement
 s2exp_uni_instantiate_sexparglst
   (s2e0, s2as, err) = let
 //
-fun auxerr (
+fun
+auxerr
+(
   locarg: location
 ) : void = let
   val () = prerr_error3_loc (locarg)
   val () = filprerr_ifdebug "s2exp_uni_instantiate_sexparglst"
   val () = prerr ": the static application is overly done."
-  val () = prerr_newline ()
+  val () = prerr_newline ((*void*))
 in
   the_trans3errlst_add (T3E_s2varlst_instantiate_napp (locarg, 1))
 end (* end of [auxerr] *)
 //
-fun loop (
+fun loop
+(
   sub: &stasub
 , s2f: s2hnf
 , s2ps_res: &s2explst_vt
@@ -678,23 +680,28 @@ implement
 s2exp_tmp_instantiate_tmpmarglst
   (s2e_tmp, locarg, s2qs, t2mas, err) = let
 //
-fun auxerr (
+fun
+auxerr
+(
   locarg: location
 ) : void = let
   val () = prerr_error3_loc (locarg)
   val () = filprerr_ifdebug "s2exp_tmp_instantiate_tmpmarglst"
   val () = prerr ": the template instantiation is overly done."
-  val () = prerr_newline ()
+  val () = prerr_newline ((*void*))
 in
   the_trans3errlst_add (T3E_s2varlst_instantiate_napp (locarg, 1))
 end (* end of [auxerr] *)
 //
 var locarg: location = locarg
 //
-fun auxsome (
+fun
+auxsome
+(
   sub: &stasub
 , locarg: &location
-, s2qs: s2qualst, t2mas: t2mpmarglst
+, s2qs: s2qualst
+, t2mas: t2mpmarglst
 , err: &int
 ) : s2qualst = let
 in
@@ -761,7 +768,8 @@ fun the_s2Varset_env_add (x: s2Var): void
 
 local
 
-viewtypedef s2Varsetlst_vt = List_vt (s2Varset)
+vtypedef
+s2Varsetlst_vt = List_vt (s2Varset)
 val s2Varset_nil = s2Varset_make_nil ()
 val the_s2Varset = ref_make_elt<s2Varset> (s2Varset_nil)
 val the_s2Varsetlst = ref_make_elt<s2Varsetlst_vt> (list_vt_nil ())
