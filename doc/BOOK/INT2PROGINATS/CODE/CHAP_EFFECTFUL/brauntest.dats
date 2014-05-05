@@ -177,13 +177,11 @@ main0 () =
 //
 #define N1 57
 val xs = randgen_list<T> (N1)
-val xs = list_of_list_vt (xs)
 val bt = list2bt<T> (g0ofg1(xs))
 val () = assertloc (brauntest0 (bt))
 //
 #define N2 1000
 val xs = randgen_list<T> (N2)
-val xs = list_of_list_vt (xs)
 val bt = list2bt<T> (g0ofg1(xs))
 val () = assertloc (brauntest0 (bt))
 //

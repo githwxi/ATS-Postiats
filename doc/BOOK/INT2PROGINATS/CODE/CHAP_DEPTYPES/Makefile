@@ -4,7 +4,12 @@
 
 ######
 
-CCOPT=gcc -std=c99
+CC=gcc
+CCOPT=$(CC) -std=c99 -D_GNU_SOURCE
+
+######
+
+PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
@@ -25,21 +30,19 @@ all:: bsearch_arr
 
 misc: misc_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+regress:: misc; ./misc
+cleanall:: ; $(RMF) misc
 
 ######
 
 bsearch_arr: bsearch_arr_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+regress:: bsearch_arr; ./bsearch_arr
+cleanall:: ; $(RMF) bsearch_arr
 
 ######
 
-%_dats.c: %.dats ; \
-  $(PATSOPT) $(ATSCCFLAGS) -o $@ --dynamic $< || echo $@ ": ERROR!!!"
-
-######
-
-regress: misc bsearch_arr ; \
-  ./misc && ./bsearch_arr
+%_dats.c: %.dats ; $(PATSOPT) $(ATSCCFLAGS) -o $@ --dynamic $< || echo $@ ": ERROR!!!"
 
 ######
 
@@ -51,8 +54,6 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
-cleanall:: ; $(RMF) misc
-cleanall:: ; $(RMF) bsearch_arr
 
 ######
 

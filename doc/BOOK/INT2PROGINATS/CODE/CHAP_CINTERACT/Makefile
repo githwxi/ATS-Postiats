@@ -19,63 +19,61 @@ ATSCCFLAGS=-O2
 
 ######
 
-all:: misc
-all:: fact
-all:: factext
-all:: extfcall
-all:: strcmp
-all:: ArrayCopyFromList
-all:: StaticAllocList
-
-######
-
 distclean:: cleanall
 
 ######
 
+all:: misc
 misc: misc_dats.c; \
-  $(PATSCC) -DATS_MEMALLOC_LIBC $(ATSCCFAGS) -o $@ $<
+$(PATSCC) -DATS_MEMALLOC_LIBC $(ATSCCFAGS) -o $@ $<
+regress:: misc; ./misc
 cleanall:: ; $(RMF) misc
 
 ######
 
+all:: fact
 fact: fact_dats.c fact2.c ; $(PATSCC) $(ATSCCFAGS) -o $@ $^
+regress:: fact; ./fact
 cleanall:: ; $(RMF) fact
 
 ######
 
+all:: factext
 factext: factext_dats.c ; $(PATSCC) $(ATSCCFAGS) -o $@ $^
+regress:: factext; ./factext
 cleanall:: ; $(RMF) factext
 
 ######
 
+all:: extfcall
 extfcall: extfcall_dats.c ; $(PATSCC) $(ATSCCFAGS) -o $@ $^
+regress:: extfcall; ./extfcall
 cleanall:: ; $(RMF) extfcall
 
 ######
 
+all:: strcmp
 strcmp: strcmp_dats.c ; $(PATSCC) $(ATSCCFAGS) -o $@ $^
+regress:: strcmp; ./strcmp
 cleanall:: ; $(RMF) strcmp
 
 ######
 
+all:: ArrayCopyFromList
 ArrayCopyFromList: ArrayCopyFromList_dats.c ; $(PATSCC) $(ATSCCFAGS) -o $@ $^
+regress: ArrayCopyFromList; ./ArrayCopyFromList
 cleanall:: ; $(RMF) ArrayCopyFromList
 
 ######
 
+all:: StaticAllocList
 StaticAllocList: StaticAllocList_dats.c ; $(PATSCC) $(ATSCCFAGS) -o $@ $^
+regress:: StaticAllocList; ./StaticAllocList
 cleanall:: ; $(RMF) StaticAllocList
 
 ######
 
-%_dats.c: %.dats
-	$(PATSCC) -DATS_MEMALLOC_LIBC $(ATSCCFLAGS) -ccats $< || touch $@
-
-######
-
-regress: misc fact factext extfcall strcmp ArrayCopyFromList StaticAllocList ; \
-	./misc && ./fact && ./factext && ./extfcall && ./strcmp && ./ArrayCopyFromList && ./StaticAllocList
+%_dats.c: %.dats; $(PATSCC) -DATS_MEMALLOC_LIBC $(ATSCCFLAGS) -ccats $< || touch $@
 
 ######
 
@@ -83,10 +81,11 @@ RMF=rm -f
 
 ######
 
-clean:
-	$(RMF) *~
-	$(RMF) *_?ats.o
-	$(RMF) *_?ats.c
+clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_?ats.o
+clean:: ; $(RMF) *_?ats.c
+
+######
 
 cleanall:: clean
 

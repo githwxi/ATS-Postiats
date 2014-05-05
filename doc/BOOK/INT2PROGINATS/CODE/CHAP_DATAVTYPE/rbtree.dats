@@ -282,7 +282,7 @@ in
       ) : void // end of [val]
       val () = print_rbtree<a> (tl)
       val () = print ", "
-      val () = print_val<a> (x)
+      val () = fprint_val<a> (stdout_ref, x)
       val () = print ", "
       val () = print_rbtree<a> (tr)
       val () = print (")")

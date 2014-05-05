@@ -4,8 +4,12 @@
 
 ######
 
-CCOPT=\
-gcc -std=c99 -D_XOPEN_SOURCE
+CC=gcc
+CCOPT=$(CC) -std=c99 -D_XOPEN_SOURCE
+
+######
+
+PATSCCT=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
@@ -33,31 +37,38 @@ all:: twice
 
 misc: misc_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+regress:: misc; ./misc
+cleanall:: ; $(RMF) misc
 
 acker: acker_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+regress:: acker; ./acker
+cleanall:: ; $(RMF) acker
 
 bsearch: bsearch_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+regress:: bsearch; ./bsearch
+cleanall:: ; $(RMF) bsearch
 
 coinchange: coinchange_dats.c ; \
   $(CCOPT) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+regress:: coinchange; ./coinchange
+cleanall:: ; $(RMF) coinchange
 
 queens: queens_dats.c ; \
   $(CCOPT) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+regress:: queens; ./queens
+cleanall:: ; $(RMF) queens
 
 twice: twice_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+regress:: twice; ./twice
+cleanall:: ; $(RMF) twice
 
 ######
 
 %_dats.c: %.dats ; \
   $(PATSOPT) $(ATSCCFLAGS) -o $@ --dynamic $< || echo $@ ": ERROR!!!"
-
-######
-
-regress: misc acker bsearch coinchange queens twice ; \
-  ./misc && ./acker && ./bsearch && ./coinchange && ./queens && ./twice
 
 ######
 
@@ -69,13 +80,9 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
 
+######
+
 cleanall:: clean
-cleanall:: ; $(RMF) misc
-cleanall:: ; $(RMF) acker
-cleanall:: ; $(RMF) bsearch
-cleanall:: ; $(RMF) coinchange
-cleanall:: ; $(RMF) queens
-cleanall:: ; $(RMF) twice
 
 ######
 

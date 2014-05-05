@@ -26,23 +26,27 @@ all:: bstree
 
 misc: misc_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+regress:: misc; ./misc
+cleanall:: ; $(RMF) misc
+
+######
 
 intexp: intexp_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+regress:: intexp; ./intexp
+cleanall:: ; $(RMF) intexp
+
+######
 
 bstree: bstree_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+regress:: bstree; ./bstree
+cleanall:: ; $(RMF) bstree
 
 ######
 
 %_dats.c: %.dats ; \
   $(PATSOPT) $(ATSCFLAGS) -o $@ --dynamic $< || echo $@ ": ERROR!!!"
-
-######
-
-regress: misc intexp bstree ; \
-  ./misc && ./intexp && ./bstree
-
 
 ######
 
@@ -54,10 +58,9 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
 
+######
+
 cleanall:: clean
-cleanall:: ; $(RMF) misc
-cleanall:: ; $(RMF) intexp
-cleanall:: ; $(RMF) bstree
 
 ######
 

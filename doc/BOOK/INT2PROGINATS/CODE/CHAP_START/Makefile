@@ -4,7 +4,12 @@
 
 ######
 
-CC=gcc -std=c99
+CC=gcc
+CCOPT=$(CC) -std=c99
+
+######
+
+PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
@@ -24,20 +29,19 @@ all:: queens
 ######
 
 hello: hello_dats.c ; \
-  $(CC) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+  $(CCOPT) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+regress:: hello; ./hello
+cleanall:: ; $(RMF) hello
 
 queens: queens_dats.c ; \
-  $(CC) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+  $(CCOPT) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+regress:: queens; ./queens
+cleanall:: ; $(RMF) queens
 
 ######
 
 %_dats.c: %.dats ; \
   $(PATSOPT) $(ATSCCFLAGS) -o $@ --dynamic $< || echo $@ ": ERROR!!!"
-
-######
-
-regress: hello queens ; \
-  ./hello && ./queens
 
 ######
 
@@ -50,8 +54,6 @@ clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
-cleanall:: ; $(RMF) hello
-cleanall:: ; $(RMF) queens
 
 ######
 

@@ -15,43 +15,36 @@ ATSCFLAGS=
 ######
 
 all:: list_vt
-list_vt: list_vt.dats; $(PATSCC) -tcats -o $@ $<
+list_vt: list_vt.dats; $(PATSCC) -o $@ $<
+regress:: list_vt; ./list_vt
 
 ######
 
 all:: rbtree
 rbtree: rbtree.dats; \
   $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< && ./$@
-cleanall:: ; $(RMF) rbtree
+regress:: rbtree; ./rbtree
 
 ######
 
 all:: mergeSort
 mergeSort: mergeSort.dats; \
   $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< && ./$@
-cleanall:: ; $(RMF) mergeSort
+regress:: mergeSort; ./mergeSort
 
 ######
 
 all:: insertionSort
 insertionSort: insertionSort.dats; \
   $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< && ./$@
-cleanall:: ; $(RMF) insertionSort
+regress:: insertionSort; ./insertionSort
 
 ######
 
 all:: quickSort
 quickSort: quickSort.dats; \
   $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< && ./$@
-cleanall:: ; $(RMF) quickSort
-
-######
-
-# xxx Should add "list_vt", "rbtree" to regress test
-#regress:: list_vt rbtree mergeSort insertionSort quickSort ; \
-#  ./list_vt && ./rbtree && ./mergeSort && ./insertionSort && ./quickSort
-regress:: mergeSort insertionSort quickSort ; \
-  ./mergeSort && ./insertionSort && ./quickSort
+regress:: quickSort; ./quickSort
 
 ######
 
@@ -66,5 +59,10 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
+cleanall:: ; $(RMF) list_vt
+cleanall:: ; $(RMF) rbtree
+cleanall:: ; $(RMF) mergeSort
+cleanall:: ; $(RMF) insertionSort
+cleanall:: ; $(RMF) quickSort
 
 ###### end of [Makefile] ######

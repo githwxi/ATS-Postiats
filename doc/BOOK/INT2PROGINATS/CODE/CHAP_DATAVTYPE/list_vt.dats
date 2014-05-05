@@ -33,6 +33,10 @@
 *)
 
 (* ****** ****** *)
+//
+#include "share/atspre_staload.hats"
+//
+(* ****** ****** *)
 
 (*
 dataviewtype
@@ -206,6 +210,10 @@ val () = loop (xs, ys, res)
 in
   res
 end // end of [append2]
+
+(* ****** ****** *)
+
+implement main0 ((*void*)) = ((*testing-is-skipped*))
 
 (* ****** ****** *)
 

@@ -27,10 +27,13 @@
 implement
 main0 () =
 {
+//
 val out =
   fileref_open_exn ("hello.txt", file_mode_w)
+//
 val () = fprint_string (out, "Hello, world!\n")
-val () = fileref_close (out)
+//
+val ((*closed*)) = fileref_close (out)
 //
 } (* end of [main0] *)
 

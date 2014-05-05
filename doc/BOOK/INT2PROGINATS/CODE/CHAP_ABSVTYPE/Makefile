@@ -19,33 +19,28 @@ LDFLAGS += -latslib
 all:: mergeSort
 mergeSort: mergeSort.dats ; \
   $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< $(LDFLAGS) && ./$@
-cleanall:: ; $(RMF) mergeSort
+regress:: mergeSort ; ./mergeSort
 
 ######
 
 all:: timer
 timer: timer.dats ; \
   $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< -lrt $(LDFLAGS) && ./$@
-cleanall:: ; $(RMF) timer
+regress:: timer ; ./timer
 
 ######
 
 all:: circbuf
 circbuf: circbuf.dats ; \
   $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< $(LDFLAGS) && ./$@
-cleanall:: ; $(RMF) circbuf
+regress:: circbuf ; ./circbuf
 
 ######
 
 all:: circbuf2
 circbuf2: circbuf2.dats ; \
   $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< $(LDFLAGS) && ./$@
-cleanall:: ; $(RMF) circbuf2
-
-######
-
-regress:: mergeSort timer circbuf circbuf2 ; \
-  ./mergeSort && ./timer && ./circbuf && ./circbuf2
+regress:: circbuf2 ; ./circbuf2
 
 ######
 
@@ -60,5 +55,9 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
+cleanall:: ; $(RMF) mergeSort
+cleanall:: ; $(RMF) timer
+cleanall:: ; $(RMF) circbuf
+cleanall:: ; $(RMF) circbuf2
 
 ###### end of [Makefile] ######

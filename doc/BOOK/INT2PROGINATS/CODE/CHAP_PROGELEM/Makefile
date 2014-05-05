@@ -4,7 +4,12 @@
 
 ######
 
-CCOPT=gcc -std=c99
+CC=gcc
+CCOPT=$(CC) -std=c99 -D_GNU_SOURCE
+
+######
+
+PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
@@ -24,16 +29,12 @@ all:: misc
 
 misc: misc_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+regress:: misc; ./misc
+cleanall:: ; $(RMF) misc
 
 ######
 
-%_dats.c: %.dats ; \
-  $(PATSOPT) $(ATSCCFLAGS) -o $@ --dynamic $< || echo $@ ": ERROR!!!"
-
-######
-
-regress: misc ; \
-  ./misc
+%_dats.c: %.dats ; $(PATSOPT) $(ATSCCFLAGS) -o $@ --dynamic $< || echo $@ ": ERROR!!!"
 
 ######
 
@@ -45,7 +46,6 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
-cleanall:: ; $(RMF) misc
 
 ######
 
