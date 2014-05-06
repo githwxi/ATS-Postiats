@@ -16,5 +16,7 @@ fun aux (ff: $tup(int, int), n: int): int =
 in
   aux ($tup(0, 1), n)
 end // end of [fib2]
+//
+(* ****** ****** *)
 
 (* end of [fib2.dats] *)

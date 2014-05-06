@@ -155,8 +155,14 @@ cleanall:: ; $(RMF) qa-list-229
 ######
 
 all:: qa-list-244
-qa-list-244: qa-list-244.dats ; $(PATSCC) -cleanaft -o $@ $<
+qa-list-244: qa-list-244.dats ; $(PATSCC) -o $@ $<
 cleanall:: ; $(RMF) qa-list-244
+
+######
+
+all:: qa-list-262
+qa-list-262: qa-list-262.dats ; $(PATSCC) -o $@ $<
+cleanall:: ; $(RMF) qa-list-262
 
 ######
 
