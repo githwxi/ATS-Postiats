@@ -2,6 +2,8 @@
 // OpenMP hello world
 //
 
+staload _ = "prelude/DATS/integer.dats"
+
 (* ****** ****** *)
 
 staload "./../SATS/omp.sats"
@@ -13,7 +15,12 @@ main0 () = {
   var th_id: int?
   var nthreads: int?
   val () = omp_parallel_private(th_id)
+(* %{ *)
+(* #pragma omp parallel private(th_id) *)
+(* //{ *)
+(* %} *)
   val () = th_id := omp_get_thread_num()
+  //val () = th_id := 0
   val () = println!(th_id)
   val () = if th_id = 0 
   then 
@@ -22,6 +29,9 @@ main0 () = {
   else
     ()
   val () = println! ("Hello world!") // English
+(* %{ *)
+(* } *)
+(* %} *)
 } // end of [main0]
 
 (* ****** ****** *)

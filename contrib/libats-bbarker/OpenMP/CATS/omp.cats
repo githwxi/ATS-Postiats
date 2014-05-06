@@ -22,6 +22,8 @@
 
 #define atscntrb_openmp_omp_get_thread_num omp_get_thread_num
 
+#define atscntrb_openmp_omp_get_num_threads omp_get_num_threads
+
 #endif // ifndef OPENMP_OMP_CATS
 
 /* end of [omp.cats] */

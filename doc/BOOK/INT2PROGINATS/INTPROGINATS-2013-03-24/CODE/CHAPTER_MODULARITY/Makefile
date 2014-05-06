@@ -43,7 +43,7 @@ distclean:: cleanall
 ######
 
 misc: misc.dats
-	$(ATSCC) $(ATSGCFLAG) $(ATSCCFAGS) -o $@ $< -lm || touch $@
+	$(ATSCC) $(ATSGCFLAG) $(ATSCCFLAGS) -o $@ $< -lm || touch $@
 cleanall:: ; $(RMF) misc
 
 ######

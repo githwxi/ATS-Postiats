@@ -43,7 +43,7 @@ distclean:: cleanall
 ######
 
 misc: misc.dats
-	$(PATSCC) $(ATSCCFAGS) -o $@ $< -lm || touch $@
+	$(PATSCC) $(ATSCCFLAGS) -o $@ $< -lm || touch $@
 cleanall:: ; $(RMF) misc
 
 ######
