@@ -3,7 +3,7 @@ before_install:
   - cd ${HOME}
   - sudo apt-get -qq -y install libgc-dev
   - sudo apt-get -qq -y install libgmp3-dev
-  - sudo apt-get -qq -y install libjson0-dev
+  - sudo apt-get -qq -y install libjson-c-dev
   - sudo apt-get -qq -y install libcurl4-openssl-dev
   - export ATSHOME=${HOME}/ats-lang-anairiats-0.2.11
   - export ATSHOMERELOC=ATS-0.2.11
