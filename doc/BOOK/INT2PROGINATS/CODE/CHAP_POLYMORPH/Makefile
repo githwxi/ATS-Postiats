@@ -54,6 +54,7 @@ cleanall:: ; $(RMF) mergesort
 ######
 
 RMF=rm -f
+RMRF=rm -rf
 
 ######
 

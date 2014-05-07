@@ -123,22 +123,37 @@ UN = "prelude/SATS/unsafe.sats"
 
 staload "libc/SATS/time.sats"
 staload "libc/SATS/stdlib.sats"
-staload "{$LIBATSHWXI}/testing/SATS/randgen.sats"
-staload _(*anon*) = "{$LIBATSHWXI}/testing/DATS/randgen.dats"
 
+(* ****** ****** *)
+//
+#define
+ATSCNTRB_sourceloc
+"http://www.ats-lang.org/LIBRARY/contrib"
+#define
+ATSCNTRB_targetloc "../.INT2PROGINATS-atscntrb"
+//
+staload RG =
+"{$ATSCNTRB}/libats-hwxi/testing/SATS/randgen.sats"
+staload _(*RG*) =
+"{$ATSCNTRB}/libats-hwxi/testing/DATS/randgen.dats"
+//
 (* ****** ****** *)
 
 typedef T1 = int
+
+(* ****** ****** *)
+
 macdef INTMAX = 1000L
+
 implement
-randgen_val<T1> () = let
+$RG.randgen_val<T1> () = let
   val x = lrand48 () mod INTMAX in $UN.cast2int(x)
 end // end of [randgen]
 
 (* ****** ****** *)
 
 typedef T2 = double
-implement randgen_val<T2> () = drand48 ()
+implement $RG.randgen_val<T2> () = drand48 ()
 
 (* ****** ****** *)
 
@@ -153,14 +168,14 @@ val out = stdout_ref
 val () =
   srand48 ($UN.cast2lint(time_get()))
 //
-val xs1 = randgen_list<T1> (N)
+val xs1 = $RG.randgen_list<T1> (N)
 val () = fprintln! (out, "input:\t", xs1)
 val xs1 = g0ofg1 (xs1)
 val ys1 = mergesort<T1> (xs1, lam (x, y) => (x <= y))
 val ys1 = g1ofg0 (ys1)
 val () = fprintln! (out, "output:\t", ys1)
 //
-val xs2 = randgen_list<T2> (N)
+val xs2 = $RG.randgen_list<T2> (N)
 val () = fprintln! (out, "input:\t", xs2)
 val xs2 = g0ofg1 (xs2)
 val ys2 = mergesort<T2> (xs2, lam (x, y) => (x <= y))

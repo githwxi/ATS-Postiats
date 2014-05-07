@@ -92,14 +92,22 @@ end // end of [list0_last]
 staload "libc/SATS/stdlib.sats"
 
 (* ****** ****** *)
-
-staload "{$LIBATSHWXI}/testing/SATS/randgen.sats"
-staload _(*anon*) = "{$LIBATSHWXI}/testing/DATS/randgen.dats"
-
+//
+#define
+ATSCNTRB_sourceloc
+"http://www.ats-lang.org/LIBRARY/contrib"
+#define
+ATSCNTRB_targetloc "../.INT2PROGINATS-atscntrb"
+//
+staload RG =
+"{$ATSCNTRB}/libats-hwxi/testing/SATS/randgen.sats"
+staload _(*RG*) =
+"{$ATSCNTRB}/libats-hwxi/testing/DATS/randgen.dats"
+//
 (* ****** ****** *)
 
 typedef T = double
-implement randgen_val<T> () = drand48 ()
+implement $RG.randgen_val<T> () = drand48 ()
 
 (* ****** ****** *)
 
@@ -107,11 +115,12 @@ implement
 main0 () =
 {
 //
-  #define N 100
-  val xs = g0ofg1 (randgen_list<T> (N))
-  val ((*void*)) = assertloc (list0_length<T> (xs) = N)
-  val-Some0(last) = list0_last<T> (xs)
-  val ((*void*)) = assertloc (last = list0_head_exn (list0_reverse (xs)))
+#define N 100
+val xs = g0ofg1 ($RG.randgen_list<T> (N))
+val ((*void*)) = assertloc (list0_length<T> (xs) = N)
+//
+val-Some0(xz) = list0_last<T> (xs)
+val ((*void*)) = assertloc (xz = list0_head_exn (list0_reverse (xs)))
 //
 } (* end of [main0] *)
 

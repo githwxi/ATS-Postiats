@@ -35,7 +35,8 @@ cleanall:: ; $(RMF) misc
 
 ######
 
-bsearch_arr: bsearch_arr_dats.c ; \
+bsearch_arr: \
+bsearch_arr_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 regress:: bsearch_arr; ./bsearch_arr
 cleanall:: ; $(RMF) bsearch_arr
@@ -47,11 +48,14 @@ cleanall:: ; $(RMF) bsearch_arr
 ######
 
 RMF=rm -f
+RMRF=rm -rf
 
 ######
 
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.c
+
+######
 
 cleanall:: clean
 

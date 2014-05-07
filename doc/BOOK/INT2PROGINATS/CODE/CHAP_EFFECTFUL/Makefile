@@ -40,7 +40,8 @@ cleanall:: ; $(RMF) misc
 
 ######
 
-brauntest: brauntest_dats.c ; \
+brauntest: \
+brauntest_dats.c ; \
   $(PATSCC) $(ATSCCFLAGS) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 regress:: brauntest ; ./brauntest
 cleanall:: ; $(RMF) brauntest
@@ -68,7 +69,8 @@ cleanall:: ; $(RMF) permord
 
 ######
 
-montecarlo: montecarlo_dats.c ; \
+montecarlo: \
+montecarlo_dats.c ; \
   $(PATSCC) $(ATSCCFLAGS) $(INCLUDES) $(CCFLAGS) -o $@ $< -lm || echo $@ ": ERROR!!!"
 regress:: montecarlo ; ./montecarlo
 cleanall:: ; $(RMF) montecarlo
@@ -82,7 +84,8 @@ cleanall:: ; $(RMF) hello hello.txt
 
 ######
 
-echoline: echoline_dats.c ; \
+echoline: \
+echoline_dats.c ; \
   $(PATSCC) $(ATSCCFLAGS) $(INCLUDES) $(CCFLAGS) -o $@ $< -latslib || echo $@ ": ERROR!!!"
 regress:: echoline ; $(CAT) echoline.dats | ./echoline > /dev/null
 cleanall:: ; $(RMF) echoline
@@ -95,6 +98,7 @@ cleanall:: ; $(RMF) echoline
 
 CAT=cat
 RMF=rm -f
+RMRF=rm -rf
 
 ######
 

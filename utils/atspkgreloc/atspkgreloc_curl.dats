@@ -60,12 +60,12 @@ typedef mode_t = $STAT.mode_t
 //
 (* ****** ****** *)
 
-staload "{$LIBCURL}/SATS/curl.sats"
+staload "./libcurl/SATS/curl.sats"
 
 (* ****** ****** *)
 
-staload "{$JSONC}/SATS/json.sats"
-staload _(*anon*) = "{$JSONC}/DATS/json.dats"
+staload "./json/SATS/json.sats"
+staload _(*anon*) = "./json/DATS/json.dats"
 
 (* ****** ****** *)
 
