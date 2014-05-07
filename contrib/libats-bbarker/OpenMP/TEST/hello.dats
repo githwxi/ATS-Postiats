@@ -11,14 +11,6 @@ staload "./../SATS/omp.sats"
 
 (* ****** ****** *)
 
-extern
-fun
-omp_parallel_private_begL(thread_id: int?): void = "mac#" 
-
-extern
-fun
-omp_parallel_private_endL(): void = "mac#"
-
 implement
 main0 () = {
   var th_id: int?
@@ -28,16 +20,17 @@ main0 () = {
   val () = println!(th_id)
   val () = 
   ( 
-  omp_barrier(); 
+  omp_barrier_beg(); 
   if th_id = 0 
   then 
     (nthreads := omp_get_num_threads(); 
      println! (nthreads))
   else
-    ()
+    ();
+  omp_barrier_end();
   )
   val () = println! ("Hello world!") 
-  val () = omp_parallel_private_endL()
+  val () = omp_parallel_private_end()
 } // end of [main0]
 
 (* ****** ****** *)

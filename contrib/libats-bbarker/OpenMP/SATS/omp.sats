@@ -22,7 +22,7 @@ omp_parallel_private_beg(thread_id: int?): void = "mac#%"
 
 // BB: make this consume a symbolic proof later
 fun
-omp_parallel_private_end(thread_id: int?): void = "mac#%"
+omp_parallel_private_end(): void = "mac#%"
 
 (* ****** ****** *)
 
@@ -35,6 +35,12 @@ omp_parallel_private_end(thread_id: int?): void = "mac#%"
 // Probably not necessary but may help programmer's logic.
 fun 
 omp_barrier(): void = "mac#%"
+
+fun 
+omp_barrier_beg(): void = "mac#%"
+
+fun 
+omp_barrier_end(): void = "mac#%"
 
 (* ****** ****** *)
 
