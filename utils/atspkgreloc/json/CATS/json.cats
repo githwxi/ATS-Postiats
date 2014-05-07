@@ -33,7 +33,7 @@
 
 /* ****** ****** */
 
-#include <json.h>
+#include <json/json.h>
 
 /* ****** ****** */
 
@@ -196,6 +196,8 @@ json_object_array_put2_idx
 
 /* ****** ****** */
 
+#if(0)
+
 ATSinline()
 atsvoid_t0ype
 atscntrb_jsonc_json_object_iter_clear
@@ -219,6 +221,10 @@ atscntrb_jsonc_json_object_iter_notequal
   return (equal != 0 ? 0 : 1) ;
 }
 
+#endif // #if(0)
+
+/* ****** ****** */
+
 #define atscntrb_jsonc_json_object_iter_begin json_object_iter_begin
 #define atscntrb_jsonc_json_object_iter_end json_object_iter_end
 #define atscntrb_jsonc_json_object_iter_next json_object_iter_next
@@ -235,12 +241,23 @@ atscntrb_jsonc_json_tokener_get_char_offset
   return ((json_tokener*)tok)->char_offset ;
 }
 
-#define atscntrb_jsonc_json_tokener_error_desc json_tokener_error_desc
+ATSinline()
+atstype_int
+json_tokener_get_error (void *tok)
+   { return ((json_tokener*)tok)->err ; }
+
+/* ****** ****** */
+
+#define \
+atscntrb_jsonc_json_tokener_error_desc json_tokener_error_desc
 #define atscntrb_jsonc_json_tokener_get_error json_tokener_get_error
+
 #define atscntrb_jsonc_json_tokener_new json_tokener_new
 #define atscntrb_jsonc_json_tokener_new_ex json_tokener_new_ex
 #define atscntrb_jsonc_json_tokener_free json_tokener_free
+
 #define atscntrb_jsonc_json_tokener_reset json_tokener_reset
+
 #define atscntrb_jsonc_json_tokener_parse json_tokener_parse
 #define atscntrb_jsonc_json_tokener_parse_verbose json_tokener_parse_verbose
 #define atscntrb_jsonc_json_tokener_parse_ex json_tokener_parse_ex

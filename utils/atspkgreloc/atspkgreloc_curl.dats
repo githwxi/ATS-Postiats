@@ -64,8 +64,8 @@ staload "./libcurl/SATS/curl.sats"
 
 (* ****** ****** *)
 
-staload "./json-c/SATS/json.sats"
-staload _(*anon*) = "./json-c/DATS/json.dats"
+staload "./json/SATS/json.sats"
+staload _(*anon*) = "./json/DATS/json.dats"
 
 (* ****** ****** *)
 
