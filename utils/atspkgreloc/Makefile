@@ -34,7 +34,6 @@ LDFLAGS += -lcurl
 # LDFLAGS +=  $(shell pkg-config --libs json)
 # LDFLAGS +=  $(shell pkg-config --libs libcurl)
 #
-LDFLAGS += -L$(PATSLIB) -latslib
 
 ######
 
