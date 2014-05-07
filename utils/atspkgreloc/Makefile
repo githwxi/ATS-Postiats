@@ -21,13 +21,13 @@ PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 ######
 
 CFLAGS :=
-CFLAGS += $(shell pkg-config --cflags json-c)
+CFLAGS += $(shell pkg-config --cflags json)
 
 ######
 
 LDFLAGS :=
 LDFLAGS += -lcurl
-LDFLAGS += $(shell pkg-config --libs json-c)
+LDFLAGS +=  $(shell pkg-config --libs json)
 LDFLAGS += -L$(PATSLIB) -latslib
 
 ######
