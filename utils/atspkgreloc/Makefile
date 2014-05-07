@@ -33,7 +33,7 @@ LDFLAGS += -L$(PATSLIB) -latslib
 ######
 
 atspkgreloc_curl: atspkgreloc_curl.dats ; \
-  $(PATSCC) -I$(PATSHOMERELOC)/contrib -DATS_MEMALLOC_LIBC $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
+  $(PATSCC) -I . -DATS_MEMALLOC_LIBC $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
 
 ######
 

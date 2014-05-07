@@ -10,6 +10,7 @@ PATSHOMEQ="$(PATSHOME)"
 
 PATSCC=$(PATSHOMEQ)/bin/patscc
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
+ATSPKGRELOC=$(PATSHOMEQ)/bin/atspkgreloc_curl
 
 ######
 
@@ -19,6 +20,11 @@ INCLUDES=-I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime
 
 CCFLAGS=-O2
 ATSCCFLAGS=-D_GNU_SOURCE -DATS_MEMALLOC_LIBC
+
+######
+
+all:: pkgreloc
+regress:: pkgreloc
 
 ######
 
@@ -40,7 +46,8 @@ cleanall:: ; $(RMF) misc
 
 ######
 
-brauntest: brauntest_dats.c ; \
+brauntest: \
+brauntest_dats.c ; \
   $(PATSCC) $(ATSCCFLAGS) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 regress:: brauntest ; ./brauntest
 cleanall:: ; $(RMF) brauntest
@@ -68,7 +75,8 @@ cleanall:: ; $(RMF) permord
 
 ######
 
-montecarlo: montecarlo_dats.c ; \
+montecarlo: \
+montecarlo_dats.c ; \
   $(PATSCC) $(ATSCCFLAGS) $(INCLUDES) $(CCFLAGS) -o $@ $< -lm || echo $@ ": ERROR!!!"
 regress:: montecarlo ; ./montecarlo
 cleanall:: ; $(RMF) montecarlo
@@ -82,10 +90,16 @@ cleanall:: ; $(RMF) hello hello.txt
 
 ######
 
-echoline: echoline_dats.c ; \
+echoline: \
+echoline_dats.c ; \
   $(PATSCC) $(ATSCCFLAGS) $(INCLUDES) $(CCFLAGS) -o $@ $< -latslib || echo $@ ": ERROR!!!"
 regress:: echoline ; $(CAT) echoline.dats | ./echoline > /dev/null
 cleanall:: ; $(RMF) echoline
+
+######
+
+pkgreloc:: ; $(PATSOPT) --pkgreloc -d insort.dats | $(ATSPKGRELOC)
+pkgreloc:: ; $(PATSOPT) --pkgreloc -d brauntest.dats | $(ATSPKGRELOC)
 
 ######
 
@@ -95,6 +109,7 @@ cleanall:: ; $(RMF) echoline
 
 CAT=cat
 RMF=rm -f
+RMRF=rm -rf
 
 ######
 
@@ -104,6 +119,7 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
+cleanall:: ; $(RMRF) .ATSPKGRELOCROOT
 
 ######
 

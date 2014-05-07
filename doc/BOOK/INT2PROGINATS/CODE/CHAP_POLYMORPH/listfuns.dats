@@ -171,13 +171,25 @@ list0_zipwith
 (* ****** ****** *)
 
 staload "libc/SATS/stdlib.sats"
-staload "{$LIBATSHWXI}/testing/SATS/randgen.sats"
-staload _(*anon*) = "{$LIBATSHWXI}/testing/DATS/randgen.dats"
 
 (* ****** ****** *)
 
+//
+#define ATSPKGRELOCROOT ".ATSPKGRELOCROOT"
+//
+#define
+ATSCNTRBWEB
+"http://www.ats-lang.org/LIBRARY/contrib"
+//
+staload RG =
+"{$ATSCNTRBWEB}/libats-hwxi/testing/SATS/randgen.sats"
+staload _(*RG*) =
+"{$ATSCNTRBWEB}/libats-hwxi/testing/DATS/randgen.dats"
+//
+(* ****** ****** *)
+
 typedef T = double
-implement randgen_val<T> () = drand48 ()
+implement $RG.randgen_val<T> () = drand48 ()
 
 (* ****** ****** *)
 
@@ -188,8 +200,8 @@ main0 () =
 #define N1 10
 #define N2 10
 //
-val xs1 = g0ofg1(randgen_list<T> (N1))
-val xs2 = g0ofg1(randgen_list<T> (N2))
+val xs1 = g0ofg1($RG.randgen_list<T> (N1))
+val xs2 = g0ofg1($RG.randgen_list<T> (N2))
 //
 typedef T2 = (T, T)
 //

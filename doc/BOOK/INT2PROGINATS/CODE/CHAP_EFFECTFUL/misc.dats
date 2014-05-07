@@ -138,16 +138,6 @@ staload "libc/SATS/stdlib.sats"
 
 (* ****** ****** *)
 
-staload "{$LIBATSHWXI}/testing/SATS/randgen.sats"
-staload _(*anon*) = "{$LIBATSHWXI}/testing/DATS/randgen.dats"
-
-(* ****** ****** *)
-
-typedef T = double
-implement randgen_val<T> () = drand48 ()
-
-(* ****** ****** *)
-
 implement
 main0 () =
 {

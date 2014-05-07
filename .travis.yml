@@ -1,12 +1,15 @@
 before_install:
   - date
-  - sudo apt-get -qq -y install libgmp-dev libgc-dev
-  - export PATSHOME=${TRAVIS_BUILD_DIR}
-  - export PATSHOMERELOC=${PATSHOME}
-  - export PATH=${PATH}:${PATSHOME}/bin
   - cd ${HOME}
+  - sudo apt-get -qq -y install libgmp-dev
+  - sudo apt-get -qq -y install libcurl-dev
+  - sudo apt-get -qq -y install libjson0-dev
+  - sudo apt-get -qq -y install libgc-dev
   - export ATSHOME=${HOME}/ats-lang-anairiats-0.2.11
   - export ATSHOMERELOC=ATS-0.2.11
+  - export PATSHOME=${TRAVIS_BUILD_DIR}
+  - export PATSHOMERELOC=${TRAVIS_BUILD_DIR}
+  - export PATH=${PATH}:${PATSHOME}/bin
   - ${TRAVIS_BUILD_DIR}/travis-ci/setup.sh 0.2.11
 script:
   - cd ${TRAVIS_BUILD_DIR}

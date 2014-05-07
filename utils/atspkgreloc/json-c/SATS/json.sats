@@ -1,12 +1,12 @@
 (*
-** API in ATS for GNU-readline
+** API in ATS for json-c
 *)
 
 (* ****** ****** *)
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2014 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** Permission to use, copy, modify, and distribute this software for any
@@ -25,40 +25,68 @@
 (* ****** ****** *)
 
 (*
+**
 ** Author: Hongwei Xi
-** Authoremail: gmhwxiATgmailDOTcom
-*)
-
-(* ****** ****** *)
-
-(*
-** Author: Brandon Barker
-** Authoremail: brandonDOTbarkerATgmailDOTcom
+** Authoremail: gmhwxi AT gmail DOT com
+** Start Time: May, 2013
+**
 *)
 
 (* ****** ****** *)
 
 %{#
-//
-#include "readline/CATS/readline.cats"
-//
+#include "json-c/CATS/json.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSCNTRB.readline"
-#define ATS_STALOADFLAG 0 // no static loading at run-time
-#define ATS_EXTERN_PREFIX "atscntrb_readline_" // prefix for external names
+#define
+ATS_PACKNAME "ATSCNTRB.jsonc"
+#define
+ATS_STALOADFLAG 0 // no need for staloading at run-time
+#define
+ATS_EXTERN_PREFIX "atscntrb_jsonc_" // prefix for external names
 
 (* ****** ****** *)
 
-fun rl_library_version (): string = "mac#%"
-fun rl_readline_version ((*void*)): int = "mac#%"
+fun json_c_version (): string = "mac#%"
+fun json_c_version_num (): int = "mac#%"
 
 (* ****** ****** *)
-//
-fun readline (prompt: string): Strptr0 = "mac#%"
-//
+
+#include "./mybasis.sats"
+
 (* ****** ****** *)
 
-(* end of [readline.sats] *)
+(*
+#include "./linkhash.sats" // HX: for hashtable implementation
+*)
+
+(* ****** ****** *)
+
+(*
+#include "./arraylist.sats" // HX: for dynamic arrays
+*)
+
+(* ****** ****** *)
+
+(*
+#include "./printbuf.sats" // HX: for buffered printing
+*)
+
+(* ****** ****** *)
+
+#include "./json_util.sats"
+
+(* ****** ****** *)
+
+#include "./json_object.sats"
+#include "./json_object_iterator.sats"
+
+(* ****** ****** *)
+
+#include "./json_tokener.sats"
+
+(* ****** ****** *)
+
+(* end of [json.sats] *)

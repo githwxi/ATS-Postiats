@@ -74,10 +74,16 @@ staload STDLIB = "libc/SATS/stdlib.sats"
 //
 (* ****** ****** *)
 //
-staload
-RG = "{$LIBATSHWXI}/testing/SATS/randgen.sats"
-staload
-_(*RG*) = "{$LIBATSHWXI}/testing/DATS/randgen.dats"
+#define ATSPKGRELOCROOT ".ATSPKGRELOCROOT"
+//
+#define
+ATSCNTRBWEB
+"http://www.ats-lang.org/LIBRARY/contrib"
+//
+staload RG =
+"{$ATSCNTRBWEB}/libats-hwxi/testing/SATS/randgen.sats"
+staload _(*RG*) =
+"{$ATSCNTRBWEB}/libats-hwxi/testing/DATS/randgen.dats"
 //
 (* ****** ****** *)
 %{^
