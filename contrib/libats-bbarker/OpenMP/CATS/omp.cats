@@ -7,16 +7,23 @@
 
 /* ****** Utilities ****** */
 
-#define STRINGIFY(a) #a
+#define atscntrb_openmp_STR(x) #x
+#define atscntrb_openmp_STRINGIFY(x) atscntrb_openmp_STR(x)
+#define atscntrb_openmp_CONCATFUN(X, Y) X ( Y )
 
 
-/* ****** Pragma Functions ****** */
+/* ****** OpenMP Directives (#pragmas) ****** */
 
-#define atscntrb_openmp_omp_barrier \
-  _Pragma(STRINGIFY( omp barrier ))
+#define atscntrb_openmp_omp_barrier()                   \
+  _Pragma(atscntrb_openmp_STRINGIFY(omp barrier))
 
-#define atscntrb_openmp_omp_parallel_private(thread_id) \
-  _Pragma(STRINGIFY( omp parallel private ## thread_id ## ))
+// #pragma omp parallel private(thread_id)
+#define atscntrb_openmp_omp_parallel_private_beg(thread_id)   \
+  _Pragma(atscntrb_openmp_STRINGIFY(atscntrb_openmp_CONCATFUN \
+  (omp parallel private, thread_id))) {
+//
+#define atscntrb_openmp_omp_parallel_private_end NULL; } 
+
 
 /* ****** ********* ****** */
 
