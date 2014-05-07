@@ -11,7 +11,6 @@ CCOPT=$(CC) -std=c99 -D_GNU_SOURCE
 
 PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
-ATSPKGRELOC=$(PATSHOME)/bin/atspkgreloc_curl
 
 ######
 
@@ -21,11 +20,6 @@ INCLUDES=-I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime
 
 CCFLAGS=-O2
 ATSCCFLAGS=
-
-######
-
-all:: pkgreloc
-regress:: pkgreloc
 
 ######
 
@@ -41,14 +35,11 @@ cleanall:: ; $(RMF) misc
 
 ######
 
-bsearch_arr: bsearch_arr_dats.c ; \
+bsearch_arr: \
+bsearch_arr_dats.c ; \
   $(CCOPT) -DATS_MEMALLOC_LIBC $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 regress:: bsearch_arr; ./bsearch_arr
 cleanall:: ; $(RMF) bsearch_arr
-
-######
-
-pkgreloc:: ; $(PATSOPT) --pkgreloc -d bsearch_arr.dats | $(ATSPKGRELOC)
 
 ######
 
@@ -67,7 +58,6 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMRF) .ATSPKGRELOCROOT
 
 ######
 

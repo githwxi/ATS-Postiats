@@ -81,16 +81,16 @@ staload "libc/SATS/stdlib.sats"
 
 (* ****** ****** *)
 //
-#define ATSPKGRELOCROOT ".ATSPKGRELOCROOT"
-//
 #define
-ATSCNTRBWEB
+ATSCNTRB_sourceloc
 "http://www.ats-lang.org/LIBRARY/contrib"
+#define
+ATSCNTRB_targetloc "../INT2PROGINATS-atscntrb"
 //
 staload RG =
-"{$ATSCNTRBWEB}/libats-hwxi/testing/SATS/randgen.sats"
+"{$ATSCNTRB}/libats-hwxi/testing/SATS/randgen.sats"
 staload _(*RG*) =
-"{$ATSCNTRBWEB}/libats-hwxi/testing/DATS/randgen.dats"
+"{$ATSCNTRB}/libats-hwxi/testing/DATS/randgen.dats"
 //
 (* ****** ****** *)
 

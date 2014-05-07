@@ -10,7 +10,6 @@ PATSHOMEQ="$(PATSHOME)"
 
 PATSCC=$(PATSHOMEQ)/bin/patscc
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
-ATSPKGRELOC=$(PATSHOMEQ)/bin/atspkgreloc_curl
 
 ######
 
@@ -20,11 +19,6 @@ INCLUDES=-I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime
 
 CCFLAGS=-O2
 ATSCCFLAGS=-D_GNU_SOURCE -DATS_MEMALLOC_LIBC
-
-######
-
-all:: pkgreloc
-regress:: pkgreloc
 
 ######
 
@@ -98,11 +92,6 @@ cleanall:: ; $(RMF) echoline
 
 ######
 
-pkgreloc:: ; $(PATSOPT) --pkgreloc -d insort.dats | $(ATSPKGRELOC)
-pkgreloc:: ; $(PATSOPT) --pkgreloc -d brauntest.dats | $(ATSPKGRELOC)
-
-######
-
 %_dats.c: %.dats ; $(PATSOPT) -o $@ --dynamic $< || echo $@ ": ERROR!!!"
 
 #####
@@ -119,7 +108,6 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMRF) .ATSPKGRELOCROOT
 
 ######
 
