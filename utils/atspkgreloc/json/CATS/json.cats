@@ -241,16 +241,22 @@ atscntrb_jsonc_json_tokener_get_char_offset
   return ((json_tokener*)tok)->char_offset ;
 }
 
+/* ****** ****** */
+
 ATSinline()
 atstype_int
-json_tokener_get_error (void *tok)
-   { return ((json_tokener*)tok)->err ; }
+atscntrb_jsonc_json_tokener_get_error
+  (void *tok)
+{
+  return ((json_tokener*)tok)->err ;
+}
 
 /* ****** ****** */
 
 #define \
 atscntrb_jsonc_json_tokener_error_desc json_tokener_error_desc
-#define atscntrb_jsonc_json_tokener_get_error json_tokener_get_error
+
+/* ****** ****** */
 
 #define atscntrb_jsonc_json_tokener_new json_tokener_new
 #define atscntrb_jsonc_json_tokener_new_ex json_tokener_new_ex
