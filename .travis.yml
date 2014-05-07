@@ -1,10 +1,10 @@
 before_install:
   - date
   - cd ${HOME}
-  - sudo apt-get -qq -y install libgmp-dev
-  - sudo apt-get -qq -y install libcurl-dev
-  - sudo apt-get -qq -y install libjson0-dev
   - sudo apt-get -qq -y install libgc-dev
+  - sudo apt-get -qq -y install libgmp3-dev
+  - sudo apt-get -qq -y install libjson0-dev
+  - sudo apt-get -qq -y install libcurl4-openssl-dev
   - export ATSHOME=${HOME}/ats-lang-anairiats-0.2.11
   - export ATSHOMERELOC=ATS-0.2.11
   - export PATSHOME=${TRAVIS_BUILD_DIR}
