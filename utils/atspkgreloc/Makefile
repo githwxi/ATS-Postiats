@@ -28,11 +28,12 @@ CFLAGS :=
 ######
 
 LDFLAGS :=
-LDFLAGS += -ljson
-LDFLAGS += -lcurl
 #
-# LDFLAGS +=  $(shell pkg-config --libs json)
-# LDFLAGS +=  $(shell pkg-config --libs libcurl)
+# LDFLAGS += -ljson
+# LDFLAGS += -lcurl
+#
+LDFLAGS +=  $(shell pkg-config --libs json)
+LDFLAGS +=  $(shell pkg-config --libs libcurl)
 #
 
 ######
