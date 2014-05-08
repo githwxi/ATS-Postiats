@@ -17,27 +17,41 @@ ATS_PACKNAME "atspkgreloc_test03"
 
 (* ****** ****** *)
 //
+#define
+PATSCONTRIB "\
+https://raw.githubusercontent.com/\
+githwxi/ATS-Postiats-contrib/master"
+//
+(*
+//
+// HX-2014-05-08: this is a backup:
+//
+#define PATSCONTRIB "http://www.ats-lang.org/LIBRARY"
+*)
+//
+(* ****** ****** *)
+//
 require
-"{http://www.ats-lang.org/LIBRARY}/contrib/pcre/CATS/pcre.cats"
+"{$PATSCONTRIB}/contrib/pcre/CATS/pcre.cats"
 //
 (* ****** ****** *)
 //
 staload
-"{http://www.ats-lang.org/LIBRARY}/contrib/pcre/SATS/pcre.sats"
+"{$PATSCONTRIB}/contrib/pcre/SATS/pcre.sats"
 staload
-"{http://www.ats-lang.org/LIBRARY}/contrib/pcre/SATS/pcre_ML.sats"
+"{$PATSCONTRIB}/contrib/pcre/SATS/pcre_ML.sats"
 //
 staload _ =
-"{http://www.ats-lang.org/LIBRARY}/contrib/pcre/DATS/pcre.dats"
+"{$PATSCONTRIB}/contrib/pcre/DATS/pcre.dats"
 staload _ =
-"{http://www.ats-lang.org/LIBRARY}/contrib/pcre/DATS/pcre_ML.dats"
+"{$PATSCONTRIB}/contrib/pcre/DATS/pcre_ML.dats"
 //
 (* ****** ****** *)
 
 local
 //
-#include "{http://www.ats-lang.org/LIBRARY}/contrib/pcre/DATS/pcre.dats"
-#include "{http://www.ats-lang.org/LIBRARY}/contrib/pcre/DATS/pcre_ML.dats"
+#include "{$PATSCONTRIB}/contrib/pcre/DATS/pcre.dats"
+#include "{$PATSCONTRIB}/contrib/pcre/DATS/pcre_ML.dats"
 //
 in (* in of [local] *)
 //

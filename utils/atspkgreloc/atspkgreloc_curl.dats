@@ -230,8 +230,14 @@ $extfcall
 ) (* end of [val] *)
 val ((*void*)) = if (err != CURLE_OK) then nerr := nerr + 1
 //
-val err = curl_easy_perform (curl)
-val ((*void*)) = if (err != CURLE_OK) then nerr := nerr + 1
+val err =
+  curl_easy_perform (curl)
+val err = CURLerror2code (err)
+val ((*void*)) =
+if (err != CURLE_OK) then
+  fprintln! (stderr_ref, "ERROR: curl_easy_perform(): failed: ", curl_easy_strerror(err))
+val ((*void*)) =
+  if (err != CURLE_OK) then nerr := nerr + 1
 //
 val ((*void*)) = if knd = 0 then fileref_close (out)
 //
@@ -351,7 +357,8 @@ if i < argc
 // end of [if]
 )
 //
-val err = curl_global_init(0L)
+val err =
+  curl_global_init(CURL_GLOBAL_DEFAULT)
 val ((*void*)) = assertloc (err = CURLE_OK)
 //
 val ((*void*)) = loop (argv, 1, nfil)

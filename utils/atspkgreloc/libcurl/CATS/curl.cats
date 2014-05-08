@@ -48,6 +48,11 @@
 
 /* ****** ****** */
 
+#define \
+atscntrb_libcurl_curl_easy_strerror(err) ((char*)(curl_easy_strerror(err)))
+
+/* ****** ****** */
+
 #define atscntrb_libcurl_eq_CURLcode_CURLcode atspre_eq_int_int
 #define atscntrb_libcurl_eq_CURLerror_CURLcode atspre_eq_int_int
 

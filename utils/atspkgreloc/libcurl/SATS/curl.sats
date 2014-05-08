@@ -142,12 +142,25 @@ fun curl_version ((*void*)): string = "mac#%"
 (* ****** ****** *)
 
 /*
+const char *curl_easy_strerror(CURLcode);
+*/
+fun
+curl_easy_strerror (CURLcode): string = "mac#%"
+
+(* ****** ****** *)
+
+/*
 CURLcode
 curl_global_init(long flags);
 */
 fun
 curl_global_init (flags: lint): CURLcode = "mac#%"
 
+(* ****** ****** *)
+  
+macdef
+CURL_GLOBAL_DEFAULT = $extval(lint, "CURL_GLOBAL_DEFAULT")
+  
 (* ****** ****** *)
 
 /*

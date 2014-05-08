@@ -13,19 +13,23 @@ ATS_PACKNAME "atspkgreloc_test02"
 
 (* ****** ****** *)
 //
-require
-"{http://www.ats-lang.org/LIBRARY}/contrib/libgmp/CATS/gmp.cats"
-//
-require(*HX-2014-05-01: this one is required by others*)
-"{http://www.ats-lang.org/LIBRARY}/contrib/libats-hwxi/intinf/SATS/intinf_vt.sats"
+#define PATSCONTRIB "http://www.ats-lang.org/LIBRARY"
 //
 (* ****** ****** *)
-
-staload "{http://www.ats-lang.org/LIBRARY}/contrib/libats-hwxi/intinf/SATS/intinf.sats"
-staload T = "{http://www.ats-lang.org/LIBRARY}/contrib/libats-hwxi/intinf/SATS/intinf_t.sats"
-staload _ = "{http://www.ats-lang.org/LIBRARY}/contrib/libats-hwxi/intinf/DATS/intinf_t.dats"
-staload _ = "{http://www.ats-lang.org/LIBRARY}/contrib/libats-hwxi/intinf/DATS/intinf_vt.dats"
-
+//
+require
+"{$PATSCONTRIB}/contrib/libgmp/CATS/gmp.cats"
+//
+require(*HX-2014-05-01: this one is required by others*)
+"{$PATSCONTRIB}/contrib/libats-hwxi/intinf/SATS/intinf_vt.sats"
+//
+(* ****** ****** *)
+//
+staload "{$PATSCONTRIB}/contrib/libats-hwxi/intinf/SATS/intinf.sats"
+staload T = "{$PATSCONTRIB}/contrib/libats-hwxi/intinf/SATS/intinf_t.sats"
+staload _ = "{$PATSCONTRIB}/contrib/libats-hwxi/intinf/DATS/intinf_t.dats"
+staload _ = "{$PATSCONTRIB}/contrib/libats-hwxi/intinf/DATS/intinf_vt.dats"
+//
 (* ****** ****** *)
 
 fun
