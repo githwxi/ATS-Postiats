@@ -64,8 +64,8 @@ staload "./libcurl/SATS/curl.sats"
 
 (* ****** ****** *)
 
-staload "./json/SATS/json.sats"
-staload _(*anon*) = "./json/DATS/json.dats"
+staload "./json-c/SATS/json.sats"
+staload _(*anon*) = "./json-c/DATS/json.dats"
 
 (* ****** ****** *)
 
@@ -300,7 +300,8 @@ pkgreloc_fileref
 //
 val cs =
   fileref_get_file_string (inp)
-val itms = json_tokener_parse_list ($UN.strptr2string(cs))
+val itms =
+  json_tokener_parse_list ($UN.strptr2string(cs))
 val ((*void*)) = strptr_free (cs)
 //
 val nitm = auxlst (itms, 0)

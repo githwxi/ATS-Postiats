@@ -33,12 +33,12 @@
 
 /* ****** ****** */
 
-#include <json/json.h>
+#include <../json-c/json.h>
 
 /* ****** ****** */
 
 #define \
-atscntrb_jsonc_json_c_version() ((void*)(json_c_version()))
+atscntrb_jsonc_json_c_version() ((char*)(json_c_version()))
 #define \
 atscntrb_jsonc_json_c_version_num() ((int)(json_c_version_num()))
 
@@ -176,6 +176,8 @@ json_object_array_put2_idx
   return err ;
 }
 
+/* ****** ****** */
+
 #define atscntrb_jsonc_json_object_new_array json_object_new_array
 #define atscntrb_jsonc_json_object_get_array json_object_get_array
 #define atscntrb_jsonc_json_object_array_length json_object_array_length
@@ -195,8 +197,6 @@ json_object_array_put2_idx
 #define atscntrb_jsonc_json_object_object_get json_object_object_get
 
 /* ****** ****** */
-
-#if(0)
 
 ATSinline()
 atsvoid_t0ype
@@ -221,10 +221,6 @@ atscntrb_jsonc_json_object_iter_notequal
   return (equal != 0 ? 0 : 1) ;
 }
 
-#endif // #if(0)
-
-/* ****** ****** */
-
 #define atscntrb_jsonc_json_object_iter_begin json_object_iter_begin
 #define atscntrb_jsonc_json_object_iter_end json_object_iter_end
 #define atscntrb_jsonc_json_object_iter_next json_object_iter_next
@@ -243,23 +239,13 @@ atscntrb_jsonc_json_tokener_get_char_offset
 
 /* ****** ****** */
 
-ATSinline()
-atstype_int
-atscntrb_jsonc_json_tokener_get_error
-  (void *tok)
-{
-  return ((json_tokener*)tok)->err ;
-}
-
-/* ****** ****** */
-
 #define \
 atscntrb_jsonc_json_tokener_error_desc json_tokener_error_desc
-
-/* ****** ****** */
+#define atscntrb_jsonc_json_tokener_get_error json_tokener_get_error
 
 #define atscntrb_jsonc_json_tokener_new json_tokener_new
 #define atscntrb_jsonc_json_tokener_new_ex json_tokener_new_ex
+
 #define atscntrb_jsonc_json_tokener_free json_tokener_free
 
 #define atscntrb_jsonc_json_tokener_reset json_tokener_reset
@@ -267,6 +253,7 @@ atscntrb_jsonc_json_tokener_error_desc json_tokener_error_desc
 #define atscntrb_jsonc_json_tokener_parse json_tokener_parse
 #define atscntrb_jsonc_json_tokener_parse_verbose json_tokener_parse_verbose
 #define atscntrb_jsonc_json_tokener_parse_ex json_tokener_parse_ex
+
 #define atscntrb_jsonc_json_tokener_set_flags json_tokener_set_flags
 
 /* ****** ****** */

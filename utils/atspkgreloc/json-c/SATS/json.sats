@@ -35,7 +35,7 @@
 (* ****** ****** *)
 
 %{#
-#include "json/CATS/json.cats"
+#include "json-c/CATS/json.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)

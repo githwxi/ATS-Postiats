@@ -43,13 +43,7 @@ fun json_object_get{l:addr}
 
 (* ****** ****** *)
 
-(*
-//
-// HX-2014-05-06: it is changed to:
-//
 fun json_object_put (jso: json_object0): int = "mac#%"
-*)
-fun json_object_put (jso: json_object0): void = "mac#%"
 
 (* ****** ****** *)
 
