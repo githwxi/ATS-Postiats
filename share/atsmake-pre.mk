@@ -4,8 +4,8 @@
 
 ######
 #
-# Author: Hongwei Xi
-# Author: Ian Denhardt
+# Author: Hongwei Xi (githwxi)
+# Author: Ian Denhardt (zenhack.net)
 #
 ######
 #
