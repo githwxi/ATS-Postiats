@@ -174,7 +174,7 @@ fun auxmain
     cut_dirs, dir_prefix
   ) = wget_params (source, target)
   val () =
-  fprint! (out, "all:: ;"
+  fprint! (out, "wgetall:: ;"
   , " ", "$(WGET)"
   , " ", "--cut-dirs=", cut_dirs
   , " ", "--directory-prefix=\"", dir_prefix, "\""

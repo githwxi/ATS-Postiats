@@ -4,12 +4,17 @@
 
 ######
 
+MAKE=make
+
+######
+
 PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 
 ATSPKGRELOC=$(PATSHOME)/bin/atspkgreloc_curl
+ATSPKGRELOC2=$(PATSHOME)/bin/atspkgreloc_wget
 
 ######
 
@@ -34,20 +39,25 @@ assignment1: assignment1.dats ; $(PATSCC) -D_GNU_SOURCE -o $@ $<
 
 ######
 #
-pkgreloc-test01:: ; \
+test01-pkgreloc: \
+test01-pkgreloc.json ; $(ATSPKGRELOC) ./$<
+test01-pkgreloc.json:: ; \
 $(PATSOPT) --pkgreloc \
-  -DATS ATSPKGRELOCROOT=\".TEST01\" --output-a .$@ -d test01.dats
-pkgreloc-test01:: ; $(ATSPKGRELOC) ./.$@
+-DATS ATSPKGRELOCROOT=\".TEST01\" --output-w $@ -d test01.dats
 #
-pkgreloc-test02:: ; \
+test02-pkgreloc: \
+test02-pkgreloc.json ; $(ATSPKGRELOC) ./$<
+test02-pkgreloc.json:: ; \
 $(PATSOPT) --pkgreloc \
-  -DATS ATSPKGRELOCROOT=\".TEST02\" --output-a .$@ -d test02.dats
-pkgreloc-test02:: ; $(ATSPKGRELOC) ./.$@
+-DATS ATSPKGRELOCROOT=\".TEST02\" --output-w $@ -d test02.dats
 #
-pkgreloc-test03:: ; \
+test03-pkgreloc: \
+test03-pkgreloc.mk ; $(MAKE) -f ./$< wgetall
+test03-pkgreloc.mk: \
+test03-pkgreloc.json ; $(ATSPKGRELOC2) ./$< > $@
+test03-pkgreloc.json: ; \
 $(PATSOPT) --pkgreloc \
-  -DATS ATSPKGRELOCROOT=\".TEST03\" --output-a .$@ -d test03.dats
-pkgreloc-test03:: ; $(ATSPKGRELOC) ./.$@
+-DATS ATSPKGRELOCROOT=\".TEST03\" --output-w $@ -d test03.dats
 #
 pkgreloc-assignment1:: ; \
   $(PATSOPT) --pkgreloc -d assignment1.dats | $(ATSPKGRELOC)
@@ -74,9 +84,9 @@ cleanall:: ; $(RMF) test03
 cleanall:: ; $(RMRF) .TEST03
 cleanall:: ; $(RMF) assignment1
 cleanall:: ; $(RMRF) .CS320WEBROOT
-cleanall:: ; $(RMF) .pkgreloc-test01
-cleanall:: ; $(RMF) .pkgreloc-test02
-cleanall:: ; $(RMF) .pkgreloc-test03
-cleanall:: ; $(RMF) .pkgreloc-assignment1
+cleanall:: ; $(RMF) test01-pkgreloc.json
+cleanall:: ; $(RMF) test02-pkgreloc.json
+cleanall:: ; $(RMF) test03-pkgreloc.mk
+cleanall:: ; $(RMF) test03-pkgreloc.json
 
 ###### end of [Makefile] ######
