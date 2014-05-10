@@ -227,28 +227,40 @@ pkgreloc_fileref (inp) = let
 val jsvs =
   jsonats_parsexnlst_fileref (inp)
 //
-val () = fprint! (stdout_ref, "#\n", "WGET=wget -r --timestamping -nH\n", "#\n")
+val () = fprint!
+(
+stdout_ref,
+"\
+######\n\
+#\n\
+# A Makefile for relocating packages\n\
+#\n\
+######\n\
+"
+) (* end of [fprint!] *)
+val () = fprint!
+(
+  stdout_ref, "#\n", "WGET=wget -r --timestamping -nH\n", "#\n"
+) (* end of [fprint!] *)
 //
 in
   pkgreloc_jsonvalist (jsvs)
 end // end of [pkgreloc_fileref]
 
 (* ****** ****** *)
-
+//
 local
 #include
 "{$LIBATSHWXI}/cstream/DATS/cstream.dats"
 in (*in-of-local *)
 end // end of [local]
-
-(* ****** ****** *)
-
+//
 local
 #include
 "{$LIBATSHWXI}/cstream/DATS/cstream_fileref.dats"
 in (*in-of-local *)
 end // end of [local]
-
+//
 (* ****** ****** *)
 
 implement

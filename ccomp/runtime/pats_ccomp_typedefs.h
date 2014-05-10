@@ -155,10 +155,19 @@ typedef void* atstype_cloptr ;
 
 /* ****** ****** */
 //
-// HX: making it not usable!!!
+// HX-2014-05:
+// making it not usable!!!
+//
+#ifndef _ATSTYPE_VAR_SIZE
+#define _ATSTYPE_VAR_SIZE 0X10000
+#endif // end of [#ifndef]
+//
+// HX-2014-05:
+// for 8-bit or 16-bit march,
+// _ATSTYPE_VAR_SIZE can be set to 0x100
 //
 typedef
-struct{char _[0XFFFF];} atstype_var[0] ;
+struct{char _[_ATSTYPE_VAR_SIZE];} atstype_var[0] ;
 //
 /* ****** ****** */
 
