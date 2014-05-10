@@ -55,7 +55,7 @@ test03-pkgreloc: \
 test03-pkgreloc.mk ; $(MAKE) -f ./$< wgetall
 test03-pkgreloc.mk: ; \
 $(PATSOPT) --pkgreloc \
--DATS ATSPKGRELOCROOT=\".TEST03\" -d test03.dats | $(ATSPKGRELOC2) > $@
+-DATS ATSPKGRELOCROOT=\".TEST03\" -d test03.dats | $(ATSPKGRELOC2) --output-w $@
 #
 pkgreloc-assignment1:: ; \
   $(PATSOPT) --pkgreloc -d assignment1.dats | $(ATSPKGRELOC)

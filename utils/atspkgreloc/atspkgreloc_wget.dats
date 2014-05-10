@@ -151,31 +151,34 @@ end // end of [local]
 (* ****** ****** *)
 //
 extern
-fun pkgreloc_jsonval (jsv: jsonval): void
+fun pkgreloc_jsonval
+  (out: FILEref, jsv: jsonval): void
 extern
-fun pkgreloc_jsonvalist (jsvs: jsonvalist): void
+fun pkgreloc_jsonvalist
+  (out: FILEref, jsvs: jsonvalist): void
 //
 extern
-fun pkgreloc_fileref (inp: FILEref): void
+fun pkgreloc_fileref
+  (flag: int, out: FILEref, inp: FILEref): void
 //
 (* ****** ****** *)
 
 implement
 pkgreloc_jsonval
-  (jsv) = let
+  (out, jsv) = let
 //
 fun auxmain
 (
   source: string, target: string
 ) : void =
 {
-  val out = stdout_ref
   val (
     cut_dirs, dir_prefix
   ) = wget_params (source, target)
   val () =
   fprint! (out, "wgetall:: ;"
   , " ", "$(WGET)"
+  , " ", "$(WGETFLAGS)"
   , " ", "--cut-dirs=", cut_dirs
   , " ", "--directory-prefix=\"", dir_prefix, "\""
   , " ", "\"", source, "\""
@@ -210,10 +213,10 @@ end // end of [pkgreloc_jsonval]
 
 implement
 pkgreloc_jsonvalist
-  (jsvs) = let
+  (out, jsvs) = let
 //
 implement(env)
-list_foreach$fwork<jsonval><env> (x, env) = pkgreloc_jsonval (x)
+list_foreach$fwork<jsonval><env> (x, env) = pkgreloc_jsonval (out, x)
 //
 in
   list_foreach<jsonval> (jsvs)
@@ -222,14 +225,15 @@ end // end of [pkgreloc_jsonvalist]
 (* ****** ****** *)
 
 implement
-pkgreloc_fileref (inp) = let
+pkgreloc_fileref
+  (flag, out, inp) = let
 //
-val jsvs =
-  jsonats_parsexnlst_fileref (inp)
+val () =
+if flag = 0 then
+{
 //
-val () = fprint!
-(
-stdout_ref,
+val () =
+fprint! (out,
 "\
 ######\n\
 #\n\
@@ -238,14 +242,162 @@ stdout_ref,
 ######\n\
 "
 ) (* end of [fprint!] *)
-val () = fprint!
-(
-  stdout_ref, "#\n", "WGET=wget -r --timestamping -nH\n", "#\n"
-) (* end of [fprint!] *)
+//
+val () = fprint! (out, "#\n")
+val () = fprint! (out, "WGET=wget\n")
+val () = fprint! (out, "WGETFLAGS=-r --timestamping -nH\n")
+val () = fprint! (out, "#\n")
+//
+} (* end of [if] *)
+//
+val jsvs = jsonats_parsexnlst_fileref (inp)
 //
 in
-  pkgreloc_jsonvalist (jsvs)
+  pkgreloc_jsonvalist (out, jsvs)
 end // end of [pkgreloc_fileref]
+
+(* ****** ****** *)
+
+datatype OUTCHAN =
+  | OUTCHANref of (FILEref) | OUTCHANptr of (FILEref)
+// end of [OUTCHAN]
+
+(* ****** ****** *)
+
+fun
+outchan_close
+  (x: OUTCHAN): void =
+(
+  case+ x of
+  | OUTCHANref _ => ((*void*))
+  | OUTCHANptr (out) => fileref_close (out)
+) // end of [outchan_close]
+  
+(* ****** ****** *)
+
+fun
+outchan_get_fileref
+  (x: OUTCHAN): FILEref =
+(
+  case+ x of
+  | OUTCHANref (filr) => filr | OUTCHANptr (filp) => filp
+) // end of [outchan_get_fileref]
+
+(* ****** ****** *)
+
+datatype
+waitkind =
+  | WTKnone of ()
+  | WTKoutput of () // --output-w // --output-a
+// end of [waitkind]
+
+(* ****** ****** *)
+
+typedef
+cmdstate =
+@{
+  ninput= int // local
+, ninput2= int // global
+, waitkind= waitkind // waiting ...
+, outmode= int // write(0); append(1)
+, outchan= OUTCHAN // current output channel
+, nerror= int // number of accumulated errors
+} (* end of [cmdstate] *)
+
+(* ****** ****** *)
+
+extern
+fun arg_process
+  (state: &cmdstate >> _, arg: string): void
+extern
+fun arg_process_inp
+  (state: &cmdstate >> _, arg: string): void
+extern
+fun arg_process_out
+  (state: &cmdstate >> _, arg: string): void
+
+(* ****** ****** *)
+
+implement
+arg_process
+  (state, arg) = let
+in
+//
+case+ arg of
+| "-o" =>
+  {
+    val () = state.ninput := 0
+    val () = state.waitkind := WTKoutput()
+  }
+| "--output-w" =>
+  {
+    val () = state.ninput := 0
+    val () = state.outmode := 0
+    val () = state.waitkind := WTKoutput()
+  }
+| "--output-a" =>
+  {
+    val () = state.ninput := 1
+    val () = state.outmode := 1
+    val () = state.waitkind := WTKoutput()
+  }
+| _ (*rest*) => let
+    val wtk = state.waitkind
+  in
+    case+ wtk of
+    | WTKnone () => arg_process_inp (state, arg)
+    | WTKoutput () => arg_process_out (state, arg)
+  end (* end of [_] *)
+//
+end // end of [arg_process]
+
+implement
+arg_process_inp
+  (state, arg) = let
+//
+val opt =
+  fileref_open_opt (arg, file_mode_r)
+//
+in
+  case+ opt of
+  | ~Some_vt
+      (inp) => let
+      val n0 = state.ninput
+      val out =
+        outchan_get_fileref (state.outchan)
+      // end of [val]
+      val () = pkgreloc_fileref (n0, out, inp)
+      val ((*closed*)) = fileref_close (inp)
+      val () = state.ninput := n0 + 1
+      val () = state.ninput2 := state.ninput2 + 1
+    in
+      // nothing
+    end // end of [Some_vt]
+  | ~None_vt ((*void*)) =>
+    {
+      val () = state.nerror := state.nerror + 1
+    } (* end of [None_vt] *)
+end // end of [arg_process_inp]
+
+implement
+arg_process_out
+  (state, arg) = let
+//
+val () = outchan_close (state.outchan)
+//
+val fmode = (
+if state.outmode = 0 then file_mode_w else file_mode_a
+) : file_mode // end of [val]
+//
+val opt = fileref_open_opt (arg, fmode)
+//
+in
+//
+case+ opt of
+| ~Some_vt (out) => state.outchan := OUTCHANptr(out)
+| ~None_vt ((*void*)) => state.outchan := OUTCHANref(stderr_ref)
+//
+end // end of [arg_process_out]
 
 (* ****** ****** *)
 //
@@ -267,37 +419,38 @@ implement
 main{n}(argc, argv) = (0) where
 {
 //
-var nfil: int = 0
-//
 fun loop
 (
-  argv: !argv(n)
-, i: natLte(n), nfil: &int >> _
+  state: &cmdstate >> _
+, argv: !argv(n), i: natLte(n)
 ) : void =
 (
-if i < argc
-  then let
-    val inp = argv[i]
-    val opt =
-      fileref_open_opt (inp, file_mode_r)
-    // end of [val]
-  in
-    case+ opt of
-    | ~Some_vt (inp) => let
-        val () = nfil := nfil + 1
-        val () = pkgreloc_fileref (inp)
-        val () = fileref_close (inp)
-      in
-        loop (argv, i+1, nfil)
-      end // end of [Some_vt]
-    | ~None_vt ((*void*)) => loop (argv, i+1, nfil)
-   end // end of [then]
-   else ((*void*)) // end of [else]
-// end of [if]
-)
+if i < argc then let
+  val () = arg_process (state, argv[i]) in loop (state, argv, i+1)
+end else ((*void*)) // end of [if]
+) (* end of [loop] *)
 //
-val ((*void*)) = loop (argv, 1, nfil)
-val ((*void*)) = if nfil = 0 then pkgreloc_fileref (stdin_ref)
+var state: cmdstate
+//
+val () = state.ninput := 0
+val () = state.ninput2 := 0
+//
+val () = state.waitkind := WTKnone ()
+//
+val () = state.outmode := 0
+val () = state.outchan := OUTCHANref (stdout_ref)
+//
+val () = state.nerror := 0
+//
+val ((*void*)) = loop (state, argv, 1)
+//
+val n0 = state.ninput
+val out = outchan_get_fileref (state.outchan)
+//
+val ((*void*)) =
+  if state.ninput2 = 0 then pkgreloc_fileref (n0, out, stdin_ref)
+//
+val ((*closed*)) = outchan_close (state.outchan)
 //
 } (* end of [main0] *)
 

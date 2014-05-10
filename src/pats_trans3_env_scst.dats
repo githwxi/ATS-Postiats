@@ -107,21 +107,20 @@ the_s2cstbindlst_bind_and_add
   val s2e = s2hnf2exp (s2f)
 (*
   val () = begin
-    print "the_s2cstbindlst_bind_and_add: s2c = "; print_s2cst (s2c); print_newline ();
-    print "the_s2cstbindlst_bind_and_add: s2e = "; print_s2exp (s2e); print_newline ();
+    println! ("the_s2cstbindlst_bind_and_add: s2c = ", s2c);
+    println! ("the_s2cstbindlst_bind_and_add: s2e = ", s2e);
   end // end of [val]
 *)
   val isasp = s2cst_get_isasp (s2c)
   val () = if
     (isasp) then {
-    val () = prerr_error3_loc (loc0)
-    val () = prerr ": the static constant ["
-    val () = prerr_s2cst (s2c)
-    val () = prerr "] is not abstract at this point."
-    val () = prerr_newline ()
+    val () = prerr_warning3_loc (loc0)
+    val () = prerrln! (": the static constant [", s2c, "] is not abstract at this point.")
   } // end of [if] // end of [val]
+//
   val () = s2cst_set_def (s2c, Some s2e)
   val () = s2cst_set_isasp (s2c, true(*assumed*))
+//
 in
   the_s2cstbindlst_add (s2c)
 end // end of [the_s2cstbindlst_bind_and_add]
