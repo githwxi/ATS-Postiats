@@ -294,10 +294,34 @@ in
   loop (xs, i)
 end // end of [list_nth]
 
+implement{a}
+list_nth_opt (xs, i) = let
+//
+fun loop
+  {n:nat} .<n>.
+(
+  xs: list (a, n), i: intGte(0)
+) :<> Option_vt (a) =
+(
+case+ xs of
+| list_nil () => None_vt ()
+| list_cons (x, xs) =>
+    if i = 0 then Some_vt(x) else loop (xs, pred(i))
+  // end of [list_vt_cons]
+) (* end of [loop] *)
+//
+prval () = lemma_list_param (xs)
+//
+in
+  loop (xs, i)
+end // end of [list_nth_opt]
+
 #atscode_separator()
 
 implement{a}
 list_get_at (xs, i) = list_nth<a> (xs, i)
+implement{a}
+list_get_at_opt (xs, i) = list_nth_opt<a> (xs, i)
 
 #atscode_separator()
 

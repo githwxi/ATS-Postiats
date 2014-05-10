@@ -39,6 +39,11 @@ atspkgreloc_curl: atspkgreloc_curl.dats ; \
 
 ######
 
+atspkgreloc_wget: atspkgreloc_wget.dats ; \
+  $(PATSCC) -I . -DATS_MEMALLOC_LIBC $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
+
+######
+
 RMF=rm -f
 
 ######
@@ -51,6 +56,7 @@ clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) atspkgreloc_curl
+cleanall:: ; $(RMF) atspkgreloc_wget
 
 ######
 
