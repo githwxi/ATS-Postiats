@@ -63,6 +63,94 @@ _ = "{$LIBATSHWXI}/jsonats/DATS/jsonats.dats"
 (* ****** ****** *)
 //
 extern
+fun wget_params
+  (source: string, target: string): (int, string)
+//
+(* ****** ****** *)
+
+local
+
+fun
+suffix_max{n1,n2:int}
+(
+  str1: string(n1), n1: size_t(n1)
+, str2: string(n2), n2: size_t(n2)
+) : sizeLte(min(n1,n2)) = let
+//
+fun auxmain
+(
+  p1: ptr, p2: ptr, n: size_t
+) : size_t =
+  if n > 0 then let
+    val p1 = ptr_pred<char> (p1)
+    val p2 = ptr_pred<char> (p2)
+    val c1 = $UN.ptr0_get<char> (p1)
+    val c2 = $UN.ptr0_get<char> (p2)
+  in
+    if c1 = c2 then auxmain (p1, p2, pred(n)) else n
+  end else (n) // end of [if]
+//
+val p1 = ptr_add<char> (string2ptr(str1), n1)
+val p2 = ptr_add<char> (string2ptr(str2), n2)
+//
+val n12 = min (n1, n2)
+val n12_ = auxmain (p1, p2, n12)
+//
+in
+  $UN.cast{sizeLte(min(n1,n2))}(n12 - n12_)
+end // end of [suffix_max]
+
+in (* in-of-local *)
+
+implement
+wget_params
+  (source, target) = let
+//
+val source = g1ofg0 (source)
+val target = g1ofg0 (target)
+val n1 = string_length (source)
+val n2 = string_length (target)
+//
+val n12 = suffix_max (source, n1, target, n2)
+//
+fun aux1
+(
+  p: ptr, n: size_t, res: int
+) : int =
+  if n > 0 then let
+    val c = $UN.ptr0_get<char> (p)
+  in
+    if (c != '/')
+      then aux1 (ptr_succ<char> (p), pred(n), res)
+      else aux2 (ptr_succ<char> (p), pred(n), res)
+    // end of [if]
+  end else (res) // end of [if]
+//
+and aux2
+(
+  p: ptr, n: size_t, res: int
+) : int =
+  if n > 0 then let
+    val c = $UN.ptr0_get<char> (p)
+  in
+    if (c != '/')
+      then aux1 (ptr_succ<char> (p), pred(n), res+1)
+      else aux1 (ptr_succ<char> (p), pred(n), res+0)
+    // end of [if]
+  end else (res+1) // end of [if]
+//
+val cut_dirs = aux1 (string2ptr(source), n1 - n12, 0)
+val dir_prefix = string_make_substring (target, i2sz(0), n2-n12)
+//
+in
+  (cut_dirs, strnptr2string(dir_prefix))
+end // end of [wget_params]
+
+end // end of [local]
+
+(* ****** ****** *)
+//
+extern
 fun pkgreloc_jsonval (jsv: jsonval): void
 extern
 fun pkgreloc_jsonvalist (jsvs: jsonvalist): void
@@ -82,7 +170,16 @@ fun auxmain
 ) : void =
 {
   val out = stdout_ref
-  val ((*void*)) = fprint! (out, "$(WGET)", " ", source, " ", "--output", " ", target)
+  val (
+    cut_dirs, dir_prefix
+  ) = wget_params (source, target)
+  val () =
+  fprint! (out, "all:: ;"
+  , " ", "$(WGET)"
+  , " ", "--cut-dirs=", cut_dirs
+  , " ", "--directory-prefix=\"", dir_prefix, "\""
+  , " ", "\"", source, "\""
+  ) (* end of [fprint!] *) // end of [val]
   val ((*void*)) = fprint_newline (out)
 }
 //
@@ -129,6 +226,8 @@ pkgreloc_fileref (inp) = let
 //
 val jsvs =
   jsonats_parsexnlst_fileref (inp)
+//
+val () = fprint! (stdout_ref, "#\n", "WGET=wget -r --timestamping -nH\n", "#\n")
 //
 in
   pkgreloc_jsonvalist (jsvs)

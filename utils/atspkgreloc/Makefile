@@ -34,6 +34,11 @@ LDFLAGS += $(shell pkg-config --libs libcurl)
 #
 ######
 
+all:: atspkgreloc_curl
+all:: atspkgreloc_wget
+
+######
+
 atspkgreloc_curl: atspkgreloc_curl.dats ; \
   $(PATSCC) -I . -DATS_MEMALLOC_LIBC $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
 
