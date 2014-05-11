@@ -49,6 +49,7 @@ RMF=rm -f
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) main_atxt.txt
 clean:: ; $(RMF) main_atxt.dats
+clean:: ; $(RMF) main_atxt_dats.c
 
 ######
 

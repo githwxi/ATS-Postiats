@@ -24,12 +24,14 @@ all:: \
 mergesort_list
 mergesort_list: \
   mergesort_list.dats ; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $^
+regress:: mergesort_list ; ./$<
 cleanall:: ; $(RMF) mergesort_list
 
 all:: \
 mergesort_array
 mergesort_array: \
   mergesort_array.dats ; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $^
+regress:: mergesort_array ; ./$<
 cleanall:: ; $(RMF) mergesort_array
 
 ######

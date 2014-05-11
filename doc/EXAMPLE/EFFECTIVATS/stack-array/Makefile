@@ -21,6 +21,7 @@ all:: \
 postfix_eval
 postfix_eval: \
   postfix_eval.dats; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $<
+regress:: postfix_eval ; ./$<
 cleanall:: ; $(RMF) postfix_eval
 
 ######

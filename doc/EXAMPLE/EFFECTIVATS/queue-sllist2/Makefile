@@ -21,6 +21,7 @@ all:: \
 queue-sllist2
 queue-sllist2: \
   queue-sllist2.dats ; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $<
+regress:: queue-sllist2 ; ./$<
 cleanall:: ; $(RMF) queue-sllist2
 
 ######
