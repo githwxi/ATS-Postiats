@@ -1167,19 +1167,32 @@ fun auxfind2
   d2c0: d2cst, tci: !tlcalitm
 ) : funlabopt_vt = let
 //
-val-TCIfun (fl) = tci
-val opt = funlab_get_d2copt (fl)
-prval () = fold@ (tci)
+(*
+val () =
+println! ("auxfind2: d2c0 = ", d2c0)
+*)
 //
 in
 //
-case+ opt of
-| Some (d2c) => let
-    val iseq = eq_d2cst_d2cst (d2c0, d2c)
+case+ tci of
+| TCIfnx _ =>
+  (
+    fold@(tci); None_vt ()
+  ) (* TCIfnx *)
+| TCIfun (fl) => let
+    val opt =
+      funlab_get_d2copt (fl)
+    // end of [val]
+    prval ((*void*)) = fold@ (tci)
   in
-    if iseq then Some_vt(fl) else None_vt()
-  end // end of [Some]
-| None ((*void*)) => None_vt((*void*))
+    case+ opt of
+    | Some (d2c) => let
+        val iseq = eq_d2cst_d2cst (d2c0, d2c)
+      in
+        if iseq then Some_vt(fl) else None_vt()
+      end // end of [Some]
+    | None ((*void*)) => None_vt((*void*))
+  end // end of [TCIfun]
 //
 end // end of [auxfind2]
 
