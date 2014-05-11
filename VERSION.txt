@@ -23,8 +23,13 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 
 Here is a list of major additions and changes since the last release:
 
-1. Fixing a bug causing embedded template instantiation to fail.
+1. Moving ATS-Postiats/contrib to ATS-Postiats-contrib
+2. Fixing a bug causing embedded template instantiation to fail.
    Please see doc/BUGS/bug-2014-05-05.dats for some details on this bug.
+3. Fixing a bug that may cause fnx-compilation in a template to
+   fail.
+4. Making atspkgreloc_curl and atspkgreloc_wget are available for
+   package relocation
 
 </pre>
 
