@@ -180,7 +180,6 @@ SOURCES = \
   pats_dynexp2_dcst.dats \
   pats_dynexp2_dvar.dats \
   pats_dynexp2_dmac.dats \
-  pats_dynexp2_util.sats \
   pats_dynexp2_util.dats \
   pats_trans2.sats \
   pats_namespace.sats \

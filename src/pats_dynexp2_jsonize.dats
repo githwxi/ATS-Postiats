@@ -726,6 +726,19 @@ d2c0.d2ecl_node of
     jsonval_conarg3 ("D2Cextcode", knd, pos, code)
   end // end of [D2Cextcode]
 //
+| D2Cdatdecs
+    (knd, s2cs) => let
+    val knd = jsonval_int (knd)
+    val s2cs = jsonize_list_fun (s2cs, jsonize_s2cst)
+  in
+    jsonval_conarg2 ("D2Cdatdecs", knd, s2cs)
+  end // end of [D2Cdatdecs]
+| D2Cexndecs (d2cs) => let
+    val d2cs = jsonize_list_fun (d2cs, jsonize_d2con)
+  in
+    jsonval_conarg1 ("D2Cexndecs", d2cs(*constr*))
+  end // end of [D2Cdatdecs]
+//
 | D2Cdcstdecs
     (knd, dck, d2cs) => let
     val knd = jsonval_int (knd)
