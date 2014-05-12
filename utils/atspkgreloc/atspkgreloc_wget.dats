@@ -296,7 +296,8 @@ waitkind =
 typedef
 cmdstate =
 @{
-  ninput= int // local
+  arg0= string
+, ninput= int // local
 , ninput2= int // global
 , waitkind= waitkind // waiting ...
 , outmode= int // write(0); append(1)
@@ -318,13 +319,41 @@ fun arg_process_out
 
 (* ****** ****** *)
 
+extern
+fun fprint_usage (out: FILEref, cmd: string): void
+
+(* ****** ****** *)
+
 implement
 arg_process
   (state, arg) = let
 in
 //
 case+ arg of
+//
+| "-h" => let
+    val out = state.outchan
+    val out = outchan_get_fileref (out)
+    val ((*void*)) = state.ninput := 1
+    val ((*void*)) = state.ninput2 := 1
+  in
+    fprint_usage (out, state.arg0)
+  end
+| "--help" => let
+    val out = state.outchan
+    val out = outchan_get_fileref (out)
+    val ((*void*)) = state.ninput := 1
+    val ((*void*)) = state.ninput2 := 1
+  in
+    fprint_usage (out, state.arg0)
+  end
+//
 | "-o" =>
+  {
+    val () = state.ninput := 0
+    val () = state.waitkind := WTKoutput()
+  }
+| "--output" =>
   {
     val () = state.ninput := 0
     val () = state.waitkind := WTKoutput()
@@ -375,6 +404,10 @@ in
     end // end of [Some_vt]
   | ~None_vt ((*void*)) =>
     {
+      val () = fprintln!
+      (
+        stderr_ref, "The file [", arg, "] cannot be opened for read."
+      ) (* end of [val] *)
       val () = state.nerror := state.nerror + 1
     } (* end of [None_vt] *)
 end // end of [arg_process_inp]
@@ -382,6 +415,8 @@ end // end of [arg_process_inp]
 implement
 arg_process_out
   (state, arg) = let
+//
+val () = state.waitkind := WTKnone ()
 //
 val () = outchan_close (state.outchan)
 //
@@ -394,10 +429,40 @@ val opt = fileref_open_opt (arg, fmode)
 in
 //
 case+ opt of
-| ~Some_vt (out) => state.outchan := OUTCHANptr(out)
-| ~None_vt ((*void*)) => state.outchan := OUTCHANref(stderr_ref)
+| ~Some_vt (out) =>
+  {
+    val () = state.outchan := OUTCHANptr(out)
+  }
+| ~None_vt ((*void*)) =>
+  {
+    val () = fprintln!
+    (
+      stderr_ref, "The file [", arg, "] cannot be opened for write."
+    ) (* end of [val] *)
+    val () = state.outchan := OUTCHANref(stderr_ref)
+  }
 //
 end // end of [arg_process_out]
+
+(* ****** ****** *)
+
+implement
+fprint_usage
+  (out, arg0) = let
+in
+//
+fprintln! (out, "usage: ", arg0, " <command> ... <command>\n");
+fprintln! (out, "where a <command> is of one of the following forms:\n");
+fprintln! (out, "  -h (for printing out this help usage)");
+fprintln! (out, "  --help (for printing out this help usage)");
+fprintln! (out, "  filename (input from <filename>)");
+fprintln! (out, "  -o filename (output into <filename>)");
+fprintln! (out, "  --output filename (output into <filename>)");
+fprintln! (out, "  --output-w filename (output-write into <filename>)");
+fprintln! (out, "  --output-a filename (output-append into <filename>)");
+fprint_newline (out);
+//
+end // end of [fprint_usage]
 
 (* ****** ****** *)
 //
@@ -431,6 +496,9 @@ end else ((*void*)) // end of [if]
 ) (* end of [loop] *)
 //
 var state: cmdstate
+//
+val () =
+  state.arg0 := argv[0]
 //
 val () = state.ninput := 0
 val () = state.ninput2 := 0
