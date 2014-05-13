@@ -95,9 +95,9 @@ HTML5canvas2d_targetloc "$PATSHOMERELOC/contrib/HTML/canvas-2d"
 (* ****** ****** *)
 //
 #define
-LIBATSHWXI_sourceloc "$PATSLIB_URL/contrib/libats-hwxi"
+LIBATSHWXI_sourceloc "$PATSLIB_URL/contrib/libats-/hwxi"
 #define
-LIBATSHWXI_targetloc "$PATSHOMERELOC/contrib/libats-hwxi"
+LIBATSHWXI_targetloc "$PATSHOMERELOC/contrib/libats-/hwxi"
 //
 (* ****** ****** *)
 //

@@ -43,8 +43,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=./../../contrib/libats-hwxi/teaching/\n\
-TARGET=ATS-Postiats-contrib/contrib/libats-hwxi/teaching/\n\
+SOURCE=./../../contrib/libats-/hwxi/teaching/\n\
+TARGET=ATS-Postiats-contrib/contrib/libats-/hwxi/teaching/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -62,7 +62,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The ATSCNTRB-libatshwxi-teaching files have been copied.\"\n\
+echo \"The ATSCNTRB-libats-hwxi-teaching files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
@@ -96,7 +96,7 @@ packfilesynop (x) = atext_nil ()
 (* ****** ****** *)
 
 #packtitle("\
-ATSCNTRB/libats-hwxi/teaching\
+ATSCNTRB/libats-/hwxi/teaching\
 ")
 
 (* ****** ****** *)
@@ -161,4 +161,4 @@ implement main () = ()
 
 (* ****** ****** *)
 
-(* end of [atscntrb_libatshwxi_teaching.atxt] *)
+(* end of [atscntrb_libats_hwxi_teaching.atxt] *)
