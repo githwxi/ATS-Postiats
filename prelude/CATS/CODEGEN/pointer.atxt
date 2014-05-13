@@ -48,6 +48,12 @@ int fprintf (FILE *stream, const char *format, ...) ;
 #atscode_separator_for_C()
 
 ATSinline()
+atstype_ptr
+atspre_ptr_null () { return (void*)0 ; }
+
+#atscode_separator_for_C()
+
+ATSinline()
 atstype_bool
 atspre_ptr_is_null
   (atstype_ptr p) {

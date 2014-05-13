@@ -328,7 +328,7 @@ p2t0.p2at_node of
 | P2Tvbox (d2v) => jsonval_conarg1 ("P2Tvbox", jsonize_d2var (d2v))
 //
 | P2Tann (p2t, ann) => (
-    jsonval_conarg2 ("P2Tann", jsonize_p2at (p2t), jsonize_ignored (ann))
+    jsonval_conarg2 ("P2Tann", jsonize_p2at (p2t), jsonize0_s2exp (ann))
   ) (* end of [P2Tann] *)
 //
 | P2Terrpat ((*void*)) => jsonval_conarg0 ("P2Terrpat")
