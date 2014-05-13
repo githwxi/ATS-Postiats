@@ -703,6 +703,21 @@ d2c0.d2ecl_node of
     jsonval_conarg1 ("D2Clist", jsonize_d2eclist (d2cs))
   // end of [D2Clist]
 //
+| D2Cstacsts (s2cs) => let
+    val s2cs =
+      jsonize_list_fun (s2cs, jsonize_s2cst)
+    // end of [val]
+  in
+    jsonval_conarg1 ("D2Cstacsts", s2cs)
+  end // end of [D2Cstacsts]
+| D2Cstacons
+    (knd, s2cs) => let
+    val knd = jsonval_int (knd)
+    val s2cs = jsonize_list_fun (s2cs, jsonize_s2cst)
+  in
+    jsonval_conarg1 ("D2Cstacsts", s2cs)
+  end // end of [D2Cstacons]
+//
 | D2Cextype
     (name, s2e_def) => let
     val name = jsonval_string (name)

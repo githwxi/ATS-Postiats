@@ -1043,13 +1043,22 @@ case+ x.d2ecl_node of
     val () = prstr ")"
   } // end of [D2Coverload]
 //
+| D2Cstacsts
+    (s2cs) => {
+    val () = fprint! (out, "D2Cstacsts(", s2cs, ")")
+  } (* end of [D2Cstacsts] *)
+| D2Cstacons
+    (knd, s2cs) => {
+    val () = fprint! (out, "D2Cstacons(", knd, "; ", s2cs, ")")
+  } (* end of [D2Cstacons] *)
+//
 | D2Cextype
     (name, s2e) => {
-    val () = fprint! (out, "D2Cextype(", name, " = ", s2e)
+    val () = fprint! (out, "D2Cextype(", name, " = ", s2e, ")")
   } (* end of [D2Cextype] *)
 | D2Cextval 
     (name, d2e) => {
-    val () = fprint! (out, "D2Cextval(", name, " = ", d2e)
+    val () = fprint! (out, "D2Cextval(", name, " = ", d2e, ")")
   } (* end of [D2Cextval] *)
 | D2Cextcode _ => prstr "D2Cextcode(...)"
 //

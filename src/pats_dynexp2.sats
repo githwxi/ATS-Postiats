@@ -699,6 +699,11 @@ d2ecl_node =
       ($SYN.i0de, int(*pval*), d2itmopt) // [None] indicates error
     // end of [D2Coverload]
 //
+  | D2Cstacsts of s2cstlst // for [stacst] declarations
+  | D2Cstacons of
+      (int(*knd*), s2cstlst) // for [stacon] declarations
+    // end of [D2Cstacons]
+//
 (*
   | D2Cstavars of s2tavarlst // for [stavar] declarations
 *)
@@ -1581,6 +1586,8 @@ fun d2ecl_overload
   (loc: location, id: $SYN.i0de, pval: int, opt: d2itmopt): d2ecl
 // end of [d2ecl_overload]
 
+fun d2ecl_stacsts (loc: location, s2cs: s2cstlst): d2ecl
+fun d2ecl_stacons (loc: location, knd: int, s2cs: s2cstlst): d2ecl
 (*
 fun d2ecl_stavars (loc: location, xs: s2tavarlst): d2ecl
 *)

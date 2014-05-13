@@ -1093,10 +1093,22 @@ d2ecl_stavars
 *)
 
 (* ****** ****** *)
-
+//
 implement
-d2ecl_saspdec (loc, d) = d2ecl_make_node (loc, D2Csaspdec (d))
-
+d2ecl_stacsts
+  (loc, s2cs) =
+  d2ecl_make_node (loc, D2Cstacsts (s2cs))
+implement
+d2ecl_stacons
+  (loc, knd, s2cs) =
+  d2ecl_make_node (loc, D2Cstacons (knd, s2cs))
+//
+(* ****** ****** *)
+//
+implement
+d2ecl_saspdec
+  (loc, d) = d2ecl_make_node (loc, D2Csaspdec (d))
+//
 (* ****** ****** *)
 
 implement
