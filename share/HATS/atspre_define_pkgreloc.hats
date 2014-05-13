@@ -94,10 +94,18 @@ HTML5canvas2d_targetloc "$PATSHOMERELOC/contrib/HTML/canvas-2d"
 //
 (* ****** ****** *)
 //
+// HX-2014-05-12:
+// This is for backward compatibility
+//
 #define
 LIBATSHWXI_sourceloc "$PATSLIB_URL/contrib/libats-/hwxi"
 #define
 LIBATSHWXI_targetloc "$PATSHOMERELOC/contrib/libats-/hwxi"
+//
+#define
+LIBATS_HWXI_sourceloc "$PATSLIB_URL/contrib/libats-/hwxi"
+#define
+LIBATS_HWXI_targetloc "$PATSHOMERELOC/contrib/libats-/hwxi"
 //
 (* ****** ****** *)
 //
