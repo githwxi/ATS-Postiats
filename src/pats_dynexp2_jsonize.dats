@@ -187,12 +187,19 @@ jsonize_d2cst
 //
 val sym =
   jsonize_symbol (d2cst_get_sym (d2c))
+val type =
+  jsonize0_s2exp (d2cst_get_type (d2c))
 val stamp =
   jsonize_stamp (d2cst_get_stamp (d2c))
 //
 in
 //
-jsonval_labval2 ("d2cst_name", sym, "d2cst_stamp", stamp)
+jsonval_labval3
+(
+  "d2cst_name", sym
+, "d2cst_type", type
+, "d2cst_stamp", stamp
+)
 //
 end // end of [jsonize_d2cst]
 

@@ -246,6 +246,17 @@ case+ s2e0.s2exp_node of
     jsonval_conarg2 ("S2Eapp", s2e1(*fun*), s2es2(*arglst*))
   end // end of [S2Eapp]
 //
+| S2Efun
+  (
+    fc, lin, s2fe, npf, s2es_arg, s2e_res
+  ) => let
+    val npf = jsonval_int (npf)
+    val s2es_arg = jsonize_s2explst (0(*flag*), s2es_arg)
+    val s2e_res = jsonize0_s2exp (s2e_res)
+  in
+    jsonval_conarg3 ("S2Efun", npf, s2es_arg, s2e_res)
+  end // end of [S2Efun]
+//
 | S2Emetdec
     (s2es1, s2es2) => let
     val s2es1 = jsonize_s2explst (flag, s2es1)
