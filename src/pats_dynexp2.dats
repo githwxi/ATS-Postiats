@@ -1110,7 +1110,7 @@ d2ecl_saspdec
   (loc, d) = d2ecl_make_node (loc, D2Csaspdec (d))
 //
 (* ****** ****** *)
-
+//
 implement
 d2ecl_extype (loc, name, def) =
   d2ecl_make_node (loc, D2Cextype (name, def))
@@ -1120,17 +1120,17 @@ d2ecl_extval (loc, name, def) =
 implement
 d2ecl_extcode (loc, knd, pos, code) =
   d2ecl_make_node (loc, D2Cextcode (knd, pos, code))
-
+//
 (* ****** ****** *)
-
+//
 implement
 d2ecl_datdecs (loc, knd, s2cs) =
   d2ecl_make_node (loc, D2Cdatdecs (knd, s2cs))
-
+//
 implement
 d2ecl_exndecs (loc, d2cs) =
  d2ecl_make_node (loc, D2Cexndecs (d2cs))
-
+//
 (* ****** ****** *)
 
 implement
