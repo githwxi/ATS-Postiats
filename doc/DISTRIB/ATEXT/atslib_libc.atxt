@@ -119,6 +119,7 @@ The ATSLIB/libc library\
 
 #packfilename("sys/CATS/mman.cats")
 #packfilename("sys/CATS/stat.cats")
+#packfilename("sys/CATS/time.cats")
 #packfilename("sys/CATS/types.cats")
 #packfilename("sys/CATS/wait.cats")
 
@@ -148,6 +149,7 @@ The ATSLIB/libc library\
 
 #packfilename("sys/SATS/mman.sats")
 #packfilename("sys/SATS/stat.sats")
+#packfilename("sys/SATS/time.sats")
 #packfilename("sys/SATS/types.sats")
 #packfilename("sys/SATS/wait.sats")
 

@@ -185,6 +185,28 @@ jsonval_labval2
 //
 end // end of [jsonize_d2con]
 
+implement
+jsonize_d2con_long
+  (d2c) = let
+//
+val sym =
+  jsonize_symbol (d2con_get_sym (d2c))
+val type =
+  jsonize1_s2exp (d2con_get_type (d2c))
+val stamp =
+  jsonize_stamp (d2con_get_stamp (d2c))
+//
+in
+//
+jsonval_labval3
+(
+  "d2con_name", sym
+, "d2con_type", type
+, "d2con_stamp", stamp
+)
+//
+end // end of [jsonize_d2con_long]
+
 (* ****** ****** *)
 // 
 implement

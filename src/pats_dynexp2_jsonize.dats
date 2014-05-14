@@ -187,6 +187,25 @@ jsonize_d2cst
 //
 val sym =
   jsonize_symbol (d2cst_get_sym (d2c))
+val stamp =
+  jsonize_stamp (d2cst_get_stamp (d2c))
+//
+in
+//
+jsonval_labval2
+(
+  "d2cst_name", sym
+, "d2cst_stamp", stamp
+)
+//
+end // end of [jsonize_d2cst]
+
+implement
+jsonize_d2cst_long
+  (d2c) = let
+//
+val sym =
+  jsonize_symbol (d2cst_get_sym (d2c))
 val type =
   jsonize1_s2exp (d2cst_get_type (d2c))
 val stamp =
@@ -201,7 +220,7 @@ jsonval_labval3
 , "d2cst_stamp", stamp
 )
 //
-end // end of [jsonize_d2cst]
+end // end of [jsonize_d2cst_long]
 
 (* ****** ****** *)
 
@@ -756,7 +775,7 @@ d2c0.d2ecl_node of
     jsonval_conarg2 ("D2Cdatdecs", knd, s2cs)
   end // end of [D2Cdatdecs]
 | D2Cexndecs (d2cs) => let
-    val d2cs = jsonize_list_fun (d2cs, jsonize_d2con)
+    val d2cs = jsonize_list_fun (d2cs, jsonize_d2con_long)
   in
     jsonval_conarg1 ("D2Cexndecs", d2cs(*constr*))
   end // end of [D2Cdatdecs]
@@ -765,7 +784,7 @@ d2c0.d2ecl_node of
     (knd, dck, d2cs) => let
     val knd = jsonval_int (knd)
     val dck = jsonize_dcstkind (dck)
-    val d2cs = jsonize_list_fun (d2cs, jsonize_d2cst)
+    val d2cs = jsonize_list_fun (d2cs, jsonize_d2cst_long)
   in
     jsonval_conarg3 ("D2Cdcstdecs", knd, dck, d2cs)
   end // end of [D2Cdcstdecs]
