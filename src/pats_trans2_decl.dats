@@ -1049,12 +1049,19 @@ end // end of [d1atdec_tr]
 
 end // end of [local]
 
+(* ****** ****** *)
+
 extern
-fun d1atdeclst_tr (
-  datknd: int, d1cs_dat: d1atdeclst, d1cs_def: s1expdeflst
-) : s2cstlst // end of [d1atdeclst_tr]
+fun
+d1atdeclst_tr
+(
+  datknd: int
+, d1cs_dat: d1atdeclst
+, d1cs_def: s1expdeflst
+) : s2cstlst // end-of-fun
 implement
-d1atdeclst_tr (
+d1atdeclst_tr
+(
   datknd, d1cs_dat, d1cs_def
 ) = let
 //
@@ -1065,12 +1072,16 @@ val s2t_res = s2rt_impred (datknd)
 //
 val d1cs2cs2vsslst = let
 //
-  var res: List (T) = list_nil ()
+  var res
+    : List (T) = list_nil ()
+  // end of [var]
 //
-  fun aux .<>. (
+  fun aux .<>.
+  (
     d1c: d1atdec, res: &List (T)
   ) :<cloref1> void = let
-    val argvar = l2l (
+    val argvar =
+    list_of_list_vt (
       list_map_fun (d1c.d1atdec_arg, a1msrt_tr_symsrt)
     ) : List (syms2rtlst)
     val s2vss = let
@@ -1135,31 +1146,32 @@ in
   auxlst (d1cs_dat, res); res
 end : List (T) // end of [d1cs2cs2vsslst]
 //
-val () = aux (d1cs_def) where {
-  fun aux (
-    d1cs: s1expdeflst
-  ) : void = begin case+ d1cs of
-    | list_cons (d1c, d1cs) => let
-        val s2c = s1expdef_tr (None, d1c)
-        val () = the_s2expenv_add_scst (s2c)
-      in
-        aux (d1cs)
-      end // end of [cons]
-    | list_nil () => () // end of [list_nil]
-  end (* end of [aux] *)
-} // end of [val]
+fun aux2 (
+  d1cs: s1expdeflst
+) : void = (
+  case+ d1cs of
+  | list_nil () => ()
+  | list_cons (d1c, d1cs) => let
+      val s2c = s1expdef_tr (None, d1c)
+      val () = the_s2expenv_add_scst (s2c)
+    in
+      aux2 (d1cs)
+    end // end of [cons]
+) (* end of [aux2] *)
 //
-fun aux (
+val () = aux2 (d1cs_def)
+//
+fun auxlst2 (
   xs: List (T)
 ) : s2cstlst = case+ xs of
   | list_cons (x, xs) => let
-      val () = d1atdec_tr (x.1, x.2, x.0) in list_cons (x.1, aux xs)
+      val () = d1atdec_tr (x.1, x.2, x.0) in list_cons (x.1, auxlst2 xs)
     end // end of [list_cons]
   | list_nil () => list_nil ()
-// end of [aux]
+// end of [auxlst2]
 in
 //
-aux (d1cs2cs2vsslst)
+auxlst2 (d1cs2cs2vsslst)
 //
 end // end of [d1atdeclst_tr]
 
@@ -2062,6 +2074,7 @@ case+ d1c0.d1ecl_node of
 | D1Cdatsrts (ds) => let
     val () =
       d1atsrtdeclst_tr (ds) in d2ecl_none (loc0)
+    // end of [val]
   end // end of [D1Cdatsrts]
 //
 | D1Csrtdefs (ds) => let
@@ -2119,7 +2132,7 @@ case+ d1c0.d1ecl_node of
 //
 | D1Cextype
   (
-    name, s1e_def
+    name, s1e_def // arity=2
   ) => let
     val s2e_def = s1exp_trdn_impred (s1e_def)
   in
@@ -2127,7 +2140,7 @@ case+ d1c0.d1ecl_node of
   end // end of [D1Cextype]
 | D1Cextype
   (
-    knd, name, s1e_def
+    knd, name, s1e_def // arity=3
   ) => let
     val s2t_def = s2rt_impred (knd)
     val s2e_def = s1exp_trdn (s1e_def, s2t_def)
@@ -2244,6 +2257,7 @@ case+ d1c0.d1ecl_node of
     val fenv =
     s1taload_tr
       (loc0, idopt, fil, ldflag, d1cs, loaded)
+    // end of [val]
 //
 // HX-2013-10-30:
 // Overloading declarations
