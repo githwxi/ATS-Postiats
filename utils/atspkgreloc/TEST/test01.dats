@@ -16,7 +16,7 @@ ATS_PACKNAME "atspkgreloc_test01"
 staload
 GCOUNT1 = {
 //
-#include "{http://www.ats-lang.org/LIBRARY}/contrib/libats-hwxi/globals/HATS/gcount.hats"
+#include "{http://www.ats-lang.org/LIBRARY/contrib}/libats-/hwxi/globals/HATS/gcount.hats"
 //
 } (* end of [GCOUNT1] *)
 
@@ -25,7 +25,7 @@ GCOUNT1 = {
 staload
 GCOUNT2 = {
 //
-#include "{http://www.ats-lang.org/LIBRARY}/contrib/libats-hwxi/globals/HATS/gcount.hats"
+#include "{http://www.ats-lang.org/LIBRARY/contrib}/libats-/hwxi/globals/HATS/gcount.hats"
 //
 } (* end of [GCOUNT2] *)
 

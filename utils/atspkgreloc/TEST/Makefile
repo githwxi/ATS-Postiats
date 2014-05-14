@@ -23,15 +23,17 @@ $(PATSCC) -DATS ATSPKGRELOCROOT=\\\".TEST01\\\" -o $@ $<
 
 ######
 #
-test02: test02.dats ; \
-$(PATSCC) -I./.TEST02/contrib \
-  -DATS_MEMALLOC_LIBC -DATS ATSPKGRELOCROOT=\\\".TEST02\\\" -o $@ $< -lgmp
+test02: \
+test02.dats ; \
+$(PATSCC) -I./.TEST02 \
+-DATS_MEMALLOC_LIBC -DATS ATSPKGRELOCROOT=\\\".TEST02\\\" -o $@ $< -lgmp
 #
 ######
 #
-test03: test03.dats ; \
-$(PATSCC) -I./.TEST03/contrib \
-  -DATS_MEMALLOC_LIBC -DATS ATSPKGRELOCROOT=\\\".TEST03\\\" -o $@ $< -lpcre
+test03: \
+test03.dats ; \
+$(PATSCC) -I./.TEST03 \
+-DATS_MEMALLOC_LIBC -DATS ATSPKGRELOCROOT=\\\".TEST03\\\" -o $@ $< -lpcre
 #
 ######
 
@@ -57,7 +59,7 @@ test03-pkgreloc.mk: ; \
 $(PATSOPT) --pkgreloc \
 -DATS ATSPKGRELOCROOT=\".TEST03\" -d test03.dats | $(ATSPKGRELOC2) --output-w $@
 #
-pkgreloc-assignment1:: ; \
+assignment1-pkgreloc:: ; \
   $(PATSOPT) --pkgreloc -d assignment1.dats | $(ATSPKGRELOC)
 #
 ######

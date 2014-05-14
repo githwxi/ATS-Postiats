@@ -13,22 +13,23 @@ ATS_PACKNAME "atspkgreloc_test02"
 
 (* ****** ****** *)
 //
-#define PATSCONTRIB "http://www.ats-lang.org/LIBRARY"
+#define
+PATSCONTRIB "http://www.ats-lang.org/LIBRARY/contrib"
 //
 (* ****** ****** *)
 //
 require
-"{$PATSCONTRIB}/contrib/libgmp/CATS/gmp.cats"
+"{$PATSCONTRIB}/libgmp/CATS/gmp.cats"
 //
 require(*HX-2014-05-01: this one is required by others*)
-"{$PATSCONTRIB}/contrib/libats-hwxi/intinf/SATS/intinf_vt.sats"
+"{$PATSCONTRIB}/libats-hwxi/intinf/SATS/intinf_vt.sats"
 //
 (* ****** ****** *)
 //
-staload "{$PATSCONTRIB}/contrib/libats-hwxi/intinf/SATS/intinf.sats"
-staload T = "{$PATSCONTRIB}/contrib/libats-hwxi/intinf/SATS/intinf_t.sats"
-staload _ = "{$PATSCONTRIB}/contrib/libats-hwxi/intinf/DATS/intinf_t.dats"
-staload _ = "{$PATSCONTRIB}/contrib/libats-hwxi/intinf/DATS/intinf_vt.dats"
+staload "{$PATSCONTRIB}/libats-hwxi/intinf/SATS/intinf.sats"
+staload T = "{$PATSCONTRIB}/libats-hwxi/intinf/SATS/intinf_t.sats"
+staload _ = "{$PATSCONTRIB}/libats-hwxi/intinf/DATS/intinf_t.dats"
+staload _ = "{$PATSCONTRIB}/libats-hwxi/intinf/DATS/intinf_vt.dats"
 //
 (* ****** ****** *)
 
