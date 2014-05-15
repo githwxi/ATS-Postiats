@@ -787,7 +787,8 @@ local
 #define nil list_nil
 #define :: list_cons
 //
-fun aux1 (
+fun aux1
+(
   d0c: d0cstdec
 , fc: funclo, lin: int, prf: int
 , efcopt: effcstopt
@@ -796,13 +797,14 @@ fun aux1 (
 , s1e_res: s1exp
 ) : s1exp = begin case+ xs of
   | x :: xs => begin case+ x.d0cstarg_node of
-    | D0CSTARGdyn (npf, ys) => let
+    | D0CSTARGdyn
+        (npf, ys) => let
         val loc_x = x.d0cstarg_loc
         val s1e_arg = s1exp_npf_list (loc_x, npf, a0typlst_tr ys)
         val s1e_res = aux1 (d0c, fc, lin, prf, efcopt, fst+1, lst, xs, s1e_res)
         val loc_res = s1e_res.s1exp_loc
         val loc = loc_x + loc_res
-        val fc = (if fst > 0 then FUNCLOcloptr else fc): funclo
+        val fc = (if fst > 0 then FUNCLOcloref else fc): funclo
         val imp = (
           if lst > 0 then begin
             s1exp_imp (loc_res, fc, 0, 0, None ())
@@ -814,7 +816,7 @@ fun aux1 (
       in
         s1exp_app (loc, imp, loc, s1e_arg :: s1e_res :: nil ())
       end // end of [D0CSTARGdyn2]
-    | D0CSTARGsta s0qs => let
+    | D0CSTARGsta (s0qs) => let
         val loc_x = x.d0cstarg_loc
         val s1qs = s0qualst_tr s0qs
         val s1e_res = aux1 (d0c, fc, lin, prf, efcopt, fst, lst, xs, s1e_res)
