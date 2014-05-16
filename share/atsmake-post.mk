@@ -16,6 +16,8 @@ PATSCC2=$(PATSCC) $(INCLUDE) $(INCLUDE_ATS)
 ######
 
 ifdef MYTARGET
+$(MYTARGET)_C_O := \
+  $(patsubst %.c, %_c.o, $(SOURCES_C))
 $(MYTARGET)_SATS_O := \
   $(patsubst %.sats, %_sats.o, $(SOURCES_SATS))
 $(MYTARGET)_DATS_O := \
@@ -29,6 +31,7 @@ ifeq ($(strip $(MYTARGET)),MYTARGET)
 else
 all:: $(MYTARGET)
 $(MYTARGET): \
+  $($(MYTARGET)_C_O) \
   $($(MYTARGET)_SATS_O) \
   $($(MYTARGET)_DATS_O) ; \
   $(PATSCC) $(INCLUDE) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(EXTRAFLAGS)

@@ -10,6 +10,11 @@
 //
 (* ****** ****** *)
 
+#ifndef SHARE_ATSPRE_STALOAD
+#define SHARE_ATSPRE_STALOAD 1
+
+(* ****** ****** *)
+
 staload _ = "prelude/DATS/basics.dats"
 
 (* ****** ****** *)
@@ -99,6 +104,10 @@ staload _(*UNSAFE*) = "prelude/DATS/unsafe.dats"
 (* ****** ****** *)
 
 staload _(*CHECKAST*) = "prelude/DATS/checkast.dats"
+
+(* ****** ****** *)
+
+#endif // end of [#ifndef SHARE_ATSPRE_STALOAD]
 
 (* ****** ****** *)
 

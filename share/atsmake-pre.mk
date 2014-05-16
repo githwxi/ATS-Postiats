@@ -79,6 +79,7 @@ endif
 
 ######
 
+SOURCES_C=
 SOURCES_SATS=
 SOURCES_DATS=
 
