@@ -1443,6 +1443,8 @@ fun jsonize_s2exp (flag: int, s2e: s2exp): jsonval
 fun jsonize_s2explst (flag: int, s2es: s2explst): jsonval
 fun jsonize_s2expopt (flag: int, s2eopt: s2expopt): jsonval
 //
+fun jsonize_s2zexp (s2e: s2zexp): jsonval
+//
 fun jsonize_labs2explst (flag: int, ls2es: labs2explst): jsonval  
 //
 fun jsonize_s2eff (s2fe: s2eff): jsonval
