@@ -80,10 +80,34 @@ jsonize_s2rt
 in
 //
 case+ s2t0 of
-| S2RTbas (s2tb) => jsonize_s2rtbas (s2tb)
-| S2RTfun (_, _) => jsonval_string ("s2rt_fun")
-| S2RTtup (s2ts) => jsonval_string ("s2rt_tup")
-| _(*unspecified*) => jsonval_string ("s2rt_anon")
+| S2RTbas (s2tb) => let
+  val name = jsonval_string ("s2rt_bas")
+  val srt = jsonize_s2rtbas (s2tb)
+in
+  jsonval_labval2 ("s2rt_name", name, "s2rt_args", srt)
+end
+| S2RTfun (args, res) => let
+  val name = jsonval_string ("s2rt_fun")
+  val args = JSONlist (list_of_list_vt (
+    list_map_fun<s2rt><jsonval> (args, jsonize_s2rt)
+  ))
+  val res = jsonize_s2rt (res)
+in
+  jsonval_labval3 ("s2rt_name", name, "s2rt_args", args, "s2rt_res", res)
+end
+| S2RTtup (s2ts) => let
+  val name = jsonval_string ("s2rt_tup")
+  val args = JSONlist (list_of_list_vt (
+    list_map_fun<s2rt><jsonval> (s2ts, jsonize_s2rt)
+  ))
+in
+  jsonval_labval2 ("s2rt_name", name, "s2rt_args", args)
+end
+| _(*unspecified*) => let
+  val name = jsonval_string ("s2rt_anon")
+in
+  jsonval_labval1 ("s2rt_name", name)
+end
 //
 end // end of [jsonize_s2rt]
   
@@ -113,11 +137,13 @@ val sym =
   jsonize_symbol (s2cst_get_sym (s2c))
 val stamp =
   jsonize_stamp (s2cst_get_stamp (s2c))
+val srt = 
+  jsonize_s2rt (s2cst_get_srt (s2c))
 //
 in
 //
-jsonval_labval2
-  ("s2cst_name", sym, "s2cst_stamp", stamp)
+jsonval_labval3
+  ("s2cst_name", sym, "s2cst_stamp", stamp, "s2cst_srt", srt)
 //
 end // end of [jsonize_s2cst]
 
@@ -131,11 +157,13 @@ val sym =
   jsonize_symbol (s2var_get_sym (s2v))
 val stamp =
   jsonize_stamp (s2var_get_stamp (s2v))
+val srt =
+  jsonize_s2rt (s2var_get_srt (s2v))
 //
 in
 //
-jsonval_labval2
-  ("s2var_name", sym, "s2var_stamp", stamp)
+jsonval_labval3
+  ("s2var_name", sym, "s2var_stamp", stamp, "s2var_srt", srt)
 //
 end // end of [jsonize_s2var]
 
@@ -295,10 +323,10 @@ case+ s2e0.s2exp_node of
 //
 | S2Emetdec
     (s2es1, s2es2) => let
-    val s2es1 = jsonize_s2explst (flag, s2es1)
-    and s2es2 = jsonize_s2explst (flag, s2es2)
+    val s2e = s2exp_metdec_reduce (s2es1, s2es2)
+    val s2es = jsonize_s2exp (flag, s2e)
   in
-    jsonval_conarg2 ("S2Emetdec", s2es1(*met*), s2es2(*bound*))
+    jsonval_conarg1 ("S2Emetdec", s2es(*met*))
   end // end of [S2Emetdec]
 //
 | S2Eexi

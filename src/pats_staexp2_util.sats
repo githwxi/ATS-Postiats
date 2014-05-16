@@ -82,6 +82,10 @@ fun s2exp_is_without (s2e: s2exp):<> bool
 // HX-2012-05: this one does more elaborate checking
 fun s2exp_is_lin2 (x: s2exp): bool // when compared to [s2exp_is_lin]
 
+fun s2exp_metdec_reduce
+  (met: s2explst, met_bound: s2explst): s2exp
+// end of [s2exp_metdec_reduce]
+
 (* ****** ****** *)
 
 fun s2hnf_get_head (s2f: s2hnf): s2hnf // the head in HNF
