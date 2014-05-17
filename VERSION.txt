@@ -30,6 +30,7 @@ Here is a list of major additions and changes since the last release:
    fail.
 4. Making atspkgreloc_curl and atspkgreloc_wget are available for
    package relocation
+5. Fixing the minor bug recorded in doc/BUGS/bug-2014-05-17.dats
 
 </pre>
 

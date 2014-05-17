@@ -482,6 +482,13 @@ castfn ptrlin2ptr{l:addr} (p: ptrlin l):<> ptr (l)
 //
 #atscode_separator()
 //
+// HX-2014-05-16:
+// A hack to stop buggy compilation
+//
+fun ptr_volatile (p: ptr): void
+//
+#atscode_separator()
+//
 // overloading for certain symbols
 //
 overload succ with ptr0_succ

@@ -31,9 +31,10 @@ if n = 0
   then 
     ()
   else let
-    prval (pfh, pftail) = array_v_uncons {a} (pf)
-    val () = print_val<a> (!p)
-    val () = print_newline ()
+    prval
+    (pfh, pftail) = array_v_uncons {a} (pf)
+    val () = fprint_val<a> (stdout_ref, !p)
+    val ((*newln*)) = fprint_newline (stdout_ref)
   in
     (* ATS can't resolve the overloaded + symbol *)
     loop (pftail | p + sizeof<a>, pred (n));

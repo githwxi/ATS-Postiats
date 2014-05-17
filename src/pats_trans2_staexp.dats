@@ -2595,7 +2595,12 @@ case+ (
     Some (s2es)
   end // end of [Some, Some]
 | (None (), Some s2ts) => let
-    val-list_cons (s2vs, _) = s2vss0
+    val s2vs =
+    (
+      case+ s2vss0 of
+      | list_nil () => list_nil ()
+      | list_cons (s2vs, _) => s2vs
+    ) : s2varlst // end of [val]
     val sgn = list_length_compare (s2vs, s2ts)
     val s2es = (
       if sgn = 0 then let
