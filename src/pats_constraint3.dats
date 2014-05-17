@@ -447,8 +447,8 @@ end // end of [auxlst]
 
 in (* in of [local] *)
 
-fun s2exp_metdec_reduce
-  (met: s2explst, met_bound: s2explst): s2exp = auxlst (met, met_bound)
+implement s2exp_metdec_reduce 
+  (met, met_bound) = auxlst (met, met_bound)
 // end of [s2exp_metdec_reduce]
 
 end // end of [local]

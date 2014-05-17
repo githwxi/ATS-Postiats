@@ -47,6 +47,10 @@ staload UT = "./pats_utils.sats"
 
 (* ****** ****** *)
 
+staload GLOB = "./pats_global.sats"
+
+(* ****** ****** *)
+
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
@@ -331,8 +335,15 @@ case+ s2e0.s2exp_node of
 | S2Eextype _ => s2e0
 | S2Eextkind _ => s2e0
 //
-| S2Evar (s2v) =>
+| S2Evar (s2v) => let
+  val exporting = $GLOB.the_EXPORT_constraints_get ()
+  val normalize_svar = ~exporting
+in
+  if normalize_svar then
     s2exp_hnfize_flag_svar (s2e0, s2v, flag)
+  else
+    s2e0
+end
 | S2EVar _ => s2e0
 | S2Ehole _ => s2e0
 //
