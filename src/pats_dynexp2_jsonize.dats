@@ -347,7 +347,8 @@ p2t0.p2at_node of
     jsonval_conarg3 ("P2Trec", knd, npf, lp2ts)
   end (* end of [P2Trec] *)
 //
-| P2Trefas (d2v, p2t) => (
+| P2Trefas
+    (d2v, p2t) => (
     jsonval_conarg2 ("P2Trefas", jsonize_d2var(d2v), jsonize_p2at(p2t))
   ) (* end of [P2Trefas] *)
 //
@@ -894,7 +895,7 @@ jsonize_f2undec
 val loc = jsonize_loc (f2d.f2undec_loc)
 val d2v = jsonize_d2var (f2d.f2undec_var)
 val def = jsonize_d2exp (f2d.f2undec_def)
-val ann = jsonize_ignored (f2d.f2undec_ann)
+val ann = jsonize1_s2expopt (f2d.f2undec_ann)
 //
 in
 //

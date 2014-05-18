@@ -220,10 +220,19 @@ jsonize1_s2exp
 //
 implement
 jsonize0_s2explst
-  (s2e) = jsonize_s2explst (0(*hnfize*), s2e)
+  (s2es) = jsonize_s2explst (0(*hnfize*), s2es)
 implement
 jsonize1_s2explst
-  (s2e) = jsonize_s2explst (1(*hnfize*), s2e)
+  (s2es) = jsonize_s2explst (1(*hnfize*), s2es)
+// 
+(* ****** ****** *)
+//
+implement
+jsonize0_s2expopt
+  (opt) = jsonize_s2expopt (0(*hnfize*), opt)
+implement
+jsonize1_s2expopt
+  (opt) = jsonize_s2expopt (1(*hnfize*), opt)
 // 
 (* ****** ****** *)
 
@@ -352,15 +361,32 @@ fun auxlst
 //
 case+ s2es of
 | list_cons
-    (s2e, s2es) =>
-  (
-    list_cons (jsonize_s2exp (flag, s2e), auxlst (flag, s2es))
-  ) // end of [list_cons]
+    (s2e, s2es) => let
+    val s2e =
+      jsonize_s2exp (flag, s2e)
+    // end of [val]
+    val s2es = auxlst (flag, s2es)
+  in
+    list_cons (s2e, s2es)
+  end // end of [list_cons]
 | list_nil ((*void*)) => list_nil ()
 //
 in
   JSONlist (auxlst (flag, s2es))
 end // end of [jsonize_s2explst]
+
+(* ****** ****** *)
+
+implement
+jsonize_s2expopt
+  (flag, opt) = let
+in
+//
+case+ opt of
+| None () => JSONoption (None ())
+| Some (s2e) => JSONoption (Some (jsonize_s2exp (flag, s2e)))
+//
+end // end of [jsonize_s2expopt]
 
 (* ****** ****** *)
 
