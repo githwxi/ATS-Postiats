@@ -274,8 +274,10 @@ end // end of [arrayptr_interchange]
 #atscode_separator()
 
 implement{a}
-arrayptr_foreach (A, asz) = let
-  var env: void = () in arrayptr_foreach_env<a><void> (A, asz, env)
+arrayptr_foreach
+  (A, asz) = let
+  var env: void = () in
+  arrayptr_foreach_env<a><void> (A, asz, env)
 end // end of [arrayptr_foreach]
 
 implement

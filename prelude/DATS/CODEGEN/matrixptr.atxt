@@ -143,6 +143,25 @@ implement matrixptr_free = ATS_MFREE
 #atscode_separator()
 
 implement{a}
+matrixptr_foreach
+  (A, m, n) = let
+  var env: void = () in
+  matrixptr_foreach_env<a><void> (A, m, n, env)
+end // end of [matrixptr_foreach]
+
+implement
+{a}{env}
+matrixptr_foreach_env
+  (A, m, n, env) = res where {
+  val p = ptrcast (A)
+  prval pfarr = matrixptr_takeout (A)
+  val res = matrix_foreach_env<a><env> (!p, m, n, env)
+  prval () = matrixptr_addback (pfarr | A)
+} // end of [matrixptr_foreach_env]
+
+#atscode_separator()
+
+implement{a}
 matrixptr_tabulate
   (nrow, ncol) = matrixptr_encode2(matrix_ptr_tabulate<a> (nrow, ncol))
 // end of [matrixptr_tabulate]

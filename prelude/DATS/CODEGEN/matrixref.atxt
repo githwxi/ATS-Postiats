@@ -111,6 +111,24 @@ fprint_matrixref_sep
 #atscode_separator()
 
 implement{a}
+matrixref_foreach
+  (A, m, n) = let
+  var env: void = ()
+  in matrixref_foreach_env<a><void> (A, m, n, env)
+end // end of [matrixref_foreach]
+
+implement
+{a}{env}
+matrixref_foreach_env
+  (A, m, n, env) = let
+  val (vbox pf | p) = matrixref_get_viewptr (A)
+in
+  $effmask_ref (matrix_foreach_env<a><env> (!p, m, n, env))
+end // end of [matrixref_foreach_env]
+
+#atscode_separator()
+
+implement{a}
 matrixref_tabulate
   (nrow, ncol) =
   matrixptr_refize (matrixptr_tabulate<a> (nrow, ncol))

@@ -198,6 +198,27 @@ matrixref_tabulate_cloref
 ) : matrixref (a, m, n) // end-of-fun
 //
 #atscode_separator()
+
+(*
+fun{
+a:vt0p}{env:vt0p
+} matrix_foreach$fwork (x: &a >> _, env: &(env) >> _): void
+*)
+//
+fun{
+a:vt0p
+} matrixref_foreach{m,n:int}
+(
+  A: matrixref(a, m, n), m: size_t m, n: size_t n
+) : void // end of [matrixref_foreach]
+fun{
+a:vt0p}{env:vt0p
+} matrixref_foreach_env{m,n:int}
+(
+  A: matrixref(a, m, n), m: size_t m, n: size_t n, env: &(env) >> _
+) : void // end of [matrixref_foreach_env]
+
+#atscode_separator()
 //
 // mtrxszref: a reference to a matrix with size information attached
 //

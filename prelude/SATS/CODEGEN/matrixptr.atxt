@@ -246,6 +246,27 @@ matrixptr_tabulate_cloref
 ) : matrixptr (a, m, n) // end-of-fun
 //
 #atscode_separator()
+
+(*
+fun{
+a:vt0p}{env:vt0p
+} matrix_foreach$fwork (x: &a >> _, env: &(env) >> _): void
+*)
+//
+fun{
+a:vt0p
+} matrixptr_foreach{m,n:int}
+(
+  A: !matrixptr(INV(a), m, n) >> _, m: size_t m, n: size_t n
+) : void // end of [matrixptr_foreach]
+fun{
+a:vt0p}{env:vt0p
+} matrixptr_foreach_env{m,n:int}
+(
+  A: !matrixptr(INV(a), m, n) >> _, m: size_t m, n: size_t n, env: &(env) >> _
+) : void // end of [matrixptr_foreach_env]
+
+#atscode_separator()
 //
 // overloading for certain symbols
 //

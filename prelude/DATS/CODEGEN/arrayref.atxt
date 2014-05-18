@@ -186,8 +186,10 @@ arrayref_tabulate_cloref
 #atscode_separator()
 
 implement{a}
-arrayref_foreach (A, asz) = let
-  var env: void = () in arrayref_foreach_env<a><void> (A, asz, env)
+arrayref_foreach
+  (A, asz) = let
+  var env: void = ()
+  in arrayref_foreach_env<a><void> (A, asz, env)
 end // end of [arrayref_foreach]
 
 implement
