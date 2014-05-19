@@ -268,36 +268,30 @@
     pt))
 
 (defvar ats-word-keywords
-  '("abstype" "abst0ype" "absprop" "absview"
-    "absvtype" "absviewtype" "absvt0ype" "absviewt0ype"
-    "and" "as" "assume" "begin" "break" "continue" "classdec"
-    "datasort" "datatype" "dataprop" "dataview" "datavtype" "dataviewtype"
-    "do" "dynload" "else" "end" "exception" "extern" "extype" "extval"
-    "fn" "fnx" "fun" "prfn" "prfun" "praxi" "castfn"
-    "if" "in" "infix" "infixl" "infixr" "prefix" "postfix"
-    "implmnt" "implement" "primplmnt" "primplement" "lam"
+  '("abstype" "abst0ype" "absprop" "absview" "absvtype" "absviewtype" "absvt0ype" "absviewt0ype"
+    "and" "as" "assume" "begin" "break" "continue" "classdec" "datasort"
+    "datatype" "dataprop" "dataview" "datavtype" "dataviewtype" "do" "dynload" "else"
+    "end" "exception" "extern" "extype" "extval" "fn" "fnx" "fun"
+    "prfn" "prfun" "praxi" "castfn" "if" "in" "infix" "infixl"
+    "infixr" "prefix" "postfix" "implmnt" "implement" "primplmnt" "primplement" "lam"
     "llam" "fix" "let" "local" "macdef" "macrodef" "nonfix" "overload"
-    "of" "op" "rec" "scase" "sif" "sortdef" "stacst"
+    "of" "op" "rec" "scase" "sif" "sortdef" "sta" "stacst"
     "stadef" "stavar" "staload" "symelim" "symintr" "then" "try" "tkindef"
-    "type" "typedef" "propdef" "viewdef" "vtypedef" "viewtypedef"
-    "val" "prval" "var" "prvar" "when" "where" "for" "while" "with"
-    "withtype" "withprop" "withview" "withvtype" "withviewtype"))
+    "type" "typedef" "propdef" "viewdef" "vtypedef" "viewtypedef" "val" "prval"
+    "var" "prvar" "when" "where" "for" "while" "with" "withtype"
+    "withprop" "withview" "withvtype" "withviewtype")) 
 
 (defun wrap-word-keyword (w)
   (concat "\\<" w "\\>"))
 
 (defvar ats-special-keywords
-  '("$arrpsz" "$arrptrsize" "$delay" "$ldelay"
-    "$effmask" "$effmask_ntm" "$effmask_exn"
-    "$effmask_ref" "$effmask_wrt" "$effmask_all"
-    "$extern" "$extkind" "$extype" "$extype_struct" "$extval"
-    "$lst" "$lst_t" "$lst_vt" "$list" "$list_t" "$list_vt"
-    "$rec" "$rec_t" "$rec_vt" "$record" "$record_t" "$record_vt"
-    "$tup" "$tup_t" "$tup_vt" "$tuple" "$tuple_t" "$tuple_vt"
-    "$raise" "$showtype" "$myfilename" "$mylocation" "$myfunction"
-    "#if" "#then" "#else" "#endif"
-    "#ifdef" "#ifndef" "#elif" "#elifdef" "#elifndef" 
-    "#assert" "#define" "#error" "#include" "#print" "#undef"))
+  '("$arrpsz" "$arrptrsize" "$delay" "$ldelay" "$effmask" "$effmask_ntm" "$effmask_exn" "$effmask_ref"
+    "$effmask_wrt" "$effmask_all" "$extern" "$extkind" "$extype" "$extype_struct" "$extval" "$lst"
+    "$lst_t" "$lst_vt" "$list" "$list_t" "$list_vt" "$rec" "$rec_t" "$rec_vt"
+    "$record" "$record_t" "$record_vt" "$tup" "$tup_t" "$tup_vt" "$tuple" "$tuple_t"
+    "$tuple_vt" "$raise" "$showtype" "$myfilename" "$mylocation" "$myfunction" "#assert" "#define"
+    "#elif" "#elifdef" "#elifndef" "#else" "#endif" "#error" "#if" "#ifdef"
+    "#ifndef" "#include" "#print" "#then" "#undef"))
 
 (defun wrap-special-keyword (w)
   (concat "\\" w "\\>"))
@@ -315,8 +309,9 @@
      ;;     ("[^%]\\({[^|}]*|?[^}]*}\\)" (1 'ats-font-lock-static-face))
      ;;     ("[^']\\(\\[[^]|]*|?[^]]*\\]\\)" (1 'ats-font-lock-static-face))
      ("\\.<[^>]*>\\." (0 'ats-font-lock-metric-face))
-     (ats-font-lock-static-search (0 'ats-font-lock-static-face) 
-                                  (1 'ats-font-lock-keyword-face)))
+     (ats-font-lock-static-search
+      (0 'ats-font-lock-static-face)
+      (1 'ats-font-lock-keyword-face)))
    
    (list (list (mapconcat 'identity ats-keywords "\\|")
                '(0 'ats-font-lock-keyword-face)))))
@@ -335,7 +330,7 @@
   (unless (local-variable-p 'compile-command)
     (set (make-local-variable 'compile-command)
          (let ((file buffer-file-name))
-           (format "patscc -tcats %s" file)))
+           (format "patsopt -tc -d %s" file)))
     (put 'compile-command 'permanent-local t))
   (setq indent-line-function 'c/ats-mode-indent-line))
 
@@ -372,7 +367,7 @@
   (unless (local-variable-p 'compile-command)
     (set (make-local-variable 'compile-command)
          (let ((file buffer-file-name))
-           (format "patscc -tcats %s" file)))
+           (format "patsopt -tc -d %s" file)))
     (put 'compile-command 'permanent-local t))
   (local-set-key (kbd "C-c C-c") 'compile)
   (cond 
@@ -405,168 +400,7 @@
                       (back-to-indentation)
                       (current-column))))
 
-;;; ATS Parser
-
 ;;;###autoload
-(add-to-list 'auto-mode-alist '("\\.yats\\'" . ats-parser-mode))
-
-;;;###autoload
-(define-derived-mode ats-parser-mode ats-mode "ATS-Parser"
-  "Major mode to edit ATS Parser source code.")
-
-;;; ATS Lexer
-
-;;;###autoload
-(add-to-list 'auto-mode-alist '("\\.lats\\'" . ats-lexer-mode))
-
-;;;###autoload
-(define-derived-mode ats-lexer-mode ats-mode "ATS-Lexer"
-  "Major mode to edit ATS Lexer source code.")
-
-
+(add-to-list 'auto-mode-alist '("\\.\\(d\\|s\\)ats\\'" . ats-mode))
 
 (provide 'ats-mode)
-;;; ats-mode.el ends here
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; two-mode-mode.el -- switches between tcl and sgml(html) modes
-;; $Id: two-mode-mode.el,v 1.4 2004/11/19 17:00:12 davidw Exp $
-
-;; Copyright 1999-2004 The Apache Software Foundation
-
-;; Licensed under the Apache License, Version 2.0 (the "License");
-;; you may not use this file except in compliance with the License.
-;; You may obtain a copy of the License at
-
-;;	http://www.apache.org/licenses/LICENSE-2.0
-
-;; Unless required by applicable law or agreed to in writing, software
-;; distributed under the License is distributed on an "AS IS" BASIS,
-;; WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-;; See the License for the specific language governing permissions and
-;; limitations under the License.
-
-;; These same concepts could be used to do a number of neat 2-mode
-;; modes, for things like PHP, or anything else where you have a
-;; couple of modes you'd like to use.
-
-;; Use of 'psgml-mode' is highly recommended.  It is, of course, a
-;; part of Debian GNU/Linux.
-
-;; Author: David N. Welton <davidw@dedasys.com>
-
-;; Modified by Marco Pantaleoni <panta@elasticworld.org>
-;; to allow execution of an hook on mode switching.
-;; Also added a standard mode hook and some documentation strings.
-
-;; Janko Heilgeist <janko@heilgeist.com> and Stefan Schimanski
-;; <1stein@gmx.de> submitted modifications that enable the use of
-;; multiple modes, so I suppose that 'two-mode-mode' isn't strictly
-;; accurate anymore.
-
-;; Matthew Danish <mrd@debian.org> adapted this file to ATS mode.
-
-(defvar ats-default-mode (list "ATS" 'ats-mode))
-(defvar ats-second-modes (list
-                      (list "C/ATS" "%{" "%}" 'c/ats-mode)))
-
-;; ----------------
-
-(defvar ats-two-mode-update 0)
-(defvar ats-two-mode-mode-idle-timer nil)
-(defvar ats-two-mode-bool nil)
-(defvar ats-two-mode-mode-delay (/ (float 1) (float 8)))
-
-;; Two mode hook
-(defvar ats-two-mode-hook nil
-  "*Hook called by `two-mode'.")
-(setq ats-two-mode-hook nil)
-
-;; Mode switching hook
-(defvar ats-two-mode-switch-hook nil
-  "*Hook called upon mode switching.")
-(setq ats-two-mode-switch-hook nil)
-
-(defun ats-two-mode-mode-setup ()
-  (when (< emacs-major-version 21)
-    (make-local-hook 'post-command-hook))
-  (add-hook 'post-command-hook 'ats-two-mode-mode-need-update nil t)
-  (make-local-variable 'minor-mode-alist)
-  (make-local-variable 'ats-two-mode-bool)
-  (setq ats-two-mode-bool t)
-  (when ats-two-mode-mode-idle-timer
-    (cancel-timer ats-two-mode-mode-idle-timer))
-  (setq ats-two-mode-mode-idle-timer
-	(run-with-idle-timer ats-two-mode-mode-delay t
-			     'ats-two-mode-mode-update-mode))
-  (or (assq 'ats-two-mode-bool minor-mode-alist)
-      (setq minor-mode-alist
-	    (cons '(ats-two-mode-bool "/C") minor-mode-alist))))
-
-(defun ats-two-mode-mode-need-update ()
-  (setq ats-two-mode-update 1))
-
-(defun ats-two-mode-change-mode (to-mode func)
-  (if (string= to-mode mode-name)
-      t
-    (progn
-      (funcall func)
-      ;; After the mode was set, we reread the "Local Variables" section.
-      ;; We do need this for example in SGML-mode if "sgml-parent-document"
-      ;; was set, or otherwise it will be reset to nil when sgml-mode is left.
-      (hack-local-variables)
-
-      (ats-two-mode-mode-setup)
-      (if ats-two-mode-switch-hook
-	  (run-hooks 'ats-two-mode-switch-hook))
-      (if (eq font-lock-mode t)
-	  (font-lock-fontify-buffer))
-      (turn-on-font-lock-if-enabled))))
-
-(defun ats-two-mode-mode-update-mode ()
-  (when (and ats-two-mode-bool ats-two-mode-update)
-    (setq ats-two-mode-update 0)
-    (let ((mode-list ats-second-modes)
-	  (flag 0))
-      (while mode-list
-	(let ((mode (car mode-list))
-	      (lm -1)
-	      (rm -1))
-	  (save-excursion 
-	    (if (search-backward (cadr mode) nil t)
-		(setq lm (point))
-	      (setq lm -1)))
-	  (save-excursion
-	    (if (search-backward (car (cddr mode)) nil t)
-		(setq rm (point))
-	      (setq rm -1)))
-	  (if (and (not (and (= lm -1) (= rm -1))) (>= lm rm))
-	      (progn
-		(setq flag 1)
-		(setq mode-list '())
-		(ats-two-mode-change-mode (car mode) (car (cdr (cddr mode)))))))
-	(setq mode-list (cdr mode-list)))
-      (if (= flag 0)
-	  (ats-two-mode-change-mode (car ats-default-mode) (cadr ats-default-mode))))))
-
-(defun ats-two-mode-mode ()
-  "Turn on ats-two-mode-mode"
-  (interactive)
-  (funcall (cadr ats-default-mode))
-  (ats-two-mode-mode-setup)
-  (if ats-two-mode-hook
-     (run-hooks 'ats-two-mode-hook)))
-
-(defun ats/c-mode ()
-  "Turn on ats/c-mode"
-  (interactive)
-  (funcall (cadr ats-default-mode))
-  (ats-two-mode-mode-setup)
-  (if ats-two-mode-hook
-     (run-hooks 'ats-two-mode-hook)))
-
-;;;###autoload
-;;;(add-to-list 'auto-mode-alist '("\\.\\(s\\|d\\|h\\)ats\\'" . ats-two-mode-mode))
-;;;
-;;;(provide 'ats-two-mode-mode)
