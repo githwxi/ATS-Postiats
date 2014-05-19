@@ -69,7 +69,7 @@ that of a pointer (of the type [ptr]).
 
 <p>
 
-How should a map of the type [wcmap] be created? We introduce a function
+How should a value of the type [wcmap] be created? We introduce a function
 for creating an empty map:
 
 <pre
@@ -88,7 +88,7 @@ fun wcmap_incby1 (map: wcmap, w: string): void
 ")</pre>
 
 As we also need to sort words according to their numbers of occurrences, we
-introduce a function for sequentializing a [wcmap]:
+introduce a function for sequentializing a wcmap-value:
 
 <pre
 class="patsyntax">
@@ -115,9 +115,9 @@ class="patsyntax">
 fun WordCounting (): wcmap
 ")</pre>
 
-So by calling [WordCounting], we generate a [wcmap] that maps each
-encountered word to its number of occurrences. An implementation of
-[WordCounting] is given as follows:
+So by calling [WordCounting], we generate a map of the type [wcmap] that
+maps each encountered word to its (current) number of occurrences. An
+implementation of [WordCounting] is given as follows:
 
 <pre
 class="patsyntax">
@@ -235,10 +235,10 @@ end // end of [word_get]
 Note that [loop] is called to skip non-alphabetical chars while [loop2] is
 called to accumulate alphabetical chars. The keyword [fnx] (in place of
 [fun]) means that [loop] and [loop2] are compiled jointly so that the
-tail-recursive calls in their bodies can all be turned into direct local
-jumps.  The function [string_make_rlist] creates a string consisting of the
-sequence of chars in the reverse of a given list. For instance, if the list
-consists of 'a', 'b' and 'c', then the created string is "cba".
+mutually tail-recursive calls in their bodies can all be turned into direct
+local jumps.  The function [string_make_rlist] creates a string consisting
+of the sequence of chars in the reverse of a given list. For instance, if
+the list consists of 'a', 'b' and 'c', then the created string is "cba".
 
 <h2>
 How should [wcmap] be implemented?
