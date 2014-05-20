@@ -327,7 +327,7 @@ myseq_merge
 ")</pre>
 
 There is extensive use of unsafe programming features in my implementation
-of [myseq_merge] on arrays. Writing code this way is primarily for the
+of [myseq_merge] on arrays. Writing code in this way is primarily for the
 purpose of saving some time as the given implementation of mergesort on
 arrays is not meant for practical use; it is only meant to make a point
 that the specification-like implementation of [mergesort] given above can
@@ -344,7 +344,7 @@ Refinement-based Programming
 
 While it may seem a bit too pedantic to implement a simple algorithm
 like mergesort in the way presented above, I do hope that this style of
-refinement-based programming should be obviously appealing to anyone
+refinement-based programming should look obviously appealing to anyone
 wanting to write even moderately complex programs. The manner in which
 abstract types are supported in ATS is particularly designed under the
 guideline to maximally promote refinement-based programming. As I see it,

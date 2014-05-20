@@ -151,6 +151,10 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 
 (* ****** ****** *)
 
+#packfilename("fprintlst2.dats")
+
+(* ****** ****** *)
+
 #packfilename("fprtuple.dats")
 
 (* ****** ****** *)

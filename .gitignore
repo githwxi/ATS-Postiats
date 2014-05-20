@@ -23,6 +23,11 @@ patscc_env.sh
 patsopt_env.sh
 
 #
+# An external link
+#
+contrib
+
+#
 # The compiler for POSTIATS 
 #
 src/.depend
@@ -185,44 +190,6 @@ libatsynmark/libatsynmark.a
 #
 
 libatsyn2json/libatsyn2json.a
-
-#
-# ATSLIB/contrib
-#
-
-contrib/cairo/cairo-1.12.*
-contrib/cairo/TUTORIAL/IMAGE
-contrib/zeromq/DOC/zguide
-
-contrib/*/atsctrb_*.o
-contrib/*/SATS/DOCUGEN/*_atxt.txt
-contrib/*/SATS/DOCUGEN/*_atxt.dats
-contrib/*/SATS/DOCUGEN/Makefile
-contrib/*/SATS/DOCUGEN/*_atxt.txt
-contrib/*/SATS/DOCUGEN/*_atxt.dats
-contrib/*/SATS/DOCUGEN/HTML
-contrib/*/SATS/DOCUGEN/TRYIT
-contrib/*/CATS/CODEGEN/*.cats
-contrib/*/CATS/CODEGEN/*_atxt.txt
-contrib/*/CATS/CODEGEN/*_atxt.dats
-contrib/*/TEST/test??
-
-contrib/*/*/SATS/DOCUGEN/*_atxt.txt
-contrib/*/*/SATS/DOCUGEN/*_atxt.dats
-contrib/*/*/SATS/DOCUGEN/Makefile
-contrib/*/*/SATS/DOCUGEN/*_atxt.txt
-contrib/*/*/SATS/DOCUGEN/*_atxt.dats
-contrib/*/*/SATS/DOCUGEN/HTML
-contrib/*/*/SATS/DOCUGEN/TRYIT
-contrib/*/*/CATS/CODEGEN/*.cats
-contrib/*/*/CATS/CODEGEN/*_atxt.txt
-contrib/*/*/CATS/CODEGEN/*_atxt.dats
-contrib/*/*/TEST/test??
-
-contrib/SDL2/SDL2-2.0.1
-contrib/SDL2/SDL2_image-2.0.0
-
-contrib/zlog/zlog-latest-stable/
 
 #
 # ATSHOME/doc/DISTRIB
