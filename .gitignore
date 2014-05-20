@@ -23,6 +23,11 @@ patscc_env.sh
 patsopt_env.sh
 
 #
+# An external link
+#
+contrib
+
+#
 # The compiler for POSTIATS 
 #
 src/.depend
