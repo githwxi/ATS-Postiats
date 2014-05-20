@@ -8,7 +8,7 @@
 //
 (*
 //
-// Assignment #1
+// Assignment #0
 //
 *)
 (* ****** ****** *)
@@ -30,7 +30,7 @@ ATSPKGRELOCROOT ".CS320WEBROOT"
 //
 (* ****** ****** *)
 //
-staload "{$CS320WEBROOT}/assignments/01/assignment1.sats"
+staload "{$CS320WEBROOT}/assignments/00/assignment0.dats"
 //
 (* ****** ****** *)
 
@@ -49,21 +49,6 @@ triangle_test (x, y, z) =
 )
 
 (* ****** ****** *)
-//
-implement
-fib (n) =
-  if n >= 2 then fib(n-1) + fib(n-2) else n
-//
-(* ****** ****** *)
-
-implement
-fib2 (n, res1, res2) =
-  if n >= 2
-    then fib2 (n-1, res2, res1+res2)
-    else (if n = 0 then res1 else res2)
-  // end of [if]
-
-(* ****** ****** *)
 
 implement
 main0 () = () where
@@ -71,11 +56,14 @@ main0 () = () where
 //
 val N = 10
 //
-val () = println! ("fib(", N, ") = ", fib(N))
-val () = println! ("fib2(", N, ") = ", fib2(N, 0, 1))
+val () = assertloc (triangle_test (2, 3, 4)) // true
+val () = assertloc (triangle_test (3, 4, 5)) // true
+val () = assertloc (~triangle_test (1, 5, 6)) // ~false = true
+//
+val () = println! ("Good news: [assignment0] has passed initial testing!")
 //
 } (* end of [main0] *)
 
 (* ****** ****** *)
 
-(* end of [assignment1.dats] *)
+(* end of [assignment0.dats] *)

@@ -37,7 +37,7 @@ $(PATSCC) -IIATS ./.TEST03 \
 #
 ######
 
-assignment1: assignment1.dats ; $(PATSCC) -D_GNU_SOURCE -o $@ $<
+assignment0: assignment0.dats ; $(PATSCC) -D_GNU_SOURCE -o $@ $<
 
 ######
 #
@@ -59,8 +59,8 @@ test03-pkgreloc.mk: ; \
 $(PATSOPT) --pkgreloc \
 -DATS ATSPKGRELOCROOT=\".TEST03\" -d test03.dats | $(ATSPKGRELOC2) --output-w $@
 #
-assignment1-pkgreloc:: ; \
-  $(PATSOPT) --pkgreloc -d assignment1.dats | $(ATSPKGRELOC)
+assignment0-pkgreloc:: ; \
+  $(PATSOPT) --pkgreloc -d assignment0.dats | $(ATSPKGRELOC)
 #
 ######
 
@@ -82,7 +82,7 @@ cleanall:: ; $(RMF) test02
 cleanall:: ; $(RMRF) .TEST02
 cleanall:: ; $(RMF) test03
 cleanall:: ; $(RMRF) .TEST03
-cleanall:: ; $(RMF) assignment1
+cleanall:: ; $(RMF) assignment0
 cleanall:: ; $(RMRF) .CS320WEBROOT
 cleanall:: ; $(RMF) test01-pkgreloc.json
 cleanall:: ; $(RMF) test02-pkgreloc.json
