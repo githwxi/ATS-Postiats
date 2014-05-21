@@ -651,7 +651,7 @@ The ATS/Postiats C-Boostrapping\
 
 (* ****** ****** *)
 
-#packfilename("gcats1_all.cats")
+#packfilename("gcats1_all_cats.c")
 #packfilename("ccomp/runtime/GCATS/gcats1.cats")
 #packfilename("ccomp/runtime/GCATS/gcats1_master.hats")
 
