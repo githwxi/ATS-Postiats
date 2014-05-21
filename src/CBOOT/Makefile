@@ -15,17 +15,17 @@ CCOMP=gcc
 #
 ######
 #
-C3NSTRINTKIND=intknd
-C3NSTRINTKIND=gmpknd
+C3NSTRINTKND=intknd
+C3NSTRINTKND=gmpknd
 #
 ######
 #
 LIBGMP=
 #
-ifeq ($(C3NSTRINTKIND),intknd)
+ifeq ($(C3NSTRINTKND),intknd)
 LIBGMP :=
 endif
-ifeq ($(C3NSTRINTKIND),gmpknd)
+ifeq ($(C3NSTRINTKND),gmpknd)
 LIBGMP := -lgmp
 endif
 #

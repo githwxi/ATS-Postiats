@@ -48,8 +48,8 @@
 // HX-2014-05:
 // from command-line
 //
-#define C3NSTRINTKIND "intknd"
-#define C3NSTRINTKIND "gmpknd"
+#define C3NSTRINTKND "intknd"
+#define C3NSTRINTKND "gmpknd"
 *)
 //
 (* ****** ****** *)

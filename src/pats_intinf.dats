@@ -38,18 +38,18 @@
 (* ****** ****** *)
 
 #if
-C3NSTRINTKIND="intknd" #then
+C3NSTRINTKND="intknd" #then
 //
 #include "./pats_intinf_int.dats"
 //
 #elif
-C3NSTRINTKIND="gmpknd" #then
+C3NSTRINTKND="gmpknd" #then
 //
 #include "./pats_intinf_gmp.dats"
 //
 #else
 //
-#error ("ERROR: pats_intinf: [C3NSTRINTKIND] is undefined!\n")
+#error ("ERROR: pats_intinf: [C3NSTRINTKND] is undefined!\n")
 //
 #endif // end of [#if]
 

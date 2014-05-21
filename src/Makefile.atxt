@@ -516,11 +516,11 @@ GCFLAG=-D_ATS_GCATS
 
 ######
 
-C3NSTRINTKIND=gmpknd
+C3NSTRINTKND=gmpknd
 
 ######
 
-DATSCC=-DATS C3NSTRINTKIND=$(C3NSTRINTKIND)
+DATSCC=-DATS C3NSTRINTKND=$(C3NSTRINTKND)
 
 ######
 
@@ -529,12 +529,12 @@ LIBATS=-lats
 ######
 #
 # HX: no [gmp] 
-ifeq ($(C3NSTRINTKIND),intknd)
+ifeq ($(C3NSTRINTKND),intknd)
 LIBGMP=
 endif
 #
 # HX: [gmp] needed
-ifeq ($(C3NSTRINTKIND),gmpknd)
+ifeq ($(C3NSTRINTKND),gmpknd)
 LIBGMP=-lgmp
 endif
 #
