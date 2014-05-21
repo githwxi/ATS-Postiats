@@ -81,8 +81,7 @@ staload "./pats_constraint3.sats"
 
 local
 //
-#include "./pats_lintprgm_myint_int.dats"
-#include "./pats_lintprgm_myint_gmp.dats"
+#include "./pats_lintprgm_myint.dats"
 //
 in (*nothing*) end
 

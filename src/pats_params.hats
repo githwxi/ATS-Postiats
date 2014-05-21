@@ -43,14 +43,13 @@
 //
 (* ****** ****** *)
 //
+#ifndef
+C3NSTRINTKND
 (*
-//
-// HX-2014-05:
-// from command-line
-//
 #define C3NSTRINTKND "intknd"
-#define C3NSTRINTKND "gmpknd"
 *)
+#define C3NSTRINTKND "gmpknd"
+#endif // end of [ifndef]
 //
 (* ****** ****** *)
 

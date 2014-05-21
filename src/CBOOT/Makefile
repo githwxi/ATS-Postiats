@@ -236,8 +236,7 @@ SOURCES := \
   pats_lintprgm.dats \
   pats_lintprgm_print.dats \
   pats_lintprgm_myint.cats \
-  pats_lintprgm_myint_int.dats \
-  pats_lintprgm_myint_gmp.dats \
+  pats_lintprgm_myint.dats \
   pats_lintprgm_solve.dats \
   pats_constraint3.sats \
   pats_constraint3.dats \
@@ -369,8 +368,11 @@ LIBC_OBJECTS := \
   libc_DATS_unistd_dats.o \
   libc_sys_SATS_stat_sats.o \
   libc_sys_SATS_types_sats.o \
-  libc_SATS_gmp_sats.o \
-  libc_DATS_gmp_dats.o \
+
+ifeq ($(C3NSTRINTKND),gmpknd)
+LIBC_OBJECTS += \
+  libc_SATS_gmp_sats.o libc_DATS_gmp_dats.o
+endif
 
 ######
 #
