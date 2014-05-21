@@ -33,7 +33,25 @@
 //
 (* ****** ****** *)
 
+#include "./pats_params.hats"
+
+(* ****** ****** *)
+
+#if
+C3NSTRINTKIND="intknd" #then
+//
+#include "./pats_intinf_int.dats"
+//
+#elif
+C3NSTRINTKIND="gmpknd" #then
+//
 #include "./pats_intinf_gmp.dats"
+//
+#else
+//
+#error ("ERROR: pats_intinf: [C3NSTRINTKIND] is undefined!\n")
+//
+#endif // end of [#if]
 
 (* ****** ****** *)
 

@@ -442,11 +442,11 @@ case+ 0 of
     isSATS (src) => let
     val src1 = extrem (src)
     val line1 = sprintf (
-      "%s_sats.c: %s.sats; $(ATSCC) -cc $<\n", @(src1, src1)
+      "%s_sats.c: %s.sats; $(ATSCC) $(DATSCC) -cc $<\n", @(src1, src1)
     ) // end of [val]
     val line1 = atext_strptr (line1)
     val line2 = sprintf (
-      "%s_sats.o: %s_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<\n\n", @(src1, src1)
+      "%s_sats.o: %s_sats.c; $(ATSCC) $(CFLAGS) -c $<\n\n", @(src1, src1)
     ) // end of [val]
     val line2 = atext_strptr (line2)
   in
@@ -456,11 +456,11 @@ case+ 0 of
     isDATS (src) => let
     val src1 = extrem (src)
     val line1 = sprintf (
-      "%s_dats.c: %s.dats; $(ATSCC) -cc $<\n", @(src1, src1)
+      "%s_dats.c: %s.dats; $(ATSCC) $(DATSCC) -cc $<\n", @(src1, src1)
     ) // end of [val]
     val line1 = atext_strptr (line1)
     val line2 = sprintf (
-      "%s_dats.o: %s_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<\n\n", @(src1, src1)
+      "%s_dats.o: %s_dats.c; $(ATSCC) $(CFLAGS) -c $<\n\n", @(src1, src1)
     ) // end of [val]
     val line2 = atext_strptr (line2)
   in
@@ -505,13 +505,39 @@ ATSOPT=$(ATSHOME)/bin/atsopt
 
 ######
 
-ATSGCFLAG=
-ATSGCFLAG=-D_ATS_GCATS
+CFLAGS=-g
+CFLAGS=-g -O
+CFLAGS=-g -O2
 
-ATSCCFLAGS=-g
-ATSCCFLAGS=-g -O
-ATSCCFLAGS=-g -O2
+######
 
+GCFLAG=
+GCFLAG=-D_ATS_GCATS
+
+######
+
+C3NSTRINTKIND=gmpknd
+
+######
+
+DATSCC=-DATS C3NSTRINTKIND=$(C3NSTRINTKIND)
+
+######
+
+LIBATS=-lats
+
+######
+#
+# HX: no [gmp] 
+ifeq ($(C3NSTRINTKIND),intknd)
+LIBGMP=
+endif
+#
+# HX: [gmp] needed
+ifeq ($(C3NSTRINTKIND),gmpknd)
+LIBGMP=-lgmp
+endif
+#
 ######
 
 SOURCES := \\
@@ -536,7 +562,7 @@ all:: patsopt
 #
 patsopt: \\
   pats_main_dats.o $(OBJECTS) ; \\
-  $(ATSCC) $(ATSGCFLAG) $(ATSCCFLAGS) -o $@ pats_main_dats.o $(OBJECTS) -lats -lgmp
+  $(ATSCC) $(CFLAGS) $(GCFLAG) -o $@ pats_main_dats.o $(OBJECTS) $(LIBATS) $(LIBGMP)
 cleanall:: ; $(RMF) patsopt
 #
 ######

@@ -14,19 +14,33 @@ CCOMP=gcc
 # LDFLAGS=
 #
 ######
-
-LIBGC :=
-gcats_o :=
-
+#
+C3NSTRINTKIND=intknd
+C3NSTRINTKIND=gmpknd
+#
 ######
-
+#
+LIBGMP=
+#
+ifeq ($(C3NSTRINTKIND),intknd)
+LIBGMP :=
+endif
+ifeq ($(C3NSTRINTKIND),gmpknd)
+LIBGMP := -lgmp
+endif
+#
+######
+#
+LIBGC=
+gcats_o=
+#
 ifeq ($(GCFLAG),-D_ATS_GCBDW)
   LIBGC := -lgc
 endif
 ifeq ($(GCFLAG),-D_ATS_GCATS)
   gcats_o := gcats.o
 endif
-
+#
 ######
 
 all:: patsopt
@@ -297,7 +311,7 @@ OBJECTSstadyn := $(OBJECTSsta) $(OBJECTSdyn)
 patsopt: \
   pats_main_dats.o $(OBJECTSstadyn) \
   prelude_libats.o libc_libats.o libats_libats.o $(gcats_o) ; \
-  $(CCOMP) -O2 -I . $(GCFLAG) -o $@ ccomp/runtime/ats_prelude.c $^ $(LDFLAGS) -lgmp $(LIBGC)
+  $(CCOMP) -O2 -I . $(GCFLAG) -o $@ ccomp/runtime/ats_prelude.c $^ $(LDFLAGS) $(LIBGMP) $(LIBGC)
 #
 ######
 #

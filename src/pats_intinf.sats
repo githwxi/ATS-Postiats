@@ -59,7 +59,7 @@ fun
 intinf_make_base_string_ofs
   {n:int} {i:nat | i <= n}
 (
-  base: intBtw(2,36+1), rep: string n, ofs: int i
+  base: intBtwe(2,36), rep: string n, ofs: int i
 ) : intinf // end of [intinf_make_base_string_ofs]
 
 (* ****** ****** *)

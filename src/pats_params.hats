@@ -41,11 +41,16 @@
 //
 // HX: this is used in [pats_constraint3_solve.dats]
 //
-(*
-#define C3NSTRINTKIND "intknd"
-*)
+(* ****** ****** *)
 //
+(*
+//
+// HX-2014-05:
+// from command-line
+//
+#define C3NSTRINTKIND "intknd"
 #define C3NSTRINTKIND "gmpknd"
+*)
 //
 (* ****** ****** *)
 
