@@ -219,7 +219,7 @@ SOURCES := \
   pats_lintprgm_print.dats \
   pats_lintprgm_myint.cats \
   pats_lintprgm_myint_int.dats \
-  pats_lintprgm_myint_intinf.dats \
+  pats_lintprgm_myint_gmp.dats \
   pats_lintprgm_solve.dats \
   pats_constraint3.sats \
   pats_constraint3.dats \
@@ -458,7 +458,7 @@ OBJECTS := \
   pats_lintprgm_dats.o \
   pats_lintprgm_print_dats.o \
   pats_lintprgm_myint_int_dats.o \
-  pats_lintprgm_myint_intinf_dats.o \
+  pats_lintprgm_myint_gmp_dats.o \
   pats_lintprgm_solve_dats.o \
   pats_constraint3_sats.o \
   pats_constraint3_dats.o \
@@ -1089,8 +1089,8 @@ pats_lintprgm_print_dats.o: pats_lintprgm_print_dats.c; $(ATSCC) $(ATSCCFLAGS) -
 pats_lintprgm_myint_int_dats.c: pats_lintprgm_myint_int.dats; $(ATSCC) -cc $<
 pats_lintprgm_myint_int_dats.o: pats_lintprgm_myint_int_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
-pats_lintprgm_myint_intinf_dats.c: pats_lintprgm_myint_intinf.dats; $(ATSCC) -cc $<
-pats_lintprgm_myint_intinf_dats.o: pats_lintprgm_myint_intinf_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+pats_lintprgm_myint_gmp_dats.c: pats_lintprgm_myint_gmp.dats; $(ATSCC) -cc $<
+pats_lintprgm_myint_gmp_dats.o: pats_lintprgm_myint_gmp_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_lintprgm_solve_dats.c: pats_lintprgm_solve.dats; $(ATSCC) -cc $<
 pats_lintprgm_solve_dats.o: pats_lintprgm_solve_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<

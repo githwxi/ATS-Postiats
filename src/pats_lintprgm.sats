@@ -44,12 +44,13 @@ staload LOC = "./pats_location.sats"
 staload "./pats_intinf.sats"
 
 (* ****** ****** *)
+//
 (*
 ** HX: only the names are needed
 *)
 abstype intknd = $extype "intknd"
-abstype intinfknd = $extype "intinfknd"
-
+abstype gmpknd = $extype "gmpknd"
+//
 (* ****** ****** *)
 
 absviewt@ype

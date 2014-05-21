@@ -36,7 +36,7 @@
 #define PATS_LINTPRGM_MYINT_CATS
 
 typedef ats_int_type intknd ; // -> int
-typedef ats_ptr_type intinfknd ; // -> intinf in libats/SATS/intinf.sats
+typedef ats_ptr_type gmpknd ; // -> intinf in libats/SATS/intinf.sats
 
 #endif // end of [PATS_LINTPRGM_MYINT_CATS]
 

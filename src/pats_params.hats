@@ -45,7 +45,7 @@
 #define C3NSTRINTKIND "intknd"
 *)
 //
-#define C3NSTRINTKIND "intinfknd"
+#define C3NSTRINTKIND "gmpknd"
 //
 (* ****** ****** *)
 

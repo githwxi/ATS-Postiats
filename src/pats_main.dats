@@ -138,6 +138,7 @@ staload CCOMP = "./pats_ccomp.sats"
 dynload "pats_error.dats"
 //
 dynload "pats_intinf.dats"
+//
 dynload "pats_counter.dats"
 //
 dynload "pats_utils.dats"
@@ -316,7 +317,7 @@ dynload "pats_lintprgm_print.dats"
 // HX: ATS_DYNLOADFLAG set to 0
 //
 dynload pats_lintprgm_myint_int.dats
-dynload pats_lintprgm_myint_intinf.dats
+dynload pats_lintprgm_myint_gmp.dats
 *)
 dynload "pats_lintprgm_solve.dats"
 //
