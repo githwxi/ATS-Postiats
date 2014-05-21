@@ -33,20 +33,8 @@
 //
 (* ****** ****** *)
 
-staload
-GMP = "libc/SATS/gmp.sats"
-vtypedef mpz_vt = $GMP.mpz_vt
-
-(* ****** ****** *)
-
 abstype intinf_type
 typedef intinf = intinf_type
-
-(* ****** ****** *)
-
-castfn intinf_takeout_mpz
-  (x: intinf):<!ref> [l:addr] (mpz_vt @ l, mpz_vt @ l -<lin,prf> void | ptr l)
-// end of [intinf_takeout_mpz]
 
 (* ****** ****** *)
 

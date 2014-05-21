@@ -93,21 +93,43 @@ end // end of [fprint_myint<gmpknd>]
 
 implement
 myint_make_int<gmpknd> (i) = let
-  val (pfgc, pfat | p) = ptr_alloc_tsz {mpz_vt} (sizeof<mpz_vt>)
+  val (
+    pfgc, pfat | p
+  ) = ptr_alloc_tsz {mpz_vt} (sizeof<mpz_vt>)
   val () = mpz_init_set_int (!p, i)
 in
   int2myint @(pfgc, pfat | p)
 end // end of [intinf_make_int]
 
+(* ****** ****** *)
+
+local
+
+extern
+castfn
+intinf_takeout_mpz
+(
+  intinf: $INTINF.intinf
+) :<!ref> [l:addr]
+(
+  mpz_vt @ l, mpz_vt @ l -<lin,prf> void | ptr l
+) // end of [intinf_takeout_mpz]
+
+in (* in-of-local *)
+
 implement
 myint_make_intinf<gmpknd> (i) = let
-  val (pfgc, pfat | p) = ptr_alloc_tsz {mpz_vt} (sizeof<mpz_vt>)
-  val (pf, fpf | p_i) = $INTINF.intinf_takeout_mpz (i)
+  val (
+    pfgc, pfat | p
+  ) = ptr_alloc_tsz {mpz_vt} (sizeof<mpz_vt>)
+  val (pf, fpf | p_i) = intinf_takeout_mpz (i)
   val () = mpz_init_set_mpz (!p, !p_i)
   prval () = fpf (pf)
 in
   int2myint @(pfgc, pfat | p)
 end // end of [intinf_make_int]
+
+end // end of [local]
 
 (* ****** ****** *)
 
