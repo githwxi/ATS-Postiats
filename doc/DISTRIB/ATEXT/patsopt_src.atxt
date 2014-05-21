@@ -447,6 +447,7 @@ The ATS/Postiats (ATS2) Compiler\
 #packfilename("pats_lintprgm.dats")
 #packfilename("pats_lintprgm_myint.cats")
 #packfilename("pats_lintprgm_print.dats")
+#packfilename("pats_lintprgm_myint.dats")
 #packfilename("pats_lintprgm_myint_int.dats")
 #packfilename("pats_lintprgm_myint_gmp.dats")
 #packfilename("pats_lintprgm_solve.dats")
