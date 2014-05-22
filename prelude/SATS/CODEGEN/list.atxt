@@ -275,6 +275,15 @@ list_get_at_opt
   (xs: List (INV(x)), i: intGte (0)):<> Option_vt (x)
 //
 #atscode_separator()
+//
+fun{x:t0p}
+list_set_at{n:nat}
+  (xs: list (INV(x), n), i: natLt (n), x: x):<> list (x, n)
+fun{x:t0p}
+list_exch_at{n:nat}
+  (xs: list (INV(x), n), i: natLt (n), x: x):<> (list (x, n), x)
+//
+#atscode_separator()
 
 fun{x:t0p}
 list_insert_at
