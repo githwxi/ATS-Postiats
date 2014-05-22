@@ -1,9 +1,0 @@
-You can do:
-
-cd MYPORTDIR
-make -C .. MYPORTDIR
-make PATSCC=gcc MYCCRULE=PORTABLE -f ../Makefile
-
-Then you get executable ./GameOf24
-
-On Cygwin, make sure you have libgc-devel installed (for -lgc).
