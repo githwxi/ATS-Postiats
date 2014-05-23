@@ -46,8 +46,8 @@ endif # end of [ifdef]
 #
 ifdef MYCCRULE
 else
-%_sats.c: %.sats ; $(PATSCC) $(INCLUDE_ATS) -ccats $<
-%_dats.c: %.dats ; $(PATSCC) $(INCLUDE_ATS) -ccats $<
+%_sats.c: %.sats ; $(PATSCC) $(INCLUDE_ATS) -o $@ -ccats $<
+%_dats.c: %.dats ; $(PATSCC) $(INCLUDE_ATS) -o $@ -ccats $<
 endif
 #
 ######
@@ -57,9 +57,9 @@ endif
 ifdef MYCCRULE
 else
 %_sats.o: %.sats ; \
-  $(PATSCC) -cleanaft $(INCLUDE) $(INCLUDE_ATS) $(CFLAGS) -c $<
+  $(PATSCC) -cleanaft $(INCLUDE) $(INCLUDE_ATS) $(CFLAGS) -o $@ -c $<
 %_dats.o: %.dats ; \
-  $(PATSCC) -cleanaft $(INCLUDE) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -c $<
+  $(PATSCC) -cleanaft $(INCLUDE) $(INCLUDE_ATS) $(MALLOCFLAG) $(CFLAGS) -o $@ -c $<
 endif
 #
 ######
@@ -68,8 +68,8 @@ endif
 #
 ifeq ($(strip $(MYCCRULE)),PORTABLE)
 #
-%_sats.o: %_sats.c ; $(CC) $(INCLUDE) $(CFLAGS) -c $<
-%_dats.o: %_dats.c ; $(CC) $(INCLUDE) $(MALLOCFLAG) $(CFLAGS) -c $<
+%_sats.o: %_sats.c ; $(CC) $(INCLUDE) $(CFLAGS) -o $@ -c $<
+%_dats.o: %_dats.c ; $(CC) $(INCLUDE) $(MALLOCFLAG) $(CFLAGS) -o $@ -c $<
 #
 endif
 #
