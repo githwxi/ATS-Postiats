@@ -649,8 +649,8 @@ end // end of [hashtbl_foreach_env]
 (* ****** ****** *)
 
 implement
-{key,itm}
-hashtbl_listize
+{key,itm}{ki2}
+hashtbl_flistize
   (tbl) = let
 //
 val+~HASHTBL (A, cap, _) = tbl
@@ -663,8 +663,8 @@ fun
 loop
 (
   p: ptr
-, res: List0_vt(ki)
-) : List0_vt(ki) = let
+, res: List0_vt(ki2)
+) : List0_vt(ki2) = let
 in
 //
 if
@@ -682,9 +682,11 @@ in
       loop (ptr_pred<ki> (p), res)
     end // end of [then]
     else let
-      val res = list_vt_cons{ki} (!p, res)
+      val kx2 =
+        hashtbl_flistize$fopr<key,itm><ki2> (p->0, p->1)
+      val res = list_vt_cons{ki2}(kx2, res)
       val ((*void*)) = hashtbl_linprb_keyitm_nullize<key,itm> (!p)
-      prval () = $UN.castview0 ((fpf, pf))
+      prval ((*void*)) = $UN.castview0 ((fpf, pf))
     in
       loop (ptr_pred<ki> (p), res)
     end // end of [else]
@@ -697,9 +699,10 @@ end // end of [loop]
 val res = $effmask_all(loop (p_end, list_vt_nil(*void*)))
 //
 val ((*freed*)) = arrayptr_free($UN.castvwtp0{arrayptr(ki?,0)}(A))
+//
 in
   res
-end // end of [hashtbl_listize]
+end // end of [hashtbl_flistize]
 
 (* ****** ****** *)
 

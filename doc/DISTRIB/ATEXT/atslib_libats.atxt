@@ -155,6 +155,7 @@ The ATSLIB/libats library\
 (* ****** ****** *)
 
 #packfilename("SATS/hashtbl_chain.sats")
+#packfilename("SATS/hashtbl_linprb.sats")
 
 (* ****** ****** *)
 
@@ -277,6 +278,7 @@ The ATSLIB/libats library\
 (* ****** ****** *)
 
 #packfilename("DATS/hashtbl_chain.dats")
+#packfilename("DATS/hashtbl_linprb.dats")
 
 (* ****** ****** *)
 
