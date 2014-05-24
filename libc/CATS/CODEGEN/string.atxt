@@ -97,6 +97,10 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+\#define atslib_memset_unsafe memset
+
+#atscode_separator_for_C()
+
 \#define atslib_memmove_unsafe memmove
 
 #atscode_separator_for_C()

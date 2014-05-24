@@ -25,7 +25,7 @@ staload _(*anon*) = "libats/DATS/hashtbl_chain.dats"
 val () =
 {
 val tbl =
-  hashtbl_make_nil<string,string>(i2sz(1024))
+hashtbl_make_nil<string,string>(i2sz(1024))
 val-~list_vt_nil () = hashtbl_listize (tbl)
 } // end of [val]
 

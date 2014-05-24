@@ -44,6 +44,11 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload
+STRING = "libc/SATS/string.sats"
+
+(* ****** ****** *)
+
 staload "libats/SATS/hashfun.sats"
 
 (* ****** ****** *)
@@ -56,13 +61,35 @@ staload "libats/SATS/hashtbl_linprb.sats"
 
 (* ****** ****** *)
 
+implement
+{key,itm}
+hashtbl_linprb_keyitm_nullize (kx) = let
+  vtypedef ki = @(key, itm)
+  val _(*ptr*) =
+  $STRING.memset_unsafe(addr@(kx), 0, sizeof<ki>)
+  prval () =
+  __assert (kx) where
+  { 
+    extern praxi __assert (&(ki)? >> _): void
+  } (* end of [prval] *)
+in
+  // nothing
+end // end of [hashtbl_linprb_keyitm_nullize]
+
+(* ****** ****** *)
+
+implement(itm)
+hashtbl_linprb_keyitm_is_null<string, itm> (kx) = (string2ptr(kx.0) = 0)
+
+(* ****** ****** *)
+
 extern
 fun{
 key:t0p;
 itm:vt0p
-} keyitmarr_linprb{n:int}
+} keyitmarr_linprb{m:int}
 (
-  A: &array((key,itm), n), n: size_t(n), k0: key, ans: &bool? >> _
+  A: &array((key,itm), m), cap: size_t(m), k0: key, ans: &bool? >> _
 ) : Ptr0 // end of [keyitmarr_linprb]
 
 (* ****** ****** *)
@@ -70,14 +97,11 @@ itm:vt0p
 implement
 {key,itm}
 keyitmarr_linprb
-  {n}
-(
-  A, n, k0, ans
-) = let
+  {m}(A, cap, k0, ans) = let
 //
 val p0 = addr@(A)
 vtypedef ki = @(key, itm)
-val p_end = ptr_add<ki> (p0, n)
+val p_end = ptr_add<ki> (p0, cap)
 //
 fun loop
 (
@@ -89,11 +113,11 @@ p < p_end
 then let
   val (pf, fpf | p) =
     $UN.ptr0_vtake{ki}(p)
-  val isini =
-    hashtbl_linprb_keyitm_is_initial<key,itm> (!p)
+  val isnul =
+    hashtbl_linprb_keyitm_is_null<key,itm> (!p)
   prval ((*void*)) = fpf (pf)
 in
-  if isini
+  if isnul
     then let
       val () = ans := false in p
     end // end of [then]
@@ -130,9 +154,9 @@ fun{
 key:t0p;
 itm:vt0p
 } keyitmarr_linprb2
-  {n:int}{ofs:int | ofs <= n}
+  {m:int}{ofs:int | ofs <= m}
 (
-  A: &array((key,itm), n), n: size_t(n), ofs: size_t(ofs), k0: key, ans: &bool? >> _
+  A: &array((key,itm), m), cap: size_t(m), ofs: size_t(ofs), k0: key, ans: &bool? >> _
 ) : Ptr0 // end of [keyitmarr_linprb2]
 
 (* ****** ****** *)
@@ -140,20 +164,19 @@ itm:vt0p
 implement
 {key,itm}
 keyitmarr_linprb2
-  {n}{ofs}
+  {m}{ofs}
 (
-  A, n, ofs, k0, ans
+  A, cap, ofs, k0, ans
 ) = let
 //
 val p0 = addr@(A)
 vtypedef ki = @(key, itm)
 val p1 = ptr_add<ki> (p0, ofs)
 //
-stadef n1 = ofs
-stadef n2 = n - ofs
+stadef n1 = ofs and n2 = m - ofs
 //
 val (pf, fpf | p1) = $UN.ptr0_vtake{array(ki,n2)}(p1)
-val p_kx = keyitmarr_linprb<key,itm> (!p1, n - ofs, k0, ans)
+val p_kx = keyitmarr_linprb<key,itm> (!p1, cap - ofs, k0, ans)
 prval () = fpf (pf)
 //
 in
@@ -170,6 +193,93 @@ if p_kx > 0
 // end of [if]
 //
 end // end of [keyitmarr_linprb2]
+
+(* ****** ****** *)
+
+extern
+fun{
+key:t0p;
+itm:vt0p
+} keyitmarr_reinserts
+  {m:int}
+(
+  A: &array((key,itm), m) >> _, cap: size_t(m), p_kx: ptr
+) : void // end of [keyitmarr_reinserts]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+keyitmarr_reinserts
+  {m}(A, cap, p_kx) = let
+//
+val p0 = addr@(A)
+vtypedef ki = @(key, itm)
+val p_end = ptr_add<ki> (p0, cap)
+//
+fun
+loop
+(
+  A: &array(ki, m) >> _, cap: size_t(m), p_kx: ptr
+) : bool = let
+in
+//
+if
+p_kx < p_end
+then let
+//
+val (pf, fpf | p_kx) = $UN.ptr0_vtake{ki}(p_kx)
+val isnul =
+  hashtbl_linprb_keyitm_is_null<key,itm> (!p_kx)
+//
+in
+  if isnul
+    then let
+      prval () = fpf (pf) in true(*stopped*)
+    end // end of [then]
+    else let
+      val k = p_kx->0
+      val hk = hash_key<key> (k)
+      val ofs = g0uint_mod (hk, $UN.cast{ulint}(cap))
+      val ofs = $UN.cast{sizeLt(m)}(ofs)
+//
+      var ans: bool // uninitized
+      val p2_kx = keyitmarr_linprb2<key,itm> (A, cap, ofs, k, ans)
+//
+    in
+      if ans
+        then let
+          prval () = fpf (pf)
+        in
+          loop (A, cap, ptr_succ<ki> (p_kx))
+        end // end of [then]
+        else let
+          val (pf2, fpf2 | p2_kx) = $UN.ptr0_vtake{ki?}(p2_kx)
+          val () = p2_kx->0 := p_kx->0
+          val () = p2_kx->1 := p_kx->1
+          val () = hashtbl_linprb_keyitm_nullize<key,itm> (!p_kx)
+          prval () = $UN.castview0((fpf, pf))
+          prval () = $UN.castview0((fpf2, pf2))
+        in
+          loop (A, cap, ptr_succ<ki> (p_kx))
+        end // end of [else]
+      // end of [if]
+    end // end of [else]
+  // end of [if]
+end // end of [then]
+else false (*~stopped*)
+//
+end // end of [loop]
+//
+val stopped = loop (A, cap, p_kx)
+val _(*true*) =
+(
+  if not(stopped) then loop (A, cap, p0) else true
+) : bool // end of [val]
+//
+in
+  // nothing
+end // end of [keyitmarr_reinserts]
 
 (* ****** ****** *)
 
@@ -192,10 +302,54 @@ hashtbl_vtype (key:t0p, itm:vt0p) = hashtbl (key, itm)
 
 implement
 {key,itm}
+hashtbl_make_nil
+  (cap) = let
+//
+vtypedef ki = @(key, itm)
+//
+prval
+[m:int]
+EQINT () = eqint_make_guint (cap)
+//
+val A0 =
+arrayptr_make_uninitized<ki> (cap)
+val p_A0 = ptrcast(A0)
+val _(*ptr*) =
+$STRING.memset_unsafe (p_A0, 0, cap*sizeof<ki>)
+val A0 = $UN.castvwtp0{arrayptr(ki,m)}(A0)
+//
+in
+  HASHTBL (A0, cap, i2sz(0))
+end // end of [hashtbl_make_nil]
+
+(* ****** ****** *)
+  
+implement{
+} hashtbl_get_size
+  (tbl) = let
+//
+val+HASHTBL(A, cap, ntot) = tbl in ntot
+//
+end // end of [hashtbl_get_size]
+
+(* ****** ****** *)
+
+implement{
+} hashtbl_get_capacity
+  (tbl) = let
+//
+val+HASHTBL (A, cap, ntot) = tbl in (cap)
+//
+end // end of [hashtbl_get_capacity]
+  
+(* ****** ****** *)
+
+implement
+{key,itm}
 hashtbl_search_ref
   (tbl, k0) = let
 //
-val+HASHTBL{..}{m}(A, cap, n) = tbl
+val+HASHTBL{..}{m}(A, cap, ntot) = tbl
 //
 val hk = hash_key<key> (k0)
 val ofs = g0uint_mod (hk, $UN.cast{ulint}(cap))
@@ -229,7 +383,7 @@ hashtbl_insert
 //
 vtypedef ki = @(key, itm)
 //
-val+@HASHTBL{..}{m}(A, cap, n) = tbl
+val+@HASHTBL{..}{m}(A, cap, ntot) = tbl
 //
 val hk = hash_key<key> (k)
 val ofs = g0uint_mod (hk, $UN.cast{ulint}(cap))
@@ -264,7 +418,7 @@ in
     val (pf, fpf | p_kx) = $UN.ptr0_vtake{ki?}(p_kx)
     val () = p_kx->0 := k
     val () = p_kx->1 := x
-    val () = n := succ(n)
+    val () = ntot := succ(ntot)
     prval () = $UN.castview0((fpf, pf))
     prval () = opt_none{itm}(res)
     prval () = fold@ (tbl)
@@ -289,15 +443,61 @@ end // end of [hashtbl_insert]
 
 implement
 {key,itm}
+hashtbl_takeout
+  (tbl, k, res) = let
+//
+val+@HASHTBL{..}{m}(A, cap, ntot) = tbl
+//
+val hk = hash_key<key> (k)
+val ofs = g0uint_mod (hk, $UN.cast{ulint}(cap))
+val ofs = $UN.cast{sizeLt(m)}(ofs)
+//
+val p_A = ptrcast(A)
+prval pf_A = arrayptr_takeout(A)
+var ans: bool // uninitalized
+val p_kx = keyitmarr_linprb2<key,itm> (!p_A, cap, ofs, k, ans)
+prval ((*void*)) = arrayptr_addback (pf_A | A)
+//
+in
+//
+if ans
+then let
+  vtypedef ki = @(key, itm)
+  val (pf, fpf | p_kx) = $UN.ptr0_vtake{ki}(p_kx)
+  val () = res := p_kx->1
+  val () = hashtbl_linprb_keyitm_nullize<key,itm> (!p_kx)
+  val () = ntot := pred (ntot)
+  prval () = $UN.castview0 ((fpf, pf))
+  prval pf_A = arrayptr_takeout(A)
+  val () = keyitmarr_reinserts<key,itm> (!p_A, cap, ptr_succ<ki> (p_kx))
+  prval ((*void*)) = arrayptr_addback (pf_A | A)
+  prval () = fold@ (tbl)
+  prval () = opt_some{itm}(res)
+in
+  true
+end // end of [then]
+else let
+  prval () = fold@ (tbl)
+  prval () = opt_none{itm}(res)
+in
+  false
+end // end of [else]
+//
+end // end of [hashtbl_takeout]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
 hashtbl_reset_capacity
   (tbl, cap2) = let
 //
-val+@HASHTBL{..}{m}(A, cap, n) = tbl
+val+@HASHTBL{..}{m}(A, cap, ntot) = tbl
 //
 in
 //
 if
-n <= cap2
+ntot <= cap2
 then let
 //
 val p0 = ptrcast(A)
@@ -316,10 +516,10 @@ p < p_end
 then let
   val (pf, fpf | p) =
     $UN.ptr0_vtake{ki}(p)
-  val isini =
-    hashtbl_linprb_keyitm_is_initial<key,itm> (!p)
+  val isnul =
+    hashtbl_linprb_keyitm_is_null<key,itm> (!p)
 in
-  if isini
+  if isnul
     then let
       prval ((*void*)) = fpf (pf)
     in
@@ -351,8 +551,12 @@ prval
 [m2:int]
 EQINT () = eqint_make_guint (cap2)
 //
-val A2 = arrayptr_make_uninitized<ki> (cap2)
-val ((*void*)) = loop (ptrcast(A2), cap2, p0)
+val A2 =
+arrayptr_make_uninitized<ki> (cap2)
+val p_A2 = ptrcast(A2)
+val _(*ptr*) =
+$STRING.memset_unsafe (p_A2, 0, cap2*sizeof<ki>)
+val ((*void*)) = loop (p_A2, cap2, p0)
 val A2 = $UN.castvwtp0{arrayptr(ki,m2)}(A2)
 //
 val () =
@@ -382,14 +586,120 @@ implement
 hashtbl_adjust_capacity
   (tbl) = let
 //
-val+HASHTBL (A, cap, n) = tbl
+val+HASHTBL (A, cap, ntot) = tbl
 //
 in
 //
-if 2 * n >= cap
+if ntot + ntot >= cap
   then hashtbl_reset_capacity (tbl, cap + cap) else false
 //
 end // end of [hashtbl_adjust_capacity]
+
+(* ****** ****** *)
+
+implement
+{key,itm}{env}
+hashtbl_foreach_env
+  (tbl, env) = let
+//
+val+HASHTBL (A, cap, _) = tbl
+//
+val p0 = ptrcast(A)
+vtypedef ki = @(key, itm)
+val p_end = ptr_add<ki> (p0, cap)
+//
+fun
+loop
+(
+  p: ptr, env: &env >> _
+) : void = let
+in
+//
+if
+p < p_end
+then let
+  val (pf, fpf | p) =
+    $UN.ptr0_vtake{ki}(p)
+  val isnul =
+    hashtbl_linprb_keyitm_is_null<key,itm> (!p)
+in
+  if isnul
+    then let
+      prval () = fpf (pf)
+    in
+      loop (ptr_succ<ki> (p), env)
+    end // end of [then]
+    else let
+      val () =
+        hashtbl_foreach$fwork<key,itm><env> (p->0, p->1, env)
+      prval () = fpf (pf)
+    in
+      loop (ptr_succ<ki> (p), env)
+    end // end of [else]
+  // end of [if]
+end // end of [then]
+else ((*exit*)) // end of [else]
+//
+end // end of [loop]
+//
+in
+  loop (p0, env)
+end // end of [hashtbl_foreach_env]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+hashtbl_listize
+  (tbl) = let
+//
+val+~HASHTBL (A, cap, _) = tbl
+//
+val p0 = ptrcast(A)
+vtypedef ki = @(key, itm)
+val p_end = ptr_add<ki> (p0, cap)
+//
+fun
+loop
+(
+  p: ptr
+, res: List0_vt(ki)
+) : List0_vt(ki) = let
+in
+//
+if
+p > p0
+then let
+  val (pf, fpf | p) =
+    $UN.ptr0_vtake{ki}(p)
+  val isnul =
+    hashtbl_linprb_keyitm_is_null<key,itm> (!p)
+in
+  if isnul
+    then let
+      prval () = fpf (pf)
+    in
+      loop (ptr_pred<ki> (p), res)
+    end // end of [then]
+    else let
+      val res = list_vt_cons{ki} (!p, res)
+      val ((*void*)) = hashtbl_linprb_keyitm_nullize<key,itm> (!p)
+      prval () = $UN.castview0 ((fpf, pf))
+    in
+      loop (ptr_pred<ki> (p), res)
+    end // end of [else]
+  // end of [if]
+end // end of [then]
+else res // end of [else]
+//
+end // end of [loop]
+//
+val res = $effmask_all(loop (p_end, list_vt_nil(*void*)))
+//
+val ((*freed*)) = arrayptr_free($UN.castvwtp0{arrayptr(ki?,0)}(A))
+in
+  res
+end // end of [hashtbl_listize]
 
 (* ****** ****** *)
 

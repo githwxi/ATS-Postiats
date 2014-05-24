@@ -53,11 +53,17 @@ ATS_STALOADFLAG 0 // no static loading at run-time
 #include "./SHARE/hashtbl.hats"
 
 (* ****** ****** *)
-
+//
+// HX-2014-05:
+// these functions are special for hashtbl_linprb
+//
 fun{
 key,itm:vt0p
-} hashtbl_linprb_keyitm_is_initial (ki: &(key, itm)): bool
-
+} hashtbl_linprb_keyitm_nullize (&(key,itm)? >> _): void
+fun{
+key,itm:vt0p
+} hashtbl_linprb_keyitm_is_null (kx: &(key, itm)): bool
+//
 (* ****** ****** *)
 
 (* end of [hashtbl_linprb.sats] *)

@@ -608,7 +608,7 @@ hashtbl_listize
 vtypedef
 chain = chain (key, itm)
 //
-val+~HASHTBL (A, cap, n) = tbl
+val+~HASHTBL (A, cap, _) = tbl
 //
 typedef tenv = ptr
 //
