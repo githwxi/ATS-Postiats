@@ -60,8 +60,8 @@ setting where ATS-includes is not available.
 
 Please see:
 
-${PATSHOME}/doc/PROJECT/SMALL/GameOf24
-${PATSHOME}/doc/PROJECT/SMALL/calculator
+https://github.com/githwxi/ATS-Postiats-contrib/tree/master/projects/SMALL/GameOf24
+https://github.com/githwxi/ATS-Postiats-contrib/tree/master/projects/SMALL/calculator
 
 for slightly more advanced examples.
 

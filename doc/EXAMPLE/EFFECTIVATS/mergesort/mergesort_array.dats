@@ -72,12 +72,14 @@ extern
 fun memcpy
   : (ptr, ptr, size_t) -> ptr = "mac#atslib_memcpy"
 //
-fun loop{n1,n2:nat}
+fun
+loop{n1,n2:nat}
 (
   p1: ptr, p2: ptr, n1: int n1, n2: int n2, p_res: ptr
 ) : void =
 (
-if n1 = 0
+if
+n1 = 0
 then
   ignoret(memcpy(p_res, p2, n2*sizeof<a>))
 else (
