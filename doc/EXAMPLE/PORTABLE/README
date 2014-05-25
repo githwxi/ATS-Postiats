@@ -35,10 +35,10 @@ It is okay to replace gcc with clang.
 
 Note that various needed CATS-files (corresponding to header files in C)
 are contained in the package ATS2-Postiats-include-xxx, where xxx is the
-version number of the package. For instance ATS2-Postiats-include-0.0.4
+version number of the package. For instance, ATS2-Postiats-include-0.0.7
 is available at:
 
-http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.0.4/
+http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.0.7/
 
 ######
 

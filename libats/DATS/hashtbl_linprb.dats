@@ -258,8 +258,8 @@ in
           val () = p2_kx->0 := p_kx->0
           val () = p2_kx->1 := p_kx->1
           val () = hashtbl_linprb_keyitm_nullize<key,itm> (!p_kx)
-          prval () = $UN.castview0((fpf, pf))
-          prval () = $UN.castview0((fpf2, pf2))
+          prval () = $UN.castview0((pf, fpf))
+          prval () = $UN.castview0((pf2, fpf2))
         in
           loop (A, cap, ptr_succ<ki> (p_kx))
         end // end of [else]
@@ -419,7 +419,7 @@ in
     val () = p_kx->0 := k
     val () = p_kx->1 := x
     val () = ntot := succ(ntot)
-    prval () = $UN.castview0((fpf, pf))
+    prval () = $UN.castview0((pf, fpf))
     prval () = opt_none{itm}(res)
     prval () = fold@ (tbl)
     val () =
@@ -467,7 +467,7 @@ then let
   val () = res := p_kx->1
   val () = hashtbl_linprb_keyitm_nullize<key,itm> (!p_kx)
   val () = ntot := pred (ntot)
-  prval () = $UN.castview0 ((fpf, pf))
+  prval () = $UN.castview0 ((pf, fpf))
   prval pf_A = arrayptr_takeout(A)
   val () = keyitmarr_reinserts<key,itm> (!p_A, cap, ptr_succ<ki> (p_kx))
   prval ((*void*)) = arrayptr_addback (pf_A | A)
@@ -537,8 +537,8 @@ in
       val (pf_kx, fpf_kx | p_kx) = $UN.ptr0_vtake{ki?}(p_kx)
       val () = p_kx->0 := k
       val () = p_kx->1 := p->1
-      prval () = $UN.castview0((fpf, pf))
-      prval () = $UN.castview0((fpf_kx, pf_kx))
+      prval () = $UN.castview0((pf, fpf))
+      prval () = $UN.castview0((pf_kx, fpf_kx))
     in
       loop (p_A2, cap2, ptr_succ<ki> (p))
     end // end of [else]
@@ -686,7 +686,7 @@ in
         hashtbl_flistize$fopr<key,itm><ki2> (p->0, p->1)
       val res = list_vt_cons{ki2}(kx2, res)
       val ((*void*)) = hashtbl_linprb_keyitm_nullize<key,itm> (!p)
-      prval ((*void*)) = $UN.castview0 ((fpf, pf))
+      prval ((*void*)) = $UN.castview0 ((pf, fpf))
     in
       loop (ptr_pred<ki> (p), res)
     end // end of [else]
