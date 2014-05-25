@@ -29,7 +29,7 @@ HTML/%s.html: \
   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $< \
     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOMEQ)/libatsynmark/libatsynmark.a -latsdoc
 upload_%s:: ; \
-  scp HTML/%s.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libc
+  scp HTML/%s.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libc/SATS/DOCUGEN/HTML
 upload:: upload_%s
 clean:: ; $(RMF) %s_atxt.exe
 cleanall:: ; $(RMF) HTML/%s.html
@@ -126,7 +126,7 @@ all_html::
 ######
 
 uploadall:: ; \
-  scp HTML/*.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libc
+  scp HTML/*.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libc/SATS/DOCUGEN/HTML
 
 ######
 
