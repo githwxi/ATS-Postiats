@@ -463,6 +463,17 @@ type.  ')
 
 (* ****** ****** *)
 
+#declnamesynop("string_append3")
+
+#declnamesynop("string0_append3")
+#decldescrpt('\
+
+This function, which overloads the symbol #dyncode("string_append"),
+returns a linear string equal to the concatenation of its three string
+arguments. ')
+
+(* ****** ****** *)
+
 #declnamesynop("stringlst_concat")
 #decldescrpt("\
 
