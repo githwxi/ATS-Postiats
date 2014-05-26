@@ -246,7 +246,7 @@ How should [wcmap] be implemented?
 
 The following code gives a straightforward hashtable-based implementation
 of [wcmap]. Some details on various hashtable-functions can be found
-<a href="http://www.ats-lang.org/LIBRARY/libats/ML/hashtbl.html">on-line</a>.
+<a href="http://www.ats-lang.org/LIBRARY/libats/ML/hashtblref.html">on-line</a>.
 
 <pre
 class="patsyntax">

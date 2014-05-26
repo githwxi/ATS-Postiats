@@ -129,7 +129,6 @@ implement
 timer_free (timer) =
   let val ~TIMER _ = timer in (*nothing*) end
 // end of [timer_free]
-
 ')
 
 ')
@@ -194,7 +193,6 @@ The following code implements the functions for pausing and resuming a
 timer:
 
 #atscode('\
-
 implement
 timer_pause
   (timer) = let

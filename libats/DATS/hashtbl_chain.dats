@@ -195,23 +195,23 @@ end // end of [local]
 extern
 fun{
 key:t0p;itm:vt0p
-} htable_insert_any
+} chainarr_insert_any
   {m:int | m >= 1} (
   A: !arrayptr (chain (key, itm), m), m: size_t m, k: key, x: itm
-) : void // end of [htable_insert_any]
+) : void // end of [chainarr_insert_any]
 extern
 fun{
 key:t0p;itm:vt0p
-} htable_insert_chain
+} chainarr_insert_chain
   {m:int | m >= 1} (
   A: !arrayptr (chain (key, itm), m), m: size_t m, kxs: chain (key, itm)
-) : void // end of [htable_insert_chain]
+) : void // end of [chainarr_insert_chain]
 
 (* ****** ****** *)
 
 implement
 {key,itm}
-htable_insert_any
+chainarr_insert_any
   (A, m, k, x) = let
 //
 val h = hash_key<key> (k)
@@ -231,11 +231,11 @@ prval () = arrayptr_addback (pf0 | A)
 //
 in
   // nothing
-end // end of [htable_insert_any]
+end // end of [chainarr_insert_any]
 
 implement
 {key,itm}
-htable_insert_chain
+chainarr_insert_chain
   {m} (A, m, kxs) = let
 //
 vtypedef
@@ -250,7 +250,7 @@ in
 case+ kxs of
 | ~list_vt_cons
     ((k, x), kxs) => let
-    val () = htable_insert_any<key,itm> (A, m, k, x) in loop (A, m, kxs)
+    val () = chainarr_insert_any<key,itm> (A, m, k, x) in loop (A, m, kxs)
   end // end of [list_vt_cons]
 | ~list_vt_nil ((*void*)) => ()
 //
@@ -262,7 +262,7 @@ val kxs = list_vt_reverse (kxs)
 //
 in
   loop (A, m, kxs)
-end // end of [htable_insert_chain]
+end // end of [chainarr_insert_chain]
 
 (* ****** ****** *)
 
@@ -379,8 +379,10 @@ val () = if not(ans) then n := succ(n) // inserted
 prval () = fold@ (tbl)
 //
 val () =
+if not(ans) then (
 if hashtbl$recapacitize() > 0
   then ignoret(hashtbl_adjust_capacity<key,itm> (tbl))
+) (* end of [if] *)
 //
 in
   ans
@@ -529,7 +531,7 @@ in
 if m > 0 then let
 //
 val kxs = $UN.ptr0_get<chain> (p)
-val () = htable_insert_chain<key,itm> (A2, cap2, kxs)
+val () = chainarr_insert_chain<key,itm> (A2, cap2, kxs)
 //
 in
   loop (ptr0_succ<chain> (p), pred(m), A2)
@@ -606,7 +608,7 @@ hashtbl_listize
 vtypedef
 chain = chain (key, itm)
 //
-val+~HASHTBL (A, cap, n) = tbl
+val+~HASHTBL (A, cap, _) = tbl
 //
 typedef tenv = ptr
 //

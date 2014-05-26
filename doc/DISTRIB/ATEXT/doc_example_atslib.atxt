@@ -205,6 +205,7 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 (* ****** ****** *)
 
 #packfilename("libats_hashtbl_chain.dats")
+#packfilename("libats_hashtbl_linprb.dats")
 
 (* ****** ****** *)
 

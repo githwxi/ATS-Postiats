@@ -205,6 +205,22 @@ end // end of [hashtbl_foreach]
 
 (* ****** ****** *)
 
+implement
+{key,itm}
+hashtbl_listize
+  (tbl) = let
+//
+vtypedef ki2 = @(key, itm)
+//
+implement
+hashtbl_flistize$fopr<key,itm><ki2> (k, x) = @(k, x)
+//
+in
+  hashtbl_flistize<key,itm><ki2> (tbl)
+end // end of [hashtbl_listize]
+
+(* ****** ****** *)
+
 local
 
 staload Q = "libats/SATS/qlist.sats"

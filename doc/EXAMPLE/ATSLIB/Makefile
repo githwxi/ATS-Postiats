@@ -468,6 +468,14 @@ clean:: ; $(RMF) libats_hashtbl_chain_dats.o
 clean:: ; $(RMF) libats_hashtbl_chain_dats.c
 cleanall:: ; $(RMF) libats_hashtbl_chain.exe
 
+all:: libats_hashtbl_linprb
+libats_hashtbl_linprb: libats_hashtbl_linprb.exe
+libats_hashtbl_linprb.exe: libats_hashtbl_linprb_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_hashtbl_linprb_dats.c: libats_hashtbl_linprb.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_hashtbl_linprb_dats.c --dynamic libats_hashtbl_linprb.dats
+clean:: ; $(RMF) libats_hashtbl_linprb_dats.o
+clean:: ; $(RMF) libats_hashtbl_linprb_dats.c
+cleanall:: ; $(RMF) libats_hashtbl_linprb.exe
+
 
 ######
 

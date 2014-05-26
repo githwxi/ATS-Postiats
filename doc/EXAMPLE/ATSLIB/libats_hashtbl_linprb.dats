@@ -1,12 +1,12 @@
 (*
-** for testing [libats/hashtbl_chain]
+** for testing [libats/hashtbl_linprb]
 *)
 
 (* ****** ****** *)
 //
 // Author: Hongwei Xi
-// Authoremail: hwxi AT cs DOT bu DOT edu
-// Start time: August, 2013
+// Authoremail: hwxiATcsDOTbuDOTedu
+// Start time: May, 2014
 //
 (* ****** ****** *)
 //
@@ -14,11 +14,10 @@
 //
 (* ****** ****** *)
 //
-staload "libats/SATS/hashtbl_chain.sats"
+staload "libats/SATS/hashtbl_linprb.sats"
 //
 staload _(*anon*) = "libats/DATS/hashfun.dats"
-staload _(*anon*) = "libats/DATS/linmap_list.dats"
-staload _(*anon*) = "libats/DATS/hashtbl_chain.dats"
+staload _(*anon*) = "libats/DATS/hashtbl_linprb.dats"
 //
 (* ****** ****** *)
 
@@ -41,16 +40,25 @@ typedef key = string and itm = int
 val tbl =
   hashtbl_make_nil<key,itm>(i2sz(1))
 //
-val () = hashtbl_insert_any (tbl, "a", 0)
+fun
+hashtbl_insert_exn
+(
+  tbl: !hashtbl(key, itm), k: key, x: itm
+) : void =
+{
+  val-~None_vt () = hashtbl_insert_opt (tbl, k, x)
+}
+//
+val () = hashtbl_insert_exn (tbl, "a", 0)
 val-~Some_vt(0) = hashtbl_insert_opt (tbl, "a", 1)
 //
-val () = hashtbl_insert_any (tbl, "b", 2)
-val () = hashtbl_insert_any (tbl, "c", 3)
-val () = hashtbl_insert_any (tbl, "d", 4)
-val () = hashtbl_insert_any (tbl, "e", 5)
-val () = hashtbl_insert_any (tbl, "f", 6)
+val () = hashtbl_insert_exn (tbl, "b", 2)
+val () = hashtbl_insert_exn (tbl, "c", 3)
+val () = hashtbl_insert_exn (tbl, "d", 4)
+val () = hashtbl_insert_exn (tbl, "e", 5)
+val () = hashtbl_insert_exn (tbl, "f", 6)
 //
-val () = hashtbl_insert_any (tbl, "g", 7)
+val () = hashtbl_insert_exn (tbl, "g", 7)
 val-~Some_vt(7) = hashtbl_takeout_opt (tbl, "g")
 //
 val () = fprintln! (out, "tbl = ", tbl)
@@ -77,4 +85,4 @@ implement main0 () = ()
 
 (* ****** ****** *)
 
-(* end of [libats_hashtbl_chain.dats] *)
+(* end of [libats_hashtbl_linprb.dats] *)

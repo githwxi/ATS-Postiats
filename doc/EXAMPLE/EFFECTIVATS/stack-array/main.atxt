@@ -260,11 +260,11 @@ respectively.
 <p>
 
 For more on array-based stack implementation, please see:
-<a href="http://sourceforge.net/p/ats2-lang/code/ci/master/tree/libats/SATS/stkarray.sats">stkarray.sats</a>
+<a href="http://www.ats-lang.org/LIBRARY/libats/SATS/stkarray.sats">stkarray.sats</a>
 ,
-<a href="http://sourceforge.net/p/ats2-lang/code/ci/master/tree/libats/DATS/stkarray.dats">stkarray.dats</a>
+<a href="http://www.ats-lang.org/LIBRARY/libats/DATS/stkarray.dats">stkarray.dats</a>
 , and
-<a href="http://sourceforge.net/p/ats2-lang/code/ci/master/tree/libats/CATS/stkarray.cats">stkarray.cats</a>.
+<a href="http://www.ats-lang.org/LIBRARY/libats/CATS/stkarray.cats">stkarray.cats</a>.
 
 <h2>
 Some Stack-Functions of Convenience 

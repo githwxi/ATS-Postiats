@@ -45,6 +45,10 @@ DiningPhil2:
 IPC-redis:
   A simple example of inter-process communication based on redis
 
+Readers-and-Writers:
+  implementing the classical Readers-and-Writers problem in concurrent
+  programming
+
 ######
 
 ###### end of [README] ######

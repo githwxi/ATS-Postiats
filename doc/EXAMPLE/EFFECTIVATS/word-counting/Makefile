@@ -21,23 +21,32 @@ include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
-all:: wordcnt
-wordcnt: wordcnt.dats ; \
-  $(PATSCC2) $(MALLOCFLAG) $(CFLAGS) -o $@ $< $(LDFLAGS)
+all:: \
+wordcnt
+wordcnt: \
+wordcnt.dats ; \
+$(PATSCC2) $(MALLOCFLAG) $(CFLAGS) -o $@ $< $(LDFLAGS)
+regress:: wordcnt ; ./$< < wordcnt.dats > /dev/null
 cleanall:: ; $(RMF) wordcnt
 
 ######
 
-all:: wordcnt2
-wordcnt2: wordcnt2.dats ; \
-  $(PATSCC2) $(MALLOCFLAG) $(CFLAGS) -o $@ $< $(LDFLAGS)
+all:: \
+wordcnt2
+wordcnt2: \
+wordcnt2.dats ; \
+$(PATSCC2) $(MALLOCFLAG) $(CFLAGS) -o $@ $< $(LDFLAGS)
+regress:: wordcnt2 ; ./$< < wordcnt2.dats > /dev/null
 cleanall:: ; $(RMF) wordcnt2
 
 ######
 
-all:: wordcnt_vt
-wordcnt_vt: wordcnt_vt.dats ; \
-  $(PATSCC2) $(MALLOCFLAG) $(CFLAGS) -o $@ $< $(LDFLAGS)
+all:: \
+wordcnt_vt
+wordcnt_vt: \
+wordcnt_vt.dats ; \
+$(PATSCC2) $(MALLOCFLAG) $(CFLAGS) -o $@ $< $(LDFLAGS)
+regress:: wordcnt_vt ; ./$< < wordcnt_vt.dats > /dev/null
 cleanall:: ; $(RMF) wordcnt_vt
 
 ######
